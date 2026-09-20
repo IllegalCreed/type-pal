@@ -4,17 +4,19 @@
 
 上级：[文档总入口](../README.md)。
 
+- [九批收窄返工独立接收](glm-nine-final-review.md)、[机账](glm-nine-final-evidence.json)与[PNG宿主尺寸见证](import-codec-png-host-review.mjs)（八批集成待质量门；TB03单点返工）
+
 ## 文档与附件
 
 - [TB-02～10首轮接收历史](glm-nine-intake-review.md)、[首轮机账](glm-nine-intake-evidence.json)、[原独立见证](glm-nine-intake-witnesses.mjs)（原七针与五夹具已在二轮闭合；历史counter不重开）
-- [九批返工接收复核](glm-nine-rework-review.md)、[本轮机账](glm-nine-rework-evidence.json)、[残项见证](glm-nine-rework-witnesses.mjs)（210定向/27+73跑绿；九批仍counter：精确唯一判据/格式及TB03/06/07残项；不合并、不改基线，Mimosa不参与）
+- [九批二轮接收历史](glm-nine-rework-review.md)、[当轮机账](glm-nine-rework-evidence.json)、[残项见证](glm-nine-rework-witnesses.mjs)（当轮counter已由最新接收逐项关闭/收窄，不作为新候选结论）
 
 - [GLM非视觉补测长队列](glm-coverage-work-queue.md)与[617文件机器台账](glm-coverage-work-queue.json)（当前批之外十批78候选模块；先细化/逐卡准入，不新增E2E前置门；[快照复算](glm-coverage-queue-census.mjs)）
 - [GLM交付前自检清单](glm-delivery-checklist.md)（强制；历次counter根因四类与六步自检，fixture守卫门/变异自检/实参保真/取消三件套/回执从树生成，缺一不交）
 - [GLM运行时状态与元数据六组补测](glm-runtime-state-boundaries.md)（rework；6d34ad5a的F1/E4闭环，仅D6 sequence收尾与回执勘误残留；55项未集成，r1不重签）
 - [运行时状态补测Codex复核](runtime-state-review.md)与[独立反证工具](runtime-state-review-witnesses.mjs)（当前8针：7 detected/1迟到提交MISSED；原7针均业务红闭环）
-- [前三批r2准入与连续实施交接](glm-coverage-queue-design-review.md)（设计三签保持；TB-01另排、TB-02/03实施后counter；193既有测试与[前提探针](glm-coverage-queue-premise.mjs)是设计证据）
-- [后续七批统一细化与审核](glm-coverage-remaining-review.md)（TB-04～10设计三签已齐；用户批准先行实施，本次接收counter；59候选模块非已接收覆盖）
+- [前三批r2准入与连续实施交接](glm-coverage-queue-design-review.md)（设计三签保持；当前接收状态见最新报告；193既有测试与[前提探针](glm-coverage-queue-premise.mjs)是设计证据）
+- [后续七批统一细化与审核](glm-coverage-remaining-review.md)（TB-04～10设计三签保持；已逐批接收集成，统一质量门/终审不被设计签字替代）
 - [原版表格与文本自包含补测工作包](glm-pal-tables.md)（TB-04，合法输入/旧测试去重/白名单/负控及排除项）
 - [RLE、事件与资源工具补测工作包](glm-resource-tools.md)（TB-05，合法输入/旧测试去重/白名单/负控及排除项）
 - [地图选区与组合模板数据补测工作包](glm-editor-map-data.md)（TB-06，合法输入/旧测试去重/白名单/负控及排除项）
@@ -26,9 +28,9 @@
 - [内容残项Codex接收复核](content-residual-review.md)与[可重建独立见证](content-residual-review-witnesses.mjs)（三针MISSED、混合错误判据误收；根fixture七检查accepted；未集成/不改官方基线）
 - [资源读取缓存与音效准备工作包](glm-reforge-asset-io.md)（TB-02 r2/rework；a7c48d9c接收counter，设计保持）
 - [导入编码线程与视频元数据工作包](glm-editor-import-codec.md)（TB-03 r2/rework；f4c229ed接收counter；PNG泄漏仍隔离）
-- [共享战斗模拟器首批](../ops/tasks/EDITOR-SKILL-TRIAL-1-isolated-battle.md)与[原技能入口前提探针](skill-trial-premise.mjs)（blocked；正式信息栏不支持完整4～5人显示，等待我方人数裁决；隔离WIP未并主线、done未开）
+- [共享战斗模拟器首批](../ops/tasks/EDITOR-SKILL-TRIAL-1-isolated-battle.md)与[原技能入口前提探针](skill-trial-premise.mjs)（rework；用户已澄清我方1～3人，r2a仅人数前提定点补核；隔离WIP未并主线）
 - [共享战斗模拟器全域复用评估](battle-simulator-assessment.md)（8模块27子页：7直接/8上下文/12专用验证；含预设、配置边界与三批接入建议，未实施）
-- [战斗模拟器r2首批冻结设计](battle-simulator-r2-design.md)（四目录/保存/隔离约定保留；1～5人前提失效，受影响设计暂停）
+- [战斗模拟器r2首批冻结设计](battle-simulator-r2-design.md)（r2a我方1～3人/敌方五槽；四目录/保存/隔离约定保留，人数勘误定点补核）
 - [第一阶段资源测试输入合同](phase1-resource-test-inputs.md)（E-01完成；20项隔离输入回归、真实资源对拍通过，check7478/严格fast6989绿）
 - [编辑器预览缓存连续修复](editor-preview-cache.md)（E-03/E-04完成；15项真实字节回归、7负控及原生绘制验证，check7457/严格fast6969通过）
 - [场景删除引用保护实现与验证](scene-reference-guard.md)（D-02/done；83598cc4三席accept并归档；22回归/PAL补1边、最小界面验证及check7442/严格fast6954通过）

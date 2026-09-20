@@ -2,8 +2,8 @@
 
 ## 当前Codex接收结论
 
-二轮候选1620ab24仍为**counter**，仅返[本轮报告](glm-nine-rework-review.md)的C0精确唯一目标、C1最终树格式/回执及所列本批残项。
-原七针与五夹具已关闭；定向25项通过，本批Biome exit1。不重开已关闭项、不重签、不合并、不更新基线。
+2026-09-20候选ca4c0768：本批收窄counter全部闭合，已按白名单集成；当前review，待统一check/ratchet/严格fast后本席签accept。
+定向25项/原负控/tc/Biome全绿。详见[当前独立接收](glm-nine-final-review.md)，旧counter仅留历史。
 
 ### 首轮接收结论（历史）
 

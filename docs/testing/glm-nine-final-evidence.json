@@ -1,0 +1,944 @@
+{
+  "date": "2026-09-20",
+  "productionFreeze": "e58834f6389a40ffe9f187e6a8051f552e964d79",
+  "totals": {
+    "tests": 210,
+    "controls": 27,
+    "needles": 73,
+    "integratedTests": 171
+  },
+  "results": [
+    {
+      "id": "TB-02",
+      "head": "ea2769560a301db100cfa0b015192a8af43aba7d",
+      "root": "/Users/zhangxu/illegal/type-pal-glm-asset-io",
+      "scopeErrors": [],
+      "fixed": [],
+      "tests": [
+        "packages/reforge/src/audio/sfx-readiness.collections.test.ts",
+        "packages/reforge/src/audio/sfx.staged-failures.test.ts",
+        "packages/reforge/src/engine-chrome/registry.lifecycle.test.ts",
+        "packages/reforge/src/file-source.cancel-windows.test.ts",
+        "packages/reforge/src/fsa-source.cancel-windows.test.ts",
+        "packages/reforge/src/project-image-cache.lifecycle.test.ts"
+      ],
+      "fixtureFiles": ["packages/reforge/src/__tests__/glm-asset-io-fixtures.ts"],
+      "added": [
+        "docs/testing/glm-reforge-asset-io-evidence.json",
+        "docs/testing/glm-reforge-asset-io-mutants.mjs",
+        "docs/testing/glm-reforge-asset-io.config.mts",
+        "packages/reforge/src/__tests__/glm-asset-io-fixtures.ts",
+        "packages/reforge/src/audio/sfx-readiness.collections.test.ts",
+        "packages/reforge/src/audio/sfx.staged-failures.test.ts",
+        "packages/reforge/src/engine-chrome/registry.lifecycle.test.ts",
+        "packages/reforge/src/file-source.cancel-windows.test.ts",
+        "packages/reforge/src/fsa-source.cancel-windows.test.ts",
+        "packages/reforge/src/project-image-cache.lifecycle.test.ts"
+      ],
+      "targeted": [
+        {
+          "pkg": "reforge",
+          "code": 0,
+          "log": "/tmp/codex-nine-final.wb8m3g/TB-02-reforge-targeted.log",
+          "report": "/tmp/codex-nine-final.wb8m3g/TB-02-reforge-targeted.json",
+          "counts": {
+            "total": 24,
+            "passed": 24,
+            "failed": 0,
+            "perFile": [
+              {
+                "file": "/Users/zhangxu/illegal/type-pal-glm-asset-io/packages/reforge/src/file-source.cancel-windows.test.ts",
+                "count": 3,
+                "failed": []
+              },
+              {
+                "file": "/Users/zhangxu/illegal/type-pal-glm-asset-io/packages/reforge/src/fsa-source.cancel-windows.test.ts",
+                "count": 3,
+                "failed": []
+              },
+              {
+                "file": "/Users/zhangxu/illegal/type-pal-glm-asset-io/packages/reforge/src/project-image-cache.lifecycle.test.ts",
+                "count": 6,
+                "failed": []
+              },
+              {
+                "file": "/Users/zhangxu/illegal/type-pal-glm-asset-io/packages/reforge/src/audio/sfx-readiness.collections.test.ts",
+                "count": 5,
+                "failed": []
+              },
+              {
+                "file": "/Users/zhangxu/illegal/type-pal-glm-asset-io/packages/reforge/src/audio/sfx.staged-failures.test.ts",
+                "count": 5,
+                "failed": []
+              },
+              {
+                "file": "/Users/zhangxu/illegal/type-pal-glm-asset-io/packages/reforge/src/engine-chrome/registry.lifecycle.test.ts",
+                "count": 2,
+                "failed": []
+              }
+            ]
+          }
+        }
+      ],
+      "typechecks": [
+        {
+          "pkg": "reforge",
+          "code": 0,
+          "log": "/tmp/codex-nine-final.wb8m3g/TB-02-reforge-tc.log"
+        }
+      ],
+      "biome": {
+        "code": 0,
+        "log": "/tmp/codex-nine-final.wb8m3g/TB-02-biome.log"
+      },
+      "mutants": {
+        "tool": "docs/testing/glm-reforge-asset-io-mutants.mjs",
+        "code": 0,
+        "log": "/tmp/codex-nine-final.wb8m3g/TB-02-mutants.log"
+      },
+      "afterHead": "ea2769560a301db100cfa0b015192a8af43aba7d",
+      "afterStatus": ""
+    },
+    {
+      "id": "TB-03",
+      "head": "001dc9e1069c12506a1137c9a399a10aa6d60f0c",
+      "root": "/Users/zhangxu/illegal/type-pal-glm-import-codec",
+      "scopeErrors": [],
+      "fixed": [],
+      "tests": [
+        "packages/editor/src/core/battle-sprite-import.boundaries.test.ts",
+        "packages/editor/src/core/frame-animation-codec.tpfs.test.ts",
+        "packages/editor/src/core/frame-animation-codec.worker.test.ts",
+        "packages/editor/src/core/frame-animation-images.boundaries.test.ts",
+        "packages/editor/src/core/frame-animation-worker-client.boundaries.test.ts",
+        "packages/editor/src/core/image-import.stages.test.ts",
+        "packages/editor/src/core/video-metadata.boxes.test.ts"
+      ],
+      "fixtureFiles": ["packages/editor/src/core/__tests__/glm-import-codec-fixtures.ts"],
+      "added": [
+        "docs/testing/glm-import-codec-evidence.json",
+        "docs/testing/glm-import-codec-mutants.mjs",
+        "docs/testing/glm-import-codec.config.mts",
+        "packages/editor/src/core/__tests__/glm-import-codec-fixtures.ts",
+        "packages/editor/src/core/battle-sprite-import.boundaries.test.ts",
+        "packages/editor/src/core/frame-animation-codec.tpfs.test.ts",
+        "packages/editor/src/core/frame-animation-codec.worker.test.ts",
+        "packages/editor/src/core/frame-animation-images.boundaries.test.ts",
+        "packages/editor/src/core/frame-animation-worker-client.boundaries.test.ts",
+        "packages/editor/src/core/image-import.stages.test.ts",
+        "packages/editor/src/core/video-metadata.boxes.test.ts"
+      ],
+      "targeted": [
+        {
+          "pkg": "editor",
+          "code": 0,
+          "log": "/tmp/codex-nine-final.wb8m3g/TB-03-editor-targeted.log",
+          "report": "/tmp/codex-nine-final.wb8m3g/TB-03-editor-targeted.json",
+          "counts": {
+            "total": 39,
+            "passed": 39,
+            "failed": 0,
+            "perFile": [
+              {
+                "file": "/Users/zhangxu/illegal/type-pal-glm-import-codec/packages/editor/src/core/battle-sprite-import.boundaries.test.ts",
+                "count": 7,
+                "failed": []
+              },
+              {
+                "file": "/Users/zhangxu/illegal/type-pal-glm-import-codec/packages/editor/src/core/frame-animation-codec.tpfs.test.ts",
+                "count": 6,
+                "failed": []
+              },
+              {
+                "file": "/Users/zhangxu/illegal/type-pal-glm-import-codec/packages/editor/src/core/frame-animation-codec.worker.test.ts",
+                "count": 3,
+                "failed": []
+              },
+              {
+                "file": "/Users/zhangxu/illegal/type-pal-glm-import-codec/packages/editor/src/core/frame-animation-images.boundaries.test.ts",
+                "count": 6,
+                "failed": []
+              },
+              {
+                "file": "/Users/zhangxu/illegal/type-pal-glm-import-codec/packages/editor/src/core/frame-animation-worker-client.boundaries.test.ts",
+                "count": 6,
+                "failed": []
+              },
+              {
+                "file": "/Users/zhangxu/illegal/type-pal-glm-import-codec/packages/editor/src/core/image-import.stages.test.ts",
+                "count": 5,
+                "failed": []
+              },
+              {
+                "file": "/Users/zhangxu/illegal/type-pal-glm-import-codec/packages/editor/src/core/video-metadata.boxes.test.ts",
+                "count": 6,
+                "failed": []
+              }
+            ]
+          }
+        }
+      ],
+      "typechecks": [
+        {
+          "pkg": "editor",
+          "code": 0,
+          "log": "/tmp/codex-nine-final.wb8m3g/TB-03-editor-tc.log"
+        }
+      ],
+      "biome": {
+        "code": 0,
+        "log": "/tmp/codex-nine-final.wb8m3g/TB-03-biome.log"
+      },
+      "mutants": {
+        "tool": "docs/testing/glm-import-codec-mutants.mjs",
+        "code": 0,
+        "log": "/tmp/codex-nine-final.wb8m3g/TB-03-mutants.log"
+      },
+      "afterHead": "001dc9e1069c12506a1137c9a399a10aa6d60f0c",
+      "afterStatus": ""
+    },
+    {
+      "id": "TB-04",
+      "head": "69d62dc27e043765989c872ab5076d16af9d42db",
+      "root": "/Users/zhangxu/illegal/type-pal-glm-pal-tables",
+      "scopeErrors": [],
+      "fixed": [],
+      "tests": [
+        "packages/pal-extract/src/io/msg.boundaries.test.ts",
+        "packages/pal-extract/src/io/sss.boundaries.test.ts",
+        "packages/pal-extract/src/io/word.boundaries.test.ts",
+        "packages/pal-extract/src/resources/enemy-pos.boundaries.test.ts",
+        "packages/pal-extract/src/resources/parsers/__tests__/battle-fields.boundaries.test.ts",
+        "packages/pal-extract/src/resources/parsers/__tests__/data-misc.boundaries.test.ts",
+        "packages/pal-extract/src/resources/parsers/__tests__/enemy-teams.boundaries.test.ts",
+        "packages/pal-extract/src/resources/parsers/__tests__/items.boundaries.test.ts",
+        "packages/pal-extract/src/resources/parsers/__tests__/stores.boundaries.test.ts"
+      ],
+      "fixtureFiles": ["packages/pal-extract/src/__tests__/glm-tb04-fixtures.ts"],
+      "added": [
+        "docs/testing/glm-pal-tables-evidence.json",
+        "docs/testing/glm-pal-tables-mutants.mjs",
+        "docs/testing/glm-pal-tables.config.mts",
+        "packages/pal-extract/src/__tests__/glm-tb04-fixtures.ts",
+        "packages/pal-extract/src/io/msg.boundaries.test.ts",
+        "packages/pal-extract/src/io/sss.boundaries.test.ts",
+        "packages/pal-extract/src/io/word.boundaries.test.ts",
+        "packages/pal-extract/src/resources/enemy-pos.boundaries.test.ts",
+        "packages/pal-extract/src/resources/parsers/__tests__/battle-fields.boundaries.test.ts",
+        "packages/pal-extract/src/resources/parsers/__tests__/data-misc.boundaries.test.ts",
+        "packages/pal-extract/src/resources/parsers/__tests__/enemy-teams.boundaries.test.ts",
+        "packages/pal-extract/src/resources/parsers/__tests__/items.boundaries.test.ts",
+        "packages/pal-extract/src/resources/parsers/__tests__/stores.boundaries.test.ts"
+      ],
+      "targeted": [
+        {
+          "pkg": "pal-extract",
+          "code": 0,
+          "log": "/tmp/codex-nine-final.wb8m3g/TB-04-pal-extract-targeted.log",
+          "report": "/tmp/codex-nine-final.wb8m3g/TB-04-pal-extract-targeted.json",
+          "counts": {
+            "total": 19,
+            "passed": 19,
+            "failed": 0,
+            "perFile": [
+              {
+                "file": "/Users/zhangxu/illegal/type-pal-glm-pal-tables/packages/pal-extract/src/io/msg.boundaries.test.ts",
+                "count": 2,
+                "failed": []
+              },
+              {
+                "file": "/Users/zhangxu/illegal/type-pal-glm-pal-tables/packages/pal-extract/src/io/sss.boundaries.test.ts",
+                "count": 3,
+                "failed": []
+              },
+              {
+                "file": "/Users/zhangxu/illegal/type-pal-glm-pal-tables/packages/pal-extract/src/io/word.boundaries.test.ts",
+                "count": 3,
+                "failed": []
+              },
+              {
+                "file": "/Users/zhangxu/illegal/type-pal-glm-pal-tables/packages/pal-extract/src/resources/enemy-pos.boundaries.test.ts",
+                "count": 2,
+                "failed": []
+              },
+              {
+                "file": "/Users/zhangxu/illegal/type-pal-glm-pal-tables/packages/pal-extract/src/resources/parsers/__tests__/battle-fields.boundaries.test.ts",
+                "count": 1,
+                "failed": []
+              },
+              {
+                "file": "/Users/zhangxu/illegal/type-pal-glm-pal-tables/packages/pal-extract/src/resources/parsers/__tests__/data-misc.boundaries.test.ts",
+                "count": 3,
+                "failed": []
+              },
+              {
+                "file": "/Users/zhangxu/illegal/type-pal-glm-pal-tables/packages/pal-extract/src/resources/parsers/__tests__/enemy-teams.boundaries.test.ts",
+                "count": 2,
+                "failed": []
+              },
+              {
+                "file": "/Users/zhangxu/illegal/type-pal-glm-pal-tables/packages/pal-extract/src/resources/parsers/__tests__/items.boundaries.test.ts",
+                "count": 2,
+                "failed": []
+              },
+              {
+                "file": "/Users/zhangxu/illegal/type-pal-glm-pal-tables/packages/pal-extract/src/resources/parsers/__tests__/stores.boundaries.test.ts",
+                "count": 1,
+                "failed": []
+              }
+            ]
+          }
+        }
+      ],
+      "typechecks": [
+        {
+          "pkg": "pal-extract",
+          "code": 0,
+          "log": "/tmp/codex-nine-final.wb8m3g/TB-04-pal-extract-tc.log"
+        }
+      ],
+      "biome": {
+        "code": 0,
+        "log": "/tmp/codex-nine-final.wb8m3g/TB-04-biome.log"
+      },
+      "mutants": {
+        "tool": "docs/testing/glm-pal-tables-mutants.mjs",
+        "code": 0,
+        "log": "/tmp/codex-nine-final.wb8m3g/TB-04-mutants.log"
+      },
+      "afterHead": "69d62dc27e043765989c872ab5076d16af9d42db",
+      "afterStatus": ""
+    },
+    {
+      "id": "TB-05",
+      "head": "00801036d5ad564c9c4863a048f816f92502cce2",
+      "root": "/Users/zhangxu/illegal/type-pal-glm-resource-tools",
+      "scopeErrors": [],
+      "fixed": [],
+      "tests": [
+        "packages/pal-extract/src/__tests__/asset-manifest.boundaries.test.ts",
+        "packages/pal-extract/src/events/disasm.boundaries.test.ts",
+        "packages/pal-extract/src/events/recompile.boundaries.test.ts",
+        "packages/pal-extract/src/events/slice.boundaries.test.ts",
+        "packages/pal-extract/src/font/__tests__/bdf-to-json.boundaries.test.ts",
+        "packages/pal-extract/src/resources/palette.boundaries.test.ts",
+        "packages/shared/src/rle-encode.boundaries.test.ts",
+        "packages/shared/src/rle.boundaries.test.ts"
+      ],
+      "fixtureFiles": [],
+      "added": [
+        "docs/testing/glm-resource-tools-evidence.json",
+        "docs/testing/glm-resource-tools-mutants.mjs",
+        "docs/testing/glm-resource-tools.config.mts",
+        "packages/pal-extract/src/__tests__/asset-manifest.boundaries.test.ts",
+        "packages/pal-extract/src/events/disasm.boundaries.test.ts",
+        "packages/pal-extract/src/events/recompile.boundaries.test.ts",
+        "packages/pal-extract/src/events/slice.boundaries.test.ts",
+        "packages/pal-extract/src/font/__tests__/bdf-to-json.boundaries.test.ts",
+        "packages/pal-extract/src/resources/palette.boundaries.test.ts",
+        "packages/shared/src/rle-encode.boundaries.test.ts",
+        "packages/shared/src/rle.boundaries.test.ts"
+      ],
+      "targeted": [
+        {
+          "pkg": "pal-extract",
+          "code": 0,
+          "log": "/tmp/codex-nine-final.wb8m3g/TB-05-pal-extract-targeted.log",
+          "report": "/tmp/codex-nine-final.wb8m3g/TB-05-pal-extract-targeted.json",
+          "counts": {
+            "total": 15,
+            "passed": 15,
+            "failed": 0,
+            "perFile": [
+              {
+                "file": "/Users/zhangxu/illegal/type-pal-glm-resource-tools/packages/pal-extract/src/__tests__/asset-manifest.boundaries.test.ts",
+                "count": 1,
+                "failed": []
+              },
+              {
+                "file": "/Users/zhangxu/illegal/type-pal-glm-resource-tools/packages/pal-extract/src/events/disasm.boundaries.test.ts",
+                "count": 2,
+                "failed": []
+              },
+              {
+                "file": "/Users/zhangxu/illegal/type-pal-glm-resource-tools/packages/pal-extract/src/events/recompile.boundaries.test.ts",
+                "count": 2,
+                "failed": []
+              },
+              {
+                "file": "/Users/zhangxu/illegal/type-pal-glm-resource-tools/packages/pal-extract/src/events/slice.boundaries.test.ts",
+                "count": 5,
+                "failed": []
+              },
+              {
+                "file": "/Users/zhangxu/illegal/type-pal-glm-resource-tools/packages/pal-extract/src/resources/palette.boundaries.test.ts",
+                "count": 2,
+                "failed": []
+              },
+              {
+                "file": "/Users/zhangxu/illegal/type-pal-glm-resource-tools/packages/pal-extract/src/font/__tests__/bdf-to-json.boundaries.test.ts",
+                "count": 3,
+                "failed": []
+              }
+            ]
+          }
+        },
+        {
+          "pkg": "shared",
+          "code": 0,
+          "log": "/tmp/codex-nine-final.wb8m3g/TB-05-shared-targeted.log",
+          "report": "/tmp/codex-nine-final.wb8m3g/TB-05-shared-targeted.json",
+          "counts": {
+            "total": 9,
+            "passed": 9,
+            "failed": 0,
+            "perFile": [
+              {
+                "file": "/Users/zhangxu/illegal/type-pal-glm-resource-tools/packages/shared/src/rle-encode.boundaries.test.ts",
+                "count": 4,
+                "failed": []
+              },
+              {
+                "file": "/Users/zhangxu/illegal/type-pal-glm-resource-tools/packages/shared/src/rle.boundaries.test.ts",
+                "count": 5,
+                "failed": []
+              }
+            ]
+          }
+        }
+      ],
+      "typechecks": [
+        {
+          "pkg": "pal-extract",
+          "code": 0,
+          "log": "/tmp/codex-nine-final.wb8m3g/TB-05-pal-extract-tc.log"
+        },
+        {
+          "pkg": "shared",
+          "code": 0,
+          "log": "/tmp/codex-nine-final.wb8m3g/TB-05-shared-tc.log"
+        }
+      ],
+      "biome": {
+        "code": 0,
+        "log": "/tmp/codex-nine-final.wb8m3g/TB-05-biome.log"
+      },
+      "mutants": {
+        "tool": "docs/testing/glm-resource-tools-mutants.mjs",
+        "code": 0,
+        "log": "/tmp/codex-nine-final.wb8m3g/TB-05-mutants.log"
+      },
+      "afterHead": "00801036d5ad564c9c4863a048f816f92502cce2",
+      "afterStatus": ""
+    },
+    {
+      "id": "TB-06",
+      "head": "d2667b254cfaacec89362db93d55e5600f1a6f61",
+      "root": "/Users/zhangxu/illegal/type-pal-glm-editor-map-data",
+      "scopeErrors": [],
+      "fixed": [],
+      "tests": [
+        "packages/editor/src/core/map-patch.boundaries.test.ts",
+        "packages/editor/src/core/map-selection.boundaries.test.ts",
+        "packages/editor/src/core/map-transform.boundaries.test.ts",
+        "packages/editor/src/core/stamp-draft.boundaries.test.ts",
+        "packages/editor/src/core/stamp-group-transform.boundaries.test.ts",
+        "packages/editor/src/core/stamp-placement.boundaries.test.ts",
+        "packages/editor/src/core/stamp-template.boundaries.test.ts"
+      ],
+      "fixtureFiles": [],
+      "added": [
+        "docs/testing/glm-editor-map-data-evidence.json",
+        "docs/testing/glm-editor-map-data-mutants.mjs",
+        "docs/testing/glm-editor-map-data.config.mts",
+        "packages/editor/src/core/map-patch.boundaries.test.ts",
+        "packages/editor/src/core/map-selection.boundaries.test.ts",
+        "packages/editor/src/core/map-transform.boundaries.test.ts",
+        "packages/editor/src/core/stamp-draft.boundaries.test.ts",
+        "packages/editor/src/core/stamp-group-transform.boundaries.test.ts",
+        "packages/editor/src/core/stamp-placement.boundaries.test.ts",
+        "packages/editor/src/core/stamp-template.boundaries.test.ts"
+      ],
+      "targeted": [
+        {
+          "pkg": "editor",
+          "code": 0,
+          "log": "/tmp/codex-nine-final.wb8m3g/TB-06-editor-targeted.log",
+          "report": "/tmp/codex-nine-final.wb8m3g/TB-06-editor-targeted.json",
+          "counts": {
+            "total": 18,
+            "passed": 18,
+            "failed": 0,
+            "perFile": [
+              {
+                "file": "/Users/zhangxu/illegal/type-pal-glm-editor-map-data/packages/editor/src/core/map-patch.boundaries.test.ts",
+                "count": 2,
+                "failed": []
+              },
+              {
+                "file": "/Users/zhangxu/illegal/type-pal-glm-editor-map-data/packages/editor/src/core/map-selection.boundaries.test.ts",
+                "count": 3,
+                "failed": []
+              },
+              {
+                "file": "/Users/zhangxu/illegal/type-pal-glm-editor-map-data/packages/editor/src/core/map-transform.boundaries.test.ts",
+                "count": 3,
+                "failed": []
+              },
+              {
+                "file": "/Users/zhangxu/illegal/type-pal-glm-editor-map-data/packages/editor/src/core/stamp-draft.boundaries.test.ts",
+                "count": 4,
+                "failed": []
+              },
+              {
+                "file": "/Users/zhangxu/illegal/type-pal-glm-editor-map-data/packages/editor/src/core/stamp-group-transform.boundaries.test.ts",
+                "count": 2,
+                "failed": []
+              },
+              {
+                "file": "/Users/zhangxu/illegal/type-pal-glm-editor-map-data/packages/editor/src/core/stamp-placement.boundaries.test.ts",
+                "count": 1,
+                "failed": []
+              },
+              {
+                "file": "/Users/zhangxu/illegal/type-pal-glm-editor-map-data/packages/editor/src/core/stamp-template.boundaries.test.ts",
+                "count": 3,
+                "failed": []
+              }
+            ]
+          }
+        }
+      ],
+      "typechecks": [
+        {
+          "pkg": "editor",
+          "code": 0,
+          "log": "/tmp/codex-nine-final.wb8m3g/TB-06-editor-tc.log"
+        }
+      ],
+      "biome": {
+        "code": 0,
+        "log": "/tmp/codex-nine-final.wb8m3g/TB-06-biome.log"
+      },
+      "mutants": {
+        "tool": "docs/testing/glm-editor-map-data-mutants.mjs",
+        "code": 0,
+        "log": "/tmp/codex-nine-final.wb8m3g/TB-06-mutants.log"
+      },
+      "afterHead": "d2667b254cfaacec89362db93d55e5600f1a6f61",
+      "afterStatus": ""
+    },
+    {
+      "id": "TB-07",
+      "head": "10cc9d4deed777f68cc3cc3ae9c3cdeadba634d3",
+      "root": "/Users/zhangxu/illegal/type-pal-glm-script-helpers",
+      "scopeErrors": [],
+      "fixed": [],
+      "tests": [
+        "packages/editor/src/core/author-command-edit.boundaries.test.ts",
+        "packages/editor/src/core/item-alchemy.boundaries.test.ts",
+        "packages/editor/src/core/item-authoring.boundaries.test.ts",
+        "packages/editor/src/core/script-editor-projection.boundaries.test.ts",
+        "packages/editor/src/core/script-editor.hooks-session.test.ts",
+        "packages/editor/src/core/script-reference-catalog.boundaries.test.ts",
+        "packages/editor/src/ui/enemy-defeated-events.boundaries.test.ts"
+      ],
+      "fixtureFiles": [],
+      "added": [
+        "docs/testing/glm-editor-script-helpers-evidence.json",
+        "docs/testing/glm-editor-script-helpers-mutants.mjs",
+        "docs/testing/glm-editor-script-helpers.config.mts",
+        "packages/editor/src/core/author-command-edit.boundaries.test.ts",
+        "packages/editor/src/core/item-alchemy.boundaries.test.ts",
+        "packages/editor/src/core/item-authoring.boundaries.test.ts",
+        "packages/editor/src/core/script-editor-projection.boundaries.test.ts",
+        "packages/editor/src/core/script-reference-catalog.boundaries.test.ts",
+        "packages/editor/src/ui/enemy-defeated-events.boundaries.test.ts",
+        "packages/editor/src/core/script-editor.hooks-session.test.ts"
+      ],
+      "targeted": [
+        {
+          "pkg": "editor",
+          "code": 0,
+          "log": "/tmp/codex-nine-final.wb8m3g/TB-07-editor-targeted.log",
+          "report": "/tmp/codex-nine-final.wb8m3g/TB-07-editor-targeted.json",
+          "counts": {
+            "total": 21,
+            "passed": 21,
+            "failed": 0,
+            "perFile": [
+              {
+                "file": "/Users/zhangxu/illegal/type-pal-glm-script-helpers/packages/editor/src/core/author-command-edit.boundaries.test.ts",
+                "count": 4,
+                "failed": []
+              },
+              {
+                "file": "/Users/zhangxu/illegal/type-pal-glm-script-helpers/packages/editor/src/core/item-alchemy.boundaries.test.ts",
+                "count": 3,
+                "failed": []
+              },
+              {
+                "file": "/Users/zhangxu/illegal/type-pal-glm-script-helpers/packages/editor/src/core/item-authoring.boundaries.test.ts",
+                "count": 2,
+                "failed": []
+              },
+              {
+                "file": "/Users/zhangxu/illegal/type-pal-glm-script-helpers/packages/editor/src/core/script-editor-projection.boundaries.test.ts",
+                "count": 4,
+                "failed": []
+              },
+              {
+                "file": "/Users/zhangxu/illegal/type-pal-glm-script-helpers/packages/editor/src/core/script-editor.hooks-session.test.ts",
+                "count": 3,
+                "failed": []
+              },
+              {
+                "file": "/Users/zhangxu/illegal/type-pal-glm-script-helpers/packages/editor/src/core/script-reference-catalog.boundaries.test.ts",
+                "count": 2,
+                "failed": []
+              },
+              {
+                "file": "/Users/zhangxu/illegal/type-pal-glm-script-helpers/packages/editor/src/ui/enemy-defeated-events.boundaries.test.ts",
+                "count": 3,
+                "failed": []
+              }
+            ]
+          }
+        }
+      ],
+      "typechecks": [
+        {
+          "pkg": "editor",
+          "code": 0,
+          "log": "/tmp/codex-nine-final.wb8m3g/TB-07-editor-tc.log"
+        }
+      ],
+      "biome": {
+        "code": 0,
+        "log": "/tmp/codex-nine-final.wb8m3g/TB-07-biome.log"
+      },
+      "mutants": {
+        "tool": "docs/testing/glm-editor-script-helpers-mutants.mjs",
+        "code": 0,
+        "log": "/tmp/codex-nine-final.wb8m3g/TB-07-mutants.log"
+      },
+      "afterHead": "10cc9d4deed777f68cc3cc3ae9c3cdeadba634d3",
+      "afterStatus": ""
+    },
+    {
+      "id": "TB-08",
+      "head": "bda77494be5731dd4810fea190883817a2dc6e08",
+      "root": "/Users/zhangxu/illegal/type-pal-glm-game-menu",
+      "scopeErrors": [],
+      "fixed": [],
+      "tests": [
+        "packages/game/src/core/menu/equip-menu.boundaries.test.ts",
+        "packages/game/src/core/menu/in-game-magic-menu.boundaries.test.ts",
+        "packages/game/src/core/menu/in-game-menu.boundaries.test.ts",
+        "packages/game/src/core/menu/inventory-menu.boundaries.test.ts",
+        "packages/game/src/core/menu/magic-select.boundaries.test.ts",
+        "packages/game/src/core/menu/primitives.boundaries.test.ts",
+        "packages/game/src/core/menu/sell-menu.boundaries.test.ts",
+        "packages/game/src/core/menu/shop-menu.boundaries.test.ts"
+      ],
+      "fixtureFiles": [],
+      "added": [
+        "docs/testing/glm-game-menu-boundaries-evidence.json",
+        "docs/testing/glm-game-menu-boundaries-mutants.mjs",
+        "docs/testing/glm-game-menu-boundaries.config.mts",
+        "packages/game/src/core/menu/equip-menu.boundaries.test.ts",
+        "packages/game/src/core/menu/in-game-magic-menu.boundaries.test.ts",
+        "packages/game/src/core/menu/in-game-menu.boundaries.test.ts",
+        "packages/game/src/core/menu/inventory-menu.boundaries.test.ts",
+        "packages/game/src/core/menu/magic-select.boundaries.test.ts",
+        "packages/game/src/core/menu/primitives.boundaries.test.ts",
+        "packages/game/src/core/menu/sell-menu.boundaries.test.ts",
+        "packages/game/src/core/menu/shop-menu.boundaries.test.ts"
+      ],
+      "targeted": [
+        {
+          "pkg": "game",
+          "code": 0,
+          "log": "/tmp/codex-nine-final.wb8m3g/TB-08-game-targeted.log",
+          "report": "/tmp/codex-nine-final.wb8m3g/TB-08-game-targeted.json",
+          "counts": {
+            "total": 17,
+            "passed": 17,
+            "failed": 0,
+            "perFile": [
+              {
+                "file": "/Users/zhangxu/illegal/type-pal-glm-game-menu/packages/game/src/core/menu/equip-menu.boundaries.test.ts",
+                "count": 2,
+                "failed": []
+              },
+              {
+                "file": "/Users/zhangxu/illegal/type-pal-glm-game-menu/packages/game/src/core/menu/in-game-magic-menu.boundaries.test.ts",
+                "count": 2,
+                "failed": []
+              },
+              {
+                "file": "/Users/zhangxu/illegal/type-pal-glm-game-menu/packages/game/src/core/menu/in-game-menu.boundaries.test.ts",
+                "count": 2,
+                "failed": []
+              },
+              {
+                "file": "/Users/zhangxu/illegal/type-pal-glm-game-menu/packages/game/src/core/menu/inventory-menu.boundaries.test.ts",
+                "count": 3,
+                "failed": []
+              },
+              {
+                "file": "/Users/zhangxu/illegal/type-pal-glm-game-menu/packages/game/src/core/menu/magic-select.boundaries.test.ts",
+                "count": 2,
+                "failed": []
+              },
+              {
+                "file": "/Users/zhangxu/illegal/type-pal-glm-game-menu/packages/game/src/core/menu/primitives.boundaries.test.ts",
+                "count": 2,
+                "failed": []
+              },
+              {
+                "file": "/Users/zhangxu/illegal/type-pal-glm-game-menu/packages/game/src/core/menu/sell-menu.boundaries.test.ts",
+                "count": 2,
+                "failed": []
+              },
+              {
+                "file": "/Users/zhangxu/illegal/type-pal-glm-game-menu/packages/game/src/core/menu/shop-menu.boundaries.test.ts",
+                "count": 2,
+                "failed": []
+              }
+            ]
+          }
+        }
+      ],
+      "typechecks": [
+        {
+          "pkg": "game",
+          "code": 0,
+          "log": "/tmp/codex-nine-final.wb8m3g/TB-08-game-tc.log"
+        }
+      ],
+      "biome": {
+        "code": 0,
+        "log": "/tmp/codex-nine-final.wb8m3g/TB-08-biome.log"
+      },
+      "mutants": {
+        "tool": "docs/testing/glm-game-menu-boundaries-mutants.mjs",
+        "code": 0,
+        "log": "/tmp/codex-nine-final.wb8m3g/TB-08-mutants.log"
+      },
+      "afterHead": "bda77494be5731dd4810fea190883817a2dc6e08",
+      "afterStatus": ""
+    },
+    {
+      "id": "TB-09",
+      "head": "ca4c07686c5e04745698063a6cf7d0f61b25bfc5",
+      "root": "/Users/zhangxu/illegal/type-pal-glm-game-host",
+      "scopeErrors": [],
+      "fixed": [],
+      "tests": [
+        "packages/game/src/analytics/analytics-consent.boundaries.test.ts",
+        "packages/game/src/analytics/google-analytics.boundaries.test.ts",
+        "packages/game/src/shell/audio-volume.boundaries.test.ts",
+        "packages/game/src/shell/fetch-retry.boundaries.test.ts",
+        "packages/game/src/shell/input.boundaries.test.ts",
+        "packages/game/src/tools/speedrun/time-format.boundaries.test.ts",
+        "packages/game/src/tools/speedrun/timer.boundaries.test.ts"
+      ],
+      "fixtureFiles": [],
+      "added": [
+        "docs/testing/glm-game-host-boundaries-evidence.json",
+        "docs/testing/glm-game-host-boundaries-mutants.mjs",
+        "docs/testing/glm-game-host-boundaries.config.mts",
+        "packages/game/src/analytics/analytics-consent.boundaries.test.ts",
+        "packages/game/src/analytics/google-analytics.boundaries.test.ts",
+        "packages/game/src/shell/audio-volume.boundaries.test.ts",
+        "packages/game/src/shell/fetch-retry.boundaries.test.ts",
+        "packages/game/src/shell/input.boundaries.test.ts",
+        "packages/game/src/tools/speedrun/time-format.boundaries.test.ts",
+        "packages/game/src/tools/speedrun/timer.boundaries.test.ts"
+      ],
+      "targeted": [
+        {
+          "pkg": "game",
+          "code": 0,
+          "log": "/tmp/codex-nine-final.wb8m3g/TB-09-game-targeted.log",
+          "report": "/tmp/codex-nine-final.wb8m3g/TB-09-game-targeted.json",
+          "counts": {
+            "total": 25,
+            "passed": 25,
+            "failed": 0,
+            "perFile": [
+              {
+                "file": "/Users/zhangxu/illegal/type-pal-glm-game-host/packages/game/src/analytics/analytics-consent.boundaries.test.ts",
+                "count": 3,
+                "failed": []
+              },
+              {
+                "file": "/Users/zhangxu/illegal/type-pal-glm-game-host/packages/game/src/analytics/google-analytics.boundaries.test.ts",
+                "count": 4,
+                "failed": []
+              },
+              {
+                "file": "/Users/zhangxu/illegal/type-pal-glm-game-host/packages/game/src/shell/audio-volume.boundaries.test.ts",
+                "count": 2,
+                "failed": []
+              },
+              {
+                "file": "/Users/zhangxu/illegal/type-pal-glm-game-host/packages/game/src/shell/fetch-retry.boundaries.test.ts",
+                "count": 4,
+                "failed": []
+              },
+              {
+                "file": "/Users/zhangxu/illegal/type-pal-glm-game-host/packages/game/src/shell/input.boundaries.test.ts",
+                "count": 3,
+                "failed": []
+              },
+              {
+                "file": "/Users/zhangxu/illegal/type-pal-glm-game-host/packages/game/src/tools/speedrun/time-format.boundaries.test.ts",
+                "count": 3,
+                "failed": []
+              },
+              {
+                "file": "/Users/zhangxu/illegal/type-pal-glm-game-host/packages/game/src/tools/speedrun/timer.boundaries.test.ts",
+                "count": 6,
+                "failed": []
+              }
+            ]
+          }
+        }
+      ],
+      "typechecks": [
+        {
+          "pkg": "game",
+          "code": 0,
+          "log": "/tmp/codex-nine-final.wb8m3g/TB-09-game-tc.log"
+        }
+      ],
+      "biome": {
+        "code": 0,
+        "log": "/tmp/codex-nine-final.wb8m3g/TB-09-biome.log"
+      },
+      "mutants": {
+        "tool": "docs/testing/glm-game-host-boundaries-mutants.mjs",
+        "code": 0,
+        "log": "/tmp/codex-nine-final.wb8m3g/TB-09-mutants.log"
+      },
+      "afterHead": "ca4c07686c5e04745698063a6cf7d0f61b25bfc5",
+      "afterStatus": ""
+    },
+    {
+      "id": "TB-10",
+      "head": "3d798f7c8c48f1fee5fea566abd5592c4743536c",
+      "root": "/Users/zhangxu/illegal/type-pal-glm-migration",
+      "scopeErrors": [],
+      "fixed": [],
+      "tests": [
+        "packages/migrate/src/migration-project-io.boundaries.test.ts",
+        "packages/migrate/src/migration-transaction.boundaries.test.ts",
+        "packages/migrate/src/migration-write-plan.boundaries.test.ts",
+        "packages/migrate/src/pal-authored-overlays.boundaries.test.ts",
+        "packages/migrate/src/pal-item-scheme-labels.boundaries.test.ts",
+        "packages/migrate/src/pal-store-boundary.boundaries.test.ts",
+        "packages/migrate/src/project-map-converter.boundaries.test.ts",
+        "packages/migrate/src/source-facts.boundaries.test.ts"
+      ],
+      "fixtureFiles": [],
+      "added": [
+        "docs/testing/glm-migration-boundaries-evidence.json",
+        "docs/testing/glm-migration-boundaries-mutants.mjs",
+        "docs/testing/glm-migration-boundaries.config.mts",
+        "packages/migrate/src/migration-project-io.boundaries.test.ts",
+        "packages/migrate/src/migration-transaction.boundaries.test.ts",
+        "packages/migrate/src/migration-write-plan.boundaries.test.ts",
+        "packages/migrate/src/pal-authored-overlays.boundaries.test.ts",
+        "packages/migrate/src/pal-item-scheme-labels.boundaries.test.ts",
+        "packages/migrate/src/pal-store-boundary.boundaries.test.ts",
+        "packages/migrate/src/project-map-converter.boundaries.test.ts",
+        "packages/migrate/src/source-facts.boundaries.test.ts"
+      ],
+      "targeted": [
+        {
+          "pkg": "migrate",
+          "code": 0,
+          "log": "/tmp/codex-nine-final.wb8m3g/TB-10-migrate-targeted.log",
+          "report": "/tmp/codex-nine-final.wb8m3g/TB-10-migrate-targeted.json",
+          "counts": {
+            "total": 23,
+            "passed": 23,
+            "failed": 0,
+            "perFile": [
+              {
+                "file": "/Users/zhangxu/illegal/type-pal-glm-migration/packages/migrate/src/migration-project-io.boundaries.test.ts",
+                "count": 3,
+                "failed": []
+              },
+              {
+                "file": "/Users/zhangxu/illegal/type-pal-glm-migration/packages/migrate/src/migration-transaction.boundaries.test.ts",
+                "count": 2,
+                "failed": []
+              },
+              {
+                "file": "/Users/zhangxu/illegal/type-pal-glm-migration/packages/migrate/src/migration-write-plan.boundaries.test.ts",
+                "count": 2,
+                "failed": []
+              },
+              {
+                "file": "/Users/zhangxu/illegal/type-pal-glm-migration/packages/migrate/src/pal-authored-overlays.boundaries.test.ts",
+                "count": 2,
+                "failed": []
+              },
+              {
+                "file": "/Users/zhangxu/illegal/type-pal-glm-migration/packages/migrate/src/pal-item-scheme-labels.boundaries.test.ts",
+                "count": 4,
+                "failed": []
+              },
+              {
+                "file": "/Users/zhangxu/illegal/type-pal-glm-migration/packages/migrate/src/pal-store-boundary.boundaries.test.ts",
+                "count": 3,
+                "failed": []
+              },
+              {
+                "file": "/Users/zhangxu/illegal/type-pal-glm-migration/packages/migrate/src/project-map-converter.boundaries.test.ts",
+                "count": 4,
+                "failed": []
+              },
+              {
+                "file": "/Users/zhangxu/illegal/type-pal-glm-migration/packages/migrate/src/source-facts.boundaries.test.ts",
+                "count": 3,
+                "failed": []
+              }
+            ]
+          }
+        }
+      ],
+      "typechecks": [
+        {
+          "pkg": "migrate",
+          "code": 0,
+          "log": "/tmp/codex-nine-final.wb8m3g/TB-10-migrate-tc.log"
+        }
+      ],
+      "biome": {
+        "code": 0,
+        "log": "/tmp/codex-nine-final.wb8m3g/TB-10-biome.log"
+      },
+      "mutants": {
+        "tool": "docs/testing/glm-migration-boundaries-mutants.mjs",
+        "code": 0,
+        "log": "/tmp/codex-nine-final.wb8m3g/TB-10-mutants.log"
+      },
+      "afterHead": "3d798f7c8c48f1fee5fea566abd5592c4743536c",
+      "afterStatus": ""
+    }
+  ],
+  "independentWitnesses": {
+    "residual": "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/codex-nine-residual-8ry3VM/summary.json",
+    "pngHost": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/codex-png-host-ySshQJ/summary.json"
+  },
+  "gates": {
+    "check": "pending",
+    "ratchet": "pending",
+    "strictFast": "pending"
+  },
+  "decision": "TB03 counter: Canvas output geometry; other eight integrated pending final gates; no done"
+}

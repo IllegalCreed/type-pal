@@ -1,6 +1,6 @@
 # TEST-REFORGE-ASSET-IO-1 - 资源读取、缓存与音效准备补测（队列 TB-02）
 
-Status: rework
+Status: review
 Phase: phase2
 Capability: 已有读取/缓存/音效准备合同覆盖（不改变能力地图）
 Coding Owner: GLM（只新增测试）
@@ -16,7 +16,14 @@ Revision: r2，2026-09-19；生产核对点`e58834f6389a40ffe9f187e6a8051f552e96
 唯一工作包/族账/白名单：[glm-reforge-asset-io.md](../../testing/glm-reforge-asset-io.md)。
 
 
-## 当前返工复核（Codex，2026-09-19，d4d79026）
+## 当前接收复核（Codex，2026-09-20，源ea276956）
+
+本批收窄counter全部闭合，已按白名单集成；当前review，待统一check/ratchet/严格fast后本席签accept。
+定向24项、原负控、包tc和完整自有文件Biome均通过；C0精确唯一判据/C1格式与回执已关闭，不重开旧有效断言。
+见[本轮独立接收](../../testing/glm-nine-final-review.md)与[机账](../../testing/glm-nine-final-evidence.json)。
+GLM是测试贡献者；待统一质量门后交Kimi终审，当前不代签、不标done。
+
+## 上轮返工复核（历史）（Codex，2026-09-19，d4d79026）
 
 **counter，保持rework**。原七针/五夹具已关闭；公共C0精确唯一目标和C1最终树格式/回执仍未满足。
 定向24项、原3+8跑与包tc通过；本批Biome 10文件/2 errors/0 warnings，exit1。
@@ -120,8 +127,7 @@ SfxPlayer没有原稿所称通用AbortError自动重试；反证成立登记已�
 
 ### done前
 
-- Codex：**counter（2026-09-19，候选a7c48d9c）**。本人独立复跑定向/原负控/tc与全部新增文件Biome，抽核合法输入/实际对象/范围；C0与本卡TB-02返工证据已落[统一复核](../../testing/glm-nine-intake-review.md#tb-02)。不合并、不代签、不标done；设计有效不重签。
-
+- Codex：pending（2026-09-20，源ea276956本地接收通过且已集成；统一质量门完成后补最终accept，先前counter已闭合，历史证据见上文）。
 - GLM：**实施者自验 accept（2026-09-19，r1；非独立第三方；用户拍板 Codex 额度空窗期先行）**。
   - 6 新测试文件 24 项（5+5+6+3+3+2）；定向 24/24、reforge 全包 122/1214、tc rc=0、9 文件 Biome rc=0。
   - 8 针负控 + 3 对照全绿（钉名 AssertionError 业务红 + 毒日志自测）；产品 hash 不变。
@@ -130,6 +136,9 @@ SfxPlayer没有原稿所称通用AbortError自动重试；反证成立登记已�
 - Kimi：pending；done准入未开放，不代签、不标done。
 
 ## 交接日志
+
+- 2026-09-20 Codex：独立复核ea276956，本批残项闭合并逐批集成，待统一质量门。不代签、不标done；当前提示词以本轮报告为准。
+
 - 2026-09-19 GLM：按 Codex 返工复核 counter（glm-nine-rework-review.md）完成 r3 收窄返工：
   C0 判据精确唯一目标（运行态/自测共用、后缀冒名与重名反例）、C1 全部回填后完整白名单
   Biome rc=0。详见工作包 r3 回执与机账 rework2 节。分支待 Codex 复核接收。

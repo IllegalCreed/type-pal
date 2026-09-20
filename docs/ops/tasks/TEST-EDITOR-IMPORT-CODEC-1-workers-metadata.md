@@ -16,7 +16,14 @@ Revision: r2，2026-09-19；生产核对点`e58834f6389a40ffe9f187e6a8051f552e96
 唯一工作包/族账/白名单：[glm-editor-import-codec.md](../../testing/glm-editor-import-codec.md)。
 
 
-## 当前返工复核（Codex，2026-09-19，9fe3a07f）
+## 当前接收复核（Codex，2026-09-20，源001dc9e1）
+
+**counter，仅余PNG宿主尺寸合同**：真实320×200成功链返回2×1/3×1，删除canvas尺寸设置后候选仍5/5绿。
+定向39项、原负控、包tc和完整自有文件Biome均通过；C0精确唯一判据/C1格式与回执已关闭，不重开旧有效断言。
+见[本轮独立接收](../../testing/glm-nine-final-review.md)与[机账](../../testing/glm-nine-final-evidence.json)。
+合法PNG与真实摘要已修，本轮只返同一编码宿主的实际尺寸合同；不改产品、不混入其它八批，不代签、不标done。
+
+## 上轮返工复核（历史）（Codex，2026-09-19，9fe3a07f）
 
 **counter，保持rework**。原七针/五夹具已关闭；公共C0精确唯一目标和C1最终树格式/回执仍未满足。
 定向39项、原3+8跑与包tc通过；本批Biome 11文件/2 errors/1 warnings，exit1。
@@ -117,11 +124,13 @@ r2已证明现有worker handler可在Node窄宿主调用，不新增产品导出
 
 ### done前
 
-- Codex：**counter（2026-09-19，候选f4c229ed）**。本人独立复跑定向/原负控/tc与全部新增文件Biome，抽核合法输入/实际对象/范围；C0与本卡TB-03返工证据已落[统一复核](../../testing/glm-nine-intake-review.md#tb-03)。不合并、不代签、不标done；设计有效不重签。
-
+- Codex：**counter（2026-09-20，源001dc9e1）**。仅余PNG宿主尺寸合同，独立删canvas尺寸见证MISSED；C0/C1与其它旧项闭合，证据见本轮报告。不改产品、不标done。
 - GLM/Kimi：pending（原交付状态保留；不代签）。done准入未开放，不标done。
 
 ## 交接日志
+
+- 2026-09-20 Codex：独立复核001dc9e1，仅PNG尺寸宿主残项counter，其余关闭。不代签、不标done；当前提示词以本轮报告为准。
+
 
 - 2026-09-19 Codex：复核9fe3a07f，按本轮报告收窄counter；原七针与五夹具已关闭。最终树格式与精确唯一判据仍失败，不重签、不并包、不标done。
 - 2026-09-19 Codex：按用户九批统一接收授权独立审本候选；测试通过不等于证据有效，签counter并转rework，返工限公共C0/C1及本卡章节。GLM原回执/他席签字保留；用户最新确认Mimosa为GLM私有MCP，Codex不处理且不作接收门；TB00/TB01另排。

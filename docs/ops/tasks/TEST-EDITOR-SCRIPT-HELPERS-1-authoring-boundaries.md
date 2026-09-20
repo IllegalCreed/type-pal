@@ -1,6 +1,6 @@
 # TEST-EDITOR-SCRIPT-HELPERS-1 - 脚本与内容编辑辅助补测（TB-07）
 
-Status: rework
+Status: review
 Phase: phase2
 Capability: 已有合同补测，不改变能力地图
 Coding Owner: GLM（只新增测试）
@@ -15,7 +15,14 @@ Revision: r1，2026-09-19。生产冻结 `e58834f6389a40ffe9f187e6a8051f552e964d
 完整族账/去重/唯一白名单：[工作包](../../testing/glm-editor-script-helpers.md)。共同规则与合并交接：[七批统一审核](../../testing/glm-coverage-remaining-review.md)。
 
 
-## 当前返工复核（Codex，2026-09-19，b86f235d）
+## 当前接收复核（Codex，2026-09-20，源10cc9d4d）
+
+本批收窄counter全部闭合，已按白名单集成；当前review，待统一check/ratchet/严格fast后本席签accept。
+定向21项、原负控、包tc和完整自有文件Biome均通过；C0精确唯一判据/C1格式与回执已关闭，不重开旧有效断言。
+见[本轮独立接收](../../testing/glm-nine-final-review.md)与[机账](../../testing/glm-nine-final-evidence.json)。
+GLM是测试贡献者；待统一质量门后交Kimi终审，当前不代签、不标done。
+
+## 上轮返工复核（历史）（Codex，2026-09-19，b86f235d）
 
 **counter，保持rework**。原七针/五夹具已关闭；公共C0精确唯一目标和C1最终树格式/回执仍未满足。
 定向21项、原3+7跑与包tc通过；本批Biome 10文件/4 errors/1 warnings，exit1。
@@ -99,13 +106,15 @@ before→after：既有产品行为不变，补有增量的合法合同回归与
 
 ### done前
 
-- Codex：**counter（2026-09-19，候选90369143）**。本人独立复跑定向/原负控/tc与全部新增文件Biome，抽核合法输入/实际对象/范围；C0与本卡TB-07返工证据已落[统一复核](../../testing/glm-nine-intake-review.md#tb-07)。不合并、不代签、不标done；设计有效不重签。
-
+- Codex：pending（2026-09-20，源10cc9d4d本地接收通过且已集成；统一质量门完成后补最终accept，先前counter已闭合，历史证据见上文）。
 - GLM：pending。
 - Kimi：pending。
 - done准入：未开放；不代签、不标done。
 
 ## 交接日志
+
+- 2026-09-20 Codex：独立复核10cc9d4d，本批残项闭合并逐批集成，待统一质量门。不代签、不标done；当前提示词以本轮报告为准。
+
 - 2026-09-19 GLM：按 Codex 返工复核 counter 完成 r3 收窄返工（C0 精确唯一目标、C1 白名单
   Biome、R07-3 S02 非空 redo 在缺 target 拒绝后完整保留与精确重放、撤回 audit 归因）。
   详见工作包 r3 回执与机账 rework2 节。
