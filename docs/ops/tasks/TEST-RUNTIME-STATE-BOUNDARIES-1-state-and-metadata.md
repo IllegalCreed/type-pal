@@ -1,6 +1,6 @@
 # TEST-RUNTIME-STATE-BOUNDARIES-1 - 运行时状态与作者元数据六组补测
 
-Status: rework
+Status: review
 Phase: phase2
 Capability: 已有状态/元数据合同覆盖，不改变能力地图
 Coding Owner: Codex（用户授权接手窄返工及集成；GLM原始测试贡献保留）
@@ -12,6 +12,7 @@ Unavailable Agents: none
 Branch: codex/tb00-tb01-finish
 
 Revision: r1，2026-09-19；生产冻结`e58834f6389a40ffe9f187e6a8051f552e964d79`。
+当前集成候选：**44b9b763**（2026-09-21），主线接入基点952a45bd，产品零改；原设计不重签。
 用户要求“再给GLM一大批任务，Codex同步推进下一项”。本卡独立于[技能试放卡](../archive/tasks/done/EDITOR-SKILL-TRIAL-1-isolated-battle.md)，一次设计准入后六组连续完成。
 唯一工作包/39族/文件白名单/执行纪律：[GLM六组补测](../../testing/glm-runtime-state-boundaries.md)。
 
@@ -116,7 +117,14 @@ frame在途invalidate政策未知；不以低覆盖证明bug。用户可见偏�
   - 返工项：无。三席同 r1 齐且无 counter 后按卡核定 build allowed 再实施。
 - build准入：**三席同r1已齐、无counter，Codex于2026-09-19核定满足build条件**（Codex原签、GLM 7753f137、Kimi 09d1fd5b；生产相对e58834f6零漂移）。按原交接由Coding Owner GLM同步将本卡/看板/索引切到build，再在独立worktree连续实施六组；无需再签一次。另一张试放卡的UI待决不阻止本卡。
 
-### done前
+### done前（当前集成候选44b9b763）
+
+- Codex：**accept（实施者自验，2026-09-21）**。按用户要求接手350da702的唯一残项：sequence真实finally释放同一读取并消费原播放，无清理断言遮盖主失败；永久失败路径自证先红后绿。B7仅适配已done的451cbbb7当前私有身份。56项、8对照/8针业务detected/四fixture accepted、原22跑、两包tc及23新增文件Biome通过。统一check7988、官方ratchet与保护952a45bd的单次strict7497均exit0；产品/旧测试/范围分母零改。证据见[补正回执](../../testing/tb00-tb01-completion.md)及[机账](../../testing/tb00-tb01-completion-evidence.json)。原D6 counter已消除；本席是修复/集成实现者，GLM为原测试贡献者，均不冒充独立第三方终审。
+- Kimi：pending（独立终审，新候选44b9b763）。
+- GLM：pending（原贡献者对Codex补正及新候选复核，不作独立第三方自证）。
+- done准入：尚未满足；两席新候选签字待回，不代签、不done。frame在途invalidate政策、full/Q1/Q2边界保持。
+
+### 原候选接收记录（历史，不授权当前候选done）
 
 - GLM：**r1 第三轮返工实施者自验 accept（2026-09-19；仅收窄 counter 8ca74aac 三残项，前轮已闭环项不重开）**。
   - 残项1（F1）：`source:'held' as never` 断言**实际删除**，F1 标题/注释同步为 ms/kind 失配轴；
@@ -154,6 +162,7 @@ frame在途invalidate政策未知；不以低覆盖证明bug。用户可见偏�
 - done准入：未开放，不代签、不标done。
 
 ## 交接日志
+- 2026-09-21 Codex：补正250814f7与TB01 b609617b分开提交，统一候选44b9b763通过完整check7988/ratchet/受保护单次strict7497。只接入原白名单，TB00相对GLM源仅frame测试修finally/加失败自证、B7当前身份适配；8针及原22跑保持业务红，D6 counter注销，转review。GLM原贡献及本席实施身份披露，等Kimi独立终审/GLM新候选复核，不标done。
 - 2026-09-21 Codex：按用户明确要求接手窄返工。已同步main/核工作树干净，源分支仍350da702；仅修D6异常也执行释放/消费，保留已过业务断言，按当前产品适配B7并独立复验后接收。新Owner/工作树及贡献披露见上；原counter未在修复验证前注销，状态仍rework，不动GLM工作树。
 - 2026-09-20 Codex：独立接收350da702，确认取消业务8针闭环；源码的finally仍仅是注释，故只留异常路径清理/回执一致性定点counter。原22跑及9项正控绿；不改GLM测试、不重跑/更新官方基线。
 - 2026-09-20 Codex：按用户继续双线要求核远端，codex/glm-runtime-state-boundaries-r1当前350da702与本地独立worktree一致，已有D6定点返工回执。进入本席待接收队列，不让GLM重复旧返工；原counter在独立验证前不核销，状态仍rework，不冒称已接收。新物品/脚本卡独立推进。
@@ -192,7 +201,16 @@ frame在途invalidate政策未知；不以低覆盖证明bug。用户可见偏�
 
 ## 下一位Agent提示词
 
-### 当前：GLM仅补350da702异常路径清理
+### 当前：Kimi / GLM并行复核44b9b763
+
+完整两席提示词见[共同回执](../../testing/tb00-tb01-completion.md#并行终审提示词)。本卡最小交接：
+
+```text
+在 /Users/zhangxu/illegal/type-pal 复核 TEST-RUNTIME-STATE-BOUNDARIES-1，卡 docs/ops/tasks/TEST-RUNTIME-STATE-BOUNDARIES-1-state-and-metadata.md，review/r1，统一候选44b9b763，原设计不重签。先同步main/核工作树，读AGENTS/CLAUDE/READ-FIRST、本卡和docs/testing/tb00-tb01-completion.md及机账；独立读代码，不复述另一席结论。
+Codex已接手并修真实finally、失败自证及B7当前身份，56项/8针/22跑通过；完整check7988、ratchet、受保护单次strict7497已通过。重点核清理真实完成/原错误身份/断言鉴别力与生产零改。Kimi作独立终审；GLM需披露原测试贡献，对Codex补正和新候选复核。各自只写本人done前accept或带file:line反例counter及日志，提交推送前同步保留他席改动。不改产品/测试/基线/状态、不代签、不done；不做视觉或并发跑统一覆盖率。TB01单独裁决。
+```
+
+### 历史：GLM仅补350da702异常路径清理（Codex已接手完成）
 
 ```text
 按docs/testing/runtime-state-review.md顶部350da702收窄counter返工本卡，状态rework，r1不重签。先读AGENTS/CLAUDE/READ-FIRST及最新回执；8对照/8针业务鉴别力已闭环。

@@ -1,6 +1,6 @@
 # TEST-CONTENT-RESIDUAL-1 - 内容合同已登记残项补测（队列 TB-01）
 
-Status: rework
+Status: review
 Phase: phase2
 Capability: 已有内容合同覆盖（不改变能力地图）
 Coding Owner: Codex（用户授权接手CR-R1窄返工及集成；GLM原始测试贡献保留）
@@ -12,6 +12,7 @@ Unavailable Agents: none
 Branch: codex/tb00-tb01-finish
 
 Revision: r2，2026-09-19；生产核对点`e58834f6389a40ffe9f187e6a8051f552e964d79`不变。r1前提/方案已收窄，旧签留历史，不授权r2。
+当前集成候选：**44b9b763**（2026-09-21），接入当前main 952a45bd，产品零改；原r2设计不重签。
 来源：[补测长队列](../../testing/glm-coverage-work-queue.md) TB-01；r2三席已齐，实施时机以本卡当前准入为准。
 唯一工作包/族账/白名单：[glm-content-residual.md](../../testing/glm-content-residual.md)。
 
@@ -96,7 +97,14 @@ author-dialogue 字段守卫轴、map-index 剩余拒绝边界、validate-refs �
   断言覆盖→登记已有；产品/旧测试/基线 diff→停。
 - build准入：未开放；三席同 r1 齐且无 counter 后由 Codex 核定。
 
-### done前
+### done前（当前集成候选44b9b763）
+
+- Codex：**accept（实施者自验，2026-09-21）**。按用户要求补正ccc67dcc仅剩CR-R1：真正合法world/非空levelUp/shops/noPortrait命令在调用前后深比较，工厂及实际切片内置当前结构守卫；无肖像合法输入补speaker，坏asset明确防御轴。23项、五对照/五针候选业务detected、七fixture accepted、mixedFailureAccepted=false、原15跑及Biome通过。统一check7988/官方ratchet/保护952a45bd的单次strict7497通过；产品/旧测试/分母范围零改，无Reforge反向依赖。证据见[补正回执](../../testing/tb00-tb01-completion.md)及[机账](../../testing/tb00-tb01-completion-evidence.json)。CR-R1 counter已消除，其它已闭环项未重开；GLM原贡献保留，本席修复/集成自验不充独立第三方。
+- Kimi：pending（独立终审，新候选44b9b763）。
+- GLM：pending（原贡献者对Codex补正及新候选复核，不作独立第三方自证）。
+- done准入：尚未满足；新候选两席实现签字待回，不代签、不done；A3/rows/owner warn原裁决及full/Q1/Q2边界保持。
+
+### 原候选接收记录（历史，不授权当前候选done）
 
 - GLM：**实施者自验 accept（2026-09-19，r1；非独立第三方）**。
   - 交付树：分支 `codex/glm-content-residual-r1`（worktree
@@ -118,6 +126,7 @@ author-dialogue 字段守卫轴、map-index 剩余拒绝边界、validate-refs �
 - done准入：未开放，不代签、不标done。
 
 ## 交接日志
+- 2026-09-21 Codex：CR-R1补正b609617b与TB00分开提交，统一候选44b9b763通过check7988/ratchet/受保护单次strict7497。候选实参快照/结构自证已补；五针全detected且原15跑、23项保持，CR-R1 counter注销并转review。无产品/旧测试/原见证改动；GLM原贡献披露，本席实施者自验accept，待Kimi独立终审/GLM新候选复核，不done。
 - 2026-09-21 Codex：按用户明确要求接手CR-R1窄返工。已同步main/核工作树干净，源分支仍ccc67dcc；将修实际输入快照/非空反例/结构自证，五针及原工具按最终树复验后独立接收。原counter先保留，状态仍rework，不动GLM工作树；TB00各自裁决，不以一包通过替另一包放行。
 - 2026-09-20 Codex：独立接收ccc67dcc，原三针/判据/Unicode/计数/格式改善属实；针对原CR-R1加合法world与非空levelUp两针仍MISSED，仅此保真/守卫族继续返工。原15跑/content全包/tc/9文件Biome绿；不改候选、不集成、不跑官方全仓门。
 - 2026-09-20 Codex：核远端codex/glm-content-residual-r1为ccc67dcc，与本地独立worktree一致，已有CR-R1～R4返工回执。进入本席待接收队列，不重复要求已交返工；原counter在独立验证前不核销，状态仍rework，不合入或抬基线。新物品/脚本卡独立推进。
@@ -141,7 +150,16 @@ author-dialogue 字段守卫轴、map-index 剩余拒绝边界、validate-refs �
 
 ## 下一位Agent提示词
 
-### 当前：GLM仅完成ccc67dcc的CR-R1残项
+### 当前：Kimi / GLM并行复核44b9b763
+
+完整两席提示词见[共同回执](../../testing/tb00-tb01-completion.md#并行终审提示词)。本卡最小交接：
+
+```text
+在 /Users/zhangxu/illegal/type-pal 复核 TEST-CONTENT-RESIDUAL-1，卡 docs/ops/tasks/TEST-CONTENT-RESIDUAL-1-registered-gaps.md，review/r2，统一候选44b9b763，原设计不重签。先同步main/核工作树，读AGENTS/CLAUDE/READ-FIRST、本卡和docs/testing/tb00-tb01-completion.md及机账；独立读代码，不复述另一席结论。
+Codex已接手修真实非空实参快照、当前结构自证与合法noPortrait speaker；23项/五针/七fixture/15跑通过。重点核快照对象就是被消费对象、快照时点、guard不是as绕过、无反向引Reforge；原Unicode/判据/已有族不重开。check7988/ratchet/受保护单次strict7497已过。Kimi作独立终审；GLM披露原贡献并复核Codex补正。各自只写本人done前accept或带file:line反例counter及日志，提交推送前同步保留他席改动。不改产品/测试/基线/状态、不代签、不done；不做视觉或并发跑统一覆盖率。TB00单独裁决。
+```
+
+### 历史：GLM仅完成ccc67dcc的CR-R1残项（Codex已接手完成）
 
 ```text
 按docs/testing/content-residual-review.md顶部ccc67dcc收窄counter返工本卡，状态rework，设计r2不重签。先读AGENTS/CLAUDE/READ-FIRST、当前报告并同步最新版见证工具；原三针/Unicode/目标判据/23项和15跑/格式不重开。

@@ -1,6 +1,10 @@
 # 内容合同残项：Codex独立接收复核
 
-## 当前返工复核：ccc67dcc（2026-09-20）
+## 2026-09-21 Codex接手补正
+
+用户要求直接修好，Coding Owner已移交Codex。源ccc67dcc的CR-R1已在b609617b补正：真实非空输入调用前后快照、当前结构自证及合法无肖像speaker；五针现全detected/七fixture accepted/mixedFailureAccepted=false，原15跑通过。仍23项，不重开原已闭环项。详见[分包补正与统一验证](tb00-tb01-completion.md)。统一候选44b9b763已过check7988/ratchet/受保护单次strict7497，本席实施者自验accept、转review，待两席新候选审查。下面counter留历史；本席不代替Kimi独立审查。
+
+## 历史返工复核：ccc67dcc（2026-09-20）
 
 **收窄counter：CR-R2/R3主要鉴别力及CR-R4计数/格式已闭环，只补原CR-R1实际输入保真/守卫自证残项。**
 原三见证全部由候选自身检出；`mixedFailureAccepted=false`，七fixture独立检查accepted。原工具1对照+14针通过；
@@ -26,7 +30,7 @@ content全包60文件/698项（新增23）、tc通过；9文件Biome通过。未
 其它日志：`/tmp/type-pal-content-ccc67dcc-mutants.log`、`/tmp/type-pal-content-ccc67dcc-check.log`、`/tmp/type-pal-content-ccc67dcc-biome.log`。
 私有覆盖本轮未重跑；存在阻断，不运行接收后全仓check/ratchet/strict-fast。
 
-### 当前GLM提示词
+### 历史GLM提示词（Codex已接手，不再执行）
 
 ```text
 收窄返工TEST-CONTENT-RESIDUAL-1，卡docs/ops/tasks/TEST-CONTENT-RESIDUAL-1-registered-gaps.md，rework/r2，候选ccc67dcc，设计不重签。

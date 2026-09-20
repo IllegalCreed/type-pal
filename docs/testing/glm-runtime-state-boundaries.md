@@ -1,10 +1,9 @@
 # GLM运行时状态与作者元数据 · 六组补测工作包
 
-任务：[TEST-RUNTIME-STATE-BOUNDARIES-1](../ops/tasks/TEST-RUNTIME-STATE-BOUNDARIES-1-state-and-metadata.md)，r1/rework。
-当前接收：**6d34ad5a被Codex收窄counter，仅D6 sequence实际收尾/迟到提交与回执勘误未闭环**；F1/E4及原7针已通过不重开。
-独立结果：55定向、双包685/1235、tc/16文件Biome/原22跑绿；新第8针发现迟到提交漏检。
-见[当前复核](runtime-state-review.md)，未集成、不转Kimi、不更新官方基线；下面GLM回执保留候选自验原文，不能覆盖本席裁决。
-生产冻结：`e58834f6389a40ffe9f187e6a8051f552e964d79`。GLM负责非视觉测试，Codex负责独立接收/集成，Kimi终审。
+任务：[TEST-RUNTIME-STATE-BOUNDARIES-1](../ops/tasks/TEST-RUNTIME-STATE-BOUNDARIES-1-state-and-metadata.md)，r1/review，统一候选44b9b763。
+当前进展（2026-09-21）：用户授权Codex接手350da702的D6窄返工；250814f7已补真实finally/失败路径自证，并按当前物品身份适配B7。**56项**、原8针/4fixture/22跑及统一check7988/strict7497通过，原counter已消除，待两席终审。
+见[补正记录](tb00-tb01-completion.md)与[复核历史](runtime-state-review.md)。下面GLM回执按原候选保留，旧55项和冻结期覆盖不作为当前树最新数字；不重开既有合同，不代签done。
+原包生产冻结：`e58834f6389a40ffe9f187e6a8051f552e964d79`；当前接入基点952a45bd，产品零改。GLM保留原测试贡献，Codex负责本轮补正/集成/自验，Kimi独立终审，GLM对新候选复核。
 与[独立技能试放卡](../ops/archive/tasks/done/EDITOR-SKILL-TRIAL-1-isolated-battle.md)分开；不是继续修改已done的运行时十模块包。
 一次完成六组，39个待核用例族；不是39条或某个固定数量的新测试承诺。已有有效断言直接复用登记，未知合同隔离，不凑覆盖率。
 

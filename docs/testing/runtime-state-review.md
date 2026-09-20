@@ -1,6 +1,10 @@
 # 运行时状态补测：Codex接收复核
 
-## 当前返工复核：350da702（2026-09-20）
+## 2026-09-21 Codex接手补正
+
+用户要求直接修好，Coding Owner已移交Codex。源350da702的D6剩余问题已在250814f7补正，新增故意断言失败的真实清理自证（先红后绿），当前B7按已done物品身份合同适配；56项、原8针全detected/4fixture accepted、原22跑通过。详见[分包补正与统一验证](tb00-tb01-completion.md)。统一候选44b9b763已过check7988/ratchet/受保护单次strict7497，本席签实施者自验accept、转review，待两席新候选审查。以下counter为历史，不再指派GLM重复修同一项；本席自验不充独立第三方。
+
+## 历史返工复核：350da702（2026-09-20）
 
 **收窄counter：D6业务鉴别力已闭环，只剩异常路径清理与回执一致性。** 不重开F1/E4及已关闭业务断言。
 本人复跑原8对照/8坏实现全部由候选自身AssertionError检出，四fixture检查accepted；原6对照+16针工具22跑通过，
@@ -18,7 +22,7 @@ frame-animation-player.boundaries.test.ts定向9/9通过。没有修改候选产
 原工具/定向：`/tmp/type-pal-state-350da702-mutants.log`、`/tmp/type-pal-state-350da702-frame.log`。
 本轮未因这一静态清理阻断再跑包全测/覆盖率；不宣称全套接收通过。
 
-### 当前GLM提示词
+### 历史GLM提示词（Codex已接手，不再执行）
 
 ```text
 定点返工TEST-RUNTIME-STATE-BOUNDARIES-1，卡docs/ops/tasks/TEST-RUNTIME-STATE-BOUNDARIES-1-state-and-metadata.md，rework/r1，候选350da702，设计不重签。

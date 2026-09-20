@@ -1,0 +1,478 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-09-21",
+  "candidate": "44b9b763bfda236b97072d69c28e719374183967",
+  "productionBase": "952a45bd",
+  "sources": {
+    "TB00": "350da702",
+    "TB01": "ccc67dcc"
+  },
+  "repairCommits": {
+    "TB00": "250814f7",
+    "TB01": "b609617b"
+  },
+  "contribution": "GLM original tests; Codex residual repair/integration/self-verification; Kimi independent review pending",
+  "newTests": {
+    "TB00": 56,
+    "TB01": 23,
+    "total": 79
+  },
+  "targeted": {
+    "content": {
+      "tests": 33,
+      "passed": 33,
+      "failed": 0,
+      "files": [
+        {
+          "path": "content/src/asset.residual.test.ts",
+          "tests": 3
+        },
+        {
+          "path": "content/src/author-dialogue.field-guards.test.ts",
+          "tests": 5
+        },
+        {
+          "path": "content/src/frame-sequence.residual.test.ts",
+          "tests": 3
+        },
+        {
+          "path": "content/src/map-index.residual.test.ts",
+          "tests": 8
+        },
+        {
+          "path": "content/src/migration-diagnostic.boundaries.test.ts",
+          "tests": 4
+        },
+        {
+          "path": "content/src/validate-refs.data-refs.test.ts",
+          "tests": 4
+        },
+        {
+          "path": "content/src/world-variable.boundaries.test.ts",
+          "tests": 6
+        }
+      ],
+      "report": "/tmp/type-pal-tb-content-target.json"
+    },
+    "reforge": {
+      "tests": 46,
+      "passed": 46,
+      "failed": 0,
+      "files": [
+        {
+          "path": "reforge/src/entity-action-player.boundaries.test.ts",
+          "tests": 9
+        },
+        {
+          "path": "reforge/src/frame-animation-player.boundaries.test.ts",
+          "tests": 10
+        },
+        {
+          "path": "reforge/src/magic-menu-state.boundaries.test.ts",
+          "tests": 4
+        },
+        {
+          "path": "reforge/src/runtime-project-view.boundaries.test.ts",
+          "tests": 5
+        },
+        {
+          "path": "reforge/src/runtime-script-compiler.boundaries.test.ts",
+          "tests": 5
+        },
+        {
+          "path": "reforge/src/scene-entry-session.boundaries.test.ts",
+          "tests": 2
+        },
+        {
+          "path": "reforge/src/screen-hold-transaction.boundaries.test.ts",
+          "tests": 2
+        },
+        {
+          "path": "reforge/src/system-menu-state.boundaries.test.ts",
+          "tests": 4
+        },
+        {
+          "path": "reforge/src/menu/reward-gain-queue.boundaries.test.ts",
+          "tests": 5
+        }
+      ],
+      "report": "/tmp/type-pal-tb-reforge-target.json"
+    }
+  },
+  "witnesses": {
+    "TB00": {
+      "fixtures": [
+        {
+          "name": "author-scene",
+          "result": "accepted"
+        },
+        {
+          "name": "runtime-scene",
+          "result": "accepted"
+        },
+        {
+          "name": "author-items",
+          "result": "accepted"
+        },
+        {
+          "name": "runtime-library",
+          "result": "accepted"
+        }
+      ],
+      "results": [
+        {
+          "id": "compiler-after-loss",
+          "mode": "control",
+          "exit": 0,
+          "verdict": "control",
+          "candidateFailures": []
+        },
+        {
+          "id": "compiler-after-loss",
+          "mode": "mutant",
+          "exit": 1,
+          "verdict": "detected",
+          "candidateFailures": [
+            "B1 同 id 的 timing×boundary 缓存隔离 auto/interactive × perCommand/transition 四键互不复用；元数据与产物逐项精确"
+          ]
+        },
+        {
+          "id": "frame-await-cancel-bypass",
+          "mode": "control",
+          "exit": 0,
+          "verdict": "control",
+          "candidateFailures": []
+        },
+        {
+          "id": "frame-await-cancel-bypass",
+          "mode": "mutant",
+          "exit": 1,
+          "verdict": "detected",
+          "candidateFailures": [
+            "D6 三处 await 分别 abort（真实在途取消 + 进入见证 + 同步结局观察） frame 在途 abort：进入 inflate 后取消仍及时拒绝、迟到帧不提交；底层 finally 放行"
+          ]
+        },
+        {
+          "id": "invalidate-keeps-old-container",
+          "mode": "control",
+          "exit": 0,
+          "verdict": "control",
+          "candidateFailures": []
+        },
+        {
+          "id": "invalidate-keeps-old-container",
+          "mode": "mutant",
+          "exit": 1,
+          "verdict": "detected",
+          "candidateFailures": [
+            "D4 invalidate 选择性清除（双 asset + 同 id 换字节） invalidate(a) 只清 a 保留 b；invalidate() 全清；同 id 换字节后读到新内容"
+          ]
+        },
+        {
+          "id": "lru-hit-does-not-touch",
+          "mode": "control",
+          "exit": 0,
+          "verdict": "control",
+          "candidateFailures": []
+        },
+        {
+          "id": "lru-hit-does-not-touch",
+          "mode": "mutant",
+          "exit": 1,
+          "verdict": "detected",
+          "candidateFailures": [
+            "D5 小 frameLimit LRU：命中/淘汰以解码轨迹见证 命中刷新触点：最近命中者存活、被淘汰者重解码；解码计数精确"
+          ]
+        },
+        {
+          "id": "expired-action-replays-cues",
+          "mode": "control",
+          "exit": 0,
+          "verdict": "control",
+          "candidateFailures": []
+        },
+        {
+          "id": "expired-action-replays-cues",
+          "mode": "mutant",
+          "exit": 1,
+          "verdict": "detected",
+          "candidateFailures": ["C2 单次动作 startAtMs 越尾 play 兑现、覆盖不悬挂、历史 cue 不补发"]
+        },
+        {
+          "id": "magic-confirm-mutates-world",
+          "mode": "control",
+          "exit": 0,
+          "verdict": "control",
+          "candidateFailures": []
+        },
+        {
+          "id": "magic-confirm-mutates-world",
+          "mode": "mutant",
+          "exit": 1,
+          "verdict": "detected",
+          "candidateFailures": [
+            "E4 请求/扣费语义（magicConfirmSpell 按合同原地改菜单 state） castAll 完整返回选中技能；toTarget 后 targetIdx 重置；MP 恰好足够通过、不足 null；各分支实际 world 快照不变"
+          ]
+        },
+        {
+          "id": "magic-cast-all-mutates-world",
+          "mode": "control",
+          "exit": 0,
+          "verdict": "control",
+          "candidateFailures": []
+        },
+        {
+          "id": "magic-cast-all-mutates-world",
+          "mode": "mutant",
+          "exit": 1,
+          "verdict": "detected",
+          "candidateFailures": [
+            "E4 请求/扣费语义（magicConfirmSpell 按合同原地改菜单 state） castAll 完整返回选中技能；toTarget 后 targetIdx 重置；MP 恰好足够通过、不足 null；各分支实际 world 快照不变"
+          ]
+        },
+        {
+          "id": "sequence-late-frame-after-abort",
+          "mode": "control",
+          "exit": 0,
+          "verdict": "control",
+          "candidateFailures": []
+        },
+        {
+          "id": "sequence-late-frame-after-abort",
+          "mode": "mutant",
+          "exit": 1,
+          "verdict": "detected",
+          "candidateFailures": [
+            "D6 三处 await 分别 abort（真实在途取消 + 进入见证 + 同步结局观察） sequence 在途 abort：真实 entered 后取消即拒绝；finally 释放同一底层并消费原播放，迟到零提交"
+          ]
+        }
+      ],
+      "summary": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/codex-runtime-state-HOldgt/summary.json"
+    },
+    "TB01": {
+      "fixtures": [
+        {
+          "name": "scenes",
+          "verdict": "accepted"
+        },
+        {
+          "name": "actors",
+          "verdict": "accepted"
+        },
+        {
+          "name": "sprites",
+          "verdict": "accepted"
+        },
+        {
+          "name": "battleSprites",
+          "verdict": "accepted"
+        },
+        {
+          "name": "startWorld",
+          "verdict": "accepted"
+        },
+        {
+          "name": "maps",
+          "verdict": "accepted"
+        },
+        {
+          "name": "references",
+          "verdict": "accepted"
+        }
+      ],
+      "criterion": {
+        "mixedFailureAccepted": false
+      },
+      "results": [
+        {
+          "id": "reject-valid-unicode-index",
+          "mode": "control",
+          "exit": 0,
+          "verdict": "control",
+          "candidateFailures": []
+        },
+        {
+          "id": "reject-valid-unicode-index",
+          "mode": "mutant",
+          "exit": 1,
+          "verdict": "detected",
+          "candidateFailures": [
+            "A4 外部 UTF-8 解码错误路径 合法 Unicode 扩展键的完整 index：parse 成功且数据/像素内容正确（真实成功正控）"
+          ]
+        },
+        {
+          "id": "portrait-scan-mutates-actual-cue",
+          "mode": "control",
+          "exit": 0,
+          "verdict": "control",
+          "candidateFailures": []
+        },
+        {
+          "id": "portrait-scan-mutates-actual-cue",
+          "mode": "mutant",
+          "exit": 1,
+          "verdict": "detected",
+          "candidateFailures": [
+            "A1 unbound 直连肖像臂（先过现行 cue 守卫；实际入参保真） 合法 unbound cue → 精确 AssetId 肖像引用（where/kind 完整）；扫描后实际 cue 不变",
+            "A1 unbound 直连肖像臂（先过现行 cue 守卫；实际入参保真） 非 dialog 命令/unbound 缺 portrait → 不产出肖像边；实际传入对象不变（非字符串 asset 为防御轴）"
+          ]
+        },
+        {
+          "id": "world-reference-scan-mutates-money",
+          "mode": "control",
+          "exit": 0,
+          "verdict": "control",
+          "candidateFailures": []
+        },
+        {
+          "id": "world-reference-scan-mutates-money",
+          "mode": "mutant",
+          "exit": 1,
+          "verdict": "detected",
+          "candidateFailures": [
+            "A12 world appearance.battleSprite 数据引用轴（正式 buildWorld 构造） 合法 world（含形象覆写+学习技能+装备数值）先零 issue；悬空 battleSprite → 精确 error；实际入参快照"
+          ]
+        },
+        {
+          "id": "valid-world-reference-mutates-money",
+          "mode": "control",
+          "exit": 0,
+          "verdict": "control",
+          "candidateFailures": []
+        },
+        {
+          "id": "valid-world-reference-mutates-money",
+          "mode": "mutant",
+          "exit": 1,
+          "verdict": "detected",
+          "candidateFailures": [
+            "A12 world appearance.battleSprite 数据引用轴（正式 buildWorld 构造） 合法 world（含形象覆写+学习技能+装备数值）先零 issue；悬空 battleSprite → 精确 error；实际入参快照"
+          ]
+        },
+        {
+          "id": "nonempty-level-up-mutates-level",
+          "mode": "control",
+          "exit": 0,
+          "verdict": "control",
+          "candidateFailures": []
+        },
+        {
+          "id": "nonempty-level-up-mutates-level",
+          "mode": "mutant",
+          "exit": 1,
+          "verdict": "detected",
+          "candidateFailures": [
+            "A12 levelUp 属主轴（合法技能下单轴坏 owner） 合法技能引用的 levelUp 零 issue；仅 owner 悬空 → warn；owner+技能双坏并列不吞并"
+          ]
+        }
+      ],
+      "summary": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/codex-content-residual-9CtrPY/summary.json"
+    }
+  },
+  "originalMutants": {
+    "TB00": {
+      "runs": 22,
+      "criterion": {
+        "goodAccepted": true,
+        "poisonedRejected": true
+      },
+      "log": "/tmp/type-pal-tb00-original-mutants.log"
+    },
+    "TB01": {
+      "runs": 15,
+      "criterion": {
+        "goodAccepted": true,
+        "poisonedRejected": true
+      },
+      "log": "/tmp/type-pal-tb01-original-mutants.log"
+    }
+  },
+  "gates": {
+    "fullCheck": {
+      "exit": 0,
+      "tests": 7988,
+      "log": "/tmp/type-pal-tb-full-check.log"
+    },
+    "ratchet": {
+      "exit": 0,
+      "log": "/tmp/type-pal-tb-ratchet.log"
+    },
+    "strictFast": {
+      "exit": 0,
+      "tests": 7497,
+      "protectedRef": "952a45bd",
+      "singleRun": true,
+      "log": "/tmp/type-pal-tb-strict.log"
+    }
+  },
+  "coverage": {
+    "beforeTests": 7418,
+    "afterTests": 7497,
+    "sourceFiles": 632,
+    "sourceManifestUnchanged": true,
+    "allMetricDenominatorsUnchanged": true,
+    "otherFivePackageBaselineObjectsUnchanged": true,
+    "total": {
+      "statements": {
+        "covered": 56736,
+        "total": 80399
+      },
+      "branches": {
+        "covered": 40531,
+        "total": 63111
+      },
+      "functions": {
+        "covered": 10748,
+        "total": 14910
+      },
+      "lines": {
+        "covered": 51111,
+        "total": 70373
+      }
+    },
+    "content": {
+      "statements": {
+        "covered": 4947,
+        "total": 5856
+      },
+      "branches": {
+        "covered": 3888,
+        "total": 5019
+      },
+      "functions": {
+        "covered": 771,
+        "total": 831
+      },
+      "lines": {
+        "covered": 4510,
+        "total": 5185
+      }
+    },
+    "reforge": {
+      "statements": {
+        "covered": 9432,
+        "total": 16737
+      },
+      "branches": {
+        "covered": 5749,
+        "total": 11359
+      },
+      "functions": {
+        "covered": 1510,
+        "total": 2539
+      },
+      "lines": {
+        "covered": 8514,
+        "total": 14599
+      }
+    },
+    "privateComparisons": "/tmp/type-pal-tb-coverage.kAY02J"
+  },
+  "boundaries": [
+    "No production or old tests changed",
+    "No original witness semantics changed",
+    "No visual/full/Q1/Q2 claims",
+    "Frame in-flight invalidate policy remains deferred",
+    "Not done; requires new-candidate reviewer signatures"
+  ]
+}

@@ -1,13 +1,13 @@
 # GLM内容合同残项工作包（TB-01）
 
-任务：[TEST-CONTENT-RESIDUAL-1](../ops/tasks/TEST-CONTENT-RESIDUAL-1-registered-gaps.md)，r2/rework（设计不重签；实施包0e49db91已交付，Codex接收counter）。
-生产核对点 `e58834f6389a40ffe9f187e6a8051f552e964d79`（队列基线）。GLM只写新测试；Codex独立接收、Kimi终审。
+任务：[TEST-CONTENT-RESIDUAL-1](../ops/tasks/TEST-CONTENT-RESIDUAL-1-registered-gaps.md)，r2/review，统一候选44b9b763，设计不重签。
+原生产核对点 `e58834f6389a40ffe9f187e6a8051f552e964d79`（队列基线）；当前接入基点952a45bd，产品零改。GLM为原测试贡献者，Codex本轮补正/集成自验，Kimi独立终审、GLM复核新候选。
 本包**只补**[已接收内容合同包回执](glm-content-contracts.md)明确登记的残项与新核的 validate-refs 数据引用轴；
 已接收 118 项/43 族不重做，TextEncoder 降级不存在不补，D-06/D-07 留修复归属。
 
 ## 当前独立接收结论
 
-Codex对0e49db91签counter，见[完整复核/CR-R1～R4](content-residual-review.md)。实际23项（3/5/3/8/4）、14针+1对照、9文件Biome一错误；合法Unicode正控与实际输入保真三见证均MISSED，判据混合错误误收。content60/698与tc、私有覆盖增量属实；A3已有/rows无上限/owner warn保持。未集成、未跑官方门、不释放TB02槽。
+2026-09-21用户授权Codex接手ccc67dcc的CR-R1窄返工，b609617b已补实际输入前后快照/结构守卫自证；23项（3/5/3/8/4）、5对照/5见证全detected、七fixture accepted、原15跑及统一check7988/strict7497通过，待两席终审。见[补正记录](tb00-tb01-completion.md)；[旧counter](content-residual-review.md)已消除并留历史。A3已有/rows无上限/owner warn保持，下方GLM原始回执不作为当前数字，不代签done。
 
 ## r2收口依据（Codex，2026-09-19）
 
