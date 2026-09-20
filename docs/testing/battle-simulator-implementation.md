@@ -7,6 +7,8 @@ Coding Owner：Codex。起点 `af916f5b`，分支 `codex/editor-battle-simulator
 ## 当前候选与质量门（2026-09-20）
 
 产品候选 **bd4c67c6**（相对最新主线基点 **1bae48e4**）；r2/r2a范围完成实现，待独立终审，**不是done**。
+统一候选`cb44c378`已随文档提交`300f907f`快进合入main并推送；6010评审沙盒的实际主菜单/试打方案空态已验证。
+`packages/`与`scripts/`相对统一候选零diff，后续签字不以开发分支WIP为准。
 下方WIP、失败及重测记录按时间保留，不再代表当前准入。
 
 - 完整`pnpm check`：**7891项**通过，日志`/tmp/type-pal-simulator-check-final.log`；47条既有警告/6条信息，无错误。
