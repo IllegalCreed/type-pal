@@ -3,19 +3,26 @@
 Status: rework
 Phase: phase2
 Capability: 已有状态/元数据合同覆盖，不改变能力地图
-Coding Owner: GLM（只新增测试）
+Coding Owner: Codex（用户授权接手窄返工及集成；GLM原始测试贡献保留）
 Integration Owner: Codex
-Reviewer: Codex / Kimi
+Reviewer: Kimi / GLM（GLM参与贡献须披露，不作为独立第三方自证）
 Visual Verification Owner: N/A
 Visual Verification Timing: N/A
 Unavailable Agents: none
-Branch: codex/glm-runtime-state-boundaries-r1
+Branch: codex/tb00-tb01-finish
 
 Revision: r1，2026-09-19；生产冻结`e58834f6389a40ffe9f187e6a8051f552e964d79`。
 用户要求“再给GLM一大批任务，Codex同步推进下一项”。本卡独立于[技能试放卡](../archive/tasks/done/EDITOR-SKILL-TRIAL-1-isolated-battle.md)，一次设计准入后六组连续完成。
 唯一工作包/39族/文件白名单/执行纪律：[GLM六组补测](../../testing/glm-runtime-state-boundaries.md)。
 
 ## 目标与范围
+
+### 2026-09-21 Owner接手
+
+用户明确“那就修好呀”，Codex接替GLM完成350da702仅剩的D6真实finally/失败路径自证和回执勘误；不重开已过八针业务合同。
+原GLM分支/worktree保持不动；在当前main 0cb5010e之上的独立codex/tb00-tb01-finish工作树按白名单暂存候选、逐包验证后集成。
+原r1设计三签保持；历史生产冻结e58834f6不代表回退当前生产。集成以0cb5010e当前合同为准，B7如涉及已done的451cbbb7私有引用tag，只适配测试期望，不恢复旧前缀或改产品。
+与TB01分开裁决/提交，最后共享一次串行完整check→官方ratchet→受保护单次fast。GLM仍为原测试贡献者；本席后续accept是实施者自验，Kimi独立终审不能由本席替代，GLM也须对新候选重新复核。无缺席豁免，不标done。
 
 补11个current真实调用模块的作者元数据守卫、编译/投影、动作/帧序列、菜单状态、呈现事务回归。
 只新增11测试文件、两个薄fixture及本人诊断/回执；产品/旧测试/官方范围/基线零改。已有强证据不重复加条数。
@@ -147,6 +154,7 @@ frame在途invalidate政策未知；不以低覆盖证明bug。用户可见偏�
 - done准入：未开放，不代签、不标done。
 
 ## 交接日志
+- 2026-09-21 Codex：按用户明确要求接手窄返工。已同步main/核工作树干净，源分支仍350da702；仅修D6异常也执行释放/消费，保留已过业务断言，按当前产品适配B7并独立复验后接收。新Owner/工作树及贡献披露见上；原counter未在修复验证前注销，状态仍rework，不动GLM工作树。
 - 2026-09-20 Codex：独立接收350da702，确认取消业务8针闭环；源码的finally仍仅是注释，故只留异常路径清理/回执一致性定点counter。原22跑及9项正控绿；不改GLM测试、不重跑/更新官方基线。
 - 2026-09-20 Codex：按用户继续双线要求核远端，codex/glm-runtime-state-boundaries-r1当前350da702与本地独立worktree一致，已有D6定点返工回执。进入本席待接收队列，不让GLM重复旧返工；原counter在独立验证前不核销，状态仍rework，不冒称已接收。新物品/脚本卡独立推进。
 - 2026-09-19 Codex：独立复核6d34ad5a；F1/E4与frame同步取消闭环，sequence实际收尾仍未修。原7针全检出属实，但不代表D6完整；第8针证明迟到提交漏检。仅此定点返工+回执勘误，保持rework；同次TB01独立裁决，本轮不释放实施槽。GLM自验原文保留，不代改他席。

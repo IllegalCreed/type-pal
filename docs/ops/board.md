@@ -20,8 +20,8 @@ GLM后续补测候选见[十批长队列](../testing/glm-coverage-work-queue.md)
 
 | ID | 任务 | 状态 | 负责人/下一步 | 一句话备注 |
 |---|---|---|---|---|
-| TEST-RUNTIME-STATE-BOUNDARIES-1 | [运行时状态与元数据六组补测](tasks/TEST-RUNTIME-STATE-BOUNDARIES-1-state-and-metadata.md) | rework | GLM：只补真实finally | 350da702八针/原22跑/9项通过；只剩D6主断言失败时未释放/消费及回执不符，不重开业务闭环 |
-| TEST-CONTENT-RESIDUAL-1 | [内容合同残项补测](tasks/TEST-CONTENT-RESIDUAL-1-registered-gaps.md) | rework | GLM：CR-R1保真/自证残项 | ccc67dcc原三针/判据/Unicode/格式闭环；合法world及非空levelUp两针MISSED，五针工具可重建，未集成 |
+| TEST-RUNTIME-STATE-BOUNDARIES-1 | [运行时状态与元数据六组补测](tasks/TEST-RUNTIME-STATE-BOUNDARIES-1-state-and-metadata.md) | rework | Codex：接手D6真实finally并集成 | 用户授权换Owner；350da702八针业务合同不重开，GLM原贡献保留，当前产品不回退 |
+| TEST-CONTENT-RESIDUAL-1 | [内容合同残项补测](tasks/TEST-CONTENT-RESIDUAL-1-registered-gaps.md) | rework | Codex：接手CR-R1保真/自证并集成 | 用户授权换Owner；ccc67dcc原三针/判据/Unicode已闭环，补五针剩余缺口后独立裁决 |
 
 2026-09-21 [物品作者记录/脚本身份](../testing/item-authoring-implementation.md)候选451cbbb7三席accept齐（Codex c86ad00f、GLM b895a367、Kimi 139c0b04），用户授权后Codex核零漂移并done归档。D-06/D-07关闭；check7909/strict7418、五组负控与原生保存重开为既有证据，本轮只做文档收口。TB00/TB01窄counter与full/Q1/Q2边界保持。
 
