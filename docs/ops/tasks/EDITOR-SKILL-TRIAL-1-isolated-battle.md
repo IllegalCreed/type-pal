@@ -88,8 +88,26 @@ full/Q1/Q2未执行，不能写成全量E2E完成。两席此前对这些边界�
     （含「locks every production CSS grid track」普查门）。TC/Biome/build 与四尺寸视觉采信 Codex
     已落证据，不重复视觉，未跑全仓/未改基线。选择器/360/full-Q1-Q2 边界维持。
   - 旧版本兼容审查 pass：纯 UI 轨道修正，无格式变化。返工项：无。
-- GLM：pending（仅列宽增量确认；主体accept保留于下方）。
+- GLM：**accept（2026-09-20，仅列宽增量 d394eccc 对比 fe0fee84；独立源码直读+主树复跑，未读 Kimi 补丁结论；未做视觉）**。
+  - **4 文件白名单属实**：`git diff fe0fee84..d394eccc` 恰为 Forms.tsx/battle-simulator.css/
+    battle-simulator-ui.test.tsx/field-layout-css-census.snapshot.txt（+36/−13），无其它路径；
+    HEAD 的 packages/scripts 相对 d394eccc 零 diff。
+  - **Forms 只改 className**：5 处 `trial-choice-short` 移除、队伍位置 div 改挂
+    `trial-config-columns`、`trial-pool-columns` 修饰符移除——零业务回调/props/公共控件改动。
+  - **CSS 与卡面一致**：删两个私有限宽类；`.trial-config-columns` `auto-fit`→`auto-fill`
+    （单字段行保持等宽空轨道）并加 `min-inline-size:0; inline-size:100%` 显式收缩防内层裁切。
+  - **测试仅加断言**：diff 零 `-` 行、零新 `test(`——既有用例内新增 17 个下拉 label 最近
+    容器必须恰为 `trial-config-columns`（同轨道 owner）、删除类必须为 null、指定技能同容器；
+    注释如实声明几何归浏览器。测试数/选择/基线不变（baseline 不在 4 文件内）。
+  - **CSS 快照恰一行**：`.trial-config-columns` 的 `auto-fit`→`auto-fill`，无其它 selector。
+  - **本席复跑 22/22**（battle-simulator-ui + field-layout-adoption + number-field-adoption）。
+  - 四尺寸像素测量归 Codex 视觉证据；选择器/360/full-Q1-Q2 边界保持。无 counter。
 - 状态仍review，整卡done关闭；主体三签门已核通过。列宽增量提示词及用户UI验收清单见上方，不重复机制审查。
+
+交接日志（GLM，2026-09-20 列宽增量）：对 d394eccc 相对 fe0fee84 的 4 文件列宽补丁完成独立
+确认并签 accept（证据见上）：白名单恰 4 文件、Forms 仅 className、CSS 删私有限宽并
+auto-fill+收缩约束、测试仅加断言（零新 test/零删陧行）、快照单行 auto-fit→auto-fill、
+基线不在补丁内；定向 22/22 本席复跑绿。未读 Kimi 补丁结论，未做视觉，未改实现/状态，不标 done。
 
 ## UI-r1主体接收（2026-09-20，候选fe0fee84；cb44c378不再收口）
 
