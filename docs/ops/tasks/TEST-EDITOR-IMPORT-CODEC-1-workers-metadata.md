@@ -153,10 +153,40 @@ r2已证明现有worker handler可在Node窄宿主调用，不新增产品导出
   白名单（无产品/旧测试文件），4894719e 仅官方 baseline ratchet（本人未重跑/未修改）；③ 从集成
   后 main 树复跑本批定向 39/39（7 文件）；④ 机账并集 rework/rework2/rework3/codexR4Review/
   rework4 完整保留。官方 check/ratchet/strict-fast 已由 Codex 执行，不以本人复述为准。
-- Kimi：pending（独立终审）。
+- Kimi：**accept（2026-09-20，统一候选4894719e，源e4461a30；全部锚点本人直读/主树复跑，未读 GLM 结论）**。
+  - **toBlob 快照与返回保真（直读+见证）**：`image-import.stages.test.ts:212-217` 按当时 canvas 实际
+    宽高+最近交付像素编码，`blobProducts.push(bytes.slice())` 快照防别名；`:327-338` 返回 main/preview
+    经 `firstByteDiff` 与宿主第 1/2 次产物逐字节比对（含 `:331` 长度下界）；`firstByteDiff`（`:158-164`）
+    扫描全部共享字节+长度相等才返回 -1，非抽样。产品流对得上：`image-import.ts:136/140` 两次真实
+    canvasPng、`:144` 主图摘要、`:142` close 在编码失败时不可达（泄漏仍归 Codex，未写错绿）。
+  - **实际 preview SHA**：`:343-345` 对**实际返回** effectPreviewBytes 求 SHA===独立常量
+    ee694d…8529 且≠主图 hash；preview 见证独立解码实际产物确认 main f614fb…27f7 / preview
+    ee694d…8529、实际像素 [182,182,182,255] / [34,5,73,255]（index182 勘误一致），control 绿。
+  - **新增返回值负控（主树复跑）**：mutants 工具第 9 针 returned-preview-replaced-by-main
+    （仍执行第二次编码但交付主图字节，`:57-66` from 与产品 `:140` 逐字一致）由候选自身
+    AssertionError 检出（`:338` “expected 49 to be -1”）；工具整体 exit0、3 对照绿+9 针全红。
+    双见证主树复跑均 exit0：preview control 绿/换主图 detected；png-host control 绿/删尺寸 detected。
+  - **范围与基线**：候选对比 cda702d5 仅 7 新测试+1 fixture+工具/回执/机账+baseline，产品零 diff；
+    源 e4461a30 到集成 91623a9a packages 逐字一致（diff 为 0）。baseline.fast 7220→7259（恰+39）、
+    editor 236→243 文件（7+6+3+6+6+5+6=39）、sourceFileCount 617 与另六包基线对象不变。本人主树
+    复跑定向 39/39 绿。已关闭项（PNG 尺寸宿主/摘要/像素勘误等）未重开。
+  - 旧版本兼容审查 pass：无旧模型/升级器/兼容分支新增。GLM 为测试贡献者，其自验不作独立第三方。
+  - 返工项：无。编码失败 close 缺陷保持原隔离归 Codex，不因补测通过关闭。
 - done准入：未开放；两席同候选accept齐后由Codex核定，不代签、不标done。
 
 ## 交接日志
+
+- 2026-09-20 Kimi（独立终审）：统一候选4894719e对比cda702d5、源e4461a30，签 done 前 accept。
+  本人独立证据（未读 GLM 结论）：直读 `image-import.stages.test.ts` 与产品 `image-import.ts`——
+  blobProducts 两次真实 toBlob 的 slice 快照（:212-217）、返回 main/preview 与宿主对应产物
+  firstByteDiff 全扫描逐字节比对（:158-164/:327-338）、实际返回 preview 的 SHA===独立常量且≠主图
+  （:343-345）；主树复跑定向 39/39 绿、mutants 工具 exit0（3 对照绿+9 针全红，第 9 针
+  returned-preview-replaced-by-main 由候选自身 AssertionError 在 :338 检出）、双见证 exit0
+  （preview control 绿/换主图 detected；png-host control 绿/删尺寸 detected）；候选范围仅 7 新测试
+  +1 fixture+工具/回执+baseline，产品零 diff，源到集成 packages 逐字一致；baseline 7220→7259 恰+39、
+  617 源文件与另六包不变。完整 check7748/ratchet/strict-fast7259 采用 Codex 已落证据，未重跑官方
+  基线。返工项无；编码失败 close 保持原隔离。不代签、不改状态、不标 done。
+  Next：两席同候选 accept 已齐，交 Codex 核定 done 准入。
 
 - 2026-09-20 GLM（集成后实现者自验）：在统一候选 4894719e 上完成本人贡献核对并签
   done 前实现者自验 accept（测试贡献者，非独立第三方）。依据：白名单
