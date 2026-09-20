@@ -2,8 +2,8 @@
 
 ## 当前Codex接收结论
 
-二轮候选76bafede仍为**counter**，仅返[本轮报告](glm-nine-rework-review.md)的C0精确唯一目标、C1最终树格式/回执及所列本批残项。
-原七针与五夹具已关闭；定向23项通过，本批Biome exit1。不重开已关闭项、不重签、不合并、不更新基线。
+2026-09-20候选3d798f7c：**Codex accept**，统一候选256116ee；check7709/ratchet/受保护单次严格fast7220通过，三席已齐、用户授权，2026-09-20由Codex核定done归档；本次不重跑测试。
+定向23项/原负控/tc/Biome全绿。详见[当前独立接收](glm-nine-final-review.md)，旧counter仅留历史。
 
 ### 首轮接收结论（历史）
 
@@ -11,7 +11,7 @@
 本轮认可用户先行实施授权；不合并测试、不更官方基线、不转Kimi。下面GLM回执为候选自验原文，不能覆盖当前counter；生产零改只指已列新增测试/fixture之外，不能写整个packages diff为空。
 
 
-任务：[TEST-MIGRATION-BOUNDARIES-1](../ops/tasks/TEST-MIGRATION-BOUNDARIES-1-current-isolated-io.md)，r1/rework；本轮实施候选bd597558未接收，设计不重签。
+任务：[TEST-MIGRATION-BOUNDARIES-1](../ops/archive/tasks/done/TEST-MIGRATION-BOUNDARIES-1-current-isolated-io.md)，r1/rework；本轮实施候选bd597558未接收，设计不重签。
 共同准入、负控、覆盖和隔离规则见[七批统一审核](glm-coverage-remaining-review.md)；本包只增测试；三席设计有效，用户已批准本轮先行实施，当前接收counter。
 表内为已按调用域筛选的候选，不是已经完成的新增覆盖；允许去重后减文件/减族，不设必须凑足的用例数。
 
@@ -112,3 +112,29 @@ exit0；tc rc=0；9 新文件 Biome rc=0。
 - T02 订正：journal `previousHash=null` 对新建目标为合法（真实合同），本批以 `hash` 篡改为
   拒绝轴；A08/A09/E05 待证保持原归属（见机器账 knownBoundaries）。
 - 机器账 `docs/testing/glm-migration-boundaries-evidence.json`。
+
+## GLM返工回执（r2，2026-09-19，针对 Codex 统一接收 counter）
+
+基点合并 216cf3bb；生产零漂移不变。修：
+
+- **C0**：mutants 判据改为每条 failureMessages **首行**匹配 `/^AssertionError(\b|:)|^expect\(/`；
+  四向自测新增「普通 Error 内嵌 AssertionError 子串」「纯超时」拒绝反例。3 对照 + 9 针复跑全绿。
+- **C1**：11 个新文件（含 JSON/config）Biome rc=0；机账同步最终树数字。
+- **R10-1**：baseline 快照改深比较——structuredClone 直接持有实际 Map/Set/嵌套 JSON，
+  调用后对同一实际对象 toEqual（浅 entries 冒充已废）。
+- **R10-2**：撤回 content/scripts/index chunks 发现轴（E05 已签排除）；scene/map 发现保留。
+- **R10-3**：journal 重写为两操作真实中断——合法同 journal 恢复对照成功（pending 补完+幂等+
+  清理）；六轴篡改各自钉精确业务错误消息、拒绝后全部自建文件（目录递归快照）逐字节保留。
+- **R10-4**：同 root 菱形补齐——一 root 经 hook 与直连两路径达同一行为：非环、终点只计一次。
+- 复跑：定向 23/23、|unit| 57 文件/393 项（9 项预存裁决一致）、tc rc=0、
+  官方 fast 338→361 双 exit0。机器账 rework 节。
+
+## GLM收窄返工回执（r3，2026-09-19，针对 Codex 返工复核 counter 31c8703f）
+
+- **C0**：pinned 判据精确唯一目标（全等+恰1+failed+非空+首行业务错误），运行态/自测共用
+  AST 抽取块，补后缀冒名/重名反例。
+- **C1**：全部回填后 11 文件白名单 Biome rc=0（清理 transaction 测试长行/unused import、
+  JSON 格式化）。
+- 本批无业务残项（baseline 深快照/撤 chunks/两操作 journal/菱形均已在 r2 关闭并经
+  Codex 复核确认）；复跑原负控 3 对照+9 针绿。
+- 计数按 Codex 实测更正：定向 23。

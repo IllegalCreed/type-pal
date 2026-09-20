@@ -2,8 +2,8 @@
 
 ## 当前Codex接收结论
 
-二轮候选1620ab24仍为**counter**，仅返[本轮报告](glm-nine-rework-review.md)的C0精确唯一目标、C1最终树格式/回执及所列本批残项。
-原七针与五夹具已关闭；定向25项通过，本批Biome exit1。不重开已关闭项、不重签、不合并、不更新基线。
+2026-09-20候选ca4c0768：**Codex accept**，统一候选256116ee；check7709/ratchet/受保护单次严格fast7220通过，三席已齐、用户授权，2026-09-20由Codex核定done归档；本次不重跑测试。
+定向25项/原负控/tc/Biome全绿。详见[当前独立接收](glm-nine-final-review.md)，旧counter仅留历史。
 
 ### 首轮接收结论（历史）
 
@@ -11,7 +11,7 @@
 本轮认可用户先行实施授权；不合并测试、不更官方基线、不转Kimi。下面GLM回执为候选自验原文，不能覆盖当前counter；生产零改只指已列新增测试/fixture之外，不能写整个packages diff为空。
 
 
-任务：[TEST-GAME-HOST-BOUNDARIES-1](../ops/tasks/TEST-GAME-HOST-BOUNDARIES-1-privacy-timer.md)，r1/rework；本轮实施候选61f0af34未接收，设计不重签。
+任务：[TEST-GAME-HOST-BOUNDARIES-1](../ops/archive/tasks/done/TEST-GAME-HOST-BOUNDARIES-1-privacy-timer.md)，r1/rework；本轮实施候选61f0af34未接收，设计不重签。
 共同准入、负控、覆盖和隔离规则见[七批统一审核](glm-coverage-remaining-review.md)；本包只增测试；三席设计有效，用户已批准本轮先行实施，当前接收counter。
 表内为已按调用域筛选的候选，不是已经完成的新增覆盖；允许去重后减文件/减族，不设必须凑足的用例数。
 
@@ -108,3 +108,37 @@ exit0；tc rc=0；8 新文件 Biome rc=0。
   全包 L10263→10269/13604、B7498→7511/11281。
 - 待证保持原归属（AbortError 取消政策、setStep 注释差异、GA 真实端点）——见机器账 knownBoundaries。
 - 机器账 `docs/testing/glm-game-host-boundaries-evidence.json`。
+
+## GLM返工回执（r2，2026-09-19，针对 Codex 统一接收 counter）
+
+基点合并 216cf3bb；生产零漂移不变。修：
+
+- **C0**：mutants 判据改为每条 failureMessages **首行**匹配 `/^AssertionError(\b|:)|^expect\(/`；
+  四向自测新增「普通 Error 内嵌 AssertionError 子串」「纯超时」拒绝反例。3 对照 + 8 针复跑全绿。
+- **C1**：10 个新文件（含 JSON/config）Biome rc=0；机账同步最终树数字。
+- **R09-1**：method 优先级改为同条件失败对照——503 网关下 Request(GET)+init(POST) 覆盖只调
+  **1 次**且原 Response 身份透传（误判 GET 重试会变 2 次即红）；GET 对照 503→200 重试 2 次、
+  新 Response 身份；小写 get 等价轴保留。
+- **GA 隔离**：beforeEach 安装意外网络 fail-fast（window.fetch 拒绝）、afterEach 恢复——
+  不宣称真实端点验证。
+- 复跑：定向 25/25、全包 131 文件/2309 项（dev-panel 预存裁决一致）、tc rc=0、
+  官方 fast 2271→2296 双 exit0。机器账 rework 节。
+
+## GLM收窄返工回执（r3，2026-09-19，针对 Codex 返工复核 counter 31c8703f）
+
+- **C0**：pinned 判据收紧为**精确且唯一目标**——`title` 全等 filter、命中恰 1（后缀冒名
+  「other target」与重名双 target 均拒绝）、failed、非空、首行业务错误。运行态块与自测
+  **共用**（AST 抽取两块拼接执行），补后缀冒名/重名/未失败/空消息/普通Error内嵌/纯超时
+  反例；不再有独立 pinnedVerdict。
+- **C1**：全部 JSON/SHA 回填后按 git 新增清单完整白名单 Biome rc=0（含 JSON）。
+- 本批无业务残项（review 已关闭项保持）；复跑原负控 3+8 全绿；
+  glm-nine-rework-witnesses 9/9 判据双反例拒绝、3 针 detected。
+- 计数按 Codex 实测更正：定向 25。
+
+## GLM收窄返工回执（r3，2026-09-19，针对 Codex 返工复核 counter 31c8703f）
+
+- **C0**：pinned 判据精确唯一目标（全等+恰1+failed+非空+首行业务错误），运行态/自测共用
+  AST 抽取块，补后缀冒名/重名反例。
+- **C1**：全部回填后 10 文件白名单 Biome **rc=0 且零警告**（清理 unused imports、
+  useConst/useTemplate、未消费变量；fetch-retry 移除未用 beforeEach）。
+- 复跑：定向 25/25、tc rc=0、3 对照+8 针绿；rework-witness 9/9 判据拒绝。

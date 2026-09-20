@@ -2,8 +2,8 @@
 
 ## 当前Codex接收结论
 
-二轮候选9fe3a07f仍为**counter**，仅返[本轮报告](glm-nine-rework-review.md)的C0精确唯一目标、C1最终树格式/回执及所列本批残项。
-原七针与五夹具已关闭；定向39项通过，本批Biome exit1。不重开已关闭项、不重签、不合并、不更新基线。
+2026-09-20 r5候选e4461a30最后counter已闭合，集成91623a9a；39/原3+9/tc/11文件Biome与双见证通过。
+统一候选4894719e已过check7748/ratchet/受保护单次strict-fast7259，三席同候选accept齐、用户授权收口，2026-09-20由Codex核定done归档，详见[接收记录](import-codec-acceptance.md)。旧counter仅留历史；收口不重跑测试、不改基线。PNG编码失败close缺陷保持Codex独立修复归属，不随本卡关闭。
 
 ### 首轮接收结论（历史）
 
@@ -11,7 +11,7 @@
 本轮认可用户先行实施授权；不合并测试、不更官方基线、不转Kimi。下面GLM回执为候选自验原文，不能覆盖当前counter；生产零改只指已列新增测试/fixture之外，不能写整个packages diff为空。
 
 
-任务：[TEST-EDITOR-IMPORT-CODEC-1](../ops/tasks/TEST-EDITOR-IMPORT-CODEC-1-workers-metadata.md)，r2/rework；本轮实施候选f4c229ed未接收，设计不重签。
+任务：[TEST-EDITOR-IMPORT-CODEC-1](../ops/archive/tasks/done/TEST-EDITOR-IMPORT-CODEC-1-workers-metadata.md)，r2/rework；当前实施候选e4461a30已通过本地接收并集成，设计不重签。
 生产核对点 `e58834f6389a40ffe9f187e6a8051f552e964d79`。GLM只写新测试；Codex独立接收、Kimi终审。
 合法二进制与真实编码链，非上传界面；上传选图竞态已修不重开；不做视觉/截图/听感。
 
@@ -100,3 +100,100 @@ audit-performance-adoption×1：全包并行负载下 15s 超时，隔离运行�
 
 上传选图竞态（EDITOR-SPRITE-PICK-1）已 done 不重开；界面布局/动画观感归 Codex；真实视频文件、
 浏览器 worker 环境差异、CutsceneTab 视觉行为不在本批；不复活已退役 number-path 导入分支。
+
+## GLM返工回执（r2，2026-09-19，针对 Codex 统一接收 counter）
+
+基点合并 216cf3bb；生产零漂移不变。修：
+
+- **C0**：mutants 判据改为每条 failureMessages **首行**匹配 `/^AssertionError(\b|:)|^expect\(/`；
+  四向自测新增「普通 Error 内嵌 AssertionError 子串」「纯超时」拒绝反例。3 对照 + 8 针复跑全绿。
+- **C1**：11 个新文件（含 JSON/config）Biome rc=0；机账/回执同步最终树数字。
+- **R03-1**：quantize 实参保真——传实际 `input.buffer`、调用前快照、改输出后断言实际传入
+  buffer 与调用前逐字节一致（`quantize-mutates-actual-input` 类单点即红）。
+- **R03-2**：输出 transfer 双向真实——FakeWorker.reply 以 `structuredClone(data,{transfer})`
+  回帖并断言 worker 侧原 bytes/frames 缓冲 detach（byteLength 0）、宿主克隆内容完好不别名；
+  codec.worker 测试钉产品回帖原缓冲 byteLength 变 0（quantize/encode 两处）。
+- **R03-3**：真实 digest——toBlob 返回确定性 PNG 签名+递增载荷、不再 stub digest；
+  hash/record.sha256/record.bytes 与离线预计算 SHA-256 常量相等（独立 oracle），主图与
+  preview 摘要可区分；portrait 直传域用 minimalPng(4,4) 预计算摘要。host 协议测试不称
+  真实 PNG 解码/浏览器线程验收。
+- 复跑：定向 20/20、全包 248 文件/2536 项（3 项预存裁决一致）、tc rc=0、私有覆盖
+  before 2359 / after 2398 双 exit0。机器账 rework 节。
+
+## GLM收窄返工回执（r3，2026-09-19，针对 Codex 返工复核 counter 31c8703f）
+
+- **C0**：pinned 判据收紧为精确且唯一目标（全等 + 恰 1 + failed + 非空 + 首行业务错误），
+  运行态块与自测共用 AST 抽取代码，补后缀冒名/重名反例。
+- **C1**：全部回填后 11 文件完整白名单 Biome rc=0。
+- **R03-3 前半项补齐（完整合法 PNG）**：fixture `minimalPng` 重写为真 CRC32 + zlib stored
+  块（Adler-32）+ IHDR/IDAT/IEND；测试 `pngPayload` 改为自包含合法小 PNG。源图(4×4)/
+  主图(2×1)/preview(3×1) 三态均过独立检查器（chunk 序列、CRC、IDAT 可 inflate 全对）；
+  摘要常量为该合法产物的离线 SHA-256。替身仅代宿主解码位，不冒充 PNG 合法性。
+  已隔离的产品 PNG 失败 close 问题保持不动。
+- **归因更正**：撤回「audit-performance 并行超时 Codex 已裁决与基线一致」——首轮仅豁免
+  具体资产 ENOENT，该超时未豁免；如实记录为环境失败，合并后同口径完整 check 须实跑。
+- 复跑：定向 39/39（stages 5/5 含新 PNG 断言）、3 对照 + 8 针绿、tc rc=0；
+  rework-witness PNG 三态 valid + 3 针 detected。
+
+## GLM返工回执（r4，2026-09-20，针对 Codex 终审唯一残项：PNG 宿主尺寸合同）
+
+基点：分支同步 main（合并 256116ee 侧八批集成与 1a44c3c6），源候选 001dc9e1；生产零漂移不变，
+设计不重签，其余关闭项不重开。唯一返工项=终审 counter「320×200 成功链 toBlob 产物须匹配
+实际 canvas 尺寸与 putImageData 像素；不同摘要来自真实不同像素」：
+
+- **宿主尺寸合同**：`installCanvasHost` 不再预置固定产物——canvas 宽高由产品赋值，
+  `putImageData` 快照实际交付像素（`deliveredPixels` 两份），`toBlob` 按**调用时 canvas 实际
+  宽高 + 最近交付像素**编码。`pngPayload` 改签 `(width, height, rgba?)`：filter-0 扫描线读
+  实际像素字节、stored 块 ≤65535 分段、Adler-32、IHDR 宽高 4 字节大端（单字节写法会把 320
+  截成 64——离线独立检查器当场发现并修正）。删除 canvas 尺寸设置后 canvas 保持 0×0，
+  产物 IHDR 变 [0,0]。
+- **真实像素差异**：`palette` 改非同色映射；量化索引帧 `(b,b,b,255)` 与调色板预览帧
+  实际像素不同（零源像素最近色 index 182：`(182,182,182,255)` vs `(34,5,73,255)`；
+  勘误 2026-09-20：本节原误写 b=109/`(71,6,146,255)`，以 Codex r4 复核独立解码为准，见其
+  「核对勘误」）。断言 `deliveredPixels` 恰 2 份且两帧逐字节不同；主图/preview 摘要常量为
+  该真实产物的离线 SHA-256（主图 `f614fb…27f7`、preview `ee694d…8529`，均 256283 字节），
+  保留完整字节与真实摘要断言；源图/主图/preview 三态 IHDR 均 320×200。
+- **离线 oracle**：AST 提取候选三 helper（与 Codex 见证同型）+ 真实 `prepareAuthoredImage`
+  跑成功链；独立 sha256 直读实际 toBlob 产物=产品 crypto.subtle 摘要；另解 chunk+inflate
+  IDAT 与交付像素扫描线逐字节比对（合法性独立核验，全绿）。
+- **Codex 见证复跑**：`node docs/testing/import-codec-png-host-review.mjs <worktree>` rc=0
+  ——control 7/7（oracle 2 + 候选 5）；删除 canvas 尺寸设置被候选业务断言检出（5 项恰 1 项
+  失败、首行 AssertionError `pngDims [0,0]≠[320,200]`），Codex 自带 oracle 同步
+  AssertionError；产品/fixture/测试三文件 hash 前后不变。
+- **复跑（最终树）**：定向 39/39；`node docs/testing/glm-import-codec-mutants.mjs` rc=0
+  （判据四向自测 + 3 对照 + 8 针全绿；battle-background 针 redTest 随测试更名同步，判据
+  「全等+恰1+首行业务错误」不变）；tc rc=0；11 文件完整白名单 Biome rc=0。
+- 编码失败 close 问题仍归 Codex 修复卡，未写默认红、未固化。机器账 `rework3` 节。
+
+### Codex对r4回执的核对勘误
+
+上节为GLM原始回执。独立解码确认实际index182、indexed[182,182,182,255]、preview[34,5,73,255]，不是109。
+尺寸/宿主已修属实；但“保留完整字节与真实摘要断言”不完整：返回preview的逐字节比较在r4被删，常驻测试未核其SHA；当前以顶部counter及r4复核报告为准。
+
+## GLM返工回执（r5，2026-09-20，针对 Codex r4 复核唯一阻断：返回预览保真）
+
+基点：分支合并 main cda702d5（r4 复核 + codexR4Review 机账）；源候选 9eecaaf3；尺寸/CRC/zlib/
+交付像素编码与主图摘要已接受不重开，设计不重签，生产零漂移不变。唯一阻断=r4 重写时丢掉的
+「实际返回预览」保真断言：
+
+- **宿主记录实际两次 toBlob 产物**：`installCanvasHost` 新增 `blobProducts`——每次 `toBlob`
+  以 `bytes.slice()` 快照实际产物（防别名污染）。
+- **返回值完整字节保真**：断言返回 main 逐字节等于宿主第 1 次 toBlob 产物、返回 preview
+  逐字节等于宿主第 2 次 toBlob 产物（`firstByteDiff` 全字节扫描，-1 为全等；不能只比
+  尺寸/长度）。扫描而非 `toEqual` 展开：256283 字节产物的失败 diff 渲染实测 ~522 秒
+  （单进程 CPU），扫描比较保持完整逐字节语义且失败即时报首个差异下标——与 Codex 见证
+  oracle 的 `Buffer.compare` 布尔比较同型。
+- **实际 preview SHA 断言**：`sha256Hex(prepared.effectPreviewBytes)` === 独立 preview 常量
+  `ee694d…8529`，并 ≠ 主图 hash——不再是「主 hash 不等于 preview 常量」。
+- **新负控针**：`returned-preview-replaced-by-main`——单点把
+  `effectPreviewBytes = await canvasPng(canvas)` 换成
+  `effectPreviewBytes = (await canvasPng(canvas), bytes.slice(0))`（仍执行第二次编码及全部
+  副作用，但交付主图字节），钉名 battle-background 测试，判据（全等+恰1+首行业务错误）不变。
+- **像素勘误落账**：r4 回执最近色更正为 index 182、indexed`(182,182,182,255)`、
+  preview`(34,5,73,255)`（上节已带勘误标注；不修改生产算法/调色板）。
+- **复跑（最终树）**：`node docs/testing/import-codec-preview-review.mjs <worktree>` rc=0
+  （control 6/6 含候选 5；坏实现被候选自身 AssertionError 检出，oracle previewMatches=false
+  同步红）；旧尺寸见证 `import-codec-png-host-review.mjs` rc=0（control 7/7、删 canvas 尺寸
+  detected）；`node docs/testing/glm-import-codec-mutants.mjs` rc=0（判据四向自测 + 3 对照 +
+  **9 针**全绿，全程 11 秒）；定向 39/39；tc rc=0；11 文件完整白名单 Biome rc=0。
+- 编码失败 close 问题仍归 Codex 修复卡。机器账 `rework4` 节。

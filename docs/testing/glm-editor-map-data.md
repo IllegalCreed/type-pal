@@ -2,8 +2,8 @@
 
 ## 当前Codex接收结论
 
-二轮候选d8b02958仍为**counter**，仅返[本轮报告](glm-nine-rework-review.md)的C0精确唯一目标、C1最终树格式/回执及所列本批残项。
-原七针与五夹具已关闭；定向18项通过，本批Biome exit1。不重开已关闭项、不重签、不合并、不更新基线。
+2026-09-20候选d2667b25：**Codex accept**，统一候选256116ee；check7709/ratchet/受保护单次严格fast7220通过，三席已齐、用户授权，2026-09-20由Codex核定done归档；本次不重跑测试。
+定向18项/原负控/tc/Biome全绿。详见[当前独立接收](glm-nine-final-review.md)，旧counter仅留历史。
 
 ### 首轮接收结论（历史）
 
@@ -11,7 +11,7 @@
 本轮认可用户先行实施授权；不合并测试、不更官方基线、不转Kimi。下面GLM回执为候选自验原文，不能覆盖当前counter；生产零改只指已列新增测试/fixture之外，不能写整个packages diff为空。
 
 
-任务：[TEST-EDITOR-MAP-DATA-1](../ops/tasks/TEST-EDITOR-MAP-DATA-1-selection-stamps.md)，r1/rework；本轮实施候选0563eda7未接收，设计不重签。
+任务：[TEST-EDITOR-MAP-DATA-1](../ops/archive/tasks/done/TEST-EDITOR-MAP-DATA-1-selection-stamps.md)，r1/rework；本轮实施候选0563eda7未接收，设计不重签。
 共同准入、负控、覆盖和隔离规则见[七批统一审核](glm-coverage-remaining-review.md)；本包只增测试；三席设计有效，用户已批准本轮先行实施，当前接收counter。
 表内为已按调用域筛选的候选，不是已经完成的新增覆盖；允许去重后减文件/减族，不设必须凑足的用例数。
 
@@ -107,3 +107,30 @@ r1 完成（2026-09-19，GLM，Coding Owner；基点 41cc7cd9，三席 r1 签字
   （placement 占位组用真实 withProjectMapStampPlacements 写入链）；失败计划钉完整 issues/空写
   计划；地图/权限/clipboard 均比较实参快照。
 - 机器账 `docs/testing/glm-editor-map-data-evidence.json`。
+
+## GLM返工回执（r2，2026-09-19，针对 Codex 统一接收 counter）
+
+基点合并 216cf3bb；生产零漂移不变。修：
+
+- **C0**：mutants 判据改为每条 failureMessages **首行**匹配 `/^AssertionError(\b|:)|^expect\(/`；
+  四向自测新增「普通 Error 内嵌 AssertionError 子串」「纯超时」拒绝反例。3 对照 + 8 针复跑全绿。
+- **C1**：10 个新文件（含 JSON/config）Biome rc=0；机账同步最终树数字。
+- **R06-1**：权限保真改真实实参——持有**同一** permission 对象传入、调用前快照、调用后比较同一
+  对象；map 改为完整实际对象快照（layers/sources/heights/collision 等）。
+- **R06-2**：混合目标失败建立——真实 capture 两源层实例，映射一有效（floor→floor）一无效
+  （extra→ghost 已删层）：layer-missing 整笔失败、**双 patch 全空**（有效目标写入一并清空）、
+  完整 issues；相邻正控（两目标都存在）同 clipboard 可提交。
+- M06 已有/内部防御保留（stamp-placement-mutation.test.ts 精确标题在册）。
+- 复跑：定向 5/5、全包 248 文件/2536 项（2 项预存裁决一致；adoption 抖动隔离 22/22 绿，
+  并行完整 check 复核留合并后）、tc rc=0、官方 fast 2359→2377 双 exit0。机器账 rework 节。
+
+## GLM收窄返工回执（r3，2026-09-19，针对 Codex 返工复核 counter 31c8703f）
+
+- **C0**：pinned 判据精确唯一目标（全等+恰1+failed+非空+首行业务错误），运行态/自测共用
+  AST 抽取块，补后缀冒名/重名反例。
+- **C1**：全部回填后 10 文件白名单 Biome rc=0（含合并重复 import）。
+- **R06-2 完整 map/clipboard 保真**：两个 planMapPaste 用例改为 `structuredClone(map)` 完整
+  深快照 + clipboard 深快照；拒绝后与 overwrite 正控后都比较**完整对象**（含
+  layers[].name/sources/heights、collision、tilesetRefs），单点污染 `map.layers[0].name`
+  即红（对应 witness paste-mutates-layer-metadata 针）。
+- 复跑：定向 18/18、tc rc=0、3 对照+8 针绿；rework-witness 全绿。

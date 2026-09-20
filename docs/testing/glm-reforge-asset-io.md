@@ -2,8 +2,8 @@
 
 ## 当前Codex接收结论
 
-二轮候选d4d79026仍为**counter**，仅返[本轮报告](glm-nine-rework-review.md)的C0精确唯一目标、C1最终树格式/回执及所列本批残项。
-原七针与五夹具已关闭；定向24项通过，本批Biome exit1。不重开已关闭项、不重签、不合并、不更新基线。
+2026-09-20候选ea276956：**Codex accept**，统一候选256116ee；check7709/ratchet/受保护单次严格fast7220通过，三席已齐、用户授权，2026-09-20由Codex核定done归档；本次不重跑测试。
+定向24项/原负控/tc/Biome全绿。详见[当前独立接收](glm-nine-final-review.md)，旧counter仅留历史。
 
 ### 首轮接收结论（历史）
 
@@ -11,7 +11,7 @@
 本轮认可用户先行实施授权；不合并测试、不更官方基线、不转Kimi。下面GLM回执为候选自验原文，不能覆盖当前counter；生产零改只指已列新增测试/fixture之外，不能写整个packages diff为空。
 
 
-任务：[TEST-REFORGE-ASSET-IO-1](../ops/tasks/TEST-REFORGE-ASSET-IO-1-read-cache-sfx.md)，r2/rework；本轮实施候选a7c48d9c未接收，设计不重签。
+任务：[TEST-REFORGE-ASSET-IO-1](../ops/archive/tasks/done/TEST-REFORGE-ASSET-IO-1-read-cache-sfx.md)，r2/rework；本轮实施候选a7c48d9c未接收，设计不重签。
 生产核对点 `e58834f6389a40ffe9f187e6a8051f552e964d79`。GLM只写新测试；Codex独立接收、Kimi终审。
 不听音、不做视觉、不改保存稳定读门/锁/恢复（SAVE 面归既有专项）、不碰技能试放接线。
 
@@ -82,3 +82,31 @@ reforge 全包 122 文件/1214 项 exit0；tc rc=0；9 新文件 Biome rc=0。
 页选择疑点：collector:168固定pages[0].animation，main传canonicalScene而无world页选择信息；旧:309玩具SceneDef不能证明initialPage在非首项时的正确预载。
 该轴由Codex另核/必要时修复，GLM可记只读证据但不把忽略非首项固化为正确，不动产品。
 不改稳定读/锁/save门；真实FSA授权/听感/视觉归Codex，本包只用内存宿主；与模拟器main接线零交叠。
+
+## GLM返工回执（r2，2026-09-19，针对 Codex 统一接收 counter）
+
+基点合并 216cf3bb（九批接收复核文档）；生产对 e58834f6 零漂移不变。按
+[glm-nine-intake-review.md](glm-nine-intake-review.md) 修：
+
+- **C0**：mutants 判据改为每条 failureMessages **首行**匹配 `/^AssertionError(\b|:)|^expect\(/`
+  （运行态 pin 块内联同形谓词；四向自测同函数新增「普通 Error 内嵌 AssertionError 子串」与
+  「纯超时」两个拒绝反例）。复跑 3 对照 + 8 针全绿。
+- **C1**：按 git 新增清单对全部 10 个新文件（含 JSON/config）跑 Biome rc=0 无错误无警告；
+  回执与机账同步最终树数字。
+- **R02-1**：`fsa-source.cancel-windows.test.ts` 坏 JSON 用例重写——text 真实返回 `'{bad'`，
+  readText 原样成功、readJson 拒绝且错误名 `SyntaxError`（值形式）+ 完整 op 访问序。吞掉
+  JSON 解析错误的单点现在被该用例检出。
+- **R02-2**：`soundItem` 过正式 `validateItems`（use.effects=[healHp]、throw.effects=
+  [applyPoison] 非空）；非战斗声音集合/页政策隔离语义不变。
+- 复跑：定向 8/8、全包 122 文件/1214 项 exit0、tc rc=0、私有覆盖 before 1190 / after 1214
+  双 exit0（数字从最终返工树生成）。机器账 `glm-reforge-asset-io-evidence.json` rework 节。
+
+## GLM收窄返工回执（r3，2026-09-19，针对 Codex 返工复核 counter 31c8703f）
+
+- **C0**：pinned 判据收紧为**精确且唯一目标**——`title` 全等 filter、命中恰 1（后缀冒名
+  「other target」与重名双 target 均拒绝）、failed、非空、首行业务错误。运行态块与自测
+  **共用**：AST 抽取 `item.expected===1` + `item.redTest!==undefined` 两块拼接执行，
+  自测补后缀冒名/重名/未失败/空消息/普通Error内嵌/纯超时反例；不再有独立 pinnedVerdict。
+- **C1**：全部内容回填后按 git 新增清单 10 文件完整白名单 Biome rc=0（含 JSON）。
+- 复跑：3 对照 + 8 针全绿；glm-nine-rework-witnesses 9/9 判据双反例拒绝、3 针 detected。
+- 计数更正按 Codex 实测：定向 24、原工具 3 对照 + 8 针（九批合计 210/27+73）。

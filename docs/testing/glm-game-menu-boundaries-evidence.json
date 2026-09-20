@@ -181,5 +181,38 @@
     "integrated": false,
     "officialCoverageChanged": false,
     "security": "Mimosa is GLM's private MCP; user explicitly excluded it from Codex intake requirements."
+  },
+  "rework": {
+    "intakeReview": "docs/testing/glm-nine-intake-review.md (Codex counter 1f38bb29)",
+    "generatedAt": "2026-09-19T12:39:42Z",
+    "C0": "判据改为每条 failureMessages 首行 /^AssertionError(\\b|:)|^expect\\(/（运行态 pin 块内联同形谓词 + 四向自测新增普通Error内嵌AssertionError/纯超时反例）",
+    "C1": {
+      "command": "pnpm exec biome check <git 新增清单全部 TS/MJS/MTS/JSON>",
+      "exit": 0,
+      "files": 11
+    },
+    "R08-1": "done 相位断言补齐——confirmEquipItem 在 done 阶段调用前后对同一 state 做 structuredClone 完整相等（错写 phase/任何副作用即红）",
+    "R08-2": "撤回 pageUp/pageDown 保活测试（已签排除无 caller）；保留 moveSelection 跨页视窗轴；缺 spell/坏角色空表轴在标题注明为防御分类（当前 caller 域内不应触达的退化输入）",
+    "fixtureNote": "一期角色保持数值 roleId 身份模型不变；outdoor 过滤差异轴保持隔离",
+    "tests": {
+      "packageFull": "132 files / 2301 tests：dev-panel 预存 ENOENT（裁决一致）；本批 16/16 绿",
+      "typecheck": "rc=0"
+    },
+    "mutants": {
+      "command": "node docs/testing/glm-game-menu-boundaries-mutants.mjs",
+      "exit": 0,
+      "controls": 3,
+      "needles": 8
+    },
+    "coverageRerun": "官方 fast before 2271 / after 2288 双 exit0（最终返工树重跑）"
+  },
+  "rework2": {
+    "intakeReview": "docs/testing/glm-nine-rework-review.md (Codex counter 31c8703f)",
+    "generatedAt": "2026-09-19T14:24:17Z",
+    "C0": "判据收紧为精确且唯一目标（title 全等+恰1+failed+非空+首行业务错误）；运行态块与自测共用（AST 抽取两块直接执行），补后缀冒名/重名/未失败/空消息反例",
+    "C1": {
+      "note": "全部 JSON/SHA 回填后按 git 新增清单完整白名单 Biome（本次提交前执行 rc=0）"
+    },
+    "reworkWitness": "glm-nine-rework-witnesses: 9/9 suffixRejected、9/9 duplicateRejected、PNG 三态 valid、3 针 detected"
   }
 }

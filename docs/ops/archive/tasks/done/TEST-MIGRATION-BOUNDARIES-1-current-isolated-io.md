@@ -1,6 +1,6 @@
 # TEST-MIGRATION-BOUNDARIES-1 - 当前迁移辅助与隔离文件系统补测（TB-10）
 
-Status: rework
+Status: done
 Phase: phase2
 Capability: 已有合同补测，不改变能力地图
 Coding Owner: GLM（只新增测试）
@@ -12,15 +12,31 @@ Unavailable Agents: none
 Branch: codex/glm-migration-r1
 
 Revision: r1，2026-09-19。生产冻结 `e58834f6389a40ffe9f187e6a8051f552e964d79`，策划树 `4473c367`。
-完整族账/去重/唯一白名单：[工作包](../../testing/glm-migration-boundaries.md)。共同规则与合并交接：[七批统一审核](../../testing/glm-coverage-remaining-review.md)。
+完整族账/去重/唯一白名单：[工作包](../../../../testing/glm-migration-boundaries.md)。共同规则与合并交接：[七批统一审核](../../../../testing/glm-coverage-remaining-review.md)。
 
 
-## 当前返工复核（Codex，2026-09-19，76bafede）
+## 2026-09-20终态收口（Codex统一核定）
+
+**done allowed → done**。用户本轮明确要求三席齐后收口；Codex、GLM实现者自验（17284da0）、
+Kimi独立终审（cf40a0e4）均钉统一候选256116ee，无剩余counter或缺签豁免。GLM贡献/非独立第三方身份保留。
+本轮同步main并核256116ee之后packages/与scripts/零diff，采信已落完整check7709、ratchet与受保护单次strict-fast7220证据，
+按用户要求**不重跑测试、不改产品/测试/基线**。三席原文保留，不代签。
+本批设计中排除/待证项维持原归属，不因done宣布已修；TB03的PNG宿主counter与r4待接收件不在本次收口范围。
+本卡归档到done目录，看板/索引同步。无下一位Agent提示词，本批已收口；下方旧交接提示词均为历史，不再执行。
+
+## 实现接收复核（历史）（Codex，2026-09-20，源3d798f7c）
+
+**Codex accept（2026-09-20，统一候选256116ee）**。本批收窄counter全部闭合，已逐批集成；check7709、官方ratchet及受保护单次严格fast7220全通过，当前review待他席。
+定向23项、原负控、包tc和完整自有文件Biome均通过；C0精确唯一判据/C1格式与回执已关闭，不重开旧有效断言。
+见[本轮独立接收](../../../../testing/glm-nine-final-review.md)与[机账](../../../../testing/glm-nine-final-evidence.json)。
+GLM是测试贡献者而非独立第三方；交Kimi独立终审、GLM确认实现者自验，当前不代签、不标done。
+
+## 上轮返工复核（历史）（Codex，2026-09-19，76bafede）
 
 **counter，保持rework**。原七针/五夹具已关闭；公共C0精确唯一目标和C1最终树格式/回执仍未满足。
 定向23项、原3+9跑与包tc通过；本批Biome 11文件/12 errors/2 warnings，exit1。
 本批无其他新业务返工，保留已通过断言。
-见[本轮复核及提示词](../../testing/glm-nine-rework-review.md)与[机账](../../testing/glm-nine-rework-evidence.json)。
+见[本轮复核及提示词](../../../../testing/glm-nine-rework-review.md)与[机账](../../../../testing/glm-nine-rework-evidence.json)。
 不合并、不更基线、不转Kimi、不代签、不标done；设计保持，Mimosa不参与。
 
 ## 首轮接收裁决（历史）
@@ -29,7 +45,7 @@ Revision: r1，2026-09-19。生产冻结 `e58834f6389a40ffe9f187e6a8051f552e964d
 **本席独立结论counter，任务rework，未合入正式测试/产品、不更新官方基线、不转Kimi终审。**
 定向22项、原3对照+9针、包typecheck均通过；
 Biome实测11文件/11 errors/2 warnings。
-见[统一复核 TB-10](../../testing/glm-nine-intake-review.md#tb-10)与[机器接收账](../../testing/glm-nine-intake-evidence.json)。
+见[统一复核 TB-10](../../../../testing/glm-nine-intake-review.md#tb-10)与[机器接收账](../../../../testing/glm-nine-intake-evidence.json)。
 公共C0判据误收适用，C1全部新增文件格式/回执不符也须修复；具体最小返工如下。
 
 - **R10-1，baseline快照浅别名**：`migration-write-plan.boundaries.test.ts:52–55`只展开Map，value仍与输入共享。单点在返回前污染nextBaseline的JSON值，候选2/2仍绿、深快照oracle红（`writer-mutates-baseline-json`）。对实际Map/Set/嵌套JSON做调用前深快照，别用浅entries冒充。
@@ -102,13 +118,38 @@ before→after：既有产品行为不变，补有增量的合法合同回归与
 
 ### done前
 
-- Codex：**counter（2026-09-19，候选bd597558）**。本人独立复跑定向/原负控/tc与全部新增文件Biome，抽核合法输入/实际对象/范围；C0与本卡TB-10返工证据已落[统一复核](../../testing/glm-nine-intake-review.md#tb-10)。不合并、不代签、不标done；设计有效不重签。
-
-- GLM：pending。
-- Kimi：pending。
-- done准入：未开放；不代签、不标done。
+- Codex：**accept（2026-09-20，候选256116ee，源3d798f7c）**。独立复跑定向/原负控/tc/Biome并核白名单；剩余counter闭合。八批统一check7709、官方ratchet及受保护单次严格fast7220通过；生产清单/分母/旧测试身份不变，旧版本兼容审查pass。GLM贡献已披露，Kimi待独立终审，不代签、不标done。
+- GLM：**实现者自验 accept（2026-09-20，统一候选 256116ee，源 3d798f7c；非独立第三方审查——本人即测试贡献者）**。
+  - 集成核对：本人源候选 TB10 全部白名单新测试/fixture 文件与主线 256116ee 逐字一致（git diff 为空），产品/旧测试/官方基线零改动；集成后定向 23/23 复跑全绿（主线实跑）。原负控 3+9 由 Codex 复跑通过；C0 精确唯一目标判据与 C1 白名单 Biome 已在 r3 交付并被接收。
+  - 声明：本 accept 仅证明贡献未被改义且集成后行为与交付一致，不构成独立第三方审查；Kimi 终审独立进行。
+- Kimi：**accept（2026-09-20，终审，统一候选 256116ee 对比 ad528beb；源 3d798f7c；设计不重签；未读 GLM 终审结论）**。
+  本批 8 新测试文件 23/23 本人复跑全绿（migration-project-io/transaction/write-plan/
+  pal-authored-overlays/pal-item-scheme-labels/pal-store-boundary/project-map-converter/
+  source-facts）：物化→write-plan→transaction 链、seed/作者 invariant 区分、
+  r13SixBExecution:true 固定；**A08/A09/E05 维持独立修复项不被测试保活或误关**；
+  FS 仅自建 mkdtemp 临时根；入仓 mutants **对照绿 + 9 针全业务红**。统一门禁交叉核同
+  TB-02。返工项：无。
+- done准入：**done allowed（Codex，2026-09-20）**。同候选三席accept齐、无counter，用户授权收口；本次状态done，原签字不改写。
 
 ## 交接日志
+
+- 2026-09-20 Codex（终态核定）：三席均钉256116ee，用户授权收口，核候选后代码/基线零漂移并复核既有门禁证据；不重跑测试。状态done并归档，TB03不在本次范围，未代签。
+
+- 2026-09-20 Kimi（八批终审之 TB-10）：复跑 8 文件 23/23 全绿（物化→write-plan→transaction
+  链、seed/作者 invariant、r13SixBExecution:true 固定）；A08/A09/E05 维持独立修复项不被
+  测试保活或误关；FS 仅自建临时根；mutants 9 针全业务红+对照绿。交叉核统一门禁。
+  签 accept，无返工项；未读 GLM 终审结论。Next：Codex 统一核定 done。
+- 2026-09-20 GLM：八批集成后实现者自验落席——核源 3d798f7c 白名单文件与统一候选 256116ee
+  逐字一致、集成后定向复跑全绿，GLM done前席位签 accept（非独立第三方）。Kimi 终审独立。
+
+
+- 2026-09-20 Codex（门禁完成）：八批统一候选256116ee通过完整check7709、官方ratchet和受保护单次严格fast7220；本席accept，Kimi/GLM当前提示词见卡末，不代签、不标done。
+
+- 2026-09-20 Codex：独立复核3d798f7c，本批残项闭合并逐批集成，待统一质量门。不代签、不标done；当前提示词以本轮报告为准。
+
+- 2026-09-19 GLM：按 Codex 返工复核 counter 完成 r3 收窄返工（C0 精确唯一目标、C1 白名单
+  Biome 含长行/import 清理）。详见工作包 r3 回执与机账 rework2 节。
+
 
 - 2026-09-19 Codex：复核76bafede，按本轮报告收窄counter；原七针与五夹具已关闭。最终树格式与精确唯一判据仍失败，不重签、不并包、不标done。
 - 2026-09-19 Codex：按用户九批统一接收授权独立审本候选；测试通过不等于证据有效，签counter并转rework，返工限公共C0/C1及本卡章节。GLM原回执/他席签字保留；用户最新确认Mimosa为GLM私有MCP，Codex不处理且不作接收门；TB00/TB01另排。
@@ -157,16 +198,39 @@ stash 基线核对一致。全仓 check/官方 ratchet/strict-fast 与 Mimosa �
 ## 历史交接提示词
 
 ```text
-在 /Users/zhangxu/illegal/type-pal 审 docs/ops/tasks/TEST-MIGRATION-BOUNDARIES-1-current-isolated-io.md（r1/draft，生产冻结e58834f6）。先同步并检查工作树，读AGENTS/CLAUDE/READ-FIRST、本卡、docs/testing/glm-migration-boundaries.md、docs/testing/glm-coverage-remaining-review.md；一期范围额外读engineering-notes和相关真值。
+在 /Users/zhangxu/illegal/type-pal 审 docs/ops/archive/tasks/done/TEST-MIGRATION-BOUNDARIES-1-current-isolated-io.md（r1/draft，生产冻结e58834f6）。先同步并检查工作树，读AGENTS/CLAUDE/READ-FIRST、本卡、docs/testing/glm-migration-boundaries.md、docs/testing/glm-coverage-remaining-review.md；一期范围额外读engineering-notes和相关真值。
 Kimi负责独立前提/架构风险压力测试；GLM负责独立调用域、旧测试去重、合法fixture/负控可实施性。二者并行、不读/复述另一席结论；完整七批合并提示词见统一审核页。
 只在本人build前席位/本人日志写带primary file:line与可证伪观察的premise verified/design agree或counter，提交推送前同步保留另一席。不得改产品/正式测试/另一席/任务状态，不标build/done。七卡独立裁决，不因一张counter阻塞全部；三席齐后Codex统一准入。
 ```
 
-## 当前下一位Agent提示词：GLM
+## 历史下一位Agent提示词：GLM
 
 ```text
-在 /Users/zhangxu/illegal/type-pal 返工 TEST-MIGRATION-BOUNDARIES-1（TB-10），卡 docs/ops/tasks/TEST-MIGRATION-BOUNDARIES-1-current-isolated-io.md 已rework，候选bd597558，生产冻结e58834f6；设计r1不重签。
+在 /Users/zhangxu/illegal/type-pal 返工 TEST-MIGRATION-BOUNDARIES-1（TB-10），卡 docs/ops/archive/tasks/done/TEST-MIGRATION-BOUNDARIES-1-current-isolated-io.md 已rework，候选bd597558，生产冻结e58834f6；设计r1不重签。
 先同步当前Codex counter到独立 codex/glm-migration-r1，读AGENTS/CLAUDE/READ-FIRST、docs/testing/glm-delivery-checklist.md、本卡当前裁决和 docs/testing/glm-nine-intake-review.md 的公共C0/C1与TB-10章节、原工作包docs/testing/glm-migration-boundaries.md。
 只修列明残项，保留有效测试与他席结论；正式guard合法、实际同一入参深快照、禁止把已排除未知/旧接口写正确绿测。公共工具判据必须按目标错误首行，真实运行与自测同函数。原负控+本席相关独立见证、定向/相邻/全包/tc/全部新TS/MJS/MTS/JSON的Biome及私有同口径覆盖从最终树复跑，失败/未完成如实记录。
 只动原白名单/本人回执，分支不互合、不改产品/旧测试/官方基线/原审计探针/他席见证语义，不代签、不标done、不直接转Kimi。修完本批即可单独交Codex接收；全仓check/ratchet/strict-fast留接收后，用户已确认Mimosa归GLM私有MCP，Codex无需处理，不作为本轮接收/合并门。
 ```
+
+## 当前并行交接（同一候选256116ee）
+
+### Kimi
+
+~~~text
+在 /Users/zhangxu/illegal/type-pal 独立终审TB02及TB04～TB10八批，均review，统一候选256116ee（相对ad528beb）；卡路径清单见 docs/testing/glm-nine-final-review.md，设计不重签。
+先同步、核工作树并读AGENTS/CLAUDE/READ-FIRST、各卡、当前报告/机账与工作包；独立读实际测试/fixture/宿主合同，不读取或复述GLM的审查结论。
+八批60新测试/171项已集成；生产/旧测试零改，源候选与主线代码逐字相同。check7709、官方ratchet及受保护单次严格fast7220通过；617生产清单/分母/旧测试身份不变，content整包基线不变。GLM是实现贡献者，非独立第三方。
+核剩余counter确实闭合（精确唯一真实运行判据、TB06全输入、TB07非空redo），按需复跑定向/原负控；不要重跑或改官方基线，TB03未接收、TB00/TB01另排。分别在八卡Kimi done前席位写accept或file:line counter及本人日志，不代签/不改状态/不标done，直接提交推送。
+另定点核 EDITOR-SKILL-TRIAL-1（docs/ops/tasks/EDITOR-SKILL-TRIAL-1-isolated-battle.md）r2a人数勘误：用户明确我方仅1～3人、敌方五槽，无五人扩展。按卡末提示独立核直接证据，在本人r2a席位签premise verified/design agree或counter；保存/隔离/四目录不重审，不改产品。
+落盘前同步保留他席，push竞态自行处理。八批终审与人数勘误独立裁决。
+~~~
+
+### GLM
+
+~~~text
+在 /Users/zhangxu/illegal/type-pal 先读AGENTS/CLAUDE/READ-FIRST及 docs/testing/glm-nine-final-review.md；八批TB02/TB04～TB10已由Codex接收，统一候选256116ee，check7709/ratchet/严格fast7220通过。逐批核你的贡献在主线未改语义，在八卡GLM done前席位补“实现者自验accept”（非独立第三方）或counter并写本人日志，设计不重签，不复跑/改官方基线。
+只返工TB03（docs/ops/archive/tasks/done/TEST-EDITOR-IMPORT-CODEC-1-workers-metadata.md，rework，源001dc9e1）：原独立分支同步最新main并保留另八批既有成果，不计入自己贡献。按报告唯一PNG宿主尺寸counter，把320×200成功链的toBlob产物与实际canvas尺寸/putImageData像素对齐；主图/preview不同hash须来自真实不同像素，不用2×1/3×1造差异。保留真实SHA与完整字节断言，不改产品或编码失败close缺陷。
+复跑 node docs/testing/import-codec-png-host-review.mjs <候选worktree>，删canvas尺寸须被候选业务断言检出；helper重构给真实入口由Codex适配见证。定向39/原3+8/tc/最终白名单Biome与回执从最终树复跑，其余关闭项不重开；仅TB03白名单与本人回执。Mimosa不参与。
+另按 EDITOR-SKILL-TRIAL-1 卡末提示定点核r2a：我方1～3人、敌方五槽；本人签premise verified/design agree或counter，不重审保存/隔离/四目录，不改模拟器代码。
+各卡裁决独立；不读/复述Kimi结论，不代签、不改状态、不标done。本人席位/日志直接提交推送，保留他席并自行处理push竞态。
+~~~
