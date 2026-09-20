@@ -20,7 +20,7 @@ GLM后续补测候选见[十批长队列](../testing/glm-coverage-work-queue.md)
 
 | ID | 任务 | 状态 | 负责人/下一步 | 一句话备注 |
 |---|---|---|---|---|
-| EDITOR-ITEM-AUTHORING-1 | [物品作者记录与脚本身份](tasks/EDITOR-ITEM-AUTHORING-1-item-script-identity.md) | draft | GLM：G1～G5与r1审查 | Codex/Kimi已签r1；创建/复制、共享ID保存及runtime分流已定位；只缺GLM，签齐前不实施 |
+| EDITOR-ITEM-AUTHORING-1 | [物品作者记录与脚本身份](tasks/EDITOR-ITEM-AUTHORING-1-item-script-identity.md) | build | Codex：按r1实施 | 三席前提/设计齐已核准；复用原子历史、显式内存来源身份、修canonical引用校验；不改content20/SAVE8 |
 | TEST-RUNTIME-STATE-BOUNDARIES-1 | [运行时状态与元数据六组补测](tasks/TEST-RUNTIME-STATE-BOUNDARIES-1-state-and-metadata.md) | rework | GLM：只补真实finally | 350da702八针/原22跑/9项通过；只剩D6主断言失败时未释放/消费及回执不符，不重开业务闭环 |
 | TEST-CONTENT-RESIDUAL-1 | [内容合同残项补测](tasks/TEST-CONTENT-RESIDUAL-1-registered-gaps.md) | rework | GLM：CR-R1保真/自证残项 | ccc67dcc原三针/判据/Unicode/格式闭环；合法world及非空levelUp两针MISSED，五针工具可重建，未集成 |
 

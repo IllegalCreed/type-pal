@@ -1,6 +1,6 @@
 # EDITOR-ITEM-AUTHORING-1 - 物品作者记录与脚本引用身份
 
-Status: draft
+Status: build
 Phase: phase2
 Capability: D-06/D-07修复（既有物品/脚本能力，不新增能力格）
 Coding Owner: Codex
@@ -13,6 +13,17 @@ Branch: codex/editor-item-authoring-r1
 Revision: r1 / 2026-09-20。前提与候选设计阶段；产品冻结`1e0388b0d65b03c7dcec25d145215d0f22966825`。
 用户要求Codex推进剩余物品/脚本缺陷，并给GLM可并行工作。已完成的模拟器不重开；TB00/TB01测试包独立接收。
 本卡触作者保存边界与跨包运行态引用，**三席设计签字前不改产品/正式测试**，不以“继续”推定免签。
+2026-09-20 Codex已核三席同r1/冻结1e0388b0：本席a1f21718、Kimi 6939a1ac、GLM 4d4e9a5d均premise verified/design agree，允许Codex在独立worktree实施。
+
+### build准入与取证口径校注（Codex）
+
+两席完整原文已合并保留（fa8b1e77），无需重签；本席核定前产品相对冻结零diff，非Owner独立一手证据条件满足。
+GLM报告只提供静态源码证据，**不将其reproduced-static算动态复现**。其“全量6站点”不作为完整调用点计数：
+除表中位置，ItemTab.tsx:866/932/999还有识别/解析/删除路径；ItemUseEffectEditor.tsx:1192–1193才是待添加私有引用的probe构造，
+:878仅为不参与脚本分流的reorderScope，必须保留。以上均在原r1的“编辑器识别/删除/构造”消费域内，非新方案或新能力。
+实施按完整源码普查更新，不能只按报告的单个行号修。也不采用“PAL源物品无脚本”的泛化：本席当次主树生成快照234项中
+20项含私有脚本、共享runScript为0；该统计不当冻结数据真值，根因证明仍依赖无PAL字节的合法seed。
+此处纠正清单粒度/证据表述，不改变已共同核实的缺陷、修复层、身份方案和r1验收条件；不代改GLM原签。
 
 ## 目标与范围
 
@@ -164,7 +175,7 @@ R4登记：空白工程创建物品及私有/共享脚本→保存→重开→�
   - **可证伪观察**：① 若存在喂真实 scriptChunks 的当前生产 caller 或第 7 个前缀猜身份站点→方案 2/3 覆盖面破产（本人 sweep 为空）；② 若诊断域实测不报 undefined→本人 G3 静态推断错，须改判；③ 实施后 `item:<id>:use` 形共享 ID 在 UI/投影/runtime/executor 四面仍被当私有→方案 2 无效。
   - 非阻断备注（报告已列）：冒号 ItemId 纳入验收矩阵显式用例；复制后 runtime 路由到源私有脚本的语义串用建议入负控；诊断/保存两处报错面同时钉回归。
 - 非Coding Owner独立primary-source反证：**已满足**。Kimi `6939a1ac`独立直读并复跑当前探针；GLM `4d4e9a5d`给出独立静态一手锚点。两席原文均保留，统计口径校注见Codex后续核定，不把静态读取计为动态复现。
-- build准入：关闭，留draft；无缺签豁免。
+- build准入：**build allowed（Codex，2026-09-20）**；三席同r1齐，独立primary-source证据成立，无counter、无缺签豁免。计数/静态证据校注见顶部，不以概括性站点表代替全域实施。
 
 ### done前
 
