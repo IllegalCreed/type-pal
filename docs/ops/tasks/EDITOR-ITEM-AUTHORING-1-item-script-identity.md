@@ -180,7 +180,36 @@ R4登记：空白工程创建物品及私有/共享脚本→保存→重开→�
 ### done前
 
 - Codex：**accept（实现者自验，2026-09-21，同候选451cbbb7）**。配对创建/复制/删除复用现有原子历史；固定tag+原始owner无前缀解析；canonical共享校验与当前运行态guard同步，content20/SAVE8/作者JSON不变。完整check7909项exit0、五对照+五业务负控exit0、官方ratchet与以9e220daa保护的单次strict-fast7418项exit0；未改include/exclude/超时/阈值。首次失败、范围变化及旧测试适配完整披露于[实施记录](../../testing/item-authoring-implementation.md)。实际浏览器新建后即时编写、复制独立编辑；Chrome原生选择专用临时目录→保存committed→reload/最近项目重开，源200ms/副本375ms均核，原生保存验证完成。GLM仅此前静态取证贡献，非本次实现或自验独立证明。原前提探针零改；full/Q1/Q2未跑。本席不代签，不标done。
-- Kimi：pending（独立实现审查，候选451cbbb7）。
+- Kimi：**accept（2026-09-21，候选451cbbb7对比1e0388b0；全部锚点本人直读/主树复跑，未读 GLM 本轮结论）**。
+  - **两会话原子生命周期**：`ItemTab.tsx` 创建/复制/删除三入口均先 `historyCoordinator.assertSessions`
+    再无协调器即写入前抛错；`AddItemDefinitionCommand`/`DeleteItemDefinitionCommand`
+    （`script-editor.ts:2006-2045`）与主会话命令经 `coordinator.dispatch` 成对单条历史（D-01 原子
+    undo/redo 与失败保全不变）；删除仍走 DeleteItemCommand 现行引用守卫；caller census 7→10。
+  - **复制未保存正文**：`duplicateItem` 取主会话当前 shell+脚本会话当前快照，经
+    `mergeCurrentItemShell(source, canonical, true)`（`script-editor-projection.ts:135-137`
+    缺正文即抛「拒绝复制」）合并后深拷贝；shell 侧收 `projectItemsView` 投影的新 owner ref——
+    未保存字段与未保存正文都进副本，缺正文不能静默丢。
+  - **显式脚本身份**：`content/item-script-runtime-ref.ts` 固定 tag `__author-item-private-runtime`
+    +原始 ItemId，构造/判定唯一入口；projection（`script-editor-projection.ts:97-112` owner 不符
+    即抛）、executor（`item-use-executor.ts:20-33` 未知 tag/错 owner fail-closed）、main
+    （`main.ts:5388-5393` 仍走原 runDetachedScriptChain 取消协议）、content validate.ts、ItemTab
+    五处全部改 tag 判定，无一处再解析用户 ID 前缀。内存专用：`mergeCurrentItemShell:146-152`
+    保存合并仍还原纯字符串，作者 JSON/content20/SAVE8/投掷/私有基数不动。
+  - **保存校验正确表面**：实时诊断（`project-diagnostics.ts:674`）与保存门（`:902`）均传
+    `items: scriptState.items` canonical；`validate-refs.ts:1575-1580` 按
+    `Object.hasOwn(sharedScripts)` 核共享 ID 且报错含原 ID；旧投影抑制分支删除；
+    sprite collectors 的真实迁移中间态 caller 以 `SpriteReferenceBundle:303-306` 单独类型化保留，
+    未误删；content validate.ts 前缀式消费点同步改 tag。
+  - **实际 runtime 闭环**：`item-script-identity.test.ts:78-179` 真实 ScriptProjectRuntime+
+    executeWorldItemUse：私有物品（冒号+非 ASCII ItemId）与引用同文本共享
+    `item:道具:owned:use` 的物品分别置 private-hit/shared-hit，交叉旗标缺席、物品消耗、
+    静态定义深快照不变——是业务结果不是 spy 路由，满足本席设计签的必要条件。
+  - **本席复跑**：mutants 5 对照 exit0+5 针 exit1（missing-canonical-create/copied-source-owner/
+    shared-prefix-misroute/shared-chunk-validation/missing-body-save-guard，恰覆盖设计期可证伪点）；
+    reforge 26、content 140、editor 87 定向全绿。check7909/ratchet/strict7418 与原生 Chrome
+    保存重开视觉采信 Codex 已落证据，不重复。baseline 7404→7418（+14）、631→632 生产文件
+    （+1 身份 helper）与实施记录一致，无缩范围。旧版本兼容审查 pass。
+  - 返工项：无。full/Q1/Q2 未跑边界保持。
 - GLM：**accept（2026-09-21，独立代码/矩阵复核，候选 451cbbb7 对比 1e0388b0；未读 Kimi 本轮结论，未做视觉）**。
   本席独立复跑与直读证据：
   - **五组负控本席复跑 rc=0**：`item-authoring-mutants.mjs` 5 对照 PASS + 5 针（missing-canonical-create/
@@ -236,6 +265,18 @@ R4登记：空白工程创建物品及私有/共享脚本→保存→重开→�
 ```
 
 ## 交接日志
+
+- 2026-09-21 Kimi（独立实现审查）：候选451cbbb7对比1e0388b0，签 done 前 accept。独立证据：
+  三入口 assertSessions+成对 dispatch（缺协调器写入前抛错；D-01 原子历史/失败保全不变）；
+  复制经 mergeCurrentItemShell(...,true) 合并当前 shell+当前 canonical（含未保存正文），缺正文
+  抛「拒绝复制」，副本投影新 owner ref；身份由 content/item-script-runtime-ref.ts 固定 tag+原始
+  ItemId，projection/executor/main/validate.ts/ItemTab 五处全改 tag 判定、零用户 ID 前缀解析，
+  内存专用不碰作者 JSON/content20/SAVE8；诊断与保存门均传 canonical items，validate-refs 按
+  hasOwn(sharedScripts) 核原 ID，迁移中间态 sprite caller 单独类型化保留；真实
+  ScriptProjectRuntime+executeWorldItemUse 业务旗标测试满足设计签必要条件。本席复跑：mutants
+  5对照 exit0+5针 exit1、reforge 26/content 140/editor 87 定向全绿；baseline +14/+1 与记录一致。
+  check7909/ratchet/strict7418 与原生保存重开视觉采信 Codex。未读 GLM 本轮结论，未改实现/
+  他席/状态，不标 done。Next：两席齐后 Codex 核 done 门；full/Q1/Q2 边界保持。
 
 - 2026-09-21 GLM：完成 451cbbb7 独立代码/矩阵复核并签 done 前 accept（证据见本席签字）：
   五组负控复跑 5+5 全绿（产品 hash 不变）；最终树 sweep 证实前缀猜身份 7 站点全清（本人
