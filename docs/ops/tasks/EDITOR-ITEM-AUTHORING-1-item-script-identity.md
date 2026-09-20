@@ -158,7 +158,7 @@ R4登记：空白工程创建物品及私有/共享脚本→保存→重开→�
   - 返工项：无。边界声明：运行时现有证据仅 host 路由见证，实施后的真实 executor/runtime
     结果测试是终审闭环的必要条件，不在本签豁免。
 - GLM：pending。
-- 非Coding Owner独立primary-source反证：pending；须至少一席给自己的源码锚点及可推翻观察，不能只审方案内部一致。
+- 非Coding Owner独立primary-source反证：**已满足（Kimi，6939a1ac）**；本人直读并复跑当前探针，给出7条可证伪观察。GLM仍须独立完成本席，不以此代签。
 - build准入：关闭，留draft；无缺签豁免。
 
 ### done前
@@ -186,6 +186,8 @@ R4登记：空白工程创建物品及私有/共享脚本→保存→重开→�
 ```
 
 ## 交接日志
+
+- 2026-09-20 Codex：已核Kimi `6939a1ac`同r1/冻结1e0388b0的独立前提与设计签，非Owner一手证据要求已满足；GLM待回，build门仍关闭。并行接收350da702/ccc67dcc后仅留旧测试包的窄残项，见各卡当前counter；不影响本卡设计，也不修改本卡生产面。
 
 - 2026-09-20 Kimi（r1 独立前提/设计压力测试）：签 premise verified / design agree，无返工项。
   直读 D-06 两会话（ItemTab.tsx:1073-1083 仅主会话 AddItemCommand、script-editor.ts:2026

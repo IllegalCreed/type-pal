@@ -102,13 +102,17 @@ author-dialogue 字段守卫轴、map-index 剩余拒绝边界、validate-refs �
   - 覆盖：六模块局部与全包双栏（/tmp）；A6 勘误（现行无 rows 长度上限，原 >4 拒绝是发明已删）、
     A12 levelUp 属主按现行 warn 政策落账。
   - 未做：全仓 check/ratchet/strict-fast 留 Codex；不代签、不标 done。
-- Codex：**counter（2026-09-19，候选0e49db91，设计r2不重签）**。白名单/生产零漂核通过；实际23定向、content60/698全测/tc、1正控+14针通过，私有覆盖增量复算一致；但9文件Biome有1格式error。
+- Codex：**收窄counter（2026-09-20，候选ccc67dcc，r2不重签）**。原三见证detected、mixedFailureAccepted=false、七fixture accepted；原15跑、content60/698全测/tc及9文件Biome通过。CR-R2/R3主要鉴别力和R4数字/格式闭环。
+  只余CR-R1：合法world在调用后才取快照、非空levelUp没有保真；新两针各候选4/4仍绿、oracle业务红（5对照绿，3 detected/2 MISSED）。并核合法shops/noPortrait同类静态遗漏及候选内结构守卫自证缺席，不把本席确认合法误写成输入非法。
+  详见[最新收窄证据](../../testing/content-residual-review.md)；未改候选测试，未集成/改官方基线，不转Kimi。
+- Codex前轮记录（历史）：**counter（2026-09-19，候选0e49db91，设计r2不重签）**。白名单/生产零漂核通过；实际23定向、content60/698全测/tc、1正控+14针通过，私有覆盖增量复算一致；但9文件Biome有1格式error。
   CR-R1真实cue/world输入保真漏检且world未按已签合同构造；CR-R2合法Unicode正控实际expect抛错；CR-R3目标STACK_TRACE_ERROR可借别例AssertionError被负控判据认证；CR-R4计数24/13针/7文件等与树不符。独立三针3对照绿、3 MISSED，混合错误被接受；根bundle七表面独立guard全accepted，不反称其非法。
   详见[独立复核与可重建见证](../../testing/content-residual-review.md)。不改候选测试语义、不集成、不跑接收后官方全仓门、不释放实施槽。
 - Kimi：pending（接收后终审）。
 - done准入：未开放，不代签、不标done。
 
 ## 交接日志
+- 2026-09-20 Codex：独立接收ccc67dcc，原三针/判据/Unicode/计数/格式改善属实；针对原CR-R1加合法world与非空levelUp两针仍MISSED，仅此保真/守卫族继续返工。原15跑/content全包/tc/9文件Biome绿；不改候选、不集成、不跑官方全仓门。
 - 2026-09-20 Codex：核远端codex/glm-content-residual-r1为ccc67dcc，与本地独立worktree一致，已有CR-R1～R4返工回执。进入本席待接收队列，不重复要求已交返工；原counter在独立验证前不核销，状态仍rework，不合入或抬基线。新物品/脚本卡独立推进。
 - 2026-09-19 Codex：独立接收0e49db91，实跑定向/全包/tc/Biome/原15跑与私有覆盖；新增只读反证三针均MISSED，负控判据混合错误误收。签CR-R1～R4 counter，转rework，设计r2保持；A3已有/rows无上限/owner warn不重开。保留GLM自验原文，未合入正式测试，主线七批设计与他席改动完整保留。
 - 2026-09-19 GLM（实施完成）：按已签 r2 连续完成 A1～A12（A3 登记已有）；24 项 + 13 针负控 +
@@ -130,7 +134,15 @@ author-dialogue 字段守卫轴、map-index 剩余拒绝边界、validate-refs �
 
 ## 下一位Agent提示词
 
-### 当前：GLM返工CR-R1～R4
+### 当前：GLM仅完成ccc67dcc的CR-R1残项
+
+```text
+按docs/testing/content-residual-review.md顶部ccc67dcc收窄counter返工本卡，状态rework，设计r2不重签。先读AGENTS/CLAUDE/READ-FIRST、当前报告并同步最新版见证工具；原三针/Unicode/目标判据/23项和15跑/格式不重开。
+合法world快照移到实际调用前；非空levelUp各调用前后比较真正载荷；同步核合法shops与noPortrait实际对象，不比未消费对象，防御轴声明据实收窄；候选工厂内补当前结构守卫自证（本席七检查已证内容合法，不需发明新fixture或反向import Reforge）。
+五对照绿、五针候选自身业务AssertionError detected、mixedFailureAccepted=false、七fixture accepted；原15跑、相关定向/content全包/tc/9文件Biome通过后更新最终树回执交Codex。不改产品/旧测试/他席工具语义/官方基线，不代签、不标done、不转Kimi；与物品作者身份只读包独立工作树。
+```
+
+### 历史：GLM返工0e49db91的CR-R1～R4
 
 ```text
 在 /Users/zhangxu/illegal/type-pal 返工 TEST-CONTENT-RESIDUAL-1，任务卡 docs/ops/tasks/TEST-CONTENT-RESIDUAL-1-registered-gaps.md，rework；实施候选0e49db91，已签设计r2不重签，生产冻结e58834f6。

@@ -141,6 +141,31 @@ const probes = [
       world.party[0].appearance={battleSprite:'bs-hero'};b.worlds=[world];
       const before=structuredClone(b);expect(c.validateReferences(b)).toEqual([]);expect(b).toEqual(before);`,
   },
+  {
+    id: 'valid-world-reference-mutates-money',
+    file: 'validate-refs.ts',
+    test: 'validate-refs.data-refs.test.ts',
+    from: 'export function validateReferences(b: ContentBundle): Issue[] {',
+    to: `export function validateReferences(b: ContentBundle): Issue[] {
+      for (const world of b.worlds ?? []) {
+        if (world.party.some(character => b.battleSprites.some(sprite => sprite.id === character.appearance?.battleSprite))) world.money += 1;
+      }`,
+    oracle: `const b=bundle();c.validateActors(b.actors);c.validateBattleSprites(b.battleSprites);
+      const world=c.buildWorld(c.validateStartWorld(b.entryPoints[0].startWorld),Object.fromEntries(b.actors.map(a=>[a.id,a])));
+      world.party[0].appearance={battleSprite:'bs-hero'};b.worlds=[world];
+      const before=structuredClone(b);expect(c.validateReferences(b)).toEqual([]);expect(b).toEqual(before);`,
+  },
+  {
+    id: 'nonempty-level-up-mutates-level',
+    file: 'validate-refs.ts',
+    test: 'validate-refs.data-refs.test.ts',
+    from: '  for (const [cid, list] of Object.entries(b.levelUp)) {',
+    to: `  for (const [cid, list] of Object.entries(b.levelUp)) {
+      for (const entry of list) entry.level += 1;`,
+    oracle: `const b=bundle();b.skills=[{id:'skill-a',name:'技能A',desc:'',cost:{mp:1},usableOutsideBattle:true,target:'oneAlly',effects:[],animation:{effectSprite:0}}];
+      b.levelUp={hero:[{level:2,skillId:'skill-a'}]};c.validateActors(b.actors);c.validateSkills({skills:b.skills,levelUp:b.levelUp});
+      const before=structuredClone(b);expect(c.validateReferences(b)).toEqual([]);expect(b).toEqual(before);`,
+  },
 ]
 const sha = (file) => createHash('sha256').update(readFileSync(file)).digest('hex')
 const tracked = [...new Set(probes.flatMap((p) => [join(src, p.file), join(src, p.test)]))]

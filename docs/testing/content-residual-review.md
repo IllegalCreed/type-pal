@@ -1,6 +1,41 @@
 # 内容合同残项：Codex独立接收复核
 
-## 当前候选0e49db91（2026-09-19）
+## 当前返工复核：ccc67dcc（2026-09-20）
+
+**收窄counter：CR-R2/R3主要鉴别力及CR-R4计数/格式已闭环，只补原CR-R1实际输入保真/守卫自证残项。**
+原三见证全部由候选自身检出；`mixedFailureAccepted=false`，七fixture独立检查accepted。原工具1对照+14针通过；
+content全包60文件/698项（新增23）、tc通过；9文件Biome通过。未集成/未抬官方基线。
+
+### CR-R1剩余（直接锚点钉ccc67dcc）
+
+1. `validate-refs.data-refs.test.ts:114–115`先消费okBundle再拍okSnapshot，“调用前”注释不符；仅在合法world路径改money的坏实现仍候选4/4绿。
+2. 同文件`:160–205`三个非空levelUp调用没有输入快照；`:207–211`的保真用例仍是空levelUp。在真实levelUp遍历内改level值的坏实现也仍候选4/4绿。
+   两条均是原要求的非空实际入参保真，不新增能力范围。
+3. 同文件`:151–156`合法shops正控没有前后快照；`asset.residual.test.ts:34–44`仍比较cue，但实际扫描的是noPortrait/badAsset。
+   这两处是源码静态遗漏，没有冒称本轮新增了其动态坏实现；一并核实修正，或对防御输入如实收窄保真声明，不拿未消费对象作证明。
+4. bundle内容经本席七检查合法，**不判它非法**；但提交的bundle工厂/用例仍未调用相应结构守卫，只有as unknown与零引用issue，
+   原要求的候选内长期合法性自证未落下。引用正确与结构正确分开，补本包当前guard，不反向引Reforge。
+
+### 独立反证（沿原R1加两针，不改前三针）
+
+`content-residual-review-witnesses.mjs`共5对照全绿：原Unicode/portrait/world三针detected；
+新增`valid-world-reference-mutates-money`与`nonempty-level-up-mutates-level`均MISSED，独立oracle均业务AssertionError。
+不是候选运行错误，也不是产品现有突变；这是注入坏实现证明断言仍漏检，修后应5针候选自身均detected。
+日志`/tmp/type-pal-content-ccc67dcc-five-witness.log`；summary：
+`/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/codex-content-residual-RaVcKp/summary.json`。
+其它日志：`/tmp/type-pal-content-ccc67dcc-mutants.log`、`/tmp/type-pal-content-ccc67dcc-check.log`、`/tmp/type-pal-content-ccc67dcc-biome.log`。
+私有覆盖本轮未重跑；存在阻断，不运行接收后全仓check/ratchet/strict-fast。
+
+### 当前GLM提示词
+
+```text
+收窄返工TEST-CONTENT-RESIDUAL-1，卡docs/ops/tasks/TEST-CONTENT-RESIDUAL-1-registered-gaps.md，rework/r2，候选ccc67dcc，设计不重签。
+先读本报告顶部并同步最新版content-residual-review-witnesses.mjs；原三针、Unicode正控、目标判据、23项/15跑/格式已闭环不重开。
+只完成CR-R1残项：合法world快照必须在调用前；非空levelUp各调用前后比较真实载荷；同步补合法shops及实际noPortrait对象的保真，防御输入声明据实收窄；实际bundle工厂加当前结构守卫自证，不把本席七项检查冒充候选内置。别改产品或为计数加空例。
+五对照须绿、五针候选自身AssertionError detected、mixedFailureAccepted=false、七fixture accepted；再复跑原15跑、相关定向/全content/tc/9文件Biome并按最终树回填。白名单不变，不改他席工具语义/旧测试/官方基线，不代签、不标done、不转Kimi；交Codex独立接收。
+```
+
+## 历史候选0e49db91（2026-09-19）
 
 结论：**counter，任务转rework；已签设计r2不重签，实施包r1返工**。不集成正式测试，不转Kimi，不标done。
 A3按r2裁决未新增文件正确；rows无上限、levelUp属主warn两项勘误正确，不改回错误合同。

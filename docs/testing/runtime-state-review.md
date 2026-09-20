@@ -1,6 +1,32 @@
 # 运行时状态补测：Codex接收复核
 
-## 当前返工复核：6d34ad5a（2026-09-19）
+## 当前返工复核：350da702（2026-09-20）
+
+**收窄counter：D6业务鉴别力已闭环，只剩异常路径清理与回执一致性。** 不重开F1/E4及已关闭业务断言。
+本人复跑原8对照/8坏实现全部由候选自身AssertionError检出，四fixture检查accepted；原6对照+16针工具22跑通过，
+frame-animation-player.boundaries.test.ts定向9/9通过。没有修改候选产品/测试，没有执行接收后全仓门。
+
+剩余项钉`packages/reforge/src/frame-animation-player.boundaries.test.ts:231–287`：没有try/finally；
+`:267`先执行主断言，`:269`才releaseRead，`:272`才消费pendingSlow。主断言失败或entered等待抛错时，
+实际底层gate不会释放、原播放也不被消费。`:268`的“finally收口”只是注释，回执「finally释放同一底层」与树仍不一致。
+这是原返工要求，不是新增产品缺陷或第9个取消语义要求；8针检出不能替代异常清理合同。
+
+只需将真实释放与实际原Promise消费放进异常也执行的finally，避免finally中的断言覆盖主失败；
+正常路径的迟到零帧与同reader重播断言保留。可用隔离故意断言失败自证释放/settle仍执行，不用布尔或其它reader冒充。
+8针日志：`/tmp/type-pal-state-350da702-witness.log`，summary为
+`/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/codex-runtime-state-qwVCr4/summary.json`。
+原工具/定向：`/tmp/type-pal-state-350da702-mutants.log`、`/tmp/type-pal-state-350da702-frame.log`。
+本轮未因这一静态清理阻断再跑包全测/覆盖率；不宣称全套接收通过。
+
+### 当前GLM提示词
+
+```text
+定点返工TEST-RUNTIME-STATE-BOUNDARIES-1，卡docs/ops/tasks/TEST-RUNTIME-STATE-BOUNDARIES-1-state-and-metadata.md，rework/r1，候选350da702，设计不重签。
+读本报告顶部。8对照/8针已由Codex复跑全detected，F1/E4及取消业务断言不重开。只修D6 sequence在断言失败时也能释放同一底层、消费实际原Promise：真实try/finally，不是注释。保留迟到零帧/同reader重播，不以finally断言覆盖主失败；做失败路径自证并同步回执。
+只改原白名单中该用例/必要回执，不改产品/旧测试/他席工具/官方基线；D6九项、原8针与22跑复验后交Codex。各工具退出0还须检查summary；不代签、不标done、不转Kimi。
+```
+
+## 历史返工复核：6d34ad5a（2026-09-19）
 
 **结论：收窄counter，仍rework；不集成测试，不转Kimi，不重签设计。**
 本轮已按用户要求独立复跑：定向content10/reforge45=55、两包全测57/685与125/1235、两包tsc、16文件Biome全部exit0。

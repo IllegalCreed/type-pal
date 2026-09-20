@@ -20,9 +20,9 @@ GLM后续补测候选见[十批长队列](../testing/glm-coverage-work-queue.md)
 
 | ID | 任务 | 状态 | 负责人/下一步 | 一句话备注 |
 |---|---|---|---|---|
-| EDITOR-ITEM-AUTHORING-1 | [物品作者记录与脚本身份](tasks/EDITOR-ITEM-AUTHORING-1-item-script-identity.md) | draft | Codex取证；Kimi / GLM审r1 | 现树新建/复制、共享ID保存及runtime分流已定位；GLM并行G1～G5只读包，签齐前不实施 |
-| TEST-RUNTIME-STATE-BOUNDARIES-1 | [运行时状态与元数据六组补测](tasks/TEST-RUNTIME-STATE-BOUNDARIES-1-state-and-metadata.md) | rework | Codex：接收350da702 | 新返工已推送；针对6d34ad5a的D6第8针counter尚待独立核销，未集成，不重签 |
-| TEST-CONTENT-RESIDUAL-1 | [内容合同残项补测](tasks/TEST-CONTENT-RESIDUAL-1-registered-gaps.md) | rework | Codex：接收ccc67dcc | 新返工已推送；CR-R1～R4待独立复核，未集成，r2不重签，不让GLM重复已交返工 |
+| EDITOR-ITEM-AUTHORING-1 | [物品作者记录与脚本身份](tasks/EDITOR-ITEM-AUTHORING-1-item-script-identity.md) | draft | GLM：G1～G5与r1审查 | Codex/Kimi已签r1；创建/复制、共享ID保存及runtime分流已定位；只缺GLM，签齐前不实施 |
+| TEST-RUNTIME-STATE-BOUNDARIES-1 | [运行时状态与元数据六组补测](tasks/TEST-RUNTIME-STATE-BOUNDARIES-1-state-and-metadata.md) | rework | GLM：只补真实finally | 350da702八针/原22跑/9项通过；只剩D6主断言失败时未释放/消费及回执不符，不重开业务闭环 |
+| TEST-CONTENT-RESIDUAL-1 | [内容合同残项补测](tasks/TEST-CONTENT-RESIDUAL-1-registered-gaps.md) | rework | GLM：CR-R1保真/自证残项 | ccc67dcc原三针/判据/Unicode/格式闭环；合法world及非空levelUp两针MISSED，五针工具可重建，未集成 |
 
 2026-09-20 [共享战斗模拟器首批](../testing/battle-simulator-implementation.md)主体fe0fee84及列宽补丁d394eccc三席accept齐，用户明确「UI验收通过，可以收口」，Codex已done归档。D-04/D-05关闭；原生选择器保存重开浏览器链、360主壳、full/Q1/Q2边界保持，未扩展所有评估入口或宣布完整E2E完成。
 

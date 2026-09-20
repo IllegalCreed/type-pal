@@ -127,7 +127,10 @@ frame在途invalidate政策未知；不以低覆盖证明bug。用户可见偏�
     覆盖四跑复算数字不变（局部 content +12 行/+18 臂、reforge +36 行/+53 臂）。
   - 未做（按卡）：全仓 check/ratchet/strict-fast 留 Codex；frame 在途 invalidate 仍待证；
     不代签、不标 done。
-- Codex：**收窄counter（2026-09-19，候选6d34ad5a）**。F1/E4真实闭环，原7针均为候选业务AssertionError、55定向/685+1235全测/两包tc/16文件Biome/原22跑通过。
+- Codex：**收窄counter（2026-09-20，候选350da702）**。8对照/8针本席复跑均为候选自身业务红，fixture四检查accepted；原22跑及frame9项通过，取消业务鉴别力闭环。
+  仅剩D6异常收尾：frame-animation-player.boundaries.test.ts:231–287没有try/finally，:267断言失败会跳过:269释放和:272消费。回执称finally仍不符。
+  修真实finally及失败路径自证，保留原断言/8针，不重开其它项。详见[最新定点证据](../../testing/runtime-state-review.md)。未改候选、未集成或抬基线，不转Kimi。
+- Codex前轮记录（历史）：**收窄counter（2026-09-19，候选6d34ad5a）**。F1/E4真实闭环，原7针均为候选业务AssertionError、55定向/685+1235全测/两包tc/16文件Biome/原22跑通过。
   唯一剩D6 sequence：:238永不resolve gate，:252–255 finally仅改局部布尔，:265独立Promise与原链无关，:260另一个reader冒称同实例。新增同合同第8针sequence-late-frame-after-abort，8对照绿、7 detected/1 MISSED；候选9项漏掉取消后的迟到提交。任务卡自验56应为实测55，F1账旧ms/source标题需同步。
   详见[本轮定点证据](../../testing/runtime-state-review.md)。未修改/集成GLM测试，不转Kimi；官方全仓门待接收后，设计不重签。
 - Codex前轮记录（历史）：**收窄counter（2026-09-19，返工候选3c7ae963）**。55定向、685/1235全包、两包tc、16文件Biome与原22跑通过；四fixture守卫全accepted，after/合法有声正控/换字节/LRU/一般world修改见证已闭环，不重开。
@@ -144,6 +147,7 @@ frame在途invalidate政策未知；不以低覆盖证明bug。用户可见偏�
 - done准入：未开放，不代签、不标done。
 
 ## 交接日志
+- 2026-09-20 Codex：独立接收350da702，确认取消业务8针闭环；源码的finally仍仅是注释，故只留异常路径清理/回执一致性定点counter。原22跑及9项正控绿；不改GLM测试、不重跑/更新官方基线。
 - 2026-09-20 Codex：按用户继续双线要求核远端，codex/glm-runtime-state-boundaries-r1当前350da702与本地独立worktree一致，已有D6定点返工回执。进入本席待接收队列，不让GLM重复旧返工；原counter在独立验证前不核销，状态仍rework，不冒称已接收。新物品/脚本卡独立推进。
 - 2026-09-19 Codex：独立复核6d34ad5a；F1/E4与frame同步取消闭环，sequence实际收尾仍未修。原7针全检出属实，但不代表D6完整；第8针证明迟到提交漏检。仅此定点返工+回执勘误，保持rework；同次TB01独立裁决，本轮不释放实施槽。GLM自验原文保留，不代改他席。
 - 2026-09-19 GLM（r1 第三轮返工完成）：rebase 收窄 counter 8ca74aac，只修三残项——held source
@@ -180,7 +184,15 @@ frame在途invalidate政策未知；不以低覆盖证明bug。用户可见偏�
 
 ## 下一位Agent提示词
 
-### 当前：GLM仅返工D6 sequence及回执
+### 当前：GLM仅补350da702异常路径清理
+
+```text
+按docs/testing/runtime-state-review.md顶部350da702收窄counter返工本卡，状态rework，r1不重签。先读AGENTS/CLAUDE/READ-FIRST及最新回执；8对照/8针业务鉴别力已闭环。
+只让D6 sequence在主断言失败时也执行真实finally释放同一readGate并消费原pendingSlow，保留正常迟到零提交/同reader重播，不以清理断言覆盖主失败；补失败路径自证，回执对应最终树。D6九项、原8针/22跑复验后交Codex。
+不改产品/旧测试/他席工具/官方基线，不重开F1/E4等闭环项，不代签、不标done、不转Kimi。可与物品作者身份卡的只读审查分开工作树并行。
+```
+
+### 历史：GLM返工6d34ad5a的D6 sequence及回执
 
 ```text
 在 /Users/zhangxu/illegal/type-pal 定点返工 TEST-RUNTIME-STATE-BOUNDARIES-1，任务卡 docs/ops/tasks/TEST-RUNTIME-STATE-BOUNDARIES-1-state-and-metadata.md，rework/r1，候选6d34ad5a，生产冻结e58834f6，设计不重签。
