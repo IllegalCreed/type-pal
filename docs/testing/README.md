@@ -34,7 +34,7 @@
 - [内容残项Codex接收复核](content-residual-review.md)与[可重建独立见证](content-residual-review-witnesses.mjs)（三针MISSED、混合错误判据误收；根fixture七检查accepted；未集成/不改官方基线）
 - [资源读取缓存与音效准备工作包](glm-reforge-asset-io.md)（TB-02 r2/rework；a7c48d9c接收counter，设计保持）
 - [导入编码线程与视频元数据工作包](glm-editor-import-codec.md)（TB-03 r2/rework；f4c229ed接收counter；PNG泄漏仍隔离）
-- [共享战斗模拟器首批](../ops/tasks/EDITOR-SKILL-TRIAL-1-isolated-battle.md)与[原技能入口前提探针](skill-trial-premise.mjs)（r2a已实现；UI-r1候选fe0fee84待增量审查，我方1～3/敌方五槽，未扩展新入口）
+- [共享战斗模拟器首批](../ops/tasks/EDITOR-SKILL-TRIAL-1-isolated-battle.md)与[原技能入口前提探针](skill-trial-premise.mjs)（UI-r1主体fe0fee84三席已签；列宽补丁d394eccc待收口，四尺寸/定向22项通过；我方1～3/敌方五槽）
 - [共享战斗模拟器全域复用评估](battle-simulator-assessment.md)（8模块27子页：7直接/8上下文/12专用验证；含预设、配置边界与三批接入建议，未实施）
 - [战斗模拟器r2首批冻结设计](battle-simulator-r2-design.md)（r2a三席已齐；我方1～3人/敌方五槽，按已批准范围恢复build，未确认入口UI不自动开放）
 - [战斗模拟器r2实施记录](battle-simulator-implementation.md)与[配置/保存负控](battle-simulator-s1-mutants.mjs)（UI-r1 check7895/strict7404/build通过；旧cb44c378机制审查保留，原生选择器限制仍披露，非done）
