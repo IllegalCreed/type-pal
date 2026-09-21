@@ -193,6 +193,14 @@ frame在途invalidate政策未知；不以低覆盖证明bug。用户可见偏�
 
 ## 交接日志
 
+- 2026-09-21 Kimi（TB00 独立终审）：候选44b9b763对比952a45bd，签 done 前 accept。独立证据：
+  直读 D6 补正（frame-animation-player.boundaries.test.ts:225-280 真实 finally 释放同一 readGate
+  并消费原 pendingSlow、finally 零断言；:298-315 失败自证保留原 AssertionError 身份+精确轨迹）；
+  B7 仅适配已 done 451cbbb7 的当前私有 tag/owner。本席复跑：review-witnesses 对当前树
+  8对照绿/8针 detected/4 fixture accepted；原 mutants 22 跑 exit0；reforge 定向 46 项绿。
+  产品/旧测试/原见证零改；check7988/ratchet/strict7497 采信 Codex。未读 GLM 本轮结论，
+  不改实现/他席/状态，不标 done。Next：Codex 核 done 门。
+
 - 2026-09-21 GLM：以原测试贡献者身份复核新候选 44b9b763 并签 done 前 accept（不作独立
   第三方自证，证据见本席签字）：blob 对比证实本批仅 frame-animation-player.boundaries（D6
   真实 finally+失败自证轨迹）与 runtime-project-view.boundaries（B7 当前 tag）两文件补正、

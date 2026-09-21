@@ -158,6 +158,17 @@ author-dialogue 字段守卫轴、map-index 剩余拒绝边界、validate-refs �
 - done准入：未开放，不代签、不标done。
 
 ## 交接日志
+- 2026-09-21 Kimi（TB01 独立终审）：候选44b9b763对比952a45bd，签 done 前 accept。独立证据：
+  直读 CR-R1 补正——validate-refs.data-refs.test.ts 工厂（:31-116）真实 ContentBundle 无
+  as unknown、内置当前结构守卫+零引用基线；合法 world/ghost/悬空与合法 shops/三种非空
+  levelUp 均消费实际 bundle 前深快照、后立即比较（:127-129/:134-143/:156-165/:173-175/
+  :197-199/:205-213/:218-231）；asset.residual.test.ts:38 noPortrait 补合法 speaker 先过
+  checkAuthorDialogueCue，数值 asset 先证 guard 拒绝、防御轴不冒称合法；levelUp owner 悬空
+  保持现行 warn。本席复跑：witnesses 5对照绿/5针 detected（原 2 MISSED 闭合）/7 fixture
+  accepted/mixedFailureAccepted=false；原 mutants 15 跑 exit0；content 定向 33 项绿。
+  产品/旧测试/原工具零改；baseline +79、632 生产文件与另五包不变。check7988/ratchet/
+  strict7497 采信 Codex。未读 GLM 本轮结论，不改实现/他席/状态，不标 done。
+  Next：Codex 核 done 门。
 - 2026-09-21 GLM：以原测试贡献者身份复核新候选 44b9b763 并签 done 前 accept（不作独立
   第三方自证，证据见本席签字）：blob 对比证实本批仅 validate-refs.data-refs（实际 bundle
   前后深快照+真实类型工厂）与 asset.residual（合法 noPortrait speaker+正式 guard、坏 asset
