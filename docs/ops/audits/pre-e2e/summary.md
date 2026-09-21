@@ -6,9 +6,9 @@
 
 ## 修复进度（更新至2026-09-21）
 
-- [当前前置欠账/R4准入核对](../../../testing/pre-e2e-admission.md)：生产14257da7的A-08/A-09仍有直接业务反例，
-  [迁移写盘保护r1](../../tasks/MIGRATION-WRITE-GUARD-1-planned-snapshot-and-paths.md)已开draft待两席设计审查；未改产品。
-  E-05仍为退役候选，U-02仍risk；49迁移相邻/17检查点绿不等于E2E准入。TB00/TB01已分别done，不再按下方历史局部表述返工。
+- [当前前置欠账/R4准入核对](../../../testing/pre-e2e-admission.md)：A-08/A-09在14257da7的修前反例已转入
+  [迁移写盘保护r1](../../tasks/MIGRATION-WRITE-GUARD-1-planned-snapshot-and-paths.md)。三席设计齐后候选57dda7ed已实现并进入review：36新回归、五负控、隔离真实发布双跑、check8029/strict7538通过，待两席同候选终审，不提前标done。
+  E-05仍为退役候选，U-02仍risk，R4未因此自动开门。TB00/TB01已分别done，不再按下方历史局部表述返工。
 
 - [D-06/D-07物品作者记录与脚本身份](../../../testing/item-authoring-implementation.md)：候选451cbbb7三席accept齐（Codex c86ad00f、GLM b895a367、Kimi 139c0b04），用户明确授权后由Codex核产品/脚本零漂移并done归档。创建/复制/删除双会话、共享/私有显式身份、canonical引用校验已修；check7909/strict7418、五组负控及原生保存重开证据有效。本次只做文档收口；TB00/TB01窄counter继续原卡返工，full/Q1/Q2、R4/N6b边界不变。
 
