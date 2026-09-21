@@ -8,11 +8,11 @@
 
 ## 最新本地实测（2026-09-21 · 迁移写盘保护候选）
 
-[MIGRATION-WRITE-GUARD-1实施回执](migration-write-guard.md)：57dda7ed，完整check **8029项**、官方ratchet与保护14257da7的普通CI彩色环境**单次strict-fast 7538项**通过；当前review待两席终审，不标done。
+[MIGRATION-WRITE-GUARD-1实施回执](migration-write-guard.md)：57dda7ed，完整check **8029项**、官方ratchet与保护14257da7的普通CI彩色环境**单次strict-fast 7538项**通过；三席同候选accept齐、用户授权，2026-09-21由Codex核零漂移后done归档。本次只做文档收口，不重跑覆盖率、不改基线。
 新增migrate三测试文件36项及一个内部路径helper，633生产文件；原48个migrate fast测试fileEntries保持，其他六包完整基线对象零变。
 migrate行3569/6724（53.08%）、语句3980/7712（51.61%）、函数610/1165（52.36%）、分支2940/6436（45.68%）。
 全仓行51220/70420（72.74%）、语句56853/80452（70.67%）、函数10757/14914（72.13%）、分支40592/63149（64.28%）。
-产品分母有变化，不当纯补测；没有降低阈值/缩范围/改超时，未跑full/Q1/Q2。远端以同推送headSha的Actions最终结论为准。
+产品分母有变化，不当纯补测；没有降低阈值/缩范围/改超时，未跑full/Q1/Q2。[远端#286](https://github.com/IllegalCreed/type-pal/actions/runs/35610521133)同代码候选已success；不是以本地结果代替远端结果。
 
 ## 上一批实测（2026-09-21 · CI断言证据颜色兼容修复）
 

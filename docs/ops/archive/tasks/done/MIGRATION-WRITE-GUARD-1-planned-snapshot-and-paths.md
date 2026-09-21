@@ -1,6 +1,6 @@
 # MIGRATION-WRITE-GUARD-1 - 迁移规划快照与二进制路径保护
 
-Status: review
+Status: done
 Phase: phase2
 Capability: A7
 Coding Owner: Codex
@@ -14,6 +14,15 @@ Branch: codex/migration-write-guard-1
 Revision: r1
 Production Baseline: `14257da75f4c3c91dd9aae5f37de13a5f1040f8c`
 Implementation Candidate: `57dda7ed`
+
+## 当前收口结论（2026-09-21）
+
+用户明确要求核定done并收口。Codex已核三席同候选accept齐（本人实现者自验；GLM `6ca25cf6`；Kimi `afb05943`），无counter、无返工、无缺签豁免；三席旧版本兼容审查均pass。
+当前树对57dda7ed的产品、测试、官方基线及三份验证工具零diff，Kimi提交前后GLM终审席位原文逐字相同；不因落盘事故已恢复而重开签字。
+既有check8029、ratchet/受保护strict7538、36回归/五负控、隔离发布双跑及[远端#286成功](https://github.com/IllegalCreed/type-pal/actions/runs/35610521133)证据有效。
+本次仅做文档登记/归档/链接与索引同步，不重跑迁移写盘、产品测试或覆盖率，不改基线、不代签。
+A-08/A-09按r1约定范围关闭；单writer、非OS沙箱、非二进制整批回滚及staging中途失败保留边界继续有效。
+E-05/U-02/N6b/Q2、full/完整E2E和第一阶段欠账均不随本卡关闭。
 
 ## 目标与范围
 
@@ -49,7 +58,7 @@ Implementation Candidate: `57dda7ed`
 - contract E02与E06分别exit1，错误为候选自身AssertionError（作者保全/路径拒绝），不是缺资产/导入/超时。
 - E01正常plan→commit→baseline/journal清理绿；E03 journal之后外部改动已拒绝并保留pending；E04退役删除预条件有效；E05 authored/unchanged/坏源先拒有效。
 - E07叶链接rename没有改外部目标，不冒报该变体已破坏外部字节。r1拟对完整二进制目标链统一拒绝链接，与现行JSON路径纪律对齐；不把平台兼容或原版raw来源标签当待删兼容。
-- 7文件49项相邻测试绿，并不能覆盖上述两个红反例。具体命令与日志见[准入核对](../../testing/pre-e2e-admission.md)。
+- 7文件49项相邻测试绿，并不能覆盖上述两个红反例。具体命令与日志见[准入核对](../../../../testing/pre-e2e-admission.md)。
 
 最强替代解释：单writer文档约束已禁止并发、POSIX rename替换叶链接而非穿透、JSON恢复guard已有保护。
 本席采纳这些边界，但它们不反证**规划后的重新采样**与**父目录穿透**；没有声称当前PAL真实树已有链接或用户数据已受损。
@@ -68,9 +77,9 @@ Implementation Candidate: `57dda7ed`
 ## 上下文锚点
 
 - `AGENTS.md`迁移优先/current-only/三签；`CLAUDE.md`生成真源原则；`docs/phase2/READ-FIRST.md`铁律10/11。
-- [A-08/A-09原审计](../audits/pre-e2e/README.md)、[批二复核](../../testing/glm-pre-e2e-boundary-batch-2-report.md)、[当前分流](../../testing/pre-e2e-admission.md)。
+- [A-08/A-09原审计](../../../audits/pre-e2e/README.md)、[批二复核](../../../../testing/glm-pre-e2e-boundary-batch-2-report.md)、[当前分流](../../../../testing/pre-e2e-admission.md)。
 - 已done的作者保存恢复不重开；迁移CLI与编辑器Web Locks不是同一互斥域，不声称借现有锁即可阻止跨进程写。
-- [current内容发布指南](../../phase2/guides/content-publication.md)、migrate README；保留raw→current唯一producer、已有current journal语义，不新增升级器或旧分支。
+- [current内容发布指南](../../../../phase2/guides/content-publication.md)、migrate README；保留raw→current唯一producer、已有current journal语义，不新增升级器或旧分支。
 - 不得重新引入：规划时未保存hash却提交时猜、缺席默认任意旧值、忽略冲突继续、链接越界后才报闭包错误、测试自己重写业务守卫。
 
 ## Draft：r1设计与风险
@@ -178,7 +187,7 @@ Implementation Candidate: `57dda7ed`
 
 ### 进入done前
 
-- Codex：**accept（2026-09-21，实现者自验，候选57dda7ed；不是独立第三方审查）**。规划原始hash由CLI:119传入write-plan:34-43，project mandatory/null在transaction:299-312校验，staging:336再核且previousHash用携带值；路径helper逐级lstat含悬空/叶，pal-assets全量/各写点检查、独占临时文件与inode归属清理。36新回归、migrate515项、1对照+5单点负控、隔离两次真实CLI发布均通过；完整check8029、官方ratchet与保护14257da7的普通CI彩色环境单次strict7538通过。原48个migrate fast测试身份/计数与另六包完整基线对象保持，原探针零diff。旧兼容审查pass，journal v2/content20/SAVE8不变；边界、失败记录、命令及证据见[实施回执](../../testing/migration-write-guard.md)。
+- Codex：**accept（2026-09-21，实现者自验，候选57dda7ed；不是独立第三方审查）**。规划原始hash由CLI:119传入write-plan:34-43，project mandatory/null在transaction:299-312校验，staging:336再核且previousHash用携带值；路径helper逐级lstat含悬空/叶，pal-assets全量/各写点检查、独占临时文件与inode归属清理。36新回归、migrate515项、1对照+5单点负控、隔离两次真实CLI发布均通过；完整check8029、官方ratchet与保护14257da7的普通CI彩色环境单次strict7538通过。原48个migrate fast测试身份/计数与另六包完整基线对象保持，原探针零diff。旧兼容审查pass，journal v2/content20/SAVE8不变；边界、失败记录、命令及证据见[实施回执](../../../../testing/migration-write-guard.md)。
 - Kimi：**accept（2026-09-21，候选57dda7ed对比14257da7；锚点本人直读/主树与隔离工具复跑，未读 GLM 本轮结论）**。
   - **规划 hash/null 贯穿**：`migration-write-plan.ts:24,34-41` 必填 `projectSnapshot`，
     `plannedHash` 从原始 `hashes` 取值、未纳入快照或 files/hash 一致性破损即 throw、缺席显式
@@ -240,17 +249,19 @@ Implementation Candidate: `57dda7ed`
     ② 二遍发布出现非零 writes/deletes→幂等破；③ 悬空叶链接被按“不存在”放行→helper lstat 顺序
     违规。均未出现。
   - 统一 check8029/ratchet/strict7538 为 Codex 已落日志证据，本席不并发重跑。无 counter。
-- done准入结论：**blocked（缺 Kimi 同候选实现accept；GLM 已签，不标done）**。
+- done准入结论：**done allowed（2026-09-21 Codex统一核定）**。三席同57dda7ed accept齐、无counter/返工/豁免，证据及候选零漂移成立，用户明确授权收口；推进done并归档，不改他席结论。
 
 ## Review：交付与保留边界
 
 - 实现候选57dda7ed；产品5文件（含新路径helper和CLI），旧测试4文件只适配必填输入，新增3测试文件36项、2薄fixture、3诊断工具；官方基线由ratchet更新。
-- 本地全仓与发布证据在[回执](../../testing/migration-write-guard.md)。无主树工程写入、无原审计probe修改；snapshot/planned input来源可从真实测试和CLI复算。
+- 本地全仓与发布证据在[回执](../../../../testing/migration-write-guard.md)。无主树工程写入、无原审计probe修改；snapshot/planned input来源可从真实测试和CLI复算。
 - 真实发布用自有PAL副本和一个结构合法旧WAV强制写入，第一遍1资产/3事务变更，第二遍0；2474工程/315 baseline文件逐字节恢复冻结值。既有asset-warnings182未清，不声称全资源告警为零。
 - 最后check→syscall的恶意并发不保证；仍单writer。二进制不是整批回滚；staging途中冲突可保留未发布临时文件，不把它当恢复授权、不沿换链清理。
 - 无UI/视觉变更；E-05/U-02/N6b/Q2及第一阶段欠账均未借此关闭。远端检查以推送同headSha的Actions为准，不拿本地结果代替。
 
 ## 交接日志
+
+- 2026-09-21 Codex（done核定）：同步main至afb05943、工作树干净；核Codex/GLM6ca25cf6/Kimiafb05943三席同57dda7ed accept与旧兼容pass，零counter。对候选产品/测试/基线/工具零diff，GLM终审块在Kimi提交前后完全相同，远端#286 success已核。采信既有8029/7538与隔离双跑证据，按用户授权done归档并同步看板/索引/审计/覆盖率说明；本轮仅文档门，不重跑重型测试或真实迁移。其它欠账不变。
 
 - 2026-09-21 Kimi（独立终审）：候选57dda7ed对比14257da7，签 done 前 accept（单列旧兼容 pass）。
   独立直读：规划 hash 必填贯穿（write-plan plannedHash 未纳入快照/缺 hash 即 throw、缺席显式
@@ -297,18 +308,22 @@ Implementation Candidate: `57dda7ed`
 
 ### 给Kimi（与GLM并行）
 
-在 /Users/zhangxu/illegal/type-pal 审 MIGRATION-WRITE-GUARD-1 r1 设计，卡 docs/ops/tasks/MIGRATION-WRITE-GUARD-1-planned-snapshot-and-paths.md，状态draft，生产冻结14257da75f4c3c91dd9aae5f37de13a5f1040f8c。先同步main、检查工作树，读AGENTS/CLAUDE/READ-FIRST、本卡与docs/testing/pre-e2e-admission.md。独立读planner→原始snapshot hash→write-plan→journal/recover及materializer实际写点，不读取或复述GLM结论。重点审：规划缺席null/缺字段区别、全量前提与journal恢复、父链/悬空/临时路径、check到syscall的剩余竞态及单writer边界；本卡不做多writer原子锁、不改journal版本或内容语义。复跑冻结探针E01/E02/E03/E06（observe；E02/E06 contract预期AssertionError红），必要时仅在自有mkdtemp补只读/隔离反证。输出有file:line和可证伪观察的premise verified/counter、design agree/counter及旧版本兼容审查；只写本人签字/证据/日志并提交推送，保留GLM并行改动，不改共享状态、不开始实现、不标done。发现产品裁决缺口明确指出，不替用户扩大范围。
+在 /Users/zhangxu/illegal/type-pal 审 MIGRATION-WRITE-GUARD-1 r1 设计，卡 docs/ops/archive/tasks/done/MIGRATION-WRITE-GUARD-1-planned-snapshot-and-paths.md，状态draft，生产冻结14257da75f4c3c91dd9aae5f37de13a5f1040f8c。先同步main、检查工作树，读AGENTS/CLAUDE/READ-FIRST、本卡与docs/testing/pre-e2e-admission.md。独立读planner→原始snapshot hash→write-plan→journal/recover及materializer实际写点，不读取或复述GLM结论。重点审：规划缺席null/缺字段区别、全量前提与journal恢复、父链/悬空/临时路径、check到syscall的剩余竞态及单writer边界；本卡不做多writer原子锁、不改journal版本或内容语义。复跑冻结探针E01/E02/E03/E06（observe；E02/E06 contract预期AssertionError红），必要时仅在自有mkdtemp补只读/隔离反证。输出有file:line和可证伪观察的premise verified/counter、design agree/counter及旧版本兼容审查；只写本人签字/证据/日志并提交推送，保留GLM并行改动，不改共享状态、不开始实现、不标done。发现产品裁决缺口明确指出，不替用户扩大范围。
 
 ### 给GLM（与Kimi并行）
 
-在 /Users/zhangxu/illegal/type-pal 审 MIGRATION-WRITE-GUARD-1 r1 前提与验收矩阵，卡 docs/ops/tasks/MIGRATION-WRITE-GUARD-1-planned-snapshot-and-paths.md，状态draft，生产冻结14257da75f4c3c91dd9aae5f37de13a5f1040f8c。先同步main、检查工作树，读AGENTS/CLAUDE/READ-FIRST、本卡与docs/testing/pre-e2e-admission.md。独立读实际代码与探针，不读取或复述Kimi结论。复跑 node --import tsx docs/ops/audits/pre-e2e/probe-glm-next-migration.mjs --mode=observe --case all，再分别contract E02/E06核红因；核49相邻用例现有覆盖与AC01～10缺口、实际原始字节hash/缺席/晚位冲突/零副作用、叶链接与父链不同结果、静态全量拒绝与途中停止边界、负控鉴别力和隔离发布幂等方案。GLM原探针贡献要披露，不能仅以自己的旧回执代替独立当前源码证据。输出有file:line和可证伪观察的premise verified/counter、design agree/counter及旧版本兼容审查；只写本人签字/证据/日志并提交推送，保留Kimi并行改动，不改共享状态、不开始实现、不标done。无浏览器/视觉任务。
+在 /Users/zhangxu/illegal/type-pal 审 MIGRATION-WRITE-GUARD-1 r1 前提与验收矩阵，卡 docs/ops/archive/tasks/done/MIGRATION-WRITE-GUARD-1-planned-snapshot-and-paths.md，状态draft，生产冻结14257da75f4c3c91dd9aae5f37de13a5f1040f8c。先同步main、检查工作树，读AGENTS/CLAUDE/READ-FIRST、本卡与docs/testing/pre-e2e-admission.md。独立读实际代码与探针，不读取或复述Kimi结论。复跑 node --import tsx docs/ops/audits/pre-e2e/probe-glm-next-migration.mjs --mode=observe --case all，再分别contract E02/E06核红因；核49相邻用例现有覆盖与AC01～10缺口、实际原始字节hash/缺席/晚位冲突/零副作用、叶链接与父链不同结果、静态全量拒绝与途中停止边界、负控鉴别力和隔离发布幂等方案。GLM原探针贡献要披露，不能仅以自己的旧回执代替独立当前源码证据。输出有file:line和可证伪观察的premise verified/counter、design agree/counter及旧版本兼容审查；只写本人签字/证据/日志并提交推送，保留Kimi并行改动，不改共享状态、不开始实现、不标done。无浏览器/视觉任务。
 
-## 下一位Agent提示词（同候选并行实现终审）
+## 实现终审历史提示词（已完成，不重复领取）
 
 ### 给Kimi
 
-在 /Users/zhangxu/illegal/type-pal 终审 MIGRATION-WRITE-GUARD-1 r1，任务卡 docs/ops/tasks/MIGRATION-WRITE-GUARD-1-planned-snapshot-and-paths.md，状态review，实现候选57dda7ed，对比生产14257da7；设计不重签。先同步main/check工作树，读AGENTS/CLAUDE/READ-FIRST、本卡AC01～10及docs/testing/migration-write-guard.md。独立审CLI规划原始hash/null→write-plan→transaction前检/staging/journal恢复，及路径helper→物化预检/各写点/独占临时文件/inode清理；不要读取或复述GLM终审。复跑三新测试36项与相邻，node docs/testing/migration-write-guard-mutants.mjs应1对照绿+5业务红；需要复核发布时用node docs/testing/migration-write-guard-publish.mjs，仅写自有tmp，不跑真实主树迁移CLI。核旧签名无fallback、journal格式不变、原probe零diff、未夸大check→syscall/单writer/整批回滚。原探针旧签名不兼容不算修复证据。全仓check8029/ratchet/strict7538采信已落日志，不并发重跑全仓覆盖率。输出本人同候选accept或带file:line与复现的counter，以及旧版本兼容审查；只改本人席位/证据/日志并提交推送，保留另一席改动，不改产品、不改状态、不代签、不标done。无视觉任务。
+在 /Users/zhangxu/illegal/type-pal 终审 MIGRATION-WRITE-GUARD-1 r1，任务卡 docs/ops/archive/tasks/done/MIGRATION-WRITE-GUARD-1-planned-snapshot-and-paths.md，状态review，实现候选57dda7ed，对比生产14257da7；设计不重签。先同步main/check工作树，读AGENTS/CLAUDE/READ-FIRST、本卡AC01～10及docs/testing/migration-write-guard.md。独立审CLI规划原始hash/null→write-plan→transaction前检/staging/journal恢复，及路径helper→物化预检/各写点/独占临时文件/inode清理；不要读取或复述GLM终审。复跑三新测试36项与相邻，node docs/testing/migration-write-guard-mutants.mjs应1对照绿+5业务红；需要复核发布时用node docs/testing/migration-write-guard-publish.mjs，仅写自有tmp，不跑真实主树迁移CLI。核旧签名无fallback、journal格式不变、原probe零diff、未夸大check→syscall/单writer/整批回滚。原探针旧签名不兼容不算修复证据。全仓check8029/ratchet/strict7538采信已落日志，不并发重跑全仓覆盖率。输出本人同候选accept或带file:line与复现的counter，以及旧版本兼容审查；只改本人席位/证据/日志并提交推送，保留另一席改动，不改产品、不改状态、不代签、不标done。无视觉任务。
 
 ### 给GLM
 
-在 /Users/zhangxu/illegal/type-pal 复核 MIGRATION-WRITE-GUARD-1 r1实现与矩阵，任务卡 docs/ops/tasks/MIGRATION-WRITE-GUARD-1-planned-snapshot-and-paths.md，状态review，实现候选57dda7ed，对比生产14257da7；设计不重签。先同步main/check工作树，读AGENTS/CLAUDE/READ-FIRST、本卡AC01～10及docs/testing/migration-write-guard.md，不读取或复述Kimi终审。逐项核36新测试的合法正控、原始字节来源/缺席/后位冲突/实际IO/原生链接与清理归属、四旧测试文件只适配输入、五单点负控鉴别力和两次真实CLI发布回执；复跑三新文件及node docs/testing/migration-write-guard-mutants.mjs（1对照绿+5精确业务红），发布复算仅可用隔离publish工具。核migrate fast361→397、原48文件身份计数不变、其他六包基线对象不变；不要补跑/并发改官方ratchet或strict。原probe冻结不改，旧签名异常不能当缺陷已修。披露你是旧诊断材料贡献者，以当前独立源码/测试为据；给本人同候选accept或有复现的counter及旧兼容审查。只改本人席位/证据/日志并提交推送，保留另一席改动，不改产品/状态、不代签、不标done。无视觉任务。
+在 /Users/zhangxu/illegal/type-pal 复核 MIGRATION-WRITE-GUARD-1 r1实现与矩阵，任务卡 docs/ops/archive/tasks/done/MIGRATION-WRITE-GUARD-1-planned-snapshot-and-paths.md，状态review，实现候选57dda7ed，对比生产14257da7；设计不重签。先同步main/check工作树，读AGENTS/CLAUDE/READ-FIRST、本卡AC01～10及docs/testing/migration-write-guard.md，不读取或复述Kimi终审。逐项核36新测试的合法正控、原始字节来源/缺席/后位冲突/实际IO/原生链接与清理归属、四旧测试文件只适配输入、五单点负控鉴别力和两次真实CLI发布回执；复跑三新文件及node docs/testing/migration-write-guard-mutants.mjs（1对照绿+5精确业务红），发布复算仅可用隔离publish工具。核migrate fast361→397、原48文件身份计数不变、其他六包基线对象不变；不要补跑/并发改官方ratchet或strict。原probe冻结不改，旧签名异常不能当缺陷已修。披露你是旧诊断材料贡献者，以当前独立源码/测试为据；给本人同候选accept或有复现的counter及旧兼容审查。只改本人席位/证据/日志并提交推送，保留另一席改动，不改产品/状态、不代签、不标done。无视觉任务。
+
+## 当前交接结论
+
+无下一位Agent提示词；本卡已按用户授权收口。E-05/U-02/N6b/Q2仍按各自台账继续，不能复用本卡签字扩大实现范围。

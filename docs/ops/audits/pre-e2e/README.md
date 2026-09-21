@@ -162,6 +162,9 @@ E2E门槛另列。没有证据表明用户现有项目或存档已经遭到损�
 
 ## A-08 · 计划检查到事务采样之间仍有并发写窗口
 
+当前跟进：[MIGRATION-WRITE-GUARD-1](../../archive/tasks/done/MIGRATION-WRITE-GUARD-1-planned-snapshot-and-paths.md)候选57dda7ed已三席accept，2026-09-21用户授权后done归档。
+规划原始hash/null贯穿、全量前检及staging复核已修；单writer纪律保留，不宣称任意并发写安全。以下保留修前证据。
+
 - 证据：`migrate/scripts/migrate-content.mts:108-125`先检查快照，再物化，再创建事务；
   `src/migration-write-plan.ts:37-44`普通JSON写删不携带计划时旧hash；`migration-transaction.ts:330-331`
   提交时重读作者刚保存的文件作为previousHash，旧plan因而获准覆盖新值。
@@ -173,6 +176,9 @@ E2E门槛另列。没有证据表明用户现有项目或存档已经遭到损�
   严格串行薄E2E不因本条一概冻结；并发保存/重迁安全不能宣称已满足。复现见 `probe-migration-boundaries.mjs` 的A-08。
 
 ## A-09 · 资源物化未拒绝目标父目录symlink
+
+当前跟进：同一[MIGRATION-WRITE-GUARD-1](../../archive/tasks/done/MIGRATION-WRITE-GUARD-1-planned-snapshot-and-paths.md)已按r1完成路径预检、写点复核、独占临时文件与安全清理，三席accept并done。
+非OS沙箱/check到syscall残余窗口与非整批回滚边界保持；以下是原审计时点，不表示新候选仍缺这组保护。
 
 - 证据：`migrate/src/pal-assets.ts:1250-1265`按resolve路径mkdir/write/rename，没有校验实际父链；
   `migration-transaction.ts:75`的symlink拒绝发生在后续JSON事务中，无法保护先行物化。

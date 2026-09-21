@@ -1,8 +1,11 @@
 # MIGRATION-WRITE-GUARD-1 · 实施与验证
 
 Owner：Codex；设计r1，冻结生产14257da7，三席准入在deb4f363落盘。
-任务卡：[迁移规划快照与二进制路径保护](../ops/tasks/MIGRATION-WRITE-GUARD-1-planned-snapshot-and-paths.md)。
-本记录随实施更新；未取得同候选三席终审前不标done，不代签。
+任务卡：[迁移规划快照与二进制路径保护](../ops/archive/tasks/done/MIGRATION-WRITE-GUARD-1-planned-snapshot-and-paths.md)。
+状态：**done（2026-09-21）**。候选57dda7ed三席同候选accept齐：Codex实现者自验、GLM6ca25cf6、Kimiafb05943，三席旧兼容审查pass、无counter/返工/缺签豁免。
+用户明确授权后，Codex核产品/测试/官方基线/工具零漂移及GLM席位保全，统一核定done并归档；只跑文档门，不重跑迁移发布或全仓覆盖率。
+[远端Coverage ratchet #286](https://github.com/IllegalCreed/type-pal/actions/runs/35610521133)已完成success，head cba34f66对实现57dda7ed零产品漂移。
+A-08/A-09按r1关闭；E-05/U-02/N6b/Q2与其它欠账不变，不代签、不把本卡完成扩成E2E准入。
 
 ## 实现
 

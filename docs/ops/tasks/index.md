@@ -8,7 +8,6 @@
 
 | 任务 | 顶部状态 | 说明 |
 |---|---|---|
-| [MIGRATION-WRITE-GUARD-1 - 迁移规划快照与二进制路径保护](MIGRATION-WRITE-GUARD-1-planned-snapshot-and-paths.md) | review | 以任务卡当前准入与看板分工为准。 |
 
 ## 已完成（historical）
 
@@ -123,6 +122,7 @@
 | [MIG-PAL-ROLE-SPRITE-ALIAS-CLOSURE-1 PAL 角色大世界精灵语义别名全量闭包](../archive/tasks/done/MIG-PAL-ROLE-SPRITE-ALIAS-CLOSURE-1-pal-role-world-sprite-alias-closure.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [MIG-PAL-STORE0-SHOP-BOUNDARY-1 - PAL Store[0] 奖励表与商店边界收口](../archive/tasks/done/MIG-PAL-STORE0-SHOP-BOUNDARY-1-pal-store-zero-resource-pool.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [MIG-PAL-WORLD-SPRITE-ALIAS-1 PAL 大世界角色精灵语义别名收口](../archive/tasks/done/MIG-PAL-WORLD-SPRITE-ALIAS-1-pal-world-sprite-semantic-alias.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [MIGRATION-WRITE-GUARD-1 - 迁移规划快照与二进制路径保护](../archive/tasks/done/MIGRATION-WRITE-GUARD-1-planned-snapshot-and-paths.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [N1-1 - 对话控制码退出内容与运行时](../archive/tasks/done/N1-1-dialogue-control-code-retirement.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [N3-1 - 结构化控制流、实体具名行为与内部脚本退役](../archive/tasks/done/N3-1-script-control-flow-modernization.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [N6 - 共享脚本/子程序创作闭环](../archive/tasks/done/N6-shared-script-authoring.md) | done | 完成证据、历史签字与交接见原卡。 |
