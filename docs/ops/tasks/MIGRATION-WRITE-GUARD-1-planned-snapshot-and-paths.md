@@ -179,7 +179,36 @@ Implementation Candidate: `57dda7ed`
 ### 进入done前
 
 - Codex：**accept（2026-09-21，实现者自验，候选57dda7ed；不是独立第三方审查）**。规划原始hash由CLI:119传入write-plan:34-43，project mandatory/null在transaction:299-312校验，staging:336再核且previousHash用携带值；路径helper逐级lstat含悬空/叶，pal-assets全量/各写点检查、独占临时文件与inode归属清理。36新回归、migrate515项、1对照+5单点负控、隔离两次真实CLI发布均通过；完整check8029、官方ratchet与保护14257da7的普通CI彩色环境单次strict7538通过。原48个migrate fast测试身份/计数与另六包完整基线对象保持，原探针零diff。旧兼容审查pass，journal v2/content20/SAVE8不变；边界、失败记录、命令及证据见[实施回执](../../testing/migration-write-guard.md)。
-- Kimi：pending。
+- Kimi：**accept（2026-09-21，候选57dda7ed对比14257da7；锚点本人直读/主树与隔离工具复跑，未读 GLM 本轮结论）**。
+  - **规划 hash/null 贯穿**：`migration-write-plan.ts:24,34-41` 必填 `projectSnapshot`，
+    `plannedHash` 从原始 `hashes` 取值、未纳入快照或 files/hash 一致性破损即 throw、缺席显式
+    null；`TransactionChange` 判别联合（project 必带 `string|null`，baseline/manifest `?: never`）
+    使旧 project 调用者无静默 fallback 可表达；运行期 `Object.hasOwn` 复核
+    （`migration-transaction.ts:299-306`）。CLI 传规划时真实快照（`migrate-content.mts`）。
+  - **提交与恢复**：commit 规范化循环对每个 change 先做链接检查+`assertPlannedTarget`
+    （全量前提先于首个 staging 写）；staging 每项再核且 project 的 journal.previousHash=携带的
+    规划值（`:336-341`），不再重采样；`assertPreviousTarget`/applyJournal 恢复语义不变，
+    因 previousHash 现为规划值，journal 后冲突继续拒绝覆盖。staging 中途失败留下未发布
+    临时物、不冒充恢复授权的边界如实披露。
+  - **路径检查**：`migration-path.ts:13-22` realpath 可信根+规范相对路径拒绝（绝对/反斜杠/
+    空段/dot/dotdot）+逐级 `lstatSync(throwIfNoEntry:false)`——悬空链接可见，注释明言
+    existsSync 不得先行（设计期第②条可证伪观察被正面满足）；JSON journal 检查复用同 helper，
+    旧 existsSync 门缝同步关闭。
+  - **临时文件归属**：随机 UUID 名+`openSync(temp,'wx')` 独占创建（不删/不复用他人临时文件）、
+    fstat 记录 owned inode、rename 前后再核路径、清理仅限同 dev/ino 且路径仍安全，父链变更时
+    保留原错误不沿新链清理（`pal-assets.ts:1268-1294`）。
+  - **本席复跑**：36 新回归 36/36 绿（migration-path 9/write-guard 13/pal-assets-paths 14）；
+    mutants 1 对照绿+5 针全 detected（resample/late-preflight/no-path-guard/no-pre-mkdir-check/
+    cleanup-foreign-inode）；隔离 publish 工具本人复跑 exit0——第一遍 writes=1/物化 1/事务 3/
+    内部 replay 零差异，第二遍独立 CLI 全零，回执 2474 工程+315 baseline 恢复冻结字节；
+    未运行主树迁移写盘。check8029/ratchet/strict7538 与远端 #286 采信 Codex 已落证据。
+  - **范围与基线**：产品 5 文件、旧测试 4 文件仅薄适配（plannedChanges fixture 用真实磁盘
+    快照，断言保留）；baseline 7502→7538（+36）、632→633（+1 路径 helper），另六包对象不变，
+    原审计探针零 diff。
+  - **旧版本兼容审查（单列）：pass**——journal v2 磁盘格式不变（previousHash 语义收紧为规划值，
+    非格式变更）；无 upgrader/旧签名 fallback/保留前缀；E-05 不借卡偷跑；单 writer/非 OS 沙箱/
+    check→syscall 残余窗口的诚实边界保持。
+  - 返工项：无。
 - GLM：**accept（2026-09-21，同候选 57dda7ed 对比 14257da7；未读 Kimi 终审。披露：本人是原诊断探针 probe-glm-next-migration.mjs 及 A-08/A-09 诊断材料贡献者，本签以当前树独立源码/复跑为据——原探针零 diff，其旧签名失配按记录不作为通过证据）**。
   本席独立复跑与直读证据：
   - **36 新测试复跑 36/36**（migration-path 9 + migration-write-guard 13 + pal-assets-paths 14）；
@@ -222,6 +251,17 @@ Implementation Candidate: `57dda7ed`
 - 无UI/视觉变更；E-05/U-02/N6b/Q2及第一阶段欠账均未借此关闭。远端检查以推送同headSha的Actions为准，不拿本地结果代替。
 
 ## 交接日志
+
+- 2026-09-21 Kimi（独立终审）：候选57dda7ed对比14257da7，签 done 前 accept（单列旧兼容 pass）。
+  独立直读：规划 hash 必填贯穿（write-plan plannedHash 未纳入快照/缺 hash 即 throw、缺席显式
+  null；TransactionChange 判别联合使旧 project 调用者无静默 fallback）；commit 全量预检先于
+  首个 staging 写、staging 每项再核、project 的 journal.previousHash=携带规划值；migration-path
+  逐级 lstat 见悬空链接（existsSync 不先行），JSON journal 检查复用同 helper；物化预检含临时
+  路径、wx 独占临时+fstat inode 归属清理、父链变更保留原错误。本席复跑：36 新回归绿、mutants
+  1对照+5针 detected、隔离 publish 两遍 exit0（首遍 writes=1/物化1，第二遍全零，2474+315
+  文件恢复冻结字节）；未运行主树迁移写盘。check8029/ratchet/strict7538/远端#286 采信 Codex。
+  编辑事故自报：落盘时一度误删 GLM 席位头行，已即刻原样恢复，最终 diff 仅替换本人 pending 行。
+  未读 GLM 本轮结论，不改产品/他席/状态，不标 done。Next：Codex 核 done 门。
 
 - 2026-09-21 GLM（实现复核）：对候选 57dda7ed 签 done 前 accept（证据见本席，披露原诊断材料
   贡献者身份）：36 新测试与 mutants（1 对照+5 针）与隔离发布双跑均本人复跑绿；A-08 判别联合
