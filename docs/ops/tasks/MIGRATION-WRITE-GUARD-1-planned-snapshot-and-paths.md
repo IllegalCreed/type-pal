@@ -153,8 +153,16 @@ Production Baseline: `14257da75f4c3c91dd9aae5f37de13a5f1040f8c`
     正控转红；⑦ 把保护夸大为多 writer/OS 级沙箱承诺。
   - 旧版本兼容审查 pass：journal v2 格式不变、无升级器/兼容分支、current-only 纪律符合。
   - 返工项：无。
-- GLM：premise pending；design pending。独立证据与可证伪观察待本人落盘。
-- 独立反证审查：pending，至少一位非Coding Owner读取实际源码与真实链后填写，不能复述本席结论。
+- GLM：**premise verified / design agree（2026-09-21，冻结 14257da7；源码锚点与探针均为本人当日复跑/直读，未读 Kimi 结论。披露：`probe-glm-next-migration.mjs` 为本人原探针贡献，本签以冻结树复跑+一手源码为据，不以旧回执代替）**。
+  - **A-08 根因直读**：`ProjectMigrationSnapshot.hashes`（`migration-project-io.ts:9-12`）已有原始字节哈希，但 `migration-write-plan.ts:36-45` 普通 write/delete 变更**不携带期望旧值**（仅退役项 :54-60 带 expectedPreviousHash）；`migration-transaction.ts:331` staging 时 `existsSync(target) ? sha256(readFileSync(target)) : null` **重采样当前文件**为 previousHash；CLI `migrate-content.mts:109-121` 先 `assertProjectSnapshotCurrent` 但其与 staging 采样之间的作者改动即被重新合法化（=E02 窗口）；snapshot hashes 从未进入写授权。
+  - **A-09 根因直读**：`pal-assets.ts:1241-1263` `resolve→mkdirSync(recursive)→临时写→renameSync` 全链**零链接检查**；`existsSync(destination)` 跟随链接——悬空链接被当“不存在”写穿。JSON 侧 `assertNoSymlinkPath`（`migration-transaction.ts:73-80` 逐级 lstat）仅护 journal 操作/staging；E08 同帧对照 JSON 拒绝而二进制照写。
+  - **探针冻结树当日复跑**：observe 12 条 exit0＝8 covered/4 reproduced（E02/E06/E07/E08）；E02 `rejected=false/authorPreserved=false/rename 已发生`、E06/E08 外部 `OUTSIDE_ORIGINAL→NEW`；E07 三变体 `self(叶链接)→ORIGINAL`（正确控制）、`deep/race→NEW`——叶链接原子替换与父链穿透结果不同未混报。contract E02 exit1＝AssertionError「冲突拒绝或保留都必须不覆盖作者新值、项目零写入」、E06 exit1＝AssertionError「物化必须以明确路径拒绝在任何修改前终止并保留原字节」——候选业务红非环境失败。
+  - **49 相邻复跑绿＋缺口核实**：7 文件 49/49 本人复跑；标题扫描证实现有覆盖=E01/E03/E04/E05 语义（journal 恢复/坏 journal/退役 hash/提交窗拒绝/authored 接管/预检先于首写/重复路径），**无任何用例钉**规划 hash 贯穿（AC01-03）、二进制路径链接矩阵（AC05）、预检后换链注入（AC06）、两家族负控（AC08）。
+  - **design agree**：A 案缺席显式 null、禁序列化重算、无静默采样 fallback、journal v2 磁盘不改、staging 前冲突零新修改、合法 journal 后冲突走既有恢复拒绝——与 `applyJournal`/`assertPreviousTarget`（:210-215）正交；B 案全量静态预检先于首资源写、各写点（mkdir/临时写/rename）复核、临时路径同护、悬空链接不当不存在、中途变化即停不沿变更链清理——正中本人读出的两处写点缺陷；「check→syscall 仍有窗口、非 OS 级沙箱、单 writer 纪律保持」诚实边界与 README:49 一致。
+  - **调用面 census**：两函数生产调用者**各仅 CLI 一处**（migrate-content.mts:110/:116），A.2「所有调用者一次适配」范围完整。
+  - **可证伪观察**：① 存在第三处生产调用方或依赖静默采样的真实 caller→A.2 范围错（census 为空）；② 冻结树 E02 contract 绿→前提倒（实跑红）；③ 实施后 AC05 把悬空叶链接按“不存在”放行→B.1 违反；④ 隔离副本二次发布与冻结产物有字节差→AC10 先调查不得改黄金文件。
+  - **旧版本兼容审查**：pass——journal v2 磁盘版本/语义不改（previousHash 已 string|null）；无升级器/旧格式 fallback/保留前缀；退役 expectedSha256 与 baseline/manifest 原约束保留；E-05 不在本卡偷跑；叶链接统一拒绝是对齐既有 JSON 纪律的收紧而非兼容分支；单 writer 纪律文档化不扩为多 writer 承诺。返工项：无。
+- 独立反证审查：**已满足**——Kimi `996bb55f` 与 GLM 本席均独立直读源码并复跑探针，各自给出锚点与可证伪观察，互不复述。
 - 缺签豁免：无。
 - build准入结论：**blocked（缺两席设计签字；Status保持draft，不得改产品）**。
 
@@ -166,6 +174,14 @@ Production Baseline: `14257da75f4c3c91dd9aae5f37de13a5f1040f8c`
 - done准入结论：blocked。
 
 ## 交接日志
+
+- 2026-09-21 GLM（r1 前提/矩阵独立审查）：签 premise verified / design agree（证据见本席）。
+  探针（本人原贡献，已披露）冻结树当日复跑：observe 12=8 covered/4 reproduced，contract
+  E02/E06 均 exit1 业务 AssertionError；A-08/A-09 两处写点根因一手直读（write-plan :36-45
+  不带旧值、transaction :331 staging 重采样、pal-assets :1241-1263 零链接检查+existsSync
+  悬空陷阱）；49 相邻复跑绿且缺口与 AC01-10 对上；两函数生产调用者各仅 CLI 一处；旧兼容
+  审查 pass（journal v2 不改、无 fallback、E-05 不偷跑）。未读 Kimi 结论、未实现、未改
+  状态/基线，不标 done。
 
 - 2026-09-21 Kimi（r1 独立设计审查）：签 premise verified / design agree，无返工项。直读 A-08
   窗口（snapshot hashes 存在且 CLI :109 先核，但 write-plan 不携带、transaction:331 staging 重采样、
