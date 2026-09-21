@@ -180,8 +180,38 @@ Implementation Candidate: `57dda7ed`
 
 - Codex：**accept（2026-09-21，实现者自验，候选57dda7ed；不是独立第三方审查）**。规划原始hash由CLI:119传入write-plan:34-43，project mandatory/null在transaction:299-312校验，staging:336再核且previousHash用携带值；路径helper逐级lstat含悬空/叶，pal-assets全量/各写点检查、独占临时文件与inode归属清理。36新回归、migrate515项、1对照+5单点负控、隔离两次真实CLI发布均通过；完整check8029、官方ratchet与保护14257da7的普通CI彩色环境单次strict7538通过。原48个migrate fast测试身份/计数与另六包完整基线对象保持，原探针零diff。旧兼容审查pass，journal v2/content20/SAVE8不变；边界、失败记录、命令及证据见[实施回执](../../testing/migration-write-guard.md)。
 - Kimi：pending。
-- GLM：pending。
-- done准入结论：**blocked（缺Kimi/GLM同候选实现accept；不标done）**。
+- GLM：**accept（2026-09-21，同候选 57dda7ed 对比 14257da7；未读 Kimi 终审。披露：本人是原诊断探针 probe-glm-next-migration.mjs 及 A-08/A-09 诊断材料贡献者，本签以当前树独立源码/复跑为据——原探针零 diff，其旧签名失配按记录不作为通过证据）**。
+  本席独立复跑与直读证据：
+  - **36 新测试复跑 36/36**（migration-path 9 + migration-write-guard 13 + pal-assets-paths 14）；
+    **mutants 复跑 rc=0**：1 对照绿 + 5 针全 detected（resample/late-preflight/no-path-guard/
+    no-pre-mkdir-check/cleanup-foreign-inode）——正中规划重采样/后位预检/路径检查/mkdir 前复核/
+    外来 inode 清理五个保护面。
+  - **隔离发布工具本人复跑 rc=0**（仅自有 tmp）：第一遍 exit0 managed=537/writes=1/
+    transaction-changes=3、内部 replay 零差异；第二遍独立 CLI 进程 exit0 writes=0/deletes=0/
+    conflicts=0/transaction-changes=0——幂等成立；回执核 2474 工程文件+315 baseline 恢复冻结字节。
+  - **A-08 实现直读**：`buildMigrationTransactionChanges` 新增必填 `projectSnapshot`（类型级无
+    optional）；`plannedHash` 从原始 `hashes` 取值、缺席显式 null、未纳入快照或 files/hash 一致性
+    破损即 throw；`TransactionChange` 判别联合——project 必带 `expectedPreviousHash: string|null`、
+    baseline/manifest `?: never`，**无静默采样 fallback 可表达**；commit 前 `assertNoSymlinkPath`
+    （复用新 helper）+ 全量 `assertPlannedTarget`，staging 每操作再核且 project 的
+    journal.previousHash=**携带的规划值**（非重采样）。
+  - **A-09 实现直读**：`migration-path.ts` realpath 可信根+逐级 lstat（注释明言 existsSync 不得
+    先行——悬空链接可见）；pal-assets 预检含每条 catalog 路径+随机 UUID 临时路径；写点
+    `openSync(temp,'wx')` 独占（注释明言不复用他人临时文件）、fstat 记录 owned inode、rename 前后
+    均再核临时/目标路径、成功后 owned 清空——清理仅限原 inode 且路径仍安全；夹具为自有 mkdtemp
+    原生 symlink+outside 哨兵。
+  - **基线/probe 完整性**：migrate fastTests fileEntries **旧 48 条身份+计数逐一相同**、恰加 3
+    新文件（361→397/48→51 文件）；另六包 baseline 对象逐对象相同；原探针 diff 零行。四个旧测试
+    文件仅适配输入（薄 fixture/null/实际旧 hash），标题与业务断言保持（identityDigest 不变佐证）。
+  - **旧版本兼容审查（单列）：pass**——project 输入收紧后全部调用方一次适配（生产仅 CLI 一处
+    传入快照）；无旧签名 fallback/升级器/保留前缀；journal v2 磁盘格式不变（previousHash 语义从
+    “staging 采样值”收紧为“规划值”，是授权语义修复非格式变更）；E-05 不偷跑；单 writer/非 OS
+    沙箱/check→syscall 窗口的诚实边界在 helper 注释与回执中明示。
+  - **可证伪观察**：① 任何 project 变更能不带规划值通过 commit（含测试内构造）→判别联合被绕过；
+    ② 二遍发布出现非零 writes/deletes→幂等破；③ 悬空叶链接被按“不存在”放行→helper lstat 顺序
+    违规。均未出现。
+  - 统一 check8029/ratchet/strict7538 为 Codex 已落日志证据，本席不并发重跑。无 counter。
+- done准入结论：**blocked（缺 Kimi 同候选实现accept；GLM 已签，不标done）**。
 
 ## Review：交付与保留边界
 
@@ -192,6 +222,12 @@ Implementation Candidate: `57dda7ed`
 - 无UI/视觉变更；E-05/U-02/N6b/Q2及第一阶段欠账均未借此关闭。远端检查以推送同headSha的Actions为准，不拿本地结果代替。
 
 ## 交接日志
+
+- 2026-09-21 GLM（实现复核）：对候选 57dda7ed 签 done 前 accept（证据见本席，披露原诊断材料
+  贡献者身份）：36 新测试与 mutants（1 对照+5 针）与隔离发布双跑均本人复跑绿；A-08 判别联合
+  必带规划值/staging 再核/journal 保留规划值、A-09 逐级 lstat/wx 独占临时/inode 归属清理均
+  一手直读；旧 48 身份计数不变、六包基线对象相同、原探针零 diff；旧兼容审查单列 pass。
+  未读 Kimi 终审、未并发重跑官方覆盖率、未改产品/状态，不代签、不标 done。
 
 - 2026-09-21 Codex（实现交付）：独立工作树完成57dda7ed；49旧相邻合同适配后保持，新增36项；包515、全仓8029、ratchet/strict7538、五针负控及两次隔离真实发布通过。签本人实施自验accept，推进review，准备Kimi/GLM并行同候选终审；不代签、不标done。首次路径夹具/临时发布缺soundfont等验证失败已在回执如实登记并修正，未降低任何门禁。
 
