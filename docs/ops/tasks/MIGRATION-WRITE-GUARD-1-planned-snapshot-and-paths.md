@@ -1,6 +1,6 @@
 # MIGRATION-WRITE-GUARD-1 - 迁移规划快照与二进制路径保护
 
-Status: draft
+Status: build
 Phase: phase2
 Capability: A7
 Coding Owner: Codex
@@ -9,7 +9,7 @@ Reviewer: both
 Visual Verification Owner: Codex
 Visual Verification Timing: N/A
 Unavailable Agents: none
-Branch: main（r1设计；build前由Codex创建隔离codex分支）
+Branch: codex/migration-write-guard-1
 
 Revision: r1
 Production Baseline: `14257da75f4c3c91dd9aae5f37de13a5f1040f8c`
@@ -164,7 +164,16 @@ Production Baseline: `14257da75f4c3c91dd9aae5f37de13a5f1040f8c`
   - **旧版本兼容审查**：pass——journal v2 磁盘版本/语义不改（previousHash 已 string|null）；无升级器/旧格式 fallback/保留前缀；退役 expectedSha256 与 baseline/manifest 原约束保留；E-05 不在本卡偷跑；叶链接统一拒绝是对齐既有 JSON 纪律的收紧而非兼容分支；单 writer 纪律文档化不扩为多 writer 承诺。返工项：无。
 - 独立反证审查：**已满足**——Kimi `996bb55f` 与 GLM 本席均独立直读源码并复跑探针，各自给出锚点与可证伪观察，互不复述。
 - 缺签豁免：无。
-- build准入结论：**blocked（缺两席设计签字；Status保持draft，不得改产品）**。
+- build准入结论：**build allowed（2026-09-21 Codex核定）**。Codex r1、Kimi `996bb55f`、GLM `91833db5`分别premise verified/design agree，独立直接证据与可证伪观察齐，无counter/缺签豁免；生产相对14257da7零diff。用户确认“签了”，本席统一推进build，不改他席结论。
+
+## Build：准入与白名单
+
+- 独立工作树：`/Users/zhangxu/.codex/worktrees/migration-write-guard/type-pal`，仅Codex写实现。
+- 生产：`migration-write-plan.ts`、`migration-transaction.ts`、`pal-assets.ts`、必要的内部路径helper及CLI `scripts/migrate-content.mts`。
+- 调用面：两个生产入口均仅CLI；既有测试调用位于`migration-write-plan{,.boundaries}.test.ts`和`migration-transaction{,.boundaries}.test.ts`，仅适配强制输入合同、保留原业务断言。
+- 新增规划hash/路径/恢复回归与专用fixture/负控工具；migrate README、本卡及测试回执；官方baseline仅由最终ratchet生成。
+- 不改原审计probe。其旧签名在新必填合同下失配时不算修复证据；用适配后的独立真实链回归和负控证明，保留原树红因。
+- 发布实验仅自有隔离副本；真实`projects/pal`、原始资源、其它工作树和作者恢复数据不写。
 
 ### 进入done前
 
@@ -174,6 +183,8 @@ Production Baseline: `14257da75f4c3c91dd9aae5f37de13a5f1040f8c`
 - done准入结论：blocked。
 
 ## 交接日志
+
+- 2026-09-21 Codex（build开门）：用户确认签字后同步main并核工作树干净；Kimi996bb55f/GLM91833db5同r1签字及无counter成立，生产对14257da7零漂移。统一核定build allowed，创建独立工作树与codex分支，开始先红后绿实现；未代签、未标done。
 
 - 2026-09-21 GLM（r1 前提/矩阵独立审查）：签 premise verified / design agree（证据见本席）。
   探针（本人原贡献，已披露）冻结树当日复跑：observe 12=8 covered/4 reproduced，contract
