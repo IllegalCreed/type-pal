@@ -1,14 +1,14 @@
 {
   "schemaVersion": 2,
   "profile": "fast",
-  "generatedAt": "2026-09-20T16:30:01.225Z",
+  "generatedAt": "2026-09-21T12:09:37.255Z",
   "provider": {
     "name": "v8",
     "vitest": "4.1.7",
     "coverageV8": "4.1.7"
   },
   "sourceFileCount": 632,
-  "testCount": 7497,
+  "testCount": 7502,
   "packages": {
     "shared": {
       "name": "@type-pal/shared",
@@ -2439,7 +2439,7 @@
       ],
       "scopeDigest": "172860557359800006b54684305c95556da2645892e450c2d5b4891297aba98e",
       "fastTests": {
-        "testCount": 2313,
+        "testCount": 2318,
         "testFileCount": 134,
         "files": [
           "packages/game/src/analytics/analytics-consent-ui.test.ts",
@@ -2625,8 +2625,8 @@
           },
           {
             "file": "packages/game/src/assets/snapshot-input-boundaries.test.ts",
-            "testCount": 20,
-            "identityDigest": "a92fcf446b6420a37e842a113b9c92a73f885d0444838e1fb726c84c3644b5d8"
+            "testCount": 25,
+            "identityDigest": "3ca402c550aca1aca06b75a4dadea2cd85831e0a7ab42f31e3ea9861081210ae"
           },
           {
             "file": "packages/game/src/assets/tileset-blob.test.ts",
@@ -3249,9 +3249,9 @@
             "identityDigest": "916c70c2855d90db70208a6895de9b3254f0e3f039c2bb0b96bc8fd4287d249d"
           }
         ],
-        "identityDigest": "0749560b1d034e88232c273278d7bfe8b6b43e41e0b5997b5b21e2532b3b28c4",
+        "identityDigest": "ad03bb05b64ea797c436befecce5dab8a37397c75f9425d4f01f0915ba06d016",
         "duplicateIdentityCount": 0,
-        "executionDigest": "f7d9541bad9ac21e45227700536a90230fbadb197db9d22c43a4fd14285cb9a6"
+        "executionDigest": "0970c78978f838b54480c6855f0b984d107451cb0ec50b4ad76c037a320d0926"
       },
       "metrics": {
         "statements": {

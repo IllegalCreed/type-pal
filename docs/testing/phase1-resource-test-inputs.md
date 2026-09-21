@@ -3,6 +3,32 @@
 Owner：Codex，2026-09-19；接续主线常规测试维护，不等待GLM运行时补测返工，不新开签字卡。
 只修`game/src/assets/*-blob-snapshot.test.ts`三套现有测试及其输入回归；**不改生产、提取器、格式、资源或全局测试选择**。
 
+## 2026-09-21 CI彩色日志补正（Codex，同Owner连续测试维护）
+
+用户指出远端Coverage ratchet连续失败后，Codex核#265/#274/#278日志：均在
+`snapshot-input-boundaries.test.ts`的断言计数检查失败，四个合法正控子测试已通过，但外层从文本日志匹配到0条计数。
+此前记录的本地check/strict通过属实，**不等同远端CI已通过**；未跟进远端结果是本席验证遗漏。
+代表运行：[Actions #278](https://github.com/IllegalCreed/type-pal/actions/runs/35549573297)。失败发生在game测试阶段，尚未到最终覆盖率比较，不能归因为覆盖率下降。
+
+根因：Vitest普通CI输出给数字添加ANSI控制字符；本地`NO_COLOR`与Vitest的Agent模式关闭颜色，掩盖了直接匹配数字的正则缺陷。
+本席在仅测试子进程中去掉Agent检测标记并启用普通CI彩色报告，复现**4红/16绿**（`/tmp/type-pal-ci-runner-all-repro.log`）；
+子报告passed=1，原始日志`SNAPSHOT_ASSERTIONS ... \u001b[33m6\u001b[39m`，直接匹配为空、去控制字符后计数6。
+这不是PAL缺资源或游戏算法错误，不改Actions版本/跳过项/阈值来遮盖。
+
+补正仅触一个测试文件：用Node内置`stripVTControlCharacters`对**解析视图**标准化，原始子日志仍原样保存；
+抽出同一断言证据检查供真实子测试与五条回归共用。有色/无色精确保留6与1；缺失/零计数/数量不足仍拒绝。
+五条回归先在未标准化实现上**2红/3绿**（`/tmp/type-pal-ci-evidence-red2.log`），修后原20项+新5项 **25/25**，
+Agent模式与普通CI彩色模式各exit0（`/tmp/type-pal-ci-evidence-green.log`、`/tmp/type-pal-ci-runner-fixed.log`）；game typecheck与改动文件Biome通过。
+子进程去Agent标记只用于验证报告格式差异，不改变任何执行权限、产品或实际资源；常驻回归不依赖当前环境开启颜色。
+
+本次本地验证：完整check **7993项 exit0**（`/tmp/type-pal-ci-fix-full-check.log`）、官方ratchet exit0
+（`/tmp/type-pal-ci-fix-ratchet.log`），随后在普通CI彩色模式执行保护`d1ed3d73`的**单次strict-fast 7502项 exit0**
+（`/tmp/type-pal-ci-fix-strict-ci.log`）。生产632文件、七包全部覆盖分子/分母及范围不变，仅game登记新增5项（2313→2318）；
+另外六包整个基线对象不变。原始资源套件/fixture、生产代码、工作流、超时/排除/阈值零改。
+本条明确只记录本地已跑证据；远端验收必须核**同一推送headSha**的
+[Coverage ratchet工作流](https://github.com/IllegalCreed/type-pal/actions/workflows/coverage.yml)完整conclusion，不能以本地绿替代，
+也不重跑或删除旧失败记录来冒称历史已绿。提交后的远端结论以GitHub附着于该提交的检查记录为准。
+
 ## 前提与范围
 
 已读CLAUDE、第一阶段engineering-notes的真实函数/分层取证规则、[E-01审计](../ops/audits/pre-e2e/engineering.md)。
@@ -27,7 +53,7 @@ Owner：Codex，2026-09-19；接续主线常规测试维护，不等待GLM运行
 - `rng-blob-snapshot.test.ts`：hasData保护实际读盘，保留动态chunk测试并加一个非空census；缺输入仍有明确skipped测试。
 - `tileset-blob-snapshot.test.ts`：读盘移至beforeAll，缺组时六个固定样本均注册为skipped，不在收集期读文件。
 
-新增`game/src/assets/snapshot-input-boundaries.test.ts` **20项**，配
+原E-01阶段新增`game/src/assets/snapshot-input-boundaries.test.ts` **20项**（本次CI补正另加5项，见上），配
 `game/src/assets/__tests__/snapshot-input.setup.ts`：子Vitest实际运行上述测试文件，只替换`node:fs`的数据读边界，
 MKF/RLE/gzip/RNG解析仍是真实实现；所有data路径由内存文件表提供，未读写真实raw/extracted资产。
 子进程显式关闭coverage，输出仅mkdtemp，不能覆盖官方统计；外层20项才计入fast，不重复累计嵌套用例数。
