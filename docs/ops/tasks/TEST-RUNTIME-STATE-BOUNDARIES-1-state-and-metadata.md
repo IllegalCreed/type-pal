@@ -120,8 +120,38 @@ frame在途invalidate政策未知；不以低覆盖证明bug。用户可见偏�
 ### done前（当前集成候选44b9b763）
 
 - Codex：**accept（实施者自验，2026-09-21）**。按用户要求接手350da702的唯一残项：sequence真实finally释放同一读取并消费原播放，无清理断言遮盖主失败；永久失败路径自证先红后绿。B7仅适配已done的451cbbb7当前私有身份。56项、8对照/8针业务detected/四fixture accepted、原22跑、两包tc及23新增文件Biome通过。统一check7988、官方ratchet与保护952a45bd的单次strict7497均exit0；产品/旧测试/范围分母零改。证据见[补正回执](../../testing/tb00-tb01-completion.md)及[机账](../../testing/tb00-tb01-completion-evidence.json)。原D6 counter已消除；本席是修复/集成实现者，GLM为原测试贡献者，均不冒充独立第三方终审。
-- Kimi：pending（独立终审，新候选44b9b763）。
-- GLM：pending（原贡献者对Codex补正及新候选复核，不作独立第三方自证）。
+- Kimi：**accept（2026-09-21，TB00/r1，候选44b9b763对比952a45bd；锚点本人直读/主树复跑，未读 GLM 本轮结论）**。
+  - **D6 真实 finally**：`frame-animation-player.boundaries.test.ts:225-280` 共享 helper 以真实
+    entered 见证+可释放 readGate 驱动；finally（:267-278）再 abort、释放**同一** readGate 并
+    await 原 pendingSlow 结局，trace 记 `playback-consumed:*`——finally 内零断言，不遮盖最初错误。
+    失败自证（:298-315）注入 AssertionError 后断言 `outcome === originalFailure`（错误身份保留）
+    且轨迹精确 `['read-entered','read-completed','playback-consumed:AbortError']`——非手写清理布尔。
+    正常路径（:281-297）迟到零提交+同 reader 真实重播成功保留。
+  - **B7 仅适配已 done 合同**：runtime-project-view.boundaries 断言当前私有 tag
+    `__author-item-private-runtime`+owner，不复活旧 `item:priv:use`；属 451cbbb7 主线修复适配。
+  - **本席复跑**：review-witnesses 对当前树 exit0——8 对照绿/8 针全 detected（业务 AssertionError，
+    含 sequence-late-frame-after-abort 命中 :286）、4 fixture accepted；原 mutants 工具 22 跑
+    exit0（6 对照+16 针）；reforge 9 文件 46 项定向全绿。
+  - **范围**：产品/旧测试/原见证工具零改（witness 产品 hash 校验在内）；check7988/ratchet/
+    strict7497 采信 Codex 已落证据，未并发重跑。旧版本兼容审查 pass：仅新增当前合同测试。
+  - 返工项：无。frame 在途 invalidate 回填政策保持待证登记，不在本卡固化。
+- GLM：**accept（2026-09-21，原贡献者对 Codex 补正及新候选 44b9b763 复核；本人是本批原测试贡献者，不作独立第三方自证）**。
+  本席独立核验（均本人执行，未读 Kimi 本轮结论）：
+  - **原贡献保留**：本人 350da702 白名单逐文件 blob 对比 44b9b763——本批测试/fixture 中**仅两个文件**
+    被改：`frame-animation-player.boundaries.test.ts`（D6）与 `runtime-project-view.boundaries.test.ts`
+    （B7）；其余差异均属模拟器/物品身份等主线批次的既有演进，非本轮改动。
+  - **D6 补正直读**：`sequenceAbort` 共享 helper 以真实 entered 见证+可释放 readGate 驱动；
+    `finally` 中再次 abort、释放**同一**底层并消费原 pendingSlow，finally 内零业务断言不遮盖
+    最初错误；失败自证用例（:298 起）断言**原始 AssertionError 身份保留**且轨迹为
+    `read-entered/read-completed/playback-consumed`（真实清理证据，非手写布尔）。
+  - **B7 适配直读**：`runtime-project-view.boundaries.test.ts:143` 断言私有 tag
+    `__author-item-private-runtime`+owner `'priv'`——仅适配已 done 的 451cbbb7 当前合同，
+    无 `item:priv:use` 复活。
+  - **见证/负控/定向本席复跑全绿**：`runtime-state-review-witnesses.mjs` 8 对照 PASS+8 针
+    detected、4 fixture accepted、rc=0；原 `glm-runtime-state-mutants.mjs` 6 对照+16 针
+    **22 跑 rc=0**；定向 9 文件 46/46（含 D6 所在 10 项）。56 项与机账一致。
+  - 覆盖表为当前树 before/after 实跑，未借用本人旧冻结数字。统一 check7988/strict7497 为
+    Codex 证据。frame 在途 invalidate 政策、full/Q1/Q2 边界保持披露。无 counter。
 - done准入：尚未满足；两席新候选签字待回，不代签、不done。frame在途invalidate政策、full/Q1/Q2边界保持。
 
 ### 原候选接收记录（历史，不授权当前候选done）
@@ -162,6 +192,12 @@ frame在途invalidate政策未知；不以低覆盖证明bug。用户可见偏�
 - done准入：未开放，不代签、不标done。
 
 ## 交接日志
+
+- 2026-09-21 GLM：以原测试贡献者身份复核新候选 44b9b763 并签 done 前 accept（不作独立
+  第三方自证，证据见本席签字）：blob 对比证实本批仅 frame-animation-player.boundaries（D6
+  真实 finally+失败自证轨迹）与 runtime-project-view.boundaries（B7 当前 tag）两文件补正、
+  原贡献其余零改；本席复跑 8 对照+8 针 detected/4 fixture accepted、原 22 跑 rc=0、
+  定向 46/46。未读 Kimi 本轮结论、未做视觉、未改产品/测试/基线/状态，不代签、不标 done。
 - 2026-09-21 Codex：补正250814f7与TB01 b609617b分开提交，统一候选44b9b763通过完整check7988/ratchet/受保护单次strict7497。只接入原白名单，TB00相对GLM源仅frame测试修finally/加失败自证、B7当前身份适配；8针及原22跑保持业务红，D6 counter注销，转review。GLM原贡献及本席实施身份披露，等Kimi独立终审/GLM新候选复核，不标done。
 - 2026-09-21 Codex：按用户明确要求接手窄返工。已同步main/核工作树干净，源分支仍350da702；仅修D6异常也执行释放/消费，保留已过业务断言，按当前产品适配B7并独立复验后接收。新Owner/工作树及贡献披露见上；原counter未在修复验证前注销，状态仍rework，不动GLM工作树。
 - 2026-09-20 Codex：独立接收350da702，确认取消业务8针闭环；源码的finally仍仅是注释，故只留异常路径清理/回执一致性定点counter。原22跑及9项正控绿；不改GLM测试、不重跑/更新官方基线。

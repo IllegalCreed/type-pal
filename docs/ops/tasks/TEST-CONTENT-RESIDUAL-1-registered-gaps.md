@@ -100,9 +100,41 @@ author-dialogue 字段守卫轴、map-index 剩余拒绝边界、validate-refs �
 ### done前（当前集成候选44b9b763）
 
 - Codex：**accept（实施者自验，2026-09-21）**。按用户要求补正ccc67dcc仅剩CR-R1：真正合法world/非空levelUp/shops/noPortrait命令在调用前后深比较，工厂及实际切片内置当前结构守卫；无肖像合法输入补speaker，坏asset明确防御轴。23项、五对照/五针候选业务detected、七fixture accepted、mixedFailureAccepted=false、原15跑及Biome通过。统一check7988/官方ratchet/保护952a45bd的单次strict7497通过；产品/旧测试/分母范围零改，无Reforge反向依赖。证据见[补正回执](../../testing/tb00-tb01-completion.md)及[机账](../../testing/tb00-tb01-completion-evidence.json)。CR-R1 counter已消除，其它已闭环项未重开；GLM原贡献保留，本席修复/集成自验不充独立第三方。
-- Kimi：pending（独立终审，新候选44b9b763）。
-- GLM：pending（原贡献者对Codex补正及新候选复核，不作独立第三方自证）。
-- done准入：尚未满足；新候选两席实现签字待回，不代签、不done；A3/rows/owner warn原裁决及full/Q1/Q2边界保持。
+- Kimi：**accept（2026-09-21，TB01/r2，候选44b9b763对比952a45bd；锚点本人直读/主树复跑，未读 GLM 本轮结论）**。
+  - **真实非空输入前后快照**：`validate-refs.data-refs.test.ts` 工厂（:31-116）用真实
+    ContentBundle 类型无 as unknown，内置 scenes/actors/sprites/battleSprites/maps/items/skills/
+    startWorld 当前结构守卫+零引用基线；合法 world（:127-129）、ghost（:134-143）、悬空/合法
+    shops（:156-165/:173-175）、三种非空 levelUp（:197-199/:205-213/:218-231）均在消费实际
+    bundle 前 deepSnapshot、消费后逐值比较——快照对象就是被消费对象，不再以空表充非空保真。
+    levelUp 悬空 owner 保持现行 warn 政策，未发明新产品规则。
+  - **当前结构自证与防御轴分类**：`asset.residual.test.ts:20-31` 快照真正送入扫描器的命令
+    （含嵌套 cue 域），消费后同对象不变；`:38-55` noPortrait 正控补合法 speaker 并先过
+    checkAuthorDialogueCue；数值 asset 先证 guard 拒绝、明确为防御轴，不冒称合法 cue。
+    无 Reforge 反向依赖。
+  - **本席复跑**：review-witnesses 对当前树 exit0——5 对照绿/5 针全 detected（含原 MISSED 的
+    合法 world money 与非空 levelUp level 两针现均 detected）、7 fixture accepted、
+    mixedFailureAccepted=false；原 mutants 工具 15 跑 exit0（1 对照+14 针）；content 7 文件
+    33 项定向全绿。check7988/ratchet/strict7497 采信 Codex 已落证据，未并发重跑。
+  - **范围**：产品/旧测试/原工具零改；baseline 7418→7497 恰 +79（两包合计），632 生产文件与
+    其余五包基线对象不变。旧版本兼容审查 pass。返工项：无。
+- GLM：**accept（2026-09-21，原贡献者对 Codex 补正及新候选 44b9b763 复核；本人是本批原测试贡献者，不作独立第三方自证）**。
+  本席独立核验（均本人执行，未读 Kimi 本轮结论）：
+  - **原贡献保留**：本人 ccc67dcc 白名单逐文件 blob 对比 44b9b763——本批测试中**仅两个文件**
+    被改：`validate-refs.data-refs.test.ts` 与 `asset.residual.test.ts`；其余差异均属主线其它
+    批次演进。原 23 项计数与机账一致（不凑 24）。
+  - **CR-R1 补正直读**：`validate-refs.data-refs.test.ts:127` 在消费**实际合法 bundle** 前深快照、
+    消费后立即比较——ghost world、合法/悬空 shops、三种非空 levelUp 各自前后比较（:173/:197/:205/:218）；
+    `:31` 工厂改真实 ContentBundle 类型并内置当前结构守卫+零引用基线，无 `as unknown`；扩展切片
+    调用前过对应守卫。`asset.residual.test.ts:38` noPortrait 补合法 speaker 且先过
+    `checkAuthorDialogueCue` 正式 guard，坏 asset 保持防御轴（guard 先 throw、如实注释不冒称合法）。
+  - **见证/负控/定向本席复跑全绿**：`content-residual-review-witnesses.mjs` 5 对照 PASS+5 针
+    detected、7 fixture accepted、mixedFailureAccepted=false、rc=0（原 2 MISSED 针已闭合）；
+    原 `glm-content-residual-mutants.mjs` 1 对照+14 针 **15 跑 rc=0**；定向 content 7 文件
+    33/33（含 data-refs 4 项与 asset.residual 3 项）。
+  - 覆盖表为当前树实跑（TB01/content 1288→1324 局部行），未借用旧冻结数字；两包 content 合计
+    33 不归单包的口径正确。统一 check7988/strict7497 为 Codex 证据。A3 跨包/rows 无上限/
+    levelUp owner warn 原裁决及 full/Q1/Q2 边界保持。无 counter。
+- done准入：尚未满足（等待 Kimi 独立终审）；不代签、不done；A3/rows/owner warn原裁决及full/Q1/Q2边界保持。
 
 ### 原候选接收记录（历史，不授权当前候选done）
 
@@ -126,6 +158,12 @@ author-dialogue 字段守卫轴、map-index 剩余拒绝边界、validate-refs �
 - done准入：未开放，不代签、不标done。
 
 ## 交接日志
+- 2026-09-21 GLM：以原测试贡献者身份复核新候选 44b9b763 并签 done 前 accept（不作独立
+  第三方自证，证据见本席签字）：blob 对比证实本批仅 validate-refs.data-refs（实际 bundle
+  前后深快照+真实类型工厂）与 asset.residual（合法 noPortrait speaker+正式 guard、坏 asset
+  防御轴）两文件补正、原贡献其余零改；本席复跑 5 对照+5 针 detected/7 fixture accepted/
+  mixedFailureAccepted=false、原 15 跑 rc=0、定向 33/33。未读 Kimi 本轮结论、未做视觉、
+  未改产品/测试/基线/状态，不代签、不标 done。
 - 2026-09-21 Codex：CR-R1补正b609617b与TB00分开提交，统一候选44b9b763通过check7988/ratchet/受保护单次strict7497。候选实参快照/结构自证已补；五针全detected且原15跑、23项保持，CR-R1 counter注销并转review。无产品/旧测试/原见证改动；GLM原贡献披露，本席实施者自验accept，待Kimi独立终审/GLM新候选复核，不done。
 - 2026-09-21 Codex：按用户明确要求接手CR-R1窄返工。已同步main/核工作树干净，源分支仍ccc67dcc；将修实际输入快照/非空反例/结构自证，五针及原工具按最终树复验后独立接收。原counter先保留，状态仍rework，不动GLM工作树；TB00各自裁决，不以一包通过替另一包放行。
 - 2026-09-20 Codex：独立接收ccc67dcc，原三针/判据/Unicode/计数/格式改善属实；针对原CR-R1加合法world与非空levelUp两针仍MISSED，仅此保真/守卫族继续返工。原15跑/content全包/tc/9文件Biome绿；不改候选、不集成、不跑官方全仓门。
