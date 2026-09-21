@@ -12,7 +12,7 @@ Branch: codex/editor-battle-simulator-r2
 
 Revision: r2a / 2026-09-20人数勘误；用户明确我方本来就只有1～3人，不扩展4～5人。保存/隔离/四目录约定不变，人数三席已齐并经Codex核定随r2主体恢复已批准范围的build。生产冻结`e58834f6389a40ffe9f187e6a8051f552e964d79`；r1和r2人数旧签保留历史。
 用户此前裁决仍保留：**独立临时试玩，不读写正常存档，关闭试放即丢弃测试状态**。
-本卡与[GLM六组补测](../../../tasks/TEST-RUNTIME-STATE-BOUNDARIES-1-state-and-metadata.md)独立；后者只改新的非视觉测试，Codex只改本卡产品面。
+本卡与[GLM六组补测](TEST-RUNTIME-STATE-BOUNDARIES-1-state-and-metadata.md)独立；后者只改新的非视觉测试，Codex只改本卡产品面。
 此前已核r2三席设计准入并开始首批实现；2026-09-20发现我方人数前提不完整，用户已澄清原需求是1～3人。本轮核定r2a三席补核完成，不再等待人数选择或重签；r1不实施。
 
 ## 完成收口（Codex，2026-09-20）
@@ -969,6 +969,6 @@ docs/testing/battle-simulator-r2-design.md；全域评估仅作背景。
 
 ### r1历史交接（不再使用）
 
-与[并行补测卡交接区](../../../tasks/TEST-RUNTIME-STATE-BOUNDARIES-1-state-and-metadata.md#下一位agent提示词)同发两份完整提示词。
+与[并行补测卡交接区](TEST-RUNTIME-STATE-BOUNDARIES-1-state-and-metadata.md#下一位agent提示词)同发两份完整提示词。
 Kimi/GLM独立审本卡r1与冻结e58834f6，各自直接写本人签字/证据/日志并提交推送，不代签、不改状态、不标build/done。
 GLM本卡只审设计/矩阵，不修改试放实现；三签齐前Codex不得开始产品实现，UI产品门独立保留。

@@ -1,5 +1,7 @@
 # TB-01～03：Codex设计收口与并行交接
 
+**当前状态（2026-09-21）**：本文为设计/首轮接收历史。TB00/TB01候选44b9b763已分别三席accept齐并按用户授权done归档，见[收口记录](tb00-tb01-completion.md)；TB02/03此前已收口。下方旧counter与提示词不重新授权实施或重复返工，保留原始设计证据。
+
 2026-09-19，生产核对点`e58834f6`，接手main为`e22041a0`。
 用户要求GLM返工TB-00同时，Codex推进后续三批设计。**三卡r2设计三签保持；TB-01另排，TB-02/03已按用户先行授权交付，本轮接收counter/rework。**
 2026-09-19补充：[九批统一接收](glm-nine-intake-review.md)中TB02/03均有counter，设计不重签；先行实施为用户批准的本轮排期例外，未合并。以下保留较早TB00/01交接记录。
@@ -10,7 +12,7 @@ r1自签原文留历史，不把错误前提静默覆盖成已被三席认可的
 
 | 队列 | 任务卡 | r2关键收口 |
 |---|---|---|
-| TB-01 | [内容合同残项](../ops/tasks/TEST-CONTENT-RESIDUAL-1-registered-gaps.md) | 当前结构守卫，不反向依赖运行时loader；已测/旧分片候选先分流 |
+| TB-01 | [内容合同残项](../ops/archive/tasks/done/TEST-CONTENT-RESIDUAL-1-registered-gaps.md) | 当前结构守卫，不反向依赖运行时loader；已测/旧分片候选先分流 |
 | TB-02 | [读取缓存与音效准备](../ops/archive/tasks/done/TEST-REFORGE-ASSET-IO-1-read-cache-sfx.md) | HTTP/FSA分开，音频adapter复制与标记门分层；页选择疑点不写正确绿测 |
 | TB-03 | [导入编码与工作线程](../ops/archive/tasks/done/TEST-EDITOR-IMPORT-CODEC-1-workers-metadata.md) | 无产品导出的真实handler方案、真实transfer；媒体边界订正，已确认泄漏隔离 |
 
@@ -97,7 +99,7 @@ TB-00当前三项残余返工优先，不与新包共享可修改fixture或混�
 
 ```text
 在 /Users/zhangxu/illegal/type-pal 按已签r2队列连续推进：
-docs/ops/tasks/TEST-CONTENT-RESIDUAL-1-registered-gaps.md（TB-01，已build）
+docs/ops/archive/tasks/done/TEST-CONTENT-RESIDUAL-1-registered-gaps.md（TB-01，已build）
 docs/ops/archive/tasks/done/TEST-REFORGE-ASSET-IO-1-read-cache-sfx.md（TB-02，设计准入已过，待槽）
 docs/ops/archive/tasks/done/TEST-EDITOR-IMPORT-CODEC-1-workers-metadata.md（TB-03，设计准入已过，待槽）
 先同步main、检查工作树，读AGENTS/CLAUDE/READ-FIRST、三卡当前准入与对应工作包、docs/testing/glm-coverage-work-queue.md。
@@ -112,7 +114,7 @@ docs/ops/archive/tasks/done/TEST-EDITOR-IMPORT-CODEC-1-workers-metadata.md（TB-
 
 ```text
 在 /Users/zhangxu/illegal/type-pal 并行确认前三批r2设计，生产冻结e58834f6：
-docs/ops/tasks/TEST-CONTENT-RESIDUAL-1-registered-gaps.md
+docs/ops/archive/tasks/done/TEST-CONTENT-RESIDUAL-1-registered-gaps.md
 docs/ops/archive/tasks/done/TEST-REFORGE-ASSET-IO-1-read-cache-sfx.md
 docs/ops/archive/tasks/done/TEST-EDITOR-IMPORT-CODEC-1-workers-metadata.md
 均draft，Codex已签r2，未开build；原r1自签保留历史。先同步分支并读AGENTS/CLAUDE/READ-FIRST、三卡、对应glm-content-residual.md / glm-reforge-asset-io.md / glm-editor-import-codec.md，以及docs/testing/glm-coverage-queue-design-review.md。
@@ -125,7 +127,7 @@ TB-00既有返工优先；新批只有同r2三签齐且Codex核定build才开，
 
 ```text
 在 /Users/zhangxu/illegal/type-pal 独立设计审查以下三卡r2/draft，冻结e58834f6：
-docs/ops/tasks/TEST-CONTENT-RESIDUAL-1-registered-gaps.md
+docs/ops/archive/tasks/done/TEST-CONTENT-RESIDUAL-1-registered-gaps.md
 docs/ops/archive/tasks/done/TEST-REFORGE-ASSET-IO-1-read-cache-sfx.md
 docs/ops/archive/tasks/done/TEST-EDITOR-IMPORT-CODEC-1-workers-metadata.md
 先同步检查工作树，读AGENTS/CLAUDE/READ-FIRST、三卡前提/方案、三个对应工作包和docs/testing/glm-coverage-queue-design-review.md，再直接核一手代码和旧测试；不读取或复述GLM签字结论。

@@ -2,7 +2,7 @@
 
 ## 2026-09-21 Codex接手补正
 
-用户要求直接修好，Coding Owner已移交Codex。源350da702的D6剩余问题已在250814f7补正，新增故意断言失败的真实清理自证（先红后绿），当前B7按已done物品身份合同适配；56项、原8针全detected/4fixture accepted、原22跑通过。详见[分包补正与统一验证](tb00-tb01-completion.md)。统一候选44b9b763已过check7988/ratchet/受保护单次strict7497，本席签实施者自验accept、转review，待两席新候选审查。以下counter为历史，不再指派GLM重复修同一项；本席自验不充独立第三方。
+用户要求直接修好，Coding Owner已移交Codex。源350da702的D6剩余问题已在250814f7补正，新增故意断言失败的真实清理自证（先红后绿），当前B7按已done物品身份合同适配；56项、原8针全detected/4fixture accepted、原22跑通过。详见[分包补正与统一验证](tb00-tb01-completion.md)。统一候选44b9b763已过check7988/ratchet/受保护单次strict7497；三席accept齐（本席实施者自验、GLM原贡献者复核、Kimi独立终审2c042bf5），2026-09-21用户授权后已done归档。以下counter为历史，本轮收口不重跑产品测试/覆盖率；frame在途invalidate与full/Q1/Q2边界保留，不重复指派返工。
 
 ## 历史返工复核：350da702（2026-09-20）
 
@@ -25,7 +25,7 @@ frame-animation-player.boundaries.test.ts定向9/9通过。没有修改候选产
 ### 历史GLM提示词（Codex已接手，不再执行）
 
 ```text
-定点返工TEST-RUNTIME-STATE-BOUNDARIES-1，卡docs/ops/tasks/TEST-RUNTIME-STATE-BOUNDARIES-1-state-and-metadata.md，rework/r1，候选350da702，设计不重签。
+定点返工TEST-RUNTIME-STATE-BOUNDARIES-1，卡docs/ops/archive/tasks/done/TEST-RUNTIME-STATE-BOUNDARIES-1-state-and-metadata.md，rework/r1，候选350da702，设计不重签。
 读本报告顶部。8对照/8针已由Codex复跑全detected，F1/E4及取消业务断言不重开。只修D6 sequence在断言失败时也能释放同一底层、消费实际原Promise：真实try/finally，不是注释。保留迟到零帧/同reader重播，不以finally断言覆盖主失败；做失败路径自证并同步回执。
 只改原白名单中该用例/必要回执，不改产品/旧测试/他席工具/官方基线；D6九项、原8针与22跑复验后交Codex。各工具退出0还须检查summary；不代签、不标done、不转Kimi。
 ```
@@ -80,7 +80,7 @@ node docs/testing/runtime-state-review-witnesses.mjs /Users/zhangxu/illegal/type
 ### 下一位Agent提示词：GLM
 
 ```text
-在 /Users/zhangxu/illegal/type-pal 定点返工 TEST-RUNTIME-STATE-BOUNDARIES-1，任务卡 docs/ops/tasks/TEST-RUNTIME-STATE-BOUNDARIES-1-state-and-metadata.md，rework/r1，候选6d34ad5a，生产冻结e58834f6，设计不重签。
+在 /Users/zhangxu/illegal/type-pal 定点返工 TEST-RUNTIME-STATE-BOUNDARIES-1，任务卡 docs/ops/archive/tasks/done/TEST-RUNTIME-STATE-BOUNDARIES-1-state-and-metadata.md，rework/r1，候选6d34ad5a，生产冻结e58834f6，设计不重签。
 先同步本次Codex counter及更新的runtime-state-review-witnesses.mjs，保留他席与主线七批设计；读AGENTS/CLAUDE/READ-FIRST、docs/testing/runtime-state-review.md顶部。
 F1/E4和原7针已闭环不重开。只修D6 sequence：原gate可释放、readBytes真实entered、原onFrame可观察，abort后同步断言，finally释放同一底层并消费实际原Promise，再证明零迟到帧；不能用releasedSlow布尔/独立slowSettledPromise或另一个reader冒充收尾。同reader标题需真实重用。任务卡56改实际55，F1账同步ms/kind。
 重跑最新工具须8对照绿、8针候选自身AssertionError detected，尤其sequence-late-frame-after-abort；原22跑/定向/双包全测/tc/16文件Biome。只改原白名单，不改产品/旧测试/原探针/官方基线/他席工具语义，不代签、不标done、不转Kimi。交Codex独立接收；全仓质量门留接收后执行。
@@ -154,7 +154,7 @@ GLM只定点处理三项并同步回执：尤其F1“已移除”、D6“业务�
 
 ## 前轮23eb63d2复核原文（历史，以下不重新授权返工已闭环项）
 
-2026-09-19，任务[TEST-RUNTIME-STATE-BOUNDARIES-1](../ops/tasks/TEST-RUNTIME-STATE-BOUNDARIES-1-state-and-metadata.md)。
+2026-09-19，任务[TEST-RUNTIME-STATE-BOUNDARIES-1](../ops/archive/tasks/done/TEST-RUNTIME-STATE-BOUNDARIES-1-state-and-metadata.md)。
 候选`23eb63d25271438d32fb5c408cb1c5ad0fa30a45`，基点`1c8cad29`，生产冻结`e58834f6`。
 **结论：counter，转rework交GLM；r1测试目的/设计签字不重签，不合入正式测试，不转Kimi、不标done。**
 

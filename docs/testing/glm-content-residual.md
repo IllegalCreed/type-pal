@@ -1,13 +1,13 @@
 # GLM内容合同残项工作包（TB-01）
 
-任务：[TEST-CONTENT-RESIDUAL-1](../ops/tasks/TEST-CONTENT-RESIDUAL-1-registered-gaps.md)，r2/review，统一候选44b9b763，设计不重签。
+任务：[TEST-CONTENT-RESIDUAL-1](../ops/archive/tasks/done/TEST-CONTENT-RESIDUAL-1-registered-gaps.md)，r2/done，统一候选44b9b763，设计不重签。
 原生产核对点 `e58834f6389a40ffe9f187e6a8051f552e964d79`（队列基线）；当前接入基点952a45bd，产品零改。GLM为原测试贡献者，Codex本轮补正/集成自验，Kimi独立终审、GLM复核新候选。
 本包**只补**[已接收内容合同包回执](glm-content-contracts.md)明确登记的残项与新核的 validate-refs 数据引用轴；
 已接收 118 项/43 族不重做，TextEncoder 降级不存在不补，D-06/D-07 留修复归属。
 
 ## 当前独立接收结论
 
-2026-09-21用户授权Codex接手ccc67dcc的CR-R1窄返工，b609617b已补实际输入前后快照/结构守卫自证；23项（3/5/3/8/4）、5对照/5见证全detected、七fixture accepted、原15跑及统一check7988/strict7497通过，待两席终审。见[补正记录](tb00-tb01-completion.md)；[旧counter](content-residual-review.md)已消除并留历史。A3已有/rows无上限/owner warn保持，下方GLM原始回执不作为当前数字，不代签done。
+2026-09-21 Codex补正CR-R1后，23项（3/5/3/8/4）、5对照/5见证全detected、七fixture accepted、原15跑及统一check7988/strict7497通过；三席accept（430fba79/f38c23dc/2c042bf5）齐，用户授权后Codex核零漂移并独立收口本卡。见[补正与收口记录](tb00-tb01-completion.md)；[旧counter](content-residual-review.md)已消除并留历史。A3已有/rows无上限/owner warn不重开，下方GLM原始回执不作为当前数字。本轮只做文档收口，不重跑产品测试或改基线。
 
 ## r2收口依据（Codex，2026-09-19）
 

@@ -2,7 +2,7 @@
 
 ## 2026-09-21 Codex接手补正
 
-用户要求直接修好，Coding Owner已移交Codex。源ccc67dcc的CR-R1已在b609617b补正：真实非空输入调用前后快照、当前结构自证及合法无肖像speaker；五针现全detected/七fixture accepted/mixedFailureAccepted=false，原15跑通过。仍23项，不重开原已闭环项。详见[分包补正与统一验证](tb00-tb01-completion.md)。统一候选44b9b763已过check7988/ratchet/受保护单次strict7497，本席实施者自验accept、转review，待两席新候选审查。下面counter留历史；本席不代替Kimi独立审查。
+用户要求直接修好，Coding Owner已移交Codex。源ccc67dcc的CR-R1已在b609617b补正：真实非空输入调用前后快照、当前结构自证及合法无肖像speaker；五针现全detected/七fixture accepted/mixedFailureAccepted=false，原15跑通过。仍23项，不重开原已闭环项。详见[分包补正与统一验证](tb00-tb01-completion.md)。统一候选44b9b763已过check7988/ratchet/受保护单次strict7497；三席accept齐（本席实施者自验、GLM原贡献者复核、Kimi独立终审2c042bf5），2026-09-21用户授权后已done归档。下面counter留历史，本轮不重跑产品测试/覆盖率；A3/rows/owner warn与full/Q1/Q2边界保持。
 
 ## 历史返工复核：ccc67dcc（2026-09-20）
 
@@ -33,7 +33,7 @@ content全包60文件/698项（新增23）、tc通过；9文件Biome通过。未
 ### 历史GLM提示词（Codex已接手，不再执行）
 
 ```text
-收窄返工TEST-CONTENT-RESIDUAL-1，卡docs/ops/tasks/TEST-CONTENT-RESIDUAL-1-registered-gaps.md，rework/r2，候选ccc67dcc，设计不重签。
+收窄返工TEST-CONTENT-RESIDUAL-1，卡docs/ops/archive/tasks/done/TEST-CONTENT-RESIDUAL-1-registered-gaps.md，rework/r2，候选ccc67dcc，设计不重签。
 先读本报告顶部并同步最新版content-residual-review-witnesses.mjs；原三针、Unicode正控、目标判据、23项/15跑/格式已闭环不重开。
 只完成CR-R1残项：合法world快照必须在调用前；非空levelUp各调用前后比较真实载荷；同步补合法shops及实际noPortrait对象的保真，防御输入声明据实收窄；实际bundle工厂加当前结构守卫自证，不把本席七项检查冒充候选内置。别改产品或为计数加空例。
 五对照须绿、五针候选自身AssertionError detected、mixedFailureAccepted=false、七fixture accepted；再复跑原15跑、相关定向/全content/tc/9文件Biome并按最终树回填。白名单不变，不改他席工具语义/旧测试/官方基线，不代签、不标done、不转Kimi；交Codex独立接收。
@@ -134,7 +134,7 @@ TB-02仍保持已签设计待槽，不因想消耗额度跳过两批上限。GLM
 ## 下一位Agent提示词：GLM
 
 ```text
-在 /Users/zhangxu/illegal/type-pal 返工 TEST-CONTENT-RESIDUAL-1，任务卡 docs/ops/tasks/TEST-CONTENT-RESIDUAL-1-registered-gaps.md，rework；实施候选0e49db91，已签设计r2不重签，生产冻结e58834f6。
+在 /Users/zhangxu/illegal/type-pal 返工 TEST-CONTENT-RESIDUAL-1，任务卡 docs/ops/archive/tasks/done/TEST-CONTENT-RESIDUAL-1-registered-gaps.md，rework；实施候选0e49db91，已签设计r2不重签，生产冻结e58834f6。
 先同步本次Codex counter与docs/testing/content-residual-review-witnesses.mjs到独立分支，保留主线七批设计和他席；读AGENTS/CLAUDE/READ-FIRST、docs/testing/content-residual-review.md及原工作包。
 CR-R1：真实cue/world/shops/levelUp消费前后快照，world用content buildWorld、表面现行guard+零issue正控；不反向引Reforge，不把缺字段world/as unknown或未实际消费对象当保真证据。CR-R2：完整合法Unicode TPFS必须parse成功，UTF8/JSON/schema错误分开准确断言，header长度按u32。CR-R3：负控逐一核目标自身failureMessages，目标STACK_TRACE_ERROR+别例AssertionError必须拒绝，自测与执行见证都永久化。CR-R4：真实23=3/5/3/8/4、14针+1对照、9文件Biome一错误等勘误，修后从最终树重生，不以凑24为目标；族账精确去重。
 三独立见证须detected且mixedFailureAccepted=false，七fixture检查accepted；原工具、定向/相邻/content全包/tc/全部新增文件Biome/私有同口径覆盖复跑。只改原白名单，不改产品/旧测试/官方基线/他席工具语义，不代签、不标done、不转Kimi。与TB00返工独立提交；Codex接收后再跑统一全仓门，本轮未释放TB02实施槽。

@@ -1,5 +1,18 @@
 {
   "schemaVersion": 1,
+  "status": "done",
+  "closeout": {
+    "date": "2026-09-21",
+    "owner": "Codex",
+    "candidate": "44b9b763",
+    "decisions": { "TB00": "done allowed", "TB01": "done allowed" },
+    "acceptCommits": { "Codex": "430fba79", "GLM": "f38c23dc", "Kimi": "2c042bf5" },
+    "userAuthorized": true,
+    "remainingCounters": 0,
+    "signatureWaivers": false,
+    "productTestsScriptsAndOriginalProbesUnchangedSinceCandidate": true,
+    "scope": "Document-only closeout; no product tests or coverage rerun"
+  },
   "date": "2026-09-21",
   "candidate": "44b9b763bfda236b97072d69c28e719374183967",
   "productionBase": "952a45bd",
@@ -11,7 +24,7 @@
     "TB00": "250814f7",
     "TB01": "b609617b"
   },
-  "contribution": "GLM original tests; Codex residual repair/integration/self-verification; Kimi independent review pending",
+  "contribution": "GLM original tests and contributor review; Codex residual repair/integration/self-verification; Kimi independent final accept at 2c042bf5",
   "newTests": {
     "TB00": 56,
     "TB01": 23,
@@ -473,6 +486,7 @@
     "No original witness semantics changed",
     "No visual/full/Q1/Q2 claims",
     "Frame in-flight invalidate policy remains deferred",
-    "Not done; requires new-candidate reviewer signatures"
+    "Both cards done with three accepts at candidate 44b9b763; no R4/N6b/full/Q1/Q2 completion implied",
+    "A3 cross-package coverage, unrestricted row count and dangling levelUp owner warning policy unchanged"
   ]
 }

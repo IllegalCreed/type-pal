@@ -10,7 +10,7 @@ GLM后续补测候选见[十批长队列](../testing/glm-coverage-work-queue.md)
 任务卡模板: [`tasks/TASK-template.md`](templates/TASK-template.md)
 轻量模板: [`tasks/TASK-lite-template.md`](templates/TASK-lite-template.md)
 
-前两轮[九批返工复核](../testing/glm-nine-rework-review.md)保留历史证据；最新结论以下方当前接收为准。Mimosa不参与；TB00/TB01已由Codex补正并统一集成，当前分别review，见下。
+前两轮[九批返工复核](../testing/glm-nine-rework-review.md)保留历史证据；最新结论以下方当前接收为准。Mimosa不参与；TB00/TB01已由Codex补正、统一集成并分别核定done，见[收口记录](../testing/tb00-tb01-completion.md)。
 
 八批（TB02/TB04～TB10）候选256116ee已三席accept齐，2026-09-20用户授权后由Codex[核定done归档](../testing/glm-nine-final-review.md)。当时只核签字与既有证据、不重跑测试；TB03随后单独收口，见下。
 
@@ -20,8 +20,8 @@ GLM后续补测候选见[十批长队列](../testing/glm-coverage-work-queue.md)
 
 | ID | 任务 | 状态 | 负责人/下一步 | 一句话备注 |
 |---|---|---|---|---|
-| TEST-RUNTIME-STATE-BOUNDARIES-1 | [运行时状态与元数据六组补测](tasks/TEST-RUNTIME-STATE-BOUNDARIES-1-state-and-metadata.md) | review | Kimi独立终审 / GLM贡献者复核44b9b763 | Codex补正D6并接入56项；8针/22跑、统一check7988/strict7497通过，旧counter已消除 |
-| TEST-CONTENT-RESIDUAL-1 | [内容合同残项补测](tasks/TEST-CONTENT-RESIDUAL-1-registered-gaps.md) | review | Kimi独立终审 / GLM贡献者复核44b9b763 | Codex补正CR-R1并接入23项；五针/15跑、统一check7988/strict7497通过，两卡独立裁决 |
+
+2026-09-21 [TB00/TB01窄返工](../testing/tb00-tb01-completion.md)候选44b9b763三席分别accept齐（Codex 430fba79、GLM f38c23dc、Kimi 2c042bf5），用户授权后Codex逐卡核零漂移并done归档；check7988/strict7497及13业务见证/37跑为既有证据，本次只做文档收口。frame在途invalidate回填政策仍待证（Codex后续合同核定，不固化为通过或已知bug）；A3跨包/rows无上限/levelUp owner warn与full/Q1/Q2边界保持。
 
 2026-09-21 [物品作者记录/脚本身份](../testing/item-authoring-implementation.md)候选451cbbb7三席accept齐（Codex c86ad00f、GLM b895a367、Kimi 139c0b04），用户授权后Codex核零漂移并done归档。D-06/D-07关闭；check7909/strict7418、五组负控与原生保存重开为既有证据，本轮只做文档收口。TB00/TB01窄counter与full/Q1/Q2边界保持。
 

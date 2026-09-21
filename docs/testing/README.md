@@ -8,7 +8,7 @@
 
 ## 文档与附件
 
-- [TB00/TB01窄返工接手与集成](tb00-tb01-completion.md)及[机账](tb00-tb01-completion-evidence.json)（review，44b9b763；两个counter已修，79定向/13见证/37跑、check7988/strict7497通过，待Kimi/GLM终审）
+- [TB00/TB01窄返工接手与集成](tb00-tb01-completion.md)及[机账](tb00-tb01-completion-evidence.json)（两卡done，44b9b763；三席accept齐、用户授权收口，check7988/strict7497证据保持；frame在途invalidate及full/Q1/Q2边界保留）
 
 - [物品作者记录/脚本身份修复卡](../ops/archive/tasks/done/EDITOR-ITEM-AUTHORING-1-item-script-identity.md)、[实施记录](item-authoring-implementation.md)与[修复前前提探针](item-authoring-premise.mjs)（done/r1，451cbbb7；三席accept齐、用户授权收口，check7909/strict7418及原生保存重开证据保持；TB00/TB01另排）
 - [GLM物品作者只读取证包](item-authoring-glm-audit.md)（冻结1e0388b0静态G1～G5；站点完整性与PAL概括已由Codex在卡面勘误，不作全量消费者证明）
@@ -24,7 +24,7 @@
 
 - [GLM非视觉补测长队列](glm-coverage-work-queue.md)与[617文件机器台账](glm-coverage-work-queue.json)（当前批之外十批78候选模块；先细化/逐卡准入，不新增E2E前置门；[快照复算](glm-coverage-queue-census.mjs)）
 - [GLM交付前自检清单](glm-delivery-checklist.md)（强制；历次counter根因四类与六步自检，fixture守卫门/变异自检/实参保真/取消三件套/回执从树生成，缺一不交）
-- [GLM运行时状态与元数据六组补测](glm-runtime-state-boundaries.md)（r1/review；Codex接手补D6真实finally和失败自证，56项，原设计不重签）
+- [GLM运行时状态与元数据六组补测](glm-runtime-state-boundaries.md)（r1/done；Codex补D6真实finally和失败自证，56项，三席同候选已收口）
 - [运行时状态补测Codex复核](runtime-state-review.md)与[独立反证工具](runtime-state-review-witnesses.mjs)（当前8/8 detected、四fixture accepted；旧counter历史保留）
 - [前三批r2准入与连续实施交接](glm-coverage-queue-design-review.md)（设计三签保持；当前接收状态见最新报告；193既有测试与[前提探针](glm-coverage-queue-premise.mjs)是设计证据）
 - [后续七批统一细化与审核](glm-coverage-remaining-review.md)（TB-04～10设计三签保持；已逐批接收集成并三席终审收口，后续待证项仍按原归属）
@@ -35,7 +35,7 @@
 - [第一阶段菜单导航与请求补测工作包](glm-game-menu-boundaries.md)（TB-08，合法输入/旧测试去重/白名单/负控及排除项）
 - [第一阶段宿主、隐私与计时补测工作包](glm-game-host-boundaries.md)（TB-09，合法输入/旧测试去重/白名单/负控及排除项）
 - [当前迁移辅助与隔离文件系统补测工作包](glm-migration-boundaries.md)（TB-10，合法输入/旧测试去重/白名单/负控及排除项）
-- [内容合同残项工作包](glm-content-residual.md)（TB01 r2/review，23项；Codex补正CR-R1，原counter已消除）
+- [内容合同残项工作包](glm-content-residual.md)（TB01 r2/done，23项；Codex补正CR-R1，三席同候选已收口）
 - [内容残项Codex接收复核](content-residual-review.md)与[可重建独立见证](content-residual-review-witnesses.mjs)（五针detected、混合错误判据拒绝、七fixture accepted；统一质量门已过）
 - [资源读取缓存与音效准备工作包](glm-reforge-asset-io.md)（TB-02 r2/rework；a7c48d9c接收counter，设计保持）
 - [导入编码线程与视频元数据工作包](glm-editor-import-codec.md)（TB-03 r2/rework；f4c229ed接收counter；PNG泄漏仍隔离）

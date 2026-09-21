@@ -1,10 +1,12 @@
 # TB00/TB01 窄返工接手与集成
 
-2026-09-21用户明确“那就修好呀”，Codex接替GLM实施窄返工。两卡已签设计保持：[TB00 r1](../ops/tasks/TEST-RUNTIME-STATE-BOUNDARIES-1-state-and-metadata.md)、[TB01 r2](../ops/tasks/TEST-CONTENT-RESIDUAL-1-registered-gaps.md)。
+2026-09-21用户明确“那就修好呀”，Codex接替GLM实施窄返工。两卡已签设计保持：[TB00 r1](../ops/archive/tasks/done/TEST-RUNTIME-STATE-BOUNDARIES-1-state-and-metadata.md)、[TB01 r2](../ops/archive/tasks/done/TEST-CONTENT-RESIDUAL-1-registered-gaps.md)。
 Owner交接952a45bd；当前生产基线0cb5010e（物品身份451cbbb7已经done），历史e58834f6只作原包冻结证据，**不回退产品**。
 原GLM分支/worktree不动，独立codex/tb00-tb01-finish工作树接入白名单新增文件；原审计见证不改语义。
-GLM是原测试贡献者，Codex是本轮补正/集成实现者，不再把本席自验当独立第三方；Kimi独立终审及GLM对新候选的复核仍待后续。
-**统一候选44b9b763，两卡已转review，原窄counter已消除**。本席分别签实现者自验accept，不代签、不done；完整机账见[completion-evidence](tb00-tb01-completion-evidence.json)。
+GLM是原测试贡献者，Codex是本轮补正/集成实现者，不把任一贡献者自验当独立第三方；GLM新候选复核和Kimi独立终审已完成。
+**统一候选44b9b763，两卡均done**。2026-09-21 Codex逐卡核三席accept（Codex 430fba79、GLM f38c23dc、Kimi 2c042bf5）同候选齐、无counter/缺签豁免，按用户明确授权分别收口并归档。候选后产品/测试/脚本/原工具零diff；只运行文档门，不重跑产品测试或改基线，不代签。完整机账见[completion-evidence](tb00-tb01-completion-evidence.json)。
+
+**后续边界**：frame在途invalidate回填政策仍待证，由Codex后续合同核定，不把当前测试行为当产品裁决；A3跨包已有/rows无上限/levelUp owner warn维持现状。无视觉/full/Q1/Q2声明，不借本次收口开启R4/N6b。无下一位Agent提示词，两卡均已收口。
 
 ## 分包裁决与源树差异
 
@@ -64,12 +66,14 @@ node docs/testing/glm-content-residual-mutants.mjs
 
 见证工具返回exit0不自动等于接收；必须核summary中的每个candidate verdict、fixture和判据结果。仅Codex统一跑全仓质量门，不让并行审查争用覆盖率输出。
 
-## 并行终审提示词
+## 并行终审提示词（历史，已完成）
+
+无下一位Agent提示词，两卡已按用户授权收口。以下仅保留交接历史，不再重复执行。
 
 ### Kimi（独立终审，两卡分别裁决）
 
 ```text
-在 /Users/zhangxu/illegal/type-pal 并行阶段独立终审两卡：docs/ops/tasks/TEST-RUNTIME-STATE-BOUNDARIES-1-state-and-metadata.md（TB00/r1）与 docs/ops/tasks/TEST-CONTENT-RESIDUAL-1-registered-gaps.md（TB01/r2）。均review，统一候选44b9b763，对比接入基点952a45bd，原设计不重签。先同步main/核工作树，读AGENTS/CLAUDE/READ-FIRST、两卡、docs/testing/tb00-tb01-completion.md与机账，不读或复述GLM本轮结论。
+在 /Users/zhangxu/illegal/type-pal 并行阶段独立终审两卡：docs/ops/archive/tasks/done/TEST-RUNTIME-STATE-BOUNDARIES-1-state-and-metadata.md（TB00/r1）与 docs/ops/archive/tasks/done/TEST-CONTENT-RESIDUAL-1-registered-gaps.md（TB01/r2）。均review，统一候选44b9b763，对比接入基点952a45bd，原设计不重签。先同步main/核工作树，读AGENTS/CLAUDE/READ-FIRST、两卡、docs/testing/tb00-tb01-completion.md与机账，不读或复述GLM本轮结论。
 用户已指定Codex接手窄返工，GLM原测试贡献保留，Codex是补正/集成实现者。TB00重点核真实finally释放同一底层/消费原播放、失败自证是否保留原错误且能先红后绿、B7只适配已done的451cbbb7。TB01核真实非空输入的前后快照、当前结构自证、合法无肖像speaker及防御轴分类。只核剩余counter及当前集成，不重开已闭环合同、不发明产品新政策。
 可复跑两份review-witnesses.mjs（绝对当前树：8/8与5/5 detected、fixture4/7 accepted）和两个原mutants.mjs（22/15跑），核79新测试、GLM源树只有四测试文件适配、原见证零改。统一check7988/ratchet/受保护单次strict7497已过，不并发重跑全仓覆盖率；本包不做视觉/full/Q1/Q2。
 两卡分别在本人当前done前席位与日志签accept或带file:line/最小反例counter，直接提交推送；落盘前同步保留另一席改动。不得改产品/测试/基线/他席/状态，不代签、不done。一个包有counter不得连带否决已通过另一包。
@@ -78,7 +82,7 @@ node docs/testing/glm-content-residual-mutants.mjs
 ### GLM（原贡献者的新候选复核）
 
 ```text
-在 /Users/zhangxu/illegal/type-pal 复核两卡：docs/ops/tasks/TEST-RUNTIME-STATE-BOUNDARIES-1-state-and-metadata.md（TB00/r1）与 docs/ops/tasks/TEST-CONTENT-RESIDUAL-1-registered-gaps.md（TB01/r2）。均review，统一候选44b9b763，对比952a45bd，设计不重签。先同步main/核工作树，读AGENTS/CLAUDE/READ-FIRST、两卡、docs/testing/tb00-tb01-completion.md及机账；独立读代码，不复述Kimi结论。
+在 /Users/zhangxu/illegal/type-pal 复核两卡：docs/ops/archive/tasks/done/TEST-RUNTIME-STATE-BOUNDARIES-1-state-and-metadata.md（TB00/r1）与 docs/ops/archive/tasks/done/TEST-CONTENT-RESIDUAL-1-registered-gaps.md（TB01/r2）。均review，统一候选44b9b763，对比952a45bd，设计不重签。先同步main/核工作树，读AGENTS/CLAUDE/READ-FIRST、两卡、docs/testing/tb00-tb01-completion.md及机账；独立读代码，不复述Kimi结论。
 用户已授权Codex接手，你的350da702/ccc67dcc原分支保持不动。请核原贡献保留、Codex仅四测试文件补正（D6真实finally+失败自证/B7当前身份；actual world/levelUp/shops/noPortrait快照与guard），56+23=79项与最终树一致，当前覆盖表不借旧冻结数字。原22/15工具与8/5见证已通过；统一check7988/strict7497已过，源码/原测试/分母范围零改。你是原测试贡献者，须在签字披露，不作为独立第三方自证。
 分别在本人当前done前席位和日志签accept或给file:line反例counter，提交推送；同步保留Kimi并行改动。不再返工旧候选，不改产品/测试/原见证/官方基线/他席/状态，不做视觉或争用全仓覆盖率，不代签、不done。
 ```
