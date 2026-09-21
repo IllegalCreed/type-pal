@@ -1,6 +1,6 @@
 # MIGRATION-WRITE-GUARD-1 - 迁移规划快照与二进制路径保护
 
-Status: build
+Status: review
 Phase: phase2
 Capability: A7
 Coding Owner: Codex
@@ -13,6 +13,7 @@ Branch: codex/migration-write-guard-1
 
 Revision: r1
 Production Baseline: `14257da75f4c3c91dd9aae5f37de13a5f1040f8c`
+Implementation Candidate: `57dda7ed`
 
 ## 目标与范围
 
@@ -177,12 +178,22 @@ Production Baseline: `14257da75f4c3c91dd9aae5f37de13a5f1040f8c`
 
 ### 进入done前
 
-- Codex：pending。
+- Codex：**accept（2026-09-21，实现者自验，候选57dda7ed；不是独立第三方审查）**。规划原始hash由CLI:119传入write-plan:34-43，project mandatory/null在transaction:299-312校验，staging:336再核且previousHash用携带值；路径helper逐级lstat含悬空/叶，pal-assets全量/各写点检查、独占临时文件与inode归属清理。36新回归、migrate515项、1对照+5单点负控、隔离两次真实CLI发布均通过；完整check8029、官方ratchet与保护14257da7的普通CI彩色环境单次strict7538通过。原48个migrate fast测试身份/计数与另六包完整基线对象保持，原探针零diff。旧兼容审查pass，journal v2/content20/SAVE8不变；边界、失败记录、命令及证据见[实施回执](../../testing/migration-write-guard.md)。
 - Kimi：pending。
 - GLM：pending。
-- done准入结论：blocked。
+- done准入结论：**blocked（缺Kimi/GLM同候选实现accept；不标done）**。
+
+## Review：交付与保留边界
+
+- 实现候选57dda7ed；产品5文件（含新路径helper和CLI），旧测试4文件只适配必填输入，新增3测试文件36项、2薄fixture、3诊断工具；官方基线由ratchet更新。
+- 本地全仓与发布证据在[回执](../../testing/migration-write-guard.md)。无主树工程写入、无原审计probe修改；snapshot/planned input来源可从真实测试和CLI复算。
+- 真实发布用自有PAL副本和一个结构合法旧WAV强制写入，第一遍1资产/3事务变更，第二遍0；2474工程/315 baseline文件逐字节恢复冻结值。既有asset-warnings182未清，不声称全资源告警为零。
+- 最后check→syscall的恶意并发不保证；仍单writer。二进制不是整批回滚；staging途中冲突可保留未发布临时文件，不把它当恢复授权、不沿换链清理。
+- 无UI/视觉变更；E-05/U-02/N6b/Q2及第一阶段欠账均未借此关闭。远端检查以推送同headSha的Actions为准，不拿本地结果代替。
 
 ## 交接日志
+
+- 2026-09-21 Codex（实现交付）：独立工作树完成57dda7ed；49旧相邻合同适配后保持，新增36项；包515、全仓8029、ratchet/strict7538、五针负控及两次隔离真实发布通过。签本人实施自验accept，推进review，准备Kimi/GLM并行同候选终审；不代签、不标done。首次路径夹具/临时发布缺soundfont等验证失败已在回执如实登记并修正，未降低任何门禁。
 
 - 2026-09-21 Codex（build开门）：用户确认签字后同步main并核工作树干净；Kimi996bb55f/GLM91833db5同r1签字及无counter成立，生产对14257da7零漂移。统一核定build allowed，创建独立工作树与codex分支，开始先红后绿实现；未代签、未标done。
 
@@ -206,7 +217,7 @@ Production Baseline: `14257da75f4c3c91dd9aae5f37de13a5f1040f8c`
 
 - 2026-09-21 Codex：用户要求继续核定E2E前置欠账。同步main/工作树干净，冻结14257da7；现行迁移observe12/两条contract业务红，49相邻和17检查点测试通过；U-02仅risk。建立本卡r1，尚未修改生产/测试/基线/真实工程，准备两席并行设计审查。
 
-## 下一位Agent提示词
+## 设计阶段历史提示词（已完成，不重复领取）
 
 ### 给Kimi（与GLM并行）
 
@@ -215,3 +226,13 @@ Production Baseline: `14257da75f4c3c91dd9aae5f37de13a5f1040f8c`
 ### 给GLM（与Kimi并行）
 
 在 /Users/zhangxu/illegal/type-pal 审 MIGRATION-WRITE-GUARD-1 r1 前提与验收矩阵，卡 docs/ops/tasks/MIGRATION-WRITE-GUARD-1-planned-snapshot-and-paths.md，状态draft，生产冻结14257da75f4c3c91dd9aae5f37de13a5f1040f8c。先同步main、检查工作树，读AGENTS/CLAUDE/READ-FIRST、本卡与docs/testing/pre-e2e-admission.md。独立读实际代码与探针，不读取或复述Kimi结论。复跑 node --import tsx docs/ops/audits/pre-e2e/probe-glm-next-migration.mjs --mode=observe --case all，再分别contract E02/E06核红因；核49相邻用例现有覆盖与AC01～10缺口、实际原始字节hash/缺席/晚位冲突/零副作用、叶链接与父链不同结果、静态全量拒绝与途中停止边界、负控鉴别力和隔离发布幂等方案。GLM原探针贡献要披露，不能仅以自己的旧回执代替独立当前源码证据。输出有file:line和可证伪观察的premise verified/counter、design agree/counter及旧版本兼容审查；只写本人签字/证据/日志并提交推送，保留Kimi并行改动，不改共享状态、不开始实现、不标done。无浏览器/视觉任务。
+
+## 下一位Agent提示词（同候选并行实现终审）
+
+### 给Kimi
+
+在 /Users/zhangxu/illegal/type-pal 终审 MIGRATION-WRITE-GUARD-1 r1，任务卡 docs/ops/tasks/MIGRATION-WRITE-GUARD-1-planned-snapshot-and-paths.md，状态review，实现候选57dda7ed，对比生产14257da7；设计不重签。先同步main/check工作树，读AGENTS/CLAUDE/READ-FIRST、本卡AC01～10及docs/testing/migration-write-guard.md。独立审CLI规划原始hash/null→write-plan→transaction前检/staging/journal恢复，及路径helper→物化预检/各写点/独占临时文件/inode清理；不要读取或复述GLM终审。复跑三新测试36项与相邻，node docs/testing/migration-write-guard-mutants.mjs应1对照绿+5业务红；需要复核发布时用node docs/testing/migration-write-guard-publish.mjs，仅写自有tmp，不跑真实主树迁移CLI。核旧签名无fallback、journal格式不变、原probe零diff、未夸大check→syscall/单writer/整批回滚。原探针旧签名不兼容不算修复证据。全仓check8029/ratchet/strict7538采信已落日志，不并发重跑全仓覆盖率。输出本人同候选accept或带file:line与复现的counter，以及旧版本兼容审查；只改本人席位/证据/日志并提交推送，保留另一席改动，不改产品、不改状态、不代签、不标done。无视觉任务。
+
+### 给GLM
+
+在 /Users/zhangxu/illegal/type-pal 复核 MIGRATION-WRITE-GUARD-1 r1实现与矩阵，任务卡 docs/ops/tasks/MIGRATION-WRITE-GUARD-1-planned-snapshot-and-paths.md，状态review，实现候选57dda7ed，对比生产14257da7；设计不重签。先同步main/check工作树，读AGENTS/CLAUDE/READ-FIRST、本卡AC01～10及docs/testing/migration-write-guard.md，不读取或复述Kimi终审。逐项核36新测试的合法正控、原始字节来源/缺席/后位冲突/实际IO/原生链接与清理归属、四旧测试文件只适配输入、五单点负控鉴别力和两次真实CLI发布回执；复跑三新文件及node docs/testing/migration-write-guard-mutants.mjs（1对照绿+5精确业务红），发布复算仅可用隔离publish工具。核migrate fast361→397、原48文件身份计数不变、其他六包基线对象不变；不要补跑/并发改官方ratchet或strict。原probe冻结不改，旧签名异常不能当缺陷已修。披露你是旧诊断材料贡献者，以当前独立源码/测试为据；给本人同候选accept或有复现的counter及旧兼容审查。只改本人席位/证据/日志并提交推送，保留另一席改动，不改产品/状态、不代签、不标done。无视觉任务。

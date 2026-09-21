@@ -8,7 +8,7 @@
 
 | 任务 | 顶部状态 | 说明 |
 |---|---|---|
-| [MIGRATION-WRITE-GUARD-1 - 迁移规划快照与二进制路径保护](MIGRATION-WRITE-GUARD-1-planned-snapshot-and-paths.md) | build | 以任务卡当前准入与看板分工为准。 |
+| [MIGRATION-WRITE-GUARD-1 - 迁移规划快照与二进制路径保护](MIGRATION-WRITE-GUARD-1-planned-snapshot-and-paths.md) | review | 以任务卡当前准入与看板分工为准。 |
 
 ## 已完成（historical）
 

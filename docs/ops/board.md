@@ -20,7 +20,7 @@ GLM后续补测候选见[十批长队列](../testing/glm-coverage-work-queue.md)
 
 | ID | 任务 | 状态 | 负责人/下一步 | 一句话备注 |
 |---|---|---|---|---|
-| MIGRATION-WRITE-GUARD-1 | [迁移规划快照与二进制路径保护](tasks/MIGRATION-WRITE-GUARD-1-planned-snapshot-and-paths.md) | build | Codex独立工作树实现 | r1三席设计齐、无counter；规划hash贯穿与路径写点保护；不写真实工程 |
+| MIGRATION-WRITE-GUARD-1 | [迁移规划快照与二进制路径保护](tasks/MIGRATION-WRITE-GUARD-1-planned-snapshot-and-paths.md) | review | Kimi / GLM同候选并行终审；Codex核门 | 57dda7ed；36新回归、五负控、隔离发布双跑、check8029/strict7538；不标done |
 
 2026-09-21 [E2E前置欠账与准入核对](../testing/pre-e2e-admission.md)已落盘：CI已绿不代表欠账清零；U-02保持待证，E-05/Q2/N6b与一阶段分流。R4尚无实施卡与连续检查点，003～010边界待起草确认；本轮优先推进已证迁移写盘风险，不改变R4→N6b→完整Q1/Q2顺序。
 
