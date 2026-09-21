@@ -116,6 +116,7 @@ const nextBaseline = snapshotOf(publication)
 const changes = buildMigrationTransactionChanges({
   repo,
   plan,
+  projectSnapshot: project,
   previousBaseline: baseline,
   nextBaseline,
   retiredAssets,

@@ -1,14 +1,14 @@
 {
   "schemaVersion": 2,
   "profile": "fast",
-  "generatedAt": "2026-09-21T12:09:37.255Z",
+  "generatedAt": "2026-09-21T14:00:21.882Z",
   "provider": {
     "name": "v8",
     "vitest": "4.1.7",
     "coverageV8": "4.1.7"
   },
-  "sourceFileCount": 632,
-  "testCount": 7502,
+  "sourceFileCount": 633,
+  "testCount": 7538,
   "packages": {
     "shared": {
       "name": "@type-pal/shared",
@@ -908,7 +908,7 @@
         "**/*.spec.tsx",
         "**/*.d.ts"
       ],
-      "sourceFileCount": 50,
+      "sourceFileCount": 51,
       "sourceFiles": [
         "packages/migrate/scripts/bake-assets.mts",
         "packages/migrate/scripts/migrate-content.mts",
@@ -920,6 +920,7 @@
         "packages/migrate/src/migrate-enemies.ts",
         "packages/migrate/src/migration-baseline.ts",
         "packages/migrate/src/migration-merge.ts",
+        "packages/migrate/src/migration-path.ts",
         "packages/migrate/src/migration-plan.ts",
         "packages/migrate/src/migration-project-io.ts",
         "packages/migrate/src/migration-transaction.ts",
@@ -961,10 +962,10 @@
         "packages/migrate/src/translate-enemy-scripts.ts",
         "packages/migrate/src/translate-events.ts"
       ],
-      "scopeDigest": "dcab4edba049261e3d057459eaa1132c193473dfee56e803a1fce38858c476d3",
+      "scopeDigest": "980711e930306f3ff6a1d70817611eb6f83e3681f7568f886680e6ebe1939e2f",
       "fastTests": {
-        "testCount": 361,
-        "testFileCount": 48,
+        "testCount": 397,
+        "testFileCount": 51,
         "files": [
           "packages/migrate/src/bake-indexed-rgba.test.ts",
           "packages/migrate/src/current-only-product-boundary.test.ts",
@@ -976,15 +977,18 @@
           "packages/migrate/src/migration-baseline.test.ts",
           "packages/migrate/src/migration-merge.boundaries.test.ts",
           "packages/migrate/src/migration-merge.test.ts",
+          "packages/migrate/src/migration-path.test.ts",
           "packages/migrate/src/migration-plan.boundaries.test.ts",
           "packages/migrate/src/migration-plan.test.ts",
           "packages/migrate/src/migration-project-io.boundaries.test.ts",
           "packages/migrate/src/migration-project-io.test.ts",
           "packages/migrate/src/migration-transaction.boundaries.test.ts",
           "packages/migrate/src/migration-transaction.test.ts",
+          "packages/migrate/src/migration-write-guard.test.ts",
           "packages/migrate/src/migration-write-plan.boundaries.test.ts",
           "packages/migrate/src/migration-write-plan.test.ts",
           "packages/migrate/src/music-reference-audit.test.ts",
+          "packages/migrate/src/pal-assets-paths.test.ts",
           "packages/migrate/src/pal-authored-overlays.boundaries.test.ts",
           "packages/migrate/src/pal-authored-overlays.test.ts",
           "packages/migrate/src/pal-boss-overlay.test.ts",
@@ -1067,6 +1071,11 @@
             "identityDigest": "f64d2c7be225c9d5f6c0c53eec4a3a66c671c36a5870d3e4e3acbfd638752712"
           },
           {
+            "file": "packages/migrate/src/migration-path.test.ts",
+            "testCount": 9,
+            "identityDigest": "3da4e3ddbbc171573b098b307b5c7658751df05227f27caed96774ec4a8d518d"
+          },
+          {
             "file": "packages/migrate/src/migration-plan.boundaries.test.ts",
             "testCount": 8,
             "identityDigest": "74ce4d18b51ed4297800f0dfd1aac4fffc1f89f43c1ce2c39d40b083a48db699"
@@ -1097,6 +1106,11 @@
             "identityDigest": "a9f5bc5c95512ec6684c4a7d763720821540df260dbbc6c870ce166171ac799b"
           },
           {
+            "file": "packages/migrate/src/migration-write-guard.test.ts",
+            "testCount": 13,
+            "identityDigest": "acc08f52ebb21e75a037cf9eec89011c877960b5cde914c2cd2ba194eb02b396"
+          },
+          {
             "file": "packages/migrate/src/migration-write-plan.boundaries.test.ts",
             "testCount": 2,
             "identityDigest": "175252a0b0ffd92ab1817b4f96e168150dc3671637bb088429db759395bdacad"
@@ -1110,6 +1124,11 @@
             "file": "packages/migrate/src/music-reference-audit.test.ts",
             "testCount": 1,
             "identityDigest": "9bb286f57b8884c0985a8d8805c8746cd72afdbc779f03cfb9e985f4435e2ba0"
+          },
+          {
+            "file": "packages/migrate/src/pal-assets-paths.test.ts",
+            "testCount": 14,
+            "identityDigest": "bbce5cbcd7ec4da7c299d0e3aa6ebbe520831cfc9bb0a8f63891d90bfc3e2d61"
           },
           {
             "file": "packages/migrate/src/pal-authored-overlays.boundaries.test.ts",
@@ -1257,26 +1276,26 @@
             "identityDigest": "baba8c49c53ef8a741ef1c605723ba72d227914206784bc3a5f719e12c8ff8ee"
           }
         ],
-        "identityDigest": "87fbbc1db6ba24947e53ab2875ac663068de36eb11ce1cdc6e8a533437594979",
+        "identityDigest": "59b964c9bbf8bb23bf7d2a2e3a6d5c346e4b10da92a8223fc1ee19bb8b4b93b3",
         "duplicateIdentityCount": 1,
-        "executionDigest": "7e556abf5e1906efcefce7ca9fbf63f4f53f21e894315c81394e0967f8b0c9aa"
+        "executionDigest": "670322d2b8d5c73f40cfcfbaa5b04562e756d13603489faeee92fa1a1a7b6584"
       },
       "metrics": {
         "statements": {
-          "covered": 3863,
-          "total": 7659
+          "covered": 3980,
+          "total": 7712
         },
         "branches": {
-          "covered": 2879,
-          "total": 6398
+          "covered": 2940,
+          "total": 6436
         },
         "functions": {
-          "covered": 601,
-          "total": 1161
+          "covered": 610,
+          "total": 1165
         },
         "lines": {
-          "covered": 3460,
-          "total": 6677
+          "covered": 3569,
+          "total": 6724
         }
       }
     },
@@ -5053,20 +5072,20 @@
   },
   "total": {
     "statements": {
-      "covered": 56736,
-      "total": 80399
+      "covered": 56853,
+      "total": 80452
     },
     "branches": {
-      "covered": 40531,
-      "total": 63111
+      "covered": 40592,
+      "total": 63149
     },
     "functions": {
-      "covered": 10748,
-      "total": 14910
+      "covered": 10757,
+      "total": 14914
     },
     "lines": {
-      "covered": 51111,
-      "total": 70373
+      "covered": 51220,
+      "total": 70420
     }
   }
 }

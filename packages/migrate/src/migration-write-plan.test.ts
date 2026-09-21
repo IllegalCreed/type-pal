@@ -7,9 +7,9 @@ import {
   type CurrentManifest,
 } from '@type-pal/content'
 import { afterEach, describe, expect, test } from 'vitest'
+import { plannedChanges } from './__tests__/planned-changes-fixture.js'
 import { baselineWrites, type MigrationSnapshot, sha256 } from './migration-baseline.js'
 import { commitMigrationTransaction } from './migration-transaction.js'
-import { buildMigrationTransactionChanges } from './migration-write-plan.js'
 import { planPalAssetRetirements } from './pal-assets.js'
 import type { MigrationJson } from './pal-migration.js'
 
@@ -80,7 +80,7 @@ describe('current migration transaction change list', () => {
   ])('拒绝越界或缺少完整指纹的资源退役计划 %s', (path, expectedSha256) => {
     const repo = tempRepo()
     expect(() =>
-      buildMigrationTransactionChanges({
+      plannedChanges({
         repo,
         plan: { writes: new Map(), deletes: [] },
         nextBaseline: snapshot({}),
@@ -92,7 +92,7 @@ describe('current migration transaction change list', () => {
 
   test('同一工程文件不能同时写入和删除', () => {
     expect(() =>
-      buildMigrationTransactionChanges({
+      plannedChanges({
         repo: tempRepo(),
         plan: { writes: new Map([['content/items.json', []]]), deletes: ['content/items.json'] },
         nextBaseline: snapshot({}),
@@ -102,7 +102,7 @@ describe('current migration transaction change list', () => {
 
   test('manifest 发布在没有资源闭包前置条件时拒绝生成计划', () => {
     expect(() =>
-      buildMigrationTransactionChanges({
+      plannedChanges({
         repo: tempRepo(),
         plan: { writes: new Map(), deletes: [] },
         nextBaseline: snapshot({}),
@@ -118,7 +118,7 @@ describe('current migration transaction change list', () => {
     const nextManifest = manifest()
     put(repo, 'projects/pal/manifest.json', `${JSON.stringify(nextManifest, null, 2)}\n`)
     expect(
-      buildMigrationTransactionChanges({
+      plannedChanges({
         repo,
         plan: { writes: new Map(), deletes: [] },
         previousBaseline: nextBaseline,
@@ -131,7 +131,7 @@ describe('current migration transaction change list', () => {
 
   test('工程、baseline 与 current manifest 同事务且 manifest 最后提交', () => {
     const repo = tempRepo()
-    const changes = buildMigrationTransactionChanges({
+    const changes = plannedChanges({
       repo,
       plan: { writes: new Map([['content/items.json', [{ id: 'manual' }]]]), deletes: [] },
       nextBaseline: snapshot({ 'content/items.json': [{ id: 'generated' }] }),
@@ -150,7 +150,7 @@ describe('current migration transaction change list', () => {
 
   test('场景正文先于 SceneIndex，manifest 仍为最终提交点', () => {
     const repo = tempRepo()
-    const changes = buildMigrationTransactionChanges({
+    const changes = plannedChanges({
       repo,
       plan: {
         writes: new Map<string, MigrationJson>([
@@ -181,7 +181,7 @@ describe('current migration transaction change list', () => {
       'packages/migrate/baselines/pal/content/keep.json',
       `${JSON.stringify({ a: 1 }, null, 2)}\n`,
     )
-    const changes = buildMigrationTransactionChanges({
+    const changes = plannedChanges({
       repo,
       plan: { writes: new Map(), deletes: [] },
       previousBaseline: old,
@@ -214,7 +214,7 @@ describe('current migration transaction change list', () => {
     }
     const targetCatalog = { version: 1 as const, assets: {} }
     const retiredAssets = planPalAssetRetirements({ repo, previousCatalog, targetCatalog })
-    const changes = buildMigrationTransactionChanges({
+    const changes = plannedChanges({
       repo,
       plan: { writes: new Map(), deletes: [] },
       nextBaseline: snapshot({}),

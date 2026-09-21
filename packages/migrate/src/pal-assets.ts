@@ -1,13 +1,17 @@
+import { randomUUID } from 'node:crypto'
 import {
   closeSync,
   existsSync,
+  fstatSync,
   fsyncSync,
+  lstatSync,
   mkdirSync,
   openSync,
   readdirSync,
   readFileSync,
+  realpathSync,
   renameSync,
-  rmSync,
+  unlinkSync,
   writeFileSync,
 } from 'node:fs'
 import { dirname, isAbsolute, resolve } from 'node:path'
@@ -45,6 +49,7 @@ import {
 import { PNG } from 'pngjs'
 import { bakeIndexedRgba } from './bake-indexed-rgba.js'
 import { sha256 } from './migration-baseline.js'
+import { assertMigrationFilePath } from './migration-path.js'
 import { PAL_PLAYER_FACE_FRAME_BY_ROLE_ID, ROLE_SLUGS } from './source-facts.js'
 
 interface PalBinaryAssetBase {
@@ -1198,15 +1203,23 @@ export function materializePalAssets(args: {
   catalog: AssetCatalogV1
   binaries: readonly PalBinaryAssetSource[]
 }): PalAssetMaterializationReport {
-  const { repo, binaries } = args
+  const repo = realpathSync(args.repo)
+  const { binaries } = args
   const catalog = validateAssetCatalog(args.catalog)
   const sourceById = new Map(binaries.map((asset) => [asset.id, asset]))
   if (sourceById.size !== binaries.length) throw new Error('PAL 二进制迁移源存在重复 AssetId')
   const ownerByPath = new Map<string, string>()
+  const temporaryPaths = new Map<string, string>()
   for (const [id, record] of Object.entries(catalog.assets)) {
     const owner = ownerByPath.get(record.path)
     if (owner) throw new Error(`PAL catalog 资源路径冲突: ${owner} / ${id} -> ${record.path}`)
     ownerByPath.set(record.path, id)
+    assertMigrationFilePath(repo, `projects/pal/${record.path}`, `资源 ${id}`)
+    if (sourceById.has(id) && record.origin.kind !== 'authored') {
+      const temporary = `projects/pal/${record.path}.tmp-${randomUUID()}`
+      assertMigrationFilePath(repo, temporary, `资源 ${id} 临时文件`)
+      temporaryPaths.set(id, temporary)
+    }
   }
   // 全量预检必须先于第一个写入，避免后续坏源留下半批目标。
   for (const source of binaries) {
@@ -1243,7 +1256,8 @@ export function materializePalAssets(args: {
       continue
     }
     const bytes = assertSourceBytes(source)
-    const destination = resolve(repo, 'projects/pal', target.path)
+    const relativeDestination = `projects/pal/${target.path}`
+    const destination = assertMigrationFilePath(repo, relativeDestination, `资源 ${source.id}`)
     if (existsSync(destination)) {
       const current = readFileSync(destination)
       if (current.byteLength === target.bytes && sha256(current) === target.sha256) {
@@ -1251,14 +1265,41 @@ export function materializePalAssets(args: {
         continue
       }
     }
+    assertMigrationFilePath(repo, relativeDestination, `资源 ${source.id}`)
     mkdirSync(dirname(destination), { recursive: true })
-    const temporary = `${destination}.tmp-${process.pid}`
-    rmSync(temporary, { force: true })
-    writeFileSync(temporary, bytes)
-    syncPath(temporary)
-    renameSync(temporary, destination)
-    syncPath(destination)
-    syncPath(dirname(destination))
+    const relativeTemporary = temporaryPaths.get(source.id)!
+    const temporary = assertMigrationFilePath(repo, relativeTemporary, `资源 ${source.id} 临时文件`)
+    assertMigrationFilePath(repo, relativeDestination, `资源 ${source.id}`)
+    let owned: { dev: number; ino: number } | undefined
+    try {
+      // Never unlink/reuse a pre-existing temporary file, including one from another writer.
+      const fd = openSync(temporary, 'wx')
+      try {
+        owned = fstatSync(fd)
+        writeFileSync(fd, bytes)
+        fsyncSync(fd)
+      } finally {
+        closeSync(fd)
+      }
+      assertMigrationFilePath(repo, relativeTemporary, `资源 ${source.id} 临时文件`)
+      assertMigrationFilePath(repo, relativeDestination, `资源 ${source.id}`)
+      renameSync(temporary, destination)
+      owned = undefined
+      assertMigrationFilePath(repo, relativeDestination, `资源 ${source.id}`)
+      syncPath(destination)
+      syncPath(dirname(destination))
+    } catch (error) {
+      if (owned) {
+        try {
+          assertMigrationFilePath(repo, relativeTemporary, `资源 ${source.id} 临时文件`)
+          const stat = lstatSync(temporary, { throwIfNoEntry: false })
+          if (stat?.dev === owned.dev && stat.ino === owned.ino) unlinkSync(temporary)
+        } catch {
+          // A changed/linked parent is not safe for cleanup. Preserve the original failure.
+        }
+      }
+      throw error
+    }
     written++
   }
 

@@ -50,7 +50,12 @@ describe('migration transaction', () => {
   test('提交工程与 baseline 后清理 journal', () => {
     const repo = tempRepo()
     commitMigrationTransaction(repo, [
-      { target: 'projects/pal/content/a.json', scope: 'project', content: 'new-project\n' },
+      {
+        target: 'projects/pal/content/a.json',
+        scope: 'project',
+        expectedPreviousHash: null,
+        content: 'new-project\n',
+      },
       {
         target: 'packages/migrate/baselines/pal/content/a.json',
         scope: 'baseline',
@@ -67,8 +72,18 @@ describe('migration transaction', () => {
   test('第 k 个 rename 后中断可幂等补完', () => {
     const repo = tempRepo()
     const changes: TransactionChange[] = [
-      { target: 'projects/pal/content/a.json', scope: 'project', content: 'a2\n' },
-      { target: 'projects/pal/content/b.json', scope: 'project', content: 'b2\n' },
+      {
+        target: 'projects/pal/content/a.json',
+        scope: 'project',
+        expectedPreviousHash: null,
+        content: 'a2\n',
+      },
+      {
+        target: 'projects/pal/content/b.json',
+        scope: 'project',
+        expectedPreviousHash: null,
+        content: 'b2\n',
+      },
       {
         target: 'packages/migrate/baselines/pal/content/a.json',
         scope: 'baseline',
@@ -96,7 +111,12 @@ describe('migration transaction', () => {
       commitMigrationTransaction(
         repo,
         [
-          { target: 'projects/pal/content/a.json', scope: 'project', content: 'project-v2\n' },
+          {
+            target: 'projects/pal/content/a.json',
+            scope: 'project',
+            expectedPreviousHash: null,
+            content: 'project-v2\n',
+          },
           {
             target: 'packages/migrate/baselines/pal/content/a.json',
             scope: 'baseline',
@@ -135,7 +155,12 @@ describe('migration transaction', () => {
     writeFileSync(assetPath, 'valid-wave')
     const preconditions = [{ target: 'projects/pal/assets/sound.wav', hash: sha256('valid-wave') }]
     const changes: TransactionChange[] = [
-      { target: 'projects/pal/content/a.json', scope: 'project', content: 'project-v2\n' },
+      {
+        target: 'projects/pal/content/a.json',
+        scope: 'project',
+        expectedPreviousHash: null,
+        content: 'project-v2\n',
+      },
       {
         target: 'packages/migrate/baselines/pal/_state.json',
         scope: 'baseline',
@@ -178,7 +203,12 @@ describe('migration transaction', () => {
           content: '{}\n',
           preconditions,
         },
-        { target: 'projects/pal/content/a.json', scope: 'project', content: '{}\n' },
+        {
+          target: 'projects/pal/content/a.json',
+          scope: 'project',
+          expectedPreviousHash: null,
+          content: '{}\n',
+        },
       ]),
     ).toThrow('最后一项')
     expect(() =>
@@ -188,7 +218,12 @@ describe('migration transaction', () => {
     ).toThrow('只能写入')
     expect(() =>
       commitMigrationTransaction(repo, [
-        { target: 'projects/pal/manifest.json', scope: 'project', content: '{}\n' },
+        {
+          target: 'projects/pal/manifest.json',
+          scope: 'project',
+          expectedPreviousHash: null,
+          content: '{}\n',
+        },
       ]),
     ).toThrow('固定目标')
   })
@@ -202,8 +237,18 @@ describe('migration transaction', () => {
       commitMigrationTransaction(
         repo,
         [
-          { target: 'projects/pal/content/a.json', scope: 'project', content: 'a2\n' },
-          { target: 'projects/pal/content/b.json', scope: 'project', content: 'b2\n' },
+          {
+            target: 'projects/pal/content/a.json',
+            scope: 'project',
+            expectedPreviousHash: null,
+            content: 'a2\n',
+          },
+          {
+            target: 'projects/pal/content/b.json',
+            scope: 'project',
+            expectedPreviousHash: sha256(readFileSync(second)),
+            content: 'b2\n',
+          },
         ],
         {
           afterOperation: (_operation, index) => {

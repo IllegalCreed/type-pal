@@ -2,7 +2,6 @@ import {
   closeSync,
   existsSync,
   fsyncSync,
-  lstatSync,
   mkdirSync,
   openSync,
   readFileSync,
@@ -13,19 +12,23 @@ import {
 } from 'node:fs'
 import { dirname, isAbsolute, resolve } from 'node:path'
 import { sha256 } from './migration-baseline.js'
+import { assertMigrationFilePath } from './migration-path.js'
 
 const CONTROL_REL = '.type-pal-migrate'
 const JOURNAL_REL = `${CONTROL_REL}/pal-journal.json`
 
-export interface TransactionChange {
+interface TransactionChangeBase {
   target: string
-  scope: 'project' | 'baseline' | 'manifest'
   content?: string
-  /** 删除规划时读取到的旧文件 hash；提交前必须仍相同，避免误删并发改写的作者内容。 */
-  expectedPreviousHash?: string
   /** manifest 发布前必须仍满足的磁盘闭包；会持久化进 journal 供恢复路径复核。 */
   preconditions?: readonly TransactionPrecondition[]
 }
+
+export type TransactionChange = TransactionChangeBase &
+  (
+    | { scope: 'project'; expectedPreviousHash: string | null }
+    | { scope: 'baseline' | 'manifest'; expectedPreviousHash?: never }
+  )
 
 export interface TransactionPrecondition {
   target: string
@@ -73,12 +76,7 @@ function strictRepoRel(value: unknown, label: string): string {
 }
 
 function assertNoSymlinkPath(repo: string, relativePath: string, label: string): void {
-  let current = repo
-  for (const part of relativePath.split('/')) {
-    current = resolve(current, part)
-    if (existsSync(current) && lstatSync(current).isSymbolicLink())
-      throw new Error(`迁移事务 journal ${label} 不得经过符号链接: ${relativePath}`)
-  }
+  assertMigrationFilePath(repo, relativePath, `迁移事务 journal ${label}`)
 }
 
 function assertScopeTarget(
@@ -214,6 +212,14 @@ function assertPreviousTarget(repo: string, operation: JournalOperation): void {
     throw new Error(`事务目标在提交窗口被修改: ${operation.target}`)
 }
 
+function assertPlannedTarget(repo: string, change: TransactionChange): void {
+  if (change.scope !== 'project') return
+  const target = resolve(repo, change.target)
+  const actual = existsSync(target) ? sha256(readFileSync(target)) : null
+  if (actual !== change.expectedPreviousHash)
+    throw new Error(`事务目标已偏离规划快照: ${change.target}`)
+}
+
 function assertPreconditions(repo: string, operation: JournalOperation): void {
   for (const precondition of operation.preconditions ?? []) {
     const target = resolve(repo, precondition.target)
@@ -290,16 +296,15 @@ export function commitMigrationTransaction(
   if (new Set(normalized.map((change) => change.target)).size !== normalized.length)
     throw new Error('迁移事务包含重复目标')
   for (const change of normalized) {
-    if (change.expectedPreviousHash !== undefined) {
-      if (change.content !== undefined)
-        throw new Error(`只有删除操作可以携带 expectedPreviousHash: ${change.target}`)
-      if (!HASH_RE.test(change.expectedPreviousHash))
+    assertNoSymlinkPath(repo, change.target, 'target')
+    if (change.scope === 'project') {
+      if (!Object.hasOwn(change, 'expectedPreviousHash'))
+        throw new Error(`事务工程操作缺规划 expectedPreviousHash: ${change.target}`)
+      if (change.expectedPreviousHash !== null && !HASH_RE.test(change.expectedPreviousHash ?? ''))
         throw new Error(`事务 expectedPreviousHash 无效: ${change.target}`)
-      const target = resolve(repo, change.target)
-      const actual = existsSync(target) ? sha256(readFileSync(target)) : null
-      if (actual !== change.expectedPreviousHash)
-        throw new Error(`事务删除目标已偏离规划快照: ${change.target}`)
-    }
+      assertPlannedTarget(repo, change)
+    } else if (Object.hasOwn(change, 'expectedPreviousHash'))
+      throw new Error(`只有 project 操作可以携带 expectedPreviousHash: ${change.target}`)
     if (change.preconditions?.some((precondition) => !/^[a-f0-9]{64}$/.test(precondition.hash)))
       throw new Error(`事务前置条件 hash 无效: ${change.target}`)
     if (change.scope !== 'manifest' && change.preconditions?.length)
@@ -328,7 +333,13 @@ export function commitMigrationTransaction(
   const transactionRel = `${CONTROL_REL}/transactions/${id}`
   const operations: JournalOperation[] = normalized.map((change, index) => {
     const target = resolve(repo, change.target)
-    const previousHash = existsSync(target) ? sha256(readFileSync(target)) : null
+    assertPlannedTarget(repo, change)
+    const previousHash =
+      change.scope === 'project'
+        ? change.expectedPreviousHash
+        : existsSync(target)
+          ? sha256(readFileSync(target))
+          : null
     if (change.content === undefined)
       return { kind: 'delete', target: change.target, scope: change.scope, previousHash }
     const staged = `${transactionRel}/stage/${String(index).padStart(6, '0')}`

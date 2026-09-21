@@ -9,8 +9,8 @@ import { mkdirSync, mkdtempSync, rmSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { afterEach, describe, expect, test } from 'vitest'
+import { plannedChanges } from './__tests__/planned-changes-fixture.js'
 import { type MigrationSnapshot, serializeMigrationJson } from './migration-baseline.js'
-import { buildMigrationTransactionChanges } from './migration-write-plan.js'
 
 const roots: string[] = []
 afterEach(() => {
@@ -51,7 +51,7 @@ describe('T03 buildMigrationTransactionChanges 保真与排序', () => {
     const nextBaseline = snap(['b.json', 'a.json'])
     // 深快照：structuredClone 直接持有实际 Map/Set/嵌套 JSON（浅 entries 会与输入共享 value）
     const baselineSnapshot = structuredClone(nextBaseline)
-    const changes = buildMigrationTransactionChanges({ repo: root, plan, nextBaseline })
+    const changes = plannedChanges({ repo: root, plan, nextBaseline })
     const targets = changes.map((change) => change.target)
     // SceneIndex 专属提升：只排在 scenes 正文之后；其余按 localeCompare（items 先于 scenes）
     expect(targets.slice(0, 6)).toEqual([
@@ -84,7 +84,7 @@ describe('T03 buildMigrationTransactionChanges 保真与排序', () => {
     const previous = { files: new Map(), managedFiles: new Set(['same.json']) }
 
     // 正文与磁盘一致 → 不产生 same.json 内容写入（只有 _state 与 retirement）
-    const changes = buildMigrationTransactionChanges({
+    const changes = plannedChanges({
       repo: root,
       plan: emptyPlan(),
       previousBaseline: previous,
@@ -113,7 +113,7 @@ describe('T03 buildMigrationTransactionChanges 保真与排序', () => {
     ])
     // 内容改一个字节 → 重新出现该写入（相邻正控）
     writeFileSync(samePath, `${sameContent} `, 'utf8')
-    const changed = buildMigrationTransactionChanges({
+    const changed = plannedChanges({
       repo: root,
       plan: emptyPlan(),
       previousBaseline: previous,
@@ -125,7 +125,7 @@ describe('T03 buildMigrationTransactionChanges 保真与排序', () => {
       ),
     ).toBe(true)
     // 下轮不再管理 same.json → baseline delete（磁盘存在才删）
-    const dropped = buildMigrationTransactionChanges({
+    const dropped = plannedChanges({
       repo: root,
       plan: emptyPlan(),
       previousBaseline: previous,

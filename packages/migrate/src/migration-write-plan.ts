@@ -8,6 +8,7 @@ import {
   serializeMigrationJson,
 } from './migration-baseline.js'
 import type { MigrationPlan } from './migration-plan.js'
+import type { ProjectMigrationSnapshot } from './migration-project-io.js'
 import type { TransactionChange, TransactionPrecondition } from './migration-transaction.js'
 import type { PalAssetRetirement } from './pal-assets.js'
 
@@ -20,6 +21,7 @@ function differs(repo: string, path: string, content: string): boolean {
 export function buildMigrationTransactionChanges(args: {
   repo: string
   plan: Pick<MigrationPlan, 'writes' | 'deletes'>
+  projectSnapshot: ProjectMigrationSnapshot
   previousBaseline?: MigrationSnapshot
   nextBaseline: MigrationSnapshot
   retiredAssets?: readonly PalAssetRetirement[]
@@ -29,6 +31,14 @@ export function buildMigrationTransactionChanges(args: {
 }): TransactionChange[] {
   const { repo, plan, previousBaseline, nextBaseline, nextManifest } = args
   const changes: TransactionChange[] = []
+  const plannedHash = (path: string): string | null => {
+    const snapshot = args.projectSnapshot
+    if (!snapshot.managedFiles.has(path)) throw new Error(`工程目标未纳入规划快照: ${path}`)
+    const hash = snapshot.hashes.get(path)
+    if (snapshot.files.has(path) !== (hash !== undefined))
+      throw new Error(`工程规划快照缺原始字节 hash: ${path}`)
+    return hash ?? null
+  }
   const projectWriteOrder = (path: string): number => (path === 'content/scenes/index.json' ? 1 : 0)
   for (const [path, value] of [...plan.writes].sort(
     ([left], [right]) =>
@@ -38,10 +48,15 @@ export function buildMigrationTransactionChanges(args: {
       target: `projects/pal/${path}`,
       scope: 'project',
       content: serializeMigrationJson(value, path),
+      expectedPreviousHash: plannedHash(path),
     })
   }
   for (const path of [...plan.deletes].sort()) {
-    changes.push({ target: `projects/pal/${path}`, scope: 'project' })
+    changes.push({
+      target: `projects/pal/${path}`,
+      scope: 'project',
+      expectedPreviousHash: plannedHash(path),
+    })
   }
   for (const retirement of [...(args.retiredAssets ?? [])].sort(
     (a, b) => a.path.localeCompare(b.path) || a.id.localeCompare(b.id),

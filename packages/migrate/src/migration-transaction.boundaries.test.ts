@@ -55,8 +55,18 @@ function interruptedTwoOp(repo: string): {
     commitMigrationTransaction(
       repo,
       [
-        { target: 'projects/pal/content/a.json', scope: 'project', content: '{"k":1}' },
-        { target: 'projects/pal/content/b.json', scope: 'project', content: '{"k":2}' },
+        {
+          target: 'projects/pal/content/a.json',
+          scope: 'project',
+          expectedPreviousHash: null,
+          content: '{"k":1}',
+        },
+        {
+          target: 'projects/pal/content/b.json',
+          scope: 'project',
+          expectedPreviousHash: null,
+          content: '{"k":2}',
+        },
       ],
       {
         afterOperation: (_operation, index) => {
