@@ -122,7 +122,37 @@ Production Baseline: `14257da75f4c3c91dd9aae5f37de13a5f1040f8c`
 ### 进入build前
 
 - Codex：premise verified；设计design agree。直接证据为本卡动态E02/E06业务红、E01/E03/E04/E05正控及上述规划hash/写点源码；可证伪条件见前提节。仅批准本卡窄保护，不宣称任意并发安全。
-- Kimi：premise pending；design pending。独立证据与可证伪观察待本人落盘。
+- Kimi：**premise verified / design agree（2026-09-21，r1，冻结14257da7；锚点本人直读/探针本人复跑，未读 GLM 结论）**。
+  - **A-08 窗口直读**：规划快照确有原始字节 hash（`migration-project-io.ts:9-12`），CLI 在
+    物化前做 `assertProjectSnapshotCurrent`（`migrate-content.mts:109`）；但
+    `buildMigrationTransactionChanges`（`migration-write-plan.ts:20-46`）不携带规划 hash，
+    事务 staging 时 `migration-transaction.ts:331` 重新采样当前文件作 previousHash；
+    `expectedPreviousHash` 现行只允许删除携带（`:293-295`），`assertPreviousTarget`（`:211-214`）
+    比对的是重采样值——":109 复核→物化耗时→staging 重采样"窗口成立。本人复跑：observe E02
+    `rejected=false/authorPreserved=false` 且 rename 已发生；contract E02 exit1 为业务
+    AssertionError「冲突拒绝或保留都必须不覆盖作者新值、项目零写入」。E01/E03/E04/E05 正控绿
+    （E03 证明 journal 后窗口已有守卫，与采样前窗口是两个阶段，分栏属实）。
+  - **A-09 父链直读**：`pal-assets.ts:1240-1258` resolve→mkdir→`.tmp-${pid}` 写→rename，
+    全程无父链/叶/临时路径链接检查；JSON journal 的 `assertNoSymlinkPath`
+    （`migration-transaction.ts:75-81`）不覆盖二进制路径。observe E06/E07(deep/race)/E08
+    均复现外部字节 NEW；E07 叶链接 rename 变体外部 ORIGINAL 未动——控制成立，未混报。
+    contract E06 exit1 为业务 AssertionError「以明确路径拒绝在任何修改前终止并保留原字节」。
+  - **设计同意**：① 规划 hash 显式贯穿、缺席显式 null——journal v2 已有 `string|null`
+    previousHash（`migration-transaction.ts:41`），不改磁盘版本属实；"未提供≠期望不存在"
+    的类型区分是必要钉（现行 `expectedPreviousHash?` optional 语义必须收紧）；② 全量前提在
+    首个 staging 写前检查、journal.previousHash 用携带值再核而非重采样授权、applyJournal
+    逐项重读/恢复语义不动——关窗不碰恢复合同；③ 父链/叶/悬空/临时路径全量静态拒绝+写点
+    复核，覆盖 E07 race 的预检后换链窗口；中途路径变化即停、不沿已变父链清理；④ 剩余
+    check→syscall 竞态如实划出保证外、单 writer 纪律保持——与「明确不做」一致，无夸大；
+    ⑤ 白名单窄、隔离发布验证预期逐字节一致、不以更新黄金文件吞差异。
+  - **可证伪观察**（任一成立即 counter）：① "未提供"与"期望不存在"混同或残留静默采样
+    fallback → AC01/AC03 负控应红；② 直接复用 journal 的 `assertNoSymlinkPath` 而不修
+    `existsSync&&lstatSync` 对悬空链接判不存在 → AC05 悬空针漏检；③ 路径检查只做预检一次、
+    写点不复核 → E07 race 仍穿透；④ 清理沿已变更父链删文件；⑤ 正常发布产物与冻结树不
+    逐字节一致却用更新黄金文件吞掉；⑥ 实施后 E02/E06 contract 仍红或 E01/E03/E04/E05
+    正控转红；⑦ 把保护夸大为多 writer/OS 级沙箱承诺。
+  - 旧版本兼容审查 pass：journal v2 格式不变、无升级器/兼容分支、current-only 纪律符合。
+  - 返工项：无。
 - GLM：premise pending；design pending。独立证据与可证伪观察待本人落盘。
 - 独立反证审查：pending，至少一位非Coding Owner读取实际源码与真实链后填写，不能复述本席结论。
 - 缺签豁免：无。
@@ -136,6 +166,16 @@ Production Baseline: `14257da75f4c3c91dd9aae5f37de13a5f1040f8c`
 - done准入结论：blocked。
 
 ## 交接日志
+
+- 2026-09-21 Kimi（r1 独立设计审查）：签 premise verified / design agree，无返工项。直读 A-08
+  窗口（snapshot hashes 存在且 CLI :109 先核，但 write-plan 不携带、transaction:331 staging 重采样、
+  expectedPreviousHash 现行仅删除可带、assertPreviousTarget 只核重采样值）与 A-09 物化写点
+  （pal-assets:1240-1258 无父链/叶/临时链接检查，JSON journal guard 不覆盖）。复跑：observe
+  12 条 exit0（E02/E06/E07/E08  reproduced，E07 叶变体控制成立）；contract E02/E06 各 exit1
+  且为业务 AssertionError（作者保全/路径拒绝），非环境错误。七条可证伪观察入席（含悬空链接
+  不得直接复用 journal 的 existsSync&&lstatSync 式检查、E07 race 写点复核、不夸大沙箱）。
+  旧版本兼容 pass。未读 GLM 结论；未改产品/测试/他席/状态，不标 build/done。
+  Next：三席齐后 Codex 核 build 准入。
 
 - 2026-09-21 Codex：用户要求继续核定E2E前置欠账。同步main/工作树干净，冻结14257da7；现行迁移observe12/两条contract业务红，49相邻和17检查点测试通过；U-02仅risk。建立本卡r1，尚未修改生产/测试/基线/真实工程，准备两席并行设计审查。
 
