@@ -29,6 +29,7 @@ beforeEach(() => {
 afterEach(async () => {
   await act(async () => root.unmount())
   host.remove()
+  vi.useRealTimers()
   vi.restoreAllMocks()
   vi.unstubAllGlobals()
 })
@@ -135,6 +136,10 @@ async function input(label: string, value: string, within: ParentNode = document
   await act(async () => element.blur())
 }
 async function focusFrame() {
+  if (vi.isFakeTimers()) {
+    await act(async () => vi.advanceTimersToNextFrame())
+    return
+  }
   await act(async () => new Promise<void>((resolve) => requestAnimationFrame(() => resolve())))
 }
 
@@ -182,6 +187,7 @@ test('[add-picker:simulator/party] selection and cancellation are read-only; con
 })
 
 test('[add-picker:simulator/bag] explicit confirmation, cancelled search, stale revision, removal focus and undo preserve the author transaction boundary', async () => {
+  vi.useFakeTimers({ toFake: ['requestAnimationFrame', 'cancelAnimationFrame'] })
   const session = await fixture()
   await act(async () => root.render(<Harness session={session} start={vi.fn()} save={vi.fn()} />))
   await click('bags')
@@ -207,8 +213,13 @@ test('[add-picker:simulator/bag] explicit confirmation, cancelled search, stale 
   await act(async () => session.undo())
   expect(document.querySelector('dialog[open]')).toBeNull()
   expect(session.getState()).toEqual(before)
+  // Undo invalidates the open picker; its close cycle restores focus on the next frame.
+  // Complete that user-visible step before starting the independent redo/removal workflow.
+  await focusFrame()
+  expect(document.activeElement).toBe(button('添加物品'))
   await act(async () => session.redo())
   await click('移除物品')
+  await focusFrame()
   expect(document.activeElement).toBe(host.querySelector('[aria-label="背包物品配置"]'))
   expect(session.getState().battleSimulator!.bags[0]!.config.items).toEqual([])
   await act(async () => session.undo())

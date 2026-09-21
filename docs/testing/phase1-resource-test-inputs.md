@@ -29,6 +29,10 @@ Agent模式与普通CI彩色模式各exit0（`/tmp/type-pal-ci-evidence-green.lo
 [Coverage ratchet工作流](https://github.com/IllegalCreed/type-pal/actions/workflows/coverage.yml)完整conclusion，不能以本地绿替代，
 也不重跑或删除旧失败记录来冒称历史已绿。提交后的远端结论以GitHub附着于该提交的检查记录为准。
 
+推送`34e818d1`后的[Actions #279](https://github.com/IllegalCreed/type-pal/actions/runs/35598437496)
+已实证本项25/25、game全包fast2318/2318通过；随后editor的独立模拟器焦点用例失败，因此整次CI仍为failure，
+不能把本项修复成功写成流水线全绿。该后续测试时序补正见[覆盖率记录](coverage.md#ci后续焦点时序补正2026-09-21)。
+
 ## 前提与范围
 
 已读CLAUDE、第一阶段engineering-notes的真实函数/分层取证规则、[E-01审计](../ops/audits/pre-e2e/engineering.md)。

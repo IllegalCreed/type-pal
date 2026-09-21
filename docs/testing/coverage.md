@@ -12,6 +12,31 @@
 生产632文件、七包四维覆盖分子/分母及统计范围全部不变；仅game测试登记2313→2318，另六包完整基线对象不变。未改工作流/阈值/排除/超时；不是覆盖率数值提升。
 此前本地通过不能代表远端CI通过：#265/#274/#278在game断言计数解析处失败，尚未到最终覆盖率比较。远端验收以本次推送的同headSha Actions完整结论为准，见上述补正记录。
 
+### CI后续焦点时序补正（2026-09-21）
+
+`34e818d1`的[Actions #279](https://github.com/IllegalCreed/type-pal/actions/runs/35598437496)已通过game fast2318项，
+进入editor后仅`battle-simulator-ui.test.tsx`的`[add-picker:simulator/bag]`失败：删除后预期焦点在背包section，
+实际为添加按钮；全流水线仍是failure，未以重跑碰运气放行。
+
+原因：该测试连续执行“撤销使弹窗失效→重做→移除”，未等待撤销关闭弹窗所安排的下一帧归还焦点。
+`overlays.tsx`的既有关闭合同在RAF执行归还；测试的后续移除同步focus与尚未完成的RAF顺序受机器时序影响。
+这与ANSI解析根因独立；不将其误报为同一问题未修好，也不改产品焦点合同来迁就测试。
+
+本席仅在该用例控制RAF/cancelRAF（其他定时器保持真实），撤销后显式推进帧并核对回到添加按钮，再做重做/移除；
+删除后也推进帧再核section，防止只验证瞬时focus。测试结束恢复真实计时器，原有业务断言与十项测试身份全部保留。
+先在缺少关闭边界的流程强制推进帧，稳定得到与CI相同的AssertionError（`/tmp/type-pal-ci-focus-red.log`）；
+修后本文件+add-picker/overlays相邻**42/42绿**（`/tmp/type-pal-ci-focus-green.log`）。
+隔离Vite transform只移除产品“移除物品”处理器的一次`sectionRef.current?.focus()`，同用例再次业务红
+（`/tmp/type-pal-ci-focus-mutant.log`），证明焦点要求未弱化；产品文件从未改写。
+
+后续补正完整check **7993项exit0**（`/tmp/type-pal-ci-focus-full-check.log`）、官方ratchet exit0
+（`/tmp/type-pal-ci-focus-ratchet.log`），七包覆盖/范围/测试计数全部与`34e818d1`相同，官方工具保持基线不写盘。
+Biome无错误（全仓既有47 warning/6 info未扩大），改动测试文件单独检查干净；文档检查通过。
+随后普通CI彩色报告模式下，以`34e818d1`为保护基线的**单次strict-fast 7502项exit0**
+（`/tmp/type-pal-ci-focus-strict-ci.log`）；本次后续补正不增加用例、不改基线或任何生产文件。
+远端完整验收仍以该补正推送的同headSha [Coverage ratchet检查](https://github.com/IllegalCreed/type-pal/actions/workflows/coverage.yml)
+为准；不得把上述本地结果当成远端结果。
+
 ## 上一批实测（2026-09-21 · TB00/TB01窄返工集成）
 
 [补正与集成](tb00-tb01-completion.md)候选44b9b763：完整check **7988项**、官方ratchet、保护952a45bd的**受保护单次strict-fast 7497项**全部通过。2026-09-21两卡分别三席accept齐、用户授权后已done归档；收口只核既有证据，不重跑覆盖率、不改基线。
