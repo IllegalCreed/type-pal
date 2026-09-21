@@ -1,0 +1,150 @@
+# MIGRATION-WRITE-GUARD-1 - 迁移规划快照与二进制路径保护
+
+Status: draft
+Phase: phase2
+Capability: A7
+Coding Owner: Codex
+Generation Owner: N/A
+Reviewer: both
+Visual Verification Owner: Codex
+Visual Verification Timing: N/A
+Unavailable Agents: none
+Branch: main（r1设计；build前由Codex创建隔离codex分支）
+
+Revision: r1
+Production Baseline: `14257da75f4c3c91dd9aae5f37de13a5f1040f8c`
+
+## 目标与范围
+
+关闭审计A-08的“规划复核之后、journal采样之前”陈旧作者快照覆盖窗口，以及A-09资源物化父链符号链接越界。
+正常current发布、作者所有权、manifest-last、journal恢复与重放零差异保持。
+
+- 范围内：migrate的规划原始hash传递、提交前拒绝、现行journal.previousHash使用；二进制目标/临时路径的无链接检查与写入阶段复核；正式回归/负控与隔离发布验证。
+- 范围外：新内容模型、content21/N6b、SAVE8改版、E-05旧调用面删除、战斗修复、编辑器存储协议、R4/Q1/Q2执行、真实作者数据清理。
+- 明确不做：通用多writer分布式锁、宣称任意并发编辑完全安全、对抗同用户恶意进程的OS级无竞态沙箱、基于一次lstat声称绝对安全。
+  `packages/migrate/README.md:49`的迁移期间单writer纪律保持。路径检查关闭已证窗口，不夸大为跨进程原子CAS。
+
+## 前提真值门
+
+### 一句话行为
+
+迁移不得把规划之后出现的作者字节重新认作允许覆盖的旧值，也不得沿工程目标路径的符号链接写到工程外。
+
+| 维度 | 当前真值 | 直接证据 |
+|---|---|---|
+| primary source | current发布承诺三方合并保护作者、写前TOCTOU、失败停止；JSON事务已要求目标/暂存不经过链接 | `packages/migrate/README.md:10-20,35-37,49`；`migration-transaction.ts:81-88,110-133` |
+| 第一阶段 | N/A：本卡不解释PAL字节/战斗/移动；一阶段raw/extracted仅是只读源，写入保护属于二阶段发布工具 | `packages/migrate/README.md:3-5`；`docs/phase2/reference/phase1-knowledge-harvest.md:436-448`（不把旧历史缺口当当前事实） |
+| 当前二阶段A-08 | project snapshot已有原始字节hash；普通写删plan未携带它，事务又在staging时采样当前文件作为previousHash | `migration-project-io.ts:9-12,70-103`；`migration-write-plan.ts:20-46`；`migration-transaction.ts:330-337`；CLI `scripts/migrate-content.mts:107-126` |
+| 当前二阶段A-09 | 物化先校catalog/source字节，再以resolve拼目标执行mkdir/临时写/rename，无父链链接拒绝 | `pal-assets.ts:1205-1263`；现有JSON guard不能保护这里 |
+| 本任务目标 | 正常发布结果不变；规划旧值/缺席必须精确延续到提交，冲突拒绝；二进制完整路径检查先于首个资源写入并在实际写点复核 | 以下AC01～10；现有E01/E03/E04/E05正控与E02/E06/E07/E08反例分栏 |
+
+代码锚点均相对`packages/migrate/src/`，除明确写全路径者。
+
+### 动态证据与反证
+
+2026-09-21在冻结树复跑未改动的`docs/ops/audits/pre-e2e/probe-glm-next-migration.mjs`：
+
+- observe全12项exit0。E02 `rejected=false/authorPreserved=false`，目标rename已发生；E06/E08外部虚拟字节从`OUTSIDE_ORIGINAL`变`NEW`，E07 deep/race同族成立。
+- contract E02与E06分别exit1，错误为候选自身AssertionError（作者保全/路径拒绝），不是缺资产/导入/超时。
+- E01正常plan→commit→baseline/journal清理绿；E03 journal之后外部改动已拒绝并保留pending；E04退役删除预条件有效；E05 authored/unchanged/坏源先拒有效。
+- E07叶链接rename没有改外部目标，不冒报该变体已破坏外部字节。r1拟对完整二进制目标链统一拒绝链接，与现行JSON路径纪律对齐；不把平台兼容或原版raw来源标签当待删兼容。
+- 7文件49项相邻测试绿，并不能覆盖上述两个红反例。具体命令与日志见[准入核对](../../testing/pre-e2e-admission.md)。
+
+最强替代解释：单writer文档约束已禁止并发、POSIX rename替换叶链接而非穿透、JSON恢复guard已有保护。
+本席采纳这些边界，但它们不反证**规划后的重新采样**与**父目录穿透**；没有声称当前PAL真实树已有链接或用户数据已受损。
+可证伪观察：冻结树E02已拒绝且作者字节/IO保持；E06/deep父链在首个修改前已拒绝；或发现当前生产入口其实传了规划hash/执行了全量路径guard。
+
+四类替代根因排除：
+
+- runtime语义/命令分类：反例只走离线planner/transaction/materializer，不执行运行时命令。
+- 原版/一阶段理解：不涉及数值/剧情/格式映射，源字节保持。
+- extractor/解码：合法catalog与同源精确bytes/sha正控；不修改生成内容补洞。
+- 审计模型：保留真实被测函数，只替换fs边界；E01/E03/E04/E05与E07叶链接控制证明不是“所有IO都判错”。build还须自有mkdtemp原生链接见证。
+
+用户可见偏离：不主动改变合法发布；`旧窗口允许覆盖/父链越界 → 明确拒绝并保留冲突证据`。
+用户2026-09-21要求推进前置欠账核定与修复；不视为三签豁免或扩大多writer产品支持。
+
+## 上下文锚点
+
+- `AGENTS.md`迁移优先/current-only/三签；`CLAUDE.md`生成真源原则；`docs/phase2/READ-FIRST.md`铁律10/11。
+- [A-08/A-09原审计](../audits/pre-e2e/README.md)、[批二复核](../../testing/glm-pre-e2e-boundary-batch-2-report.md)、[当前分流](../../testing/pre-e2e-admission.md)。
+- 已done的作者保存恢复不重开；迁移CLI与编辑器Web Locks不是同一互斥域，不声称借现有锁即可阻止跨进程写。
+- [current内容发布指南](../../phase2/guides/content-publication.md)、migrate README；保留raw→current唯一producer、已有current journal语义，不新增升级器或旧分支。
+- 不得重新引入：规划时未保存hash却提交时猜、缺席默认任意旧值、忽略冲突继续、链接越界后才报闭包错误、测试自己重写业务守卫。
+
+## Draft：r1设计与风险
+
+### A. 规划hash贯穿普通工程写删
+
+1. `buildMigrationTransactionChanges`显式接收**规划使用的**`ProjectMigrationSnapshot`，从其原始`hashes`取期望旧值；缺席以显式null表达，禁止序列化JSON后重算来替代原始字节。
+2. 当前JSON project-scope写入/删除必须携带期望旧值。现有退役资源hash保护保留；baseline/manifest各自原约束保持，不把它们误归普通作者文件。
+   调整transaction输入类型时分清“未提供”与“期望不存在”，不得留旧project调用者的静默采样fallback。所有调用者/fixture一次适配。
+3. 完整变更集的前提在staging首写前检查；构造journal.previousHash时仍使用已携带期望值并再核当前值，不能重新取值变更授权。
+   `applyJournal`现有逐项重读/冲突拒绝及目标已经为预期结果时的恢复语义保持。journal v2已有string/null previousHash，本卡不改磁盘版本。
+4. 冲突发生于staging前：项目/baseline/manifest/journal零新修改；若已建立合法journal后才冲突，保留pending及原字节，由现有恢复规则拒绝而非自动覆盖。
+   暂存失败仅清本事务自有临时物，不清真实作者恢复输入。
+
+### B. 二进制路径保护
+
+1. 在全部资源源字节/所有权预检阶段核每条实际目标路径的工程内规范相对路径及完整父链/叶节点。包含已有正常文件、目录缺席、链接与悬空链接；不得用existsSync=false把悬空链接当不存在。
+2. 规范化可信repo根后，检查工程内路径；复用或提取migrate内部窄helper，不引入跨包通用文件框架，不扩为修改第一阶段工具。
+3. 首个资源修改前全量拒绝静态坏路径；实际mkdir、临时写、rename前复核相关链，覆盖旧探针中预检后换链的可注入窗口。
+   临时路径也受保护，只清本次确定拥有的文件。若中途路径变化，停止后续操作，不能为清理而沿已经变更的父链删除文件。
+4. 上述检查不是OS级目录句柄沙箱；任意外部进程在最后check与syscall之间再次换链仍超出保证，单writer操作纪律保持并明确写入回执。
+   若审查认为既定保护合同必须包含此级对抗，签counter并给出需扩大到的机制/产品裁决，不偷偷承诺。
+
+### 实施边界与验证写入范围
+
+- 拟改产品白名单：`packages/migrate/src/migration-write-plan.ts`、`migration-transaction.ts`、`pal-assets.ts`、必要的migrate内部路径helper，`packages/migrate/scripts/migrate-content.mts`及相应直接调用者；相邻/新增测试、migrate README与本卡回执。
+- 先枚举调用者再钉build白名单；越出上述职责须回卡说明，不趁机做E-05或重写迁移器。
+- 发布验证仅在自有临时repo根/当前PAL副本运行真实CLI；相同raw/extracted输入可只读复用，不能写主树`projects/pal`或作者目录。
+  本卡不改生成语义，预期current产物与冻结树逐字节一致；若出现内容变化先调查，不以更新黄金文件吞掉差异。
+
+## 验收条件
+
+| ID | 必须证明的业务结果 |
+|---|---|
+| AC01 | 修改/删除/新建三态在规划后变动均拒绝；规划旧hash来自实际原始字节，含格式变化；正常正控成功且输出精确 |
+| AC02 | 任一后位文件前提失效时，全量预检保证首个staging前拒绝；project/baseline/manifest/journal及外部新字节完整保留 |
+| AC03 | staging读取窗口变化不能被重新采样合法化；journal.previousHash精确为规划值；journal后冲突/重启恢复仍拒绝覆盖 |
+| AC04 | 退役资源expected hash、manifest-last及闭包前置条件、无变更/重放幂等/已提交目标恢复均保持，不发明旧版本fallback |
+| AC05 | 父链多级/工程根下链接/悬空链接/最终叶链接/临时目标链接矩阵；静态非法目标必须首写前拒绝，完整外部字节及IO轨迹不变 |
+| AC06 | 预检后、后续写点前换父链的可控注入被拒；中途已正常写入的内部资源与外部目标分别登记，不声称二进制整批事务回滚 |
+| AC07 | authored跳过但验证、unchanged零写、合法源正常物化、重复路径/坏bytes/sha先拒保持；mkdtemp原生symlink正反控，绝不使用真实用户路径 |
+| AC08 | 两家族至少各一个单点负控；仅去目标保护，正式新测试以明确业务AssertionError失败，环境错误/未执行/其它测试失败不能代替 |
+| AC09 | 定向+相邻+typecheck/Biome、完整check→官方ratchet→保护基线单次strict-fast；不得降低阈值/缩范围或以重复多数通过放行 |
+| AC10 | 隔离副本实际current发布、结果与计划/冻结产物核对、独立第二次CLI重放零diff；非托管/作者文件保全；原审计探针零改，三席同候选accept后才done |
+
+视觉：N/A，离线文件安全与字节保全，无UI/演出变化。后续E2E入口为N6b隔离current重迁→正式loader重开→复跑R4同业务断言；本卡不冒充已执行N6b或R4。
+
+## 推进签字
+
+### 进入build前
+
+- Codex：premise verified；设计design agree。直接证据为本卡动态E02/E06业务红、E01/E03/E04/E05正控及上述规划hash/写点源码；可证伪条件见前提节。仅批准本卡窄保护，不宣称任意并发安全。
+- Kimi：premise pending；design pending。独立证据与可证伪观察待本人落盘。
+- GLM：premise pending；design pending。独立证据与可证伪观察待本人落盘。
+- 独立反证审查：pending，至少一位非Coding Owner读取实际源码与真实链后填写，不能复述本席结论。
+- 缺签豁免：无。
+- build准入结论：**blocked（缺两席设计签字；Status保持draft，不得改产品）**。
+
+### 进入done前
+
+- Codex：pending。
+- Kimi：pending。
+- GLM：pending。
+- done准入结论：blocked。
+
+## 交接日志
+
+- 2026-09-21 Codex：用户要求继续核定E2E前置欠账。同步main/工作树干净，冻结14257da7；现行迁移observe12/两条contract业务红，49相邻和17检查点测试通过；U-02仅risk。建立本卡r1，尚未修改生产/测试/基线/真实工程，准备两席并行设计审查。
+
+## 下一位Agent提示词
+
+### 给Kimi（与GLM并行）
+
+在 /Users/zhangxu/illegal/type-pal 审 MIGRATION-WRITE-GUARD-1 r1 设计，卡 docs/ops/tasks/MIGRATION-WRITE-GUARD-1-planned-snapshot-and-paths.md，状态draft，生产冻结14257da75f4c3c91dd9aae5f37de13a5f1040f8c。先同步main、检查工作树，读AGENTS/CLAUDE/READ-FIRST、本卡与docs/testing/pre-e2e-admission.md。独立读planner→原始snapshot hash→write-plan→journal/recover及materializer实际写点，不读取或复述GLM结论。重点审：规划缺席null/缺字段区别、全量前提与journal恢复、父链/悬空/临时路径、check到syscall的剩余竞态及单writer边界；本卡不做多writer原子锁、不改journal版本或内容语义。复跑冻结探针E01/E02/E03/E06（observe；E02/E06 contract预期AssertionError红），必要时仅在自有mkdtemp补只读/隔离反证。输出有file:line和可证伪观察的premise verified/counter、design agree/counter及旧版本兼容审查；只写本人签字/证据/日志并提交推送，保留GLM并行改动，不改共享状态、不开始实现、不标done。发现产品裁决缺口明确指出，不替用户扩大范围。
+
+### 给GLM（与Kimi并行）
+
+在 /Users/zhangxu/illegal/type-pal 审 MIGRATION-WRITE-GUARD-1 r1 前提与验收矩阵，卡 docs/ops/tasks/MIGRATION-WRITE-GUARD-1-planned-snapshot-and-paths.md，状态draft，生产冻结14257da75f4c3c91dd9aae5f37de13a5f1040f8c。先同步main、检查工作树，读AGENTS/CLAUDE/READ-FIRST、本卡与docs/testing/pre-e2e-admission.md。独立读实际代码与探针，不读取或复述Kimi结论。复跑 node --import tsx docs/ops/audits/pre-e2e/probe-glm-next-migration.mjs --mode=observe --case all，再分别contract E02/E06核红因；核49相邻用例现有覆盖与AC01～10缺口、实际原始字节hash/缺席/晚位冲突/零副作用、叶链接与父链不同结果、静态全量拒绝与途中停止边界、负控鉴别力和隔离发布幂等方案。GLM原探针贡献要披露，不能仅以自己的旧回执代替独立当前源码证据。输出有file:line和可证伪观察的premise verified/counter、design agree/counter及旧版本兼容审查；只写本人签字/证据/日志并提交推送，保留Kimi并行改动，不改共享状态、不开始实现、不标done。无浏览器/视觉任务。

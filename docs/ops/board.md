@@ -20,6 +20,9 @@ GLM后续补测候选见[十批长队列](../testing/glm-coverage-work-queue.md)
 
 | ID | 任务 | 状态 | 负责人/下一步 | 一句话备注 |
 |---|---|---|---|---|
+| MIGRATION-WRITE-GUARD-1 | [迁移规划快照与二进制路径保护](tasks/MIGRATION-WRITE-GUARD-1-planned-snapshot-and-paths.md) | draft | Kimi / GLM并行独立设计审查；Codex核门 | r1冻结14257da7；A-08/A-09仍复现，49相邻/17检查点绿；未获build，不改真实工程 |
+
+2026-09-21 [E2E前置欠账与准入核对](../testing/pre-e2e-admission.md)已落盘：CI已绿不代表欠账清零；U-02保持待证，E-05/Q2/N6b与一阶段分流。R4尚无实施卡与连续检查点，003～010边界待起草确认；本轮优先推进已证迁移写盘风险，不改变R4→N6b→完整Q1/Q2顺序。
 
 2026-09-21 [TB00/TB01窄返工](../testing/tb00-tb01-completion.md)候选44b9b763三席分别accept齐（Codex 430fba79、GLM f38c23dc、Kimi 2c042bf5），用户授权后Codex逐卡核零漂移并done归档；check7988/strict7497及13业务见证/37跑为既有证据，本次只做文档收口。frame在途invalidate回填政策仍待证（Codex后续合同核定，不固化为通过或已知bug）；A3跨包/rows无上限/levelUp owner warn与full/Q1/Q2边界保持。
 

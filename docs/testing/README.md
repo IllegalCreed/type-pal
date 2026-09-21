@@ -8,6 +8,8 @@
 
 ## 文档与附件
 
+- [E2E前置欠账与R4准入核对](pre-e2e-admission.md)（2026-09-21冻结14257da7；迁移两缺陷当前复现、U-02待证、49相邻/17检查点绿；不是E2E开门或全欠账清零）
+
 - [TB00/TB01窄返工接手与集成](tb00-tb01-completion.md)及[机账](tb00-tb01-completion-evidence.json)（两卡done，44b9b763；三席accept齐、用户授权收口，check7988/strict7497证据保持；frame在途invalidate及full/Q1/Q2边界保留）
 
 - [物品作者记录/脚本身份修复卡](../ops/archive/tasks/done/EDITOR-ITEM-AUTHORING-1-item-script-identity.md)、[实施记录](item-authoring-implementation.md)与[修复前前提探针](item-authoring-premise.mjs)（done/r1，451cbbb7；三席accept齐、用户授权收口，check7909/strict7418及原生保存重开证据保持；TB00/TB01另排）
@@ -37,8 +39,8 @@
 - [当前迁移辅助与隔离文件系统补测工作包](glm-migration-boundaries.md)（TB-10，合法输入/旧测试去重/白名单/负控及排除项）
 - [内容合同残项工作包](glm-content-residual.md)（TB01 r2/done，23项；Codex补正CR-R1，三席同候选已收口）
 - [内容残项Codex接收复核](content-residual-review.md)与[可重建独立见证](content-residual-review-witnesses.mjs)（五针detected、混合错误判据拒绝、七fixture accepted；统一质量门已过）
-- [资源读取缓存与音效准备工作包](glm-reforge-asset-io.md)（TB-02 r2/rework；a7c48d9c接收counter，设计保持）
-- [导入编码线程与视频元数据工作包](glm-editor-import-codec.md)（TB-03 r2/rework；f4c229ed接收counter；PNG泄漏仍隔离）
+- [资源读取缓存与音效准备工作包](glm-reforge-asset-io.md)（TB-02已随八批256116ee三席收口；工作包保留历轮counter原文）
+- [导入编码线程与视频元数据工作包](glm-editor-import-codec.md)（TB-03已按4894719e三席收口；PNG编码失败释放另已独立修复，见上方回执）
 - [共享战斗模拟器首批](../ops/archive/tasks/done/EDITOR-SKILL-TRIAL-1-isolated-battle.md)与[原技能入口前提探针](skill-trial-premise.mjs)（fe0fee84主体和d394eccc列宽增量三席齐，用户UI验收通过，已done归档；我方1～3/敌方五槽）
 - [共享战斗模拟器全域复用评估](battle-simulator-assessment.md)（8模块27子页：7直接/8上下文/12专用验证；首批已验收，其余全域入口仍属规划）
 - [战斗模拟器r2首批冻结设计](battle-simulator-r2-design.md)（r2a首批已done；我方1～3人/敌方五槽，未获准的新入口不随收口开放）
