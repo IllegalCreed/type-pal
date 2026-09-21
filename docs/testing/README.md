@@ -8,6 +8,8 @@
 
 ## 文档与附件
 
+- [GLM第二波六组覆盖率整包](glm-coverage-wave2.md)、[冻结机账](glm-coverage-wave2-evidence.json)与[只读复算器](glm-coverage-wave2-census.mjs)（2026-09-22，25非视觉模块；先逐族去重/准备，三席齐后统一开build；不是重领TB00～TB10）
+
 - [迁移写盘保护实施记录](migration-write-guard.md)及[隔离负控](migration-write-guard-mutants.mjs)/[配置](migration-write-guard.config.mjs)/[真实发布见证](migration-write-guard-publish.mjs)（57dda7ed三席accept齐、用户授权、已done；A-08/A-09按r1收口，不代表R4/N6b已执行）
 
 - [E2E前置欠账与R4准入核对](pre-e2e-admission.md)（2026-09-21冻结14257da7；迁移两缺陷当前复现、U-02待证、49相邻/17检查点绿；不是E2E开门或全欠账清零）
