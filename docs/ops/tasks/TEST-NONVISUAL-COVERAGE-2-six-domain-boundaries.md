@@ -255,7 +255,23 @@ Production Freeze: `57dda7ed2376fc25f07756be117bb4a058d09915`
 本阶段可读源码/旧测试/真实来源、跑既有定向并做隔离取证；不得改packages、正式测试、原probe、官方baseline/config/排除/超时、真实data/projects或模拟器UI；不操作浏览器/做视觉。不得checkout主工作树或恢复stash。
 准备完请落自己有一手锚点的premise/design或counter，并提交推送；不改共享状态，不代签，不标build/done。给Codex和Kimi两份钉同一准备候选的并行设计审查提示词。等三席齐且Codex核build allowed后，在同一父卡/分支按六组各一提交连续实现，最终整包交Codex；严格执行自检清单和工作包验收，GLM不跑官方ratchet/strict-fast。不要每组停下询问继续，也不要绕过设计门。
 
-## 修订候选并行复核提示词（钉同一修订提交：codex/glm-coverage-wave2 @ 38dd1fe1；下方 d4703cdf 版提示词保留历史）
+## r3 修订候选并行复核提示词（钉 33a7a034；下方 38dd1fe1/d4703cdf 版提示词保留历史）
+
+### 给Codex（复核r3）
+
+```text
+在 /Users/zhangxu/illegal/type-pal 复核 TEST-NONVISUAL-COVERAGE-2 r3 修订准备候选，卡 docs/ops/tasks/TEST-NONVISUAL-COVERAGE-2-six-domain-boundaries.md（draft），分支 codex/glm-coverage-wave2 提交 33a7a034（worktree /Users/zhangxu/illegal/type-pal-glm-wave2），针对你 cec14f05 的 C1～C3。
+先同步分支/核工作树，读你的 counter、GLM 回执 r3（docs/testing/glm-coverage-wave2-receipt.md）与机账 v3（glm-coverage-wave2-results.json schemaVersion 3）。逐项复核：① C1——branchArmExceptions 扩展规则重放（[40,8,0]→E04 NEW；[96,0,0]/[98,1,0]/[211,28,0]→F01 NEW；仅 [211,28,1] PEND），验证重生成 NEW955/1263·UNREACH5/10·PEND0/1 与 23 个未变模块计数；② C2——dedupTitles 45 条与 d4703cdf v1 逐字一致、familyTable 差异归属无重复、确切 25+9+2 白名单数组与 v1 一致；③ C3——A03 正控为全量写入后命令级一次通知、B04 新针为 readText/readJson 包装（:85）且旧切片合同归已有证据、F03 标 fast 解耦；④ 勘误清单（:85/:87 包装、:88-89 urlFor、:76 post-await、:81 切片、:150-151 循环、:247 D03、:170/:158、78/47 余数）落入 reason/needle。在本人席位对 r3 签 accept、维持 counter 或列新反证并写日志提交推送；保留他席原文，不改GLM文件/共享状态、不代签。三席对 r3 齐后由你统一核 build allowed。
+```
+
+### 给Kimi（复核r3）
+
+```text
+在 /Users/zhangxu/illegal/type-pal 独立复核 TEST-NONVISUAL-COVERAGE-2 r3 修订准备候选，卡 docs/ops/tasks/TEST-NONVISUAL-COVERAGE-2-six-domain-boundaries.md（draft），分支 codex/glm-coverage-wave2 提交 33a7a034（worktree /Users/zhangxu/illegal/type-pal-glm-wave2）。先同步/核工作树，读 AGENTS/CLAUDE/READ-FIRST、Codex r2 counter cec14f05（C1～C3）与 /tmp 可重放证据、GLM 回执 r3 与机账 v3；不读或复述 Codex 本轮复核结论。
+压力点：① branchArmExceptions 的扩展语义是否会引入歧义（精确键优先于行规则）且同行 211 拆分后重放计数正确；② C1 四臂归 NEW 的依据与你对活跑证据的独立判断一致；③ C2 恢复的 45 旧标题与 familyTable 差异断言是否真正互斥（无把旧合同当新增）；④ C3 A03「命令级一次通知」正控与 :293-294 源码语义一致、B04 readText/readJson 针与既有 5 项测试不重复、F03 解耦标注符合工作包分栏；⑤ 勘误后的锚点逐个与源码对上。在本人席位签 accept 或带 file:line counter 并写日志提交推送；保留他席原文，不改GLM文件/共享状态、不代签、不标build/done。
+```
+
+## 修订候选并行复核提示词（钉同一修订提交：codex/glm-coverage-wave2 @ 38dd1fe1；历史，已被 33a7a034 版取代）
 
 ### 给Codex（复核r2）
 
