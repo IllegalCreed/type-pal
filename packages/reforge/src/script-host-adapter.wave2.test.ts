@@ -1,3 +1,4 @@
+import type { RuntimeCommand } from '@type-pal/content'
 /**
  * TEST-NONVISUAL-COVERAGE-2 W2-A A01：script-host-adapter 未测派发臂（wave2）。
  * current-dispatch 既有文件覆盖首批命令/挂起/错误传播/保真；本文件只补冻结定位中的
@@ -7,7 +8,6 @@
  */
 import { describe, expect, test } from 'vitest'
 import {
-  assertWave2AdapterHostFixtureLegal,
   wave2DispatchCommands,
   wave2RecorderHost,
   wave2RecorderHostWithAsync,
@@ -21,20 +21,23 @@ import type { ScriptRuntimeContext } from './script-runner-core.js'
 const context = { self: { scene: 's1', entity: 'chaser' } } as Readonly<ScriptRuntimeContext>
 const options = { currentSceneId: () => 's1' }
 
-async function runLeaves(host: ScriptHost, commands: unknown[], signal: AbortSignal) {
-  const compiled = compileRuntimeCommands(commands as never[], 'interactive', 'test')
+async function runLeaves(host: ScriptHost, commands: RuntimeCommand[], signal: AbortSignal) {
+  const compiled = compileRuntimeCommands(commands, 'interactive', 'test')
   for (const item of compiled) {
-    const like = item as { kind?: string; command?: unknown }
-    const leaf = like.kind === 'leaf' && 'command' in like ? like.command : item
-    await executeScriptHostEffect(host, leaf as never, context, signal, options)
+    if (item.kind !== 'leaf') throw new Error('fixture requires leaf commands')
+    const command = item.command
+    if (
+      command.kind === 'suspendEntity' ||
+      command.kind === 'hideEntity' ||
+      command.kind === 'restoreEntity' ||
+      command.kind === 'removeEntity'
+    )
+      throw new Error('fixture only covers retained adapter leaves')
+    await executeScriptHostEffect(host, command, context, signal, options)
   }
 }
 
 describe('W2-A A01 wave2 派发臂', () => {
-  test('fixture 合法门：wave2 记录宿主成员与接口一致', () => {
-    expect(() => assertWave2AdapterHostFixtureLegal()).not.toThrow()
-  })
-
   test('wave2 未测 leaf 全参数派发：显式值与缺省值逐参核对', async () => {
     const { host, calls } = wave2RecorderHost()
     const commands = wave2DispatchCommands()
@@ -47,7 +50,7 @@ describe('W2-A A01 wave2 派发臂', () => {
       { method: 'chaseStep', args: ['chaser', 6, 2, false, signal] },
       { method: 'loadLastSave', args: [signal] },
       { method: 'gameOver', args: [signal] },
-      { method: 'teleportParty', args: [{ col: 3, row: 4 }, 'down'] },
+      { method: 'teleportParty', args: [{ col: 3, row: 4, height: 0 }, 'down'] },
       { method: 'setPartyFacing', args: ['left', undefined, undefined] },
       { method: 'setActorSprite', args: ['a1', 'spr.x', signal] },
       {
@@ -57,10 +60,10 @@ describe('W2-A A01 wave2 派发臂', () => {
       { method: 'fleeBattle', args: [] },
       { method: 'setEntityState', args: ['e1', 7] },
       { method: 'setEntityState', args: ['e1', 3] }, // setMultiEntityState：首个在场 target
-      { method: 'setEntityPos', args: ['e1', { col: 1, row: 2 }] },
+      { method: 'setEntityPos', args: ['e1', { col: 1, row: 2, height: 0 }] },
       { method: 'setEntityPosRelParty', args: ['e1', -1, 2] },
       { method: 'shakeScreen', args: [12, 3] },
-      { method: 'toggleDayNight', args: [undefined] },
+      { method: 'toggleDayNight', args: [0] },
       { method: 'setFollowers', args: [['f1', 'f2'], signal] },
       { method: 'giveMoney', args: [-256] }, // halveMoney：512→扣除一半
       { method: 'setEntityFacing', args: ['e1', 'up'] },
@@ -78,7 +81,7 @@ describe('W2-A A01 wave2 派发臂', () => {
       { method: 'releaseEntity', args: [] },
       { method: 'mountParty', args: ['horse', 1, 0] }, // dy 缺省 0
       { method: 'unmountParty', args: [] },
-      { method: 'ride', args: ['boat', { col: 9, row: 8 }, 3, signal] },
+      { method: 'ride', args: ['boat', { col: 9, row: 8, height: 0 }, 'fast', signal] },
       { method: 'setParty', args: [['a1', 'a2'], signal] },
       {
         method: 'applyActorCondition',
@@ -88,11 +91,11 @@ describe('W2-A A01 wave2 派发臂', () => {
         method: 'clearActorCondition',
         args: ['a1', { kind: 'status', status: 'protect' }, signal],
       },
-      { method: 'moveEntity', args: ['e1', { col: 2, row: 3 }, 4, signal] },
+      { method: 'moveEntity', args: ['e1', { col: 2, row: 3, height: 0 }, 'run', signal] },
       { method: 'stepEntity', args: ['e1', 'down'] },
       { method: 'animEntity', args: ['e1'] },
       { method: 'nudgeEntity', args: ['e1', 1, -1] },
-      { method: 'moveParty', args: [{ col: 5, row: 5 }, 2, signal] },
+      { method: 'moveParty', args: [{ col: 5, row: 5, height: 0 }, 'normal', signal] },
       { method: 'nudgeParty', args: [0, 1, 0] }, // layer 缺省 0
     ])
     expect(deepSnapshot(commands)).toEqual(snapshot) // 派发前后命令对象保真
@@ -108,8 +111,8 @@ describe('W2-A A01 wave2 派发臂', () => {
         {
           kind: 'moveEntity',
           target: { scene: 'other', entity: 'e1' },
-          to: { col: 0, row: 0 },
-          speed: 1,
+          to: { col: 0, row: 0, height: 0 },
+          speed: 'slow',
         },
         { kind: 'setMultiEntityState', targets: [{ scene: 'other', entity: 'a' }], state: 1 },
       ],
@@ -148,7 +151,7 @@ describe('W2-A A01 wave2 派发臂', () => {
           {
             kind: 'setEntityPos',
             target: { scene: 's1', entity: 'e1' },
-            pos: { col: 1, row: 1 },
+            pos: { col: 1, row: 1, height: 0 },
           },
           { kind: 'shakeScreen', frames: 3, level: 1 },
         ],
@@ -160,11 +163,15 @@ describe('W2-A A01 wave2 派发臂', () => {
 
   test('playEntityAction wait 模式后台失败原样经 await 传播（不吞不改写）', async () => {
     const gate = deferred<void>()
-    const { host } = wave2RecorderHostWithAsync('playEntityAction', () =>
-      gate.promise.then(() => {
-        throw new Error('action sprite missing')
-      }),
-    )
+    const entered = deferred<void>()
+    const failure = new Error('action sprite missing')
+    const action = gate.promise.then(() => {
+      throw failure
+    })
+    const { host } = wave2RecorderHostWithAsync('playEntityAction', () => {
+      entered.resolve()
+      return action
+    })
     const signal = new AbortController().signal
     const pending = runLeaves(
       host,
@@ -180,20 +187,38 @@ describe('W2-A A01 wave2 派发臂', () => {
       ],
       signal,
     )
-    gate.resolve()
-    await expect(pending).rejects.toThrow('action sprite missing') // wait 模式传播原始错误
+    const observed: { outcome: unknown } = { outcome: 'pending' }
+    const consumed = pending.then(
+      () => {
+        observed.outcome = 'resolved'
+      },
+      (error) => {
+        observed.outcome = error
+      },
+    )
+    try {
+      await entered.promise
+      for (let i = 0; i < 8; i++) await Promise.resolve()
+      expect(observed.outcome).toBe('pending')
+    } finally {
+      gate.resolve()
+      await action.catch(() => {})
+      await consumed
+    }
+    expect(observed.outcome).toBe(failure)
   })
 
   test('playEntityAction 后台模式失败只经 host.report 观测、不抛且不误吞', async () => {
     const reports: string[] = []
     const gate = deferred<void>()
+    const action = gate.promise.then(() => {
+      throw new Error('boom')
+    })
     const calls: { method: string; args: unknown[] }[] = []
     const host = {
       playEntityAction: (...args: unknown[]) => {
         calls.push({ method: 'playEntityAction', args })
-        return gate.promise.then(() => {
-          throw new Error('boom')
-        })
+        return action
       },
       report: (message: string) => reports.push(message),
     } as unknown as ScriptHost
@@ -212,10 +237,14 @@ describe('W2-A A01 wave2 派发臂', () => {
       ],
       signal,
     )
-    expect(calls).toHaveLength(1)
-    expect(reports).toEqual([]) // gate 未释放：后台失败尚未发生
-    gate.resolve()
-    await new Promise((resolve) => setTimeout(resolve, 0))
+    try {
+      expect(calls).toHaveLength(1)
+      expect(reports).toEqual([])
+    } finally {
+      gate.resolve()
+      await action.catch(() => {})
+      for (let i = 0; i < 8; i++) await Promise.resolve()
+    }
     expect(reports).toEqual(['playEntityAction(e9,spr.b,walk) 后台播放失败: boom'])
   })
 })

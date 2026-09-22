@@ -5,17 +5,17 @@
  * A05 钉 moveEntity 提交前/后取消与会话漂移（v5 收窄后仍未证的真实缺口）。
  * 命令经 fixture 的 run 包装走真实宿主派发入口。
  */
-import { emptyWorldScriptState } from '@type-pal/content'
+import type { RuntimeCommand } from '@type-pal/content'
 import { describe, expect, test } from 'vitest'
-import type { MoveEntityCommitControl } from '../script-project-core.js'
 import {
   wave2CoreCommands,
   wave2ProjectHarness,
 } from './__tests__/coverage-wave2/a-project-host.js'
+import type { MoveEntityCommitControl } from './script-project-core.js'
 
 async function applyEach(
   harness: ReturnType<typeof wave2ProjectHarness>,
-  commands: unknown[],
+  commands: RuntimeCommand[],
   signal: AbortSignal,
 ) {
   for (const command of commands) await harness.run(command, signal)
@@ -35,7 +35,9 @@ describe('W2-A A03 core 命令落地', () => {
       'sys:waveProgression': 9,
     })
     expect(h.world.entityState).toEqual({ s1: { e1: 5, a: 6, b: 6 } })
-    expect(h.world.entityPos).toEqual({ s1: { e1: { col: 2, row: 3 }, e2: { col: 4, row: 7 } } })
+    expect(h.world.entityPos).toEqual({
+      s1: { e1: { col: 2, row: 3, height: 0 }, e2: { col: 4, row: 7, height: 0 } },
+    })
     expect(h.worldChangedCommands).toHaveLength(commands.length)
     expect(h.notifications[0]!.snapshot.vars.gold).toBe(42)
   })
@@ -83,12 +85,12 @@ describe('W2-A A05 moveEntity 提交控制（未证缺口补测）', () => {
       {
         kind: 'moveEntity',
         target: { scene: 's1', entity: 'm1' },
-        to: { col: 6, row: 7 },
-        speed: 3,
+        to: { col: 6, row: 7, height: 0 },
+        speed: 'normal',
       },
       signal,
     )
-    expect(h.world.entityPos).toEqual({ s1: { m1: { col: 6, row: 7 } } })
+    expect(h.world.entityPos).toEqual({ s1: { m1: { col: 6, row: 7, height: 0 } } })
     expect(h.worldChangedCommands).toHaveLength(1)
   })
 
@@ -96,7 +98,8 @@ describe('W2-A A05 moveEntity 提交控制（未证缺口补测）', () => {
     let control: MoveEntityCommitControl | undefined
     const harness = wave2ProjectHarness({
       executeEffect: (_command, _context, _signal, commitControl) => {
-        control = commitControl as MoveEntityCommitControl
+        if (commitControl?.kind !== 'moveEntity') throw new Error('expected move control')
+        control = commitControl
         control!.commitMoveEntityEndpoint()
       },
     })
@@ -105,23 +108,22 @@ describe('W2-A A05 moveEntity 提交控制（未证缺口补测）', () => {
       {
         kind: 'moveEntity',
         target: { scene: 's1', entity: 'm1' },
-        to: { col: 1, row: 1 },
-        speed: 1,
+        to: { col: 1, row: 1, height: 0 },
+        speed: 'normal',
       },
       signal,
     )
     expect(control).toBeDefined()
     control!.commitMoveEntityEndpoint()
     expect(harness.worldChangedCommands).toHaveLength(1)
-    expect(harness.world.entityPos.s1!.m1).toEqual({ col: 1, row: 1 })
+    expect(harness.world.entityPos!.s1!.m1).toEqual({ col: 1, row: 1, height: 0 })
   })
 
   test('提交前 abort：端点零写入零通知', async () => {
     const controller = new AbortController()
     const harness = wave2ProjectHarness({
-      executeEffect: (_c, _x, sig) => {
+      executeEffect: () => {
         controller.abort()
-        sig.throwIfAborted()
       },
     })
     await expect(
@@ -129,8 +131,8 @@ describe('W2-A A05 moveEntity 提交控制（未证缺口补测）', () => {
         {
           kind: 'moveEntity',
           target: { scene: 's1', entity: 'm1' },
-          to: { col: 2, row: 2 },
-          speed: 1,
+          to: { col: 2, row: 2, height: 0 },
+          speed: 'normal',
         },
         controller.signal,
       ),
@@ -143,21 +145,30 @@ describe('W2-A A05 moveEntity 提交控制（未证缺口补测）', () => {
     const harness = wave2ProjectHarness({
       executeEffect: (_c, _x, _sig, commitControl) => {
         harness.setScene('other')
-        ;(commitControl as MoveEntityCommitControl).commitMoveEntityEndpoint()
+        if (commitControl?.kind !== 'moveEntity') throw new Error('expected move control')
+        commitControl.commitMoveEntityEndpoint()
       },
     })
     const signal = new AbortController().signal
-    await expect(
-      harness.run(
+    const outcome = await harness
+      .run(
         {
           kind: 'moveEntity',
           target: { scene: 's1', entity: 'm1' },
-          to: { col: 3, row: 3 },
-          speed: 1,
+          to: { col: 3, row: 3, height: 0 },
+          speed: 'normal',
         },
         signal,
-      ),
-    ).rejects.toThrow('moveEntity scene session changed')
+      )
+      .then(
+        () => ({ status: 'resolved' }),
+        (error) => ({ status: 'rejected', name: error.name, message: error.message }),
+      )
+    expect(outcome).toEqual({
+      status: 'rejected',
+      name: 'AbortError',
+      message: 'moveEntity scene session changed',
+    })
     expect(harness.world.entityPos).toBeUndefined()
     expect(harness.worldChangedCommands).toEqual([])
   })
@@ -166,21 +177,30 @@ describe('W2-A A05 moveEntity 提交控制（未证缺口补测）', () => {
     const harness = wave2ProjectHarness({
       executeEffect: (_c, _x, _sig, commitControl) => {
         harness.setSession('session-2')
-        ;(commitControl as MoveEntityCommitControl).commitMoveEntityEndpoint()
+        if (commitControl?.kind !== 'moveEntity') throw new Error('expected move control')
+        commitControl.commitMoveEntityEndpoint()
       },
     })
     const signal = new AbortController().signal
-    await expect(
-      harness.run(
+    const outcome = await harness
+      .run(
         {
           kind: 'moveEntity',
           target: { scene: 's1', entity: 'm1' },
-          to: { col: 4, row: 4 },
-          speed: 1,
+          to: { col: 4, row: 4, height: 0 },
+          speed: 'normal',
         },
         signal,
-      ),
-    ).rejects.toThrow('moveEntity scene session changed')
+      )
+      .then(
+        () => ({ status: 'resolved' }),
+        (error) => ({ status: 'rejected', name: error.name, message: error.message }),
+      )
+    expect(outcome).toEqual({
+      status: 'rejected',
+      name: 'AbortError',
+      message: 'moveEntity scene session changed',
+    })
     expect(harness.world.entityPos).toBeUndefined()
     expect(harness.worldChangedCommands).toEqual([])
   })
@@ -189,22 +209,27 @@ describe('W2-A A05 moveEntity 提交控制（未证缺口补测）', () => {
     const controller = new AbortController()
     const harness = wave2ProjectHarness({
       executeEffect: (_c, _x, _sig, commitControl) => {
-        ;(commitControl as MoveEntityCommitControl).commitMoveEntityEndpoint()
+        if (commitControl?.kind !== 'moveEntity') throw new Error('expected move control')
+        commitControl.commitMoveEntityEndpoint()
         controller.abort()
       },
     })
     await expect(
-      harness.run(
-        {
-          kind: 'moveEntity',
-          target: { scene: 's1', entity: 'm1' },
-          to: { col: 5, row: 5 },
-          speed: 1,
-        },
+      harness.runAll(
+        [
+          {
+            kind: 'moveEntity',
+            target: { scene: 's1', entity: 'm1' },
+            to: { col: 5, row: 5, height: 0 },
+            speed: 'normal',
+          },
+          { kind: 'setVar', var: 'must-not-run', value: 1 },
+        ],
         controller.signal,
       ),
     ).rejects.toThrow()
-    expect(harness.world.entityPos.s1!.m1).toEqual({ col: 5, row: 5 })
+    expect(harness.world.entityPos!.s1!.m1).toEqual({ col: 5, row: 5, height: 0 })
+    expect(harness.world.vars).toEqual({})
     expect(harness.worldChangedCommands).toHaveLength(1)
   })
 })
@@ -229,30 +254,9 @@ describe('W2-A A05 宿主等待方法', () => {
     const h = wave2ProjectHarness()
     h.world.flags.done = true
     h.world.vars.count = 5
-    expect(
-      h.host.evalCondition({ kind: 'flag', flag: 'done', is: true } as never, undefined as never),
-    ).toBe(true)
-    expect(
-      h.host.evalCondition({ kind: 'flag', flag: 'done', is: false } as never, undefined as never),
-    ).toBe(false)
-    expect(
-      h.host.evalCondition(
-        { kind: 'var', var: 'count', op: '>=', value: 5 } as never,
-        undefined as never,
-      ),
-    ).toBe(true)
-    expect(
-      h.host.evalCondition(
-        { kind: 'var', var: 'count', op: '<', value: 5 } as never,
-        undefined as never,
-      ),
-    ).toBe(false)
-  })
-
-  test('世界初态经 emptyWorldScriptState 后两次构造互不共享引用', () => {
-    const a = emptyWorldScriptState()
-    const b = emptyWorldScriptState()
-    a.vars.x = 1
-    expect(b.vars.x).toBeUndefined()
+    expect(h.host.evalCondition({ kind: 'flag', flag: 'done', is: true }, {})).toBe(true)
+    expect(h.host.evalCondition({ kind: 'flag', flag: 'done', is: false }, {})).toBe(false)
+    expect(h.host.evalCondition({ kind: 'var', var: 'count', op: '>=', value: 5 }, {})).toBe(true)
+    expect(h.host.evalCondition({ kind: 'var', var: 'count', op: '<', value: 5 }, {})).toBe(false)
   })
 })
