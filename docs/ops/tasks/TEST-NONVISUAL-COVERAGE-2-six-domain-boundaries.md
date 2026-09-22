@@ -3,17 +3,31 @@
 Status: build
 Phase: phase2
 Capability: N6 / A7 / ED-3 / B5（既有能力的测试，不变更能力地图状态）
-Coding Owner: GLM
+Coding Owner: Codex（2026-09-22用户授权接替额度耗尽的GLM）
 Generation Owner: N/A
 Reviewer: both
 Visual Verification Owner: Codex
 Visual Verification Timing: N/A
-Unavailable Agents: none
+Unavailable Agents: GLM（额度耗尽；Codex接手编码/自测，最终GLM验收缺签未默认豁免）
 Branch: codex/glm-coverage-wave2（GLM从最新main创建独立工作树，不在主工作树checkout）
 
 Revision: r1（逐族准备v5/ae1ae8b6已冻结；2026-09-22三席门禁齐，build allowed）
 Planning Base: `456feb12`
 Production Freeze: `57dda7ed2376fc25f07756be117bb4a058d09915`
+
+## 当前实施交接（2026-09-22，优先于下方历史分工）
+
+用户明确“GLM额度没了，你继续”，由Codex接手同一已准入整包，不扩范围、不重签未变设计。
+接手工作树干净，GLM已留两个未推送提交：A组`6839ea78`（3测试+2薄fixture）、B组`816c32ce`（6测试）。
+这些是待复验贡献，不按提交标题宣称已验收；保留提交/归属并先核guard、断言与实际可运行性。
+主线967b35fb已合入实施分支，保留Codex先前89项与7627基线；不是本包新增。
+
+- 接手范围：复验/必要修正A、B，继续C～F、隔离负控、同口径对照、整包质量门与集成准备；只改原白名单。
+- 上下文：已读本卡v5准入、工作包六组/排除域、机账白名单、GLM自检清单、AGENTS/CLAUDE/READ-FIRST；A05归因勘误与全部既有约束保持。
+- 初读风险：A的core测试相对导入错位，若干fixture以as unknown/as never绕真实guard；先复跑记录，再修测试宿主，不改产品迁就用例。
+- Codex后续结论为实施者自验，不能继续冒充独立第三方接收；GLM原贡献须终审披露，Kimi仍做独立终审。
+- GLM缺席风险：少一席覆盖复核；用户本次只授权代班实施，未默认授权done缺签。最终需GLM恢复后补审或用户另行明确豁免，不代签、不提前done。
+- 原GLM准备回执/机账历史结论保留；后续Codex实施修正及失败证据另加实名节，不覆盖GLM历史贡献。
 
 ## 目标与范围
 
@@ -304,12 +318,14 @@ Production Freeze: `57dda7ed2376fc25f07756be117bb4a058d09915`
 
 ### done前
 
-- Codex：pending（独立接收/集成）。
+- Codex：pending（接手后为实施者自验/集成，不再算独立第三方）。
 - GLM：pending（测试贡献者自验，不算独立第三方）。
 - Kimi：pending（独立终审）。
 - done准入结论：blocked。
 
 ## 交接日志
+
+- 2026-09-22 Codex（实施接手）：用户确认GLM额度耗尽并授权Codex继续。保存6839ea78/816c32ce两笔本地A/B贡献后合入main967b35fb；工作树无未提交内容。Coding Owner切为Codex，后续按原白名单A→F推进；GLM缺席/风险/补审或显式豁免要求见顶部交接。当前先复验A/B，不把尚未验证贡献记绿，不提前改done门。
 
 - 2026-09-22 Codex（准入索引补正）：阶段登记51f1dbd9后核日志发现首次docs-gate因任务索引仍为draft失败；前一命令末尾git diff的成功码不代表check:docs通过，未将该次失败记绿。现按生成器输出同步index.md唯一状态行，另行复跑文档门；签字事实与实施范围未改变，无产品/测试/GLM准备文件改动。
 
