@@ -133,6 +133,38 @@ Production Freeze: `57dda7ed2376fc25f07756be117bb4a058d09915`
     → fixture 非法；④ 代表针实际钉不住所述坏实现（如切片针未命中缓存路径）→ 负控重造；
     ⑤ 实施白名单外出现产品/旧测试/官方配置 diff → 越界即停。
   - 返工项：无（B04 族描述的已覆盖措辞按①在实施逐臂对账时归位，不单独返工）。
+- Kimi（r2 复核）：**accept（2026-09-22，r2 修订候选 38dd1fe1，针对 Codex 4240fbca R1～R4；机算重放+三模块源码重放本人独立完成，未读 Codex 本轮复核结论）**。
+  - **① 展开规则无歧义（独立重放验证）**：本人用冻结 evidence 与机账 ruleTable 独立重写展开——
+    25 模块每个遗漏行/臂**恰命中一条规则**（无一 miss/多重命中），生成计数与机账
+    generatedCounts 逐模块一致，合计 960/1274 与冻结集合完全相等；generatedTotals
+    NEW955/1259·UNREACH5/11·PEND0/4 复算一致。行按 lineRanges、臂按 line 分量归类的
+    expansionRule 机械无歧义。
+  - **①b 三模块归属重放**：adapter `:56-58` 确为 vanishEntity 派发 case，禁用链三处在册
+    （`runtime-script.ts:39-43` Exclude、`:139-149` 词表 false、`runtime-script-project.ts:77-79`
+    再次拒绝）→ UNREACH 成立；migrate-enemies `:93-98` tctx/translate 可选参与 `:211`
+    reportHookSources 只此一处（pal-casualty/audit 全文 grep 无二参）；battle-trial-assets
+    B04 区间（:40-42/:85/:87+[39,0,0]/[76,11,0]）与 B05 prepare 链区间与冻结定位一致。
+  - **② 无 r1 同类残留**：vanish/validate-runtime（`:17` validateBaseScenes 先行+assertArray/
+    assertObject 外层已拒）/script-world 锚点（`:186-189` 实核为 flow cursor 断言）/core:170
+    归 A05——五处更正直读成立；机算重放证明其余规则无遗漏归属。
+  - **③ PEND 边界**：仅剩 migrate-enemies 0L/4B，唯一现行 caller（migrate-content.ts:1753）
+    不传可选参，E-05 相邻一致；author-core 撤 PEND 的 caller 证据实核（enemy-script.ts:588,598、
+    runtime-script.ts:213 等现行调用 Base 守卫）——证据充分。
+  - **④ 六针**：A03 setMultiEntityState 循环（:148-149）、C02 实例站点（:527-555）、D03
+    assertCurrentProof 携 generation/coverage（:243，真实链非臆造 projectId）、E01 percent
+    0..100（:141-144，0/100 合法 101 拒）、F03 分栏谓词（:155）全部有真实唯一替换语义、
+    合法正控与拟定标题，不依赖 mock 前置守卫。**勘误注记（非阻断）**：B04 针位标注 :78，
+    实际消费者副本 `.slice(0)` 在 `:81`（:68 为缓存留存副本，两处语义不同，针必须钉 :81）；
+    B04 规则 :85/:87 的 reason 写作 urlFor/abort 复核，实为 readText/readJson 包装行——
+    分类与计数不受影响，实施须按真实源码语义锚定，不得据此写出重复的 urlFor 用例。
+  - **⑤ 异步与 F fixture**：工作包 :139 异步合同（entered+同步结局+finally 同一 pending、
+    禁超时判红）未被 r2 削弱；A05 后台动作臂、B04/B05 快照/准备取消臂均在映射 NEW 内可
+    落实该合同；F 组 PAL_CASUALTY_LOCALE_KEYS 逐键守卫与 overlay 合同（r1 已核）r2 未动。
+  - **可证伪观察**（任一成立即收窄或 counter）：① 重放脚本复跑发现任一定位不命中/多命中
+    规则或与冻结集合不等；② vanish/validate-runtime 任一臂被证明可经 current 入口合法到达；
+    ③ :96/:98/:211 之外发现第二处历史轴定位；④ 实施把 B04 针钉到 :68 留存副本或按误标
+    reason 写重复 urlFor 用例；⑤ 白名单外出现产品/旧测试/官方配置 diff。
+  - 返工项：无。上述 B04 两处行号/文案勘误以本席观察④约束实施，不单独阻断。
 - 独立反证审查：待逐族表冻结后，由Codex/Kimi各自直接读一手证据；不互相复述。
 - 缺签豁免：无；用户要求大批任务不是历史“额度空窗先实施”豁免的延续。
 - build准入结论：blocked，缺三席设计及逐族合同；当前可做准备，不得写正式测试。
@@ -145,6 +177,16 @@ Production Freeze: `57dda7ed2376fc25f07756be117bb4a058d09915`
 - done准入结论：blocked。
 
 ## 交接日志
+
+- 2026-09-22 Kimi（r2 修订候选独立复核）：对 38dd1fe1 签 accept。机算重放（本人自写脚本）：
+  25 模块每遗漏定位恰命中一条规则、生成计数逐模块一致、合计 960/1274 与冻结集合完全相等。
+  源码重放三模块：vanish 禁用链三处在册、migrate-enemies 历史轴只此一处（另两文件 grep 无二参）、
+  battle-trial-assets B04/B05 区间一致；script-world 锚点更正、core:170、validate-runtime 外层
+  守卫、author-core caller 证据（enemy-script:588,598/runtime-script:213）逐项实核；六针真实锚
+  逐一直读（D03 generation 实参、E01 0..100 域更正成立）。勘误注记：B04 针位标 :78 实钉 :81
+  消费者副本（:68 为留存副本，不可混）、B04 :85/:87 reason 实为 readText/readJson 包装——
+  以可证伪观察④约束实施，不单独阻断。未读 Codex 本轮复核结论；未改 GLM 文件/共享状态，
+  不代签、不标 build/done。Next：Codex 复核修订稿后统一核 build 准入。
 
 - 2026-09-22 Codex（独立准备复核）：先同步main、核源冻结与候选d4703cdf；逐模块总量及25+9+2白名单成立，10项adapter/snapshot与F组16项均独立复跑绿。对GLM声明签premise counter/design counter：缺逐臂定位表、snapshot已有合同重算NEW/current vanish禁用域/外层重复guard、F历史轴错模块、负控缺真实点位与概率范围误读，另有SHA/PKG汇总/格式/索引问题。证据及R1～R4见本人席位；未读取他席结论来形成判断，待本席结论完成后只核他席落盘状态。候选任务卡一度有他席未提交修改，本席未操作，待0677d4e0提交且工作树干净后仅写本人席位与本日志；不改GLM准备文件、他席或共享状态，不开build。
 
