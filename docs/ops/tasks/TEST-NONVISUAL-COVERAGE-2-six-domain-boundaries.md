@@ -324,7 +324,23 @@ Production Freeze: `57dda7ed2376fc25f07756be117bb4a058d09915`
 本阶段可读源码/旧测试/真实来源、跑既有定向并做隔离取证；不得改packages、正式测试、原probe、官方baseline/config/排除/超时、真实data/projects或模拟器UI；不操作浏览器/做视觉。不得checkout主工作树或恢复stash。
 准备完请落自己有一手锚点的premise/design或counter，并提交推送；不改共享状态，不代签，不标build/done。给Codex和Kimi两份钉同一准备候选的并行设计审查提示词。等三席齐且Codex核build allowed后，在同一父卡/分支按六组各一提交连续实现，最终整包交Codex；严格执行自检清单和工作包验收，GLM不跑官方ratchet/strict-fast。不要每组停下询问继续，也不要绕过设计门。
 
-## r3 修订候选并行复核提示词（钉 33a7a034；下方 38dd1fe1/d4703cdf 版提示词保留历史）
+## v4 修订候选并行复核提示词（钉 bfb4f522；下方 r3/38dd1fe1/d4703cdf 版保留历史）
+
+### 给Codex（复核v4）
+
+```text
+在 /Users/zhangxu/illegal/type-pal 复核 TEST-NONVISUAL-COVERAGE-2 v4 修订准备候选，卡 docs/ops/tasks/TEST-NONVISUAL-COVERAGE-2-six-domain-boundaries.md（draft），分支 codex/glm-coverage-wave2 提交 bfb4f522（worktree /Users/zhangxu/illegal/type-pal-glm-wave2），针对你 r3 d84d1bbf 与 Kimi d19d5bb0 收敛的唯一 C2 残项。
+先同步分支/核工作树，读你的 r3 结论、GLM 回执 v4 附节与机账 v4（glm-coverage-wave2-results.json schemaVersion 4）。逐项复核：① familyTable 11→20 行——九族（A05/B01/B02/B03/C03/C04/C05/E03/E04）的构造器/guard、旧测试引用与差异归属是否真实（抽 A05/C04/E04 三行对源码与旧标题）；② 5 条套件提示展开——trial-assets 5/simulator-ui 10/frame-animation-draft 5/project-reference 10+5/casualty 5 精确标题与你 AST 核验的仓内标题一致、suite 引用带计数；③ 映射 rules/generatedTotals/needles/whitelist 与 33a7a034 逐字一致（应零 diff）；④ 回执「45 条精确」已更正为 40+40=80 表述。在本人席位对 v4 签 accept、维持 counter 或列新反证并写日志提交推送；保留他席原文，不改GLM文件/共享状态、不代签。三席对 v4 齐后由你统一核 build allowed。
+```
+
+### 给Kimi（复核v4）
+
+```text
+在 /Users/zhangxu/illegal/type-pal 独立复核 TEST-NONVISUAL-COVERAGE-2 v4 修订准备候选，卡 docs/ops/tasks/TEST-NONVISUAL-COVERAGE-2-six-domain-boundaries.md（draft），分支 codex/glm-coverage-wave2 提交 bfb4f522（worktree /Users/zhangxu/illegal/type-pal-glm-wave2）。先同步/核工作树，读你在 d19d5bb0 的 C2 残项 counter、GLM 回执 v4 附节与机账 v4；不读或复述 Codex 本轮复核结论。
+压力点：① 你列出的九缺族是否每族都有真实构造器/guard+旧测试引用+一个具体差异（抽 C03/C04：frame-animation-draft 五标题是否与仓内逐字一致、差异臂是否真未覆盖）；② 5 条提示展开的标题/计数与仓内 AST 一致（尤其 simulator-ui 10 条与 project-reference 10+5 分文件）；③ r3 已核项（映射算术/四臂/A03/B04/F03/勘误/40 精确标题）在 v4 中应零改动——用 git diff 33a7a034..bfb4f522 核仅准备三文件变化；④ dedupTitles 80 条无重复计数/无把 full-only 新增误报。在本人席位签 accept 或带 file:line counter 并写日志提交推送；保留他席原文，不改GLM文件/共享状态、不代签、不标build/done。
+```
+
+## r3 修订候选并行复核提示词（钉 33a7a034；历史，已被 bfb4f522 版取代）
 
 ### 给Codex（复核r3）
 
