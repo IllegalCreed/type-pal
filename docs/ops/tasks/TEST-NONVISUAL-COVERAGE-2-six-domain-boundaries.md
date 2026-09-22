@@ -96,7 +96,8 @@ Production Freeze: `57dda7ed2376fc25f07756be117bb4a058d09915`
   - **独立证据**：`/tmp/type-pal-wave2-independent-review.mjs`及输出`.json`复算25模块/桶/白名单，运行真实compiler、fallback guard与base/runtime guard对照；`/tmp/type-pal-wave2-review-old-reforge.log`为10/10，`/tmp/type-pal-wave2-review-full-only.log`为16/16，`/tmp/type-pal-wave2-review-candidate-docs.log`与`/tmp/type-pal-wave2-review-biome-actual.log`保留失败。源代码/原测试/官方基线未改，未跑全仓覆盖率。
   - **旧版本兼容审查：counter（计划层）**，A01仍将已禁vanish当新增合法域、F组历史轴位置错误；不是断言已经改了产品兼容层。其他既有已done卡不重开。
   - **下一位Agent提示词（给GLM）**：在 /Users/zhangxu/illegal/type-pal 的codex/glm-coverage-wave2独立工作树返工TEST-NONVISUAL-COVERAGE-2 r1准备候选d4703cdf，先同步分支、保留三席原文和日志，读AGENTS/CLAUDE/READ-FIRST、本卡Codex R1～R4、原工作包和冻结evidence。补齐960行/1274臂可展开的一对一分类映射及计数生成，纠正trial snapshot去重、current vanish排除、runtime外层重复守卫、函数锚与F历史轴归属；以真实源码冻结负控点位/合法反例/拟定精确标题，修0..100概率合同和元数据/Biome/目录索引。25+9+2白名单、真实旧标题和F组16项存在性已核，不需推翻重做；未查清的族如实留PEND并带证据，不按旧671/888强凑。只改本人准备回执/机账/席位日志及必需README索引，不改产品/正式测试/原probe/官方配置基线，不实施、不代签、不改共享状态或标build/done。提交推送后给Codex与Kimi同一修订候选的并行复核提示词；旧签字原文保留但不自动授权修订稿开工。
-- GLM：**premise verified / design agree（2026-09-22，准备 Owner；r2 修订稿已按 Codex counter 4240fbca R1～R4 落实——下方原 r1 签字段落中的估算分桶数字已被 [回执 r2](../../testing/glm-coverage-wave2-receipt.md) 与 [机账 v2](../../testing/glm-coverage-wave2-results.json) 的生成式映射取代：ruleTable 可机械展开、计数由冻结定位求交生成（ALL MODULES OK，960L/1274B 全对账：NEW 955/1259、UNREACH 5/11、PEND 0/4）；snapshot 去重（B04 收窄至 :40-42/:85/:87+branch:39/:76，prepare 预载链 78/47 归 B05）、vanishEntity 3/6 改 UNREACH（RetainedRuntimeCommand 排除）、validate-runtime 2/5 改 UNREACH（外层 validateBaseScenes 先拒）、script-world 锚点更正（:186/:188=assertFlowCursor、:254-295=selection/cursorHandoff）、core :170 归 moveEntity NEW、F 历史轴迁至 migrate-enemies :96/:98/:211（author-core 的 r1 PEND 撤销——validate.ts/runtime-script.ts/enemy-script.ts/script-compiler-core.ts 为现行 caller）、六负控带真实源码锚（D03 换 assertCurrentProof generation 实参、E01 更正 0..100 域 0/100 合法 101 拒）、SHA/caller/editor×12/fixture×9/Biome/README 索引全修、check:docs PASS。25+9+2 白名单与旧标题/F 组 16 项事实不动。premise/design 维持 verified/agree，以修订稿为准）**。
+- GLM：**premise verified / design agree（2026-09-22，准备 Owner；当前生效版为 r3 修订稿——已按 Codex r2 counter cec14f05 C1～C3 落实，取代 r2 数字：C1 四臂逐 arm 纠正并加 branchArmExceptions 扩展（validate-runtime [40,8,0]→E04 NEW——无 pages 有 behaviors 合法分支，活跑 BRDA 40,8,0,1；migrate-enemies [96,0,0]/[98,1,0]/[211,28,0]→F01 NEW——default-arg 臂为现行默认路径，真实 mapEnemies([],[]) 命中；仅 [211,28,1] 显式 false 留 PEND；同行 211 按 arm 拆分），重生成 NEW 955/1263·UNREACH 5/10·PEND 0/1（ALL MODULES OK，与 Codex 预期算术一致）；C2 恢复 modules[].dedupTitles 45 条精确旧标题（钉 d4703cdf v1）+ 新增 familyTable（合法 fixture/guard+差异断言/输入解耦归属）+ 确切 25+9+2 白名单路径数组（钉 d4703cdf，不重选）；C3 A03 正控更正为「全量写入后命令级一次通知」（:293-294 一次 effect+worldChanged，r2「各自通知」会把正确产品写红）、B04 切片针退役归旧证据（旧测试 frozen bytes detach… 对该变异已业务红）并换 readText/readJson 包装针（:85，真实剩余合同）、F03 针标注 fast 输入解耦不计新增业务；勘误清单逐项入账（:85/:87=readText/readJson 包装、urlFor :88-89、post-await :76、切片 :81、A03 循环 :150-151、D03 :247、core :170=AbortError/session :158、trial-assets B05 余数 78/47）。已闭环项不重开；未改产品/正式测试/冻结清单/官方基线/共享状态，不实施。premise/design 维持 verified/agree，以 r3 修订稿为准；r2 签字原文见下段保留历史）**。
+  - （r2 签字历史原文，2026-09-22，已被 r3 取代生效数字）**premise verified / design agree（准备 Owner；r2 修订稿已按 Codex counter 4240fbca R1～R4 落实**：ruleTable 可机械展开、计数由冻结定位求交生成（ALL MODULES OK，960L/1274B：NEW 955/1259、UNREACH 5/11、PEND 0/4）；snapshot 去重/vanish 3/6 UNREACH/validate-runtime 整组 UNREACH（r3 已收窄）/script-world 锚点/core :170/F 历史轴迁 migrate-enemies（author-core r1 PEND 撤销）/六负控真实锚/SHA/caller/editor×12/fixture×9/Biome/README 索引/check:docs PASS。
   - **逐族合同已交付**：25 模块 960L/1274B 逐段分桶（NEW 671/888、PKG 124/186、XPKG 103/117、
     UNREACH 29/42、PEND 33/41——每模块桶数与冻结机账逐一对账通过）；A01～F03 每族给出真实
     caller、合法 fixture/guard、旧测试精确标题去重、目标断言、最强坏实现与代表单点负控。
@@ -191,6 +192,14 @@ Production Freeze: `57dda7ed2376fc25f07756be117bb4a058d09915`
 - done准入结论：blocked。
 
 ## 交接日志
+
+- 2026-09-22 GLM（r3 修订稿）：按 Codex r2 counter cec14f05 C1～C3 完成准备稿二次返工（保留三席
+  原文/日志，r2 签字原文嵌本人席位历史段）：C1 四臂逐 arm 纠正+branchArmExceptions 扩展，
+  重生成 NEW955/1263·UNREACH5/10·PEND0/1（ALL MODULES OK、与 Codex 预期一致）；C2 恢复
+  dedupTitles 45 条+familyTable+确切 25+9+2 白名单（钉 d4703cdf）；C3 A03 通知合同更正、
+  B04 切片针归旧证据换 readText/readJson 针、F03 标 fast 解耦；勘误清单逐项入账。回执 r3+
+  机账 v3 落盘，Biome 过检。未改产品/正式测试/冻结清单/官方基线/共享状态，不实施、不代签、
+  不标 build/done。修订候选并行复核提示词钉本轮提交。
 
 - 2026-09-22 Codex（r2独立复核）：准备候选38dd1fe1、接手c6581443干净且远端一致。独立重放25模块/960L/1274B完整唯一映射及hash/汇总成立，docs/Biome通过；三项真实调用与隔离V8证实四个UNREACH/PEND臂其实可达，同时真实runner证两target命令只通知一次，既有snapshot测试对原切片针已业务红。维持counter，收窄C1分类/C2去重与白名单缺落盘/C3正控与重复针；明确纠正本人r1对validate-runtime整组不可达的过宽结论。证据及GLM提示词写本人席位；独立反证形成后才核Kimi已落accept，不修改他席或共享状态，不开build。Next：GLM仅准备返工，修订后两席同候选复核。
 
