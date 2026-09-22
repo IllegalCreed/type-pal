@@ -8,7 +8,7 @@
 
 | 任务 | 顶部状态 | 说明 |
 |---|---|---|
-| [TEST-NONVISUAL-COVERAGE-2 - 六领域非视觉测试覆盖率第二波](TEST-NONVISUAL-COVERAGE-2-six-domain-boundaries.md) | draft | 以任务卡当前准入与看板分工为准。 |
+| [TEST-NONVISUAL-COVERAGE-2 - 六领域非视觉测试覆盖率第二波](TEST-NONVISUAL-COVERAGE-2-six-domain-boundaries.md) | build | 以任务卡当前准入与看板分工为准。 |
 
 ## 已完成（historical）
 

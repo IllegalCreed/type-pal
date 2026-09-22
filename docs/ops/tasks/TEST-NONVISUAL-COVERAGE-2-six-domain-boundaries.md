@@ -311,6 +311,8 @@ Production Freeze: `57dda7ed2376fc25f07756be117bb4a058d09915`
 
 ## 交接日志
 
+- 2026-09-22 Codex（准入索引补正）：阶段登记51f1dbd9后核日志发现首次docs-gate因任务索引仍为draft失败；前一命令末尾git diff的成功码不代表check:docs通过，未将该次失败记绿。现按生成器输出同步index.md唯一状态行，另行复跑文档门；签字事实与实施范围未改变，无产品/测试/GLM准备文件改动。
+
 - 2026-09-22 Codex（v5阶段门统一核定，独立于review签字）：核本人ecbb4475、GLM ae1ae8b6 v5附签、Kimi 5d7f90ba v5 accept，三席原premise/design及增量结论完整，全部counter已闭合，无豁免。将本卡与看板推进build，只授权原工作包A→F非视觉补测；done三席仍pending。准备文件、生产、旧测试、官方配置/基线不修改；主线新增89项的去重边界已登记。Next：GLM在本人独立分支持续做完整包，最终提交精确回执交Codex，不要求用户逐组确认。
 
 - 2026-09-22 Codex（v5窄复核）：ae1ae8b6的A05归因残项通过，签accept / premise verified / design agree。独立逐行+AST核正常move一commit零abort、生命周期hide/hide/remove两abort零move commit；完整leaf标题与三处撤回一致。三文件diff、其余19行/80标题/映射/六针/白名单全部保持，移动取消/会话漂移仍归原A05 NEW。JSON Biome和check:docs通过，不重复跑覆盖率。本提交仅本人席位与日志，保留他席原文/共享draft状态；下一步由Codex单独核三席门禁并交GLM连续实施。
