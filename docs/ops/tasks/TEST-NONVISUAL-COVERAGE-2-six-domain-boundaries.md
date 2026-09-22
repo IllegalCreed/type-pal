@@ -188,7 +188,23 @@ Production Freeze: `57dda7ed2376fc25f07756be117bb4a058d09915`
 本阶段可读源码/旧测试/真实来源、跑既有定向并做隔离取证；不得改packages、正式测试、原probe、官方baseline/config/排除/超时、真实data/projects或模拟器UI；不操作浏览器/做视觉。不得checkout主工作树或恢复stash。
 准备完请落自己有一手锚点的premise/design或counter，并提交推送；不改共享状态，不代签，不标build/done。给Codex和Kimi两份钉同一准备候选的并行设计审查提示词。等三席齐且Codex核build allowed后，在同一父卡/分支按六组各一提交连续实现，最终整包交Codex；严格执行自检清单和工作包验收，GLM不跑官方ratchet/strict-fast。不要每组停下询问继续，也不要绕过设计门。
 
-## 并行设计审查提示词（钉同一准备候选：codex/glm-coverage-wave2 @ 准备提交）
+## 修订候选并行复核提示词（钉同一修订提交：codex/glm-coverage-wave2 @ 38dd1fe1；下方 d4703cdf 版提示词保留历史）
+
+### 给Codex（复核r2）
+
+```text
+在 /Users/zhangxu/illegal/type-pal 复核 TEST-NONVISUAL-COVERAGE-2 r2 修订准备候选，卡 docs/ops/tasks/TEST-NONVISUAL-COVERAGE-2-six-domain-boundaries.md（draft），分支 codex/glm-coverage-wave2 修订提交 38dd1fe1（worktree /Users/zhangxu/illegal/type-pal-glm-wave2），针对你 4240fbca 的 R1～R4。
+先同步分支/核工作树，读你的 counter、GLM 回执 r2（docs/testing/glm-coverage-wave2-receipt.md）与机账 v2（glm-coverage-wave2-results.json schemaVersion 2）。逐项复核：① ruleTable 可机械展开——按 expansionRule 重放求交，验证 25 模块集合相等与 generatedTotals（NEW955/1259·UNREACH5/11·PEND0/4=960/1274）；② R2 五处更正（B04 收窄 :40-42/:85/:87+branch:39/:76、vanish 3/6 UNREACH、validate-runtime 2/5 UNREACH、script-world 锚点、core:170 归 moveEntity NEW）；③ R3 迁移（历史轴=migrate-enemies :96/:98/:211 共 0L/4B；author-core r1 PEND 撤销的 caller 证据 validate.ts/runtime-script.ts/enemy-script.ts/script-compiler-core.ts）；④ 六负控真实锚（script-project-core:148-149/battle-trial-assets:78/world-sprite-behavior:527-555/tileset-references:243 generation 实参/enemy-script percent 0..100/script-library-audit:155 谓词）；⑤ 元数据（SHA 058d09915/caller src/migrate-content.ts:1753/editor×12/fixture×9）与 check:docs PASS/Biome。在本人席位对修订稿签 accept、维持 counter 或列新反证并写日志提交推送；保留他席原文，不改GLM文件/共享状态、不代签。三席对修订稿齐后由你统一核 build allowed。
+```
+
+### 给Kimi（复核r2）
+
+```text
+在 /Users/zhangxu/illegal/type-pal 独立复核 TEST-NONVISUAL-COVERAGE-2 r2 修订准备候选，卡 docs/ops/tasks/TEST-NONVISUAL-COVERAGE-2-six-domain-boundaries.md（draft），分支 codex/glm-coverage-wave2 修订提交 38dd1fe1（worktree /Users/zhangxu/illegal/type-pal-glm-wave2）。先同步/核工作树，读 AGENTS/CLAUDE/READ-FIRST、Codex counter 4240fbca（R1～R4）、GLM 回执 r2 与机账 v2；不读或复述Codex本轮复核结论。
+压力点：① 生成式映射的展开规则是否有歧义（行取首条命中、分支按 line 归类）与规则区间/理由与源码函数归属一致性（抽三模块重放）；② UNREACH 三处（vanish 3/6、validate-runtime 2/5）之外是否还有r1同类误判残留；③ PEND 只剩 migrate-enemies 0L/4B 是否与 E-05 边界一致、author-core 全 NEW 的 caller 证据是否充分；④ 六针的合法正控/反例/拟定标题是否有鉴别力且不依赖 mock 前置守卫；⑤ 异步族合同（A03/A05/B04/B05 entered+同步结局+finally 同一 pending）与 F 组自包含 fixture guard 前置是否可在映射上落实。在本人席位签 accept 或带 file:line counter 并写日志提交推送；保留他席原文，不改GLM文件/共享状态、不代签、不标build/done。
+```
+
+## 并行设计审查提示词（钉同一准备候选：codex/glm-coverage-wave2 @ 准备提交；历史，已被上方 r2 版取代）
 
 ### 给Codex
 
