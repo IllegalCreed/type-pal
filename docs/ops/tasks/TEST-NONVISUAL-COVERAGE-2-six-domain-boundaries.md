@@ -1,6 +1,6 @@
 # TEST-NONVISUAL-COVERAGE-2 - 六领域非视觉测试覆盖率第二波
 
-Status: draft
+Status: build
 Phase: phase2
 Capability: N6 / A7 / ED-3 / B5（既有能力的测试，不变更能力地图状态）
 Coding Owner: GLM
@@ -11,7 +11,7 @@ Visual Verification Timing: N/A
 Unavailable Agents: none
 Branch: codex/glm-coverage-wave2（GLM从最新main创建独立工作树，不在主工作树checkout）
 
-Revision: r1（准备中，尚未冻结逐族设计）
+Revision: r1（逐族准备v5/ae1ae8b6已冻结；2026-09-22三席门禁齐，build allowed）
 Planning Base: `456feb12`
 Production Freeze: `57dda7ed2376fc25f07756be117bb4a058d09915`
 
@@ -296,9 +296,11 @@ Production Freeze: `57dda7ed2376fc25f07756be117bb4a058d09915`
     控制断言（真实文件+精确标题）→ 已证范围重估；② A05 新用例与两已证标题任一重叠；
     ③ 白名单外出现产品/旧测试/官方配置 diff。
   - 返工项：无。
-- 独立反证审查：待逐族表冻结后，由Codex/Kimi各自直接读一手证据；不互相复述。
+- 独立反证审查：已完成；Codex各轮及v5的源码/AST证据、Kimi各轮与5d7f90ba的独立反例核查分别见本人席位，未用共同结论代替primary-source读取。
 - 缺签豁免：无；用户要求大批任务不是历史“额度空窗先实施”豁免的延续。
-- build准入结论：blocked，缺三席设计及逐族合同；当前可做准备，不得写正式测试。
+- build准入结论：**build allowed（2026-09-22，Codex统一核定；准备候选ae1ae8b6/v5）**。Codex `ecbb4475`签accept / premise verified / design agree；GLM原premise/design经`ae1ae8b6`v5附签更新A05事实；Kimi原premise/design经`5d7f90ba`v5窄复核accept闭合残项。核心前提/产品行为不变，历史counter均按对应后续修订关闭，无缺签豁免。此项是Codex独立于本人review提交的阶段登记，未改写或代签他席。
+  - 仅开放原25测试文件+9薄fixture+2隔离工具与GLM本人回执/机账/席位日志；按工作包A→F连续实施，各组一提交，不逐组重签、不将中间切片合main。Coding Owner仍为GLM，不开放产品/UI/视觉/正式基线修改，不标done。
+  - 准备冻结7538/633与NEW955L/1263B等仍是历史定位，不是当前主线计数或保证净增。主线`6c5b9ac5`已由Codex独立补89项至7627/633，生产未变；其中引用补测间接命中author-script-core +15L/+14B、enemy-script +6L/+2B，六模块后批无目标外净增。GLM实施前核新增旧测试去重，最终接收按最新树并集扣重；不改冻结机账来假装这些是GLM增量，也不因此重新评审未变化的设计。
 
 ### done前
 
@@ -308,6 +310,8 @@ Production Freeze: `57dda7ed2376fc25f07756be117bb4a058d09915`
 - done准入结论：blocked。
 
 ## 交接日志
+
+- 2026-09-22 Codex（v5阶段门统一核定，独立于review签字）：核本人ecbb4475、GLM ae1ae8b6 v5附签、Kimi 5d7f90ba v5 accept，三席原premise/design及增量结论完整，全部counter已闭合，无豁免。将本卡与看板推进build，只授权原工作包A→F非视觉补测；done三席仍pending。准备文件、生产、旧测试、官方配置/基线不修改；主线新增89项的去重边界已登记。Next：GLM在本人独立分支持续做完整包，最终提交精确回执交Codex，不要求用户逐组确认。
 
 - 2026-09-22 Codex（v5窄复核）：ae1ae8b6的A05归因残项通过，签accept / premise verified / design agree。独立逐行+AST核正常move一commit零abort、生命周期hide/hide/remove两abort零move commit；完整leaf标题与三处撤回一致。三文件diff、其余19行/80标题/映射/六针/白名单全部保持，移动取消/会话漂移仍归原A05 NEW。JSON Biome和check:docs通过，不重复跑覆盖率。本提交仅本人席位与日志，保留他席原文/共享draft状态；下一步由Codex单独核三席门禁并交GLM连续实施。
 
@@ -410,7 +414,15 @@ Production Freeze: `57dda7ed2376fc25f07756be117bb4a058d09915`
 - 2026-09-22 Codex：用户要求给GLM一大批覆盖率工作。同步main至456feb12、生产对57dda7ed相同；用7538/633对应报告核25模块并生成960行/1274臂候选清单，六组工作包与禁止范围落盘。主树旧7502报告未采用；两类无现行caller的审计入口暂排除。未改产品、测试或官方覆盖率，当前只交GLM准备；没有签字豁免。
 - 2026-09-22 Codex（规划验证）：census与冻结JSON复算一致，旧7502报告拒绝；Biome与文档门通过。准备工具对报告额外identities的初版误拒已按持久baseline字段投影纠正，仍核全部身份/计数/范围字段。下一步GLM填写逐族合同并签本人准备结论，不直接实施。
 
-## 下一位Agent提示词（给GLM，可立即开始准备）
+## 当前下一位Agent提示词（给GLM，v5已准入，可连续实施）
+
+在 `/Users/zhangxu/illegal/type-pal-glm-wave2` 的 `codex/glm-coverage-wave2` 实施 TEST-NONVISUAL-COVERAGE-2 r1。任务卡 `docs/ops/tasks/TEST-NONVISUAL-COVERAGE-2-six-domain-boundaries.md` 已build allowed，准备候选ae1ae8b6/v5，Codex ecbb4475、GLM v5附签、Kimi 5d7f90ba三席齐，设计不重签。先同步远端本分支并核干净工作树，不在主worktree切分支；读AGENTS/CLAUDE/READ-FIRST、本卡最新准入、glm-coverage-wave2.md、v5回执/机账与glm-delivery-checklist.md。原工作包的draft措辞属准备历史，本卡最新准入为当前授权。
+
+按原25测试+9薄fixture+2工具白名单，在同一分支A→F各组一提交连续完成整包，不逐组问继续。A05正常move转交与hide/remove生命周期取消是已有不同证据，移动提交前/后取消及会话漂移仍属原NEW待补；严格合法guard、同一实参完整快照、entered/同步结局/finally同一pending、钉新增case自身AssertionError的单点负控。先核主线Codex新增89项的去重影响；冻结7538定位不是当前7627主线，也不能把已命中的guard增量重复报功。生产freeze仍57dda7ed，不修改冻结evidence。
+
+只改获准新测试/薄fixture/隔离工具及GLM本人回执机账/席位日志；不改产品、旧测试、公共fixture、官方配置/排除/阈值/基线、真实data/projects，不做视觉/E2E或迁移写盘，不代签、不标done。产品疑点单列隔离反例交Codex，暂停受影响族，其它组继续，不留默认红/skip。整批收尾统一定向/相邻/相关包全测/TC/所有新增文件Biome，局部及整包官方testSelection同口径before/after输出到/tmp；不逐文件跑覆盖率，不跑官方ratchet/strict-fast。最终精确SHA、文件/用例数、逐族增量/输入解耦/重叠/剩余、全部负控与失败记录一次交Codex独立接收，之后再交Kimi终审。
+
+## 历史下一位Agent提示词（给GLM，准备阶段原文）
 
 在 /Users/zhangxu/illegal/type-pal 接 TEST-NONVISUAL-COVERAGE-2 r1，卡 docs/ops/tasks/TEST-NONVISUAL-COVERAGE-2-six-domain-boundaries.md，draft，Coding Owner=GLM。先同步main/检查工作树，读AGENTS.md、CLAUDE.md、docs/phase2/READ-FIRST.md、本卡、docs/testing/glm-coverage-wave2.md、冻结evidence.json与glm-delivery-checklist.md。生产冻结57dda7ed2376fc25f07756be117bb4a058d09915，基线7538项/633生产文件。
 请在独立codex/glm-coverage-wave2工作树，一口气完成W2-A～F六组25模块的逐臂分类、合法fixture/guard、真实caller、旧测试精确标题去重、业务断言与最强单点反例，冻结新增测试/fixture/工具白名单；将准备回执写docs/testing/glm-coverage-wave2-receipt.md，机账写glm-coverage-wave2-results.json，核每臂唯一主分类和各组加总。960行/1274臂只是整文件候选缺口，不能承诺全可达；F组区分full已有证明与fast输入解耦，不测历史translator注入/旧输出分支。发现未知政策、现行无caller或产品缺陷要单列，不固化为正确绿测。
