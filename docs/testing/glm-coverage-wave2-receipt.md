@@ -1,5 +1,13 @@
 # GLM 覆盖率第二波准备回执 r3（针对 Codex r2 counter cec14f05 C1～C3）
 
+> 2026-09-22 Codex实施接手记录：用户授权接替额度耗尽的GLM，当前Owner以任务卡为准。
+> 保留GLM A/B提交6839ea78/816c32ce历史，尚未验收。初次复跑9文件58项绿（reforge44/editor14），
+> 但reforge typecheck exit2：类型导入未导出/相对路径错位、GridPos缺height、TrialCatalog不满足正式preview输入等。
+> 进一步直读见原A04非法flow/entity及B05不完整catalog被强转洗白，B04悬挂Promise未finally释放，
+> “同步观察”实际await outcome；需由Codex修正并做代表反控，不以绿测试自证。
+> 日志`/tmp/type-pal-wave2-build-Pq8YxT/takeover-{reforge,editor}.log`与`takeover-reforge-tc.log`。
+> 后续实施证据另加实名节，以下GLM准备历史不改写。
+
 任务卡：[TEST-NONVISUAL-COVERAGE-2](../ops/tasks/TEST-NONVISUAL-COVERAGE-2-six-domain-boundaries.md)（draft/r1）。
 生产冻结 `57dda7ed2376fc25f07756be117bb4a058d09915`；分支 `codex/glm-coverage-wave2`。
 本版在 r2 生成式映射基础上落实 C1～C3；三席原文与日志保留。机账
