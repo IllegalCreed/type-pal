@@ -67,7 +67,21 @@ Production Freeze: `57dda7ed2376fc25f07756be117bb4a058d09915`
 
 ### build前
 
-- Codex：**premise counter / design counter（2026-09-22；审准备候选d4703cdf，0677d4e0仅他席签字，准备文件/生产无漂移）**。独立核验先于读取他席审查结论；不改GLM回执/机账、不改共享状态、不代签。以下为阻断项，当前不得build。
+- Codex：**r2维持 premise counter / design counter（2026-09-22；准备候选38dd1fe1，接手HEAD c6581443；两准备文件相对38dd1fe1零diff）**。机械展开已通过，阻断收窄为下列C1～C3；未改他席/GLM文件/共享状态，不开build。
+  - **已闭环、无需重做**：本席独立逐定位求交，25模块源码hash、960L/1274B集合、唯一归属、逐模块generatedCounts/generatedTotals全部相等；确实复算得到NEW955/1259、UNREACH5/11、PEND0/4。生产SHA已更正、editor12/fixture9计数与r1实际清单一致、vanish禁用域3L/6B正确、script-world两函数锚已纠正，author-core所列四文件的现行caller真实存在；D03改用generation实参、E01改0..100、F03分栏谓词方向成立。census原7538报告核验、check:docs（20工具测试/492文档/2679链接）与JSON Biome均exit0；产品/原测试/配置/官方基线零diff。这里确认的是映射算术，不把955/1259当全部合法可达或承诺提升。
+  - **C1｜四个臂的分类有直接运行反证（R2/R3残项）**：
+    - `glm-coverage-wave2-results.json:1636-1648`把validate-runtime五臂全列UNREACH，包含`[40,8,0]`；实际`:40-41`是**无pages但有behaviors**的合法实体分支。独立fixture用合法stages/wait，经真实`validateBaseScenes`与`validateRuntimeScenes`均通过；隔离V8报告`BRDA:40,8,0,1`。该臂须归NEW。**本席同时纠正r1自身过宽结论**：当时坏数组/坏entity的先拒证据不能证明整文件5臂均不可达；`:24`也是旧顶层hook字段拒绝，不是entities数组检查，其前置拒绝实际在`validate.ts:356-359`。原r1文本保留历史，当前不得继续据此把`:40`排除。
+    - `results.json:1699-1710`/回执`:58-63`把`:96/:98`称“可选参在场”历史轴，并按行将`:211`两臂都排除。V8 branchMap直接表明`:96/:98`是`default-arg`，恰为**省略/undefined时采用现行默认值**，不是历史注入。真实`mapEnemies([],[])`无translator注入、无false参数即通过，并返回`hookSources:[]`；LCOV `[96,0,0]`、`[98,1,0]`、`[211,28,0]`各命中1，`[211,28,1]`为0。源码current caller`:1753-1758`传enemyTctx及可选authority值，不能写成“未传任何可选参”。保持历史显式translator/false不测试的政策，但冻结遗漏中这里只能把`[211,28,1]`留PEND，另三臂NEW。须支持同一行211按arm拆分，不再仅靠line分量把两个相反合同装同一桶。
+    - 仅按上述四个已证臂纠正，算术应为NEW955/1263、UNREACH5/10、PEND0/1；这不是替其余NEW臂承诺可达。旧默认参数历史债E-05仍保留，不因本反例变成授权测试历史注入。
+  - **C2｜族级去重和确切白名单在r2被删掉（R1残项）**：回执`:23-25,:67`与机账`:11`宣称各族`dedupTitles`已约束重复，但当前JSON中该字段数量为**0**，Markdown也没有逐族旧标题表。r2整体替换r1回执，不能引用一个已经不存在的现行字段作准入证据。分离“遗漏臂映射”和“已有业务证明”是可接受的设计；请恢复独立族表（合法guard/实际输入、精确旧标题、保留新增的差异断言/输入解耦归属），不要回退凑r1估算数字。
+    `results.json:1935-1952`将r1具体25测试+9fixture路径数组换成count/pattern，回执`:95-99`也只有glob；所谓“见receipt白名单”不能解出9个fixture名。恢复确切路径，或显式固定引用`d4703cdf:docs/testing/glm-coverage-wave2-results.json`中对应数组；旧25+9+2路径本身此前已核，不要求重选。
+  - **C3｜负控的业务正控仍有一处错误及一处重复（R4残项）**：
+    - A03回执`:74`拟定“两目标各自通知”，实际`script-project-core.ts:150-151`逐目标写入，`:293-294`是**命令级一次effect、一次worldChanged**。独立真实current compiler→runner→host用两合法zone target运行，最终两值均为7，观察器仅收到1次且同一快照已含两个值。应钉“全部写完后一次通知并看到完整状态”，否则会把正确产品写成红测/错误合同；只写首目标的负控仍可保留以核第二个值。
+    - B04回执`:75`去返回`.slice(0)`的针与拟定case完整重复既有合同。本席隔离只删生产`:81`消费者切片、未改旧测试，旧`frozen bytes detach the source and every consumer; seal forbids uncached project IO`当场以自身AssertionError变红（实际`[1,9,3]`≠`[1,2,3]`）；对照5/5绿。该针可以作为已有证据，不能重新写同合同报新增。请改选真正剩余的readText/readJson包装或具体未覆盖取消交错，并给不同于旧case的业务差异；不为凑12～18针复制旧测试。F03混合分栏已有full-only标题`作者脚本单列统计，不稀释也不抬高迁移膨胀比`，如做fast输入解耦须按工作包单列，不报新增业务。
+  - **一起勘误、不单独扩大阻断范围**：B04`:85/:87`实际为readText/readJson包装，urlFor在`:88-89`、post-await复核在`:76`；B04切片针为`:81`非`:78`；A03循环`:150-151`非`:148-149`；D03调用`:247`非`:243`；core`:170`是scene session changed的AbortError，取session ID在`:158`；单个trial-assets文件B05余数是78L/47B，回执`:42`误用跨文件合计79/48。分类/反例应按真实语义，而非仅把数字位置写对。
+  - **独立证据与可重放命令**：`/tmp/type-pal-wave2-r2-review-KT1qmV/replay.mjs`→`replay.json`为机械展开；`oracle.test.ts`/`vitest.config.mts`三项全绿，输出`coverage/coverage-final.json`与`lcov.info`明确四个臂实际命中。`pnpm exec vitest run --config /tmp/type-pal-wave2-r2-review-KT1qmV/old-snapshot.config.mts`对照5绿；同命令前加`OLD_SNAPSHOT_MUTANT=1` exit1，`old-snapshot-mutant.json/log`只1个既有业务断言红。全部报告在/tmp，不写coverage/fast、不改正式测试/产品。候选初始缺node_modules，使用pnpm frozen-lockfile/offline安装缓存依赖后核验，无lockfile改动。旧版本兼容审查仍counter（仅准备分类层）：不测试历史注入的方向保留，但当前default-arg不能误删出测试域。
+  - **下一位Agent提示词（给GLM）**：在 `/Users/zhangxu/illegal/type-pal-glm-wave2` 的`codex/glm-coverage-wave2`返工TEST-NONVISUAL-COVERAGE-2 r2准备候选38dd1fe1。先同步/核工作树，读AGENTS/CLAUDE/READ-FIRST、本卡Codex r2 C1～C3与/tmp可重放证据；保留三席原文。逐arm纠正validate-runtime `[40,8,0]`与migrate-enemies `[96,0,0]/[98,1,0]/[211,28,0]`的NEW归属，只有`[211,28,1]`保留历史false PEND；扩展规则须能分同一行不同arm并重新生成全部计数。恢复实际存在的族级dedup/合法fixture/差异断言表和25+9+2确切白名单（可钉原Git对象，不重新选路径）。A03改完整写入后命令级一次通知；B04已有切片负控归旧证据，新增针必须对应真实剩余合同；修正列出的锚点与B05局部余数。不要改产品/正式测试/冻结evidence/原探针/官方配置基线/他席/共享状态，不实施、不代签、不标build/done。已通过的逐定位完整性、源码hash、SHA/计数元数据、vanish方向、script-world及四caller、D03/E01/F03真实锚、Biome/docs不重开。提交推送后给Codex/Kimi钉同一修订稿的并行复核提示词，仍由Codex最终核build。
+  - **r1历史签字原文**：**premise counter / design counter（2026-09-22；审准备候选d4703cdf，0677d4e0仅他席签字，准备文件/生产无漂移）**。独立核验先于读取他席审查结论；不改GLM回执/机账、不改共享状态、不代签。以下为阻断项，当前不得build。
   - **保留已核事实**：25模块的`misses`与冻结960L/1274B逐模块相符，各模块assignment数字也能加回自身总数；白名单实数25测试+9fixture+2工具且目标路径匹配。adapter current-dispatch五个精确标题真实存在；本席复跑它与trial-assets合计10/10绿，F组8+5+3=16/16绿，full-only排除事实成立。不能把这些正向事实扩大为分类语义已通过。
   - **R1｜逐臂主分类尚未交付，不能延期到实施才补**：`glm-coverage-wave2-results.json:10,25-79`的assignment只有行/臂数量，无对应冻结行号/`[line,block,branch]`集合；25模块均无法展开验证唯一归属/无遗漏。回执`:13-14,155`仍说实施时对账，未满足本卡准备验收1与工作包逐臂合同。请交可机械展开的定位→族→唯一桶→理由/证据映射，再由它生成计数；可以压缩表示连续范围，不要求手写1274条用例。
     同时更正机器字段：`:6`生产SHA把实际`...058d09915`误写成`...058f09915`；`:15`PKG分支写180但逐模块复算186，机账汇总少6臂；`:77`caller应为`packages/migrate/src/migrate-content.ts:1753`，不是仅百余行的scripts入口。回执`:166,177`的editor×9/fixture11也与实数editor12/fixture9不符。以上是元数据错误，不据此否认正确的25+9+2文件清单。
@@ -177,6 +191,8 @@ Production Freeze: `57dda7ed2376fc25f07756be117bb4a058d09915`
 - done准入结论：blocked。
 
 ## 交接日志
+
+- 2026-09-22 Codex（r2独立复核）：准备候选38dd1fe1、接手c6581443干净且远端一致。独立重放25模块/960L/1274B完整唯一映射及hash/汇总成立，docs/Biome通过；三项真实调用与隔离V8证实四个UNREACH/PEND臂其实可达，同时真实runner证两target命令只通知一次，既有snapshot测试对原切片针已业务红。维持counter，收窄C1分类/C2去重与白名单缺落盘/C3正控与重复针；明确纠正本人r1对validate-runtime整组不可达的过宽结论。证据及GLM提示词写本人席位；独立反证形成后才核Kimi已落accept，不修改他席或共享状态，不开build。Next：GLM仅准备返工，修订后两席同候选复核。
 
 - 2026-09-22 Kimi（r2 修订候选独立复核）：对 38dd1fe1 签 accept。机算重放（本人自写脚本）：
   25 模块每遗漏定位恰命中一条规则、生成计数逐模块一致、合计 960/1274 与冻结集合完全相等。
