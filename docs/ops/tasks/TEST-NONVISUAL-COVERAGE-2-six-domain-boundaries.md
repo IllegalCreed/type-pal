@@ -84,7 +84,41 @@ Production Freeze: `57dda7ed2376fc25f07756be117bb4a058d09915`
   - **白名单冻结**：25 个 `<stem>.wave2.test.ts` + 9 个按组薄 fixture + 2 工具 + 3 文档
     （见机账 whitelist）；PEND 项（Base-only 形态/历史注入轴/reportHookSources）单列不写测试。
     本阶段零改 packages/正式测试/原探针/官方配置/baseline/真实 data/projects。
-- Kimi：premise pending / design pending。
+- Kimi：**premise verified / design agree（2026-09-22，r1 准备候选 d4703cdf，冻结57dda7ed；四组一手源码/旧测试标题本人抽读，未读 Codex 本轮结论）**。
+  - **① 断言鉴别力**：六组均给出最强坏实现+代表单点针（B04 缓存不切片别名、C02 多实例共享
+    预览数组、D03 proof 项目身份恒等、E01 概率上界删除、F03 分栏谓词反转），工作包钉
+    「新增 case 自身 AssertionError 首行、混合错误/超时/未执行自测拒绝」；C01 明确「输出精确
+    ID/域/路径，不以非空数组证明正确」——负控有鉴别面，不是「非空即过」。
+  - **② 分类抽查（四组直读）**：
+    - W2-B `battle-trial-assets.ts`：冻结 LCOV  missed 集中在 prepare 管线（:113-299）与
+      快照并发/dispose/迟到臂；既有 5 项测试（detach/seal、取消迟到、catalog bytes+sha 参数化、
+      pre-abort）覆盖的是基础路径——NEW 锚点属实。**勘误式注记**：族描述中「catalog bytes/sha
+      双校验失败、urlFor 固定拒绝、seal 未缓存拒绝」已被既有参数化/单列测试覆盖（实测仅 :76
+      一臂 missed），实施须按回执自己的逐臂对账规则把它并入 PKG 而非当新增写——回执可证伪
+      观察①④正是该保证，本签以此条件成立。
+    - W2-C `world-sprite-behavior.ts:436-527` 投影函数与多实例收集器在册；PKG 四标题逐字
+      存在（`world-sprite-behavior.test.ts:76/101/109/119`）。
+    - W2-E `enemy-script.ts:152-458` kind 门控 exactKeys/概率域/负值非整数臂在册；PKG 四标题
+      逐字存在（`enemy-script.test.ts:86/90/114/146`）。author-script-core 的 PEND 11L/19B
+      （Base-only 无现行消费面）单列交 E-05 裁决——未误当新增，也未授权删代码。
+    - W2-F 现行 caller 三处逐字核实（`migrate-content.ts:1753`、`pal-migration.ts:428`、
+      `:564-574`）；三文件确在资产排除清单（`scripts/coverage/config.mjs:83-93`）——
+      「接近0覆盖≠没有测试」成立；XPKG 73L/77B 为 full-only 证明，不二次报功。
+  - **③ F 组 fixture 边界**：`pal-casualty-scripts.ts:10-23` B11-1 三方真值注释与
+    `PAL_CASUALTY_LOCALE_KEYS` 逐键一致守卫（:36-38,:181）在册——overlay 四入口/完整 locale
+    键的最小 fixture 有正式 guard 前置；旧测试不移动/排除不改/新旧账分栏（新业务 vs 输入解耦）。
+  - **④ 异步合同**：工作包统一钉「entered+同步结局观察+finally 释放同一底层并消费原 Promise」
+    （:139），A05「不靠睡眠/超时判红」（回执 :40）；B04/B05 快照/准备取消族与已 done 模拟器卡的
+    abortableTrial/seal/dispose 语义同构，代表针为同步可观察（切片别名/迟到恢复读权限）。
+  - **⑤ 白名单与 PEND**：分支 `git diff 456feb12..HEAD -- packages/ scripts/` 为空（本阶段零
+    产品/测试/配置改动，本人复核）；白名单 25 测试+9 fixture+2 工具+3 文档全为新增；
+    PEND 33L/41B（Base-only/历史注入/reportHookSources）单列不固化、不夹带产品裁决。
+  - **可证伪观察**（任一成立即收窄或 counter）：① 任一 NEW 族在实施中被证明已有本包/跨包
+    覆盖（含上述 B04 已覆盖措辞）→ 改分类不算新增；② 任一 PKG/XPKG 标题实际不存在或不再
+    覆盖所述臂 → 去重失效；③ F 组自包含 fixture 过不了 checkBaseScriptLibrary/正式 guard
+    → fixture 非法；④ 代表针实际钉不住所述坏实现（如切片针未命中缓存路径）→ 负控重造；
+    ⑤ 实施白名单外出现产品/旧测试/官方配置 diff → 越界即停。
+  - 返工项：无（B04 族描述的已覆盖措辞按①在实施逐臂对账时归位，不单独返工）。
 - 独立反证审查：待逐族表冻结后，由Codex/Kimi各自直接读一手证据；不互相复述。
 - 缺签豁免：无；用户要求大批任务不是历史“额度空窗先实施”豁免的延续。
 - build准入结论：blocked，缺三席设计及逐族合同；当前可做准备，不得写正式测试。
@@ -97,6 +131,18 @@ Production Freeze: `57dda7ed2376fc25f07756be117bb4a058d09915`
 - done准入结论：blocked。
 
 ## 交接日志
+
+- 2026-09-22 Kimi（r1 准备候选独立设计压力测试）：签 premise verified / design agree，无返工项。
+  抽读四组一手证据：W2-B 冻结 LCOV missed 集中 prepare 管线/快照并发与 dispose（既有 5 项只覆盖
+  基础路径；族描述中 catalog/urlFor/seal 措辞已被参数化测试覆盖，按回执逐臂对账规则并入 PKG，
+  不单独返工）；W2-C 投影函数 :436-527 与四 PKG 标题逐字核实（:76/101/109/119）；W2-E
+  enemy-script :152-458 与四 PKG 标题逐字核实（:86/90/114/146），author-script-core PEND
+  Base-only 单列交 E-05；W2-F 三 caller（migrate-content:1753、pal-migration:428/:564-574）、
+  资产排除清单（config.mjs:83-93）、B11-1 注释与 PAL_CASUALTY_LOCALE_KEYS 逐键守卫逐一在册。
+  异步按 entered+同步结局+finally 同一 pending、禁超时判红；白名单 25+9+2+3 全新增，分支
+  packages/scripts 零 diff；PEND 不夹带裁决。五条可证伪观察入席（含 B04 措辞归位条件）。
+  未读 Codex 本轮结论；未改 GLM 准备文件/共享状态，不代签、不标 build/done。
+  Next：Codex 独立审查后由 Codex 统一核 build 准入。
 
 - 2026-09-22 GLM（准备完成）：在 codex/glm-coverage-wave2 工作树（基 f828b9fc，零产品/测试/
   配置改动）一次完成六组逐族分类：25 模块 960L/1274B 分桶 NEW671/888·PKG124/186·XPKG103/117·
