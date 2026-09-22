@@ -67,7 +67,14 @@ Production Freeze: `57dda7ed2376fc25f07756be117bb4a058d09915`
 
 ### build前
 
-- Codex：**r3 premise verified / design counter（仅C2残项；2026-09-22，候选33a7a034，接手5429feb8）**。C1、C3、确切白名单及勘误已闭环；本席只写签字/日志，不改他席、GLM准备文件或共享状态，仍不开放build。
+- Codex：**v4 premise verified / design counter（C2仅余A05去重归因；2026-09-22，候选bfb4f522）**。接手098747cf干净；独立结论形成期间Kimi追加f1d6a0db，已同步保留，其签字不代改。仅本人席位/日志修改，仍不开放build。
+  - **已通过，不再返工**：familyTable现20行，组合族展开后所有有NEW定位的族均有条目；五组旧提示已替换为40个实际用例，与原40条合为80条。独立TS AST核验test/it与literal test.each展开，80/80在仓内匹配，实际套件计数为snapshot5、simulator-ui10、frame-draft5、project-reference10+5、casualty5，suite计数正确。v4相对33a7a034的rules/branchArmExceptions/generatedCounts/generatedTotals/summary/expansionRule/needles/whitelist逐对象序列化逐字相同，冻结25模块分类不变；生产/旧测试/原probe/配置基线零diff。回执C2已更正原45=40标题+5提示、现40+40=80。check:docs（20工具测试，492文档/2677链接）及JSON Biome均exit0。
+  - **C04/E04抽读通过**：frame-draft真实create构造器`:51-79`/pixel守卫`:46-49`存在；旧五标题均匹配。旧测试覆盖正常重排与一次undo/redo，`:260-290`的非空future后分叉清理/同一present与无历史等剩余分支仍可独立验证，不把正常重排重写报功。E04旧三项以有pages实体为主，当前`:40-41`无pages但有behaviors路径的合法正控与前轮已证可达一致；不mock外层guard。九族缺行和五组提示的结构性残项已关闭。
+  - **唯一剩余counter：A05把生命周期取消测试误认成移动提交证据**。机账`glm-coverage-wave2-results.json:2111,2115`与回执`:91-92`写“moveEntity提交窗口两臂已证”。第一条真实测试`runtime-script-project.test.ts:129-147`只执行moveEntity正常端点提交（一次commit、无abort）。第二条真实完整标题为`abort before commit writes nothing; abort after commit prevents the next leaf`（表中漏最后`leaf`），位于`:222-264`；其实际命令是`hideEntity`，提交后用`removeEntity`作后续叶，**没有moveEntity**。本席AST直接核该两测试：前者kind集合仅moveEntity/abort调用0；后者kind为hideEntity、hideEntity、removeEntity/abort调用2。它不能证明`script-project-core.ts:157-184`的移动取消/会话漂移保护；不是只差一个标题词，而是去重会误排真正缺口。
+    请仅把A05已证范围收窄为“当前host转交move提交控制的正常路径”；生命周期取消证据单列，不冒充moveEntity。实际未被旧测试证明的移动提交前/后取消、会话漂移仍按原工作包A05和冻结NEW定位处理；若确有其它既有证明，给真实文件/精确标题及消费move控制的断言。宿主等待/共享resolver的新增方向保留，映射数字和六针都无需重做。
+  - **验证边界/证据**：`/tmp/type-pal-wave2-v4-review-5HRqAs/check.mjs`与`check.json`保存80标题/套件计数、完整族集合、r3冻结字段零漂移；其中唯一family引用不精确即上述缺leaf标题。独立判断来自实际测试体与core代码，不由Kimi结论推导。此次仅静态/AST和文档格式验证，**未重跑全仓check/覆盖率/已闭环负控**。旧版本兼容审查pass（范围不变），没有新增产品问题或其它返工项。
+  - **下一位Agent提示词（给GLM，v4仅余A05一行）**：在 `/Users/zhangxu/illegal/type-pal-glm-wave2` 同步`codex/glm-coverage-wave2`，先读AGENTS/CLAUDE/READ-FIRST及本卡Codex v4结论。仅修机账familyTable A05与对应回执/本人席位日志：补齐真实标题末尾leaf，区分moveEntity正常提交控制与hideEntity生命周期取消，撤回“移动提交窗口两臂已证”；真实未证move取消/会话漂移保留原A05 NEW范围或给实际旧证据。其它19行/80标题/套件计数/映射/六针/白名单已通过，不重做，不跑全仓覆盖率。保留他席原文，不改产品/正式测试/冻结evidence/官方baseline/config/共享状态，不实施、不代签、不标build/done。提交后同候选交Codex/Kimi仅确认A05归因，仍由Codex统一核build。
+  - **r3历史签字原文**：**r3 premise verified / design counter（仅C2残项；2026-09-22，候选33a7a034，接手5429feb8）**。C1、C3、确切白名单及勘误已闭环；本席只写签字/日志，不改他席、GLM准备文件或共享状态，仍不开放build。
   - **C1通过**：本席独立重放`rules`及精确arm例外（同时核例外定位存在且无孤儿），25模块源码hash/960行1274臂完整唯一归属、逐模块generatedCounts/generatedTotals/summary均一致。r2→r3恰好四个分支改桶：runtime `[40,8,0]`与migrate `[96,0,0]/[98,1,0]/[211,28,0]`归NEW；仅`[211,28,1]`留PEND。另23模块四维分类计数不变；汇总NEW955/1263、UNREACH5/10、PEND0/1。重跑本席r2三项真实调用oracle仍3/3绿，包括当前默认参数/无pages有behaviors/双target一次通知。分类算术不是对全部NEW可达的额外承诺。
   - **C3及勘误通过**：A03现钉两值全写入后命令级恰一次通知，与`:150-151,:293-294`及真实runner一致。B04新针确切唯一位于`:85`，只将冻结readText包装换成original.readText；本席独立正控验证同一缓存的JSON/text值与seal门，正常1/1绿，单点突变1个自身AssertionError红（`allowed`≠`rejected`，非异常/超时假红）；同一新突变下既有snapshot5项仍全绿，证明与旧切片合同不同。旧切片归已有证据、F03归fast输入解耦均正确。`:85/:87`包装、`:88-89`urlFor、`:76`复核、`:81`切片、`:150-151`循环、`:247`调用、`:170`AbortError/`:158`取session与78/47局部余数均已按源码纠正，不再返工这些项。
   - **C2部分通过**：逐模块45条`dedupTitles`确实与`d4703cdf`逐字一致，25测试/9fixture/2工具三个路径数组也深相等；源码/旧测试/原probe/配置/官方基线零diff。此“恢复到v1”的机械要求已完成，不要求重新选白名单或再对算960/1274。
@@ -263,6 +270,8 @@ Production Freeze: `57dda7ed2376fc25f07756be117bb4a058d09915`
 - done准入结论：blocked。
 
 ## 交接日志
+
+- 2026-09-22 Codex（v4独立复核）：bfb4f522的20族表/80实际标题/5套件分文件计数核对通过，r3映射/计数/六针/白名单零漂移，C04/E04与旧测试差异成立。C2仅余A05错误去重：所引取消case实际hideEntity/removeEntity，不消费moveEntity提交控制；正常移动case不证明取消窗。签premise verified/design counter，返工仅这一行和回执归因，不重开其余已闭环项。先形成独立结论，再保留同步来的f1d6a0db Kimi accept；仅写本人区，不改他席/共享状态，不开build。此次不跑全仓或覆盖率。Next：GLM定点勘误A05后同候选窄复核。
 
 - 2026-09-22 Kimi（v4 独立复核）：对 bfb4f522 签 accept，r3 的 C2 残项全部闭合。机算核对：
   familyTable 20 行覆盖全部 25 个 NEW 族无缺失；80 条 dedupTitles 全唯一；r3 映射/负控/
