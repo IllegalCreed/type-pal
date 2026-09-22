@@ -379,7 +379,23 @@ Production Freeze: `57dda7ed2376fc25f07756be117bb4a058d09915`
 本阶段可读源码/旧测试/真实来源、跑既有定向并做隔离取证；不得改packages、正式测试、原probe、官方baseline/config/排除/超时、真实data/projects或模拟器UI；不操作浏览器/做视觉。不得checkout主工作树或恢复stash。
 准备完请落自己有一手锚点的premise/design或counter，并提交推送；不改共享状态，不代签，不标build/done。给Codex和Kimi两份钉同一准备候选的并行设计审查提示词。等三席齐且Codex核build allowed后，在同一父卡/分支按六组各一提交连续实现，最终整包交Codex；严格执行自检清单和工作包验收，GLM不跑官方ratchet/strict-fast。不要每组停下询问继续，也不要绕过设计门。
 
-## v4 修订候选并行复核提示词（钉 bfb4f522；下方 r3/38dd1fe1/d4703cdf 版保留历史）
+## v5 窄复核提示词（钉 ae1ae8b6；仅确认 A05 归因；下方 v4/r3/历史版保留）
+
+### 给Codex（窄复核A05）
+
+```text
+在 /Users/zhangxu/illegal/type-pal 窄复核 TEST-NONVISUAL-COVERAGE-2 v5，卡 docs/ops/tasks/TEST-NONVISUAL-COVERAGE-2-six-domain-boundaries.md（draft），分支 codex/glm-coverage-wave2 提交 ae1ae8b6（worktree /Users/zhangxu/illegal/type-pal-glm-wave2），仅针对你 29b1a56b 的 A05 归因残项。
+先同步/核工作树，读你的 v4 结论与机账 v5（glm-coverage-wave2-results.json schemaVersion 5）familyTable A05 行及回执 v5 附节。只核：① 标题已补齐末尾 leaf（abort before commit writes nothing; abort after commit prevents the next leaf）；② 已证范围收窄为「当前 host 转交 move 提交控制的正常路径」一条、生命周期取消证据（hideEntity/removeEntity）单列且不再冒充 moveEntity；③ 「移动提交窗口两臂已证」已在机账/回执/席位撤回，移动提交前/后取消与会话漂移（script-project-core.ts:157-184）保留原 A05 NEW 冻结定位；④ git diff bfb4f522..ae1ae8b6 应仅三准备文件、其余 19 行/80 标题/映射/六针/白名单零变化。确认后在本人席位签 accept 或列残项并写日志提交推送；不改GLM文件/共享状态、不代签；三席齐后统一核 build allowed。
+```
+
+### 给Kimi（窄复核A05）
+
+```text
+在 /Users/zhangxu/illegal/type-pal 窄复核 TEST-NONVISUAL-COVERAGE-2 v5，卡 docs/ops/tasks/TEST-NONVISUAL-COVERAGE-2-six-domain-boundaries.md（draft），分支 codex/glm-coverage-wave2 提交 ae1ae8b6（worktree /Users/zhangxu/illegal/type-pal-glm-wave2），仅针对 Codex 29b1a56b 指出的 A05 归因残项；不读或复述 Codex 本轮结论。
+独立核：① runtime-script-project.test.ts 两测试的实际命令集（AST 或逐行读）与机账 v5 A05 行的已证/单列归属是否一致；② 撤回表述在机账 differential、回执 v5 附节、GLM 席位三处一致且移动取消/会话漂移仍在 NEW 范围；③ 其余内容与 v4 零漂移（git diff bfb4f522..ae1ae8b6）。在本人席位签 accept 或带 file:line counter 并写日志提交推送；不改GLM文件/共享状态、不代签、不标build/done。
+```
+
+## v4 修订候选并行复核提示词（钉 bfb4f522；历史，已被 ae1ae8b6 窄复核版取代）
 
 ### 给Codex（复核v4）
 
