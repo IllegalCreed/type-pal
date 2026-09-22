@@ -5,34 +5,35 @@
  * trialId 首尾空白拒绝、percent 上界、装备槽未知键拒绝、skills.kind 无效拒绝与重复技能。
  */
 import { describe, expect, test } from 'vitest'
+import type { BattleTrialConfig } from './battle-trial-config.js'
 import {
   parseBattleTrialConfig,
   parseTrialEnemies,
   parseTrialMusic,
 } from './battle-trial-config.js'
-import type { BattleTrialConfig } from './battle-trial-config.js'
 
-const legalConfig = (): unknown => ({
-  party: {
-    members: [
-      {
-        actorId: 'hero',
-        stats: {},
-        equipment: {},
-        skills: { kind: 'inherit' },
-        hp: { kind: 'full' },
-        mp: { kind: 'full' },
-      },
-    ],
-  },
-  enemies: { kind: 'team', teamId: 'wolves' },
-  bag: { items: [] },
-  fieldId: 0,
-  music: { kind: 'default' },
-  money: 0,
-  auto: false,
-  boss: false,
-})
+const legalConfig = (): unknown =>
+  parseBattleTrialConfig({
+    party: {
+      members: [
+        {
+          actorId: 'hero',
+          stats: {},
+          equipment: {},
+          skills: { kind: 'inherit' },
+          hp: { kind: 'full' },
+          mp: { kind: 'full' },
+        },
+      ],
+    },
+    enemies: { kind: 'team', teamId: 'wolves' },
+    bag: { items: [] },
+    fieldId: 0,
+    music: { kind: 'default' },
+    money: 0,
+    auto: false,
+    boss: false,
+  })
 
 describe('W2-B B01 trial-config 剩余拒绝臂', () => {
   test('trialObject 拒绝非普通 JSON 对象（原型链实例）', () => {

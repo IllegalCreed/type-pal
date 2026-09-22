@@ -5,103 +5,37 @@
  * previewBattleTrialParty 与 prepareBattleTrial 的 applyTrialParty 覆写/null 脱装/技能替换/
  * HP/MP 池应用（B05 的 prepare 单臂）。
  */
-import type { ActorDef, EnemyDef, EnemyTeamDef } from '@type-pal/content'
 import { describe, expect, test } from 'vitest'
-import type { BattleTrialConfig, TrialPool } from './battle-trial-config.js'
+import {
+  trialActor as actor,
+  trialCatalogFixture as catalog,
+  trialConfig as config,
+  trialMember as member,
+} from './__tests__/coverage-wave2/b-trial-catalog.js'
+import type { TrialPool } from './battle-trial-config.js'
 import { collectBattleTrialIssues, previewBattleTrialParty } from './battle-trial-prepare.js'
-import type { TrialCatalog } from './battle-trial-prepare.js'
-
-const battler = (maxHP: number, maxMP: number, initialMagic: string[] = []) => ({
-  baseStats: { level: 1, maxHP, maxMP, attack: 10, defense: 5, speed: 3, luck: 2 },
-  initialEquipment: {},
-  initialMagic,
-})
-const actor = (maxHP: number, maxMP: number, initialMagic: string[] = []): ActorDef =>
-  ({
-    id: 'hero',
-    name: 'Hero',
-    template: 'hero',
-    battler: battler(maxHP, maxMP, initialMagic),
-  }) as unknown as ActorDef
-
-const catalog = (): TrialCatalog => ({
-  actorsById: { hero: actor(100, 50, ['fire']) },
-  skills: { fire: {} as never, ice: {} as never },
-  items: {
-    sword: { equip: { slot: 'weapon', equipableBy: ['hero'], effects: [] } } as never,
-    cursed: {
-      equip: { slot: 'weapon', equipableBy: ['other'], effects: [] },
-    } as never,
-    maxpool: {
-      equip: {
-        slot: 'weapon',
-        equipableBy: ['hero'],
-        effects: [{ kind: 'maxPool' } as never],
-      },
-    } as never,
-    ghostSkill: {
-      equip: {
-        slot: 'weapon',
-        equipableBy: ['hero'],
-        effects: [{ kind: 'grantSkill', skillId: 'missing-skill' } as never],
-      },
-    } as never,
-  },
-  enemiesById: { slime: { id: 'slime' } as unknown as EnemyDef },
-  enemyTeamsById: {
-    wolves: { id: 'wolves', slots: ['slime', null, null, null, null] } as unknown as EnemyTeamDef,
-    empty: { id: 'empty', slots: [null, null, null, null, null] } as unknown as EnemyTeamDef,
-  },
-  battleFields: [{ id: 0 } as never],
-  assetCatalog: { version: 1, assets: {} } as never,
-})
-
-const member = (overrides: Record<string, unknown> = {}): Record<string, unknown> => ({
-  actorId: 'hero',
-  stats: {},
-  equipment: {},
-  skills: { kind: 'inherit' },
-  hp: { kind: 'full' },
-  mp: { kind: 'full' },
-  ...overrides,
-})
-
-const config = (
-  party: Record<string, unknown>[],
-  extra: Record<string, unknown> = {},
-): unknown => ({
-  party: { members: party },
-  enemies: { kind: 'team', teamId: 'wolves' },
-  bag: { items: [] },
-  fieldId: 0,
-  music: { kind: 'default' },
-  money: 0,
-  auto: false,
-  boss: false,
-  ...extra,
-})
 
 describe('W2-B B02 collectBattleTrialIssues 剩余定位臂', () => {
   test('悬空战场/角色/技能/敌队/背包逐条带 path 定位；不静默换候选', () => {
     const issues = collectBattleTrialIssues(
-      config([member({ actorId: 'ghost' })], { fieldId: 99 }) as never,
+      config([member({ actorId: 'ghost' })], { fieldId: 99 }),
       catalog(),
     )
     const paths = issues.filter((issue) => issue.severity === 'error').map((issue) => issue.path)
     expect(paths).toContain('fieldId')
     expect(paths).toContain('party.members[0].actorId')
     const badSkill = collectBattleTrialIssues(
-      config([member({ skills: { kind: 'replace', ids: ['ghost-skill'] } })]) as never,
+      config([member({ skills: { kind: 'replace', ids: ['ghost-skill'] } })]),
       catalog(),
     )
     expect(badSkill.map((issue) => issue.path)).toContain('party.members[0].skills')
     const badTeam = collectBattleTrialIssues(
-      config([member()], { enemies: { kind: 'team', teamId: 'ghost-team' } }) as never,
+      config([member()], { enemies: { kind: 'team', teamId: 'ghost-team' } }),
       catalog(),
     )
     expect(badTeam.map((issue) => issue.path)).toContain('enemies')
     const badBag = collectBattleTrialIssues(
-      config([member()], { bag: { items: [{ itemId: 'ghost-item', quantity: 1 }] } }) as never,
+      config([member()], { bag: { items: [{ itemId: 'ghost-item', quantity: 1 }] } }),
       catalog(),
     )
     expect(badBag.map((issue) => issue.path)).toContain('bag.items[0]')
@@ -109,46 +43,53 @@ describe('W2-B B02 collectBattleTrialIssues 剩余定位臂', () => {
 
   test('maxHP/maxMP 无效与 value 超上限、全员 HP0 各自定位', () => {
     const zeroHpPool = { kind: 'value', value: 0 } as TrialPool
-    const allDown = collectBattleTrialIssues(
-      config([member({ hp: zeroHpPool })]) as never,
-      catalog(),
-    )
+    const allDown = collectBattleTrialIssues(config([member({ hp: zeroHpPool })]), catalog())
     expect(allDown.map((issue) => issue.message)).toContain('我方必须至少有一名体力大于0的队员')
     const overMp = collectBattleTrialIssues(
-      config([member({ mp: { kind: 'value', value: 51 } })]) as never,
+      config([member({ mp: { kind: 'value', value: 51 } })]),
       catalog(),
     )
     expect(overMp.map((issue) => issue.path)).toContain('party.members[0].mp')
     expect(overMp.map((issue) => issue.message)).toContain('当前值 51 超过最大值 50')
     const badMax = catalog()
     badMax.actorsById.hero = actor(0, 50)
-    const issues = collectBattleTrialIssues(config([member()]) as never, badMax)
+    const issues = collectBattleTrialIssues(config([member()]), badMax)
     expect(issues.map((issue) => issue.path)).toContain('party.members[0].stats')
     expect(issues.map((issue) => issue.message)).toContain('hero 的最大体力无效')
   })
 
   test('装备槽位/可穿者不符与 grantSkill 悬空定位；maxPool 呈 warning 不阻断', () => {
     const wrongSlot = collectBattleTrialIssues(
-      config([member({ equipment: { head: 'sword' } })]) as never,
+      config([member({ equipment: { head: 'sword' } })]),
       catalog(),
     )
     expect(wrongSlot.map((issue) => issue.path)).toContain('party.members[0].equipment.head')
     const notWearable = collectBattleTrialIssues(
-      config([member({ equipment: { weapon: 'cursed' } })]) as never,
+      config([member({ equipment: { weapon: 'cursed' } })]),
       catalog(),
     )
     expect(notWearable.map((issue) => issue.message)).toContain(
       '角色 hero 不能在 weapon 穿戴 cursed',
     )
+    const brokenGrant = catalog()
+    expect(
+      collectBattleTrialIssues(
+        config([member({ equipment: { weapon: 'ghostSkill' } })]),
+        brokenGrant,
+      ),
+    ).toEqual([])
+    brokenGrant.items.ghostSkill!.equip!.effects = [
+      { kind: 'grantSkill', skillId: 'missing-skill' },
+    ]
     const grantGhost = collectBattleTrialIssues(
-      config([member({ equipment: { weapon: 'ghostSkill' } })]) as never,
-      catalog(),
+      config([member({ equipment: { weapon: 'ghostSkill' } })]),
+      brokenGrant,
     )
     expect(grantGhost.map((issue) => issue.message)).toContain(
       '装备授予的技能 missing-skill 不存在',
     )
     const maxPoolWarn = collectBattleTrialIssues(
-      config([member({ equipment: { weapon: 'maxpool' } })]) as never,
+      config([member({ equipment: { weapon: 'maxpool' } })]),
       catalog(),
     )
     expect(maxPoolWarn.map((issue) => issue.severity)).toContain('warning')
@@ -161,14 +102,14 @@ describe('W2-B B02 collectBattleTrialIssues 剩余定位臂', () => {
 
   test('敌队五槽：空敌队/悬空敌人/越界槽位各自定位', () => {
     const emptyTeam = collectBattleTrialIssues(
-      config([member()], { enemies: { kind: 'team', teamId: 'empty' } }) as never,
+      config([member()], { enemies: { kind: 'team', teamId: 'empty' } }),
       catalog(),
     )
     expect(emptyTeam.map((issue) => issue.message)).toContain('请至少选择一个敌人，空敌队不能试打')
     const slots = collectBattleTrialIssues(
       config([member()], {
         enemies: { kind: 'slots', slots: ['ghost', null, null, null, null] },
-      }) as never,
+      }),
       catalog(),
     )
     expect(slots.map((issue) => issue.path)).toContain('enemies.slots[0]')
@@ -192,7 +133,7 @@ describe('W2-B B02 previewBattleTrialParty', () => {
             skills: { kind: 'replace', ids: ['ice'] },
             hp: { kind: 'value', value: 77 },
             mp: { kind: 'percent', value: 50 },
-          }) as never,
+          }),
         ],
       },
       catalog(),
@@ -206,7 +147,7 @@ describe('W2-B B02 previewBattleTrialParty', () => {
   })
 
   test('同输入多次 preview 互不别名：两次输出的 players 数值独立', () => {
-    const party = { members: [member({ hp: { kind: 'value', value: 33 } })] } as never
+    const party = { members: [member({ hp: { kind: 'value', value: 33 } })] }
     const a = previewBattleTrialParty(party, catalog())
     const b = previewBattleTrialParty(party, catalog())
     expect(a[0]!.hp).toBe(b[0]!.hp)

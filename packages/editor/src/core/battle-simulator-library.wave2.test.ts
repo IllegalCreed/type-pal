@@ -27,7 +27,7 @@ const libraryValue = (bags: unknown[]): Record<string, unknown> => ({
 })
 
 describe('W2-B B02 parseBattleSimulatorLibrary 剩余臂', () => {
-  test('records 空数组直通与未知字段拒绝（:29 臂为空数组默认调用方省略键）', () => {
+  test('显式空目录数组合法且未知字段拒绝，不宣称省略目录可默认', () => {
     const minimal = {
       kind: 'type-pal-battle-simulator',
       version: 1,
@@ -57,7 +57,6 @@ describe('W2-B B02 parseBattleSimulatorLibrary 剩余臂', () => {
     const badDescription = libraryValue([{ ...legalRecord('b1'), description: 7 }])
     expect(() => parseBattleSimulatorLibrary(badDescription)).toThrow('期望说明文本')
     const badId = libraryValue([{ ...legalRecord('  b1  ') }])
-    expect(() => parseBattleSimulatorLibrary(badDescription)).toThrow()
     expect(() => parseBattleSimulatorLibrary(badId)).toThrow('无首尾空白')
   })
 
