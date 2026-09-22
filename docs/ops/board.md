@@ -25,7 +25,7 @@ GLM后续补测候选见[十批长队列](../testing/glm-coverage-work-queue.md)
 
 | ID | 任务 | 状态 | 负责人/下一步 | 一句话备注 |
 |---|---|---|---|---|
-| TEST-NONVISUAL-COVERAGE-2 | [六领域非视觉测试覆盖率第二波](tasks/TEST-NONVISUAL-COVERAGE-2-six-domain-boundaries.md) | build | Codex接手GLM额度代班：复验A/B、完成C→F，整包交Kimi | v5设计保持；GLM两笔贡献保留待复验；仅非视觉补测，最终缺签不默认豁免；冻结7538与主线7627扣重 |
+| TEST-NONVISUAL-COVERAGE-2 | [六领域非视觉测试覆盖率第二波](tasks/TEST-NONVISUAL-COVERAGE-2-six-domain-boundaries.md) | review | Kimi独立终审27bd8c00；Codex负责返工/最终收口 | Codex代班163项/17针，check8281与单次strict7790通过；GLM原贡献披露、缺席验收未豁免；whole-file未达项交账，不标done |
 
 2026-09-21 [迁移规划快照与二进制路径保护](../testing/migration-write-guard.md)候选57dda7ed三席accept齐（Codex实现者自验、GLM6ca25cf6、Kimiafb05943），用户授权后Codex核零漂移并done归档；A-08/A-09按r1关闭。check8029/strict7538、五负控、隔离发布双跑及远端#286为既有证据，本次仅文档收口；E-05/U-02/N6b/Q2与单writer等边界保持。
 

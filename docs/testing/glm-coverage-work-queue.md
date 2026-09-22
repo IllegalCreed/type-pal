@@ -6,6 +6,11 @@
 
 ## 一眼看懂安排
 
+2026-09-22当前交付：[第二波六组](glm-coverage-wave2-receipt.md)已由Codex接替额度耗尽的GLM，
+保留并修正其A/B贡献、完成C～F；候选27bd8c00共163项，check8281/ratchet/单次strict7790通过，
+状态review等Kimi独立终审，GLM最终席位未豁免。未达whole-file目标和无现行caller等残项单列；
+不重复领取已交内容，不将本地通过冒充done。
+
 2026-09-22批次节奏补充：用户要求一次多补再统一统计。Codex后续以5～8相关模块/完整业务域成批推进，
 本轮content的actor-condition、project-map、battle-sprite、rewards、runtime-script、scene-index六模块
 已完成[77项整批补测](codex-content-boundaries.md)（均不在GLM第二波目标源码清单）：13负控、check8118、
