@@ -67,7 +67,15 @@ Production Freeze: `57dda7ed2376fc25f07756be117bb4a058d09915`
 
 ### build前
 
-- Codex：**r2维持 premise counter / design counter（2026-09-22；准备候选38dd1fe1，接手HEAD c6581443；两准备文件相对38dd1fe1零diff）**。机械展开已通过，阻断收窄为下列C1～C3；未改他席/GLM文件/共享状态，不开build。
+- Codex：**r3 premise verified / design counter（仅C2残项；2026-09-22，候选33a7a034，接手5429feb8）**。C1、C3、确切白名单及勘误已闭环；本席只写签字/日志，不改他席、GLM准备文件或共享状态，仍不开放build。
+  - **C1通过**：本席独立重放`rules`及精确arm例外（同时核例外定位存在且无孤儿），25模块源码hash/960行1274臂完整唯一归属、逐模块generatedCounts/generatedTotals/summary均一致。r2→r3恰好四个分支改桶：runtime `[40,8,0]`与migrate `[96,0,0]/[98,1,0]/[211,28,0]`归NEW；仅`[211,28,1]`留PEND。另23模块四维分类计数不变；汇总NEW955/1263、UNREACH5/10、PEND0/1。重跑本席r2三项真实调用oracle仍3/3绿，包括当前默认参数/无pages有behaviors/双target一次通知。分类算术不是对全部NEW可达的额外承诺。
+  - **C3及勘误通过**：A03现钉两值全写入后命令级恰一次通知，与`:150-151,:293-294`及真实runner一致。B04新针确切唯一位于`:85`，只将冻结readText包装换成original.readText；本席独立正控验证同一缓存的JSON/text值与seal门，正常1/1绿，单点突变1个自身AssertionError红（`allowed`≠`rejected`，非异常/超时假红）；同一新突变下既有snapshot5项仍全绿，证明与旧切片合同不同。旧切片归已有证据、F03归fast输入解耦均正确。`:85/:87`包装、`:88-89`urlFor、`:76`复核、`:81`切片、`:150-151`循环、`:247`调用、`:170`AbortError/`:158`取session与78/47局部余数均已按源码纠正，不再返工这些项。
+  - **C2部分通过**：逐模块45条`dedupTitles`确实与`d4703cdf`逐字一致，25测试/9fixture/2工具三个路径数组也深相等；源码/旧测试/原probe/配置/官方基线零diff。此“恢复到v1”的机械要求已完成，不要求重新选白名单或再对算960/1274。
+  - **唯一剩余counter：C2逐族合同仍不完整**。`glm-coverage-wave2-results.json:2007-2063`的familyTable只有11行，展开组合族后，已拥有NEW定位的 **A05/B01/B02/B03/C03/C04/C05/E03/E04** 九族没有条目。它们既没有明确引用另一个族的合同，也没有被标成不实施；不能用“每族已给合法fixture/差异断言”的结论授权整包。请补这九族的实际构造器/guard、旧测试文件与精确标题、一个具体保留新增结果或输入解耦差异；可明确引用已有工作包的具体段落，不需要复制所有定位或增加文件。
+    同时，回执`:33`的“45条精确旧标题”不符合当前内容：本席AST核仓内测试调用，40条有对应真实标题；其余5条是套件提示——机账`:616`（snapshot5项）、`:709`（simulator UI十项）、`:973`（**实施前核对frame-animation-draft标题清单**）、`:1108`（project-reference两文件主键族）、`:1896`（casualty5项）。这些引用文件可用，不等于已经列明旧合同；尤其C03/C04仍保留“实施前核对”，又缺familyTable条目，正是本轮准备应完成的去重。请把提示转为明确的suite/file引用并补适用精确标题/差异，或直接展开标题；回执区分“引用条目数/精确标题数”，不要强凑45。既有40条标题与已闭环C1/C3无需重开。本席不要求把已有full-only合同误报成新增业务。
+  - **验证与边界**：`/tmp/type-pal-wave2-r3-review-Xpc49w/replay.mjs`及`replay.json`保存逐定位差分、标题AST核验、缺族与白名单比对；`snapshot.test.ts`+`vitest.config.mts`的`new-control.json/new-mutant.json/old-mutant.json`分别1绿/1业务红/旧5绿。重跑r2oracle见`old-oracle-rerun.log`；check:docs（20工具测试、492文档/2677链接/166卡）与JSON Biome均exit0。只在/tmp出报告，未跑官方覆盖率。复算脚本初版曾用JSON键顺序比较误报第三模块变化，已改对象深相等后确认23不变，不是候选缺陷。旧版本兼容审查：pass（准备范围），历史显式translator/false继续排除，当前默认臂已正确保留。
+  - **下一位Agent提示词（给GLM，r3仅余C2）**：在 `/Users/zhangxu/illegal/type-pal-glm-wave2` 同步`codex/glm-coverage-wave2`，读AGENTS/CLAUDE/READ-FIRST及本卡Codex r3结论。只补机账familyTable遗漏的A05/B01/B02/B03/C03/C04/C05/E03/E04九族，逐族给真实构造器/guard、旧测试文件/精确标题、具体新增差异或fast解耦；明确处理5条套件/待核提示（尤其frame draft），不再把45引用条目全称精确标题。不重选25+9+2白名单，不重做已通过四臂映射、23模块计数、A03通知、B04新针/F03归属或勘误。只改本人准备文件/席位/日志，保留他席原文，不改产品/正式测试/冻结清单/官方配置基线/共享状态，不实施、不代签、不标build/done。提交后给Codex/Kimi钉同一修订候选的复核提示词，由Codex统一核build；缺族补齐前不按整包开工。
+  - **r2历史签字原文**：**r2维持 premise counter / design counter（2026-09-22；准备候选38dd1fe1，接手HEAD c6581443；两准备文件相对38dd1fe1零diff）**。机械展开已通过，阻断收窄为下列C1～C3；未改他席/GLM文件/共享状态，不开build。
   - **已闭环、无需重做**：本席独立逐定位求交，25模块源码hash、960L/1274B集合、唯一归属、逐模块generatedCounts/generatedTotals全部相等；确实复算得到NEW955/1259、UNREACH5/11、PEND0/4。生产SHA已更正、editor12/fixture9计数与r1实际清单一致、vanish禁用域3L/6B正确、script-world两函数锚已纠正，author-core所列四文件的现行caller真实存在；D03改用generation实参、E01改0..100、F03分栏谓词方向成立。census原7538报告核验、check:docs（20工具测试/492文档/2679链接）与JSON Biome均exit0；产品/原测试/配置/官方基线零diff。这里确认的是映射算术，不把955/1259当全部合法可达或承诺提升。
   - **C1｜四个臂的分类有直接运行反证（R2/R3残项）**：
     - `glm-coverage-wave2-results.json:1636-1648`把validate-runtime五臂全列UNREACH，包含`[40,8,0]`；实际`:40-41`是**无pages但有behaviors**的合法实体分支。独立fixture用合法stages/wait，经真实`validateBaseScenes`与`validateRuntimeScenes`均通过；隔离V8报告`BRDA:40,8,0,1`。该臂须归NEW。**本席同时纠正r1自身过宽结论**：当时坏数组/坏entity的先拒证据不能证明整文件5臂均不可达；`:24`也是旧顶层hook字段拒绝，不是entities数组检查，其前置拒绝实际在`validate.ts:356-359`。原r1文本保留历史，当前不得继续据此把`:40`排除。
@@ -192,6 +200,8 @@ Production Freeze: `57dda7ed2376fc25f07756be117bb4a058d09915`
 - done准入结论：blocked。
 
 ## 交接日志
+
+- 2026-09-22 Codex（r3独立复核）：33a7a034准备文件相对接手5429feb8零漂移。独立重放确认仅指定四臂改桶、23模块计数不变、NEW955/1263等汇总正确；45引用与v1逐字一致，确切25+9+2数组恢复；A03一次通知及勘误正确。新readText针正常1绿/坏实现1业务红/同针下旧5绿，C1/C3关闭。只保留C2：familyTable遗漏九个有NEW定位的族，45条中5条为套件/待核提示而非精确标题；补齐具体去重差异即可，不重开已过部分。本人premise verified/design counter，未改他席/共享状态，不开放build。Next：GLM定点补C2后同候选复核。
 
 - 2026-09-22 GLM（r3 修订稿）：按 Codex r2 counter cec14f05 C1～C3 完成准备稿二次返工（保留三席
   原文/日志，r2 签字原文嵌本人席位历史段）：C1 四臂逐 arm 纠正+branchArmExceptions 扩展，
