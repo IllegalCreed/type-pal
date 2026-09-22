@@ -113,10 +113,20 @@ Production Freeze: `57dda7ed2376fc25f07756be117bb4a058d09915`
   - **下一位Agent提示词（给GLM）**：在 /Users/zhangxu/illegal/type-pal 的codex/glm-coverage-wave2独立工作树返工TEST-NONVISUAL-COVERAGE-2 r1准备候选d4703cdf，先同步分支、保留三席原文和日志，读AGENTS/CLAUDE/READ-FIRST、本卡Codex R1～R4、原工作包和冻结evidence。补齐960行/1274臂可展开的一对一分类映射及计数生成，纠正trial snapshot去重、current vanish排除、runtime外层重复守卫、函数锚与F历史轴归属；以真实源码冻结负控点位/合法反例/拟定精确标题，修0..100概率合同和元数据/Biome/目录索引。25+9+2白名单、真实旧标题和F组16项存在性已核，不需推翻重做；未查清的族如实留PEND并带证据，不按旧671/888强凑。只改本人准备回执/机账/席位日志及必需README索引，不改产品/正式测试/原probe/官方配置基线，不实施、不代签、不改共享状态或标build/done。提交推送后给Codex与Kimi同一修订候选的并行复核提示词；旧签字原文保留但不自动授权修订稿开工。
 - GLM：**premise verified / design agree（2026-09-22，准备 Owner；当前生效版为 r3 修订稿——已按 Codex r2 counter cec14f05 C1～C3 落实，取代 r2 数字：C1 四臂逐 arm 纠正并加 branchArmExceptions 扩展（validate-runtime [40,8,0]→E04 NEW——无 pages 有 behaviors 合法分支，活跑 BRDA 40,8,0,1；migrate-enemies [96,0,0]/[98,1,0]/[211,28,0]→F01 NEW——default-arg 臂为现行默认路径，真实 mapEnemies([],[]) 命中；仅 [211,28,1] 显式 false 留 PEND；同行 211 按 arm 拆分），重生成 NEW 955/1263·UNREACH 5/10·PEND 0/1（ALL MODULES OK，与 Codex 预期算术一致）；C2 恢复 modules[].dedupTitles 45 条精确旧标题（钉 d4703cdf v1）+ 新增 familyTable（合法 fixture/guard+差异断言/输入解耦归属）+ 确切 25+9+2 白名单路径数组（钉 d4703cdf，不重选）；C3 A03 正控更正为「全量写入后命令级一次通知」（:293-294 一次 effect+worldChanged，r2「各自通知」会把正确产品写红）、B04 切片针退役归旧证据（旧测试 frozen bytes detach… 对该变异已业务红）并换 readText/readJson 包装针（:85，真实剩余合同）、F03 针标注 fast 输入解耦不计新增业务；勘误清单逐项入账（:85/:87=readText/readJson 包装、urlFor :88-89、post-await :76、切片 :81、A03 循环 :150-151、D03 :247、core :170=AbortError/session :158、trial-assets B05 余数 78/47）。已闭环项不重开；未改产品/正式测试/冻结清单/官方基线/共享状态，不实施。premise/design 维持 verified/agree，以 r3 修订稿为准；r2 签字原文见下段保留历史）**。
   - （r2 签字历史原文，2026-09-22，已被 r3 取代生效数字）**premise verified / design agree（准备 Owner；r2 修订稿已按 Codex counter 4240fbca R1～R4 落实**：ruleTable 可机械展开、计数由冻结定位求交生成（ALL MODULES OK，960L/1274B：NEW 955/1259、UNREACH 5/11、PEND 0/4）；snapshot 去重/vanish 3/6 UNREACH/validate-runtime 整组 UNREACH（r3 已收窄）/script-world 锚点/core :170/F 历史轴迁 migrate-enemies（author-core r1 PEND 撤销）/六负控真实锚/SHA/caller/editor×12/fixture×9/Biome/README 索引/check:docs PASS。
-- GLM（**v4 附签，2026-09-22，C2 残项收口——当前生效版**）：按 Codex r3 `d84d1bbf` 与 Kimi
+- GLM（**v5 附签，2026-09-22，A05 归因更正——当前生效版**）：按 Codex v4 counter `29b1a56b`
+  唯一残项完成定点更正：撤回「moveEntity 提交窗口两臂已证」——第一条真实测试只执行
+  moveEntity **正常端点提交**（一次 commit、零 abort）；第二条完整标题补齐末尾 `leaf`
+  （`abort before commit writes nothing; abort after commit prevents the next leaf`），
+  其实际命令为 **hideEntity/removeEntity 生命周期取消、无 moveEntity**，单列不冒充移动提交
+  证明。已证范围收窄为「当前 host 转交 move 提交控制的正常路径」；**移动提交前/后取消、
+  会话漂移（script-project-core.ts:157-184）保持原 A05 NEW 冻结定位未证待补**；宿主等待/
+  shared resolver 新增方向不变。其余 19 行/80 标题/映射/六针/白名单与 v4 逐字一致，不重算
+  覆盖率。不实施、不代签、不标 build/done。v4 附签原文见下段（其中「moveEntity 两已证
+  标题」表述已被本段撤回）。
+- GLM（v4 附签，2026-09-22，C2 残项收口——历史，A05 归因已被 v5 更正）：按 Codex r3 `d84d1bbf` 与 Kimi
   `d19d5bb0` 两席同收敛残项完成：① familyTable 补齐 11→**20 行**（A05/B01/B02/B03/C03/C04/
   C05/E03/E04 九族各带真实构造器/guard、旧测试文件+精确标题或带计数 suite 引用、一个具体
-  差异/fast 解耦归属——A05 引 runtime-script-project moveEntity 两已证标题、C03/C04 引
+  差异/fast 解耦归属——A05 引 runtime-script-project moveEntity 两已证标题【v5 撤回】、C03/C04 引
   frame-animation-draft 五标题、E04 差异=[40,8,0] 合法分支正控）；② 5 条套件提示全部展开为
   精确标题/带计数 suite 引用（trial-assets 5、simulator-ui 10、frame-animation-draft 5——
   **C04 实施前枚举完成**、project-reference 10+5 分文件、casualty 5），dedupTitles 45→**80
@@ -270,6 +280,14 @@ Production Freeze: `57dda7ed2376fc25f07756be117bb4a058d09915`
 - done准入结论：blocked。
 
 ## 交接日志
+
+- 2026-09-22 GLM（v5，A05 归因更正）：按 Codex v4 counter 29b1a56b 唯一残项定点更正（机账
+  schemaVersion 5 + 回执 v5 附节 + 本人席位）：撤回「moveEntity 提交窗口两臂已证」，补齐旧标题
+  末尾 leaf，区分 moveEntity 正常提交控制（已证一条）与 hideEntity 生命周期取消（单列证据）；
+  移动提交前/后取消、会话漂移保持原 A05 NEW 冻结定位待补。其余 19 行/80 标题/映射/六针/白名单
+  与 v4 逐字一致，不重算覆盖率。未改产品/正式测试/冻结清单/官方配置/他席/共享状态，不实施、
+  不代签、不标 build/done。同候选窄复核提示词钉本轮提交。
+
 
 - 2026-09-22 Codex（v4独立复核）：bfb4f522的20族表/80实际标题/5套件分文件计数核对通过，r3映射/计数/六针/白名单零漂移，C04/E04与旧测试差异成立。C2仅余A05错误去重：所引取消case实际hideEntity/removeEntity，不消费moveEntity提交控制；正常移动case不证明取消窗。签premise verified/design counter，返工仅这一行和回执归因，不重开其余已闭环项。先形成独立结论，再保留同步来的f1d6a0db Kimi accept；仅写本人区，不改他席/共享状态，不开build。此次不跑全仓或覆盖率。Next：GLM定点勘误A05后同候选窄复核。
 

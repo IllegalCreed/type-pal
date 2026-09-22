@@ -88,8 +88,14 @@ NEW 955/1263、UNREACH 5/10（vanish 3/6 + validate-runtime 2/4）、PEND 0/1（
 
 - **familyTable 补齐 11→20 行**：新增 A05/B01/B02/B03/C03/C04/C05/E03/E04 九族，每族给出
   真实构造器/guard、旧测试文件+精确标题（或带计数的 suite 引用）与一个具体保留新增差异/
-  fast 解耦归属（机账 `familyTable`）。要点：A05 引 runtime-script-project 已证 moveEntity
-  提交窗两标题，差异=宿主等待方法体与 shared resolver 臂；C03/C04 引 frame-animation-draft
+  fast 解耦归属（机账 `familyTable`）。要点：A05 **已证范围仅「当前 host 转交 moveEntity
+  提交控制的正常路径」一条**（`retained moveEntity forwards the endpoint commit control…`
+  ——一次 commit、零 abort）；v4 曾写「moveEntity 提交窗口两臂已证」**已撤回**（据 Codex
+  AST 复核：第二条 `abort before commit writes nothing; abort after commit prevents the
+  next leaf` 的实际命令是 hideEntity/removeEntity 生命周期取消，无 moveEntity，不能证明
+  `script-project-core.ts:157-184` 的移动取消/会话漂移）——**移动提交前/后取消与会话漂移
+  保持原 A05 NEW 范围未证待补**；宿主等待方法体与 shared resolver 臂的新增方向保留；
+  C03/C04 引 frame-animation-draft
   五精确标题，差异=IO 边界/时长合同与历史分支臂；E04 差异=[40,8,0] 无 pages 有 behaviors
   合法分支正控。
 - **5 条套件提示全部展开**（机账 `dedupTitles` 现 80 条=40 原精确+40 展开）：trial-assets
@@ -100,3 +106,14 @@ NEW 955/1263、UNREACH 5/10（vanish 3/6 + validate-runtime 2/4）、PEND 0/1（
   project-reference 10+5 分文件标题；casualty 5 精确标题。
 - 已闭环项不重开（映射算术/四臂纠正/A03 通知合同/B04 新针/F03 归属/勘误/40 条真实标题）；
   映射、计数、needles、白名单与 r3 完全一致未动。
+
+## v5 附节：A05 归因更正（Codex v4 counter 29b1a56b 唯一残项）
+
+- 撤回「moveEntity 提交窗口两臂已证」：第一条真实测试只执行 **moveEntity 正常端点提交**
+  （一次 commit、零 abort）；第二条完整标题为 `abort before commit writes nothing; abort
+  after commit prevents the next leaf`（v4 表中漏末尾 `leaf` 已补齐），其实际命令为
+  **hideEntity/removeEntity 生命周期取消，无 moveEntity**——不冒充移动提交窗证明。
+- 已证范围收窄为「当前 host 转交 move 提交控制的正常路径」；生命周期取消证据单列。
+  **真实未证**的移动提交前/后取消、会话漂移（`script-project-core.ts:157-184`）保持原
+  A05 NEW 冻结定位待补；宿主等待/shared resolver 新增方向不变。
+- 其余 19 行 familyTable、80 条标题/套件计数、映射、六针、白名单与 v4 逐字一致；不重算覆盖率。

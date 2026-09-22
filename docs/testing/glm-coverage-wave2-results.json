@@ -1,8 +1,8 @@
 {
-  "schemaVersion": 4,
-  "task": "TEST-NONVISUAL-COVERAGE-2 r1 preparation rework v4 (GLM; closes C2 residual per Codex r3 d84d1bbf + Kimi d19d5bb0)",
+  "schemaVersion": 5,
+  "task": "TEST-NONVISUAL-COVERAGE-2 r1 preparation rework v5 (GLM; narrows A05 evidence attribution per Codex v4 counter 29b1a56b)",
   "date": "2026-09-22",
-  "supersedes": "r3 (33a7a034). v4 completes familyTable to 20 rows (adds A05/B01/B02/B03/C03/C04/C05/E03/E04) and expands all 5 suite-hint dedupTitles into precise titles/suite refs with counts; mapping/totals/needles/whitelist unchanged",
+  "supersedes": "v4 (bfb4f522). v5 corrects ONLY the familyTable A05 row: completes the truncated title (…prevents the next leaf), separates moveEntity normal-commit evidence from the hideEntity lifecycle-cancellation test, retracts \"moveEntity 提交窗口两臂已证\"; untested move pre/post-commit cancel + session drift stay in the original A05 NEW scope. All other 19 rows / 80 titles / mapping / needles / whitelist are byte-identical to v4",
   "planningBase": "456feb12",
   "productionFreeze": "57dda7ed2376fc25f07756be117bb4a058d09915",
   "branch": "codex/glm-coverage-wave2",
@@ -2107,12 +2107,12 @@
       "family": "A05",
       "legalFixture": "真实 ScriptProjectRuntime + 经 current compiler 的 moveEntity/wait 命令（不 mock 宿主方法本体）",
       "oldTests": [
-        "packages/reforge/src/runtime-script-project.test.ts::retained moveEntity forwards the endpoint commit control through the current host",
-        "packages/reforge/src/runtime-script-project.test.ts::abort before commit writes nothing; abort after commit prevents the next",
+        "packages/reforge/src/runtime-script-project.test.ts::retained moveEntity forwards the endpoint commit control through the current host（已证范围仅此一条：moveEntity 正常端点提交控制——一次 commit、零 abort）",
+        "packages/reforge/src/runtime-script-project.test.ts::abort before commit writes nothing; abort after commit prevents the next leaf（生命周期取消证据：实际命令为 hideEntity/removeEntity，无 moveEntity——不冒充移动提交窗证明）",
         "packages/reforge/src/script-host-adapter.current-dispatch.test.ts::openShop 挂起时后续 leaf 不执行；resolve 后继续并收到同 signal",
         "packages/reforge/src/script-host-adapter.current-dispatch.test.ts::playVideo 拒绝 → 派发拒绝且错误原样传播；正常路径明确返回"
       ],
-      "differential": "moveEntity 提交窗口两臂已证；新增=宿主等待方法体（confirm/teleportOut/revealSceneEntry/wait/waitWorldTick/yieldMacroTask :297-345）真实结果与 shared resolver 调用臂 :372-450、尾部 :500-545（工作包 A05 段）"
+      "differential": "已证=当前 host 转交 move 提交控制的正常路径（v4 曾误写「moveEntity 提交窗口两臂已证」，据 Codex AST 复核撤回：第二条为 hideEntity 生命周期取消）；真实未证并保留原 A05 NEW 范围=moveEntity 提交前/提交后取消与会话漂移保护（script-project-core.ts:157-184）+宿主等待方法体（confirm/teleportOut/revealSceneEntry/wait/waitWorldTick/yieldMacroTask :297-345）+shared resolver 调用臂 :372-450 与尾部 :500-545（工作包 A05 段）"
     },
     {
       "family": "B01",
