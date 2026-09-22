@@ -50,6 +50,7 @@
 - [战斗模拟器r2首批冻结设计](battle-simulator-r2-design.md)（r2a首批已done；我方1～3人/敌方五槽，未获准的新入口不随收口开放）
 - [战斗模拟器r2实施记录](battle-simulator-implementation.md)与[配置/保存负控](battle-simulator-s1-mutants.mjs)（首批已done；主体check7895/strict7404、列宽定向22通过，原生选择器及其它边界仍披露）
 - [战斗模拟器自有工程功能宿主](battle-simulator-functional.mjs)（6011实际编辑器/真实战斗，不改PAL；仅开发期最小功能验证）
+- [编辑器功能视觉补证](editor-functional-visual-2026-09-22.md)（Codex短窗/键盘/错误恢复8项；启动区缺少就近错误说明，360及原生保存边界未关闭）
 - [战斗模拟器运行边界负控](battle-simulator-runtime-mutants.mjs)（人数、资源快照、迟到准入、存档快捷键、技能带入、音乐释放）
 - [第一阶段资源测试输入合同](phase1-resource-test-inputs.md)（E-01完成；20项隔离输入回归、真实资源对拍通过，check7478/严格fast6989绿）
 - [编辑器预览缓存连续修复](editor-preview-cache.md)（E-03/E-04完成；15项真实字节回归、7负控及原生绘制验证，check7457/严格fast6969通过）
