@@ -230,6 +230,27 @@ Production Freeze: `57dda7ed2376fc25f07756be117bb4a058d09915`
     官方配置 diff。
   - 结论说明：premise 层（缺口事实/映射算术/四臂可达性/负控方向）verified；counter 仅针对
     C2 准备完整性，九族合同与 5 条占位补齐前不授权整包 build。
+- Kimi（v4 复核）：**accept（2026-09-22，v4 修订候选 bfb4f522，C2 残项收口；全部核验本人独立执行，未读 Codex 本轮复核结论）**。
+  - **① 九族合同补齐**：familyTable 11→20 行，按区间展开实覆盖全部 25 个 NEW 族（机算核对
+    无缺失）；抽核 C03/C04——frame-animation-draft 五标题与仓内 `frame-animation-draft.test.ts
+    :47/:67/:94/:104/:127` 逐字一致，C04 差异（插入/替换/复制/多删/移动/选择续接历史分支+
+    redo 清理+失败保留整输入）与冻结遗漏臂（draft 合计 8L/44B=C03 2/7+C04 6/37）对应，
+    未把已证重排轴当新增；A05 差异（宿主等待方法体/shared resolver 臂）与已证 moveEntity
+    提交窗两标题分栏正确。
+  - **② 五条提示展开核实**：80 条=40 原精确+40 展开；展开项逐条 grep 验字——simulator-ui
+    10 条全部逐字在 `battle-simulator-ui.test.tsx`；project-reference 10+5 分文件正确；
+    casualty 5、draft 5、trial-assets 5（含 2 条参数化模板 `catalog %s mismatch fails` 的
+    bytes/sha256 正确实例化）全部一致。
+  - **③ r3 已核项零改动**：语义级对比 33a7a034..bfb4f522——rules/branchArmExceptions/
+    generatedCounts/generatedTotals/needles/whitelist/expansionRule/summary 逐字段相等；
+    git diff 仅准备三文件变化，无产品/旧测试/配置改动。
+  - **④ dedupTitles 健康**：80 条全唯一无重复计数；F01/F02/F03 差异均按工作包「fast 输入
+    解耦」单列（full-only 8/5/3 项不误报新增业务；F01 default-arg 三臂正确标为现行默认
+    路径新增可达）。
+  - **可证伪观察**（任一成立即收窄或 counter）：① 实施中任一 familyTable 差异断言与所引
+    旧标题实际合同重叠；② 任一展开标题在对应文件不存在或不再覆盖所述臂；③ C04 用例与
+    五标题任一重复；④ 白名单外出现产品/旧测试/官方配置 diff。
+  - 返工项：无。本席 r3 counter 的九族合同与 5 条占位两项已全部闭合，r1~r3 各签原文保留。
 - 独立反证审查：待逐族表冻结后，由Codex/Kimi各自直接读一手证据；不互相复述。
 - 缺签豁免：无；用户要求大批任务不是历史“额度空窗先实施”豁免的延续。
 - build准入结论：blocked，缺三席设计及逐族合同；当前可做准备，不得写正式测试。
@@ -242,6 +263,13 @@ Production Freeze: `57dda7ed2376fc25f07756be117bb4a058d09915`
 - done准入结论：blocked。
 
 ## 交接日志
+
+- 2026-09-22 Kimi（v4 独立复核）：对 bfb4f522 签 accept，r3 的 C2 残项全部闭合。机算核对：
+  familyTable 20 行覆盖全部 25 个 NEW 族无缺失；80 条 dedupTitles 全唯一；r3 映射/负控/
+  白名单/汇总逐字段语义相等；diff 仅准备三文件。抽读验证：draft 五标题逐字对上（:47/:67/
+  :94/:104/:127）且差异臂不重复已证轴；simulator-ui 10 条逐字在册；trial-assets 2 条参数化
+  实例正确；F01/F02/F03 均按 fast 解耦单列不误报。未读 Codex 本轮复核结论；未改 GLM 文件/
+  共享状态，不代签、不标 build/done。Next：Codex 复核 v4 后统一核 build 准入。
 
 - 2026-09-22 GLM（v4，C2 残项收口）：按 Codex r3 d84d1bbf 与 Kimi d19d5bb0 同收敛残项完成
   定点补齐（机账 schemaVersion 4 + 回执 v4 附节）：familyTable 11→20 行（九族构造器/guard+
