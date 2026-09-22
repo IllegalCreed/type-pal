@@ -67,7 +67,21 @@ Production Freeze: `57dda7ed2376fc25f07756be117bb4a058d09915`
 
 ### build前
 
-- Codex：premise pending / design pending。已完成冻结统计、现行入口抽核和候选范围筛选；逐族合法性/去重矩阵尚未交付，不以整文件缺口代签实现准入。
+- Codex：**premise counter / design counter（2026-09-22；审准备候选d4703cdf，0677d4e0仅他席签字，准备文件/生产无漂移）**。独立核验先于读取他席审查结论；不改GLM回执/机账、不改共享状态、不代签。以下为阻断项，当前不得build。
+  - **保留已核事实**：25模块的`misses`与冻结960L/1274B逐模块相符，各模块assignment数字也能加回自身总数；白名单实数25测试+9fixture+2工具且目标路径匹配。adapter current-dispatch五个精确标题真实存在；本席复跑它与trial-assets合计10/10绿，F组8+5+3=16/16绿，full-only排除事实成立。不能把这些正向事实扩大为分类语义已通过。
+  - **R1｜逐臂主分类尚未交付，不能延期到实施才补**：`glm-coverage-wave2-results.json:10,25-79`的assignment只有行/臂数量，无对应冻结行号/`[line,block,branch]`集合；25模块均无法展开验证唯一归属/无遗漏。回执`:13-14,155`仍说实施时对账，未满足本卡准备验收1与工作包逐臂合同。请交可机械展开的定位→族→唯一桶→理由/证据映射，再由它生成计数；可以压缩表示连续范围，不要求手写1274条用例。
+    同时更正机器字段：`:6`生产SHA把实际`...058d09915`误写成`...058f09915`；`:15`PKG分支写180但逐模块复算186，机账汇总少6臂；`:77`caller应为`packages/migrate/src/migrate-content.ts:1753`，不是仅百余行的scripts入口。回执`:166,177`的editor×9/fixture11也与实数editor12/fixture9不符。以上是元数据错误，不据此否认正确的25+9+2文件清单。
+  - **R2｜NEW/UNREACH/去重方向有直接反证**：回执`:47`把`createTrialFileSnapshot:53-102`整段计NEW55L/31B，但冻结定位在该段仅漏`85/87`两行和`[76,11,0]`一臂；副本隔离、seal/urlFor/dispose、取消迟到、bytes/sha校验已由`packages/reforge/scripts/battle-trial-assets.test.ts:16-115`实际断言并复跑通过。未命中的prepare资源预载区域应另按实际定位分类，不能把已命中合同重新算成55行新增。
+    回执`:26`把`vanishEntity`列current NEW；`content/runtime-script.ts:39-43,139-149`明确排除，`runtime-script-project.ts:79`再次拒绝。本席调用真实`compileRuntimeCommands`，wait正控通过、vanish以“禁止 vanishEntity”拒绝；不得为命中它绕过current入口。
+    回执`:116`把validate-runtime全部2L/5B列NEW；其中`:24/29`分别是entities数组/对象的重复检查，`validateBaseScenes`先行。真实合法scene通过；坏顶层数组/坏entities数组/坏entity在base和runtime入口均由`validate.ts`的assertArray（:64）/assertObject（:69）先拒，不能为打后层去mock前置守卫。
+    `script-world`还存在函数锚错配（回执`:28`）：源码`:186-188`是assertFlowCursor拒绝，不是initialFlowCursor；`:254-295`是selection/cursorHandoff校验。core的`:170`同时落在回执NEW范围和UNREACH描述，必须用具体臂与构造保证解释。Codex最初工作包只列候选，不构成这些分支可达的已签事实。
+  - **R3｜PEND归属不能由不存在的参数支持**：回执`:134,137,159-160`与机账`:78-79,135-136`把历史translator注入放进pal-casualty、把reportHookSources放进script-library-audit；两个参数实际只在`migrate-enemies.ts:95-98,211`，前两文件根本没有。该22L/22B的PEND分摊无对应源码，须重新定位，不能机械搬同一数字。author-script-core的11L/19B也须列具体kind/臂/现行caller排查，不能仅凭Base命名认作无消费者。
+  - **R4｜负控/输入合同尚不能冻结**：回执`:103`的“tileset项目身份比较改恒等”在目标模块中没有所述projectId比较；`tileset-references.ts:58-78,98-136,237-291`核的是batch generation/coverage、map索引、资源与定义集合。请给真实factory/provider链与唯一针位、合法正控和精确拟定测试标题，不要凭名字发明产品身份合同。
+    回执`:120`把概率11称越界；`enemy-script.ts:141-144,250-257`明定0..100，本席真实checkEnemyFallback(pass)对0/11/100均接受、101拒绝。不能与巫抗0..10混用。六个代表概念可作为起点，但须在准备稿冻结实际针位/反例/断言/可能的下游重叠保护；12～18不是凑数指标，不能只留范围和文件名便宣称有鉴别力。
+    另需机械收尾：候选`pnpm check:docs`为20工具测试绿但目录索引缺receipt链接而exit1；候选JSON经实际Biome检查有格式error。首次candidate无node_modules导致biome命令找不到仅是环境问题，本席随后用主树既有Biome二进制只读检查确认真实格式错误，未修改JSON。
+  - **独立证据**：`/tmp/type-pal-wave2-independent-review.mjs`及输出`.json`复算25模块/桶/白名单，运行真实compiler、fallback guard与base/runtime guard对照；`/tmp/type-pal-wave2-review-old-reforge.log`为10/10，`/tmp/type-pal-wave2-review-full-only.log`为16/16，`/tmp/type-pal-wave2-review-candidate-docs.log`与`/tmp/type-pal-wave2-review-biome-actual.log`保留失败。源代码/原测试/官方基线未改，未跑全仓覆盖率。
+  - **旧版本兼容审查：counter（计划层）**，A01仍将已禁vanish当新增合法域、F组历史轴位置错误；不是断言已经改了产品兼容层。其他既有已done卡不重开。
+  - **下一位Agent提示词（给GLM）**：在 /Users/zhangxu/illegal/type-pal 的codex/glm-coverage-wave2独立工作树返工TEST-NONVISUAL-COVERAGE-2 r1准备候选d4703cdf，先同步分支、保留三席原文和日志，读AGENTS/CLAUDE/READ-FIRST、本卡Codex R1～R4、原工作包和冻结evidence。补齐960行/1274臂可展开的一对一分类映射及计数生成，纠正trial snapshot去重、current vanish排除、runtime外层重复守卫、函数锚与F历史轴归属；以真实源码冻结负控点位/合法反例/拟定精确标题，修0..100概率合同和元数据/Biome/目录索引。25+9+2白名单、真实旧标题和F组16项存在性已核，不需推翻重做；未查清的族如实留PEND并带证据，不按旧671/888强凑。只改本人准备回执/机账/席位日志及必需README索引，不改产品/正式测试/原probe/官方配置基线，不实施、不代签、不改共享状态或标build/done。提交推送后给Codex与Kimi同一修订候选的并行复核提示词；旧签字原文保留但不自动授权修订稿开工。
 - GLM：**premise verified / design agree（2026-09-22，准备 Owner；证据=[准备回执](../../testing/glm-coverage-wave2-receipt.md)+[机账](../../testing/glm-coverage-wave2-results.json)，全部锚点本人直读冻结树源码/旧测试）**。
   - **逐族合同已交付**：25 模块 960L/1274B 逐段分桶（NEW 671/888、PKG 124/186、XPKG 103/117、
     UNREACH 29/42、PEND 33/41——每模块桶数与冻结机账逐一对账通过）；A01～F03 每族给出真实
@@ -131,6 +145,8 @@ Production Freeze: `57dda7ed2376fc25f07756be117bb4a058d09915`
 - done准入结论：blocked。
 
 ## 交接日志
+
+- 2026-09-22 Codex（独立准备复核）：先同步main、核源冻结与候选d4703cdf；逐模块总量及25+9+2白名单成立，10项adapter/snapshot与F组16项均独立复跑绿。对GLM声明签premise counter/design counter：缺逐臂定位表、snapshot已有合同重算NEW/current vanish禁用域/外层重复guard、F历史轴错模块、负控缺真实点位与概率范围误读，另有SHA/PKG汇总/格式/索引问题。证据及R1～R4见本人席位；未读取他席结论来形成判断，待本席结论完成后只核他席落盘状态。候选任务卡一度有他席未提交修改，本席未操作，待0677d4e0提交且工作树干净后仅写本人席位与本日志；不改GLM准备文件、他席或共享状态，不开build。
 
 - 2026-09-22 Kimi（r1 准备候选独立设计压力测试）：签 premise verified / design agree，无返工项。
   抽读四组一手证据：W2-B 冻结 LCOV missed 集中 prepare 管线/快照并发与 dispose（既有 5 项只覆盖
