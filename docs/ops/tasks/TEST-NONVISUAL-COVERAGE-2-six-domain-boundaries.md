@@ -68,7 +68,22 @@ Production Freeze: `57dda7ed2376fc25f07756be117bb4a058d09915`
 ### build前
 
 - Codex：premise pending / design pending。已完成冻结统计、现行入口抽核和候选范围筛选；逐族合法性/去重矩阵尚未交付，不以整文件缺口代签实现准入。
-- GLM：premise pending / design pending（准备Owner）。
+- GLM：**premise verified / design agree（2026-09-22，准备 Owner；证据=[准备回执](../../testing/glm-coverage-wave2-receipt.md)+[机账](../../testing/glm-coverage-wave2-results.json)，全部锚点本人直读冻结树源码/旧测试）**。
+  - **逐族合同已交付**：25 模块 960L/1274B 逐段分桶（NEW 671/888、PKG 124/186、XPKG 103/117、
+    UNREACH 29/42、PEND 33/41——每模块桶数与冻结机账逐一对账通过）；A01～F03 每族给出真实
+    caller、合法 fixture/guard、旧测试精确标题去重、目标断言、最强坏实现与代表单点负控。
+  - **关键核验**：① A 组缺口主导=adapter 未测派发臂（fade/chase/vanish/…+可选宿主 `?.` 两态），
+    `script-host-adapter.current-dispatch.test.ts` 既有 5 标题只覆盖首批命令；② F 组三文件
+    16 项既有测试被 `config.mjs:82-94` 资产排除整体排除出 fast——「接近0覆盖≠没有测试」，
+    新写自包含小输入版本并单列 full-only 证明不二次报功；③ script-world 缺口=条件求值六算子/
+    cursorHandoff 校验链/flow 断言；project-core=core 命令落地+moveEntity 提交窗口；
+    battle-trial-assets=`createTrialFileSnapshot` 整段（并发复用/副本隔离/seal/dispose/迟到）。
+  - **可证伪观察**：① 任一 NEW 族被证明已有本包覆盖→去重表错；② 任一 PKG/XPKG 标题不存在
+    或不再覆盖所述臂→去重失效；③ F 组自包含 fixture 过不了 checkBaseScriptLibrary 等正式
+    guard→fixture 非法不得放宽；④ 实施逐臂对账偏差即改分类不迁就数字。
+  - **白名单冻结**：25 个 `<stem>.wave2.test.ts` + 9 个按组薄 fixture + 2 工具 + 3 文档
+    （见机账 whitelist）；PEND 项（Base-only 形态/历史注入轴/reportHookSources）单列不写测试。
+    本阶段零改 packages/正式测试/原探针/官方配置/baseline/真实 data/projects。
 - Kimi：premise pending / design pending。
 - 独立反证审查：待逐族表冻结后，由Codex/Kimi各自直接读一手证据；不互相复述。
 - 缺签豁免：无；用户要求大批任务不是历史“额度空窗先实施”豁免的延续。
@@ -83,6 +98,14 @@ Production Freeze: `57dda7ed2376fc25f07756be117bb4a058d09915`
 
 ## 交接日志
 
+- 2026-09-22 GLM（准备完成）：在 codex/glm-coverage-wave2 工作树（基 f828b9fc，零产品/测试/
+  配置改动）一次完成六组逐族分类：25 模块 960L/1274B 分桶 NEW671/888·PKG124/186·XPKG103/117·
+  UNREACH29/42·PEND33/41（与冻结机账逐模块对账通过）；A01～F03 逐族 caller/fixture/旧测试
+  精确标题/断言/最强坏实现/代表负控落 [准备回执](../../testing/glm-coverage-wave2-receipt.md)
+  与 [机账](../../testing/glm-coverage-wave2-results.json)；白名单冻结 25 测试+9 fixture+2 工具；
+  PEND 项单列。签本人 premise verified / design agree（证据见本席）。两席同候选并行设计审查
+  提示词见下；未改共享状态、不代签、不标 build/done。
+
 - 2026-09-22 Codex：用户要求给GLM一大批覆盖率工作。同步main至456feb12、生产对57dda7ed相同；用7538/633对应报告核25模块并生成960行/1274臂候选清单，六组工作包与禁止范围落盘。主树旧7502报告未采用；两类无现行caller的审计入口暂排除。未改产品、测试或官方覆盖率，当前只交GLM准备；没有签字豁免。
 - 2026-09-22 Codex（规划验证）：census与冻结JSON复算一致，旧7502报告拒绝；Biome与文档门通过。准备工具对报告额外identities的初版误拒已按持久baseline字段投影纠正，仍核全部身份/计数/范围字段。下一步GLM填写逐族合同并签本人准备结论，不直接实施。
 
@@ -92,3 +115,22 @@ Production Freeze: `57dda7ed2376fc25f07756be117bb4a058d09915`
 请在独立codex/glm-coverage-wave2工作树，一口气完成W2-A～F六组25模块的逐臂分类、合法fixture/guard、真实caller、旧测试精确标题去重、业务断言与最强单点反例，冻结新增测试/fixture/工具白名单；将准备回执写docs/testing/glm-coverage-wave2-receipt.md，机账写glm-coverage-wave2-results.json，核每臂唯一主分类和各组加总。960行/1274臂只是整文件候选缺口，不能承诺全可达；F组区分full已有证明与fast输入解耦，不测历史translator注入/旧输出分支。发现未知政策、现行无caller或产品缺陷要单列，不固化为正确绿测。
 本阶段可读源码/旧测试/真实来源、跑既有定向并做隔离取证；不得改packages、正式测试、原probe、官方baseline/config/排除/超时、真实data/projects或模拟器UI；不操作浏览器/做视觉。不得checkout主工作树或恢复stash。
 准备完请落自己有一手锚点的premise/design或counter，并提交推送；不改共享状态，不代签，不标build/done。给Codex和Kimi两份钉同一准备候选的并行设计审查提示词。等三席齐且Codex核build allowed后，在同一父卡/分支按六组各一提交连续实现，最终整包交Codex；严格执行自检清单和工作包验收，GLM不跑官方ratchet/strict-fast。不要每组停下询问继续，也不要绕过设计门。
+
+## 并行设计审查提示词（钉同一准备候选：codex/glm-coverage-wave2 @ 准备提交）
+
+### 给Codex
+
+~~~text
+在 /Users/zhangxu/illegal/type-pal 审 TEST-NONVISUAL-COVERAGE-2 r1 准备候选，卡 docs/ops/tasks/TEST-NONVISUAL-COVERAGE-2-six-domain-boundaries.md（draft），分支 codex/glm-coverage-wave2（独立worktree /Users/zhangxu/illegal/type-pal-glm-wave2），生产冻结57dda7ed，官方fast7538/633。
+先同步main/核工作树，读AGENTS/CLAUDE/READ-FIRST、本卡、docs/testing/glm-coverage-wave2.md、你的冻结evidence.json、GLM准备回执 docs/testing/glm-coverage-wave2-receipt.md 与机账 glm-coverage-wave2-results.json。
+独立复核（不与GLM互相复述）：① 25模块分桶与你的冻结LCOV逐模块对账（NEW671/888·PKG124/186·XPKG103/117·UNREACH29/42·PEND33/41）；② 抽读各主导区域源码验证分类方向（adapter派发臂/script-world条件与cursorHandoff/core命令与moveEntity/trial snapshot/投影函数/守卫臂/迁移三文件）；③ PKG/XPKG去重标题是否真实存在且确覆盖所述臂（尤其script-host-adapter.current-dispatch五标题、F组16项full-only）；④ 白名单25+9+2是否与逐族合同一致、PEND单列是否恰当；⑤ 代表负控12~18针规划的鉴别力。
+在本人build前席位签带锚点的premise verified/design agree或counter并写日志提交推送；保留他席改动，不改GLM准备文件/共享状态、不代签。若三席齐，由你统一核build allowed并记录；build后GLM在同一分支A→F连续实施、整包交你独立接收。
+~~~
+
+### 给Kimi
+
+~~~text
+在 /Users/zhangxu/illegal/type-pal 独立审 TEST-NONVISUAL-COVERAGE-2 r1 准备候选，卡 docs/ops/tasks/TEST-NONVISUAL-COVERAGE-2-six-domain-boundaries.md（draft），分支 codex/glm-coverage-wave2（worktree /Users/zhangxu/illegal/type-pal-glm-wave2），生产冻结57dda7ed。先同步main/核工作树，读AGENTS/CLAUDE/READ-FIRST、本卡、工作包glm-coverage-wave2.md、GLM准备回执与机账；不读或复述Codex本轮结论。
+压力测试方向：① 逐族合同的业务断言是否有鉴别力（非"非空即过"）、最强坏实现是否真能被代表负控钉住；② PKG/XPKG/UNREACH/PEND分类有没有把"外层守卫已挡/跨包已证/防御不可达"误当新增、或把可达业务误踢出NEW；③ F组自包含fixture的正式guard前置与"full已有证明不二次报功"边界；④ 异步族（A03/A05/B04/B05）是否按entered+同步结局+finally同一pending合同设计、不以超时判红；⑤ 白名单与PEND单列是否夹带产品改动或未定政策。
+抽读至少三组一手源码与对应旧测试标题独立验证。在本人build前席位签premise verified/design agree或带file:line的counter并写日志提交推送；保留他席改动，不改GLM准备文件/状态、不代签、不标build/done。
+~~~

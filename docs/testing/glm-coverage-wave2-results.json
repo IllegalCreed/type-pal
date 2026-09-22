@@ -1,0 +1,146 @@
+{
+  "schemaVersion": 1,
+  "task": "TEST-NONVISUAL-COVERAGE-2 r1 preparation (GLM)",
+  "date": "2026-09-22",
+  "planningBase": "456feb12",
+  "productionFreeze": "57dda7ed2376fc25f07756be117bb4a058f09915",
+  "preparationCommit": "f828b9fc",
+  "branch": "codex/glm-coverage-wave2",
+  "frozenEvidence": "docs/testing/glm-coverage-wave2-evidence.json",
+  "method": "per-module LCOV missed ranges read against source; existing test titles deduped; dominant regions read in full; per-arm reconciliation happens at implementation against the same frozen locators",
+  "buckets": ["NEW", "PKG", "XPKG", "UNREACH", "PEND"],
+  "totals": {
+    "ledgerMisses": { "lines": 960, "branches": 1274 },
+    "classifiedNEW": { "lines": 671, "branches": 888 },
+    "classifiedPKG": { "lines": 124, "branches": 180 },
+    "classifiedXPKG": { "lines": 103, "branches": 117 },
+    "classifiedUNREACH": { "lines": 29, "branches": 42 },
+    "classifiedPEND": { "lines": 33, "branches": 41 },
+    "note": "upper-bound candidates; reachability settled per-arm at implementation"
+  },
+  "groups": [
+    {
+      "id": "W2-A",
+      "modules": [
+        { "file": "packages/reforge/src/script-host-adapter.ts", "misses": { "lines": 103, "branches": 124 }, "assignment": [ { "family": "A01", "bucket": "NEW", "lines": 88, "branches": 105 }, { "family": "A01-defensive", "bucket": "UNREACH", "lines": 15, "branches": 19 } ], "callers": ["packages/reforge/src/main.ts:243"], "dedupTitles": ["dialog/clear/wait + give/lose/playSound/music/ambience 全参数与 count 默认 1", "openShop 挂起时后续 leaf 不执行；resolve 后继续并收到同 signal", "playVideo 拒绝 → 派发拒绝且错误原样传播；正常路径明确返回", "playFrameAnimation/cameraPan 全参数派发（帧区间与帧率原样）", "命令对象派发前后保真深快照不变；可选项缺席以显式键形态传递"] },
+        { "file": "packages/reforge/src/script-world.ts", "misses": { "lines": 34, "branches": 72 }, "assignment": [ { "family": "A04", "bucket": "NEW", "lines": 24, "branches": 54 }, { "family": "A04", "bucket": "PKG", "lines": 8, "branches": 14 }, { "family": "A04-defensive", "bucket": "UNREACH", "lines": 2, "branches": 4 } ], "callers": ["packages/reforge/src/runtime-script-project.ts:35-37"], "dedupTitles": ["page selection clears overrides atomically and preserves only matching cursors", "inherit does not pin the current initial page", "single-slot selection preserves the other channel and bumps only on effective changes", "state-map handoff maps the effective cursor and commits selection plus cursor atomically"] },
+        { "file": "packages/reforge/src/script-project-core.ts", "misses": { "lines": 52, "branches": 50 }, "assignment": [ { "family": "A03", "bucket": "NEW", "lines": 30, "branches": 26 }, { "family": "A05", "bucket": "NEW", "lines": 16, "branches": 14 }, { "family": "A05-defensive", "bucket": "UNREACH", "lines": 6, "branches": 10 } ], "callers": ["packages/reforge/src/runtime-script-project.ts:85-130"], "dedupTitles": [] }
+      ],
+      "representativeNeedle": { "family": "A03", "mutation": "setMultiEntityState loop writes only first target", "pinnedTestFile": "packages/reforge/src/script-project-core.wave2.test.ts" }
+    },
+    {
+      "id": "W2-B",
+      "modules": [
+        { "file": "packages/reforge/src/battle-trial-config.ts", "misses": { "lines": 3, "branches": 7 }, "assignment": [ { "family": "B01", "bucket": "NEW", "lines": 3, "branches": 7 } ], "callers": ["packages/editor/src/core/battle-trial-launch.ts"], "dedupTitles": [] },
+        { "file": "packages/reforge/src/battle-trial-prepare.ts", "misses": { "lines": 10, "branches": 18 }, "assignment": [ { "family": "B02", "bucket": "NEW", "lines": 10, "branches": 18 } ], "callers": ["packages/editor/src/core/battle-trial-launch.ts"], "dedupTitles": [] },
+        { "file": "packages/reforge/src/battle-trial-assets.ts", "misses": { "lines": 83, "branches": 49 }, "assignment": [ { "family": "B04", "bucket": "NEW", "lines": 55, "branches": 31 }, { "family": "B05", "bucket": "NEW", "lines": 10, "branches": 8 }, { "family": "B04", "bucket": "PKG", "lines": 18, "branches": 10 } ], "callers": ["packages/editor/src/core/battle-trial-launch.ts"], "dedupTitles": ["scripts/battle-trial-assets.test.ts 5项（资源快照/取消窗基础路径）"] },
+        { "file": "packages/editor/src/core/battle-simulator-state.ts", "misses": { "lines": 6, "branches": 15 }, "assignment": [ { "family": "B02", "bucket": "NEW", "lines": 5, "branches": 12 }, { "family": "B02", "bucket": "PKG", "lines": 1, "branches": 3 } ], "callers": ["packages/editor/src/ui/BattleSimulatorWorkbench.tsx"], "dedupTitles": ["parser/resolver detach nested data and section overrides never change presets", "missing preset references remain repairable but cannot be resolved, even when overridden", "inline plans can be used without creating named presets"] },
+        { "file": "packages/editor/src/core/battle-simulator-library.ts", "misses": { "lines": 0, "branches": 5 }, "assignment": [ { "family": "B02", "bucket": "NEW", "lines": 0, "branches": 2 }, { "family": "B02", "bucket": "PKG", "lines": 0, "branches": 3 } ], "callers": ["packages/editor/src/ui/BattleSimulatorWorkbench.tsx"], "dedupTitles": [] },
+        { "file": "packages/editor/src/core/battle-simulator-commands.ts", "misses": { "lines": 0, "branches": 6 }, "assignment": [ { "family": "B03", "bucket": "NEW", "lines": 0, "branches": 3 }, { "family": "B03", "bucket": "PKG", "lines": 0, "branches": 3 } ], "callers": ["packages/editor/src/ui/BattleSimulatorWorkbench.tsx"], "dedupTitles": ["scripts/battle-simulator-ui.test.tsx 十项工作流"] }
+      ],
+      "representativeNeedle": { "family": "B04", "mutation": "cached readBytes returns internal buffer without slice(0) alias isolation", "pinnedTestFile": "packages/reforge/src/battle-trial-assets.wave2.test.ts" }
+    },
+    {
+      "id": "W2-C",
+      "modules": [
+        { "file": "packages/editor/src/core/world-sprite-behavior.ts", "misses": { "lines": 101, "branches": 159 }, "assignment": [ { "family": "C01", "bucket": "NEW", "lines": 48, "branches": 78 }, { "family": "C02", "bucket": "NEW", "lines": 14, "branches": 22 }, { "family": "C01", "bucket": "PKG", "lines": 33, "branches": 50 }, { "family": "C01-defensive", "bucket": "UNREACH", "lines": 6, "branches": 9 } ], "callers": ["packages/editor/src/ui/WorldSpriteLibrary.tsx:18-25"], "dedupTitles": ["只为单阶段、线性且闭合的脚本显示可证明帧序", "无法解释的分支和缺失引用保守回退为通用说明", "逐命令预算阻止超长命令体产生看似完整的帧序", "递归栈退出后允许顺序重复调用同一子脚本"] },
+        { "file": "packages/editor/src/core/frame-animation-draft.ts", "misses": { "lines": 8, "branches": 44 }, "assignment": [ { "family": "C03", "bucket": "NEW", "lines": 4, "branches": 14 }, { "family": "C04", "bucket": "NEW", "lines": 3, "branches": 24 }, { "family": "C03", "bucket": "PKG", "lines": 1, "branches": 6 } ], "callers": ["packages/editor/src/ui/FrameAnimationEditor.tsx:40"], "dedupTitles": ["实施前核对 frame-animation-draft.test.ts 标题清单"] },
+        { "file": "packages/editor/src/core/sprite-actions.ts", "misses": { "lines": 3, "branches": 7 }, "assignment": [ { "family": "C05", "bucket": "NEW", "lines": 1, "branches": 3 }, { "family": "C05", "bucket": "PKG", "lines": 2, "branches": 4 } ], "callers": ["packages/editor/src/ui/SpriteActionEditor.tsx:21"], "dedupTitles": ["按 order/label/id 稳定排序并派生零基显示编号", "prop 实体只从自身精灵选择动作，不借用全项目第一项", "actor 实体经角色表解析；没有动作时明确返回 undefined"] }
+      ],
+      "representativeNeedle": { "family": "C02", "mutation": "instance-site collection merges same-resource instances into one shared site object", "pinnedTestFile": "packages/editor/src/core/world-sprite-behavior.wave2.test.ts" }
+    },
+    {
+      "id": "W2-D",
+      "modules": [
+        { "file": "packages/editor/src/core/project-reference.ts", "misses": { "lines": 29, "branches": 57 }, "assignment": [ { "family": "D01", "bucket": "NEW", "lines": 18, "branches": 36 }, { "family": "D01", "bucket": "PKG", "lines": 11, "branches": 21 } ], "callers": ["packages/editor/src/core/project-diagnostics.ts"], "dedupTitles": ["project-reference.test.ts / project-reference.boundaries.test.ts 既有主键族"] },
+        { "file": "packages/editor/src/core/project-reference-adapters.ts", "misses": { "lines": 27, "branches": 33 }, "assignment": [ { "family": "D02", "bucket": "NEW", "lines": 19, "branches": 24 }, { "family": "D02", "bucket": "PKG", "lines": 8, "branches": 9 } ], "callers": ["project-reference-adapters.ts:1899-1960 provider/deletion impact"], "dedupTitles": ["canonical loadScene entry is one row shared by entry and parent scene buckets", "buy creates a shop edge while sell zero/nonzero never does", "s230-style script map override is visible without a scene.mapId edge"] },
+        { "file": "packages/editor/src/core/tileset-references.ts", "misses": { "lines": 13, "branches": 31 }, "assignment": [ { "family": "D03", "bucket": "NEW", "lines": 9, "branches": 22 }, { "family": "D03", "bucket": "PKG", "lines": 4, "branches": 9 } ], "callers": ["tileset-references.ts:98-156,237-300 proof factories"], "dedupTitles": ["scans exact id/path without hydrating maps and publishes unified map/stamp edges", "fails closed on read errors and never creates a proof from partial coverage", "discards a late old-path result and continues until the latest map index is covered"] },
+        { "file": "packages/editor/src/core/script-references.ts", "misses": { "lines": 11, "branches": 21 }, "assignment": [ { "family": "D02", "bucket": "NEW", "lines": 7, "branches": 14 }, { "family": "D04", "bucket": "NEW", "lines": 2, "branches": 3 }, { "family": "D02", "bucket": "PKG", "lines": 2, "branches": 4 } ], "callers": ["script-references.ts:110,359 diagnostics"], "dedupTitles": ["覆盖场景入口、共享体互调、动态绑定与嵌套分支", "作者 call 环、孤儿 ref 与 required self 均阻止保存", "作者体硬编码 eNN 只警告；实体触发上下文可继承 required self"] },
+        { "file": "packages/editor/src/core/battle-data-references.ts", "misses": { "lines": 5, "branches": 11 }, "assignment": [ { "family": "D02", "bucket": "NEW", "lines": 3, "branches": 7 }, { "family": "D02", "bucket": "PKG", "lines": 2, "branches": 4 } ], "callers": ["project-reference-adapters"], "dedupTitles": [] },
+        { "file": "packages/editor/src/core/world-variable-references.ts", "misses": { "lines": 4, "branches": 6 }, "assignment": [ { "family": "D04", "bucket": "NEW", "lines": 2, "branches": 3 }, { "family": "D04", "bucket": "PKG", "lines": 2, "branches": 3 } ], "callers": ["project-reference-adapters"], "dedupTitles": [] }
+      ],
+      "representativeNeedle": { "family": "D03", "mutation": "tileset proof project-identity comparison replaced with constant true", "pinnedTestFile": "packages/editor/src/core/tileset-references.wave2.test.ts" }
+    },
+    {
+      "id": "W2-E",
+      "modules": [
+        { "file": "packages/content/src/enemy-script.ts", "misses": { "lines": 97, "branches": 126 }, "assignment": [ { "family": "E01", "bucket": "NEW", "lines": 67, "branches": 86 }, { "family": "E01", "bucket": "PKG", "lines": 30, "branches": 40 } ], "callers": ["validate-author/编辑器保存"], "dedupTitles": ["接受具名 hook state、真实 effect outcome、battle action 与受限 onDefeated", "法术抗性接受完全免疫值 10，拒绝越界值与非整数", "拒绝悬空 state、跨 state effect id 与未知字段", "拒绝空 random、非正权重、continue SCC 与过长同步 closure"] },
+        { "file": "packages/content/src/author-script-core.ts", "misses": { "lines": 111, "branches": 159 }, "assignment": [ { "family": "E02", "bucket": "NEW", "lines": 70, "branches": 100 }, { "family": "E02", "bucket": "XPKG", "lines": 30, "branches": 40 }, { "family": "E02-pend", "bucket": "PEND", "lines": 11, "branches": 19 } ], "callers": ["author/runtime 共同底层；Base 形态经 reforge runtime"], "dedupTitles": [], "pendingNote": "Base-only 无现行消费面形态单列待 E-05 裁决，不写测试" },
+        { "file": "packages/content/src/runtime-scene.ts", "misses": { "lines": 8, "branches": 15 }, "assignment": [ { "family": "E03", "bucket": "NEW", "lines": 6, "branches": 12 }, { "family": "E03", "bucket": "PKG", "lines": 2, "branches": 3 } ], "callers": ["reforge 装载"], "dedupTitles": [] },
+        { "file": "packages/content/src/validate-runtime.ts", "misses": { "lines": 2, "branches": 5 }, "assignment": [ { "family": "E04", "bucket": "NEW", "lines": 2, "branches": 5 } ], "callers": ["reforge 装载"], "dedupTitles": [] }
+      ],
+      "representativeNeedle": { "family": "E01", "mutation": "checkEnemyFallback probability upper-bound validation removed", "pinnedTestFile": "packages/content/src/enemy-script.wave2.test.ts" }
+    },
+    {
+      "id": "W2-F",
+      "modules": [
+        { "file": "packages/migrate/src/migrate-enemies.ts", "misses": { "lines": 43, "branches": 64 }, "assignment": [ { "family": "F01", "bucket": "NEW", "lines": 25, "branches": 36 }, { "family": "F01", "bucket": "XPKG", "lines": 18, "branches": 28 } ], "callers": ["packages/migrate/scripts/migrate-content.mts:1753"], "dedupTitles": ["153 对象全迁,0 越界,54 有 AI 脚本", "史莱姆(objectIndex 398, enemyId 1)= stats 逐字段对齐 enemies[1]", "AI(R13-5):源 magic/rate 迁为实例 fallback，不再生成伪 turn rule", "dualMove 敌人存在(回合两动);collectValue>0 敌人存在(可收妖)", "steal/attackEquivItem 仅在源非 0 时出现"], "exclusionNote": "src/migrate-enemies.test.ts 在 fast 资产排除清单（config.mjs:82-94），full-only" },
+        { "file": "packages/migrate/src/pal-casualty-scripts.ts", "misses": { "lines": 75, "branches": 74 }, "assignment": [ { "family": "F02", "bucket": "NEW", "lines": 45, "branches": 44 }, { "family": "F02", "bucket": "XPKG", "lines": 25, "branches": 24 }, { "family": "F02-pend", "bucket": "PEND", "lines": 5, "branches": 6 } ], "callers": ["packages/migrate/src/pal-migration.ts:428"], "dedupTitles": ["pal-casualty-scripts.test.ts 5项真实资产"], "pendingNote": "历史 translator 注入/legacy 输出分支无现行 caller，E-05 相邻，禁测" },
+        { "file": "packages/migrate/src/script-library-audit.ts", "misses": { "lines": 132, "branches": 116 }, "assignment": [ { "family": "F03", "bucket": "NEW", "lines": 85, "branches": 75 }, { "family": "F03", "bucket": "XPKG", "lines": 30, "branches": 25 }, { "family": "F03-pend", "bucket": "PEND", "lines": 17, "branches": 16 } ], "callers": ["packages/migrate/src/pal-migration.ts:564-574"], "dedupTitles": ["Enemy v10 根按 battle domain 分流，ready/turnStart hook 不冒充世界 Command", "作者脚本单列统计，不稀释也不抬高迁移膨胀比", "294 个有效场景满足三重 10x、ref 完整、chunk/root/驻留上限"], "pendingNote": "reportHookSources=false 等历史轴无现行 caller" }
+      ],
+      "representativeNeedle": { "family": "F03", "mutation": "audit migrated/authored binning predicate inverted", "pinnedTestFile": "packages/migrate/src/script-library-audit.wave2.test.ts" }
+    }
+  ],
+  "whitelist": {
+    "testFiles": [
+      "packages/reforge/src/script-host-adapter.wave2.test.ts",
+      "packages/reforge/src/script-world.wave2.test.ts",
+      "packages/reforge/src/script-project-core.wave2.test.ts",
+      "packages/reforge/src/battle-trial-config.wave2.test.ts",
+      "packages/reforge/src/battle-trial-prepare.wave2.test.ts",
+      "packages/reforge/src/battle-trial-assets.wave2.test.ts",
+      "packages/editor/src/core/battle-simulator-state.wave2.test.ts",
+      "packages/editor/src/core/battle-simulator-library.wave2.test.ts",
+      "packages/editor/src/core/battle-simulator-commands.wave2.test.ts",
+      "packages/editor/src/core/world-sprite-behavior.wave2.test.ts",
+      "packages/editor/src/core/frame-animation-draft.wave2.test.ts",
+      "packages/editor/src/core/sprite-actions.wave2.test.ts",
+      "packages/editor/src/core/project-reference.wave2.test.ts",
+      "packages/editor/src/core/project-reference-adapters.wave2.test.ts",
+      "packages/editor/src/core/tileset-references.wave2.test.ts",
+      "packages/editor/src/core/script-references.wave2.test.ts",
+      "packages/editor/src/core/battle-data-references.wave2.test.ts",
+      "packages/editor/src/core/world-variable-references.wave2.test.ts",
+      "packages/content/src/enemy-script.wave2.test.ts",
+      "packages/content/src/author-script-core.wave2.test.ts",
+      "packages/content/src/runtime-scene.wave2.test.ts",
+      "packages/content/src/validate-runtime.wave2.test.ts",
+      "packages/migrate/src/migrate-enemies.wave2.test.ts",
+      "packages/migrate/src/pal-casualty-scripts.wave2.test.ts",
+      "packages/migrate/src/script-library-audit.wave2.test.ts"
+    ],
+    "fixtures": [
+      "packages/reforge/src/__tests__/coverage-wave2/a-adapter-host.ts",
+      "packages/reforge/src/__tests__/coverage-wave2/a-project-host.ts",
+      "packages/reforge/src/__tests__/coverage-wave2/b-trial-catalog.ts",
+      "packages/editor/src/__tests__/coverage-wave2/c-sprite-canonical.ts",
+      "packages/editor/src/__tests__/coverage-wave2/d-reference-project.ts",
+      "packages/content/src/__tests__/coverage-wave2/e-enemy-author.ts",
+      "packages/migrate/src/__tests__/coverage-wave2/f-enemies-source.ts",
+      "packages/migrate/src/__tests__/coverage-wave2/f-casualty-overlays.ts",
+      "packages/migrate/src/__tests__/coverage-wave2/f-script-library.ts"
+    ],
+    "tools": [
+      "docs/testing/glm-coverage-wave2-mutants.mjs",
+      "docs/testing/glm-coverage-wave2-coverage.config.mts"
+    ],
+    "docs": [
+      "docs/testing/glm-coverage-wave2-receipt.md",
+      "docs/testing/glm-coverage-wave2-results.json",
+      "docs/ops/tasks/TEST-NONVISUAL-COVERAGE-2-six-domain-boundaries.md (GLM slot/log only)"
+    ]
+  },
+  "pendingItems": [
+    "author-script-core Base-only forms (11L/19B) — E-05/caller ruling, no tests",
+    "pal-casualty-scripts historical injection axes (5L/6B) — E-05 candidate, forbidden",
+    "script-library-audit reportHookSources=false axes (17L/16B) — no current caller",
+    "frame cache invalidate / BGM initP policies — out of scope per work package",
+    "real product defects found at implementation — isolated repro + hand to Codex"
+  ],
+  "planningConstraints": {
+    "noProductChanges": true,
+    "noOfficialBaselineOrConfigChanges": true,
+    "noBrowserOrVisual": true,
+    "glmDoesNotRunOfficialRatchetOrStrictFast": true
+  }
+}
