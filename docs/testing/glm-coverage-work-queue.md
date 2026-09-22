@@ -7,8 +7,10 @@
 ## 一眼看懂安排
 
 2026-09-22批次节奏补充：用户要求一次多补再统一统计。Codex后续以5～8相关模块/完整业务域成批推进，
-优先审content的actor-condition、project-map、battle-sprite、rewards、runtime-script、scene-index六个候选
-（均不在GLM第二波目标源码清单）；先核现行合同和旧测试去重，不按遗漏数承诺可达或硬凑用例。
+本轮content的actor-condition、project-map、battle-sprite、rewards、runtime-script、scene-index六模块
+已完成[77项整批补测](codex-content-boundaries.md)（均不在GLM第二波目标源码清单）：13负控、check8118、
+官方ratchet/受保护单次strict7627通过；content分支80.31%，产品和另六包基线零改。
+下一批继续先核现行合同和旧测试去重，不按遗漏数承诺可达或硬凑用例；本批剩余缺口已分类，不重领完成项。
 中间只跑定向/必要TC/反控，整批封版再统一check/ratchet/strict-fast，不逐文件重跑全仓覆盖率。
 
 2026-09-22用户调整优先级：当前以补测试覆盖率为主，E2E准备与实施先后置。GLM第二波六组准备返工与

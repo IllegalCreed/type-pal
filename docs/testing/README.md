@@ -8,6 +8,8 @@
 
 ## 文档与附件
 
+- [Codex内容六模块边界补测](codex-content-boundaries.md)（77项，角色状态/地图放置归属/战斗形象/奖励/运行脚本/场景索引；整批统一质量门）
+
 - [Codex人物/命令引用补测](codex-reference-coverage.md)（12项，精确改名/引用路径/深保真；与GLM目标源码不冲突，间接guard命中单列）
 
 - [GLM第二波六组覆盖率整包](glm-coverage-wave2.md)、[冻结机账](glm-coverage-wave2-evidence.json)与[只读复算器](glm-coverage-wave2-census.mjs)（2026-09-22，25非视觉模块；先逐族去重/准备，三席齐后统一开build；不是重领TB00～TB10）

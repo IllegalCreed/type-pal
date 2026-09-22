@@ -1,14 +1,14 @@
 {
   "schemaVersion": 2,
   "profile": "fast",
-  "generatedAt": "2026-09-22T07:01:57.482Z",
+  "generatedAt": "2026-09-22T07:49:30.593Z",
   "provider": {
     "name": "v8",
     "vitest": "4.1.7",
     "coverageV8": "4.1.7"
   },
   "sourceFileCount": 633,
-  "testCount": 7550,
+  "testCount": 7627,
   "packages": {
     "shared": {
       "name": "@type-pal/shared",
@@ -219,9 +219,10 @@
       ],
       "scopeDigest": "ddd95209167f371644d3cd13db68e744944c06fcfb108f3e67a9452ba52cf3a6",
       "fastTests": {
-        "testCount": 721,
-        "testFileCount": 64,
+        "testCount": 798,
+        "testFileCount": 70,
         "files": [
+          "packages/content/src/actor-condition.boundaries.test.ts",
           "packages/content/src/actor-condition.test.ts",
           "packages/content/src/actor-reference.boundaries.test.ts",
           "packages/content/src/actor-reference.contracts.test.ts",
@@ -240,6 +241,7 @@
           "packages/content/src/battle-field-reference.test.ts",
           "packages/content/src/battle-formulas.test.ts",
           "packages/content/src/battle-sprite-profile.contracts.test.ts",
+          "packages/content/src/battle-sprite.boundaries.test.ts",
           "packages/content/src/battle-sprite.test.ts",
           "packages/content/src/character.test.ts",
           "packages/content/src/command-target-reference.boundaries.test.ts",
@@ -261,12 +263,16 @@
           "packages/content/src/map-index.test.ts",
           "packages/content/src/migration-diagnostic.boundaries.test.ts",
           "packages/content/src/migration-diagnostic.test.ts",
+          "packages/content/src/project-map.boundaries.test.ts",
           "packages/content/src/project-map.contracts.test.ts",
           "packages/content/src/project-map.test.ts",
+          "packages/content/src/rewards.boundaries.test.ts",
           "packages/content/src/rewards.test.ts",
           "packages/content/src/rich-text.test.ts",
           "packages/content/src/runtime-scene.test.ts",
           "packages/content/src/runtime-script-lifecycle.test.ts",
+          "packages/content/src/runtime-script.boundaries.test.ts",
+          "packages/content/src/scene-index.boundaries.test.ts",
           "packages/content/src/scene-index.test.ts",
           "packages/content/src/script-library.test.ts",
           "packages/content/src/shop.test.ts",
@@ -288,6 +294,11 @@
           "packages/content/src/world-variable.test.ts"
         ],
         "fileEntries": [
+          {
+            "file": "packages/content/src/actor-condition.boundaries.test.ts",
+            "testCount": 19,
+            "identityDigest": "14392f9066e258dfe0cc88ea0c75e47c7dbb929429dc39237976a0668679d2fc"
+          },
           {
             "file": "packages/content/src/actor-condition.test.ts",
             "testCount": 11,
@@ -377,6 +388,11 @@
             "file": "packages/content/src/battle-sprite-profile.contracts.test.ts",
             "testCount": 5,
             "identityDigest": "29b7d6254f05d8cc539643f73cd86d2b7fc00c3923f17edc9ac81ebca69fa61e"
+          },
+          {
+            "file": "packages/content/src/battle-sprite.boundaries.test.ts",
+            "testCount": 14,
+            "identityDigest": "6ad9b3c602413866d2c6c4f0451bbfb7780701cfb894940e795cb907b10f6b73"
           },
           {
             "file": "packages/content/src/battle-sprite.test.ts",
@@ -484,6 +500,11 @@
             "identityDigest": "76e7534f078644e117d2c304a23a21062d5116fce67bf534a8bb9049ac83b330"
           },
           {
+            "file": "packages/content/src/project-map.boundaries.test.ts",
+            "testCount": 24,
+            "identityDigest": "2ca180ec621f51c24ceaa4caf60fcc350b61b8aa4131f0b01ecee91d4999bdd3"
+          },
+          {
             "file": "packages/content/src/project-map.contracts.test.ts",
             "testCount": 5,
             "identityDigest": "96ac92c8f9b870ad27e5dda0172703b86bef48d555beed9d3917d15265d86ced"
@@ -492,6 +513,11 @@
             "file": "packages/content/src/project-map.test.ts",
             "testCount": 6,
             "identityDigest": "649ae7ffa444f001ec4c375e56c149db90ac93476fd9255e9f7281c8802ee22b"
+          },
+          {
+            "file": "packages/content/src/rewards.boundaries.test.ts",
+            "testCount": 6,
+            "identityDigest": "4e4af005f7a46e3bf3ec0ed7c8a2723e26b8531f18d732733177ffa04256b75f"
           },
           {
             "file": "packages/content/src/rewards.test.ts",
@@ -512,6 +538,16 @@
             "file": "packages/content/src/runtime-script-lifecycle.test.ts",
             "testCount": 5,
             "identityDigest": "4cf27ad724f53b9d249b560a2305446831d8fb2edecfbe2e96c855d301e92465"
+          },
+          {
+            "file": "packages/content/src/runtime-script.boundaries.test.ts",
+            "testCount": 4,
+            "identityDigest": "da5bb1eb57d4fb0ac92b092fb6b09e9c471ee6a3f8f361d46ae1c24b994a072e"
+          },
+          {
+            "file": "packages/content/src/scene-index.boundaries.test.ts",
+            "testCount": 10,
+            "identityDigest": "facc686a1673dbd38f4177d7c3a196f70a55e6e47ffca468d9231819f5b26c4a"
           },
           {
             "file": "packages/content/src/scene-index.test.ts",
@@ -609,25 +645,25 @@
             "identityDigest": "6bd136e3dc31faf579c7b78a5dd284c6a1fd1a58ee6d3fa624ccee6e21be9a3c"
           }
         ],
-        "identityDigest": "f2b7b076b3664fcc989fe0a370fdf01d4dd70565336e916d5ec23ab3c083e453",
+        "identityDigest": "529828335e4a492ca6714c3b1c8d2a3f3dc8e46cbc17e6b2541c71e57d93e691",
         "duplicateIdentityCount": 0,
-        "executionDigest": "cb313ee24eb1c3e387133636f0d6b4a734f83ba0a8eaf19dc83e504618566a10"
+        "executionDigest": "a43297ac79a8412676bfde8b6b53b339b7c0e7291e8ff4fb93fd3c2c187f2e5b"
       },
       "metrics": {
         "statements": {
-          "covered": 5010,
+          "covered": 5064,
           "total": 5856
         },
         "branches": {
-          "covered": 3965,
+          "covered": 4031,
           "total": 5019
         },
         "functions": {
-          "covered": 780,
+          "covered": 784,
           "total": 831
         },
         "lines": {
-          "covered": 4561,
+          "covered": 4584,
           "total": 5185
         }
       }
@@ -5084,19 +5120,19 @@
   },
   "total": {
     "statements": {
-      "covered": 56916,
+      "covered": 56970,
       "total": 80452
     },
     "branches": {
-      "covered": 40669,
+      "covered": 40735,
       "total": 63149
     },
     "functions": {
-      "covered": 10766,
+      "covered": 10770,
       "total": 14914
     },
     "lines": {
-      "covered": 51271,
+      "covered": 51294,
       "total": 70420
     }
   }
