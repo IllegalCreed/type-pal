@@ -12,7 +12,8 @@
 
 - [Codex人物/命令引用补测](codex-reference-coverage.md)（12项，精确改名/引用路径/深保真；与GLM目标源码不冲突，间接guard命中单列）
 
-- [GLM第二波六组覆盖率整包](glm-coverage-wave2.md)、[冻结机账](glm-coverage-wave2-evidence.json)与[只读复算器](glm-coverage-wave2-census.mjs)（2026-09-22，25非视觉模块；先逐族去重/准备，三席齐后统一开build；不是重领TB00～TB10）
+- [GLM第二波六组覆盖率整包](glm-coverage-wave2.md)、[冻结机账](glm-coverage-wave2-evidence.json)与[只读复算器](glm-coverage-wave2-census.mjs)（2026-09-22，25非视觉模块；v5三席齐、已build allowed，GLM按A→F整包实施；不是重领TB00～TB10）
+- [GLM第二波准备回执v5](glm-coverage-wave2-receipt.md)与[生成式机账v5](glm-coverage-wave2-results.json)（ae1ae8b6：A05正常移动与生命周期取消证据已分开，历史counter闭合；冻结960L/1274B不是保证净增，按最新集成树扣重）
 
 - [迁移写盘保护实施记录](migration-write-guard.md)及[隔离负控](migration-write-guard-mutants.mjs)/[配置](migration-write-guard.config.mjs)/[真实发布见证](migration-write-guard-publish.mjs)（57dda7ed三席accept齐、用户授权、已done；A-08/A-09按r1收口，不代表R4/N6b已执行）
 
