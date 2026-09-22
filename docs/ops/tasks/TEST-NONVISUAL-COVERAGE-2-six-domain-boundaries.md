@@ -82,7 +82,7 @@ Production Freeze: `57dda7ed2376fc25f07756be117bb4a058d09915`
   - **独立证据**：`/tmp/type-pal-wave2-independent-review.mjs`及输出`.json`复算25模块/桶/白名单，运行真实compiler、fallback guard与base/runtime guard对照；`/tmp/type-pal-wave2-review-old-reforge.log`为10/10，`/tmp/type-pal-wave2-review-full-only.log`为16/16，`/tmp/type-pal-wave2-review-candidate-docs.log`与`/tmp/type-pal-wave2-review-biome-actual.log`保留失败。源代码/原测试/官方基线未改，未跑全仓覆盖率。
   - **旧版本兼容审查：counter（计划层）**，A01仍将已禁vanish当新增合法域、F组历史轴位置错误；不是断言已经改了产品兼容层。其他既有已done卡不重开。
   - **下一位Agent提示词（给GLM）**：在 /Users/zhangxu/illegal/type-pal 的codex/glm-coverage-wave2独立工作树返工TEST-NONVISUAL-COVERAGE-2 r1准备候选d4703cdf，先同步分支、保留三席原文和日志，读AGENTS/CLAUDE/READ-FIRST、本卡Codex R1～R4、原工作包和冻结evidence。补齐960行/1274臂可展开的一对一分类映射及计数生成，纠正trial snapshot去重、current vanish排除、runtime外层重复守卫、函数锚与F历史轴归属；以真实源码冻结负控点位/合法反例/拟定精确标题，修0..100概率合同和元数据/Biome/目录索引。25+9+2白名单、真实旧标题和F组16项存在性已核，不需推翻重做；未查清的族如实留PEND并带证据，不按旧671/888强凑。只改本人准备回执/机账/席位日志及必需README索引，不改产品/正式测试/原probe/官方配置基线，不实施、不代签、不改共享状态或标build/done。提交推送后给Codex与Kimi同一修订候选的并行复核提示词；旧签字原文保留但不自动授权修订稿开工。
-- GLM：**premise verified / design agree（2026-09-22，准备 Owner；证据=[准备回执](../../testing/glm-coverage-wave2-receipt.md)+[机账](../../testing/glm-coverage-wave2-results.json)，全部锚点本人直读冻结树源码/旧测试）**。
+- GLM：**premise verified / design agree（2026-09-22，准备 Owner；r2 修订稿已按 Codex counter 4240fbca R1～R4 落实——下方原 r1 签字段落中的估算分桶数字已被 [回执 r2](../../testing/glm-coverage-wave2-receipt.md) 与 [机账 v2](../../testing/glm-coverage-wave2-results.json) 的生成式映射取代：ruleTable 可机械展开、计数由冻结定位求交生成（ALL MODULES OK，960L/1274B 全对账：NEW 955/1259、UNREACH 5/11、PEND 0/4）；snapshot 去重（B04 收窄至 :40-42/:85/:87+branch:39/:76，prepare 预载链 78/47 归 B05）、vanishEntity 3/6 改 UNREACH（RetainedRuntimeCommand 排除）、validate-runtime 2/5 改 UNREACH（外层 validateBaseScenes 先拒）、script-world 锚点更正（:186/:188=assertFlowCursor、:254-295=selection/cursorHandoff）、core :170 归 moveEntity NEW、F 历史轴迁至 migrate-enemies :96/:98/:211（author-core 的 r1 PEND 撤销——validate.ts/runtime-script.ts/enemy-script.ts/script-compiler-core.ts 为现行 caller）、六负控带真实源码锚（D03 换 assertCurrentProof generation 实参、E01 更正 0..100 域 0/100 合法 101 拒）、SHA/caller/editor×12/fixture×9/Biome/README 索引全修、check:docs PASS。25+9+2 白名单与旧标题/F 组 16 项事实不动。premise/design 维持 verified/agree，以修订稿为准）**。
   - **逐族合同已交付**：25 模块 960L/1274B 逐段分桶（NEW 671/888、PKG 124/186、XPKG 103/117、
     UNREACH 29/42、PEND 33/41——每模块桶数与冻结机账逐一对账通过）；A01～F03 每族给出真实
     caller、合法 fixture/guard、旧测试精确标题去重、目标断言、最强坏实现与代表单点负控。
@@ -159,6 +159,16 @@ Production Freeze: `57dda7ed2376fc25f07756be117bb4a058d09915`
   packages/scripts 零 diff；PEND 不夹带裁决。五条可证伪观察入席（含 B04 措辞归位条件）。
   未读 Codex 本轮结论；未改 GLM 准备文件/共享状态，不代签、不标 build/done。
   Next：Codex 独立审查后由 Codex 统一核 build 准入。
+
+- 2026-09-22 GLM（r2 修订稿）：按 Codex counter 4240fbca R1～R4 完成准备稿返工（保留三席原文/
+  日志）：机账 v2 以 ruleTable+生成式计数取代估算分桶（展开验证 ALL MODULES OK、960L/1274B
+  全对账：NEW 955/1259、UNREACH 5/11、PEND 0/4）；snapshot 去重/vanish 禁用域/validate-runtime
+  外层守卫/函数锚/F 历史轴（迁 migrate-enemies :96/:98/:211，author-core r1 PEND 撤销——现行
+  caller 已 grep 落实）/六负控真实锚（D03 assertCurrentProof generation 实参、E01 0..100 域
+  0/100 合法 101 拒）/SHA/caller/editor×12/fixture×9/Biome/README 索引全部更正，`pnpm check:docs`
+  PASS。25+9+2 白名单与已核事实不动；premise/design 维持 verified/agree（以修订稿为准）。
+  只改本人回执/机账/席位/日志与 README 索引，未改产品/正式测试/原探针/官方配置基线/共享状态，
+  不开 build、不标 done。修订候选并行复核提示词见下（钉同一修订提交）。
 
 - 2026-09-22 GLM（准备完成）：在 codex/glm-coverage-wave2 工作树（基 f828b9fc，零产品/测试/
   配置改动）一次完成六组逐族分类：25 模块 960L/1274B 分桶 NEW671/888·PKG124/186·XPKG103/117·
