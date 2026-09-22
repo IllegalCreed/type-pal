@@ -188,6 +188,39 @@ Production Freeze: `57dda7ed2376fc25f07756be117bb4a058d09915`
     ③ :96/:98/:211 之外发现第二处历史轴定位；④ 实施把 B04 针钉到 :68 留存副本或按误标
     reason 写重复 urlFor 用例；⑤ 白名单外出现产品/旧测试/官方配置 diff。
   - 返工项：无。上述 B04 两处行号/文案勘误以本席观察④约束实施，不单独阻断。
+- Kimi（r3 复核）：**premise verified / design counter（仅 C2 残项；2026-09-22，r3 修订候选 33a7a034；机算重放+本人独立活跑+源码逐锚，形成结论先于核对他席本轮落盘）**。
+  - **① branchArmExceptions 无歧义**：本人扩展自写重放脚本支持「`line|block|arm` 精确键优先、
+    否则按行取首条」——25 模块重放全部恰一归属、零问题；同行 211 拆分正确（[211,28,0] 经行
+    规则归 NEW、[211,28,1] 经异常键归 PEND）；总计 NEW955/1263·UNREACH5/10·PEND0/1=960/1274，
+    与机账 generatedTotals 一致。
+  - **② C1 四臂归 NEW（本人独立活跑）**：合法 behaviors-only 实体（借用仓内
+    validate-runtime.test.ts 的合法 flow 形态）经真实 `validateRuntimeScenes` **accepted**——
+    [40,8,0] 臂可达属实（`:40-41` else-if behaviors 分支直读一致）；真实 `mapEnemies([],[])`
+    无注入即通过并返回 `hookSources:[]`（default-arg :96/:98 与 [211,28,0] true 臂命中）；
+    caller `:1753-1758` 实传 enemyTctx。仅显式 false 的 [211,28,1] 留 PEND——历史注入不测
+    政策不破。C3 方向同核：A03 通知合同与 `:293-294`（每命令一次 executeEffect+一次
+    worldChanged）一致；B04 新针钉 `:85` readText 包装（`:85/:87` 确为 missed 未覆盖行，
+    与既有 5 项零重叠）；F03 fast 解耦标注正确。勘误锚点逐个对源一致（含本席 r2 已指出的
+    :85/:87、:81；A03 循环 :150-151；D03 :247；core:170/:158）。
+  - **③ C2 残项 counter（本人机算交叉核对）**：familyTable 11 条展开（C01/C02、D01-D04、
+    E01/E02 按区间计）实覆盖 16 族；而 generatedTotals 有 NEW 定位的族共 25 个——
+    **A05/B01/B02/B03/C03/C04/C05/E03/E04 九族无 legalFixture/guard/differential 条目**，
+    回执 `:31-35`「每族给出合法 fixture/guard…差异断言」不成立。dedupTitles 45 条中
+    5 条为套件/待核提示而非精确标题：snapshot「5项（基础路径）」、simulator UI「十项」、
+    frame-draft「实施前核对标题清单」TODO、project-reference「两文件主键族」、casualty
+    「5项」（本席在核对他席落盘前已独立发现前两条；sprite-actions「prop 实体只从自身精灵
+    选择动作…」经核为真实标题不计入）。回执「45 条精确旧标题」应改为「40 精确+5 套件引用」。
+  - **最小必改**：① 为九族补 familyTable 条目（真实构造器/guard、旧测试文件+精确标题或
+    明确套件引用、一个具体新增差异/fast 解耦；可引工作包具体段落，不增加文件）；② 5 条
+    占位转为精确标题或显式 suite/file 引用并注明计数；③ C04 实施前 frame-animation-draft
+    实际标题必须枚举（本席 r3 观察③并入此项）。已通过的映射算术、四臂纠正、A03 通知、
+    B04 新针、F03 归属、勘误与 40 条真实标题不重开。
+  - **可证伪观察**（任一成立即收窄或 counter）：① 任一定位仍需第二个同行拆分而异常键未
+    覆盖；② [40,8,0]/default-arg 三臂活跑复现失败；③ 补齐后任一 familyTable 差异断言与
+    旧标题实际合同重叠；④ B04 新针被证明与既有 5 项任一重叠；⑤ 白名单外出现产品/旧测试/
+    官方配置 diff。
+  - 结论说明：premise 层（缺口事实/映射算术/四臂可达性/负控方向）verified；counter 仅针对
+    C2 准备完整性，九族合同与 5 条占位补齐前不授权整包 build。
 - 独立反证审查：待逐族表冻结后，由Codex/Kimi各自直接读一手证据；不互相复述。
 - 缺签豁免：无；用户要求大批任务不是历史“额度空窗先实施”豁免的延续。
 - build准入结论：blocked，缺三席设计及逐族合同；当前可做准备，不得写正式测试。
@@ -200,6 +233,16 @@ Production Freeze: `57dda7ed2376fc25f07756be117bb4a058d09915`
 - done准入结论：blocked。
 
 ## 交接日志
+
+- 2026-09-22 Kimi（r3 修订候选独立复核）：对 33a7a034 签 premise verified / design counter
+  （仅 C2 残项）。机算重放（含异常键扩展）25 模块恰一归属、NEW955/1263·UNREACH5/10·PEND0/1
+  全对账；本人独立活跑证实 behaviors-only 实体经真实 validateRuntimeScenes accepted、
+  mapEnemies([],[]) 无注入通过并返回 hookSources:[]；A03 命令级一次通知（:293-294）、B04
+  新针 :85 与旧 5 项零重叠、F03 解耦标注、勘误锚点逐项一致。C2 counter 为本席机算交叉
+  核对：familyTable 仅覆盖 16/25 NEW 族（缺 A05/B01/B02/B03/C03/C04/C05/E03/E04 九族），
+  dedupTitles 45 条中 5 条为套件/待核提示（其中两条在核对他席落盘前已独立发现）——
+  最小必改三条已写入本席签字。结论形成先于核对他席本轮落盘；未改 GLM 文件/共享状态，
+  不代签、不标 build/done。Next：GLM 定点补 C2 九族合同与 5 条占位后，两席同候选复核。
 
 - 2026-09-22 Codex（r3独立复核）：33a7a034准备文件相对接手5429feb8零漂移。独立重放确认仅指定四臂改桶、23模块计数不变、NEW955/1263等汇总正确；45引用与v1逐字一致，确切25+9+2数组恢复；A03一次通知及勘误正确。新readText针正常1绿/坏实现1业务红/同针下旧5绿，C1/C3关闭。只保留C2：familyTable遗漏九个有NEW定位的族，45条中5条为套件/待核提示而非精确标题；补齐具体去重差异即可，不重开已过部分。本人premise verified/design counter，未改他席/共享状态，不开放build。Next：GLM定点补C2后同候选复核。
 
