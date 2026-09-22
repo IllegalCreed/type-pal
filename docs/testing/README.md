@@ -8,8 +8,12 @@
 
 ## 文档与附件
 
-- [GLM第二波六组覆盖率整包](glm-coverage-wave2.md)、[冻结机账](glm-coverage-wave2-evidence.json)与[只读复算器](glm-coverage-wave2-census.mjs)（2026-09-22，25非视觉模块；先逐族去重/准备，三席齐后统一开build；不是重领TB00～TB10）
-- [GLM第二波准备回执r2](glm-coverage-wave2-receipt.md)与[生成式机账v2](glm-coverage-wave2-results.json)（counter 4240fbca R1～R4落实：960L/1274B可展开映射、计数由规则表生成、snapshot/vanish/外层守卫/F历史轴更正、六真实负控锚）
+- [Codex内容六模块边界补测](codex-content-boundaries.md)（77项，角色状态/地图放置归属/战斗形象/奖励/运行脚本/场景索引；整批统一质量门）
+
+- [Codex人物/命令引用补测](codex-reference-coverage.md)（12项，精确改名/引用路径/深保真；与GLM目标源码不冲突，间接guard命中单列）
+
+- [GLM第二波六组覆盖率整包](glm-coverage-wave2.md)、[冻结机账](glm-coverage-wave2-evidence.json)与[只读复算器](glm-coverage-wave2-census.mjs)（2026-09-22，25非视觉模块；v5三席齐、已build allowed，GLM按A→F整包实施；不是重领TB00～TB10）
+- [GLM第二波准备回执v5](glm-coverage-wave2-receipt.md)与[生成式机账v5](glm-coverage-wave2-results.json)（ae1ae8b6：A05正常移动与生命周期取消证据已分开，历史counter闭合；冻结960L/1274B不是保证净增，按最新集成树扣重）
 
 - [迁移写盘保护实施记录](migration-write-guard.md)及[隔离负控](migration-write-guard-mutants.mjs)/[配置](migration-write-guard.config.mjs)/[真实发布见证](migration-write-guard-publish.mjs)（57dda7ed三席accept齐、用户授权、已done；A-08/A-09按r1收口，不代表R4/N6b已执行）
 
@@ -51,6 +55,7 @@
 - [战斗模拟器r2首批冻结设计](battle-simulator-r2-design.md)（r2a首批已done；我方1～3人/敌方五槽，未获准的新入口不随收口开放）
 - [战斗模拟器r2实施记录](battle-simulator-implementation.md)与[配置/保存负控](battle-simulator-s1-mutants.mjs)（首批已done；主体check7895/strict7404、列宽定向22通过，原生选择器及其它边界仍披露）
 - [战斗模拟器自有工程功能宿主](battle-simulator-functional.mjs)（6011实际编辑器/真实战斗，不改PAL；仅开发期最小功能验证）
+- [编辑器功能视觉补证](editor-functional-visual-2026-09-22.md)（Codex短窗/键盘/错误恢复8项；启动区缺少就近错误说明，360及原生保存边界未关闭）
 - [战斗模拟器运行边界负控](battle-simulator-runtime-mutants.mjs)（人数、资源快照、迟到准入、存档快捷键、技能带入、音乐释放）
 - [第一阶段资源测试输入合同](phase1-resource-test-inputs.md)（E-01完成；20项隔离输入回归、真实资源对拍通过，check7478/严格fast6989绿）
 - [编辑器预览缓存连续修复](editor-preview-cache.md)（E-03/E-04完成；15项真实字节回归、7负控及原生绘制验证，check7457/严格fast6969通过）
