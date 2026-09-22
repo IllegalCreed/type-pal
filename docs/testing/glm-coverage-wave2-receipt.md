@@ -8,6 +8,101 @@
 > 日志`/tmp/type-pal-wave2-build-Pq8YxT/takeover-{reforge,editor}.log`与`takeover-reforge-tc.log`。
 > 后续实施证据另加实名节，以下GLM准备历史不改写。
 
+## Codex实施回执（2026-09-22，当前候选；本地统一门禁通过，待独立终审）
+
+用户因GLM额度耗尽授权Codex接手；保留GLM `6839ea78`/`816c32ce`的A/B历史贡献，
+Codex复验并修正A/B、实现C～F。整包与`967b35fb`相比仅原白名单新测试/薄fixture/工具及文档，
+25份产品源码对冻结`57dda7ed`逐份零差异；旧测试/全局配置/超时/排除/资产无修改。
+Codex从此是实施者，不再把本人自验算成独立接收；Kimi终审仍待，GLM验收缺席未自动豁免。
+
+### 实际交付与去重
+
+25测试文件、9组内fixture、2工具；**163项（A25/B40/C20/D14/E45/F19）**。
+分包为reforge49、editor50、content45、migrate19，均来自最终JSON执行清单；机账新增实名
+`codexImplementation`保存逐文件计数、25模块/四包覆盖对照，不改v5准备字段。
+
+| 组 | 本次主要断言与归属 |
+|---|---|
+| A | current编译器→真实ProjectScriptRuntimeHost/runner→共享core；完整派发实参、状态落地、两target提交后一次通知、真实move取消/漂移、后台错误与同期保真；不再用假的coordinator或不合法flow绕guard |
+| B | 当前目录/命令/预设、完整实际输入、确认集合/undo-redo；可释放同一底层Promise；readText/readJson冻结源；正式工程load+RLE/gzip/cursor/font/PNG宿主→完整资源准备、前后token/revision变化、源IO失败和已创建位图释放 |
+| C | 当前作者树先guard再做预览lowering，逐叶完整参数/条件/共享self/具名状态机；同sprite两实例精确站点；帧IO与完整历史分叉；排序/默认动作的稳定身份 |
+| D | 完整loader工程→真实EditSession扫描/proof factory，等coverage的新generation仍拒旧proof；资源metadata换代；canonical会话换代、联合删除来源范围、索引元组、精确引用路径/诊断与实参保真 |
+| E | current author/runtime和完整父guard上的单轴拒绝/非空正控；敌方条件/动作/概率/战后域及无pages但有behaviors路径；不截断生产guard、不复活vanish |
+| F | 自包含提取表→真实translator，完整字段与来源保真；B11-1四入口/独立36键与source语法；离线ScriptIndex/Chunk审计的UTF8/作者分栏/根域/缺文件。表映射、三域与概率等已有full证明部分按输入解耦登记，非19个新业务机制 |
+
+B05的工程与资源fixture留在reforge包内，使用现有dProjectFiles骨架、真实encoder/gzip/hash和正式loader；
+没有更改rootDir或生产构造器。浏览器IO替身仅提供合法BDF/cursor/PNG响应、PNG尺寸与close观察，
+不声称像素解码/绘制/观感验收；两PNG字节由独立pngjs做CRC/尺寸检查并逐字节对上仓内num/1、num/2。
+没有新增公共依赖，PNG验证工具在Node侧读取migrate已声明的pngjs。
+
+### 同口径覆盖（不是把整文件命中全算本批贡献）
+
+[配置](glm-coverage-wave2-coverage.config.mts)两侧都采用官方testSelection/全生产include。
+before仅排除本包25个新测试；四包before测试数与当前7627官方基线对应包逐一相等，
+生产集合及四维分母相等。报告`/tmp/type-pal-wave2-coverage-fivq93/<pkg>/{before,after}`，不覆盖官方目录。
+
+| 包 | 测试before→after | 行before→after/总数 | 分支before→after/总数 |
+|---|---:|---:|---:|
+| reforge | 1329→1378 | 8514→8759/14599 | 5749→5913/11359 |
+| editor | 2526→2576 | 23227→23336/28636 | 20030→20147/28338 |
+| content | 798→843 | 4584→4687/5185 | 4031→4147/5019 |
+| migrate | 397→416 | 3569→3785/6724 | 2940→3115/6436 |
+
+合计净增**673L/761S/84F/572B**，含真实被调依赖的间接命中；直接25目标见机账单列。
+content行90.40%、分支82.63%（官方四舍五入口径）；并非全部25文件达到95%行/90%分支，不宣称已穷尽所有可达分支。
+第一轮157项对照发现B05整段缺席后，补全6项资源准备链；只补跑受影响reforge after，未逐用例跑全仓。
+Codex先前89项已在before侧，GLM准备7538的旧遗漏不能重复计入本包新增。
+
+### 有证据的收窄与未关闭项
+
+- `script-references.ts:110-365`旧扫描器/便捷包装未找到现行caller；当前`project-diagnostics.ts:710`
+  用canonical `FromVisits`。本批只测现行入口，不靠旧持久脚本形态补命中；旧入口归E-05审查，未删除产品。
+- `script-project-core.ts:361-end`的BaseScriptProjectRuntime未找到current消费者，和仍由current host
+  委托的BaseProjectScriptRuntimeHost区分；没有据Base名称删除整模块，也不制造旧runtime实例。
+- `script-editor.ts:349`的当前私有脚本visitor只产use owner；不制造throw owner来命中引用快照尾臂。
+- 其余未命中保留分母：仍有可补状态/投影组合、前置guard已挡的防御、资源可选域，不能统一叫不可达。
+  whole-file目标未达项与计数已交账，下一批按现行消费者继续细分；frame缓存政策/E-05/U-02/N6b/full/Q1/Q2保持原归属。
+- D组若干文件覆盖净增0：属于真实业务断言/鉴别力补强，机账如实为0，不报新执行臂。
+
+### 负控、合法性与失败记录
+
+[负控](glm-coverage-wave2-mutants.mjs)：**4个完整新套件正控+17针**通过，
+最终树证据`/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-wave2-mutants-vxPYv4/summary.json`；日志`mutants-final-tree.log`。
+正控163项全执行、零skip/todo；每个负控以正控实测的精确文件/标题选中一个用例，恰1项执行且自身
+AssertionError红，字段`filteredByExactName`记录同文件其余名称过滤项，不计实际执行、不修改测试为skip。
+每针唯一替换、Vite load实际进入文件见证、25产品hash不变；目标普通Error/混合错误/超时/未执行均拒绝。
+全套新测试的绿与每针的红分栏；不把另一用例红当作目标鉴别力。
+
+失败如实保留在`/tmp/type-pal-wave2-build-Pq8YxT/`，不是通过多数重跑放行：
+
+- 接手：58绿但TC exit2；假flow/半catalog强转、错误import/坐标/preview类型均已修。删除一条宿主自检空转与一条越界emptyWorld初始化重复测试。
+- Codex开发：A初始页缺失、B技能animation缺失、C loop缺yield/maxIterations，被正式guard拒绝后补完整fixture。
+- D初版toEditorState参数次序放错maps/scriptChunks，5项失败；修正到真实地图参数，14项绿。
+- F零rate原以为省略fallback；直读`translate-enemy-scripts.ts:53-63`确认非零magic保留chancePercent=0，已按当前合同纠正；未改产品。readonly SourceCmd/optional tilesets TC问题已修。
+- B05第一版跨包引用editor造成rootDir失败、node:fs在浏览器TS项目无类型，改为reforge内自包含构造与合法host响应，未动tsconfig；tileset缺category及fixture非空断言Biome两错已修。
+- oracle初版session needle有2处，收窄为move错误上下文唯一处；Vitest rejects/resolves包装会输出普通Error，改成捕获真实结果后普通断言，未放宽判据。
+- readText坏实现原先先遇未捕获缓存错误/进入等待超时，改捕获读取结果与同步进入见证；补B05后包级坏实现还影响非目标成功链，因此负控收敛到精确目标执行，正控仍全量，混合目标错误仍拒绝。
+- 独立worktree缺未跟踪原始/提取/迁移资源：本地链接主树既有只读输入（data/raw、data/extracted、PAL migrated/runtime资产），未修改源字节、不入Git；目录规则不含symlink的两条用本地info/exclude补齐。
+
+复跑整包：
+
+```sh
+node docs/testing/glm-coverage-wave2-mutants.mjs
+WAVE2_COVERAGE_PACKAGE=reforge WAVE2_COVERAGE_PHASE=before WAVE2_COVERAGE_DIR=/tmp/type-pal-wave2-coverage-fivq93 pnpm exec vitest run --config docs/testing/glm-coverage-wave2-coverage.config.mts
+WAVE2_COVERAGE_PACKAGE=reforge WAVE2_COVERAGE_PHASE=after WAVE2_COVERAGE_DIR=/tmp/type-pal-wave2-coverage-fivq93 pnpm exec vitest run --config docs/testing/glm-coverage-wave2-coverage.config.mts
+```
+
+PACKAGE可改editor/content/migrate；输出目录可换新mktemp。只重跑一针可设`WAVE2_MUTANT=<id>`。
+四包TC、新代码/工具Biome、四包fast对照通过。统一串行门禁：`pnpm check` exit0、七包**8281项**；
+`pnpm coverage:ratchet` exit0；`TYPE_PAL_COVERAGE_BASE_REF=967b35fb pnpm coverage:fast`**单次exit0**，
+**7790项/633生产文件**，与新基线逐维完全一致（提升0/下降0）。日志为同目录`check-final.log`、
+`ratchet-final.log`、`strict-final.log`，未取多数通过、未改排除/超时。
+全仓check当次47既有warning/7info，其中1项为本工具字符串风格提示，已等价修正；最终本包37代码/JSON文件Biome无诊断，未冒称原次仅6info。
+四包对照分子与官方基线完全相同；shared/pal-extract/game完整基线对象及全部633生产清单/分母未变。
+全仓行**73.80%（51967/70420）**、语句71.76%（57731/80452）、函数72.78%（10854/14914）、
+分支**65.41%（41307/63149）**；不宣称远端CI或full/Q1/Q2通过。
+旧版本兼容审查pass：未加兼容层，F的ScriptIndex/Chunk只在现行离线迁移审计边界使用，未进入产品持久模型。
+
 任务卡：[TEST-NONVISUAL-COVERAGE-2](../ops/tasks/TEST-NONVISUAL-COVERAGE-2-six-domain-boundaries.md)（draft/r1）。
 生产冻结 `57dda7ed2376fc25f07756be117bb4a058d09915`；分支 `codex/glm-coverage-wave2`。
 本版在 r2 生成式映射基础上落实 C1～C3；三席原文与日志保留。机账

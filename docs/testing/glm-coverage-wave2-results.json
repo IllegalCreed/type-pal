@@ -2311,5 +2311,996 @@
     "noOfficialBaselineOrConfigChanges": true,
     "noBrowserOrVisual": true,
     "glmDoesNotRunOfficialRatchetOrStrictFast": true
+  },
+  "codexImplementation": {
+    "owner": "Codex",
+    "takeover": "314c7bab",
+    "integrationBase": "967b35fb",
+    "glmContributions": ["6839ea78", "816c32ce"],
+    "status": "implementation self-check accepted; check/ratchet/protected single strict-fast passed; independent review pending",
+    "repositoryGates": {
+      "checkExit": 0,
+      "checkTests": 8281,
+      "ratchetExit": 0,
+      "strictExit": 0,
+      "strictRuns": 1,
+      "fastTests": 7790,
+      "productionFiles": 633,
+      "protectedBase": "967b35fb",
+      "unchangedPackages": ["shared", "pal-extract", "game"]
+    },
+    "testCount": 163,
+    "testFiles": 25,
+    "fixtureFiles": 9,
+    "tools": 2,
+    "packages": {
+      "reforge": {
+        "beforeTests": 1329,
+        "afterTests": 1378,
+        "metrics": {
+          "lines": {
+            "before": 8514,
+            "after": 8759,
+            "total": 14599,
+            "delta": 245
+          },
+          "statements": {
+            "before": 9432,
+            "after": 9710,
+            "total": 16737,
+            "delta": 278
+          },
+          "functions": {
+            "before": 1510,
+            "after": 1542,
+            "total": 2539,
+            "delta": 32
+          },
+          "branches": {
+            "before": 5749,
+            "after": 5913,
+            "total": 11359,
+            "delta": 164
+          }
+        }
+      },
+      "editor": {
+        "beforeTests": 2526,
+        "afterTests": 2576,
+        "metrics": {
+          "lines": {
+            "before": 23227,
+            "after": 23336,
+            "total": 28636,
+            "delta": 109
+          },
+          "statements": {
+            "before": 25826,
+            "after": 25959,
+            "total": 32755,
+            "delta": 133
+          },
+          "functions": {
+            "before": 6437,
+            "after": 6454,
+            "total": 8375,
+            "delta": 17
+          },
+          "branches": {
+            "before": 20030,
+            "after": 20147,
+            "total": 28338,
+            "delta": 117
+          }
+        }
+      },
+      "content": {
+        "beforeTests": 798,
+        "afterTests": 843,
+        "metrics": {
+          "lines": {
+            "before": 4584,
+            "after": 4687,
+            "total": 5185,
+            "delta": 103
+          },
+          "statements": {
+            "before": 5064,
+            "after": 5179,
+            "total": 5856,
+            "delta": 115
+          },
+          "functions": {
+            "before": 784,
+            "after": 787,
+            "total": 831,
+            "delta": 3
+          },
+          "branches": {
+            "before": 4031,
+            "after": 4147,
+            "total": 5019,
+            "delta": 116
+          }
+        }
+      },
+      "migrate": {
+        "beforeTests": 397,
+        "afterTests": 416,
+        "metrics": {
+          "lines": {
+            "before": 3569,
+            "after": 3785,
+            "total": 6724,
+            "delta": 216
+          },
+          "statements": {
+            "before": 3980,
+            "after": 4215,
+            "total": 7712,
+            "delta": 235
+          },
+          "functions": {
+            "before": 610,
+            "after": 642,
+            "total": 1165,
+            "delta": 32
+          },
+          "branches": {
+            "before": 2940,
+            "after": 3115,
+            "total": 6436,
+            "delta": 175
+          }
+        }
+      }
+    },
+    "targets": [
+      {
+        "file": "packages/reforge/src/script-host-adapter.ts",
+        "metrics": {
+          "lines": {
+            "before": 62,
+            "after": 145,
+            "total": 165,
+            "delta": 83
+          },
+          "statements": {
+            "before": 63,
+            "after": 161,
+            "total": 189,
+            "delta": 98
+          },
+          "functions": {
+            "before": 2,
+            "after": 5,
+            "total": 5,
+            "delta": 3
+          },
+          "branches": {
+            "before": 48,
+            "after": 116,
+            "total": 172,
+            "delta": 68
+          }
+        }
+      },
+      {
+        "file": "packages/reforge/src/script-world.ts",
+        "metrics": {
+          "lines": {
+            "before": 292,
+            "after": 314,
+            "total": 326,
+            "delta": 22
+          },
+          "statements": {
+            "before": 332,
+            "after": 357,
+            "total": 389,
+            "delta": 25
+          },
+          "functions": {
+            "before": 61,
+            "after": 61,
+            "total": 62,
+            "delta": 0
+          },
+          "branches": {
+            "before": 212,
+            "after": 246,
+            "total": 284,
+            "delta": 34
+          }
+        }
+      },
+      {
+        "file": "packages/reforge/src/script-project-core.ts",
+        "metrics": {
+          "lines": {
+            "before": 127,
+            "after": 150,
+            "total": 179,
+            "delta": 23
+          },
+          "statements": {
+            "before": 136,
+            "after": 161,
+            "total": 198,
+            "delta": 25
+          },
+          "functions": {
+            "before": 27,
+            "after": 29,
+            "total": 32,
+            "delta": 2
+          },
+          "branches": {
+            "before": 67,
+            "after": 80,
+            "total": 117,
+            "delta": 13
+          }
+        }
+      },
+      {
+        "file": "packages/reforge/src/battle-trial-config.ts",
+        "metrics": {
+          "lines": {
+            "before": 86,
+            "after": 89,
+            "total": 89,
+            "delta": 3
+          },
+          "statements": {
+            "before": 95,
+            "after": 99,
+            "total": 101,
+            "delta": 4
+          },
+          "functions": {
+            "before": 16,
+            "after": 16,
+            "total": 16,
+            "delta": 0
+          },
+          "branches": {
+            "before": 70,
+            "after": 75,
+            "total": 77,
+            "delta": 5
+          }
+        }
+      },
+      {
+        "file": "packages/reforge/src/battle-trial-prepare.ts",
+        "metrics": {
+          "lines": {
+            "before": 77,
+            "after": 86,
+            "total": 87,
+            "delta": 9
+          },
+          "statements": {
+            "before": 88,
+            "after": 98,
+            "total": 101,
+            "delta": 10
+          },
+          "functions": {
+            "before": 22,
+            "after": 22,
+            "total": 23,
+            "delta": 0
+          },
+          "branches": {
+            "before": 66,
+            "after": 78,
+            "total": 84,
+            "delta": 12
+          }
+        }
+      },
+      {
+        "file": "packages/reforge/src/battle-trial-assets.ts",
+        "metrics": {
+          "lines": {
+            "before": 34,
+            "after": 108,
+            "total": 117,
+            "delta": 74
+          },
+          "statements": {
+            "before": 40,
+            "after": 119,
+            "total": 136,
+            "delta": 79
+          },
+          "functions": {
+            "before": 13,
+            "after": 31,
+            "total": 37,
+            "delta": 18
+          },
+          "branches": {
+            "before": 26,
+            "after": 55,
+            "total": 75,
+            "delta": 29
+          }
+        }
+      },
+      {
+        "file": "packages/editor/src/core/battle-simulator-state.ts",
+        "metrics": {
+          "lines": {
+            "before": 38,
+            "after": 44,
+            "total": 44,
+            "delta": 6
+          },
+          "statements": {
+            "before": 41,
+            "after": 51,
+            "total": 51,
+            "delta": 10
+          },
+          "functions": {
+            "before": 11,
+            "after": 13,
+            "total": 13,
+            "delta": 2
+          },
+          "branches": {
+            "before": 27,
+            "after": 36,
+            "total": 42,
+            "delta": 9
+          }
+        }
+      },
+      {
+        "file": "packages/editor/src/core/battle-simulator-library.ts",
+        "metrics": {
+          "lines": {
+            "before": 69,
+            "after": 69,
+            "total": 69,
+            "delta": 0
+          },
+          "statements": {
+            "before": 76,
+            "after": 78,
+            "total": 79,
+            "delta": 2
+          },
+          "functions": {
+            "before": 20,
+            "after": 20,
+            "total": 20,
+            "delta": 0
+          },
+          "branches": {
+            "before": 52,
+            "after": 54,
+            "total": 57,
+            "delta": 2
+          }
+        }
+      },
+      {
+        "file": "packages/editor/src/core/battle-simulator-commands.ts",
+        "metrics": {
+          "lines": {
+            "before": 38,
+            "after": 38,
+            "total": 38,
+            "delta": 0
+          },
+          "statements": {
+            "before": 44,
+            "after": 46,
+            "total": 46,
+            "delta": 2
+          },
+          "functions": {
+            "before": 13,
+            "after": 13,
+            "total": 13,
+            "delta": 0
+          },
+          "branches": {
+            "before": 21,
+            "after": 26,
+            "total": 27,
+            "delta": 5
+          }
+        }
+      },
+      {
+        "file": "packages/editor/src/core/world-sprite-behavior.ts",
+        "metrics": {
+          "lines": {
+            "before": 309,
+            "after": 385,
+            "total": 410,
+            "delta": 76
+          },
+          "statements": {
+            "before": 353,
+            "after": 432,
+            "total": 494,
+            "delta": 79
+          },
+          "functions": {
+            "before": 60,
+            "after": 72,
+            "total": 73,
+            "delta": 12
+          },
+          "branches": {
+            "before": 246,
+            "after": 303,
+            "total": 405,
+            "delta": 57
+          }
+        }
+      },
+      {
+        "file": "packages/editor/src/core/frame-animation-draft.ts",
+        "metrics": {
+          "lines": {
+            "before": 135,
+            "after": 142,
+            "total": 143,
+            "delta": 7
+          },
+          "statements": {
+            "before": 151,
+            "after": 168,
+            "total": 179,
+            "delta": 17
+          },
+          "functions": {
+            "before": 30,
+            "after": 32,
+            "total": 32,
+            "delta": 2
+          },
+          "branches": {
+            "before": 104,
+            "after": 125,
+            "total": 148,
+            "delta": 21
+          }
+        }
+      },
+      {
+        "file": "packages/editor/src/core/sprite-actions.ts",
+        "metrics": {
+          "lines": {
+            "before": 10,
+            "after": 13,
+            "total": 13,
+            "delta": 3
+          },
+          "statements": {
+            "before": 12,
+            "after": 18,
+            "total": 18,
+            "delta": 6
+          },
+          "functions": {
+            "before": 6,
+            "after": 6,
+            "total": 6,
+            "delta": 0
+          },
+          "branches": {
+            "before": 10,
+            "after": 17,
+            "total": 17,
+            "delta": 7
+          }
+        }
+      },
+      {
+        "file": "packages/editor/src/core/project-reference.ts",
+        "metrics": {
+          "lines": {
+            "before": 363,
+            "after": 379,
+            "total": 392,
+            "delta": 16
+          },
+          "statements": {
+            "before": 388,
+            "after": 404,
+            "total": 423,
+            "delta": 16
+          },
+          "functions": {
+            "before": 60,
+            "after": 60,
+            "total": 60,
+            "delta": 0
+          },
+          "branches": {
+            "before": 323,
+            "after": 338,
+            "total": 380,
+            "delta": 15
+          }
+        }
+      },
+      {
+        "file": "packages/editor/src/core/project-reference-adapters.ts",
+        "metrics": {
+          "lines": {
+            "before": 345,
+            "after": 345,
+            "total": 372,
+            "delta": 0
+          },
+          "statements": {
+            "before": 366,
+            "after": 366,
+            "total": 394,
+            "delta": 0
+          },
+          "functions": {
+            "before": 104,
+            "after": 104,
+            "total": 105,
+            "delta": 0
+          },
+          "branches": {
+            "before": 244,
+            "after": 244,
+            "total": 277,
+            "delta": 0
+          }
+        }
+      },
+      {
+        "file": "packages/editor/src/core/tileset-references.ts",
+        "metrics": {
+          "lines": {
+            "before": 105,
+            "after": 105,
+            "total": 118,
+            "delta": 0
+          },
+          "statements": {
+            "before": 113,
+            "after": 113,
+            "total": 131,
+            "delta": 0
+          },
+          "functions": {
+            "before": 35,
+            "after": 35,
+            "total": 38,
+            "delta": 0
+          },
+          "branches": {
+            "before": 91,
+            "after": 91,
+            "total": 122,
+            "delta": 0
+          }
+        }
+      },
+      {
+        "file": "packages/editor/src/core/script-references.ts",
+        "metrics": {
+          "lines": {
+            "before": 125,
+            "after": 125,
+            "total": 136,
+            "delta": 0
+          },
+          "statements": {
+            "before": 136,
+            "after": 136,
+            "total": 150,
+            "delta": 0
+          },
+          "functions": {
+            "before": 16,
+            "after": 16,
+            "total": 17,
+            "delta": 0
+          },
+          "branches": {
+            "before": 117,
+            "after": 117,
+            "total": 138,
+            "delta": 0
+          }
+        }
+      },
+      {
+        "file": "packages/editor/src/core/battle-data-references.ts",
+        "metrics": {
+          "lines": {
+            "before": 73,
+            "after": 74,
+            "total": 78,
+            "delta": 1
+          },
+          "statements": {
+            "before": 82,
+            "after": 83,
+            "total": 90,
+            "delta": 1
+          },
+          "functions": {
+            "before": 28,
+            "after": 29,
+            "total": 29,
+            "delta": 1
+          },
+          "branches": {
+            "before": 79,
+            "after": 79,
+            "total": 90,
+            "delta": 0
+          }
+        }
+      },
+      {
+        "file": "packages/editor/src/core/world-variable-references.ts",
+        "metrics": {
+          "lines": {
+            "before": 83,
+            "after": 83,
+            "total": 87,
+            "delta": 0
+          },
+          "statements": {
+            "before": 92,
+            "after": 92,
+            "total": 96,
+            "delta": 0
+          },
+          "functions": {
+            "before": 16,
+            "after": 16,
+            "total": 16,
+            "delta": 0
+          },
+          "branches": {
+            "before": 78,
+            "after": 79,
+            "total": 84,
+            "delta": 1
+          }
+        }
+      },
+      {
+        "file": "packages/content/src/enemy-script.ts",
+        "metrics": {
+          "lines": {
+            "before": 212,
+            "after": 268,
+            "total": 303,
+            "delta": 56
+          },
+          "statements": {
+            "before": 225,
+            "after": 288,
+            "total": 337,
+            "delta": 63
+          },
+          "functions": {
+            "before": 26,
+            "after": 28,
+            "total": 28,
+            "delta": 2
+          },
+          "branches": {
+            "before": 141,
+            "after": 205,
+            "total": 265,
+            "delta": 64
+          }
+        }
+      },
+      {
+        "file": "packages/content/src/author-script-core.ts",
+        "metrics": {
+          "lines": {
+            "before": 482,
+            "after": 521,
+            "total": 578,
+            "delta": 39
+          },
+          "statements": {
+            "before": 508,
+            "after": 551,
+            "total": 633,
+            "delta": 43
+          },
+          "functions": {
+            "before": 47,
+            "after": 48,
+            "total": 49,
+            "delta": 1
+          },
+          "branches": {
+            "before": 344,
+            "after": 381,
+            "total": 489,
+            "delta": 37
+          }
+        }
+      },
+      {
+        "file": "packages/content/src/runtime-scene.ts",
+        "metrics": {
+          "lines": {
+            "before": 37,
+            "after": 45,
+            "total": 45,
+            "delta": 8
+          },
+          "statements": {
+            "before": 42,
+            "after": 50,
+            "total": 51,
+            "delta": 8
+          },
+          "functions": {
+            "before": 7,
+            "after": 7,
+            "total": 7,
+            "delta": 0
+          },
+          "branches": {
+            "before": 39,
+            "after": 53,
+            "total": 54,
+            "delta": 14
+          }
+        }
+      },
+      {
+        "file": "packages/content/src/validate-runtime.ts",
+        "metrics": {
+          "lines": {
+            "before": 17,
+            "after": 17,
+            "total": 19,
+            "delta": 0
+          },
+          "statements": {
+            "before": 19,
+            "after": 20,
+            "total": 24,
+            "delta": 1
+          },
+          "functions": {
+            "before": 3,
+            "after": 3,
+            "total": 3,
+            "delta": 0
+          },
+          "branches": {
+            "before": 15,
+            "after": 16,
+            "total": 20,
+            "delta": 1
+          }
+        }
+      },
+      {
+        "file": "packages/migrate/src/migrate-enemies.ts",
+        "metrics": {
+          "lines": {
+            "before": 1,
+            "after": 43,
+            "total": 44,
+            "delta": 42
+          },
+          "statements": {
+            "before": 1,
+            "after": 46,
+            "total": 49,
+            "delta": 45
+          },
+          "functions": {
+            "before": 0,
+            "after": 7,
+            "total": 7,
+            "delta": 7
+          },
+          "branches": {
+            "before": 0,
+            "after": 52,
+            "total": 64,
+            "delta": 52
+          }
+        }
+      },
+      {
+        "file": "packages/migrate/src/pal-casualty-scripts.ts",
+        "metrics": {
+          "lines": {
+            "before": 0,
+            "after": 70,
+            "total": 75,
+            "delta": 70
+          },
+          "statements": {
+            "before": 0,
+            "after": 73,
+            "total": 81,
+            "delta": 73
+          },
+          "functions": {
+            "before": 0,
+            "after": 6,
+            "total": 6,
+            "delta": 6
+          },
+          "branches": {
+            "before": 0,
+            "after": 59,
+            "total": 74,
+            "delta": 59
+          }
+        }
+      },
+      {
+        "file": "packages/migrate/src/script-library-audit.ts",
+        "metrics": {
+          "lines": {
+            "before": 0,
+            "after": 102,
+            "total": 132,
+            "delta": 102
+          },
+          "statements": {
+            "before": 0,
+            "after": 114,
+            "total": 164,
+            "delta": 114
+          },
+          "functions": {
+            "before": 0,
+            "after": 18,
+            "total": 24,
+            "delta": 18
+          },
+          "branches": {
+            "before": 0,
+            "after": 58,
+            "total": 116,
+            "delta": 58
+          }
+        }
+      }
+    ],
+    "tests": [
+      {
+        "file": "packages/reforge/src/battle-trial-assets.wave2.test.ts",
+        "count": 11
+      },
+      {
+        "file": "packages/reforge/src/battle-trial-config.wave2.test.ts",
+        "count": 6
+      },
+      {
+        "file": "packages/reforge/src/battle-trial-prepare.wave2.test.ts",
+        "count": 7
+      },
+      {
+        "file": "packages/reforge/src/script-host-adapter.wave2.test.ts",
+        "count": 6
+      },
+      {
+        "file": "packages/reforge/src/script-project-core.wave2.test.ts",
+        "count": 11
+      },
+      {
+        "file": "packages/reforge/src/script-world.wave2.test.ts",
+        "count": 8
+      },
+      {
+        "file": "packages/editor/src/core/battle-data-references.wave2.test.ts",
+        "count": 2
+      },
+      {
+        "file": "packages/editor/src/core/battle-simulator-commands.wave2.test.ts",
+        "count": 8
+      },
+      {
+        "file": "packages/editor/src/core/battle-simulator-library.wave2.test.ts",
+        "count": 4
+      },
+      {
+        "file": "packages/editor/src/core/battle-simulator-state.wave2.test.ts",
+        "count": 4
+      },
+      {
+        "file": "packages/editor/src/core/frame-animation-draft.wave2.test.ts",
+        "count": 12
+      },
+      {
+        "file": "packages/editor/src/core/project-reference-adapters.wave2.test.ts",
+        "count": 2
+      },
+      {
+        "file": "packages/editor/src/core/project-reference.wave2.test.ts",
+        "count": 4
+      },
+      {
+        "file": "packages/editor/src/core/script-references.wave2.test.ts",
+        "count": 2
+      },
+      {
+        "file": "packages/editor/src/core/sprite-actions.wave2.test.ts",
+        "count": 3
+      },
+      {
+        "file": "packages/editor/src/core/tileset-references.wave2.test.ts",
+        "count": 2
+      },
+      {
+        "file": "packages/editor/src/core/world-sprite-behavior.wave2.test.ts",
+        "count": 5
+      },
+      {
+        "file": "packages/editor/src/core/world-variable-references.wave2.test.ts",
+        "count": 2
+      },
+      {
+        "file": "packages/content/src/author-script-core.wave2.test.ts",
+        "count": 16
+      },
+      {
+        "file": "packages/content/src/enemy-script.wave2.test.ts",
+        "count": 18
+      },
+      {
+        "file": "packages/content/src/runtime-scene.wave2.test.ts",
+        "count": 9
+      },
+      {
+        "file": "packages/content/src/validate-runtime.wave2.test.ts",
+        "count": 2
+      },
+      {
+        "file": "packages/migrate/src/migrate-enemies.wave2.test.ts",
+        "count": 6
+      },
+      {
+        "file": "packages/migrate/src/pal-casualty-scripts.wave2.test.ts",
+        "count": 9
+      },
+      {
+        "file": "packages/migrate/src/script-library-audit.wave2.test.ts",
+        "count": 4
+      }
+    ],
+    "coverageDirectory": "/tmp/type-pal-wave2-coverage-fivq93",
+    "logDirectory": "/tmp/type-pal-wave2-build-Pq8YxT",
+    "mutants": {
+      "controls": 4,
+      "negativeCases": 17,
+      "evidence": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-wave2-mutants-vxPYv4/summary.json",
+      "execution": "full new-suite controls; each negative executes one exact named case; intentional name-filtered tests are not counted as executed"
+    },
+    "scopeCorrections": [
+      "script-references.ts:110-365 has no found current caller; only canonical FromVisits used at project-diagnostics:710; no legacy scanner tests",
+      "script-project-core.ts:361-end BaseScriptProjectRuntime has no found current caller; retained BaseProjectScriptRuntimeHost remains live",
+      "script-editor.ts:349 emits only use private-script owners; no manufactured throw owner"
+    ],
+    "limits": [
+      "Remaining unhit counts stay in denominator; not all whole-file 95/90 targets achieved",
+      "No production, old-test, global scope or timeout changes",
+      "No visual/E2E/full/Q1/Q2; Kimi independent review pending; GLM acceptance not waived"
+    ]
   }
 }
