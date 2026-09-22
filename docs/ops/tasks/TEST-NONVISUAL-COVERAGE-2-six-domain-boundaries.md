@@ -268,6 +268,24 @@ Production Freeze: `57dda7ed2376fc25f07756be117bb4a058d09915`
     旧标题实际合同重叠；② 任一展开标题在对应文件不存在或不再覆盖所述臂；③ C04 用例与
     五标题任一重复；④ 白名单外出现产品/旧测试/官方配置 diff。
   - 返工项：无。本席 r3 counter 的九族合同与 5 条占位两项已全部闭合，r1~r3 各签原文保留。
+- Kimi（v5 窄复核）：**accept（2026-09-22，v5 候选 ae1ae8b6，仅 A05 归因残项；两测试体本人逐行直读，未读 Codex 本轮结论）**。
+  - **① 两测试实际命令集 ↔ v5 归属一致**：`runtime-script-project.test.ts:129-148` 命令集仅
+    `{kind:'moveEntity'}` 一条、一次 `commitMoveEntityEndpoint()`、**零 abort**——已证范围确实
+    只是「当前 host 转交 move 提交控制的正常路径」；`:222-261` 实际命令为 hideEntity（两次
+    运行）+removeEntity 后续叶、带 alreadyAborted/执行中 abort 两次，**全文无 moveEntity**——
+    是生命周期取消证据，不能证明 `script-project-core.ts:157-184` 的移动取消/会话漂移保护；
+    完整标题末尾 `leaf` 与 `:222` 逐字一致。v4 的「提交窗口两臂已证」确为误归因，v5 撤回正确。
+  - **② 撤回表述三处一致**：机账 differential、回执 v5 附节（含 v4 节内联更正）、GLM 席位
+    均写明「已证=正常提交路径一条、撤回两臂已证、生命周期取消单列」；且三处都把
+    **moveEntity 提交前/后取消与会话漂移保留在原 A05 NEW 范围**（宿主等待/shared resolver
+    新增方向不变）——无把未证臂偷偷移出 NEW。
+  - **③ 其余与 v4 零漂移**：字段级比对 bfb4f522..ae1ae8b6——机账仅 schemaVersion/task/
+    supersedes 头与 familyTable 的 **A05 一行**变化（20 行其余不变）；回执仅 v4 节内联更正+
+    v5 附节；卡内仅 GLM 席位/日志与提示词。映射/六针/白名单/80 标题/套件计数未动。
+  - **可证伪观察**（任一成立即收窄或 counter）：① 实施时发现另有旧测试实际消费 move 提交
+    控制断言（真实文件+精确标题）→ 已证范围重估；② A05 新用例与两已证标题任一重叠；
+    ③ 白名单外出现产品/旧测试/官方配置 diff。
+  - 返工项：无。
 - 独立反证审查：待逐族表冻结后，由Codex/Kimi各自直接读一手证据；不互相复述。
 - 缺签豁免：无；用户要求大批任务不是历史“额度空窗先实施”豁免的延续。
 - build准入结论：blocked，缺三席设计及逐族合同；当前可做准备，不得写正式测试。
@@ -280,6 +298,14 @@ Production Freeze: `57dda7ed2376fc25f07756be117bb4a058d09915`
 - done准入结论：blocked。
 
 ## 交接日志
+
+- 2026-09-22 Kimi（v5 窄复核）：对 ae1ae8b6 签 accept，仅 A05 归因残项。两测试体逐行直读：
+  :129-148 仅 moveEntity 一条/一次 commit/零 abort（已证仅此正常路径），:222-261 实际为
+  hideEntity×2+removeEntity 带两次 abort、无 moveEntity（生命周期取消单列），完整标题末尾
+  leaf 逐字一致——v4 误归因成立、v5 撤回正确。撤回表述在机账/回执/GLM 席位三处一致，
+  移动取消与会话漂移保留原 A05 NEW 范围。v4→v5 字段级比对仅机账头+A05 一行、回执附节、
+  卡内席位日志变化，其余零漂移。未读 Codex 本轮结论；未改 GLM 文件/共享状态，不代签、
+  不标 build/done。Next：Codex 确认 A05 归因后统一核 build 准入。
 
 - 2026-09-22 GLM（v5，A05 归因更正）：按 Codex v4 counter 29b1a56b 唯一残项定点更正（机账
   schemaVersion 5 + 回执 v5 附节 + 本人席位）：撤回「moveEntity 提交窗口两臂已证」，补齐旧标题
