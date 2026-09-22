@@ -1,8 +1,8 @@
 {
-  "schemaVersion": 3,
-  "task": "TEST-NONVISUAL-COVERAGE-2 r1 preparation rework v3 (GLM; addresses Codex r2 counter cec14f05 C1-C3)",
+  "schemaVersion": 4,
+  "task": "TEST-NONVISUAL-COVERAGE-2 r1 preparation rework v4 (GLM; closes C2 residual per Codex r3 d84d1bbf + Kimi d19d5bb0)",
   "date": "2026-09-22",
-  "supersedes": "r2 (38dd1fe1). v3 keeps the generative per-locator mapping (ruleTable + generatedCounts) and adds: C1 arm-level corrections with branchArmExceptions (same line can split by arm), C2 restored per-module dedupTitles + exact whitelist arrays (pinned to d4703cdf v1 paths), C3 corrected needles",
+  "supersedes": "r3 (33a7a034). v4 completes familyTable to 20 rows (adds A05/B01/B02/B03/C03/C04/C05/E03/E04) and expands all 5 suite-hint dedupTitles into precise titles/suite refs with counts; mapping/totals/needles/whitelist unchanged",
   "planningBase": "456feb12",
   "productionFreeze": "57dda7ed2376fc25f07756be117bb4a058d09915",
   "branch": "codex/glm-coverage-wave2",
@@ -613,7 +613,13 @@
         }
       ],
       "branchArmExceptions": null,
-      "dedupTitles": ["scripts/battle-trial-assets.test.ts 5项（资源快照/取消窗基础路径）"],
+      "dedupTitles": [
+        "packages/reforge/scripts/battle-trial-assets.test.ts::frozen bytes detach the source and every consumer; seal forbids uncached project IO",
+        "packages/reforge/scripts/battle-trial-assets.test.ts::cancel in-flight IO settles before an ignoring reader; late bytes cannot revive the snapshot",
+        "packages/reforge/scripts/battle-trial-assets.test.ts::catalog bytes mismatch fails, same original input succeeds",
+        "packages/reforge/scripts/battle-trial-assets.test.ts::catalog sha256 mismatch fails, same original input succeeds",
+        "packages/reforge/scripts/battle-trial-assets.test.ts::pre-aborted preparation does no project IO or session preparation"
+      ],
       "generatedCounts": {
         "B04|NEW": {
           "lines": 5,
@@ -706,7 +712,18 @@
         }
       ],
       "branchArmExceptions": null,
-      "dedupTitles": ["scripts/battle-simulator-ui.test.tsx 十项工作流"],
+      "dedupTitles": [
+        "suite:packages/editor/scripts/battle-simulator-ui.test.tsx(10)::[add-picker:simulator/party] selection and cancellation are read-only; confirmation appends once and undo/scope invalidates the dialog",
+        "suite:packages/editor/scripts/battle-simulator-ui.test.tsx(10)::[add-picker:simulator/bag] explicit confirmation, cancelled search, stale revision, removal focus and undo preserve the author transaction boundary",
+        "suite:packages/editor/scripts/battle-simulator-ui.test.tsx(10)::replacing an edited temporary plan requires confirmation; cancellation preserves edits and source changes dismiss stale confirmation",
+        "suite:packages/editor/scripts/battle-simulator-ui.test.tsx(10)::named presets / plan sources / deletion / undo use real author commands; dirty project cannot run",
+        "suite:packages/editor/scripts/battle-simulator-ui.test.tsx(10)::temporary party edits, pools, skills and gear produce launch input without mutating named state",
+        "suite:packages/editor/scripts/battle-simulator-ui.test.tsx(10)::enemy and bag editors preserve null slots and zero-removal, copy and undo independently",
+        "suite:packages/editor/scripts/battle-simulator-ui.test.tsx(10)::quick skill launch adds only the selected skill, preserves MP and original plan, and handles launch failure",
+        "suite:packages/editor/scripts/battle-simulator-ui.test.tsx(10)::skill multiselect counts, searches, selects and clears; missing references remain removable",
+        "suite:packages/editor/scripts/battle-simulator-ui.test.tsx(10)::temporary overrides change party, enemies, bag and conditions without rewriting their named sources",
+        "suite:packages/editor/scripts/battle-simulator-ui.test.tsx(10)::a skill entry with no named plan opens an actionable draft and requires an explicit caster"
+      ],
       "generatedCounts": {
         "B03|NEW": {
           "lines": 0,
@@ -970,7 +987,13 @@
         }
       ],
       "branchArmExceptions": null,
-      "dedupTitles": ["实施前核对 frame-animation-draft.test.ts 标题清单"],
+      "dedupTitles": [
+        "packages/editor/src/core/frame-animation-draft.test.ts::以结构共享完成完整帧编辑和撤销重做",
+        "packages/editor/src/core/frame-animation-draft.test.ts::一次重排历史让 active/anchor 跟随来源帧，且 undo/redo 对称",
+        "packages/editor/src/core/frame-animation-draft.test.ts::拒绝尺寸错误、重复 id 和删除全部帧",
+        "packages/editor/src/core/frame-animation-draft.test.ts::保存和重开后每张完整帧逐像素一致",
+        "packages/editor/src/core/frame-animation-draft.test.ts::按最近色或误差扩散量化完整 RGBA 帧并保留 alpha"
+      ],
       "generatedCounts": {
         "C03|NEW": {
           "lines": 2,
@@ -1105,7 +1128,21 @@
       ],
       "branchArmExceptions": null,
       "dedupTitles": [
-        "project-reference.test.ts / project-reference.boundaries.test.ts 既有主键族"
+        "packages/editor/src/core/project-reference.test.ts::uses tuple keys without delimiter collisions or display/path identity",
+        "packages/editor/src/core/project-reference.test.ts::interns deterministic tables and rejects inconsistent definitions for one source",
+        "packages/editor/src/core/project-reference.test.ts::keeps arbitrary action ids collision-free while interning relation rows",
+        "packages/editor/src/core/project-reference.test.ts::omits derived source/target keys and interns repeated detail without changing decoded edges",
+        "packages/editor/src/core/project-reference.test.ts::compact locators round-trip every variant and only retain a distinct canonical path",
+        "packages/editor/src/core/project-reference.test.ts::indexes one composite entity edge under entity and ancestor scene without duplicating rows",
+        "packages/editor/src/core/project-reference.test.ts::compact source sentinel preserves an explicit empty label",
+        "packages/editor/src/core/project-reference.test.ts::world action aliases its definition unless the source is deleted with that definition",
+        "packages/editor/src/core/project-reference.test.ts::deletion impact blocks block/replace-suggest, preserves warn and excludes explicit sources",
+        "packages/editor/src/core/project-reference.test.ts::A↔B scope excludes A sources while preserving B→A",
+        "packages/editor/src/core/project-reference.boundaries.test.ts::非 owner/section 派生的 source key 拒绝（现行合同）",
+        "packages/editor/src/core/project-reference.boundaries.test.ts::多目标/多来源：referencesTo 按 target 分桶、allReferences 保全、detail/where/locator 逐字段往返",
+        "packages/editor/src/core/project-reference.boundaries.test.ts::输入顺序无关：同一边集任意排列产生等价查询结果",
+        "packages/editor/src/core/project-reference.boundaries.test.ts::blockers/warnings 分栏：warn 不阻断、block/replace-suggest 阻断",
+        "packages/editor/src/core/project-reference.boundaries.test.ts::deletionScopeFor：自身随删来源被排除，真正外部引用保留"
       ],
       "generatedCounts": {
         "D01|NEW": {
@@ -1893,7 +1930,13 @@
         }
       ],
       "branchArmExceptions": null,
-      "dedupTitles": ["pal-casualty-scripts.test.ts 5项真实资产"],
+      "dedupTitles": [
+        "packages/migrate/src/pal-casualty-scripts.test.ts::顺序概率门 + 分支台词/回满/临时 buff 结构化翻译并落 locale",
+        "packages/migrate/src/pal-casualty-scripts.test.ts::未知 opcode fail-closed",
+        "packages/migrate/src/pal-casualty-scripts.test.ts::入口缺失 fail-closed",
+        "packages/migrate/src/pal-casualty-scripts.test.ts::P4:六条 coveredBy 映射进最终 actors.json",
+        "packages/migrate/src/pal-casualty-scripts.test.ts::casualty 结构化脚本落位正确(friendDeath/dying 分配 + 概率门)"
+      ],
       "generatedCounts": {
         "F02|NEW": {
           "lines": 75,
@@ -2059,6 +2102,98 @@
       "family": "F03",
       "legalFixture": "自包含 ScriptIndex/Chunk 离线输入",
       "differential": "分栏针为 fast 输入解耦（full-only「作者脚本单列统计…」已证），其余 audit 臂为新增（UTF8/闭包/超界/排序）"
+    },
+    {
+      "family": "A05",
+      "legalFixture": "真实 ScriptProjectRuntime + 经 current compiler 的 moveEntity/wait 命令（不 mock 宿主方法本体）",
+      "oldTests": [
+        "packages/reforge/src/runtime-script-project.test.ts::retained moveEntity forwards the endpoint commit control through the current host",
+        "packages/reforge/src/runtime-script-project.test.ts::abort before commit writes nothing; abort after commit prevents the next",
+        "packages/reforge/src/script-host-adapter.current-dispatch.test.ts::openShop 挂起时后续 leaf 不执行；resolve 后继续并收到同 signal",
+        "packages/reforge/src/script-host-adapter.current-dispatch.test.ts::playVideo 拒绝 → 派发拒绝且错误原样传播；正常路径明确返回"
+      ],
+      "differential": "moveEntity 提交窗口两臂已证；新增=宿主等待方法体（confirm/teleportOut/revealSceneEntry/wait/waitWorldTick/yieldMacroTask :297-345）真实结果与 shared resolver 调用臂 :372-450、尾部 :500-545（工作包 A05 段）"
+    },
+    {
+      "family": "B01",
+      "legalFixture": "parseBattleTrialConfig 正式解析构造合法/非法 config",
+      "oldTests": [
+        "packages/reforge/src/battle-trial-config.test.ts::preserves explicit zero/empty/silence and enemy holes; detaches actual input",
+        "packages/reforge/src/battle-trial-config.test.ts::accepts each source/resource mode and removes only zero inventory rows",
+        "packages/reforge/src/battle-trial-config.test.ts::rejects duplicate templates and sparse members instead of silently filtering them"
+      ],
+      "differential": "新增=剩余拒绝/默认臂（missed :46/:49/:155 与 7 分支——percent 上界/非法 kind/缺省组合未逐轴展开，工作包 B01 段\"剩余组合\"）"
+    },
+    {
+      "family": "B02",
+      "legalFixture": "battle-simulator library 解析器与 state 真实构造（不 mock 解析）",
+      "oldTests": [
+        "packages/editor/src/core/battle-simulator-library.test.ts::parser/resolver detach nested data and section overrides never change presets",
+        "packages/editor/src/core/battle-simulator-library.test.ts::missing preset references remain repairable but cannot be resolved, even when overridden",
+        "packages/editor/src/core/battle-simulator-library.test.ts::inline plans can be used without creating named presets",
+        "suite:packages/editor/scripts/battle-simulator-ui.test.tsx(10)"
+      ],
+      "differential": "新增=主题覆写臂 :78-84（覆写不改原预设/不提 MP，工作包 B02 段）+ library 分支臂 :29/:103/:151-152/:177 与 collectSimulatorLibraryIssues :136"
+    },
+    {
+      "family": "B03",
+      "legalFixture": "真实 EditSession+命令派发",
+      "oldTests": [
+        "suite:packages/editor/scripts/battle-simulator-ui.test.tsx(10)——named presets / plan sources / deletion / undo use real author commands; dirty project cannot run 等"
+      ],
+      "differential": "UI 十项已证命令主干与 undo；新增=依赖方案确认集合过期各拒绝臂 :32-63（stale set 每臂单独正控，工作包 B03 段\"过期必须拒绝，不能只测错误字符串\"）"
+    },
+    {
+      "family": "C03",
+      "legalFixture": "createFrameAnimationDraft/draftFromFrameSequence 正式构造 + assertPixelLength 维度守卫",
+      "oldTests": [
+        "packages/editor/src/core/frame-animation-draft.test.ts::以结构共享完成完整帧编辑和撤销重做",
+        "packages/editor/src/core/frame-animation-draft.test.ts::一次重排历史让 active/anchor 跟随来源帧，且 undo/redo 对称",
+        "packages/editor/src/core/frame-animation-draft.test.ts::拒绝尺寸错误、重复 id 和删除全部帧",
+        "packages/editor/src/core/frame-animation-draft.test.ts::保存和重开后每张完整帧逐像素一致",
+        "packages/editor/src/core/frame-animation-draft.test.ts::按最近色或误差扩散量化完整 RGBA 帧并保留 alpha"
+      ],
+      "differential": "旧五项证结构共享/重排/拒绝/重开/量化；新增=pixels/asset 双源 reader 延迟/拒绝与 duration 缺省/覆写/合法非整数臂（:37-101，工作包 C03 段）"
+    },
+    {
+      "family": "C04",
+      "legalFixture": "同 C03 真实 draft 历史 API",
+      "oldTests": [
+        "packages/editor/src/core/frame-animation-draft.test.ts::以结构共享完成完整帧编辑和撤销重做",
+        "packages/editor/src/core/frame-animation-draft.test.ts::一次重排历史让 active/anchor 跟随来源帧，且 undo/redo 对称"
+      ],
+      "differential": "重排轴已证；新增=插入/替换/复制/多删/移动/选择续接各历史分支与 redo 清理、失败保留整输入（:118-372 遗漏臂，工作包 C04 段）"
+    },
+    {
+      "family": "C05",
+      "legalFixture": "sprite-actions 真实输入（项目动作表+实体）",
+      "oldTests": [
+        "packages/editor/src/core/sprite-actions.test.ts::按 order/label/id 稳定排序并派生零基显示编号",
+        "packages/editor/src/core/sprite-actions.test.ts::prop 实体只从自身精灵选择动作，不借用全项目第一项",
+        "packages/editor/src/core/sprite-actions.test.ts::actor 实体经角色表解析；没有动作时明确返回 undefined"
+      ],
+      "differential": "新增=下一 ID 与 default target 臂 :32-34/:49（工作包 C05 段）"
+    },
+    {
+      "family": "E03",
+      "legalFixture": "checkRuntimeSceneHooks/validateRuntimeScenes 正式守卫（先过合法完整父树再单轴改坏）",
+      "oldTests": [
+        "packages/content/src/runtime-scene.test.ts::accepts the explicit victory and flee policies",
+        "packages/content/src/runtime-scene.test.ts::rejects legacy respawn/success fields and missing policies",
+        "packages/content/src/runtime-scene.test.ts::rejects polluted discriminants and malformed chase",
+        "packages/content/src/runtime-scene.test.ts::recursively validates the defeat arm instead of accepting legacy vanish"
+      ],
+      "differential": "四项证胜利/逃跑策略/legacy 拒绝/递归 defeat；新增=剩余 chase ticks/参数边界臂（missed :48-131 未覆盖组合，工作包 E03 段）"
+    },
+    {
+      "family": "E04",
+      "legalFixture": "validateBaseScenes 先行通过后经 validateRuntimeScenes（不 mock 外层守卫）",
+      "oldTests": [
+        "packages/content/src/validate-runtime.test.ts::accepts lifecycle commands in nested flow and explicit hostile policy",
+        "packages/content/src/validate-runtime.test.ts::rejects old hostile fields and nested vanish in any script channel",
+        "packages/content/src/validate-runtime.test.ts::rejects facing on a current zone entity"
+      ],
+      "differential": "三项证嵌套 lifecycle/旧字段拒绝/zone facing；新增=[40,8,0] 无 pages 但有 behaviors 的合法实体分支正控（旧用例未构造该形态；Codex 活跑 fixture 已证可达）"
     }
   ],
   "needles": [
@@ -2109,7 +2244,8 @@
     "C1": "validate-runtime [40,8,0] -> E04 NEW (legal no-pages-with-behaviors branch, live-run proven; r1/r2 whole-file UNREACH was over-broad — :24 is old top-level hook-field rejection with precondition validate.ts:356-359, :29 entities check); migrate-enemies [96,0,0]/[98,1,0]/[211,28,0] -> F01 NEW (default-arg arms = current defaults, live mapEnemies([],[]) hits all three; current caller passes enemyTctx per :1753-1758), only [211,28,1] stays PEND; expansionRule now supports branchArmExceptions so line 211 splits by arm; regenerated: NEW 955/1263, UNREACH 5/10, PEND 0/1",
     "C2": "modules[].dedupTitles restored verbatim from d4703cdf v1 (45 titles); familyTable added with legal fixtures/guards and differential-attribution per family; whitelist restored to exact 25+9+2 path arrays pinned from d4703cdf v1 — identical paths, not re-chosen",
     "C3": "A03 positive control corrected to complete-write-then-single-command-level-notification (:293-294 one effect + one worldChanged; r2 两次通知写法会把正确产品写成红测); B04 slice needle retired to existing evidence (old test frozen bytes detach... already red under that mutation) and replaced by the readText/readJson wrapper needle at :85 (real remaining contract); F03 needle annotated as fast input-decoupling (full-only title exists), not new business",
-    "errata": "B04 :85/:87 are readText/readJson wrappers (urlFor :88-89, post-await recheck :76, consumer slice :81); A03 loop :150-151; D03 call site :247; core :170 is scene-session-changed AbortError (session id at :158); battle-trial-assets single-file B05 remainder 78L/47B (r2 used cross-file 79/48)"
+    "errata": "B04 :85/:87 are readText/readJson wrappers (urlFor :88-89, post-await recheck :76, consumer slice :81); A03 loop :150-151; D03 call site :247; core :170 is scene-session-changed AbortError (session id at :158); battle-trial-assets single-file B05 remainder 78L/47B (r2 used cross-file 79/48)",
+    "C2residual": "familyTable completed 11->20 rows (nine families with real constructor/guard, old test file+exact titles or suite reference, one concrete differential); 5 hint entries expanded: trial-assets 5 exact titles, simulator-ui 10 exact titles (suite ref with count), frame-animation-draft 5 exact titles (C04 pre-implementation enumeration), project-reference 10+5 per-file titles, casualty 5 exact titles; dedupTitles now 80 entries total (40 original precise + 40 expanded from 5 hints), suite-prefixed refs carry counts"
   },
   "whitelist": {
     "testFiles": [

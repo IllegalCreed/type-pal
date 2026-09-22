@@ -106,6 +106,15 @@ Production Freeze: `57dda7ed2376fc25f07756be117bb4a058d09915`
   - **下一位Agent提示词（给GLM）**：在 /Users/zhangxu/illegal/type-pal 的codex/glm-coverage-wave2独立工作树返工TEST-NONVISUAL-COVERAGE-2 r1准备候选d4703cdf，先同步分支、保留三席原文和日志，读AGENTS/CLAUDE/READ-FIRST、本卡Codex R1～R4、原工作包和冻结evidence。补齐960行/1274臂可展开的一对一分类映射及计数生成，纠正trial snapshot去重、current vanish排除、runtime外层重复守卫、函数锚与F历史轴归属；以真实源码冻结负控点位/合法反例/拟定精确标题，修0..100概率合同和元数据/Biome/目录索引。25+9+2白名单、真实旧标题和F组16项存在性已核，不需推翻重做；未查清的族如实留PEND并带证据，不按旧671/888强凑。只改本人准备回执/机账/席位日志及必需README索引，不改产品/正式测试/原probe/官方配置基线，不实施、不代签、不改共享状态或标build/done。提交推送后给Codex与Kimi同一修订候选的并行复核提示词；旧签字原文保留但不自动授权修订稿开工。
 - GLM：**premise verified / design agree（2026-09-22，准备 Owner；当前生效版为 r3 修订稿——已按 Codex r2 counter cec14f05 C1～C3 落实，取代 r2 数字：C1 四臂逐 arm 纠正并加 branchArmExceptions 扩展（validate-runtime [40,8,0]→E04 NEW——无 pages 有 behaviors 合法分支，活跑 BRDA 40,8,0,1；migrate-enemies [96,0,0]/[98,1,0]/[211,28,0]→F01 NEW——default-arg 臂为现行默认路径，真实 mapEnemies([],[]) 命中；仅 [211,28,1] 显式 false 留 PEND；同行 211 按 arm 拆分），重生成 NEW 955/1263·UNREACH 5/10·PEND 0/1（ALL MODULES OK，与 Codex 预期算术一致）；C2 恢复 modules[].dedupTitles 45 条精确旧标题（钉 d4703cdf v1）+ 新增 familyTable（合法 fixture/guard+差异断言/输入解耦归属）+ 确切 25+9+2 白名单路径数组（钉 d4703cdf，不重选）；C3 A03 正控更正为「全量写入后命令级一次通知」（:293-294 一次 effect+worldChanged，r2「各自通知」会把正确产品写红）、B04 切片针退役归旧证据（旧测试 frozen bytes detach… 对该变异已业务红）并换 readText/readJson 包装针（:85，真实剩余合同）、F03 针标注 fast 输入解耦不计新增业务；勘误清单逐项入账（:85/:87=readText/readJson 包装、urlFor :88-89、post-await :76、切片 :81、A03 循环 :150-151、D03 :247、core :170=AbortError/session :158、trial-assets B05 余数 78/47）。已闭环项不重开；未改产品/正式测试/冻结清单/官方基线/共享状态，不实施。premise/design 维持 verified/agree，以 r3 修订稿为准；r2 签字原文见下段保留历史）**。
   - （r2 签字历史原文，2026-09-22，已被 r3 取代生效数字）**premise verified / design agree（准备 Owner；r2 修订稿已按 Codex counter 4240fbca R1～R4 落实**：ruleTable 可机械展开、计数由冻结定位求交生成（ALL MODULES OK，960L/1274B：NEW 955/1259、UNREACH 5/11、PEND 0/4）；snapshot 去重/vanish 3/6 UNREACH/validate-runtime 整组 UNREACH（r3 已收窄）/script-world 锚点/core :170/F 历史轴迁 migrate-enemies（author-core r1 PEND 撤销）/六负控真实锚/SHA/caller/editor×12/fixture×9/Biome/README 索引/check:docs PASS。
+- GLM（**v4 附签，2026-09-22，C2 残项收口——当前生效版**）：按 Codex r3 `d84d1bbf` 与 Kimi
+  `d19d5bb0` 两席同收敛残项完成：① familyTable 补齐 11→**20 行**（A05/B01/B02/B03/C03/C04/
+  C05/E03/E04 九族各带真实构造器/guard、旧测试文件+精确标题或带计数 suite 引用、一个具体
+  差异/fast 解耦归属——A05 引 runtime-script-project moveEntity 两已证标题、C03/C04 引
+  frame-animation-draft 五标题、E04 差异=[40,8,0] 合法分支正控）；② 5 条套件提示全部展开为
+  精确标题/带计数 suite 引用（trial-assets 5、simulator-ui 10、frame-animation-draft 5——
+  **C04 实施前枚举完成**、project-reference 10+5 分文件、casualty 5），dedupTitles 45→**80
+  条**（40 原精确+40 展开），回执「45 条精确」表述已随修订更正；③ 映射/计数/needles/白名单
+  与 r3 逐字一致未动，已闭环项不重开。仍不实施、不代签、不标 build/done。
   - **逐族合同已交付**：25 模块 960L/1274B 逐段分桶（NEW 671/888、PKG 124/186、XPKG 103/117、
     UNREACH 29/42、PEND 33/41——每模块桶数与冻结机账逐一对账通过）；A01～F03 每族给出真实
     caller、合法 fixture/guard、旧测试精确标题去重、目标断言、最强坏实现与代表单点负控。
@@ -233,6 +242,13 @@ Production Freeze: `57dda7ed2376fc25f07756be117bb4a058d09915`
 - done准入结论：blocked。
 
 ## 交接日志
+
+- 2026-09-22 GLM（v4，C2 残项收口）：按 Codex r3 d84d1bbf 与 Kimi d19d5bb0 同收敛残项完成
+  定点补齐（机账 schemaVersion 4 + 回执 v4 附节）：familyTable 11→20 行（九族构造器/guard+
+  旧标题/suite 引用+差异归属）；5 条套件提示展开为精确标题/带计数 suite 引用（含 C04 实施
+  前枚举 frame-animation-draft 五标题），dedupTitles 45→80 条；映射/计数/needles/白名单与
+  r3 一致未动，已闭环项不重开；回执计数表述随修订更正。未改产品/正式测试/冻结清单/官方配置/
+  共享状态，不实施、不代签、不标 build/done。复核提示词钉本轮提交。
 
 - 2026-09-22 Kimi（r3 修订候选独立复核）：对 33a7a034 签 premise verified / design counter
   （仅 C2 残项）。机算重放（含异常键扩展）25 模块恰一归属、NEW955/1263·UNREACH5/10·PEND0/1

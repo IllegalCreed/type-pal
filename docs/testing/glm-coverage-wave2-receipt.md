@@ -30,7 +30,10 @@
 
 ## C2｜恢复族级去重与确切白名单（不再引用已删字段）
 
-- **`modules[].dedupTitles` 全量恢复**（45 条精确旧标题，逐字取自 `d4703cdf` v1 机账）；新增
+- **`modules[].dedupTitles` 全量恢复**（45 条引用——其中 40 条精确旧标题 + 5 条套件提示，
+  逐字取自 `d4703cdf` v1 机账；**v4 已把 5 条提示全部展开为精确标题/带计数的 suite 引用**，
+  现共 80 条：trial-assets 5、simulator-ui 10、frame-animation-draft 5（C04 实施前枚举完成）、
+  project-reference 10+5 分文件、casualty 5——见下方 v4 节）；新增
   **`familyTable`**：每族给出合法 fixture/guard、实际输入、保留新增的差异断言/输入解耦归属——
   遗漏臂映射与已有业务证明两轴分离，互不折算，不回退凑 r1 估算数字。
 - **确切白名单恢复**：`whitelist.testFiles`（25 条完整路径，reforge 6/editor 12/content 4/
@@ -80,3 +83,20 @@ NEW 955/1263、UNREACH 5/10（vanish 3/6 + validate-runtime 2/4）、PEND 0/1（
 - 已闭环项（逐定位完整性/源码 hash/元数据/vanish/script-world 锚/四 caller/D03·E01·F03 锚/
   Biome/docs）不重开；本版后仍不改产品/正式测试/冻结清单/官方基线/共享状态，不实施、不代签、
   不标 build/done。
+
+## v4 附节：C2 残项收口（Codex r3 d84d1bbf + Kimi d19d5bb0 同收敛残项）
+
+- **familyTable 补齐 11→20 行**：新增 A05/B01/B02/B03/C03/C04/C05/E03/E04 九族，每族给出
+  真实构造器/guard、旧测试文件+精确标题（或带计数的 suite 引用）与一个具体保留新增差异/
+  fast 解耦归属（机账 `familyTable`）。要点：A05 引 runtime-script-project 已证 moveEntity
+  提交窗两标题，差异=宿主等待方法体与 shared resolver 臂；C03/C04 引 frame-animation-draft
+  五精确标题，差异=IO 边界/时长合同与历史分支臂；E04 差异=[40,8,0] 无 pages 有 behaviors
+  合法分支正控。
+- **5 条套件提示全部展开**（机账 `dedupTitles` 现 80 条=40 原精确+40 展开）：trial-assets
+  5 精确标题；simulator-ui 10 精确标题（suite 前缀+计数）；frame-animation-draft 5 精确标题
+  （**C04 实施前枚举完成**：「以结构共享完成完整帧编辑和撤销重做」「一次重排历史让
+  active/anchor 跟随来源帧，且 undo/redo 对称」「拒绝尺寸错误、重复 id 和删除全部帧」「保存
+  和重开后每张完整帧逐像素一致」「按最近色或误差扩散量化完整 RGBA 帧并保留 alpha」）；
+  project-reference 10+5 分文件标题；casualty 5 精确标题。
+- 已闭环项不重开（映射算术/四臂纠正/A03 通知合同/B04 新针/F03 归属/勘误/40 条真实标题）；
+  映射、计数、needles、白名单与 r3 完全一致未动。
