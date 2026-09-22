@@ -67,6 +67,16 @@ Production Freeze: `57dda7ed2376fc25f07756be117bb4a058d09915`
 
 ### build前
 
+- Codex（**v5窄复核，当前生效**）：**accept / premise verified / design agree（2026-09-22，准备候选ae1ae8b6）**。接手5d7f90ba干净并同步远端；只核29b1a56b的A05残项。下方本人v4及更早counter保留历史，A05已闭合，未重开已通过项。
+  - **直接证据**：重新逐行读`runtime-script-project.test.ts:129-147`及`:222-264`，独立TS AST得到第一条kind仅moveEntity、commitMoveEntityEndpoint调用1/abort调用0；第二条kind为hideEntity/hideEntity/removeEntity、abort调用2/移动commit调用0。机账`:2110-2116`标题主体已补全`leaf`（中文括号是另列归因说明），与源码完整标题逐字相等；普通移动提交和生命周期取消不再混用。
+  - **归因闭环**：机账differential、回执v5附节及GLM v5席位都撤回“两臂已证”，只认当前host转交move的正常提交路径；`script-project-core.ts:157-184`的提交前/后取消、场景/会话漂移继续按原A05 NEW定位待补，宿主等待/shared resolver范围不变。正常移动成功测试不被当作这些保护已证。
+  - **冻结核验**：`bfb4f522..ae1ae8b6`恰为卡/回执/机账三文件；除schemaVersion/task/supersedes头与A05一行，JSON其它根字段逐序列化完全相同，19行/80条dedupTitles、25模块映射/计数/六针/25+9+2白名单均未变。候选到当前HEAD两GLM准备文件零diff，packages/scripts零修改。
+  - **验证**：`/tmp/type-pal-wave2-v5-review-U3siqf/check.mjs`与`check.json`为本席机械/AST复算；JSON Biome exit0；check:docs exit0（20工具测试、492文档/2677链接）。只读取证及文档/格式门，未跑全仓check/覆盖率/已闭环负控；未改GLM文件/他席/共享状态。旧版本兼容审查pass（范围未变，无新增兼容）；此次没有新产品缺陷或残余counter。
+  - **可证伪条件**：后续若有实际消费move提交控制的旧取消/漂移测试，必须按真实标题/断言去重；若新增测试仅重复上述正常移动或生命周期取消，不能作为A05新覆盖交付。本席结论由上述源码与AST复算形成，不以他席accept替代。
+  - **下一步**：复核阶段先仅提交本人签字/日志；由Codex另核三席同v5增量闭环后登记build allowed，再发GLM整包A→F实施提示词，不直接标done。
+
+以下Codex v4/r3/r2/r1签字为历史原文；当前以以上v5结论为准。
+
 - Codex：**v4 premise verified / design counter（C2仅余A05去重归因；2026-09-22，候选bfb4f522）**。接手098747cf干净；独立结论形成期间Kimi追加f1d6a0db，已同步保留，其签字不代改。仅本人席位/日志修改，仍不开放build。
   - **已通过，不再返工**：familyTable现20行，组合族展开后所有有NEW定位的族均有条目；五组旧提示已替换为40个实际用例，与原40条合为80条。独立TS AST核验test/it与literal test.each展开，80/80在仓内匹配，实际套件计数为snapshot5、simulator-ui10、frame-draft5、project-reference10+5、casualty5，suite计数正确。v4相对33a7a034的rules/branchArmExceptions/generatedCounts/generatedTotals/summary/expansionRule/needles/whitelist逐对象序列化逐字相同，冻结25模块分类不变；生产/旧测试/原probe/配置基线零diff。回执C2已更正原45=40标题+5提示、现40+40=80。check:docs（20工具测试，492文档/2677链接）及JSON Biome均exit0。
   - **C04/E04抽读通过**：frame-draft真实create构造器`:51-79`/pixel守卫`:46-49`存在；旧五标题均匹配。旧测试覆盖正常重排与一次undo/redo，`:260-290`的非空future后分叉清理/同一present与无历史等剩余分支仍可独立验证，不把正常重排重写报功。E04旧三项以有pages实体为主，当前`:40-41`无pages但有behaviors路径的合法正控与前轮已证可达一致；不mock外层guard。九族缺行和五组提示的结构性残项已关闭。
@@ -298,6 +308,8 @@ Production Freeze: `57dda7ed2376fc25f07756be117bb4a058d09915`
 - done准入结论：blocked。
 
 ## 交接日志
+
+- 2026-09-22 Codex（v5窄复核）：ae1ae8b6的A05归因残项通过，签accept / premise verified / design agree。独立逐行+AST核正常move一commit零abort、生命周期hide/hide/remove两abort零move commit；完整leaf标题与三处撤回一致。三文件diff、其余19行/80标题/映射/六针/白名单全部保持，移动取消/会话漂移仍归原A05 NEW。JSON Biome和check:docs通过，不重复跑覆盖率。本提交仅本人席位与日志，保留他席原文/共享draft状态；下一步由Codex单独核三席门禁并交GLM连续实施。
 
 - 2026-09-22 Kimi（v5 窄复核）：对 ae1ae8b6 签 accept，仅 A05 归因残项。两测试体逐行直读：
   :129-148 仅 moveEntity 一条/一次 commit/零 abort（已证仅此正常路径），:222-261 实际为
