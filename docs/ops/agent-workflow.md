@@ -344,6 +344,20 @@ Git 才是历史档案。只有仍有无法重新生成的真实输入且当前�
 不包含当前 SAVE-PREFLIGHT-1 的实现工作。移出活动 stash 列表前已制作并验证本机 Git common directory 下
 `stash-archive-20260906.QzWvnS/bd4f4cc1.bundle`，恢复说明在同目录 README；备份不上传仓库，也不自动重新注册成 stash。
 
+2026-09-23 分支清理（用户明确要求远端/本地尽量只留main）：以main `7f43b05b`为审计点，远端36条→3条、
+本地39条→3条；删除33条远端/36条本地退休分支，包含已合入以及有明确接收/替代记录的旧候选。
+保留`main`、`codex/glm-battle-workflows-r1`（当前返工）、`codex/pal-simulator-presets`（七套预制未合入、资源准备阻断），
+没有把未完成成果当作废弃工作。无未关闭PR涉及删除候选。
+
+删除前保存全部75个本地/远端引用和39个worktree HEAD的完整bundle，在独立bare仓库unbundle、full fsck、
+逐tip可读性验证后才执行；远端按精确旧SHA lease原子删除，本地按精确旧SHA比较后原子删除。
+私有备份位于Git common directory下`branch-archive-20260923.Bpmx6d/`，含`all-refs.bundle`、`plan.json`、
+`execution.jsonl`、`result.json`、原config与恢复README；不得自动恢复全部旧分支或覆盖main。
+
+34个退休工作树仅在**原HEAD**脱离分支，文件/索引未改；其中一处41个未跟踪资源文件/链接逐个hash或link target
+前后相同。仅清理2个`.git`指针已失效的worktree注册项，目录未删；stash原为空且未操作。
+旧工作目录是历史快照，不是最新开发入口；继续已关闭任务时不要因目录仍在而自动在旧快照上实施。
+
 ## 资源生成规则
 
 第二阶段会逐步用自有美术资源替换原有资源。凡涉及 AI 生图、批量生成贴图、立绘、头像、图标、场景素材等任务:
