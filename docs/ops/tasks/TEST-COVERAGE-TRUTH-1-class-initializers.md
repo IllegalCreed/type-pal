@@ -159,10 +159,37 @@ before→after：旧合并把两种initializer混为一个→分别保留身份�
 
 - Codex：**accept（实施者自验，2026-09-23，统一候选b6286df0，非独立审查）**。实际安装patch的10项回归全绿，未修版同3条业务AssertionError重现；空目录冻结安装/真实路径hash通过。旧1378与宿主1414四格对照分母/身份不变，37/42/2/37误报修正已分栏；633生产文件与57dda7ed一致。统一check8317+coverage-tools27/ratchet7826/保护c5569d1a的单次strict7826全exit0，其余六包基线对象不变、无降门。实现与风险见诊断文末/机账implementation。旧版本兼容审查：pass（无产品兼容新增，仅版本绑定第三方修复）。
 - GLM：pending。
-- Kimi：pending。
+- Kimi：**accept（2026-09-23，统一候选b6286df0；全部锚点本人直读/本树与隔离树复跑，未读 GLM 本轮结论）**。
+  - **实际安装 patch**：`@vitest/coverage-v8@4.1.7` 的 `@bcoe/v8-coverage` symlink 指向
+    `1.0.2_patch_hash=2f8a8ecf…`（内含 static_initializer 判定 ×1）；补丁仅给两种 V8 合成
+    initializer 加身份前缀，普通函数保持纯 range 键；根 package.json 仅 patchedDependencies、
+    lock 仅 patch resolution 三处登记。
+  - **10 项回归（本席复跑全绿）**：node --test 10/10——含原生四态×5 类与普通函数、二/三份
+    双序、嵌套/匿名、空/单输入，及真实 Vitest 两个 ssr+两个 client 只导入与真正调用正控。
+  - **撤 patch 三业务红（本席独立复现）**：`git archive c5569d1a`→冻结离线安装（未打补丁
+    merger）→复制同测试/fixture 跑 3 条——native import/same-range static/real Vitest
+    import-only 全 not ok、exit1。证明是**实际安装的补丁**修复，非内部复制逻辑自证。
+  - **四格对照（既有日志逐项核）**：旧 1378 未修 8759/9710/1542/5913 → 已装补丁
+    8722/9668/1540/5876（patchHash 一致）；宿主 1414 修前修后均 10374/11430/1750/6712；
+    四格分母全部 14599/16737/2539/11359 不变。37/42/2/37 统计修正与宿主 36 项真实收益
+    （修正口径 +1652L/1762S/210F/836B；旧口径 +1615L/799B）分栏正确，不互相冒充。
+  - **门禁**：check8317+coverage-tools27/ratchet7826/保护 c5569d1a 单次 strict7826 采信
+    Codex 已落日志，本席未并发重跑官方覆盖率；最新 main CI：Documentation 绿、ratchet
+    在途（评审时点）。基线 7790→7826 仅 +36 宿主项，另六包对象不变。
+  - **旧版本兼容审查（单列）：pass**——第三方版本绑定 patch，无产品兼容层/升级器；
+    上游等价修复+回归全绿才准撤 patch 的移除条件在册。
+  - 返工项：无。类字段逐语句精度/其它 V8 盲点如实不担保。
 - done准入：blocked（GLM/Kimi同候选实现审查pending；不以设计签字代验收）。
 
 ## 交接日志
+
+- 2026-09-23 Kimi（独立终审）：对统一候选b6286df0签 done 前 accept，单列旧兼容 pass。
+  实证：provider symlink 指向 patch_hash 目录（实际安装）；node --test 10/10 绿；本席独立
+  git archive c5569d1a 冻结安装未打补丁树，同 3 条测试全 not ok/exit1（撤 patch 负控复现）；
+  四格 1378 8759→8722/9668/1540/5876、1414 两格相同、分母全不变。check8317/ratchet7826/
+  strict7826 采信 Codex 日志，未并发重跑；CI Documentation 绿、ratchet 在途。统计修正与
+  真实收益分栏正确。未读 GLM 本轮结论；未改实现/他席/状态，不标 done。
+  Next：GLM 同候选 accept 齐后 Codex 核 done 门。
 
 - 2026-09-23 Codex（r1实施→review）：候选b6286df0，patch提交bb0e3c3e、联合宿主树e0803d6e。两个冲突文档按并集保留全部历史签字/日志。官方三门串行一次通过，基线7790→7826仅新增宿主36项，源633不动，其余六包完整对象相同。本人签实施者accept；GLM(a)配方已补、(b)其它同span理论盲点不扩、(c)原门不降落实。两卡分开审，战斗返工未纳入，不代签、不done。
 

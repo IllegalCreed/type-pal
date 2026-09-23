@@ -123,10 +123,38 @@ Production Freeze: 57dda7ed2376fc25f07756be117bb4a058d09915
 
 - Codex：**accept（实施者自验，2026-09-23，统一候选b6286df0；宿主代码1d3d3fb3零改，非独立审查）**。6测试/3fixture共36项，真实boot/loader/codec/store/runner保留、8针业务红重跑；STAT-1另卡patch已实际安装验证。全check8317与官方ratchet/保护c5569d1a的单次strict7826/633全exit0，其它六包基线对象不变；源码对57dda7ed零改。合法输入、原Promise收口与非视觉边界见回执；DEV-TOAST-1不固化不关闭。旧版本兼容审查：pass（无产品/旧模型fallback变更）。
 - GLM：pending（代码/矩阵复核，无视觉）。
-- Kimi：pending（独立终审）。
+- Kimi：**accept（2026-09-23，统一候选b6286df0，宿主代码1d3d3fb3；锚点本人直读/复跑，未读 GLM 本轮结论）**。
+  - **真实调用链**：`boot.ts:13`、`editor/src/play.ts:14` 真实调用 bootGame；`main.ts:349-352`
+    shop 早退与 `shop-trial.test.ts:136` 边界在设计期已核、本轮复勘一致；宿主测试真实 import
+    main、保留 loader/codec/store/runner/菜单状态机，外部替身限浏览器 IO——H1～H6 链路与
+    白名单（6 测试+3 fixture）对 1d3d3fb3 逐字节零改。
+  - **输入保真与异步收口**：实施回执逐项核——合法 RLE/gzip/hash 资源经正式 loader、真实
+    MemorySaveStore 播种、纯数据快照与完整预期变化比较；H6 改等实际原 loadSceneMap Promise
+    及事件轮次（撤销了等旧取消文本的错误抽象）；pending gate finally 释放同一 Promise；
+    未发明 dispose API。
+  - **8 负控（本席复跑）**：codex-runtime-shell-mutants.mjs exit0——control 绿 + scope/
+    opening-key-owner/cast-dispatch/dialog-input/save-count/corrupt-message/scene-routing/
+    intent-assertion 八针全业务红。
+  - **统计联合**：STAT-1 已另卡修复且本树实际安装补丁（symlink 指向 patch_hash 目录）；
+    宿主 1414 修前修后四维完全相同（10374/11430/1750/6712、分母不变）——宿主增量是真实
+    执行收益，不是幻影回填；与 GLM 战斗 31 项未纳入、两卡分别裁决一致。
+  - **门禁**：check8317/ratchet7826/保护 c5569d1a 单次 strict7826/633 采信 Codex 已落日志，
+    未并发重跑；CI Documentation 绿、ratchet 在途（评审时点）。
+  - **旧版本兼容审查（单列）：pass**——无产品/旧模型 fallback 变更；DEV-TOAST-1 不固化
+    不关闭，视觉/full/Q1/Q2 边界保持。
+  - 返工项：无。
 - done准入：blocked。
 
 ## 交接日志
+
+- 2026-09-23 Kimi（独立终审）：对统一候选b6286df0签 done 前 accept，单列旧兼容 pass。
+  真实链路（boot.ts:13/play.ts:14、shop 早退边界）、白名单 6+3 对 1d3d3fb3 逐字节零改；
+  输入保真（正式 loader/MemorySaveStore 播种/纯数据快照）与异步收口（H6 实际原 Promise、
+  pending finally、不发明 dispose）逐项核；本席复跑 8 负控 exit0（control 绿+八针业务红）；
+  补丁本树实际安装、1414 两格四维完全相同——宿主增量为真实收益非幻影回填。
+  check8317/ratchet7826/strict7826 采信 Codex 日志。DEV-TOAST-1/视觉/full/Q1/Q2 不随本次
+  关闭。未读 GLM 本轮结论；未改实现/他席/状态，不标 done。
+  Next：GLM 同候选 accept 齐后 Codex 核 done 门。
 
 - 2026-09-23 Codex（统一候选→review）：候选b6286df0已将宿主1d3d3fb3逐字节原样与统计修补bb0e3c3e组合，历史Kimi统计签字原文保留。完整check8317/ratchet7826/受保护单次strict7826通过；旧误报与真实补测收益已分栏，不等GLM战斗返工、也未纳入其31项。本人实施者accept，GLM/Kimi两席同候选整卡审查pending；真实视觉/full/Q1/Q2/DEV-TOAST-1边界保持，不done。
 
