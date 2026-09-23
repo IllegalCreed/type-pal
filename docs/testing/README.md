@@ -8,6 +8,8 @@
 
 ## 文档与附件
 
+- [Codex真实运行时宿主六组实施](codex-runtime-shell.md)、[机账](codex-runtime-shell-evidence.json)、[负控与统计见证](codex-runtime-shell-mutants.mjs)及[局部覆盖配置](codex-runtime-shell-coverage.config.mts)（36项/全包1414/8针通过；统计虚高反例待独立复核，官方基线未更新，不标done）
+
 - [大业务域双线补测计划](coverage-large-domain-plan.md)、[7790冻结盘点](coverage-large-domain-evidence.json)与[只读复算器](coverage-large-domain-census.mjs)（战斗公开流程由GLM、真实启动/菜单宿主由Codex；两卡r1已三席准入build，最终增量待整包验证）
 
 - [Codex内容六模块边界补测](codex-content-boundaries.md)（77项，角色状态/地图放置归属/战斗形象/奖励/运行脚本/场景索引；整批统一质量门）

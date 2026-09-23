@@ -128,6 +128,8 @@ Production Freeze: 57dda7ed2376fc25f07756be117bb4a058d09915
 
 ## 交接日志
 
+- 2026-09-23 Codex（六组实现）：独立分支候选1d3d3fb3，6新测试/3fixture/2工具，36项、全reforge1414、TC/Biome和1正控+8业务负控通过，产品/旧测试/官方配置基线零改。实际bootGame/loader/codec/store/菜单/runner保留；对实际输入纯数据快照，不拿文件表替代；H6实际原map Promise收口，不固化旧取消错误提示。局部cb77对照净+1615L/+799B，但script-runner-core出现旧计数虚高反例（报告guard:123=2，旧1378真实执行见证=0），具体工具根因/其余37行解释待Kimi窄审；不把总包增长当豁免。回执/机账见[实施记录](../../testing/codex-runtime-shell.md)。保持build，官方check/ratchet/strict待与GLM并集统一，不标review/done、不代签。
+
 - 2026-09-23 Codex（build准入）：用户确认“签了”，同步5b07d84a后核两席同r1直接证据与风险回答，无counter；本席统一登记build并同步看板/索引。独立工作树实施H1/H2后继续H3～H6，GLM战斗卡独立推进；不逐测试跑覆盖率、不提前done。
 
 - 2026-09-23 GLM（r1 设计审查）：签 premise verified / design agree（证据见本席）：
@@ -149,6 +151,14 @@ Production Freeze: 57dda7ed2376fc25f07756be117bb4a058d09915
 
 ## 下一位Agent提示词
 
-当前无下一位审查提示词：Codex已获build准入，继续原白名单H1～H6实施。下方为历史r1设计提示词，不能重复触发签字或扩大范围。
+### 当前给Kimi：统计异常窄复核（非整卡终审）
+
+在 `/Users/zhangxu/illegal/type-pal-runtime-shell` 的 `codex/runtime-shell-coverage-r1` 独立窄审统计异常，代码候选1d3d3fb3（基4872b017），卡仍build，r1设计不重签。先同步该分支/核工作树，读AGENTS/CLAUDE/READ-FIRST、本卡、`docs/testing/codex-runtime-shell.md`的STAT-1和机账。36项/全包1414/8业务负控已通过，但不据此认可统计；不读或复述GLM结论。
+
+独立复建 `node docs/testing/codex-runtime-shell-mutants.mjs --probe-core-coverage`：旧1378报core195/195且:123计2；加宿主1414报158/195且:123计0；旧1378临时真实分支见证load已进、分支实际0。核见证是否真在该throw前、旧用例/源码是否完整、结论应收窄到哪里，以及是否还需额外隔离证据。不要为了恢复数字补非法防御输入或改变排除/阈值，不并发跑官方覆盖；DEV-TOAST-1仅作另列观察，不扩成修产品。
+
+只在本卡追加本人“统计专项复核”与日志、给带锚点的结论/反证，提交推送本分支，保留全部签字；不要签整卡done前accept、不改Status/实现/官方基线、不代签。若需要改统计框架/依赖/旧测试，明确列为超出当前白名单的待准入事项，由Codex处理。
+
+### 历史r1设计提示词（已完成）
 
 与TEST-BATTLE-WORKFLOWS-1同一r1并行交GLM/Kimi，各自独立核本卡H1～H6的真实调用链、合法自包含工程、可观测结果、外部IO替身和清理边界。先读AGENTS/CLAUDE/READ-FIRST、本卡、总计划/冻结机账、当前main和shop-trial/保存AST旧回归；不读另一席本轮结论。只改本人build前签字/日志，给premise verified/design agree或带file:line反证的counter，提交推送；不代签、不改共享状态、不开始实现/标done。两卡分别裁决，三席齐由Codex核build。本卡Coding Owner为Codex，GLM不做浏览器/视觉、不代写实现。
