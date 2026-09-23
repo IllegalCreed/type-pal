@@ -67,7 +67,28 @@ Production Freeze: 57dda7ed2376fc25f07756be117bb4a058d09915
 ### build前
 
 - Codex：**premise verified / design agree（2026-09-23，r1）**。直读`:341-424`构造→真实createBattleState、`:1191-1385`公开输入→终态/准备/选择链、`:2450-2541`真实写回，main`:2400/:6352`有当前消费者。7790报告与官方七包持久字段/源集合/计数一致；特别分离session render后189遗漏行，不把648L承诺全可达。可证伪：必须私改内部状态、guard无法过或新增和旧完整合同相同；遇此按范围裁定，不强刷。
-- GLM：premise pending / design pending。
+- GLM：**premise verified / design agree（2026-09-23，r1，计划 Coding Owner；锚点本人直读现行源码/旧测试，形成结论先于核对他席落盘）**。
+  - **真实调用链直读**：`main.ts:2400` 构造 `new BattleSession(players, enemySlots, …)`、
+    `main.ts:6352-6356` `activeBattle.tick(gameplayDt, pressed, …)` 每帧驱动——session 是
+    main 正在消费的真实回合协调器。公开输入面 `tick(dtMs, pressed, gameplayNowMs)`
+    （`battle-session.ts:1191`）不要求私有状态即可驱动选择→行动→终态。
+  - **公共观测可行性**（W1/W5/W6 抽核）：`debugLog():2420`、`debugReadiness():2425`、
+    `debugPlayers():2433` 均公开只读，足以断言屏障/队员状态而不反射 ui/lastActs。W5：
+    `tick:1215-1244` 终态 phase 计算 terminalResult + `(space/Enter) && overTimer>=300`
+    才完成——300ms 边界与 settlement 所有权经公开 tick+done 回调可观测。W6：
+    `writeBackInventory:2450-2455`（count 0 清项）与 `writeBackPersistentEffects:2458+`
+    （persistentEffectsWritten 幂等门 + fixedCharacterGrowth 定位失败 fail-loud）——
+    幂等/未参与实例不变可经两次调用+深快照断言。
+  - **W1 选择面**：`battle-session.ts:1306-1680` 快捷键（D/Q/E）与空格确认逐臂在公开
+    pressed 上；旧标题「前一队员选走最后一件消耗品…」本人核对确只证 E 快捷键轴。
+  - **合法 fixture 可行**：既有 `battle-session.test.ts:37-88 mkEnemy/player` 已示合法
+    EnemyDef/CreatePlayerInput 形态；新 fixture 先过生产 guard，资产替身只代渲染资源
+    （loadedBattleSprite 同型），不 mock session/core/anim 本体、不复制 `as unknown`。
+  - **render 边界认同**：render 入口后 189 遗漏行不属本卡；W3 时序只断言结构/回调顺序/
+    资源扣除一次。
+  - **可证伪观察**：①任一流程必须直写私有成员才能到达→移出新增归属；②生产 guard 拒绝
+    fixture→fixture 非法不得放宽；③组合流程与旧专项同输入同完整合同→去重表错；④负控去
+    保护后新增 case 仍绿→反控无鉴别力。返工项：无。
 - Kimi：**premise verified / design agree（2026-09-23，r1；锚点本人直读，未读 GLM 本轮结论）**。
   - **公开观测足以避免私改状态**：`battle-session.ts:2420/:2425/:2433` debugLog/debugReadiness/
     debugPlayers 是真实公共方法，`:1191` tick(dt, pressed, gameplayNow) 公开驱动，`:2450`
@@ -96,6 +117,12 @@ Production Freeze: 57dda7ed2376fc25f07756be117bb4a058d09915
 - done准入：blocked；不借第二波签字通过本卡。
 
 ## 交接日志
+
+- 2026-09-23 GLM（r1 设计审查）：签 premise verified / design agree（证据见本席）：main
+  :2400/:6352 真实消费链、debugLog/Readiness/Players 公开观测、tick:1191 公开输入、终态
+  300ms/settlement、writeBack 幂等门、W1 快捷键臂与旧 E 键专项去重、mkEnemy/player 合法
+  fixture 先例、render 189 行出界认同。四条可证伪观察入席。未读 Kimi 结论、未改共享状态/
+  实现，不代签、不开始实现。
 
 - 2026-09-23 Kimi（r1 独立设计审查）：签 premise verified / design agree，无返工项。直读公开
   观测链（debugLog/debugReadiness/debugPlayers :2420-2433、tick :1191、writeBack :2450/:2534）

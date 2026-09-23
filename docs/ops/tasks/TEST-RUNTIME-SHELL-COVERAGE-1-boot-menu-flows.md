@@ -71,7 +71,32 @@ Production Freeze: 57dda7ed2376fc25f07756be117bb4a058d09915
 ### build前
 
 - Codex：**premise verified / design agree（2026-09-23，r1）**。直接读main`:339-424`正常boot与shop提前return、`:6223`真实Keyboard与`:6240`公共观测、`:6310-6390`帧时钟/输入路由、`:6835-6955`当前读档/新局；opening-menu`:75-130`自身管理RAF/key事件且读真实store。主入口覆盖30/3360与官方7790报告一致；现有shop-trial真实boot证明可导入但不冒充正常启动可行性已活跑。首次H1必须实证正常场景进入，若只能mock业务/私改状态则停该族，不用AST给自己刷覆盖。
-- GLM：premise pending / design pending。
+- GLM：**premise verified / design agree（2026-09-23，r1；锚点本人直读，形成结论先于核对他席落盘；本席为战斗卡 Coding Owner，审本卡不实施）**。
+  - **真入口/早退分界直读**：`main.ts:339-352` bootGame 首行 `assertSaveScopeProject` 后
+    即查 `battle-trial|skill`（拒绝）与 `parseShopTrialParameters`（提前 return）——
+    `shop-trial.test.ts:136-143` 用 `shop-trial=0&money=100` 真调 bootGame 但走商店分支，
+    确不等于普通启动已覆盖；H1 需无这些参数的正常链。本席确认卡面「shop 早退已有不复制」
+    的去重边界。
+  - **公共观测与输入锚点**：`main.ts:6222` `new Keyboard()`、`:6224-6245`
+    `window.__reforge` 只读 getter（sceneId/entities/dialogue/script）——H3/H4 可经该公开
+    窗口观察世界状态而不新增生产导出；`:6352-6356` activeBattle 分派帧输入。H5：
+    `main.ts:6835-6860` `?e2e-load=` 走 loadIntent token + payloadBelongsToProject +
+    restorePayload 事务——读档链有现行公开路径，坏档拒绝属可测真实分支。
+  - **H2 opening-menu 自治**：`opening-menu.ts:75-189` 自管 `requestAnimationFrame(draw)`
+    与 `window.addEventListener('keydown', onKey, true)`、cleanup 显式移除；`enterLoad`
+    经真实 `saveStore.listMeta/getThumb` 打开 SaveBrowserState——真实导航/取消返回可用
+    合成 KeyboardEvent 驱动，不必手调内部 phase；旧测试只证音乐 finally 的说法与本人核对
+    一致（opening-menu.test 仅 audio 侧）。
+  - **替身边界认同**：Canvas/ImageBitmap/audio/fetch/RAF/IDB 外部边界替身合法，正式
+    loader/runtime projection/save codec/菜单状态机保留；`fake-indexeddb` 依赖在仓。
+    AST 旧回归（world-async/save-lineage）保留不删、不按 AST 复制冒充 V8 执行——与总计划
+    「接线新证明/旧合同转真实入口」分栏一致。
+  - **可行性与风险**：main 3330 遗漏行含大量非首批分支，H1 首证正常场景进入是闸门——若
+    正常启动被资源依赖卡死而只能 mock 业务，按卡面停族报证据，不暗中扩成 main 重构；
+    boot 返回 void、无 dispose API，断言不得发明。
+  - **可证伪观察**：①正式 loader 无法消费自包含工程 fixture→H1 阻碍须先报告；②正常链
+    必须私改产品接口/内部闭包→范围不可达；③H1～H6 任一组与 AST 旧回归同输入同完整合同
+    →去重错不得二次报功；④负控去保护仍绿→无鉴别力。返工项：无。两卡白名单无交集。
 - Kimi：**premise verified / design agree（2026-09-23，r1；锚点本人直读，未读 GLM 本轮结论）**。
   - **宿主真实执行可行**：`boot.ts:13` 与 `editor/src/play.ts:14` 真实调用 bootGame；
     `main.ts:349-352` shop trial 提前 return（早退不算正常启动属实）；`shop-trial.test.ts:136`
@@ -102,6 +127,13 @@ Production Freeze: 57dda7ed2376fc25f07756be117bb4a058d09915
 - done准入：blocked。
 
 ## 交接日志
+
+- 2026-09-23 GLM（r1 设计审查）：签 premise verified / design agree（证据见本席）：
+  bootGame:339-352 早退分界与 shop-trial 去重、__reforge 公开观测 6224-6245、Keyboard
+  :6222、e2e-load 读档事务 :6835-6860、opening-menu:75-189 自治 RAF/key/cleanup 与真实
+  saveStore、外部 IO 替身边界与 AST 旧回归保留、H1 首证闸门与 boot 无 dispose 约束。
+  四条可证伪观察入席。本席为战斗卡 Owner，本卡不实施；未读 Kimi 结论、未改共享状态，
+  不代签、不开始实现。
 
 - 2026-09-23 Kimi（r1 独立设计审查）：签 premise verified / design agree，无返工项。直读
   真实入口（boot.ts:13、play.ts:14；shop 早退 main.ts:349-352 与 shop-trial:136 边界属实）、
