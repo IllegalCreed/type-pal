@@ -1,6 +1,6 @@
 # TEST-BATTLE-WORKFLOWS-1 - 战斗会话完整流程补测
 
-Status: draft
+Status: build
 Phase: phase2
 Capability: B5（既有会话测试，不增能力格）
 Coding Owner: GLM
@@ -105,9 +105,9 @@ Production Freeze: 57dda7ed2376fc25f07756be117bb4a058d09915
     真实首轮提交驱动）→ 该族停并报观测缺口；② 合法输入过不了现行 guard 却要强造；
     ③ 与旧专项同输入完整合同重复报新增；④ 反控去保护仍绿；⑤ 渲染断言滑向视觉/观感。
   - 返工项：无。
-- 独立反证：待非Owner直接读上面入口/守卫/旧测试，不能只复述Codex。（本席 Kimi 已完成独立直读，锚点与可证伪回答见本席签字。）
+- 独立反证：已完成，非Owner Kimi在d24ead8d独立直读公共观测/真实消费者/屏障与写回合同，锚点及五条可证伪回答见本人席位；Codex与GLM各有独立直读。
 - 缺签豁免：无。
-- build准入：blocked（三席未齐；Coding Owner不得开始正式实现）。
+- build准入：**build allowed（2026-09-23，Codex统一核定，r1准备候选b1f62c6b）**。Codex原设计签、Kimi d24ead8d、GLM 5b07d84a均premise verified/design agree，无counter/豁免；当前实现/基线相对准备候选零漂移。仅授权GLM在独立分支按原白名单W1～W6连续实施，Codex并行做另一宿主卡，不代签、不标done。
 
 ### done前
 
@@ -117,6 +117,8 @@ Production Freeze: 57dda7ed2376fc25f07756be117bb4a058d09915
 - done准入：blocked；不借第二波签字通过本卡。
 
 ## 交接日志
+
+- 2026-09-23 Codex（build准入）：用户确认“签了”，同步5b07d84a干净主线后逐读两席同r1锚点及可证伪回答，无返工项；独立于本人设计签核定build allowed并同步看板/索引。GLM六组整包一次交付，不逐组求继续；官方覆盖门仍由Codex统一串行，产品/视觉/另一卡文件不授权修改。
 
 - 2026-09-23 GLM（r1 设计审查）：签 premise verified / design agree（证据见本席）：main
   :2400/:6352 真实消费链、debugLog/Readiness/Players 公开观测、tick:1191 公开输入、终态
@@ -134,6 +136,14 @@ Production Freeze: 57dda7ed2376fc25f07756be117bb4a058d09915
 - 2026-09-23 Codex：按用户批准启动大业务域批次；冻结四目标/六组合同/白名单，与本人宿主卡隔离。仅既有报告核验与源码证据，不宣称新增覆盖率；先并行设计审查，无正式实现授权。
 
 ## 下一位Agent提示词
+
+### 当前给GLM：六组连续实施
+
+在 `/Users/zhangxu/illegal/type-pal` 接 TEST-BATTLE-WORKFLOWS-1 r1，卡 `docs/ops/tasks/TEST-BATTLE-WORKFLOWS-1-session-flows.md` 已由Codex核build allowed（Codex b1f62c6b/Kimi d24ead8d/GLM 5b07d84a三席齐），设计不重签。先同步main/核工作树，读AGENTS/CLAUDE/READ-FIRST、本卡W1～W6/白名单/最新日志、coverage-large-domain-plan/evidence、自检清单。创建独立worktree与`codex/glm-battle-workflows-r1`，不checkout主工作树，不动Codex宿主卡文件。
+
+按六组连续实施真实BattleSession公开流程，合法guard先行、同一实际输入完整快照、entered/finally同一pending、精确候选AssertionError单点负控；禁私改state/ui/lastActs、mock核心、视觉和产品改动。旧合同重复/防御/不可达/产品疑点单列，不把不明确政策写成绿测；局部受阻不停止其它组。整批定向/相邻/全reforge/TC/Biome及独立/tmp同口径before/after、6～10负控，完整回执+机账+精确SHA一次交Codex。不要逐组跑覆盖率，不跑官方ratchet/strict、不改基线/排除/超时，不代签、不标done、不转Kimi；由Codex接收后统一终审。
+
+### 以下为历史设计审查提示词（已完成）
 
 ### 给GLM（与Kimi同r1并行）
 

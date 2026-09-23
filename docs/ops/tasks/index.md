@@ -8,8 +8,8 @@
 
 | 任务 | 顶部状态 | 说明 |
 |---|---|---|
-| [TEST-BATTLE-WORKFLOWS-1 - 战斗会话完整流程补测](TEST-BATTLE-WORKFLOWS-1-session-flows.md) | draft | 以任务卡当前准入与看板分工为准。 |
-| [TEST-RUNTIME-SHELL-COVERAGE-1 - 真实启动与菜单宿主流程补测](TEST-RUNTIME-SHELL-COVERAGE-1-boot-menu-flows.md) | draft | 以任务卡当前准入与看板分工为准。 |
+| [TEST-BATTLE-WORKFLOWS-1 - 战斗会话完整流程补测](TEST-BATTLE-WORKFLOWS-1-session-flows.md) | build | 以任务卡当前准入与看板分工为准。 |
+| [TEST-RUNTIME-SHELL-COVERAGE-1 - 真实启动与菜单宿主流程补测](TEST-RUNTIME-SHELL-COVERAGE-1-boot-menu-flows.md) | build | 以任务卡当前准入与看板分工为准。 |
 
 ## 已完成（historical）
 

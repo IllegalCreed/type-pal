@@ -1,6 +1,6 @@
 # TEST-RUNTIME-SHELL-COVERAGE-1 - 真实启动与菜单宿主流程补测
 
-Status: draft
+Status: build
 Phase: phase2
 Capability: X1 / N6（既有运行时接线测试，不增能力格）
 Coding Owner: Codex
@@ -115,9 +115,9 @@ Production Freeze: 57dda7ed2376fc25f07756be117bb4a058d09915
     ③ 替身下沉到被测业务层（loader/codec/菜单状态机被 mock）；④ 启动错误被吞后仍宣称
     成功；⑤ main 实际覆盖未增长却以 AST 拷贝报功。
   - 返工项：无。
-- 独立反证：待非Owner直读loader资源/启动/cleanup/旧tests并给可证伪回答。
+- 独立反证：已完成；Kimi d24ead8d与GLM 5b07d84a分别直读真实入口/早退分界/公共观测/外部IO/cleanup，独立锚点和可证伪回答见本人席位。
 - 缺签豁免：无。
-- build准入：blocked（三席未齐，不开始正式实现）。
+- build准入：**build allowed（2026-09-23，Codex统一核定，r1准备候选b1f62c6b）**。三席均premise verified/design agree（Codex原签、Kimi d24ead8d、GLM 5b07d84a），无counter/豁免，实现/基线相对准备候选零漂移。仅授权Codex独立worktree按H1～H6和原白名单实施；先过H1/H2真实入口可行性，不扩为产品重构。
 
 ### done前
 
@@ -127,6 +127,8 @@ Production Freeze: 57dda7ed2376fc25f07756be117bb4a058d09915
 - done准入：blocked。
 
 ## 交接日志
+
+- 2026-09-23 Codex（build准入）：用户确认“签了”，同步5b07d84a后核两席同r1直接证据与风险回答，无counter；本席统一登记build并同步看板/索引。独立工作树实施H1/H2后继续H3～H6，GLM战斗卡独立推进；不逐测试跑覆盖率、不提前done。
 
 - 2026-09-23 GLM（r1 设计审查）：签 premise verified / design agree（证据见本席）：
   bootGame:339-352 早退分界与 shop-trial 去重、__reforge 公开观测 6224-6245、Keyboard
@@ -146,5 +148,7 @@ Production Freeze: 57dda7ed2376fc25f07756be117bb4a058d09915
 - 2026-09-23 Codex：用户批准攻大空白区；主树旧7627报告未用，7790报告核准；创建本卡与GLM战斗卡，六组/白名单不重叠。当前仅设计和证据，无正式测试/产品变更，不跑覆盖率。
 
 ## 下一位Agent提示词
+
+当前无下一位审查提示词：Codex已获build准入，继续原白名单H1～H6实施。下方为历史r1设计提示词，不能重复触发签字或扩大范围。
 
 与TEST-BATTLE-WORKFLOWS-1同一r1并行交GLM/Kimi，各自独立核本卡H1～H6的真实调用链、合法自包含工程、可观测结果、外部IO替身和清理边界。先读AGENTS/CLAUDE/READ-FIRST、本卡、总计划/冻结机账、当前main和shop-trial/保存AST旧回归；不读另一席本轮结论。只改本人build前签字/日志，给premise verified/design agree或带file:line反证的counter，提交推送；不代签、不改共享状态、不开始实现/标done。两卡分别裁决，三席齐由Codex核build。本卡Coding Owner为Codex，GLM不做浏览器/视觉、不代写实现。
