@@ -8,6 +8,8 @@
 
 ## 文档与附件
 
+- [大业务域双线补测计划](coverage-large-domain-plan.md)、[7790冻结盘点](coverage-large-domain-evidence.json)与[只读复算器](coverage-large-domain-census.mjs)（战斗公开流程由GLM、真实启动/菜单宿主由Codex；两卡draft待设计准入，未新增覆盖率）
+
 - [Codex内容六模块边界补测](codex-content-boundaries.md)（77项，角色状态/地图放置归属/战斗形象/奖励/运行脚本/场景索引；整批统一质量门）
 
 - [Codex人物/命令引用补测](codex-reference-coverage.md)（12项，精确改名/引用路径/深保真；与GLM目标源码不冲突，间接guard命中单列）

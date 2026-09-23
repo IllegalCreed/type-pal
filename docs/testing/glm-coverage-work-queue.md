@@ -6,6 +6,8 @@
 
 ## 一眼看懂安排
 
+2026-09-23新批次：[大业务域双线计划](coverage-large-domain-plan.md)按7790/633实际报告选择，GLM承接战斗选招→回合→终态/写回六组，Codex承接真实启动→菜单→场景/读档六组；两张卡r1 draft先并行设计审查，三席准入后连续实施。候选缺口不等于可达/收益承诺，既有TB/第二波不重领；工具拒绝主树残留7627旧报告。
+
 2026-09-23当前交付：[第二波六组](glm-coverage-wave2-receipt.md)候选27bd8c00共163项，
 Codex代班实施后已获GLM贡献者复核d8b9dfa7、Kimi独立终审5b44c37d，与Codex自验同候选accept齐；
 用户确认后Codex核零漂移并done归档，无豁免。check8281/ratchet/单次strict7790及集成双CI通过。

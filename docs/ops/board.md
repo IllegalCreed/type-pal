@@ -6,6 +6,7 @@
 
 **当前优先级（用户2026-09-22拍板）**：先补测试覆盖率，E2E准备与实施后置，不立即推进R4检查点或新UI改造。
 第二波整包已于2026-09-23三席收口；后续由Codex与GLM按最新覆盖基线选择不重叠、有现行消费者且合同明确的补测批次，新范围先走准入，不重领已完成项。
+2026-09-23已按[大业务域计划](../testing/coverage-large-domain-plan.md)启动战斗流程/运行时宿主两张draft卡，先并行核设计；三席准入后各Owner连续完成六组，最终统一统计，不逐用例跑覆盖率。
 补测发现的产品缺陷单列，仍按原签字门禁处理；七套预制方案候选及其资源准备阻断不因本次排期调整自动通过。
 后置不取消R4→N6b→完整Q1/Q2，也不新增“必须先达全仓90%/85%才允许E2E”的门槛。
 
@@ -25,6 +26,8 @@ GLM后续补测候选见[十批长队列](../testing/glm-coverage-work-queue.md)
 
 | ID | 任务 | 状态 | 负责人/下一步 | 一句话备注 |
 |---|---|---|---|---|
+| TEST-BATTLE-WORKFLOWS-1 | [战斗会话完整流程补测](tasks/TEST-BATTLE-WORKFLOWS-1-session-flows.md) | draft | GLM/Kimi并行审r1；GLM准入后实施 | 从公开tick串选招/回合/终态/写回；不碰公式/私有栈/视觉；六组整批一次覆盖 |
+| TEST-RUNTIME-SHELL-COVERAGE-1 | [真实启动与菜单宿主流程补测](tasks/TEST-RUNTIME-SHELL-COVERAGE-1-boot-menu-flows.md) | draft | GLM/Kimi并行审r1；Codex准入后实施 | 真import bootGame，不复制AST刷覆盖；主入口/菜单六组，和GLM文件隔离 |
 
 2026-09-23 [第二波六领域非视觉补测](../testing/glm-coverage-wave2-receipt.md)候选27bd8c00三席accept齐（Codex实施者自验、GLM贡献者复核d8b9dfa7、Kimi独立终审5b44c37d），用户确认后Codex核零漂移并done归档。163项/17针、check8281/单次strict7790与集成f703e49c双CI为既有证据；未达whole-file目标、无caller旧入口、E-05/U-02/frame政策和full/Q1/Q2边界保持。本次只做文档收口，不重跑覆盖率。
 
