@@ -9,9 +9,10 @@ import { dirname, join, resolve } from 'node:path'
 import { fileURLToPath, pathToFileURL } from 'node:url'
 
 const args = process.argv.slice(2)
+const installed = args.length === 1 && args[0] === '--installed'
 assert(
-  args.length === 0 || (args.length === 2 && args[0] === '--replay'),
-  'usage: node coverage-initializer-capture.mjs [--replay <raw-directory>]',
+  args.length === 0 || installed || (args.length === 2 && args[0] === '--replay'),
+  'usage: node coverage-initializer-capture.mjs [--installed | --replay <raw-directory>]',
 )
 const root = realpathSync(resolve(dirname(fileURLToPath(import.meta.url)), '../..'))
 const output =
@@ -39,7 +40,7 @@ const protectedFiles = [
 const sha = (file) => createHash('sha256').update(readFileSync(file)).digest('hex')
 const hashes = protectedFiles.map((file) => [file, sha(file)])
 
-if (args.length === 0) {
+if (args.length === 0 || installed) {
   const modulePath = join(output, 'provider.mjs')
   writeFileSync(
     modulePath,
@@ -112,7 +113,26 @@ const original = lib.createCoverageMap(
 const before = original.getCoverageSummary().toJSON()
 for (const metric of ['lines', 'statements', 'functions', 'branches']) {
   assert.equal(before[metric].total, baseline.packages.reforge.metrics[metric].total)
-  assert.equal(before[metric].covered, baseline.packages.reforge.metrics[metric].covered)
+  if (!installed)
+    assert.equal(before[metric].covered, baseline.packages.reforge.metrics[metric].covered)
+}
+if (installed) {
+  const manifest = JSON.parse(readFileSync(resolve(root, 'package.json'), 'utf8'))
+  const patchPath = manifest.pnpm.patchedDependencies['@bcoe/v8-coverage@1.0.2']
+  const patchHash = sha(resolve(root, patchPath))
+  assert(mergePath.includes(`patch_hash=${patchHash}`), 'must execute the actually installed patch')
+  for (const [file, hash] of hashes) assert.equal(sha(file), hash)
+  const result = {
+    mode: 'installed-patch-old-fast',
+    tests: tests.numPassedTests,
+    patchHash,
+    hashes,
+    metrics: before,
+  }
+  writeFileSync(join(output, 'installed-summary.json'), `${JSON.stringify(result, null, 2)}\n`)
+  console.log(JSON.stringify({ tests: result.tests, patchHash, metrics: before }, null, 2))
+  console.log(`Evidence: ${output}/installed-summary.json`)
+  process.exit(0)
 }
 // In-memory one-key experiment; installed merger remains untouched.
 // biome-ignore lint/suspicious/noTemplateCurlyInString: exact dependency source

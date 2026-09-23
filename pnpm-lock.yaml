@@ -4,6 +4,11 @@ settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
 
+patchedDependencies:
+  '@bcoe/v8-coverage@1.0.2':
+    hash: 2f8a8ecf59c8c2a034a221e318faf7be09767cde12bca6d4f5fe1ec70f1ff8bd
+    path: patches/@bcoe__v8-coverage@1.0.2.patch
+
 importers:
 
   .:
@@ -1538,7 +1543,7 @@ snapshots:
       '@babel/helper-string-parser': 7.29.7
       '@babel/helper-validator-identifier': 7.29.7
 
-  '@bcoe/v8-coverage@1.0.2': {}
+  '@bcoe/v8-coverage@1.0.2(patch_hash=2f8a8ecf59c8c2a034a221e318faf7be09767cde12bca6d4f5fe1ec70f1ff8bd)': {}
 
   '@biomejs/biome@2.4.15':
     optionalDependencies:
@@ -1851,7 +1856,7 @@ snapshots:
 
   '@vitest/coverage-v8@4.1.7(vitest@4.1.7)':
     dependencies:
-      '@bcoe/v8-coverage': 1.0.2
+      '@bcoe/v8-coverage': 1.0.2(patch_hash=2f8a8ecf59c8c2a034a221e318faf7be09767cde12bca6d4f5fe1ec70f1ff8bd)
       '@vitest/utils': 4.1.7
       ast-v8-to-istanbul: 1.0.5
       istanbul-lib-coverage: 3.2.2

@@ -1,0 +1,23 @@
+diff --git a/src/lib/merge.js b/src/lib/merge.js
+index 1f3d9156e0006f8e4395ece29cc5eb90b6d9d624..b1c5a278189cd29297dd14baead882e6fe185c1b 100644
+--- a/src/lib/merge.js
++++ b/src/lib/merge.js
+@@ -118,7 +118,17 @@ function mergeScriptCovs(scriptCovs) {
+  */
+ function stringifyFunctionRootRange(funcCov) {
+   const rootRange = funcCov.ranges[0];
+-  return `${rootRange.startOffset.toString(10)};${rootRange.endOffset.toString(10)}`;
++  // V8 gives static and instance initializers the same class span. They are
++  // different functions: merging them can turn an uninstantiated class's
++  // zero instance count into phantom coverage of every uncalled method.
++  // Preserve the existing range-only identity for all ordinary functions.
++  const initializer =
++    funcCov.functionName === "<static_initializer>"
++      ? "static;"
++      : funcCov.functionName === "<instance_members_initializer>"
++        ? "instance;"
++        : "";
++  return `${initializer}${rootRange.startOffset.toString(10)};${rootRange.endOffset.toString(10)}`;
+ }
+ 
+ /**

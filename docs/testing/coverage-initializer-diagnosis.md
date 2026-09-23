@@ -3,6 +3,11 @@
 2026-09-23，Codex只读取证；[修复卡](../ops/tasks/TEST-COVERAGE-TRUTH-1-class-initializers.md)仍为draft。
 此文不是已修复回执，也不是下调基线授权。
 
+2026-09-23实施附注：r1三席已准入build；旧最小probe和默认capture/`--replay`针对**未装patch**的
+准备树2fcf57d7，不应在已安装修复的依赖树上冒充修复验收。实际安装回归是
+`node --test scripts/coverage/merge-initializers.test.mjs`；修后旧1378正式范围捕获用
+`node docs/testing/coverage-initializer-capture.mjs --installed`。本节原始诊断数字保持历史。
+
 ## 结论
 
 已把宿主补测出现的script-runner-core逐文件“回退”定位到**覆盖率依赖的合并身份冲突**：
@@ -89,6 +94,11 @@ initializer同range冲突。另六包未重跑；该形状盘点不覆盖所有�
 - 初轮宿主分支取证：`/tmp/type-pal-stat1-investigation.Y5CFWl/`，old/census两次旧1378均绿。
 - 机账包含baseline/依赖hash、633源码摘要与命令/退出码；protected输入前后hash不变。
 - Kimi先前窄审`e7c4b743`已推`codex/runtime-shell-coverage-r1`；它证明旧计数不可信，未签本次新根因/修复设计。
+
+GLM观察(a)补记：`sourceCensusSha256`配方为SHA-256(UTF-8(JSON.stringify(rows)))，无尾换行；
+rows按`Object.values(baseline.packages)`现有插入顺序，逐包按`sourceFiles`数组顺序（不另排序），
+每行为`[仓库相对路径, SHA-256(文件原始字节)]`。不含绝对根路径；633行正好是probe的hashes去掉
+前3项merge/provider/baseline后，相对化后的序列。该配方与生产文件集合真值来自准备树，不掺新工具fixture。
 
 自查失败不隐藏：最小样本初稿没有realpath化`/tmp`，导致raw目标未找到；修为物理file URL并assert存在。
 一次离线汇总误把Istanbul的addFileCoverage当替换（实际会合并），产生错误分母；弃用该次结果，现工具先
