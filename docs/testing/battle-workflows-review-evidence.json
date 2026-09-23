@@ -1,0 +1,238 @@
+{
+  "schemaVersion": 1,
+  "task": "TEST-BATTLE-WORKFLOWS-1",
+  "revision": "r1",
+  "candidate": "16ac8cee",
+  "base": "4872b017",
+  "verdict": "counter",
+  "productionFreeze": "57dda7ed2376fc25f07756be117bb4a058d09915",
+  "verification": {
+    "targeted": {
+      "tests": 31,
+      "exit": 0
+    },
+    "adjacent": {
+      "files": 19,
+      "tests": 264,
+      "exit": 0
+    },
+    "fullReforge": {
+      "files": 152,
+      "tests": 1409,
+      "exit": 0
+    },
+    "typecheck": {
+      "exit": 0
+    },
+    "biome": {
+      "files": 12,
+      "errors": 7,
+      "warnings": 4,
+      "exit": 1
+    },
+    "glmMutants": {
+      "controls": 6,
+      "negatives": 7,
+      "exit": 0,
+      "directory": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/bw1-mutants-3hfWhL"
+    },
+    "logs": "/tmp/type-pal-battle-intake.eJQVXK"
+  },
+  "independentWitness": {
+    "directory": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/battle-workflows-review-MtiRat",
+    "root": "/Users/zhangxu/illegal/type-pal-glm-battle",
+    "hashes": {
+      "/Users/zhangxu/illegal/type-pal-glm-battle/packages/reforge/src/battle/battle-session.ts": "24cdd3e539e2248149ebd79fa9bced2250b6e56e9a215adb92f52029634c5ab1",
+      "/Users/zhangxu/illegal/type-pal-glm-battle/packages/reforge/src/battle/battle-session.selection-flows.test.ts": "27e9353f0da3bc055815e44314e4aa7eebb91be447276231521e0fb256f1b5b9",
+      "/Users/zhangxu/illegal/type-pal-glm-battle/packages/reforge/src/battle/battle-session.round-flows.test.ts": "4ae914130146d35f35f561724807cf4ae94bdb8351d571587d9e30e6c153afea",
+      "/Users/zhangxu/illegal/type-pal-glm-battle/packages/reforge/src/battle/battle-session.action-flows.test.ts": "00eb290ae1d26981af581fe582e5497d4b5c89798944c53a91bd4966ae568731",
+      "/Users/zhangxu/illegal/type-pal-glm-battle/packages/reforge/src/battle/battle-session.script-flows.test.ts": "e102c054b58a9fec5eea1097ec80b8f259ec7c9b8f0ae39a840a9a63a46bcf8f",
+      "/Users/zhangxu/illegal/type-pal-glm-battle/packages/reforge/src/battle/battle-session.terminal-flows.test.ts": "79aacd00efc26460fa3994e955968c2ed35a9759286e3a3378f6282fd05554b2",
+      "/Users/zhangxu/illegal/type-pal-glm-battle/packages/reforge/src/battle/battle-session.writeback-flows.test.ts": "541c08b7b7d2e2e686ca1b805c6029e4b1f788cfbca74323b990b9aab1e7b62f",
+      "/Users/zhangxu/illegal/type-pal-glm-battle/packages/reforge/src/battle/__tests__/battle-workflows/catalog.ts": "8f58d787153197503e34d1cc9034225d265f06fdfe746fc59748b1f2a95cdc36",
+      "/Users/zhangxu/illegal/type-pal-glm-battle/packages/reforge/src/battle/__tests__/battle-workflows/controlled-io.ts": "e039077066b7d2ba7c394103dcf8449e134a01c68eb7442e31a5ee70f901d669",
+      "/Users/zhangxu/illegal/type-pal-glm-battle/packages/reforge/src/battle/__tests__/battle-workflows/session-driver.ts": "7a8fae3668df917b5b99a54098d51e11c8de953cbecf008b8356a77f5fb1ce18"
+    },
+    "results": [
+      {
+        "id": "candidate-control",
+        "exit": 0,
+        "passed": 31,
+        "filtered": 0,
+        "meaning": "unchanged positive control"
+      },
+      {
+        "id": "facts",
+        "exit": 0,
+        "passed": 1,
+        "filtered": 0,
+        "meaning": "independent facts, not candidate acceptance"
+      },
+      {
+        "id": "disable-auto",
+        "exit": 0,
+        "passed": 5,
+        "filtered": 0,
+        "meaning": "bad implementation survived unchanged candidate assertions"
+      },
+      {
+        "id": "disable-repeat",
+        "exit": 0,
+        "passed": 5,
+        "filtered": 0,
+        "meaning": "bad implementation survived unchanged candidate assertions"
+      },
+      {
+        "id": "drop-persistent-writeback",
+        "exit": 0,
+        "passed": 5,
+        "filtered": 0,
+        "meaning": "bad implementation survived unchanged candidate assertions"
+      },
+      {
+        "id": "terminal-never-settles",
+        "exit": 0,
+        "passed": 3,
+        "filtered": 1,
+        "meaning": "bad implementation survived unchanged candidate assertions"
+      },
+      {
+        "id": "preparing-mutates-mp",
+        "exit": 0,
+        "passed": 4,
+        "filtered": 0,
+        "meaning": "bad implementation survived unchanged candidate assertions"
+      }
+    ],
+    "facts": {
+      "guards": {
+        "skill": {
+          "accepted": false,
+          "message": "skills.skills[0]: 缺键 \"cost\""
+        },
+        "actor": {
+          "accepted": false,
+          "message": "actors[0]: 缺键 \"spriteId\""
+        },
+        "profile": {
+          "accepted": false,
+          "message": "battleSprites[0].profile.castEffectBase: 期望非负整数"
+        },
+        "item": {
+          "accepted": true
+        },
+        "enemy": {
+          "accepted": true
+        },
+        "legalSkill": {
+          "accepted": true
+        },
+        "emptyItem": {
+          "accepted": false,
+          "message": "items[0]: 缺键 \"id\""
+        }
+      },
+      "candidateTrace": {
+        "phaseAfterKey": "menu",
+        "phaseAfterChoice": "target",
+        "party": [
+          {
+            "id": "p1",
+            "hp": 43,
+            "mp": 40
+          }
+        ],
+        "log": [
+          "p1 会心一击 攻击 e1 造成 60",
+          "e1 攻击 p1 造成 19",
+          "p1 会心一击 攻击 e1 造成 60",
+          "e1 攻击 p1 造成 19",
+          "p1 会心一击 攻击 e1 造成 60",
+          "e1 攻击 p1 造成 19"
+        ]
+      },
+      "legalS": {
+        "phaseAfterKey": "menu",
+        "phaseAfterChoice": "target",
+        "party": [
+          {
+            "id": "p1",
+            "hp": 43,
+            "mp": 40
+          }
+        ],
+        "log": [
+          "p1 会心一击 攻击 e1 造成 60",
+          "e1 攻击 p1 造成 19",
+          "p1 会心一击 攻击 e1 造成 60",
+          "e1 攻击 p1 造成 19",
+          "p1 会心一击 攻击 e1 造成 60",
+          "e1 攻击 p1 造成 19"
+        ]
+      },
+      "legalArrow": {
+        "phaseAfterKey": "menu",
+        "phaseAfterChoice": "skill",
+        "party": [
+          {
+            "id": "p1",
+            "hp": 43,
+            "mp": 0
+          }
+        ],
+        "log": [
+          "p1 施展 Strike 对 e1 造成 26",
+          "e1 攻击 p1 造成 19",
+          "p1 施展 Strike 对 e1 造成 26",
+          "e1 攻击 p1 造成 19",
+          "p1 会心一击 攻击 e1 造成 60",
+          "e1 攻击 p1 造成 19"
+        ]
+      },
+      "growthCaseChanged": false
+    },
+    "toolCriterion": {
+      "wrongTitle": "detected",
+      "timeout": "detected"
+    }
+  },
+  "coverage": {
+    "rerun": false,
+    "reason": "Counter established independently; inspect existing before/after artifacts instead of repeating full coverage.",
+    "artifacts": "/tmp/type-pal-bw1-cov",
+    "beforeTests": 1378,
+    "afterTests": 1409,
+    "delta": {
+      "lines": 7,
+      "statements": 11,
+      "functions": 2,
+      "branches": 15
+    },
+    "sessionDelta": {
+      "lines": 7,
+      "branches": 14,
+      "functions": 2
+    },
+    "coreDelta": {
+      "lines": 0,
+      "branches": 1,
+      "functions": 0
+    },
+    "sourceSetsAndDenominatorsEqual": true
+  },
+  "criterionUnknownSelector": {
+    "command": "node docs/testing/glm-battle-workflows-mutants.mjs does-not-exist",
+    "exit": 0,
+    "output": "BW1: 6 controls + 0 mutations passed",
+    "directory": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/bw1-mutants-o6iVRM"
+  },
+  "counterIds": [
+    "R1-fixture-legality",
+    "R2-nonvacuous-workflows",
+    "R3-async-and-terminal",
+    "R4-whitelist-and-evidence"
+  ],
+  "originalCandidateUntouched": true,
+  "officialBaselineUpdated": false,
+  "merged": false
+}

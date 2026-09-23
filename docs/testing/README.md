@@ -8,6 +8,8 @@
 
 ## 文档与附件
 
+- [战斗流程GLM包独立接收](battle-workflows-review.md)、[反证机账](battle-workflows-review-evidence.json)与[冻结旧候选见证](battle-workflows-review-witnesses.mjs)（16ac8cee counter/rework；31绿不能证明所称业务，正式fixture/断言/终态/工具回执四组返工，不改官方基线）
+
 - [大业务域双线补测计划](coverage-large-domain-plan.md)、[7790冻结盘点](coverage-large-domain-evidence.json)与[只读复算器](coverage-large-domain-census.mjs)（战斗公开流程由GLM、真实启动/菜单宿主由Codex；两卡r1已三席准入build，最终增量待整包验证）
 
 - [Codex内容六模块边界补测](codex-content-boundaries.md)（77项，角色状态/地图放置归属/战斗形象/奖励/运行脚本/场景索引；整批统一质量门）
