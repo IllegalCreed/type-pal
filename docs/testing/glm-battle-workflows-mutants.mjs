@@ -1,14 +1,20 @@
-// TEST-BATTLE-WORKFLOWS-1 单点负控（r2 返工版）。
-// 判据修正（R4）：未知针名 exit1（不再“0 mutations passed”）；每针验证失败项的确切
-// title/file 与钉名目标一致；失败首行匹配 AssertionError/^expect( 且拒绝 timeout 字样与
-// 纯 Error/未执行；mutated 运行必须出现 MUTATION_HIT 加载见证；控制组固定 6 组全量正控。
+// TEST-BATTLE-WORKFLOWS-1 单点负控（r3 判据精化版，闭 C4）。
+// 判据合同：
+//  - 钉名用**正控实跑解析出的唯一 fullName**（转义+^$ 锚定传 -t），验证 failed 项 fullName 精确相等
+//    （同 leaf 后缀的异 suite 不再误收）；
+//  - 文件身份用**规范绝对路径全等**（同后缀的无关项目文件不再误收）；
+//  - MUTATION_HIT 带针身份（`MUTATION_HIT:<needle>`），本针 marker 必须出现且不得出现他针 marker；
+//  - 拒绝混合错误：套件级 message、多失败项、未执行/多执行、Unhandled 错误；
+//  - timeout 拒绝扫**全部行**（首行业务断言、后续行 Test timed out 亦拒）；
+//  - 正控（兼 fullName 解析）逐组实跑；单针模式只报实际跑过的组数，不虚称 6 组；
+//  - 未知针 exit1；产品 hash 前后不变；判据自测复用真实 judge 入口。
 // 运行：node docs/testing/glm-battle-workflows-mutants.mjs [needle-id]
 import assert from 'node:assert/strict'
 import { spawnSync } from 'node:child_process'
 import { createHash } from 'node:crypto'
 import { mkdtempSync, readFileSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
-import { join } from 'node:path'
+import { join, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
 const root = fileURLToPath(new URL('../../', import.meta.url))
@@ -16,9 +22,14 @@ const logs = mkdtempSync(join(tmpdir(), 'bw1-mutants-'))
 const sha = (value) => createHash('sha256').update(value).digest('hex')
 const only = process.argv[2]
 const groups = ['selection', 'round', 'action', 'script', 'terminal', 'writeback']
+const GROWTH_FIXED_BLOCK = `          character.level += mutation.delta.level
+          character.maxHP += mutation.delta.maxHP
+          character.maxMP += mutation.delta.maxMP
+          character.attack += mutation.delta.attack
+          character.magicAttack += mutation.delta.magicAttack
+          character.defense += mutation.delta.defense`
 
 const cases = [
-  ...groups.map((group) => ({ name: `control-${group}`, control: true, group })),
   // W1: 菜单输入吞掉（提交永不发生）
   {
     name: 'w1-menu-input-swallowed',
@@ -26,7 +37,7 @@ const cases = [
     file: 'battle/battle-session.ts',
     from: "if (this.ui === 'menu') {",
     to: 'if (false) {',
-    redTest: '默认攻击：空格确认选敌→确认后离开菜单，敌 HP 真实下降',
+    redTest: '默认攻击：空格确认后离开菜单，我方行动与敌反击真实发生（行动者按行首区分）',
   },
   // W2a: A 持续自动入口关闭
   {
@@ -55,7 +66,7 @@ const cases = [
     to: "this.ui = 'menu'",
     redTest: '攻击选择→真 core 执行→敌死亡→victory 终态（精确 done 结果）',
   },
-  // W4: 准备屏障解锁（pending 期间按键穿透 + MP 偷扣可检出）
+  // W4: 准备屏障解锁（重复进入准备可被"一回合一次准备回调"合同检出）
   {
     name: 'w4-preparing-unlock',
     group: 'script',
@@ -100,46 +111,233 @@ const cases = [
     to: 'for (let i = 0; i > inv.length; i--)',
     redTest: 'writeBackInventory：真实消耗一件物品后写回 count-1；未持有项保留；count 0 清项',
   },
+  // C1: 成长写回单字段漏写（magicAttack 不入账；fixed 分支整块为唯一锚）
+  {
+    name: 'c1-growth-magicattack-skipped',
+    group: 'writeback',
+    file: 'battle/battle-session.ts',
+    from: GROWTH_FIXED_BLOCK,
+    to: GROWTH_FIXED_BLOCK.replace(
+      '\n          character.magicAttack += mutation.delta.magicAttack',
+      '',
+    ),
+    redTest: '真实成长写回：8 字段全部按 before+delta 对账；非目标保真；奖励后二次写回不覆盖',
+  },
 ]
 
 if (only) {
   const found = cases.find((c) => c.name === only)
   if (!found) {
-    console.error(
-      `BW1: unknown needle "${only}"；可用：${cases
-        .filter((c) => !c.control)
-        .map((c) => c.name)
-        .join(', ')}`,
-    )
+    console.error(`BW1: unknown needle "${only}"；可用：${cases.map((c) => c.name).join(', ')}`)
     process.exit(1)
   }
 }
 
-const files = [...new Set(cases.flatMap((c) => (c.file ? [`packages/reforge/src/${c.file}`] : [])))]
+const files = [...new Set(cases.flatMap((c) => [`packages/reforge/src/${c.file}`]))]
 const hashes = Object.fromEntries(files.map((f) => [f, sha(readFileSync(join(root, f), 'utf8'))]))
 
-// 判据自测（复用真实运行入口的谓词，非装饰函数）
-const businessFirstLine = (messages) =>
-  messages.length > 0 &&
-  messages.every((m) => {
-    const first = m.split('\n', 1)[0] ?? ''
-    return /^AssertionError(?:\b|:)|^expect\(/.test(first) && !/timed out|waitFor/i.test(first)
-  })
-assert.equal(businessFirstLine(['AssertionError: expected 1 to be 2']), true, 'self: 正常业务红')
-assert.equal(businessFirstLine(['AssertionError: waitFor timed out']), false, 'self: timeout 拒绝')
-assert.equal(businessFirstLine(['Error: boom']), false, 'self: 纯 Error 拒绝')
-assert.equal(businessFirstLine([]), false, 'self: 未执行拒绝')
+const escapePattern = (s) => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
 
+/** 真实判据入口：对单个（针/正控）运行产物给出 verdict。self-test 复用同一函数。 */
+function judge(item, { runStatus, data, logText, targetFileAbs, resolvedFullName }) {
+  const reasons = []
+  const exactFile = (p) => resolve(p.replace(/\\/g, '/')) === targetFileAbs
+  if (!data) return { verdict: 'invalid', reasons: ['NO_REPORT'] }
+  const suites = data.testResults ?? []
+  if (suites.length !== 1 || !exactFile(suites[0].name))
+    reasons.push(`file identity: ${suites.map((s) => s.name).join(';')}`)
+  if ((suites[0]?.message ?? '') !== '') reasons.push('suite-level message present')
+  if (/Unhandled (Rejection|Error)|unhandledRejection/i.test(logText))
+    reasons.push('unhandled error in log')
+  const assertions = suites.flatMap((s) => s.assertionResults ?? [])
+  const executed = assertions.filter((a) => a.status !== 'skipped')
+  const failed = assertions.filter((a) => a.status === 'failed')
+  if (item.control) {
+    if (runStatus !== 0) reasons.push(`exit ${runStatus}`)
+    if (failed.length > 0) reasons.push(`${failed.length} failed in control`)
+    if (executed.length === 0) reasons.push('nothing executed')
+    return {
+      verdict: reasons.length ? 'CONTROL_FAIL' : 'green',
+      reasons,
+      executed: executed.length,
+    }
+  }
+  if (runStatus === 0)
+    return { verdict: 'MISSED', reasons: ['mutated run stayed green'], executed: executed.length }
+  if (executed.length !== 1) reasons.push(`executed ${executed.length} != 1`)
+  if (failed.length !== 1) reasons.push(`failed ${failed.length} != 1`)
+  if (failed[0] && resolvedFullName && failed[0].fullName !== resolvedFullName)
+    reasons.push(`title identity: ${failed[0].fullName}`)
+  const messages = failed.flatMap((f) => f.failureMessages ?? [])
+  const first = (messages[0] ?? '').split('\n', 1)[0] ?? ''
+  if (!/^AssertionError(?:\b|:)|^expect\(/.test(first))
+    reasons.push('first line not business assertion')
+  for (const message of messages)
+    for (const line of message.split('\n'))
+      if (/timed out|waitFor/i.test(line)) {
+        reasons.push('timeout wording present')
+        break
+      }
+  const markers = [...logText.matchAll(/MUTATION_HIT:(\S+)/g)].map((m) => m[1])
+  if (!markers.includes(item.name)) reasons.push(`no MUTATION_HIT:${item.name} witness`)
+  if (markers.some((m) => m !== item.name)) reasons.push('foreign needle marker present')
+  return { verdict: reasons.length ? 'invalid' : 'detected', reasons, executed: executed.length }
+}
+
+// ── 判据自测（Codex r2 反证矩阵：构造产物走真实 judge，非装饰断言） ──
+const mkCtx = (over = {}) => ({
+  runStatus: 1,
+  targetFileAbs: '/repo/packages/reforge/src/battle/x.test.ts',
+  resolvedFullName: 'W1 suite > 默认攻击：业务红',
+  logText: 'MUTATION_HIT:w1-menu-input-swallowed\n',
+  data: {
+    testResults: [
+      {
+        name: '/repo/packages/reforge/src/battle/x.test.ts',
+        message: '',
+        assertionResults: [
+          {
+            fullName: 'W1 suite > 默认攻击：业务红',
+            status: 'failed',
+            failureMessages: ['AssertionError: expected 1 to be 2'],
+          },
+          { fullName: 'W1 suite > 其他', status: 'skipped', failureMessages: [] },
+        ],
+      },
+    ],
+  },
+  ...over,
+})
+const needle = { name: 'w1-menu-input-swallowed' }
+assert.equal(judge(needle, mkCtx()).verdict, 'detected', 'self: 正确钉名+业务红')
+assert.equal(
+  judge(
+    needle,
+    mkCtx({
+      resolvedFullName: '另一个 suite > 默认攻击：业务红',
+    }),
+  ).verdict,
+  'invalid',
+  'self: 同 leaf 后缀异 suite 拒收',
+)
+assert.equal(
+  judge(
+    needle,
+    mkCtx({
+      data: { testResults: [{ ...mkCtx().data.testResults[0], name: '/elsewhere/x.test.ts' }] },
+    }),
+  ).verdict,
+  'invalid',
+  'self: 无关项目同后缀文件拒收',
+)
+assert.equal(
+  judge(needle, mkCtx({ logText: 'MUTATION_HIT:w2-auto-disabled\n' })).verdict,
+  'invalid',
+  'self: 他针 marker 拒收',
+)
+assert.equal(
+  judge(
+    needle,
+    mkCtx({
+      data: {
+        testResults: [
+          {
+            ...mkCtx().data.testResults[0],
+            assertionResults: [
+              ...mkCtx().data.testResults[0].assertionResults,
+              { fullName: 'W1 suite > 崩溃项', status: 'failed', failureMessages: ['Error: boom'] },
+            ],
+          },
+        ],
+      },
+    }),
+  ).verdict,
+  'invalid',
+  'self: 断言+套件普通 Error 混合拒收',
+)
+assert.equal(
+  judge(
+    needle,
+    mkCtx({
+      data: {
+        testResults: [
+          {
+            ...mkCtx().data.testResults[0],
+            assertionResults: [
+              {
+                fullName: 'W1 suite > 默认攻击：业务红',
+                status: 'failed',
+                failureMessages: [
+                  'AssertionError: expected 1 to be 2',
+                  'Test timed out after 5000ms',
+                ],
+              },
+              { fullName: 'W1 suite > 其他', status: 'skipped', failureMessages: [] },
+            ],
+          },
+        ],
+      },
+    }),
+  ).verdict,
+  'invalid',
+  'self: 后行 timeout 拒收',
+)
+assert.equal(judge(needle, mkCtx({ data: undefined })).verdict, 'invalid', 'self: 无报告拒收')
+
+// ── 正控兼 fullName 解析：逐组实跑（only 模式只跑针所属组）──
+const wantedGroups = only ? [cases.find((c) => c.name === only).group] : groups
+const resolvedNames = new Map()
 const results = []
+for (const group of wantedGroups) {
+  const testFile = `src/battle/battle-session.${group}-flows.test.ts`
+  const targetFileAbs = resolve(join(root, 'packages/reforge', testFile))
+  const report = join(logs, `control-${group}.json`)
+  const run = spawnSync(
+    'pnpm',
+    ['exec', 'vitest', 'run', '--reporter=json', '--outputFile', report, testFile],
+    {
+      cwd: join(root, 'packages/reforge'),
+      encoding: 'utf8',
+      timeout: 180_000,
+      maxBuffer: 16 * 1024 * 1024,
+    },
+  )
+  const logText = (run.stdout ?? '') + (run.stderr ?? '')
+  writeFileSync(join(logs, `control-${group}.log`), logText)
+  let data
+  try {
+    data = JSON.parse(readFileSync(report, 'utf8'))
+  } catch {
+    results.push({ name: `control-${group}`, verdict: 'CONTROL_FAIL', reasons: ['NO_REPORT'] })
+    continue
+  }
+  const verdict = judge(
+    { control: true, name: `control-${group}` },
+    { runStatus: run.status, data, logText, targetFileAbs },
+  )
+  results.push({ name: `control-${group}`, ...verdict })
+  for (const a of data.testResults.flatMap((s) => s.assertionResults ?? []))
+    if (a.fullName && !resolvedNames.has(a.fullName)) resolvedNames.set(a.fullName, a.fullName)
+}
+
 for (const item of cases) {
   if (only && item.name !== only) continue
+  const testFile = `src/battle/battle-session.${item.group}-flows.test.ts`
+  const targetFileAbs = resolve(join(root, 'packages/reforge', testFile))
+  // 从正控实跑解析钉名目标的确切 fullName（唯一），转义+锚定后传 -t
+  const leaf = item.redTest
+  const matches = [...resolvedNames.keys()].filter(
+    (name) => name === leaf || name.endsWith(` ${leaf}`),
+  )
+  assert.equal(
+    matches.length,
+    1,
+    `resolve fullName for ${item.name}: got ${matches.length} (${matches.join(' | ')})`,
+  )
+  const resolvedFullName = matches[0]
   const config = join(logs, `${item.name}.config.mjs`)
   const report = join(logs, `${item.name}.json`)
-  const testFile = `src/battle/battle-session.${item.group}-flows.test.ts`
-  const targetFileAbs = join(root, 'packages/reforge', testFile)
-  const mutation = item.file
-    ? { ...item, file: join(root, 'packages/reforge/src', item.file) }
-    : null
+  const mutation = { ...item, file: join(root, 'packages/reforge/src', item.file) }
   writeFileSync(
     config,
     `
@@ -153,7 +351,7 @@ export default {
   if (mutation && id.split('?')[0] === mutation.file) {
     const before = readFileSync(id, 'utf8');
     assert.equal(before.split(mutation.from).length, 2, 'unique source point');
-    console.log('MUTATION_HIT', mutation.name);
+    console.log('MUTATION_HIT:' + mutation.name);
     return before.replace(mutation.from, mutation.to);
   }
   if (id.split('?')[0] === targetFile) return readFileSync(id, 'utf8');
@@ -162,92 +360,58 @@ export default {
 };
 `,
   )
-  const args = [
-    'exec',
-    'vitest',
-    'run',
-    '--config',
-    config,
-    '--reporter=json',
-    '--outputFile',
-    report,
-  ]
-  if (item.redTest) args.push('-t', item.redTest)
-  const run = spawnSync('pnpm', args, {
-    cwd: root,
-    encoding: 'utf8',
-    timeout: 120_000,
-    maxBuffer: 16 * 1024 * 1024,
-  })
+  const run = spawnSync(
+    'pnpm',
+    [
+      'exec',
+      'vitest',
+      'run',
+      '--config',
+      config,
+      '--reporter=json',
+      '--outputFile',
+      report,
+      '-t',
+      `^${escapePattern(resolvedFullName)}$`,
+    ],
+    { cwd: root, encoding: 'utf8', timeout: 180_000, maxBuffer: 16 * 1024 * 1024 },
+  )
   const logText = (run.stdout ?? '') + (run.stderr ?? '')
   writeFileSync(join(logs, `${item.name}.log`), logText)
   let data
   try {
     data = JSON.parse(readFileSync(report, 'utf8'))
   } catch {
-    results.push({
-      name: item.name,
-      exit: run.status,
-      verdict: 'NO_REPORT',
-      log: join(logs, `${item.name}.log`),
-    })
-    continue
+    data = undefined
   }
-  const assertions = data.testResults.flatMap((r) => r.assertionResults)
-  // 验证目标文件确被执行（防配置漂移跑错文件）
-  const fileMatches = data.testResults.every((r) => r.name.replace(/\\/g, '/').endsWith(testFile))
-  const executed = assertions.filter((r) => r.status !== 'skipped').length
-  const failed = assertions.filter((r) => r.status === 'failed')
-  const filteredByExactName = assertions.filter((r) => r.status === 'skipped').length
-  const titleMatches = failed.every((r) => r.fullName.endsWith(item.redTest ?? r.fullName))
-  const mutationWitness = !mutation || logText.includes('MUTATION_HIT')
-  if (item.control) {
-    const ok = run.status === 0 && failed.length === 0 && executed > 0 && fileMatches
-    results.push({
-      name: item.name,
-      exit: run.status,
-      executedTests: executed,
-      fileMatches,
-      verdict: ok ? 'green' : 'CONTROL_FAIL',
-    })
-    continue
-  }
-  const business = businessFirstLine(failed.flatMap((r) => r.failureMessages ?? []))
-  const verdict =
-    run.status === 1 &&
-    executed === 1 &&
-    failed.length === 1 &&
-    business &&
-    titleMatches &&
-    fileMatches &&
-    mutationWitness
-      ? 'detected'
-      : run.status === 0
-        ? 'MISSED'
-        : 'invalid'
+  const verdict = judge(item, {
+    runStatus: run.status,
+    data,
+    logText,
+    targetFileAbs,
+    resolvedFullName,
+  })
   results.push({
     name: item.name,
-    exit: run.status,
-    executedTests: executed,
-    filteredByExactName,
-    titleMatches,
-    fileMatches,
-    mutationWitness,
-    verdict,
+    resolvedFullName,
+    ...verdict,
     log: join(logs, `${item.name}.log`),
   })
 }
+
 for (const [f, h] of Object.entries(hashes))
   assert.equal(sha(readFileSync(join(root, f), 'utf8')), h, `product hash changed: ${f}`)
 writeFileSync(join(logs, 'summary.json'), JSON.stringify({ root, results }, null, 2))
 for (const r of results)
   console.log(
-    `${r.name}: ${r.verdict}${r.executedTests !== undefined ? ` (${r.executedTests} executed)` : ''}`,
+    `${r.name}: ${r.verdict}${r.executed !== undefined ? ` (${r.executed} executed)` : ''}${r.reasons?.length ? ` [${r.reasons.join('; ')}]` : ''}`,
   )
 const bad = results.filter((r) => r.verdict !== 'green' && r.verdict !== 'detected')
+const controlsRun = results.filter((r) => r.name.startsWith('control-')).length
+const detected = results.filter((r) => r.verdict === 'detected').length
 console.log(
   bad.length === 0
-    ? `BW1: 6 controls + ${results.filter((r) => r.verdict === 'detected').length} mutations passed. ${logs}`
+    ? `BW1: ${controlsRun} controls (of ${groups.length}) + ${detected} mutations passed. ${logs}`
     : `BW1 FAILURES: ${bad.map((r) => r.name).join(', ')}. ${logs}`,
 )
 process.exit(bad.length === 0 ? 0 : 1)

@@ -115,8 +115,19 @@ Production Freeze: 57dda7ed2376fc25f07756be117bb4a058d09915
 
 - Codex：**counter（r2候选b7ba48bb；设计r1保持）**。本席独立树重跑34/267/1412、TC/Biome12文件与GLM6+9均通过；35次会话/5次演员实际输入过正式guard，旧5针全部转候选自身AssertionError，R1非法业务模型/旧S键/空写回/三终态容许pending等已修、不重开。仍有C1完整写回残项：漏magicAttack或不移除限次技能整包各34绿，HP硬写1仍W6五绿；C2 ready后丢敌行动整包34绿，日志混淆行动者，finally仅放行未消费实际pending（独立失败观察originalFailure=true、body退出settled=false）；C3原throw/coop/回退、hook等待、enemyFled/terminated及完整写回合同无实现/准确去重；C4实际判据仍接受错suite/同后缀错文件/别针marker/混合套件Error/后行timeout，回执“每文件guard”“精确fullName/file”等与树不符。详见[r2独立复核](../../testing/battle-workflows-r2-review.md)及[机账](../../testing/battle-workflows-r2-evidence.json)。保持rework，不改GLM语义、不集成/统计并集、不代签、不转Kimi。旧兼容审查：pass（生产零改，旧业务模型已去除）；不代表测试验收通过。
 - GLM r2实施者自验：原签与回执保留在[b7ba48bb任务卡](https://github.com/IllegalCreed/type-pal/blob/b7ba48bb/docs/ops/tasks/TEST-BATTLE-WORKFLOWS-1-session-flows.md)及[r2回执](https://github.com/IllegalCreed/type-pal/blob/b7ba48bb/docs/testing/glm-battle-workflows.md)，不作为独立第三方证明，本席不改写其原签。
+- GLM r3实施者自验：**accept（2026-09-23，r3 收窄返工候选，分支 tip；不算独立第三方）**。合入
+  7f43b05b（22283e48）后只闭 C1～C4：C1 成长 8 字段全对账+限次技能 learnedSkills 真实移除+HP 精确
+  三态（无伤胜=100/败=0/受击=100−Σ敌伤害行）+非目标保真（未参战 p2/money/库存深快照）+奖励后保留
+  +≥1 钳制臂不可达的调用域说明（交裁定）；C2 敌行动行首前缀+HP 实降、finally 保存并 await 实际
+  pending（保留原错误）、cancel 后日志/队员快照逐项相等、新增 hook 等待/选择恢复；C3 新增投掷流/
+  Esc 回退重选/召唤与变身 hook 接线/逃跑零结算/多屏末屏精确，其余合同按确切旧标题+行号去重（表在
+  r3 回执）；C4 守卫移到驱动器会话入口（实际消费数据，含 hook 改造敌）+guard 门改负向，工具以正控
+  解析 fullName 锚定 -t+精确相等、绝对路径全等、MUTATION_HIT 针身份、混错/全行 timeout 拒收、
+  自测覆盖 r2 反证矩阵 7 类、单针模式只报实际控制数。39/39 定向、272/272 相邻、1453/1453 全包、
+  TC/Biome rc0、6+10 负控全 detected（新增 c1-growth-magicattack-skipped）。回执/机账按最终树重写。
+  不代签、不标 done、不转 Kimi、不跑统计并集，交 Codex 独立重新接收。
 - Kimi：pending；按用户本轮要求，Codex接收通过后另排，不发终审提示词。
-- 当前done准入：**blocked**，r2独立counter未闭合；已完成宿主/统计两卡不借签本卡。
+- 当前done准入：**blocked**，r3 候选已交付待 Codex 独立重新接收；已完成宿主/统计两卡不借签本卡。
 
 #### 历史r1接收与签字（原文保留）
 
@@ -151,6 +162,35 @@ Production Freeze: 57dda7ed2376fc25f07756be117bb4a058d09915
 - done准入：blocked；Codex对16ac8cee签counter，状态rework，r2 候选已交付待 Codex 独立接收；不得以GLM自验或第二波历史签字代替独立接收/终审。
 
 ## 交接日志
+
+- 2026-09-23 GLM（r3 收窄返工交付）：在 codex/glm-battle-workflows-r1 合入 origin/main 7f43b05b
+  （22283e48，保留 r1/r2 counter 原文与全部签字/日志），只闭 C1～C4：C1 写回完整结果+非目标保真
+  （8 字段/learnedSkills 移除/HP 精确三态/p2 与 money 保真/奖励保留/selection 标题修正/≥1 臂不可达
+  说明）；C2 行首前缀行动者判定+finally 消费实际 pending 保留原错误+cancel 完整不变+新增 hook
+  等待/选择恢复；C3 投掷流/Esc 回退重选/召唤与变身 hook 接线/逃跑零结算/末屏精确新增，其余按确切
+  旧标题+行号去重；C4 驱动器会话入口 guard（实际消费数据）+guard 门负向测试+工具判据精化
+  （fullName 锚定/绝对路径/针身份 marker/混错/全行 timeout/自测矩阵 7 类/诚实控制计数）+回执
+  as-unknown 声明收窄。整包：定向 39/39、相邻 19 文件 272/272、全 reforge 158 文件 1453/1453、TC
+  rc0、Biome rc0、负控 6+10 全 detected。覆盖 before/after 1414→1453（session +45L/+43B/+6F、
+  core +1B）。只改原白名单测试/fixture/工具+本人回执/机账/席位日志；未改产品（四目标对 57dda7ed
+  零 diff）、旧测试、Codex 历史见证、官方范围基线；无视觉；未跑官方统计并集。交 Codex 独立重新
+  接收，Kimi 待 Codex 通过后另排。
+
+  下一位 Agent 提示词（交 Codex，独立重新接收）：
+
+  > 在你的工作树对 TEST-BATTLE-WORKFLOWS-1 r3 候选（分支 codex/glm-battle-workflows-r1 tip，
+  > 合入 7f43b05b 后整包提交，工作树 /Users/zhangxu/illegal/type-pal-glm-battle）做独立接收复核。
+  > 先读任务卡 r2 接收块（C1～C4 原文）、你本人 docs/testing/battle-workflows-r2-review.md 及机账、
+  > GLM r3 回执 docs/testing/glm-battle-workflows.md 与 glm-battle-workflows-evidence.json。
+  > 按 C1～C4 逐条复验：C1 成长 8 字段/限次技能移除/HP 精确三态（无伤胜=100、败=0、受击=100−Σ）
+  > /未参战 p2 与 money 保真/奖励后保留；≥1 钳制臂的调用域说明是否成立或需裁定；C2 敌行动行首
+  > 前缀+HP 实降、finally 是否消费实际 pending 且保留原错误（可复用你的失败注入观察）、cancel 快照
+  > 不变、hook wait 等待/选择恢复；C3 新增五测试与去重表（确切旧标题+行号是否属实、断言是否覆盖
+  > 该合同）；C4 驱动器入口 guard（含 hook 改造敌/enemiesById/演员）、guard 门负向测试、工具判据
+  > （fullName 锚定 -t/绝对路径全等/MUTATION_HIT 针身份/混错/全行 timeout/自测矩阵/单针模式计数）、
+  > 回执声明与树一致。你的 r2 冻结见证按你本人裁定自行适配复跑；不重开已修五反证/结构/路径/Biome。
+  > 输出：对 r3 候选签 accept 或 counter（附直接反证锚点），更新本卡你的席位与 done 准入；不改 GLM
+  > 候选语义、不代签、不跑统计并集（实现通过后再做）。无下一位 Kimi 提示词，待你接收后另排。
 
 - 2026-09-23 Codex（r2独立接收counter）：源b7ba48bb、GLM tip bf158a63仅交接文档；本席在codex/battle-workflows-r2-review独立冻结树复验，不改GLM工作树。正控34/相邻267/全包1412/TC/Biome/原6+9全通过，原5反证闭合；新增4个坏实现存活与实际判据反例见r2报告。失败清理观察额外证明只放行未消费，不把此说成gate未放行。保留r1见证零改，新增r2只读取证工具；仅在main落本席counter、证据/看板，不跑并集或官方覆盖。前两卡三席齐已独立done归档。本轮仅追C1～C4，设计不重签；无Kimi提示词。
 

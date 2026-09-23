@@ -1,113 +1,120 @@
-# TEST-BATTLE-WORKFLOWS-1 · 实施回执（GLM，r2 返工）
+# TEST-BATTLE-WORKFLOWS-1 · 实施回执（GLM，r3 收窄返工）
 
-任务卡：[TEST-BATTLE-WORKFLOWS-1](../ops/tasks/TEST-BATTLE-WORKFLOWS-1-session-flows.md)（r1 设计三签有效；
-r1 候选 16ac8cee 被 Codex counter（[独立复核](battle-workflows-review.md)，基点合并 8c0c4a6d），
-状态 rework。本回执为 R1～R4 一次返工后的 **r2 候选**，交 Codex 独立重新接收）。
-Coding Owner：GLM。分支 `codex/glm-battle-workflows-r1`（worktree `/Users/zhangxu/illegal/type-pal-glm-battle`）。
+任务卡：[TEST-BATTLE-WORKFLOWS-1](../ops/tasks/TEST-BATTLE-WORKFLOWS-1-session-flows.md)（r1 设计三签保持，
+未重签）。r2 候选 b7ba48bb 被 Codex counter（[r2 独立复核](battle-workflows-r2-review.md)，C1～C4）；
+本回执为 C1～C4 一次闭合后的 **r3 候选**。已修的原五反证、fixture 结构/路径、Biome 不重开；
+不为凑数硬凑用例（34→39 为合同新增）。
+Coding Owner：GLM。分支 `codex/glm-battle-workflows-r1`（合入主线 7f43b05b @22283e48）。
 机账：[glm-battle-workflows-evidence.json](glm-battle-workflows-evidence.json)。
 
-## 生产零改动（范围改为真四目标命令）
+## 生产零改动（真四目标命令）
 
-`git diff 57dda7ed..HEAD -- packages/reforge/src/battle/battle-session.ts packages/reforge/src/battle/battle-core.ts packages/reforge/src/battle/battle-anim.ts packages/reforge/src/battle/enemy-hook-runtime.ts` 输出为空（r1 回执误用整个 `battle/` 目录+`main.ts` 的空 diff 冒充"无产品改动"，该命令会掩盖新增测试文件；本版只列四个生产目标本身）。
+`git diff 57dda7ed..HEAD -- packages/reforge/src/battle/battle-session.ts packages/reforge/src/battle/battle-core.ts packages/reforge/src/battle/battle-anim.ts packages/reforge/src/battle/enemy-hook-runtime.ts` 输出为空。
 
-## 交付（白名单内，9 个代码文件 + 2 工具，34 项）
+## 交付（白名单内 9 代码文件 + 2 工具，39 项）
 
-- 6 个测试文件：`packages/reforge/src/battle/battle-session.{selection,round,action,script,terminal,writeback}-flows.test.ts`（8+6+6+5+4+5 = **34** 项）。
-- 3 个 fixture：`packages/reforge/src/__tests__/battle-workflows/{catalog,session-driver,controlled-io}.ts`（r1 落在 `src/battle/__tests__/`，越出原卡白名单，已迁回并修正全部引用；r1 回执称"11 新增代码"计数错误，实为 9）。
-- 2 个工具：[glm-battle-workflows-mutants.mjs](glm-battle-workflows-mutants.mjs)（重写）、[glm-battle-workflows-coverage.config.mts](glm-battle-workflows-coverage.config.mts)（沿用 r1）。
+- 6 个测试文件：selection **10**（+2）/ round 6 / action 6 / script **8**（+3）/ terminal 4 / writeback 5 = **39**（r2 34 + 新增 5：投掷流、Esc 回退重选、hook 等待/选择恢复、召唤接线、变身接线）。
+- 3 个 fixture 仍在 `packages/reforge/src/__tests__/battle-workflows/`；2 个工具同 r2 路径（mutants 重写判据）。
 
-### R1 闭合：fixture 先过生产 guard
+## C1｜写回完整结果与非目标保真
 
-每个测试文件首组是 **guard 门**：运行 `assertWfCatalogPassesProductionGuards()`（catalog 内联调用生产
-`validateSkills/validateEnemies/validateItems(+itemUseSupportsContext('battle'))/validateActors/
-validateBattleSprites`）与 `assertWfDriverFixtureLegal()`（真实构造 BattleSession 并经公开
-`writeBackHp` 读回）。fixture 数据补齐现行完整模型：`wfSkill` 含 `cost.mp/target:'oneEnemy'/effects/
-animation`；`wfActorDef` 含 `spriteId/battleSprite/`完整 `baseStats`（level/hp/maxHP/mp/maxMP/attack/
-defense/magicAttack/speed/luck）；`PLAYER_PROFILE.castEffectBase/attackEffectBase=0`；战斗用品
-`use.target:'oneAlly'+effects:[healHp]`（`'scene'` 被 battle 上下文拒绝）；帧资源为真实 `RleFrame`
-（宽高/像素/不透明数组一致，11 帧数组，无空对象帧或 `as never`/`as unknown as` 强转）。W6 持久路径
-经生产 `buildWorld → createBattlePlayers`（`makeWfSessionFromWorld`），persistentProgress 等由真派生填充。
+- **成长 8 字段全对账**：`真实成长写回` 测试断言 level/maxHP/maxMP/attack/**magicAttack**/defense/**speed**/**luck**
+  全部 = before+delta（r2 漏验的 3 字段补齐）；负控针 `c1-growth-magicattack-skipped`（fixed 分支
+  magicAttack 漏写）实测红。
+- **限次技能移除**：`skillUse 写回` 现断言 `world.learnedSkills.p1` 由 `['wf-once']` → `[]`（满限真实移除），
+  计数入账保持；旧证去重见下表。
+- **HP 终值精确**（不再"减少且≥1"）：无伤一击胜利 → 写回**恰 100**；败（被一击打死）→ 写回**恰 0**
+  （lost 分支允许 0，与胜/逃 ≥1 是不同分支）；多轮受击 → `100 − Σ(「e1 攻击 p1 造成 N」行)`，预期由
+  战斗事件推导、非终值自证（HP 硬写任何别的数即红）。
+- **≥1 钳制臂的调用域说明**：`writeBackHp` 的 `Math.max(p.hp,1)` 臂要求非 lost 相位且 `p.hp≤0`；
+  公开驱动下 HP 归 0 即判负（走 lost 臂 `Math.max(p.hp,0)`），该输入不可达——按 C3 规则以调用域反证
+  交 Codex 裁定，不冒称已验证该边界。
+- **非目标保真正控**：world 队伍含**未参战的 p2**、money=77、库存非空；成长写回后除 p1 的 8 字段外
+  整个 world 深快照相等（`expect(world).toEqual(expected)`，p2/money/库存/learnedSkills 全保真）。
+- **奖励后保留**：首次写回后入账 `exp+=50`、`money+=99`（模拟结算奖励），二次写回保留奖励且成长
+  不重复叠加（旧证另见去重表）。
+- **标题/断言错位修正**：r2 '默认攻击…敌 HP 真实下降' 实读的是我方被反击 HP——已改名
+  '…我方行动与敌反击真实发生（行动者按行首区分）'，敌 HP 归零的死亡证明由 W3 一击致胜用例承担。
 
-### R2 闭合：真实业务结果断言（非存活/日志非空）
+## C2｜敌 hook 后续行动与失败清理
 
-| 组 | 代表性真实断言 |
-|---|---|
-| W1 选 8 | ArrowLeft→确认进 `ui='skill'`→确认目标→确认施法：MP **40→20**（公开 `writeBackHp` 读出）+施法日志；healHp 物品 HP 净恢复；Esc 取消施法 MP 保持 40 且落回交付攻击 |
-| W2 轮 6 | A 自动：零菜单键到 victory + ≥2 次攻击；R 重复：MP **40→20→0** 精确阶梯、cast 计数=2、MP 尽后第三轮降级普攻；F 力攻零 MP 消耗；目标死亡换存活敌命中 |
-| W3 执行 6 | readiness 快照断言真实动作种类 `{kind:'cast',skillId,targetEnemyIdx}`（非计数）；双人 cast+attack 混合集；物品消耗后库存回写 2→1；施法 MP 恰扣一次 |
-| W4 屏障 5 | 见下"屏障合同"；敌 ready hook 真实 `playSound`+同敌后续行动；敌 turnStart hook |
-| W5 终态 4 | 每终态**精确 resolve 对应 BattleResult**：`victory/defeat/playerFled`；300ms 边界前 probe='pending'；settlement 恰一次（done 后断言）；多屏 2 屏 pending、3 屏 victory |
-| W6 写回 5 | 库存 count-1；count-0 清项；HP 终值真写回；`applyActorGrowth` 非空成长（level/maxHP/maxMP/attack/defense 实增）先证变化再证幂等；lifetimeLimit 技能施放→`world.skillUseCounts` 入账 |
+- **行动者以行首前缀判定**：敌 ready hook 测试现断言 `ready-hook ` 开头的敌行动行 + `debugPlayers()`
+  HP 实际下降（r2 的子串匹配会把"我方攻击该敌"误当敌已行动；拿走敌行动队列的变异现可检出）。
+  本批全部我方/敌方行过滤器统一为 `startsWith('<actorId> ')`。
+- **finally 消费实际 pending**：`prepareTurnSounds` 回调返回的**同一个 Promise** 被保存；finally 先
+  `gate.resolve()` 再 `await pending`（body 已抛错时吞 pending 拒绝以**保留最初断言错误**，无 body
+  错误时透传 pending 拒绝）——不再只放行不消费，断言失败不留悬挂 Promise。
+- **cancel 完整性**：取消+迟到放行+后续 tick 后，除 phase 停留外断言 `debugLog()` 与 `debugPlayers()`
+  快照**逐项相等**（零日志增长、零状态变化）。
+- **敌 hook 等待/选择恢复（W4 原合同）**：新测试 `敌 hook 等待与选择恢复`——turnStart hook 带
+  `wait 400ms`，等待窗口内连按确认零提交（log 零 `p1 ` 行、尾音未播），时间推过后 hook 完成、
+  菜单恢复可继续提交攻击。
 
-观测仍全走公开接口（tick/debugLog/debugReadiness/debugPlayers/done/writeBack*）；异步屏障用微任务
-flush + `setTimeout(0)` 宏任务竞速（不 await 永不 settle 的 promise）。
+## C3｜原六组合同补齐与准确去重
 
-### R3 闭合：屏障、取消与 finally
+**新增实现**（新测试，标题可直接定位）：
 
-- **屏障合同三断言**：挂起期间 `prepareCalls===1`（一回合恰好一次准备回调——按键穿透解锁会重复触发
-  `beginTurnPreparation` 即红）、MP 保持 40（偷扣即红）、放行后 `p1 ` 开头攻击行恰 1 条（额外提交即红）；
-- gate 放行在 `try{...}finally{gate.resolve()}`：断言失败也不遗留挂起 promise，最初断言错误保留；
-- `SfxReadinessResourceError`（数组 cause 形式）降级继续到精确 victory；
-- 公开 `cancel()`：done 以 `{name:'AbortError'}` 精确拒绝，gate 迟到放行不复活、无新 core 推进。
-
-### R4 闭合：负控工具鉴别力（6 正控 + 9 针全 detected）
-
-工具重写后的硬判据：未知针名 **exit1** 并列出有效针；每针核 `failed[0]` 的**确切 title**（fullName 精确
-匹配钉名测试）与**文件路径**；`MUTATION_HIT` 见证必须出现在日志（证明变异实际加载）；失败首行必须是
-业务断言（`AssertionError`/`expect(`），**拒绝** `timed out|waitFor` 超时红与普通 `Error`；skipped 不计入
-executed；产品 hash 前后不变；判据自测复用真实入口（正常红接受/超时拒/纯 Error 拒）。9 针与钉名：
-
-| 针 | 唯一替换点 | 检出机制 |
+| 合同项 | 新测试 | 关键断言 |
 |---|---|---|
-| w1-menu-input-swallowed | `if (this.ui === 'menu') {`→`if (false) {` | W1 提交后不得停留菜单 |
-| w2-auto-disabled | `this.fAuto = true`→`void 0` | W2 A 自动零键到胜利 |
-| w2-repeat-lookup-removed | `let act = this.lastActs.get(sel)`→`undefined` | W2 R 重复 MP 阶梯 |
-| w3-ui-never-over | `this.ui = 'over'`→`'menu'` | W3 终态可达 |
-| w4-preparing-unlock | preparing 早退→按键切 menu | W4 `prepareCalls===1`（重复进准备） |
-| w5-settlement-rebuilt | `&& this.settlement === null`→每 tick 重建 | W5 done 后 settlement===1 |
-| w5-early-done | `overTimer >= 300`→`>= 0` | W5 边界 probe pending |
-| w6-inventory-overwrite-skip | `if (w) w.count = s.count`→no-op | W6 count-1 写回 |
-| w6-zero-clear-removed | 清项循环→no-op | W6 count-0 清项 |
+| W1 投掷有效选择 | `投掷：W 直开投掷列表→选目标→提交，敌真实受伤害且库存恰耗一件` | `p1 投掷…受到 N 伤害` 行 + writeBackInventory 2→1 |
+| W1 回退后重选（一次代价） | `Esc 回退上一队员重选：p1 已交 cast 被撤回…` | readiness 快照 2×attack 且无 cast；MP 保持 40 |
+| W4 敌 hook 等待/选择恢复 | `敌 hook 等待与选择恢复…` | wait 期间零提交；完成后可继续 |
+| W3 召唤接线 | `敌 hook effect 召唤接线…` | `minion ` 开头行动行 + 我方 HP 实降（auto 推进回合） |
+| W3 变身接线 | `敌 hook effect 变身接线…` | `boss-true ` 开头行动行、旧 id 不再作为行动者 |
+| W5 逃跑零奖励 | playerFled 用例加 `settlementCalls===0` | 非胜利零结算 |
+| W5 末屏精确 | 多屏用例改为第三屏放行后 `probe==='done'`（无 finish 循环兜底） | 第三屏即最后一屏；`settlementCalls===1` |
 
-最终树复跑：**6 正控 green + 9 针 detected**，rc=0（证据目录 `/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/bw1-mutants-drUZka/`，含每针 summary/log/config）。r1 曾由 Codex 证实"关闭 A 或 R 后 W2 仍 5 绿、写回空操作 W6 仍 5 绿、preparing 偷扣 MP 后 W4 仍 4 绿"——本版对应针均有业务红。
+**旧标题去重**（未重复实现的已签项，确切标题+源码位置+实际断言）：
 
-## 同口径覆盖（官方 fast 选择，输出仅 /tmp）
+| 合同项 | 旧证据（标题 @ file:line） | 该证据实际断言 |
+|---|---|---|
+| W5 enemyFled 经真实行为到达 | `fleeBattle 立即播放逃跑演出，但当前 hook closure 排净后才结算` @ battle-session.test.ts:1405 | `:1424` `done` resolve `'enemyFled'`（fleeBattle hook 真实驱动） |
+| W5 terminated 经真实行为到达+无奖励 | `endBattle terminate:choreography 撑到 turn → 战斗终止无奖励(林天南 7 回合)` @ battle-session.test.ts:1284 | `:1314` `done` resolve `'terminated'`（非 cancel AbortError） |
+| W5 playerFled 零奖励 | `玩家逃跑成功返回 playerFled，且不进入胜利结算` @ battle-session.test.ts:1213 | 逃跑不进胜利结算 |
+| W5 defeat 零奖励 | `endBattle lost 返回 defeat，且不进入胜利结算` @ battle-session.test.ts:1258 | 败不进胜利结算 |
+| W1 coop 有效选择（会话级） | `合击消费其余队员后仍先冻结完整动作快照，再进入行动` @ battle-session.test.ts:690 | 快照 `{0: coop, 1: attack}`——其余队员被消费、快照先冻结 |
+| W1/W2 coop 无效降级 | `healthy≤1 → 退化普攻(不扣合击 HP 代价)` @ battle-core.test.ts:2790 | 无效合击退化普攻零 HP 代价 |
+| W1 投掷无效选择 | `世界专用用途与非法投掷在扣库存前拒绝；大蒜战斗毒抗有真实消费方` @ battle-core.test.ts:1064 | 非法投掷在扣库存前拒绝 |
+| W6 skillUse 满限移除（旧证） | `skillUse mutation 写回：计数持久化 + 满限从 learnedSkills 移除` @ battle-session.test.ts:1704 | 满限从 learnedSkills 移除（r3 本包亦补自身断言） |
+| W6 奖励后保留（旧证） | `成长与明雷感知只写回一次，不覆盖随后发生的战后奖励` @ battle-session.test.ts:1629 | 二次写回不覆盖战后奖励（r3 本包亦补自身断言） |
+| W3 summon core 语义 | `summon 只填当前上限内空槽，count 非正归 1，且不足时不部分写入` @ battle-enemy-confused.test.ts:263 | 空槽填充/上限语义 |
+| W3 变身演出帧合同 | `变身现形:旧图 colorShift 0→5 六帧染白 → 72帧 dither 过渡至新图` @ battle-anim.test.ts:508 | 变身帧形制（数值/帧专项） |
+| W4 hook runtime 等待推进 | `continue 同 activation 执行，advance 只在结束时提交 cursor` @ enemy-hook-runtime.test.ts:51 | runtime 级 cursor/等待推进 |
 
-`/tmp/bw1-r2-coverage/{before,after}` 双 exit0；before 1378 → after **1412**（恰 +34，即本批 6 文件）。
-四生产目标逐文件净增（before→after/总分母）：
+## C4｜判据精确化、入口 guard 与回执纠正
 
-| 目标 | 行 | 分支 | 函数 |
-|---|---|---|---|
-| battle-session.ts | 880→905/1331（**+25**） | 761→783/1457（**+22**） | 138→141/181（**+3**） |
-| battle-core.ts | 1037→1037/1140（+0） | 977→978/1183（**+1**） | 114→114/118（+0） |
-| battle-anim.ts | 316→316/402（+0） | 220→220/318（+0） | 42→42/54（+0） |
-| enemy-hook-runtime.ts | 50→50/58（+0） | 40→40/53（+0） | 5→5/5（+0） |
+- **工具判据**（[glm-battle-workflows-mutants.mjs](glm-battle-workflows-mutants.mjs) 重写）：
+  - 钉名目标 = **正控实跑解析出的唯一 fullName**（转义+`^$` 锚定传 `-t`），验证 failed 项 fullName
+    **精确相等**（同 leaf 后缀的异 suite 拒收）；
+  - 文件身份 = **规范绝对路径全等**（同后缀无关项目文件拒收）；
+  - `MUTATION_HIT:<needle>` 带针身份：本针 marker 必须出现、不得出现他针 marker；
+  - 混错拒绝：套件级 message 非空、失败项 ≠1、执行项 ≠1、log 含 Unhandled 错误；
+  - timeout 扫**全部行**（首行业务断言+后续 `Test timed out` 亦拒）；
+  - 判据自测走**真实 judge 入口**，覆盖 r2 反证矩阵全部 7 类构造；
+  - 正控兼 fullName 解析逐组实跑；单针模式只报实际跑过的组数（`1 controls (of 6)`），不虚称 6 组。
+- **入口 guard**：守卫移到 `makeWfSession`/`makeWfSessionFromWorld` 会话入口，对**每次实际消费**的
+  敌定义（含 hook 改造后）/技能/物品/enemiesById/演员数据跑现行生产校验器；不再以"每文件首组样本
+  guard 测试"冒充（该声明已从 r2 回执勘误）。`守卫门非装饰` 测试改为负向：破坏敌定义/技能定义时
+  驱动器确实 throw。
+- **as-unknown 声明收窄**：机账"无 as-unknown 强转"改为"**业务 fixture 无绕 guard 强转**"；
+  `controlled-io.ts` 3 处声音/字库/调色板 **外部 IO 替身**的 `as unknown` 按原卡薄 IO 替身条款保留。
 
-净增 **+25L/+23B/+3F**，全部由 session +25L/+22B/+3F 与 core +1B 构成（分开列示，不合并报功）。
-剩余缺口保留分母不虚报：session 426L/674B、anim 86L/98B、hook 8L/13B；session 遗漏行为 render 入口后
-（~189 行，视觉侧另卡）与本批未覆盖组合状态。
+## 负控（6 正控 + 10 针，全部业务红）
+
+10 针 = r2 9 针 + 新增 `c1-growth-magicattack-skipped`（fixed 成长分支 magicAttack 漏写，多行唯一锚）。
+最终树复跑 **6 正控 green + 10 针 detected**，rc=0（证据目录 `/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/bw1-mutants-JpR04b/`，
+含每针 config/log/json 与 summary）。HP 硬写与 learnedSkills 移除跳过两个方向由精确值/移除断言覆盖
+（未加针以守 6～10 针带上限；Codex 可按同法单点复现）。
 
 ## 验证总账（最终树）
 
-- 定向 6 文件 **34/34**；相邻 `src/battle/` 19 文件 **267/267**；全 reforge 152 文件 **1412/1412**
-  （Codex r1 复核基线 1409 = 1409−31旧+34新，逐项对账吻合）。
-- `pnpm --filter @type-pal/reforge typecheck` rc=0（修 `setImmediate`→`setTimeout(0)`、
-  `enemyProfile` 返回类型加宽、`ActorDef.template` 幽灵字段后归零）。
-- Biome format+check rc=0（9 代码文件+2 工具；r1 实为 exit1 的 7 错误/4 警告已清：import 排序、
-  非空断言、未用 helper 删除）。
-- 负控工具 rc=0（6+9）。
-
-## r1 勘误（对 Codex R4 第 4 条）
-
-- "11 新增代码文件"→实为 **9**；"format+check rc0"→当时实为 exit1；修复④"done 后才断言"→当时源码
-  允许 pending；W6"定位失败 throw"标题实断言 `not.toThrow`；"空 diff 命令"→当时覆盖整个 battle 目录。
-  以上均已在 r2 候选修正为本文所述事实。
+- 定向 6 文件 **39/39**；相邻 `src/battle/` 19 文件 **272/272**；全 reforge **158 文件 1453/1453**
+  （合入主线 7f43b05b 后基线；本批 6 文件 39 项 = r2 34 + 新增 5）；TC rc=0；Biome 10 代码/工具文件
+  format+check rc0；负控 6+10 rc0。
+- 覆盖率同口径 before/after 见机账（输出仅 /tmp，不入仓）。
 
 ## 剩余与归属
 
-- session render 段（~189 行）归视觉/渲染侧，本卡不碰；组合状态遗漏保留，不判不可达。
-- 敌 hook-runtime 8L/13B、anim 演出臂——后续按消费者细分，不在本卡硬刷。
-- Codex r1 冻结见证工具指向旧树路径/旧 fixture API（`battle-workflows-review-witnesses.mjs` 锚
-  `src/battle/__tests__/battle-workflows/`），按其本人裁定"不改历史工具凑绿，未来候选由 Codex 适配复核"
-  保持原样，未在本分支触碰。
-- 无产品疑点；无兼容层新增（测试不再伪造旧技能模型）。
+- session render 段（~189 行）仍归视觉/渲染侧；组合状态/anim 演出臂/hook 剩余保留分母。
+- `writeBackHp` 非 lost 相位且 HP≤0 的钳制臂公开不可达（见 C1 调用域说明），交 Codex 裁定记录。
+- Codex r1/r2 冻结见证工具（锚旧树路径）零改动；r2 见证对 r3 需其自行适配复核。

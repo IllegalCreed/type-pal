@@ -150,6 +150,28 @@ export function wfHealItem(id = 'wf-tonic', amount = 30): ItemData {
   }
 }
 
+/** 可投掷战斗品（throw 经 validateItems 内 checkThrowSpec 核验；W1 投掷选择流）。 */
+export function wfThrowItem(id = 'wf-dart'): ItemData {
+  return {
+    id,
+    name: `name.${id}`,
+    desc: [],
+    buyPrice: 0,
+    sellPrice: 0,
+    sellable: false,
+    use: {
+      target: 'oneAlly',
+      consuming: true,
+      effects: [{ kind: 'healHp', amount: 5 }],
+    },
+    throw: {
+      target: 'oneEnemy',
+      effects: [{ kind: 'currentHpDamage', numerator: 1, denominator: 2, bonus: 20, cap: 500 }],
+      sound: 'sound.item-throw',
+    },
+  }
+}
+
 /** 完整 ActorDef（spriteId 等现行必填字段；validateActors 核验）。 */
 export function wfActorDef(
   id: string,
@@ -212,6 +234,8 @@ export function assertWfCatalogPassesProductionGuards(): void {
   validateItems([item])
   if (!item.use || !itemUseSupportsContext(item.use, 'battle'))
     throw new Error('wfHealItem 不支持 battle 上下文')
+
+  validateItems([wfThrowItem('wf-gate-dart')]) // throw 过 checkThrowSpec
 
   const actor = wfActorDef('wf-gate-actor')
   validateActors([actor])

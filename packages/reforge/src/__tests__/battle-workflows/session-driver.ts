@@ -4,9 +4,17 @@
  * debugLog/debugReadiness/debugPlayers/done/writeBackHp/writeBackInventory/
  * writeBackPersistentEffects/cancel。不 mock BattleSession/battle-core/battle-anim；
  * 帧资源为真实 RleFrame（catalog.realFrame）。
+ * 会话入口即生产 guard 门：每次构造对**实际消费**的敌/技能/物品/精灵/演员数据跑现行校验器
+ * （含钩子改造后的敌定义）——非法数据在构造时 throw，不靠单独的样本合法测试兜底。
  */
 import type { EnemyDef, WorldState } from '@type-pal/content'
-import { buildWorld } from '@type-pal/content'
+import {
+  buildWorld,
+  validateActors,
+  validateEnemies,
+  validateItems,
+  validateSkills,
+} from '@type-pal/content'
 import type { LoadedBattleSpriteDefinition } from '../../assets.js'
 import type { CreatePlayerInput } from '../../battle/battle-core.js'
 import { createBattlePlayers } from '../../battle/battle-player-input.js'
@@ -35,6 +43,8 @@ export function wfLoadedBattleSprite(
 export interface WfSessionArgs {
   players: CreatePlayerInput[]
   enemies: Array<EnemyDef | null>
+  /** 变身/召唤敌表（opts.enemiesById）；其精灵一并注入 assets。 */
+  enemiesById?: Record<string, EnemyDef>
   extraOpts?: NonNullable<ConstructorParameters<typeof BattleSession>[5]>
 }
 
@@ -49,7 +59,22 @@ export interface WfHarness {
   readParty: () => Array<{ id: string; hp: number; mp: number }>
 }
 
+/** 会话入口守卫：对本次实际消费的全部 fixture 数据跑现行生产校验器。 */
+function assertWfSessionInputsLegal(args: WfSessionArgs): void {
+  const enemyDefs = [...args.enemies, ...Object.values(args.enemiesById ?? {})].filter(
+    (enemy): enemy is EnemyDef => enemy !== null,
+  )
+  validateEnemies(enemyDefs) // 含 ai.hooks（checkEnemyHookFlow）改造后的真实变体
+  const opts = args.extraOpts
+  if (opts?.skills && Object.keys(opts.skills).length)
+    validateSkills({ skills: Object.values(opts.skills), levelUp: {} })
+  if (opts?.items && Object.keys(opts.items).length) validateItems(Object.values(opts.items))
+  if (opts?.enemiesById && Object.keys(opts.enemiesById).length)
+    validateEnemies(Object.values(opts.enemiesById))
+}
+
 export function makeWfSession(args: WfSessionArgs): WfHarness {
+  assertWfSessionInputsLegal(args)
   const playerSpriteId = 'battle-sprite.player'
   const spriteEntries = new Map<string, LoadedBattleSpriteDefinition>([
     [playerSpriteId, wfLoadedBattleSprite(playerSpriteId, PLAYER_PROFILE)],
@@ -60,6 +85,11 @@ export function makeWfSession(args: WfSessionArgs): WfHarness {
         enemy.battleSprite,
         wfLoadedBattleSprite(enemy.battleSprite, enemyProfile(enemy.battleSprite)),
       )
+  for (const enemy of Object.values(args.enemiesById ?? {}))
+    spriteEntries.set(
+      enemy.battleSprite,
+      wfLoadedBattleSprite(enemy.battleSprite, enemyProfile(enemy.battleSprite)),
+    )
   const assets: BattleSessionAssets = {
     palette: stubPalette,
     glyphs: stubGlyphs,
@@ -72,7 +102,9 @@ export function makeWfSession(args: WfSessionArgs): WfHarness {
     assets,
     (id) => id,
     () => 0,
-    args.extraOpts,
+    args.enemiesById
+      ? { ...(args.extraOpts ?? {}), enemiesById: args.enemiesById }
+      : args.extraOpts,
   )
   const readParty = (): Array<{ id: string; hp: number; mp: number }> => {
     const party = args.players.map((player) => ({
@@ -92,31 +124,44 @@ export function makeWfSession(args: WfSessionArgs): WfHarness {
   }
 }
 
-/** 生产路径构造：buildWorld → createBattlePlayers（persistentProgress 等由真派生填充）。 */
+/** 生产路径构造：buildWorld → createBattlePlayers（persistentProgress 等由真派生填充）。
+ * worldPartyIds 允许世界队伍大于实际参战阵容（非目标保真正控）。 */
 export function makeWfSessionFromWorld(args: {
   actorIds: readonly string[]
+  worldPartyIds?: readonly string[]
   enemies: Array<EnemyDef | null>
+  enemiesById?: Record<string, EnemyDef>
   initialMagic?: readonly string[]
   seedStats?: Record<string, { hp?: number; mp?: number }>
+  worldMoney?: number
   extraOpts?: NonNullable<ConstructorParameters<typeof BattleSession>[5]>
 }): { harness: WfHarness; world: WorldState } {
+  const partyIds = args.worldPartyIds ?? args.actorIds
   const actors = Object.fromEntries(
-    args.actorIds.map((id) => [
+    partyIds.map((id) => [
       id,
-      wfActorDef(id, { initialMagic: [...(args.initialMagic ?? [])] }),
+      wfActorDef(id, {
+        initialMagic: args.actorIds.includes(id) ? [...(args.initialMagic ?? [])] : [],
+      }),
     ]),
   )
+  validateActors(Object.values(actors)) // 实际演员数据（含 initialMagic 真实播种）
   const world = buildWorld(
     {
-      party: [...args.actorIds],
-      money: 0,
+      party: [...partyIds],
+      money: args.worldMoney ?? 0,
       inventory: [],
       ...(args.seedStats ? { seedStats: args.seedStats } : {}),
     },
     actors,
   )
   const players = createBattlePlayers(world, { items: {}, actorsById: actors })
-  const harness = makeWfSession({ players, enemies: args.enemies, extraOpts: args.extraOpts })
+  const harness = makeWfSession({
+    players: players.filter((player) => args.actorIds.includes(player.roleId)),
+    enemies: args.enemies,
+    enemiesById: args.enemiesById,
+    extraOpts: args.extraOpts,
+  })
   return { harness, world }
 }
 

@@ -41,7 +41,7 @@ describe('W2 跨轮策略', () => {
     expect(h.session.debugReadiness().phase).toBe('over')
     const attacks = h.session
       .debugLog()
-      .filter((line) => line.includes('p1') && line.includes('攻击'))
+      .filter((line) => line.startsWith('p1 ') && line.includes('攻击'))
     expect(attacks.length).toBeGreaterThanOrEqual(2) // 多轮真实自动攻击
   })
 
@@ -59,11 +59,11 @@ describe('W2 跨轮策略', () => {
     expect(h.session.debugReadiness().phase).toBe('menu')
     const attacksBefore = h.session
       .debugLog()
-      .filter((line) => line.includes('p1') && line.includes('攻击')).length
+      .filter((line) => line.startsWith('p1 ') && line.includes('攻击')).length
     for (let i = 0; i < 50; i += 1) h.idle(500)
     const attacksAfter = h.session
       .debugLog()
-      .filter((line) => line.includes('p1') && line.includes('攻击')).length
+      .filter((line) => line.startsWith('p1 ') && line.includes('攻击')).length
     expect(attacksAfter).toBe(attacksBefore) // 退出后零新增自动攻击
   })
 
@@ -113,7 +113,7 @@ describe('W2 跨轮策略', () => {
     expect(casts.length).toBe(2) // 只有前两轮施法
     const attacks = h.session
       .debugLog()
-      .filter((line) => line.includes('p1') && line.includes('攻击'))
+      .filter((line) => line.startsWith('p1 ') && line.includes('攻击'))
     expect(attacks.length).toBeGreaterThanOrEqual(1) // 第三轮真实降级为攻击
   })
 

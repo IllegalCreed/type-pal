@@ -96,27 +96,39 @@ describe('W5 终态与结算', () => {
     await expect(h.session.done).resolves.toBe('defeat')
   })
 
-  test('playerFled：Q 快捷逃跑（fleeRate 100）→done 精确 resolve playerFled', async () => {
+  test('playerFled：Q 快捷逃跑（fleeRate 100）→零 settlement 零奖励→done 精确 resolve playerFled', async () => {
+    let settlementCalls = 0
     const h = makeWfSession({
       players: [wfPlayer('p1', { fleeRate: 100 })],
       enemies: [wfEnemy('e1', { health: 500, attackStrength: 1 })],
+      extraOpts: {
+        buildSettlement: () => {
+          settlementCalls += 1
+          return []
+        },
+      },
     })
     h.press(['q', 'Q'])
     await toOver(h)
+    expect(settlementCalls).toBe(0) // 非胜利零结算（无奖励）
     expect(await finish(h)).toBe('done')
     await expect(h.session.done).resolves.toBe('playerFled')
   })
 
-  test('多屏结算：前两屏放行后 done 仍未兑现，第三屏放完才 resolve victory', async () => {
+  test('多屏结算：前两屏放行后 done 仍未兑现，第三屏即最后一屏（其后无需再确认）', async () => {
+    let settlementCalls = 0
     const h = makeWfSession({
       players: [wfPlayer('p1', { attackStrength: 60 })],
       enemies: [wfEnemy('e1', { health: 20, defense: 0, attackStrength: 1 })],
       extraOpts: {
-        buildSettlement: () => [
-          { kind: 'exp-cash', exp: 5, cash: 3 },
-          { kind: 'exp-cash', exp: 1, cash: 1 },
-          { kind: 'exp-cash', exp: 0, cash: 0 },
-        ],
+        buildSettlement: () => {
+          settlementCalls += 1
+          return [
+            { kind: 'exp-cash', exp: 5, cash: 3 },
+            { kind: 'exp-cash', exp: 1, cash: 1 },
+            { kind: 'exp-cash', exp: 0, cash: 0 },
+          ]
+        },
       },
     })
     h.press([' '])
@@ -134,9 +146,12 @@ describe('W5 终态与结算', () => {
     h.press([' '], 50)
     await flush()
     expect(await probe(h)).toBe('pending') // 第三屏未放：不得提前完成
+    // 第三屏 = 最后一屏：放行后 done 立即兑现（无 finish 循环兜底；若存在第四屏此处仍 pending 即红）
     h.idle(350)
-    h.press([' '], 50) // 第三屏
-    expect(await finish(h)).toBe('done')
+    h.press([' '], 50)
+    await flush()
+    expect(await probe(h)).toBe('done')
     await expect(h.session.done).resolves.toBe('victory')
+    expect(settlementCalls).toBe(1) // 三屏同一次构建；额外确认不再产生新结算
   })
 })

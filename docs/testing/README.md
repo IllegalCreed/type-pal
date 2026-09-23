@@ -17,7 +17,7 @@
 - [Codex真实运行时宿主六组实施](codex-runtime-shell.md)、[机账](codex-runtime-shell-evidence.json)、[负控与统计见证](codex-runtime-shell-mutants.mjs)及[局部覆盖配置](codex-runtime-shell-coverage.config.mts)（b6286df0/done；三席accept齐，36项/8针与统一门禁、远端CI通过；视觉/full/Q1/Q2边界保持）
 
 - [大业务域双线补测计划](coverage-large-domain-plan.md)、[7790冻结盘点](coverage-large-domain-evidence.json)与[只读复算器](coverage-large-domain-census.mjs)（战斗公开流程由GLM、真实启动/菜单宿主由Codex；两卡r1已三席准入build，最终增量待整包验证）
-- [GLM战斗流程实施回执](glm-battle-workflows.md)与[机账](glm-battle-workflows-evidence.json)（r2 返工候选：R1～R4 一次闭合，白名单内 9 文件 34 项、6+9 负控全 detected、全 reforge 1412 绿；session 净增 +25L/+22B/+3F 如实入账，render 段保留；待 Codex 独立重新接收）
+- [GLM战斗流程实施回执](glm-battle-workflows.md)与[机账](glm-battle-workflows-evidence.json)（r3 收窄返工候选：C1～C4 一次闭合，白名单内 9 文件 39 项、6+10 负控全 detected、全 reforge 1453 绿；session 净增 +45L/+43B/+6F 如实入账，render 段保留；待 Codex 独立重新接收）
 
 - [Codex内容六模块边界补测](codex-content-boundaries.md)（77项，角色状态/地图放置归属/战斗形象/奖励/运行脚本/场景索引；整批统一质量门）
 
