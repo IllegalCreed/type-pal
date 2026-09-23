@@ -326,10 +326,44 @@ Production Freeze: `57dda7ed2376fc25f07756be117bb4a058d09915`
 
 - Codex：**accept（实施者自验，不算独立第三方；2026-09-22，候选27bd8c00，对比967b35fb）**。GLM原A/B贡献6839ea78/816c32ce保留并披露；本席修正guard/实参/取消链并完成C～F。25新测试、9薄fixture、2工具，163项（A25/B40/C20/D14/E45/F19）；所有25产品目标和旧测试零改。4个全新套件正控/17个精确候选AssertionError负控、PNG独立CRC/原字节检查通过；各包TC/37代码JSON文件Biome通过。完整check8281、官方ratchet及保护967b35fb的**单次strict-fast7790/633**全部exit0，私有对照与官方分子完全相同，另三包完整基线不变。净增673L/761S/84F/572B；未伪称全部文件95/90，未覆盖/无现行caller/防御及F输入解耦归属见回执、机账。旧版本兼容审查pass，未加兼容层或把F离线桥带回产品；未做visual/full/Q1/Q2。原GLM假fixture、Codex开发/工具错误与所有修正日志如实记录。证据：`docs/testing/glm-coverage-wave2-receipt.md`当前Codex节、机账`codexImplementation`、`/tmp/type-pal-wave2-build-Pq8YxT/`及`/tmp/type-pal-wave2-coverage-fivq93/`。
 - GLM：pending（测试贡献者自验，不算独立第三方）。
-- Kimi：pending（独立终审）。
+- Kimi：**accept（2026-09-23，候选27bd8c00对比967b35fb，已集成f703e49c；锚点本人直读/主树复跑，GLM 原贡献不算独立审查）**。
+  - **范围与基线**：packages 34 个变更文件路径全部属 wave2 白名单（25 测试+9 fixture），
+    非白名单产品/旧测试零改动；baseline 7627→7790（恰+163），content 798→843，另三包对象
+    不变。GLM A/B 贡献经 Codex 复验修正，本席不按独立第三方计。
+  - **真实调用链抽读**：A05 缺口（v5 保留的未证臂）已补——`script-project-core.wave2.test.ts
+    :176-206` 提交时会话漂移用真实 harness 在 effect 内换 session 后 commit，run 以
+    AbortError「moveEntity scene session changed」拒绝、端点零写入零通知；`:122/:144/:208`
+    提交前 abort/场景漂移/提交后 abort 同链；A03 双 target 全量写入后命令级一次通知
+    （:293-294 合同）。B04 readText/readJson 经冻结源取数+seal 未缓存同拒（:73）；B05
+    `:144` 完整资源准备+`:267` 真实 IO 拒绝不返回 prepared、已建位图释放。
+  - **本席复跑**：定向 reforge 49+content 45+editor 50+migrate 19=**163/163 绿**（分组数
+    与回执一致）；mutants 工具 exit0——4 控制全套件绿（49/50/45/19）+17 针全部恰 1 项执行
+    （同文件其余显式名称过滤 pending 不计执行）且为候选自身 AssertionError 业务红（抽核
+    A-session-drift：变异后 run resolved≠rejected，:199 AssertionError，无超时/混合错误）；
+    两 PNG 样本（5×8/116B、6×8/140B）与仓内 num/1、num/2 一致。
+  - **负控鉴别力与归属**：17 针覆盖 A 取消/漂移/多 target、B 重读工程/文本 JSON 冻结/确认
+    集合/abort 监听、C 独立站点/redo 分叉、D canonical 换代/proof generation、E 概率上界/
+    项数、F 音效符号/locale 漂移/分栏；F 组 full-only 证明按输入解耦登记不二次报功；
+    无现行 caller 的旧扫描器/BaseScriptProjectRuntime 与未达 95/90 项如实留账，本席裁定
+    无需本卡补齐。
+  - **旧版本兼容审查（单列）：pass**——F 组离线 ScriptIndex/Chunk 桥未带回产品持久模型；
+    无升级器/兼容层；E-05/U-02/frame 缓存政策归属不变。
+  - check8281/ratchet/保护 967b35fb 单次 strict7790 采信 Codex 已落日志，未并发重跑覆盖率；
+    无视觉任务（B05 图像宿主仅尺寸/close 已核）。
+  - 返工项：无。
 - done准入结论：blocked；2026-09-23用户确认GLM额度恢复，待GLM与Kimi同候选27bd8c00各自accept。无缺签豁免；GLM原贡献不作为独立第三方自证，Codex不代签，不以本人自验替代Kimi独立终审。
 
 ## 交接日志
+
+- 2026-09-23 Kimi（独立终审）：对候选27bd8c00（对比967b35fb，集成f703e49c）签 done 前
+  accept，单列旧兼容 pass。独立证据：范围 34 文件全属 wave2 白名单、baseline +163 与另三包
+  不变；A05 v5 保留缺口已补（:176-206 会话漂移 AbortError/端点零写入零通知，:122/:144/:208
+  同链）、A03 命令级一次通知、B04 冻结源取数、B05 完整准备+IO 拒绝不返回 prepared+位图释放；
+  本席复跑定向 163/163 绿、mutants 4 控制全套件绿+17 针恰 1 项执行且候选自身 AssertionError
+  红（抽核 A-session-drift :199），两 PNG 与 num/1、num/2 一致；F 解耦/无 caller 旧入口/
+  未达 95/90 如实留账，本席裁定无需补齐。check8281/ratchet/strict7790 采信 Codex 已落日志。
+  未读他席结论形成本判；不改实现/他席/状态，不代签、不标 done。
+  Next：GLM 同候选 accept 齐后由 Codex 核 done 门。
 
 - 2026-09-23 Codex（GLM额度恢复与并行审查）：按用户确认恢复GLM复核，不移交已完成的Coding Owner、不重签设计、不改实现候选27bd8c00。main集成f703e49c推送后工作树干净，两项远端CI均success；新增GLM提示词与Kimi现有提示词钉同候选，各自独立读取。GLM历史贡献关系保持披露，三席未齐不done、不豁免；本次仅更新交接/看板并跑文档门，不重跑全仓覆盖率。
 
