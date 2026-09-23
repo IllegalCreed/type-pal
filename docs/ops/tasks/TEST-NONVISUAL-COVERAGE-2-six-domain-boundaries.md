@@ -8,14 +8,20 @@ Generation Owner: N/A
 Reviewer: both
 Visual Verification Owner: Codex
 Visual Verification Timing: N/A
-Unavailable Agents: GLM（额度耗尽；Codex接手编码/自测，最终GLM验收缺签未默认豁免）
+Unavailable Agents: 无（2026-09-23用户确认GLM额度恢复；恢复本席复核，不豁免签字）
 Branch: codex/glm-coverage-wave2（GLM从最新main创建独立工作树，不在主工作树checkout）
 
-Revision: r1（设计v5/ae1ae8b6保持；实现候选27bd8c00，Codex代班自验通过，待Kimi独立终审）
+Revision: r1（设计v5/ae1ae8b6保持；实现候选27bd8c00，集成f703e49c；待GLM复核与Kimi独立终审）
 Planning Base: `456feb12`
 Production Freeze: `57dda7ed2376fc25f07756be117bb4a058d09915`
 
-## 当前实施交接（2026-09-22，优先于下方历史分工）
+## 当前审查交接（2026-09-23，优先于下方历史额度状态）
+
+用户确认GLM额度恢复。Coding Owner仍为Codex，已实施候选27bd8c00与设计v5不变；GLM恢复代码/矩阵复核，与Kimi同候选并行读取一手证据，各自形成结论，不读取或复述另一席结论。GLM曾贡献原A/B测试，不作为独立第三方自证；Kimi仍承担独立终审。没有缺签豁免，三席未齐不标done。
+
+集成提交f703e49c的整树与已验证3b7ec4b9相同；远端[Coverage ratchet](https://github.com/IllegalCreed/type-pal/actions/runs/35802169937)与[Documentation](https://github.com/IllegalCreed/type-pal/actions/runs/35802169958)均success。仅恢复复核，不重新实施或重复跑官方覆盖率。
+
+## 实施交接历史（2026-09-22，代班事实保留）
 
 用户明确“GLM额度没了，你继续”，由Codex接手同一已准入整包，不扩范围、不重签未变设计。
 接手工作树干净，GLM已留两个未推送提交：A组`6839ea78`（3测试+2薄fixture）、B组`816c32ce`（6测试）。
@@ -321,9 +327,11 @@ Production Freeze: `57dda7ed2376fc25f07756be117bb4a058d09915`
 - Codex：**accept（实施者自验，不算独立第三方；2026-09-22，候选27bd8c00，对比967b35fb）**。GLM原A/B贡献6839ea78/816c32ce保留并披露；本席修正guard/实参/取消链并完成C～F。25新测试、9薄fixture、2工具，163项（A25/B40/C20/D14/E45/F19）；所有25产品目标和旧测试零改。4个全新套件正控/17个精确候选AssertionError负控、PNG独立CRC/原字节检查通过；各包TC/37代码JSON文件Biome通过。完整check8281、官方ratchet及保护967b35fb的**单次strict-fast7790/633**全部exit0，私有对照与官方分子完全相同，另三包完整基线不变。净增673L/761S/84F/572B；未伪称全部文件95/90，未覆盖/无现行caller/防御及F输入解耦归属见回执、机账。旧版本兼容审查pass，未加兼容层或把F离线桥带回产品；未做visual/full/Q1/Q2。原GLM假fixture、Codex开发/工具错误与所有修正日志如实记录。证据：`docs/testing/glm-coverage-wave2-receipt.md`当前Codex节、机账`codexImplementation`、`/tmp/type-pal-wave2-build-Pq8YxT/`及`/tmp/type-pal-wave2-coverage-fivq93/`。
 - GLM：pending（测试贡献者自验，不算独立第三方）。
 - Kimi：pending（独立终审）。
-- done准入结论：blocked；待Kimi同候选独立accept，GLM额度耗尽且当前无最终验收缺签豁免，须恢复补审或用户明确豁免。Codex不代签，不以本人自验替代独立终审。
+- done准入结论：blocked；2026-09-23用户确认GLM额度恢复，待GLM与Kimi同候选27bd8c00各自accept。无缺签豁免；GLM原贡献不作为独立第三方自证，Codex不代签，不以本人自验替代Kimi独立终审。
 
 ## 交接日志
+
+- 2026-09-23 Codex（GLM额度恢复与并行审查）：按用户确认恢复GLM复核，不移交已完成的Coding Owner、不重签设计、不改实现候选27bd8c00。main集成f703e49c推送后工作树干净，两项远端CI均success；新增GLM提示词与Kimi现有提示词钉同候选，各自独立读取。GLM历史贡献关系保持披露，三席未齐不done、不豁免；本次仅更新交接/看板并跑文档门，不重跑全仓覆盖率。
 
 - 2026-09-22 Codex（整包实施与自验）：候选27bd8c00冻结，163项、4正控+17精确负控、四包TC/Biome与同口径对照通过。统一串行check8281→ratchet7790→保护967b35fb单次strict7790，生产633/分母不变，未重跑取多数。已按A补正/B完整资源链/C/D/E/F分提交，GLM原两笔历史保留。状态转review，交Kimi独立终审；无GLM最终豁免、不标done。B05图像仅窄IO宿主，不冒充视觉；D旧扫描器/BaseScriptProjectRuntime无caller收窄等已实名登记，冻结准备数字不冒充净增。
 
@@ -434,6 +442,14 @@ Production Freeze: `57dda7ed2376fc25f07756be117bb4a058d09915`
 - 2026-09-22 Codex：用户要求给GLM一大批覆盖率工作。同步main至456feb12、生产对57dda7ed相同；用7538/633对应报告核25模块并生成960行/1274臂候选清单，六组工作包与禁止范围落盘。主树旧7502报告未采用；两类无现行caller的审计入口暂排除。未改产品、测试或官方覆盖率，当前只交GLM准备；没有签字豁免。
 - 2026-09-22 Codex（规划验证）：census与冻结JSON复算一致，旧7502报告拒绝；Biome与文档门通过。准备工具对报告额外identities的初版误拒已按持久baseline字段投影纠正，仍核全部身份/计数/范围字段。下一步GLM填写逐族合同并签本人准备结论，不直接实施。
 
+## 当前下一位Agent提示词（给GLM，候选27bd8c00代码/矩阵复核）
+
+在 `/Users/zhangxu/illegal/type-pal` 复核 TEST-NONVISUAL-COVERAGE-2 r1，卡 `docs/ops/tasks/TEST-NONVISUAL-COVERAGE-2-six-domain-boundaries.md`（review），实现候选27bd8c00，对比967b35fb，集成main f703e49c，生产冻结57dda7ed，设计v5不重签。先同步main并核工作树，读AGENTS/CLAUDE/READ-FIRST、本卡当前交接、`docs/testing/glm-coverage-wave2-receipt.md`的Codex节及机账`codexImplementation`；不要读取或复述Kimi本轮结论。你原6839ea78/816c32ce贡献保留，Codex已修正A/B并完成C～F，本席复核须披露贡献关系，不作为独立第三方自证。
+
+核25新测试+9薄fixture+2工具白名单、163项及四包增量、产品/旧测试/官方scope零改。重点抽查合法guard、实际同一输入深快照、A05真实取消/漂移链、B05正式资源准备与失败释放、C多实例/非空redo、D真实proof generation、E父guard、F独立36键与fast解耦归属。对账剩余可达/无caller/防御/未决项，不把旧已证合同重复计新增；有必须本卡补齐的有效缺口给真实caller与file:line反证，不发明政策或修改生产。
+
+复跑四包定向163及相关TC/Biome；`node docs/testing/glm-coverage-wave2-mutants.mjs`应4完整正控+17精确目标AssertionError负控及PNG CRC/源字节一致，检查判据自测和真实运行入口同源。完整check8281/ratchet/单次strict7790及远端CI已有证据，不跑官方ratchet/strict、不与Kimi争用同一/tmp报告目录；不操作浏览器、不做视觉。仅修改本人done前席位与本人日志，签accept或带锚点与复现的counter，单列旧兼容审查；不改实现/他席/共享状态、不代签、不标done。提交前同步保留Kimi改动，自行处理push竞态；由Codex统一核门。
+
 ## 当前下一位Agent提示词（给Kimi，候选27bd8c00独立终审）
 
 在 `/Users/zhangxu/illegal/type-pal` 独立终审 TEST-NONVISUAL-COVERAGE-2 r1，卡 `docs/ops/tasks/TEST-NONVISUAL-COVERAGE-2-six-domain-boundaries.md`（review），实现候选27bd8c00，对比967b35fb，生产冻结57dda7ed，v5设计不重签。先同步main并核工作树，读AGENTS/CLAUDE/READ-FIRST、本卡当前代班/验收席位、`docs/testing/glm-coverage-wave2-receipt.md`的Codex节及机账`codexImplementation`。GLM额度耗尽，Codex接手修正A/B并完成C～F；GLM原6839ea78/816c32ce是贡献，不作为独立第三方证明；不要以本席accept代替独立读取一手证据。
@@ -442,7 +458,7 @@ Production Freeze: `57dda7ed2376fc25f07756be117bb4a058d09915`
 
 复跑四包`.wave2.test.ts`定向163、相关TC/白名单Biome，`node docs/testing/glm-coverage-wave2-mutants.mjs`应4完整正控+17精确标题单针业务红、两PNG CRC/原字节一致。负控每针只执行控制组确认的目标（其它同文件项为显式名称过滤，不计执行）；目标Error/混合错误/超时/未执行不得采信。覆盖对照config已入仓，输出/tmp；全仓check8281/ratchet/保护967b35fb单次strict7790日志已落，不并发重跑官方覆盖。所有失败记录不得省略。
 
-仅在本人done前席位签accept或带file:line及复现的counter，单列旧兼容审查，写本人日志并提交推送；保留他席/历史原文，不改产品、不代签、不标done。GLM最终缺席尚未豁免，最终仍由Codex核门。
+仅在本人done前席位签accept或带file:line及复现的counter，单列旧兼容审查，写本人日志并提交推送；保留他席/历史原文，不改产品、不代签、不标done。GLM已恢复额度并行复核，但其原贡献不算独立第三方证明；不读取或复述其本轮结论。最终仍由Codex核门。
 
 ## 历史下一位Agent提示词（给GLM，v5准入时原文；已由Codex接手）
 
