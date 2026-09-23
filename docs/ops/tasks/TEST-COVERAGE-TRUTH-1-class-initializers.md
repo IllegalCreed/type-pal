@@ -99,7 +99,34 @@ before→after：旧合并把两种initializer混为一个→分别保留身份�
   直接锚点为merge.js:79-86/:125-127和机账中12组actual/reported；可证伪观察与风险见上。
   实验不等于已安装修复；正式补丁/常驻回归待三签。
 - GLM：pending（独立矩阵/范围审查）。
-- Kimi：pending（独立根因/修补方案审查）。
+- Kimi：**premise verified / design agree（2026-09-23，r1；probe 与 1378 离线重放本人复跑，merge.js 本人直读，未读 GLM 本轮结论；e7c4b743 窄审不代本次签字）**。
+  - **同 range 双 initializer 身份冲突直读**：安装树 `@bcoe/v8-coverage@1.0.2/src/lib/merge.js:79-86`
+    的 `stringifyFunctionRootRange` 只拼 `startOffset;endOffset` 作 key——两个合成 initializer 必然
+    并键；合并后 functionName 取首条（:146-169 区域）。本人复跑 probe 12 组全 exit0：
+    `both/import` actual 0/0 → raw0/raw0/**stock 2**/experiment 0（幻影复现）；
+    `both/valid` 与 `both/reject` actual 1/1 → stock 2、experiment 2（真实调用不清零）；
+    其余 9 组两者一致。三类形状×四操作的对照链闭合。
+  - **项目级闭环（离线重放，未重跑测试）**：对既有 1378 raw 捕获 `--replay` 复算——
+    script-runner-core 195/195→158/195，包合计 8759L→8722L/9668S/1540F/5876B，
+    分母 14599/16737/2539/11359 不变，script-runner.ts 不变——37L/42S/2F/37B 差额与宿主
+    before/after 完全吻合，可由合并缺陷充分解释；158 不被绝对化为逐行真值。
+  - **最小 patch 方案同意**：仅把两种 V8 合成 initializer（`<static_initializer>`/
+    `<instance_members_initializer>`，非合法 JS 标识符、无用户函数碰撞面）纳入合并 key，
+    普通函数保持纯 range 键——不引入「命名差异不合并」的新风险；回归矩阵含两种输入顺序/
+    2 与 3 份合并/嵌套与匿名类/普通函数原合同/空单输入，残余风险面覆盖到位。
+  - **安装与回归纪律同意**：pnpm patchedDependencies+lockfile、补丁 hash+安装验证、
+    回归调用**实际安装**的 merger/provider（非内部复制自证）、撤 patch 负控可复现 0→2、
+    上游等价修复+回归全绿才准撤 patch；白名单闭合（patches/、workspace 或 package.json
+    二选一、lockfile 仅 patch resolution、单测+隔离 fixture、文档）——不碰 packages/旧测试/
+    超时/排除/比较器。
+  - **门槛纪律同意**：修前/修后同树重放旧 1378 与宿主 1414、逐文件四维分母核验、旧计数
+    修正与新测试收益分栏、另六包在官方门实跑；任一包/总计不过原只升不降门即停线待裁决，
+    不改比较器、不手写低基线——防止把真值修复当成一次性下调许可。
+  - **可证伪观察**（任一成立即 counter）：① 补丁把非 initializer 命名函数纳入 key 致普通
+    同 range 函数不再合并；② 撤 patch 负控不复现 0→2；③ 重放出现分母变化或 script-runner.ts
+    等无关文件计数变化；④ 任一真实调用样本计数被清零；⑤ 原门未过却被手改基线放行；
+    ⑥ 上游版本漂移时补丁静默失效（安装验证应红而未红）。
+  - 返工项：无。
 - 非Owner独立反证：pending；旧e7c4b743不代本次新根因签字。
 - 缺签豁免：无。
 - build准入：blocked，未齐三签不得改依赖/官方工具/基线。
@@ -112,6 +139,16 @@ before→after：旧合并把两种initializer混为一个→分别保留身份�
 - done准入：blocked。
 
 ## 交接日志
+
+- 2026-09-23 Kimi（r1 独立根因/修补方案审查）：签 premise verified / design agree，无返工项。
+  直读安装树 merge.js:79-86（key 仅 range 起止，合成 initializer 必并键）；复跑 probe 12 组
+  exit0（both/import 0,0,2,0 幻影复现；valid/reject 1,1→2 真实调用保留）；离线重放既有
+  1378 raw 捕获 exit0（core 195→158、包 8759L→8722L、分母不变、script-runner.ts 不变）。
+  方案核：仅 initializer 纳入 key（无标识符碰撞面）、矩阵含顺序/多份/嵌套/普通函数；
+  安装=pnpm patch+lock+hash 验证、撤 patch 负控 0→2、实际安装回归；原门不过即停线待裁决，
+  不许手写低基线。六条可证伪观察入席。e7c4b743 仅证旧计数不可信，不代本次签字。
+  未读 GLM 本轮结论；未实施 patch/未改依赖/基线/状态。
+  Next：三席齐后 Codex 统一核 build。
 
 - 2026-09-23 Codex：用户同意继续；先推送既有Kimi e7c4b743到宿主分支，然后只读定位合并器同range冲突。
   12组原生、旧1378正式范围raw捕获和同raw实验复算通过；633文件两类形状盘点，未改产品/依赖/官方基线。
