@@ -14,7 +14,7 @@
 | 批次 | Owner | 核心交付 | 整文件未覆盖候选量 |
 |---|---|---|---|
 | [TEST-BATTLE-WORKFLOWS-1](../ops/tasks/TEST-BATTLE-WORKFLOWS-1-session-flows.md) | GLM | 真实BattleSession选招→行动/敌钩子→终态→写回，连续业务断言 | 4模块，648行/1013分支 |
-| [TEST-RUNTIME-SHELL-COVERAGE-1](../ops/tasks/TEST-RUNTIME-SHELL-COVERAGE-1-boot-menu-flows.md) | Codex | 实际bootGame→输入/菜单→存档/场景接线，真实绘制函数的代码级验证 | 6模块，3830行/2814分支 |
+| [TEST-RUNTIME-SHELL-COVERAGE-1](../ops/archive/tasks/done/TEST-RUNTIME-SHELL-COVERAGE-1-boot-menu-flows.md) | Codex | 实际bootGame→输入/菜单→存档/场景接线，真实绘制函数的代码级验证 | 6模块，3830行/2814分支 |
 
 这些数字是**范围上限，不是承诺净增或新增门槛**。例如BattleSession的451遗漏行中，189行在render入口之后；render之前也含合成绘制，不能将其余262行全报“GLM可补逻辑”。GLM只消费非视觉公开流程，渲染剩余保留；Codex不把仅录制drawImage调用称为像素/观感验收。运行时main的3330遗漏行也含尚不属于首批场景的分支，不强造非法状态全刷绿。
 

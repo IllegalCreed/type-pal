@@ -1,0 +1,596 @@
+{
+  "schemaVersion": 1,
+  "task": "TEST-COVERAGE-TRUTH-1",
+  "date": "2026-09-23",
+  "status": "done; three accepts at b6286df0, Codex closure a13a66f7; diagnostic history preserved",
+  "implementation": {
+    "candidate": "b6286df0ad8348ea129ed097ac4ea44fc1401443",
+    "patchCommit": "bb0e3c3e",
+    "integrationCommit": "e0803d6e",
+    "hostCodeCandidate": "1d3d3fb3",
+    "branch": "codex/coverage-initializer-truth-r1",
+    "patchSha256": "2f8a8ecf59c8c2a034a221e318faf7be09767cde12bca6d4f5fe1ec70f1ff8bd",
+    "baselineBeforeSha256": "0b21d316c98a84579babe2120aed31aad4dcab751c10a89541128dac70c9ecf4",
+    "baselineAfterSha256": "0caf8c6defa1e5933f40c13e3d7196af5f3b28ffa8f09be7f2b24aa66d71178b",
+    "productionFreeze": "57dda7ed",
+    "productionFilesUnchanged": 633,
+    "prePatch": {
+      "tests": 9,
+      "pass": 6,
+      "fail": 3,
+      "log": "/tmp/type-pal-merge-prepatch.log"
+    },
+    "regressions": {
+      "tests": 10,
+      "pass": 10,
+      "coverageTools": 27,
+      "log": "/tmp/type-pal-merge-final10.log"
+    },
+    "unpatchedControl": {
+      "frozenReplay": {
+        "base": "c5569d1a",
+        "root": "/tmp/type-pal-truth-unpatched-frozen.1cCM6Z",
+        "installExitCode": 0,
+        "testExitCode": 1,
+        "businessFailures": 3,
+        "log": "/tmp/type-pal-truth-unpatched-frozen-negative.log"
+      },
+      "exactSameTest": true,
+      "selectedTests": 3,
+      "businessAssertionFailures": 3,
+      "exitCode": 1,
+      "log": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-unpatched-control-sa3jSe/negative.log"
+    },
+    "coldInstall": {
+      "source": "e0803d6e",
+      "command": "pnpm install --frozen-lockfile --offline",
+      "exitCode": 0,
+      "smokeTests": 1,
+      "log": "/tmp/type-pal-truth-cold-install.log",
+      "smokeLog": "/tmp/type-pal-truth-cold-smoke.log"
+    },
+    "hostNegativeControls": {
+      "controlTests": 36,
+      "needles": 8,
+      "exitCode": 0,
+      "log": "/tmp/type-pal-truth-host-mutants.log"
+    },
+    "gates": [
+      {
+        "command": "pnpm check",
+        "exitCode": 0,
+        "packageTests": {
+          "shared": 115,
+          "content": 843,
+          "reforge": 1414,
+          "pal-extract": 299,
+          "game": 2375,
+          "migrate": 534,
+          "editor": 2737
+        },
+        "totalPackageTests": 8317,
+        "docsTests": 20,
+        "coverageToolTests": 27,
+        "existingLint": {
+          "warnings": 47,
+          "infos": 6
+        },
+        "log": "/tmp/type-pal-truth-check.log"
+      },
+      {
+        "command": "TYPE_PAL_COVERAGE_BASE_REF=c5569d1a pnpm coverage:ratchet",
+        "exitCode": 0,
+        "tests": 7826,
+        "log": "/tmp/type-pal-truth-ratchet.log"
+      },
+      {
+        "command": "TYPE_PAL_COVERAGE_BASE_REF=c5569d1a pnpm coverage:fast",
+        "exitCode": 0,
+        "attempts": 1,
+        "tests": 7826,
+        "log": "/tmp/type-pal-truth-strict.log"
+      }
+    ],
+    "sourceFileCount": 633,
+    "fastTests": {
+      "before": 7790,
+      "after": 7826,
+      "added": 36
+    },
+    "otherSixPackageObjectsUnchanged": true,
+    "total": {
+      "statements": {
+        "covered": 59451,
+        "total": 80452
+      },
+      "branches": {
+        "covered": 42106,
+        "total": 63149
+      },
+      "functions": {
+        "covered": 11062,
+        "total": 14914
+      },
+      "lines": {
+        "covered": 53582,
+        "total": 70420
+      }
+    },
+    "packages": {
+      "shared": {
+        "metrics": {
+          "statements": {
+            "covered": 381,
+            "total": 406
+          },
+          "branches": {
+            "covered": 151,
+            "total": 177
+          },
+          "functions": {
+            "covered": 21,
+            "total": 21
+          },
+          "lines": {
+            "covered": 342,
+            "total": 356
+          }
+        },
+        "tests": 115,
+        "files": 11
+      },
+      "content": {
+        "metrics": {
+          "statements": {
+            "covered": 5179,
+            "total": 5856
+          },
+          "branches": {
+            "covered": 4147,
+            "total": 5019
+          },
+          "functions": {
+            "covered": 787,
+            "total": 831
+          },
+          "lines": {
+            "covered": 4687,
+            "total": 5185
+          }
+        },
+        "tests": 843,
+        "files": 51
+      },
+      "pal-extract": {
+        "metrics": {
+          "statements": {
+            "covered": 878,
+            "total": 1492
+          },
+          "branches": {
+            "covered": 311,
+            "total": 539
+          },
+          "functions": {
+            "covered": 94,
+            "total": 140
+          },
+          "lines": {
+            "covered": 783,
+            "total": 1316
+          }
+        },
+        "tests": 144,
+        "files": 38
+      },
+      "migrate": {
+        "metrics": {
+          "statements": {
+            "covered": 4215,
+            "total": 7712
+          },
+          "branches": {
+            "covered": 3115,
+            "total": 6436
+          },
+          "functions": {
+            "covered": 642,
+            "total": 1165
+          },
+          "lines": {
+            "covered": 3785,
+            "total": 6724
+          }
+        },
+        "tests": 416,
+        "files": 51
+      },
+      "reforge": {
+        "metrics": {
+          "statements": {
+            "covered": 11430,
+            "total": 16737
+          },
+          "branches": {
+            "covered": 6712,
+            "total": 11359
+          },
+          "functions": {
+            "covered": 1750,
+            "total": 2539
+          },
+          "lines": {
+            "covered": 10374,
+            "total": 14599
+          }
+        },
+        "tests": 1414,
+        "files": 131
+      },
+      "game": {
+        "metrics": {
+          "statements": {
+            "covered": 11409,
+            "total": 15494
+          },
+          "branches": {
+            "covered": 7523,
+            "total": 11281
+          },
+          "functions": {
+            "covered": 1314,
+            "total": 1843
+          },
+          "lines": {
+            "covered": 10275,
+            "total": 13604
+          }
+        },
+        "tests": 2318,
+        "files": 125
+      },
+      "editor": {
+        "metrics": {
+          "statements": {
+            "covered": 25959,
+            "total": 32755
+          },
+          "branches": {
+            "covered": 20147,
+            "total": 28338
+          },
+          "functions": {
+            "covered": 6454,
+            "total": 8375
+          },
+          "lines": {
+            "covered": 23336,
+            "total": 28636
+          }
+        },
+        "tests": 2576,
+        "files": 226
+      }
+    },
+    "disclosures": [
+      "No GLM battle-workflows tests integrated",
+      "No product/old tests/timeout/exclusions/threshold/comparator changes",
+      "Historical diagnostic tools target the frozen unpatched 7790 tree; installed-old1378 capture targets bb0e3c3e",
+      "No visual/full/Q1/Q2 or DEV-TOAST-1 resolution claimed",
+      "Three accepts complete: Kimi aa436d9f and GLM 326e4906; closed by Codex a13a66f7"
+    ]
+  },
+  "base": "3f1b111db4e48a8c3d89bfa9daa6e0f8c9763e15",
+  "node": "v22.19.0",
+  "versions": {
+    "vitest": "4.1.7",
+    "coverageV8": "4.1.7",
+    "merge": "@bcoe/v8-coverage@1.0.2",
+    "remap": "ast-v8-to-istanbul@1.0.5"
+  },
+  "baselineTests": 7790,
+  "productionFiles": 633,
+  "protectedHashes": [
+    {
+      "file": "node_modules/.pnpm/@bcoe+v8-coverage@1.0.2/node_modules/@bcoe/v8-coverage/src/lib/merge.js",
+      "sha256": "a9c43cfa7a0eb4a654cd3b40f6f713ba44e5ca474451c5467cd4b0b0a65562da"
+    },
+    {
+      "file": "node_modules/.pnpm/@vitest+coverage-v8@4.1.7_vitest@4.1.7/node_modules/@vitest/coverage-v8/dist/provider.js",
+      "sha256": "b785ceab9d43d84f337c4de74b3cb9dcb9492f3d424fb3fe75e29e75afaf0f26"
+    },
+    {
+      "file": "scripts/coverage/baseline.fast.json",
+      "sha256": "0b21d316c98a84579babe2120aed31aad4dcab751c10a89541128dac70c9ecf4"
+    }
+  ],
+  "sourceCensusSha256": "268342690f08919c80af7a350ddf17ae108e6e08f670dd2e7602291aedbd0597",
+  "minimal": {
+    "command": "node docs/testing/coverage-initializer-probe.mjs",
+    "exitCode": 0,
+    "log": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-initializer-probe-Ugwsq6/summary.json",
+    "rows": [
+      {
+        "kind": "both",
+        "mode": "import",
+        "actualCalls": [0, 0],
+        "reported": [0, 0, 2, 0]
+      },
+      {
+        "kind": "both",
+        "mode": "construct",
+        "actualCalls": [0, 0],
+        "reported": [0, 0, 0, 0]
+      },
+      {
+        "kind": "both",
+        "mode": "valid",
+        "actualCalls": [1, 1],
+        "reported": [1, 1, 2, 2]
+      },
+      {
+        "kind": "both",
+        "mode": "reject",
+        "actualCalls": [1, 1],
+        "reported": [1, 1, 2, 2]
+      },
+      {
+        "kind": "static",
+        "mode": "import",
+        "actualCalls": [0, 0],
+        "reported": [0, 0, 0, 0]
+      },
+      {
+        "kind": "static",
+        "mode": "construct",
+        "actualCalls": [0, 0],
+        "reported": [0, 0, 0, 0]
+      },
+      {
+        "kind": "static",
+        "mode": "valid",
+        "actualCalls": [1, 1],
+        "reported": [1, 1, 2, 2]
+      },
+      {
+        "kind": "static",
+        "mode": "reject",
+        "actualCalls": [1, 1],
+        "reported": [1, 1, 2, 2]
+      },
+      {
+        "kind": "instance",
+        "mode": "import",
+        "actualCalls": [0, 0],
+        "reported": [0, 0, 0, 0]
+      },
+      {
+        "kind": "instance",
+        "mode": "construct",
+        "actualCalls": [0, 0],
+        "reported": [0, 0, 0, 0]
+      },
+      {
+        "kind": "instance",
+        "mode": "valid",
+        "actualCalls": [1, 1],
+        "reported": [1, 1, 2, 2]
+      },
+      {
+        "kind": "instance",
+        "mode": "reject",
+        "actualCalls": [1, 1],
+        "reported": [1, 1, 2, 2]
+      }
+    ],
+    "shapeCandidates": [
+      {
+        "pkg": "reforge",
+        "file": "packages/reforge/src/script-runner-core.ts",
+        "name": "ScriptRunnerCore",
+        "line": 104
+      },
+      {
+        "pkg": "reforge",
+        "file": "packages/reforge/src/script-runner.ts",
+        "name": "ScriptRunner",
+        "line": 313
+      }
+    ]
+  },
+  "package": {
+    "command": "node docs/testing/coverage-initializer-capture.mjs",
+    "exitCode": 0,
+    "log": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-initializer-capture-QghVLq/replay-summary.json",
+    "tests": 1378,
+    "files": [
+      {
+        "file": "packages/reforge/src/script-runner-core.ts",
+        "before": {
+          "lines": {
+            "total": 195,
+            "covered": 195,
+            "skipped": 0,
+            "pct": 100
+          },
+          "functions": {
+            "total": 18,
+            "covered": 18,
+            "skipped": 0,
+            "pct": 100
+          },
+          "statements": {
+            "total": 209,
+            "covered": 208,
+            "skipped": 0,
+            "pct": 99.52
+          },
+          "branches": {
+            "total": 147,
+            "covered": 141,
+            "skipped": 0,
+            "pct": 95.91
+          }
+        },
+        "after": {
+          "lines": {
+            "total": 195,
+            "covered": 158,
+            "skipped": 0,
+            "pct": 81.02
+          },
+          "functions": {
+            "total": 18,
+            "covered": 16,
+            "skipped": 0,
+            "pct": 88.88
+          },
+          "statements": {
+            "total": 209,
+            "covered": 166,
+            "skipped": 0,
+            "pct": 79.42
+          },
+          "branches": {
+            "total": 147,
+            "covered": 104,
+            "skipped": 0,
+            "pct": 70.74
+          }
+        },
+        "lostLines": [
+          123, 125, 160, 168, 170, 194, 202, 208, 220, 221, 222, 223, 224, 225, 226, 227, 228, 276,
+          288, 290, 354, 356, 376, 382, 383, 384, 385, 386, 387, 389, 415, 425, 427, 433, 436, 438,
+          450
+        ]
+      },
+      {
+        "file": "packages/reforge/src/script-runner.ts",
+        "before": {
+          "lines": {
+            "total": 284,
+            "covered": 196,
+            "skipped": 0,
+            "pct": 69.01
+          },
+          "functions": {
+            "total": 19,
+            "covered": 16,
+            "skipped": 0,
+            "pct": 84.21
+          },
+          "statements": {
+            "total": 303,
+            "covered": 205,
+            "skipped": 0,
+            "pct": 67.65
+          },
+          "branches": {
+            "total": 266,
+            "covered": 148,
+            "skipped": 0,
+            "pct": 55.63
+          }
+        },
+        "after": {
+          "lines": {
+            "total": 284,
+            "covered": 196,
+            "skipped": 0,
+            "pct": 69.01
+          },
+          "functions": {
+            "total": 19,
+            "covered": 16,
+            "skipped": 0,
+            "pct": 84.21
+          },
+          "statements": {
+            "total": 303,
+            "covered": 205,
+            "skipped": 0,
+            "pct": 67.65
+          },
+          "branches": {
+            "total": 266,
+            "covered": 148,
+            "skipped": 0,
+            "pct": 55.63
+          }
+        },
+        "lostLines": []
+      }
+    ],
+    "before": {
+      "lines": {
+        "total": 14599,
+        "covered": 8759,
+        "skipped": 0,
+        "pct": 59.99
+      },
+      "statements": {
+        "total": 16737,
+        "covered": 9710,
+        "skipped": 0,
+        "pct": 58.01
+      },
+      "functions": {
+        "total": 2539,
+        "covered": 1542,
+        "skipped": 0,
+        "pct": 60.73
+      },
+      "branches": {
+        "total": 11359,
+        "covered": 5913,
+        "skipped": 0,
+        "pct": 52.05
+      },
+      "branchesTrue": {
+        "total": 0,
+        "covered": 0,
+        "skipped": 0,
+        "pct": "Unknown"
+      }
+    },
+    "experimentalAfter": {
+      "lines": {
+        "total": 14599,
+        "covered": 8722,
+        "skipped": 0,
+        "pct": 59.74
+      },
+      "statements": {
+        "total": 16737,
+        "covered": 9668,
+        "skipped": 0,
+        "pct": 57.76
+      },
+      "functions": {
+        "total": 2539,
+        "covered": 1540,
+        "skipped": 0,
+        "pct": 60.65
+      },
+      "branches": {
+        "total": 11359,
+        "covered": 5876,
+        "skipped": 0,
+        "pct": 51.72
+      },
+      "branchesTrue": {
+        "total": 0,
+        "covered": 0,
+        "skipped": 0,
+        "pct": "Unknown"
+      }
+    }
+  },
+  "boundaries": [
+    "No product, old test, installed dependency, official config or baseline modified",
+    "Experimental merge is in-memory only; not a production fix",
+    "633-file source-shape census is not proof that all coverage defects are eliminated",
+    "Other six packages not remeasured; no official ratchet/strict run",
+    "Kimi e7c4b743 is a prior narrow statistical review, not acceptance of this repair design"
+  ]
+}

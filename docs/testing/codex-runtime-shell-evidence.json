@@ -1,0 +1,1460 @@
+{
+  "schemaVersion": 1,
+  "task": "TEST-RUNTIME-SHELL-COVERAGE-1",
+  "revision": "r1",
+  "candidate": "1d3d3fb344eb762aa9a8e5177cccffcf20d788cf",
+  "base": "4872b017",
+  "owner": "Codex",
+  "status": "done; three accepts at b6286df0; Codex closure a13a66f7",
+  "unifiedIntegration": {
+    "candidate": "b6286df0ad8348ea129ed097ac4ea44fc1401443",
+    "patchCommit": "bb0e3c3e",
+    "integrationCommit": "e0803d6e",
+    "hostCodeCandidate": "1d3d3fb3",
+    "branch": "codex/coverage-initializer-truth-r1",
+    "patchSha256": "2f8a8ecf59c8c2a034a221e318faf7be09767cde12bca6d4f5fe1ec70f1ff8bd",
+    "baselineBeforeSha256": "0b21d316c98a84579babe2120aed31aad4dcab751c10a89541128dac70c9ecf4",
+    "baselineAfterSha256": "0caf8c6defa1e5933f40c13e3d7196af5f3b28ffa8f09be7f2b24aa66d71178b",
+    "productionFreeze": "57dda7ed",
+    "productionFilesUnchanged": 633,
+    "prePatch": {
+      "tests": 9,
+      "pass": 6,
+      "fail": 3,
+      "log": "/tmp/type-pal-merge-prepatch.log"
+    },
+    "regressions": {
+      "tests": 10,
+      "pass": 10,
+      "coverageTools": 27,
+      "log": "/tmp/type-pal-merge-final10.log"
+    },
+    "unpatchedControl": {
+      "frozenReplay": {
+        "base": "c5569d1a",
+        "root": "/tmp/type-pal-truth-unpatched-frozen.1cCM6Z",
+        "installExitCode": 0,
+        "testExitCode": 1,
+        "businessFailures": 3,
+        "log": "/tmp/type-pal-truth-unpatched-frozen-negative.log"
+      },
+      "exactSameTest": true,
+      "selectedTests": 3,
+      "businessAssertionFailures": 3,
+      "exitCode": 1,
+      "log": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-unpatched-control-sa3jSe/negative.log"
+    },
+    "coldInstall": {
+      "source": "e0803d6e",
+      "command": "pnpm install --frozen-lockfile --offline",
+      "exitCode": 0,
+      "smokeTests": 1,
+      "log": "/tmp/type-pal-truth-cold-install.log",
+      "smokeLog": "/tmp/type-pal-truth-cold-smoke.log"
+    },
+    "hostNegativeControls": {
+      "controlTests": 36,
+      "needles": 8,
+      "exitCode": 0,
+      "log": "/tmp/type-pal-truth-host-mutants.log"
+    },
+    "gates": [
+      {
+        "command": "pnpm check",
+        "exitCode": 0,
+        "packageTests": {
+          "shared": 115,
+          "content": 843,
+          "reforge": 1414,
+          "pal-extract": 299,
+          "game": 2375,
+          "migrate": 534,
+          "editor": 2737
+        },
+        "totalPackageTests": 8317,
+        "docsTests": 20,
+        "coverageToolTests": 27,
+        "existingLint": {
+          "warnings": 47,
+          "infos": 6
+        },
+        "log": "/tmp/type-pal-truth-check.log"
+      },
+      {
+        "command": "TYPE_PAL_COVERAGE_BASE_REF=c5569d1a pnpm coverage:ratchet",
+        "exitCode": 0,
+        "tests": 7826,
+        "log": "/tmp/type-pal-truth-ratchet.log"
+      },
+      {
+        "command": "TYPE_PAL_COVERAGE_BASE_REF=c5569d1a pnpm coverage:fast",
+        "exitCode": 0,
+        "attempts": 1,
+        "tests": 7826,
+        "log": "/tmp/type-pal-truth-strict.log"
+      }
+    ],
+    "sourceFileCount": 633,
+    "fastTests": {
+      "before": 7790,
+      "after": 7826,
+      "added": 36
+    },
+    "otherSixPackageObjectsUnchanged": true,
+    "total": {
+      "statements": {
+        "covered": 59451,
+        "total": 80452
+      },
+      "branches": {
+        "covered": 42106,
+        "total": 63149
+      },
+      "functions": {
+        "covered": 11062,
+        "total": 14914
+      },
+      "lines": {
+        "covered": 53582,
+        "total": 70420
+      }
+    },
+    "packages": {
+      "shared": {
+        "metrics": {
+          "statements": {
+            "covered": 381,
+            "total": 406
+          },
+          "branches": {
+            "covered": 151,
+            "total": 177
+          },
+          "functions": {
+            "covered": 21,
+            "total": 21
+          },
+          "lines": {
+            "covered": 342,
+            "total": 356
+          }
+        },
+        "tests": 115,
+        "files": 11
+      },
+      "content": {
+        "metrics": {
+          "statements": {
+            "covered": 5179,
+            "total": 5856
+          },
+          "branches": {
+            "covered": 4147,
+            "total": 5019
+          },
+          "functions": {
+            "covered": 787,
+            "total": 831
+          },
+          "lines": {
+            "covered": 4687,
+            "total": 5185
+          }
+        },
+        "tests": 843,
+        "files": 51
+      },
+      "pal-extract": {
+        "metrics": {
+          "statements": {
+            "covered": 878,
+            "total": 1492
+          },
+          "branches": {
+            "covered": 311,
+            "total": 539
+          },
+          "functions": {
+            "covered": 94,
+            "total": 140
+          },
+          "lines": {
+            "covered": 783,
+            "total": 1316
+          }
+        },
+        "tests": 144,
+        "files": 38
+      },
+      "migrate": {
+        "metrics": {
+          "statements": {
+            "covered": 4215,
+            "total": 7712
+          },
+          "branches": {
+            "covered": 3115,
+            "total": 6436
+          },
+          "functions": {
+            "covered": 642,
+            "total": 1165
+          },
+          "lines": {
+            "covered": 3785,
+            "total": 6724
+          }
+        },
+        "tests": 416,
+        "files": 51
+      },
+      "reforge": {
+        "metrics": {
+          "statements": {
+            "covered": 11430,
+            "total": 16737
+          },
+          "branches": {
+            "covered": 6712,
+            "total": 11359
+          },
+          "functions": {
+            "covered": 1750,
+            "total": 2539
+          },
+          "lines": {
+            "covered": 10374,
+            "total": 14599
+          }
+        },
+        "tests": 1414,
+        "files": 131
+      },
+      "game": {
+        "metrics": {
+          "statements": {
+            "covered": 11409,
+            "total": 15494
+          },
+          "branches": {
+            "covered": 7523,
+            "total": 11281
+          },
+          "functions": {
+            "covered": 1314,
+            "total": 1843
+          },
+          "lines": {
+            "covered": 10275,
+            "total": 13604
+          }
+        },
+        "tests": 2318,
+        "files": 125
+      },
+      "editor": {
+        "metrics": {
+          "statements": {
+            "covered": 25959,
+            "total": 32755
+          },
+          "branches": {
+            "covered": 20147,
+            "total": 28338
+          },
+          "functions": {
+            "covered": 6454,
+            "total": 8375
+          },
+          "lines": {
+            "covered": 23336,
+            "total": 28636
+          }
+        },
+        "tests": 2576,
+        "files": 226
+      }
+    },
+    "disclosures": [
+      "No GLM battle-workflows tests integrated",
+      "No product/old tests/timeout/exclusions/threshold/comparator changes",
+      "Historical diagnostic tools target the frozen unpatched 7790 tree; installed-old1378 capture targets bb0e3c3e",
+      "No visual/full/Q1/Q2 or DEV-TOAST-1 resolution claimed",
+      "Three accepts complete: Kimi aa436d9f and GLM 326e4906; closed by Codex a13a66f7"
+    ]
+  },
+  "tests": [
+    {
+      "file": "packages/reforge/src/main.boot-flows.test.ts",
+      "count": 9,
+      "titles": [
+        "H1 normal boot executes the real current project pipeline and first world frame",
+        "H1 startup ?entry=second selects a complete entry, not just its scene",
+        "H1 startup ?entry=unknown selects a complete entry, not just its scene",
+        "H1 scope failure has no playable frame or published world",
+        "H1 canvas failure has no playable frame or published world",
+        "H1 context failure has no playable frame or published world",
+        "H1 legacy failure has no playable frame or published world",
+        "H1 failed chrome read rejects the real boot; repaired source boots on a fresh owner",
+        "H1 title selection completes ordinary boot with the selected world, not the default world"
+      ]
+    },
+    {
+      "file": "packages/reforge/src/main.dialog-flows.test.ts",
+      "count": 8,
+      "titles": [
+        "H4 top author dialogue blocks menu, then closes before its next real command",
+        "H4 bottom author dialogue blocks menu, then closes before its next real command",
+        "H4 narration author dialogue blocks menu, then closes before its next real command",
+        "H4 center author dialogue blocks menu, then closes before its next real command",
+        "H4 wait resumes from gameplay frames and ignored menu input cannot bypass the wait",
+        "H4 multi-page dialogue retains its real runner until the last displayed page is acknowledged",
+        "H4 confirm yes consumes keyboard and resumes exactly its current branch",
+        "H4 confirm no consumes keyboard and resumes exactly its current branch"
+      ]
+    },
+    {
+      "file": "packages/reforge/src/main.menu-flows.test.ts",
+      "count": 7,
+      "titles": [
+        "H3 status panel cycles both real party members and returns through hub without changing world",
+        "H3 real magic route selects caster and target, heals only target, charges caster once, and backs out",
+        "H3 empty caster list cannot cast and returns to the same hub",
+        "H3 insufficient MP cannot enter a cast; exact same skill succeeds with enough MP",
+        "H3 music switch commits explicit silence; cancellation preserves stored preferences and world",
+        "H3 empty equip panel rejects confirm without closing hub or mutating inventory",
+        "H3 empty use panel rejects confirm without closing hub or mutating inventory"
+      ]
+    },
+    {
+      "file": "packages/reforge/src/main.save-flows.test.ts",
+      "count": 5,
+      "titles": [
+        "H5 F5 stores real SAVE8 data, F9 restores after actual menu spell, and scopes remain isolated",
+        "H5 empty slot preserves world and shows the absent message, not load success",
+        "H5 corrupt snapshot is rejected without mutation, menu remains usable, then the original snapshot restores",
+        "H5 two actual quick-save requests commit monotonically without consuming an extra count",
+        "H5 delayed old IDB read cannot replace a newer restore or its success message"
+      ]
+    },
+    {
+      "file": "packages/reforge/src/main.scene-flows.test.ts",
+      "count": 3,
+      "titles": [
+        "H6 public next/previous scene input commits complete scenes and preserves party identity",
+        "H6 failed scene IO leaves the original world operable; repairing the same source permits retry",
+        "H6 old in-flight scene response cannot overwrite a newer complete round trip"
+      ]
+    },
+    {
+      "file": "packages/reforge/src/opening-menu.flows.test.ts",
+      "count": 4,
+      "titles": [
+        "H2 ArrowDown chooses second entry and completion removes frame and key owner",
+        "H2 ArrowRight chooses second entry and completion removes frame and key owner",
+        "H2 empty load slot stays unresolved; Escape returns to title and new entry still works",
+        "H2 real load browser crosses pages and returns selected nonempty slot after thumbnail reads"
+      ]
+    }
+  ],
+  "testCount": 36,
+  "groupCounts": {
+    "H1": 9,
+    "H2": 4,
+    "H3": 7,
+    "H4": 8,
+    "H5": 5,
+    "H6": 3
+  },
+  "checks": {
+    "fullReforge": {
+      "files": 152,
+      "tests": 1414,
+      "exit": 0,
+      "log": "/tmp/type-pal-shell-validation.JeWbvP/reforge-final3.log"
+    },
+    "typecheck": {
+      "exit": 0,
+      "log": "/tmp/type-pal-shell-validation.JeWbvP/typecheck-final.log"
+    },
+    "mutants": {
+      "control": 36,
+      "negative": 8,
+      "exit": 0,
+      "log": "/tmp/type-pal-shell-validation.JeWbvP/mutants-final8.log",
+      "directory": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-runtime-shell-mutants-2fo4zD",
+      "results": [
+        {
+          "id": "control",
+          "exit": 0,
+          "executed": 36,
+          "filteredByExactName": 0,
+          "failed": []
+        },
+        {
+          "id": "scope",
+          "exit": 1,
+          "executed": 1,
+          "filteredByExactName": 8,
+          "failed": [
+            {
+              "file": "/Users/zhangxu/illegal/type-pal-runtime-shell/packages/reforge/src/main.boot-flows.test.ts",
+              "title": "H1 scope failure has no playable frame or published world",
+              "message": "AssertionError: expected 'resolved' to match /当前项目/\n    at /Users/zhangxu/illegal/type-pal-runtime-shell/packages/reforge/src/main.boot-flows.test.ts:73:18\n    at file:///Users/zhangxu/illegal/type-pal-runtime-shell/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:20"
+            }
+          ]
+        },
+        {
+          "id": "opening-key-owner",
+          "exit": 1,
+          "executed": 1,
+          "filteredByExactName": 3,
+          "failed": [
+            {
+              "file": "/Users/zhangxu/illegal/type-pal-runtime-shell/packages/reforge/src/opening-menu.flows.test.ts",
+              "title": "H2 ArrowDown chooses second entry and completion removes frame and key owner",
+              "message": "AssertionError: expected [ 'meta' ] to deeply equal []\n    at /Users/zhangxu/illegal/type-pal-runtime-shell/packages/reforge/src/opening-menu.flows.test.ts:106:21\n    at processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at file:///Users/zhangxu/illegal/type-pal-runtime-shell/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:20"
+            }
+          ]
+        },
+        {
+          "id": "cast-dispatch",
+          "exit": 1,
+          "executed": 1,
+          "filteredByExactName": 6,
+          "failed": [
+            {
+              "file": "/Users/zhangxu/illegal/type-pal-runtime-shell/packages/reforge/src/main.menu-flows.test.ts",
+              "title": "H3 real magic route selects caster and target, heals only target, charges caster once, and backs out",
+              "message": "AssertionError: expected { script: { flags: {}, …(3) }, …(5) } to deeply equal { script: { flags: {}, …(3) }, …(5) }\n    at /Users/zhangxu/illegal/type-pal-runtime-shell/packages/reforge/src/main.menu-flows.test.ts:51:31\n    at file:///Users/zhangxu/illegal/type-pal-runtime-shell/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:20"
+            }
+          ]
+        },
+        {
+          "id": "dialog-input",
+          "exit": 1,
+          "executed": 1,
+          "filteredByExactName": 7,
+          "failed": [
+            {
+              "file": "/Users/zhangxu/illegal/type-pal-runtime-shell/packages/reforge/src/main.dialog-flows.test.ts",
+              "title": "H4 multi-page dialogue retains its real runner until the last displayed page is acknowledged",
+              "message": "AssertionError: expected false to be true // Object.is equality\n    at until (/Users/zhangxu/illegal/type-pal-runtime-shell/packages/reforge/src/__tests__/runtime-shell/driver.ts:34:23)\n    at /Users/zhangxu/illegal/type-pal-runtime-shell/packages/reforge/src/main.dialog-flows.test.ts:103:3\n    at file:///Users/zhangxu/illegal/type-pal-runtime-shell/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:20"
+            }
+          ]
+        },
+        {
+          "id": "save-count",
+          "exit": 1,
+          "executed": 1,
+          "filteredByExactName": 4,
+          "failed": [
+            {
+              "file": "/Users/zhangxu/illegal/type-pal-runtime-shell/packages/reforge/src/main.save-flows.test.ts",
+              "title": "H5 F5 stores real SAVE8 data, F9 restores after actual menu spell, and scopes remain isolated",
+              "message": "AssertionError: expected 2 to be 1 // Object.is equality\n    at /Users/zhangxu/illegal/type-pal-runtime-shell/packages/reforge/src/main.save-flows.test.ts:59:51\n    at runNextTicks (node:internal/process/task_queues:65:5)\n    at processImmediate (node:internal/timers:453:9)\n    at file:///Users/zhangxu/illegal/type-pal-runtime-shell/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:20"
+            }
+          ]
+        },
+        {
+          "id": "corrupt-message",
+          "exit": 1,
+          "executed": 1,
+          "filteredByExactName": 4,
+          "failed": [
+            {
+              "file": "/Users/zhangxu/illegal/type-pal-runtime-shell/packages/reforge/src/main.save-flows.test.ts",
+              "title": "H5 corrupt snapshot is rejected without mutation, menu remains usable, then the original snapshot restores",
+              "message": "AssertionError: expected false to be true // Object.is equality\n    at /Users/zhangxu/illegal/type-pal-runtime-shell/packages/reforge/src/main.save-flows.test.ts:119:5\n    at file:///Users/zhangxu/illegal/type-pal-runtime-shell/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:20"
+            }
+          ]
+        },
+        {
+          "id": "scene-routing",
+          "exit": 1,
+          "executed": 1,
+          "filteredByExactName": 2,
+          "failed": [
+            {
+              "file": "/Users/zhangxu/illegal/type-pal-runtime-shell/packages/reforge/src/main.scene-flows.test.ts",
+              "title": "H6 public next/previous scene input commits complete scenes and preserves party identity",
+              "message": "AssertionError: expected 'a' to be 'b' // Object.is equality\n    at /Users/zhangxu/illegal/type-pal-runtime-shell/packages/reforge/src/main.scene-flows.test.ts:35:33\n    at file:///Users/zhangxu/illegal/type-pal-runtime-shell/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:20"
+            }
+          ]
+        },
+        {
+          "id": "intent-assertion",
+          "exit": 1,
+          "executed": 1,
+          "filteredByExactName": 2,
+          "failed": [
+            {
+              "file": "/Users/zhangxu/illegal/type-pal-runtime-shell/packages/reforge/src/main.scene-flows.test.ts",
+              "title": "H6 old in-flight scene response cannot overwrite a newer complete round trip",
+              "message": "AssertionError: expected { col: 4, row: 3, height: +0 } to deeply equal { col: 2, row: 2, height: +0 }\n    at /Users/zhangxu/illegal/type-pal-runtime-shell/packages/reforge/src/main.scene-flows.test.ts:113:38\n    at file:///Users/zhangxu/illegal/type-pal-runtime-shell/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:20"
+            }
+          ]
+        }
+      ]
+    },
+    "productionHashCount": 633,
+    "png": {
+      "width": 5,
+      "height": 8,
+      "bytes": 116
+    }
+  },
+  "coverage": {
+    "measuredImplementation": "cb77adb1",
+    "note": "After this measurement, 1d3d3fb3 changes only H6 completion observation and adds the eighth fault control. Not a final-candidate coverage acceptance; recompute union at integration.",
+    "before": "/tmp/type-pal-shell-validation.JeWbvP/coverage/before",
+    "after": "/tmp/type-pal-shell-validation.JeWbvP/coverage-final/after",
+    "total": {
+      "file": "total",
+      "lines": {
+        "before": 8759,
+        "after": 10374,
+        "total": 14599,
+        "delta": 1615
+      },
+      "statements": {
+        "before": 9710,
+        "after": 11430,
+        "total": 16737,
+        "delta": 1720
+      },
+      "functions": {
+        "before": 1542,
+        "after": 1750,
+        "total": 2539,
+        "delta": 208
+      },
+      "branches": {
+        "before": 5913,
+        "after": 6712,
+        "total": 11359,
+        "delta": 799
+      }
+    },
+    "changed": [
+      {
+        "file": "packages/reforge/src/assets.ts",
+        "lines": {
+          "before": 159,
+          "after": 160,
+          "total": 236,
+          "delta": 1
+        },
+        "statements": {
+          "before": 172,
+          "after": 173,
+          "total": 266,
+          "delta": 1
+        },
+        "functions": {
+          "before": 34,
+          "after": 34,
+          "total": 41,
+          "delta": 0
+        },
+        "branches": {
+          "before": 96,
+          "after": 97,
+          "total": 180,
+          "delta": 1
+        }
+      },
+      {
+        "file": "packages/reforge/src/deferred-trigger.ts",
+        "lines": {
+          "before": 26,
+          "after": 28,
+          "total": 28,
+          "delta": 2
+        },
+        "statements": {
+          "before": 31,
+          "after": 33,
+          "total": 34,
+          "delta": 2
+        },
+        "functions": {
+          "before": 6,
+          "after": 7,
+          "total": 7,
+          "delta": 1
+        },
+        "branches": {
+          "before": 17,
+          "after": 17,
+          "total": 18,
+          "delta": 0
+        }
+      },
+      {
+        "file": "packages/reforge/src/entity-lifecycle.ts",
+        "lines": {
+          "before": 65,
+          "after": 65,
+          "total": 66,
+          "delta": 0
+        },
+        "statements": {
+          "before": 70,
+          "after": 71,
+          "total": 74,
+          "delta": 1
+        },
+        "functions": {
+          "before": 13,
+          "after": 13,
+          "total": 13,
+          "delta": 0
+        },
+        "branches": {
+          "before": 65,
+          "after": 67,
+          "total": 72,
+          "delta": 2
+        }
+      },
+      {
+        "file": "packages/reforge/src/entity-motion.ts",
+        "lines": {
+          "before": 524,
+          "after": 526,
+          "total": 549,
+          "delta": 2
+        },
+        "statements": {
+          "before": 591,
+          "after": 593,
+          "total": 640,
+          "delta": 2
+        },
+        "functions": {
+          "before": 90,
+          "after": 91,
+          "total": 93,
+          "delta": 1
+        },
+        "branches": {
+          "before": 331,
+          "after": 331,
+          "total": 397,
+          "delta": 0
+        }
+      },
+      {
+        "file": "packages/reforge/src/equip-menu-state.ts",
+        "lines": {
+          "before": 22,
+          "after": 22,
+          "total": 22,
+          "delta": 0
+        },
+        "statements": {
+          "before": 26,
+          "after": 27,
+          "total": 30,
+          "delta": 1
+        },
+        "functions": {
+          "before": 7,
+          "after": 7,
+          "total": 7,
+          "delta": 0
+        },
+        "branches": {
+          "before": 25,
+          "after": 26,
+          "total": 30,
+          "delta": 1
+        }
+      },
+      {
+        "file": "packages/reforge/src/fade-driver.ts",
+        "lines": {
+          "before": 43,
+          "after": 43,
+          "total": 43,
+          "delta": 0
+        },
+        "statements": {
+          "before": 48,
+          "after": 49,
+          "total": 50,
+          "delta": 1
+        },
+        "functions": {
+          "before": 12,
+          "after": 12,
+          "total": 12,
+          "delta": 0
+        },
+        "branches": {
+          "before": 24,
+          "after": 25,
+          "total": 28,
+          "delta": 1
+        }
+      },
+      {
+        "file": "packages/reforge/src/main.ts",
+        "lines": {
+          "before": 30,
+          "after": 1140,
+          "total": 3360,
+          "delta": 1110
+        },
+        "statements": {
+          "before": 30,
+          "after": 1194,
+          "total": 3828,
+          "delta": 1164
+        },
+        "functions": {
+          "before": 1,
+          "after": 140,
+          "total": 612,
+          "delta": 139
+        },
+        "branches": {
+          "before": 9,
+          "after": 544,
+          "total": 2427,
+          "delta": 535
+        }
+      },
+      {
+        "file": "packages/reforge/src/opening-menu.ts",
+        "lines": {
+          "before": 9,
+          "after": 82,
+          "total": 83,
+          "delta": 73
+        },
+        "statements": {
+          "before": 10,
+          "after": 85,
+          "total": 90,
+          "delta": 75
+        },
+        "functions": {
+          "before": 1,
+          "after": 9,
+          "total": 9,
+          "delta": 8
+        },
+        "branches": {
+          "before": 2,
+          "after": 40,
+          "total": 50,
+          "delta": 38
+        }
+      },
+      {
+        "file": "packages/reforge/src/render.ts",
+        "lines": {
+          "before": 173,
+          "after": 177,
+          "total": 189,
+          "delta": 4
+        },
+        "statements": {
+          "before": 184,
+          "after": 189,
+          "total": 211,
+          "delta": 5
+        },
+        "functions": {
+          "before": 20,
+          "after": 22,
+          "total": 28,
+          "delta": 2
+        },
+        "branches": {
+          "before": 84,
+          "after": 85,
+          "total": 115,
+          "delta": 1
+        }
+      },
+      {
+        "file": "packages/reforge/src/screen-wave.ts",
+        "lines": {
+          "before": 22,
+          "after": 23,
+          "total": 39,
+          "delta": 1
+        },
+        "statements": {
+          "before": 23,
+          "after": 24,
+          "total": 42,
+          "delta": 1
+        },
+        "functions": {
+          "before": 2,
+          "after": 2,
+          "total": 3,
+          "delta": 0
+        },
+        "branches": {
+          "before": 21,
+          "after": 22,
+          "total": 32,
+          "delta": 1
+        }
+      },
+      {
+        "file": "packages/reforge/src/script-confirm-modal.ts",
+        "lines": {
+          "before": 58,
+          "after": 58,
+          "total": 60,
+          "delta": 0
+        },
+        "statements": {
+          "before": 67,
+          "after": 69,
+          "total": 76,
+          "delta": 2
+        },
+        "functions": {
+          "before": 17,
+          "after": 17,
+          "total": 18,
+          "delta": 0
+        },
+        "branches": {
+          "before": 38,
+          "after": 41,
+          "total": 49,
+          "delta": 3
+        }
+      },
+      {
+        "file": "packages/reforge/src/script-runner-core.ts",
+        "lines": {
+          "before": 195,
+          "after": 158,
+          "total": 195,
+          "delta": -37
+        },
+        "statements": {
+          "before": 208,
+          "after": 166,
+          "total": 209,
+          "delta": -42
+        },
+        "functions": {
+          "before": 18,
+          "after": 16,
+          "total": 18,
+          "delta": -2
+        },
+        "branches": {
+          "before": 141,
+          "after": 104,
+          "total": 147,
+          "delta": -37
+        }
+      },
+      {
+        "file": "packages/reforge/src/startup-entry.ts",
+        "lines": {
+          "before": 11,
+          "after": 11,
+          "total": 12,
+          "delta": 0
+        },
+        "statements": {
+          "before": 13,
+          "after": 14,
+          "total": 15,
+          "delta": 1
+        },
+        "functions": {
+          "before": 7,
+          "after": 7,
+          "total": 7,
+          "delta": 0
+        },
+        "branches": {
+          "before": 13,
+          "after": 14,
+          "total": 15,
+          "delta": 1
+        }
+      },
+      {
+        "file": "packages/reforge/src/use-menu-state.ts",
+        "lines": {
+          "before": 27,
+          "after": 27,
+          "total": 27,
+          "delta": 0
+        },
+        "statements": {
+          "before": 30,
+          "after": 31,
+          "total": 36,
+          "delta": 1
+        },
+        "functions": {
+          "before": 8,
+          "after": 8,
+          "total": 8,
+          "delta": 0
+        },
+        "branches": {
+          "before": 33,
+          "after": 34,
+          "total": 39,
+          "delta": 1
+        }
+      },
+      {
+        "file": "packages/reforge/src/audio/bgm.ts",
+        "lines": {
+          "before": 108,
+          "after": 108,
+          "total": 137,
+          "delta": 0
+        },
+        "statements": {
+          "before": 125,
+          "after": 125,
+          "total": 166,
+          "delta": 0
+        },
+        "functions": {
+          "before": 22,
+          "after": 23,
+          "total": 36,
+          "delta": 1
+        },
+        "branches": {
+          "before": 75,
+          "after": 75,
+          "total": 101,
+          "delta": 0
+        }
+      },
+      {
+        "file": "packages/reforge/src/dialog/dialog-assets.ts",
+        "lines": {
+          "before": 11,
+          "after": 28,
+          "total": 28,
+          "delta": 17
+        },
+        "statements": {
+          "before": 13,
+          "after": 31,
+          "total": 33,
+          "delta": 18
+        },
+        "functions": {
+          "before": 4,
+          "after": 5,
+          "total": 5,
+          "delta": 1
+        },
+        "branches": {
+          "before": 7,
+          "after": 10,
+          "total": 12,
+          "delta": 3
+        }
+      },
+      {
+        "file": "packages/reforge/src/dialog/dialog-box.ts",
+        "lines": {
+          "before": 17,
+          "after": 128,
+          "total": 148,
+          "delta": 111
+        },
+        "statements": {
+          "before": 17,
+          "after": 134,
+          "total": 169,
+          "delta": 117
+        },
+        "functions": {
+          "before": 2,
+          "after": 19,
+          "total": 20,
+          "delta": 17
+        },
+        "branches": {
+          "before": 4,
+          "after": 71,
+          "total": 116,
+          "delta": 67
+        }
+      },
+      {
+        "file": "packages/reforge/src/dialog/layout.ts",
+        "lines": {
+          "before": 39,
+          "after": 39,
+          "total": 39,
+          "delta": 0
+        },
+        "statements": {
+          "before": 42,
+          "after": 42,
+          "total": 43,
+          "delta": 0
+        },
+        "functions": {
+          "before": 3,
+          "after": 3,
+          "total": 3,
+          "delta": 0
+        },
+        "branches": {
+          "before": 16,
+          "after": 17,
+          "total": 20,
+          "delta": 1
+        }
+      },
+      {
+        "file": "packages/reforge/src/engine-chrome/registry.ts",
+        "lines": {
+          "before": 27,
+          "after": 27,
+          "total": 28,
+          "delta": 0
+        },
+        "statements": {
+          "before": 30,
+          "after": 30,
+          "total": 32,
+          "delta": 0
+        },
+        "functions": {
+          "before": 12,
+          "after": 12,
+          "total": 12,
+          "delta": 0
+        },
+        "branches": {
+          "before": 10,
+          "after": 11,
+          "total": 14,
+          "delta": 1
+        }
+      },
+      {
+        "file": "packages/reforge/src/menu/equip-box.ts",
+        "lines": {
+          "before": 23,
+          "after": 26,
+          "total": 52,
+          "delta": 3
+        },
+        "statements": {
+          "before": 23,
+          "after": 26,
+          "total": 57,
+          "delta": 3
+        },
+        "functions": {
+          "before": 0,
+          "after": 2,
+          "total": 7,
+          "delta": 2
+        },
+        "branches": {
+          "before": 0,
+          "after": 1,
+          "total": 24,
+          "delta": 1
+        }
+      },
+      {
+        "file": "packages/reforge/src/menu/item-list.ts",
+        "lines": {
+          "before": 25,
+          "after": 32,
+          "total": 67,
+          "delta": 7
+        },
+        "statements": {
+          "before": 25,
+          "after": 32,
+          "total": 72,
+          "delta": 7
+        },
+        "functions": {
+          "before": 0,
+          "after": 1,
+          "total": 6,
+          "delta": 1
+        },
+        "branches": {
+          "before": 0,
+          "after": 2,
+          "total": 30,
+          "delta": 2
+        }
+      },
+      {
+        "file": "packages/reforge/src/menu/magic-box.ts",
+        "lines": {
+          "before": 35,
+          "after": 87,
+          "total": 87,
+          "delta": 52
+        },
+        "statements": {
+          "before": 35,
+          "after": 95,
+          "total": 96,
+          "delta": 60
+        },
+        "functions": {
+          "before": 0,
+          "after": 7,
+          "total": 7,
+          "delta": 7
+        },
+        "branches": {
+          "before": 0,
+          "after": 34,
+          "total": 51,
+          "delta": 34
+        }
+      },
+      {
+        "file": "packages/reforge/src/menu/menu-box.ts",
+        "lines": {
+          "before": 62,
+          "after": 204,
+          "total": 235,
+          "delta": 142
+        },
+        "statements": {
+          "before": 68,
+          "after": 230,
+          "total": 272,
+          "delta": 162
+        },
+        "functions": {
+          "before": 7,
+          "after": 24,
+          "total": 30,
+          "delta": 17
+        },
+        "branches": {
+          "before": 1,
+          "after": 75,
+          "total": 141,
+          "delta": 74
+        }
+      },
+      {
+        "file": "packages/reforge/src/menu/save-browser-box.ts",
+        "lines": {
+          "before": 7,
+          "after": 76,
+          "total": 77,
+          "delta": 69
+        },
+        "statements": {
+          "before": 7,
+          "after": 84,
+          "total": 88,
+          "delta": 77
+        },
+        "functions": {
+          "before": 0,
+          "after": 6,
+          "total": 6,
+          "delta": 6
+        },
+        "branches": {
+          "before": 0,
+          "after": 32,
+          "total": 45,
+          "delta": 32
+        }
+      },
+      {
+        "file": "packages/reforge/src/menu/system-box.ts",
+        "lines": {
+          "before": 5,
+          "after": 17,
+          "total": 19,
+          "delta": 12
+        },
+        "statements": {
+          "before": 5,
+          "after": 17,
+          "total": 20,
+          "delta": 12
+        },
+        "functions": {
+          "before": 0,
+          "after": 2,
+          "total": 2,
+          "delta": 2
+        },
+        "branches": {
+          "before": 0,
+          "after": 11,
+          "total": 18,
+          "delta": 11
+        }
+      },
+      {
+        "file": "packages/reforge/src/menu/use-box.ts",
+        "lines": {
+          "before": 22,
+          "after": 30,
+          "total": 53,
+          "delta": 8
+        },
+        "statements": {
+          "before": 22,
+          "after": 31,
+          "total": 59,
+          "delta": 9
+        },
+        "functions": {
+          "before": 0,
+          "after": 1,
+          "total": 4,
+          "delta": 1
+        },
+        "branches": {
+          "before": 0,
+          "after": 3,
+          "total": 32,
+          "delta": 3
+        }
+      },
+      {
+        "file": "packages/reforge/src/save/browser-state.ts",
+        "lines": {
+          "before": 23,
+          "after": 24,
+          "total": 24,
+          "delta": 1
+        },
+        "statements": {
+          "before": 29,
+          "after": 30,
+          "total": 33,
+          "delta": 1
+        },
+        "functions": {
+          "before": 9,
+          "after": 10,
+          "total": 10,
+          "delta": 1
+        },
+        "branches": {
+          "before": 29,
+          "after": 29,
+          "total": 35,
+          "delta": 0
+        }
+      },
+      {
+        "file": "packages/reforge/src/text/glyph.ts",
+        "lines": {
+          "before": 47,
+          "after": 61,
+          "total": 62,
+          "delta": 14
+        },
+        "statements": {
+          "before": 57,
+          "after": 72,
+          "total": 76,
+          "delta": 15
+        },
+        "functions": {
+          "before": 4,
+          "after": 6,
+          "total": 7,
+          "delta": 2
+        },
+        "branches": {
+          "before": 31,
+          "after": 34,
+          "total": 42,
+          "delta": 3
+        }
+      },
+      {
+        "file": "packages/reforge/src/text/text-render.ts",
+        "lines": {
+          "before": 6,
+          "after": 29,
+          "total": 29,
+          "delta": 23
+        },
+        "statements": {
+          "before": 6,
+          "after": 29,
+          "total": 31,
+          "delta": 23
+        },
+        "functions": {
+          "before": 1,
+          "after": 2,
+          "total": 2,
+          "delta": 1
+        },
+        "branches": {
+          "before": 2,
+          "after": 20,
+          "total": 26,
+          "delta": 18
+        }
+      },
+      {
+        "file": "packages/reforge/src/text/typewriter.ts",
+        "lines": {
+          "before": 10,
+          "after": 10,
+          "total": 10,
+          "delta": 0
+        },
+        "statements": {
+          "before": 13,
+          "after": 14,
+          "total": 14,
+          "delta": 1
+        },
+        "functions": {
+          "before": 3,
+          "after": 3,
+          "total": 3,
+          "delta": 0
+        },
+        "branches": {
+          "before": 5,
+          "after": 6,
+          "total": 6,
+          "delta": 1
+        }
+      }
+    ]
+  },
+  "coverageWitness": {
+    "directory": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-runtime-shell-mutants-3Dr2qd",
+    "sourceHash": "f9e154fc2c63f2d056aa387229b135f0fde7951277e9663b645282973d4d2b93",
+    "rows": [
+      {
+        "mode": "old-fast",
+        "tests": 1378,
+        "metrics": {
+          "lines": {
+            "total": 195,
+            "covered": 195,
+            "skipped": 0,
+            "pct": 100
+          },
+          "statements": {
+            "total": 209,
+            "covered": 208,
+            "skipped": 0,
+            "pct": 99.52
+          },
+          "functions": {
+            "total": 18,
+            "covered": 18,
+            "skipped": 0,
+            "pct": 100
+          },
+          "branches": {
+            "total": 147,
+            "covered": 141,
+            "skipped": 0,
+            "pct": 95.91
+          },
+          "branchesTrue": {
+            "total": 0,
+            "covered": 0,
+            "skipped": 0,
+            "pct": "Unknown"
+          }
+        },
+        "invalidVersionStatementCount": 2
+      },
+      {
+        "mode": "old-plus-shell",
+        "tests": 1414,
+        "metrics": {
+          "lines": {
+            "total": 195,
+            "covered": 158,
+            "skipped": 0,
+            "pct": 81.02
+          },
+          "statements": {
+            "total": 209,
+            "covered": 166,
+            "skipped": 0,
+            "pct": 79.42
+          },
+          "functions": {
+            "total": 18,
+            "covered": 16,
+            "skipped": 0,
+            "pct": 88.88
+          },
+          "branches": {
+            "total": 147,
+            "covered": 104,
+            "skipped": 0,
+            "pct": 70.74
+          },
+          "branchesTrue": {
+            "total": 0,
+            "covered": 0,
+            "skipped": 0,
+            "pct": "Unknown"
+          }
+        },
+        "invalidVersionStatementCount": 0
+      },
+      {
+        "mode": "execution-trace",
+        "tests": 1378,
+        "traceLoaded": true,
+        "invalidVersionBranchEntered": false
+      }
+    ]
+  },
+  "observations": [
+    {
+      "id": "STAT-1",
+      "status": "independent review pending",
+      "detail": "Old fast reports script-runner-core.ts:123 executed twice, but the original 1378 tests with an execution trace load the probe and never enter that branch. After adding shell tests the report loses 37 lines/42 statements/2 functions/37 branches in this unchanged file. At least one old false-positive counter is proven; the precise provider mechanism and all remaining changed counters are not yet independently classified."
+    },
+    {
+      "id": "DEV-TOAST-1",
+      "status": "product observation; no implementation or correctness claim",
+      "detail": "main.ts dev scene-hop catch emits a failure toast for an obsolete cancelled request. H6 now awaits the actual original map Promise rather than blessing that old toast as a completion oracle. World state remains protected; feedback policy is a separate follow-up."
+    },
+    {
+      "id": "NC-overlap",
+      "status": "classified",
+      "detail": "Removing only sceneSwitchIntent.assertCurrent stays green because abortScript also invalidates the world token checked immediately afterwards. Not reported as a successful negative. The eighth enforced single-point negative bypasses AsyncIntentController.assertCurrent's shared predicate and yields a direct candidate AssertionError.",
+      "artifact": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-runtime-shell-mutants-rsxPmN/scene-request-owner.json"
+    }
+  ],
+  "officialBaselineUpdated": false,
+  "fullRepositoryCheckRun": false,
+  "visualVerified": false,
+  "e2eRun": false
+}

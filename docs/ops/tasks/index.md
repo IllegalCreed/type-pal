@@ -9,7 +9,6 @@
 | 任务 | 顶部状态 | 说明 |
 |---|---|---|
 | [TEST-BATTLE-WORKFLOWS-1 - 战斗会话完整流程补测](TEST-BATTLE-WORKFLOWS-1-session-flows.md) | rework | 以任务卡当前准入与看板分工为准。 |
-| [TEST-RUNTIME-SHELL-COVERAGE-1 - 真实启动与菜单宿主流程补测](TEST-RUNTIME-SHELL-COVERAGE-1-boot-menu-flows.md) | build | 以任务卡当前准入与看板分工为准。 |
 
 ## 已完成（historical）
 
@@ -147,6 +146,7 @@
 | [TEST-CONTENT-CONTRACTS-1 - 内容数据校验与引用边界补测](../archive/tasks/done/TEST-CONTENT-CONTRACTS-1-content-validation-boundaries.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [TEST-CONTENT-RESIDUAL-1 - 内容合同已登记残项补测（队列 TB-01）](../archive/tasks/done/TEST-CONTENT-RESIDUAL-1-registered-gaps.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [TEST-COVERAGE-DETERMINISM-1 - 编辑器覆盖率计数确定性](../archive/tasks/done/TEST-COVERAGE-DETERMINISM-1-editor-ratchet.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [TEST-COVERAGE-TRUTH-1 - 类初始化覆盖率合并真值修复](../archive/tasks/done/TEST-COVERAGE-TRUTH-1-class-initializers.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [TEST-EDITOR-IMPORT-CODEC-1 - 导入、编码工作线程与视频元数据补测（队列 TB-03）](../archive/tasks/done/TEST-EDITOR-IMPORT-CODEC-1-workers-metadata.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [TEST-EDITOR-LOGIC-COVERAGE-1 - 编辑器命令与引用边界补测](../archive/tasks/done/TEST-EDITOR-LOGIC-COVERAGE-1-editor-command-boundaries.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [TEST-EDITOR-MAP-DATA-1 - 地图选区与组合模板数据补测（TB-06）](../archive/tasks/done/TEST-EDITOR-MAP-DATA-1-selection-stamps.md) | done | 完成证据、历史签字与交接见原卡。 |
@@ -160,6 +160,7 @@
 | [TEST-REFORGE-ASSET-IO-1 - 资源读取、缓存与音效准备补测（队列 TB-02）](../archive/tasks/done/TEST-REFORGE-ASSET-IO-1-read-cache-sfx.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [TEST-REFORGE-RUNTIME-CONTRACTS-1 - 运行时基础功能五组非视觉补测](../archive/tasks/done/TEST-REFORGE-RUNTIME-CONTRACTS-1-runtime-boundaries.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [TEST-RESOURCE-TOOLS-COVERAGE-1 - RLE、事件与资源工具补测（TB-05）](../archive/tasks/done/TEST-RESOURCE-TOOLS-COVERAGE-1-rle-events-font.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [TEST-RUNTIME-SHELL-COVERAGE-1 - 真实启动与菜单宿主流程补测](../archive/tasks/done/TEST-RUNTIME-SHELL-COVERAGE-1-boot-menu-flows.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [TEST-RUNTIME-STATE-BOUNDARIES-1 - 运行时状态与作者元数据六组补测](../archive/tasks/done/TEST-RUNTIME-STATE-BOUNDARIES-1-state-and-metadata.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [W4-1 - 命名落点闭环与迁移去重](../archive/tasks/done/W4-1-named-scene-entry-closure.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [W6 - 昼夜氛围系统(全帧乘法滤镜 + 氛围数据表)](../archive/tasks/done/W6-ambience-day-night.md) | done | 完成证据、历史签字与交接见原卡。 |
