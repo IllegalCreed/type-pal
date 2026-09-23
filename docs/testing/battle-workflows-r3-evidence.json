@@ -1,0 +1,409 @@
+{
+  "schemaVersion": 1,
+  "reviewDate": "2026-09-24",
+  "investigationStarted": "2026-09-23",
+  "task": "TEST-BATTLE-WORKFLOWS-1",
+  "designRevision": "r1",
+  "candidate": "7a2f16082416a3158c7c36c0fd2d0f1ce1b52b04",
+  "implementationRevision": "r3",
+  "reviewWorktree": "/Users/zhangxu/illegal/type-pal-battle-review",
+  "decision": "counter; narrow N1-N4 residuals",
+  "verification": {
+    "targeted": 39,
+    "adjacent": 272,
+    "fullReforge": 1453,
+    "typecheckExit": 0,
+    "biome": {
+      "files": 12,
+      "exit": 0
+    },
+    "glmMutants": {
+      "controls": 6,
+      "detected": 10,
+      "exit": 0
+    },
+    "singleNeedle": {
+      "controls": 1,
+      "detected": 1,
+      "exit": 0
+    },
+    "unknownNeedleExit": 1,
+    "logs": "/tmp/type-pal-battle-r3-*.log"
+  },
+  "guardObservation": {
+    "sessions": 42,
+    "actors": 8,
+    "allAccepted": true
+  },
+  "dedupTitles": [
+    {
+      "title": "fleeBattle 立即播放逃跑演出，但当前 hook closure 排净后才结算",
+      "file": "packages/reforge/src/battle/battle-session.test.ts",
+      "line": 1405,
+      "exactMatch": true
+    },
+    {
+      "title": "endBattle terminate:choreography 撑到 turn → 战斗终止无奖励(林天南 7 回合)",
+      "file": "packages/reforge/src/battle/battle-session.test.ts",
+      "line": 1284,
+      "exactMatch": true
+    },
+    {
+      "title": "玩家逃跑成功返回 playerFled，且不进入胜利结算",
+      "file": "packages/reforge/src/battle/battle-session.test.ts",
+      "line": 1213,
+      "exactMatch": true
+    },
+    {
+      "title": "endBattle lost 返回 defeat，且不进入胜利结算",
+      "file": "packages/reforge/src/battle/battle-session.test.ts",
+      "line": 1258,
+      "exactMatch": true
+    },
+    {
+      "title": "合击消费其余队员后仍先冻结完整动作快照，再进入行动",
+      "file": "packages/reforge/src/battle/battle-session.test.ts",
+      "line": 690,
+      "exactMatch": true
+    },
+    {
+      "title": "healthy≤1 → 退化普攻(不扣合击 HP 代价)",
+      "file": "packages/reforge/src/battle/battle-core.test.ts",
+      "line": 2790,
+      "exactMatch": true
+    },
+    {
+      "title": "世界专用用途与非法投掷在扣库存前拒绝；大蒜战斗毒抗有真实消费方",
+      "file": "packages/reforge/src/battle/battle-core.test.ts",
+      "line": 1064,
+      "exactMatch": true
+    },
+    {
+      "title": "skillUse mutation 写回：计数持久化 + 满限从 learnedSkills 移除",
+      "file": "packages/reforge/src/battle/battle-session.test.ts",
+      "line": 1704,
+      "exactMatch": true
+    },
+    {
+      "title": "成长与明雷感知只写回一次，不覆盖随后发生的战后奖励",
+      "file": "packages/reforge/src/battle/battle-session.test.ts",
+      "line": 1629,
+      "exactMatch": true
+    },
+    {
+      "title": "summon 只填当前上限内空槽，count 非正归 1，且不足时不部分写入",
+      "file": "packages/reforge/src/battle/battle-enemy-confused.test.ts",
+      "line": 263,
+      "exactMatch": true
+    },
+    {
+      "title": "变身现形:旧图 colorShift 0→5 六帧染白 → 72帧 dither 过渡至新图",
+      "file": "packages/reforge/src/battle/battle-anim.test.ts",
+      "line": 508,
+      "exactMatch": true
+    },
+    {
+      "title": "continue 同 activation 执行，advance 只在结束时提交 cursor",
+      "file": "packages/reforge/src/battle/enemy-hook-runtime.test.ts",
+      "line": 51,
+      "exactMatch": true
+    }
+  ],
+  "witnesses": [
+    {
+      "id": "control",
+      "exit": 0,
+      "passed": 39,
+      "failed": 0,
+      "business": false,
+      "failures": [],
+      "meaning": "unchanged candidate with observations only"
+    },
+    {
+      "id": "actual-input-guards",
+      "exit": 0,
+      "passed": 39,
+      "failed": 0,
+      "business": false,
+      "failures": [],
+      "meaning": "unchanged candidate with observations only"
+    },
+    {
+      "id": "failure-cleanup-observer",
+      "exit": 1,
+      "passed": 0,
+      "failed": 1,
+      "business": true,
+      "failures": [
+        {
+          "file": "/Users/zhangxu/illegal/type-pal-battle-review/packages/reforge/src/battle/battle-session.script-flows.test.ts",
+          "title": "W4 敌钩子与屏障组合 屏障挂起：pending 期间按键零业务副作用（MP 不偷扣），放行后真实推进",
+          "firstLines": ["AssertionError: Codex injected cleanup assertion"]
+        }
+      ],
+      "meaning": "reviewer-injected assertion; observe then consume the actual preparation promise"
+    },
+    {
+      "id": "former-growth-magic-attack-lost",
+      "exit": 1,
+      "passed": 38,
+      "failed": 1,
+      "business": true,
+      "failures": [
+        {
+          "file": "/Users/zhangxu/illegal/type-pal-battle-review/packages/reforge/src/battle/battle-session.writeback-flows.test.ts",
+          "title": "W6 写回与隔离 真实成长写回：8 字段全部按 before+delta 对账；非目标保真；奖励后二次写回不覆盖",
+          "firstLines": ["AssertionError: expected 20 to be 22 // Object.is equality"]
+        }
+      ],
+      "meaning": "mutation rejected"
+    },
+    {
+      "id": "former-skill-removal-lost",
+      "exit": 1,
+      "passed": 38,
+      "failed": 1,
+      "business": true,
+      "failures": [
+        {
+          "file": "/Users/zhangxu/illegal/type-pal-battle-review/packages/reforge/src/battle/battle-session.writeback-flows.test.ts",
+          "title": "W6 写回与隔离 skillUse 写回：满限计数入账 且 技能从 learnedSkills 移除",
+          "firstLines": ["AssertionError: expected [ 'wf-once' ] to deeply equal []"]
+        }
+      ],
+      "meaning": "mutation rejected"
+    },
+    {
+      "id": "former-ready-loses-next-action",
+      "exit": 1,
+      "passed": 38,
+      "failed": 1,
+      "business": true,
+      "failures": [
+        {
+          "file": "/Users/zhangxu/illegal/type-pal-battle-review/packages/reforge/src/battle/battle-session.script-flows.test.ts",
+          "title": "W4 敌钩子与屏障组合 敌 ready hook 真实激活：hook 音先播，完成后同一敌以自己名义真实攻击（HP 实降）",
+          "firstLines": ["AssertionError: expected false to be true // Object.is equality"]
+        }
+      ],
+      "meaning": "mutation rejected"
+    },
+    {
+      "id": "former-hp-hardcoded-one",
+      "exit": 1,
+      "passed": 4,
+      "failed": 1,
+      "business": true,
+      "failures": [
+        {
+          "file": "/Users/zhangxu/illegal/type-pal-battle-review/packages/reforge/src/battle/battle-session.writeback-flows.test.ts",
+          "title": "W6 写回与隔离 writeBackHp 终值精确写回：无伤胜利=100；败=0（lost 允许 0）；多轮受击=100−Σ敌伤害",
+          "firstLines": ["AssertionError: expected 1 to be 100 // Object.is equality"]
+        }
+      ],
+      "meaning": "mutation rejected"
+    },
+    {
+      "id": "repeat-growth-writeback",
+      "exit": 0,
+      "passed": 39,
+      "failed": 0,
+      "business": false,
+      "failures": [],
+      "meaning": "mutation survived"
+    },
+    {
+      "id": "clear-inventory-on-writeback",
+      "exit": 0,
+      "passed": 39,
+      "failed": 0,
+      "business": false,
+      "failures": [],
+      "meaning": "mutation survived"
+    },
+    {
+      "id": "clamp-removed-candidate",
+      "exit": 0,
+      "passed": 39,
+      "failed": 0,
+      "business": false,
+      "failures": [],
+      "meaning": "mutation survived"
+    },
+    {
+      "id": "clamp-oracle",
+      "exit": 0,
+      "passed": 1,
+      "failed": 0,
+      "business": false,
+      "failures": [],
+      "meaning": "independent public-state oracle, not a candidate test"
+    },
+    {
+      "id": "clamp-removed-oracle",
+      "exit": 1,
+      "passed": 0,
+      "failed": 1,
+      "business": true,
+      "failures": [
+        {
+          "file": "/Users/zhangxu/illegal/type-pal-battle-review/packages/reforge/src/battle/battle-session.selection-flows.test.ts",
+          "title": "Codex public two-member victory reaches non-lost HP zero clamp",
+          "firstLines": ["AssertionError: expected [ +0, 100 ] to deeply equal [ 1, 100 ]"]
+        }
+      ],
+      "meaning": "independent public-state oracle, not a candidate test"
+    },
+    {
+      "id": "hook-input-leak",
+      "exit": 0,
+      "passed": 1,
+      "failed": 0,
+      "business": false,
+      "failures": [],
+      "meaning": "mutation survived"
+    },
+    {
+      "id": "hook-wait-oracle",
+      "exit": 0,
+      "passed": 1,
+      "failed": 0,
+      "business": false,
+      "failures": [],
+      "meaning": "independent public-state oracle, not a candidate test"
+    },
+    {
+      "id": "hook-leak-oracle",
+      "exit": 1,
+      "passed": 0,
+      "failed": 1,
+      "business": true,
+      "failures": [
+        {
+          "file": "/Users/zhangxu/illegal/type-pal-battle-review/packages/reforge/src/battle/battle-session.selection-flows.test.ts",
+          "title": "Codex public readiness observer detects a commit during enemy hook wait",
+          "firstLines": ["AssertionError: expected [ Array(1) ] to have a length of +0 but got 1"]
+        }
+      ],
+      "meaning": "independent public-state oracle, not a candidate test"
+    }
+  ],
+  "cleanup": {
+    "originalFailure": true,
+    "settledAtBodyExit": true,
+    "settledAfterObserverConsumes": true
+  },
+  "facts": {
+    "clamp-oracle": {
+      "before": [0, 100],
+      "outcome": "victory",
+      "battleHp": [0, 100],
+      "writtenHp": [1, 100]
+    },
+    "clamp-removed-oracle": {
+      "before": [0, 100],
+      "outcome": "victory",
+      "battleHp": [0, 100],
+      "writtenHp": [0, 100]
+    },
+    "hook-wait-oracle": {
+      "elapsed": 144,
+      "committed": [],
+      "log": [],
+      "phase": "menu"
+    },
+    "hook-leak-oracle": {
+      "elapsed": 144,
+      "committed": [
+        [
+          [
+            0,
+            {
+              "kind": "attack",
+              "targetEnemyIdx": 0
+            }
+          ]
+        ]
+      ],
+      "log": [],
+      "phase": "acting"
+    }
+  },
+  "actualToolCriterion": {
+    "correct": {
+      "verdict": "detected",
+      "reasons": [],
+      "executed": 1
+    },
+    "wrongSuite": {
+      "verdict": "invalid",
+      "reasons": ["title identity: Other suite target"],
+      "executed": 1
+    },
+    "wrongFile": {
+      "verdict": "invalid",
+      "reasons": [
+        "file identity: /other/project/src/battle/battle-session.writeback-flows.test.ts"
+      ],
+      "executed": 1
+    },
+    "wrongMarker": {
+      "verdict": "invalid",
+      "reasons": ["no MUTATION_HIT:needle-a witness", "foreign needle marker present"],
+      "executed": 1
+    },
+    "mixedSuiteError": {
+      "verdict": "invalid",
+      "reasons": ["suite-level message present"],
+      "executed": 1
+    },
+    "timeoutLaterLine": {
+      "verdict": "invalid",
+      "reasons": ["timeout wording present"],
+      "executed": 1
+    },
+    "sameCaseMixedMessages": {
+      "verdict": "detected",
+      "reasons": [],
+      "executed": 1
+    },
+    "unexpectedExit2": {
+      "verdict": "detected",
+      "reasons": [],
+      "executed": 1
+    },
+    "killedExitNull": {
+      "verdict": "detected",
+      "reasons": [],
+      "executed": 1
+    }
+  },
+  "hashes": {
+    "/Users/zhangxu/illegal/type-pal-battle-review/packages/reforge/src/battle/battle-session.ts": "24cdd3e539e2248149ebd79fa9bced2250b6e56e9a215adb92f52029634c5ab1",
+    "/Users/zhangxu/illegal/type-pal-battle-review/packages/reforge/src/__tests__/battle-workflows/session-driver.ts": "1d05425bf07284ece5d15d8730a38776ee9d901c29860081834beac8f747785f",
+    "/Users/zhangxu/illegal/type-pal-battle-review/packages/reforge/src/__tests__/battle-workflows/catalog.ts": "147feb13b2b685fa28f342f310de410610ba39f8f343404789deb98048bb82d7",
+    "/Users/zhangxu/illegal/type-pal-battle-review/packages/reforge/src/__tests__/battle-workflows/controlled-io.ts": "7a3bfee1a8dd8d1ee0653f0d004c8641a3b6bf1a24587c1226ae75ddc7619957",
+    "/Users/zhangxu/illegal/type-pal-battle-review/packages/reforge/src/battle/battle-session.selection-flows.test.ts": "d8c7b3c93b8560987dc307ec35379d28d5b332e4cec8f365f11218b8f73a37f7",
+    "/Users/zhangxu/illegal/type-pal-battle-review/packages/reforge/src/battle/battle-session.round-flows.test.ts": "20b0ebeae0d11978e82cf6d08ba39201622f2f079710ed0f5884149aa51359a4",
+    "/Users/zhangxu/illegal/type-pal-battle-review/packages/reforge/src/battle/battle-session.action-flows.test.ts": "41723cfb7c426e6daae8a26c397c839082d68f0dd468d2da7c727c2849b4b655",
+    "/Users/zhangxu/illegal/type-pal-battle-review/packages/reforge/src/battle/battle-session.script-flows.test.ts": "c713711dc5c85694bd63811671336d4549e0278ddbb6ef5aa3bf193044a44510",
+    "/Users/zhangxu/illegal/type-pal-battle-review/packages/reforge/src/battle/battle-session.terminal-flows.test.ts": "5a0def8a13828577053ee33ec32788511953ce3e44f24ae051f5f3757107c689",
+    "/Users/zhangxu/illegal/type-pal-battle-review/packages/reforge/src/battle/battle-session.writeback-flows.test.ts": "203ee5e74984615f7e93f18bb5aae160f56f7b16e6c3e755b08cf8663c9c2066",
+    "/Users/zhangxu/illegal/type-pal-battle-review/docs/testing/glm-battle-workflows-mutants.mjs": "aa3ad1bf985b328e2e48e1329c06bd8ff36305d25261a835205e880a9b2dab95"
+  },
+  "witnessOutput": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/battle-workflows-r3-review-8uuSAm",
+  "ownDraftFailure": {
+    "directory": "battle-workflows-r3-review-GDgOtq",
+    "reason": "reviewer wait oracle missing closing brace; 0-test parse failure, not candidate defect",
+    "finalControl": "fixed oracle green; mutation AssertionError"
+  },
+  "boundaries": [
+    "No candidate disk edits",
+    "r1/r2 witness files unchanged",
+    "No statistics or union coverage run",
+    "No Kimi handoff; remain rework",
+    "Old five counterexamples/fixture structure/path/Biome not reopened",
+    "Independent oracles are not candidate tests",
+    "Product compatibility audit pass; test implementation counter"
+  ]
+}

@@ -202,7 +202,7 @@ DEV-TOAST-1、full/Q1/Q2和GLM战斗返工保持原归属；统计修复另卡�
   已开[TEST-COVERAGE-TRUTH-1](TEST-COVERAGE-TRUTH-1-class-initializers.md) draft等两席设计签名。
   宿主36项保留，不改本卡设计、产品、原测试或官方基线；不以Kimi窄审代整卡done签字。
 
-- 2026-09-23 Codex（独立分支进度镜像）：`codex/runtime-shell-coverage-r1`已推送（tip0996cd87，代码候选1d3d3fb3，基4872b017）；工作树`/Users/zhangxu/illegal/type-pal-runtime-shell`。H1～H6共36项、全reforge1414、TC/Biome、1正控+8业务负控通过，产品/旧测试/官方配置基线零改。分支[实施回执](https://github.com/IllegalCreed/type-pal/blob/codex/runtime-shell-coverage-r1/docs/testing/codex-runtime-shell.md)及机账保存所有证据。局部cb77对照+1615行/+799分支包含script-runner-core的-37行：旧报告:123计2、原1378真实分支见证计0，至少一处旧计数虚高已证，具体工具根因/其余行待Kimi窄核，不以总包提升豁免。开发跳场景旧取消失败提示单列观察，未写成正确UI合同。仍build，不合主线测试/不更新官方基线；待GLM战斗包接收和统计解释后统一门禁。
+- 2026-09-23 Codex（独立分支进度镜像）：`codex/runtime-shell-coverage-r1`已推送（tip0996cd87，代码候选1d3d3fb3，基4872b017）；工作树`/Users/zhangxu/illegal/type-pal-runtime-shell`。H1～H6共36项、全reforge1414、TC/Biome、1正控+8业务负控通过，产品/旧测试/官方配置基线零改。分支[实施回执](https://github.com/IllegalCreed/type-pal/blob/0996cd87/docs/testing/codex-runtime-shell.md)及机账保存所有证据。局部cb77对照+1615行/+799分支包含script-runner-core的-37行：旧报告:123计2、原1378真实分支见证计0，至少一处旧计数虚高已证，具体工具根因/其余行待Kimi窄核，不以总包提升豁免。开发跳场景旧取消失败提示单列观察，未写成正确UI合同。仍build，不合主线测试/不更新官方基线；待GLM战斗包接收和统计解释后统一门禁。
 
 - 2026-09-23 Kimi（STAT-1 统计专项窄复核，非整卡终审）：probe 复建一致（旧1378 :123计2/
   195行；加宿主1414 :123计0/158行；见证 load 已进、分支实进0）。见证插桩语义保持/加载
