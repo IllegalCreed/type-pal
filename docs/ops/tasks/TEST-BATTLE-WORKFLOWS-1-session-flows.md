@@ -68,8 +68,23 @@ Production Freeze: 57dda7ed2376fc25f07756be117bb4a058d09915
 
 - Codex：**premise verified / design agree（2026-09-23，r1）**。直读`:341-424`构造→真实createBattleState、`:1191-1385`公开输入→终态/准备/选择链、`:2450-2541`真实写回，main`:2400/:6352`有当前消费者。7790报告与官方七包持久字段/源集合/计数一致；特别分离session render后189遗漏行，不把648L承诺全可达。可证伪：必须私改内部状态、guard无法过或新增和旧完整合同相同；遇此按范围裁定，不强刷。
 - GLM：premise pending / design pending。
-- Kimi：premise pending / design pending。
-- 独立反证：待非Owner直接读上面入口/守卫/旧测试，不能只复述Codex。
+- Kimi：**premise verified / design agree（2026-09-23，r1；锚点本人直读，未读 GLM 本轮结论）**。
+  - **公开观测足以避免私改状态**：`battle-session.ts:2420/:2425/:2433` debugLog/debugReadiness/
+    debugPlayers 是真实公共方法，`:1191` tick(dt, pressed, gameplayNow) 公开驱动，`:2450`
+    writeBackInventory/`:2534` writeBackHp 真实写回 API——W1～W6 可经公开输入/输出闭环；
+    卡面同时钉死「不预置 lastActs、不私写 phase、公共观测不足先报告不加产品接口」，方向正确。
+  - **真实消费者**：`main.ts:2400` 构造 session、`:6352` 主循环 activeBattle.tick/render——
+    现行调用域属实；旧专项（`:534/:646/:1213/:1629`）按标题对账去重。
+  - **渲染/视觉边界**：render 后 189 行单独分离（总计划 :19），GLM 禁浏览器/捏造 Canvas/
+    私有状态，时间线只核结构/回调/业务时序——不越界。
+  - **W4 屏障与 W6 合同**：敌 ready/turnStart 目标模块 enemy-hook-runtime 在列，异步按
+    entered/finally 同一 pending；W6 用真实 writeBack 核幂等/保留，「新物品漏写等既有审计
+    归属先核，不认 bug 为正确合同」——风险披露到位。
+  - **可证伪观察**（任一成立即收窄或 counter）：① 某组必须私改内部状态（如 R 跨轮无法经
+    真实首轮提交驱动）→ 该族停并报观测缺口；② 合法输入过不了现行 guard 却要强造；
+    ③ 与旧专项同输入完整合同重复报新增；④ 反控去保护仍绿；⑤ 渲染断言滑向视觉/观感。
+  - 返工项：无。
+- 独立反证：待非Owner直接读上面入口/守卫/旧测试，不能只复述Codex。（本席 Kimi 已完成独立直读，锚点与可证伪回答见本席签字。）
 - 缺签豁免：无。
 - build准入：blocked（三席未齐；Coding Owner不得开始正式实现）。
 
@@ -81,6 +96,13 @@ Production Freeze: 57dda7ed2376fc25f07756be117bb4a058d09915
 - done准入：blocked；不借第二波签字通过本卡。
 
 ## 交接日志
+
+- 2026-09-23 Kimi（r1 独立设计审查）：签 premise verified / design agree，无返工项。直读公开
+  观测链（debugLog/debugReadiness/debugPlayers :2420-2433、tick :1191、writeBack :2450/:2534）
+  与真实消费者（main.ts:2400/:6352）——公开流程可免私改状态；render 后 189 行分离、GLM 禁
+  视觉不越界；W4 异步门与 W6 写回合同锚点在册。五条可证伪观察入席。同时独立审
+  TEST-RUNTIME-SHELL-COVERAGE-1 r1（另卡同签）。未读 GLM 本轮结论；未改实现/他席/状态。
+  Next：三席齐后 Codex 统一核 build。
 
 - 2026-09-23 Codex：按用户批准启动大业务域批次；冻结四目标/六组合同/白名单，与本人宿主卡隔离。仅既有报告核验与源码证据，不宣称新增覆盖率；先并行设计审查，无正式实现授权。
 

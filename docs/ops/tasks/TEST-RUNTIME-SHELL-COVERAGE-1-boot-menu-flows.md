@@ -72,7 +72,24 @@ Production Freeze: 57dda7ed2376fc25f07756be117bb4a058d09915
 
 - Codex：**premise verified / design agree（2026-09-23，r1）**。直接读main`:339-424`正常boot与shop提前return、`:6223`真实Keyboard与`:6240`公共观测、`:6310-6390`帧时钟/输入路由、`:6835-6955`当前读档/新局；opening-menu`:75-130`自身管理RAF/key事件且读真实store。主入口覆盖30/3360与官方7790报告一致；现有shop-trial真实boot证明可导入但不冒充正常启动可行性已活跑。首次H1必须实证正常场景进入，若只能mock业务/私改状态则停该族，不用AST给自己刷覆盖。
 - GLM：premise pending / design pending。
-- Kimi：premise pending / design pending。
+- Kimi：**premise verified / design agree（2026-09-23，r1；锚点本人直读，未读 GLM 本轮结论）**。
+  - **宿主真实执行可行**：`boot.ts:13` 与 `editor/src/play.ts:14` 真实调用 bootGame；
+    `main.ts:349-352` shop trial 提前 return（早退不算正常启动属实）；`shop-trial.test.ts:136`
+    真实 boot 证明可导入但不冒充正常启动；卡面禁 AST 提取/new Function、要求 Vitest 真实
+    import，H1 首通才准 H3～H6——可行性门禁正确。
+  - **观测不增产品接口**：`main.ts:6224` `__reforge`、`:6826` `__tpE2e` 既有只读观测点在册；
+    卡面禁止给内部闭包新增生产导出。
+  - **IO 替身边界**：替身限 Canvas/ImageBitmap/音频/fetch/RAF/IDB（fake-indexeddb@6.2.5 已在
+    依赖树），loader/projection/codec/store/runner/菜单状态机保留——与 wave2 B05 同型，
+    不掩盖被测业务；PNG/RLE 仍须合法哈希匹配。
+  - **清理与归属**：opening-menu `:75-130` 自管 RAF+keydown 并读真实 saveStore（`:106-109`），
+    宿主测试须自清 listeners/RAF/对象 URL；boot 返回 void 不发明 dispose；「接线新证明」与
+    「旧合同转真实入口」分栏不二次报功；与战斗卡同包重叠最终并集去重不相加。
+  - **可证伪观察**（任一成立即收窄或 counter）：① 正式 loader 不能消费自包含 fixture 或
+    正常启动必须改产品接口 → 停 H 族报阻碍；② 入口始终走预览/商店提前 return；
+    ③ 替身下沉到被测业务层（loader/codec/菜单状态机被 mock）；④ 启动错误被吞后仍宣称
+    成功；⑤ main 实际覆盖未增长却以 AST 拷贝报功。
+  - 返工项：无。
 - 独立反证：待非Owner直读loader资源/启动/cleanup/旧tests并给可证伪回答。
 - 缺签豁免：无。
 - build准入：blocked（三席未齐，不开始正式实现）。
@@ -85,6 +102,14 @@ Production Freeze: 57dda7ed2376fc25f07756be117bb4a058d09915
 - done准入：blocked。
 
 ## 交接日志
+
+- 2026-09-23 Kimi（r1 独立设计审查）：签 premise verified / design agree，无返工项。直读
+  真实入口（boot.ts:13、play.ts:14；shop 早退 main.ts:349-352 与 shop-trial:136 边界属实）、
+  观测点（__reforge :6224、__tpE2e :6826）、IO 替身边界（fake-indexeddb@6.2.5 在依赖树、
+  业务层保留）、opening-menu 自管 RAF/key+真实 store（:75-130/:106-109）——宿主可真实执行
+  bootGame，替身不掩盖业务，清理/归属分栏到位。五条可证伪观察入席。同时独立审
+  TEST-BATTLE-WORKFLOWS-1 r1（另卡同签）。未读 GLM 本轮结论；未改实现/他席/状态。
+  Next：三席齐后 Codex 统一核 build。
 
 - 2026-09-23 Codex：用户批准攻大空白区；主树旧7627报告未用，7790报告核准；创建本卡与GLM战斗卡，六组/白名单不重叠。当前仅设计和证据，无正式测试/产品变更，不跑覆盖率。
 
