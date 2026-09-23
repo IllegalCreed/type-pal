@@ -9,7 +9,7 @@ Reviewer: both
 Visual Verification Owner: N/A
 Visual Verification Timing: N/A
 Unavailable Agents: 无
-Branch: codex/glm-battle-workflows-r1（候选16ac8cee；独立worktree，不切主工作树）
+Branch: codex/glm-battle-workflows-r1（当前r2候选b7ba48bb；bf158a63仅交接文档；独立worktree）
 Revision: r1
 Planning Base: f2592597
 Production Freeze: 57dda7ed2376fc25f07756be117bb4a058d09915
@@ -111,6 +111,15 @@ Production Freeze: 57dda7ed2376fc25f07756be117bb4a058d09915
 
 ### done前
 
+#### 当前r2独立接收（2026-09-23）
+
+- Codex：**counter（r2候选b7ba48bb；设计r1保持）**。本席独立树重跑34/267/1412、TC/Biome12文件与GLM6+9均通过；35次会话/5次演员实际输入过正式guard，旧5针全部转候选自身AssertionError，R1非法业务模型/旧S键/空写回/三终态容许pending等已修、不重开。仍有C1完整写回残项：漏magicAttack或不移除限次技能整包各34绿，HP硬写1仍W6五绿；C2 ready后丢敌行动整包34绿，日志混淆行动者，finally仅放行未消费实际pending（独立失败观察originalFailure=true、body退出settled=false）；C3原throw/coop/回退、hook等待、enemyFled/terminated及完整写回合同无实现/准确去重；C4实际判据仍接受错suite/同后缀错文件/别针marker/混合套件Error/后行timeout，回执“每文件guard”“精确fullName/file”等与树不符。详见[r2独立复核](../../testing/battle-workflows-r2-review.md)及[机账](../../testing/battle-workflows-r2-evidence.json)。保持rework，不改GLM语义、不集成/统计并集、不代签、不转Kimi。旧兼容审查：pass（生产零改，旧业务模型已去除）；不代表测试验收通过。
+- GLM r2实施者自验：原签与回执保留在[b7ba48bb任务卡](https://github.com/IllegalCreed/type-pal/blob/b7ba48bb/docs/ops/tasks/TEST-BATTLE-WORKFLOWS-1-session-flows.md)及[r2回执](https://github.com/IllegalCreed/type-pal/blob/b7ba48bb/docs/testing/glm-battle-workflows.md)，不作为独立第三方证明，本席不改写其原签。
+- Kimi：pending；按用户本轮要求，Codex接收通过后另排，不发终审提示词。
+- 当前done准入：**blocked**，r2独立counter未闭合；已完成宿主/统计两卡不借签本卡。
+
+#### 历史r1接收与签字（原文保留）
+
 - Codex：**counter（2026-09-23，独立接收候选16ac8cee，基4872b017）**。R1正式guard拒技能/人物/战斗形象等fixture，自造合法门与强转不可采；R2候选S键流程实际三次普攻、MP保持40，关闭A或R后W2仍各5绿，持久写回改空操作后W6仍5绿；R3禁止done兑现后三个终态仍绿，preparing偷偷扣MP后W4仍4绿，且gate无finally、无实际敌hook；R4fixture目录越白名单、Biome实跑7错误/4警告、工具判据误收异名/timeout且未知针零执行exit0、回执与树不符。详见[独立复核](../../testing/battle-workflows-review.md)及[机账](../../testing/battle-workflows-review-evidence.json)。原31/相邻264/全reforge1409/TC与GLM6+7均复跑通过，不因此接受业务合同。四目标生产零改；候选源码/测试未改，无产品缺陷新裁决，统计scope/基线未动。不接收实现、不集成、不跑统一覆盖门，按R1～R4返工；设计r1不重签。旧兼容审查：产品无新增兼容层，但测试伪旧技能模型必须删除，不作合法输入保留。
 
 以下GLM自验原文来源16ac8cee，保留其贡献与声明；两链接仅定位到该冻结Git树，不代表Codex采信与源码矛盾的部分：
@@ -130,6 +139,8 @@ Production Freeze: 57dda7ed2376fc25f07756be117bb4a058d09915
 - done准入：blocked；Codex对16ac8cee签counter，状态rework，R1～R4未闭合；不得以GLM自验或第二波历史签字代替独立接收/终审。
 
 ## 交接日志
+
+- 2026-09-23 Codex（r2独立接收counter）：源b7ba48bb、GLM tip bf158a63仅交接文档；本席在codex/battle-workflows-r2-review独立冻结树复验，不改GLM工作树。正控34/相邻267/全包1412/TC/Biome/原6+9全通过，原5反证闭合；新增4个坏实现存活与实际判据反例见r2报告。失败清理观察额外证明只放行未消费，不把此说成gate未放行。保留r1见证零改，新增r2只读取证工具；仅在main落本席counter、证据/看板，不跑并集或官方覆盖。前两卡三席齐已独立done归档。本轮仅追C1～C4，设计不重签；无Kimi提示词。
 
 - 2026-09-23 Codex（独立接收counter）：同步主线2a37b7a1及候选16ac8cee，各工作树干净、远端一致。已核31/264/1409/TC与GLM6+7绿，但正式Biome exit1；独立守卫/公开MP路由及五种单点坏实现反证见报告。仅在main落本席counter/状态/索引及复建见证，保存GLM原自验/交付日志（链接适配冻结Git树），没有改GLM候选语义或把坏用例合主线。原卡实际build、交接称review的差异已登记，本席统一转rework。GLM按四项一次返工，Codex宿主包与STAT-1独立保留；不以多数通过/总覆盖增量放行。
 
@@ -159,7 +170,17 @@ Production Freeze: 57dda7ed2376fc25f07756be117bb4a058d09915
 
 ## 下一位Agent提示词
 
-### 当前给GLM：R1～R4整包返工
+### 当前给GLM：r2残项C1～C4（无Kimi交接）
+
+在 /Users/zhangxu/illegal/type-pal-glm-battle 的codex/glm-battle-workflows-r1返工本卡，r2候选b7ba48bb仍counter/rework，设计r1不重签。
+先同步main本轮counter（不checkout主工作树），读AGENTS/CLAUDE/READ-FIRST、本卡当前块、docs/testing/battle-workflows-r2-review.md与机账。
+只闭C1～C4：完整world/成长8字段/限次技能移除/HP-MP终值及非目标保真；敌ready后的真实行动归属；finally消费原prepare Promise并保留原失败；
+原throw/coop/回退/hook等待/enemyFled/terminated等合同补齐或按准确旧标题去重；负控判据全名/物理路径/本针marker/混错/timeout拒绝与真实控制数，实际fixture接入守卫并勘误回执。
+已修非法业务模型、ArrowLeft/A/R、非空写回、前三终态和五个旧反证不重开，不硬凑34项。
+Codex新r2见证冻结旧反例；后续由Codex适配，不改历史工具凑绿。只改原白名单新文件与本人回执/机账/席位日志，
+不改产品/旧测试/官方范围基线/其它卡，不做视觉，不代签、不done、不转Kimi。整批定向/相邻/全Reforge/TC/Biome与负控一次交付；统计并集待Codex实现接收后统一。
+
+### 历史给GLM：R1～R4整包返工
 
 在 `/Users/zhangxu/illegal/type-pal-glm-battle` 的`codex/glm-battle-workflows-r1`返工TEST-BATTLE-WORKFLOWS-1 r1，候选16ac8cee被Codex counter、卡已rework，设计不重签。先同步main的本轮counter并合入本人分支，保留全部三席原文/历史日志，不checkout主工作树。必读AGENTS/CLAUDE/READ-FIRST、本卡、`docs/testing/battle-workflows-review.md`、机账与独立见证工具；当前31/264/1409/TC和原6+7绿不构成接收。
 

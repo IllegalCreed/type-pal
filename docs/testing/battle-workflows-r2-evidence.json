@@ -1,0 +1,245 @@
+{
+  "schemaVersion": 1,
+  "task": "TEST-BATTLE-WORKFLOWS-1",
+  "designRevision": "r1",
+  "implementationRevision": "r2",
+  "candidate": "b7ba48bbedb6ddbaac167b994699c2c85b9b02b9",
+  "glmTip": "bf158a63 (handoff docs only)",
+  "reviewWorktree": "/Users/zhangxu/illegal/type-pal-battle-review",
+  "decision": "counter",
+  "scope": "C1-C4 residuals; original five mutation gaps now detected; no union coverage",
+  "verification": {
+    "targeted": 34,
+    "adjacent": 267,
+    "fullReforge": 1412,
+    "typecheckExit": 0,
+    "biome": {
+      "files": 12,
+      "exit": 0
+    },
+    "glmMutants": {
+      "controls": 6,
+      "detected": 9,
+      "exit": 0
+    },
+    "unknownNeedleExit": 1,
+    "logs": "/tmp/type-pal-battle-r2-*.log"
+  },
+  "guardObservations": {
+    "sessions": 35,
+    "actors": 5,
+    "allAccepted": true,
+    "meaning": "Independent wrapping of actually consumed values; candidate persistent guard still checks default samples in W1 only"
+  },
+  "witnesses": [
+    {
+      "id": "control",
+      "exit": 0,
+      "passed": 34,
+      "failed": 0,
+      "business": false,
+      "failures": [],
+      "meaning": "unchanged candidate with observations only"
+    },
+    {
+      "id": "actual-input-guards",
+      "exit": 0,
+      "passed": 34,
+      "failed": 0,
+      "business": false,
+      "failures": [],
+      "meaning": "unchanged candidate with observations only"
+    },
+    {
+      "id": "failure-cleanup-observer",
+      "exit": 1,
+      "passed": 0,
+      "failed": 1,
+      "business": true,
+      "failures": [
+        {
+          "file": "/Users/zhangxu/illegal/type-pal-battle-review/packages/reforge/src/battle/battle-session.script-flows.test.ts",
+          "title": "W4 敌钩子与屏障组合 屏障挂起：pending 期间按键零业务副作用（MP 不偷扣），放行后真实推进",
+          "firstLines": ["AssertionError: Codex injected cleanup assertion"]
+        }
+      ],
+      "meaning": "reviewer-injected assertion; observe then consume the actual preparation promise"
+    },
+    {
+      "id": "old-disable-auto",
+      "exit": 1,
+      "passed": 5,
+      "failed": 1,
+      "business": true,
+      "failures": [
+        {
+          "file": "/Users/zhangxu/illegal/type-pal-battle-review/packages/reforge/src/battle/battle-session.round-flows.test.ts",
+          "title": "W2 跨轮策略 A 持续自动：开启后零菜单按键连续多轮自动攻击到终态",
+          "firstLines": ["AssertionError: expected 'menu' to be 'over' // Object.is equality"]
+        }
+      ],
+      "meaning": "mutation rejected"
+    },
+    {
+      "id": "old-disable-repeat",
+      "exit": 1,
+      "passed": 4,
+      "failed": 2,
+      "business": true,
+      "failures": [
+        {
+          "file": "/Users/zhangxu/illegal/type-pal-battle-review/packages/reforge/src/battle/battle-session.round-flows.test.ts",
+          "title": "W2 跨轮策略 R 重复上轮 cast：次轮真实重提同一法术（MP 40→20→0 精确阶梯）",
+          "firstLines": ["AssertionError: expected 20 to be +0 // Object.is equality"]
+        },
+        {
+          "file": "/Users/zhangxu/illegal/type-pal-battle-review/packages/reforge/src/battle/battle-session.round-flows.test.ts",
+          "title": "W2 跨轮策略 R 在 MP 耗尽后降级为普通攻击（第三轮不施法、MP 保持 0）",
+          "firstLines": ["AssertionError: expected 20 to be +0 // Object.is equality"]
+        }
+      ],
+      "meaning": "mutation rejected"
+    },
+    {
+      "id": "old-drop-persistent-writeback",
+      "exit": 1,
+      "passed": 3,
+      "failed": 2,
+      "business": true,
+      "failures": [
+        {
+          "file": "/Users/zhangxu/illegal/type-pal-battle-review/packages/reforge/src/battle/battle-session.writeback-flows.test.ts",
+          "title": "W6 写回与隔离 真实成长写回：choreo applyActorGrowth → world 队员等级/属性真实提升；二次调用幂等",
+          "firstLines": ["AssertionError: expected 1 to be 3 // Object.is equality"]
+        },
+        {
+          "file": "/Users/zhangxu/illegal/type-pal-battle-review/packages/reforge/src/battle/battle-session.writeback-flows.test.ts",
+          "title": "W6 写回与隔离 skillUse 写回：lifetimeLimit 技能真实施放一次 → world.skillUseCounts 入账",
+          "firstLines": ["AssertionError: expected undefined to be 1 // Object.is equality"]
+        }
+      ],
+      "meaning": "mutation rejected"
+    },
+    {
+      "id": "old-terminal-never-settles",
+      "exit": 1,
+      "passed": 0,
+      "failed": 3,
+      "business": true,
+      "failures": [
+        {
+          "file": "/Users/zhangxu/illegal/type-pal-battle-review/packages/reforge/src/battle/battle-session.terminal-flows.test.ts",
+          "title": "W5 终态与结算 victory：真实击杀→settlement 恰一次→300ms 边界前不兑现→精确 resolve victory",
+          "firstLines": ["AssertionError: expected 'pending' to be 'done' // Object.is equality"]
+        },
+        {
+          "file": "/Users/zhangxu/illegal/type-pal-battle-review/packages/reforge/src/battle/battle-session.terminal-flows.test.ts",
+          "title": "W5 终态与结算 defeat：玩家被真实击杀→零 settlement→done 精确 resolve defeat",
+          "firstLines": ["AssertionError: expected 'pending' to be 'done' // Object.is equality"]
+        },
+        {
+          "file": "/Users/zhangxu/illegal/type-pal-battle-review/packages/reforge/src/battle/battle-session.terminal-flows.test.ts",
+          "title": "W5 终态与结算 playerFled：Q 快捷逃跑（fleeRate 100）→done 精确 resolve playerFled",
+          "firstLines": ["AssertionError: expected 'pending' to be 'done' // Object.is equality"]
+        }
+      ],
+      "meaning": "mutation rejected"
+    },
+    {
+      "id": "old-preparing-mutates-mp",
+      "exit": 1,
+      "passed": 4,
+      "failed": 1,
+      "business": true,
+      "failures": [
+        {
+          "file": "/Users/zhangxu/illegal/type-pal-battle-review/packages/reforge/src/battle/battle-session.script-flows.test.ts",
+          "title": "W4 敌钩子与屏障组合 屏障挂起：pending 期间按键零业务副作用（MP 不偷扣），放行后真实推进",
+          "firstLines": ["AssertionError: expected 36 to be 40 // Object.is equality"]
+        }
+      ],
+      "meaning": "mutation rejected"
+    },
+    {
+      "id": "growth-magic-attack-lost",
+      "exit": 0,
+      "passed": 34,
+      "failed": 0,
+      "business": false,
+      "failures": [],
+      "meaning": "mutation survived"
+    },
+    {
+      "id": "skill-removal-lost",
+      "exit": 0,
+      "passed": 34,
+      "failed": 0,
+      "business": false,
+      "failures": [],
+      "meaning": "mutation survived"
+    },
+    {
+      "id": "ready-hook-loses-next-enemy-action",
+      "exit": 0,
+      "passed": 34,
+      "failed": 0,
+      "business": false,
+      "failures": [],
+      "meaning": "mutation survived"
+    },
+    {
+      "id": "hp-writeback-hardcoded-one",
+      "exit": 0,
+      "passed": 5,
+      "failed": 0,
+      "business": false,
+      "failures": [],
+      "meaning": "mutation survived"
+    }
+  ],
+  "cleanup": {
+    "originalFailure": true,
+    "settledAtBodyExit": false,
+    "settledAfterObserverConsumes": true
+  },
+  "actualToolCriterion": {
+    "correct": "detected",
+    "wrongSuite": "detected",
+    "wrongFile": "detected",
+    "wrongMarker": "detected",
+    "mixedSuiteError": "detected",
+    "timeoutFirstLine": "invalid",
+    "timeoutLaterLine": "detected"
+  },
+  "hashes": {
+    "/Users/zhangxu/illegal/type-pal-battle-review/packages/reforge/src/battle/battle-session.ts": "24cdd3e539e2248149ebd79fa9bced2250b6e56e9a215adb92f52029634c5ab1",
+    "/Users/zhangxu/illegal/type-pal-battle-review/packages/reforge/src/__tests__/battle-workflows/session-driver.ts": "fd8a0577e005e69b9dbd4ec9db31ca47adef474f73b72eec19bf7214a302b476",
+    "/Users/zhangxu/illegal/type-pal-battle-review/packages/reforge/src/__tests__/battle-workflows/catalog.ts": "42ec232e5963b072e55b8a2796acbee53fc573b8bbd4ddab1525f3dd46b2a587",
+    "/Users/zhangxu/illegal/type-pal-battle-review/packages/reforge/src/__tests__/battle-workflows/controlled-io.ts": "7a3bfee1a8dd8d1ee0653f0d004c8641a3b6bf1a24587c1226ae75ddc7619957",
+    "/Users/zhangxu/illegal/type-pal-battle-review/packages/reforge/src/battle/battle-session.selection-flows.test.ts": "88c08dae016beac36984c40459c92d0764623118fe8a8a27db328c9b562430bf",
+    "/Users/zhangxu/illegal/type-pal-battle-review/packages/reforge/src/battle/battle-session.round-flows.test.ts": "108c1db5021d1e060eaef4079331646e9b7b0ad38d6f24a5242e27db5a9bc03f",
+    "/Users/zhangxu/illegal/type-pal-battle-review/packages/reforge/src/battle/battle-session.action-flows.test.ts": "41723cfb7c426e6daae8a26c397c839082d68f0dd468d2da7c727c2849b4b655",
+    "/Users/zhangxu/illegal/type-pal-battle-review/packages/reforge/src/battle/battle-session.script-flows.test.ts": "5b02831c87eb7325f2389e6f8f57fb92aff8f7c73257d370c107418cf68348ac",
+    "/Users/zhangxu/illegal/type-pal-battle-review/packages/reforge/src/battle/battle-session.terminal-flows.test.ts": "5c922dd64785fc703734ccf73ec083a76ebdd4a5c737f75309f4f62ba8b3a55a",
+    "/Users/zhangxu/illegal/type-pal-battle-review/packages/reforge/src/battle/battle-session.writeback-flows.test.ts": "8303e35ec04846d4257c45ac75af743c993bba8211522138e8d0af4bf40b06ed",
+    "/Users/zhangxu/illegal/type-pal-battle-review/docs/testing/glm-battle-workflows-mutants.mjs": "10602cc2dfdf19153416b1eee73912ca5be83e1922769c1b31ba9dd9b91ccfac"
+  },
+  "witnessOutput": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/battle-workflows-r2-review-xQlNuE",
+  "closedCards": {
+    "candidate": "b6286df0",
+    "kimi": "aa436d9f",
+    "glm": "326e4906",
+    "doneCommit": "a13a66f7",
+    "receiptSync": "22c76c1e",
+    "coverageCI": "https://github.com/IllegalCreed/type-pal/actions/runs/35863778645",
+    "ciConclusion": "success"
+  },
+  "boundaries": [
+    "No candidate disk edits",
+    "Original r1 witness unchanged",
+    "External IO casts not conflated with invalid business fixtures",
+    "No official check, ratchet, strict or union coverage in this intake",
+    "No Kimi handoff; remain rework",
+    "Product compatibility audit pass; test contract acceptance counter"
+  ]
+}
