@@ -325,7 +325,38 @@ Production Freeze: `57dda7ed2376fc25f07756be117bb4a058d09915`
 ### done前
 
 - Codex：**accept（实施者自验，不算独立第三方；2026-09-22，候选27bd8c00，对比967b35fb）**。GLM原A/B贡献6839ea78/816c32ce保留并披露；本席修正guard/实参/取消链并完成C～F。25新测试、9薄fixture、2工具，163项（A25/B40/C20/D14/E45/F19）；所有25产品目标和旧测试零改。4个全新套件正控/17个精确候选AssertionError负控、PNG独立CRC/原字节检查通过；各包TC/37代码JSON文件Biome通过。完整check8281、官方ratchet及保护967b35fb的**单次strict-fast7790/633**全部exit0，私有对照与官方分子完全相同，另三包完整基线不变。净增673L/761S/84F/572B；未伪称全部文件95/90，未覆盖/无现行caller/防御及F输入解耦归属见回执、机账。旧版本兼容审查pass，未加兼容层或把F离线桥带回产品；未做visual/full/Q1/Q2。原GLM假fixture、Codex开发/工具错误与所有修正日志如实记录。证据：`docs/testing/glm-coverage-wave2-receipt.md`当前Codex节、机账`codexImplementation`、`/tmp/type-pal-wave2-build-Pq8YxT/`及`/tmp/type-pal-wave2-coverage-fivq93/`。
-- GLM：pending（测试贡献者自验，不算独立第三方）。
+- GLM：**accept（2026-09-23，候选 27bd8c00 对比 967b35fb，集成 f703e49c；**披露：本人是原 A/B 组
+  测试贡献者（6839ea78/816c32ce），额度耗尽后由 Codex 复验修正 A/B 并完成 C～F；本签为测试贡献者
+  对最终候选的自验复核，**不作为独立第三方自证**——独立终审以 Kimi 同候选 accept 为准**）。
+  本席独立复跑与直读证据（未读 Kimi 本轮结论）：
+  - **白名单/零改核验**：`git diff --name-only 967b35fb..27bd8c00` 的 packages 变更恰为
+    25 个 `<stem>.wave2.test.ts` + 9 个 `__tests__/coverage-wave2/` 薄 fixture（本席逐一 ls 核对
+    在盘）+2 工具；非白名单仅 baseline.fast.json（官方 ratchet 生成）与 docs——产品/旧测试/
+    公共 fixture/配置零改。
+  - **163 项定向本人四包复跑全绿**：reforge 49/49、editor 50/50、content 45/45、migrate 19/19
+    （逐文件计数与机账 `codexImplementation.tests` 25 行清单一致，合计 163）。
+  - **mutants 工具本人复跑 rc=0**：4 完整新套件正控（reforge/editor/content/migrate-control 全
+    green）+ 17 针全部 business red（A-multi-target/A-abort-before-commit/A-session-drift/
+    B-reread-project/B-text-freeze/B-json-freeze/B-abort-listener/B-confirmation-set/C-distinct-sites/
+    C-redo-fork/D-canonical-refresh/D-proof-generation/E-probability-upper/E-item-count/F-sound-sign/
+    F-locale-drift/F-authored-partition），输出
+    `/var/folders/.../type-pal-wave2-mutants-lGuNqq/`。v5 六针全部在 17 针中兑现（A03→A-multi-target、
+    B04→B-text/json-freeze、C02→C-distinct-sites、D03→D-proof-generation、E01→E-probability-upper、
+    F03→F-authored-partition）。
+  - **抽读一手锚点**：A05 会话漂移/提交前后取消链在 `script-project-core.wave2.test.ts:122/:144/
+    :176-206/:208`（真实 harness 于 effect 内换 session 后 commit，AbortError+端点零写入零通知）；
+    E01 概率域 0..100（`enemy-script.wave2.test.ts:15-17` good100/bad101 与 `.percent: 期望 0..100`）；
+    D03 真实 proof generation（`tileset-references.wave2.test.ts:25-39` 用真实 scan batch 的新
+    generation 拒旧 proof）；F02 独立 36 locale 键（`pal-casualty-scripts.wave2.test.ts:15-20`）。
+    本席原 A/B 6 文件被 Codex 保留并扩充（adapter 7→6 项含修正、core 12→11、assets 4→11 等），
+    本人原提交的断言语义未改义。
+  - **覆盖与剩余归属**：净增 673L/572B（机账四包对照），25 目标单列；未达 whole-file 95/90、
+    `script-references.ts:110-365` 与 `BaseScriptProjectRuntime` 无现行 caller、F fast 输入解耦
+    均如实留账不报新增——与本人 v5 映射的 NEW/PEND/UNREACH 收敛方向一致，无反证。
+  - **TC/Biome**：四包 typecheck rc=0；34 个新代码文件+3 工具/机账 Biome check 零问题。
+  - 完整 check8281/ratchet/单次 strict7790/远端 CI 为 Codex 已落证据，本席不复述为自验、不并发
+    重跑官方覆盖率。旧版本兼容审查：pass——无兼容层、未把 F 离线桥带回产品、历史 translator/
+    reportHookSources=false 保持排除。无 counter。
 - Kimi：**accept（2026-09-23，候选27bd8c00对比967b35fb，已集成f703e49c；锚点本人直读/主树复跑，GLM 原贡献不算独立审查）**。
   - **范围与基线**：packages 34 个变更文件路径全部属 wave2 白名单（25 测试+9 fixture），
     非白名单产品/旧测试零改动；baseline 7627→7790（恰+163），content 798→843，另三包对象
@@ -354,6 +385,14 @@ Production Freeze: `57dda7ed2376fc25f07756be117bb4a058d09915`
 - done准入结论：blocked；2026-09-23用户确认GLM额度恢复，待GLM与Kimi同候选27bd8c00各自accept。无缺签豁免；GLM原贡献不作为独立第三方自证，Codex不代签，不以本人自验替代Kimi独立终审。
 
 ## 交接日志
+
+- 2026-09-23 GLM（贡献者复核）：额度恢复后对候选 27bd8c00（对比 967b35fb，集成 f703e49c）
+  签 done 前 accept（证据见本席；披露原 A/B 组贡献者身份 6839ea78/816c32ce，不作为独立第三方
+  自证）：白名单 25+9+2 与产品/旧测试零改逐一核过；四包定向 163/163 本人复跑绿；mutants 4 正控
+  +17 针本人复跑 rc=0 全 business red（v5 六针全部兑现）；A05 漂移链/E01 概率域/D03 generation/
+  F02 36 键抽读一手锚点；四包 TC rc=0、37 新文件 Biome 零问题；覆盖 673L/572B 与剩余归属与 v5
+  映射一致无反证。未读 Kimi 本轮结论、不重跑官方覆盖率、未改实现/他席/共享状态，不代签、不标
+  done；由 Codex 统一收口。
 
 - 2026-09-23 Kimi（独立终审）：对候选27bd8c00（对比967b35fb，集成f703e49c）签 done 前
   accept，单列旧兼容 pass。独立证据：范围 34 文件全属 wave2 白名单、baseline +163 与另三包
