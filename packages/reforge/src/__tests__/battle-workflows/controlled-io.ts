@@ -3,9 +3,10 @@
  * 声音播放用记录器（只记录 AssetId 序列，不播）；GlyphTable 空实现与旧单测同型
  * （has/get 兜底，不参与断言）；palette/glyph 属渲染资源替身，不 mock 被测业务本体。
  */
-import type { SfxPlayer } from '../../../audio/sfx.js'
-import type { GlyphTable } from '../../../text/glyph.js'
+
 import type { Palette } from '@type-pal/shared'
+import type { SfxPlayer } from '../../audio/sfx.js'
+import type { GlyphTable } from '../../text/glyph.js'
 
 /** 记录型 SfxPlayer：每次 play 记 AssetId；不播放。 */
 export function recordingSfx(): { player: SfxPlayer; plays: string[] } {
@@ -28,11 +29,12 @@ export const stubPalette: Palette = {
   cycles: [],
 } as unknown as Palette
 
-/** 确定性 RNG 工厂：固定序列循环或恒定值。 */
+/** 确定性 RNG 工厂：固定序列循环。 */
 export function fixedRng(values: readonly number[] = [0]): () => number {
   let index = 0
   return () => {
-    const value = values[index % values.length]!
+    const value = values[index % values.length]
+    if (value === undefined) throw new Error('fixedRng: values 不能为空')
     index += 1
     return value
   }

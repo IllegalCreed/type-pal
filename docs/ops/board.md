@@ -26,7 +26,7 @@ GLM后续补测候选见[十批长队列](../testing/glm-coverage-work-queue.md)
 
 | ID | 任务 | 状态 | 负责人/下一步 | 一句话备注 |
 |---|---|---|---|---|
-| TEST-BATTLE-WORKFLOWS-1 | [战斗会话完整流程补测](tasks/TEST-BATTLE-WORKFLOWS-1-session-flows.md) | rework | GLM按Codex R1～R4返工16ac8cee | 31/1409绿但正式guard拒fixture、多种坏实现仍绿、Biome失败；未接收，不合并/不改基线 |
+| TEST-BATTLE-WORKFLOWS-1 | [战斗会话完整流程补测](tasks/TEST-BATTLE-WORKFLOWS-1-session-flows.md) | rework | GLM r2候选已交付，待Codex独立重新接收 | R1～R4一次闭合：白名单内9文件34项、6+9负控全detected、1412/TC/Biome绿；未接收，不合并/不改基线 |
 | TEST-RUNTIME-SHELL-COVERAGE-1 | [真实启动与菜单宿主流程补测](tasks/TEST-RUNTIME-SHELL-COVERAGE-1-boot-menu-flows.md) | build | Codex候选1d3d3fb3已推独立分支；Kimi窄核STAT-1 | 36/1414/8针通过；局部+1615L/+799B含旧计数异常，未更新官方基线，待并集门禁 |
 
 2026-09-23 [第二波六领域非视觉补测](../testing/glm-coverage-wave2-receipt.md)候选27bd8c00三席accept齐（Codex实施者自验、GLM贡献者复核d8b9dfa7、Kimi独立终审5b44c37d），用户确认后Codex核零漂移并done归档。163项/17针、check8281/单次strict7790与集成f703e49c双CI为既有证据；未达whole-file目标、无caller旧入口、E-05/U-02/frame政策和full/Q1/Q2边界保持。本次只做文档收口，不重跑覆盖率。

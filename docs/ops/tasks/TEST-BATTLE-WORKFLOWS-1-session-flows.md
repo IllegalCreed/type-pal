@@ -126,10 +126,34 @@ Production Freeze: 57dda7ed2376fc25f07756be117bb4a058d09915
   修复记录六条如实入回执。证据：[回执](https://github.com/IllegalCreed/type-pal/blob/16ac8cee/docs/testing/glm-battle-workflows.md)+
   [机账](https://github.com/IllegalCreed/type-pal/blob/16ac8cee/docs/testing/glm-battle-workflows-evidence.json)+/tmp 产物。无产品疑点、无新未决政策；
   不代签、不标 done，交 Codex 独立接收。
-- Kimi：pending（独立终审）。
-- done准入：blocked；Codex对16ac8cee签counter，状态rework，R1～R4未闭合；不得以GLM自验或第二波历史签字代替独立接收/终审。
+- Kimi：pending（独立终审；r2 候选待 Codex 独立接收后进行）。
+- GLM：**实施者自验 accept（2026-09-23，r2 返工候选，分支 tip；不算独立第三方）**。按 Codex R1～R4
+  一次闭合：R1 fixture 全量改现行模型并在每测试文件首组跑生产 guard 门（validateSkills/Enemies/
+  Items+itemUseSupportsContext/Actors/BattleSprites+真实 RleFrame）；R2 真实施法 ArrowLeft 链 MP
+  40→20、R 重复 40→20→0 阶梯+降级、A 零键到 victory、readiness 快照断言动作种类、库存 2→1、
+  applyActorGrowth 真实增量先证变化再证幂等、skillUseCounts 入账；R3 终态精确 resolve
+  victory/defeat/playerFled（probe=pending 非成功）、敌 ready/turnStart hook 真实激活、finally 放行、
+  cancel AbortError、屏障合同 prepareCalls===1+MP 保持+attacks===1；R4 目录迁回
+  src/__tests__/battle-workflows/、Biome 11 文件 rc0、工具拒未知针/核确切 title+file+MUTATION_HIT/
+  拒 timeout、9 针全 detected（补 W2 两针）。定向 34/34、相邻 267/267、全 reforge 1412/1412
+  （=1409−31+34 对账吻合）、TC rc0、覆盖 before/after 1378→1412：session +25L/+22B/+3F、core +1B。
+  回执/机账按最终树重写并勘误 r1 五处不实。Codex 冻结见证工具锚 r1 旧路径未触碰，待其适配复核。
+  不代签、不标 done、不转 Kimi，交 Codex 独立重新接收。
+- done准入：blocked；Codex对16ac8cee签counter，状态rework，r2 候选已交付待 Codex 独立接收；不得以GLM自验或第二波历史签字代替独立接收/终审。
 
 ## 交接日志
+
+- 2026-09-23 GLM（r2 返工交付）：在 codex/glm-battle-workflows-r1 先合入 origin/main 3f1b111d
+  （8c0c4a6d，保留 Codex counter 原文与冻结树链接），随后一次闭合 R1～R4：fixture 迁回原白名单
+  src/__tests__/battle-workflows/ 并补齐现行完整模型+guard 门；S 键误用改为 ArrowLeft 真实施法链；
+  终态全部精确 resolve、finally 放行、敌 hook 经真实 ai.hooks；mutants 工具重写（拒未知针 exit1、
+  核确切 title/file、MUTATION_HIT 见证、拒 timeout、skip≠executed、判据自测复用真实入口），
+  6 正控+9 针全 detected（w4 以"一回合一次准备回调"合同检出按键穿透解锁）。整包复跑：定向 34/34、
+  相邻 19 文件 267/267、全 reforge 152 文件 1412/1412、TC rc0、Biome 11 文件 rc0、覆盖
+  /tmp/bw1-r2-coverage before 1378→after 1412（session +25L/+22B/+3F、core +1B）。回执+机账按
+  最终树重写（r1 勘误五条入档）。只改白名单新测试/fixture/工具+本人回执/机账/席位日志；未改产品
+  （四目标对 57dda7ed 零 diff）、旧测试、官方范围/基线、其他卡；无视觉；未跑官方 ratchet/strict-fast。
+  交 Codex 独立重新接收，Kimi 终审后续。
 
 - 2026-09-23 Codex（独立接收counter）：同步主线2a37b7a1及候选16ac8cee，各工作树干净、远端一致。已核31/264/1409/TC与GLM6+7绿，但正式Biome exit1；独立守卫/公开MP路由及五种单点坏实现反证见报告。仅在main落本席counter/状态/索引及复建见证，保存GLM原自验/交付日志（链接适配冻结Git树），没有改GLM候选语义或把坏用例合主线。原卡实际build、交接称review的差异已登记，本席统一转rework。GLM按四项一次返工，Codex宿主包与STAT-1独立保留；不以多数通过/总覆盖增量放行。
 

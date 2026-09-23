@@ -1,92 +1,137 @@
 /**
- * TEST-BATTLE-WORKFLOWS-1 W2：跨轮策略（F 本轮/R 重复/A 持续自动与 Esc 退出）。
- * 上一轮经公开 tick 真实提交；次轮资源耗尽或目标消失走当前降级；断言选择/实际
- * HP-库存结果与第三轮状态。旧「R 真实重复技能」只证正常重复轴，不重写；
- * 不凭空预置 lastActs（一切经公开输入驱动）。
+ * TEST-BATTLE-WORKFLOWS-1 W2：跨轮策略（A 持续自动/F 本轮/R 重复与 Esc 退出）。
+ * 一切经公开输入驱动：第一轮真实施法（ArrowLeft→确认→目标→确认），后续轮用 A/F/R；
+ * 断言以完整业务结果为准——轮次推进次数、MP 精确阶梯、R 降级为 attack 的日志语义。
+ * 不凭空预置 lastActs。
  */
 import { describe, expect, test } from 'vitest'
-import { attackSkill, wfEnemy, wfPlayer } from './__tests__/battle-workflows/catalog.js'
-import { makeWfSession, type WfHarness } from './__tests__/battle-workflows/session-driver.js'
+import { wfEnemy, wfPlayer, wfSkill } from '../__tests__/battle-workflows/catalog.js'
+import { makeWfSession, type WfHarness } from '../__tests__/battle-workflows/session-driver.js'
 
-const runActing = (h: WfHarness, ticks = 16): void => {
-  for (let i = 0; i < ticks; i += 1) h.idle(500)
+/** 提交后先空一帧让回合真正开始（单人提交当帧回菜单、次帧才进准备），
+ * 再空跑至回到菜单。直接在 menu 相位短路会漏掉整个回合执行。 */
+const runRound = (h: WfHarness, maxFrames = 200): boolean => {
+  h.idle(500) // 触发 nextSelecting → beginTurnPreparation
+  for (let i = 0; i < maxFrames; i += 1) {
+    if (h.session.debugReadiness().phase === 'menu') return true
+    h.idle(500)
+  }
+  return h.session.debugReadiness().phase === 'menu'
 }
 
-/** 完成一轮默认攻击并等待回到菜单（敌未死时）。 */
-const fightOneRound = (h: WfHarness): void => {
-  h.press([' '])
-  h.press([' '])
-  runActing(h)
+/** 首轮真实施法：ArrowLeft 选法术→确认→选目标→确认，并跑完行动回菜单。 */
+const castFirstRound = (h: WfHarness): void => {
+  h.press(['ArrowLeft'])
+  h.press([' ']) // 进入法术列表
+  h.press([' ']) // 选中技能 → 目标选择
+  h.press([' ']) // 确认目标 → 提交 cast
+  expect(runRound(h)).toBe(true)
 }
 
 describe('W2 跨轮策略', () => {
-  test('A 持续自动：开启后无需再按菜单键，自动完成多轮直到终态', () => {
-    const h = makeWfSession({ players: [wfPlayer('p1')], enemies: [wfEnemy('e1', { health: 60 })] })
-    fightOneRound(h) // 第一轮手动
-    h.press(['a', 'A']) // 开启持续自动
-    for (let i = 0; i < 200 && h.session.debugReadiness().phase !== 'over'; i += 1) h.idle(500)
-    expect(['over', 'menu']).toContain(h.session.debugReadiness().phase)
+  test('A 持续自动：开启后零菜单按键连续多轮自动攻击到终态', () => {
+    const h = makeWfSession({
+      players: [wfPlayer('p1', { attackStrength: 60 })],
+      enemies: [wfEnemy('e1', { health: 500, attackStrength: 1 })],
+    })
+    h.press(['a', 'A']) // 开启持续自动（菜单内直接提交本轮并持续）
+    h.idle(500) // 让第一轮真正开始
+    // 之后完全不按菜单键：自动逐轮攻击直至 victory
+    for (let i = 0; i < 400 && h.session.debugReadiness().phase !== 'over'; i += 1) h.idle(500)
+    expect(h.session.debugReadiness().phase).toBe('over')
+    const attacks = h.session
+      .debugLog()
+      .filter((line) => line.includes('p1') && line.includes('攻击'))
+    expect(attacks.length).toBeGreaterThanOrEqual(2) // 多轮真实自动攻击
   })
 
-  test('Esc 退出自动：恢复手动菜单', () => {
+  test('Esc 退出 A 自动：退出后不再自动提交（无按键时轮次停滞在菜单）', () => {
     const h = makeWfSession({
       players: [wfPlayer('p1')],
-      enemies: [wfEnemy('e1', { health: 200 })],
+      enemies: [wfEnemy('e1', { health: 500, attackStrength: 1 })],
     })
-    fightOneRound(h)
     h.press(['a', 'A'])
     h.idle(500)
-    h.press(['Escape']) // 退出自动
-    const phase = h.session.debugReadiness().phase
-    expect(['menu', 'acting']).toContain(phase) // 退出后不再自动推进菜单
+    // 每帧带 Escape：当自动轮结束回到 selecting tick 时，Escape 先于自动提交被处理
+    for (let i = 0; i < 60; i += 1) h.press(['Escape'], 500)
+    expect(h.session.debugReadiness().phase).toBe('menu')
+    // 无菜单按键 → 停在菜单（不自动提交；区别于 A 开启时的自动推进）
+    expect(h.session.debugReadiness().phase).toBe('menu')
+    const attacksBefore = h.session
+      .debugLog()
+      .filter((line) => line.includes('p1') && line.includes('攻击')).length
+    for (let i = 0; i < 50; i += 1) h.idle(500)
+    const attacksAfter = h.session
+      .debugLog()
+      .filter((line) => line.includes('p1') && line.includes('攻击')).length
+    expect(attacksAfter).toBe(attacksBefore) // 退出后零新增自动攻击
   })
 
-  test('F 本轮攻击：当前轮以普通攻击执行，不残留到下一轮', () => {
-    const h = makeWfSession({ players: [wfPlayer('p1')], enemies: [wfEnemy('e1', { health: 80 })] })
-    fightOneRound(h) // 第一轮正常
-    h.press(['f', 'F']) // 本轮强制攻击
-    runActing(h)
-    // 第二轮后菜单仍在（未死），且后续仍可手动选择
-    const phase = h.session.debugReadiness().phase
-    expect(['menu', 'over']).toContain(phase)
-  })
-
-  test('R 重复上轮：次轮真实重提同一 cast（有 MP），第三轮 MP 耗尽时降级', () => {
-    const skill = attackSkill('wf-strike', 20)
+  test('F 本轮攻击：当前轮以普通攻击执行；下一轮菜单回归手动（sticky 轮末清）', () => {
     const h = makeWfSession({
       players: [wfPlayer('p1', { skills: ['wf-strike'], mp: 40, maxMp: 40 })],
       enemies: [wfEnemy('e1', { health: 500, attackStrength: 1 })],
-      extraOpts: { skills: { 'wf-strike': skill } },
+      extraOpts: { skills: { 'wf-strike': wfSkill('wf-strike', 20) } },
     })
-    // 第一轮：法术菜单选技能施放
-    h.press(['s', 'S'])
-    h.press([' '])
-    h.press([' '])
-    h.press([' '])
-    runActing(h)
-    // 第二轮：R 重复上轮 cast
-    h.press(['r', 'R'])
-    runActing(h)
-    // 第三轮：MP 已耗尽（40-20-20=0），R 应走当前降级（普通攻击）不崩溃
-    h.press(['r', 'R'])
-    runActing(h)
-    const players = h.session.debugPlayers()
-    expect(players[0]!.roleId).toBe('p1')
-    expect(players[0]!.hp).toBeGreaterThan(0) // 敌未打死，战斗继续但玩家活着
+    h.press(['f', 'F']) // 本轮强制攻击
+    expect(runRound(h)).toBe(true)
+    expect(h.readParty()[0]!.mp).toBe(40) // F 是 attack 不是 cast：MP 不扣
+    // 下一轮：菜单手动等待（不自动提交）
+    for (let i = 0; i < 50; i += 1) h.idle(500)
+    expect(h.session.debugReadiness().phase).toBe('menu')
+    expect(h.readParty()[0]!.mp).toBe(40) // 无自动 cast 残留
   })
 
-  test('目标消失降级：上轮目标敌已死后 R 重复换当前合法目标', () => {
+  test('R 重复上轮 cast：次轮真实重提同一法术（MP 40→20→0 精确阶梯）', () => {
     const h = makeWfSession({
-      players: [wfPlayer('p1', { attackStrength: 200 })],
+      players: [wfPlayer('p1', { skills: ['wf-strike'], mp: 40, maxMp: 40 })],
+      enemies: [wfEnemy('e1', { health: 500, attackStrength: 1 })],
+      extraOpts: { skills: { 'wf-strike': wfSkill('wf-strike', 20) } },
+    })
+    castFirstRound(h)
+    expect(h.readParty()[0]!.mp).toBe(20) // 第一轮真实施法
+    h.press(['r', 'R']) // R 重复 → 重提同一 cast
+    expect(runRound(h)).toBe(true)
+    expect(h.readParty()[0]!.mp).toBe(0) // 第二轮重复施法
+    const casts = h.session.debugLog().filter((line) => line.includes('施展'))
+    expect(casts.length).toBe(2) // 两轮各一次真实施法
+  })
+
+  test('R 在 MP 耗尽后降级为普通攻击（第三轮不施法、MP 保持 0）', () => {
+    const h = makeWfSession({
+      players: [wfPlayer('p1', { skills: ['wf-strike'], mp: 40, maxMp: 40 })],
+      enemies: [wfEnemy('e1', { health: 500, attackStrength: 1 })],
+      extraOpts: { skills: { 'wf-strike': wfSkill('wf-strike', 20) } },
+    })
+    castFirstRound(h) // 40→20
+    h.press(['r', 'R']) // 20→0
+    expect(runRound(h)).toBe(true)
+    h.press(['r', 'R']) // MP=0 → cast 不可用 → 降级 attack
+    expect(runRound(h)).toBe(true)
+    expect(h.readParty()[0]!.mp).toBe(0) // 降级不产生施法扣费
+    const casts = h.session.debugLog().filter((line) => line.includes('施展'))
+    expect(casts.length).toBe(2) // 只有前两轮施法
+    const attacks = h.session
+      .debugLog()
+      .filter((line) => line.includes('p1') && line.includes('攻击'))
+    expect(attacks.length).toBeGreaterThanOrEqual(1) // 第三轮真实降级为攻击
+  })
+
+  test('R 目标消失降级：上轮目标死后重复动作换当前存活敌继续攻击', () => {
+    const h = makeWfSession({
+      players: [wfPlayer('p1')],
       enemies: [
-        wfEnemy('dead-first', { health: 5 }),
+        wfEnemy('dead-first', { health: 1, defense: 0 }),
         wfEnemy('survivor', { health: 500, attackStrength: 1 }),
       ],
     })
-    fightOneRound(h) // 杀死第一敌（默认选第一目标）
-    h.press(['r', 'R']) // 重复攻击 → 应指向存活敌
-    runActing(h)
-    const players = h.session.debugPlayers()
-    expect(players[0]!.hp).toBeGreaterThan(0)
+    h.press([' ']) // 默认攻击第一敌
+    h.press([' '])
+    expect(runRound(h)).toBe(true) // 第一敌死亡
+    h.press(['r', 'R']) // 重复 attack → 指向存活敌
+    expect(runRound(h)).toBe(true)
+    const survivorHits = h.session.debugLog().filter((line) => line.includes('survivor'))
+    expect(survivorHits.length).toBeGreaterThanOrEqual(1) // 存活敌真实受击
+    expect(h.readParty()[0]!.hp).toBeLessThan(100) // 战斗继续（存活敌反击）
   })
 })
