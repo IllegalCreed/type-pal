@@ -87,7 +87,7 @@ describe('W4 敌钩子与屏障组合', () => {
     expect(sfx.plays).toContain('sound.intro')
   })
 
-  test('敌 hook 等待与选择恢复：wait 期间输入零提交，hook 完成后菜单恢复可继续', async () => {
+  test('敌 hook 等待与选择恢复：wait 期间零提交（readiness 快照为证），hook 完成后菜单恢复可继续', async () => {
     const sfx = recordingSfx()
     const enemy = wfEnemy('waiter', { attackStrength: 1, health: 500 })
     enemy.ai.hooks = {
@@ -104,30 +104,49 @@ describe('W4 敌钩子与屏障组合', () => {
         },
       },
     }
-    const h = makeWfSession({ players: [wfPlayer('p1', { attackStrength: 30 })], enemies: [enemy] })
+    // 公开 readiness 观察器：prepareTurnSounds 只在动作真正提交进出手准备时被调；
+    // 「等待期输入可以提前提交、只是执行被后层挡住」的坏实现会把动作提前交进来（N2 oracle）
+    const readinessSnapshots: unknown[] = []
+    const h = makeWfSession({
+      players: [wfPlayer('p1', { attackStrength: 30 })],
+      enemies: [enemy],
+      extraOpts: {
+        prepareTurnSounds: (snapshot: unknown) => {
+          readinessSnapshots.push(snapshot)
+          return Promise.resolve()
+        },
+      },
+    })
     Object.assign(h.assets, { sfx: sfx.player })
     h.idle(16) // 第一 tick：turnStart hook 激活并进入 wait
-    // 等待窗口（<400ms）内乱按确认：hook 未完成 → 输入不得提交任何行动
+    // 等待窗口（累计 <400ms）内连按确认：hook 未完成 → 不得提交任何行动（零提交，非仅未执行）
     for (let i = 0; i < 8; i += 1) h.press([' '], 16)
     expect(sfx.plays).not.toContain('sound.after-wait') // hook 仍在等待
-    expect(h.session.debugLog().filter((line) => line.startsWith('p1 ')).length).toBe(0) // 零提交（等待期间输入全部被 hook 泵消费）
-    // 时间推过 wait：hook 完成（尾音作证）→ 选择恢复
+    expect(readinessSnapshots.length).toBe(0) // 零提交：无任何动作被交进出手准备
+    expect(h.session.debugReadiness().phase).toBe('menu') // 选择未被推进（未被吞进 acting/preparing）
+    expect(h.session.debugLog().filter((line) => line.startsWith('p1 ')).length).toBe(0)
+    // 时间推过 wait：hook 完成（尾音作证）→ 选择恢复；被吞掉的按键没有留下多余动作
     for (let i = 0; i < 40 && !sfx.plays.includes('sound.after-wait'); i += 1) {
       h.idle(100)
       await flush()
     }
     expect(sfx.plays).toContain('sound.after-wait')
     h.idle(16) // 排干 hook complete 步（该 tick 仍归 hook 泵）
-    // 菜单恢复可继续：默认攻击真实执行
+    expect(readinessSnapshots.length).toBe(0) // 恢复瞬间仍是零提交：早前乱按没有残留动作
+    // 菜单恢复可继续：默认攻击真实执行（恰一笔）
     h.press([' ']) // 菜单确认 → 选敌
     h.press([' ']) // 确认目标 → 提交
+    h.idle(500)
+    await flush()
+    expect(readinessSnapshots.length).toBe(1) // 恰一次出手准备（本次提交）
     for (let i = 0; i < 40; i += 1) {
       h.idle(500)
       await flush()
     }
-    expect(
-      h.session.debugLog().some((line) => line.startsWith('p1 ') && line.includes('攻击')),
-    ).toBe(true)
+    const attacks = h.session
+      .debugLog()
+      .filter((line) => line.startsWith('p1 ') && line.includes('攻击'))
+    expect(attacks.length).toBe(1) // 只有恢复后这一笔攻击（无提前提交/无残留）
   })
 
   test('敌 hook effect 召唤接线：summon 填空槽，新敌随后以自己名义真实攻击', async () => {

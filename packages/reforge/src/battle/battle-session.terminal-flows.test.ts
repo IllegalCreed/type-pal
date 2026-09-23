@@ -8,6 +8,7 @@
  */
 import { describe, expect, test } from 'vitest'
 import { wfEnemy, wfPlayer } from '../__tests__/battle-workflows/catalog.js'
+import { recordingSfx } from '../__tests__/battle-workflows/controlled-io.js'
 import { makeWfSession } from '../__tests__/battle-workflows/session-driver.js'
 
 type WfHarness = ReturnType<typeof makeWfSession>
@@ -153,5 +154,77 @@ describe('W5 终态与结算', () => {
     expect(await probe(h)).toBe('done')
     await expect(h.session.done).resolves.toBe('victory')
     expect(settlementCalls).toBe(1) // 三屏同一次构建；额外确认不再产生新结算
+  })
+
+  test('enemyFled：敌经 turnStart hook fleeBattle 真实逃跑→零 settlement→done 精确 resolve enemyFled', async () => {
+    let settlementCalls = 0
+    const enemy = wfEnemy('flee-hook', { attackStrength: 1, health: 500 })
+    enemy.ai.hooks = {
+      turnStart: {
+        initial: 'escape',
+        states: {
+          escape: {
+            body: [{ kind: 'fleeBattle' }, { kind: 'playSound', asset: 'sound.after-flee' }],
+            next: { kind: 'stay' },
+          },
+        },
+      },
+    }
+    const sfx = recordingSfx()
+    const h = makeWfSession({
+      players: [wfPlayer('p1')],
+      enemies: [enemy],
+      extraOpts: {
+        buildSettlement: () => {
+          settlementCalls += 1
+          return []
+        },
+      },
+    })
+    Object.assign(h.assets, { sfx: sfx.player })
+    for (let i = 0; i < 40; i += 1) {
+      h.idle(500)
+      await flush()
+    }
+    expect(settlementCalls).toBe(0) // 非胜利零结算（本包观察器补齐旧证缺失的零奖励断言）
+    await expect(h.session.done).resolves.toBe('enemyFled') // 经真实行为到达的独立终态
+  })
+
+  test('terminated：encounterChoreo endBattle(terminate) 于第 2 轮到达→零 settlement→done 精确 resolve terminated', async () => {
+    let settlementCalls = 0
+    const h = makeWfSession({
+      players: [wfPlayer('p1', { attackStrength: 1 })],
+      enemies: [wfEnemy('e1', { health: 500, attackStrength: 1 })],
+      extraOpts: {
+        buildSettlement: () => {
+          settlementCalls += 1
+          return []
+        },
+        encounterChoreo: [
+          {
+            at: 'turnStart',
+            once: true,
+            when: { kind: 'turn', op: '>=', value: 2 },
+            body: [{ kind: 'endBattle', result: 'terminate' }],
+          },
+        ],
+      },
+    })
+    // 第 1 轮：防御性普攻推进（敌高血不致死）；第 2 轮起手 → endBattle
+    for (let round = 0; round < 4 && h.session.debugReadiness().phase !== 'over'; round += 1) {
+      h.press([' '])
+      h.press([' '])
+      for (let i = 0; i < 60 && h.session.debugReadiness().phase !== 'menu'; i += 1) {
+        h.idle(500)
+        await flush()
+        if (h.session.debugReadiness().phase === 'over') break
+      }
+    }
+    for (let i = 0; i < 40; i += 1) {
+      h.idle(500)
+      await flush()
+    }
+    expect(settlementCalls).toBe(0) // 终止无奖励（本包观察器补齐旧证缺失的零奖励断言）
+    await expect(h.session.done).resolves.toBe('terminated') // 非 cancel AbortError 的独立终态
   })
 })

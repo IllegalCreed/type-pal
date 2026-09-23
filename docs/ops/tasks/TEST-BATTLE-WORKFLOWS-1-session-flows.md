@@ -9,7 +9,7 @@ Reviewer: both
 Visual Verification Owner: N/A
 Visual Verification Timing: N/A
 Unavailable Agents: 无
-Branch: codex/glm-battle-workflows-r1（当前r3候选7a2f1608；独立worktree）
+Branch: codex/glm-battle-workflows-r1（当前r4候选=分支tip；独立worktree）
 Revision: r1
 Planning Base: f2592597
 Production Freeze: 57dda7ed2376fc25f07756be117bb4a058d09915
@@ -115,8 +115,19 @@ Production Freeze: 57dda7ed2376fc25f07756be117bb4a058d09915
 
 - Codex：**counter（r3候选7a2f1608；设计r1保持）**。39/272/1453、TC/Biome12文件与GLM6+10通过；42次实际会话/8次演员守卫观察通过，r2四个存活变异全部转候选自身AssertionError；finally失败注入现originalFailure/settledAtBodyExit均true，原r2清理/行动者/技能移除/8字段漏验问题关闭。残项N1：奖励后以p1After同对象自比较，删幂等门仍39绿；所谓非空库存仍[]、清空库存仍39绿；HP≥1钳制可由合法两人队伍一人HP0、另一人真实胜利到达，公开oracle写回[1,100]，去钳制候选39绿而oracle红，撤不可达结论。N2：hook等待期间无攻击日志不等于无提交，旁路selectAction泵返回后wait例仍绿，公开readiness实证144ms已提交attack而日志仍空。N3：12个去重标题/行号准确，但core非法动作不等于会话选择、准备快照不等于合击执行、terminated终态标题不代零奖励断言。N4：真实judge仍接受同失败项多消息混普通Error、exit2/null；已修fullName/file/marker/后行timeout/单针数不重开。详见[r3复核](../../testing/battle-workflows-r3-review.md)/[机账](../../testing/battle-workflows-r3-evidence.json)。候选零改、旧两份见证零改，不集成/不跑并集，不代签、不转Kimi。旧兼容审查：pass（产品未改），不等于测试accept。
 - GLM r3实施者回执/原签位于[7a2f1608回执](https://github.com/IllegalCreed/type-pal/blob/7a2f1608/docs/testing/glm-battle-workflows.md)及该树任务卡，保留贡献/声明，不作为独立第三方证明。
+- GLM r4实施者自验：**accept（2026-09-24，r4 收窄返工候选，分支 tip；不算独立第三方）**。合入
+  47be1582（18f1922d）后只闭 N1～N4：N1 幂等改独立 structuredClone 预期快照全等+worldInventory
+  非空哨兵参与深比较+多队员 hp0 胜利钳制精确 [1,100]（撤回 r3 不可达论；三变异开发期自检红后
+  产品已还原）；N2 wait 用例加公开 readiness oracle（等待窗快照 0+phase menu+日志空；pump 旁路
+  单点变异自检红）；N3 新增 coop 有效/无效会话闭环（91 精确/零代价）、W 无投掷物负向、
+  enemyFled/terminated 零 settlement 观察器，去重层级修正表入回执；N4 judge 逐条 failureMessages
+  首行业务断言（同项混错拒收）+必须恰 exit1（exit2/null=invalid），自测 12 类走真实 judge；
+  回执两处勘误（+44B 算术、精灵 guard 落到会话入口）。45/45 定向（13/6/6/8/6/6）、278/278 相邻、
+  1459/1459 全包、TC/Biome rc0、6+10 负控全 detected；覆盖 1414→1459（session +48L/+53B/+8F、
+  anim +49L/+27B/+5F、core +1B）。不代签、不标 done、不转 Kimi、不跑统计并集，交 Codex 独立
+  重新接收。
 - Kimi：pending；按用户要求，接收后另排，无本轮Kimi提示词。
-- 当前done准入：**blocked**；r3仍有N1～N4，保持rework；不重开已修五反证/结构/路径/Biome，不借其它已done卡放行。
+- 当前done准入：**blocked**；r4 候选已交付待 Codex 独立重新接收；已关闭项不重开，不借其它已done卡放行。
 
 #### 历史r2独立接收（2026-09-23，原文保留）
 
@@ -169,6 +180,36 @@ Production Freeze: 57dda7ed2376fc25f07756be117bb4a058d09915
 - done准入：blocked；Codex对16ac8cee签counter，状态rework，r2 候选已交付待 Codex 独立接收；不得以GLM自验或第二波历史签字代替独立接收/终审。
 
 ## 交接日志
+
+- 2026-09-24 GLM（r4 收窄返工交付）：在 codex/glm-battle-workflows-r1 合入 origin/main 47be1582
+  （18f1922d，保留 r1/r2/r3 counter 原文与全部签字/日志），只闭 N1～N4：N1 幂等独立快照全等/
+  worldInventory 非空哨兵/多队员 hp0 胜利钳制 [1,100] 精确（撤回不可达论；幂等门删除、库存清空、
+  钳制 1→0 三变异开发期自检红，产品已还原核零 diff）；N2 wait 零提交 readiness oracle（pump 旁路
+  单点变异自检红）；N3 coop 有效（合体技 恰1、两贡献者 91 精确、队友普攻被消费、victory）/coop
+  无效（落回普攻、HP=100−Σ反击、零合击代价）/W 无投掷物负向/enemyFled 与 terminated 零 settlement
+  观察器五个新会话闭环 + 去重层级修正表；N4 judge 逐条 failureMessages 首行业务断言+必须恰 exit1
+  （exit2/null=invalid），自测 12 类走真实 judge，c1 针 redTest 同步新标题；回执勘误两处（r3 分支
+  净增 +44B 算术、精灵 guard 从"仅 catalog 样本"真正落到会话入口逐实参核验）。整包：定向 45/45、
+  相邻 19 文件 278/278、全 reforge 158 文件 1459/1459、TC rc0、Biome rc0、负控 6+10 全 detected；
+  覆盖 before/after 1414→1459（session +48L/+53B/+8F、anim +49L/+27B/+5F、core +1B）。只改原
+  白名单测试/fixture/工具+本人回执/机账/席位日志；未改产品、旧测试、Codex 历史见证、官方范围
+  基线；无视觉；未跑官方统计并集。交 Codex 独立重新接收，Kimi 待 Codex 通过后另排。
+
+  下一位 Agent 提示词（交 Codex，独立重新接收）：
+
+  > 在你的工作树对 TEST-BATTLE-WORKFLOWS-1 r4 候选（分支 codex/glm-battle-workflows-r1 tip，合入
+  > 47be1582 后整包提交，工作树 /Users/zhangxu/illegal/type-pal-glm-battle）做独立接收复核。先读
+  > 任务卡 r3 接收块（N1～N4 原文）、你本人 docs/testing/battle-workflows-r3-review.md 及机账、GLM
+  > r4 回执 docs/testing/glm-battle-workflows.md 与 glm-battle-workflows-evidence.json。按 N1～N4
+  > 逐条复验：N1 幂等是否以独立 structuredClone 预期快照全等钉住（可复删幂等门反证）、非空库存
+  > 哨兵是否参与深比较、多队员 hp0 胜利钳制 [1,100] 是否精确（你的双人 oracle 同输入）；N2 wait
+  > 等待窗 readiness 快照=0+phase=menu 是否钉住零提交（可复你的 pump 旁路单点变异）；N3 coop
+  > 有效/无效会话闭环（91 精确/零代价/队友消费）、W 无投掷物负向、enemyFled/terminated 零结算
+  > 观察器与去重层级修正表是否如实；N4 judge 是否逐条 failureMessages 拒同项混错、必须恰 exit1
+  > （exit2/null=invalid）、自测 12 类走真实 judge；回执两处勘误（+44B 起算、精灵 guard 落地）与
+  > 树一致。你的 r3 冻结见证按你本人裁定自行适配复跑；已关闭项不重开。输出：对 r4 候选签 accept
+  > 或 counter（附直接反证锚点），更新本卡你的席位与 done 准入；不改 GLM 候选语义、不代签、统计
+  > 并集待实现接收后统一。无下一位 Kimi 提示词，待你接收后另排。
 
 - 2026-09-24 Codex（r3接收counter，前一日开始取证）：核远端7a2f1608与GLM干净工作树一致，复用本人detached复核树，不恢复已清理分支。定向39、相邻272、全包1453、TC/Biome、原工具6+10及单针1+1通过；r2四反证与finally已闭。新残项以独立load变异、公开双人钳制oracle、readiness零提交oracle、实际judge反例核实，未改候选语义。去重12标题/行号全真，证明层级差别已单列。仅在main落本人counter/证据/看板，基线7826/633不动、不跑统计并集；只追N1～N4，不转Kimi。
 

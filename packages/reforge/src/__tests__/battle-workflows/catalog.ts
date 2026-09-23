@@ -133,6 +133,15 @@ export function wfLifetimeSkill(id = 'wf-once', mp = 5): SkillData {
   return { ...wfSkill(id, mp), lifetimeLimit: 1 }
 }
 
+/** 全体合体技（W1/W3 coop 会话闭环；cost.mp 作贡献者 HP 代价，fight.c:3961-3967）。 */
+export function wfCoopSkill(id = 'wf-coop', hpCost = 9): SkillData {
+  return {
+    ...wfSkill(id, hpCost),
+    name: `name.${id}`,
+    target: 'allEnemies',
+  }
+}
+
 /** 战斗可用品（healHp 属 battle 上下文域；validateItems + itemUseSupportsContext 核验）。 */
 export function wfHealItem(id = 'wf-tonic', amount = 30): ItemData {
   return {

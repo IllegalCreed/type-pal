@@ -1,11 +1,13 @@
-// TEST-BATTLE-WORKFLOWS-1 单点负控（r3 判据精化版，闭 C4）。
+// TEST-BATTLE-WORKFLOWS-1 单点负控（r4 判据精化版，闭 N4）。
 // 判据合同：
 //  - 钉名用**正控实跑解析出的唯一 fullName**（转义+^$ 锚定传 -t），验证 failed 项 fullName 精确相等
 //    （同 leaf 后缀的异 suite 不再误收）；
 //  - 文件身份用**规范绝对路径全等**（同后缀的无关项目文件不再误收）；
 //  - MUTATION_HIT 带针身份（`MUTATION_HIT:<needle>`），本针 marker 必须出现且不得出现他针 marker；
-//  - 拒绝混合错误：套件级 message、多失败项、未执行/多执行、Unhandled 错误；
+//  - 拒绝混合错误：套件级 message、多失败项、未执行/多执行、Unhandled 错误，以及
+//    **同一失败项内逐条 failureMessages 的非业务首行**（AssertionError+Error 混错不放行）；
 //  - timeout 拒绝扫**全部行**（首行业务断言、后续行 Test timed out 亦拒）；
+//  - **变异成功必须恰 exit1**：exit0=MISSED；exit2/被杀 null 退出=invalid，不算 detected；
 //  - 正控（兼 fullName 解析）逐组实跑；单针模式只报实际跑过的组数，不虚称 6 组；
 //  - 未知针 exit1；产品 hash 前后不变；判据自测复用真实 judge 入口。
 // 运行：node docs/testing/glm-battle-workflows-mutants.mjs [needle-id]
@@ -121,7 +123,8 @@ const cases = [
       '\n          character.magicAttack += mutation.delta.magicAttack',
       '',
     ),
-    redTest: '真实成长写回：8 字段全部按 before+delta 对账；非目标保真；奖励后二次写回不覆盖',
+    redTest:
+      '真实成长写回：8 字段对账；未参战队员/money/非空库存保真；奖励后二次写回与独立预期全等',
   },
 ]
 
@@ -162,16 +165,29 @@ function judge(item, { runStatus, data, logText, targetFileAbs, resolvedFullName
       executed: executed.length,
     }
   }
-  if (runStatus === 0)
-    return { verdict: 'MISSED', reasons: ['mutated run stayed green'], executed: executed.length }
+  if (runStatus !== 1) {
+    // 变异成功必须恰 exit1：exit0=没抓住（MISSED）；exit2/被杀 null 退出=异常退出，不是业务红
+    const why = runStatus === 0 ? 'mutated run stayed green' : `abnormal exit ${runStatus}`
+    return {
+      verdict: runStatus === 0 ? 'MISSED' : 'invalid',
+      reasons: [why],
+      executed: executed.length,
+    }
+  }
   if (executed.length !== 1) reasons.push(`executed ${executed.length} != 1`)
   if (failed.length !== 1) reasons.push(`failed ${failed.length} != 1`)
   if (failed[0] && resolvedFullName && failed[0].fullName !== resolvedFullName)
     reasons.push(`title identity: ${failed[0].fullName}`)
   const messages = failed.flatMap((f) => f.failureMessages ?? [])
-  const first = (messages[0] ?? '').split('\n', 1)[0] ?? ''
-  if (!/^AssertionError(?:\b|:)|^expect\(/.test(first))
-    reasons.push('first line not business assertion')
+  if (messages.length === 0) reasons.push('no failure messages')
+  // 逐条 failureMessages：每一条的首行都必须是业务断言（同一失败项携带的套件/环境混错不放过）
+  for (const message of messages) {
+    const first = message.split('\n', 1)[0] ?? ''
+    if (!/^AssertionError(?:\b|:)|^expect\(/.test(first)) {
+      reasons.push('non-business message first line')
+      break
+    }
+  }
   for (const message of messages)
     for (const line of message.split('\n'))
       if (/timed out|waitFor/i.test(line)) {
@@ -283,6 +299,45 @@ assert.equal(
   'self: 后行 timeout 拒收',
 )
 assert.equal(judge(needle, mkCtx({ data: undefined })).verdict, 'invalid', 'self: 无报告拒收')
+// N4 反证矩阵：同一失败项携带混错 / 异常退出码
+assert.equal(
+  judge(
+    needle,
+    mkCtx({
+      data: {
+        testResults: [
+          {
+            ...mkCtx().data.testResults[0],
+            assertionResults: [
+              {
+                fullName: 'W1 suite > 默认攻击：业务红',
+                status: 'failed',
+                failureMessages: [
+                  'AssertionError: expected 1 to be 2',
+                  'Error: fixture setup failed',
+                ],
+              },
+              { fullName: 'W1 suite > 其他', status: 'skipped', failureMessages: [] },
+            ],
+          },
+        ],
+      },
+    }),
+  ).verdict,
+  'invalid',
+  'self: 同项混错（AssertionError+Error）拒收',
+)
+assert.equal(judge(needle, mkCtx({ runStatus: 2 })).verdict, 'invalid', 'self: exit2 拒收')
+assert.equal(
+  judge(needle, mkCtx({ runStatus: null })).verdict,
+  'invalid',
+  'self: null 退出（被杀/崩溃）拒收',
+)
+assert.equal(
+  judge(needle, mkCtx({ runStatus: 0 })).verdict,
+  'MISSED',
+  'self: exit0 归 MISSED 非 detected',
+)
 
 // ── 正控兼 fullName 解析：逐组实跑（only 模式只跑针所属组）──
 const wantedGroups = only ? [cases.find((c) => c.name === only).group] : groups

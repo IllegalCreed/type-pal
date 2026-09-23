@@ -1,13 +1,14 @@
 /**
- * TEST-BATTLE-WORKFLOWS-1 W6：写回与隔离（完整结果 + 非目标保真版，闭 C1）。
+ * TEST-BATTLE-WORKFLOWS-1 W6：写回与隔离（完整结果 + 非目标保真版，闭 C1/N1）。
  * - 库存：真实战斗消耗一件 healHp 物品 → writeBackInventory 写回 count-1、count 0 清项；
- * - HP/MP：终值**精确**写回——无伤胜利=100、败=0（lost 分支允许 0）、多轮受击=100−Σ(敌伤害行)；
- * - 成长：fixedCharacterGrowth **8 字段全部**按 before+delta 对账；非目标保真（未参战队员/
- *   money/库存 深快照不变）；奖励入账后二次写回不覆盖（幂等+保留）；
+ * - HP/MP：终值**精确**写回——无伤胜利=100、败=0（lost 分支允许 0）、多轮受击=100−Σ(敌伤害行)、
+ *   **多队员胜利含阵亡成员：非败终局把 0 HP 队员钳制为 1**（[1,100] 精确；seedStats 合法 hp=0，
+ *   败北判据为全队无可战斗成员，单人阵亡不判负——r3"不可达"论证撤回）；
+ * - 成长：fixedCharacterGrowth **8 字段全部**按独立快照 before+delta 对账；非目标保真
+ *   （未参战队员/money/**非空库存** 深快照不变）；奖励入账后二次写回与**独立预期快照**全等
+ *   （幂等由独立快照钉住，非同一对象自比较）；
  * - skillUse：lifetimeLimit 技能施放满限 → 计数入账 **且从 learnedSkills 移除**；
  * - 无 mutation 会话：二次写回 world 深快照不变（幂等基线）。
- * ≥1 钳制说明：writeBackHp 的 `Math.max(p.hp,1)` 臂要求非 lost 相位且 p.hp≤0——公开驱动下
- * HP 归 0 即判负（lost 走 `Math.max(p.hp,0)` 臂），该输入不可达，故不冒称验证该边界。
  */
 import type { WorldState } from '@type-pal/content'
 import { buildWorld } from '@type-pal/content'
@@ -159,7 +160,38 @@ describe('W6 写回与隔离', () => {
     expect(hurtWorld.party[0]!.mp).toBe(40) // 未施法：MP 精确不变
   })
 
-  test('真实成长写回：8 字段全部按 before+delta 对账；非目标保真；奖励后二次写回不覆盖', async () => {
+  test('多队员胜利含阵亡成员：writeBackHp 对非败终局把 0 HP 队员钳制为 1（[1,100] 精确）', async () => {
+    // seedStats 合法 hp=0；败北判据是**全队**无可战斗成员（battle-core.ts:1182-1186），
+    // 单人阵亡不判负 → p2 可独自取胜，非 lost 终局 + p1 hp=0 即 ≥1 钳制臂的公开可达输入
+    // （r3 回执"HP0 即判负、不可达"的域论证错误， hereby 撤回）。
+    const { harness: h, world } = makeWfSessionFromWorld({
+      actorIds: ['p1', 'p2'],
+      enemies: [wfEnemy('one-hit', { health: 20, defense: 0, attackStrength: 1 })],
+      seedStats: { p1: { hp: 0 }, p2: { hp: 100 } },
+    })
+    expect(world.party.map((member) => member.hp)).toEqual([0, 100]) // 合法 seedStats 真实生效
+    // p1 阵亡不出菜单（needsManualSelect 要求 hp>0）：p2 一击致胜
+    h.press([' '])
+    h.press([' '])
+    h.idle(500)
+    await flush()
+    for (let i = 0; i < 100 && h.session.debugReadiness().phase !== 'over'; i += 1) {
+      h.idle(500)
+      await flush()
+    }
+    for (let screen = 0; screen < 6; screen += 1) {
+      h.idle(350)
+      h.press([' '])
+      await flush()
+    }
+    await expect(h.session.done).resolves.toBe('victory') // 阵亡成员在场仍真实胜利
+    expect(h.session.debugPlayers().map((player) => player.hp)).toEqual([0, 100]) // 会话侧终值
+    h.session.writeBackHp(world.party)
+    // 非败终局钳制：p1 0→1；p2 无伤保持 100——钳制臂改 0 时此处 [0,100] 即红
+    expect(world.party.map((member) => member.hp)).toEqual([1, 100])
+  })
+
+  test('真实成长写回：8 字段对账；未参战队员/money/非空库存保真；奖励后二次写回与独立预期全等', async () => {
     const growth = {
       level: 2,
       maxHP: 12,
@@ -170,12 +202,13 @@ describe('W6 写回与隔离', () => {
       speed: 1,
       luck: 1,
     }
-    // 生产路径构造：world 队伍含未参战的 p2（非目标保真正控），money/库存非空
+    // 生产路径构造：world 队伍含未参战的 p2、money=77、**非空库存哨兵**（非目标保真正控）
     const { harness: h, world } = makeWfSessionFromWorld({
       actorIds: ['p1'],
       worldPartyIds: ['p1', 'p2'],
       enemies: [wfEnemy('e1', { health: 20, defense: 0, attackStrength: 1 })],
       worldMoney: 77,
+      worldInventory: [{ itemId: 'wf-world-tonic', count: 3 }],
       extraOpts: {
         worldPartyIdentities: [{ id: 'p1', template: 'p1' }],
         encounterChoreo: [
@@ -194,38 +227,39 @@ describe('W6 写回与隔离', () => {
       h.idle(500)
       await flush()
     }
-    const before = structuredClone(world)
+    // 独立深快照（structuredClone，非别名）：幂等/保真断言全部对照独立副本
+    const worldBefore = structuredClone(world)
     const p1Before = structuredClone(world.party[0]!)
     h.session.writeBackPersistentEffects(world)
-    const p1After = world.party[0]!
+    const p1AfterFirst = structuredClone(world.party[0]!)
     // 完整预期：全部 8 字段 = before + delta（预期由操作前实际输入快照+业务变化构造）
-    expect(p1After.level).toBe(p1Before.level + growth.level)
-    expect(p1After.maxHP).toBe(p1Before.maxHP + growth.maxHP)
-    expect(p1After.maxMP).toBe(p1Before.maxMP + growth.maxMP)
-    expect(p1After.attack).toBe(p1Before.attack + growth.attack)
-    expect(p1After.magicAttack).toBe(p1Before.magicAttack + growth.magicAttack)
-    expect(p1After.defense).toBe(p1Before.defense + growth.defense)
-    expect(p1After.speed).toBe(p1Before.speed + growth.speed)
-    expect(p1After.luck).toBe(p1Before.luck + growth.luck)
-    // 非目标保真：除 p1 的 8 字段外，整个 world（含未参战 p2、money、库存、learnedSkills）不变
-    const expectedAfter = structuredClone(before)
-    const target = expectedAfter.party[0]!
-    target.level = p1After.level
-    target.maxHP = p1After.maxHP
-    target.maxMP = p1After.maxMP
-    target.attack = p1After.attack
-    target.magicAttack = p1After.magicAttack
-    target.defense = p1After.defense
-    target.speed = p1After.speed
-    target.luck = p1After.luck
-    expect(world).toEqual(expectedAfter)
-    // 奖励后保留：胜利结算入账（exp/money 变化）后再次写回，不覆盖奖励、不重复叠加成长
+    expect(p1AfterFirst.level).toBe(p1Before.level + growth.level)
+    expect(p1AfterFirst.maxHP).toBe(p1Before.maxHP + growth.maxHP)
+    expect(p1AfterFirst.maxMP).toBe(p1Before.maxMP + growth.maxMP)
+    expect(p1AfterFirst.attack).toBe(p1Before.attack + growth.attack)
+    expect(p1AfterFirst.magicAttack).toBe(p1Before.magicAttack + growth.magicAttack)
+    expect(p1AfterFirst.defense).toBe(p1Before.defense + growth.defense)
+    expect(p1AfterFirst.speed).toBe(p1Before.speed + growth.speed)
+    expect(p1AfterFirst.luck).toBe(p1Before.luck + growth.luck)
+    // 非目标保真：除 p1 的 8 字段外，整个 world（含未参战 p2、money=77、非空库存、learnedSkills）不变
+    const expectedFirst = worldBefore
+    const target = expectedFirst.party[0]!
+    target.level = p1AfterFirst.level
+    target.maxHP = p1AfterFirst.maxHP
+    target.maxMP = p1AfterFirst.maxMP
+    target.attack = p1AfterFirst.attack
+    target.magicAttack = p1AfterFirst.magicAttack
+    target.defense = p1AfterFirst.defense
+    target.speed = p1AfterFirst.speed
+    target.luck = p1AfterFirst.luck
+    expect(world).toEqual(expectedFirst)
+    // 奖励后保留：胜利结算入账（exp/money 变化）后，取**独立预期快照**再二次写回——
+    // 全等比较钉住幂等（移除生产幂等门会二次叠加成长，在此即红），且不覆盖奖励
     world.party[0]!.exp += 50
     world.money += 99
+    const expectedAfterRewards = structuredClone(world)
     h.session.writeBackPersistentEffects(world)
-    expect(world.party[0]!.exp).toBe(before.party[0]!.exp + 50) // 奖励保留
-    expect(world.money).toBe(77 + 99)
-    expect(world.party[0]).toEqual(p1After) // 成长不重复叠加
+    expect(world).toEqual(expectedAfterRewards) // 整 world 独立全等：奖励保留 + 成长不重复叠加
   })
 
   test('skillUse 写回：满限计数入账 且 技能从 learnedSkills 移除', async () => {

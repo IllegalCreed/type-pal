@@ -4,13 +4,15 @@
  * debugLog/debugReadiness/debugPlayers/done/writeBackHp/writeBackInventory/
  * writeBackPersistentEffects/cancel。不 mock BattleSession/battle-core/battle-anim；
  * 帧资源为真实 RleFrame（catalog.realFrame）。
- * 会话入口即生产 guard 门：每次构造对**实际消费**的敌/技能/物品/精灵/演员数据跑现行校验器
- * （含钩子改造后的敌定义）——非法数据在构造时 throw，不靠单独的样本合法测试兜底。
+ * 会话入口即生产 guard 门：每次构造对实际消费的**敌（含钩子改造后）/技能/物品/enemiesById/
+ * 精灵定义**跑现行校验器；`makeWfSessionFromWorld` 另对实际演员数据跑 validateActors——
+ * 非法数据在构造时 throw，不靠单独的样本合法测试兜底。
  */
 import type { EnemyDef, WorldState } from '@type-pal/content'
 import {
   buildWorld,
   validateActors,
+  validateBattleSprites,
   validateEnemies,
   validateItems,
   validateSkills,
@@ -59,7 +61,7 @@ export interface WfHarness {
   readParty: () => Array<{ id: string; hp: number; mp: number }>
 }
 
-/** 会话入口守卫：对本次实际消费的全部 fixture 数据跑现行生产校验器。 */
+/** 会话入口守卫（数据先行）：敌（含钩子改造）/技能/物品/enemiesById 逐实参过现行校验器。 */
 function assertWfSessionInputsLegal(args: WfSessionArgs): void {
   const enemyDefs = [...args.enemies, ...Object.values(args.enemiesById ?? {})].filter(
     (enemy): enemy is EnemyDef => enemy !== null,
@@ -74,7 +76,7 @@ function assertWfSessionInputsLegal(args: WfSessionArgs): void {
 }
 
 export function makeWfSession(args: WfSessionArgs): WfHarness {
-  assertWfSessionInputsLegal(args)
+  assertWfSessionInputsLegal(args) // 数据守卫先行：非法敌/技能/物品在构建精灵前即拒
   const playerSpriteId = 'battle-sprite.player'
   const spriteEntries = new Map<string, LoadedBattleSpriteDefinition>([
     [playerSpriteId, wfLoadedBattleSprite(playerSpriteId, PLAYER_PROFILE)],
@@ -90,6 +92,8 @@ export function makeWfSession(args: WfSessionArgs): WfHarness {
       enemy.battleSprite,
       wfLoadedBattleSprite(enemy.battleSprite, enemyProfile(enemy.battleSprite)),
     )
+  // 精灵守卫：本次实际注入的定义逐实参过 validateBattleSprites
+  validateBattleSprites([...spriteEntries.values()].map((entry) => entry.definition))
   const assets: BattleSessionAssets = {
     palette: stubPalette,
     glyphs: stubGlyphs,
@@ -134,6 +138,8 @@ export function makeWfSessionFromWorld(args: {
   initialMagic?: readonly string[]
   seedStats?: Record<string, { hp?: number; mp?: number }>
   worldMoney?: number
+  /** 世界库存非空哨兵（非目标保真正控；buildWorld 按入口拷贝）。 */
+  worldInventory?: Array<{ itemId: string; count: number }>
   extraOpts?: NonNullable<ConstructorParameters<typeof BattleSession>[5]>
 }): { harness: WfHarness; world: WorldState } {
   const partyIds = args.worldPartyIds ?? args.actorIds
@@ -150,7 +156,7 @@ export function makeWfSessionFromWorld(args: {
     {
       party: [...partyIds],
       money: args.worldMoney ?? 0,
-      inventory: [],
+      inventory: (args.worldInventory ?? []).map((entry) => ({ ...entry })),
       ...(args.seedStats ? { seedStats: args.seedStats } : {}),
     },
     actors,

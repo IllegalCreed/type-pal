@@ -1,32 +1,34 @@
 {
-  "schemaVersion": 3,
-  "task": "TEST-BATTLE-WORKFLOWS-1 r3 narrow rework (GLM Coding Owner; closes Codex C1-C4 counter on r2 b7ba48bb)",
-  "date": "2026-09-23",
+  "schemaVersion": 4,
+  "task": "TEST-BATTLE-WORKFLOWS-1 r4 narrow rework (GLM Coding Owner; closes Codex N1-N4 counter on r3 7a2f1608)",
+  "date": "2026-09-24",
   "history": {
     "r1": { "candidate": "16ac8cee", "counter": "3f1b111d (R1-R4)" },
-    "r2": {
-      "candidate": "b7ba48bb",
-      "counter": "7f43b05b (C1-C4, docs/testing/battle-workflows-r2-review.md)"
+    "r2": { "candidate": "b7ba48bb", "counter": "7f43b05b (C1-C4)" },
+    "r3": {
+      "candidate": "7a2f1608",
+      "counter": "47be1582 (N1-N4, docs/testing/battle-workflows-r3-review.md)"
     },
-    "r3": { "mergeIntoWorktree": "22283e48 (kept counters/signatures/logs verbatim)" }
+    "r4": { "mergeIntoWorktree": "18f1922d (kept counters/signatures/logs verbatim)" }
   },
   "productionFreeze": "57dda7ed2376fc25f07756be117bb4a058d09915",
   "zeroDiffCommand": "git diff 57dda7ed..HEAD -- packages/reforge/src/battle/battle-session.ts packages/reforge/src/battle/battle-core.ts packages/reforge/src/battle/battle-anim.ts packages/reforge/src/battle/enemy-hook-runtime.ts  # empty",
+  "selfCheckNote": "开发期自检曾临时变异产品文件（幂等门删除/库存清空/HP 钳制/pump 旁路）验证新断言红，验证后还原并核四目标零 diff",
   "branch": "codex/glm-battle-workflows-r1",
   "worktree": "/Users/zhangxu/illegal/type-pal-glm-battle",
-  "testCount": 39,
+  "testCount": 45,
   "perFile": [
     {
       "file": "packages/reforge/src/battle/battle-session.selection-flows.test.ts",
-      "tests": 10,
+      "tests": 13,
       "group": "W1",
-      "delta": "+2 (投掷流、Esc 回退重选；guard 门改负向)"
+      "delta": "+3（W 无投掷物负向、合击有效/无效会话闭环）"
     },
     {
       "file": "packages/reforge/src/battle/battle-session.round-flows.test.ts",
       "tests": 6,
       "group": "W2",
-      "delta": "过滤器改行首前缀"
+      "delta": ""
     },
     {
       "file": "packages/reforge/src/battle/battle-session.action-flows.test.ts",
@@ -38,19 +40,19 @@
       "file": "packages/reforge/src/battle/battle-session.script-flows.test.ts",
       "tests": 8,
       "group": "W4/W3",
-      "delta": "+3 (hook 等待/选择恢复、召唤接线、变身接线)"
+      "delta": "wait 用例加 readiness 零提交 oracle"
     },
     {
       "file": "packages/reforge/src/battle/battle-session.terminal-flows.test.ts",
-      "tests": 4,
+      "tests": 6,
       "group": "W5",
-      "delta": "playerFled 零结算、多屏末屏精确（probe 无 finish 兜底）"
+      "delta": "+2（enemyFled/terminated 零 settlement 观察器）"
     },
     {
       "file": "packages/reforge/src/battle/battle-session.writeback-flows.test.ts",
-      "tests": 5,
+      "tests": 6,
       "group": "W6",
-      "delta": "8 字段/HP 精确值/移除/非目标/奖励保留"
+      "delta": "+1（多队员 HP 钳制）；幂等独立快照+非空库存哨兵"
     }
   ],
   "fixtures": [
@@ -64,39 +66,42 @@
     "docs/testing/glm-battle-workflows-coverage.config.mts"
   ],
   "closures": {
-    "C1": "成长 8 字段全对账（含 magicAttack/speed/luck）；skillUse 满限后 learnedSkills 真实移除；HP 精确值三态（无伤胜=100/败=0/多轮受击=100−Σ敌伤害行，预期由事件推导）；非目标保真正控（未参战 p2+money+库存深快照相等）；奖励后二次写回保留奖励不重复叠加；selection 误导标题修正；≥1 钳制臂公开不可达的调用域说明（交 Codex 裁定）",
-    "C2": "敌行动以行首前缀（'ready-hook ' 等）+ debugPlayers HP 实降作证（全批过滤器统一前缀制）；finally 保存并 await 实际返回的 pending（bodyFailed 保留最初断言错误）；cancel 后 debugLog/debugPlayers 快照逐项相等；新增 W4 hook 等待（wait 命令）期间零提交、完成后选择恢复",
-    "C3": "新增：W1 投掷有效选择流（W→目标→提交+库存 2→1+伤害行）、W1 Esc 回退上一队员重选（快照无 cast+MP 40）、W3 召唤/变身经 hook effect 接线（新敌形以自己名义行动+HP 实降）、W5 playerFled 零结算、W5 多屏第三屏即末屏（probe 立即 done，无 finish 循环）。去重：enemyFled/terminated/playerFled/defeat 零奖励、coop 有效/无效、非法投掷、skillUse 移除、奖励保留、summon core 语义、变身帧合同、hook runtime 推进——确切旧标题+行号见回执去重表",
-    "C4": "驱动器会话入口对实际消费数据（含 hook 改造敌/enemiesById/演员）跑生产校验器；guard 门测试改负向（非法定义确被拒绝）；工具：fullName 由正控实跑解析（转义+^$ 锚定 -t）并验证精确相等、文件绝对路径全等、MUTATION_HIT:<needle> 身份核验、套件 message/多失败/多执行/Unhandled 拒收、timeout 扫全行、判据自测覆盖 r2 反证矩阵 7 类、单针模式只报实际控制组数；as-unknown 声明收窄为业务 fixture 无绕 guard 强转（controlled-io 3 处 IO 替身按原卡保留）"
+    "N1": "幂等：奖励后取 structuredClone 独立预期快照，二次写回与整 world 全等（自检：删生产幂等门→红）；非空库存：worldInventory 播种 [wf-world-tonic×3] 参与深比较（自检：写回入口清空库存→红）；HP 钳制：撤回 r3 不可达论（败北=全队无可战斗成员 battle-core.ts:1182-1186，seedStats 合法 hp=0），新用例 p1=0/p2=100 两人胜利 writeBackHp 精确 [1,100]（自检：钳制 1→0→红）",
+    "N2": "wait 用例加公开 readiness oracle：prepareTurnSounds 快照记录器；等待窗内断言快照数=0（零提交）+phase=menu+日志零 p1 行；hook 完成后仍 0（无残留）；恢复后恰 1 快照 1 攻击（自检：selectAction 分支忽略 pump 返回值的单点变异→快照 1 笔即红）",
+    "N3": "新增会话闭环：coop 有效（合体技 行恰 1、两贡献者 91 精确、队友普攻被消费、victory）、coop 无效（图标不可选落回普攻、HP=100−Σ反击、零合击代价）、W 无投掷物（留菜单零提交）、enemyFled/terminated 各加 buildSettlement 观察器零结算断言；去重层级修正表入回执（旧证只抵扣其所在层）",
+    "N4": "judge 逐条 failureMessages 首行须业务断言（同项 AssertionError+Error 混错拒收）；变异成功必须恰 exit1（exit0=MISSED、exit2/null=invalid）；自测新增同项混错/exit2/null/exit0 四类（累计 12 类）走真实 judge；c1 针 redTest 同步新标题"
   },
+  "receiptErrata": [
+    "r3 机账分支净增 +43B 算术错误：session 43+core 1 应为 +44B；r4 以本轮实测为准（见 coverage 节）",
+    "r3 驱动器头部精灵 guard 声明不实（当时仅 catalog 样本）；r4 已把 validateBattleSprites 真正落到会话入口（逐实参核验本次注入定义），声明与实现一致",
+    "撤回 r3 回执『≥1 钳制臂公开不可达』的调用域论证（全队判负语义下多队员 hp=0 胜利可达，已补回归）"
+  ],
   "mutants": {
     "controls": 6,
     "needles": 10,
     "finalRunExit": 0,
-    "result": "6 controls green + 10 needles detected",
-    "newNeedle": "c1-growth-magicattack-skipped（fixed 成长分支 magicAttack 漏写，多行唯一锚；对应 Codex C1 第一个反证）",
-    "unneedledDirections": "HP 硬写与 learnedSkills 移除跳过由精确值/移除断言覆盖（守 6~10 针带，Codex 可同法复现）",
-    "toolCriteria": "fullName 正控解析+锚定 -t+精确相等；规范绝对路径全等；MUTATION_HIT:<needle> 身份；套件 message/失败≠1/执行≠1/Unhandled/全行 timeout 拒收；自测走真实 judge 入口（7 类构造）；单针模式报实际控制数",
-    "evidence": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/bw1-mutants-JpR04b/"
+    "result": "6 controls green + 10 needles detected（N4 判据下复跑）",
+    "toolCriteria": "fullName 正控解析+锚定 -t+精确相等；规范绝对路径全等；MUTATION_HIT:<needle> 身份；套件 message/失败≠1/执行≠1/Unhandled/同项混错/全行 timeout 拒收；变异成功必须恰 exit1（exit2/null=invalid）；自测 12 类构造走真实 judge；单针模式报实际控制数",
+    "evidence": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/bw1-mutants-D3Rt0E/"
   },
   "verification": {
-    "targeted": "6 files 39/39",
-    "adjacentBattleDir": "19 files 272/272",
-    "fullReforgePackage": "158 files 1453/1453 exit0（合入主线 7f43b05b 后基线；本批 6 文件 = r2 34 + 新增 5）",
+    "targeted": "6 files 45/45（13/6/6/8/6/6）",
+    "adjacentBattleDir": "19 files 278/278",
+    "fullReforgePackage": "158 files 1459/1459 exit0（r3 1453 + 新增 6）",
     "typecheck": "pnpm --filter @type-pal/reforge typecheck rc=0",
-    "biome": "9 code files + mutants tool format+check rc=0",
+    "biome": "changed code files + mutants tool format+check rc=0",
     "mutantsTool": "6 controls + 10 needles rc=0"
   },
   "coverage": {
     "config": "docs/testing/glm-battle-workflows-coverage.config.mts（官方 fast 选择/生产 include；before 仅排本批 6 文件）",
-    "output": "/tmp/bw1-r3-coverage/{before,after}",
+    "output": "/tmp/bw1-r4-coverage/{before,after}",
     "beforeTests": 1414,
-    "afterTests": 1453,
+    "afterTests": 1459,
     "targets": {
       "battle-session.ts": {
-        "lines": [880, 925, 1331],
-        "branches": [761, 804, 1457],
-        "functions": [138, 144, 181]
+        "lines": [880, 928, 1331],
+        "branches": [761, 814, 1457],
+        "functions": [138, 146, 181]
       },
       "battle-core.ts": {
         "lines": [1037, 1037, 1140],
@@ -104,9 +109,9 @@
         "functions": [114, 114, 118]
       },
       "battle-anim.ts": {
-        "lines": [316, 316, 402],
-        "branches": [220, 220, 318],
-        "functions": [42, 42, 54]
+        "lines": [316, 365, 402],
+        "branches": [220, 247, 318],
+        "functions": [42, 47, 54]
       },
       "enemy-hook-runtime.ts": {
         "lines": [50, 50, 58],
@@ -114,16 +119,16 @@
         "functions": [5, 5, 5]
       }
     },
-    "netDelta": "+45 lines/+43 branches/+6 functions（session +45L/+43B/+6F，core +1B，anim/hook 持平；分开列示）",
-    "honesty": "session 剩余 406L/653B 含 render 入口后 ~189 行（视觉侧另卡）与未覆盖组合；anim 86L/98B、hook 8L/13B 保留分母，不虚报"
+    "netDelta": "+97 lines/+81 branches/+13 functions（session +48L/+53B/+8F，anim +49L/+27B/+5F——coop 全体合体技真实驱动法术时间线，core +1B；逐文件分开列示）",
+    "honesty": "session 剩余 403L/643B 含 render 入口后 ~189 行（视觉侧另卡）与未覆盖组合；hook 8L/13B 保留分母，不虚报"
   },
-  "codexWitnessNote": "r1/r2 冻结见证工具锚旧树路径零改动；r2 见证（codex/battle-workflows-r2-review 分支）对 r3 由 Codex 自行适配复跑",
+  "codexWitnessNote": "r1/r2/r3 冻结见证工具零改动；r3 见证（docs/testing/battle-workflows-r3-witnesses.mjs）对 r4 由 Codex 自行适配复跑",
   "planningConstraints": {
     "noProductChanges": true,
     "noOfficialBaselineOrConfigChanges": true,
     "noOldTestOrOtherCardChanges": true,
     "noVisual": true,
     "glmDoesNotRunOfficialUnionOrRatchet": true,
-    "c1c4OnlyNoReopenOfFixedItems": true
+    "n1n4OnlyNoReopenOfClosedItems": true
   }
 }
