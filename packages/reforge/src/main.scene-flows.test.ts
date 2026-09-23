@@ -1,7 +1,7 @@
 // @vitest-environment jsdom
 import { afterEach, expect, test, vi } from 'vitest'
 import { installShellHost, type ShellHost } from './__tests__/runtime-shell/dom-host.js'
-import { drain, key, observation } from './__tests__/runtime-shell/driver.js'
+import { key, observation } from './__tests__/runtime-shell/driver.js'
 import { shellProject } from './__tests__/runtime-shell/project.js'
 
 let host: ShellHost | undefined
@@ -74,6 +74,8 @@ test('H6 failed scene IO leaves the original world operable; repairing the same 
 
 test('H6 old in-flight scene response cannot overwrite a newer complete round trip', async () => {
   const { h, fixture } = await boot()
+  const mapRead = vi.spyOn(await import('./scene-map.js'), 'loadSceneMap')
+  let originalRead: ReturnType<typeof import('./scene-map.js')['loadSceneMap']> | undefined
   let release!: () => void
   const gate = new Promise<void>((resolve) => {
     release = resolve
@@ -90,6 +92,10 @@ test('H6 old in-flight scene response cannot overwrite a newer complete round tr
   try {
     await key(h, ']')
     await vi.waitFor(() => expect(entered).toBe(true))
+    const originalResult = mapRead.mock.results[0]
+    if (!originalResult || originalResult.type !== 'return')
+      throw new Error('original map request missing')
+    originalRead = originalResult.value
     expect(observation().sceneId).toBe('a')
     expect(completed).toBe(false)
     await key(h, ']')
@@ -98,24 +104,19 @@ test('H6 old in-flight scene response cannot overwrite a newer complete round tr
     await vi.waitFor(() => expect(observation().sceneId).toBe('a'))
     const current = structuredClone(observation().world)
     release()
-    await vi.waitFor(() => expect(completed).toBe(true))
-    await drain()
-    h.frame()
-    await drain()
-    await vi.waitFor(() => {
-      h.frame()
-      expect(
-        h.text.mock.calls.some((call) =>
-          call[1].some((span) => span.text.includes('切场景失败: AbortError')),
-        ),
-      ).toBe(true)
-    })
+    await originalRead
+    await h.settleIO()
+    expect(completed).toBe(true)
+    // Await real map completion and its continuation turn, not an old error toast.
+    // The dev hop currently displays cancelled-request errors; that is an observation,
+    // not a UI policy this test should freeze as correct.
     expect(observation().player.pos).toEqual({ col: 2, row: 2, height: 0 })
     expect(observation().sceneId).toBe('a')
     expect(observation().world).toEqual(current)
   } finally {
     release()
     await gate
-    await drain()
+    await originalRead
+    await h.settleIO()
   }
 })

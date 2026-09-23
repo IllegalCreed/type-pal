@@ -182,6 +182,16 @@ const mutations = [
     from: "ids[(cur + (pressed.has(']') ? 1 : ids.length - 1)) % ids.length]",
     to: "ids[(cur + (pressed.has(']') ? 0 : ids.length - 1)) % ids.length]",
   },
+  {
+    id: 'intent-assertion',
+    source: 'async-intent',
+    test: 'main.scene-flows',
+    title: 'H6 old in-flight scene response cannot overwrite a newer complete round trip',
+    // Scene and world tokens overlap. Do not claim removing either one caller check is
+    // sufficient: this single mutation breaks their shared production assertion primitive.
+    from: 'if (!this.isCurrent(token)) throw asyncIntentAbortError(message)',
+    to: 'if (false && !this.isCurrent(token)) throw asyncIntentAbortError(message)',
+  },
 ]
 const baseline = JSON.parse(
   readFileSync(resolve(root, 'scripts/coverage/baseline.fast.json'), 'utf8'),
