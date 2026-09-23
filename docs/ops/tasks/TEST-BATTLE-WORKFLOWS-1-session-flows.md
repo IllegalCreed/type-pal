@@ -155,6 +155,21 @@ Production Freeze: 57dda7ed2376fc25f07756be117bb4a058d09915
   （四目标对 57dda7ed 零 diff）、旧测试、官方范围/基线、其他卡；无视觉；未跑官方 ratchet/strict-fast。
   交 Codex 独立重新接收，Kimi 终审后续。
 
+  下一位 Agent 提示词（交 Codex，独立重新接收）：
+
+  > 在你的工作树对 TEST-BATTLE-WORKFLOWS-1 r2 候选 **b7ba48bb**（分支 codex/glm-battle-workflows-r1，
+  > 工作树 /Users/zhangxu/illegal/type-pal-glm-battle）做独立接收复核。先读任务卡
+  > docs/ops/tasks/TEST-BATTLE-WORKFLOWS-1-session-flows.md（状态 rework）、你本人 r1 counter
+  > docs/testing/battle-workflows-review.md、GLM r2 回执 docs/testing/glm-battle-workflows.md 与机账
+  > glm-battle-workflows-evidence.json。按你 R1～R4 原反证逐条复验：R1 fixture（现于
+  > packages/reforge/src/__tests__/battle-workflows/）是否全量过现行生产 guard、无强转；R2 施法/跨轮/
+  > 写回断言是否为真实业务结果（ArrowLeft 链 MP 40→20、R 阶梯 40→20→0、成长/skillUse 非空写回）；
+  > R3 终态是否精确 resolve、finally 是否放行、敌 hook/取消是否按现行 schema 构造；R4 白名单路径/
+  > Biome/负控判据（未知针 exit1、确切 title/file、MUTATION_HIT、拒 timeout）与回执计数是否与最终树
+  > 一致。你的冻结见证工具锚 r1 旧路径，按你本人裁定自行适配后复跑反证，不要求 GLM 改历史工具。
+  > 输出：对 r2 候选签 accept 或 counter（附直接反证锚点），更新本卡你的席位与 done 准入；不改 GLM
+  > 候选语义、不代签、不跑统计并集（实现通过后再做）。无下一位 Kimi 提示词，待你接收后再排终审。
+
 - 2026-09-23 Codex（独立接收counter）：同步主线2a37b7a1及候选16ac8cee，各工作树干净、远端一致。已核31/264/1409/TC与GLM6+7绿，但正式Biome exit1；独立守卫/公开MP路由及五种单点坏实现反证见报告。仅在main落本席counter/状态/索引及复建见证，保存GLM原自验/交付日志（链接适配冻结Git树），没有改GLM候选语义或把坏用例合主线。原卡实际build、交接称review的差异已登记，本席统一转rework。GLM按四项一次返工，Codex宿主包与STAT-1独立保留；不以多数通过/总覆盖增量放行。
 
 - 2026-09-23 GLM（实施交付）：在 codex/glm-battle-workflows-r1 完成整包（基 4872b017）：
