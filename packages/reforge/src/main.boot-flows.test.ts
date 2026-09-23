@@ -44,6 +44,9 @@ test.each([
   expect(observation().sceneId).toBe(scene)
   expect(observation().world.party.map((x) => x.template)).toEqual(party)
   expect(observation().world.money).toBe(money)
+  expect(observation().player.pos).toEqual(
+    scene === 'b' ? { col: 4, row: 3, height: 0 } : { col: 2, row: 2, height: 0 },
+  )
   expect(
     warning.mock.calls.map((args) => String(args[0])).filter((x) => x.startsWith('[boot]')),
   ).toEqual(query.includes('unknown') ? ['[boot] 入口点 "unknown" 不存在,走直接启动项'] : [])

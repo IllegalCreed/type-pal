@@ -2,7 +2,7 @@
 import { afterEach, expect, test } from 'vitest'
 import { installShellHost, type ShellHost } from './__tests__/runtime-shell/dom-host.js'
 import { key, observation } from './__tests__/runtime-shell/driver.js'
-import { shellProject } from './__tests__/runtime-shell/project.js'
+import { projectData, shellProject } from './__tests__/runtime-shell/project.js'
 
 let host: ShellHost | undefined
 afterEach(() => {
@@ -17,7 +17,7 @@ async function boot(options: Parameters<typeof shellProject>[0] = {}) {
     projectId: 'shell-project',
   })
   host.frame()
-  return host
+  return Object.assign(host, { project: fixture.project })
 }
 
 test('H3 status panel cycles both real party members and returns through hub without changing world', async () => {
@@ -37,6 +37,7 @@ test('H3 status panel cycles both real party members and returns through hub wit
 test('H3 real magic route selects caster and target, heals only target, charges caster once, and backs out', async () => {
   const h = await boot(),
     before = structuredClone(observation().world)
+  const inputBefore = structuredClone(projectData(h.project))
   await key(h, 'Escape')
   await key(h, 'ArrowDown')
   await key(h, 'Enter')
@@ -48,6 +49,7 @@ test('H3 real magic route selects caster and target, heals only target, charges 
   expected.party[0]!.mp -= 5
   expected.party[1]!.hp += 10
   expect(observation().world).toEqual(expected)
+  expect(projectData(h.project)).toEqual(inputBefore)
   await key(h, 'Escape')
   await key(h, 'Escape')
   await key(h, 'Escape')

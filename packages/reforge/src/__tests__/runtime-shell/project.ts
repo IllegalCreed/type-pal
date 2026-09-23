@@ -7,6 +7,11 @@ import type {
   CurrentManifest,
   SkillData,
 } from '@type-pal/content'
+import {
+  collectAssetReferences,
+  palMagicEffectSpriteAssetId,
+  validateAssetFileClosure,
+} from '@type-pal/content'
 import { encodeSpriteChunk } from '@type-pal/shared'
 import { compressGzip } from '../../assets.js'
 import type { FileSource } from '../../file-source.js'
@@ -54,7 +59,10 @@ export function shellActor(id: string): ActorDef {
 export const shellScene = (id: string): AuthorSceneDef => ({
   id,
   mapId: `map-${id}`,
-  entry: { pos: { col: 2, row: 2, height: 0 }, facing: 'down' },
+  entry: {
+    pos: id === 'b' ? { col: 4, row: 3, height: 0 } : { col: 2, row: 2, height: 0 },
+    facing: id === 'b' ? 'left' : 'down',
+  },
   entities: [],
 })
 
@@ -227,6 +235,7 @@ export async function shellProject(
   )
   await asset('sprite', 'sprite', sprite)
   await asset('fighter', 'battle-sprite', sprite)
+  await asset(palMagicEffectSpriteAssetId(0), 'effect-sprite', sprite)
   await asset(
     'tiles',
     'tileset',
@@ -295,5 +304,26 @@ export async function shellProject(
   }
   // The formal current loader validates the complete author tables and compiles runtime scenes.
   const project = await loadCurrentProjectFrom(source)
+  const closure = await validateAssetFileClosure(
+    catalog,
+    collectAssetReferences({
+      assets: project.manifest.assets,
+      entryPoints: project.manifest.entryPoints,
+      actors: Object.values(project.actorsById),
+      skills: Object.values(project.skills),
+      sprites: Object.values(project.spritesById),
+      battleSprites: Object.values(project.battleSpritesById),
+      tilesets: project.tilesets,
+    }),
+    {
+      readBytes: async (path) => {
+        const bytes = binaries.get(path)
+        if (!bytes) throw new Error(`fixture asset absent: ${path}`)
+        return bytes.slice()
+      },
+      sha256: sha256Bytes,
+    },
+  )
+  if (closure.some((issue) => issue.severity === 'error')) throw new Error(JSON.stringify(closure))
   return { project, source, files, binaries, reads, hooks }
 }
