@@ -158,7 +158,6 @@ before→after：旧合并把两种initializer混为一个→分别保留身份�
 ### done前
 
 - Codex：**accept（实施者自验，2026-09-23，统一候选b6286df0，非独立审查）**。实际安装patch的10项回归全绿，未修版同3条业务AssertionError重现；空目录冻结安装/真实路径hash通过。旧1378与宿主1414四格对照分母/身份不变，37/42/2/37误报修正已分栏；633生产文件与57dda7ed一致。统一check8317+coverage-tools27/ratchet7826/保护c5569d1a的单次strict7826全exit0，其余六包基线对象不变、无降门。实现与风险见诊断文末/机账implementation。旧版本兼容审查：pass（无产品兼容新增，仅版本绑定第三方修复）。
-- GLM：pending。
 - Kimi：**accept（2026-09-23，统一候选b6286df0；全部锚点本人直读/本树与隔离树复跑，未读 GLM 本轮结论）**。
   - **实际安装 patch**：`@vitest/coverage-v8@4.1.7` 的 `@bcoe/v8-coverage` symlink 指向
     `1.0.2_patch_hash=2f8a8ecf…`（内含 static_initializer 判定 ×1）；补丁仅给两种 V8 合成
@@ -179,6 +178,30 @@ before→after：旧合并把两种initializer混为一个→分别保留身份�
   - **旧版本兼容审查（单列）：pass**——第三方版本绑定 patch，无产品兼容层/升级器；
     上游等价修复+回归全绿才准撤 patch 的移除条件在册。
   - 返工项：无。类字段逐语句精度/其它 V8 盲点如实不担保。
+- GLM：**accept（2026-09-23，统一候选b6286df0；证据全部本人独立复建。共享工作树发现另一席
+  未提交改动，为避免吞没其编辑，本席在同分支tip的临时worktree落卡推送；其后其块抢先落远端，
+  push竞态rebase解冲突机械保留双方、必然接触其已落文本——本席全部复跑与结论在此之前独立完成）**。本机复跑`node --test
+  scripts/coverage/merge-initializers.test.mjs` 10/10绿，矩阵与设计逐项对应（安装/锁校验、
+  原生四态×5形状+普通函数、2/3份双序、混合调用、initializer身份/计数、异名同range普通函数
+  原合同、空/单输入、真实Vitest ssr+client导入报0与正控报2）。patch内容=设计签字原案（仅两种
+  initializer名加前缀、普通函数range键），SHA-256与机账一致；package.json仅patchedDependencies、
+  lock diff恰3处登记；实际安装目录`@bcoe+v8-coverage@1.0.2_patch_hash=2f8a8ecf…`且其merge.js:126
+  含补丁源码；spessasynth保持4.3.20，无搭车升级。撤patch负控设计核实：git archive c5569d1a冻结树
+  +冻结安装+同一测试文件（SHA相等）跑3条业务反例全AssertionError exit1，未动共享node_modules、
+  未以复制合并器逻辑自证；机账frozenReplay与exactSameTest双路记录。四格：旧1378
+  8759/9710/1542/5913→8722/9668/1540/5876（-37/-42/-2/-37，设计轮已离线复算同值）；宿主1414
+  修前=修后=10374/11430/1750/6712；修正口径净增+1652/1762/210/836、旧官方口径+1615/1720/208/799，
+  两组差值恰为37/42/2/37——统计修正与补测收益分栏成立。基线ratchet亲核：7790→7826仅reforge
+  +6文件+36项（新增文件=白名单六文件，战斗卡用例未混入），633 sourceFiles与另六包
+  files/tests/metrics逐项不变，reforge新基线=四格并集值；基线相对旧官方口径上调、原门通过，
+  未改比较器/未手写低基线。633生产文件对57dda7ed逐个hash一致（本席全量核验）。GLM(a)配方已补于
+  诊断:99，本席按其复算sourceCensusSha256完全一致（633行[路径,文件字节SHA-256]紧凑JSON.stringify）；
+  (b)其它同span盲点未扩、(c)原门不降均落实。门禁：机账记录check8317+coverage-tools27、保护
+  c5569d1a的ratchet7826与单次strict7826全exit0；本席亲见候选树CI（525c40cd=b6286df0+纯文档）
+  Coverage ratchet跑至success。旧版本兼容审查：pass——24个非docs变更文件关键词扫描仅命中
+  测试标签'legacy'（产品拒绝旧试放路径的断言）与patch README移除条件说明，无版本分支/fallback/
+  upgrader/双读双写。非阻塞备注：机账/tmp与/var/folders证据日志易失，但核心数字、配方与两条定向
+  命令均可独立重算重跑，不受影响。
 - done准入：blocked（GLM/Kimi同候选实现审查pending；不以设计签字代验收）。
 
 ## 交接日志
@@ -190,6 +213,13 @@ before→after：旧合并把两种initializer混为一个→分别保留身份�
   strict7826 采信 Codex 日志，未并发重跑；CI Documentation 绿、ratchet 在途。统计修正与
   真实收益分栏正确。未读 GLM 本轮结论；未改实现/他席/状态，不标 done。
   Next：GLM 同候选 accept 齐后 Codex 核 done 门。
+
+- 2026-09-23 GLM（r1实现终审）：统一候选b6286df0独立审毕，签done前accept（证据见本人块）。
+  复跑两条定向：merge回归10/10绿、宿主mutants control36+8针全业务红；另核patch实际安装/lock
+  恰3处/撤patch冻结负控、四格与基线+36、633对57dda7ed零改、GLM(a)配方复算一致、候选树CI
+  ratchet success、兼容扫描干净。共享工作树存在另一席未提交改动，故在同分支tip临时worktree
+  落卡推送，不动共享树；push竞态rebase机械保留双方（Kimi结论不在本席证据链内）。战斗卡返工
+  独立，其用例未计入7826。
 
 - 2026-09-23 Codex（r1实施→review）：候选b6286df0，patch提交bb0e3c3e、联合宿主树e0803d6e。两个冲突文档按并集保留全部历史签字/日志。官方三门串行一次通过，基线7790→7826仅新增宿主36项，源633不动，其余六包完整对象相同。本人签实施者accept；GLM(a)配方已补、(b)其它同span理论盲点不扩、(c)原门不降落实。两卡分开审，战斗返工未纳入，不代签、不done。
 

@@ -122,7 +122,6 @@ Production Freeze: 57dda7ed2376fc25f07756be117bb4a058d09915
 ### done前
 
 - Codex：**accept（实施者自验，2026-09-23，统一候选b6286df0；宿主代码1d3d3fb3零改，非独立审查）**。6测试/3fixture共36项，真实boot/loader/codec/store/runner保留、8针业务红重跑；STAT-1另卡patch已实际安装验证。全check8317与官方ratchet/保护c5569d1a的单次strict7826/633全exit0，其它六包基线对象不变；源码对57dda7ed零改。合法输入、原Promise收口与非视觉边界见回执；DEV-TOAST-1不固化不关闭。旧版本兼容审查：pass（无产品/旧模型fallback变更）。
-- GLM：pending（代码/矩阵复核，无视觉）。
 - Kimi：**accept（2026-09-23，统一候选b6286df0，宿主代码1d3d3fb3；锚点本人直读/复跑，未读 GLM 本轮结论）**。
   - **真实调用链**：`boot.ts:13`、`editor/src/play.ts:14` 真实调用 bootGame；`main.ts:349-352`
     shop 早退与 `shop-trial.test.ts:136` 边界在设计期已核、本轮复勘一致；宿主测试真实 import
@@ -143,6 +142,27 @@ Production Freeze: 57dda7ed2376fc25f07756be117bb4a058d09915
   - **旧版本兼容审查（单列）：pass**——无产品/旧模型 fallback 变更；DEV-TOAST-1 不固化
     不关闭，视觉/full/Q1/Q2 边界保持。
   - 返工项：无。
+- GLM：**accept（2026-09-23，统一候选b6286df0；代码/矩阵复核，无视觉——视觉分工归Codex，
+  本席未做浏览器/像素验证）**。六测试文件逐行通读清点：H1=9（正常boot真首帧/double入口完整
+  队伍金钱落点/无效入口回默认且warn逐字/scope-canvas-context-旧试放四拒绝态无可玩帧未发布
+  观测零fetch/Chrome资源失败后新owner恢复/标题选择）、H2=4、H3=7、H4=8、H5=5、H6=3，
+  合计36与基线+36逐文件一致；新增即白名单六文件，GLM战斗卡31项未计入。fixture合法性：
+  shellProject走生产loadCurrentProjectFrom+encodeSpriteChunk/compressGzip/sha256Bytes，并过
+  validateAssetFileClosure（error即拒，字节/摘要失配不可进）；dom-host仅替外部浏览器IO（每测试
+  新fake-indexeddb工厂、录制式Canvas、PNG魔数+真实头宽高解析、fetch白名单外即抛），生产侧仅
+  观察式spy（renderSpans/loadSceneMap保留原实现），IDB hold只延迟真实success事件交付、不替换
+  SaveStore。真实IO与收口：真import main.js/bootGame/runOpeningMenu/IndexedDbSaveStore；H1标题
+  选择断言同一bootGame Promise菜单期未settle、选择后才resolve（finally兜底消费）；H5真SAVE8
+  payload全值断言+跨工程scoped隔离+NaN坏档"归一化拒绝"不改世界且菜单可用+好档恢复+双F5
+  savedTimes=2单槽+迟到IDB读释放后不改新恢复与其成功提示；H6挂起原map请求经真实B→A往返后
+  旧结果不覆盖现状（等原loadSceneMap Promise+settleIO，不把旧取消提示写成合同）。业务断言按
+  值完整世界比较（计算预期diff）并断言输入/文件不可变。8针本席复跑：control 36/36绿、每针恰
+  1例AssertionError业务红、跑后git工作树干净；单删sceneSwitchIntent.assertCurrent的探索针
+  仍绿已如实披露且未计入。回执与树一致：packages/仅白名单9文件，633生产文件对57dda7ed逐个
+  hash零改（本席全量核），mutants工具/coverage配置在docs/testing白名单；DEV-TOAST-1未固化。
+  候选树CI Coverage ratchet success（7826含本卡36项）。旧版本兼容审查：pass（产品零改，
+  'legacy'仅为断言产品拒绝旧路径的测试标签）。Canvas记录非像素oracle、回执明示不证明布局/
+  像素/中文可见性——非视觉边界与分工一致。落卡方式见统计卡日志（同分支tip临时worktree推送）。
 - done准入：blocked。
 
 ## 交接日志
@@ -155,6 +175,13 @@ Production Freeze: 57dda7ed2376fc25f07756be117bb4a058d09915
   check8317/ratchet7826/strict7826 采信 Codex 日志。DEV-TOAST-1/视觉/full/Q1/Q2 不随本次
   关闭。未读 GLM 本轮结论；未改实现/他席/状态，不标 done。
   Next：GLM 同候选 accept 齐后 Codex 核 done 门。
+
+- 2026-09-23 GLM（r1实现终审）：签done前accept（证据见本人块）。六文件通读清点
+  9/4/7/8/5/3=36与基线一致；核fixture生产构造+validateAssetFileClosure、外部IO替身与观察式
+  spy边界、真实IO/同一Promise收口、按值断言、8针复跑全业务红、回执与树一致、633对冻结零改、
+  CI绿、兼容pass。无视觉（分工归Codex）。因共享工作树有另一席未提交改动，在同分支tip临时
+  worktree落卡推送；push竞态rebase机械保留双方（Kimi结论不在本席证据链内）。战斗卡返工独立
+  推进，不借本卡或统计修复放行。
 
 - 2026-09-23 Codex（统一候选→review）：候选b6286df0已将宿主1d3d3fb3逐字节原样与统计修补bb0e3c3e组合，历史Kimi统计签字原文保留。完整check8317/ratchet7826/受保护单次strict7826通过；旧误报与真实补测收益已分栏，不等GLM战斗返工、也未纳入其31项。本人实施者accept，GLM/Kimi两席同候选整卡审查pending；真实视觉/full/Q1/Q2/DEV-TOAST-1边界保持，不done。
 
