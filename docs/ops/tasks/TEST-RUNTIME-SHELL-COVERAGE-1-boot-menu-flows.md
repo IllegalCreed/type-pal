@@ -1,6 +1,6 @@
 # TEST-RUNTIME-SHELL-COVERAGE-1 - 真实启动与菜单宿主流程补测
 
-Status: build
+Status: review
 Phase: phase2
 Capability: X1 / N6（既有运行时接线测试，不增能力格）
 Coding Owner: Codex
@@ -121,12 +121,14 @@ Production Freeze: 57dda7ed2376fc25f07756be117bb4a058d09915
 
 ### done前
 
-- Codex：pending（实施者自验）。
+- Codex：**accept（实施者自验，2026-09-23，统一候选b6286df0；宿主代码1d3d3fb3零改，非独立审查）**。6测试/3fixture共36项，真实boot/loader/codec/store/runner保留、8针业务红重跑；STAT-1另卡patch已实际安装验证。全check8317与官方ratchet/保护c5569d1a的单次strict7826/633全exit0，其它六包基线对象不变；源码对57dda7ed零改。合法输入、原Promise收口与非视觉边界见回执；DEV-TOAST-1不固化不关闭。旧版本兼容审查：pass（无产品/旧模型fallback变更）。
 - GLM：pending（代码/矩阵复核，无视觉）。
 - Kimi：pending（独立终审）。
 - done准入：blocked。
 
 ## 交接日志
+
+- 2026-09-23 Codex（统一候选→review）：候选b6286df0已将宿主1d3d3fb3逐字节原样与统计修补bb0e3c3e组合，历史Kimi统计签字原文保留。完整check8317/ratchet7826/受保护单次strict7826通过；旧误报与真实补测收益已分栏，不等GLM战斗返工、也未纳入其31项。本人实施者accept，GLM/Kimi两席同候选整卡审查pending；真实视觉/full/Q1/Q2/DEV-TOAST-1边界保持，不done。
 
 - 2026-09-23 Codex（STAT-1后续定位）：Kimi专项窄审e7c4b743已推宿主分支（非整卡accept）；
   本席继续取原始数据，定位到覆盖率合并器的同range双initializer身份冲突。原生12组与旧1378对照见
@@ -171,8 +173,9 @@ Production Freeze: 57dda7ed2376fc25f07756be117bb4a058d09915
 
 ### 当前下一步
 
-统计根因与正式修复准入转[TEST-COVERAGE-TRUTH-1](TEST-COVERAGE-TRUTH-1-class-initializers.md)r1；
-两席并行提示词见该卡。宿主整包审查/官方门禁未完成，不标review/done。
+统一候选b6286df0已通过本地门禁，本卡与[TEST-COVERAGE-TRUTH-1](TEST-COVERAGE-TRUTH-1-class-initializers.md)
+分别review；两席同候选并行终审完整提示词见该卡「当前」两段。各席分别给两卡带证据accept/counter，
+只写本人席位/日志并推codex/coverage-initializer-truth-r1，不改状态/代签/done，不重复官方覆盖率。
 
 ### 历史给Kimi：STAT-1统计异常窄复核（e7c4b743已完成）
 

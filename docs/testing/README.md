@@ -8,11 +8,11 @@
 
 ## 文档与附件
 
-- [STAT-1覆盖率合并根因](coverage-initializer-diagnosis.md)、[机账](coverage-initializer-evidence.json)、[原生最小复现](coverage-initializer-probe.mjs)与[raw捕获/离线复算](coverage-initializer-capture.mjs)（r1三席准入build；隔离树已安装版本绑定patch，10项工具回归；官方门与终审未完成）
+- [STAT-1覆盖率合并根因与实施](coverage-initializer-diagnosis.md)、[机账](coverage-initializer-evidence.json)、[历史原生最小复现](coverage-initializer-probe.mjs)与[raw捕获/离线复算](coverage-initializer-capture.mjs)（b6286df0/review；实装patch10回归/撤补丁3业务红，check8317/ratchet与单次strict7826通过；外部终审pending）
 
 - [战斗流程GLM包独立接收](battle-workflows-review.md)、[反证机账](battle-workflows-review-evidence.json)与[冻结旧候选见证](battle-workflows-review-witnesses.mjs)（16ac8cee counter/rework；31绿不能证明所称业务，正式fixture/断言/终态/工具回执四组返工，不改官方基线）
 
-- [Codex真实运行时宿主六组实施](codex-runtime-shell.md)、[机账](codex-runtime-shell-evidence.json)、[负控与统计见证](codex-runtime-shell-mutants.mjs)及[局部覆盖配置](codex-runtime-shell-coverage.config.mts)（36项/全包1414/8针通过；STAT-1已独立定位并修补，待同树门禁与整包审查，不标done）
+- [Codex真实运行时宿主六组实施](codex-runtime-shell.md)、[机账](codex-runtime-shell-evidence.json)、[负控与统计见证](codex-runtime-shell-mutants.mjs)及[局部覆盖配置](codex-runtime-shell-coverage.config.mts)（b6286df0/review；36项/全包1414/8针与统一门禁通过，外部整卡审查pending，不标done）
 
 - [大业务域双线补测计划](coverage-large-domain-plan.md)、[7790冻结盘点](coverage-large-domain-evidence.json)与[只读复算器](coverage-large-domain-census.mjs)（战斗公开流程由GLM、真实启动/菜单宿主由Codex；两卡r1已三席准入build，最终增量待整包验证）
 

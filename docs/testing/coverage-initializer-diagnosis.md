@@ -1,12 +1,13 @@
 # STAT-1：类初始化覆盖率合并误报
 
-2026-09-23，Codex只读取证；[修复卡](../ops/tasks/TEST-COVERAGE-TRUTH-1-class-initializers.md)仍为draft。
-此文不是已修复回执，也不是下调基线授权。
+2026-09-23，[修复卡](../ops/tasks/TEST-COVERAGE-TRUTH-1-class-initializers.md)r1已实施并进入review，统一候选b6286df0。
+上半篇保留只读取证；正式实施与验证见文末。当前不标done，也不是下调基线授权。
 
 2026-09-23实施附注：r1三席已准入build；旧最小probe和默认capture/`--replay`针对**未装patch**的
 准备树2fcf57d7，不应在已安装修复的依赖树上冒充修复验收。实际安装回归是
 `node --test scripts/coverage/merge-initializers.test.mjs`；修后旧1378正式范围捕获用
-`node docs/testing/coverage-initializer-capture.mjs --installed`。本节原始诊断数字保持历史。
+`node docs/testing/coverage-initializer-capture.mjs --installed`（在bb0e3c3e的7790冻结树运行；最终7826树会
+按冻结检查拒绝，不能把新增宿主混进“旧1378”）。本节原始诊断数字保持历史。
 
 ## 结论
 
@@ -107,5 +108,68 @@ rows按`Object.values(baseline.packages)`现有插入顺序，逐包按`sourceFi
 
 ## 后续边界
 
-修复方案、白名单、回归与三签见新卡。当前只提交诊断/计划，不装patch、不改provider/基线、不跑官方ratchet/strict。
+原诊断阶段仅提交计划/复现，未安装patch或修改provider/基线；其后的正式实施单列如下，不倒填诊断证据。
 宿主36项与GLM战斗返工独立保留；不能用统计缺陷豁免GLM业务反例，也不能为恢复数字补无意义输入。
+
+## r1正式实施（Codex，2026-09-23）
+
+设计准入c5569d1a（Kimi49269a61、GLMdefd960e）；补丁候选bb0e3c3e；联合验证树e0803d6e。
+独立分支`codex/coverage-initializer-truth-r1`；仅合入既有宿主候选1d3d3fb3的测试/工具/文档，
+其9个测试/fixture文件与原候选逐字节零diff，GLM战斗31项未纳入。633生产文件对57dda7ed逐个hash一致。
+
+### 实际安装与先红后绿
+
+pnpm生成`patches/@bcoe__v8-coverage@1.0.2.patch`，只改merge.js的两种initializer合并key；
+普通函数保留range-only。根package.json只加patchedDependencies，lock仅登记patch resolution。
+patch SHA-256：`2f8a8ecf59c8c2a034a221e318faf7be09767cde12bca6d4f5fe1ec70f1ff8bd`。
+`pnpm install --frozen-lockfile --offline`通过，实际require路径含同一patch hash。
+
+- 正式回归`merge-initializers.test.mjs`共10项：实际安装/锁校验、原生四态×5种类与普通函数、
+  二/三份双序、混合调用、两类initializer身份/计数、普通函数异名同range原合同、空/单输入、
+  真实Vitest两个ssr+两个client只导入用例，以及加入真正调用的正控。
+- 补丁前首9项：6绿/3红，红因分别为未调用方法误记、initializer混并、真实Vitest方法调用4≠0。
+- 补丁后10/10绿，coverage-tools整组27/27绿，改动代码Biome干净。
+- 撤补丁对照没有改共享node_modules：将**同一测试原文件及fixture**复制到临时薄工程，链接主树实际
+  已安装的未打补丁依赖，仅选上述3条业务反例；3条全部AssertionError，退出1。测试文件SHA相等，
+  没有复制/改写合并器逻辑作为正式安装证明。
+- 撤补丁日志：`/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-unpatched-control-sa3jSe/negative.log`。
+  修前/修后工具日志：`/tmp/type-pal-merge-prepatch.log`、`/tmp/type-pal-merge-final10.log`、`/tmp/type-pal-merge-tools.log`。
+- 为避免主树后来安装patch影响上述symlink对照，另以`git archive c5569d1a`创建独立临时树并冻结安装，
+  复制同一候选测试/fixture后跑`node --test --test-name-pattern='native import:|same-range static|real Vitest ssr/client import-only' scripts/coverage/merge-initializers.test.mjs`；
+  同3条全部AssertionError，exit1，真实Vitest仍4≠0。可按此法重建；路径
+  `/tmp/type-pal-truth-unpatched-frozen.1cCM6Z`，日志`/tmp/type-pal-truth-unpatched-frozen-negative.log`。
+
+### 四格对照：统计修正与补测收益分开
+
+| Reforge同树测试集 | 未修合并器 L/S/F/B | 已安装补丁 L/S/F/B |
+|---|---|---|
+| 旧1378 | 8759 / 9710 / 1542 / 5913 | 8722 / 9668 / 1540 / 5876 |
+| 加宿主1414 | 10374 / 11430 / 1750 / 6712 | 10374 / 11430 / 1750 / 6712 |
+
+四格分母均为14599L/16737S/2539F/11359B。旧1378修前复用冻结raw，修后本轮实际运行；
+最终1d3d3fb3宿主1414的修前、修后均本轮实跑。1414逐测试身份/status相同、131文件逐文件四维汇总
+完全相同，statementMap/fnMap/branchMap相同；部分正计数次数因轮询等变化，不影响任何covered集合或分母。
+旧core的37/42/2/37是统计修正；在修正口径上，36项宿主净增1652L/1762S/210F/836B。
+相对旧官方口径的净增仍是1615L/1720S/208F/799B，不把统计修正计作新增测试功劳。
+
+证据：修后旧1378在`type-pal-initializer-capture-kyVSKc/installed-summary.json`（系统临时目录），
+1414两格在`/tmp/type-pal-truth-pair-{unpatched,patched}/after/`；宿主8针在
+`/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-runtime-shell-mutants-ZZVxL1/`，本轮均重新通过。
+
+### 验证纪律与保留项
+
+pnpm patch-commit曾机械重解到无关音频子依赖spessasynth_core4.3.22，审diff发现后撤掉这三处无关lock变化，
+冻结安装恢复4.3.20；最终lock diff只剩patch三处登记，未借补丁升级任何依赖。隔离工作树缺gitignored资源，
+只复制主树既有raw/extracted/PAL二进制以运行full check，不提交资源，也未运行提取/迁移生成。
+
+GLM(a)哈希配方已补；(b)其它同span函数形状仅理论观察，无已证新缺陷，不扩本补丁；
+(c)正式门不降保持。类字段自身的逐语句精度、其它V8/remapper盲点不作整体担保；DEV-TOAST-1未修。
+统一门禁按序**各一次exit0**：`pnpm check`七包8317项（另docs20/coverage-tools27），
+`TYPE_PAL_COVERAGE_BASE_REF=c5569d1a pnpm coverage:ratchet`与随后受保护`pnpm coverage:fast`均7826/633。
+日志分别为`/tmp/type-pal-truth-{check,ratchet,strict}.log`。基线仅宿主+36，其它六包完整对象不变，
+全仓L76.09%/S73.90%/F74.17%/B66.68%；Reforge L71.06%/S68.29%/F68.92%/B59.09%。
+不以整体提升掩盖逐文件修正：本例37/42/2/37已用四格raw对照解释。
+
+独立空目录`git archive e0803d6e`→`pnpm install --frozen-lockfile --offline`→实际安装hash回归1/1也通过，
+日志`/tmp/type-pal-truth-cold-{install,smoke}.log`。check的lint保留既有47 warnings/6 infos（exit0），
+只声明改动文件Biome零诊断。本人实施者accept，GLM/Kimi同候选终审pending；尚未done。

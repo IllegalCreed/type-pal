@@ -1,6 +1,6 @@
 # Codex：真实运行时宿主六组补测
 
-2026-09-23。任务卡：[TEST-RUNTIME-SHELL-COVERAGE-1](../ops/tasks/TEST-RUNTIME-SHELL-COVERAGE-1-boot-menu-flows.md)，r1/build。
+2026-09-23。任务卡：[TEST-RUNTIME-SHELL-COVERAGE-1](../ops/tasks/TEST-RUNTIME-SHELL-COVERAGE-1-boot-menu-flows.md)，r1/review，统一候选b6286df0。
 实现候选 **1d3d3fb3**（前序542e1c07/cb77adb1），基点4872b017；产品冻结57dda7ed不变。
 独立工作树 `/Users/zhangxu/illegal/type-pal-runtime-shell`，分支 `codex/runtime-shell-coverage-r1`。
 
@@ -8,8 +8,10 @@
 
 六组实现完成，36项/全reforge 152文件1414项、TC、11代码工具文件Biome与**1完整正控+8单点业务负控**通过。
 新增6测试+3薄fixture+2工具，不改产品、旧测试、官方配置/排除/超时/基线。633生产文件在每个负控前后hash不变。
-**本卡尚未review/done**：覆盖对照暴露一处旧计数虚高的一手反例，精确工具根因和其余计数解释待独立复核；
-全仓check/官方ratchet/strict与GLM战斗包接收后统一串行，不抢跑或分组反复更新基线。
+**本卡尚未done**：旧计数虚高已定位到V8两类initializer合并身份冲突，另卡r1三席准入后已正式修补，
+详见[统计根因与实施](coverage-initializer-diagnosis.md)。宿主测试文件保持1d3d3fb3逐字节不变，已与修补卡组成
+联合验证树e0803d6e→基线候选b6286df0；全仓check8317、官方ratchet7826、保护c5569d1a的单次strict7826/633
+均exit0，其它六包基线对象不变。GLM战斗返工未纳入、不借此放行。
 
 ## 已实现的真实链
 
@@ -63,21 +65,22 @@ magic-box 35→87/87、dialog-box 17→128/148；净增其余依赖单列在[机
 main仍有2220遗漏行；未涵盖实体复杂运动/战斗/视频等其它宿主分支、真实图像/中文排版、非空装备/道具全矩阵，
 无whole-file95/90或完整E2E达标声明；后续不把本卡完成的36项再领一次。
 
-## STAT-1：旧覆盖计数虚高反例，待独立复核
+## STAT-1：旧覆盖计数虚高反例（已定位并另卡修补）
 
 未改的script-runner-core.ts在旧1378套件报195/195行，加入本包报158/195；旧17个core用例前后全部执行且通过，
 statementMap/fnMap/branchMap相同。不能只看总包增长就忽略逐文件倒退，也不能马上归咎业务测试丢失。
 
 独立运行见证：原1378用例全部绿；只在`:123`不支持compilerVersion的throw前插入临时文件见证，确认load钩已进入，
 但该分支见证文件未产生（**0次进入**）。与此同时旧报告同statement计数为**2**；至少这一条旧计数是虚高。
-不是改掉探针/删旧用例/放宽断言得来的结论；产品磁盘字节零改。精确根因究竟在V8采样/合并/remap哪层、其它36行
-是否完全同因尚未钉死，**不将此观察自动当成全量统计豁免**。
+不是改掉探针/删旧用例/放宽断言得来的结论；产品磁盘字节零改。初次诊断没有判定具体层；后续原生12组与
+项目raw对照已定位合并器的同range双initializer身份冲突，37/42/2/37差额全部可由该冲突解释。
+详见上方统计修复卡证据，仍**不将此观察自动当成全量统计豁免**。
 
-可重建：`node docs/testing/codex-runtime-shell-mutants.mjs --probe-core-coverage`，要求7790冻结树，
+历史可重建：`node docs/testing/codex-runtime-shell-mutants.mjs --probe-core-coverage`，要求e7c4b743的未打补丁7790冻结树，
 顺序运行旧1378/旧+新1414的一文件局部覆盖和旧1378的真实分支见证；JSON输出到独立/tmp，不动官方报告。
 现有输出：`/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-runtime-shell-mutants-3Dr2qd/core-witness.json`。
 其它定位也保留：core-only/core+host/core+shop/core+shop+host都只149/195行，旧全集回到195；简单二分两个半集均不出现
-该虚高，不能假定一个单独旧文件是根因。暂不修旧测试/依赖/统计配置，当前白名单不授权这类改动。
+该虚高，不能假定一个单独旧文件是根因。宿主卡不授权依赖改动；正式patch归新统计修复卡，不改宿主测试或生产代码。
 
 ## DEV-TOAST-1：不固化的产品观察
 
@@ -116,5 +119,6 @@ SHELL_COVERAGE_DIR=/tmp/type-pal-shell-review SHELL_COVERAGE_PHASE=after pnpm ex
 
 ## 下一步与交接
 
-请Kimi先独立窄审STAT-1是否足以说明旧计数虚高、其余变动需何种最小证据；这不是整卡终审，不代签accept或准许降基线。
-GLM战斗W1～W6继续，不受本卡统计排查阻塞。Codex待两包并集与统计解释明确后统一全仓门禁、再交同候选终审。
+Kimi统计窄审e7c4b743已完成；新统计修复卡r1三席设计也已齐，旧签不代整卡终审。
+GLM战斗W1～W6返工独立。本卡与统计修复组合验证，不等待或纳入未接收的GLM用例；统一门禁后按两卡分别
+签本人实施者accept已落卡，交GLM/Kimi同一候选b6286df0独立审查，不代签、不提前done。

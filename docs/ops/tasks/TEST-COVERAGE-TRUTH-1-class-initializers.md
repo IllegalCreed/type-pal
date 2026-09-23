@@ -1,6 +1,6 @@
 # TEST-COVERAGE-TRUTH-1 - 类初始化覆盖率合并真值修复
 
-Status: build
+Status: review
 Phase: ops
 Capability: ops / coverage
 Coding Owner: Codex
@@ -157,12 +157,14 @@ before→after：旧合并把两种initializer混为一个→分别保留身份�
 
 ### done前
 
-- Codex：pending。
+- Codex：**accept（实施者自验，2026-09-23，统一候选b6286df0，非独立审查）**。实际安装patch的10项回归全绿，未修版同3条业务AssertionError重现；空目录冻结安装/真实路径hash通过。旧1378与宿主1414四格对照分母/身份不变，37/42/2/37误报修正已分栏；633生产文件与57dda7ed一致。统一check8317+coverage-tools27/ratchet7826/保护c5569d1a的单次strict7826全exit0，其余六包基线对象不变、无降门。实现与风险见诊断文末/机账implementation。旧版本兼容审查：pass（无产品兼容新增，仅版本绑定第三方修复）。
 - GLM：pending。
 - Kimi：pending。
-- done准入：blocked。
+- done准入：blocked（GLM/Kimi同候选实现审查pending；不以设计签字代验收）。
 
 ## 交接日志
+
+- 2026-09-23 Codex（r1实施→review）：候选b6286df0，patch提交bb0e3c3e、联合宿主树e0803d6e。两个冲突文档按并集保留全部历史签字/日志。官方三门串行一次通过，基线7790→7826仅新增宿主36项，源633不动，其余六包完整对象相同。本人签实施者accept；GLM(a)配方已补、(b)其它同span理论盲点不扩、(c)原门不降落实。两卡分开审，战斗返工未纳入，不代签、不done。
 
 - 2026-09-23 Codex（build准入）：同步defd960e后核工作树干净与同r1三席直接证据，签字齐且无counter。本席统一转build，独立工作树实施实际安装补丁/原生与Vitest常驻回归；不借统计修复覆盖宿主验收或GLM战斗返工，不降低基线。
 
@@ -188,7 +190,30 @@ before→after：旧合并把两种initializer混为一个→分别保留身份�
 
 ## 下一位Agent提示词
 
-### 给Kimi（与GLM并行）
+### 当前：给Kimi（与GLM并行，两卡分别裁决）
+
+在 /Users/zhangxu/illegal/type-pal-coverage-truth 同步codex/coverage-initializer-truth-r1，独立终审统一候选
+b6286df0的两卡r1：本卡TEST-COVERAGE-TRUTH-1与TEST-RUNTIME-SHELL-COVERAGE-1（均review，设计不重签）。
+先核工作树/读AGENTS、CLAUDE、READ-FIRST、两卡与docs/testing/coverage-initializer-diagnosis.md文末、
+codex-runtime-shell.md及两份机账；不读GLM本轮结论。核实际pnpm patch/lock/安装hash、10回归与撤patch
+三条业务红、旧1378/宿主1414四格/37L修正与收益分栏；宿主六组真实boot/loader/codec/store/runner、实际
+输入快照、异步finally同一Promise、白名单和8负控。必要复跑node --test scripts/coverage/merge-initializers.test.mjs
+与node docs/testing/codex-runtime-shell-mutants.mjs；官方check8317/ratchet7826/受保护strict7826已有证据，
+不并发重跑。633源不变、其它六包基线对象不变，原诊断probe只在未修7790冻结树重放，别在新基线上误判。
+分别签本人accept或counter与旧兼容审查/直接证据、日志，提交推送此分支；只改本人席位，不代签、不改
+状态/产品/基线、不标done。DEV-TOAST-1、真实视觉/full/Q1/Q2、GLM战斗返工都不随本次关闭。
+
+### 当前：给GLM（与Kimi并行，两卡分别裁决）
+
+在同一worktree/分支独立审统一候选b6286df0的上述两卡r1 review。先同步核工作树，读AGENTS/CLAUDE/
+READ-FIRST、两卡与诊断实施节/宿主回执及机账，不读Kimi本轮结论。重点核10工具回归的真实调用与双序/
+多份/嵌套/空单输入/普通函数矩阵、实际安装和撤patch红因、修前修后四格与基线36增量；宿主H1～H6的
+9/4/7/8/5/3项、合法fixture/实际输入保真、真实IO门/异步收口、8针钉名业务红、回执与树一致。
+可复跑两条定向命令；不跑浏览器/视觉、不并发重跑官方覆盖，不借旧STAT-1或设计签字代实现审查。
+两卡分别在本人done前席位签带证据accept或counter、旧兼容审查与日志，提交推送当前分支；不改他席/
+状态/实现/基线，不代签、不标done。战斗返工独立，不把其用例算入7826。
+
+### 历史给Kimi：设计（已完成）
 
 在 /Users/zhangxu/illegal/type-pal 独立审 TEST-COVERAGE-TRUTH-1 r1 draft，卡
 docs/ops/tasks/TEST-COVERAGE-TRUTH-1-class-initializers.md。先同步main/核工作树，读AGENTS/CLAUDE/
@@ -199,7 +224,7 @@ READ-FIRST、卡与docs/testing/coverage-initializer-diagnosis.md/机账；不�
 写本人带锚点premise verified/design agree或counter与日志、提交推送main；只改本人块，不代签/改状态，
 不实施patch/官方基线，不签整卡accept。与GLM同r1独立审，三席齐后Codex统一核build。
 
-### 给GLM（与Kimi并行）
+### 历史给GLM：设计（已完成）
 
 在 /Users/zhangxu/illegal/type-pal 独立审同卡 TEST-COVERAGE-TRUTH-1 r1 draft。先同步/核工作树，读
 AGENTS/CLAUDE/READ-FIRST、本卡、诊断与机账，不读Kimi本轮结论。直接跑最小probe，核12组实际调用/计数、
