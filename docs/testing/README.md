@@ -8,6 +8,8 @@
 
 ## 文档与附件
 
+- [战斗流程r3独立接收](battle-workflows-r3-review.md)、[机账](battle-workflows-r3-evidence.json)与[隔离反证](battle-workflows-r3-witnesses.mjs)（7a2f1608仍counter；r2四反证/finally已闭；幂等/钳制调用域/等待零提交/去重边界/判据残项，保持无并集与无Kimi交接）
+
 - [战斗流程r2独立接收](battle-workflows-r2-review.md)、[机账](battle-workflows-r2-evidence.json)与[隔离反证](battle-workflows-r2-witnesses.mjs)（b7ba48bb仍counter；原五反证已闭，新反证证明完整写回/敌后续/清理/判据与原合同残项未闭；不改GLM语义、不跑并集）
 
 - [STAT-1覆盖率合并根因与实施](coverage-initializer-diagnosis.md)、[机账](coverage-initializer-evidence.json)、[历史原生最小复现](coverage-initializer-probe.mjs)与[raw捕获/离线复算](coverage-initializer-capture.mjs)（b6286df0/done；三席accept齐，Codex核定归档；check8317/单次strict7826与远端CI通过）
