@@ -1,6 +1,6 @@
 # Codex：真实运行时宿主六组补测
 
-2026-09-23。任务卡：[TEST-RUNTIME-SHELL-COVERAGE-1](../ops/archive/tasks/done/TEST-RUNTIME-SHELL-COVERAGE-1-boot-menu-flows.md)，r1/review，统一候选b6286df0。
+2026-09-23。任务卡：[TEST-RUNTIME-SHELL-COVERAGE-1](../ops/archive/tasks/done/TEST-RUNTIME-SHELL-COVERAGE-1-boot-menu-flows.md)，r1/done，统一候选b6286df0。
 实现候选 **1d3d3fb3**（前序542e1c07/cb77adb1），基点4872b017；产品冻结57dda7ed不变。
 独立工作树 `/Users/zhangxu/illegal/type-pal-runtime-shell`，分支 `codex/runtime-shell-coverage-r1`。
 
@@ -8,7 +8,8 @@
 
 六组实现完成，36项/全reforge 152文件1414项、TC、11代码工具文件Biome与**1完整正控+8单点业务负控**通过。
 新增6测试+3薄fixture+2工具，不改产品、旧测试、官方配置/排除/超时/基线。633生产文件在每个负控前后hash不变。
-**本卡尚未done**：旧计数虚高已定位到V8两类initializer合并身份冲突，另卡r1三席准入后已正式修补，
+**本卡已done**：三席同候选accept齐（Kimi aa436d9f、GLM 326e4906），用户确认后Codex于a13a66f7核定归档。
+旧计数虚高已定位到V8两类initializer合并身份冲突，另卡r1三席准入后已正式修补，
 详见[统计根因与实施](coverage-initializer-diagnosis.md)。宿主测试文件保持1d3d3fb3逐字节不变，已与修补卡组成
 联合验证树e0803d6e→基线候选b6286df0；全仓check8317、官方ratchet7826、保护c5569d1a的单次strict7826/633
 均exit0，其它六包基线对象不变。GLM战斗返工未纳入、不借此放行。
@@ -121,4 +122,4 @@ SHELL_COVERAGE_DIR=/tmp/type-pal-shell-review SHELL_COVERAGE_PHASE=after pnpm ex
 
 Kimi统计窄审e7c4b743已完成；新统计修复卡r1三席设计也已齐，旧签不代整卡终审。
 GLM战斗W1～W6返工独立。本卡与统计修复组合验证，不等待或纳入未接收的GLM用例；统一门禁后按两卡分别
-签本人实施者accept已落卡，交GLM/Kimi同一候选b6286df0独立审查，不代签、不提前done。
+三席同候选b6286df0独立审查已完成、Codex已分别核定done。无下一位Agent提示词；GLM战斗返工另行接收。

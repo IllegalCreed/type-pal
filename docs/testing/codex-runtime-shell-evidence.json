@@ -5,7 +5,7 @@
   "candidate": "1d3d3fb344eb762aa9a8e5177cccffcf20d788cf",
   "base": "4872b017",
   "owner": "Codex",
-  "status": "review; unified gates passed; external implementation reviews pending",
+  "status": "done; three accepts at b6286df0; Codex closure a13a66f7",
   "unifiedIntegration": {
     "candidate": "b6286df0ad8348ea129ed097ac4ea44fc1401443",
     "patchCommit": "bb0e3c3e",
@@ -280,7 +280,7 @@
       "No product/old tests/timeout/exclusions/threshold/comparator changes",
       "Historical diagnostic tools target the frozen unpatched 7790 tree; installed-old1378 capture targets bb0e3c3e",
       "No visual/full/Q1/Q2 or DEV-TOAST-1 resolution claimed",
-      "Owner acceptance only; Kimi and GLM implementation reviews pending"
+      "Three accepts complete: Kimi aa436d9f and GLM 326e4906; closed by Codex a13a66f7"
     ]
   },
   "tests": [

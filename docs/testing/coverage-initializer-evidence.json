@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "task": "TEST-COVERAGE-TRUTH-1",
   "date": "2026-09-23",
-  "status": "review; diagnosis preserved; implementation owner accepted",
+  "status": "done; three accepts at b6286df0, Codex closure a13a66f7; diagnostic history preserved",
   "implementation": {
     "candidate": "b6286df0ad8348ea129ed097ac4ea44fc1401443",
     "patchCommit": "bb0e3c3e",
@@ -277,7 +277,7 @@
       "No product/old tests/timeout/exclusions/threshold/comparator changes",
       "Historical diagnostic tools target the frozen unpatched 7790 tree; installed-old1378 capture targets bb0e3c3e",
       "No visual/full/Q1/Q2 or DEV-TOAST-1 resolution claimed",
-      "Owner acceptance only; Kimi and GLM implementation reviews pending"
+      "Three accepts complete: Kimi aa436d9f and GLM 326e4906; closed by Codex a13a66f7"
     ]
   },
   "base": "3f1b111db4e48a8c3d89bfa9daa6e0f8c9763e15",

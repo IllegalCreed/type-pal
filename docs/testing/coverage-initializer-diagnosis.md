@@ -1,7 +1,7 @@
 # STAT-1：类初始化覆盖率合并误报
 
-2026-09-23，[修复卡](../ops/archive/tasks/done/TEST-COVERAGE-TRUTH-1-class-initializers.md)r1已实施并进入review，统一候选b6286df0。
-上半篇保留只读取证；正式实施与验证见文末。当前不标done，也不是下调基线授权。
+2026-09-23，[修复卡](../ops/archive/tasks/done/TEST-COVERAGE-TRUTH-1-class-initializers.md)r1已三席accept齐并由Codex核定done，统一候选b6286df0。
+上半篇保留只读取证；正式实施与验证见文末。本卡收口不是下调基线或统计全面准确的授权。
 
 2026-09-23实施附注：r1三席已准入build；旧最小probe和默认capture/`--replay`针对**未装patch**的
 准备树2fcf57d7，不应在已安装修复的依赖树上冒充修复验收。实际安装回归是
@@ -172,4 +172,5 @@ GLM(a)哈希配方已补；(b)其它同span函数形状仅理论观察，无已�
 
 独立空目录`git archive e0803d6e`→`pnpm install --frozen-lockfile --offline`→实际安装hash回归1/1也通过，
 日志`/tmp/type-pal-truth-cold-{install,smoke}.log`。check的lint保留既有47 warnings/6 infos（exit0），
-只声明改动文件Biome零诊断。本人实施者accept，GLM/Kimi同候选终审pending；尚未done。
+只声明改动文件Biome零诊断。三席同候选accept已齐（Kimi aa436d9f、GLM 326e4906），用户确认后Codex
+于a13a66f7核定done；远端525c40cd Coverage ratchet success。本次收口没有重跑覆盖率。
