@@ -30,7 +30,9 @@
 | migrate | 56.29% | 54.66% | 55.11% | 48.40% | 416 |
 | 全仓 | **73.80%** | **71.76%** | **72.78%** | **65.41%** | **7790** |
 
-当前任务review，Codex为实施者自验、Kimi独立终审待做，GLM额度缺席未自动豁免；不是done或远端CI通过。
+2026-09-23同候选27bd8c00三席accept齐（Codex实施者自验、GLM贡献者复核d8b9dfa7、Kimi独立终审5b44c37d），
+用户确认后Codex核实现/测试/基线零漂移并done归档；集成f703e49c的[远端覆盖率CI](https://github.com/IllegalCreed/type-pal/actions/runs/35802169937)
+及文档CI均success。本次仅文档收口，没有重跑覆盖率或改变上述基线。
 F组输入解耦与新业务分栏、未达whole-file95/90/无当前caller/防御路径详见回执和机账。
 图像IO替身不代表视觉验收，full/Q1/Q2/E2E与其它修复卡不借本次关闭。
 

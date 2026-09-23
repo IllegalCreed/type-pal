@@ -1,7 +1,7 @@
 # GLM 第二波非视觉覆盖率整包 · 六组25模块
 
 日期：2026-09-22；规划Owner：Codex；实施Owner：GLM。
-任务卡：[TEST-NONVISUAL-COVERAGE-2](../ops/tasks/TEST-NONVISUAL-COVERAGE-2-six-domain-boundaries.md)。
+任务卡：[TEST-NONVISUAL-COVERAGE-2](../ops/archive/tasks/done/TEST-NONVISUAL-COVERAGE-2-six-domain-boundaries.md)。
 当前阶段：**draft/准备**。GLM现在可连续完成六组逐族核对、合法fixture方案、去重和验收细化；三席设计齐并由Codex核门后才能写正式测试。
 不是重领已done的TB00～TB10，也不是给予任意代码修改/先行实施豁免。
 

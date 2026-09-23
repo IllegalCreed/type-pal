@@ -1,6 +1,6 @@
 # TEST-NONVISUAL-COVERAGE-2 - 六领域非视觉测试覆盖率第二波
 
-Status: review
+Status: done
 Phase: phase2
 Capability: N6 / A7 / ED-3 / B5（既有能力的测试，不变更能力地图状态）
 Coding Owner: Codex（2026-09-22用户授权接替额度耗尽的GLM）
@@ -11,11 +11,19 @@ Visual Verification Timing: N/A
 Unavailable Agents: 无（2026-09-23用户确认GLM额度恢复；恢复本席复核，不豁免签字）
 Branch: codex/glm-coverage-wave2（GLM从最新main创建独立工作树，不在主工作树checkout）
 
-Revision: r1（设计v5/ae1ae8b6保持；实现候选27bd8c00，集成f703e49c；待GLM复核与Kimi独立终审）
+Revision: r1（设计v5/ae1ae8b6保持；实现候选27bd8c00，集成f703e49c；2026-09-23三席accept齐，Codex核定done）
 Planning Base: `456feb12`
 Production Freeze: `57dda7ed2376fc25f07756be117bb4a058d09915`
 
-## 当前审查交接（2026-09-23，优先于下方历史额度状态）
+## 当前收口（2026-09-23，优先于下方历史状态）
+
+用户确认“都签了”后，Codex同步并核当前HEAD d8b9dfa7：三席均对27bd8c00签accept，Codex实施者自验、GLM贡献者复核d8b9dfa7、Kimi独立终审5b44c37d，三席旧兼容审查pass，无未关闭counter、无缺签豁免。27bd8c00至当前树的packages/scripts及两隔离工具零diff，既有完整check8281、官方ratchet/受保护单次strict7790与f703e49c远端双CI证据仍适用。本次仅核门、文档归档与索引同步，不重复跑测试覆盖率、不改任何他席签字。
+
+本卡done只表示这批163项补测及审查闭环，不表示全仓覆盖率目标、E2E或其它产品欠账完成。未达whole-file95/90、无现行caller的旧扫描器/BaseScriptProjectRuntime、F输入解耦、E-05/U-02/frame缓存政策、N6b/full/Q1/Q2均维持原归属；Kimi已明确未达项无需本卡补齐。用户优先补覆盖率、E2E后置的排期不变。
+
+无下一位Agent提示词，当前卡已核定收口；下方审查与交接提示均为历史，不重新授权实施。
+
+## 审查交接历史（2026-09-23，额度恢复记录）
 
 用户确认GLM额度恢复。Coding Owner仍为Codex，已实施候选27bd8c00与设计v5不变；GLM恢复代码/矩阵复核，与Kimi同候选并行读取一手证据，各自形成结论，不读取或复述另一席结论。GLM曾贡献原A/B测试，不作为独立第三方自证；Kimi仍承担独立终审。没有缺签豁免，三席未齐不标done。
 
@@ -39,7 +47,7 @@ Production Freeze: `57dda7ed2376fc25f07756be117bb4a058d09915`
 
 给GLM一个可连续执行的整包：六组25个现行非视觉模块，先逐族去重/合法性核验，三席设计齐后统一开build补正式回归。
 不是重开TB00～TB10，也不把长队列变成薄E2E新前置。工作包、白名单、分组边界与验收以
-[六组工作包](../../testing/glm-coverage-wave2.md)及[冻结机账](../../testing/glm-coverage-wave2-evidence.json)为准。
+[六组工作包](../../../../testing/glm-coverage-wave2.md)及[冻结机账](../../../../testing/glm-coverage-wave2-evidence.json)为准。
 
 - 范围内：脚本host/world/core；模拟器config/prepare/snapshot与editor预设纯数据；精灵投影/动画draft；引用/proof；content守卫；三个current迁移映射/审计模块。
 - 范围外：任何产品修改、UI/视觉/听感/浏览器、E-05/U-02/C-01～05/N6b修复、真实迁移/资产写入、官方配置/排除/阈值与baseline修改。
@@ -67,8 +75,8 @@ Production Freeze: `57dda7ed2376fc25f07756be117bb4a058d09915`
 ## 上下文锚点
 
 - AGENTS/CLAUDE/phase2 READ-FIRST、当前7538覆盖记录、已done TB00～TB10及工作包列出的相关已验收修复。
-- [GLM交付前自检清单](../../testing/glm-delivery-checklist.md)：合法guard先行、同一实际输入深快照、entered/同步观察/finally同一pending、精确变异判据、回执从最终树生成。
-- [前置欠账](../../testing/pre-e2e-admission.md)：E-05/U-02/N6b/Q2归属不变；不重开已done迁移写盘卡。
+- [GLM交付前自检清单](../../../../testing/glm-delivery-checklist.md)：合法guard先行、同一实际输入深快照、entered/同步观察/finally同一pending、精确变异判据、回执从最终树生成。
+- [前置欠账](../../../../testing/pre-e2e-admission.md)：E-05/U-02/N6b/Q2归属不变；不重开已done迁移写盘卡。
 - 不得重新引入：旧模型/兼容fallback、默认红/skip、覆盖率ignore、假原版结论、全模块mock、无鉴别力“非空”断言、另一个对象冒充实际输入。
 
 ## 准备与实施验收
@@ -382,9 +390,13 @@ Production Freeze: `57dda7ed2376fc25f07756be117bb4a058d09915`
   - check8281/ratchet/保护 967b35fb 单次 strict7790 采信 Codex 已落日志，未并发重跑覆盖率；
     无视觉任务（B05 图像宿主仅尺寸/close 已核）。
   - 返工项：无。
-- done准入结论：blocked；2026-09-23用户确认GLM额度恢复，待GLM与Kimi同候选27bd8c00各自accept。无缺签豁免；GLM原贡献不作为独立第三方自证，Codex不代签，不以本人自验替代Kimi独立终审。
+- done准入结论：**done allowed（2026-09-23，Codex统一核定）**。三席同候选27bd8c00 accept齐：Codex自验、GLM贡献者复核d8b9dfa7、Kimi独立终审5b44c37d；无counter、无缺签豁免，用户确认签字。核当前packages/scripts/两工具零漂移后推进done并归档；GLM贡献不冒充独立第三方，Kimi独立终审保持有效。未达覆盖率/无caller/未决政策与其它卡边界见顶部收口，不借本卡关闭。
 
 ## 交接日志
+
+- 2026-09-23 Codex（归档文档门补正）：首检工具测试20项通过，但文档门因看板历史段直接链接终态卡exit1；已改为链接实施回执，终态卡仍由统一索引导航。三席验收块逐字节比较不变；修正后重跑文档门，不把首检记绿。
+
+- 2026-09-23 Codex（统一done核定）：用户确认“都签了”，接手d8b9dfa7工作树干净、远端一致。逐读三席同27bd8c00 accept与一手/复跑证据，Kimi明确无返工，GLM贡献关系披露；实现/测试/基线/隔离工具相对候选零漂移。采信已落check8281/ratchet/单次strict7790与远端双CI，不重复统计；仅改本席收口/共享状态、看板、回执当前状态及索引链接，保留全部历史签字，推进done归档。无下一位Agent提示词，本卡收口完成；后续补覆盖率按当前基线另选完整业务域，不重领本批或借此启动E2E。
 
 - 2026-09-23 GLM（贡献者复核）：额度恢复后对候选 27bd8c00（对比 967b35fb，集成 f703e49c）
   签 done 前 accept（证据见本席；披露原 A/B 组贡献者身份 6839ea78/816c32ce，不作为独立第三方
@@ -507,25 +519,25 @@ Production Freeze: `57dda7ed2376fc25f07756be117bb4a058d09915`
 - 2026-09-22 GLM（准备完成）：在 codex/glm-coverage-wave2 工作树（基 f828b9fc，零产品/测试/
   配置改动）一次完成六组逐族分类：25 模块 960L/1274B 分桶 NEW671/888·PKG124/186·XPKG103/117·
   UNREACH29/42·PEND33/41（与冻结机账逐模块对账通过）；A01～F03 逐族 caller/fixture/旧测试
-  精确标题/断言/最强坏实现/代表负控落 [准备回执](../../testing/glm-coverage-wave2-receipt.md)
-  与 [机账](../../testing/glm-coverage-wave2-results.json)；白名单冻结 25 测试+9 fixture+2 工具；
+  精确标题/断言/最强坏实现/代表负控落 [准备回执](../../../../testing/glm-coverage-wave2-receipt.md)
+  与 [机账](../../../../testing/glm-coverage-wave2-results.json)；白名单冻结 25 测试+9 fixture+2 工具；
   PEND 项单列。签本人 premise verified / design agree（证据见本席）。两席同候选并行设计审查
   提示词见下；未改共享状态、不代签、不标 build/done。
 
 - 2026-09-22 Codex：用户要求给GLM一大批覆盖率工作。同步main至456feb12、生产对57dda7ed相同；用7538/633对应报告核25模块并生成960行/1274臂候选清单，六组工作包与禁止范围落盘。主树旧7502报告未采用；两类无现行caller的审计入口暂排除。未改产品、测试或官方覆盖率，当前只交GLM准备；没有签字豁免。
 - 2026-09-22 Codex（规划验证）：census与冻结JSON复算一致，旧7502报告拒绝；Biome与文档门通过。准备工具对报告额外identities的初版误拒已按持久baseline字段投影纠正，仍核全部身份/计数/范围字段。下一步GLM填写逐族合同并签本人准备结论，不直接实施。
 
-## 当前下一位Agent提示词（给GLM，候选27bd8c00代码/矩阵复核）
+## 历史下一位Agent提示词（给GLM，候选27bd8c00代码/矩阵复核，已完成）
 
-在 `/Users/zhangxu/illegal/type-pal` 复核 TEST-NONVISUAL-COVERAGE-2 r1，卡 `docs/ops/tasks/TEST-NONVISUAL-COVERAGE-2-six-domain-boundaries.md`（review），实现候选27bd8c00，对比967b35fb，集成main f703e49c，生产冻结57dda7ed，设计v5不重签。先同步main并核工作树，读AGENTS/CLAUDE/READ-FIRST、本卡当前交接、`docs/testing/glm-coverage-wave2-receipt.md`的Codex节及机账`codexImplementation`；不要读取或复述Kimi本轮结论。你原6839ea78/816c32ce贡献保留，Codex已修正A/B并完成C～F，本席复核须披露贡献关系，不作为独立第三方自证。
+在 `/Users/zhangxu/illegal/type-pal` 复核 TEST-NONVISUAL-COVERAGE-2 r1，卡 `docs/ops/archive/tasks/done/TEST-NONVISUAL-COVERAGE-2-six-domain-boundaries.md`（review），实现候选27bd8c00，对比967b35fb，集成main f703e49c，生产冻结57dda7ed，设计v5不重签。先同步main并核工作树，读AGENTS/CLAUDE/READ-FIRST、本卡当前交接、`docs/testing/glm-coverage-wave2-receipt.md`的Codex节及机账`codexImplementation`；不要读取或复述Kimi本轮结论。你原6839ea78/816c32ce贡献保留，Codex已修正A/B并完成C～F，本席复核须披露贡献关系，不作为独立第三方自证。
 
 核25新测试+9薄fixture+2工具白名单、163项及四包增量、产品/旧测试/官方scope零改。重点抽查合法guard、实际同一输入深快照、A05真实取消/漂移链、B05正式资源准备与失败释放、C多实例/非空redo、D真实proof generation、E父guard、F独立36键与fast解耦归属。对账剩余可达/无caller/防御/未决项，不把旧已证合同重复计新增；有必须本卡补齐的有效缺口给真实caller与file:line反证，不发明政策或修改生产。
 
 复跑四包定向163及相关TC/Biome；`node docs/testing/glm-coverage-wave2-mutants.mjs`应4完整正控+17精确目标AssertionError负控及PNG CRC/源字节一致，检查判据自测和真实运行入口同源。完整check8281/ratchet/单次strict7790及远端CI已有证据，不跑官方ratchet/strict、不与Kimi争用同一/tmp报告目录；不操作浏览器、不做视觉。仅修改本人done前席位与本人日志，签accept或带锚点与复现的counter，单列旧兼容审查；不改实现/他席/共享状态、不代签、不标done。提交前同步保留Kimi改动，自行处理push竞态；由Codex统一核门。
 
-## 当前下一位Agent提示词（给Kimi，候选27bd8c00独立终审）
+## 历史下一位Agent提示词（给Kimi，候选27bd8c00独立终审，已完成）
 
-在 `/Users/zhangxu/illegal/type-pal` 独立终审 TEST-NONVISUAL-COVERAGE-2 r1，卡 `docs/ops/tasks/TEST-NONVISUAL-COVERAGE-2-six-domain-boundaries.md`（review），实现候选27bd8c00，对比967b35fb，生产冻结57dda7ed，v5设计不重签。先同步main并核工作树，读AGENTS/CLAUDE/READ-FIRST、本卡当前代班/验收席位、`docs/testing/glm-coverage-wave2-receipt.md`的Codex节及机账`codexImplementation`。GLM额度耗尽，Codex接手修正A/B并完成C～F；GLM原6839ea78/816c32ce是贡献，不作为独立第三方证明；不要以本席accept代替独立读取一手证据。
+在 `/Users/zhangxu/illegal/type-pal` 独立终审 TEST-NONVISUAL-COVERAGE-2 r1，卡 `docs/ops/archive/tasks/done/TEST-NONVISUAL-COVERAGE-2-six-domain-boundaries.md`（review），实现候选27bd8c00，对比967b35fb，生产冻结57dda7ed，v5设计不重签。先同步main并核工作树，读AGENTS/CLAUDE/READ-FIRST、本卡当前代班/验收席位、`docs/testing/glm-coverage-wave2-receipt.md`的Codex节及机账`codexImplementation`。GLM额度耗尽，Codex接手修正A/B并完成C～F；GLM原6839ea78/816c32ce是贡献，不作为独立第三方证明；不要以本席accept代替独立读取一手证据。
 
 核范围25测试+9薄fixture+2工具，产品/旧测试/官方scope/排除/超时零改；baseline只增163至7790/633，另三包不变。重点核A05真实current compiler→host/runner的提交前/后取消与漂移，B05正式loader/RLE/gzip/hash/重新读取工程及失败释放，C同资源多实例/非空redo分叉，D真实session/proof generation和canonical会话换代，E父guard先行，F四入口独立36键与fast输入解耦不二次报功。B05的图像宿主只核合法PNG尺寸/close、无视觉验收；无当前caller的旧扫描器/BaseScriptProjectRuntime及未达whole-file95/90如实留账，是否仍有必须本卡补齐的有效缺口请独立裁定。
 
@@ -535,7 +547,7 @@ Production Freeze: `57dda7ed2376fc25f07756be117bb4a058d09915`
 
 ## 历史下一位Agent提示词（给GLM，v5准入时原文；已由Codex接手）
 
-在 `/Users/zhangxu/illegal/type-pal-glm-wave2` 的 `codex/glm-coverage-wave2` 实施 TEST-NONVISUAL-COVERAGE-2 r1。任务卡 `docs/ops/tasks/TEST-NONVISUAL-COVERAGE-2-six-domain-boundaries.md` 已build allowed，准备候选ae1ae8b6/v5，Codex ecbb4475、GLM v5附签、Kimi 5d7f90ba三席齐，设计不重签。先同步远端本分支并核干净工作树，不在主worktree切分支；读AGENTS/CLAUDE/READ-FIRST、本卡最新准入、glm-coverage-wave2.md、v5回执/机账与glm-delivery-checklist.md。原工作包的draft措辞属准备历史，本卡最新准入为当前授权。
+在 `/Users/zhangxu/illegal/type-pal-glm-wave2` 的 `codex/glm-coverage-wave2` 实施 TEST-NONVISUAL-COVERAGE-2 r1。任务卡 `docs/ops/archive/tasks/done/TEST-NONVISUAL-COVERAGE-2-six-domain-boundaries.md` 已build allowed，准备候选ae1ae8b6/v5，Codex ecbb4475、GLM v5附签、Kimi 5d7f90ba三席齐，设计不重签。先同步远端本分支并核干净工作树，不在主worktree切分支；读AGENTS/CLAUDE/READ-FIRST、本卡最新准入、glm-coverage-wave2.md、v5回执/机账与glm-delivery-checklist.md。原工作包的draft措辞属准备历史，本卡最新准入为当前授权。
 
 按原25测试+9薄fixture+2工具白名单，在同一分支A→F各组一提交连续完成整包，不逐组问继续。A05正常move转交与hide/remove生命周期取消是已有不同证据，移动提交前/后取消及会话漂移仍属原NEW待补；严格合法guard、同一实参完整快照、entered/同步结局/finally同一pending、钉新增case自身AssertionError的单点负控。先核主线Codex新增89项的去重影响；冻结7538定位不是当前7627主线，也不能把已命中的guard增量重复报功。生产freeze仍57dda7ed，不修改冻结evidence。
 
@@ -543,7 +555,7 @@ Production Freeze: `57dda7ed2376fc25f07756be117bb4a058d09915`
 
 ## 历史下一位Agent提示词（给GLM，准备阶段原文）
 
-在 /Users/zhangxu/illegal/type-pal 接 TEST-NONVISUAL-COVERAGE-2 r1，卡 docs/ops/tasks/TEST-NONVISUAL-COVERAGE-2-six-domain-boundaries.md，draft，Coding Owner=GLM。先同步main/检查工作树，读AGENTS.md、CLAUDE.md、docs/phase2/READ-FIRST.md、本卡、docs/testing/glm-coverage-wave2.md、冻结evidence.json与glm-delivery-checklist.md。生产冻结57dda7ed2376fc25f07756be117bb4a058d09915，基线7538项/633生产文件。
+在 /Users/zhangxu/illegal/type-pal 接 TEST-NONVISUAL-COVERAGE-2 r1，卡 docs/ops/archive/tasks/done/TEST-NONVISUAL-COVERAGE-2-six-domain-boundaries.md，draft，Coding Owner=GLM。先同步main/检查工作树，读AGENTS.md、CLAUDE.md、docs/phase2/READ-FIRST.md、本卡、docs/testing/glm-coverage-wave2.md、冻结evidence.json与glm-delivery-checklist.md。生产冻结57dda7ed2376fc25f07756be117bb4a058d09915，基线7538项/633生产文件。
 请在独立codex/glm-coverage-wave2工作树，一口气完成W2-A～F六组25模块的逐臂分类、合法fixture/guard、真实caller、旧测试精确标题去重、业务断言与最强单点反例，冻结新增测试/fixture/工具白名单；将准备回执写docs/testing/glm-coverage-wave2-receipt.md，机账写glm-coverage-wave2-results.json，核每臂唯一主分类和各组加总。960行/1274臂只是整文件候选缺口，不能承诺全可达；F组区分full已有证明与fast输入解耦，不测历史translator注入/旧输出分支。发现未知政策、现行无caller或产品缺陷要单列，不固化为正确绿测。
 本阶段可读源码/旧测试/真实来源、跑既有定向并做隔离取证；不得改packages、正式测试、原probe、官方baseline/config/排除/超时、真实data/projects或模拟器UI；不操作浏览器/做视觉。不得checkout主工作树或恢复stash。
 准备完请落自己有一手锚点的premise/design或counter，并提交推送；不改共享状态，不代签，不标build/done。给Codex和Kimi两份钉同一准备候选的并行设计审查提示词。等三席齐且Codex核build allowed后，在同一父卡/分支按六组各一提交连续实现，最终整包交Codex；严格执行自检清单和工作包验收，GLM不跑官方ratchet/strict-fast。不要每组停下询问继续，也不要绕过设计门。
@@ -553,14 +565,14 @@ Production Freeze: `57dda7ed2376fc25f07756be117bb4a058d09915`
 ### 给Codex（窄复核A05）
 
 ```text
-在 /Users/zhangxu/illegal/type-pal 窄复核 TEST-NONVISUAL-COVERAGE-2 v5，卡 docs/ops/tasks/TEST-NONVISUAL-COVERAGE-2-six-domain-boundaries.md（draft），分支 codex/glm-coverage-wave2 提交 ae1ae8b6（worktree /Users/zhangxu/illegal/type-pal-glm-wave2），仅针对你 29b1a56b 的 A05 归因残项。
+在 /Users/zhangxu/illegal/type-pal 窄复核 TEST-NONVISUAL-COVERAGE-2 v5，卡 docs/ops/archive/tasks/done/TEST-NONVISUAL-COVERAGE-2-six-domain-boundaries.md（draft），分支 codex/glm-coverage-wave2 提交 ae1ae8b6（worktree /Users/zhangxu/illegal/type-pal-glm-wave2），仅针对你 29b1a56b 的 A05 归因残项。
 先同步/核工作树，读你的 v4 结论与机账 v5（glm-coverage-wave2-results.json schemaVersion 5）familyTable A05 行及回执 v5 附节。只核：① 标题已补齐末尾 leaf（abort before commit writes nothing; abort after commit prevents the next leaf）；② 已证范围收窄为「当前 host 转交 move 提交控制的正常路径」一条、生命周期取消证据（hideEntity/removeEntity）单列且不再冒充 moveEntity；③ 「移动提交窗口两臂已证」已在机账/回执/席位撤回，移动提交前/后取消与会话漂移（script-project-core.ts:157-184）保留原 A05 NEW 冻结定位；④ git diff bfb4f522..ae1ae8b6 应仅三准备文件、其余 19 行/80 标题/映射/六针/白名单零变化。确认后在本人席位签 accept 或列残项并写日志提交推送；不改GLM文件/共享状态、不代签；三席齐后统一核 build allowed。
 ```
 
 ### 给Kimi（窄复核A05）
 
 ```text
-在 /Users/zhangxu/illegal/type-pal 窄复核 TEST-NONVISUAL-COVERAGE-2 v5，卡 docs/ops/tasks/TEST-NONVISUAL-COVERAGE-2-six-domain-boundaries.md（draft），分支 codex/glm-coverage-wave2 提交 ae1ae8b6（worktree /Users/zhangxu/illegal/type-pal-glm-wave2），仅针对 Codex 29b1a56b 指出的 A05 归因残项；不读或复述 Codex 本轮结论。
+在 /Users/zhangxu/illegal/type-pal 窄复核 TEST-NONVISUAL-COVERAGE-2 v5，卡 docs/ops/archive/tasks/done/TEST-NONVISUAL-COVERAGE-2-six-domain-boundaries.md（draft），分支 codex/glm-coverage-wave2 提交 ae1ae8b6（worktree /Users/zhangxu/illegal/type-pal-glm-wave2），仅针对 Codex 29b1a56b 指出的 A05 归因残项；不读或复述 Codex 本轮结论。
 独立核：① runtime-script-project.test.ts 两测试的实际命令集（AST 或逐行读）与机账 v5 A05 行的已证/单列归属是否一致；② 撤回表述在机账 differential、回执 v5 附节、GLM 席位三处一致且移动取消/会话漂移仍在 NEW 范围；③ 其余内容与 v4 零漂移（git diff bfb4f522..ae1ae8b6）。在本人席位签 accept 或带 file:line counter 并写日志提交推送；不改GLM文件/共享状态、不代签、不标build/done。
 ```
 
@@ -569,14 +581,14 @@ Production Freeze: `57dda7ed2376fc25f07756be117bb4a058d09915`
 ### 给Codex（复核v4）
 
 ```text
-在 /Users/zhangxu/illegal/type-pal 复核 TEST-NONVISUAL-COVERAGE-2 v4 修订准备候选，卡 docs/ops/tasks/TEST-NONVISUAL-COVERAGE-2-six-domain-boundaries.md（draft），分支 codex/glm-coverage-wave2 提交 bfb4f522（worktree /Users/zhangxu/illegal/type-pal-glm-wave2），针对你 r3 d84d1bbf 与 Kimi d19d5bb0 收敛的唯一 C2 残项。
+在 /Users/zhangxu/illegal/type-pal 复核 TEST-NONVISUAL-COVERAGE-2 v4 修订准备候选，卡 docs/ops/archive/tasks/done/TEST-NONVISUAL-COVERAGE-2-six-domain-boundaries.md（draft），分支 codex/glm-coverage-wave2 提交 bfb4f522（worktree /Users/zhangxu/illegal/type-pal-glm-wave2），针对你 r3 d84d1bbf 与 Kimi d19d5bb0 收敛的唯一 C2 残项。
 先同步分支/核工作树，读你的 r3 结论、GLM 回执 v4 附节与机账 v4（glm-coverage-wave2-results.json schemaVersion 4）。逐项复核：① familyTable 11→20 行——九族（A05/B01/B02/B03/C03/C04/C05/E03/E04）的构造器/guard、旧测试引用与差异归属是否真实（抽 A05/C04/E04 三行对源码与旧标题）；② 5 条套件提示展开——trial-assets 5/simulator-ui 10/frame-animation-draft 5/project-reference 10+5/casualty 5 精确标题与你 AST 核验的仓内标题一致、suite 引用带计数；③ 映射 rules/generatedTotals/needles/whitelist 与 33a7a034 逐字一致（应零 diff）；④ 回执「45 条精确」已更正为 40+40=80 表述。在本人席位对 v4 签 accept、维持 counter 或列新反证并写日志提交推送；保留他席原文，不改GLM文件/共享状态、不代签。三席对 v4 齐后由你统一核 build allowed。
 ```
 
 ### 给Kimi（复核v4）
 
 ```text
-在 /Users/zhangxu/illegal/type-pal 独立复核 TEST-NONVISUAL-COVERAGE-2 v4 修订准备候选，卡 docs/ops/tasks/TEST-NONVISUAL-COVERAGE-2-six-domain-boundaries.md（draft），分支 codex/glm-coverage-wave2 提交 bfb4f522（worktree /Users/zhangxu/illegal/type-pal-glm-wave2）。先同步/核工作树，读你在 d19d5bb0 的 C2 残项 counter、GLM 回执 v4 附节与机账 v4；不读或复述 Codex 本轮复核结论。
+在 /Users/zhangxu/illegal/type-pal 独立复核 TEST-NONVISUAL-COVERAGE-2 v4 修订准备候选，卡 docs/ops/archive/tasks/done/TEST-NONVISUAL-COVERAGE-2-six-domain-boundaries.md（draft），分支 codex/glm-coverage-wave2 提交 bfb4f522（worktree /Users/zhangxu/illegal/type-pal-glm-wave2）。先同步/核工作树，读你在 d19d5bb0 的 C2 残项 counter、GLM 回执 v4 附节与机账 v4；不读或复述 Codex 本轮复核结论。
 压力点：① 你列出的九缺族是否每族都有真实构造器/guard+旧测试引用+一个具体差异（抽 C03/C04：frame-animation-draft 五标题是否与仓内逐字一致、差异臂是否真未覆盖）；② 5 条提示展开的标题/计数与仓内 AST 一致（尤其 simulator-ui 10 条与 project-reference 10+5 分文件）；③ r3 已核项（映射算术/四臂/A03/B04/F03/勘误/40 精确标题）在 v4 中应零改动——用 git diff 33a7a034..bfb4f522 核仅准备三文件变化；④ dedupTitles 80 条无重复计数/无把 full-only 新增误报。在本人席位签 accept 或带 file:line counter 并写日志提交推送；保留他席原文，不改GLM文件/共享状态、不代签、不标build/done。
 ```
 
@@ -585,14 +597,14 @@ Production Freeze: `57dda7ed2376fc25f07756be117bb4a058d09915`
 ### 给Codex（复核r3）
 
 ```text
-在 /Users/zhangxu/illegal/type-pal 复核 TEST-NONVISUAL-COVERAGE-2 r3 修订准备候选，卡 docs/ops/tasks/TEST-NONVISUAL-COVERAGE-2-six-domain-boundaries.md（draft），分支 codex/glm-coverage-wave2 提交 33a7a034（worktree /Users/zhangxu/illegal/type-pal-glm-wave2），针对你 cec14f05 的 C1～C3。
+在 /Users/zhangxu/illegal/type-pal 复核 TEST-NONVISUAL-COVERAGE-2 r3 修订准备候选，卡 docs/ops/archive/tasks/done/TEST-NONVISUAL-COVERAGE-2-six-domain-boundaries.md（draft），分支 codex/glm-coverage-wave2 提交 33a7a034（worktree /Users/zhangxu/illegal/type-pal-glm-wave2），针对你 cec14f05 的 C1～C3。
 先同步分支/核工作树，读你的 counter、GLM 回执 r3（docs/testing/glm-coverage-wave2-receipt.md）与机账 v3（glm-coverage-wave2-results.json schemaVersion 3）。逐项复核：① C1——branchArmExceptions 扩展规则重放（[40,8,0]→E04 NEW；[96,0,0]/[98,1,0]/[211,28,0]→F01 NEW；仅 [211,28,1] PEND），验证重生成 NEW955/1263·UNREACH5/10·PEND0/1 与 23 个未变模块计数；② C2——dedupTitles 45 条与 d4703cdf v1 逐字一致、familyTable 差异归属无重复、确切 25+9+2 白名单数组与 v1 一致；③ C3——A03 正控为全量写入后命令级一次通知、B04 新针为 readText/readJson 包装（:85）且旧切片合同归已有证据、F03 标 fast 解耦；④ 勘误清单（:85/:87 包装、:88-89 urlFor、:76 post-await、:81 切片、:150-151 循环、:247 D03、:170/:158、78/47 余数）落入 reason/needle。在本人席位对 r3 签 accept、维持 counter 或列新反证并写日志提交推送；保留他席原文，不改GLM文件/共享状态、不代签。三席对 r3 齐后由你统一核 build allowed。
 ```
 
 ### 给Kimi（复核r3）
 
 ```text
-在 /Users/zhangxu/illegal/type-pal 独立复核 TEST-NONVISUAL-COVERAGE-2 r3 修订准备候选，卡 docs/ops/tasks/TEST-NONVISUAL-COVERAGE-2-six-domain-boundaries.md（draft），分支 codex/glm-coverage-wave2 提交 33a7a034（worktree /Users/zhangxu/illegal/type-pal-glm-wave2）。先同步/核工作树，读 AGENTS/CLAUDE/READ-FIRST、Codex r2 counter cec14f05（C1～C3）与 /tmp 可重放证据、GLM 回执 r3 与机账 v3；不读或复述 Codex 本轮复核结论。
+在 /Users/zhangxu/illegal/type-pal 独立复核 TEST-NONVISUAL-COVERAGE-2 r3 修订准备候选，卡 docs/ops/archive/tasks/done/TEST-NONVISUAL-COVERAGE-2-six-domain-boundaries.md（draft），分支 codex/glm-coverage-wave2 提交 33a7a034（worktree /Users/zhangxu/illegal/type-pal-glm-wave2）。先同步/核工作树，读 AGENTS/CLAUDE/READ-FIRST、Codex r2 counter cec14f05（C1～C3）与 /tmp 可重放证据、GLM 回执 r3 与机账 v3；不读或复述 Codex 本轮复核结论。
 压力点：① branchArmExceptions 的扩展语义是否会引入歧义（精确键优先于行规则）且同行 211 拆分后重放计数正确；② C1 四臂归 NEW 的依据与你对活跑证据的独立判断一致；③ C2 恢复的 45 旧标题与 familyTable 差异断言是否真正互斥（无把旧合同当新增）；④ C3 A03「命令级一次通知」正控与 :293-294 源码语义一致、B04 readText/readJson 针与既有 5 项测试不重复、F03 解耦标注符合工作包分栏；⑤ 勘误后的锚点逐个与源码对上。在本人席位签 accept 或带 file:line counter 并写日志提交推送；保留他席原文，不改GLM文件/共享状态、不代签、不标build/done。
 ```
 
@@ -601,14 +613,14 @@ Production Freeze: `57dda7ed2376fc25f07756be117bb4a058d09915`
 ### 给Codex（复核r2）
 
 ```text
-在 /Users/zhangxu/illegal/type-pal 复核 TEST-NONVISUAL-COVERAGE-2 r2 修订准备候选，卡 docs/ops/tasks/TEST-NONVISUAL-COVERAGE-2-six-domain-boundaries.md（draft），分支 codex/glm-coverage-wave2 修订提交 38dd1fe1（worktree /Users/zhangxu/illegal/type-pal-glm-wave2），针对你 4240fbca 的 R1～R4。
+在 /Users/zhangxu/illegal/type-pal 复核 TEST-NONVISUAL-COVERAGE-2 r2 修订准备候选，卡 docs/ops/archive/tasks/done/TEST-NONVISUAL-COVERAGE-2-six-domain-boundaries.md（draft），分支 codex/glm-coverage-wave2 修订提交 38dd1fe1（worktree /Users/zhangxu/illegal/type-pal-glm-wave2），针对你 4240fbca 的 R1～R4。
 先同步分支/核工作树，读你的 counter、GLM 回执 r2（docs/testing/glm-coverage-wave2-receipt.md）与机账 v2（glm-coverage-wave2-results.json schemaVersion 2）。逐项复核：① ruleTable 可机械展开——按 expansionRule 重放求交，验证 25 模块集合相等与 generatedTotals（NEW955/1259·UNREACH5/11·PEND0/4=960/1274）；② R2 五处更正（B04 收窄 :40-42/:85/:87+branch:39/:76、vanish 3/6 UNREACH、validate-runtime 2/5 UNREACH、script-world 锚点、core:170 归 moveEntity NEW）；③ R3 迁移（历史轴=migrate-enemies :96/:98/:211 共 0L/4B；author-core r1 PEND 撤销的 caller 证据 validate.ts/runtime-script.ts/enemy-script.ts/script-compiler-core.ts）；④ 六负控真实锚（script-project-core:148-149/battle-trial-assets:78/world-sprite-behavior:527-555/tileset-references:243 generation 实参/enemy-script percent 0..100/script-library-audit:155 谓词）；⑤ 元数据（SHA 058d09915/caller src/migrate-content.ts:1753/editor×12/fixture×9）与 check:docs PASS/Biome。在本人席位对修订稿签 accept、维持 counter 或列新反证并写日志提交推送；保留他席原文，不改GLM文件/共享状态、不代签。三席对修订稿齐后由你统一核 build allowed。
 ```
 
 ### 给Kimi（复核r2）
 
 ```text
-在 /Users/zhangxu/illegal/type-pal 独立复核 TEST-NONVISUAL-COVERAGE-2 r2 修订准备候选，卡 docs/ops/tasks/TEST-NONVISUAL-COVERAGE-2-six-domain-boundaries.md（draft），分支 codex/glm-coverage-wave2 修订提交 38dd1fe1（worktree /Users/zhangxu/illegal/type-pal-glm-wave2）。先同步/核工作树，读 AGENTS/CLAUDE/READ-FIRST、Codex counter 4240fbca（R1～R4）、GLM 回执 r2 与机账 v2；不读或复述Codex本轮复核结论。
+在 /Users/zhangxu/illegal/type-pal 独立复核 TEST-NONVISUAL-COVERAGE-2 r2 修订准备候选，卡 docs/ops/archive/tasks/done/TEST-NONVISUAL-COVERAGE-2-six-domain-boundaries.md（draft），分支 codex/glm-coverage-wave2 修订提交 38dd1fe1（worktree /Users/zhangxu/illegal/type-pal-glm-wave2）。先同步/核工作树，读 AGENTS/CLAUDE/READ-FIRST、Codex counter 4240fbca（R1～R4）、GLM 回执 r2 与机账 v2；不读或复述Codex本轮复核结论。
 压力点：① 生成式映射的展开规则是否有歧义（行取首条命中、分支按 line 归类）与规则区间/理由与源码函数归属一致性（抽三模块重放）；② UNREACH 三处（vanish 3/6、validate-runtime 2/5）之外是否还有r1同类误判残留；③ PEND 只剩 migrate-enemies 0L/4B 是否与 E-05 边界一致、author-core 全 NEW 的 caller 证据是否充分；④ 六针的合法正控/反例/拟定标题是否有鉴别力且不依赖 mock 前置守卫；⑤ 异步族合同（A03/A05/B04/B05 entered+同步结局+finally 同一 pending）与 F 组自包含 fixture guard 前置是否可在映射上落实。在本人席位签 accept 或带 file:line counter 并写日志提交推送；保留他席原文，不改GLM文件/共享状态、不代签、不标build/done。
 ```
 
@@ -617,7 +629,7 @@ Production Freeze: `57dda7ed2376fc25f07756be117bb4a058d09915`
 ### 给Codex
 
 ~~~text
-在 /Users/zhangxu/illegal/type-pal 审 TEST-NONVISUAL-COVERAGE-2 r1 准备候选，卡 docs/ops/tasks/TEST-NONVISUAL-COVERAGE-2-six-domain-boundaries.md（draft），分支 codex/glm-coverage-wave2（独立worktree /Users/zhangxu/illegal/type-pal-glm-wave2），生产冻结57dda7ed，官方fast7538/633。
+在 /Users/zhangxu/illegal/type-pal 审 TEST-NONVISUAL-COVERAGE-2 r1 准备候选，卡 docs/ops/archive/tasks/done/TEST-NONVISUAL-COVERAGE-2-six-domain-boundaries.md（draft），分支 codex/glm-coverage-wave2（独立worktree /Users/zhangxu/illegal/type-pal-glm-wave2），生产冻结57dda7ed，官方fast7538/633。
 先同步main/核工作树，读AGENTS/CLAUDE/READ-FIRST、本卡、docs/testing/glm-coverage-wave2.md、你的冻结evidence.json、GLM准备回执 docs/testing/glm-coverage-wave2-receipt.md 与机账 glm-coverage-wave2-results.json。
 独立复核（不与GLM互相复述）：① 25模块分桶与你的冻结LCOV逐模块对账（NEW671/888·PKG124/186·XPKG103/117·UNREACH29/42·PEND33/41）；② 抽读各主导区域源码验证分类方向（adapter派发臂/script-world条件与cursorHandoff/core命令与moveEntity/trial snapshot/投影函数/守卫臂/迁移三文件）；③ PKG/XPKG去重标题是否真实存在且确覆盖所述臂（尤其script-host-adapter.current-dispatch五标题、F组16项full-only）；④ 白名单25+9+2是否与逐族合同一致、PEND单列是否恰当；⑤ 代表负控12~18针规划的鉴别力。
 在本人build前席位签带锚点的premise verified/design agree或counter并写日志提交推送；保留他席改动，不改GLM准备文件/共享状态、不代签。若三席齐，由你统一核build allowed并记录；build后GLM在同一分支A→F连续实施、整包交你独立接收。
@@ -626,7 +638,7 @@ Production Freeze: `57dda7ed2376fc25f07756be117bb4a058d09915`
 ### 给Kimi
 
 ~~~text
-在 /Users/zhangxu/illegal/type-pal 独立审 TEST-NONVISUAL-COVERAGE-2 r1 准备候选，卡 docs/ops/tasks/TEST-NONVISUAL-COVERAGE-2-six-domain-boundaries.md（draft），分支 codex/glm-coverage-wave2（worktree /Users/zhangxu/illegal/type-pal-glm-wave2），生产冻结57dda7ed。先同步main/核工作树，读AGENTS/CLAUDE/READ-FIRST、本卡、工作包glm-coverage-wave2.md、GLM准备回执与机账；不读或复述Codex本轮结论。
+在 /Users/zhangxu/illegal/type-pal 独立审 TEST-NONVISUAL-COVERAGE-2 r1 准备候选，卡 docs/ops/archive/tasks/done/TEST-NONVISUAL-COVERAGE-2-six-domain-boundaries.md（draft），分支 codex/glm-coverage-wave2（worktree /Users/zhangxu/illegal/type-pal-glm-wave2），生产冻结57dda7ed。先同步main/核工作树，读AGENTS/CLAUDE/READ-FIRST、本卡、工作包glm-coverage-wave2.md、GLM准备回执与机账；不读或复述Codex本轮结论。
 压力测试方向：① 逐族合同的业务断言是否有鉴别力（非"非空即过"）、最强坏实现是否真能被代表负控钉住；② PKG/XPKG/UNREACH/PEND分类有没有把"外层守卫已挡/跨包已证/防御不可达"误当新增、或把可达业务误踢出NEW；③ F组自包含fixture的正式guard前置与"full已有证明不二次报功"边界；④ 异步族（A03/A05/B04/B05）是否按entered+同步结局+finally同一pending合同设计、不以超时判红；⑤ 白名单与PEND单列是否夹带产品改动或未定政策。
 抽读至少三组一手源码与对应旧测试标题独立验证。在本人build前席位签premise verified/design agree或带file:line的counter并写日志提交推送；保留他席改动，不改GLM准备文件/状态、不代签、不标build/done。
 ~~~

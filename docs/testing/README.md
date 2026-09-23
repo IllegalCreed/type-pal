@@ -12,8 +12,8 @@
 
 - [Codex人物/命令引用补测](codex-reference-coverage.md)（12项，精确改名/引用路径/深保真；与GLM目标源码不冲突，间接guard命中单列）
 
-- [第二波六组覆盖率整包](glm-coverage-wave2.md)、[冻结机账](glm-coverage-wave2-evidence.json)与[只读复算器](glm-coverage-wave2-census.mjs)（2026-09-22，25非视觉模块；GLM额度耗尽后Codex接手，27bd8c00进入review；不是重领TB00～TB10）
-- [第二波回执（当前Codex实施/历史GLM准备）](glm-coverage-wave2-receipt.md)与[机账v5+Codex增量](glm-coverage-wave2-results.json)（163项、17针，check8281/受保护单次strict7790；未达项/输入解耦如实交账，Kimi独立终审待做，GLM缺签未豁免）
+- [第二波六组覆盖率整包](glm-coverage-wave2.md)、[冻结机账](glm-coverage-wave2-evidence.json)与[只读复算器](glm-coverage-wave2-census.mjs)（2026-09-23，25非视觉模块；27bd8c00三席accept齐、Codex核定done；不是重领TB00～TB10）
+- [第二波回执（Codex实施/历史GLM准备）](glm-coverage-wave2-receipt.md)与[机账v5+Codex增量](glm-coverage-wave2-results.json)（163项、17针，check8281/受保护单次strict7790与集成CI通过；GLM贡献者复核/Kimi独立终审齐，未达项/输入解耦仍留账）
 
 - [迁移写盘保护实施记录](migration-write-guard.md)及[隔离负控](migration-write-guard-mutants.mjs)/[配置](migration-write-guard.config.mjs)/[真实发布见证](migration-write-guard-publish.mjs)（57dda7ed三席accept齐、用户授权、已done；A-08/A-09按r1收口，不代表R4/N6b已执行）
 

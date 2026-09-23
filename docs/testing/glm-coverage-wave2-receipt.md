@@ -8,12 +8,15 @@
 > 日志`/tmp/type-pal-wave2-build-Pq8YxT/takeover-{reforge,editor}.log`与`takeover-reforge-tc.log`。
 > 后续实施证据另加实名节，以下GLM准备历史不改写。
 
-## Codex实施回执（2026-09-22，当前候选；本地统一门禁通过，待独立终审）
+## Codex实施回执（2026-09-22；2026-09-23三席同候选accept并收口）
 
 用户因GLM额度耗尽授权Codex接手；保留GLM `6839ea78`/`816c32ce`的A/B历史贡献，
 Codex复验并修正A/B、实现C～F。整包与`967b35fb`相比仅原白名单新测试/薄fixture/工具及文档，
 25份产品源码对冻结`57dda7ed`逐份零差异；旧测试/全局配置/超时/排除/资产无修改。
-Codex从此是实施者，不再把本人自验算成独立接收；Kimi终审仍待，GLM验收缺席未自动豁免。
+Codex从此是实施者，不再把本人自验算成独立接收。2026-09-23同候选27bd8c00三席accept齐：
+GLM恢复后以贡献者身份复核（d8b9dfa7），Kimi独立终审（5b44c37d），无counter或缺签豁免。
+Codex按用户确认核零漂移后done归档；既有统一门禁及集成f703e49c双CI通过，不重复跑覆盖率。
+未达whole-file目标与其它卡欠账保持原归属；下方开发期失败/修正、原GLM准备结论均保留历史。
 
 ### 实际交付与去重
 
@@ -103,7 +106,7 @@ PACKAGE可改editor/content/migrate；输出目录可换新mktemp。只重跑一
 分支**65.41%（41307/63149）**；不宣称远端CI或full/Q1/Q2通过。
 旧版本兼容审查pass：未加兼容层，F的ScriptIndex/Chunk只在现行离线迁移审计边界使用，未进入产品持久模型。
 
-任务卡：[TEST-NONVISUAL-COVERAGE-2](../ops/tasks/TEST-NONVISUAL-COVERAGE-2-six-domain-boundaries.md)（draft/r1）。
+任务卡：[TEST-NONVISUAL-COVERAGE-2](../ops/archive/tasks/done/TEST-NONVISUAL-COVERAGE-2-six-domain-boundaries.md)（draft/r1）。
 生产冻结 `57dda7ed2376fc25f07756be117bb4a058d09915`；分支 `codex/glm-coverage-wave2`。
 本版在 r2 生成式映射基础上落实 C1～C3；三席原文与日志保留。机账
 [glm-coverage-wave2-results.json](glm-coverage-wave2-results.json)（schemaVersion 3）。

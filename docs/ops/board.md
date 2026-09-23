@@ -5,7 +5,7 @@
 额度按接手时实际状态确认；历史额度快照不作为当前准入依据。
 
 **当前优先级（用户2026-09-22拍板）**：先补测试覆盖率，E2E准备与实施后置，不立即推进R4检查点或新UI改造。
-GLM继续第二波准备返工/获准后的整包补测；Codex独立复核并选择不重叠、有现行消费者且合同明确的补测切片。
+第二波整包已于2026-09-23三席收口；后续由Codex与GLM按最新覆盖基线选择不重叠、有现行消费者且合同明确的补测批次，新范围先走准入，不重领已完成项。
 补测发现的产品缺陷单列，仍按原签字门禁处理；七套预制方案候选及其资源准备阻断不因本次排期调整自动通过。
 后置不取消R4→N6b→完整Q1/Q2，也不新增“必须先达全仓90%/85%才允许E2E”的门槛。
 
@@ -25,7 +25,8 @@ GLM后续补测候选见[十批长队列](../testing/glm-coverage-work-queue.md)
 
 | ID | 任务 | 状态 | 负责人/下一步 | 一句话备注 |
 |---|---|---|---|---|
-| TEST-NONVISUAL-COVERAGE-2 | [六领域非视觉测试覆盖率第二波](tasks/TEST-NONVISUAL-COVERAGE-2-six-domain-boundaries.md) | review | GLM复核/Kimi独立终审27bd8c00并行；Codex负责返工/最终收口 | 163项/17针，check8281/单次strict7790与集成CI通过；GLM额度恢复、原贡献披露；whole-file未达项交账，三席未齐不done |
+
+2026-09-23 [第二波六领域非视觉补测](../testing/glm-coverage-wave2-receipt.md)候选27bd8c00三席accept齐（Codex实施者自验、GLM贡献者复核d8b9dfa7、Kimi独立终审5b44c37d），用户确认后Codex核零漂移并done归档。163项/17针、check8281/单次strict7790与集成f703e49c双CI为既有证据；未达whole-file目标、无caller旧入口、E-05/U-02/frame政策和full/Q1/Q2边界保持。本次只做文档收口，不重跑覆盖率。
 
 2026-09-21 [迁移规划快照与二进制路径保护](../testing/migration-write-guard.md)候选57dda7ed三席accept齐（Codex实现者自验、GLM6ca25cf6、Kimiafb05943），用户授权后Codex核零漂移并done归档；A-08/A-09按r1关闭。check8029/strict7538、五负控、隔离发布双跑及远端#286为既有证据，本次仅文档收口；E-05/U-02/N6b/Q2与单writer等边界保持。
 
