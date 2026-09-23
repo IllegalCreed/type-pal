@@ -1,0 +1,319 @@
+{
+  "schemaVersion": 1,
+  "task": "TEST-COVERAGE-TRUTH-1",
+  "date": "2026-09-23",
+  "status": "draft-diagnosis-only",
+  "base": "3f1b111db4e48a8c3d89bfa9daa6e0f8c9763e15",
+  "node": "v22.19.0",
+  "versions": {
+    "vitest": "4.1.7",
+    "coverageV8": "4.1.7",
+    "merge": "@bcoe/v8-coverage@1.0.2",
+    "remap": "ast-v8-to-istanbul@1.0.5"
+  },
+  "baselineTests": 7790,
+  "productionFiles": 633,
+  "protectedHashes": [
+    {
+      "file": "node_modules/.pnpm/@bcoe+v8-coverage@1.0.2/node_modules/@bcoe/v8-coverage/src/lib/merge.js",
+      "sha256": "a9c43cfa7a0eb4a654cd3b40f6f713ba44e5ca474451c5467cd4b0b0a65562da"
+    },
+    {
+      "file": "node_modules/.pnpm/@vitest+coverage-v8@4.1.7_vitest@4.1.7/node_modules/@vitest/coverage-v8/dist/provider.js",
+      "sha256": "b785ceab9d43d84f337c4de74b3cb9dcb9492f3d424fb3fe75e29e75afaf0f26"
+    },
+    {
+      "file": "scripts/coverage/baseline.fast.json",
+      "sha256": "0b21d316c98a84579babe2120aed31aad4dcab751c10a89541128dac70c9ecf4"
+    }
+  ],
+  "sourceCensusSha256": "268342690f08919c80af7a350ddf17ae108e6e08f670dd2e7602291aedbd0597",
+  "minimal": {
+    "command": "node docs/testing/coverage-initializer-probe.mjs",
+    "exitCode": 0,
+    "log": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-initializer-probe-Ugwsq6/summary.json",
+    "rows": [
+      {
+        "kind": "both",
+        "mode": "import",
+        "actualCalls": [0, 0],
+        "reported": [0, 0, 2, 0]
+      },
+      {
+        "kind": "both",
+        "mode": "construct",
+        "actualCalls": [0, 0],
+        "reported": [0, 0, 0, 0]
+      },
+      {
+        "kind": "both",
+        "mode": "valid",
+        "actualCalls": [1, 1],
+        "reported": [1, 1, 2, 2]
+      },
+      {
+        "kind": "both",
+        "mode": "reject",
+        "actualCalls": [1, 1],
+        "reported": [1, 1, 2, 2]
+      },
+      {
+        "kind": "static",
+        "mode": "import",
+        "actualCalls": [0, 0],
+        "reported": [0, 0, 0, 0]
+      },
+      {
+        "kind": "static",
+        "mode": "construct",
+        "actualCalls": [0, 0],
+        "reported": [0, 0, 0, 0]
+      },
+      {
+        "kind": "static",
+        "mode": "valid",
+        "actualCalls": [1, 1],
+        "reported": [1, 1, 2, 2]
+      },
+      {
+        "kind": "static",
+        "mode": "reject",
+        "actualCalls": [1, 1],
+        "reported": [1, 1, 2, 2]
+      },
+      {
+        "kind": "instance",
+        "mode": "import",
+        "actualCalls": [0, 0],
+        "reported": [0, 0, 0, 0]
+      },
+      {
+        "kind": "instance",
+        "mode": "construct",
+        "actualCalls": [0, 0],
+        "reported": [0, 0, 0, 0]
+      },
+      {
+        "kind": "instance",
+        "mode": "valid",
+        "actualCalls": [1, 1],
+        "reported": [1, 1, 2, 2]
+      },
+      {
+        "kind": "instance",
+        "mode": "reject",
+        "actualCalls": [1, 1],
+        "reported": [1, 1, 2, 2]
+      }
+    ],
+    "shapeCandidates": [
+      {
+        "pkg": "reforge",
+        "file": "packages/reforge/src/script-runner-core.ts",
+        "name": "ScriptRunnerCore",
+        "line": 104
+      },
+      {
+        "pkg": "reforge",
+        "file": "packages/reforge/src/script-runner.ts",
+        "name": "ScriptRunner",
+        "line": 313
+      }
+    ]
+  },
+  "package": {
+    "command": "node docs/testing/coverage-initializer-capture.mjs",
+    "exitCode": 0,
+    "log": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-initializer-capture-QghVLq/replay-summary.json",
+    "tests": 1378,
+    "files": [
+      {
+        "file": "packages/reforge/src/script-runner-core.ts",
+        "before": {
+          "lines": {
+            "total": 195,
+            "covered": 195,
+            "skipped": 0,
+            "pct": 100
+          },
+          "functions": {
+            "total": 18,
+            "covered": 18,
+            "skipped": 0,
+            "pct": 100
+          },
+          "statements": {
+            "total": 209,
+            "covered": 208,
+            "skipped": 0,
+            "pct": 99.52
+          },
+          "branches": {
+            "total": 147,
+            "covered": 141,
+            "skipped": 0,
+            "pct": 95.91
+          }
+        },
+        "after": {
+          "lines": {
+            "total": 195,
+            "covered": 158,
+            "skipped": 0,
+            "pct": 81.02
+          },
+          "functions": {
+            "total": 18,
+            "covered": 16,
+            "skipped": 0,
+            "pct": 88.88
+          },
+          "statements": {
+            "total": 209,
+            "covered": 166,
+            "skipped": 0,
+            "pct": 79.42
+          },
+          "branches": {
+            "total": 147,
+            "covered": 104,
+            "skipped": 0,
+            "pct": 70.74
+          }
+        },
+        "lostLines": [
+          123, 125, 160, 168, 170, 194, 202, 208, 220, 221, 222, 223, 224, 225, 226, 227, 228, 276,
+          288, 290, 354, 356, 376, 382, 383, 384, 385, 386, 387, 389, 415, 425, 427, 433, 436, 438,
+          450
+        ]
+      },
+      {
+        "file": "packages/reforge/src/script-runner.ts",
+        "before": {
+          "lines": {
+            "total": 284,
+            "covered": 196,
+            "skipped": 0,
+            "pct": 69.01
+          },
+          "functions": {
+            "total": 19,
+            "covered": 16,
+            "skipped": 0,
+            "pct": 84.21
+          },
+          "statements": {
+            "total": 303,
+            "covered": 205,
+            "skipped": 0,
+            "pct": 67.65
+          },
+          "branches": {
+            "total": 266,
+            "covered": 148,
+            "skipped": 0,
+            "pct": 55.63
+          }
+        },
+        "after": {
+          "lines": {
+            "total": 284,
+            "covered": 196,
+            "skipped": 0,
+            "pct": 69.01
+          },
+          "functions": {
+            "total": 19,
+            "covered": 16,
+            "skipped": 0,
+            "pct": 84.21
+          },
+          "statements": {
+            "total": 303,
+            "covered": 205,
+            "skipped": 0,
+            "pct": 67.65
+          },
+          "branches": {
+            "total": 266,
+            "covered": 148,
+            "skipped": 0,
+            "pct": 55.63
+          }
+        },
+        "lostLines": []
+      }
+    ],
+    "before": {
+      "lines": {
+        "total": 14599,
+        "covered": 8759,
+        "skipped": 0,
+        "pct": 59.99
+      },
+      "statements": {
+        "total": 16737,
+        "covered": 9710,
+        "skipped": 0,
+        "pct": 58.01
+      },
+      "functions": {
+        "total": 2539,
+        "covered": 1542,
+        "skipped": 0,
+        "pct": 60.73
+      },
+      "branches": {
+        "total": 11359,
+        "covered": 5913,
+        "skipped": 0,
+        "pct": 52.05
+      },
+      "branchesTrue": {
+        "total": 0,
+        "covered": 0,
+        "skipped": 0,
+        "pct": "Unknown"
+      }
+    },
+    "experimentalAfter": {
+      "lines": {
+        "total": 14599,
+        "covered": 8722,
+        "skipped": 0,
+        "pct": 59.74
+      },
+      "statements": {
+        "total": 16737,
+        "covered": 9668,
+        "skipped": 0,
+        "pct": 57.76
+      },
+      "functions": {
+        "total": 2539,
+        "covered": 1540,
+        "skipped": 0,
+        "pct": 60.65
+      },
+      "branches": {
+        "total": 11359,
+        "covered": 5876,
+        "skipped": 0,
+        "pct": 51.72
+      },
+      "branchesTrue": {
+        "total": 0,
+        "covered": 0,
+        "skipped": 0,
+        "pct": "Unknown"
+      }
+    }
+  },
+  "boundaries": [
+    "No product, old test, installed dependency, official config or baseline modified",
+    "Experimental merge is in-memory only; not a production fix",
+    "633-file source-shape census is not proof that all coverage defects are eliminated",
+    "Other six packages not remeasured; no official ratchet/strict run",
+    "Kimi e7c4b743 is a prior narrow statistical review, not acceptance of this repair design"
+  ]
+}

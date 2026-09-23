@@ -1,0 +1,140 @@
+# TEST-COVERAGE-TRUTH-1 - 类初始化覆盖率合并真值修复
+
+Status: draft
+Phase: ops
+Capability: ops / coverage
+Coding Owner: Codex
+Generation Owner: N/A
+Reviewer: both
+Visual Verification Owner: N/A
+Visual Verification Timing: N/A
+Unavailable Agents: 无
+Branch: draft在main；build后codex/coverage-initializer-truth-r1独立工作树
+Revision: r1
+Planning Base: 3f1b111d
+Production Freeze: 57dda7ed2376fc25f07756be117bb4a058d09915
+
+## 目标与范围
+
+修复覆盖率合并器把“仅导入类”误报为“执行类方法”的缺陷；保留所有业务测试、范围和门槛。
+此卡承接宿主卡STAT-1，**不是继续补业务覆盖率，更不是旧虚高基线的一次性下调许可**。
+用户2026-09-23批准继续定位/推进；正式工具变更仍需三席build前签字。
+
+范围内：版本锁定的合并器最小patch、工具回归、同输入统计对照和修复记录。
+范围外：游戏/编辑器/内容产品、原测试断言、资源/存档schema、视觉/E2E/full/Q1/Q2、DEV-TOAST-1、
+GLM战斗卡R1～R4返工；不因本卡关闭它们。不开上游issue/PR（需另获外部发布授权）。
+
+## 前提真值门
+
+一句话：函数位置相同不代表同一函数；V8类的静态与实例初始化记录必须保持不同身份。
+
+| 维度 | 真值 | 一手证据 |
+|---|---|---|
+| primary source | Node22.19原生inspector给两个initializer同range、计数1/0；合并器仅以range当key | [12组原生复现](../../testing/coverage-initializer-probe.mjs):59-76/:123-136；安装树merge.js:79-86/:125-127 |
+| 第一阶段 | N/A机制；此任务不判断原版游戏语义。game作为七包统计消费者仍需最终回归 | `scripts/coverage/config.mjs:105`七包清单；633文件AST盘点见机账 |
+| 当前二阶段 | 旧1378、官方范围不变时client仅导入造成core 195/195；同raw保留initializer身份变158/195 | [诊断](../../testing/coverage-initializer-diagnosis.md)与[机账](../../testing/coverage-initializer-evidence.json)；core:104/:123；旧两个client套件 |
+| 目标 | 不调用的方法不得从静态初始化继承正计数，真实调用仍计数；合并前后源/测试范围不变 | 最小样本actual0/0→stock2/experiment0；真调用1/1→两者2；本卡验收矩阵 |
+
+最强替代解释：V8原始记录就错误，或remapper本身在不合并时也会虚报；原生副作用计数、单份转换0、
+先转换后合并0、仅改key后0排除了本例的替代解释。**若独立复建无法见同range双身份/原计数，或修订清除了
+真实调用/改了分母/依赖与范围，则counter**。其它V8盲点未一并排除，特别是字段自身归因不宣称完整精确。
+
+四类根因排查：runtime语义/原版理解/提取解码均不涉及（无项目代码的样本亦复现）；test模型错误由真实
+inspector、实际副作用与同raw多路径转换交叉排除。不是用大面积coverage红推测产品有错。
+
+before→after：旧合并把两种initializer混为一个→分别保留身份再转换。没有玩家/编辑器行为改变。
+用户不需要选择游戏政策；若需下调官方基线或扩大provider方案，停线单列裁决，不预先授权。
+
+## 上下文
+
+- AGENTS/CLAUDE/phase2 READ-FIRST；[宿主卡](TEST-RUNTIME-SHELL-COVERAGE-1-boot-menu-flows.md)STAT-1。
+- Kimi窄审e7c4b743仅证明旧计数不可信，非本r1设计签字，三席不借用旧签。
+- `@vitest/coverage-v8@4.1.7` provider:32-48 raw先合并、按ssr/client分组；`ast-v8-to-istanbul@1.0.5`同range优先级。
+- `scripts/coverage/run.mjs:378-385/:499-518` provider可比性与只升不降门；不加豁免参数。
+- 原7790/633冻结保持；宿主36项与GLM战斗包最终增量按同树并集去重。
+
+## r1拟实施方案（未授权build）
+
+1. 用pnpm版本绑定patch修`@bcoe/v8-coverage@1.0.2`的函数合并key：**仅**把两种initializer名称纳入
+   身份；其它普通函数沿原range键，不把所有任意函数名都拼入（避免对命名差异引入新的不合并）。
+   补丁通过正式pnpm patch/lock记录安装，不手改共享node_modules。Vitest/provider版本仍4.1.7，
+   不切Istanbul、不重写provider。若review发现此方案不能保持计数/顺序合同，回draft修订。
+2. 常驻`node --test`回归直接调用**实际安装**的merger/provider：原生零调用/正调用、静态/实例分离、
+   2及3份合并、两种输入顺序、嵌套/匿名类、普通函数原合同、空输入/单输入；加真实Vitest两文件import-only
+   夹具与使用类的正控，跨ssr/client验证。明确区分方法调用正确性与字段计数不完全归因。
+3. 保存patch内容hash和安装验证；补丁缺失/错版本时工具回归必红。提交说明记录上游依赖与移除条件：
+   上游提供等价修复、同组回归全通过后才能撤本地patch，不能静默升级或修改被测业务。
+4. 同一旧1378及宿主1414分别按修前/修后重放。对633源码与测试身份、分母逐文件核验；旧计数修正与
+   新测试收益分栏。另六包在最终官方门统一实跑，不拿本次AST盘点代替其实际统计。
+5. 当前门按package/total比较，正式集成与已验证宿主增量同树后仍执行原只升不降check→ratchet→
+   受保护单次strict-fast。**若任一包/总计不能通过原门，则停止登记为待裁决，不改比较器/不手写低基线**。
+   不要求等GLM战斗返工才能审工具方案；是否同时纳入battle只看其独立接收是否通过。
+
+## 精确白名单
+
+- `patches/@bcoe__v8-coverage@1.0.2.patch`（pnpm生成时命名有机械差异须记录）、`patches/README.md`。
+- 根`pnpm-workspace.yaml`或`package.json`仅pnpm patchedDependencies登记（二选一按当前pnpm生成）、
+  `pnpm-lock.yaml`仅相关patch resolution；不升级其它依赖。
+- `scripts/coverage/merge-initializers.test.mjs`及`scripts/coverage/fixtures/initializers/`新隔离fixture
+  （运行时复制到/tmp执行，不扩大生产统计）。工具回归由现有coverage-tools glob自动收集。
+- 本卡/诊断/机账与两个只读工具，必要board/index/README、覆盖率记录；官方baseline只能由最终ratchet生成。
+- 禁改`packages/`、已有测试/全局timeout/exclude、ratchet比较器与CI放行规则；需要越界先counter修方案。
+
+## 验收条件
+
+- 原生最小反例先红后绿；实际安装补丁的负控制（撤patch）可复现0→2错误，不以内部复制逻辑自证正式安装。
+- 方法0保持0、真正调用1/1合计2；initializer身份和两个计数都保留。顺序/多份/嵌套/普通函数无回退。
+- 正式Vitest实际导入跨文件合同与原始执行见证同向；source/test集合、逐文件四维分母不缩。
+- 解释本例37L/42S/2F/37B，其它文件变化逐条登记，不据本例做全量豁免。
+- pnpm冻结安装可复建；check→ratchet→受保护strict串行，原门槛不降。尚未完成的宿主/战斗审查不借签。
+- 旧版本兼容审查：本卡无产品兼容层；第三方版本绑定patch不属于游戏旧schema兼容。done前仍单列pass/counter。
+- 视觉/E2E：N/A，仅测试统计工具，不操作玩家界面。
+
+## 推进签字
+
+### build前
+
+- Codex：**premise verified / design agree（2026-09-23，r1）**。独立原生12组复现，旧1378 raw捕获，
+  同数据单份转换/合并后转换/内存唯一key修订三向核验；原正式包四维与7790基线一致，实验修订分母不变。
+  直接锚点为merge.js:79-86/:125-127和机账中12组actual/reported；可证伪观察与风险见上。
+  实验不等于已安装修复；正式补丁/常驻回归待三签。
+- GLM：pending（独立矩阵/范围审查）。
+- Kimi：pending（独立根因/修补方案审查）。
+- 非Owner独立反证：pending；旧e7c4b743不代本次新根因签字。
+- 缺签豁免：无。
+- build准入：blocked，未齐三签不得改依赖/官方工具/基线。
+
+### done前
+
+- Codex：pending。
+- GLM：pending。
+- Kimi：pending。
+- done准入：blocked。
+
+## 交接日志
+
+- 2026-09-23 Codex：用户同意继续；先推送既有Kimi e7c4b743到宿主分支，然后只读定位合并器同range冲突。
+  12组原生、旧1378正式范围raw捕获和同raw实验复算通过；633文件两类形状盘点，未改产品/依赖/官方基线。
+  新建本draft与复建工具；按协议并行请两席独立审r1，宿主卡仍build、GLM战斗仍rework。
+
+## 下一位Agent提示词
+
+### 给Kimi（与GLM并行）
+
+在 /Users/zhangxu/illegal/type-pal 独立审 TEST-COVERAGE-TRUTH-1 r1 draft，卡
+docs/ops/tasks/TEST-COVERAGE-TRUTH-1-class-initializers.md。先同步main/核工作树，读AGENTS/CLAUDE/
+READ-FIRST、卡与docs/testing/coverage-initializer-diagnosis.md/机账；不读GLM本轮结论。
+你先前e7c4b743不是这次修复设计签字。独立跑node docs/testing/coverage-initializer-probe.mjs，
+必要时capture（也可先复用raw离线重算）；直接读实际安装merge/provider/remapper，核同range双身份根因、
+仅initializer区分key是否足够、计数/输入顺序风险、正式patch的可重复安装与回归方案。
+写本人带锚点premise verified/design agree或counter与日志、提交推送main；只改本人块，不代签/改状态，
+不实施patch/官方基线，不签整卡accept。与GLM同r1独立审，三席齐后Codex统一核build。
+
+### 给GLM（与Kimi并行）
+
+在 /Users/zhangxu/illegal/type-pal 独立审同卡 TEST-COVERAGE-TRUTH-1 r1 draft。先同步/核工作树，读
+AGENTS/CLAUDE/READ-FIRST、本卡、诊断与机账，不读Kimi本轮结论。直接跑最小probe，核12组实际调用/计数、
+633文件形状盘点边界、旧1378文件选择与官方范围一致、37/42/2/37差额、script-runner不变及另外六包未测披露。
+重点压力测试矩阵是否漏静态/实例/两序/多份/嵌套/真实调用、白名单是否闭合、无降门/假正控/越界。
+写本人带直接证据premise verified/design agree或counter及日志、提交推送main；只改本人块、保留他席，
+不改工具/patch/官方配置基线/共享状态，不代签，不签accept或done。战斗卡返工独立，不借本卡豁免。
