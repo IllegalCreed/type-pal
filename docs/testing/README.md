@@ -9,6 +9,7 @@
 ## 文档与附件
 
 - [大业务域双线补测计划](coverage-large-domain-plan.md)、[7790冻结盘点](coverage-large-domain-evidence.json)与[只读复算器](coverage-large-domain-census.mjs)（战斗公开流程由GLM、真实启动/菜单宿主由Codex；两卡r1已三席准入build，最终增量待整包验证）
+- [GLM战斗流程实施回执](glm-battle-workflows.md)与[机账](glm-battle-workflows-evidence.json)（W1～W6 连续公开流程 31 项、6+7 负控、全 reforge 1409 绿；session 净增 +7L/+15B/+2F 如实入账，render 段保留）
 
 - [Codex内容六模块边界补测](codex-content-boundaries.md)（77项，角色状态/地图放置归属/战斗形象/奖励/运行脚本/场景索引；整批统一质量门）
 

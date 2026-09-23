@@ -112,11 +112,28 @@ Production Freeze: 57dda7ed2376fc25f07756be117bb4a058d09915
 ### done前
 
 - Codex：pending。
-- GLM：pending（实施者自验）。
+- GLM：**实施者自验 accept（2026-09-23，候选见分支 tip；不算独立第三方）**。六组连续交付
+  6 测试+3 fixture+2 工具共 **31 项**（W1×7/W2×5/W3×6/W4×4/W5×4/W6×5），全部经公开
+  tick/debugLog/debugReadiness/debugPlayers/done/writeBack* 观测，零私有反射/零核心 mock/零视觉。
+  负控 **6 正控 green+7 针 detected**（每针唯一替换点+`-t` 钉名恰 1 执行+自身 AssertionError；
+  W2 残留方向无唯一单点如实放弃，由 W2 断言覆盖）。定向 31/31、相邻 battle 目录 264/264、
+  全 reforge **152 文件/1409 项 exit0**、TC rc=0、11+2 新文件 Biome rc=0。同口径官方 fast
+  before/after（1378→1409 恰 +31）：session +7L/+14B/+2F、core +1B——净增小而如实（价值在
+  连续组合回归），render 段与剩余组合保留分母不虚报。生产对 57dda7ed 四目标零 diff。
+  修复记录六条如实入回执。证据：[回执](../../testing/glm-battle-workflows.md)+
+  [机账](../../testing/glm-battle-workflows-evidence.json)+/tmp 产物。无产品疑点、无新未决政策；
+  不代签、不标 done，交 Codex 独立接收。
 - Kimi：pending（独立终审）。
 - done准入：blocked；不借第二波签字通过本卡。
 
 ## 交接日志
+
+- 2026-09-23 GLM（实施交付）：在 codex/glm-battle-workflows-r1 完成整包（基 4872b017）：
+  W1～W6 六组连续实施+3 薄 fixture（catalog/session-driver/controlled-io）+mutants/coverage
+  两工具；31 项/6+7 负控/TC/Biome/全包/覆盖对照全绿，回执机账落盘。开发期修复（导入深度/
+  隐式 any/world.flags 误断言/settlement-once 断言时机/-t 过滤语义/首版 4 针重设计）如实记录。
+  未改产品/旧测试/官方配置基线/Codex 宿主卡文件；不跑官方 ratchet/strict。交 Codex 独立接收，
+  Kimi 终审后续。
 
 - 2026-09-23 Codex（build准入）：用户确认“签了”，同步5b07d84a干净主线后逐读两席同r1锚点及可证伪回答，无返工项；独立于本人设计签核定build allowed并同步看板/索引。GLM六组整包一次交付，不逐组求继续；官方覆盖门仍由Codex统一串行，产品/视觉/另一卡文件不授权修改。
 
