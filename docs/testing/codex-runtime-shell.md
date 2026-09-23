@@ -1,6 +1,6 @@
 # Codex：真实运行时宿主六组补测
 
-2026-09-23。任务卡：[TEST-RUNTIME-SHELL-COVERAGE-1](../ops/tasks/TEST-RUNTIME-SHELL-COVERAGE-1-boot-menu-flows.md)，r1/review，统一候选b6286df0。
+2026-09-23。任务卡：[TEST-RUNTIME-SHELL-COVERAGE-1](../ops/archive/tasks/done/TEST-RUNTIME-SHELL-COVERAGE-1-boot-menu-flows.md)，r1/review，统一候选b6286df0。
 实现候选 **1d3d3fb3**（前序542e1c07/cb77adb1），基点4872b017；产品冻结57dda7ed不变。
 独立工作树 `/Users/zhangxu/illegal/type-pal-runtime-shell`，分支 `codex/runtime-shell-coverage-r1`。
 

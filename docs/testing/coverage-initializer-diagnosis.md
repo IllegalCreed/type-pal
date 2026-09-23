@@ -1,6 +1,6 @@
 # STAT-1：类初始化覆盖率合并误报
 
-2026-09-23，[修复卡](../ops/tasks/TEST-COVERAGE-TRUTH-1-class-initializers.md)r1已实施并进入review，统一候选b6286df0。
+2026-09-23，[修复卡](../ops/archive/tasks/done/TEST-COVERAGE-TRUTH-1-class-initializers.md)r1已实施并进入review，统一候选b6286df0。
 上半篇保留只读取证；正式实施与验证见文末。当前不标done，也不是下调基线授权。
 
 2026-09-23实施附注：r1三席已准入build；旧最小probe和默认capture/`--replay`针对**未装patch**的

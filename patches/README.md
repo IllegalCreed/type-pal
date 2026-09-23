@@ -6,7 +6,7 @@
 class initializers when both have the same source span. Ordinary functions keep the original
 range-only merge key. Without this fix, two import-only suites can falsely cover uncalled methods.
 
-Owner: Codex. Scope and evidence: [TEST-COVERAGE-TRUTH-1](../docs/ops/tasks/TEST-COVERAGE-TRUTH-1-class-initializers.md).
+Owner: Codex. Scope and evidence: [TEST-COVERAGE-TRUTH-1](../docs/ops/archive/tasks/done/TEST-COVERAGE-TRUTH-1-class-initializers.md).
 Upstream source: [bcoe/v8-coverage](https://github.com/bcoe/v8-coverage).
 No upstream issue/PR has been opened by this task.
 

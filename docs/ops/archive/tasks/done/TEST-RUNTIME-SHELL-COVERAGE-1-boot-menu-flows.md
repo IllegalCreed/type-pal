@@ -1,6 +1,6 @@
 # TEST-RUNTIME-SHELL-COVERAGE-1 - 真实启动与菜单宿主流程补测
 
-Status: review
+Status: done
 Phase: phase2
 Capability: X1 / N6（既有运行时接线测试，不增能力格）
 Coding Owner: Codex
@@ -13,6 +13,17 @@ Branch: codex/runtime-shell-coverage-r1（准入后独立worktree）
 Revision: r1
 Planning Base: f2592597
 Production Freeze: 57dda7ed2376fc25f07756be117bb4a058d09915
+
+## 当前收口（2026-09-23）
+
+用户确认签字后，Codex在326e4906逐席核统一候选b6286df0：Codex实施者自验、Kimi aa436d9f、GLM 326e4906
+均accept，无counter/缺签豁免；宿主原代码1d3d3fb3保持零改，当前实现与官方基线对b6286df0零diff。
+既有check8317/ratchet7826/保护c5569d1a的单次strict7826、远端525c40cd Coverage ratchet success
+足以满足本卡代码级准入；本次仅登记done和归档，不重复跑覆盖率、不改他席原文。
+
+36项宿主自动化接线与8负控完成，不代表真实图像/布局/中文像素或完整E2E验收。
+DEV-TOAST-1、full/Q1/Q2和GLM战斗返工保持原归属；统计修复另卡分别收口，不互相代签。
+无下一位Agent提示词，本卡已核定收口；下方审查提示均为历史。
 
 ## 目标与范围
 
@@ -29,7 +40,7 @@ Production Freeze: 57dda7ed2376fc25f07756be117bb4a058d09915
 | primary source | 启动scope先核、当前工程投影、资源/世界建态、keyboard/主循环到菜单各有当前合同 | `main.ts:339-424/:6223/:6384/:6835-6955` |
 | 第一阶段 | UX/资源约定沿已实现的一阶段知识，不在补测试时更改布局或机制 | `phase1-knowledge-harvest.md` C7/N4～5/X3/X7/X9；`game/src/present/menu/`是后续若需像素核验的UX参考，不混同新引擎架构 |
 | 当前二阶段 | `boot.ts:13`与`editor/src/play.ts:40/:144`真调用；shop trial测试从main早返回，不是普通启动 | `shop-trial.test.ts:138`、`main.ts:349-352`；AST旧测试见world-async-fixture与save-lineage.chain |
-| 目标 | 真import、正式loader合法输入、受控外部IO、完整公共结果；保留旧回归 | 下方H1～H6与[冻结机账](../../testing/coverage-large-domain-evidence.json) |
+| 目标 | 真import、正式loader合法输入、受控外部IO、完整公共结果；保留旧回归 | 下方H1～H6与[冻结机账](../../../../testing/coverage-large-domain-evidence.json) |
 
 最强替代解释：主入口复杂资源/无限帧依赖让测试只能mock业务或强造工程，或AST专项已证所有结果。可证伪：正式loader不能消费fixture、正常启动必须改产品接口、入口始终走预览/商店提前return、main实际覆盖未增长。发生则先报告宿主阻碍，不改统计范围或把Ast拷贝当成功。
 
@@ -37,7 +48,7 @@ Production Freeze: 57dda7ed2376fc25f07756be117bb4a058d09915
 
 ## 上下文与六组流程
 
-必读AGENTS/CLAUDE/READ-FIRST、[总计划](../../testing/coverage-large-domain-plan.md)、现行SAVE-PREFLIGHT/ISOLATION已归档合同、world-async既有测试、[第一阶段知识](../../phase2/reference/phase1-knowledge-harvest.md) N/X。旧文“未实现”以当前源码核实，不按历史标签改产品。
+必读AGENTS/CLAUDE/READ-FIRST、[总计划](../../../../testing/coverage-large-domain-plan.md)、现行SAVE-PREFLIGHT/ISOLATION已归档合同、world-async既有测试、[第一阶段知识](../../../../phase2/reference/phase1-knowledge-harvest.md) N/X。旧文“未实现”以当前源码核实，不按历史标签改产品。
 
 | 组 | 连续链与断言 | 去重与替身边界 |
 |---|---|---|
@@ -163,7 +174,7 @@ Production Freeze: 57dda7ed2376fc25f07756be117bb4a058d09915
   候选树CI Coverage ratchet success（7826含本卡36项）。旧版本兼容审查：pass（产品零改，
   'legacy'仅为断言产品拒绝旧路径的测试标签）。Canvas记录非像素oracle、回执明示不证明布局/
   像素/中文可见性——非视觉边界与分工一致。落卡方式见统计卡日志（同分支tip临时worktree推送）。
-- done准入：blocked。
+- done准入：**通过（2026-09-23，Codex统一核定）**。三席同b6286df0 accept齐，质量门与远端CI通过，用户确认签字；视觉/其它产品欠账边界保持。
 
 ## 交接日志
 
@@ -187,7 +198,7 @@ Production Freeze: 57dda7ed2376fc25f07756be117bb4a058d09915
 
 - 2026-09-23 Codex（STAT-1后续定位）：Kimi专项窄审e7c4b743已推宿主分支（非整卡accept）；
   本席继续取原始数据，定位到覆盖率合并器的同range双initializer身份冲突。原生12组与旧1378对照见
-  [诊断](../../testing/coverage-initializer-diagnosis.md)，37L/42S/2F/37B差额可由该冲突解释；正式修复超本卡白名单，
+  [诊断](../../../../testing/coverage-initializer-diagnosis.md)，37L/42S/2F/37B差额可由该冲突解释；正式修复超本卡白名单，
   已开[TEST-COVERAGE-TRUTH-1](TEST-COVERAGE-TRUTH-1-class-initializers.md) draft等两席设计签名。
   宿主36项保留，不改本卡设计、产品、原测试或官方基线；不以Kimi窄审代整卡done签字。
 
@@ -203,7 +214,7 @@ Production Freeze: 57dda7ed2376fc25f07756be117bb4a058d09915
   本卡该文件计数按不可信处理）超白名单，列 Codex 裁定。未改实现/统计配置/基线/状态，
   不签整卡 accept、不标 done；详见卡内「Kimi 统计专项复核」节。
 
-- 2026-09-23 Codex（六组实现）：独立分支候选1d3d3fb3，6新测试/3fixture/2工具，36项、全reforge1414、TC/Biome和1正控+8业务负控通过，产品/旧测试/官方配置基线零改。实际bootGame/loader/codec/store/菜单/runner保留；对实际输入纯数据快照，不拿文件表替代；H6实际原map Promise收口，不固化旧取消错误提示。局部cb77对照净+1615L/+799B，但script-runner-core出现旧计数虚高反例（报告guard:123=2，旧1378真实执行见证=0），具体工具根因/其余37行解释待Kimi窄审；不把总包增长当豁免。回执/机账见[实施记录](../../testing/codex-runtime-shell.md)。保持build，官方check/ratchet/strict待与GLM并集统一，不标review/done、不代签。
+- 2026-09-23 Codex（六组实现）：独立分支候选1d3d3fb3，6新测试/3fixture/2工具，36项、全reforge1414、TC/Biome和1正控+8业务负控通过，产品/旧测试/官方配置基线零改。实际bootGame/loader/codec/store/菜单/runner保留；对实际输入纯数据快照，不拿文件表替代；H6实际原map Promise收口，不固化旧取消错误提示。局部cb77对照净+1615L/+799B，但script-runner-core出现旧计数虚高反例（报告guard:123=2，旧1378真实执行见证=0），具体工具根因/其余37行解释待Kimi窄审；不把总包增长当豁免。回执/机账见[实施记录](../../../../testing/codex-runtime-shell.md)。保持build，官方check/ratchet/strict待与GLM并集统一，不标review/done、不代签。
 
 - 2026-09-23 Codex（build准入）：用户确认“签了”，同步5b07d84a后核两席同r1直接证据与风险回答，无counter；本席统一登记build并同步看板/索引。独立工作树实施H1/H2后继续H3～H6，GLM战斗卡独立推进；不逐测试跑覆盖率、不提前done。
 

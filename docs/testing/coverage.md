@@ -15,7 +15,7 @@
 ## 最新本地实测（2026-09-23 · 宿主流程与统计真值修复）
 
 统一候选b6286df0：[宿主36项](codex-runtime-shell.md)与[类初始化合并误报修复](coverage-initializer-diagnosis.md)
-组合验证，两卡review、本人实施者accept，外部终审pending。完整check **8317项**，官方ratchet与保护
+组合验证，两卡三席同候选accept齐、用户确认后已由Codex分别核done。完整check **8317项**，官方ratchet与保护
 c5569d1a的**单次strict-fast 7826项/633生产文件**全部exit0；其余六包完整基线对象不变。
 补丁按pnpm版本绑定，仅修两种V8 initializer的合并身份；633生产源码对57dda7ed零改。
 

@@ -1,6 +1,6 @@
 # TEST-COVERAGE-TRUTH-1 - 类初始化覆盖率合并真值修复
 
-Status: review
+Status: done
 Phase: ops
 Capability: ops / coverage
 Coding Owner: Codex
@@ -13,6 +13,18 @@ Branch: codex/coverage-initializer-truth-r1（Codex独立工作树）
 Revision: r1
 Planning Base: 3f1b111d
 Production Freeze: 57dda7ed2376fc25f07756be117bb4a058d09915
+
+## 当前收口（2026-09-23）
+
+用户确认“两张也签了”后，Codex同步326e4906，核三席均对统一候选b6286df0签accept（Codex实施者自验、
+Kimi aa436d9f、GLM 326e4906），无未关闭counter、无缺签豁免，三席旧兼容审查pass。
+当前packages/scripts/patches/依赖清单和lock对候选零diff；check8317/ratchet7826/单次strict7826仍有效，
+远端525c40cd的[Coverage ratchet](https://github.com/IllegalCreed/type-pal/actions/runs/35863778645)已success。
+本次只核准入、文档归档/索引，不重跑测试或覆盖，不改他席签字。
+
+本卡done仅关闭已证initializer合并身份冲突；字段逐语句归因及其它同span理论盲点不作全量准确性担保，
+DEV-TOAST-1、GLM战斗返工、视觉/full/Q1/Q2均不随本卡关闭。无下一位Agent提示词，本卡已核定收口；
+下方旧提示和pending描述按历史保留，不重新授权实施。
 
 ## 目标与范围
 
@@ -30,9 +42,9 @@ GLM战斗卡R1～R4返工；不因本卡关闭它们。不开上游issue/PR（�
 
 | 维度 | 真值 | 一手证据 |
 |---|---|---|
-| primary source | Node22.19原生inspector给两个initializer同range、计数1/0；合并器仅以range当key | [12组原生复现](../../testing/coverage-initializer-probe.mjs):59-76/:123-136；安装树merge.js:79-86/:125-127 |
+| primary source | Node22.19原生inspector给两个initializer同range、计数1/0；合并器仅以range当key | [12组原生复现](../../../../testing/coverage-initializer-probe.mjs):59-76/:123-136；安装树merge.js:79-86/:125-127 |
 | 第一阶段 | N/A机制；此任务不判断原版游戏语义。game作为七包统计消费者仍需最终回归 | `scripts/coverage/config.mjs:105`七包清单；633文件AST盘点见机账 |
-| 当前二阶段 | 旧1378、官方范围不变时client仅导入造成core 195/195；同raw保留initializer身份变158/195 | [诊断](../../testing/coverage-initializer-diagnosis.md)与[机账](../../testing/coverage-initializer-evidence.json)；core:104/:123；旧两个client套件 |
+| 当前二阶段 | 旧1378、官方范围不变时client仅导入造成core 195/195；同raw保留initializer身份变158/195 | [诊断](../../../../testing/coverage-initializer-diagnosis.md)与[机账](../../../../testing/coverage-initializer-evidence.json)；core:104/:123；旧两个client套件 |
 | 目标 | 不调用的方法不得从静态初始化继承正计数，真实调用仍计数；合并前后源/测试范围不变 | 最小样本actual0/0→stock2/experiment0；真调用1/1→两者2；本卡验收矩阵 |
 
 最强替代解释：V8原始记录就错误，或remapper本身在不合并时也会虚报；原生副作用计数、单份转换0、
@@ -202,7 +214,7 @@ before→after：旧合并把两种initializer混为一个→分别保留身份�
   测试标签'legacy'（产品拒绝旧试放路径的断言）与patch README移除条件说明，无版本分支/fallback/
   upgrader/双读双写。非阻塞备注：机账/tmp与/var/folders证据日志易失，但核心数字、配方与两条定向
   命令均可独立重算重跑，不受影响。
-- done准入：blocked（GLM/Kimi同候选实现审查pending；不以设计签字代验收）。
+- done准入：**通过（2026-09-23，Codex统一核定）**。三席同b6286df0 accept齐，既有质量门及远端CI有效；用户确认签字后收口，无豁免/返工。
 
 ## 交接日志
 
@@ -273,7 +285,7 @@ READ-FIRST、两卡与诊断实施节/宿主回执及机账，不读Kimi本轮�
 ### 历史给Kimi：设计（已完成）
 
 在 /Users/zhangxu/illegal/type-pal 独立审 TEST-COVERAGE-TRUTH-1 r1 draft，卡
-docs/ops/tasks/TEST-COVERAGE-TRUTH-1-class-initializers.md。先同步main/核工作树，读AGENTS/CLAUDE/
+docs/ops/archive/tasks/done/TEST-COVERAGE-TRUTH-1-class-initializers.md。先同步main/核工作树，读AGENTS/CLAUDE/
 READ-FIRST、卡与docs/testing/coverage-initializer-diagnosis.md/机账；不读GLM本轮结论。
 你先前e7c4b743不是这次修复设计签字。独立跑node docs/testing/coverage-initializer-probe.mjs，
 必要时capture（也可先复用raw离线重算）；直接读实际安装merge/provider/remapper，核同range双身份根因、
