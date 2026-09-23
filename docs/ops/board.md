@@ -27,7 +27,7 @@ GLM后续补测候选见[十批长队列](../testing/glm-coverage-work-queue.md)
 | ID | 任务 | 状态 | 负责人/下一步 | 一句话备注 |
 |---|---|---|---|---|
 | TEST-BATTLE-WORKFLOWS-1 | [战斗会话完整流程补测](tasks/TEST-BATTLE-WORKFLOWS-1-session-flows.md) | rework | GLM按Codex R1～R4返工16ac8cee | 31/1409绿但正式guard拒fixture、多种坏实现仍绿、Biome失败；未接收，不合并/不改基线 |
-| TEST-COVERAGE-TRUTH-1 | [类初始化覆盖率合并真值修复](tasks/TEST-COVERAGE-TRUTH-1-class-initializers.md) | draft | Kimi/GLM并行审r1；Codex已定位并签设计 | 同range双initializer混并；12组最小复现与1378原始数据对照；未装patch/不降基线 |
+| TEST-COVERAGE-TRUTH-1 | [类初始化覆盖率合并真值修复](tasks/TEST-COVERAGE-TRUTH-1-class-initializers.md) | build | r1三席齐，Codex独立实施版本绑定patch与回归 | 仅两种initializer区分身份；原门不降，与宿主增量同树后统一门禁 |
 | TEST-RUNTIME-SHELL-COVERAGE-1 | [真实启动与菜单宿主流程补测](tasks/TEST-RUNTIME-SHELL-COVERAGE-1-boot-menu-flows.md) | build | Codex候选1d3d3fb3；STAT-1已定位转独立修复卡 | Kimi窄审e7c4b743已推，非整卡accept；36/1414/8针通过，官方基线未动 |
 
 2026-09-23 [第二波六领域非视觉补测](../testing/glm-coverage-wave2-receipt.md)候选27bd8c00三席accept齐（Codex实施者自验、GLM贡献者复核d8b9dfa7、Kimi独立终审5b44c37d），用户确认后Codex核零漂移并done归档。163项/17针、check8281/单次strict7790与集成f703e49c双CI为既有证据；未达whole-file目标、无caller旧入口、E-05/U-02/frame政策和full/Q1/Q2边界保持。本次只做文档收口，不重跑覆盖率。

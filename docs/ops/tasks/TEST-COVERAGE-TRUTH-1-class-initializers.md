@@ -1,6 +1,6 @@
 # TEST-COVERAGE-TRUTH-1 - 类初始化覆盖率合并真值修复
 
-Status: draft
+Status: build
 Phase: ops
 Capability: ops / coverage
 Coding Owner: Codex
@@ -9,7 +9,7 @@ Reviewer: both
 Visual Verification Owner: N/A
 Visual Verification Timing: N/A
 Unavailable Agents: 无
-Branch: draft在main；build后codex/coverage-initializer-truth-r1独立工作树
+Branch: codex/coverage-initializer-truth-r1（Codex独立工作树）
 Revision: r1
 Planning Base: 3f1b111d
 Production Freeze: 57dda7ed2376fc25f07756be117bb4a058d09915
@@ -53,7 +53,7 @@ before→after：旧合并把两种initializer混为一个→分别保留身份�
 - `scripts/coverage/run.mjs:378-385/:499-518` provider可比性与只升不降门；不加豁免参数。
 - 原7790/633冻结保持；宿主36项与GLM战斗包最终增量按同树并集去重。
 
-## r1拟实施方案（未授权build）
+## r1实施方案（2026-09-23三席准入）
 
 1. 用pnpm版本绑定patch修`@bcoe/v8-coverage@1.0.2`的函数合并key：**仅**把两种initializer名称纳入
    身份；其它普通函数沿原range键，不把所有任意函数名都拼入（避免对命名差异引入新的不合并）。
@@ -151,9 +151,9 @@ before→after：旧合并把两种initializer混为一个→分别保留身份�
     等无关文件计数变化；④ 任一真实调用样本计数被清零；⑤ 原门未过却被手改基线放行；
     ⑥ 上游版本漂移时补丁静默失效（安装验证应红而未红）。
   - 返工项：无。
-- 非Owner独立反证：pending；旧e7c4b743不代本次新根因签字。
+- 非Owner独立反证：已完成；Kimi49269a61及GLMdefd960e分别核实际依赖/原生12组与同raw对照，直接锚点与可证伪观察见各席。旧e7c4b743不代本次新根因签字。
 - 缺签豁免：无。
-- build准入：blocked，未齐三签不得改依赖/官方工具/基线。
+- build准入：**build allowed（2026-09-23，Codex统一核定，准备候选2fcf57d7/r1）**。Codex原签、Kimi49269a61、GLMdefd960e同r1均premise verified/design agree，无counter/缺签豁免。用户确认签字；仅授权原白名单版本绑定patch与工具回归，官方门不降。GLM三条非阻断观察保持：补census配方、其它同span盲点不扩范围、原门失败停线。
 
 ### done前
 
@@ -163,6 +163,8 @@ before→after：旧合并把两种initializer混为一个→分别保留身份�
 - done准入：blocked。
 
 ## 交接日志
+
+- 2026-09-23 Codex（build准入）：同步defd960e后核工作树干净与同r1三席直接证据，签字齐且无counter。本席统一转build，独立工作树实施实际安装补丁/原生与Vitest常驻回归；不借统计修复覆盖宿主验收或GLM战斗返工，不降低基线。
 
 - 2026-09-23 Kimi（r1 独立根因/修补方案审查）：签 premise verified / design agree，无返工项。
   直读安装树 merge.js:79-86（key 仅 range 起止，合成 initializer 必并键）；复跑 probe 12 组
