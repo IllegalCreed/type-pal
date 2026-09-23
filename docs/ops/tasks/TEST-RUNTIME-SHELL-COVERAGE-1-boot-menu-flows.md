@@ -136,6 +136,18 @@ Production Freeze: 57dda7ed2376fc25f07756be117bb4a058d09915
 
 - 2026-09-23 Codex（独立分支进度镜像）：`codex/runtime-shell-coverage-r1`已推送（tip0996cd87，代码候选1d3d3fb3，基4872b017）；工作树`/Users/zhangxu/illegal/type-pal-runtime-shell`。H1～H6共36项、全reforge1414、TC/Biome、1正控+8业务负控通过，产品/旧测试/官方配置基线零改。分支[实施回执](https://github.com/IllegalCreed/type-pal/blob/codex/runtime-shell-coverage-r1/docs/testing/codex-runtime-shell.md)及机账保存所有证据。局部cb77对照+1615行/+799分支包含script-runner-core的-37行：旧报告:123计2、原1378真实分支见证计0，至少一处旧计数虚高已证，具体工具根因/其余行待Kimi窄核，不以总包提升豁免。开发跳场景旧取消失败提示单列观察，未写成正确UI合同。仍build，不合主线测试/不更新官方基线；待GLM战斗包接收和统计解释后统一门禁。
 
+- 2026-09-23 Kimi（STAT-1 统计专项窄复核，非整卡终审）：probe 复建一致（旧1378 :123计2/
+  195行；加宿主1414 :123计0/158行；见证 load 已进、分支实进0）。见证插桩语义保持/加载
+  断言/源码 hash 复原均核，entered=false 为真阴性。新增两条隔离证据：同一旧全集仅加宿主
+  用例即 :123 计数 2→0（计数随组成变，非执行真值）；maxWorkers=1/2/4 下恒为 2（排除分片
+  抖动）。NODE_V8_COVERAGE 直取 raw dump 不含项目源（worker 自管目录），根因层实验无结论，
+  不钉 remap/V8 单侧。结论：旧报告该文件计数不可靠成立；其余36行同因与否、其它文件/基线
+  是否受影响未定，不作全量统计豁免。后续检查三条（worker 内 raw 对照、其它满覆盖文件抽查、
+  本卡该文件计数按不可信处理）超白名单，列 Codex 裁定。未改实现/统计配置/基线/状态，
+  不签整卡 accept、不标 done；详见卡内「Kimi 统计专项复核」节。
+
+- 2026-09-23 Codex（六组实现）：独立分支候选1d3d3fb3，6新测试/3fixture/2工具，36项、全reforge1414、TC/Biome和1正控+8业务负控通过，产品/旧测试/官方配置基线零改。实际bootGame/loader/codec/store/菜单/runner保留；对实际输入纯数据快照，不拿文件表替代；H6实际原map Promise收口，不固化旧取消错误提示。局部cb77对照净+1615L/+799B，但script-runner-core出现旧计数虚高反例（报告guard:123=2，旧1378真实执行见证=0），具体工具根因/其余37行解释待Kimi窄审；不把总包增长当豁免。回执/机账见[实施记录](../../testing/codex-runtime-shell.md)。保持build，官方check/ratchet/strict待与GLM并集统一，不标review/done、不代签。
+
 - 2026-09-23 Codex（build准入）：用户确认“签了”，同步5b07d84a后核两席同r1直接证据与风险回答，无counter；本席统一登记build并同步看板/索引。独立工作树实施H1/H2后继续H3～H6，GLM战斗卡独立推进；不逐测试跑覆盖率、不提前done。
 
 - 2026-09-23 GLM（r1 设计审查）：签 premise verified / design agree（证据见本席）：
@@ -165,6 +177,40 @@ Production Freeze: 57dda7ed2376fc25f07756be117bb4a058d09915
 ### 历史给Kimi：STAT-1统计异常窄复核（e7c4b743已完成）
 
 在 `/Users/zhangxu/illegal/type-pal-runtime-shell` 同步 `codex/runtime-shell-coverage-r1`（tip0996cd87；代码候选1d3d3fb3，基4872b017），卡仍build，设计不重签。读AGENTS/CLAUDE/READ-FIRST、该分支本卡、`docs/testing/codex-runtime-shell.md`的STAT-1与机账；按分支卡内完整提示词独立复建 `node docs/testing/codex-runtime-shell-mutants.mjs --probe-core-coverage`。核旧1378/新1414的覆盖差分和旧1378真实throw分支见证，给带一手锚点的统计结论/反证与最小后续证据；不由Codex描述推结论，不签整卡accept，不改产品/旧测试/统计配置/基线/状态。不跑官方覆盖率，DEV-TOAST-1不扩成修产品。只在分支卡追加本人“统计专项复核”及日志、提交推送该分支，不代签；若需框架改动，明确为当前白名单外待准入事项。
+### 历史窄审完整提示词（已完成）
+
+在 `/Users/zhangxu/illegal/type-pal-runtime-shell` 的 `codex/runtime-shell-coverage-r1` 独立窄审统计异常，代码候选1d3d3fb3（基4872b017），卡仍build，r1设计不重签。先同步该分支/核工作树，读AGENTS/CLAUDE/READ-FIRST、本卡、`docs/testing/codex-runtime-shell.md`的STAT-1和机账。36项/全包1414/8业务负控已通过，但不据此认可统计；不读或复述GLM结论。
+
+独立复建 `node docs/testing/codex-runtime-shell-mutants.mjs --probe-core-coverage`：旧1378报core195/195且:123计2；加宿主1414报158/195且:123计0；旧1378临时真实分支见证load已进、分支实际0。核见证是否真在该throw前、旧用例/源码是否完整、结论应收窄到哪里，以及是否还需额外隔离证据。不要为了恢复数字补非法防御输入或改变排除/阈值，不并发跑官方覆盖；DEV-TOAST-1仅作另列观察，不扩成修产品。
+
+只在本卡追加本人“统计专项复核”与日志、给带锚点的结论/反证，提交推送本分支，保留全部签字；不要签整卡done前accept、不改Status/实现/官方基线、不代签。若需要改统计框架/依赖/旧测试，明确列为超出当前白名单的待准入事项，由Codex处理。
+
+### Kimi 统计专项复核（2026-09-23，STAT-1；非整卡终审，不签 done 前 accept）
+
+**结论：STAT-1 足以证明「旧报告该文件计数不可靠」，不足以推出「全量统计豁免」；精准根因层未钉死，本席补了两条决定性隔离证据。**
+
+- **复建一致**：probe 复跑 exit0——old-fast 1378 项 195/195 行、`:123` 语句计 2；
+  old-plus-shell 1414 项 158/195 行、`:123` 计 0；execution-trace 1378 项全绿、
+  `traceLoaded=true`（load 钩确已进入该模块）且 `invalidVersionBranchEntered=false`。
+- **见证方法学核验**：注入为逗号表达式（`appendFileSync(marker,'entered\n')` 后接**同一** throw），
+  语义不变；针漂移断言（needle 恰一处）+加载断言（loaded 文件恰为目标）+跑后源码 hash 复原
+  均通过——`entered=false` 是真阴性，不是插桩失效。
+- **本席新增证据①（组成敏感性）**：同一旧 1378 套件、同一源码，仅加 36 个宿主用例，
+  `:123` 计数 2→0——真实执行数不可能因**新增**测试而减少，故旧计数不是执行真值的忠实
+  记录，而是随测试集组成变化的归因产物。
+- **本席新增证据②（排除简单分片抖动）**：同一旧全集在 maxWorkers=1/2/4 下 `:123` 计数
+  恒为 2（/tmp/stat1-w{1,2,4} 三套独立配置全绿）——虚高稳定存在，不是 worker 数量抖动。
+- **方法学限度如实披露**：本席尝试以 NODE_V8_COVERAGE 直取原始 V8 dump 比对 remap 前后，
+  dump 只含 node_modules 工具链、无项目源文件（vitest worker 自管覆盖目录）——**该层实验
+  无结论**，不据此把根因钉在 remap 或 V8 采样任一单侧。
+- **结论边界**：已证＝`:123` 真实执行 0 次而旧报告计 2（至少此条虚高），且该文件的
+  195/195 旧行计数含幻影覆盖；未证＝其余 36 行是否同因、根因层（V8 采样/merge/remap）、
+  其它文件/官方基线是否同类受影响、158/195 是否为「真值」（它同样随组成变化）。
+- **必要后续检查（超出本卡白名单，交 Codex 裁定是否另开卡）**：① 从 vitest worker 内部
+  取 raw V8 与 remap 输入对照，钉根因层；② 用同一见证技术抽查其它「全行覆盖」核心文件，
+  判断幻影是否系统性；③ 本卡验收中 script-runner-core.ts 的 before/after 计数按不可信
+  处理，以执行见证为准，不据此升降官方基线。不得为恢复数字补非法输入或改排除/阈值。
+- DEV-TOAST-1 仅另列观察，本席不扩为产品裁决。
 
 ### 历史r1设计提示词（已完成）
 
