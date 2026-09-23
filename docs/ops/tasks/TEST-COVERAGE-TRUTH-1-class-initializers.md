@@ -98,7 +98,31 @@ before→after：旧合并把两种initializer混为一个→分别保留身份�
   同数据单份转换/合并后转换/内存唯一key修订三向核验；原正式包四维与7790基线一致，实验修订分母不变。
   直接锚点为merge.js:79-86/:125-127和机账中12组actual/reported；可证伪观察与风险见上。
   实验不等于已安装修复；正式补丁/常驻回归待三签。
-- GLM：pending（独立矩阵/范围审查）。
+- GLM：**premise verified / design agree（2026-09-23，r1）**。独立复跑probe（本机v22.19.0）：12组
+  rows与机账逐项一致，唯一反例both/import actual 0/0→stock合并2/实验0；valid/reject真实1+1在两种
+  合并下均保留2；static-only/instance-only无幻影。同range双身份断言亲见（两记录counts [1,0]、
+  start/end偏移相同；stock剩1条、实验保留2条）。直读安装树锚点：merge.js:120-127纯range键+
+  :73-92分桶求和；provider.js:30-49先mergeProcessCovs再按environment转换；ast-v8-to-istanbul
+  dist/index.mjs:427-434同面积取后序、:435-443按包含区间取count——整类正计数可传导到方法。
+  三个保护哈希（merge.js/provider.js/baseline.fast.json）与机账一致，安装树未动。633盘点：baseline
+  七包sourceFiles=633（shared11/content51/pal-extract38/migrate51/reforge131/game125/editor226）、
+  testCount 7790冻结；本席复跑仅命中同两候选，core:104亲证both形状（static MAX_CALL_DEPTH/
+  MAX_SYNCHRONOUS_STATE_TRANSITIONS+实例callDepth/running），declare/abstract排除、含static块属实。
+  旧1378：capture钉baseline.packages.reforge.fastTests（146文件、断言testCount 1378）+官方
+  include/coverageExcludes；capture的before四维与冻结官方reforge基线完全相等（14599/8759、
+  16737/9710、2539/1542、11359/5913）。37/42/2/37：script-runner-core文件级差额（195→158、
+  208→166、18→16、141→104）与包级差额逐维相等，script-runner.ts四维不变，lostLines[0]=123与
+  宿主卡":123旧计2/真实0"互证，分母全不变。设计压测：仅两种initializer名加前缀不可能与纯数字
+  range键冲突、不改普通函数合并合同；矩阵含static/实例分离、2及3份、双序、嵌套/匿名类、空/单输入、
+  普通函数合同、真实Vitest跨ssr/client夹具与正控——对本缺陷无遗漏承重形状。白名单闭合实证：
+  `package.json:10` node --test scripts/coverage/*.test.mjs自动收集新回归；run.mjs:378-385
+  provider可比门、:499-518只升不降/ratchet/protected链亲读未降。边界披露诚实（633盘点≠完整性、
+  另六包未测、字段归因不完全）。非阻塞观察：(a)机账sourceCensusSha256配方未记录，独立方无法
+  逐字节重算（逐文件依赖哈希可复现），建议补记配方；(b)合并键对所有函数忽略functionName，其它
+  同span对（如get/set访问器）理论上同样坍缩——在本卡"其它V8盲点未排除"披露边界内，建议另开
+  探针卡勿扩本卡；(c)最终官方门取决于与宿主增量同树并集，失败路径保持待裁决、不改比较器/不手写
+  低基线——正确处理，不得演变成基线下调捷径。可证伪观察成立：本席独立复建亲见同range双身份与
+  原计数，修订未清真实调用、未动分母与范围。
 - Kimi：**premise verified / design agree（2026-09-23，r1；probe 与 1378 离线重放本人复跑，merge.js 本人直读，未读 GLM 本轮结论；e7c4b743 窄审不代本次签字）**。
   - **同 range 双 initializer 身份冲突直读**：安装树 `@bcoe/v8-coverage@1.0.2/src/lib/merge.js:79-86`
     的 `stringifyFunctionRootRange` 只拼 `startOffset;endOffset` 作 key——两个合成 initializer 必然
@@ -153,6 +177,12 @@ before→after：旧合并把两种initializer混为一个→分别保留身份�
 - 2026-09-23 Codex：用户同意继续；先推送既有Kimi e7c4b743到宿主分支，然后只读定位合并器同range冲突。
   12组原生、旧1378正式范围raw捕获和同raw实验复算通过；633文件两类形状盘点，未改产品/依赖/官方基线。
   新建本draft与复建工具；按协议并行请两席独立审r1，宿主卡仍build、GLM战斗仍rework。
+
+- 2026-09-23 GLM：r1独立审毕，签premise verified/design agree（证据见本人build前块）。本机复跑
+  probe 12/12与机账一致；直读安装树merge/provider/remapper锚点；633盘点、旧1378官方范围等值、
+  37/42/2/37逐维核验、白名单glob与门槛链均实证。留三条非阻塞观察（census哈希配方、get/set同span
+  盲点另卡、最终门失败走待裁决不降门）。未读Kimi本轮结论；未改工具/patch/基线/他席块/共享状态；
+  未签accept/done。战斗卡TEST-BATTLE-WORKFLOWS-1返工独立，本席不借统计缺陷豁免其业务反例。
 
 ## 下一位Agent提示词
 
