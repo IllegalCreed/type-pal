@@ -1,0 +1,917 @@
+{
+  "schemaVersion": 1,
+  "task": "TEST-RUNTIME-SHELL-COVERAGE-2",
+  "date": "2026-09-24",
+  "base": "aa508566d72eaaf9bd692cab9e8041e088ed3b32",
+  "implementation": "94b59a6f",
+  "review": "Codex implementation/self-review; user waived Kimi/GLM for this batch only. Not independent third-party review.",
+  "before": {
+    "fast": {
+      "testCount": 7893,
+      "sourceFileCount": 633,
+      "total": {
+        "statements": {
+          "covered": 59577,
+          "total": 80452
+        },
+        "branches": {
+          "covered": 42199,
+          "total": 63151
+        },
+        "functions": {
+          "covered": 11075,
+          "total": 14914
+        },
+        "lines": {
+          "covered": 53684,
+          "total": 70420
+        }
+      },
+      "generatedAt": "2026-09-24T06:51:14.395Z",
+      "packages": {
+        "shared": {
+          "tests": 115,
+          "metrics": {
+            "statements": {
+              "covered": 381,
+              "total": 406
+            },
+            "branches": {
+              "covered": 151,
+              "total": 177
+            },
+            "functions": {
+              "covered": 21,
+              "total": 21
+            },
+            "lines": {
+              "covered": 342,
+              "total": 356
+            }
+          }
+        },
+        "content": {
+          "tests": 843,
+          "metrics": {
+            "statements": {
+              "covered": 5179,
+              "total": 5856
+            },
+            "branches": {
+              "covered": 4147,
+              "total": 5019
+            },
+            "functions": {
+              "covered": 787,
+              "total": 831
+            },
+            "lines": {
+              "covered": 4687,
+              "total": 5185
+            }
+          }
+        },
+        "pal-extract": {
+          "tests": 144,
+          "metrics": {
+            "statements": {
+              "covered": 878,
+              "total": 1492
+            },
+            "branches": {
+              "covered": 311,
+              "total": 539
+            },
+            "functions": {
+              "covered": 94,
+              "total": 140
+            },
+            "lines": {
+              "covered": 783,
+              "total": 1316
+            }
+          }
+        },
+        "migrate": {
+          "tests": 416,
+          "metrics": {
+            "statements": {
+              "covered": 4215,
+              "total": 7712
+            },
+            "branches": {
+              "covered": 3115,
+              "total": 6436
+            },
+            "functions": {
+              "covered": 642,
+              "total": 1165
+            },
+            "lines": {
+              "covered": 3785,
+              "total": 6724
+            }
+          }
+        },
+        "reforge": {
+          "tests": 1469,
+          "metrics": {
+            "statements": {
+              "covered": 11551,
+              "total": 16737
+            },
+            "branches": {
+              "covered": 6797,
+              "total": 11361
+            },
+            "functions": {
+              "covered": 1763,
+              "total": 2539
+            },
+            "lines": {
+              "covered": 10471,
+              "total": 14599
+            }
+          }
+        },
+        "game": {
+          "tests": 2318,
+          "metrics": {
+            "statements": {
+              "covered": 11409,
+              "total": 15494
+            },
+            "branches": {
+              "covered": 7523,
+              "total": 11281
+            },
+            "functions": {
+              "covered": 1314,
+              "total": 1843
+            },
+            "lines": {
+              "covered": 10275,
+              "total": 13604
+            }
+          }
+        },
+        "editor": {
+          "tests": 2588,
+          "metrics": {
+            "statements": {
+              "covered": 25964,
+              "total": 32755
+            },
+            "branches": {
+              "covered": 20155,
+              "total": 28338
+            },
+            "functions": {
+              "covered": 6454,
+              "total": 8375
+            },
+            "lines": {
+              "covered": 23341,
+              "total": 28636
+            }
+          }
+        }
+      }
+    },
+    "fullBefore": {
+      "testCount": 8230,
+      "sourceFileCount": 633,
+      "total": {
+        "statements": {
+          "covered": 61874,
+          "total": 80452
+        },
+        "branches": {
+          "covered": 44083,
+          "total": 63151
+        },
+        "functions": {
+          "covered": 11412,
+          "total": 14914
+        },
+        "lines": {
+          "covered": 55720,
+          "total": 70420
+        }
+      },
+      "generatedAt": "2026-09-24T07:39:24.005Z",
+      "packages": {
+        "shared": {
+          "tests": 115,
+          "metrics": {
+            "statements": {
+              "covered": 381,
+              "total": 406
+            },
+            "branches": {
+              "covered": 151,
+              "total": 177
+            },
+            "functions": {
+              "covered": 21,
+              "total": 21
+            },
+            "lines": {
+              "covered": 342,
+              "total": 356
+            }
+          }
+        },
+        "content": {
+          "tests": 843,
+          "metrics": {
+            "statements": {
+              "covered": 5179,
+              "total": 5856
+            },
+            "branches": {
+              "covered": 4147,
+              "total": 5019
+            },
+            "functions": {
+              "covered": 787,
+              "total": 831
+            },
+            "lines": {
+              "covered": 4687,
+              "total": 5185
+            }
+          }
+        },
+        "pal-extract": {
+          "tests": 299,
+          "metrics": {
+            "statements": {
+              "covered": 964,
+              "total": 1492
+            },
+            "branches": {
+              "covered": 349,
+              "total": 539
+            },
+            "functions": {
+              "covered": 107,
+              "total": 140
+            },
+            "lines": {
+              "covered": 856,
+              "total": 1316
+            }
+          }
+        },
+        "migrate": {
+          "tests": 534,
+          "metrics": {
+            "statements": {
+              "covered": 6266,
+              "total": 7712
+            },
+            "branches": {
+              "covered": 4835,
+              "total": 6436
+            },
+            "functions": {
+              "covered": 934,
+              "total": 1165
+            },
+            "lines": {
+              "covered": 5618,
+              "total": 6724
+            }
+          }
+        },
+        "reforge": {
+          "tests": 1469,
+          "metrics": {
+            "statements": {
+              "covered": 11551,
+              "total": 16737
+            },
+            "branches": {
+              "covered": 6797,
+              "total": 11361
+            },
+            "functions": {
+              "covered": 1763,
+              "total": 2539
+            },
+            "lines": {
+              "covered": 10471,
+              "total": 14599
+            }
+          }
+        },
+        "game": {
+          "tests": 2375,
+          "metrics": {
+            "statements": {
+              "covered": 11532,
+              "total": 15494
+            },
+            "branches": {
+              "covered": 7583,
+              "total": 11281
+            },
+            "functions": {
+              "covered": 1345,
+              "total": 1843
+            },
+            "lines": {
+              "covered": 10379,
+              "total": 13604
+            }
+          }
+        },
+        "editor": {
+          "tests": 2595,
+          "metrics": {
+            "statements": {
+              "covered": 26001,
+              "total": 32755
+            },
+            "branches": {
+              "covered": 20221,
+              "total": 28338
+            },
+            "functions": {
+              "covered": 6455,
+              "total": 8375
+            },
+            "lines": {
+              "covered": 23367,
+              "total": 28636
+            }
+          }
+        }
+      }
+    },
+    "mainBefore": {
+      "lines": {
+        "total": 3360,
+        "covered": 1140,
+        "skipped": 0,
+        "pct": 33.92
+      },
+      "functions": {
+        "total": 612,
+        "covered": 140,
+        "skipped": 0,
+        "pct": 22.87
+      },
+      "statements": {
+        "total": 3828,
+        "covered": 1194,
+        "skipped": 0,
+        "pct": 31.19
+      },
+      "branches": {
+        "total": 2427,
+        "covered": 544,
+        "skipped": 0,
+        "pct": 22.41
+      }
+    }
+  },
+  "after": {
+    "hash": "32a0c23bddf240ca801e3e4be1c3ace275af7cc96b37f7f2fe457add4d16382a",
+    "testCount": 7921,
+    "sourceFileCount": 633,
+    "total": {
+      "statements": {
+        "covered": 60374,
+        "total": 80452
+      },
+      "branches": {
+        "covered": 42706,
+        "total": 63151
+      },
+      "functions": {
+        "covered": 11193,
+        "total": 14914
+      },
+      "lines": {
+        "covered": 54399,
+        "total": 70420
+      }
+    },
+    "reforge": {
+      "statements": {
+        "covered": 12348,
+        "total": 16737
+      },
+      "branches": {
+        "covered": 7304,
+        "total": 11361
+      },
+      "functions": {
+        "covered": 1881,
+        "total": 2539
+      },
+      "lines": {
+        "covered": 11186,
+        "total": 14599
+      }
+    },
+    "main": {
+      "lines": {
+        "total": 3360,
+        "covered": 1627,
+        "skipped": 0,
+        "pct": 48.42
+      },
+      "functions": {
+        "total": 612,
+        "covered": 228,
+        "skipped": 0,
+        "pct": 37.25
+      },
+      "statements": {
+        "total": 3828,
+        "covered": 1733,
+        "skipped": 0,
+        "pct": 45.27
+      },
+      "branches": {
+        "total": 2427,
+        "covered": 825,
+        "skipped": 0,
+        "pct": 33.99
+      }
+    },
+    "otherSixUnchanged": true,
+    "changes": [
+      {
+        "file": "packages/reforge/src/assets.ts",
+        "lines": 1,
+        "statements": 1,
+        "functions": 1,
+        "branches": 0
+      },
+      {
+        "file": "packages/reforge/src/item-use-executor.ts",
+        "lines": 0,
+        "statements": 1,
+        "functions": 0,
+        "branches": 1
+      },
+      {
+        "file": "packages/reforge/src/main.ts",
+        "lines": 487,
+        "statements": 539,
+        "functions": 88,
+        "branches": 281
+      },
+      {
+        "file": "packages/reforge/src/motion-runtime-coordinator.ts",
+        "lines": 2,
+        "statements": 3,
+        "functions": 1,
+        "branches": 2
+      },
+      {
+        "file": "packages/reforge/src/render.ts",
+        "lines": 4,
+        "statements": 4,
+        "functions": 0,
+        "branches": 3
+      },
+      {
+        "file": "packages/reforge/src/runtime-project-view.ts",
+        "lines": 0,
+        "statements": 1,
+        "functions": 0,
+        "branches": 5
+      },
+      {
+        "file": "packages/reforge/src/runtime-script-project.ts",
+        "lines": 0,
+        "statements": 1,
+        "functions": 0,
+        "branches": 1
+      },
+      {
+        "file": "packages/reforge/src/scene-switch-transaction.ts",
+        "lines": 1,
+        "statements": 1,
+        "functions": 1,
+        "branches": 1
+      },
+      {
+        "file": "packages/reforge/src/script-host-adapter.ts",
+        "lines": 0,
+        "statements": 1,
+        "functions": 0,
+        "branches": 4
+      },
+      {
+        "file": "packages/reforge/src/script-runner-core.ts",
+        "lines": 1,
+        "statements": 1,
+        "functions": 0,
+        "branches": 2
+      },
+      {
+        "file": "packages/reforge/src/script-world.ts",
+        "lines": 0,
+        "statements": 1,
+        "functions": 0,
+        "branches": 1
+      },
+      {
+        "file": "packages/reforge/src/audio/sfx-readiness.ts",
+        "lines": 0,
+        "statements": 0,
+        "functions": 0,
+        "branches": 2
+      },
+      {
+        "file": "packages/reforge/src/battle/battle-session.ts",
+        "lines": 106,
+        "statements": 111,
+        "functions": 8,
+        "branches": 121
+      },
+      {
+        "file": "packages/reforge/src/battle/battle-ui.ts",
+        "lines": 37,
+        "statements": 47,
+        "functions": 4,
+        "branches": 29
+      },
+      {
+        "file": "packages/reforge/src/battle/battle-world-result.ts",
+        "lines": 0,
+        "statements": 0,
+        "functions": 0,
+        "branches": 1
+      },
+      {
+        "file": "packages/reforge/src/battle/present-battle.ts",
+        "lines": 4,
+        "statements": 4,
+        "functions": 0,
+        "branches": 1
+      },
+      {
+        "file": "packages/reforge/src/battle/settlement.ts",
+        "lines": 0,
+        "statements": 0,
+        "functions": 0,
+        "branches": 1
+      },
+      {
+        "file": "packages/reforge/src/menu/equip-box.ts",
+        "lines": 25,
+        "statements": 29,
+        "functions": 5,
+        "branches": 14
+      },
+      {
+        "file": "packages/reforge/src/menu/item-list.ts",
+        "lines": 22,
+        "statements": 24,
+        "functions": 5,
+        "branches": 18
+      },
+      {
+        "file": "packages/reforge/src/menu/menu-box.ts",
+        "lines": 2,
+        "statements": 2,
+        "functions": 2,
+        "branches": 0
+      },
+      {
+        "file": "packages/reforge/src/menu/use-box.ts",
+        "lines": 23,
+        "statements": 26,
+        "functions": 3,
+        "branches": 19
+      }
+    ]
+  },
+  "verification": {
+    "fullCalibration": {
+      "exit": 0,
+      "log": "/tmp/type-pal-shell-wave2-full-before.log",
+      "tests": 8230,
+      "sourceFiles": 633,
+      "phase": "before the new 28 tests"
+    },
+    "direct": {
+      "exit": 0,
+      "tests": 28
+    },
+    "adjacent": {
+      "exit": 0,
+      "files": 31,
+      "tests": 385,
+      "log": "/tmp/type-pal-shell-wave2-adjacent.log"
+    },
+    "typecheck": {
+      "exit": 0,
+      "log": "/tmp/type-pal-shell-wave2-tc3.log"
+    },
+    "check": {
+      "exit": 0,
+      "tests": 8412,
+      "warnings": 47,
+      "infos": 6,
+      "log": "/tmp/type-pal-shell-wave2-check.log"
+    },
+    "ratchet": {
+      "exit": 0,
+      "tests": 7921,
+      "sourceFiles": 633,
+      "protectedBase": "aa508566",
+      "log": "/tmp/type-pal-shell-wave2-ratchet.log"
+    },
+    "strict": {
+      "exit": 0,
+      "attempts": 1,
+      "protectedBase": "aa508566",
+      "CI": true,
+      "FORCE_COLOR": 1,
+      "NODE_COMPILE_CACHE": "/tmp/type-pal-shell-wave2-host-cache",
+      "baselineUnchanged": true,
+      "log": "/tmp/type-pal-shell-wave2-strict.log",
+      "testCount": 7921,
+      "sourceFileCount": 633,
+      "total": {
+        "statements": {
+          "covered": 60374,
+          "total": 80452
+        },
+        "branches": {
+          "covered": 42706,
+          "total": 63151
+        },
+        "functions": {
+          "covered": 11193,
+          "total": 14914
+        },
+        "lines": {
+          "covered": 54399,
+          "total": 70420
+        }
+      }
+    },
+    "mutants": {
+      "exit": 0,
+      "log": "/tmp/type-pal-shell-wave2-mutants-final.log",
+      "directory": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-shell-wave2-mutants-qjuBVH",
+      "hash": "32a0c23bddf240ca801e3e4be1c3ace275af7cc96b37f7f2fe457add4d16382a",
+      "strict": {
+        "testCount": 7921,
+        "sourceFileCount": 633,
+        "total": {
+          "statements": {
+            "covered": 60374,
+            "total": 80452
+          },
+          "branches": {
+            "covered": 42706,
+            "total": 63151
+          },
+          "functions": {
+            "covered": 11193,
+            "total": 14914
+          },
+          "lines": {
+            "covered": 54399,
+            "total": 70420
+          }
+        }
+      },
+      "productionHash": "043d08236bdd4afd310d992af9654584ba8ee603f6e0832e07184f17f46cc847",
+      "productFiles": 633,
+      "judge": {
+        "positive": 1,
+        "rejected": 12
+      },
+      "controls": [
+        {
+          "file": "packages/reforge/src/main.battle-host-flows.test.ts",
+          "title": "H9 public battle runs actual settlement and onDefeated before resolving, preserving nonempty inventory"
+        },
+        {
+          "file": "packages/reforge/src/main.battle-host-flows.test.ts",
+          "title": "H9 author startBattle waits for real victory then runs the following command exactly once"
+        },
+        {
+          "file": "packages/reforge/src/main.battle-host-flows.test.ts",
+          "title": "H9 real defeat writes zero HP, skips victory hooks and follows only onLose plus continuation"
+        },
+        {
+          "file": "packages/reforge/src/main.battle-host-flows.test.ts",
+          "title": "H9 thrown inventory is consumed by real battle and reaches the host world after victory"
+        },
+        {
+          "file": "packages/reforge/src/main.battle-host-flows.test.ts",
+          "title": "H9 missing enemy team rejects before any active session and leaves menu operable"
+        },
+        {
+          "file": "packages/reforge/src/main.battle-host-flows.test.ts",
+          "title": "H9 delayed battle sprite cannot commit a battle after the scene owner has changed"
+        },
+        {
+          "file": "packages/reforge/src/main.entity-host-flows.test.ts",
+          "title": "H10 'absolute' entity position reaches both durable state and live projection before continuation"
+        },
+        {
+          "file": "packages/reforge/src/main.entity-host-flows.test.ts",
+          "title": "H10 'party-relative' entity position reaches both durable state and live projection before continuation"
+        },
+        {
+          "file": "packages/reforge/src/main.entity-host-flows.test.ts",
+          "title": "H10 authored move waits for exact endpoint and persists it without mutating scene definition"
+        },
+        {
+          "file": "packages/reforge/src/main.entity-host-flows.test.ts",
+          "title": "H10 hide then restore keeps entity identity and resumes the next authored command"
+        },
+        {
+          "file": "packages/reforge/src/main.entity-host-flows.test.ts",
+          "title": "H10 authored loadScene uses 'default' arrival and continues after the actual map commit"
+        },
+        {
+          "file": "packages/reforge/src/main.entity-host-flows.test.ts",
+          "title": "H10 authored loadScene uses 'explicit' arrival and continues after the actual map commit"
+        },
+        {
+          "file": "packages/reforge/src/main.entity-host-flows.test.ts",
+          "title": "H10 script movement owns keyboard until completion; exploration menu opens afterwards"
+        },
+        {
+          "file": "packages/reforge/src/main.equipment-flows.test.ts",
+          "title": "H7 equip confirmation can be cancelled without changing the actual world or author input"
+        },
+        {
+          "file": "packages/reforge/src/main.equipment-flows.test.ts",
+          "title": "H7 equip empty slot commits only selected equipment and removes exactly one bag item"
+        },
+        {
+          "file": "packages/reforge/src/main.equipment-flows.test.ts",
+          "title": "H7 equip occupied slot swaps back through the same confirmation panel without losing inventory"
+        },
+        {
+          "file": "packages/reforge/src/main.equipment-flows.test.ts",
+          "title": "H7 equip keyboard navigation [ 'ArrowRight' ] commits 'w1', not the original cursor"
+        },
+        {
+          "file": "packages/reforge/src/main.equipment-flows.test.ts",
+          "title": "H7 equip keyboard navigation [ 'ArrowDown' ] commits 'w3', not the original cursor"
+        },
+        {
+          "file": "packages/reforge/src/main.equipment-flows.test.ts",
+          "title": "H7 equip keyboard navigation [ 'ArrowDown', 'ArrowUp' ] commits 'w0', not the original cursor"
+        },
+        {
+          "file": "packages/reforge/src/main.equipment-flows.test.ts",
+          "title": "H7 equip keyboard navigation [ 'ArrowRight', 'ArrowLeft' ] commits 'w0', not the original cursor"
+        },
+        {
+          "file": "packages/reforge/src/main.item-flows.test.ts",
+          "title": "H8 medicine repeats on the real target and returns to list only after last consumption"
+        },
+        {
+          "file": "packages/reforge/src/main.item-flows.test.ts",
+          "title": "H8 explicit failed item gate keeps item and menu, with a visible failure message"
+        },
+        {
+          "file": "packages/reforge/src/main.item-flows.test.ts",
+          "title": "H8 all-allies item uses direct route, heals both and consumes only once"
+        },
+        {
+          "file": "packages/reforge/src/main.item-flows.test.ts",
+          "title": "H8 item target cancellation preserves bag, and a close-after-use item really releases the menu"
+        },
+        {
+          "file": "packages/reforge/src/main.item-flows.test.ts",
+          "title": "H8 actual item private script blocks duplicate input and preserves its money on consumption"
+        },
+        {
+          "file": "packages/reforge/src/main.item-flows.test.ts",
+          "title": "H8 unavailable teleport hook refuses consumption and restores the same usable menu"
+        },
+        {
+          "file": "packages/reforge/src/main.item-flows.test.ts",
+          "title": "H8 running item script owns exploration input until completion, then scene navigation works"
+        },
+        {
+          "file": "packages/reforge/src/main.item-flows.test.ts",
+          "title": "H8 item private script changes scene and closes the old menu while preserving its new world"
+        }
+      ],
+      "negatives": [
+        {
+          "id": "equipment-commit",
+          "exit": 1,
+          "failures": [
+            {
+              "file": "packages/reforge/src/main.equipment-flows.test.ts",
+              "title": "H7 equip empty slot commits only selected equipment and removes exactly one bag item",
+              "status": "failed",
+              "message": "AssertionError: expected { script: { flags: {}, …(3) }, …(5) } to deeply equal { script: { flags: {}, …(3) }, …(5) }"
+            }
+          ]
+        },
+        {
+          "id": "item-scene-close",
+          "exit": 1,
+          "failures": [
+            {
+              "file": "packages/reforge/src/main.item-flows.test.ts",
+              "title": "H8 item private script changes scene and closes the old menu while preserving its new world",
+              "status": "failed",
+              "message": "AssertionError: expected true to be false // Object.is equality"
+            }
+          ]
+        },
+        {
+          "id": "battle-inventory-writeback",
+          "exit": 1,
+          "failures": [
+            {
+              "file": "packages/reforge/src/main.battle-host-flows.test.ts",
+              "title": "H9 thrown inventory is consumed by real battle and reaches the host world after victory",
+              "status": "failed",
+              "message": "AssertionError: expected { script: { flags: {}, …(3) }, …(5) } to deeply equal { script: { flags: {}, …(3) }, …(5) }"
+            }
+          ]
+        },
+        {
+          "id": "battle-reward-cash",
+          "exit": 1,
+          "failures": [
+            {
+              "file": "packages/reforge/src/main.battle-host-flows.test.ts",
+              "title": "H9 public battle runs actual settlement and onDefeated before resolving, preserving nonempty inventory",
+              "status": "failed",
+              "message": "AssertionError: expected { script: { flags: {}, …(3) }, …(5) } to deeply equal { script: { flags: {}, …(3) }, …(5) }"
+            }
+          ]
+        },
+        {
+          "id": "battle-end-hook",
+          "exit": 1,
+          "failures": [
+            {
+              "file": "packages/reforge/src/main.battle-host-flows.test.ts",
+              "title": "H9 public battle runs actual settlement and onDefeated before resolving, preserving nonempty inventory",
+              "status": "failed",
+              "message": "AssertionError: expected { script: { flags: {}, …(3) }, …(5) } to deeply equal { script: { flags: {}, …(3) }, …(5) }"
+            }
+          ]
+        },
+        {
+          "id": "entity-projection",
+          "exit": 1,
+          "failures": [
+            {
+              "file": "packages/reforge/src/main.entity-host-flows.test.ts",
+              "title": "H10 'absolute' entity position reaches both durable state and live projection before continuation",
+              "status": "failed",
+              "message": "AssertionError: expected { col: 4, row: 4, height: +0 } to deeply equal { col: 5, row: 4, height: +0 }"
+            }
+          ]
+        },
+        {
+          "id": "motion-endpoint",
+          "exit": 1,
+          "failures": [
+            {
+              "file": "packages/reforge/src/main.entity-host-flows.test.ts",
+              "title": "H10 authored move waits for exact endpoint and persists it without mutating scene definition",
+              "status": "failed",
+              "message": "AssertionError: expected { col: 6, row: 4, height: +0 } to deeply equal { col: 5, row: 4, height: +0 }"
+            }
+          ]
+        },
+        {
+          "id": "battle-intent",
+          "exit": 1,
+          "failures": [
+            {
+              "file": "packages/reforge/src/main.battle-host-flows.test.ts",
+              "title": "H9 delayed battle sprite cannot commit a battle after the scene owner has changed",
+              "status": "failed",
+              "message": "AssertionError: expected { settled: false } to match object { settled: true, …(1) }"
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "boundaries": [
+    "Production/old tests/config/excludes/timeouts unchanged.",
+    "No browser visual/E2E/Q1/Q2 run.",
+    "Full metrics are a pre-batch calibration; do not add 28 to its executed count.",
+    "No wholesale coverage target achieved.",
+    "Single-caller entity projection mutation is masked by another real caller; final negative targets shared projection."
+  ]
+}

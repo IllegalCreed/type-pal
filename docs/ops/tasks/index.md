@@ -8,7 +8,6 @@
 
 | 任务 | 顶部状态 | 说明 |
 |---|---|---|
-| [TEST-RUNTIME-SHELL-COVERAGE-2 — 真实宿主战斗、物品与脚本二批](TEST-RUNTIME-SHELL-COVERAGE-2-battle-items.md) | build | 以任务卡当前准入与看板分工为准。 |
 
 ## 已完成（historical）
 
@@ -164,6 +163,7 @@
 | [TEST-REFORGE-RUNTIME-CONTRACTS-1 - 运行时基础功能五组非视觉补测](../archive/tasks/done/TEST-REFORGE-RUNTIME-CONTRACTS-1-runtime-boundaries.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [TEST-RESOURCE-TOOLS-COVERAGE-1 - RLE、事件与资源工具补测（TB-05）](../archive/tasks/done/TEST-RESOURCE-TOOLS-COVERAGE-1-rle-events-font.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [TEST-RUNTIME-SHELL-COVERAGE-1 - 真实启动与菜单宿主流程补测](../archive/tasks/done/TEST-RUNTIME-SHELL-COVERAGE-1-boot-menu-flows.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [TEST-RUNTIME-SHELL-COVERAGE-2 — 真实宿主战斗、物品与脚本二批](../archive/tasks/done/TEST-RUNTIME-SHELL-COVERAGE-2-battle-items.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [TEST-RUNTIME-STATE-BOUNDARIES-1 - 运行时状态与作者元数据六组补测](../archive/tasks/done/TEST-RUNTIME-STATE-BOUNDARIES-1-state-and-metadata.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [W4-1 - 命名落点闭环与迁移去重](../archive/tasks/done/W4-1-named-scene-entry-closure.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [W6 - 昼夜氛围系统(全帧乘法滤镜 + 氛围数据表)](../archive/tasks/done/W6-ambience-day-night.md) | done | 完成证据、历史签字与交接见原卡。 |

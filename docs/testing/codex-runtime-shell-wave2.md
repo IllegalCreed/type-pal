@@ -1,6 +1,6 @@
 # Codex：真实宿主二批（战斗、物品、装备、实体）
 
-2026-09-24。基点aa508566；[任务卡](../ops/tasks/TEST-RUNTIME-SHELL-COVERAGE-2-battle-items.md)。
+2026-09-24。基点aa508566，实现94b59a6f；[任务卡](../ops/archive/tasks/done/TEST-RUNTIME-SHELL-COVERAGE-2-battle-items.md)已done。
 用户本轮明确要求Codex独立推进，Kimi/GLM缺签只对本批豁免，不冒充第三方审查。
 
 ## 范围与结果
@@ -35,8 +35,8 @@ Canvas/位图/最小字库仍是非视觉IO适配，提示只证renderer收到�
 - **失败探索针保留披露**：仅删`main.ts:3756`投影调用仍绿，因为`:2967`宿主也调用同一定位函数。
   最终针移除公共`entity.pos = {...pos}`，不宣称单删任何调用方都红。battle intent针亦是多个epoch共用的原语。
 
-最终负控日志：`/tmp/type-pal-shell-wave2-mutants3.log`；完整JSON与日志在
-`/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-shell-wave2-mutants-qegBZ4/`。
+最终负控日志：`/tmp/type-pal-shell-wave2-mutants-final.log`；完整JSON与日志在
+`/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-shell-wave2-mutants-qjuBVH/`。
 
 ## 当前树full校准（新增28项之前，不写fast基线）
 
@@ -61,7 +61,11 @@ reforge无额外full用例，本批选择真实宿主仍合理。该表是before
 
 ## 验证与开发失败（不隐去）
 
-- 当前定向28/28、Reforge TC通过；统一check/ratchet/strict尚待整批执行。
+- 定向28/28、相邻31文件385项、全reforge164文件1497项与TC通过；完整check8412 exit0，
+  既有47 warnings/6 infos不变。官方ratchet与保护aa508566的**单次严格fast7921/633**均exit0。
+  Node22.23.2、CI=true/FORCE_COLOR=1、主动注入NODE_COMPILE_CACHE；子进程沿用环境隔离helper，
+  严格前后基线hash一致。日志：`/tmp/type-pal-shell-wave2-{check,ratchet,strict}.log`，
+  完整命令结果、28标题、8针与21文件增量见[机账](codex-runtime-shell-wave2-evidence.json)。
 - 初轮14项3红：两例fixture删除friend却保留第二开局引用，已修第二入口为合法同队；
   一例物品脚本期用`]`切场不可达，已改真实输入所有权断言，不当产品缺陷。
 - 战斗fixture初漏明确静音（缺defaultBattleMusic角色导致准备拒绝），现两场景显式battleMusic=null。
@@ -70,6 +74,23 @@ reforge无额外full用例，本批选择真实宿主仍合理。该表是before
 - 生命周期草稿误写mode/hidden，TC和定向拒绝；现按真实phase=despawned、restore删除条目及活体hidden断言。
 - 资产闭包author/runtime类型错用经TC拒绝，改真实projectItemsView，不强转。负控参数化标题最初漏引号被正控清单拦下，按实际fullName更正。
 - 单调用点投影探索仍绿详见上；未以重跑多数通过放行。
+- full辅助对账第一次误读baseline未保存的identities字段而失败；改按实际identityDigest/fileEntries与报告内
+  fast/full identities核验，七包源码/分母/fast摘要/超集全部通过。官方full自身门禁从未失败。
+
+## 官方fast并集（ratchet与单次严格复验通过）
+
+本批净增715行/797语句/118函数/507分支；633生产文件与四维分母不变，另六包**完整基线对象**相同。
+Reforge before使用同树full校准（该包与fast均1469项），after为1497项；131文件逐文件分母相同、无任何分子回退。
+其中main净增487L/539S/88F/281B，其余增量包括真实战斗/菜单渲染链，非额外独立合同数或像素验收。
+
+| 范围 | 行 before → after | 分支 before → after |
+|---|---|---|
+| 全仓fast | 53684/70420（76.23%）→54399/70420（77.25%） | 42199/63151（66.82%）→42706/63151（67.63%） |
+| Reforge | 10471/14599（71.72%）→11186/14599（76.62%） | 6797/11361（59.83%）→7304/11361（64.29%） |
+| main.ts | 1140/3360（33.92%）→1627/3360（48.42%） | 544/2427（22.41%）→825/2427（33.99%） |
+
+main仍缺1733行/1602分支，长期90%/85%目标未达到；未覆盖全部敌对遭遇策略、视频/帧动画和其他宿主分支。
+后续仍按真实消费者批量补，不把full已覆盖的迁移分支重复计工作。
 
 ## 重跑
 
@@ -82,4 +103,4 @@ SHELL_WAVE2_MUTANT=battle-intent node docs/testing/codex-runtime-shell-wave2-mut
 ```
 
 Node22.23.2；负控子进程使用现行环境隔离helper。不开额外reviewer任务，无下一位Agent提示词；
-本卡最后统一质量门，不改其它卡状态。统计并集与剩余边界在整批收口时回填。
+本卡统一质量门通过后已按用户本批豁免收口，不改其它卡状态；未代签第三方，也不外推下一批授权。

@@ -26,7 +26,10 @@ GLM后续补测候选见[十批长队列](../testing/glm-coverage-work-queue.md)
 
 | ID | 任务 | 状态 | 负责人/下一步 | 一句话备注 |
 |---|---|---|---|---|
-| TEST-RUNTIME-SHELL-COVERAGE-2 | [真实宿主二批](tasks/TEST-RUNTIME-SHELL-COVERAGE-2-battle-items.md) | build | Codex独立补测/统一质量门 | 用户本批单席授权；战斗、非空物品装备与脚本，不改产品/E2E |
+
+2026-09-24 用户要求Codex本批独立推进后，[真实宿主二批](../testing/codex-runtime-shell-wave2.md)实现94b59a6f
+新增28项/8业务负控，check8412、ratchet与受保护单次strict7921/633全部通过，已核done。
+新增715行/507分支、另六包完整基线不变；full校准8230是补测前快照，不混报。Kimi/GLM仅本批豁免，未代签，未跑E2E。
 
 2026-09-24 用户授权本批Codex独立完成后，[环境稳定性](../testing/check-environment-stability.md)与
 [FIRE准备/七预制交付](../testing/pal-simulator-presets.md)同源码e17af240通过check8384、ratchet与单次strict7893/633，
