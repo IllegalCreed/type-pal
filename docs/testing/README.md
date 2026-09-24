@@ -8,6 +8,8 @@
 
 ## 文档与附件
 
+- [战斗宿主旧败北测试随机性见证](battle-host-rng-witness.mjs)（7f3840e6 与 A2 拆分树：0.99 持续闪避同红、0.5 无闪避同绿；只固定该路由测试输入，不改变帧数/断言/产品 RNG）
+
 - [运行时菜单/物品控制器拆分](menu-session-refactor.md)、[机账](menu-session-refactor-evidence.json)、[冻结源码逐步等价](menu-session-parity.mjs)与[隔离负控](menu-session-refactor-mutants.mjs)（A1 dbe55b55/done；28新增、155序列3798步与10针，check8440/单次strict7949/635，用户本批独立推进授权）
 
 - [真实宿主二批：战斗/物品/装备/实体](codex-runtime-shell-wave2.md)、[机账](codex-runtime-shell-wave2-evidence.json)与[隔离负控](codex-runtime-shell-wave2-mutants.mjs)（94b59a6f/done；28项/8针、check8412/单次严格fast7921/633；full8230为补测前校准，Kimi/GLM本批用户豁免）

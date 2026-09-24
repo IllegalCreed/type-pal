@@ -1,5 +1,5 @@
 // @vitest-environment jsdom
-import { afterEach, expect, test } from 'vitest'
+import { afterEach, expect, test, vi } from 'vitest'
 import type { ShellHost } from './__tests__/runtime-shell/dom-host.js'
 import { drain, key } from './__tests__/runtime-shell/driver.js'
 import { sceneWithCommands } from './__tests__/runtime-shell/project.js'
@@ -89,6 +89,9 @@ test('H9 author startBattle waits for real victory then runs the following comma
 
 test('H9 real defeat writes zero HP, skips victory hooks and follows only onLose plus continuation', async () => {
   host = await installShellHost()
+  // This tests defeat routing, not RNG: 7/17 passive dodge can otherwise outlive the frame budget.
+  // Frozen 7f3840e6 and current hosts both fail with 0.99 and pass with 0.5 (no dodge).
+  vi.spyOn(Math, 'random').mockReturnValue(0.5)
   const hero = combatActor()
   if (!hero.battler) throw new Error('missing battler')
   hero.battler.baseStats.hp = 1
