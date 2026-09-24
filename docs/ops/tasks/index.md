@@ -8,6 +8,7 @@
 
 | 任务 | 顶部状态 | 说明 |
 |---|---|---|
+| [BATTLE-FIRE-READINESS-1 - 无特效技能的战斗资源准备](BATTLE-FIRE-READINESS-1-no-effect-marker.md) | draft | 以任务卡当前准入与看板分工为准。 |
 
 ## 已完成（historical）
 
