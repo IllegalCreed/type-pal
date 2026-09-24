@@ -1,0 +1,180 @@
+{
+  "schemaVersion": 1,
+  "task": "TEST-BATTLE-WORKFLOWS-1",
+  "reviewDate": "2026-09-24",
+  "designRevision": "r1",
+  "candidate": "fd4efd760219a9a945029b3869684b22230b8d5a",
+  "implementationRevision": "r5",
+  "decision": "accept: Codex independent implementation intake only; integration gates and Kimi final review pending",
+  "scope": "Only r4 teammate-consumption residual and two count errata; closed items not reopened",
+  "verification": {
+    "targeted": {
+      "files": 6,
+      "tests": 46,
+      "exit": 0
+    },
+    "battleSubstring": {
+      "command": "pnpm --filter @type-pal/reforge exec vitest run src/battle",
+      "files": 23,
+      "tests": 333,
+      "exit": 0
+    },
+    "battleTrailingSlash": {
+      "command": "pnpm --filter @type-pal/reforge exec vitest run src/battle/",
+      "files": 19,
+      "tests": 279,
+      "exit": 0
+    },
+    "fullReforge": {
+      "files": 158,
+      "tests": 1460,
+      "exit": 0
+    },
+    "typecheckExit": 0,
+    "biome": {
+      "files": 12,
+      "exit": 0
+    },
+    "glmMutants": {
+      "controls": 6,
+      "detected": 10,
+      "exit": 0,
+      "path": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/bw1-mutants-8NfB1O"
+    },
+    "logs": "/tmp/type-pal-battle-r5-*.log"
+  },
+  "selfTests": {
+    "count": 11,
+    "actualJudgeCalls": true,
+    "lines": [228, 229, 239, 249, 254, 274, 301, 303, 330, 331, 336]
+  },
+  "witnesses": [
+    {
+      "id": "candidate-control",
+      "exit": 0,
+      "passed": 46,
+      "failed": 0,
+      "business": false,
+      "failures": [],
+      "oracle": false
+    },
+    {
+      "id": "coop-consumption-removed-candidate",
+      "exit": 1,
+      "passed": 45,
+      "failed": 1,
+      "business": true,
+      "failures": [
+        {
+          "file": "/Users/zhangxu/illegal/type-pal-battle-review/packages/reforge/src/battle/battle-session.selection-flows.test.ts",
+          "title": "W1 选择/回退连续流程 合击消费非施法队友行动（活敌场景）：敌存活回菜单，p2 无多余普攻、合击恰一次",
+          "firstLines": ["AssertionError: expected true to be false // Object.is equality"]
+        }
+      ],
+      "oracle": false
+    },
+    {
+      "id": "coop-consumption-oracle",
+      "exit": 0,
+      "passed": 1,
+      "failed": 0,
+      "business": false,
+      "failures": [],
+      "oracle": true
+    },
+    {
+      "id": "coop-consumption-removed-oracle",
+      "exit": 1,
+      "passed": 0,
+      "failed": 1,
+      "business": true,
+      "failures": [
+        {
+          "file": "/Users/zhangxu/illegal/type-pal-battle-review/packages/reforge/src/battle/battle-session.selection-flows.test.ts",
+          "title": "Codex session coop suppresses teammate attack while a target is still alive",
+          "firstLines": [
+            "AssertionError: expected [ 'p2 会心一击 攻击 survivor 造成 108' ] to deeply equal []"
+          ]
+        }
+      ],
+      "oracle": true
+    }
+  ],
+  "facts": {
+    "coop-consumption-oracle": {
+      "log": ["合体技 name.wf-coop 对 survivor 造成 35", "survivor 攻击 p1 造成 19"],
+      "phase": "menu",
+      "party": [
+        {
+          "id": "p1",
+          "hp": 72,
+          "mp": 30
+        },
+        {
+          "id": "p2",
+          "hp": 91,
+          "mp": 30
+        }
+      ]
+    },
+    "coop-consumption-removed-oracle": {
+      "log": [
+        "合体技 name.wf-coop 对 survivor 造成 35",
+        "p2 会心一击 攻击 survivor 造成 108",
+        "survivor 攻击 p1 造成 19"
+      ],
+      "phase": "menu",
+      "party": [
+        {
+          "id": "p1",
+          "hp": 72,
+          "mp": 30
+        },
+        {
+          "id": "p2",
+          "hp": 91,
+          "mp": 30
+        }
+      ]
+    }
+  },
+  "hashes": {
+    "/Users/zhangxu/illegal/type-pal-battle-review/packages/reforge/src/battle/battle-core.ts": "651efc8f7dab8cf2eb725df0c058c801adae91080f3381bff80c871dd3d3dca3",
+    "/Users/zhangxu/illegal/type-pal-battle-review/packages/reforge/src/battle/battle-session.ts": "24cdd3e539e2248149ebd79fa9bced2250b6e56e9a215adb92f52029634c5ab1",
+    "/Users/zhangxu/illegal/type-pal-battle-review/packages/reforge/src/battle/battle-session.selection-flows.test.ts": "3b1f2461baf25c660c087faf4a53548bf66280c4e801ad800265f31725f1901f",
+    "/Users/zhangxu/illegal/type-pal-battle-review/packages/reforge/src/battle/battle-session.round-flows.test.ts": "20b0ebeae0d11978e82cf6d08ba39201622f2f079710ed0f5884149aa51359a4",
+    "/Users/zhangxu/illegal/type-pal-battle-review/packages/reforge/src/battle/battle-session.action-flows.test.ts": "41723cfb7c426e6daae8a26c397c839082d68f0dd468d2da7c727c2849b4b655",
+    "/Users/zhangxu/illegal/type-pal-battle-review/packages/reforge/src/battle/battle-session.script-flows.test.ts": "c8fcec027270082b163156f7b1ca93f08ac6978a63b5e0491e9283c83721a968",
+    "/Users/zhangxu/illegal/type-pal-battle-review/packages/reforge/src/battle/battle-session.terminal-flows.test.ts": "91e4b24d9c897c5eb090b8c286f2d942146e8cad5fc59cea3d9477e032ca171f",
+    "/Users/zhangxu/illegal/type-pal-battle-review/packages/reforge/src/battle/battle-session.writeback-flows.test.ts": "515ae785ad00808f7d927cb72777bc2ae5af55701d0980e6b5779234992ec687",
+    "/Users/zhangxu/illegal/type-pal-battle-review/packages/reforge/src/__tests__/battle-workflows/catalog.ts": "5bd15fb46a58f77e99305f66a607dffd41bb036430935a6d42339d3dc2ae6604",
+    "/Users/zhangxu/illegal/type-pal-battle-review/packages/reforge/src/__tests__/battle-workflows/controlled-io.ts": "7a3bfee1a8dd8d1ee0653f0d004c8641a3b6bf1a24587c1226ae75ddc7619957",
+    "/Users/zhangxu/illegal/type-pal-battle-review/packages/reforge/src/__tests__/battle-workflows/session-driver.ts": "46fe56e2831d3714b9004505885d91238e28564b5e8ce6fc6474fefa271fcbc8"
+  },
+  "witnessOutput": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/battle-workflows-r4-review-N4MQ2H",
+  "originalOracleOutput": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/battle-workflows-r4-review-E1iWbK",
+  "oracleAdaptation": "Frozen r4 script untouched; in-memory only select first 4 cases. Original oracle run passed; second run aligns enemy dexterity with candidate default 10 and public tick 500ms. Both control/mutant pairs give same direction.",
+  "mutant": {
+    "file": "packages/reforge/src/battle/battle-core.ts",
+    "line": 1888,
+    "from": "if (s.coopThisTurn && queued.kind !== 'coop') {",
+    "to": "if (false && s.coopThisTurn && queued.kind !== 'coop') {",
+    "candidateFailureLine": 198
+  },
+  "kimi": {
+    "available": false,
+    "reason": "User reports quota exhausted",
+    "substitute": null,
+    "waiverApproved": false,
+    "finalReviewPending": true
+  },
+  "boundaries": [
+    "No candidate semantic or disk edits",
+    "Product four targets unchanged from 57dda7ed",
+    "Frozen probes unchanged",
+    "No official check/ratchet/strict or coverage union this turn",
+    "No Kimi handoff or signature impersonation",
+    "Not integrated; not done; official baseline 7826/633 unchanged",
+    "GLM test contributor is not independent third-party reviewer"
+  ]
+}
