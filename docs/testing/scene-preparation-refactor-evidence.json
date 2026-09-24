@@ -1,0 +1,296 @@
+{
+  "schemaVersion": 1,
+  "task": "ARCH-REFORGE-SCENE-1",
+  "status": "review",
+  "base": "cb1cb26d",
+  "implementation": "pending-commit",
+  "date": "2026-09-25",
+  "scope": "A3-b only; overall A3 incomplete; 2/13 architecture groups complete",
+  "authorization": "Codex-only architecture implementation/self-review per user waiver; no independent third-party acceptance",
+  "before": {
+    "tests": 8008,
+    "sourceFiles": 639,
+    "total": {
+      "statements": {
+        "covered": 60645,
+        "total": 80599
+      },
+      "branches": {
+        "covered": 42848,
+        "total": 63175
+      },
+      "functions": {
+        "covered": 11295,
+        "total": 15014
+      },
+      "lines": {
+        "covered": 54628,
+        "total": 70552
+      }
+    },
+    "reforge": {
+      "statements": {
+        "covered": 12619,
+        "total": 16884
+      },
+      "branches": {
+        "covered": 7446,
+        "total": 11385
+      },
+      "functions": {
+        "covered": 1983,
+        "total": 2639
+      },
+      "lines": {
+        "covered": 11415,
+        "total": 14731
+      }
+    }
+  },
+  "after": {
+    "tests": 8034,
+    "sourceFiles": 641,
+    "total": {
+      "statements": {
+        "covered": 60675,
+        "total": 80617
+      },
+      "branches": {
+        "covered": 42859,
+        "total": 63176
+      },
+      "functions": {
+        "covered": 11318,
+        "total": 15034
+      },
+      "lines": {
+        "covered": 54656,
+        "total": 70570
+      }
+    },
+    "reforge": {
+      "statements": {
+        "covered": 12649,
+        "total": 16902
+      },
+      "branches": {
+        "covered": 7457,
+        "total": 11386
+      },
+      "functions": {
+        "covered": 2006,
+        "total": 2659
+      },
+      "lines": {
+        "covered": 11443,
+        "total": 14749
+      }
+    },
+    "baselineSha256": "5aff4cb1d7e80c9294f230e60c09d70881ef1a90d8d04b47f7fec4a1622ad084",
+    "unchangedPackages": ["shared", "content", "pal-extract", "migrate", "game", "editor"],
+    "addedSources": [
+      "packages/reforge/src/scene-preparer.ts",
+      "packages/reforge/src/scene-resources.ts"
+    ],
+    "removedSources": []
+  },
+  "accounting": {
+    "mainBefore": {
+      "lines": {
+        "total": 2969,
+        "covered": 1351,
+        "skipped": 0,
+        "pct": 45.5
+      },
+      "functions": {
+        "total": 622,
+        "covered": 252,
+        "skipped": 0,
+        "pct": 40.51
+      },
+      "statements": {
+        "total": 3370,
+        "covered": 1434,
+        "skipped": 0,
+        "pct": 42.55
+      },
+      "branches": {
+        "total": 2000,
+        "covered": 562,
+        "skipped": 0,
+        "pct": 28.1
+      }
+    },
+    "modules": {
+      "main.ts": {
+        "lines": {
+          "total": 2911,
+          "covered": 1304,
+          "skipped": 0,
+          "pct": 44.79
+        },
+        "functions": {
+          "total": 623,
+          "covered": 256,
+          "skipped": 0,
+          "pct": 41.09
+        },
+        "statements": {
+          "total": 3305,
+          "covered": 1383,
+          "skipped": 0,
+          "pct": 41.84
+        },
+        "branches": {
+          "total": 1964,
+          "covered": 538,
+          "skipped": 0,
+          "pct": 27.39
+        }
+      },
+      "scene-preparer.ts": {
+        "lines": {
+          "total": 48,
+          "covered": 47,
+          "skipped": 0,
+          "pct": 97.91
+        },
+        "functions": {
+          "total": 12,
+          "covered": 12,
+          "skipped": 0,
+          "pct": 100
+        },
+        "statements": {
+          "total": 52,
+          "covered": 51,
+          "skipped": 0,
+          "pct": 98.07
+        },
+        "branches": {
+          "total": 29,
+          "covered": 27,
+          "skipped": 0,
+          "pct": 93.1
+        }
+      },
+      "scene-resources.ts": {
+        "lines": {
+          "total": 28,
+          "covered": 28,
+          "skipped": 0,
+          "pct": 100
+        },
+        "functions": {
+          "total": 7,
+          "covered": 7,
+          "skipped": 0,
+          "pct": 100
+        },
+        "statements": {
+          "total": 31,
+          "covered": 30,
+          "skipped": 0,
+          "pct": 96.77
+        },
+        "branches": {
+          "total": 8,
+          "covered": 7,
+          "skipped": 0,
+          "pct": 87.5
+        }
+      }
+    }
+  },
+  "productionSha256": {
+    "main.ts": "a2ee409485ded859b0618c8655d8c0803d4d4b0da4bccef97e498f13e2d9c5c1",
+    "scene-preparer.ts": "b84709594a2a6045ac7e29d2d5f44154b5d66722fea0c229244fe2f11ba41833",
+    "scene-resources.ts": "400b4116377f30219923071e120dfcd3f80529bd05da8a3a595f22da21b24f1b"
+  },
+  "verification": {
+    "newTests": 26,
+    "package": {
+      "files": 173,
+      "tests": 1610,
+      "exit": 0
+    },
+    "check": {
+      "tests": 8525,
+      "exit": 0,
+      "log": "/tmp/type-pal-scene-check.log"
+    },
+    "ratchet": {
+      "tests": 8034,
+      "sources": 641,
+      "exit": 0,
+      "log": "/tmp/type-pal-scene-ratchet.log"
+    },
+    "strict": {
+      "runs": 1,
+      "tests": 8034,
+      "sources": 641,
+      "exit": 0,
+      "baseRef": "cb1cb26d",
+      "baselineUnchanged": true,
+      "environment": "Node 22.23.2; CI=true; FORCE_COLOR=1; NODE_COMPILE_CACHE injected and isolated by official runner",
+      "log": "/tmp/type-pal-scene-strict.log"
+    },
+    "build": {
+      "exit": 0,
+      "log": "/tmp/type-pal-scene-build.log"
+    },
+    "mutants": {
+      "controls": 36,
+      "detected": 11,
+      "judge": {
+        "positive": 2,
+        "rejected": 12
+      },
+      "log": "/tmp/type-pal-scene-mutants.log",
+      "evidence": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-scene-mutants-HoOACX/summary.json"
+    },
+    "parity": {
+      "functions": 18,
+      "asyncLoadSceneProperties": 2,
+      "preparationCases": 16,
+      "log": "/tmp/type-pal-scene-parity.log",
+      "evidence": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-scene-parity-LzTqlm/summary.json"
+    },
+    "visual": {
+      "owner": "Codex",
+      "server": 6051,
+      "route": ["s135@42,17", "s134@40,9", "s135@42,17"],
+      "actualState": ["scene s134 / 40,9 / tick 1091", "scene s135 / 42,17 / tick 1368"],
+      "menu": "opened then closed after return",
+      "errors": 0,
+      "warnings": 0,
+      "userSaves": "not read or written",
+      "evidence": "inline session screenshots",
+      "tabClosed": true
+    }
+  },
+  "ciFollowup": {
+    "previous": "cb1cb26d",
+    "failedRun": 36023454364,
+    "fix": "ad16ba94",
+    "newCoverageRun": 36026355596,
+    "newDocumentationRun": 36026354848,
+    "conclusion": "success",
+    "cause": "fixed 150-turn test readiness budget exhausted before native IO; product unchanged; default vi.waitFor deadline",
+    "readinessOracle": {
+      "oldExit": 1,
+      "newExit": 0
+    },
+    "originalBattleMutants": {
+      "controls": 29,
+      "detected": 11
+    }
+  },
+  "boundaries": [
+    "No schema/save/asset formats/first-stage production changes",
+    "No compatibility upgrade or generated project edits",
+    "No full/E2E/Q1/Q2",
+    "New ScenePreparer has uncovered ScriptRef projection/type branch and missing-sprite error; SceneResources retains defensive LRU break",
+    "GLM eight preparation packages not acceptance evidence for this task"
+  ]
+}

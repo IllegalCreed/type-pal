@@ -72,7 +72,7 @@ test.each([
     scene: f.scene,
     runner: activeParent,
     pendingOnEnter: null,
-    canonicalSceneCache: new Map([[f.scene.id, f.scene]]),
+    sceneResources: { peek: (id: string) => (id === f.scene.id ? f.scene : undefined) },
     assertRunnerActive: (signal: AbortSignal) => {
       expect(signal).toBe(f.signal)
       signal.throwIfAborted()

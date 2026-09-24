@@ -30,6 +30,7 @@ GLM后续补测候选见[十批长队列](../testing/glm-coverage-work-queue.md)
 
 | ID | 任务 | 状态 | 负责人/下一步 | 一句话备注 |
 |---|---|---|---|---|
+| ARCH-REFORGE-SCENE-1 | [A3-b 场景资源/预检](tasks/ARCH-REFORGE-SCENE-1-resources-and-preflight.md) | review | Codex / 统一核定 | 26新增/11针/check8525/strict8034/641通过；原同步提交与缓存政策保持，A3整体未done |
 | ARCH-SUPPORT-GLM-1 | [八组并行架构/视觉准备](tasks/ARCH-SUPPORT-GLM-1-eight-audit-packages.md) | draft | GLM取证 / Codex接收 | 用户允许GLM视觉协作；冻结b11d4bc9，只写专属目录，产品门未开放 |
 
 2026-09-25 [A3首段](../testing/runtime-frame-refactor.md)8eb93bb7已独立验证done：36新增/11针、

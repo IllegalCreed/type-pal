@@ -85,3 +85,10 @@ Vite build通过，既有大chunk提示保留；47warnings/6infos没有增加。
 GLM八包准备在独立分支按b11冻结，只读取证，不作为本段实现的独立自证。
 
 无下一位Agent提示词，本段独立收口；GLM的单独取证提示词见其工作包，不与本卡签字混用。
+
+## 2026-09-25远端后续
+
+cb1cb26d的Coverage36023454364后来失败于两个既有battle-host readiness测试的固定150轮轮询预算，
+不是上述本地门禁失败。独立提交ad16ba94将helper改为默认waitFor；旧驱动业务红/新驱动绿的隔离见证、
+旧29正控/11反例及远端Coverage36026355596/Documentation36026354848均通过。
+详见[本轮跟进记录](scene-preparation-refactor.md#开发期问题与ci修复披露)；未提高套件timeout或改变产品。

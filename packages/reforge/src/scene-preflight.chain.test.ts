@@ -1,5 +1,6 @@
 import * as content from '@type-pal/content'
 import { describe, expect, test, vi } from 'vitest'
+import { scenePreparationFixture } from './__tests__/scene-preparation-fixture.js'
 import {
   deferred,
   digest,
@@ -14,6 +15,7 @@ import { expectDefined } from './defined.js'
 import { Canvas2DRenderer } from './render.js'
 import * as views from './runtime-project-view.js'
 import { ScriptProjectRuntime } from './runtime-script-project.js'
+import { ScenePreparer } from './scene-preparer.js'
 import * as deps from './scene-switch-transaction.js'
 import { resolveSceneSpawn } from './scene-transition.js'
 
@@ -49,6 +51,7 @@ function harness() {
     AsyncIntentController,
     asyncIntentAbortError,
     Canvas2DRenderer,
+    ScenePreparer,
     resolveSceneSpawn,
     expectDefined,
     world,
@@ -75,9 +78,8 @@ function harness() {
   const api = mainApi<Api>(
     [
       'getSceneDef',
-      'runnableStages',
       'sceneScriptBinding',
-      'bindingSceneEntry',
+      'scenePreparation',
       'prepareSceneSwitch',
       'assertSceneSwitchPlanCurrent',
     ],
@@ -108,6 +110,27 @@ function harness() {
 }
 
 describe('WORLD-ASYNC-COMMIT-1 real main preflight consumes frozen canonical state', () => {
+  test('main wrapper freezes inputs synchronously before yielding to any caller mutation', async () => {
+    const f = await scenePreparationFixture()
+    const api = mainApi<{
+      prepareSceneSwitch: typeof f.preparer.prepare
+      assertSceneSwitchPlanCurrent: typeof f.preparer.assertCurrent
+    }>(['prepareSceneSwitch', 'assertSceneSwitchPlanCurrent'], [], { scenePreparation: f.preparer })
+    const pending = api.prepareSceneSwitch('a', f.world)
+    try {
+      f.world.script!.mapOverride = { a: 'map-extra-0' }
+      f.world.script!.followers = ['other']
+      const plan = await pending
+      expect(f.readCalls).toContain('map:map-a')
+      expect(f.readCalls).not.toContain('map:map-extra-0')
+      expect(plan.dependencies.followers).toEqual([])
+      expect(() => api.assertSceneSwitchPlanCurrent(plan, f.world)).toThrow(/预检依赖已变化/)
+      f.assertInputs()
+    } finally {
+      await pending.catch(() => undefined)
+    }
+  })
+
   test.each([
     'use',
     'disabled',

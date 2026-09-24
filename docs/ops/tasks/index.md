@@ -8,6 +8,7 @@
 
 | 任务 | 顶部状态 | 说明 |
 |---|---|---|
+| [ARCH-REFORGE-SCENE-1 — A3-b 场景资源所有权与预检](ARCH-REFORGE-SCENE-1-resources-and-preflight.md) | review | 以任务卡当前准入与看板分工为准。 |
 | [ARCH-SUPPORT-GLM-1 — 八组并行准备取证](ARCH-SUPPORT-GLM-1-eight-audit-packages.md) | draft | 以任务卡当前准入与看板分工为准。 |
 
 ## 已完成（historical）

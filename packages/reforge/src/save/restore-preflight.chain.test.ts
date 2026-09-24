@@ -29,6 +29,7 @@ import {
   refreshSceneViewBindings,
   runtimeSceneView,
 } from '../runtime-project-view.js'
+import { ScenePreparer } from '../scene-preparer.js'
 import {
   assertSceneSwitchDependenciesCurrent,
   captureSceneSwitchDependencies,
@@ -58,9 +59,8 @@ function extractApiFactory(source: string): (env: Record<string, unknown>) => Ch
     'replaceWorld',
     'requireSpriteDef',
     'prepareSceneSounds',
-    'runnableStages',
     'sceneScriptBinding',
-    'bindingSceneEntry',
+    'scenePreparation',
     'prepareSceneSwitch',
     'assertSceneSwitchPlanCurrent',
     'commitSceneSwitch',
@@ -212,6 +212,7 @@ function harness(
     refreshSceneViewBindings,
     seedFormationTrail,
     Canvas2DRenderer,
+    ScenePreparer,
     collectSceneSoundAssets,
     expectDefined,
     project,
@@ -234,7 +235,7 @@ function harness(
       if (!cache.has(id)) cache.set(id, sceneDef(id))
       return structuredClone(cache.get(id))
     },
-    canonicalSceneCache: cache,
+    sceneResources: { peek: (id: string) => cache.get(id) },
     getMapAssets: async () => ({ map: { width: 10, height: 10 }, tilesets: new Map() }),
     getStandardPalette: async () => ({ colors: [] }),
     spriteCache: {

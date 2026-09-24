@@ -1,7 +1,6 @@
 import {
   type AssetId,
   applySetParty,
-  buildEntityLifecycleReferenceIndex,
   buildWorld,
   checkEntityLifecycleTable,
   type EntityDef,
@@ -23,16 +22,12 @@ import {
   type RuntimeScriptBinding,
   removeOwnedItems,
   resolveAmbienceTint,
-  resolveEntitySpriteId,
   type SceneDef,
-  type SceneEntryPresentation,
   type SceneReveal,
   type SceneSpawn,
-  type ScriptStage,
   type SpriteDef,
   sellableItems,
   spriteScreenY,
-  stageIndexFor,
   usableItems,
   type WalkSpeed,
   type WorldScriptState,
@@ -186,13 +181,9 @@ import type { SaveMeta, SlotId, StoredSavePayload } from './save/types.js'
 import { SceneEntrySession } from './scene-entry-session.js'
 import type { SceneMapAssets } from './scene-map.js'
 import { loadSceneMap } from './scene-map.js'
-import {
-  assertSceneSwitchDependenciesCurrent,
-  captureSceneSwitchDependencies,
-  prepareAndCommitSceneSwitch,
-  type SceneSwitchDependencies,
-} from './scene-switch-transaction.js'
-import { resolveSceneSpawn } from './scene-transition.js'
+import { type PreparedScene, ScenePreparer } from './scene-preparer.js'
+import { SceneResources } from './scene-resources.js'
+import { prepareAndCommitSceneSwitch } from './scene-switch-transaction.js'
 import { runWithPresentationFinalizer, ScreenHoldTransaction } from './screen-hold-transaction.js'
 import { advanceWave, WorldWaveRenderer } from './screen-wave.js'
 import type { BaseRuntimeLeafCommand } from './script-compiler-core.js'
@@ -351,50 +342,23 @@ export async function bootGame(
     }),
   )
 
-  // ── 场景资产缓存(M2c,设计 §3):map/tileset 按稳定 mapId LRU(cap16 + protect 当前,
-  // 修一阶段按 sceneId 双取坑);palette/sceneDef 小缓存;精灵跨场景累积。──
-  const MAP_CACHE_CAP = 16
-  // 键 = ProjectMap 的稳定 mapId。
-  const mapCache = new Map<string, SceneMapAssets>()
-  async function getMapAssets(mapId: string): Promise<SceneMapAssets> {
-    const hit = mapCache.get(mapId)
-    if (hit) {
-      mapCache.delete(mapId) // LRU touch(Map 插入序 = LRU 序)
-      mapCache.set(mapId, hit)
-      return hit
-    }
-    const entry = await loadSceneMap(project.assetBase, mapId, project.tilesets, project.mapIndex)
-    mapCache.set(mapId, entry)
-    while (mapCache.size > MAP_CACHE_CAP) {
-      const oldest = mapCache.keys().next().value
-      if (oldest === undefined || oldest === mapId) break // protect 当前
-      mapCache.delete(oldest)
-    }
-    return entry
+  const sceneResources = new SceneResources(canonicalProject.entryScene, {
+    loadScene: (id) => loadScene(canonicalProject, id),
+    loadAllScenes: () => loadAllScenes(canonicalProject),
+    loadMap: (id) => loadSceneMap(project.assetBase, id, project.tilesets, project.mapIndex),
+    loadPalette: () => loadStandardPalette(project.assetBase),
+  })
+  function getMapAssets(id: string): Promise<SceneMapAssets> {
+    return sceneResources.map(id)
   }
-  let standardPalettePromise: Promise<Palette> | undefined
   function getStandardPalette(): Promise<Palette> {
-    standardPalettePromise ??= loadStandardPalette(project.assetBase)
-    return standardPalettePromise
+    return sceneResources.palette()
   }
-  const canonicalSceneCache = new Map<string, import('@type-pal/content').RuntimeSceneDef>()
-  canonicalSceneCache.set(canonicalProject.entryScene.id, canonicalProject.entryScene)
-  async function getCanonicalScene(
-    id: string,
-  ): Promise<import('@type-pal/content').RuntimeSceneDef> {
-    const hit = canonicalSceneCache.get(id)
-    if (hit) return hit
-    const def = await loadScene(canonicalProject, id)
-    canonicalSceneCache.set(id, def)
-    return def
+  function getCanonicalScene(id: string): Promise<import('@type-pal/content').RuntimeSceneDef> {
+    return sceneResources.canonical(id)
   }
-  let lifecycleReferencesPromise: Promise<EntityLifecycleReferenceIndex> | undefined
   function getLifecycleReferences(): Promise<EntityLifecycleReferenceIndex> {
-    lifecycleReferencesPromise ??= loadAllScenes(canonicalProject).then((scenes) => {
-      for (const def of scenes) canonicalSceneCache.set(def.id, def)
-      return buildEntityLifecycleReferenceIndex(scenes)
-    })
-    return lifecycleReferencesPromise
+    return sceneResources.references()
   }
   async function getSceneDef(id: string, scriptState = canonicalScript): Promise<SceneDef> {
     return runtimeSceneView(await getCanonicalScene(id), scriptState)
@@ -881,9 +845,6 @@ export async function bootGame(
   const currentWorldSnapshot = (): WorldState => structuredClone(world)
   syncRuntimeScriptScratch(project.entryScene.id)
 
-  const runnableStages = (binding: RuntimeScriptBinding): ScriptStage[] =>
-    Array.isArray(binding) ? binding : [{ body: [{ kind: 'callScript', ref: binding }] }]
-
   /** 解析场景脚本三态:字段缺席继承静态槽,null 显式禁用,绑定则覆盖。 */
   const sceneScriptBinding = (
     def: SceneDef,
@@ -893,157 +854,29 @@ export async function bootGame(
     return def[slot]
   }
 
-  /** loadScene 只读取目标活动 stage 的显式 entry；不解析 body、不穿透 ScriptRef。 */
-  const bindingSceneEntry = (
-    key: string,
-    binding: RuntimeScriptBinding | undefined,
-    scriptView: ProjectedWorldScriptState,
-  ): SceneEntryPresentation | undefined => {
-    if (!binding) return undefined
-    const stages = runnableStages(binding)
-    const stage = stages[stageIndexFor(scriptView, key, stages)]
-    return stage?.entry
-  }
-
-  interface SceneSwitchPlan {
-    sceneId: string
-    canonicalDef: import('@type-pal/content').RuntimeSceneDef
-    def: SceneDef
-    assets: SceneMapAssets
-    palette: Palette
-    renderer: Canvas2DRenderer
-    entityDefs: Map<string, SpriteDef>
-    pageActions: EntityActionSeed[]
-    neededSprites: Set<AssetId>
-    spawn: ReturnType<typeof resolveSceneSpawn>
-    dependencies: SceneSwitchDependencies
-    useActorOverrides: boolean
-    onEnterBinding: RuntimeScriptBinding | undefined
-    onEnterEntry: SceneEntryPresentation | undefined
-  }
-
-  /** 只准备所有可能失败的场景依赖；不得改活动 world/scene/cache 工作集。 */
-  async function prepareSceneSwitch(
+  type SceneSwitchPlan = PreparedScene<Canvas2DRenderer>
+  const scenePreparation = new ScenePreparer(project.actorsById, {
+    actorOverrides: () => actorSpriteOverrides,
+    canonicalScene: (id) => getCanonicalScene(id),
+    map: (id) => getMapAssets(id),
+    palette: () => getStandardPalette(),
+    requireSprite: (id, where) => requireSpriteDef(id, where),
+    loadSprite: (asset) => spriteCache.load(project.assetResolver, asset),
+    prepareSounds: (def, candidate) => prepareSceneSounds(def, candidate),
+    createRenderer: (pal, assets) => new Canvas2DRenderer(ctx, pal, assets.tilesets),
+  })
+  /** No additional await: preparation freezes its inputs synchronously on entry. */
+  function prepareSceneSwitch(
     sceneId: string,
     worldView: WorldState,
     spawn?: SceneSpawn & { inheritFacing?: Facing },
     useActorOverrides = true,
     scriptState?: WorldScriptState,
   ): Promise<SceneSwitchPlan> {
-    // Freeze before the first await, including an explicitly supplied restore candidate.
-    const preparedWorld = structuredClone(worldView)
-    const currentScript =
-      scriptState === undefined
-        ? (preparedWorld.script ?? emptyWorldScriptState())
-        : structuredClone(scriptState)
-    preparedWorld.script = currentScript
-    const preparedRuntimeScript = projectedWorldScriptScratch(currentScript, sceneId)
-    const preparedActorOverrides = useActorOverrides
-      ? new Map(
-          [...actorSpriteOverrides].map(([id, override]) => [
-            id,
-            { ...override, def: structuredClone(override.def) },
-          ]),
-        )
-      : new Map<string, { def: SpriteDef; frames: LoadedSprite }>()
-    const canonicalDef = await getCanonicalScene(sceneId)
-    const def = runtimeSceneView(canonicalDef, currentScript)
-    // Both preparation and the dependency footprint read only the frozen inputs.
-    const dependencies = captureSceneSwitchDependencies(
-      preparedWorld,
-      currentScript,
-      canonicalDef,
-      preparedActorOverrides,
-      useActorOverrides,
-    )
-    // 0x99 底图覆写:按稳定 mapId 换底(麒麟洞岩浆),随存档持久。
-    const mapId = currentScript.mapOverride?.[sceneId] ?? def.mapId
-    const defs = new Map<string, SpriteDef>()
-    for (const e of def.entities) {
-      // 隐藏实体也登记(M3a:脚本 setEntityState 可显形);zone 无视觉跳过
-      const sid = resolveEntitySpriteId(e, project.actorsById)
-      if (!sid) continue
-      defs.set(e.id, requireSpriteDef(sid, `实体 ${e.id}`))
-    }
-    const partyDefs = preparedWorld.party.map((character) => {
-      const override = useActorOverrides
-        ? preparedActorOverrides.get(character.template)
-        : undefined
-      if (override) return override.def
-      const actor = project.actorsById[character.template]
-      return requireSpriteDef(
-        character.appearance?.spriteId ?? actor?.spriteId,
-        `队员 ${character.template}`,
-      )
-    })
-    const extraFollowerDefs = (currentScript.followers ?? []).map((spriteId) =>
-      requireSpriteDef(spriteId, `编外跟随者 ${spriteId}`),
-    )
-    const needed = new Set<AssetId>([
-      ...[...defs.values()].map((sprite) => sprite.asset),
-      ...partyDefs.map((sprite) => sprite.asset),
-      ...extraFollowerDefs.map((sprite) => sprite.asset),
-    ])
-    const neededAssets = [...needed]
-    const [assets, pal, loadedSprites] = await Promise.all([
-      getMapAssets(mapId),
-      getStandardPalette(),
-      Promise.all(neededAssets.map((asset) => spriteCache.load(project.assetResolver, asset))),
-      // readiness 是场景事务的一部分：脚本首帧只允许同步命中已解码 buffer，绝不迟播。
-      prepareSceneSounds(def, preparedWorld),
-    ])
-    const loadedByAsset = new Map(
-      neededAssets.map((asset, index) => [asset, expectDefined(loadedSprites[index])] as const),
-    )
-    const pageActions: EntityActionSeed[] = []
-    for (const entity of def.entities) {
-      const binding = entity.pages?.[0]?.animation
-      if (!binding) continue
-      const sprite = defs.get(entity.id)
-      if (!sprite)
-        throw new Error(
-          `reforge: 场景 ${def.id} 实体 ${entity.id} 声明页动作但没有可解析的大世界精灵`,
-        )
-      const loaded = loadedByAsset.get(sprite.asset)
-      const resolved = resolveSpriteActionBinding(
-        sprite,
-        binding,
-        loaded?.frames.length,
-        `reforge: 场景 ${def.id} 实体 ${entity.id} pages[0].animation`,
-      )
-      pageActions.push({ entity: entity.id, ...resolved })
-    }
-    const onEnterBinding = sceneScriptBinding(def, 'onEnter', preparedRuntimeScript)
-    return {
-      sceneId,
-      canonicalDef,
-      def,
-      assets,
-      palette: pal,
-      renderer: new Canvas2DRenderer(ctx, pal, assets.tilesets),
-      entityDefs: defs,
-      pageActions,
-      neededSprites: needed,
-      spawn: resolveSceneSpawn(sceneId, def, spawn),
-      dependencies,
-      useActorOverrides,
-      onEnterBinding,
-      onEnterEntry: bindingSceneEntry(`s:${sceneId}`, onEnterBinding, preparedRuntimeScript),
-    }
+    return scenePreparation.prepare(sceneId, worldView, spawn, useActorOverrides, scriptState)
   }
-
   function assertSceneSwitchPlanCurrent(plan: SceneSwitchPlan, worldView: WorldState): void {
-    assertSceneSwitchDependenciesCurrent(
-      plan.dependencies,
-      captureSceneSwitchDependencies(
-        worldView,
-        worldView.script ?? emptyWorldScriptState(),
-        plan.canonicalDef,
-        actorSpriteOverrides,
-        plan.useActorOverrides,
-      ),
-      `切场景 ${plan.sceneId} 的预检依赖已变化`,
-    )
+    scenePreparation.assertCurrent(plan, worldView)
   }
 
   /** 所有 await 已结束后的同步提交点；失败预检不会留下新 world + 旧 scene。 */
@@ -1438,7 +1271,7 @@ export async function bootGame(
     if (inlineTriggerOwners.has(entityId)) return true
     inlineTriggerOwners.add(entityId)
     try {
-      const canonical = canonicalSceneCache.get(scene.id)
+      const canonical = sceneResources.peek(scene.id)
       if (!canonical || !scriptRuntime) return false
       return scriptRuntime.runEntityBehavior(canonical, entityId, 'trigger', { signal })
     } finally {
@@ -3006,7 +2839,7 @@ export async function bootGame(
     // sceneScriptOverrides 覆写优先于静态槽;null 显式禁用,不得回退。
     teleportOut: async (signal) => {
       assertRunnerActive(signal, '传送出口所属 runner 已取消')
-      const canonical = canonicalSceneCache.get(scene.id)
+      const canonical = sceneResources.peek(scene.id)
       if (!canonical) throw new Error(`script 当前场景未缓存: ${scene.id}`)
       const ran = await runDetachedScriptChain(signal, (runtime, runSignal) =>
         runtime.runSceneHook(canonical, 'onTeleport', { signal: runSignal }),
@@ -3233,7 +3066,7 @@ export async function bootGame(
     command.kind === 'removeEntity'
 
   const refreshCurrentCanonicalBindings = (): void => {
-    const canonical = canonicalSceneCache.get(scene.id)
+    const canonical = sceneResources.peek(scene.id)
     if (!canonical) throw new Error(`script 当前场景未缓存: ${scene.id}`)
     refreshSceneViewBindings(
       scene,
@@ -3424,7 +3257,7 @@ export async function bootGame(
           manifest: canonicalProject.manifest,
           items: canonicalProject.items,
           sharedScripts: canonicalProject.sharedScripts,
-          scenes: canonicalProject.sceneIds.map((id) => canonicalSceneCache.get(id)),
+          scenes: canonicalProject.sceneIds.map((id) => sceneResources.peek(id)),
         }),
       ),
     )
@@ -4329,7 +4162,7 @@ export async function bootGame(
     autoActivations.set(e.id, activation)
     autoActivationBySignal.set(ac.signal, activation)
     const runtime = scriptRuntime
-    const canonical = canonicalSceneCache.get(scene.id)
+    const canonical = sceneResources.peek(scene.id)
     if (!runtime || !canonical) throw new Error(`script 当前场景未缓存: ${scene.id}`)
     void (async () => {
       try {
@@ -4486,7 +4319,7 @@ export async function bootGame(
   }
   function hostileBehaviorFor(entityId: string): RuntimeHostileBehavior | undefined {
     if (!canonicalProject) return undefined
-    const canonical = canonicalSceneCache.get(scene.id)
+    const canonical = sceneResources.peek(scene.id)
     if (!canonical) throw new Error(`script 当前场景未缓存: ${scene.id}`)
     return canonical.entities.find((candidate) => candidate.id === entityId)?.hostile
   }
@@ -4673,7 +4506,7 @@ export async function bootGame(
           sceneEntrySession.cancel()
           continue
         }
-        const canonical = canonicalSceneCache.get(pending.sceneId)
+        const canonical = sceneResources.peek(pending.sceneId)
         if (!canonical) throw new Error(`script 当前场景未缓存: ${pending.sceneId}`)
         await runtime.runSceneHook(canonical, 'onEnter', {
           signal: runSignal,
@@ -4709,7 +4542,7 @@ export async function bootGame(
     stepFrame = settledWalk.stepFrame
     if (scriptRuntime) {
       const runtime = scriptRuntime
-      const canonical = canonicalSceneCache.get(scene.id)
+      const canonical = sceneResources.peek(scene.id)
       if (!canonical) throw new Error(`script 当前场景未缓存: ${scene.id}`)
       scriptAbort = new AbortController()
       const controller = scriptAbort
@@ -6239,7 +6072,7 @@ export async function bootGame(
         world: () => world,
         motionState: captureMotionState,
         sceneId: () => scene.id,
-        scene: () => canonicalSceneCache.get(scene.id),
+        scene: () => sceneResources.peek(scene.id),
         canonicalProject,
         runtime: () => scriptRuntime ?? undefined,
         runnerBusy: () => runner !== null,

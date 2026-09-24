@@ -1,14 +1,14 @@
 {
   "schemaVersion": 2,
   "profile": "fast",
-  "generatedAt": "2026-09-24T15:44:05.010Z",
+  "generatedAt": "2026-09-24T16:40:10.205Z",
   "provider": {
     "name": "v8",
     "vitest": "4.1.7",
     "coverageV8": "4.1.7"
   },
-  "sourceFileCount": 639,
-  "testCount": 8008,
+  "sourceFileCount": 641,
+  "testCount": 8034,
   "packages": {
     "shared": {
       "name": "@type-pal/shared",
@@ -1401,7 +1401,7 @@
         "**/*.spec.tsx",
         "**/*.d.ts"
       ],
-      "sourceFileCount": 137,
+      "sourceFileCount": 139,
       "sourceFiles": [
         "packages/reforge/src/actor-condition-lifecycle.ts",
         "packages/reforge/src/actor-condition-runtime.ts",
@@ -1515,6 +1515,8 @@
         "packages/reforge/src/save/types.ts",
         "packages/reforge/src/scene-entry-session.ts",
         "packages/reforge/src/scene-map.ts",
+        "packages/reforge/src/scene-preparer.ts",
+        "packages/reforge/src/scene-resources.ts",
         "packages/reforge/src/scene-switch-transaction.ts",
         "packages/reforge/src/scene-transition.ts",
         "packages/reforge/src/screen-fx.ts",
@@ -1541,10 +1543,10 @@
         "packages/reforge/src/use-menu-state.ts",
         "packages/reforge/src/video-player.ts"
       ],
-      "scopeDigest": "4adc3cee719b3c5d5eb944c970989e414f3b04a5a74fe603ce5aa28a59bdda3a",
+      "scopeDigest": "489556938c4c2e85808752682d51bc07d76185ba649bca773c016ab7ac08725d",
       "fastTests": {
-        "testCount": 1584,
-        "testFileCount": 171,
+        "testCount": 1610,
+        "testFileCount": 173,
         "files": [
           "packages/reforge/scripts/battle-trial-assets.test.ts",
           "packages/reforge/scripts/battle-trial-host.test.ts",
@@ -1688,6 +1690,8 @@
           "packages/reforge/src/scene-entry-session.test.ts",
           "packages/reforge/src/scene-map.test.ts",
           "packages/reforge/src/scene-preflight.chain.test.ts",
+          "packages/reforge/src/scene-preparer.test.ts",
+          "packages/reforge/src/scene-resources.test.ts",
           "packages/reforge/src/scene-switch-transaction.test.ts",
           "packages/reforge/src/scene-transition.test.ts",
           "packages/reforge/src/screen-fx.test.ts",
@@ -2426,8 +2430,18 @@
           },
           {
             "file": "packages/reforge/src/scene-preflight.chain.test.ts",
-            "testCount": 10,
-            "identityDigest": "924f2bf0c4c01cc0f8e5a4e2e2a94b0eaab446b6251b16f28d713d9e874ae770"
+            "testCount": 11,
+            "identityDigest": "014c77e1c519c31931c190b143418bcf3f035d27a29750c117f9c1c8975531b5"
+          },
+          {
+            "file": "packages/reforge/src/scene-preparer.test.ts",
+            "testCount": 14,
+            "identityDigest": "22d903dc2f27cdc0f9629e47b17400ae7eacec1d405f25350525ecc3555ff8c3"
+          },
+          {
+            "file": "packages/reforge/src/scene-resources.test.ts",
+            "testCount": 11,
+            "identityDigest": "c897fbd27f11461e0fe1366b16ee39bcad34fe3b60ba1779535c2359cab322c4"
           },
           {
             "file": "packages/reforge/src/scene-switch-transaction.test.ts",
@@ -2575,26 +2589,26 @@
             "identityDigest": "5cab91dcbaf3e911e7015eea202cd946659ee0315dfd964b4721c2e4d6774eb8"
           }
         ],
-        "identityDigest": "9c987836fd7293dac5572afc7c6386d7fd99845ab38db6f6fbec9b7a3b899bdb",
+        "identityDigest": "7d51b8c9d267df8ef95cca07243ae990fc7e97c4c0c61f47c514f54b6ac07d4b",
         "duplicateIdentityCount": 0,
-        "executionDigest": "8dc08446cfeec4f395bdefb194624eaa8f91d85e1febc835bc73fa0978cf6886"
+        "executionDigest": "6b60fc60bc0e85f2fa45bc4f3321c4bcadb56fd269b8d30619a7abedb6763d87"
       },
       "metrics": {
         "statements": {
-          "covered": 12619,
-          "total": 16884
+          "covered": 12649,
+          "total": 16902
         },
         "branches": {
-          "covered": 7446,
-          "total": 11385
+          "covered": 7457,
+          "total": 11386
         },
         "functions": {
-          "covered": 1983,
-          "total": 2639
+          "covered": 2006,
+          "total": 2659
         },
         "lines": {
-          "covered": 11415,
-          "total": 14731
+          "covered": 11443,
+          "total": 14749
         }
       }
     },
@@ -5432,20 +5446,20 @@
   },
   "total": {
     "statements": {
-      "covered": 60645,
-      "total": 80599
+      "covered": 60675,
+      "total": 80617
     },
     "branches": {
-      "covered": 42848,
-      "total": 63175
+      "covered": 42859,
+      "total": 63176
     },
     "functions": {
-      "covered": 11295,
-      "total": 15014
+      "covered": 11318,
+      "total": 15034
     },
     "lines": {
-      "covered": 54628,
-      "total": 70552
+      "covered": 54656,
+      "total": 70570
     }
   }
 }
