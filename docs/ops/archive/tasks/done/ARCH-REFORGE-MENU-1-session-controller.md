@@ -1,6 +1,6 @@
 # ARCH-REFORGE-MENU-1 — Reforge菜单与物品会话控制器
 
-Status: review
+Status: done
 Owner: Codex
 Reviewer: N/A（用户批准Codex本批独立实施、自验与收口）
 Phase: phase2
@@ -10,7 +10,7 @@ Visual Verification Timing: dev-functional
 ## 目标与范围
 
 基点09429b6c。把main的菜单会话状态、输入派发与异步物品操作归入独立模块，保持现有界面/玩法/存档行为。
-本卡只是一轮[全仓治理](../audits/architecture-debt.md)的A1，不宣布主壳/编辑器/第一阶段全部拆分完成。
+本卡只是一轮[全仓治理](../../../audits/architecture-debt.md)的A1，不宣布主壳/编辑器/第一阶段全部拆分完成。
 
 ## 前提真值门
 
@@ -44,7 +44,7 @@ Visual Verification Timing: dev-functional
 ## 验证与锚点
 
 - 必须先读AGENTS/CLAUDE/phase2 READ-FIRST、phase1-knowledge-harvest C7/X节与既有菜单拍板。
-- 保留[宿主一批](../../testing/codex-runtime-shell.md)H3/H5、[宿主二批](../../testing/codex-runtime-shell-wave2.md)H7/H8业务断言。
+- 保留[宿主一批](../../../../testing/codex-runtime-shell.md)H3/H5、[宿主二批](../../../../testing/codex-runtime-shell-wave2.md)H7/H8业务断言。
 - 新控制器直接测试：面板开关/光标记忆、物品等待/成功/失败/取消、旧异步结束不借用新会话、两实例隔离。
 - AST调用链测试如涉及移动的UI接口，只适配依赖入口，不删除业务断言；历史只读取证探针不伪装为适配后新证据。
 - 定向/相邻/TC/Biome；最小浏览器菜单打开、装备/物品返回、系统取消；真实存储回归不使用用户游玩存档。
@@ -57,7 +57,9 @@ Visual Verification Timing: dev-functional
 - 用户本批豁免：2026-09-24明确回答“是，本批由Codex独立完成”；Codex代设计/实现/测试/自审/收口。
   独立第三方审查不足为保留风险，本批不要求补签，不能自动外推其它治理卡。
 - 结论：build allowed。
-- done准入：Codex pending / Kimi、GLM用户本批豁免；质量门未完成，done未开放。
+- done准入：Codex **accept**（实现dbe55b55；28新增、55正控/10针、155序列3798步等价与漂移负控、
+  最小功能视觉、check8440、ratchet/单次严格fast7949/635全部通过）；Kimi、GLM用户本批豁免，不代签。
+- done结论：2026-09-24 Codex核准done；独立审查不足已披露，下一批需按其范围独立准入。
 
 ## 交接
 
@@ -66,12 +68,16 @@ Visual Verification Timing: dev-functional
 - 2026-09-24 Codex：用户确认本批独立实施/自验收口，现核build allowed；开始代码拆分。
 - 2026-09-24 Codex：主壳7153→6798，15个菜单/物品可变状态归入MenuSession与ItemUseSession；
   菜单控制器最大方法85行，输入入口只路由。40真实宿主回归、27直接单元、20存档链、54正控/8负控、
-  155冻结输入序列及浏览器菜单最小验证通过，check8439 exit0。[实施记录](../../testing/menu-session-refactor.md)。
+  155冻结输入序列及浏览器菜单最小验证通过，check8439 exit0。[实施记录](../../../../testing/menu-session-refactor.md)。
   进入review，官方ratchet与受保护单次strict尚待，不提前done。
 - 2026-09-24 Codex自审补强：增加1条真实菜单存m01/坏档拒绝/好档恢复闭环和两针端口变异，
   弥补原H5只走快捷键的接线证据缺口；原产品实现与旧断言未改。新合计28项、55正控/10针，
   中间ratchet7948/635不作最终验收，随后统一重跑最终树门禁。
+- 2026-09-24 Codex：最终dbe55b55通过check8440、ratchet与保护09429b6c的单次strict7949/635。
+  [机账](../../../../testing/menu-session-refactor-evidence.json)含17个未改关键函数hash、范围/指标对账、负控及浏览器记录。
+  另六包完整基线不变；新模块完整纳入，合并主壳/两模块核分母+60行，不伪装为同分母纯补测。
+  本批核done并同步索引/看板。DEMO-CURRENT-1、s135调试落点观察、A2/A3与第一阶段后续不借此关闭。
 
 ## 下一位Agent提示词
 
-无下一位Agent提示词；本批由Codex独立推进，完成质量门后按本卡核收口。
+无下一位Agent提示词；本批已按用户独立实施/自验授权收口。后续治理按新范围推进，不自动代签。

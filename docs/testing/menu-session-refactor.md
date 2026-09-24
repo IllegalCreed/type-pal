@@ -1,6 +1,6 @@
 # Reforge菜单/物品宿主拆分 · A1
 
-2026-09-24，基点09429b6c。[任务卡](../ops/tasks/ARCH-REFORGE-MENU-1-session-controller.md)，
+2026-09-24，基点09429b6c，实现dbe55b55。[任务卡](../ops/archive/tasks/done/ARCH-REFORGE-MENU-1-session-controller.md)已done，
 用户明确批准本批由Codex独立实施、自验收口，Kimi/GLM缺签豁免仅本卡，不冒充第三方审查。
 
 ## 改变与不变
@@ -30,6 +30,8 @@
    另两针验证菜单write误接load、rejected误关菜单；不混入原save核心算法变异。
    精确file/fullName、exit1、实际加载marker、2正/12反例判据自测；635个生产文件hash前后不变。
 5. 控制器直接测试不需要DOM、canvas、项目启动或存储实例；真实宿主回归仍保留，不用小单测替换业务闭环。
+6. 对doLoad/doSave/restorePayload/normalizeStoredPayload/prepareSceneSwitch等17个敏感函数提取原函数源码并比较hash，
+   与09429b6c全部逐字节相同；具体列表和hash见[机账](menu-session-refactor-evidence.json)。
 
 历史`codex-runtime-shell*-mutants.mjs`的main定位针保留原文，可在各自冻结提交复建；本次搬动部分目标后，
 不能直接拿历史针跑新main再误判为产品退化。新工具覆盖迁移后的入口，不改旧审计探针或其结论。
@@ -63,6 +65,27 @@ Chrome原生页，6051当前PAL工程，`?scene=s135&skip-startup=1&give=267`；
 - 等价脚本第一次步骤数提取依赖stdout，但JSON reporter隐藏console输出，得到null；没有将其当作有效计数。
   已改成受控/tmp指标文件并验证整数/下界，保留155序列及大于3750步的测试断言，重跑通过。
 
+## 最终统一门禁与统计
+
+实现dbe55b55：**check8440、官方ratchet与保护09429b6c的单次严格fast7949/635均exit0**。
+Node22.23.2，严格跑在CI=true/FORCE_COLOR=1并注入NODE_COMPILE_CACHE的环境下，子进程沿用隔离helper；
+前后baseline SHA-256均为`68ce963c6811c2229e751fe55a608ec61120eed5e0394b981bfe927a88c29150`。
+日志`/tmp/type-pal-menu-refactor-{check-final,ratchet-final,strict}.log`。最终27直接单元+1真实菜单存储链，
+Reforge167文件1525项；55正控/10针及等价工具的控制/漂移负控另列，不混入正式项数。
+
+| 口径 | 行 | 分支 |
+|---|---:|---:|
+| 全仓fast | 54536/70480（77.38%） | 42814/63173（67.77%） |
+| Reforge | 11323/14659（77.24%） | 7412/11383（65.11%） |
+| MenuSession | 260/261（99.62%） | 257/280（91.79%） |
+| ItemUseSession | 13/13（100%） | 4/4（100%） |
+
+另六包完整基线对象不变；原633生产文件全保留、新增两控制模块=635。分母增加60行/64语句/29函数/22分支，
+这不是同分母纯补测。main单文件覆盖率48.42%→47.39%是已测菜单代码移出后的组成变化，不能单看此值判回退。
+按main+两新模块组合：覆盖行1627/3360→1764/3420，覆盖分支825/2427→927/2449；其余130个Reforge源码无回退。
+逐文件before由之前已验证full+wave2增量重建并核包汇总精确等于09429b6c基线，不另外重复跑一轮旧树coverage。
+新模块函数均100%；全仓长期90%/85%仍未达到，full/E2E/Q1/Q2未重跑。
+
 ## 复建命令
 
 ```bash
@@ -72,5 +95,5 @@ node docs/testing/menu-session-refactor-mutants.mjs
 ```
 
 冻结原源码要求本地Git中存在09429b6c；工具只读它，不checkout主树或创建旧产品兼容路径。
-日志前缀`/tmp/type-pal-menu-refactor-`；最终门禁与代码候选在收口时回填。
-无下一位Agent提示词，本批按用户授权由Codex独立推进；不代签、不提前done。
+日志前缀`/tmp/type-pal-menu-refactor-`，完整记录见机账。
+无下一位Agent提示词，本批已按用户授权由Codex独立验收收口；不代签、不外推下一批豁免。

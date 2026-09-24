@@ -1,14 +1,14 @@
 {
   "schemaVersion": 2,
   "profile": "fast",
-  "generatedAt": "2026-09-24T07:56:46.457Z",
+  "generatedAt": "2026-09-24T09:29:28.224Z",
   "provider": {
     "name": "v8",
     "vitest": "4.1.7",
     "coverageV8": "4.1.7"
   },
-  "sourceFileCount": 633,
-  "testCount": 7921,
+  "sourceFileCount": 635,
+  "testCount": 7949,
   "packages": {
     "shared": {
       "name": "@type-pal/shared",
@@ -1401,7 +1401,7 @@
         "**/*.spec.tsx",
         "**/*.d.ts"
       ],
-      "sourceFileCount": 131,
+      "sourceFileCount": 133,
       "sourceFiles": [
         "packages/reforge/src/actor-condition-lifecycle.ts",
         "packages/reforge/src/actor-condition-runtime.ts",
@@ -1474,8 +1474,10 @@
         "packages/reforge/src/menu/equip-box.ts",
         "packages/reforge/src/menu/item-list.ts",
         "packages/reforge/src/menu/item-use-result.ts",
+        "packages/reforge/src/menu/item-use-session.ts",
         "packages/reforge/src/menu/magic-box.ts",
         "packages/reforge/src/menu/menu-box.ts",
+        "packages/reforge/src/menu/menu-session.ts",
         "packages/reforge/src/menu/reward-gain-queue.ts",
         "packages/reforge/src/menu/reward-gain.ts",
         "packages/reforge/src/menu/save-browser-box.ts",
@@ -1535,10 +1537,10 @@
         "packages/reforge/src/use-menu-state.ts",
         "packages/reforge/src/video-player.ts"
       ],
-      "scopeDigest": "6c0ff3187af660bc3c149a4801daa2563d30517628b1d7f43f52b194bece9f2d",
+      "scopeDigest": "85213f0086b6dab23cfddb218ae5a216e459815f8f2e1b0c510cfb0e94d4ec75",
       "fastTests": {
-        "testCount": 1497,
-        "testFileCount": 164,
+        "testCount": 1525,
+        "testFileCount": 167,
         "files": [
           "packages/reforge/scripts/battle-trial-assets.test.ts",
           "packages/reforge/scripts/battle-trial-host.test.ts",
@@ -1634,11 +1636,14 @@
           "packages/reforge/src/main.equipment-flows.test.ts",
           "packages/reforge/src/main.item-flows.test.ts",
           "packages/reforge/src/main.menu-flows.test.ts",
+          "packages/reforge/src/main.menu-storage-flows.test.ts",
           "packages/reforge/src/main.save-flows.test.ts",
           "packages/reforge/src/main.scene-flows.test.ts",
           "packages/reforge/src/menu-state.navigation-boundaries.test.ts",
           "packages/reforge/src/menu-state.test.ts",
           "packages/reforge/src/menu/item-use-result.test.ts",
+          "packages/reforge/src/menu/item-use-session.test.ts",
+          "packages/reforge/src/menu/menu-session.test.ts",
           "packages/reforge/src/menu/reward-gain-queue.boundaries.test.ts",
           "packages/reforge/src/menu/reward-gain-queue.test.ts",
           "packages/reforge/src/menu/shop-box.test.ts",
@@ -2177,6 +2182,11 @@
             "identityDigest": "6e92b1d23855b5e928f0a586491f1a9c6385f82b6c5c3c2a6b1c2978bf779f60"
           },
           {
+            "file": "packages/reforge/src/main.menu-storage-flows.test.ts",
+            "testCount": 1,
+            "identityDigest": "58ba42b668b6bd18b36fcf76ee21477f2a0489392a74fd2089745c5f805fd539"
+          },
+          {
             "file": "packages/reforge/src/main.save-flows.test.ts",
             "testCount": 5,
             "identityDigest": "fc03afc2756552089b381a88ebc40947d14644d690aa16c9e557a8ce17d2c48f"
@@ -2200,6 +2210,16 @@
             "file": "packages/reforge/src/menu/item-use-result.test.ts",
             "testCount": 2,
             "identityDigest": "edf0c81a9f094b8a8eb30154be936bf70560bf21951fd3b93810d08707bba88f"
+          },
+          {
+            "file": "packages/reforge/src/menu/item-use-session.test.ts",
+            "testCount": 3,
+            "identityDigest": "aef41830c201ac607722e96613c1677dbfd43485c667061e0fa04c2f52932527"
+          },
+          {
+            "file": "packages/reforge/src/menu/menu-session.test.ts",
+            "testCount": 24,
+            "identityDigest": "5082d9dbf0488c8cce490978eb85be0dc0b676d7b8738c4b601fdb5e941bd37c"
           },
           {
             "file": "packages/reforge/src/menu/reward-gain-queue.boundaries.test.ts",
@@ -2527,26 +2547,26 @@
             "identityDigest": "5cab91dcbaf3e911e7015eea202cd946659ee0315dfd964b4721c2e4d6774eb8"
           }
         ],
-        "identityDigest": "d7d0dd510a9bb1a69e1ca821d8833fef30a255ae50af216210dc36e12a748273",
+        "identityDigest": "2596fe90aec2fc443b86dd71bc8e44417d590a9e5c331f2d8db39cb11c88800d",
         "duplicateIdentityCount": 0,
-        "executionDigest": "1e51d80364a8cccd0db93799020762c3fa4559b044048692126933306fb1c90c"
+        "executionDigest": "f588127d20bd0b2f33bbc1764a7b58a4a2dd9e7ecb8b7926e4ff6674d3d91b02"
       },
       "metrics": {
         "statements": {
-          "covered": 12348,
-          "total": 16737
+          "covered": 12501,
+          "total": 16801
         },
         "branches": {
-          "covered": 7304,
-          "total": 11361
+          "covered": 7412,
+          "total": 11383
         },
         "functions": {
-          "covered": 1881,
-          "total": 2539
+          "covered": 1911,
+          "total": 2568
         },
         "lines": {
-          "covered": 11186,
-          "total": 14599
+          "covered": 11323,
+          "total": 14659
         }
       }
     },
@@ -5384,20 +5404,20 @@
   },
   "total": {
     "statements": {
-      "covered": 60374,
-      "total": 80452
+      "covered": 60527,
+      "total": 80516
     },
     "branches": {
-      "covered": 42706,
-      "total": 63151
+      "covered": 42814,
+      "total": 63173
     },
     "functions": {
-      "covered": 11193,
-      "total": 14914
+      "covered": 11223,
+      "total": 14943
     },
     "lines": {
-      "covered": 54399,
-      "total": 70420
+      "covered": 54536,
+      "total": 70480
     }
   }
 }

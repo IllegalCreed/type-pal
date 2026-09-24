@@ -8,7 +8,6 @@
 
 | 任务 | 顶部状态 | 说明 |
 |---|---|---|
-| [ARCH-REFORGE-MENU-1 — Reforge菜单与物品会话控制器](ARCH-REFORGE-MENU-1-session-controller.md) | review | 以任务卡当前准入与看板分工为准。 |
 
 ## 已完成（historical）
 
@@ -28,6 +27,7 @@
 | [ARCH-CURRENT-ONLY-1 - 开发期单版本架构收口](../archive/tasks/done/ARCH-CURRENT-ONLY-1-development-current-only-consolidation.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [ARCH-ENTRY-ACTOR-SEED-1 入口角色完整初始状态所有权与快照模型](../archive/tasks/done/ARCH-ENTRY-ACTOR-SEED-1-entry-actor-initial-state.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [ARCH-ENTRYPOINT-CANONICAL-1 - 显式启动入口与独立开局配置](../archive/tasks/done/ARCH-ENTRYPOINT-CANONICAL-1-explicit-startup-entry-model.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [ARCH-REFORGE-MENU-1 — Reforge菜单与物品会话控制器](../archive/tasks/done/ARCH-REFORGE-MENU-1-session-controller.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [B10-1 - 混乱敌人攻击同伴](../archive/tasks/done/B10-1-enemy-confused-attack.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [B10 - 毒/状态系统结构化编辑页(编辑器侧闭合)](../archive/tasks/done/B10-poison-structured-editor.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [B11-1 - 队友阵亡/濒死战斗脚本（scriptOnFriendDeath / scriptOnDying）](../archive/tasks/done/B11-1-player-casualty-scripts.md) | done | 完成证据、历史签字与交接见原卡。 |

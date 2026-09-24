@@ -1,0 +1,503 @@
+{
+  "schemaVersion": 1,
+  "task": "ARCH-REFORGE-MENU-1",
+  "date": "2026-09-24",
+  "base": "09429b6c",
+  "implementation": "dbe55b55",
+  "authorization": "User explicitly approved Codex-only implementation, self-review and closeout for this card. Kimi/GLM waived; no impersonated independent review.",
+  "physicalLines": {
+    "mainBefore": 7153,
+    "mainAfter": 6798,
+    "bootGameBefore": 6696,
+    "bootGameAfter": 6394,
+    "menuSession": 544,
+    "itemUseSession": 27,
+    "largestMenuMethod": 85,
+    "mutableLocalsMoved": 15
+  },
+  "before": {
+    "testCount": 7921,
+    "sourceFileCount": 633,
+    "total": {
+      "statements": {
+        "covered": 60374,
+        "total": 80452
+      },
+      "branches": {
+        "covered": 42706,
+        "total": 63151
+      },
+      "functions": {
+        "covered": 11193,
+        "total": 14914
+      },
+      "lines": {
+        "covered": 54399,
+        "total": 70420
+      }
+    },
+    "reforge": {
+      "statements": {
+        "covered": 12348,
+        "total": 16737
+      },
+      "branches": {
+        "covered": 7304,
+        "total": 11361
+      },
+      "functions": {
+        "covered": 1881,
+        "total": 2539
+      },
+      "lines": {
+        "covered": 11186,
+        "total": 14599
+      }
+    },
+    "main": {
+      "lines": {
+        "total": 3360,
+        "covered": 1627,
+        "skipped": 0,
+        "pct": 48.42
+      },
+      "functions": {
+        "total": 612,
+        "covered": 228,
+        "skipped": 0,
+        "pct": 37.25
+      },
+      "statements": {
+        "total": 3828,
+        "covered": 1733,
+        "skipped": 0,
+        "pct": 45.27
+      },
+      "branches": {
+        "total": 2427,
+        "covered": 825,
+        "skipped": 0,
+        "pct": 33.99
+      }
+    }
+  },
+  "after": {
+    "hash": "68ce963c6811c2229e751fe55a608ec61120eed5e0394b981bfe927a88c29150",
+    "testCount": 7949,
+    "sourceFileCount": 635,
+    "total": {
+      "statements": {
+        "covered": 60527,
+        "total": 80516
+      },
+      "branches": {
+        "covered": 42814,
+        "total": 63173
+      },
+      "functions": {
+        "covered": 11223,
+        "total": 14943
+      },
+      "lines": {
+        "covered": 54536,
+        "total": 70480
+      }
+    },
+    "reforge": {
+      "statements": {
+        "covered": 12501,
+        "total": 16801
+      },
+      "branches": {
+        "covered": 7412,
+        "total": 11383
+      },
+      "functions": {
+        "covered": 1911,
+        "total": 2568
+      },
+      "lines": {
+        "covered": 11323,
+        "total": 14659
+      }
+    },
+    "otherSixUnchanged": true,
+    "addedSources": [
+      "packages/reforge/src/menu/item-use-session.ts",
+      "packages/reforge/src/menu/menu-session.ts"
+    ]
+  },
+  "accounting": {
+    "reconstruction": "previous full plus verified wave2 per-file increments; package sums exactly match 09429b6c baseline",
+    "unchangedFilesNoRegression": 130,
+    "improvements": [
+      {
+        "file": "packages/reforge/src/menu/save-browser-box.ts",
+        "delta": {
+          "lines": 0,
+          "statements": 0,
+          "functions": 0,
+          "branches": 5
+        }
+      },
+      {
+        "file": "packages/reforge/src/save/browser-state.ts",
+        "delta": {
+          "lines": 0,
+          "statements": 0,
+          "functions": 0,
+          "branches": 1
+        }
+      }
+    ],
+    "groupTotals": {
+      "lines": {
+        "covered": 1764,
+        "total": 3420
+      },
+      "statements": {
+        "covered": 1886,
+        "total": 3892
+      },
+      "functions": {
+        "covered": 258,
+        "total": 641
+      },
+      "branches": {
+        "covered": 927,
+        "total": 2449
+      }
+    },
+    "newModules": {
+      "main.ts": {
+        "lines": {
+          "total": 3146,
+          "covered": 1491,
+          "skipped": 0,
+          "pct": 47.39
+        },
+        "functions": {
+          "total": 619,
+          "covered": 236,
+          "skipped": 0,
+          "pct": 38.12
+        },
+        "statements": {
+          "total": 3576,
+          "covered": 1580,
+          "skipped": 0,
+          "pct": 44.18
+        },
+        "branches": {
+          "total": 2165,
+          "covered": 666,
+          "skipped": 0,
+          "pct": 30.76
+        }
+      },
+      "menu/menu-session.ts": {
+        "lines": {
+          "total": 261,
+          "covered": 260,
+          "skipped": 0,
+          "pct": 99.61
+        },
+        "functions": {
+          "total": 19,
+          "covered": 19,
+          "skipped": 0,
+          "pct": 100
+        },
+        "statements": {
+          "total": 301,
+          "covered": 291,
+          "skipped": 0,
+          "pct": 96.67
+        },
+        "branches": {
+          "total": 280,
+          "covered": 257,
+          "skipped": 0,
+          "pct": 91.78
+        }
+      },
+      "menu/item-use-session.ts": {
+        "lines": {
+          "total": 13,
+          "covered": 13,
+          "skipped": 0,
+          "pct": 100
+        },
+        "functions": {
+          "total": 3,
+          "covered": 3,
+          "skipped": 0,
+          "pct": 100
+        },
+        "statements": {
+          "total": 15,
+          "covered": 15,
+          "skipped": 0,
+          "pct": 100
+        },
+        "branches": {
+          "total": 4,
+          "covered": 4,
+          "skipped": 0,
+          "pct": 100
+        }
+      }
+    }
+  },
+  "unchangedSensitiveFunctions": {
+    "replaceCanonicalScript": "26898cb2029ed64ea1b8eebd2a5e7292c69162f2199296ddf006a978dc5c7589",
+    "syncRuntimeScriptScratch": "e142f093a7de3a177f93d189f5c651f87e8f8de52d51fb0d715fee32ac00a5e5",
+    "replaceWorld": "6409ad4aedac9d516e40d191990d656650c3657a7b35ddcd9a76d8bec13d025b",
+    "prepareSceneSwitch": "3c5e87dbeed918775d613060be2ec81685f4a1c70b84de997077907c12171806",
+    "assertSceneSwitchPlanCurrent": "c08b5a00a7ebc1d4ada1ba74f96a620520119b01d46242c4b59e1696a9334d0a",
+    "commitSceneSwitch": "4c3889808900485f808d245bd19e6e810954d0d8209835493ee2e8b149925353",
+    "switchScene": "3293494409484560e2f1be13ec942725c13efd27a95b853cd72eba2e11803973",
+    "refreshSaveMetas": "2b7df9adeef247e01349b8608c38e5a18ce02a9fb58b7574d5a0ccbbb7846106",
+    "captureCurrentSavePayload": "3243a1a88600be349e77d9e4b7073619f2ad2586302df26c4d4d01cb51951bef",
+    "enqueueSaveSnapshot": "a2bf4df476ade99c4ab03066e5a7b70555afeb7898f4102685c41d3820fe2647",
+    "doSave": "fc78b49cada794840b8cfe788d8378efcf2a70396f6fd31a8f9311bc9f08c879",
+    "payloadBelongsToProject": "d68f6c8ec80d69ee1fd2792981e88c8f71ea83b29f1da2479203c1772e5eaedf",
+    "normalizeStoredPayload": "b00c4a2437de3977faf98e7a4e65daf5d0feadbb3b752662be9a3afb555c6b94",
+    "restorePayload": "35e0b9fa33aa64ab54b15b55850abfdabc35826a9da053ea47f3fa5075485f74",
+    "doLoad": "715adfc5206931424994433731346cc3806665aa11086a0a2f58ee5ed7cc1550",
+    "quickSave": "7819e92d784dfa221a1b2881d603c014bc2709203dd8b0c6549c1ef21fc3bc6a",
+    "quickLoad": "a1633283f294eb134b4fab2a79c6a9c0cf7cc9b1d065dc3964c0ab0129d72e4d"
+  },
+  "verification": {
+    "unitTests": 27,
+    "newMenuStorageFlow": 1,
+    "originalHostFlows": 40,
+    "originalPreflightChainTests": 20,
+    "oldBusinessAssertionsChanged": false,
+    "oldFixtureAdaptation": "replace itemUseAbort:null with a real ItemUseSession and add import",
+    "parity": {
+      "base": "09429b6c",
+      "moduleHash": "85ae2bc5120c08bd3d20c6a44fadcc66da43e5f1bea265b2eeae8d4e92ac9e64",
+      "rows": [
+        {
+          "id": "control",
+          "exit": 0,
+          "matchedTraces": 155,
+          "comparedSteps": 3798
+        },
+        {
+          "id": "lost-navigation-memory",
+          "exit": 1,
+          "failure": "AssertionError: {\"traceIndex\":0,\"step\":10,\"key\":\"open\",\"trace\":[\"ArrowDown\",\"Enter\",\"ArrowDown\",\"Enter\",\"Enter\",\"ArrowUp\",\"Enter\",\"Escape\",\"Escape\",\"close\",\"open\"]}: expected { …(10) } to deeply equal { …(10) }"
+        }
+      ],
+      "directory": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-menu-parity-MyUMOX",
+      "log": "/tmp/type-pal-menu-refactor-parity-metrics.log"
+    },
+    "mutants": {
+      "productFiles": 635,
+      "productHash": "2bb4b20646d5e3574617ad8c73cd1cd3a4d7b8c666759b7db2e9f46e86a6bc37",
+      "judge": {
+        "positive": 2,
+        "rejected": 12
+      },
+      "rows": [
+        {
+          "id": "control",
+          "exit": 0,
+          "executed": 55,
+          "failed": []
+        },
+        {
+          "id": "manual-slot-write-route",
+          "exit": 1,
+          "executed": 1,
+          "failed": [
+            {
+              "file": "packages/reforge/src/main.menu-storage-flows.test.ts",
+              "title": "menu storage ports write the selected real slot, retain rejected load UI, then restore and close on success",
+              "reason": "AssertionError: expected \"putSlot\" to be called once, but got 0 times"
+            }
+          ]
+        },
+        {
+          "id": "rejected-load-menu",
+          "exit": 1,
+          "executed": 1,
+          "failed": [
+            {
+              "file": "packages/reforge/src/main.menu-storage-flows.test.ts",
+              "title": "menu storage ports write the selected real slot, retain rejected load UI, then restore and close on success",
+              "reason": "AssertionError: expected false to be true // Object.is equality"
+            }
+          ]
+        },
+        {
+          "id": "host-input-route",
+          "exit": 1,
+          "executed": 1,
+          "failed": [
+            {
+              "file": "packages/reforge/src/main.equipment-flows.test.ts",
+              "title": "H7 equip empty slot commits only selected equipment and removes exactly one bag item",
+              "reason": "AssertionError: expected { script: { flags: {}, …(3) }, …(5) } to deeply equal { script: { flags: {}, …(3) }, …(5) }"
+            }
+          ]
+        },
+        {
+          "id": "equip-writeback",
+          "exit": 1,
+          "executed": 1,
+          "failed": [
+            {
+              "file": "packages/reforge/src/main.equipment-flows.test.ts",
+              "title": "H7 equip empty slot commits only selected equipment and removes exactly one bag item",
+              "reason": "AssertionError: expected { script: { flags: {}, …(3) }, …(5) } to deeply equal { script: { flags: {}, …(3) }, …(5) }"
+            }
+          ]
+        },
+        {
+          "id": "item-scene-close",
+          "exit": 1,
+          "executed": 1,
+          "failed": [
+            {
+              "file": "packages/reforge/src/menu/menu-session.test.ts",
+              "title": "scene-changing item result closes the old menu even when executor requested keep",
+              "reason": "AssertionError: expected false to be true // Object.is equality"
+            }
+          ]
+        },
+        {
+          "id": "item-cancel",
+          "exit": 1,
+          "executed": 1,
+          "failed": [
+            {
+              "file": "packages/reforge/src/menu/item-use-session.test.ts",
+              "title": "item operation owns the pending slot through cancellation and consumes exactly the original promise",
+              "reason": "AssertionError: expected false to be true // Object.is equality"
+            }
+          ]
+        },
+        {
+          "id": "item-exclusive",
+          "exit": 1,
+          "executed": 1,
+          "failed": [
+            {
+              "file": "packages/reforge/src/menu/item-use-session.test.ts",
+              "title": "item operation owns the pending slot through cancellation and consumes exactly the original promise",
+              "reason": "AssertionError: expected \"vi.fn()\" to not be called at all, but actually been called 1 times"
+            }
+          ]
+        },
+        {
+          "id": "load-error-feedback",
+          "exit": 1,
+          "executed": 1,
+          "failed": [
+            {
+              "file": "packages/reforge/src/menu/menu-session.test.ts",
+              "title": "load request rejection remains visible; successful close is owned by the storage completion callback",
+              "reason": "AssertionError: expected \"vi.fn()\" to be called once with arguments: [ '读档失败' ]"
+            }
+          ]
+        },
+        {
+          "id": "closed-input-gate",
+          "exit": 1,
+          "executed": 1,
+          "failed": [
+            {
+              "file": "packages/reforge/src/menu/menu-session.test.ts",
+              "title": "closed menu ignores input; independent sessions retain independent panel and cursor state",
+              "reason": "AssertionError: expected \"vi.fn()\" to not be called at all, but actually been called 2 times"
+            }
+          ]
+        },
+        {
+          "id": "late-browser-refresh",
+          "exit": 1,
+          "executed": 1,
+          "failed": [
+            {
+              "file": "packages/reforge/src/menu/menu-session.test.ts",
+              "title": "save browser paging and refresh retain captured mode/cursor; a closed browser stays closed",
+              "reason": "AssertionError: expected true to be false // Object.is equality"
+            }
+          ]
+        }
+      ],
+      "directory": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-menu-session-mutants-Tu1VYQ",
+      "log": "/tmp/type-pal-menu-refactor-mutants-final.log"
+    },
+    "check": {
+      "exit": 0,
+      "tests": 8440,
+      "log": "/tmp/type-pal-menu-refactor-check-final.log",
+      "warnings": 47,
+      "infos": 6
+    },
+    "ratchet": {
+      "exit": 0,
+      "tests": 7949,
+      "files": 635,
+      "base": "09429b6c",
+      "log": "/tmp/type-pal-menu-refactor-ratchet-final.log"
+    },
+    "strict": {
+      "exit": 0,
+      "attempts": 1,
+      "base": "09429b6c",
+      "CI": true,
+      "FORCE_COLOR": 1,
+      "NODE_COMPILE_CACHE": "/tmp/type-pal-menu-refactor-host-cache",
+      "testCount": 7949,
+      "sourceFileCount": 635,
+      "total": {
+        "statements": {
+          "covered": 60527,
+          "total": 80516
+        },
+        "branches": {
+          "covered": 42814,
+          "total": 63173
+        },
+        "functions": {
+          "covered": 11223,
+          "total": 14943
+        },
+        "lines": {
+          "covered": 54536,
+          "total": 70480
+        }
+      },
+      "baselineHash": "68ce963c6811c2229e751fe55a608ec61120eed5e0394b981bfe927a88c29150",
+      "baselineUnchanged": true,
+      "log": "/tmp/type-pal-menu-refactor-strict.log"
+    },
+    "browser": {
+      "method": "native Chrome via CUA, screenshots inspected in this task",
+      "url": "http://localhost:6051/?scene=s135&skip-startup=1&give=267",
+      "passed": [
+        "hub opens",
+        "equipment list 5 → equip confirmation → swap → 4 and old bracelet returned",
+        "item script 无任何效果 → return to use list, count stays 4",
+        "music switch cancel returns to hub; reopening remains on"
+      ],
+      "savedUserProgress": false,
+      "changedPersistentAudioPreference": false,
+      "temporaryPageClosed": true,
+      "temporaryServersStopped": [6050, 6051]
+    }
+  },
+  "disclosures": [
+    "First full check8439/ratchet7948 preceded self-review addition of the real menu storage wiring test. Final tree reran full check/ratchet/single strict.",
+    "First mutation judge falsely rejected a normal runWithTimeout stack frame; word-boundary predicate and extra positive control added, actual timeout negatives preserved.",
+    "First parity metric stdout parsing yielded null; replaced by an asserted temporary metrics artifact, now 155 traces/3798 steps.",
+    "Existing demo map version2 rejected by current version4 guard; unchanged from baseline, tracked separately.",
+    "s135 dev-direct landing observed in black area; normal-entry cause not audited here.",
+    "No source changes in game/content/migrate/projects, no full browser E2E/Q1/Q2, no claim that the entire main or all architecture debt is solved."
+  ]
+}

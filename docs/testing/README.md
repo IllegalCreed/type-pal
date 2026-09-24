@@ -8,7 +8,7 @@
 
 ## 文档与附件
 
-- [运行时菜单/物品控制器拆分](menu-session-refactor.md)、[冻结源码逐步等价](menu-session-parity.mjs)与[隔离负控](menu-session-refactor-mutants.mjs)（A1实施中；27直接单元+1真实存储接线、155输入序列与10针，整批门禁待执行）
+- [运行时菜单/物品控制器拆分](menu-session-refactor.md)、[机账](menu-session-refactor-evidence.json)、[冻结源码逐步等价](menu-session-parity.mjs)与[隔离负控](menu-session-refactor-mutants.mjs)（A1 dbe55b55/done；28新增、155序列3798步与10针，check8440/单次strict7949/635，用户本批独立推进授权）
 
 - [真实宿主二批：战斗/物品/装备/实体](codex-runtime-shell-wave2.md)、[机账](codex-runtime-shell-wave2-evidence.json)与[隔离负控](codex-runtime-shell-wave2-mutants.mjs)（94b59a6f/done；28项/8针、check8412/单次严格fast7921/633；full8230为补测前校准，Kimi/GLM本批用户豁免）
 
