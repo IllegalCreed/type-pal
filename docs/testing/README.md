@@ -8,7 +8,7 @@
 
 ## 文档与附件
 
-- [A3-b：场景资源与预检拆分](scene-preparation-refactor.md)、[冻结对照](scene-preparation-parity.mjs)与[11针反例](scene-preparation-mutants.mjs)（26新增；缓存政策/同步提交保持，整段统一门禁后收口）
+- [A3-b：场景资源与预检拆分](scene-preparation-refactor.md)、[机账](scene-preparation-refactor-evidence.json)、[冻结对照](scene-preparation-parity.mjs)与[11针反例](scene-preparation-mutants.mjs)（fdad980f/done；26新增/check8525/strict8034/641，缓存政策/同步提交保持；A3整体未完成）
 
 - [战斗宿主readiness调度反证](battle-host-readiness-scheduling.mjs)（cb1cb26d远端两例失败均在旧150轮轮询预算耗尽；原helper红/按真实异步完成等待绿，不提高套件timeout、不改产品）
 

@@ -1,9 +1,9 @@
 {
   "schemaVersion": 1,
   "task": "ARCH-REFORGE-SCENE-1",
-  "status": "review",
+  "status": "done",
   "base": "cb1cb26d",
-  "implementation": "pending-commit",
+  "implementation": "fdad980f",
   "date": "2026-09-25",
   "scope": "A3-b only; overall A3 incomplete; 2/13 architecture groups complete",
   "authorization": "Codex-only architecture implementation/self-review per user waiver; no independent third-party acceptance",

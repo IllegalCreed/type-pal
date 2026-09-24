@@ -1,7 +1,7 @@
 # A3-b：场景资源所有权与只读预检
 
-任务卡：[ARCH-REFORGE-SCENE-1](../ops/tasks/ARCH-REFORGE-SCENE-1-resources-and-preflight.md)。
-冻结cb1cb26d；Codex按用户全架构队列单席授权实施、自审；不是独立第三方审查。
+任务卡：[ARCH-REFORGE-SCENE-1](../ops/archive/tasks/done/ARCH-REFORGE-SCENE-1-resources-and-preflight.md)。
+冻结cb1cb26d，实现fdad980f已核本段done；Codex按用户全架构队列单席授权实施、自审；不是独立第三方审查。
 完整统计和证据路径见[统一机账](scene-preparation-refactor-evidence.json)。
 A3仍有活动场景/移动/绘制职责未治理，本段完成也不增加13批总队列的已完成数。
 
@@ -73,4 +73,5 @@ main+两个新模块并计：行1351/2969→1379/2987，语句1434/3370→1464/3
 不跑剧情E2E/full/Q1/Q2；不修demo旧地图与s135默认落点；不用GLM八组准备包充当本卡验收。
 
 旧版本兼容审查：pass；没有新upgrader、旧格式fixture、版本分支或迁移fallback。
+本轮远端CI随收口push触发，ad16成功仅证明上面的独立等待驱动修复，不冒称本候选远端已通过。
 无下一位Agent提示词，Codex独立核定本段；GLM支持包后续按其卡单独接收。

@@ -8,7 +8,6 @@
 
 | 任务 | 顶部状态 | 说明 |
 |---|---|---|
-| [ARCH-REFORGE-SCENE-1 — A3-b 场景资源所有权与预检](ARCH-REFORGE-SCENE-1-resources-and-preflight.md) | review | 以任务卡当前准入与看板分工为准。 |
 | [ARCH-SUPPORT-GLM-1 — 八组并行准备取证](ARCH-SUPPORT-GLM-1-eight-audit-packages.md) | draft | 以任务卡当前准入与看板分工为准。 |
 
 ## 已完成（historical）
@@ -32,6 +31,7 @@
 | [ARCH-REFORGE-BATTLE-1 — 战斗宿主生命周期拆分（A2）](../archive/tasks/done/ARCH-REFORGE-BATTLE-1-host-lifecycle.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [ARCH-REFORGE-FRAME-1 — A3 首段：帧调度、时钟与输入仲裁](../archive/tasks/done/ARCH-REFORGE-FRAME-1-clock-and-input.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [ARCH-REFORGE-MENU-1 — Reforge菜单与物品会话控制器](../archive/tasks/done/ARCH-REFORGE-MENU-1-session-controller.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [ARCH-REFORGE-SCENE-1 — A3-b 场景资源所有权与预检](../archive/tasks/done/ARCH-REFORGE-SCENE-1-resources-and-preflight.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [B10-1 - 混乱敌人攻击同伴](../archive/tasks/done/B10-1-enemy-confused-attack.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [B10 - 毒/状态系统结构化编辑页(编辑器侧闭合)](../archive/tasks/done/B10-poison-structured-editor.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [B11-1 - 队友阵亡/濒死战斗脚本（scriptOnFriendDeath / scriptOnDying）](../archive/tasks/done/B11-1-player-casualty-scripts.md) | done | 完成证据、历史签字与交接见原卡。 |

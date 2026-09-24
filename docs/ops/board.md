@@ -30,8 +30,12 @@ GLM后续补测候选见[十批长队列](../testing/glm-coverage-work-queue.md)
 
 | ID | 任务 | 状态 | 负责人/下一步 | 一句话备注 |
 |---|---|---|---|---|
-| ARCH-REFORGE-SCENE-1 | [A3-b 场景资源/预检](tasks/ARCH-REFORGE-SCENE-1-resources-and-preflight.md) | review | Codex / 统一核定 | 26新增/11针/check8525/strict8034/641通过；原同步提交与缓存政策保持，A3整体未done |
 | ARCH-SUPPORT-GLM-1 | [八组并行架构/视觉准备](tasks/ARCH-SUPPORT-GLM-1-eight-audit-packages.md) | draft | GLM取证 / Codex接收 | 用户允许GLM视觉协作；冻结b11d4bc9，只写专属目录，产品门未开放 |
+
+2026-09-25 [A3-b场景资源与预检](../testing/scene-preparation-refactor.md)fdad980f已独立核定done：
+26新增/11针、16冻结对照、18函数+2切场宿主保真、check8525/strict8034/641与最小场景往返通过。
+main6427→6260；资源缓存与只读准备各有所有者，原同步提交不改。**A3整体仍未完成，总队列仍2/13**，
+后续继续活动场景/移动/绘制边界。cb1远端旧测试等待预算失败已由独立ad16修复、远端双门success。
 
 2026-09-25 [A3首段](../testing/runtime-frame-refactor.md)8eb93bb7已独立验证done：36新增/11针、
 384帧/896输入对照、check8499/strict8008/639通过；时钟/等待/单步/输入所有权迁出。

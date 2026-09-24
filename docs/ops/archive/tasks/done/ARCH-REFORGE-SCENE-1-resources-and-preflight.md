@@ -1,6 +1,6 @@
 # ARCH-REFORGE-SCENE-1 — A3-b 场景资源所有权与预检
 
-Status: review
+Status: done
 Phase: phase2
 Capability: 架构治理A3-b（不改变能力格）
 Coding Owner: Codex
@@ -77,11 +77,12 @@ Evidence base: cb1cb26d
 
 ### done前
 
-- Codex：实现与本地自验已完成，候选提交落定后统一签accept；
-  [回执](../../testing/scene-preparation-refactor.md)和[机账](../../testing/scene-preparation-refactor-evidence.json)：
+- Codex：2026-09-25 对实现fdad980f签accept（实施者自验、自审；用户豁免另外两席）；
+  [回执](../../../../testing/scene-preparation-refactor.md)和[机账](../../../../testing/scene-preparation-refactor-evidence.json)：
   26新增/36正控11针/16冻结对照/18函数+2宿主AST保真；check8525、ratchet/单次strict8034/641、build与浏览器往返通过。
 - Kimi/GLM：用户豁免，未代签。
-- done准入：待候选落定、Codex核定归档；即使本段done，A3整体仍待剩余职责。
+- done准入：本段done；用户架构队列独立授权、Codexaccept与全部本地验证齐，旧兼容审查pass。
+  A3整体仍待剩余职责，13大批计数维持2/13；不关闭其它缺陷或E2E边界。
 
 ## 交接日志
 
@@ -91,6 +92,8 @@ Evidence base: cb1cb26d
   Vitest/pnpm/Vite技能用于真实链回归和隔离反例；全部本地门禁通过，六包基线完全不变。
   cb1远端旧battle-host等待预算失败已用独立ad16ba94修复，原驱动红/新驱动绿，远端双门均success。
   浏览器s135→s134→s135后菜单正常，error/warn空；临时页和6051服务已清理，无用户存档IO。
+- 2026-09-25 Codex：核定fdad980f本段done并归档；更新看板、索引、统计机账。
+  本轮远端CI随收口push触发，不把ad16的成功冒称为fdad候选的CI结果；后续核实时单列报告。
 
 ## 下一位Agent提示词
 
