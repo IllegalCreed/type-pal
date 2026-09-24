@@ -161,11 +161,9 @@ export async function battleHostFixture(withSound = false) {
     return { state, consumed }
   }
   async function until(predicate: () => boolean) {
-    for (let i = 0; i < 150 && !predicate(); i++) {
-      await drain()
-      await browser.settleIO()
-    }
-    expect(predicate()).toBe(true)
+    // Native decompression/IO completion is not bounded by a count of event-loop turns.
+    // Keep Vitest's normal waitFor/test deadlines; do not increase suite timeouts.
+    await vi.waitFor(() => expect(predicate()).toBe(true))
   }
   async function finish() {
     for (let i = 0; i < 150 && host.active; i++) {
