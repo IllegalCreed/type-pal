@@ -1,7 +1,7 @@
 # A3首段：帧调度、时钟与输入仲裁
 
-卡：[ARCH-REFORGE-FRAME-1](../ops/tasks/ARCH-REFORGE-FRAME-1-clock-and-input.md)。
-冻结b11d4bc9；本段由Codex按用户全架构队列单席授权实施自验，不代签。
+卡：[ARCH-REFORGE-FRAME-1](../ops/archive/tasks/done/ARCH-REFORGE-FRAME-1-clock-and-input.md)。
+冻结b11d4bc9；实现8eb93bb7，本段已done，由Codex按用户全架构队列单席授权实施自验，不代签。
 A2同b11d4bc9远端Coverage36014078975与Documentation36014078953均已核success。
 **这是A3-a，不代表A3整批完成**；场景事务、移动协调、绘制组装仍是后续段。
 
@@ -40,8 +40,8 @@ A2同b11d4bc9远端Coverage36014078975与Documentation36014078953均已核succes
 - 定向及相邻13文件/117项通过；中途全Reforge171文件/1584项通过。
 - 最终11针+44正控日志`/tmp/type-pal-frame-mutants-frozen.log`，机账
   `/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-frame-mutants-6HxFTi/summary.json`。
-- 对照日志`/tmp/type-pal-frame-parity-final.log`，机账
-  `/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-frame-parity-eGPOQT/summary.json`。
+- 最终对照日志`/tmp/type-pal-frame-parity-frozen.log`，含19函数保护检查，机账
+  `/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-frame-parity-jV2fs6/summary.json`。
 
 ## 开发期问题（不当作产品反证）
 
@@ -66,6 +66,22 @@ A2同b11d4bc9远端Coverage36014078975与Documentation36014078953均已核succes
 
 ## 统一质量门
 
-待整段统一check→官方ratchet→保护b11d4bc9的单次strict-fast。当前不标done、不报A3整批完成。
+最终源码8eb93bb7：全仓check **8499项**、官方ratchet与保护b11d4bc9的**单次严格fast8008项/639生产文件**全部exit0。
+Node22.23.2，strict用CI=true/FORCE_COLOR=1与注入NODE_COMPILE_CACHE的环境验证隔离策略；
+strict前后基线SHA256均为`527557392c11abda292c2cf3163c7c1304a41641d1856dbc2a3513d4700aa064`。
+Vite build通过，既有大chunk提示保留；47warnings/6infos没有增加。
+日志`/tmp/type-pal-frame-{check,ratchet,strict,build}.log`，[统一机账](runtime-frame-refactor-evidence.json)。
+
+覆盖口径：
+
+- 其余六包完整基线逐对象一致；原637生产文件保留，新增2模块；main6486→6427。
+- main+新两模块：行1394/3016→1429/3047，语句1479/3428→1530/3467，
+  函数230/599→266/636，分支618/2070→633/2072。与整Reforge增量一致，不以main单文件比率下降误判回退。
+- 新FrameSession行/函数100%、语句98.53%、分支96.43%；未执行臂为settle重复调用的防御门，未为比例制造假输入。
+  输入路由四维100%。全仓长期90/85目标仍未达到，结构增加31行/39语句/37函数/2分支分母，如实统计。
+
+本卡A3-a准入done；**不报A3整批完成**，场景/移动/绘制职责仍待续段。
 旧版本兼容审查：pass；没有新版本分支、升级/兼容入口或旧模型fixture。
 GLM八包准备在独立分支按b11冻结，只读取证，不作为本段实现的独立自证。
+
+无下一位Agent提示词，本段独立收口；GLM的单独取证提示词见其工作包，不与本卡签字混用。

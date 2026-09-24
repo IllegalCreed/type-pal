@@ -1,14 +1,14 @@
 {
   "schemaVersion": 2,
   "profile": "fast",
-  "generatedAt": "2026-09-24T14:28:50.450Z",
+  "generatedAt": "2026-09-24T15:44:05.010Z",
   "provider": {
     "name": "v8",
     "vitest": "4.1.7",
     "coverageV8": "4.1.7"
   },
-  "sourceFileCount": 637,
-  "testCount": 7972,
+  "sourceFileCount": 639,
+  "testCount": 8008,
   "packages": {
     "shared": {
       "name": "@type-pal/shared",
@@ -1401,7 +1401,7 @@
         "**/*.spec.tsx",
         "**/*.d.ts"
       ],
-      "sourceFileCount": 135,
+      "sourceFileCount": 137,
       "sourceFiles": [
         "packages/reforge/src/actor-condition-lifecycle.ts",
         "packages/reforge/src/actor-condition-runtime.ts",
@@ -1500,6 +1500,8 @@
         "packages/reforge/src/render-scene.ts",
         "packages/reforge/src/render.ts",
         "packages/reforge/src/runnable-project-loader.ts",
+        "packages/reforge/src/runtime-frame-session.ts",
+        "packages/reforge/src/runtime-input-router.ts",
         "packages/reforge/src/runtime-project-view.ts",
         "packages/reforge/src/runtime-script-compiler.ts",
         "packages/reforge/src/runtime-script-project.ts",
@@ -1539,10 +1541,10 @@
         "packages/reforge/src/use-menu-state.ts",
         "packages/reforge/src/video-player.ts"
       ],
-      "scopeDigest": "815a023dae9917cb80d4568d5a575bf8309d48af323d5ad79d83c954c8e6a687",
+      "scopeDigest": "4adc3cee719b3c5d5eb944c970989e414f3b04a5a74fe603ce5aa28a59bdda3a",
       "fastTests": {
-        "testCount": 1548,
-        "testFileCount": 169,
+        "testCount": 1584,
+        "testFileCount": 171,
         "files": [
           "packages/reforge/scripts/battle-trial-assets.test.ts",
           "packages/reforge/scripts/battle-trial-host.test.ts",
@@ -1666,6 +1668,8 @@
           "packages/reforge/src/quantize.test.ts",
           "packages/reforge/src/render-scene.test.ts",
           "packages/reforge/src/render.test.ts",
+          "packages/reforge/src/runtime-frame-session.test.ts",
+          "packages/reforge/src/runtime-input-router.test.ts",
           "packages/reforge/src/runtime-project-view.boundaries.test.ts",
           "packages/reforge/src/runtime-project-view.test.ts",
           "packages/reforge/src/runtime-save-lineage.test.ts",
@@ -2326,6 +2330,16 @@
             "identityDigest": "9d10d12f28431582e8c59f761f4f03296f9e621129ff30389321edbe89d62deb"
           },
           {
+            "file": "packages/reforge/src/runtime-frame-session.test.ts",
+            "testCount": 15,
+            "identityDigest": "c590fae006c44c3fc1dc00fd0586893d6c7cc1ab2f64609320825f6795e0274a"
+          },
+          {
+            "file": "packages/reforge/src/runtime-input-router.test.ts",
+            "testCount": 21,
+            "identityDigest": "456570b005bf863a0ecff5e27b329015d177e34846932666b2398516b2c015d1"
+          },
+          {
             "file": "packages/reforge/src/runtime-project-view.boundaries.test.ts",
             "testCount": 5,
             "identityDigest": "bfb3da066f0ebeaef39bcc9f04d123fe9852008259c0dfd09d4d54f0c46c1a63"
@@ -2561,26 +2575,26 @@
             "identityDigest": "5cab91dcbaf3e911e7015eea202cd946659ee0315dfd964b4721c2e4d6774eb8"
           }
         ],
-        "identityDigest": "b7a6f2176b8f8337f1fe62ee58e9416ebbed1b1aac4448d4dc43d06b66671a0c",
+        "identityDigest": "9c987836fd7293dac5572afc7c6386d7fd99845ab38db6f6fbec9b7a3b899bdb",
         "duplicateIdentityCount": 0,
-        "executionDigest": "57b595a4c19dd383f513eb9eee90f9c93c610fe9d14a8ba4d5c11327ce8c25d1"
+        "executionDigest": "8dc08446cfeec4f395bdefb194624eaa8f91d85e1febc835bc73fa0978cf6886"
       },
       "metrics": {
         "statements": {
-          "covered": 12568,
-          "total": 16845
+          "covered": 12619,
+          "total": 16884
         },
         "branches": {
-          "covered": 7431,
-          "total": 11383
+          "covered": 7446,
+          "total": 11385
         },
         "functions": {
-          "covered": 1947,
-          "total": 2602
+          "covered": 1983,
+          "total": 2639
         },
         "lines": {
-          "covered": 11380,
-          "total": 14700
+          "covered": 11415,
+          "total": 14731
         }
       }
     },
@@ -5418,20 +5432,20 @@
   },
   "total": {
     "statements": {
-      "covered": 60594,
-      "total": 80560
+      "covered": 60645,
+      "total": 80599
     },
     "branches": {
-      "covered": 42833,
-      "total": 63173
+      "covered": 42848,
+      "total": 63175
     },
     "functions": {
-      "covered": 11259,
-      "total": 14977
+      "covered": 11295,
+      "total": 15014
     },
     "lines": {
-      "covered": 54593,
-      "total": 70521
+      "covered": 54628,
+      "total": 70552
     }
   }
 }

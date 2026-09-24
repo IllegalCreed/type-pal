@@ -13,6 +13,58 @@ const source = execFileSync('git', ['show', 'b11d4bc9:packages/reforge/src/main.
   encoding: 'utf8',
 })
 const ast = ts.createSourceFile('main.ts', source, ts.ScriptTarget.Latest, true)
+const protectedNames = [
+  'doSave',
+  'doLoad',
+  'quickSave',
+  'quickLoad',
+  'normalizeStoredPayload',
+  'restorePayload',
+  'captureCurrentSavePayload',
+  'enqueueSaveSnapshot',
+  'refreshSaveMetas',
+  'payloadBelongsToProject',
+  'prepareSceneSwitch',
+  'assertSceneSwitchPlanCurrent',
+  'commitSceneSwitch',
+  'switchScene',
+  'replaceWorld',
+  'replaceCanonicalScript',
+  'syncRuntimeScriptScratch',
+  'advanceMoves',
+  'render',
+]
+function protectedTrees(text) {
+  const tree = ts.createSourceFile('main.ts', text, ts.ScriptTarget.Latest, true),
+    result = {}
+  assert.equal(tree.parseDiagnostics.length, 0)
+  function tokens(node) {
+    const children = node.getChildren(tree)
+    return children.length ? children.flatMap(tokens) : [[node.kind, node.getText(tree)]]
+  }
+  function walk(node) {
+    if (
+      (ts.isFunctionDeclaration(node) || ts.isVariableDeclaration(node)) &&
+      node.name &&
+      protectedNames.includes(node.name.getText(tree))
+    )
+      result[node.name.getText(tree)] = tokens(node)
+    ts.forEachChild(node, walk)
+  }
+  walk(tree)
+  return result
+}
+const beforeTrees = protectedTrees(source)
+assert.equal(Object.keys(beforeTrees).length, 19)
+assert.deepEqual(
+  protectedTrees(
+    readFileSync(resolve(root, 'packages/reforge/src/main.ts'), 'utf8').replaceAll(
+      'frames.now',
+      'nowMs',
+    ),
+  ),
+  beforeTrees,
+)
 const ticks = []
 function visit(n) {
   if (ts.isFunctionDeclaration(n) && n.name?.text === 'tick') ticks.push(n)
@@ -148,6 +200,16 @@ assert.equal(results.numPassedTests, 2)
 assert.equal(results.numPendingTests, 0)
 writeFileSync(
   resolve(out, 'summary.json'),
-  JSON.stringify({ base: 'b11d4bc9', frameCases: 384, inputCases: 896, exit: run.status }, null, 2),
+  JSON.stringify(
+    {
+      base: 'b11d4bc9',
+      protectedFunctions: protectedNames,
+      frameCases: 384,
+      inputCases: 896,
+      exit: run.status,
+    },
+    null,
+    2,
+  ),
 )
 console.log(`384 frame comparisons + 896 input comparisons passed; ${out}`)

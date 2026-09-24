@@ -1,6 +1,6 @@
 # ARCH-REFORGE-FRAME-1 — A3 首段：帧调度、时钟与输入仲裁
 
-Status: review
+Status: done
 Phase: phase2
 Capability: 架构治理 A3-a（不改变能力格）
 Coding Owner: Codex
@@ -13,6 +13,7 @@ Branch: main
 
 Revision: r1
 Evidence base: b11d4bc9
+Implementation candidate: 8eb93bb7
 
 ## 目标与范围
 
@@ -44,14 +45,14 @@ before→after：用户可见行为不变，无产品偏离需要裁决。
 
 ## 上下文锚点
 
-- [READ-FIRST](../../phase2/READ-FIRST.md)、[队列及全队列授权](../audits/architecture-debt.md)。
-- [harvest W/X](../../phase2/reference/phase1-knowledge-harvest.md)：不积压、同步副作用、时间状态有收尾人。
+- [READ-FIRST](../../../../phase2/READ-FIRST.md)、[队列及全队列授权](../../../audits/architecture-debt.md)。
+- [harvest W/X](../../../../phase2/reference/phase1-knowledge-harvest.md)：不积压、同步副作用、时间状态有收尾人。
 - `main.ts:473/1174/4980`：单步/当前时间/等待列表/时钟；`:1342`战斗退出单步；`:6340`DEV端口。
 - `main.ts:5890–6051`：同帧模态冻结快照、单步不推进实体演出、battle独占渲染，
   确认框>商店>奖励>菜单>对话>runner/敌对忙>探索的实时输入优先级。
 - `main.dialog-flows.test.ts`、`main.scene-flows.test.ts`、`main.save-flows.test.ts`、
   `main.boot-flows.test.ts`、`debug-tools.test.ts`与各motion/session回归。
-- [A2自审教训](../../testing/battle-host-refactor.md)：不在原同步采样/提交边界插await。
+- [A2自审教训](../../../../testing/battle-host-refactor.md)：不在原同步采样/提交边界插await。
 - A2远端已核同b11d4bc9成功：Coverage run36014078975 / Documentation run36014078953。
 
 ## 设计
@@ -91,9 +92,12 @@ before→after：用户可见行为不变，无产品偏离需要裁决。
 
 ### done前
 
-- Codex：pending。
+- Codex：2026-09-25 accept（实现者自审/自验，非独立第三方）；8eb93bb7实现36新增/11针，
+  384帧/896输入冻结对照、19函数AST保真、check8499与单次受保护strict8008/639通过；
+  最小功能视觉及持续按键披露边界见回执。旧版本兼容审查pass。
 - Kimi/GLM：用户豁免，未代签。
-- done准入：blocked，实施与门禁未完成。
+- done准入：done allowed，按用户全架构队列独立实施自验收口授权核定；两席豁免，不代签。
+  只关闭本首段卡，不关闭A3整体。
 
 ## 交接日志
 
@@ -102,8 +106,11 @@ before→after：用户可见行为不变，无产品偏离需要裁决。
 - 2026-09-25 Codex：实现时钟/等待/单步所有者与同步帧、输入路由；36新增，117定向/相邻、
   中途全Reforge1584、384帧/896输入冻结对照、44正控/11针通过，19关键函数AST token树保真。
   最小浏览器完成菜单、朝向、单步745→746、退出恢复；短按不声明持续走位通过，持按由真实宿主回归覆盖。
-  见[回执](../../testing/runtime-frame-refactor.md)。整批质量门正在执行，未标done，不提前关闭A3整体。
+  见[回执](../../../../testing/runtime-frame-refactor.md)。整批质量门正在执行，未标done，不提前关闭A3整体。
+- 2026-09-25 Codex：最终8eb93bb7通过check8499、ratchet与保护b11d4bc9的单次strict8008/639，
+  baseline前后SHA256一致；6包完整基线不变，scope无移除；build通过。已核本段done并归档，
+  全仓仍2/13大批完成，A3其余职责与full/Q1/Q2不借此关闭。证据见[机账](../../../../testing/runtime-frame-refactor-evidence.json)。
 
 ## 下一位Agent提示词
 
-无下一位Agent提示词；Codex连续独立实施。本段未验证前不得done；本段即使done也不等于A3整体完成。
+无下一位Agent提示词，本段已由Codex独立验证收口；继续A3剩余场景/移动/绘制职责，不需要两席签字。

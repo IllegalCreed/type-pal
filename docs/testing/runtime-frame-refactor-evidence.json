@@ -1,0 +1,264 @@
+{
+  "schemaVersion": 1,
+  "task": "ARCH-REFORGE-FRAME-1",
+  "status": "done",
+  "base": "b11d4bc9",
+  "implementation": "8eb93bb7",
+  "date": "2026-09-25",
+  "scope": "A3-a only; overall A3 remains incomplete",
+  "authorization": "Codex-only architecture implementation and self-review; GLM delegated independent draft evidence package, not third-party acceptance here",
+  "before": {
+    "tests": 7972,
+    "sourceFiles": 637,
+    "total": {
+      "statements": {
+        "covered": 60594,
+        "total": 80560
+      },
+      "branches": {
+        "covered": 42833,
+        "total": 63173
+      },
+      "functions": {
+        "covered": 11259,
+        "total": 14977
+      },
+      "lines": {
+        "covered": 54593,
+        "total": 70521
+      }
+    },
+    "reforge": {
+      "statements": {
+        "covered": 12568,
+        "total": 16845
+      },
+      "branches": {
+        "covered": 7431,
+        "total": 11383
+      },
+      "functions": {
+        "covered": 1947,
+        "total": 2602
+      },
+      "lines": {
+        "covered": 11380,
+        "total": 14700
+      }
+    }
+  },
+  "after": {
+    "tests": 8008,
+    "sourceFiles": 639,
+    "total": {
+      "statements": {
+        "covered": 60645,
+        "total": 80599
+      },
+      "branches": {
+        "covered": 42848,
+        "total": 63175
+      },
+      "functions": {
+        "covered": 11295,
+        "total": 15014
+      },
+      "lines": {
+        "covered": 54628,
+        "total": 70552
+      }
+    },
+    "reforge": {
+      "statements": {
+        "covered": 12619,
+        "total": 16884
+      },
+      "branches": {
+        "covered": 7446,
+        "total": 11385
+      },
+      "functions": {
+        "covered": 1983,
+        "total": 2639
+      },
+      "lines": {
+        "covered": 11415,
+        "total": 14731
+      }
+    },
+    "unchangedPackages": ["shared", "content", "pal-extract", "migrate", "game", "editor"],
+    "addedSources": [
+      "packages/reforge/src/runtime-frame-session.ts",
+      "packages/reforge/src/runtime-input-router.ts"
+    ],
+    "removedSources": [],
+    "baselineSha256": "527557392c11abda292c2cf3163c7c1304a41641d1856dbc2a3513d4700aa064"
+  },
+  "accounting": {
+    "mainBefore": {
+      "lines": {
+        "total": 3016,
+        "covered": 1394,
+        "skipped": 0,
+        "pct": 46.22
+      },
+      "functions": {
+        "total": 599,
+        "covered": 230,
+        "skipped": 0,
+        "pct": 38.39
+      },
+      "statements": {
+        "total": 3428,
+        "covered": 1479,
+        "skipped": 0,
+        "pct": 43.14
+      },
+      "branches": {
+        "total": 2070,
+        "covered": 618,
+        "skipped": 0,
+        "pct": 29.85
+      }
+    },
+    "modules": {
+      "main.ts": {
+        "lines": {
+          "total": 2969,
+          "covered": 1351,
+          "skipped": 0,
+          "pct": 45.5
+        },
+        "functions": {
+          "total": 622,
+          "covered": 252,
+          "skipped": 0,
+          "pct": 40.51
+        },
+        "statements": {
+          "total": 3370,
+          "covered": 1434,
+          "skipped": 0,
+          "pct": 42.55
+        },
+        "branches": {
+          "total": 2000,
+          "covered": 562,
+          "skipped": 0,
+          "pct": 28.1
+        }
+      },
+      "runtime-frame-session.ts": {
+        "lines": {
+          "total": 58,
+          "covered": 58,
+          "skipped": 0,
+          "pct": 100
+        },
+        "functions": {
+          "total": 13,
+          "covered": 13,
+          "skipped": 0,
+          "pct": 100
+        },
+        "statements": {
+          "total": 68,
+          "covered": 67,
+          "skipped": 0,
+          "pct": 98.52
+        },
+        "branches": {
+          "total": 28,
+          "covered": 27,
+          "skipped": 0,
+          "pct": 96.42
+        }
+      },
+      "runtime-input-router.ts": {
+        "lines": {
+          "total": 20,
+          "covered": 20,
+          "skipped": 0,
+          "pct": 100
+        },
+        "functions": {
+          "total": 1,
+          "covered": 1,
+          "skipped": 0,
+          "pct": 100
+        },
+        "statements": {
+          "total": 29,
+          "covered": 29,
+          "skipped": 0,
+          "pct": 100
+        },
+        "branches": {
+          "total": 44,
+          "covered": 44,
+          "skipped": 0,
+          "pct": 100
+        }
+      }
+    }
+  },
+  "verification": {
+    "check": {
+      "exit": 0,
+      "tests": 8499,
+      "log": "/tmp/type-pal-frame-check.log"
+    },
+    "ratchet": {
+      "exit": 0,
+      "tests": 8008,
+      "log": "/tmp/type-pal-frame-ratchet.log"
+    },
+    "strict": {
+      "exit": 0,
+      "tests": 8008,
+      "baseRef": "b11d4bc9",
+      "log": "/tmp/type-pal-frame-strict.log",
+      "hashLog": "/tmp/type-pal-frame-baseline-hashes.log"
+    },
+    "newTests": 36,
+    "mutants": {
+      "controls": 44,
+      "detected": 11,
+      "judgePositive": 2,
+      "judgeNegative": 12,
+      "log": "/tmp/type-pal-frame-mutants-frozen.log",
+      "summary": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-frame-mutants-6HxFTi/summary.json"
+    },
+    "frozenParity": {
+      "protectedFunctions": 19,
+      "frames": 384,
+      "inputCases": 896,
+      "log": "/tmp/type-pal-frame-parity-frozen.log",
+      "summary": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-frame-parity-jV2fs6/summary.json"
+    },
+    "build": {
+      "exit": 0,
+      "log": "/tmp/type-pal-frame-build.log"
+    },
+    "visual": {
+      "owner": "Codex",
+      "tool": "CUA IAB native interactions",
+      "url": "http://localhost:6051/?scene=s135&pos=42,17&skip-startup=1&debug",
+      "stepBefore": 745,
+      "stepAfter": 746,
+      "resumedTick": 994,
+      "menu": "open/close/reopen verified",
+      "direction": "down to right; no displacement claimed from short key pulses",
+      "errors": 0,
+      "warnings": 0,
+      "images": "conversation-inline only"
+    }
+  },
+  "disclosures": [
+    "No movement/collision/scene transaction/rendering algorithm or persistence format changes.",
+    "shopInput change is a readonly parameter annotation only.",
+    "Initial probe configuration and obsolete fixture binding failed as tooling, not business evidence.",
+    "Vitest resolves-wrapper failures were rejected by strict judge; direct outcome assertion now produces candidate AssertionError.",
+    "No full/E2E/Q1/Q2 completion claim; A3 remaining work remains queued."
+  ]
+}

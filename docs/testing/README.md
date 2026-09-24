@@ -8,7 +8,7 @@
 
 ## 文档与附件
 
-- [A3首段：帧调度与输入仲裁](runtime-frame-refactor.md)、[冻结编排对照](runtime-frame-parity.mjs)与[11针负控](runtime-frame-mutants.mjs)（36新增；A3-a实施验证中，不等于A3整批完成）
+- [A3首段：帧调度与输入仲裁](runtime-frame-refactor.md)、[机账](runtime-frame-refactor-evidence.json)、[冻结编排对照](runtime-frame-parity.mjs)与[11针负控](runtime-frame-mutants.mjs)（8eb93bb7/A3-a done；36新增/check8499/strict8008/639，不等于A3整批完成）
 
 - [GLM架构治理八组并行支持包](glm-architecture-support/README.md)（冻结b11d4bc9；6组源码/回归边界+2组实际视觉初审，只读取证；Codex接收，不授权改产品）
 
