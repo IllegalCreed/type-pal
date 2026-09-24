@@ -28,7 +28,7 @@ GLM后续补测候选见[十批长队列](../testing/glm-coverage-work-queue.md)
 
 | ID | 任务 | 状态 | 负责人/下一步 | 一句话备注 |
 |---|---|---|---|---|
-| ARCH-REFORGE-BATTLE-1 | [战斗宿主生命周期拆分](tasks/ARCH-REFORGE-BATTLE-1-host-lifecycle.md) | draft | Codex / 待本批单席授权或两席审查 | A2 r1 已取证；不改公式/回合/存档/UI，不沿用 A1 豁免 |
+| ARCH-REFORGE-BATTLE-1 | [战斗宿主生命周期拆分](tasks/ARCH-REFORGE-BATTLE-1-host-lifecycle.md) | review | Codex / 统一覆盖门与收口 | 21新增/9针/check8461/真实战斗功能验证通过；用户全队列两席豁免 |
 
 2026-09-24 [架构治理A1](../testing/menu-session-refactor.md)实现dbe55b55已按用户本批单席授权done：
 菜单/物品15状态移出主壳，main7153→6798；28新增、155序列3798步等价、10针、最小功能视觉、

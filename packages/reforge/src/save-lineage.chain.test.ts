@@ -91,28 +91,28 @@ test.each([
     assertLaunchCurrent: () => f.signal.throwIfAborted(),
     host: {} as Record<string, unknown>,
     runDetachedScriptChain: undefined as unknown,
-    startBattleBody: undefined as unknown,
+    battleHost: { start: undefined as unknown },
   }
   env.runDetachedScriptChain = mainApi<{ runDetachedScriptChain: unknown }>(
     ['runDetachedScriptChain'],
     [],
     env,
   ).runDetachedScriptChain
-  const defeated = selectedSource(
-    (node, ast) =>
-      ts.isIfStatement(node) &&
-      node.expression.getText(ast) === "result === 'victory'" &&
-      node.thenStatement.getText(ast).includes('session.enemySlotDefs()'),
-  )
-  const runDefeated = evaluate<() => Promise<void>>(`async () => { ${defeated} }`, env)
+  const runDefeated = evaluate<
+    (
+      definitions: ReturnType<typeof env.session.enemySlotDefs>,
+      signal: AbortSignal,
+      assertCurrent: () => void,
+    ) => Promise<void>
+  >(property('runDefeated', 'definitions,signal,assertCurrent', true), env)
   const battleBoundary = vi.fn(async (team: string, _options: unknown, signal: AbortSignal) => {
     expect(team).toBe('fixture-team')
     expect(signal).toBe(f.signal)
     env.launchSignal = signal
-    await runDefeated()
+    await runDefeated(env.session.enemySlotDefs(), signal, env.assertLaunchCurrent)
     return 'victory'
   })
-  env.startBattleBody = battleBoundary
+  env.battleHost.start = battleBoundary
   env.host.startBattle = evaluate(
     property('startBattle', 'team,battleOpts,runnerSignal', false),
     env,

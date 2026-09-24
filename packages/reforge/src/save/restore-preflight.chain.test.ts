@@ -224,7 +224,7 @@ function harness(
     worldMutationIntent: new AsyncIntentController(),
     sceneSwitchIntent: new AsyncIntentController(),
     loadIntent: new AsyncIntentController(),
-    battleLaunchIntent: new AsyncIntentController(),
+    battleHost: { cancel: empty },
     saveStore: { getPayload: async () => structuredClone(raw) },
     getLifecycleReferences: async () =>
       content.buildEntityLifecycleReferenceIndex([{ id: 'saved-scene', entities: [] }]),
@@ -276,7 +276,6 @@ function harness(
     ambienceShown: null,
     ambienceFx: null,
     invalidatePendingScriptMutations: () => events.push('invalidate-script'),
-    activeBattle: null,
     scriptAbort: oldAbort,
     itemUseSession: new ItemUseSession(),
     runner: { running: true },

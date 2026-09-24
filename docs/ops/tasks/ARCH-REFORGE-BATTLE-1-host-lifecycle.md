@@ -1,14 +1,14 @@
 # ARCH-REFORGE-BATTLE-1 — 战斗宿主生命周期拆分（A2）
 
-Status: draft
+Status: review
 Phase: phase2
 Capability: 架构治理 A2（不改变能力格状态）
 Coding Owner: Codex
 Generation Owner: N/A
-Reviewer: TBD
+Reviewer: Codex（自验；用户豁免独立两席）
 Visual Verification Owner: Codex
 Visual Verification Timing: mixed
-Unavailable Agents: Kimi / GLM（最近用户表示额度不足；本卡豁免待确认）
+Unavailable Agents: Kimi / GLM（用户明确本队列不参与）
 Branch: main
 
 Revision: r1
@@ -88,7 +88,8 @@ Evidence base: 7f3840e6
 - 开发期只跑定向/相邻/typecheck；整批末串行 check → 官方 ratchet → 受保护单次 strict-fast。
   审查移动前后源码全集/分母与包统计，不靠漏计新模块提高比例；不逐用例跑覆盖率。
 - 旧版本兼容审查单列 pass/counter；SAVE8/content20 和公共包接口保持。
-- 功能最小验证由 Codex 执行：现有模拟器选合法预制→开战→停止→重开，输入归属可用；
+- 功能最小验证由 Codex 执行：原生DEV战斗态构建器选合法阵容→开战→结束→重开，输入归属可用；
+  模拟器实际走独立 battle-trial-host，不拿它作为 main 宿主接线证据。
   不改 UI、不要求用户补做技术验证。剧情演出仍 e2e-deferred：沿用已登记 R4/N6b/Q1/Q2，
   对本批终态/战后脚本不以视觉延后替代代码验证。
 
@@ -98,30 +99,37 @@ Evidence base: 7f3840e6
 
 - Codex：2026-09-24 r1 `premise verified / design agree`。直接读取上述 7f3840e6 锚点及 H9 六项；
   最强反证为抽取后仍需万能上下文/无法隔离生命周期，或同输入副作用顺序漂移。
-- Kimi：pending（未代签）。
-- GLM：pending（未代签）。
-- 非 Coding Owner 独立反证：pending；如用户批准单席，必须在此明确登记风险与范围。
-- 缺签豁免：pending。本次“继续推进”不自动扩张上批仅 A1 的明确豁免。
-- build 准入结论：blocked；仅 draft 准备，不改实现文件。
+- Kimi：用户豁免，未代签。
+- GLM：用户豁免，未代签。
+- 非 Coding Owner 独立反证：用户豁免；缺独立审查的风险由真实回归/负控缓解，不宣称等同三席。
+- 缺签豁免：2026-09-24 用户明确整个架构治理队列由 Codex 独立推进。
+- build 准入结论：build allowed，r1 前提/范围不变。
 
 ### 进入 done 前
 
 - Codex：pending。
-- Kimi：pending。
-- GLM：pending。
-- 缺签豁免：pending。
+- Kimi：用户豁免，未代签。
+- GLM：用户豁免，未代签。
+- 缺签豁免：同上，全队列独立实施、自验收口，免补审。
 - done 准入结论：blocked；没有实现候选或验证结果，不标 done。
 
 ## 额度 / 代班与用户裁决
 
-最近用户告知 Kimi/GLM 额度不足，希望 Codex 独立推进。A1 已获明确本批授权；
-A2 尚待确认是否仍豁免两席的 build/done 签字、由 Codex 独立实施自验收口。
+2026-09-24 用户明确：“架构治理全部都不用另外两个ai参与，你独自推进”。
+A2 与其余队列由 Codex 独立实施、自验收口，两席 build/done 签字豁免，不代签。
 风险：缺少独立架构审查，须以真实宿主回归、可鉴别负控和副作用对照缓解，不能宣称等价于三席。
-是否需要后续补审：随本卡用户裁决登记，不外推其它 11 批。
+是否需要后续补审：本队列免补审；范围扩张仍单独裁决。
 
 ## Build / Review / 用户验收
 
-未开始。本轮只同步主线、取证、开卡；无产品、测试、资产、基线改动。
+2026-09-24 实现已完成，Codex自审进行中；完整check8461通过，统一coverage门待完成。
+
+当前实施/失败/复核证据见[回执](../../testing/battle-host-refactor.md)。用户全队列授权已落总计划；
+H9随机性修正3be0e273与架构实现分提交，完整质量门尚未通过前不收口。
+
+- 2026-09-24 Codex：新增BattleHost/BattleLaunchPreparation与21项回归；9针业务反证通过，
+  17关键函数AST全等。真实浏览器完成开战/普攻/胜利结算/世界恢复/再开战；
+  全仓check8461 exit0，47warnings/6infos保持。进入review准备统一覆盖，未标done。
 
 ## 交接日志
 
@@ -132,5 +140,4 @@ A2 尚待确认是否仍豁免两席的 build/done 签字、由 Codex 独立实�
 
 ## 下一位 Agent 提示词
 
-暂无跨 Agent 移交；等待用户确认本批协作方式，不要求转交当前额度不足的两席。
-无下一位 Agent 提示词，等待用户裁决。未准入前不得开始实现、不得标记 done。
+无下一位 Agent 提示词；Codex 按用户全队列独立授权连续推进，实际验收未完成前不得标 done。
