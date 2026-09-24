@@ -8,6 +8,7 @@
 
 | 任务 | 顶部状态 | 说明 |
 |---|---|---|
+| [ARCH-REFORGE-BATTLE-1 — 战斗宿主生命周期拆分（A2）](ARCH-REFORGE-BATTLE-1-host-lifecycle.md) | draft | 以任务卡当前准入与看板分工为准。 |
 
 ## 已完成（historical）
 
