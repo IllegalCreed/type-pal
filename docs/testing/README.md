@@ -8,6 +8,8 @@
 
 ## 文档与附件
 
+- [真实宿主二批：战斗/物品/装备/实体](codex-runtime-shell-wave2.md)与[隔离负控](codex-runtime-shell-wave2-mutants.mjs)（28项/8针；当前full校准8230项，整批质量门待执行）
+
 - [检查环境隔离与宿主测试负载](check-environment-stability.md)及[统一机账](stability-fire-closeout-evidence.json)（e17af240，两卡done；check8384/ratchet与单次strict7893/633，缓存污染与AST重复编译闭环）
 - [PAL工程七套预制试打方案](pal-simulator-presets.md)（从ea80749a按文件接入，FIRE窄修已done；七套原生开战，三人/巫后停止重开通过，不覆盖其它工程作者配置）
 
