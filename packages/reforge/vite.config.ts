@@ -101,6 +101,9 @@ function serveDir(urlPrefix: string, fsDir: string): Plugin {
 }
 
 export default {
+  // Each real-host flow cold-loads the production graph after resetModules. Bound
+  // concurrent transforms across pnpm's parallel packages; keep default timeouts.
+  test: { maxWorkers: 2 },
   plugins: [
     serveDir('/projects', resolve(repoRoot, 'projects')),
     serveDir('/extracted', resolve(repoRoot, 'data/extracted')),

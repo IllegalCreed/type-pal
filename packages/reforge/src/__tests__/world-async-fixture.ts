@@ -185,6 +185,11 @@ export function hostOptions(
   }
 }
 
+// Cache compilation only, keyed by the exact source and requested bindings. Each
+// invocation still evaluates a fresh factory with its own environment/closures.
+// Mutated source supplied by negative controls must never reuse the original body.
+const mainFactories = new Map<string, (env: object) => unknown>()
+
 /** Extract real production bodies, not copied implementations; fail loudly on missing/ambiguous names. */
 export function mainApi<T>(
   names: readonly string[],
@@ -192,6 +197,9 @@ export function mainApi<T>(
   env: object,
   source = mainSource,
 ): T {
+  const key = JSON.stringify([source, names, properties])
+  const cached = mainFactories.get(key)
+  if (cached) return cached(env) as T
   const ast = ts.createSourceFile('main.ts', source, ts.ScriptTarget.Latest, true, ts.ScriptKind.TS)
   const found = new Map<string, string>()
   const save = (name: string, value: string) => {
@@ -224,8 +232,11 @@ export function mainApi<T>(
   const js = ts.transpileModule([...found.values()].join('\n'), {
     compilerOptions: { target: ts.ScriptTarget.ES2022, module: ts.ModuleKind.None },
   }).outputText
-  return new Function(
+  const compiled = new Function(
     'env',
     `with(env) { ${js}; return {${[...names, ...properties].join(',')}}; }`,
-  )(env) as T
+  )
+  const factory = (context: object): unknown => compiled(context)
+  mainFactories.set(key, factory)
+  return factory(env) as T
 }

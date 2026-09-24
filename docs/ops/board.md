@@ -26,7 +26,8 @@ GLM后续补测候选见[十批长队列](../testing/glm-coverage-work-queue.md)
 
 | ID | 任务 | 状态 | 负责人/下一步 | 一句话备注 |
 |---|---|---|---|---|
-| BATTLE-FIRE-READINESS-1 | [无特效技能的战斗资源准备](tasks/BATTLE-FIRE-READINESS-1-no-effect-marker.md) | draft | Codex已取证；待Kimi/GLM设计审查或用户本次豁免（Kimi额度耗尽，席位未裁决） | 2026-09-24卡回迁main；七预制数据/回归仍只在未合并分支ea80749a，3套被65535误预载阻断；不授权build |
+| TEST-ENV-STABILITY-1 | [检查环境与宿主负载](tasks/TEST-ENV-STABILITY-1-cache-and-host-load.md) | review | Codex统一门禁 | 两版本污染环境30绿；受控worker不改超时/范围，用户单席授权 |
+| BATTLE-FIRE-READINESS-1 | [无特效技能的战斗资源准备](tasks/BATTLE-FIRE-READINESS-1-no-effect-marker.md) | review | Codex统一门禁 | 6新回归/单点反控、12预制回归；原生7套开战，三人/巫后重开通过 |
 
 2026-09-24 [战斗会话流程补测](../testing/battle-workflows-integration.md)源fd4efd76经Codex独立接收与统一集成，
 GLM实施者自验accept、Kimi额度耗尽由用户明确豁免；check8363/ratchet7872/单次受保护strict7872（633生产文件）全过，

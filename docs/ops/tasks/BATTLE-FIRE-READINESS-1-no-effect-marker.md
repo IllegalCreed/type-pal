@@ -1,6 +1,6 @@
 # BATTLE-FIRE-READINESS-1 - 无特效技能的战斗资源准备
 
-Status: draft
+Status: review
 Phase: phase2
 Capability: 既有战斗资源准备缺陷；PAL试打预制数据交付阻断
 Coding Owner: Codex
@@ -8,7 +8,7 @@ Reviewer: Kimi / GLM
 Generation Owner: N/A
 Visual Verification Owner: Codex
 Visual Verification Timing: dev-functional
-Unavailable Agents: Kimi（2026-09-24用户告知额度耗尽；本卡未裁决代班/豁免；r1原值none已过时）
+Unavailable Agents: Kimi额度耗尽；GLM按用户2026-09-24本次安排不参与；用户批准Codex独立完成，不代签
 Branch: codex/pal-simulator-presets（ea80749a，未合并；卡文件已回迁main，预制数据/回归仍只在该分支）
 Revision: r1 / 2026-09-22
 
@@ -67,6 +67,15 @@ Revision: r1 / 2026-09-22
 
 ## 推进签字
 
+### 2026-09-24用户本次独立推进裁决
+
+用户在明确询问本卡Kimi设计/终审安排后指示“glm你也不用管了先，你先独立完成工作吧”。
+本次按Codex独立完成环境稳定性、FIRE窄修、七套预制交付记录两席缺签豁免；不外推未来任务，不写Kimi/GLM accept。
+独立第三方复核缺席的风险由此次明确授权承担，Codex保留完整失败回归/单点负控/真资源与功能视觉验证，不豁免质量门。
+当前main再次正式validateSkills通过；实际collector对377/295/392返回65535，catalog无该资产。
+预制分支仅1个独有提交、生产源码/内容模型无漂移：只取预制JSON、11测试与记录，保留main卡/索引新状态，不整树覆盖。
+下方r1历史pending保留；**本次有效build准入：build allowed（Codex按用户明确单席授权核定）**；done仍待实施与验证。
+
 ### 进入build前
 
 - Codex：premise verified / design agree。依据当前collector的实际65535输出、现有专用演出及浏览器错误；
@@ -86,6 +95,13 @@ Revision: r1 / 2026-09-22
 
 ## 当前证据与剩余工作
 
+### 2026-09-24本次实施已完成，统一门禁待验
+
+- Codex按用户本次独立授权完成collector一处条件窄修（0xffff不请求，负值旧行为/0号/普通缺资源拒绝保持）；新合法guard矩阵和真实prepare资产正反对照6项，修前4红2绿、修后全绿，相邻29绿；单点移除条件，新player回归自身AssertionError红。
+- 七套JSON和原11回归按文件取回，追加实际玩家/合击/敌人FIRE闭包目录检查，12/12；Reforge/Editor TC通过；代码Biome通过。
+- 原生Chrome七套全部真实入战；三人及巫后双人截图检查和停止/重开通过。所有场次为临时试玩，不写正常存档或作者配置；视觉细节/工具时序披露见[预制记录](../../testing/pal-simulator-presets.md)。
+- 本次不改schema、公式、脚本语义、迁移与资源二进制；统一check→ratchet→单次strict与最终收口待完成。
+
 > 2026-09-24回迁注：本节证据均出自分支ea80749a树；main上没有七预制数据与11项回归，不能在main复现。
 
 - 数据11/11通过；初版序列化夹具错误已补完整作者场景输入，未改正式guard。
@@ -97,6 +113,7 @@ Revision: r1 / 2026-09-22
 
 ## 交接日志
 
+- 2026-09-24 Codex：用户明确“glm你也不用管了先，你先独立完成工作吧”，按本批范围记录两席缺签豁免；独立完成失败回归、collector窄修、原生七套开战及两代表阵容停止/重开。进入review，统一门禁未完前不done；不把本次授权外推后续任务。
 - 2026-09-24 Cursor代理（用户指派，仅文档回迁）：按用户拍板以`git show ea80749a`取回本卡并在main看板登记draft；
   未合并分支，未取回预制数据/回归/记录。逐条复核锚点，过时处见“回迁main核对”。不签字、不改状态、不开始实现。
 - 2026-09-22 Codex：用户批准七预制，完成作者侧数据及回归；真实试打定位旧资源准备缺陷，暂停交付并开本卡。

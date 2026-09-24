@@ -6,6 +6,7 @@
 
 ## 文档与附件
 
+- [worktree清理与可恢复备份（2026-09-24）](worktree-retirement-2026-09-24.md)
 - [OPS-TST-PERF G1 旧断言去向映射](OPS-TST-PERF-g1-coverage-map.md)
 - [B10-1 源敌队槽位 census（2026-08-09）](b10-1-source-slot-census-2026-08-09.md)
 - [N3-1 P7-R13 三方源语义审计合并裁决](codex-p7-r13-three-way-adjudication.md)

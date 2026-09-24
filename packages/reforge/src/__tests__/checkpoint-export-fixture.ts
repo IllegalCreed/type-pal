@@ -44,8 +44,10 @@ interface Api {
   restorePayload(raw: StoredSavePayload, token: number, where: string): Promise<boolean>
 }
 
-/** Execute the actual DEV statement, not a test reconstruction of its property bindings. */
-function registerDev(env: object) {
+let registerDevFactory: ((env: object) => void) | undefined
+
+/** Compile the actual immutable source once; execute it afresh against every fixture environment. */
+function compileDevRegistration() {
   const ast = ts.createSourceFile('main.ts', mainSource, ts.ScriptTarget.Latest, true)
   const matches: ts.IfStatement[] = []
   const walk = (node: ts.Node) => {
@@ -60,7 +62,14 @@ function registerDev(env: object) {
   const js = ts.transpileModule(source.replace('import.meta.env.DEV', 'dev'), {
     compilerOptions: { target: ts.ScriptTarget.ES2022, module: ts.ModuleKind.None },
   }).outputText
-  new Function('env', `with(env) { ${js} }`)(env)
+  const compiled = new Function('env', `with(env) { ${js} }`)
+  return (env: object): void => compiled(env)
+}
+
+/** Execute the actual DEV statement, not a test reconstruction of its property bindings. */
+function registerDev(env: object) {
+  registerDevFactory ??= compileDevRegistration()
+  registerDevFactory(env)
 }
 
 /** Real runtime/codec/store/main bodies; only browser and resource preparation boundaries are substituted. */

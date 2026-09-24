@@ -10,14 +10,15 @@ afterEach(() => {
 })
 
 /** Select original AST nodes; only host/battle presentation boundaries below are simulated. */
+const mainAst = ts.createSourceFile(
+  'main.ts',
+  mainSource,
+  ts.ScriptTarget.Latest,
+  true,
+  ts.ScriptKind.TS,
+)
 function selectedSource(predicate: (node: ts.Node, ast: ts.SourceFile) => boolean) {
-  const ast = ts.createSourceFile(
-    'main.ts',
-    mainSource,
-    ts.ScriptTarget.Latest,
-    true,
-    ts.ScriptKind.TS,
-  )
+  const ast = mainAst
   const matches: ts.Node[] = []
   const walk = (node: ts.Node) => {
     if (predicate(node, ast)) matches.push(node)

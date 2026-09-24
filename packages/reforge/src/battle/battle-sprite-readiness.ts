@@ -48,7 +48,10 @@ export function collectBattleSkillFireChunks(input: {
     const skill = input.skillsById[skillId]
     if (!skill) throw new Error(`FIRE readiness 缺 SkillData "${skillId}"`)
     const chunk = resolveSkillExecution(skill, side).animation.effectSprite
-    if (chunk >= 0) chunks.add(chunk)
+    // Current skill content uses 0xffff for no FIRE bitmap (trance/steal/flee
+    // have their own timelines). Zero is a real asset; ordinary missing chunks
+    // must still reach the strict resolver rather than being silently dropped.
+    if (chunk >= 0 && chunk !== 0xffff) chunks.add(chunk)
   }
   for (const skills of input.playerSkillIds)
     for (const skillId of skills) include(skillId, 'player')

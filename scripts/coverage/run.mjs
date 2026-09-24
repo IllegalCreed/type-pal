@@ -21,6 +21,7 @@ import {
   testExecutionDigest,
   testSelection,
 } from './config.mjs'
+import { preciseCoverageEnvironment } from './environment.mjs'
 import {
   assertDirectoryFileCount,
   assertFullJsonContracts,
@@ -58,11 +59,8 @@ if (allowScopeRemoval && !ratchet) {
 }
 
 const readJson = async (path) => JSON.parse(await readFile(path, 'utf8'))
-const childEnvironment = (overrides = {}) => ({
-  ...process.env,
-  TYPE_PAL_COVERAGE: '1',
-  ...overrides,
-})
+const childEnvironment = (overrides = {}) =>
+  preciseCoverageEnvironment({ TYPE_PAL_COVERAGE: '1', ...overrides })
 
 const spawnCommand = (command, args, environment = {}) =>
   new Promise((resolvePromise, reject) => {

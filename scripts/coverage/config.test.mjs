@@ -1,8 +1,16 @@
 import assert from 'node:assert/strict'
 import test from 'node:test'
+import reforgeConfig from '../../packages/reforge/vite.config.ts'
 import { coveragePackages, testSelection } from './config.mjs'
 
 const editor = coveragePackages.find((entry) => entry.id === 'editor')
+
+test('Reforge runner bounds concurrent cold host loads without widening timeouts or excluding tests', () => {
+  assert.deepEqual(reforgeConfig.test, { maxWorkers: 2 })
+  const reforge = coveragePackages.find((entry) => entry.id === 'reforge')
+  assert.deepEqual(reforge.include, ['src/**/*.{ts,tsx}'])
+  assert.deepEqual(testSelection(reforge, 'fast').args, ['--passWithNoTests'])
+})
 
 test('fast 排除所有 PAL test 扩展，full 保留', () => {
   assert.ok(editor)

@@ -1,0 +1,1098 @@
+{
+  "kind": "type-pal-battle-simulator",
+  "version": 1,
+  "allies": [
+    {
+      "id": "pal-standard-allies",
+      "name": "三人成型 · 我方",
+      "description": "建议测试快照，不代表原版剧情固定等级或精确成长；基础属性不含装备。满体力/真气，改变等级不会自动成长。",
+      "config": {
+        "members": [
+          {
+            "actorId": "li-xiaoyao",
+            "stats": {
+              "level": 15,
+              "maxHP": 360,
+              "maxMP": 255,
+              "attack": 115,
+              "defense": 96,
+              "magicAttack": 75,
+              "speed": 88,
+              "luck": 78
+            },
+            "equipment": {
+              "weapon": "174",
+              "head": "203",
+              "body": "213",
+              "cloak": "227",
+              "feet": "240",
+              "accessory": "254"
+            },
+            "skills": {
+              "kind": "replace",
+              "ids": [
+                "296",
+                "349",
+                "311",
+                "298",
+                "346"
+              ]
+            },
+            "hp": {
+              "kind": "full"
+            },
+            "mp": {
+              "kind": "full"
+            }
+          },
+          {
+            "actorId": "zhao-linger",
+            "stats": {
+              "level": 15,
+              "maxHP": 375,
+              "maxMP": 390,
+              "attack": 65,
+              "defense": 76,
+              "magicAttack": 145,
+              "speed": 105,
+              "luck": 52
+            },
+            "equipment": {
+              "weapon": "177",
+              "head": "199",
+              "body": "212",
+              "cloak": "229",
+              "feet": "241",
+              "accessory": "253"
+            },
+            "skills": {
+              "kind": "replace",
+              "ids": [
+                "312",
+                "316",
+                "321",
+                "327",
+                "332",
+                "306",
+                "297",
+                "309",
+                "303",
+                "307",
+                "313",
+                "300",
+                "322",
+                "333",
+                "317",
+                "328",
+                "314"
+              ]
+            },
+            "hp": {
+              "kind": "full"
+            },
+            "mp": {
+              "kind": "full"
+            }
+          },
+          {
+            "actorId": "lin-yueru",
+            "stats": {
+              "level": 15,
+              "maxHP": 385,
+              "maxMP": 215,
+              "attack": 110,
+              "defense": 93,
+              "magicAttack": 65,
+              "speed": 92,
+              "luck": 70
+            },
+            "equipment": {
+              "weapon": "164",
+              "head": "199",
+              "body": "212",
+              "cloak": "228",
+              "feet": "241",
+              "accessory": "253"
+            },
+            "skills": {
+              "kind": "replace",
+              "ids": [
+                "298",
+                "337",
+                "340",
+                "344",
+                "341",
+                "299"
+              ]
+            },
+            "hp": {
+              "kind": "full"
+            },
+            "mp": {
+              "kind": "full"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "pal-early-solo-allies",
+      "name": "初出江湖 · 我方",
+      "description": "建议测试快照，不代表原版剧情固定等级或精确成长；基础属性不含装备。满体力/真气，改变等级不会自动成长。",
+      "config": {
+        "members": [
+          {
+            "actorId": "li-xiaoyao",
+            "stats": {
+              "level": 3,
+              "maxHP": 180,
+              "maxMP": 115,
+              "attack": 45,
+              "defense": 40,
+              "magicAttack": 27,
+              "speed": 37,
+              "luck": 38
+            },
+            "equipment": {
+              "weapon": "168",
+              "head": "196",
+              "body": "208",
+              "cloak": "225",
+              "feet": "235",
+              "accessory": "249"
+            },
+            "skills": {
+              "kind": "replace",
+              "ids": [
+                "296"
+              ]
+            },
+            "hp": {
+              "kind": "full"
+            },
+            "mp": {
+              "kind": "full"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "pal-early-duo-allies",
+      "name": "逍遥与灵儿 · 我方",
+      "description": "建议测试快照，不代表原版剧情固定等级或精确成长；基础属性不含装备。满体力/真气，改变等级不会自动成长。",
+      "config": {
+        "members": [
+          {
+            "actorId": "li-xiaoyao",
+            "stats": {
+              "level": 8,
+              "maxHP": 255,
+              "maxMP": 170,
+              "attack": 72,
+              "defense": 63,
+              "magicAttack": 45,
+              "speed": 58,
+              "luck": 55
+            },
+            "equipment": {
+              "weapon": "171",
+              "head": "201",
+              "body": "209",
+              "cloak": "226",
+              "feet": "237",
+              "accessory": "250"
+            },
+            "skills": {
+              "kind": "replace",
+              "ids": [
+                "296",
+                "349",
+                "311"
+              ]
+            },
+            "hp": {
+              "kind": "full"
+            },
+            "mp": {
+              "kind": "full"
+            }
+          },
+          {
+            "actorId": "zhao-linger",
+            "stats": {
+              "level": 8,
+              "maxHP": 280,
+              "maxMP": 285,
+              "attack": 34,
+              "defense": 42,
+              "magicAttack": 90,
+              "speed": 70,
+              "luck": 28
+            },
+            "equipment": {
+              "weapon": "170",
+              "head": "197",
+              "body": "210",
+              "cloak": "226",
+              "feet": "238",
+              "accessory": "248"
+            },
+            "skills": {
+              "kind": "replace",
+              "ids": [
+                "312",
+                "316",
+                "321",
+                "327",
+                "332",
+                "306",
+                "297",
+                "309",
+                "303",
+                "307",
+                "313",
+                "300"
+              ]
+            },
+            "hp": {
+              "kind": "full"
+            },
+            "mp": {
+              "kind": "full"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "pal-middle-duo-allies",
+      "name": "中段双人 · 我方",
+      "description": "建议测试快照，不代表原版剧情固定等级或精确成长；基础属性不含装备。满体力/真气，改变等级不会自动成长。",
+      "config": {
+        "members": [
+          {
+            "actorId": "li-xiaoyao",
+            "stats": {
+              "level": 25,
+              "maxHP": 510,
+              "maxMP": 375,
+              "attack": 175,
+              "defense": 145,
+              "magicAttack": 120,
+              "speed": 130,
+              "luck": 110
+            },
+            "equipment": {
+              "weapon": "178",
+              "head": "204",
+              "body": "217",
+              "cloak": "231",
+              "feet": "242",
+              "accessory": "257"
+            },
+            "skills": {
+              "kind": "replace",
+              "ids": [
+                "296",
+                "349",
+                "311",
+                "298",
+                "346",
+                "299",
+                "310",
+                "348"
+              ]
+            },
+            "hp": {
+              "kind": "full"
+            },
+            "mp": {
+              "kind": "full"
+            }
+          },
+          {
+            "actorId": "lin-yueru",
+            "stats": {
+              "level": 25,
+              "maxHP": 525,
+              "maxMP": 330,
+              "attack": 168,
+              "defense": 143,
+              "magicAttack": 105,
+              "speed": 140,
+              "luck": 108
+            },
+            "equipment": {
+              "weapon": "180",
+              "head": "200",
+              "body": "217",
+              "cloak": "231",
+              "feet": "242",
+              "accessory": "257"
+            },
+            "skills": {
+              "kind": "replace",
+              "ids": [
+                "298",
+                "337",
+                "340",
+                "344",
+                "341",
+                "299",
+                "394",
+                "342"
+              ]
+            },
+            "hp": {
+              "kind": "full"
+            },
+            "mp": {
+              "kind": "full"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "pal-miao-duo-allies",
+      "name": "苗疆组合 · 我方",
+      "description": "建议测试快照，不代表原版剧情固定等级或精确成长；基础属性不含装备。满体力/真气，改变等级不会自动成长。",
+      "config": {
+        "members": [
+          {
+            "actorId": "li-xiaoyao",
+            "stats": {
+              "level": 30,
+              "maxHP": 585,
+              "maxMP": 435,
+              "attack": 205,
+              "defense": 170,
+              "magicAttack": 142,
+              "speed": 155,
+              "luck": 130
+            },
+            "equipment": {
+              "weapon": "184",
+              "head": "204",
+              "body": "218",
+              "cloak": "231",
+              "feet": "244",
+              "accessory": "258"
+            },
+            "skills": {
+              "kind": "replace",
+              "ids": [
+                "296",
+                "349",
+                "311",
+                "298",
+                "346",
+                "299",
+                "310",
+                "348",
+                "392"
+              ]
+            },
+            "hp": {
+              "kind": "full"
+            },
+            "mp": {
+              "kind": "full"
+            }
+          },
+          {
+            "actorId": "anu",
+            "stats": {
+              "level": 30,
+              "maxHP": 510,
+              "maxMP": 440,
+              "attack": 180,
+              "defense": 120,
+              "magicAttack": 238,
+              "speed": 174,
+              "luck": 158
+            },
+            "equipment": {
+              "weapon": "192",
+              "head": "202",
+              "body": "215",
+              "cloak": "231",
+              "feet": null,
+              "accessory": "251"
+            },
+            "skills": {
+              "kind": "replace",
+              "ids": [
+                "353",
+                "352",
+                "329",
+                "318",
+                "394",
+                "308",
+                "299",
+                "302",
+                "305",
+                "304",
+                "354"
+              ]
+            },
+            "hp": {
+              "kind": "full"
+            },
+            "mp": {
+              "kind": "full"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "pal-final-trio-allies",
+      "name": "决战准备 · 我方",
+      "description": "建议测试快照，不代表原版剧情固定等级或精确成长；基础属性不含装备。满体力/真气，改变等级不会自动成长。",
+      "config": {
+        "members": [
+          {
+            "actorId": "li-xiaoyao",
+            "stats": {
+              "level": 40,
+              "maxHP": 735,
+              "maxMP": 555,
+              "attack": 265,
+              "defense": 220,
+              "magicAttack": 185,
+              "speed": 200,
+              "luck": 165
+            },
+            "equipment": {
+              "weapon": "186",
+              "head": "207",
+              "body": "220",
+              "cloak": "233",
+              "feet": "246",
+              "accessory": "258"
+            },
+            "skills": {
+              "kind": "replace",
+              "ids": [
+                "296",
+                "349",
+                "311",
+                "298",
+                "346",
+                "299",
+                "310",
+                "348",
+                "392",
+                "363"
+              ]
+            },
+            "hp": {
+              "kind": "full"
+            },
+            "mp": {
+              "kind": "full"
+            }
+          },
+          {
+            "actorId": "zhao-linger",
+            "stats": {
+              "level": 40,
+              "maxHP": 720,
+              "maxMP": 765,
+              "attack": 175,
+              "defense": 195,
+              "magicAttack": 320,
+              "speed": 230,
+              "luck": 140
+            },
+            "equipment": {
+              "weapon": "192",
+              "head": "205",
+              "body": "221",
+              "cloak": "234",
+              "feet": "243",
+              "accessory": "258"
+            },
+            "skills": {
+              "kind": "replace",
+              "ids": [
+                "312",
+                "316",
+                "321",
+                "327",
+                "332",
+                "306",
+                "297",
+                "309",
+                "303",
+                "307",
+                "313",
+                "300",
+                "322",
+                "333",
+                "317",
+                "328",
+                "314",
+                "323",
+                "334",
+                "318",
+                "335",
+                "319",
+                "330",
+                "351"
+              ]
+            },
+            "hp": {
+              "kind": "full"
+            },
+            "mp": {
+              "kind": "full"
+            }
+          },
+          {
+            "actorId": "anu",
+            "stats": {
+              "level": 40,
+              "maxHP": 650,
+              "maxMP": 590,
+              "attack": 240,
+              "defense": 170,
+              "magicAttack": 320,
+              "speed": 240,
+              "luck": 198
+            },
+            "equipment": {
+              "weapon": "188",
+              "head": "206",
+              "body": "224",
+              "cloak": "232",
+              "feet": null,
+              "accessory": "258"
+            },
+            "skills": {
+              "kind": "replace",
+              "ids": [
+                "353",
+                "352",
+                "329",
+                "318",
+                "394",
+                "308",
+                "299",
+                "302",
+                "305",
+                "304",
+                "354",
+                "374",
+                "372"
+              ]
+            },
+            "hp": {
+              "kind": "full"
+            },
+            "mp": {
+              "kind": "full"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "pal-dream-duo-allies",
+      "name": "回梦往昔 · 我方",
+      "description": "建议测试快照，不代表原版剧情固定等级或精确成长；基础属性不含装备。满体力/真气，改变等级不会自动成长。",
+      "config": {
+        "members": [
+          {
+            "actorId": "li-xiaoyao",
+            "stats": {
+              "level": 30,
+              "maxHP": 585,
+              "maxMP": 435,
+              "attack": 205,
+              "defense": 170,
+              "magicAttack": 142,
+              "speed": 155,
+              "luck": 130
+            },
+            "equipment": {
+              "weapon": "184",
+              "head": "204",
+              "body": "218",
+              "cloak": "231",
+              "feet": "244",
+              "accessory": "258"
+            },
+            "skills": {
+              "kind": "replace",
+              "ids": [
+                "296",
+                "349",
+                "311",
+                "298",
+                "346",
+                "299",
+                "310",
+                "348",
+                "392"
+              ]
+            },
+            "hp": {
+              "kind": "full"
+            },
+            "mp": {
+              "kind": "full"
+            }
+          },
+          {
+            "actorId": "wu-hou",
+            "stats": {
+              "level": 48,
+              "maxHP": 810,
+              "maxMP": 790,
+              "attack": 168,
+              "defense": 136,
+              "magicAttack": 256,
+              "speed": 132,
+              "luck": 60
+            },
+            "equipment": {
+              "weapon": "195",
+              "head": "202",
+              "body": "210",
+              "cloak": "234",
+              "feet": "243",
+              "accessory": "260"
+            },
+            "skills": {
+              "kind": "replace",
+              "ids": [
+                "295",
+                "304",
+                "299",
+                "315",
+                "320",
+                "325",
+                "389",
+                "336",
+                "302",
+                "308"
+              ]
+            },
+            "hp": {
+              "kind": "full"
+            },
+            "mp": {
+              "kind": "full"
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "enemies": [
+    {
+      "id": "pal-standard-enemies",
+      "name": "三人成型 · 敌方",
+      "description": "使用当前工程的正式敌人定义，五槽显式编队；不带剧情任务链。",
+      "config": {
+        "kind": "slots",
+        "slots": [
+          "enemy-419",
+          "enemy-425",
+          "enemy-427",
+          null,
+          null
+        ]
+      }
+    },
+    {
+      "id": "pal-early-solo-enemies",
+      "name": "初出江湖 · 敌方",
+      "description": "使用当前工程的正式敌人定义，五槽显式编队；不带剧情任务链。",
+      "config": {
+        "kind": "slots",
+        "slots": [
+          "enemy-487",
+          null,
+          null,
+          null,
+          null
+        ]
+      }
+    },
+    {
+      "id": "pal-early-duo-enemies",
+      "name": "逍遥与灵儿 · 敌方",
+      "description": "使用当前工程的正式敌人定义，五槽显式编队；不带剧情任务链。",
+      "config": {
+        "kind": "slots",
+        "slots": [
+          "enemy-426",
+          "enemy-487",
+          null,
+          null,
+          null
+        ]
+      }
+    },
+    {
+      "id": "pal-middle-duo-enemies",
+      "name": "中段双人 · 敌方",
+      "description": "使用当前工程的正式敌人定义，五槽显式编队；不带剧情任务链。",
+      "config": {
+        "kind": "slots",
+        "slots": [
+          "enemy-417",
+          "enemy-418",
+          null,
+          null,
+          null
+        ]
+      }
+    },
+    {
+      "id": "pal-miao-duo-enemies",
+      "name": "苗疆组合 · 敌方",
+      "description": "使用当前工程的正式敌人定义，五槽显式编队；不带剧情任务链。",
+      "config": {
+        "kind": "slots",
+        "slots": [
+          "enemy-412",
+          "enemy-416",
+          "enemy-503",
+          null,
+          null
+        ]
+      }
+    },
+    {
+      "id": "pal-final-trio-enemies",
+      "name": "决战准备 · 敌方",
+      "description": "使用当前工程的正式敌人定义，五槽显式编队；不带剧情任务链。",
+      "config": {
+        "kind": "slots",
+        "slots": [
+          "enemy-457",
+          "enemy-460",
+          "enemy-459",
+          null,
+          null
+        ]
+      }
+    },
+    {
+      "id": "pal-dream-duo-enemies",
+      "name": "回梦往昔 · 敌方",
+      "description": "使用当前工程的正式敌人定义，五槽显式编队；不带剧情任务链。",
+      "config": {
+        "kind": "slots",
+        "slots": [
+          "enemy-528",
+          "enemy-512",
+          null,
+          null,
+          null
+        ]
+      }
+    }
+  ],
+  "bags": [
+    {
+      "id": "pal-early-bag",
+      "name": "前期补给",
+      "description": "有限的恢复、回气、解毒、解异常、复活与投掷物品；重新试打还原数量。",
+      "config": {
+        "items": [
+          {
+            "itemId": "99",
+            "quantity": 5
+          },
+          {
+            "itemId": "104",
+            "quantity": 5
+          },
+          {
+            "itemId": "64",
+            "quantity": 2
+          },
+          {
+            "itemId": "65",
+            "quantity": 2
+          },
+          {
+            "itemId": "95",
+            "quantity": 1
+          },
+          {
+            "itemId": "153",
+            "quantity": 2
+          }
+        ]
+      }
+    },
+    {
+      "id": "pal-middle-bag",
+      "name": "中期补给",
+      "description": "有限的恢复、回气、解毒、解异常、复活与投掷物品；重新试打还原数量。",
+      "config": {
+        "items": [
+          {
+            "itemId": "101",
+            "quantity": 5
+          },
+          {
+            "itemId": "105",
+            "quantity": 5
+          },
+          {
+            "itemId": "64",
+            "quantity": 3
+          },
+          {
+            "itemId": "65",
+            "quantity": 3
+          },
+          {
+            "itemId": "95",
+            "quantity": 2
+          },
+          {
+            "itemId": "154",
+            "quantity": 3
+          }
+        ]
+      }
+    },
+    {
+      "id": "pal-late-bag",
+      "name": "后期补给",
+      "description": "有限的恢复、回气、解毒、解异常、复活与投掷物品；重新试打还原数量。",
+      "config": {
+        "items": [
+          {
+            "itemId": "101",
+            "quantity": 8
+          },
+          {
+            "itemId": "106",
+            "quantity": 6
+          },
+          {
+            "itemId": "107",
+            "quantity": 3
+          },
+          {
+            "itemId": "64",
+            "quantity": 4
+          },
+          {
+            "itemId": "65",
+            "quantity": 3
+          },
+          {
+            "itemId": "98",
+            "quantity": 2
+          },
+          {
+            "itemId": "155",
+            "quantity": 3
+          }
+        ]
+      }
+    }
+  ],
+  "plans": [
+    {
+      "id": "pal-standard",
+      "name": "三人成型",
+      "description": "推荐默认。15级三人，普攻、群攻、治疗与物品通用试打。 建议测试快照，不代表原版剧情固定等级或精确成长；基础属性不含装备。满体力/真气，改变等级不会自动成长。 默认同一无五灵增益战场，手动战斗，可逃跑。",
+      "config": {
+        "party": {
+          "kind": "preset",
+          "presetId": "pal-standard-allies"
+        },
+        "enemies": {
+          "kind": "preset",
+          "presetId": "pal-standard-enemies"
+        },
+        "bag": {
+          "kind": "preset",
+          "presetId": "pal-middle-bag"
+        },
+        "fieldId": 24,
+        "music": {
+          "kind": "default"
+        },
+        "money": 1000,
+        "auto": false,
+        "boss": false,
+        "overrides": {}
+      }
+    },
+    {
+      "id": "pal-early-solo",
+      "name": "初出江湖",
+      "description": "3级李逍遥单人，对赤色小蛇；适合观察单次行动。 建议测试快照，不代表原版剧情固定等级或精确成长；基础属性不含装备。满体力/真气，改变等级不会自动成长。 默认同一无五灵增益战场，手动战斗，可逃跑。",
+      "config": {
+        "party": {
+          "kind": "preset",
+          "presetId": "pal-early-solo-allies"
+        },
+        "enemies": {
+          "kind": "preset",
+          "presetId": "pal-early-solo-enemies"
+        },
+        "bag": {
+          "kind": "preset",
+          "presetId": "pal-early-bag"
+        },
+        "fieldId": 24,
+        "music": {
+          "kind": "default"
+        },
+        "money": 100,
+        "auto": false,
+        "boss": false,
+        "overrides": {}
+      }
+    },
+    {
+      "id": "pal-early-duo",
+      "name": "逍遥与灵儿",
+      "description": "8级双人，对蜥蜴与赤色小蛇；体验物理、仙术与治疗配合。 建议测试快照，不代表原版剧情固定等级或精确成长；基础属性不含装备。满体力/真气，改变等级不会自动成长。 默认同一无五灵增益战场，手动战斗，可逃跑。",
+      "config": {
+        "party": {
+          "kind": "preset",
+          "presetId": "pal-early-duo-allies"
+        },
+        "enemies": {
+          "kind": "preset",
+          "presetId": "pal-early-duo-enemies"
+        },
+        "bag": {
+          "kind": "preset",
+          "presetId": "pal-early-bag"
+        },
+        "fieldId": 24,
+        "music": {
+          "kind": "default"
+        },
+        "money": 300,
+        "auto": false,
+        "boss": false,
+        "overrides": {}
+      }
+    },
+    {
+      "id": "pal-middle-duo",
+      "name": "中段双人",
+      "description": "25级李逍遥与林月如，对猪头人与小雷公；物理与仙术混合压力。 建议测试快照，不代表原版剧情固定等级或精确成长；基础属性不含装备。满体力/真气，改变等级不会自动成长。 默认同一无五灵增益战场，手动战斗，可逃跑。",
+      "config": {
+        "party": {
+          "kind": "preset",
+          "presetId": "pal-middle-duo-allies"
+        },
+        "enemies": {
+          "kind": "preset",
+          "presetId": "pal-middle-duo-enemies"
+        },
+        "bag": {
+          "kind": "preset",
+          "presetId": "pal-middle-bag"
+        },
+        "fieldId": 24,
+        "music": {
+          "kind": "default"
+        },
+        "money": 2000,
+        "auto": false,
+        "boss": false,
+        "overrides": {}
+      }
+    },
+    {
+      "id": "pal-miao-duo",
+      "name": "苗疆组合",
+      "description": "30级李逍遥与阿奴，对小蜘蛛、芒刺鬼与鸟人；测试毒、辅助和投掷。 建议测试快照，不代表原版剧情固定等级或精确成长；基础属性不含装备。满体力/真气，改变等级不会自动成长。 默认同一无五灵增益战场，手动战斗，可逃跑。",
+      "config": {
+        "party": {
+          "kind": "preset",
+          "presetId": "pal-miao-duo-allies"
+        },
+        "enemies": {
+          "kind": "preset",
+          "presetId": "pal-miao-duo-enemies"
+        },
+        "bag": {
+          "kind": "preset",
+          "presetId": "pal-late-bag"
+        },
+        "fieldId": 24,
+        "music": {
+          "kind": "default"
+        },
+        "money": 3000,
+        "auto": false,
+        "boss": false,
+        "overrides": {}
+      }
+    },
+    {
+      "id": "pal-final-trio",
+      "name": "决战准备",
+      "description": "40级三人，对双节棍苗、长鞭苗女与小巫师；后期技能与配装强敌试打。不是最终剧情战。 建议测试快照，不代表原版剧情固定等级或精确成长；基础属性不含装备。满体力/真气，改变等级不会自动成长。 默认同一无五灵增益战场，手动战斗，可逃跑。",
+      "config": {
+        "party": {
+          "kind": "preset",
+          "presetId": "pal-final-trio-allies"
+        },
+        "enemies": {
+          "kind": "preset",
+          "presetId": "pal-final-trio-enemies"
+        },
+        "bag": {
+          "kind": "preset",
+          "presetId": "pal-late-bag"
+        },
+        "fieldId": 24,
+        "music": {
+          "kind": "default"
+        },
+        "money": 5000,
+        "auto": false,
+        "boss": false,
+        "overrides": {}
+      }
+    },
+    {
+      "id": "pal-dream-duo",
+      "name": "回梦往昔",
+      "description": "30级李逍遥与48级巫后，对巫王侍卫与黑衣道众；特殊双人组合，不复刻回梦剧情。 建议测试快照，不代表原版剧情固定等级或精确成长；基础属性不含装备。满体力/真气，改变等级不会自动成长。 默认同一无五灵增益战场，手动战斗，可逃跑。",
+      "config": {
+        "party": {
+          "kind": "preset",
+          "presetId": "pal-dream-duo-allies"
+        },
+        "enemies": {
+          "kind": "preset",
+          "presetId": "pal-dream-duo-enemies"
+        },
+        "bag": {
+          "kind": "preset",
+          "presetId": "pal-late-bag"
+        },
+        "fieldId": 24,
+        "music": {
+          "kind": "default"
+        },
+        "money": 3000,
+        "auto": false,
+        "boss": false,
+        "overrides": {}
+      }
+    }
+  ]
+}

@@ -15,6 +15,7 @@ import { tmpdir } from 'node:os'
 import { dirname, join, resolve } from 'node:path'
 import test, { after } from 'node:test'
 import { fileURLToPath, pathToFileURL } from 'node:url'
+import { preciseCoverageEnvironment } from './environment.mjs'
 
 const here = dirname(fileURLToPath(import.meta.url))
 const root = resolve(here, '../..')
@@ -69,6 +70,7 @@ function capture(mode) {
     const path = join(work, `${mode}-${n}.json`)
     const run = spawnSync(process.execPath, [join(work, 'capture.mjs'), subject, path, mode], {
       encoding: 'utf8',
+      env: preciseCoverageEnvironment(),
     })
     assert.equal(run.status, 0, run.stderr)
     result.push(JSON.parse(readFileSync(path, 'utf8')))
@@ -187,6 +189,7 @@ for (const called of [false, true]) {
     const run = spawnSync('pnpm', ['exec', 'vitest', 'run', '--config', configPath], {
       cwd: root,
       encoding: 'utf8',
+      env: preciseCoverageEnvironment(),
     })
     assert.equal(run.status, 0, `${run.stdout}\n${run.stderr}`)
     const results = JSON.parse(readFileSync(`${dir}/tests.json`, 'utf8'))

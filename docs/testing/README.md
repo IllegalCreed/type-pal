@@ -8,6 +8,9 @@
 
 ## 文档与附件
 
+- [检查环境隔离与宿主测试负载](check-environment-stability.md)（缓存真实子进程反例；受控worker不改超时/范围；最终门禁同批）
+- [PAL工程七套预制试打方案](pal-simulator-presets.md)（从ea80749a按文件接入；FIRE无特效准备修复同批验证，未覆盖其它工程作者配置）
+
 - [战斗流程统一集成与下一批建议](battle-workflows-integration.md)及[机账](battle-workflows-integration-evidence.json)（fd4efd76→2ba3142f；Codex接收/GLM自验/Kimi用户豁免，done；check8363/ratchet与单次strict7872/633，净增97L/82B，full/E2E未跑）
 
 - [战斗流程r5独立接收](battle-workflows-r5-review.md)与[机账](battle-workflows-r5-evidence.json)（fd4efd76 Codex accept，46/1460；r4反证已闭；后续集成/门禁已完成，当前done见上方统一记录）
