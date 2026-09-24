@@ -8,7 +8,9 @@
 
 ## 文档与附件
 
-- [战斗流程r5独立接收](battle-workflows-r5-review.md)与[机账](battle-workflows-r5-evidence.json)（fd4efd76 Codex accept，46/1460；r4反证已闭；用户已豁免Kimi本次终审，待统一集成/统计门，未done）
+- [战斗流程统一集成与下一批建议](battle-workflows-integration.md)及[机账](battle-workflows-integration-evidence.json)（fd4efd76→2ba3142f；Codex接收/GLM自验/Kimi用户豁免，done；check8363/ratchet与单次strict7872/633，净增97L/82B，full/E2E未跑）
+
+- [战斗流程r5独立接收](battle-workflows-r5-review.md)与[机账](battle-workflows-r5-evidence.json)（fd4efd76 Codex accept，46/1460；r4反证已闭；后续集成/门禁已完成，当前done见上方统一记录）
 
 - [战斗流程r4独立接收](battle-workflows-r4-review.md)、[机账](battle-workflows-r4-evidence.json)与[会话层见证](battle-workflows-r4-witnesses.mjs)（d9fb606e窄counter；N1/N2/N4业务已闭，仅合击队友消费缺口，45/1459绿不替代该合同；不跑并集/不转Kimi）
 
@@ -23,7 +25,7 @@
 - [Codex真实运行时宿主六组实施](codex-runtime-shell.md)、[机账](codex-runtime-shell-evidence.json)、[负控与统计见证](codex-runtime-shell-mutants.mjs)及[局部覆盖配置](codex-runtime-shell-coverage.config.mts)（b6286df0/done；三席accept齐，36项/8针与统一门禁、远端CI通过；视觉/full/Q1/Q2边界保持）
 
 - [大业务域双线补测计划](coverage-large-domain-plan.md)、[7790冻结盘点](coverage-large-domain-evidence.json)与[只读复算器](coverage-large-domain-census.mjs)（战斗公开流程由GLM、真实启动/菜单宿主由Codex；两卡r1已三席准入build，最终增量待整包验证）
-- [GLM战斗流程实施回执](glm-battle-workflows.md)与[机账](glm-battle-workflows-evidence.json)（r5 窄返工候选：活敌合击消费回归+消费门移除自检红+两处计数勘误，白名单内 9 文件 46 项、6+10 负控全 detected、全 reforge 1460 绿；session +48L/+54B/+8F、anim +49L/+27B/+5F 如实入账，render 段保留；待 Codex 独立重新接收）
+- [GLM战斗流程实施回执](glm-battle-workflows.md)与[机账](glm-battle-workflows-evidence.json)（原r5交付记录；9代码文件46项、6+10负控、全reforge1460绿；Codex已独立接收/集成并核done，GLM作为测试贡献者披露，render段保留）
 
 - [Codex内容六模块边界补测](codex-content-boundaries.md)（77项，角色状态/地图放置归属/战斗形象/奖励/运行脚本/场景索引；整批统一质量门）
 

@@ -26,7 +26,11 @@ GLM后续补测候选见[十批长队列](../testing/glm-coverage-work-queue.md)
 
 | ID | 任务 | 状态 | 负责人/下一步 | 一句话备注 |
 |---|---|---|---|---|
-| TEST-BATTLE-WORKFLOWS-1 | [战斗会话完整流程补测](tasks/TEST-BATTLE-WORKFLOWS-1-session-flows.md) | review | Codex集成fd4efd76并串行全仓门禁 | 46项接收accept、无counter；Kimi本次终审用户豁免；check→ratchet→strict进行中 |
+
+2026-09-24 [战斗会话流程补测](../testing/battle-workflows-integration.md)源fd4efd76经Codex独立接收与统一集成，
+GLM实施者自验accept、Kimi额度耗尽由用户明确豁免；check8363/ratchet7872/单次受保护strict7872（633生产文件）全过，
+Codex核定done归档。净增97行/82分支，另六包完整基线对象不变。下一批建议见报告（真实宿主二批与迁移主链去重），
+尚未开新卡/授权build；full/Q1/Q2与DEV-TOAST-1不借此关闭。
 
 2026-09-23 统计真值修复与真实宿主补测两卡同候选b6286df0三席accept齐（Codex实施者、Kimi aa436d9f、GLM 326e4906），
 用户确认后Codex分别核定done并归档。check8317/ratchet7826/单次受保护strict7826与525c40cd远端CI为既有证据；

@@ -3,7 +3,7 @@
 2026-09-23，候选 **16ac8cee**，基点4872b017，生产冻结57dda7ed。结论：**counter，转rework，不接收实现、不合并、不更新基线**。
 设计r1保持；本轮问题是未满足已签实现合同，不要求新增产品行为或重签方案。
 
-入口：[任务卡](../ops/tasks/TEST-BATTLE-WORKFLOWS-1-session-flows.md)；[独立见证工具](battle-workflows-review-witnesses.mjs)；[机账](battle-workflows-review-evidence.json)。
+入口：[任务卡](../ops/archive/tasks/done/TEST-BATTLE-WORKFLOWS-1-session-flows.md)；[独立见证工具](battle-workflows-review-witnesses.mjs)；[机账](battle-workflows-review-evidence.json)。
 GLM回执/机账/源码位于其独立分支`codex/glm-battle-workflows-r1`、工作树`/Users/zhangxu/illegal/type-pal-glm-battle`，未拷贝其不成立的结论覆盖本报告。
 
 ## 已核实通过与边界

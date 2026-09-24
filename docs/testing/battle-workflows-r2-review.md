@@ -3,7 +3,7 @@
 2026-09-23。实现候选 **b7ba48bb**，远端tip bf158a63仅多一份交接提示；四生产目标对57dda7ed零diff。
 结论：**counter，保持rework，不集成、不跑统计并集，不转Kimi**。原r1设计不重签。
 
-[任务卡](../ops/tasks/TEST-BATTLE-WORKFLOWS-1-session-flows.md)、[r1原反证](battle-workflows-review.md)、
+[任务卡](../ops/archive/tasks/done/TEST-BATTLE-WORKFLOWS-1-session-flows.md)、[r1原反证](battle-workflows-review.md)、
 [r2复建见证](battle-workflows-r2-witnesses.mjs)、[机账](battle-workflows-r2-evidence.json)。
 GLM回执和实现者自签仍属于贡献者声明，不能代独立审查。
 

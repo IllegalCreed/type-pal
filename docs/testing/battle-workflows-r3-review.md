@@ -3,7 +3,7 @@
 2026-09-23取证、2026-09-24收口，候选 **7a2f1608**。结论：**counter，保持rework**；不改候选语义，不集成、不跑统计并集、不转Kimi。
 设计r1保持，r2已关闭的原五反证/结构/路径/Biome不重开。
 
-入口：[任务卡](../ops/tasks/TEST-BATTLE-WORKFLOWS-1-session-flows.md)、[r2反证](battle-workflows-r2-review.md)、
+入口：[任务卡](../ops/archive/tasks/done/TEST-BATTLE-WORKFLOWS-1-session-flows.md)、[r2反证](battle-workflows-r2-review.md)、
 [r3独立见证](battle-workflows-r3-witnesses.mjs)、[机账](battle-workflows-r3-evidence.json)。
 本席复用已脱离旧分支的`/Users/zhangxu/illegal/type-pal-battle-review`，核干净后切到候选detached HEAD，
 没有恢复已清理分支；GLM原工作树未修改。

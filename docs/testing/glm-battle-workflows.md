@@ -1,6 +1,6 @@
 # TEST-BATTLE-WORKFLOWS-1 · 实施回执（GLM，r5 窄返工）
 
-任务卡：[TEST-BATTLE-WORKFLOWS-1](../ops/tasks/TEST-BATTLE-WORKFLOWS-1-session-flows.md)（r1 设计三签保持，
+任务卡：[TEST-BATTLE-WORKFLOWS-1](../ops/archive/tasks/done/TEST-BATTLE-WORKFLOWS-1-session-flows.md)（r1 设计三签保持，
 未重签）。r4 候选 d9fb606e 被 Codex counter（[r4 独立复核](battle-workflows-r4-review.md)：N1/N2/N4 与
 N3 其余合同已闭，唯一业务残项=合击队友消费，另两处计数勘误）；本回执为 **r5 候选**，只补该消费回归
 并同步勘误。已关闭项一律不重开。

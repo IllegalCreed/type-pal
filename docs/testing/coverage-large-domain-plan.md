@@ -1,5 +1,9 @@
 # 大业务域覆盖率推进：战斗流程与真实运行时宿主
 
+**2026-09-24当前状态**：两卡均已收口。宿主/统计修复三席accept；战斗r5由Codex接收/GLM自验，用户豁免Kimi终审，
+统一check8363/ratchet与单次strict7872/633通过。全仓行76.23%/分支66.81%，详见[集成与下一批建议](battle-workflows-integration.md)。
+下一轮优先真实宿主二批与迁移主链已有证据去重；尚未开新卡，以下准备/基线章节保留历史，不重新领取首批。
+
 2026-09-23，用户批准从零散补测改为优先完整业务流程。两卡r1已获三席设计签（Codex b1f62c6b、Kimi d24ead8d、GLM 5b07d84a），用户确认后Codex统一核 **build allowed**；按各卡原白名单实施，不扩大范围。
 
 ## 基线与选择依据
@@ -13,7 +17,7 @@
 
 | 批次 | Owner | 核心交付 | 整文件未覆盖候选量 |
 |---|---|---|---|
-| [TEST-BATTLE-WORKFLOWS-1](../ops/tasks/TEST-BATTLE-WORKFLOWS-1-session-flows.md) | GLM | 真实BattleSession选招→行动/敌钩子→终态→写回，连续业务断言 | 4模块，648行/1013分支 |
+| [TEST-BATTLE-WORKFLOWS-1](../ops/archive/tasks/done/TEST-BATTLE-WORKFLOWS-1-session-flows.md) | GLM | 真实BattleSession选招→行动/敌钩子→终态→写回，连续业务断言 | 4模块，648行/1013分支 |
 | [TEST-RUNTIME-SHELL-COVERAGE-1](../ops/archive/tasks/done/TEST-RUNTIME-SHELL-COVERAGE-1-boot-menu-flows.md) | Codex | 实际bootGame→输入/菜单→存档/场景接线，真实绘制函数的代码级验证 | 6模块，3830行/2814分支 |
 
 这些数字是**范围上限，不是承诺净增或新增门槛**。例如BattleSession的451遗漏行中，189行在render入口之后；render之前也含合成绘制，不能将其余262行全报“GLM可补逻辑”。GLM只消费非视觉公开流程，渲染剩余保留；Codex不把仅录制drawImage调用称为像素/观感验收。运行时main的3330遗漏行也含尚不属于首批场景的分支，不强造非法状态全刷绿。
