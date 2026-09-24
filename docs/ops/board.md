@@ -7,7 +7,7 @@
 **当前优先级（用户2026-09-22拍板）**：先补测试覆盖率，E2E准备与实施后置，不立即推进R4检查点或新UI改造。
 第二波整包已于2026-09-23三席收口；后续由Codex与GLM按最新覆盖基线选择不重叠、有现行消费者且合同明确的补测批次，新范围先走准入，不重领已完成项。
 2026-09-23已按[大业务域计划](../testing/coverage-large-domain-plan.md)启动战斗流程/运行时宿主两卡，r1三席齐并由Codex核build；各Owner连续完成六组，最终统一统计，不逐用例跑覆盖率。
-补测发现的产品缺陷单列，仍按原签字门禁处理；七套预制方案候选及其资源准备阻断不因本次排期调整自动通过。
+补测发现的产品缺陷单列，仍按原签字门禁处理；七套预制及65535资源准备阻断已于2026-09-24按用户本批单席授权修复交付，见下方收口记录。
 后置不取消R4→N6b→完整Q1/Q2，也不新增“必须先达全仓90%/85%才允许E2E”的门槛。
 
 GLM后续补测候选见[十批长队列](../testing/glm-coverage-work-queue.md)（78模块、617文件全量路由台账）。这里只链接候选池，不把已规划项列成build；现有卡门禁不变，排期以上述用户裁决为准。
@@ -26,8 +26,11 @@ GLM后续补测候选见[十批长队列](../testing/glm-coverage-work-queue.md)
 
 | ID | 任务 | 状态 | 负责人/下一步 | 一句话备注 |
 |---|---|---|---|---|
-| TEST-ENV-STABILITY-1 | [检查环境与宿主负载](tasks/TEST-ENV-STABILITY-1-cache-and-host-load.md) | review | Codex统一门禁 | 两版本污染环境30绿；受控worker不改超时/范围，用户单席授权 |
-| BATTLE-FIRE-READINESS-1 | [无特效技能的战斗资源准备](tasks/BATTLE-FIRE-READINESS-1-no-effect-marker.md) | review | Codex统一门禁 | 6新回归/单点反控、12预制回归；原生7套开战，三人/巫后重开通过 |
+
+2026-09-24 用户授权本批Codex独立完成后，[环境稳定性](../testing/check-environment-stability.md)与
+[FIRE准备/七预制交付](../testing/pal-simulator-presets.md)同源码e17af240通过check8384、ratchet与单次strict7893/633，
+两卡核done归档。七套真实开战、三人/巫后停止重开通过；Kimi/GLM缺签按用户裁决登记，不代签、不外推后续任务。
+[工作树清理](archive/audits/worktree-retirement-2026-09-24.md)已将21个旧工作树可恢复地移入废纸篓，登记仅剩main，分支未删/恢复。
 
 2026-09-24 [战斗会话流程补测](../testing/battle-workflows-integration.md)源fd4efd76经Codex独立接收与统一集成，
 GLM实施者自验accept、Kimi额度耗尽由用户明确豁免；check8363/ratchet7872/单次受保护strict7872（633生产文件）全过，

@@ -1,24 +1,24 @@
 # BATTLE-FIRE-READINESS-1 - 无特效技能的战斗资源准备
 
-Status: review
+Status: done
 Phase: phase2
 Capability: 既有战斗资源准备缺陷；PAL试打预制数据交付阻断
 Coding Owner: Codex
-Reviewer: Kimi / GLM
+Reviewer: Codex（用户本次独立授权，Kimi/GLM缺签豁免；非二席签字）
 Generation Owner: N/A
 Visual Verification Owner: Codex
 Visual Verification Timing: dev-functional
 Unavailable Agents: Kimi额度耗尽；GLM按用户2026-09-24本次安排不参与；用户批准Codex独立完成，不代签
-Branch: codex/pal-simulator-presets（ea80749a，未合并；卡文件已回迁main，预制数据/回归仍只在该分支）
+Branch: main（e17af240；预制数据源ea80749a按文件接入，未整树覆盖）
 Revision: r1 / 2026-09-22
 
-## 回迁main核对（2026-09-24）
+## 历史：修复前回迁main核对（2026-09-24）
 
 按用户2026-09-24拍板，本卡以`git show ea80749a:<本文件>`取回main，未合并`codex/pal-simulator-presets`。r1原文保留，过时处标注如下：
 
 - **分支产物不在main**：七套预制数据`projects/pal/editor/battle-simulator.json`、11项回归`packages/editor/scripts/pal-simulator-presets.test.ts`、预制方案记录及其README索引仍只在ea80749a（基4bcd38b1，截至23ffebbb落后origin/main 72提交）。下文“数据11/11”“完整check 8040项”“只读集合复算”均为该分支树证据，不能在main复现；预制记录链接已改为冻结提交永久链接。这些产物如何进main（合并/cherry-pick/重做）未裁决。
 - **生产锚点仍成立**：57dda7ed..main在`packages/`与`projects/pal/content`只增测试/fixture，生产源码零改，“生产与57dda7ed相同”对main仍真。逐条复核`pal-authored-overlays.ts:151-168`（392的effectSprite=65535）、`game/src/assets/loader.ts:287-310`、`battle-session.ts:1711/:1860-1935`、`battle/battle-sprite-readiness.ts:40-57`（仍只判`chunk >= 0`）、`battle-trial-assets.ts:232-247`（实际路径`packages/reforge/src/battle-trial-assets.ts`）均与卡述一致；`projects/pal/content/skills.json`仍只有295/377/392含65535，`projects/pal/assets/index.json`仍无`effect-sprite.pal.magic.65535`；main尚无钉住此行为的回归。补锚：普通战斗同一collector入口`packages/reforge/src/main.ts:2356`。
-- **额度状态过时**：2026-09-24用户告知Kimi额度耗尽；[TEST-BATTLE-WORKFLOWS-1](../archive/tasks/done/TEST-BATTLE-WORKFLOWS-1-session-flows.md)的Kimi豁免仅限该卡r5终审，不外推本卡。本卡Kimi席位的代班或豁免未裁决，下方Kimi提示词不可直接转发；接手时按实际额度再确认。
+- **额度状态过时**：2026-09-24用户告知Kimi额度耗尽；[TEST-BATTLE-WORKFLOWS-1](TEST-BATTLE-WORKFLOWS-1-session-flows.md)的Kimi豁免仅限该卡r5终审，不外推本卡。本卡Kimi席位的代班或豁免未裁决，下方Kimi提示词不可直接转发；接手时按实际额度再确认。
 - **门禁未变**：main看板仍写“七套预制方案候选及其资源准备阻断不因本次排期调整自动通过”，未见用户对“三席流程/本次豁免”的选择记录；build准入仍blocked。本次只在看板登记draft。
 
 ## 目标与范围
@@ -62,10 +62,18 @@ Revision: r1 / 2026-09-22
 
 已知风险：该collector也服务普通战斗，修复不得只修试打入口；无特效与资源丢失的区分必须按合同，不增加catch-and-skip。
 旧版本兼容审查：拟保持当前canonical数据语义，不新增版本分支、旧upgrader或缺资源fallback。
-遵守[第二阶段铁律](../../phase2/READ-FIRST.md)、[知识收获](../../phase2/reference/phase1-knowledge-harvest.md)与
-[模拟器原设计](../../testing/battle-simulator-r2-design.md)。不改已done卡签字。
+遵守[第二阶段铁律](../../../../phase2/READ-FIRST.md)、[知识收获](../../../../phase2/reference/phase1-knowledge-harvest.md)与
+[模拟器原设计](../../../../testing/battle-simulator-r2-design.md)。不改已done卡签字。
 
 ## 推进签字
+
+### 当前done准入（2026-09-24）
+
+- Codex：accept（实施者自验，源码e17af240）；6新失败回归先4红后6绿、相邻29绿、单点去修复条件后候选AssertionError红；12预制回归、两包TC/Biome及原生七套开战通过，三人/巫后停止重开通过。0号/普通缺资源失败/双方execution保持，无schema或迁移改动。
+- Kimi/GLM：用户明确“glm你也不用管了先，你先独立完成工作吧”批准本批设计/终审缺签豁免，不代签；补签不作为本次done前置，不外推后续任务。
+- done准入：done allowed，Codex统一核定done。完整check8384、保护1b4cf055的ratchet与受保护单次strict7893/633均exit0；严格跑前后基线hash一致，5包完整基线对象不变，FIRE条件新增2个分支分母如实入账。详见[统一机账](../../../../testing/stability-fire-closeout-evidence.json)。full/Q1/Q2及所有技能平衡不在本卡内。
+
+下方r1历史pending和原分支证据按原文保留，以本节与顶部done状态为当前准入。
 
 ### 2026-09-24用户本次独立推进裁决
 
@@ -99,7 +107,7 @@ Revision: r1 / 2026-09-22
 
 - Codex按用户本次独立授权完成collector一处条件窄修（0xffff不请求，负值旧行为/0号/普通缺资源拒绝保持）；新合法guard矩阵和真实prepare资产正反对照6项，修前4红2绿、修后全绿，相邻29绿；单点移除条件，新player回归自身AssertionError红。
 - 七套JSON和原11回归按文件取回，追加实际玩家/合击/敌人FIRE闭包目录检查，12/12；Reforge/Editor TC通过；代码Biome通过。
-- 原生Chrome七套全部真实入战；三人及巫后双人截图检查和停止/重开通过。所有场次为临时试玩，不写正常存档或作者配置；视觉细节/工具时序披露见[预制记录](../../testing/pal-simulator-presets.md)。
+- 原生Chrome七套全部真实入战；三人及巫后双人截图检查和停止/重开通过。所有场次为临时试玩，不写正常存档或作者配置；视觉细节/工具时序披露见[预制记录](../../../../testing/pal-simulator-presets.md)。
 - 本次不改schema、公式、脚本语义、迁移与资源二进制；统一check→ratchet→单次strict与最终收口待完成。
 
 > 2026-09-24回迁注：本节证据均出自分支ea80749a树；main上没有七预制数据与11项回归，不能在main复现。
@@ -113,6 +121,7 @@ Revision: r1 / 2026-09-22
 
 ## 交接日志
 
+- 2026-09-24 Codex（done收口）：七套数据已按文件接入main，collector仅排已解析0xffff；统一e17af240与环境稳定性维护同批通过check8384/ratchet/单次strict7893。原生7套开战全部通过，三人/巫后停止重开及截图可见；未作者保存/正常存档写入、未跑剧情E2E。按用户单席授权核done归档；剩余边界不外推。
 - 2026-09-24 Codex：用户明确“glm你也不用管了先，你先独立完成工作吧”，按本批范围记录两席缺签豁免；独立完成失败回归、collector窄修、原生七套开战及两代表阵容停止/重开。进入review，统一门禁未完前不done；不把本次授权外推后续任务。
 - 2026-09-24 Cursor代理（用户指派，仅文档回迁）：按用户拍板以`git show ea80749a`取回本卡并在main看板登记draft；
   未合并分支，未取回预制数据/回归/记录。逐条复核锚点，过时处见“回迁main核对”。不签字、不改状态、不开始实现。
@@ -120,6 +129,8 @@ Revision: r1 / 2026-09-22
   七方案不删技能，未改产品源码/迁移baseline/覆盖率门；等待设计签字或用户明确本次豁免。
 
 ## 下一位Agent提示词
+
+当前无下一位Agent提示词：本卡已完成并归档；以下为历史未实施时的设计交接，不再要求用户转发。
 
 > 2026-09-24回迁注：以下提示词写于分支时期，部分过时——预制记录、7预制JSON与11测试须以`git show ea80749a:<path>`或检出该分支读取；
 > Kimi额度耗尽，Kimi段在其恢复或用户裁决代班/豁免前不可直接转发。
@@ -129,7 +140,7 @@ Revision: r1 / 2026-09-22
 ### Kimi
 
 在 `/Users/zhangxu/illegal/type-pal` 审 BATTLE-FIRE-READINESS-1 r1，卡
-`docs/ops/tasks/BATTLE-FIRE-READINESS-1-no-effect-marker.md`，draft，候选分支`codex/pal-simulator-presets`。
+`docs/ops/archive/tasks/done/BATTLE-FIRE-READINESS-1-no-effect-marker.md`，draft，候选分支`codex/pal-simulator-presets`。
 先读AGENTS/CLAUDE/READ-FIRST、卡与`docs/testing/pal-simulator-presets.md`。独立核collector→双方execution→
 试打/普通战斗→专用trance/steal/flee演出，判断65535是否应从FIRE集合排除而保留0号及真正缺资源拒绝。
 不扩schema/迁移，不删预制技能，不伪造资产。核7预制作者旁车唯一真源/非托管保护策略。

@@ -1,7 +1,7 @@
 # 检查环境隔离与真实宿主测试负载
 
 2026-09-24，Codex独立实施；用户明确本批暂不安排GLM/Kimi，不代签。
-任务卡：[TEST-ENV-STABILITY-1](../ops/tasks/TEST-ENV-STABILITY-1-cache-and-host-load.md)。
+任务卡：[TEST-ENV-STABILITY-1](../ops/archive/tasks/done/TEST-ENV-STABILITY-1-cache-and-host-load.md)。
 
 ## 缓存根因与修复
 
@@ -50,4 +50,6 @@ DEV编译lazy复用但每次真实注册；lineage共享只读AST，匹配唯一
 带V8插桩的23项针对性验证全绿，最慢1660ms，原lineage两例1089/205ms；局部覆盖只供耗时诊断，不当官方分子。
 单点删缓存键中的source由新增负控源用例应当业务红，防止优化吞掉历史突变证据。
 
-未修改Node默认版本、依赖锁或测试超时；正式check/ratchet/strict须按此次新树重新串行执行后再收口。
+未修改Node默认版本、依赖锁或测试超时。最终源码e17af240已重新串行完成check8384、ratchet7893/633、
+受保护单次strict7893/633，均exit0，严格跑前后基线hash一致；负控源键删除后实际报3≠6的AssertionError。
+两卡均由用户批准Codex独立完成，缺席席位不代签；已核done。完整[机账](stability-fire-closeout-evidence.json)保留首轮失败。

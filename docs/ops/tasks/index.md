@@ -8,8 +8,6 @@
 
 | 任务 | 顶部状态 | 说明 |
 |---|---|---|
-| [BATTLE-FIRE-READINESS-1 - 无特效技能的战斗资源准备](BATTLE-FIRE-READINESS-1-no-effect-marker.md) | review | 以任务卡当前准入与看板分工为准。 |
-| [TEST-ENV-STABILITY-1 - 检查环境隔离与宿主测试负载](TEST-ENV-STABILITY-1-cache-and-host-load.md) | review | 以任务卡当前准入与看板分工为准。 |
 
 ## 已完成（historical）
 
@@ -33,6 +31,7 @@
 | [B10 - 毒/状态系统结构化编辑页(编辑器侧闭合)](../archive/tasks/done/B10-poison-structured-editor.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [B11-1 - 队友阵亡/濒死战斗脚本（scriptOnFriendDeath / scriptOnDying）](../archive/tasks/done/B11-1-player-casualty-scripts.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [B2-1 - 战场条目创作七环与安全引用闭环](../archive/tasks/done/B2-1-battlefield-authoring-closure.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [BATTLE-FIRE-READINESS-1 - 无特效技能的战斗资源准备](../archive/tasks/done/BATTLE-FIRE-READINESS-1-no-effect-marker.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [C1-1 - 预制人物与自定义实体双轨创作](../archive/tasks/done/C1-1-actor-preset-dual-authoring.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [C1-2 - 结构化人物对话身份与立绘约束](../archive/tasks/done/C1-2-actor-dialogue-identity.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [C1-3 - PAL NPC 人工归档与可审计迁移](../archive/tasks/done/C1-3-pal-npc-curation-migration.md) | done | 完成证据、历史签字与交接见原卡。 |
@@ -153,6 +152,7 @@
 | [TEST-EDITOR-LOGIC-COVERAGE-1 - 编辑器命令与引用边界补测](../archive/tasks/done/TEST-EDITOR-LOGIC-COVERAGE-1-editor-command-boundaries.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [TEST-EDITOR-MAP-DATA-1 - 地图选区与组合模板数据补测（TB-06）](../archive/tasks/done/TEST-EDITOR-MAP-DATA-1-selection-stamps.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [TEST-EDITOR-SCRIPT-HELPERS-1 - 脚本与内容编辑辅助补测（TB-07）](../archive/tasks/done/TEST-EDITOR-SCRIPT-HELPERS-1-authoring-boundaries.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [TEST-ENV-STABILITY-1 - 检查环境隔离与宿主测试负载](../archive/tasks/done/TEST-ENV-STABILITY-1-cache-and-host-load.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [TEST-FOUNDATION-COVERAGE-1 - 四包基础边界正式测试补强](../archive/tasks/done/TEST-FOUNDATION-COVERAGE-1-core-boundaries.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [TEST-GAME-HOST-BOUNDARIES-1 - 第一阶段宿主、隐私与计时补测（TB-09）](../archive/tasks/done/TEST-GAME-HOST-BOUNDARIES-1-privacy-timer.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [TEST-GAME-MENU-BOUNDARIES-1 - 第一阶段菜单导航与请求补测（TB-08）](../archive/tasks/done/TEST-GAME-MENU-BOUNDARIES-1-navigation-requests.md) | done | 完成证据、历史签字与交接见原卡。 |

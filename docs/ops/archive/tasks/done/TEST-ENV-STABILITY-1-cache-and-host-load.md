@@ -1,6 +1,6 @@
 # TEST-ENV-STABILITY-1 - 检查环境隔离与宿主测试负载
 
-Status: review
+Status: done
 Phase: cross-phase
 Capability: 既有测试基础设施维护，不增产品能力
 Coding Owner: Codex
@@ -44,10 +44,13 @@ Node矩阵证据在临时`codex-cache-review-J14hpe`；不是Node升级修好了
 - build准入：build allowed（用户本次独立授权，Codex记录）。
 - 实施验证：污染环境下两Node版本的工具自测30/30，真实子进程缓存关闭；受控并发对照1460/1460，首例从约3.3～3.4s降到0.5～1.93s（不宣称严格性能基准/总耗时更快）。旧断言与5000ms不改；统一门禁待验。
 - 首次ratchet发现3个AST链旧测试插桩后超时，未放行。只读源码解析/编译工厂按完整源+请求键缓存，每次执行仍用新env/闭包；lineage只读AST复用。新增3项隔离/源突变/缺失歧义回归，插桩23项通过；旧业务断言不变。此维护属于本卡负载根因处理，不扩产品修复范围。
-- done准入：pending，须统一门禁完成。详见[实施记录](../../testing/check-environment-stability.md)。
+- Codex：accept（实施者自验，e17af240）；完整check8384、保护1b4cf055的ratchet7893/633及单次strict7893/633均exit0，编译环境污染注入下30工具自测通过，旧断言/超时/范围不弱化。
+- Kimi/GLM：用户本次明确批准独立完成的缺签豁免，非二席accept；补签不作为本次done前置，可后续异步抽查，不外推其它任务。
+- done准入：done allowed，Codex统一核定done（2026-09-24）。详见[实施记录](../../../../testing/check-environment-stability.md)/[统一机账](../../../../testing/stability-fire-closeout-evidence.json)。首次ratchet超时保留为失败记录，优化后才重跑整套，不择多数放行。
 
 ## 交接日志
 
+- 2026-09-24 Codex：e17af240通过最终check8384/ratchet及单次strict7893/633，Node22.23.2与宿主缓存污染输入均留证。按用户本批单席授权核done归档；旧AST重复编译已修，新增缓存键/环境隔离回归与单点反控，业务断言和5秒不变。
 - 2026-09-24 Codex：承接用户授权，单席环境维护；FIRE产品修复另卡独立，worktree清理另记运维回执，不混作测试贡献。
 
-无下一位Agent提示词；本批由Codex独立完成，完成后报告用户。
+无下一位Agent提示词；本批已由Codex独立完成并向用户交付，不外推后续缺签豁免。

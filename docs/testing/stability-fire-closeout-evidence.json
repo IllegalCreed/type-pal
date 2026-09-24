@@ -1,0 +1,225 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-09-24",
+  "sourceCandidate": "e17af240",
+  "protectedBase": "1b4cf0556c8ebd1a7dea166c548a9d2779f0e0c1",
+  "owner": "Codex",
+  "approval": {
+    "userQuote": "glm你也不用管了先，你先独立完成工作吧",
+    "scope": [
+      "TEST-ENV-STABILITY-1",
+      "BATTLE-FIRE-READINESS-1",
+      "seven PAL presets",
+      "retire unused worktrees"
+    ],
+    "missingSeats": ["Kimi quota exhausted", "GLM not assigned for this batch"],
+    "noImpersonatedSignatures": true
+  },
+  "environment": {
+    "before": {
+      "22.19.0": {
+        "cacheEnabled": 9,
+        "cacheDisabled": 10,
+        "total": 10
+      },
+      "22.23.2": {
+        "cacheEnabled": 9,
+        "cacheDisabled": 10,
+        "total": 10
+      }
+    },
+    "after": {
+      "22.19.0": 30,
+      "22.23.2": 30
+    },
+    "timeoutsUnchanged": true,
+    "workerLimit": 2,
+    "fixtureCache": "exact source+names+properties key; only compilation cached; fresh env and closures on every invocation",
+    "sourceKeyNegativeControl": {
+      "exit": 1,
+      "executed": 1,
+      "error": "AssertionError: expected 3 to be 6",
+      "log": "/tmp/type-pal-ast-negative.log"
+    },
+    "instrumentedChainControl": {
+      "passed": 23,
+      "failed": 0,
+      "log": "/tmp/type-pal-ast-cov-control.log"
+    },
+    "performanceCaveat": "Default run also overlapped coverage-tool self-test. Timings are diagnostic observations, not strict benchmark; total package latency increased in exchange for bounded concurrent load."
+  },
+  "fire": {
+    "productionFile": "packages/reforge/src/battle/battle-sprite-readiness.ts",
+    "change": "exclude only resolved effectSprite 0xffff; preserve zero/other ids/negative behavior",
+    "red": {
+      "passed": 2,
+      "failed": 4,
+      "log": "/tmp/type-pal-fire-before.log"
+    },
+    "green": {
+      "direct": 6,
+      "withAdjacent": 29,
+      "log": "/tmp/type-pal-fire-green.log"
+    },
+    "mutation": {
+      "controlPassed": 1,
+      "mutantFailed": 1,
+      "exit": 1,
+      "marker": "MUTATION_HIT:fire-no-effect",
+      "log": "/tmp/type-pal-fire-mutant.log"
+    },
+    "presetSource": "ea80749a",
+    "presetJsonByteIdentical": true,
+    "presetTests": 12,
+    "ui": [
+      {
+        "name": "三人成型",
+        "enteredRealBattle": true,
+        "stopped": true,
+        "restarted": true,
+        "screenshotReviewed": true
+      },
+      {
+        "name": "初出江湖",
+        "enteredRealBattle": true,
+        "stopped": true,
+        "restarted": false,
+        "screenshotReviewed": false
+      },
+      {
+        "name": "逍遥与灵儿",
+        "enteredRealBattle": true,
+        "stopped": true,
+        "restarted": false,
+        "screenshotReviewed": false
+      },
+      {
+        "name": "中段双人",
+        "enteredRealBattle": true,
+        "stopped": true,
+        "restarted": false,
+        "screenshotReviewed": false
+      },
+      {
+        "name": "苗疆组合",
+        "enteredRealBattle": true,
+        "stopped": true,
+        "restarted": false,
+        "screenshotReviewed": false
+      },
+      {
+        "name": "决战准备",
+        "enteredRealBattle": true,
+        "stopped": true,
+        "restarted": false,
+        "screenshotReviewed": false
+      },
+      {
+        "name": "回梦往昔",
+        "enteredRealBattle": true,
+        "stopped": true,
+        "restarted": true,
+        "screenshotReviewed": true
+      }
+    ],
+    "visualEvidence": "Native Chrome screenshots and AX in tool conversation; no screenshot files claimed",
+    "noAuthorSaveOrNormalGameSaveWrites": true
+  },
+  "quality": {
+    "node": "22.23.2",
+    "pnpm": "10.29.2",
+    "hostNodeCompileCache": "injected deliberately; coverage child env sanitized",
+    "check": {
+      "exit": 0,
+      "packageTests": 8384,
+      "docsTools": 20,
+      "coverageTools": 30,
+      "log": "/tmp/type-pal-stability-fire-check-final.log"
+    },
+    "ratchet": {
+      "exit": 0,
+      "tests": 7893,
+      "sources": 633,
+      "log": "/tmp/type-pal-stability-fire-ratchet-final.log"
+    },
+    "strict": {
+      "exit": 0,
+      "runs": 1,
+      "tests": 7893,
+      "sources": 633,
+      "ci": true,
+      "forceColor": true,
+      "log": "/tmp/type-pal-stability-fire-strict.log"
+    },
+    "baselineHashBeforeAfterStrict": "1bf7716cc281e1b956eaae3bb99725ca1438ffcee9c13b415c003125e2d45ad0",
+    "unchangedOtherPackageObjects": 5,
+    "oldTotal": {
+      "statements": {
+        "covered": 59572,
+        "total": 80452
+      },
+      "branches": {
+        "covered": 42188,
+        "total": 63149
+      },
+      "functions": {
+        "covered": 11075,
+        "total": 14914
+      },
+      "lines": {
+        "covered": 53679,
+        "total": 70420
+      }
+    },
+    "newTotal": {
+      "statements": {
+        "covered": 59577,
+        "total": 80452
+      },
+      "branches": {
+        "covered": 42199,
+        "total": 63151
+      },
+      "functions": {
+        "covered": 11075,
+        "total": 14914
+      },
+      "lines": {
+        "covered": 53684,
+        "total": 70420
+      }
+    },
+    "testDelta": 21,
+    "sourceSetUnchanged": true,
+    "branchDenominatorDelta": 2
+  },
+  "failuresAndLimitations": [
+    {
+      "stage": "first ratchet on pre-AST-optimization tree",
+      "result": "3 old AST-chain timeouts; no baseline update",
+      "log": "/tmp/type-pal-stability-fire-ratchet.log",
+      "fix": "remove redundant parse/transpile, preserve exact source and independent env; added 3 regression cases"
+    },
+    "One native browser wait hit tool 3-second deadline; next state showed battle.",
+    "One immediate reopen after closing hit existing 500ms window cleanup guard; retry succeeded after cleanup, later cases isolated by reload. No close protocol change.",
+    "Not a full E2E, Q1/Q2, skill-balance or full-coverage validation."
+  ],
+  "worktrees": {
+    "beforeIncludingMain": 22,
+    "afterIncludingMain": 1,
+    "trashed": 21,
+    "branchesDeleted": 0,
+    "branchesRestored": 0,
+    "uniqueTipsBackedUp": 16,
+    "uniqueCommitsBackedUp": 100,
+    "preflightUntracked": {
+      "linksToMain": 39,
+      "byteIdenticalFiles": 2,
+      "uniqueRegularFiles": 0
+    },
+    "trashRoot": "/Users/zhangxu/.Trash",
+    "evidence": ".git/worktree-retirement-20260924.uSuSDV",
+    "historyBackup": ".git/branch-archive-20260923.Bpmx6d/all-refs.bundle",
+    "trashNotEmptied": true
+  }
+}
