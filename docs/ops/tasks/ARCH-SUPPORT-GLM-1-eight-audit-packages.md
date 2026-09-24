@@ -33,14 +33,44 @@ Codex继续A3生产实现，GLM作为准备材料贡献者，不作为自证的�
 - GLM：只编辑自己目录；报告自身实测、风险与建议，不写他席结论、不改共享看板/卡状态、不标done。
 - Kimi：用户全架构队列豁免，不安排交接。
 - build准入：not opened。本包不进入生产build，后续实施另按对应架构/修复卡准入。
-- done准入：blocked，待实际交付与Codex复核；用户豁免两席不等于证据自动通过。
+- done准入：blocked，3967a376已复核但下列counter未闭；用户豁免两席不等于证据自动通过。
+
+## Codex接收席位（2026-09-25，候选3967a376）
+
+**counter；仍为draft，build未开放，不标done。**
+完整理由与返工提示：[独立接收报告](../../testing/glm-architecture-support/codex-intake-review.md)；
+[机账](../../testing/glm-architecture-support/codex-intake-evidence.json)；
+[冻结只读复算器](../../testing/glm-architecture-support/codex-intake-probe.mjs)。
+
+| 包 | 本席结论 | 阻断摘要 |
+|---|---|---|
+| P1 | counter | derivedStore由App创建，start返回stop；不是缺清理；导航测试也非helper |
+| P2 | counter | 冻结MapMode已经有pointerCancel/lostcapture/blur完整清理；实际收集72项 |
+| P3 | counter | 50旧表单分派与81 canonical命名键混淆；default/hook/session证据漏项；effect归因不实 |
+| P4 | counter | writeBackHp无报告所称preparing早退；实际93项；补本类pump/render边界 |
+| P5 | counter | 静态runtime图仍7节点同一SCC/15边，battle/equip两反向边被漏读；收集702项 |
+| P6 | counter | 漏author↔enemy双向校验及onFlee/onFail/onNo；mapScenesStatic实际6参数 |
+| V1 | counter | 搜索已有可访问名并实测有效；即时多选是已定合同，不能套用整份草稿替换取消 |
+| V2 | counter（收窄） | Inspector Tab测试不能证明separator；对象列表本席已补验正常，原不确定记录保留为历史 |
+
+全包R0：实际38唯一条目=12covered/18risk/2blocked/0reproduced/6N/A，不是32；
+源hash/完整测试名/预期来源等字段未闭合，JSON Biome formatter失败，候选SHA占位需回填。
+接受白名单12文件、生产零漂移、11PNG实物/哈希前缀/尺寸与有限图面观察，不要求重做有效证据。
+复跑39项现有定向测试通过；其余Vitest list只收集，不宣称已运行。未改产品/测试/基线，未做统计并集。
 
 ## 交接日志
 
 - 2026-09-25 Codex：按用户新增并行请求落8包，冻结b11d4bc9，白名单只在专属文档/诊断目录；
   A3当前生产工作不交叉，视觉初审允许GLM，最终由Codex核验。Next: GLM draft取证。
+- 2026-09-25 Codex：同步GLM独立分支确认3967a376；完成冻结/白名单/38条复算、11图哈希与目视、
+  主线6010实际折叠/搜索复核、39定向绿及各包独立源码反证，按上表分别counter。
+  仅落本人审查文件与本人席位，README只追加机械索引，原GLM报告/机账未改；main不切分支、不合入；Kimi豁免。
+  后续GLM按接收报告末尾提示返工，保留冻结与只读白名单，不因审查开放产品实现。
 
 ## 下一位Agent提示词
+
+当前交接为[Codex接收报告末尾的GLM返工提示](../../testing/glm-architecture-support/codex-intake-review.md#下一位-agent-提示词glm)。
+无下一位Kimi提示词。下方保留原始准备任务提示，不再代表本次无counter接收。
 
 ```text
 在 /Users/zhangxu/illegal/type-pal 接手 ARCH-SUPPORT-GLM-1 的八包只读准备取证。

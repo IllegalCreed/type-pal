@@ -73,3 +73,11 @@
 - 截图 11 张在 `/tmp/glm-arch-visual/`（不入 Git），SHA256 前 16 位与 viewport 见 evidence.json.screenshots。
 - 视觉工具：ZCode In-app Browser，实际看图；dev 6013 包内实例；工程磁盘经 `git status` 核验零改动。
 - 复算命令见 `summary.md` 尾节。
+
+## 接收索引（Codex机械补链，原交付正文与机账未改）
+
+- [Codex独立接收与返工要求](codex-intake-review.md)、[独立机账](codex-intake-evidence.json)、[只读复算器](codex-intake-probe.mjs)
+- [GLM总报告](summary.md)、[GLM机账](evidence.json)、[视觉小样](v0-visual-sample.md)
+- [P1 App](p1-app.md)、[P2地图](p2-mapmode.md)、[P3脚本表单](p3-script-forms.md)
+- [P4战斗会话](p4-battle-session.md)、[P5第一阶段](p5-phase1-core.md)、[P6迁移与校验](p6-conversion-validation.md)
+- [V1表单视觉](v1-forms.md)、[V2工作区视觉](v2-workspaces.md)
