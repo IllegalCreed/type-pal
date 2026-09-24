@@ -118,15 +118,6 @@ import {
   WALK_STEP,
   walkTick,
 } from './entity-walk.js'
-import {
-  closeEquipMenu,
-  type EquipMenuState,
-  equipApply,
-  equipBackToList,
-  equipConfirmItem,
-  equipMoveCursor,
-  openEquipMenu,
-} from './equip-menu-state.js'
 import { type FadeOwner, SupersedingFadeDriver } from './fade-driver.js'
 import {
   computeFollowerPos,
@@ -148,33 +139,18 @@ import { Keyboard } from './input.js'
 import { executeWorldItemUse, runWorldItemScript } from './item-use-executor.js'
 import { commitItemEntityPlacement, planItemEntityPlacement } from './item-use-placement.js'
 import { commitLatestPreparedSnapshot } from './latest-snapshot-transaction.js'
-import {
-  castOutdoorSkill,
-  closeMagicMenu,
-  type MagicMenuState,
-  magicBackFromTarget,
-  magicConfirmCaster,
-  magicConfirmSpell,
-  magicMoveCaster,
-  magicMoveCursor,
-  magicMoveTarget,
-  openMagicMenu,
-} from './magic-menu-state.js'
 import { drawEquipMenu } from './menu/equip-box.js'
-import {
-  buildItemUseResultEntries,
-  type ItemUseResultEntry,
-  itemUseResultText,
-} from './menu/item-use-result.js'
+import { type ItemUseResultEntry, itemUseResultText } from './menu/item-use-result.js'
+import { ItemUseSession } from './menu/item-use-session.js'
 import { drawMagicMenu } from './menu/magic-box.js'
 import { drawConfirmBox, loadMenuAssets, MenuBox } from './menu/menu-box.js'
+import { MenuSession } from './menu/menu-session.js'
 import { drawRewardGainLine } from './menu/reward-gain.js'
 import { handleRewardGainInput, RewardGainQueue } from './menu/reward-gain-queue.js'
 import { drawSaveBrowser } from './menu/save-browser-box.js'
 import { drawShop, openShopUi, type ShopUiState, shopInput } from './menu/shop-box.js'
 import { drawSystemMenu } from './menu/system-box.js'
 import { drawUseMenu } from './menu/use-box.js'
-import { back, CLOSED, confirm, type MenuState, moveCursor, openMenu } from './menu-state.js'
 import { commitMotionBatch, MotionCompletionRecord } from './motion-batch.js'
 import { MotionRuntimeCoordinator } from './motion-runtime-coordinator.js'
 import {
@@ -206,15 +182,6 @@ import {
 } from './runtime-project-view.js'
 import type { RuntimeLeafCommand } from './runtime-script-compiler.js'
 import { ScriptProjectRuntime } from './runtime-script-project.js'
-import {
-  browserConfirm,
-  browserConfirmOverwriteNo,
-  browserConfirmOverwriteYes,
-  browserMoveCursor,
-  closeSaveBrowser,
-  openSaveBrowser,
-  type SaveBrowserState,
-} from './save/browser-state.js'
 import { normalizeCurrentSave, preflightCurrentSave } from './save/current-codec.js'
 import { CurrentSaveStructureError } from './save/current-structure.js'
 import {
@@ -225,7 +192,7 @@ import {
 } from './save/ops.js'
 import { assertSaveScopeProject, type SaveScope } from './save/scope.js'
 import { IndexedDbSaveStore, MemorySaveStore, type SaveStore } from './save/store.js'
-import { ALL_SLOT_IDS, type SaveMeta, type SlotId, type StoredSavePayload } from './save/types.js'
+import type { SaveMeta, SlotId, StoredSavePayload } from './save/types.js'
 import { SceneEntrySession } from './scene-entry-session.js'
 import type { SceneMapAssets } from './scene-map.js'
 import { loadSceneMap } from './scene-map.js'
@@ -260,29 +227,9 @@ import {
   shouldPlayEntryIntro,
   shouldShowOpeningMenu,
 } from './startup-entry.js'
-import {
-  closeSystemMenu,
-  openSystemMenu,
-  type SystemMenuState,
-  systemConfirm,
-  systemConfirmYes,
-  systemMoveCursor,
-  systemSwitchCommit,
-  systemToggleConfirm,
-} from './system-menu-state.js'
 import { loadGlyphs } from './text/glyph.js'
 import { renderSpans } from './text/text-render.js'
-import {
-  closeUseMenu,
-  finishUseExecution,
-  openUseMenu,
-  type UseExecutionRequest,
-  type UseMenuState,
-  useApply,
-  useBackFromTarget,
-  useConfirm,
-  useMoveCursor,
-} from './use-menu-state.js'
+import type { UseExecutionRequest } from './use-menu-state.js'
 import { playVideo as playVideoOverlay } from './video-player.js'
 
 type ScriptBattleOptions = NonNullable<Parameters<ScriptHost['startBattle']>[1]>
@@ -1238,7 +1185,7 @@ export async function bootGame(
   /** X1 自动存档:本次演出链切过场景 → 整链(含排队 onEnter)收尾后静默写 auto 槽。 */
   let sceneChangedByScript = false
   let scriptAbort: AbortController | null = null
-  let itemUseAbort: AbortController | null = null
+  const itemUseSession = new ItemUseSession()
   // loadScene preflight 已选定的目标 onEnter 绑定；与 entry 契约同批冻结，当前脚本收尾后再跑。
   let pendingOnEnter: { sceneId: string; binding: RuntimeScriptBinding } | null = null
   let nowMs = 0 // tick 注入的时间源(driver 计时用)
@@ -1307,7 +1254,7 @@ export async function bootGame(
   const autoActivationBySignal = new WeakMap<AbortSignal, AutoActivation>()
   let nextAutoActivationEpoch = 1
   const canActivateScriptConfirm = (): boolean =>
-    !shop && !menu.active && !rewardGainQueue.active && !activeBattle
+    !shop && !menus.active && !rewardGainQueue.active && !activeBattle
   const activateScriptConfirm = (): void => {
     scriptConfirmModal.activateIfPossible(canActivateScriptConfirm(), () =>
       ctx.getImageData(0, 0, canvas.width, canvas.height),
@@ -1517,7 +1464,7 @@ export async function bootGame(
       stepActive ||
       hostileBusy ||
       activeBattle ||
-      menu.active
+      menus.active
     )
       return
     if (dialogBox.active || presentation.busy() || scriptConfirmModal.active || runner || shop)
@@ -4082,7 +4029,7 @@ export async function bootGame(
     const playerInputAllowed =
       !activeBattle &&
       !hostileBusy &&
-      !menu.active &&
+      !menus.active &&
       !dialogBox.active &&
       !runner &&
       !shop &&
@@ -4101,7 +4048,7 @@ export async function bootGame(
 
     // menu / battle freeze locomotion before cadence is accrued. Frozen wall time must not age
     // fairness rings, side-stick eligibility or slow-move parity.
-    if (menu.active || hostileBusy || activeBattle || scriptConfirmModal.active) {
+    if (menus.active || hostileBusy || activeBattle || scriptConfirmModal.active) {
       worldTicksThisFrame = 0
       return
     }
@@ -4793,7 +4740,7 @@ export async function bootGame(
     !hostileBusy &&
     !pendingTouchTrigger.pending &&
     !presentation.busy() &&
-    menu === CLOSED &&
+    menus.closed &&
     !activeBattle
   const hasLivePendingChaseTerminal = (entityId: string): boolean => {
     const pending = pendingChaseTerminal.get(entityId)
@@ -5172,8 +5119,7 @@ export async function bootGame(
     battleLaunchIntent.invalidate()
     activeBattle?.cancel()
     scriptAbort?.abort()
-    itemUseAbort?.abort()
-    itemUseAbort = null
+    itemUseSession.cancel()
     runner = null
     runnerTriggerOwnerId = null
     inlineTriggerOwners.clear()
@@ -5272,7 +5218,7 @@ export async function bootGame(
       runner !== null ||
       hostileBusy ||
       !!activeBattle ||
-      menu.active ||
+      menus.active ||
       dialogBox.active ||
       presentation.busy() ||
       scriptConfirmModal.active ||
@@ -5296,22 +5242,42 @@ export async function bootGame(
     imageCache: project.imageCache,
     palette: await getStandardPalette().catch(() => undefined),
   })
-  let menu: MenuState = CLOSED
-  let magicMenu: MagicMenuState = closeMagicMenu()
-  let equipMenu: EquipMenuState = closeEquipMenu()
-  let useMenu: UseMenuState = closeUseMenu()
-  let itemUsePending = false
+  const menus = new MenuSession(
+    { items: project.items, skills: project.skills, poisonsById: project.poisonsById },
+    {
+      readWorld: () => world,
+      replaceWorld,
+      sceneId: () => scene.id,
+      executeItemUse,
+      playSound: (asset) => sfx.play(asset),
+      presentItemResults: showItemUseResults,
+      showToast,
+      report: (message) => host.report(message),
+      audioPreferences: () => audioPrefs,
+      setAudioPreference: (kind, on) => {
+        audioPrefs[kind] = on
+        if (kind === 'music') bgm.setEnabled(on)
+        else sfx.setEnabled(on)
+        try {
+          localStorage.setItem('reforge:audio', JSON.stringify(audioPrefs))
+        } catch {
+          /* 私隐模式等写失败 → 本次会话内仍生效 */
+        }
+      },
+      saveMetadata: () => saveMetas,
+      lastSaveSlot: () => lastSaveSlot,
+      writeSlot: browserWrite,
+      loadSlot: browserLoad,
+      reportSaveFailure,
+      quit: () => {
+        location.href = `${location.pathname}?menu&skip-startup=1`
+      },
+    },
+    itemUseSession,
+  )
   /** D14-3 reward-gain 队列：逐条固定时长，Enter / Space 可只跳当前条；Esc 留给外层菜单。 */
   const rewardGainQueue = new RewardGainQueue()
-  let lastUseCursor = 0 // 使用面板光标记忆(原版 iCurInvMenuItem;跨开关恢复)
-  let lastMagicCaster = 0 // 仙术施法人光标记忆(原版 uigame.c:674 static w;确认时写,DL22)
-  let lastMainCursor = 0 // 主菜单光标记忆(原版 iCurMainMenuItem;确认时写)
-  let statusIdx = 0 // 状态板当前查看的队员索引(原版 iCurrent;方向键切人,越界关菜单)
-  let systemMenu: SystemMenuState = closeSystemMenu()
-  let lastSystemCursor = 0 // 系统菜单光标记忆(原版 iCurSystemMenuItem;跨开关恢复)
-  let systemPlaceholder: string | undefined // 占位提示文案 id(选占位项后短暂显示)
   // 存档系统(D-save)：saveStore 已在菜单前建(见上,读档界面复用)；此处续浏览界面态 + 缩略图缓存 + metas 快照。
-  let saveBrowser: SaveBrowserState = closeSaveBrowser()
   let lastSaveSlot: SlotId | undefined // 默认槽记忆(原版 bCurrentSaveSlot:存/读过哪槽,下次浏览默认停那)
   let saveMetas: SaveMeta[] = []
   const saveThumbs = new Map<SlotId, ImageBitmap>()
@@ -5320,7 +5286,6 @@ export async function bootGame(
   let saveMetasReady: Promise<void> = Promise.resolve()
   let saveMetasInitialized = false
   let committedSavedTimes = 0
-  let overwriteYes = false // 覆盖确认框高亮(右=是)
   let lastGameThumb: Blob | undefined // 开菜单时抓的干净游戏帧(菜单内存档的缩略图源)
   let toast: { text: string; until: number } | undefined // 快速存读短提示
   const MAP_NAME = project.manifest.name
@@ -5337,114 +5302,52 @@ export async function bootGame(
     await rewardGainQueue.present(entries.map(itemUseResultText), signal)
   }
 
-  const itemUseFailureText = (reason: string | undefined, message: string | undefined): string => {
-    if (message) return message
-    switch (reason) {
-      case 'not-owned':
-        return '物品已经不在背包或装备中'
-      case 'missing-target':
-        return '没有可作用的目标'
-      case 'wrong-context':
-        return '这个物品不能在大世界使用'
-      case 'gate-failed':
-        return '没有产生效果'
-      case 'missing-materials':
-        return '材料不足'
-      case 'empty-resource-pool':
-        return '当前没有可用资源'
-      case 'external-unavailable':
-        return '当前场景无法执行这个用途'
-      case 'invalid-effect-chain':
-        return '物品用途配置不完整'
-      default:
-        return '现在无法使用这个物品'
-    }
-  }
-
-  /**
-   * 物品用途的唯一异步入口。执行期间暂时收起物品菜单，让剧情对话、商店和切场景
-   * 能接管输入；执行结束后再由结构化 outcome 决定恢复原位、重算列表或保持关闭。
-   */
-  async function dispatchItemUse(request: UseExecutionRequest): Promise<void> {
-    if (itemUsePending) return
-    itemUsePending = true
-    const controller = new AbortController()
-    itemUseAbort = controller
-    const menuBefore = menu
-    const sceneBefore = scene.id
-    lastUseCursor = request.state.cursor
-    useMenu = closeUseMenu()
-    menu = CLOSED
-    try {
-      let outcome = await executeWorldItemUse({
-        world,
-        targetCharId: request.targetCharId,
-        itemId: request.itemId,
-        items: project.items,
-        poisonDefs: project.poisonsById,
-        host: {
-          currentWorld: () => world,
-          replaceWorld: (next) => replaceWorld(next),
-          runScript: (ref, signal) =>
-            runDetachedScriptChain(signal, (runtime, runSignal) =>
-              runWorldItemScript(runtime, canonicalProject.items, request.itemId, ref, {
-                signal: runSignal,
-              }),
-            ),
-          runSceneHook: (_hook, signal) => host.teleportOut(signal),
-          placeEntityInFront: async (target, state, signal) => {
-            signal?.throwIfAborted()
-            const step = WALK_STEP[facing]
-            const pos = planItemEntityPlacement({
-              target,
-              currentSceneId: scene.id,
-              entityIds: new Set(scene.entities.map((candidate) => candidate.id)),
-              map,
-              partyPos: player.pos,
-              step,
-            })
-            // PAL 0x84 calls PAL_CheckObstacle(..., FALSE, 0): only map geometry
-            // participates. Other event objects are deliberately ignored here.
-            if (!pos) return false
-            commitItemEntityPlacement(canonicalScript, target, state, pos)
-            syncRuntimeScriptScratch(target.scene)
-            applyWorldEntityGatesToScene()
-            if (target.scene === scene.id) {
-              applyWorldEntityPositionToScene(target.entity)
-              // An item may be the write that finally opens entityState after a lifecycle hide.
-              // Consume lifecycle restart markers through the same effective-gate path as scripts.
-              maybeResumeLifecycleHiddenMotion(target.entity)
-            }
-            return true
-          },
+  /** Domain/world IO adapter: the menu owns operation lifetime and UI restoration. */
+  function executeItemUse(request: UseExecutionRequest, signal: AbortSignal) {
+    return executeWorldItemUse({
+      world,
+      targetCharId: request.targetCharId,
+      itemId: request.itemId,
+      items: project.items,
+      poisonDefs: project.poisonsById,
+      host: {
+        currentWorld: () => world,
+        replaceWorld: (next) => replaceWorld(next),
+        runScript: (ref, signal) =>
+          runDetachedScriptChain(signal, (runtime, runSignal) =>
+            runWorldItemScript(runtime, canonicalProject.items, request.itemId, ref, {
+              signal: runSignal,
+            }),
+          ),
+        runSceneHook: (_hook, signal) => host.teleportOut(signal),
+        placeEntityInFront: async (target, state, signal) => {
+          signal?.throwIfAborted()
+          const step = WALK_STEP[facing]
+          const pos = planItemEntityPlacement({
+            target,
+            currentSceneId: scene.id,
+            entityIds: new Set(scene.entities.map((candidate) => candidate.id)),
+            map,
+            partyPos: player.pos,
+            step,
+          })
+          // PAL 0x84 calls PAL_CheckObstacle(..., FALSE, 0): only map geometry
+          // participates. Other event objects are deliberately ignored here.
+          if (!pos) return false
+          commitItemEntityPlacement(canonicalScript, target, state, pos)
+          syncRuntimeScriptScratch(target.scene)
+          applyWorldEntityGatesToScene()
+          if (target.scene === scene.id) {
+            applyWorldEntityPositionToScene(target.entity)
+            // An item may be the write that finally opens entityState after a lifecycle hide.
+            // Consume lifecycle restart markers through the same effective-gate path as scripts.
+            maybeResumeLifecycleHiddenMotion(target.entity)
+          }
+          return true
         },
-        signal: controller.signal,
-      })
-      if (controller.signal.aborted) return
-      if (outcome.status === 'success') {
-        if (scene.id !== sceneBefore) outcome = { ...outcome, menu: 'close' }
-        replaceWorld(outcome.world)
-        const sound = project.items[request.itemId]?.use?.sound
-        if (sound) sfx.play(sound)
-        const results = buildItemUseResultEntries(outcome.presentations, project.items)
-        if (results.length > 0) await showItemUseResults(results, controller.signal)
-      } else {
-        const message = itemUseFailureText(outcome.reason, outcome.message)
-        showToast(message)
-        host.report(`itemUse(${request.itemId}): ${message}`)
-      }
-      useMenu = finishUseExecution(request, outcome, project.items)
-      if (useMenu.active) menu = menuBefore
-    } catch (error) {
-      if (isAbortError(error)) return
-      console.error('[item-use]', request.itemId, error)
-      showToast('物品用途执行失败，请检查脚本或配置')
-      useMenu = request.state
-      menu = menuBefore
-    } finally {
-      if (itemUseAbort === controller) itemUseAbort = null
-      itemUsePending = false
-    }
+      },
+      signal,
+    })
   }
 
   /** 读 metas + 解码缩略图(开界面/存档后刷新)。 */
@@ -5706,19 +5609,19 @@ export async function bootGame(
 
   /** 浏览界面写槽:菜单内 canvas 是菜单画面 → 用开菜单时抓的干净帧;存完刷新浏览显示。 */
   async function browserWrite(slotId: SlotId): Promise<void> {
+    const { saveBrowser } = menus.view
     const mode = saveBrowser.mode
     const cursor = saveBrowser.cursor
     const thumb = lastGameThumb ?? captureThumbnail(canvas)
     await doSave(slotId, thumb)
     lastSaveSlot = slotId // bCurrentSaveSlot(uigame.c:718 存档选槽即记)
-    if (saveBrowser.active) saveBrowser = openSaveBrowser(mode, saveMetas, cursor)
+    menus.refreshSaveBrowser(mode, saveMetas, cursor)
   }
   /** 浏览界面读槽:成功 → 关菜单回大世界。 */
   async function browserLoad(slotId: SlotId): Promise<void> {
     if ((await doLoad(slotId)) === 'loaded') {
       lastSaveSlot = slotId
-      saveBrowser = closeSaveBrowser()
-      menu = CLOSED
+      menus.close()
     }
   }
 
@@ -5995,7 +5898,18 @@ export async function bootGame(
       ctx.restore()
     }
     // 菜单(UI,最上层)同样 320 逻辑坐标 + ×4 高清(D17)
-    if (menu.active) {
+    if (menus.active) {
+      const {
+        menu,
+        magicMenu,
+        equipMenu,
+        useMenu,
+        systemMenu,
+        saveBrowser,
+        statusIdx,
+        overwriteYes,
+        systemPlaceholder,
+      } = menus.view
       ctx.save()
       ctx.scale(WORLD_SCALE, WORLD_SCALE)
       ctx.imageSmoothingEnabled = false
@@ -6257,7 +6171,7 @@ export async function bootGame(
       return {
         fadeBlack: fadeDriver.value,
         inBattle: !!activeBattle,
-        menuActive: menu.active,
+        menuActive: menus.active,
         frameAnimationLayerMode: frameAnimationPresentation.mode,
         frameAnimationLayerVisible: frameAnimationPresentation.visibleFrame !== undefined,
       }
@@ -6381,277 +6295,8 @@ export async function bootGame(
       }
     } else if (handleRewardGainInput(rewardGainQueue, pressed)) {
       // 模态层消费整帧输入；advance 只兑现当前条，同一按键不会漏入刚恢复的菜单。
-    } else if (menu.active) {
-      if (saveBrowser.active) {
-        // 存档浏览界面(全屏,优先于菜单输入)
-        if (saveBrowser.confirmOverwrite) {
-          // 覆盖确认:四方向 toggle 否/是;Enter 确认;Esc=否
-          if (
-            pressed.has('ArrowUp') ||
-            pressed.has('ArrowDown') ||
-            pressed.has('ArrowLeft') ||
-            pressed.has('ArrowRight')
-          ) {
-            overwriteYes = !overwriteYes
-          } else if (interact) {
-            const r = overwriteYes
-              ? browserConfirmOverwriteYes(saveBrowser)
-              : { state: browserConfirmOverwriteNo(saveBrowser), action: undefined }
-            saveBrowser = r.state
-            if (r.action?.kind === 'write')
-              void browserWrite(r.action.slotId).catch(reportSaveFailure)
-            overwriteYes = false
-          } else if (esc) {
-            saveBrowser = browserConfirmOverwriteNo(saveBrowser)
-            overwriteYes = false
-          }
-        } else {
-          if (pressed.has('ArrowUp')) saveBrowser = browserMoveCursor(saveBrowser, 'up')
-          if (pressed.has('ArrowDown')) saveBrowser = browserMoveCursor(saveBrowser, 'down')
-          if (pressed.has('ArrowLeft')) saveBrowser = browserMoveCursor(saveBrowser, 'left')
-          if (pressed.has('ArrowRight')) saveBrowser = browserMoveCursor(saveBrowser, 'right')
-          if (interact) {
-            const r = browserConfirm(saveBrowser)
-            saveBrowser = r.state
-            if (r.action?.kind === 'write')
-              void browserWrite(r.action.slotId).catch(reportSaveFailure)
-            else if (r.action?.kind === 'load')
-              // SAVE-PREFLIGHT-1：菜单读槽顶层未预期异常兜底（已知失败已由 doLoad 稳定反馈）。
-              void browserLoad(r.action.slotId).catch((error) => {
-                console.warn('[save] 菜单读档失败:', error)
-                showToast('读档失败')
-              })
-          }
-          if (esc) saveBrowser = closeSaveBrowser() // 回系统菜单(menu 仍 active)
-        }
-      } else if (menu.openPanel === 'magic') {
-        if (magicMenu.phase === 'pick-caster') {
-          // 选施法人(uigame.c:686-723):上下循环(可停死人,确认拦);确认记忆光标(DL22 static w)
-          if (pressed.has('ArrowUp') || pressed.has('ArrowLeft'))
-            magicMenu = magicMoveCaster(magicMenu, world, 'up')
-          if (pressed.has('ArrowDown') || pressed.has('ArrowRight'))
-            magicMenu = magicMoveCaster(magicMenu, world, 'down')
-          if (interact) {
-            magicMenu = magicConfirmCaster(magicMenu, world, project.skills)
-            if (magicMenu.phase === 'pick-spell') lastMagicCaster = magicMenu.casterIdx
-          }
-          if (esc) {
-            // 退出回 hub(作者拍板的统一 UX,同 system 菜单;不复刻原版 goto out 弹回大世界)
-            magicMenu = closeMagicMenu()
-            menu = back(menu)
-          }
-        } else if (magicMenu.phase === 'pick-target') {
-          // 选目标(uigame.c:769-861):↑←/↓→ ±1 不 wrap;Enter 施放(fSuccess 才扣 MP,
-          // 满血/死人不吃消耗),放完 MP 不够再来一发 → 退回选技能;够则留此连放;Esc 回选技能
-          if (pressed.has('ArrowUp') || pressed.has('ArrowLeft'))
-            magicMenu = magicMoveTarget(magicMenu, world, 'up')
-          if (pressed.has('ArrowDown') || pressed.has('ArrowRight'))
-            magicMenu = magicMoveTarget(magicMenu, world, 'down')
-          if (interact) {
-            const skill = magicMenu.spells[magicMenu.cursor]
-            if (skill) {
-              castOutdoorSkill(
-                world,
-                skill,
-                magicMenu.casterIdx,
-                magicMenu.targetIdx,
-                project.poisonsById,
-              )
-              const c = world.party[magicMenu.casterIdx]
-              if (!c || c.mp < (skill.cost.mp ?? 0)) magicMenu = magicBackFromTarget(magicMenu)
-            }
-          }
-          if (esc) magicMenu = magicBackFromTarget(magicMenu)
-        } else {
-          // 选技能:网格导航;Enter → allAllies 直放留此连放 / 单体进选目标;
-          // Esc 退出回 hub(作者拍板统一 UX;原版是 goto out 弹回大世界 + 不回选人框,不复刻)
-          if (pressed.has('ArrowUp')) magicMenu = magicMoveCursor(magicMenu, 'up')
-          if (pressed.has('ArrowDown')) magicMenu = magicMoveCursor(magicMenu, 'down')
-          if (pressed.has('ArrowLeft')) magicMenu = magicMoveCursor(magicMenu, 'left')
-          if (pressed.has('ArrowRight')) magicMenu = magicMoveCursor(magicMenu, 'right')
-          if (interact) {
-            const r = magicConfirmSpell(magicMenu, world)
-            if (r?.kind === 'castAll')
-              castOutdoorSkill(world, r.skill, magicMenu.casterIdx, 'all', project.poisonsById)
-          }
-          if (esc) {
-            magicMenu = closeMagicMenu()
-            menu = back(menu)
-          }
-        }
-      } else if (menu.openPanel === 'equip') {
-        if (equipMenu.phase === 'pick-role') {
-          // 确认面板:Enter 换上(equipApply 回写 world)/ Esc 回列表
-          if (interact) {
-            const r = equipApply(equipMenu, world, project.items)
-            replaceWorld(r.world)
-            equipMenu = r.state
-          } else if (esc) {
-            equipMenu = equipBackToList(equipMenu, world, project.items)
-          }
-        } else {
-          // list:网格选可装物 + Enter 进确认面板 + Esc 关装备面板
-          if (pressed.has('ArrowUp')) equipMenu = equipMoveCursor(equipMenu, 'up')
-          if (pressed.has('ArrowDown')) equipMenu = equipMoveCursor(equipMenu, 'down')
-          if (pressed.has('ArrowLeft')) equipMenu = equipMoveCursor(equipMenu, 'left')
-          if (pressed.has('ArrowRight')) equipMenu = equipMoveCursor(equipMenu, 'right')
-          if (interact) equipMenu = equipConfirmItem(equipMenu)
-          if (esc) {
-            equipMenu = closeEquipMenu()
-            menu = back(menu)
-          }
-        }
-      } else if (menu.openPanel === 'use') {
-        if (itemUsePending) {
-          // 用途脚本/场景钩子正在接管输入；完成后 dispatchItemUse 会恢复或关闭本菜单。
-        } else if (useMenu.phase === 'pick-target') {
-          // 选目标:Enter 施用(useApply 回写 world)/ Esc 回列表
-          if (interact) {
-            const request = useApply(useMenu, world, world.party[0]?.id ?? '', project.items)
-            if (request) void dispatchItemUse(request)
-          } else if (esc) {
-            useMenu = useBackFromTarget(useMenu)
-          }
-        } else {
-          // pick-item:网格选可用物 + Enter(单体进选目标 / 脚本类直接执行)+ Esc 关使用面板
-          if (pressed.has('ArrowUp')) useMenu = useMoveCursor(useMenu, 'up')
-          if (pressed.has('ArrowDown')) useMenu = useMoveCursor(useMenu, 'down')
-          if (pressed.has('ArrowLeft')) useMenu = useMoveCursor(useMenu, 'left')
-          if (pressed.has('ArrowRight')) useMenu = useMoveCursor(useMenu, 'right')
-          if (interact) {
-            const result = useConfirm(useMenu, world, project.items)
-            if (result.kind === 'execute') void dispatchItemUse(result.request)
-            else useMenu = result.state
-          }
-          if (esc) {
-            lastUseCursor = useMenu.cursor // 记忆光标,重开恢复(原版 iCurInvMenuItem)
-            useMenu = closeUseMenu()
-            menu = back(menu)
-          }
-        }
-      } else if (menu.openPanel === 'status') {
-        // 状态板:Up/Left 上一员、Down/Right/Enter 下一员、越界关面板(原版 PAL_PlayerStatus iCurrent)
-        if (pressed.has('ArrowUp') || pressed.has('ArrowLeft')) {
-          statusIdx -= 1
-          if (statusIdx < 0) menu = back(menu)
-        } else if (pressed.has('ArrowDown') || pressed.has('ArrowRight') || interact) {
-          statusIdx += 1
-          if (statusIdx >= world.party.length) menu = back(menu)
-        } else if (esc) {
-          menu = back(menu)
-        }
-      } else if (menu.openPanel === 'system') {
-        // 系统菜单:menu 阶段网格选 / confirm 阶段确认框;quit-否/Esc → back(menu) 回主菜单 hub
-        // (不复刻原版「弹回大世界」;详见 system-menu-plan.md Task C)
-        if (systemMenu.phase === 'switch') {
-          // 音乐/音效开关子选单:四方向 toggle 关/开;Enter 落定(应用+持久)→ 回 hub;
-          // Esc 取消保持当前态 → 回 hub(原版切换/取消后 PAL_SystemMenu 关整菜单,reforge 映射同 quit-否)
-          if (
-            pressed.has('ArrowUp') ||
-            pressed.has('ArrowDown') ||
-            pressed.has('ArrowLeft') ||
-            pressed.has('ArrowRight')
-          ) {
-            systemMenu = systemToggleConfirm(systemMenu)
-          } else if (interact || esc) {
-            lastSystemCursor = systemMenu.cursor
-            if (interact) {
-              const r = systemSwitchCommit(systemMenu)
-              if (r.action?.kind === 'set-music') {
-                audioPrefs.music = r.action.on
-                bgm.setEnabled(r.action.on)
-              } else if (r.action?.kind === 'set-sound') {
-                audioPrefs.sound = r.action.on
-                sfx.setEnabled(r.action.on)
-              }
-              try {
-                localStorage.setItem('reforge:audio', JSON.stringify(audioPrefs))
-              } catch {
-                /* 私隐模式等写失败 → 本次会话内仍生效 */
-              }
-            }
-            systemMenu = closeSystemMenu()
-            menu = back(menu)
-          }
-        } else if (systemMenu.phase === 'confirm') {
-          // 确认框:四方向 toggle 是/否;Enter 确认;Esc = 否(回 hub)
-          if (
-            pressed.has('ArrowUp') ||
-            pressed.has('ArrowDown') ||
-            pressed.has('ArrowLeft') ||
-            pressed.has('ArrowRight')
-          ) {
-            systemMenu = systemToggleConfirm(systemMenu)
-          } else if (interact || esc) {
-            const wantYes = interact ? systemMenu.confirmYes : false // Esc = 否
-            systemMenu = { ...systemMenu, confirmYes: wantYes }
-            const r = systemConfirmYes(systemMenu)
-            if (r.action?.kind === 'quit') {
-              // 退出「是」→ 回标题屏(作者拍板 2026-07-11):导航到 ?menu 干净重启
-              // (丢弃 dev 参数;未存进度即弃,原版 quit 同语义 —— 想留进度先存档)
-              location.href = `${location.pathname}?menu&skip-startup=1`
-            } else {
-              lastSystemCursor = systemMenu.cursor
-              systemMenu = closeSystemMenu()
-              menu = back(menu) // 否/Esc → 回主菜单 hub(非弹回大世界)
-            }
-          }
-        } else {
-          // menu 阶段:方向键选;Enter 确认(quit→confirm / 占位→提示);Esc 回 hub
-          if (pressed.has('ArrowUp') || pressed.has('ArrowLeft')) {
-            systemMenu = systemMoveCursor(systemMenu, 'up')
-            systemPlaceholder = undefined
-          }
-          if (pressed.has('ArrowDown') || pressed.has('ArrowRight')) {
-            systemMenu = systemMoveCursor(systemMenu, 'down')
-            systemPlaceholder = undefined
-          }
-          if (interact) {
-            const r = systemConfirm(systemMenu, {
-              musicOn: audioPrefs.music,
-              soundOn: audioPrefs.sound,
-            })
-            systemMenu = r.state
-            // 默认槽(bCurrentSaveSlot):光标停上次存/读的槽;从未操作过 → 0
-            const defCursor = lastSaveSlot ? Math.max(0, ALL_SLOT_IDS.indexOf(lastSaveSlot)) : 0
-            if (r.action?.kind === 'open-save') {
-              saveBrowser = openSaveBrowser('save', saveMetas, defCursor) // 开浏览界面·存模式
-              overwriteYes = false
-            } else if (r.action?.kind === 'open-load') {
-              saveBrowser = openSaveBrowser('load', saveMetas, defCursor) // 开浏览界面·读模式
-              overwriteYes = false
-            }
-          } else if (esc) {
-            lastSystemCursor = systemMenu.cursor
-            systemMenu = closeSystemMenu()
-            menu = back(menu)
-          }
-        }
-      } else {
-        // 菜单级联导航(Left=Up / Right=Down,对齐 DL21 kKeyUp|kKeyLeft / kKeyDown|kKeyRight)
-        if (pressed.has('ArrowUp') || pressed.has('ArrowLeft')) menu = moveCursor(menu, -1)
-        if (pressed.has('ArrowDown') || pressed.has('ArrowRight')) menu = moveCursor(menu, 1)
-        if (interact) {
-          menu = confirm(menu)
-          lastMainCursor = menu.stack[0]?.cursor ?? 0 // 主菜单光标记忆(iCurMainMenuItem)
-          const caster = world.party[0]
-          // 进面板初始化子态:仙术解析可用 / 装备解析可装
-          if (menu.openPanel === 'magic') {
-            // 多人队进选施法人(光标 = 上次记忆);单人队直进技能网格(uigame.c:677-681)
-            magicMenu = openMagicMenu(world, project.skills, lastMagicCaster)
-          } else if (menu.openPanel === 'equip' && caster) {
-            equipMenu = openEquipMenu(world, caster.id, project.items)
-          } else if (menu.openPanel === 'use') {
-            useMenu = openUseMenu(world, project.items, lastUseCursor) // 恢复上次光标(原版 iCurInvMenuItem)
-          } else if (menu.openPanel === 'status') {
-            statusIdx = 0 // 开状态板从首位队员看起
-          } else if (menu.openPanel === 'system') {
-            systemMenu = openSystemMenu(lastSystemCursor) // 恢复上次光标(原版 iCurSystemMenuItem)
-            systemPlaceholder = undefined
-          }
-        }
-        if (esc) menu = back(menu)
-      }
+    } else if (menus.active) {
+      menus.input(pressed)
     } else if (dialogBox.active) {
       if (interact) dialogBox.advance(t) // 翻页;翻完 → null(关闭)
     } else if (runner) {
@@ -6669,7 +6314,7 @@ export async function bootGame(
           showToast('快速读档失败')
         }) // 快速读档(快速槽)
       } else if (esc) {
-        menu = openMenu(lastMainCursor)
+        menus.open()
         // 抓当前干净游戏帧(此刻菜单尚未画)→ 菜单内存档的缩略图源
         void captureThumbnail(canvas)
           .then((b) => {
@@ -6682,7 +6327,7 @@ export async function bootGame(
         const trig = findTrigger('interact')
         if (trig) fireTrigger(trig)
       }
-      if (!menu.active && !dialogBox.active) {
+      if (!menus.active && !dialogBox.active) {
         // dev:[ / ] 循环切场景(M2c 验收拐杖;定位原版场景)
         if (pressed.has('[') || pressed.has(']')) {
           const ids = project.sceneIds

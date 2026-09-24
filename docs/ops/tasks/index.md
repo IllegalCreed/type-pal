@@ -8,6 +8,7 @@
 
 | 任务 | 顶部状态 | 说明 |
 |---|---|---|
+| [ARCH-REFORGE-MENU-1 — Reforge菜单与物品会话控制器](ARCH-REFORGE-MENU-1-session-controller.md) | review | 以任务卡当前准入与看板分工为准。 |
 
 ## 已完成（historical）
 

@@ -21,6 +21,7 @@ import { collectSceneSoundAssets } from '../audio/sfx-readiness.js'
 import { expectDefined } from '../defined.js'
 import { seedFormationTrail } from '../follower.js'
 import mainSource from '../main.ts?raw'
+import { ItemUseSession } from '../menu/item-use-session.js'
 import { Canvas2DRenderer } from '../render.js'
 import {
   projectedWorldScriptScratch,
@@ -277,7 +278,7 @@ function harness(
     invalidatePendingScriptMutations: () => events.push('invalidate-script'),
     activeBattle: null,
     scriptAbort: oldAbort,
-    itemUseAbort: null,
+    itemUseSession: new ItemUseSession(),
     runner: { running: true },
     runnerTriggerOwnerId: null,
     inlineTriggerOwners: new Map(),

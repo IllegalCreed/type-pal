@@ -6,4 +6,5 @@
 
 ## 分类入口
 
+- [全仓架构债与分批治理](architecture-debt.md)（2026-09-24首轮盘点；第一阶段同样治理，重构与缺陷修复分开）
 - [pre-e2e](pre-e2e/README.md)
