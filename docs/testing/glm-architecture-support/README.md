@@ -61,3 +61,15 @@
 - 若有probe，列完整命令与解释；默认只读取证，无真实项目写入、无官方覆盖率重算。
 - 每包一提交；最终push同一工作分支，报告起点/最终SHA与白名单，统一交Codex接收。
 - GLM是证据/测试贡献者，不能把自己的交付自验算成独立审查。
+
+## 实际交付登记（GLM，2026-09-25）
+
+- 分支 `codex/glm-architecture-support-r1` @ worktree `/Users/zhangxu/illegal/type-pal-glm-architecture`；
+  起点 `3270473862…`，每包一提交，最终 SHA=push tip。冻结漂移核验：`git diff b11d4bc9..32704738 -- packages/ scripts/` 空。
+- 实际文件：`v0-visual-sample.md`（视觉小样）、`p1-app.md`、`p2-mapmode.md`、`p3-script-forms.md`、
+  `p4-battle-session.md`、`p5-phase1-core.md`、`p6-conversion-validation.md`、`v1-forms.md`、
+  `v2-workspaces.md`、`summary.md`（总报告）、`evidence.json`（32 条机账+机械小计+命令+截图清单）。
+  probes/ 目录本轮未产出脚本（全部判定用既有测试标题对账+浏览器实际操作，无需新探针）。
+- 截图 11 张在 `/tmp/glm-arch-visual/`（不入 Git），SHA256 前 16 位与 viewport 见 evidence.json.screenshots。
+- 视觉工具：ZCode In-app Browser，实际看图；dev 6013 包内实例；工程磁盘经 `git status` 核验零改动。
+- 复算命令见 `summary.md` 尾节。
