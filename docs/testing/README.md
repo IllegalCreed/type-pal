@@ -8,6 +8,8 @@
 
 ## 文档与附件
 
+- [A3首段：帧调度与输入仲裁](runtime-frame-refactor.md)、[冻结编排对照](runtime-frame-parity.mjs)与[11针负控](runtime-frame-mutants.mjs)（36新增；A3-a实施验证中，不等于A3整批完成）
+
 - [GLM架构治理八组并行支持包](glm-architecture-support/README.md)（冻结b11d4bc9；6组源码/回归边界+2组实际视觉初审，只读取证；Codex接收，不授权改产品）
 
 - [战斗宿主生命周期拆分](battle-host-refactor.md)、[机账](battle-host-refactor-evidence.json)、[11针隔离负控](battle-host-refactor-mutants.mjs)与[未改主壳结构对照](battle-host-shell-parity.mjs)（A2/done/46287966；23新增，check8463/单次strict7972/637，用户全架构队列独立推进授权）

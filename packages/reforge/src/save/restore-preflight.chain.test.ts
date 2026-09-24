@@ -23,6 +23,7 @@ import { seedFormationTrail } from '../follower.js'
 import mainSource from '../main.ts?raw'
 import { ItemUseSession } from '../menu/item-use-session.js'
 import { Canvas2DRenderer } from '../render.js'
+import { RuntimeFrameSession } from '../runtime-frame-session.js'
 import {
   projectedWorldScriptScratch,
   refreshSceneViewBindings,
@@ -289,7 +290,7 @@ function harness(
     presentation: { cancelAll: empty },
     dismountParty: empty,
     releaseAllAuthority: empty,
-    timers: [],
+    frames: new RuntimeFrameSession(100),
     screenHold: { cancel: empty },
     ditherTransition: { cancel: empty },
     sceneEntrySession: { cancel: empty },

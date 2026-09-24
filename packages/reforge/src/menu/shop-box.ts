@@ -75,7 +75,7 @@ function ownedCount(world: WorldState, itemId: string): number {
 /** 输入处理。返回 'close' = 关店(调用方 resolve 脚本);'changed' = world 已被结算换新。 */
 export function shopInput(
   s: ShopUiState,
-  pressed: Set<string>,
+  pressed: ReadonlySet<string>,
   world: WorldState,
   items: ItemDataMap,
   apply: (next: WorldState) => void,

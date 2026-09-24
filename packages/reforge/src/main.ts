@@ -122,7 +122,6 @@ import {
 } from './frame-animation-player.js'
 import { FrameAnimationPresentationState } from './frame-animation-presentation.js'
 import { createGameOverDialogueCue } from './game-over-dialog.js'
-import { GameplayClock } from './gameplay-clock.js'
 import { sha256Bytes } from './hash.js'
 import { Keyboard } from './input.js'
 import { executeWorldItemUse, runWorldItemScript } from './item-use-executor.js'
@@ -162,6 +161,8 @@ import {
   type TilesetFrameRegistry,
 } from './render.js'
 import { renderSceneFrame } from './render-scene.js'
+import { type RuntimeFramePorts, RuntimeFrameSession } from './runtime-frame-session.js'
+import { type RuntimeInputPorts, routeRuntimeInput } from './runtime-input-router.js'
 import type { RuntimeProjectView } from './runtime-project-view.js'
 import {
   projectedWorldScriptScratch,
@@ -470,7 +471,7 @@ export async function bootGame(
   let worldTickNum = 0
   let worldTicksThisFrame = 0
   /** D13-1 帧步进(K5):active=冻结墙钟推进,stepRequested=本帧强制一拍(STEP_MS)。 */
-  const frameStepState = { active: false, stepRequested: false }
+  const frames = new RuntimeFrameSession(STEP_MS)
 
   const camera = { x: 0, y: 0 }
   // 脚本相机偏移(0x7F 累积;⚠ 一阶段彩依飞走案:走位期间此偏移必须保持,回正才清零,
@@ -1171,8 +1172,6 @@ export async function bootGame(
   const itemUseSession = new ItemUseSession()
   // loadScene preflight 已选定的目标 onEnter 绑定；与 entry 契约同批冻结，当前脚本收尾后再跑。
   let pendingOnEnter: { sceneId: string; binding: RuntimeScriptBinding } | null = null
-  let nowMs = 0 // tick 注入的时间源(driver 计时用)
-  const timers: { deadline: number; settle: (error?: Error) => void }[] = []
   const fadeDriver = new SupersedingFadeDriver(0) // 0 透明 → 1 全黑；新事务连续接管并兑现旧 Promise
   let fadeCurtain: 'black' | 'red' = 'black' // 幕布色(gameOver 渐红;fade-in 结束回黑)
   /** 0x76/ShowFBP 的黑屏保持事务；只存在呈现层，不能进入 WorldState/SAVE。 */
@@ -1204,7 +1203,7 @@ export async function bootGame(
   /** 帧滤镜:两条出帧路径(大世界 render() 尾 + 战斗分支)都调;恒等色零开销跳过。 */
   const applyAmbienceTint = (): void => {
     if (ambienceFx) {
-      const t = (nowMs - ambienceFx.start) / (ambienceFx.durMs ?? AMBIENCE_FADE_MS)
+      const t = (frames.now - ambienceFx.start) / (ambienceFx.durMs ?? AMBIENCE_FADE_MS)
       ambienceShown = lerpTint(
         ambienceFx.from,
         resolveAmbienceTint(world.ambience, project.ambiences),
@@ -1338,10 +1337,7 @@ export async function bootGame(
     battlePreparation,
     {
       readWorld: () => world,
-      exitFrameStep: () => {
-        frameStepState.active = false
-        frameStepState.stepRequested = false
-      },
+      exitFrameStep: () => frames.resetStep(),
       captureScriptOwner: (team) => {
         const token = scriptMutationIntent.capture()
         return () => scriptMutationIntent.assertCurrent(token, `${team} 战斗启动脚本已失效`)
@@ -1619,7 +1615,7 @@ export async function bootGame(
     owner?: FadeOwner,
   ): Promise<void> {
     fadeCurtain = color
-    return fadeDriver.begin(dir === 'out' ? 1 : 0, nowMs, ms, signal, owner)
+    return fadeDriver.begin(dir === 'out' ? 1 : 0, frames.now, ms, signal, owner)
   }
 
   async function hostHoldScreen(
@@ -1631,7 +1627,7 @@ export async function bootGame(
     const handle = screenHold.begin(token)
     fadeCurtain = color
     try {
-      await fadeDriver.begin(1, nowMs, 0, signal, handle.owner)
+      await fadeDriver.begin(1, frames.now, 0, signal, handle.owner)
       assertRunnerActive(signal, '黑屏保持所属 runner 已取消')
     } catch (error) {
       screenHold.cancelOwned(handle)
@@ -2231,7 +2227,7 @@ export async function bootGame(
         }
         preserveClosedDialogFrame = false
         frameAnimationPresentation.enterDialogue()
-        dialogBox.open(startDialogue({ id: '__script', cues: [cue] }), nowMs)
+        dialogBox.open(startDialogue({ id: '__script', cues: [cue] }), frames.now)
         scriptDialogResolve = settleDialog // tick 检测 dialogBox 关闭时兑现
         signal.addEventListener('abort', abort, { once: true })
         if (signal.aborted) abort()
@@ -2305,26 +2301,7 @@ export async function bootGame(
       }
     },
     video: (asset, signal) => playVideoAsset(asset, signal),
-    wait: (ms, signal) =>
-      new Promise((resolve, reject) => {
-        let settled = false
-        const timer = {
-          deadline: nowMs + ms,
-          settle: (error?: Error): void => {
-            if (settled) return
-            settled = true
-            signal.removeEventListener('abort', abort)
-            const index = timers.indexOf(timer)
-            if (index >= 0) timers.splice(index, 1)
-            if (error) reject(error)
-            else resolve()
-          },
-        }
-        const abort = (): void => timer.settle(asyncIntentAbortError('脚本等待所属 runner 已取消'))
-        timers.push(timer)
-        signal.addEventListener('abort', abort, { once: true })
-        if (signal.aborted) abort()
-      }),
+    wait: (ms, signal) => frames.wait(ms, signal),
     resetPresentation: () => {
       // K3 复位语义逐项等价:fade→cancel(0) 回透明 / camera→(0,0) / dialog→close / 动画→reset。
       if (dialogBox.active) dialogBox.close()
@@ -2711,7 +2688,7 @@ export async function bootGame(
       }
       if ((world.ambience ?? 'day') === id) return
       world.ambience = id
-      ambienceFx = { from: ambienceShown, start: nowMs }
+      ambienceFx = { from: ambienceShown, start: frames.now }
     },
     // 0x80 昼夜切换(扬州夜转昼等):day↔night 翻转,fadeMs 渐变
     // (原版 PaletteFade 真值 3200ms;此前 setAmbience 固定 300ms 过快)
@@ -2719,11 +2696,11 @@ export async function bootGame(
       const next = (world.ambience ?? 'day') === 'day' ? 'night' : 'day'
       if (next !== 'day' && !project.ambiences.some((a) => a.id === next)) return
       world.ambience = next
-      ambienceFx = { from: ambienceShown, start: nowMs, durMs: fadeMs }
+      ambienceFx = { from: ambienceShown, start: frames.now, durMs: fadeMs }
     },
     // 0x35 震屏:渲染时世界层 y ±level 交替(40ms 相位 = 原版逐帧);time=0 立即关
     shakeScreen: (timeFrames, level) => {
-      worldShake = timeFrames > 0 ? { untilMs: nowMs + timeFrames * 40, level } : null
+      worldShake = timeFrames > 0 ? { untilMs: frames.now + timeFrames * 40, level } : null
     },
     // 0x1B-1D 全队资源变化:仅活人,clamp；0x1D 缺省 HP/MP 同改。
     increaseHpMp: (amount, pools) => {
@@ -4820,7 +4797,7 @@ export async function bootGame(
     presentation.cancelAll() // D14-2(K3):呈现收口(fade→透明/camera→(0,0)/dialog→close/动画→reset)
     dismountParty() // E7:强停同样下筏(防跟随者漏挂)
     releaseAllAuthority() // E6a:强停演出同样归还全部实体
-    for (const t of timers.splice(0)) t.settle()
+    frames.clearWaits()
     screenHold.cancel()
     ditherTransition.cancel()
     sceneEntrySession.cancel()
@@ -4977,7 +4954,6 @@ export async function bootGame(
   let lastGameThumb: Blob | undefined // 开菜单时抓的干净游戏帧(菜单内存档的缩略图源)
   let toast: { text: string; until: number } | undefined // 快速存读短提示
   const MAP_NAME = project.manifest.name
-  const gameplayClock = new GameplayClock()
 
   function showToast(text: string): void {
     toast = { text, until: performance.now() + 1500 }
@@ -5512,11 +5488,13 @@ export async function bootGame(
     }
     // 场景底图:clear + scale + renderScene + restore(抽成 renderSceneFrame,editor 复用同一绘制)。
     // 0x35 震屏:相机 y ±level 交替(40ms 相位;到期自清)
-    if (worldShake && nowMs >= worldShake.untilMs) worldShake = null
+    if (worldShake && frames.now >= worldShake.untilMs) worldShake = null
     const shakeCam = worldShake
       ? {
           x: camera.x,
-          y: camera.y + (Math.floor(nowMs / 40) % 2 === 0 ? worldShake.level : -worldShake.level),
+          y:
+            camera.y +
+            (Math.floor(frames.now / 40) % 2 === 0 ? worldShake.level : -worldShake.level),
         }
       : camera
     // 0x71 屏波：只卷背景层，人物和局部 cover 瓦片在波动完成后静态叠回。
@@ -5714,7 +5692,7 @@ export async function bootGame(
             ? 1
             : Math.max(
                 0,
-                Math.min(1, (nowMs - expectDefined(dither.startedAt)) / dither.durationMs),
+                Math.min(1, (frames.now - expectDefined(dither.startedAt)) / dither.durationMs),
               )
       }
       const step = Math.floor(pr * DITHER_TOTAL_STEPS)
@@ -5887,50 +5865,105 @@ export async function bootGame(
     return k ? (ARROW_TO_FACING[k] ?? null) : null
   }
 
-  function tick(t: number): void {
-    activateScriptConfirm()
-    resumeScriptExecutionGates()
-    const gameplayFrozen = scriptConfirmModal.active
-    // D13-1 帧步进(K5):active 时冻结墙钟推进(实时时间不积压);stepRequested 时强制一拍。
-    const stepActive = frameStepState.active
-    const stepRequested = frameStepState.stepRequested
-    frameStepState.stepRequested = false
-    const clockFrame = gameplayClock.advance(
-      t,
-      gameplayFrozen || stepActive,
-      stepRequested ? STEP_MS : 0,
-    )
-    const gameplayDt = clockFrame.gameplayDt
-    nowMs = clockFrame.gameplayNow
-    // ── M3a 脚本 driver 推进(tick 时间源):计时器 → 兑现;淡入淡出 → 进度;对话关 → 兑现 ──
-    if (!gameplayFrozen) {
-      for (let i = timers.length - 1; i >= 0; i--) {
-        if (nowMs >= expectDefined(timers[i]).deadline)
-          expectDefined(timers.splice(i, 1)[0]).settle()
-      }
-      // K5:帧步进作用域不含演出(淡入淡出);stepActive 时跳过。
-      if (!stepActive) fadeDriver.advance(nowMs)
-    }
-    if (!dialogBox.active && scriptDialogResolve) {
-      const r = scriptDialogResolve
-      scriptDialogResolve = null
-      preserveClosedDialogFrame = true
-      r()
-      // Promise 续执行优先消费；下一条不是 loadScene 时当即失效，不泄漏到后续切场。
-      queueMicrotask(() => {
-        preserveClosedDialogFrame = false
+  const inputPorts: RuntimeInputPorts = {
+    confirm: {
+      active: () => scriptConfirmModal.active,
+      toggle: () => scriptConfirmModal.toggle(),
+      yes: () => scriptConfirmModal.submit(),
+      no: () => scriptConfirmModal.submitNo(),
+    },
+    consumeShop: (pressed) => {
+      if (!shop) return false
+      const r = shopInput(shop.ui, pressed, world, project.items, (next) => {
+        replaceWorld(next)
       })
-    }
-    const pressed = keyboard.consumePressed()
-    // K5:帧步进 = 大世界 gameplay 相位(移动/实体/auto 脚本);entityActions(演出)不单步。
-    if (!gameplayFrozen && !stepActive) {
-      tickHostiles(gameplayDt) // 先累计本帧到期 hostile；移动/接触仍由统一 motion tick 线性化
-      advanceMoves(gameplayDt, pressed)
-      deriveMounts() // E7:挂载派生最后跑(位置=父+偏移,覆写一切 = 契约最高权威)
-      advanceLifecycleWorldStepIfEligible(gameplayFrozen, stepActive)
-      // Motion first: the semantic action clock must see this tick's accepted/blocked gait owner,
-      // not yesterday's gait. First accepted steps pause immediately; blocked ticks resume now.
-      entityActions.advance(gameplayDt, (id) => {
+      if (r === 'close') {
+        shop.resolve()
+        shop = null
+      }
+      return true
+    },
+    consumeReward: (pressed) => handleRewardGainInput(rewardGainQueue, pressed),
+    menu: {
+      active: () => menus.active,
+      input: (pressed) => menus.input(pressed),
+      open: () => {
+        menus.open()
+        // 抓当前干净游戏帧(此刻菜单尚未画)→ 菜单内存档的缩略图源
+        void captureThumbnail(canvas)
+          .then((b) => {
+            lastGameThumb = b
+          })
+          .catch((error: unknown) => {
+            console.warn('[save] 菜单缩略图捕获失败:', error)
+          })
+      },
+    },
+    dialogue: { active: () => dialogBox.active, advance: (realNow) => dialogBox.advance(realNow) },
+    scriptRunning: () => runner !== null,
+    hostileBusy: () => hostileBusy,
+    quickSave: () => {
+      void quickSave().catch(reportSaveFailure)
+    },
+    quickLoad: () => {
+      void quickLoad().catch((error) => {
+        console.warn('[save] 快速读档失败:', error)
+        showToast('快速读档失败')
+      })
+    },
+    interact: () => {
+      const trig = findTrigger('interact')
+      if (trig) fireTrigger(trig)
+    },
+    changeDebugScene: (pressed) => {
+      const ids = project.sceneIds
+      const cur = ids.indexOf(scene.id)
+      const nextId = expectDefined(
+        ids[(cur + (pressed.has(']') ? 1 : ids.length - 1)) % ids.length],
+      )
+      void switchScene(
+        nextId,
+        undefined,
+        () => {
+          abortScript()
+          stopAutoRunners()
+        },
+        false,
+      )
+        .then(() => {
+          applyWorldToScene()
+          startAutoRunners()
+          showToast(`${nextId}(${ids.indexOf(nextId) + 1}/${ids.length})`)
+          const onEnter = sceneScriptBinding(scene, 'onEnter', runtimeScript)
+          if (onEnter) startScript(`s:${scene.id}`, onEnter)
+        })
+        .catch((err: unknown) => showToast(`切场景失败: ${String(err).slice(0, 40)}`))
+    },
+  }
+  const framePorts: RuntimeFramePorts = {
+    activateConfirm: activateScriptConfirm,
+    resumeScriptGates: resumeScriptExecutionGates,
+    gameplayFrozen: () => scriptConfirmModal.active,
+    advanceFade: (now) => fadeDriver.advance(now),
+    settleClosedDialogue: () => {
+      if (!dialogBox.active && scriptDialogResolve) {
+        const r = scriptDialogResolve
+        scriptDialogResolve = null
+        preserveClosedDialogFrame = true
+        r()
+        // Promise 续执行优先消费；下一条不是 loadScene 时当即失效，不泄漏到后续切场。
+        queueMicrotask(() => {
+          preserveClosedDialogFrame = false
+        })
+      }
+    },
+    consumePressed: () => keyboard.consumePressed(),
+    tickHostiles,
+    advanceMoves,
+    deriveMounts,
+    advanceLifecycle: advanceLifecycleWorldStepIfEligible,
+    advanceEntityActions: (dt) => {
+      entityActions.advance(dt, (id) => {
         const entity = scene.entities.find((candidate) => candidate.id === id)
         return (
           !!battleHost.active ||
@@ -5941,112 +5974,22 @@ export async function bootGame(
           entityExplicitAnim.has(id)
         )
       })
-    } else if (stepRequested) {
-      tickHostiles(gameplayDt)
-      advanceMoves(gameplayDt, pressed)
-      deriveMounts()
-      advanceLifecycleWorldStepIfEligible(gameplayFrozen, stepActive)
-    } else {
+    },
+    clearWorldTicks: () => {
       worldTicksThisFrame = 0
-    }
-    // M4b:战斗接管(大世界暂停;渲染/输入全走 BattleSession)
-    if (battleHost.active) {
-      battleHost.active.tick(gameplayDt, pressed, clockFrame.gameplayNow)
+    },
+    presentBattle: (dt, pressed, now) => {
+      if (!battleHost.active) return false
+      battleHost.active.tick(dt, pressed, now)
       battleHost.active.render(ctx, WORLD_SCALE)
-      applyAmbienceTint() // 夜里进战斗照染(原版夜战即夜盘)
-      requestAnimationFrame(tick)
-      return
-    }
-    const interact = pressed.has(' ') || pressed.has('Enter')
-    const esc = pressed.has('Escape')
-
-    // 三态优先级:商店 > 菜单 > 对话 > 探索(用 else if 保证互斥;商店在脚本 openShop
-    // await 期间活跃 —— 必须先于「脚本演出中吞输入」分支消费按键)
-    if (scriptConfirmModal.active) {
-      if (
-        pressed.has('ArrowUp') ||
-        pressed.has('ArrowDown') ||
-        pressed.has('ArrowLeft') ||
-        pressed.has('ArrowRight')
-      )
-        scriptConfirmModal.toggle()
-      else if (interact) scriptConfirmModal.submit()
-      else if (esc) scriptConfirmModal.submitNo()
-      else if (pressed.has('F5')) void quickSave().catch(reportSaveFailure)
-    } else if (shop) {
-      const r = shopInput(shop.ui, pressed, world, project.items, (next) => {
-        replaceWorld(next)
-      })
-      if (r === 'close') {
-        shop.resolve()
-        shop = null
-      }
-    } else if (handleRewardGainInput(rewardGainQueue, pressed)) {
-      // 模态层消费整帧输入；advance 只兑现当前条，同一按键不会漏入刚恢复的菜单。
-    } else if (menus.active) {
-      menus.input(pressed)
-    } else if (dialogBox.active) {
-      if (interact) dialogBox.advance(t) // 翻页;翻完 → null(关闭)
-    } else if (runner) {
-      // 脚本演出中(非对话等待段):吞输入,防移动/开菜单打断演出
-    } else if (hostileBusy) {
-      // pre/post-contact claim 已同步取得世界接管权，但 BattleSession 可能仍在 readiness await；
-      // 这段窗口吞掉探索输入，不能开菜单或触发第二条世界链。
-    } else {
-      if (pressed.has('F5')) {
-        void quickSave().catch(reportSaveFailure) // 快速存档(快速槽)
-      } else if (pressed.has('F9')) {
-        // SAVE-PREFLIGHT-1：F9 顶层未预期异常兜底；已知坏槽由 doLoad 结构 guard 稳定反馈。
-        void quickLoad().catch((error) => {
-          console.warn('[save] 快速读档失败:', error)
-          showToast('快速读档失败')
-        }) // 快速读档(快速槽)
-      } else if (esc) {
-        menus.open()
-        // 抓当前干净游戏帧(此刻菜单尚未画)→ 菜单内存档的缩略图源
-        void captureThumbnail(canvas)
-          .then((b) => {
-            lastGameThumb = b
-          })
-          .catch((error: unknown) => {
-            console.warn('[save] 菜单缩略图捕获失败:', error)
-          })
-      } else if (interact) {
-        const trig = findTrigger('interact')
-        if (trig) fireTrigger(trig)
-      }
-      if (!menus.active && !dialogBox.active) {
-        // dev:[ / ] 循环切场景(M2c 验收拐杖;定位原版场景)
-        if (pressed.has('[') || pressed.has(']')) {
-          const ids = project.sceneIds
-          const cur = ids.indexOf(scene.id)
-          const nextId = expectDefined(
-            ids[(cur + (pressed.has(']') ? 1 : ids.length - 1)) % ids.length],
-          )
-          void switchScene(
-            nextId,
-            undefined,
-            () => {
-              abortScript()
-              stopAutoRunners()
-            },
-            false,
-          )
-            .then(() => {
-              applyWorldToScene()
-              startAutoRunners()
-              showToast(`${nextId}(${ids.indexOf(nextId) + 1}/${ids.length})`)
-              const onEnter = sceneScriptBinding(scene, 'onEnter', runtimeScript)
-              if (onEnter) startScript(`s:${scene.id}`, onEnter)
-            })
-            .catch((err: unknown) => showToast(`切场景失败: ${String(err).slice(0, 40)}`))
-        }
-        // 玩家位移已在本帧开头与 NPC/hostile 共用 snapshot→plan→atomic commit；这里仅保留
-        // 菜单/交互/dev 边沿处理，绝不能再做第二次探索位置写或 touch scan。
-      }
-    }
-
-    runWithPresentationFinalizer(render, abortScript)
+      applyAmbienceTint()
+      return true
+    },
+    routeInput: (pressed, realNow) => routeRuntimeInput(pressed, realNow, inputPorts),
+    presentWorld: () => runWithPresentationFinalizer(render, abortScript),
+  }
+  function tick(t: number): void {
+    frames.tick(t, framePorts)
     requestAnimationFrame(tick)
   }
   saveMetasReady = refreshSaveMetas().catch((error: unknown) => {
@@ -6339,18 +6282,16 @@ export async function bootGame(
         },
         frameStep: {
           get active() {
-            return frameStepState.active
+            return frames.stepActive
           },
           setActive: (active: boolean) => {
-            frameStepState.active = active
-            if (!active) frameStepState.stepRequested = false
+            frames.setStepActive(active)
           },
           requestStep: () => {
-            frameStepState.stepRequested = true
+            frames.requestStep()
           },
           reset: () => {
-            frameStepState.active = false
-            frameStepState.stepRequested = false
+            frames.resetStep()
           },
         },
         layers: debugLayers,

@@ -1,6 +1,6 @@
 # ARCH-REFORGE-FRAME-1 — A3 首段：帧调度、时钟与输入仲裁
 
-Status: build
+Status: review
 Phase: phase2
 Capability: 架构治理 A3-a（不改变能力格）
 Coding Owner: Codex
@@ -99,6 +99,10 @@ before→after：用户可见行为不变，无产品偏离需要裁决。
 
 - 2026-09-25 Codex：main干净并同步；A2两条远端CI同b11d4bc9均success。
   直读当前时间/等待/帧阶段与输入分支，按用户全队列授权开A3首段；产品尚未改动时登记本卡。
+- 2026-09-25 Codex：实现时钟/等待/单步所有者与同步帧、输入路由；36新增，117定向/相邻、
+  中途全Reforge1584、384帧/896输入冻结对照、44正控/11针通过，19关键函数AST token树保真。
+  最小浏览器完成菜单、朝向、单步745→746、退出恢复；短按不声明持续走位通过，持按由真实宿主回归覆盖。
+  见[回执](../../testing/runtime-frame-refactor.md)。整批质量门正在执行，未标done，不提前关闭A3整体。
 
 ## 下一位Agent提示词
 
