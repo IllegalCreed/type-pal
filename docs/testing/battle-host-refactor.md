@@ -1,7 +1,8 @@
 # Reforge 战斗宿主拆分（A2）
 
-任务：[ARCH-REFORGE-BATTLE-1](../ops/tasks/ARCH-REFORGE-BATTLE-1-host-lifecycle.md)。
-基点 7f3840e6；初版实现57794d15，提交时点补正348a50d1，原子收尾补正见最终候选。用户 2026-09-24 明确全架构治理队列由 Codex 独立实施、自验、收口，
+任务：[ARCH-REFORGE-BATTLE-1](../ops/archive/tasks/done/ARCH-REFORGE-BATTLE-1-host-lifecycle.md)。
+基点 7f3840e6；初版实现57794d15，提交时点补正348a50d1，原子收尾补正后最终候选46287966，已done。
+用户 2026-09-24 明确全架构治理队列由 Codex 独立实施、自验、收口，
 Kimi/GLM 不参与、免补签；不宣称三席独立验收。
 
 ## 实现边界
@@ -12,7 +13,7 @@ Kimi/GLM 不参与、免补签；不宣称三席独立验收。
   显式 BattleContent 投影、资产读取器、world/scene 读取端口；无完整 bootGame 上下文、DOM 或保存接口。
 - 主壳负责已有 world/脚本/帧步进/音频端口。BattleSession、battle-core、battle-world-result、
   SFX/精灵/FIRE 解码/缓存与作者模型生产文件零改，不把 DEV override 纳入 canonical 命令。
-- main 6798→6486 行；BattleHost 188 行，准备单元322行（按职责分prepare/prepareVisuals/prepareTurnSounds等）。
+- main 6798→6486 行；BattleHost 191 行，准备单元322行（按职责分prepare/prepareVisuals/prepareTurnSounds等）。
   不是删功能降低分母；净源码增加会如实进入统一统计。
 - 对7f3840e6 AST逐节点比较17个保存/世界/场景关键函数或箭头声明，全等。
   首次诊断脚本只选 FunctionDeclaration，漏识别 replaceWorld 箭头而报 drift；纳入实际 VariableDeclaration 后全等。
@@ -67,13 +68,26 @@ Kimi/GLM 不参与、免补签；不宣称三席独立验收。
 0.99连续闪避均exit1/同一业务断言；0.5无闪避均exit0。是输入未确定，不是本次重构引入的已证产品故障。
 日志 `/tmp/type-pal-battle-host-rng.log`，机账临时目录 `battle-host-rng-AMfjkj/summary.json`。
 
-## 验证进度
+## 最终验证与覆盖口径
 
 - 第一轮战斗+存档/lineage：27文件/368项，PASS。
 - 中途全Reforge：168文件/1539项，PASS（当时只加14项，不是最终统计）。
 - 初版定向27项/9针/check8461/ratchet7970通过，因上述自审反例已被后续候选替代。
-  第二版局部28项/10针、Reforge169文件/1547项、check8462通过；最终29项/11针通过，
-  最终check/ratchet/受保护strict待完成，尚未收口。
+  第二版局部28项/10针、Reforge169文件/1547项、check8462通过；均如实保留为阶段结果。
+- 最终46287966：29定向/11负控通过；全仓check **8463**（Reforge169文件/1548），
+  官方ratchet与保护7f3840e6的**单次严格fast7972项/637生产文件**全部exit0。
+  Node22.23.2；strict使用CI=true/FORCE_COLOR=1并注入NODE_COMPILE_CACHE，coverage隔离策略保持。
+  strict前后基线SHA256均为`fe839838366df86210d8fd9334f413e640aaa70e4771fde2e8cb5f95f66295cd`。
+  日志 `/tmp/type-pal-battle-host-{check-atomic,ratchet-final,strict,build-final}.log`，
+  [统一机账](battle-host-refactor-evidence.json)。Vite正式build通过，既有chunk>500k提示不降低阈值。
+- 其余六包完整基线逐对象全等；原635源文件全部保留，仅新增2生产模块。全仓覆盖：
+  行54593/70521=77.41%，语句60594/80560=75.22%，函数11259/14977=75.18%，分支42833/63173=67.80%。
+- 重构增加可执行分母41行/44语句/34函数/0分支；不冒充同分母纯补测。
+  main+新两模块组合：行1491/3146→1547/3187、语句1580/3576→1646/3620、
+  函数236/619→272/653、分支666/2165→684/2165；main单文件比率下降因代码迁出，不是统计遗漏。
+- 新模块尚未达到长期关键模块95/90目标：BattleHost行91.36%/函数73.68%/分支75%，
+  准备单元行87.78%/函数80%/分支66.10%。缺口集中在姓名/音乐/呈现回调、可选资源变体及错误包装；
+  保留后续覆盖队列，不以本批架构收口宣称覆盖率建设完成，也不降低门槛或排除源码。
 - 旧版本兼容审查：pass。生产只新增包内所有权，没有版本分支、升级入口、双读写或旧模型fallback。
 
 ## 功能验证与延后边界
@@ -89,3 +103,9 @@ Kimi/GLM 不参与、免补签；不宣称三席独立验收。
 Chrome扩展无法附着、原生截图全黑，改用Codex内置浏览器后可正常操作，不据此判产品黑屏。
 没有保存/读取用户进度；本页均临时内存态，s135默认落点既有问题不混修。
 剧情观感/full/R4/N6b/Q1/Q2不在本批完成口径内。
+
+## 收口
+
+Codex对46287966签实现者自验/自审accept，依据用户全队列授权核定done；Kimi/GLM缺签为豁免而非代签。
+本地门禁已齐，远端CI状态按后续实际run登记，不把本地结果冒充GitHub结果。
+无下一位Agent提示词；下一批为A3世界/帧循环，仍由Codex独立推进。

@@ -1,0 +1,280 @@
+{
+  "schemaVersion": 1,
+  "task": "ARCH-REFORGE-BATTLE-1",
+  "base": "7f3840e6",
+  "implementation": "46287966",
+  "authorization": "2026-09-24 user waived Kimi/GLM for all 13 architecture batches; Codex implementation and self-review, no independent third-party claim.",
+  "before": {
+    "testCount": 7949,
+    "sourceFileCount": 635,
+    "total": {
+      "statements": {
+        "covered": 60527,
+        "total": 80516
+      },
+      "branches": {
+        "covered": 42814,
+        "total": 63173
+      },
+      "functions": {
+        "covered": 11223,
+        "total": 14943
+      },
+      "lines": {
+        "covered": 54536,
+        "total": 70480
+      }
+    },
+    "reforge": {
+      "statements": {
+        "covered": 12501,
+        "total": 16801
+      },
+      "branches": {
+        "covered": 7412,
+        "total": 11383
+      },
+      "functions": {
+        "covered": 1911,
+        "total": 2568
+      },
+      "lines": {
+        "covered": 11323,
+        "total": 14659
+      }
+    }
+  },
+  "after": {
+    "testCount": 7972,
+    "sourceFileCount": 637,
+    "total": {
+      "statements": {
+        "covered": 60594,
+        "total": 80560
+      },
+      "branches": {
+        "covered": 42833,
+        "total": 63173
+      },
+      "functions": {
+        "covered": 11259,
+        "total": 14977
+      },
+      "lines": {
+        "covered": 54593,
+        "total": 70521
+      }
+    },
+    "reforge": {
+      "statements": {
+        "covered": 12568,
+        "total": 16845
+      },
+      "branches": {
+        "covered": 7431,
+        "total": 11383
+      },
+      "functions": {
+        "covered": 1947,
+        "total": 2602
+      },
+      "lines": {
+        "covered": 11380,
+        "total": 14700
+      }
+    },
+    "unchangedPackages": ["shared", "content", "pal-extract", "migrate", "game", "editor"],
+    "addedSources": [
+      "packages/reforge/src/battle/battle-host.ts",
+      "packages/reforge/src/battle/battle-launch-preparation.ts"
+    ],
+    "removedSources": [],
+    "baselineSha256": "fe839838366df86210d8fd9334f413e640aaa70e4771fde2e8cb5f95f66295cd"
+  },
+  "verification": {
+    "check": {
+      "exit": 0,
+      "tests": 8463,
+      "log": "/tmp/type-pal-battle-host-check-atomic.log"
+    },
+    "ratchet": {
+      "exit": 0,
+      "tests": 7972,
+      "log": "/tmp/type-pal-battle-host-ratchet-final.log"
+    },
+    "strict": {
+      "exit": 0,
+      "tests": 7972,
+      "sourceFiles": 637,
+      "baseRef": "7f3840e6",
+      "log": "/tmp/type-pal-battle-host-strict.log",
+      "baselineUnchangedSha256": "fe839838366df86210d8fd9334f413e640aaa70e4771fde2e8cb5f95f66295cd"
+    },
+    "mutants": {
+      "controls": 29,
+      "detected": 11,
+      "judgePositive": 2,
+      "judgeRejected": 12,
+      "log": "/tmp/type-pal-battle-host-mutants-atomic-final.log",
+      "summary": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-battle-host-mutants-CF2QsM/summary.json"
+    },
+    "shellAst": {
+      "characters": 241244,
+      "sha256": "c616edf3165268f57681afab7ebb152bc654ddfeb1ce605b6253a3d936c3a1d9",
+      "scope": "excluding explicit battle declarations and normalizing active/start/cancel wiring; not a behavior oracle for the moved body"
+    },
+    "sensitiveFunctionsUnchanged": 17,
+    "build": {
+      "exit": 0,
+      "log": "/tmp/type-pal-battle-host-build-final.log",
+      "candidate": "46287966",
+      "warnings": ["Existing chunk >500k warning retained; no threshold change."]
+    },
+    "visual": {
+      "candidate": "57794d15",
+      "driver": "Codex IAB native input",
+      "result": "battle starts, attack/HP reduction, victory, scene return, preset world restored, reopen",
+      "finalTimingChanges": "reuse visual evidence; verified timing by permanent tests and mutants"
+    }
+  },
+  "disclosures": [
+    "Two extraction-introduced async commit seams found by self-review and repaired in follow-up commits; initial green gates are superseded.",
+    "H9 defeat RNG fix isolated in 3be0e273 with 7f3840e6 and current counterexample controls.",
+    "Initial temporary witness path and AST scanner diagnostics failed as tooling, not accepted business evidence.",
+    "No gameplay/formulas/save/content/phase1 implementation changes; no full/E2E/Q1/Q2 claim.",
+    "New modules still below long-term 95/90 targets: optional presentation/music/name callbacks, resource variants and error wrapping remain; no threshold lowered."
+  ],
+  "accounting": {
+    "before": {
+      "lines": {
+        "total": 3146,
+        "covered": 1491,
+        "skipped": 0,
+        "pct": 47.39
+      },
+      "functions": {
+        "total": 619,
+        "covered": 236,
+        "skipped": 0,
+        "pct": 38.12
+      },
+      "statements": {
+        "total": 3576,
+        "covered": 1580,
+        "skipped": 0,
+        "pct": 44.18
+      },
+      "branches": {
+        "total": 2165,
+        "covered": 666,
+        "skipped": 0,
+        "pct": 30.76
+      }
+    },
+    "after": {
+      "lines": {
+        "covered": 1547,
+        "total": 3187
+      },
+      "statements": {
+        "covered": 1646,
+        "total": 3620
+      },
+      "functions": {
+        "covered": 272,
+        "total": 653
+      },
+      "branches": {
+        "covered": 684,
+        "total": 2165
+      }
+    },
+    "modules": {
+      "main.ts": {
+        "lines": {
+          "total": 3016,
+          "covered": 1394,
+          "skipped": 0,
+          "pct": 46.22
+        },
+        "functions": {
+          "total": 599,
+          "covered": 230,
+          "skipped": 0,
+          "pct": 38.39
+        },
+        "statements": {
+          "total": 3428,
+          "covered": 1479,
+          "skipped": 0,
+          "pct": 43.14
+        },
+        "branches": {
+          "total": 2070,
+          "covered": 618,
+          "skipped": 0,
+          "pct": 29.85
+        }
+      },
+      "battle/battle-host.ts": {
+        "lines": {
+          "total": 81,
+          "covered": 74,
+          "skipped": 0,
+          "pct": 91.35
+        },
+        "functions": {
+          "total": 19,
+          "covered": 14,
+          "skipped": 0,
+          "pct": 73.68
+        },
+        "statements": {
+          "total": 93,
+          "covered": 81,
+          "skipped": 0,
+          "pct": 87.09
+        },
+        "branches": {
+          "total": 36,
+          "covered": 27,
+          "skipped": 0,
+          "pct": 75
+        }
+      },
+      "battle/battle-launch-preparation.ts": {
+        "lines": {
+          "total": 90,
+          "covered": 79,
+          "skipped": 0,
+          "pct": 87.77
+        },
+        "functions": {
+          "total": 35,
+          "covered": 28,
+          "skipped": 0,
+          "pct": 80
+        },
+        "statements": {
+          "total": 99,
+          "covered": 86,
+          "skipped": 0,
+          "pct": 86.86
+        },
+        "branches": {
+          "total": 59,
+          "covered": 39,
+          "skipped": 0,
+          "pct": 66.1
+        }
+      }
+    }
+  },
+  "physicalLines": {
+    "mainBefore": 6798,
+    "mainAfter": 6486,
+    "battleHost": 191,
+    "battleLaunchPreparation": 322
+  },
+  "status": "done"
+}

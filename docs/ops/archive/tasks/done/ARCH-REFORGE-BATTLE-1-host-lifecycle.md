@@ -1,6 +1,6 @@
 # ARCH-REFORGE-BATTLE-1 — 战斗宿主生命周期拆分（A2）
 
-Status: review
+Status: done
 Phase: phase2
 Capability: 架构治理 A2（不改变能力格状态）
 Coding Owner: Codex
@@ -13,6 +13,7 @@ Branch: main
 
 Revision: r1
 Evidence base: 7f3840e6
+Implementation candidate: 46287966（含57794d15拆分、348a50d1提交快照补正）
 
 ## 目标与范围
 
@@ -48,16 +49,16 @@ Evidence base: 7f3840e6
 
 ## 上下文锚点
 
-- [READ-FIRST](../../phase2/READ-FIRST.md)、[架构队列](../audits/architecture-debt.md)。
-- [A1 已完成卡](../archive/tasks/done/ARCH-REFORGE-MENU-1-session-controller.md)：豁免仅 A1，不授权本卡。
+- [READ-FIRST](../../../../phase2/READ-FIRST.md)、[架构队列](../../../audits/architecture-debt.md)。
+- [A1 已完成卡](ARCH-REFORGE-MENU-1-session-controller.md)：豁免仅 A1，不授权本卡。
 - `main.ts:2149–2505`：资源顺序、会话发布、终态、战后脚本与恢复场景音效。
 - `main.ts:1316–1332`：活动实例、启动意图、错误去重集合、战场表懒加载。
 - `main.ts:3451`：DEV preset 包装留在 DEV gateway，不能进入作者命令或持久世界模型。
 - `main.ts:5115`：强停；`:6265`：主循环 tick/render 转发。不得新增第二帧调度器。
 - `main.battle-host-flows.test.ts:37/72/90/126/165/177`：H9 六条真实宿主链，
   已涵盖胜利/败北、作者续链、投掷库存、空敌队、迟到精灵与换场景；不能只用核心 mock 替代。
-- [战斗流程接收证据](../../testing/battle-workflows-integration.md)、
-  [真实宿主二批](../../testing/codex-runtime-shell-wave2.md)：接收结论保留，新模块须重验接线。
+- [战斗流程接收证据](../../../../testing/battle-workflows-integration.md)、
+  [真实宿主二批](../../../../testing/codex-runtime-shell-wave2.md)：接收结论保留，新模块须重验接线。
 - 不得重引 `sys:battleField`、完整 RuntimeContext、下标身份、旧 save/content fallback 或测试专用产品入口。
 
 ## Draft：边界设计
@@ -107,11 +108,13 @@ Evidence base: 7f3840e6
 
 ### 进入 done 前
 
-- Codex：pending。
+- Codex：2026-09-24 accept（实现者自验/自审，不宣称第三方独立审查）。候选46287966，
+  23新增/11针/17关键函数全等、check8463、ratchet7972/637与单次受保护strict7972/637全过；
+  build通过；最小功能视觉及复用边界见[回执](../../../../testing/battle-host-refactor.md)。旧版本兼容审查pass。
 - Kimi：用户豁免，未代签。
 - GLM：用户豁免，未代签。
 - 缺签豁免：同上，全队列独立实施、自验收口，免补审。
-- done 准入结论：blocked；没有实现候选或验证结果，不标 done。
+- done 准入结论：done allowed。Codex已按用户全队列独立验收收口授权核定；两席豁免，未代签。
 
 ## 额度 / 代班与用户裁决
 
@@ -122,14 +125,18 @@ A2 与其余队列由 Codex 独立实施、自验收口，两席 build/done 签�
 
 ## Build / Review / 用户验收
 
-2026-09-24 实现已完成，Codex自审进行中；完整check8461通过，统一coverage门待完成。
+2026-09-24 最终候选46287966已完成全部本地质量门并收口，详见[统一机账](../../../../testing/battle-host-refactor-evidence.json)。
 
-当前实施/失败/复核证据见[回执](../../testing/battle-host-refactor.md)。用户全队列授权已落总计划；
-H9随机性修正3be0e273与架构实现分提交，完整质量门尚未通过前不收口。
+当前实施/失败/复核证据见[回执](../../../../testing/battle-host-refactor.md)。用户全队列授权已落总计划；
+H9随机性修正3be0e273与架构实现分提交；两处自审时序补正单列，不把中途绿色结果冒充最终证据。
 
 - 2026-09-24 Codex：新增BattleHost/BattleLaunchPreparation与21项回归；9针业务反证通过，
   17关键函数AST全等。真实浏览器完成开战/普攻/胜利结算/世界恢复/再开战；
   全仓check8461 exit0，47warnings/6infos保持。进入review准备统一覆盖，未标done。
+- 2026-09-24 Codex：最终46287966通过check8463、官方ratchet与保护7f3840e6的单次严格fast7972/637；
+  strict前后baseline SHA256均为fe839838366df86210d8fd9334f413e640aaa70e4771fde2e8cb5f95f66295cd。
+  其余六包完整基线不变、原635生产文件全部保留；23新增/11反控、真实功能流程与关键主壳对照已落证。
+  按用户全队列授权核定done并归档；完整E2E/长期覆盖目标/其它11批不借此关闭。
 
 ## 交接日志
 
@@ -140,4 +147,4 @@ H9随机性修正3be0e273与架构实现分提交，完整质量门尚未通过�
 
 ## 下一位 Agent 提示词
 
-无下一位 Agent 提示词；Codex 按用户全队列独立授权连续推进，实际验收未完成前不得标 done。
+无下一位 Agent 提示词；本卡已由Codex独立验证收口。下一批按A3世界/帧循环队列继续，不再询问两席豁免。

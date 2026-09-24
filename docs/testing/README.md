@@ -8,7 +8,7 @@
 
 ## 文档与附件
 
-- [战斗宿主生命周期拆分](battle-host-refactor.md)、[11针隔离负控](battle-host-refactor-mutants.mjs)与[未改主壳结构对照](battle-host-shell-parity.mjs)（A2自审中；23新增，含提交/收尾原子边界补正，最终统一质量门待完成）
+- [战斗宿主生命周期拆分](battle-host-refactor.md)、[机账](battle-host-refactor-evidence.json)、[11针隔离负控](battle-host-refactor-mutants.mjs)与[未改主壳结构对照](battle-host-shell-parity.mjs)（A2/done/46287966；23新增，check8463/单次strict7972/637，用户全架构队列独立推进授权）
 
 - [战斗宿主旧败北测试随机性见证](battle-host-rng-witness.mjs)（7f3840e6 与 A2 拆分树：0.99 持续闪避同红、0.5 无闪避同绿；只固定该路由测试输入，不改变帧数/断言/产品 RNG）
 
