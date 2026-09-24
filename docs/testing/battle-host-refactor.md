@@ -1,7 +1,7 @@
 # Reforge 战斗宿主拆分（A2）
 
 任务：[ARCH-REFORGE-BATTLE-1](../ops/tasks/ARCH-REFORGE-BATTLE-1-host-lifecycle.md)。
-基点 7f3840e6；用户 2026-09-24 明确全架构治理队列由 Codex 独立实施、自验、收口，
+基点 7f3840e6；初版实现57794d15，提交时点补正待下文登记。用户 2026-09-24 明确全架构治理队列由 Codex 独立实施、自验、收口，
 Kimi/GLM 不参与、免补签；不宣称三席独立验收。
 
 ## 实现边界
@@ -12,7 +12,7 @@ Kimi/GLM 不参与、免补签；不宣称三席独立验收。
   显式 BattleContent 投影、资产读取器、world/scene 读取端口；无完整 bootGame 上下文、DOM 或保存接口。
 - 主壳负责已有 world/脚本/帧步进/音频端口。BattleSession、battle-core、battle-world-result、
   SFX/精灵/FIRE 解码/缓存与作者模型生产文件零改，不把 DEV override 纳入 canonical 命令。
-- main 6798→6486 行；BattleHost 187 行（最大方法69行），准备单元315行（最大方法102行）。
+- main 6798→6486 行；BattleHost 188 行，准备单元322行（按职责分prepare/prepareVisuals/prepareTurnSounds等）。
   不是删功能降低分母；净源码增加会如实进入统一统计。
 - 对7f3840e6 AST逐节点比较17个保存/世界/场景关键函数或箭头声明，全等。
   首次诊断脚本只选 FunctionDeclaration，漏识别 replaceWorld 箭头而报 drift；纳入实际 VariableDeclaration 后全等。
@@ -21,7 +21,7 @@ Kimi/GLM 不参与、免补签；不宣称三席独立验收。
 
 ## 回归与鉴别力
 
-新增21项：BattleHost14项 + 准备单元7项；与H9六项合计27项，
+新增22项：BattleHost15项 + 准备单元7项；与H9六项合计28项，
 负控工具：[battle-host-refactor-mutants.mjs](battle-host-refactor-mutants.mjs)。
 
 - 全部走现行正式 loader 合法 fixture、真实资产读取/准备、真实 BattleSession 与结算。
@@ -29,11 +29,11 @@ Kimi/GLM 不参与、免补签；不宣称三席独立验收。
 - 取消/runner/世界/script失效、新启动覆盖、旧finally遇新会话、fatal恢复竞争、写回前身份门、
   战后错误传播、五槽空洞、库存隔离、显式静音、非空基础音效 union。
 - finally 释放已挂起读取，取消所有实际已发布会话，消费原 pending；包括负控把 active 清错时也不悬挂。
-- 9单点针：库存别名、基础音效union、取消intent、world身份、旧finally、终态写回、战后错误、
-  主壳启动接线、运行中AbortError协议；27对照全绿/9针候选业务AssertionError全红，产品hash不变。
+- 10单点针：准备后提前快照、库存别名、基础音效union、取消intent、world身份、旧finally、终态写回、战后错误、
+  主壳启动接线、运行中AbortError协议；28对照全绿/10针候选业务AssertionError全红，产品hash不变。
   判据2正控/12反例自测，精确file/title + 恰exit1 + 实际加载见证，拒混错/timeout。
-- 最终局部负控日志：`/tmp/type-pal-battle-host-mutants-final.log`；
-  机账 `/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-battle-host-mutants-9L7FXn/summary.json`。
+- 最终局部负控日志：`/tmp/type-pal-battle-host-mutants-commit-final.log`；
+  机账 `/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-battle-host-mutants-8oaQXi/summary.json`。
 
 ### 开发期失败与处理
 
@@ -43,6 +43,13 @@ Kimi/GLM 不参与、免补签；不宣称三席独立验收。
    正式loader重开合法fixture后断言恰为`attack`，移除base union的针已业务红。
 4. H9败北一度在局部跑失败，后续全包虽绿，但未以多数通过放行：独立复算见下。
 5. 首次自动编辑因工具输出截断导致apply_patch原文匹配失败，main未部分改写；改为完整分段读取后再应用。
+6. 自审57794d15时发现新异步边界：prepare返回前已经生成库存副本，而真正发布战斗前还要经过await。
+   临时隔离反例在prepare结算与start恢复之间排入同world库存3→4，实际战斗快照仍3（AssertionError）。
+   原7f3840e6在全部资源await之后的同步new BattleSession处才读库存，故这不是要保留的旧语义。
+   改为prepare返回同步commit工厂，在实际创建会话的提交拍读取库存/money/身份/当前palette。
+   反例已转常驻回归；单点提前调用commit的第10针恢复同一业务红，不用额外等待掩盖时序。
+   临时工具首次因/tmp真实路径解析0用例报错，仅属环境失败；改用隔离Vite加载入口后才得到上述业务反证。
+   因此初版check8461/ratchet7970只记阶段结果，不作最终放行；整批最终门禁重跑，不逐零散用例跑覆盖率。
 
 ### H9既有随机性独立修正
 
@@ -56,8 +63,8 @@ Kimi/GLM 不参与、免补签；不宣称三席独立验收。
 
 - 第一轮战斗+存档/lineage：27文件/368项，PASS。
 - 中途全Reforge：168文件/1539项，PASS（当时只加14项，不是最终统计）。
-- 当前定向27项及9负控PASS；全仓check8461 exit0（Reforge169文件/1546项），47warnings/6infos保持；
-  日志`/tmp/type-pal-battle-host-check.log`。ratchet/受保护strict待统一执行，尚未收口。
+- 初版定向27项/9针/check8461/ratchet7970通过，因上述自审反例已被后续候选替代。
+  最终局部28项/10针、Reforge169文件/1547项通过，最终check/ratchet/受保护strict待完成，尚未收口。
 - 旧版本兼容审查：pass。生产只新增包内所有权，没有版本分支、升级入口、双读写或旧模型fallback。
 
 ## 功能验证与延后边界

@@ -10,6 +10,29 @@ afterEach(async () => {
   f = undefined
 })
 
+test('commit consumes live inventory after preparation settles without losing intervening changes', async () => {
+  f = await battleHostFixture()
+  const prepare = f.prep.prepare.bind(f.prep)
+  vi.spyOn(f.prep, 'prepare').mockImplementation((...args) =>
+    prepare(...args).then((value) => {
+      // Explicitly interleave at the new async seam; do not replace preparation or the battle core.
+      queueMicrotask(() => {
+        f!.world().inventory[0]!.count = 4
+        f!.world().money = 123
+      })
+      return value
+    }),
+  )
+  f.observe(f.host.start('encounter'))
+  await f.until(() => f!.host.active !== null)
+  expect(f.world().inventory).toEqual([{ itemId: 'tonic', count: 4 }])
+  const inventory = [{ itemId: 'tonic', count: 0 }]
+  f.host.active!.writeBackInventory(inventory)
+  expect(inventory).toEqual([{ itemId: 'tonic', count: 4 }])
+  expect(f.world().money).toBe(123)
+  f.assertInputs()
+})
+
 test('battle host commits real victory once, then hooks, scene sounds and music in order', async () => {
   f = await battleHostFixture()
   const operation = f.observe(f.host.start('encounter', { auto: true }))

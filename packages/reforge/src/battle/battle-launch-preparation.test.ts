@@ -12,7 +12,9 @@ afterEach(async () => {
 })
 const prepare = (options?: BattleLaunchOptions, team = 'encounter') => {
   if (!f) throw new Error('fixture missing')
-  return f.prep.prepare(team, options, new AbortController().signal, () => {}, vi.fn())
+  return f.prep
+    .prepare(team, options, new AbortController().signal, () => {}, vi.fn())
+    .then((prepared) => ({ ...prepared, ...prepared.commit() }))
 }
 
 test('preparation retains all five canonical slots and snapshots inventory independently without publishing', async () => {

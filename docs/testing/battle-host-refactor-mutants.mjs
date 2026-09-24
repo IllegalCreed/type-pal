@@ -14,6 +14,15 @@ const output = mkdtempSync(resolve(tmpdir(), 'type-pal-battle-host-mutants-'))
 const files = ['battle/battle-host', 'battle/battle-launch-preparation', 'main.battle-host-flows']
 const mutations = [
   {
+    id: 'early-world-snapshot',
+    source: 'battle/battle-launch-preparation',
+    test: 'battle/battle-host',
+    title:
+      'commit consumes live inventory after preparation settles without losing intervening changes',
+    from: 'return { players, enemySlots, commit, battleTrack }',
+    to: 'const early = commit(); return { players, enemySlots, commit: () => early, battleTrack }',
+  },
+  {
     id: 'inventory-alias',
     source: 'battle/battle-launch-preparation',
     test: 'battle/battle-launch-preparation',
@@ -215,10 +224,10 @@ export default {root:${JSON.stringify(resolve(root, 'packages/reforge'))},plugin
   )
   if (!mutation) {
     assert.equal(run.status, 0, `control: ${output}`)
-    assert.equal(entries.length, 27)
-    assert.equal(data.numPassedTests, 27)
+    assert.equal(entries.length, 28)
+    assert.equal(data.numPassedTests, 28)
     assert.equal(data.numPendingTests, 0)
-    assert.equal(new Set(entries.map((entry) => `${entry.file}::${entry.fullName}`)).size, 27)
+    assert.equal(new Set(entries.map((entry) => `${entry.file}::${entry.fullName}`)).size, 28)
     controls = entries
   } else {
     assert(
@@ -245,7 +254,7 @@ export default {root:${JSON.stringify(resolve(root, 'packages/reforge'))},plugin
         failureMessages,
       })),
   })
-  console.log(`${id}: ${mutation ? 'detected (candidate AssertionError)' : '27 passing'}`)
+  console.log(`${id}: ${mutation ? 'detected (candidate AssertionError)' : '28 passing'}`)
 }
 writeFileSync(
   resolve(output, 'summary.json'),

@@ -145,7 +145,7 @@ export class BattleLaunchPreparation {
       report(team, 'battleBase', error, false)
     })
     assertCurrent()
-    const { sessionAssets, fieldDef } = await this.prepareVisuals(
+    const { commitAssets, fieldDef } = await this.prepareVisuals(
       players,
       enemyDefs,
       cooperativeSkillIds,
@@ -153,30 +153,34 @@ export class BattleLaunchPreparation {
       assertCurrent,
     )
     assertCurrent()
-    const sessionOptions: SessionOptions = {
-      skills: content.skills,
-      enemiesById: content.enemiesById,
-      items: content.items,
-      inventory: ports.readWorld().inventory.map((x) => ({ ...x })),
-      difficulty: 'normal',
-      auto: options?.auto,
-      boss: options?.boss,
-      locale: content.locale,
-      fieldWave: fieldDef?.screenWave ?? 0,
-      fieldEffect: fieldDef?.magicEffect,
-      poisonDefs: content.poisonsById,
-      money: ports.readWorld().money,
-      actorsById: content.actorsById,
-      skillUseCounts: ports.readWorld().skillUseCounts,
-      encounterChoreo,
-      playerSounds,
-      soundRoles: assets.soundRoles,
-      prepareTurnSounds: (snapshot) => this.prepareTurnSounds(team, battleBaseSounds, snapshot),
-      reportReadinessError: (error, context) =>
-        report(team, `turn-${context.turn}`, error, context.fatal),
-      worldPartyIdentities: ports.readWorld().party.map(({ id, template }) => ({ id, template })),
+    // No mutable world snapshot crosses the asynchronous preparation/commit boundary.
+    const commit = () => {
+      const sessionOptions: SessionOptions = {
+        skills: content.skills,
+        enemiesById: content.enemiesById,
+        items: content.items,
+        inventory: ports.readWorld().inventory.map((x) => ({ ...x })),
+        difficulty: 'normal',
+        auto: options?.auto,
+        boss: options?.boss,
+        locale: content.locale,
+        fieldWave: fieldDef?.screenWave ?? 0,
+        fieldEffect: fieldDef?.magicEffect,
+        poisonDefs: content.poisonsById,
+        money: ports.readWorld().money,
+        actorsById: content.actorsById,
+        skillUseCounts: ports.readWorld().skillUseCounts,
+        encounterChoreo,
+        playerSounds,
+        soundRoles: assets.soundRoles,
+        prepareTurnSounds: (snapshot) => this.prepareTurnSounds(team, battleBaseSounds, snapshot),
+        reportReadinessError: (error, context) =>
+          report(team, `turn-${context.turn}`, error, context.fatal),
+        worldPartyIdentities: ports.readWorld().party.map(({ id, template }) => ({ id, template })),
+      }
+      return { sessionAssets: commitAssets(), sessionOptions }
     }
-    return { players, enemySlots, sessionAssets, sessionOptions, battleTrack }
+    return { players, enemySlots, commit, battleTrack }
   }
 
   private async prepareVisuals(
@@ -227,23 +231,26 @@ export class BattleLaunchPreparation {
     this.addItemFire(fireChunks, sprites.reachableEnemyDefs)
     const fireSprites = await this.loadFire(fireChunks)
     assertCurrent()
-    const faces: Record<string, ImageBitmap | undefined> = {}
-    ports.readWorld().party.forEach((c, i) => {
-      faces[c.id] = faceList[i]
-    })
-    const sessionAssets: BattleSessionAssets = {
-      ...assets.chrome,
-      bg: bgFull?.canvas,
-      bgIndexed: bgFull ? { indices: bgFull.indices, w: bgFull.w, h: bgFull.h } : undefined,
-      palette: assets.palette(),
-      battleSprites: sprites.byDefinitionId,
-      playerBaseDefinitionIds: sprites.playerBaseDefinitionIds,
-      faces,
-      sfx: assets.sfx,
-      effectSprite,
-      fireSprites,
+    const commitAssets = (): BattleSessionAssets => {
+      const faces: Record<string, ImageBitmap | undefined> = {}
+      ports.readWorld().party.forEach((c, i) => {
+        faces[c.id] = faceList[i]
+      })
+      const sessionAssets: BattleSessionAssets = {
+        ...assets.chrome,
+        bg: bgFull?.canvas,
+        bgIndexed: bgFull ? { indices: bgFull.indices, w: bgFull.w, h: bgFull.h } : undefined,
+        palette: assets.palette(),
+        battleSprites: sprites.byDefinitionId,
+        playerBaseDefinitionIds: sprites.playerBaseDefinitionIds,
+        faces,
+        sfx: assets.sfx,
+        effectSprite,
+        fireSprites,
+      }
+      return sessionAssets
     }
-    return { sessionAssets, fieldDef }
+    return { commitAssets, fieldDef }
   }
 
   private fields() {

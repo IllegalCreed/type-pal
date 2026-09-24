@@ -86,17 +86,18 @@ export class BattleHost {
     }
     if (prepared.battleTrack === null) this.music.bgm.stop(BATTLE_MUSIC_TRANSITION_MS)
     else this.music.bgm.play(prepared.battleTrack, true, BATTLE_MUSIC_TRANSITION_MS)
+    const { sessionAssets, sessionOptions } = prepared.commit()
     const session: BattleSession = new BattleSession(
       prepared.players,
       prepared.enemySlots,
-      prepared.sessionAssets,
+      sessionAssets,
       (id) => {
         const c = this.ports.readWorld().party.find((x) => x.id === id)
         return c ? lookupText(`name.${c.template}`, this.music.locale) : id
       },
       Math.random,
       {
-        ...prepared.sessionOptions,
+        ...sessionOptions,
         playMusic: (asset) => this.music.bgm.play(asset),
         stopMusic: () => this.music.bgm.stop(),
         buildSettlement: () => {
