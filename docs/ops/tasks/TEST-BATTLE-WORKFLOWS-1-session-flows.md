@@ -9,7 +9,7 @@ Reviewer: both
 Visual Verification Owner: N/A
 Visual Verification Timing: N/A
 Unavailable Agents: 无
-Branch: codex/glm-battle-workflows-r1（当前r4候选=分支tip；独立worktree）
+Branch: codex/glm-battle-workflows-r1（当前r4候选d9fb606e；独立worktree）
 Revision: r1
 Planning Base: f2592597
 Production Freeze: 57dda7ed2376fc25f07756be117bb4a058d09915
@@ -111,7 +111,14 @@ Production Freeze: 57dda7ed2376fc25f07756be117bb4a058d09915
 
 ### done前
 
-#### 当前r3独立接收（2026-09-24；前一日开始取证）
+#### 当前r4独立接收（2026-09-24）
+
+- Codex：**counter（r4候选d9fb606e；设计r1保持）**。定向45、battle目录332、全Reforge1459、TC/Biome12文件与GLM6+10通过。N1三反证现全部候选业务红；N2泵旁路现候选业务红；N4实际judge拒同项混错/exit2/null，原已修项保持；精灵逐实参guard已落。N3无效合击/W空列表/非胜利零结算及去重层级通过。唯一业务残项：有效合击p1为施法者，却只断言p1无普攻，敌HP20一击致胜遮蔽p2行动；独立移除core:1888队友消费门后整包45仍绿，合法活敌公开oracle则出现p2额外108伤害并AssertionError。只补该会话子合同，保留91/91代价正控；另勘误真实judge自测11非12、src/battle实际23/332或明确原19/278子集命令。详见[r4复核](../../testing/battle-workflows-r4-review.md)/[机账](../../testing/battle-workflows-r4-evidence.json)。不改候选语义、不集成/跑统计并集、不代签、不转Kimi。旧兼容审查pass（产品零改），不替代accept。
+- GLM r4实施者回执/原签位于[d9fb606e回执](https://github.com/IllegalCreed/type-pal/blob/d9fb606e/docs/testing/glm-battle-workflows.md)及该树任务卡；保留原文和贡献身份，不作为独立第三方证明。
+- Kimi：pending；按用户要求，接收后另排，无本轮Kimi提示词。
+- 当前done准入：**blocked**；保持rework，仅剩N3队友消费断言及回执勘误。N1/N2/N4行为与N3其它关闭项不重开；无缺签豁免。
+
+#### 历史r3独立接收（2026-09-24；前一日开始取证，原文保留）
 
 - Codex：**counter（r3候选7a2f1608；设计r1保持）**。39/272/1453、TC/Biome12文件与GLM6+10通过；42次实际会话/8次演员守卫观察通过，r2四个存活变异全部转候选自身AssertionError；finally失败注入现originalFailure/settledAtBodyExit均true，原r2清理/行动者/技能移除/8字段漏验问题关闭。残项N1：奖励后以p1After同对象自比较，删幂等门仍39绿；所谓非空库存仍[]、清空库存仍39绿；HP≥1钳制可由合法两人队伍一人HP0、另一人真实胜利到达，公开oracle写回[1,100]，去钳制候选39绿而oracle红，撤不可达结论。N2：hook等待期间无攻击日志不等于无提交，旁路selectAction泵返回后wait例仍绿，公开readiness实证144ms已提交attack而日志仍空。N3：12个去重标题/行号准确，但core非法动作不等于会话选择、准备快照不等于合击执行、terminated终态标题不代零奖励断言。N4：真实judge仍接受同失败项多消息混普通Error、exit2/null；已修fullName/file/marker/后行timeout/单针数不重开。详见[r3复核](../../testing/battle-workflows-r3-review.md)/[机账](../../testing/battle-workflows-r3-evidence.json)。候选零改、旧两份见证零改，不集成/不跑并集，不代签、不转Kimi。旧兼容审查：pass（产品未改），不等于测试accept。
 - GLM r3实施者回执/原签位于[7a2f1608回执](https://github.com/IllegalCreed/type-pal/blob/7a2f1608/docs/testing/glm-battle-workflows.md)及该树任务卡，保留贡献/声明，不作为独立第三方证明。
@@ -181,6 +188,8 @@ Production Freeze: 57dda7ed2376fc25f07756be117bb4a058d09915
 
 ## 交接日志
 
+- 2026-09-24 Codex（r4窄复核counter）：远端d9fb606e与GLM树一致，主线47be1582干净；复用本人detached树，未新建已清理分支。45/332/1459、TC/Biome/GLM6+10独立通过；原r3工具不改即复用，N1/N2/N4反证已闭。只读Vite加载补证N3，消费门关闭候选45绿，真实活敌公开oracle看到p2多余普攻108而红；其它新合同变异均红，故仅追此一业务残项。自测11/相邻23-332两计数勘误明确单列。候选/产品/旧见证零改，不跑并集，main仅落本人结论与可复建证据；GLM贡献保留、不代签、不转Kimi。
+
 - 2026-09-24 GLM（r4 收窄返工交付）：在 codex/glm-battle-workflows-r1 合入 origin/main 47be1582
   （18f1922d，保留 r1/r2/r3 counter 原文与全部签字/日志），只闭 N1～N4：N1 幂等独立快照全等/
   worldInventory 非空哨兵/多队员 hp0 胜利钳制 [1,100] 精确（撤回不可达论；幂等门删除、库存清空、
@@ -195,7 +204,7 @@ Production Freeze: 57dda7ed2376fc25f07756be117bb4a058d09915
   白名单测试/fixture/工具+本人回执/机账/席位日志；未改产品、旧测试、Codex 历史见证、官方范围
   基线；无视觉；未跑官方统计并集。交 Codex 独立重新接收，Kimi 待 Codex 通过后另排。
 
-  下一位 Agent 提示词（交 Codex，独立重新接收）：
+  下一位 Agent 提示词（交 Codex，独立重新接收；已被上方 r4 counter 消费，留档）：
 
   > 在你的工作树对 TEST-BATTLE-WORKFLOWS-1 r4 候选（分支 codex/glm-battle-workflows-r1 tip，合入
   > 47be1582 后整包提交，工作树 /Users/zhangxu/illegal/type-pal-glm-battle）做独立接收复核。先读
@@ -300,7 +309,17 @@ Production Freeze: 57dda7ed2376fc25f07756be117bb4a058d09915
 
 ## 下一位Agent提示词
 
-### 当前给GLM：r3收窄残项N1～N4（无Kimi交接）
+### 当前给GLM：r4只剩队友消费一项（无Kimi交接）
+
+在 `/Users/zhangxu/illegal/type-pal-glm-battle` 的codex/glm-battle-workflows-r1窄返工本卡r4候选d9fb606e；状态rework，设计r1不重签。
+先合入main本轮复核，读AGENTS/CLAUDE/READ-FIRST、本卡当前块、docs/testing/battle-workflows-r4-review.md及机账/隔离见证。
+唯一业务残项N3：当前p1发起合击，却只查p1无普攻，敌HP20一击致胜掩盖p2多余行动；移除core:1888消费门候选45绿，Codex合法活敌oracle红。
+保留[91,91]一次代价正控，补/扩一个公开会话中的活敌/非施法队友行动窗口，正常绿、同针业务红。别靠只换日志前缀或超时过关。
+另同步本人回执/机账：真实judge自测11非12；src/battle实跑23/332，若19/278是显式子集给完整命令。N1/N2/N4行为、N3其它合同均已接受，不重开。
+只改原白名单测试/必要fixture/工具和本人回执；不改产品/旧测试/Codex历史见证/官方范围基线/其它卡，不做视觉、不代签、不done、不转Kimi。
+定向/全Reforge/TC/Biome、原负控和队友消费负控整包交Codex再接收；统计并集待实现通过后统一。
+
+### 历史给GLM：r3收窄残项N1～N4（无Kimi交接）
 
 在 /Users/zhangxu/illegal/type-pal-glm-battle 的codex/glm-battle-workflows-r1返工本卡r3候选7a2f1608，状态rework，设计r1不重签。
 先合入main本轮counter，读AGENTS/CLAUDE/READ-FIRST、本卡当前r3块、docs/testing/battle-workflows-r3-review.md及机账。
