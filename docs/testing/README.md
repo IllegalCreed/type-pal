@@ -8,7 +8,7 @@
 
 ## 文档与附件
 
-- [战斗流程r5独立接收](battle-workflows-r5-review.md)与[机账](battle-workflows-r5-evidence.json)（fd4efd76 Codex accept，46/1460；r4消费门反证已闭、计数勘误接受；待统一集成/统计门与Kimi终审，额度尽无豁免）
+- [战斗流程r5独立接收](battle-workflows-r5-review.md)与[机账](battle-workflows-r5-evidence.json)（fd4efd76 Codex accept，46/1460；r4反证已闭；用户已豁免Kimi本次终审，待统一集成/统计门，未done）
 
 - [战斗流程r4独立接收](battle-workflows-r4-review.md)、[机账](battle-workflows-r4-evidence.json)与[会话层见证](battle-workflows-r4-witnesses.mjs)（d9fb606e窄counter；N1/N2/N4业务已闭，仅合击队友消费缺口，45/1459绿不替代该合同；不跑并集/不转Kimi）
 

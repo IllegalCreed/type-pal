@@ -8,7 +8,7 @@ Generation Owner: N/A
 Reviewer: both
 Visual Verification Owner: N/A
 Visual Verification Timing: N/A
-Unavailable Agents: Kimi（用户2026-09-24告知额度耗尽；终审待补，无缺签豁免）
+Unavailable Agents: Kimi（额度耗尽；用户2026-09-24明确豁免本卡r5终审席位，非代签accept）
 Branch: codex/glm-battle-workflows-r1（当前r5候选fd4efd76；独立worktree）
 Revision: r1
 Planning Base: f2592597
@@ -115,8 +115,8 @@ Production Freeze: 57dda7ed2376fc25f07756be117bb4a058d09915
 
 - Codex：**accept（r5候选fd4efd76；实现接收，设计r1保持）**。r4唯一队友消费残项已闭：selection-flows:165-201以非施法p2为对象、敌5000存活、一轮回menu、合击恰一次/敌真行动；core:1888消费门单点关闭后候选45绿/1个新增用例自身AssertionError，正常46绿。本人活敌oracle与对齐敌身法/tick的同输入对照均同向红绿；原:122-162成本正控保留91/91且标题已收窄。judge自测实数11条；无尾斜杠src/battle实跑23/333，尾斜杠19/279，历史19/278范围解释成立。定向46、全Reforge158/1460、TC/Biome12文件、GLM6+10通过；四生产目标/历史见证/官方范围基线零改。N1/N2/N4与其它关闭项不重开，无新增counter。详见[r5接收](../../testing/battle-workflows-r5-review.md)/[机账](../../testing/battle-workflows-r5-evidence.json)。本席不改候选语义、不跑统计并集、不代签、不转Kimi。旧兼容审查pass。
 - GLM r5实施者原签/回执保留在[fd4efd76任务卡](https://github.com/IllegalCreed/type-pal/blob/fd4efd76/docs/ops/tasks/TEST-BATTLE-WORKFLOWS-1-session-flows.md)及[回执](https://github.com/IllegalCreed/type-pal/blob/fd4efd76/docs/testing/glm-battle-workflows.md)；属于测试贡献者自验，不充当独立第三方证明。
-- Kimi：pending（用户告知额度耗尽，未代签）。代班终审：无；风险：欠该席最终实现审查；补审：需要；缺签豁免：未获用户批准。
-- 当前done准入：**blocked**；不是返工阻断（本席counter均已闭），而是尚未统一集成/整仓check→ratchet→strict-fast及Kimi独立终审。本轮Reviewer仅落席，Status不代Coding Owner推进；后续由Codex统一核集成与阶段门。官方7826/633、full/Q1/Q2边界不变。
+- Kimi：**用户批准缺签豁免（2026-09-24，原话“豁免他了”；仅本卡r5候选fd4efd76终审）**，不记为Kimi accept、不代签。原因：额度耗尽；代班终审：无（Codex独立接收、GLM贡献者自验已完成）；风险：缺少Kimi独立终审，由用户明确接受；补审：不再作为本候选done必需条件，不外推其它卡/新范围。
+- 当前done准入：**blocked**；本席counter均已闭、签字条件已由Codex接收/GLM实施者自验/Kimi用户豁免满足，剩余仅统一集成及整仓check→ratchet→受保护strict-fast。不得因豁免跳过质量门或直接done；后续由Codex统一核集成与阶段推进。官方7826/633、full/Q1/Q2边界不变。
 
 #### 历史r4独立接收（2026-09-24，原文保留）
 
@@ -161,6 +161,8 @@ Production Freeze: 57dda7ed2376fc25f07756be117bb4a058d09915
 
 ## 交接日志
 
+- 2026-09-24 Codex（用户豁免登记/覆盖率状态核对）：用户明确“豁免他了”，按本卡r5候选fd4efd76登记Kimi终审缺签豁免，不改历史签字、不代签accept、不扩其它任务。本席独立接收及GLM自验保持有效，仍须统一集成/整仓门禁后核done。本次只读官方9月23日fast基线7826/633，行76.09%、语句73.90%、函数74.17%、分支66.68%；战斗46项尚未计入，不把局部增量当官方并集；未合并实现或重跑覆盖率。
+
 - 2026-09-24 Codex（r5窄接收accept）：核远端fd4efd76、复用本人detached树。只复验r4队友消费与计数；原冻结r4工具内存筛前4例，消费门关闭现新用例自身AssertionError，独立oracle正反同向，后对齐敌身法/tick仍同向。46/333/1460、TC/Biome12文件、GLM6+10均绿，尾斜杠19/279与11自测计数实证。仅main落本人签字/证据和接收进度，未改GLM候选、未集成/跑统计并集、不代签、不done。用户告知Kimi额度耗尽已登记，补审仍待，无代班或缺签豁免；不发Kimi提示词，下一步统一集成与门禁另排。
 
 - 2026-09-24 Codex（r4窄复核counter）：远端d9fb606e与GLM树一致，主线47be1582干净；复用本人detached树，未新建已清理分支。45/332/1459、TC/Biome/GLM6+10独立通过；原r3工具不改即复用，N1/N2/N4反证已闭。只读Vite加载补证N3，消费门关闭候选45绿，真实活敌公开oracle看到p2多余普攻108而红；其它新合同变异均红，故仅追此一业务残项。自测11/相邻23-332两计数勘误明确单列。候选/产品/旧见证零改，不跑并集，main仅落本人结论与可复建证据；GLM贡献保留、不代签、不转Kimi。
@@ -199,8 +201,8 @@ Production Freeze: 57dda7ed2376fc25f07756be117bb4a058d09915
 
 ### 当前：r5已接收，无下一位Agent提示词
 
-Codex实现接收accept，原返工项关闭。等待后续统一集成/阶段推进和整仓门禁；Kimi额度耗尽，终审待恢复或用户明确裁决。
-本轮不转Kimi、不代签、不标done，不把额度耗尽自动视作缺签豁免。
+Codex实现接收accept，原返工项关闭。用户已明确豁免Kimi本候选终审；等待后续统一集成/阶段推进和整仓门禁。
+无下一位Agent提示词，不转Kimi、不代签、不标done；本次明确豁免不外推其它卡，且不豁免质量门。
 
 ### 历史给GLM：r4只剩队友消费一项（无Kimi交接）
 

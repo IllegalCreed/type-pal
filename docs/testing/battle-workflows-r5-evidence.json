@@ -168,6 +168,15 @@
     "waiverApproved": false,
     "finalReviewPending": true
   },
+  "postReviewWaiver": {
+    "date": "2026-09-24",
+    "userQuote": "豁免他了",
+    "approved": true,
+    "scope": "Kimi final review for TEST-BATTLE-WORKFLOWS-1 r5 fd4efd76 only",
+    "notAnAgentAcceptSignature": true,
+    "priorKimiObjectIsReviewTimeSnapshot": true,
+    "integrationAndOfficialQualityGatesStillRequired": true
+  },
   "boundaries": [
     "No candidate semantic or disk edits",
     "Product four targets unchanged from 57dda7ed",
