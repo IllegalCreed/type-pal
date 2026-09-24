@@ -1,0 +1,132 @@
+{
+  "schemaVersion": 5,
+  "task": "TEST-BATTLE-WORKFLOWS-1 r5 narrow rework (GLM Coding Owner; closes Codex r4 counter on r4 d9fb606e)",
+  "date": "2026-09-24",
+  "history": {
+    "r1": { "candidate": "16ac8cee", "counter": "3f1b111d (R1-R4)" },
+    "r2": { "candidate": "b7ba48bb", "counter": "7f43b05b (C1-C4)" },
+    "r3": { "candidate": "7a2f1608", "counter": "47be1582 (N1-N4)" },
+    "r4": {
+      "candidate": "d9fb606e",
+      "counter": "16ba5e02 (N3 teammate-consumption only + 2 count errata, docs/testing/battle-workflows-r4-review.md)"
+    },
+    "r5": { "mergeIntoWorktree": "d5b43a92 (kept counters/signatures/logs verbatim)" }
+  },
+  "productionFreeze": "57dda7ed2376fc25f07756be117bb4a058d09915",
+  "zeroDiffCommand": "git diff 57dda7ed..HEAD -- packages/reforge/src/battle/battle-session.ts packages/reforge/src/battle/battle-core.ts packages/reforge/src/battle/battle-anim.ts packages/reforge/src/battle/enemy-hook-runtime.ts  # empty",
+  "selfCheckNote": "开发期自检曾临时变异 battle-core.ts:1888 消费门（false && 原条件）验证新消费用例红，验证后还原并核四目标零 diff",
+  "branch": "codex/glm-battle-workflows-r1",
+  "worktree": "/Users/zhangxu/illegal/type-pal-glm-battle",
+  "testCount": 46,
+  "perFile": [
+    {
+      "file": "packages/reforge/src/battle/battle-session.selection-flows.test.ts",
+      "tests": 14,
+      "group": "W1",
+      "delta": "+1（合击消费非施法队友行动·活敌场景）；一击杀用例改为成本正控（标题去过度宣称）"
+    },
+    {
+      "file": "packages/reforge/src/battle/battle-session.round-flows.test.ts",
+      "tests": 6,
+      "group": "W2",
+      "delta": ""
+    },
+    {
+      "file": "packages/reforge/src/battle/battle-session.action-flows.test.ts",
+      "tests": 6,
+      "group": "W3",
+      "delta": ""
+    },
+    {
+      "file": "packages/reforge/src/battle/battle-session.script-flows.test.ts",
+      "tests": 8,
+      "group": "W4/W3",
+      "delta": ""
+    },
+    {
+      "file": "packages/reforge/src/battle/battle-session.terminal-flows.test.ts",
+      "tests": 6,
+      "group": "W5",
+      "delta": ""
+    },
+    {
+      "file": "packages/reforge/src/battle/battle-session.writeback-flows.test.ts",
+      "tests": 6,
+      "group": "W6",
+      "delta": ""
+    }
+  ],
+  "fixtures": [
+    "packages/reforge/src/__tests__/battle-workflows/catalog.ts",
+    "packages/reforge/src/__tests__/battle-workflows/session-driver.ts",
+    "packages/reforge/src/__tests__/battle-workflows/controlled-io.ts"
+  ],
+  "codeFilesCount": 9,
+  "tools": [
+    "docs/testing/glm-battle-workflows-mutants.mjs",
+    "docs/testing/glm-battle-workflows-coverage.config.mts"
+  ],
+  "closure": {
+    "teammateConsumption": "新用例：敌 health 5000 存活；p1 发起全体合击（p2 被填占位动作）；一轮回菜单后断言 合体技 行恰1、无 p2 开头普攻行（非施法队友行动被消费）、无 p1 普攻行、survivor 敌行动行存在；自检：battle-core.ts:1888 消费门改 false && 后本用例以 p2 多余普攻行业务红（与 Codex 活敌 oracle 同向）；[91,91] 成本正控保留于一击杀用例"
+  },
+  "countErrata": [
+    "判据自测实际 11 条 assert.equal(judge(...))（mutants.mjs:228/229/239/249/254/274/301/303/330/331/336）；r4 回执称 12 系误计，本版按 11 记录",
+    "相邻范围：r2~r4 的『19 文件/278』来自带尾斜杠命令 npx vitest run src/battle/（仅 battle 目录）；无尾斜杠 pnpm --filter @type-pal/reforge exec vitest run src/battle 另含 src/battle-trial-*.test.ts 4 文件。两数皆真实、范围不同；本版起以无尾斜杠全范围为准并记录完整命令（r5 实测 23 文件/333）"
+  ],
+  "mutants": {
+    "controls": 6,
+    "needles": 10,
+    "selfTests": 11,
+    "finalRunExit": 0,
+    "result": "6 controls green + 10 needles detected",
+    "toolCriteria": "fullName 正控解析+锚定 -t+精确相等；规范绝对路径全等；MUTATION_HIT:<needle> 身份；套件 message/失败≠1/执行≠1/Unhandled/同项混错/全行 timeout 拒收；变异成功必须恰 exit1（exit2/null=invalid）；自测 11 条走真实 judge；单针模式报实际控制数",
+    "evidence": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/bw1-mutants-vfFyQZ/"
+  },
+  "verification": {
+    "targeted": "6 files 46/46（14/6/6/8/6/6）",
+    "adjacentBattleDir": "pnpm --filter @type-pal/reforge exec vitest run src/battle：23 files 333/333（无尾斜杠全范围；r4 树同命令 23/332+本次 1）",
+    "fullReforgePackage": "158 files 1460/1460 exit0（r4 1459 + 新增 1）",
+    "typecheck": "pnpm --filter @type-pal/reforge typecheck rc=0",
+    "biome": "changed files format+check rc=0",
+    "mutantsTool": "6 controls + 10 needles rc=0"
+  },
+  "coverage": {
+    "config": "docs/testing/glm-battle-workflows-coverage.config.mts（官方 fast 选择/生产 include；before 仅排本批 6 文件）",
+    "output": "/tmp/bw1-r5-coverage/{before,after}",
+    "beforeTests": 1414,
+    "afterTests": 1460,
+    "targets": {
+      "battle-session.ts": {
+        "lines": [880, 928, 1331],
+        "branches": [761, 815, 1457],
+        "functions": [138, 146, 181]
+      },
+      "battle-core.ts": {
+        "lines": [1037, 1037, 1140],
+        "branches": [977, 978, 1183],
+        "functions": [114, 114, 118]
+      },
+      "battle-anim.ts": {
+        "lines": [316, 365, 402],
+        "branches": [220, 247, 318],
+        "functions": [42, 47, 54]
+      },
+      "enemy-hook-runtime.ts": {
+        "lines": [50, 50, 58],
+        "branches": [40, 40, 53],
+        "functions": [5, 5, 5]
+      }
+    },
+    "netDelta": "+97 lines/+82 branches/+13 functions（session +48L/+54B/+8F——消费分支新入账，anim +49L/+27B/+5F 保持，core +1B；逐文件分开列示）",
+    "honesty": "session 剩余 403L/642B 含 render 入口后 ~189 行（视觉侧另卡）与未覆盖组合；hook 8L/13B 保留分母，不虚报"
+  },
+  "codexWitnessNote": "r1/r2/r3/r4 冻结见证工具零改动；r4 见证（docs/testing/battle-workflows-r4-witnesses.mjs）对 r5 由 Codex 自行复跑",
+  "planningConstraints": {
+    "noProductChanges": true,
+    "noOfficialBaselineOrConfigChanges": true,
+    "noOldTestOrOtherCardChanges": true,
+    "noVisual": true,
+    "glmDoesNotRunOfficialUnionOrRatchet": true,
+    "consumptionOnlyNoReopenOfClosedItems": true
+  }
+}
