@@ -115,8 +115,19 @@ Production Freeze: 57dda7ed2376fc25f07756be117bb4a058d09915
 
 - Codex：**counter（r4候选d9fb606e；设计r1保持）**。定向45、battle目录332、全Reforge1459、TC/Biome12文件与GLM6+10通过。N1三反证现全部候选业务红；N2泵旁路现候选业务红；N4实际judge拒同项混错/exit2/null，原已修项保持；精灵逐实参guard已落。N3无效合击/W空列表/非胜利零结算及去重层级通过。唯一业务残项：有效合击p1为施法者，却只断言p1无普攻，敌HP20一击致胜遮蔽p2行动；独立移除core:1888队友消费门后整包45仍绿，合法活敌公开oracle则出现p2额外108伤害并AssertionError。只补该会话子合同，保留91/91代价正控；另勘误真实judge自测11非12、src/battle实际23/332或明确原19/278子集命令。详见[r4复核](../../testing/battle-workflows-r4-review.md)/[机账](../../testing/battle-workflows-r4-evidence.json)。不改候选语义、不集成/跑统计并集、不代签、不转Kimi。旧兼容审查pass（产品零改），不替代accept。
 - GLM r4实施者回执/原签位于[d9fb606e回执](https://github.com/IllegalCreed/type-pal/blob/d9fb606e/docs/testing/glm-battle-workflows.md)及该树任务卡；保留原文和贡献身份，不作为独立第三方证明。
+- GLM r5实施者自验：**accept（2026-09-24，r5 窄返工候选，分支 tip；不算独立第三方）**。合入
+  16ba5e02（d5b43a92）后只闭 r4 唯一残项+两处计数勘误：新用例 `合击消费非施法队友行动（活敌场景）`
+  ——敌 health 5000 存活、p1 发起全体合击、一轮回菜单后断言合体技恰 1、**无 p2 普攻行**（非施法
+  队友行动被消费）、敌行动行存在；自检 battle-core.ts:1888 消费门改 `false &&` 后本用例业务红
+  （与 Codex 活敌 oracle 同向），产品已还原核零 diff；一击杀用例改为成本正控（[91,91] 保留、
+  标题去过宽宣称）。勘误：judge 自测按实际 **11** 条记录；相邻计数改为无尾斜杠全范围
+  `pnpm --filter @type-pal/reforge exec vitest run src/battle`（**23 文件 333/333**，r2~r4 的
+  19/278 为带尾斜杠目录子集、命令已在回执注明）。定向 46/46（14/6/6/8/6/6）、全包 158 文件
+  1460/1460、TC/Biome rc0、负控 6+10 全 detected；覆盖 1414→1460（session +48L/+54B/+8F、
+  anim +49L/+27B/+5F、core +1B）。不代签、不标 done、不转 Kimi、不跑统计并集，交 Codex
+  独立重新接收。
 - Kimi：pending；按用户要求，接收后另排，无本轮Kimi提示词。
-- 当前done准入：**blocked**；保持rework，仅剩N3队友消费断言及回执勘误。N1/N2/N4行为与N3其它关闭项不重开；无缺签豁免。
+- 当前done准入：**blocked**；r5 候选已交付待 Codex 独立重新接收；N1/N2/N4 与 N3 已闭子项不重开，无缺签豁免。
 
 #### 历史r3独立接收（2026-09-24；前一日开始取证，原文保留）
 
@@ -187,6 +198,33 @@ Production Freeze: 57dda7ed2376fc25f07756be117bb4a058d09915
 - done准入：blocked；Codex对16ac8cee签counter，状态rework，r2 候选已交付待 Codex 独立接收；不得以GLM自验或第二波历史签字代替独立接收/终审。
 
 ## 交接日志
+
+- 2026-09-24 GLM（r5 窄返工交付）：在 codex/glm-battle-workflows-r1 合入 origin/main 16ba5e02
+  （d5b43a92，保留 r1～r4 counter 原文与全部签字/日志），只闭 r4 唯一业务残项与两处计数勘误：
+  新增活敌场景合击消费回归（敌 5000 存活、p1 发起、p2 被填占位动作；一轮回菜单后 合体技 恰 1、
+  无 `p2 ` 普攻行、敌行动行存在；battle-core.ts:1888 消费门改 `false &&` 自检业务红后产品还原核
+  零 diff）；一击杀用例改为 [91,91] 成本正控（标题去过宽宣称）；judge 自测按实际 11 条记录；
+  相邻计数改无尾斜杠全范围命令（23 文件 333/333，历史 19/278 为带尾斜杠目录子集并在回执注明命令）。
+  整包：定向 46/46、全包 158 文件 1460/1460、TC rc0、Biome rc0、负控 6+10 全 detected；覆盖
+  1414→1460（session +48L/+54B/+8F、anim +49L/+27B/+5F、core +1B）。只改原白名单测试+本人回执/
+  机账/席位日志；未改产品、旧测试、Codex 历史见证、官方基线；无视觉；未跑统计并集。交 Codex
+  独立重新接收，Kimi 待 Codex 通过后另排。
+
+  下一位 Agent 提示词（交 Codex，独立重新接收）：
+
+  > 在你的工作树对 TEST-BATTLE-WORKFLOWS-1 r5 候选（分支 codex/glm-battle-workflows-r1 tip，合入
+  > 16ba5e02 后整包提交，工作树 /Users/zhangxu/illegal/type-pal-glm-battle）做独立接收复核。先读
+  > 任务卡 r4 接收块（唯一残项原文）、你本人 docs/testing/battle-workflows-r4-review.md 及机账、
+  > GLM r5 回执 docs/testing/glm-battle-workflows.md 与 glm-battle-workflows-evidence.json。只复验
+  > 两点：① 新用例 `合击消费非施法队友行动（活敌场景）：敌存活回菜单，p2 无多余普攻、合击恰一次`
+  > 是否以非施法队友 p2 的行动为观察对象（可复你的 core:1888 消费门移除单点变异，候选应业务红；
+  > 与你的活敌 oracle 同输入同向）；一击杀用例保留 [91,91] 成本正控且标题不再宣称队友消费。② 两处
+  > 计数勘误是否如实：judge 自测 11 条（mutants.mjs 逐行可数）、相邻计数以无尾斜杠
+  > `pnpm --filter @type-pal/reforge exec vitest run src/battle` 全范围（23 文件 333/333）并注明
+  > 历史 19/278 的带尾斜杠子集命令。N1/N2/N4 与 N3 已闭子项不重开。整包参考：定向 46/46、全包
+  > 158/1460、TC/Biome rc0、GLM 6+10 负控。输出：对 r5 候选签 accept 或 counter（附直接反证
+  > 锚点），更新本卡你的席位与 done 准入；不改候选语义、不代签、统计并集待接收后统一。无下一位
+  > Kimi 提示词，待你接收后另排。
 
 - 2026-09-24 Codex（r4窄复核counter）：远端d9fb606e与GLM树一致，主线47be1582干净；复用本人detached树，未新建已清理分支。45/332/1459、TC/Biome/GLM6+10独立通过；原r3工具不改即复用，N1/N2/N4反证已闭。只读Vite加载补证N3，消费门关闭候选45绿，真实活敌公开oracle看到p2多余普攻108而红；其它新合同变异均红，故仅追此一业务残项。自测11/相邻23-332两计数勘误明确单列。候选/产品/旧见证零改，不跑并集，main仅落本人结论与可复建证据；GLM贡献保留、不代签、不转Kimi。
 

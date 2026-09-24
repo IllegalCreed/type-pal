@@ -119,7 +119,7 @@ describe('W1 选择/回退连续流程', () => {
     expect(h.readParty()[0]!.mp).toBe(40) // 零提交（core 层"扣库存前拒绝"之外的会话层无效选择）
   })
 
-  test('合击有效选择会话闭环：直接提交→真实执行→两贡献者各付一次 HP 代价（91 精确）→队友普攻被消费', async () => {
+  test('合击有效选择会话闭环（一击致胜成本正控）：直接提交→真实执行→两贡献者各付一次 HP 代价（91 精确）', async () => {
     const flush = async (): Promise<void> => {
       for (let i = 0; i < 6; i += 1) await Promise.resolve()
     }
@@ -155,10 +155,50 @@ describe('W1 选择/回退连续流程', () => {
     await expect(h.session.done).resolves.toBe('victory') // 合击一击致胜（真实执行）
     const log = h.session.debugLog()
     expect(log.filter((line) => line.startsWith('合体技 ')).length).toBe(1) // 恰一次合击
-    expect(log.some((line) => line.startsWith('p1 ') && line.includes('攻击'))).toBe(false) // 队友普攻被合击消费
+    // 施法者本就不走普攻（队友消费的观察在活敌场景用例，本用例只作成本正控）
+    expect(log.some((line) => line.startsWith('p1 ') && line.includes('攻击'))).toBe(false)
     // 一次代价：两贡献者各扣 cost.mp 作 HP（100−9=91 精确；敌 attackStrength 0 无反击）
     const party = h.readParty()
     expect(party.map((member) => member.hp)).toEqual([91, 91])
+  })
+
+  test('合击消费非施法队友行动（活敌场景）：敌存活回菜单，p2 无多余普攻、合击恰一次', async () => {
+    const flush = async (): Promise<void> => {
+      for (let i = 0; i < 6; i += 1) await Promise.resolve()
+    }
+    // 敌高血存活：本轮结束后回菜单，非施法队友的"多余普攻"若未被消费门拦下即暴露（core coopThisTurn）
+    const h = makeWfSession({
+      players: [
+        wfPlayer('p1', {
+          cooperativeMagicSkillId: 'wf-coop',
+          attackStrength: 40,
+          magicStrength: 20,
+        }),
+        wfPlayer('p2', {
+          cooperativeMagicSkillId: 'wf-coop',
+          attackStrength: 40,
+          magicStrength: 20,
+        }),
+      ],
+      enemies: [wfEnemy('survivor', { health: 5000, defense: 0, attackStrength: 1 })],
+      extraOpts: { skills: { 'wf-coop': wfCoopSkill('wf-coop', 9) } },
+    })
+    h.press(['ArrowRight']) // p1 发起合击（p2 被填占位动作 → 全员交招）
+    h.press([' '])
+    h.idle(500)
+    await flush()
+    for (let i = 0; i < 100 && h.session.debugReadiness().phase !== 'menu'; i += 1) {
+      h.idle(500)
+      await flush()
+    }
+    expect(h.session.debugReadiness().phase).toBe('menu') // 敌存活：一轮真实结束回菜单
+    const log = h.session.debugLog()
+    expect(log.filter((line) => line.startsWith('合体技 ')).length).toBe(1) // 恰一次合击
+    // 核心断言：非施法队友 p2 的行动被合击消费——本轮无 p2 名义的普攻行
+    expect(log.some((line) => line.startsWith('p2 ') && line.includes('攻击'))).toBe(false)
+    // 施法者同样只有合击（无 p1 普攻）；敌确实行动过（会话在推进，非卡死）
+    expect(log.some((line) => line.startsWith('p1 ') && line.includes('攻击'))).toBe(false)
+    expect(log.some((line) => line.startsWith('survivor ') && line.includes('攻击'))).toBe(true)
   })
 
   test('合击无效选择会话闭环：单人无队友时合击图标不可选，确认落回普攻且零 HP 代价', () => {
