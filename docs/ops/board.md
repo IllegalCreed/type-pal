@@ -26,7 +26,7 @@ GLM后续补测候选见[十批长队列](../testing/glm-coverage-work-queue.md)
 
 | ID | 任务 | 状态 | 负责人/下一步 | 一句话备注 |
 |---|---|---|---|---|
-| TEST-BATTLE-WORKFLOWS-1 | [战斗会话完整流程补测](tasks/TEST-BATTLE-WORKFLOWS-1-session-flows.md) | rework | GLM按Codex r3 N1～N4返工7a2f1608 | 39/1453、r2四针/finally已修；幂等自比较/HP钳制可达/wait提前提交/去重层级/判据残项；不跑并集 |
+| TEST-BATTLE-WORKFLOWS-1 | [战斗会话完整流程补测](tasks/TEST-BATTLE-WORKFLOWS-1-session-flows.md) | rework | GLM按Codex r4窄复核返工d9fb606e | 45/1459、N1/N2/N4已闭；仅合击队友消费门移除仍45绿，附计数勘误；不跑并集 |
 
 2026-09-23 统计真值修复与真实宿主补测两卡同候选b6286df0三席accept齐（Codex实施者、Kimi aa436d9f、GLM 326e4906），
 用户确认后Codex分别核定done并归档。check8317/ratchet7826/单次受保护strict7826与525c40cd远端CI为既有证据；
