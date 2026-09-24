@@ -1,7 +1,7 @@
 # Reforge 战斗宿主拆分（A2）
 
 任务：[ARCH-REFORGE-BATTLE-1](../ops/tasks/ARCH-REFORGE-BATTLE-1-host-lifecycle.md)。
-基点 7f3840e6；初版实现57794d15，提交时点补正待下文登记。用户 2026-09-24 明确全架构治理队列由 Codex 独立实施、自验、收口，
+基点 7f3840e6；初版实现57794d15，提交时点补正348a50d1，原子收尾补正见最终候选。用户 2026-09-24 明确全架构治理队列由 Codex 独立实施、自验、收口，
 Kimi/GLM 不参与、免补签；不宣称三席独立验收。
 
 ## 实现边界
@@ -18,10 +18,15 @@ Kimi/GLM 不参与、免补签；不宣称三席独立验收。
   首次诊断脚本只选 FunctionDeclaration，漏识别 replaceWorld 箭头而报 drift；纳入实际 VariableDeclaration 后全等。
 - 两处现行 AST chain fixture 适配新接线：restore-preflight 的空战斗边界、save-lineage 的实际 runDefeated 端口。
   原业务断言保留；历史审计/反证工具未改写。
+- [主壳结构对照](battle-host-shell-parity.mjs)：只剥离本批迁出的具名声明/新所有者接线与imports，
+  将新active/start/cancel访问映射回旧接线后，其余AST去注释打印241244字符全等；SHA256
+  `c616edf3165268f57681afab7ebb152bc654ddfeb1ce605b6253a3d936c3a1d9`。
+  这证明未旁改主壳其它职责，不冒充迁出战斗体的行为对照；后者由真实回归/负控验证。
+  初次独立scanner未重扫模板字符串产生伪差异，改为正式AST printer并校验两侧无parseDiagnostics后比较。
 
 ## 回归与鉴别力
 
-新增22项：BattleHost15项 + 准备单元7项；与H9六项合计28项，
+新增23项：BattleHost16项 + 准备单元7项；与H9六项合计29项，
 负控工具：[battle-host-refactor-mutants.mjs](battle-host-refactor-mutants.mjs)。
 
 - 全部走现行正式 loader 合法 fixture、真实资产读取/准备、真实 BattleSession 与结算。
@@ -29,11 +34,10 @@ Kimi/GLM 不参与、免补签；不宣称三席独立验收。
 - 取消/runner/世界/script失效、新启动覆盖、旧finally遇新会话、fatal恢复竞争、写回前身份门、
   战后错误传播、五槽空洞、库存隔离、显式静音、非空基础音效 union。
 - finally 释放已挂起读取，取消所有实际已发布会话，消费原 pending；包括负控把 active 清错时也不悬挂。
-- 10单点针：准备后提前快照、库存别名、基础音效union、取消intent、world身份、旧finally、终态写回、战后错误、
-  主壳启动接线、运行中AbortError协议；28对照全绿/10针候选业务AssertionError全红，产品hash不变。
+- 11单点针：非原子释放、准备后提前快照、库存别名、基础音效union、取消intent、world身份、旧finally、终态写回、战后错误、
+  主壳启动接线、运行中AbortError协议；29对照全绿/11针候选业务AssertionError全红，产品hash不变。
   判据2正控/12反例自测，精确file/title + 恰exit1 + 实际加载见证，拒混错/timeout。
-- 最终局部负控日志：`/tmp/type-pal-battle-host-mutants-commit-final.log`；
-  机账 `/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-battle-host-mutants-8oaQXi/summary.json`。
+- 最终局部负控日志：`/tmp/type-pal-battle-host-mutants-atomic-final.log`；机账路径见该日志末行。
 
 ### 开发期失败与处理
 
@@ -50,6 +54,10 @@ Kimi/GLM 不参与、免补签；不宣称三席独立验收。
    反例已转常驻回归；单点提前调用commit的第10针恢复同一业务红，不用额外等待掩盖时序。
    临时工具首次因/tmp真实路径解析0用例报错，仅属环境失败；改用隔离Vite加载入口后才得到上述业务反证。
    因此初版check8461/ratchet7970只记阶段结果，不作最终放行；整批最终门禁重跑，不逐零散用例跑覆盖率。
+7. 同族审查移除了“清active后await回主壳才写回”的新微任务缝：清理/owner断言/finishWorld同一continuation，
+   排队观察器必须已见真实write:victory端口执行及奖励后世界；插入单次await的第11针业务红。
+   348a50d1的check8462虽通过，仍不替代最终原子收尾候选的完整门禁。未提交的初版ratchet产物已按
+   精确差异撤回至原受保护基线，最终按同一7f3840e6重新统一生成；不保留被替代候选作为隐式新门槛。
 
 ### H9既有随机性独立修正
 
@@ -64,7 +72,8 @@ Kimi/GLM 不参与、免补签；不宣称三席独立验收。
 - 第一轮战斗+存档/lineage：27文件/368项，PASS。
 - 中途全Reforge：168文件/1539项，PASS（当时只加14项，不是最终统计）。
 - 初版定向27项/9针/check8461/ratchet7970通过，因上述自审反例已被后续候选替代。
-  最终局部28项/10针、Reforge169文件/1547项通过，最终check/ratchet/受保护strict待完成，尚未收口。
+  第二版局部28项/10针、Reforge169文件/1547项、check8462通过；最终29项/11针通过，
+  最终check/ratchet/受保护strict待完成，尚未收口。
 - 旧版本兼容审查：pass。生产只新增包内所有权，没有版本分支、升级入口、双读写或旧模型fallback。
 
 ## 功能验证与延后边界
@@ -72,9 +81,11 @@ Kimi/GLM 不参与、免补签；不宣称三席独立验收。
 模拟器使用独立 `battle-trial-host.ts`，并不经过本次main宿主；因此不拿模拟器开战冒充A2接线验证。
 最小浏览器改测原生DEV战斗态构建器：`6051/?scene=s135&skip-startup=1&debug`，
 勾李逍遥、现成team-0/战场6，开战后关闭调试面板，原生Enter普攻/敌回合。
-已观察实际战斗画面与HP150→145，按A自动攻击后出现胜利结算，Enter返回场景；调试状态显示
+在57794d15已观察实际战斗画面与HP150→145，按A自动攻击后出现胜利结算，Enter返回场景；调试状态显示
 `战斗结束: victory（世界已恢复战前）`。状态页确认money0、HP150/150、MP100/100、原装备与技能296；
 同页再次开战出现真实战场/两个敌人和HP150，浏览器error/warn为空。截图为本会话CUA内联证据，未入仓。
+后续两项补正只调整同一行为的原子读取/收尾时点，没有UI/布局/输入形式改动，复用此视觉证据；
+对应并发行为以最终源码常驻回归和反控复验，不把旧截图说成最终候选重新截图。
 Chrome扩展无法附着、原生截图全黑，改用Codex内置浏览器后可正常操作，不据此判产品黑屏。
 没有保存/读取用户进度；本页均临时内存态，s135默认落点既有问题不混修。
 剧情观感/full/R4/N6b/Q1/Q2不在本批完成口径内。

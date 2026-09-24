@@ -114,11 +114,7 @@ export class BattleHost {
       },
     )
     this.#active = session
-    const result = await this.awaitSession(session, signal, assertCurrent, restoreMusic)
-    assertCurrent()
-    this.ports.finishWorld(session, result)
-    await this.finishEncounter(session, result, signal, assertCurrent, restoreMusic)
-    return result
+    return await this.awaitSession(session, signal, assertCurrent, restoreMusic)
   }
 
   private async awaitSession(
@@ -133,8 +129,9 @@ export class BattleHost {
     signal.addEventListener('abort', abort, { once: true })
     if (signal.aborted) abort()
     this.ports.publishDebug(session)
+    let result: BattleResult
     try {
-      return await session.done
+      result = await session.done
     } catch (error) {
       if (!isBattleAbort(error)) {
         await this.ports
@@ -152,6 +149,12 @@ export class BattleHost {
         this.#active = null
       }
     }
+    // Releasing the active slot and committing results share the same continuation.
+    // An extra await between these operations would expose an uncommitted world to other work.
+    assertCurrent()
+    this.ports.finishWorld(session, result)
+    await this.finishEncounter(session, result, signal, assertCurrent, restoreMusic)
+    return result
   }
 
   private async finishEncounter(

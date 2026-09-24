@@ -14,6 +14,14 @@ const output = mkdtempSync(resolve(tmpdir(), 'type-pal-battle-host-mutants-'))
 const files = ['battle/battle-host', 'battle/battle-launch-preparation', 'main.battle-host-flows']
 const mutations = [
   {
+    id: 'non-atomic-release',
+    source: 'battle/battle-host',
+    test: 'battle/battle-host',
+    title: 'session release and real world writeback are atomic to queued observers',
+    from: 'assertCurrent()\n    this.ports.finishWorld(session, result)',
+    to: 'await Promise.resolve(); assertCurrent()\n    this.ports.finishWorld(session, result)',
+  },
+  {
     id: 'early-world-snapshot',
     source: 'battle/battle-launch-preparation',
     test: 'battle/battle-host',
@@ -71,8 +79,8 @@ const mutations = [
     source: 'battle/battle-host',
     test: 'battle/battle-host',
     title: 'world replacement after session completion blocks final writeback',
-    from: 'const result = await this.awaitSession(session, signal, assertCurrent, restoreMusic)\n    assertCurrent()',
-    to: 'const result = await this.awaitSession(session, signal, assertCurrent, restoreMusic)\n    // removed writeback ownership guard',
+    from: 'assertCurrent()\n    this.ports.finishWorld(session, result)',
+    to: 'this.ports.finishWorld(session, result)',
   },
   {
     id: 'defeated-error',
@@ -224,10 +232,10 @@ export default {root:${JSON.stringify(resolve(root, 'packages/reforge'))},plugin
   )
   if (!mutation) {
     assert.equal(run.status, 0, `control: ${output}`)
-    assert.equal(entries.length, 28)
-    assert.equal(data.numPassedTests, 28)
+    assert.equal(entries.length, 29)
+    assert.equal(data.numPassedTests, 29)
     assert.equal(data.numPendingTests, 0)
-    assert.equal(new Set(entries.map((entry) => `${entry.file}::${entry.fullName}`)).size, 28)
+    assert.equal(new Set(entries.map((entry) => `${entry.file}::${entry.fullName}`)).size, 29)
     controls = entries
   } else {
     assert(
@@ -254,7 +262,7 @@ export default {root:${JSON.stringify(resolve(root, 'packages/reforge'))},plugin
         failureMessages,
       })),
   })
-  console.log(`${id}: ${mutation ? 'detected (candidate AssertionError)' : '28 passing'}`)
+  console.log(`${id}: ${mutation ? 'detected (candidate AssertionError)' : '29 passing'}`)
 }
 writeFileSync(
   resolve(output, 'summary.json'),

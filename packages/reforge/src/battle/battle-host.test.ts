@@ -61,6 +61,27 @@ test('battle host commits real victory once, then hooks, scene sounds and music 
   f.assertInputs()
 })
 
+test('session release and real world writeback are atomic to queued observers', async () => {
+  f = await battleHostFixture()
+  let observed: { events: string[]; world: ReturnType<typeof f.world> } | undefined
+  const publish = f.ports.publishDebug
+  f.ports.publishDebug = (session) => {
+    publish(session)
+    if (!session)
+      queueMicrotask(() => {
+        observed = { events: [...f!.events], world: structuredClone(f!.world()) }
+      })
+  }
+  const operation = f.observe(f.host.start('encounter', { auto: true }))
+  await f.until(() => f!.host.active !== null)
+  await f.finish()
+  await operation.consumed
+  expect(operation.state).toEqual({ settled: true, result: 'victory' })
+  expect(observed?.events).toContain('write:victory')
+  expect(observed?.world.inventory).toEqual([{ itemId: 'tonic', count: 3 }])
+  expect(observed?.world.money).toBe(f.originalWorld.money + 7)
+})
+
 test.each([
   'cancel',
   'runner',
