@@ -30,6 +30,8 @@ GLM后续补测候选见[十批长队列](../testing/glm-coverage-work-queue.md)
 
 | ID | 任务 | 状态 | 负责人/下一步 | 一句话备注 |
 |---|---|---|---|---|
+| ARCH-REFORGE-FRAME-1 | [A3首段：帧调度/时钟/输入](tasks/ARCH-REFORGE-FRAME-1-clock-and-input.md) | build | Codex / 独立实施验证 | 不改移动/场景事务/绘制算法；A3剩余职责不提前算完成 |
+| ARCH-SUPPORT-GLM-1 | [八组并行架构/视觉准备](tasks/ARCH-SUPPORT-GLM-1-eight-audit-packages.md) | draft | GLM取证 / Codex接收 | 用户允许GLM视觉协作；冻结b11d4bc9，只写专属目录，产品门未开放 |
 
 2026-09-24 [架构治理A2](../testing/battle-host-refactor.md)最终46287966已按用户全队列独立授权done：
 战斗启动/准备/会话所有权移出主壳，main6798→6486；23新增/11针、check8463/单次strict7972/637通过，
