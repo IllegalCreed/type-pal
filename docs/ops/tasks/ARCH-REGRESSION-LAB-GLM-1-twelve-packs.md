@@ -74,6 +74,12 @@ Codex保留A3的main/场景/移动/绘制主线，GLM不修改或替其审签。
 - **收窄 counter，Status 仍 draft**。[本人 r8 独立复核](../../testing/architecture-regression-lab-codex-r8-review.md)：白名单正确，37/37、45 条 verify、三针 red-control、tsc、目录 Biome、docs 均通过。G03-03 committed 终态、G05-04 同实例 stop 增量、G06 choreography 三入口代表组合、G07 装备脚本事件表窄轴接收。
 - G05-02 在隔离加载把宿主 wait 改成立即完成后仍业务绿，未证旧等待已挂起；G08-06 在隔离加载从图根剔除 globalRoots 后仍绿，只测到 `globalRoots.length` 回显；G08-05 是转换前 options 预检拒绝，不能称转换中异常无污染。V01–V04 未证矩阵维持。候选不合 main、不计覆盖率、不标 done；GLM 不自审终审，Kimi 豁免。
 
+## Codex 九轮接收（2026-09-26，候选 `97e21f34`）
+
+- **accept 本轮定点候选合同，Status 仍 draft**。[本人独立复核](../../testing/architecture-regression-lab-codex-r9-review.md)：37/37、45 条 verify、五针 red-control、tsc、目录 Biome、docs 全通过；G05 即时 wait 变异使挂起断言业务红，G08 剔除 globalRoots 图根变异使 ownership 断言业务红；G08-05 已收窄为预检拒绝。
+- r8 已接收项不重开，G06 七入口、G08 其它 options 与 V01–V04 矩阵仍未证。隔离 receipt/README/results 命令注释有 r8“三针”与旧 G05 时序残留，列为正式转正前的**文字勘误**；不影响本轮真实测试接收，不合候选、不计官方覆盖率、不标 done。Kimi 本队列豁免。
+- 无下一位 Agent 提示词；正式接入与统一门禁仍由 Codex 单独核准。
+
 ### 下一位 GLM 收窄返工提示词
 
 ```text
