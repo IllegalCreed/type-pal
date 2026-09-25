@@ -45,6 +45,7 @@
 
 ## 交付验证
 
+- 候选 SHA：`650f9f9df2e1b67323818d2e8dea7c51dfe7df4a`（`docs(testing): record Cursor guide hygiene audit receipt`）。
 - 分支：`codex/cursor-docs-hygiene-r1`（独立 worktree `/Users/zhangxu/illegal/type-pal-cursor-docs`，自 `26c4ae5c` 新建）。
 - diff 白名单：相对起点 `26c4ae5c` 仅改本文件 `docs/testing/cursor-docs-hygiene.md`。
 - `node scripts/docs/check.mjs`：exit 0（`docs: PASS (0 issues)`；545 Markdown / 2975 local links / 179 tasks / content20 SAVE8）。
