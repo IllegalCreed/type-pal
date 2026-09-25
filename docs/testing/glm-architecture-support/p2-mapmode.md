@@ -3,6 +3,15 @@
 日期 2026-09-25。冻结 SHA `3270473862…`。对象：`packages/editor/src/ui/MapMode.tsx`
 （实测 **3819 行**，与卡面一致）。静态只读取证。
 
+> **r2 返工更正（Codex intake counter 0e751efe）**
+> ① **撤回 P2-002"缺 pointerCancel/lostpointercapture"**：冻结树 MapMode.tsx:3075-3079 两入口均存在
+> （`onPointerCancel={cancelPointerInteraction}`；`onLostPointerCapture` 在 selectionDrag/painting/pan
+> 活动时调用同一函数），:2292-2305 的 `cancelPointerInteraction` 清 selectionDrag/selectionPreview/
+> painting/rectAnchor/stroke/pan 全族，:2307-2310 window blur 调同一 cancel（r1 称"blur 只清 hover"
+> 不实）。条目改 covered；保留的开放问题仅为"取消路径的专项回归是否充分"（72 项中未检索到专测），
+> 列未证风险，不作为缺陷。② 测试计数分列：静态声明 **58** 个 `test(/it(`，Vitest list 收集 **72** 项
+> （参数化展开），两数不再混用。③ §1 手势状态描述同步更正 blur 行为。④ P2-004 收窄为单调用点表述。
+
 ## 1. 输入生命周期（pointer / 键盘 / 选择 / 剪贴板 / 拖拽）
 
 - **手势状态 ref**：`strokeRef: Map<string, StrokeEdit>`（:394，笔划中逐格收集，onUp 一次性提交）、
@@ -13,9 +22,10 @@
   transformIntent 落点冻结、stamp 单击放置、笔刷起点）、`onMove`（:2158，hover/拖拽更新）、
   `onUp`（:2222，selectionDrag 按 pointerId 校验后提交 set-selection/set-stamp-group-selection，
   paintingRef 收集 strokeRef 按 tile/collision 分组派发单条命令并清空）。pointerId 校验（:2224）
-  保证多点触控不串——**cancel/leave 路径**：React onPointerUp 只覆盖 up；窗口失焦保护在
-  `window blur`（:2309-2310，对称清理），未见 `onPointerCancel`/`lostpointercapture` 处理
-  （risk-P2-002）。
+  保证多点触控不串——**cancel/leave 路径**（r2 更正）：canvas 还挂 `onPointerCancel` 与
+  `onLostPointerCapture`（:3075-3079，后者在 drag/paint/pan 活动时触发），统一走
+  `cancelPointerInteraction`（:2292-2305，清 selectionDrag/selectionPreview/painting/rectAnchor/
+  stroke/pan 全族）；window blur 调同一 cancel（:2307-2310，对称清理）。
 - **键盘**：canvas `onKeyDown`（:3097）+ 右键菜单（:3119）+ 候选菜单（:3239）+ Inspector 内联
   （:3313/:3470/:3506/:3536/:3580）；全局级监听仅 window blur 一个（:2309）。
 - **剪贴板**：组内 Alt 与普通剪贴板快捷键隔离（MapMode.test.tsx:1519 标题实证）；整组复制粘贴
@@ -57,7 +67,7 @@ hover）在提交/取消路径显式重置。
   ② 选区/拖拽手势（selectionDragRef 族）；③ 变换预览（transformIntent + planTransform :651 +
   transformPermissionForPlan :768）。每个单元的保真断言已被下表测试钉住。
 
-## 4. 现有测试去重表（MapMode.test.tsx 58 条 test(，全部精确标题）
+## 4. 现有测试去重表（MapMode.test.tsx：静态声明 58 条 `test(/it(`，Vitest 收集 72 项；下表 20 条完整标题）
 
 本包抽取与生命周期直接相关的 20 条作对账（其余 38 条为内容交互合同，同文件可查）：
 
@@ -79,10 +89,9 @@ hover）在提交/取消路径显式重置。
 ## 5. 证据条目
 
 - **P2-001 covered** 上表 20 条 + 其余 38 条同文件标题（共 58）。
-- **P2-002 risk** 画布手势缺 `onPointerCancel`/`lostpointercapture` 兜底：window blur 有清 hover，
-  但系统手势打断（如触控板手势接管、浏览器手势）时 `selectionDragRef/paintingRef` 可能滞留到
-  下一次 pointerup。静态推断，无复现——标 risk，建议实施批次在拆手势单元时补 pointerCancel
-  归零 + 回归。
+- **P2-002 covered（r2 撤回原 risk）** `onPointerCancel`/`onLostPointerCapture` 均已实现并统一走
+  `cancelPointerInteraction`（:3075-3079/:2292-2305），blur 同一函数。开放问题仅余：取消路径的
+  专项回归充分性未检索到专测条目——列未证风险，不作为缺陷。
 - **P2-003 risk** `:338` 与 `:341` 两个 effect 都在 referenceIndex 变化时 `setPendingDeleteId(undefined)`
   （前者多一个条件分支）——重复职责，后一个疑似前一个的重构残留。标 risk（可合并），无行为差异证据。
 - **P2-004 risk** `:584` ensureMapLoaded catch 吞错（与 P1-003 同型）：MapMode 场景下地图加载失败

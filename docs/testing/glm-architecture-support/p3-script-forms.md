@@ -3,6 +3,15 @@
 日期 2026-09-25。冻结 SHA `3270473862…`。对象：`ui/ScriptEditor.tsx`（实测 **4361 行**）、
 `ui/CommandForm.tsx`（**2098 行**）、`ui/SceneScriptWorkspace.tsx`（约 200 行）。静态只读。
 
+> **r2 返工更正（Codex intake counter 0e751efe）**
+> ① 区分两套清单：CommandForm 50 个 switch case 是**旧适配表单**的命令分派；canonical 作者命令
+> 呈现表 `AUTHOR_COMMAND_PRESENTATION_`（ScriptEditor.tsx:536）实测 **81 键**，由
+> ScriptEditor.test.tsx:71-76 守门（RUNTIME_COMMAND_KINDS 与该表全等）——两者经映射对齐，不是同一
+> 清单（r1 混同）。② `WorldVariablePicker`（:171-201）为**纯计算**、无 effect（r1 称"两个 effect"不实）；
+> CommandForm 全文件唯一 useEffect 在 JsonForm :219-222（外部指令变化重置文本）。③ 补工作包点名的
+> default/hook/session 三轴对账（新增 P3-005 covered）：core/script-editor.hooks-session.test.ts
+> :57/:95/:146 三条完整标题。④ JSON.stringify 指纹的真实逐 render 锚更正为 :3149（r1 只锚 :3174）。
+
 ## 1. 命令族全景（CommandForm 按命令族的表单分派）
 
 CommandForm.tsx 的渲染分派为 **50 个 `case '<kind>'`**（:337 起），实测命令族完整清单：
@@ -44,7 +53,7 @@ cameraPan / clearDialog / cameraSnap。
 
 | 测试（文件:行） | 确实证明 | 备注 |
 |---|---|---|
-| ScriptEditor.test.tsx:71 `has an author-facing Chinese name for every enabled canonical command kind` | 50 命令族全覆盖命名 | 族清单的守门 |
+| ScriptEditor.test.tsx:71 `has an author-facing Chinese name for every enabled canonical command kind` | **canonical 81 键**呈现表与 RUNTIME_COMMAND_KINDS 全等（r2 更正归属） | 族清单的守门 |
 | ScriptEditor.test.tsx:83 `renders command rows in the existing Chinese script-tree language` | 中文脚本树语言 | covered |
 | ScriptEditor.test.tsx:114 `keeps the command list full width and edits or inserts through dialogs` | 插入走对话框 | covered |
 | ScriptEditor.test.tsx:173 `copies, reorders and removes an entity-state command through shared row actions` | 共享行动作 | covered |
@@ -63,7 +72,7 @@ cameraPan / clearDialog / cameraSnap。
 - **P3-004 risk** ScriptEditor :3174 选取路径保持逻辑以 `JSON.stringify` 指纹比较 body——大 body
   每次渲染序列化一次（O(size)）；行为正确（测试 :225/:273 钉住），性能成本随脚本增大线性。
   risk（非缺陷）。
-- **P3-005 N/A** CommandForm 2 个 effect（WorldVariablePicker 过滤与占位分叉）均为纯派生，无资源。
+- **P3-005 covered（r2 新增/更正）** default/hook/session 三轴由 core/script-editor.hooks-session.test.ts 三条钉住（57/95/146，完整标题入机账）；CommandForm 唯一 effect=JsonForm :219-222；WorldVariablePicker :171-201 纯计算无 effect（r2 撤回 r1 '两 effect' 说法）。
 
 ## 6. 未证风险
 

@@ -1,69 +1,93 @@
-# ARCH-SUPPORT-GLM-1 · 总报告（GLM 八包准备取证，r1）
+# ARCH-SUPPORT-GLM-1 · 总报告（GLM 八包准备取证，r2 返工）
 
-日期 2026-09-25。贡献者：GLM（证据/测试贡献者，**不充独立第三方**）；接收复核：Codex。
+日期 2026-09-25（r1 交付 3967a376；r2 返工同日，闭 Codex intake counter 0e751efe）。
+贡献者：GLM（证据/测试贡献者，**不充独立第三方**）；接收复核：Codex。
 任务卡：[ARCH-SUPPORT-GLM-1](../../ops/tasks/ARCH-SUPPORT-GLM-1-eight-audit-packages.md)（draft，不进 build）。
 
 ## 起点/终点与白名单核验
 
-- 起点 SHA `3270473862d1e1574f266b70b65de89ca8b65352`；八包各自独立提交；最终 SHA=push 时分支 tip（见 git log）。
-- 冻结核验：`git diff b11d4bc9..32704738 -- packages/ scripts/` 输出空；本轮 `git status` 在视觉操作后核验为
-  0 改动（会话内临时改动经刷新丢弃，无任何工程写盘）。
-- 本轮只写 `docs/testing/glm-architecture-support/**`（9 文件：v0 小样 + p1~p6 + v1/v2 + evidence.json +
-  summary + README 登记）；未改产品/正式测试/配置/基线/共享看板/任务卡；未跑全仓 check/ratchet/strict、
-  未跑迁移写盘、未跑完整剧情 E2E；未触碰 A3 帧循环（main.ts/runtime-frame-session 等 Codex 工作区）。
-- 独立 worktree `/Users/zhangxu/illegal/type-pal-glm-architecture`、分支 `codex/glm-architecture-support-r1`，
-  从含工作包的提交建立，未在 main 目录切分支。
+- 起点 SHA `3270473862d1e1574f266b70b65de89ca8b65352`；**接收审查候选 `3967a376`**（Codex counter 对象）；
+  r2 返工 tip 见分支（登记提交单独回填 finalSha，避免自引用）。
+- 冻结核验：`git diff b11d4bc9..32704738 -- packages/ scripts/` 空；`32704738..3967a376` packages/scripts 零 diff。
+- 白名单：r1 恰 12 文件全部在 `docs/testing/glm-architecture-support/**`（r1 曾误写 9）；r2 追加仅本人
+  报告/机账更正与 6 张新截图的登记。
+- 未改产品/正式测试/配置/基线/共享看板/任务状态；未跑全仓 check/ratchet/strict、迁移写盘、完整剧情 E2E；
+  未触碰 A3 帧循环。视觉操作后 `git status` 核验磁盘零改动。
 
-## 八包确证事项（每包详据见对应报告+evidence.json 条目）
+## R0 账本更正（对照 Codex counter 逐条）
 
-| 包 | 确证要点 | 条目 |
+1. **条目数更正**：38 个唯一 ID（r1 手填"32 条"错误）。r2 机械小计由 node 脚本从 entries 数组重算：
+   **covered 19 / risk 14 / blocked 0 / reproduced 0 / N/A 5 = 38**。r1 的两项 blocked 已在 r2 闭合：
+   V1 未覆盖页以 6 张新截图补齐（V1-003），对象列表折叠由 Codex 6010 实测正常（V2-002，归属 Codex）。
+2. **逐条字段闭合**：每条新增 `evidenceKind`（静态事实/已读测试断言/文件计数/本次执行四口径）、
+   `actual`、`expectedSource`、`affectedDomain`、`testsScope`、`attribution`；覆盖主张一律附**完整测试
+   标题**（editor-navigation 17 条、hooks-session 3 条、leave-guard 8 条等逐条列出）；大文件计数明确标
+   "文件计数口径，未逐条宣读"，不以 grep 计数冒称全绿。
+3. **finalSha 登记**：接收候选 3967a376 + 返工 tip（登记提交回填）；浏览器版本/zoom/DPR 如实未测量，
+   视觉结论收窄为 CSS px 布局观察。
+4. **Biome**：r1 的 evidence.json formatter exit1（Codex 日志 /tmp/codex-arch-support-biome.log）——
+   r2 已 `biome format --write` 本人 JSON，复检通过。
+5. README 链接索引由 Codex 机械补齐，本席不重做。
+
+## 源码 hash 附录（审查候选 3967a376，SHA256 前 16 位；`git show 3967a376:<path>` 复算）
+
+| 文件 | hash | 文件 | hash |
+|---|---|---|---|
+| editor/src/ui/App.tsx | 0803997f6a5552ce | game/src/core/event-system.ts | e42292d549175a9b |
+| editor/src/ui/MapMode.tsx | 8418dee784cd9bea | game/src/core/scene-system.ts | c1a0a1445c6dcb8f |
+| editor/src/ui/ScriptEditor.tsx | 7b39070c3d12a466 | game/src/core/equip-effect.ts | 7daa55fa6951af32 |
+| editor/src/ui/CommandForm.tsx | d6004c29b4e8b7cd | game/src/core/battle/battle-opcodes.ts | b9fb8d53cfffdb40 |
+| editor/src/ui/editor-navigation.ts | 091277ddd2850f00 | game/src/core/menu/menu-driver.ts | a66844fd9893bafa |
+| editor/src/ui/design-system/multi-select.tsx | 9d143ad34bed199e | game/src/core/menu/menu-mode.ts | 87f352d5473e6acd |
+| editor/src/core/editor-derived-store.ts | e8ed0e39e4d66fac | game/src/core/menu/magic-script.ts | f17ff47860de4697 |
+| reforge/src/battle/battle-session.ts | 24cdd3e539e22481 | content/src/author-script-core.ts | 0270998b8c1dcd2d |
+| reforge/src/battle/battle-core.ts | 651efc8f7dab8cf2 | content/src/enemy-script.ts | dc4fecaa314a0813 |
+| migrate/src/migrate-content.ts | df2ed14c30b7743f | migrate/src/translate-events.ts | 4d4efd3f27eb81d3 |
+| migrate/src/migration-transaction.ts | f22787611d1e0ae9 | migrate/src/translate-enemy-scripts.ts | 77cafdcc95ce6b61 |
+
+## 八包 r2 状态（每包详据见对应报告顶部"r2 返工更正"块 + evidence.json 条目）
+
+| 包 | r1→r2 变化 | 条目 |
 |---|---|---|
-| P1 App 所有权 | 16 effect/3 listener/4 rAF/1 RO 全部对称清理（除 derivedStore.start 无 stop——risk）；导航/保存/历史/试玩边界图完成；20+ 条回归标题对账；卸载路径无测试覆盖（证据空白如实列） | P1-001~006（4 risk/1 covered/1 N/A） |
-| P2 MapMode | 手势 ref 全私有、会话/项目切换清场有 5 条标题实证；pointerCancel 缺口+双 effect 重叠+吞错三 risk；58 条标题（对账 20） | P2-001~005（3 risk/2 covered） |
-| P3 脚本表单 | 50 命令族分派全景；42 条标题对账；focusRevision 三连可抽 hook；JSON 指纹比较线性成本 | P3-001~005（2 risk/2 covered/1 N/A） |
-| P4 战斗会话 | done Promise 单构造+双闸收口+两级屏障 token 配对；拆分顺序与三处不可跨 await 区；87 条标题对账（含本席贡献的 46 条，已声明贡献者身份） | P4-001~004（2 risk/1 covered/1 N/A） |
-| P5 一阶段环 | 实测环=6 文件两环（非卡面"7 文件环"）；最短无行为切边=getCurrentMapNum 模块态搬家；703 条既有测试为回归门 | P5-001~004（2 risk/1 covered/1 N/A） |
-| P6 迁移/校验 | 翻译/校验层零 fs、写盘单点在事务 commit；校验递归调用域逐边列出；89+ 条标题对账；mapScenesStatic 参数矩阵与 walkBody 深度两 risk | P6-001~005（2 risk/2 covered/1 N/A） |
-| V1 表单视觉 | 试打方案/我方预设/技能多选弹层/768 降级 5 条截图链路（实际看图）；两条 risk：弹层过滤输入无可访问名（a11y）、多选"逐击提交+Esc 仅关"语义与草稿模型不一致（请产品裁定） | V1-001~005（2 risk/1 covered/1 N/A/1 blocked） |
-| V2 工作区视觉 | 三栏工作区/弹窗遮挡与焦点/Esc 零创建/tab 切换/空态/768 菜单收纳 5 条截图链路；对象列表折叠 toggle 操作未生效——如实 blocked 留复核 | V2-001~004（1 risk/2 covered/1 blocked） |
+| P1 | P1-001 risk 撤回改 covered（derivedStore useMemo 创建→start 返回 stop→terminate worker，测试 22/22 本轮执行）；editor-navigation 17 条 it 完整标题入账；assertSessions 修复表述撤回；state/ref 全量逐行登记 | 6（covered 2/risk 3/N-A 1） |
+| P2 | P2-002 risk 撤回改 covered（pointerCancel/lostCapture 均存在且统一 cancel）；58 静态/72 收集分列；吞错表述收窄单调用点 | 5（covered 3/risk 2） |
+| P3 | 50 旧适配 case ↔ 81 canonical 键区分（守门测试钉住）；WorldVariablePicker 纯计算更正；新增 P3-005 hooks-session 三轴 covered；JSON 指纹锚更正 :3149 | 6（covered 3/risk 2/N-A 1） |
+| P4 | 门归属更正（:604 属 beginTurnPreparation；writeBackHp 无 preparing 门）；计数 87→93；新增 P4-003 pump(:1032)→render(:2543) 耦合边界 covered | 5（covered 2/risk 2/N-A 1） |
+| P5 | 撤回"6 文件两环"→**7 节点 15 边单 SCC**（补 4 条漏读回边）；撤回"最短无行为切法"；计数 703→702 | 4（covered 1/risk 2/N-A 1） |
+| P6 | 双向校验递归更正（author↔enemy 互调；onLose/onFlee/onFail/onNo 四臂）；mapScenesStatic 6 参数；无 fs 事实收窄到四模块 | 5（covered 2/risk 2/N-A 1） |
+| V1 | 撤回 a11y 缺名（multi-select.tsx:120 aria-label 存在）与语义裁决请求（DS-C.5a/DS-C.6 条款即合同）；6 张新截图补齐 Actor/物品/技能/敌队/战场/TrialDialog | 5（covered 4/N-A 1） |
+| V2 | 折叠功能归属 Codex 6010 实测正常（GLM 环境差异留档）；:568 归因更正；分隔条如实列未验证；空态图不再冒充编辑合同 | 4（covered 3/risk 1） |
 
-**机械小计**（evidence.json 由脚本可复算）：32 条 = covered 12 / risk 13 / blocked 2 / reproduced **0** / N/A 5。
-**reproduced=0 是如实结果**：本轮所有 risk 均为静态读出或视觉观察，无一经过运行时复现——按取证纪律
-不把 grep 命中当缺陷复现，也不为凑数发明缺陷。
-
-## 视觉通路与小样
-
-V0 小样（`v0-visual-sample.md`）先于八包交付：真实操作（tab 切换）→截图→判读全链路成立，
- locator 超时重建过程如实记录。11 张截图全部在 `/tmp/glm-arch-visual/`（不入 Git），SHA256 前 16 位
- 与 viewport 登记于 evidence.json.screenshots。
+**机械小计**：38 条 = covered 19 / risk 14 / blocked 0 / reproduced 0 / N/A 5（node 脚本从 entries 重算，
+脚本与结果见 evidence.json.mechanicalSubtotals）。reproduced=0 与 blocked=0 均为如实结果。
 
 ## 未证风险（如实，交 Codex 复核）
 
-1. **对象列表折叠 toggle 无可见变化**（V2-002）：两类定位途径各一次未生效，原因未定位；6010 正式环境一次复核即可裁决。
-2. **画布内容全未判定**：worktree 资源接入不完整（tileset bytes/标准色彩 JSON 404），canvas 内渲染、
-   精灵、调色板属资源完整环境（6010/6051）的复核范围。
-3. **ActorMode/TrialDialog/物品·敌队·战场 Tab 独立页**未截图（V1-005 blocked）。
-4. P1-001 derivedStore 生命周期语义需运行验证；P5 循环初始化顺序无运行证据（703 条测试全绿为间接证据）。
-5. 面板分隔条拖拽未验证（V2-003）。
+1. 画布内容（tileset/调色板/精灵/战场背景预览）全未判定——worktree 资源缺口，属资源完整环境复核。
+2. MapMode 取消路径专项回归充分性（P2-002 保留的开放问题）；分隔条拖拽/键盘未验证（V2-003）。
+3. assertSessions 渲染期失败路径无测试（P1-002）；P5 切边后剩余环形态未评估（P5-002）。
+4. mapScenesStatic 参数组合矩阵无快照（P6-002）；walkBody 深度无上限（P6-005）。
+5. 非空脚本工作区的编辑合同未走查（基线项目 0 条可复用脚本，构造内容超出只读边界）。
 
 ## 建议可拆实施批次（供实施卡参考，非本包执行）
 
-1. **零行为批**：P5-002 getCurrentMapNum 搬家；P2-003 双 effect 合并；V1-003 过滤输入补 aria-label（一行）。
-2. **低风险批**：P4-002 先建 transitionUi 单点再拆 render/输入路由；P3-002 抽 useFocusRevision hook。
-3. **中风险批**：P1 导航簇自洽拆分（reference-navigation 族作回归门）；P2 手势单元拆分（补 pointerCancel 归零）。
-4. **最后**：P1 保存流程（lease/recoverySnapshot/journal）单独卡，leave-guard 八条作门。
-5. **最小正式回归集合**：P1 三测试文件 + MapMode.test.tsx 生命周期 20 条 + battle 六 flows 46 条 +
-   event-system/scene-system 抽样（P5 表）+ reference-navigation 全族。
+1. **零行为批**：V1 可发现性小建议（多选过滤输入补 placeholder）；P2-003 双 effect 合并（先核消费者）。
+2. **低风险批**：P4-002 记录的屏障/写回概念区分文档化；P3-002 抽 useFocusRevision hook；P5-002
+   getCurrentMapNum 搬家（先做切后剩余环评估）。
+3. **中风险批**：P4-002→render/输入路由拆分（transitionUi 单点先行）；P1 导航簇拆分。
+4. **最后**：P1 保存流程（lease/recoverySnapshot/journal）单独卡。
+5. **最小正式回归集合**：P1 三测试文件（29 条已读标题）+ MapMode 生命周期 20 条 + battle 93 条 +
+   hooks-session 3 条 + reference-navigation 全族 + event/scene 抽样（P5 文件计数口径）。
 
 ## 复算命令
 
 ```bash
 cd /Users/zhangxu/illegal/type-pal-glm-architecture
-git log --oneline 32704738..HEAD                    # 八包提交序列
-git diff 32704738..HEAD --stat                       # 应只含 docs/testing/glm-architecture-support/**
-git diff b11d4bc9..32704738 -- packages/ scripts/   # 冻结漂移=空
-node -e "const e=require('./docs/testing/glm-architecture-support/evidence.json');console.log(e.entries.length, e.mechanicalSubtotals)"
-grep -c "test(" packages/editor/src/ui/MapMode.test.tsx                # 58
-grep -rc "test(\|it(" packages/game/src/core/event-system.test.ts      # 331
-# 视觉复验：dev 6013 + 截图 SHA256 对照 evidence.json.screenshots
+git log --oneline 32704738..HEAD                     # r1 九包提交 + counter 合并 + r2 返工提交
+git diff 32704738..HEAD --name-only | grep -v '^docs/testing/glm-architecture-support'  # 应为空
+node -e "const e=require('./docs/testing/glm-architecture-support/evidence.json');console.log(e.entries.length, e.mechanicalSubtotals.byType)"  # 38 {covered:19,risk:14,N/A:5}
+git show 3967a376:packages/editor/src/ui/App.tsx | shasum -a 256 | cut -c1-16  # 0803997f6a5552ce（hash 附录抽查）
+cd packages/editor && npx vitest run src/core/editor-derived-store.test.ts  # 22/22（P1-001 本次执行）
+npx biome check docs/testing/glm-architecture-support/evidence.json  # r2 已 format，exit 0
+# 视觉复验：dev 6013 + 截图 SHA256 对照 evidence.json.screenshots（17 张）
 ```

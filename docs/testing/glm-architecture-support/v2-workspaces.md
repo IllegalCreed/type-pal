@@ -1,8 +1,17 @@
 # V2 · 工作区视觉/交互取证（ARCH-SUPPORT-GLM-1）
 
-日期 2026-09-25。冻结 SHA `3270473862…`。浏览器/环境同 V1（In-app Browser，实际看图；1440×1024 与
+日期 2026-09-25（r2 返工同日）。冻结 SHA `3270473862…`。浏览器/环境同 V1（In-app Browser，实际看图；1440×1024 与
 768×1024）。**环境披露**：画布内容渲染失败（tileset bytes 不符 / 标准色彩 JSON 404）为 worktree 资源
 接入不完整（V0 已定性），本报告的布局判定全部**只依赖面板/工具栏/弹层等 DOM 结构**，不依赖画布内容。
+
+> **r2 返工更正（Codex intake counter 0e751efe）**
+> ① **对象列表折叠**：Codex 在 6010 实测往返正常（原生 AX 点击 checked 1→0、左分栏 194→0、再点恢复；
+> Playwright DOM 核对该控件仍为 button，AX 呈 checkbox 不代表 DOM role 变更，且不把 GLM 的
+> actionability 超时武断归因 role 错误；旧 (1064,18) 点击无命中见证）——**功能正常，不追不存在缺陷**；
+> GLM 6013 环境未复现的原因未定位，操作链留档。② **r1 的 :568 归因更正**：MapMode.test.tsx:569-572
+> 只调 verifyInspectorTabs（Inspector Tab 合同），不能证明分隔条键盘可达性。③ 剧情空态图不冒充
+> ScriptEditor 编辑合同——空态仅证三栏结构；非空脚本工作区证据如实列为未完成（工作树基线项目共 0 条
+> 可复用脚本，构造内容超出本包只读边界）。
 
 ## 证据链
 
@@ -20,13 +29,12 @@
 
 - **V2-001 covered** V2-01~05、V2-07：三栏工作区、弹窗层级与焦点、tab 切换、空态、768 降级均有
   截图证据。
-- **V2-002 blocked/uncertain** 对象列表折叠 toggle：操作链=点击工具栏右侧第一枚面板开关
-  （Playwright `getByRole("button",{name:"对象列表"})` 两次 actionability 超时 → CUA (1064,18)
-  单击一次）→ 截图无折叠。两类定位途径都未产生可见变化，原因未定位（坐标命中/应用状态均可能）。
-  不标 reproduced；建议 Codex 用 6010 正式环境复核一次同操作。
-- **V2-003 risk（工具面）** 面板宽度分隔条拖拽（`separator "调整左侧面板宽度"`）未做拖拽验证
-  （CUA drag 可做但本轮时间给了覆盖面）；键盘可达性由 P1 引用的共享控件测试覆盖（MapMode.test.tsx:568
-  标题"共享 Inspector Tab 完整键盘合同"）。记为后续可执行复验项。
+- **V2-002 covered（r2 归属更正）** 对象列表折叠**功能正常**——归属 Codex 6010 实测（往返
+  checked 1→0→1、分栏宽 194→0→194）；GLM 6013 操作链（两次 locator 超时+CUA (1064,18) 无命中见证）
+  如实留档，环境差异原因未定位、不武断归因。
+- **V2-003 risk（r2 归因更正）** 分隔条拖拽/键盘操作无既有测试（r1 引 MapMode.test.tsx:568 有误——
+  该用例只调 verifyInspectorTabs），本轮也未执行拖拽：如实列为**未验证项**，不为凑证据把相邻测试
+  换名充数。
 - **V2-004 covered（导航定位）** 切页后 URL 双写（`?module=X&page=Y` 可直达），跨页往返位置由
   App.reference-navigation 测试族覆盖（P1 对账表）；本轮 URL 直达场景/地图/剧情/模拟器四模块均成功。
 

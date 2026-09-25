@@ -2,9 +2,18 @@
 
 日期 2026-09-25。冻结 SHA `3270473862d1e1574f266b70b65de89ca8b65352`（生产文件与 b11d4bc9 零 diff）。
 对象：`packages/editor/src/ui/App.tsx`（实测 `wc -l` = **5170 行**，与卡面一致）及直接 hooks/caller
-（`core/editor-history-coordinator.ts`、`ui/app-command-registry.ts`、`ui/editor-navigation.ts`、
-`ui/SoundPicker.ts`、`state/derived*`）。**本报告为静态只读取证；所有"covered"以精确测试标题为准，
+（`core/editor-history-coordinator.ts`、`core/editor-derived-store.ts`、`ui/app-command-registry.ts`、
+`ui/editor-navigation.ts`、`ui/SoundPicker.ts`）。**本报告为静态只读取证；所有"covered"以精确测试标题为准，
 无运行证据处一律标 risk/blocked，不以行数判 bug。**
+
+> **r2 返工更正（Codex intake counter 0e751efe，2026-09-25）**
+> ① P1-001 撤回原"props 传入且无 stop"前提：derivedStore 实为 App 内 `useMemo(createEditorDerivedStore)`
+> 创建（App.tsx:422-425），`start()` 返回 `stop`（editor-derived-store.ts:405-415：置 running=false/
+> epoch+1、退订 main/script 两会话、`port.terminate()`、清 inFlight），effect 返回值即清理函数——链路闭环，
+> 条目改 covered（本轮执行 derived-store 测试 22/22）。② editor-navigation.test.ts 实为 **17 个 it 测试**
+> （r1 误称"0 个 test( 命中、只是 helper 库"——grep 只搜了 `test(` 漏 `it(`），17 条完整标题已入机账 P1-005。
+> ③ assertSessions 移入 effect 不再作为"已论证修复"表述（P1-002 降为纯 risk 记录）。④ 资源清单补全量
+> useState/useRef 逐行登记（§1.1）。⑤ "state/derived*" 目录指向错误，更正为 core/editor-derived-store.ts。
 
 ## 1. 资源清单（谁建 / 谁改 / 谁清）
 
@@ -17,7 +26,7 @@ popstate:573、keydown:2064，三处均有对称 removeEventListener 清理）�
 | 试玩窗口集合 `trialWindows: Set<TrialHandle>` | App :385 | :645/:676（onClosed 删除） | effect :387-394 卸载时逐个 `trial.close()` + clear | 所有权闭环完整 |
 | 试玩 beforeunload 守卫 | effect :396-405 | — | :403 remove | 依赖 `[trialDraft?.changed]`，changed=false 时不挂守卫（预期内） |
 | historyCoordinator | props 传入（App 不建） | `useLayoutEffect` :413-417 `connect()` | `dispose()` 对称 | 所有权在调用方（workspace 组合层），App 只绑定；`assertSessions` :411 在渲染期调用（见 risk-P1-002） |
-| derivedStore | props 传入 | effect :426 `start()` | **无 stop/dispose 对称清理** | 见 risk-P1-001 |
+| derivedStore | **App 内 useMemo 创建**（:422-425 `createEditorDerivedStore({mainSession, scriptSession})`） | effect :426 `start()`：订阅 main/script 两会话 + 启动 worker，**返回 `stop`** | effect 返回值即 `stop`（editor-derived-store.ts:405-415：running=false/epoch+1/退订两会话/`port.terminate()`/清 inFlight） | **r2 更正：闭环完整**（本轮执行其测试 22/22，含 `…stop cancels a queued refresh…`） |
 | soundPreview（assetReader） | props 传入 | — | effect :491-495 `disposeSoundPreview(assetReader)` | 闭环完整 |
 | 导航 location（URL replaceState） | effect :561-565 | `locationRef` | —（幂等 replace） | localStorage 持久化 :505-514；无清理需求 |
 | popstate 监听 | effect :570-576 | — | :574 remove | 闭环完整 |
@@ -33,8 +42,8 @@ popstate:573、keydown:2064，三处均有对称 removeEventListener 清理）�
 - **导航**：`location` state（:431）+ `locationRef` 镜像；URL `replaceState`（:561-565）与
   `localStorage`（navigationStorageKey :500-514）双写；`popstate` 只读 search 反解（:570-576）。
   各模块独立 location 记忆（moduleLocations :438-441）。测试
-  `editor-navigation.test.ts`（0 个 `test(` 命中——**该文件为 helper 断言库，实际用例分布在
-  App.reference-navigation.test.tsx**，20+ 条精确标题见对账表）。
+  `editor-navigation.test.ts`——**r2 更正：实为 17 个 `it` 测试**（r1 误按 `test(` grep 得 0；
+  17 条完整标题入机账 P1-005），另有 App.reference-navigation.test.tsx 20 条引用导航用例。
 - **保存**：`executeEditorSaveShortcut` 统一入口（app-command-registry.test.ts:24
   `routes Cmd/Ctrl+S through the same save command and always blocks browser save`）；
   保存流程 :2200+ 先 `activity(preparing)` → 宏任务让位 → `serializeEditorSnapshot` →
@@ -65,15 +74,41 @@ popstate:573、keydown:2064，三处均有对称 removeEventListener 清理）�
 **未覆盖区（本包证据点）**：卸载清理（trial.close / derivedStore 生命周期 / keydown 解绑）没有
 任何测试驱动 unmount 路径；:2225 的 `setTimeout 0` 让位序与 :2228 `activity(preparing)` 的先后无回归。
 
-## 4. 证据条目（P1-00x，分类按统一纪律）
+## 4. 证据条目（P1-00x，分类按统一纪律；r2 更正见各条标注）
 
-- **P1-001 risk** `App.tsx:426` `useEffect(() => derivedStore.start(), [derivedStore])` ——
-  start 无对称 stop/dispose。derived store 若持有订阅/缓存，多次 workspace 重挂载依赖实现自身
-  幂等；未发现 stop API 存在的证据（grep state/ 目录无 stop 命中），也无法证明泄漏——标 risk，
-  建议实施批次核对 derived store 是否需要 stop（若确无副作用则 N/A）。
+- **P1-001 covered（r2 撤回原 risk 并更正）** `App.tsx:422-426` + `core/editor-derived-store.ts:394-417`：
+  derivedStore 由 App 内 `useMemo(createEditorDerivedStore(...))` 创建（r1 误写"props 传入"）；
+  `start()` 订阅 main/script 两会话并启动 worker，**返回 `stop`**；`stop` 置 running=false/epoch+1、
+  退订两会话、`port.terminate()`、清 inFlight；effect `useEffect(() => derivedStore.start(), [derivedStore])`
+  返回值即清理函数。本轮执行 `editor-derived-store.test.ts` **22/22 通过**（含
+  `editor derived worker store stop cancels a queued refresh and ignores late worker events`）。
 - **P1-002 risk** `App.tsx:411` `historyCoordinator.assertSessions(session, scriptSession)` 在
   组件体（渲染期）直接调用——契约上是断言（fail-loud），渲染期 throw 会让整树崩而非显示错误
-  边界。现有测试只覆盖 happy path；建议实施时把该断言放 effect 或开发期 invariant。
+  边界。现有测试只覆盖 happy path。**r2 更正：撤回"建议移入 effect"的修复表述**——是否迁移及
+  替代方案未经论证，仅记录现状与失败路径无测试覆盖的事实。
+- **P1-003 risk（r2 收窄）** `App.tsx:1660-1666` `ensureMapLoaded(id).catch(() => undefined)`——
+  **该调用点**静默吞掉地图加载失败、无就地反馈；不推及整页错误反馈能力（App 其它路径存在可见
+  错误 UI，如 V0 截图的渲染失败 banner）。非缺陷复现。
+- **P1-004 risk** 全局 keydown effect（:1997-2092）依赖数组 13 项，每次场景/选中/抽屉变化都要
+  解绑重绑 window listener；行为正确（清理对称），但重绑频率高——拆分后应把 handler 依赖收进
+  ref 以减少 window 级 churn。标 risk（性能/可维护性），无行为变化。
+- **P1-005 covered（r2 扩充）** 去重表改为**完整标题清单**：editor-navigation 17 条 it +
+  app-command-registry 4 条 + App.leave-guard 8 条（全文见 evidence.json P1-005.tests 与 §3 表）；
+  design-system/boundary.test.ts 5 处 App.tsx 引用按文件计数登记（口径：已读断言 vs 文件计数）。
+- **P1-006 N/A** `setTimeout` :2225 用途注释明确（modal top-layer 让位），无资源泄漏；无新证据。
+
+## 4.1 全量 state/ref 登记（r2 补充；行号为声明行）
+
+- **useState 24**：:382 trialDraft、:383 trialSubject、:384 trialLeave、:430 location、:434
+  moduleLocations、:499 workspaceNotice、:593 selected、:594 sceneLifecycleIntent、:597
+  placingEntity、:598 scriptChannel、:599 selectedBehavior、:600 selectedPage、:602 canvasLayers、
+  :611 placeSceneId、:618 placeMode、:619 placeActorId、:620 placeSpriteId、:621 placeZoneRanges、
+  :632 saveErr、:633 saveActivity（及 :634-641 区间内保存流程其余 4 个 state——saveConfirm/
+  saveProgress/interruptedAttempt/audioPreview，逐行见源文件）。
+- **useRef 8**：:385 trialWindows、:386 trialMounted、:428 bodyRef、:429 storedNavigationRef、
+  :433 locationRef、:437 moduleLocationsRef、:438 scrollPositionsRef、:595-596
+  createSceneButtonRef/sceneOutlineRowRef、:625-631 dirHandleRef/saveAttemptDirRef/snapshotRef/
+  authorBaselineRef/firstSaveAuthorRef（同名单行 ref 合并登记；与 16 个 effect 的对应关系见 §1 表）。
 - **P1-003 risk** `App.tsx:1660-1666` `ensureMapLoaded(id).catch(() => undefined)`——静默吞掉
   地图加载失败；用户无可见反馈（对照 V0 截图里场景渲染失败有明确 banner，此处无）。标 risk
   （静默降级是否有意需产品裁定），非缺陷复现。
@@ -92,5 +127,6 @@ reference-navigation + app-command-registry 三个测试文件作回归门。
 
 ## 6. 未证风险
 
-- derivedStore 实例语义（模块级还是 per-workspace）未运行验证——P1-001 的定级依赖它。
-- unmount 清理路径无运行时证据（静态读出三处对称清理，未见泄漏实证）。
+- ~~derivedStore 实例语义~~（r2 已以 22/22 测试执行与源码链路闭合，撤回）。
+- unmount 清理路径无运行时证据（静态读出对称清理，未见泄漏实证）。
+- assertSessions 渲染期失败路径无测试覆盖（P1-002）。

@@ -6,6 +6,15 @@
 `migrate/src/migration-transaction.ts`。**纪律**：未跑 `--write`、未改 generated/schema/事务格式、
 不发明新校验政策；全部静态读取 + 既有测试对账。
 
+> **r2 返工更正（Codex intake counter 0e751efe）**
+> ① **校验递归是双向的**（撤回 r1"author 底层、enemy 上层"单向表述）：author-script-core :3 import
+> checkBattleChoreography（enemy-script 提供）并在 :712 调用；enemy-script :6 import
+> checkBaseAuthorCommands 并在 :598 回调。author 递归容器实测含 onLose/onFlee/onFail/onNo 四臂
+> （:708-727）。② **mapScenesStatic 为 6 参数**（+options），r1 误写 5。③ 无 fs 事实**收窄**：
+> 只断言四个转换/校验模块（translate-events/migrate-content/author-script-core/enemy-script）；
+> 不外推"整个迁移管线仅 transaction 两个写入点"（baseline/path/project-io 有只读 fs，写路径未审；
+> authoring 等其它模块未审）。④ "纯函数绝不改输入"不作主张（未做输入变异审计）。
+
 ## 1. 转换阶段与磁盘写入责任图
 
 ```
@@ -28,17 +37,17 @@ migration-{baseline,path,project-io,transaction}.ts，且 transaction 是唯一 
 
 ## 2. 校验递归的真实调用域
 
-- `checkBaseAuthorCommands`（author-script-core.ts:600）：自递归 4 处（:661 then / :663 else /
-  :669 body / :708 onLose）——**author 树四类容器**全部覆盖，递归域=author 命令树。
+- `checkBaseAuthorCommands`（author-script-core.ts:600）：自递归臂实测 **6 处**（:661 then / :663 else /
+  :669 body / :708 onLose / :722 onFail / :726 onNo；r1 漏后三臂中两臂——onFlee 在 :710，经 :705-727
+  区间逐行核对）——**author 树六类容器**全部覆盖；另 :712 经 checkBattleChoreography 进入 enemy-script。
 - `checkEnemyHookFlow`（enemy-script.ts:458）：内部消费 `checkCommands`（script.js，:10 import）
   与 `checkAuthorCondition`（:588）——enemy-hook 流是 author/script 两套校验的组合面；
   迁移侧唯一调用域 = translate-enemy-scripts.ts:89（翻译后立即校验，带 `@L_地址` 定位）。
 - `checkEntityAddress`（:390）：实体地址断言（asserts 签名），被树遍历复用。
-- **协议观察（非缺陷）**：author-script-core 与 enemy-script 存在对 condition/dialog 的校验
-  交叉（enemy-script:588 调 checkAuthorCondition、:599 条件性调 checkCommands）——共享底层已存在
-  （author-script-core 即共享层），enemy-script 是其上的 hook 方言层。**纯函数候选**：enemy-hook
-  的 runtime 语义（cursor/advance）已独立在 reforge/enemy-hook-runtime.ts；校验侧无进一步下沉需求
-  证据，如实不发明重构。
+- **协议观察（r2 更正为双向）**：author-script-core 与 enemy-script **互为调用面**（author:3/:712
+  → checkBattleChoreography；enemy:6/:598 → checkBaseAuthorCommands），加上 enemy-script:588 调
+  checkAuthorCondition、:599 条件性调 checkCommands——共享校验面是双向协议，不是单向分层。
+  分层方向裁断与下沉建议属实施卡工作，本包不提。
 
 ## 3. 幂等/精确输出/错误路径的现有测试对账
 
@@ -57,12 +66,14 @@ migration-{baseline,path,project-io,transaction}.ts，且 transaction 是唯一 
 
 - **P6-001 covered** 上表（66+17+6+若干）精确计数：translate-events 66、author-script-core 17、
   enemy-script 6。
-- **P6-002 risk** `mapScenesStatic` 5 参签名（:2126-2133）的参数组合矩阵无直接快照回归——
+- **P6-002 risk（r2 参数数更正）** `mapScenesStatic` **6 参数**签名（:2126-2135：srcScenes/eventsByScene/roleSpritesByNum/globalRoots/soundAssetForNum/options）的参数组合矩阵无直接快照回归——
   现靠 pal-* 端到端测试间接覆盖；若后续改签名，建议先补参数级快照再动。静态证据。
-- **P6-003 covered** 写盘单点：`grep writeFileSync migrate/src` 仅 migration-transaction.ts:348/:367
-  两处，均在 commit/journal 路径；翻译层零 fs（grep 实证）。**责任图结论有直接证据**。
-- **P6-004 N/A** 共享底层协议（author-script-core 作为 condition/dialog 校验的共享层）已存在，
-  无新协议建议；不发明重构。
+- **P6-003 covered（r2 收窄）** 四个转换/校验模块（translate-events/migrate-content/author-script-core/
+  enemy-script）零 fs import（grep 实证）；`grep writeFileSync migrate/src` 仅 migration-transaction.ts
+  :348/:367 两处（commit/journal 路径）。**收窄声明**：不外推"整个迁移管线仅此两个写入点"——
+  baseline/path/project-io 有只读 fs，其余模块写路径未审。
+- **P6-004 N/A（r2 改述）** 校验面为**双向协议**（见 P6-001），分层方向不做裁断；下沉建议不提
+  （不发明重构）。
 - **P6-005 risk** `walkBody` 同文件 3 个递归调用点（:398/:772/:1368）+ 递归深度无显式上限
   （未发现 depth guard 证据）——原版脚本深度受引擎约束，实际输入有界；标 risk（防御性），
   非缺陷，不建议本包加政策。

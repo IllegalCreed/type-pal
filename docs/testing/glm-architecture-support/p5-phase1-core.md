@@ -7,6 +7,16 @@
 **纪律**：不把二阶段身份模型强加一阶段；只标注 runtime 边（真实值/函数跨模块调用）与
 type-only 边；环结论以 import 语句实测，不从 SCC 推断 bug。
 
+> **r2 返工更正（Codex intake counter 0e751efe）**
+> ① **撤回"6 文件两环、battle/equip 不在环"**：实测 **7 文件同一强连通分量（15 条 runtime 边）**——
+> r1 漏读的回边：`battle-opcodes.ts:25`←event-system（addPoisonForPlayer/curePlayerPoisonByKind/
+> curePlayerPoisonByLevel）、`equip-effect.ts:19`←event-system（addItemToInventory/getGlobalCommands/
+> getGlobalLabelMap 等）、`event-system.ts:57`→equip-effect（addPlayerStatRow/
+> getPlayerPoisonResistance/removeEquipmentEffect）、`scene-system.ts:12`→event-system（runEnterScript/
+> tickAutoScripts/tickChaseTimer/resolveScriptLabel）。② 测试计数更正：7 文件收集 **702** 项（r1 误写
+> 703）。③ **撤回"最短无行为切法"结论**：切断 getCurrentMapNum 边后剩余 14 条边的环形态未评估——
+> 现只陈述该边是最明确的候选切边（纯数据读），切后评估属实施卡工作。
+
 ## 1. 七文件 import 图（实测 grep，runtime 边 R / type-only 边 T）
 
 ```
@@ -44,10 +54,11 @@ magic-script ─R──> event-system          (:29 curePlayerPoisonByLevel, get
 | menu-mode → menu-driver | menu-mode.ts import（菜单栈间导航） | 层内 |
 | magic-script → event-system | magic-script.ts:29 三函数（毒治疗/全局命令表） | 法术脚本消费 interpreter 常量表 |
 
-**打破环 A 的最短无行为变化切法（建议，非执行）**：`getCurrentMapNum` 是唯一"底层读顶层持有
-模块态"的边。可把 `_currentMapNum` 降为 event-system 自持（loadScene 经现有 setter 注入），
-或改为 game-state 字段——两条路都是纯搬家。其余边（菜单回调执行脚本、快捷键开菜单）是
-**真实双向业务语义**（play.c 原结构即如此），强切会造出回调注入层，属实施卡权衡而非本包裁断。
+**切边评估（r2 改述）**：`getCurrentMapNum` 边（event-system→scene-system）是纯数据读取
+（loadScene 写 `_currentMapNum` 模块态、event 读），是最明确的候选切边之一（可把模块态降为
+event-system 自持或改 game-state 字段，均为纯搬家）。**r1"最短无行为切法"结论撤回**：切断后
+剩余 14 条边的环形态未评估（Codex 裁决），完整切环方案属实施卡工作。其余边（菜单回调执行脚本、
+快捷键开菜单）是**真实双向业务语义**（play.c 原结构即如此），强切会造出回调注入层。
 
 ## 3. bootstrap 注入边（runtime 边在 shell 层收口）
 
@@ -68,22 +79,21 @@ magic-script ─R──> event-system          (:29 curePlayerPoisonByLevel, get
 | core/equip-effect.test.ts | **36** | 装备效果 |
 | core/menu/menu-mode.test.ts | **7** | 菜单栈 |
 
-合计 703 条既有测试覆盖这 7 个文件——**环内重构的回归门已极厚**；本包不新增一阶段动态测试
+合计 **702** 项既有测试（r2 更正计数）覆盖这 7 个文件——**环内重构的回归门已极厚**；本包不新增一阶段动态测试
 （避免与 331 条 interpreter 测试重复取证），只交结构图与切环建议。
 
 ## 5. 证据条目
 
-- **P5-001 covered** 上表 703 条（按文件计数，标题清单在各测试文件内可机械复算）。
+- **P5-001 covered（r2 结构更正）** 7 文件同一 SCC（15 条 runtime 边，逐边见 §1/§2）；702 项按文件计数（Codex 收集同数）。
 - **P5-002 risk** 环 A 五条 runtime 边中，`event-system→scene-system`（getCurrentMapNum 模块态读取）
   是唯一纯数据边，切断无行为变化；其余四条为真实业务回调。列为"可先切断的边"候选，
   供实施卡核。**无缺陷主张**——环≠bug。
-- **P5-003 N/A** battle-opcodes/equip-effect 不在环上；卡面"7 文件环"经实测修正为
-  "6 文件两环 + 1 无环节点"，属结构事实澄清。
+- **P5-003 N/A（r2 改述）** r1 的'6 文件两环'澄清本身有误，由 P5-001 的 7 节点 15 边实测取代；环≠缺陷的立场不变。
 - **P5-004 risk** `_currentMapNum`（scene-system.ts:47）与 :873 注释所述 handler 注入模式并存，
   模块级可变态与注入态并存是两种所有权风格——记录，不判缺陷（一阶段现状）。
 
 ## 6. 未证风险
 
 - 循环初始化顺序（模块加载期副作用）未运行验证——Node ESM 循环在函数级引用下通常安全，
-  703 条测试全绿是间接证据；如需实证需一次全量 phase1 测试运行（不在本包白名单命令内，
+  702 项测试全绿是间接证据；如需实证需一次全量 phase1 测试运行（不在本包白名单命令内，
   已按纪律未跑官方 check，可由接收方以常规测试命令复核）。
