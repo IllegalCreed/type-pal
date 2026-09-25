@@ -44,6 +44,8 @@ export default defineConfig({
       { find: '@type-pal/shared', replacement: workspaceAliases['@type-pal/shared'] },
       { find: '@type-pal/game', replacement: workspaceAliases['@type-pal/game'] },
       { find: '@type-pal/migrate', replacement: workspaceAliases['@type-pal/migrate'] },
+      { find: '@lab/migrate/migrate-content', replacement: w('packages/migrate/src/migrate-content.ts') },
+      { find: '@lab/migrate/source-facts', replacement: w('packages/migrate/src/source-facts.ts') },
       // editor 是应用包（无 exports），按需为候选测试暴露其内部模块（指向本树源码）
       { find: '@lab/editor/edit-session', replacement: path.resolve(editorRoot, 'src/core/edit-session.ts') },
       { find: '@lab/editor/commands', replacement: path.resolve(editorRoot, 'src/core/commands.ts') },
