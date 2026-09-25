@@ -60,9 +60,11 @@
 ## 5. 证据条目
 
 - **P4-001 covered（r2 计数更正）** 上表 93 条（43+46+4；43=37 静态 test( + 2 test.each 收集展开）。
-- **P4-002 risk** `ui` 状态机约 29 处赋值分散在 tick 各分支，无集中转移表——拆分①（输入路由）
-  的第一刀应先建 `transitionUi(next)` 单点（纯重构，行为不变）再移动，否则 29 处散赋值会成为
-  拆分回归盲区。静态结构证据；无行为缺陷。
+- **P4-002 covered（r3 与机账同 ID 同义）** 门归属更正事实：:604 preparing 早退属于
+  `beginTurnPreparation`（逐回合 SFX 屏障入口守卫），`writeBackHp`（:2534-2541）**没有** preparing
+  门；开战视觉 ready 输入与逐回合 SFX 屏障是两个概念（r1 曾混写，已更正）。
+  （附注，非本条内容：`ui` 状态机约 29 处赋值分散在 tick 各分支、无集中转移表——拆分①输入路由前
+  可考虑先建 `transitionUi(next)` 单点再移动；此为实施期建议，不占用 P4-002 条目。）
 - **P4-003 covered（与机账对齐；新增共享状态读写小表）** pump(:1032)→render(:2543) 边界：共享
   实例字段的 writer→reader→清理对照——
   | 共享字段 | writer | reader | 清理/终态 |
@@ -71,7 +73,7 @@
   | casualtyDialogueShown | pump :1036-1063 置位/复位 | pump 自身（门控） | 复位 :1063；cancel :653 区间清 casualtyDialogue |
   | choreoBanner | pump :1050 置位、:1070 空格清 | pump/render | 置 null（:1070） |
   | choreoWaitUntil | pump :1073-1075 到期清 | pump | 置 null |
-  | scriptAnimation/anim | pump :1077-1080 与 performAction :1220-1222 推进后清 | render（anim 帧绘制） | anim=null + scriptAnimation=false |
+  | scriptAnimation/anim | pump :1077-1081 推进后清；**终态分支** :1220-1224 anim 收尾（不清 scriptAnimation）；**performAction 动画消费** :1565-1573 anim.tick 后 anim=null | render（anim 帧绘制） | 三处清理语义不同：pump 复位双标志、终态只收 anim、performAction 只清 anim——不并成一条 |
   | nowMs/screenShake/floats/summonVis/hideFade/pendingConfusedReveal | tick/演出臂写 | render :2543+ 读 | floats 按寿命过滤 :1200；其余演出相自行收口 |
   此表为**入口级对照**（Codex 裁决口径）：非穷尽所有 render 消费字段，但覆盖 pump 直接处理的
   dialogBox/casualty/choreo/scriptAnimation 家族，不以"只列 nowMs/screenShake/floats"冒充全齐。
@@ -83,5 +85,5 @@
 
 ## 6. 未证风险
 
-- ~~pump 与渲染耦合未深读~~（r3 已补 P4-003 共享状态对照表；A3/main 仍按卡面回避，但该回避不再作为跳过本类边界的理由）。
+- ~~pump 与渲染耦合未深读~~（r3 已补 P4-003 共享状态对照表；main.ts/A3 按卡面回避，但会话内边界已陈述，不再以回避为由留空）。
 - 拆分建议未经实施验证，仅依赖图推断。

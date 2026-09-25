@@ -85,10 +85,10 @@ reproduced=0 与 blocked=0 均为如实结果。r1 手填 32、r2 过渡 19/14 �
 ```bash
 cd /Users/zhangxu/illegal/type-pal-glm-architecture
 git log --oneline 32704738..HEAD                     # r1 九包提交 + counter 合并 + r2 返工提交
-git diff 0e751efe..HEAD --name-only | grep -v '^docs/testing/glm-architecture-support'  # 本席返工增量，应为空（32704738..HEAD 会包含 Codex 对任务卡的授权修改，不要求空）
-node -e "const e=require('./docs/testing/glm-architecture-support/evidence.json');console.log(e.entries.length, e.mechanicalSubtotals.byType)"  # 38 {covered:19,risk:14,N/A:5}
+git diff 1e4e3382..1410916e --name-only | grep -v '^docs/testing/glm-architecture-support'  # GLM 本轮返工增量，应为空（0e751efe..HEAD 会包含 Codex 对任务卡的授权修改，不要求空；r4 增量替换起止 SHA）
+node -e "const e=require('./docs/testing/glm-architecture-support/evidence.json');console.log(e.entries.length, e.mechanicalSubtotals.byType)"  # 38 {covered:21,risk:12,N/A:5}
 git show 3967a376:packages/editor/src/ui/App.tsx | shasum -a 256 | cut -c1-16  # 0803997f6a5552ce（hash 附录抽查）
-cd packages/editor && npx vitest run src/core/editor-derived-store.test.ts  # 22/22（P1-001 本次执行）
+(cd packages/editor && npx vitest run src/core/editor-derived-store.test.ts)  # 22/22（P1-001 本次执行；子 shell 不改变当前目录）
 npx biome check docs/testing/glm-architecture-support/evidence.json  # 在仓库根目录执行（最终待交付树），exit 0
 # 视觉复验：dev 6013 + 截图 SHA256 对照 evidence.json.screenshots（17 张）
 ```

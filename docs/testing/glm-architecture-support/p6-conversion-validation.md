@@ -30,9 +30,10 @@
    供写盘保护恢复（migration-write-guard 卡已三席收口）
 ```
 
-**责任边界清晰**：翻译/校验全部是纯函数（无 node:fs import——实测 translate-events.ts/
-migrate-content.ts/author-script-core.ts/enemy-script.ts 均无 fs 写调用；fs 只在
-migration-{baseline,path,project-io,transaction}.ts，且 transaction 是唯一 writeFileSync 点）。
+**责任边界（r3 收窄口径）**：四个已审模块（translate-events/migrate-content/author-script-core/
+enemy-script）无 node:fs import（grep 实证）；fs 集中在 migration-{baseline,path,project-io,
+transaction}.ts，其中 transaction 是这五个文件中唯一 writeFileSync 点。**不作扩大结论**："全部纯函数"
+与"整个迁移管线仅此两个写入点"均已撤回（未做输入变异审计，未审其余模块写路径——与顶部更正④一致）。
 `walkBody` 递归同文件内 3 处调用（:398/:772/:1368），无跨包重定义。
 
 ## 2. 校验递归的真实调用域
