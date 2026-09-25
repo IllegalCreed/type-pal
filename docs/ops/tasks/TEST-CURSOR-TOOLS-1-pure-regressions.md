@@ -94,11 +94,12 @@ diagnostics/tXX-*.test.mjs    # 可选，显式失败或待证，不加入默认
 - Codex：2026-09-25核对八组公开入口与旧测试存在，批准上述draft隔离准备；不预断候选正确或缺口数量。
 - Kimi/GLM：本次不请求，不代签；Cursor不替代其它席位。
 - build准入：not opened（无产品/正式测试接入授权）；done准入：not opened。
-- 本包仅分配，尚未执行候选测试。主线未合并，另卡修订准入不因本卡打开。
+- 材料接收：返工候选85f2a824已由Codex签accept，见文末；仍不合main、不标done。
+- 原始分配时尚未执行候选测试；后续执行与接收见本人席位。另卡修订准入不因本卡打开。
 
 ## 下一位Agent提示词
 
-下方为原始分配。当前接收仅执行文末CT-R1/CT-R2窄返工，不重做已核组。
+下方为原始分配，文末初版返工提示也已完成，仅保留历史。
 
 ```text
 接手TEST-CURSOR-TOOLS-1，从Codex本次提交新建独立worktree
@@ -113,7 +114,7 @@ diagnostics/tXX-*.test.mjs    # 可选，显式失败或待证，不加入默认
 交正文SHA、逐组状态、精确测试名/命令/结果和给Codex的接收提示词；不代签、不标done，正式接入由Codex另核。
 ```
 
-## Codex接收席位 — 2026-09-25
+## Codex初版接收席位 — 2026-09-25（历史）
 
 候选02d91f7a：**counter，CT-R1/CT-R2**。独立复跑候选21/相邻20绿、Biome/docs/diff通过；
 公开函数实际调用与T06去重成立。但T05预期固化目录改写漏改，T07两种实际输入污染反控仍全绿。
@@ -121,7 +122,7 @@ diagnostics/tXX-*.test.mjs    # 可选，显式失败或待证，不加入默认
 Candidate与源码原样保留，未代改测试语义；不合main、不代签、不标done。正式转正/质量门暂缓，
 目录工具缺陷由Codex另行处理，Cursor只交正确方向的诊断与完整实参回归。
 
-### 当前下一位Agent提示词（Cursor窄返工）
+### 初版下一位Agent提示词（历史；返工已接收）
 
 ```text
 在codex/cursor-tools-tests-r1返工TEST-CURSOR-TOOLS-1，原候选02d91f7a，证据冻结590037a6不变。
@@ -138,3 +139,14 @@ CT-R2：T07错配三轴与两个invalid分支都用具名实际document/rows，�
 Codex见证冻结旧候选，返工后部分结果应反转，由Codex适配判定，不让你改见证凑绿。
 整包提交推送并给正文SHA/登记tip，列绿候选数、诊断实际红因和剩余项；不合main、不代签、不标done。
 ```
+
+## Codex当前接收席位 — 2026-09-25
+
+返工候选`85f2a8243f84e6ffdfe01ce6f8e96160f98e82ca`：**accept，仅隔离候选材料接收**。
+CT-R1/CT-R2均闭合：绿套件22/22，T05显式诊断1绿/1业务红、隔离修正视图诊断2绿；
+T07两针实际输入污染各使目标用例业务红。相邻docs工具20/20、Biome/docs/diff通过。
+[本人复核](../../testing/cursor-tools-review.md)保留初版counter与本轮接收；贡献者原测试/回执未由本人修改。
+工具漏改仍在源码中，诊断红不是已修复；当前候选不计官方覆盖率。
+按用户本轮限定，Status保持draft，不合main、不代签、不标done；正式转正与缺陷修复另核。
+
+交接：无下一位Agent提示词，Cursor本包无剩余返工，等待后续正式准入。

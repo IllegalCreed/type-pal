@@ -1,9 +1,29 @@
 # TEST-CURSOR-TOOLS-1 — Codex独立接收复核
 
-日期：2026-09-25。候选`02d91f7ac98e7737283f4c255f5e76e23a49fd6e`，
-基点1763ac58，源码冻结590037a6。[原回执/候选](cursor-tool-regressions/README.md)原样保留。
+日期：2026-09-25。返工候选`85f2a8243f84e6ffdfe01ce6f8e96160f98e82ca`，
+初版`02d91f7ac98e7737283f4c255f5e76e23a49fd6e`；基点1763ac58，源码冻结590037a6。
+[贡献者回执](cursor-tool-regressions/README.md)仍在独立候选分支，本报告记录Codex判断。
 
-## 结论
+## 当前结论：accept（仅隔离候选材料）
+
+CT-R1与CT-R2已闭合。T05绿套件不再预期漏改，显式diagnostics保留正确预期的业务红；
+T07对每次实际传入的document/rows做调用前后独立深快照，完整返回值断言仍在。
+T06复用原Vitest证据，不新增同义用例；四条导入例已收窄称为import smoke。
+
+| 核查 | 本席独立结果 |
+|---|---|
+| 候选绿套件 | 22/22通过，0 skip；真实公开函数入口不变 |
+| T05显式诊断 | 单父映射正控1绿、双映射漏改1条AssertionError红，未改源码 |
+| 隔离修正视图 | 候选22/22绿；诊断2/2绿，证明红因指向漏改 |
+| T07输入污染反控 | 数组与无效document各一针；两针LOAD_HIT/CALL_HIT，目标用例各业务AssertionError红，其余4项绿 |
+| 相邻/静态门 | 原docs工具20/20；候选目录Biome 8文件净；docs检查PASS；diff与生产零漂移 |
+
+候选仍在Cursor分支，未进入官方test/coverage；目录工具缺陷也尚未修复。
+[初版冻结见证](cursor-tools-review-witness.mjs)钉的是旧候选薄弱断言，不要求新版把旧结论跑绿；
+本轮沿相同隔离加载点复核新候选，源与测试SHA前后不变。
+按用户本轮限定：**不合main、不代签、不标done**。无剩余返工项；正式转正、缺陷修复与质量门另核。
+
+## 初版结论与反证（历史，CT-R1/CT-R2已闭合）
 
 **counter：CT-R1错误预期固化工具缺陷、CT-R2实际输入保真有盲区。**
 七文件21例确实能绿，且直接import真实公开函数，不是测试替身绕过产品；主体也不是把旧用例换名复制。
