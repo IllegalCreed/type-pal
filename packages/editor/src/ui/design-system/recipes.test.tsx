@@ -4,6 +4,7 @@ import { createPortal } from 'react-dom'
 import { createRoot, type Root } from 'react-dom/client'
 import { renderToStaticMarkup } from 'react-dom/server'
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
+import { DsTag as DsTagControls } from './controls.js'
 import {
   DsActionGroup,
   DsButton,
@@ -41,6 +42,7 @@ import {
   DsTag,
   DsWorkbenchSection,
 } from './index.js'
+import { DsTag as DsTagModule } from './status-values.js'
 
 function InspectorTabsHarness() {
   const [activeId, setActiveId] = useState('properties')
@@ -93,7 +95,12 @@ describe('object workbench recipes', () => {
     expect(host.querySelector('.ds-object-hero__title')?.textContent).toBe('梦蛇')
     expect(host.querySelector('.ds-object-hero__media')?.textContent).toBe('✨')
     expect(host.querySelector('.ds-object-hero__actions')?.textContent).toBe('试放')
-    expect(host.querySelector('.ds-object-hero__meta .ds-tag')).not.toBeNull()
+    expect(DsTag).toBe(DsTagModule)
+    expect(DsTagControls).toBe(DsTagModule)
+    const heroTag = host.querySelector('.ds-object-hero__meta .ds-tag')
+    expect(heroTag?.tagName).toBe('SPAN')
+    expect(heroTag?.className).toBe('ds-tag ds-tag--neutral')
+    expect(heroTag?.textContent).toBe('自身')
     expect(host.querySelector('.ds-object-hero__actions .ds-button')).not.toBeNull()
   })
 

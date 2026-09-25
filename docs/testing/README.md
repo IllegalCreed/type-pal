@@ -14,6 +14,8 @@
 
 - [Grok DsOverflowText 迁出回执](grok-arch-ds-overflow.md)、[Codex 独立接收](grok-arch-ds-overflow-review.md)及[done任务卡](../ops/archive/tasks/done/ARCH-F2-DS-OVERFLOW-1.md)（窄切片已入 main；DOM/ARIA/SSR 与旧出口不变，隔离视觉对照与全仓门通过；F2整批未完成）
 
+- [Cursor DsTag/DsReadonlyValue 迁出回执](cursor-arch-ds-labels.md)（ARCH-F2-DS-LABELS-1 候选；只换实现文件，旧出口/DOM 不变；未合 main、未标 done）
+
 - [一阶段有效属性与战斗状态投影补测集成](gemini-phase1-stats-integration.md)（Gemini贡献、Codex接手修订/独立验收；26项正式接入，受保护严格fast8065/641；full/E2E另行验证）
 
 - [Cursor覆盖率说明定点核对回执](cursor-coverage-guide-audit.md)、[Codex独立接收/正式修订](cursor-coverage-guide-review.md)及[done任务卡](../ops/archive/tasks/done/DOC-CURSOR-3-coverage-guide-audit.md)（b5e2ca4a材料已接入；Codex只修当前入口文案，历史数字/基线不改）

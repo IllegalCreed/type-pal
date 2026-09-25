@@ -3,6 +3,7 @@ import { act, createRef, useState } from 'react'
 import { createRoot, type Root } from 'react-dom/client'
 import { renderToStaticMarkup } from 'react-dom/server'
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
+import { DsReadonlyValue as DsReadonlyValueControls, DsTag as DsTagControls } from './controls.js'
 import {
   DsActionLink,
   DsButton,
@@ -25,6 +26,7 @@ import {
   DsNumberInput,
   type DsOption,
   DsRadioGroup,
+  DsReadonlyValue,
   DsSelect,
   DsSwitch,
   DsTabs,
@@ -33,6 +35,7 @@ import {
   DsTextInput,
   DsToolbar,
 } from './index.js'
+import { DsReadonlyValue as DsReadonlyValueModule, DsTag as DsTagModule } from './status-values.js'
 
 let host: HTMLDivElement
 let root: Root
@@ -828,6 +831,88 @@ describe('editor design-system controls', () => {
       '使用',
       '引用 8',
     ])
+  })
+
+  test('keeps tag tones, readonly elements and the moved export identity', async () => {
+    expect(DsTag).toBe(DsTagModule)
+    expect(DsTagControls).toBe(DsTagModule)
+    expect(DsReadonlyValue).toBe(DsReadonlyValueModule)
+    expect(DsReadonlyValueControls).toBe(DsReadonlyValueModule)
+
+    await act(async () =>
+      root.render(
+        <>
+          <DsTag data-role="default">使用</DsTag>
+          <DsTag tone="neutral">引用 8</DsTag>
+          <DsTag tone="warning" monospace>
+            ID
+          </DsTag>
+          <DsTag tone="danger" data-kind="x">
+            危
+          </DsTag>
+          <DsReadonlyValue data-role="readonly">值</DsReadonlyValue>
+          <DsReadonlyValue as="div" monospace className="extra" data-id="row">
+            id
+          </DsReadonlyValue>
+        </>,
+      ),
+    )
+
+    const defaultTag = host.querySelector('[data-role="default"]')
+    expect(defaultTag?.tagName).toBe('SPAN')
+    expect(defaultTag?.className).toBe('ds-tag ds-tag--accent')
+    expect(defaultTag?.textContent).toBe('使用')
+    expect([...host.querySelectorAll('.ds-tag')].map((tag) => tag.className)).toEqual([
+      'ds-tag ds-tag--accent',
+      'ds-tag ds-tag--neutral',
+      'ds-tag ds-tag--warning ds-tag--monospace',
+      'ds-tag ds-tag--danger',
+    ])
+    expect(host.querySelector('[data-kind="x"]')?.getAttribute('data-kind')).toBe('x')
+
+    const readonly = host.querySelector('[data-role="readonly"]')
+    expect(readonly?.tagName).toBe('SPAN')
+    expect(readonly?.className).toBe('ds-readonly-value')
+    expect(readonly?.textContent).toBe('值')
+
+    const block = host.querySelector('[data-id="row"]')
+    expect(block?.tagName).toBe('DIV')
+    expect(block?.className).toBe('ds-readonly-value ds-readonly-value--monospace extra')
+  })
+
+  test('keeps status-value SSR markup for default tone and element contracts', () => {
+    expect(renderToStaticMarkup(<DsTag>使用</DsTag>)).toBe(
+      '<span class="ds-tag ds-tag--accent">使用</span>',
+    )
+    expect(renderToStaticMarkup(<DsTag tone="neutral">引用 8</DsTag>)).toBe(
+      '<span class="ds-tag ds-tag--neutral">引用 8</span>',
+    )
+    expect(
+      renderToStaticMarkup(
+        <DsTag tone="warning" monospace>
+          ID
+        </DsTag>,
+      ),
+    ).toBe('<span class="ds-tag ds-tag--warning ds-tag--monospace">ID</span>')
+    expect(
+      renderToStaticMarkup(
+        <DsTag tone="danger" data-kind="x">
+          危
+        </DsTag>,
+      ),
+    ).toBe('<span data-kind="x" class="ds-tag ds-tag--danger">危</span>')
+    expect(renderToStaticMarkup(<DsReadonlyValue>值</DsReadonlyValue>)).toBe(
+      '<span class="ds-readonly-value">值</span>',
+    )
+    expect(
+      renderToStaticMarkup(
+        <DsReadonlyValue as="div" monospace className="extra" data-id="row">
+          id
+        </DsReadonlyValue>,
+      ),
+    ).toBe(
+      '<div data-id="row" class="ds-readonly-value ds-readonly-value--monospace extra">id</div>',
+    )
   })
 
   test('keeps checkbox mixed state, radio exclusivity and switch semantics programmatic', async () => {
