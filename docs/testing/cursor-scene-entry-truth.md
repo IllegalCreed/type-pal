@@ -1,7 +1,7 @@
 # DOC-CURSOR-4 — 场景入场指南当前 UI 事实表
 
 状态：Cursor 只读取证完成；待 Codex 独立接收后自行窄修指南。未改正式指南、产品或测试。
-任务：[DOC-CURSOR-4](../ops/tasks/DOC-CURSOR-4-scene-entry-current-ui.md)。
+任务：[DOC-CURSOR-4](../ops/archive/tasks/done/DOC-CURSOR-4-scene-entry-current-ui.md)。
 工作树起点 / 源码 SHA：`dbf791067ef9c420c4462b1640eef025aa163fb1`。
 未开 6010、未访问用户工程、未跑覆盖率/E2E/迁移。无隔离浏览器，凡需肉眼确认像素的项保持 `pending-ui`。
 已知项：未渲染的 `ScriptTree` 文案不能证明当前 UI（[DOC-CURSOR-1 H7 反证](cursor-docs-hygiene-review.md:47-65)）；本回执不把它计作新发现。

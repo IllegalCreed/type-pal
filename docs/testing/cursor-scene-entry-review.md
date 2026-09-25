@@ -1,5 +1,9 @@
 # DOC-CURSOR-4 — Codex 独立接收与 H7 窄修订
 
+## 后续接入（2026-09-25）
+
+用户明确要求通过后直接合并推送；Cursor 回执 `31618c0d` 已以 `b7b9df35` 选择性接入 main，Codex 现行指南窄修 `60aa0e1d` 沿用。任务卡归档 done。以下“候选仍隔离/任务 draft”是接入前历史状态；prepare 安全目录产品缺口仍另排，不借本卡关闭。
+
 2026-09-25。Cursor 只读候选 `31618c0d2a92be69813acc73cdcd3a911c63214f`（对 `dbf79106` 仅一份回执和 `docs/testing/README.md` 导航一行）：**accept，H7-1～H7-6 无阻断 counter**。候选材料仍隔离，未整体合 main；本席独立修改现行指南，不把 Cursor 自验当作独立证明。任务按用户本轮要求暂留 draft、不标 done。
 
 ## 一手复核
