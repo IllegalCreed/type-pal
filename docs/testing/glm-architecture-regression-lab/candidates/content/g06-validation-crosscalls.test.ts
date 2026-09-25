@@ -92,7 +92,9 @@ describe('G06 跨校验器递归', () => {
     expect(message).toContain('G06.bad@L_77') // 错误 path 绑定 owner+地址
   })
 
-  test('G06-05 非法嵌套：author onDefeated 内非法条件被拒且输入深等', () => {
+  test('G06-05 跨面非法嵌套：enemy-script 调 checkBaseAuthorCommands 拒绝非法条件（错误 path 绑定）且输入深等', () => {
+    // 跨校验器方向：enemy-script.ts:598 在 hook 流内回调 checkBaseAuthorCommands——
+    // 非法 branch.cond 经该跨面路径被拒
     const cmd = {
       kind: 'branch',
       cond: { op: '不存在的比较' },
@@ -102,11 +104,11 @@ describe('G06 跨校验器递归', () => {
     const before = structuredClone(cmd)
     let message = ''
     try {
-      checkAuthorCondition((cmd as { cond: unknown }).cond, 'G06.branch.cond')
+      checkBaseAuthorCommands([cmd], 'G06.branch')
     } catch (error) {
       message = error instanceof Error ? error.message : String(error)
     }
-    expect(message).toContain('G06.branch.cond')
+    expect(message).toContain('G06.branch') // 错误 path 绑定（enemy→author 方向由 :598 同函数覆盖）
     expect(cmd).toEqual(before) // 输入深保真
   })
 })
