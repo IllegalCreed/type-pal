@@ -20,22 +20,28 @@ type-only 边；环结论以 import 语句实测，不从 SCC 推断 bug。
 ## 1. 七文件 import 图（实测 grep，runtime 边 R / type-only 边 T）
 
 ```
-（r3 全图：15 条 runtime 边 = 7 节点同一 SCC，回边已全部画出）
-event-system ──R──> scene-system          (:12→ 侧见下行；:80 getCurrentMapNum 值函数回读)
-scene-system ──R──> event-system          (:12 runEnterScript/tickAutoScripts/tickChaseTimer/resolveScriptLabel)
-event-system ──R──> battle/battle-opcodes (:53 dispatchBattleOpcode)
-battle-opcodes ─R─> event-system          (:25-30 addPoisonForPlayer/curePlayerPoisonByKind/curePlayerPoisonByLevel)
-event-system ──R──> equip-effect          (:57 addPlayerStatRow/getPlayerPoisonResistance/removeEquipmentEffect)
-equip-effect ──R──> event-system          (:19-24 addItemToInventory/getGlobalCommands/getGlobalLabelMap)
-event-system ──T──> battle/battle-state   (BattleState 类型，不构成运行时耦合)
-scene-system ──R──> menu/menu-driver      (:551-562 openOverworldShortcutMenu ×4 快捷键)
-scene-system ──R──> menu/menu-mode        (openMenu) / menu/in-game-menu (createInGameMenu)
-menu-driver ──R──> event-system           (:17 addItemToInventory, startOverworldItemScript)
-menu-driver ──R──> equip-effect           (:18) / menu-mode / menu/magic-script / save/api / command-bus
-menu-mode ────R──> menu-driver            / game-state / command-bus
-magic-script ─R──> event-system           (:29 curePlayerPoisonByLevel, getGlobalCommands, getGlobalLabelMap)
+（r3 全图：15 条 runtime 边 = 7 节点同一 SCC，全部画出；环外边单独列出）
+
+event-system ──R──> scene-system      (:80 getCurrentMapNum 值函数回读)
+scene-system ──R──> event-system      (:12 runEnterScript/tickAutoScripts/tickChaseTimer/resolveScriptLabel)
+event-system ──R──> battle-opcodes    (:53 dispatchBattleOpcode)
+battle-opcodes ─R─> event-system      (:25-30 addPoisonForPlayer/curePlayerPoisonByKind/curePlayerPoisonByLevel)
+battle-opcodes ─R─> equip-effect      (:18-24 getPlayerAttackStrength/Defense/Dexterity/MagicStrength/PoisonResistance)
+event-system ──R──> equip-effect      (:57 addPlayerStatRow/getPlayerPoisonResistance/removeEquipmentEffect)
+equip-effect ──R──> event-system      (:19-24 addItemToInventory/getGlobalCommands/getGlobalLabelMap)
+scene-system ──R──> menu-driver       (:551-562 openOverworldShortcutMenu ×4 快捷键)
+scene-system ──R──> menu-mode         (:30 openMenu)
+menu-driver ──R──> event-system       (:17 addItemToInventory, startOverworldItemScript)
+menu-driver ──R──> equip-effect       (:16)
+menu-driver ──R──> magic-script       (:83)
+menu-driver ──R──> menu-mode          (:84)
+menu-mode ──R──> menu-driver          (:16)
+magic-script ──R──> event-system      (:29 curePlayerPoisonByLevel/getGlobalCommands/getGlobalLabelMap)
+
 （环外：equip-effect→game-state createInitialEquipmentEffect；battle-opcodes→battle 子树
- anim-driver/positions/state/magic-damage；event-system→command-bus/dialog-history/word-lookup）
+ anim-driver/positions/state/magic-damage；event-system→command-bus/dialog-history/word-lookup；
+ scene-system→in-game-menu createInGameMenu；menu-driver→save/api、command-bus；
+ menu-mode→game-state、command-bus。type-only：event-system ─T─> battle/battle-state。）
 ```
 
 **环结构（r3 定稿）**：上表 15 条 runtime 边使 7 文件构成**同一个强连通分量**——含 r1 漏读的
