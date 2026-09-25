@@ -34,8 +34,7 @@ GLM后续补测候选见[十批长队列](../testing/glm-coverage-work-queue.md)
 | ID | 任务 | 状态 | 负责人/下一步 | 一句话备注 |
 |---|---|---|---|---|
 | ARCH-F2-EDITOR-BATTLE-FIELD-COMMANDS-1 | [战场命令族独立模块](tasks/ARCH-F2-EDITOR-BATTLE-FIELD-COMMANDS-1.md) | build | GLM实施 / Codex独立复核 | 仅命令族机械搬迁、旧出口保留，不动A3与其它编辑命令 |
-| ARCH-F2-DS-LABELS-1 | [标签与只读值组件窄拆](tasks/ARCH-F2-DS-LABELS-1.md) | draft | Cursor待当前五包与Grok接收后开工 | 同文件串行依赖，尚未开放build |
-| CURSOR-WAVE-2-1 | [五包连续文档纠偏与纯边界回归](tasks/CURSOR-WAVE-2-1-docs-and-pure-regressions.md) | rework | Cursor 仅收口 W3/W4 / Codex 复核 | W1/W2/W5已接入；W3/W4原树绿但伪变异与W3 ts-nocheck未闭，不计覆盖率 |
+| ARCH-F2-DS-LABELS-1 | [标签与只读值组件窄拆](tasks/ARCH-F2-DS-LABELS-1.md) | draft | Codex重核新主线后决定Cursor准入 | 前置两卡已done；本卡未开build，不自动授权同文件改动 |
 | ARCH-REGRESSION-LAB-GLM-1 | [十二组候选回归与功能视觉](tasks/ARCH-REGRESSION-LAB-GLM-1-twelve-packs.md) | draft | GLM按六轮counter补真实调用链/收窄 | 33df9378 测试零diff；32绿/六图hash可留，新增tsconfig TS5101、回执旧口径与业务缺口未闭 |
 | ARCH-SUPPORT-GLM-1 | [八组并行架构/视觉准备](tasks/ARCH-SUPPORT-GLM-1-eight-audit-packages.md) | draft | Codex / 后续归属与收口 | 58cdf938材料accept，counter清零；文档已合入，按用户要求未标done/未开产品门 |
 

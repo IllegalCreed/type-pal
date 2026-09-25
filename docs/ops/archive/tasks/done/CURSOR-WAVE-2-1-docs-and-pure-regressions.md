@@ -1,6 +1,6 @@
 # CURSOR-WAVE-2-1 — 五包连续文档纠偏与纯边界回归
 
-Status: rework
+Status: done
 Phase: ops / phase1 / phase2（文档与测试，生产代码冻结）
 Contribution Owner: Cursor
 Review / Integration Owner: Codex
@@ -11,7 +11,7 @@ Branch: `codex/cursor-wave2-r1`；独立 worktree `type-pal-cursor-wave2`
 
 用户要求给 Cursor 连续分配更多工作。Codex 已独立核实五包互不修改同一文件；全部属于文档或测试候选，**不授权产品实现、schema、存档、迁移、生成资产或基线变更**。当前委派模式由 Cursor 实施、Codex 独立验收与集成；不等固定 AI 席位，也不把 Cursor 自测当独立证明。五包按 W1→W5 连续提交，不必每包等 Codex 回复；每包独立提交，便于 Codex 按包选择性接收。若主线同名目标变动，先 rebase 再核白名单，不覆写他人修改。
 
-既有锚点：`CLAUDE.md:22` 一阶段允许无行为漂移架构治理；`docs/phase2/READ-FIRST.md` 二阶段原则；[DOC-CURSOR-6 独立复核](../../testing/cursor-author-guides-review.md)指出七处现行指南误导与 `callScript` 保存保护缺口；[文档工具正式接入记录](../../testing/cursor-tool-regressions/integration.md)已有相关用例，不能再造同义测试。仓库使用 Vitest 4.1.7 和 pnpm 10 工作区，按本仓配置而非外部旧版示例运行。
+既有锚点：`CLAUDE.md:22` 一阶段允许无行为漂移架构治理；`docs/phase2/READ-FIRST.md` 二阶段原则；[DOC-CURSOR-6 独立复核](../../../../testing/cursor-author-guides-review.md)指出七处现行指南误导与 `callScript` 保存保护缺口；[文档工具正式接入记录](../../../../testing/cursor-tool-regressions/integration.md)已有相关用例，不能再造同义测试。仓库使用 Vitest 4.1.7 和 pnpm 10 工作区，按本仓配置而非外部旧版示例运行。
 
 ## W1 — 三份作者指南的已证文字窄修
 
@@ -46,7 +46,7 @@ Branch: `codex/cursor-wave2-r1`；独立 worktree `type-pal-cursor-wave2`
 ## Codex 首轮独立接收（2026-09-25，候选 `7b4ec8fc`）
 
 - **W2 accept**：根 `CLAUDE.md` 的退役 e2e/6001 说明已选择性接入 main（`cbac3ca0`），不需重做。
-- **W1/W3/W4/W5 窄 counter；Status=rework**。[逐包证据与最小返工](../../testing/cursor-wave2-review.md)：一处未证实的“粘贴正文”入口；W3/W4 未执行隔离实现单点负控且 FPS 文本仅子串匹配；W5 临时目录未清理、围栏用例标题/证明对象错位。
+- **W1/W3/W4/W5 窄 counter；当时 Status=rework**。[逐包证据与最小返工](../../../../testing/cursor-wave2-review.md)：一处未证实的“粘贴正文”入口；W3/W4 未执行隔离实现单点负控且 FPS 文本仅子串匹配；W5 临时目录未清理、围栏用例标题/证明对象错位。
 - 本席已独立复跑 editor48、game20、docs定向25/全38、双包 typecheck、文档门与 diff 检查，均绿。绿不替代上述合同。候选测试与文档其余正确点保留，产品/基线零改；候选工作树未跟踪依赖软链接须由贡献者精确清理。返工前同步最新 main，白名单不扩大。Codex 未合其它四包、未跑官方覆盖率、未标 done。
 
 ### 下一位 Cursor 窄返工提示词
@@ -64,7 +64,7 @@ check:docs/diff，更新回执为真实最终树命令与计数；推送精确 S
 
 ## Codex 二轮独立接收（2026-09-25，候选 `0d475c12`）
 
-- **W1/W5 accept**，已选择性接入 main；W2 首轮已接入。[二轮直接证据](../../testing/cursor-wave2-r2-review.md)核指南用语、文档工具临时目录/去重；主线 docs-tools 37/37、docs/Biome/diff 通过。
+- **W1/W5 accept**，已选择性接入 main；W2 首轮已接入。[二轮直接证据](../../../../testing/cursor-wave2-r2-review.md)核指南用语、文档工具临时目录/去重；主线 docs-tools 37/37、docs/Biome/diff 通过。
 - **W3/W4 仍 counter，Status=rework**：新增直接断言与 editor49/game21 定向绿可保留，但“变异测试”只复写近似逻辑并捕获自己制造的 AssertionError，没有对实际生产模块做隔离变异；W3 还新增 `@ts-nocheck`。本席未合 W3/W4、未计官方覆盖率、未跑全仓质量门。
 
 ### 下一位 Cursor W3/W4 收口提示词
@@ -79,3 +79,9 @@ origin/main，读 docs/testing/cursor-wave2-r2-review.md。W1/W2/W5 已由 Codex
 配置/基线。复跑定向、相邻、双包 typecheck、Biome、docs/diff，提交最终树 diff/命令/退出码
 与负控红因，推送精确 SHA，不合 main、不标 done；Codex 独立复核后统一质量门。
 ```
+
+## Codex 三轮独立接收与 done 准入（2026-09-26，候选 `af776bb8`）
+
+- **W3/W4 accept，整卡 done**：[直接反控与统一门禁](../../../../testing/cursor-wave2-r3-review.md)已核。Vite 内存 `load` 对生产 `binary-signature.ts` 和 `fps-overlay.ts` 各作单点变异，分别让同一正式测试 exit1/业务 AssertionError；原树绿、生产磁盘 hash 不变。测试内仿写负控与 `@ts-nocheck` 已撤，editor48/game20/typecheck 均绿。
+- W1/W2/W5 为前两轮已接收事实，不重签。五包合入 main 后 `pnpm check`、官方 ratchet、受保护单次 strict-fast 均 exit0；fast 8,120/642，分支 43,134/63,176，无产品改动或统计范围缩减。Cursor 为贡献者，Codex 独立验收；不代签其它 Agent，不把脚本调用环产品缺口随本卡关闭。
+- 本卡先前 build/rework/返工提示词保留历史；无下一位 Cursor 返工提示词。Cursor 另一个 F2 标签组件卡尚待新的 build 准入，不自动获得本卡授权。

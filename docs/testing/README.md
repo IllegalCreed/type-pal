@@ -20,7 +20,7 @@
 
 - [Cursor场景入场UI只读候选的Codex复核](cursor-scene-entry-review.md)（DOC-CURSOR-4，31618c0d材料accept；现行指南已由Codex窄修，prepare安全目录未接入菜单/作者保存守卫另排；候选不整体合main）
 
-- [Cursor五包文档纠偏与纯边界回归](cursor-wave2/README.md)、[Codex二轮复核](cursor-wave2-r2-review.md)（W1/W2/W5已入 main；W3/W4 窄返工，候选未整体接收，不计官方覆盖率）
+- [Cursor五包文档纠偏与纯边界回归](cursor-wave2/README.md)、[Codex二轮复核](cursor-wave2-r2-review.md)、[三轮独立接收](cursor-wave2-r3-review.md)及[done任务卡](../ops/archive/tasks/done/CURSOR-WAVE-2-1-docs-and-pure-regressions.md)（W1–W5已入 main；十项增量测试纳入 fast 8,120/642，全仓门通过；产品实现零改）
 
 - [Cursor八组工具候选回归](cursor-tool-regressions/README.md)及[正式接入与路径修复](cursor-tool-regressions/integration.md)（贡献候选85f2a824；文档工具/编辑器审计测试转正，目录映射漏改修复并独立验证）
 

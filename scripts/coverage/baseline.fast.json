@@ -1,14 +1,14 @@
 {
   "schemaVersion": 2,
   "profile": "fast",
-  "generatedAt": "2026-09-25T14:31:39.968Z",
+  "generatedAt": "2026-09-25T14:54:46.169Z",
   "provider": {
     "name": "v8",
     "vitest": "4.1.7",
     "coverageV8": "4.1.7"
   },
   "sourceFileCount": 642,
-  "testCount": 8110,
+  "testCount": 8120,
   "packages": {
     "shared": {
       "name": "@type-pal/shared",
@@ -2754,7 +2754,7 @@
       ],
       "scopeDigest": "172860557359800006b54684305c95556da2645892e450c2d5b4891297aba98e",
       "fastTests": {
-        "testCount": 2388,
+        "testCount": 2395,
         "testFileCount": 158,
         "files": [
           "packages/game/src/analytics/analytics-consent-ui.test.ts",
@@ -3614,13 +3614,13 @@
           },
           {
             "file": "packages/game/src/tools/display-scale.test.ts",
-            "testCount": 4,
-            "identityDigest": "b8b0c7b5959342e883106d52e89367519dd51f10184a78209e483335287dd726"
+            "testCount": 8,
+            "identityDigest": "845331f04125074cd89716522146a9cebf31c273f4b944d0ed818c8377002871"
           },
           {
             "file": "packages/game/src/tools/fps-overlay.test.ts",
-            "testCount": 6,
-            "identityDigest": "61d187d17b567029c54db69e758b241edaf36d328124db09d4350edc08c71403"
+            "testCount": 8,
+            "identityDigest": "7a6d8c7a6d434dce13ee951c85f10fe10e0f749e3e7e7128a470f057ddbcd124"
           },
           {
             "file": "packages/game/src/tools/map-names.test.ts",
@@ -3699,8 +3699,8 @@
           },
           {
             "file": "packages/game/src/tools/toast.test.ts",
-            "testCount": 3,
-            "identityDigest": "c5baf1c8d06b37b4e4253cf9f4a665917ff0c93759b171f9fa1b789c20b8f04b"
+            "testCount": 4,
+            "identityDigest": "9a778ec0706af1edeabd40013ffb991ccf961127965095876115130f65dda3b1"
           },
           {
             "file": "packages/game/src/tools/tools-panel.test.ts",
@@ -3708,9 +3708,9 @@
             "identityDigest": "916c70c2855d90db70208a6895de9b3254f0e3f039c2bb0b96bc8fd4287d249d"
           }
         ],
-        "identityDigest": "196623a29994b6a61eaa85494a72498cd6301db00df88f9dd2859d44b8eb0de7",
+        "identityDigest": "e329b8dfb24b426cae1d18ce0550a68355df2f7102e455a072bca2f077e22b5e",
         "duplicateIdentityCount": 0,
-        "executionDigest": "42d00c17b6f89e0ffca728c988ce9d5beb34897e8b6e21823f536bc7e4c3541d"
+        "executionDigest": "af118a3d976abf174caddb8d02794c820b5ed58999dcd7cb65494dce9f38b042"
       },
       "metrics": {
         "statements": {
@@ -3975,8 +3975,8 @@
       ],
       "scopeDigest": "a377f3f8cc74955711e9086a35126647261478700ae3d43f97258f7d545b20b0",
       "fastTests": {
-        "testCount": 2594,
-        "testFileCount": 266,
+        "testCount": 2597,
+        "testFileCount": 267,
         "files": [
           "packages/editor/scripts/battle-simulator-http.test.mjs",
           "packages/editor/scripts/battle-simulator-ui.test.tsx",
@@ -4009,6 +4009,7 @@
           "packages/editor/src/core/battle-simulator-persistence.test.ts",
           "packages/editor/src/core/battle-simulator-state.wave2.test.ts",
           "packages/editor/src/core/battle-sprite-import.boundaries.test.ts",
+          "packages/editor/src/core/binary-signature.test.ts",
           "packages/editor/src/core/clone.test.ts",
           "packages/editor/src/core/commands-assets.boundaries.test.ts",
           "packages/editor/src/core/commands-catalog.boundaries.test.ts",
@@ -4402,6 +4403,11 @@
             "identityDigest": "ec8d3dad275c7669ddbc28bd563d5ad40a077cdaa24a8da4ac4ab201441c8144"
           },
           {
+            "file": "packages/editor/src/core/binary-signature.test.ts",
+            "testCount": 2,
+            "identityDigest": "d58b4c76c669c24ce08da967cf86eac984438eaebb30f5f19c896b0e2961adc8"
+          },
+          {
             "file": "packages/editor/src/core/clone.test.ts",
             "testCount": 7,
             "identityDigest": "4ae0f39266865e079a57da488987ba17e7f346c4ab64d2001a77f3ef2884e44e"
@@ -4703,8 +4709,8 @@
           },
           {
             "file": "packages/editor/src/core/project-read-admission.test.ts",
-            "testCount": 28,
-            "identityDigest": "7406b971a4e17ea23ccfc71a72b70c7f47a9d331bfdbfe7d33826c63954a8dd3"
+            "testCount": 29,
+            "identityDigest": "9a25cf9a43191480e0c6a7ead4e4ae419eb132e2edd83e485f74b4546a0c6ffd"
           },
           {
             "file": "packages/editor/src/core/project-reference-adapters.boundaries.test.ts",
@@ -5577,9 +5583,9 @@
             "identityDigest": "7c181e89600882213bfdc9bf59bf8d2b40273fc45d2d84fecf9ad6313060cf3b"
           }
         ],
-        "identityDigest": "13abeb91eda281d5857f01bc34eabac6b11c981e1c0d3e1089146d64ead1afb6",
+        "identityDigest": "5631fdd5627e8ebf82a84cedb1b233a5c90278bb90dc064b1e3344c92620636c",
         "duplicateIdentityCount": 8,
-        "executionDigest": "26011a3cced8bc24f0bbbddc10bf5a8b0b79a586de3cd9d7da9c3e67289b3221"
+        "executionDigest": "2086bf148d65b1782fe5d0f8b7087f1c0405e3695719a2399264a26061a9d229"
       },
       "metrics": {
         "statements": {

@@ -12,7 +12,6 @@
 | [ARCH-F2-EDITOR-BATTLE-FIELD-COMMANDS-1 — 战场命令族独立模块](ARCH-F2-EDITOR-BATTLE-FIELD-COMMANDS-1.md) | build | 以任务卡当前准入与看板分工为准。 |
 | [ARCH-REGRESSION-LAB-GLM-1 — 十二组可执行回归与功能视觉准备](ARCH-REGRESSION-LAB-GLM-1-twelve-packs.md) | draft | 以任务卡当前准入与看板分工为准。 |
 | [ARCH-SUPPORT-GLM-1 — 八组并行准备取证](ARCH-SUPPORT-GLM-1-eight-audit-packages.md) | draft | 以任务卡当前准入与看板分工为准。 |
-| [CURSOR-WAVE-2-1 — 五包连续文档纠偏与纯边界回归](CURSOR-WAVE-2-1-docs-and-pure-regressions.md) | rework | 以任务卡当前准入与看板分工为准。 |
 
 ## 已完成（historical）
 
@@ -49,6 +48,7 @@
 | [C2-PAL - PAL 大世界特殊精灵布局清洗](../archive/tasks/done/C2-PAL-world-sprite-layout-cleanup.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [C3 - 装备结构化编辑器 + 数值单一真相源(desc 去脱节)](../archive/tasks/done/C3-equip-structured-editor.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [C8 - 物品用途机制、运行时与迁移闭环](../archive/tasks/done/C8-item-use-mechanisms.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [CURSOR-WAVE-2-1 — 五包连续文档纠偏与纯边界回归](../archive/tasks/done/CURSOR-WAVE-2-1-docs-and-pure-regressions.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [D12-1 - 音频动态过渡与分层（议题 12 剩余①）](../archive/tasks/done/D12-1-audio-transition-layering.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [D13-1 - 调试工具首刀（议题 13）](../archive/tasks/done/D13-1-debug-tools-first-batch.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [D14-1 - 对话系统外观继承（版式/头像/光标/字体/自动播放）](../archive/tasks/done/D14-1-dialogue-appearance-inheritance.md) | done | 完成证据、历史签字与交接见原卡。 |

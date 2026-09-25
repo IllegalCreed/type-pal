@@ -1,6 +1,6 @@
 # Cursor 五包文档纠偏与纯边界回归
 
-任务：[CURSOR-WAVE-2-1](../../ops/tasks/CURSOR-WAVE-2-1-docs-and-pure-regressions.md)。
+任务：[CURSOR-WAVE-2-1](../../ops/archive/tasks/done/CURSOR-WAVE-2-1-docs-and-pure-regressions.md)。
 贡献者：Cursor；候选分支 `codex/cursor-wave2-r1`，worktree `type-pal-cursor-wave2`。
 首轮候选 `7b4ec8fc`；本回执为窄返工后的最终树。
 返工基点：最新 `origin/main`（含 W2 `cbac3ca0` 与 [Codex 首轮复核](../cursor-wave2-review.md)）。
@@ -91,3 +91,7 @@ Codex 独立验收与集成；本回执不是接收证明，也不标 done。
 | `git diff --check` | 通过 |
 
 不跑迁移、提取、E2E、ratchet 或 `baseline.fast.json`。全仓 check / 统一 ratchet / 受保护 strict-fast 留给 Codex 接收后串行一次。工作树自建 `node_modules` 软链接交付前删除。
+
+## Codex 最终接收（不改 Cursor 原回执）
+
+上方“候选、不标 done、不跑统一门”是贡献者交付时点。Codex 后续已独立复算两针真实生产模块变异、把 W3/W4 接入 main，并串行完成 check、ratchet 与严格 fast；五包整卡 done。详情见[三轮独立接收](../cursor-wave2-r3-review.md)。
