@@ -63,13 +63,25 @@
 - **P4-002 risk** `ui` 状态机约 29 处赋值分散在 tick 各分支，无集中转移表——拆分①（输入路由）
   的第一刀应先建 `transitionUi(next)` 单点（纯重构，行为不变）再移动，否则 29 处散赋值会成为
   拆分回归盲区。静态结构证据；无行为缺陷。
-- **P4-003 risk** `resolveDone/rejectDone` 为实例字段（! 断言 :220-221），构造期 ：414 赋值前的窗口
+- **P4-003 covered（与机账对齐；新增共享状态读写小表）** pump(:1032)→render(:2543) 边界：共享
+  实例字段的 writer→reader→清理对照——
+  | 共享字段 | writer | reader | 清理/终态 |
+  |---|---|---|---|
+  | dialogBox（assets 注入，非自有字段） | pump :1033-1069 开启/推进 | renderInner 绘制 | box.active 由对话层收口 |
+  | casualtyDialogueShown | pump :1036-1063 置位/复位 | pump 自身（门控） | 复位 :1063；cancel :653 区间清 casualtyDialogue |
+  | choreoBanner | pump :1050 置位、:1070 空格清 | pump/render | 置 null（:1070） |
+  | choreoWaitUntil | pump :1073-1075 到期清 | pump | 置 null |
+  | scriptAnimation/anim | pump :1077-1080 与 performAction :1220-1222 推进后清 | render（anim 帧绘制） | anim=null + scriptAnimation=false |
+  | nowMs/screenShake/floats/summonVis/hideFade/pendingConfusedReveal | tick/演出臂写 | render :2543+ 读 | floats 按寿命过滤 :1200；其余演出相自行收口 |
+  此表为**入口级对照**（Codex 裁决口径）：非穷尽所有 render 消费字段，但覆盖 pump 直接处理的
+  dialogBox/casualty/choreo/scriptAnimation 家族，不以"只列 nowMs/screenShake/floats"冒充全齐。
+- **P4-004 risk** `resolveDone/rejectDone` 为实例字段（! 断言 :220-221），构造期 ：414 赋值前的窗口
   内若任何路径调 complete/cancel 会 TypeError——当前构造顺序安全（无早调路径证据），拆分时该
   隐式顺序约束必须显式化（如构造期先挂 `doneSettled` 闸或改为可选调用）。risk。
-- **P4-005 N/A（r2 重编号）** 两级屏障与取消语义已有 93 条测试钉住，本包无新增反证——如实不发明缺陷。（原 P4-003 risk 顺延为 P4-004；新增 P4-003 covered=pump/render 边界。）
+- **P4-005 N/A（r2 重编号；与机账一致）** 两级屏障与取消语义已有 93 条测试钉住，本包无新增反证
+  ——如实不发明缺陷。
 
 ## 6. 未证风险
 
-- `pumpScriptExecution` 与渲染层（render/anim）的耦合未深读（A3 帧循环由 Codex 并行实施，
-  本包按卡面回避，未读 main.ts/新 host）。
+- ~~pump 与渲染耦合未深读~~（r3 已补 P4-003 共享状态对照表；A3/main 仍按卡面回避，但该回避不再作为跳过本类边界的理由）。
 - 拆分建议未经实施验证，仅依赖图推断。

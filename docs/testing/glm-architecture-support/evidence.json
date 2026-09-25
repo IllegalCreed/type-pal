@@ -1,6 +1,6 @@
 {
-  "schemaVersion": 2,
-  "task": "ARCH-SUPPORT-GLM-1 eight audit packages — r2 rework (GLM contributor; closes Codex intake counter 0e751efe on candidate 3967a376)",
+  "schemaVersion": 3,
+  "task": "ARCH-SUPPORT-GLM-1 eight audit packages — r3 narrow rework (GLM contributor; closes Codex C1-C4 counter 1e4e3382 on r2 717d507d/9e5ba310)",
   "date": "2026-09-25",
   "startSha": "3270473862d1e1574f266b70b65de89ca8b65352",
   "reviewCandidateSha": "3967a376f2fbaf10258ae15007636a6f2c7d4bfe",
@@ -17,9 +17,7 @@
     "本次执行": "本轮实际运行的命令/操作，附命令与退出码"
   },
   "sourceHashes": {
-    "_note": "SHA256 前 16 位，git show <sha>:<path> 可复算；键被 entries 的 sourceHash 键引用",
-    "app": "见 commands.recompute",
-    "_legibility": "逐文件 hash 以 `git hash-object` 批量登记于 summary.md 附录表，避免本 JSON 手填 40 个 hash 的转录错误；entries 用 file:line 定位"
+    "_note": "22 个受审源码文件在审查候选 3967a376 的 SHA256 前 16 位，登记表见 summary.md 附录（git show 3967a376:<path> 可复算）；entries 的 anchor 以 file:line 定位，不重复手抄 hash"
   },
   "environment": {
     "node": "v22.19.0（r1 原始）；Codex 复核侧 v22.23.2",
@@ -95,8 +93,8 @@
       "package": "P1",
       "type": "covered",
       "evidenceKind": "已读测试断言+文件计数",
-      "anchor": "p1-app.md §1/§3",
-      "claim": "全量盘点：useState 24 处/useRef 8 处（:382-633 逐行登记于 p1-app.md §1.1）/useEffect 16 处（:387-2094 逐个读过并列入所有权表）；回归去重 17+8+4 条完整标题逐条列出（editor-navigation it 17 / leave-guard test 8 / command-registry 4）+ boundary 5 条按文件计数",
+      "anchor": "p1-app.md §1/§3/§4.1",
+      "claim": "全量盘点（r2 按 AST 实测更正）：App 函数作用域（:360-3705）内 **useState 29 / useRef 16 / useEffect 15 + useLayoutEffect 1**（全文件 useState 33，另 4 个属其它组件，分开口径）；逐行绑定名单与行号见 p1-app.md §4.1。回归去重 17+8+4 条完整标题逐条列出 + boundary 5 条按文件计数",
       "actual": "静态逐行读出",
       "expectedSource": "—",
       "affectedDomain": "editor/App",
@@ -131,7 +129,7 @@
         "App.leave-guard.test.tsx > real save commits both sessions and reopens; opening needs a fresh continuation click",
         "App.leave-guard.test.tsx > committed cleanup warning remains visible and does not masquerade as a failed save"
       ],
-      "testsScope": "29 条完整标题（已读断言）；design-system/boundary.test.ts 5 处 App.tsx 引用按文件计数",
+      "testsScope": "29 条完整标题（已读断言）；boundary 5 处按文件计数",
       "attribution": "GLM"
     },
     {
@@ -247,14 +245,14 @@
       "type": "covered",
       "evidenceKind": "静态事实+已读测试断言",
       "anchor": "ui/CommandForm.tsx:337 起 50 个 case；ui/ScriptEditor.tsx:536 AUTHOR_COMMAND_PRESENTATION_（实测 81 键）；ScriptEditor.test.tsx:71-76（RUNTIME_COMMAND_KINDS 与该表全等门）",
-      "claim": "更正 r1 混同：CommandForm 50 个 switch case 是旧适配表单的命令分派；canonical 作者命令呈现表为 81 键，两者经命名守门测试对齐（runtime↔canonical 映射），不是同一清单的两份拷贝",
+      "claim": "更正 r1 混同：CommandForm 50 个 switch case 是旧适配表单的命令分派；canonical 作者命令呈现表 AUTHOR_COMMAND_PRESENTATION_（ScriptEditor.tsx:536）实测 81 键。**合同收窄**：守门测试 ScriptEditor.test.tsx:71-76 只核 RUNTIME_COMMAND_KINDS 与呈现表的集合及中文名称全等——不证明 CommandForm 50 分派与 canonical 的映射完全正确（后者无专测，列未证风险）",
       "actual": "sed 实测 81 顶层键 + 测试断言读出",
       "expectedSource": "源码 + 守门测试",
       "affectedDomain": "editor/ScriptEditor",
       "tests": [
         "ScriptEditor.test.tsx > has an author-facing Chinese name for every enabled canonical command kind"
       ],
-      "testsScope": "守门 1 条已读；50/81 明细在报告",
+      "testsScope": "守门 1 条已读；50/81 明细在报告；分派映射无专测如实列",
       "attribution": "Codex 反证；GLM 复算确认"
     },
     {
@@ -350,10 +348,10 @@
     {
       "id": "P4-002",
       "package": "P4",
-      "type": "risk",
+      "type": "covered",
       "evidenceKind": "静态事实",
       "anchor": "battle-session.ts:604（beginTurnPreparation 的 preparing 门）vs :2534-2541（writeBackHp 无此门）",
-      "claim": "更正 r1 门归属错误：':604 preparing 早退'属于 beginTurnPreparation（逐回合 SFX 屏障入口守卫），writeBackHp 无 preparing 门。概念区分：开战视觉 ready 输入与逐回合 SFX 屏障是两个概念，r1 报告混用；风险改述为：屏障概念与写回防护的对应关系在 r1 报告中表述错误，需要读者以本条为准",
+      "claim": "门归属更正（撤回 r1 错误）：:604 preparing 早退属于 beginTurnPreparation（逐回合 SFX 屏障入口守卫），writeBackHp（:2534-2541）没有 preparing 门；开战视觉 ready 输入与逐回合 SFX 屏障是两个概念。无据错锚新增防护",
       "actual": "静态读出（Codex 反证一致）",
       "expectedSource": "源码语义",
       "affectedDomain": "reforge/battle-session",
@@ -367,12 +365,12 @@
       "type": "covered",
       "evidenceKind": "静态事实",
       "anchor": "battle-session.ts:1032（pumpScriptExecution）→ :2543（render）",
-      "claim": "补 r1 回避的会话内 pump/render 耦合边界：两者共享 nowMs/screenShake/floats 等实例态，读写在同一 tick 内交叠；这是本包目标内的边界（不读 main/A3 即可陈述）——拆分时 render 消费的字段集是冻结面",
-      "actual": "静态读出",
+      "claim": "补会话内 pump→render 耦合边界（含共享状态读写小表，见 p4-battle-session.md §2.1）：pumpScriptExecution(:1032) 直接管 dialogBox/casualtyDialogueShown/choreoBanner/choreoWaitUntil/scriptAnimation/anim，render(:2543) 消费 nowMs/screenShake/floats/summonVis/hideFade 等；完整 writer→reader→清理对照表入报告",
+      "actual": "静态逐行读出",
       "expectedSource": "源码语义",
       "affectedDomain": "reforge/battle-session",
       "tests": [],
-      "testsScope": "无行为断言（结构事实）",
+      "testsScope": "结构事实，无行为断言",
       "attribution": "Codex 指名；GLM 补齐"
     },
     {
@@ -409,16 +407,16 @@
       "type": "covered",
       "evidenceKind": "静态事实+文件计数",
       "anchor": "p5-phase1-core.md §1/§2",
-      "claim": "更正 r1'6 文件两环'：实测 7 文件同一强连通分量（15 条 runtime 边）。关键回边：battle-opcodes.ts:25←event-system（addPoisonForPlayer/curePlayerPoisonByKind/curePlayerPoisonByLevel 等）、equip-effect.ts:19←event-system（addItemToInventory/getGlobalCommands/getGlobalLabelMap 等）、event-system.ts:53→battle-opcodes（dispatchBattleOpcode）、:57→equip-effect（addPlayerStatRow/getPlayerPoisonResistance/removeEquipmentEffect）、scene-system.ts:12→event-system（runEnterScript/tickAutoScripts/tickChaseTimer/resolveScriptLabel）、scene-system.ts:80←event-system（getCurrentMapNum）、scene→menu-driver/menu-mode、menu-driver.ts:17→event-system、menu-mode→menu-driver、magic-script.ts:29→event-system。7 测试文件收集 702 项（r1 误写 703）",
+      "claim": "更正 r1\"6 文件两环\"：实测 7 文件同一强连通分量（15 条 runtime 边）。关键回边：battle-opcodes.ts:25←event-system（addPoisonForPlayer/curePlayerPoisonByKind/curePlayerPoisonByLevel）、equip-effect.ts:19←event-system（addItemToInventory/getGlobalCommands/getGlobalLabelMap 等）、event-system.ts:53→battle-opcodes（dispatchBattleOpcode）、:57→equip-effect（addPlayerStatRow/getPlayerPoisonResistance/removeEquipmentEffect）、scene-system.ts:12→event-system（runEnterScript/tickAutoScripts/tickChaseTimer/resolveScriptLabel）、scene-system.ts:80←event-system（getCurrentMapNum）、scene→menu-driver/menu-mode、menu-driver.ts:17→event-system、menu-mode→menu-driver、magic-script.ts:29→event-system。测试收集分项（r2 按冻结树 Vitest list 逐文件更正）：**326/110/158/37/28/36/7 = 702**（r1 的 331/102/…/39/30 误为 grep 计数）",
       "actual": "import 逐边重读（Codex 反证一致）+ vitest list 收集",
       "expectedSource": "源码语义",
       "affectedDomain": "game/core",
       "tests": [
-        "core/event-system.test.ts（收集 331，文件计数）",
-        "core/scene-system.test.ts（收集 102，文件计数）",
+        "core/event-system.test.ts（收集 326，文件计数）",
+        "core/scene-system.test.ts（收集 110，文件计数）",
         "core/battle/__tests__/battle-opcodes.test.ts（收集 158，文件计数）",
-        "core/menu/menu-driver.test.ts（收集 39，文件计数）",
-        "core/menu/magic-script.test.ts（收集 30，文件计数）",
+        "core/menu/menu-driver.test.ts（收集 37，文件计数）",
+        "core/menu/magic-script.test.ts（收集 28，文件计数）",
         "core/equip-effect.test.ts（收集 36，文件计数）",
         "core/menu/menu-mode.test.ts（收集 7，文件计数）"
       ],
@@ -473,7 +471,7 @@
       "type": "covered",
       "evidenceKind": "静态事实+已读测试断言",
       "anchor": "content/src/author-script-core.ts:3/:708-727; content/src/enemy-script.ts:6/:598",
-      "claim": "更正 r1 单向分层表述：校验递归是**双向**的——author-script-core 递归容器含 onLose/onFlee/onFail/onNo（:708-727 实测四臂）并经 :3 import 的 checkBattleChoreography（enemy-script 提供，:712 调用）进入 hook 方言；enemy-script :598 又回调 checkBaseAuthorCommands。两文件互为底层协议面，非'author 底层、enemy 上层'单向",
+      "claim": "更正 r1 单向分层表述：校验递归是**双向**的——author-script-core :3 import checkBattleChoreography（enemy-script 提供）并在 :712 调用；enemy-script :6 import checkBaseAuthorCommands 并在 :598 回调。checkBaseAuthorCommands **自递归 7 处**（限定函数体：:661 then / :663 else / :669 body / :708 onLose / :710 onFlee / :722 onFail / :726 onNo；r1 写 6 处漏 onFlee）",
       "actual": "静态逐行读出（Codex 反证一致）",
       "expectedSource": "源码语义",
       "affectedDomain": "content/validation",
@@ -649,16 +647,20 @@
     {
       "id": "V2-003",
       "package": "V2",
-      "type": "risk",
+      "type": "covered",
       "evidenceKind": "已读测试断言",
       "anchor": "ui/MapMode.test.tsx:569-572",
-      "claim": "更正 r1 归因：该用例只调 verifyInspectorTabs（Inspector Tab 合同），**不能**证明分隔条键盘可达性。分隔条拖拽/键盘操作无既有测试，本轮也未执行拖拽——如实列为未验证项",
+      "claim": "更正 r2-r1 两次表述：分隔条（PanelResizeHandle）**有**既有测试——ui/PanelResizeHandle-interaction.test.tsx:138-175（test.each 各宿主方向键盘 resize/clamp/reset）、:178-224（pointerup/pointercancel/lostpointercapture 结束后零继续 resize）、:227（disabled/unmount 释放全局拖拽态）。本轮未执行这些测试；\"无既有测试\"说法作废",
       "actual": "测试体读出（Codex 反证一致）",
       "expectedSource": "—",
       "affectedDomain": "editor/workspaces",
-      "tests": [],
-      "testsScope": "无",
-      "attribution": "Codex 反证；GLM 更正"
+      "tests": [
+        "PanelResizeHandle-interaction.test.tsx > [test.each layouts] keyboard resizing uses its host direction, clamps and resets",
+        "PanelResizeHandle-interaction.test.tsx > [test.each pointerup|pointercancel|lostpointercapture] ends a captured drag, clears the global marker and prevents further resizing",
+        "PanelResizeHandle-interaction.test.tsx > disabled handles reject resize events and unmount releases the global drag state"
+      ],
+      "testsScope": "3 条已读标题；本轮未执行",
+      "attribution": "Codex 反证；GLM 复核"
     },
     {
       "id": "V2-004",
@@ -670,9 +672,7 @@
       "actual": "实际导航",
       "expectedSource": "—",
       "affectedDomain": "editor/navigation",
-      "tests": [
-        "editor-navigation.test.ts > EditorLocation URL 契约（17 条 it，见 P1-005）"
-      ],
+      "tests": ["editor-navigation.test.ts > EditorLocation URL 契约（17 条 it，见 P1-005）"],
       "testsScope": "引用 P1-005 已读清单",
       "attribution": "GLM"
     }
@@ -715,14 +715,24 @@
     "total": 38,
     "uniqueIds": 38,
     "byType": {
-      "covered": 19,
-      "risk": 14,
+      "covered": 21,
+      "risk": 12,
       "N/A": 5
     },
-    "recomputedFrom": "本 JSON entries 数组由 node 脚本机械统计（r2 返工更正 r1 手填 32 的错误）",
+    "perPackage": {
+      "P1": 6,
+      "P2": 5,
+      "P3": 5,
+      "P4": 5,
+      "P5": 4,
+      "P6": 5,
+      "V1": 4,
+      "V2": 4
+    },
+    "recomputedFrom": "node 脚本从本 JSON entries 数组机械统计（r3 再次重算；r1 手填 32、r2 期间 19/14 均为对齐前过渡值）",
     "blocked": 0,
     "reproduced": 0,
-    "honestNote": "reproduced=0 与 blocked=0 均为如实结果：r1 的两项 blocked 已在本轮以 6 张新截图闭合（V1-003），对象列表折叠由 Codex 6010 实测正常（V2-002）；无 invented defects"
+    "honestNote": "reproduced=0 与 blocked=0 为如实结果：r1 两项 blocked 已闭合（V1-003 六图、V2-002 归属 Codex 6010 实测）；无 invented defects"
   },
   "screenshots": [
     {
@@ -810,5 +820,19 @@
       "sha256_16": "b16e893231ef4d44",
       "viewport": "1440x1024"
     }
-  ]
+  ],
+  "history": {
+    "r1": {
+      "candidate": "3967a376",
+      "counter": "0e751efe (codex-intake-review.md)"
+    },
+    "r2": {
+      "candidate": "717d507d",
+      "register": "9e5ba310 (finalSha 登记)",
+      "counter": "1e4e3382 (codex-r2-review.md, C1~C4)"
+    },
+    "r3": {
+      "note": "本轮收窄返工；tip 由登记提交回填 finalSha"
+    }
+  }
 }

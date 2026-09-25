@@ -64,14 +64,17 @@ cameraPan / clearDialog / cameraSnap。
 
 ## 5. 证据条目
 
-- **P3-001 covered** 上表 42 条精确标题（24+13+5）。
+- **P3-001 covered（r3 合同收窄）** 上表 42 条精确标题（24+13+5）。**口径**：ScriptEditor.test.tsx:71-76
+  守门只核 RUNTIME_COMMAND_KINDS 与 canonical 81 键呈现表的集合及中文名称全等——不证明 CommandForm
+  50 分派与 canonical 的映射完全正确（后者无专测，列未证风险）。
 - **P3-002 risk** focusRevision 三处同构 effect（:3212/:3721/:3866）+ 各自 `lastApplied*Ref`——
   拆分时可抽公共 hook；当前无行为缺陷证据。risk（可维护性）。
 - **P3-003 covered** SceneScriptWorkspace playback stop/onUi 对称清理 + previewSourceKey 先停
   （静态核对；test :261 证预览范围行为）。
-- **P3-004 risk** ScriptEditor :3174 选取路径保持逻辑以 `JSON.stringify` 指纹比较 body——大 body
-  每次渲染序列化一次（O(size)）；行为正确（测试 :225/:273 钉住），性能成本随脚本增大线性。
-  risk（非缺陷）。
+- **P3-004 risk（r3 锚点统一）** 选取路径保持逻辑以 `JSON.stringify` 指纹比较 body：真实逐 render
+  锚在 **:3149**（`lastSeenBodyFingerprintRef` 初始化即序列化），:3174 effect 是消费点——两处合一
+  表述，不再出现 :3174 单点说法。大 body 每次渲染序列化一次（O(size)）；行为正确（测试 :225/:273
+  钉住），性能成本随脚本增大线性。risk（非缺陷）。
 - **P3-005 covered（r2 新增/更正）** default/hook/session 三轴由 core/script-editor.hooks-session.test.ts 三条钉住（57/95/146，完整标题入机账）；CommandForm 唯一 effect=JsonForm :219-222；WorldVariablePicker :171-201 纯计算无 effect（r2 撤回 r1 '两 effect' 说法）。
 
 ## 6. 未证风险
@@ -79,3 +82,4 @@ cameraPan / clearDialog / cameraSnap。
 - 50 命令族的表单分派无逐族快照测试（characterization 13 条只覆盖代表性族）；完整族矩阵属
   V1 视觉组范围，本包未运行。
 - `cleanInsertionExample` 的净化语义未逐 kind 验证。
+- CommandForm 50 分派与 canonical 81 键的映射正确性无专测（守门测试只核命名集合，见 P3-001 口径）。

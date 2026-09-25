@@ -35,13 +35,14 @@ menu-mode ────R──> menu-driver / game-state / command-bus
 magic-script ─R──> event-system          (:29 curePlayerPoisonByLevel, getGlobalCommands, getGlobalLabelMap)
 ```
 
-**7 文件环实测为两个环，不是一个大环**：
-- **环 A（event-system ↔ menu 驱动层）**：`event-system → scene-system → menu-driver → event-system`
-  以及 `event-system → scene-system → menu-mode → menu-driver → event-system`、
-  `magic-script → event-system`（挂在环 A 上）。
-- **环 B 无**：battle-opcodes 只被 event-system 单向调用（`dispatchBattleOpcode` :53），battle 子树
-  不回指 event-system/menu——battle 侧是**无环出边**。
-- equip-effect 只入边（menu-driver :18 调它），**不在任何环上**。
+**环结构（r3 更正，与机账/counter 一致）**：7 文件构成**同一个强连通分量（15 条 runtime 边）**。
+r1 曾漏读的回边（已逐行核对）：`battle-opcodes.ts:25`←event-system（addPoisonForPlayer/
+curePlayerPoisonByKind/curePlayerPoisonByLevel）、`equip-effect.ts:19`←event-system（addItemToInventory/
+getGlobalCommands/getGlobalLabelMap 等）、`event-system.ts:53`→battle-opcodes（dispatchBattleOpcode）、
+`:57`→equip-effect（addPlayerStatRow/getPlayerPoisonResistance/removeEquipmentEffect）、
+`scene-system.ts:12`→event-system（runEnterScript/tickAutoScripts/tickChaseTimer/resolveScriptLabel）。
+上图的 event-system/battle/equip-effect 三者因此互达——battle 侧"无环出边"、equip-effect"不在任何环"
+的说法均不成立。
 
 ## 2. 环 A 逐边真实 caller（runtime 证据）
 
@@ -79,21 +80,21 @@ event-system 自持或改 game-state 字段，均为纯搬家）。**r1"最短�
 | core/equip-effect.test.ts | **36** | 装备效果 |
 | core/menu/menu-mode.test.ts | **7** | 菜单栈 |
 
-合计 **702** 项既有测试（r2 更正计数）覆盖这 7 个文件——**环内重构的回归门已极厚**；本包不新增一阶段动态测试
+合计 7 文件收集 **702** 项（r3 逐文件更正为 326/110/158/37/28/36/7——r1/r2 的 331/102/39/30 等 grep 计数不准），覆盖这 7 个文件——**环内重构的回归门厚**；本包不新增一阶段动态测试
 （避免与 331 条 interpreter 测试重复取证），只交结构图与切环建议。
 
 ## 5. 证据条目
 
-- **P5-001 covered（r2 结构更正）** 7 文件同一 SCC（15 条 runtime 边，逐边见 §1/§2）；702 项按文件计数（Codex 收集同数）。
+- **P5-001 covered（r3 分项更正）** 7 文件同一 SCC（15 条 runtime 边，逐边见 §1/§2）；测试收集分项 **326/110/158/37/28/36/7=702**（本席本轮 vitest list 逐文件实测，与 Codex 冻结树收集一致；r1 的 331/102/39/30 为 grep 计数不准）。
 - **P5-002 risk** 环 A 五条 runtime 边中，`event-system→scene-system`（getCurrentMapNum 模块态读取）
   是唯一纯数据边，切断无行为变化；其余四条为真实业务回调。列为"可先切断的边"候选，
   供实施卡核。**无缺陷主张**——环≠bug。
-- **P5-003 N/A（r2 改述）** r1 的'6 文件两环'澄清本身有误，由 P5-001 的 7 节点 15 边实测取代；环≠缺陷的立场不变。
+- **P5-003 N/A（r3 改述）** r1 的'6 文件两环'澄清有误，由 7 节点 15 边实测取代；环≠缺陷的立场不变。
 - **P5-004 risk** `_currentMapNum`（scene-system.ts:47）与 :873 注释所述 handler 注入模式并存，
   模块级可变态与注入态并存是两种所有权风格——记录，不判缺陷（一阶段现状）。
 
 ## 6. 未证风险
 
 - 循环初始化顺序（模块加载期副作用）未运行验证——Node ESM 循环在函数级引用下通常安全，
-  702 项测试全绿是间接证据；如需实证需一次全量 phase1 测试运行（不在本包白名单命令内，
+  702 项测试的收集存在（本轮未全部执行，不称'全绿'）是间接证据；如需实证需一次全量 phase1 测试运行（不在本包白名单命令内，
   已按纪律未跑官方 check，可由接收方以常规测试命令复核）。

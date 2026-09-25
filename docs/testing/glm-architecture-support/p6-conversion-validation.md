@@ -9,7 +9,7 @@
 > **r2 返工更正（Codex intake counter 0e751efe）**
 > ① **校验递归是双向的**（撤回 r1"author 底层、enemy 上层"单向表述）：author-script-core :3 import
 > checkBattleChoreography（enemy-script 提供）并在 :712 调用；enemy-script :6 import
-> checkBaseAuthorCommands 并在 :598 回调。author 递归容器实测含 onLose/onFlee/onFail/onNo 四臂
+> checkBaseAuthorCommands 并在 :598 回调。author 递归容器实测含 onLose/onFlee/onFail/onNo 等臂（函数体内自递归共 7 处）
 > （:708-727）。② **mapScenesStatic 为 6 参数**（+options），r1 误写 5。③ 无 fs 事实**收窄**：
 > 只断言四个转换/校验模块（translate-events/migrate-content/author-script-core/enemy-script）；
 > 不外推"整个迁移管线仅 transaction 两个写入点"（baseline/path/project-io 有只读 fs，写路径未审；
@@ -19,7 +19,7 @@
 
 ```
 [只读源] pal 原始资源/SCENE/EVENT
-   │  mapScenesStatic (migrate-content.ts:2126，纯函数：srcScenes+eventsByScene+映射表 → SceneMigrationResult+report)
+   │  mapScenesStatic (migrate-content.ts:2126，无 fs 的转换入口：srcScenes+eventsByScene+映射表 → SceneMigrationResult+report)
    │  walkBody (translate-events.ts:977，纯递归翻译；P0 只读溯源栈 :210)
    │  checkEnemyHookFlow (translate-enemy-scripts.ts:89 在翻译后自检)
    ▼
@@ -37,9 +37,9 @@ migration-{baseline,path,project-io,transaction}.ts，且 transaction 是唯一 
 
 ## 2. 校验递归的真实调用域
 
-- `checkBaseAuthorCommands`（author-script-core.ts:600）：自递归臂实测 **6 处**（:661 then / :663 else /
-  :669 body / :708 onLose / :722 onFail / :726 onNo；r1 漏后三臂中两臂——onFlee 在 :710，经 :705-727
-  区间逐行核对）——**author 树六类容器**全部覆盖；另 :712 经 checkBattleChoreography 进入 enemy-script。
+- `checkBaseAuthorCommands`（author-script-core.ts:600）：**自递归 7 处**（:661 then / :663 else / :669 body /
+  :708 onLose / :710 onFlee / :722 onFail / :726 onNo，r3 以函数体逐行核对统一口径）——**author 树七类
+  容器臂**全部覆盖；另 :712 经 checkBattleChoreography 进入 enemy-script。
 - `checkEnemyHookFlow`（enemy-script.ts:458）：内部消费 `checkCommands`（script.js，:10 import）
   与 `checkAuthorCondition`（:588）——enemy-hook 流是 author/script 两套校验的组合面；
   迁移侧唯一调用域 = translate-enemy-scripts.ts:89（翻译后立即校验，带 `@L_地址` 定位）。

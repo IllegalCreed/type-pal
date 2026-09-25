@@ -68,9 +68,9 @@
   起点 `3270473862…`，每包一提交；接收候选 `3967a376`，r2 返工 tip `717d507d13ee945164c56f6bee24a6cc4ef1fabf`（push tip）。冻结漂移核验：`git diff b11d4bc9..32704738 -- packages/ scripts/` 空。
 - 实际文件：`v0-visual-sample.md`（视觉小样）、`p1-app.md`、`p2-mapmode.md`、`p3-script-forms.md`、
   `p4-battle-session.md`、`p5-phase1-core.md`、`p6-conversion-validation.md`、`v1-forms.md`、
-  `v2-workspaces.md`、`summary.md`（总报告）、`evidence.json`（32 条机账+机械小计+命令+截图清单）。
+  `v2-workspaces.md`、`summary.md`（总报告）、`evidence.json`（38 条机账+机械小计+命令+17 张截图清单；r3 收窄返工后口径）。
   probes/ 目录本轮未产出脚本（全部判定用既有测试标题对账+浏览器实际操作，无需新探针）。
-- 截图 11 张在 `/tmp/glm-arch-visual/`（不入 Git），SHA256 前 16 位与 viewport 见 evidence.json.screenshots。
+- 截图 17 张在 `/tmp/glm-arch-visual/`（不入 Git），SHA256 前 16 位与 viewport 见 evidence.json.screenshots（r3 新增 v1-06～v1-11 六张）。
 - 视觉工具：ZCode In-app Browser，实际看图；dev 6013 包内实例；工程磁盘经 `git status` 核验零改动。
 - 复算命令见 `summary.md` 尾节。
 

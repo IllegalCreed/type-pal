@@ -22,7 +22,7 @@
   transformIntent 落点冻结、stamp 单击放置、笔刷起点）、`onMove`（:2158，hover/拖拽更新）、
   `onUp`（:2222，selectionDrag 按 pointerId 校验后提交 set-selection/set-stamp-group-selection，
   paintingRef 收集 strokeRef 按 tile/collision 分组派发单条命令并清空）。pointerId 校验（:2224）
-  保证多点触控不串——**cancel/leave 路径**（r2 更正）：canvas 还挂 `onPointerCancel` 与
+  保证多点触控不串——**cancel/leave 路径**（r2 更正，r3 保留）：canvas 还挂 `onPointerCancel` 与
   `onLostPointerCapture`（:3075-3079，后者在 drag/paint/pan 活动时触发），统一走
   `cancelPointerInteraction`（:2292-2305，清 selectionDrag/selectionPreview/painting/rectAnchor/
   stroke/pan 全族）；window blur 调同一 cancel（:2307-2310，对称清理）。
@@ -51,7 +51,7 @@
 | :630 | liveMap 同步 clip-map | — | dispatchWorkspace 幂等 |
 | :635 | fit-map（lastFitMap ref 防重） | — | 闭环 |
 | :789 | 变换预览 | — | test :1962 标题实证取消路径 |
-| :2309 | blur 清 hover | remove 对称 | 闭环 |
+| :2307-2312 | window blur → cancelPointerInteractionRef（清 selection/painting/stroke/pan 全族，与 pointerCancel 同函数） | remove 对称 | 闭环（r3 更正：非只清 hover） |
 
 undo/redo 同步：全部内容修改走 `dispatchWorkspace`/`dispatchStampGroupEdit` 单命令历史
 （test :977 `图层动作组上移按稳定 ID 只派发一条 MoveProjectMapLayerCommand`、:1101
@@ -84,7 +84,7 @@ hover）在提交/取消路径显式重置。
 | :2000/:2022/:2049/:2076/:2107/:2126/:2142/:2167（会话清空/原子放置/冲突覆盖/删层确认/过期确认/零写锁定） | 确认与零写族 | covered |
 | :977 `图层动作组上移按稳定 ID 只派发一条 MoveProjectMapLayerCommand` | 单命令历史 | covered |
 
-**未覆盖区**：window blur 之外没有 pointerCancel 测试；`ensureMapLoaded` 失败静默路径无断言。
+**未覆盖区（r3 改述）**：pointerCancel/lostpointercapture/blur 的取消路径**无专测条目**（实现存在，回归充分性未证——不把'实现存在'拔高为'已测'）；`ensureMapLoaded` 失败静默路径无断言。
 
 ## 5. 证据条目
 
@@ -94,11 +94,11 @@ hover）在提交/取消路径显式重置。
   专项回归充分性未检索到专测条目——列未证风险，不作为缺陷。
 - **P2-003 risk** `:338` 与 `:341` 两个 effect 都在 referenceIndex 变化时 `setPendingDeleteId(undefined)`
   （前者多一个条件分支）——重复职责，后一个疑似前一个的重构残留。标 risk（可合并），无行为差异证据。
-- **P2-004 risk** `:584` ensureMapLoaded catch 吞错（与 P1-003 同型）：MapMode 场景下地图加载失败
-  无用户可见反馈。risk。
+- **P2-004 risk（收窄口径）** `:584` ensureMapLoaded 该调用点 catch 吞错——只指此调用点无就地反馈，
+  不推及整页错误反馈能力（同 P1-003 收窄口径）。
 - **P2-005 covered** :551/:2309 两处 window/document 级监听对称清理（静态核对）。
 
 ## 6. 未证风险
 
-- pointerCancel 缺口的实际触发条件未运行复现（需触控/手势设备）。
+- 取消路径（pointerCancel/lostpointercapture/blur）的行为回归未运行复现；r1 '缺口'结论已撤回（实现存在）。
 - `dispatchWorkspace` 内部 undo 栈实现（map-workspace 层）未深读——本包以 MapMode 派发点为边界。

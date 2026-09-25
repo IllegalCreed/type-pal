@@ -1,6 +1,6 @@
-# ARCH-SUPPORT-GLM-1 · 总报告（GLM 八包准备取证，r2 返工）
+# ARCH-SUPPORT-GLM-1 · 总报告（GLM 八包准备取证，r3 收窄返工）
 
-日期 2026-09-25（r1 交付 3967a376；r2 返工同日，闭 Codex intake counter 0e751efe）。
+日期 2026-09-25（r1 交付 3967a376 → r2 717d507d/9e5ba310 → r3 闭 Codex r2 counter 1e4e3382 的 C1～C4）。
 贡献者：GLM（证据/测试贡献者，**不充独立第三方**）；接收复核：Codex。
 任务卡：[ARCH-SUPPORT-GLM-1](../../ops/tasks/ARCH-SUPPORT-GLM-1-eight-audit-packages.md)（draft，不进 build）。
 
@@ -49,17 +49,18 @@
 
 | 包 | r1→r2 变化 | 条目 |
 |---|---|---|
-| P1 | P1-001 risk 撤回改 covered（derivedStore useMemo 创建→start 返回 stop→terminate worker，测试 22/22 本轮执行）；editor-navigation 17 条 it 完整标题入账；assertSessions 修复表述撤回；state/ref 全量逐行登记 | 6（covered 2/risk 3/N-A 1） |
-| P2 | P2-002 risk 撤回改 covered（pointerCancel/lostCapture 均存在且统一 cancel）；58 静态/72 收集分列；吞错表述收窄单调用点 | 5（covered 3/risk 2） |
-| P3 | 50 旧适配 case ↔ 81 canonical 键区分（守门测试钉住）；WorldVariablePicker 纯计算更正；新增 P3-005 hooks-session 三轴 covered；JSON 指纹锚更正 :3149 | 6（covered 3/risk 2/N-A 1） |
-| P4 | 门归属更正（:604 属 beginTurnPreparation；writeBackHp 无 preparing 门）；计数 87→93；新增 P4-003 pump(:1032)→render(:2543) 耦合边界 covered | 5（covered 2/risk 2/N-A 1） |
-| P5 | 撤回"6 文件两环"→**7 节点 15 边单 SCC**（补 4 条漏读回边）；撤回"最短无行为切法"；计数 703→702 | 4（covered 1/risk 2/N-A 1） |
-| P6 | 双向校验递归更正（author↔enemy 互调；onLose/onFlee/onFail/onNo 四臂）；mapScenesStatic 6 参数；无 fs 事实收窄到四模块 | 5（covered 2/risk 2/N-A 1） |
-| V1 | 撤回 a11y 缺名（multi-select.tsx:120 aria-label 存在）与语义裁决请求（DS-C.5a/DS-C.6 条款即合同）；6 张新截图补齐 Actor/物品/技能/敌队/战场/TrialDialog | 5（covered 4/N-A 1） |
-| V2 | 折叠功能归属 Codex 6010 实测正常（GLM 环境差异留档）；:568 归因更正；分隔条如实列未验证；空态图不再冒充编辑合同 | 4（covered 3/risk 1） |
+| P1 | P1-001 risk 撤回改 covered（derivedStore useMemo 创建→start 返回 stop→terminate worker，测试 22/22 本轮执行）；editor-navigation 17 条 it 完整标题入账；assertSessions 修复表述撤回；盘点按 AST 重做（r3：29 state/16 ref/15 effect+1 useLayoutEffect，逐行绑定） | 6 = P1-001~006（covered 2/risk 3/N-A 1） |
+| P2 | P2-002 risk 撤回改 covered（pointerCancel/lostCapture 均存在且统一 cancel）；58 静态/72 收集分列；吞错表述收窄单调用点 | 5 = P2-001~005（covered 3/risk 2） |
+| P3 | 50 旧适配 case ↔ 81 canonical 键区分（**守门测试合同收窄**：只核命名集合，不证 50 分派映射）；WorldVariablePicker 纯计算更正；P3-005 hooks-session 三轴 covered；JSON 指纹锚 :3149 | 5 = P3-001~005（covered 3/risk 2；r2 的报告/机账 6 vs 5 不齐已消除） |
+| P4 | P4-002 改 covered（门归属更正：:604 属 beginTurnPreparation；writeBackHp 无 preparing 门）；计数 87→93；P4-003 covered 补共享状态 writer→reader→清理小表（dialogBox/casualty/choreoBanner/choreoWaitUntil/scriptAnimation/anim 家族）；P4-004 risk（构造窗口）；P4-005 N/A——与机账 ID 完全对齐 | 5 = P4-001~005（covered 3/risk 1/N-A 1） |
+| P5 | 撤回"6 文件两环"→**7 节点 15 边单 SCC**（补 4 条漏读回边）；撤回"最短无行为切法"；计数 703→**702**（分项 326/110/158/37/28/36/7，本轮逐文件 vitest list 实测） | 4 = P5-001~004（covered 1/risk 2/N-A 1） |
+| P6 | 双向校验递归更正（author↔enemy 互调；**自递归 7 处** :661/:663/:669/:708/:710/:722/:726）；mapScenesStatic 6 参数；无 fs 事实收窄到四模块 | 5 = P6-001~005（covered 2/risk 2/N-A 1） |
+| V1 | 撤回 a11y 缺名（multi-select.tsx:120 aria-label 存在）与语义裁决请求（DS-C.5a/DS-C.6 条款即合同）；6 张新截图补齐 Actor/物品/技能/敌队/战场/TrialDialog。**ID 对齐**：V1-002 合并 a11y 更正、V1-003=新截图覆盖，无 V1-005（与机账一致） | 4 = V1-001~004（covered 3/N-A 1） |
+| V2 | 折叠功能归属 Codex 6010 实测正常（GLM 环境差异留档）；:568 归因更正；**分隔条更正为"测试存在+本轮未执行"**（PanelResizeHandle-interaction 三条标题入账）；空态图不再冒充编辑合同 | 4 = V2-001~004（covered 4） |
 
-**机械小计**：38 条 = covered 19 / risk 14 / blocked 0 / reproduced 0 / N/A 5（node 脚本从 entries 重算，
-脚本与结果见 evidence.json.mechanicalSubtotals）。reproduced=0 与 blocked=0 均为如实结果。
+**机械小计（r3 重算）**：38 条 = covered **21** / risk **12** / blocked 0 / reproduced 0 / N/A 5
+（node 脚本从 entries 重算；分项 P1 6/P2 5/P3 5/P4 5/P5 4/P6 5/V1 4/V2 4，与各报告 ID 一一对应）。
+reproduced=0 与 blocked=0 均为如实结果。r1 手填 32、r2 过渡 19/14 均已废弃。
 
 ## 未证风险（如实，交 Codex 复核）
 
@@ -84,10 +85,10 @@
 ```bash
 cd /Users/zhangxu/illegal/type-pal-glm-architecture
 git log --oneline 32704738..HEAD                     # r1 九包提交 + counter 合并 + r2 返工提交
-git diff 32704738..HEAD --name-only | grep -v '^docs/testing/glm-architecture-support'  # 应为空
+git diff 0e751efe..HEAD --name-only | grep -v '^docs/testing/glm-architecture-support'  # 本席返工增量，应为空（32704738..HEAD 会包含 Codex 对任务卡的授权修改，不要求空）
 node -e "const e=require('./docs/testing/glm-architecture-support/evidence.json');console.log(e.entries.length, e.mechanicalSubtotals.byType)"  # 38 {covered:19,risk:14,N/A:5}
 git show 3967a376:packages/editor/src/ui/App.tsx | shasum -a 256 | cut -c1-16  # 0803997f6a5552ce（hash 附录抽查）
 cd packages/editor && npx vitest run src/core/editor-derived-store.test.ts  # 22/22（P1-001 本次执行）
-npx biome check docs/testing/glm-architecture-support/evidence.json  # r2 已 format，exit 0
+npx biome check docs/testing/glm-architecture-support/evidence.json  # 在仓库根目录执行（最终待交付树），exit 0
 # 视觉复验：dev 6013 + 截图 SHA256 对照 evidence.json.screenshots（17 张）
 ```

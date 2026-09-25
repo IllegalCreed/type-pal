@@ -17,7 +17,7 @@
 
 ## 1. 资源清单（谁建 / 谁改 / 谁清）
 
-实测计数：`useState` 24、`useRef` 8、`useEffect` 16、`addEventListener` 3（beforeunload:402、
+实测计数（r3 AST 口径，App 作用域 :360-3705）：`useState` **29**、`useRef` **16**、`useEffect` **15 + useLayoutEffect 1**、`addEventListener` 3（beforeunload:402、
 popstate:573、keydown:2064，三处均有对称 removeEventListener 清理）、`requestAnimationFrame` 4、
 `setTimeout` 1（:2225）、`ResizeObserver` 1（:1610，disconnect 清理）。
 
@@ -25,14 +25,14 @@ popstate:573、keydown:2064，三处均有对称 removeEventListener 清理）�
 |---|---|---|---|---|
 | 试玩窗口集合 `trialWindows: Set<TrialHandle>` | App :385 | :645/:676（onClosed 删除） | effect :387-394 卸载时逐个 `trial.close()` + clear | 所有权闭环完整 |
 | 试玩 beforeunload 守卫 | effect :396-405 | — | :403 remove | 依赖 `[trialDraft?.changed]`，changed=false 时不挂守卫（预期内） |
-| historyCoordinator | props 传入（App 不建） | `useLayoutEffect` :413-417 `connect()` | `dispose()` 对称 | 所有权在调用方（workspace 组合层），App 只绑定；`assertSessions` :411 在渲染期调用（见 risk-P1-002） |
+| historyCoordinator | props 传入（App 不建） | `useLayoutEffect` :407-417 `connect()`（**App 作用域内唯一的 useLayoutEffect**，r1/r2 曾误归入 useEffect 计数） | `dispose()` 对称 | 所有权在调用方（workspace 组合层），App 只绑定；`assertSessions` :411 在渲染期调用（见 risk-P1-002） |
 | derivedStore | **App 内 useMemo 创建**（:422-425 `createEditorDerivedStore({mainSession, scriptSession})`） | effect :426 `start()`：订阅 main/script 两会话 + 启动 worker，**返回 `stop`** | effect 返回值即 `stop`（editor-derived-store.ts:405-415：running=false/epoch+1/退订两会话/`port.terminate()`/清 inFlight） | **r2 更正：闭环完整**（本轮执行其测试 22/22，含 `…stop cancels a queued refresh…`） |
 | soundPreview（assetReader） | props 传入 | — | effect :491-495 `disposeSoundPreview(assetReader)` | 闭环完整 |
 | 导航 location（URL replaceState） | effect :561-565 | `locationRef` | —（幂等 replace） | localStorage 持久化 :505-514；无清理需求 |
 | popstate 监听 | effect :570-576 | — | :574 remove | 闭环完整 |
 | 滚动恢复 rAF | effect :578-594 | 三栏 scrollTop | :593 `cancelAnimationFrame` | 闭环完整；DOM 查询限定 `:scope >` 子选择器，无全局越界 |
 | ResizeObserver | effect :1610-1618 | bodyWidth state | :1617 `disconnect()` | 闭环完整 |
-| ensureMapLoaded 触发 | effect :1660-1666 | — | 无（fire-and-forget + catch 吞错） | 见 risk-P1-003 |
+| ensureMapLoaded 触发 | effect :1660-1666 | — | 无（fire-and-forget + catch 吞错，**仅此调用点**） | 见 risk-P1-003（r2 收窄：不推及整页错误反馈能力） |
 | 全局 keydown（保存/撤销/布局快捷键） | effect :1997-2092 | — | :2064-2065 remove | 依赖数组 13 项（scene/selected/placingEntity/drawer.open/…）——见 risk-P1-004 |
 | document.title | effect :2094-2096 | — | 无需 | 幂等 |
 | 一次性 `setTimeout 0` | 保存流程 :2225 | — | —（宏任务让位 modal） | 注释明确用途；非资源 |
@@ -92,31 +92,35 @@ popstate:573、keydown:2064，三处均有对称 removeEventListener 清理）�
 - **P1-004 risk** 全局 keydown effect（:1997-2092）依赖数组 13 项，每次场景/选中/抽屉变化都要
   解绑重绑 window listener；行为正确（清理对称），但重绑频率高——拆分后应把 handler 依赖收进
   ref 以减少 window 级 churn。标 risk（性能/可维护性），无行为变化。
-- **P1-005 covered（r2 扩充）** 去重表改为**完整标题清单**：editor-navigation 17 条 it +
-  app-command-registry 4 条 + App.leave-guard 8 条（全文见 evidence.json P1-005.tests 与 §3 表）；
-  design-system/boundary.test.ts 5 处 App.tsx 引用按文件计数登记（口径：已读断言 vs 文件计数）。
+- **P1-005 covered（r3 按 AST 重做）** 盘点为 **useState 29 / useRef 16 / useEffect 15 + useLayoutEffect 1**（§4.1）；去重表为**完整标题清单**：editor-navigation 17 条 it + app-command-registry 4 条 + App.leave-guard 8 条（全文见 evidence.json P1-005.tests 与 §3 表）；design-system/boundary.test.ts 5 处 App.tsx 引用按文件计数登记（口径：已读断言 vs 文件计数）。
 - **P1-006 N/A** `setTimeout` :2225 用途注释明确（modal top-layer 让位），无资源泄漏；无新证据。
 
-## 4.1 全量 state/ref 登记（r2 补充；行号为声明行）
+## 4.1 全量 state/ref/effect 登记（r3 按 AST 实测重做；行号为调用/声明行）
 
-- **useState 24**：:382 trialDraft、:383 trialSubject、:384 trialLeave、:430 location、:434
-  moduleLocations、:499 workspaceNotice、:593 selected、:594 sceneLifecycleIntent、:597
-  placingEntity、:598 scriptChannel、:599 selectedBehavior、:600 selectedPage、:602 canvasLayers、
-  :611 placeSceneId、:618 placeMode、:619 placeActorId、:620 placeSpriteId、:621 placeZoneRanges、
-  :632 saveErr、:633 saveActivity（及 :634-641 区间内保存流程其余 4 个 state——saveConfirm/
-  saveProgress/interruptedAttempt/audioPreview，逐行见源文件）。
-- **useRef 8**：:385 trialWindows、:386 trialMounted、:428 bodyRef、:429 storedNavigationRef、
-  :433 locationRef、:437 moduleLocationsRef、:438 scrollPositionsRef、:595-596
-  createSceneButtonRef/sceneOutlineRowRef、:625-631 dirHandleRef/saveAttemptDirRef/snapshotRef/
-  authorBaselineRef/firstSaveAuthorRef（同名单行 ref 合并登记；与 16 个 effect 的对应关系见 §1 表）。
-- **P1-003 risk** `App.tsx:1660-1666` `ensureMapLoaded(id).catch(() => undefined)`——静默吞掉
-  地图加载失败；用户无可见反馈（对照 V0 截图里场景渲染失败有明确 banner，此处无）。标 risk
-  （静默降级是否有意需产品裁定），非缺陷复现。
-- **P1-004 risk** 全局 keydown effect（:1997-2092）依赖数组 13 项，每次场景/选中/抽屉变化都要
-  解绑重绑 window listener；行为正确（清理对称），但重绑频率高——拆分后应把 handler 依赖收进
-  ref 以减少 window 级 churn。标 risk（性能/可维护性），无行为变化。
-- **P1-005 covered** 上述去重表 20+ 条（已有测试精确标题）。
-- **P1-006 N/A** `setTimeout` :2225 用途注释明确（modal top-layer 让位），无资源泄漏；无新证据。
+**口径**：TypeScript AST 限定 `export function App` 作用域（:360-3705）；全文件另有 4 个 useState 属
+其它组件（:3765 filter/:4010 activeId/:4107 spriteViewerOpen/:4807 inspectorTab），分开口径不计入本表。
+
+- **useState 29**：:382 [trialDraft]、:383 [trialSubject]、:384 [trialLeave]、:430 [location]、
+  :434 [moduleLocations]、:499 [workspaceNotice]、:593 [selected]、:594 [sceneLifecycleIntent]、
+  :597 [placingEntity]、:598 [scriptChannel]、:599 [selectedBehavior]、:600 [selectedPage]、
+  :602 [canvasLayers]、:611 [placeSceneId]、:618 [placeMode]、:619 [placeActorId]、
+  :620 [placeSpriteId]、:621 [placeZoneRanges]、:632 [saveErr]、:633 [saveActivity]、
+  :711 [drawer]、:729 [sharedScriptFocus]、:734 [entityPageFocus]、:740 [canonicalReferenceFocus]、
+  :744 [canonicalOwnerFocus]、:748 [itemPrivateScriptFocus]、:755 [entityHostileFocus]、
+  :761 [canonicalPageFocus]、:1558 [bodyWidth]。
+  （r2 曾误写"24 个 + saveConfirm/saveProgress 等四 state"——该四者不存在，实际是 saveCommandRef
+  与派生变量；r3 以 AST 重做并核读写/清理归属。）
+- **useRef 16**：:385 trialWindows、:386 trialMounted、:428 bodyRef、:429 storedNavigationRef、
+  :433 locationRef、:437 moduleLocationsRef、:438 scrollPositionsRef、:595 createSceneButtonRef、
+  :596 sceneOutlineRowRef、:625 dirHandleRef、:627 saveAttemptDirRef、:629 snapshotRef、
+  :630 authorBaselineRef、:631 firstSaveAuthorRef、:635 saveCommandRef、:724 preciseFocusRevisionRef。
+- **useEffect 15**：:387（试玩窗口关闭）、:396（试玩 beforeunload）、:426（derivedStore start/stop）、
+  :491（soundPreview dispose）、:561（URL replaceState）、:570（popstate）、:578（滚动恢复 rAF）、
+  :686（placeSceneId 跟随）、:1610（ResizeObserver）、:1660（ensureMapLoaded）、:1741/:1746
+  （脚本页焦点重置）、:1758（canonical/entity 页焦点消费）、:1997（全局 keydown）、:2083（document.title）。
+- **useLayoutEffect 1**：:407（historyCoordinator connect/dispose——r1/r2 误归入 useEffect 计数）。
+
+读写/清理归属对照见 §1 表（each effect 的清理函数核对保留在表内）。
 
 ## 5. 最小可拆单元建议（供实施批次参考，非本包执行）
 
