@@ -33,7 +33,23 @@ Codex继续A3生产实现，GLM作为准备材料贡献者，不作为自证的�
 - GLM：只编辑自己目录；报告自身实测、风险与建议，不写他席结论、不改共享看板/卡状态、不标done。
 - Kimi：用户全架构队列豁免，不安排交接。
 - build准入：not opened。本包不进入生产build，后续实施另按对应架构/修复卡准入。
-- done准入：blocked，r2候选717d507d/登记9e5ba310仍有下列C1～C4；用户豁免两席不等于证据自动通过。
+- done准入：blocked，r3最终树1410916e仅余下列R3-1～R3-3；用户豁免两席不等于证据自动通过。
+
+## Codex r3接收席位（2026-09-25，1410916e）
+
+**继续counter，仅保留定点残项；Status仍draft，不开build、不标done。**
+[r3具体行与完成条件](../../testing/glm-architecture-support/codex-r3-review.md)、
+[本席r3机账](../../testing/glm-architecture-support/codex-r3-evidence.json)。
+
+已闭：C2主要源码真值、38唯一ID/21covered+12risk+5N/A及八包合计、hash引用清理、最终JSON Biome exit0；
+产品零漂移、旧Codex六文件、22源码hash与17图均未变；39旧独立定向证据保留，不重跑。
+
+- R3-1：V1风险表、P5旧分项表/边界描述、P6无fs扩大结论仍未同步到已确认口径。
+- R3-2：P4-002正文risk/ui分散与机账covered/门归属不一致；V1-003/005仍与机账不同义。
+  P4共享状态小表的1220–1224是终态动画分支，不是1565–1573的performAction；清理语义需分开。
+- R3-3：summary复算范围仍包含Codex任务卡修改；cd后根相对命令路径错误，输出注释仍19/14。
+
+仅修上述材料，不增加产品/测试/视觉任务；有效事实不重开。下方r1/r2结论为历史记录。
 
 ## Codex r2接收席位（2026-09-25，717d507d / 9e5ba310）
 
@@ -90,10 +106,13 @@ Codex继续A3生产实现，GLM作为准备材料贡献者，不作为自证的�
   后续GLM按接收报告末尾提示返工，保留冻结与只读白名单，不因审查开放产品实现。
 - 2026-09-25 Codex：同步并核717d507d/9e5ba310 r2；确认多项事实与17图有效，独立AST/机账对账仍发现C1～C4。
   新反证单列r2文件，r1三文件零改；保持draft，GLM只需按收窄提示修材料，未授权产品实现。
+- 2026-09-25 Codex：核1c6c6d91+f20a88a6/49054552至1410916e；最终JSON格式和docs均通过，
+  独立核八包合38与旧证据零变。仍有报告表内错义/错数及复制命令残项，收窄为R3-1～R3-3。
+  未改GLM语义/旧反证/产品，未重跑统计或视觉；等待其定点更正文档，不转Kimi。
 
 ## 下一位Agent提示词
 
-当前交接为[Codex r2接收报告末尾的GLM收窄提示](../../testing/glm-architecture-support/codex-r2-review.md#下一位agent提示词glm收窄返工)。
+当前交接为[Codex r3接收报告末尾的GLM定点提示](../../testing/glm-architecture-support/codex-r3-review.md#下一位agent提示词glm)。
 无下一位Kimi提示词。下方保留原始准备任务提示，不再代表本次无counter接收。
 
 ```text
