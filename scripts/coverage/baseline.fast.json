@@ -1,14 +1,14 @@
 {
   "schemaVersion": 2,
   "profile": "fast",
-  "generatedAt": "2026-09-25T08:55:15.265Z",
+  "generatedAt": "2026-09-25T11:58:04.321Z",
   "provider": {
     "name": "v8",
     "vitest": "4.1.7",
     "coverageV8": "4.1.7"
   },
   "sourceFileCount": 641,
-  "testCount": 8090,
+  "testCount": 8109,
   "packages": {
     "shared": {
       "name": "@type-pal/shared",
@@ -2754,8 +2754,8 @@
       ],
       "scopeDigest": "172860557359800006b54684305c95556da2645892e450c2d5b4891297aba98e",
       "fastTests": {
-        "testCount": 2369,
-        "testFileCount": 152,
+        "testCount": 2388,
+        "testFileCount": 158,
         "files": [
           "packages/game/src/analytics/analytics-consent-ui.test.ts",
           "packages/game/src/analytics/analytics-consent.boundaries.test.ts",
@@ -2837,6 +2837,12 @@
           "packages/game/src/core/scene-system.test.ts",
           "packages/game/src/core/word-lookup.test.ts",
           "packages/game/src/e2e.test.ts",
+          "packages/game/src/present/__tests__/grok-composition/p11-world-layers.test.ts",
+          "packages/game/src/present/__tests__/grok-composition/p12-overlays.test.ts",
+          "packages/game/src/present/__tests__/grok-composition/p13-battle-commands.test.ts",
+          "packages/game/src/present/__tests__/grok-composition/p14-battle-fades.test.ts",
+          "packages/game/src/present/__tests__/grok-composition/p15-battle-ui.test.ts",
+          "packages/game/src/present/__tests__/grok-composition/p16-dialog.test.ts",
           "packages/game/src/present/__tests__/grok-present/p01-inventory-list.test.ts",
           "packages/game/src/present/__tests__/grok-present/p02-inventory-target.test.ts",
           "packages/game/src/present/__tests__/grok-present/p03-equip.test.ts",
@@ -3312,6 +3318,36 @@
             "identityDigest": "ae317903e65cb2bafadbd0ab1d0dacc89bf306d95e50dfd329004b8ba73ef3ca"
           },
           {
+            "file": "packages/game/src/present/__tests__/grok-composition/p11-world-layers.test.ts",
+            "testCount": 2,
+            "identityDigest": "9099ee76ec62015527be044adff32710ffbde85489c881754f6629388fac2ffc"
+          },
+          {
+            "file": "packages/game/src/present/__tests__/grok-composition/p12-overlays.test.ts",
+            "testCount": 4,
+            "identityDigest": "fa8f02b8dad6cee768c21be542845f25a78e26feccf282c2c00315492f582594"
+          },
+          {
+            "file": "packages/game/src/present/__tests__/grok-composition/p13-battle-commands.test.ts",
+            "testCount": 2,
+            "identityDigest": "e5354549bee35c6531d692d0b1831d2f730d9f90e6d1fc4cc33d63e4b2adb874"
+          },
+          {
+            "file": "packages/game/src/present/__tests__/grok-composition/p14-battle-fades.test.ts",
+            "testCount": 3,
+            "identityDigest": "bb89d36132e5415468eb61e3589b39bdc5d76d61dd19ce286de90aed50063404"
+          },
+          {
+            "file": "packages/game/src/present/__tests__/grok-composition/p15-battle-ui.test.ts",
+            "testCount": 5,
+            "identityDigest": "3fef8e046a7830826e92387591bb0a9a55bbba9ca83ecb49a7d6474d5601273b"
+          },
+          {
+            "file": "packages/game/src/present/__tests__/grok-composition/p16-dialog.test.ts",
+            "testCount": 3,
+            "identityDigest": "d2680319de8964ae87c3b5d77d44cee59ef1cee333eef0c157201f9cf6806263"
+          },
+          {
             "file": "packages/game/src/present/__tests__/grok-present/p01-inventory-list.test.ts",
             "testCount": 4,
             "identityDigest": "5e6ea6631eb222c1c62dd1b0b887da94906a93a505d414b12ea1845953e82dfc"
@@ -3672,25 +3708,25 @@
             "identityDigest": "916c70c2855d90db70208a6895de9b3254f0e3f039c2bb0b96bc8fd4287d249d"
           }
         ],
-        "identityDigest": "29448d771d700172e6ec13601586694c57d3a06604c33776bcbc7dc639345026",
+        "identityDigest": "196623a29994b6a61eaa85494a72498cd6301db00df88f9dd2859d44b8eb0de7",
         "duplicateIdentityCount": 0,
-        "executionDigest": "a1f5f131af667fcb762d1c9ac0aaf390e9362b1d7388cf41cf0cd3dc043b66e4"
+        "executionDigest": "42d00c17b6f89e0ffca728c988ce9d5beb34897e8b6e21823f536bc7e4c3541d"
       },
       "metrics": {
         "statements": {
-          "covered": 11803,
+          "covered": 11868,
           "total": 15494
         },
         "branches": {
-          "covered": 7731,
+          "covered": 7798,
           "total": 11281
         },
         "functions": {
-          "covered": 1356,
+          "covered": 1357,
           "total": 1843
         },
         "lines": {
-          "covered": 10614,
+          "covered": 10663,
           "total": 13604
         }
       }
@@ -5566,19 +5602,19 @@
   },
   "total": {
     "statements": {
-      "covered": 61069,
+      "covered": 61134,
       "total": 80617
     },
     "branches": {
-      "covered": 43067,
+      "covered": 43134,
       "total": 63176
     },
     "functions": {
-      "covered": 11360,
+      "covered": 11361,
       "total": 15034
     },
     "lines": {
-      "covered": 54995,
+      "covered": 55044,
       "total": 70570
     }
   }
