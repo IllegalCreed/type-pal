@@ -8,6 +8,8 @@
 
 ## 文档与附件
 
+- [Cursor现行指南轻量核对](cursor-docs-hygiene.md)（十二份现行文档、四组静态核对；待执行，只交修订建议，不是覆盖率或运行验收）
+
 - [GLM十二组可执行架构回归实验包](glm-architecture-regression-lab/README.md)（8组候选回归+4组功能视觉，draft可执行；冻结86e928b5，仅实验目录，正式接入/统计由Codex统一）
 
 - [A3-b：场景资源与预检拆分](scene-preparation-refactor.md)、[机账](scene-preparation-refactor-evidence.json)、[冻结对照](scene-preparation-parity.mjs)与[11针反例](scene-preparation-mutants.mjs)（fdad980f/done；26新增/check8525/strict8034/641，缓存政策/同步提交保持；A3整体未完成）
