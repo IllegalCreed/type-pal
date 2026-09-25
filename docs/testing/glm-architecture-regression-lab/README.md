@@ -134,6 +134,13 @@ JSON最后一次SHA登记后必须再次Biome；避免为填自己的commit hash
 Codex接收时逐组决定转正或返工，并独立复核；正式集成后才串行check→ratchet→受保护strict，整批统一统计。
 GLM贡献须在最终实施审查披露；本卡不授予自验充独立终审、代签或标done权限。
 
-## 实际交付登记
+## 实际交付登记（GLM，2026-09-25）
 
-尚未开始，以上均为工作安排，不是已执行或已通过证据。GLM接手后只在此节追加入口及真实起点/候选SHA。
+- 起点 `a3ceaf05199fe334bdf5dea8d2b362e34de8679b`（对冻结 86e928b5 packages/scripts 零 diff）；
+  分支 `codex/glm-architecture-regression-lab-r1` @ worktree `/Users/zhangxu/illegal/type-pal-glm-regression-lab`。
+- 实际文件：configs/{candidates,diagnostics}.vitest.mts、fixtures/{editor,migrate}/**、
+  candidates/{editor,content,game,migrate}/*.test.*（含 lab-startup 启动小样）、
+  diagnostics/lab-startup-red.test.tsx、tools/{red-control,verify}.mjs、results.json、receipt.md。
+- 每组一提交；候选绿套件命令、负控 runner、机械对账器见 receipt.md 复算命令节。
+- 截图 6 张在 /tmp/type-pal-glm-regression-lab/（不入 Git），用途登记于 results.json artifacts。
+- 12 组全部交付：candidate-green 36 / existing-proof 1 / reproduced-defect 1（V04 深链覆写，交 Codex 裁定）/ blocked-environment 1。
