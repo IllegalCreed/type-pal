@@ -82,22 +82,24 @@ describe('P04 商店', () => {
   it('P04 卖overlay画售价的一半，不执行买卖', () => {
     const gs = makeGs()
     const bead = makeItem(31, '甲', { price: 81, flags: { sellable: true } })
+    const items = [bead]
     gs.dwCash = 500
     gs.inventory = [{ itemId: bead.id, count: 1 }]
-    const menu = createSellMenu(gs, [bead])
+    const menu = createSellMenu(gs, items)
     const frames = makeUiFrames()
     const fb = createFramebuffer()
     fillSentinel(fb)
-    const before = cloneInputs({ gs, menu, items: [bead], frames })
+    const inputs = { gs, menu, items, frames }
+    const before = cloneInputs(inputs)
     drawSellOverlay({
       fb,
       gs,
-      items: [bead],
+      items,
       cursorItemId: menu.grid.inventory[menu.grid.cursor]?.itemId,
       uiSpriteFrames: frames,
       glyphs,
     })
-    expect(cloneInputs({ gs, menu, items: [bead], frames })).toEqual(before)
+    expect(cloneInputs(inputs)).toEqual(before)
     expect(pixel(fb, textDot('售', 0, 234, 160).x, textDot('售', 0, 234, 160).y)).toBe(0)
     expect(pixel(fb, rightDigitX(272, 6, 0), 165)).toBe(yellowDigit(0))
     expect(pixel(fb, rightDigitX(272, 6, 1), 165)).toBe(yellowDigit(4))

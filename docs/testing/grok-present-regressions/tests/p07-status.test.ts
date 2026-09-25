@@ -32,6 +32,7 @@ describe('P07 角色状态', () => {
     const gs = makeGs()
     const roles = makeRoles()
     const sword = makeItem(61, '子', { bitmap: 5 })
+    const items = [sword]
     gs.partyMembers = [4, 1]
     gs.PlayerRolesRuntime.rgwEquipment[0]![4] = sword.id
     gs.PlayerRolesRuntime.rgwLevel[4] = 6
@@ -61,14 +62,14 @@ describe('P07 角色状态', () => {
       state: menu,
       gs,
       playerRoles: roles,
-      items: [sword],
+      items,
       uiSpriteFrames: frames,
       glyphs,
       portraitIcons: portraits,
       itemIcons: icons,
       levelUpExp,
     }
-    const plain = { gs, menu, items: [sword], roles, frames, icons, portraits, levelUpExp }
+    const plain = { gs, menu, items, roles, frames, icons, portraits, levelUpExp }
     const beforePlain = cloneInputs(plain)
     drawPlayerStatus(input)
     expect(cloneInputs(plain)).toEqual(beforePlain)

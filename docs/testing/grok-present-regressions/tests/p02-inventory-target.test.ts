@@ -42,10 +42,11 @@ describe('P02 物品目标', () => {
     const gs = makeGs()
     const roles = makeRoles()
     const item = makeItem(21, '甲', { bitmap: 4, flags: { usable: true, consuming: true } })
+    const items = [item]
     gs.partyMembers = [4, 1]
     gs.inventory = [{ itemId: item.id, count: 4 }]
-    const menu = createInventoryMenu(gs, [item], 'usable')
-    confirmInventoryItem(menu, [item], roles, gs.partyMembers)
+    const menu = createInventoryMenu(gs, items, 'usable')
+    confirmInventoryItem(menu, items, roles, gs.partyMembers)
     expect(menu.phase).toBe('use-target')
     expect(menu.inventory[0]?.count).toBe(4)
     const entry = gs.inventory[0]
@@ -56,13 +57,14 @@ describe('P02 物品目标', () => {
     const icons = new Map([[4, iconImage(0x84)]])
     const fb = createFramebuffer()
     fillSentinel(fb)
-    const before = cloneInputs({ gs, menu, items: [item], roles, frames, icons })
+    const inputs = { gs, menu, items, roles, frames, icons }
+    const before = cloneInputs(inputs)
     const restore = freezeNow(0)
     try {
       drawInventoryMenu({
         fb,
         state: menu,
-        items: [item],
+        items,
         uiSpriteFrames: frames,
         itemIcons: icons,
         glyphs,
@@ -72,7 +74,7 @@ describe('P02 物品目标', () => {
     } finally {
       restore()
     }
-    expect(cloneInputs({ gs, menu, items: [item], roles, frames, icons })).toEqual(before)
+    expect(cloneInputs(inputs)).toEqual(before)
     expect(menu.inventory[0]?.count).toBe(4)
     expect(gs.inventory[0]?.count).toBe(7)
 
@@ -90,6 +92,7 @@ describe('P02 物品目标', () => {
     roles.roles[4]!.attackStrength = 1
     roles.roles[1]!.attackStrength = 1
     const item = makeItem(21, '甲', { flags: { usable: true } })
+    const items = [item]
     gs.partyMembers = [4, 1]
     gs.inventory = [{ itemId: item.id, count: 1 }]
     gs.PlayerRolesRuntime.rgwHP[4] = 12
@@ -101,20 +104,21 @@ describe('P02 物品目标', () => {
     gs.rgEquipmentEffect[0]!.rgwAttackStrength[4] = 3
     gs.PlayerRolesRuntime.rgwHP[1] = 34
     gs.PlayerRolesRuntime.rgwAttackStrength[1] = 5
-    const menu = createInventoryMenu(gs, [item], 'usable')
-    confirmInventoryItem(menu, [item], roles, gs.partyMembers)
+    const menu = createInventoryMenu(gs, items, 'usable')
+    confirmInventoryItem(menu, items, roles, gs.partyMembers)
     expect(menu.targetMenu?.items.map((member) => member.id)).toEqual([4, 1])
 
     const frames = makeUiFrames()
     const fb = createFramebuffer()
     fillSentinel(fb)
-    const before = cloneInputs({ gs, menu, items: [item], roles, frames })
+    const inputs = { gs, menu, items, roles, frames }
+    const before = cloneInputs(inputs)
     const restore = freezeNow(0)
     try {
       drawInventoryMenu({
         fb,
         state: menu,
-        items: [item],
+        items,
         uiSpriteFrames: frames,
         glyphs,
         gs,
@@ -123,7 +127,7 @@ describe('P02 物品目标', () => {
     } finally {
       restore()
     }
-    expect(cloneInputs({ gs, menu, items: [item], roles, frames })).toEqual(before)
+    expect(cloneInputs(inputs)).toEqual(before)
 
     const first = textDot('戊', 0, 125, 16)
     const second = textDot('乙', 0, 125, 36)
@@ -156,22 +160,23 @@ describe('P02 物品目标', () => {
       scriptDesc: 51001,
       flags: { usable: true },
     })
+    const items = [item]
     gs.partyMembers = [4, 1]
     gs.inventory = [{ itemId: item.id, count: 2 }]
     gs.PlayerRolesRuntime.rgwHP[4] = 12
-    const menu = createInventoryMenu(gs, [item], 'usable')
+    const menu = createInventoryMenu(gs, items, 'usable')
     const frames = makeUiFrames()
     const desc = textDot('诀', 0, 71, 151)
     const listed = createFramebuffer()
     fillSentinel(listed)
     const restore = freezeNow(0)
     try {
-      const listedInputs = { gs, menu, items: [item], frames }
+      const listedInputs = { gs, menu, items, frames }
       const beforeListed = cloneInputs(listedInputs)
       drawInventoryMenu({
         fb: listed,
         state: menu,
-        items: [item],
+        items,
         uiSpriteFrames: frames,
         glyphs,
         noDesc: false,
@@ -179,22 +184,23 @@ describe('P02 物品目标', () => {
       expect(cloneInputs(listedInputs)).toEqual(beforeListed)
       expect(pixel(listed, desc.x, desc.y)).toBe(DESC_COLOR)
 
-      confirmInventoryItem(menu, [item], roles, gs.partyMembers)
+      confirmInventoryItem(menu, items, roles, gs.partyMembers)
       expect(menu.phase).toBe('use-target')
       const targeted = createFramebuffer()
       fillSentinel(targeted)
-      const before = cloneInputs({ gs, menu, items: [item], roles, frames })
+      const targetedInputs = { gs, menu, items, roles, frames }
+      const before = cloneInputs(targetedInputs)
       drawInventoryMenu({
         fb: targeted,
         state: menu,
-        items: [item],
+        items,
         uiSpriteFrames: frames,
         glyphs,
         gs,
         playerRoles: roles,
         noDesc: true,
       })
-      expect(cloneInputs({ gs, menu, items: [item], roles, frames })).toEqual(before)
+      expect(cloneInputs(targetedInputs)).toEqual(before)
       expect(pixel(targeted, desc.x, desc.y)).toBe(SENTINEL)
       expect(pixel(targeted, textDot('戊', 0, 125, 16).x, textDot('戊', 0, 125, 16).y)).toBe(
         MENUITEM_COLOR_SELECTED_FIRST,

@@ -35,10 +35,11 @@ describe('P05 菜单栈转发', () => {
     const gs = makeGs()
     const roles = makeRoles()
     const item = makeItem(21, '甲', { bitmap: 4, flags: { usable: true } })
+    const items = [item]
     gs.partyMembers = [4, 1]
     gs.inventory = [{ itemId: item.id, count: 1 }]
-    const menu = createInventoryMenu(gs, [item], 'usable')
-    confirmInventoryItem(menu, [item], roles, gs.partyMembers)
+    const menu = createInventoryMenu(gs, items, 'usable')
+    confirmInventoryItem(menu, items, roles, gs.partyMembers)
     openMenu(gs, { kind: 'inventory', state: menu })
     const frames = makeUiFrames()
     const icons = new Map([[4, iconImage(0x84)]])
@@ -56,10 +57,10 @@ describe('P05 菜单栈转发', () => {
 
       const forwarded = createFramebuffer()
       fillSentinel(forwarded)
-      const forwardedInputs = { gs, menu, items: [item], roles, frames, icons }
+      const forwardedInputs = { gs, menu, items, roles, frames, icons }
       const before = cloneInputs(forwardedInputs)
       drawMenuStack(forwarded, gs, frames, glyphs, {
-        items: [item],
+        items,
         itemIcons: icons,
         playerRoles: roles,
       })
@@ -80,10 +81,11 @@ describe('P05 菜单栈转发', () => {
     const sword = makeItem(40, '剑', {
       flags: { equipable: true, equipableBy: [false, false, false, false, true, false] },
     })
+    const items = [sword]
     gs.partyMembers = [4]
     gs.inventory = [{ itemId: sword.id, count: 1 }]
-    const menu = createEquipMenu(gs, [sword])
-    confirmEquipItem(menu, [sword], roles, gs.partyMembers)
+    const menu = createEquipMenu(gs, items)
+    confirmEquipItem(menu, items, roles, gs.partyMembers)
     openMenu(gs, { kind: 'equip', state: menu })
     const frames = makeUiFrames()
     const bg = { width: 4, height: 4, indices: new Uint8Array(16).fill(0x55) }
@@ -91,9 +93,9 @@ describe('P05 菜单栈转发', () => {
     try {
       const without = createFramebuffer()
       fillSentinel(without)
-      const plain = { gs, menu, items: [sword], roles, frames }
+      const plain = { gs, menu, items, roles, frames }
       const beforePlain = cloneInputs(plain)
-      drawMenuStack(without, gs, frames, glyphs, { items: [sword], playerRoles: roles })
+      drawMenuStack(without, gs, frames, glyphs, { items, playerRoles: roles })
       expect(cloneInputs(plain)).toEqual(beforePlain)
       expect(pixel(without, 1, 1)).toBe(SENTINEL)
 
@@ -102,7 +104,7 @@ describe('P05 菜单栈转发', () => {
       const painted = { ...plain, equipBg: bg }
       const before = cloneInputs(painted)
       drawMenuStack(withBg, gs, frames, glyphs, {
-        items: [sword],
+        items,
         playerRoles: roles,
         equipBg: bg,
       })
@@ -129,12 +131,13 @@ describe('P05 菜单栈转发', () => {
     const frames = makeUiFrames()
     const bg = { width: 4, height: 4, indices: new Uint8Array(16).fill(0x56) }
     const poisons = new Map([[77, { level: 1, color: 3 }]])
+    const items: ReturnType<typeof makeItem>[] = []
     const poison = textDot('瘟', 0, 185, 58)
     const without = createFramebuffer()
     fillSentinel(without)
-    const plain = { gs, menu, items: [] as [], roles, frames }
+    const plain = { gs, menu, items, roles, frames }
     const beforePlain = cloneInputs(plain)
-    drawMenuStack(without, gs, frames, glyphs, { playerRoles: roles, items: [] })
+    drawMenuStack(without, gs, frames, glyphs, { playerRoles: roles, items })
     expect(cloneInputs(plain)).toEqual(beforePlain)
     expect(pixel(without, 1, 1)).toBe(SENTINEL)
     expect(pixel(without, poison.x, poison.y)).toBe(SENTINEL)
@@ -145,7 +148,7 @@ describe('P05 菜单栈转发', () => {
     const before = cloneInputs(extra)
     drawMenuStack(withExtra, gs, frames, glyphs, {
       playerRoles: roles,
-      items: [],
+      items,
       statusBg: bg,
       objectPoisons: poisons,
     })
@@ -153,5 +156,22 @@ describe('P05 菜单栈转发', () => {
     expect(pixel(withExtra, 1, 1)).toBe(0x56)
     expect(pixel(withExtra, poison.x, poison.y)).toBe(13)
     expect(pixel(withExtra, poison.x + 1, poison.y)).toBe(0)
+  })
+
+  it('P05 同一items数组增删或重排会使输入快照失败', () => {
+    const gs = makeGs()
+    const first = makeItem(1, '甲')
+    const second = makeItem(2, '乙')
+    const items = [first]
+    const before = cloneInputs({ gs, items })
+    items.push(second)
+    expect(cloneInputs({ gs, items })).not.toEqual(before)
+    const grown = cloneInputs({ gs, items })
+    items.reverse()
+    expect(cloneInputs({ gs, items })).not.toEqual(grown)
+    const reversed = cloneInputs({ gs, items })
+    items.pop()
+    expect(cloneInputs({ gs, items })).not.toEqual(reversed)
+    expect(items).toEqual([second])
   })
 })

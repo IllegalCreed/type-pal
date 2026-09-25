@@ -49,19 +49,21 @@ describe('P01 物品列表', () => {
   it('P01 非空列表把可用物品名、光标不透明0与透明孔画进真实Framebuffer', () => {
     const gs = makeGs()
     const item = makeItem(11, '甲', { bitmap: 3, flags: { usable: true } })
+    const items = [item]
     gs.inventory = [{ itemId: item.id, count: 1 }]
-    const menu = createInventoryMenu(gs, [item], 'all')
+    const menu = createInventoryMenu(gs, items, 'all')
     const frames = makeUiFrames()
     const icons = new Map([[3, iconImage(0x83)]])
     const fb = createFramebuffer()
     fillSentinel(fb)
-    const before = cloneInputs({ gs, menu, items: [item], frames, icons })
+    const inputs = { gs, menu, items, frames, icons }
+    const before = cloneInputs(inputs)
     const restore = freezeNow(0)
     try {
       drawInventoryMenu({
         fb,
         state: menu,
-        items: [item],
+        items,
         uiSpriteFrames: frames,
         itemIcons: icons,
         glyphs,
@@ -69,7 +71,7 @@ describe('P01 物品列表', () => {
     } finally {
       restore()
     }
-    expect(cloneInputs({ gs, menu, items: [item], frames, icons })).toEqual(before)
+    expect(cloneInputs(inputs)).toEqual(before)
 
     const name = labelOf('甲', 0, 0)
     const other = textDot('乙', 0, 15, 12)
@@ -87,13 +89,15 @@ describe('P01 物品列表', () => {
 
   it('P01 空列表不画物品名，光标仍停在默认格', () => {
     const gs = makeGs()
-    const menu = createInventoryMenu(gs, [], 'all')
+    const items: ReturnType<typeof makeItem>[] = []
+    const menu = createInventoryMenu(gs, items, 'all')
     const frames = makeUiFrames()
     const fb = createFramebuffer()
     fillSentinel(fb)
-    const before = cloneInputs({ gs, menu, items: [], frames })
-    drawInventoryMenu({ fb, state: menu, items: [], uiSpriteFrames: frames, glyphs })
-    expect(cloneInputs({ gs, menu, items: [], frames })).toEqual(before)
+    const inputs = { gs, menu, items, frames }
+    const before = cloneInputs(inputs)
+    drawInventoryMenu({ fb, state: menu, items, uiSpriteFrames: frames, glyphs })
+    expect(cloneInputs(inputs)).toEqual(before)
 
     const name = labelOf('甲', 0, 0)
     expect(pixel(fb, name.x, name.y)).toBe(BOX_STYLE1)
