@@ -1,6 +1,6 @@
 # DOC-CURSOR-2 — 十二组包说明、CLI与索引核对
 
-Status: draft
+Status: done
 Owner: Codex
 Contribution Owner: Cursor（机械核对与修订建议）
 Reviewer: Codex
@@ -11,6 +11,15 @@ Branch: codex/cursor-docs-wave2-r1
 
 Revision: r1
 Evidence freeze: dab017e7
+
+## Codex 收口（2026-09-25）
+
+本卡唯一交付是十二组包说明/CLI/索引的只读审计材料；正文 `4b75d1c3` / 登记
+`cc2720c5` 已独立 accept，且 [`cursor-docs-wave2.md`](../../../../testing/cursor-docs-wave2.md)
+在 main 与该候选逐字一致。NB1/NB2 两处非阻断文字观察仍以 Codex 接收报告的准确锚点为准。
+用户现行规则为审过即集成推送，Codex 据此核定本只读卡 done 并归档；下文 draft/不合 main
+均为历史交接边界。回执中的源文档修订建议**并未因本卡 done 自动实施**，后续按具体文档范围另核。
+无下一位 Agent 提示词。
 
 ## 目标与授权
 
@@ -26,8 +35,8 @@ Evidence freeze: dab017e7
 
 ## 必读与判断纪律
 
-- AGENTS/CLAUDE/READ-FIRST、[文档维护规则](../guides/documentation.md)、
-  [前批独立接收](../../testing/cursor-docs-hygiene-review.md)。根协议是约束，不在本包改写范围。
+- AGENTS/CLAUDE/READ-FIRST、[文档维护规则](../../../guides/documentation.md)、
+  [前批独立接收](../../../../testing/cursor-docs-hygiene-review.md)。根协议是约束，不在本包改写范围。
 - 前提门N/A（不变更行为/机制/格式）：本包只判断操作说明与现有定义是否一致，不评判产品应如何实现。
 - `documentation.md:59-71`：普通断链/目录漏项已有机器检查；重点补围栏命令、行内路径、标题锚点和明确叙述。
 - 前批教训：字符串或export存在不等于当前UI/caller会使用；命令写法不能凭旧README互证。
@@ -108,7 +117,7 @@ docs/phase3/reference/README.md
 
 ## 唯一交付与轻量执行
 
-唯一可写文件：[十二组回执](../../testing/cursor-docs-wave2.md)。沿用一份报告，不新增JSON机账、探针框架或十二份重复总结。
+唯一可写文件：[十二组回执](../../../../testing/cursor-docs-wave2.md)。沿用一份报告，不新增JSON机账、探针框架或十二份重复总结。
 
 - C01～C12各一节：列核过的事实小表和未核边界；明确不符才展开原文→一手证据→建议替换文字。
   每个建议需可直接使用，不写“建议更新文档”空话。没有问题则简述静态已核，不强凑数量。
@@ -153,7 +162,7 @@ H7真实UI与前批源文档不重审。优先核真实定义/调用，不以字
 
 正文3852afe5 / tip e3da44ca：**counter，R1～R4只限回执**。一文件白名单/生产零漂移及文档门通过，
 已入库资源散列独立复算一致；不能把这些通过当作分类和替换句正确。
-[独立复核](../../testing/cursor-docs-wave2-review.md)给出三条误报、C07替换承诺、冻结锚点/CLI cwd及未核分类反证。
+[独立复核](../../../../testing/cursor-docs-wave2-review.md)给出三条误报、C07替换承诺、冻结锚点/CLI cwd及未核分类反证。
 Cursor原文原样保留，已核事实不重开；本卡留draft，不代签/不标done/不合main。
 DOC-CURSOR-1材料accept保持，DOC-GUIDE-REVISION-1仍未开放，本包不扩大前批修订准入。
 
@@ -178,7 +187,7 @@ R4未运行迁移/未起服务移到未执行边界，不算未核输入；同�
 
 正文4b75d1c3 / tip cc2720c5：**accept，仅审计材料接收**，无剩余阻断counter。
 R1/R2/R4已闭，R3关键锚点/cwd修订已完成；pal-extract一处7/8行定位与preview表格少格列为
-[NB1/NB2非阻断文字观察](../../testing/cursor-docs-wave2-review.md)，不伪称回执零瑕疵，不再要求整轮文字返工。
+[NB1/NB2非阻断文字观察](../../../../testing/cursor-docs-wave2-review.md)，不伪称回执零瑕疵，不再要求整轮文字返工。
 小计3/1/2/1/4/2与16 ID去向机械核对一致；一文件白名单/文档门/diff门通过。
 Cursor原文原样接入独立复核分支，本人仅签Codex席位；未重跑已核事实或资源hash。
 Status保持draft，不合main、不代签、不标done；五份前批指南修订卡仍不因本包打开。

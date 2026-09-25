@@ -1,6 +1,6 @@
 # DOC-CURSOR-1 — 十二份现行文档的轻量核对
 
-Status: draft
+Status: done
 Owner: Codex
 Contribution Owner: Cursor（文档只读取证，不占三贤人席位）
 Reviewer: Codex
@@ -12,6 +12,14 @@ Branch: codex/cursor-docs-hygiene-r1
 Revision: r1
 Evidence freeze: a3ceaf05
 
+## Codex 收口（2026-09-25）
+
+本卡唯一交付是只读审计材料；正文 `65193a84` / 登记 `320800ec` 已独立 accept，且
+[`cursor-docs-hygiene.md`](../../../../testing/cursor-docs-hygiene.md) 在 main 与该候选逐字一致。
+用户现行规则为审过即集成推送，Codex 据此核定本只读卡 done 并归档；下文 draft/不合 main
+均为当时交接边界。H1–H6/N1/T1 的五份正式指南纠错已在 DOC-GUIDE-REVISION-1 收口，
+H7 另在 DOC-CURSOR-4 收口；本卡不冒充产品修复或浏览器验收。无下一位 Agent 提示词。
+
 ## 目标与边界
 
 用户2026-09-25询问可交给Cursor的简单并行工作。本包只核现行指南的命令、引用与准备说明，
@@ -20,7 +28,7 @@ Evidence freeze: a3ceaf05
 
 ## 前提与上下文
 
-- 先读AGENTS/CLAUDE/READ-FIRST及[文档维护规则](../guides/documentation.md)。
+- 先读AGENTS/CLAUDE/READ-FIRST及[文档维护规则](../../../guides/documentation.md)。
 - `docs/ops/guides/documentation.md:59-71`与`scripts/docs/markdown.mjs:3-27`：既有检查器不核
   代码围栏内命令、行内路径、标题锚点及叙述真实性。本任务补静态人工核对，不重造文档检查器。
 - `package.json:6-23`、各包`package.json`、Vite配置与真实符号定义是命令/路径证据；
@@ -57,7 +65,7 @@ Evidence freeze: a3ceaf05
 
 ## 交付与验证
 
-唯一可写文件：[Cursor核对回执](../../testing/cursor-docs-hygiene.md)。
+唯一可写文件：[Cursor核对回执](../../../../testing/cursor-docs-hygiene.md)。
 每个问题一行：ID / 文档锚点与短原文 / 当前一手证据锚点 / 建议替换文字 / 确定性。
 分类为“确定不符 / 待确认 / 历史或示例不改”；相同根因合并。另列十二份检查完成情况，
 无问题也如实记已核；不设发现数指标，不加JSON机账或扫描框架。
@@ -98,10 +106,10 @@ docs/ops/tasks/DOC-CURSOR-1-current-guide-check.md和文档维护规则。
 ## Codex首轮接收席位 — 2026-09-25（历史）
 
 候选650f9f9d / 登记8f3b85a7：**counter，仅CR-1/CR-2**，留draft，不合main、不标done。
-[独立复核](../../testing/cursor-docs-hygiene-review.md)确认一文件白名单/生产零改和H1～H6；
+[独立复核](../../../../testing/cursor-docs-hygiene-review.md)确认一文件白名单/生产零改和H1～H6；
 T1裁定删除旧URL括号；H7引用未被当前场景页渲染的ScriptTree，N1两种命令等价结论被真实argv反证。
 Cursor原文未改，没有代签；只收本包回执，不带入其它工作。候选docs检查和diff检查均通过，不替代事实核验。
-[五份源文档修订](../archive/tasks/done/DOC-GUIDE-REVISION-1-current-entrypoints.md)另开draft，build仍未开放（历史记录；该修订卡随后已集成收口）；
+[五份源文档修订](DOC-GUIDE-REVISION-1-current-entrypoints.md)另开draft，build仍未开放（历史记录；该修订卡随后已集成收口）；
 场景入场说明不做H7建议替换，后续由Codex核定真实UI。
 
 ### 首轮下一位Agent提示词（历史；返工已接收）
@@ -126,7 +134,7 @@ README/content-publication短写保持，dev-servers两处列需删除多余分�
 正文65193a84 / 登记320800ec：**accept，仅审计材料接收**。CR-1/CR-2真实闭合，无剩余counter；
 H1～H6逐字未变，H7待核当前UI，T1删旧URL括号，N1多余分隔符建议已纠正。
 12 ID唯一，小计8确定/1待核/3保持；一文件白名单及冻结锚点核对通过，候选文档门/diff检查exit0。
-详见[复核报告当前结论](../../testing/cursor-docs-hygiene-review.md)。Cursor原文原样接收，未代签，
+详见[复核报告当前结论](../../../../testing/cursor-docs-hygiene-review.md)。Cursor原文原样接收，未代签，
 独立复核分支承载回执与本人记录，main仍未合入。Status保持draft；不标done，不把材料accept用于修订卡开门。
 
 交接：无下一位Agent提示词，Cursor本包无剩余返工，等待用户决定另卡五份文档修订准入。

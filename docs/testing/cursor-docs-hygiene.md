@@ -1,7 +1,7 @@
 # Cursor现行文档轻量核对回执
 
 状态：Cursor 窄返工已按 Codex CR-1/CR-2 修正 H7/N1/T1；待 Codex 再核本回执。H1–H6 原文未重做。
-任务： [DOC-CURSOR-1](../ops/tasks/DOC-CURSOR-1-current-guide-check.md)。
+任务： [DOC-CURSOR-1](../ops/archive/tasks/done/DOC-CURSOR-1-current-guide-check.md)。
 证据冻结：`a3ceaf05`（源码/命令定义以此 commit 为准；本回执工作树起点 `26c4ae5c`，十二份正文与冻结树无 diff）。
 只读核对；未执行 extract / migrate / bake / 部署 / 发布；未起服务、未跑覆盖率。静态对齐 ≠ 启动或业务通过。N1 命令结论引用 Codex 隔离 argv/参数门反证，未跑真实迁移。
 

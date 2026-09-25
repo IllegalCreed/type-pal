@@ -10,8 +10,8 @@
 |---|---|---|
 | [ARCH-REGRESSION-LAB-GLM-1 — 十二组可执行回归与功能视觉准备](ARCH-REGRESSION-LAB-GLM-1-twelve-packs.md) | draft | 以任务卡当前准入与看板分工为准。 |
 | [ARCH-SUPPORT-GLM-1 — 八组并行准备取证](ARCH-SUPPORT-GLM-1-eight-audit-packages.md) | draft | 以任务卡当前准入与看板分工为准。 |
-| [DOC-CURSOR-1 — 十二份现行文档的轻量核对](DOC-CURSOR-1-current-guide-check.md) | draft | 以任务卡当前准入与看板分工为准。 |
-| [DOC-CURSOR-2 — 十二组包说明、CLI与索引核对](DOC-CURSOR-2-package-tools-indexes.md) | draft | 以任务卡当前准入与看板分工为准。 |
+| [DOC-CURSOR-5 — 包说明三文件确定错误窄修](DOC-CURSOR-5-confirmed-source-fixes.md) | build | 以任务卡当前准入与看板分工为准。 |
+| [DOC-CURSOR-6 — 第二阶段作者指南八组只读事实核对](DOC-CURSOR-6-author-guide-fact-batch.md) | draft | 以任务卡当前准入与看板分工为准。 |
 | [TEST-GROK-PRESENT-2 — 一阶段画面合成与战斗呈现候选回归](TEST-GROK-PRESENT-2-phase1-composition.md) | draft | 以任务卡当前准入与看板分工为准。 |
 
 ## 已完成（historical）
@@ -55,6 +55,8 @@
 | [D14-3 - 奖励/事件总线统一收尾（议题 14 剩余③）](../archive/tasks/done/D14-3-reward-event-bus.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [D15-1 - NPC 移动补全：动态碰撞 + 互相让路 + 转向动画（议题 15）](../archive/tasks/done/D15-1-npc-movement-dynamic-collision.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [D6-1 - 遮挡半透明（方案 A，议题 6）](../archive/tasks/done/D6-1-occlusion-semi-transparent.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [DOC-CURSOR-1 — 十二份现行文档的轻量核对](../archive/tasks/done/DOC-CURSOR-1-current-guide-check.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [DOC-CURSOR-2 — 十二组包说明、CLI与索引核对](../archive/tasks/done/DOC-CURSOR-2-package-tools-indexes.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [DOC-CURSOR-3 — 覆盖率说明与现行命令定点核对](../archive/tasks/done/DOC-CURSOR-3-coverage-guide-audit.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [DOC-CURSOR-4 — 场景入场指南当前 UI 事实核对](../archive/tasks/done/DOC-CURSOR-4-scene-entry-current-ui.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [DOC-GOV-1 - 文档审计整改与自动检查](../archive/tasks/done/DOC-GOV-1-documentation-cleanup.md) | done | 完成证据、历史签字与交接见原卡。 |
