@@ -6,6 +6,8 @@
 返工基点：最新 `origin/main`（含 W2 `cbac3ca0` 与 [Codex 首轮复核](../cursor-wave2-review.md)）。
 Codex 独立验收与集成；本回执不是接收证明，也不标 done。
 
+> Codex 二轮接收界限：W1/W2/W5 已选择性接入 main，W3/W4 仍是隔离候选；以下 W3/W4 的自验数字与“变异”表述不构成独立接收证明。详见[二轮复核](../cursor-wave2-r2-review.md)。
+
 ## W1 作者指南七处已证误导
 
 白名单：`docs/phase2/guides/battlefield-authoring.md`、`shared-script-author-guide.md`、`debug-tools.md`。

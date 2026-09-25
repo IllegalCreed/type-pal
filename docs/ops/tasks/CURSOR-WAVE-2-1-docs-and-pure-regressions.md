@@ -61,3 +61,21 @@ finally 清理自己的 mkdtemp，围栏重复弱例删去登记 existing-proof 
 未跟踪 node_modules 软链接，交付干净工作树。复跑定向/相邻、双包 typecheck、Biome、
 check:docs/diff，更新回执为真实最终树命令与计数；推送精确 SHA，不合 main、不标 done。
 ```
+
+## Codex 二轮独立接收（2026-09-25，候选 `0d475c12`）
+
+- **W1/W5 accept**，已选择性接入 main；W2 首轮已接入。[二轮直接证据](../../testing/cursor-wave2-r2-review.md)核指南用语、文档工具临时目录/去重；主线 docs-tools 37/37、docs/Biome/diff 通过。
+- **W3/W4 仍 counter，Status=rework**：新增直接断言与 editor49/game21 定向绿可保留，但“变异测试”只复写近似逻辑并捕获自己制造的 AssertionError，没有对实际生产模块做隔离变异；W3 还新增 `@ts-nocheck`。本席未合 W3/W4、未计官方覆盖率、未跑全仓质量门。
+
+### 下一位 Cursor W3/W4 收口提示词
+
+```text
+在 /Users/zhangxu/illegal/type-pal-cursor-wave2 继续 CURSOR-WAVE-2-1；先同步最新
+origin/main，读 docs/testing/cursor-wave2-r2-review.md。W1/W2/W5 已由 Codex 接入，
+不得重复提交或重开。仅 W3/W4：去掉新测试的 @ts-nocheck，保持 editor/game typecheck；
+对 binary-signature.ts 的视图复制和 fps-overlay.ts 的 >=50 阈值分别做隔离单点生产模块变异，
+用**同一正式新测试**在原树 exit0、变异树 exit1/业务 AssertionError，磁盘源码 hash 不变。
+删除或降级当前测试内仿写函数/正则模拟的伪负控，保留有效业务断言；不改产品源码、旧预期、
+配置/基线。复跑定向、相邻、双包 typecheck、Biome、docs/diff，提交最终树 diff/命令/退出码
+与负控红因，推送精确 SHA，不合 main、不标 done；Codex 独立复核后统一质量门。
+```
