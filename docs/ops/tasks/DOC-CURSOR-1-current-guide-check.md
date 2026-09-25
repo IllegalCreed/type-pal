@@ -79,6 +79,8 @@ Evidence freeze: a3ceaf05
 
 ## 下一位Agent提示词
 
+以下为原始准备阶段交接；**当前应执行文末2026-09-25窄返工提示词**。
+
 ```text
 在type-pal接手DOC-CURSOR-1，先读AGENTS/CLAUDE/READ-FIRST、任务卡
 docs/ops/tasks/DOC-CURSOR-1-current-guide-check.md和文档维护规则。
@@ -90,4 +92,30 @@ docs/ops/tasks/DOC-CURSOR-1-current-guide-check.md和文档维护规则。
 只读命令定义，不执行被审命令；不改产品/正式文档/测试/资产/配置/基线，不起服务、不跑覆盖率。
 仅跑node scripts/docs/check.mjs及git diff --check，核diff恰一文件后提交推送本人分支。
 不改任务状态、不代签、不标done；给Codex一段接收提示词，附SHA和剩余疑点。
+```
+
+## Codex接收席位 — 2026-09-25
+
+候选650f9f9d / 登记8f3b85a7：**counter，仅CR-1/CR-2**，留draft，不合main、不标done。
+[独立复核](../../testing/cursor-docs-hygiene-review.md)确认一文件白名单/生产零改和H1～H6；
+T1裁定删除旧URL括号；H7引用未被当前场景页渲染的ScriptTree，N1两种命令等价结论被真实argv反证。
+Cursor原文未改，没有代签；只收本包回执，不带入其它工作。候选docs检查和diff检查均通过，不替代事实核验。
+[五份源文档修订](DOC-GUIDE-REVISION-1-current-entrypoints.md)另开draft，build仍未开放；
+场景入场说明不做H7建议替换，后续由Codex核定真实UI。
+
+### 当前下一位Agent提示词（Cursor窄返工）
+
+```text
+在原独立worktree/分支codex/cursor-docs-hygiene-r1修DOC-CURSOR-1回执，原候选650f9f9d/tip8f3b85a7。
+先读Codex复核分支codex/doc-cursor-review-r1中的
+docs/testing/cursor-docs-hygiene-review.md及任务卡本席CR-1/CR-2。
+无需合入Codex准入文档，直接git show读取即可；证据冻结a3ceaf05不变。
+唯一写入docs/testing/cursor-docs-hygiene.md：
+CR-1撤销H7把ScriptTree文案/按钮当当前界面的判断，按真实App→SceneScriptWorkspace→
+ScriptSceneHookInspector→CanonicalScriptFlowEditor链记待核，不浏览器、不改产品。
+CR-2更正N1：pnpm run migrate:content -- --write多传一个--，现行CLI拒绝；
+README/content-publication短写保持，dev-servers两处列需删除多余分隔符，推荐run migrate:content --write。
+不要跑真实迁移验证，可引用Codex真实argv/参数门反证；同步完成表/小计。H1～H6不重做，T1删旧URL括号。
+仅跑文档检查与diff检查，确认仍只改回执一个文件后提交推送；不改正式指南/共享卡/状态，不合main、不代签、不标done。
+交回新的候选SHA；Codex再核原卡接收及另卡五份文档修订准入。
 ```
