@@ -9,11 +9,7 @@
  */
 
 import type { Command } from '@type-pal/content'
-import {
-  checkAuthorCondition,
-  checkBaseAuthorCommands,
-  checkEnemyHookFlow,
-} from '@type-pal/content'
+import { checkBaseAuthorCommands, checkEnemyHookFlow } from '@type-pal/content'
 import { describe, expect, test } from 'vitest'
 
 /** 合法最小 author 命令（playSound 叶）。 */

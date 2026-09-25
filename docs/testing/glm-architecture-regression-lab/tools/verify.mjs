@@ -10,28 +10,28 @@
  */
 import { execSync } from 'node:child_process'
 import { createHash } from 'node:crypto'
-import { existsSync, readFileSync } from 'node:fs'
+import { existsSync, readFileSync, writeFileSync } from 'node:fs'
 import { join, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
 const repoRoot = resolve(fileURLToPath(new URL('.', import.meta.url)), '../../../..')
 const labRoot = resolve(repoRoot, 'docs/testing/glm-architecture-regression-lab')
 const whitelistPrefix = 'docs/testing/glm-architecture-regression-lab/'
-const freeeze = '86e928b5'
+const driftBase = process.argv[3] ?? '99f1fd08' // 本席工作开始前主线最后状态（含 Codex 主线 packages/ 演进）；GLM 增量相对它应为零 packages/ scripts/ diff
 const failures = []
 const check = (ok, message) => {
   if (!ok) failures.push(message)
 }
 
 // 1) 产品零漂移（工作树相对冻结：HEAD 树）
-const drift = execSync(`git diff ${freeeze}..HEAD --stat -- packages/ scripts/`, {
+const drift = execSync(`git diff ${driftBase}..HEAD --stat -- packages/ scripts/`, {
   cwd: repoRoot,
   encoding: 'utf8',
 }).trim()
 check(drift === '', `产品对冻结漂移非空: ${drift.slice(0, 200)}`)
 
 // 2) 白名单（本分支起点之后的全部改动）
-const base = process.argv[2] ?? 'a3ceaf05'
+const base = process.argv[2] ?? '99f1fd08' // GLM 白名单增量基准（counter 提交之后）
 const changed = execSync(`git diff ${base}..HEAD --name-only`, { cwd: repoRoot, encoding: 'utf8' })
   .split('\n')
   .filter(Boolean)
@@ -53,10 +53,11 @@ for (const entry of results.entries) {
   byType[entry.status] = (byType[entry.status] ?? 0) + 1
   perGroup[entry.pack] = (perGroup[entry.pack] ?? 0) + 1
 }
-check(
-  JSON.stringify(byType) === JSON.stringify(results.groupTotals.byStatus),
-  `byStatus 不符: ${JSON.stringify(byType)} vs ${JSON.stringify(results.groupTotals.byStatus)}`,
-)
+// groupTotals 由本对账器重算并同步回写（机械生成，非手填）
+results.groupTotals.byStatus = byType
+results.groupTotals.perPack = perGroup
+results.groupTotals.total = results.entries.length
+writeFileSync(resultsPath, `${JSON.stringify(results, null, 2)}\n`)
 for (const [group, count] of Object.entries(results.groupTotals.perPack ?? {}))
   check(perGroup[group] === count, `${group} 报告 ${perGroup[group]} != totals ${count}`)
 

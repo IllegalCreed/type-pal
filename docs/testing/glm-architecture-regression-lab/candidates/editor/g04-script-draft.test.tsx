@@ -90,7 +90,7 @@ describe('G04 脚本编辑草稿', () => {
   })
 
   test('G04-03 关闭取消：弹层关闭、onChange 零调用、body 深等', async () => {
-    let current: AuthorCommand[] = structuredClone(BODY_A)
+    const current: AuthorCommand[] = structuredClone(BODY_A)
     const onChange = vi.fn()
     await act(async () =>
       root.render(<CanonicalScriptBodyEditor body={current} onChange={onChange} />),
@@ -102,7 +102,7 @@ describe('G04 脚本编辑草稿', () => {
     )
     const close = dialog.querySelector<HTMLButtonElement>('[aria-label="关闭"]')
     if (!close) {
-      throw new Error('LAB DEBUG dialog buttons: ' + JSON.stringify(allButtons))
+      throw new Error(`LAB DEBUG dialog buttons: ${JSON.stringify(allButtons)}`)
     }
     await act(async () => close.click())
     expect(host.querySelector('[role="dialog"]')).toBeNull() // 弹层关闭
