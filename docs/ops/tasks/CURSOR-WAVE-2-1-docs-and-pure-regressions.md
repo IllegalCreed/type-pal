@@ -48,3 +48,16 @@ Branch: `codex/cursor-wave2-r1`；独立 worktree `type-pal-cursor-wave2`
 - **W2 accept**：根 `CLAUDE.md` 的退役 e2e/6001 说明已选择性接入 main（`cbac3ca0`），不需重做。
 - **W1/W3/W4/W5 窄 counter；Status=rework**。[逐包证据与最小返工](../../testing/cursor-wave2-review.md)：一处未证实的“粘贴正文”入口；W3/W4 未执行隔离实现单点负控且 FPS 文本仅子串匹配；W5 临时目录未清理、围栏用例标题/证明对象错位。
 - 本席已独立复跑 editor48、game20、docs定向25/全38、双包 typecheck、文档门与 diff 检查，均绿。绿不替代上述合同。候选测试与文档其余正确点保留，产品/基线零改；候选工作树未跟踪依赖软链接须由贡献者精确清理。返工前同步最新 main，白名单不扩大。Codex 未合其它四包、未跑官方覆盖率、未标 done。
+
+### 下一位 Cursor 窄返工提示词
+
+```text
+在 /Users/zhangxu/illegal/type-pal-cursor-wave2 继续 CURSOR-WAVE-2-1，先同步最新 origin/main，
+读 docs/testing/cursor-wave2-review.md 的 W1/W3/W4/W5 counter；W2 已由 Codex 接入 main，
+不得重复提交或回退。只改四个残项：W1 撤回无可达入口的“粘贴正文”；W3 用隔离实现
+单点变异证明偏移视图回归业务红；W4 FPS 显示值改精确断言并跑阈值单点变异；W5 在
+finally 清理自己的 mkdtemp，围栏重复弱例删去登记 existing-proof 或改成真实 auditDocuments
+失败合同。其它已核方向不重开，不改生产文件/基线/旧测试预期。核并精确移除自己创建的
+未跟踪 node_modules 软链接，交付干净工作树。复跑定向/相邻、双包 typecheck、Biome、
+check:docs/diff，更新回执为真实最终树命令与计数；推送精确 SHA，不合 main、不标 done。
+```
