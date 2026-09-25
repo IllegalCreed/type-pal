@@ -127,10 +127,10 @@
       "contract": "MapMode.tsx :2150-2160 pan + :2292 cancel",
       "test": {
         "file": "candidates/editor/g01-map-gesture.test.tsx",
-        "fullName": "G01 地图手势终结 > G01-06 平移轴 pointercancel：取消后存活（后续平移正控可继续）"
+        "fullName": "G01 地图手势终结 > G01-06 平移中 pointercancel 终结平移：后续选择笔划仍正常提交（跨工具存活）"
       },
-      "expected": "取消后迟到 move 不抛错、后续平移被接受",
-      "actual": "无异常 + 存活见证",
+      "expected": "取消平移后切回笔刷，一笔绘制真实落图（tiles 非前像）——跨工具存活业务见证",
+      "actual": "tiles 实变（若 panRef 滞留则绘制被平移吞掉即红）",
       "positiveControl": "存活段",
       "mutation": "pending（view 状态 jsdom 无公开可观测面）",
       "cleanup": "同",
@@ -289,10 +289,10 @@
       "contract": "Esc 关闭弹层 + 取消零命令",
       "test": {
         "file": "candidates/editor/g04-script-draft.test.tsx",
-        "fullName": "G04 脚本编辑草稿 > G04-03 取消零命令：打开编辑对话框后 Esc 关闭，body 与 onChange 均无变化"
+        "fullName": "G04 脚本编辑草稿 > G04-03 关闭取消：弹层关闭、onChange 零调用、body 深等"
       },
-      "expected": "弹层关闭、onChange 零调用、body 深等",
-      "actual": "全部满足",
+      "expected": "关闭按钮取消：弹层关闭、onChange 零调用、body 深等",
+      "actual": "满足（该弹层取消按钮文案=关闭 @ ScriptEditor.tsx:4060，非 Esc 键）",
       "positiveControl": "G04-02",
       "mutation": "pending",
       "cleanup": "同",
@@ -618,7 +618,7 @@
       "contract": "名称字段 Enter 提交（不重复）",
       "test": {
         "file": "(浏览器操作链)",
-        "fullName": "V01-02 名称字段双 Enter"
+        "fullName": "V01-02 名称字段（人物显示名称）双 Enter：值稳定不重复提交"
       },
       "expected": "两次 Enter 后值稳定",
       "actual": "李逍遥2 稳定（v01-02 截图）",
@@ -641,7 +641,7 @@
       "contract": "undo 恢复 + Esc 归焦",
       "test": {
         "file": "(浏览器操作链)",
-        "fullName": "V01-03 Esc 后 Meta+Z undo"
+        "fullName": "V01-03 Esc 关弹层 + Meta+Z undo：名称恢复 李逍遥"
       },
       "expected": "undo 后名称回 李逍遥",
       "actual": "李逍遥（v01-03 截图）",
