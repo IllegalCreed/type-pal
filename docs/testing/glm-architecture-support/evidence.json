@@ -672,9 +672,7 @@
       "actual": "实际导航",
       "expectedSource": "—",
       "affectedDomain": "editor/navigation",
-      "tests": [
-        "editor-navigation.test.ts > EditorLocation URL 契约（17 条 it，见 P1-005）"
-      ],
+      "tests": ["editor-navigation.test.ts > EditorLocation URL 契约（17 条 it，见 P1-005）"],
       "testsScope": "引用 P1-005 已读清单",
       "attribution": "GLM"
     }
