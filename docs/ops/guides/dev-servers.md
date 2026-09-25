@@ -38,14 +38,14 @@ pnpm --filter @type-pal/game run dev
 ```
 
 - 打开 <http://localhost:6005/>(basic-ssl 下实际是 `https://`,证书自签点信任即可)。
-- 要测**真 Service Worker** 时用 `E2E=1`(不挂 ssl 走 http):
+- 需要 HTTP 开发入口（不挂 `basicSsl()`）时用 `E2E=1`:
 
 ```bash
 E2E=1 pnpm --filter @type-pal/game run dev
 ```
 
-第一阶段 Playwright L2 已退役，当前没有 `game` 的 `e2e` 脚本或 6001 专用实例；`E2E=1` 只切换上述 HTTP
-Service Worker 路径，不是 Playwright 入口。
+第一阶段 Playwright L2 已退役，当前没有 `game` 的 `e2e` 脚本或 6001 专用实例；`E2E=1` 只切到上述
+HTTP 开发入口，不是测试真 Service Worker 的路径，也不是 Playwright 入口。
 
 ## 二阶段 · 编辑器(editor)
 
