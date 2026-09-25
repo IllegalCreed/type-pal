@@ -24,7 +24,7 @@
 | **合计** | | **3** | **1** | **2** | **1** | **4** | **2** |
 
 证据树：`dab017e7`。工作树开工：`7e52d514`（相对冻结仅分配文档）。
-正文候选SHA：待本轮内容提交回填。相对开工提交仅改本回执。
+正文候选SHA：`4b75d1c397f7d86f3ac92a5adcfff7aa552aca9a`。相对开工提交仅改本回执。
 
 ### 原 16 条 ID 去向（R1/R4 分类纠正后）
 
@@ -333,10 +333,10 @@
 ## 最终验证与接收提示词
 
 - 相对开工提交`7e52d514`：**仅** `docs/testing/cursor-docs-wave2.md`。
-- 正文候选 SHA：待本轮内容提交回填。
-- 登记 tip：见本分支最新登记提交（`git rev-parse codex/cursor-docs-wave2-r1`）。
-- `node scripts/docs/check.mjs`：待本轮复跑。
-- `git diff --check 7e52d514..HEAD`：待本轮复跑。
+- 正文候选 SHA：`4b75d1c397f7d86f3ac92a5adcfff7aa552aca9a`。
+- 登记 tip：本登记提交（`git rev-parse codex/cursor-docs-wave2-r1` / 分支 tip）。
+- `node scripts/docs/check.mjs`：PASS（549 Markdown / 2994 local links / 181 tasks / content20 SAVE8）。
+- `git diff --check 7e52d514..HEAD`：exit 0。
 - 不合 main、不代签、不标 done。纠正后小计：**确定不符 3 / 待确认 1 / 已知关联 2 / 历史不改 1 / 未核输入 4 / 未执行 2**。
 
 ### 给 Codex 的接收提示词
@@ -348,8 +348,8 @@
 worktree：/Users/zhangxu/illegal/type-pal-cursor-docs-wave2
 证据冻结：dab017e7
 只收唯一回执：docs/testing/cursor-docs-wave2.md（相对 7e52d514 仅此文件）
-正文候选 SHA：待回填
-登记 tip：待回填
+正文候选 SHA：4b75d1c397f7d86f3ac92a5adcfff7aa552aca9a
+登记 tip：分支 tip（本登记提交）
 R1～R4 已按审查改：撤销 C01/C12 三条误报；C07 替换句不承诺目标无有的烘焙细节；冻结行号与 C08/C09 cwd/相对 out 已校准；未执行与未核输入分列，小计 3/1/2/1/4/2。
 下一步由 Codex：只核本回执是否闭合 R1～R4；不重跑已核事实/资源 hash；不代签、不标 done、不合 main；五份前批指南修订卡仍不因本包打开。
 ```
