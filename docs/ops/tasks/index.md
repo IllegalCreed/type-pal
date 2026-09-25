@@ -14,6 +14,7 @@
 | [DOC-CURSOR-2 — 十二组包说明、CLI与索引核对](DOC-CURSOR-2-package-tools-indexes.md) | draft | 以任务卡当前准入与看板分工为准。 |
 | [DOC-GUIDE-REVISION-1 — 现行指南五文件窄修订准入](DOC-GUIDE-REVISION-1-current-entrypoints.md) | draft | 以任务卡当前准入与看板分工为准。 |
 | [TEST-CURSOR-TOOLS-1 — 八组工具纯函数候选回归](TEST-CURSOR-TOOLS-1-pure-regressions.md) | draft | 以任务卡当前准入与看板分工为准。 |
+| [TEST-GROK-PRESENT-1 — 一阶段菜单与索引渲染十组候选回归](TEST-GROK-PRESENT-1-phase1-menu-regressions.md) | draft | 以任务卡当前准入与看板分工为准。 |
 
 ## 已完成（historical）
 

@@ -30,6 +30,7 @@ GLM后续补测候选见[十批长队列](../testing/glm-coverage-work-queue.md)
 
 | ID | 任务 | 状态 | 负责人/下一步 | 一句话备注 |
 |---|---|---|---|---|
+| TEST-GROK-PRESENT-1 | [一阶段菜单/渲染十组候选回归](tasks/TEST-GROK-PRESENT-1-phase1-menu-regressions.md) | draft | Grok连续补例 / Codex独立接收 | 自包含像素/状态断言，先去重；不做视觉，不改产品/玩法/正式测试，统计另核 |
 | TEST-CURSOR-TOOLS-1 | [八组工具纯函数候选回归](tasks/TEST-CURSOR-TOOLS-1-pure-regressions.md) | draft | Cursor连续补例 / Codex接收转正 | 文档/路径/selector/allowlist/glyph小函数；独立Node实验，不改产品/正式测试/覆盖率 |
 | DOC-CURSOR-2 | [十二组包说明/CLI/索引核对](tasks/DOC-CURSOR-2-package-tools-indexes.md) | draft | Codex / 按用户边界保留材料接收 | 4b75d1c3/cc2720c5 accept，含NB1/NB2文字观察；无阻断counter，不合main/不标done，修订另核 |
 | DOC-GUIDE-REVISION-1 | [五份现行指南窄修订准入](tasks/DOC-GUIDE-REVISION-1-current-entrypoints.md) | draft | Codex / 另核准入 | 原回执已接收，尚未build；只对齐命令/入口/导航，H7场景UI另核 |

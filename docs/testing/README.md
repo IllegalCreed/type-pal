@@ -8,6 +8,8 @@
 
 ## 文档与附件
 
+- [Grok一阶段菜单与索引渲染十组候选回归](grok-present-regressions/README.md)（TEST-GROK-PRESENT-1，draft待执行；真实像素/状态断言，不是视觉验收，不改产品或官方覆盖率）
+
 - [Cursor八组工具纯函数候选回归](cursor-tool-regressions/README.md)（TEST-CURSOR-TOOLS-1，draft待执行；Node显式运行、先去重，不改官方runner或统计范围）
 
 - [Cursor十二组包说明与工具核对](cursor-docs-wave2.md)与[Codex独立接收](cursor-docs-wave2-review.md)（4b75d1c3/cc2720c5材料accept，含NB1/NB2非阻断文字观察；无阻断counter，不改源文档/不合main/不标done，前批修订门不开放）
