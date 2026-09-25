@@ -1,0 +1,312 @@
+{
+  "schemaVersion": 1,
+  "task": "ARCH-SUPPORT-GLM-1",
+  "reviewer": "Codex",
+  "date": "2026-09-25",
+  "revision": "r3",
+  "tip": "1410916e",
+  "content": "1c6c6d91",
+  "formatter": "f20a88a6",
+  "registration": "49054552",
+  "result": "counter: R3-1 to R3-3 only",
+  "taskStatus": "draft",
+  "measurements": {
+    "tip": "1410916e5c4c2689e1524604de352368f65515ef",
+    "base": "1e4e3382",
+    "files": [
+      "docs/testing/glm-architecture-support/README.md",
+      "docs/testing/glm-architecture-support/evidence.json",
+      "docs/testing/glm-architecture-support/p1-app.md",
+      "docs/testing/glm-architecture-support/p2-mapmode.md",
+      "docs/testing/glm-architecture-support/p3-script-forms.md",
+      "docs/testing/glm-architecture-support/p4-battle-session.md",
+      "docs/testing/glm-architecture-support/p5-phase1-core.md",
+      "docs/testing/glm-architecture-support/p6-conversion-validation.md",
+      "docs/testing/glm-architecture-support/summary.md",
+      "docs/testing/glm-architecture-support/v1-forms.md",
+      "docs/testing/glm-architecture-support/v2-workspaces.md"
+    ],
+    "productionDrift": false,
+    "oldCodexArtifactsUnchanged": true,
+    "hashesUnchanged": [
+      "packages/editor/src/ui/App.tsx",
+      "packages/game/src/core/event-system.ts",
+      "packages/editor/src/ui/MapMode.tsx",
+      "packages/game/src/core/scene-system.ts",
+      "packages/editor/src/ui/ScriptEditor.tsx",
+      "packages/game/src/core/equip-effect.ts",
+      "packages/editor/src/ui/CommandForm.tsx",
+      "packages/game/src/core/battle/battle-opcodes.ts",
+      "packages/editor/src/ui/editor-navigation.ts",
+      "packages/game/src/core/menu/menu-driver.ts",
+      "packages/editor/src/ui/design-system/multi-select.tsx",
+      "packages/game/src/core/menu/menu-mode.ts",
+      "packages/editor/src/core/editor-derived-store.ts",
+      "packages/game/src/core/menu/magic-script.ts",
+      "packages/reforge/src/battle/battle-session.ts",
+      "packages/content/src/author-script-core.ts",
+      "packages/reforge/src/battle/battle-core.ts",
+      "packages/content/src/enemy-script.ts",
+      "packages/migrate/src/migrate-content.ts",
+      "packages/migrate/src/translate-events.ts",
+      "packages/migrate/src/migration-transaction.ts",
+      "packages/migrate/src/translate-enemy-scripts.ts"
+    ],
+    "screenshotsUnchanged": [
+      "/tmp/glm-arch-visual/sample-01-scene-workspace.png",
+      "/tmp/glm-arch-visual/sample-02-scene-refs-tab.png",
+      "/tmp/glm-arch-visual/v1-01-battle-sim-scheme.png",
+      "/tmp/glm-arch-visual/v1-02-battle-sim-party.png",
+      "/tmp/glm-arch-visual/v1-03-skill-multiselect-dialog.png",
+      "/tmp/glm-arch-visual/v1-04-esc-cancel-fidelity.png",
+      "/tmp/glm-arch-visual/v1-05-party-768.png",
+      "/tmp/glm-arch-visual/v2-01-new-scene-dialog.png",
+      "/tmp/glm-arch-visual/v2-02-mapmode.png",
+      "/tmp/glm-arch-visual/v2-03-script-editor.png",
+      "/tmp/glm-arch-visual/v2-04-outliner-collapsed.png",
+      "/tmp/glm-arch-visual/v1-06-actor-forms.png",
+      "/tmp/glm-arch-visual/v1-07-item-forms.png",
+      "/tmp/glm-arch-visual/v1-08-battle-forms.png",
+      "/tmp/glm-arch-visual/v1-09-enemy-team-forms.png",
+      "/tmp/glm-arch-visual/v1-10-battlefield-forms.png",
+      "/tmp/glm-arch-visual/v1-11-trial-dialog.png"
+    ],
+    "ledger": {
+      "count": 38,
+      "byType": {
+        "covered": 21,
+        "risk": 12,
+        "N/A": 5
+      },
+      "byPackage": {
+        "P1": {
+          "total": 6,
+          "covered": 2,
+          "risk": 3,
+          "N/A": 1
+        },
+        "P2": {
+          "total": 5,
+          "covered": 3,
+          "risk": 2
+        },
+        "P3": {
+          "total": 5,
+          "covered": 3,
+          "risk": 2
+        },
+        "P4": {
+          "total": 5,
+          "covered": 3,
+          "risk": 1,
+          "N/A": 1
+        },
+        "P5": {
+          "total": 4,
+          "covered": 1,
+          "risk": 2,
+          "N/A": 1
+        },
+        "P6": {
+          "total": 5,
+          "covered": 2,
+          "risk": 2,
+          "N/A": 1
+        },
+        "V1": {
+          "total": 4,
+          "covered": 3,
+          "N/A": 1
+        },
+        "V2": {
+          "total": 4,
+          "covered": 4
+        }
+      }
+    },
+    "packageCounts": [
+      {
+        "package": "P1",
+        "count": 6
+      },
+      {
+        "package": "P2",
+        "count": 5
+      },
+      {
+        "package": "P3",
+        "count": 5
+      },
+      {
+        "package": "P4",
+        "count": 5
+      },
+      {
+        "package": "P5",
+        "count": 4
+      },
+      {
+        "package": "P6",
+        "count": 5
+      },
+      {
+        "package": "V1",
+        "count": 4
+      },
+      {
+        "package": "V2",
+        "count": 4
+      }
+    ],
+    "idMismatches": [
+      {
+        "file": "p4-battle-session.md",
+        "line": 63,
+        "id": "P4-002",
+        "reportType": "risk",
+        "ledgerType": "covered"
+      },
+      {
+        "file": "v1-forms.md",
+        "line": 53,
+        "id": "V1-005",
+        "reportType": "covered",
+        "ledgerType": "missing"
+      }
+    ],
+    "registration": {
+      "finalSha": "1c6c6d911b992038f156073a094c60b9a617f7a6 + formatter 修复 f20a88a60c2297f6cc82e8d4c760bcfb74d55f5e（唯一内容提交；登记提交仅本行回填，本文件在本树已过 biome check）",
+      "onlyFinalShaChanged": true,
+      "lastSummaryOnly": true
+    },
+    "sourceFactsRetainedFromR2": {
+      "hookCounts": {
+        "useState": {
+          "App": 29,
+          "file": 33
+        },
+        "useRef": {
+          "App": 16,
+          "file": 16
+        },
+        "useEffect": {
+          "App": 15,
+          "file": 15
+        },
+        "useLayoutEffect": {
+          "App": 1,
+          "file": 1
+        }
+      },
+      "recursiveCalls": [
+        {
+          "line": 661,
+          "input": "command.then"
+        },
+        {
+          "line": 663,
+          "input": "command.else"
+        },
+        {
+          "line": 669,
+          "input": "command.body"
+        },
+        {
+          "line": 708,
+          "input": "command.onLose"
+        },
+        {
+          "line": 710,
+          "input": "command.onFlee"
+        },
+        {
+          "line": 722,
+          "input": "command.onFail"
+        },
+        {
+          "line": 726,
+          "input": "command.onNo"
+        }
+      ]
+    }
+  },
+  "closed": [
+    "App AST inventory",
+    "seven direct self-recursion sites",
+    "correct 702 per-file counts in ledger and errata",
+    "existing separator test references",
+    "JSON global and package totals",
+    "source-hash references",
+    "final JSON formatter",
+    "unchanged product, source hashes, screenshots and old reviewer evidence"
+  ],
+  "remaining": [
+    {
+      "id": "R3-1",
+      "anchors": [
+        "v1-forms.md:32",
+        "p5-phase1-core.md:75",
+        "p5-phase1-core.md:68",
+        "p6-conversion-validation.md:33"
+      ],
+      "issue": "Residual live prose/tables contradict acknowledged corrections"
+    },
+    {
+      "id": "R3-2",
+      "anchors": [
+        "p4-battle-session.md:63",
+        "v1-forms.md:49",
+        "v1-forms.md:53",
+        "p4-battle-session.md:74"
+      ],
+      "issue": "P4/V1 IDs mean different facts than ledger; terminal vs performAction cleanup anchor conflated",
+      "sourceAnchors": [
+        "packages/reforge/src/battle/battle-session.ts:1077",
+        "packages/reforge/src/battle/battle-session.ts:1220",
+        "packages/reforge/src/battle/battle-session.ts:1565"
+      ]
+    },
+    {
+      "id": "R3-3",
+      "anchors": ["summary.md:88", "summary.md:89", "summary.md:91"],
+      "issue": "Wrong diff base, stale output comment and persistent cd make copyable commands fail"
+    }
+  ],
+  "validation": {
+    "incomingJsonBiome": {
+      "exit": 0,
+      "command": "pnpm exec biome check docs/testing/glm-architecture-support/evidence.json",
+      "log": "/tmp/codex-arch-r3-biome.log"
+    },
+    "incomingDocs": {
+      "exit": 0,
+      "log": "/tmp/codex-arch-r3-docs-initial.log"
+    },
+    "tests": {
+      "rerun": false,
+      "priorIndependent39Retained": true,
+      "reason": "No production or formal test drift; no union or coverage required"
+    },
+    "visual": {
+      "rerun": false,
+      "prior17ScreenshotsRetained": true
+    },
+    "readOnlyCensus": {
+      "exit": 0,
+      "output": "/tmp/codex-arch-r3-verify.json"
+    }
+  },
+  "reviewArtifactValidation": {
+    "ownLedgerBiomeExit": 0,
+    "finalDocsExit": 0,
+    "docsToolTests": 20,
+    "docsIssues": 0,
+    "docsLog": "/tmp/codex-arch-r3-docs-final.log"
+  },
+  "boundaries": [
+    "No product/formal test/config/baseline changes",
+    "No GLM semantics edited",
+    "Old r1/r2 Codex evidence unchanged",
+    "No build/done or Kimi handoff"
+  ]
+}

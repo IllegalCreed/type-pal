@@ -1,0 +1,106 @@
+# P5 · 第一阶段环与主控取证（ARCH-SUPPORT-GLM-1）
+
+日期 2026-09-25。冻结 SHA `3270473862…`。对象（实际路径与卡面名的对应）：
+`core/event-system.ts`、`core/scene-system.ts`、`core/equip-effect.ts`、
+`core/battle/battle-opcodes.ts`、`core/menu/menu-driver.ts`、`core/menu/menu-mode.ts`、
+`core/menu/magic-script.ts`（卡面"shell/bootstrap"实为 `shell/bootstrap.ts` 注入方，一并取证）。
+**纪律**：不把二阶段身份模型强加一阶段；只标注 runtime 边（真实值/函数跨模块调用）与
+type-only 边；环结论以 import 语句实测，不从 SCC 推断 bug。
+
+> **r2 返工更正（Codex intake counter 0e751efe）**
+> ① **撤回"6 文件两环、battle/equip 不在环"**：实测 **7 文件同一强连通分量（15 条 runtime 边）**——
+> r1 漏读的回边：`battle-opcodes.ts:25`←event-system（addPoisonForPlayer/curePlayerPoisonByKind/
+> curePlayerPoisonByLevel）、`equip-effect.ts:19`←event-system（addItemToInventory/getGlobalCommands/
+> getGlobalLabelMap 等）、`event-system.ts:57`→equip-effect（addPlayerStatRow/
+> getPlayerPoisonResistance/removeEquipmentEffect）、`scene-system.ts:12`→event-system（runEnterScript/
+> tickAutoScripts/tickChaseTimer/resolveScriptLabel）。② 测试计数更正：7 文件收集 **702** 项（r1 误写
+> 703）。③ **撤回"最短无行为切法"结论**：切断 getCurrentMapNum 边后剩余 14 条边的环形态未评估——
+> 现只陈述该边是最明确的候选切边（纯数据读），切后评估属实施卡工作。
+
+## 1. 七文件 import 图（实测 grep，runtime 边 R / type-only 边 T）
+
+```
+（r3 全图：15 条 runtime 边 = 7 节点同一 SCC，全部画出；环外边单独列出）
+
+event-system ──R──> scene-system      (:80 getCurrentMapNum 值函数回读)
+scene-system ──R──> event-system      (:12 runEnterScript/tickAutoScripts/tickChaseTimer/resolveScriptLabel)
+event-system ──R──> battle-opcodes    (:53 dispatchBattleOpcode)
+battle-opcodes ─R─> event-system      (:25-30 addPoisonForPlayer/curePlayerPoisonByKind/curePlayerPoisonByLevel)
+battle-opcodes ─R─> equip-effect      (:18-24 getPlayerAttackStrength/Defense/Dexterity/MagicStrength/PoisonResistance)
+event-system ──R──> equip-effect      (:57 addPlayerStatRow/getPlayerPoisonResistance/removeEquipmentEffect)
+equip-effect ──R──> event-system      (:19-24 addItemToInventory/getGlobalCommands/getGlobalLabelMap)
+scene-system ──R──> menu-driver       (:551-562 openOverworldShortcutMenu ×4 快捷键)
+scene-system ──R──> menu-mode         (:30 openMenu)
+menu-driver ──R──> event-system       (:17 addItemToInventory, startOverworldItemScript)
+menu-driver ──R──> equip-effect       (:16)
+menu-driver ──R──> magic-script       (:83)
+menu-driver ──R──> menu-mode          (:84)
+menu-mode ──R──> menu-driver          (:16)
+magic-script ──R──> event-system      (:29 curePlayerPoisonByLevel/getGlobalCommands/getGlobalLabelMap)
+
+（环外：equip-effect→game-state createInitialEquipmentEffect；battle-opcodes→battle 子树
+ anim-driver/positions/state/magic-damage；event-system→command-bus/dialog-history/word-lookup；
+ scene-system→in-game-menu createInGameMenu；menu-driver→save/api、command-bus；
+ menu-mode→game-state、command-bus。type-only：event-system ─T─> battle/battle-state。）
+```
+
+**环结构（r3 定稿）**：上表 15 条 runtime 边使 7 文件构成**同一个强连通分量**——含 r1 漏读的
+4 条回边（battle-opcodes:25 / equip-effect:19 / event-system:57 / scene-system:12，均已逐行核对）。
+"battle 无环出边 / equip-effect 不在任何环 / 两环"均为 r1 已撤回的旧表述。
+
+## 2. 环 A 逐边真实 caller（runtime 证据）
+
+| 边 | caller（file:line） | 语义 |
+|---|---|---|
+| event-system → scene-system | event-system.ts:80 `getCurrentMapNum()`（用 2 处，历史对话捕获按地图号写地名） | scene-system 持有 `_currentMapNum` 模块态（scene-system.ts:47-50），loadScene 写、event 读 |
+| scene-system → menu-driver | scene-system.ts:551/554/558/562 大世界快捷键 E/W/F/S 直达子菜单（注释 port sdlpal play.c:558-584） | 输入层分发 |
+| scene-system → menu-mode/in-game-menu | 同文件 import（openMenu/createInGameMenu） | 菜单开启 |
+| menu-driver → event-system | menu-driver.ts:17 `addItemToInventory` / `startOverworldItemScript`（菜单动作回调执行大世界脚本） | 菜单动作回写大世界 |
+| menu-mode → menu-driver | menu-mode.ts import（菜单栈间导航） | 层内 |
+| magic-script → event-system | magic-script.ts:29 三函数（毒治疗/全局命令表） | 法术脚本消费 interpreter 常量表 |
+
+**切边评估（r2 改述）**：`getCurrentMapNum` 边（event-system→scene-system）是纯数据读取
+（loadScene 写 `_currentMapNum` 模块态、event 读），是最明确的候选切边之一（可把模块态降为
+event-system 自持或改 game-state 字段，均为纯搬家）。**r1"最短无行为切法"结论撤回**：切断后
+剩余 14 条边的环形态未评估（Codex 裁决），完整切环方案属实施卡工作。其余边（菜单回调执行脚本、
+快捷键开菜单）是**真实双向业务语义**（play.c 原结构即如此），强切会造出回调注入层。
+
+## 3. bootstrap 注入边（runtime 边在 shell 层收口）
+
+`shell/bootstrap.ts` 是组合根：`setStartBattleHandler`（:1197，含 shop openMenu/createBuyMenu
+:1260-1262）、`fetchPalette` 注入等——event-system 注释 :867/:873/:900 明确"interpreter 是底层、
+不持 items 表，handler 由 bootstrap 注入"。**注入模式已把大部分反向依赖收口到 shell**；shell 之外残余的 runtime 边即 §1/§2 实测的 15 条
+（含 r3 补齐的 4 条回边），type-only 边（battle-state）不构成运行时耦合。
+
+## 4. 现有测试去重表（r3 更正：逐文件 Vitest list 收集数）
+
+| 文件 | 收集数 | 代表覆盖 |
+|---|---|---|
+| core/event-system.test.ts | **326** | interpreter/opcode/对话/物品脚本 |
+| core/scene-system.test.ts | **110** | 场景切换/输入/寻路 |
+| core/battle/__tests__/battle-opcodes.test.ts | **158** | 战斗 opcode 全集 |
+| core/menu/menu-driver.test.ts | **37** | 快捷菜单/商店驱动 |
+| core/menu/magic-script.test.ts | **28** | 法术脚本 |
+| core/equip-effect.test.ts | **36** | 装备效果 |
+| core/menu/menu-mode.test.ts | **7** | 菜单栈 |
+
+合计 7 文件收集 **326+110+158+37+28+36+7 = 702** 项（本轮逐文件 `vitest list` 实测，与 Codex 冻结树
+收集一致；r1 表内的 331/102/39/30 为 grep 计数误差——**历史勘误**，只在此说明一次），覆盖这 7 个文件
+——环内重构的回归门厚；本包不新增一阶段动态测试（避免与 326 条 interpreter 收集重复取证），只交
+结构图与切环建议。
+
+## 5. 证据条目
+
+- **P5-001 covered（r3 分项更正）** 7 文件同一 SCC（15 条 runtime 边，逐边见 §1/§2）；测试收集分项 **326/110/158/37/28/36/7=702**（本席本轮 vitest list 逐文件实测，与 Codex 冻结树收集一致；r1 的 331/102/39/30 为 grep 计数不准）。
+- **P5-002 risk** 15 条 runtime 边中，`event-system→scene-system`（getCurrentMapNum 模块态读取）
+  是最明确的纯数据候选切边（切断后剩余 14 条边的环形态未评估）；其余边为真实业务回调。列为
+  "可先切断的边"候选，供实施卡核。**无缺陷主张**——环≠bug。
+- **P5-003 N/A（r3 改述）** r1 的'6 文件两环'澄清有误，由 7 节点 15 边实测取代；环≠缺陷的立场不变。
+- **P5-004 risk** `_currentMapNum`（scene-system.ts:47）与 :873 注释所述 handler 注入模式并存，
+  模块级可变态与注入态并存是两种所有权风格——记录，不判缺陷（一阶段现状）。
+
+## 6. 未证风险
+
+- 循环初始化顺序（模块加载期副作用）未运行验证——Node ESM 循环在函数级引用下通常安全，
+  702 项测试的收集存在（本轮未全部执行，不称'全绿'）是间接证据；如需实证需一次全量 phase1 测试运行（不在本包白名单命令内，
+  已按纪律未跑官方 check，可由接收方以常规测试命令复核）。

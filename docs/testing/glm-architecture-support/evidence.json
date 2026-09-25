@@ -1,0 +1,838 @@
+{
+  "schemaVersion": 3,
+  "task": "ARCH-SUPPORT-GLM-1 eight audit packages — r3 narrow rework (GLM contributor; closes Codex C1-C4 counter 1e4e3382 on r2 717d507d/9e5ba310)",
+  "date": "2026-09-25",
+  "startSha": "3270473862d1e1574f266b70b65de89ca8b65352",
+  "reviewCandidateSha": "3967a376f2fbaf10258ae15007636a6f2c7d4bfe",
+  "counterSha": "0e751efe (docs(review): counter GLM architecture support evidence r1)",
+  "finalSha": "1c6c6d911b992038f156073a094c60b9a617f7a6 + formatter 修复 f20a88a60c2297f6cc82e8d4c760bcfb74d55f5e（唯一内容提交；登记提交仅本行回填，本文件在本树已过 biome check）",
+  "productionFreeze": "b11d4bc9",
+  "freezeDriftCheck": "git diff b11d4bc9..32704738 -- packages/ scripts/ = empty；32704738..3967a376 packages/scripts 零 diff（Codex 已核，本席复核一致）",
+  "worktree": "/Users/zhangxu/illegal/type-pal-glm-architecture",
+  "branch": "codex/glm-architecture-support-r1",
+  "evidenceKindVocabulary": {
+    "静态事实": "只读源码/文档读出，附 file:line；证明依赖/结构，不证明运行行为",
+    "已读测试断言": "逐条读过断言体的既有测试标题；不等于本轮执行",
+    "文件计数": "仅按文件机械计数登记，未逐条宣读——不据此声称逐项覆盖",
+    "本次执行": "本轮实际运行的命令/操作，附命令与退出码"
+  },
+  "sourceHashes": {
+    "_note": "22 个受审源码文件在审查候选 3967a376 的 SHA256 前 16 位，登记表见 summary.md 附录（git show 3967a376:<path> 可复算）；entries 的 anchor 以 file:line 定位，不重复手抄 hash"
+  },
+  "environment": {
+    "node": "v22.19.0（r1 原始）；Codex 复核侧 v22.23.2",
+    "pnpm": "10.29.2",
+    "install": "pnpm install --frozen-lockfile (exit 0)",
+    "browser": "ZCode In-app Browser（iab）——GLM 实际看到全部截图画面",
+    "browserVersionZoomDpr": "如实未记录：浏览器内核版本、页面缩放与设备像素比未测量；视觉结论收窄为 CSS px 布局观察，不声称 zoom/DPR 真值（Codex 同口径）",
+    "devServer": "packages/editor: VITE_PROJECT_ID=pal npx vite --port 6013 --strictPort（包内实例；6010/6051 未触碰；Codex 6010 复核由其本人执行）",
+    "viewport": "1440x1024 与 768x1024（setViewportSize；截图为 CSS px 尺寸）",
+    "knownResourceGap": "worktree 缺 gitignored 资源：画布报 tileset.pal.020 bytes 1437/917、工程标准色彩 JSON 404、战场背景预览黑块——布局判定已排除画布内容"
+  },
+  "entries": [
+    {
+      "id": "P1-001",
+      "package": "P1",
+      "type": "covered",
+      "evidenceKind": "静态事实+本次执行",
+      "anchor": "ui/App.tsx:422-426; core/editor-derived-store.ts:394-417",
+      "claim": "derivedStore 所有权链更正（撤回 r1 P1-001'props 传入且无 stop'）：App 内 useMemo(createEditorDerivedStore) 创建；start() 订阅 main/script 两会话并启动 worker，返回 stop；stop 置 running=false/epoch+1、退订两会话、terminate worker、清 inFlight——effect `useEffect(() => derivedStore.start(), [derivedStore])` 返回值即清理函数，链路闭环",
+      "actual": "静态读出 + 本轮执行 editor-derived-store.test.ts 22/22 通过",
+      "expectedSource": "源码语义 + 既有测试",
+      "affectedDomain": "editor/App",
+      "tests": [
+        "editor derived worker store stop cancels a queued refresh and ignores late worker events（本轮执行，22 条中引用此条；其余 21 条为文件计数）"
+      ],
+      "testsScope": "已读断言=stop 条；其余按文件计数",
+      "attribution": "GLM 静态+执行；Codex 39/39 复核先于本条更正"
+    },
+    {
+      "id": "P1-002",
+      "package": "P1",
+      "type": "risk",
+      "evidenceKind": "静态事实",
+      "anchor": "ui/App.tsx:411",
+      "claim": "historyCoordinator.assertSessions(session, scriptSession) 在组件体（渲染期）直接调用——契约是 fail-loud 断言，渲染期 throw 使整树崩而非错误边界。现有测试只覆盖 happy path。注意：'移入 effect' 只是候选方案之一且未经论证（Codex 裁决语），不作为已论证修复",
+      "actual": "静态读出",
+      "expectedSource": "React 渲染语义",
+      "affectedDomain": "editor/App",
+      "tests": [],
+      "testsScope": "无既有测试钉此失败路径",
+      "attribution": "GLM"
+    },
+    {
+      "id": "P1-003",
+      "package": "P1",
+      "type": "risk",
+      "evidenceKind": "静态事实",
+      "anchor": "ui/App.tsx:1660-1666",
+      "claim": "ensureMapLoaded(id).catch(() => undefined) 该调用点静默吞地图加载失败（收窄：仅指此调用点无反馈，不推及整页错误反馈——App 其它路径存在可见错误 UI，如 V0 截图的渲染失败 banner）",
+      "actual": "静态读出",
+      "expectedSource": "对照同页可见错误路径",
+      "affectedDomain": "editor/App",
+      "tests": [],
+      "testsScope": "无",
+      "attribution": "GLM"
+    },
+    {
+      "id": "P1-004",
+      "package": "P1",
+      "type": "risk",
+      "evidenceKind": "静态事实",
+      "anchor": "ui/App.tsx:1997-2092",
+      "claim": "全局 keydown effect 依赖 13 项，场景/选中/抽屉变化均解绑重绑 window listener；清理对称（行为正确），重绑频率为可维护性观察",
+      "actual": "静态读出",
+      "expectedSource": "React effect 语义",
+      "affectedDomain": "editor/App",
+      "tests": [],
+      "testsScope": "无",
+      "attribution": "GLM"
+    },
+    {
+      "id": "P1-005",
+      "package": "P1",
+      "type": "covered",
+      "evidenceKind": "已读测试断言+文件计数",
+      "anchor": "p1-app.md §1/§3/§4.1",
+      "claim": "全量盘点（r2 按 AST 实测更正）：App 函数作用域（:360-3705）内 **useState 29 / useRef 16 / useEffect 15 + useLayoutEffect 1**（全文件 useState 33，另 4 个属其它组件，分开口径）；逐行绑定名单与行号见 p1-app.md §4.1。回归去重 17+8+4 条完整标题逐条列出 + boundary 5 条按文件计数",
+      "actual": "静态逐行读出",
+      "expectedSource": "—",
+      "affectedDomain": "editor/App",
+      "tests": [
+        "editor-navigation.test.ts > 编辑器模块注册表 > 登记九个一级模块（含战斗模拟器），且每模块子页不超过五个",
+        "editor-navigation.test.ts > 编辑器模块注册表 > 十九个数据页恰好各登记一次",
+        "editor-navigation.test.ts > 编辑器模块注册表 > 项目模块只有四个权威子页，入口与开局合并登记",
+        "editor-navigation.test.ts > 编辑器模块注册表 > 氛围页接受稳定对象深链",
+        "editor-navigation.test.ts > 编辑器模块注册表 > 物品模块把两种炼化机制登记为独立深链页面",
+        "editor-navigation.test.ts > 编辑器模块注册表 > 只有存在属性语义的子页才开放右侧 Inspector",
+        "editor-navigation.test.ts > EditorLocation URL 契约 > 解码合法位置和包含保留字符的对象 id",
+        "editor-navigation.test.ts > EditorLocation URL 契约 > 非法 module 回场景，合法 module 的非法 page 回本模块默认页",
+        "editor-navigation.test.ts > EditorLocation URL 契约 > 归一化空对象 id，位置比较不受对象字面量身份影响",
+        "editor-navigation.test.ts > EditorLocation URL 契约 > 已删除的旧开局深链按非法页回到项目默认页",
+        "editor-navigation.test.ts > EditorLocation URL 契约 > 切换资源子页不携带上一资源族的 objectId",
+        "editor-navigation.test.ts > EditorLocation URL 契约 > 重点当前精灵库 tab 保留 battle/asset 显式路由真值",
+        "editor-navigation.test.ts > EditorLocation URL 契约 > 大世界精灵动作深链往返保留稳定 ActionId",
+        "editor-navigation.test.ts > EditorLocation URL 契约 > 角色工作区分区深链往返并拒绝未知分区",
+        "editor-navigation.test.ts > EditorLocation URL 契约 > 动作深链只属于大世界定义视图，并参与位置比较",
+        "editor-navigation.test.ts > EditorLocation URL 契约 > 留在精灵库子页时动作深链不丢失",
+        "editor-navigation.test.ts > 跨模块唯一链接 > 场景脚本、角色精灵和场景地图都使用 EditorLocation",
+        "app-command-registry.test.ts > keeps menu, toolbar and shortcut views on one handler identity",
+        "app-command-registry.test.ts > routes Cmd/Ctrl+S through the same save command and always blocks browser save",
+        "app-command-registry.test.ts > projects toggle state without manufacturing another handler",
+        "app-command-registry.test.ts > rejects duplicate and missing command ids",
+        "App.leave-guard.test.tsx > quick trial detail cannot silently replace edited temporary configuration; cancel keeps it and explicit consent replaces it",
+        "App.leave-guard.test.tsx > D-01 toolbar, edit menu and keyboard share exact history order; save/reopen keeps final state",
+        "App.leave-guard.test.tsx > D-01 history shortcuts do not cross text editing, composition or an open modal",
+        "App.leave-guard.test.tsx > D-01 failed undo is visible and retryable without losing the pending operation",
+        "App.leave-guard.test.tsx > D-01 missing private body fails through actual App save before writer IO, then undo repairs and saves",
+        "App.leave-guard.test.tsx > clean new returns immediately; explicit discard returns exactly once without clearing dirty",
+        "App.leave-guard.test.tsx > real save commits both sessions and reopens; opening needs a fresh continuation click",
+        "App.leave-guard.test.tsx > committed cleanup warning remains visible and does not masquerade as a failed save"
+      ],
+      "testsScope": "29 条完整标题（已读断言）；boundary 5 处按文件计数",
+      "attribution": "GLM"
+    },
+    {
+      "id": "P1-006",
+      "package": "P1",
+      "type": "N/A",
+      "evidenceKind": "静态事实",
+      "anchor": "ui/App.tsx:2225",
+      "claim": "保存流程 setTimeout(0) 让位 modal（注释明确），非资源句柄",
+      "actual": "静态读出",
+      "expectedSource": "—",
+      "affectedDomain": "editor/App",
+      "tests": [],
+      "testsScope": "无",
+      "attribution": "GLM"
+    },
+    {
+      "id": "P2-001",
+      "package": "P2",
+      "type": "covered",
+      "evidenceKind": "文件计数+已读测试断言",
+      "anchor": "p2-mapmode.md §4",
+      "claim": "MapMode.test.tsx 静态声明 58 个 test(/it(，Vitest list 收集 72 项（参数化展开）；两数分列。生命周期相关 20 条完整标题逐条列出（其余 38 条静态声明按文件计数）",
+      "actual": "grep 58 + vitest list 72（Codex 收集数一致）",
+      "expectedSource": "—",
+      "affectedDomain": "editor/MapMode",
+      "tests": [
+        "MapMode.test.tsx > 切换到同 mapId / placementId 的另一项目会话会清空组选择与组内上下文",
+        "MapMode.test.tsx > 切换 EditSession 会清掉旧项目正在进行的变换预览与剪贴板",
+        "MapMode.test.tsx > 切换同 mapId 的 EditSession 会清掉旧项目删除二次确认",
+        "MapMode.test.tsx > current 但引用索引缺失时按失败态关闭删除",
+        "MapMode.test.tsx > 引用状态或 revision 更新会撤销旧的删除二次确认",
+        "MapMode.test.tsx > 变换预览锁定 Inspector，切回平移后取消预览、清空选区并恢复地图属性",
+        "MapMode.test.tsx > 画布点击即冻结并放下移动目标，无冲突时不再要求去右栏二次提交",
+        "MapMode.test.tsx > 普通冲突在落点冻结后弹窗确认，移出画布不漂移，返回调整零写且覆盖可撤销",
+        "MapMode.test.tsx > Alt 候选按面板自上而下，方向键移动焦点，Esc 关闭并回到画布",
+        "MapMode.test.tsx > 图层动作组上移按稳定 ID 只派发一条 MoveProjectMapLayerCommand",
+        "MapMode.test.tsx > 顶部优先的可视图层索引严格映射到反向 canonical 存储索引",
+        "MapMode.test.tsx > 从选择切回平移时清空内容选区并恢复地图属性",
+        "MapMode.test.tsx > 组内 Alt 与普通剪贴板快捷键不能打开外部候选或变换",
+        "MapMode.test.tsx > 整组移动把视觉、高度、碰撞和 placement ID 作为一步历史提交",
+        "MapMode.test.tsx > 整组复制粘贴保留来源并生成新 ID，显式 collision 始终同行",
+        "MapMode.test.tsx > [reorder-family:layer-stack] 反向图层栈经 handle 单命令排序并可 undo/redo",
+        "MapMode.test.tsx > 600 个组合只挂载首批 60 个，真实画布 hover 不重渲染缩略图",
+        "MapMode.test.tsx > 活动层锁定或隐藏后，笔刷与 Inspector 写操作禁用并显示原因",
+        "MapMode.test.tsx > 普通 fill 即使写回同值也先报告 ownership，不被 helper no-op 吞掉",
+        "MapMode.test.tsx > 确认期间地图变化会刷新影响清单，第一次过期确认绝不执行"
+      ],
+      "testsScope": "20 条完整标题；其余 38 条静态声明按文件计数",
+      "attribution": "GLM"
+    },
+    {
+      "id": "P2-002",
+      "package": "P2",
+      "type": "covered",
+      "evidenceKind": "静态事实",
+      "anchor": "ui/MapMode.tsx:3075-3079/:2292-2305/:2307-2310",
+      "claim": "撤回 r1 P2-002'缺 pointerCancel/lostpointercapture'：两入口均存在（onPointerCancel=cancelPointerInteraction；onLostPointerCapture 在 drag/paint/pan 活动时调用同函数）；cancelPointerInteraction 清 selectionDrag/selectionPreview/painting/rectAnchor/stroke/pan 全族；window blur 调同一 cancel。剩余开放问题（不作为缺陷主张）：取消路径的回归充分性待证——既有 72 项中未检索到专测 pointerCancel 的条目",
+      "actual": "静态读出（Codex 反证一致）",
+      "expectedSource": "源码语义",
+      "affectedDomain": "editor/MapMode",
+      "tests": [],
+      "testsScope": "取消路径专项回归未检索到，列未证风险",
+      "attribution": "Codex 反证；GLM 复核确认"
+    },
+    {
+      "id": "P2-003",
+      "package": "P2",
+      "type": "risk",
+      "evidenceKind": "静态事实",
+      "anchor": "ui/MapMode.tsx:338-345",
+      "claim": ":338 与 :341 两个 effect 都在 referenceIndex 变化时 setPendingDeleteId(undefined)（前者多 referenceStatus 条件）——静态重复；合并建议需先核两个消费者语义（Codex 裁决语）",
+      "actual": "静态读出",
+      "expectedSource": "—",
+      "affectedDomain": "editor/MapMode",
+      "tests": [
+        "MapMode.test.tsx > 引用状态或 revision 更新会撤销旧的删除二次确认（行为被钉，合并须保此行为）"
+      ],
+      "testsScope": "1 条",
+      "attribution": "GLM"
+    },
+    {
+      "id": "P2-004",
+      "package": "P2",
+      "type": "risk",
+      "evidenceKind": "静态事实",
+      "anchor": "ui/MapMode.tsx:584-587",
+      "claim": "ensureMapLoaded 该调用点 catch 吞错（收窄同 P1-003：仅此调用点）",
+      "actual": "静态读出",
+      "expectedSource": "—",
+      "affectedDomain": "editor/MapMode",
+      "tests": [],
+      "testsScope": "无",
+      "attribution": "GLM"
+    },
+    {
+      "id": "P2-005",
+      "package": "P2",
+      "type": "covered",
+      "evidenceKind": "静态事实",
+      "anchor": "ui/MapMode.tsx:551-555/:2307-2312",
+      "claim": "document pointerdown 与 window blur 两处 window/document 级监听对称清理",
+      "actual": "静态读出",
+      "expectedSource": "—",
+      "affectedDomain": "editor/MapMode",
+      "tests": [],
+      "testsScope": "—",
+      "attribution": "GLM"
+    },
+    {
+      "id": "P3-001",
+      "package": "P3",
+      "type": "covered",
+      "evidenceKind": "静态事实+已读测试断言",
+      "anchor": "ui/CommandForm.tsx:337 起 50 个 case；ui/ScriptEditor.tsx:536 AUTHOR_COMMAND_PRESENTATION_（实测 81 键）；ScriptEditor.test.tsx:71-76（RUNTIME_COMMAND_KINDS 与该表全等门）",
+      "claim": "更正 r1 混同：CommandForm 50 个 switch case 是旧适配表单的命令分派；canonical 作者命令呈现表 AUTHOR_COMMAND_PRESENTATION_（ScriptEditor.tsx:536）实测 81 键。**合同收窄**：守门测试 ScriptEditor.test.tsx:71-76 只核 RUNTIME_COMMAND_KINDS 与呈现表的集合及中文名称全等——不证明 CommandForm 50 分派与 canonical 的映射完全正确（后者无专测，列未证风险）",
+      "actual": "sed 实测 81 顶层键 + 测试断言读出",
+      "expectedSource": "源码 + 守门测试",
+      "affectedDomain": "editor/ScriptEditor",
+      "tests": [
+        "ScriptEditor.test.tsx > has an author-facing Chinese name for every enabled canonical command kind"
+      ],
+      "testsScope": "守门 1 条已读；50/81 明细在报告；分派映射无专测如实列",
+      "attribution": "Codex 反证；GLM 复算确认"
+    },
+    {
+      "id": "P3-002",
+      "package": "P3",
+      "type": "risk",
+      "evidenceKind": "静态事实",
+      "anchor": "ui/ScriptEditor.tsx:3212/:3721/:3866",
+      "claim": "focusRevision 三处同构 effect（各持 lastApplied*Ref 防重）可抽公共 hook；目标解析语义不同，是否合并由实施裁断",
+      "actual": "静态读出",
+      "expectedSource": "—",
+      "affectedDomain": "editor/ScriptEditor",
+      "tests": [],
+      "testsScope": "无",
+      "attribution": "GLM"
+    },
+    {
+      "id": "P3-003",
+      "package": "P3",
+      "type": "covered",
+      "evidenceKind": "静态事实",
+      "anchor": "ui/SceneScriptWorkspace.tsx:186-193; ui/CommandForm.tsx:219-222",
+      "claim": "更正 r1'WorldVariablePicker 两 effect'（其 :171-201 为纯计算，无 effect）；CommandForm 全文件唯一 useEffect 在 JsonForm（外部指令变化重置文本）；playback stop/onUi 对称清理",
+      "actual": "静态读出（Codex 反证一致）",
+      "expectedSource": "源码语义",
+      "affectedDomain": "editor/ScriptEditor",
+      "tests": [
+        "SceneScriptWorkspace.test.tsx > preview range follows the selected current page and ignores activation without a trigger behavior"
+      ],
+      "testsScope": "1 条",
+      "attribution": "Codex 反证；GLM 复核"
+    },
+    {
+      "id": "P3-004",
+      "package": "P3",
+      "type": "risk",
+      "evidenceKind": "静态事实",
+      "anchor": "ui/ScriptEditor.tsx:3149-3150",
+      "claim": "JSON.stringify 指纹比较的真实逐 render 锚在 :3149（lastSeenBodyFingerprintRef 初始化即序列化）；:3174 effect 是消费点。行为正确（reorder 两测试钉住），成本随 body 线性",
+      "actual": "静态读出（锚点更正自 r1 的 :3174 单点）",
+      "expectedSource": "源码语义",
+      "affectedDomain": "editor/ScriptEditor",
+      "tests": [
+        "ScriptEditor.test.tsx > [reorder-family:script-siblings] nested reorder follows locally, then external undo/redo clears path identity",
+        "ScriptEditor.test.tsx > [reorder-family:command-arrays] canonical dialogue reorder stays local until one commit and restores through real undo/redo"
+      ],
+      "testsScope": "2 条",
+      "attribution": "Codex 指锚；GLM 复核"
+    },
+    {
+      "id": "P3-005",
+      "package": "P3",
+      "type": "covered",
+      "evidenceKind": "已读测试断言",
+      "anchor": "core/script-editor.hooks-session.test.ts:57/:95/:146",
+      "claim": "工作包点名的 default/hook/session 三轴由 3 条测试钉住（标题全文逐条登记）",
+      "actual": "标题与断言读出",
+      "expectedSource": "既有测试",
+      "affectedDomain": "editor/ScriptEditor",
+      "tests": [
+        "script-editor.hooks-session.test.ts > isDefault=true 换 default；修改非 default（isDefault=false）不动现有 default；取消当前 default 删 initial",
+        "script-editor.hooks-session.test.ts > 不存在的 hook/通道拒绝；拒绝后 state/undo/redo/version/dirty 全部不变（含非空 redo 完整保留）",
+        "script-editor.hooks-session.test.ts > 删非 initial 未引用 variant → 只删该变体；删 initial 引用的 hook 先拒绝、清 initial 后可删 → channel/hooks 逐层清理"
+      ],
+      "testsScope": "3 条全量（文件共 3 条）",
+      "attribution": "GLM（Codex 指名后补齐）"
+    },
+    {
+      "id": "P4-001",
+      "package": "P4",
+      "type": "covered",
+      "evidenceKind": "文件计数+已读测试断言",
+      "anchor": "p4-battle-session.md §4",
+      "claim": "计数更正：battle-session.test.ts 收集 43（37 个静态 test( + 2 个 test.each 参数化展开）+ 六 flows 46 + hook-runtime 4 = **93**（r1 误写 87）。覆盖面与代表标题见报告",
+      "actual": "vitest list 收集 43 实测 + grep 37/2 test.each",
+      "expectedSource": "—",
+      "affectedDomain": "reforge/battle-session",
+      "tests": [
+        "battle-session.test.ts > pending 后取消会作废旧 token；迟到 resolve 不得推进 core",
+        "battle-session.test.ts > done 已 resolve 时，迟到的屏障回调不得再推进 core",
+        "battle-session.test.ts > 合击消费其余队员后仍先冻结完整动作快照，再进入行动",
+        "battle-session.test.ts > endBattle terminate:choreography 撑到 turn → 战斗终止无奖励(林天南 7 回合)",
+        "battle-session.test.ts > fleeBattle 立即播放逃跑演出，但当前 hook closure 排净后才结算",
+        "battle-session.test.ts > 固定成长定位失败时在任何 mutation 前 fail-loud",
+        "battle-session.selection-flows.test.ts > 合击消费非施法队友行动（活敌场景）：敌存活回菜单，p2 无多余普攻、合击恰一次",
+        "battle-session.terminal-flows.test.ts > victory：真实击杀→settlement 恰一次→300ms 边界前不兑现→精确 resolve victory",
+        "battle-session.writeback-flows.test.ts > 多队员胜利含阵亡成员：writeBackHp 对非败终局把 0 HP 队员钳制为 1（[1,100] 精确）",
+        "enemy-hook-runtime.test.ts > continue 同 activation 执行，advance 只在结束时提交 cursor"
+      ],
+      "testsScope": "代表 10 条已读；93 条按文件计数登记",
+      "attribution": "GLM（其 46 条 flows 为本人贡献证据，已声明）"
+    },
+    {
+      "id": "P4-002",
+      "package": "P4",
+      "type": "covered",
+      "evidenceKind": "静态事实",
+      "anchor": "battle-session.ts:604（beginTurnPreparation 的 preparing 门）vs :2534-2541（writeBackHp 无此门）",
+      "claim": "门归属更正（撤回 r1 错误）：:604 preparing 早退属于 beginTurnPreparation（逐回合 SFX 屏障入口守卫），writeBackHp（:2534-2541）没有 preparing 门；开战视觉 ready 输入与逐回合 SFX 屏障是两个概念。无据错锚新增防护",
+      "actual": "静态读出（Codex 反证一致）",
+      "expectedSource": "源码语义",
+      "affectedDomain": "reforge/battle-session",
+      "tests": [],
+      "testsScope": "—",
+      "attribution": "Codex 反证；GLM 复核"
+    },
+    {
+      "id": "P4-003",
+      "package": "P4",
+      "type": "covered",
+      "evidenceKind": "静态事实",
+      "anchor": "battle-session.ts:1032（pumpScriptExecution）→ :2543（render）",
+      "claim": "补会话内 pump→render 耦合边界（含共享状态读写小表，见 p4-battle-session.md §2.1）：pumpScriptExecution(:1032) 直接管 dialogBox/casualtyDialogueShown/choreoBanner/choreoWaitUntil/scriptAnimation/anim，render(:2543) 消费 nowMs/screenShake/floats/summonVis/hideFade 等；完整 writer→reader→清理对照表入报告",
+      "actual": "静态逐行读出",
+      "expectedSource": "源码语义",
+      "affectedDomain": "reforge/battle-session",
+      "tests": [],
+      "testsScope": "结构事实，无行为断言",
+      "attribution": "Codex 指名；GLM 补齐"
+    },
+    {
+      "id": "P4-004",
+      "package": "P4",
+      "type": "risk",
+      "evidenceKind": "静态事实",
+      "anchor": "battle-session.ts:220-221/:414-417",
+      "claim": "resolveDone/rejectDone 为构造期赋值的实例字段（! 断言）；构造序隐式约束需显式化",
+      "actual": "静态读出",
+      "expectedSource": "—",
+      "affectedDomain": "reforge/battle-session",
+      "tests": [],
+      "testsScope": "无",
+      "attribution": "GLM"
+    },
+    {
+      "id": "P4-005",
+      "package": "P4",
+      "type": "N/A",
+      "evidenceKind": "文件计数",
+      "anchor": "p4-battle-session.md §4",
+      "claim": "屏障 token/取消/终态语义已被 93 条覆盖，本包无新增反证，不发明缺陷",
+      "actual": "—",
+      "expectedSource": "—",
+      "affectedDomain": "reforge/battle-session",
+      "tests": [],
+      "testsScope": "—",
+      "attribution": "GLM"
+    },
+    {
+      "id": "P5-001",
+      "package": "P5",
+      "type": "covered",
+      "evidenceKind": "静态事实+文件计数",
+      "anchor": "p5-phase1-core.md §1/§2",
+      "claim": "更正 r1\"6 文件两环\"：实测 7 文件同一强连通分量（15 条 runtime 边）。关键回边：battle-opcodes.ts:25←event-system（addPoisonForPlayer/curePlayerPoisonByKind/curePlayerPoisonByLevel）、equip-effect.ts:19←event-system（addItemToInventory/getGlobalCommands/getGlobalLabelMap 等）、event-system.ts:53→battle-opcodes（dispatchBattleOpcode）、:57→equip-effect（addPlayerStatRow/getPlayerPoisonResistance/removeEquipmentEffect）、scene-system.ts:12→event-system（runEnterScript/tickAutoScripts/tickChaseTimer/resolveScriptLabel）、scene-system.ts:80←event-system（getCurrentMapNum）、scene→menu-driver/menu-mode、menu-driver.ts:17→event-system、menu-mode→menu-driver、magic-script.ts:29→event-system。测试收集分项（r2 按冻结树 Vitest list 逐文件更正）：**326/110/158/37/28/36/7 = 702**（r1 的 331/102/…/39/30 误为 grep 计数）",
+      "actual": "import 逐边重读（Codex 反证一致）+ vitest list 收集",
+      "expectedSource": "源码语义",
+      "affectedDomain": "game/core",
+      "tests": [
+        "core/event-system.test.ts（收集 326，文件计数）",
+        "core/scene-system.test.ts（收集 110，文件计数）",
+        "core/battle/__tests__/battle-opcodes.test.ts（收集 158，文件计数）",
+        "core/menu/menu-driver.test.ts（收集 37，文件计数）",
+        "core/menu/magic-script.test.ts（收集 28，文件计数）",
+        "core/equip-effect.test.ts（收集 36，文件计数）",
+        "core/menu/menu-mode.test.ts（收集 7，文件计数）"
+      ],
+      "testsScope": "702=文件计数合计（Codex 同数）；未逐条宣读",
+      "attribution": "Codex 反证；GLM 复核"
+    },
+    {
+      "id": "P5-002",
+      "package": "P5",
+      "type": "risk",
+      "evidenceKind": "静态事实",
+      "anchor": "event-system.ts:80 / scene-system.ts:46-50",
+      "claim": "撤回 r1'最短无行为切法'结论——切断 getCurrentMapNum 边后环内仍有其余 14 条边，剩余环形态未评估。现仅陈述：该边是纯数据读取（loadScene 写模块态、event 读），是最明确的候选切边之一；切后剩余环评估属实施卡工作",
+      "actual": "静态读出",
+      "expectedSource": "—",
+      "affectedDomain": "game/core",
+      "tests": [],
+      "testsScope": "无",
+      "attribution": "Codex 裁决；GLM 改述"
+    },
+    {
+      "id": "P5-003",
+      "package": "P5",
+      "type": "N/A",
+      "evidenceKind": "静态事实",
+      "anchor": "p5-phase1-core.md §1",
+      "claim": "r1 的'环结构澄清'被本 r2 的 P5-001 更正取代（原条目 N/A 性质不变：环≠缺陷，不做缺陷主张）",
+      "actual": "—",
+      "expectedSource": "—",
+      "affectedDomain": "game/core",
+      "tests": [],
+      "testsScope": "—",
+      "attribution": "GLM"
+    },
+    {
+      "id": "P5-004",
+      "package": "P5",
+      "type": "risk",
+      "evidenceKind": "静态事实",
+      "anchor": "scene-system.ts:47 / event-system.ts:867-900",
+      "claim": "模块级可变态与 handler 注入两种所有权风格并存（记录现状，不判缺陷）",
+      "actual": "静态读出",
+      "expectedSource": "—",
+      "affectedDomain": "game/core",
+      "tests": [],
+      "testsScope": "无",
+      "attribution": "GLM"
+    },
+    {
+      "id": "P6-001",
+      "package": "P6",
+      "type": "covered",
+      "evidenceKind": "静态事实+已读测试断言",
+      "anchor": "content/src/author-script-core.ts:3/:708-727; content/src/enemy-script.ts:6/:598",
+      "claim": "更正 r1 单向分层表述：校验递归是**双向**的——author-script-core :3 import checkBattleChoreography（enemy-script 提供）并在 :712 调用；enemy-script :6 import checkBaseAuthorCommands 并在 :598 回调。checkBaseAuthorCommands **自递归 7 处**（限定函数体：:661 then / :663 else / :669 body / :708 onLose / :710 onFlee / :722 onFail / :726 onNo；r1 写 6 处漏 onFlee）",
+      "actual": "静态逐行读出（Codex 反证一致）",
+      "expectedSource": "源码语义",
+      "affectedDomain": "content/validation",
+      "tests": [
+        "content/src/author-script-core.test.ts（收集 17，文件计数）",
+        "content/src/enemy-script.test.ts（收集 6，文件计数）"
+      ],
+      "testsScope": "23 条按文件计数；递归臂逐行核对",
+      "attribution": "Codex 反证；GLM 复核"
+    },
+    {
+      "id": "P6-002",
+      "package": "P6",
+      "type": "risk",
+      "evidenceKind": "静态事实",
+      "anchor": "migrate/src/migrate-content.ts:2126-2135",
+      "claim": "mapScenesStatic 为 **6 参数**签名（srcScenes/eventsByScene/roleSpritesByNum/globalRoots/soundAssetForNum/options；r1 误写 5）；参数组合矩阵无参数级快照",
+      "actual": "静态读出（Codex 反证一致）",
+      "expectedSource": "—",
+      "affectedDomain": "migrate",
+      "tests": [],
+      "testsScope": "无",
+      "attribution": "Codex 反证；GLM 复核"
+    },
+    {
+      "id": "P6-003",
+      "package": "P6",
+      "type": "covered",
+      "evidenceKind": "静态事实",
+      "anchor": "migrate/src/translate-events.ts / migrate-content.ts / content/src/author-script-core.ts / content/src/enemy-script.ts（零 fs import）；migrate/src/migration-transaction.ts:348/:367",
+      "claim": "收窄后事实：**这四个转换/校验模块**无 fs import，transaction 两处 writeFileSync（commit :348 / journal :367）——不外推'整个迁移管线仅此两个写入点'（migration-baseline/path/project-io 有只读 fs，未审写路径；authoring 等其它模块未审）",
+      "actual": "grep 实测",
+      "expectedSource": "—",
+      "affectedDomain": "migrate/content",
+      "tests": [
+        "migrate/src/migration-write-guard.test.ts > recover/hasPending 事务恢复语义（文件计数引用）"
+      ],
+      "testsScope": "按文件计数",
+      "attribution": "Codex 收窄裁定；GLM 复核"
+    },
+    {
+      "id": "P6-004",
+      "package": "P6",
+      "type": "N/A",
+      "evidenceKind": "静态事实",
+      "anchor": "content/src/author-script-core.ts ↔ content/src/enemy-script.ts",
+      "claim": "双向协议事实成立（见 P6-001）；是否/如何下沉共享层属实施裁断，本包不提协议建议",
+      "actual": "—",
+      "expectedSource": "—",
+      "affectedDomain": "content/validation",
+      "tests": [],
+      "testsScope": "—",
+      "attribution": "GLM"
+    },
+    {
+      "id": "P6-005",
+      "package": "P6",
+      "type": "risk",
+      "evidenceKind": "静态事实",
+      "anchor": "migrate/src/translate-events.ts:977",
+      "claim": "walkBody 递归无显式深度上限（输入有界，防御性记录；不改政策）",
+      "actual": "静态读出",
+      "expectedSource": "—",
+      "affectedDomain": "migrate",
+      "tests": [],
+      "testsScope": "无",
+      "attribution": "GLM"
+    },
+    {
+      "id": "V1-001",
+      "package": "V1",
+      "type": "covered",
+      "evidenceKind": "本次执行",
+      "anchor": "v1-forms.md 证据表 V1-01/02/05",
+      "claim": "试打方案/我方预设/768 降级布局符合设计系统（截图实际看图）",
+      "actual": "截图 3 张",
+      "expectedSource": "docs/phase2/specs/editor-design-system.md DS-F.4",
+      "affectedDomain": "editor/simulator",
+      "tests": [],
+      "testsScope": "—",
+      "attribution": "GLM",
+      "screenshots": [
+        "v1-01-battle-sim-scheme.png",
+        "v1-02-battle-sim-party.png",
+        "v1-05-party-768.png"
+      ]
+    },
+    {
+      "id": "V1-002",
+      "package": "V1",
+      "type": "covered",
+      "evidenceKind": "静态事实+已读规范",
+      "anchor": "ui/design-system/multi-select.tsx:119-121; docs/phase2/specs/editor-design-system.md:686(DS-C.5a)/:312(DS-C.6)",
+      "claim": "更正 r1 两条结论：①技能多选搜索输入**有** accessible name（`aria-label=搜索${label}`，实际 AX 名'搜索指定技能'，Codex 6010 实测过滤'气疗'生效）——撤回 r1 a11y 缺名结论；②'逐击即提交+Esc 关选择层'正是 DS-C.5a 允许即时提交的离散动作（checkbox）与 DS-C.6 的选择层 Esc 合同，与 quick-trial 整份草稿替换模型是**两类控件合同**，非需产品裁决的不一致（撤回该建议）。无 placeholder 保留为独立可发现性小建议",
+      "actual": "源码读出 + Codex 6010 实测引用 + 规范条款比对",
+      "expectedSource": "editor-design-system.md",
+      "affectedDomain": "editor/design-system",
+      "tests": [],
+      "testsScope": "—",
+      "attribution": "Codex 反证；GLM 撤回并更正"
+    },
+    {
+      "id": "V1-003",
+      "package": "V1",
+      "type": "covered",
+      "evidenceKind": "本次执行",
+      "anchor": "v1-forms.md r2 增补节",
+      "claim": "补齐 r1 未覆盖页（实际看图）：角色工作区表单（v1-06）、物品工作区表单（v1-07）、战斗技能表单+效果链（v1-08）、敌队五槽编辑（v1-09）、战场编辑（v1-10）、敌队试打弹窗（v1-11，Esc 关闭已验证）——布局层全部 covered；画布/预览黑块为已知资源缺口",
+      "actual": "截图 6 张 + Esc 快照复核",
+      "expectedSource": "editor-design-system.md",
+      "affectedDomain": "editor/actor,item,battle",
+      "tests": [],
+      "testsScope": "—",
+      "attribution": "GLM",
+      "screenshots": [
+        "v1-06-actor-forms.png",
+        "v1-07-item-forms.png",
+        "v1-08-battle-forms.png",
+        "v1-09-enemy-team-forms.png",
+        "v1-10-battlefield-forms.png",
+        "v1-11-trial-dialog.png"
+      ]
+    },
+    {
+      "id": "V1-004",
+      "package": "V1",
+      "type": "N/A",
+      "evidenceKind": "—",
+      "anchor": "360px",
+      "claim": "既有披露边界不重开、不提新政策",
+      "actual": "—",
+      "expectedSource": "—",
+      "affectedDomain": "editor",
+      "tests": [],
+      "testsScope": "—",
+      "attribution": "GLM"
+    },
+    {
+      "id": "V2-001",
+      "package": "V2",
+      "type": "covered",
+      "evidenceKind": "本次执行",
+      "anchor": "v2-workspaces.md 证据表 V2-01~05/07",
+      "claim": "三栏工作区/弹窗遮挡与焦点/Esc 零创建/tab 切换/剧情空态/768 菜单收纳（截图实际看图）",
+      "actual": "截图 5 张",
+      "expectedSource": "—",
+      "affectedDomain": "editor/workspaces",
+      "tests": [],
+      "testsScope": "—",
+      "attribution": "GLM",
+      "screenshots": [
+        "v0 sample-01/02",
+        "v2-01-new-scene-dialog.png",
+        "v2-02-mapmode.png",
+        "v2-03-script-editor.png",
+        "v1-05-party-768.png"
+      ]
+    },
+    {
+      "id": "V2-002",
+      "package": "V2",
+      "type": "covered",
+      "evidenceKind": "本次执行（Codex 归属）",
+      "anchor": "工具栏右侧面板开关",
+      "claim": "对象列表折叠：GLM 环境两次 Playwright 超时+CUA 点击无可见变化（操作链如实记录，r1 标 blocked/uncertain）；**Codex 在 6010 实测往返正常**（原生 AX 点击 checked 1→0、左分栏 194→0、再点恢复）——功能正常，不追不存在缺陷；GLM 6013 环境的原因未定位（不武断归因 role/实现）",
+      "actual": "Codex 执行记录（codex-intake-evidence.json）；GLM 操作链留档",
+      "expectedSource": "—",
+      "affectedDomain": "editor/App",
+      "tests": [],
+      "testsScope": "—",
+      "attribution": "归属：Codex 执行；GLM 环境差异如实保留"
+    },
+    {
+      "id": "V2-003",
+      "package": "V2",
+      "type": "covered",
+      "evidenceKind": "已读测试断言",
+      "anchor": "ui/MapMode.test.tsx:569-572",
+      "claim": "更正 r2-r1 两次表述：分隔条（PanelResizeHandle）**有**既有测试——ui/PanelResizeHandle-interaction.test.tsx:138-175（test.each 各宿主方向键盘 resize/clamp/reset）、:178-224（pointerup/pointercancel/lostpointercapture 结束后零继续 resize）、:227（disabled/unmount 释放全局拖拽态）。本轮未执行这些测试；\"无既有测试\"说法作废",
+      "actual": "测试体读出（Codex 反证一致）",
+      "expectedSource": "—",
+      "affectedDomain": "editor/workspaces",
+      "tests": [
+        "PanelResizeHandle-interaction.test.tsx > [test.each layouts] keyboard resizing uses its host direction, clamps and resets",
+        "PanelResizeHandle-interaction.test.tsx > [test.each pointerup|pointercancel|lostpointercapture] ends a captured drag, clears the global marker and prevents further resizing",
+        "PanelResizeHandle-interaction.test.tsx > disabled handles reject resize events and unmount releases the global drag state"
+      ],
+      "testsScope": "3 条已读标题；本轮未执行",
+      "attribution": "Codex 反证；GLM 复核"
+    },
+    {
+      "id": "V2-004",
+      "package": "V2",
+      "type": "covered",
+      "evidenceKind": "本次执行",
+      "anchor": "URL 直达 scene/map/story/simulator/battle 四模块",
+      "claim": "切页导航/URL 双写可达（本轮实际导航 6+ 次）",
+      "actual": "实际导航",
+      "expectedSource": "—",
+      "affectedDomain": "editor/navigation",
+      "tests": ["editor-navigation.test.ts > EditorLocation URL 契约（17 条 it，见 P1-005）"],
+      "testsScope": "引用 P1-005 已读清单",
+      "attribution": "GLM"
+    }
+  ],
+  "commands": [
+    {
+      "cmd": "git fetch origin codex/glm-architecture-support-r1 && git merge --ff-only",
+      "exit": 0
+    },
+    {
+      "cmd": "git diff b11d4bc9..32704738 -- packages/ scripts/  # 冻结漂移=空",
+      "exit": 0
+    },
+    {
+      "cmd": "cd packages/editor && npx vitest run src/core/editor-derived-store.test.ts --reporter=json  # 22/22（本次执行）",
+      "exit": 0
+    },
+    {
+      "cmd": "cd packages/editor && npx vitest list src/ui/editor-navigation.test.ts  # 收集 17",
+      "exit": 0
+    },
+    {
+      "cmd": "cd packages/editor && npx vitest list src/ui/MapMode.test.tsx  # 收集 72",
+      "exit": 0
+    },
+    {
+      "cmd": "cd packages/reforge && npx vitest list src/battle/battle-session.test.ts  # 收集 43",
+      "exit": 0
+    },
+    {
+      "cmd": "curl -s -o /dev/null -w '%{http_code}' http://localhost:6013/  # → 200",
+      "exit": 0
+    },
+    {
+      "cmd": "git status --short  # 视觉操作后磁盘零改动",
+      "exit": 0
+    }
+  ],
+  "mechanicalSubtotals": {
+    "total": 38,
+    "uniqueIds": 38,
+    "byType": {
+      "covered": 21,
+      "risk": 12,
+      "N/A": 5
+    },
+    "perPackage": {
+      "P1": 6,
+      "P2": 5,
+      "P3": 5,
+      "P4": 5,
+      "P5": 4,
+      "P6": 5,
+      "V1": 4,
+      "V2": 4
+    },
+    "recomputedFrom": "node 脚本从本 JSON entries 数组机械统计（r3 再次重算；r1 手填 32、r2 期间 19/14 均为对齐前过渡值）",
+    "blocked": 0,
+    "reproduced": 0,
+    "honestNote": "reproduced=0 与 blocked=0 为如实结果：r1 两项 blocked 已闭合（V1-003 六图、V2-002 归属 Codex 6010 实测）；无 invented defects"
+  },
+  "screenshots": [
+    {
+      "file": "/tmp/glm-arch-visual/sample-01-scene-workspace.png",
+      "sha256_16": "95f64439bffa326e",
+      "viewport": "1440x1024"
+    },
+    {
+      "file": "/tmp/glm-arch-visual/sample-02-scene-refs-tab.png",
+      "sha256_16": "51541e6faa99d4bd",
+      "viewport": "1440x1024"
+    },
+    {
+      "file": "/tmp/glm-arch-visual/v1-01-battle-sim-scheme.png",
+      "sha256_16": "4cb540311af62cb7",
+      "viewport": "1440x1024"
+    },
+    {
+      "file": "/tmp/glm-arch-visual/v1-02-battle-sim-party.png",
+      "sha256_16": "1cac82fe7d7d7590",
+      "viewport": "1440x1024"
+    },
+    {
+      "file": "/tmp/glm-arch-visual/v1-03-skill-multiselect-dialog.png",
+      "sha256_16": "2ff4b393de048657",
+      "viewport": "1440x1024"
+    },
+    {
+      "file": "/tmp/glm-arch-visual/v1-04-esc-cancel-fidelity.png",
+      "sha256_16": "c441ccc9f032b601",
+      "viewport": "1440x1024"
+    },
+    {
+      "file": "/tmp/glm-arch-visual/v1-05-party-768.png",
+      "sha256_16": "706a32cd5f94867a",
+      "viewport": "768x1024"
+    },
+    {
+      "file": "/tmp/glm-arch-visual/v2-01-new-scene-dialog.png",
+      "sha256_16": "6927dcf75a9f41e4",
+      "viewport": "1440x1024"
+    },
+    {
+      "file": "/tmp/glm-arch-visual/v2-02-mapmode.png",
+      "sha256_16": "604ce9b2e9699917",
+      "viewport": "1440x1024"
+    },
+    {
+      "file": "/tmp/glm-arch-visual/v2-03-script-editor.png",
+      "sha256_16": "3cff7322d457bf58",
+      "viewport": "1440x1024"
+    },
+    {
+      "file": "/tmp/glm-arch-visual/v2-04-outliner-collapsed.png",
+      "sha256_16": "2472a76c9f816ef6",
+      "viewport": "1440x1024"
+    },
+    {
+      "file": "/tmp/glm-arch-visual/v1-06-actor-forms.png",
+      "sha256_16": "a0b87620a0e8e5ff",
+      "viewport": "1440x1024"
+    },
+    {
+      "file": "/tmp/glm-arch-visual/v1-07-item-forms.png",
+      "sha256_16": "b8593f9ab8693094",
+      "viewport": "1440x1024"
+    },
+    {
+      "file": "/tmp/glm-arch-visual/v1-08-battle-forms.png",
+      "sha256_16": "7eb8a18219c39421",
+      "viewport": "1440x1024"
+    },
+    {
+      "file": "/tmp/glm-arch-visual/v1-09-enemy-team-forms.png",
+      "sha256_16": "04d5fdcf3e2b556c",
+      "viewport": "1440x1024"
+    },
+    {
+      "file": "/tmp/glm-arch-visual/v1-10-battlefield-forms.png",
+      "sha256_16": "6b6c23b6ed661a2b",
+      "viewport": "1440x1024"
+    },
+    {
+      "file": "/tmp/glm-arch-visual/v1-11-trial-dialog.png",
+      "sha256_16": "b16e893231ef4d44",
+      "viewport": "1440x1024"
+    }
+  ],
+  "history": {
+    "r1": {
+      "candidate": "3967a376",
+      "counter": "0e751efe (codex-intake-review.md)"
+    },
+    "r2": {
+      "candidate": "717d507d",
+      "register": "9e5ba310 (finalSha 登记)",
+      "counter": "1e4e3382 (codex-r2-review.md, C1~C4)"
+    },
+    "r3": {
+      "note": "本轮收窄返工；tip 由登记提交回填 finalSha"
+    }
+  }
+}
