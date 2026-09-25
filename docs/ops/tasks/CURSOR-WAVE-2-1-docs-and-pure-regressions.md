@@ -1,6 +1,6 @@
 # CURSOR-WAVE-2-1 — 五包连续文档纠偏与纯边界回归
 
-Status: build
+Status: rework
 Phase: ops / phase1 / phase2（文档与测试，生产代码冻结）
 Contribution Owner: Cursor
 Review / Integration Owner: Codex
@@ -42,3 +42,9 @@ Branch: `codex/cursor-wave2-r1`；独立 worktree `type-pal-cursor-wave2`
 ## 下一位 Cursor 提示词
 
 见 Codex 交付消息；本卡五包 W1→W5 连续执行，不需要每包重新请示。无产品实现授权。
+
+## Codex 首轮独立接收（2026-09-25，候选 `7b4ec8fc`）
+
+- **W2 accept**：根 `CLAUDE.md` 的退役 e2e/6001 说明已选择性接入 main（`cbac3ca0`），不需重做。
+- **W1/W3/W4/W5 窄 counter；Status=rework**。[逐包证据与最小返工](../../testing/cursor-wave2-review.md)：一处未证实的“粘贴正文”入口；W3/W4 未执行隔离实现单点负控且 FPS 文本仅子串匹配；W5 临时目录未清理、围栏用例标题/证明对象错位。
+- 本席已独立复跑 editor48、game20、docs定向25/全38、双包 typecheck、文档门与 diff 检查，均绿。绿不替代上述合同。候选测试与文档其余正确点保留，产品/基线零改；候选工作树未跟踪依赖软链接须由贡献者精确清理。返工前同步最新 main，白名单不扩大。Codex 未合其它四包、未跑官方覆盖率、未标 done。

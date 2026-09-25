@@ -34,7 +34,7 @@ GLM后续补测候选见[十批长队列](../testing/glm-coverage-work-queue.md)
 | ARCH-F2-EDITOR-BATTLE-FIELD-COMMANDS-1 | [战场命令族独立模块](tasks/ARCH-F2-EDITOR-BATTLE-FIELD-COMMANDS-1.md) | build | GLM实施 / Codex独立复核 | 仅命令族机械搬迁、旧出口保留，不动A3与其它编辑命令 |
 | ARCH-F2-DS-OVERFLOW-1 | [溢出文本组件独立模块](tasks/ARCH-F2-DS-OVERFLOW-1.md) | build | Grok实施 / Codex独立复核 | `DsOverflowText`抽出，DOM/键盘/ARIA/样式和旧导出零漂移 |
 | ARCH-F2-DS-LABELS-1 | [标签与只读值组件窄拆](tasks/ARCH-F2-DS-LABELS-1.md) | draft | Cursor待当前五包与Grok接收后开工 | 同文件串行依赖，尚未开放build |
-| CURSOR-WAVE-2-1 | [五包连续文档纠偏与纯边界回归](tasks/CURSOR-WAVE-2-1-docs-and-pure-regressions.md) | build | Cursor W1→W5 连续实施 / Codex 逐包接收 | 三份作者指南、CLAUDE 旧命令、editor/game/docs-tools 测试；生产与基线冻结 |
+| CURSOR-WAVE-2-1 | [五包连续文档纠偏与纯边界回归](tasks/CURSOR-WAVE-2-1-docs-and-pure-regressions.md) | rework | Cursor 收窄返工 / Codex 独立复核 | W2已接入；W1未证粘贴、W3/W4负控、W5临时目录/去重待闭，不计覆盖率 |
 | ARCH-REGRESSION-LAB-GLM-1 | [十二组候选回归与功能视觉](tasks/ARCH-REGRESSION-LAB-GLM-1-twelve-packs.md) | draft | GLM按五轮counter修真假对账/收窄合同 | b403efd3 32绿/六图hash/新JSON核验通过；G04重复标题、回执旧口径与十二组完整业务缺口未闭，不入正式统计 |
 | ARCH-SUPPORT-GLM-1 | [八组并行架构/视觉准备](tasks/ARCH-SUPPORT-GLM-1-eight-audit-packages.md) | draft | Codex / 后续归属与收口 | 58cdf938材料accept，counter清零；文档已合入，按用户要求未标done/未开产品门 |
 

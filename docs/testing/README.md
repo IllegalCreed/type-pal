@@ -28,6 +28,8 @@
 
 - [Cursor作者指南八组只读核对](cursor-author-guides-batch.md)、[Codex独立接收](cursor-author-guides-review.md)及[done任务卡](../ops/archive/tasks/done/DOC-CURSOR-6-author-guide-fact-batch.md)（事实材料已接入；七处误导文案与调用环产品保护缺口另排；未改正式指南）
 
+- [Cursor五包文档/纯边界候选的Codex首轮复核](cursor-wave2-review.md)（W2已接入main；W1/W3/W4/W5窄counter，候选未整体接收，不计官方覆盖率）
+
 - [Cursor场景入场当前 UI 事实表](cursor-scene-entry-truth.md)、[Codex独立复核](cursor-scene-entry-review.md)及[done任务卡](../ops/archive/tasks/done/DOC-CURSOR-4-scene-entry-current-ui.md)（31618c0d已接入；现行指南已窄修，prepare安全产品缺口另排）
 
 - [GLM十二组可执行架构回归实验包](glm-architecture-regression-lab/README.md)、[Codex首轮接收](architecture-regression-lab-codex-review.md)、[二轮接收](architecture-regression-lab-codex-r2-review.md)、[三轮接收](architecture-regression-lab-codex-r3-review.md)、[四轮接收](architecture-regression-lab-codex-r4-review.md)与[五轮接收](architecture-regression-lab-codex-r5-review.md)（b403efd3仍counter；32候选绿、六图完整hash与新JSON核验成立；机账重复引用、旧回执及完整组合同未闭，不进正式统计）
