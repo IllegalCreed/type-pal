@@ -1,7 +1,7 @@
 # DOC-CURSOR-3 — 覆盖率说明定点核对回执
 
 状态：Cursor 已完成 C01–C05 只读取证；待 Codex 独立接收。未授权修改 `coverage.md`、README、脚本、CI 或基线。
-任务：[DOC-CURSOR-3](../ops/tasks/DOC-CURSOR-3-coverage-guide-audit.md)。
+任务：[DOC-CURSOR-3](../ops/archive/tasks/done/DOC-CURSOR-3-coverage-guide-audit.md)。
 工作树起点 / 证据树：`a2415868`（当前 `origin/main`；开卡基点 `817be7df` 的 8039/641 线索已过时，见 C02）。
 未运行覆盖率、ratchet、full、全仓测试、E2E、迁移或部署。脚本存在 ≠ 运行成功；本地 `coverage/fast/summary.json` 只标「本地快照」。
 

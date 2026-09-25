@@ -1,5 +1,9 @@
 # DOC-CURSOR-3 — Codex 独立接收与正式文案裁决
 
+## 后续正式集成（2026-09-25）
+
+用户明确要求审查通过后直接接入：Cursor 回执 `b5e2ca4a` 已以 `0ba9ed14` 原样 cherry-pick 至 main；Codex 的两处正式入口修订见此前 `077516bb`。任务卡核定 done，旧段落中的“候选不合 main、不标 done”仅是接收时历史状态。未重跑覆盖率、full 或 E2E，旧 8039 快照来源继续待证。
+
 2026-09-25。Cursor 只读候选 `b5e2ca4a0da0d70a948b24773f3f5b865fe6d00f`（对 `a2415868` 仅 `docs/testing/cursor-coverage-guide-audit.md`）：**accept，审计材料无阻断 counter**。候选报告不合 main、不标任务 done；下述正式文案由 Codex 独立修订，不把 Cursor 的未执行检查写成已执行。
 
 - C01：根 `package.json:6,12-15` 与 `scripts/coverage/run.mjs:41-58,445-475,485-517` 证实 `check` 只跑覆盖率工具自测而非覆盖率，fast/full 写各自报告，ratchet 可更新 fast 基线；报告所列命令分类成立。
