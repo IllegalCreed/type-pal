@@ -60,7 +60,7 @@ Cursor回执的六项事实成立，H7/N1经[Codex窄复核](../../../../testing
 - 同日窄返工接收后：原卡CR-1/CR-2已闭，此前阻断记录保留为历史；用户要求本卡准入另核，本轮不推进。
 - 同日用户明确“准入，我说的”，并纠正协作模式：Codex按本卡原范围核定 build，改由 Cursor 实施、Codex 独立验收；不再以三贤人签字/豁免阻挡。Cursor 优先实施本卡，DOC-CURSOR-3 排队。
 - 同日 Codex 窄复核 `a2220ca9`：唯一 H1 counter 证实闭合，候选 accept；按本轮要求不合 main、不标 done，正式指南仍待集成，DOC-CURSOR-3 不提前开工。
-- 同日用户明确要求通过后由 Codex 直接集成收口；Codex 将获验五份指南接入 main（`51da64a8`、`808e6150`），落地文档门 PASS，按当前委派模式核定 done。旧段落中的“尚未合 main”均为集成前历史状态；H7/`scene-entry-authoring.md` 未动，DOC-CURSOR-3 可按自己的 draft 范围另行推进。无下一位 Agent 提示词，本卡已收口。
+- 同日用户明确要求通过后由 Codex 直接集成收口；Codex 将获验五份指南接入 main（`51da64a8`、`808e6150`），落地文档门 PASS，按当前委派模式核定 done。旧段落中的“尚未合 main”均为集成前历史状态；H7/`scene-entry-authoring.md` 未动，DOC-CURSOR-3 可按自己的 draft 范围另行推进。原隔离候选 `a2220ca9` 已留远端 `archive/cursor-guide-revision-r1` 标签，干净 worktree 与本地/远端工作分支均已清理。无下一位 Agent 提示词，本卡已收口。
 
 ## Codex 候选接收复核（2026-09-25）
 
