@@ -64,13 +64,8 @@ check(new Set(ids).size === ids.length, '存在重复 ID')
 const candidateFullNames = results.entries
   .filter((e) => e.status === 'candidate-green' && e.test?.fullName)
   .map((e) => e.test.fullName)
-const dupFullNames = candidateFullNames.filter(
-  (fn, i) => candidateFullNames.indexOf(fn) !== i
-)
-check(
-  dupFullNames.length === 0,
-  `candidate-green 重复 fullName: ${dupFullNames.join(', ')}`,
-)
+const dupFullNames = candidateFullNames.filter((fn, i) => candidateFullNames.indexOf(fn) !== i)
+check(dupFullNames.length === 0, `candidate-green 重复 fullName: ${dupFullNames.join(', ')}`)
 
 const byStatus = {}
 const perPack = {}
@@ -83,11 +78,11 @@ check(
   `total mismatch: ${results.groupTotals.total} vs ${results.entries.length}`,
 )
 for (const key of Object.keys(byStatus)) {
-  const ledger = (results.groupTotals.byStatus ?? {})[key] ?? 0
+  const ledger = results.groupTotals.byStatus?.[key] ?? 0
   check(ledger === byStatus[key], `byStatus.${key}: ledger ${ledger} != actual ${byStatus[key]}`)
 }
 for (const key of Object.keys(perPack)) {
-  const ledger = (results.groupTotals.perPack ?? {})[key] ?? 0
+  const ledger = results.groupTotals.perPack?.[key] ?? 0
   check(ledger === perPack[key], `perPack.${key}: ledger ${ledger} != actual ${perPack[key]}`)
 }
 

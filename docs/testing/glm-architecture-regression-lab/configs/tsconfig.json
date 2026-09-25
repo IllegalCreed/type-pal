@@ -25,8 +25,5 @@
       "@lab/editor/app": ["packages/editor/src/ui/App.tsx"]
     }
   },
-  "include": [
-    "../candidates/**/*.ts",
-    "../candidates/**/*.tsx"
-  ]
+  "include": ["../candidates/**/*.ts", "../candidates/**/*.tsx"]
 }
