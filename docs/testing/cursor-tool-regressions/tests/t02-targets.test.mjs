@@ -2,7 +2,7 @@ import assert from 'node:assert/strict'
 import { test } from 'node:test'
 import { checkoutTargets, localTarget } from '../../../../scripts/docs/check.mjs'
 
-test('importing target helpers does not run the repository checker', () => {
+test('target helper import smoke', () => {
   assert.equal(process.exitCode, undefined)
   assert.equal(typeof localTarget, 'function')
   assert.equal(typeof checkoutTargets, 'function')

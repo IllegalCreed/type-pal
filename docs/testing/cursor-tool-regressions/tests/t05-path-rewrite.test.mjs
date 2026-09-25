@@ -6,7 +6,7 @@ import {
   validateMoves,
 } from '../../../../scripts/docs/relocate.mjs'
 
-test('importing path rewrite helpers does not relocate files', () => {
+test('path rewrite helper import smoke', () => {
   assert.equal(process.exitCode, undefined)
   assert.equal(typeof validateMoves, 'function')
   assert.equal(typeof rewriteLinks, 'function')
@@ -23,7 +23,15 @@ test('suffix-distinct document paths validate and the entries array stays intact
   assert.deepEqual(entries, before)
 })
 
-test('repository path rewrite prefers the longest key, keeps suffixes, and preserves SHA references', () => {
+test('a parent directory mapping rewrites a hyphenated child that is not under a deeper key', () => {
+  const mapping = new Map([['docs/old', 'docs/archive/old']])
+  const before = structuredClone([...mapping])
+  const input = 'docs/old/deep-extra.md'
+  assert.equal(rewriteRepositoryPaths(input, mapping), 'docs/archive/old/deep-extra.md')
+  assert.deepEqual([...mapping], before)
+})
+
+test('repository path rewrite prefers the longest valid key and preserves SHA and unmatched suffixes', () => {
   const mapping = new Map([
     ['docs/old', 'docs/archive/old'],
     ['docs/old/deep', 'docs/archive/deep'],
@@ -33,7 +41,7 @@ test('repository path rewrite prefers the longest key, keeps suffixes, and prese
     'docs/old/deep/file.md',
     'docs/old/note.md',
     'abcdef0:docs/old/deep/file.md',
-    'docs/old/deep-extra.md',
+    'docs/other/deep-extra.md',
   ].join('\n')
   assert.equal(
     rewriteRepositoryPaths(input, mapping),
@@ -41,10 +49,15 @@ test('repository path rewrite prefers the longest key, keeps suffixes, and prese
       'docs/archive/deep/file.md',
       'docs/archive/old/note.md',
       'abcdef0:docs/old/deep/file.md',
-      'docs/old/deep-extra.md',
+      'docs/other/deep-extra.md',
     ].join('\n'),
   )
   assert.deepEqual([...mapping], before)
+
+  const deepOnly = new Map([['docs/old/deep', 'docs/archive/deep']])
+  const beforeDeep = structuredClone([...deepOnly])
+  assert.equal(rewriteRepositoryPaths('docs/old/deep-extra.md', deepOnly), 'docs/old/deep-extra.md')
+  assert.deepEqual([...deepOnly], beforeDeep)
 })
 
 test('link rewrite changes destinations only, encoding bare spaces and keeping angle-bracket spaces', () => {

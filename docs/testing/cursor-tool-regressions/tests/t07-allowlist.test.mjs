@@ -23,7 +23,7 @@ const violation = {
   recommendation: 'use DsButton',
 }
 
-test('importing allowlist helpers does not run the design-system gate', () => {
+test('allowlist helper import smoke', () => {
   assert.equal(process.exitCode, undefined)
   assert.equal(typeof validateAllowlist, 'function')
   assert.equal(typeof evaluateAllowlist, 'function')
@@ -31,35 +31,57 @@ test('importing allowlist helpers does not run the design-system gate', () => {
 
 test('a non-empty legal allowlist entry is accepted and Cursor is not an owner', () => {
   const document = { version: 1, entries: [structuredClone(entry)] }
-  const before = structuredClone(document)
+  const beforeDocument = structuredClone(document)
   assert.deepEqual(validateAllowlist(document), [])
-  assert.deepEqual(document, before)
-  const cursorOwned = { ...entry, owner: 'Cursor' }
-  assert.deepEqual(validateAllowlist({ version: 1, entries: [cursorOwned] }), [
+  assert.deepEqual(document, beforeDocument)
+
+  const cursorDocument = { version: 1, entries: [{ ...entry, owner: 'Cursor' }] }
+  const beforeCursor = structuredClone(cursorDocument)
+  assert.deepEqual(validateAllowlist(cursorDocument), [
     'entries[0].owner must name an Agent or card:ED-XXX',
   ])
+  assert.deepEqual(cursorDocument, beforeCursor)
 })
 
 test('file, line, and rule mismatches stay unapproved while the original entry is stale', () => {
-  const document = { version: 1, entries: [structuredClone(entry)] }
   const axes = [
-    { ...violation, file: 'Other.tsx' },
-    { ...violation, line: 8 },
-    { ...violation, rule: 'other-rule' },
+    {
+      file: 'Other.tsx',
+      line: 7,
+      rule: 'native-button',
+      found: '<button>',
+      recommendation: 'use DsButton',
+    },
+    {
+      file: 'Example.tsx',
+      line: 8,
+      rule: 'native-button',
+      found: '<button>',
+      recommendation: 'use DsButton',
+    },
+    {
+      file: 'Example.tsx',
+      line: 7,
+      rule: 'other-rule',
+      found: '<button>',
+      recommendation: 'use DsButton',
+    },
   ]
-  const beforeDocument = structuredClone(document)
-  const beforeAxes = structuredClone(axes)
   for (const mismatched of axes) {
-    assert.deepEqual(evaluateAllowlist(document, [mismatched]), {
+    const document = { version: 1, entries: [structuredClone(entry)] }
+    const rows = [mismatched]
+    const beforeDocument = structuredClone(document)
+    const beforeRows = structuredClone(rows)
+    assert.deepEqual(evaluateAllowlist(document, rows), {
       code: 2,
       active: [],
       unapproved: [mismatched],
       stale: ['Example.tsx:7:native-button'],
       problems: [],
     })
+    assert.deepEqual(document, beforeDocument)
+    assert.deepEqual(rows, beforeRows)
   }
-  assert.deepEqual(document, beforeDocument)
-  assert.deepEqual(axes, beforeAxes)
 })
 
 test('an exact allowlist match returns the active identity and no stale or unapproved rows', () => {
@@ -79,21 +101,31 @@ test('an exact allowlist match returns the active identity and no stale or unapp
 })
 
 test('invalid allowlist shapes return problems and do not classify violations', () => {
-  const violations = [structuredClone(violation)]
-  const before = structuredClone(violations)
-  assert.deepEqual(evaluateAllowlist({ version: 2, entries: [] }, violations), {
+  const versionDocument = { version: 2, entries: [] }
+  const versionRows = [structuredClone(violation)]
+  const beforeVersionDocument = structuredClone(versionDocument)
+  const beforeVersionRows = structuredClone(versionRows)
+  assert.deepEqual(evaluateAllowlist(versionDocument, versionRows), {
     code: 2,
     active: [],
     unapproved: [],
     stale: [],
     problems: ['design-system-allowlist.json must contain { version: 1, entries: [] }'],
   })
-  assert.deepEqual(evaluateAllowlist({ version: 1, entries: [null] }, violations), {
+  assert.deepEqual(versionDocument, beforeVersionDocument)
+  assert.deepEqual(versionRows, beforeVersionRows)
+
+  const nullDocument = { version: 1, entries: [null] }
+  const nullRows = [structuredClone(violation)]
+  const beforeNullDocument = structuredClone(nullDocument)
+  const beforeNullRows = structuredClone(nullRows)
+  assert.deepEqual(evaluateAllowlist(nullDocument, nullRows), {
     code: 2,
     active: [],
     unapproved: [],
     stale: [],
     problems: ['entries[0] must be an object'],
   })
-  assert.deepEqual(violations, before)
+  assert.deepEqual(nullDocument, beforeNullDocument)
+  assert.deepEqual(nullRows, beforeNullRows)
 })

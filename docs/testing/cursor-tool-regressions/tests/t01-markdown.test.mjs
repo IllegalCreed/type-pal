@@ -14,7 +14,7 @@ const mixed = [
   '[guide]: ./定义.md',
 ].join('\n')
 
-test('importing the markdown parser does not run a checker', () => {
+test('markdown parser import smoke', () => {
   assert.equal(process.exitCode, undefined)
   assert.equal(typeof withoutFences, 'function')
   assert.equal(typeof markdownLinks, 'function')
