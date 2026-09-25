@@ -29,3 +29,16 @@ GLM 只在隔离分支提交推送，不合 main、不标 done；其 ARCH-REGRES
 ## 阶段门
 
 Codex：**premise verified / build allowed**，仅本卡白名单；用户新分工覆盖旧“全队列 Codex 独立”对本切片的限制，不追溯旧卡。固定 Kimi/GLM 三签当前暂停，GLM 是 Coding Owner 不是独立审查席。done 未开放。
+
+## 下一位 GLM 提示词
+
+```text
+在 /Users/zhangxu/illegal/type-pal 接手 ARCH-F2-EDITOR-BATTLE-FIELD-COMMANDS-1。
+先读 AGENTS.md、CLAUDE.md、docs/phase2/READ-FIRST.md、本卡及
+packages/editor/src/core/commands.ts:2185-2387、commands.test.ts:728-970。
+从最新 origin/main 新建独立 worktree，分支 codex/glm-arch-battle-field-commands-r1。
+只把战场命令族及专用 helper 搬到 battle-field-commands.ts，在 commands.ts 维持同一公开出口；
+严格遵守白名单，不改其它命令、产品行为、作者格式或基线。先证现有测试，再跑定向/相邻、
+editor typecheck、Biome和隔离负控制；记录导出身份/输入快照/错误与undo保真。候选提交推送，
+给真实SHA、diff、测试命令与退出码；不合main、不标done。Codex独立复核后统一全仓门禁。
+```

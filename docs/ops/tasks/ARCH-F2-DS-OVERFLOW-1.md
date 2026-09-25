@@ -29,3 +29,16 @@ Grok 只在隔离分支提交推送，不合 main、不标 done。Codex 独立�
 ## 阶段门
 
 Codex：**premise verified / build allowed**，仅此组件；用户新分工覆盖旧“全队列 Codex 独立”对本切片的限制。固定三签暂停，Grok 自验不作独立证明。done 未开放。
+
+## 下一位 Grok 提示词
+
+```text
+在 /Users/zhangxu/illegal/type-pal 接手 ARCH-F2-DS-OVERFLOW-1。先读 AGENTS.md、CLAUDE.md、
+docs/phase2/READ-FIRST.md、本卡、controls.tsx:147-272与overflow-text.test.tsx。
+从最新 origin/main 新建独立 worktree，分支 codex/grok-arch-ds-overflow-r1。
+仅迁出DsOverflowText及类型到新模块，旧controls.js与design-system入口保持同一导出；
+DOM/class/ARIA/焦点悬停/关闭/ResizeObserver/SSR行为不变，不改CSS或其它控件。
+按白名单跑定向/相邻、editor typecheck、Biome和隔离单点负控制；提供前后DOM与API对照，
+可用时在非用户隔离环境作最小功能目视验证。候选提交推送精确SHA；不合main、不标done。
+Codex独立复核与统一全仓门禁。Cursor同文件后续切片尚未开放。
+```
