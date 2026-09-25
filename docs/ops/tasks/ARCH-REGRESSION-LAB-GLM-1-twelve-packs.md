@@ -86,6 +86,46 @@ Codex保留A3的main/场景/移动/绘制主线，GLM不修改或替其审签。
 - 接入前修正已登记的 receipt/README/results 命令注释旧“三针”与 G05 时序勘误；产品、正式 `packages/**` 测试、覆盖率配置和基线不随这批材料改变。**入仓的候选仍在 `docs/testing/`，不自动进入官方 fast 测试或覆盖率统计。** V01–V04 未证矩阵继续登记；正式测试转正须另核用例归属和统一质量门。
 - 本卡继续 `draft`，不把“隔离材料已合入”冒称十二组完整合同或任务 done；Kimi 豁免边界不变。
 
+## 剩余项并行交接（2026-09-26，用户要求继续做到完工）
+
+- 当前已验收并入仓的是 `docs/testing/glm-architecture-regression-lab/**` 的 **37 项隔离候选**，不是正式测试/官方覆盖率。未完成项分工：GLM 补 G01/G06/G08 未证轴和 V01–V04 功能视觉矩阵；Codex 独立接收后负责正式测试选址/去重、全仓 check、官方 ratchet 与单次严格 fast，并对视觉取证作最终复核。两线互不改对方文件；现有任务仍 `draft`，不提前 done。
+- 用户要求不等待另一 Agent 的空窗：Codex 可先对已接收的非视觉候选进行正式接入准备；GLM 一批连续完成剩余实验，不逐小项请求签收。Kimi 本队列豁免不变。
+
+### 给 GLM 的下一位 Agent 提示词
+
+```text
+在 /Users/zhangxu/illegal/type-pal 继续 ARCH-REGRESSION-LAB-GLM-1，任务卡
+docs/ops/tasks/ARCH-REGRESSION-LAB-GLM-1-twelve-packs.md 仍为 draft。
+先读 AGENTS.md、CLAUDE.md、docs/phase2/READ-FIRST.md、任务卡、
+docs/testing/glm-architecture-regression-lab/README.md/receipt.md/results.json，
+以及 Codex r7/r8/r9 接收报告。以 origin/main 当前提交为新工作起点，在独立
+codex/ 分支与独立 worktree 做一批连续交付；不要把旧 GLM 分支整枝合回 main。
+
+你只补仍未证的轴，不重写已独立 accept 的 37 项：
+1. G01：平移 pointercancel 后 view/画布真实结果；若 jsdom 无公开可观测面，
+   用隔离浏览器做同输入取消/正常完成对照，记录公开状态或像素证据；不得读取私有字段。
+2. G06：对照 author-script-core/enemy-script/validate 当前源码与既有测试，列七个
+   递归入口逐项去重；补合法 typed 非空组合与非法叶 path/输入深等的缺口，已有证据
+   明确引用，不为凑七项重复写例。
+3. G08：补 options 各真实差异维度及能否在部分转换后抛错的证据。当前 G08-05
+   只证输入预检，不能冒充中段异常；若中段异常不可达或已有防护，明确 pending/
+   existing-proof 的源码与反例条件，不注入非法核心数据制造假覆盖。
+4. V01–V04：用自有合法工程、独立 6013/6053 宿主完整执行 README 的功能视觉
+   矩阵。V01 六类表单键盘/焦点/撤销，V02 三种 CSS viewport 的非空工作区与
+   实际分隔条操作，V03 受控读失败→重试及 A/B 乱序，V04 合法媒体 fit/1:1/
+   替换 revision/引用刷新。V04 先用正式编码器和 loader 证明 catalog bytes/SHA/
+   decoder 的正控，再看页面；缺资源不能冒称产品缺陷。只动自有临时数据和
+   自有端口，不碰 6010/6051、用户项目或存档。不重拍已验证且未变的旧图。
+
+每项给实际操作步骤、before/after 业务状态、截图完整 SHA256、CSS viewport/zoom/
+DPR、源锚点、同输入正控与可证伪反控。可达产品缺陷保留显式失败诊断，别改
+预期凑绿；工具/环境做不到就按精确阻断登记，不能用源码推断替代目视。
+只改 docs/testing/glm-architecture-regression-lab/** 与任务卡中你自己的交付块，
+不改 packages/scripts、正式测试、官方配置/基线或 Codex 审查原文；不合 main，
+不标 done，不自签独立验收。一次性提交完整回执、机账、可复跑命令和精确 SHA，
+由 Codex 独立复核；Kimi 本队列豁免。
+```
+
 ### 下一位 GLM 收窄返工提示词
 
 ```text
