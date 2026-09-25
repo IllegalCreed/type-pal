@@ -104,32 +104,58 @@ describe('G08 迁移转换边界', () => {
     expect(good.scenes[0]!.entities.length).toBeGreaterThan(0)
   })
 
-  test('G08-05 真异常路径：非法 options 抛出后，下次调用照常成功（异常不污染模块态）', () => {
-    // 与 G08-04 的「gap 不抛」相区分：这里选择项违约（worldSpriteFrameCounts ≠ 636 项）
-    // 走真抛出路径（migrate-content.ts:2158 assertPalWorldSpriteLayoutOverlaySources）
+  test('G08-05 非法 options 预检拒绝：抛错含 636 且拒绝后可重试（预检层，非转换中段异常）', () => {
+    // 与 G08-04 的「gap 不抛」相区分：worldSpriteFrameCounts ≠ 636 项在输入**预检层**即抛出
+    // （migrate-content.ts:2157-2158 assertPalWorldSpriteLayoutOverlaySources），尚未进入转换；
+    // 本例只证预检拒绝 + 拒绝后同输入可重试，不宣称转换中段异常隔离
     const scenes = [sourceScene(0)]
     const badOptions = { worldSpriteFrameCounts: [1, 2, 3] }
     expect(() =>
       mapScenesStatic(scenes, new Map([[0, sourceEvents()]]), new Map(), [], undefined, badOptions),
     ).toThrowError(/636/)
-    // 抛出后模块态无残留：同一输入不带坏 options 再跑，照常成功
+    // 拒绝后模块态无残留：同一输入不带坏 options 再跑，照常成功
     const good = mapScenesStatic(scenes, new Map([[0, sourceEvents()]]))
     expect(good.scenes.length).toBe(1)
     expect(good.scenes[0]!.entities.length).toBeGreaterThan(0)
   })
 
-  test('G08-06 globalRoots 输入消费见证：scriptGraphReport.globalRoots 计数 0→1', () => {
-    // 工作包「globalRoots 差异见证」的最小真实面：globalRoots 进入可达图根集合并被
-    // 计入 scriptGraphReport（typed ScriptRoot，无强转）
+  test('G08-06 globalRoots 进入可达图：根地址 owner=global、可达性随根存在变化（非计数回显）', () => {
+    // 真实可达图结果：-2 表（all.json 全局事件表，地址=索引）提供图地址空间；
+    // 全局根 {entry:3} 独占地址 3（场景根只达地址 1，'end' 终结不再外溢）。
+    // 断言 ownership 的 global/unreachable 随根存在翻转 —— 若图根忽略 globalRoots
+    //（migrate-content.ts:2305 [...graphRoots] 反控变异），ownership 维持无根形态 → 本例红。
     const scenes = [sourceScene(0)]
-    const events = new Map([[0, sourceEvents()]])
-    const without = mapScenesStatic(scenes, events)
-    expect(without.scriptGraphReport.globalRoots).toBe(0)
-    const withRoot = mapScenesStatic(scenes, events, new Map(), [
-      { entry: 90001, owner: 'global/item', kind: 'global' },
+    const globalTable: SourceCmd[] = [
+      { op: 'end' },
+      { label: 'L_1', op: 'end' },
+      { label: 'L_2', op: 'raw', opcode: 0x49, operands: [1, 0] },
+      { op: 'end' },
+    ]
+    const events = new Map<number, readonly SourceCmd[]>([
+      [0, sourceEvents()],
+      [-2, globalTable],
     ])
-    expect(withRoot.scriptGraphReport.globalRoots).toBe(1)
-    // 输出仍稳定：两份场景实体一致（globalRoot 只进图分析，不改变场景实体）
+    const without = mapScenesStatic(scenes, events)
+    expect(without.scriptGraphReport.commands).toBe(4) // 图地址空间来自 -2 表
+    expect(without.scriptGraphReport.roots).toBe(1) // 仅场景根（triggerLabel L_1）
+    expect(without.scriptGraphReport.ownership).toEqual({
+      scene: 1,
+      shared: 0,
+      global: 0,
+      unreachable: 3,
+    })
+    const withRoot = mapScenesStatic(scenes, events, new Map(), [
+      { entry: 3, owner: 'global/item', kind: 'global' },
+    ])
+    // 全局根真实进入图根集合：地址 3 的 owner 变为 global/item → global 0→1、unreachable 3→2
+    expect(withRoot.scriptGraphReport.roots).toBe(2)
+    expect(withRoot.scriptGraphReport.ownership).toEqual({
+      scene: 1,
+      shared: 0,
+      global: 1,
+      unreachable: 2,
+    })
+    // 场景实体不受影响（根只进图分析）
     expect(withRoot.scenes).toEqual(without.scenes)
   })
 })

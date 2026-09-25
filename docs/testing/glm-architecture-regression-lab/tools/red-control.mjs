@@ -1,5 +1,5 @@
 /**
- * ARCH-REGRESSION-LAB-GLM-1 负控 runner v2：对三个已钉合同各做单点 Vite load 破坏并核判据。
+ * ARCH-REGRESSION-LAB-GLM-1 负控 runner v2：对五个已钉合同各做单点 Vite load 破坏并核判据。
  * 用法：node docs/testing/glm-architecture-regression-lab/tools/red-control.mjs
  *
  * 判据（每针独立）：恰 exit1；目标测试实际执行；失败首行为业务 AssertionError；
@@ -10,7 +10,11 @@
  * - g05-unmount-cleanup：删 SceneScriptWorkspace 卸载 cleanup（return () => playback.stop()）
  *   → G05-04「同实例卸载前后 stop 增量」断言红（生产启动即 stop 不再掩蔽）；
  * - g03-committed：author-save-journal 最终 publishState 由 'committed' 降为 'data-complete'
- *   → G03-03「save-state phase=committed 事务终态」断言红（写盘照常、仅终态缺失）。
+ *   → G03-03「save-state phase=committed 事务终态」断言红（写盘照常、仅终态缺失）；
+ * - g05-immediate-wait：宿主 wait 的 timers.push 改立即 resolve
+ *   → G05-02「全量冲刷后流仍停在 wait」断言红（旧等待从未真正挂起即暴露）；
+ * - g08-ignore-roots：图根从 [...graphRoots, ...globalRoots] 改为 [...graphRoots]
+ *   → G08-06「ownership global=1/unreachable=2」断言红（globalRoots 不进图根即退回无根形态）。
  *
  * 临时目录放系统 /tmp：不污染仓内工作树与 Biome 扫描。
  */
@@ -65,6 +69,36 @@ const needles = [
       const from = "await publishState(receipt, 'committed')"
       const to = "await publishState(receipt, 'data-complete')"
       return { from, to, log: 'LAB_RED_MUTATION_APPLIED save-state final phase' }
+    },
+  },
+  {
+    // 宿主 wait 立即完成（timers.push 改立即 resolve）→ G05-02「全量冲刷后流仍停在 wait」红
+    id: 'g05-immediate-wait',
+    productAbs: resolve(repoRoot, 'packages/editor/src/core/playback.ts'),
+    targetAbs: resolve(labRoot, 'candidates/editor/g05-playback-scope.test.tsx'),
+    expectExecuted: 4,
+    buildMutation: () => {
+      const from = `    wait: (ms) =>
+      new Promise<void>((resolve) => {
+        this.timers.push({ left: ms, resolve })
+      }),`
+      const to = `    wait: (ms) =>
+      new Promise<void>((resolve) => {
+        resolve()
+      }),`
+      return { from, to, log: 'LAB_RED_MUTATION_APPLIED Playback host wait immediate resolve' }
+    },
+  },
+  {
+    // 图根忽略 globalRoots → G08-06「ownership global=1/unreachable=2」红（退回无根形态）
+    id: 'g08-ignore-roots',
+    productAbs: resolve(repoRoot, 'packages/migrate/src/migrate-content.ts'),
+    targetAbs: resolve(labRoot, 'candidates/migrate/g08-conversion-isolation.test.ts'),
+    expectExecuted: 5,
+    buildMutation: () => {
+      const from = 'const roots = [...graphRoots, ...globalRoots]'
+      const to = 'const roots = [...graphRoots]'
+      return { from, to, log: 'LAB_RED_MUTATION_APPLIED graph roots ignore globalRoots' }
     },
   },
 ]
@@ -133,6 +167,8 @@ export default defineConfig({
     { find: '@lab/editor/handle-store', replacement: path.resolve(editorRoot, 'src/core/handle-store.ts') },
     { find: '@lab/fixtures/author-save-fixture', replacement: path.resolve(editorRoot, 'src/core/__tests__/author-save-fixture.ts') },
     { find: '@lab/fixtures/author-save-store-fixture', replacement: path.resolve(editorRoot, 'src/core/__tests__/author-save-store-fixture.ts') },
+    { find: '@lab/migrate/migrate-content', replacement: w('packages/migrate/src/migrate-content.ts') },
+    { find: '@lab/migrate/source-facts', replacement: w('packages/migrate/src/source-facts.ts') },
     { find: /^react-dom\\/client$/, replacement: path.resolve(editorRoot, 'node_modules/react-dom/client.js') },
     { find: /^react-dom$/, replacement: path.resolve(editorRoot, 'node_modules/react-dom/index.js') },
     { find: /^react$/, replacement: path.resolve(editorRoot, 'node_modules/react/index.js') },

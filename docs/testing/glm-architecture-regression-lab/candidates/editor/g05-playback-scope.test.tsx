@@ -58,15 +58,18 @@ describe('G05 预览停止与换源', () => {
     expect(onUi.mock.calls.length).toBeGreaterThan(0)
   })
 
-  test('G05-02 播放中换源：旧 wait 进入有见证，推进越过旧源剩余窗口后尾命令不复活、新源跑完', async () => {
+  test('G05-02 播放中换源：宿主 wait 真实挂起（全量冲刷后流仍停在 wait），越过旧源剩余窗口后尾命令不复活', async () => {
     const p = new Playback(scene('s001'))
     p.play('a', waitStages(400, 'right')) // 旧源 a：400ms 后尾命令置 right
-    await Promise.resolve() // 冲刷 runner 启动续体
-    p.tick(100) // 旧源 a 的 wait 消耗 100ms（余 300ms 未决）
-    await Promise.resolve()
-    // 旧 wait「已进入」见证：a 的即时命令已生效（facing=up）而流仍未完成（mode=running）——
-    // 若 wait 未真正挂起，流会在启动微任务内直冲尾命令并 done
+    // 旧 wait「已挂起」判别：全量冲刷宏任务边界（runner 微任务续体全部落定，零 tick）
+    // 后，setPartyFacing up 已执行（facing=up）而流仍未完成（mode=running）——
+    // 若宿主 wait 立即完成（timers.push 改立即 resolve 的反控变异），流会在冲刷内直冲
+    // 尾命令 → mode=done/facing=right，以下两条即红（Codex r8 CODEX_G05_NO_WAIT_HIT 场景）
+    for (let i = 0; i < 4; i++) await new Promise((resolve) => setTimeout(resolve, 0))
     expect(p.view.player.facing).toBe('up')
+    expect(p.mode).toBe('running')
+    p.tick(100) // 消耗旧 wait 100ms（余 300ms 未决）——wait 真实挂起才会停在这
+    await new Promise((resolve) => setTimeout(resolve, 0))
     expect(p.mode).toBe('running')
     p.play('b', waitStages(80, 'left')) // 换源 b：内部 stop 必须丢弃 a 的未决等待
     // 不以新源 done 即停：固定推进 1200ms，越过 b 窗口（80ms）**和** a 的剩余窗口（300ms）+ 余量；

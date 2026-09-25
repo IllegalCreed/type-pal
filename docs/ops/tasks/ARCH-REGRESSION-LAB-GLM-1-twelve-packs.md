@@ -109,7 +109,30 @@ verify 一对一映射/白名单硬判据。随后逐组补真实 entered+业务
 - **V01–V04**：维持未证登记，未重拍旧图。
 - 机械门全绿：候选 **37/37**（新 5 例）、tsc exit0、verify PASS（账本 **45 条** 43/1/1，双向映射）、red-control v2 三针 detected、目录 Biome exit0、check:docs PASS；packages/scripts 活树对 mergeBase 零 diff。**候选不合 main、不计官方覆盖率、不标 done；Kimi 豁免。**
 
+## GLM 九轮交付（2026-09-26，r9 定点返工 G05-02 与 G08-05/06；本席自记）
+
+回应八轮 counter（范围收窄至 G05-02 与 G08-05/06），只动隔离实验目录：
+
+- **G05-02 换为可判别挂起见证**：play('a') 后**全量冲刷宏任务边界（4×setTimeout(0)，零 tick）**，断言 `facing=up` 且 `mode=running`——setPartyFacing up 已执行证明 runner 到达 wait，流未完成证明 wait 真实挂起；若宿主 wait 立即完成，流会在冲刷内直冲尾命令（done/right）即红。后续维持 tick(100) 部分消耗、换源后固定推进 1200ms 越过旧源剩余窗口（300ms）、终值 left/done。**单点反控 g05-immediate-wait**：宿主 wait `timers.push` 改立即 `resolve()` → 实测红「expected 'right' to be 'up'」（executed 4 / failed 1 / AssertionError）。
+- **G08-06 换真实可达图结果**：事件表加 -2 全局表（allCommands，地址=索引，commands=4）；全局根 `{entry:3}` 独占地址 3（场景根只达地址 1，'end' 终结不外溢）。断言 without `ownership={scene:1,shared:0,global:0,unreachable:3}` / withRoot `{scene:1,shared:0,global:1,unreachable:2}` 精确形态 + roots 2——不再断言 `globalRoots.length` 回显。**单点反控 g08-ignore-roots**：图根 `[...graphRoots, ...globalRoots]` 改 `[...graphRoots]` → 实测红「expected 1 to be 2」（ownership 退回无根形态）。场景实体不受根影响（deep-equal 保持）。
+- **G08-05 收窄为预检层**：标题/机账/回执同步为「非法 options 预检拒绝：抛错含 636 且拒绝后可重试（预检层，非转换中段异常）」，不再涉称转换中段异常隔离。
+- 负控 runner v2 扩为**五针全 detected**（新增上述两针；每针恰 exit1/AssertionError/witness/产品 hash 不变，临时目录 /tmp）。
+- 机械门全绿：候选 **37/37**、tsc exit0、verify PASS（45 条 43/1/1 双向映射）、目录 Biome exit0（含提交的 exec JSON）、check:docs PASS；packages/scripts 活树零 diff。已接收项（G02/G03/G04/G05-04/G06/G07）与 V01–V04 未证分类未动。**不合 main、不标 done；Kimi 豁免。**
+
 ### 下一位 Codex 接收提示词
+
+```text
+接收 ARCH-REGRESSION-LAB-GLM-1 r9，worktree /Users/zhangxu/illegal/type-pal-glm-regression-lab，
+分支 codex/glm-architecture-regression-lab-r1，任务 draft。先读 origin/main 的
+architecture-regression-lab-codex-r8-review.md 与任务卡 r9 交付块，核本轮 diff（仅实验目录与本卡）。
+复跑：candidates.vitest.mts 新鲜 JSON（37/37）、tools/verify.mjs <JSON>（45 条 43/1/1，PASS）、
+tools/red-control.mjs（v2 五针全 detected：g05-immediate-wait 应见「expected 'right' to be 'up'」、
+g08-ignore-roots 应见「expected 1 to be 2」）、tsc --project configs/tsconfig.json --noEmit（exit0）、
+目录 Biome（含提交的 exec JSON）、check:docs。裁决重点：G05-02 挂起判别对 wait 立即完成变异的可鉴别性、
+G08-06 ownership 真实可达图结果对图根忽略 globalRoots 的可鉴别性、G08-05 预检层收窄口径。
+其余组按 r8 接收结论不重开；V01-V04 维持未证；不重拍未变截图；GLM 不自审终审，不合 main、不标 done；Kimi 豁免。
+```
+
 
 ```text
 接收 ARCH-REGRESSION-LAB-GLM-1 r8，worktree /Users/zhangxu/illegal/type-pal-glm-regression-lab，

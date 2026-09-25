@@ -340,12 +340,12 @@
       "pack": "G05",
       "status": "candidate-green",
       "evidenceKind": ["executed", "test-body"],
-      "contract": "换源丢弃旧源：旧 wait 进入有见证（tick(100) 后 facing=up 且 mode=running），固定推进 1200ms 越过旧源剩余窗口（300ms）；两源尾命令朝向可区分",
+      "contract": "换源丢弃旧源：宿主 wait 真实挂起有判别（play 后全量冲刷宏任务边界、零 tick → facing=up 且 mode=running；若 wait 立即完成则流直冲尾命令 done/right 即红）+ 固定推进 1200ms 越过旧源剩余窗口（300ms）后 facing=left/done；单点反控 g05-immediate-wait 针（宿主 wait 立即 resolve → 红「expected right to be up」）",
       "test": {
         "file": "candidates/editor/g05-playback-scope.test.tsx",
-        "fullName": "G05 预览停止与换源 G05-02 播放中换源：旧 wait 进入有见证，推进越过旧源剩余窗口后尾命令不复活、新源跑完"
+        "fullName": "G05 预览停止与换源 G05-02 播放中换源：宿主 wait 真实挂起（全量冲刷后流仍停在 wait），越过旧源剩余窗口后尾命令不复活"
       },
-      "expected": "越过旧源剩余窗口后 mode=done 且 facing=left（旧源尾命令不复活）",
+      "expected": "冲刷后 facing=up/mode=running（wait 挂起）；越窗后 mode=done 且 facing=left（旧源余量不复活）",
       "actual": "idle + activePath null",
       "positiveControl": "自身",
       "mutation": "同上",
@@ -845,8 +845,8 @@
       "pack": "G08",
       "status": "candidate-green",
       "evidenceKind": ["executed", "test-body"],
-      "contract": "真异常路径（与 G08-04 gap 不抛相区分）：options.worldSpriteFrameCounts ≠ 636 项 → assertPalWorldSpriteLayoutOverlaySources 抛出（migrate-content.ts:2158）",
-      "expected": "抛错含 636；抛出后同输入不带坏 options 再跑照常成功（模块态无残留）",
+      "contract": "非法 options 预检拒绝：worldSpriteFrameCounts ≠ 636 项在输入预检层抛出（migrate-content.ts:2157-2158），尚未进入转换",
+      "expected": "抛错含 636；拒绝后同输入不带坏 options 再跑照常成功（预检拒绝后可重试）",
       "actual": "toThrowError(/636/)；再调用成功",
       "positiveControl": "G08-01（同输入成功对照）",
       "mutation": "pending",
@@ -855,7 +855,7 @@
       "attribution": "GLM",
       "test": {
         "file": "candidates/migrate/g08-conversion-isolation.test.ts",
-        "fullName": "G08 迁移转换边界 G08-05 真异常路径：非法 options 抛出后，下次调用照常成功（异常不污染模块态）"
+        "fullName": "G08 迁移转换边界 G08-05 非法 options 预检拒绝：抛错含 636 且拒绝后可重试（预检层，非转换中段异常）"
       }
     },
     {
@@ -863,9 +863,9 @@
       "pack": "G08",
       "status": "candidate-green",
       "evidenceKind": ["executed", "test-body"],
-      "contract": "globalRoots 输入消费：根进可达图（migrate-content.ts:2305）并计入 scriptGraphReport.globalRoots",
-      "expected": "无根=0；带 1 个 typed ScriptRoot=1；场景实体不受影响",
-      "actual": "0→1；scenes deep-equal",
+      "contract": "globalRoots 进入可达图（真实图结果，非计数回显）：-2 表提供地址空间（commands=4），全局根 {entry:3} 独占地址 → ownership global 0→1 / unreachable 3→2；单点反控 g08-ignore-roots 针（图根 [...graphRoots] 忽略 globalRoots → ownership 断言红「expected 1 to be 2」）",
+      "expected": "无根 ownership={scene:1,shared:0,global:0,unreachable:3}；带根 {scene:1,shared:0,global:1,unreachable:2}；场景实体不变",
+      "actual": "两次 ownership 精确相等断言通过；scenes deep-equal",
       "positiveControl": "G08-01",
       "mutation": "pending",
       "cleanup": "—",
@@ -873,7 +873,7 @@
       "attribution": "GLM",
       "test": {
         "file": "candidates/migrate/g08-conversion-isolation.test.ts",
-        "fullName": "G08 迁移转换边界 G08-06 globalRoots 输入消费见证：scriptGraphReport.globalRoots 计数 0→1"
+        "fullName": "G08 迁移转换边界 G08-06 globalRoots 进入可达图：根地址 owner=global、可达性随根存在变化（非计数回显）"
       }
     }
   ],
