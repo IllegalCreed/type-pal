@@ -13,6 +13,7 @@
 | [DOC-CURSOR-1 — 十二份现行文档的轻量核对](DOC-CURSOR-1-current-guide-check.md) | draft | 以任务卡当前准入与看板分工为准。 |
 | [DOC-CURSOR-2 — 十二组包说明、CLI与索引核对](DOC-CURSOR-2-package-tools-indexes.md) | draft | 以任务卡当前准入与看板分工为准。 |
 | [DOC-GUIDE-REVISION-1 — 现行指南五文件窄修订准入](DOC-GUIDE-REVISION-1-current-entrypoints.md) | draft | 以任务卡当前准入与看板分工为准。 |
+| [TEST-GEMINI-PHASE1-STATS-1 — 一阶段有效属性与战斗状态只读投影候选回归](TEST-GEMINI-PHASE1-STATS-1-effective-readouts.md) | draft | 以任务卡当前准入与看板分工为准。 |
 
 ## 已完成（historical）
 
@@ -200,4 +201,3 @@
 | [OPS-TST-PERF-C - P2/P3/P4 consolidated determinism proof](../archive/tasks/cancelled/OPS-TST-PERF-consolidated-determinism.md) | cancelled | current-only 已删除 P2/P3/P4 producer，证明对象已退役。 |
 | [OPS-TST-PERF-B - shared/fresh 隔离并行 release runner](../archive/tasks/cancelled/OPS-TST-PERF-parallel-gates.md) | cancelled | current-only 已删除 shared/fresh release 路由，不重建旧并行链。 |
 | [W7E - 独立地图库与场景地图绑定（已取消）](../archive/tasks/cancelled/W7E-map-library-scene-binding.md) | cancelled | 用户否决双地图模型，由 W7F 唯一新版地图管线承接。 |
-

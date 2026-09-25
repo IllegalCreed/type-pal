@@ -30,6 +30,7 @@ GLM后续补测候选见[十批长队列](../testing/glm-coverage-work-queue.md)
 
 | ID | 任务 | 状态 | 负责人/下一步 | 一句话备注 |
 |---|---|---|---|---|
+| TEST-GEMINI-PHASE1-STATS-1 | [一阶段有效属性/状态投影候选回归](tasks/TEST-GEMINI-PHASE1-STATS-1-effective-readouts.md) | draft | Gemini隔离整包 / Codex独立接收 | E1–E6/I1–I2先去重；不改产品/旧测/正式覆盖率，不开放build/done |
 | DOC-CURSOR-2 | [十二组包说明/CLI/索引核对](tasks/DOC-CURSOR-2-package-tools-indexes.md) | draft | Codex / 按用户边界保留材料接收 | 4b75d1c3/cc2720c5 accept，含NB1/NB2文字观察；无阻断counter，不合main/不标done，修订另核 |
 | DOC-GUIDE-REVISION-1 | [五份现行指南窄修订准入](tasks/DOC-GUIDE-REVISION-1-current-entrypoints.md) | draft | Codex / 另核准入 | 原回执已接收，尚未build；只对齐命令/入口/导航，H7场景UI另核 |
 | DOC-CURSOR-1 | [十二份现行文档轻量核对](tasks/DOC-CURSOR-1-current-guide-check.md) | draft | Codex / 按用户边界保留材料接收 | 65193a84/320800ec accept；CR-1/CR-2闭合，无剩余返工，不合main/不标done |
