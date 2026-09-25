@@ -5,7 +5,7 @@
   "startSha": "3270473862d1e1574f266b70b65de89ca8b65352",
   "reviewCandidateSha": "3967a376f2fbaf10258ae15007636a6f2c7d4bfe",
   "counterSha": "0e751efe (docs(review): counter GLM architecture support evidence r1)",
-  "finalSha": "1c6c6d911b992038f156073a094c60b9a617f7a6 + formatter fix 7103c540a81f136a493698f08b14fee038bcf9f3（唯一内容提交；登记提交仅回填本字段）",
+  "finalSha": "7103c540a81f136a493698f08b14fee038bcf9f3 (r3 收窄返工内容提交，含 formatter 修复；登记提交仅本行回填)",
   "productionFreeze": "b11d4bc9",
   "freezeDriftCheck": "git diff b11d4bc9..32704738 -- packages/ scripts/ = empty；32704738..3967a376 packages/scripts 零 diff（Codex 已核，本席复核一致）",
   "worktree": "/Users/zhangxu/illegal/type-pal-glm-architecture",
@@ -672,9 +672,7 @@
       "actual": "实际导航",
       "expectedSource": "—",
       "affectedDomain": "editor/navigation",
-      "tests": [
-        "editor-navigation.test.ts > EditorLocation URL 契约（17 条 it，见 P1-005）"
-      ],
+      "tests": ["editor-navigation.test.ts > EditorLocation URL 契约（17 条 it，见 P1-005）"],
       "testsScope": "引用 P1-005 已读清单",
       "attribution": "GLM"
     }
