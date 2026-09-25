@@ -1,8 +1,8 @@
 # Cursor十二组包说明与工具核对回执
 
-状态：Cursor执行中（C01–C04已核）。
+状态：Cursor执行中（C01–C08已核）。
 范围和授权见[DOC-CURSOR-2](../ops/tasks/DOC-CURSOR-2-package-tools-indexes.md)，证据冻结`dab017e7`。
-只读准备，不代表源文档已修、命令已执行、产品/CI/覆盖率通过。未运行被审CLI/help。
+只读准备，不代表源文档已修、命令已执行、产品/CI/覆盖率通过。未运行被审CLI/help（除本包授权的`node scripts/docs/check.mjs`）。
 
 ## 交付索引
 
@@ -12,9 +12,16 @@
 | C02 pal-extract | 已核 | 0 | 0 | 0 | 0 | 0 |
 | C03 game | 已核 | 1 | 0 | 1 | 0 | 0 |
 | C04 content | 已核 | 0 | 0 | 0 | 0 | 0 |
-| C05–C12 | 待执行 | — | — | — | — | — |
+| C05 reforge | 已核 | 0 | 1 | 0 | 0 | 0 |
+| C06 editor | 已核 | 0 | 0 | 0 | 0 | 0 |
+| C07 migrate | 已核 | 1 | 0 | 1 | 0 | 0 |
+| C08 迁移CLI | 已核 | 0 | 0 | 0 | 0 | 2 |
+| C09 提取/文档工具 | 待执行 | — | — | — | — | — |
+| C10 CI | 待执行 | — | — | — | — | — |
+| C11 资源/fixture | 待执行 | — | — | — | — | — |
+| C12 目录入口 | 待执行 | — | — | — | — | — |
 
-证据树：`dab017e7`。工作树开工：`7e52d514`（相对冻结仅分配文档）。正文候选SHA待四组提交后回填。
+证据树：`dab017e7`。工作树开工：`7e52d514`（相对冻结仅分配文档）。正文候选SHA待后续提交回填。
 
 ## C01 shared
 
@@ -98,19 +105,88 @@
 
 ## C05 reforge
 
-待执行。
+### 事实小表
+
+| 文档声称 | 真实定义/脚本 | 判定 |
+|---|---|---|
+| `dev` 端口 6050 起 | `package.json:14` `vite --port 6050 --strictPort`；`dev:pal` → 6051 | 一致 |
+| 默认工程 | `boot.ts:10` `VITE_PROJECT_ID ?? 'demo'` | 一致（README 未写死工程名，与实现兼容） |
+| `test` / `typecheck` | `package.json:19-20` | 一致 |
+| 存档 SAVE8 | `save/current-codec.ts:16,74,80`；消费 `CURRENT_PROJECT_MINIMUM_SAVE_VERSION` | 一致 |
+| 定位 authority/mount/follow（E6） | `debug-tools.ts` / `follower.ts` 等存在 `authority`/`mount`/`follow` 形态 | 点名能力存在（不审算法） |
+| 不读第一阶段提取数据 | 产品 `src/` 无 `@type-pal/pal-extract` / 无读 `data/extracted` 业务导入；但 `vite.config.ts:15,109` 仍 `serveDir('/extracted', data/extracted)`；审计脚本可读 extracted | **待确认** |
+| 依赖 `@type-pal/shared`（资产格式） | `package.json:25-26`；产品多文件 import Palette/RleFrame | 与 shared README 复用叙述一致，不报跨包违例 |
+
+### 待确认
+
+**W2-C05-1** · `packages/reforge/README.md:15-16`
+
+- 原文：`不读第一阶段提取数据（归 migrate 桥接）。`
+- 证据：`vite.config.ts:9-15,109` 仍映射 `/extracted/* → data/extracted`（注释称「尚未迁移的 tilemap/sprite/palette」）；`scripts/audit-dialog-wrap.mts:16,19` 读 extracted。产品 `file-source` 测试拒绝绝对 `/extracted` 路径。
+- 最小证伪：在冻结树上证明默认 `demo`/`pal` 冷启动的生产加载链仍 `fetch('/extracted/…')`；若零命中，则 README 边界成立，本条可降为历史/dev 残留说明。
+- 不给未经验证的替换句。
 
 ## C06 editor
 
-待执行。
+### 事实小表
+
+| 文档声称 | 真实定义/脚本 | 判定 |
+|---|---|---|
+| `dev` 端口 6010 | `package.json:8` `VITE_PROJECT_ID=pal vite --port 6010 --strictPort` | 一致 |
+| `test` 固定 `maxWorkers=2` | `package.json:14` `vitest run … --maxWorkers=2` | 一致 |
+| `typecheck` | `package.json:13` | 一致 |
+| `audit:design-system` | `package.json:7` → `node scripts/audit-legacy-controls.mjs --gate` | 一致 |
+| 依赖 content + reforge；不碰 shared/game/pal-extract | `package.json:18-21` 仅 content/reforge/react；`packages/editor` 无直接 `@type-pal/shared|game|pal-extract` import | 一致（Palette/RleFrame 经 reforge 再导出，不计入直接碰第一阶段包） |
+
+未核边界：不验证 UI 功能；不把设计目标判为应删除。本组静态已核，无确定不符。
 
 ## C07 migrate
 
-待执行。
+### 事实小表
+
+| 文档声称 | 真实定义/脚本 | 判定 |
+|---|---|---|
+| `migrate:content` / `--write` | `package.json:19` → `tsx scripts/migrate-content.mts`；argv 仅允许 `--write`/`--help`（`:44-51`） | 一致 |
+| `test:fast` / `check` | `package.json:11,14` | 一致 |
+| 默认先 `recoverMigrationTransaction` | `migrate-content.mts:53` 在读 baseline 前调用；`migration-transaction.ts:264-270` 有 journal 则 `applyJournal`+`cleanup`（可写盘） | 一致；副作用见已知关联 |
+| 目录文件存在 | `pal-migration.ts`、`pal-current-publication.ts`、`migration-{baseline,merge,plan,transaction,write-plan}.ts`、`baselines/pal/`、`scripts/migrate-content.mts` 均在冻结树 | 一致 |
+| content20 / SAVE8 指针 | 指向 `packages/content/src/character.ts`（C04 已核） | 一致 |
+| 「资产烘焙细节见 [asset-pipeline.md](…/content-publication.md)」 | 可见标签 `asset-pipeline.md`；href 为 `content-publication.md`（存在）；`docs/phase2/guides/asset-pipeline.md` **不存在**；历史稿在 `docs/phase2/archive/designs/asset-pipeline.md` | **确定不符（标签）** |
+
+### 已知关联
+
+**W2-C07-N1** · `packages/migrate/README.md:37-39`（关联前批 N1，不重算）
+
+- 原文强调默认 dry-run / journal 前停止；实现上每次命令先 `recoverMigrationTransaction`（有 pending journal 时会写盘恢复）。
+- 关联：[cursor-docs-hygiene-review.md](cursor-docs-hygiene-review.md) N1 结论——不得声称默认路径绝无写副作用。本包不扩展为新根因。
+
+### 确定不符
+
+**W2-C07-1** · `packages/migrate/README.md:61`
+
+- 原文：`资产烘焙细节见 [asset-pipeline.md](../../docs/phase2/guides/content-publication.md)。`
+- 证据：目标文件 H1 为「PAL 内容导入与发布」；guides 下无 `asset-pipeline.md`；`content-publication.md:15` 自指历史资产管线在 archive。
+- 建议替换：`资产烘焙与发布细节见 [PAL 内容导入与发布](../../docs/phase2/guides/content-publication.md)。`
 
 ## C08 迁移CLI六文件
 
-待执行。
+静态只读参数/路径匹配；**未运行**。无帮助文案不算 bug。
+
+| 脚本 | package.json | 参数 | cwd/根 | 输入 | 输出/副作用 | 外部工具 |
+|---|---|---|---|---|---|---|
+| `audit-pal-sprite-actions.mts` | `audit:sprite-actions` | 可选 `--json`（`process.argv.includes`） | `repo=…/../../..` | `loadPalMigrationSources`（需 extracted 等） | stdout 报告 | 无 |
+| `audit-project-maps.mts` | `audit:maps` | 无 | `root=…/../../..` | `data/extracted/data/tilemap/*.json` | stdout JSON report | 无 |
+| `bake-assets.mts` | `bake` | 无 argv | `ROOT` 仓库根 | `data/extracted` UI/FBP/palette0 | 写 `packages/reforge/src/engine-chrome/assets/**`；校验 UI 85/48629/`5e5315…` | `pngjs` |
+| `generate-project-battle-placeholders.mts` | **无 script 登记** | 无 | `repo` | 无外部输入（内存生成） | 写 `projects/{demo,e2e-own}/assets/generated/battle-sprites/player-fighter.rle` | 无 |
+| `migrate-content.mts` | `migrate:content` | `--write` / `--help`；其它 throw | `repo` | baseline + extracted sources + `projects/pal` | 默认计划+校验；`--write` 事务发布；**先 recover** | 无 |
+| `preview-fbp.mts` | **无 script 登记** | `argv[2]=chunkId` 默认1；`argv[3]=out` 默认仓库根 `fbp-preview.png` | `ROOT` | `data/extracted/images/battle/bg/NNN.png` + palette0 | 写 out PNG | `pngjs` |
+
+### 未核输入
+
+**W2-C08-U1** · bake / preview / audit-maps / audit-sprite：本机 `data/extracted` 缺失（gitignore），未核运行期能否读到源。
+**W2-C08-U2** · migrate-content：未执行；不验证 dry-run/write 成功。
+
+侧写：`migrate-content` 无 `--` 分隔需求（前批 N1）；本表不重复计。
 
 ## C09 提取与文档工具五文件
 
