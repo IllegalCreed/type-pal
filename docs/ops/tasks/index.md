@@ -10,6 +10,7 @@
 |---|---|---|
 | [ARCH-REGRESSION-LAB-GLM-1 — 十二组可执行回归与功能视觉准备](ARCH-REGRESSION-LAB-GLM-1-twelve-packs.md) | draft | 以任务卡当前准入与看板分工为准。 |
 | [ARCH-SUPPORT-GLM-1 — 八组并行准备取证](ARCH-SUPPORT-GLM-1-eight-audit-packages.md) | draft | 以任务卡当前准入与看板分工为准。 |
+| [CURSOR-WAVE-2-1 — 五包连续文档纠偏与纯边界回归](CURSOR-WAVE-2-1-docs-and-pure-regressions.md) | build | 以任务卡当前准入与看板分工为准。 |
 
 ## 已完成（historical）
 
