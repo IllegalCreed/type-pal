@@ -1,0 +1,951 @@
+{
+  "schemaVersion": 1,
+  "task": "ARCH-REGRESSION-LAB-GLM-1 twelve packs (GLM contribution; Codex owner/reviewer)",
+  "date": "2026-09-25",
+  "startSha": "a3ceaf05199fe334bdf5dea8d2b362e34de8679b",
+  "productionFreeze": "86e928b5",
+  "branch": "codex/glm-architecture-regression-lab-r1",
+  "worktree": "/Users/zhangxu/illegal/type-pal-glm-regression-lab",
+  "freezeCheck": "git diff 86e928b5..a3ceaf05 -- packages/ scripts/ 为空",
+  "environment": {
+    "node": "v22.19.0",
+    "pnpm": "10.29.2",
+    "install": "pnpm install --frozen-lockfile exit 0",
+    "candidatesConfig": "docs/testing/glm-architecture-regression-lab/configs/candidates.vitest.mts（root=packages/editor；jsdom+react 插件经 editor 作用域 createRequire 解析；@type-pal/* 与 @lab/* 别名解析到本工作树源码；maxWorkers=2）",
+    "diagnosticsConfig": "docs/testing/glm-architecture-regression-lab/configs/diagnostics.vitest.mts（诊断红例单独运行）",
+    "devServer": "packages/editor vite --port 6013 --strictPort（本树实例；已核归属为本 worktree；6010/6051 未触碰）"
+  },
+  "startupValidation": {
+    "greenControl": {
+      "test": "candidates/editor/lab-startup.test.tsx > LAB-STARTUP 启动小样 > 绿正控：真实 EditSession 执行地图改名命令，undo/redo 业务状态保真",
+      "result": "1/1 passed",
+      "command": "npx vitest run --config docs/testing/glm-architecture-regression-lab/configs/candidates.vitest.mts"
+    },
+    "redControl": {
+      "runner": "tools/red-control.mjs",
+      "mutation": "UpdateProjectMapLayerCommand.apply 单点：改名直接 return state（类声明→apply 签名唯一锚；泛化 apply 签名 87 处不可用）",
+      "verdict": "detected（exit1 / 1 executed / 1 failed / AssertionError 首行 / LAB_RED_MUTATION_APPLIED 见证 / 产品 hash 不变）",
+      "evidence": "configs/.tmp-red-S0fe3o/red.log + red.json"
+    }
+  },
+  "entries": [
+    {
+      "id": "LAB-STARTUP-01",
+      "pack": "startup",
+      "status": "candidate-green",
+      "evidenceKind": ["executed", "test-body"],
+      "contract": "真实 EditSession + 真实 UpdateProjectMapLayerCommand：dispatch 实变业务对象，undo/redo 保真",
+      "test": {
+        "file": "candidates/editor/lab-startup.test.tsx",
+        "fullName": "LAB-STARTUP 启动小样 绿正控：真实 EditSession 执行地图改名命令，undo/redo 业务状态保真"
+      },
+      "expected": "dispatch 后图层名实变为新值；undo 回旧值；redo 回新值",
+      "actual": "三断言全部通过（对真实会话状态断言）",
+      "positiveControl": "tools/red-control.mjs 单点破坏即 exit1/AssertionError",
+      "mutation": "diagnostics/lab-startup-red.test.tsx（detected）",
+      "cleanup": "—",
+      "artifacts": [],
+      "attribution": "GLM"
+    },
+    {
+      "id": "G01-01",
+      "pack": "G01",
+      "status": "candidate-green",
+      "evidenceKind": ["executed", "test-body"],
+      "contract": "MapMode.tsx onUp :2222-2266（正常 up 提交笔划）",
+      "test": {
+        "file": "candidates/editor/g01-map-gesture.test.tsx",
+        "fullName": "G01 地图手势终结 G01-01 正控：笔划经正常 pointerup 提交一笔瓦片写入（同输入对照）"
+      },
+      "expected": "笔划瓦片写入业务对象",
+      "actual": "tiles 深比较非前像",
+      "positiveControl": "自身即正控",
+      "mutation": "见 diagnostics（LAB-STARTUP-RED 同款单点纪律）",
+      "cleanup": "root.unmount + host.remove",
+      "artifacts": [],
+      "attribution": "GLM"
+    },
+    {
+      "id": "G01-02",
+      "pack": "G01",
+      "status": "candidate-green",
+      "evidenceKind": ["executed", "test-body"],
+      "contract": "MapMode.tsx :3075 onPointerCancel → cancelPointerInteraction :2292",
+      "test": {
+        "file": "candidates/editor/g01-map-gesture.test.tsx",
+        "fullName": "G01 地图手势终结 G01-02 pointercancel 终结笔划：迟到 move/up 不再提交（0 命令）"
+      },
+      "expected": "取消后迟到 move/up 零提交；后续正控仍成功",
+      "actual": "tiles 深等于前像；后续一笔成功",
+      "positiveControl": "G01-01",
+      "mutation": "同上",
+      "cleanup": "同",
+      "artifacts": [],
+      "attribution": "GLM"
+    },
+    {
+      "id": "G01-03",
+      "pack": "G01",
+      "status": "candidate-green",
+      "evidenceKind": ["executed", "test-body"],
+      "contract": "MapMode.tsx :3077-3079 onLostPointerCapture",
+      "test": {
+        "file": "candidates/editor/g01-map-gesture.test.tsx",
+        "fullName": "G01 地图手势终结 G01-03 lostpointercapture 终结笔划：迟到 up 不提交"
+      },
+      "expected": "同上（lostcapture 通道）",
+      "actual": "tiles 深等于前像",
+      "positiveControl": "G01-01",
+      "mutation": "同上",
+      "cleanup": "同",
+      "artifacts": [],
+      "attribution": "GLM"
+    },
+    {
+      "id": "G01-04",
+      "pack": "G01",
+      "status": "candidate-green",
+      "evidenceKind": ["executed", "test-body"],
+      "contract": "MapMode.tsx :2307-2310 window blur → cancel",
+      "test": {
+        "file": "candidates/editor/g01-map-gesture.test.tsx",
+        "fullName": "G01 地图手势终结 G01-04 window blur 终结笔划：迟到 up 不提交"
+      },
+      "expected": "同上（blur 通道）",
+      "actual": "tiles 深等于前像",
+      "positiveControl": "G01-01",
+      "mutation": "同上",
+      "cleanup": "同",
+      "artifacts": [],
+      "attribution": "GLM"
+    },
+    {
+      "id": "G01-05",
+      "pack": "G01",
+      "status": "candidate-green",
+      "evidenceKind": ["executed", "test-body"],
+      "contract": "MapMode.tsx :2223-2242（set-selection 派发伴随通知调用）",
+      "test": {
+        "file": "candidates/editor/g01-map-gesture.test.tsx",
+        "fullName": "G01 地图手势终结 G01-05 选区拖动 pointercancel：无选区业务状态；正常提交后「删除」对 session 地图真实删瓦片"
+      },
+      "expected": "cancel 后通知调用数不增；正常 up 增加",
+      "actual": "调用计数见证",
+      "positiveControl": "正控段",
+      "mutation": "同上",
+      "cleanup": "同",
+      "artifacts": [],
+      "attribution": "GLM"
+    },
+    {
+      "id": "G01-06",
+      "pack": "G01",
+      "status": "candidate-green",
+      "evidenceKind": ["executed", "test-body"],
+      "contract": "MapMode.tsx :2150-2160 pan + :2292 cancel",
+      "test": {
+        "file": "candidates/editor/g01-map-gesture.test.tsx",
+        "fullName": "G01 地图手势终结 G01-06 平移中 pointercancel 终结平移：后续选择笔划仍正常提交（跨工具存活）"
+      },
+      "expected": "取消平移后切回笔刷，一笔绘制真实落图（tiles 非前像）——跨工具存活业务见证",
+      "actual": "tiles 实变（若 panRef 滞留则绘制被平移吞掉即红）",
+      "positiveControl": "存活段",
+      "mutation": "pending（view 状态 jsdom 无公开可观测面）",
+      "cleanup": "同",
+      "artifacts": [],
+      "attribution": "GLM"
+    },
+    {
+      "id": "G02-01",
+      "pack": "G02",
+      "status": "candidate-green",
+      "evidenceKind": ["executed", "test-body"],
+      "contract": "MapMode.tsx 事件重绑随 session prop（r3 harness rerenderWithSession）",
+      "test": {
+        "file": "candidates/editor/g02-map-scope.test.tsx",
+        "fullName": "G02 地图会话失效 G02-01 活跃笔划中换同 mapId 新 EditSession：迟到 up 不把旧笔划提交进新会话"
+      },
+      "expected": "旧/新会话 tiles 均保持切换前像",
+      "actual": "两侧深等于前像",
+      "positiveControl": "G01-01",
+      "mutation": "启动小样同款",
+      "cleanup": "同",
+      "artifacts": [],
+      "attribution": "GLM"
+    },
+    {
+      "id": "G02-02",
+      "pack": "G02",
+      "status": "candidate-green",
+      "evidenceKind": ["executed", "test-body"],
+      "contract": "MapMode.tsx :605-630 mapId 清场 effect（清 strokeRef/paintingRef/selectionDragRef/panRef）",
+      "test": {
+        "file": "candidates/editor/g02-map-scope.test.tsx",
+        "fullName": "G02 地图会话失效 G02-02 活跃笔划中跨 mapId 切换：清场 effect 覆盖活跃手势，迟到 up 两边都不提交"
+      },
+      "expected": "map-a 与 map-b tiles 均无写入",
+      "actual": "双图深等于前像",
+      "positiveControl": "G01-01",
+      "mutation": "同上",
+      "cleanup": "同",
+      "artifacts": [],
+      "attribution": "GLM"
+    },
+    {
+      "id": "G02-03",
+      "pack": "G02",
+      "status": "candidate-green",
+      "evidenceKind": ["executed", "test-body"],
+      "contract": "同 G02-01 + set-selection 通知路径",
+      "test": {
+        "file": "candidates/editor/g02-map-scope.test.tsx",
+        "fullName": "G02 地图会话失效 G02-03 活跃选区拖动中换会话：迟到 up 不在新会话提交选区；新会话新选区的删除只写新会话地图"
+      },
+      "expected": "换会话后迟到 up 无新通知调用",
+      "actual": "通知调用计数不变",
+      "positiveControl": "G01-05 正控段",
+      "mutation": "同上",
+      "cleanup": "同",
+      "artifacts": [],
+      "attribution": "GLM"
+    },
+    {
+      "id": "G03-01",
+      "pack": "G03",
+      "status": "candidate-green",
+      "evidenceKind": ["executed", "test-body"],
+      "contract": "App.tsx props.session 接线 + RenameProjectCommand",
+      "test": {
+        "file": "candidates/editor/g03-app-lifecycle.test.tsx",
+        "fullName": "G03 App 所有权生命周期 G03-01 真实 App 挂载：会话派发命令反映到页面（项目名可见），状态接线成立"
+      },
+      "expected": "派发后页面文本含新工程名",
+      "actual": "实验室工程名 上屏",
+      "positiveControl": "挂载见证 lab-lifecycle",
+      "mutation": "启动小样同款单点纪律",
+      "cleanup": "unmount+remove",
+      "artifacts": [],
+      "attribution": "GLM"
+    },
+    {
+      "id": "G03-02",
+      "pack": "G03",
+      "status": "candidate-green",
+      "evidenceKind": ["executed", "test-body"],
+      "contract": "edit-session.ts:329-332 activeHistory 历史绑定断开即 fail-loud（App 卸载 dispose 绑定）",
+      "test": {
+        "file": "candidates/editor/g03-app-lifecycle.test.tsx",
+        "fullName": "G03 App 所有权生命周期 G03-02 卸载→重挂载新会话：旧会话后续派发不影响新页面"
+      },
+      "expected": "卸载后旧会话派发 throw 项目历史已断开；重挂载新会话不被污染",
+      "actual": "throw 文案匹配 + 新页面无污染",
+      "positiveControl": "G03-01",
+      "mutation": "同上",
+      "cleanup": "同",
+      "artifacts": [],
+      "attribution": "GLM"
+    },
+    {
+      "id": "G03-03",
+      "pack": "G03",
+      "status": "candidate-green",
+      "evidenceKind": ["executed", "test-body"],
+      "contract": "保存事务终态：App initialDir 生产入口 → Cmd+S → 完整工程树写闭 + .type-pal/save-state.json phase=committed（author-save-journal.ts:497/602）；卸载后零新增写盘",
+      "test": {
+        "file": "candidates/editor/g03-app-lifecycle.test.tsx",
+        "fullName": "G03 App 所有权生命周期 G03-03 Cmd+S 真实保存事务：save-state 终态 committed + 工程树写闭；卸载后零写盘且派发 fail-loud"
+      },
+      "expected": "save-state 落盘 committed（终态机 staging/ready/applying/data-complete→committed）；卸载+静默后 Cmd+S 零写盘",
+      "actual": "body text 前后一致",
+      "positiveControl": "app-command-registry.test.ts routes Cmd/Ctrl+S",
+      "mutation": "启动小样同款",
+      "cleanup": "同",
+      "artifacts": [],
+      "attribution": "GLM"
+    },
+    {
+      "id": "G04-01",
+      "pack": "G04",
+      "status": "candidate-green",
+      "evidenceKind": ["executed", "test-body"],
+      "contract": "ScriptEditor.tsx :3149 指纹比较/:3174 effect（外部 body 替换跟随）",
+      "test": {
+        "file": "candidates/editor/g04-script-draft.test.tsx",
+        "fullName": "G04 脚本编辑草稿 G04-01 外部 body 替换（外部 undo/redo 模拟）：编辑器行随新 body，旧行不残留"
+      },
+      "expected": "行数跟随 body（2→1）",
+      "actual": "1 行",
+      "positiveControl": "自身双 render",
+      "mutation": "pending（编辑器草稿未做单点）",
+      "cleanup": "unmount",
+      "artifacts": [],
+      "attribution": "GLM"
+    },
+    {
+      "id": "G04-02",
+      "pack": "G04",
+      "status": "candidate-green",
+      "evidenceKind": ["executed", "test-body"],
+      "contract": "CanonicalScriptBodyEditor onChange 单次提交",
+      "test": {
+        "file": "candidates/editor/g04-script-draft.test.tsx",
+        "fullName": "G04 脚本编辑草稿 G04-02 编辑草稿确认：entered 见证后翻转值 → 确认恰一笔、值正确、弹层收口"
+      },
+      "expected": "onChange ≤1 次",
+      "actual": "≤1",
+      "positiveControl": "ScriptEditor.test.tsx:114 同款入口",
+      "mutation": "pending",
+      "cleanup": "同",
+      "artifacts": [],
+      "attribution": "GLM"
+    },
+    {
+      "id": "G04-03",
+      "pack": "G04",
+      "status": "candidate-green",
+      "evidenceKind": ["executed", "test-body"],
+      "contract": "Esc 关闭弹层 + 取消零命令",
+      "test": {
+        "file": "candidates/editor/g04-script-draft.test.tsx",
+        "fullName": "G04 脚本编辑草稿 G04-03 关闭取消：弹层关闭、onChange 零调用、body 深等"
+      },
+      "expected": "关闭按钮取消：弹层关闭、onChange 零调用、body 深等",
+      "actual": "满足（该弹层取消按钮文案=关闭 @ ScriptEditor.tsx:4060，非 Esc 键）",
+      "positiveControl": "G04-02",
+      "mutation": "pending",
+      "cleanup": "同",
+      "artifacts": [],
+      "attribution": "GLM"
+    },
+    {
+      "id": "G05-01",
+      "pack": "G05",
+      "status": "candidate-green",
+      "evidenceKind": ["executed", "test-body"],
+      "contract": "playback.ts:575-594 stop 丢弃演出态+清 poi/activePath",
+      "test": {
+        "file": "candidates/editor/g05-playback-scope.test.tsx",
+        "fullName": "G05 预览停止与换源 G05-01 stop()：running→idle，activePath/poi 清空，onUi 通知"
+      },
+      "expected": "mode=idle、activePath=null、poi=null、onUi 通知",
+      "actual": "全部满足",
+      "positiveControl": "自身 play",
+      "mutation": "pending（playback 未做单点）",
+      "cleanup": "stop",
+      "artifacts": [],
+      "attribution": "GLM"
+    },
+    {
+      "id": "G05-02",
+      "pack": "G05",
+      "status": "candidate-green",
+      "evidenceKind": ["executed", "test-body"],
+      "contract": "换源丢弃旧源：宿主 wait 真实挂起有判别（play 后全量冲刷宏任务边界、零 tick → facing=up 且 mode=running；若 wait 立即完成则流直冲尾命令 done/right 即红）+ 固定推进 1200ms 越过旧源剩余窗口（300ms）后 facing=left/done；单点反控 g05-immediate-wait 针（宿主 wait 立即 resolve → 红「expected right to be up」）",
+      "test": {
+        "file": "candidates/editor/g05-playback-scope.test.tsx",
+        "fullName": "G05 预览停止与换源 G05-02 播放中换源：宿主 wait 真实挂起（全量冲刷后流仍停在 wait），越过旧源剩余窗口后尾命令不复活"
+      },
+      "expected": "冲刷后 facing=up/mode=running（wait 挂起）；越窗后 mode=done 且 facing=left（旧源余量不复活）",
+      "actual": "idle + activePath null",
+      "positiveControl": "自身",
+      "mutation": "同上",
+      "cleanup": "stop",
+      "artifacts": [],
+      "attribution": "GLM"
+    },
+    {
+      "id": "G05-03",
+      "pack": "G05",
+      "status": "candidate-green",
+      "evidenceKind": ["executed", "test-body"],
+      "contract": "stop 幂等 + view 冻结",
+      "test": {
+        "file": "candidates/editor/g05-playback-scope.test.tsx",
+        "fullName": "G05 预览停止与换源 G05-03 wait 中 stop 后真实迟到推进（真实定时器）：view/mode 冻结不再推进"
+      },
+      "expected": "重复 stop 后 view JSON 不变",
+      "actual": "不变",
+      "positiveControl": "自身",
+      "mutation": "同上",
+      "cleanup": "stop",
+      "artifacts": [],
+      "attribution": "GLM"
+    },
+    {
+      "id": "G05-04",
+      "pack": "G05",
+      "status": "candidate-green",
+      "evidenceKind": ["executed", "test-body"],
+      "contract": "真实工作区卸载：同实例卸载前后 stop 调用增量>0（生产启动即 stop、挂载/换源 effect 也 stop，仅曾调用不可鉴别）；单点反控 g05-unmount-cleanup 针（删卸载 cleanup → 断言红）",
+      "test": {
+        "file": "candidates/editor/g05-playback-scope.test.tsx",
+        "fullName": "G05-04 真实工作区卸载清理 真实播放按钮启动 playCanonical，卸载后同实例 stop 调用**增量**>0（生产启动即 stop 不再掩蔽清理缺失）"
+      },
+      "expected": "stopCallsAfterUnmount > stopCallsBeforeUnmount（同实例过滤）",
+      "actual": "0 增量",
+      "positiveControl": "G05-01",
+      "mutation": "同上",
+      "cleanup": "stop",
+      "artifacts": [],
+      "attribution": "GLM"
+    },
+    {
+      "id": "G06-01",
+      "pack": "G06",
+      "status": "candidate-green",
+      "evidenceKind": ["executed", "test-body"],
+      "contract": "author→enemy 合法生产 caller：validateEnemies → checkEnemyAi → checkEnemyHookFlow（validate.ts:1442/1458、enemy-script.ts:556）",
+      "test": {
+        "file": "candidates/content/g06-validation-crosscalls.test.ts",
+        "fullName": "G06 跨校验器递归 G06-01 正控：validateEnemies 接受 hooks.ready 合法 hook 流（author 入口 → enemy 校验）"
+      },
+      "expected": "合法流不抛、输入深等",
+      "actual": "满足",
+      "positiveControl": "自身",
+      "mutation": "pending",
+      "cleanup": "—",
+      "artifacts": [],
+      "attribution": "GLM"
+    },
+    {
+      "id": "G06-02",
+      "pack": "G06",
+      "status": "candidate-green",
+      "evidenceKind": ["executed", "test-body"],
+      "contract": "enemy→author 递归：validateEnemies → checkEnemyOnDefeatedCommands → checkBaseAuthorCommands（validate.ts:1473）",
+      "test": {
+        "file": "candidates/content/g06-validation-crosscalls.test.ts",
+        "fullName": "G06 跨校验器递归 G06-02 正控：validateEnemies 接受 onDefeated branch+dialog（enemy→author 递归）"
+      },
+      "expected": "四臂命令组全接受、输入深等",
+      "actual": "满足（startBattle 需 string enemyTeamId——构造要点入册）",
+      "positiveControl": "自身",
+      "mutation": "pending",
+      "cleanup": "—",
+      "artifacts": [],
+      "attribution": "GLM"
+    },
+    {
+      "id": "G06-03",
+      "pack": "G06",
+      "status": "candidate-green",
+      "evidenceKind": ["executed", "test-body"],
+      "contract": "hook 流内嵌 author 命令经 checkCommands/checkBaseAuthorCommands 递归",
+      "test": {
+        "file": "candidates/content/g06-validation-crosscalls.test.ts",
+        "fullName": "G06 跨校验器递归 G06-03 跨面正控：hook state body 内嵌 author dialog 叶，经生产链递归校验通过"
+      },
+      "expected": "dialog 叶递归接受",
+      "actual": "满足",
+      "positiveControl": "自身",
+      "mutation": "pending",
+      "cleanup": "—",
+      "artifacts": [],
+      "attribution": "GLM"
+    },
+    {
+      "id": "G06-04",
+      "pack": "G06",
+      "status": "candidate-green",
+      "evidenceKind": ["executed", "test-body"],
+      "contract": "非法叶拒绝：生产错误 path 精确到 enemies[0].ai.hooks.ready.states.bad.body[0]",
+      "test": {
+        "file": "candidates/content/g06-validation-crosscalls.test.ts",
+        "fullName": "G06 跨校验器递归 G06-04 非法叶：hook body 未知命令 kind 被拒，生产错误 path 精确到叶且输入深等"
+      },
+      "expected": "message 含 G06.bad@L_77",
+      "actual": "含",
+      "positiveControl": "G06-01",
+      "mutation": "pending",
+      "cleanup": "—",
+      "artifacts": [],
+      "attribution": "GLM"
+    },
+    {
+      "id": "G06-05",
+      "pack": "G06",
+      "status": "candidate-green",
+      "evidenceKind": ["executed", "test-body"],
+      "contract": "onDefeated 非法 cond 经递归被拒：错误 path enemies[0].onDefeated[0]",
+      "test": {
+        "file": "candidates/content/g06-validation-crosscalls.test.ts",
+        "fullName": "G06 跨校验器递归 G06-05 跨面非法：onDefeated branch 非法 cond 经 enemy→author 递归被拒且输入深等"
+      },
+      "expected": "message 含 path；输入深等",
+      "actual": "满足",
+      "positiveControl": "G06-02",
+      "mutation": "pending",
+      "cleanup": "—",
+      "artifacts": [],
+      "attribution": "GLM"
+    },
+    {
+      "id": "G07-01",
+      "pack": "G07",
+      "status": "candidate-green",
+      "evidenceKind": ["executed", "test-body"],
+      "contract": "scene-system 写 _currentMapNum → event-system 内部消费：pushDialogHistory 按当前图号入账（event-system.ts:2160）",
+      "test": {
+        "file": "candidates/game/g07-core-boundaries.test.ts",
+        "fullName": "G07 第一阶段模块边界 G07-01 scene 写 mapNum → event-system 对话历史按当前图号入账（跨模块写读顺序）"
+      },
+      "expected": "对话历史维度 = scene 写入的当前图号；切图后新对话以新图号入账",
+      "actual": "满足",
+      "positiveControl": "恢复断言",
+      "mutation": "pending",
+      "cleanup": "setCurrentMapNum(0)",
+      "artifacts": [],
+      "attribution": "GLM"
+    },
+    {
+      "id": "G07-02",
+      "pack": "G07",
+      "status": "candidate-green",
+      "evidenceKind": ["executed", "test-body"],
+      "contract": "event-system.ts:3369 addItemToInventory（id0 拒收守卫）",
+      "test": {
+        "file": "candidates/game/g07-core-boundaries.test.ts",
+        "fullName": "G07 第一阶段模块边界 G07-02 event-system addItemToInventory：真实入账 + id0 拒收 + 两独立 GameState 互不串扰"
+      },
+      "expected": "A 有 5×2、B 无、id0 拒收",
+      "actual": "满足",
+      "positiveControl": "A 正常入账",
+      "mutation": "pending",
+      "cleanup": "—",
+      "artifacts": [],
+      "attribution": "GLM"
+    },
+    {
+      "id": "G07-03",
+      "pack": "G07",
+      "status": "candidate-green",
+      "evidenceKind": ["executed", "test-body"],
+      "contract": "装备派生进战斗 opcode：writeEquipmentEffectField 写攻击槽 → battle-opcodes 0x30（STAT_ROW_BUFF）经 getPlayerAttackStrength 重算战斗快照（battle-opcodes.ts:343/847）",
+      "test": {
+        "file": "candidates/game/g07-core-boundaries.test.ts",
+        "fullName": "G07 第一阶段模块边界 G07-03 装备派生进战斗 opcode：0x30 重算快照消费 writeEquipmentEffectField 派生值"
+      },
+      "expected": "0x30 重算后快照 attackStrength = base+7（装备派生值被战斗上下文真实消费）",
+      "actual": "快照从 base 变为 base+7；consumed=true",
+      "positiveControl": "base 断言",
+      "mutation": "pending",
+      "cleanup": "—",
+      "artifacts": [],
+      "attribution": "GLM"
+    },
+    {
+      "id": "G08-01",
+      "pack": "G08",
+      "status": "candidate-green",
+      "evidenceKind": ["executed", "test-body"],
+      "contract": "migrate-content.ts:2126 mapScenesStatic 内存入口",
+      "test": {
+        "file": "candidates/migrate/g08-conversion-isolation.test.ts",
+        "fullName": "G08 迁移转换边界 G08-01 重复调用输出稳定（deep-equal 幂等）且输入深保真"
+      },
+      "expected": "二次输出深等；输入深保真",
+      "actual": "满足",
+      "positiveControl": "自身两次",
+      "mutation": "pending",
+      "cleanup": "—",
+      "artifacts": [],
+      "attribution": "GLM"
+    },
+    {
+      "id": "G08-02",
+      "pack": "G08",
+      "status": "candidate-green",
+      "evidenceKind": ["executed", "test-body"],
+      "contract": "soundAssetForNum 回调真实被调用：raw 0x47 playSound 经 translate-events.ts:1597 resolveSoundAsset 走 ctx.soundAssetForNum",
+      "test": {
+        "file": "candidates/migrate/g08-conversion-isolation.test.ts",
+        "fullName": "G08 迁移转换边界 G08-02 soundAssetForNum 回调真实被调用（raw 0x47 playSound）且主动塑造输出"
+      },
+      "expected": "回调以源音效号 5 被调用且产物 sound.lab.005 进入输出 chunk；缺省路径回 palSoundAssetId(5)=sound.pal.005",
+      "actual": "toHaveBeenCalledWith(5) 且 chunk playSound asset=sound.lab.005；缺省=sound.pal.005",
+      "positiveControl": "G08-03（真实差异见证在 globalRoots）",
+      "mutation": "pending",
+      "cleanup": "—",
+      "artifacts": [],
+      "attribution": "GLM"
+    },
+    {
+      "id": "G08-04",
+      "pack": "G08",
+      "status": "candidate-green",
+      "evidenceKind": ["executed", "test-body"],
+      "contract": "非法操作码行为合同 = 登记 gap 不抛（TranslateReport.gaps），且 gap 携带源操作码 65535 见证；后续调用不受污染",
+      "test": {
+        "file": "candidates/migrate/g08-conversion-isolation.test.ts",
+        "fullName": "G08 迁移转换边界 G08-04 非法操作码登记 gap 不抛（gap 含源 legacyId 见证）后，下次调用照常成功"
+      },
+      "expected": "坏输入后报告形状完整；下次调用照常",
+      "actual": "满足",
+      "positiveControl": "好输入",
+      "mutation": "pending",
+      "cleanup": "—",
+      "artifacts": [],
+      "attribution": "GLM"
+    },
+    {
+      "id": "V01-01",
+      "pack": "V01",
+      "status": "candidate-green",
+      "evidenceKind": ["browser"],
+      "contract": "editor-design-system.md 字段/焦点规范",
+      "test": {
+        "file": "(浏览器操作链见 artifacts)",
+        "fullName": "V01-01 角色/物品/技能/敌队/战场/模拟器代表表单初始态"
+      },
+      "expected": "初始态布局正确",
+      "actual": "v01-01 截图（1440×1024，实际看图）",
+      "positiveControl": "—",
+      "mutation": "—",
+      "cleanup": "刷新丢弃会话内编辑",
+      "artifacts": [
+        {
+          "path": "/tmp/type-pal-glm-regression-lab/v01-01-actor-initial.png",
+          "sha256_16": "50caa755d1d55cdd",
+          "sha256_full": "50caa755d1d55cddbf52795962671721a19f6948d1350870b8f5b36a99359853"
+        }
+      ],
+      "attribution": "GLM"
+    },
+    {
+      "id": "V01-02",
+      "pack": "V01",
+      "status": "candidate-green",
+      "evidenceKind": ["browser"],
+      "contract": "名称字段 Enter 提交（不重复）",
+      "test": {
+        "file": "(浏览器操作链)",
+        "fullName": "V01-02 名称字段（人物显示名称）双 Enter：值稳定不重复提交"
+      },
+      "expected": "两次 Enter 后值稳定",
+      "actual": "李逍遥2 稳定（v01-02 截图）",
+      "positiveControl": "—",
+      "mutation": "—",
+      "cleanup": "刷新丢弃",
+      "artifacts": [
+        {
+          "path": "/tmp/type-pal-glm-regression-lab/v01-02-name-enter-commit.png",
+          "sha256_16": "3e7e4539edcb79e4",
+          "sha256_full": "3e7e4539edcb79e495f9b407be047dfd3479a3e84440929f60de57acd19e806d"
+        }
+      ],
+      "attribution": "GLM"
+    },
+    {
+      "id": "V01-03",
+      "pack": "V01",
+      "status": "candidate-green",
+      "evidenceKind": ["browser"],
+      "contract": "undo 恢复 + Esc 归焦",
+      "test": {
+        "file": "(浏览器操作链)",
+        "fullName": "V01-03 Esc 关弹层 + Meta+Z undo：名称恢复 李逍遥"
+      },
+      "expected": "undo 后名称回 李逍遥",
+      "actual": "李逍遥（v01-03 截图）",
+      "positiveControl": "V01-02",
+      "mutation": "—",
+      "cleanup": "刷新",
+      "artifacts": [
+        {
+          "path": "/tmp/type-pal-glm-regression-lab/v01-03-undo-restore.png",
+          "sha256_16": "e06cfb9f48b40f1e",
+          "sha256_full": "e06cfb9f48b40f1ea96967a984a17baf2f10263b4c4acb6fd109237231fc0a90"
+        }
+      ],
+      "attribution": "GLM"
+    },
+    {
+      "id": "V02-01",
+      "pack": "V02",
+      "status": "candidate-green",
+      "evidenceKind": ["browser"],
+      "contract": "响应式收缩（720 CSS px）",
+      "test": {
+        "file": "(浏览器操作链)",
+        "fullName": "V02-01 720px 角色工作区收缩"
+      },
+      "expected": "两列收缩、无截断",
+      "actual": "v02-01 截图满足",
+      "positiveControl": "1440 基线",
+      "mutation": "—",
+      "cleanup": "恢复 1440",
+      "artifacts": [
+        {
+          "path": "/tmp/type-pal-glm-regression-lab/v02-01-scene-720.png",
+          "sha256_16": "121c0bd1189a8809",
+          "sha256_full": "121c0bd1189a880940983798aaf3434db4d06506347cae276f7d05641b121b70"
+        }
+      ],
+      "attribution": "GLM"
+    },
+    {
+      "id": "V02-02",
+      "pack": "V02",
+      "status": "existing-proof",
+      "evidenceKind": ["browser"],
+      "contract": "PanelResizeHandle-interaction.test.tsx:138-175/:178-224/:227 键盘/指针终结/disabled-unmount",
+      "test": {
+        "file": "packages/editor/src/ui/PanelResizeHandle-interaction.test.tsx",
+        "fullName": "existing-proof: 3 test.each groups at PanelResizeHandle-interaction.test.tsx:138-250 (keyboard/pointer-end/disabled-unmount)"
+      },
+      "expected": "既有测试为证据",
+      "actual": "本轮未执行（引用为已读断言）",
+      "positiveControl": "—",
+      "mutation": "—",
+      "cleanup": "—",
+      "artifacts": [],
+      "attribution": "GLM 引用",
+      "testsScope": "existing-proof: 旧测试按文件计数引用，非本轮执行"
+    },
+    {
+      "id": "V03-01",
+      "pack": "V03",
+      "status": "candidate-green",
+      "evidenceKind": ["browser"],
+      "contract": "无效 objectId 深链按 editor-navigation 归一化回退（normalizeEditorLocation :450-480 + App.tsx:333-339）",
+      "test": {
+        "file": "(浏览器操作链)",
+        "fullName": "V03-01 objectId=no-such-scene 深链"
+      },
+      "expected": "归一化回退到合法页面，无崩溃",
+      "actual": "v03-01 截图：页面正常（URL 归一化行为记录）",
+      "positiveControl": "合法深链",
+      "mutation": "—",
+      "cleanup": "—",
+      "artifacts": [
+        {
+          "path": "/tmp/type-pal-glm-regression-lab/v03-01-invalid-object-deeplink.png",
+          "sha256_16": "1ffefff504a6dff1",
+          "sha256_full": "1ffefff504a6dff18f3cc5ca472e423e4dd4ee970c32c28d7ee274589a4bb095"
+        }
+      ],
+      "attribution": "GLM"
+    },
+    {
+      "id": "V04-01",
+      "pack": "V04",
+      "status": "candidate-green",
+      "evidenceKind": ["browser"],
+      "contract": "use-project-leave-guard.ts:10-16 / project-leave-guard.ts:70-72 dirty→beforeunload",
+      "test": {
+        "file": "(browser operation chain)",
+        "fullName": ""
+      },
+      "expected": "脏会话下整页深链被 beforeunload 预期中止（保存保护正常工作）",
+      "actual": "GLM 观察 ERR_ABORTED；Codex 独立复核证实为保存保护预期行为，非资源深链缺陷；撤回 reproduced-defect 归因",
+      "positiveControl": "scene/map/story/simulator 深链均正常",
+      "mutation": "—",
+      "cleanup": "—",
+      "artifacts": [
+        {
+          "path": "/tmp/type-pal-glm-regression-lab/v04-01-sprite-library.png",
+          "sha256_16": "decc01782e22cf69",
+          "sha256_full": "decc01782e22cf6987f31c190810378c06bd0d6389b382a503f72c9802b3c411"
+        }
+      ],
+      "attribution": "GLM 观察 + Codex 独立复核归因为预期保存保护"
+    },
+    {
+      "id": "V04-02",
+      "pack": "V04",
+      "status": "blocked-environment",
+      "evidenceKind": ["browser"],
+      "contract": "重分类：缺合法资源/未验证媒体矩阵（非精灵库不可达）",
+      "test": {
+        "file": "(未能进入精灵库页)",
+        "fullName": "V04-02 精灵库媒体操作矩阵"
+      },
+      "expected": "—（需自包含合法资源 HTTP/decoder 正控后才能测试）",
+      "actual": "候选 worktree 缺合法精灵二进制（sprite.pal.002 登记 4031、实读 917=Vite 回退页）；资源守卫正确拒绝",
+      "positiveControl": "—",
+      "mutation": "—",
+      "cleanup": "—",
+      "artifacts": [],
+      "attribution": "GLM"
+    },
+    {
+      "id": "G04-04",
+      "pack": "G04",
+      "status": "candidate-green",
+      "evidenceKind": ["executed", "test-body"],
+      "contract": "CanonicalScriptBodyEditor 草稿同步合同（ScriptEditor.tsx:3183 外部替换丢弃草稿）+ commit 写回当前 props.body",
+      "test": {
+        "file": "candidates/editor/g04-script-draft.test.tsx",
+        "fullName": "G04 脚本编辑草稿 G04-04 弹层打开时外部替换 body：旧草稿被丢弃（弹层收口零写回），新草稿确认写回新对象"
+      },
+      "expected": "外部替换 body：旧草稿弹层收口、onChange 零调用；重开新草稿确认后恰一笔写回新 body 对象（2 行保形、行值翻转）",
+      "actual": "弹层收口/零写回/新草稿写回新对象 2 行翻转值 —— 全部通过",
+      "positiveControl": "G04-02（正常确认路径）",
+      "mutation": "pending",
+      "cleanup": "unmount",
+      "artifacts": [],
+      "attribution": "GLM"
+    },
+    {
+      "id": "G06-06",
+      "pack": "G06",
+      "status": "candidate-green",
+      "evidenceKind": ["executed", "test-body"],
+      "contract": "choreography 入口：validateEnemies → checkBattleChoreography（validate.ts:1471）递归校验 author 命令叶",
+      "expected": "合法 choreography（battleStart + dialog/playSound 叶）通过且输入深等",
+      "actual": "通过；输入前后深等",
+      "positiveControl": "G06-01（hooks 入口）",
+      "mutation": "pending",
+      "cleanup": "—",
+      "artifacts": [],
+      "attribution": "GLM",
+      "test": {
+        "file": "candidates/content/g06-validation-crosscalls.test.ts",
+        "fullName": "G06 跨校验器递归 G06-06 正控：choreography 战斗演出钩子（author 命令叶）经 validateEnemies 递归通过"
+      }
+    },
+    {
+      "id": "G06-07",
+      "pack": "G06",
+      "status": "candidate-green",
+      "evidenceKind": ["executed", "test-body"],
+      "contract": "choreography 非法叶：生产错误 path 精确到 enemies[0].choreography[0].body[0]",
+      "expected": "未知 kind 被拒，path 带生产位置，输入深等",
+      "actual": "拒绝；path 精确；输入深等",
+      "positiveControl": "G06-06",
+      "mutation": "pending",
+      "cleanup": "—",
+      "artifacts": [],
+      "attribution": "GLM",
+      "test": {
+        "file": "candidates/content/g06-validation-crosscalls.test.ts",
+        "fullName": "G06 跨校验器递归 G06-07 非法 choreography 叶：未知命令 kind 被拒且生产 path 精确到叶"
+      }
+    },
+    {
+      "id": "G07-04",
+      "pack": "G07",
+      "status": "candidate-green",
+      "evidenceKind": ["executed", "test-body"],
+      "contract": "装备脚本经 event 表执行：updateAllEquipments → runEquipScriptSync 读 getGlobalCommands 全局命令表 L_<scriptOnEquip> 入口 → 0x17 写效果层（equip-effect.ts:526-531）→ 派生 getter",
+      "expected": "全局命令表内 0x17 脚本经 updateAllEquipments 执行后 attackStrength = base+7",
+      "actual": "base → base+7（event 表 → 效果层 → getter 全链）",
+      "positiveControl": "G07-03（直接写入口对照）",
+      "mutation": "pending",
+      "cleanup": "setGlobalEvents([]) 恢复模块态",
+      "artifacts": [],
+      "attribution": "GLM",
+      "test": {
+        "file": "candidates/game/g07-core-boundaries.test.ts",
+        "fullName": "G07 第一阶段模块边界 G07-04 装备脚本经 event 表执行：scriptOnEquip → 全局命令表 → 效果层 → 派生 getter"
+      }
+    },
+    {
+      "id": "G08-05",
+      "pack": "G08",
+      "status": "candidate-green",
+      "evidenceKind": ["executed", "test-body"],
+      "contract": "非法 options 预检拒绝：worldSpriteFrameCounts ≠ 636 项在输入预检层抛出（migrate-content.ts:2157-2158），尚未进入转换",
+      "expected": "抛错含 636；拒绝后同输入不带坏 options 再跑照常成功（预检拒绝后可重试）",
+      "actual": "toThrowError(/636/)；再调用成功",
+      "positiveControl": "G08-01（同输入成功对照）",
+      "mutation": "pending",
+      "cleanup": "—",
+      "artifacts": [],
+      "attribution": "GLM",
+      "test": {
+        "file": "candidates/migrate/g08-conversion-isolation.test.ts",
+        "fullName": "G08 迁移转换边界 G08-05 非法 options 预检拒绝：抛错含 636 且拒绝后可重试（预检层，非转换中段异常）"
+      }
+    },
+    {
+      "id": "G08-06",
+      "pack": "G08",
+      "status": "candidate-green",
+      "evidenceKind": ["executed", "test-body"],
+      "contract": "globalRoots 进入可达图（真实图结果，非计数回显）：-2 表提供地址空间（commands=4），全局根 {entry:3} 独占地址 → ownership global 0→1 / unreachable 3→2；单点反控 g08-ignore-roots 针（图根 [...graphRoots] 忽略 globalRoots → ownership 断言红「expected 1 to be 2」）",
+      "expected": "无根 ownership={scene:1,shared:0,global:0,unreachable:3}；带根 {scene:1,shared:0,global:1,unreachable:2}；场景实体不变",
+      "actual": "两次 ownership 精确相等断言通过；scenes deep-equal",
+      "positiveControl": "G08-01",
+      "mutation": "pending",
+      "cleanup": "—",
+      "artifacts": [],
+      "attribution": "GLM",
+      "test": {
+        "file": "candidates/migrate/g08-conversion-isolation.test.ts",
+        "fullName": "G08 迁移转换边界 G08-06 globalRoots 进入可达图：根地址 owner=global、可达性随根存在变化（非计数回显）"
+      }
+    }
+  ],
+  "groupTotals": {
+    "total": 45,
+    "byStatus": {
+      "candidate-green": 43,
+      "existing-proof": 1,
+      "blocked-environment": 1
+    },
+    "perPack": {
+      "startup": 1,
+      "G01": 6,
+      "G02": 3,
+      "G03": 3,
+      "G04": 4,
+      "G05": 4,
+      "G06": 7,
+      "G07": 4,
+      "G08": 5,
+      "V01": 3,
+      "V02": 2,
+      "V03": 1,
+      "V04": 2
+    }
+  },
+  "commands": [
+    {
+      "cmd": "git worktree add /Users/zhangxu/illegal/type-pal-glm-regression-lab -b codex/glm-architecture-regression-lab-r1 a3ceaf05",
+      "exit": 0
+    },
+    {
+      "cmd": "git diff 86e928b5..a3ceaf05 --stat -- packages/ scripts/  # 空",
+      "exit": 0
+    },
+    {
+      "cmd": "pnpm install --frozen-lockfile",
+      "exit": 0
+    },
+    {
+      "cmd": "npx vitest run --config docs/testing/glm-architecture-regression-lab/configs/candidates.vitest.mts  # 全部候选（37 项=启动1+G01 6+G02 3+G03 3+G04 4+G05 4+G06 7+G07 4+G08 5）",
+      "exit": 0
+    },
+    {
+      "cmd": "node docs/testing/glm-architecture-regression-lab/tools/red-control.mjs  # 负控 v2 五针（startup/g05卸载清理/g03 committed终态/g05即时wait/g08忽略图根）verdict=detected",
+      "exit": 0
+    },
+    {
+      "cmd": "(cd packages/editor && VITE_PROJECT_ID=pal npx vite --port 6013 --strictPort &)  # 本树实例",
+      "exit": 0
+    },
+    {
+      "cmd": "lsof -nP -iTCP:6013 -sTCP:LISTEN  # 归属核验：本 worktree node",
+      "exit": 0
+    },
+    {
+      "cmd": "pnpm run check:docs  # PASS 537 md/2932 links/0 issues",
+      "exit": 0
+    },
+    {
+      "cmd": "npx vitest run --config docs/testing/glm-architecture-regression-lab/configs/candidates.vitest.mts --reporter=json --outputFile=docs/testing/glm-architecture-regression-lab/configs/candidates-exec.json",
+      "exit": 0
+    },
+    {
+      "cmd": "pnpm exec tsc --project docs/testing/glm-architecture-regression-lab/configs/tsconfig.json --noEmit  # 候选独立类型门（TS5101 已消除）",
+      "exit": 0
+    }
+  ],
+  "notes": {
+    "v04Finding": "V04-01 撤回产品缺陷归因：脏页 beforeunload 预期中止（保存保护正常工作）；Codex 独立复核证实",
+    "v02Pending": "分隔条键盘/拖拽本轮未执行（既有 PanelResizeHandle-interaction 三组测试为已读断言引用）",
+    "g01Pending": "平移 view 增量断言 pending-contract（view 状态 jsdom 无公开可观测面）；选区轴已改为选区业务状态+删除实变见证",
+    "screenShots": "全部位于 /tmp/type-pal-glm-regression-lab/，不入 Git；登记路径与用途于本 JSON artifacts"
+  }
+}

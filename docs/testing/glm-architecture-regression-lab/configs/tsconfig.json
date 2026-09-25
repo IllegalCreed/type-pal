@@ -1,0 +1,78 @@
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "jsx": "react-jsx",
+    "strict": true,
+    "noEmit": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "types": ["vitest/globals"],
+    "paths": {
+      "react": ["../../../../packages/editor/node_modules/@types/react"],
+      "react/jsx-runtime": ["../../../../packages/editor/node_modules/@types/react/jsx-runtime"],
+      "react-dom": ["../../../../packages/editor/node_modules/@types/react-dom"],
+      "react-dom/client": ["../../../../packages/editor/node_modules/@types/react-dom/client"],
+      "@type-pal/content": ["../../../../packages/content/src/index.ts"],
+      "@type-pal/shared": ["../../../../packages/shared/src/index.ts"],
+      "@type-pal/reforge": ["../../../../packages/reforge/src/index.ts"],
+      "@lab/game/equip-effect": ["../../../../packages/game/src/core/equip-effect.ts"],
+      "@lab/game/event-system": ["../../../../packages/game/src/core/event-system.ts"],
+      "@lab/game/game-state": ["../../../../packages/game/src/core/game-state.ts"],
+      "@lab/game/scene-system": ["../../../../packages/game/src/core/scene-system.ts"],
+      "@lab/game/command-bus": ["../../../../packages/game/src/core/command-bus.ts"],
+      "@lab/game/battle-opcodes": ["../../../../packages/game/src/core/battle/battle-opcodes.ts"],
+      "@lab/game/battle-state": ["../../../../packages/game/src/core/battle/battle-state.ts"],
+      "@lab/migrate/migrate-content": ["../../../../packages/migrate/src/migrate-content.ts"],
+      "@lab/migrate/source-facts": ["../../../../packages/migrate/src/source-facts.ts"],
+      "@lab/editor/edit-session": ["../../../../packages/editor/src/core/edit-session.ts"],
+      "@lab/editor/commands": ["../../../../packages/editor/src/core/commands.ts"],
+      "@lab/editor/map-mode": ["../../../../packages/editor/src/ui/MapMode.tsx"],
+      "@lab/editor/script-editor-body": ["../../../../packages/editor/src/ui/ScriptEditor.tsx"],
+      "@lab/editor/playback": ["../../../../packages/editor/src/core/playback.ts"],
+      "@lab/editor/app": ["../../../../packages/editor/src/ui/App.tsx"],
+      "@lab/editor/scene-script-workspace": [
+        "../../../../packages/editor/src/ui/SceneScriptWorkspace.tsx"
+      ],
+      "@lab/editor/scene-canvas": ["../../../../packages/editor/src/ui/SceneCanvas.tsx"],
+      "@lab/editor/preview-canvas": ["../../../../packages/editor/src/ui/PreviewCanvas.tsx"],
+      "@lab/editor/author-save-store": [
+        "../../../../packages/editor/src/core/author-save-store.ts"
+      ],
+      "@lab/editor/handle-store": ["../../../../packages/editor/src/core/handle-store.ts"],
+      "@lab/editor/history-coordinator": [
+        "../../../../packages/editor/src/core/editor-history-coordinator.ts"
+      ],
+      "@lab/editor/script-editor": ["../../../../packages/editor/src/core/script-editor.ts"],
+      "@lab/editor/script-editor-projection": [
+        "../../../../packages/editor/src/core/script-editor-projection.ts"
+      ],
+      "@lab/editor/open-actions": ["../../../../packages/editor/src/core/open-actions.ts"],
+      "@lab/editor/project-reference-adapters": [
+        "../../../../packages/editor/src/core/project-reference-adapters.ts"
+      ],
+      "@lab/editor/project-io": ["../../../../packages/editor/src/core/project-io.ts"],
+      "@lab/editor/seed": ["../../../../packages/editor/src/core/seed.ts"],
+      "@lab/fixtures/author-save-fixture": [
+        "../../../../packages/editor/src/core/__tests__/author-save-fixture.ts"
+      ],
+      "@lab/fixtures/author-save-store-fixture": [
+        "../../../../packages/editor/src/core/__tests__/author-save-store-fixture.ts"
+      ]
+    }
+  },
+  "include": [
+    "../candidates/**/*.ts",
+    "../candidates/**/*.tsx",
+    "../fixtures/**/*.ts",
+    "../fixtures/**/*.tsx"
+  ],
+  "files": [
+    "../../../../packages/editor/src/vite-env.d.ts",
+    "../../../../packages/migrate/node_modules/@types/node/index.d.ts"
+  ]
+}

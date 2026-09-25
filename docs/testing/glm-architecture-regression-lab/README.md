@@ -134,6 +134,19 @@ JSON最后一次SHA登记后必须再次Biome；避免为填自己的commit hash
 Codex接收时逐组决定转正或返工，并独立复核；正式集成后才串行check→ratchet→受保护strict，整批统一统计。
 GLM贡献须在最终实施审查披露；本卡不授予自验充独立终审、代签或标done权限。
 
-## 实际交付登记
+## 实际交付登记（GLM，2026-09-26，r9 定点返工；Codex 候选验收）
 
-尚未开始，以上均为工作安排，不是已执行或已通过证据。GLM接手后只在此节追加入口及真实起点/候选SHA。
+- 起点 `a3ceaf05199fe334bdf5dea8d2b362e34de8679b`（对冻结 86e928b5 packages/scripts 零 diff）；
+  分支 `codex/glm-architecture-regression-lab-r1` @ worktree `/Users/zhangxu/illegal/type-pal-glm-regression-lab`；
+  活树产品冻结以 `git merge-base origin/main HEAD` 为基准零 diff（verify.mjs v2 硬判据）。
+- 实际文件：[receipt.md](receipt.md)、configs/{candidates,diagnostics}.vitest.mts、configs/tsconfig.json、
+  fixtures/{editor,migrate}/**、candidates/{editor,content,game,migrate}/*.test.*（含 lab-startup 启动小样）、
+  diagnostics/lab-startup-red.test.tsx、tools/{red-control,verify}.mjs、results.json。
+- 账本 **45 条** = candidate-green 43 / existing-proof 1 / blocked-environment 1；执行 JSON 37/37 全绿，
+  candidate-green fullName 与执行 JSON 一对一双射（verify.mjs v2 硬判据）。
+- 负控 runner v2 五针（startup / g05 卸载清理 / g03 committed 终态 / g05 即时 wait / g08 忽略图根）全部 detected，
+  每针恰 exit1、AssertionError、witness 命中、产品 hash 不变。
+- 类型门真实通过：`pnpm exec tsc --project …/configs/tsconfig.json --noEmit` exit0（TS5101 已消除）。
+- 截图 6 张在 /tmp/type-pal-glm-regression-lab/（不入 Git），用途登记于 results.json artifacts；
+  V01-V04 未执行矩阵在 receipt.md 未证项如实登记。
+- 12 组全部交付；G06/G07/G08 未证轴与 V01-V04 未证矩阵在 receipt.md 如实收窄登记，不把绿数当完整合同。
