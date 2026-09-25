@@ -40,4 +40,13 @@ describe('display-scale', () => {
     const ctrl = createDisplayScaleController(mkCanvas())
     expect(ctrl.getPercent()).toBe(200)
   })
+
+  it.each(['foo', '0', '-12', 'NaN'])('损坏或非正存储 %s 回落到 100%，不得沿用脏值', (stored) => {
+    localStorage.setItem('tp-display-scale', stored)
+    const c = mkCanvas()
+    const ctrl = createDisplayScaleController(c)
+    expect(ctrl.getPercent()).toBe(100)
+    expect(c.style.width).toBe('960px')
+  })
 })
+
