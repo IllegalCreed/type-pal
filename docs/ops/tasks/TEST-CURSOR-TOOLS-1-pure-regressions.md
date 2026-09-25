@@ -98,6 +98,8 @@ diagnostics/tXX-*.test.mjs    # 可选，显式失败或待证，不加入默认
 
 ## 下一位Agent提示词
 
+下方为原始分配。当前接收仅执行文末CT-R1/CT-R2窄返工，不重做已核组。
+
 ```text
 接手TEST-CURSOR-TOOLS-1，从Codex本次提交新建独立worktree
 /Users/zhangxu/illegal/type-pal-cursor-tools-tests，分支codex/cursor-tools-tests-r1；不合main，不在旧任务目录切分支。
@@ -109,4 +111,30 @@ diagnostics/tXX-*.test.mjs    # 可选，显式失败或待证，不加入默认
 疑似bug保留显式隔离失败例，不改预期/skip，不顺手修产品。四组一提交，八组做完整包push。
 只跑本人Node候选、允许的相邻docs工具测试、本人Biome/docs/diff；不跑全仓check或官方覆盖率。
 交正文SHA、逐组状态、精确测试名/命令/结果和给Codex的接收提示词；不代签、不标done，正式接入由Codex另核。
+```
+
+## Codex接收席位 — 2026-09-25
+
+候选02d91f7a：**counter，CT-R1/CT-R2**。独立复跑候选21/相邻20绿、Biome/docs/diff通过；
+公开函数实际调用与T06去重成立。但T05预期固化目录改写漏改，T07两种实际输入污染反控仍全绿。
+详见[复核报告](../../testing/cursor-tools-review.md)和[冻结见证](../../testing/cursor-tools-review-witness.mjs)。
+Candidate与源码原样保留，未代改测试语义；不合main、不代签、不标done。正式转正/质量门暂缓，
+目录工具缺陷由Codex另行处理，Cursor只交正确方向的诊断与完整实参回归。
+
+### 当前下一位Agent提示词（Cursor窄返工）
+
+```text
+在codex/cursor-tools-tests-r1返工TEST-CURSOR-TOOLS-1，原候选02d91f7a，证据冻结590037a6不变。
+先git show读取Codex复核分支上的docs/testing/cursor-tools-review.md和本卡CT-R1/CT-R2，
+不合入共享卡/看板，不改Codex冻结见证工具。
+CT-R1：T05中docs/old/deep-extra.md仍适用父目录映射，不能预期保持原样；
+把正确输出docs/archive/old/deep-extra.md的反例移到显式diagnostics，配单父映射成功对照。
+保留合法最长匹配、Git引用与真正无有效映射的后缀绿例；不得skip/test.fails或掩盖已发现工具缺陷，不修生产。
+CT-R2：T07错配三轴与两个invalid分支都用具名实际document/rows，调用前独立深快照、后立即比较同一实参；
+保留完整业务结果断言，两针实际输入污染应能变红。不要只比较外层axes或临时对象的副本。
+顺手把四条导入检查及回执收窄为import smoke，不冒称动态证明没有IO/审计；分清21原用例中的烟测与行为例。
+白名单仍docs/testing/cursor-tool-regressions/**；T06 existing-proof及其它已核断言不重开。
+只跑候选/显式diagnostics/允许的相邻工具测试、本人Biome/docs/diff；失败如实记录，不跑官方覆盖率。
+Codex见证冻结旧候选，返工后部分结果应反转，由Codex适配判定，不让你改见证凑绿。
+整包提交推送并给正文SHA/登记tip，列绿候选数、诊断实际红因和剩余项；不合main、不代签、不标done。
 ```
