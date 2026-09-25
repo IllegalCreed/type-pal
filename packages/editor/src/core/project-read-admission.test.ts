@@ -524,6 +524,26 @@ test('读锁：获锁后重查绑定，消失时在任何内容读取前拒绝',
   expect(read).not.toHaveBeenCalled()
 })
 
+test('读锁：回调失败后 discovery 与 workspace 锁都释放', async () => {
+  const disk = await project()
+  const workspace = bindWorkspace(disk)
+  const restore = installMemoryWebLocks()
+  try {
+    await expect(
+      withProjectDirectoryReadLock(disk.dir, async () => {
+        throw new Error('read callback failed')
+      }),
+    ).rejects.toThrow('read callback failed')
+    for (const name of ['discovery', workspace.workspaceId]) {
+      await navigator.locks.request(`type-pal-workspace:${name}`, { ifAvailable: true }, (lock) => {
+        expect(lock?.name).toBe(`type-pal-workspace:${name}`)
+      })
+    }
+  } finally {
+    restore()
+  }
+})
+
 test.each([
   'workspaceId',
   'projectId',
