@@ -7,32 +7,27 @@
  * 本组差异在「挂载→派发→卸载→重挂载」的生命周期轴。
  */
 // @vitest-environment jsdom
-import { act, StrictMode } from 'react'
-import { createRoot, type Root } from 'react-dom/client'
-import { afterEach, beforeAll, beforeEach, describe, expect, test, vi } from 'vitest'
-import { memoryAuthorDirectory } from '@lab/fixtures/author-save-fixture'
-import {
-  authorSaveStorage,
-  memoryAuthorSaveStore,
-} from '@lab/fixtures/author-save-store-fixture'
+
+import { App } from '@lab/editor/app'
 import { RenameProjectCommand } from '@lab/editor/commands'
-import { EditSession } from '../../fixtures/editor/lab-session.js'
 import { EditorHistoryCoordinator } from '@lab/editor/history-coordinator'
 import { finishOpen, type Opened } from '@lab/editor/open-actions'
 import { toEditorState } from '@lab/editor/project-io'
 import { ScriptEditSession } from '@lab/editor/script-editor'
 import { projectEditorItemShells } from '@lab/editor/script-editor-projection'
 import { buildBlankProject } from '@lab/editor/seed'
-import {
-  createPalDevelopmentWorkspaceContext,
-  PAL_DEVELOPMENT_SENTINEL_PATH,
-} from '@lab/editor/workspace-context'
-import { App } from '@lab/editor/app'
+import { memoryAuthorDirectory } from '@lab/fixtures/author-save-fixture'
+import { act, StrictMode } from 'react'
+import { createRoot, type Root } from 'react-dom/client'
+import { afterEach, beforeAll, beforeEach, describe, expect, test, vi } from 'vitest'
+import { EditSession } from '../../fixtures/editor/lab-session.js'
 
 vi.mock('@lab/editor/scene-canvas', () => ({ SceneCanvas: () => <div /> }))
-vi.mock('@lab/editor/author-save-store', async (original) =>
-  memoryAuthorSaveStore(await original<typeof import('@lab/editor/author-save-store')>()),
-)
+vi.mock('@lab/editor/author-save-store', async (original) => {
+  const fixture = await import('@lab/fixtures/author-save-store-fixture')
+  const actual = await original<typeof import('@lab/editor/author-save-store')>()
+  return fixture.memoryAuthorSaveStore(actual)
+})
 const bindings = vi.hoisted(
   () => new Map<string, import('@lab/editor/handle-store').WorkspaceHandleRecord>(),
 )
@@ -77,6 +72,7 @@ beforeAll(async () => {
 
 beforeEach(async () => {
   ;(globalThis as { IS_REACT_ACT_ENVIRONMENT?: boolean }).IS_REACT_ACT_ENVIRONMENT = true
+  const { authorSaveStorage } = await import('@lab/fixtures/author-save-store-fixture')
   authorSaveStorage.receipts.clear()
   bindings.clear()
   localStorage.clear()
@@ -103,9 +99,12 @@ beforeEach(async () => {
       this.removeAttribute('open')
     },
   })
-  vi.stubGlobal('showDirectoryPicker', vi.fn(async () => {
-    throw new DOMException('cancelled', 'AbortError')
-  }))
+  vi.stubGlobal(
+    'showDirectoryPicker',
+    vi.fn(async () => {
+      throw new DOMException('cancelled', 'AbortError')
+    }),
+  )
   vi.spyOn(window, 'confirm').mockReturnValue(true)
   disk = memoryAuthorDirectory(structuredClone(seed))
   opened = await finishOpen(disk.dir)

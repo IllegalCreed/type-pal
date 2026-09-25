@@ -4,15 +4,16 @@
  * mountLabMap 返回真实 canvas / session / onWorkspaceNotice，供手势与会话失效轴驱动。
  */
 // @vitest-environment jsdom
+
+import { MapMode } from '@lab/editor/map-mode'
 import type { SceneDef, StampTemplate } from '@type-pal/content'
-import { buildBlankProjectMap } from '@type-pal/reforge'
 import type { ProjectMap } from '@type-pal/reforge'
+import { buildBlankProjectMap } from '@type-pal/reforge'
 import { act } from 'react'
 import { createRoot, type Root } from 'react-dom/client'
 import { vi } from 'vitest'
-import { EditSession } from './lab-session.js'
 import type { EditorState } from './lab-session.js'
-import { MapMode } from '@lab/editor/map-mode'
+import { EditSession } from './lab-session.js'
 
 export function labMap(): ProjectMap {
   return buildBlankProjectMap(3, 2, 'tiles')
@@ -46,12 +47,14 @@ export function labState(map: ProjectMap): EditorState {
 
 const mountedRoots: { root: Root; host: HTMLDivElement }[] = []
 
-export async function mountLabMap(options: {
-  map?: ProjectMap
-  selectedMapId?: string
-  /** 直接提供完整初始 state（如双地图会话）；优先于 map。 */
-  state?: EditorState
-} = {}) {
+export async function mountLabMap(
+  options: {
+    map?: ProjectMap
+    selectedMapId?: string
+    /** 直接提供完整初始 state（如双地图会话）；优先于 map。 */
+    state?: EditorState
+  } = {},
+) {
   const map = options.map ?? labMap()
   const state = options.state ?? labState(map)
   const session = new EditSession(state)
@@ -72,7 +75,9 @@ export async function mountLabMap(options: {
       <MapMode
         scene={scene}
         session={renderSession}
-        assetBase={{}} as never
+        assetBase={{}}
+        as
+        never
         assetCatalog={{ version: 1, assets: {} }}
         assetReader={{} as never}
         projectMaps={renderSession.getState().maps}
@@ -147,25 +152,49 @@ export function labButton(host: HTMLElement, text: string): HTMLButtonElement {
 
 /** jsdom 缺口打桩（scrollIntoView/rect/context/showModal/pointer capture）。 */
 export function installLabDomStubs(): void {
-  ;(globalThis as typeof globalThis & { IS_REACT_ACT_ENVIRONMENT: boolean }).IS_REACT_ACT_ENVIRONMENT =
-    true
-  Object.defineProperty(HTMLElement.prototype, 'scrollIntoView', { configurable: true, value: vi.fn() })
+  ;(
+    globalThis as typeof globalThis & { IS_REACT_ACT_ENVIRONMENT: boolean }
+  ).IS_REACT_ACT_ENVIRONMENT = true
+  Object.defineProperty(HTMLElement.prototype, 'scrollIntoView', {
+    configurable: true,
+    value: vi.fn(),
+  })
   Object.defineProperty(HTMLCanvasElement.prototype, 'getBoundingClientRect', {
     configurable: true,
     value: () => ({
-      x: 0, y: 0, top: 0, left: 0, right: 640, bottom: 480,
-      width: 640, height: 480, toJSON: () => ({}),
+      x: 0,
+      y: 0,
+      top: 0,
+      left: 0,
+      right: 640,
+      bottom: 480,
+      width: 640,
+      height: 480,
+      toJSON: () => ({}),
     }),
   })
   Object.defineProperty(HTMLCanvasElement.prototype, 'getContext', {
     configurable: true,
     value(this: HTMLCanvasElement) {
-      return { canvas: this, clearRect: vi.fn(), drawImage: vi.fn(), setTransform: vi.fn(),
-        save: vi.fn(), restore: vi.fn(), beginPath: vi.fn(), moveTo: vi.fn(), lineTo: vi.fn(),
-        closePath: vi.fn(), stroke: vi.fn() }
+      return {
+        canvas: this,
+        clearRect: vi.fn(),
+        drawImage: vi.fn(),
+        setTransform: vi.fn(),
+        save: vi.fn(),
+        restore: vi.fn(),
+        beginPath: vi.fn(),
+        moveTo: vi.fn(),
+        lineTo: vi.fn(),
+        closePath: vi.fn(),
+        stroke: vi.fn(),
+      }
     },
   })
-  Object.defineProperty(HTMLDialogElement.prototype, 'showModal', { configurable: true, value: vi.fn() })
+  Object.defineProperty(HTMLDialogElement.prototype, 'showModal', {
+    configurable: true,
+    value: vi.fn(),
+  })
   Object.defineProperty(HTMLCanvasElement.prototype, 'setPointerCapture', {
     configurable: true,
     value: vi.fn(),

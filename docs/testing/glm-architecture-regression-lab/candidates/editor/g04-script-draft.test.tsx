@@ -1,18 +1,19 @@
 /**
  * ARCH-REGRESSION-LAB-GLM-1 · G04 脚本编辑草稿（候选回归，隔离实验区）。
- * 验证轴（工作包点名，r1 未覆盖的草稿层）：
- * - 编辑中的草稿在「外部 body 替换 / 同路径换命令」下的路径保真（外部撤销/重做清身份）；
- * - 外部撤销后重做恢复同路径时编辑器跟随新 body；
- * - 取消（无确认）零命令、合法确认一笔。
- * 去重：ScriptEditor.test 24 条（重排/默认 hook/渲染语言）、characterization 13、hooks-session 3
- * 已证排序/会话三轴；本组只做「草稿 vs 外部变更」轴。
+ * 验证轴（工作包点名，r1 未覆盖的草稿层）——全部先证明弹层 entered 再断言结果：
+ * - G04-01 外部 body 替换（外部 undo/redo 模拟）：编辑器行随新 body，旧行不残留；
+ * - G04-02 编辑草稿确认：真实进入对话框（dblclick + 既有值 input 见证 entered）→ 翻转值 →
+ *   确认恰一笔、值正确、弹层收口；
+ * - G04-03 编辑草稿 Esc 取消：弹层关闭、onChange 零调用、body 深等；
+ * - G04-04 弹层打开时外部替换 body：新 body 行数生效（外部变更不被草稿覆盖）。
+ * 去重：ScriptEditor.test 24 条（重排/默认 hook/渲染语言）、characterization 13、hooks-session 3。
  */
 // @vitest-environment jsdom
+import { CanonicalScriptBodyEditor } from '@lab/editor/script-editor-body'
+import type { AuthorCommand } from '@type-pal/content'
 import { act } from 'react'
 import { createRoot, type Root } from 'react-dom/client'
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
-import type { AuthorCommand } from '@type-pal/content'
-import { CanonicalScriptBodyEditor } from '@lab/editor/script-editor-body'
 
 const BODY_A: AuthorCommand[] = [{ kind: 'setFlag', flag: 'opened', value: true }]
 const BODY_B: AuthorCommand[] = [
@@ -35,76 +36,89 @@ afterEach(async () => {
   host.remove()
 })
 
+function firstRow(): HTMLElement {
+  const row = host.querySelector<HTMLElement>('.cmd-row')
+  expect(row).not.toBeNull() // entered 见证：行真实存在
+  return row!
+}
+
+async function openEditDialog(): Promise<HTMLElement> {
+  await act(async () => {
+    firstRow().dispatchEvent(new MouseEvent('dblclick', { bubbles: true, cancelable: true }))
+  })
+  const dialog = host.querySelector('[role="dialog"]')
+  expect(dialog?.getAttribute('aria-label') ?? '').toContain('编辑') // entered：弹层真实打开
+  return dialog!
+}
+
 describe('G04 脚本编辑草稿', () => {
-  test('G04-01 外部 body 替换（模拟外部撤销）：编辑器跟随新 body 且选中路径身份被清（不指向旧命令）', async () => {
-    let current = BODY_A
-    const rerender = (body: AuthorCommand[], focusRevision?: number, focusPath?: string) => {
+  test('G04-01 外部 body 替换（外部 undo/redo 模拟）：编辑器行随新 body，旧行不残留', async () => {
+    const render = (body: AuthorCommand[]) => {
       act(() => {
-        root.render(
-          <CanonicalScriptBodyEditor
-            body={body}
-            onChange={(next) => {
-              current = next
-            }}
-            focusRevision={focusRevision}
-            focusCommandPath={focusPath}
-          />,
-        )
+        root.render(<CanonicalScriptBodyEditor body={body} onChange={() => {}} />)
       })
     }
-    rerender(current)
-    // 展开为多命令后外部替换到 BODY_B（模拟外部 undo/redo 改写 body）
-    rerender(BODY_B)
+    render(BODY_A)
+    expect(host.querySelectorAll('.cmd-row').length).toBe(1)
+    render(BODY_B)
     expect(host.querySelectorAll('.cmd-row').length).toBe(2)
-    // 再替换回 BODY_A：编辑器行数跟随（不残留旧 body 的行）
-    rerender(BODY_A)
+    render(BODY_A)
     expect(host.querySelectorAll('.cmd-row').length).toBe(1)
   })
 
-  test('G04-02 行内编辑提交：合法确认恰一笔（onChange 恰一次且含编辑值）', async () => {
-    let current = structuredClone(BODY_A)
+  test('G04-02 编辑草稿确认：entered 见证后翻转值 → 确认恰一笔、值正确、弹层收口', async () => {
+    let current: AuthorCommand[] = structuredClone(BODY_A)
     const onChange = vi.fn((next: AuthorCommand[]) => {
       current = next
     })
     await act(async () =>
       root.render(<CanonicalScriptBodyEditor body={current} onChange={onChange} />),
     )
-    const row = host.querySelector<HTMLElement>('.cmd-row')!
-    expect(row.getAttribute('role')).toBe('treeitem')
-    await act(async () => {
-      row.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter', bubbles: true }))
-    })
-    // 打开编辑对话框（工作包轴：编辑经对话框，不内联改值）
-    const dialog = host.querySelector('[role="dialog"]')
-    if (dialog) {
-      // 有确认按钮则确认一次
-      const confirm = [...dialog.querySelectorAll('button')].find((b) =>
-        b.textContent?.includes('确定'),
-      )
-      await act(async () => confirm?.click())
-    }
-    // 合同：取消/确认路径均不得产生多笔（重放）——onChange 至多一次
-    expect(onChange.mock.calls.length).toBeLessThanOrEqual(1)
+    const dialog = await openEditDialog()
+    const valueInput = [...dialog.querySelectorAll<HTMLInputElement>('input[type=checkbox]')][0]
+    expect(valueInput?.checked).toBe(true) // 既有值 true 真实进入草稿
+    await act(async () => valueInput!.click()) // 草稿翻转
+    // 确认文案为「完成」（dialog 顶层按钮，非右上角关闭）
+    const confirm = [...dialog.querySelectorAll('button')].find((b) =>
+      b.textContent?.includes('完成'),
+    )
+    expect(confirm).not.toBeUndefined() // entered：提交按钮真实存在
+    await act(async () => confirm!.click())
+    expect(onChange).toHaveBeenCalledTimes(1) // 恰一笔
+    expect(current[0]).toMatchObject({ kind: 'setFlag', value: false }) // 值正确
+    expect(host.querySelector('[role="dialog"]')).toBeNull() // 弹层收口
   })
 
-  test('G04-03 取消零命令：打开编辑对话框后 Esc 关闭，body 与 onChange 均无变化', async () => {
-    let current = structuredClone(BODY_A)
+  test('G04-03 关闭取消：弹层关闭、onChange 零调用、body 深等', async () => {
+    let current: AuthorCommand[] = structuredClone(BODY_A)
     const onChange = vi.fn()
     await act(async () =>
       root.render(<CanonicalScriptBodyEditor body={current} onChange={onChange} />),
     )
-    const row = host.querySelector<HTMLElement>('.cmd-row')!
-    await act(async () => {
-      row.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter', bubbles: true }))
-    })
-    const dialog = host.querySelector('[role="dialog"]')
-    if (dialog) {
-      await act(async () => {
-        dialog.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape', bubbles: true }))
-      })
+    const dialog = await openEditDialog()
+    // 该弹层的取消路径是「关闭」按钮（ScriptEditor.tsx:4060；非 Esc 键）
+    const allButtons = [...dialog.querySelectorAll('button')].map(
+      (b) => b.textContent ?? b.getAttribute('aria-label') ?? '',
+    )
+    const close = dialog.querySelector<HTMLButtonElement>('[aria-label="关闭"]')
+    if (!close) {
+      throw new Error('LAB DEBUG dialog buttons: ' + JSON.stringify(allButtons))
     }
+    await act(async () => close.click())
     expect(host.querySelector('[role="dialog"]')).toBeNull() // 弹层关闭
     expect(onChange).not.toHaveBeenCalled() // 取消零命令
-    expect(current).toEqual(BODY_A)
+    expect(current).toEqual(BODY_A) // body 深等
+  })
+
+  test('G04-04 弹层打开时外部替换 body：新 body 行数生效（外部变更不被草稿覆盖）', async () => {
+    const onChange = vi.fn()
+    await act(async () =>
+      root.render(<CanonicalScriptBodyEditor body={BODY_A} onChange={onChange} />),
+    )
+    await openEditDialog()
+    await act(async () => {
+      root.render(<CanonicalScriptBodyEditor body={BODY_B} onChange={onChange} />)
+    })
+    expect(host.querySelectorAll('.cmd-row').length).toBe(2) // 外部新 body 生效
   })
 })

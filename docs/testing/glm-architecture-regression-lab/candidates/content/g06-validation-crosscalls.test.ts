@@ -7,9 +7,13 @@
  * 去重：author-script-core.test 17 条/enemy-script.test 6 条已覆盖单臂矩阵；
  * 本组只做跨校验器调用面的代表组合（G06 工作包轴）。
  */
-import { checkBaseAuthorCommands, checkAuthorCondition } from '@type-pal/content'
+
 import type { Command } from '@type-pal/content'
-import { checkEnemyHookFlow } from '@type-pal/content'
+import {
+  checkAuthorCondition,
+  checkBaseAuthorCommands,
+  checkEnemyHookFlow,
+} from '@type-pal/content'
 import { describe, expect, test } from 'vitest'
 
 /** 合法最小 author 命令（playSound 叶）。 */

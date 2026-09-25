@@ -16,17 +16,32 @@ export default defineConfig({
   root: editorRoot,
   resolve: {
     alias: [
-      { find: '@type-pal/reforge/entity-action-player', replacement: w('packages/reforge/src/entity-action-player.ts') },
-      { find: '@type-pal/reforge/script-compiler-core', replacement: w('packages/reforge/src/script-compiler-core.ts') },
+      {
+        find: '@type-pal/reforge/entity-action-player',
+        replacement: w('packages/reforge/src/entity-action-player.ts'),
+      },
+      {
+        find: '@type-pal/reforge/script-compiler-core',
+        replacement: w('packages/reforge/src/script-compiler-core.ts'),
+      },
       { find: '@type-pal/reforge', replacement: w('packages/reforge/src/index.ts') },
       { find: '@type-pal/content', replacement: w('packages/content/src/index.ts') },
       { find: '@type-pal/shared', replacement: w('packages/shared/src/index.ts') },
       { find: '@type-pal/game', replacement: w('packages/game/src/index.ts') },
       { find: '@type-pal/migrate', replacement: w('packages/migrate/src/index.ts') },
-      { find: '@lab/editor/edit-session', replacement: path.resolve(editorRoot, 'src/core/edit-session.ts') },
-      { find: '@lab/editor/commands', replacement: path.resolve(editorRoot, 'src/core/commands.ts') },
+      {
+        find: '@lab/editor/edit-session',
+        replacement: path.resolve(editorRoot, 'src/core/edit-session.ts'),
+      },
+      {
+        find: '@lab/editor/commands',
+        replacement: path.resolve(editorRoot, 'src/core/commands.ts'),
+      },
       { find: '@lab/editor/seed', replacement: path.resolve(editorRoot, 'src/core/seed.ts') },
-      { find: '@lab/editor/project-io', replacement: path.resolve(editorRoot, 'src/core/project-io.ts') },
+      {
+        find: '@lab/editor/project-io',
+        replacement: path.resolve(editorRoot, 'src/core/project-io.ts'),
+      },
     ],
   },
   plugins: [react()],

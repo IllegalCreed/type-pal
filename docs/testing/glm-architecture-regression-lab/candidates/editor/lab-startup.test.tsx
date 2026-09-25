@@ -7,10 +7,11 @@
  * State 构造对齐 MapMode.test.tsx 的 editorState 口径（含 assetCatalog 等真实必填键）。
  */
 // @vitest-environment jsdom
-import type { EditorState } from '@lab/editor/edit-session'
+
 import { UpdateProjectMapLayerCommand } from '@lab/editor/commands'
-import { buildBlankProjectMap } from '@type-pal/reforge'
+import type { EditorState } from '@lab/editor/edit-session'
 import type { ProjectMap } from '@type-pal/reforge'
+import { buildBlankProjectMap } from '@type-pal/reforge'
 import { describe, expect, test } from 'vitest'
 import { EditSession } from '../../fixtures/editor/lab-session.js'
 

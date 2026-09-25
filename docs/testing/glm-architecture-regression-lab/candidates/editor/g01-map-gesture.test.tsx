@@ -8,15 +8,16 @@
  * pending-contract；本组以「取消后组件仍可用（后续正控仍成功）」作平移轴存活见证。
  */
 // @vitest-environment jsdom
+
+import { MapMode } from '@lab/editor/map-mode'
 import type { SceneDef, StampTemplate } from '@type-pal/content'
-import { buildBlankProjectMap } from '@type-pal/reforge'
 import type { ProjectMap } from '@type-pal/reforge'
+import { buildBlankProjectMap } from '@type-pal/reforge'
 import { act } from 'react'
 import { createRoot, type Root } from 'react-dom/client'
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
-import { EditSession } from '../../fixtures/editor/lab-session.js'
 import type { EditorState } from '../../fixtures/editor/lab-session.js'
-import { MapMode } from '@lab/editor/map-mode'
+import { EditSession } from '../../fixtures/editor/lab-session.js'
 
 function labMap(): ProjectMap {
   return buildBlankProjectMap(3, 2, 'tiles')
@@ -70,7 +71,9 @@ async function mountLabMap(options: { map?: ProjectMap } = {}) {
       <MapMode
         scene={scene}
         session={renderSession}
-        assetBase={{}} as never
+        assetBase={{}}
+        as
+        never
         assetCatalog={{ version: 1, assets: {} }}
         assetReader={{} as never}
         projectMaps={renderSession.getState().maps}
@@ -127,27 +130,57 @@ function button(host: HTMLElement, text: string): HTMLButtonElement {
 beforeEach(() => {
   mountedRoots.length = 0
   // jsdom 缺口打桩，与既有 MapMode 测试同口径（scrollIntoView/rect/context/showModal）
-  ;(globalThis as typeof globalThis & { IS_REACT_ACT_ENVIRONMENT: boolean }).IS_REACT_ACT_ENVIRONMENT =
-    true
-  Object.defineProperty(HTMLElement.prototype, 'scrollIntoView', { configurable: true, value: vi.fn() })
+  ;(
+    globalThis as typeof globalThis & { IS_REACT_ACT_ENVIRONMENT: boolean }
+  ).IS_REACT_ACT_ENVIRONMENT = true
+  Object.defineProperty(HTMLElement.prototype, 'scrollIntoView', {
+    configurable: true,
+    value: vi.fn(),
+  })
   Object.defineProperty(HTMLCanvasElement.prototype, 'getBoundingClientRect', {
     configurable: true,
     value: () => ({
-      x: 0, y: 0, top: 0, left: 0, right: 640, bottom: 480,
-      width: 640, height: 480, toJSON: () => ({}),
+      x: 0,
+      y: 0,
+      top: 0,
+      left: 0,
+      right: 640,
+      bottom: 480,
+      width: 640,
+      height: 480,
+      toJSON: () => ({}),
     }),
   })
   Object.defineProperty(HTMLCanvasElement.prototype, 'getContext', {
     configurable: true,
     value(this: HTMLCanvasElement) {
-      return { canvas: this, clearRect: vi.fn(), drawImage: vi.fn(), setTransform: vi.fn(),
-        save: vi.fn(), restore: vi.fn(), beginPath: vi.fn(), moveTo: vi.fn(), lineTo: vi.fn(),
-        closePath: vi.fn(), stroke: vi.fn() }
+      return {
+        canvas: this,
+        clearRect: vi.fn(),
+        drawImage: vi.fn(),
+        setTransform: vi.fn(),
+        save: vi.fn(),
+        restore: vi.fn(),
+        beginPath: vi.fn(),
+        moveTo: vi.fn(),
+        lineTo: vi.fn(),
+        closePath: vi.fn(),
+        stroke: vi.fn(),
+      }
     },
   })
-  Object.defineProperty(HTMLDialogElement.prototype, 'showModal', { configurable: true, value: vi.fn() })
-  Object.defineProperty(HTMLCanvasElement.prototype, 'setPointerCapture', { configurable: true, value: vi.fn() })
-  Object.defineProperty(HTMLCanvasElement.prototype, 'releasePointerCapture', { configurable: true, value: vi.fn() })
+  Object.defineProperty(HTMLDialogElement.prototype, 'showModal', {
+    configurable: true,
+    value: vi.fn(),
+  })
+  Object.defineProperty(HTMLCanvasElement.prototype, 'setPointerCapture', {
+    configurable: true,
+    value: vi.fn(),
+  })
+  Object.defineProperty(HTMLCanvasElement.prototype, 'releasePointerCapture', {
+    configurable: true,
+    value: vi.fn(),
+  })
 })
 afterEach(async () => {
   for (const { root, host } of mountedRoots.reverse()) {
@@ -189,7 +222,9 @@ describe('G01 地图手势终结', () => {
       pointer(canvas, 'pointerdown', { clientX: 33, clientY: 1 })
       pointer(canvas, 'pointerup', { clientX: 33, clientY: 1 })
     })
-    expect(session.getState().maps['map-a']!.layers[0]!.tiles.map((r) => [...r!])).not.toEqual(before)
+    expect(session.getState().maps['map-a']!.layers[0]!.tiles.map((r) => [...r!])).not.toEqual(
+      before,
+    )
   })
 
   test('G01-03 lostpointercapture 终结笔划：迟到 up 不提交', async () => {
@@ -245,21 +280,23 @@ describe('G01 地图手势终结', () => {
     expect(onWorkspaceNotice.mock.calls.length).toBeGreaterThan(callsAfterCancel)
   })
 
-  test('G01-06 平移轴 pointercancel：取消后存活（后续平移正控可继续）', async () => {
-    const { host, canvas } = await mountLabMap()
-    await act(async () => button(host, '平移').click())
+  test('G01-06 平移中 pointercancel 终结平移：后续选择笔划仍正常提交（跨工具存活）', async () => {
+    // 平移手势（中键按下 + 拖动）→ pointercancel 终结 → 切回选择工具后一笔笔划照常落图：
+    // 若取消未清 panRef（仍滞留），后续 pointerdown/move 会被当作平移继续而非绘制——以瓦片实变作业务见证
+    const { host, canvas, session } = await mountLabMap()
     await act(async () => {
       pointer(canvas, 'pointerdown', { button: 1, clientX: 10, clientY: 10 })
       pointer(canvas, 'pointermove', { button: 1, clientX: 60, clientY: 40 })
       pointer(canvas, 'pointercancel', { button: 1, clientX: 60, clientY: 40 })
-      // 迟到 move：不得抛错（panRef 已清）
-      pointer(canvas, 'pointermove', { button: 1, clientX: 80, clientY: 60 })
     })
-    // 存活见证：取消后再做一次正常平移按下-抬起，组件仍接受输入
+    await act(async () => button(host, '笔刷').click())
+    const before = session.getState().maps['map-a']!.layers[0]!.tiles.map((r) => [...r!])
     await act(async () => {
-      pointer(canvas, 'pointerdown', { button: 1, clientX: 10, clientY: 10 })
-      pointer(canvas, 'pointerup', { button: 1, clientX: 10, clientY: 10 })
+      pointer(canvas, 'pointerdown', { clientX: 33, clientY: 1 })
+      pointer(canvas, 'pointerup', { clientX: 33, clientY: 1 })
     })
-    expect(true).toBe(true)
+    expect(session.getState().maps['map-a']!.layers[0]!.tiles.map((r) => [...r!])).not.toEqual(
+      before,
+    ) // 跨工具存活：取消平移后绘制轴真实可用
   })
-})
+)

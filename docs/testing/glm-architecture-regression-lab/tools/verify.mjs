@@ -24,10 +24,10 @@ const check = (ok, message) => {
 }
 
 // 1) 产品零漂移（工作树相对冻结：HEAD 树）
-const drift = execSync(
-  `git diff ${freeeze}..HEAD --stat -- packages/ scripts/`,
-  { cwd: repoRoot, encoding: 'utf8' },
-).trim()
+const drift = execSync(`git diff ${freeeze}..HEAD --stat -- packages/ scripts/`, {
+  cwd: repoRoot,
+  encoding: 'utf8',
+}).trim()
 check(drift === '', `产品对冻结漂移非空: ${drift.slice(0, 200)}`)
 
 // 2) 白名单（本分支起点之后的全部改动）
@@ -43,7 +43,10 @@ const resultsPath = join(labRoot, 'results.json')
 const results = JSON.parse(readFileSync(resultsPath, 'utf8'))
 const ids = results.entries.map((entry) => entry.id)
 check(new Set(ids).size === ids.length, '存在重复 ID')
-check(results.entries.length === results.groupTotals.total, `entries ${results.entries.length} != total ${results.groupTotals.total}`)
+check(
+  results.entries.length === results.groupTotals.total,
+  `entries ${results.entries.length} != total ${results.groupTotals.total}`,
+)
 const byType = {}
 const perGroup = {}
 for (const entry of results.entries) {

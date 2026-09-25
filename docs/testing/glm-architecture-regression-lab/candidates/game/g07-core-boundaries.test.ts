@@ -8,11 +8,12 @@
  * 去重：event-system.test 326/scene 110/opcode 158/equip 36 为单模块/单 caller 证据；
  * 本组只做**跨 caller 顺序**的公开合同；既有跨 caller 例若足够则记 existing-proof（见各条 results）。
  */
-import { describe, expect, test } from 'vitest'
-import { setCurrentMapNum, getCurrentMapNum } from '@lab/game/scene-system'
+
+import { getPlayerAttackStrength } from '@lab/game/equip-effect'
 import { addItemToInventory } from '@lab/game/event-system'
-import { getPlayerAttackStrength, applyEquipmentEffect } from '@lab/game/equip-effect'
 import { createInitialGameState } from '@lab/game/game-state'
+import { getCurrentMapNum, setCurrentMapNum } from '@lab/game/scene-system'
+import { describe, expect, test } from 'vitest'
 
 describe('G07 第一阶段模块边界', () => {
   test('G07-01 scene 写 mapNum → event 读：跨模块顺序合同（含恢复）', () => {

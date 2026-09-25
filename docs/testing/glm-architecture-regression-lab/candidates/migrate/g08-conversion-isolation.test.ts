@@ -6,9 +6,10 @@
  * 去重：migrate-content.test.ts 既有矩阵（真实 PAL 输入）+ translate-events.test.ts 66 条；
  * 本组差异在「自包含小型输入的隔离/保真/幂等轴」。
  */
-import { mapScenesStatic } from '../../fixtures/migrate/migrate-content.js'
-import type { SourceCmd, SourceScene } from '../../fixtures/migrate/migrate-content.js'
+
 import { describe, expect, test } from 'vitest'
+import type { SourceCmd, SourceScene } from '../../fixtures/migrate/migrate-content.js'
+import { mapScenesStatic } from '../../fixtures/migrate/migrate-content.js'
 
 function sourceScene(n: number): SourceScene {
   return {
@@ -70,7 +71,9 @@ describe('G08 迁移转换边界', () => {
 
   test('G08-04 异常路径不污染下次调用：非法操作码登记 gap 后，再次调用照常成功', () => {
     const scenes = [sourceScene(0)]
-    const badEvents = new Map([[0, [{ label: 'L_1', op: 'raw', opcode: 0xffff, operands: [] }, { op: 'end' }]]])
+    const badEvents = new Map([
+      [0, [{ label: 'L_1', op: 'raw', opcode: 0xffff, operands: [] }, { op: 'end' }]],
+    ])
     const bad = mapScenesStatic(scenes, badEvents)
     expect(bad.report.gapCount === undefined || bad.report.gapCount >= 0).toBe(true) // 形状仍完整
     const good = mapScenesStatic(scenes, new Map([[0, sourceEvents()]]))

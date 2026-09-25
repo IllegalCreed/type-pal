@@ -5,19 +5,19 @@
  * 去重：MapMode.test.tsx:1507/:1579/:1611/:2000 证普通切换清场；本组差异在「手势进行中切换 + 迟到事件」。
  */
 // @vitest-environment jsdom
+
+import { buildBlankProjectMap } from '@type-pal/reforge'
+import { act } from 'react'
+import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
 import { EditSession } from '../../fixtures/editor/lab-session.js'
 import {
   installLabDomStubs,
+  labButton,
   labState,
   mountLabMap,
   pointer,
   unmountAllLabMaps,
 } from '../../fixtures/editor/map-harness.js'
-import { buildBlankProjectMap } from '@type-pal/reforge'
-import type { ProjectMap } from '@type-pal/reforge'
-import { act } from 'react'
-import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
-import { labButton } from '../../fixtures/editor/map-harness.js'
 
 beforeEach(() => {
   installLabDomStubs()
@@ -46,9 +46,13 @@ describe('G02 地图会话失效', () => {
       pointer(canvas, 'pointerup', { clientX: 35, clientY: 2 })
     })
     // 旧会话：迟到 up 不得提交旧笔划（handler 已换绑）
-    expect(oldSession.getState().maps['map-a']!.layers[0]!.tiles.map((r) => [...r!])).toEqual(oldBefore)
+    expect(oldSession.getState().maps['map-a']!.layers[0]!.tiles.map((r) => [...r!])).toEqual(
+      oldBefore,
+    )
     // 新会话（真实业务对象）：活跃期间收集的笔划不得写入新会话
-    expect(nextSession.getState().maps['map-a']!.layers[0]!.tiles.map((r) => [...r!])).toEqual(nextBefore)
+    expect(nextSession.getState().maps['map-a']!.layers[0]!.tiles.map((r) => [...r!])).toEqual(
+      nextBefore,
+    )
   })
 
   test('G02-02 活跃笔划中跨 mapId 切换：清场 effect 覆盖活跃手势，迟到 up 两边都不提交', async () => {
@@ -93,20 +97,22 @@ describe('G02 地图会话失效', () => {
   test('G02-03 活跃选区拖动中换会话：迟到 up 不向新会话派发 set-selection', async () => {
     const map = buildBlankProjectMap(3, 2, 'tiles')
     map.layers[0]!.tiles[0]![0] = 1
-    const { host, canvas, onWorkspaceNotice } = await mountLabMap({ map })
+    const { host, canvas, onWorkspaceNotice, rerenderWithSession } = await mountLabMap({ map })
     await act(async () => labButton(host, '选择').click())
     await act(async () => {
       pointer(canvas, 'pointerdown', { clientX: 33, clientY: 1 })
       pointer(canvas, 'pointermove', { clientX: 40, clientY: 20 })
     })
     const nextSession = new EditSession(labState(map))
+    await act(async () => {
+      await rerenderWithSession(nextSession)
+    })
     const callsAtSwap = onWorkspaceNotice.mock.calls.length
     await act(async () => {
       pointer(canvas, 'pointerup', { clientX: 40, clientY: 20 })
     })
     // 换会话后迟到 up：不产生新的选区通知（通知来自 set-selection 派发路径）
     const newCalls = onWorkspaceNotice.mock.calls.slice(callsAtSwap)
-    expect(newCalls.some((c) => String((c[0] ?? {}).message ?? '').includes('已选择'))).toBe(false)
-    void nextSession
+    expect(newCalls.some((c) => String(c[0]?.message ?? '').includes('已选择'))).toBe(false)
   })
 })

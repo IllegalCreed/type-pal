@@ -37,8 +37,14 @@ export default defineConfig({
   resolve: {
     alias: [
       // 先精确映射 reforge 子导出，再映射包根
-      { find: '@type-pal/reforge/entity-action-player', replacement: workspaceAliases['@type-pal/reforge/entity-action-player'] },
-      { find: '@type-pal/reforge/script-compiler-core', replacement: workspaceAliases['@type-pal/reforge/script-compiler-core'] },
+      {
+        find: '@type-pal/reforge/entity-action-player',
+        replacement: workspaceAliases['@type-pal/reforge/entity-action-player'],
+      },
+      {
+        find: '@type-pal/reforge/script-compiler-core',
+        replacement: workspaceAliases['@type-pal/reforge/script-compiler-core'],
+      },
       { find: '@type-pal/reforge', replacement: workspaceAliases['@type-pal/reforge'] },
       { find: '@type-pal/content', replacement: workspaceAliases['@type-pal/content'] },
       { find: '@type-pal/shared', replacement: workspaceAliases['@type-pal/shared'] },
@@ -48,43 +54,105 @@ export default defineConfig({
       { find: '@lab/game/equip-effect', replacement: w('packages/game/src/core/equip-effect.ts') },
       { find: '@lab/game/game-state', replacement: w('packages/game/src/core/game-state.ts') },
       { find: '@type-pal/migrate', replacement: workspaceAliases['@type-pal/migrate'] },
-      { find: '@lab/migrate/migrate-content', replacement: w('packages/migrate/src/migrate-content.ts') },
+      {
+        find: '@lab/migrate/migrate-content',
+        replacement: w('packages/migrate/src/migrate-content.ts'),
+      },
       { find: '@lab/migrate/source-facts', replacement: w('packages/migrate/src/source-facts.ts') },
       // editor 是应用包（无 exports），按需为候选测试暴露其内部模块（指向本树源码）
-      { find: '@lab/editor/edit-session', replacement: path.resolve(editorRoot, 'src/core/edit-session.ts') },
-      { find: '@lab/editor/commands', replacement: path.resolve(editorRoot, 'src/core/commands.ts') },
+      {
+        find: '@lab/editor/edit-session',
+        replacement: path.resolve(editorRoot, 'src/core/edit-session.ts'),
+      },
+      {
+        find: '@lab/editor/commands',
+        replacement: path.resolve(editorRoot, 'src/core/commands.ts'),
+      },
       { find: '@lab/editor/seed', replacement: path.resolve(editorRoot, 'src/core/seed.ts') },
-      { find: '@lab/editor/project-io', replacement: path.resolve(editorRoot, 'src/core/project-io.ts') },
+      {
+        find: '@lab/editor/project-io',
+        replacement: path.resolve(editorRoot, 'src/core/project-io.ts'),
+      },
       { find: '@lab/editor/map-mode', replacement: path.resolve(editorRoot, 'src/ui/MapMode.tsx') },
-      { find: '@lab/editor/script-editor-body', replacement: path.resolve(editorRoot, 'src/ui/ScriptEditor.tsx') },
-      { find: '@lab/editor/playback', replacement: path.resolve(editorRoot, 'src/core/playback.ts') },
+      {
+        find: '@lab/editor/script-editor-body',
+        replacement: path.resolve(editorRoot, 'src/ui/ScriptEditor.tsx'),
+      },
+      {
+        find: '@lab/editor/playback',
+        replacement: path.resolve(editorRoot, 'src/core/playback.ts'),
+      },
       { find: '@lab/editor/app', replacement: path.resolve(editorRoot, 'src/ui/App.tsx') },
-      { find: '@lab/editor/scene-canvas', replacement: path.resolve(editorRoot, 'src/ui/SceneCanvas.tsx') },
-      { find: '@lab/editor/author-save-store', replacement: path.resolve(editorRoot, 'src/core/author-save-store.ts') },
-      { find: '@lab/editor/handle-store', replacement: path.resolve(editorRoot, 'src/core/handle-store.ts') },
-      { find: '@lab/fixtures/author-save-fixture', replacement: path.resolve(editorRoot, 'src/core/__tests__/author-save-fixture.ts') },
-      { find: '@lab/fixtures/author-save-store-fixture', replacement: path.resolve(editorRoot, 'src/core/__tests__/author-save-store-fixture.ts') },
-      { find: '@lab/editor/history-coordinator', replacement: path.resolve(editorRoot, 'src/core/editor-history-coordinator.ts') },
-      { find: '@lab/editor/script-editor', replacement: path.resolve(editorRoot, 'src/core/script-editor.ts') },
-      { find: '@lab/editor/script-editor-projection', replacement: path.resolve(editorRoot, 'src/core/script-editor-projection.ts') },
-      { find: '@lab/editor/workspace-context', replacement: path.resolve(editorRoot, 'src/core/workspace-context.ts') },
-      { find: '@lab/editor/open-actions', replacement: path.resolve(editorRoot, 'src/core/open-actions.ts') },
+      {
+        find: '@lab/editor/scene-canvas',
+        replacement: path.resolve(editorRoot, 'src/ui/SceneCanvas.tsx'),
+      },
+      {
+        find: '@lab/editor/author-save-store',
+        replacement: path.resolve(editorRoot, 'src/core/author-save-store.ts'),
+      },
+      {
+        find: '@lab/editor/handle-store',
+        replacement: path.resolve(editorRoot, 'src/core/handle-store.ts'),
+      },
+      {
+        find: '@lab/fixtures/author-save-fixture',
+        replacement: path.resolve(editorRoot, 'src/core/__tests__/author-save-fixture.ts'),
+      },
+      {
+        find: '@lab/fixtures/author-save-store-fixture',
+        replacement: path.resolve(editorRoot, 'src/core/__tests__/author-save-store-fixture.ts'),
+      },
+      {
+        find: '@lab/editor/history-coordinator',
+        replacement: path.resolve(editorRoot, 'src/core/editor-history-coordinator.ts'),
+      },
+      {
+        find: '@lab/editor/script-editor',
+        replacement: path.resolve(editorRoot, 'src/core/script-editor.ts'),
+      },
+      {
+        find: '@lab/editor/script-editor-projection',
+        replacement: path.resolve(editorRoot, 'src/core/script-editor-projection.ts'),
+      },
+      {
+        find: '@lab/editor/workspace-context',
+        replacement: path.resolve(editorRoot, 'src/core/workspace-context.ts'),
+      },
+      {
+        find: '@lab/editor/open-actions',
+        replacement: path.resolve(editorRoot, 'src/core/open-actions.ts'),
+      },
       // react/react-dom/vitest 从 editor 作用域解析（docs/** 无 node_modules 链）
       { find: /^react$/, replacement: path.resolve(editorRoot, 'node_modules/react/index.js') },
-      { find: /^react-dom$/, replacement: path.resolve(editorRoot, 'node_modules/react-dom/index.js') },
-      { find: /^react-dom\/client$/, replacement: path.resolve(editorRoot, 'node_modules/react-dom/client.js') },
-      { find: /^react\/jsx-dev-runtime$/, replacement: path.resolve(editorRoot, 'node_modules/react/jsx-dev-runtime.js') },
-      { find: /^react\/jsx-runtime$/, replacement: path.resolve(editorRoot, 'node_modules/react/jsx-runtime.js') },
+      {
+        find: /^react-dom$/,
+        replacement: path.resolve(editorRoot, 'node_modules/react-dom/index.js'),
+      },
+      {
+        find: /^react-dom\/client$/,
+        replacement: path.resolve(editorRoot, 'node_modules/react-dom/client.js'),
+      },
+      {
+        find: /^react\/jsx-dev-runtime$/,
+        replacement: path.resolve(editorRoot, 'node_modules/react/jsx-dev-runtime.js'),
+      },
+      {
+        find: /^react\/jsx-runtime$/,
+        replacement: path.resolve(editorRoot, 'node_modules/react/jsx-runtime.js'),
+      },
     ],
   },
   plugins: [react()],
   esbuild: { jsx: 'automatic', jsxImportSource: 'react' },
   test: {
     environment: 'jsdom',
-    include: [path.resolve(labRoot, 'candidates/editor/**/*.test.{ts,tsx}'),
+    include: [
+      path.resolve(labRoot, 'candidates/editor/**/*.test.{ts,tsx}'),
       path.resolve(labRoot, 'candidates/content/**/*.test.{ts,tsx}'),
       path.resolve(labRoot, 'candidates/game/**/*.test.{ts,tsx}'),
-      path.resolve(labRoot, 'candidates/migrate/**/*.test.{ts,tsx}')],
+      path.resolve(labRoot, 'candidates/migrate/**/*.test.{ts,tsx}'),
+    ],
     maxWorkers: 2,
     fileParallelism: true,
   },

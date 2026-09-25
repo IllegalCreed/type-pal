@@ -26,7 +26,7 @@ if (classIdx === -1) throw new Error('class declaration not found')
 const applyIdx = productSrc.indexOf(applySig, classIdx)
 if (applyIdx === -1) throw new Error('apply signature not found in class')
 const mutationFrom = productSrc.slice(classIdx, applyIdx + applySig.length)
-const mutationTo = mutationFrom + ' if (this.patch.name !== undefined) return state'
+const mutationTo = `${mutationFrom} if (this.patch.name !== undefined) return state`
 if (productSrc.split(mutationFrom).length !== 2) throw new Error('anchor not unique')
 
 const config = mkdtempSync(join(labRoot, 'configs', '.tmp-red-'))
@@ -74,14 +74,22 @@ writeFileSync(configFile, generated)
 
 const run = spawnSync(
   'npx',
-  ['vitest', 'run', '--config', configFile, '--reporter=json', '--outputFile', join(config, 'red.json')],
+  [
+    'vitest',
+    'run',
+    '--config',
+    configFile,
+    '--reporter=json',
+    '--outputFile',
+    join(config, 'red.json'),
+  ],
   { cwd: repoRoot, encoding: 'utf8', timeout: 180_000, maxBuffer: 32 * 1024 * 1024 },
 )
 const log = (run.stdout ?? '') + (run.stderr ?? '')
 writeFileSync(join(config, 'red.log'), log)
 
 const verdicts = { witnesses: 0, executed: 0, failed: 0, firstLine: '', exit: run.status }
-for (const m of log.matchAll(/LAB_RED_MUTATION_APPLIED/g)) verdicts.witnesses += 1
+for (const _m of log.matchAll(/LAB_RED_MUTATION_APPLIED/g)) verdicts.witnesses += 1
 try {
   const report = JSON.parse(readFileSync(join(config, 'red.json'), 'utf8'))
   const assertions = report.testResults.flatMap((s) => s.assertionResults ?? [])

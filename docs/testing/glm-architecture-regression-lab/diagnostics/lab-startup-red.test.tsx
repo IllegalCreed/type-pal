@@ -6,10 +6,11 @@
  * 判据：恰一次失败、失败项为本文件钉名测试、AssertionError 首行、破坏加载见证命中。
  */
 // @vitest-environment jsdom
-import { expect, test } from 'vitest'
+
 import { UpdateProjectMapLayerCommand } from '@lab/editor/commands'
-import { buildBlankProjectMap } from '@type-pal/reforge'
 import type { ProjectMap } from '@type-pal/reforge'
+import { buildBlankProjectMap } from '@type-pal/reforge'
+import { expect, test } from 'vitest'
 import { EditSession } from '../fixtures/editor/lab-session.js'
 
 const MUTATION_APPLIED = globalThis.__LAB_STARTUP_RED_MUTATION__ === true
@@ -53,7 +54,7 @@ test('LAB-STARTUP-RED 破坏 apply 后：改名命令不再落到业务对象（
   const command = new UpdateProjectMapLayerCommand('map-a', map.layers[0]!.id, {
     name: '实验室改名层',
   })
-  const dispatched = session.dispatch(command)
+  const _dispatched = session.dispatch(command)
   // 绿正控在此处断言 true + 新名；破坏下改名 no-op：
   // dispatch 可能仍计历史（命令合法），但业务对象不得变成新名 —— 绿正控断言在此红
   expect(session.state.maps['map-a']!.layers[0]!.name).toBe('实验室改名层')
