@@ -52,6 +52,7 @@ export default defineConfig({
       { find: '@lab/editor/seed', replacement: path.resolve(editorRoot, 'src/core/seed.ts') },
       { find: '@lab/editor/project-io', replacement: path.resolve(editorRoot, 'src/core/project-io.ts') },
       { find: '@lab/editor/map-mode', replacement: path.resolve(editorRoot, 'src/ui/MapMode.tsx') },
+      { find: '@lab/editor/script-editor-body', replacement: path.resolve(editorRoot, 'src/ui/ScriptEditor.tsx') },
       { find: '@lab/editor/app', replacement: path.resolve(editorRoot, 'src/ui/App.tsx') },
       { find: '@lab/editor/scene-canvas', replacement: path.resolve(editorRoot, 'src/ui/SceneCanvas.tsx') },
       { find: '@lab/editor/author-save-store', replacement: path.resolve(editorRoot, 'src/core/author-save-store.ts') },
