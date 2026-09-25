@@ -11,8 +11,10 @@
 
 ```text
 reforge dev 页:     http://localhost:6051/?debug
-编辑器「引擎试玩」:   play.html?project=pal&debug （同源试玩页参数原样生效）
+编辑器「引擎试玩」:   打开同源 play.html?project=…（及 workspace/scene）；按钮不自动加 debug。
+手工示例:           play.html?project=pal&debug
 ```
+DEV 安装门仍要求查询参数 `debug`。试玩页加上该参数后，其余同源参数原样生效；不要把按钮当成已经打开面板。
 
 面板位于左上，宽度上限 420px，并在 480px 以下收窄到视口宽度。五个 tab：① 状态 ② 指令
 ③ 触发 ④ 战斗 ⑤ 图层。Esc 隐藏面板并退出帧步进，不触游戏菜单；隐藏后按反引号重新显示，
