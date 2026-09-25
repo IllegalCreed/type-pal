@@ -65,6 +65,7 @@ describe('E2: 装备效果层字段写入与卸下保真', () => {
 
     // 预先写入合法槽位数据
     writeEquipmentEffectField(gs, 3, PLAYERROLES_ROW.ATTACK_STRENGTH, roleId, 10)
+    const before = structuredClone(gs.rgEquipmentEffect)
 
     // 越界写入 partIdx = -1 或 7
     writeEquipmentEffectField(gs, -1, PLAYERROLES_ROW.ATTACK_STRENGTH, roleId, 99)
@@ -76,7 +77,8 @@ describe('E2: 装备效果层字段写入与卸下保真', () => {
     removeEquipmentEffect(gs, roleId, -1)
     removeEquipmentEffect(gs, roleId, 8)
 
-    // 合法槽位保持不变
+    // 所有槽位和所有角色保持完整前像，不能只漏检未点名字段。
+    expect(gs.rgEquipmentEffect).toEqual(before)
     expect(gs.rgEquipmentEffect[3]!.rgwAttackStrength[roleId]).toBe(10)
   })
 })

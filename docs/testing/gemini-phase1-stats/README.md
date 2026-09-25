@@ -16,13 +16,13 @@
 | 族 | 模块主入口 | 旧测试标题 (去重已排除) | 现行 Caller / 合同 | 本候选新增独立合同 |
 |---|---|---|---|---|
 | **E1** | 六 `getPlayer*` | `equip-effect.test.ts:153-193` 已测 base + 两格与 200/-50 粗粒度截断 | 菜单 UI (`draw-equip`, `draw-player-status`), 战斗 `projectRuntimeToBattleRoles` | 1. Extra 格索引 6 参与全部 6 个 getter 计算<br>2. 多角色间装备效果严格隔离无泄漏<br>3. 毒抗 100/101 与 0/-1 精确临界值截断 |
-| **E2** | `writeEquipmentEffectField` / `removeEquipmentEffect` | `equip-effect.test.ts:43-151` 仅测 Atk, Dex, Elem0, 1/4/65 行与 Hand/Wear 特殊卸装 | 装备脚本 0x17/0x18 执行层 | 1. 覆盖生命/真气/防御/闪避/五行(1..4)与守护行<br>2. Extra 格 6 的写入与卸下清空<br>3. 越界部位 (-1, 7) 与未知行忽略且保真无关域 |
+| **E2** | `writeEquipmentEffectField` / `removeEquipmentEffect` | `equip-effect.test.ts:43-151` 仅测 Atk, Dex, Elem0, 1/4/65 行与 Hand/Wear 特殊卸装 | 装备脚本 0x17/0x18 执行层 | 1. 覆盖生命/真气/防御/闪避/五行(1..4)与守护行<br>2. Extra 格 6 的写入与卸下清空<br>3. 越界部位 (-1, 7) 与未知行忽略后完整效果层前像不变 |
 | **E3** | `addPlayerStatRow` / `setPlayerStatRow` | `equip-effect.test.ts:300,409` 仅测造型行与 Atk 进行中覆盖层 | 脚本 0x19 属性提升与 0x1A 变身/属性设置 | 1. addPlayerStatRow 独立测试及负 delta 减益支持<br>2. setPlayerStatRow 在进行中时多属性覆盖层写入<br>3. 常规态写入基础属性与角色隔离 |
 | **E4** | `runEquipScript` | `equip-effect.test.ts:215-258` 仅测 0x18 换装换包逻辑 | 装备脚本驱动器 (`scriptOnEquip`) | 1. goto 跳转正确跳过中间指令至目标 label<br>2. end 早停截断后续指令<br>3. 0 或未注册 label 安全退出<br>4. signExtendI16 负数操作数还原<br>5. 循环跳转触发 SCRIPT_TICK_LIMIT 256 保护且重置 iCurEquipPart |
 | **E5** | `updateAllEquipments` | 旧单测完全无用例 (`equip-effect.test.ts:9` 标依赖 runtime 留 e2e) | 读档 / 开战 / 换装后全员效果层重建 | 1. 清除旧有全部残留脏数据并按现存装备完全重算<br>2. 多角色多部位并行重建与归属隔离 |
 | **E6** | `resyncBattleRoleStatsFromRuntime` | 旧单测完全无直接单元测试 (仅 `event-system.test.ts:1020` 测了 MaxHP/Atk) | 战斗中 0x19/0x1A 触发后全队战斗快照刷新 | 1. **核心不变量**: 战内 live 当前生命与真气 (hp/mp) 绝不被覆盖<br>2. 完整同步等级、最大生命/真气与有效装备属性 |
 | **I1** | `collectPartyStatusReadouts` | `battle-inspect.test.ts:178` 仅测单人 slot0=role0 在战斗态下的字段 | dev-panel 与生产工具面板队伍检查器 | 1. 槽位 slot 与 roleId 严格分离 (partyMembers [2,0])<br>2. persistent 来源正确读取大世界 rgPlayerStatus<br>3. 完整解析五属性隐藏经验池与各自等级阈值<br>4. 结构化中毒 entries 与 statuses 标签解析 |
-| **I2** | `collectEnemyStatusReadouts` / `collectFieldInfoReadout` | `battle-inspect.test.ts:83-177` 已测 attackEquivPoison, collectValue, 空战斗 | dev-panel 与生产工具面板敌人及场地检查器 | 1. defeated 标记与 maxHp (maxHealth ?? prevHp ?? health) 回退链<br>2. 敌方偷物品与偷金钱的区分展示<br>3. 敌方状态计数器与自带中毒解析<br>4. 战场 isBoss、screenWave 与有符号正负五行场效 |
+| **I2** | `collectEnemyStatusReadouts` / `collectFieldInfoReadout` | `battle-inspect.test.ts:83-177` 已测 attackEquivPoison, collectValue, 空战斗 | dev-panel 与生产工具面板敌人及场地检查器 | 1. 正式 `createBattleState` 的 defeated、受击当前 HP 与开战满血<br>2. 敌方偷物品与偷金钱的区分展示<br>3. 敌方状态计数器与自带中毒解析<br>4. 战场 isBoss、screenWave 与有符号正负五行场效；不续测旧 fixture 的 maxHealth 缺席 fallback |
 
 ---
 
@@ -87,3 +87,13 @@
   - `battle-inspect.ts` 中 `slow` (迟) 在 persistent 大世界中无存储下标，按现行合同忽略，待未来有大世界减速需求时评估。
 - **产品代码无修改**: 本次任务严格遵循隔离原则，仅产出 `docs/testing/gemini-phase1-stats/**`，未修改任何产品代码与正式基线。
 - **移交审核**: 隔离测试与反控报告交付 Codex 独立复核及后续正式集成。
+
+## 6. Codex 接手更正（Gemini 额度耗尽，2026-09-25）
+
+用户明确 Gemini 无额度后由 Codex 收尾；Gemini 原提交 `64dd4cf9` 和原 26 项自验记录作为贡献者历史保留，不冒充本席独立结论。Codex 复跑原候选 26/26、旧相邻 41/41、tsc、Biome exit0、四针业务红，随后只改隔离测试/fixture：
+
+- I2 使用生产 `createBattleState`/seeded RNG 构造完整战斗态，移除 `as any` 的局部假态；I2-01 只钉当前 canonical `maxHealth`，不为旧 fixture 可选缺席 fallback 续命。
+- E2-03 对越界/未知行取整个效果层前像，拒绝后深比较；I1-03 五个隐藏经验池逐项给不同输入并核完整数组。
+- E4/E5 在每项后清理全局事件表；E4-05 钉 `SCRIPT_TICK_LIMIT 256` 实际警告而非只证明最终 reset。
+
+这些是候选测试质量更正，不改产品或旧测试，也尚未把候选目录中的测试计入官方 fast。Codex 后续只将通过接收的测试移入 `packages/game/src`、统一运行正式质量门后才报告覆盖率变化；实际集成 SHA 与命中数另在 Codex 集成记录，不回填为 Gemini 自验。

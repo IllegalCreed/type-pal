@@ -1,7 +1,7 @@
 /**
  * I2: collectEnemyStatusReadouts / collectFieldInfoReadout 敌方与战场投影
  * 重点核验 (去重说明: 旧测试已测 attackEquivPoison、collectValue 及非战斗空态，此处严格去重):
- * 1. defeated 标记与 maxHp (maxHealth ?? prevHp ?? health) 回退链
+ * 1. 正式战斗态中的 defeated 标记、受击后当前HP与开战满血
  * 2. 偷取物品、金钱与不可偷的不同读出
  * 3. 敌人自身 debuff/buff 与敌人毒槽解析
  * 4. 战场 isBoss、screenWave 与有符号 magicEffect 正负场效
@@ -13,8 +13,9 @@ import {
   collectFieldInfoReadout,
 } from '../../../../packages/game/src/core/inspect/battle-inspect.js'
 import {
-  makeBattleEnemy,
+  attachBattleState,
   makeBattleField,
+  makeBattleStatus,
   makeEnemy,
   makeFreshGameState,
   makeItem,
@@ -22,35 +23,21 @@ import {
 } from '../fixtures/stats-test-fixtures.js'
 
 describe('I2: 敌方与战场只读快照投影', () => {
-  it('I2-01 战败标记与 maxHp 回退降级逻辑 (maxHealth 缺省时回退 prevHp)', () => {
+  it('I2-01 正式战斗态中战败标记、受击当前血量与开战满血独立显示', () => {
     const gs = makeFreshGameState()
-    gs.mode = 'battle'
-
-    const enemy = makeEnemy({ health: 30 })
-    const be = makeBattleEnemy({
-      e: enemy,
-      defeated: true,
-      maxHealth: undefined,
-      prevHp: 80,
-    })
-
-    gs.battleState = {
-      isBoss: false,
-      players: [],
-      enemies: [be],
-      field: makeBattleField(),
-    } as any
+    const state = attachBattleState(gs, [makeEnemy({ health: 80 })])
+    state.enemies[0]!.e.health = 30
+    state.enemies[0]!.defeated = true
 
     const readouts = collectEnemyStatusReadouts(gs)
     expect(readouts).toHaveLength(1)
     expect(readouts[0]!.defeated).toBe(true)
     expect(readouts[0]!.hp).toBe(30)
-    expect(readouts[0]!.maxHp).toBe(80) // 回退至 prevHp
+    expect(readouts[0]!.maxHp).toBe(80) // createBattleState 的开战满血，不是旧 fixture fallback
   })
 
   it('I2-02 敌方偷取判定: 偷物品与偷金钱的区分展示', () => {
     const gs = makeFreshGameState()
-    gs.mode = 'battle'
 
     const items: Item[] = [makeItem({ id: 201, _name: '灵山仙芝' })]
 
@@ -59,12 +46,7 @@ describe('I2: 敌方与战场只读快照投影', () => {
     // 敌 2: 可偷金钱 (stealItem = 0)
     const e2 = makeEnemy({ stealItem: 0, stealItemCount: 150 })
 
-    gs.battleState = {
-      isBoss: false,
-      players: [],
-      enemies: [makeBattleEnemy({ e: e1 }), makeBattleEnemy({ e: e2 })],
-      field: makeBattleField(),
-    } as any
+    attachBattleState(gs, [e1, e2])
 
     const readouts = collectEnemyStatusReadouts(gs, [], items)
     expect(readouts[0]!.canSteal).toBe(true)
@@ -76,27 +58,10 @@ describe('I2: 敌方与战场只读快照投影', () => {
 
   it('I2-03 敌方状态计数器与自带中毒解析', () => {
     const gs = makeFreshGameState()
-    gs.mode = 'battle'
-
-    const be = makeBattleEnemy({
-      status: {
-        sleep: 2,
-        bravery: 3,
-        confused: 0,
-        paralyzed: 0,
-        haste: 0,
-        slow: 0,
-      },
-      poisons: [{ poisonId: 560, scriptEntry: 800 }],
-      resistanceToSorcery: 5,
-    })
-
-    gs.battleState = {
-      isBoss: false,
-      players: [],
-      enemies: [be],
-      field: makeBattleField(),
-    } as any
+    const state = attachBattleState(gs, [makeEnemy()])
+    state.enemies[0]!.status = makeBattleStatus({ sleep: 2, bravery: 3 })
+    state.enemies[0]!.poisons = [{ poisonId: 560, scriptEntry: 800 }]
+    state.enemies[0]!.resistanceToSorcery = 5
 
     const poisons: ObjectPoisonView[] = [makeObjectPoison({ id: 560, level: 3 })]
     const items: Item[] = [makeItem({ id: 560, _name: '赤蝎毒' })]
@@ -114,7 +79,6 @@ describe('I2: 敌方与战场只读快照投影', () => {
 
   it('I2-04 战场 isBoss、screenWave 与正负有符号五行元素场效', () => {
     const gs = makeFreshGameState()
-    gs.mode = 'battle'
 
     const field = makeBattleField({
       id: 9,
@@ -128,12 +92,7 @@ describe('I2: 敌方与战场只读快照投影', () => {
       },
     })
 
-    gs.battleState = {
-      isBoss: true,
-      players: [],
-      enemies: [],
-      field,
-    } as any
+    attachBattleState(gs, [], field, true)
 
     const info = collectFieldInfoReadout(gs)
     expect(info).not.toBeNull()

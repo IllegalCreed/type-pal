@@ -12,11 +12,13 @@ import type {
   BattlePlayer,
   BattleStatus,
 } from '../../../../packages/game/src/core/battle/battle-state.js'
+import { createBattleState } from '../../../../packages/game/src/core/battle/battle-state.js'
 import {
   createInitialEquipmentEffect,
   createInitialGameState,
   type GameState,
 } from '../../../../packages/game/src/core/game-state.js'
+import { createSeedableRng } from '../../../../packages/game/src/core/rng.js'
 
 export function makeFreshGameState(): GameState {
   const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
@@ -189,6 +191,26 @@ export function makeBattleField(overrides?: Partial<BattleField>): BattleField {
     },
     ...overrides,
   }
+}
+
+/** 正式构造器产生完整战斗态；检查器测试只在构造后改目标轴。 */
+export function attachBattleState(
+  gs: GameState,
+  enemies: Enemy[],
+  field: BattleField = makeBattleField(),
+  isBoss = false,
+) {
+  const state = createBattleState({
+    gs,
+    playerRoles: makePlayerRoles(),
+    enemies,
+    field,
+    isBoss,
+    rng: createSeedableRng(1),
+  })
+  gs.mode = 'battle'
+  gs.battleState = state
+  return state
 }
 
 export function makeItemFlags(overrides?: Partial<ItemFlags>): ItemFlags {

@@ -8,10 +8,12 @@
  * 5. 死循环上限拦截 (SCRIPT_TICK_LIMIT 256) 且保证 reset iCurEquipPart = -1
  */
 import type { Command } from '@type-pal/shared'
-import { describe, expect, it } from 'vitest'
+import { afterEach, describe, expect, it, vi } from 'vitest'
 import { PLAYERROLES_ROW, runEquipScript } from '../../../../packages/game/src/core/equip-effect.js'
 import { setGlobalEvents } from '../../../../packages/game/src/core/event-system.js'
 import { makeFreshGameState } from '../fixtures/stats-test-fixtures.js'
+
+afterEach(() => setGlobalEvents([]))
 
 describe('E4: 装备脚本执行器 runEquipScript', () => {
   it('E4-01 goto 跳转跳过中间指令，只执行跳转目标的写入', () => {
@@ -92,7 +94,13 @@ describe('E4: 装备脚本执行器 runEquipScript', () => {
 
     const gs = makeFreshGameState()
     gs.iCurEquipPart = 3
-    runEquipScript(gs, 630, 0)
+    const warning = vi.spyOn(console, 'warn').mockImplementation(() => {})
+    try {
+      runEquipScript(gs, 630, 0)
+      expect(warning).toHaveBeenCalledWith(expect.stringContaining('SCRIPT_TICK_LIMIT 256'))
+    } finally {
+      warning.mockRestore()
+    }
 
     // 防御上限生效退出且 reset
     expect(gs.iCurEquipPart).toBe(-1)

@@ -66,31 +66,23 @@ describe('I1: 队伍状态投影 collectPartyStatusReadouts', () => {
   it('I1-03 完整解析五属性隐藏经验池与对应等级阈值', () => {
     const gs = makeFreshGameState()
     gs.partyMembers = [0]
-    const roleId = 0
-
-    // 填充武术与灵力暗经验
+    // 五个属性池各有独立值与等级，防止只测前两项时后三项错位仍绿。
     gs.Exp.rgAttackExp = [{ wExp: 150, wLevel: 4, wCount: 8 }]
     gs.Exp.rgMagicPowerExp = [{ wExp: 80, wLevel: 2, wCount: 3 }]
+    gs.Exp.rgDefenseExp = [{ wExp: 60, wLevel: 3, wCount: 4 }]
+    gs.Exp.rgDexterityExp = [{ wExp: 40, wLevel: 1, wCount: 5 }]
+    gs.Exp.rgFleeExp = [{ wExp: 20, wLevel: 5, wCount: 6 }]
 
     const levelUpExp = [0, 50, 100, 200, 400, 800]
     const readouts = collectPartyStatusReadouts(gs, makePlayerRoles(), [], [], levelUpExp)
 
-    const hidden = readouts[0]!.hiddenExp
-    const atkExp = hidden.find((h) => h.label === '武术')
-    expect(atkExp).toEqual({
-      label: '武术',
-      cur: 150,
-      next: 400, // levelUpExp[4]
-      gained: 8,
-    })
-
-    const magExp = hidden.find((h) => h.label === '灵力')
-    expect(magExp).toEqual({
-      label: '灵力',
-      cur: 80,
-      next: 100, // levelUpExp[2]
-      gained: 3,
-    })
+    expect(readouts[0]!.hiddenExp).toEqual([
+      { label: '武术', cur: 150, next: 400, gained: 8 },
+      { label: '灵力', cur: 80, next: 100, gained: 3 },
+      { label: '防御', cur: 60, next: 200, gained: 4 },
+      { label: '身法', cur: 40, next: 50, gained: 5 },
+      { label: '吉运', cur: 20, next: 800, gained: 6 },
+    ])
   })
 
   it('I1-04 结构化中毒 entries 与 statuses 标签解析', () => {

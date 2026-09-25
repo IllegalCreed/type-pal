@@ -6,13 +6,15 @@
  * 3. 跳过无装备槽位 (itemId=0) 与无脚本物品 (scriptOnEquip=0)
  */
 import type { Command, Item } from '@type-pal/shared'
-import { describe, expect, it } from 'vitest'
+import { afterEach, describe, expect, it } from 'vitest'
 import {
   PLAYERROLES_ROW,
   updateAllEquipments,
 } from '../../../../packages/game/src/core/equip-effect.js'
 import { setGlobalEvents } from '../../../../packages/game/src/core/event-system.js'
 import { makeFreshGameState, makeItem } from '../fixtures/stats-test-fixtures.js'
+
+afterEach(() => setGlobalEvents([]))
 
 describe('E5: 全员装备效果层批量重建 updateAllEquipments', () => {
   it('E5-01 清除旧有全部残留效果，并按现存装备完整重新计算', () => {
