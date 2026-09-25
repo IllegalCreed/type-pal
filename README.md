@@ -174,9 +174,11 @@ pnpm format:all     # 格式化整个仓库
 
 # PAL 数据与当前内容工程
 pnpm extract
-pnpm bake                                                # 单独重建可再生资产
 pnpm --filter @type-pal/migrate migrate:content          # dry-run
 pnpm --filter @type-pal/migrate migrate:content --write  # 发布到 projects/pal
+
+# 维护者：从 data/extracted 重建 reforge engine-chrome 默认 UI（不写 projects/pal）
+pnpm bake
 
 # 单包验证示例
 pnpm --filter @type-pal/editor check

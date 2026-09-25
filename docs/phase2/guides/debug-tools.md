@@ -3,8 +3,9 @@
 > 议题 13 backlog 的首刀落地。入口：`?debug`（仅 DEV 构建；生产构建不含本模块，见
 > [D13-1 任务卡](../../ops/archive/tasks/done/D13-1-debug-tools-first-batch.md) 的 G1 构建产物验证）。
 >
-> 现有 URL 参数（`?scene/?pos/?facing/?entry/?party/?battle/?battle-scene/?skill/?give/
-> ?field/?collision/?e2e-load`）全部保持兼容，本面板是其 overlay 形态。
+> 现有 URL 参数（`?scene/?pos/?facing/?entry/?party/?battle/?battle-scene/?give/
+> ?field/?collision/?e2e-load`）保持兼容，本面板是其 overlay 形态。旧 `?skill=` 启动已被拒绝；
+> 授技改走下方面板 `skill` 命令或编辑器战斗模拟器，该命令不会隔离正常存档。
 
 ## 打开方式
 
@@ -36,7 +37,7 @@ reforge dev 页:     http://localhost:6051/?debug
 | `give` | `<itemId> [count]` | runCommands(`giveItem`)（含意图守卫） | 同左 | 手动 + 背包检视 |
 | `money` | `<n>` | runCommands(`giveMoney` delta) | 同左 | 手动 |
 | `party` | `<actorId,…>` | 内存态覆写 world.party + 满血满蓝（?party 语义） | 同左 | 手动 + 检视 |
-| `skill` | `<actorId> <skillId>` | 内存态授技 + MP 拉满（?skill 语义） | 同左 | 手动 |
+| `skill` | `<actorId> <skillId>` | 内存态授技 + MP 拉满 | 同左 | 手动 |
 | `battle` | `<team>` | `runtime.host.startBattle`（?battle 路径） | 同左 | 手动 |
 | `run-script` | `<scriptId>` | detached `runSharedScript` | 同左 | 手动（含占用确认） |
 | `run-trigger` | `<entityId>` | detached `runEntityBehavior(trigger)` | 同左 | 手动 |
@@ -49,7 +50,7 @@ reforge dev 页:     http://localhost:6051/?debug
 ## 脚本 / 触发器触发（K3）
 
 - 列表 = shared scripts + 当前场景实体 trigger/auto + 场景 hooks(onEnter/onTeleport)。
-- 点击触发走 **detached**（`runDetachedV5ScriptChain`），主 runner 占用时并发执行并显示
+- 点击触发走 **detached**（`runDetachedScriptChain`），主 runner 占用时并发执行并显示
   「主 runner 占用中」徽标；**场景切换类脚本占用时先弹确认**（detached 不排 onEnter）。
 - 触发状态（running/done/error/cancel）上屏；再次点击运行中的项 = Abort 取消。
 

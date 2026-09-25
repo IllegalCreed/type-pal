@@ -8,7 +8,7 @@
 
 | 目标 | 命令 / URL | 说明 |
 |---|---|---|
-| 游戏 dev | `pnpm --filter @type-pal/reforge dev:pal` → `http://localhost:6051` | 可加参数：`?debug`（调试面板）、`?scene=s001`、`?pos=col,row`、`?battle=0`、`?give=144`、`?skill=…` |
+| 游戏 dev | `pnpm --filter @type-pal/reforge dev:pal` → `http://localhost:6051` | 可加参数：`?debug`（调试面板）、`?scene=s001`、`?pos=col,row`、`?battle=0`、`?give=144`。旧 `?skill=` 启动已被拒绝，请从 `?debug` 面板的 `skill` 命令或编辑器战斗模拟器授技 |
 | 编辑器 | 另起 `pnpm --filter @type-pal/editor dev`（6010） | **鼠标 UI**；浏览/编辑工程用这个 |
 | 编辑器试玩页 | `play.html?project=pal`（6010 同源） | 从编辑器「引擎试玩」打开，**游戏本体，键盘操作** |
 | 分段 e2e | `?e2e-load=<save.json url>&e2e-load-scene=<id>` | 秒进碎片起点（跳过 onEnter），D28 最终验证路径 |

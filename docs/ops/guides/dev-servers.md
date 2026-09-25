@@ -7,15 +7,15 @@
 
 ## 新人前置(clone 后必做)
 
-PAL 的原版输入放在 `data/raw/`，提取中间物在 `data/extracted/`；终态中二者都不是第二阶段工程的
-运行时资源目录（A7-4 前仍有五个 legacy family 过渡读取 extracted）。`projects/pal/assets/**` 也不进 git，
-但必须由迁移器确定性物化。首次跑通：
+PAL 的原版输入放在 `data/raw/`，提取中间物在 `data/extracted/`；终态中二者都不是第二阶段
+运行时资源目录（A7 已 catalog-only）。`projects/pal/assets/migrated/` 与 `runtime/` 不进 git，
+须由 `migrate:content --write` 物化；`projects/pal/assets/index.json` 入库。首次跑通：
 
 ```bash
 # 原版仙剑游戏文件(MKF 全家 + PAL.EXE)放入 data/raw/(版权资产不进 git)
 pnpm install
 pnpm extract
-pnpm --filter @type-pal/migrate run migrate:content -- --write
+pnpm --filter @type-pal/migrate run migrate:content --write
 
 # 可选：确认同源再迁移已经稳定，无待写、待删或冲突
 pnpm --filter @type-pal/migrate run migrate:content
@@ -32,7 +32,6 @@ pnpm --filter @type-pal/migrate run migrate:content
 | 端口 | 用途 |
 |---|---|
 | **6005** | 日常 dev(6000 被 Chrome 拉黑,勿用) |
-| **6001** | e2e 专用实例(playwright 自起自管,无需手动) |
 
 ```bash
 pnpm --filter @type-pal/game run dev
@@ -45,11 +44,8 @@ pnpm --filter @type-pal/game run dev
 E2E=1 pnpm --filter @type-pal/game run dev
 ```
 
-- e2e(自动占 6001,和 dev 并行不冲突):
-
-```bash
-pnpm --filter @type-pal/game run e2e
-```
+第一阶段 Playwright L2 已退役，当前没有 `game` 的 `e2e` 脚本或 6001 专用实例；`E2E=1` 只切换上述 HTTP
+Service Worker 路径，不是 Playwright 入口。
 
 ## 二阶段 · 编辑器(editor)
 
@@ -100,8 +96,8 @@ pnpm --filter @type-pal/reforge run dev
 ## 常见坑
 
 - **页面在但接口全挂(Failed to fetch)**= dev server 已死、浏览器里是残留 SPA。重跑上面的命令再刷新即可(server 跨夜/休眠常被系统回收)。
-- **`assets/index.json` 有记录但 `projects/pal/assets/**` 404** = ignored 二进制尚未物化。运行
-  `pnpm --filter @type-pal/migrate run migrate:content -- --write`；只跑 dry-run 或 `bake` 都不会写 PAL 工程。
+- **`assets/index.json` 有记录但 `projects/pal/assets/migrated/` 或 `runtime/` 404** = ignored 二进制尚未物化。运行
+  `pnpm --filter @type-pal/migrate run migrate:content --write`；只跑 dry-run 或 `bake` 都不会写 PAL 工程。
 - **`VITE_PROJECT_ID` 忘带** → 加载 demo 工程(鬼界民居)而非仙剑。日常脚本已烤死不用管;只有手写 `vite` 裸命令时才需要。
 - **strictPort 报"端口被占"** = 该服务已有实例在跑,直接用现成的,别再起一个。
 - Claude 起验证实例时**直接复用本表脚本/端口**(先探测端口,活着就复用),不再另开临时端口。
