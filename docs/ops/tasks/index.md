@@ -14,7 +14,6 @@
 | [DOC-CURSOR-2 — 十二组包说明、CLI与索引核对](DOC-CURSOR-2-package-tools-indexes.md) | draft | 以任务卡当前准入与看板分工为准。 |
 | [DOC-CURSOR-3 — 覆盖率说明与现行命令定点核对](DOC-CURSOR-3-coverage-guide-audit.md) | draft | 以任务卡当前准入与看板分工为准。 |
 | [DOC-GUIDE-REVISION-1 — 现行指南五文件窄修订准入](DOC-GUIDE-REVISION-1-current-entrypoints.md) | build | 以任务卡当前准入与看板分工为准。 |
-| [TEST-GEMINI-PHASE1-STATS-1 — 一阶段有效属性与战斗状态只读投影候选回归](TEST-GEMINI-PHASE1-STATS-1-effective-readouts.md) | draft | 以任务卡当前准入与看板分工为准。 |
 
 ## 已完成（historical）
 
@@ -168,6 +167,7 @@
 | [TEST-FOUNDATION-COVERAGE-1 - 四包基础边界正式测试补强](../archive/tasks/done/TEST-FOUNDATION-COVERAGE-1-core-boundaries.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [TEST-GAME-HOST-BOUNDARIES-1 - 第一阶段宿主、隐私与计时补测（TB-09）](../archive/tasks/done/TEST-GAME-HOST-BOUNDARIES-1-privacy-timer.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [TEST-GAME-MENU-BOUNDARIES-1 - 第一阶段菜单导航与请求补测（TB-08）](../archive/tasks/done/TEST-GAME-MENU-BOUNDARIES-1-navigation-requests.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [TEST-GEMINI-PHASE1-STATS-1 — 一阶段有效属性与战斗状态只读投影候选回归](../archive/tasks/done/TEST-GEMINI-PHASE1-STATS-1-effective-readouts.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [TEST-MIGRATION-BOUNDARIES-1 - 当前迁移辅助与隔离文件系统补测（TB-10）](../archive/tasks/done/TEST-MIGRATION-BOUNDARIES-1-current-isolated-io.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [TEST-NONVISUAL-COVERAGE-2 - 六领域非视觉测试覆盖率第二波](../archive/tasks/done/TEST-NONVISUAL-COVERAGE-2-six-domain-boundaries.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [TEST-PAL-TABLES-COVERAGE-1 - 原版表格与文本自包含补测（TB-04）](../archive/tasks/done/TEST-PAL-TABLES-COVERAGE-1-self-contained-inputs.md) | done | 完成证据、历史签字与交接见原卡。 |

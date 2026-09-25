@@ -1,6 +1,6 @@
-# 三贤人系统任务卡
+# 多 Agent 任务卡
 
-“三贤人系统”是本项目的多 Agent 协作机制。任务卡是这套机制的持久交接记录。
+任务卡是多 Agent 工作的持久交接记录。当前按 [`AGENTS.md`](../../../AGENTS.md) 的临时委派模式执行：Codex 分派、贡献者实施、Codex 独立验收；历史三贤人签字保留，但不是新任务的固定门禁。
 
 本目录只放活动任务与总索引。不可逆/高风险任务使用完整模板，常规任务按既定流程选择是否开卡。
 终态卡归入 [历史任务](../archive/tasks/README.md)，模板在 [templates](../templates/README.md)。
@@ -12,11 +12,9 @@
 3. 先完成“前提真值门”,再写详细方案。高风险/用户可见行为任务必须对照原版/primary source、第一阶段、
    当前二阶段和目标,逐项附 `file:line` 或一手证据;关键前提未知时保持 `blocked`。
 4. 如任务正在进行或阻塞,在 [`../board.md`](../board.md) 增加一行。
-5. 填写推进签字。非小改/已开卡任务必须集齐 Codex、Kimi、GLM 三方带证据的 `premise verified` 和
-   `design agree` 后才能进入 `build`;至少一位非 Coding Owner 必须给出独立证据与可证伪观察。进入
-   `done` 前也必须集齐三方审查签字。
+5. 记录 Codex 对前提、范围、单一 Coding Owner 和验收方式的准入判断；高风险任务仍要一手证据、可证伪观察与必要的用户产品裁决。贡献者自验后由 Codex 独立复核并决定返工/集成，不再等待固定三方签字。
 6. 跨 Agent 交接时,当前 Agent 必须在任务卡和最终回复中给出“下一位 Agent 提示词”,方便用户直接复制给下一位。
-7. 按 `draft -> build -> review -> done` 推进,必要时记录 `blocked` 或 `rework`。签字不齐时不得只靠 `Status` 推进。
+7. 按 `draft -> build -> review -> done` 推进，必要时记录 `blocked` 或 `rework`。`Status` 不替代前提证据、质量门或用户裁决；旧卡 `pending` 的 Kimi/GLM 席位本身不再阻止 Codex 按当前模式推进。
 
 ## 前提真值门与模板升级
 

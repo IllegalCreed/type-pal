@@ -1,14 +1,14 @@
 {
   "schemaVersion": 2,
   "profile": "fast",
-  "generatedAt": "2026-09-25T05:33:54.213Z",
+  "generatedAt": "2026-09-25T07:47:31.854Z",
   "provider": {
     "name": "v8",
     "vitest": "4.1.7",
     "coverageV8": "4.1.7"
   },
   "sourceFileCount": 641,
-  "testCount": 8039,
+  "testCount": 8065,
   "packages": {
     "shared": {
       "name": "@type-pal/shared",
@@ -2754,8 +2754,8 @@
       ],
       "scopeDigest": "172860557359800006b54684305c95556da2645892e450c2d5b4891297aba98e",
       "fastTests": {
-        "testCount": 2318,
-        "testFileCount": 134,
+        "testCount": 2344,
+        "testFileCount": 142,
         "files": [
           "packages/game/src/analytics/analytics-consent-ui.test.ts",
           "packages/game/src/analytics/analytics-consent.boundaries.test.ts",
@@ -2768,6 +2768,14 @@
           "packages/game/src/assets/rle-decode.test.ts",
           "packages/game/src/assets/snapshot-input-boundaries.test.ts",
           "packages/game/src/assets/tileset-blob.test.ts",
+          "packages/game/src/core/__tests__/stats/e1-effective-stats.test.ts",
+          "packages/game/src/core/__tests__/stats/e2-equipment-effects.test.ts",
+          "packages/game/src/core/__tests__/stats/e3-player-stat-rows.test.ts",
+          "packages/game/src/core/__tests__/stats/e4-run-equip-script.test.ts",
+          "packages/game/src/core/__tests__/stats/e5-update-all-equipments.test.ts",
+          "packages/game/src/core/__tests__/stats/e6-resync-battle-role-stats.test.ts",
+          "packages/game/src/core/__tests__/stats/i1-party-status-readouts.test.ts",
+          "packages/game/src/core/__tests__/stats/i2-enemy-field-readouts.test.ts",
           "packages/game/src/core/battle/__tests__/actions.test.ts",
           "packages/game/src/core/battle/__tests__/anim-timeline.test.ts",
           "packages/game/src/core/battle/__tests__/attack-mate.test.ts",
@@ -2947,6 +2955,46 @@
             "file": "packages/game/src/assets/tileset-blob.test.ts",
             "testCount": 15,
             "identityDigest": "7b4dc1698d94e06f095034788959cbc4ff537728a57eb074e2720c5300ca716a"
+          },
+          {
+            "file": "packages/game/src/core/__tests__/stats/e1-effective-stats.test.ts",
+            "testCount": 3,
+            "identityDigest": "5e94e591d1e37033e1e794a35f475d1418e3fc3b5ecccf798b8ca729d9bb0882"
+          },
+          {
+            "file": "packages/game/src/core/__tests__/stats/e2-equipment-effects.test.ts",
+            "testCount": 3,
+            "identityDigest": "8fbc8d4fefca0d73822520363864bdb8ae737d514fb3b2979b3e45a393184f44"
+          },
+          {
+            "file": "packages/game/src/core/__tests__/stats/e3-player-stat-rows.test.ts",
+            "testCount": 3,
+            "identityDigest": "919dc2188646533a3294111f6947a52572f430a4669749ed666426c3f25508e3"
+          },
+          {
+            "file": "packages/game/src/core/__tests__/stats/e4-run-equip-script.test.ts",
+            "testCount": 5,
+            "identityDigest": "35c189d20e751754475bf29c95e7f349c80545b7d32b2f28592165a5abeaabc8"
+          },
+          {
+            "file": "packages/game/src/core/__tests__/stats/e5-update-all-equipments.test.ts",
+            "testCount": 2,
+            "identityDigest": "b86d1d21faae2f1b6678d2acdcf9e30f67d1326c8caf53139119b08b3caf22c6"
+          },
+          {
+            "file": "packages/game/src/core/__tests__/stats/e6-resync-battle-role-stats.test.ts",
+            "testCount": 2,
+            "identityDigest": "5a714dbe3cf816a4c08005c78948b1050ddfea11a9b33a248e11daa721e1085d"
+          },
+          {
+            "file": "packages/game/src/core/__tests__/stats/i1-party-status-readouts.test.ts",
+            "testCount": 4,
+            "identityDigest": "11b1ca81c4ce1d10168ab233ccac9305815f281671fd8abd0aa3e2e304bd1807"
+          },
+          {
+            "file": "packages/game/src/core/__tests__/stats/i2-enemy-field-readouts.test.ts",
+            "testCount": 4,
+            "identityDigest": "89bc832f054665d11063fec81fc05563500cc1d683484e3e214c720c62d28976"
           },
           {
             "file": "packages/game/src/core/battle/__tests__/actions.test.ts",
@@ -3564,25 +3612,25 @@
             "identityDigest": "916c70c2855d90db70208a6895de9b3254f0e3f039c2bb0b96bc8fd4287d249d"
           }
         ],
-        "identityDigest": "ad03bb05b64ea797c436befecce5dab8a37397c75f9425d4f01f0915ba06d016",
+        "identityDigest": "631c79a359eb3c2f749a99a0bcf763e51f60975395fc3b77c01fe0f187c88184",
         "duplicateIdentityCount": 0,
-        "executionDigest": "0970c78978f838b54480c6855f0b984d107451cb0ec50b4ad76c037a320d0926"
+        "executionDigest": "7705143fa8d82ab9c15e30669ada12bed274e800ebc34c2ea9c54cbf07faf2af"
       },
       "metrics": {
         "statements": {
-          "covered": 11409,
+          "covered": 11468,
           "total": 15494
         },
         "branches": {
-          "covered": 7523,
+          "covered": 7574,
           "total": 11281
         },
         "functions": {
-          "covered": 1314,
+          "covered": 1319,
           "total": 1843
         },
         "lines": {
-          "covered": 10275,
+          "covered": 10326,
           "total": 13604
         }
       }
@@ -5458,19 +5506,19 @@
   },
   "total": {
     "statements": {
-      "covered": 60675,
+      "covered": 60734,
       "total": 80617
     },
     "branches": {
-      "covered": 42859,
+      "covered": 42910,
       "total": 63176
     },
     "functions": {
-      "covered": 11318,
+      "covered": 11323,
       "total": 15034
     },
     "lines": {
-      "covered": 54656,
+      "covered": 54707,
       "total": 70570
     }
   }

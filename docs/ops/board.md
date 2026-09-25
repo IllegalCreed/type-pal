@@ -33,12 +33,13 @@ GLM后续补测候选见[十批长队列](../testing/glm-coverage-work-queue.md)
 | ID | 任务 | 状态 | 负责人/下一步 | 一句话备注 |
 |---|---|---|---|---|
 | DOC-CURSOR-3 | [覆盖率说明与现行命令定点核对](tasks/DOC-CURSOR-3-coverage-guide-audit.md) | draft | Cursor排队 / Codex独立接收 | 五份指南 build 优先；本包暂后排，只读命令/快照核对，不改正式说明或基线 |
-| TEST-GEMINI-PHASE1-STATS-1 | [一阶段有效属性/状态投影候选回归](tasks/TEST-GEMINI-PHASE1-STATS-1-effective-readouts.md) | draft | Gemini隔离整包 / Codex独立接收 | E1–E6/I1–I2先去重；不改产品/旧测/正式覆盖率，不开放build/done |
 | DOC-CURSOR-2 | [十二组包说明/CLI/索引核对](tasks/DOC-CURSOR-2-package-tools-indexes.md) | draft | Codex / 按用户边界保留材料接收 | 4b75d1c3/cc2720c5 accept，含NB1/NB2文字观察；无阻断counter，不合main/不标done，修订另核 |
 | DOC-GUIDE-REVISION-1 | [五份现行指南窄修订准入](tasks/DOC-GUIDE-REVISION-1-current-entrypoints.md) | build | Cursor五文件实施 / Codex独立验收 | 用户明确准入；按新委派模式不等三签，H7场景UI仍待核 |
 | DOC-CURSOR-1 | [十二份现行文档轻量核对](tasks/DOC-CURSOR-1-current-guide-check.md) | draft | Codex / 按用户边界保留材料接收 | 65193a84/320800ec accept；CR-1/CR-2闭合，无剩余返工，不合main/不标done |
 | ARCH-REGRESSION-LAB-GLM-1 | [十二组候选回归与功能视觉](tasks/ARCH-REGRESSION-LAB-GLM-1-twelve-packs.md) | draft | GLM定点返工 / Codex独立复核 | 候选30397b1d逐组counter；V04为脏页导航中止非深链覆写，全目录Biome与证据门未过 |
 | ARCH-SUPPORT-GLM-1 | [八组并行架构/视觉准备](tasks/ARCH-SUPPORT-GLM-1-eight-audit-packages.md) | draft | Codex / 后续归属与收口 | 58cdf938材料accept，counter清零；文档已合入，按用户要求未标done/未开产品门 |
+
+2026-09-25 [一阶段有效属性与状态投影补测](../testing/gemini-phase1-stats-integration.md)已按当前委派模式由 Codex 独立验收收口：Gemini 贡献26项，额度耗尽后 Codex 修订 typed fixture/边界断言并正式接入；check、官方ratchet、受保护单次strict-fast均通过，fast8065项/641生产文件，全仓分支42910/63176。无产品源码或统计范围缩减，full/E2E仍另排。
 
 2026-09-25 [A3-b场景资源与预检](../testing/scene-preparation-refactor.md)fdad980f已独立核定done：
 26新增/11针、16冻结对照、18函数+2切场宿主保真、check8525/strict8034/641与最小场景往返通过。

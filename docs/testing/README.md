@@ -8,6 +8,8 @@
 
 ## 文档与附件
 
+- [一阶段有效属性与战斗状态投影补测集成](gemini-phase1-stats-integration.md)（Gemini贡献、Codex接手修订/独立验收；26项正式接入，受保护严格fast8065/641；full/E2E另行验证）
+
 - [Cursor覆盖率说明定点核对回执](cursor-coverage-guide-audit.md)（DOC-CURSOR-3，draft待取证；只读命令/快照核对，不改正式说明或基线）
 
 - [Cursor八组工具候选回归](cursor-tool-regressions/README.md)及[正式接入与路径修复](cursor-tool-regressions/integration.md)（贡献候选85f2a824；文档工具/编辑器审计测试转正，目录映射漏改修复并独立验证）
