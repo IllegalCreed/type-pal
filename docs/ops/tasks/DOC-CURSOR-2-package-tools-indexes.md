@@ -128,12 +128,13 @@ docs/phase3/reference/README.md
 - Codex：2026-09-25确认十二组draft只读范围与现有并行工作无产品写冲突；定义上述核对合同。
 - Kimi/GLM：本次不请求，不代签；Cursor不是其替补席位。
 - build准入：not opened，源文件修订仍需另核；本包只允许回执事实核对。
-- done准入：not opened，尚无执行成果或验收结论。本次授权不自动扩大前批五份修订范围。
+- 材料接收：4b75d1c3/cc2720c5已由Codex签accept，含两条非阻断文字观察，见文末。
+- done准入：not opened，用户本轮要求不标done、不合main。本包不自动扩大前批五份修订范围。
 - 交接：本工作包在Codex复核分支交付；遵守前轮不合main边界，原卡材料accept不受影响。
 
 ## 下一位Agent提示词
 
-以下为原始分配，当前只执行文末接收席位的R1～R4回执返工，不重做全部十二组。
+以下为原始分配，文末首轮返工也已完成接收，仅作历史保留，不授权重新执行十二组或重复返工。
 
 ```text
 接手DOC-CURSOR-2，先读AGENTS/CLAUDE/READ-FIRST、
@@ -148,7 +149,7 @@ H7真实UI与前批源文档不重审。优先核真实定义/调用，不以字
 不改共享卡/状态，不合main、不代签、不标done；交正文SHA、登记tip、分组完成状态及给Codex的接收提示词。
 ```
 
-## Codex接收席位 — 2026-09-25
+## Codex首轮接收席位 — 2026-09-25（历史）
 
 正文3852afe5 / tip e3da44ca：**counter，R1～R4只限回执**。一文件白名单/生产零漂移及文档门通过，
 已入库资源散列独立复算一致；不能把这些通过当作分类和替换句正确。
@@ -156,7 +157,7 @@ H7真实UI与前批源文档不重审。优先核真实定义/调用，不以字
 Cursor原文原样保留，已核事实不重开；本卡留draft，不代签/不标done/不合main。
 DOC-CURSOR-1材料accept保持，DOC-GUIDE-REVISION-1仍未开放，本包不扩大前批修订准入。
 
-### 当前下一位Agent提示词（Cursor回执窄返工）
+### 首轮下一位Agent提示词（历史；已接收）
 
 ```text
 在原分支codex/cursor-docs-wave2-r1修DOC-CURSOR-2回执；原候选3852afe5/tip e3da44ca，证据冻结dab017e7。
@@ -172,3 +173,14 @@ R4未运行迁移/未起服务移到未执行边界，不算未核输入；同�
 仍只跑文档检查/diff检查，最终相对7e52d514仅本回执；提交推送，给Codex正文SHA及登记tip。
 不改原指南/产品/配置/基线/共享任务卡，不合main、不代签、不标done；五份修订准入不因本包打开。
 ```
+
+## Codex当前接收席位 — 2026-09-25
+
+正文4b75d1c3 / tip cc2720c5：**accept，仅审计材料接收**，无剩余阻断counter。
+R1/R2/R4已闭，R3关键锚点/cwd修订已完成；pal-extract一处7/8行定位与preview表格少格列为
+[NB1/NB2非阻断文字观察](../../testing/cursor-docs-wave2-review.md)，不伪称回执零瑕疵，不再要求整轮文字返工。
+小计3/1/2/1/4/2与16 ID去向机械核对一致；一文件白名单/文档门/diff门通过。
+Cursor原文原样接入独立复核分支，本人仅签Codex席位；未重跑已核事实或资源hash。
+Status保持draft，不合main、不代签、不标done；五份前批指南修订卡仍不因本包打开。
+
+交接：无下一位Agent提示词，Cursor本包无剩余阻断返工，等待用户决定后续文档修订准入。
