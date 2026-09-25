@@ -8,6 +8,8 @@
 
 ## 文档与附件
 
+- [Cursor十二组包说明与工具核对](cursor-docs-wave2.md)（DOC-CURSOR-2，draft待执行；七包README/十一CLI/两CI/资源说明/索引，唯一本人回执，不改源文档）
+
 - [Cursor现行指南轻量核对](cursor-docs-hygiene.md)（65193a84/320800ec材料已接收；十二份文档四组核对，不是正式文档修复、覆盖率或运行验收）
 
 - [Cursor文档核对Codex接收](cursor-docs-hygiene-review.md)（窄返工65193a84/320800ec accept，CR-1/CR-2闭合；H7待核，五份修订卡仅draft；原回执不改、不合main/不标done）

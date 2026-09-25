@@ -30,6 +30,7 @@ GLM后续补测候选见[十批长队列](../testing/glm-coverage-work-queue.md)
 
 | ID | 任务 | 状态 | 负责人/下一步 | 一句话备注 |
 |---|---|---|---|---|
+| DOC-CURSOR-2 | [十二组包说明/CLI/索引核对](tasks/DOC-CURSOR-2-package-tools-indexes.md) | draft | Cursor连续核对 / Codex接收 | 七包README+工具/CI/资源/索引；只写一份回执，不改产品，不重复前批 |
 | DOC-GUIDE-REVISION-1 | [五份现行指南窄修订准入](tasks/DOC-GUIDE-REVISION-1-current-entrypoints.md) | draft | Codex / 另核准入 | 原回执已接收，尚未build；只对齐命令/入口/导航，H7场景UI另核 |
 | DOC-CURSOR-1 | [十二份现行文档轻量核对](tasks/DOC-CURSOR-1-current-guide-check.md) | draft | Codex / 按用户边界保留材料接收 | 65193a84/320800ec accept；CR-1/CR-2闭合，无剩余返工，不合main/不标done |
 | ARCH-REGRESSION-LAB-GLM-1 | [十二组候选回归与功能视觉](tasks/ARCH-REGRESSION-LAB-GLM-1-twelve-packs.md) | draft | GLM连续执行 / Codex独立接收转正 | 8测试+4视觉；冻结86e928b5，独立实验目录，不进正式runner/覆盖率 |
