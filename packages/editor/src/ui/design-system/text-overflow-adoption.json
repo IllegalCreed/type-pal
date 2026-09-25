@@ -161,8 +161,8 @@
       "declarations": ["text-overflow:ellipsis", "white-space:nowrap"],
       "specificity": [0, 1, 0],
       "producer": {
-        "source": "design-system/controls.tsx",
-        "component": "DsPressable",
+        "source": "design-system/overflow-text.tsx",
+        "component": "DsOverflowText",
         "callsite": "class:ds-overflow-text"
       },
       "policy": "informational-truncate",

@@ -1,0 +1,12 @@
+{
+  "id": "overflow-tolerance",
+  "file": "packages/editor/src/ui/design-system/overflow-text.tsx",
+  "sha256": "32af1ddfa349930766b71a140ae27afa0a0c2464c07d2260dbc22173baa057e4",
+  "hashUnchanged": true,
+  "greenExit": 0,
+  "greenPassed": 7,
+  "redExit": 1,
+  "failedTitle": "uses a zero-width guard and one-pixel tolerance before adding a Tab stop",
+  "assertion": "AssertionError: expected '0' to be null",
+  "ok": true
+}
