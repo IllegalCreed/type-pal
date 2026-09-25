@@ -65,3 +65,23 @@
 | B2-3 | 验收示例：建 `#24/#25`、三层选择、删 `#25` 从引用跳到明雷怪…（`:50-56`） | **pending-ui** / 未执行 | 命令与引用跳转源码具备（B1）。未在隔离浏览器走保存重开。PAL 现成表已是 `id 6..57` 共 52（`projects/pal/content/battle-fields.json`），不是空工程从 24 起。 | 保留为手工验收清单，不要写成当前 PAL 工程已按该顺序做过。 |
 
 PAL 专用 `6..57`（`:14-18`）与跟踪 JSON 一致；编辑器未写死 `id>=6`（创建允许任意非负安全整数，`BattleFieldTab.tsx:210-213`）。
+
+## C1 — 脚本库创建 / 统一工作台
+
+源：[`shared-script-author-guide.md`](../phase2/guides/shared-script-author-guide.md)。不重领 DOC-CURSOR-4 入场三区/恢复默认。
+
+| ID | 原句 | 分类 | 当前可达调用链与一手锚点 | 最窄替换或不改 |
+|---|---|---|---|---|
+| C1-1 | 「在编辑器“剧情 → 脚本库”点击 `＋`。填写显示名、说明和 `self` 契约。创建后稳定 `shared/user/...` id 不随显示名变化。」（`:30-31`） | **wrong**（创建表单字段） / **confirmed**（入口与 id） | 入口：`EDITOR_MODULES` `story`/`scripts`「脚本库」（`editor-navigation.ts:118-130`）→ `CanonicalSharedScriptTab`。创建按钮 label 是「新建可复用脚本」icon `add`（`SharedScriptTab.tsx:232-239`）；空态写「点击左侧加号」（`:322-326`）。对话框只有「脚本名称」+「稳定 ID」（`:435-503`）；`self` 固定 `'none'`（`:194-198`）。说明与 self 在创建后右侧「作者元数据」（`:330-379`）。id：`nextScriptId` → `shared/user/${slug}`（`:43-54`）；hint「创建后保持不变」（`:381-382`）。`AUTHORED_SCRIPT_PREFIX`（`script-library.ts:4`）。 | 改为：「剧情 → 脚本库 → 新建可复用脚本。创建时填名称和稳定 id（默认为 `shared/user/…`，self=不使用）；说明与 self 在创建后改。」不要写创建对话框已填说明/self。`＋` 是否可见标 pending-ui。 |
+| C1-2 | 「“复制”会生成新的稳定 id 和独立正文，不是原脚本的别名。」（`:34`） | **wrong** | `SharedScriptTab` 目录 actions 只有新建，无复制。仓内无 `CopySharedScriptCommand`。`AddSharedScriptCommand` 只接受全新 id（`script-editor.ts:2135-2152`）。 | 删掉当前脚本库“复制”操作。不要建议新产品按钮。 |
+| C1-3 | 「共享脚本、物品私有脚本、实体 Behavior、场景 Hook 使用同一个 canonical 指令树。」「下半区…在“场景 Hook / 实体行为”间切换。」（`:57-65`） | **confirmed**（共用编辑器） / **wrong**（抽屉页签名） | 共享正文：`CanonicalScriptBodyEditor`（`SharedScriptTab.tsx:309-312`）。物品私有：`ItemUseEffectEditor.tsx:172` 同一 body 编辑器。场景：`SceneScriptWorkspace` → hook/behavior inspector → `CanonicalScriptFlowEditor`（DOC-CURSOR-4 链，不重述三区）。抽屉页签实际是「进场脚本 / 传送出口」，选中实体时加「交互脚本 / 自动行为」（`SceneScriptWorkspace.tsx:202-212,298-311`），不是两个总称「场景 Hook / 实体行为」。上半 `PreviewCanvas` 有播放/暂停/继续/单步/重置/引擎试玩（`PreviewCanvas.tsx:452-485`）。 | 共用编辑器句保留。抽屉句改成四个实页签名。入场准备页签事实见 DOC-CURSOR-4，不在此另开。 |
+| C1-4 | 「没有作者可编辑的脚本索引、分片或 chunk 归属。」「contentVersion 20 作者界面不显示“迁移内部实现”页签」（`:52-53,92`） | **confirmed** | `EDITOR_MODULES` 无迁移/分片页。canonical `callScript` 只存 `script` id（`author-script-core.ts:239,728-730`）。`CONTENT_VERSION=20`（`character.ts:168`）。 | 不改。旧 `CommandForm` 仍有 `cmd.ref.chunk` 分支（`CommandForm.tsx:2006-2032`），生产共享库不走该表单，不当当前 UI。 |
+
+## C2 — self / 跳转 / 物品私有 / 删除
+
+| ID | 原句 | 分类 | 当前可达调用链与一手锚点 | 最窄替换或不改 |
+|---|---|---|---|---|
+| C2-1 | 「`不使用` / `可选` / `必须提供`」及继承规则（`:72-74`） | **confirmed**（元数据+运行时） / **pending**（保存是否 fail-loud 缺 self） | 检查器三选项原文（`SharedScriptTab.tsx:364-377`）。运行时：`script-runner-core.ts:437-446` `none` 禁显式 self、`required` 且无继承则抛。保存：`checkBaseScriptLibrary` 只验枚举（`author-script-core.ts:1116-1131`）；`collectScriptReferenceIssuesFromVisits` 只查目标是否在库（`script-editor.ts:611-626`），不查调用点缺 self。 | 契约定义与运行时句可留。保存句不要写“缺 self 必挡保存”，除非另证。 |
+| C2-2 | 「插入“调用可复用脚本”…当前作者命令没有 `jumpScript`。」「“打开脚本”会进入目标…“扫描调用位置”会列出直接调用方。」（`:81-91`） | **confirmed**（call/jump/打开） / **wrong**（扫描按钮名） | 插入：`insertionGroups`「↪ 调用共享脚本」（`ScriptEditor.tsx:2992-2997`）。`jumpScript: false` 且列入 `RETIRED_CONTROL_KINDS`（`author-script-core.ts:259,525-526`）；`ScriptEditor.tsx` 无 jump 菜单项。打开：canonical 按钮「打开共享脚本」（`ScriptEditor.tsx:1822-1828`）；物品 `runScript` 为「打开脚本」（`ItemUseEffectEditor.tsx:639`）。调用方列表是右侧 `DsReferencePanel` 自动引用，无「扫描调用位置」按钮（`SharedScriptTab.tsx:384-427`）。 | 写成「打开共享脚本」+「右侧引用列表」。删“扫描调用位置”这个独立动作。 |
+| C2-3 | 「物品私有脚本…在用途效果卡内展开正文；不进入共享脚本库；复制物品时随物品正文深拷贝」（`:95-104`） | **confirmed** | 入口：物品工作台「添加当前物品脚本」（`ItemUseEffectEditor.tsx:1199`，`ItemTab.tsx:1147-1183` `AddItemPrivateScriptCommand`+shell `runScript` 成对 `historyCoordinator.dispatch`）。正文 `CanonicalScriptBodyEditor`。每件至多一条（`ItemTab.tsx:1172-1176`）。不进 `sharedScripts`。 | 界面用「当前物品脚本」，不是指南标题「物品私有脚本」。 |
+| C2-4 | 「有任何直接调用方的共享脚本不能删除。」「共享脚本之间禁止形成 `callScript` 环。」「`self: required` 缺调用实体…保存和发布均 fail-loud。」（`:119-123`） | **confirmed**（删除门） / **wrong**（当前保存查环） | 删除：`DeleteSharedScriptCommand` 有 blocker 即抛（`script-editor.ts:2241-2259`）；按钮在引用未就绪或有引用时禁用（`SharedScriptTab.tsx:287-301`）。调用环：旧 `buildScriptReferenceIndex` 对 `scriptChunks`/`scriptIndex` 走 `callEdges`（`script-references.ts:110-333`），**保存门不再调用** `assertScriptProjectValid`（全仓仅定义处）。现行 `assertProjectSaveValid` 用 canonical 引用缺失检查，无 call 图 DFS。 | 删除保护保留。环与“保存 fail-loud”改为：「当前保存不跑作者 `callScript` 环检查；旧 chunk 扫描器已离线。」 |
