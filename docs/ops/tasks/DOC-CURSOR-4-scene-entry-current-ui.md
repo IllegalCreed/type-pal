@@ -55,6 +55,11 @@ Evidence freeze: `9540f059`（开卡时 main；交付以实际 main 起点记录
 - Codex：已核该 H7 残项、现行调用链与排除项；**draft 只读取证 allowed**，不开放产品 build。
 - done：材料与正式文案尚未接收；本卡不预签、不预宣称指南已修。
 
+### Codex 独立接收（2026-09-25，候选 `31618c0d`）
+
+- **accept，仅审计材料接收；Status 按用户本轮要求保持 draft，候选不整体合 main、不标 done。** [一手复核与保存守卫反例](../../testing/cursor-scene-entry-review.md)确认 H7-1～H7-6 的源码/入库数据锚点与分类成立，父导航一行和回执是候选全部改动；文档、diff 检查通过。
+- Codex 已单独窄修 `docs/phase2/guides/scene-entry-authoring.md`：把旧“三区/默认提示/恢复默认”改为现行两页签和数据/UI边界，s001 内容保留。安全目录未接入当前菜单与作者保存校验是独立产品缺口，本卡不修改编辑器或 content；当前可见 UI 未做隔离浏览器目视验收，不冒称截图已证。
+
 ### 下一位 Cursor 提示词
 
 ```text

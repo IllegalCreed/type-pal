@@ -16,6 +16,8 @@
 
 - [Cursor覆盖率说明定点核对回执](cursor-coverage-guide-audit.md)、[Codex独立接收/正式修订](cursor-coverage-guide-review.md)及[done任务卡](../ops/archive/tasks/done/DOC-CURSOR-3-coverage-guide-audit.md)（b5e2ca4a材料已接入；Codex只修当前入口文案，历史数字/基线不改）
 
+- [Cursor场景入场UI只读候选的Codex复核](cursor-scene-entry-review.md)（DOC-CURSOR-4，31618c0d材料accept；现行指南已由Codex窄修，prepare安全目录未接入菜单/作者保存守卫另排；候选不整体合main）
+
 - [Cursor八组工具候选回归](cursor-tool-regressions/README.md)及[正式接入与路径修复](cursor-tool-regressions/integration.md)（贡献候选85f2a824；文档工具/编辑器审计测试转正，目录映射漏改修复并独立验证）
 
 - [Cursor十二组包说明与工具核对](cursor-docs-wave2.md)与[Codex独立接收](cursor-docs-wave2-review.md)（4b75d1c3/cc2720c5材料accept，含NB1/NB2非阻断文字观察；无阻断counter，不改源文档/不合main/不标done，前批修订门不开放）
