@@ -6,6 +6,7 @@ import {
   battlePlayer,
   battleState,
   battleView,
+  item,
   role,
   rolesOf,
 } from './fixtures/battle.js'
@@ -69,7 +70,10 @@ describe('P15 战斗 UI 多态', () => {
     }
   })
 
-  it('P15 现行MP为8时需求9与需求8的选中色和数字不同，静态MP10不参与', () => {
+  it('P15 预填禁用菜单按需求9与8着色，运行时MP数字是8不是静态10', () => {
+    // drawBattleUI 只按 menu.items[].disabled 上色，青色现行数字读 rgwMP。
+    // MP 不足如何变成 disabled 不在本链：见 battle-system.test.ts
+    // 「建表:MP 不足 → disabled 灰项(magicmenu.c:347-352)」。
     const frames = uiFrames()
     const cast = rolesOf([role(0, { mp: 10 })])
     const gs = battleGs()
@@ -115,7 +119,39 @@ describe('P15 战斗 UI 多态', () => {
     expect(at(fbOn, 122, 54)).toBe(0xf9)
   })
 
-  it('P15 缺角色的状态栏空位不画HP，数量2画青字数量1不画', () => {
+  it('P15 正常单人队的物品数量2画青字，数量1不画', () => {
+    const frames = uiFrames()
+    const gs = battleGs()
+    const cast = rolesOf([role(0, { hp: 11 })])
+    const bead = item(1)
+    const items = [bead]
+    const itemMenu = {
+      items: [{ id: bead.id, label: '甲', rightText: '×2', disabled: false }],
+      cursor: 0,
+      pageSize: 21,
+      pageOffset: 0,
+    }
+    const withAmount = battleState([battlePlayer(0)], [], {
+      uiState: 'selectMove',
+      menuState: 'useItemSelect',
+      itemSelect: itemMenu,
+    })
+    const amountFb = createFramebuffer()
+    const beforeItems = items.map((entry) => ({ ...entry, flags: { ...entry.flags } }))
+    drawBattleUI(amountFb, withAmount, cast, [], items, gs, glyphsOf(['甲']), frames)
+    expect(items.map((entry) => ({ ...entry, flags: { ...entry.flags } }))).toEqual(beforeItems)
+    expect(at(amountFb, 102, 17)).toBe(cyanDigit(2))
+
+    itemMenu.items[0]!.rightText = '×1'
+    const oneFb = createFramebuffer()
+    drawBattleUI(oneFb, withAmount, cast, [], items, gs, glyphsOf(['甲']), frames)
+    expect(items).toHaveLength(1)
+    expect(items[0]?.id).toBe(bead.id)
+    expect(at(oneFb, 102, 17)).toBe(0)
+  })
+
+  it('P15 防御输入:未定义的roleId不画HP，已定义角色仍画', () => {
+    // roleId 99 不是可组队角色。正控是已定义的 role 0；99 只验证缺资料时跳过该槽。
     const frames = uiFrames()
     const gs = battleGs()
     const cast = rolesOf([role(0, { hp: 11 })])
@@ -129,29 +165,6 @@ describe('P15 战斗 UI 多态', () => {
     expect(battleView(missing)).toEqual(before)
     expect(at(fb, 135, 170)).toBe(yellowDigit(1))
     expect(at(fb, 212, 170)).toBe(0)
-
-    const itemMenu = {
-      items: [{ id: 1, label: '甲', rightText: '×2', disabled: false }],
-      cursor: 0,
-      pageSize: 21,
-      pageOffset: 0,
-    }
-    const items: import('../../../packages/shared/src/index.js').Item[] = []
-    const withAmount = battleState([battlePlayer(0)], [], {
-      uiState: 'selectMove',
-      menuState: 'useItemSelect',
-      itemSelect: itemMenu,
-    })
-    const amountFb = createFramebuffer()
-    const beforeItems = [...items]
-    drawBattleUI(amountFb, withAmount, cast, [], items, gs, glyphsOf(['甲']), frames)
-    expect([...items]).toEqual(beforeItems)
-    expect(at(amountFb, 102, 17)).toBe(cyanDigit(2))
-
-    itemMenu.items[0]!.rightText = '×1'
-    const oneFb = createFramebuffer()
-    drawBattleUI(oneFb, withAmount, cast, [], items, gs, glyphsOf(['甲']), frames)
-    expect(at(oneFb, 102, 17)).toBe(0)
   })
 
   it('P15 单人合击图标更暗，两人健康时合击图标较亮', () => {

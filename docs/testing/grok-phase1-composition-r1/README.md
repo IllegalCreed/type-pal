@@ -4,7 +4,9 @@
 
 正式上一包见 [grok-present-integration.md](../grok-present-integration.md)。本包不重测 P01–P10。任务卡：[TEST-GROK-PRESENT-2](../../ops/tasks/TEST-GROK-PRESENT-2-phase1-composition.md)。
 
-候选 JSON `numTotalTests=18`，`numPassedTests=18`，`numFailedTests=0`，`numPendingTests=0`。18 项都走真实 `presentFrame`、`BattlePresent.draw`、`drawBattleUI` 或 `drawDialogBox`。没有把快照工具自测算进业务覆盖。没有产品失败，因此没有 diagnostics。
+首轮候选 `e0d7511e` 被 `9df1d203` counter。本轮只收窄 P15-2、P16-1 和 P15-3。P11–P14 与两条立绘例没有重做。
+
+候选 JSON `numTotalTests=19`，`numPassedTests=19`，`numFailedTests=0`，`numPendingTests=0`。19 项都走真实 `presentFrame`、`BattlePresent.draw`、`drawBattleUI` 或 `drawDialogBox`。其中 1 项标题标明防御输入，不计入正常队伍合同。没有把快照工具自测算进业务覆盖。没有产品失败，因此没有 diagnostics。
 
 像素合同的证据层级是已核一阶段源码（`present.ts`、`present-battle.ts`、`draw-battle-ui.ts`、`dialog-box.ts` 及它们引用的 sdlpal 行号注释），不是新的原版二进制结论。
 
@@ -63,8 +65,9 @@
 新差异：
 
 - `P15 一人二人三人的当前行动箭头和HP个位落在各自锚点`：箭头分别在 `(232,96)`、`(248,78)`、`(262,72)`。HP 个位只出现在实际人数对应的 `(135,170)`、`(212,170)`、`(289,170)`。
-- `P15 现行MP为8时需求9与需求8的选中色和数字不同，静态MP10不参与`：角色静态 mp 保持 10，运行时 `rgwMP` 是 8。需求 9 选中为 `0x1C`、黄个位 9；需求 8 选中为 `0xF9`、黄个位 8。青个位两次都是 8。
-- `P15 缺角色的状态栏空位不画HP，数量2画青字数量1不画`：第二槽没有角色时 `(212,170)` 为 0。数量 2 在 `(102,17)` 画青 2，数量 1 该点为 0。
+- `P15 预填禁用菜单按需求9与8着色，运行时MP数字是8不是静态10`：`disabled` 和 `rightText` 由测试预填。需求 9 选中为 `0x1C`、黄个位 9；需求 8 选中为 `0xF9`、黄个位 8。青色现行数字读 `rgwMP` 的 8，不读静态 `role.mp` 的 10。MP 不足如何建成 disabled 已由 `packages/game/src/core/battle/__tests__/battle-system.test.ts` 的 `建表:MP 不足 → disabled 灰项(magicmenu.c:347-352)` 覆盖，本链不重复那个结论。
+- `P15 正常单人队的物品数量2画青字，数量1不画`：队伍只有已定义的 role 0，物品目录里有 id 1。菜单 `rightText` 为 `×2` 时 `(102,17)` 是青 2，改成 `×1` 后该点为 0。
+- `P15 防御输入:未定义的roleId不画HP，已定义角色仍画`：roleId 99 不是可组队输入。已定义角色的 HP 个位仍是黄 1，99 所在槽为 0。
 - `P15 单人合击图标更暗，两人健康时合击图标较亮`：`(54,155)` 从 `0x12` 变成 `0x02`。选中的攻击图标两次都是 `0x06`。
 
 ## P16 对话框绘制
@@ -73,7 +76,7 @@
 
 新差异：
 
-- `P16 旁白数字走黄色精灵，缺UI帧时不画框并把数字当字形`：有 UI 帧时框点 `(148,40)` 为 `0x44`，`3` 在 `(176,54)` 为黄 3。不传 UI 帧时这两点都不是框色或黄 3，正文点仍在。
+- `P16 旁白数字走黄色精灵，缺UI帧时不画框并把数字当字形`：有 UI 帧时框点 `(148,40)` 为 `0x44`，`3` 在 `(176,54)` 为黄 3。不传 UI 帧时框点和黄精灵位置保持哨兵，`甲` 仍在 `(160,50)`，数字 `3` 的字形点在 `(176,50)` 写成 0，右边一像素仍是哨兵。
 - `P16 立绘不透明0盖住底色，透明孔保留底色，缺立绘资源仍画正文`：直接 `drawDialogBox`。不透明 0 把哨兵写成 0，孔保持哨兵。`portraitIcon=99` 且图库没有该帧时立绘点保持哨兵，姓名 `0x8C` 和正文 `0x4F` 仍在。
 - `P16 presentFrame里立绘透明孔露出地块，不透明0写成0，姓名和正文颜色不同`：同一状态走 `presentFrame`。孔露出地块 `0x41`，不透明 0 写成 0。缺资源后两点都回到地块，姓名和正文仍在。
 
@@ -87,10 +90,11 @@
 | `BattlePresent.draw` | `packages/game/src/present/battle/present-battle.ts` | `7ca203c4de814c295b4e70ca414e3d62b31e22da1af980a52119bd83590fae2e` | 入场切换不再保留旧像素。`expected 20 to be 19`（背景 `0x14`，不是入场前 `0x13`） |
 | `drawBattleUI` | `packages/game/src/present/battle/draw-battle-ui.ts` | `fee830027b4d8428e4f4bff98a2f4f4a905c3b98d163642ab088710962aa868f` | 现行 MP 被固定成 0。`expected 112 to be 120`（青 0，不是青 8） |
 | `drawDialogBox` | `packages/game/src/present/dialog-box.ts` | `637acc9c9b9af81dfd5c3a0219f7e6eed4b4579778cc774218ebcee1e715dc3e` | 旁白数字不再走黄精灵。`expected 90 to be 179`（哨兵 `0x5A`，不是黄 3） |
+| `drawDialogBox` | 同上 | 同上 | 无 UI 帧时跳过数字字形。`expected 90 to be +0`（`(176,50)` 仍是哨兵，数字 `3` 没画出来） |
 
 ## 验证
 
-- 候选：`env -u NODE_COMPILE_CACHE pnpm exec vitest run --config docs/testing/grok-phase1-composition-r1/vitest.config.mts --reporter=json --outputFile=/tmp/grok-composition-all.json`。exit 0。18/18。
+- 候选：`env -u NODE_COMPILE_CACHE pnpm exec vitest run --config docs/testing/grok-phase1-composition-r1/vitest.config.mts --reporter=json --outputFile=/tmp/grok-composition-all.json`。exit 0。19/19。
 - 类型：`pnpm exec tsc -p docs/testing/grok-phase1-composition-r1/tsconfig.json --noEmit --pretty false`。exit 0。
 - 格式：`pnpm exec biome check docs/testing/grok-phase1-composition-r1`。exit 0。
 - 文档：`node scripts/docs/check.mjs` exit 1。唯一问题是 `docs/testing/README.md:1`「子目录未进入导航：docs/testing/grok-phase1-composition-r1」。父导航在写入白名单之外，本包没有改它。

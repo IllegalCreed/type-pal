@@ -7,8 +7,8 @@
     "command": "env -u NODE_COMPILE_CACHE pnpm exec vitest run --config docs/testing/grok-phase1-composition-r1/vitest.config.mts --reporter=json --outputFile=/tmp/grok-composition-all.json",
     "cwd": "worktree root",
     "exit": 0,
-    "numTotalTests": 18,
-    "numPassedTests": 18,
+    "numTotalTests": 19,
+    "numPassedTests": 19,
     "numFailedTests": 0,
     "numPendingTests": 0
   },
@@ -107,17 +107,27 @@
     },
     {
       "id": "P15-2",
-      "title": "P15 现行MP为8时需求9与需求8的选中色和数字不同，静态MP10不参与",
+      "title": "P15 预填禁用菜单按需求9与8着色，运行时MP数字是8不是静态10",
       "chain": "drawBattleUI",
       "file": "p15-battle-ui.test.ts",
-      "newDifference": "运行时 MP 8 与静态 mp 10；需求 9 禁用、需求 8 可选，青个位是 8"
+      "domain": "business",
+      "newDifference": "只钉预填 disabled 的选中色和 rgwMP 青色数字。可用性建表见 battle-system.test.ts 的「建表:MP 不足 → disabled 灰项(magicmenu.c:347-352)」。"
     },
     {
       "id": "P15-3",
-      "title": "P15 缺角色的状态栏空位不画HP，数量2画青字数量1不画",
+      "title": "P15 正常单人队的物品数量2画青字，数量1不画",
       "chain": "drawBattleUI",
       "file": "p15-battle-ui.test.ts",
-      "newDifference": "缺 role 的槽位精确为空；数量 2 与数量 1 的青色个位不同"
+      "domain": "business",
+      "newDifference": "已定义的单人队伍加上目录中的物品；数量 2 与数量 1 的青色个位不同"
+    },
+    {
+      "id": "P15-def-role",
+      "title": "P15 防御输入:未定义的roleId不画HP，已定义角色仍画",
+      "chain": "drawBattleUI",
+      "file": "p15-battle-ui.test.ts",
+      "domain": "defensive",
+      "newDifference": "roleId 99 不是可组队输入。正控是已定义角色的 HP 个位，缺资料槽保持 0"
     },
     {
       "id": "P15-4",
@@ -131,7 +141,7 @@
       "title": "P16 旁白数字走黄色精灵，缺UI帧时不画框并把数字当字形",
       "chain": "drawDialogBox",
       "file": "p16-dialog.test.ts",
-      "newDifference": "旁白数字与框点的有无对照；缺 UI 帧时不画黄 3"
+      "newDifference": "有 UI 帧时黄精灵在 (176,54)；无 UI 帧时数字 3 的字形点在 (176,50)"
     },
     {
       "id": "P16-2",
@@ -168,6 +178,11 @@
       "id": "death-fade-pure",
       "kind": "existing-proof",
       "reason": "draw-battle-sprites.test.ts 已测 blitFrameDeathFade 的纯函数步进。本包不把私有字段反射当画面合同。"
+    },
+    {
+      "id": "magic-menu-disabled-from-mp",
+      "kind": "existing-proof",
+      "reason": "battle-system.test.ts 的「建表:MP 不足 → disabled 灰项(magicmenu.c:347-352)」已覆盖建表。P15-2 不把预填 disabled 说成绘制链算出的可用性。"
     },
     {
       "id": "dialog-state-machine",

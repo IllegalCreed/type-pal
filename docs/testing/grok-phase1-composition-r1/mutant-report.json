@@ -31,12 +31,24 @@
     "hashUnchanged": true,
     "greenExit": 0,
     "redExit": 1,
-    "failedTitle": "P15 现行MP为8时需求9与需求8的选中色和数字不同，静态MP10不参与",
+    "failedTitle": "P15 预填禁用菜单按需求9与8着色，运行时MP数字是8不是静态10",
     "assertionError": true,
     "ok": true
   },
   {
     "id": "dialog-digit",
+    "chain": "drawDialogBox",
+    "file": "packages/game/src/present/dialog-box.ts",
+    "sha256": "637acc9c9b9af81dfd5c3a0219f7e6eed4b4579778cc774218ebcee1e715dc3e",
+    "hashUnchanged": true,
+    "greenExit": 0,
+    "redExit": 1,
+    "failedTitle": "P16 旁白数字走黄色精灵，缺UI帧时不画框并把数字当字形",
+    "assertionError": true,
+    "ok": true
+  },
+  {
+    "id": "dialog-digit-fallback",
     "chain": "drawDialogBox",
     "file": "packages/game/src/present/dialog-box.ts",
     "sha256": "637acc9c9b9af81dfd5c3a0219f7e6eed4b4579778cc774218ebcee1e715dc3e",

@@ -63,8 +63,11 @@ describe('P16 对话框绘制', () => {
     bare.indices.fill(SENTINEL)
     drawDialogBox(bare, state, glyphs)
     expect(at(bare, 148, 40)).toBe(SENTINEL)
-    expect(at(bare, 176, 54)).not.toBe(yellowDigit(3))
+    expect(at(bare, 176, 54)).toBe(SENTINEL)
     expect(at(bare, 160, 50)).toBe(0)
+    // 无 UI 帧时 '3' 走字形，落在正文行 (176,50)，不是黄精灵的 y+4。
+    expect(at(bare, 176, 50)).toBe(0)
+    expect(at(bare, 177, 50)).toBe(SENTINEL)
     expect(structuredClone(state)).toEqual(before)
   })
 
