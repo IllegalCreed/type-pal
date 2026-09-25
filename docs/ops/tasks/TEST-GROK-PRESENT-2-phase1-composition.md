@@ -76,7 +76,20 @@ Evidence freeze: `077516bb04c27b38865139a67ad64b0c7eb3fd47`
   全仓 check→官方 ratchet→受保护单次 strict-fast、done 与清理旧 worktree/分支。
 - 无产品行为/schema/save/资产格式改动授权。发现需要这些变化时停止该轴，登记反例交 Codex。
 
-## 下一位 Grok 提示词
+## Codex 首轮独立接收（2026-09-25，候选 `e0d7511e`）
+
+- **counter，仅 P15/P16 三项残缺；Status 保持 draft。** [本人逐项复核](../../testing/grok-phase1-composition-review.md)确认 18/18候选、177/177相邻、typecheck/Biome、四针反控成立；父目录导航失败是 Codex 集成职责，不归 Grok 白名单。
+- P11–P14 与 P16 两条立绘证据接受为隔离候选；P15-2 的可用性是 fixture 手写 disabled，未从 runtime MP 建表；P16-1 裸数字没有“字形出现”正断言；P15-3 role99/空 catalog 须归防御域或换合法正控。仅定点返工这些，不重做其它组或改产品。
+
+### 下一位 Grok 定点返工提示词
+
+```text
+在 /Users/zhangxu/illegal/type-pal-grok-present-composition 的 codex/grok-present-composition-r1 分支返工 TEST-GROK-PRESENT-2，候选 e0d7511e，状态 draft。先同步分支、核干净工作树，读取 origin/main:docs/testing/grok-phase1-composition-review.md 与任务卡 Codex 首轮接收块（只读，不合 main）。
+只修三项：P15-2 将“runtime MP 使 9 不可用/8 可用”的跨链结论落到真实建表结果，或明确收窄为预填 disabled 着色 + runtime MP 数字，并引用旧 battle-system 建表测试；P16-1 为无 UI 帧时数字 `3` 的 glyph 像素加正断言与“仅漏 fallback 数字”的单点业务红；P15-3 roleId99/空 items 要么分类为防御输入并配合法正控，要么从正常队伍合同中撤出。同步 README/ledger 和需要的反控，测试标题必须与实际输入同义。
+P11–P14、P16 立绘两例及现有四针方向已通过，不重开；新目录导航失败归 Codex 正式接入，不准改父 README。只改 docs/testing/grok-phase1-composition-r1/**；不改产品、旧测试、配置、基线，不跑官方覆盖率或全仓 check。复跑候选JSON、相邻/TS/Biome、反控与diff，提交推送精确SHA交 Codex复核；不合main、不标done、不代签。
+```
+
+## 历史开工提示词（已交付）
 
 ```text
 在 /Users/zhangxu/illegal/type-pal 接手 TEST-GROK-PRESENT-2；先读 AGENTS.md、CLAUDE.md、

@@ -10,6 +10,8 @@
 
 - [Grok一阶段菜单与索引渲染候选](grok-present-regressions/README.md)、[Codex独立复核](grok-present-review.md)及[正式接入](grok-present-integration.md)（P01–P10共25项，23业务绘制+2快照自测；check/ratchet/严格fast8090/641通过，候选历史不等于视觉/E2E）
 
+- [Grok第二批画面合成候选的Codex接收复核](grok-phase1-composition-review.md)（P11–P16隔离18项、四针；e0d7511e仍有P15/P16三处定点counter，未入正式测试/覆盖率）
+
 - [一阶段有效属性与战斗状态投影补测集成](gemini-phase1-stats-integration.md)（Gemini贡献、Codex接手修订/独立验收；26项正式接入，受保护严格fast8065/641；full/E2E另行验证）
 
 - [Cursor覆盖率说明定点核对回执](cursor-coverage-guide-audit.md)、[Codex独立接收/正式修订](cursor-coverage-guide-review.md)及[done任务卡](../ops/archive/tasks/done/DOC-CURSOR-3-coverage-guide-audit.md)（b5e2ca4a材料已接入；Codex只修当前入口文案，历史数字/基线不改）
