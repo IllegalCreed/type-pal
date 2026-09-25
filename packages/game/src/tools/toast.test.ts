@@ -37,4 +37,3 @@ describe('toast', () => {
     expect(document.getElementById('tp-toast-container')).not.toBeNull()
   })
 })
-

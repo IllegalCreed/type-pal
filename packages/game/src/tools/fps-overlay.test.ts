@@ -99,4 +99,3 @@ describe('fps-overlay', () => {
     expect(document.querySelector('#tp-fps-overlay .v.lo')).toBeNull()
   })
 })
-

@@ -49,4 +49,3 @@ describe('display-scale', () => {
     expect(c.style.width).toBe('960px')
   })
 })
-
