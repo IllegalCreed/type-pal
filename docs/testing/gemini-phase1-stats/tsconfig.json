@@ -1,0 +1,14 @@
+{
+  "extends": "../../../tsconfig.base.json",
+  "compilerOptions": {
+    "lib": ["ES2022", "DOM", "DOM.Iterable"],
+    "types": ["node"],
+    "typeRoots": ["../../../packages/game/node_modules/@types", "../../../node_modules/@types"],
+    "noEmit": true,
+    "rootDir": "../../..",
+    "paths": {
+      "@type-pal/shared": ["../../../packages/shared/src/index.ts"]
+    }
+  },
+  "include": ["fixtures/**/*.ts", "tests/**/*.ts", "diagnostics/**/*.ts"]
+}
