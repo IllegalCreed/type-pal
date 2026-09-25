@@ -1,14 +1,14 @@
 {
   "schemaVersion": 2,
   "profile": "fast",
-  "generatedAt": "2026-09-24T16:40:10.205Z",
+  "generatedAt": "2026-09-25T05:33:54.213Z",
   "provider": {
     "name": "v8",
     "vitest": "4.1.7",
     "coverageV8": "4.1.7"
   },
   "sourceFileCount": 641,
-  "testCount": 8034,
+  "testCount": 8039,
   "packages": {
     "shared": {
       "name": "@type-pal/shared",
@@ -3830,13 +3830,15 @@
       ],
       "scopeDigest": "25a6c0053a4175e9a07cd0aad70929c85d6bcb3e10327544b750f49888031088",
       "fastTests": {
-        "testCount": 2588,
-        "testFileCount": 264,
+        "testCount": 2593,
+        "testFileCount": 266,
         "files": [
           "packages/editor/scripts/battle-simulator-http.test.mjs",
           "packages/editor/scripts/battle-simulator-ui.test.tsx",
           "packages/editor/scripts/battle-trial-entry.test.ts",
           "packages/editor/scripts/battle-trial-launch.test.ts",
+          "packages/editor/scripts/cursor-allowlist.test.mjs",
+          "packages/editor/scripts/cursor-navigation-glyph.test.mjs",
           "packages/editor/scripts/pal-simulator-presets.test.ts",
           "packages/editor/src/core/actor-commands.test.ts",
           "packages/editor/src/core/actor-dialogue-commands.boundaries.test.ts",
@@ -4118,6 +4120,16 @@
             "file": "packages/editor/scripts/battle-trial-launch.test.ts",
             "testCount": 8,
             "identityDigest": "958bc49e81c805151c9529a625fec96370ea92097e26af40484f2bf392ae5b6a"
+          },
+          {
+            "file": "packages/editor/scripts/cursor-allowlist.test.mjs",
+            "testCount": 4,
+            "identityDigest": "a225461f0476e2f3572d30061d653afaa256a6e2a8ac99bb1d8004f044f003ad"
+          },
+          {
+            "file": "packages/editor/scripts/cursor-navigation-glyph.test.mjs",
+            "testCount": 1,
+            "identityDigest": "1f1665ba77e6b672ea08d842d731b1ceb5f3b4804d1d96e99a6ccc430e2caf1e"
           },
           {
             "file": "packages/editor/scripts/pal-simulator-presets.test.ts",
@@ -5420,9 +5432,9 @@
             "identityDigest": "7c181e89600882213bfdc9bf59bf8d2b40273fc45d2d84fecf9ad6313060cf3b"
           }
         ],
-        "identityDigest": "60ff24e99f00b06d32f7f38e24131a7422a3de3e77d0537b1586c1b5902a02a5",
+        "identityDigest": "7c10d0a2557b32cb7fe159ed4d667c58fed0e23a1e80934edaf2570ed0ba0f80",
         "duplicateIdentityCount": 8,
-        "executionDigest": "6102c12aa39e5271705d0e24eff85d526f8cdb5a244e304e5a37cb6f2812ce51"
+        "executionDigest": "94774d43a6e6bf2a885a15b6e2c3607d9a0e6aaf6ac5266585f9c5000a05cc84"
       },
       "metrics": {
         "statements": {
