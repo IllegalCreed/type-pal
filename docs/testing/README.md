@@ -18,7 +18,7 @@
 
 - [Cursor现行指南轻量核对](cursor-docs-hygiene.md)（65193a84/320800ec材料已接收；十二份文档四组核对，不是正式文档修复、覆盖率或运行验收）
 
-- [Cursor文档核对Codex接收](cursor-docs-hygiene-review.md)（窄返工65193a84/320800ec accept，CR-1/CR-2闭合；H7待核，五份修订卡仅draft；原回执不改、不合main/不标done）
+- [Cursor文档核对Codex接收](cursor-docs-hygiene-review.md)及[五份指南实施独立复核](cursor-guide-revision-review.md)（原审计材料已接收；实施候选94fbb844仅H1“E2E=1真SW”文案counter，余项已核；H7仍待核，候选未合main）
 
 - [GLM十二组可执行架构回归实验包](glm-architecture-regression-lab/README.md)与[Codex独立接收](architecture-regression-lab-codex-review.md)（30397b1d仍counter；V04深链误归因已核，32候选绿不等于十二组合同通过；不进正式统计）
 

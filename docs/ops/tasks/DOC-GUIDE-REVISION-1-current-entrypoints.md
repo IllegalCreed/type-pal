@@ -1,6 +1,6 @@
 # DOC-GUIDE-REVISION-1 — 现行指南五文件窄修订准入
 
-Status: build
+Status: rework
 Owner: Cursor（限定五份指南实施）
 Reviewer: Codex（独立验收与集成）
 Phase: ops
@@ -59,6 +59,19 @@ Cursor回执的六项事实成立，H7/N1经[Codex窄复核](../../testing/curso
 - 2026-09-25 Codex：只建立修订范围与验收，不修改指南。原卡CR-1/CR-2未闭，不请求他席基于错误回执背书。
 - 同日窄返工接收后：原卡CR-1/CR-2已闭，此前阻断记录保留为历史；用户要求本卡准入另核，本轮不推进。
 - 同日用户明确“准入，我说的”，并纠正协作模式：Codex按本卡原范围核定 build，改由 Cursor 实施、Codex 独立验收；不再以三贤人签字/豁免阻挡。Cursor 优先实施本卡，DOC-CURSOR-3 排队。
+
+## Codex 候选接收复核（2026-09-25）
+
+- 候选 `94fbb844` 对实施基点 `145791f1` 恰五文件；H1旧6001/Playwright删除、H2–H6、N1/T1的源文对照、H7零改和 docs/diff 门已由本席独立核实，见[复核报告](../../testing/cursor-guide-revision-review.md)。
+- **counter，仅 H1 一处**：`dev-servers.md:41,47-48` 仍说 `E2E=1` 用于“真 Service Worker”/“HTTP Service Worker 路径”。实际 `vite.config.ts:85` 只关闭 basicSsl；`game/src/main.ts:22,71-75` 和 `precache-client.ts:50-51` 明确 dev/e2e 不注册预缓存 SW。把两句统一收窄为 HTTP dev 用途，不发明真 SW 验收入口；其余四文件与已闭事实不重开。
+- 状态转 `rework`，Cursor 只改原五文件白名单中 `dev-servers.md` 这一小段并重跑文档/diff 检查；Codex 复核后决定集成。候选未合 main、未标 done，DOC-CURSOR-3 继续后排。
+
+### 下一位 Cursor 窄返工提示词
+
+```text
+在 /Users/zhangxu/illegal/type-pal-cursor-guides 的 codex/cursor-guide-revision-r1 继续 DOC-GUIDE-REVISION-1，当前候选94fbb844、卡状态rework。先同步分支并读 main 上的 docs/testing/cursor-guide-revision-review.md 与本卡 Codex 接收块（用 git show 只读，不需合 main）。只修 dev-servers.md:40-48：E2E=1 当前只让 Vite dev 不挂 basicSsl、改走 HTTP；game dev/e2e 不注册预缓存 Service Worker，所以删“测真 SW”“HTTP Service Worker 路径”的错误承诺。保留旧 e2e/6001 已删除与 E2E=1 HTTP 命令，不发明新的真 SW 测试入口。
+H2–H6、N1/T1 和其余四文件已核通过，不重开；H7/scene-entry-authoring.md 仍不动。不改产品、脚本、测试或基线，不运行迁移写盘。复跑 node scripts/docs/check.mjs 与 git diff --check，提交推送候选 SHA。Cursor 不自行合 main 或标 done；Codex 再做窄复核与集成，无需 Kimi/GLM 签字。
+```
 
 ## 下一位Agent提示词
 
