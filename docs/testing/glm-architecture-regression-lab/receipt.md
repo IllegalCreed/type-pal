@@ -33,7 +33,7 @@ worktree `/Users/zhangxu/illegal/type-pal-glm-regression-lab`，分支 `codex/gl
 
 ## 机械对账
 
-- 候选案例 **39** = candidate-green **36** / existing-proof **1** / reproduced-defect **1** / blocked-environment **1**。
+- 候选案例 **40** = candidate-green **38** / existing-proof **1** /  / blocked-environment **1**。
 - 分包：G01 6 / G02 3 / G03 3 / G04 3 / G05 4 / G06 5 / G07 3 / G08 4 / V01 3 / V02 2 / V03 1 / V04 2。
 - 有效负控 1（启动小样单点破坏 runner）；隔离单点反控按组以 positiveControl 字段登记。
 - 候选/诊断均不进官方测试集与覆盖率；不跑全仓 check/ratchet/strict-fast/迁移写盘/剧情 E2E。
