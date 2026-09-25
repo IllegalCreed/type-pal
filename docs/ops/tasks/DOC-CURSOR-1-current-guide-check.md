@@ -101,7 +101,7 @@ docs/ops/tasks/DOC-CURSOR-1-current-guide-check.md和文档维护规则。
 [独立复核](../../testing/cursor-docs-hygiene-review.md)确认一文件白名单/生产零改和H1～H6；
 T1裁定删除旧URL括号；H7引用未被当前场景页渲染的ScriptTree，N1两种命令等价结论被真实argv反证。
 Cursor原文未改，没有代签；只收本包回执，不带入其它工作。候选docs检查和diff检查均通过，不替代事实核验。
-[五份源文档修订](DOC-GUIDE-REVISION-1-current-entrypoints.md)另开draft，build仍未开放；
+[五份源文档修订](../archive/tasks/done/DOC-GUIDE-REVISION-1-current-entrypoints.md)另开draft，build仍未开放（历史记录；该修订卡随后已集成收口）；
 场景入场说明不做H7建议替换，后续由Codex核定真实UI。
 
 ### 首轮下一位Agent提示词（历史；返工已接收）

@@ -52,8 +52,9 @@ canonical 版本。
 首批 [E-06 质量门禁修复](docs/ops/audits/pre-e2e/quality-gate-remediation.md)与
 [B-04 当前存档预检修复](docs/ops/audits/pre-e2e/save-preflight-remediation.md)已完成，全仓 `pnpm check` 通过；
 其余业务缺陷尚待逐批修复，不代表审计问题已全部解决。
-Vitest/V8 全生产源码覆盖率基线与只升不降门禁已经建立，fast/full 口径和当前数字见
-[`docs/testing/coverage.md`](docs/testing/coverage.md)；覆盖率不替代业务断言与 E2E。
+Vitest/V8 全生产源码覆盖率基线与只升不降门禁已经建立；fast/full 口径和带日期的实测记录见
+[`docs/testing/coverage.md`](docs/testing/coverage.md)，当前入库 fast 数字见
+[`scripts/coverage/baseline.fast.json`](scripts/coverage/baseline.fast.json)。覆盖率不替代业务断言与 E2E。
 文档审计整改及自动检查见 [`DOC-GOV-1`](docs/ops/archive/tasks/done/DOC-GOV-1-documentation-cleanup.md)；
 `pnpm check:docs` 已加入日常门禁，检查本地链接、目录索引、任务状态和选定现行合同版本。
 全仓文档按职责归整，入口见 [文档首页](docs/README.md)：第二阶段分现行规范、使用指南、知识参考与
@@ -174,9 +175,11 @@ pnpm format:all     # 格式化整个仓库
 
 # PAL 数据与当前内容工程
 pnpm extract
-pnpm bake                                                # 单独重建可再生资产
 pnpm --filter @type-pal/migrate migrate:content          # dry-run
 pnpm --filter @type-pal/migrate migrate:content --write  # 发布到 projects/pal
+
+# 维护者：从 data/extracted 重建 reforge engine-chrome 默认 UI（不写 projects/pal）
+pnpm bake
 
 # 单包验证示例
 pnpm --filter @type-pal/editor check

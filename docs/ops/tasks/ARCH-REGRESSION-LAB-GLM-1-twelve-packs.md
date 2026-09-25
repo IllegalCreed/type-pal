@@ -69,7 +69,20 @@ docs/testing/glm-architecture-regression-lab/README.md。
 完成十二组后统一push，交短摘要+results.json+可重建命令，不标done、不代签、不转Kimi。
 ```
 
-## Codex 二轮接收（2026-09-25，候选 `af43311a`）
+## Codex 三轮接收（2026-09-25，候选 `bc8613d1`）
+
+- **Codex counter，Status 仍 draft**；[逐组复核与机械反证](../../testing/architecture-regression-lab-codex-r3-review.md)已落本席。最终 Vitest **32/32**，非声称的33；40条机账中 G08-03 已无测试、另10条标题过期，README/receipt/命令仍写旧39/36或36项。只读 verifier 虽 PASS，却没读取执行 JSON、只核截图16位前缀；产品冻结要区分 `a3ceaf05` 起点和中途 Codex 主线合入点。
+- 新的 G06 enemy→author helper 和 G07 生产装备写入口是有效窄进展；G03 Cmd+S、G04 旧草稿、G05 换源、G07 battle consumer、G08 回调/异常及 V01–V04 完整矩阵仍未证。六图存在且前缀相符，单针 detected，全目录 Biome/docs 绿；这些不替代缺失业务与账本证据。候选不进正式统计，不合 main、不标 done。
+
+### 下一位 GLM 定点返工提示词
+
+```text
+在 /Users/zhangxu/illegal/type-pal-glm-regression-lab 的 codex/glm-architecture-regression-lab-r1 返工 ARCH-REGRESSION-LAB-GLM-1，候选 bc8613d1，状态 draft。先同步分支、核干净工作树，读任务卡三轮 Codex 接收块与 origin/main:docs/testing/architecture-regression-lab-codex-r3-review.md。只改 docs/testing/glm-architecture-regression-lab/**，不改产品、正式测试、基线或他席结论。
+先解决证据真值：实际 Vitest 32项，机账40条中11条旧 fullName（含已删除的G08-03）；README/receipt/commands/V04归因必须与最终树同口径。verify.mjs 保持只读，但须从实际 Vitest JSON 验 file/fullName/status/执行数、完整截图SHA、命令与退出码，并有错标题/零执行/普通Error/超时负向自测。六图原样可复用，不为数字重拍。
+逐组按 Codex 表只修真实剩余反证，做不到完整调用链就降级为窄候选/待证：G03真保存IO、G04旧草稿提交、G05真实tick迟到、G06合法caller、G07 event/battle实际消费者、G08回调/异常与已删03、V01-V04未测矩阵。不要靠注释或改标题冒充测试；保留已成立窄正控。补候选TS/TSX独立typecheck；红控临时目录放/tmp。复跑候选JSON、负控、目录Biome、docs/diff与verify，提交推送精确tip及逐组去向。候选不合main、不计官方覆盖率、不标done；Codex再独立接收。Kimi豁免，无Kimi提示词。
+```
+
+## Codex 二轮接收（2026-09-25，候选 `af43311a`；历史）
 
 - **Codex counter；仍为 draft，不开放正式转正/build/done。** [逐组独立复核](../../testing/architecture-regression-lab-codex-r2-review.md)区分窄正控与未达完整合同。9 文件 33/33 绿、启动单针 detected、六图存在且 16 位 hash 前缀匹配、清理本席临时产物后目录 Biome 通过；这些不消除业务反证。
 - 最终机账实为 40 条（38 candidate-green / 1 existing-proof / 1 blocked），README/receipt 仍是旧 39 条 36/1/1/1，交付口头 39 条 37/1/2 与两者均不符；`G06-05`/`G07`/`G08` 等仍未进入标题宣称的跨模块/异常链。V04-01 已撤回产品缺陷归因，但标题、归属和人类回执未同步。

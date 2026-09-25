@@ -9,7 +9,7 @@
 
 **accept（仅审计材料接收）：CR-1/CR-2已闭，无剩余返工项。** H1～H6不重开，H7保持待核，
 T1删除旧URL括号，N1纠正参数转发。此accept不是正式文档修复、产品验收或done准入。
-后续[五份文档修订草案](../ops/tasks/DOC-GUIDE-REVISION-1-current-entrypoints.md)另核，仍draft/not opened。
+后续[五份文档修订草案](../ops/archive/tasks/done/DOC-GUIDE-REVISION-1-current-entrypoints.md)另核，仍draft/not opened。（本句为当时记录；该修订卡随后已集成收口。）
 
 ## 窄返工复核 — 65193a84 / 320800ec
 
