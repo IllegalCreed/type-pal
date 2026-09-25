@@ -98,7 +98,7 @@ Codex只读现有`coverage/fast/summary.json`及game coverage-summary：快照�
 ```text
 README.md                    # 唯一交付摘要/证据索引
 tests/p01-*.test.ts           # 上表P01～P10，缺口已充分覆盖可不新增
-fixtures/{images,font,world}.ts
+fixtures/{images,font,world,png-rgba}.ts  # P10真实PNG自包含编码夹具；不做生产解码替身
 vitest.config.mts             # 显式候选配置，不改官方配置
 tsconfig.json                # 候选/fixture真实类型检查
 mutants.mjs                  # 可选，最多三组小型单点反控
@@ -124,7 +124,22 @@ diagnostics/pXX-*.test.ts     # 显式失败/待证，不进默认绿集合
 - Kimi/GLM：本次不请求、不代签；Grok不获得其席位。正式build/done准入均not opened。
 - 此阶段只分配工作，不改变一阶段行为/政策，不扩大其它卡或用户豁免。
 
-## 下一位Agent提示词
+### Codex 候选接收复核（2026-09-25）
+
+- 候选 `bd6fad55` / 登记 `e180cb56`：**counter（仅候选材料）**，保留 `draft`；[独立证据与返工范围](../../testing/grok-present-review.md)。Grok 为测试贡献者，不算独立第三方；不合 main、不标 done。
+- 已核通过：十文件 23/23、相邻 17/17、tsc/Biome、P02/P05/P10 三针业务红、源码零漂移；像素与旧例去重方向成立。
+- 剩余 C1：`cloneInputs` 未纳入真实位图尺寸和多组实际 catalog/bitmap，P08/P09 等未完整做绘制输入保真；独立见证修改 frame 宽度和 spell 名后快照仍相等。C2：P05/P07 多处首轮 draw 后才取快照。C3：P06 用静态 10 MP 构造法术菜单、runtime 8 MP 绘制；正式菜单先投影 runtime，4/30 费用不能鉴别陈旧预算。
+- 返工只改隔离候选测试/fixture/回执；P10所需 `png-rgba.ts` 已由本席补录卡面 fixture 白名单。不改产品、旧测试、官方配置/基线。三席 build/done 门均未打开。
+
+## 下一位 Agent 提示词（Grok 隔离候选返工）
+
+```text
+在 /Users/zhangxu/illegal/type-pal-grok-present 的 codex/grok-present-tests-r1 分支返工 TEST-GROK-PRESENT-1 候选；卡状态 draft，尚未开放正式 build/done。先读 AGENTS.md、CLAUDE.md、docs/testing/grok-present-regressions/README.md；fetch 后用 git show origin/codex/doc-cursor-review-r1:docs/testing/grok-present-review.md 与同分支任务卡读取 Codex C1-C3 原反证（只读，不把复核分支合入候选）。复核候选 bd6fad55/登记 e180cb56；接手前同步分支、核干净工作树。
+只修 C1-C3：C1 为每次真实 draw 的 gs/menu/catalog/bitmap 等可变实参取完整独立快照，IndexedImage 连 width/height 都算，P06 spells/magics、P07 portrait/levelUpExp/bg、P05 bg/poisons、P08/P09 实际输入别漏；保留 toSpriteImages 同引用合同。C2 把 P05/P07 首轮绘制的快照移到该次调用之前，并在之后立即比较，不把 create/confirm/导航当绘制污染。C3 P06 施法者构造按正式 runtime→roles 投影或等效同步当前 MP，用能区分 8 与 10 的费用边界验证 disabled，同时保留屏幕现行 MP=8 像素断言。Codex 已补录 P10 png-rgba fixture 白名单，不需改产品或卡面他席。
+已核过像素坐标/去重方向/23项及 P02/P05/P10 三针，别重开已通过项目。返工后复跑候选 JSON、相邻定向、tsc、Biome、三针；给实际输入污染的单点反控或其他可复建见证，证明原盲区已堵。只改 docs/testing/grok-present-regressions/**，README 如实更新候选/命令/计数与缺口。提交推送返工候选，交确切 SHA 与结果；不合 main、不代签、不标 done，不跑官方覆盖率或改基线。Codex再独立接收，Grok自己的绿结果不算独立第三方证明。
+```
+
+## 原开工提示词（历史，已被上方返工提示词替代）
 
 ```text
 接手TEST-GROK-PRESENT-1，从Codex交付提交创建独立worktree /Users/zhangxu/illegal/type-pal-grok-present，
