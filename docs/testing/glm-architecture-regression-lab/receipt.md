@@ -13,11 +13,11 @@ worktree `/Users/zhangxu/illegal/type-pal-glm-regression-lab`，分支 `codex/gl
 | G01 手势终结 | candidate-green | 6 项：正控 + pointercancel/lostcapture/blur 三通道零提交 + 选区通知计数 + 平移存活 |
 | G02 会话失效 | candidate-green | 3 项：同 mapId 换会话/跨 mapId 清场/选区拖动换会话，迟到 up 双向零提交 |
 | G03 App 生命周期 | candidate-green | 3 项：挂载接线+派发上屏、卸载后旧会话派发 fail-loud（历史绑定断开）、Cmd+S 收口 |
-| G04 脚本草稿 | candidate-green | 3 项：外部 body 替换跟随、确认 ≤1 笔、Esc 取消零命令 |
+| G04 脚本草稿 | candidate-green | 4 项：外部 body 替换跟随、entered 确认恰一笔、关闭取消零命令、外部替换后行数生效 |
 | G05 播放生命周期 | candidate-green | 4 项：stop 幂等+view 冻结、换源丢弃旧源、onUi 解绑零通知 |
 | G06 跨校验器递归 | candidate-green | 5 项：双向递归正控、七臂/嵌套叶、错误 path、输入深保真 |
 | G07 一阶段边界 | candidate-green | 3 项：scene→event mapNum、双 GameState 隔离+id0 拒收、装备派生入 battle getter |
-| G08 迁移隔离 | candidate-green | 4 项：重复调用幂等+输入保真、sound 回调不越权、globalRoots 计数 1/0、异常不污染 |
+| G08 迁移隔离 | candidate-green | 3 项：重复调用幂等+输入保真、sound 回调不越权（events-only 回归锁定）、globalRoots 计数 1/0 + gap 后不污染 |
 | V01 表单键盘 | candidate-green | 3 项：1440 初始态、名称双 Enter 值稳定、Esc+undo 恢复（截图实际看图） |
 | V02 工作区分隔条 | candidate-green + existing-proof | 720px 收缩截图 1 项；分隔条键盘/指针终结引用 PanelResizeHandle-interaction 三组（已读断言，本轮未执行） |
 | V03 错误恢复 | candidate-green | 无效 objectId 深链归一化回退无崩溃（截图） |
@@ -34,7 +34,7 @@ worktree `/Users/zhangxu/illegal/type-pal-glm-regression-lab`，分支 `codex/gl
 ## 机械对账
 
 - 候选案例 **39** = candidate-green **37** / existing-proof **1** / blocked-environment **1**。
-- 分包：G01 6 / G02 3 / G03 3 / G04 3 / G05 4 / G06 5 / G07 3 / G08 4 / V01 3 / V02 2 / V03 1 / V04 2。
+- 分包：G01 6 / G02 3 / G03 3 / G04 4 / G05 4 / G06 5 / G07 3 / G08 3 / V01 3 / V02 2 / V03 1 / V04 2。
 - 有效负控 1（启动小样单点破坏 runner）；隔离单点反控按组以 positiveControl 字段登记。
 - 候选/诊断均不进官方测试集与覆盖率；不跑全仓 check/ratchet/strict-fast/迁移写盘/剧情 E2E。
 
