@@ -13,7 +13,6 @@
 | [DOC-CURSOR-1 — 十二份现行文档的轻量核对](DOC-CURSOR-1-current-guide-check.md) | draft | 以任务卡当前准入与看板分工为准。 |
 | [DOC-CURSOR-2 — 十二组包说明、CLI与索引核对](DOC-CURSOR-2-package-tools-indexes.md) | draft | 以任务卡当前准入与看板分工为准。 |
 | [DOC-CURSOR-3 — 覆盖率说明与现行命令定点核对](DOC-CURSOR-3-coverage-guide-audit.md) | draft | 以任务卡当前准入与看板分工为准。 |
-| [DOC-GUIDE-REVISION-1 — 现行指南五文件窄修订准入](DOC-GUIDE-REVISION-1-current-entrypoints.md) | review | 以任务卡当前准入与看板分工为准。 |
 
 ## 已完成（historical）
 
@@ -57,6 +56,7 @@
 | [D15-1 - NPC 移动补全：动态碰撞 + 互相让路 + 转向动画（议题 15）](../archive/tasks/done/D15-1-npc-movement-dynamic-collision.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [D6-1 - 遮挡半透明（方案 A，议题 6）](../archive/tasks/done/D6-1-occlusion-semi-transparent.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [DOC-GOV-1 - 文档审计整改与自动检查](../archive/tasks/done/DOC-GOV-1-documentation-cleanup.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [DOC-GUIDE-REVISION-1 — 现行指南五文件窄修订准入](../archive/tasks/done/DOC-GUIDE-REVISION-1-current-entrypoints.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [DOC-IA-2 - 全仓文档信息架构整理](../archive/tasks/done/DOC-IA-2-repository-documentation-structure.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [E18-1 - 编辑器角色战斗字段（coveredBy / casualty / cooperativeMagic）](../archive/tasks/done/E18-1-editor-actor-battle-fields.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [E2 - 巡逻模板(轻量卡)](../archive/tasks/done/E2-patrol-templates.md) | done | 完成证据、历史签字与交接见原卡。 |

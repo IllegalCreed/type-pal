@@ -1,5 +1,9 @@
 # DOC-GUIDE-REVISION-1 — Codex 独立接收复核
 
+## 正式集成与收口（2026-09-25）
+
+用户确认不需逐次请求接入：Codex 已将获验候选的五份指南以 `51da64a8` / `808e6150` 接入 main，五文件内容与 `a2220ca9` 逐字一致；落地 `node scripts/docs/check.mjs` PASS、`git diff --check` PASS。任务按当前委派模式归档 done。H7/`scene-entry-authoring.md` 未改，仍由独立后续核定；下方“候选未合 main”是集成前历史状态。
+
 ## 窄返工接收（2026-09-25）
 
 候选 `a2220ca955dfd0da59ad55a89a9cc65f5f8d760b`：**accept，准予后续集成；本次不合 main、不标 done**。相对原候选 `94fbb844` 仅改 `docs/ops/guides/dev-servers.md:40-48`：`E2E=1` 现在明确为不挂 `basicSsl()` 的 HTTP 开发入口，不再宣称真 Service Worker 或 Playwright 入口；旧 6001/e2e 删除结论与 HTTP 命令保持。`packages/game/vite.config.ts:9,85`、`packages/game/src/main.ts:22,71-75` 与 `packages/game/src/shell/precache-client.ts:50-51` 分别证实插件切换、dev 跳过 SW、预缓存仅生产注册。

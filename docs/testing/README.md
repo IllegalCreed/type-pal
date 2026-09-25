@@ -20,7 +20,7 @@
 
 - [Cursor现行指南轻量核对](cursor-docs-hygiene.md)（65193a84/320800ec材料已接收；十二份文档四组核对，不是正式文档修复、覆盖率或运行验收）
 
-- [Cursor文档核对Codex接收](cursor-docs-hygiene-review.md)及[五份指南实施独立复核](cursor-guide-revision-review.md)（a2220ca9已闭H1并获候选accept；H7仍待核，五份指南尚未合main）
+- [Cursor文档核对Codex接收](cursor-docs-hygiene-review.md)、[五份指南实施独立复核](cursor-guide-revision-review.md)及[done任务卡](../ops/archive/tasks/done/DOC-GUIDE-REVISION-1-current-entrypoints.md)（a2220ca9已闭H1；五份指南已接入main并通过文档门，H7仍另核）
 
 - [GLM十二组可执行架构回归实验包](glm-architecture-regression-lab/README.md)、[Codex首轮接收](architecture-regression-lab-codex-review.md)与[二轮接收](architecture-regression-lab-codex-r2-review.md)（af43311a仍counter；33候选绿不等于十二组合同通过，机账/回执也未对齐；不进正式统计）
 

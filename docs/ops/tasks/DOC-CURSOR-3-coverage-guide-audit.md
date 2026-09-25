@@ -11,7 +11,7 @@ Branch: `codex/cursor-coverage-guide-r1`（独立 worktree）
 
 ## 目标与边界
 
-Cursor 核对当前覆盖率说明中哪些文字仍能代表现行命令、统计范围和最近一次本地实测，交给 Codex 一份可采用的窄修订建议。**本卡只授权 draft 只读取证**：不修改 `docs/testing/coverage.md`、README、脚本、CI、基线或产品，不运行覆盖率任务。Codex 接收后单独决定正式修订与合入；五份[现行指南修订卡](DOC-GUIDE-REVISION-1-current-entrypoints.md)已由用户开放 build 并由 Cursor 优先实施，本包排在其后，不借本包扩大五文件白名单。
+Cursor 核对当前覆盖率说明中哪些文字仍能代表现行命令、统计范围和最近一次本地实测，交给 Codex 一份可采用的窄修订建议。**本卡只授权 draft 只读取证**：不修改 `docs/testing/coverage.md`、README、脚本、CI、基线或产品，不运行覆盖率任务。Codex 接收后单独决定正式修订与合入；五份[现行指南修订卡](../archive/tasks/done/DOC-GUIDE-REVISION-1-current-entrypoints.md)已先行完成，本包仍不得扩大五文件白名单。
 
 2026-09-25 开卡基点 `817be7df`。当前本地 `coverage/fast/summary.json` 自报生成时间 `2026-09-25T05:37:55.300Z`、8039 测试/641 生产文件；`docs/testing/coverage.md:14-17` 的“最新本地实测”仍写 A3 首段 8008/639。两者不同是**核查线索**，不预判哪个是已发布或受保护 CI 真值，也不把历史批次表当错误。
 

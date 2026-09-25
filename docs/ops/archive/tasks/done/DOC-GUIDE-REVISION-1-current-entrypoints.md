@@ -1,6 +1,6 @@
 # DOC-GUIDE-REVISION-1 — 现行指南五文件窄修订准入
 
-Status: review
+Status: done
 Owner: Cursor（限定五份指南实施）
 Reviewer: Codex（独立验收与集成）
 Phase: ops
@@ -15,7 +15,7 @@ Evidence freeze: a3ceaf05
 
 用户要求接收DOC-CURSOR-1后另开修订准入。本卡只列已核实的五份源文档修改；
 2026-09-25用户明确回复“准入，我说的”，本轮据此开放限定范围的 `build`。
-Cursor回执的六项事实成立，H7/N1经[Codex窄复核](../../testing/cursor-docs-hygiene-review.md)
+Cursor回执的六项事实成立，H7/N1经[Codex窄复核](../../../../testing/cursor-docs-hygiene-review.md)
 已在65193a84/320800ec更正并接收。开放实施不等于实现已验收或 `done`。
 
 ## 前提真值门
@@ -52,7 +52,7 @@ Cursor回执的六项事实成立，H7/N1经[Codex窄复核](../../testing/curso
 - Codex 前提与范围核定：2026-09-25依据接收报告 H1～H6、N1/T1 的直接证据，同意上述五文件窄修；H7 不在本批。实施前不更改产品/UI/命令语义。
 - 用户准入：2026-09-25明确回复“准入，我说的”；随后明确当前工作模式为“Codex 分配任务、其他 Agent 执行、Codex 验收”，三贤人固定签字暂时退休。本卡因此**不等待 Kimi/GLM 签字，也不逐卡登记缺签豁免**。
 - build 准入：**Codex build allowed**，Coding Owner=Cursor，限定五份指南、独立工作树；其它文档和产品文件不得修改。
-- 贡献者交付：`a2220ca9`。Codex 独立复核：accept（仅候选材料）。done 准入：未合 main，尚未收口；正式接入与落地文档检查由 Codex 后续执行。纯文档事实修订不要求用户重复做技术复审，新的产品取舍仍交用户。
+- 贡献者交付：`a2220ca9`。Codex 独立复核：accept；正式接入 `51da64a8` / `808e6150` 后五文件与候选逐字一致，`node scripts/docs/check.mjs` 及 diff 检查通过。Codex 核定 done；纯文档纠错不另要用户复审，H7 留独立待核。
 
 ## 交接
 
@@ -60,11 +60,12 @@ Cursor回执的六项事实成立，H7/N1经[Codex窄复核](../../testing/curso
 - 同日窄返工接收后：原卡CR-1/CR-2已闭，此前阻断记录保留为历史；用户要求本卡准入另核，本轮不推进。
 - 同日用户明确“准入，我说的”，并纠正协作模式：Codex按本卡原范围核定 build，改由 Cursor 实施、Codex 独立验收；不再以三贤人签字/豁免阻挡。Cursor 优先实施本卡，DOC-CURSOR-3 排队。
 - 同日 Codex 窄复核 `a2220ca9`：唯一 H1 counter 证实闭合，候选 accept；按本轮要求不合 main、不标 done，正式指南仍待集成，DOC-CURSOR-3 不提前开工。
+- 同日用户明确要求通过后由 Codex 直接集成收口；Codex 将获验五份指南接入 main（`51da64a8`、`808e6150`），落地文档门 PASS，按当前委派模式核定 done。旧段落中的“尚未合 main”均为集成前历史状态；H7/`scene-entry-authoring.md` 未动，DOC-CURSOR-3 可按自己的 draft 范围另行推进。无下一位 Agent 提示词，本卡已收口。
 
 ## Codex 候选接收复核（2026-09-25）
 
-- 窄返工候选 `a2220ca9`：Codex **accept，允许后续集成**；[独立复核](../../testing/cursor-guide-revision-review.md)确认唯一 H1 counter 已闭，返工轮只改 `dev-servers.md:40-48`，文档与 diff 检查通过。其余已闭项不重开；本次按用户要求不自行合 main、不标 done，五份指南仍只在 Cursor 隔离分支，DOC-CURSOR-3 继续后排。
-- 候选 `94fbb844` 对实施基点 `145791f1` 恰五文件；H1旧6001/Playwright删除、H2–H6、N1/T1的源文对照、H7零改和 docs/diff 门已由本席独立核实，见[复核报告](../../testing/cursor-guide-revision-review.md)。
+- 窄返工候选 `a2220ca9`：Codex **accept，允许后续集成**；[独立复核](../../../../testing/cursor-guide-revision-review.md)确认唯一 H1 counter 已闭，返工轮只改 `dev-servers.md:40-48`，文档与 diff 检查通过。其余已闭项不重开；本次按用户要求不自行合 main、不标 done，五份指南仍只在 Cursor 隔离分支，DOC-CURSOR-3 继续后排。
+- 候选 `94fbb844` 对实施基点 `145791f1` 恰五文件；H1旧6001/Playwright删除、H2–H6、N1/T1的源文对照、H7零改和 docs/diff 门已由本席独立核实，见[复核报告](../../../../testing/cursor-guide-revision-review.md)。
 - **counter，仅 H1 一处**：`dev-servers.md:41,47-48` 仍说 `E2E=1` 用于“真 Service Worker”/“HTTP Service Worker 路径”。实际 `vite.config.ts:85` 只关闭 basicSsl；`game/src/main.ts:22,71-75` 和 `precache-client.ts:50-51` 明确 dev/e2e 不注册预缓存 SW。把两句统一收窄为 HTTP dev 用途，不发明真 SW 验收入口；其余四文件与已闭事实不重开。
 - 状态转 `rework`，Cursor 只改原五文件白名单中 `dev-servers.md` 这一小段并重跑文档/diff 检查；Codex 复核后决定集成。候选未合 main、未标 done，DOC-CURSOR-3 继续后排。
 
