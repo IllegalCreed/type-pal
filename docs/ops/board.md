@@ -9,8 +9,7 @@
 **当前优先级（用户2026-09-22拍板）**：先补测试覆盖率，E2E准备与实施后置，不立即推进R4检查点或新UI改造。
 **2026-09-24补充**：用户要求推进[全仓架构治理](audits/architecture-debt.md)，改为按职责拆分与补测同步推进。
 第一阶段允许行为不漂移的结构优化，也检查实现bug；纯重构与行为修正分提交。首批A1已独立准入并收口，不扩张为整仓同时重写。
-**同日追加授权**：13批架构治理全队列由Codex独立设计、实施、自验收口，Kimi/GLM不参与、免补签。
-仍按职责逐批推进和验证；不把结构治理授权解释为玩法、格式或界面变更授权。
+**2026-09-25分工更新**：先前“全队列Codex独立”只保留为已完成批次的历史授权。新批次按[并行所有权](audits/architecture-debt.md#并行所有权2026-09-25-更新)由Codex保留高风险，GLM/Grok/Cursor只在各自窄卡白名单内实施；Codex独立验收/集成。仍不把结构治理授权解释为玩法、格式或界面变更授权。
 第二波整包已于2026-09-23三席收口；后续由Codex与GLM按最新覆盖基线选择不重叠、有现行消费者且合同明确的补测批次，新范围先走准入，不重领已完成项。
 2026-09-23已按[大业务域计划](../testing/coverage-large-domain-plan.md)启动战斗流程/运行时宿主两卡，r1三席齐并由Codex核build；各Owner连续完成六组，最终统一统计，不逐用例跑覆盖率。
 补测发现的产品缺陷单列，按当前“Codex核前提与独立验收、必要产品取舍交用户”的流程处理；七套预制及65535资源准备阻断已于2026-09-24按当时授权修复交付，见下方历史收口记录。
@@ -32,6 +31,9 @@ GLM后续补测候选见[十批长队列](../testing/glm-coverage-work-queue.md)
 
 | ID | 任务 | 状态 | 负责人/下一步 | 一句话备注 |
 |---|---|---|---|---|
+| ARCH-F2-EDITOR-BATTLE-FIELD-COMMANDS-1 | [战场命令族独立模块](tasks/ARCH-F2-EDITOR-BATTLE-FIELD-COMMANDS-1.md) | build | GLM实施 / Codex独立复核 | 仅命令族机械搬迁、旧出口保留，不动A3与其它编辑命令 |
+| ARCH-F2-DS-OVERFLOW-1 | [溢出文本组件独立模块](tasks/ARCH-F2-DS-OVERFLOW-1.md) | build | Grok实施 / Codex独立复核 | `DsOverflowText`抽出，DOM/键盘/ARIA/样式和旧导出零漂移 |
+| ARCH-F2-DS-LABELS-1 | [标签与只读值组件窄拆](tasks/ARCH-F2-DS-LABELS-1.md) | draft | Cursor待当前五包与Grok接收后开工 | 同文件串行依赖，尚未开放build |
 | CURSOR-WAVE-2-1 | [五包连续文档纠偏与纯边界回归](tasks/CURSOR-WAVE-2-1-docs-and-pure-regressions.md) | build | Cursor W1→W5 连续实施 / Codex 逐包接收 | 三份作者指南、CLAUDE 旧命令、editor/game/docs-tools 测试；生产与基线冻结 |
 | ARCH-REGRESSION-LAB-GLM-1 | [十二组候选回归与功能视觉](tasks/ARCH-REGRESSION-LAB-GLM-1-twelve-packs.md) | draft | GLM按五轮counter修真假对账/收窄合同 | b403efd3 32绿/六图hash/新JSON核验通过；G04重复标题、回执旧口径与十二组完整业务缺口未闭，不入正式统计 |
 | ARCH-SUPPORT-GLM-1 | [八组并行架构/视觉准备](tasks/ARCH-SUPPORT-GLM-1-eight-audit-packages.md) | draft | Codex / 后续归属与收口 | 58cdf938材料accept，counter清零；文档已合入，按用户要求未标done/未开产品门 |
