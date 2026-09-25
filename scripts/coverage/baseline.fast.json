@@ -1,14 +1,14 @@
 {
   "schemaVersion": 2,
   "profile": "fast",
-  "generatedAt": "2026-09-25T11:58:04.321Z",
+  "generatedAt": "2026-09-25T14:31:39.968Z",
   "provider": {
     "name": "v8",
     "vitest": "4.1.7",
     "coverageV8": "4.1.7"
   },
-  "sourceFileCount": 641,
-  "testCount": 8109,
+  "sourceFileCount": 642,
+  "testCount": 8110,
   "packages": {
     "shared": {
       "name": "@type-pal/shared",
@@ -3743,7 +3743,7 @@
         "**/*.spec.tsx",
         "**/*.d.ts"
       ],
-      "sourceFileCount": 226,
+      "sourceFileCount": 227,
       "sourceFiles": [
         "packages/editor/src/core/actor-dialogue-commands.ts",
         "packages/editor/src/core/actor-references.ts",
@@ -3951,6 +3951,7 @@
         "packages/editor/src/ui/design-system/media.tsx",
         "packages/editor/src/ui/design-system/multi-select.tsx",
         "packages/editor/src/ui/design-system/navigation.tsx",
+        "packages/editor/src/ui/design-system/overflow-text.tsx",
         "packages/editor/src/ui/design-system/overlays.tsx",
         "packages/editor/src/ui/design-system/recipes.tsx",
         "packages/editor/src/ui/design-system/reorder.tsx",
@@ -3972,9 +3973,9 @@
         "packages/editor/src/ui/use-project-leave-guard.ts",
         "packages/editor/src/ui/world-sprite-action-preview.ts"
       ],
-      "scopeDigest": "25a6c0053a4175e9a07cd0aad70929c85d6bcb3e10327544b750f49888031088",
+      "scopeDigest": "a377f3f8cc74955711e9086a35126647261478700ae3d43f97258f7d545b20b0",
       "fastTests": {
-        "testCount": 2593,
+        "testCount": 2594,
         "testFileCount": 266,
         "files": [
           "packages/editor/scripts/battle-simulator-http.test.mjs",
@@ -5477,8 +5478,8 @@
           },
           {
             "file": "packages/editor/src/ui/design-system/overflow-text.test.tsx",
-            "testCount": 6,
-            "identityDigest": "8e8373ac698a4c3bf456f5ddf204fd8a74709c4f5becb0488d67803c5dd4bec5"
+            "testCount": 7,
+            "identityDigest": "a2bbad8de47d5bd53b82b16731ce3760a8f70308b5cdf94cd4deb777e2992a82"
           },
           {
             "file": "packages/editor/src/ui/design-system/overlays.test.tsx",
@@ -5576,46 +5577,46 @@
             "identityDigest": "7c181e89600882213bfdc9bf59bf8d2b40273fc45d2d84fecf9ad6313060cf3b"
           }
         ],
-        "identityDigest": "7c10d0a2557b32cb7fe159ed4d667c58fed0e23a1e80934edaf2570ed0ba0f80",
+        "identityDigest": "13abeb91eda281d5857f01bc34eabac6b11c981e1c0d3e1089146d64ead1afb6",
         "duplicateIdentityCount": 8,
-        "executionDigest": "94774d43a6e6bf2a885a15b6e2c3607d9a0e6aaf6ac5266585f9c5000a05cc84"
+        "executionDigest": "26011a3cced8bc24f0bbbddc10bf5a8b0b79a586de3cd9d7da9c3e67289b3221"
       },
       "metrics": {
         "statements": {
-          "covered": 25964,
-          "total": 32755
+          "covered": 25965,
+          "total": 32756
         },
         "branches": {
           "covered": 20155,
           "total": 28338
         },
         "functions": {
-          "covered": 6454,
-          "total": 8375
+          "covered": 6455,
+          "total": 8376
         },
         "lines": {
-          "covered": 23341,
-          "total": 28636
+          "covered": 23342,
+          "total": 28637
         }
       }
     }
   },
   "total": {
     "statements": {
-      "covered": 61134,
-      "total": 80617
+      "covered": 61135,
+      "total": 80618
     },
     "branches": {
       "covered": 43134,
       "total": 63176
     },
     "functions": {
-      "covered": 11361,
-      "total": 15034
+      "covered": 11362,
+      "total": 15035
     },
     "lines": {
-      "covered": 55044,
-      "total": 70570
+      "covered": 55045,
+      "total": 70571
     }
   }
 }

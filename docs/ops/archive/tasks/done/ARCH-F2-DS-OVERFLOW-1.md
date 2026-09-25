@@ -1,6 +1,6 @@
 # ARCH-F2-DS-OVERFLOW-1 — DsOverflowText 独立模块
 
-Status: build
+Status: done
 Phase: phase2 editor / 架构治理 F2
 Coding Owner: Grok
 Review / Integration Owner: Codex
@@ -29,6 +29,12 @@ Grok 只在隔离分支提交推送，不合 main、不标 done。Codex 独立�
 ## 阶段门
 
 Codex：**premise verified / build allowed**，仅此组件；用户新分工覆盖旧“全队列 Codex 独立”对本切片的限制。固定三签暂停，Grok 自验不作独立证明。done 未开放。
+
+## Codex 独立接收与 done 准入（2026-09-25）
+
+- **accept / done，仅本组件窄拆**。Grok 候选 `09dddce6` 经 Codex 源码、公开导出、定向 118/118、独立负控及隔离 6013↔6014 两状态逐字节画面对照；[完整接收记录](../../../../testing/grok-arch-ds-overflow-review.md)。Grok 是贡献者，不代作独立审查。
+- main 接入 `fea0d9a0`；Codex 仅修诊断脚本临时文件独占与清理，不改产品语义。根 check、ratchet 与单次严格 fast 均 exit0，新增生产模块进入 642 文件范围，8110 测试且分支总分母未缩。
+- 原卡“done 未开放”是候选实施前历史状态；本段按当前 Codex 独立验收模式核准。整组 F2 与 Cursor 后续标签组件仍未完成；无下一位 Grok 提示词，本卡收口。
 
 ## 下一位 Grok 提示词
 

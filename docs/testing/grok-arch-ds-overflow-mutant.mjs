@@ -65,11 +65,10 @@ if (green.status !== 0 || green.json?.numFailedTests !== 0) {
   process.exit(1)
 }
 
-const configPath = path.join(editor, '.mutant-overflow.mts')
-fs.writeFileSync(
-  configPath,
-  `import { defineConfig, mergeConfig } from 'vitest/config'
-import base from './vite.config.ts'
+const configDir = fs.mkdtempSync(path.join(editor, '.mutant-overflow-'))
+const configPath = path.join(configDir, 'mutant.config.mts')
+const configSource = `import { defineConfig, mergeConfig } from 'vitest/config'
+import base from '../vite.config.ts'
 
 const needle = ${JSON.stringify(from)}
 const replacement = ${JSON.stringify(to)}
@@ -92,14 +91,14 @@ export default mergeConfig(
     ],
   }),
 )
-`,
-)
+`
 
 let red
 try {
+  fs.writeFileSync(configPath, configSource)
   red = run(configPath, '/tmp/grok-arch-overflow-red.json')
 } finally {
-  fs.rmSync(configPath, { force: true })
+  fs.rmSync(configDir, { recursive: true, force: true })
 }
 const after = sha256(absolute)
 const failed = failures(red.json)

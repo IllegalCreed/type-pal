@@ -40,3 +40,7 @@
 - 本机没有另开浏览器。编辑器 6010 没有动。视觉由 Codex 接收时补。
 
 Biome 检查迁出文件时，`controls.tsx` 原有两处 `void | boolean` warning 仍在，这次没有改那些签名。
+
+## Codex 后续接收（不改 Grok 原回执）
+
+Grok 提交时“未合 main、未作视觉”的文字为其交付时点事实。Codex 后续已独立核源码、反控与隔离 Design Lab 实际画面，合入并完成全仓门禁；结论与诊断脚本安全收口见[独立接收](grok-arch-ds-overflow-review.md)。
