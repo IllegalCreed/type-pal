@@ -58,6 +58,11 @@ Codex保留A3的main/场景/移动/绘制主线，GLM不修改或替其审签。
 - 本轮候选测试零改。机账 G04-02/G04-04 重复引用同一完整标题，39 条不能当 39 条独立执行；回执/机账仍残留 36 项、G08 四项和已撤回 V04 产品缺陷；verify 仍不核标题一对一、执行总数、命令/cwd/退出码及最近授权合入点白名单。反控生成目录留在仓内，使紧接的目录 Biome 失败。
 - G01–G08、V01–V04 各有可保留的窄正控，但完整工作包合同仍缺真实业务消费者、异步所有权或视觉操作链；详见本人报告逐组表。GLM 不改本人 counter；Kimi 豁免，不需 Kimi 提示词。
 
+## Codex 六轮接收（2026-09-25，候选 `33df9378`）
+
+- **counter，Status 仍 draft**。[本人逐组复核](../../testing/architecture-regression-lab-codex-r6-review.md)：候选/fixture 对 `494f9b5d` 零 diff，故“已逐条修测试断言”与最终树不符，原业务反证全保留。机账 G04-04 标题与 V04 结构化备注已纠正，32/32、verify PASS、单针 detected、六图完整 hash 可保留。
+- 新增类型检查配置独立执行 exit2（TS5101，`baseUrl` 弃用）；receipt/G08/36项等旧口径与 `results.json` 旧命令仍不一致。未合候选、未跑官方覆盖率、未标 done；Kimi 豁免，不代签。
+
 ## 下一位Agent提示词
 
 ```text

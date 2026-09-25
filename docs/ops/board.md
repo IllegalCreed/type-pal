@@ -35,7 +35,7 @@ GLM后续补测候选见[十批长队列](../testing/glm-coverage-work-queue.md)
 | ARCH-F2-DS-OVERFLOW-1 | [溢出文本组件独立模块](tasks/ARCH-F2-DS-OVERFLOW-1.md) | build | Grok实施 / Codex独立复核 | `DsOverflowText`抽出，DOM/键盘/ARIA/样式和旧导出零漂移 |
 | ARCH-F2-DS-LABELS-1 | [标签与只读值组件窄拆](tasks/ARCH-F2-DS-LABELS-1.md) | draft | Cursor待当前五包与Grok接收后开工 | 同文件串行依赖，尚未开放build |
 | CURSOR-WAVE-2-1 | [五包连续文档纠偏与纯边界回归](tasks/CURSOR-WAVE-2-1-docs-and-pure-regressions.md) | rework | Cursor 收窄返工 / Codex 独立复核 | W2已接入；W1未证粘贴、W3/W4负控、W5临时目录/去重待闭，不计覆盖率 |
-| ARCH-REGRESSION-LAB-GLM-1 | [十二组候选回归与功能视觉](tasks/ARCH-REGRESSION-LAB-GLM-1-twelve-packs.md) | draft | GLM按五轮counter修真假对账/收窄合同 | b403efd3 32绿/六图hash/新JSON核验通过；G04重复标题、回执旧口径与十二组完整业务缺口未闭，不入正式统计 |
+| ARCH-REGRESSION-LAB-GLM-1 | [十二组候选回归与功能视觉](tasks/ARCH-REGRESSION-LAB-GLM-1-twelve-packs.md) | draft | GLM按六轮counter补真实调用链/收窄 | 33df9378 测试零diff；32绿/六图hash可留，新增tsconfig TS5101、回执旧口径与业务缺口未闭 |
 | ARCH-SUPPORT-GLM-1 | [八组并行架构/视觉准备](tasks/ARCH-SUPPORT-GLM-1-eight-audit-packages.md) | draft | Codex / 后续归属与收口 | 58cdf938材料accept，counter清零；文档已合入，按用户要求未标done/未开产品门 |
 
 2026-09-25 [一阶段菜单与索引渲染十组补测](../testing/grok-present-integration.md)由Grok贡献隔离候选、Codex三轮独立复核后选择性接入正式game测试：25项（23生产绘制/解码+2快照自测）、check/受保护ratchet/单次严格fast均通过；fast8090项/641生产文件，全仓分支43067/63176、同分母净增157。旧候选分支未直接merge以免回退主线；full/E2E/视觉观感另排。
