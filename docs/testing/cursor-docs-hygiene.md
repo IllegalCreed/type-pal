@@ -45,8 +45,9 @@
 
 ## 交付验证
 
-- 窄返工候选 SHA：提交后回填（相对 tip `8f3b85a7` 仅改本文件）。
+- 窄返工候选 SHA：`65193a8417c00573ccde670860baba0d06c7f924`（`docs(testing): rework DOC-CURSOR-1 receipt for CR-1/CR-2`；相对 tip `8f3b85a7` 仅改本文件）。
 - 分支：`codex/cursor-docs-hygiene-r1`（独立 worktree `/Users/zhangxu/illegal/type-pal-cursor-docs`）。
 - diff 白名单：相对起点 `26c4ae5c` 仍仅改本文件 `docs/testing/cursor-docs-hygiene.md`。
-- `node scripts/docs/check.mjs` / `git diff --check`：提交前复跑，结果见当次提交说明。
+- `node scripts/docs/check.mjs`：exit 0（`docs: PASS (0 issues)`；545 Markdown / 2975 local links / 179 tasks / content20 SAVE8）。
+- `git diff --check`：exit 0。
 - 未执行文档中的开发、迁移、发布等命令；不以静态核对冒充执行成功。
