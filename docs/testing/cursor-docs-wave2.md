@@ -23,7 +23,7 @@
 | **合计** | | **6** | **1** | **2** | **1** | **6** |
 
 证据树：`dab017e7`。工作树开工：`7e52d514`（相对冻结仅分配文档）。
-正文候选SHA：见最终节（三段提交后回填）。相对开工提交仅改本回执。
+正文候选SHA：`3852afe58137b5f1b5dddddbdfb56cd12006a0b0`。相对开工提交仅改本回执。
 
 ## C01 shared
 
@@ -303,8 +303,10 @@
 ## 最终验证与接收提示词
 
 - 相对开工提交`7e52d514`：**仅** `docs/testing/cursor-docs-wave2.md`。
-- 正文候选 SHA / 登记 tip：见本提交链（三段四组提交 + 可选登记提交）。
-- `node scripts/docs/check.mjs` 与 `git diff --check`：见登记提交结果。
+- 正文候选 SHA：`3852afe58137b5f1b5dddddbdfb56cd12006a0b0`。
+- 登记 tip：见本分支最新登记提交（`git rev-parse codex/cursor-docs-wave2-r1`）。
+- `node scripts/docs/check.mjs`：PASS（549 Markdown / 2993 local links / 181 tasks / content20 SAVE8）。
+- `git diff --check 7e52d514..HEAD`：exit 0。
 - 不合 main、不代签、不标 done。
 
 ### 给 Codex 的接收提示词
@@ -316,6 +318,7 @@
 worktree：/Users/zhangxu/illegal/type-pal-cursor-docs-wave2（自 7e52d514 新建，未合 main）
 证据冻结：dab017e7
 只收唯一回执：docs/testing/cursor-docs-wave2.md（相对开工提交仅此文件）
-正文候选 SHA：<CONTENT_SHA>；登记 tip：<TIP_SHA>（若有）
+正文候选 SHA：3852afe58137b5f1b5dddddbdfb56cd12006a0b0
+登记 tip：分支 tip（本登记提交）
 下一步由 Codex：独立复核回执事实/分类/替换句是否可执行；验收或列出返工；不代签他席、不标任务 done、不合 main；五份前批指南修订卡仍不因本包打开。
 ```
