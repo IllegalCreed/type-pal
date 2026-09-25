@@ -26,9 +26,13 @@
 
 - [Cursor文档核对Codex接收](cursor-docs-hygiene-review.md)、[五份指南实施独立复核](cursor-guide-revision-review.md)及[done任务卡](../ops/archive/tasks/done/DOC-GUIDE-REVISION-1-current-entrypoints.md)（a2220ca9已闭H1；五份指南已接入main并通过文档门，H7仍另核）
 
+- [Cursor作者指南八组只读核对](cursor-author-guides-batch.md)、[Codex独立接收](cursor-author-guides-review.md)及[done任务卡](../ops/archive/tasks/done/DOC-CURSOR-6-author-guide-fact-batch.md)（事实材料已接入；七处误导文案与调用环产品保护缺口另排；未改正式指南）
+
+- [Cursor五包文档/纯边界候选的Codex首轮复核](cursor-wave2-review.md)（W2已接入main；W1/W3/W4/W5窄counter，候选未整体接收，不计官方覆盖率）
+
 - [Cursor场景入场当前 UI 事实表](cursor-scene-entry-truth.md)、[Codex独立复核](cursor-scene-entry-review.md)及[done任务卡](../ops/archive/tasks/done/DOC-CURSOR-4-scene-entry-current-ui.md)（31618c0d已接入；现行指南已窄修，prepare安全产品缺口另排）
 
-- [GLM十二组可执行架构回归实验包](glm-architecture-regression-lab/README.md)、[Codex首轮接收](architecture-regression-lab-codex-review.md)、[二轮接收](architecture-regression-lab-codex-r2-review.md)、[三轮接收](architecture-regression-lab-codex-r3-review.md)与[四轮接收](architecture-regression-lab-codex-r4-review.md)（494f9b5d仍counter；32候选绿、六图完整hash成立，回执/JSON/硬判据和完整组合同未闭；不进正式统计）
+- [GLM十二组可执行架构回归实验包](glm-architecture-regression-lab/README.md)、[Codex首轮接收](architecture-regression-lab-codex-review.md)、[二轮接收](architecture-regression-lab-codex-r2-review.md)、[三轮接收](architecture-regression-lab-codex-r3-review.md)、[四轮接收](architecture-regression-lab-codex-r4-review.md)、[五轮接收](architecture-regression-lab-codex-r5-review.md)与[六轮接收](architecture-regression-lab-codex-r6-review.md)（33df9378仍counter；32候选绿/六图hash可留，测试零diff、tsconfig失败与完整组合同未闭；不进正式统计）
 
 - [A3-b：场景资源与预检拆分](scene-preparation-refactor.md)、[机账](scene-preparation-refactor-evidence.json)、[冻结对照](scene-preparation-parity.mjs)与[11针反例](scene-preparation-mutants.mjs)（fdad980f/done；26新增/check8525/strict8034/641，缓存政策/同步提交保持；A3整体未完成）
 

@@ -8,10 +8,12 @@
 
 | 任务 | 顶部状态 | 说明 |
 |---|---|---|
+| [ARCH-F2-DS-LABELS-1 — DsTag / DsReadonlyValue 窄拆（后排）](ARCH-F2-DS-LABELS-1.md) | draft | 以任务卡当前准入与看板分工为准。 |
+| [ARCH-F2-DS-OVERFLOW-1 — DsOverflowText 独立模块](ARCH-F2-DS-OVERFLOW-1.md) | build | 以任务卡当前准入与看板分工为准。 |
+| [ARCH-F2-EDITOR-BATTLE-FIELD-COMMANDS-1 — 战场命令族独立模块](ARCH-F2-EDITOR-BATTLE-FIELD-COMMANDS-1.md) | build | 以任务卡当前准入与看板分工为准。 |
 | [ARCH-REGRESSION-LAB-GLM-1 — 十二组可执行回归与功能视觉准备](ARCH-REGRESSION-LAB-GLM-1-twelve-packs.md) | draft | 以任务卡当前准入与看板分工为准。 |
 | [ARCH-SUPPORT-GLM-1 — 八组并行准备取证](ARCH-SUPPORT-GLM-1-eight-audit-packages.md) | draft | 以任务卡当前准入与看板分工为准。 |
-| [DOC-CURSOR-5 — 包说明三文件确定错误窄修](DOC-CURSOR-5-confirmed-source-fixes.md) | build | 以任务卡当前准入与看板分工为准。 |
-| [DOC-CURSOR-6 — 第二阶段作者指南八组只读事实核对](DOC-CURSOR-6-author-guide-fact-batch.md) | draft | 以任务卡当前准入与看板分工为准。 |
+| [CURSOR-WAVE-2-1 — 五包连续文档纠偏与纯边界回归](CURSOR-WAVE-2-1-docs-and-pure-regressions.md) | rework | 以任务卡当前准入与看板分工为准。 |
 
 ## 已完成（historical）
 
@@ -58,6 +60,8 @@
 | [DOC-CURSOR-2 — 十二组包说明、CLI与索引核对](../archive/tasks/done/DOC-CURSOR-2-package-tools-indexes.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [DOC-CURSOR-3 — 覆盖率说明与现行命令定点核对](../archive/tasks/done/DOC-CURSOR-3-coverage-guide-audit.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [DOC-CURSOR-4 — 场景入场指南当前 UI 事实核对](../archive/tasks/done/DOC-CURSOR-4-scene-entry-current-ui.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [DOC-CURSOR-5 — 包说明三文件确定错误窄修](../archive/tasks/done/DOC-CURSOR-5-confirmed-source-fixes.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [DOC-CURSOR-6 — 第二阶段作者指南八组只读事实核对](../archive/tasks/done/DOC-CURSOR-6-author-guide-fact-batch.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [DOC-GOV-1 - 文档审计整改与自动检查](../archive/tasks/done/DOC-GOV-1-documentation-cleanup.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [DOC-GUIDE-REVISION-1 — 现行指南五文件窄修订准入](../archive/tasks/done/DOC-GUIDE-REVISION-1-current-entrypoints.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [DOC-IA-2 - 全仓文档信息架构整理](../archive/tasks/done/DOC-IA-2-repository-documentation-structure.md) | done | 完成证据、历史签字与交接见原卡。 |

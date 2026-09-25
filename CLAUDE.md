@@ -40,12 +40,11 @@ pnpm lint           # biome check（也被 `check` 末步运行；单独跑用�
 pnpm format         # biome format --write
 pnpm extract        # regenerate data/extracted/ from the original MKF archives
 
-pnpm --filter @type-pal/game run dev          # Vite dev server
-pnpm --filter @type-pal/game run e2e          # Playwright e2e
+pnpm --filter @type-pal/game run dev          # Vite dev server（6005；`E2E=1` 仅跳过 basicSsl 的 HTTP 入口）
 pnpm --filter @type-pal/game run typecheck    # tsc --noEmit for one package
 ```
 
-**Dev server 端口规划**(game 6005 / e2e 6001 / editor 6010 / reforge 6050 起;避开 vite 默认 517x 与 Chrome unsafe ports(6000=X11 会被 `ERR_UNSAFE_PORT` 拒开),已烤进各包 `dev` 脚本 + strictPort):启动命令速查 **[docs/ops/guides/dev-servers.md](docs/ops/guides/dev-servers.md)**。Claude 起验证实例直接复用这些脚本/端口(先探测,活着就复用)。
+**Dev server 端口规划**(game 6005 / editor 6010 / reforge 6050 起;避开 vite 默认 517x 与 Chrome unsafe ports(6000=X11 会被 `ERR_UNSAFE_PORT` 拒开),已烤进各包 `dev` 脚本 + strictPort)。第一阶段 Playwright L2、`game` 的 `e2e` 脚本和 6001 专用实例已退役；`E2E=1` 不是 Playwright，也不是真 Service Worker。启动命令速查 **[docs/ops/guides/dev-servers.md](docs/ops/guides/dev-servers.md)**。Claude 起验证实例直接复用这些脚本/端口(先探测,活着就复用)。
 
 Each package's `check` is `typecheck && test`. Run a single test file or case with vitest:
 

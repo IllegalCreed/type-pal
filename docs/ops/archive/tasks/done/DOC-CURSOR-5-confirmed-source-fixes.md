@@ -1,6 +1,6 @@
 # DOC-CURSOR-5 — 包说明三文件确定错误窄修
 
-Status: build
+Status: done
 Phase: ops documentation
 Capability: 修正式说明；不改变产品/脚本/资源行为
 Contribution Owner: Cursor（三份 Markdown 白名单）
@@ -10,7 +10,7 @@ Evidence freeze: `4594f0a5`（开卡前 main；实施起点以含本卡的提交
 
 ## 前提与准入
 
-DOC-CURSOR-2 的[已接收只读报告](../../testing/cursor-docs-wave2.md)有三处确定不符
+DOC-CURSOR-2 的[已接收只读报告](../../../../testing/cursor-docs-wave2.md)有三处确定不符
 （W2-C03-1、W2-C07-1、W2-C11-1），另有前批已修其它指南、但在 game README
 保留的旧 e2e 命令关联 H1。Codex 已独立读现行一手定义，准许 Cursor 在本卡白名单做
 **四处文字窄修**：同一事实不算四个新产品缺陷。修订只改描述，既有时点数字和历史记录不刷新。
@@ -35,6 +35,12 @@ DOC-CURSOR-2 的[已接收只读报告](../../testing/cursor-docs-wave2.md)有�
   Codex 通过即直接选择性接入、推送并清理隔离分支，不再请用户重复批准。
 - 当前模式不需 Kimi/GLM 固定签字。Codex 已核源与白名单：**build allowed**；
   Cursor 不自行合 main、不标 done，产品功能/版权边界不借文档卡验收。
+
+## Codex 独立接收与收口（2026-09-25）
+
+- **accept**：候选 `76fdab78` 相对 `b95f218a` 只改三份白名单 README。Codex 对照 `CLAUDE.md:22`、`packages/game/package.json`、`packages/game/vite.config.ts:9,85`、`docs/ops/guides/dev-servers.md:24-47`、`.gitignore:14-17`、已跟踪 BDF 的许可证头，确认四处文字修订与现行事实一致。
+- 候选独立复跑 `node scripts/docs/check.mjs` PASS、`git diff --check b95f218a..HEAD` PASS。两提交选择性接入 main 为 `69053296`、`f7d6475f`；不涉及产品、测试或资源字节。
+- 原候选的构建说明与 Cursor 提示词仅是历史交接；本卡无待返工。无下一位 Agent 提示词。
 
 ## 下一位 Cursor 提示词
 
