@@ -1,0 +1,50 @@
+[
+  {
+    "id": "present-remap",
+    "chain": "presentFrame",
+    "file": "packages/game/src/present/present.ts",
+    "sha256": "823ea86b27eb13771feb9ba6d1059b674a66c32b6cb685f08c0f472d77cd389e",
+    "hashUnchanged": true,
+    "greenExit": 0,
+    "redExit": 1,
+    "failedTitle": "P12 场景0x4F被remap成0x4E，对话框同索引保持0x4F",
+    "assertionError": true,
+    "ok": true
+  },
+  {
+    "id": "battle-intro",
+    "chain": "BattlePresent.draw",
+    "file": "packages/game/src/present/battle/present-battle.ts",
+    "sha256": "7ca203c4de814c295b4e70ca414e3d62b31e22da1af980a52119bd83590fae2e",
+    "hashUnchanged": true,
+    "greenExit": 0,
+    "redExit": 1,
+    "failedTitle": "P14 入场切换起点中段终点可区分，重复中段不变且伤害数字在切换之后",
+    "assertionError": true,
+    "ok": true
+  },
+  {
+    "id": "battle-ui-mp",
+    "chain": "drawBattleUI",
+    "file": "packages/game/src/present/battle/draw-battle-ui.ts",
+    "sha256": "fee830027b4d8428e4f4bff98a2f4f4a905c3b98d163642ab088710962aa868f",
+    "hashUnchanged": true,
+    "greenExit": 0,
+    "redExit": 1,
+    "failedTitle": "P15 现行MP为8时需求9与需求8的选中色和数字不同，静态MP10不参与",
+    "assertionError": true,
+    "ok": true
+  },
+  {
+    "id": "dialog-digit",
+    "chain": "drawDialogBox",
+    "file": "packages/game/src/present/dialog-box.ts",
+    "sha256": "637acc9c9b9af81dfd5c3a0219f7e6eed4b4579778cc774218ebcee1e715dc3e",
+    "hashUnchanged": true,
+    "greenExit": 0,
+    "redExit": 1,
+    "failedTitle": "P16 旁白数字走黄色精灵，缺UI帧时不画框并把数字当字形",
+    "assertionError": true,
+    "ok": true
+  }
+]

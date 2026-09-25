@@ -1,0 +1,179 @@
+{
+  "task": "TEST-GROK-PRESENT-2",
+  "base": "bf4c51c496b9698530616749cdb142e197039b35",
+  "evidenceFreeze": "077516bb04c27b38865139a67ad64b0c7eb3fd47",
+  "writeRoot": "docs/testing/grok-phase1-composition-r1",
+  "candidate": {
+    "command": "env -u NODE_COMPILE_CACHE pnpm exec vitest run --config docs/testing/grok-phase1-composition-r1/vitest.config.mts --reporter=json --outputFile=/tmp/grok-composition-all.json",
+    "cwd": "worktree root",
+    "exit": 0,
+    "numTotalTests": 18,
+    "numPassedTests": 18,
+    "numFailedTests": 0,
+    "numPendingTests": 0
+  },
+  "adjacent": {
+    "command": "env -u NODE_COMPILE_CACHE pnpm exec vitest run --maxWorkers=1 --reporter=json --outputFile=/tmp/grok-composition-adjacent.json src/present/present.test.ts src/present/dialog-box.test.ts src/present/battle/__tests__/present-battle.test.ts src/present/battle/__tests__/draw-battle-ui.test.ts",
+    "cwd": "packages/game",
+    "exit": 0,
+    "numTotalTests": 177,
+    "numPassedTests": 177,
+    "numFailedTests": 0
+  },
+  "tests": [
+    {
+      "id": "P11-1",
+      "title": "P11 同屏队首跟随与NPC在sLayer翻转后交换前后，透明孔露出下一层",
+      "chain": "presentFrame",
+      "file": "p11-world-layers.test.ts",
+      "newDifference": "同一屏幕点上的队首、跟随者和 NPC；sLayer 只改前后，不改落点；孔露出下一层，不透明 0 写成 0"
+    },
+    {
+      "id": "P11-2",
+      "title": "P11 前景cover盖住后排NPC，前排透明孔见cover色而不见后排",
+      "chain": "presentFrame",
+      "file": "p11-world-layers.test.ts",
+      "newDifference": "cover 夹在两个同坐标 NPC 之间；孔见 cover 7，不透明点盖住 cover"
+    },
+    {
+      "id": "P12-1",
+      "title": "P12 advanceEffects为false时波幅和相位不变，为true时同一行像素改道",
+      "chain": "presentFrame",
+      "file": "p12-overlays.test.ts",
+      "newDifference": "补帧不推进 wScreenWave；推进后同一瓦片从 (210,8) 改到 (218,8)，精灵不跟波"
+    },
+    {
+      "id": "P12-2",
+      "title": "P12 偶数震屏补帧不减计数，再推进后改为上移",
+      "chain": "presentFrame",
+      "file": "p12-overlays.test.ts",
+      "newDifference": "false 保持 shakeTime=2 且下移；两次 true 后改为上移且计数归 0"
+    },
+    {
+      "id": "P12-3",
+      "title": "P12 场景0x4F被remap成0x4E，对话框同索引保持0x4F",
+      "chain": "presentFrame",
+      "file": "p12-overlays.test.ts",
+      "newDifference": "场景索引被替换，对话框同索引保留；色表数值不变"
+    },
+    {
+      "id": "P12-4",
+      "title": "P12 菜单模式盖住左上角，event模式同一菜单栈不盖，对话像素两种模式都在",
+      "chain": "presentFrame",
+      "file": "p12-overlays.test.ts",
+      "newDifference": "同一菜单栈和 items 数组；只在 mode=menu 时盖住 (2,0)"
+    },
+    {
+      "id": "P13-1",
+      "title": "P13 后一条战斗消息替换前一条，对话盖住消息且到期后数字仍在上移",
+      "chain": "BattlePresent.draw",
+      "file": "p13-battle-commands.test.ts",
+      "newDifference": "消息替换、对话覆盖、到期与伤害上移、清空后无残留"
+    },
+    {
+      "id": "P13-2",
+      "title": "P13 结算框盖住消息点，演出结束后该点回到消息色",
+      "chain": "BattlePresent.draw",
+      "file": "p13-battle-commands.test.ts",
+      "newDifference": "结算框与消息争用同一点；index 越过屏数后消息重新可见"
+    },
+    {
+      "id": "P14-1",
+      "title": "P14 入场切换起点中段终点可区分，重复中段不变且伤害数字在切换之后",
+      "chain": "BattlePresent.draw",
+      "file": "p14-battle-fades.test.ts",
+      "newDifference": "introFade 0/3/6 与重复中段；伤害个位始终在切换层之上"
+    },
+    {
+      "id": "P14-2",
+      "title": "P14 召唤crossfade高位立即换低位逐步逼近，重复终点不重开",
+      "chain": "BattlePresent.draw",
+      "file": "p14-battle-fades.test.ts",
+      "newDifference": "召唤 fadeStep 0/6/42 的相邻像素；重复 42 不重置"
+    },
+    {
+      "id": "P14-3",
+      "title": "P14 战斗补帧不推进屏波，精灵像素留在原位",
+      "chain": "BattlePresent.draw",
+      "file": "p14-battle-fades.test.ts",
+      "newDifference": "BattlePresent.draw 的 advanceEffects=false 不改波幅，精灵不卷入"
+    },
+    {
+      "id": "P15-1",
+      "title": "P15 一人二人三人的当前行动箭头和HP个位落在各自锚点",
+      "chain": "drawBattleUI",
+      "file": "p15-battle-ui.test.ts",
+      "newDifference": "1/2/3 人的箭头坐标和 HP 个位彼此不同，缺的槽位没有数字"
+    },
+    {
+      "id": "P15-2",
+      "title": "P15 现行MP为8时需求9与需求8的选中色和数字不同，静态MP10不参与",
+      "chain": "drawBattleUI",
+      "file": "p15-battle-ui.test.ts",
+      "newDifference": "运行时 MP 8 与静态 mp 10；需求 9 禁用、需求 8 可选，青个位是 8"
+    },
+    {
+      "id": "P15-3",
+      "title": "P15 缺角色的状态栏空位不画HP，数量2画青字数量1不画",
+      "chain": "drawBattleUI",
+      "file": "p15-battle-ui.test.ts",
+      "newDifference": "缺 role 的槽位精确为空；数量 2 与数量 1 的青色个位不同"
+    },
+    {
+      "id": "P15-4",
+      "title": "P15 单人合击图标更暗，两人健康时合击图标较亮",
+      "chain": "drawBattleUI",
+      "file": "p15-battle-ui.test.ts",
+      "newDifference": "合击图标 (54,155) 在 1 人与 2 名健康队员之间是 0x12 和 0x02"
+    },
+    {
+      "id": "P16-1",
+      "title": "P16 旁白数字走黄色精灵，缺UI帧时不画框并把数字当字形",
+      "chain": "drawDialogBox",
+      "file": "p16-dialog.test.ts",
+      "newDifference": "旁白数字与框点的有无对照；缺 UI 帧时不画黄 3"
+    },
+    {
+      "id": "P16-2",
+      "title": "P16 立绘不透明0盖住底色，透明孔保留底色，缺立绘资源仍画正文",
+      "chain": "drawDialogBox",
+      "file": "p16-dialog.test.ts",
+      "newDifference": "直接绘制时区分不透明 0 和透明孔；缺 portrait 帧仍画姓名和正文"
+    },
+    {
+      "id": "P16-3",
+      "title": "P16 presentFrame里立绘透明孔露出地块，不透明0写成0，姓名和正文颜色不同",
+      "chain": "presentFrame",
+      "file": "p16-dialog.test.ts",
+      "newDifference": "同一对话框经 presentFrame 叠在地块上；孔见地块，缺资源后地块恢复"
+    }
+  ],
+  "classifiedWithoutNewTest": [
+    {
+      "id": "use-throw-same-grid",
+      "kind": "existing-same-path",
+      "reason": "drawBattleUI 的 useItemSelect 与 throwItemSelect 调用同一个 drawItemSelectGrid，没有可区分像素。旧 useItem 例只断言不抛或有写入。"
+    },
+    {
+      "id": "party-above-three",
+      "kind": "not-constructed",
+      "reason": "战斗位置表对 4/5 人有兜底坐标。任务卡不允许把多于 3 人当成产品新需求。"
+    },
+    {
+      "id": "battle-palette-ramp",
+      "kind": "existing-proof",
+      "reason": "present-battle.test.ts 已断言 draw 会逐帧改 gs.palette.colors。"
+    },
+    {
+      "id": "death-fade-pure",
+      "kind": "existing-proof",
+      "reason": "draw-battle-sprites.test.ts 已测 blitFrameDeathFade 的纯函数步进。本包不把私有字段反射当画面合同。"
+    },
+    {
+      "id": "dialog-state-machine",
+      "kind": "existing-proof",
+      "reason": "dialog-box.test.ts 已覆盖解析、打字、翻页和确认。本包只补绘制结果。"
+    }
+  ],
+  "productDefects": 0
+}
