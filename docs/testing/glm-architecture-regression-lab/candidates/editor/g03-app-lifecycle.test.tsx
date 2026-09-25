@@ -28,13 +28,16 @@ vi.mock('@lab/editor/author-save-store', async (original) => {
   const actual = await original<typeof import('@lab/editor/author-save-store')>()
   return fixture.memoryAuthorSaveStore(actual)
 })
-const bindings = vi.hoisted(
-  () => new Map<string, import('@lab/editor/handle-store').WorkspaceHandleRecord>(),
-)
+type LabWorkspaceHandleRecord = {
+  workspaceId: string
+  handle: FileSystemDirectoryHandle
+  [key: string]: unknown
+}
+const bindings = vi.hoisted(() => new Map<string, LabWorkspaceHandleRecord>())
 vi.mock('@lab/editor/handle-store', async (original) => {
   const actual = await original<typeof import('@lab/editor/handle-store')>()
   const save = async (
-    context: import('@lab/editor/handle-store').WorkspaceContext,
+    context: { workspaceId: string },
     name: string,
     handle: FileSystemDirectoryHandle,
   ) => {
@@ -132,7 +135,7 @@ afterEach(async () => {
   vi.restoreAllMocks()
 })
 
-async function mountApp(): Promise<void> {
+async function mountApp(options: { initialDir?: FileSystemDirectoryHandle } = {}): Promise<void> {
   await act(async () =>
     root.render(
       <StrictMode>
@@ -143,6 +146,7 @@ async function mountApp(): Promise<void> {
           project={opened.project}
           workspace={opened.workspace}
           authorBaseline={opened.authorBaseline}
+          initialDir={options.initialDir}
           onOpened={vi.fn()}
           onBackToPicker={vi.fn()}
         />
@@ -195,18 +199,54 @@ describe('G03 App 所有权生命周期', () => {
     expect(host.textContent).not.toContain('卸载后改名') // 新页面不被旧会话迟到派发污染
   })
 
-  test('G03-03 卸载后 Cmd+S：旧会话派发 fail-loud（历史绑定断开即不可写）', async () => {
-    await mountApp()
-    await act(async () => root.unmount())
-    host.remove()
-    // 卸载后旧会话派发任何命令都会因历史绑定断开而 throw——这是 keydown 清理的实际收口效果：
-    // 即使监听残留，后续 dispatch 也走不到保存 IO（fail-loud 而非静默写盘）
+  test('G03-03 Cmd+S 触发真实保存 IO（磁盘写闭见证）；卸载后 Cmd+S 零写盘且派发 fail-loud', async () => {
+    // 以生产「带目录重开」入口（App initialDir）挂载：Cmd+S 原地保存到已绑定目录。
+    // 先证正控：键入经真实保存管线写出完整工程树（manifest + content/* + save-state 终写），
+    // 再证卸载收口：静默后同样的键入零新增写盘 —— keydown 清理有真实 IO 级后果
+    //（若监听残留，增量保存管线在内存目录上仍能完整写盘 → 即红）。
+    await mountApp({ initialDir: disk.dir })
+    await act(async () => {
+      main.dispatch(new RenameProjectCommand('实验室保存名'))
+    })
+    const closesBefore = disk.changes.closes.length
     await act(async () => {
       window.dispatchEvent(
         new KeyboardEvent('keydown', { key: 's', metaKey: true, cancelable: true, bubbles: true }),
       )
     })
-    // 无论监听是否残留，旧会话的历史绑定已断开，任何 dispatch 都 fail-loud
+    // 保存为异步管线（工程写 + 去抖的 save-state 终写）：以「磁盘静默窗口」判定完成 ——
+    // 连续 6×50ms 无新写闭即视为收尾（真实 IO 见证，非通知计数）
+    let quiet = 0
+    let seen = disk.changes.closes.length
+    let waited = 0
+    while (quiet < 6 && waited < 200) {
+      await act(async () => {
+        await new Promise((resolve) => setTimeout(resolve, 50))
+      })
+      waited++
+      if (disk.changes.closes.length === seen) quiet++
+      else {
+        quiet = 0
+        seen = disk.changes.closes.length
+      }
+    }
+    expect(disk.changes.closes.length).toBeGreaterThan(closesBefore) // 真实写盘发生
+    const closed = new Set(disk.changes.closes)
+    expect(closed.has('manifest.json')).toBe(true) // 完整工程树，不是任意 IO
+    expect(disk.changes.closes.some((p) => p.startsWith('content/'))).toBe(true)
+    await act(async () => root.unmount())
+    host.remove()
+    disk.resetChanges()
+    // 卸载后同样的 Cmd+S：零新增写盘（若监听残留，保存管线仍会写盘 → 即红）
+    await act(async () => {
+      window.dispatchEvent(
+        new KeyboardEvent('keydown', { key: 's', metaKey: true, cancelable: true, bubbles: true }),
+      )
+    })
+    await act(async () => {
+      await new Promise((resolve) => setTimeout(resolve, 300))
+    })
+    expect(disk.changes.closes.length).toBe(0) // 卸载后零写盘
     expect(() => main.dispatch(new RenameProjectCommand('卸载后不应生效'))).toThrowError(
       /项目历史已断开/,
     )

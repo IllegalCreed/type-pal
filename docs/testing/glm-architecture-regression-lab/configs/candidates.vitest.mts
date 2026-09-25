@@ -53,6 +53,18 @@ export default defineConfig({
       { find: '@lab/game/event-system', replacement: w('packages/game/src/core/event-system.ts') },
       { find: '@lab/game/equip-effect', replacement: w('packages/game/src/core/equip-effect.ts') },
       { find: '@lab/game/game-state', replacement: w('packages/game/src/core/game-state.ts') },
+      {
+        find: '@lab/game/command-bus',
+        replacement: w('packages/game/src/core/command-bus.ts'),
+      },
+      {
+        find: '@lab/game/battle-opcodes',
+        replacement: w('packages/game/src/core/battle/battle-opcodes.ts'),
+      },
+      {
+        find: '@lab/game/battle-state',
+        replacement: w('packages/game/src/core/battle/battle-state.ts'),
+      },
       { find: '@type-pal/migrate', replacement: workspaceAliases['@type-pal/migrate'] },
       {
         find: '@lab/migrate/migrate-content',
@@ -83,6 +95,10 @@ export default defineConfig({
         replacement: path.resolve(editorRoot, 'src/core/playback.ts'),
       },
       { find: '@lab/editor/app', replacement: path.resolve(editorRoot, 'src/ui/App.tsx') },
+      {
+        find: '@lab/editor/scene-script-workspace',
+        replacement: path.resolve(editorRoot, 'src/ui/SceneScriptWorkspace.tsx'),
+      },
       {
         find: '@lab/editor/scene-canvas',
         replacement: path.resolve(editorRoot, 'src/ui/SceneCanvas.tsx'),
@@ -122,6 +138,10 @@ export default defineConfig({
       {
         find: '@lab/editor/open-actions',
         replacement: path.resolve(editorRoot, 'src/core/open-actions.ts'),
+      },
+      {
+        find: '@lab/editor/project-reference-adapters',
+        replacement: path.resolve(editorRoot, 'src/core/project-reference-adapters.ts'),
       },
       // react/react-dom/vitest 从 editor 作用域解析（docs/** 无 node_modules 链）
       { find: /^react$/, replacement: path.resolve(editorRoot, 'node_modules/react/index.js') },

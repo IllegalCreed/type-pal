@@ -57,9 +57,7 @@ describe('G02 地图会话失效', () => {
 
   test('G02-02 活跃笔划中跨 mapId 切换：清场 effect 覆盖活跃手势，迟到 up 两边都不提交', async () => {
     const mapA = buildBlankProjectMap(3, 2, 'tiles')
-    mapA.id = 'map-a'
     const mapB = buildBlankProjectMap(3, 2, 'tiles')
-    mapB.id = 'map-b'
     const state = labState(mapA)
     state.maps['map-b'] = mapB
     state.mapIndex = {
@@ -94,26 +92,84 @@ describe('G02 地图会话失效', () => {
     )
   })
 
-  test('G02-03 活跃选区拖动中换会话：迟到 up 不向新会话派发 set-selection', async () => {
+  test('G02-03 活跃选区拖动中换会话：迟到 up 不在新会话提交选区；新会话新选区的删除只写新会话地图', async () => {
+    // 选区是 MapMode 组件内 reducer 业务状态（mapWorkspaceReducer change-selection），
+    // 其业务结果落在会话地图上：本例以「选区→右键→删除→瓦片消失」证明选区归属新会话编辑上下文。
+    // 定位策略同 G01-05：笔刷与选择单击用同一屏幕点，保证选区格 = 已画瓦片格。
     const map = buildBlankProjectMap(3, 2, 'tiles')
-    map.layers[0]!.tiles[0]![0] = 1
-    const { host, canvas, onWorkspaceNotice, rerenderWithSession } = await mountLabMap({ map })
+    const {
+      host,
+      canvas,
+      onWorkspaceNotice,
+      session: oldSession,
+      rerenderWithSession,
+    } = await mountLabMap({ map })
+    const firstPainted = (
+      m: NonNullable<ReturnType<EditSession['getState']>['maps'][string]>,
+    ): { row: number; col: number } | null => {
+      const tiles = m.layers[0]!.tiles
+      for (let row = 0; row < tiles.length; row++)
+        for (let col = 0; col < tiles[row]!.length; col++)
+          if (tiles[row]![col] !== null) return { row, col }
+      return null
+    }
+    await act(async () => labButton(host, '笔刷').click())
+    await act(async () => {
+      pointer(canvas, 'pointerdown', { clientX: 33, clientY: 1 })
+      pointer(canvas, 'pointerup', { clientX: 33, clientY: 1 })
+    })
+    // EditSession 派发产生新 state：已画瓦片从会话 state 读（业务对象真值）
+    const paintedInOld = firstPainted(oldSession.getState().maps['map-a']!)
+    expect(paintedInOld).not.toBeNull()
+    // 换会话：新会话持有同一已画地图的**独立深拷贝**（业务隔离 witness 用）
+    const nextSession = new EditSession(
+      labState(structuredClone(oldSession.getState().maps['map-a']!)),
+    )
     await act(async () => labButton(host, '选择').click())
     await act(async () => {
       pointer(canvas, 'pointerdown', { clientX: 33, clientY: 1 })
-      pointer(canvas, 'pointermove', { clientX: 40, clientY: 20 })
-    })
-    const nextSession = new EditSession(labState(map))
-    await act(async () => {
-      await rerenderWithSession(nextSession)
+      pointer(canvas, 'pointermove', { clientX: 300, clientY: 300 })
     })
     const callsAtSwap = onWorkspaceNotice.mock.calls.length
     await act(async () => {
-      pointer(canvas, 'pointerup', { clientX: 40, clientY: 20 })
+      await rerenderWithSession(nextSession)
     })
-    // 换会话后迟到 up：不产生新的选区通知，且 DOM 无选区预览（set-selection 未派发到新会话）
+    await act(async () => {
+      pointer(canvas, 'pointerup', { clientX: 300, clientY: 300 })
+    })
+    // 换会话后迟到 up：不产生新的选区通知，无选区预览（set-selection 未派发到新会话）
     const newCalls = onWorkspaceNotice.mock.calls.slice(callsAtSwap)
     expect(newCalls.some((c) => String(c[0]?.message ?? '').includes('已选择'))).toBe(false)
-    expect(host.querySelector('.map-content-selection-preview')).toBeNull() // 新会话无残留选区
+    expect(host.querySelector('.map-content-selection-preview')).toBeNull()
+    // 正控（新会话业务上下文）：换会话会将工具重置回笔刷（MapMode 会话切换重置行为），
+    // 重新进入选择工具后以单击 (33,1) 在新会话提交单格选区（同屏点 = 同一格）
+    await act(async () => labButton(host, '选择').click())
+    await act(async () => {
+      pointer(canvas, 'pointerdown', { clientX: 33, clientY: 1 })
+      pointer(canvas, 'pointerup', { clientX: 33, clientY: 1 })
+    })
+    expect(host.querySelector('.map-content-selection-preview')).not.toBeNull()
+    // 新会话选区的删除只写新会话地图：老地图瓦片原样，新地图瓦片被真实删除
+    await act(async () => {
+      canvas.dispatchEvent(
+        new MouseEvent('contextmenu', {
+          bubbles: true,
+          cancelable: true,
+          button: 2,
+          clientX: 24,
+          clientY: 24,
+        }),
+      )
+    })
+    const menu = host.querySelector<HTMLElement>('[role="menu"][aria-label="地图选区操作"]')
+    expect(menu).not.toBeNull()
+    const deleteItem = [...menu!.querySelectorAll<HTMLButtonElement>('button')].find((b) =>
+      b.textContent?.includes('删除'),
+    )
+    expect(deleteItem).not.toBeUndefined()
+    expect(deleteItem!.disabled).toBe(false)
+    await act(async () => deleteItem!.click())
+    expect(firstPainted(nextSession.getState().maps['map-a']!)).toBeNull() // 新会话地图：瓦片被删除
+    expect(firstPainted(oldSession.getState().maps['map-a']!)).toEqual(paintedInOld) // 老会话地图：原样（业务隔离）
   })
 })

@@ -7,6 +7,7 @@
 import { spawnSync } from 'node:child_process'
 import { createHash } from 'node:crypto'
 import { mkdtempSync, readFileSync, writeFileSync } from 'node:fs'
+import { tmpdir } from 'node:os'
 import { join, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
@@ -29,13 +30,15 @@ const mutationFrom = productSrc.slice(classIdx, applyIdx + applySig.length)
 const mutationTo = `${mutationFrom} if (this.patch.name !== undefined) return state`
 if (productSrc.split(mutationFrom).length !== 2) throw new Error('anchor not unique')
 
-const config = mkdtempSync(join(labRoot, 'configs', '.tmp-red-'))
+// 临时目录放系统 /tmp：不污染仓内工作树与 Biome 扫描（r5 起纪律）
+const config = mkdtempSync(join(tmpdir(), 'glm-lab-red-'))
 const configFile = join(config, 'red.config.mts')
 const generated = `import { createRequire } from 'node:module'
 import path from 'node:path'
 import { readFileSync } from 'node:fs'
 import assert from 'node:assert/strict'
-import { defineConfig } from 'vitest/config'
+const requireFromRepo = createRequire(${JSON.stringify(join(repoRoot, 'package.json'))})
+const { defineConfig } = await import(requireFromRepo.resolve('vitest/config'))
 const labRoot = ${JSON.stringify(labRoot)}
 const editorRoot = path.resolve(labRoot, '../../../packages/editor')
 const editorRequire = createRequire(path.resolve(editorRoot, 'package.json'))

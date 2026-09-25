@@ -16,9 +16,7 @@ import { describe, expect, test } from 'vitest'
 import { EditSession } from '../../fixtures/editor/lab-session.js'
 
 function labMap(): ProjectMap {
-  const map = buildBlankProjectMap(2, 2, 'tiles')
-  map.id = 'map-a'
-  return map
+  return buildBlankProjectMap(2, 2, 'tiles')
 }
 
 function labState(map: ProjectMap): EditorState {
@@ -57,12 +55,12 @@ describe('LAB-STARTUP 启动小样', () => {
     })
     expect(session.dispatch(command)).toBe(true)
     // 业务对象实变（非 mock 计数）
-    expect(session.state.maps['map-a']!.layers[0]!.name).toBe('实验室改名层')
+    expect(session.getState().maps['map-a']!.layers[0]!.name).toBe('实验室改名层')
     // undo 保真：回到操作前值
     expect(session.undo()).toBe(true)
-    expect(session.state.maps['map-a']!.layers[0]!.name).toBe(before.layers[0]!.name)
+    expect(session.getState().maps['map-a']!.layers[0]!.name).toBe(before.layers[0]!.name)
     // redo 保真：再进新值
     expect(session.redo()).toBe(true)
-    expect(session.state.maps['map-a']!.layers[0]!.name).toBe('实验室改名层')
+    expect(session.getState().maps['map-a']!.layers[0]!.name).toBe('实验室改名层')
   })
 })

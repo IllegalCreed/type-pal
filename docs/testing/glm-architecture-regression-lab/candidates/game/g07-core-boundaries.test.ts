@@ -1,24 +1,52 @@
 /**
- * ARCH-REGRESSION-LAB-GLM-1 · G07 第一阶段模块边界（候选回归，隔离实验区；r3 重写）。
+ * ARCH-REGRESSION-LAB-GLM-1 · G07 第一阶段模块边界（候选回归，隔离实验区；r7 重写）。
  * 验证轴（真实公开跨模块调用链，全部断言既有已核行为；不改角色索引/公式）：
- * - G07-01 scene 写 `_currentMapNum` → event-system `getCurrentMapNum` 读到（跨模块顺序；
- *   scene-system.ts:54 写、:49 读由 event-system.ts:80 import）；
+ * - G07-01 scene-system 写 `_currentMapNum` → **event-system 内部消费**：explore 对话提交
+ *   pushDialogHistory 时经 scene-system 读当前图号做历史维度（event-system.ts:2160），
+ *   切图后新对话以新图号入账 = 写读两侧真实跨模块顺序；
  * - G07-02 event-system `addItemToInventory` 真实入账 + id0 拒收守卫 + 两独立 GameState 互不串扰；
- * - G07-03 装备派生入 battle：equip-effect `writeEquipmentEffectField` 写 ATTACK_STRENGTH 槽 →
- *   `getPlayerAttackStrength`（battle-opcodes 消费同源）读出含加成值。
- * 去重：event-system.test 326/scene 110/opcode 158/equip 36 为单模块证据；本组只证跨 caller。
+ * - G07-03 装备派生进**战斗 opcode**：equip-effect 生产写入口 `writeEquipmentEffectField`
+ *   写攻击槽 → battle-opcodes 0x30（STAT_ROW_BUFF）经 `getPlayerAttackStrength` 重算战斗快照，
+ *   快照从 base 变为 base+7 —— 装备派生值被战斗上下文 opcode 真实消费。
+ * 去重：event-system.test 326/scene 110/battle-opcodes.test/opcode 158/equip 36 为单模块证据；
+ * 本组只证跨 caller 链。
  */
 
+import { dispatchBattleOpcode } from '@lab/game/battle-opcodes'
+import type { BattleState } from '@lab/game/battle-state'
+import { createCommandBus } from '@lab/game/command-bus'
 import { getPlayerAttackStrength, writeEquipmentEffectField } from '@lab/game/equip-effect'
-import { addItemToInventory } from '@lab/game/event-system'
-import { createInitialGameState } from '@lab/game/game-state'
+import type { BattleCtx } from '@lab/game/event-system'
+import { addItemToInventory, tickEventSystem } from '@lab/game/event-system'
+import { createInitialGameState, type GameState } from '@lab/game/game-state'
 import { getCurrentMapNum, setCurrentMapNum } from '@lab/game/scene-system'
+import type { Command, InputSnapshot, PlayerRole } from '@type-pal/shared'
 import { describe, expect, test } from 'vitest'
 
+/** 对齐官方 event-system.test 的最小事件装载（同口径三行）。 */
+function loadLabEvent(gs: GameState, commands: Command[]): void {
+  gs.eventCursor = { commands, labelMap: {}, ip: 0 }
+  gs.mode = 'event'
+}
+
+function labInput(): InputSnapshot {
+  return { held: new Set(), pressed: new Set(), frameNum: 0 }
+}
+
 describe('G07 第一阶段模块边界', () => {
-  test('G07-01 scene 写 mapNum → event 读：跨模块顺序合同（含恢复）', () => {
+  test('G07-01 scene 写 mapNum → event-system 对话历史按当前图号入账（跨模块写读顺序）', () => {
     setCurrentMapNum(7)
-    expect(getCurrentMapNum()).toBe(7) // event-system 经 scene-system 读当前图号
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    const bus = createCommandBus()
+    loadLabEvent(gs, [{ op: 'showDialog', messageIndex: 0, text: '甲地图台词' }, { op: 'end' }])
+    tickEventSystem(gs, labInput(), bus)
+    // 历史维度 map=7 不是测试传参，而是 event-system 内部经 scene-system 读到的当前图号
+    expect(gs.dialogHistory?.at(-1)).toEqual({ map: 7, text: '甲地图台词' })
+    // 切图后第二条对话以新图号入账：读侧真实跟随 scene 写侧
+    setCurrentMapNum(3)
+    loadLabEvent(gs, [{ op: 'showDialog', messageIndex: 1, text: '乙地图台词' }, { op: 'end' }])
+    tickEventSystem(gs, labInput(), bus)
+    expect(gs.dialogHistory?.at(-1)).toEqual({ map: 3, text: '乙地图台词' })
     setCurrentMapNum(0) // 恢复模块态（不污染后续测试）
     expect(getCurrentMapNum()).toBe(0)
   })
@@ -33,12 +61,25 @@ describe('G07 第一阶段模块边界', () => {
     expect(gsA.inventory.some((e) => e.itemId === 0)).toBe(false)
   })
 
-  test('G07-03 装备派生入 battle：writeEquipmentEffectField 攻击槽 → getPlayerAttackStrength 含加成', () => {
+  test('G07-03 装备派生进战斗 opcode：0x30 重算快照消费 writeEquipmentEffectField 派生值', () => {
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
     const roleId = 0
     const base = getPlayerAttackStrength(gs, roleId)
-    // 经生产写入口（writeEquipmentEffectField）在装备槽 1 写攻击 +7
-    writeEquipmentEffectField(gs, 1, 17, roleId, 7) // 17 = PLAYERROLES_ROW.ATTACK_STRENGTH
-    expect(getPlayerAttackStrength(gs, roleId)).toBe(base + 7) // 派生 getter 含加成
+    // 经生产写入口（writeEquipmentEffectField）在装备槽 1 写攻击 +7（17 = PLAYERROLES_ROW.ATTACK_STRENGTH）
+    writeEquipmentEffectField(gs, 1, 17, roleId, 7)
+    expect(getPlayerAttackStrength(gs, roleId)).toBe(base + 7) // equip-effect 派生 getter 含加成
+    // 开战投影后的战斗快照：投影在先、装备写入在后 → 快照仍停在旧值 base。
+    // 最小 ctx：0x30（op2=1 显式 roleId）只触达 state/gs/playerRoles（官方 battle-opcodes.test 同口径）。
+    const ctx: BattleCtx = {
+      // 官方 battle-opcodes.test 同口径最小 state（0x30 op2=1 只触达 gs/playerRoles）
+      state: { players: [], enemies: [] } as unknown as BattleState,
+      gs,
+      playerRoles: { roles: [{ attackStrength: base } as PlayerRole] },
+    }
+    // 0x30 row17 op1=0%（0% 增益）→ Extra 槽写 0，快照重算值唯一来源 = 装备派生 getter
+    const result = dispatchBattleOpcode(0x0030, [17, 0, 1], ctx)
+    expect(result.consumed).toBe(true)
+    // 战斗 opcode 消费装备派生值：快照从 base 重算为 base+7
+    expect(ctx.playerRoles?.roles[roleId]?.attackStrength).toBe(base + 7)
   })
 })

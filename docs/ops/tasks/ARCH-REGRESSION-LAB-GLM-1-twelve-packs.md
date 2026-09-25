@@ -77,6 +77,39 @@ verify 一对一映射/白名单硬判据。随后逐组补真实 entered+业务
 不得覆盖 Codex 席位、不合 main、不标 done；Kimi 豁免，无 Kimi 提示词。
 ```
 
+## GLM 七轮交付（2026-09-25，r7 候选补实 + 机械对账 v2；本席自记）
+
+回应六轮 counter，本轮候选/fixture 有**真实测试 diff**（`git diff 33df9378..HEAD -- docs/testing/glm-architecture-regression-lab/candidates/ fixtures/` 非空，9 候选/夹具文件改动）。逐组去向：
+
+- **类型门**：tsconfig 去 baseUrl（TS5101 消除），paths 改相对 tsconfig 定位并补 react/@lab 全映射；候选既有类型错一并修复，`pnpm exec tsc --project …/configs/tsconfig.json --noEmit` **exit0**。
+- **G01-05**：取消路径升级为选区业务状态断言（`.map-content-selection-preview` 缺席+零通知+瓦片原样）；正控提交选区后右键「删除」对 session 地图**真实删瓦片**（选区→业务操作→实变全链）。平移 view 轴维持 pending-contract。
+- **G02-03**：迟到 up 零选区之外，新会话重新选中后「删除」只写新会话地图（独立深拷贝见证），老地图原样。
+- **G03-03**：以生产 `App initialDir` 入口挂载，Cmd+S 经真实保存管线写出完整工程树（manifest.json + content/* + 去抖 save-state 终写，磁盘写闭事件见证）；卸载+静默窗口后同样键入**零写盘** + 派发 fail-loud。
+- **G04-04**：补草稿丢弃合同——外部替换 body 后旧草稿弹层收口、onChange 零调用；重开新草稿确认恰一笔写回新 body 对象（2 行保形、行值翻转）。
+- **G05-02**：两源尾命令朝向可区分（旧 right/新 left），换源后旧源余量不复活、新源真实跑完 mode=done（改用真实 ScriptStage[] 输入——旧 waitFlow 流对象并非合法 stages）。**G05-04**：真实工作区卸载——CanonicalSceneScriptWorkspace + 真实「播放」按钮（playCanonical entered 见证），卸载后 Playback.stop 原型 spy 见证真实清理，非手工解绑。
+- **G06 全组**：改走合法生产 caller `validateEnemies`（validate.ts:1442→checkEnemyAi→checkEnemyHookFlow / checkEnemyOnDefeatedCommands），输入按 EnemyDef 真实类型构造、合法路径**零强转**（故意非法叶仅单字段收窄突变）；错误 path 精确到 `enemies[0].ai.hooks…` 生产链。
+- **G07-01/03**：event-system 真实消费侧——explore 对话 pushDialogHistory 按当前图号入账、切图跟随（event-system.ts:2160）；装备派生进**战斗 opcode**——writeEquipmentEffectField 写槽后 battle-opcodes 0x30 经 getPlayerAttackStrength 重算快照 base→base+7。
+- **G08-02/04**：soundAssetForNum 回调真实见证（raw 0x47 经 translate-events.ts:1597，`toHaveBeenCalledWith(5)`、产物 sound.lab.005 入 chunk；缺省回 palSoundAssetId）；gap 携带源操作码 65535 见证。
+- **机账/回执/verify**：results.json 40 条（38/1/1，startup 单列入账）与执行 JSON **一对一双向映射**；commands 全带整数 exit 并必含候选执行/负控/类型门；verify.mjs v2——白名单双栏硬判据（mergeBase 冻结 + 非 merge 提交活树白名单，活树违规硬失败、历史杂散单列报）、JSON 全绿、双向 fullName、完整截图 SHA、负向自测（缺 JSON exit1/篡改 FAIL/零执行 FAIL）。red-control 临时目录移 /tmp，verdict=detected。
+- **V01-V04**：未执行矩阵在 receipt.md 未证项如实登记，六张已核 hash 截图未重拍。
+- 机械门全绿：候选 32/32、tsc exit0、verify PASS、red-control detected、目录 Biome exit0、check:docs PASS；packages/scripts 活树对 mergeBase 零 diff。**候选不合 main、不计官方覆盖率、不标 done；Kimi 豁免。**
+
+### 下一位 Codex 接收提示词
+
+```text
+接收 ARCH-REGRESSION-LAB-GLM-1 r7，worktree /Users/zhangxu/illegal/type-pal-glm-regression-lab，
+分支 codex/glm-architecture-regression-lab-r1，候选 tip 见 git log（本块登记后 GLM push 的精确 SHA），
+任务 draft。先读 docs/testing/architecture-regression-lab-codex-r6-review.md 与本块，
+再核 git diff 33df9378..HEAD -- docs/testing/glm-architecture-regression-lab/candidates/ fixtures/（本轮为真实测试 diff）。
+复跑：candidates.vitest.mts 新鲜 JSON（32/32）、tools/verify.mjs <JSON>（v2 硬判据 PASS，
+含双向 fullName 映射、mergeBase 白名单、commands exit 台账）、tools/red-control.mjs（detected，临时目录在 /tmp）、
+tsc --project configs/tsconfig.json --noEmit（exit0）、目录 Biome、check:docs。
+逐组裁决重点：G01-05/G02-03 选区→删除实变链、G03-03 真实保存 IO（initialDir 入口、磁盘写闭见证、
+卸载零写盘）、G04-04 草稿丢弃合同、G05-04 真实工作区卸载、G06 validateEnemies typed caller（合法路径零强转）、
+G07 event-system 消费侧与 0x30 战斗 opcode 消费、G08 回调见证。V01-V04 未证矩阵保持如实未证。
+不要求重拍未变截图；GLM 不自审终审，不合 main、不标 done；Kimi 豁免，无 Kimi 提示词。
+```
+
 ## 下一位Agent提示词
 
 ```text

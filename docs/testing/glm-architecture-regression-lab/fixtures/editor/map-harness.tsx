@@ -6,6 +6,7 @@
 // @vitest-environment jsdom
 
 import { MapMode } from '@lab/editor/map-mode'
+import { collectCurrentProjectReferenceIndex } from '@lab/editor/project-reference-adapters'
 import type { SceneDef, StampTemplate } from '@type-pal/content'
 import type { ProjectMap } from '@type-pal/reforge'
 import { buildBlankProjectMap } from '@type-pal/reforge'
@@ -75,15 +76,16 @@ export async function mountLabMap(
       <MapMode
         scene={scene}
         session={renderSession}
-        assetBase={{}}
-        as
-        never
+        assetBase={{} as never}
         assetCatalog={{ version: 1, assets: {} }}
         assetReader={{} as never}
         projectMaps={renderSession.getState().maps}
         mapIndex={renderSession.getState().mapIndex}
         selectedMapId={selectedMapId}
         onSelectMap={vi.fn()}
+        referenceStatus="current"
+        getCurrentReferenceIndex={collectCurrentProjectReferenceIndex}
+        onOpenReference={vi.fn()}
         tilesets={[{ id: 'tiles', name: '测试瓦片', category: 'test', asset: 'tileset.test' }]}
         stamps={[] as StampTemplate[]}
         onRequestInspectorOpen={vi.fn()}

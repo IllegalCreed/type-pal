@@ -10,6 +10,7 @@
 // @vitest-environment jsdom
 
 import { MapMode } from '@lab/editor/map-mode'
+import { collectCurrentProjectReferenceIndex } from '@lab/editor/project-reference-adapters'
 import type { SceneDef, StampTemplate } from '@type-pal/content'
 import type { ProjectMap } from '@type-pal/reforge'
 import { buildBlankProjectMap } from '@type-pal/reforge'
@@ -71,15 +72,16 @@ async function mountLabMap(options: { map?: ProjectMap } = {}) {
       <MapMode
         scene={scene}
         session={renderSession}
-        assetBase={{}}
-        as
-        never
+        assetBase={{} as never}
         assetCatalog={{ version: 1, assets: {} }}
         assetReader={{} as never}
         projectMaps={renderSession.getState().maps}
         mapIndex={renderSession.getState().mapIndex}
         selectedMapId="map-a"
         onSelectMap={vi.fn()}
+        referenceStatus="current"
+        getCurrentReferenceIndex={collectCurrentProjectReferenceIndex}
+        onOpenReference={vi.fn()}
         tilesets={[{ id: 'tiles', name: '测试瓦片', category: 'test', asset: 'tileset.test' }]}
         stamps={[] as StampTemplate[]}
         onRequestInspectorOpen={vi.fn()}
@@ -254,30 +256,69 @@ describe('G01 地图手势终结', () => {
     expect(session.getState().maps['map-a']!.layers[0]!.tiles.map((r) => [...r!])).toEqual(before)
   })
 
-  test('G01-05 选区拖动 pointercancel：迟到 up 不派发 set-selection（无新通知调用）；正常 up 正控派发', async () => {
-    // 有瓦片底图；公开可观测面 = onWorkspaceNotice 调用 + 选区预览 DOM
+  test('G01-05 选区拖动 pointercancel：无选区业务状态；正常提交后「删除」对 session 地图真实删瓦片', async () => {
+    // 选区实际状态见证面 = 官方测试同款 .map-content-selection-preview（提交后持续存在）；
+    // 选区业务能力面 = 选区右键菜单「删除」对 session 地图真实删除瓦片。
+    // 定位策略：先以笔刷在同一屏幕点 (33,1) 落一瓦片，再用选择单击同一点选中同一格
+    // （等距投影下同屏点 = 同一格），无需复刻投影数学即可保证选区含已画瓦片。
     const map = buildBlankProjectMap(3, 2, 'tiles')
-    map.layers[0]!.tiles[0]![0] = 1
-    const { host, canvas, onWorkspaceNotice } = await mountLabMap({ map })
+    const { host, canvas, onWorkspaceNotice, session } = await mountLabMap({ map })
+    const firstPainted = (): { row: number; col: number } | null => {
+      const tiles = session.getState().maps['map-a']!.layers[0]!.tiles
+      for (let row = 0; row < tiles.length; row++)
+        for (let col = 0; col < tiles[row]!.length; col++)
+          if (tiles[row]![col] !== null) return { row, col }
+      return null
+    }
+    // ① 笔刷在 (33,1) 落一瓦片（业务对象真实写入，同 G01-01 正控）
+    await act(async () => button(host, '笔刷').click())
+    await act(async () => {
+      pointer(canvas, 'pointerdown', { clientX: 33, clientY: 1 })
+      pointer(canvas, 'pointerup', { clientX: 33, clientY: 1 })
+    })
+    const paintedCell = firstPainted()
+    expect(paintedCell).not.toBeNull() // 笔刷确实落瓦片
+    // ② 取消路径：选择工具拖动中 pointercancel + 迟到 up —— 无选区提交
     await act(async () => button(host, '选择').click())
-    // 取消路径：cancel 后迟到 up —— 通知调用数不得增加（set-selection 未派发）
+    const callsBefore = onWorkspaceNotice.mock.calls.length
     await act(async () => {
       pointer(canvas, 'pointerdown', { clientX: 33, clientY: 1 })
-      pointer(canvas, 'pointermove', { clientX: 40, clientY: 20 })
-      pointer(canvas, 'pointercancel', { clientX: 40, clientY: 20 })
+      pointer(canvas, 'pointermove', { clientX: 300, clientY: 300 })
+      pointer(canvas, 'pointercancel', { clientX: 300, clientY: 300 })
+      pointer(canvas, 'pointerup', { clientX: 300, clientY: 300 })
     })
-    const callsAfterCancel = onWorkspaceNotice.mock.calls.length
-    await act(async () => {
-      pointer(canvas, 'pointerup', { clientX: 40, clientY: 20 })
-    })
-    expect(onWorkspaceNotice.mock.calls.length).toBe(callsAfterCancel)
-    // 正控：同输入正常 up —— 选区预览真实出现在 DOM + 通知调用数增加
+    expect(host.querySelector('.map-content-selection-preview')).toBeNull() // 无选区业务状态
+    expect(onWorkspaceNotice.mock.calls.length).toBe(callsBefore) // set-selection 未派发
+    expect(firstPainted()).toEqual(paintedCell) // 瓦片未被任何操作改动
+    // ③ 正控：单击 (33,1) 提交单格选区（同屏点 = 同一格）
     await act(async () => {
       pointer(canvas, 'pointerdown', { clientX: 33, clientY: 1 })
-      pointer(canvas, 'pointermove', { clientX: 40, clientY: 20 })
-      pointer(canvas, 'pointerup', { clientX: 40, clientY: 20 })
+      pointer(canvas, 'pointerup', { clientX: 33, clientY: 1 })
     })
-    expect(onWorkspaceNotice.mock.calls.length).toBeGreaterThan(callsAfterCancel)
+    expect(host.querySelector('.map-content-selection-preview')).not.toBeNull() // 选区已提交
+    expect(onWorkspaceNotice.mock.calls.length).toBeGreaterThan(callsBefore)
+    // ④ 选区业务能力：右键菜单「删除」可用且真实删除 session 地图选区内瓦片
+    await act(async () => {
+      canvas.dispatchEvent(
+        new MouseEvent('contextmenu', {
+          bubbles: true,
+          cancelable: true,
+          button: 2,
+          clientX: 24,
+          clientY: 24,
+        }),
+      )
+    })
+    const menu = host.querySelector<HTMLElement>('[role="menu"][aria-label="地图选区操作"]')
+    expect(menu).not.toBeNull() // 提交选区后菜单真实出现
+    const deleteItem = [...menu!.querySelectorAll<HTMLButtonElement>('button')].find((b) =>
+      b.textContent?.includes('删除'),
+    )
+    expect(deleteItem).not.toBeUndefined()
+    expect(deleteItem!.disabled).toBe(false) // 选区使删除操作可用（选区是真实业务状态）
+    await act(async () => deleteItem!.click())
+    expect(firstPainted()).toBeNull() // 业务结果：选区内瓦片被真实删除
+    expect(host.querySelector('.map-content-selection-preview')).toBeNull() // 删除后选区清空
   })
 
   test('G01-06 平移中 pointercancel 终结平移：后续选择笔划仍正常提交（跨工具存活）', async () => {

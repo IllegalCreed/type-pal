@@ -5,7 +5,8 @@
  * - G04-02 编辑草稿确认：真实进入对话框（dblclick + 既有值 input 见证 entered）→ 翻转值 →
  *   确认恰一笔、值正确、弹层收口；
  * - G04-03 编辑草稿 Esc 取消：弹层关闭、onChange 零调用、body 深等；
- * - G04-04 弹层打开时外部替换 body：新 body 行数生效（外部变更不被草稿覆盖）。
+ * - G04-04 弹层打开时外部替换 body：旧草稿被丢弃（弹层收口、零写回），
+ *   重开的新草稿确认后写回新 body 对象（ScriptEditor.tsx:3183 草稿同步合同）。
  * 去重：ScriptEditor.test 24 条（重排/默认 hook/渲染语言）、characterization 13、hooks-session 3。
  */
 // @vitest-environment jsdom
@@ -46,7 +47,7 @@ async function openEditDialog(): Promise<HTMLElement> {
   await act(async () => {
     firstRow().dispatchEvent(new MouseEvent('dblclick', { bubbles: true, cancelable: true }))
   })
-  const dialog = host.querySelector('[role="dialog"]')
+  const dialog = host.querySelector<HTMLElement>('[role="dialog"]')
   expect(dialog?.getAttribute('aria-label') ?? '').toContain('编辑') // entered：弹层真实打开
   return dialog!
 }
@@ -110,18 +111,42 @@ describe('G04 脚本编辑草稿', () => {
     expect(current).toEqual(BODY_A) // body 深等
   })
 
-  test('G04-04 弹层打开时外部替换 body：新 body 行数生效且旧草稿不写回新对象', async () => {
+  test('G04-04 弹层打开时外部替换 body：旧草稿被丢弃（弹层收口零写回），新草稿确认写回新对象', async () => {
     const onChange = vi.fn()
     await act(async () =>
       root.render(<CanonicalScriptBodyEditor body={BODY_A} onChange={onChange} />),
     )
-    await openEditDialog() // 编辑 BODY_A[0] 的草稿已打开
-    // 外部把 body 换成 BODY_B（组件收到新 props）
+    const dialog = await openEditDialog() // 编辑 BODY_A[0] 的草稿已打开
+    // 草稿先翻转值（草稿 ≠ body → 确认才有实际写入内容）
+    const valueInput = [...dialog.querySelectorAll<HTMLInputElement>('input[type=checkbox]')][0]
+    expect(valueInput?.checked).toBe(true)
+    await act(async () => valueInput!.click())
+    // 外部把 body 换成 BODY_B（组件收到新 props）：草稿同步 effect 丢弃旧草稿
+    // （ScriptEditor.tsx:3183 editingDraft.sourceBody !== props.body → setEditingDraft(undefined)）
     await act(async () => {
       root.render(<CanonicalScriptBodyEditor body={BODY_B} onChange={onChange} />)
     })
     expect(host.querySelectorAll('.cmd-row').length).toBe(2) // 新 body 生效
-    // 旧草稿不写回新对象：如果此时确认旧弹层，onChange 收到的是 BODY_B 而非混合体
-    // （如实收窄：此处只证新 body 生效，旧草稿在弹层未关闭时是否覆盖需浏览器级确认）
+    expect(host.querySelector('[role="dialog"]')).toBeNull() // 旧草稿弹层真实收口
+    expect(onChange).not.toHaveBeenCalled() // 旧草稿零写回（不污染外部替换后的对象）
+    // 旧草稿确实不存在：重新打开第 0 行，编辑的是新 BODY_B[0]，确认写回新对象（2 行保形）
+    const reopened = await openEditDialog()
+    const reopenedInput = [
+      ...reopened.querySelectorAll<HTMLInputElement>('input[type=checkbox]'),
+    ][0]
+    expect(reopenedInput?.checked).toBe(true) // BODY_B[0] 既有值（不是旧草稿翻转后的 false）
+    await act(async () => reopenedInput!.click()) // 再次翻转（草稿 → false）
+    const confirm = [...reopened.querySelectorAll('button')].find((b) =>
+      b.textContent?.includes('完成'),
+    )
+    expect(confirm).not.toBeUndefined()
+    await act(async () => confirm!.click())
+    expect(onChange).toHaveBeenCalledTimes(1) // 只有新草稿这一笔
+    // 写回的是新 body 对象的形（2 行），第 0 行翻转；无旧草稿混合残留
+    expect(onChange.mock.calls[0]?.[0]).toEqual([
+      { kind: 'setFlag', flag: 'opened', value: false },
+      { kind: 'playSound', asset: 'sound.test' },
+    ])
+    expect(host.querySelector('[role="dialog"]')).toBeNull() // 提交后弹层收口
   })
 })

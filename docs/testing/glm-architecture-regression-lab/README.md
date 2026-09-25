@@ -134,13 +134,17 @@ JSON最后一次SHA登记后必须再次Biome；避免为填自己的commit hash
 Codex接收时逐组决定转正或返工，并独立复核；正式集成后才串行check→ratchet→受保护strict，整批统一统计。
 GLM贡献须在最终实施审查披露；本卡不授予自验充独立终审、代签或标done权限。
 
-## 实际交付登记（GLM，2026-09-25）
+## 实际交付登记（GLM，2026-09-25，r7 收窄补实）
 
 - 起点 `a3ceaf05199fe334bdf5dea8d2b362e34de8679b`（对冻结 86e928b5 packages/scripts 零 diff）；
-  分支 `codex/glm-architecture-regression-lab-r1` @ worktree `/Users/zhangxu/illegal/type-pal-glm-regression-lab`。
-- 实际文件：[receipt.md](receipt.md)、configs/{candidates,diagnostics}.vitest.mts、fixtures/{editor,migrate}/**、
-  candidates/{editor,content,game,migrate}/*.test.*（含 lab-startup 启动小样）、
-  diagnostics/lab-startup-red.test.tsx、tools/{red-control,verify}.mjs、results.json、receipt.md。
-- 每组一提交；候选绿套件命令、负控 runner、机械对账器见 receipt.md 复算命令节。
-- 截图 6 张在 /tmp/type-pal-glm-regression-lab/（不入 Git），用途登记于 results.json artifacts。
-- 12 组全部交付：candidate-green 37 / existing-proof 1 / blocked-environment 1。V04 深链覆写已按 Codex 裁定改判为预期中止。
+  分支 `codex/glm-architecture-regression-lab-r1` @ worktree `/Users/zhangxu/illegal/type-pal-glm-regression-lab`；
+  活树产品冻结以 `git merge-base origin/main HEAD` 为基准零 diff（verify.mjs v2 硬判据）。
+- 实际文件：[receipt.md](receipt.md)、configs/{candidates,diagnostics}.vitest.mts、configs/tsconfig.json、
+  fixtures/{editor,migrate}/**、candidates/{editor,content,game,migrate}/*.test.*（含 lab-startup 启动小样）、
+  diagnostics/lab-startup-red.test.tsx、tools/{red-control,verify}.mjs、results.json。
+- 账本 **40 条** = candidate-green 38 / existing-proof 1 / blocked-environment 1；执行 JSON 32/32 全绿，
+  candidate-green fullName 与执行 JSON 一对一双射（verify.mjs v2 硬判据）。
+- 类型门真实通过：`pnpm exec tsc --project …/configs/tsconfig.json --noEmit` exit0（TS5101 已消除）。
+- 截图 6 张在 /tmp/type-pal-glm-regression-lab/（不入 Git），用途登记于 results.json artifacts；
+  V01-V04 未执行矩阵在 receipt.md 未证项如实登记。
+- 12 组全部交付；V01-V04 未证矩阵与 blocked 项以 receipt/账本为准，不把绿数当完整合同。
