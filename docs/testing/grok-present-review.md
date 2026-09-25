@@ -1,6 +1,19 @@
 # TEST-GROK-PRESENT-1 — Codex 独立候选复核
 
-## 当前结论：r2 仍 counter，仅余 C1a 实参数组身份
+## 当前结论：r3 accept（仅隔离候选材料）
+
+2026-09-25，Grok 返工 `503a2d24f162e9de7fb9e0a57c3f5a1243219adb`（对比 r2 `5cb98087`）。本轮唯一残项 C1a 已闭合；**无剩余阻断 counter**。该 accept 不等于正式测试接入、产品修复、浏览器视觉验收或官方覆盖率增长；任务仍为 `draft`，不合 main、不标 done，正式移入 package 测试及统一质量门由 Codex 另行决定。
+
+- `git diff 5cb98087..503a2d24 --name-status` 只含 `README.md` 和 P01/P02/P04/P05/P07 五个候选测试；实际源码、旧测试、资产、锁文件、脚本和官方覆盖率基线相对 `1763ac58` 零 diff。候选远端 tip 与本地完整 SHA 相等，工作树干净。
+- P05 物品、装备、空目录的各 draw 都与前后 `cloneInputs` 使用同一具名 `items`；P01/P02/P04卖列表/P07 的同型调用逐项抽核同样成立，P03/买列表原本已共用。`P05 同一items数组增删或重排会使输入快照失败` 对同一数组 push/reverse/pop 三次均明确不等；不拿另一份等值数组充数。
+- 本席把 r2 同型见证重新放在真实 `makeGs→createInventoryMenu→confirmInventoryItem→openMenu→drawMenuStack` 链：在 draw 对**实传数组**的 `find` 作 call-through 钩，仅在本次调用中追加一个合法 Item，恢复方法后快照输出 `{"sameSnapshot":false,"actualItemsLength":2}`，exit0；r2 同场景结果为 `sameSnapshot:true`。候选产品/测试文件未作磁盘变异。
+- 独立复跑候选 JSON **25/25**、0 failed/pending；按运行标题为 **23 项真实 draw + 2 项快照 helper 自测**，回执正确分栏。候选 tsc、17 文件 Biome、文档检查、diff 检查均 exit0；P02/P05/P10 三针仍是原树绿、指定业务 `AssertionError` 红且三份生产源 SHA 前后相同。r2 的相邻六文件21/21证据保持，本轮未改其目标源码/旧测试，按用户要求不重开像素/P06/首次绘制项目。
+
+结论已写入本人的审查席位与看板，Grok 仍只是候选测试贡献者，不当作自己成果的独立第三方。下次若 Codex 决定正式集成，须另核 official testSelection/完整 check/ratchet/受保护 fast 和入库路径；本次不预签这些结果。无下一位 Grok/Kimi/GLM 提示词，等待 Codex 正式接入排期。
+
+## r2 结论与反证（历史，C1a 已闭）
+
+### 当轮结论：r2 counter，仅余 C1a 实参数组身份
 
 2026-09-25 返工候选 `5cb98087ed441396aabc7f5fc1a1d0132d75d576`（对比首包登记 `e180cb56`）。本席按当前“贡献者执行、Codex 独立验收”模式复核；Grok 自验不算独立结论。C2、C3 与 C1 的位图宽高/法术/背景/毒/升级表遗漏均已闭合；像素坐标、旧例去重、P02/P05/P10 三针不重开。**只剩 C1a，暂不正式接入或记官方覆盖率。**
 

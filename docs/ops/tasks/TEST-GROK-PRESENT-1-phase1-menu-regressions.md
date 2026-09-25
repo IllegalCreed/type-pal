@@ -124,7 +124,13 @@ diagnostics/pXX-*.test.ts     # 显式失败/待证，不进默认绿集合
 - 旧 Kimi/GLM 席位说明只作历史；用户随后明确暂休三贤人固定签字，当前由 Grok 贡献、Codex 独立验收。候选仍未开放产品 build 或正式测试接入，不因旧席位 pending 自动阻断。
 - 此阶段只分配工作，不改变一阶段行为/政策，不扩大其它卡或用户豁免。
 
-### Codex r2 收窄接收复核（2026-09-25）
+### Codex r3 接收复核（2026-09-25）
+
+- 候选 `503a2d24`（对比 `5cb98087`）：**accept，仅隔离候选材料**，[本人独立证据](../../testing/grok-present-review.md)。P01/P02/P04/P05/P07的当次实传 `items` 与快照同一数组；P05工具自测 push/reverse/pop 均能检出，Codex真实 draw 隔离见证由 r2 `sameSnapshot:true` 反转为 `false`。C1a 已闭，C1/C2/C3 全部无剩余 counter。
+- 本席复跑 25/25（23 项真实绘制、2 项快照自测）、tsc、Biome、docs/diff及P02/P05/P10三针；来源产品/旧测试/基线零 diff。r2相邻21/21保持，不重跑已闭像素与P06链。Status仍 `draft`，**未合 main、未标 done、未计官方覆盖率**；正式接入及完整质量门另由 Codex 排期，不以作者自验充独立终审。
+- 当前无下一位 Agent 提示词；Grok本轮返工已闭，不再让其重复修 C1a。以下 r2/r1 块及提示词均为历史，不能用于再次返工。
+
+### Codex r2 收窄接收复核（历史，C1a 已闭）
 
 - 候选 `5cb98087`（对比 `e180cb56`）：**counter，仅剩 C1a**；仍为 `draft` 隔离候选，[独立证据](../../testing/grok-present-review.md)。C2、C3 与 C1 位图/背景/法术/毒等字段遗漏已闭；24/24候选、相邻21/21、tsc/Biome/docs与三针均通过，但它们不能证明实际传入的 `items` 数组容器不被污染。
 - `p05-menu-stack.test.ts:59-66,94-109,135-152` 的快照 `items` 与传给 `drawMenuStack` 的内联数组不是同一对象；P01/P02/P04/P07同型调用需抽核。本席真实 draw 隔离见证在调用期间把实参数组从1项改成2项，当前快照仍 `sameSnapshot:true`，故暂不正式接入。只返工同一实际 catalog 容器的前后快照，并把新增 helper 自测与生产 draw 用例分栏；不改已闭像素、去重、三针或产品源码。
@@ -137,7 +143,7 @@ diagnostics/pXX-*.test.ts     # 显式失败/待证，不进默认绿集合
 - 剩余 C1：`cloneInputs` 未纳入真实位图尺寸和多组实际 catalog/bitmap，P08/P09 等未完整做绘制输入保真；独立见证修改 frame 宽度和 spell 名后快照仍相等。C2：P05/P07 多处首轮 draw 后才取快照。C3：P06 用静态 10 MP 构造法术菜单、runtime 8 MP 绘制；正式菜单先投影 runtime，4/30 费用不能鉴别陈旧预算。
 - 当轮返工只改隔离候选测试/fixture/回执；P10所需 `png-rgba.ts` 已由本席补录卡面 fixture 白名单。不改产品、旧测试、官方配置/基线。该旧结论不覆盖上方 r2 收窄结果。
 
-## 下一位 Agent 提示词（Grok r2 唯一残项 C1a）
+## r2 下一位 Agent 提示词（历史，已完成）
 
 ```text
 在 /Users/zhangxu/illegal/type-pal-grok-present 的 codex/grok-present-tests-r1 分支窄返工 TEST-GROK-PRESENT-1。当前候选5cb98087，卡状态draft；fetch 后用 git show origin/main:AGENTS.md 读取当前委派模式（本候选旧基点的 AGENTS.md 仍是历史三贤人文本），再读候选 README，并用 git show origin/codex/doc-cursor-review-r1:docs/testing/grok-present-review.md 读取 Codex r2 C1a 反证（只读，不合入复核分支）。接手前同步分支并核干净工作树。

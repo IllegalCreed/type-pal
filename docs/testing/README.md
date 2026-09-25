@@ -8,7 +8,7 @@
 
 ## 文档与附件
 
-- [Grok一阶段菜单与索引渲染十组候选回归](grok-present-regressions/README.md)与[Codex独立接收](grok-present-review.md)（TEST-GROK-PRESENT-1，r2候选24项/三针已复跑；仅实际 catalog 数组快照身份C1a仍counter，不合main、不计官方覆盖率）
+- [Grok一阶段菜单与索引渲染十组候选回归](grok-present-regressions/README.md)与[Codex独立接收](grok-present-review.md)（TEST-GROK-PRESENT-1，r3候选503a2d24材料accept：23绘制+2快照自测、三针业务红；未合main/不计官方覆盖率）
 
 - [Cursor八组工具纯函数候选回归](cursor-tool-regressions/README.md)、[独立复核](cursor-tools-review.md)与[初版冻结见证](cursor-tools-review-witness.mjs)（返工85f2a824材料accept；22绿+路径诊断1绿1红，CT-R1/R2闭合；工具缺陷仍在，不合main/不改统计）
 
