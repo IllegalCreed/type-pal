@@ -8,11 +8,12 @@
  *   `getPlayerAttackStrength`（battle-opcodes 消费同源）读出含加成值。
  * 去重：event-system.test 326/scene 110/opcode 158/equip 36 为单模块证据；本组只证跨 caller。
  */
-import { describe, expect, test } from 'vitest'
-import { addItemToInventory } from '@lab/game/event-system'
+
 import { getPlayerAttackStrength, writeEquipmentEffectField } from '@lab/game/equip-effect'
+import { addItemToInventory } from '@lab/game/event-system'
 import { createInitialGameState } from '@lab/game/game-state'
 import { getCurrentMapNum, setCurrentMapNum } from '@lab/game/scene-system'
+import { describe, expect, test } from 'vitest'
 
 describe('G07 第一阶段模块边界', () => {
   test('G07-01 scene 写 mapNum → event 读：跨模块顺序合同（含恢复）', () => {
