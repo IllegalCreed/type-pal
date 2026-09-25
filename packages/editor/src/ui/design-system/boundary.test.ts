@@ -1989,6 +1989,24 @@ describe('editor design-system static boundary', () => {
     expect(source).not.toMatch(/className\s*=\s*["'][^"']*\bmini\b/)
   })
 
+  test('keeps status values on the extracted module without a controls cycle', () => {
+    const status = readFileSync(join(here, 'status-values.tsx'), 'utf8')
+    const controls = readFileSync(join(here, 'controls.tsx'), 'utf8')
+    const index = readFileSync(join(here, 'index.ts'), 'utf8')
+    expect(status).toMatch(/export type DsTagTone/)
+    expect(status).toMatch(/export function DsTag\b/)
+    expect(status).toMatch(/export function DsReadonlyValue\b/)
+    expect(status).not.toMatch(/from ['"]\.\/controls/)
+    expect(controls).toMatch(/export type \{ DsTagTone \} from ['"]\.\/status-values\.js['"]/)
+    expect(controls).toMatch(
+      /export \{ DsReadonlyValue, DsTag \} from ['"]\.\/status-values\.js['"]/,
+    )
+    expect(controls).not.toMatch(/export function DsTag\b/)
+    expect(controls).not.toMatch(/export function DsReadonlyValue\b/)
+    expect(index).toMatch(/export \* from ['"]\.\/controls\.js['"]/)
+    expect(index).not.toMatch(/status-values/)
+  })
+
   test('keeps MapStampPalette chrome on shared controls without catalog-shell creep', () => {
     const source = readFileSync(join(dirname(here), 'MapStampPalette.tsx'), 'utf8')
     expect(source).toMatch(

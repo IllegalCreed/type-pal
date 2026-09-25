@@ -3,7 +3,6 @@ import {
   type ButtonHTMLAttributes,
   cloneElement,
   forwardRef,
-  type HTMLAttributes,
   type InputHTMLAttributes,
   isValidElement,
   type MouseEventHandler,
@@ -25,6 +24,8 @@ import { DsIcon, type DsIconName } from './icons.js'
 
 export type { DsOverflowTextProps } from './overflow-text.js'
 export { DsOverflowText } from './overflow-text.js'
+export type { DsTagTone } from './status-values.js'
+export { DsReadonlyValue, DsTag } from './status-values.js'
 
 function classes(...values: Array<string | false | null | undefined>): string {
   return values.filter(Boolean).join(' ')
@@ -32,7 +33,6 @@ function classes(...values: Array<string | false | null | undefined>): string {
 
 export type DsButtonVariant = 'primary' | 'secondary' | 'quiet' | 'danger'
 export type DsControlSize = 'default' | 'compact'
-export type DsTagTone = 'accent' | 'neutral' | 'warning' | 'danger'
 
 /**
  * Unskinned semantic button for rich domain surfaces such as tiles, frames and tree rows.
@@ -106,44 +106,6 @@ export function DsActionLink(
       {icon ? <DsIcon name={icon} /> : null}
       <span>{children}</span>
     </a>
-  )
-}
-
-/** Compact semantic status label. Object headers and catalog rows must not invent local badge skins. */
-export function DsTag(
-  props: HTMLAttributes<HTMLSpanElement> & {
-    tone?: DsTagTone
-    monospace?: boolean
-  },
-) {
-  const { tone = 'accent', monospace = false, className, children, ...rest } = props
-  return (
-    <span
-      {...rest}
-      className={classes('ds-tag', `ds-tag--${tone}`, monospace && 'ds-tag--monospace', className)}
-    >
-      {children}
-    </span>
-  )
-}
-
-/** Read-only value chrome for property rows; unlike a disabled input, its text stays selectable. */
-export function DsReadonlyValue(
-  props: HTMLAttributes<HTMLSpanElement> & {
-    as?: 'span' | 'div'
-    monospace?: boolean
-  },
-) {
-  const { as: Element = 'span', monospace = false, className, ...rest } = props
-  return (
-    <Element
-      {...rest}
-      className={classes(
-        'ds-readonly-value',
-        monospace && 'ds-readonly-value--monospace',
-        className,
-      )}
-    />
   )
 }
 
