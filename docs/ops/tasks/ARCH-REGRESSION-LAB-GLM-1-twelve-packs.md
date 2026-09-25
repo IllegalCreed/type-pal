@@ -68,3 +68,20 @@ docs/testing/glm-architecture-regression-lab/README.md。
 测试名/计数/hash从最终树与运行JSON生成；证据kind和结论分开，不把静态/收集/实际执行混成covered。
 完成十二组后统一push，交短摘要+results.json+可重建命令，不标done、不代签、不转Kimi。
 ```
+
+## Codex 独立接收（2026-09-25，候选 `30397b1d`）
+
+结论：**counter，十二组均未按完整申报合同转正；任务仍为 `draft`。** 逐组反证、可保留的窄正控和 V04-01 独立浏览器复核见[本人报告](../../testing/architecture-regression-lab-codex-review.md)。本席没有改 GLM 的 README/receipt/results 语义，没有合候选、改产品或计官方覆盖率。
+
+- G01–G08：候选 32/32 确实执行，但 G01-06 `expect(true)`、G02-03 未真正换会话、G04 对话框可缺席仍绿、G05 不推进旧播放、G06/G07/G08 标称跨模块/回调/异常却直接测单函数或恒真条件等，使完整组合同不能 accept。G01/G02/G03 的局部业务正控和 V02-02 既有 PanelResizeHandle 测试引用可保留；具体每组见报告表。
+- V01–V03：截图中的角色名变化/撤销及 720px 排版可见，但未覆盖各卡所列多表单键盘、分隔条矩阵和真实异步失败恢复；V03 的无效 objectId 回退不等于读取失败三态。
+- V04-01：干净 asset/sprite URL 在同候选工作树的隔离 6013 实测正常；脏会话整页 goto 因 `beforeunload` 保护被浏览器 `ERR_ABORTED`，站内“资源→精灵库”在同一脏会话可进入，故“App 覆写深链回 actor”归因撤回。V04-02 真阻断是测试树缺 `sprite.pal.002` 二进制，catalog 登记 4031 字节而服务端回退读得 917；不是页面不可达。
+- 机械范围 `PASS`、39 行账 36/1/1/1、启动单针 detected 可采信为材料事实；全目录 Biome **23 errors**，`configs/project-configs.mjs:1` 仍为 SyntaxError 占位，候选无独立类型检查；`verify.mjs` 未核 JSON fullName/status/命令且仅比截图哈希前缀。未满足本卡交付门。当前用户模式为 Codex 分派、GLM 贡献、Codex 独立验收；不等待固定三贤人签字，但错误的业务证据仍须返工。
+
+### 下一位 GLM 返工提示词
+
+```text
+在 /Users/zhangxu/illegal/type-pal-glm-regression-lab、codex/glm-architecture-regression-lab-r1 返工 ARCH-REGRESSION-LAB-GLM-1，候选30397b1d，状态draft。先同步分支并核工作树；读取 origin/main:AGENTS.md 当前委派模式、本卡，以及 Codex 报告 docs/testing/architecture-regression-lab-codex-review.md（在 origin/main，先 git show 只读，不要为取报告合main）。
+按报告逐组处理 G01–G08/V01–V04 的具体反证；保留已成立的窄正控，不为保持39条而留 tautology、未进入目标链的用例或非法强转。V04-01 撤回“深链产品覆写”归因：干净深链正常，脏会话 ERR_ABORTED 是 beforeunload，站内导航可进；V04-02 正确登记缺合法精灵字节的环境阻断，提供自包含资源正控后再做媒体矩阵。修全目录 Biome、删除/完成无效 project-configs.mjs、为候选TS/TSX提供真实类型检查；verify.mjs 应从 Vitest JSON 核 test fullName/status/执行数、命令及完整截图SHA，而非只核文件存在/16位前缀。每组关键新合同交可鉴别单点反控或注明重叠/待证。
+只改自己的 docs/testing/glm-architecture-regression-lab/** 和自己的回执/账本；不改产品、旧测、官方配置或基线，不跑迁移写盘/全仓覆盖率。返工后复跑候选、相邻、类型/目录Biome、负控/verify及必要隔离视觉，提交推送 SHA 与逐组去向；Codex 独立复核，不自行合main/标done。不需 Kimi 固定签字。
+```

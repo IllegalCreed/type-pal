@@ -18,7 +18,7 @@
 
 - [Cursor文档核对Codex接收](cursor-docs-hygiene-review.md)（窄返工65193a84/320800ec accept，CR-1/CR-2闭合；H7待核，五份修订卡仅draft；原回执不改、不合main/不标done）
 
-- [GLM十二组可执行架构回归实验包](glm-architecture-regression-lab/README.md)（8组候选回归+4组功能视觉，draft可执行；冻结86e928b5，仅实验目录，正式接入/统计由Codex统一）
+- [GLM十二组可执行架构回归实验包](glm-architecture-regression-lab/README.md)与[Codex独立接收](architecture-regression-lab-codex-review.md)（30397b1d仍counter；V04深链误归因已核，32候选绿不等于十二组合同通过；不进正式统计）
 
 - [A3-b：场景资源与预检拆分](scene-preparation-refactor.md)、[机账](scene-preparation-refactor-evidence.json)、[冻结对照](scene-preparation-parity.mjs)与[11针反例](scene-preparation-mutants.mjs)（fdad980f/done；26新增/check8525/strict8034/641，缓存政策/同步提交保持；A3整体未完成）
 
