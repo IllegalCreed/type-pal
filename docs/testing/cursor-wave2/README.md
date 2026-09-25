@@ -6,7 +6,7 @@
 返工基点：最新 `origin/main`（含 W2 `cbac3ca0` 与 [Codex 首轮复核](../cursor-wave2-review.md)）。
 Codex 独立验收与集成；本回执不是接收证明，也不标 done。
 
-> Codex 二轮接收界限：W1/W2/W5 已选择性接入 main，W3/W4 仍是隔离候选；以下 W3/W4 的自验数字与“变异”表述不构成独立接收证明。详见[二轮复核](../cursor-wave2-r2-review.md)。
+> Codex 二轮接收界限：W1/W2/W5 已选择性接入 main。本文件现记三轮 W3/W4：去掉测试内仿写/`@ts-nocheck`，改由 Vite 隔离加载变异后的生产模块。详见[二轮复核](../cursor-wave2-r2-review.md)。
 
 ## W1 作者指南七处已证误导
 
@@ -35,13 +35,13 @@ Codex 独立验收与集成；本回执不是接收证明，也不标 done。
 
 | 轴 | 状态 | 证据 |
 |---|---|---|
-| 偏移视图散列 / 输入不变 / 同长异文 | 新增（保留） | `binary-signature.test.ts`：`same-length payloads…`；`an offset view hashes only its window and does not mutate the source` |
-| 隔离实现负控 | 返工新增 | `dropping the view copy makes the offset-view contract fail with AssertionError`：隔离副本把 `Uint8Array.from(bytes).buffer` 改成 `bytes.buffer` 后，同一偏移视图对 `isolated` 的相等断言以 AssertionError 红；生产源 SHA 测试前后不变 |
+| 偏移视图散列 / 输入不变 / 同长异文 | 新增（保留） | `binary-signature.test.ts`：`same-length payloads…`；`an offset view hashes only its window and does not mutate the source`。已删除测试内仿写 `sha256HexWholeBuffer` 与 `@ts-nocheck` |
+| 隔离生产模块负控 | 三轮新增 | `docs/testing/cursor-wave2/module-mutants.mjs` 的 `w3-view-copy`：Vite `load` 只改内存中的 `Uint8Array.from(bytes).buffer` → `bytes.buffer`，跑同一正式测试。控制树 exit 0；变异树 exit 1，`AssertionError` 落在 `binary-signature.test.ts:24`（view 与 isolated 散列不再相等）。磁盘 `binary-signature.ts` SHA 不变 |
 | 读锁回调失败后释放 | 新增（保留） | `project-read-admission.test.ts`：`读锁：回调失败后 discovery 与 workspace 锁都释放` |
 | 绑定换代拒绝 | existing-proof | 同文件 `读锁：获锁后重查绑定…`；`读锁：读取中 %s 绑定漂移不得返回结果` |
 | URL 重复/歧义拒绝 | existing-proof | `play-url.test.ts`：`rejects invalid or ambiguous identity before loading`；`a missing/invalid editor identity cannot become a bare HTTP URL` |
 
-定向：`pnpm --filter @type-pal/editor exec vitest run src/core/binary-signature.test.ts src/core/project-read-admission.test.ts src/core/play-url.test.ts` → 3 files / 49 tests，exit 0。未改产品代码。
+定向：`pnpm --filter @type-pal/editor exec vitest run src/core/binary-signature.test.ts src/core/project-read-admission.test.ts src/core/play-url.test.ts` → 3 files / 48 tests，exit 0。未改产品代码。
 
 ## W4 一阶段工具边界
 
@@ -50,15 +50,15 @@ Codex 独立验收与集成；本回执不是接收证明，也不标 done。
 | 轴 | 状态 | 证据 |
 |---|---|---|
 | 持久开关 / 未启用 no-op / 关闭清理 | existing-proof | `fps-overlay.test.ts` 既有 6 例 |
-| 50 FPS 色阈 | 返工收窄 | `采样满窗后 ≥50 为绿、<50 为红；49 不得误标绿`：`.v` 的 `textContent` 精确为 `50` / `49`，不再用子串 |
-| 阈值单点变异 | 返工新增 | `relaxing fps >= 50 to fps >= 49 makes the 49-red contract AssertionError-red`：源码替换 `fps >= 50` → `fps >= 49` 后 49 不再是 `.v.lo`；生产源 SHA 不变 |
+| 50 FPS 色阈 | 返工收窄（保留） | `采样满窗后 ≥50 为绿、<50 为红；49 不得误标绿`：`.v` 的 `textContent` 精确为 `50` / `49`。已删除测试内正则/`className` 仿写 |
+| 阈值生产模块变异 | 三轮新增 | `module-mutants.mjs` 的 `w4-fps-threshold`：Vite `load` 只改内存中的 `v.className = fps >= 50` → `>= 49`，跑同一正式 49/50 断言。控制树 exit 0；变异树 exit 1，`AssertionError` 落在 `fps-overlay.test.ts:86`（49 不再有 `.v.lo`）。磁盘 `fps-overlay.ts` SHA 不变 |
 | 连续启停不沿用脏计数 | 新增（保留） | `连续启停丢弃未满窗的脏帧计数，下一窗按新节奏采样`（显示值改为精确 `50`） |
 | 缩放默认/夹限/持久 | existing-proof | `display-scale.test.ts` 既有四例 |
 | 损坏存储回落 | 新增（保留） | `损坏或非正存储 %s 回落到 100%，不得沿用脏值` |
 | toast 挂出/类型/到时移除 | existing-proof | `toast.test.ts` 既有三例 |
 | 未到点不得移除 | 新增（保留） | `未到 duration 不得移除，负控证明计时器不是一挂就清` |
 
-定向：`pnpm --filter @type-pal/game exec vitest run src/tools/fps-overlay.test.ts src/tools/display-scale.test.ts src/tools/toast.test.ts` → 3 files / 21 tests，exit 0。受控时间戳与假时钟，无真实 sleep。未改 UX。
+定向：`pnpm --filter @type-pal/game exec vitest run src/tools/fps-overlay.test.ts src/tools/display-scale.test.ts src/tools/toast.test.ts` → 3 files / 20 tests，exit 0。受控时间戳与假时钟，无真实 sleep。未改 UX。
 
 ## W5 文档工具安全边界
 
@@ -80,14 +80,14 @@ Codex 独立验收与集成；本回执不是接收证明，也不标 done。
 
 | 检查 | 结果 |
 |---|---|
-| editor typecheck | exit 0 |
+| editor typecheck | exit 0（无 `@ts-nocheck`） |
 | game typecheck | exit 0 |
-| editor 定向 | 3 files / 49 tests |
-| game 定向 | 3 files / 21 tests |
-| 文档定向 | 24 pass |
+| editor 定向 | 3 files / 48 tests |
+| game 定向 | 3 files / 20 tests |
+| `node docs/testing/cursor-wave2/module-mutants.mjs` | 2 control green / 2 business AssertionError |
 | `pnpm test:docs-tools` | 37 pass / 0 fail |
 | 改动文件 Biome | 通过 |
-| `pnpm check:docs` / `node scripts/docs/check.mjs` | `584 Markdown / 3122 local links / 193 tasks`，PASS |
+| `pnpm check:docs` / `node scripts/docs/check.mjs` | `586 Markdown / 3129 local links / 193 tasks`，PASS |
 | `git diff --check` | 通过 |
 
-不跑迁移、提取、E2E、ratchet 或 `baseline.fast.json`。全仓 check / 统一 ratchet / 受保护 strict-fast 留给 Codex 接收后串行一次。工作树自建 `node_modules` 软链接已删除。
+不跑迁移、提取、E2E、ratchet 或 `baseline.fast.json`。全仓 check / 统一 ratchet / 受保护 strict-fast 留给 Codex 接收后串行一次。工作树自建 `node_modules` 软链接交付前删除。
