@@ -98,7 +98,7 @@ verify 一对一映射/白名单硬判据。随后逐组补真实 entered+业务
 
 ```text
 接收 ARCH-REGRESSION-LAB-GLM-1 r7，worktree /Users/zhangxu/illegal/type-pal-glm-regression-lab，
-分支 codex/glm-architecture-regression-lab-r1，候选 tip 见 git log（本块登记后 GLM push 的精确 SHA），
+分支 codex/glm-architecture-regression-lab-r1，候选 tip `9a197825`（style(lab): optional-chain lints in verify.mjs），
 任务 draft。先读 docs/testing/architecture-regression-lab-codex-r6-review.md 与本块，
 再核 git diff 33df9378..HEAD -- docs/testing/glm-architecture-regression-lab/candidates/ fixtures/（本轮为真实测试 diff）。
 复跑：candidates.vitest.mts 新鲜 JSON（32/32）、tools/verify.mjs <JSON>（v2 硬判据 PASS，
