@@ -63,6 +63,12 @@ Codex保留A3的main/场景/移动/绘制主线，GLM不修改或替其审签。
 - **counter，Status 仍 draft**。[本人逐组复核](../../testing/architecture-regression-lab-codex-r6-review.md)：候选/fixture 对 `494f9b5d` 零 diff，故“已逐条修测试断言”与最终树不符，原业务反证全保留。机账 G04-04 标题与 V04 结构化备注已纠正，32/32、verify PASS、单针 detected、六图完整 hash 可保留。
 - 新增类型检查配置独立执行 exit2（TS5101，`baseUrl` 弃用）；receipt/G08/36项等旧口径与 `results.json` 旧命令仍不一致。未合候选、未跑官方覆盖率、未标 done；Kimi 豁免，不代签。
 
+## Codex 七轮接收（2026-09-26，候选 `9a197825` / 登记树 `fb251df8`）
+
+- **counter，Status 仍 draft**。[本人逐组独立复核](../../testing/architecture-regression-lab-codex-r7-review.md)：候选/fixture 本轮确有 `+597/-191` 真测试改动，32/32、verify v2、red-control、独立 tsc 与 docs 门通过；G02/G04 当前候选合同可接收，G01/G06/G07/G08 有可保留的窄进展。
+- 最终树 `configs/candidates-exec.json` 未格式化，目录 Biome exit1，回执“exit0”与树不符。G03 未断言所称 save-state 终写；G05-02 未跨旧等待窗口，G05-04 的 `stopSpy` 在启动时已经被调用，不能证明卸载 cleanup。G06/G07/G08 的原工作包剩余轴和 V01–V04 的未证矩阵仍不转正。
+- 不合候选、不计官方覆盖率、不标 done；GLM 不自审终审，Kimi 本队列豁免。下一步按本人报告的三项收窄返工，不重做已通过的窄断言或旧截图。
+
 ### 下一位 GLM 收窄返工提示词
 
 ```text
