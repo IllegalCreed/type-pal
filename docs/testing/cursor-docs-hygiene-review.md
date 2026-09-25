@@ -1,14 +1,31 @@
 # DOC-CURSOR-1 — Codex独立接收复核
 
-日期：2026-09-25。候选正文`650f9f9d`，登记tip`8f3b85a7`；证据冻结`a3ceaf05`。
+日期：2026-09-25。当前候选正文`65193a84`，登记tip`320800ec`；证据冻结`a3ceaf05`。
+首轮正文`650f9f9d` / tip`8f3b85a7`的反证保留在下方历史节。
 原[Cursor回执](cursor-docs-hygiene.md)保持原文。本报告是Codex自己的判断，不改写贡献者结论。
 复核位于独立分支`codex/doc-cursor-review-r1`，不合main，不改十二份源文档或产品，不标done。
 
 ## 结论
 
-**窄counter：CR-1（H7）、CR-2（N1）。H1～H6接收；T1裁定随H2删除旧URL括号。**
-不是否定其它已核事实，也不要求重新做十二份盘点。候选符合一文件白名单；问题在两条证据/建议的准确性。
-后续[五份文档修订草案](../ops/tasks/DOC-GUIDE-REVISION-1-current-entrypoints.md)只开draft准入，不开build。
+**accept（仅审计材料接收）：CR-1/CR-2已闭，无剩余返工项。** H1～H6不重开，H7保持待核，
+T1删除旧URL括号，N1纠正参数转发。此accept不是正式文档修复、产品验收或done准入。
+后续[五份文档修订草案](../ops/tasks/DOC-GUIDE-REVISION-1-current-entrypoints.md)另核，仍draft/not opened。
+
+## 窄返工复核 — 65193a84 / 320800ec
+
+- CR-1：已撤销用ScriptTree证明当前提示/按钮的结论，真实调用链与前轮源码反证一致；
+  H7分类为待确认，未给出未经验证的替换句，scene-entry-authoring仍不进机械修订范围。
+- CR-2：N1已明确多余`--`会进入argv并被拒；README/content-publication正确短写保持，
+  dev-servers两处列需删除分隔符。回执明确引用Codex隔离反证，不冒称Cursor跑过真实迁移。
+- T1已收敛为直接删旧URL括号，不产生URL仍可用或世界自动恢复的承诺。
+- 机械核对H1～H6六行与8f3b85a7逐字一致；12个问题ID唯一，小计确为
+  8条确定不符（H1～H6/T1/N1）、1条待核（H7）、3条保持（N2～N4）。这是建议分类，不是8个产品bug。
+- `26c4ae5c..320800ec`仍恰一份回执；登记提交只回填候选SHA和检查结果，正文候选为65193a84。
+  五个关键源码锚点与a3ceaf05逐字一致；packages/scripts、十二份源文档未改。
+- 候选原树文档检查exit0（545 Markdown / 2975 links / 179 tasks）；候选diff检查exit0。
+  不重复跑已核argv实验或其它已闭项，不跑产品测试/覆盖率/浏览器/迁移。
+- 两个回执提交原样cherry-pick到独立复核分支为7d33c7ac/0508bc2a；没有合入main，
+  没有改Cursor的回执措辞。仅Codex接收席位签accept，他席与任务Status均不变。
 
 ## 已接收项与修订决定
 
@@ -27,7 +44,7 @@ H5注册表静态抽取结果：场景→场景编排/氛围；地图→地图�
 战斗模拟器→试打方案/我方预设/敌方预设/背包预设；资源→精灵库/图像/音乐/音效/过场素材；
 项目设置→概览/全局资源与启动/入口与开局/问题。未运行UI，不将静态结果写成视觉验收。
 
-## CR-1：H7引用的是未在当前页面渲染的组件
+## 首轮CR-1（现已闭合）：H7引用的是未在当前页面渲染的组件
 
 `ScriptTree.tsx:673`确有“默认淡出 → 切场 → 淡入”，但**字符串存在不证明当前界面显示它**。
 真实调用链是：
@@ -47,7 +64,7 @@ H5注册表静态抽取结果：场景→场景编排/氛围；地图→地图�
 本次不要求浏览器复验、不实现入场呈现控件，也不宣布这是已经证实的产品回归；
 `scene-entry-authoring.md`不进入这批机械修订白名单，后续由Codex结合实际可达UI核定。
 
-## CR-2：N1命令并不等价，多余分隔符会被拒绝
+## 首轮CR-2（现已闭合）：N1命令并不等价，多余分隔符会被拒绝
 
 `packages/migrate/scripts/migrate-content.mts:44-51`对argv仅允许`--write`，其它参数throw；
 `:53`才开始recoverMigrationTransaction。回执将`run migrate:content -- --write`称为
@@ -82,7 +99,7 @@ runInNewContext(cli.slice(start, end), { process: { argv: [...process.argv] }, c
 将`dev-servers.md:18,104`的错误分隔符列为需修订项，推荐`pnpm --filter @type-pal/migrate run migrate:content --write`。
 不执行真实write/dry-run来证明命令；CLI默认路径也会先调用recover，不当作绝对无IO的验证手段。
 
-## 范围与验证
+## 首轮范围与验证（历史）
 
 - 远端tip核为`8f3b85a7d1e9825eac8f85b6938b436409e2e9f2`；650f正文→8f登记仅增一条SHA。
 - `git diff --name-status 26c4ae5c..8f3b85a7`恰一文件；生产/scripts对a3ceaf05零diff。
@@ -94,5 +111,5 @@ runInNewContext(cli.slice(start, end), { process: { argv: [...process.argv] }, c
 
 ## 下一步
 
-Cursor只需修正自己的H7/N1及关联小计/完成表，原六项不重做。Codex接收后按五份修订卡另核build门，
-没有“回执接收=正式指南已修复”的隐式推进。交接提示词见[原任务卡](../ops/tasks/DOC-CURSOR-1-current-guide-check.md)。
+Cursor本包无剩余返工。五份修订卡的准入另核，没有“回执接收=正式指南已修复”的隐式推进。
+无下一位Agent提示词，等待用户决定后续修订准入；不合main、不代签、不标done。

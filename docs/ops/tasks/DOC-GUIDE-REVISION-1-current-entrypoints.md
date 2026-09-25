@@ -14,8 +14,8 @@ Evidence freeze: a3ceaf05
 ## 目标与边界
 
 用户要求接收DOC-CURSOR-1后另开修订准入。本卡只列已核实的五份源文档修改，**尚未开build**。
-Cursor回执的六项事实成立，H7/N1有[Codex窄counter](../../testing/cursor-docs-hygiene-review.md)，
-原回执尚待更正；不因开本卡改写或自动通过原卡。
+Cursor回执的六项事实成立，H7/N1经[Codex窄复核](../../testing/cursor-docs-hygiene-review.md)
+已在65193a84/320800ec更正并接收。此处仅同步前置事实，本卡设计签字/准入仍另核，不自动开build。
 
 ## 前提真值门
 
@@ -40,7 +40,7 @@ Cursor回执的六项事实成立，H7/N1有[Codex窄counter](../../testing/curs
 
 ## 验证与禁止事项
 
-- 必须先接收原回执更正、按阶段门确定实现者与准入；不能仅凭本卡draft开始修改五份指南。
+- 原回执更正已接收；仍须按阶段门确定实现者与准入，不能仅凭本卡draft开始修改五份指南。
 - 只读命令定义/当前注册表，必要时复用隔离argv探针；不执行真实迁移write或默认recover路径。
 - 文档检查及其工具自测、diff白名单、原建议→最终改文逐项对应。无产品/测试/配置/资产/基线改动，
   不跑全仓测试或覆盖率，不将文档门通过写成产品验收。
@@ -52,14 +52,15 @@ Cursor回执的六项事实成立，H7/N1有[Codex窄counter](../../testing/curs
 - Kimi：pending（未请求，未代签）。
 - GLM：pending（未请求，未代签）。
 - 用户缺签豁免：本卡无；既有架构产品队列豁免不自动外推为此文档卡授权。
-- build准入：not opened。需原回执更正，并满足本卡推进签字或明确豁免后，由Codex统一核定。
+- build准入：not opened。原回执更正已接收；本卡推进签字或明确豁免另核后，由Codex统一核定。
 - done准入：not opened；无实现，无实现验收签名。
 
 ## 交接
 
 - 2026-09-25 Codex：只建立修订范围与验收，不修改指南。原卡CR-1/CR-2未闭，不请求他席基于错误回执背书。
+- 同日窄返工接收后：原卡CR-1/CR-2已闭，此前阻断记录保留为历史；用户要求本卡准入另核，本轮不推进。
 
 ## 下一位Agent提示词
 
-无实施交接：先完成原卡Cursor回执窄返工，提示词见[DOC-CURSOR-1](DOC-CURSOR-1-current-guide-check.md)。
-本卡不授权Cursor或其它Agent开始实现/合main/标done；原回执闭合后再明确推进签字路径。
+无下一位Agent提示词，等待用户决定修订准入。[DOC-CURSOR-1](DOC-CURSOR-1-current-guide-check.md)
+材料已接收，但本卡不授权Cursor或其它Agent开始实现/合main/标done；推进签字路径另核。

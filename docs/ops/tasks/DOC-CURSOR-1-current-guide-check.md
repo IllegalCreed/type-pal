@@ -75,11 +75,12 @@ Evidence freeze: a3ceaf05
 - Codex：2026-09-25确认只读核对范围与GLM/Codex产品工作互斥；draft准备可执行。
 - build准入：not opened；本卡不授权修改十二份源文档，后续由Codex审核建议并决定修订范围及准入。
 - Kimi/GLM：本次不请求签字，亦不伪造豁免或accept；Cursor不代替任一席位。
-- done准入：not opened，成果待Codex独立接收。本次只分配工作，没有已完成审计结论。
+- 材料接收：正文65193a84/登记320800ec已由Codex签accept，见文末席位；不等于正式文档已修。
+- done准入：not opened，按用户本轮边界不标done、不合main；五份修订卡另核。
 
 ## 下一位Agent提示词
 
-以下为原始准备阶段交接；**当前应执行文末2026-09-25窄返工提示词**。
+以下为原始准备阶段交接；文末窄返工也已接收，仅保留历史，不再授权重复执行。
 
 ```text
 在type-pal接手DOC-CURSOR-1，先读AGENTS/CLAUDE/READ-FIRST、任务卡
@@ -94,7 +95,7 @@ docs/ops/tasks/DOC-CURSOR-1-current-guide-check.md和文档维护规则。
 不改任务状态、不代签、不标done；给Codex一段接收提示词，附SHA和剩余疑点。
 ```
 
-## Codex接收席位 — 2026-09-25
+## Codex首轮接收席位 — 2026-09-25（历史）
 
 候选650f9f9d / 登记8f3b85a7：**counter，仅CR-1/CR-2**，留draft，不合main、不标done。
 [独立复核](../../testing/cursor-docs-hygiene-review.md)确认一文件白名单/生产零改和H1～H6；
@@ -103,7 +104,7 @@ Cursor原文未改，没有代签；只收本包回执，不带入其它工作�
 [五份源文档修订](DOC-GUIDE-REVISION-1-current-entrypoints.md)另开draft，build仍未开放；
 场景入场说明不做H7建议替换，后续由Codex核定真实UI。
 
-### 当前下一位Agent提示词（Cursor窄返工）
+### 首轮下一位Agent提示词（历史；返工已接收）
 
 ```text
 在原独立worktree/分支codex/cursor-docs-hygiene-r1修DOC-CURSOR-1回执，原候选650f9f9d/tip8f3b85a7。
@@ -119,3 +120,13 @@ README/content-publication短写保持，dev-servers两处列需删除多余分�
 仅跑文档检查与diff检查，确认仍只改回执一个文件后提交推送；不改正式指南/共享卡/状态，不合main、不代签、不标done。
 交回新的候选SHA；Codex再核原卡接收及另卡五份文档修订准入。
 ```
+
+## Codex当前接收席位 — 2026-09-25
+
+正文65193a84 / 登记320800ec：**accept，仅审计材料接收**。CR-1/CR-2真实闭合，无剩余counter；
+H1～H6逐字未变，H7待核当前UI，T1删旧URL括号，N1多余分隔符建议已纠正。
+12 ID唯一，小计8确定/1待核/3保持；一文件白名单及冻结锚点核对通过，候选文档门/diff检查exit0。
+详见[复核报告当前结论](../../testing/cursor-docs-hygiene-review.md)。Cursor原文原样接收，未代签，
+独立复核分支承载回执与本人记录，main仍未合入。Status保持draft；不标done，不把材料accept用于修订卡开门。
+
+交接：无下一位Agent提示词，Cursor本包无剩余返工，等待用户决定另卡五份文档修订准入。

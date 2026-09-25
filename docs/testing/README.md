@@ -8,9 +8,9 @@
 
 ## 文档与附件
 
-- [Cursor现行指南轻量核对](cursor-docs-hygiene.md)（十二份现行文档、四组静态核对；待执行，只交修订建议，不是覆盖率或运行验收）
+- [Cursor现行指南轻量核对](cursor-docs-hygiene.md)（65193a84/320800ec材料已接收；十二份文档四组核对，不是正式文档修复、覆盖率或运行验收）
 
-- [Cursor文档核对Codex接收](cursor-docs-hygiene-review.md)（650f9f9d/8f3b85a7；H1～H6接收、H7/N1窄counter，五份修订卡仅draft；原回执不改、不合main）
+- [Cursor文档核对Codex接收](cursor-docs-hygiene-review.md)（窄返工65193a84/320800ec accept，CR-1/CR-2闭合；H7待核，五份修订卡仅draft；原回执不改、不合main/不标done）
 
 - [GLM十二组可执行架构回归实验包](glm-architecture-regression-lab/README.md)（8组候选回归+4组功能视觉，draft可执行；冻结86e928b5，仅实验目录，正式接入/统计由Codex统一）
 
