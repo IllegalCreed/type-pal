@@ -1,14 +1,14 @@
 {
   "schemaVersion": 2,
   "profile": "fast",
-  "generatedAt": "2026-09-25T16:01:14.565Z",
+  "generatedAt": "2026-09-25T17:47:08.278Z",
   "provider": {
     "name": "v8",
     "vitest": "4.1.7",
     "coverageV8": "4.1.7"
   },
   "sourceFileCount": 643,
-  "testCount": 8122,
+  "testCount": 8159,
   "packages": {
     "shared": {
       "name": "@type-pal/shared",
@@ -219,8 +219,8 @@
       ],
       "scopeDigest": "ddd95209167f371644d3cd13db68e744944c06fcfb108f3e67a9452ba52cf3a6",
       "fastTests": {
-        "testCount": 843,
-        "testFileCount": 74,
+        "testCount": 850,
+        "testFileCount": 75,
         "files": [
           "packages/content/src/actor-condition.boundaries.test.ts",
           "packages/content/src/actor-condition.test.ts",
@@ -286,6 +286,7 @@
           "packages/content/src/validate-actors.boundaries.test.ts",
           "packages/content/src/validate-author-items.boundaries.test.ts",
           "packages/content/src/validate-author.test.ts",
+          "packages/content/src/validate-enemy-crosscalls.test.ts",
           "packages/content/src/validate-refs.contracts.test.ts",
           "packages/content/src/validate-refs.data-refs.test.ts",
           "packages/content/src/validate-refs.test.ts",
@@ -619,6 +620,11 @@
             "identityDigest": "cd60ef7c5a22adf5f9a0396777c9c2b1225deb3ef12de49bdf71fd60eb8f38f3"
           },
           {
+            "file": "packages/content/src/validate-enemy-crosscalls.test.ts",
+            "testCount": 7,
+            "identityDigest": "386a53234db9353e6b997532368c3904019f0603d0bab8b3899a59773d540bb5"
+          },
+          {
             "file": "packages/content/src/validate-refs.contracts.test.ts",
             "testCount": 6,
             "identityDigest": "5e108d76e3160225b207dbfaa187fe4525a624001f61fee6d8b82b88fa8fe754"
@@ -669,17 +675,17 @@
             "identityDigest": "6bd136e3dc31faf579c7b78a5dd284c6a1fd1a58ee6d3fa624ccee6e21be9a3c"
           }
         ],
-        "identityDigest": "9bc9471b98e7ea8993f79a8e95afc558fccef8d4ed6e3d96efc9ed50ec8165de",
+        "identityDigest": "d7e565bd6492e984627fd51a6c5d9426edc985cc5f4175fb9bae53e1abff001f",
         "duplicateIdentityCount": 0,
-        "executionDigest": "54d41fc24d79d2c06901f2cdf98142cb524339ef7adc43861f606c8249ba0a09"
+        "executionDigest": "214dd7c1dd0639719c4e9e3fda5f7f645ee589236586cd97de49acc6f642d3b6"
       },
       "metrics": {
         "statements": {
-          "covered": 5179,
+          "covered": 5185,
           "total": 5856
         },
         "branches": {
-          "covered": 4147,
+          "covered": 4155,
           "total": 5019
         },
         "functions": {
@@ -687,7 +693,7 @@
           "total": 831
         },
         "lines": {
-          "covered": 4687,
+          "covered": 4692,
           "total": 5185
         }
       }
@@ -1036,8 +1042,8 @@
       ],
       "scopeDigest": "980711e930306f3ff6a1d70817611eb6f83e3681f7568f886680e6ebe1939e2f",
       "fastTests": {
-        "testCount": 416,
-        "testFileCount": 54,
+        "testCount": 421,
+        "testFileCount": 55,
         "files": [
           "packages/migrate/src/bake-indexed-rgba.test.ts",
           "packages/migrate/src/current-only-product-boundary.test.ts",
@@ -1045,6 +1051,7 @@
           "packages/migrate/src/engine-chrome-assets.test.ts",
           "packages/migrate/src/item-script-roots.test.ts",
           "packages/migrate/src/legacy-dialog.test.ts",
+          "packages/migrate/src/migrate-conversion-isolation.test.ts",
           "packages/migrate/src/migrate-enemies.wave2.test.ts",
           "packages/migrate/src/migration-baseline-pure.boundaries.test.ts",
           "packages/migrate/src/migration-baseline.test.ts",
@@ -1124,6 +1131,11 @@
             "file": "packages/migrate/src/legacy-dialog.test.ts",
             "testCount": 8,
             "identityDigest": "79e0147255a4df3dda2bfd62ae7546a019fb9f6655a5a7bbf5875e4f9042fd52"
+          },
+          {
+            "file": "packages/migrate/src/migrate-conversion-isolation.test.ts",
+            "testCount": 5,
+            "identityDigest": "eef8d526b7d45d0c5031fdbce2e8f2c2e6f1b3afc8de8a0930533b23575206b1"
           },
           {
             "file": "packages/migrate/src/migrate-enemies.wave2.test.ts",
@@ -1366,25 +1378,25 @@
             "identityDigest": "baba8c49c53ef8a741ef1c605723ba72d227914206784bc3a5f719e12c8ff8ee"
           }
         ],
-        "identityDigest": "714556972f231f72b0cc19ff4dd4e219bebeedfae76a3dbb727aae311cf16c8b",
+        "identityDigest": "05aa2f07b278f4df6315c0d3dd77512216054253a917392596d6a7038fb2beef",
         "duplicateIdentityCount": 1,
-        "executionDigest": "1e32bc3d62ade6c290e4a980f470bdd0ee2ffbc02032eb25bf94a9af39b406b5"
+        "executionDigest": "3d6c18386eb8f1e63db05924ae38017f0f0c3642e43811ce51249df706af5250"
       },
       "metrics": {
         "statements": {
-          "covered": 4215,
+          "covered": 4240,
           "total": 7712
         },
         "branches": {
-          "covered": 3115,
+          "covered": 3153,
           "total": 6436
         },
         "functions": {
-          "covered": 642,
+          "covered": 650,
           "total": 1165
         },
         "lines": {
-          "covered": 3785,
+          "covered": 3804,
           "total": 6724
         }
       }
@@ -2754,8 +2766,8 @@
       ],
       "scopeDigest": "172860557359800006b54684305c95556da2645892e450c2d5b4891297aba98e",
       "fastTests": {
-        "testCount": 2395,
-        "testFileCount": 158,
+        "testCount": 2399,
+        "testFileCount": 159,
         "files": [
           "packages/game/src/analytics/analytics-consent-ui.test.ts",
           "packages/game/src/analytics/analytics-consent.boundaries.test.ts",
@@ -2798,6 +2810,7 @@
           "packages/game/src/core/battle/__tests__/throw-item.test.ts",
           "packages/game/src/core/battle/__tests__/turn-queue.test.ts",
           "packages/game/src/core/command-bus.test.ts",
+          "packages/game/src/core/cross-module-boundaries.test.ts",
           "packages/game/src/core/dialog-bug2-skip.test.ts",
           "packages/game/src/core/dialog-history.test.ts",
           "packages/game/src/core/equip-effect.test.ts",
@@ -3121,6 +3134,11 @@
             "file": "packages/game/src/core/command-bus.test.ts",
             "testCount": 9,
             "identityDigest": "f2af6faf54355e2f5633a0dff4e18fe713f1df6557030db0450c43b9d91df796"
+          },
+          {
+            "file": "packages/game/src/core/cross-module-boundaries.test.ts",
+            "testCount": 4,
+            "identityDigest": "a37e666648b00c40c4a54d437302c013d4beb32cf977edd8173cfd48f49848d6"
           },
           {
             "file": "packages/game/src/core/dialog-bug2-skip.test.ts",
@@ -3708,13 +3726,13 @@
             "identityDigest": "916c70c2855d90db70208a6895de9b3254f0e3f039c2bb0b96bc8fd4287d249d"
           }
         ],
-        "identityDigest": "e329b8dfb24b426cae1d18ce0550a68355df2f7102e455a072bca2f077e22b5e",
+        "identityDigest": "872266436cc26c119972be2ce7c6160cc03ae346fb0d6d9f075d387f6887b230",
         "duplicateIdentityCount": 0,
-        "executionDigest": "af118a3d976abf174caddb8d02794c820b5ed58999dcd7cb65494dce9f38b042"
+        "executionDigest": "ad228aa385df0103a34e336f023957d297acacd1fabd1bc476832c409a3bff26"
       },
       "metrics": {
         "statements": {
-          "covered": 11868,
+          "covered": 11869,
           "total": 15494
         },
         "branches": {
@@ -3722,11 +3740,11 @@
           "total": 11281
         },
         "functions": {
-          "covered": 1357,
+          "covered": 1358,
           "total": 1843
         },
         "lines": {
-          "covered": 10663,
+          "covered": 10664,
           "total": 13604
         }
       }
@@ -3976,8 +3994,8 @@
       ],
       "scopeDigest": "2b32bd1c236bd8878abf1643ea3dc9e848229ee06bfe67c1750deac74453b111",
       "fastTests": {
-        "testCount": 2599,
-        "testFileCount": 267,
+        "testCount": 2620,
+        "testFileCount": 273,
         "files": [
           "packages/editor/scripts/battle-simulator-http.test.mjs",
           "packages/editor/scripts/battle-simulator-ui.test.tsx",
@@ -3986,6 +4004,12 @@
           "packages/editor/scripts/cursor-allowlist.test.mjs",
           "packages/editor/scripts/cursor-navigation-glyph.test.mjs",
           "packages/editor/scripts/pal-simulator-presets.test.ts",
+          "packages/editor/src/__tests__/architecture-lab/app-lifecycle.test.tsx",
+          "packages/editor/src/__tests__/architecture-lab/map-gesture.test.tsx",
+          "packages/editor/src/__tests__/architecture-lab/map-scope.test.tsx",
+          "packages/editor/src/__tests__/architecture-lab/playback-scope.test.tsx",
+          "packages/editor/src/__tests__/architecture-lab/script-draft.test.tsx",
+          "packages/editor/src/__tests__/architecture-lab/startup.test.tsx",
           "packages/editor/src/core/actor-commands.test.ts",
           "packages/editor/src/core/actor-dialogue-commands.boundaries.test.ts",
           "packages/editor/src/core/actor-dialogue-commands.test.ts",
@@ -4282,6 +4306,36 @@
             "file": "packages/editor/scripts/pal-simulator-presets.test.ts",
             "testCount": 12,
             "identityDigest": "6ebe79917d48ab7b4e0fe00c2e91fe3fddb66baf8d6e214ac72a33bb7fa250a2"
+          },
+          {
+            "file": "packages/editor/src/__tests__/architecture-lab/app-lifecycle.test.tsx",
+            "testCount": 3,
+            "identityDigest": "2f518c5a372951fd35f1f9fba8401d04de3e96b9387ea534ceb2b7e8258601b5"
+          },
+          {
+            "file": "packages/editor/src/__tests__/architecture-lab/map-gesture.test.tsx",
+            "testCount": 6,
+            "identityDigest": "39535cfdec72a11deb30192e11a8de271911fb69e31b5c101bd7e12a2a1d093d"
+          },
+          {
+            "file": "packages/editor/src/__tests__/architecture-lab/map-scope.test.tsx",
+            "testCount": 3,
+            "identityDigest": "a2a7687640f8454cf82b087d3724d3c68f6c068ebfe1e8c982d80ef9e53bc615"
+          },
+          {
+            "file": "packages/editor/src/__tests__/architecture-lab/playback-scope.test.tsx",
+            "testCount": 4,
+            "identityDigest": "49e632143866fe3d3b1e64a05951a0daddf80f9a174509de7f71a0c9ab96deac"
+          },
+          {
+            "file": "packages/editor/src/__tests__/architecture-lab/script-draft.test.tsx",
+            "testCount": 4,
+            "identityDigest": "034b8ca90bbdc05d5b4dafd1200b0a6243866421cdd23aaf292998f0f9480a0b"
+          },
+          {
+            "file": "packages/editor/src/__tests__/architecture-lab/startup.test.tsx",
+            "testCount": 1,
+            "identityDigest": "bd6494731625fc7b05bb44586eaf6a7d22ff85a4d3fb40e0c318718f28256d22"
           },
           {
             "file": "packages/editor/src/core/actor-commands.test.ts",
@@ -5584,25 +5638,25 @@
             "identityDigest": "7c181e89600882213bfdc9bf59bf8d2b40273fc45d2d84fecf9ad6313060cf3b"
           }
         ],
-        "identityDigest": "9a0472385c3e94a4b0540d3865b73a6f433f1744574b86551eebc58a185f55b5",
+        "identityDigest": "f5c09481998f616dd15d5a1b5332e576f00a6aedc06e624dcf2b30c17f730cba",
         "duplicateIdentityCount": 8,
-        "executionDigest": "f00b2f25ebe922830313de826f43b5967bd6cb2bc6f25c448e1259752078eea1"
+        "executionDigest": "6a2197eec1a12a635e75339eb919587b3bef11cbb9caa65a887905aa94d1b355"
       },
       "metrics": {
         "statements": {
-          "covered": 25966,
+          "covered": 26035,
           "total": 32757
         },
         "branches": {
-          "covered": 20155,
+          "covered": 20229,
           "total": 28338
         },
         "functions": {
-          "covered": 6456,
+          "covered": 6469,
           "total": 8377
         },
         "lines": {
-          "covered": 23343,
+          "covered": 23404,
           "total": 28638
         }
       }
@@ -5610,19 +5664,19 @@
   },
   "total": {
     "statements": {
-      "covered": 61136,
+      "covered": 61237,
       "total": 80619
     },
     "branches": {
-      "covered": 43134,
+      "covered": 43254,
       "total": 63176
     },
     "functions": {
-      "covered": 11363,
+      "covered": 11385,
       "total": 15036
     },
     "lines": {
-      "covered": 55046,
+      "covered": 55132,
       "total": 70572
     }
   }

@@ -36,7 +36,7 @@ GLM后续补测候选见[十批长队列](../testing/glm-coverage-work-queue.md)
 | ID | 任务 | 状态 | 负责人/下一步 | 一句话备注 |
 |---|---|---|---|---|
 | ARCH-F2-EDITOR-BATTLE-FIELD-COMMANDS-1 | [战场命令族独立模块](tasks/ARCH-F2-EDITOR-BATTLE-FIELD-COMMANDS-1.md) | build | GLM实施 / Codex独立复核 | 仅命令族机械搬迁、旧出口保留，不动A3与其它编辑命令 |
-| ARCH-REGRESSION-LAB-GLM-1 | [十二组候选回归与功能视觉](tasks/ARCH-REGRESSION-LAB-GLM-1-twelve-packs.md) | draft | GLM按六轮counter补真实调用链/收窄 | 33df9378 测试零diff；32绿/六图hash可留，新增tsconfig TS5101、回执旧口径与业务缺口未闭 |
+| ARCH-REGRESSION-LAB-GLM-1 | [十二组候选回归与功能视觉](tasks/ARCH-REGRESSION-LAB-GLM-1-twelve-packs.md) | build | GLM补未证轴 / Codex独立复核 | 37项已正式接入，check/ratchet/strict绿；fast8159/643，V01–V04与G01/G06/G08剩余轴未闭 |
 | ARCH-SUPPORT-GLM-1 | [八组并行架构/视觉准备](tasks/ARCH-SUPPORT-GLM-1-eight-audit-packages.md) | draft | Codex / 后续归属与收口 | 58cdf938材料accept，counter清零；文档已合入，按用户要求未标done/未开产品门 |
 
 2026-09-25 [一阶段菜单与索引渲染十组补测](../testing/grok-present-integration.md)由Grok贡献隔离候选、Codex三轮独立复核后选择性接入正式game测试：25项（23生产绘制/解码+2快照自测）、check/受保护ratchet/单次严格fast均通过；fast8090项/641生产文件，全仓分支43067/63176、同分母净增157。旧候选分支未直接merge以免回退主线；full/E2E/视觉观感另排。
