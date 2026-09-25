@@ -1,6 +1,8 @@
-# 三贤人系统任务看板
+# 多 Agent 任务看板
 
 这张看板只记录当前进行中和阻塞任务。候选任务看 `docs/phase2/capability-map.md`（任务卡 `Capability` 字段对应地图格号；议题型卡 D6/D12/D13/D14/D15 落点见地图 §3.1「议题→格映射」），完成记录看 git log 和任务卡。
+
+**当前协作模式（用户 2026-09-25）**：三贤人固定签字暂休。Codex 分派、贡献者实施、Codex 独立验收并负责集成/清理；旧签字和历史批次照原记录保留，活动任务不再因 Kimi/GLM 缺签自动停线。高风险产品取舍仍由用户裁决，见 [`AGENTS.md`](../../AGENTS.md)。
 
 额度按接手时实际状态确认；历史额度快照不作为当前准入依据。
 
@@ -11,10 +13,10 @@
 仍按职责逐批推进和验证；不把结构治理授权解释为玩法、格式或界面变更授权。
 第二波整包已于2026-09-23三席收口；后续由Codex与GLM按最新覆盖基线选择不重叠、有现行消费者且合同明确的补测批次，新范围先走准入，不重领已完成项。
 2026-09-23已按[大业务域计划](../testing/coverage-large-domain-plan.md)启动战斗流程/运行时宿主两卡，r1三席齐并由Codex核build；各Owner连续完成六组，最终统一统计，不逐用例跑覆盖率。
-补测发现的产品缺陷单列，仍按原签字门禁处理；七套预制及65535资源准备阻断已于2026-09-24按用户本批单席授权修复交付，见下方收口记录。
+补测发现的产品缺陷单列，按当前“Codex核前提与独立验收、必要产品取舍交用户”的流程处理；七套预制及65535资源准备阻断已于2026-09-24按当时授权修复交付，见下方历史收口记录。
 后置不取消R4→N6b→完整Q1/Q2，也不新增“必须先达全仓90%/85%才允许E2E”的门槛。
 
-GLM后续补测候选见[十批长队列](../testing/glm-coverage-work-queue.md)（78模块、617文件全量路由台账）。这里只链接候选池，不把已规划项列成build；现有卡门禁不变，排期以上述用户裁决为准。
+GLM后续补测候选见[十批长队列](../testing/glm-coverage-work-queue.md)（78模块、617文件历史路由台账）。这里只链接候选池，不把旧规划自动列成当前 build；新分派和验收按顶部当前模式，排期以上述用户裁决为准。
 
 工作流: [`agent-workflow.md`](agent-workflow.md)
 任务卡模板: [`tasks/TASK-template.md`](templates/TASK-template.md)
@@ -30,10 +32,10 @@ GLM后续补测候选见[十批长队列](../testing/glm-coverage-work-queue.md)
 
 | ID | 任务 | 状态 | 负责人/下一步 | 一句话备注 |
 |---|---|---|---|---|
-| DOC-CURSOR-3 | [覆盖率说明与现行命令定点核对](tasks/DOC-CURSOR-3-coverage-guide-audit.md) | draft | Cursor只读回执 / Codex独立接收 | 五组核当前入口与历史快照；不改正式指南、脚本或基线，接收后由Codex合并清理 |
+| DOC-CURSOR-3 | [覆盖率说明与现行命令定点核对](tasks/DOC-CURSOR-3-coverage-guide-audit.md) | draft | Cursor排队 / Codex独立接收 | 五份指南 build 优先；本包暂后排，只读命令/快照核对，不改正式说明或基线 |
 | TEST-GEMINI-PHASE1-STATS-1 | [一阶段有效属性/状态投影候选回归](tasks/TEST-GEMINI-PHASE1-STATS-1-effective-readouts.md) | draft | Gemini隔离整包 / Codex独立接收 | E1–E6/I1–I2先去重；不改产品/旧测/正式覆盖率，不开放build/done |
 | DOC-CURSOR-2 | [十二组包说明/CLI/索引核对](tasks/DOC-CURSOR-2-package-tools-indexes.md) | draft | Codex / 按用户边界保留材料接收 | 4b75d1c3/cc2720c5 accept，含NB1/NB2文字观察；无阻断counter，不合main/不标done，修订另核 |
-| DOC-GUIDE-REVISION-1 | [五份现行指南窄修订准入](tasks/DOC-GUIDE-REVISION-1-current-entrypoints.md) | draft | Codex / 另核准入 | 原回执已接收，尚未build；只对齐命令/入口/导航，H7场景UI另核 |
+| DOC-GUIDE-REVISION-1 | [五份现行指南窄修订准入](tasks/DOC-GUIDE-REVISION-1-current-entrypoints.md) | build | Cursor五文件实施 / Codex独立验收 | 用户明确准入；按新委派模式不等三签，H7场景UI仍待核 |
 | DOC-CURSOR-1 | [十二份现行文档轻量核对](tasks/DOC-CURSOR-1-current-guide-check.md) | draft | Codex / 按用户边界保留材料接收 | 65193a84/320800ec accept；CR-1/CR-2闭合，无剩余返工，不合main/不标done |
 | ARCH-REGRESSION-LAB-GLM-1 | [十二组候选回归与功能视觉](tasks/ARCH-REGRESSION-LAB-GLM-1-twelve-packs.md) | draft | GLM连续执行 / Codex独立接收转正 | 8测试+4视觉；冻结86e928b5，独立实验目录，不进正式runner/覆盖率 |
 | ARCH-SUPPORT-GLM-1 | [八组并行架构/视觉准备](tasks/ARCH-SUPPORT-GLM-1-eight-audit-packages.md) | draft | Codex / 后续归属与收口 | 58cdf938材料accept，counter清零；文档已合入，按用户要求未标done/未开产品门 |

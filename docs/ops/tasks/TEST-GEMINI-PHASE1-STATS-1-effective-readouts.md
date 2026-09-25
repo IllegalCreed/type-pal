@@ -8,14 +8,14 @@ Generation Owner: N/A
 Reviewer: Codex（独立接收与正式集成）
 Visual Verification Owner: N/A
 Visual Verification Timing: N/A（只测结构化状态，不作视觉验收）
-Unavailable Agents: 未知；本卡不预设任何签字豁免
+Collaboration Mode: Codex 分派、Gemini 贡献、Codex 独立验收
 Branch: `codex/gemini-phase1-stats-r1`（独立 worktree，开工时从已含本卡的 main 创建）
 
 ## 目标与阶段边界
 
 让 Gemini 连续完成一包中等复杂度的非视觉候选回归：先读真实消费者与旧测试，识别尚未被业务断言覆盖的有效属性/装备脚本及战斗检查器边界；只对现行且已核实的合同写可执行用例。候选留在隔离目录，不改正式 runner，也不凭候选数量或历史覆盖率快照报增量。
 
-本次授权仅为 `draft` 取证和隔离候选；**没有开放产品 build、正式测试接入或 done 门**。Gemini 是贡献者，不获得 Codex/Kimi/GLM 的签字席位。Codex 负责独立复核、决定转正、合并、全仓质量门；发生产品缺陷时先留显式诊断，不在此包顺手修产品。
+本次授权仅为 `draft` 取证和隔离候选；**没有开放产品 build、正式测试接入或 done 门**。Gemini 是贡献者，Codex 负责独立复核、决定转正、合并、全仓质量门；不等待固定三贤人签字。发生产品缺陷时先留显式诊断，不在此包顺手修产品。
 
 ## 前提真值门
 
@@ -65,16 +65,16 @@ Branch: `codex/gemini-phase1-stats-r1`（独立 worktree，开工时从已含本
 - 只有合同已核、去重确认且有合法 fixture 的新用例才进默认绿集合。回执逐族列 exact 旧测试标题、当前 caller/守卫、证据、候选测试名或未落原因；结论和数量从实际提交树/JSON 生成。
 - 允许做同分母局部覆盖前后对照，但不得改官方报告/基线或把局部数相加报全仓收益；不跑全仓 check、ratchet、strict-fast、E2E 或真实 PAL 提取。正式集成后统一全仓门禁由 Codex 执行。
 
-## 推进签字与交接
+## 当前模式推进记录与交接
 
-- Codex：2026-09-25仅授权 `draft` 隔离取证与候选；已直读两模块公开入口、消费者及旧测试目录，发现旧测试密集，因此先去重。**不签正式 build premise/design，也不预签候选 accept**。
-- Kimi：pending（未请求）。GLM：pending（未请求）。Gemini 不占三席。正式 `draft -> build`、`review -> done` 均 blocked；如需豁免须用户另行明确授权并落卡，不能从本消息推断。
+- Codex：2026-09-25仅授权 `draft` 隔离取证与候选；已直读两模块公开入口、消费者及旧测试目录，发现旧测试密集，因此先去重。**未批准产品实现或正式测试接入，也未预签候选 accept**。
+- 用户同日明确改为“Codex 分派、其他 Agent 执行、Codex 验收”，三贤人固定签字暂休。本卡待 Gemini 交付后由 Codex 独立判断返工/接入，不因 Kimi/GLM 缺签阻断；高风险机制真值或产品取舍仍须用户裁决。
 - 交接：Codex 创建本卡与互斥范围；Gemini 在独立 worktree 交连续整包，Codex 独立复核后再决定下一阶段。无产品文件修改授权。
 
 ## 下一位 Agent 提示词
 
 ```text
-在 /Users/zhangxu/illegal/type-pal 接手 TEST-GEMINI-PHASE1-STATS-1，任务卡 docs/ops/tasks/TEST-GEMINI-PHASE1-STATS-1-effective-readouts.md，状态 draft。你是 Gemini 隔离候选测试贡献者，不是 Codex/Kimi/GLM 签字席位。先读 AGENTS.md、CLAUDE.md、卡内 phase1 原版/工程笔记锚点及两个目标模块和精确旧测试；开工先同步 main、核工作树与两源码 SHA，从含本卡的 main 创建独立 worktree /Users/zhangxu/illegal/type-pal-gemini-stats 和分支 codex/gemini-phase1-stats-r1，不在 main 或他人 worktree 切分支。
-按卡内 E1–E6/I1–I2 连续做完整包。先逐族核真实 caller、守卫与旧标题；只对有独立价值的合同写 docs/testing/gemini-phase1-stats/** 下的 typed 自包含候选测试。真值未定、非法输入、已有同义证据如实分类，不为数字硬补。自验定向/相邻/tsc/Biome、最多四组单点隔离负控并记录 JSON 与源码 hash；不得改产品、旧测试、公共配置、资产或官方覆盖率，不跑全仓/E2E，不合 main、不代签、不标 done。发现产品失败留 diagnostics 与正控，不顺手修。
+在 /Users/zhangxu/illegal/type-pal 接手 TEST-GEMINI-PHASE1-STATS-1，任务卡 docs/ops/tasks/TEST-GEMINI-PHASE1-STATS-1-effective-readouts.md，状态 draft。你是 Gemini 隔离候选测试贡献者，Codex 将独立验收；不需要固定三贤人签字。先读 AGENTS.md、CLAUDE.md、卡内 phase1 原版/工程笔记锚点及两个目标模块和精确旧测试；开工先同步 main、核工作树与两源码 SHA，从含本卡的 main 创建独立 worktree /Users/zhangxu/illegal/type-pal-gemini-stats 和分支 codex/gemini-phase1-stats-r1，不在 main 或他人 worktree 切分支。
+按卡内 E1–E6/I1–I2 连续做完整包。先逐族核真实 caller、守卫与旧标题；只对有独立价值的合同写 docs/testing/gemini-phase1-stats/** 下的 typed 自包含候选测试。真值未定、非法输入、已有同义证据如实分类，不为数字硬补。自验定向/相邻/tsc/Biome、最多四组单点隔离负控并记录 JSON 与源码 hash；不得改产品、旧测试、公共配置、资产或官方覆盖率，不跑全仓/E2E，不合 main、不标 done。发现产品失败留 diagnostics 与正控，不顺手修。
 完成后提交推送分支，交候选 SHA、逐族去重与合同锚点、命令/退出码、准确测试/诊断数量、负控红因和待证清单。Codex 将独立审核，再裁定正式接入；你的自测不作独立第三方证明。
 ```

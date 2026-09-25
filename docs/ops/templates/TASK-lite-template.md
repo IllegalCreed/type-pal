@@ -1,13 +1,13 @@
 # TASK-ID - 任务标题
 
 Status: draft
-Owner: Codex | Kimi | GLM
-Reviewer: Kimi | GLM | N/A
+Owner: Codex | 受委派贡献者
+Reviewer: Codex（独立验收）
 Phase: phase1 | phase2 | ops
 Capability: W7 / A4 / ops / etc.
 Visual Verification Timing: dev-functional | e2e-deferred | mixed | N/A
 
-状态取值：draft / build / review / done / blocked / rework / cancelled；阶段门禁遵守 AGENTS.md。
+状态取值：draft / build / review / done / blocked / rework / cancelled；按 [`AGENTS.md`](../../../AGENTS.md) 当前临时模式，Codex 核准入与独立验收，不要求固定三贤人签字。
 
 ## 目标
 -
@@ -34,15 +34,14 @@ migration/schema/save/asset pipeline、大规模 generated rewrite 或主动改�
 -
 - 剧情 / 演出视觉如适用：登记集中 E2E 入口、步骤、预期和证据路径；开发期不重复走剧情。
 
-## 推进签字
-- build 准入:
-  - Codex: premise pending/verified(证据)/counter/N/A(原因) | design pending/agree/counter
-  - Kimi: premise pending/verified(证据)/counter/N/A(原因) | design pending/agree/counter
-  - GLM: premise pending/verified(证据)/counter/N/A(原因) | design pending/agree/counter
-  - 独立反证（至少一位非 Owner）: 审查者 / 证据锚点 / 可证伪观察
-  - 用户豁免: N/A
-  - 结论: blocked
-- done 准入: Codex pending | Kimi pending | GLM pending | 用户豁免 N/A | 结论 blocked
+## 当前模式推进记录
+- Codex 范围/前提核验: pending（直接证据与反证） | verified | counter
+- 受委派 Coding Owner / 隔离分支: pending
+- build 准入: blocked | Codex build allowed（附范围和验收条件）
+- 贡献者交付/自验: pending（候选 SHA、命令、结果）
+- Codex 独立验收: pending | accept（证据） | counter（返工锚点）
+- 用户产品裁决/体验验收: N/A（原因） | pending | 结论与日期
+- done 准入: blocked | Codex done allowed；历史三方签字如适用只按历史记录，不是当前门禁
 
 ## 交接
 - YYYY-MM-DD Actor: 摘要。Evidence: 链接/测试。Next: actor/state。
