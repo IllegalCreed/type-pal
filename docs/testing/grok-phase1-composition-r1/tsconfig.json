@@ -1,0 +1,10 @@
+{
+  "extends": "../../../tsconfig.base.json",
+  "compilerOptions": {
+    "rootDir": "../../..",
+    "types": ["node"],
+    "typeRoots": ["../../../packages/game/node_modules/@types", "../../../node_modules/@types"],
+    "noEmit": true
+  },
+  "include": ["./**/*.ts"]
+}
