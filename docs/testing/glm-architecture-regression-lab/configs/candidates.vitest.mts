@@ -49,6 +49,13 @@ export default defineConfig({
       { find: '@lab/editor/commands', replacement: path.resolve(editorRoot, 'src/core/commands.ts') },
       { find: '@lab/editor/seed', replacement: path.resolve(editorRoot, 'src/core/seed.ts') },
       { find: '@lab/editor/project-io', replacement: path.resolve(editorRoot, 'src/core/project-io.ts') },
+      { find: '@lab/editor/map-mode', replacement: path.resolve(editorRoot, 'src/ui/MapMode.tsx') },
+      // react/react-dom/vitest 从 editor 作用域解析（docs/** 无 node_modules 链）
+      { find: /^react$/, replacement: path.resolve(editorRoot, 'node_modules/react/index.js') },
+      { find: /^react-dom$/, replacement: path.resolve(editorRoot, 'node_modules/react-dom/index.js') },
+      { find: /^react-dom\/client$/, replacement: path.resolve(editorRoot, 'node_modules/react-dom/client.js') },
+      { find: /^react\/jsx-dev-runtime$/, replacement: path.resolve(editorRoot, 'node_modules/react/jsx-dev-runtime.js') },
+      { find: /^react\/jsx-runtime$/, replacement: path.resolve(editorRoot, 'node_modules/react/jsx-runtime.js') },
     ],
   },
   plugins: [react()],
