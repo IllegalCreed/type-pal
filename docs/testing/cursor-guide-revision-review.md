@@ -1,5 +1,11 @@
 # DOC-GUIDE-REVISION-1 — Codex 独立接收复核
 
+## 窄返工接收（2026-09-25）
+
+候选 `a2220ca955dfd0da59ad55a89a9cc65f5f8d760b`：**accept，准予后续集成；本次不合 main、不标 done**。相对原候选 `94fbb844` 仅改 `docs/ops/guides/dev-servers.md:40-48`：`E2E=1` 现在明确为不挂 `basicSsl()` 的 HTTP 开发入口，不再宣称真 Service Worker 或 Playwright 入口；旧 6001/e2e 删除结论与 HTTP 命令保持。`packages/game/vite.config.ts:9,85`、`packages/game/src/main.ts:22,71-75` 与 `packages/game/src/shell/precache-client.ts:50-51` 分别证实插件切换、dev 跳过 SW、预缓存仅生产注册。
+
+`git diff 94fbb844..a2220ca9 --name-status` 仅上述一文件；实施基点 `145791f1..a2220ca9` 恰卡面五份指南，H2–H6/N1/T1 及其余四份未在返工轮修改，H7/`scene-entry-authoring.md` 零改。候选工作树干净且与远端 tip 相同；`node scripts/docs/check.mjs` PASS（556 Markdown / 3023 links / 184 tasks），两段 `git diff --check` 均通过。下方唯一 counter 已由本轮闭合，保留为首轮历史记录；DOC-CURSOR-3 仍后排。
+
 2026-09-25。Cursor 候选 `94fbb844674c1305f00aa7df23b3dd0764f63bbd`，实施基点 `145791f1`；本席复核当前源码与原任务卡 H1–H6/N1/T1，不以 Cursor 回执替代一手证据。结论：**counter，仅余 H1 的 Service Worker 语义；五份候选暂不合 main，卡转 rework，不标 done。**
 
 ## 已核通过的范围

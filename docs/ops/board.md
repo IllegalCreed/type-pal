@@ -34,7 +34,7 @@ GLM后续补测候选见[十批长队列](../testing/glm-coverage-work-queue.md)
 |---|---|---|---|---|
 | DOC-CURSOR-3 | [覆盖率说明与现行命令定点核对](tasks/DOC-CURSOR-3-coverage-guide-audit.md) | draft | Cursor排队 / Codex独立接收 | 五份指南 build 优先；本包暂后排，只读命令/快照核对，不改正式说明或基线 |
 | DOC-CURSOR-2 | [十二组包说明/CLI/索引核对](tasks/DOC-CURSOR-2-package-tools-indexes.md) | draft | Codex / 按用户边界保留材料接收 | 4b75d1c3/cc2720c5 accept，含NB1/NB2文字观察；无阻断counter，不合main/不标done，修订另核 |
-| DOC-GUIDE-REVISION-1 | [五份现行指南窄修订准入](tasks/DOC-GUIDE-REVISION-1-current-entrypoints.md) | rework | Cursor仅修H1 SW文案 / Codex再核 | 94fbb844五文件范围/其余H项已过；E2E=1仅HTTP dev，不是真SW路径；H7仍待核 |
+| DOC-GUIDE-REVISION-1 | [五份现行指南窄修订准入](tasks/DOC-GUIDE-REVISION-1-current-entrypoints.md) | review | Codex后续集成 | a2220ca9唯一H1 counter已闭；五份指南尚未合main；H7仍待核 |
 | DOC-CURSOR-1 | [十二份现行文档轻量核对](tasks/DOC-CURSOR-1-current-guide-check.md) | draft | Codex / 按用户边界保留材料接收 | 65193a84/320800ec accept；CR-1/CR-2闭合，无剩余返工，不合main/不标done |
 | ARCH-REGRESSION-LAB-GLM-1 | [十二组候选回归与功能视觉](tasks/ARCH-REGRESSION-LAB-GLM-1-twelve-packs.md) | draft | GLM定点返工 / Codex独立复核 | 候选30397b1d逐组counter；V04为脏页导航中止非深链覆写，全目录Biome与证据门未过 |
 | ARCH-SUPPORT-GLM-1 | [八组并行架构/视觉准备](tasks/ARCH-SUPPORT-GLM-1-eight-audit-packages.md) | draft | Codex / 后续归属与收口 | 58cdf938材料accept，counter清零；文档已合入，按用户要求未标done/未开产品门 |
