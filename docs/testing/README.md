@@ -26,6 +26,8 @@
 
 - [Cursor文档核对Codex接收](cursor-docs-hygiene-review.md)、[五份指南实施独立复核](cursor-guide-revision-review.md)及[done任务卡](../ops/archive/tasks/done/DOC-GUIDE-REVISION-1-current-entrypoints.md)（a2220ca9已闭H1；五份指南已接入main并通过文档门，H7仍另核）
 
+- [Cursor作者指南八组只读核对](cursor-author-guides-batch.md)（DOC-CURSOR-6；待 Codex 独立接收。`check.mjs` 要求本目录 README 收录新稿；未改正式指南）
+
 - [Cursor场景入场当前 UI 事实表](cursor-scene-entry-truth.md)、[Codex独立复核](cursor-scene-entry-review.md)及[done任务卡](../ops/archive/tasks/done/DOC-CURSOR-4-scene-entry-current-ui.md)（31618c0d已接入；现行指南已窄修，prepare安全产品缺口另排）
 
 - [GLM十二组可执行架构回归实验包](glm-architecture-regression-lab/README.md)、[Codex首轮接收](architecture-regression-lab-codex-review.md)、[二轮接收](architecture-regression-lab-codex-r2-review.md)与[三轮接收](architecture-regression-lab-codex-r3-review.md)（bc8613d1仍counter；真实32项绿，执行JSON/机账与完整组合同未对齐；不进正式统计）
