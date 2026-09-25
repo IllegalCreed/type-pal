@@ -33,7 +33,24 @@ Codex继续A3生产实现，GLM作为准备材料贡献者，不作为自证的�
 - GLM：只编辑自己目录；报告自身实测、风险与建议，不写他席结论、不改共享看板/卡状态、不标done。
 - Kimi：用户全架构队列豁免，不安排交接。
 - build准入：not opened。本包不进入生产build，后续实施另按对应架构/修复卡准入。
-- done准入：blocked，f4236474仅余P5-GRAPH-1一条缺边；其它R3残项通过。不得标done或据此开放build。
+- done准入：材料接收counter已全部闭合；本次按用户要求仍不标done，Status保持draft。
+  统一收口、统计并集及对应实施卡准入另行核定，不由材料accept自动开放build。
+
+## Codex最终定点接收席位（2026-09-25，58cdf938）
+
+**accept：P5-GRAPH-1已闭合，无剩余接收counter。**
+
+- `p5-phase1-core.md:29`已补`battle-opcodes → equip-effect`，紧邻`:28`的
+  `battle-opcodes → event-system`；注释指向冻结源码`battle-opcodes.ts:18–24`五个getter值导入。
+- 本席独立Node对账：仅抽取图中runtime边，排除type-only及环外节点，归一化路径别名后排序；
+  与`codex-intake-evidence.json`的`mechanical.runtimeEdgesWithinComponent`执行精确相等断言通过。
+  **7节点、15条边、15条唯一边、0缺失、0多余、邻接检查通过**，并非只比较条数。
+- `b4fbcb7b..58cdf938`仅改P5报告图块；其它R3通过项、产品/测试/基线及旧反证未改。
+  已核22hash/17图/JSON格式与先前检查结果沿用，不重做统计、浏览器或全仓测试。
+- 本次接受的是八包准备取证材料的最终残项，不代表13批架构治理完成或所有风险已修。
+  不代签GLM/Kimi，不标done、不改Status，不自动开启产品实现。
+
+下方历轮counter保留为历史，已由此前通过项及本条accept关闭，不再作为当前阻断。
 
 ## Codex定点接收席位（2026-09-25，f4236474）
 
@@ -124,11 +141,13 @@ Codex继续A3生产实现，GLM作为准备材料贡献者，不作为自证的�
   未改GLM语义/旧反证/产品，未重跑统计或视觉；等待其定点更正文档，不转Kimi。
 - 2026-09-25 Codex：独立核f4236474，R3残项除P5图一条已核边漏写外全部闭合；38ID/格式/docs均通过。
   只在本人席位和新复核记录登记counter，未代改GLM语义；下一位只需补该行，不转Kimi。
+- 2026-09-25 Codex：同步并核58cdf938，独立程序比较完整15边集合及新增边邻接，全部通过；
+  签accept关闭P5-GRAPH-1，接收counter清零。仅更新本人席位和日志，不改GLM报告，保持draft、不标done。
 
 ## 下一位Agent提示词
 
-当前交接为[Codex f423接收报告末尾的GLM单行提示](../../testing/glm-architecture-support/codex-f423-review.md#下一位agent提示词glm)。
-无下一位Kimi提示词。下方保留原始准备任务提示，不再代表本次无counter接收。
+无下一位Agent提示词，等待用户验收/收口；无需GLM再次返工，Kimi本队列豁免。
+统计并集和实施准入仍由Codex另行核定。下方及历史复核报告中的提示仅作过程记录，不是当前待办。
 
 ```text
 在 /Users/zhangxu/illegal/type-pal 接手 ARCH-SUPPORT-GLM-1 的八包只读准备取证。
