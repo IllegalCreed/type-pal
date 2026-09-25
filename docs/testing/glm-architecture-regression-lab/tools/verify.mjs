@@ -72,11 +72,11 @@ check(
   `total mismatch: ${results.groupTotals.total} vs ${results.entries.length}`,
 )
 for (const key of Object.keys(byStatus)) {
-  const ledger = (results.groupTotals.byStatus ?? {})[key] ?? 0
+  const ledger = results.groupTotals.byStatus?.[key] ?? 0
   check(ledger === byStatus[key], `byStatus.${key}: ledger ${ledger} != actual ${byStatus[key]}`)
 }
 for (const key of Object.keys(perPack)) {
-  const ledger = (results.groupTotals.perPack ?? {})[key] ?? 0
+  const ledger = results.groupTotals.perPack?.[key] ?? 0
   check(ledger === perPack[key], `perPack.${key}: ledger ${ledger} != actual ${perPack[key]}`)
 }
 const ledgerStatusSum = Object.values(results.groupTotals.byStatus ?? {}).reduce((a, b) => a + b, 0)
