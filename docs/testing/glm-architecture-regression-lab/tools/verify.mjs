@@ -60,6 +60,18 @@ const results = JSON.parse(readFileSync(resultsPath, 'utf8'))
 const ids = results.entries.map((entry) => entry.id)
 check(new Set(ids).size === ids.length, '存在重复 ID')
 
+// 检测 candidate-green 条目中重复的 test.fullName
+const candidateFullNames = results.entries
+  .filter((e) => e.status === 'candidate-green' && e.test?.fullName)
+  .map((e) => e.test.fullName)
+const dupFullNames = candidateFullNames.filter(
+  (fn, i) => candidateFullNames.indexOf(fn) !== i
+)
+check(
+  dupFullNames.length === 0,
+  `candidate-green 重复 fullName: ${dupFullNames.join(', ')}`,
+)
+
 const byStatus = {}
 const perPack = {}
 for (const entry of results.entries) {

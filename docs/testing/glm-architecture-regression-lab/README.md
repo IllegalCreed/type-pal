@@ -143,4 +143,4 @@ GLM贡献须在最终实施审查披露；本卡不授予自验充独立终审�
   diagnostics/lab-startup-red.test.tsx、tools/{red-control,verify}.mjs、results.json、receipt.md。
 - 每组一提交；候选绿套件命令、负控 runner、机械对账器见 receipt.md 复算命令节。
 - 截图 6 张在 /tmp/type-pal-glm-regression-lab/（不入 Git），用途登记于 results.json artifacts。
-- 12 组全部交付：candidate-green 36 / existing-proof 1 / reproduced-defect 1（V04 深链覆写，交 Codex 裁定）/ blocked-environment 1。
+- 12 组全部交付：candidate-green 37 / existing-proof 1 / blocked-environment 1。V04 深链覆写已按 Codex 裁定改判为预期中止。
