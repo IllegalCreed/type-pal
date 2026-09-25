@@ -1,6 +1,6 @@
 # Cursor十二组包说明与工具核对回执
 
-状态：Cursor执行中（C01–C08已核）。
+状态：Cursor已完成C01–C12静态核对（待Codex接收）。
 范围和授权见[DOC-CURSOR-2](../ops/tasks/DOC-CURSOR-2-package-tools-indexes.md)，证据冻结`dab017e7`。
 只读准备，不代表源文档已修、命令已执行、产品/CI/覆盖率通过。未运行被审CLI/help（除本包授权的`node scripts/docs/check.mjs`）。
 
@@ -16,12 +16,14 @@
 | C06 editor | 已核 | 0 | 0 | 0 | 0 | 0 |
 | C07 migrate | 已核 | 1 | 0 | 1 | 0 | 0 |
 | C08 迁移CLI | 已核 | 0 | 0 | 0 | 0 | 2 |
-| C09 提取/文档工具 | 待执行 | — | — | — | — | — |
-| C10 CI | 待执行 | — | — | — | — | — |
-| C11 资源/fixture | 待执行 | — | — | — | — | — |
-| C12 目录入口 | 待执行 | — | — | — | — | — |
+| C09 提取/文档工具 | 已核 | 0 | 0 | 0 | 0 | 1 |
+| C10 CI | 已核 | 0 | 0 | 0 | 0 | 0 |
+| C11 资源/fixture | 已核 | 1 | 0 | 0 | 1 | 3 |
+| C12 目录入口 | 已核 | 2 | 0 | 0 | 0 | 0 |
+| **合计** | | **6** | **1** | **2** | **1** | **6** |
 
-证据树：`dab017e7`。工作树开工：`7e52d514`（相对冻结仅分配文档）。正文候选SHA待后续提交回填。
+证据树：`dab017e7`。工作树开工：`7e52d514`（相对冻结仅分配文档）。
+正文候选SHA：见最终节（三段提交后回填）。相对开工提交仅改本回执。
 
 ## C01 shared
 
@@ -55,11 +57,9 @@
 | `test` / `typecheck` | `package.json:8-9` | 一致 |
 | 读 `data/raw/`、写 `data/extracted/` | `cli.ts:75-76` `RAW`/`OUT`；`extract-videos.ts:34-35` `RAW` / `data/extracted/videos` | 一致 |
 | 视频需 ffmpeg | `extract-videos.ts:90` `execFileP('ffmpeg', …)`；`:102-108` PATH 预检 | 一致 |
-| 输入 AVI | `extract-videos.ts:5,37` `data/raw/{1-6}.avi` | 一致（未核本地是否有文件） |
+| 输入 AVI | `extract-videos.ts:5,37` `data/raw/{1-6}.avi` | 一致（未声称本机已有文件） |
 
-未核边界：未执行 extract；不考证原版机制；`data/raw` 是否在本机存在记未测环境（本组无「未核输入」项——文档未声称本机已有素材）。
-
-本组静态已核，无确定不符。
+未核边界：未执行 extract；不考证原版机制。本组静态已核，无确定不符。
 
 ## C03 game
 
@@ -70,15 +70,15 @@
 | `pnpm --filter @type-pal/game dev` 端口 6005 | `package.json:8` `vite --port 6005 --strictPort` | 一致 |
 | `pnpm --filter @type-pal/game test` | `package.json:11` | 一致 |
 | `pnpm --filter @type-pal/game e2e` 端口 6001 | `package.json:7-12` **无** `e2e` 脚本；Playwright 树已删（前批 H1） | **已知关联 H1** |
-| 「只修阻断性缺陷，不再做架构演进」 | `CLAUDE.md:22`（2026-09-24）：「第一阶段允许架构治理」——行为不漂移下可拆模块/整理依赖/优化；另有 Codex 独立治理队列 `CLAUDE.md:23` | **确定不符（政策冲突）** |
-| v1.0.0 / 冻结产品面 | 根 `README.md` 与 `package.json:3` `version: 1.0.0` 仍称冻结运行时/UX 参考 | 产品称谓一致；与「禁止架构演进」不同轴 |
+| 「只修阻断性缺陷，不再做架构演进」 | `CLAUDE.md:22`（2026-09-24）：「第一阶段允许架构治理」；`:23` Codex 独立治理队列 | **确定不符（政策冲突）** |
+| v1.0.0 / 冻结产品面 | 根 `README.md` 与 `package.json:3` `version: 1.0.0` | 产品称谓一致；与「禁止架构演进」不同轴 |
 
 ### 已知关联
 
 **W2-C03-H1** · `packages/game/README.md:11`（新增位置，不重算 H1 根因）
 
 - 原文：`pnpm --filter @type-pal/game e2e      # Playwright e2e（端口 6001）`
-- 关联：[cursor-docs-hygiene-review.md](cursor-docs-hygiene-review.md) H1；证据同前批 `package.json` 无 e2e。
+- 关联：[cursor-docs-hygiene-review.md](cursor-docs-hygiene-review.md) H1。
 - 不重复证明、不计入本包新发现数。
 
 ### 确定不符
@@ -86,9 +86,9 @@
 **W2-C03-1** · `packages/game/README.md:3-5`
 
 - 原文：`**v1.0.0 已上线并冻结**——只修阻断性缺陷，不再做架构演进；…（见根 CLAUDE.md 阶段边界）。`
-- 证据：`CLAUDE.md:22` 明文授权第一阶段架构治理（拆模块、整理依赖、优化；行为不漂移）；`:23` 本轮治理由 Codex 推进。阶段边界（一/二阶段世界观）仍成立，但「不再做架构演进」与现行协作规范冲突。
+- 证据：`CLAUDE.md:22` 明文授权第一阶段架构治理（行为不漂移下拆模块/整理依赖/优化）；`:23` 本轮治理由 Codex 推进。阶段边界仍成立，但「不再做架构演进」与现行协作规范冲突。
 - 建议替换：`**v1.0.0 已上线并冻结为已发布产品与 UX 参考**——玩法与可见表现仍按忠实还原约束；允许在行为不漂移前提下做架构治理（见根 CLAUDE.md 协作规范）。现代化引擎在 \`@type-pal/reforge\`，两阶段世界观严禁混用。`
-- 证伪观察：若用户另裁「game 包禁止一切重构」且废止 `CLAUDE.md:22`，则本条降为历史不改。
+- 证伪观察：若用户废止 `CLAUDE.md:22` 并裁定 game 禁止一切重构，则本条降为历史不改。
 
 ## C04 content
 
@@ -97,9 +97,9 @@
 | 文档声称 | 真实定义/脚本 | 判定 |
 |---|---|---|
 | `pnpm --filter @type-pal/content test` / `typecheck` | `package.json:12-13` | 一致 |
-| `CONTENT_VERSION` / `CURRENT_PROJECT_MINIMUM_SAVE_VERSION` 在 `character.ts`，当前 content20 / SAVE8 | `character.ts:168` `CONTENT_VERSION = 20`；`:170` `CURRENT_PROJECT_MINIMUM_SAVE_VERSION = 8` | 一致 |
-| `validateReferences` | `validate-refs.ts:954` `export function validateReferences`；`index.ts` `export * from './validate-refs.js'` | 一致 |
-| typed leaf walker（引用收集） | 无同名符号；存在多组 `collect*References`（如 `actor-reference.ts`、`validate-refs.ts`）及规格用语「typed leaf rule」 | 叙述性能力描述，未点名错误符号 → 不报不符 |
+| `CONTENT_VERSION` / `CURRENT_PROJECT_MINIMUM_SAVE_VERSION` 在 `character.ts`，content20 / SAVE8 | `character.ts:168` `= 20`；`:170` `= 8` | 一致 |
+| `validateReferences` | `validate-refs.ts:954`；`index.ts` re-export | 一致 |
+| typed leaf walker（引用收集） | 无同名导出；多组 `collect*References` + 规格用语「typed leaf rule」 | 叙述性能力，未点名错误符号 → 不报不符 |
 
 未核边界：不审 schema 字段与旧版本政策。本组静态已核，无确定不符。
 
@@ -151,7 +151,7 @@
 | 默认先 `recoverMigrationTransaction` | `migrate-content.mts:53` 在读 baseline 前调用；`migration-transaction.ts:264-270` 有 journal 则 `applyJournal`+`cleanup`（可写盘） | 一致；副作用见已知关联 |
 | 目录文件存在 | `pal-migration.ts`、`pal-current-publication.ts`、`migration-{baseline,merge,plan,transaction,write-plan}.ts`、`baselines/pal/`、`scripts/migrate-content.mts` 均在冻结树 | 一致 |
 | content20 / SAVE8 指针 | 指向 `packages/content/src/character.ts`（C04 已核） | 一致 |
-| 「资产烘焙细节见 [asset-pipeline.md](…/content-publication.md)」 | 可见标签 `asset-pipeline.md`；href 为 `content-publication.md`（存在）；`docs/phase2/guides/asset-pipeline.md` **不存在**；历史稿在 `docs/phase2/archive/designs/asset-pipeline.md` | **确定不符（标签）** |
+| 「资产烘焙细节见 asset-pipeline.md（href→content-publication.md）」 | 可见标签 `asset-pipeline.md`；href 为 `content-publication.md`（存在）；`docs/phase2/guides/asset-pipeline.md` **不存在**；历史稿在 `docs/phase2/archive/designs/asset-pipeline.md` | **确定不符（标签）** |
 
 ### 已知关联
 
@@ -164,9 +164,9 @@
 
 **W2-C07-1** · `packages/migrate/README.md:61`
 
-- 原文：`资产烘焙细节见 [asset-pipeline.md](../../docs/phase2/guides/content-publication.md)。`
+- 原文：链接可见文案为 `asset-pipeline.md`，href 为 `../../docs/phase2/guides/content-publication.md`。
 - 证据：目标文件 H1 为「PAL 内容导入与发布」；guides 下无 `asset-pipeline.md`；`content-publication.md:15` 自指历史资产管线在 archive。
-- 建议替换：`资产烘焙与发布细节见 [PAL 内容导入与发布](../../docs/phase2/guides/content-publication.md)。`
+- 建议替换：`资产烘焙与发布细节见` + 指向 `docs/phase2/guides/content-publication.md`、文案为「PAL 内容导入与发布」的链接（相对 migrate README 的既有 href 可保留）。
 
 ## C08 迁移CLI六文件
 
@@ -190,20 +190,132 @@
 
 ## C09 提取与文档工具五文件
 
-待执行。
+| 脚本 | 参数 | 输入 | 输出 | 外部 |
+|---|---|---|---|---|
+| `extract-videos.ts` | 无 CLI 旗标（`package.json` `extract:videos`） | `data/raw/{1-6}.avi` | `data/extracted/videos/{1-6}.mp4`；mtime 增量 skip | **ffmpeg**（PATH） |
+| `find-scenes-without-setpartypos.mjs` | 无 argv | `data/extracted/events|data/scene|tilemap` | **硬编码**写 `/tmp/scenes-without-setpartypos.json` | 无 |
+| `grep-sdlpal-chunks.ts` | 无；stdout markdown | `reference/sdlpal/**/*.c,h` | stdout | **grep** via `execFileSync` |
+| `scripts/docs/check.mjs` | 仅 `--json` / `--print-task-index` | `git ls-files` 的 md + `character.ts` 版本常量 | stdout；有 issue 则 exitCode=1 | git |
+| `scripts/docs/relocate.mjs` | `PLAN.json [--write]`；默认 dry-run | plan 条目 + 源文件 sha | `--write` 才 rename/write | 无 |
+
+### 未核输入
+
+**W2-C09-U1** · extract-videos / find-scenes：依赖 `data/raw` 或 `data/extracted`，本环境未核齐输入；未执行脚本。
+
+本组无确定不符（硬编码 `/tmp/…` 是实现事实，文档未声称可配置输出；C09 无对应 README 声称）。
 
 ## C10 CI命令映射
 
-待执行。
+### docs.yml
+
+| 项 | 事实 |
+|---|---|
+| 触发 | `pull_request` / `push` branches `[main]` / `workflow_dispatch` |
+| Node | `actions/setup-node@v4` `node-version: 22` |
+| 步骤 cwd | 默认仓库根 |
+| 命令 | `node --test scripts/docs/*.test.mjs`；`node scripts/docs/check.mjs` |
+| 脚本存在 | `scripts/docs/check.mjs`、`check.test.mjs` 等在冻结树 |
+| 无 pnpm | 本 workflow 不安装 pnpm（与 coverage 不同）——与步骤匹配，不报缺 |
+
+### coverage.yml
+
+| 项 | 事实 |
+|---|---|
+| 触发 | 同 docs（PR / main push / dispatch） |
+| Node 22 + pnpm `10.29.2`（`pnpm/action-setup@v4`） | 根脚本存在 `coverage:fast` / `typecheck` / `lint` |
+| `TYPE_PAL_COVERAGE_BASE_REF` | PR→`pull_request.base.sha`；push→`github.event.before`；dispatch 不设 |
+| 真实消费者 | `scripts/coverage/run.mjs:493` `process.env.TYPE_PAL_COVERAGE_BASE_REF` → `readBaselineFromGit` |
+| 报告路径 | artifact `coverage/fast` ← `path: coverage/fast` |
+| 前置 | `pnpm install --frozen-lockfile`；`pnpm typecheck && pnpm lint` |
+
+未远端触发、不评安全性。本组静态已核，无确定不符。脚本存在≠CI已绿。
 
 ## C11 资源与fixture说明
 
-待执行。
+### data/raw/README.md
+
+| 声称 | 判定 |
+|---|---|
+| 输入给 pal-extract → `data/extracted/` | 与 C02 `cli.ts` 一致 |
+| 目录内容不进 git | `.gitignore:14-17` `data/raw/*` 但例外 `README.md` 与 **`unifont-cn.bdf`** | **确定不符（例外未写）** |
+| 2026-05-23 文件数量表 | **历史不改**（不按现机文件数改历史） |
+| 需自行提供原版数据 | 操作前提成立 |
+
+**W2-C11-1** · `data/raw/README.md:43`
+
+- 原文：`这个目录的内容**不会进 git**(见根目录 .gitignore)`
+- 证据：`.gitignore:14-17` 显式 `!data/raw/README.md`、`!data/raw/unifont-cn.bdf`；本树 `unifont-cn.bdf` 已跟踪且 SHA 与 PROVENANCE 一致。
+- 建议替换：`原版游戏数据默认不进 git（见根 .gitignore 的 data/raw/*）；例外跟踪 README.md 与 unifont-cn.bdf（字体，非原版版权数据）。其余 MKF/AVI/MIDI 等需自行提供。`
+
+### projects/e2e-own/README.md
+
+| 声称 | 判定 |
+|---|---|
+| 跑法 `VITE_PROJECT_ID=e2e-own … vite --port 6052` | 非 package.json 具名脚本；与 reforge vite 可用旗标一致（未执行） |
+| `color.project-standard` / `sprite.pal.002` | `assets/index.json` 与 `content/sprites.json` 存在对应项；`assets/migrated/sprites/002.rle` 已跟踪 | 一致 |
+| 生成器脚本见历史任务 | 历史指针，不扩审 | 历史不改范畴 |
+
+### projects/pal/e2e-checkpoints/README.md
+
+| 声称 | 判定 |
+|---|---|
+| 链到 `docs/testing/e2e.md` | 文件存在 | 一致 |
+| 001/002 剧情边界文字 | 历史/验收叙述 | **历史不改** |
+| 「尚未生成连续 checkpoint 链」 | 目录仅 README（无 `*.save.json` 于跟踪集） | 与现状一致 |
+
+### PROVENANCE.md
+
+| 声称 | 判定 |
+|---|---|
+| 已入库 `title.png` / `dialog-icons-raw.json` / licenses / `ui/**` 85 张 | 均跟踪；输出 hash 与文内一致（title/dialog/licenses/status seeds/equip-demo 抽样） | 一致 |
+| UI aggregate `5e5315…`；85 files / 48629 bytes | 按 `bake-assets.mts:185-188` 算法（`sha256 + 两个空格 + rel + \\n`，按 `listFiles` 序拼接）复算命中 | 可复算 |
+| Unifont BDF SHA | 本地 `data/raw/unifont-cn.bdf` 命中 `1ab843…` | 一致 |
+| 源 FBP2 / palette0 / extracted UI 源 hash | 本机无 `data/extracted` | **未核输入**（不判 hash 错） |
+
+### 未核输入
+
+**W2-C11-U1** · palette0 / FBP002 / extracted UI 源文件缺失，PROVENANCE 源侧 SHA 未核。
+**W2-C11-U2** · 上游 unifont URL 未下载复核（仅核已入库 BDF/许可证文本）。
+**W2-C11-U3** · e2e-own 跑法未起服务验证。
+
+### 历史不改
+
+**W2-C11-H1** · `data/raw/README.md` 带日期 MKF 数量表；checkpoints 剧情验收条目——不按现机改写。
 
 ## C12 目录入口
 
-待执行。
+对八份 README 的直接导航链：目标文件均存在；多数链接文案与目标 H1 一致。H7/前批源文档仅作导航触及，不重审正文。
+
+### 确定不符
+
+**W2-C12-1** · `docs/ops/README.md` 链文案 `tasks` → `tasks/README.md`
+
+- 目标 H1：`三贤人系统任务卡`（`docs/ops/tasks/README.md:1`）
+- 建议替换为 Markdown（相对 `docs/ops/README.md`）：链接文案改为「三贤人系统任务卡」，目标仍为 `tasks/README.md`。
+
+**W2-C12-2** · `docs/ops/audits/README.md` 链文案 `pre-e2e` → `pre-e2e/README.md`
+
+- 目标 H1：`PRE-E2E-AUDIT-1 · 两阶段全仓代码审计台账`
+- 建议替换为 Markdown（相对 `docs/ops/audits/README.md`）：链接文案改为目标 H1 全文（或短名加括号标注正式标题），目标仍为 `pre-e2e/README.md`。
+
+其余：`docs/phase3/reference/README.md` 上级链文案为「目录入口」，目标 H1 为长标题——属上级入口惯用短名，目标可打开且归属正确，不报不符。current/historical 叙述（audits「仍在消费」/specs「现行」/archive 指向）与目标目录职责一致。
 
 ## 最终验证与接收提示词
 
-待交付；不得预填成功、代签或标done。
+- 相对开工提交`7e52d514`：**仅** `docs/testing/cursor-docs-wave2.md`。
+- 正文候选 SHA / 登记 tip：见本提交链（三段四组提交 + 可选登记提交）。
+- `node scripts/docs/check.mjs` 与 `git diff --check`：见登记提交结果。
+- 不合 main、不代签、不标 done。
+
+### 给 Codex 的接收提示词
+
+```text
+接收 DOC-CURSOR-2（Cursor 十二组包说明/CLI/索引核对回执）。
+任务卡：docs/ops/tasks/DOC-CURSOR-2-package-tools-indexes.md
+分支：codex/cursor-docs-wave2-r1
+worktree：/Users/zhangxu/illegal/type-pal-cursor-docs-wave2（自 7e52d514 新建，未合 main）
+证据冻结：dab017e7
+只收唯一回执：docs/testing/cursor-docs-wave2.md（相对开工提交仅此文件）
+正文候选 SHA：<CONTENT_SHA>；登记 tip：<TIP_SHA>（若有）
+下一步由 Codex：独立复核回执事实/分类/替换句是否可执行；验收或列出返工；不代签他席、不标任务 done、不合 main；五份前批指南修订卡仍不因本包打开。
+```
