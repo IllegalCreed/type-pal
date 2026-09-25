@@ -12,6 +12,8 @@
 
 - [Grok第二批画面合成候选的Codex接收复核](grok-phase1-composition-review.md)、[正式接入](grok-phase1-composition-integration.md)及[done任务卡](../ops/archive/tasks/done/TEST-GROK-PRESENT-2-phase1-composition.md)（P11–P16正式19项、五针；check/ratchet/严格fast8109/641通过，Grok贡献、Codex独立验收）
 
+- [Grok DsOverflowText 迁出候选](grok-arch-ds-overflow.md)（ARCH-F2-DS-OVERFLOW-1，只搬实现；DOM/ARIA/SSR 与旧出口不变，Codex 独立接收，未合 main、未标 done）
+
 - [一阶段有效属性与战斗状态投影补测集成](gemini-phase1-stats-integration.md)（Gemini贡献、Codex接手修订/独立验收；26项正式接入，受保护严格fast8065/641；full/E2E另行验证）
 
 - [Cursor覆盖率说明定点核对回执](cursor-coverage-guide-audit.md)、[Codex独立接收/正式修订](cursor-coverage-guide-review.md)及[done任务卡](../ops/archive/tasks/done/DOC-CURSOR-3-coverage-guide-audit.md)（b5e2ca4a材料已接入；Codex只修当前入口文案，历史数字/基线不改）

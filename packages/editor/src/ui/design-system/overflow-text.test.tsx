@@ -5,6 +5,8 @@ import { createRoot, type Root } from 'react-dom/client'
 import { renderToString } from 'react-dom/server'
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
 import { DsOverflowText } from './controls.js'
+import { DsOverflowText as DsOverflowTextRoot } from './index.js'
+import { DsOverflowText as DsOverflowTextModule } from './overflow-text.js'
 
 interface TextMetrics {
   clientWidth: number
@@ -214,6 +216,11 @@ describe('DsOverflowText', () => {
     await act(async () => root.render(null))
     expect(fonts.removeEventListener).toHaveBeenCalledWith('loadingdone', expect.any(Function))
     expect(listeners).toHaveLength(0)
+  })
+
+  test('keeps the controls and design-system exports on the moved implementation', () => {
+    expect(DsOverflowText).toBe(DsOverflowTextModule)
+    expect(DsOverflowTextRoot).toBe(DsOverflowTextModule)
   })
 
   test('does not read layout while rendering on the server', () => {
