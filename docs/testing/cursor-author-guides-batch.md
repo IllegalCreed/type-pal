@@ -85,3 +85,45 @@ PAL 专用 `6..57`（`:14-18`）与跟踪 JSON 一致；编辑器未写死 `id>=
 | C2-2 | 「插入“调用可复用脚本”…当前作者命令没有 `jumpScript`。」「“打开脚本”会进入目标…“扫描调用位置”会列出直接调用方。」（`:81-91`） | **confirmed**（call/jump/打开） / **wrong**（扫描按钮名） | 插入：`insertionGroups`「↪ 调用共享脚本」（`ScriptEditor.tsx:2992-2997`）。`jumpScript: false` 且列入 `RETIRED_CONTROL_KINDS`（`author-script-core.ts:259,525-526`）；`ScriptEditor.tsx` 无 jump 菜单项。打开：canonical 按钮「打开共享脚本」（`ScriptEditor.tsx:1822-1828`）；物品 `runScript` 为「打开脚本」（`ItemUseEffectEditor.tsx:639`）。调用方列表是右侧 `DsReferencePanel` 自动引用，无「扫描调用位置」按钮（`SharedScriptTab.tsx:384-427`）。 | 写成「打开共享脚本」+「右侧引用列表」。删“扫描调用位置”这个独立动作。 |
 | C2-3 | 「物品私有脚本…在用途效果卡内展开正文；不进入共享脚本库；复制物品时随物品正文深拷贝」（`:95-104`） | **confirmed** | 入口：物品工作台「添加当前物品脚本」（`ItemUseEffectEditor.tsx:1199`，`ItemTab.tsx:1147-1183` `AddItemPrivateScriptCommand`+shell `runScript` 成对 `historyCoordinator.dispatch`）。正文 `CanonicalScriptBodyEditor`。每件至多一条（`ItemTab.tsx:1172-1176`）。不进 `sharedScripts`。 | 界面用「当前物品脚本」，不是指南标题「物品私有脚本」。 |
 | C2-4 | 「有任何直接调用方的共享脚本不能删除。」「共享脚本之间禁止形成 `callScript` 环。」「`self: required` 缺调用实体…保存和发布均 fail-loud。」（`:119-123`） | **confirmed**（删除门） / **wrong**（当前保存查环） | 删除：`DeleteSharedScriptCommand` 有 blocker 即抛（`script-editor.ts:2241-2259`）；按钮在引用未就绪或有引用时禁用（`SharedScriptTab.tsx:287-301`）。调用环：旧 `buildScriptReferenceIndex` 对 `scriptChunks`/`scriptIndex` 走 `callEdges`（`script-references.ts:110-333`），**保存门不再调用** `assertScriptProjectValid`（全仓仅定义处）。现行 `assertProjectSaveValid` 用 canonical 引用缺失检查，无 call 图 DFS。 | 删除保护保留。环与“保存 fail-loud”改为：「当前保存不跑作者 `callScript` 环检查；旧 chunk 扫描器已离线。」 |
+
+## D1 — 调试工具战斗构建器 / 帧步进
+
+源：[`debug-tools.md`](../phase2/guides/debug-tools.md)。旧 `?skill` / `runDetached` 符号已由 DOC-CURSOR-1/指南修订处理，不重计。未启动用户 6051。
+
+| ID | 原句 | 分类 | 当前可达调用链与一手锚点 | 最窄替换或不改 |
+|---|---|---|---|---|
+| D1-1 | 「reforge dev 页: `http://localhost:6051/?debug`」「编辑器「引擎试玩」: `play.html?project=pal&debug`（同源试玩页参数原样生效）」（`:13-15`） | **confirmed**（dev `?debug` 安装） / **wrong**（试玩按钮不带 debug） | DEV 动态装：`main.ts:6068-6081` `import.meta.env.DEV && params.has('debug')` → `installDebugTools`。端口：`reforge/package.json:22` `dev:pal` `--port 6051`。编辑器「引擎试玩」：`PreviewCanvas.tsx:431-440` 与 `App.tsx:1822-1833` 只拼 `playProjectQuery`+`scene`/`pos`，**不加 `debug`**（`play-url.ts:14-25`）。面板 Esc 隐藏、反引号再显示（`debug-tools.ts:411-419`）；宽 `min(420px,…)`，`480px` 媒体查询（`:191,334`）。五 tab 文案「状态 / 指令 / 触发 / 战斗 / 图层」（`:168-174`）。 | 试玩句改为：「引擎试玩打开同源 `play.html?project=…`（及 workspace）；要面板须自行在试玩 URL 加 `?debug`，按钮不会代加。」6051 未在本机点开，入口存在标 pending-ui。 |
+| D1-2 | 战斗态构建器：战场任选、敌队或 enemies 多选、我方多选、等级/HP/MP/装备/异常/毒、道具预设；开战 `startBattle`+`enemyOverride`/`partyPreset`；`withWorldPreset` 战后恢复（`:59-64`） | **confirmed**（源码表单） / **pending-ui** | `debug-tools.ts:881-1107` 组参；开战 `ctx.startBattleDev`（`:1049-1061`）。回滚：`main.ts:2968` `withWorldPreset`（`dev-preset.ts:16-36` 深克隆/finally 恢复）。未跑战斗。 | 不改能力句。不要写成已在 6051 亲眼开过。 |
+| D1-3 | 「帧步进…单位 = 一个 gameplay tick（100ms）」「作用域 v1 = 大世界 gameplay…任意战斗启动自动退出步进」（`:68-71`） | **confirmed**（源码） / **pending-ui** | UI 在「图层」页，不是第六 tab（`debug-tools.ts:1118-1164`）。时钟：`GameplayClock.advance(..., stepMs)`（`gameplay-clock.ts:19-29`）。开战退步进：`BattleHost` `exitFrameStep: () => frames.resetStep()`（`main.ts:1173`）。 | 可补一句「控件在图层 tab」。作用域句保留。 |
+
+`?skill=` 启动拒绝与面板 `skill` 命令已在 DOC-CURSOR-1 H2/T1 核过；本批不记新发现。
+
+## D2 — PAL 导入发布入口
+
+源：[`content-publication.md`](../phase2/guides/content-publication.md)。不重领 N1 argv，不把 DOC-CURSOR-5 的 migrate README 错链算本卡。
+
+| ID | 原句 | 分类 | 当前可达调用链与一手锚点 | 最窄替换或不改 |
+|---|---|---|---|---|
+| D2-1 | 「检查发布计划：`pnpm --filter @type-pal/migrate migrate:content`。」「发布：`… migrate:content --write`」（`:9-11`） | **confirmed** | `packages/migrate/package.json:16` → `scripts/migrate-content.mts`。argv 只认 `--write`/`--help`（`migrate-content.mts:37-51`）；无 `--write` 打印 `dry-run 完成`（`:103-104`）。未执行。 | 不改短写。与 DOC-CURSOR-1 已核短写一致。 |
+| D2-2 | 「提取原始数据：pal-extract README。」「早期资产烘焙方案保留在历史资产管线 archive/designs/asset-pipeline.md」（`:8,15`） | **confirmed** | `packages/pal-extract/README.md` 存在且写 `data/raw`→`data/extracted`。`docs/phase2/archive/designs/asset-pipeline.md` 存在。本指南不把 bake 写成 PAL 发布步骤。 | 不改。 |
+| D2-3 | 「产品格式和操作细节以迁移包说明为唯一维护入口。」（`:4`） | **confirmed**（指针） / 错链另卡 | 指针本身成立。本 SHA 的 `packages/migrate/README.md:61` 仍把「资产烘焙」链到本指南（DOC-CURSOR-2 W2-C07-1 / DOC-CURSOR-5 已排队）。 | 本卡不改 migrate README。 |
+
+本组指南正文相对现行 CLI **已核无确定错误**。
+
+## 分类小计
+
+| 分类 | ID |
+|---|---|
+| confirmed | A1-1、A1-2、A2-1、A2-2、A2-4、B1-1、B1-2、B1-4、B2-1（类型）、C1-4、C2-3、D2-1、D2-2、D2-3 指针 |
+| wrong | B1-3 文案「缺数据」；C1-1 创建表单；C1-2 复制；C1-3 抽屉总称；C2-2「扫描调用位置」；C2-4 保存查环；D1-1 试玩自动 `?debug` |
+| pending / pending-ui | A1-3 换装同步；A2-3 跳转像素；B1-3 选择器观感；B2-1/B2-3 工作台与验收步骤；C1-1 加号字形；C2-1 保存缺 self；D1 面板/战斗/步进肉眼 |
+| blocked-input | B2-2 PAL `assets/migrated/**` 战场背景字节 |
+| historical / 另卡 | D1 `?skill`；D2-3 migrate README 烘焙链（DOC-CURSOR-5） |
+
+未猜产品应长成什么样。未建议恢复复制脚本按钮或给试玩按钮强加 `?debug`。
+
+## 交付验证
+
+- 相对 `b95f218a`：本回执 + `docs/testing/README.md` 一条索引（`check.mjs` 目录清单要求；未改五份指南）。
+- 分支：`codex/cursor-author-guides-audit-r1`（`/Users/zhangxu/illegal/type-pal-cursor-author-guides`）。
+- 每两组一提交后统一推送；文档检查与 `git diff --check` 见各提交。
