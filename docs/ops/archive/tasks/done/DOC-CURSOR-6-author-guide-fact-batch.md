@@ -1,6 +1,6 @@
 # DOC-CURSOR-6 — 第二阶段作者指南八组只读事实核对
 
-Status: draft
+Status: done
 Phase: phase2 documentation
 Capability: 只读取证，不改变产品或正式规范
 Contribution Owner: Cursor
@@ -24,14 +24,14 @@ DOC-CURSOR-4 已核场景入场 H7。**不重领**这些旧问题，也不把新
 
 | 组 | 源文档与窄问题 | 边界 |
 |---|---|---|
-| A1 | [`actor-presets.md`](../../phase2/guides/actor-presets.md) §三种放置/共享：现行 App/场景对象入口、创建命令及身份复制关系 | 不审角色战斗数值或外观像素 |
+| A1 | [`actor-presets.md`](../../../../phase2/guides/actor-presets.md) §三种放置/共享：现行 App/场景对象入口、创建命令及身份复制关系 | 不审角色战斗数值或外观像素 |
 | A2 | 同文 §解除关联/创建复制删除：是否真有可达控件与删除引用保护，撤销/重做属于哪条命令链 | 不用“类存在”冒充 UI 可达 |
-| B1 | [`battlefield-authoring.md`](../../phase2/guides/battlefield-authoring.md) §创建复制删除与三层选择：当前战场模块/场景引用/开战覆写实际 owner | 不跑浏览器战斗、不重设计字段 |
+| B1 | [`battlefield-authoring.md`](../../../../phase2/guides/battlefield-authoring.md) §创建复制删除与三层选择：当前战场模块/场景引用/开战覆写实际 owner | 不跑浏览器战斗、不重设计字段 |
 | B2 | 同文 §背景资产/验收示例：catalog 路径、预览消费者及“能看到”声称的输入前提 | 缺 gitignored PAL 字节记 `blocked-input`，不运行迁移补环境 |
-| C1 | [`shared-script-author-guide.md`](../../phase2/guides/shared-script-author-guide.md) §创建/编辑/统一工作台：现行脚本库 UI、共享绑定与稳定 id | 不重领 DOC-CURSOR-4 入场 H7 |
+| C1 | [`shared-script-author-guide.md`](../../../../phase2/guides/shared-script-author-guide.md) §创建/编辑/统一工作台：现行脚本库 UI、共享绑定与稳定 id | 不重领 DOC-CURSOR-4 入场 H7 |
 | C2 | 同文 §self/跳转/物品私有/删除：当前 canonical 命令和 guard 的真实调用边界 | 仅核指南明确声称的可用性，不做 schema 审计 |
-| D1 | [`debug-tools.md`](../../phase2/guides/debug-tools.md) §战斗构建器/帧步进：现行 Reforge dev 注册、触发命令与显式禁用域 | 旧 `?skill`/runDetached 符号 H2/H6 已修，不重计；不启动用户 6051 |
-| D2 | [`content-publication.md`](../../phase2/guides/content-publication.md) §导入发布：当前 PAL 路径和只读/dry-run/write 含义是否超出实际入口 | DOC-CURSOR-5 的 migrate README 错链另修；不运行 publish/迁移/删除 |
+| D1 | [`debug-tools.md`](../../../../phase2/guides/debug-tools.md) §战斗构建器/帧步进：现行 Reforge dev 注册、触发命令与显式禁用域 | 旧 `?skill`/runDetached 符号 H2/H6 已修，不重计；不启动用户 6051 |
+| D2 | [`content-publication.md`](../../../../phase2/guides/content-publication.md) §导入发布：当前 PAL 路径和只读/dry-run/write 含义是否超出实际入口 | DOC-CURSOR-5 的 migrate README 错链另修；不运行 publish/迁移/删除 |
 
 每组仅给明示原句的 `file:line`、生产 source/调用点、强替代解释与可证伪观察，分类
 `confirmed / wrong / pending / blocked-input / historical`，并给最窄替换句或不改理由。
@@ -53,6 +53,12 @@ DOC-CURSOR-4 已核场景入场 H7。**不重领**这些旧问题，也不把新
 
 Codex 已按当前委派模式核八组与并行 Owner 无源文件写冲突：**draft 只读工作 allowed**。
 产品/规范 build 未开放；任何需要新产品能力或用户取舍的发现只登记，不擅改。
+
+## Codex 独立接收与收口（2026-09-25）
+
+- **accept，仅只读审计材料**：候选 `f569853b` 的八组回执经 Codex 对照当前 App/组件接线、`assertProjectSaveValid`、`collectScriptReferenceIssuesFromVisits`、`BattleFieldPicker` 与试玩 URL 独立核验；详见 [Codex 接收记录](../../../../testing/cursor-author-guides-review.md)。审计材料已接入 main；五份正式指南未被 Cursor 修改，本卡 done 不表示其中的七处误导文字已修。
+- 候选比白名单多一条 `docs/testing/README.md` 导航，系 `check.mjs` 对新增报告的索引要求。Codex 明确接收该只读导航例外；不是指南或产品改动。候选 `node scripts/docs/check.mjs` 与 `git diff --check` 均通过。
+- `C2-4` 发现的是现行保存门没有 canonical `callScript` 环检测；**不可把未实现的保障写成已实现，也不可用本审计授权产品改动**。正式指南纠偏和产品缺口分别后续处理；没有浏览器视觉验收的项保持 pending-ui。无下一位 Agent 提示词。
 
 ### 下一位 Cursor 提示词
 

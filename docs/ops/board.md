@@ -32,8 +32,6 @@ GLM后续补测候选见[十批长队列](../testing/glm-coverage-work-queue.md)
 
 | ID | 任务 | 状态 | 负责人/下一步 | 一句话备注 |
 |---|---|---|---|---|
-| DOC-CURSOR-5 | [包说明三文件确定错误窄修](tasks/DOC-CURSOR-5-confirmed-source-fixes.md) | build | Cursor实施 / Codex独立接收 | game旧架构/e2e句、migrate错链、data/raw跟踪例外；仅三份README |
-| DOC-CURSOR-6 | [第二阶段作者指南八组只读核对](tasks/DOC-CURSOR-6-author-guide-fact-batch.md) | draft | Cursor在DOC-CURSOR-5后连续执行 / Codex接收 | actor/battlefield/shared-script/debug/publication五指南八组；只一份回执、不改源文 |
 | ARCH-REGRESSION-LAB-GLM-1 | [十二组候选回归与功能视觉](tasks/ARCH-REGRESSION-LAB-GLM-1-twelve-packs.md) | draft | GLM按四轮counter硬化证据/收窄 | 494f9b5d 32绿六图hash齐，但verify缺JSON假PASS、回执旧口径/业务组未闭，不入正式统计 |
 | ARCH-SUPPORT-GLM-1 | [八组并行架构/视觉准备](tasks/ARCH-SUPPORT-GLM-1-eight-audit-packages.md) | draft | Codex / 后续归属与收口 | 58cdf938材料accept，counter清零；文档已合入，按用户要求未标done/未开产品门 |
 

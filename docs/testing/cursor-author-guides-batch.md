@@ -1,7 +1,7 @@
 # DOC-CURSOR-6 — 第二阶段作者指南八组只读事实回执
 
 状态：Cursor 只读取证；待 Codex 独立接收后自行窄修指南。未改五份正式指南、产品、测试或基线。
-任务：[DOC-CURSOR-6](../ops/tasks/DOC-CURSOR-6-author-guide-fact-batch.md)。
+任务：[DOC-CURSOR-6](../ops/archive/tasks/done/DOC-CURSOR-6-author-guide-fact-batch.md)。
 工作树起点 / 源码 SHA：`b95f218a9929328108a94b737c967e572b4cd860`（`origin/main`；卡面 freeze `4594f0a5` 之后、含本卡排队提交）。
 未开 6010/6051、未访问用户工程、未跑提取/迁移/烘焙/E2E/覆盖率。无隔离浏览器，凡需肉眼确认像素的项标 `pending-ui`。
 源码字符串或未挂到 `App.tsx` 的组件不能单独证明当前 UI。
