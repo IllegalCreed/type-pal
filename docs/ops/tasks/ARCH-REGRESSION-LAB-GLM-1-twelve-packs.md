@@ -69,7 +69,21 @@ docs/testing/glm-architecture-regression-lab/README.md。
 完成十二组后统一push，交短摘要+results.json+可重建命令，不标done、不代签、不转Kimi。
 ```
 
-## Codex 三轮接收（2026-09-25，候选 `bc8613d1`）
+## Codex 四轮接收（2026-09-25，候选 `494f9b5d`）
+
+- **Codex counter，Status 仍 draft**。[逐组与机械证据](../../testing/architecture-regression-lab-codex-r4-review.md)确认 32/32 候选、启动单针 detected、六张截图完整 SHA 匹配；这些窄事实不构成十二组转正。候选测试对 `bc8613d1` 零 diff，三轮业务反证仍在。
+- `receipt.md`/`results.json` 仍有 40/36项、V04 reproduced-defect 等旧口径，31条候选测试引用有10个过时标题；verify 缺 JSON 也 PASS、传真实 JSON 则 FAIL，白名单越界被降成 INFO；全目录 Biome exit1。GLM自身增量按 `82e7aab8..HEAD` 仅实验目录、生产零改，但不能声称 `a2415868..HEAD` 白名单或 `a3ceaf05..HEAD` 产品零 diff。
+- 不合候选、不进官方覆盖率、不标 done；Kimi 本队列豁免，Codex不代签。下一轮只修剩余证据纪律并如实收窄/补实十二组合同。
+
+### 下一位 GLM 定点返工提示词
+
+```text
+在 /Users/zhangxu/illegal/type-pal-glm-regression-lab 的 codex/glm-architecture-regression-lab-r1 返工 ARCH-REGRESSION-LAB-GLM-1，候选 494f9b5d，任务 draft。同步并核干净工作树后，读 origin/main:docs/testing/architecture-regression-lab-codex-r4-review.md 和本卡四轮接收块。
+只改 docs/testing/glm-architecture-regression-lab/**：先把 README/receipt/results 的 39条37/1/1、实际32项、G08三项、V04预期beforeunload/环境阻断对齐；清除旧 reproduced-defect、36/40 和过时 fullName。verify 必须只读且缺执行JSON fail-closed、实际读取JSON验候选 file/fullName/status/执行数与命令退出码、完整截图SHA；白名单按起点冻结与最近授权主线合入点分栏硬检查，不可降 INFO；加错标题/零执行/普通Error/超时自测，目录Biome0。
+十二组按报告逐项决定：到不了目标 caller/时序/UI 的，主动降级为窄候选或待证；要称完整合同，就补真实进入/业务结果与可鉴别反控。候选测试自 bc8613d1 未改，旧业务counter不能靠改账消失。复跑候选JSON、red-control、verify负控、typecheck、Biome、docs/diff，提交推送精确SHA与去向。不要改产品、正式测试、基线或他席结论；不合main、不标done、不计官方覆盖率。Kimi豁免。
+```
+
+## Codex 三轮接收（2026-09-25，候选 `bc8613d1`；历史）
 
 - **Codex counter，Status 仍 draft**；[逐组复核与机械反证](../../testing/architecture-regression-lab-codex-r3-review.md)已落本席。最终 Vitest **32/32**，非声称的33；40条机账中 G08-03 已无测试、另10条标题过期，README/receipt/命令仍写旧39/36或36项。只读 verifier 虽 PASS，却没读取执行 JSON、只核截图16位前缀；产品冻结要区分 `a3ceaf05` 起点和中途 Codex 主线合入点。
 - 新的 G06 enemy→author helper 和 G07 生产装备写入口是有效窄进展；G03 Cmd+S、G04 旧草稿、G05 换源、G07 battle consumer、G08 回调/异常及 V01–V04 完整矩阵仍未证。六图存在且前缀相符，单针 detected，全目录 Biome/docs 绿；这些不替代缺失业务与账本证据。候选不进正式统计，不合 main、不标 done。

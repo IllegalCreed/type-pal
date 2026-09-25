@@ -15,9 +15,10 @@
 ## 最近入库 fast 基线与本地快照（2026-09-25）
 
 当前机器可读的 fast 数字以 [`baseline.fast.json`](../../scripts/coverage/baseline.fast.json) 为准。
-[Grok 菜单与索引渲染补测](grok-present-integration.md)正式接入后，入库基线和当次本地
-`coverage/fast/summary.json` 均为 **8090 项测试 / 641 个生产文件**；全仓行 **77.93%**、语句
-**75.75%**、函数 **75.56%**、分支 **68.17%**。七包的范围、测试身份与执行摘要逐一相同。
+[Grok 画面合成与战斗呈现补测](grok-phase1-composition-integration.md)正式接入后，入库基线和当次本地
+`coverage/fast/summary.json` 均为 **8109 项测试 / 641 个生产文件**；全仓行 **78.00%**、语句
+**75.83%**、函数 **75.57%**、分支 **68.28%**。相对上一批 [Grok 菜单补测](grok-present-integration.md)
+新增19项，同一生产分母，七包范围不变。
 这是有日期的 fast 本地验证与入库基线快照，不代表远端 CI、full、Q1/Q2 或完整 E2E 通过；
 后续批次更新数字时应查入库基线及对应回执，不沿用本段旧值。
 

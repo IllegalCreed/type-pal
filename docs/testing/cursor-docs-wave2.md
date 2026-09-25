@@ -1,7 +1,7 @@
 # Cursor十二组包说明与工具核对回执
 
 状态：Cursor已完成C01–C12静态核对；Codex `ef825870` counter 后按 R1～R4 只改本回执（待再接收）。
-范围和授权见[DOC-CURSOR-2](../ops/tasks/DOC-CURSOR-2-package-tools-indexes.md)，证据冻结`dab017e7`。
+范围和授权见[DOC-CURSOR-2](../ops/archive/tasks/done/DOC-CURSOR-2-package-tools-indexes.md)，证据冻结`dab017e7`。
 只读准备，不代表源文档已修、命令已执行、产品/CI/覆盖率通过。未运行被审CLI/help（除本包授权的`node scripts/docs/check.mjs`）。
 已核事实与资源 hash 不重做。
 

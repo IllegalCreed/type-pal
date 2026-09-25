@@ -10,19 +10,25 @@
 
 - [Grok一阶段菜单与索引渲染候选](grok-present-regressions/README.md)、[Codex独立复核](grok-present-review.md)及[正式接入](grok-present-integration.md)（P01–P10共25项，23业务绘制+2快照自测；check/ratchet/严格fast8090/641通过，候选历史不等于视觉/E2E）
 
+- [Grok第二批画面合成候选的Codex接收复核](grok-phase1-composition-review.md)、[正式接入](grok-phase1-composition-integration.md)及[done任务卡](../ops/archive/tasks/done/TEST-GROK-PRESENT-2-phase1-composition.md)（P11–P16正式19项、五针；check/ratchet/严格fast8109/641通过，Grok贡献、Codex独立验收）
+
 - [一阶段有效属性与战斗状态投影补测集成](gemini-phase1-stats-integration.md)（Gemini贡献、Codex接手修订/独立验收；26项正式接入，受保护严格fast8065/641；full/E2E另行验证）
 
 - [Cursor覆盖率说明定点核对回执](cursor-coverage-guide-audit.md)、[Codex独立接收/正式修订](cursor-coverage-guide-review.md)及[done任务卡](../ops/archive/tasks/done/DOC-CURSOR-3-coverage-guide-audit.md)（b5e2ca4a材料已接入；Codex只修当前入口文案，历史数字/基线不改）
 
+- [Cursor场景入场UI只读候选的Codex复核](cursor-scene-entry-review.md)（DOC-CURSOR-4，31618c0d材料accept；现行指南已由Codex窄修，prepare安全目录未接入菜单/作者保存守卫另排；候选不整体合main）
+
 - [Cursor八组工具候选回归](cursor-tool-regressions/README.md)及[正式接入与路径修复](cursor-tool-regressions/integration.md)（贡献候选85f2a824；文档工具/编辑器审计测试转正，目录映射漏改修复并独立验证）
 
-- [Cursor十二组包说明与工具核对](cursor-docs-wave2.md)与[Codex独立接收](cursor-docs-wave2-review.md)（4b75d1c3/cc2720c5材料accept，含NB1/NB2非阻断文字观察；无阻断counter，不改源文档/不合main/不标done，前批修订门不开放）
+- [Cursor十二组包说明与工具核对](cursor-docs-wave2.md)、[Codex独立接收](cursor-docs-wave2-review.md)及[done任务卡](../ops/archive/tasks/done/DOC-CURSOR-2-package-tools-indexes.md)（4b75d1c3/cc2720c5材料已入main；NB1/NB2非阻断观察保留，源文档建议另卡修订）
 
-- [Cursor现行指南轻量核对](cursor-docs-hygiene.md)（65193a84/320800ec材料已接收；十二份文档四组核对，不是正式文档修复、覆盖率或运行验收）
+- [Cursor现行指南轻量核对](cursor-docs-hygiene.md)及[done任务卡](../ops/archive/tasks/done/DOC-CURSOR-1-current-guide-check.md)（65193a84/320800ec材料已入main；十二份文档四组核对，不是产品或运行验收）
 
 - [Cursor文档核对Codex接收](cursor-docs-hygiene-review.md)、[五份指南实施独立复核](cursor-guide-revision-review.md)及[done任务卡](../ops/archive/tasks/done/DOC-GUIDE-REVISION-1-current-entrypoints.md)（a2220ca9已闭H1；五份指南已接入main并通过文档门，H7仍另核）
 
-- [GLM十二组可执行架构回归实验包](glm-architecture-regression-lab/README.md)、[Codex首轮接收](architecture-regression-lab-codex-review.md)、[二轮接收](architecture-regression-lab-codex-r2-review.md)与[三轮接收](architecture-regression-lab-codex-r3-review.md)（bc8613d1仍counter；真实32项绿，执行JSON/机账与完整组合同未对齐；不进正式统计）
+- [Cursor场景入场当前 UI 事实表](cursor-scene-entry-truth.md)、[Codex独立复核](cursor-scene-entry-review.md)及[done任务卡](../ops/archive/tasks/done/DOC-CURSOR-4-scene-entry-current-ui.md)（31618c0d已接入；现行指南已窄修，prepare安全产品缺口另排）
+
+- [GLM十二组可执行架构回归实验包](glm-architecture-regression-lab/README.md)、[Codex首轮接收](architecture-regression-lab-codex-review.md)、[二轮接收](architecture-regression-lab-codex-r2-review.md)、[三轮接收](architecture-regression-lab-codex-r3-review.md)与[四轮接收](architecture-regression-lab-codex-r4-review.md)（494f9b5d仍counter；32候选绿、六图完整hash成立，回执/JSON/硬判据和完整组合同未闭；不进正式统计）
 
 - [A3-b：场景资源与预检拆分](scene-preparation-refactor.md)、[机账](scene-preparation-refactor-evidence.json)、[冻结对照](scene-preparation-parity.mjs)与[11针反例](scene-preparation-mutants.mjs)（fdad980f/done；26新增/check8525/strict8034/641，缓存政策/同步提交保持；A3整体未完成）
 

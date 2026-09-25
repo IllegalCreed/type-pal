@@ -1,6 +1,6 @@
 # DOC-CURSOR-4 — 场景入场指南当前 UI 事实核对
 
-Status: draft
+Status: done
 Phase: phase2 documentation
 Capability: 只读事实核对，不改变产品或现行指南
 Contribution Owner: Cursor
@@ -11,7 +11,7 @@ Evidence freeze: `9540f059`（开卡时 main；交付以实际 main 起点记录
 ## 目标与边界
 
 上一轮 DOC-CURSOR-1 的 H7 因把**未被现行页面渲染的** `ScriptTree.tsx:673` 文案当成用户可见事实而改判待核；
-五份指南修订卡没有触碰 [`scene-entry-authoring.md`](../../phase2/guides/scene-entry-authoring.md)。
+五份指南修订卡没有触碰 [`scene-entry-authoring.md`](../../../../phase2/guides/scene-entry-authoring.md)。
 本卡只核这份指南的六类用户可见/作者操作声明，交一份可用于 Codex 窄修订的事实表。
 它不是产品 UI 修改准入；不可因旧文案存在就推断当前页面有同名按钮。
 
@@ -20,7 +20,7 @@ Evidence freeze: `9540f059`（开卡时 main；交付以实际 main 起点记录
 `ScriptSceneHookInspector.tsx:185` 走 `CanonicalScriptFlowEditor`，
 `ScriptEditor.tsx:3699-3800` 控制“画面出现前 / 脚本正文”；
 `ScriptTree.tsx:660-807` 是旧组件文本，须先证明有生产渲染路径才能当当前 UI 证据。
-数据/校验参照 [`script-system.md:156-164`](../../phase2/specs/script-system.md#场景入场呈现) 与
+数据/校验参照 [`script-system.md:156-164`](../../../../phase2/specs/script-system.md#场景入场呈现) 与
 `packages/content/src/author-script-core.ts` 的初始节点/`allowSceneEntry` 守卫；源码和指南冲突时只报告，
 不由 Cursor 擅改产品或补造 UI。
 
@@ -54,6 +54,16 @@ Evidence freeze: `9540f059`（开卡时 main；交付以实际 main 起点记录
 
 - Codex：已核该 H7 残项、现行调用链与排除项；**draft 只读取证 allowed**，不开放产品 build。
 - done：材料与正式文案尚未接收；本卡不预签、不预宣称指南已修。
+
+### Codex 正式集成与 done 收口（2026-09-25）
+
+- 用户明确要求“审核通过就合并推送”。Cursor 候选 `31618c0d` 已由 Codex 独立核验，回执以 `b7b9df35` 选择性 cherry-pick 接入 main，保留贡献者；`docs/testing/README.md` 冲突只合并新增索引与主线更新，不回退 GLM 三轮复核。Codex 自行修订现行指南的 `60aa0e1d` 保留不变。
+- 落地 `node scripts/docs/check.mjs`、`git diff --check` 均通过；没有改产品、测试、基线或运行 E2E。按当前委派模式本卡核定 done；原候选 `31618c0d` 已留远端 `archive/cursor-scene-entry-r1` 标签，干净 worktree 与本地/远端工作分支均已清理。下方 draft/不合 main 的描述是候选接收时历史状态。prepare 安全目录未接入菜单/作者保存守卫是**另一个产品缺口**，不随文档卡关闭。无下一位 Agent 提示词，本卡已收口。
+
+### Codex 独立接收（2026-09-25，候选 `31618c0d`）
+
+- **accept，仅审计材料接收；Status 按用户本轮要求保持 draft，候选不整体合 main、不标 done。** [一手复核与保存守卫反例](../../../../testing/cursor-scene-entry-review.md)确认 H7-1～H7-6 的源码/入库数据锚点与分类成立，父导航一行和回执是候选全部改动；文档、diff 检查通过。
+- Codex 已单独窄修 `docs/phase2/guides/scene-entry-authoring.md`：把旧“三区/默认提示/恢复默认”改为现行两页签和数据/UI边界，s001 内容保留。安全目录未接入当前菜单与作者保存校验是独立产品缺口，本卡不修改编辑器或 content；当前可见 UI 未做隔离浏览器目视验收，不冒称截图已证。
 
 ### 下一位 Cursor 提示词
 

@@ -32,11 +32,9 @@ GLM后续补测候选见[十批长队列](../testing/glm-coverage-work-queue.md)
 
 | ID | 任务 | 状态 | 负责人/下一步 | 一句话备注 |
 |---|---|---|---|---|
-| DOC-CURSOR-4 | [场景入场指南当前UI事实核对](tasks/DOC-CURSOR-4-scene-entry-current-ui.md) | draft | Cursor只读取证 / Codex独立接收 | H7从未渲染ScriptTree误归因收窄；只核现行入口/控件/作者规则，不改产品指南 |
-| TEST-GROK-PRESENT-2 | [一阶段画面合成与战斗呈现候选回归](tasks/TEST-GROK-PRESENT-2-phase1-composition.md) | draft | Grok隔离候选 / Codex独立接收 | P11–P16只补真实呈现差异，不改产品/正式基线；避开GLM一阶段core审计 |
-| DOC-CURSOR-2 | [十二组包说明/CLI/索引核对](tasks/DOC-CURSOR-2-package-tools-indexes.md) | draft | Codex / 按用户边界保留材料接收 | 4b75d1c3/cc2720c5 accept，含NB1/NB2文字观察；无阻断counter，不合main/不标done，修订另核 |
-| DOC-CURSOR-1 | [十二份现行文档轻量核对](tasks/DOC-CURSOR-1-current-guide-check.md) | draft | Codex / 按用户边界保留材料接收 | 65193a84/320800ec accept；CR-1/CR-2闭合，无剩余返工，不合main/不标done |
-| ARCH-REGRESSION-LAB-GLM-1 | [十二组候选回归与功能视觉](tasks/ARCH-REGRESSION-LAB-GLM-1-twelve-packs.md) | draft | GLM按三轮counter纠账/收窄 | bc8613d1实际32绿；40条账11标题过期，跨调用与视觉矩阵仍未闭，未入官方覆盖率 |
+| DOC-CURSOR-5 | [包说明三文件确定错误窄修](tasks/DOC-CURSOR-5-confirmed-source-fixes.md) | build | Cursor实施 / Codex独立接收 | game旧架构/e2e句、migrate错链、data/raw跟踪例外；仅三份README |
+| DOC-CURSOR-6 | [第二阶段作者指南八组只读核对](tasks/DOC-CURSOR-6-author-guide-fact-batch.md) | draft | Cursor在DOC-CURSOR-5后连续执行 / Codex接收 | actor/battlefield/shared-script/debug/publication五指南八组；只一份回执、不改源文 |
+| ARCH-REGRESSION-LAB-GLM-1 | [十二组候选回归与功能视觉](tasks/ARCH-REGRESSION-LAB-GLM-1-twelve-packs.md) | draft | GLM按四轮counter硬化证据/收窄 | 494f9b5d 32绿六图hash齐，但verify缺JSON假PASS、回执旧口径/业务组未闭，不入正式统计 |
 | ARCH-SUPPORT-GLM-1 | [八组并行架构/视觉准备](tasks/ARCH-SUPPORT-GLM-1-eight-audit-packages.md) | draft | Codex / 后续归属与收口 | 58cdf938材料accept，counter清零；文档已合入，按用户要求未标done/未开产品门 |
 
 2026-09-25 [一阶段菜单与索引渲染十组补测](../testing/grok-present-integration.md)由Grok贡献隔离候选、Codex三轮独立复核后选择性接入正式game测试：25项（23生产绘制/解码+2快照自测）、check/受保护ratchet/单次严格fast均通过；fast8090项/641生产文件，全仓分支43067/63176、同分母净增157。旧候选分支未直接merge以免回退主线；full/E2E/视觉观感另排。
