@@ -30,7 +30,9 @@ GLM后续补测候选见[十批长队列](../testing/glm-coverage-work-queue.md)
 
 | ID | 任务 | 状态 | 负责人/下一步 | 一句话备注 |
 |---|---|---|---|---|
-| DOC-CURSOR-1 | [十二份现行文档轻量核对](tasks/DOC-CURSOR-1-current-guide-check.md) | draft | Cursor只读核对 / Codex接收 | 命令/代码引用/导航/准备条件；只交一份修订建议，不改产品或正式指南 |
+| DOC-CURSOR-2 | [十二组包说明/CLI/索引核对](tasks/DOC-CURSOR-2-package-tools-indexes.md) | draft | Codex / 按用户边界保留材料接收 | 4b75d1c3/cc2720c5 accept，含NB1/NB2文字观察；无阻断counter，不合main/不标done，修订另核 |
+| DOC-GUIDE-REVISION-1 | [五份现行指南窄修订准入](tasks/DOC-GUIDE-REVISION-1-current-entrypoints.md) | draft | Codex / 另核准入 | 原回执已接收，尚未build；只对齐命令/入口/导航，H7场景UI另核 |
+| DOC-CURSOR-1 | [十二份现行文档轻量核对](tasks/DOC-CURSOR-1-current-guide-check.md) | draft | Codex / 按用户边界保留材料接收 | 65193a84/320800ec accept；CR-1/CR-2闭合，无剩余返工，不合main/不标done |
 | ARCH-REGRESSION-LAB-GLM-1 | [十二组候选回归与功能视觉](tasks/ARCH-REGRESSION-LAB-GLM-1-twelve-packs.md) | draft | GLM连续执行 / Codex独立接收转正 | 8测试+4视觉；冻结86e928b5，独立实验目录，不进正式runner/覆盖率 |
 | ARCH-SUPPORT-GLM-1 | [八组并行架构/视觉准备](tasks/ARCH-SUPPORT-GLM-1-eight-audit-packages.md) | draft | Codex / 后续归属与收口 | 58cdf938材料accept，counter清零；文档已合入，按用户要求未标done/未开产品门 |
 
