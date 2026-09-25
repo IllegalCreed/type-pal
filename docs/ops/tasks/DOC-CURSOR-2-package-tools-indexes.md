@@ -133,6 +133,8 @@ docs/phase3/reference/README.md
 
 ## 下一位Agent提示词
 
+以下为原始分配，当前只执行文末接收席位的R1～R4回执返工，不重做全部十二组。
+
 ```text
 接手DOC-CURSOR-2，先读AGENTS/CLAUDE/READ-FIRST、
 docs/ops/tasks/DOC-CURSOR-2-package-tools-indexes.md、文档维护规则和前批接收结论。
@@ -144,4 +146,29 @@ H7真实UI与前批源文档不重审。优先核真实定义/调用，不以字
 除node scripts/docs/check.mjs外不执行被审CLI/help，不安装依赖、不改产品/正式指南/配置/资产/基线，不起服务、不跑测试/覆盖率。
 只跑文档检查与diff检查；每四组提交、十二组连续完成后统一push。最终diff恰回执一个文件。
 不改共享卡/状态，不合main、不代签、不标done；交正文SHA、登记tip、分组完成状态及给Codex的接收提示词。
+```
+
+## Codex接收席位 — 2026-09-25
+
+正文3852afe5 / tip e3da44ca：**counter，R1～R4只限回执**。一文件白名单/生产零漂移及文档门通过，
+已入库资源散列独立复算一致；不能把这些通过当作分类和替换句正确。
+[独立复核](../../testing/cursor-docs-wave2-review.md)给出三条误报、C07替换承诺、冻结锚点/CLI cwd及未核分类反证。
+Cursor原文原样保留，已核事实不重开；本卡留draft，不代签/不标done/不合main。
+DOC-CURSOR-1材料accept保持，DOC-GUIDE-REVISION-1仍未开放，本包不扩大前批修订准入。
+
+### 当前下一位Agent提示词（Cursor回执窄返工）
+
+```text
+在原分支codex/cursor-docs-wave2-r1修DOC-CURSOR-2回执；原候选3852afe5/tip e3da44ca，证据冻结dab017e7。
+先git show读取Codex复核分支codex/doc-cursor-review-r1上的
+docs/testing/cursor-docs-wave2-review.md与本卡Codex席位，无需合入共享卡/看板。
+唯一写入docs/testing/cursor-docs-wave2.md，按R1～R4：
+R1撤销C01缺shared/assets即引用错误的推断，纳入Reforge assets/index真实消费者；
+C12两个正确短名导航不按“不等H1”计缺陷，不要求改成长标题。
+R2修C07可执行替换句：当前发布指南没有烘焙细节，不再承诺其提供；可只链接PAL发布入口。
+R3按冻结树校准七包证据行号/键名，补C09 cwd及preview显式相对out的cwd区别，修裸竖线表格和LF配方表述。
+R4未运行迁移/未起服务移到未执行边界，不算未核输入；同步分类、小计、ID去向，勿凑发现数。
+已核C03政策冲突、C11跟踪例外、资源hash与其他事实不重做；C05保持待核，不跑视觉/CLI/CI/覆盖率。
+仍只跑文档检查/diff检查，最终相对7e52d514仅本回执；提交推送，给Codex正文SHA及登记tip。
+不改原指南/产品/配置/基线/共享任务卡，不合main、不代签、不标done；五份修订准入不因本包打开。
 ```
