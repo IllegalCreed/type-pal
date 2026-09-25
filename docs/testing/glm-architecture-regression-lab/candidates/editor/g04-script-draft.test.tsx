@@ -111,10 +111,7 @@ describe('G04 脚本编辑草稿', () => {
   })
 
   test('G04-04 弹层打开时外部替换 body：新 body 行数生效且旧草稿不写回新对象', async () => {
-    let current: AuthorCommand[] = structuredClone(BODY_B)
-    const onChange = vi.fn((next: AuthorCommand[]) => {
-      current = next
-    })
+    const onChange = vi.fn()
     await act(async () =>
       root.render(<CanonicalScriptBodyEditor body={BODY_A} onChange={onChange} />),
     )
