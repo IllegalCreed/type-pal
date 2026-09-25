@@ -8,6 +8,8 @@
 
 ## 文档与附件
 
+- [Cursor覆盖率说明定点核对回执](cursor-coverage-guide-audit.md)（DOC-CURSOR-3，draft待取证；只读命令/快照核对，不改正式说明或基线）
+
 - [Cursor八组工具候选回归](cursor-tool-regressions/README.md)及[正式接入与路径修复](cursor-tool-regressions/integration.md)（贡献候选85f2a824；文档工具/编辑器审计测试转正，目录映射漏改修复并独立验证）
 
 - [Cursor十二组包说明与工具核对](cursor-docs-wave2.md)与[Codex独立接收](cursor-docs-wave2-review.md)（4b75d1c3/cc2720c5材料accept，含NB1/NB2非阻断文字观察；无阻断counter，不改源文档/不合main/不标done，前批修订门不开放）
