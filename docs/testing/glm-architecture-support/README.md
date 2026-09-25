@@ -76,6 +76,7 @@
 
 ## 接收索引（Codex机械补链，原交付正文与机账未改）
 
+- [Codex f423定点复核：仅余一条缺边](codex-f423-review.md)
 - [Codex r3定点复核](codex-r3-review.md)、[r3机账](codex-r3-evidence.json)
 - [Codex r2收窄复核](codex-r2-review.md)、[r2机账](codex-r2-evidence.json)、[r2只读复算器](codex-r2-probe.mjs)
 - [Codex独立接收与返工要求](codex-intake-review.md)、[独立机账](codex-intake-evidence.json)、[只读复算器](codex-intake-probe.mjs)

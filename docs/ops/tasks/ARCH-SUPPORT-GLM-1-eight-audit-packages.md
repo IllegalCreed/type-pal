@@ -33,7 +33,20 @@ Codex继续A3生产实现，GLM作为准备材料贡献者，不作为自证的�
 - GLM：只编辑自己目录；报告自身实测、风险与建议，不写他席结论、不改共享看板/卡状态、不标done。
 - Kimi：用户全架构队列豁免，不安排交接。
 - build准入：not opened。本包不进入生产build，后续实施另按对应架构/修复卡准入。
-- done准入：blocked，r3最终树1410916e仅余下列R3-1～R3-3；用户豁免两席不等于证据自动通过。
+- done准入：blocked，f4236474仅余P5-GRAPH-1一条缺边；其它R3残项通过。不得标done或据此开放build。
+
+## Codex定点接收席位（2026-09-25，f4236474）
+
+**counter，仅余P5-GRAPH-1；Status仍draft。**
+[逐行复核和唯一完成条件](../../testing/glm-architecture-support/codex-f423-review.md)。
+
+通过：38/38报告ID和分类一致；V1旧risk、P5测试表、P6扩大结论、P4门归属/三段动画清理、summary命令链均已修。
+最终GLM JSON Biome exit0、check:docs PASS；5文件增量，产品/正式测试/基线、原机账/旧反证零改。
+已核22hash/17图不重做。
+
+唯一残项：P5图声称15边但实际14，缺`battle-opcodes → equip-effect`，冻结源码
+`packages/game/src/core/battle/battle-opcodes.ts:18–24`和本席r1的15边机账直接证明。
+只补图中一行并对集合，不新增研究、不重拍、不重跑全仓。不把历史counter再当当前未闭项。
 
 ## Codex r3接收席位（2026-09-25，1410916e）
 
@@ -109,10 +122,12 @@ Codex继续A3生产实现，GLM作为准备材料贡献者，不作为自证的�
 - 2026-09-25 Codex：核1c6c6d91+f20a88a6/49054552至1410916e；最终JSON格式和docs均通过，
   独立核八包合38与旧证据零变。仍有报告表内错义/错数及复制命令残项，收窄为R3-1～R3-3。
   未改GLM语义/旧反证/产品，未重跑统计或视觉；等待其定点更正文档，不转Kimi。
+- 2026-09-25 Codex：独立核f4236474，R3残项除P5图一条已核边漏写外全部闭合；38ID/格式/docs均通过。
+  只在本人席位和新复核记录登记counter，未代改GLM语义；下一位只需补该行，不转Kimi。
 
 ## 下一位Agent提示词
 
-当前交接为[Codex r3接收报告末尾的GLM定点提示](../../testing/glm-architecture-support/codex-r3-review.md#下一位agent提示词glm)。
+当前交接为[Codex f423接收报告末尾的GLM单行提示](../../testing/glm-architecture-support/codex-f423-review.md#下一位agent提示词glm)。
 无下一位Kimi提示词。下方保留原始准备任务提示，不再代表本次无counter接收。
 
 ```text
