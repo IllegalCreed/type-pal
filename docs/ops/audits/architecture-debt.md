@@ -44,7 +44,7 @@
 | Codex | A3余下活动场景/移动/绘制；B1/B2、C1、D1/D2、E1/E2 的关键所有权与语义裁决；全仓质量门及集成 | 不借纯重构夹带新玩法或迁移生成物手改 |
 | GLM | [F2 战场命令族搬迁](../tasks/ARCH-F2-EDITOR-BATTLE-FIELD-COMMANDS-1.md)，仅 `commands.ts` 对应约200行和新模块；以前端作者状态为合同 | A3、B1/B2、schema/save/迁移、其它命令族；ARCH-REGRESSION-LAB 候选未接收，不能作独立证明 |
 | Grok | [F2 溢出文本组件搬迁](../archive/tasks/done/ARCH-F2-DS-OVERFLOW-1.md)已按窄切片 done，仅 `DsOverflowText`；下个中风险批另卡核准 | 其它控件、CSS/交互重设计、A3及战斗引擎 |
-| Cursor | [五包文档/纯测试](../archive/tasks/done/CURSOR-WAVE-2-1-docs-and-pure-regressions.md)已 done；[F2 标签/只读值组件窄拆](../tasks/ARCH-F2-DS-LABELS-1.md)待 Codex 重核新主线后另开 build | 未取得后续卡 build 准入前不改 `controls.tsx`；高风险宿主/机制代码 |
+| Cursor | [五包文档/纯测试](../archive/tasks/done/CURSOR-WAVE-2-1-docs-and-pure-regressions.md)与[F2 标签/只读值组件窄拆](../archive/tasks/done/ARCH-F2-DS-LABELS-1.md)均已 done；下个切片另卡核准 | 不从本卡延伸修改其它 `controls.tsx` 组件或高风险宿主/机制代码 |
 
 四位Owner工作树/主文件互不重叠。后续若需要同一文件，按前批Codex接收后再开下一批；没有“两个Agent同时改一个宿主文件”的并行授权。
 

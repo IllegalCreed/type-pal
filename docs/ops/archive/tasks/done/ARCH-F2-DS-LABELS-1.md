@@ -1,6 +1,6 @@
 # ARCH-F2-DS-LABELS-1 — DsTag / DsReadonlyValue 窄拆
 
-Status: build
+Status: done
 Phase: phase2 editor / 架构治理 F2
 Coding Owner: Cursor
 Review / Integration Owner: Codex
@@ -20,6 +20,12 @@ Cursor 自验不是独立证明，只在隔离分支提交推送，不合 main�
 ## 阶段门与交接
 
 Codex：**premise verified / build allowed**，仅本卡白名单；新用户分工允许 Cursor 做低风险结构切片，Codex 独立验收与集成，固定三签暂停。done 未开放。
+
+## Codex 独立接收与 done 准入（2026-09-26）
+
+- **accept / done，仅两个展示组件窄拆**。Cursor 候选 `9593b06f` 的源、旧导出、138 定向测试、独立 Vite 单点负控与隔离 Design Lab 已由 Codex 直接核验；[完整记录](../../../../testing/cursor-arch-ds-labels-review.md)。Grok `DsOverflowText` 与其它控件未重开。
+- main 接入 `27f61a4e`，Codex 另补两条 text-overflow adoption owner 登记；根 check、ratchet、单次严格 fast 均 exit0，8,122/643、分支分母不缩。ratchet 首次遇到未改 game 资源子进程 SIGABRT，日志、隔离绿与原范围复跑一并在回执披露，不以多数通过掩盖。
+- 本卡最初“done 未开放”与 Cursor 提示词仅为历史状态。当前 Codex 独立验收模式下准入已齐；整批 F2 尚未完成。无下一位 Cursor 返工提示词。
 
 ### 下一位 Cursor 提示词
 

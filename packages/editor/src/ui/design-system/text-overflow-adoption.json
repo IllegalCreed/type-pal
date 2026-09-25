@@ -178,8 +178,8 @@
       "declarations": ["text-overflow:ellipsis"],
       "specificity": [0, 1, 0],
       "producer": {
-        "source": "design-system/controls.tsx",
-        "component": "DsPressable",
+        "source": "design-system/status-values.tsx",
+        "component": "DsReadonlyValue",
         "callsite": "class:ds-readonly-value"
       },
       "policy": "selection-summary",
@@ -280,8 +280,8 @@
       "declarations": ["white-space:nowrap"],
       "specificity": [0, 1, 0],
       "producer": {
-        "source": "design-system/controls.tsx",
-        "component": "DsPressable",
+        "source": "design-system/status-values.tsx",
+        "component": "DsTag",
         "callsite": "class:ds-tag"
       },
       "policy": "compact-token",

@@ -8,7 +8,6 @@
 
 | 任务 | 顶部状态 | 说明 |
 |---|---|---|
-| [ARCH-F2-DS-LABELS-1 — DsTag / DsReadonlyValue 窄拆](ARCH-F2-DS-LABELS-1.md) | build | 以任务卡当前准入与看板分工为准。 |
 | [ARCH-F2-EDITOR-BATTLE-FIELD-COMMANDS-1 — 战场命令族独立模块](ARCH-F2-EDITOR-BATTLE-FIELD-COMMANDS-1.md) | build | 以任务卡当前准入与看板分工为准。 |
 | [ARCH-REGRESSION-LAB-GLM-1 — 十二组可执行回归与功能视觉准备](ARCH-REGRESSION-LAB-GLM-1-twelve-packs.md) | draft | 以任务卡当前准入与看板分工为准。 |
 | [ARCH-SUPPORT-GLM-1 — 八组并行准备取证](ARCH-SUPPORT-GLM-1-eight-audit-packages.md) | draft | 以任务卡当前准入与看板分工为准。 |
@@ -31,6 +30,7 @@
 | [ARCH-CURRENT-ONLY-1 - 开发期单版本架构收口](../archive/tasks/done/ARCH-CURRENT-ONLY-1-development-current-only-consolidation.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [ARCH-ENTRY-ACTOR-SEED-1 入口角色完整初始状态所有权与快照模型](../archive/tasks/done/ARCH-ENTRY-ACTOR-SEED-1-entry-actor-initial-state.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [ARCH-ENTRYPOINT-CANONICAL-1 - 显式启动入口与独立开局配置](../archive/tasks/done/ARCH-ENTRYPOINT-CANONICAL-1-explicit-startup-entry-model.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [ARCH-F2-DS-LABELS-1 — DsTag / DsReadonlyValue 窄拆](../archive/tasks/done/ARCH-F2-DS-LABELS-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [ARCH-F2-DS-OVERFLOW-1 — DsOverflowText 独立模块](../archive/tasks/done/ARCH-F2-DS-OVERFLOW-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [ARCH-REFORGE-BATTLE-1 — 战斗宿主生命周期拆分（A2）](../archive/tasks/done/ARCH-REFORGE-BATTLE-1-host-lifecycle.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [ARCH-REFORGE-FRAME-1 — A3 首段：帧调度、时钟与输入仲裁](../archive/tasks/done/ARCH-REFORGE-FRAME-1-clock-and-input.md) | done | 完成证据、历史签字与交接见原卡。 |

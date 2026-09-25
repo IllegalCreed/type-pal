@@ -1,14 +1,14 @@
 {
   "schemaVersion": 2,
   "profile": "fast",
-  "generatedAt": "2026-09-25T14:54:46.169Z",
+  "generatedAt": "2026-09-25T16:01:14.565Z",
   "provider": {
     "name": "v8",
     "vitest": "4.1.7",
     "coverageV8": "4.1.7"
   },
-  "sourceFileCount": 642,
-  "testCount": 8120,
+  "sourceFileCount": 643,
+  "testCount": 8122,
   "packages": {
     "shared": {
       "name": "@type-pal/shared",
@@ -3743,7 +3743,7 @@
         "**/*.spec.tsx",
         "**/*.d.ts"
       ],
-      "sourceFileCount": 227,
+      "sourceFileCount": 228,
       "sourceFiles": [
         "packages/editor/src/core/actor-dialogue-commands.ts",
         "packages/editor/src/core/actor-references.ts",
@@ -3955,6 +3955,7 @@
         "packages/editor/src/ui/design-system/overlays.tsx",
         "packages/editor/src/ui/design-system/recipes.tsx",
         "packages/editor/src/ui/design-system/reorder.tsx",
+        "packages/editor/src/ui/design-system/status-values.tsx",
         "packages/editor/src/ui/design-system/virtual-list.tsx",
         "packages/editor/src/ui/editor-navigation.ts",
         "packages/editor/src/ui/editor-target.ts",
@@ -3973,9 +3974,9 @@
         "packages/editor/src/ui/use-project-leave-guard.ts",
         "packages/editor/src/ui/world-sprite-action-preview.ts"
       ],
-      "scopeDigest": "a377f3f8cc74955711e9086a35126647261478700ae3d43f97258f7d545b20b0",
+      "scopeDigest": "2b32bd1c236bd8878abf1643ea3dc9e848229ee06bfe67c1750deac74453b111",
       "fastTests": {
-        "testCount": 2597,
+        "testCount": 2599,
         "testFileCount": 267,
         "files": [
           "packages/editor/scripts/battle-simulator-http.test.mjs",
@@ -5464,8 +5465,8 @@
           },
           {
             "file": "packages/editor/src/ui/design-system/controls.test.tsx",
-            "testCount": 41,
-            "identityDigest": "1467510f54c7513708dd66e3c8aab34e91ffc28c69ef8a968259814bd02b365d"
+            "testCount": 43,
+            "identityDigest": "d1e914c91530cc75692045d1b90eafcf0dfff780bc6108ebd3282c6096968be7"
           },
           {
             "file": "packages/editor/src/ui/design-system/floating-layer.test.tsx",
@@ -5583,46 +5584,46 @@
             "identityDigest": "7c181e89600882213bfdc9bf59bf8d2b40273fc45d2d84fecf9ad6313060cf3b"
           }
         ],
-        "identityDigest": "5631fdd5627e8ebf82a84cedb1b233a5c90278bb90dc064b1e3344c92620636c",
+        "identityDigest": "9a0472385c3e94a4b0540d3865b73a6f433f1744574b86551eebc58a185f55b5",
         "duplicateIdentityCount": 8,
-        "executionDigest": "2086bf148d65b1782fe5d0f8b7087f1c0405e3695719a2399264a26061a9d229"
+        "executionDigest": "f00b2f25ebe922830313de826f43b5967bd6cb2bc6f25c448e1259752078eea1"
       },
       "metrics": {
         "statements": {
-          "covered": 25965,
-          "total": 32756
+          "covered": 25966,
+          "total": 32757
         },
         "branches": {
           "covered": 20155,
           "total": 28338
         },
         "functions": {
-          "covered": 6455,
-          "total": 8376
+          "covered": 6456,
+          "total": 8377
         },
         "lines": {
-          "covered": 23342,
-          "total": 28637
+          "covered": 23343,
+          "total": 28638
         }
       }
     }
   },
   "total": {
     "statements": {
-      "covered": 61135,
-      "total": 80618
+      "covered": 61136,
+      "total": 80619
     },
     "branches": {
       "covered": 43134,
       "total": 63176
     },
     "functions": {
-      "covered": 11362,
-      "total": 15035
+      "covered": 11363,
+      "total": 15036
     },
     "lines": {
-      "covered": 55045,
-      "total": 70571
+      "covered": 55046,
+      "total": 70572
     }
   }
 }

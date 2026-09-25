@@ -25,6 +25,8 @@ GLM后续补测候选见[十批长队列](../testing/glm-coverage-work-queue.md)
 
 2026-09-25 [F2 溢出文本组件窄拆](../testing/grok-arch-ds-overflow-review.md)由 Grok 贡献、Codex 独立复核并 done：原/候选 Design Lab 两状态截图逐字节一致，根 check、ratchet、严格 fast 8110/642 通过。F2 整批仍未完成，Cursor 后续同文件切片尚未开放。
 
+2026-09-26 [F2 标签/只读值窄拆](../testing/cursor-arch-ds-labels-review.md)由 Cursor 贡献、Codex 独立复核并 done：旧导出与 DOM/SSR 保真；Codex 同步修正两条 adoption owner 登记，check/ratchet/严格 fast 8122/643 通过。F2 整批仍未完成；首轮 ratchet 的 game 子进程内存 `SIGABRT` 与隔离/复跑证据已在回执披露。
+
 八批（TB02/TB04～TB10）候选256116ee已三席accept齐，2026-09-20用户授权后由Codex[核定done归档](../testing/glm-nine-final-review.md)。当时只核签字与既有证据、不重跑测试；TB03随后单独收口，见下。
 
 2026-09-20 TB03候选4894719e三席accept齐，用户授权后由Codex[核定done归档](../testing/import-codec-acceptance.md)。本次无测试/基线改动；PNG编码失败close没有随补测关闭；用户后续授权后已由Codex[独立修复](../testing/image-import-cleanup.md)，18回归及check7766/严格fast7277通过。
@@ -34,7 +36,6 @@ GLM后续补测候选见[十批长队列](../testing/glm-coverage-work-queue.md)
 | ID | 任务 | 状态 | 负责人/下一步 | 一句话备注 |
 |---|---|---|---|---|
 | ARCH-F2-EDITOR-BATTLE-FIELD-COMMANDS-1 | [战场命令族独立模块](tasks/ARCH-F2-EDITOR-BATTLE-FIELD-COMMANDS-1.md) | build | GLM实施 / Codex独立复核 | 仅命令族机械搬迁、旧出口保留，不动A3与其它编辑命令 |
-| ARCH-F2-DS-LABELS-1 | [标签与只读值组件窄拆](tasks/ARCH-F2-DS-LABELS-1.md) | build | Cursor实施 / Codex独立验收 | 前置两卡已done；只迁三个符号并维持旧导出、DOM/class，Grok溢出文本只读 |
 | ARCH-REGRESSION-LAB-GLM-1 | [十二组候选回归与功能视觉](tasks/ARCH-REGRESSION-LAB-GLM-1-twelve-packs.md) | draft | GLM按六轮counter补真实调用链/收窄 | 33df9378 测试零diff；32绿/六图hash可留，新增tsconfig TS5101、回执旧口径与业务缺口未闭 |
 | ARCH-SUPPORT-GLM-1 | [八组并行架构/视觉准备](tasks/ARCH-SUPPORT-GLM-1-eight-audit-packages.md) | draft | Codex / 后续归属与收口 | 58cdf938材料accept，counter清零；文档已合入，按用户要求未标done/未开产品门 |
 

@@ -48,3 +48,7 @@ hero 用例补了 `SPAN` + `ds-tag ds-tag--neutral` 与 controls/index/status-va
 - 本机没有另开浏览器。编辑器 6010 没有动。视觉由 Codex 接收时补。
 
 Cursor 自验不是独立证明。Codex 独立复核与集成。
+
+## Codex 后续接收（不改 Cursor 原回执）
+
+上述“未合 main、未标 done”为 Cursor 交付时点。Codex 已另核真实变异与隔离 UI，对 text-overflow adoption 两条旧 owner 登记做最小集成修复，完成全仓与官方覆盖率门禁；见[独立接收记录](cursor-arch-ds-labels-review.md)。
