@@ -1,6 +1,6 @@
 # TEST-GROK-PRESENT-2 — 一阶段画面合成与战斗呈现候选回归
 
-Status: draft
+Status: done
 Phase: phase1
 Capability: 只补隔离候选测试，不改变玩法或正式覆盖率范围
 Contribution Owner: Grok
@@ -22,7 +22,7 @@ Evidence freeze: `077516bb04c27b38865139a67ad64b0c7eb3fd47`
 
 ## 冻结入口与去重
 
-- 正式上一包 P01–P10 见 [`grok-present-integration.md`](../../testing/grok-present-integration.md)：
+- 正式上一包 P01–P10 见 [`grok-present-integration.md`](../../../../testing/grok-present-integration.md)：
   菜单/索引绘制 25 项已入 game，不能换标题再补一遍。既有
   `present.test.ts`、`dialog-box.test.ts`、`battle/__tests__/present-battle.test.ts`、
   `draw-battle-ui.test.ts`、`draw-battle-sprites.test.ts` 必须逐轴列出精确旧标题与新差异。
@@ -76,9 +76,15 @@ Evidence freeze: `077516bb04c27b38865139a67ad64b0c7eb3fd47`
   全仓 check→官方 ratchet→受保护单次 strict-fast、done 与清理旧 worktree/分支。
 - 无产品行为/schema/save/资产格式改动授权。发现需要这些变化时停止该轴，登记反例交 Codex。
 
+### Codex 最终接收与 done（2026-09-25，候选 `7a49d651`）
+
+- 首轮 P15/P16 counter 已由本轮定点返工闭合；[本人复核](../../../../testing/grok-phase1-composition-review.md)与[正式接入证据](../../../../testing/grok-phase1-composition-integration.md)分别记录合同、贡献者归属、局部时钟桩适配与统一验证。候选 19/19、相邻177/177、TS/Biome、五针经 Codex 独立复跑；父导航由 Codex 正式接入时补齐。
+- 正式 game 测试 `197ed97e` 只新增六测试+三 fixture；官方 fast 从8090/641到8109/641且七包生产分母不变。完整 `pnpm check`、受保护 ratchet、单次严格 fast 均 exit0；未发现产品缺陷，未改玩法、旧断言/配置/阈值/超时。full/PAL真数据、浏览器剧情视觉、Q1/Q2和完整 E2E 保持后续归属。
+- 按当前“Codex 分派—贡献者实施—Codex 独立验收集成”模式核定 done；原隔离候选已留远端 `archive/grok-present-composition-r1` 标签，干净 worktree 与本地/远端工作分支均已清理。下方 draft/counter/返工提示是历史状态，不再要求 Grok 重做。无下一位 Agent 提示词，本卡收口。
+
 ## Codex 首轮独立接收（2026-09-25，候选 `e0d7511e`）
 
-- **counter，仅 P15/P16 三项残缺；Status 保持 draft。** [本人逐项复核](../../testing/grok-phase1-composition-review.md)确认 18/18候选、177/177相邻、typecheck/Biome、四针反控成立；父目录导航失败是 Codex 集成职责，不归 Grok 白名单。
+- **counter，仅 P15/P16 三项残缺；Status 保持 draft。** [本人逐项复核](../../../../testing/grok-phase1-composition-review.md)确认 18/18候选、177/177相邻、typecheck/Biome、四针反控成立；父目录导航失败是 Codex 集成职责，不归 Grok 白名单。
 - P11–P14 与 P16 两条立绘证据接受为隔离候选；P15-2 的可用性是 fixture 手写 disabled，未从 runtime MP 建表；P16-1 裸数字没有“字形出现”正断言；P15-3 role99/空 catalog 须归防御域或换合法正控。仅定点返工这些，不重做其它组或改产品。
 
 ### 下一位 Grok 定点返工提示词

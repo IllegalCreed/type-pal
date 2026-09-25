@@ -1,5 +1,9 @@
 # TEST-GROK-PRESENT-2 — Codex 独立接收复核
 
+## 定点返工 accept 与正式接入（2026-09-25）
+
+候选 `7a49d651` **accept，首轮三项 counter 全闭**。[正式接入证据](grok-phase1-composition-integration.md)记录 Grok 19 项贡献、Codex 选择性移植及统一门禁；下方 `e0d7511e` counter 是历史，不再阻断。P15-2 只宣称预填 disabled 着色及 runtime MP 数字，旧建表测试承担可用性；P15-3 把合法单人道具目录与 roleId99 防御输入拆例；P16-1 对裸数字 `3` 的字形点有正断言，独立漏画 fallback 单点变异恰在目标业务断言红。本席复跑候选 19/19、相邻 177/177、typecheck/Biome及五针；Grok 自验不充独立证明。正式套件首次因候选固定 `Date.now=0` 而 P15 闪烁红，Codex 把时钟桩局部化后 19/19 绿，无产品/断言预期修改。任务已由 Codex 按当前模式收口，未借此宣称 full/E2E 完成。
+
 2026-09-25。候选 `e0d7511e5bc2dbd3fde1872217ed3147a1768d0f`，基点 `bf4c51c496b9698530616749cdb142e197039b35`。结论：**counter，仅 P15/P16 的合同鉴别力与 P15 输入归属需定点返工；P11–P14 及 P16 的立绘两例接受为隔离候选证据。** 本卡仍 draft，测试尚未进入正式 game runner/覆盖率；Grok 自验不作独立证明。没有新产品缺陷复现，不能从候选全绿推断第一阶段呈现已无 bug。
 
 ## 范围与复跑
