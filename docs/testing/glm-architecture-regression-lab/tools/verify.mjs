@@ -53,11 +53,12 @@ for (const entry of results.entries) {
   byType[entry.status] = (byType[entry.status] ?? 0) + 1
   perGroup[entry.pack] = (perGroup[entry.pack] ?? 0) + 1
 }
-// groupTotals 由本对账器重算并同步回写（机械生成，非手填）
+// groupTotals 由本对账器重算并同步回写（机械生成，非手填）；回写后自动 biome format 保持格式门
 results.groupTotals.byStatus = byType
 results.groupTotals.perPack = perGroup
 results.groupTotals.total = results.entries.length
 writeFileSync(resultsPath, `${JSON.stringify(results, null, 2)}\n`)
+execSync(`npx biome format --write ${resultsPath}`, { cwd: repoRoot, stdio: 'pipe' })
 for (const [group, count] of Object.entries(results.groupTotals.perPack ?? {}))
   check(perGroup[group] === count, `${group} 报告 ${perGroup[group]} != totals ${count}`)
 
