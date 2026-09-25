@@ -8,6 +8,8 @@
 
 ## 文档与附件
 
+- [Cursor八组工具纯函数候选回归](cursor-tool-regressions/README.md)（TEST-CURSOR-TOOLS-1，draft待执行；Node显式运行、先去重，不改官方runner或统计范围）
+
 - [Cursor十二组包说明与工具核对](cursor-docs-wave2.md)与[Codex独立接收](cursor-docs-wave2-review.md)（4b75d1c3/cc2720c5材料accept，含NB1/NB2非阻断文字观察；无阻断counter，不改源文档/不合main/不标done，前批修订门不开放）
 
 - [Cursor现行指南轻量核对](cursor-docs-hygiene.md)（65193a84/320800ec材料已接收；十二份文档四组核对，不是正式文档修复、覆盖率或运行验收）
