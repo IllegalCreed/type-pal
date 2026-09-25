@@ -8,6 +8,8 @@
 首轮正文`650f9f9d` / tip`8f3b85a7`的反证保留在下方历史节。
 原[Cursor回执](cursor-docs-hygiene.md)保持原文。本报告是Codex自己的判断，不改写贡献者结论。
 复核位于独立分支`codex/doc-cursor-review-r1`，不合main，不改十二份源文档或产品，不标done。
+归档勘误（2026-09-26）：该历史审查分支已退休，全部独有提交保存在远端标签
+`archive/doc-cursor-review-r1`（`8ac65c4f`）；上述句子只描述当时的工作位置，取旧材料请用归档标签。
 
 ## 结论
 

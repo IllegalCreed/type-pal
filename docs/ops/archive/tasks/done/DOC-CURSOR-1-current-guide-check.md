@@ -116,7 +116,7 @@ Cursor原文未改，没有代签；只收本包回执，不带入其它工作�
 
 ```text
 在原独立worktree/分支codex/cursor-docs-hygiene-r1修DOC-CURSOR-1回执，原候选650f9f9d/tip8f3b85a7。
-先读Codex复核分支codex/doc-cursor-review-r1中的
+先读Codex原复核分支的归档标签archive/doc-cursor-review-r1中的
 docs/testing/cursor-docs-hygiene-review.md及任务卡本席CR-1/CR-2。
 无需合入Codex准入文档，直接git show读取即可；证据冻结a3ceaf05不变。
 唯一写入docs/testing/cursor-docs-hygiene.md：

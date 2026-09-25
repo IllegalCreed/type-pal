@@ -137,6 +137,8 @@ R1分类纠正后同步表格/小计，不继续报“6条确定不符”；保�
 - 候选原树`node scripts/docs/check.mjs`PASS（549 Markdown / 2993 links / 181 tasks）；
   `git diff --check 7e52d514..e3da44ca`exit0。数学小计原值能相加，但R1/R4显示分类本身有误。
 - 回执原样快进接入`codex/doc-cursor-review-r1`只为承载复核证据，**不等于accept或合main**。
+  归档勘误（2026-09-26）：原审查分支已退休，独有提交保存在远端标签
+  `archive/doc-cursor-review-r1`（`8ac65c4f`）；本句的分支名仅是历史位置记录。
   main仍26c4ae5c；未改Cursor回执措辞、正式指南、产品、测试、基线或五份修订卡。
 - 无服务、浏览器、全仓测试、覆盖率、迁移/提取/发布执行；本卡Status仍draft，不代签、不标done。
 

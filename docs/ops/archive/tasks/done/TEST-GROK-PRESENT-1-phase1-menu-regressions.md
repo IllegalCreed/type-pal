@@ -146,7 +146,7 @@ diagnostics/pXX-*.test.ts     # 显式失败/待证，不进默认绿集合
 ## r2 下一位 Agent 提示词（历史，已完成）
 
 ```text
-在 /Users/zhangxu/illegal/type-pal-grok-present 的 codex/grok-present-tests-r1 分支窄返工 TEST-GROK-PRESENT-1。当前候选5cb98087，卡状态draft；fetch 后用 git show origin/main:AGENTS.md 读取当前委派模式（本候选旧基点的 AGENTS.md 仍是历史三贤人文本），再读候选 README，并用 git show origin/codex/doc-cursor-review-r1:docs/testing/grok-present-review.md 读取 Codex r2 C1a 反证（只读，不合入复核分支）。接手前同步分支并核干净工作树。
+在 /Users/zhangxu/illegal/type-pal-grok-present 的 codex/grok-present-tests-r1 分支窄返工 TEST-GROK-PRESENT-1。当前候选5cb98087，卡状态draft；fetch 后用 git show origin/main:AGENTS.md 读取当前委派模式（本候选旧基点的 AGENTS.md 仍是历史三贤人文本），再读候选 README，并用 git show archive/doc-cursor-review-r1:docs/testing/grok-present-review.md 读取 Codex r2 C1a 反证（原工作分支已归档；只读，不合入复核分支）。接手前同步分支并核干净工作树。
 只修实际传给 draw 的 catalog 数组身份：P05 :59-66/:94-109/:135-152 和 P01/P02/P04/P07 同型内联数组，先具名一次、同一对象交快照与产品调用；每次 draw 前后立即深比。自测至少钉一次真实实参数组成员增删或顺序变化能使快照红，不用另一份等值数组冒充。README将24项分为23项真实绘制回归+1项 helper 自测，不报新增官方覆盖率。
 C2/C3、位图宽高等C1已闭项、像素/旧例去重及P02/P05/P10三针不重开。只改隔离候选测试/fixture/回执，不改产品、旧测、官方配置/基线；复跑候选/相邻/tsc/Biome/docs/三针，交精确SHA、JSON计数和实参数组污染负控。提交推送，不合main、不标done；Codex独立接收后决定集成。当前不要求Kimi/GLM签字。
 ```
@@ -154,7 +154,7 @@ C2/C3、位图宽高等C1已闭项、像素/旧例去重及P02/P05/P10三针不�
 ## 首轮返工提示词（历史，已被上方 C1a 提示词替代）
 
 ```text
-在 /Users/zhangxu/illegal/type-pal-grok-present 的 codex/grok-present-tests-r1 分支返工 TEST-GROK-PRESENT-1 候选；卡状态 draft，尚未开放正式 build/done。先读 AGENTS.md、CLAUDE.md、docs/testing/grok-present-regressions/README.md；fetch 后用 git show origin/codex/doc-cursor-review-r1:docs/testing/grok-present-review.md 与同分支任务卡读取 Codex C1-C3 原反证（只读，不把复核分支合入候选）。复核候选 bd6fad55/登记 e180cb56；接手前同步分支、核干净工作树。
+在 /Users/zhangxu/illegal/type-pal-grok-present 的 codex/grok-present-tests-r1 分支返工 TEST-GROK-PRESENT-1 候选；卡状态 draft，尚未开放正式 build/done。先读 AGENTS.md、CLAUDE.md、docs/testing/grok-present-regressions/README.md；fetch 后用 git show archive/doc-cursor-review-r1:docs/testing/grok-present-review.md 与该归档标签上的任务卡读取 Codex C1-C3 原反证（原工作分支已归档；只读，不把复核材料合入候选）。复核候选 bd6fad55/登记 e180cb56；接手前同步分支、核干净工作树。
 只修 C1-C3：C1 为每次真实 draw 的 gs/menu/catalog/bitmap 等可变实参取完整独立快照，IndexedImage 连 width/height 都算，P06 spells/magics、P07 portrait/levelUpExp/bg、P05 bg/poisons、P08/P09 实际输入别漏；保留 toSpriteImages 同引用合同。C2 把 P05/P07 首轮绘制的快照移到该次调用之前，并在之后立即比较，不把 create/confirm/导航当绘制污染。C3 P06 施法者构造按正式 runtime→roles 投影或等效同步当前 MP，用能区分 8 与 10 的费用边界验证 disabled，同时保留屏幕现行 MP=8 像素断言。Codex 已补录 P10 png-rgba fixture 白名单，不需改产品或卡面他席。
 已核过像素坐标/去重方向/23项及 P02/P05/P10 三针，别重开已通过项目。返工后复跑候选 JSON、相邻定向、tsc、Biome、三针；给实际输入污染的单点反控或其他可复建见证，证明原盲区已堵。只改 docs/testing/grok-present-regressions/**，README 如实更新候选/命令/计数与缺口。提交推送返工候选，交确切 SHA 与结果；不合 main、不代签、不标 done，不跑官方覆盖率或改基线。Codex再独立接收，Grok自己的绿结果不算独立第三方证明。
 ```

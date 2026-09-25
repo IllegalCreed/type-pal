@@ -170,7 +170,7 @@ DOC-CURSOR-1材料accept保持，DOC-GUIDE-REVISION-1仍未开放，本包不扩
 
 ```text
 在原分支codex/cursor-docs-wave2-r1修DOC-CURSOR-2回执；原候选3852afe5/tip e3da44ca，证据冻结dab017e7。
-先git show读取Codex复核分支codex/doc-cursor-review-r1上的
+先git show读取Codex原复核分支的归档标签archive/doc-cursor-review-r1上的
 docs/testing/cursor-docs-wave2-review.md与本卡Codex席位，无需合入共享卡/看板。
 唯一写入docs/testing/cursor-docs-wave2.md，按R1～R4：
 R1撤销C01缺shared/assets即引用错误的推断，纳入Reforge assets/index真实消费者；
