@@ -76,6 +76,7 @@
 
 ## 接收索引（Codex机械补链，原交付正文与机账未改）
 
+- [Codex r2收窄复核](codex-r2-review.md)、[r2机账](codex-r2-evidence.json)、[r2只读复算器](codex-r2-probe.mjs)
 - [Codex独立接收与返工要求](codex-intake-review.md)、[独立机账](codex-intake-evidence.json)、[只读复算器](codex-intake-probe.mjs)
 - [GLM总报告](summary.md)、[GLM机账](evidence.json)、[视觉小样](v0-visual-sample.md)
 - [P1 App](p1-app.md)、[P2地图](p2-mapmode.md)、[P3脚本表单](p3-script-forms.md)

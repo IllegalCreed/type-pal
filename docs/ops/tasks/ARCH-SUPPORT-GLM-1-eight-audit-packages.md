@@ -33,7 +33,29 @@ Codex继续A3生产实现，GLM作为准备材料贡献者，不作为自证的�
 - GLM：只编辑自己目录；报告自身实测、风险与建议，不写他席结论、不改共享看板/卡状态、不标done。
 - Kimi：用户全架构队列豁免，不安排交接。
 - build准入：not opened。本包不进入生产build，后续实施另按对应架构/修复卡准入。
-- done准入：blocked，3967a376已复核但下列counter未闭；用户豁免两席不等于证据自动通过。
+- done准入：blocked，r2候选717d507d/登记9e5ba310仍有下列C1～C4；用户豁免两席不等于证据自动通过。
+
+## Codex r2接收席位（2026-09-25，717d507d / 9e5ba310）
+
+**继续counter，收窄返工；Status仍draft，不开build、不标done。**
+[r2报告与精确锚点](../../testing/glm-architecture-support/codex-r2-review.md)、
+[本席机账](../../testing/glm-architecture-support/codex-r2-evidence.json)、
+[只读复算器](../../testing/glm-architecture-support/codex-r2-probe.mjs)。
+
+已闭合：白名单、产品零漂移、旧Codex三文件未改；38唯一ID与JSON19/14/5小计、22个源码hash、17图哈希与尺寸；
+新增6图对应可见布局；derivedStore/cancel/50vs81/hooks三轴/preparing门/SCC/双向校验及6参数的更正方向；
+搜索名与即时多选合同、折叠正常的Codex归属。不要求重新取证这些事实。
+
+剩余：
+
+- C1：顶部更正未同步到正文/表/风险列表，P5仍写无环，V1仍写缺名/未进入等；P4共享状态边界需小表而非一句概括。
+- C2：App新盘点仍24state/8ref且列不存在的四个state；实际App29/16/15effect+1layout。P5分项仍合703却称702；
+  P6函数体自递归7处非6；V2“没有分隔条测试”被既有PanelResizeHandle-interaction用例直接反证。
+- C3：summary各包行数合40而机账38；P3/V1行数、P4/V1 ID含义不一致；hash注册表仍有不存在的引用，命名门不可证明两模型映射。
+- C4：9e5ba310最终JSON Biome仍exit1；可复制命令的基点/工作目录需修。原交付check:docs通过，不混称Biome通过。
+
+源码及正式测试不变，沿用前轮独立39/39，不重复跑统计并集/全仓；未改GLM语义、旧反证，不代签。
+逐项细节以r2报告为准；下方r1原结论留历史，不把已闭事实重新打开。
 
 ## Codex接收席位（2026-09-25，候选3967a376）
 
@@ -66,10 +88,12 @@ Codex继续A3生产实现，GLM作为准备材料贡献者，不作为自证的�
   主线6010实际折叠/搜索复核、39定向绿及各包独立源码反证，按上表分别counter。
   仅落本人审查文件与本人席位，README只追加机械索引，原GLM报告/机账未改；main不切分支、不合入；Kimi豁免。
   后续GLM按接收报告末尾提示返工，保留冻结与只读白名单，不因审查开放产品实现。
+- 2026-09-25 Codex：同步并核717d507d/9e5ba310 r2；确认多项事实与17图有效，独立AST/机账对账仍发现C1～C4。
+  新反证单列r2文件，r1三文件零改；保持draft，GLM只需按收窄提示修材料，未授权产品实现。
 
 ## 下一位Agent提示词
 
-当前交接为[Codex接收报告末尾的GLM返工提示](../../testing/glm-architecture-support/codex-intake-review.md#下一位-agent-提示词glm)。
+当前交接为[Codex r2接收报告末尾的GLM收窄提示](../../testing/glm-architecture-support/codex-r2-review.md#下一位agent提示词glm收窄返工)。
 无下一位Kimi提示词。下方保留原始准备任务提示，不再代表本次无counter接收。
 
 ```text

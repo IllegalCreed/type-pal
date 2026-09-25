@@ -1,0 +1,552 @@
+{
+  "schemaVersion": 1,
+  "task": "ARCH-SUPPORT-GLM-1",
+  "reviewer": "Codex",
+  "date": "2026-09-25",
+  "revision": "r2",
+  "conclusion": "counter; narrowed C1-C4",
+  "taskStatus": "draft",
+  "measurements": {
+    "contentCandidate": "717d507d13ee945164c56f6bee24a6cc4ef1fabf",
+    "registeredCandidate": "9e5ba310b87fdc7fcd0cd9f6a9c7d337b7a315fe",
+    "productionFreeze": "b11d4bc9",
+    "changedFiles": [
+      "docs/testing/glm-architecture-support/README.md",
+      "docs/testing/glm-architecture-support/evidence.json",
+      "docs/testing/glm-architecture-support/p1-app.md",
+      "docs/testing/glm-architecture-support/p2-mapmode.md",
+      "docs/testing/glm-architecture-support/p3-script-forms.md",
+      "docs/testing/glm-architecture-support/p4-battle-session.md",
+      "docs/testing/glm-architecture-support/p5-phase1-core.md",
+      "docs/testing/glm-architecture-support/p6-conversion-validation.md",
+      "docs/testing/glm-architecture-support/summary.md",
+      "docs/testing/glm-architecture-support/v1-forms.md",
+      "docs/testing/glm-architecture-support/v2-workspaces.md"
+    ],
+    "oldCodexArtifactsUnchanged": true,
+    "registrationOnlyChangesFinalShaSemantics": true,
+    "ledger": {
+      "total": 38,
+      "byType": {
+        "covered": 19,
+        "risk": 14,
+        "N/A": 5
+      },
+      "byPackage": {
+        "P1": {
+          "total": 6,
+          "covered": 2,
+          "risk": 3,
+          "N/A": 1
+        },
+        "P2": {
+          "total": 5,
+          "covered": 3,
+          "risk": 2
+        },
+        "P3": {
+          "total": 5,
+          "covered": 3,
+          "risk": 2
+        },
+        "P4": {
+          "total": 5,
+          "covered": 2,
+          "risk": 2,
+          "N/A": 1
+        },
+        "P5": {
+          "total": 4,
+          "covered": 1,
+          "risk": 2,
+          "N/A": 1
+        },
+        "P6": {
+          "total": 5,
+          "covered": 2,
+          "risk": 2,
+          "N/A": 1
+        },
+        "V1": {
+          "total": 4,
+          "covered": 3,
+          "N/A": 1
+        },
+        "V2": {
+          "total": 4,
+          "covered": 3,
+          "risk": 1
+        }
+      }
+    },
+    "reportCounts": [
+      {
+        "package": "P1",
+        "report": 6,
+        "ledger": 6
+      },
+      {
+        "package": "P2",
+        "report": 5,
+        "ledger": 5
+      },
+      {
+        "package": "P3",
+        "report": 6,
+        "ledger": 5
+      },
+      {
+        "package": "P4",
+        "report": 5,
+        "ledger": 5
+      },
+      {
+        "package": "P5",
+        "report": 4,
+        "ledger": 4
+      },
+      {
+        "package": "P6",
+        "report": 5,
+        "ledger": 5
+      },
+      {
+        "package": "V1",
+        "report": 5,
+        "ledger": 4
+      },
+      {
+        "package": "V2",
+        "report": 4,
+        "ledger": 4
+      }
+    ],
+    "reportCountSum": 40,
+    "hashes": [
+      {
+        "path": "packages/editor/src/ui/App.tsx",
+        "sha256": "0803997f6a5552cea6b670db2efddc5c3c43d6f8ca814492e068c027c35ac774"
+      },
+      {
+        "path": "packages/game/src/core/event-system.ts",
+        "sha256": "e42292d549175a9b72279abbdad5c9de661de8f175c5432b0a1e2776fd6c932f"
+      },
+      {
+        "path": "packages/editor/src/ui/MapMode.tsx",
+        "sha256": "8418dee784cd9bea9f589315795891eabe04e6896a76a43aca491fec662edbf6"
+      },
+      {
+        "path": "packages/game/src/core/scene-system.ts",
+        "sha256": "c1a0a1445c6dcb8f874f9c911b66b79f5412ea41e5c5021010d9824f9163b67a"
+      },
+      {
+        "path": "packages/editor/src/ui/ScriptEditor.tsx",
+        "sha256": "7b39070c3d12a4662146615a7574eee21118944434b9c2c98adc9805f52e1353"
+      },
+      {
+        "path": "packages/game/src/core/equip-effect.ts",
+        "sha256": "7daa55fa6951af329a38691842fe241d2c623390823d2d69a8a8d20fddec26ea"
+      },
+      {
+        "path": "packages/editor/src/ui/CommandForm.tsx",
+        "sha256": "d6004c29b4e8b7cda52e9f4d2ac37710be5f564e39b32f0c9533147d63e3a3fe"
+      },
+      {
+        "path": "packages/game/src/core/battle/battle-opcodes.ts",
+        "sha256": "b9fb8d53cfffdb4031b9ec43e64be2166a3e300928d2879f762c3f8ccbd840b1"
+      },
+      {
+        "path": "packages/editor/src/ui/editor-navigation.ts",
+        "sha256": "091277ddd2850f0074f9199fe27dfd738fb329df7f7c4dbb1a108490c2ddb4a8"
+      },
+      {
+        "path": "packages/game/src/core/menu/menu-driver.ts",
+        "sha256": "a66844fd9893bafa489416890909683c24a9a43064c8c4d5b00d4c4627e5b0af"
+      },
+      {
+        "path": "packages/editor/src/ui/design-system/multi-select.tsx",
+        "sha256": "9d143ad34bed199e92ff15005d5d72beb812dc073bbabf2e5c08e90d41c3b1e1"
+      },
+      {
+        "path": "packages/game/src/core/menu/menu-mode.ts",
+        "sha256": "87f352d5473e6acd7fe962b204399ccb68bcb001eaaa0d443c016bfdda7fe7e7"
+      },
+      {
+        "path": "packages/editor/src/core/editor-derived-store.ts",
+        "sha256": "e8ed0e39e4d66fac4afbbe1578b47e4b5664e0b81245a69fd1dfc186c5a87949"
+      },
+      {
+        "path": "packages/game/src/core/menu/magic-script.ts",
+        "sha256": "f17ff47860de4697ee0ccd2d24bbc2b34dc21c0cb8dc86ab1a5c79d6b7dc1a95"
+      },
+      {
+        "path": "packages/reforge/src/battle/battle-session.ts",
+        "sha256": "24cdd3e539e2248149ebd79fa9bced2250b6e56e9a215adb92f52029634c5ab1"
+      },
+      {
+        "path": "packages/content/src/author-script-core.ts",
+        "sha256": "0270998b8c1dcd2debdc981088b447b769b6db12677a7c90ea84bc3d81010905"
+      },
+      {
+        "path": "packages/reforge/src/battle/battle-core.ts",
+        "sha256": "651efc8f7dab8cf2eb725df0c058c801adae91080f3381bff80c871dd3d3dca3"
+      },
+      {
+        "path": "packages/content/src/enemy-script.ts",
+        "sha256": "dc4fecaa314a0813e80235795399e8272ffcb4c1199b36eba4a7497fb38fc2d7"
+      },
+      {
+        "path": "packages/migrate/src/migrate-content.ts",
+        "sha256": "df2ed14c30b7743fefcf8ccbb874255ff391894121b3e6314efff0729fceda35"
+      },
+      {
+        "path": "packages/migrate/src/translate-events.ts",
+        "sha256": "4d4efd3f27eb81d3537071d480a6b4f0a233fc142349b8107ce1c54ceb2de7f3"
+      },
+      {
+        "path": "packages/migrate/src/migration-transaction.ts",
+        "sha256": "f22787611d1e0ae9b2b0ee8f03cf863a6ef48dafe4abed8ec8a841fd1561b78f"
+      },
+      {
+        "path": "packages/migrate/src/translate-enemy-scripts.ts",
+        "sha256": "77cafdcc95ce6b61ca62e9aeeb2169c42e0a57d7c9857e0ca99c55219bc6281e"
+      }
+    ],
+    "screenshots": [
+      {
+        "file": "/tmp/glm-arch-visual/sample-01-scene-workspace.png",
+        "sha256": "95f64439bffa326ea833ffd1a9e5c708d2ece870fae91c3cd7eb7a86f43b3417",
+        "dimensions": "1440x1024",
+        "existingR1": true
+      },
+      {
+        "file": "/tmp/glm-arch-visual/sample-02-scene-refs-tab.png",
+        "sha256": "51541e6faa99d4bd1ddb9fbf97ae8e0494e7a20a80d92cb6855296a877134e9a",
+        "dimensions": "1440x1024",
+        "existingR1": true
+      },
+      {
+        "file": "/tmp/glm-arch-visual/v1-01-battle-sim-scheme.png",
+        "sha256": "4cb540311af62cb7b16db1bbd323f11e5145cfd1319afe55b4cb817f02f2c67d",
+        "dimensions": "1440x1024",
+        "existingR1": true
+      },
+      {
+        "file": "/tmp/glm-arch-visual/v1-02-battle-sim-party.png",
+        "sha256": "1cac82fe7d7d75909398642166fb1dd21ad24e029aa2e1bc7a0c61b9d153960e",
+        "dimensions": "1440x1024",
+        "existingR1": true
+      },
+      {
+        "file": "/tmp/glm-arch-visual/v1-03-skill-multiselect-dialog.png",
+        "sha256": "2ff4b393de048657745a9d2e6adcd86181e5e57644b748c979d94d39d3e79bd5",
+        "dimensions": "1440x1024",
+        "existingR1": true
+      },
+      {
+        "file": "/tmp/glm-arch-visual/v1-04-esc-cancel-fidelity.png",
+        "sha256": "c441ccc9f032b6010e5d9716ce6313efb468f31883a00f483aff1ce88291f5cc",
+        "dimensions": "1440x1024",
+        "existingR1": true
+      },
+      {
+        "file": "/tmp/glm-arch-visual/v1-05-party-768.png",
+        "sha256": "706a32cd5f94867aa733d78739b5a6d876ecc548dda6841caa6821c04eb40edb",
+        "dimensions": "768x1024",
+        "existingR1": true
+      },
+      {
+        "file": "/tmp/glm-arch-visual/v2-01-new-scene-dialog.png",
+        "sha256": "6927dcf75a9f41e49a3896fdf1cb2e90dba72fdc668c63cc911bec852af54a32",
+        "dimensions": "1440x1024",
+        "existingR1": true
+      },
+      {
+        "file": "/tmp/glm-arch-visual/v2-02-mapmode.png",
+        "sha256": "604ce9b2e9699917a090484b61d0ba8fecdb85ff12f46207958072c8c55b8c8f",
+        "dimensions": "1440x1024",
+        "existingR1": true
+      },
+      {
+        "file": "/tmp/glm-arch-visual/v2-03-script-editor.png",
+        "sha256": "3cff7322d457bf5872287da7525049e56349e05110754f7da1423f9f7571d170",
+        "dimensions": "1440x1024",
+        "existingR1": true
+      },
+      {
+        "file": "/tmp/glm-arch-visual/v2-04-outliner-collapsed.png",
+        "sha256": "2472a76c9f816ef601e05e6188418985a0bc43ea92f843c8cf34145376a1642c",
+        "dimensions": "1440x1024",
+        "existingR1": true
+      },
+      {
+        "file": "/tmp/glm-arch-visual/v1-06-actor-forms.png",
+        "sha256": "a0b87620a0e8e5ffb3b797616a2d59b410a1098b53c082dbaf5c421fd8fc14b0",
+        "dimensions": "1440x1024",
+        "existingR1": false
+      },
+      {
+        "file": "/tmp/glm-arch-visual/v1-07-item-forms.png",
+        "sha256": "b8593f9ab869309475fef72c6b33e481eb9ef20c7bb4956b341d9e325a80f7ef",
+        "dimensions": "1440x1024",
+        "existingR1": false
+      },
+      {
+        "file": "/tmp/glm-arch-visual/v1-08-battle-forms.png",
+        "sha256": "7eb8a18219c39421787e227858e73d38d0ec62af07c165b98215667e97532b44",
+        "dimensions": "1440x1024",
+        "existingR1": false
+      },
+      {
+        "file": "/tmp/glm-arch-visual/v1-09-enemy-team-forms.png",
+        "sha256": "04d5fdcf3e2b556cdf60e62581f0a4e7b6231eb5de46403b4b0211f87635309e",
+        "dimensions": "1440x1024",
+        "existingR1": false
+      },
+      {
+        "file": "/tmp/glm-arch-visual/v1-10-battlefield-forms.png",
+        "sha256": "6b6c23b6ed661a2ba828b05fa1022e23da0fb612d4da5e68f175a00304f0035e",
+        "dimensions": "1440x1024",
+        "existingR1": false
+      },
+      {
+        "file": "/tmp/glm-arch-visual/v1-11-trial-dialog.png",
+        "sha256": "b16e893231ef4d446a7d9c335a2d68953f5de09b2102612d17a6f25fc63ecc35",
+        "dimensions": "1440x1024",
+        "existingR1": false
+      }
+    ],
+    "hookCounts": {
+      "useState": {
+        "App": 29,
+        "file": 33
+      },
+      "useRef": {
+        "App": 16,
+        "file": 16
+      },
+      "useEffect": {
+        "App": 15,
+        "file": 15
+      },
+      "useLayoutEffect": {
+        "App": 1,
+        "file": 1
+      }
+    },
+    "appHooksColumns": ["line", "hook", "binding"],
+    "appHooks": [
+      [382, "useState", "[trialDraft, setTrialDraft]"],
+      [383, "useState", "[trialSubject, setTrialSubject]"],
+      [384, "useState", "[trialLeave, setTrialLeave]"],
+      [385, "useRef", "trialWindows"],
+      [386, "useRef", "trialMounted"],
+      [387, "useEffect", ""],
+      [396, "useEffect", ""],
+      [407, "useLayoutEffect", ""],
+      [426, "useEffect", ""],
+      [428, "useRef", "bodyRef"],
+      [429, "useRef", "storedNavigationRef"],
+      [430, "useState", "[location, setLocation]"],
+      [433, "useRef", "locationRef"],
+      [434, "useState", "[moduleLocations, setModuleLocations]"],
+      [437, "useRef", "moduleLocationsRef"],
+      [438, "useRef", "scrollPositionsRef"],
+      [491, "useEffect", ""],
+      [499, "useState", "[workspaceNotice, setWorkspaceNotice]"],
+      [561, "useEffect", ""],
+      [570, "useEffect", ""],
+      [578, "useEffect", ""],
+      [593, "useState", "[selected, setSelected]"],
+      [594, "useState", "[sceneLifecycleIntent, setSceneLifecycleIntent]"],
+      [595, "useRef", "createSceneButtonRef"],
+      [596, "useRef", "sceneOutlineRowRef"],
+      [597, "useState", "[placingEntity, setPlacingEntity]"],
+      [598, "useState", "[scriptChannel, setScriptChannel]"],
+      [599, "useState", "[selectedBehavior, setSelectedBehavior]"],
+      [600, "useState", "[selectedPage, setSelectedPage]"],
+      [602, "useState", "[canvasLayers, setCanvasLayers]"],
+      [611, "useState", "[placeSceneId, setPlaceSceneId]"],
+      [618, "useState", "[placeMode, setPlaceMode]"],
+      [619, "useState", "[placeActorId, setPlaceActorId]"],
+      [620, "useState", "[placeSpriteId, setPlaceSpriteId]"],
+      [621, "useState", "[placeZoneRanges, setPlaceZoneRanges]"],
+      [625, "useRef", "dirHandleRef"],
+      [627, "useRef", "saveAttemptDirRef"],
+      [629, "useRef", "snapshotRef"],
+      [630, "useRef", "authorBaselineRef"],
+      [631, "useRef", "firstSaveAuthorRef"],
+      [632, "useState", "[saveErr, setSaveErr]"],
+      [633, "useState", "[saveActivity, setSaveActivity]"],
+      [635, "useRef", "saveCommandRef"],
+      [686, "useEffect", ""],
+      [711, "useState", "[drawer, setDrawer]"],
+      [724, "useRef", "preciseFocusRevisionRef"],
+      [729, "useState", "[sharedScriptFocus, setSharedScriptFocus]"],
+      [734, "useState", "[entityPageFocus, setEntityPageFocus]"],
+      [740, "useState", "[canonicalReferenceFocus, setCanonicalReferenceFocus]"],
+      [744, "useState", "[canonicalOwnerFocus, setCanonicalOwnerFocus]"],
+      [748, "useState", "[itemPrivateScriptFocus, setItemPrivateScriptFocus]"],
+      [755, "useState", "[entityHostileFocus, setEntityHostileFocus]"],
+      [761, "useState", "[canonicalPageFocus, setCanonicalPageFocus]"],
+      [1558, "useState", "[bodyWidth, setBodyWidth]"],
+      [1610, "useEffect", ""],
+      [1660, "useEffect", ""],
+      [1741, "useEffect", ""],
+      [1746, "useEffect", ""],
+      [1758, "useEffect", ""],
+      [1997, "useEffect", ""],
+      [2083, "useEffect", ""]
+    ],
+    "recursiveCalls": [
+      {
+        "line": 661,
+        "input": "command.then"
+      },
+      {
+        "line": 663,
+        "input": "command.else"
+      },
+      {
+        "line": 669,
+        "input": "command.body"
+      },
+      {
+        "line": 708,
+        "input": "command.onLose"
+      },
+      {
+        "line": 710,
+        "input": "command.onFlee"
+      },
+      {
+        "line": 722,
+        "input": "command.onFail"
+      },
+      {
+        "line": 726,
+        "input": "command.onNo"
+      }
+    ],
+    "titles": {
+      "method": "exact static test/it leaf literals; no execution or semantic coverage claim",
+      "exactLeafTitles": 66,
+      "describedReferences": [
+        {
+          "id": "P2-003",
+          "text": "MapMode.test.tsx > 引用状态或 revision 更新会撤销旧的删除二次确认（行为被钉，合并须保此行为）",
+          "candidates": ["packages/editor/src/ui/MapMode.test.tsx"]
+        },
+        {
+          "id": "P6-003",
+          "text": "migrate/src/migration-write-guard.test.ts > recover/hasPending 事务恢复语义（文件计数引用）",
+          "candidates": ["packages/migrate/src/migration-write-guard.test.ts"]
+        },
+        {
+          "id": "V2-004",
+          "text": "editor-navigation.test.ts > EditorLocation URL 契约（17 条 it，见 P1-005）",
+          "candidates": ["packages/editor/src/ui/editor-navigation.test.ts"]
+        }
+      ]
+    }
+  },
+  "closedFacts": [
+    "38 unique IDs and 19/14/5 JSON totals verified",
+    "22 source hash prefixes verified",
+    "17 screenshot hashes/dimensions verified; prior 11 complete hashes unchanged; new 6 individually viewed",
+    "derived-store cleanup, MapMode cancellation, 50 vs 81 distinction, hooks-session three axes, preparing gate ownership, 7-node/15-edge SCC, bidirectional validation and six mapScenesStatic parameters confirmed",
+    "Accessible name/discrete MultiSelect policy and previous Codex outliner observation correctly acknowledged",
+    "SHA-only registration semantics and unchanged previous Codex probes/review/evidence verified"
+  ],
+  "remaining": [
+    {
+      "id": "C1",
+      "summary": "Current prose/tables/risk lists retain opposite old conclusions; P4 boundary table incomplete",
+      "anchors": [
+        "p1-app.md:112",
+        "p2-mapmode.md:54",
+        "p4-battle-session.md:66",
+        "p5-phase1-core.md:38",
+        "p6-conversion-validation.md:33",
+        "v1-forms.md:23",
+        "v1-forms.md:32",
+        "v1-forms.md:68",
+        "v2-workspaces.md:46"
+      ]
+    },
+    {
+      "id": "C2",
+      "summary": "New census falsehoods: App 29 state/16 ref/15 effect+1 layout; named four states absent; P5 per-file counts wrong; recursion seven; separator tests exist",
+      "sourceAnchors": [
+        "packages/editor/src/ui/App.tsx:634",
+        "packages/content/src/author-script-core.ts:710",
+        "packages/editor/src/ui/PanelResizeHandle-interaction.test.tsx:138",
+        "packages/editor/src/ui/PanelResizeHandle-interaction.test.tsx:178"
+      ]
+    },
+    {
+      "id": "C3",
+      "summary": "Package summary sums 40 vs JSON 38; P3/V1 counts and P4/V1 IDs disagree; sourceHashes contains unresolved pointers; naming test cannot prove runtime-to-canonical mapping",
+      "anchors": [
+        "summary.md:54",
+        "summary.md:58",
+        "evidence.json:sourceHashes",
+        "p4-battle-session.md:66",
+        "v1-forms.md:49"
+      ]
+    },
+    {
+      "id": "C4",
+      "summary": "Final registered JSON Biome formatter exit1 at tests array 673-675; copyable command cwd/range need correction",
+      "log": "/tmp/codex-arch-r2-biome-final-tree.log"
+    }
+  ],
+  "verification": {
+    "readOnlyProbe": {
+      "command": "node docs/testing/glm-architecture-support/codex-r2-probe.mjs",
+      "exit": 0,
+      "output": "/tmp/codex-architecture-support-r2.json",
+      "meaning": "Measurement successful, not acceptance of reported claims"
+    },
+    "originalJsonBiome": {
+      "command": "pnpm exec biome check docs/testing/glm-architecture-support/evidence.json",
+      "exit": 1
+    },
+    "incomingDocs": {
+      "command": "pnpm check:docs",
+      "exit": 0,
+      "toolTests": 20,
+      "log": "/tmp/codex-arch-r2-docs-initial.log"
+    },
+    "runtimeTests": {
+      "rerun": false,
+      "reason": "Production and formal tests unchanged; prior independent 39/39 including derived-store 22/navigation 17 retained",
+      "priorEvidence": "codex-intake-evidence.json"
+    },
+    "browser": {
+      "newSession": false,
+      "priorFoldAndSearchReused": true,
+      "newScreenshotsReviewed": 6,
+      "onlyVisibleLayoutAccepted": true,
+      "doesNotProve": [
+        "all tabs/fields",
+        "resource rendering",
+        "complete TrialDialog interaction contract",
+        "actual zoom/DPR"
+      ]
+    }
+  },
+  "reviewArtifactValidation": {
+    "codexProbeAndLedgerBiomeExit": 0,
+    "docsExit": 0,
+    "docsToolTests": 20,
+    "docsIssues": 0,
+    "docsLog": "/tmp/codex-arch-r2-docs-final.log"
+  },
+  "boundaries": [
+    "No production/formal tests/config/baseline changes",
+    "No statistics union, official coverage or full check",
+    "No GLM report semantics or old Codex evidence edited",
+    "No build/done; Kimi waived"
+  ]
+}
