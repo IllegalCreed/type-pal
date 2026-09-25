@@ -33,7 +33,7 @@ GLM后续补测候选见[十批长队列](../testing/glm-coverage-work-queue.md)
 | ID | 任务 | 状态 | 负责人/下一步 | 一句话备注 |
 |---|---|---|---|---|
 | CURSOR-WAVE-2-1 | [五包连续文档纠偏与纯边界回归](tasks/CURSOR-WAVE-2-1-docs-and-pure-regressions.md) | build | Cursor W1→W5 连续实施 / Codex 逐包接收 | 三份作者指南、CLAUDE 旧命令、editor/game/docs-tools 测试；生产与基线冻结 |
-| ARCH-REGRESSION-LAB-GLM-1 | [十二组候选回归与功能视觉](tasks/ARCH-REGRESSION-LAB-GLM-1-twelve-packs.md) | draft | GLM按四轮counter硬化证据/收窄 | 494f9b5d 32绿六图hash齐，但verify缺JSON假PASS、回执旧口径/业务组未闭，不入正式统计 |
+| ARCH-REGRESSION-LAB-GLM-1 | [十二组候选回归与功能视觉](tasks/ARCH-REGRESSION-LAB-GLM-1-twelve-packs.md) | draft | GLM按五轮counter修真假对账/收窄合同 | b403efd3 32绿/六图hash/新JSON核验通过；G04重复标题、回执旧口径与十二组完整业务缺口未闭，不入正式统计 |
 | ARCH-SUPPORT-GLM-1 | [八组并行架构/视觉准备](tasks/ARCH-SUPPORT-GLM-1-eight-audit-packages.md) | draft | Codex / 后续归属与收口 | 58cdf938材料accept，counter清零；文档已合入，按用户要求未标done/未开产品门 |
 
 2026-09-25 [一阶段菜单与索引渲染十组补测](../testing/grok-present-integration.md)由Grok贡献隔离候选、Codex三轮独立复核后选择性接入正式game测试：25项（23生产绘制/解码+2快照自测）、check/受保护ratchet/单次严格fast均通过；fast8090项/641生产文件，全仓分支43067/63176、同分母净增157。旧候选分支未直接merge以免回退主线；full/E2E/视觉观感另排。
