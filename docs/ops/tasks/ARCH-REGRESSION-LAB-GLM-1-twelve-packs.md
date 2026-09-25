@@ -72,6 +72,21 @@ Codex保留A3的main/场景/移动/绘制主线，GLM不修改或替其审签。
 ### 下一位 GLM 收窄返工提示词
 
 ```text
+在 /Users/zhangxu/illegal/type-pal-glm-regression-lab 返工 ARCH-REGRESSION-LAB-GLM-1 r7，
+候选 9a197825/登记树 fb251df8，任务仍 draft。先读
+docs/testing/architecture-regression-lab-codex-r7-review.md 与本卡七轮接收块。
+只改隔离实验目录：修最终树 candidates-exec.json 的目录 Biome 失败；G03 断言
+.type-pal/save-state.json committed 终态，不以 300ms 静默冒充事务完成；G05-02
+证明旧 wait 已 entered 并推进超过其余量，G05-04 比较卸载前后 stop 调用增量，
+为两者加单点反控。G06/G07/G08 的未证原合同轴可补实或明确收窄，
+V01-V04 未证矩阵仍如实未证；保留已过窄断言和旧截图，不改产品/正式测试/基线。
+复跑候选 JSON、verify、red-control、tsc、目录 Biome、docs，记录最终树真实结果。
+不改 Codex 审查原文、不合 main、不计官方覆盖率、不标 done。Kimi 豁免。
+```
+
+### 下一位 GLM 收窄返工提示词
+
+```text
 在 /Users/zhangxu/illegal/type-pal-glm-regression-lab 继续 ARCH-REGRESSION-LAB-GLM-1，
 候选 33df9378、状态 draft。先同步并读 docs/testing/architecture-regression-lab-codex-r6-review.md
 及 r3/r5 逐组反证。当前候选/fixture 相对 494f9b5d 零 diff，不能再声称已修测试调用链。
