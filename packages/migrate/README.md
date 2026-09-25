@@ -58,4 +58,6 @@ journal 前停止。`--write` 前还会做 baseline / project TOCTOU 复核；�
 - `migrate` 只做离线转换/安全重导：运行时逻辑归 `reforge`，数据模型归 `content`，编辑器归
   `editor`。
 
-资产烘焙细节见 [asset-pipeline.md](../../docs/phase2/guides/content-publication.md)。
+当前 PAL 内容导入与发布见 [PAL 内容导入与发布](../../docs/phase2/guides/content-publication.md)。
+维护者从 `data/extracted` 重建 reforge engine-chrome 默认 UI 见
+[本地开发服务器](../../docs/ops/guides/dev-servers.md) 的 bake 说明；该命令不写 `projects/pal`。
