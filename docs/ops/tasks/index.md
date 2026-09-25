@@ -12,6 +12,7 @@
 | [ARCH-SUPPORT-GLM-1 — 八组并行准备取证](ARCH-SUPPORT-GLM-1-eight-audit-packages.md) | draft | 以任务卡当前准入与看板分工为准。 |
 | [DOC-CURSOR-1 — 十二份现行文档的轻量核对](DOC-CURSOR-1-current-guide-check.md) | draft | 以任务卡当前准入与看板分工为准。 |
 | [DOC-CURSOR-2 — 十二组包说明、CLI与索引核对](DOC-CURSOR-2-package-tools-indexes.md) | draft | 以任务卡当前准入与看板分工为准。 |
+| [DOC-CURSOR-4 — 场景入场指南当前 UI 事实核对](DOC-CURSOR-4-scene-entry-current-ui.md) | draft | 以任务卡当前准入与看板分工为准。 |
 | [TEST-GROK-PRESENT-2 — 一阶段画面合成与战斗呈现候选回归](TEST-GROK-PRESENT-2-phase1-composition.md) | draft | 以任务卡当前准入与看板分工为准。 |
 
 ## 已完成（historical）
