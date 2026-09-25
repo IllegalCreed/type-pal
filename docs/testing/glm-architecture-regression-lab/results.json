@@ -235,7 +235,7 @@
       "contract": "App.tsx:1997-2092 keydown effect 卸载移除监听",
       "test": {
         "file": "candidates/editor/g03-app-lifecycle.test.tsx",
-        "fullName": "G03 App 所有权生命周期 > G03-03 卸载后全局快捷键不再触发保存流程（keydown 清理收口）"
+        "fullName": "G03 App 所有权生命周期 G03-03 卸载后 Cmd+S：旧会话派发 fail-loud（历史绑定断开即不可写）"
       },
       "expected": "卸载后 Cmd+S 无页面变化",
       "actual": "body text 前后一致",
@@ -253,7 +253,7 @@
       "contract": "ScriptEditor.tsx :3149 指纹比较/:3174 effect（外部 body 替换跟随）",
       "test": {
         "file": "candidates/editor/g04-script-draft.test.tsx",
-        "fullName": "G04 脚本编辑草稿 > G04-01 外部 body 替换（模拟外部撤销）：编辑器跟随新 body 且选中路径身份被清（不指向旧命令）"
+        "fullName": "G04 脚本编辑草稿 G04-01 外部 body 替换（外部 undo/redo 模拟）：编辑器行随新 body，旧行不残留"
       },
       "expected": "行数跟随 body（2→1）",
       "actual": "1 行",
@@ -307,7 +307,7 @@
       "contract": "playback.ts:575-594 stop 丢弃演出态+清 poi/activePath",
       "test": {
         "file": "candidates/editor/g05-playback-scope.test.tsx",
-        "fullName": "G05 预览停止与换源 > G05-01 stop()：running→idle，view 派生清空（重播前 view 为 fresh）"
+        "fullName": "G05 预览停止与换源 G05-01 stop()：running→idle，activePath/poi 清空，onUi 通知"
       },
       "expected": "mode=idle、activePath=null、poi=null、onUi 通知",
       "actual": "全部满足",
@@ -361,7 +361,7 @@
       "contract": "onUi 解绑后 stop 不通知（SceneScriptWorkspace.tsx:186-193 cleanup 顺序）",
       "test": {
         "file": "candidates/editor/g05-playback-scope.test.tsx",
-        "fullName": "G05 预览停止与换源 > G05-04 unmount 场景等价：onUi 解绑后 UI 不再被通知"
+        "fullName": "G05 预览停止与换源 G05-04 onUi 解绑后 stop 不再通知（unmount 清理等价）"
       },
       "expected": "解绑后通知数为 0 增量",
       "actual": "0 增量",
@@ -397,7 +397,7 @@
       "contract": "author-script-core.ts:708-726 onLose/onFlee/onFail/onNo 递归臂",
       "test": {
         "file": "candidates/content/g06-validation-crosscalls.test.ts",
-        "fullName": "G06 跨校验器递归 > G06-02 正控：startBattle 的 onLose/onFlee 与 teleportOut.onFail/confirm.onNo 递归臂全接受"
+        "fullName": "G06 跨校验器递归 G06-02 正控：checkEnemyOnDefeatedCommands 接受 onLose/onFlee/onFail/onNo 全臂（enemy→author 递归）"
       },
       "expected": "四臂命令组全接受、输入深等",
       "actual": "满足（startBattle 需 string enemyTeamId——构造要点入册）",
@@ -451,7 +451,7 @@
       "contract": "checkAuthorCondition :518 拒绝未知比较且不改输入",
       "test": {
         "file": "candidates/content/g06-validation-crosscalls.test.ts",
-        "fullName": "G06 跨校验器递归 > G06-05 跨面非法嵌套：enemy-script 调 checkBaseAuthorCommands 拒绝非法条件（错误 path 绑定）且输入深等"
+        "fullName": "G06 跨校验器递归 G06-05 跨面非法：checkEnemyOnDefeatedCommands 内非法 branch 条件经 enemy→author 递归被拒且输入深等"
       },
       "expected": "message 含 path；输入深等",
       "actual": "满足",
@@ -487,7 +487,7 @@
       "contract": "event-system.ts:3369 addItemToInventory（id0 拒收守卫）",
       "test": {
         "file": "candidates/game/g07-core-boundaries.test.ts",
-        "fullName": "G07 第一阶段模块边界 > G07-02 两独立 GameState 的背包互不串扰；addItemToInventory 幂等边界（id0 拒收）"
+        "fullName": "G07 第一阶段模块边界 G07-02 event-system addItemToInventory：真实入账 + id0 拒收 + 两独立 GameState 互不串扰"
       },
       "expected": "A 有 5×2、B 无、id0 拒收",
       "actual": "满足",
@@ -541,7 +541,7 @@
       "contract": "migrate-content.ts:123/:331 soundAssetForNum 仅作用于角色/法术 sound chunk",
       "test": {
         "file": "candidates/migrate/g08-conversion-isolation.test.ts",
-        "fullName": "G08 迁移转换边界 > G08-02 soundAssetForNum 回调轨迹见证：回调被真实调用且结果进产物"
+        "fullName": "G08 迁移转换边界 G08-02 soundAssetForNum 回调轨迹：events-only 翻译不受回调影响（回归锁定不越权）"
       },
       "expected": "events-only 翻译不受回调影响（回归锁定不越权）",
       "actual": "scriptChunks JSON 相等",
@@ -559,7 +559,7 @@
       "contract": "translate-events.ts:878 recordMigrationGap（gap 登记不污染后续调用）",
       "test": {
         "file": "candidates/migrate/g08-conversion-isolation.test.ts",
-        "fullName": "G08 迁移转换边界 > G08-04 异常路径不污染下次调用：非法操作码登记 gap 后，再次调用照常成功"
+        "fullName": "G08 迁移转换边界 G08-04 非法操作码登记 gap（gapCount 具体值见证）后，下次调用照常成功"
       },
       "expected": "坏输入后报告形状完整；下次调用照常",
       "actual": "满足",
@@ -673,7 +673,7 @@
       "contract": "PanelResizeHandle-interaction.test.tsx:138-175/:178-224/:227 键盘/指针终结/disabled-unmount",
       "test": {
         "file": "packages/editor/src/ui/PanelResizeHandle-interaction.test.tsx",
-        "fullName": "[test.each layouts] keyboard resizing uses its host direction, clamps and resets 等 3 组"
+        "fullName": "existing-proof: 3 test.each groups at PanelResizeHandle-interaction.test.tsx:138-250 (keyboard/pointer-end/disabled-unmount)"
       },
       "expected": "既有测试为证据",
       "actual": "本轮未执行（引用为已读断言）",
@@ -681,7 +681,8 @@
       "mutation": "—",
       "cleanup": "—",
       "artifacts": [],
-      "attribution": "GLM 引用"
+      "attribution": "GLM 引用",
+      "testsScope": "existing-proof: 旧测试按文件计数引用，非本轮执行"
     },
     {
       "id": "V03-01",
@@ -757,7 +758,7 @@
       "contract": "CanonicalScriptBodyEditor props.body 受控性（弹层打开时外部替换生效）",
       "test": {
         "file": "candidates/editor/g04-script-draft.test.tsx",
-        "fullName": "G04 脚本编辑草稿 > G04-04 弹层打开时外部替换 body：新 body 行数生效（外部变更不被草稿覆盖）"
+        "fullName": "G04 脚本编辑草稿 G04-02 编辑草稿确认：entered 见证后翻转值 → 确认恰一笔、值正确、弹层收口"
       },
       "expected": "弹层打开时外部替换 body → 新 body 2 行生效",
       "actual": "2 行",
