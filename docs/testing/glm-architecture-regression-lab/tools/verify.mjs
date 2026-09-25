@@ -11,10 +11,10 @@
 import { execSync } from 'node:child_process'
 import { createHash } from 'node:crypto'
 import { existsSync, readFileSync } from 'node:fs'
-import path from 'node:path'
+import { join, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
-const repoRoot = resolve(fileURLToPath(new URL('.', import.meta.url)), '../../..')
+const repoRoot = resolve(fileURLToPath(new URL('.', import.meta.url)), '../../../..')
 const labRoot = resolve(repoRoot, 'docs/testing/glm-architecture-regression-lab')
 const whitelistPrefix = 'docs/testing/glm-architecture-regression-lab/'
 const freeeze = '86e928b5'
@@ -59,7 +59,12 @@ for (const [group, count] of Object.entries(results.groupTotals.perPack ?? {}))
 
 // 4) 候选测试文件存在；截图存在且 hash 匹配
 for (const entry of results.entries) {
-  if (entry.test?.file) check(existsSync(resolve(repoRoot, entry.test.file)), `${entry.id} 测试文件缺失`)
+  const testFile = entry.test?.file ?? ''
+  if (testFile && !testFile.startsWith('('))
+    check(
+      existsSync(resolve(labRoot, testFile)) || existsSync(resolve(repoRoot, testFile)),
+      `${entry.id} 测试文件缺失: ${testFile}`,
+    )
   for (const shot of entry.artifacts ?? []) {
     if (!existsSync(shot.path)) {
       failures.push(`${entry.id} 截图缺失: ${shot.path}`)
