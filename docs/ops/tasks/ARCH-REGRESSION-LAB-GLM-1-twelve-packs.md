@@ -69,6 +69,25 @@ Codex保留A3的main/场景/移动/绘制主线，GLM不修改或替其审签。
 - 最终树 `configs/candidates-exec.json` 未格式化，目录 Biome exit1，回执“exit0”与树不符。G03 未断言所称 save-state 终写；G05-02 未跨旧等待窗口，G05-04 的 `stopSpy` 在启动时已经被调用，不能证明卸载 cleanup。G06/G07/G08 的原工作包剩余轴和 V01–V04 的未证矩阵仍不转正。
 - 不合候选、不计官方覆盖率、不标 done；GLM 不自审终审，Kimi 本队列豁免。下一步按本人报告的三项收窄返工，不重做已通过的窄断言或旧截图。
 
+## Codex 八轮接收（2026-09-26，候选 `e1857e66`）
+
+- **收窄 counter，Status 仍 draft**。[本人 r8 独立复核](../../testing/architecture-regression-lab-codex-r8-review.md)：白名单正确，37/37、45 条 verify、三针 red-control、tsc、目录 Biome、docs 均通过。G03-03 committed 终态、G05-04 同实例 stop 增量、G06 choreography 三入口代表组合、G07 装备脚本事件表窄轴接收。
+- G05-02 在隔离加载把宿主 wait 改成立即完成后仍业务绿，未证旧等待已挂起；G08-06 在隔离加载从图根剔除 globalRoots 后仍绿，只测到 `globalRoots.length` 回显；G08-05 是转换前 options 预检拒绝，不能称转换中异常无污染。V01–V04 未证矩阵维持。候选不合 main、不计覆盖率、不标 done；GLM 不自审终审，Kimi 豁免。
+
+### 下一位 GLM 收窄返工提示词
+
+```text
+在 /Users/zhangxu/illegal/type-pal-glm-regression-lab 返工 ARCH-REGRESSION-LAB-GLM-1 r8，
+候选 e1857e66、状态 draft。先读 docs/testing/architecture-regression-lab-codex-r8-review.md。
+只修 G05-02 与 G08-05/06：G05 必须证明旧 wait 真的挂起，且隔离单点把 wait
+改成立即完成时测试业务红；G08-06 若称可达图消费，要以有效脚本根断言真实图结果，
+隔离单点从 roots 去掉 globalRoots 时业务红。G08-05 若仅测转换前 options 预检，
+则把标题、机账与回执收窄，不称转换中异常隔离。已接收 G03/G05-04/G06/G07
+和旧视觉截图不重做。复跑 37+候选、verify、red-control、tsc、Biome、docs。
+只改隔离实验目录与本人交付块，不改产品/正式测试/基线或 Codex 席位；
+不合 main、不计官方覆盖率、不标 done。Kimi 豁免。
+```
+
 ### 下一位 GLM 收窄返工提示词
 
 ```text
