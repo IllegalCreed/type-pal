@@ -8,7 +8,7 @@
 
 | 任务 | 顶部状态 | 说明 |
 |---|---|---|
-| [ARCH-F2-DS-LABELS-1 — DsTag / DsReadonlyValue 窄拆（后排）](ARCH-F2-DS-LABELS-1.md) | draft | 以任务卡当前准入与看板分工为准。 |
+| [ARCH-F2-DS-LABELS-1 — DsTag / DsReadonlyValue 窄拆](ARCH-F2-DS-LABELS-1.md) | build | 以任务卡当前准入与看板分工为准。 |
 | [ARCH-F2-EDITOR-BATTLE-FIELD-COMMANDS-1 — 战场命令族独立模块](ARCH-F2-EDITOR-BATTLE-FIELD-COMMANDS-1.md) | build | 以任务卡当前准入与看板分工为准。 |
 | [ARCH-REGRESSION-LAB-GLM-1 — 十二组可执行回归与功能视觉准备](ARCH-REGRESSION-LAB-GLM-1-twelve-packs.md) | draft | 以任务卡当前准入与看板分工为准。 |
 | [ARCH-SUPPORT-GLM-1 — 八组并行准备取证](ARCH-SUPPORT-GLM-1-eight-audit-packages.md) | draft | 以任务卡当前准入与看板分工为准。 |
