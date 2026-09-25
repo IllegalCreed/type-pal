@@ -4,6 +4,7 @@ import { drawSprite, toSpriteImages } from '../../../../packages/game/src/presen
 import { createFramebuffer } from '../../../../packages/game/src/present/framebuffer.js'
 import { fillSentinel, pixel, SENTINEL } from '../fixtures/images.js'
 import { encodeRgbaPng } from '../fixtures/png-rgba.js'
+import { cloneInputs } from '../fixtures/world.js'
 
 // 透明孔的 R 在这个 canvas 宿主里会被读成 0；孔是否绘制只由 A 决定。
 const RGBA = Uint8Array.from([0, 0, 0, 255, 9, 0, 0, 0, 12, 12, 12, 255, 7, 7, 7, 255])
@@ -53,7 +54,10 @@ describe('P10 PNG消费与释放', () => {
     expect(sprites[0]?.anchorY).toBe(2)
     const fb = createFramebuffer()
     fillSentinel(fb)
+    const before = cloneInputs({ bitmap: decoded })
     drawSprite(fb, sprites[0]!, 10, 20)
+    expect(cloneInputs({ bitmap: decoded })).toEqual(before)
+    expect(sprites[0]?.indices).toBe(decoded.indices)
     expect(pixel(fb, 9, 18)).toBe(0)
     expect(pixel(fb, 10, 18)).toBe(SENTINEL)
     expect(pixel(fb, 9, 19)).toBe(12)

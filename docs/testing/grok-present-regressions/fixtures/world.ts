@@ -117,29 +117,75 @@ export function resetHostSingletons(): void {
   resetInventoryTargetSlot()
 }
 
+interface BitmapSize {
+  width: number
+  height: number
+  indices: Uint8Array
+}
+
+function snapImage(frame: IndexedImage): {
+  width: number
+  height: number
+  indices: number[]
+  opaque: number[]
+} {
+  return {
+    width: frame.width,
+    height: frame.height,
+    indices: Array.from(frame.indices),
+    opaque: Array.from(frame.opaque),
+  }
+}
+
+function snapMap(icons: ReadonlyMap<number, IndexedImage> | undefined): unknown[] {
+  if (!icons) return []
+  return [...icons.entries()].map(([key, frame]) => ({ key, ...snapImage(frame) }))
+}
+
+function snapBitmap(bitmap: BitmapSize | undefined): unknown {
+  if (!bitmap) return undefined
+  return {
+    width: bitmap.width,
+    height: bitmap.height,
+    indices: Array.from(bitmap.indices),
+  }
+}
+
+/** 一次真实 draw 的可变实参。IndexedImage 含宽高；没传给该次绘制的字段不要塞进来。 */
 export function cloneInputs(parts: {
-  gs: GameState
-  menu: unknown
-  items: readonly Item[]
+  gs?: GameState
+  menu?: unknown
+  items?: readonly Item[]
   roles?: PlayerRoles
   frames?: readonly IndexedImage[]
   icons?: ReadonlyMap<number, IndexedImage>
+  portraits?: ReadonlyMap<number, IndexedImage>
+  spells?: readonly object[]
+  magics?: readonly object[]
+  equipBg?: BitmapSize
+  statusBg?: BitmapSize
+  battleBg?: BitmapSize
+  poisons?: ReadonlyMap<number, { level: number; color: number }>
+  levelUpExp?: readonly number[]
+  screen?: unknown
+  bitmap?: IndexedImage
 }): unknown {
   return structuredClone({
     gs: parts.gs,
     menu: parts.menu,
-    items: parts.items,
+    items: parts.items ?? [],
     roles: parts.roles,
-    frames: parts.frames?.map((frame) => ({
-      indices: Array.from(frame.indices),
-      opaque: Array.from(frame.opaque),
-    })),
-    icons: parts.icons
-      ? [...parts.icons.entries()].map(([key, frame]) => ({
-          key,
-          indices: Array.from(frame.indices),
-          opaque: Array.from(frame.opaque),
-        }))
-      : [],
+    frames: parts.frames?.map(snapImage),
+    icons: snapMap(parts.icons),
+    portraits: snapMap(parts.portraits),
+    spells: parts.spells ?? [],
+    magics: parts.magics ?? [],
+    equipBg: snapBitmap(parts.equipBg),
+    statusBg: snapBitmap(parts.statusBg),
+    battleBg: snapBitmap(parts.battleBg),
+    poisons: parts.poisons ? [...parts.poisons.entries()] : [],
+    levelUpExp: parts.levelUpExp ? [...parts.levelUpExp] : undefined,
+    screen: parts.screen,
+    bitmap: parts.bitmap ? snapImage(parts.bitmap) : undefined,
   })
 }

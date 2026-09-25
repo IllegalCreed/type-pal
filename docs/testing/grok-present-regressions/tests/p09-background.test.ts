@@ -3,6 +3,7 @@ import { describe, expect, it } from 'vitest'
 import { drawBattleBg } from '../../../../packages/game/src/present/battle/draw-battle-bg.js'
 import { createFramebuffer } from '../../../../packages/game/src/present/framebuffer.js'
 import { fillSentinel, pixel, SENTINEL } from '../fixtures/images.js'
+import { cloneInputs } from '../fixtures/world.js'
 
 function paletteWith(entries: Readonly<Record<number, [number, number, number]>>): Palette {
   const colors = Array.from({ length: 256 }, () => [0, 0, 0] as [number, number, number])
@@ -22,24 +23,23 @@ describe('P09 背景索引链', () => {
   it('P09 正负色阶在低半字节边界钳制并保留高半字节', () => {
     const raised = createFramebuffer(6, 3)
     fillSentinel(raised)
-    drawBattleBg(
-      raised,
-      {
-        width: 8,
-        height: 4,
-        indices: image(8, 4, (x, y) => {
-          if (y !== 0) return 0x20
-          if (x === 0) return 0xa3
-          if (x === 1) return 0xaf
-          if (x === 2) return 0x00
-          if (x === 3) return 0xf0
-          if (x === 5) return 0x25
-          if (x === 7) return 0xab
-          return 0x20
-        }),
-      },
-      1,
-    )
+    const raisedBg = {
+      width: 8,
+      height: 4,
+      indices: image(8, 4, (x, y) => {
+        if (y !== 0) return 0x20
+        if (x === 0) return 0xa3
+        if (x === 1) return 0xaf
+        if (x === 2) return 0x00
+        if (x === 3) return 0xf0
+        if (x === 5) return 0x25
+        if (x === 7) return 0xab
+        return 0x20
+      }),
+    }
+    const beforeRaised = cloneInputs({ battleBg: raisedBg })
+    drawBattleBg(raised, raisedBg, 1)
+    expect(cloneInputs({ battleBg: raisedBg })).toEqual(beforeRaised)
     expect(pixel(raised, 0, 0)).toBe(0xa4)
     expect(pixel(raised, 1, 0)).toBe(0xaf)
     expect(pixel(raised, 2, 0)).toBe(0x01)
@@ -55,15 +55,14 @@ describe('P09 背景索引链', () => {
 
     const lowered = createFramebuffer(4, 1)
     fillSentinel(lowered)
-    drawBattleBg(
-      lowered,
-      {
-        width: 4,
-        height: 1,
-        indices: Uint8Array.from([0xa1, 0xa0, 0x05, 0x1f]),
-      },
-      -1,
-    )
+    const loweredBg = {
+      width: 4,
+      height: 1,
+      indices: Uint8Array.from([0xa1, 0xa0, 0x05, 0x1f]),
+    }
+    const beforeLowered = cloneInputs({ battleBg: loweredBg })
+    drawBattleBg(lowered, loweredBg, -1)
+    expect(cloneInputs({ battleBg: loweredBg })).toEqual(beforeLowered)
     expect(pixel(lowered, 0, 0)).toBe(0xa0)
     expect(pixel(lowered, 1, 0)).toBe(0xa0)
     expect(pixel(lowered, 2, 0)).toBe(0x04)
@@ -73,7 +72,10 @@ describe('P09 背景索引链', () => {
   it('P09 小图裁剪保留未覆盖像素，移位索引经toImageData变成RGBA', () => {
     const fb = createFramebuffer(6, 3)
     fillSentinel(fb)
-    drawBattleBg(fb, { width: 2, height: 2, indices: Uint8Array.from([0x00, 0xa3, 0x10, 0x01]) }, 0)
+    const smallBg = { width: 2, height: 2, indices: Uint8Array.from([0x00, 0xa3, 0x10, 0x01]) }
+    const beforeSmall = cloneInputs({ battleBg: smallBg })
+    drawBattleBg(fb, smallBg, 0)
+    expect(cloneInputs({ battleBg: smallBg })).toEqual(beforeSmall)
     expect(pixel(fb, 0, 0)).toBe(0)
     expect(pixel(fb, 1, 0)).toBe(0xa3)
     expect(pixel(fb, 2, 0)).toBe(SENTINEL)

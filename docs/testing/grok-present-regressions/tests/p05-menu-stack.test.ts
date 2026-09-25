@@ -47,19 +47,23 @@ describe('P05 菜单栈转发', () => {
     try {
       const bare = createFramebuffer()
       fillSentinel(bare)
+      const bareInputs = { gs, menu, frames }
+      const beforeBare = cloneInputs(bareInputs)
       drawMenuStack(bare, gs, frames, glyphs)
+      expect(cloneInputs(bareInputs)).toEqual(beforeBare)
       expect(pixel(bare, name.x, name.y)).not.toBe(MENUITEM_COLOR_SELECTED_FIRST)
       expect(pixel(bare, 127, 88)).not.toBe(0x84)
 
       const forwarded = createFramebuffer()
       fillSentinel(forwarded)
-      const before = cloneInputs({ gs, menu, items: [item], roles, frames, icons })
+      const forwardedInputs = { gs, menu, items: [item], roles, frames, icons }
+      const before = cloneInputs(forwardedInputs)
       drawMenuStack(forwarded, gs, frames, glyphs, {
         items: [item],
         itemIcons: icons,
         playerRoles: roles,
       })
-      expect(cloneInputs({ gs, menu, items: [item], roles, frames, icons })).toEqual(before)
+      expect(cloneInputs(forwardedInputs)).toEqual(before)
       expect(pixel(forwarded, name.x, name.y)).toBe(MENUITEM_COLOR_SELECTED_FIRST)
       expect(pixel(forwarded, textDot('甲', 0, 116, 143).x, textDot('甲', 0, 116, 143).y)).toBe(
         0xbe,
@@ -87,18 +91,22 @@ describe('P05 菜单栈转发', () => {
     try {
       const without = createFramebuffer()
       fillSentinel(without)
+      const plain = { gs, menu, items: [sword], roles, frames }
+      const beforePlain = cloneInputs(plain)
       drawMenuStack(without, gs, frames, glyphs, { items: [sword], playerRoles: roles })
+      expect(cloneInputs(plain)).toEqual(beforePlain)
       expect(pixel(without, 1, 1)).toBe(SENTINEL)
 
       const withBg = createFramebuffer()
       fillSentinel(withBg)
-      const before = cloneInputs({ gs, menu, items: [sword], roles, frames })
+      const painted = { ...plain, equipBg: bg }
+      const before = cloneInputs(painted)
       drawMenuStack(withBg, gs, frames, glyphs, {
         items: [sword],
         playerRoles: roles,
         equipBg: bg,
       })
-      expect(cloneInputs({ gs, menu, items: [sword], roles, frames })).toEqual(before)
+      expect(cloneInputs(painted)).toEqual(before)
       expect(pixel(withBg, 1, 1)).toBe(0x55)
       expect(pixel(withBg, textDot('戊', 0, 15, 108).x, textDot('戊', 0, 15, 108).y)).toBe(
         MENUITEM_COLOR_SELECTED_FIRST,
@@ -124,20 +132,24 @@ describe('P05 菜单栈转发', () => {
     const poison = textDot('瘟', 0, 185, 58)
     const without = createFramebuffer()
     fillSentinel(without)
+    const plain = { gs, menu, items: [] as [], roles, frames }
+    const beforePlain = cloneInputs(plain)
     drawMenuStack(without, gs, frames, glyphs, { playerRoles: roles, items: [] })
+    expect(cloneInputs(plain)).toEqual(beforePlain)
     expect(pixel(without, 1, 1)).toBe(SENTINEL)
     expect(pixel(without, poison.x, poison.y)).toBe(SENTINEL)
 
     const withExtra = createFramebuffer()
     fillSentinel(withExtra)
-    const before = cloneInputs({ gs, menu, items: [], roles, frames })
+    const extra = { ...plain, statusBg: bg, poisons }
+    const before = cloneInputs(extra)
     drawMenuStack(withExtra, gs, frames, glyphs, {
       playerRoles: roles,
       items: [],
       statusBg: bg,
       objectPoisons: poisons,
     })
-    expect(cloneInputs({ gs, menu, items: [], roles, frames })).toEqual(before)
+    expect(cloneInputs(extra)).toEqual(before)
     expect(pixel(withExtra, 1, 1)).toBe(0x56)
     expect(pixel(withExtra, poison.x, poison.y)).toBe(13)
     expect(pixel(withExtra, poison.x + 1, poison.y)).toBe(0)

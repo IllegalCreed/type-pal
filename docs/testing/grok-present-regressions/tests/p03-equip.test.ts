@@ -119,7 +119,8 @@ describe('P03 装备绘制', () => {
     const bg = { width: 4, height: 4, indices: new Uint8Array(16).fill(0x55) }
     const fb = createFramebuffer()
     fillSentinel(fb)
-    const before = cloneInputs({ gs, menu, items, roles, frames, icons })
+    const plain = { gs, menu, items, roles, frames, icons }
+    const beforePlain = cloneInputs(plain)
     const restore = freezeNow(0)
     try {
       drawEquipMenu({
@@ -132,8 +133,11 @@ describe('P03 装备绘制', () => {
         glyphs,
         itemIcons: icons,
       })
+      expect(cloneInputs(plain)).toEqual(beforePlain)
       expect(pixel(fb, 1, 1)).toBe(SENTINEL)
       fillSentinel(fb)
+      const painted = { ...plain, equipBg: bg }
+      const beforeBg = cloneInputs(painted)
       drawEquipMenu({
         fb,
         state: menu,
@@ -145,6 +149,8 @@ describe('P03 装备绘制', () => {
         itemIcons: icons,
         equipBg: bg,
       })
+      expect(cloneInputs(painted)).toEqual(beforeBg)
+      const beforeRepeat = cloneInputs(painted)
       drawEquipMenu({
         fb,
         state: menu,
@@ -156,10 +162,10 @@ describe('P03 装备绘制', () => {
         itemIcons: icons,
         equipBg: bg,
       })
+      expect(cloneInputs(painted)).toEqual(beforeRepeat)
     } finally {
       restore()
     }
-    expect(cloneInputs({ gs, menu, items, roles, frames, icons })).toEqual(before)
     expect(pixel(fb, 1, 1)).toBe(0x55)
     expect(pixel(fb, 16, 16)).toBe(0x86)
     expect(pixel(fb, textDot('剑', 0, 5, 70).x, textDot('剑', 0, 5, 70).y)).toBe(CONFIRMED)
@@ -178,7 +184,8 @@ describe('P03 装备绘制', () => {
 
     equipMoveDown(menu)
     fillSentinel(fb)
-    const moved = cloneInputs({ gs, menu, items, roles, frames, icons })
+    const movedInputs = { gs, menu, items, roles, frames, icons, equipBg: bg }
+    const moved = cloneInputs(movedInputs)
     drawEquipMenu({
       fb,
       state: menu,
@@ -190,7 +197,7 @@ describe('P03 装备绘制', () => {
       itemIcons: icons,
       equipBg: bg,
     })
-    expect(cloneInputs({ gs, menu, items, roles, frames, icons })).toEqual(moved)
+    expect(cloneInputs(movedInputs)).toEqual(moved)
     expect(pixel(fb, textDot('午', 0, 130, 11).x, textDot('午', 0, 130, 11).y)).toBe(MENUITEM_COLOR)
     expect(pixel(fb, textDot('子', 0, 130, 11).x, textDot('子', 0, 130, 11).y)).not.toBe(
       MENUITEM_COLOR,

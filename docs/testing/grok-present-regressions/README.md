@@ -4,7 +4,7 @@
 证据冻结 `1763ac58346e9a66edba6198a7c561df1aa57353`。工作树 `/Users/zhangxu/illegal/type-pal-grok-present`，分支 `codex/grok-present-tests-r1`，基点 `16fb1cbfcc0de97655e58224767b716e53510850`。
 本包是程序化像素/状态断言，不是截图视觉验收，也不代表正式七包覆盖率已经提高。Grok 只贡献候选测试；正式接入、产品修复和 done 由 Codex 负责。
 
-正文提交（十组测试，不含本登记）：`bd6fad55242285bbeb800ad8da2513e6e6bbeb51`。
+首包正文 `bd6fad55242285bbeb800ad8da2513e6e6bbeb51`，首包登记 `e180cb56a60750fb995559507ec7d202b81c02f9`。Codex 对这两笔 counter（C1–C3）。本返工只改隔离候选，返工 tip 见收口回复。
 分组提交：
 
 | 组 | SHA |
@@ -19,7 +19,7 @@
 
 ## 执行登记
 
-JSON：`numTotalTests=23`，`numPassedTests=23`，`numFailedTests=0`，`numPendingTests=0`。
+JSON：`numTotalTests=24`，`numPassedTests=24`，`numFailedTests=0`，`numPendingTests=0`。
 命令 cwd 均为 `/Users/zhangxu/illegal/type-pal-grok-present`。候选命令：
 
 ```text
@@ -34,11 +34,11 @@ exit 0。没有 skip、`test.fails`、超时或 retry。
 | P02 物品目标 | candidate-green | `P02 物品目标 P02 使用目标数量读gs现行库存而不是开菜单时的快照`；`P02 两人队按队伍顺序显示姓名、当前HP与含装备的攻击`；`P02 noDesc不关闭目标层，只省略物品描述` | `confirmInventoryItem` 进入 use-target。菜单快照 count=4，绘制前把 `gs.inventory` 改成 7；数量点是青色 7 不是 4。队伍 `[4,1]` 首行是「戊」的 HP 12 与攻击 23（runtime 20 + effect 3），不是静态 `attackStrength=1`，也不是 roleId 顺序的「乙」。`scriptDesc=51001` 在 list 画出「诀」；`noDesc` 后该点回到哨兵，目标层 HP 仍在 | 同上，exit 0 |
 | P03 装备绘制 | candidate-green | `P03 装备绘制 P03 装备列表里不可装备项是暗色，可装备项保持可选色`；`P03 选人页画出六槽名称、选中图标、数量、预览攻击和背景` | `createEquipMenu`/`confirmEquipItem`/`equipMoveDown`。列表 filter=`equip`：可装备选中 `0xF9`，只可用的「乙」是 `0x18`。选人页六槽名、图标 `0x86`、数量 3、无背景时 (1,1) 为哨兵、有 4×4 背景时为 `0x55`。预览攻击读 getter：role 4 为 23，切到 role 1 为 5。重复绘制不改 gs/catalog/menu | 同上，exit 0 |
 | P04 商店 | candidate-green | `P04 商店 P04 买列表、确认层、现有量和金钱用不同哨兵`；`P04 卖overlay画售价的一半，不执行买卖` | `createBuyMenu` + `shopSelectItem` 进入 confirm，默认否。价格 123、现有 3（背包 2 + 装备 1）、金钱 500、图标 `0x82` 分点。`createSellMenu` 后 `drawSellOverlay` 对价格 81 画 40，不画 81 的十位 8；现金与库存不变 | 同上，exit 0 |
-| P05 菜单栈转发 | candidate-green | `P05 菜单栈转发 P05 物品、图标和角色经公开菜单栈传到真实下层`；`P05 装备背景只在extra.equipBg传入时写入`；`P05 状态背景和毒数据经extra传到真实状态页`。不改写 `draw-menu.test.ts` 的 hub/system 六例 | `openMenu` 后 `drawMenuStack`。缺 items/icons 时目标名和 `0x84` 不出现；传入后「戊」、物品名 `0xBE` 和图标出现。`equipBg` 只在 extra 传入时写 `0x55`。`objectPoisons` level 1、color 3 的「瘟」写在 (185,58)，色 13；不传则该点保持哨兵 | 同上，exit 0 |
-| P06 仙术页 | candidate-green | `P06 仙术页 P06 施法者阶段按队伍顺序画两人不同HP`；`P06 仙术页区分MP够与不够，并画出说明和现行MP`；`P06 翻页后左上格换成后页仙术，目标阶段光标按队员移动`。既有 WIN95 空右侧见下节，本包不重开布局 | `createInGameMagicMenu`/`confirmCaster`/`confirmSpell`。两人 HP 12 与 34。role.mp=10 使费用 4 可选、费用 30 为 `0x18`；画面当前 MP 读 runtime 8，不是个位 0。说明「诀」色 `0x3C`。16 项翻页后左上是「癸」。目标光标从 (75,158) 移到 (153,158)。绘制不改 MP、不改已学法术 | 同上，exit 0 |
-| P07 角色状态 | candidate-green | `P07 角色状态 P07 非空装备、立绘、经验和HP按当前角色画出，绘制不改状态`。毒 row 三例复用，见下节 | 直接 `drawPlayerStatus`。队伍 `[4,1]` 先画 role 4：立绘 `0x95`、装备「子」色 `0xBE`、经验 12、下一级 40、等级 6（不是静态 level 1）、HP 12 / 最大 80。`playerStatusNext` 后画 role 1 的「乙」、立绘 `0x92`、HP 34，且不再画 role 4 的装备名。4×4 背景只覆盖 (1,1) | 同上，exit 0 |
-| P08 结算呈现 | candidate-green | `P08 结算呈现 P08 经验金钱、升级旧新值、隐藏涨点和练成名称可区分` | 四种 `drawBattleSettlement` screen。经验 12 与金钱 34 的个位不同。升级「戊」旧等级 2 / 新等级 3，攻击 11→22，箭头 `0x47`。词表只放 51=武术 时，隐藏涨点 5 落在右对齐 x=175。练成「雷」色 `0x1B`，角色名色 0。绘制不改 screen 数据 | 同上，exit 0 |
-| P09 背景索引链 | candidate-green | `P09 背景索引链 P09 正负色阶在低半字节边界钳制并保留高半字节`；`P09 小图裁剪保留未覆盖像素，移位索引经toImageData变成RGBA` | `drawBattleBg`→Framebuffer→`toImageData`。`+1`：`0xA3→0xA4`，`0xAF→0xAF`，`0x00→0x01`，`0xF0→0xF1`。`-1`：`0xA1→0xA0`，`0xA0→0xA0`，`0x05→0x04`，`0x1F→0x1E`。8 宽背景进 6 宽缓冲时，源 (7,0)=`0xAB` 不出现。2×2、shift 0 时索引 0 覆盖哨兵，界外保持 `0x5A`，RGBA 分别为 (8,0,0,255)、(0,9,0,255)、(1,2,3,255) | 同上，exit 0 |
+| P05 菜单栈转发 | candidate-green | `P05 菜单栈转发 P05 物品、图标和角色经公开菜单栈传到真实下层`；`P05 装备背景只在extra.equipBg传入时写入`；`P05 状态背景和毒数据经extra传到真实状态页`。不改写 `draw-menu.test.ts` 的 hub/system 六例 | `openMenu` 后 `drawMenuStack`。每次 draw 之前快照该次实参（含 `equipBg`/`statusBg`/`poisons` 的宽高或条目），调用后立即深比。缺 items/icons 时目标名和 `0x84` 不出现；传入后「戊」、物品名 `0xBE` 和图标出现。`equipBg` 只在 extra 传入时写 `0x55`。`objectPoisons` level 1、color 3 的「瘟」写在 (185,58)，色 13 | 同上，exit 0 |
+| P06 仙术页 | candidate-green | `P06 仙术页 P06 施法者阶段按队伍顺序画两人不同HP`；`P06 仙术页区分MP够与不够，并画出说明和现行MP`；`P06 翻页后左上格换成后页仙术，目标阶段光标按队员移动`；`P06 输入快照能发现位图宽度、法术名、背景、毒和升级表变化`。既有 WIN95 空右侧见下节 | 菜单角色来自 `projectRuntimeToBattleRoles`。静态 `mp=10` 时费用 9 仍可选；runtime MP=8 投影后费用 8 可选、费用 9 为 `0x18`。需求 MP 黄 8，现行 MP 青 8。说明「诀」色 `0x3C`。16 项翻页后左上是「癸」。目标光标从 (75,158) 移到 (153,158)。快照含 spells/magics 与位图宽高 | 同上，exit 0 |
+| P07 角色状态 | candidate-green | `P07 角色状态 P07 非空装备、立绘、经验和HP按当前角色画出，绘制不改状态`。毒 row 三例复用，见下节 | 直接 `drawPlayerStatus`。无背景的第一次 draw 也先快照 portraits、levelUpExp、icons 和帧尺寸。队伍 `[4,1]` 先画 role 4：立绘 `0x95`、装备「子」色 `0xBE`、经验 12、下一级 40、等级 6、HP 12 / 最大 80。`playerStatusNext` 之后再拍快照并画 role 1 | 同上，exit 0 |
+| P08 结算呈现 | candidate-green | `P08 结算呈现 P08 经验金钱、升级旧新值、隐藏涨点和练成名称可区分` | 四种 screen 各自在 draw 前快照 screen 对象和 UI 帧宽高。经验 12 与金钱 34 的个位不同。升级「戊」旧等级 2 / 新等级 3，攻击 11→22，箭头 `0x47`。词表只放 51=武术 时，隐藏涨点 5 落在右对齐 x=175。练成「雷」色 `0x1B` | 同上，exit 0 |
+| P09 背景索引链 | candidate-green | `P09 背景索引链 P09 正负色阶在低半字节边界钳制并保留高半字节`；`P09 小图裁剪保留未覆盖像素，移位索引经toImageData变成RGBA` | 每张背景在 `drawBattleBg` 前快照 width/height/indices。`+1`：`0xA3→0xA4`，`0xAF→0xAF`，`0x00→0x01`，`0xF0→0xF1`。`-1`：`0xA1→0xA0`，`0xA0→0xA0`，`0x05→0x04`，`0x1F→0x1E`。8 宽背景进 6 宽缓冲时，源 (7,0)=`0xAB` 不出现。2×2、shift 0 时索引 0 覆盖哨兵，界外保持 `0x5A`，RGBA 分别为 (8,0,0,255)、(0,9,0,255)、(1,2,3,255) | 同上，exit 0 |
 | P10 PNG消费/释放 | candidate-green | `P10 PNG消费与释放 P10 不透明0、透明孔和不同索引经解码后被drawSprite写进Framebuffer`；`P10 解码失败不持有bitmap，getImageData或drawImage失败仍关闭` | 手写 2×2 RGBA PNG → `decodePngToIndices` → `toSpriteImages` → `drawSprite`。索引 `[0,0,12,7]`，opaque `[1,0,1,1]`，帧数组与解码结果同一引用。锚点 (10,20) 上不透明 0 写成 0，透明孔保持 `0x5A`，12 和 7 落在邻点。坏字节不创建 bitmap。同一 PNG 上 `getImageData` / `drawImage` 注入失败后 `bitmap.close` 各调用一次，随后正常解码仍 close | 同上，exit 0 |
 
 按 candidate-green / existing-proof / reproduced-defect / pending-contract / blocked-environment 分栏。本包没有 reproduced-defect、pending-contract 或 blocked-environment。单组按案例列出，没有为凑数加空测。
@@ -56,6 +56,9 @@ exit 0。没有 skip、`test.fails`、超时或 retry。
 
 P01 非空正控与 P02 实时数量先跑通，再写余组。自检时两项都是真实 `drawInventoryMenu`，exit 0。
 
+- 返工 C1：`cloneInputs` 记录 IndexedImage 的 width/height/indices/opaque，以及当次传入的 spells、magics、portraits、equipBg/statusBg/battleBg、poisons、levelUpExp、screen、解码 bitmap。`P06 输入快照能发现位图宽度、法术名、背景、毒和升级表变化` 把 Codex 的漏检例子改成 `not.toEqual`，改回后相等。
+- 返工 C2：P05 三次首轮 draw 和 P07 无背景首轮 draw 都在调用前取快照，返回后立即比较。`playerStatusNext`、翻页和 confirm 放在对应快照之前。
+- 返工 C3：P06 用 `projectRuntimeToBattleRoles`。静态 mp=10 时费用 9 可选；投影 runtime 8 后费用 8 可选、费用 9 禁用。画面现行 MP 仍是青色 8。
 - 字形每个字只有一个手写点，数字精灵只在 (0,0) 点亮。黄 `0xB0+d`、蓝 `0xD0+d`、青 `0x70+d`，和菜单色、哨兵 `0x5A`、框填充 `0x11/0x22` 分开。
 - 输入用 `createInitialGameState`、公开菜单工厂和 confirm。角色 id 在 0..5，队伍 1 或 2 人。没有 `as unknown as` 或 `ts-nocheck`。
 - 期望点由字形点位和 `PAL_DrawNumber` 的 6 像素步进手算，不把生产输出烤成快照，也不把 `renderText` 再跑一遍当 oracle。
@@ -76,8 +79,8 @@ P01 非空正控与 P02 实时数量先跑通，再写余组。自检时两项�
 | 针 | 单点差异 | 命中 | 结果 |
 |---|---|---|---|
 | P02 | 使用目标数量从 `gs.inventory` 改读 `state.inventory` | `tests/p02-inventory-target.test.ts` > `P02 物品目标 P02 使用目标数量读gs现行库存而不是开菜单时的快照`，`p02-inventory-target.test.ts:81` | exit 1，`AssertionError: expected 116 to be 119`（青色 4，不是现行 7） |
-| P05 | inventory 分支 `itemIcons: extra?.itemIcons` 改成 `undefined` | `tests/p05-menu-stack.test.ts` > `P05 菜单栈转发 P05 物品、图标和角色经公开菜单栈传到真实下层`，`p05-menu-stack.test.ts:67` | exit 1，`AssertionError: expected 90 to be 132`（哨兵 `0x5A`，图标 `0x84` 没到） |
-| P10 | `bitmap.close()` 改成 `void bitmap` | `tests/p10-indexed-png.test.ts` > `P10 PNG消费与释放 P10 解码失败不持有bitmap，getImageData或drawImage失败仍关闭`，`p10-indexed-png.test.ts:95` | exit 1，`AssertionError: expected +0 to be 1`（getImageData 失败后 close 次数为 0） |
+| P05 | inventory 分支 `itemIcons: extra?.itemIcons` 改成 `undefined` | `tests/p05-menu-stack.test.ts` > `P05 菜单栈转发 P05 物品、图标和角色经公开菜单栈传到真实下层`，`p05-menu-stack.test.ts:71` | exit 1，`AssertionError: expected 90 to be 132`（哨兵 `0x5A`，图标 `0x84` 没到） |
+| P10 | `bitmap.close()` 改成 `void bitmap` | `tests/p10-indexed-png.test.ts` > `P10 PNG消费与释放 P10 解码失败不持有bitmap，getImageData或drawImage失败仍关闭`，`p10-indexed-png.test.ts:99` | exit 1，`AssertionError: expected +0 to be 1`（getImageData 失败后 close 次数为 0） |
 
 三针都是候选自己的业务断言变红。没有用 0 执行、错标题、TypeError 或超时充数。
 
@@ -86,6 +89,7 @@ P01 非空正控与 P02 实时数量先跑通，再写余组。自检时两项�
 - Node `v22.23.2`，pnpm `10.29.2`，Vitest `4.1.7`。`pnpm install --frozen-lockfile` 在该工作树执行，没有改锁文件，没有把 main 的 `node_modules` 整目录链过来。
 - 候选 `tsc -p docs/testing/grok-present-regressions/tsconfig.json --noEmit` exit 0。
 - `pnpm exec biome check docs/testing/grok-present-regressions` exit 0。
+- 相邻六文件 `draw-menu.test.ts`、`draw-magic.test.ts`、`draw-player-status.test.ts`、`draw-battle-bg.test.ts`、`png.test.ts`、`draw-sprite.test.ts`：JSON `21 passed / 0 failed`，exit 0。命令在 `packages/game` 下，`env -u NODE_COMPILE_CACHE pnpm exec vitest run --maxWorkers=1` 加上这六个路径。
 - 未跑全仓 `pnpm check`、官方 coverage/ratchet/strict、迁移、提取或浏览器。不报覆盖率增量。
 - `git diff 16fb1cbf..正文` 只有 `docs/testing/grok-present-regressions/**`。产品、旧测试、资产、官方配置和覆盖率基线无 diff。
 - 没有发现需要单独留档的产品失败。`diagnostics/` 未建。

@@ -68,12 +68,16 @@ describe('P07 角色状态', () => {
       itemIcons: icons,
       levelUpExp,
     }
+    const plain = { gs, menu, items: [sword], roles, frames, icons, portraits, levelUpExp }
+    const beforePlain = cloneInputs(plain)
     drawPlayerStatus(input)
+    expect(cloneInputs(plain)).toEqual(beforePlain)
     expect(pixel(fb, 1, 1)).toBe(SENTINEL)
     fillSentinel(fb)
-    const before = cloneInputs({ gs, menu, items: [sword], roles, frames, icons })
+    const painted = { ...plain, statusBg: bg }
+    const before = cloneInputs(painted)
     drawPlayerStatus({ ...input, statusBg: bg })
-    expect(cloneInputs({ gs, menu, items: [sword], roles, frames, icons })).toEqual(before)
+    expect(cloneInputs(painted)).toEqual(before)
     expect(pixel(fb, 1, 1)).toBe(0x56)
     expect(pixel(fb, 110, 30)).toBe(0x95)
     expect(pixel(fb, 190, 0)).toBe(0x85)
@@ -92,9 +96,10 @@ describe('P07 角色状态', () => {
     expect(menu.cursor).toBe(1)
     expect(menu.done).toBe(false)
     fillSentinel(fb)
-    const switched = cloneInputs({ gs, menu, items: [sword], roles, frames, icons })
+    const switchedInputs = { ...plain, statusBg: bg }
+    const switched = cloneInputs(switchedInputs)
     drawPlayerStatus({ ...input, statusBg: bg })
-    expect(cloneInputs({ gs, menu, items: [sword], roles, frames, icons })).toEqual(switched)
+    expect(cloneInputs(switchedInputs)).toEqual(switched)
     expect(pixel(fb, textDot('乙', 0, 110, 8).x, textDot('乙', 0, 110, 8).y)).toBe(CONFIRMED)
     expect(pixel(fb, textDot('戊', 0, 110, 8).x, textDot('戊', 0, 110, 8).y)).not.toBe(CONFIRMED)
     expect(pixel(fb, 110, 30)).toBe(0x92)

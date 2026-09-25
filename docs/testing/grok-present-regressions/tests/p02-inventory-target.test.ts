@@ -166,6 +166,8 @@ describe('P02 物品目标', () => {
     fillSentinel(listed)
     const restore = freezeNow(0)
     try {
+      const listedInputs = { gs, menu, items: [item], frames }
+      const beforeListed = cloneInputs(listedInputs)
       drawInventoryMenu({
         fb: listed,
         state: menu,
@@ -174,6 +176,7 @@ describe('P02 物品目标', () => {
         glyphs,
         noDesc: false,
       })
+      expect(cloneInputs(listedInputs)).toEqual(beforeListed)
       expect(pixel(listed, desc.x, desc.y)).toBe(DESC_COLOR)
 
       confirmInventoryItem(menu, [item], roles, gs.partyMembers)

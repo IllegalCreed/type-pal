@@ -14,7 +14,7 @@ import {
   SENTINEL,
   yellowDigit,
 } from '../fixtures/images.js'
-import { resetHostSingletons } from '../fixtures/world.js'
+import { cloneInputs, resetHostSingletons } from '../fixtures/world.js'
 
 const glyphs = fixtureGlyphs()
 
@@ -45,12 +45,15 @@ describe('P08 结算呈现', () => {
     setWordTable(words)
     const expFb = createFramebuffer()
     fillSentinel(expFb)
+    const expScreen = { kind: 'exp-cash' as const, expGained: 12, cashGained: 34, isBoss: false }
+    const beforeExp = cloneInputs({ frames, screen: expScreen })
     drawBattleSettlement({
       fb: expFb,
-      screen: { kind: 'exp-cash', expGained: 12, cashGained: 34, isBoss: false },
+      screen: expScreen,
       uiSpriteFrames: frames,
       glyphs,
     })
+    expect(cloneInputs({ frames, screen: expScreen })).toEqual(beforeExp)
     expect(pixel(expFb, textDot('获', 0, 95, 70).x, textDot('获', 0, 95, 70).y)).toBe(0)
     expect(pixel(expFb, textDot('获', 0, 95, 70).x + 3, textDot('获', 0, 95, 70).y)).not.toBe(0)
     expect(pixel(expFb, rightDigitX(182, 5, 0), 74)).toBe(yellowDigit(2))
@@ -59,16 +62,17 @@ describe('P08 结算呈现', () => {
     expect(pixel(expFb, midOnesX(162, 5, 2) - 6, 119)).toBe(yellowDigit(3))
 
     const data = levelUp()
+    const levelScreen = { kind: 'level-up' as const, data }
     const levelFb = createFramebuffer()
     fillSentinel(levelFb)
-    const before = structuredClone(data)
+    const beforeLevel = cloneInputs({ frames, screen: levelScreen })
     drawBattleSettlement({
       fb: levelFb,
-      screen: { kind: 'level-up', data },
+      screen: levelScreen,
       uiSpriteFrames: frames,
       glyphs,
     })
-    expect(data).toEqual(before)
+    expect(cloneInputs({ frames, screen: levelScreen })).toEqual(beforeLevel)
     expect(pixel(levelFb, textDot('戊', 0, 110, 10).x, textDot('戊', 0, 110, 10).y)).toBe(0)
     expect(pixel(levelFb, 180, 48)).toBe(ARROW_ID)
     expect(pixel(levelFb, rightDigitX(133, 4, 0), 47)).toBe(yellowDigit(2))
@@ -80,27 +84,36 @@ describe('P08 结算呈现', () => {
 
     const hiddenFb = createFramebuffer()
     fillSentinel(hiddenFb)
+    const hiddenScreen = {
+      kind: 'hidden-exp-up' as const,
+      data: { roleId: 4, name: '戊', statLabelWord: 51, delta: 5 },
+    }
+    const beforeHidden = cloneInputs({ frames, screen: hiddenScreen })
     drawBattleSettlement({
       fb: hiddenFb,
-      screen: {
-        kind: 'hidden-exp-up',
-        data: { roleId: 4, name: '戊', statLabelWord: 51, delta: 5 },
-      },
+      screen: hiddenScreen,
       uiSpriteFrames: frames,
       glyphs,
     })
+    expect(cloneInputs({ frames, screen: hiddenScreen })).toEqual(beforeHidden)
     expect(pixel(hiddenFb, textDot('戊', 0, 90, 70).x, textDot('戊', 0, 90, 70).y)).toBe(0)
     expect(pixel(hiddenFb, textDot('武', 0, 106, 70).x, textDot('武', 0, 106, 70).y)).toBe(0)
     expect(pixel(hiddenFb, rightDigitX(175, 5, 0), 74)).toBe(yellowDigit(5))
 
     const learnFb = createFramebuffer()
     fillSentinel(learnFb)
+    const learnScreen = {
+      kind: 'learn-magic' as const,
+      data: { roleId: 4, name: '戊', magicName: '雷' },
+    }
+    const beforeLearn = cloneInputs({ frames, screen: learnScreen })
     drawBattleSettlement({
       fb: learnFb,
-      screen: { kind: 'learn-magic', data: { roleId: 4, name: '戊', magicName: '雷' } },
+      screen: learnScreen,
       uiSpriteFrames: frames,
       glyphs,
     })
+    expect(cloneInputs({ frames, screen: learnScreen })).toEqual(beforeLearn)
     expect(pixel(learnFb, textDot('戊', 0, 75, 115).x, textDot('戊', 0, 75, 115).y)).toBe(0)
     expect(pixel(learnFb, textDot('雷', 0, 155, 115).x, textDot('雷', 0, 155, 115).y)).toBe(0x1b)
     expect(pixel(learnFb, textDot('雷', 0, 155, 115).x + 3, textDot('雷', 0, 155, 115).y)).not.toBe(

@@ -112,8 +112,11 @@ describe('P01 物品列表', () => {
     const fb = createFramebuffer()
     fillSentinel(fb)
     const restore = freezeNow(0)
+    const inputs = { gs, menu, items, frames }
     try {
+      const beforeFirst = cloneInputs(inputs)
       drawInventoryMenu({ fb, state: menu, items, uiSpriteFrames: frames, glyphs })
+      expect(cloneInputs(inputs)).toEqual(beforeFirst)
       const first = labelOf('甲', 0, 0)
       const ninth = labelOf('癸', 0, 0)
       expect(pixel(fb, first.x, first.y)).toBe(MENUITEM_COLOR_SELECTED_FIRST)
@@ -121,7 +124,9 @@ describe('P01 物品列表', () => {
 
       inventoryMoveRight(menu)
       fillSentinel(fb)
+      const beforeMove = cloneInputs(inputs)
       drawInventoryMenu({ fb, state: menu, items, uiSpriteFrames: frames, glyphs })
+      expect(cloneInputs(inputs)).toEqual(beforeMove)
       const second = labelOf('乙', 1, 0)
       expect(pixel(fb, second.x, second.y)).toBe(MENUITEM_COLOR_SELECTED_FIRST)
       expect(pixel(fb, first.x, first.y)).toBe(MENUITEM_COLOR)
@@ -130,7 +135,9 @@ describe('P01 物品列表', () => {
 
       inventoryPageDown(menu)
       fillSentinel(fb)
+      const beforePage = cloneInputs(inputs)
       drawInventoryMenu({ fb, state: menu, items, uiSpriteFrames: frames, glyphs })
+      expect(cloneInputs(inputs)).toEqual(beforePage)
     } finally {
       restore()
     }
