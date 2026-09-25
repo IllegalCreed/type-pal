@@ -158,4 +158,29 @@ describe('G08 迁移转换边界', () => {
     // 场景实体不受影响（根只进图分析）
     expect(withRoot.scenes).toEqual(without.scenes)
   })
+
+  test('G08-07 转换中段真异常：脚本引用无布局证据的精灵号在翻译中段抛出，修正证据后同脚本成功', () => {
+    // 与 G08-05（输入预检层）相区分：raw 0x65（换角色大世界精灵）经 translate-events.ts:1624
+    // 走 spriteIdForNum → migrate-content.ts resolveSpriteIdForNum 在**转换中段**抛出
+    // 「sprite 42 缺布局证据；禁止从脚本资源号猜布局」
+    const scenes = [sourceScene(0)]
+    const spriteEvents: SourceCmd[] = [
+      { label: 'L_1', op: 'raw', opcode: 0x65, operands: [0, 42] },
+      { op: 'end' },
+    ]
+    const events = new Map([[0, spriteEvents]])
+    let message = ''
+    try {
+      mapScenesStatic(scenes, events)
+    } catch (error) {
+      message = error instanceof Error ? error.message : String(error)
+    }
+    expect(message).toContain('sprite 42 缺布局证据') // 中段抛出（预检已通过）
+    // 抛出后模块态无残留：补上 sprite 42 的场景布局证据，同一脚本再跑照常成功
+    const fixed = sourceScene(0)
+    fixed.eventObjects.push({ id: 2, x: 96, y: 48, spriteNum: 42, sState: 0, sLayer: -2 })
+    const good = mapScenesStatic([fixed], events)
+    expect(good.scenes.length).toBe(1)
+    expect(good.scenes[0]!.entities.length).toBeGreaterThan(0)
+  })
 })

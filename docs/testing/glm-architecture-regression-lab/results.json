@@ -875,26 +875,139 @@
         "file": "candidates/migrate/g08-conversion-isolation.test.ts",
         "fullName": "G08 迁移转换边界 G08-06 globalRoots 进入可达图：根地址 owner=global、可达性随根存在变化（非计数回显）"
       }
+    },
+    {
+      "id": "G06-08",
+      "pack": "G06",
+      "status": "candidate-green",
+      "evidenceKind": ["executed", "test-body"],
+      "contract": "hooks.turnStart 第二频道：validateEnemies → checkEnemyAi → checkEnemyHookFlow（enemy-script.ts:556，exactKeys 只允许 ready/turnStart）",
+      "expected": "turnStart 合法 typed 流通过且输入深等",
+      "actual": "通过；深等",
+      "positiveControl": "G06-01（ready 频道）",
+      "mutation": "pending",
+      "cleanup": "—",
+      "artifacts": [],
+      "attribution": "GLM",
+      "test": {
+        "file": "candidates/content/g06-validation-crosscalls.test.ts",
+        "fullName": "G06 跨校验器递归 G06-08 正控：hooks.turnStart 频道（第二频道）经 validateEnemies 递归通过且输入深等"
+      }
+    },
+    {
+      "id": "G06-09",
+      "pack": "G06",
+      "status": "candidate-green",
+      "evidenceKind": ["executed", "test-body"],
+      "contract": "onDefeated branch then/else 递归（enemy-script.ts:589/591）嵌套 typed 组合",
+      "expected": "嵌套 branch（all 条件）+ wait 叶通过且输入深等",
+      "actual": "通过；深等",
+      "positiveControl": "G06-02",
+      "mutation": "pending",
+      "cleanup": "—",
+      "artifacts": [],
+      "attribution": "GLM",
+      "test": {
+        "file": "candidates/content/g06-validation-crosscalls.test.ts",
+        "fullName": "G06 跨校验器递归 G06-09 正控：onDefeated branch 嵌套 branch（then/else 递归 589/591）经 validateEnemies 通过"
+      }
+    },
+    {
+      "id": "G06-10",
+      "pack": "G06",
+      "status": "candidate-green",
+      "evidenceKind": ["executed", "test-body"],
+      "contract": "checkDialogueCue 选项沿 enemy→author 三入口（hooks/onDefeated/choreography）递归透传（enemy-script.ts:286-287 优先路径）",
+      "expected": "非法 cue（空 rows）三路各自被拒；合法 cue 三路整链通过（正控隔离）",
+      "actual": "三路拒 + 三路正控全过",
+      "positiveControl": "同测试内合法 cue 正控",
+      "mutation": "pending",
+      "cleanup": "—",
+      "artifacts": [],
+      "attribution": "GLM",
+      "test": {
+        "file": "candidates/content/g06-validation-crosscalls.test.ts",
+        "fullName": "G06 跨校验器递归 G06-10 options 透传：checkDialogueCue 经 hooks/onDefeated/choreography 三路递归拒绝非法 cue"
+      }
+    },
+    {
+      "id": "G08-07",
+      "pack": "G08",
+      "status": "candidate-green",
+      "evidenceKind": ["executed", "test-body"],
+      "contract": "转换中段真异常：raw 0x65 → translate-events.ts:1624 spriteIdForNum → resolveSpriteIdForNum 转换中段抛「sprite 42 缺布局证据」（migrate-content.ts:2531）",
+      "expected": "预检通过后于翻译中段抛出；补场景布局证据后同一脚本成功（模块态无残留）",
+      "actual": "toThrow 含缺布局证据；修正后 scenes=1 entities>0",
+      "positiveControl": "G08-01",
+      "mutation": "pending",
+      "cleanup": "—",
+      "artifacts": [],
+      "attribution": "GLM",
+      "test": {
+        "file": "candidates/migrate/g08-conversion-isolation.test.ts",
+        "fullName": "G08 迁移转换边界 G08-07 转换中段真异常：脚本引用无布局证据的精灵号在翻译中段抛出，修正证据后同脚本成功"
+      }
+    },
+    {
+      "id": "G01-07",
+      "pack": "G01",
+      "status": "candidate-green",
+      "evidenceKind": ["browser"],
+      "contract": "MapMode 平移手势 pointercancel 终结（onPointerCancel=cancelPointerInteraction → panRef.current=null，MapMode.tsx:2302）；可观测面 = 画布像素 SHA-256",
+      "expected": "正控：完整合成拖拽（down→move→move→up）视图平移（像素 hash 47b91a24→19ffdaad）；取消：同输入形状 down→move→pointercancel→迟到 move/up，视图冻结在取消前状态（7fb3de57==7fb3de57）。反控 g01-pan-cancel-needle.mjs（cancelPointerInteraction 不清 panRef，内存单点破坏）→ 同输入取消后视图漂移（ce853fe7→fa7b3405），证明冻结真实由取消处理导致",
+      "actual": "三向全部按预期实测（6013 干净宿主 + 6014 反控宿主）",
+      "positiveControl": "完整拖拽正控（同输入形状无取消）",
+      "mutation": "tools/g01-pan-cancel-needle.mjs（LAB_G01_NEEDLE_APPLIED，页面 __G01_NEEDLE_LIVE__ 见证）",
+      "cleanup": "测试期 setPointerCapture 合成替身（用后恢复）；无产品写盘",
+      "artifacts": [
+        {
+          "path": "/tmp/type-pal-glm-lab-r2/g01-clean-map-canvas.jpg",
+          "sha256_full": "a2d51f7d3ef1b526cbc0a22a6a86a54011516e49c76242e13332ec513846e1d8"
+        }
+      ],
+      "attribution": "GLM（IAB 浏览器实测；viewport 1440×900 CSS、DPR 1、画布缩放 38%、指针事件为页面内合成 PointerEvent 经真实 React 监听链、迟到移动为真实 CDP 鼠标事件）",
+      "test": {
+        "file": "(浏览器操作链)",
+        "fullName": ""
+      }
+    },
+    {
+      "id": "V01-04",
+      "pack": "V01",
+      "status": "blocked-environment",
+      "evidenceKind": ["browser"],
+      "contract": "DsDraftTextInput 提交合同（controls.tsx:542 blur/Enter commit once，Escape cancels；onCommit → session.dispatch UpdateLocaleCommand，ActorMode.tsx:606-613）",
+      "expected": "自动化键入草稿后 Enter/blur 触发会话提交（撤销键转可用、h1 随更新、⌘Z 恢复 李逍遥）",
+      "actual": "实测：locator.fill + Enter 与 blur 均停留草稿态（DOM value=李逍遥探，撤销键保持 disabled）——自动化路径下的提交根因未定位（产品源码合同存在且正式测试覆盖该控件），登记 blocked-automation，不断言产品缺陷；其余五类表单矩阵本轮未执行",
+      "positiveControl": "—",
+      "mutation": "—",
+      "cleanup": "草稿未提交即丢弃（dev 快照内存工程，无写盘）",
+      "artifacts": [],
+      "attribution": "GLM",
+      "test": {
+        "file": "(浏览器操作链)",
+        "fullName": ""
+      }
     }
   ],
   "groupTotals": {
-    "total": 45,
+    "total": 51,
     "byStatus": {
-      "candidate-green": 43,
+      "candidate-green": 48,
       "existing-proof": 1,
-      "blocked-environment": 1
+      "blocked-environment": 2
     },
     "perPack": {
       "startup": 1,
-      "G01": 6,
+      "G01": 7,
       "G02": 3,
       "G03": 3,
       "G04": 4,
       "G05": 4,
-      "G06": 7,
+      "G06": 10,
       "G07": 4,
-      "G08": 5,
-      "V01": 3,
+      "G08": 6,
+      "V01": 4,
       "V02": 2,
       "V03": 1,
       "V04": 2
@@ -914,7 +1027,7 @@
       "exit": 0
     },
     {
-      "cmd": "npx vitest run --config docs/testing/glm-architecture-regression-lab/configs/candidates.vitest.mts  # 全部候选（37 项=启动1+G01 6+G02 3+G03 3+G04 4+G05 4+G06 7+G07 4+G08 5）",
+      "cmd": "npx vitest run --config docs/testing/glm-architecture-regression-lab/configs/candidates.vitest.mts  # 全部候选（41 项=启动1+G01 6+G02 3+G03 3+G04 4+G05 4+G06 10+G07 4+G08 6）",
       "exit": 0
     },
     {
@@ -939,6 +1052,14 @@
     },
     {
       "cmd": "pnpm exec tsc --project docs/testing/glm-architecture-regression-lab/configs/tsconfig.json --noEmit  # 候选独立类型门（TS5101 已消除）",
+      "exit": 0
+    },
+    {
+      "cmd": "VITE_PROJECT_ID=pal npx vite --port 6013 --strictPort  # 干净宿主（主线检出，含 gitignored 生成资源）",
+      "exit": 0
+    },
+    {
+      "cmd": "LAB_REPO_ROOT=<完整检出> VITE_PROJECT_ID=pal node docs/testing/glm-architecture-regression-lab/tools/g01-pan-cancel-needle.mjs 6014 1200  # G01 反控宿主",
       "exit": 0
     }
   ],

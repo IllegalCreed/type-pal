@@ -94,7 +94,7 @@ const needles = [
     id: 'g08-ignore-roots',
     productAbs: resolve(repoRoot, 'packages/migrate/src/migrate-content.ts'),
     targetAbs: resolve(labRoot, 'candidates/migrate/g08-conversion-isolation.test.ts'),
-    expectExecuted: 5,
+    expectExecuted: 6,
     buildMutation: () => {
       const from = 'const roots = [...graphRoots, ...globalRoots]'
       const to = 'const roots = [...graphRoots]'

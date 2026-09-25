@@ -193,4 +193,100 @@ describe('G06 跨校验器递归', () => {
     expect(message).toContain('enemies[0].choreography[0].body[0]') // 生产 path 精确到叶
     expect(broken).toEqual(before) // 输入深保真
   })
+
+  test('G06-08 正控：hooks.turnStart 频道（第二频道）经 validateEnemies 递归通过且输入深等', () => {
+    // 去重矩阵补口：lab 既有例只走 hooks.ready；turnStart 是 checkEnemyAi 的第二合法频道
+    //（enemy-script.ts:556，exactKeys 只允许 ready/turnStart——频道键拒绝由官方 boundaries 覆盖）
+    const enemy = labEnemy()
+    enemy.ai.hooks = {
+      turnStart: {
+        initial: 's0',
+        states: {
+          s0: {
+            body: [{ kind: 'playSound', asset: 'sound.turn' }],
+            next: { kind: 'stay' },
+          },
+        },
+      },
+    }
+    const before = JSON.parse(JSON.stringify(enemy)) as unknown
+    expect(() => validateEnemies([enemy])).not.toThrow()
+    expect(enemy).toEqual(before)
+  })
+
+  test('G06-09 正控：onDefeated branch 嵌套 branch（then/else 递归 589/591）经 validateEnemies 通过', () => {
+    // 去重矩阵补口：onDefeated 的 then/else 递归（enemy-script.ts:589/591）既有例只走一层；
+    // 官方 wave2:178 证 nonempty 臂与计数错误——此处补合法嵌套 typed 组合
+    const enemy = labEnemy()
+    enemy.onDefeated = [
+      {
+        kind: 'branch',
+        cond: { kind: 'flag', flag: 'lab-a', is: true },
+        then: [
+          {
+            kind: 'branch',
+            cond: { kind: 'all', of: [{ kind: 'flag', flag: 'lab-b', is: false }] },
+            then: [{ kind: 'playSound', asset: 'sound.deep' }],
+            else: [],
+          },
+        ],
+        else: [{ kind: 'wait', ms: 120 }],
+      },
+    ]
+    const before = JSON.parse(JSON.stringify(enemy)) as unknown
+    expect(() => validateEnemies([enemy])).not.toThrow()
+    expect(enemy).toEqual(before)
+  })
+
+  test('G06-10 options 透传：checkDialogueCue 经 hooks/onDefeated/choreography 三路递归拒绝非法 cue', () => {
+    // 去重矩阵补口：dialog 臂的 options.checkDialogueCue 优先路径（enemy-script.ts:286-287）
+    // 与 onDefeated 叶的 599 兜底是真实变体——校验选项沿 enemy→author 递归整链透传
+    const cueGate = (cue: unknown, path: string): void => {
+      const rows = (cue as { rows?: unknown[] }).rows
+      if (!Array.isArray(rows) || rows.length === 0)
+        throw new Error(`${path}.cue: 实验门要求非空 rows`)
+    }
+    const options = { checkDialogueCue: cueGate }
+    /** route 决定非法 cue 挂在哪个入口；其余入口挂合法 cue 以隔离证明单路透传。 */
+    const mkEnemy = (route: 'hooks' | 'onDefeated' | 'choreography', bad: boolean): EnemyDef => {
+      const cue = bad ? { rows: [] } : { rows: [{ text: '合法台词' }] }
+      const enemy = labEnemy()
+      enemy.ai.hooks =
+        route === 'hooks'
+          ? {
+              ready: {
+                initial: 's0',
+                states: { s0: { body: [{ kind: 'dialog', cue }], next: { kind: 'stay' } } },
+              },
+            }
+          : {
+              ready: {
+                initial: 's0',
+                states: {
+                  s0: { body: [{ kind: 'playSound', asset: 'sound.ok' }], next: { kind: 'stay' } },
+                },
+              },
+            }
+      enemy.onDefeated = route === 'onDefeated' ? [{ kind: 'dialog', cue }] : []
+      enemy.choreography =
+        route === 'choreography'
+          ? [{ at: 'battleStart', body: [{ kind: 'dialog', cue }] }]
+          : undefined
+      return enemy
+    }
+    // 三路独立证明：非法 cue 只挂在被测入口时，同一选项沿该路递归拒绝
+    expect(() => validateEnemies([mkEnemy('hooks', true)], options)).toThrowError(
+      /实验门要求非空 rows/,
+    )
+    expect(() => validateEnemies([mkEnemy('onDefeated', true)], options)).toThrowError(
+      /实验门要求非空 rows/,
+    )
+    expect(() => validateEnemies([mkEnemy('choreography', true)], options)).toThrowError(
+      /实验门要求非空 rows/,
+    )
+    // 正控：三路合法 cue 在同一 options 下整链通过（拒绝来自 cue 内容而非选项误伤）
+    expect(() => validateEnemies([mkEnemy('hooks', false)], options)).not.toThrow()
+    expect(() => validateEnemies([mkEnemy('onDefeated', false)], options)).not.toThrow()
+    expect(() => validateEnemies([mkEnemy('choreography', false)], options)).not.toThrow()
+  })
 })

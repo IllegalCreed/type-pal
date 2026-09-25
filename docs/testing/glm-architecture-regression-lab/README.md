@@ -142,11 +142,14 @@ GLM贡献须在最终实施审查披露；本卡不授予自验充独立终审�
 - 实际文件：[receipt.md](receipt.md)、configs/{candidates,diagnostics}.vitest.mts、configs/tsconfig.json、
   fixtures/{editor,migrate}/**、candidates/{editor,content,game,migrate}/*.test.*（含 lab-startup 启动小样）、
   diagnostics/lab-startup-red.test.tsx、tools/{red-control,verify}.mjs、results.json。
-- 账本 **45 条** = candidate-green 43 / existing-proof 1 / blocked-environment 1；执行 JSON 37/37 全绿，
+- 账本 **51 条** = candidate-green 48 / existing-proof 1 / blocked-environment 2；执行 JSON 41/41 全绿，
   candidate-green fullName 与执行 JSON 一对一双射（verify.mjs v2 硬判据）。
+- r10 批次新增：G06-08/09/10（去重矩阵补口）、G08-07（转换中段真异常）、G01-07（平移取消浏览器实证 +
+  tools/g01-pan-cancel-needle.mjs 反控宿主实测漂移）、V01-04（角色草稿提交自动化阻断登记）。
 - 负控 runner v2 五针（startup / g05 卸载清理 / g03 committed 终态 / g05 即时 wait / g08 忽略图根）全部 detected，
   每针恰 exit1、AssertionError、witness 命中、产品 hash 不变。
 - 类型门真实通过：`pnpm exec tsc --project …/configs/tsconfig.json --noEmit` exit0（TS5101 已消除）。
 - 截图 6 张在 /tmp/type-pal-glm-regression-lab/（不入 Git），用途登记于 results.json artifacts；
   V01-V04 未执行矩阵在 receipt.md 未证项如实登记。
-- 12 组全部交付；G06/G07/G08 未证轴与 V01-V04 未证矩阵在 receipt.md 如实收窄登记，不把绿数当完整合同。
+- 12 组全部交付；V01（除角色 blocked-automation 外五类）/V02/V03/V04 矩阵与 G08 options 部分维度
+  在 receipt.md 如实登记未证/pending，不把绿数当完整合同。
