@@ -39,6 +39,8 @@ GLM后续补测候选见[十批长队列](../testing/glm-coverage-work-queue.md)
 | ARCH-REGRESSION-LAB-GLM-1 | [十二组候选回归与功能视觉](tasks/ARCH-REGRESSION-LAB-GLM-1-twelve-packs.md) | draft | GLM定点返工 / Codex独立复核 | 候选30397b1d逐组counter；V04为脏页导航中止非深链覆写，全目录Biome与证据门未过 |
 | ARCH-SUPPORT-GLM-1 | [八组并行架构/视觉准备](tasks/ARCH-SUPPORT-GLM-1-eight-audit-packages.md) | draft | Codex / 后续归属与收口 | 58cdf938材料accept，counter清零；文档已合入，按用户要求未标done/未开产品门 |
 
+2026-09-25 [一阶段菜单与索引渲染十组补测](../testing/grok-present-integration.md)由Grok贡献隔离候选、Codex三轮独立复核后选择性接入正式game测试：25项（23生产绘制/解码+2快照自测）、check/受保护ratchet/单次严格fast均通过；fast8090项/641生产文件，全仓分支43067/63176、同分母净增157。旧候选分支未直接merge以免回退主线；full/E2E/视觉观感另排。
+
 2026-09-25 [一阶段有效属性与状态投影补测](../testing/gemini-phase1-stats-integration.md)已按当前委派模式由 Codex 独立验收收口：Gemini 贡献26项，额度耗尽后 Codex 修订 typed fixture/边界断言并正式接入；check、官方ratchet、受保护单次strict-fast均通过，fast8065项/641生产文件，全仓分支42910/63176。无产品源码或统计范围缩减，full/E2E仍另排。
 
 2026-09-25 [A3-b场景资源与预检](../testing/scene-preparation-refactor.md)fdad980f已独立核定done：

@@ -8,6 +8,8 @@
 
 ## 文档与附件
 
+- [Grok一阶段菜单与索引渲染候选](grok-present-regressions/README.md)、[Codex独立复核](grok-present-review.md)及[正式接入](grok-present-integration.md)（P01–P10共25项，23业务绘制+2快照自测；check/ratchet/严格fast8090/641通过，候选历史不等于视觉/E2E）
+
 - [一阶段有效属性与战斗状态投影补测集成](gemini-phase1-stats-integration.md)（Gemini贡献、Codex接手修订/独立验收；26项正式接入，受保护严格fast8065/641；full/E2E另行验证）
 
 - [Cursor覆盖率说明定点核对回执](cursor-coverage-guide-audit.md)（DOC-CURSOR-3，draft待取证；只读命令/快照核对，不改正式说明或基线）
