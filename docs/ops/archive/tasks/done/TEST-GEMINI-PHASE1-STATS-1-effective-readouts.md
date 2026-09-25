@@ -1,11 +1,11 @@
 # TEST-GEMINI-PHASE1-STATS-1 — 一阶段有效属性与战斗状态只读投影候选回归
 
-Status: draft
+Status: done
 Phase: phase1
 Capability: 一阶段非视觉测试准备；不改玩法、格式或能力格
-Coding Owner: Gemini（仅隔离候选测试）
+Coding Owner: Gemini（隔离候选）/ Codex（用户授权接手修订与正式集成）
 Generation Owner: N/A
-Reviewer: Codex（独立接收与正式集成）
+Reviewer: Codex（独立接收、质量门与收口）
 Visual Verification Owner: N/A
 Visual Verification Timing: N/A（只测结构化状态，不作视觉验收）
 Collaboration Mode: Codex 分派、Gemini 贡献、Codex 独立验收
@@ -70,6 +70,13 @@ Branch: `codex/gemini-phase1-stats-r1`（独立 worktree，开工时从已含本
 - Codex：2026-09-25仅授权 `draft` 隔离取证与候选；已直读两模块公开入口、消费者及旧测试目录，发现旧测试密集，因此先去重。**未批准产品实现或正式测试接入，也未预签候选 accept**。
 - 用户同日明确改为“Codex 分派、其他 Agent 执行、Codex 验收”，三贤人固定签字暂休。本卡待 Gemini 交付后由 Codex 独立判断返工/接入，不因 Kimi/GLM 缺签阻断；高风险机制真值或产品取舍仍须用户裁决。
 - 交接：Codex 创建本卡与互斥范围；Gemini 在独立 worktree 交连续整包，Codex 独立复核后再决定下一阶段。无产品文件修改授权。
+
+## Codex 正式接收与 done 收口（2026-09-25）
+
+- 用户明确 Gemini 无额度，“他如果做得不对需要你替他收尾”；Codex据此接手候选测试质量修订，不接管产品机制变更。贡献者 `64dd4cf9`、Codex候选修订 `1443d407`、正式一阶段测试 `cca91809` 分账披露。[完整接收与统一门禁](../../../../testing/gemini-phase1-stats-integration.md)。
+- Codex 独立复核八族合同与旧测试差异，E2/I1/I2/E4/E5 输入/断言/全局清理问题已修；八族26项正式接入。前提仍成立：只读有效属性和检查器，不改公式、格式、产品或用户可见行为。
+- `pnpm check` exit0，官方受保护 ratchet 和单次严格 fast exit0；8065项/641生产文件，无旧测试或生产范围移出，分母不变。隔离负控四针业务红、相邻41项绿。full/E2E/Q1/Q2未借本卡关闭。
+- 当前委派模式下由 Codex 独立 `accept` 并核 `done allowed`；纯测试任务无用户可感知行为变化，不需重复用户技术复审。无下一位 Agent 提示词，待后续覆盖批次另行分配。
 
 ## 下一位 Agent 提示词
 

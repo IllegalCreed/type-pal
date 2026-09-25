@@ -1,14 +1,14 @@
 {
   "schemaVersion": 2,
   "profile": "fast",
-  "generatedAt": "2026-09-25T05:33:54.213Z",
+  "generatedAt": "2026-09-25T08:55:15.265Z",
   "provider": {
     "name": "v8",
     "vitest": "4.1.7",
     "coverageV8": "4.1.7"
   },
   "sourceFileCount": 641,
-  "testCount": 8039,
+  "testCount": 8090,
   "packages": {
     "shared": {
       "name": "@type-pal/shared",
@@ -2754,8 +2754,8 @@
       ],
       "scopeDigest": "172860557359800006b54684305c95556da2645892e450c2d5b4891297aba98e",
       "fastTests": {
-        "testCount": 2318,
-        "testFileCount": 134,
+        "testCount": 2369,
+        "testFileCount": 152,
         "files": [
           "packages/game/src/analytics/analytics-consent-ui.test.ts",
           "packages/game/src/analytics/analytics-consent.boundaries.test.ts",
@@ -2768,6 +2768,14 @@
           "packages/game/src/assets/rle-decode.test.ts",
           "packages/game/src/assets/snapshot-input-boundaries.test.ts",
           "packages/game/src/assets/tileset-blob.test.ts",
+          "packages/game/src/core/__tests__/stats/e1-effective-stats.test.ts",
+          "packages/game/src/core/__tests__/stats/e2-equipment-effects.test.ts",
+          "packages/game/src/core/__tests__/stats/e3-player-stat-rows.test.ts",
+          "packages/game/src/core/__tests__/stats/e4-run-equip-script.test.ts",
+          "packages/game/src/core/__tests__/stats/e5-update-all-equipments.test.ts",
+          "packages/game/src/core/__tests__/stats/e6-resync-battle-role-stats.test.ts",
+          "packages/game/src/core/__tests__/stats/i1-party-status-readouts.test.ts",
+          "packages/game/src/core/__tests__/stats/i2-enemy-field-readouts.test.ts",
           "packages/game/src/core/battle/__tests__/actions.test.ts",
           "packages/game/src/core/battle/__tests__/anim-timeline.test.ts",
           "packages/game/src/core/battle/__tests__/attack-mate.test.ts",
@@ -2829,6 +2837,16 @@
           "packages/game/src/core/scene-system.test.ts",
           "packages/game/src/core/word-lookup.test.ts",
           "packages/game/src/e2e.test.ts",
+          "packages/game/src/present/__tests__/grok-present/p01-inventory-list.test.ts",
+          "packages/game/src/present/__tests__/grok-present/p02-inventory-target.test.ts",
+          "packages/game/src/present/__tests__/grok-present/p03-equip.test.ts",
+          "packages/game/src/present/__tests__/grok-present/p04-shop.test.ts",
+          "packages/game/src/present/__tests__/grok-present/p05-menu-stack.test.ts",
+          "packages/game/src/present/__tests__/grok-present/p06-magic.test.ts",
+          "packages/game/src/present/__tests__/grok-present/p07-status.test.ts",
+          "packages/game/src/present/__tests__/grok-present/p08-settlement.test.ts",
+          "packages/game/src/present/__tests__/grok-present/p09-background.test.ts",
+          "packages/game/src/present/__tests__/grok-present/p10-indexed-png.test.ts",
           "packages/game/src/present/battle/__tests__/draw-battle-bg.test.ts",
           "packages/game/src/present/battle/__tests__/draw-battle-effect.test.ts",
           "packages/game/src/present/battle/__tests__/draw-battle-num.test.ts",
@@ -2947,6 +2965,46 @@
             "file": "packages/game/src/assets/tileset-blob.test.ts",
             "testCount": 15,
             "identityDigest": "7b4dc1698d94e06f095034788959cbc4ff537728a57eb074e2720c5300ca716a"
+          },
+          {
+            "file": "packages/game/src/core/__tests__/stats/e1-effective-stats.test.ts",
+            "testCount": 3,
+            "identityDigest": "5e94e591d1e37033e1e794a35f475d1418e3fc3b5ecccf798b8ca729d9bb0882"
+          },
+          {
+            "file": "packages/game/src/core/__tests__/stats/e2-equipment-effects.test.ts",
+            "testCount": 3,
+            "identityDigest": "8fbc8d4fefca0d73822520363864bdb8ae737d514fb3b2979b3e45a393184f44"
+          },
+          {
+            "file": "packages/game/src/core/__tests__/stats/e3-player-stat-rows.test.ts",
+            "testCount": 3,
+            "identityDigest": "919dc2188646533a3294111f6947a52572f430a4669749ed666426c3f25508e3"
+          },
+          {
+            "file": "packages/game/src/core/__tests__/stats/e4-run-equip-script.test.ts",
+            "testCount": 5,
+            "identityDigest": "35c189d20e751754475bf29c95e7f349c80545b7d32b2f28592165a5abeaabc8"
+          },
+          {
+            "file": "packages/game/src/core/__tests__/stats/e5-update-all-equipments.test.ts",
+            "testCount": 2,
+            "identityDigest": "b86d1d21faae2f1b6678d2acdcf9e30f67d1326c8caf53139119b08b3caf22c6"
+          },
+          {
+            "file": "packages/game/src/core/__tests__/stats/e6-resync-battle-role-stats.test.ts",
+            "testCount": 2,
+            "identityDigest": "5a714dbe3cf816a4c08005c78948b1050ddfea11a9b33a248e11daa721e1085d"
+          },
+          {
+            "file": "packages/game/src/core/__tests__/stats/i1-party-status-readouts.test.ts",
+            "testCount": 4,
+            "identityDigest": "11b1ca81c4ce1d10168ab233ccac9305815f281671fd8abd0aa3e2e304bd1807"
+          },
+          {
+            "file": "packages/game/src/core/__tests__/stats/i2-enemy-field-readouts.test.ts",
+            "testCount": 4,
+            "identityDigest": "89bc832f054665d11063fec81fc05563500cc1d683484e3e214c720c62d28976"
           },
           {
             "file": "packages/game/src/core/battle/__tests__/actions.test.ts",
@@ -3252,6 +3310,56 @@
             "file": "packages/game/src/e2e.test.ts",
             "testCount": 1,
             "identityDigest": "ae317903e65cb2bafadbd0ab1d0dacc89bf306d95e50dfd329004b8ba73ef3ca"
+          },
+          {
+            "file": "packages/game/src/present/__tests__/grok-present/p01-inventory-list.test.ts",
+            "testCount": 4,
+            "identityDigest": "5e6ea6631eb222c1c62dd1b0b887da94906a93a505d414b12ea1845953e82dfc"
+          },
+          {
+            "file": "packages/game/src/present/__tests__/grok-present/p02-inventory-target.test.ts",
+            "testCount": 3,
+            "identityDigest": "d0c71e126327c483b9b9e40c7020723b23621a833b63d3484443a158a8f4573a"
+          },
+          {
+            "file": "packages/game/src/present/__tests__/grok-present/p03-equip.test.ts",
+            "testCount": 2,
+            "identityDigest": "d2f7e2db32b7fb370b41c7fee74110a1253ee8eb4a72af8a2c4789d66ee47151"
+          },
+          {
+            "file": "packages/game/src/present/__tests__/grok-present/p04-shop.test.ts",
+            "testCount": 2,
+            "identityDigest": "f3a5239d4c17e3483f78381cb5b7814fa21352035e9554a63c2d4e4d28271b0e"
+          },
+          {
+            "file": "packages/game/src/present/__tests__/grok-present/p05-menu-stack.test.ts",
+            "testCount": 4,
+            "identityDigest": "74b23719289ca65d9c8e941c9e215d38a89fa93e06cdc7d61e34991226bc8469"
+          },
+          {
+            "file": "packages/game/src/present/__tests__/grok-present/p06-magic.test.ts",
+            "testCount": 4,
+            "identityDigest": "07bd87378acb666801a7c6f0dd434d693e6bee80e4c33173183212ed2e619965"
+          },
+          {
+            "file": "packages/game/src/present/__tests__/grok-present/p07-status.test.ts",
+            "testCount": 1,
+            "identityDigest": "024fb15ed56e9d2c054c4eeb0eec7c363579fa8d2e7b4d55366101830ce57b2f"
+          },
+          {
+            "file": "packages/game/src/present/__tests__/grok-present/p08-settlement.test.ts",
+            "testCount": 1,
+            "identityDigest": "94d7144d83eaf43c72475c678ca37f12f2bde9b39e57141a1394f4d5fb73941c"
+          },
+          {
+            "file": "packages/game/src/present/__tests__/grok-present/p09-background.test.ts",
+            "testCount": 2,
+            "identityDigest": "0e12e14b8dde170cb0b60c339d9e78484af24b74db24ddc492a137ea18e21175"
+          },
+          {
+            "file": "packages/game/src/present/__tests__/grok-present/p10-indexed-png.test.ts",
+            "testCount": 2,
+            "identityDigest": "38501f31146a22ea6434b46441c56e6febd1ece3765465a641cb57d8a9a9df44"
           },
           {
             "file": "packages/game/src/present/battle/__tests__/draw-battle-bg.test.ts",
@@ -3564,25 +3672,25 @@
             "identityDigest": "916c70c2855d90db70208a6895de9b3254f0e3f039c2bb0b96bc8fd4287d249d"
           }
         ],
-        "identityDigest": "ad03bb05b64ea797c436befecce5dab8a37397c75f9425d4f01f0915ba06d016",
+        "identityDigest": "29448d771d700172e6ec13601586694c57d3a06604c33776bcbc7dc639345026",
         "duplicateIdentityCount": 0,
-        "executionDigest": "0970c78978f838b54480c6855f0b984d107451cb0ec50b4ad76c037a320d0926"
+        "executionDigest": "a1f5f131af667fcb762d1c9ac0aaf390e9362b1d7388cf41cf0cd3dc043b66e4"
       },
       "metrics": {
         "statements": {
-          "covered": 11409,
+          "covered": 11803,
           "total": 15494
         },
         "branches": {
-          "covered": 7523,
+          "covered": 7731,
           "total": 11281
         },
         "functions": {
-          "covered": 1314,
+          "covered": 1356,
           "total": 1843
         },
         "lines": {
-          "covered": 10275,
+          "covered": 10614,
           "total": 13604
         }
       }
@@ -5458,19 +5566,19 @@
   },
   "total": {
     "statements": {
-      "covered": 60675,
+      "covered": 61069,
       "total": 80617
     },
     "branches": {
-      "covered": 42859,
+      "covered": 43067,
       "total": 63176
     },
     "functions": {
-      "covered": 11318,
+      "covered": 11360,
       "total": 15034
     },
     "lines": {
-      "covered": 54656,
+      "covered": 54995,
       "total": 70570
     }
   }
