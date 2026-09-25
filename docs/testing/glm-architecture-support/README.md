@@ -65,7 +65,7 @@
 ## 实际交付登记（GLM，2026-09-25）
 
 - 分支 `codex/glm-architecture-support-r1` @ worktree `/Users/zhangxu/illegal/type-pal-glm-architecture`；
-  起点 `3270473862…`，每包一提交，最终 SHA=push tip。冻结漂移核验：`git diff b11d4bc9..32704738 -- packages/ scripts/` 空。
+  起点 `3270473862…`，每包一提交；接收候选 `3967a376`，r2 返工 tip `717d507d13ee945164c56f6bee24a6cc4ef1fabf`（push tip）。冻结漂移核验：`git diff b11d4bc9..32704738 -- packages/ scripts/` 空。
 - 实际文件：`v0-visual-sample.md`（视觉小样）、`p1-app.md`、`p2-mapmode.md`、`p3-script-forms.md`、
   `p4-battle-session.md`、`p5-phase1-core.md`、`p6-conversion-validation.md`、`v1-forms.md`、
   `v2-workspaces.md`、`summary.md`（总报告）、`evidence.json`（32 条机账+机械小计+命令+截图清单）。
