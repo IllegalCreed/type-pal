@@ -32,6 +32,7 @@ GLM后续补测候选见[十批长队列](../testing/glm-coverage-work-queue.md)
 
 | ID | 任务 | 状态 | 负责人/下一步 | 一句话备注 |
 |---|---|---|---|---|
+| TEST-GROK-PRESENT-2 | [一阶段画面合成与战斗呈现候选回归](tasks/TEST-GROK-PRESENT-2-phase1-composition.md) | draft | Grok隔离候选 / Codex独立接收 | P11–P16只补真实呈现差异，不改产品/正式基线；避开GLM一阶段core审计 |
 | DOC-CURSOR-3 | [覆盖率说明与现行命令定点核对](tasks/DOC-CURSOR-3-coverage-guide-audit.md) | draft | Codex材料accept / 候选隔离保留 | b5e2ca4a审计闭合；Codex已单独纠正当前覆盖率入口，历史表与基线未改；按用户要求不合候选/不标done |
 | DOC-CURSOR-2 | [十二组包说明/CLI/索引核对](tasks/DOC-CURSOR-2-package-tools-indexes.md) | draft | Codex / 按用户边界保留材料接收 | 4b75d1c3/cc2720c5 accept，含NB1/NB2文字观察；无阻断counter，不合main/不标done，修订另核 |
 | DOC-CURSOR-1 | [十二份现行文档轻量核对](tasks/DOC-CURSOR-1-current-guide-check.md) | draft | Codex / 按用户边界保留材料接收 | 65193a84/320800ec accept；CR-1/CR-2闭合，无剩余返工，不合main/不标done |
