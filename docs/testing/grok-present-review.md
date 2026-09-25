@@ -1,8 +1,30 @@
 # TEST-GROK-PRESENT-1 — Codex 独立候选复核
 
+## 当前结论：r2 仍 counter，仅余 C1a 实参数组身份
+
+2026-09-25 返工候选 `5cb98087ed441396aabc7f5fc1a1d0132d75d576`（对比首包登记 `e180cb56`）。本席按当前“贡献者执行、Codex 独立验收”模式复核；Grok 自验不算独立结论。C2、C3 与 C1 的位图宽高/法术/背景/毒/升级表遗漏均已闭合；像素坐标、旧例去重、P02/P05/P10 三针不重开。**只剩 C1a，暂不正式接入或记官方覆盖率。**
+
+### C1a — 部分快照仍不是传给 draw 的同一个 catalog 数组
+
+`tests/p05-menu-stack.test.ts:59-66` 的 `forwardedInputs.items` 是 `[item]`，实际 `drawMenuStack` 传入的是另一个新建的 `[item]`；同文件 `:94-109` 的 `[sword]`、`:135-152` 的两份 `[]` 也如此。`tests/p02-inventory-target.test.ts:59-70,111-126` 同样在快照与真实 `drawInventoryMenu` 调用各新建一次 `[item]`。其它 P01/P04/P07 的内联数组按同一标准抽核。两数组共享 Item 对象不等于共享容器；绘制器若改变真实 catalog 的成员/顺序，当前 `cloneInputs` 会比较另一个未改数组并误报只读。
+
+本席用候选的真实 `makeGs/createInventoryMenu/confirmInventoryItem/openMenu/drawMenuStack` 链和同一 `cloneInputs` 作隔离见证：给**实际传入**的数组的 `find` 加 call-through 钩，绘制调用期间只向该数组追加一个合法 Item，不改生产源码或候选文件；输出 `{"sameSnapshot":true,"actualItemsLength":2,"checkedItemsLength":1}`，exit 0。即使真实绘制消费了已变的实参，候选判据仍绿。该差异直接违反任务卡“绘制前取**实际** gs/menu/catalog/bitmap 数据独立快照，绘制后立即深比”的验收句。
+
+返工只需将每个受影响 draw 的 catalog 数组具名一次，让快照与产品调用指向**同一数组对象**；需要区分调用前后的业务状态时每次重新取快照。保留现有像素断言和 typed fixture。新增的快照自测应至少验证一次数组增删/重排可被同一实参快照发现；不要把修改另一份等值数组当作反控。回执把 24 项中的 P06 快照 helper 自测与 23 项真实生产 draw 用例分栏，避免将纯测试工具自测称为新增业务覆盖。无需改产品、旧测试、三针负控或官方配置。
+
+### r2 本席已核通过（不重开）
+
+- 返工 diff 仅 `docs/testing/grok-present-regressions/**` 11 文件；相对 `1763ac58` 的产品、脚本、锁文件和官方覆盖资产零 diff；远端 tip 与本地 `5cb98087` 一致，候选工作树干净。
+- 候选 JSON 24/24、0 failed/pending；相邻六文件 21/21；候选 tsc、17 文件 Biome、文档检查、diff 检查均 exit 0。P02/P05/P10 隔离反控各原树绿、指定业务 `AssertionError` 红且三份生产源 SHA 不变。
+- `fixtures/world.ts` 现含 `IndexedImage.width/height/indices/opaque` 及实际 spells/magics、portrait、背景、毒、升级表、screen；P05/P07 首轮对照已改成各 draw 前后立即快照；P08 四种 screen、P09 三张背景均持有同一具名对象。P06 用 `projectRuntimeToBattleRoles`，费用 8 与 9 在 runtime 8 MP 边界区分，旧静态 10 MP 对照会放行 9，正式投影会禁用。
+
+以下首轮记录保留作历史；C1/C2/C3 只按本节当前残项解释，不再整体阻断。
+
+## 首轮结论与反证（历史，除 C1a 外已闭）
+
 2026-09-25；候选 `bd6fad55242285bbeb800ad8da2513e6e6bbeb51`，登记 tip `e180cb56a60750fb995559507ec7d202b81c02f9`；源码冻结 `1763ac58`。本席只审隔离测试材料，不授权产品 build、正式测试接入或官方覆盖率记账。
 
-## 结论：counter（候选未接入）
+### 首轮结论：counter（候选未接入）
 
 像素合同和去重方向总体成立，三针反控也都是真实业务红；但“输入只读”断言有确定盲区，P06 的施法者 MP fixture 还绕开了实际菜单投影链。卡面明确要求可达状态及每次绘制前后对实际输入取深快照；23 项全绿不能替代这两项。没有发现可据此登记的产品缺陷，不改 Grok 候选文件，不合 main，不代他席签字，不标 done。
 
