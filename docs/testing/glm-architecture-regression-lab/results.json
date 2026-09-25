@@ -33,10 +33,7 @@
       "id": "G01-01",
       "pack": "G01",
       "status": "candidate-green",
-      "evidenceKind": [
-        "executed",
-        "test-body"
-      ],
+      "evidenceKind": ["executed", "test-body"],
       "contract": "MapMode.tsx onUp :2222-2266（正常 up 提交笔划）",
       "test": {
         "file": "candidates/editor/g01-map-gesture.test.tsx",
@@ -54,9 +51,7 @@
       "id": "G01-02",
       "pack": "G01",
       "status": "candidate-green",
-      "evidenceKind": [
-        "executed"
-      ],
+      "evidenceKind": ["executed"],
       "contract": "MapMode.tsx :3075 onPointerCancel → cancelPointerInteraction :2292",
       "test": {
         "file": "candidates/editor/g01-map-gesture.test.tsx",
@@ -74,9 +69,7 @@
       "id": "G01-03",
       "pack": "G01",
       "status": "candidate-green",
-      "evidenceKind": [
-        "executed"
-      ],
+      "evidenceKind": ["executed"],
       "contract": "MapMode.tsx :3077-3079 onLostPointerCapture",
       "test": {
         "file": "candidates/editor/g01-map-gesture.test.tsx",
@@ -94,9 +87,7 @@
       "id": "G01-04",
       "pack": "G01",
       "status": "candidate-green",
-      "evidenceKind": [
-        "executed"
-      ],
+      "evidenceKind": ["executed"],
       "contract": "MapMode.tsx :2307-2310 window blur → cancel",
       "test": {
         "file": "candidates/editor/g01-map-gesture.test.tsx",
@@ -114,9 +105,7 @@
       "id": "G01-05",
       "pack": "G01",
       "status": "candidate-green",
-      "evidenceKind": [
-        "executed"
-      ],
+      "evidenceKind": ["executed"],
       "contract": "MapMode.tsx :2223-2242（set-selection 派发伴随通知调用）",
       "test": {
         "file": "candidates/editor/g01-map-gesture.test.tsx",
@@ -134,9 +123,7 @@
       "id": "G01-06",
       "pack": "G01",
       "status": "candidate-green",
-      "evidenceKind": [
-        "executed"
-      ],
+      "evidenceKind": ["executed"],
       "contract": "MapMode.tsx :2150-2160 pan + :2292 cancel",
       "test": {
         "file": "candidates/editor/g01-map-gesture.test.tsx",
@@ -154,9 +141,7 @@
       "id": "G02-01",
       "pack": "G02",
       "status": "candidate-green",
-      "evidenceKind": [
-        "executed"
-      ],
+      "evidenceKind": ["executed"],
       "contract": "MapMode.tsx 事件重绑随 session prop（r3 harness rerenderWithSession）",
       "test": {
         "file": "candidates/editor/g02-map-scope.test.tsx",
@@ -174,9 +159,7 @@
       "id": "G02-02",
       "pack": "G02",
       "status": "candidate-green",
-      "evidenceKind": [
-        "executed"
-      ],
+      "evidenceKind": ["executed"],
       "contract": "MapMode.tsx :605-630 mapId 清场 effect（清 strokeRef/paintingRef/selectionDragRef/panRef）",
       "test": {
         "file": "candidates/editor/g02-map-scope.test.tsx",
@@ -194,9 +177,7 @@
       "id": "G02-03",
       "pack": "G02",
       "status": "candidate-green",
-      "evidenceKind": [
-        "executed"
-      ],
+      "evidenceKind": ["executed"],
       "contract": "同 G02-01 + set-selection 通知路径",
       "test": {
         "file": "candidates/editor/g02-map-scope.test.tsx",
@@ -214,10 +195,7 @@
       "id": "G03-01",
       "pack": "G03",
       "status": "candidate-green",
-      "evidenceKind": [
-        "executed",
-        "browser"
-      ],
+      "evidenceKind": ["executed", "browser"],
       "contract": "App.tsx props.session 接线 + RenameProjectCommand",
       "test": {
         "file": "candidates/editor/g03-app-lifecycle.test.tsx",
@@ -235,9 +213,7 @@
       "id": "G03-02",
       "pack": "G03",
       "status": "candidate-green",
-      "evidenceKind": [
-        "executed"
-      ],
+      "evidenceKind": ["executed"],
       "contract": "edit-session.ts:329-332 activeHistory 历史绑定断开即 fail-loud（App 卸载 dispose 绑定）",
       "test": {
         "file": "candidates/editor/g03-app-lifecycle.test.tsx",
@@ -255,9 +231,7 @@
       "id": "G03-03",
       "pack": "G03",
       "status": "candidate-green",
-      "evidenceKind": [
-        "executed"
-      ],
+      "evidenceKind": ["executed"],
       "contract": "App.tsx:1997-2092 keydown effect 卸载移除监听",
       "test": {
         "file": "candidates/editor/g03-app-lifecycle.test.tsx",
@@ -275,9 +249,7 @@
       "id": "G04-01",
       "pack": "G04",
       "status": "candidate-green",
-      "evidenceKind": [
-        "executed"
-      ],
+      "evidenceKind": ["executed"],
       "contract": "ScriptEditor.tsx :3149 指纹比较/:3174 effect（外部 body 替换跟随）",
       "test": {
         "file": "candidates/editor/g04-script-draft.test.tsx",
@@ -295,9 +267,7 @@
       "id": "G04-02",
       "pack": "G04",
       "status": "candidate-green",
-      "evidenceKind": [
-        "executed"
-      ],
+      "evidenceKind": ["executed"],
       "contract": "CanonicalScriptBodyEditor onChange 单次提交",
       "test": {
         "file": "candidates/editor/g04-script-draft.test.tsx",
@@ -315,9 +285,7 @@
       "id": "G04-03",
       "pack": "G04",
       "status": "candidate-green",
-      "evidenceKind": [
-        "executed"
-      ],
+      "evidenceKind": ["executed"],
       "contract": "Esc 关闭弹层 + 取消零命令",
       "test": {
         "file": "candidates/editor/g04-script-draft.test.tsx",
@@ -335,9 +303,7 @@
       "id": "G05-01",
       "pack": "G05",
       "status": "candidate-green",
-      "evidenceKind": [
-        "executed"
-      ],
+      "evidenceKind": ["executed"],
       "contract": "playback.ts:575-594 stop 丢弃演出态+清 poi/activePath",
       "test": {
         "file": "candidates/editor/g05-playback-scope.test.tsx",
@@ -355,9 +321,7 @@
       "id": "G05-02",
       "pack": "G05",
       "status": "candidate-green",
-      "evidenceKind": [
-        "executed"
-      ],
+      "evidenceKind": ["executed"],
       "contract": "playback.ts:221 play 内部先 stop（换源丢弃旧源）",
       "test": {
         "file": "candidates/editor/g05-playback-scope.test.tsx",
@@ -375,9 +339,7 @@
       "id": "G05-03",
       "pack": "G05",
       "status": "candidate-green",
-      "evidenceKind": [
-        "executed"
-      ],
+      "evidenceKind": ["executed"],
       "contract": "stop 幂等 + view 冻结",
       "test": {
         "file": "candidates/editor/g05-playback-scope.test.tsx",
@@ -395,9 +357,7 @@
       "id": "G05-04",
       "pack": "G05",
       "status": "candidate-green",
-      "evidenceKind": [
-        "executed"
-      ],
+      "evidenceKind": ["executed"],
       "contract": "onUi 解绑后 stop 不通知（SceneScriptWorkspace.tsx:186-193 cleanup 顺序）",
       "test": {
         "file": "candidates/editor/g05-playback-scope.test.tsx",
@@ -415,10 +375,7 @@
       "id": "G06-01",
       "pack": "G06",
       "status": "candidate-green",
-      "evidenceKind": [
-        "executed",
-        "test-body"
-      ],
+      "evidenceKind": ["executed", "test-body"],
       "contract": "enemy-script.ts:458 checkEnemyHookFlow",
       "test": {
         "file": "candidates/content/g06-validation-crosscalls.test.ts",
@@ -436,9 +393,7 @@
       "id": "G06-02",
       "pack": "G06",
       "status": "candidate-green",
-      "evidenceKind": [
-        "executed"
-      ],
+      "evidenceKind": ["executed"],
       "contract": "author-script-core.ts:708-726 onLose/onFlee/onFail/onNo 递归臂",
       "test": {
         "file": "candidates/content/g06-validation-crosscalls.test.ts",
@@ -456,9 +411,7 @@
       "id": "G06-03",
       "pack": "G06",
       "status": "candidate-green",
-      "evidenceKind": [
-        "executed"
-      ],
+      "evidenceKind": ["executed"],
       "contract": "hook 流内嵌 author 命令经 checkCommands/checkBaseAuthorCommands 递归",
       "test": {
         "file": "candidates/content/g06-validation-crosscalls.test.ts",
@@ -476,9 +429,7 @@
       "id": "G06-04",
       "pack": "G06",
       "status": "candidate-green",
-      "evidenceKind": [
-        "executed"
-      ],
+      "evidenceKind": ["executed"],
       "contract": "未知 kind fail-loud 且 path 带 owner+地址",
       "test": {
         "file": "candidates/content/g06-validation-crosscalls.test.ts",
@@ -496,9 +447,7 @@
       "id": "G06-05",
       "pack": "G06",
       "status": "candidate-green",
-      "evidenceKind": [
-        "executed"
-      ],
+      "evidenceKind": ["executed"],
       "contract": "checkAuthorCondition :518 拒绝未知比较且不改输入",
       "test": {
         "file": "candidates/content/g06-validation-crosscalls.test.ts",
@@ -516,9 +465,7 @@
       "id": "G07-01",
       "pack": "G07",
       "status": "candidate-green",
-      "evidenceKind": [
-        "executed"
-      ],
+      "evidenceKind": ["executed"],
       "contract": "scene-system.ts:49-56 getCurrentMapNum/setCurrentMapNum",
       "test": {
         "file": "candidates/game/g07-core-boundaries.test.ts",
@@ -536,9 +483,7 @@
       "id": "G07-02",
       "pack": "G07",
       "status": "candidate-green",
-      "evidenceKind": [
-        "executed"
-      ],
+      "evidenceKind": ["executed"],
       "contract": "event-system.ts:3369 addItemToInventory（id0 拒收守卫）",
       "test": {
         "file": "candidates/game/g07-core-boundaries.test.ts",
@@ -556,9 +501,7 @@
       "id": "G07-03",
       "pack": "G07",
       "status": "candidate-green",
-      "evidenceKind": [
-        "executed"
-      ],
+      "evidenceKind": ["executed"],
       "contract": "equip-effect.ts:37 getPlayerAttackStrength 含 rgEquipmentEffect 槽加成（battle opcodes 消费同源）",
       "test": {
         "file": "candidates/game/g07-core-boundaries.test.ts",
@@ -576,9 +519,7 @@
       "id": "G08-01",
       "pack": "G08",
       "status": "candidate-green",
-      "evidenceKind": [
-        "executed"
-      ],
+      "evidenceKind": ["executed"],
       "contract": "migrate-content.ts:2126 mapScenesStatic 内存入口",
       "test": {
         "file": "candidates/migrate/g08-conversion-isolation.test.ts",
@@ -596,9 +537,7 @@
       "id": "G08-02",
       "pack": "G08",
       "status": "candidate-green",
-      "evidenceKind": [
-        "executed"
-      ],
+      "evidenceKind": ["executed"],
       "contract": "migrate-content.ts:123/:331 soundAssetForNum 仅作用于角色/法术 sound chunk",
       "test": {
         "file": "candidates/migrate/g08-conversion-isolation.test.ts",
@@ -616,9 +555,7 @@
       "id": "G08-04",
       "pack": "G08",
       "status": "candidate-green",
-      "evidenceKind": [
-        "executed"
-      ],
+      "evidenceKind": ["executed"],
       "contract": "translate-events.ts:878 recordMigrationGap（gap 登记不污染后续调用）",
       "test": {
         "file": "candidates/migrate/g08-conversion-isolation.test.ts",
@@ -636,9 +573,7 @@
       "id": "V01-01",
       "pack": "V01",
       "status": "candidate-green",
-      "evidenceKind": [
-        "browser"
-      ],
+      "evidenceKind": ["browser"],
       "contract": "editor-design-system.md 字段/焦点规范",
       "test": {
         "file": "(浏览器操作链见 artifacts)",
@@ -662,9 +597,7 @@
       "id": "V01-02",
       "pack": "V01",
       "status": "candidate-green",
-      "evidenceKind": [
-        "browser"
-      ],
+      "evidenceKind": ["browser"],
       "contract": "名称字段 Enter 提交（不重复）",
       "test": {
         "file": "(浏览器操作链)",
@@ -688,9 +621,7 @@
       "id": "V01-03",
       "pack": "V01",
       "status": "candidate-green",
-      "evidenceKind": [
-        "browser"
-      ],
+      "evidenceKind": ["browser"],
       "contract": "undo 恢复 + Esc 归焦",
       "test": {
         "file": "(浏览器操作链)",
@@ -714,9 +645,7 @@
       "id": "V02-01",
       "pack": "V02",
       "status": "candidate-green",
-      "evidenceKind": [
-        "browser"
-      ],
+      "evidenceKind": ["browser"],
       "contract": "响应式收缩（720 CSS px）",
       "test": {
         "file": "(浏览器操作链)",
@@ -740,9 +669,7 @@
       "id": "V02-02",
       "pack": "V02",
       "status": "existing-proof",
-      "evidenceKind": [
-        "test-body"
-      ],
+      "evidenceKind": ["test-body"],
       "contract": "PanelResizeHandle-interaction.test.tsx:138-175/:178-224/:227 键盘/指针终结/disabled-unmount",
       "test": {
         "file": "packages/editor/src/ui/PanelResizeHandle-interaction.test.tsx",
@@ -760,9 +687,7 @@
       "id": "V03-01",
       "pack": "V03",
       "status": "candidate-green",
-      "evidenceKind": [
-        "browser"
-      ],
+      "evidenceKind": ["browser"],
       "contract": "无效 objectId 深链按 editor-navigation 归一化回退（normalizeEditorLocation :450-480 + App.tsx:333-339）",
       "test": {
         "file": "(浏览器操作链)",
@@ -786,9 +711,7 @@
       "id": "V04-01",
       "pack": "V04",
       "status": "candidate-green",
-      "evidenceKind": [
-        "browser"
-      ],
+      "evidenceKind": ["browser"],
       "contract": "use-project-leave-guard.ts:10-16 / project-leave-guard.ts:70-72 dirty→beforeunload",
       "test": {
         "file": "(浏览器操作链，v04-01 截图)",
@@ -812,9 +735,7 @@
       "id": "V04-02",
       "pack": "V04",
       "status": "blocked-environment",
-      "evidenceKind": [
-        "browser"
-      ],
+      "evidenceKind": ["browser"],
       "contract": "重分类：缺合法资源/未验证媒体矩阵（非精灵库不可达）",
       "test": {
         "file": "(未能进入精灵库页)",
@@ -832,9 +753,7 @@
       "id": "G04-04",
       "pack": "G04",
       "status": "candidate-green",
-      "evidenceKind": [
-        "executed"
-      ],
+      "evidenceKind": ["executed"],
       "contract": "CanonicalScriptBodyEditor props.body 受控性（弹层打开时外部替换生效）",
       "test": {
         "file": "candidates/editor/g04-script-draft.test.tsx",
