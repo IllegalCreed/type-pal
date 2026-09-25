@@ -70,4 +70,33 @@ describe('fps-overlay', () => {
     tickFps(8)
     expect(document.getElementById(ROOT_ID)).toBeNull()
   })
+
+  it('采样满窗后 ≥50 为绿、<50 为红；49 不得误标绿', () => {
+    setFpsEnabled(true)
+    tickFps(0)
+    for (let i = 1; i <= 25; i++) tickFps(i * 20)
+    expect(document.querySelector('#tp-fps-overlay .v')?.className).toBe('v')
+    expect(document.querySelector('#tp-fps-overlay .v.lo')).toBeNull()
+    expect(document.getElementById(ROOT_ID)?.textContent).toContain('50')
+
+    setFpsEnabled(false)
+    setFpsEnabled(true)
+    tickFps(0)
+    for (let i = 1; i <= 25; i++) tickFps(i * (510 / 25))
+    expect(document.querySelector('#tp-fps-overlay .v.lo')).not.toBeNull()
+    expect(document.getElementById(ROOT_ID)?.textContent).toContain('49')
+  })
+
+  it('连续启停丢弃未满窗的脏帧计数，下一窗按新节奏采样', () => {
+    setFpsEnabled(true)
+    tickFps(0)
+    for (let i = 1; i <= 10; i++) tickFps(i * 8)
+    setFpsEnabled(false)
+    setFpsEnabled(true)
+    tickFps(10_000)
+    for (let i = 1; i <= 25; i++) tickFps(10_000 + i * 20)
+    expect(document.getElementById(ROOT_ID)?.textContent).toContain('50')
+    expect(document.querySelector('#tp-fps-overlay .v.lo')).toBeNull()
+  })
 })
+

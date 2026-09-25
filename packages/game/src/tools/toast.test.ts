@@ -29,4 +29,12 @@ describe('toast', () => {
     expect(document.querySelectorAll('.tp-toast').length).toBe(0)
     expect(document.getElementById('tp-toast-container')).toBeNull()
   })
+
+  it('未到 duration 不得移除，负控证明计时器不是一挂就清', () => {
+    showToast('x', { durationMs: 1000 })
+    vi.advanceTimersByTime(999)
+    expect(document.querySelector('.tp-toast')).not.toBeNull()
+    expect(document.getElementById('tp-toast-container')).not.toBeNull()
+  })
 })
+
