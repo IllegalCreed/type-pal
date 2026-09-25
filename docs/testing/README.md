@@ -8,6 +8,8 @@
 
 ## 文档与附件
 
+- [GLM十二组可执行架构回归实验包](glm-architecture-regression-lab/README.md)（8组候选回归+4组功能视觉，draft可执行；冻结86e928b5，仅实验目录，正式接入/统计由Codex统一）
+
 - [A3-b：场景资源与预检拆分](scene-preparation-refactor.md)、[机账](scene-preparation-refactor-evidence.json)、[冻结对照](scene-preparation-parity.mjs)与[11针反例](scene-preparation-mutants.mjs)（fdad980f/done；26新增/check8525/strict8034/641，缓存政策/同步提交保持；A3整体未完成）
 
 - [战斗宿主readiness调度反证](battle-host-readiness-scheduling.mjs)（cb1cb26d远端两例失败均在旧150轮轮询预算耗尽；原helper红/按真实异步完成等待绿，不提高套件timeout、不改产品）
