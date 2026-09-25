@@ -8,7 +8,17 @@
 
 ## 文档与附件
 
-- [GLM十二组可执行架构回归实验包](glm-architecture-regression-lab/README.md)（8组候选回归+4组功能视觉，draft可执行；冻结86e928b5，仅实验目录，正式接入/统计由Codex统一）
+- [Cursor覆盖率说明定点核对回执](cursor-coverage-guide-audit.md)（DOC-CURSOR-3，draft待取证；只读命令/快照核对，不改正式说明或基线）
+
+- [Cursor八组工具候选回归](cursor-tool-regressions/README.md)及[正式接入与路径修复](cursor-tool-regressions/integration.md)（贡献候选85f2a824；文档工具/编辑器审计测试转正，目录映射漏改修复并独立验证）
+
+- [Cursor十二组包说明与工具核对](cursor-docs-wave2.md)与[Codex独立接收](cursor-docs-wave2-review.md)（4b75d1c3/cc2720c5材料accept，含NB1/NB2非阻断文字观察；无阻断counter，不改源文档/不合main/不标done，前批修订门不开放）
+
+- [Cursor现行指南轻量核对](cursor-docs-hygiene.md)（65193a84/320800ec材料已接收；十二份文档四组核对，不是正式文档修复、覆盖率或运行验收）
+
+- [Cursor文档核对Codex接收](cursor-docs-hygiene-review.md)（窄返工65193a84/320800ec accept，CR-1/CR-2闭合；H7待核，五份修订卡仅draft；原回执不改、不合main/不标done）
+
+- [GLM十二组可执行架构回归实验包](glm-architecture-regression-lab/README.md)与[Codex独立接收](architecture-regression-lab-codex-review.md)（30397b1d仍counter；V04深链误归因已核，32候选绿不等于十二组合同通过；不进正式统计）
 
 - [A3-b：场景资源与预检拆分](scene-preparation-refactor.md)、[机账](scene-preparation-refactor-evidence.json)、[冻结对照](scene-preparation-parity.mjs)与[11针反例](scene-preparation-mutants.mjs)（fdad980f/done；26新增/check8525/strict8034/641，缓存政策/同步提交保持；A3整体未完成）
 

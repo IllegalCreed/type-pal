@@ -62,13 +62,13 @@ export function rewriteRepositoryPaths(text, mapping) {
     .sort((a, b) => b[0].length - a[0].length)
   if (!candidates.length) return text
   const escaped = candidates.map(([from]) => from.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'))
-  const pattern = new RegExp(escaped.join('|'), 'g')
+  // Reject an incomplete path in the pattern so the engine can try a shorter
+  // valid parent mapping when a longer key is only a text prefix.
+  const pattern = new RegExp(`(?:${escaped.join('|')})(?![\\w.-])`, 'g')
   return text.replace(pattern, (matched, offset) => {
     const before = text.slice(Math.max(0, offset - 48), offset)
     if (/[a-f\d]{7,40}\^?:$/i.test(before) || /\/blob\/[a-f\d]{7,40}\/$/i.test(before))
       return matched
-    const after = text[offset + matched.length]
-    if (after && /[\w.-]/.test(after)) return matched
     return mapping.get(matched)
   })
 }

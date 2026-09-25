@@ -5,11 +5,13 @@ Phase: phase1 | phase2 | ops
 Capability: W7 / A4 / B5 / etc.
 Coding Owner: Unassigned
 Generation Owner: Codex | N/A
-Reviewer: Kimi | GLM | both | TBD
-Visual Verification Owner: Codex | Kimi | User | N/A
+Reviewer: Codex（独立验收；可另请专项审查）
+Visual Verification Owner: Codex | 受委派视觉贡献者（Codex最终验收） | User | N/A
 Visual Verification Timing: dev-functional | e2e-deferred | mixed | N/A
-Unavailable Agents: none | Codex | Kimi | GLM | multiple
+Contributor: Cursor | GLM | Grok | Gemini | Kimi | Codex | TBD
 Branch: TBD
+
+> 当前采用 [`AGENTS.md`](../../../AGENTS.md) 的“Codex 分派—贡献者执行—Codex 独立验收”临时模式；下方记录不是固定三贤人签字表。高风险事实门与用户产品裁决仍保留。
 
 ## 目标
 
@@ -77,37 +79,22 @@ Branch: TBD
 - 视觉 / 手工验证:
 - E2E 用例登记（剧情 / 演出 / 内容观感必填：入口、准备数据、步骤、预期画面/时序、证据路径）:
 
-## 推进签字
+## 当前模式推进记录
 
-签字是阶段门禁。开卡任务必须集齐三方签字才能推进;缺签只能由用户明确豁免。`Status` 字段不能替代签字。
+### 进入 build 前：Codex 核定
 
-### 进入 build 前:设计签字
+- Coding Owner / 隔离工作树 / 修改白名单:
+- 前提核验: pending | verified（附 `file:line` / reference 与可证伪观察） | counter | N/A（说明）
+- 范围、设计和验收条件: pending | agree（证据与风险） | counter
+- 高风险用户产品裁决: N/A（理由） | pending | 日期与原话
+- build 准入结论: blocked | Codex build allowed
 
-- Codex:
-  - premise: pending | verified（必附直接证据 `file:line` / reference） | counter | N/A（须说明）
-  - design: pending | agree | counter
-- Kimi:
-  - premise: pending | verified（必附直接证据 `file:line` / reference） | counter | N/A（须说明）
-  - design: pending | agree | counter
-- GLM:
-  - premise: pending | verified（必附直接证据 `file:line` / reference） | counter | N/A（须说明）
-  - design: pending | agree | counter
-- 独立反证审查（至少一位非 Coding Owner 必填）:
-  - 审查者:
-  - 独立证据锚点:
-  - 可证伪观察:
-- counter / 分歧处理:
-- 缺签豁免: N/A | 用户已批准(写明缺席方、原因、代班方、是否需补签)
-- build 准入结论: blocked | build allowed
+### 进入 done 前：独立验收
 
-### 进入 done 前:审查签字
-
-- Codex: pending | accept | counter
-- Kimi: pending | accept | counter
-- GLM: pending | accept | counter
-- counter / 返工处理:
-- 缺签豁免: N/A | 用户已批准(写明缺席方、原因、代班方、是否需补签)
-- done 准入结论: blocked | done allowed
+- 贡献者交付与自验: pending（SHA、命令、结果；不算独立验收）
+- Codex 独立复核: pending | accept（直接证据与质量门） | counter（返工项）
+- 用户体验/产品验收: N/A（理由） | pending | 日期与结论
+- done 准入结论: blocked | Codex done allowed；固定三贤人签字不再是当前门禁
 
 ## Draft: 设计与风险
 
@@ -120,35 +107,28 @@ Branch: TBD
 - 风险:
 - 缓解:
 
-### 主审立场
+### 专项审查安排（按需）
 
-按任务性质选择一个默认主审方。架构/schema/跨包/视觉高风险优先 Kimi;覆盖/数据/文档优先 GLM。主审立场不替代“推进签字”。
+Codex 对所有贡献者交付作独立验收；可按难度邀请其它 Agent 做专项审查，但不是固定签字门禁。高风险产品取舍仍交用户。
 
 - Reviewer:
 - 结论:
 - 必改项:
 - 是否建议进入 build: pending
 
-### 三方争议记录(按需)
+### 证据分歧与用户裁决（按需）
 
-仅在 schema/save/migration/asset pipeline、新能力格、跨包公共接口、capability-map 状态变化、签字 counter、用户要求或 Coding Owner 自评高风险时填写。
+当一手证据冲突、触及不可逆/高风险决策、审查 counter 或用户要求时填写；不要求凑三方意见。
 
 - Codex:
-- Kimi:
-- GLM:
+- 贡献者/可选专项审查者:
 - 用户拍板:
 
-## 额度 / 代班记录(如适用)
+## 分派与容量记录（如适用）
 
-某个或多个订阅账号额度耗尽时填写。
-
-- 缺席 Agent:
-- 缺席原因:
-- 代班 Agent:
-- 代班范围:
-- 风险:
-- 是否需要补审:
-- 用户裁决:
+- 原负责人及改派原因:
+- 新贡献者与独占写入范围:
+- 交接风险与 Codex 验收方式:
 
 ## Build: 实现与自测
 

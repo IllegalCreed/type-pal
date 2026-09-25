@@ -10,6 +10,11 @@
 |---|---|---|
 | [ARCH-REGRESSION-LAB-GLM-1 — 十二组可执行回归与功能视觉准备](ARCH-REGRESSION-LAB-GLM-1-twelve-packs.md) | draft | 以任务卡当前准入与看板分工为准。 |
 | [ARCH-SUPPORT-GLM-1 — 八组并行准备取证](ARCH-SUPPORT-GLM-1-eight-audit-packages.md) | draft | 以任务卡当前准入与看板分工为准。 |
+| [DOC-CURSOR-1 — 十二份现行文档的轻量核对](DOC-CURSOR-1-current-guide-check.md) | draft | 以任务卡当前准入与看板分工为准。 |
+| [DOC-CURSOR-2 — 十二组包说明、CLI与索引核对](DOC-CURSOR-2-package-tools-indexes.md) | draft | 以任务卡当前准入与看板分工为准。 |
+| [DOC-CURSOR-3 — 覆盖率说明与现行命令定点核对](DOC-CURSOR-3-coverage-guide-audit.md) | draft | 以任务卡当前准入与看板分工为准。 |
+| [DOC-GUIDE-REVISION-1 — 现行指南五文件窄修订准入](DOC-GUIDE-REVISION-1-current-entrypoints.md) | build | 以任务卡当前准入与看板分工为准。 |
+| [TEST-GEMINI-PHASE1-STATS-1 — 一阶段有效属性与战斗状态只读投影候选回归](TEST-GEMINI-PHASE1-STATS-1-effective-readouts.md) | draft | 以任务卡当前准入与看板分工为准。 |
 
 ## 已完成（historical）
 
@@ -154,6 +159,7 @@
 | [TEST-CONTENT-RESIDUAL-1 - 内容合同已登记残项补测（队列 TB-01）](../archive/tasks/done/TEST-CONTENT-RESIDUAL-1-registered-gaps.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [TEST-COVERAGE-DETERMINISM-1 - 编辑器覆盖率计数确定性](../archive/tasks/done/TEST-COVERAGE-DETERMINISM-1-editor-ratchet.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [TEST-COVERAGE-TRUTH-1 - 类初始化覆盖率合并真值修复](../archive/tasks/done/TEST-COVERAGE-TRUTH-1-class-initializers.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [TEST-CURSOR-TOOLS-1 — 八组工具纯函数候选回归](../archive/tasks/done/TEST-CURSOR-TOOLS-1-pure-regressions.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [TEST-EDITOR-IMPORT-CODEC-1 - 导入、编码工作线程与视频元数据补测（队列 TB-03）](../archive/tasks/done/TEST-EDITOR-IMPORT-CODEC-1-workers-metadata.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [TEST-EDITOR-LOGIC-COVERAGE-1 - 编辑器命令与引用边界补测](../archive/tasks/done/TEST-EDITOR-LOGIC-COVERAGE-1-editor-command-boundaries.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [TEST-EDITOR-MAP-DATA-1 - 地图选区与组合模板数据补测（TB-06）](../archive/tasks/done/TEST-EDITOR-MAP-DATA-1-selection-stamps.md) | done | 完成证据、历史签字与交接见原卡。 |
@@ -196,4 +202,3 @@
 | [OPS-TST-PERF-C - P2/P3/P4 consolidated determinism proof](../archive/tasks/cancelled/OPS-TST-PERF-consolidated-determinism.md) | cancelled | current-only 已删除 P2/P3/P4 producer，证明对象已退役。 |
 | [OPS-TST-PERF-B - shared/fresh 隔离并行 release runner](../archive/tasks/cancelled/OPS-TST-PERF-parallel-gates.md) | cancelled | current-only 已删除 shared/fresh release 路由，不重建旧并行链。 |
 | [W7E - 独立地图库与场景地图绑定（已取消）](../archive/tasks/cancelled/W7E-map-library-scene-binding.md) | cancelled | 用户否决双地图模型，由 W7F 唯一新版地图管线承接。 |
-
