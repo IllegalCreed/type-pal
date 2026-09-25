@@ -44,3 +44,24 @@
 | A2-4 | 「“把当前自定义实体保存为人物”尚未实现」（`:64`） | **confirmed** | 全仓无 `保存为人物` / `promoteEntity` 产品入口；仅本指南与归档 C1-1 卡提到。 | 不改。 |
 
 撤销/重做归属：人物 CRUD 与解除关联都进编辑器主 `historyCoordinator`/`EditSession.dispatch`，不是脚本会话单栈。
+
+## B1 — 战场创建复制删除与三层选择
+
+源：[`battlefield-authoring.md`](../phase2/guides/battlefield-authoring.md)。
+
+| ID | 原句 | 分类 | 当前可达调用链与一手锚点 | 最窄替换或不改 |
+|---|---|---|---|---|
+| B1-1 | 「空工程第一次创建会在同一个可撤销操作中登记 `manifest.content.battleFields = "content/battle-fields.json"`」「第一个建议编号是 `24`；已有列表建议 `max(id)+1`。」「复制会分配新编号并共享原背景 `AssetId`。」「系统默认战场 `#24` 或任何仍被内容引用的战场都不能删除」（`:22-27`） | **confirmed** | 模块：`EDITOR_MODULES` `battle`/`battlefield`「战场」→ `DataMode.tsx:569` → `BattleFieldTab`。创建：`AddBattleFieldCommand`+`appendBattleField` 首次写入 `BATTLE_FIELDS_PATH`（`commands.ts:2197-2262`）；UI 建议 id `nextBattleFieldId`（空表 24，否则 max+1）（`:2198-2202`，`BattleFieldTab.tsx:140,209-223`）。复制：`CopyBattleFieldCommand` 新 id、深拷贝字段含背景引用（`:2270-2290`，`BattleFieldTab.tsx:232-236`）。删除：`DeleteBattleFieldCommand` 读 live 引用（`:2310-2335`）；`#24` 恒有 `project-default` 边且 locator 不可编辑（`project-reference-adapters.ts:1758-1768`）；测试 `commands.test.ts:800-803`。空表保留 manifest 路径（`:797`）。 | 不改。右侧引用栏标签是「系统默认 / 场景默认 / 敌对实体 / 剧情开战」（`BattleFieldTab.tsx:514-527`），不是指南里的「入口、人物…」。 |
+| B1-2 | 「一场战斗按下列优先级解析战场：`startBattle.fieldId` → `HostileBehavior.battleFieldId` → `SceneDef.battleFieldId` → 隐式 `#24`。」「场景、明雷怪和 `startBattle` 编辑器都使用同一战场选择器。」（`:31-38`） | **confirmed**（解析与共用选择器） | 运行时：`script-runner.ts:726-732` 传 `cmd.fieldId`；明雷 `main.ts:4397` 传 `h.battleFieldId`；落地 `battle-launch-preparation.ts:208` `options?.fieldId ?? scene.battleFieldId ?? 24`。UI 三处同一 `BattleFieldPicker`：场景默认（`App.tsx:4946-4956`）、敌对实体（`:4470-4478`）、`startBattle` 表单（`ScriptEditor.tsx:2501-2508`）。清除空值 = `undefined`，不把继承结果写回。 | 不改优先级句。 |
+| B1-3 | 「选择器若遇到悬空 id 会显示“缺数据”，保存门会拒绝该工程。」（`:38`） | **wrong**（可见文案） / **confirmed**（保存门） | 选择器悬空项是 `战场 #N（缺失）`（`BattleFieldPicker.tsx:21-22`），全组件不用「缺数据」。`App.tsx:4457` 的「缺数据」是敌队缺失，不是战场。「保存门」：`assertProjectSaveValid` → `validateReferences`（`project-diagnostics.ts:822-906`）对场景/明雷/命令目标跑 `validate-refs.ts:978-984,1210-1221`。未开浏览器。 | 把「缺数据」改成「（缺失）」。保存拒绝句可留。 |
+| B1-4 | 「当前 `#24` 是运行时合同…工程未提供 `#24` 时，编辑器会明确警告战斗将回落为黑底」（`:40`） | **confirmed** | `DEFAULT_BATTLE_FIELD_ID = 24`（`battle-field-reference.ts:8`）。缺省警告：`project-diagnostics.ts:581-588`；战场页按钮「缺少项目默认战场 #024」（`BattleFieldTab.tsx:289-292`）。 | 不改。PAL `6..57` 共 52 条见 B2，不是通用 UI 下限。 |
+
+## B2 — 背景资产 / 验收示例
+
+| ID | 原句 | 分类 | 当前可达调用链与一手锚点 | 最窄替换或不改 |
+|---|---|---|---|---|
+| B2-1 | 「背景选择复用图像资源工作台。」「战场只引用 `battle-background` 类型的 `AssetId`。」「不设置背景时运行时明确显示黑底。」（`:43-48`） | **confirmed**（选择器/类型） / **pending-ui**（工作台像素） | `BattleFieldTab.tsx:412-423` `ImageAssetPicker kind="battle-background"`；目录过滤 `imageAssets(catalog, kind)`（`ImageAssetPicker.tsx:14-18`）。预览：`FieldPreview` → `loadStandardPalette`+`loadBattleBg`（`BattleFieldTab.tsx:61-102`）；无背景文案「黑底战场」。导入尺寸 320×200（`image-import.ts:110-113`）。 | 不改类型句。预览消费者是战场页 canvas，不是另开「图像工作台」才能改引用。 |
+| B2-2 | 「能看到」背景 / 验收里「背景资产仍在资源库」（隐含已物化字节） | **blocked-input** | catalog 已跟踪：`projects/pal/assets/index.json` 有 52 条 `battle-background.pal.00N`，path=`assets/migrated/battle-backgrounds/NNN.png`。`.gitignore:65` 忽略 `projects/pal/assets/migrated/`；本树 `006.png` **不存在**。未跑 `migrate:content --write`。 | 写清：入库的是 catalog id；看见像素要先有 gitignored migrated 字节。不要用 index.json 的 `bytes` 字段冒充工作区里有文件。 |
+| B2-3 | 验收示例：建 `#24/#25`、三层选择、删 `#25` 从引用跳到明雷怪…（`:50-56`） | **pending-ui** / 未执行 | 命令与引用跳转源码具备（B1）。未在隔离浏览器走保存重开。PAL 现成表已是 `id 6..57` 共 52（`projects/pal/content/battle-fields.json`），不是空工程从 24 起。 | 保留为手工验收清单，不要写成当前 PAL 工程已按该顺序做过。 |
+
+PAL 专用 `6..57`（`:14-18`）与跟踪 JSON 一致；编辑器未写死 `id>=6`（创建允许任意非负安全整数，`BattleFieldTab.tsx:210-213`）。
