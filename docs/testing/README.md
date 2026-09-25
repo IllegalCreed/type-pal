@@ -22,7 +22,7 @@
 
 - [Cursor文档核对Codex接收](cursor-docs-hygiene-review.md)、[五份指南实施独立复核](cursor-guide-revision-review.md)及[done任务卡](../ops/archive/tasks/done/DOC-GUIDE-REVISION-1-current-entrypoints.md)（a2220ca9已闭H1；五份指南已接入main并通过文档门，H7仍另核）
 
-- [GLM十二组可执行架构回归实验包](glm-architecture-regression-lab/README.md)、[Codex首轮接收](architecture-regression-lab-codex-review.md)与[二轮接收](architecture-regression-lab-codex-r2-review.md)（af43311a仍counter；33候选绿不等于十二组合同通过，机账/回执也未对齐；不进正式统计）
+- [GLM十二组可执行架构回归实验包](glm-architecture-regression-lab/README.md)、[Codex首轮接收](architecture-regression-lab-codex-review.md)、[二轮接收](architecture-regression-lab-codex-r2-review.md)与[三轮接收](architecture-regression-lab-codex-r3-review.md)（bc8613d1仍counter；真实32项绿，执行JSON/机账与完整组合同未对齐；不进正式统计）
 
 - [A3-b：场景资源与预检拆分](scene-preparation-refactor.md)、[机账](scene-preparation-refactor-evidence.json)、[冻结对照](scene-preparation-parity.mjs)与[11针反例](scene-preparation-mutants.mjs)（fdad980f/done；26新增/check8525/strict8034/641，缓存政策/同步提交保持；A3整体未完成）
 
