@@ -111,8 +111,9 @@ describe('G02 地图会话失效', () => {
     await act(async () => {
       pointer(canvas, 'pointerup', { clientX: 40, clientY: 20 })
     })
-    // 换会话后迟到 up：不产生新的选区通知（通知来自 set-selection 派发路径）
+    // 换会话后迟到 up：不产生新的选区通知，且 DOM 无选区预览（set-selection 未派发到新会话）
     const newCalls = onWorkspaceNotice.mock.calls.slice(callsAtSwap)
     expect(newCalls.some((c) => String(c[0]?.message ?? '').includes('已选择'))).toBe(false)
+    expect(host.querySelector('.map-content-selection-preview')).toBeNull() // 新会话无残留选区
   })
 })

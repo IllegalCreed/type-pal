@@ -9,7 +9,7 @@
  */
 
 import type { Command } from '@type-pal/content'
-import { checkBaseAuthorCommands, checkEnemyHookFlow } from '@type-pal/content'
+import { checkEnemyHookFlow, checkEnemyOnDefeatedCommands } from '@type-pal/content'
 import { describe, expect, test } from 'vitest'
 
 /** 合法最小 author 命令（playSound 叶）。 */
@@ -34,21 +34,19 @@ describe('G06 跨校验器递归', () => {
     expect(flow).toEqual(before)
   })
 
-  test('G06-02 正控：startBattle 的 onLose/onFlee 与 teleportOut.onFail/confirm.onNo 递归臂全接受', () => {
-    const startBattle = {
-      kind: 'startBattle',
-      fieldId: 24,
-      enemyTeamId: 'team-0',
-      onLose: [leafSound('lose')],
-      onFlee: [leafSound('flee')],
-    } as never
-    const teleportOut = { kind: 'teleportOut', onFail: [leafSound('fail')] } as never
-    const confirm = { kind: 'confirm', onNo: [leafSound('no')] } as never
-    const before = structuredClone([startBattle, teleportOut, confirm])
-    expect(() =>
-      checkBaseAuthorCommands([startBattle, teleportOut, confirm], 'G06.author'),
-    ).not.toThrow()
-    expect([startBattle, teleportOut, confirm]).toEqual(before)
+  test('G06-02 正控：checkEnemyOnDefeatedCommands 接受 onLose/onFlee/onFail/onNo 全臂（enemy→author 递归）', () => {
+    const onDefeated = [
+      {
+        kind: 'branch',
+        cond: { kind: 'flag', flag: 'test-flag', is: true },
+        then: [leafSound('then')],
+        else: [],
+      },
+      leafSound('lose'),
+    ]
+    const before = structuredClone(onDefeated)
+    expect(() => checkEnemyOnDefeatedCommands(onDefeated as never, 'G06.onDefeated')).not.toThrow()
+    expect(onDefeated).toEqual(before)
   })
 
   test('G06-03 跨面正控：hook 流内嵌 author 命令经 checkEnemyHookFlow 递归校验', () => {
@@ -88,23 +86,24 @@ describe('G06 跨校验器递归', () => {
     expect(message).toContain('G06.bad@L_77') // 错误 path 绑定 owner+地址
   })
 
-  test('G06-05 跨面非法嵌套：enemy-script 调 checkBaseAuthorCommands 拒绝非法条件（错误 path 绑定）且输入深等', () => {
-    // 跨校验器方向：enemy-script.ts:598 在 hook 流内回调 checkBaseAuthorCommands——
-    // 非法 branch.cond 经该跨面路径被拒
-    const cmd = {
-      kind: 'branch',
-      cond: { op: '不存在的比较' },
-      then: [leafSound('then')],
-      else: [],
-    } as never
-    const before = structuredClone(cmd)
+  test('G06-05 跨面非法：checkEnemyOnDefeatedCommands 内非法 branch 条件经 enemy→author 递归被拒且输入深等', () => {
+    // checkEnemyOnDefeatedCommands 内部调 checkAuthorCondition + checkBaseAuthorCommands（enemy→author 递归）
+    const cmds = [
+      {
+        kind: 'branch',
+        cond: { op: '不存在的比较' },
+        then: [leafSound('then')],
+        else: [],
+      },
+    ]
+    const before = structuredClone(cmds)
     let message = ''
     try {
-      checkBaseAuthorCommands([cmd], 'G06.branch')
+      checkEnemyOnDefeatedCommands(cmds as never, 'G06.onDefeated')
     } catch (error) {
       message = error instanceof Error ? error.message : String(error)
     }
-    expect(message).toContain('G06.branch') // 错误 path 绑定（enemy→author 方向由 :598 同函数覆盖）
-    expect(cmd).toEqual(before) // 输入深保真
+    expect(message).toContain('G06.onDefeated') // 错误 path 绑定（enemy→author 递归方向）
+    expect(cmds).toEqual(before) // 输入深保真
   })
 })

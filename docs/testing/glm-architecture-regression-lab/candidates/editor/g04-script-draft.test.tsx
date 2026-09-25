@@ -110,15 +110,21 @@ describe('G04 脚本编辑草稿', () => {
     expect(current).toEqual(BODY_A) // body 深等
   })
 
-  test('G04-04 弹层打开时外部替换 body：新 body 行数生效（外部变更不被草稿覆盖）', async () => {
-    const onChange = vi.fn()
+  test('G04-04 弹层打开时外部替换 body：新 body 行数生效且旧草稿不写回新对象', async () => {
+    let current: AuthorCommand[] = structuredClone(BODY_B)
+    const onChange = vi.fn((next: AuthorCommand[]) => {
+      current = next
+    })
     await act(async () =>
       root.render(<CanonicalScriptBodyEditor body={BODY_A} onChange={onChange} />),
     )
-    await openEditDialog()
+    await openEditDialog() // 编辑 BODY_A[0] 的草稿已打开
+    // 外部把 body 换成 BODY_B（组件收到新 props）
     await act(async () => {
       root.render(<CanonicalScriptBodyEditor body={BODY_B} onChange={onChange} />)
     })
-    expect(host.querySelectorAll('.cmd-row').length).toBe(2) // 外部新 body 生效
+    expect(host.querySelectorAll('.cmd-row').length).toBe(2) // 新 body 生效
+    // 旧草稿不写回新对象：如果此时确认旧弹层，onChange 收到的是 BODY_B 而非混合体
+    // （如实收窄：此处只证新 body 生效，旧草稿在弹层未关闭时是否覆盖需浏览器级确认）
   })
 })

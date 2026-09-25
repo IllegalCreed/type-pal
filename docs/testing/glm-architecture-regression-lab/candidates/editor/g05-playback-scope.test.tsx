@@ -38,7 +38,7 @@ function waitFlow(waitMs: number): AuthorScriptFlow {
         ],
       },
     ],
-  } as unknown as AuthorScriptFlow
+  } satisfies AuthorScriptFlow
 }
 
 describe('G05 预览停止与换源', () => {

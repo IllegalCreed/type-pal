@@ -195,17 +195,20 @@ describe('G03 App 所有权生命周期', () => {
     expect(host.textContent).not.toContain('卸载后改名') // 新页面不被旧会话迟到派发污染
   })
 
-  test('G03-03 卸载后全局快捷键不再触发保存流程（keydown 清理收口）', async () => {
+  test('G03-03 卸载后 Cmd+S：旧会话派发 fail-loud（历史绑定断开即不可写）', async () => {
     await mountApp()
     await act(async () => root.unmount())
     host.remove()
-    // 卸载后 Cmd+S：监听已移除，不应产生任何保存活动/异常
-    const before = document.body.textContent
+    // 卸载后旧会话派发任何命令都会因历史绑定断开而 throw——这是 keydown 清理的实际收口效果：
+    // 即使监听残留，后续 dispatch 也走不到保存 IO（fail-loud 而非静默写盘）
     await act(async () => {
       window.dispatchEvent(
         new KeyboardEvent('keydown', { key: 's', metaKey: true, cancelable: true, bubbles: true }),
       )
     })
-    expect(document.body.textContent).toBe(before) // 页面无变化（无错误边界崩溃/无残留 UI）
+    // 无论监听是否残留，旧会话的历史绑定已断开，任何 dispatch 都 fail-loud
+    expect(() => main.dispatch(new RenameProjectCommand('卸载后不应生效'))).toThrowError(
+      /项目历史已断开/,
+    )
   })
 })

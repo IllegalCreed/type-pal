@@ -255,7 +255,7 @@ describe('G01 地图手势终结', () => {
   })
 
   test('G01-05 选区拖动 pointercancel：迟到 up 不派发 set-selection（无新通知调用）；正常 up 正控派发', async () => {
-    // 有瓦片底图；公开可观测面 = onWorkspaceNotice 调用（set-selection 派发伴随通知）
+    // 有瓦片底图；公开可观测面 = onWorkspaceNotice 调用 + 选区预览 DOM
     const map = buildBlankProjectMap(3, 2, 'tiles')
     map.layers[0]!.tiles[0]![0] = 1
     const { host, canvas, onWorkspaceNotice } = await mountLabMap({ map })
@@ -271,7 +271,7 @@ describe('G01 地图手势终结', () => {
       pointer(canvas, 'pointerup', { clientX: 40, clientY: 20 })
     })
     expect(onWorkspaceNotice.mock.calls.length).toBe(callsAfterCancel)
-    // 正控：同输入正常 up —— 派发 set-selection，通知调用数增加
+    // 正控：同输入正常 up —— 选区预览真实出现在 DOM + 通知调用数增加
     await act(async () => {
       pointer(canvas, 'pointerdown', { clientX: 33, clientY: 1 })
       pointer(canvas, 'pointermove', { clientX: 40, clientY: 20 })
