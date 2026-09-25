@@ -152,4 +152,45 @@ describe('G06 跨校验器递归', () => {
     expect(message).toContain('enemies[0].onDefeated[0]') // 错误 path 绑定（enemy→author 递归方向）
     expect(broken).toEqual(before) // 输入深保真
   })
+
+  test('G06-06 正控：choreography 战斗演出钩子（author 命令叶）经 validateEnemies 递归通过', () => {
+    // 工作包另一方向：author→enemy 的 choreography 入口（validate.ts → checkBattleChoreography）
+    const enemy = labEnemy()
+    enemy.choreography = [
+      {
+        at: 'battleStart',
+        once: true,
+        body: [
+          { kind: 'dialog', cue: { rows: [{ text: '哈哈哈哈，就凭你们？' }] } },
+          { kind: 'playSound', asset: 'sound.taunt' },
+        ],
+      },
+    ]
+    const before = JSON.parse(JSON.stringify(enemy)) as unknown
+    expect(() => validateEnemies([enemy])).not.toThrow()
+    expect(enemy).toEqual(before) // 输入深保真
+  })
+
+  test('G06-07 非法 choreography 叶：未知命令 kind 被拒且生产 path 精确到叶', () => {
+    const enemy = labEnemy()
+    enemy.choreography = [
+      {
+        at: 'turnStart',
+        body: [{ kind: 'playSound', asset: 'sound.x' }],
+      },
+    ]
+    // 故意非法叶：同 G06-04 口径，单字段收窄突变
+    const broken = JSON.parse(JSON.stringify(enemy)) as EnemyDef
+    const leaf = broken.choreography![0]!.body[0]! as { kind: string }
+    leaf.kind = '不存在的命令'
+    const before = JSON.parse(JSON.stringify(broken)) as unknown
+    let message = ''
+    try {
+      validateEnemies([broken])
+    } catch (error) {
+      message = error instanceof Error ? error.message : String(error)
+    }
+    expect(message).toContain('enemies[0].choreography[0].body[0]') // 生产 path 精确到叶
+    expect(broken).toEqual(before) // 输入深保真
+  })
 })

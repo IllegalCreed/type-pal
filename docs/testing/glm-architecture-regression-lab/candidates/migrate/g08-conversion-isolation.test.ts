@@ -103,4 +103,33 @@ describe('G08 迁移转换边界', () => {
     expect(good.scenes.length).toBe(1)
     expect(good.scenes[0]!.entities.length).toBeGreaterThan(0)
   })
+
+  test('G08-05 真异常路径：非法 options 抛出后，下次调用照常成功（异常不污染模块态）', () => {
+    // 与 G08-04 的「gap 不抛」相区分：这里选择项违约（worldSpriteFrameCounts ≠ 636 项）
+    // 走真抛出路径（migrate-content.ts:2158 assertPalWorldSpriteLayoutOverlaySources）
+    const scenes = [sourceScene(0)]
+    const badOptions = { worldSpriteFrameCounts: [1, 2, 3] }
+    expect(() =>
+      mapScenesStatic(scenes, new Map([[0, sourceEvents()]]), new Map(), [], undefined, badOptions),
+    ).toThrowError(/636/)
+    // 抛出后模块态无残留：同一输入不带坏 options 再跑，照常成功
+    const good = mapScenesStatic(scenes, new Map([[0, sourceEvents()]]))
+    expect(good.scenes.length).toBe(1)
+    expect(good.scenes[0]!.entities.length).toBeGreaterThan(0)
+  })
+
+  test('G08-06 globalRoots 输入消费见证：scriptGraphReport.globalRoots 计数 0→1', () => {
+    // 工作包「globalRoots 差异见证」的最小真实面：globalRoots 进入可达图根集合并被
+    // 计入 scriptGraphReport（typed ScriptRoot，无强转）
+    const scenes = [sourceScene(0)]
+    const events = new Map([[0, sourceEvents()]])
+    const without = mapScenesStatic(scenes, events)
+    expect(without.scriptGraphReport.globalRoots).toBe(0)
+    const withRoot = mapScenesStatic(scenes, events, new Map(), [
+      { entry: 90001, owner: 'global/item', kind: 'global' },
+    ])
+    expect(withRoot.scriptGraphReport.globalRoots).toBe(1)
+    // 输出仍稳定：两份场景实体一致（globalRoot 只进图分析，不改变场景实体）
+    expect(withRoot.scenes).toEqual(without.scenes)
+  })
 })

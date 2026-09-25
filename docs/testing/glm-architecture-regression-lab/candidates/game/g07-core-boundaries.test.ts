@@ -15,12 +15,16 @@
 import { dispatchBattleOpcode } from '@lab/game/battle-opcodes'
 import type { BattleState } from '@lab/game/battle-state'
 import { createCommandBus } from '@lab/game/command-bus'
-import { getPlayerAttackStrength, writeEquipmentEffectField } from '@lab/game/equip-effect'
+import {
+  getPlayerAttackStrength,
+  updateAllEquipments,
+  writeEquipmentEffectField,
+} from '@lab/game/equip-effect'
 import type { BattleCtx } from '@lab/game/event-system'
-import { addItemToInventory, tickEventSystem } from '@lab/game/event-system'
+import { addItemToInventory, setGlobalEvents, tickEventSystem } from '@lab/game/event-system'
 import { createInitialGameState, type GameState } from '@lab/game/game-state'
 import { getCurrentMapNum, setCurrentMapNum } from '@lab/game/scene-system'
-import type { Command, InputSnapshot, PlayerRole } from '@type-pal/shared'
+import type { Command, InputSnapshot, Item, PlayerRole } from '@type-pal/shared'
 import { describe, expect, test } from 'vitest'
 
 /** 对齐官方 event-system.test 的最小事件装载（同口径三行）。 */
@@ -81,5 +85,41 @@ describe('G07 第一阶段模块边界', () => {
     expect(result.consumed).toBe(true)
     // 战斗 opcode 消费装备派生值：快照从 base 重算为 base+7
     expect(ctx.playerRoles?.roles[roleId]?.attackStrength).toBe(base + 7)
+  })
+
+  test('G07-04 装备脚本经 event 表执行：scriptOnEquip → 全局命令表 → 效果层 → 派生 getter', () => {
+    // 补齐工作包「装备脚本经 event 表执行」中间链：updateAllEquipments 按全局事件表的
+    // L_<scriptOnEquip> 入口跑 0x17（equip-effect.ts 内 runEquipScriptSync 读 getGlobalCommands），
+    // 写 rgEquipmentEffect 效果层 → getPlayerAttackStrength 含脚本写入值。
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    const base = getPlayerAttackStrength(gs, 0)
+    // 全局事件表（event 表）：入口 L_90001 = 0x17 写效果层（op0=0x0c → 部位1，row17 攻击，+7）
+    setGlobalEvents([
+      { label: 'L_90001', op: 'raw', opcode: 0x17, operands: [0x0c, 17, 7] },
+      { op: 'end' },
+    ])
+    gs.PlayerRolesRuntime.rgwEquipment[1]![0] = 777 // role0 的槽 1 已装 id=777
+    const equip: Item = {
+      id: 777,
+      bitmap: 0,
+      price: 0,
+      scriptOnUse: 0,
+      scriptOnEquip: 90001,
+      scriptOnThrow: 0,
+      scriptDesc: 0,
+      flags: {
+        usable: false,
+        equipable: true,
+        throwable: false,
+        consuming: false,
+        applyToAll: false,
+        sellable: false,
+        equipableBy: [true, false, false, false, false, false],
+      },
+    }
+    updateAllEquipments(gs, [equip])
+    // 装备脚本经 event 表真实执行：0x17 效果层写入经派生 getter 可见（base → base+7）
+    expect(getPlayerAttackStrength(gs, 0)).toBe(base + 7)
+    setGlobalEvents([]) // 恢复模块态（不污染后续测试）
   })
 })

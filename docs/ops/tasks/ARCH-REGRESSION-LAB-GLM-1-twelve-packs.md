@@ -94,7 +94,36 @@ verify 一对一映射/白名单硬判据。随后逐组补真实 entered+业务
 - **V01-V04**：未执行矩阵在 receipt.md 未证项如实登记，六张已核 hash 截图未重拍。
 - 机械门全绿：候选 32/32、tsc exit0、verify PASS、red-control detected、目录 Biome exit0、check:docs PASS；packages/scripts 活树对 mergeBase 零 diff。**候选不合 main、不计官方覆盖率、不标 done；Kimi 豁免。**
 
+## GLM 八轮交付（2026-09-26，r8 定点返工；本席自记）
+
+回应七轮 counter（r7 review 三项收窄返工范围），全部只动隔离实验目录：
+
+- **最终树 Biome**：`configs/candidates-exec.json` 提交前 `biome format`，目录 `pnpm exec biome check docs/testing/glm-architecture-regression-lab` **exit0**（含提交的 JSON）；回执口径同步。流程纪律改为"JSON 再生后必格式化再核验"。
+- **G03-03 钉保存事务终态**：新增断言 `.type-pal/save-state.json` 真实写闭 + 落盘内容 `phase=committed`（且 `kind=type-pal-author-save`）——以 ProjectSaveState 终态机（author-save-journal.ts:497/602）为准，不再以静默窗口近似事务完成。
+- **G05-02 旧 wait 进入见证**：tick(100) 后断言 `facing=up` 且 `mode=running`（若 wait 未挂起，流会在启动微任务内直冲尾命令并 done）；换源后**固定推进 1200ms**（不再以新源 done 即停），越过旧源剩余窗口（400-100=300ms）+余量后断言 `mode=done` 且 `facing=left`。
+- **G05-04 stop 调用增量**：以 `playSpy.mock.contexts[0]` 锁定工作区创建的同实例，卸载前记录该实例 stop 调用数（含生产启动即 stop、挂载/换源 effect 的调用），卸载后断言**增量 >0**。
+- **单点反控 v2**：red-control.mjs 扩为三针，全 detected——① lab-startup（apply 早退，原有）；② **g05-unmount-cleanup**：删 SceneScriptWorkspace 卸载 cleanup → G05-04 红「expected 2 to be greater than 2」（证明启动即 stop 不再掩蔽清理缺失）；③ **g03-committed**：最终 `publishState(receipt,'committed')` 降级 `'data-complete'` → G03-03 红「expected 'data-complete' to be 'committed'」（写盘照常、仅终态缺失即被鉴别）。每针恰 exit1/AssertionError/witness/产品 hash 不变；临时目录在 /tmp。
+- **G06 补 choreography 入口**：G06-06 正控（battleStart + dialog/playSound 叶，typed BattleChoreography）+ G06-07 非法叶（path 精确 `enemies[0].choreography[0].body[0]`）；现覆盖 hooks/onDefeated/choreography 三入口。**收窄声明：七入口完整矩阵未证**，receipt 已撤"全组闭环"表述。
+- **G07 补装备脚本经 event 表执行**：G07-04 setGlobalEvents 全局命令表（L_90001 = 0x17 写部位1/row17/+7）→ updateAllEquipments → runEquipScriptSync 读 getGlobalCommands 执行 → 效果层 → getter base+7。至此工作包「装备脚本经 event 表执行」轴有证。
+- **G08 补真异常路径 + globalRoots**：G08-05 worldSpriteFrameCounts ≠ 636 项抛出（migrate-content.ts:2158）后同输入再跑照常成功（与 G08-04 gap 不抛相区分）；G08-06 typed ScriptRoot 进可达图 → scriptGraphReport.globalRoots 0→1、场景实体不变。**收窄声明：options 其余差异维度未证**。
+- **V01–V04**：维持未证登记，未重拍旧图。
+- 机械门全绿：候选 **37/37**（新 5 例）、tsc exit0、verify PASS（账本 **45 条** 43/1/1，双向映射）、red-control v2 三针 detected、目录 Biome exit0、check:docs PASS；packages/scripts 活树对 mergeBase 零 diff。**候选不合 main、不计官方覆盖率、不标 done；Kimi 豁免。**
+
 ### 下一位 Codex 接收提示词
+
+```text
+接收 ARCH-REGRESSION-LAB-GLM-1 r8，worktree /Users/zhangxu/illegal/type-pal-glm-regression-lab，
+分支 codex/glm-architecture-regression-lab-r1，任务 draft。先读 docs/testing/architecture-regression-lab-codex-r7-review.md
+与任务卡 r8 交付块，核本轮 diff 范围（仅 docs/testing/glm-architecture-regression-lab/** 与本卡）。
+复跑：candidates.vitest.mts 新鲜 JSON（37/37，G06×2/G07×1/G08×2 新例）、tools/verify.mjs <JSON>（45 条 43/1/1，双向映射，PASS）、
+tools/red-control.mjs（v2 三针：第三针 g03-committed 把最终 publishState 降 'data-complete' 应见
+「expected 'data-complete' to be 'committed'」AssertionError；第二针 g05-unmount-cleanup 应见增量断言红）、
+tsc --project configs/tsconfig.json --noEmit（exit0）、目录 Biome（含提交的 exec JSON，exit0）、check:docs。
+逐组裁决重点：G03-03 committed 终态、G05-02 旧 wait 进入+越过剩余窗口、G05-04 同实例 stop 增量、
+G06 choreography 入口+七入口收窄、G07-04 装备脚本 event 表链、G08 真异常路径+globalRoots、V01-V04 维持未证。
+不要求重拍未变截图；GLM 不自审终审，不合 main、不标 done；Kimi 豁免，无 Kimi 提示词。
+```
+
 
 ```text
 接收 ARCH-REGRESSION-LAB-GLM-1 r7，worktree /Users/zhangxu/illegal/type-pal-glm-regression-lab，

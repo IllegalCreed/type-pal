@@ -199,9 +199,10 @@ describe('G03 App 所有权生命周期', () => {
     expect(host.textContent).not.toContain('卸载后改名') // 新页面不被旧会话迟到派发污染
   })
 
-  test('G03-03 Cmd+S 触发真实保存 IO（磁盘写闭见证）；卸载后 Cmd+S 零写盘且派发 fail-loud', async () => {
+  test('G03-03 Cmd+S 真实保存事务：save-state 终态 committed + 工程树写闭；卸载后零写盘且派发 fail-loud', async () => {
     // 以生产「带目录重开」入口（App initialDir）挂载：Cmd+S 原地保存到已绑定目录。
-    // 先证正控：键入经真实保存管线写出完整工程树（manifest + content/* + save-state 终写），
+    // 正控钉**保存事务终态**：完整工程树写闭（manifest + content/*）且
+    // `.type-pal/save-state.json` 落盘 phase=committed（非静默窗口近似）；
     // 再证卸载收口：静默后同样的键入零新增写盘 —— keydown 清理有真实 IO 级后果
     //（若监听残留，增量保存管线在内存目录上仍能完整写盘 → 即红）。
     await mountApp({ initialDir: disk.dir })
@@ -234,6 +235,12 @@ describe('G03 App 所有权生命周期', () => {
     const closed = new Set(disk.changes.closes)
     expect(closed.has('manifest.json')).toBe(true) // 完整工程树，不是任意 IO
     expect(disk.changes.closes.some((p) => p.startsWith('content/'))).toBe(true)
+    // 保存**事务终态**：`.type-pal/save-state.json` 真实写闭，且落盘内容 phase=committed
+    //（ProjectSaveState 相位机 staging/ready/applying/data-complete → committed，author-save-journal.ts:497/336）
+    expect(closed.has('.type-pal/save-state.json')).toBe(true)
+    const saveState = disk.json('.type-pal/save-state.json') as { phase?: string; kind?: string }
+    expect(saveState.kind).toBe('type-pal-author-save')
+    expect(saveState.phase).toBe('committed') // 非中间态：保存事务真实完成，而非仅静默
     await act(async () => root.unmount())
     host.remove()
     disk.resetChanges()

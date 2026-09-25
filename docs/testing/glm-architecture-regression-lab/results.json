@@ -250,12 +250,12 @@
       "pack": "G03",
       "status": "candidate-green",
       "evidenceKind": ["executed", "test-body"],
-      "contract": "App.tsx:1997-2092 keydown effect 卸载移除监听",
+      "contract": "保存事务终态：App initialDir 生产入口 → Cmd+S → 完整工程树写闭 + .type-pal/save-state.json phase=committed（author-save-journal.ts:497/602）；卸载后零新增写盘",
       "test": {
         "file": "candidates/editor/g03-app-lifecycle.test.tsx",
-        "fullName": "G03 App 所有权生命周期 G03-03 Cmd+S 触发真实保存 IO（磁盘写闭见证）；卸载后 Cmd+S 零写盘且派发 fail-loud"
+        "fullName": "G03 App 所有权生命周期 G03-03 Cmd+S 真实保存事务：save-state 终态 committed + 工程树写闭；卸载后零写盘且派发 fail-loud"
       },
-      "expected": "卸载后 Cmd+S 无页面变化",
+      "expected": "save-state 落盘 committed（终态机 staging/ready/applying/data-complete→committed）；卸载+静默后 Cmd+S 零写盘",
       "actual": "body text 前后一致",
       "positiveControl": "app-command-registry.test.ts routes Cmd/Ctrl+S",
       "mutation": "启动小样同款",
@@ -340,12 +340,12 @@
       "pack": "G05",
       "status": "candidate-green",
       "evidenceKind": ["executed", "test-body"],
-      "contract": "playback.ts:221 play 内部先 stop（换源丢弃旧源）",
+      "contract": "换源丢弃旧源：旧 wait 进入有见证（tick(100) 后 facing=up 且 mode=running），固定推进 1200ms 越过旧源剩余窗口（300ms）；两源尾命令朝向可区分",
       "test": {
         "file": "candidates/editor/g05-playback-scope.test.tsx",
-        "fullName": "G05 预览停止与换源 G05-02 播放中换源：play 新 key 丢弃旧源（内部 stop），旧源尾命令不复活、新源跑完"
+        "fullName": "G05 预览停止与换源 G05-02 播放中换源：旧 wait 进入有见证，推进越过旧源剩余窗口后尾命令不复活、新源跑完"
       },
-      "expected": "换源后 stop 幂等、旧源 wait 不复活",
+      "expected": "越过旧源剩余窗口后 mode=done 且 facing=left（旧源尾命令不复活）",
       "actual": "idle + activePath null",
       "positiveControl": "自身",
       "mutation": "同上",
@@ -376,12 +376,12 @@
       "pack": "G05",
       "status": "candidate-green",
       "evidenceKind": ["executed", "test-body"],
-      "contract": "onUi 解绑后 stop 不通知（SceneScriptWorkspace.tsx:186-193 cleanup 顺序）",
+      "contract": "真实工作区卸载：同实例卸载前后 stop 调用增量>0（生产启动即 stop、挂载/换源 effect 也 stop，仅曾调用不可鉴别）；单点反控 g05-unmount-cleanup 针（删卸载 cleanup → 断言红）",
       "test": {
         "file": "candidates/editor/g05-playback-scope.test.tsx",
-        "fullName": "G05-04 真实工作区卸载清理 真实播放按钮启动 playCanonical，卸载后 Playback.stop 被真实清理（原型 spy 见证）"
+        "fullName": "G05-04 真实工作区卸载清理 真实播放按钮启动 playCanonical，卸载后同实例 stop 调用**增量**>0（生产启动即 stop 不再掩蔽清理缺失）"
       },
-      "expected": "解绑后通知数为 0 增量",
+      "expected": "stopCallsAfterUnmount > stopCallsBeforeUnmount（同实例过滤）",
       "actual": "0 增量",
       "positiveControl": "G05-01",
       "mutation": "同上",
@@ -785,12 +785,102 @@
       "cleanup": "unmount",
       "artifacts": [],
       "attribution": "GLM"
+    },
+    {
+      "id": "G06-06",
+      "pack": "G06",
+      "status": "candidate-green",
+      "evidenceKind": ["executed", "test-body"],
+      "contract": "choreography 入口：validateEnemies → checkBattleChoreography（validate.ts:1471）递归校验 author 命令叶",
+      "expected": "合法 choreography（battleStart + dialog/playSound 叶）通过且输入深等",
+      "actual": "通过；输入前后深等",
+      "positiveControl": "G06-01（hooks 入口）",
+      "mutation": "pending",
+      "cleanup": "—",
+      "artifacts": [],
+      "attribution": "GLM",
+      "test": {
+        "file": "candidates/content/g06-validation-crosscalls.test.ts",
+        "fullName": "G06 跨校验器递归 G06-06 正控：choreography 战斗演出钩子（author 命令叶）经 validateEnemies 递归通过"
+      }
+    },
+    {
+      "id": "G06-07",
+      "pack": "G06",
+      "status": "candidate-green",
+      "evidenceKind": ["executed", "test-body"],
+      "contract": "choreography 非法叶：生产错误 path 精确到 enemies[0].choreography[0].body[0]",
+      "expected": "未知 kind 被拒，path 带生产位置，输入深等",
+      "actual": "拒绝；path 精确；输入深等",
+      "positiveControl": "G06-06",
+      "mutation": "pending",
+      "cleanup": "—",
+      "artifacts": [],
+      "attribution": "GLM",
+      "test": {
+        "file": "candidates/content/g06-validation-crosscalls.test.ts",
+        "fullName": "G06 跨校验器递归 G06-07 非法 choreography 叶：未知命令 kind 被拒且生产 path 精确到叶"
+      }
+    },
+    {
+      "id": "G07-04",
+      "pack": "G07",
+      "status": "candidate-green",
+      "evidenceKind": ["executed", "test-body"],
+      "contract": "装备脚本经 event 表执行：updateAllEquipments → runEquipScriptSync 读 getGlobalCommands 全局命令表 L_<scriptOnEquip> 入口 → 0x17 写效果层（equip-effect.ts:526-531）→ 派生 getter",
+      "expected": "全局命令表内 0x17 脚本经 updateAllEquipments 执行后 attackStrength = base+7",
+      "actual": "base → base+7（event 表 → 效果层 → getter 全链）",
+      "positiveControl": "G07-03（直接写入口对照）",
+      "mutation": "pending",
+      "cleanup": "setGlobalEvents([]) 恢复模块态",
+      "artifacts": [],
+      "attribution": "GLM",
+      "test": {
+        "file": "candidates/game/g07-core-boundaries.test.ts",
+        "fullName": "G07 第一阶段模块边界 G07-04 装备脚本经 event 表执行：scriptOnEquip → 全局命令表 → 效果层 → 派生 getter"
+      }
+    },
+    {
+      "id": "G08-05",
+      "pack": "G08",
+      "status": "candidate-green",
+      "evidenceKind": ["executed", "test-body"],
+      "contract": "真异常路径（与 G08-04 gap 不抛相区分）：options.worldSpriteFrameCounts ≠ 636 项 → assertPalWorldSpriteLayoutOverlaySources 抛出（migrate-content.ts:2158）",
+      "expected": "抛错含 636；抛出后同输入不带坏 options 再跑照常成功（模块态无残留）",
+      "actual": "toThrowError(/636/)；再调用成功",
+      "positiveControl": "G08-01（同输入成功对照）",
+      "mutation": "pending",
+      "cleanup": "—",
+      "artifacts": [],
+      "attribution": "GLM",
+      "test": {
+        "file": "candidates/migrate/g08-conversion-isolation.test.ts",
+        "fullName": "G08 迁移转换边界 G08-05 真异常路径：非法 options 抛出后，下次调用照常成功（异常不污染模块态）"
+      }
+    },
+    {
+      "id": "G08-06",
+      "pack": "G08",
+      "status": "candidate-green",
+      "evidenceKind": ["executed", "test-body"],
+      "contract": "globalRoots 输入消费：根进可达图（migrate-content.ts:2305）并计入 scriptGraphReport.globalRoots",
+      "expected": "无根=0；带 1 个 typed ScriptRoot=1；场景实体不受影响",
+      "actual": "0→1；scenes deep-equal",
+      "positiveControl": "G08-01",
+      "mutation": "pending",
+      "cleanup": "—",
+      "artifacts": [],
+      "attribution": "GLM",
+      "test": {
+        "file": "candidates/migrate/g08-conversion-isolation.test.ts",
+        "fullName": "G08 迁移转换边界 G08-06 globalRoots 输入消费见证：scriptGraphReport.globalRoots 计数 0→1"
+      }
     }
   ],
   "groupTotals": {
-    "total": 40,
+    "total": 45,
     "byStatus": {
-      "candidate-green": 38,
+      "candidate-green": 43,
       "existing-proof": 1,
       "blocked-environment": 1
     },
@@ -801,9 +891,9 @@
       "G03": 3,
       "G04": 4,
       "G05": 4,
-      "G06": 5,
-      "G07": 3,
-      "G08": 3,
+      "G06": 7,
+      "G07": 4,
+      "G08": 5,
       "V01": 3,
       "V02": 2,
       "V03": 1,
@@ -824,11 +914,11 @@
       "exit": 0
     },
     {
-      "cmd": "npx vitest run --config docs/testing/glm-architecture-regression-lab/configs/candidates.vitest.mts  # 全部候选（32 项=启动1+G01 6+G02 3+G03 3+G04 4+G05 4+G06 5+G07 3+G08 3）",
+      "cmd": "npx vitest run --config docs/testing/glm-architecture-regression-lab/configs/candidates.vitest.mts  # 全部候选（37 项=启动1+G01 6+G02 3+G03 3+G04 4+G05 4+G06 7+G07 4+G08 5）",
       "exit": 0
     },
     {
-      "cmd": "node docs/testing/glm-architecture-regression-lab/tools/red-control.mjs  # verdict=detected",
+      "cmd": "node docs/testing/glm-architecture-regression-lab/tools/red-control.mjs  # 负控 v2 三针（startup/g05卸载清理/g03 committed 终态）verdict=detected",
       "exit": 0
     },
     {
