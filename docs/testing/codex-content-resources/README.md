@@ -1,6 +1,6 @@
 # Codex资源索引与引用补测
 
-[任务卡](../../ops/tasks/TEST-CODEX-CONTENT-RESOURCES-1-indices-and-references.md) ·
+[任务卡](../../ops/archive/tasks/done/TEST-CODEX-CONTENT-RESOURCES-1-indices-and-references.md) ·
 [冻结缺口](../coverage-parallel-wave3-evidence.json)。五模块成批补测，不以测试数量冒称新增分支。
 
 ## 实施候选（2026-09-26）
@@ -26,4 +26,27 @@ TPFS编码器非ASCII元数据、已校验块后的缺前帧/缺块、数GB分�
 8类判据反例每针走同一judge拒绝，产品hash未变。原始输出
 `/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/codex-resource-mutants-MBaE2l`。
 
-统一全仓门与GLM守卫91项合跑，完成后补实际并集；不计另一架构对话或Cursor尚未交付批。
+TPFS索引/provider测试注入恒等字节变换，只证明索引与回调生命周期；真实zlib/完整像素往返沿用旧contracts。
+
+## 正式接入与统一门（2026-09-26）
+
+实现候选`d1e99a0d`，GLM接收候选`09c8ccba`。合计156项：Codex65+GLM91；
+content84文件1022/1022、全仓check8896、官方ratchet、保护`7d64de13`的**单次严格fast8404/701**均exit0。
+本席核其它六包完整基线对象相同，701生产文件/所有分母相同，产品/旧测试/范围配置/阈值零改。
+全仓新增108语句/134分支/3函数/73行；content四维为90.42%/85.55%/95.07%/91.92%（S/B/F/L）。
+全仓为76.16%/68.72%/75.79%/78.28%。[机账](evidence.json)留前后整数与日志，不把用例数当增量。
+
+| 直接目标 | 行前→后 | 分支前→后 |
+|---|---:|---:|
+| frame-sequence | 251→264 /270 | 187→206 /236 |
+| script-library | 163→177 /181 | 164→208 /221 |
+| asset | 283→293 /296 | 260→278 /289 |
+| enemy-team-reference | 0→12 /12 | 0→11 /11 |
+| project-map | 155→156 /157 | 149→156 /159 |
+| GLM三个守卫合计 | 94→113 /113 | 85→114 /114 |
+
+GLM三模块前行数44+35+15=94，直增19行；其包级独立增量20行包含其它调用链。
+五目标直增50L/99B，GLM三目标直增19L/29B；其余content调用链并集4L/6B，不强行分摊作者。
+五目标尚有57臂未命中：包含typed后的防御、可达未补与不值得巨量分配的轴；没有宣称100%或整仓目标完成。
+两卡按当前Codex分派/独立接收模式done；GLM作者自验未冒充第三方。full/Q1/Q2/剧情与远端CI未借此通过。
+不计另一架构对话或Cursor尚未交付批。无下一位Agent提示词。

@@ -2,7 +2,7 @@
 
 2026-09-26，Reviewer：Codex。候选`b8e037cb3f4da68e4c5217842949bddbe6d23828`，起点ef19ae7e，
 接收主线fe4ccdb2。**counter，仅下列R1–R4；不接入main、不改候选测试语义、不执行官方统计门。**
-卡：[六组守卫叶补测](../ops/tasks/TEST-GLM-CONTENT-GUARDS-2-leaf-boundaries.md)。
+卡：[六组守卫叶补测](../ops/archive/tasks/done/TEST-GLM-CONTENT-GUARDS-2-leaf-boundaries.md)。
 
 ## 已通过，不重开
 

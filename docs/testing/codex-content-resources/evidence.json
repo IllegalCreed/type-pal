@@ -1,0 +1,312 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-09-26",
+  "base": "7d64de139643a7aa890b3a9434b8bfb720050f44",
+  "candidate": "d1e99a0ddfff080eddeccfff846ffc6aef385fd4",
+  "contributions": {
+    "codex": {
+      "task": "TEST-CODEX-CONTENT-RESOURCES-1",
+      "tests": 65,
+      "role": "implementer/self-validation"
+    },
+    "glm": {
+      "task": "TEST-GLM-CONTENT-GUARDS-2",
+      "candidate": "09c8ccbafe2e48b5d6d0e0a69138929aeadef439",
+      "tests": 91,
+      "role": "contributor",
+      "independentReviewer": "Codex"
+    }
+  },
+  "gates": {
+    "check": {
+      "exit": 0,
+      "tests": 8896,
+      "log": "/tmp/codex-content-union-check.log"
+    },
+    "ratchet": {
+      "exit": 0,
+      "log": "/tmp/codex-content-union-ratchet.log"
+    },
+    "strictFast": {
+      "exit": 0,
+      "attempts": 1,
+      "protectedRef": "7d64de13",
+      "tests": 8404,
+      "log": "/tmp/codex-content-union-strict-fast.log"
+    },
+    "unionContent": {
+      "exit": 0,
+      "files": 84,
+      "tests": 1022,
+      "log": "/tmp/codex-resources-union-content.log"
+    }
+  },
+  "metrics": {
+    "beforeTests": 8248,
+    "afterTests": 8404,
+    "sourceFiles": 701,
+    "before": {
+      "statements": {
+        "covered": 61306,
+        "total": 80643
+      },
+      "branches": {
+        "covered": 43284,
+        "total": 63178
+      },
+      "functions": {
+        "covered": 11409,
+        "total": 15058
+      },
+      "lines": {
+        "covered": 55193,
+        "total": 70600
+      }
+    },
+    "after": {
+      "statements": {
+        "covered": 61414,
+        "total": 80643
+      },
+      "branches": {
+        "covered": 43418,
+        "total": 63178
+      },
+      "functions": {
+        "covered": 11412,
+        "total": 15058
+      },
+      "lines": {
+        "covered": 55266,
+        "total": 70600
+      }
+    },
+    "delta": {
+      "statements": 108,
+      "branches": 134,
+      "functions": 3,
+      "lines": 73
+    },
+    "contentBefore": {
+      "statements": {
+        "covered": 5187,
+        "total": 5856
+      },
+      "branches": {
+        "covered": 4160,
+        "total": 5019
+      },
+      "functions": {
+        "covered": 787,
+        "total": 831
+      },
+      "lines": {
+        "covered": 4691,
+        "total": 5183
+      }
+    },
+    "contentAfter": {
+      "statements": {
+        "covered": 5295,
+        "total": 5856
+      },
+      "branches": {
+        "covered": 4294,
+        "total": 5019
+      },
+      "functions": {
+        "covered": 790,
+        "total": 831
+      },
+      "lines": {
+        "covered": 4764,
+        "total": 5183
+      }
+    },
+    "otherSixUnchanged": true
+  },
+  "modules": {
+    "asset": {
+      "before": {
+        "LF": 296,
+        "LH": 283,
+        "BRF": 289,
+        "BRH": 260,
+        "FNF": 51,
+        "FNH": 47
+      },
+      "after": {
+        "LF": 296,
+        "LH": 293,
+        "BRF": 289,
+        "BRH": 278,
+        "FNF": 51,
+        "FNH": 48,
+        "missingLines": [579, 767, 798]
+      }
+    },
+    "battle-choreography": {
+      "before": {
+        "LF": 61,
+        "LH": 44,
+        "BRF": 54,
+        "BRH": 28,
+        "FNF": 6,
+        "FNH": 6
+      },
+      "after": {
+        "LF": 61,
+        "LH": 61,
+        "BRF": 54,
+        "BRH": 54,
+        "FNF": 6,
+        "FNH": 6,
+        "missingLines": []
+      }
+    },
+    "enemy-ai-condition-guard": {
+      "before": {
+        "LF": 36,
+        "LH": 35,
+        "BRF": 36,
+        "BRH": 34,
+        "FNF": 3,
+        "FNH": 3
+      },
+      "after": {
+        "LF": 36,
+        "LH": 36,
+        "BRF": 36,
+        "BRH": 36,
+        "FNF": 3,
+        "FNH": 3,
+        "missingLines": []
+      }
+    },
+    "enemy-team-reference": {
+      "before": {
+        "LF": 12,
+        "LH": 0,
+        "BRF": 11,
+        "BRH": 0,
+        "FNF": 2,
+        "FNH": 0
+      },
+      "after": {
+        "LF": 12,
+        "LH": 12,
+        "BRF": 11,
+        "BRH": 11,
+        "FNF": 2,
+        "FNH": 2,
+        "missingLines": []
+      }
+    },
+    "enemy-validation-shapes": {
+      "before": {
+        "LF": 16,
+        "LH": 15,
+        "BRF": 24,
+        "BRH": 23,
+        "FNF": 6,
+        "FNH": 6
+      },
+      "after": {
+        "LF": 16,
+        "LH": 16,
+        "BRF": 24,
+        "BRH": 24,
+        "FNF": 6,
+        "FNH": 6,
+        "missingLines": []
+      }
+    },
+    "frame-sequence": {
+      "before": {
+        "LF": 270,
+        "LH": 251,
+        "BRF": 236,
+        "BRH": 187,
+        "FNF": 25,
+        "FNH": 25
+      },
+      "after": {
+        "LF": 270,
+        "LH": 264,
+        "BRF": 236,
+        "BRH": 206,
+        "FNF": 25,
+        "FNH": 25,
+        "missingLines": [103, 104, 105, 107, 316, 419]
+      }
+    },
+    "project-map": {
+      "before": {
+        "LF": 157,
+        "LH": 155,
+        "BRF": 159,
+        "BRH": 149,
+        "FNF": 41,
+        "FNH": 40
+      },
+      "after": {
+        "LF": 157,
+        "LH": 156,
+        "BRF": 159,
+        "BRH": 156,
+        "FNF": 41,
+        "FNH": 40,
+        "missingLines": [303]
+      }
+    },
+    "script-library": {
+      "before": {
+        "LF": 181,
+        "LH": 163,
+        "BRF": 221,
+        "BRH": 164,
+        "FNF": 24,
+        "FNH": 24
+      },
+      "after": {
+        "LF": 181,
+        "LH": 177,
+        "BRF": 221,
+        "BRH": 208,
+        "FNF": 24,
+        "FNH": 24,
+        "missingLines": [149, 309, 330, 381]
+      }
+    }
+  },
+  "mutants": {
+    "codex": {
+      "control": 65,
+      "detected": 5,
+      "log": "/tmp/codex-resources-mutants.log",
+      "output": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/codex-resource-mutants-MBaE2l"
+    },
+    "glm": {
+      "reviewWitnesses": 6,
+      "originalMutants": 6,
+      "criteriaSelfTests": 10,
+      "logs": ["/tmp/codex-guard-leaf-r3-witnesses.log", "/tmp/codex-guard-leaf-r3-mutants.log"]
+    }
+  },
+  "scope": {
+    "productionFilesUnchanged": 701,
+    "productionCodeChanged": false,
+    "oldTestsChanged": false,
+    "thresholdOrSelectionChanged": false,
+    "otherSixPackagesIdentical": true,
+    "visual": "N/A",
+    "fullQ1Q2": "not run",
+    "remoteCI": "not claimed"
+  },
+  "disclosure": [
+    "R4 enemy-team-reference is exported but currently has no production caller; 2 tests pin the API, not editor delete protection.",
+    "Direct five-module increase: 50 lines/99 branches; three GLM targets:19 lines/29 branches; other content union residual:4 lines/6 branches, not attributed to an individual contributor.",
+    "TPFS index/provider tests inject identity byte transform; real zlib and complete pixel round-trips remain covered by existing contracts.",
+    "Initial Codex typecheck caught two fixtures without branch.cond, corrected with typed chance conditions. Initial mutant judge rejected Vitest async toThrow reporting Error; assertions now compare captured actual outcome/message, judge unchanged."
+  ]
+}

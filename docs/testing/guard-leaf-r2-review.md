@@ -2,7 +2,7 @@
 
 2026-09-26，Codex；候选 `99113d225fe2322395238a7b60fdb4a06e72d69c`，接收主线 `cc59a2fa`。
 **counter，仅 C1/C2；不合候选、不改 GLM 测试语义、不跑全仓统计。**
-[任务卡](../ops/tasks/TEST-GLM-CONTENT-GUARDS-2-leaf-boundaries.md) ·
+[任务卡](../ops/archive/tasks/done/TEST-GLM-CONTENT-GUARDS-2-leaf-boundaries.md) ·
 [上一轮](guard-leaf-intake-review.md) · [本轮机账](guard-leaf-r2-evidence.json) ·
 [可复建见证](guard-leaf-review-witnesses.mjs)。以下行号均指候选。
 

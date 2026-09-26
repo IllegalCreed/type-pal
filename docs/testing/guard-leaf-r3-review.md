@@ -1,7 +1,7 @@
 # 守卫叶补测 r3 独立接收
 
 2026-09-26，Codex；候选`09c8ccba`（测试正文`a3ab195a`），基线`7d64de13`。
-**accept，C1/C2全部闭合**；[任务卡](../ops/tasks/TEST-GLM-CONTENT-GUARDS-2-leaf-boundaries.md)。
+**accept，C1/C2全部闭合**；[任务卡](../ops/archive/tasks/done/TEST-GLM-CONTENT-GUARDS-2-leaf-boundaries.md)。
 仅复核[r2 counter](guard-leaf-r2-review.md)，已闭项未重开，不改GLM测试语义。
 
 - C1：`enemy-validation-shapes.leaf.test.ts` record/exactKeys均传同一具名对象或helper参数；
@@ -19,3 +19,11 @@
 
 接收后与[Codex资源补测](codex-content-resources/README.md)合并跑一次统一门，不重复争用coverage。
 GLM为测试贡献者，独立验收由Codex完成；视觉N/A，未把full/Q1/Q2或远端CI计入本卡。
+
+## 集成收口
+
+`d1e99a0d`合并候选；保留GLM三测试/fixture/专属回执语义原样（收口只机械适配任务卡归档链接），合并任务卡冲突时保留双方历史全文。
+本席串行全仓check8896、官方ratchet、保护7d64de13单次strict-fast8404均exit0；
+详见[并集机账](codex-content-resources/evidence.json)。三守卫直接行/分支达到113/113与114/114；
+不把直模块增量19L/29B和作者包级20L/30B混写。正式基线为两批并集，不复跑两份官方统计。
+Codex核定本卡done；无需GLM再返工或固定席位签字。
