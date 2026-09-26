@@ -96,7 +96,8 @@ export function checkpointHarness(overrides: Partial<ProjectScriptHostOptions> =
     hostOptions(definition, overrides),
   )
   const capture = vi.fn(buildCurrentSavePayload),
-    effects = vi.fn()
+    effects = vi.fn(),
+    motionTrace = [{ step: 1 }]
   const activeScene = new ActiveScene(
     runtimeSceneView(definition, expectDefined(world.script)),
     () => {},
@@ -133,7 +134,14 @@ export function checkpointHarness(overrides: Partial<ProjectScriptHostOptions> =
     createImageBitmap: vi.fn(async () => ({ width: 64, height: 40 })),
     captureThumbnail: vi.fn(captureThumbnail),
     canvas: { width: 320, height: 200 } as HTMLCanvasElement,
-    motionTrace: [{ step: 1 }],
+    motionTrace,
+    motion: {
+      resetCadence: effects,
+      dumpTrace: () => structuredClone(motionTrace),
+      clearTrace: () => {
+        motionTrace.length = 0
+      },
+    },
     captureMotionState: () => ({ scene: 'target' }),
     preflightCurrentSave,
     normalizeCurrentSave,
@@ -180,7 +188,6 @@ export function checkpointHarness(overrides: Partial<ProjectScriptHostOptions> =
     followerFrozen: [],
     followerPos: [],
     followerAuth: new Map(),
-    worldMoveAcc: 0,
     updateCamera: effects,
   }
   const api = mainApi<Api>(

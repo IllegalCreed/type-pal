@@ -27,7 +27,6 @@ import {
   type SceneSpawn,
   type SpriteDef,
   sellableItems,
-  spriteScreenY,
   usableItems,
   type WalkSpeed,
   type WorldScriptState,
@@ -81,14 +80,11 @@ import {
 } from './entity-lifecycle.js'
 import {
   type MotionActor,
-  MotionFairnessClock,
   type MotionIntent,
   type MotionOutcome,
   type MotionSnapshotActor,
   type MotionSource,
   motionActorKey,
-  planEntityMotion,
-  type SideStick,
 } from './entity-motion.js'
 import {
   consumeScheduledMoveRest,
@@ -131,23 +127,20 @@ import { drawSaveBrowser } from './menu/save-browser-box.js'
 import { drawShop, openShopUi, type ShopUiState, shopInput } from './menu/shop-box.js'
 import { drawSystemMenu } from './menu/system-box.js'
 import { drawUseMenu } from './menu/use-box.js'
-import { commitMotionBatch, MotionCompletionRecord } from './motion-batch.js'
-import { MotionRuntimeCoordinator } from './motion-runtime-coordinator.js'
+import { commitMotionBatch } from './motion-batch.js'
 import {
   autoActivationSafePointOpen,
   commitDurableMotionEndpoint,
   finishDurableMotionContinuation,
   runtimeMotionCollision,
   settleDeferredOneShotMotion,
-  teardownMotionRuntime,
   terminateLifecycleMotion,
   waitForAutoTargetContinuation,
   wakeDurableMotionEndpoint,
 } from './motion-runtime-wiring.js'
 import { runOpeningMenu, runOpeningMenuWithMusic } from './opening-menu.js'
 import { type LoadedCurrentProject, loadAllScenes, loadScene } from './project-loader.js'
-import { Canvas2DRenderer, type SpriteDraw } from './render.js'
-import { renderSceneFrame } from './render-scene.js'
+import { Canvas2DRenderer } from './render.js'
 import { type RuntimeFramePorts, RuntimeFrameSession } from './runtime-frame-session.js'
 import { type RuntimeInputPorts, routeRuntimeInput } from './runtime-input-router.js'
 import type { RuntimeProjectView } from './runtime-project-view.js'
@@ -177,7 +170,6 @@ import { type PreparedScene, ScenePreparer } from './scene-preparer.js'
 import { SceneResources } from './scene-resources.js'
 import { prepareAndCommitSceneSwitch } from './scene-switch-transaction.js'
 import { runWithPresentationFinalizer, ScreenHoldTransaction } from './screen-hold-transaction.js'
-import { advanceWave, WorldWaveRenderer } from './screen-wave.js'
 import type { BaseRuntimeLeafCommand } from './script-compiler-core.js'
 import { ScriptConfirmModalQueue } from './script-confirm-modal.js'
 import { executeScriptHostEffect } from './script-host-adapter.js'
@@ -185,14 +177,7 @@ import type { MoveEntityCommitControl, ScriptEffectCommitControl } from './scrip
 import type { ScriptHost, ScriptRunner } from './script-runner.js'
 import type { ScriptRuntimeContext } from './script-runner-core.js'
 import { parseShopTrialParameters, runShopTrial } from './shop-trial.js'
-import {
-  actualFrameIndex,
-  animFrameIndex,
-  idleFrameIndex,
-  loopFrameIndex,
-  settleWalkAnimation,
-  walkFrameIndex,
-} from './sprite-anim.js'
+import { settleWalkAnimation } from './sprite-anim.js'
 import {
   requireDefaultEntry,
   resolveInitialSceneId,
@@ -205,6 +190,17 @@ import { renderSpans } from './text/text-render.js'
 import type { UseExecutionRequest } from './use-menu-state.js'
 import { playVideo as playVideoOverlay } from './video-player.js'
 import { WorldCamera } from './world-camera.js'
+import {
+  type AutoOneShotAck,
+  type AutoStepAck,
+  type EntityChaseSlot,
+  type EntityMotionSlot,
+  type EntityMoveSlot,
+  type EntityMoveSource,
+  type MotionAuthority,
+  WorldMotionRuntime,
+} from './world-motion-runtime.js'
+import { WorldScenePresentation } from './world-scene-presentation.js'
 
 // 切片 1 · 第一步：把真实 map 56（黑水镇民居）整张渲染出来，看清里头几间民居、挑一间。
 // 下一步：定裁剪矩形（只取一间）+ 放李逍遥/鬼 + 走路/对话。
@@ -401,10 +397,16 @@ export async function bootGame(
     | { kind: 'script'; pos: GridPos; facing: Facing }
   const followerAuth = new Map<number, FollowerAuthority>() // 队员 idx(1..)→权威;缺省 follow
   const followerPos: ({ pos: GridPos; facing: Facing } | undefined)[] = [] // 派生(idx 0 空=队长)
-  // 世界拍状态(声明须早于 switchScene 首调,TDZ):累加器/拍计数/本 rAF 拍数(0/1)
-  let worldMoveAcc = 0
-  let worldTickNum = 0
-  let worldTicksThisFrame = 0
+  // 世界拍与 locomotion 注册必须早于 switchScene 首调；活动 scene/world 坐标仍由各自 owner 持有。
+  const motion = new WorldMotionRuntime(STEP_MS)
+  const worldPresentation = new WorldScenePresentation({
+    canvas,
+    context: ctx,
+    worldScale: WORLD_SCALE,
+    createCanvas: () => document.createElement('canvas'),
+    contextFor: get2dContext,
+    createRenderer: (context, scene) => new Canvas2DRenderer(context, scene.palette, scene.tiles),
+  })
   /** D13-1 帧步进(K5):active=冻结墙钟推进,stepRequested=本帧强制一拍(STEP_MS)。 */
   const frames = new RuntimeFrameSession(STEP_MS)
 
@@ -770,14 +772,14 @@ export async function bootGame(
       )
       canvas.dataset.rfMotionEntity = JSON.stringify({
         scene: activeScene.scene.id,
-        worldTick: worldTickNum,
+        worldTick: motion.worldTick,
         id: motionProbeEntityId,
         present: entity !== undefined,
         ...(entity
           ? {
               pos: entity.pos,
               facing: entity.facing ?? 'down',
-              gait: entityWalkPhase.get(entity.id) ?? null,
+              gait: motion.gaitPhase(entity.id) ?? null,
             }
           : {}),
       })
@@ -861,7 +863,7 @@ export async function bootGame(
     followerFrozen.length = 0
     followerPos.length = 0
     followerAuth.clear() // 跨场景回 follow(骑乘/站位权威是演出期瞬时态,不跨场景)
-    worldMoveAcc = 0 // 世界拍相位随场景重置
+    motion.resetCadence() // 世界拍相位随场景重置
     updateCamera()
     // 场景 BGM:字段缺省 = 延续；AssetId = 切曲；null = 显式停曲。
     if (applySceneMusic && plan.def.music !== undefined) {
@@ -953,19 +955,6 @@ export async function bootGame(
   let fadeCurtain: 'black' | 'red' = 'black' // 幕布色(gameOver 渐红;fade-in 结束回黑)
   /** 0x76/ShowFBP 的黑屏保持事务；只存在呈现层，不能进入 WorldState/SAVE。 */
   const screenHold = new ScreenHoldTransaction()
-  // 0x35 震屏(script.c:1521 VIDEO_ShakeScreen):世界层渲染 y ±level 交替;到期/0 关自清
-  let worldShake: { untilMs: number; level: number } | null = null
-  // 0x71 屏波(仙灵岛水面/蛤蟆谷):世界层合成到离屏后逐行左卷;状态在 vars 随存档
-  const worldWave = new WorldWaveRenderer()
-  let waveCanvas: HTMLCanvasElement | null = null
-  function ensureWaveCanvas(): HTMLCanvasElement {
-    if (!waveCanvas) waveCanvas = document.createElement('canvas')
-    if (waveCanvas.width !== canvas.width || waveCanvas.height !== canvas.height) {
-      waveCanvas.width = canvas.width
-      waveCanvas.height = canvas.height
-    }
-    return waveCanvas
-  }
   // ── W6 氛围(昼夜):全帧 multiply 滤镜(docs/phase2/archive/designs/ambience-design.md)──
   // world.ambience 是权威(随存档);此处只是显示态:当前乘色 + 300ms 切换过渡。
   // 纯视觉、无输入门、自终止 —— 不属于「需要收尾人的 time-based 状态」。
@@ -1069,9 +1058,7 @@ export async function bootGame(
       await presentation.waitPassive(120, signal)
     }
   }
-  const entityFrameOverride = new Map<string, number>() // setEntityFrame 演出帧覆盖(切场景清)
-  // ── 0x15/0x65 队伍演出态(原版 rgParty[].wFrame / rgwSpriteNum;脚本自清,走路时引擎清)──
-  let partyGesture: number | null = null // 脚本姿势帧(渲染 = dir*framesPerDir + gesture)
+  // WorldScenePresentation owns 0x87 frame overrides, party gesture, shake and wave draw state.
   const battlePreparation = new BattleLaunchPreparation(
     {
       actorsById: project.actorsById,
@@ -1159,55 +1146,6 @@ export async function bootGame(
   //    速度 = 原版速度码 px/拍(scene.c:887-888 NPCWalkOneStep x±2s,y±1s;本 grid 1 格
   //    = 16/8px → s/8 格/拍)。迁移器 SPEED 表 2/3/4/8 → slow/normal/fast/run 1:1。
   //    ⚠ 曾「半格/SPEED_MS」:0.5 格=8/4px 量子≠原版 6/3px,注释还把半格错标成 16/8px。
-  // (worldMoveAcc/worldTickNum/worldTicksThisFrame 声明在上方 stepFrame 处 —— switchScene TDZ)
-  type EntityMoveSource = 'script' | 'auto'
-  interface EntityMotionSlotBase {
-    source: EntityMoveSource
-    commandEpoch: number
-    sceneSessionId: string
-    activationOwnerId?: string
-    activationEpoch?: number
-    resolve: () => void
-    cancel: (message: string) => void
-    dropByAuthority?: () => void
-  }
-  interface EntityMoveSlot extends EntityMotionSlotBase {
-    kind: 'move'
-    to: GridPos
-    speed: WalkSpeed
-    commitControl?: MoveEntityCommitControl
-    blockedAttempts: number
-    nextBlockedReportAt: number
-    slowRestPending: boolean
-    commitSettlement: () => void
-  }
-  type AutoOneShotAck = 'attempted' | 'droppedByAuthority'
-  type AutoStepAck =
-    | { outcome: 'attempted'; commandEpoch: number }
-    | { outcome: 'droppedByAuthority' }
-  interface EntityStepSlot extends EntityMotionSlotBase {
-    kind: 'step'
-    dir: Facing
-    authorityEpochAtEnqueue: number
-    dropByAuthority: () => void
-  }
-  interface EntityChaseSlot extends EntityMotionSlotBase {
-    kind: 'chase'
-    range: number
-    floating: boolean
-    authorityEpochAtEnqueue?: number
-  }
-  type EntityMotionSlot = EntityMoveSlot | EntityStepSlot | EntityChaseSlot
-  let nextMotionCommandEpoch = 1
-  let partyMove: { to: GridPos; speed: WalkSpeed; resolve: () => void } | null = null
-  // D15-1:locomotion gait 与 0x87 显式动画是两个独立外观 owner。旧单 Map 会让受阻
-  // NPC 永久卡在迈腿帧，也会在走位到点时误清原地动画。
-  const entityWalkPhase = new Map<string, number>()
-  const entityGaitOwner = new Map<string, { source: MotionSource; epoch: number }>()
-  const entityLastMovedWorldTick = new Map<string, number>()
-  const entityExplicitAnim = new Map<string, number>()
-  let motionSideSticks: SideStick[] = []
-  const motionFairnessClock = new MotionFairnessClock()
   const runInlineEntityTrigger = async (
     entityId: string,
     signal: AbortSignal,
@@ -1222,21 +1160,6 @@ export async function bootGame(
       inlineTriggerOwners.delete(entityId)
     }
   }
-  interface MotionTraceEntry {
-    scene: string
-    worldTick: number
-    actor: string
-    source: MotionSource | 'passive-yield'
-    from: GridPos
-    proposed: GridPos
-    outcome: MotionOutcome['kind']
-    to: GridPos
-    blockReason?: string
-  }
-  const MOTION_TRACE_LIMIT = 4096
-  const motionTrace: MotionTraceEntry[] = []
-  let playerMotionEpoch = 1
-  let playerMotionDirection: Facing | null = null
   // auto 巡逻:每实体独立 runner,与主脚本**并行**(2026-07-03 拍板:不复刻对话冻结 NPC);
   // E6a:仅被主脚本接管(authority)的实体其位移暂停,release 恢复。切场景全停。
   function lifecycleTableForWorld(): EntityLifecycleTable | undefined {
@@ -1272,7 +1195,7 @@ export async function bootGame(
    */
   function advanceLifecycleWorldStepIfEligible(gameplayFrozen: boolean, stepActive: boolean): void {
     if (
-      !worldTicksThisFrame ||
+      !motion.worldTicksThisFrame ||
       gameplayFrozen ||
       stepActive ||
       hostileBusy ||
@@ -1298,7 +1221,7 @@ export async function bootGame(
       ...motionRuntime.pendingLifecycleRestartTargetIds(),
     ])
     for (const entityId of resumeCandidates) {
-      if (naturallyReappeared.has(entityId)) entityFrameOverride.delete(entityId)
+      if (naturallyReappeared.has(entityId)) worldPresentation.clearEntityFrame(entityId)
       maybeResumeLifecycleHiddenMotion(entityId)
     }
   }
@@ -1460,43 +1383,26 @@ export async function bootGame(
   // 缺省不在表 = world(输入/auto/hostile 可写);'script' = 主脚本演出接管。
   // 拍板(2026-07-05):①仅被接管的实体暂停 auto;②位移指令才隐式接管。
   // 不进存档 —— 权威是演出期瞬时态,读档/切场景随脚本收尾清空。mount 形态 E7 落。
-  type Authority = { kind: 'script' } | { kind: 'mount'; parent: string; dx: number; dy: number }
   const clearMotionStick = (actor: MotionActor): void => {
-    const key = motionActorKey(actor)
-    motionSideSticks = motionSideSticks.filter((stick) => motionActorKey(stick.actor) !== key)
+    motion.clearStick(actor)
   }
   const clearEntityGait = (
     id: string,
     expected?: { source: MotionSource; epoch: number },
   ): void => {
-    const owner = entityGaitOwner.get(id)
-    if (expected && (owner?.source !== expected.source || owner.epoch !== expected.epoch)) return
-    entityWalkPhase.delete(id)
-    entityGaitOwner.delete(id)
-    entityLastMovedWorldTick.delete(id)
+    motion.clearGait(id, expected)
   }
   const markEntityGait = (id: string, source: MotionSource, epoch: number): void => {
-    entityFrameOverride.delete(id)
-    entityExplicitAnim.delete(id)
-    entityWalkPhase.set(id, (entityWalkPhase.get(id) ?? 0) + 1)
-    entityGaitOwner.set(id, { source, epoch })
-    entityLastMovedWorldTick.set(id, worldTickNum)
+    worldPresentation.clearEntityFrame(id)
+    motion.markGait(id, source, epoch)
   }
-  const motionRuntime = new MotionRuntimeCoordinator<Authority, EntityMotionSlot>((id) => {
-    if (id === 'party') {
-      clearMotionStick({ kind: 'party' })
-      playerMotionEpoch++
-    } else {
-      clearEntityGait(id)
-      clearMotionStick({ kind: 'entity', id })
-    }
-  })
+  const motionRuntime = motion.coordinator
   // Script 与 auto 各有独立 owner slot：主脚本 abort/replace 不能再误杀暂停中的 auto endpoint。
   const authority = motionRuntime.authority
   const authorityEpoch = motionRuntime.authorityEpoch
   const scriptMotionSlots = motionRuntime.scriptSlots
   const autoMotionSlots = motionRuntime.autoSlots
-  const setAuthority = (id: string, value: Authority): void => {
+  const setAuthority = (id: string, value: MotionAuthority): void => {
     motionRuntime.setAuthority(id, value)
   }
   const releaseAuthority = (id: string): void => {
@@ -1546,130 +1452,60 @@ export async function bootGame(
     signal?: AbortSignal,
     commitControl?: MoveEntityCommitControl,
   ): Promise<number> {
-    return new Promise((resolve, reject) => {
+    try {
       signal?.throwIfAborted()
-      const e = activeScene.scene.entities.find((candidate) => candidate.id === id)
-      if (!e) {
-        reject(asyncIntentAbortError(`实体 ${id} 不在场，走位未执行`))
-        return
-      }
-      if (entityMotionPermanentlyRemoved(id)) {
-        reject(asyncIntentAbortError(`实体 ${id} 已永久移除，走位未执行`))
-        return
-      }
-      const registry = source === 'script' ? scriptMotionSlots : autoMotionSlots
-      const activation =
-        source === 'auto'
-          ? ((signal ? autoActivationBySignal.get(signal) : undefined) ?? autoActivations.get(id))
-          : undefined
-      if (source === 'auto' && !activation) {
-        reject(asyncIntentAbortError(`实体 ${id} 的 auto activation 已失效`))
-        return
-      }
-      if (activation) {
-        const hiddenTarget = abortAutoActivationForHiddenTarget(id, activation)
-        if (hiddenTarget) {
-          reject(hiddenTarget)
-          return
-        }
-      }
-      let entry!: EntityMoveSlot
-      const abort = (): void => entry.cancel(`实体 ${id} ${source} 走位所属 runner 已取消`)
-      const completion = new MotionCompletionRecord<string>(
-        () => {
-          signal?.removeEventListener('abort', abort)
-          if (registry.get(id) === entry) registry.delete(id)
-        },
-        () => resolve(entry.commandEpoch),
-        (message) => reject(asyncIntentAbortError(message)),
-      )
-      entry = {
-        kind: 'move',
-        source,
-        to: { ...to },
-        speed,
-        blockedAttempts: 0,
-        nextBlockedReportAt: 20,
-        slowRestPending: false,
-        commandEpoch: nextMotionCommandEpoch++,
-        sceneSessionId: currentMotionSceneSessionId(),
-        ...(activation
-          ? { activationOwnerId: activation.entityId, activationEpoch: activation.epoch }
-          : {}),
-        ...(commitControl ? { commitControl } : {}),
-        commitSettlement: (): void => void completion.commit(),
-        resolve: (): void => void completion.resolve(),
-        cancel: (message: string): void => void completion.cancel(message),
-      }
-      registry.get(id)?.cancel(`实体 ${id} 的旧 ${source} 走位已被新走位替换`)
-      registry.set(id, entry)
-      signal?.addEventListener('abort', abort, { once: true })
-      if (signal?.aborted) abort()
+    } catch (error) {
+      return Promise.reject(error)
+    }
+    if (!activeScene.scene.entities.some((candidate) => candidate.id === id))
+      return Promise.reject(asyncIntentAbortError(`实体 ${id} 不在场，走位未执行`))
+    if (entityMotionPermanentlyRemoved(id))
+      return Promise.reject(asyncIntentAbortError(`实体 ${id} 已永久移除，走位未执行`))
+    const activation =
+      source === 'auto'
+        ? ((signal ? autoActivationBySignal.get(signal) : undefined) ?? autoActivations.get(id))
+        : undefined
+    if (source === 'auto' && !activation)
+      return Promise.reject(asyncIntentAbortError(`实体 ${id} 的 auto activation 已失效`))
+    if (activation) {
+      const hiddenTarget = abortAutoActivationForHiddenTarget(id, activation)
+      if (hiddenTarget) return Promise.reject(hiddenTarget)
+    }
+    return motion.registerMove({
+      source,
+      id,
+      to,
+      speed,
+      sceneId: activeScene.scene.id,
+      ...(signal ? { signal } : {}),
+      ...(activation
+        ? { activation: { ownerId: activation.entityId, epoch: activation.epoch } }
+        : {}),
+      ...(commitControl ? { commitControl } : {}),
     })
   }
 
   function scheduleAutoStep(id: string, dir: Facing, signal: AbortSignal): Promise<AutoStepAck> {
-    return new Promise((resolve, reject) => {
+    try {
       signal.throwIfAborted()
-      if (!activeScene.scene.entities.some((candidate) => candidate.id === id)) {
-        reject(asyncIntentAbortError(`auto stepEntity: 实体 ${id} 不在场`))
-        return
-      }
-      if (entityMotionPermanentlyRemoved(id)) {
-        reject(asyncIntentAbortError(`auto stepEntity: 实体 ${id} 已永久移除`))
-        return
-      }
-      const activation = autoActivationBySignal.get(signal)
-      if (!activation || autoActivations.get(activation.entityId) !== activation) {
-        reject(asyncIntentAbortError(`auto stepEntity: 实体 ${id} activation 已失效`))
-        return
-      }
-      const hiddenTarget = abortAutoActivationForHiddenTarget(id, activation)
-      if (hiddenTarget) {
-        reject(hiddenTarget)
-        return
-      }
-      // One-shot command is dropped, not paused, when authority already exists at registration.
-      if (authority.has(id)) {
-        resolve({ outcome: 'droppedByAuthority' })
-        return
-      }
-      let settled = false
-      let entry: EntityStepSlot
-      const settle = (outcome: AutoOneShotAck): void => {
-        if (settled) return
-        settled = true
-        signal.removeEventListener('abort', abort)
-        if (outcome === 'attempted') motionRuntime.rememberCommittedAutoContinuation(id, entry)
-        if (autoMotionSlots.get(id) === entry) autoMotionSlots.delete(id)
-        resolve(
-          outcome === 'attempted' ? { outcome, commandEpoch: entry.commandEpoch } : { outcome },
-        )
-      }
-      entry = {
-        kind: 'step',
-        source: 'auto',
-        dir,
-        commandEpoch: nextMotionCommandEpoch++,
-        sceneSessionId: currentMotionSceneSessionId(),
-        activationOwnerId: activation.entityId,
-        activationEpoch: activation.epoch,
-        authorityEpochAtEnqueue: authorityEpoch.get(id) ?? 0,
-        resolve: (): void => settle('attempted'),
-        dropByAuthority: (): void => settle('droppedByAuthority'),
-        cancel: (message: string): void => {
-          if (settled) return
-          settled = true
-          signal.removeEventListener('abort', abort)
-          if (autoMotionSlots.get(id) === entry) autoMotionSlots.delete(id)
-          reject(asyncIntentAbortError(message))
-        },
-      }
-      const abort = (): void => entry.cancel(`auto 实体 ${id} 单步所属 runner 已取消`)
-      autoMotionSlots.get(id)?.cancel(`实体 ${id} 的旧 auto locomotion 已被单步替换`)
-      autoMotionSlots.set(id, entry)
-      signal.addEventListener('abort', abort, { once: true })
-      if (signal.aborted) abort()
+    } catch (error) {
+      return Promise.reject(error)
+    }
+    if (!activeScene.scene.entities.some((candidate) => candidate.id === id))
+      return Promise.reject(asyncIntentAbortError(`auto stepEntity: 实体 ${id} 不在场`))
+    if (entityMotionPermanentlyRemoved(id))
+      return Promise.reject(asyncIntentAbortError(`auto stepEntity: 实体 ${id} 已永久移除`))
+    const activation = autoActivationBySignal.get(signal)
+    if (!activation || autoActivations.get(activation.entityId) !== activation)
+      return Promise.reject(asyncIntentAbortError(`auto stepEntity: 实体 ${id} activation 已失效`))
+    const hiddenTarget = abortAutoActivationForHiddenTarget(id, activation)
+    if (hiddenTarget) return Promise.reject(hiddenTarget)
+    return motion.registerAutoStep({
+      id,
+      dir,
+      sceneId: activeScene.scene.id,
+      signal,
+      activation: { ownerId: activation.entityId, epoch: activation.epoch },
     })
   }
 
@@ -1697,86 +1533,57 @@ export async function bootGame(
     floating: boolean,
     signal: AbortSignal,
   ): Promise<AutoOneShotAck> {
-    return new Promise((resolve, reject) => {
+    try {
       signal.throwIfAborted()
-      if (!activeScene.scene.entities.some((candidate) => candidate.id === id)) {
-        reject(asyncIntentAbortError(`追逐实体 ${id} 已离场`))
-        return
-      }
-      if (entityMotionPermanentlyRemoved(id)) {
-        reject(asyncIntentAbortError(`追逐实体 ${id} 已永久移除`))
-        return
-      }
-      const registry = source === 'script' ? scriptMotionSlots : autoMotionSlots
-      const activation = source === 'auto' ? autoActivationBySignal.get(signal) : undefined
-      if (
-        source === 'auto' &&
-        (!activation || autoActivations.get(activation.entityId) !== activation)
-      ) {
-        reject(asyncIntentAbortError(`追逐实体 ${id} 的 auto activation 已失效`))
-        return
-      }
-      if (source === 'auto' && authority.has(id)) {
-        clearPendingChaseTerminal(id, {
-          source: 'auto',
-          activationOwnerId: activation?.entityId,
-          activationEpoch: activation?.epoch,
+    } catch (error) {
+      return Promise.reject(error)
+    }
+    if (!activeScene.scene.entities.some((candidate) => candidate.id === id))
+      return Promise.reject(asyncIntentAbortError(`追逐实体 ${id} 已离场`))
+    if (entityMotionPermanentlyRemoved(id))
+      return Promise.reject(asyncIntentAbortError(`追逐实体 ${id} 已永久移除`))
+    const activation = source === 'auto' ? autoActivationBySignal.get(signal) : undefined
+    if (
+      source === 'auto' &&
+      (!activation || autoActivations.get(activation.entityId) !== activation)
+    )
+      return Promise.reject(asyncIntentAbortError(`追逐实体 ${id} 的 auto activation 已失效`))
+    let registered: EntityChaseSlot | undefined
+    return motion.registerChase({
+      source,
+      id,
+      range,
+      floating,
+      sceneId: activeScene.scene.id,
+      signal,
+      ...(activation
+        ? { activation: { ownerId: activation.entityId, epoch: activation.epoch } }
+        : {}),
+      onRegistered: (entry) => {
+        registered = entry
+        // The behavior leaf, not the generic hostile scanner, owns contact semantics from
+        // registration through its pacing window.
+        pendingChaseTerminal.set(id, {
+          sceneSessionId: entry.sceneSessionId,
+          source,
+          commandEpoch: entry.commandEpoch,
+          ...(entry.activationOwnerId ? { activationOwnerId: entry.activationOwnerId } : {}),
+          ...(entry.activationEpoch !== undefined
+            ? { activationEpoch: entry.activationEpoch }
+            : {}),
         })
-        resolve('droppedByAuthority')
-        return
-      }
-      let settled = false
-      let entry: EntityChaseSlot
-      const settle = (outcome: AutoOneShotAck): void => {
-        if (settled) return
-        settled = true
-        signal.removeEventListener('abort', abort)
-        if (registry.get(id) === entry) registry.delete(id)
-        if (outcome === 'droppedByAuthority')
-          clearPendingChaseTerminal(id, { commandEpoch: entry.commandEpoch })
-        resolve(outcome)
-      }
-      entry = {
-        kind: 'chase',
-        source,
-        range,
-        floating,
-        commandEpoch: nextMotionCommandEpoch++,
-        sceneSessionId: currentMotionSceneSessionId(),
-        ...(activation
-          ? { activationOwnerId: activation.entityId, activationEpoch: activation.epoch }
-          : {}),
-        resolve: (): void => settle('attempted'),
-        ...(source === 'auto'
-          ? {
-              authorityEpochAtEnqueue: authorityEpoch.get(id) ?? 0,
-              dropByAuthority: (): void => settle('droppedByAuthority'),
-            }
-          : {}),
-        cancel: (message: string): void => {
-          if (settled) return
-          settled = true
-          signal.removeEventListener('abort', abort)
-          if (registry.get(id) === entry) registry.delete(id)
-          clearPendingChaseTerminal(id, { commandEpoch: entry.commandEpoch })
-          reject(asyncIntentAbortError(message))
-        },
-      }
-      const abort = (): void => entry.cancel(`追逐实体 ${id} 所属 runner 已取消`)
-      registry.get(id)?.cancel(`实体 ${id} 的旧 ${source} locomotion 已被追逐替换`)
-      registry.set(id, entry)
-      // The behavior leaf, not the generic engine-hostile scanner, owns contact semantics from
-      // registration through its pacing window. The next matching leaf consumes this claim using
-      // then-current positions (pre-close, accepted-to-close and blocked all share one rule).
-      pendingChaseTerminal.set(id, {
-        sceneSessionId: entry.sceneSessionId,
-        source,
-        commandEpoch: entry.commandEpoch,
-        ...(entry.activationOwnerId ? { activationOwnerId: entry.activationOwnerId } : {}),
-        ...(entry.activationEpoch !== undefined ? { activationEpoch: entry.activationEpoch } : {}),
-      })
-      signal.addEventListener('abort', abort, { once: true })
-      if (signal.aborted) abort()
+      },
+      onDropped: () => {
+        if (registered) clearPendingChaseTerminal(id, { commandEpoch: registered.commandEpoch })
+        else
+          clearPendingChaseTerminal(id, {
+            source,
+            ...(activation
+              ? { activationOwnerId: activation.entityId, activationEpoch: activation.epoch }
+              : {}),
+          })
+      },
+      onCancelled: (entry) => clearPendingChaseTerminal(id, { commandEpoch: entry.commandEpoch }),
     })
   }
 
@@ -1834,7 +1641,7 @@ export async function bootGame(
           : {
               sceneSessionId: continuationSceneToken,
               source,
-              commandEpoch: nextMotionCommandEpoch++,
+              commandEpoch: motion.nextCommandEpoch(),
               ...(activation
                 ? {
                     activationOwnerId: activation.entityId,
@@ -2182,7 +1989,7 @@ export async function bootGame(
       const entry = plan.onEnterEntry
       markSceneLoad(fromSceneId, sceneId, 'committed')
       applyWorldToScene()
-      entityFrameOverride.clear()
+      worldPresentation.clearEntityFrames()
       pendingOnEnter = targetBinding ? { sceneId, binding: targetBinding } : null
       sceneChangedByScript = true // X1:演出链全部收尾后写 auto 档
       startAutoRunners()
@@ -2217,7 +2024,7 @@ export async function bootGame(
       // 原版 0x15:wPartyDirection=o[0] + rgParty[o[2]].wFrame=dir*3+o[1] —— 每次都写帧;
       // gesture 缺省(=0 站立帧)即清脚本姿势。member>0 = 跟随者(渲染落地后生效,先忽略)。
       facing = fc
-      if (!member) partyGesture = gesture ?? null
+      if (!member) worldPresentation.setPartyGesture(gesture ?? null)
     },
     setActorSprite: async (actorId, spriteId, signal) => {
       assertRunnerActive(signal, `0x65 换装 ${actorId} 的 runner 已取消`)
@@ -2349,7 +2156,7 @@ export async function bootGame(
       const e = activeScene.scene.entities.find((x) => x.id === id)
       if (e) e.facing = fc
     },
-    setEntityFrame: (id, frame) => entityFrameOverride.set(id, frame),
+    setEntityFrame: (id, frame) => worldPresentation.setEntityFrame(id, frame),
     playEntityAction: (id, binding, signal) => {
       assertRunnerActive(signal, `实体 ${id} 动作所属 runner 已取消`)
       const entity = activeScene.scene.entities.find((candidate) => candidate.id === id)
@@ -2365,8 +2172,8 @@ export async function bootGame(
         `playEntityAction: 场景 ${activeScene.scene.id} 实体 ${id}`,
       )
       // 新动作接管外观时清掉显式定帧；移动中的走帧仍保留并以更高优先级暂停动作。
-      entityFrameOverride.delete(id)
-      entityExplicitAnim.delete(id)
+      worldPresentation.clearEntityFrame(id)
+      motion.clearExplicitAnimation(id)
       return entityActions.play(id, resolved, signal)
     },
     stopEntityAction: (id, reset) => entityActions.stop(id, reset),
@@ -2424,7 +2231,7 @@ export async function bootGame(
     },
     // 0x35 震屏:渲染时世界层 y ±level 交替(40ms 相位 = 原版逐帧);time=0 立即关
     shakeScreen: (timeFrames, level) => {
-      worldShake = timeFrames > 0 ? { untilMs: frames.now + timeFrames * 40, level } : null
+      worldPresentation.shake(frames.now, timeFrames, level)
     },
     // 0x1B-1D 全队资源变化:仅活人,clamp；0x1D 缺省 HP/MP 同改。
     increaseHpMp: (amount, pools) => {
@@ -2588,10 +2395,10 @@ export async function bootGame(
       // 原版单步 op(0x0B-0E)= NPCWalkOneStep(speed 2)= 4/2px = 0.25 格(script.c:660;
       // scene.c:887-888)。⚠ 曾 0.5 格且误引 play.c:213(那是追逐 speed8=16/8px)→ 步距 2×。
       e.pos = stepEntityPos(e.pos, dir)
-      markEntityGait(id, 'script', nextMotionCommandEpoch++)
+      markEntityGait(id, 'script', motion.nextCommandEpoch())
     },
     animEntity: (id) => {
-      entityExplicitAnim.set(id, (entityExplicitAnim.get(id) ?? 0) + 1)
+      motion.advanceExplicitAnimation(id)
     },
     nudgeEntity: (id, dx, dy) => {
       // 增量制(0x6C/0x7D 像素位移):绝对 pixelToGrid 的 round 会把 ±4,±2px 碎步吞成 0
@@ -2601,35 +2408,16 @@ export async function bootGame(
       const d = pixelDeltaToGridDelta(dx, dy)
       e.pos = { ...e.pos, col: e.pos.col + d.dcol, row: e.pos.row + d.drow }
     },
-    moveParty: (to, speed, signal) =>
-      new Promise((resolve, reject) => {
+    moveParty: (to, speed, signal) => {
+      try {
         assertRunnerActive(signal, '队伍走位所属 runner 已取消')
-        dismountParty() // 走位即下筏(原版 ride 是 op-scoped,挂载不跨走位;零持久态)
-        takeByScript('party')
-        let settled = false
-        const entry = {
-          to,
-          speed,
-          resolve: (): void => {
-            if (settled) return
-            settled = true
-            signal?.removeEventListener('abort', abort)
-            if (partyMove === entry) partyMove = null
-            resolve()
-          },
-        }
-        const abort = (): void => {
-          if (settled) return
-          settled = true
-          if (partyMove === entry) partyMove = null
-          signal?.removeEventListener('abort', abort)
-          reject(asyncIntentAbortError('队伍走位所属 runner 已取消'))
-        }
-        partyMove?.resolve()
-        partyMove = entry // 世界拍推进(advanceMoves)
-        signal?.addEventListener('abort', abort, { once: true })
-        if (signal?.aborted) abort()
-      }),
+      } catch (error) {
+        return Promise.reject(error)
+      }
+      dismountParty() // 走位即下筏(原版 ride 是 op-scoped,挂载不跨走位;零持久态)
+      takeByScript('party')
+      return motion.schedulePartyMove(to, speed, signal)
+    },
     nudgeParty: (dx, dy, layer) => {
       takeByScript('party')
       // 0x6E 第三操作数是覆盖写，不是增量；layer=0 也必须清掉上一段演出的层。
@@ -2638,7 +2426,7 @@ export async function bootGame(
       const from = { ...player.pos }
       player.pos = { ...player.pos, col: player.pos.col + d.dcol, row: player.pos.row + d.drow }
       pushTrail(trail, player.pos, displacementFacing(from, player.pos, facing))
-      partyGesture = null // 原版走位重算 wFrame
+      worldPresentation.setPartyGesture(null) // 原版走位重算 wFrame
       stepFrame = (stepFrame + 1) % 4 // 原版 0x6E 带走姿推进
       updateCamera()
     },
@@ -2987,7 +2775,7 @@ export async function bootGame(
   ): void => {
     applyWorldEntityGatesToScene()
     const reset = commit?.resetFrameTarget
-    if (reset?.scene === activeScene.scene.id) entityFrameOverride.delete(reset.entity)
+    if (reset?.scene === activeScene.scene.id) worldPresentation.clearEntityFrame(reset.entity)
     const target = command.target
     if (target.scene !== activeScene.scene.id) return
     const entity = activeScene.scene.entities.find((candidate) => candidate.id === target.entity)
@@ -3350,45 +3138,6 @@ export async function bootGame(
     hostile?: boolean
   }
 
-  const appendMotionTrace = (
-    intents: readonly MotionIntent[],
-    outcomes: readonly MotionOutcome[],
-  ): void => {
-    if (!debugLayers.collision) return
-    const intentByActor = new Map(
-      intents.map((intent) => [motionActorKey(intent.actor), intent] as const),
-    )
-    const blockReason = (outcome: Extract<MotionOutcome, { kind: 'blocked' }>): string => {
-      const reason = outcome.reason
-      if (reason.kind === 'terrain') return 'terrain'
-      if (reason.kind === 'cycle')
-        return `cycle:${reason.actors.map(motionActorKey).sort().join(',')}`
-      return `${reason.kind}:${motionActorKey(reason.actor)}`
-    }
-    const entries = outcomes
-      .map((outcome): MotionTraceEntry => {
-        const actor = motionActorKey(outcome.actor)
-        const intent = intentByActor.get(actor)
-        return {
-          scene: activeScene.scene.id,
-          worldTick: worldTickNum,
-          actor,
-          source: intent?.source ?? 'passive-yield',
-          from: { ...outcome.from },
-          proposed: {
-            ...(intent?.desired ?? (outcome.kind === 'blocked' ? outcome.from : outcome.to)),
-          },
-          outcome: outcome.kind,
-          to: { ...(outcome.kind === 'blocked' ? outcome.from : outcome.to) },
-          ...(outcome.kind === 'blocked' ? { blockReason: blockReason(outcome) } : {}),
-        }
-      })
-      .sort((a, b) => (a.actor < b.actor ? -1 : a.actor > b.actor ? 1 : 0))
-    motionTrace.push(...entries)
-    if (motionTrace.length > MOTION_TRACE_LIMIT)
-      motionTrace.splice(0, motionTrace.length - MOTION_TRACE_LIMIT)
-  }
-
   /** D15-1:同一 100ms snapshot 统一规划 entity / hostile / player，再原子提交。 */
   function advanceMoves(dt: number, pressed: ReadonlySet<string>): void {
     cameraSession.advance(dt)
@@ -3418,7 +3167,7 @@ export async function bootGame(
       !playerInputBlockedByEdge
     const inputDirection = playerInputAllowed ? heldDir() : null
     if (inputDirection && inputDirection !== facing) facing = inputDirection
-    if (!partyMove && !inputDirection && walking) {
+    if (!motion.partyMove && !inputDirection && walking) {
       const settled = settleWalkAnimation({ walking, stepFrame })
       walking = settled.walking
       stepFrame = settled.stepFrame
@@ -3426,21 +3175,10 @@ export async function bootGame(
 
     // menu / battle freeze locomotion before cadence is accrued. Frozen wall time must not age
     // fairness rings, side-stick eligibility or slow-move parity.
-    if (menus.active || hostileBusy || battleHost.active || scriptConfirmModal.active) {
-      worldTicksThisFrame = 0
-      return
-    }
-
+    const locomotionFrozen =
+      menus.active || hostileBusy || !!battleHost.active || scriptConfirmModal.active
     // ── 世界拍(STEP_MS=100ms):至多 1 拍/rAF,真积压丢弃(DM31 永不补帧)。──
-    worldMoveAcc += dt
-    worldTicksThisFrame = 0
-    if (worldMoveAcc >= STEP_MS) {
-      worldMoveAcc -= STEP_MS
-      if (worldMoveAcc > STEP_MS) worldMoveAcc = 0
-      worldTicksThisFrame = 1
-      worldTickNum++
-    }
-    if (!worldTicksThisFrame) return
+    if (!motion.advanceCadence(dt, locomotionFrozen)) return
 
     // Dialogue deliberately does not freeze unrelated auto entities. Scripted presentation
     // continues through its own runner outside the global menu/battle gates above.
@@ -3448,13 +3186,13 @@ export async function bootGame(
     if (authority.get('party')?.kind === 'mount') deriveFollowers()
     // Authored party locomotion owns the whole snapshot even when its final step completes now.
     // Otherwise clearing partyMove mid-tick could admit a second player/passive-yield write.
-    const partyBypassOwnedTick = partyMove !== null
+    const partyBypassOwnedTick = motion.partyMove !== null
 
     const slowRestEntityIds = new Set<string>()
     const settleEntityGaitsForTick = (): void => {
-      for (const id of [...entityWalkPhase.keys()]) {
-        if (entityLastMovedWorldTick.get(id) === worldTickNum) continue
-        const owner = entityGaitOwner.get(id)
+      for (const id of motion.gaitIds()) {
+        if (motion.lastMovedWorldTick(id) === motion.worldTick) continue
+        const owner = motion.gaitOwner(id)
         const slot = [scriptMotionSlots.get(id), autoMotionSlots.get(id)].find(
           (candidate) => candidate?.commandEpoch === owner?.epoch,
         )
@@ -3470,7 +3208,7 @@ export async function bootGame(
       const contact = hostileAtContact()
       if (contact) {
         settleEntityGaitsForTick()
-        if (walking && !partyMove) {
+        if (walking && !motion.partyMove) {
           const settled = settleWalkAnimation({ walking, stepFrame })
           walking = settled.walking
           stepFrame = settled.stepFrame
@@ -3482,6 +3220,7 @@ export async function bootGame(
 
     // Authored party movement remains a bypass, but linearizes before the dynamic snapshot and now
     // records trail exactly once at the actual position write instead of once per render frame.
+    const partyMove = motion.partyMove
     if (partyMove) {
       const mv = partyMove
       const from = { ...player.pos }
@@ -3491,12 +3230,11 @@ export async function bootGame(
       const moved = from.col !== result.pos.col || from.row !== result.pos.row
       if (moved) pushTrail(trail, player.pos, result.facing)
       if (result.done) {
-        partyMove = null
         walking = false
-        mv.resolve()
+        motion.completePartyMove(mv)
       } else {
         walking = true
-        partyGesture = null
+        worldPresentation.setPartyGesture(null)
         stepFrame = (stepFrame + 1) % 4
       }
       if (moved) deriveFollowers()
@@ -3617,7 +3355,7 @@ export async function bootGame(
         source = 'hostile'
         collision = runtimeMotionCollision('hostile')
         floating = chase.floating === true
-        epoch = hostileMotionEpoch.get(id) ?? nextMotionCommandEpoch++
+        epoch = hostileMotionEpoch.get(id) ?? motion.nextCommandEpoch()
         hostileMotionEpoch.set(id, epoch)
       } else if (slot) {
         epoch = slot.commandEpoch
@@ -3717,11 +3455,7 @@ export async function bootGame(
 
     const canWriteParty = !authority.has('party') && !partyBypassOwnedTick
     if (inputDirection && canWriteParty) {
-      if (playerMotionDirection !== inputDirection) {
-        playerMotionDirection = inputDirection
-        playerMotionEpoch++
-        clearMotionStick({ kind: 'party' })
-      }
+      const playerMotionEpoch = motion.setPlayerDirection(inputDirection)
       const delta = WALK_STEP[inputDirection]
       intents.push({
         actor: { kind: 'party' },
@@ -3739,11 +3473,7 @@ export async function bootGame(
         quantum: 1,
         allowSidestep: true,
       })
-    } else if (playerMotionDirection !== null) {
-      playerMotionDirection = null
-      playerMotionEpoch++
-      clearMotionStick({ kind: 'party' })
-    }
+    } else motion.setPlayerDirection(null)
 
     const mountedChildren = new Set<string>()
     const extraFootprints = new Map<string, Array<{ dcol: number; drow: number }>>()
@@ -3801,31 +3531,22 @@ export async function bootGame(
     })
 
     const partyAuthorityStamp = authorityEpoch.get('party') ?? 0
-    const previousSideSticks = motionSideSticks
-    motionFairnessClock.beginBatch()
-    const plan = planEntityMotion({
-      tick: worldTickNum,
-      actors,
-      intents,
-      sideSticks: motionSideSticks,
-      partyCanYield: canWriteParty && !pendingTouchTrigger.pending,
-      fairnessTickForGroup: (members) => motionFairnessClock.tickForGroup(members),
-      terrainBlocked: (pos) => isBlockedAt(activeScene.map, pos),
-    })
-    appendMotionTrace(intents, plan.outcomes)
     const liveMotionMembers = new Set([
       motionActorKey({ kind: 'party' }),
       ...activeScene.scene.entities.map((entity) =>
         motionActorKey({ kind: 'entity' as const, id: entity.id }),
       ),
     ])
-    // Fairness identity is the stable actor set, not a leaf/command epoch. This preserves rotation
-    // across slow rest, hostile cadence and repeated one-shot auto leaves.
-    motionFairnessClock.commitBatch(liveMotionMembers)
-    const activeIntentKeys = new Set(intents.map((intent) => motionActorKey(intent.actor)))
-    const dormantSideSticks = previousSideSticks.filter((stick) => {
-      const key = motionActorKey(stick.actor)
-      if (activeIntentKeys.has(key) || stick.actor.kind === 'party') return false
+    const { plan, previousSideSticks } = motion.plan({
+      actors,
+      intents,
+      partyCanYield: canWriteParty && !pendingTouchTrigger.pending,
+      terrainBlocked: (pos) => isBlockedAt(activeScene.map, pos),
+      liveActors: liveMotionMembers,
+    })
+    motion.recordTrace(debugLayers.collision, activeScene.scene.id, intents, plan.outcomes)
+    motion.commitSideSticks(previousSideSticks, plan.nextSideSticks, intents, (stick) => {
+      if (stick.actor.kind === 'party') return false
       const id = stick.actor.id
       const entity = activeScene.scene.entities.find((candidate) => candidate.id === id)
       if (!entity || authority.has(id)) return false
@@ -3842,7 +3563,6 @@ export async function bootGame(
         entityLifecycleGates(entity, { hasHostile: true }).hostileAllowed
       )
     })
-    motionSideSticks = [...dormantSideSticks, ...plan.nextSideSticks]
 
     let playerOutcome: MotionOutcome | undefined
     const entityOutcomes: Array<{
@@ -3909,8 +3629,8 @@ export async function bootGame(
             meta.entity.pos = { ...outcome.to }
             meta.entity.facing = outcome.facing
             if (reachedEndpoint) {
-              entityFrameOverride.delete(meta.entity.id)
-              entityExplicitAnim.delete(meta.entity.id)
+              worldPresentation.clearEntityFrame(meta.entity.id)
+              motion.clearExplicitAnimation(meta.entity.id)
               clearEntityGait(meta.entity.id)
             } else markEntityGait(meta.entity.id, meta.source, meta.epoch)
           }
@@ -3946,7 +3666,7 @@ export async function bootGame(
             } else {
               walking = playerMoved
               if (playerMoved) {
-                partyGesture = null
+                worldPresentation.setPartyGesture(null)
                 stepFrame = (stepFrame + 1) % 4
               }
             }
@@ -4195,7 +3915,7 @@ export async function bootGame(
       }
       hostileCd.set(e.id, 0)
       hostileReady.add(e.id)
-      if (!hostileMotionEpoch.has(e.id)) hostileMotionEpoch.set(e.id, nextMotionCommandEpoch++)
+      if (!hostileMotionEpoch.has(e.id)) hostileMotionEpoch.set(e.id, motion.nextCommandEpoch())
     }
   }
   function hostileBehaviorFor(entityId: string): RuntimeHostileBehavior | undefined {
@@ -4334,8 +4054,7 @@ export async function bootGame(
     // AbortSignal 只会在 host Promise 返回后被 runner 检查；先失效 host 的提交 token，
     // 保证旧场景 auto 已经卡进资源 await 时也不能在新场景提交后反写。
     invalidatePendingScriptMutations()
-    teardownMotionRuntime({
-      runtime: motionRuntime,
+    motion.teardownScene({
       slotMessage: (source, id) => `切换场景时取消实体 ${id} 的未完成 ${source} 走位`,
       beforeCancelSlots: () => {
         for (const activation of autoActivations.values()) activation.controller.abort()
@@ -4345,12 +4064,6 @@ export async function bootGame(
         if (authority.get('party')?.kind === 'mount') dismountParty()
       },
     })
-    entityWalkPhase.clear()
-    entityGaitOwner.clear()
-    entityLastMovedWorldTick.clear()
-    entityExplicitAnim.clear()
-    motionSideSticks = []
-    motionFairnessClock.clear()
     hostileCd.clear()
     hostileReady.clear()
     hostileMotionEpoch.clear()
@@ -4512,11 +4225,10 @@ export async function bootGame(
     screenHold.cancel()
     ditherTransition.cancel()
     sceneEntrySession.cancel()
-    entityFrameOverride.clear()
-    partyGesture = null // 演出态随脚本终止一并清(dev 强停/读档;正常流脚本自清)
+    worldPresentation.clearEntityFrames()
+    worldPresentation.setPartyGesture(null) // 演出态随脚本终止一并清(dev 强停/读档;正常流脚本自清)
     actorSpriteOverrides.clear()
-    partyMove?.resolve()
-    partyMove = null
+    motion.resolvePartyMove()
     walking = false
   }
 
@@ -4553,7 +4265,7 @@ export async function bootGame(
     pendingTouchTrigger.enqueue({
       sceneSessionId: currentMotionSceneSessionId(),
       entityId: e.id,
-      landingTick: worldTickNum,
+      landingTick: motion.worldTick,
       // The touch was already selected against this committed landing. Freeze that binding fact:
       // later NPC/player movement cannot erase the event or silently retarget it to a newly selected
       // page. Scene/lifecycle replacement may still hold or cancel delivery below.
@@ -5053,203 +4765,39 @@ export async function bootGame(
     // trail 只在真实 player position commit 点推进；render 必须保持纯读，尤其 sidestep 的
     // 离格方向与 visual facing 不同，不能在这里用当前 facing 猜测。
     deriveFollowers()
-    // 精灵 + 高物瓦片由 renderScene 按投影 Y 统一深度排序（遮挡）；地板自动铺底。
-    const sprites: SpriteDraw[] = []
-    // 实体站立帧(N 实体;hidden 跳过;zBias 进画序):布局数据化 idleFrameIndex
-    for (const e of activeScene.scene.entities) {
-      if (!entityLifecycleGates(e).visible) continue
-      const def = activeScene.entitySpriteDefs.get(e.id)
-      const sp = def ? spriteCache.get(project.assetResolver, def.asset) : undefined
-      // 帧优先级:显式定帧 > 移动/显式 anim > 语义动作 > 当前 layout.loop > 站立。
-      // 动作步骤已经是绝对源帧，不得再叠方向站立基址。
-      const gait = entityWalkPhase.get(e.id)
-      const explicitAnim = entityExplicitAnim.get(e.id)
-      const hasOv = entityFrameOverride.has(e.id)
-      const actionFrame = entityActions.frame(e.id)
-      const fi = def
-        ? hasOv
-          ? actualFrameIndex(
-              idleFrameIndex(def.layout, e.facing ?? 'down', sp?.frames.length) +
-                (entityFrameOverride.get(e.id) ?? 0),
-              sp?.frames.length ?? 0,
-            )
-          : gait !== undefined
-            ? walkFrameIndex(def.layout, e.facing ?? 'down', gait, sp?.frames.length)
-            : explicitAnim !== undefined
-              ? // 0x87:directional 走组内步序,static 平推整条帧带(原版语义)。
-                animFrameIndex(def.layout, e.facing ?? 'down', explicitAnim, sp?.frames.length ?? 1)
-              : actionFrame !== undefined
-                ? actualFrameIndex(actionFrame, sp?.frames.length ?? 0)
-                : def.layout.kind === 'loop'
-                  ? loopFrameIndex(def.layout, performance.now(), sp?.frames.length ?? 0)
-                  : idleFrameIndex(def.layout, e.facing ?? 'down', sp?.frames.length)
-        : 0
-      const f = def ? sp?.frames[fi] : undefined
-      if (!sp || !f) continue
-      const p = gridToPixel(e.pos)
-      // 0x7E 图层覆写:只进深度排序键(+8px/层 = 一阶段 present.ts:540 sLayer×8 真值),
-      // 不进落笔位;render 直读持久映射,跨场景/存档天然生效
-      const lay = runtimeScript.entityLayer?.[e.id]
-      const effectiveLayer = lay ?? e.zBias ?? 0
-      sprites.push({
-        frame: f,
-        worldX: p.x,
-        worldY: spriteScreenY(e.pos), // 含 height 上移(D16)
-        // 每帧自锚(sdlpal scene.c 按**当前帧**宽高 blit;一阶段 draw-sprite.ts:16-24 同坑
-        // 已修):组锚(首帧)配变尺寸帧组(爬行 193 高 31~73)会溢出几十 px = 演出瞬移感。
-        anchorX: Math.floor(f.width / 2),
-        anchorY: f.height,
-        coverILayer: effectiveLayer * 8 + 2,
-        coverSortOffset: effectiveLayer * 8 + 9,
-        baseYBias: effectiveLayer,
-        // D6-1(K1):actor 实体触发遮挡半透明;prop({sprite} 外观)不触发。
-        occlusionTrigger: 'actor' in e,
-      })
-    }
-    // 玩家帧每帧按当前 world.party[0] 解析；0x65 临时换装 > 0x1A 持久形象 > Actor 本体。
-    const leader = world.party[0]
-    const leaderVisual = leader ? partyVisual(leader) : undefined
-    const ld = leaderVisual?.def
-    const ls = leaderVisual?.frames
-    const fi = ld
-      ? partyGesture != null
-        ? actualFrameIndex(
-            idleFrameIndex(ld.layout, facing, ls?.frames.length) + partyGesture,
-            ls?.frames.length ?? 0,
-          )
-        : walking
-          ? walkFrameIndex(ld.layout, facing, stepFrame, ls?.frames.length)
-          : idleFrameIndex(ld.layout, facing, ls?.frames.length)
-      : 0
-    const pf = ls?.frames[fi]
-    if (ld && pf) {
-      const pp = gridToPixel(player.pos)
-      sprites.push({
-        frame: pf,
-        worldX: pp.x,
-        worldY: spriteScreenY(player.pos), // 含 height 上移(D16);地面=0 同 pp.y
-        anchorX: Math.floor(pf.width / 2), // 每帧自锚(同上;0x65 换爬行精灵后帧高差巨大)
-        anchorY: pf.height,
-        sortOffset: 10,
-        coverILayer: partyLayer * 8 + 6,
-        coverSortOffset: partyLayer * 8 + 10,
-        baseYBias: partyLayer,
-        occlusionTrigger: true,
-      })
-    }
-    // E7 跟随者(party[1..N]):照队长那套 push sprite;walk/idle 跟队长走态
-    for (let m = 1; m < world.party.length; m++) {
-      const fp = followerPos[m]
-      // C7:按当前 world.party 动态解析精灵；0x65/0x1A 与队长走同一优先级。
-      const c = world.party[m]
-      const visual = c ? partyVisual(c) : undefined
-      const fd = visual?.def
-      const fr = visual?.frames
-      if (!fp || !fd || !fr) continue
-      const ffi = walking
-        ? walkFrameIndex(fd.layout, fp.facing, stepFrame, fr.frames.length)
-        : idleFrameIndex(fd.layout, fp.facing, fr.frames.length)
-      const ff = fr.frames[ffi]
-      if (!ff) continue
-      const fpp = gridToPixel(fp.pos)
-      sprites.push({
-        frame: ff,
-        worldX: fpp.x,
-        worldY: spriteScreenY(fp.pos),
-        anchorX: Math.floor(ff.width / 2),
-        anchorY: ff.height,
-        sortOffset: 10,
-        coverILayer: partyLayer * 8 + 6,
-        coverSortOffset: partyLayer * 8 + 10,
-        // 队长永远遮挡队员(作者定调,骑乘重叠时尤其):同 Y 平局给队员微负深度,
-        // 序号越大越靠后;偏置 -0.01×8=-0.08px 只破平局,不扰正常深度排序。
-        baseYBias: partyLayer - 0.01 * m,
-        occlusionTrigger: true,
-      })
-    }
-    // 0x98 编外跟随者：存档/脚本保存 SpriteDef.id；定义提供各自 AssetId 与 layout。
-    const extraFollowers = runtimeScript.followers ?? []
-    for (let k = 0; k < extraFollowers.length; k++) {
-      const spriteId = expectDefined(extraFollowers[k])
-      const def = project.spritesById[spriteId]
-      const fr = def ? spriteCache.get(project.assetResolver, def.asset) : undefined
-      const m = world.party.length + k
-      const r = computeFollowerPos(
-        { party: player.pos, trail, walking, frozenOffset: followerFrozen },
-        m,
-        (col, row) => !isBlocked({ col, row, height: 0 }),
-      )
-      const pos = r?.pos ?? player.pos
-      const dir = r?.dir ?? facing
-      if (!def || !fr) continue
-      const ffi = walking
-        ? walkFrameIndex(def.layout, dir, stepFrame, fr.frames.length)
-        : idleFrameIndex(def.layout, dir, fr.frames.length)
-      const ff = fr.frames[ffi]
-      if (!ff) continue
-      const fpp = gridToPixel(pos)
-      sprites.push({
-        frame: ff,
-        worldX: fpp.x,
-        worldY: spriteScreenY(pos),
-        anchorX: Math.floor(ff.width / 2),
-        anchorY: ff.height,
-        sortOffset: 10,
-        coverILayer: partyLayer * 8 + 6,
-        coverSortOffset: partyLayer * 8 + 10,
-        baseYBias: partyLayer - 0.01 * m,
-        occlusionTrigger: true,
-      })
-    }
-    // 场景底图:clear + scale + renderScene + restore(抽成 renderSceneFrame,editor 复用同一绘制)。
-    // 0x35 震屏:相机 y ±level 交替(40ms 相位;到期自清)
-    if (worldShake && frames.now >= worldShake.untilMs) worldShake = null
-    const shakeCam = worldShake
-      ? {
-          x: camera.x,
-          y:
-            camera.y +
-            (Math.floor(frames.now / 40) % 2 === 0 ? worldShake.level : -worldShake.level),
-        }
-      : camera
-    // 0x71 屏波：只卷背景层，人物和局部 cover 瓦片在波动完成后静态叠回。
-    // 一阶段探索 present 只在 100ms 世界拍推进波相位；rAF 补帧只复用当前相位，
-    // 否则 60/120Hz 会把水波加速 6~12 倍。
-    const advanceWaveFrame = worldTicksThisFrame > 0
-    const waveAmp = advanceWave(runtimeScript.vars, advanceWaveFrame)
-    if (waveAmp > 0) {
-      const wc = ensureWaveCanvas()
-      const wctx = get2dContext(wc)
-      const waveRenderer = activeScene.rendererForWave(
-        () => new Canvas2DRenderer(wctx, activeScene.palette, activeScene.tiles),
-      )
-      renderSceneFrame(wctx, waveRenderer, {
-        map: activeScene.map,
-        room: activeScene.room,
-        camera: shakeCam,
-        sprites: [],
-        worldScale: WORLD_SCALE,
-        layers: { skipCover: true },
-      })
-      worldWave.apply(ctx, wc, waveAmp, WORLD_SCALE, advanceWaveFrame)
-      // renderSceneFrame 会 clear，静态 pass 必须直接调用 renderer.renderScene，
-      // 只跳过 base，不能再套一层 clear，否则会抹掉刚卷好的背景。
-      ctx.save()
-      ctx.scale(WORLD_SCALE, WORLD_SCALE)
-      ctx.imageSmoothingEnabled = false
-      activeScene.renderer.renderScene(activeScene.map, activeScene.room, shakeCam, sprites, {
-        skipBase: true,
-      })
-      ctx.restore()
-    } else {
-      renderSceneFrame(ctx, activeScene.renderer, {
-        map: activeScene.map,
-        room: activeScene.room,
-        camera: shakeCam,
-        sprites,
-        worldScale: WORLD_SCALE,
-      })
-    }
+    const sprites = worldPresentation.sprites({
+      entities: activeScene.scene.entities,
+      visible: (entity) => entityLifecycleGates(entity).visible,
+      entitySprite: (id) => activeScene.entitySpriteDefs.get(id),
+      loadedSprite: (definition) => spriteCache.get(project.assetResolver, definition.asset),
+      entityGait: (id) => motion.gaitPhase(id),
+      entityExplicitAnimation: (id) => motion.explicitAnimation(id),
+      entityActionFrame: (id) => entityActions.frame(id),
+      entityLayer: (id) => runtimeScript.entityLayer?.[id],
+      party: world.party,
+      partyVisual,
+      player: { pos: player.pos, facing, walking, stepFrame, layer: partyLayer },
+      followers: followerPos,
+      extraFollowerSpriteIds: runtimeScript.followers ?? [],
+      extraFollowerPosition: (partyIndex) => {
+        const derived = computeFollowerPos(
+          { party: player.pos, trail, walking, frozenOffset: followerFrozen },
+          partyIndex,
+          (col, row) => !isBlocked({ col, row, height: 0 }),
+        )
+        return { pos: derived?.pos ?? player.pos, facing: derived?.dir ?? facing }
+      },
+      spriteById: (id) => project.spritesById[id],
+      now: () => performance.now(),
+    })
+    worldPresentation.renderWorld({
+      scene: activeScene,
+      camera,
+      sprites,
+      vars: runtimeScript.vars,
+      now: frames.now,
+      advanceWaveFrame: motion.worldTicksThisFrame > 0,
+    })
     // debug 碰撞叠加层(reforge 自己的 dev 拐杖;非编辑器叠加层)—— 在底图之上、独立变换块。
     if (debugLayers.collision || debugLayers.triggers) {
       ctx.save()
@@ -5690,14 +5238,14 @@ export async function bootGame(
           !!battleHost.active ||
           !entity ||
           !entityLifecycleGates(entity).visible ||
-          entityFrameOverride.has(id) ||
-          entityWalkPhase.has(id) ||
-          entityExplicitAnim.has(id)
+          worldPresentation.hasEntityFrame(id) ||
+          motion.hasGait(id) ||
+          motion.hasExplicitAnimation(id)
         )
       })
     },
     clearWorldTicks: () => {
-      worldTicksThisFrame = 0
+      motion.clearWorldTicks()
     },
     presentBattle: (dt, pressed, now) => {
       if (!battleHost.active) return false
@@ -5743,7 +5291,7 @@ export async function bootGame(
     const leader = expectDefined(world.party[0])
     return {
       scene: activeScene.scene.id,
-      worldTick: worldTickNum,
+      worldTick: motion.worldTick,
       player: {
         id: leader.id,
         template: leader.template,
@@ -5752,7 +5300,9 @@ export async function bootGame(
         walking,
         authority: captureAuthority('party'),
         authorityEpoch: motionRuntime.epoch('party'),
-        ...(partyMove ? { partyMove: { to: { ...partyMove.to }, speed: partyMove.speed } } : {}),
+        ...(motion.partyMove
+          ? { partyMove: { to: { ...motion.partyMove.to }, speed: motion.partyMove.speed } }
+          : {}),
       },
       followers: world.party.slice(1).map((member, offset) => {
         const partyIndex = offset + 1
@@ -5808,7 +5358,7 @@ export async function bootGame(
             authorityEpoch: motionRuntime.epoch(entity.id),
             ...(scriptMotion ? { scriptMotion } : {}),
             ...(autoMotion ? { autoMotion } : {}),
-            gait: entityWalkPhase.get(entity.id) ?? null,
+            gait: motion.gaitPhase(entity.id) ?? null,
           }
         })
         .sort((a, b) => (a.id < b.id ? -1 : a.id > b.id ? 1 : 0)),
@@ -5822,10 +5372,10 @@ export async function bootGame(
   if (import.meta.env.DEV) {
     ;(window as unknown as { __tpE2e: unknown }).__tpE2e = {
       dumpSave: () => enqueueSaveSnapshot(captureCurrentSavePayload),
-      dumpMotionTrace: () => structuredClone(motionTrace),
+      dumpMotionTrace: () => motion.dumpTrace(),
       dumpMotionState: captureMotionState,
       clearMotionTrace: () => {
-        motionTrace.length = 0
+        motion.clearTrace()
       },
     }
   }
