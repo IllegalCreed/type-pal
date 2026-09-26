@@ -217,15 +217,12 @@ import {
   decodeEditorLocation,
   EDITOR_MODULES,
   type EditorLocation,
-  type EditorModuleId,
   editorLinks,
   editorLocationHref,
   editorModule,
   editorSubpage,
   editorSubpageHasInspector,
   editorSubpageHasOutliner,
-  normalizeEditorLocation,
-  sameEditorLocation,
 } from './editor-navigation.js'
 import { editorObjectTargetMissing } from './editor-target.js'
 import { MapMode } from './MapMode.js'
@@ -250,6 +247,7 @@ import {
   useEditSessionSelector,
   useScriptEditSessionSelector,
 } from './session-selector.js'
+import { useEditorNavigationSession } from './use-editor-navigation-session.js'
 import { useProjectLeaveGuard } from './use-project-leave-guard.js'
 
 type SceneSelection =
@@ -286,12 +284,6 @@ function initialCanonicalEntityPage(
   return entity?.pages?.find((page) => page.id === entity.initialPage) ?? entity?.pages?.[0]
 }
 
-interface StoredEditorNavigation {
-  last?: EditorLocation
-  modules?: Partial<Record<EditorModuleId, EditorLocation>>
-  scroll?: Record<string, { outliner: number; center: number; inspector: number }>
-}
-
 function newEntityId(existing: readonly { id: string }[]): string {
   const ids = new Set(existing.map((e) => e.id))
   let n = 1
@@ -303,43 +295,6 @@ function newSceneEntryId(scene: SceneDef): string {
   let index = 1
   while (scene.entries?.[`entry-${index}`]) index++
   return `entry-${index}`
-}
-
-function editorNavigationKey(projectId: string): string {
-  return `type-pal:editor:navigation:${projectId}`
-}
-
-function readStoredEditorNavigation(projectId: string): StoredEditorNavigation {
-  try {
-    const raw = window.localStorage.getItem(editorNavigationKey(projectId))
-    if (!raw) return {}
-    const parsed = JSON.parse(raw) as StoredEditorNavigation
-    const modules = Object.fromEntries(
-      Object.entries(parsed.modules ?? {}).map(([id, location]) => [
-        id,
-        normalizeEditorLocation(location),
-      ]),
-    ) as Partial<Record<EditorModuleId, EditorLocation>>
-    return {
-      ...(parsed.last ? { last: normalizeEditorLocation(parsed.last) } : {}),
-      modules,
-      scroll: parsed.scroll ?? {},
-    }
-  } catch {
-    return {}
-  }
-}
-
-function initialEditorLocation(stored: StoredEditorNavigation): EditorLocation {
-  const params = new URLSearchParams(window.location.search)
-  if (params.has('module') || params.has('page') || params.has('object')) {
-    return decodeEditorLocation(window.location.search)
-  }
-  return normalizeEditorLocation(stored.last)
-}
-
-function scrollKey(location: EditorLocation): string {
-  return `${location.module}:${location.subpage}`
 }
 
 /** C-gate ownership is explicit; unknown/future pages keep the legacy root subscription. */
@@ -424,18 +379,19 @@ export function App(props: {
     [scriptSession, session],
   )
   useEffect(() => derivedStore.start(), [derivedStore])
-
-  const bodyRef = useRef<HTMLDivElement>(null)
-  const storedNavigationRef = useRef(readStoredEditorNavigation(props.workspace.workspaceId))
-  const [location, setLocation] = useState<EditorLocation>(() =>
-    initialEditorLocation(storedNavigationRef.current),
-  )
-  const locationRef = useRef(location)
-  const [moduleLocations, setModuleLocations] = useState<
-    Partial<Record<EditorModuleId, EditorLocation>>
-  >(() => ({ ...storedNavigationRef.current.modules, [location.module]: location }))
-  const moduleLocationsRef = useRef(moduleLocations)
-  const scrollPositionsRef = useRef(storedNavigationRef.current.scroll ?? {})
+  const [workspaceNotice, setWorkspaceNotice] = useState<
+    { kind: 'info' | 'error'; message: string } | undefined
+  >()
+  const clearNavigationNotice = useCallback(() => setWorkspaceNotice(undefined), [])
+  const {
+    bodyRef,
+    location,
+    locationRef,
+    apply: applyEditorLocation,
+  } = useEditorNavigationSession({
+    workspaceId: props.workspace.workspaceId,
+    onPageChanged: clearNavigationNotice,
+  })
   const selectorOwnedPage = editorPageOwnsSessionSubscription(location)
 
   // Connected pages subscribe inside their active workspace. The root keeps only chrome metadata;
@@ -495,101 +451,6 @@ export function App(props: {
     [assetReader],
   )
   const audioResolver = assetReader
-  const navigationStorageKey = editorNavigationKey(props.workspace.workspaceId)
-  const [workspaceNotice, setWorkspaceNotice] = useState<
-    { kind: 'info' | 'error'; message: string } | undefined
-  >()
-  const persistNavigation = useCallback(
-    (last: EditorLocation): void => {
-      try {
-        window.localStorage.setItem(
-          navigationStorageKey,
-          JSON.stringify({
-            last,
-            modules: moduleLocationsRef.current,
-            scroll: scrollPositionsRef.current,
-          } satisfies StoredEditorNavigation),
-        )
-      } catch {
-        // 隐私模式或存储禁用时，URL 与当前会话状态仍可工作。
-      }
-    },
-    [navigationStorageKey],
-  )
-
-  const captureScroll = useCallback((current: EditorLocation): void => {
-    const body = bodyRef.current
-    if (!body) return
-    const outliner = body.querySelector<HTMLElement>(':scope > .outliner')
-    const center = body.querySelector<HTMLElement>(':scope > .center, :scope > .data-body')
-    const inspector = body.querySelector<HTMLElement>(':scope > .inspector')
-    scrollPositionsRef.current[scrollKey(current)] = {
-      outliner: outliner?.scrollTop ?? 0,
-      center: center?.scrollTop ?? 0,
-      inspector: inspector?.scrollTop ?? 0,
-    }
-  }, [])
-
-  const applyEditorLocation = useCallback(
-    (input: EditorLocation, historyMode: 'push' | 'replace' | 'none' = 'push'): void => {
-      const next = normalizeEditorLocation(input)
-      const current = locationRef.current
-      const pageChanged = current.module !== next.module || current.subpage !== next.subpage
-      if (pageChanged) {
-        captureScroll(current)
-        setWorkspaceNotice(undefined)
-      }
-
-      if (!sameEditorLocation(current, next)) {
-        locationRef.current = next
-        setLocation(next)
-        const nextModules = { ...moduleLocationsRef.current, [next.module]: next }
-        moduleLocationsRef.current = nextModules
-        setModuleLocations(nextModules)
-      }
-      persistNavigation(next)
-
-      if (historyMode !== 'none') {
-        const href = editorLocationHref(next, window.location.href)
-        if (historyMode === 'push') window.history.pushState({ editorLocation: next }, '', href)
-        else window.history.replaceState({ editorLocation: next }, '', href)
-      }
-    },
-    [captureScroll, persistNavigation],
-  )
-
-  useEffect(() => {
-    window.history.replaceState(
-      { editorLocation: locationRef.current },
-      '',
-      editorLocationHref(locationRef.current, window.location.href),
-    )
-    persistNavigation(locationRef.current)
-  }, [persistNavigation])
-
-  useEffect(() => {
-    const onPopState = (): void =>
-      applyEditorLocation(decodeEditorLocation(window.location.search), 'none')
-    window.addEventListener('popstate', onPopState)
-    return () => window.removeEventListener('popstate', onPopState)
-  }, [applyEditorLocation])
-
-  const activeScrollKey = scrollKey(location)
-  useEffect(() => {
-    const frame = window.requestAnimationFrame(() => {
-      const saved = scrollPositionsRef.current[activeScrollKey]
-      const body = bodyRef.current
-      if (!saved || !body) return
-      const outliner = body.querySelector<HTMLElement>(':scope > .outliner')
-      const center = body.querySelector<HTMLElement>(':scope > .center, :scope > .data-body')
-      const inspector = body.querySelector<HTMLElement>(':scope > .inspector')
-      if (outliner) outliner.scrollTop = saved.outliner
-      if (center) center.scrollTop = saved.center
-      if (inspector) inspector.scrollTop = saved.inspector
-    })
-    return () => window.cancelAnimationFrame(frame)
-  }, [activeScrollKey])
-
   const [selected, setSelected] = useState<SceneSelection>(SCENE_SELECTION)
   const [sceneLifecycleIntent, setSceneLifecycleIntent] = useState<SceneLifecycleIntent>()
   const createSceneButtonRef = useRef<HTMLButtonElement>(null)
@@ -1615,7 +1476,7 @@ export function App(props: {
     const observer = new ResizeObserver(syncWidth)
     observer.observe(body)
     return () => observer.disconnect()
-  }, [])
+  }, [bodyRef])
 
   const layoutWidth = bodyWidth || 1280
   const requestedOutlinerWidth = effectiveOutlinerCollapsed
@@ -1695,7 +1556,7 @@ export function App(props: {
       delete next.objectId
       applyEditorLocation(next, 'replace')
     }
-  }, [applyEditorLocation, scriptSession, session])
+  }, [applyEditorLocation, locationRef, scriptSession, session])
   const undo = useCallback((): void => {
     try {
       if (historyCoordinator.undo()) {
