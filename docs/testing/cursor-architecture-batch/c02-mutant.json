@@ -1,0 +1,13 @@
+{
+  "id": "c02-update-label",
+  "file": "packages/editor/src/core/enemy-commands.ts",
+  "sha256": "227e1462c3859194dbfc0db603416a7db307fdbff9606a2821babf964e6c7b25",
+  "hashUnchanged": true,
+  "greenExit": 0,
+  "greenPassed": 1,
+  "redExit": 1,
+  "failedTitle": "keeps enemy constructors on the old commands barrel and patches on first apply",
+  "failedFullName": "C02 enemy command family keeps enemy constructors on the old commands barrel and patches on first apply",
+  "assertion": "AssertionError: expected '修改敌方' to be '修改敌人' // Object.is equality",
+  "ok": true
+}

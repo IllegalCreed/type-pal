@@ -26,6 +26,14 @@ const cases = {
     to: '个脚本引用',
     title: 'keeps world-variable constructors and in-use error on the old commands barrel',
   },
+  c02: {
+    id: 'c02-update-label',
+    sourceFile: 'src/core/enemy-commands.ts',
+    testFile: 'src/core/enemy-commands.test.ts',
+    from: "readonly label = '修改敌人'",
+    to: "readonly label = '修改敌方'",
+    title: 'keeps enemy constructors on the old commands barrel and patches on first apply',
+  },
 }
 
 const selected = process.argv[2] ? [process.argv[2]] : Object.keys(cases)
