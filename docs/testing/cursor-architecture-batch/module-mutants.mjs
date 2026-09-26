@@ -42,6 +42,14 @@ const cases = {
     to: 'slots: this.next.slots.slice(0, 4)',
     title: 'keeps enemy-team constructors and in-use error on the old commands barrel',
   },
+  c04: {
+    id: 'c04-item-id-exists',
+    sourceFile: 'src/core/item-commands.ts',
+    testFile: 'src/core/item-commands.test.ts',
+    from: '物品 id 已存在：',
+    to: '物品 id 已占用：',
+    title: 'keeps item constructors on the old commands barrel and rejects duplicate id',
+  },
 }
 
 const selected = process.argv[2] ? [process.argv[2]] : Object.keys(cases)

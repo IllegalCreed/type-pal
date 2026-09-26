@@ -1,0 +1,13 @@
+{
+  "id": "c04-item-id-exists",
+  "file": "packages/editor/src/core/item-commands.ts",
+  "sha256": "50d635e6d077f77b8d70162ba085bafcdbb624b7a3739462dcc4b79cd4968fc2",
+  "hashUnchanged": true,
+  "greenExit": 0,
+  "greenPassed": 1,
+  "redExit": 1,
+  "failedTitle": "keeps item constructors on the old commands barrel and rejects duplicate id",
+  "failedFullName": "C04 item command family keeps item constructors on the old commands barrel and rejects duplicate id",
+  "assertion": "AssertionError: expected [Function] to throw error matching /id 已存在/ but got '物品 id 已占用：a'",
+  "ok": true
+}

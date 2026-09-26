@@ -1,5 +1,6 @@
 import type { AssetRecordV1, ItemData } from '@type-pal/content'
 import { describe, expect, test, vi } from 'vitest'
+import * as oldEntry from './commands.js'
 import {
   AddItemCommand,
   CompositeCommand,
@@ -10,6 +11,12 @@ import {
 } from './commands.js'
 import type { EditorState } from './edit-session.js'
 import { EditSession } from './edit-session.js'
+import {
+  AddItemCommand as AddItemMoved,
+  DeleteItemCommand as DeleteItemMoved,
+  ItemInUseError as ItemInUseErrorMoved,
+  UpdateItemCommand as UpdateItemMoved,
+} from './item-commands.js'
 import { collectCurrentProjectReferenceIndex } from './project-reference-adapters.js'
 import type { ScriptEditorState } from './script-editor.js'
 
@@ -58,6 +65,21 @@ function state(items: ItemData[] = []): EditorState {
     assetBlobs: {},
   } as unknown as EditorState
 }
+
+describe('C04 item command family', () => {
+  test('keeps item constructors on the old commands barrel and rejects duplicate id', () => {
+    expect(oldEntry.AddItemCommand).toBe(AddItemMoved)
+    expect(oldEntry.UpdateItemCommand).toBe(UpdateItemMoved)
+    expect(oldEntry.DeleteItemCommand).toBe(DeleteItemMoved)
+    expect(oldEntry.ItemInUseError).toBe(ItemInUseErrorMoved)
+    const command = new UpdateItemCommand('a', { buyPrice: 99 })
+    expect(command.label).toBe('修改物品')
+    const current = state([item('a')])
+    expect(command.apply(current).items[0]?.buyPrice).toBe(99)
+    expect(current.items[0]?.buyPrice).toBe(0)
+    expect(() => new AddItemCommand(item('a')).apply(current)).toThrow(/id 已存在/)
+  })
+})
 
 describe('物品 CRUD 命令', () => {
   const references = (current: EditorState, canonical?: ScriptEditorState) =>
