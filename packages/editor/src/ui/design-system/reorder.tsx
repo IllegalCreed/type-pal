@@ -420,7 +420,9 @@ export function DsReorderCollection(props: {
   revision: DsReorderRevision
   children: ReactNode
   /** Return false when the domain adapter proves the projected order is a canonical no-op. */
-  onReorder(intent: DsReorderIntent): boolean | void
+  onReorder:
+    | ((intent: DsReorderIntent) => boolean | undefined)
+    | ((intent: DsReorderIntent) => void)
   orientation?: DsReorderOrientation
   strategy?: DsReorderStrategy
   disabled?: boolean

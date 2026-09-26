@@ -77,7 +77,7 @@ function NumberInput(props: {
   min?: number
   max?: number
   syncToken: number
-  onChange: (value: number) => void | boolean
+  onChange: ((value: number) => boolean | undefined) | ((value: number) => void)
 }) {
   return (
     <DsDraftNumberInput

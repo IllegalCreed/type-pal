@@ -1,6 +1,5 @@
 import type {
   AuthorSceneDef,
-  BaseSceneEntityDef,
   EntityDef,
   GridPos,
   ScriptStage,

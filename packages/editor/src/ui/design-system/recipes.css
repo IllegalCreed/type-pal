@@ -458,11 +458,6 @@
   align-items: stretch;
 }
 
-.ds-diagnostic-list--adaptive-grid .ds-diagnostic-list__item,
-.ds-diagnostic-list--adaptive-grid .ds-diagnostic-row {
-  height: 100%;
-}
-
 .ds-reference-row,
 .ds-diagnostic-row {
   display: grid;
@@ -613,6 +608,11 @@
     justify-content: flex-start;
     text-align: start;
   }
+}
+
+.ds-diagnostic-list--adaptive-grid .ds-diagnostic-list__item,
+.ds-diagnostic-list--adaptive-grid .ds-diagnostic-row {
+  height: 100%;
 }
 
 .ds-sequence-index {

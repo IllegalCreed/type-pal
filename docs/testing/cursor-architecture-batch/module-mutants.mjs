@@ -14,8 +14,8 @@ const cases = {
     id: 'c00-error-message',
     sourceFile: 'src/core/battle-data-command-errors.ts',
     testFile: 'src/core/command-contract.test.ts',
-    from: '仍被 ${references.length} 处引用',
-    to: '仍被 ${references.length} 个引用',
+    from: `仍被 \${references.length} 处引用`,
+    to: `仍被 \${references.length} 个引用`,
     title: 'keeps BattleDataInUseError identity, message and references on the moved module',
     fullName:
       'C00 command contract and battle-data error keeps BattleDataInUseError identity, message and references on the moved module',
@@ -144,8 +144,8 @@ const cases = {
     id: 'u02-help-tip-label',
     sourceFile: 'src/ui/design-system/help-tips.tsx',
     testFile: 'src/ui/design-system/help-tips.test.tsx',
-    from: 'aria-label={`${props.label}说明`}',
-    to: 'aria-label={`${props.label}帮助`}',
+    from: `aria-label={\`\${props.label}说明\`}`,
+    to: `aria-label={\`\${props.label}帮助\`}`,
     title:
       'keeps tooltip and help-tip identity with visually-hidden descriptions and Escape dismiss',
     fullName:
@@ -205,7 +205,10 @@ const cases = {
     sourceFile: 'src/ui/design-system/field-controls.tsx',
     testFile: 'src/ui/design-system/field-controls.test.tsx',
     from: '      {(field) => (\n        <DsTextInput\n          {...controlProps}\n          id={field.id}',
-    to: '      {(field) => (\n        <DsTextInput\n          {...controlProps}\n          id={`${field.id}-input`}',
+    to: `      {(field) => (
+        <DsTextInput
+          {...controlProps}
+          id={\`\${field.id}-input\`}`,
     title: 'keeps text field shell identity with label association',
     fullName: 'U08 field controls keeps text field shell identity with label association',
   },

@@ -22,8 +22,8 @@ const probes = [
     id: 'final-defeated-input-mutation',
     test: 'enemy-hook',
     target: 'enemy-script.ts',
-    from: 'if (!Array.isArray(value)) throw new Error(`${path}: 期望 EnemyOnDefeatedCommand[]`)',
-    to: 'if (!Array.isArray(value)) { if (value && typeof value === "object") Object.assign(value, { __codex_mutation: true }); throw new Error(`${path}: 期望 EnemyOnDefeatedCommand[]`) }',
+    from: `if (!Array.isArray(value)) throw new Error(\`\${path}: 期望 EnemyOnDefeatedCommand[]\`)`,
+    to: `if (!Array.isArray(value)) { if (value && typeof value === "object") Object.assign(value, { __codex_mutation: true }); throw new Error(\`\${path}: 期望 EnemyOnDefeatedCommand[]\`) }`,
     expected: 1,
   },
 ]

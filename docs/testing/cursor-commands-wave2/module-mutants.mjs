@@ -14,7 +14,8 @@ const cases = {
     id: 'c2-entity-delete-guard',
     sourceFile: 'src/core/entity-commands.ts',
     testFile: 'src/core/entity-address-references.test.ts',
-    from: '    if (references.length)\n      throw new Error(`实体 "${this.sceneId}/${this.entityId}" 仍被引用：${references[0]!.where}`)',
+    from: `    if (references.length)
+      throw new Error(\`实体 "\${this.sceneId}/\${this.entityId}" 仍被引用：\${references[0]!.where}\`)`,
     to: 'void references',
     title:
       'delete is fail-loud while lifecycle references exist and remains undoable after cleanup',
@@ -43,7 +44,7 @@ const cases = {
     id: 'c6-tileset-or-c7-sprite',
     sourceFile: 'src/core/tileset-commands.ts',
     testFile: 'src/core/tileset-lifecycle.test.ts',
-    from: 'if (pathOwner) throw new Error(`瓦片集资源路径已由 ${pathOwner[0]} 登记`)',
+    from: `if (pathOwner) throw new Error(\`瓦片集资源路径已由 \${pathOwner[0]} 登记\`)`,
     to: 'void pathOwner',
     title: '导入拒绝二进制长度不符与其它 AssetId 的路径碰撞',
     fullName: 'A7-3T 瓦片集命令事务 导入拒绝二进制长度不符与其它 AssetId 的路径碰撞',

@@ -2,7 +2,11 @@
 import { act, type RefObject, useRef, useState } from 'react'
 import { createRoot, type Root } from 'react-dom/client'
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
-import { DsAddPickerDialog, type DsAddPickerOption } from './add-picker.js'
+import {
+  DsAddPickerDialog,
+  type DsAddPickerDialogProps,
+  type DsAddPickerOption,
+} from './add-picker.js'
 
 let host: HTMLDivElement
 let root: Root
@@ -78,7 +82,7 @@ function options(count: number): DsAddPickerOption[] {
 
 function picker(props: {
   candidates?: readonly DsAddPickerOption[]
-  onConfirm?: (id: string) => void | false | Promise<void | false>
+  onConfirm?: DsAddPickerDialogProps['onConfirm']
   scopeKey?: string
   revision?: number
   readOnly?: boolean
@@ -534,7 +538,7 @@ describe('DsAddPickerDialog', () => {
     await click(host.querySelector<HTMLElement>('[role="option"]')!)
     expect(document.body.style.overflow).toBe('hidden')
 
-    await act(async () => root.render(<></>))
+    await act(async () => root.render(null))
     expect(onConfirm).not.toHaveBeenCalled()
     expect(document.body.style.overflow).toBe('')
   })

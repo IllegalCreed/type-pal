@@ -6,12 +6,11 @@ import { tmpdir } from 'node:os'
 import { dirname, join, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
-const initialGate =
-  'if (!stateIds.has(initial)) throw new Error(`${path}.machine.initial: 未命中 state ${initial}`)'
+const initialGate = `if (!stateIds.has(initial)) throw new Error(\`\${path}.machine.initial: 未命中 state \${initial}\`)`
 const snapshotMutation = {
   target: 'author-script-core.ts',
   from: initialGate,
-  to: 'if (!stateIds.has(initial)) { machine.label = "MUTATED-ON-REJECTION"; throw new Error(`${path}.machine.initial: 未命中 state ${initial}`) }',
+  to: `if (!stateIds.has(initial)) { machine.label = "MUTATED-ON-REJECTION"; throw new Error(\`\${path}.machine.initial: 未命中 state \${initial}\`) }`,
 }
 
 export const probes = [

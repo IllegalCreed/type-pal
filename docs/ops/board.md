@@ -7,7 +7,8 @@
 额度按接手时实际状态确认；历史额度快照不作为当前准入依据。
 
 **硬质量门（用户2026-09-27）**：lint/格式/typecheck的error/warning/info清零才算通过，exit0不等于零诊断。
-既有存量不豁免；当前0error/90warning/7info，见QUALITY-ZERO-1，未声称完成清理。
+既有存量不豁免；[QUALITY-ZERO-1收口记录](../testing/quality-zero/README.md)已done：
+lint/格式/七包typecheck零诊断，完整check9712、ratchet/受保护单次strict9220通过；warning/info/截断均硬失败。
 
 **当前优先级（用户2026-09-27拍板）**：GLM/Cursor继续各自隔离补测，Codex暂停主动覆盖率扩展，
 转[快速通关E2E路线方案讨论](../testing/e2e-route-proposal.md)。先讨论如何避免盲探迷宫/剧情，
@@ -47,7 +48,6 @@ check8896/单次strict8404全过；实际+134分支/+73行，content分支85.55%
 
 | ID | 任务 | 状态 | 负责人/下一步 | 一句话备注 |
 |---|---|---|---|---|
-| QUALITY-ZERO-1 | [全仓静态诊断清零](tasks/QUALITY-ZERO-1-static-diagnostics.md) | draft | Codex / 存量清理与硬门 | typecheck零；lint90warning/7info未清，不降低规则或排除文件 |
 | E2E-R4-1 | [路线驱动与检查点薄基线](tasks/E2E-R4-1-route-and-checkpoint-foundation.md) | draft | Codex / 双引擎适配准入 | 主线+大型支线；保留对话，两条独立存档链，普通遇敌速胜/剧情Boss个案 |
 | TEST-GLM-ITEM-LOGIC-1 | [物品纯逻辑六组](tasks/TEST-GLM-ITEM-LOGIC-1-world-use-residuals.md) | rework | GLM / 剩R2–R4 | 1c8b57cb关闭R1/装备正控，五针仍漏；回执称已修未落盘，46/1178绿不合入 |
 | TEST-CURSOR-MAP-LOGIC-2 | [地图纯逻辑六组](tasks/TEST-CURSOR-MAP-LOGIC-2-selection-stamps.md) | rework | Cursor / CM1–CM4 | 070d3bf3三漏检针/缩进混错/夹具与去重待修；30/3049绿，不合入 |

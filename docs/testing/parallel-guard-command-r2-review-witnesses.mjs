@@ -13,8 +13,8 @@ const pkg = group === 'glm' ? 'content' : 'editor'
 const prefix = group === 'glm' ? 'src/' : 'src/core/'
 const suffix = group === 'glm' ? '.guard-residual.test.ts' : '.residual.test.ts'
 const output = mkdtempSync(join(tmpdir(), `codex-${group}-residual-r2-`))
-const transitionFrom = 'throw new Error(`${path}.kind: 未知敌人 hook transition ${String(kind)}`)'
-const gateFrom = 'if (chance > 100) throw new Error(`${ctx}.chance: 不得大于 100`)'
+const transitionFrom = `throw new Error(\`\${path}.kind: 未知敌人 hook transition \${String(kind)}\`)`
+const gateFrom = `if (chance > 100) throw new Error(\`\${ctx}.chance: 不得大于 100\`)`
 const gateOracle = `
 test('Codex oracle: the gate under test also accepts chance 100', () => {
   const input = [useEffects([{kind:'gate',chance:100}])];
@@ -113,8 +113,8 @@ const probes =
           id: 'initial-mutation',
           test: 'author-flow',
           target: 'author-script-core.ts',
-          from: 'if (!stateIds.has(initial)) throw new Error(`${path}.machine.initial: 未命中 state ${initial}`)',
-          to: 'if (!stateIds.has(initial)) { machine.label="MUTATED-ON-REJECTION"; throw new Error(`${path}.machine.initial: 未命中 state ${initial}`) }',
+          from: `if (!stateIds.has(initial)) throw new Error(\`\${path}.machine.initial: 未命中 state \${initial}\`)`,
+          to: `if (!stateIds.has(initial)) { machine.label="MUTATED-ON-REJECTION"; throw new Error(\`\${path}.machine.initial: 未命中 state \${initial}\`) }`,
           expected: 1,
         },
         ...[false, true].map((oracle) => ({
@@ -131,7 +131,7 @@ const probes =
           test: 'record-items',
           target: 'validate.ts',
           from: gateFrom,
-          to: 'if (true) throw new Error(`${ctx}.chance: 不得大于 100`)',
+          to: `if (true) throw new Error(\`\${ctx}.chance: 不得大于 100\`)`,
           append: oracle ? gateOracle : '',
           expected: oracle ? 1 : 0,
         })),
@@ -212,5 +212,5 @@ for (const probe of probes) {
     )
   }
 }
-writeFileSync(join(output, 'summary.json'), JSON.stringify(results, null, 2) + '\n')
+writeFileSync(join(output, 'summary.json'), `${JSON.stringify(results, null, 2)}\n`)
 console.log(output)

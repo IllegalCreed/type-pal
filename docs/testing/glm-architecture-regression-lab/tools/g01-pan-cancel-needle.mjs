@@ -23,7 +23,6 @@ const ttlSeconds = Number(process.argv[3] ?? 300)
 const editorRequire = createRequire(resolve(repoRoot, 'packages/editor/package.json'))
 const vite = editorRequire('vite')
 
-const mapModeAbs = resolve(repoRoot, 'packages/editor/src/ui/MapMode.tsx')
 const anchor = `    panRef.current = null
     setPaintTick((tick) => tick + 1)
   }

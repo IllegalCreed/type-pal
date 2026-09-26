@@ -45,7 +45,7 @@ function sessionState(): ScriptEditorState {
 }
 
 /** 拒绝见证取值形式：返回 dispatch 的返回值或错误消息。 */
-function dispatchOf(session: ScriptEditSession, run: () => boolean): boolean | string {
+function dispatchOf(run: () => boolean): boolean | string {
   try {
     return run()
   } catch (error) {
@@ -114,12 +114,12 @@ describe('S02 缺 target 拒绝后 session/history 保真', () => {
       dirty: session.isDirty(),
     }
     expect(
-      dispatchOf(session, () =>
+      dispatchOf(() =>
         session.dispatch(new SaveSceneHookDetailsCommand('s1', 'onEnter', 'ghost', '名', false)),
       ),
     ).toBe('hook 不存在 s1/onEnter/ghost')
     expect(
-      dispatchOf(session, () =>
+      dispatchOf(() =>
         session.dispatch(new DeleteSceneHookCommand('s1', 'onTeleport' as 'onEnter', 'hook-a')),
       ),
     ).toBe('hook 不存在 s1/onTeleport/hook-a')
@@ -151,7 +151,7 @@ describe('S02 最后未引用 hook 的逐层删除', () => {
     expect(Object.keys(scene.hooks!.onEnter!.variants)).toEqual(['hook-a'])
 
     // hook-a 是 initial（自身就是引用）→ 拒绝删除并点名引用
-    const refused = dispatchOf(session, () =>
+    const refused = dispatchOf(() =>
       session.dispatch(new DeleteSceneHookCommand('s1', 'onEnter', 'hook-a')),
     )
     expect(refused).toContain('hook-a 仍有 1 个引用')

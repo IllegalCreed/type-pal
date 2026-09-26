@@ -3337,14 +3337,12 @@ function PlacePalette(props: {
         </fieldset>
 
         {visibleMode ? (
-          <>
-            <DsTextInput
-              aria-label="过滤可见实体来源"
-              placeholder="过滤名称、ID 或精灵号"
-              value={filter}
-              onChange={(event) => setFilter(event.target.value)}
-            />
-          </>
+          <DsTextInput
+            aria-label="过滤可见实体来源"
+            placeholder="过滤名称、ID 或精灵号"
+            value={filter}
+            onChange={(event) => setFilter(event.target.value)}
+          />
         ) : (
           <>
             <fieldset className="place-segments secondary">
@@ -3937,239 +3935,233 @@ function EntityInspector(props: {
         </>
       ) : null}
       {panel === 'behavior' ? (
-        <>
-          <div className="section">
-            <h4>
-              敌对行为<span className="b2"> · B9 数据驱动</span>
-            </h4>
-            <DsPropertyGrid>
-              <DsPropertyRow label="敌对">
-                <DsCheckbox
-                  label="遇敌开战（触碰即开始战斗）"
-                  checked={!!entity.hostile}
-                  onChange={(event) =>
-                    dispatchHostile(
-                      event.currentTarget.checked
-                        ? {
-                            enemyTeamId: enemyTeams[0]?.id ?? 'missing-enemy-team',
-                            onVictory: { kind: 'remove' },
-                            onPlayerFlee: { kind: 'remain' },
-                          }
-                        : undefined,
-                    )
-                  }
-                />
-              </DsPropertyRow>
-              {entity.hostile && (
-                <>
-                  <DsPropertyRow label="敌队" labelFor={`${entityFieldPrefix}-enemy-team`}>
-                    <DsSelect
-                      id={`${entityFieldPrefix}-enemy-team`}
-                      searchable="auto"
-                      value={entity.hostile.enemyTeamId}
-                      options={[
-                        ...(!enemyTeams.some((team) => team.id === entity.hostile!.enemyTeamId)
-                          ? [
-                              {
-                                value: entity.hostile.enemyTeamId,
-                                label: `${entity.hostile.enemyTeamId}（缺数据）`,
-                              },
-                            ]
-                          : []),
-                        ...enemyTeams.map((team) => ({
-                          value: team.id,
-                          label: team.id,
-                          description: `${team.slots.length} 槽`,
-                        })),
-                      ]}
-                      onValueChange={(value) => setHostile({ enemyTeamId: value })}
-                    />
-                  </DsPropertyRow>
-                  <DsPropertyRow label="战场" labelFor={`${entityFieldPrefix}-battle-field`}>
-                    <BattleFieldPicker
-                      id={`${entityFieldPrefix}-battle-field`}
-                      value={entity.hostile.battleFieldId}
-                      fields={battleFields}
-                      unsetLabel="跟随场景默认战场"
-                      ariaLabel="敌对实体战场"
-                      onOpen={onOpenBattleField}
-                      onChange={(battleFieldId) => setHostile({ battleFieldId })}
-                    />
-                  </DsPropertyRow>
-                  <DsPropertyRow label="追逐">
-                    <DsCheckbox
-                      label="见人就追（不勾为原地怪）"
-                      checked={!!entity.hostile.chase}
-                      onChange={(event) =>
-                        setHostile({
-                          chase: event.currentTarget.checked ? { range: 6, speed: 2 } : undefined,
-                        })
-                      }
-                    />
-                  </DsPropertyRow>
-                  {entity.hostile.chase && (
-                    <>
-                      <DsPropertyRow label="追逐参数">
-                        <div className="posrow hostile-chase-metrics">
-                          <label className="cell" htmlFor={`${entityFieldPrefix}-chase-range`}>
-                            <span>range 格</span>
-                            <DsDraftNumberInput
-                              id={`${entityFieldPrefix}-chase-range`}
-                              draftKey={`scene:${sceneId}:entity:${entity.id}:hostile:chase:range`}
-                              syncToken={syncToken}
-                              value={entity.hostile.chase.range}
-                              onCommit={(range) => {
-                                if (range !== undefined && range !== entity.hostile!.chase!.range)
-                                  setHostile({
-                                    chase: { ...entity.hostile!.chase!, range },
-                                  })
-                              }}
-                            />
-                          </label>
-                          <label className="cell" htmlFor={`${entityFieldPrefix}-chase-speed`}>
-                            <span>speed</span>
-                            <DsDraftNumberInput
-                              id={`${entityFieldPrefix}-chase-speed`}
-                              draftKey={`scene:${sceneId}:entity:${entity.id}:hostile:chase:speed`}
-                              syncToken={syncToken}
-                              value={entity.hostile.chase.speed}
-                              onCommit={(speed) => {
-                                if (speed !== undefined && speed !== entity.hostile!.chase!.speed)
-                                  setHostile({
-                                    chase: { ...entity.hostile!.chase!, speed },
-                                  })
-                              }}
-                            />
-                          </label>
-                        </div>
-                      </DsPropertyRow>
-                      <DsPropertyRow label="寻路">
-                        <DsCheckbox
-                          size="compact"
-                          label="追击时忽略地形与阻挡实体"
-                          checked={entity.hostile.chase.floating === true}
-                          onChange={(event) => {
-                            const chase = { ...entity.hostile!.chase!, floating: true }
-                            if (!event.currentTarget.checked)
-                              delete (chase as { floating?: boolean }).floating
-                            setHostile({ chase })
-                          }}
-                        />
-                      </DsPropertyRow>
-                    </>
-                  )}
+        <div className="section">
+          <h4>
+            敌对行为<span className="b2"> · B9 数据驱动</span>
+          </h4>
+          <DsPropertyGrid>
+            <DsPropertyRow label="敌对">
+              <DsCheckbox
+                label="遇敌开战（触碰即开始战斗）"
+                checked={!!entity.hostile}
+                onChange={(event) =>
+                  dispatchHostile(
+                    event.currentTarget.checked
+                      ? {
+                          enemyTeamId: enemyTeams[0]?.id ?? 'missing-enemy-team',
+                          onVictory: { kind: 'remove' },
+                          onPlayerFlee: { kind: 'remain' },
+                        }
+                      : undefined,
+                  )
+                }
+              />
+            </DsPropertyRow>
+            {entity.hostile && (
+              <>
+                <DsPropertyRow label="敌队" labelFor={`${entityFieldPrefix}-enemy-team`}>
+                  <DsSelect
+                    id={`${entityFieldPrefix}-enemy-team`}
+                    searchable="auto"
+                    value={entity.hostile.enemyTeamId}
+                    options={[
+                      ...(!enemyTeams.some((team) => team.id === entity.hostile!.enemyTeamId)
+                        ? [
+                            {
+                              value: entity.hostile.enemyTeamId,
+                              label: `${entity.hostile.enemyTeamId}（缺数据）`,
+                            },
+                          ]
+                        : []),
+                      ...enemyTeams.map((team) => ({
+                        value: team.id,
+                        label: team.id,
+                        description: `${team.slots.length} 槽`,
+                      })),
+                    ]}
+                    onValueChange={(value) => setHostile({ enemyTeamId: value })}
+                  />
+                </DsPropertyRow>
+                <DsPropertyRow label="战场" labelFor={`${entityFieldPrefix}-battle-field`}>
+                  <BattleFieldPicker
+                    id={`${entityFieldPrefix}-battle-field`}
+                    value={entity.hostile.battleFieldId}
+                    fields={battleFields}
+                    unsetLabel="跟随场景默认战场"
+                    ariaLabel="敌对实体战场"
+                    onOpen={onOpenBattleField}
+                    onChange={(battleFieldId) => setHostile({ battleFieldId })}
+                  />
+                </DsPropertyRow>
+                <DsPropertyRow label="追逐">
+                  <DsCheckbox
+                    label="见人就追（不勾为原地怪）"
+                    checked={!!entity.hostile.chase}
+                    onChange={(event) =>
+                      setHostile({
+                        chase: event.currentTarget.checked ? { range: 6, speed: 2 } : undefined,
+                      })
+                    }
+                  />
+                </DsPropertyRow>
+                {entity.hostile.chase && (
                   <>
-                    <DsPropertyRow label="胜利后" labelFor={`${entityFieldPrefix}-victory`}>
-                      <DsSelect
-                        id={`${entityFieldPrefix}-victory`}
-                        value={hostile?.onVictory.kind ?? 'remove'}
-                        options={[
-                          { value: 'remove', label: '隐藏后从场景移除' },
-                          { value: 'hide', label: '隐藏后离屏重现' },
-                          { value: 'remain', label: '保持原样' },
-                        ]}
-                        onValueChange={(value) => {
-                          const kind = value as RuntimeHostileBehavior['onVictory']['kind']
-                          if (kind === 'hide')
-                            setHostile({
-                              onVictory: {
-                                kind,
-                                ticks:
-                                  hostile?.onVictory.kind === 'hide'
-                                    ? hostile.onVictory.ticks
-                                    : 800,
-                              },
-                            })
-                          else setHostile({ onVictory: { kind } })
+                    <DsPropertyRow label="追逐参数">
+                      <div className="posrow hostile-chase-metrics">
+                        <label className="cell" htmlFor={`${entityFieldPrefix}-chase-range`}>
+                          <span>range 格</span>
+                          <DsDraftNumberInput
+                            id={`${entityFieldPrefix}-chase-range`}
+                            draftKey={`scene:${sceneId}:entity:${entity.id}:hostile:chase:range`}
+                            syncToken={syncToken}
+                            value={entity.hostile.chase.range}
+                            onCommit={(range) => {
+                              if (range !== undefined && range !== entity.hostile!.chase!.range)
+                                setHostile({
+                                  chase: { ...entity.hostile!.chase!, range },
+                                })
+                            }}
+                          />
+                        </label>
+                        <label className="cell" htmlFor={`${entityFieldPrefix}-chase-speed`}>
+                          <span>speed</span>
+                          <DsDraftNumberInput
+                            id={`${entityFieldPrefix}-chase-speed`}
+                            draftKey={`scene:${sceneId}:entity:${entity.id}:hostile:chase:speed`}
+                            syncToken={syncToken}
+                            value={entity.hostile.chase.speed}
+                            onCommit={(speed) => {
+                              if (speed !== undefined && speed !== entity.hostile!.chase!.speed)
+                                setHostile({
+                                  chase: { ...entity.hostile!.chase!, speed },
+                                })
+                            }}
+                          />
+                        </label>
+                      </div>
+                    </DsPropertyRow>
+                    <DsPropertyRow label="寻路">
+                      <DsCheckbox
+                        size="compact"
+                        label="追击时忽略地形与阻挡实体"
+                        checked={entity.hostile.chase.floating === true}
+                        onChange={(event) => {
+                          const chase = { ...entity.hostile!.chase!, floating: true }
+                          if (!event.currentTarget.checked)
+                            delete (chase as { floating?: boolean }).floating
+                          setHostile({ chase })
                         }}
                       />
                     </DsPropertyRow>
-                    {hostile?.onVictory.kind === 'hide' ? (
-                      <DsPropertyRow
-                        label="胜利隐藏 ticks"
-                        labelFor={`${entityFieldPrefix}-victory-ticks`}
-                      >
-                        <DsDraftNumberInput
-                          id={`${entityFieldPrefix}-victory-ticks`}
-                          draftKey={`scene:${sceneId}:entity:${entity.id}:hostile:on-victory:ticks`}
-                          syncToken={syncToken}
-                          min={1}
-                          step={1}
-                          integer
-                          value={hostile.onVictory.ticks}
-                          onCommit={(ticks) => {
-                            if (
-                              ticks !== undefined &&
-                              Number.isSafeInteger(ticks) &&
-                              ticks > 0 &&
-                              ticks !==
-                                (hostile?.onVictory.kind === 'hide'
-                                  ? hostile.onVictory.ticks
-                                  : undefined)
-                            )
-                              setHostile({ onVictory: { kind: 'hide', ticks } })
-                          }}
-                        />
-                      </DsPropertyRow>
-                    ) : null}
-                    <DsPropertyRow label="逃跑后" labelFor={`${entityFieldPrefix}-flee`}>
-                      <DsSelect
-                        id={`${entityFieldPrefix}-flee`}
-                        value={hostile?.onPlayerFlee.kind ?? 'remain'}
-                        options={[
-                          { value: 'remain', label: '保持原样' },
-                          { value: 'suspend', label: '短暂暂停自动行为' },
-                        ]}
-                        onValueChange={(value) => {
-                          const kind = value as RuntimeHostileBehavior['onPlayerFlee']['kind']
-                          if (kind === 'suspend')
-                            setHostile({
-                              onPlayerFlee: {
-                                kind,
-                                ticks:
-                                  hostile?.onPlayerFlee.kind === 'suspend'
-                                    ? hostile.onPlayerFlee.ticks
-                                    : 15,
-                              },
-                            })
-                          else setHostile({ onPlayerFlee: { kind } })
-                        }}
-                      />
-                    </DsPropertyRow>
-                    {hostile?.onPlayerFlee.kind === 'suspend' ? (
-                      <DsPropertyRow
-                        label="逃跑暂停 ticks"
-                        labelFor={`${entityFieldPrefix}-flee-ticks`}
-                      >
-                        <DsDraftNumberInput
-                          id={`${entityFieldPrefix}-flee-ticks`}
-                          draftKey={`scene:${sceneId}:entity:${entity.id}:hostile:on-player-flee:ticks`}
-                          syncToken={syncToken}
-                          min={1}
-                          step={1}
-                          integer
-                          value={hostile.onPlayerFlee.ticks}
-                          onCommit={(ticks) => {
-                            if (
-                              ticks !== undefined &&
-                              Number.isSafeInteger(ticks) &&
-                              ticks > 0 &&
-                              ticks !==
-                                (hostile?.onPlayerFlee.kind === 'suspend'
-                                  ? hostile.onPlayerFlee.ticks
-                                  : undefined)
-                            )
-                              setHostile({ onPlayerFlee: { kind: 'suspend', ticks } })
-                          }}
-                        />
-                      </DsPropertyRow>
-                    ) : null}
                   </>
-                </>
-              )}
-            </DsPropertyGrid>
-          </div>
-        </>
+                )}
+                <DsPropertyRow label="胜利后" labelFor={`${entityFieldPrefix}-victory`}>
+                  <DsSelect
+                    id={`${entityFieldPrefix}-victory`}
+                    value={hostile?.onVictory.kind ?? 'remove'}
+                    options={[
+                      { value: 'remove', label: '隐藏后从场景移除' },
+                      { value: 'hide', label: '隐藏后离屏重现' },
+                      { value: 'remain', label: '保持原样' },
+                    ]}
+                    onValueChange={(value) => {
+                      const kind = value as RuntimeHostileBehavior['onVictory']['kind']
+                      if (kind === 'hide')
+                        setHostile({
+                          onVictory: {
+                            kind,
+                            ticks:
+                              hostile?.onVictory.kind === 'hide' ? hostile.onVictory.ticks : 800,
+                          },
+                        })
+                      else setHostile({ onVictory: { kind } })
+                    }}
+                  />
+                </DsPropertyRow>
+                {hostile?.onVictory.kind === 'hide' ? (
+                  <DsPropertyRow
+                    label="胜利隐藏 ticks"
+                    labelFor={`${entityFieldPrefix}-victory-ticks`}
+                  >
+                    <DsDraftNumberInput
+                      id={`${entityFieldPrefix}-victory-ticks`}
+                      draftKey={`scene:${sceneId}:entity:${entity.id}:hostile:on-victory:ticks`}
+                      syncToken={syncToken}
+                      min={1}
+                      step={1}
+                      integer
+                      value={hostile.onVictory.ticks}
+                      onCommit={(ticks) => {
+                        if (
+                          ticks !== undefined &&
+                          Number.isSafeInteger(ticks) &&
+                          ticks > 0 &&
+                          ticks !==
+                            (hostile?.onVictory.kind === 'hide'
+                              ? hostile.onVictory.ticks
+                              : undefined)
+                        )
+                          setHostile({ onVictory: { kind: 'hide', ticks } })
+                      }}
+                    />
+                  </DsPropertyRow>
+                ) : null}
+                <DsPropertyRow label="逃跑后" labelFor={`${entityFieldPrefix}-flee`}>
+                  <DsSelect
+                    id={`${entityFieldPrefix}-flee`}
+                    value={hostile?.onPlayerFlee.kind ?? 'remain'}
+                    options={[
+                      { value: 'remain', label: '保持原样' },
+                      { value: 'suspend', label: '短暂暂停自动行为' },
+                    ]}
+                    onValueChange={(value) => {
+                      const kind = value as RuntimeHostileBehavior['onPlayerFlee']['kind']
+                      if (kind === 'suspend')
+                        setHostile({
+                          onPlayerFlee: {
+                            kind,
+                            ticks:
+                              hostile?.onPlayerFlee.kind === 'suspend'
+                                ? hostile.onPlayerFlee.ticks
+                                : 15,
+                          },
+                        })
+                      else setHostile({ onPlayerFlee: { kind } })
+                    }}
+                  />
+                </DsPropertyRow>
+                {hostile?.onPlayerFlee.kind === 'suspend' ? (
+                  <DsPropertyRow
+                    label="逃跑暂停 ticks"
+                    labelFor={`${entityFieldPrefix}-flee-ticks`}
+                  >
+                    <DsDraftNumberInput
+                      id={`${entityFieldPrefix}-flee-ticks`}
+                      draftKey={`scene:${sceneId}:entity:${entity.id}:hostile:on-player-flee:ticks`}
+                      syncToken={syncToken}
+                      min={1}
+                      step={1}
+                      integer
+                      value={hostile.onPlayerFlee.ticks}
+                      onCommit={(ticks) => {
+                        if (
+                          ticks !== undefined &&
+                          Number.isSafeInteger(ticks) &&
+                          ticks > 0 &&
+                          ticks !==
+                            (hostile?.onPlayerFlee.kind === 'suspend'
+                              ? hostile.onPlayerFlee.ticks
+                              : undefined)
+                        )
+                          setHostile({ onPlayerFlee: { kind: 'suspend', ticks } })
+                      }}
+                    />
+                  </DsPropertyRow>
+                ) : null}
+              </>
+            )}
+          </DsPropertyGrid>
+        </div>
       ) : null}
       {panel === 'properties' && spriteViewerOpen && spriteDef && (
         <SpriteImageViewer

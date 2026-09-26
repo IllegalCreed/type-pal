@@ -11,7 +11,6 @@ import {
   type ScriptCommandLocator,
   type ScriptEditorCommand,
   type ScriptEditorState,
-  sceneHookReferences,
   UpdateSceneHookCommand,
 } from '../core/script-editor.js'
 import { DsButton, DsHelpTip } from './design-system/index.js'

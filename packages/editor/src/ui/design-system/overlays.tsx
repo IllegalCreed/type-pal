@@ -29,7 +29,7 @@ function canRestoreFocus(element: HTMLElement | null): element is HTMLElement {
   const ownerDialog = element.closest('dialog')
   if (ownerDialog && !ownerDialog.open) return false
   if (element.getAttribute('aria-disabled') === 'true') return false
-  if ('disabled' in element && Boolean((element as HTMLButtonElement).disabled)) return false
+  if ('disabled' in element && (element as HTMLButtonElement).disabled) return false
   return true
 }
 

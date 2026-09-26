@@ -143,12 +143,6 @@ export const RUNTIME_COMMAND_KINDS: Readonly<Record<string, boolean>> = Object.f
   vanishEntity: false,
 })
 
-function record(value: unknown, path: string): Record<string, unknown> {
-  if (!value || typeof value !== 'object' || Array.isArray(value))
-    throw new Error(`${path}: 期望对象`)
-  return value as Record<string, unknown>
-}
-
 function exactKeys(value: Record<string, unknown>, allowed: readonly string[], path: string): void {
   const allowedKeys = new Set(allowed)
   for (const key of Object.keys(value))

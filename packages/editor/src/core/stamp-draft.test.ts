@@ -72,7 +72,7 @@ describe('canonical stamp draft', () => {
   test('canvas shrink rejects clipping the anchor, visual tiles or collision', () => {
     expect(() => resizeStampDraft(fixture(), 7, 8)).toThrow('锚点')
 
-    let visual = reanchorStampDraft(fixture(), { row: 0, col: 0 })
+    const visual = reanchorStampDraft(fixture(), { row: 0, col: 0 })
     expect(() => resizeStampDraft(visual, 7, 8)).toThrow('视觉瓦片')
 
     let collision = createBlankStampDraft('collision', '碰撞边缘', 'town')

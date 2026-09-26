@@ -15,7 +15,6 @@ import type {
   EntityAddress,
   Facing,
   GridPos,
-  RuntimeCommand,
   RuntimeSceneDef,
   RuntimeScriptFlow,
   RuntimeScriptLibrary,
@@ -31,7 +30,6 @@ import {
 } from '@type-pal/content'
 import type {
   BaseRuntimeLeafCommand,
-  RuntimeLeafCommand,
   ScriptHost,
   ScriptResolver,
   StepEvent,

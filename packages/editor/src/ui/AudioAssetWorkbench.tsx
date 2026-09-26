@@ -1,9 +1,4 @@
-import {
-  type AssetCatalogV1,
-  type AssetId,
-  type AssetKind,
-  type AssetRecordV1,
-} from '@type-pal/content'
+import type { AssetCatalogV1, AssetId, AssetKind, AssetRecordV1 } from '@type-pal/content'
 import type { MidiNoteActivity, MidiPreviewTransport } from '@type-pal/reforge'
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { type EditorAssetDiagnostic, editorAssetCatalogTitle } from '../core/asset-diagnostics.js'

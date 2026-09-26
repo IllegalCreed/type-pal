@@ -12,7 +12,6 @@
 | [E2E-R4-1 — 路线驱动与合法检查点薄基线](E2E-R4-1-route-and-checkpoint-foundation.md) | draft | 以任务卡当前准入与看板分工为准。 |
 | [EDITOR-PREVIEW-STEP-1 — canonical 预览单步的无可见阶段门](EDITOR-PREVIEW-STEP-1-command-gates.md) | draft | 以任务卡当前准入与看板分工为准。 |
 | [EDITOR-SCENE-FACING-1 — 切场景指令无法清除显式朝向](EDITOR-SCENE-FACING-1-clear-override.md) | draft | 以任务卡当前准入与看板分工为准。 |
-| [QUALITY-ZERO-1 — 全仓静态诊断清零与硬门收紧](QUALITY-ZERO-1-static-diagnostics.md) | draft | 以任务卡当前准入与看板分工为准。 |
 | [TEST-CODEX-FRAME-EDITOR-1 — 当前帧动画编辑五组工作流](TEST-CODEX-FRAME-EDITOR-1-current-workflows.md) | build | 以任务卡当前准入与看板分工为准。 |
 | [TEST-COVERAGE-PLUS5-1 — 全仓分支覆盖率连续提升五个百分点](TEST-COVERAGE-PLUS5-1-continuous-batches.md) | build | 以任务卡当前准入与看板分工为准。 |
 | [TEST-CURSOR-MAP-LOGIC-2 — 地图与组合块纯逻辑六组补测](TEST-CURSOR-MAP-LOGIC-2-selection-stamps.md) | rework | 以任务卡当前准入与看板分工为准。 |
@@ -166,6 +165,7 @@
 | [OPS-TST-PERF-RW - release worker 墙钟优化](../archive/tasks/done/OPS-TST-PERF-release-wallclock.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [OPS-TST-PERF - 迁移测试 fixture 分层与冷启动性能债](../archive/tasks/done/OPS-TST-PERF-test-fixture-stratification.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [Q1-CHECKPOINT-EXPORT-1 - 当前存档检查点导出接线](../archive/tasks/done/Q1-CHECKPOINT-EXPORT-1-current-save-hook.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [QUALITY-ZERO-1 — 全仓静态诊断清零与硬门收紧](../archive/tasks/done/QUALITY-ZERO-1-static-diagnostics.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [R13-CANARY - R13-Z 闭包批次 canary 父账重建漂移（6A 冷 canary 恢复绿）](../archive/tasks/done/R13-CANARY-canary-parent-ledger-drift.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [R2 - 事件脚本单一模型与 unmigrated 退役](../archive/tasks/done/R2-script-single-model.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [SAVE-BARRIER-LINEAGE-1 - 保存与嵌套脚本活动互等修复](../archive/tasks/done/SAVE-BARRIER-LINEAGE-1-nested-script-save.md) | done | 完成证据、历史签字与交接见原卡。 |

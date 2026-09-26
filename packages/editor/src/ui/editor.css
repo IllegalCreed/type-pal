@@ -9863,10 +9863,10 @@ button.sprite-frame-cell[draggable="true"]:active {
 .visually-hidden {
   position: absolute;
   inset: 0 auto auto 0;
-  width: 1px !important;
-  height: 1px !important;
-  min-width: 1px !important;
-  min-height: 1px !important;
+  width: 1px;
+  height: 1px;
+  min-width: 1px;
+  min-height: 1px;
   padding: 0;
   margin: -1px;
   overflow: hidden;

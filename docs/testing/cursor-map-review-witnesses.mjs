@@ -54,11 +54,12 @@ function replaceOnce(from, to) {
 replaceOnce("const production = resolve(root, 'packages/content/src/item.ts')\n", '')
 replaceOnce(
   'for (const probe of probes) {',
-  'for (const probe of probes) {\n const production=resolve(root, `packages/editor/src/core/${probe.file}.ts`)',
+  `for (const probe of probes) {
+ const production=resolve(root, \`packages/editor/src/core/\${probe.file}.ts\`)`,
 )
 replaceOnce(
-  'packages/content/src/item.${probe.file}.background.test.ts',
-  'packages/editor/src/core/${probe.file}.background.test.ts',
+  `packages/content/src/item.\${probe.file}.background.test.ts`,
+  `packages/editor/src/core/\${probe.file}.background.test.ts`,
 )
 replaceOnce(
   'packages/content/src/__tests__/glm-item-logic-fixtures.ts',
@@ -66,8 +67,8 @@ replaceOnce(
 )
 replaceOnce("resolve(root, 'packages/content')", "resolve(root, 'packages/editor')")
 replaceOnce(
-  'src/item.${probe.file}.background.test.ts',
-  'src/core/${probe.file}.background.test.ts',
+  `src/item.\${probe.file}.background.test.ts`,
+  `src/core/\${probe.file}.background.test.ts`,
 )
 replaceOnce('codex-item-logic-review-', 'codex-cursor-map-review-')
 const output = mkdtempSync(join(tmpdir(), 'codex-cursor-map-runner-'))

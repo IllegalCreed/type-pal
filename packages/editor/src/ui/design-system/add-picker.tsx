@@ -38,7 +38,11 @@ export interface DsAddPickerDialogProps {
   emptyMessage?: string
   searchLabel?: string
   fallbackFocusRef?: RefObject<HTMLElement | null>
-  onConfirm: (id: string) => void | false | Promise<void | false>
+  /** A notification callback or an acceptance callback; only explicit false rejects. */
+  onConfirm:
+    | ((id: string) => void)
+    | ((id: string) => Promise<void>)
+    | ((id: string) => false | undefined | Promise<false | undefined>)
 }
 
 function searchParts(option: DsAddPickerOption): readonly (string | undefined)[] {

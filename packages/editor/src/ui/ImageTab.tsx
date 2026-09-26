@@ -1,4 +1,4 @@
-import { type AssetCatalogV1, type AssetId, type AssetRecordV1 } from '@type-pal/content'
+import type { AssetCatalogV1, AssetId, AssetRecordV1 } from '@type-pal/content'
 import { type AssetBase, loadStandardPalette } from '@type-pal/reforge'
 import {
   type KeyboardEvent,

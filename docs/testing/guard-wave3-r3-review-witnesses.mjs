@@ -18,12 +18,10 @@ const end = original.indexOf('const results = []\n')
 assert.ok(start > 0 && end > start)
 assert.equal(original.indexOf('const probes =\n', start + 1), -1)
 assert.equal(original.indexOf('const results = []\n', end + 1), -1)
-const transitionFrom = 'throw new Error(`${path}.kind: 未知敌人 hook transition ${String(kind)}`)'
-const gateFrom = 'if (chance > 100) throw new Error(`${ctx}.chance: 不得大于 100`)'
-const shapeFrom =
-  'if (!Array.isArray(value)) throw new Error(`${path}: 期望 EnemyOnDefeatedCommand[]`)'
-const shapeTo =
-  'if (!Array.isArray(value)) { if (value && typeof value === "object") Object.assign(value, { __codex_mutation: true }); throw new Error(`${path}: 期望 EnemyOnDefeatedCommand[]`) }'
+const transitionFrom = `throw new Error(\`\${path}.kind: 未知敌人 hook transition \${String(kind)}\`)`
+const gateFrom = `if (chance > 100) throw new Error(\`\${ctx}.chance: 不得大于 100\`)`
+const shapeFrom = `if (!Array.isArray(value)) throw new Error(\`\${path}: 期望 EnemyOnDefeatedCommand[]\`)`
+const shapeTo = `if (!Array.isArray(value)) { if (value && typeof value === "object") Object.assign(value, { __codex_mutation: true }); throw new Error(\`\${path}: 期望 EnemyOnDefeatedCommand[]\`) }`
 const shapeOracle = `
 test('Codex oracle: rejected onDefeated object preserves the actual input', () => {
   const input = {};
@@ -37,7 +35,7 @@ const probes = [
     test: 'record-items',
     target: 'validate.ts',
     from: gateFrom,
-    to: 'if (true) throw new Error(`${ctx}.chance: 不得大于 100`)',
+    to: `if (true) throw new Error(\`\${ctx}.chance: 不得大于 100\`)`,
     expected: 1,
   },
   {

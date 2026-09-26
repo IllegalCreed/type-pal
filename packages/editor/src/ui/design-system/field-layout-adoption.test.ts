@@ -1364,11 +1364,7 @@ function inspectorGraph(overrides: Record<string, string> = {}, root = uiRoot): 
   return { components, paths }
 }
 
-function assertPortalOwnership(
-  graph: InspectorGraph,
-  owner: InspectorComponent,
-  host: InspectorComponent,
-): void {
+function assertPortalOwnership(owner: InspectorComponent, host: InspectorComponent): void {
   expect(host.tabs, `${host.id} must own a DsInspectorTabs target`).toBeGreaterThan(0)
   const edges = host.edges.filter((candidate) => candidate.callee === owner.id)
   expect(edges.length, `${host.id} must render ${owner.id}`).toBeGreaterThan(0)
@@ -1448,7 +1444,7 @@ function validateInspectorOwnershipGraph(
         )
     }
     if (entry.host.kind === 'public-inspector-portal') {
-      assertPortalOwnership(graph, owner, host)
+      assertPortalOwnership(owner, host)
       continue
     }
     if (ownerId === hostId) {
@@ -2621,12 +2617,12 @@ function UnusedInspectorDecoy() {
       'inline-style-fixture.tsx',
       `
         const labelWidth = 72
-        const badTrack = { gridTemplateColumns: \`${'${labelWidth}'}px minmax(0, 1fr)\` }
+        const badTrack = { gridTemplateColumns: \`${`\${labelWidth}`}px minmax(0, 1fr)\` }
         export function Fixture() {
           return <>
             <div style={badTrack} />
-            <div style={{ '--ds-field-label-track': \`${'${labelWidth}'}px\` }} />
-            <div style={{ '--ds-field-label-track-wide': \`${'${labelWidth}'}px\` }} />
+            <div style={{ '--ds-field-label-track': \`${`\${labelWidth}`}px\` }} />
+            <div style={{ '--ds-field-label-track-wide': \`${`\${labelWidth}`}px\` }} />
           </>
         }
       `,

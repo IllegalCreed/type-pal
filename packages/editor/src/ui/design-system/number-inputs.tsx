@@ -25,7 +25,9 @@ export type DsDraftNumberInputProps = Omit<
   integer?: boolean
   normalize?: (value: number) => number
   validate?: (value: number) => string | undefined
-  onCommit: (value: number | undefined) => void | boolean
+  onCommit:
+    | ((value: number | undefined) => boolean | undefined)
+    | ((value: number | undefined) => void)
 }
 
 type DsNumberDirection = -1 | 1

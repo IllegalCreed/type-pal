@@ -1,4 +1,4 @@
-import { type AssetCatalogV1, type AssetId, type AssetRecordV1 } from '@type-pal/content'
+import type { AssetCatalogV1, AssetId, AssetRecordV1 } from '@type-pal/content'
 import { createMidiPreviewTransport } from '@type-pal/reforge'
 import type { EditorAssetDiagnostic } from '../core/asset-diagnostics.js'
 import type { EditSession } from '../core/edit-session.js'

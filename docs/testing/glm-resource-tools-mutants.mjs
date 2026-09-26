@@ -50,7 +50,7 @@ const cases = [
     pkg: 'shared',
     group: 'rle',
     file: 'rle.ts',
-    from: 'if (command === 0) throw new Error(`sprite chunk frame ${index} 含零长度指令`)',
+    from: `if (command === 0) throw new Error(\`sprite chunk frame \${index} 含零长度指令\`)`,
     to: "if (false) throw new Error('unreachable')",
     red: '零长度指令不再被拒（0 字节 literal 死循环风险）',
     redTest: '零长度指令拒绝；同容器把 0 换成合法 1 长度即过（相邻正控）',

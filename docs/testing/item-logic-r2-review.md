@@ -53,7 +53,7 @@
 日志`/tmp/codex-item-logic-r2-{directed,content,tc,mutants,witnesses}.log`，定向/全包新鲜JSON同名。
 
 本包改动零诊断已达到用户新要求；**全仓仍未清零**，主线90warning/7info归
-[Codex清零卡](../ops/tasks/QUALITY-ZERO-1-static-diagnostics.md)，不授权GLM越界修共享产品。
+[Codex清零卡](../ops/archive/tasks/done/QUALITY-ZERO-1-static-diagnostics.md)，不授权GLM越界修共享产品。
 不跑全仓check/coverage，不能宣称统一门禁通过。
 
 ## GLM提示词

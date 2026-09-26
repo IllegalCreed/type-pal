@@ -282,7 +282,7 @@ describe('DsDialog lifecycle contract', () => {
     const opener = host.querySelector<HTMLButtonElement>('button')!
     opener.focus()
     await act(async () => root.render(view(true)))
-    await act(async () => root.render(<></>))
+    await act(async () => root.render(null))
 
     expect(document.activeElement).toBe(fallback)
     expect(document.body.style.overflow).toBe('')

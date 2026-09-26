@@ -19,7 +19,7 @@ export type DsDraftInputContract = {
   syncToken?: string | number
   validate?: (value: string) => string | undefined
   /** Return false when the canonical mutation was rejected so the draft resyncs. */
-  onCommit: (value: string) => void | boolean
+  onCommit: ((value: string) => boolean | undefined) | ((value: string) => void)
   onCancel?: () => void
 }
 

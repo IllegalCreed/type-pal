@@ -8,9 +8,11 @@
 
 ## 文档与附件
 
+- [QUALITY-ZERO-1实施与保真](quality-zero/README.md)（严格零诊断工具、源码字符串与UI样式保真）。
+
 - [GLM物品六组r2窄复核](item-logic-r2-review.md)（1c8b57cb，R1与装备正控已闭，剩R2–R4）。
 
-- [静态质量零诊断扫描](quality-zero-inventory.json)（2026-09-27当前未清零，不以exit0放行）。
+- [静态质量原始扫描](quality-zero-inventory.json)（2026-09-27开工前90warning/7info；当前结果见清理回执）。
 
 - [Cursor地图六组独立接收](cursor-map-logic-r1-review.md)（070d3bf3，CM1–CM4直接反证与返工）。
 

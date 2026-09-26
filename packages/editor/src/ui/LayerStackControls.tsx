@@ -94,7 +94,9 @@ export function LayerStackControls(props: {
   reorderScopeKey: string
   reorderRevision: unknown
   stackOrder: 'top-first' | 'bottom-first'
-  onReorder: (id: string, visualToIndex: number) => boolean | void
+  onReorder:
+    | ((id: string, visualToIndex: number) => boolean | undefined)
+    | ((id: string, visualToIndex: number) => void)
   addDisabledReason?: string
   deleteDisabledReason?: string
   footer?: ReactNode

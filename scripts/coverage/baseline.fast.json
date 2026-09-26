@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
   "profile": "fast",
-  "generatedAt": "2026-09-26T15:21:57.042Z",
+  "generatedAt": "2026-09-26T19:47:42.453Z",
   "provider": {
     "name": "v8",
     "vitest": "4.1.7",
@@ -788,19 +788,19 @@
       "metrics": {
         "statements": {
           "covered": 5521,
-          "total": 5856
+          "total": 5853
         },
         "branches": {
           "covered": 4554,
-          "total": 5019
+          "total": 5014
         },
         "functions": {
           "covered": 797,
-          "total": 831
+          "total": 830
         },
         "lines": {
           "covered": 4948,
-          "total": 5183
+          "total": 5180
         }
       }
     },
@@ -6578,19 +6578,19 @@
   "total": {
     "statements": {
       "covered": 64161,
-      "total": 80938
+      "total": 80935
     },
     "branches": {
       "covered": 46046,
-      "total": 63288
+      "total": 63283
     },
     "functions": {
       "covered": 11938,
-      "total": 15228
+      "total": 15227
     },
     "lines": {
       "covered": 57684,
-      "total": 70849
+      "total": 70846
     }
   }
 }

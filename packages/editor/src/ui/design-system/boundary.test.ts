@@ -370,7 +370,7 @@ describe('editor design-system static boundary', () => {
     expect(designLab).toContain("'RF-25'")
     expect(designLab).toContain('<NumberFieldFixture />')
     expect(designLab).toContain("const widths = ['1000', '720', '480', '320'] as const")
-    expect(designLab).toContain('<DsCard title={`${width}px 自动分列`}')
+    expect(designLab).toContain(`<DsCard title={\`\${width}px 自动分列\`}`)
     expect(designLab).toContain('大型负数')
   })
 
@@ -448,13 +448,13 @@ describe('editor design-system static boundary', () => {
     ])
       expect(layerStack).toContain(`<DsActionGroup density="compact" ${fingerprint}>`)
     expect(layerStack).not.toMatch(/<DsIconButton\b[^>]*\bsize=/)
-    expect(layerStack).toContain('label={`图层可见：${layer.name}`}')
-    expect(layerStack).toContain('label={`图层锁定：${layer.name}`}')
+    expect(layerStack).toContain(`label={\`图层可见：\${layer.name}\`}`)
+    expect(layerStack).toContain(`label={\`图层锁定：\${layer.name}\`}`)
     expect(layerStack).toContain(
       '<DsHelpTip label="图层删除规则">{MINIMUM_LAYER_REASON}</DsHelpTip>',
     )
     expect(layerStack).toContain('data-layer-id={layer.id}')
-    expect(layerStack).toContain('aria-label={`选择图层：${layer.name}（${layer.id}）`}')
+    expect(layerStack).toContain(`aria-label={\`选择图层：\${layer.name}（\${layer.id}）\`}`)
     expect(spriteAction).toContain(
       '<DsActionGroup density="compact" className="sprite-action-current-actions">',
     )
@@ -644,7 +644,6 @@ describe('editor design-system static boundary', () => {
     const index = readFileSync(join(here, 'index.ts'), 'utf8')
     const project = readFileSync(join(here, '..', 'ProjectWorkbenchTab.tsx'), 'utf8')
     const businessCss = readFileSync(join(here, '..', 'editor.css'), 'utf8')
-    const adoption = JSON.parse(readFileSync(join(here, 'design-system-adoption.json'), 'utf8'))
     const specification = readFileSync(
       join(here, '../../../../../docs/phase2/specs/editor-design-system.md'),
       'utf8',

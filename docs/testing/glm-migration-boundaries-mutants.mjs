@@ -69,7 +69,7 @@ const cases = [
     pkg: 'editor',
     group: 'tx',
     file: 'migration-transaction.ts',
-    from: 'if (staged !== expectedStaged) throw new Error(`迁移事务 journal staging 路径不符: ${target}`)', // biome-ignore lint/suspicious/noTemplateCurlyInString: 产品源点是模板字面量，needle 需按字节保存
+    from: `if (staged !== expectedStaged) throw new Error(\`迁移事务 journal staging 路径不符: \${target}\`)`,
 
     to: "if (false) throw new Error('unreachable')",
     red: 'staged 路径不再与操作目标配对校验（篡改 staged 可指向别处）',

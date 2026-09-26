@@ -41,7 +41,7 @@ export const mutations = [
   {
     id: 'coerce-map-name',
     module: 'project-map',
-    from: 'const name = requireNonEmptyString(entry.name, `${path}.name`)',
+    from: `const name = requireNonEmptyString(entry.name, \`\${path}.name\`)`,
     to: 'const name = String(entry.name)',
     title: 'project map boundary: name wrong type',
   },
