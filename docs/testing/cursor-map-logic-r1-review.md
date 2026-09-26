@@ -38,7 +38,7 @@ M3部分成功/拒绝、M4/5/6多数计划和应用前后的实际map/clipboard/
 所有非空视觉都属于被选两组，根本没有未选普通哨兵；tree-b只断言anchor“不等于原值”，未钉精确目标。
 M4主要检查owner/id，没有钉住实际高度等内容。
 
-本席将`stamp-group-transform.ts:313`的`heightWrites ... value: member.height`改成0：候选M4 **5/5仍绿**。
+本席将`stamp-group-transform.ts:311`的`heightWrites ... value: member.height`改成0：候选M4 **5/5仍绿**。
 同一合法map用真实plan→Command→EditSession应用，独立oracle核objects层目标格高度3，原实现6绿、
 变异5绿/1AssertionError。owner更新正确不能证明真正搬过去的矩阵内容正确。
 
