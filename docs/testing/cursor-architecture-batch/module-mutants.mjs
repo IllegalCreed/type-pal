@@ -130,6 +130,14 @@ const cases = {
     to: "size === 'compact' && 'ds-icon-button--dense'",
     title: 'keeps icon-button identity with compact class and aria-label',
   },
+  u04: {
+    id: 'u04-file-picker-class',
+    sourceFile: 'src/ui/design-system/native-inputs.tsx',
+    testFile: 'src/ui/design-system/native-inputs.test.tsx',
+    from: "classes('ds-file-picker', disabled && 'is-disabled', className)",
+    to: "classes('ds-file-picker-field', disabled && 'is-disabled', className)",
+    title: 'keeps native file, range, and color input identity with file-picker class',
+  },
 }
 
 const selected = process.argv[2] ? [process.argv[2]] : Object.keys(cases)

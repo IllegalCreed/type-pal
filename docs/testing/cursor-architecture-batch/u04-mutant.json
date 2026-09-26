@@ -1,0 +1,13 @@
+{
+  "id": "u04-file-picker-class",
+  "file": "packages/editor/src/ui/design-system/native-inputs.tsx",
+  "sha256": "0cb270ed55f0b88cb85a3ab8b3899ed9e260c7706c66cb50d12852777d0d773d",
+  "hashUnchanged": true,
+  "greenExit": 0,
+  "greenPassed": 1,
+  "redExit": 1,
+  "failedTitle": "keeps native file, range, and color input identity with file-picker class",
+  "failedFullName": "U04 native inputs keeps native file, range, and color input identity with file-picker class",
+  "assertion": "AssertionError: expected 'ds-file-picker-field' to be 'ds-file-picker' // Object.is equality",
+  "ok": true
+}

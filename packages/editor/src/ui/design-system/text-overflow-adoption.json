@@ -85,7 +85,7 @@
         1
       ],
       "producer": {
-        "source": "design-system/controls.tsx",
+        "source": "design-system/native-inputs.tsx",
         "component": "DsFilePicker",
         "callsite": "class:ds-file-picker"
       },
@@ -109,7 +109,7 @@
         0
       ],
       "producer": {
-        "source": "design-system/controls.tsx",
+        "source": "design-system/native-inputs.tsx",
         "component": "DsFilePicker",
         "callsite": "class:ds-file-picker__description"
       },
@@ -133,7 +133,7 @@
         0
       ],
       "producer": {
-        "source": "design-system/controls.tsx",
+        "source": "design-system/native-inputs.tsx",
         "component": "DsFilePicker",
         "callsite": "class:ds-file-picker__label"
       },
@@ -415,7 +415,7 @@
         0
       ],
       "producer": {
-        "source": "design-system/controls.tsx",
+        "source": "design-system/native-inputs.tsx",
         "component": "DsFilePicker",
         "callsite": "class:ds-visually-hidden"
       },

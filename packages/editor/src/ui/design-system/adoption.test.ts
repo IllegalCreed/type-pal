@@ -2044,8 +2044,15 @@ type DataStateProps`,
     const uploader = readFileSync(join(here, '../SpriteUploadWizard.tsx'), 'utf8')
     const allowlist = JSON.parse(readFileSync(join(here, 'design-system-allowlist.json'), 'utf8'))
 
-    expect(controls).toContain('export const DsFileInput')
-    expect(controls).toContain('export const DsFilePicker')
+    expect(controls).toContain(
+      "export { DsColorInput, DsFileInput, DsFilePicker, DsRangeInput } from './native-inputs.js'",
+    )
+    expect(readFileSync(join(here, 'native-inputs.tsx'), 'utf8')).toContain(
+      'export const DsFileInput',
+    )
+    expect(readFileSync(join(here, 'native-inputs.tsx'), 'utf8')).toContain(
+      'export const DsFilePicker',
+    )
     expect(controls).toContain("export { DsActionLink, DsButton, DsPressable } from './buttons.js'")
     expect(readFileSync(join(here, 'buttons.tsx'), 'utf8')).toContain('export const DsPressable')
     expect(uploader).toMatch(
