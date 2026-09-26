@@ -59,22 +59,11 @@ import {
   getPlayerDexterity,
   getPlayerFleeRate,
   getPlayerMagicStrength,
-  removeEquipmentEffect,
   updateAllEquipments,
 } from '../equip-effect.js'
-import {
-  curePlayerPoisonByLevel,
-  getGlobalCommands,
-  type RunScriptOptions,
-  runScript,
-} from '../event-system.js'
+import { getGlobalCommands, type RunScriptOptions, runScript } from '../event-system.js'
 import type { AllExperience, GameState, PlayerRolesRuntime } from '../game-state.js'
-import {
-  type BattleOutcome,
-  clearHiddenExpCounts,
-  resumePostBattleScript,
-  writeBackBattleRolesToRuntime,
-} from '../game-state.js'
+import { clearHiddenExpCounts, writeBackBattleRolesToRuntime } from '../game-state.js'
 import { openMenu } from '../menu/menu-mode.js'
 import { createPlayerStatus } from '../menu/player-status.js'
 import { createSelectionMenu, type SelectionMenuState } from '../menu/primitives.js'
@@ -94,9 +83,9 @@ import {
   resetFightersAfterAction,
   startBattleAnim,
 } from './battle-anim-driver.js'
+import { finalizeBattle, finalizeBattleCleanup } from './battle-finalization.js'
 import {
   type BattleResources,
-  clearBattleRuntimeContext,
   getBattleResources,
   getBattleRunScript,
   type RunScriptFn,
@@ -3151,91 +3140,6 @@ function tickPostAction(
   state.uiState = 'wait'
   state.selectingPlayerIdx = undefined
   state.phaseStallTicks = 0
-}
-
-// ============================================================================
-// finalizeBattle —— 战斗结束写回 GameState
-// ============================================================================
-
-/**
- * 战斗终态写回 + 清状态。
- *
- * - won:由结算演出路径处理 exp/cash、升级和学法术,不经本函数。
- * - lost:保留战斗结算后的 HP/MP;不复活,死亡脚本 0x4F/0x4E 负责红屏和读档。
- * - fleed:无 hp 改动,无奖励
- * - forced(stall 兜底):无奖励、无 hp 改动,只清状态
- *
- * 最终:gs.mode = 'explore'、gs.battleState = undefined、清 __battleResources。
- */
-function finalizeBattle(
-  gs: GameState,
-  state: BattleState,
-  res: BattleResources,
-  forced: boolean,
-): void {
-  state.battleDialogQueue = undefined
-
-  // won 走结算演出(buildBattleWonSettlement + tickBattleSettlement),不经此函数;此处只处理
-  // lost / fleed / forced(watchdog 强退)。回写 HP/MP 战果 → runtime(伤害/治疗持久化 + 存档对齐)。
-  // sdlpal 战败**不复活**:script.c:3320 战败 → 死亡脚本(0x4F 红屏 + 0x4E 读档恢复存档)。
-  //   旧 M3 简版在此把全员 hp 重置为 1(伪复活)→ 死员变"活着站立"(配合渲染读 live roles = "起立")。
-  //   已删。死员保持 hp=0,present 据此画倒下帧;真正恢复靠 0x4E 读档。
-  writeBackBattleRolesToRuntime(res.playerRoles, gs.PlayerRolesRuntime, gs.partyMembers)
-  // forced(watchdog 强退)按"胜"接回(续跑下一条);否则按 phase 分支:lost→op[1];敌逃(Terminated)→
-  //   wonIp(续跑隐藏怪);玩家逃(Fleed)→op[2]。敌逃/玩家逃 phase 同为 'fleed',靠 terminatedByEnemyEscape 区分。
-  finalizeBattleCleanup(
-    gs,
-    forced
-      ? 'won'
-      : state.phase === 'lost'
-        ? 'lost'
-        : state.terminatedByEnemyEscape
-          ? 'terminated'
-          : 'fled',
-  )
-}
-
-/** 战斗收尾清状态(won 结算放完 / lost / fleed / forced 共用)→ 回 explore;0x07 触发的战斗接回触发脚本。 */
-function finalizeBattleCleanup(gs: GameState, outcome: BattleOutcome): void {
-  // D21 sdlpal battle.c:1822-1830(无条件 won/lost/fleed):清 player status + 毒 + 临时 Extra 装备效果。
-  //   - DM2 PAL_ClearAllPlayerStatus(global.c:2331-2343):值 ≤999 全清(>999 = 装备授予持久态保留)。
-  //     战斗 status 副本随 battleState 丢弃,但**持久 gs.rgPlayerStatus**(大世界 0x28 写的金刚符 63/
-  //     黑狗血 85 等 buff)每场开战被 seed 进副本且不回写 → 不清的话等效永久(C 首场战斗结束即过期)。
-  for (const row of Object.values(gs.rgPlayerStatus)) {
-    for (let i = 0; i < row.length; i++) {
-      if ((row[i] ?? 0) <= 999) row[i] = 0
-    }
-  }
-  //   - 每角色 PAL_CurePoisonByLevel(w, 3):清持久 gs.rgPoisonStatus(level≤3 = 全部,毒等级上限 3)。
-  //   - 每角色 PAL_RemoveEquipmentEffect(w, kBodyPartExtra):清 per-battle 临时 Extra 装备效果槽。
-  //     0x30 临时 stat buff 写 rgEquipmentEffect[6](Extra)→ 本清反转之(2026-05-31 D14/0x30 收口)。
-  const kBodyPartExtra = 6 // sdlpal global.h BODYPART:kBodyPartExtra = MAX_PLAYER_EQUIPMENTS
-  for (const roleId of gs.partyMembers) {
-    curePlayerPoisonByLevel(gs, roleId, 3)
-    removeEquipmentEffect(gs, roleId, kBodyPartExtra)
-  }
-
-  // B4(3):持久 fAutoBattle 单场有效 —— 战斗结束清(sdlpal script.c:3332 `fAutoBattle = FALSE`)。
-  gs.fAutoBattle = false
-
-  // 战斗内对话用的是复用大世界 gs.dialogBox —— 战斗结束清掉,避免泄漏进 explore 渲染。
-  gs.dialogBox = undefined
-  gs.dialogBoxKept = undefined
-  // 战斗法术脚本(如斩龙诀)可能跑 0x35 ShakeScreen 写**全局** gs.shakeTime —— 战斗结束须清,
-  //   否则竖向抖动泄漏进大世界(user 2026-06-03 报)。sdlpal VIDEO_ShakeScreen 在战斗内同步阻塞
-  //   放完不留尾;ts 异步逐帧自减,战斗提前结束会残留 → 此处归零。
-  gs.shakeTime = 0
-  gs.shakeLevel = 0
-  // DM3:屏波改"恢复进战斗前值"(battle.c:1853-1855 wPrevWaveLevel/sPrevWaveProgression)——
-  //   既修战斗内 0x71 泄漏(覆盖掉),又不再毁掉大世界场景的常驻波(0x71 水景,打完一架波即丢)。
-  gs.wScreenWave = gs.battleState?.prevWaveLevel ?? 0
-  gs.sWaveProgression = gs.battleState?.prevWaveProgression ?? 0
-  gs.mode = 'explore'
-  gs.battleState = undefined
-  clearBattleRuntimeContext(gs)
-  // 0x07 触发的战斗 → 接回触发脚本(胜→下一条跑 0x52 隐藏怪 / 负→op[1] / 逃→op[2],script.c:3318-3331)。
-  //   会把 gs.mode 改回 'event' + 设 eventCursor;非 0x07 触发(dev panel / 0x07 无 resume)→ no-op 留 explore。
-  resumePostBattleScript(gs, outcome)
 }
 
 /**
