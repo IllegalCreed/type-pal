@@ -1,0 +1,13 @@
+{
+  "id": "u12-status-alert",
+  "file": "packages/editor/src/ui/design-system/feedback.tsx",
+  "sha256": "872fa18f07ea44184b2e925513f2d7db897824c5bdaaed78c04d90c0f790f611",
+  "hashUnchanged": true,
+  "greenExit": 0,
+  "greenPassed": 1,
+  "redExit": 1,
+  "failedTitle": "keeps tabs, card, and status identity with tablist and alert roles",
+  "failedFullName": "U12 tabs card feedback keeps tabs, card, and status identity with tablist and alert roles",
+  "assertion": "AssertionError: expected '<div class=\"ds-status ds-status--erro…' to contain 'role=\"alert\"'",
+  "ok": true
+}
