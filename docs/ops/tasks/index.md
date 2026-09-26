@@ -9,9 +9,13 @@
 | 任务 | 顶部状态 | 说明 |
 |---|---|---|
 | [ARCH-SUPPORT-GLM-1 — 八组并行准备取证](ARCH-SUPPORT-GLM-1-eight-audit-packages.md) | draft | 以任务卡当前准入与看板分工为准。 |
+| [E2E-R4-1 — 路线驱动与合法检查点薄基线](E2E-R4-1-route-and-checkpoint-foundation.md) | draft | 以任务卡当前准入与看板分工为准。 |
 | [EDITOR-PREVIEW-STEP-1 — canonical 预览单步的无可见阶段门](EDITOR-PREVIEW-STEP-1-command-gates.md) | draft | 以任务卡当前准入与看板分工为准。 |
 | [EDITOR-SCENE-FACING-1 — 切场景指令无法清除显式朝向](EDITOR-SCENE-FACING-1-clear-override.md) | draft | 以任务卡当前准入与看板分工为准。 |
+| [TEST-CODEX-FRAME-EDITOR-1 — 当前帧动画编辑五组工作流](TEST-CODEX-FRAME-EDITOR-1-current-workflows.md) | build | 以任务卡当前准入与看板分工为准。 |
 | [TEST-COVERAGE-PLUS5-1 — 全仓分支覆盖率连续提升五个百分点](TEST-COVERAGE-PLUS5-1-continuous-batches.md) | build | 以任务卡当前准入与看板分工为准。 |
+| [TEST-CURSOR-MAP-LOGIC-2 — 地图与组合块纯逻辑六组补测](TEST-CURSOR-MAP-LOGIC-2-selection-stamps.md) | build | 以任务卡当前准入与看板分工为准。 |
+| [TEST-GLM-ITEM-LOGIC-1 — 物品纯逻辑六组补测](TEST-GLM-ITEM-LOGIC-1-world-use-residuals.md) | build | 以任务卡当前准入与看板分工为准。 |
 
 ## 已完成（historical）
 

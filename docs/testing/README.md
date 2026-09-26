@@ -8,6 +8,11 @@
 
 ## 文档与附件
 
+- [快速通关E2E路线方案](e2e-route-proposal.md)（2026-09-27讨论稿，未开runner实现）。
+- [GLM/Cursor后台补测两包](background-tests-20260927/README.md)（冻结目标与可转发提示词）。
+
+- [Codex帧动画编辑五组](codex-frame-editor/README.md)（真实TPFS、DOM与保存产物）。
+
 - [GLM八组同步守卫接收与集成](guard-wave3-integration.md)（110项、最后输入保真反控闭合）。
 
 - [GLM守卫终轮独立反控](guard-wave3-final-review-witness.mjs)（6a114727实际拒绝输入保真）。

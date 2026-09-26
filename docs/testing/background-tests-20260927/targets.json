@@ -1,0 +1,1469 @@
+{
+  "base": "a95618fc2a9586c77ff42ff253f72fcfba1fa09a",
+  "profile": "fast",
+  "testCount": 9220,
+  "sourceFileCount": 728,
+  "source": "official strict LCOV, restored read-only from prior run archive; no new coverage executed",
+  "groups": {
+    "glm": [
+      {
+        "path": "packages/content/src/item.ts",
+        "sha256": "1a2ff2c2ef96070cf1609bd26c1f2756e851c9aec525749131582f6fd696963b",
+        "branches": {
+          "hit": 221,
+          "total": 326
+        },
+        "uncoveredArms": [
+          {
+            "line": 78,
+            "block": 1,
+            "arm": 8,
+            "taken": "0"
+          },
+          {
+            "line": 83,
+            "block": 2,
+            "arm": 1,
+            "taken": "0"
+          },
+          {
+            "line": 95,
+            "block": 3,
+            "arm": 1,
+            "taken": "0"
+          },
+          {
+            "line": 223,
+            "block": 7,
+            "arm": 20,
+            "taken": "0"
+          },
+          {
+            "line": 364,
+            "block": 12,
+            "arm": 0,
+            "taken": "0"
+          },
+          {
+            "line": 364,
+            "block": 12,
+            "arm": 1,
+            "taken": "0"
+          },
+          {
+            "line": 365,
+            "block": 13,
+            "arm": 0,
+            "taken": "0"
+          },
+          {
+            "line": 365,
+            "block": 13,
+            "arm": 1,
+            "taken": "0"
+          },
+          {
+            "line": 365,
+            "block": 14,
+            "arm": 0,
+            "taken": "0"
+          },
+          {
+            "line": 365,
+            "block": 14,
+            "arm": 1,
+            "taken": "0"
+          },
+          {
+            "line": 383,
+            "block": 15,
+            "arm": 1,
+            "taken": "0"
+          },
+          {
+            "line": 384,
+            "block": 16,
+            "arm": 0,
+            "taken": "0"
+          },
+          {
+            "line": 414,
+            "block": 18,
+            "arm": 1,
+            "taken": "0"
+          },
+          {
+            "line": 439,
+            "block": 23,
+            "arm": 1,
+            "taken": "0"
+          },
+          {
+            "line": 442,
+            "block": 26,
+            "arm": 1,
+            "taken": "0"
+          },
+          {
+            "line": 458,
+            "block": 28,
+            "arm": 1,
+            "taken": "0"
+          },
+          {
+            "line": 459,
+            "block": 29,
+            "arm": 1,
+            "taken": "0"
+          },
+          {
+            "line": 471,
+            "block": 31,
+            "arm": 1,
+            "taken": "0"
+          },
+          {
+            "line": 486,
+            "block": 33,
+            "arm": 1,
+            "taken": "0"
+          },
+          {
+            "line": 488,
+            "block": 35,
+            "arm": 1,
+            "taken": "0"
+          },
+          {
+            "line": 514,
+            "block": 37,
+            "arm": 0,
+            "taken": "0"
+          },
+          {
+            "line": 515,
+            "block": 38,
+            "arm": 0,
+            "taken": "0"
+          },
+          {
+            "line": 515,
+            "block": 38,
+            "arm": 1,
+            "taken": "0"
+          },
+          {
+            "line": 526,
+            "block": 39,
+            "arm": 1,
+            "taken": "0"
+          },
+          {
+            "line": 541,
+            "block": 42,
+            "arm": 0,
+            "taken": "0"
+          },
+          {
+            "line": 546,
+            "block": 45,
+            "arm": 1,
+            "taken": "0"
+          },
+          {
+            "line": 549,
+            "block": 46,
+            "arm": 1,
+            "taken": "0"
+          },
+          {
+            "line": 558,
+            "block": 47,
+            "arm": 1,
+            "taken": "0"
+          },
+          {
+            "line": 575,
+            "block": 49,
+            "arm": 0,
+            "taken": "0"
+          },
+          {
+            "line": 575,
+            "block": 50,
+            "arm": 1,
+            "taken": "0"
+          },
+          {
+            "line": 575,
+            "block": 50,
+            "arm": 2,
+            "taken": "0"
+          },
+          {
+            "line": 665,
+            "block": 53,
+            "arm": 0,
+            "taken": "0"
+          },
+          {
+            "line": 676,
+            "block": 54,
+            "arm": 0,
+            "taken": "0"
+          },
+          {
+            "line": 729,
+            "block": 57,
+            "arm": 0,
+            "taken": "0"
+          },
+          {
+            "line": 762,
+            "block": 60,
+            "arm": 1,
+            "taken": "0"
+          },
+          {
+            "line": 771,
+            "block": 64,
+            "arm": 0,
+            "taken": "0"
+          },
+          {
+            "line": 795,
+            "block": 67,
+            "arm": 0,
+            "taken": "0"
+          },
+          {
+            "line": 796,
+            "block": 68,
+            "arm": 1,
+            "taken": "0"
+          },
+          {
+            "line": 796,
+            "block": 69,
+            "arm": 1,
+            "taken": "0"
+          },
+          {
+            "line": 796,
+            "block": 70,
+            "arm": 0,
+            "taken": "0"
+          },
+          {
+            "line": 796,
+            "block": 70,
+            "arm": 1,
+            "taken": "0"
+          },
+          {
+            "line": 797,
+            "block": 71,
+            "arm": 0,
+            "taken": "0"
+          },
+          {
+            "line": 803,
+            "block": 73,
+            "arm": 0,
+            "taken": "0"
+          },
+          {
+            "line": 806,
+            "block": 75,
+            "arm": 1,
+            "taken": "0"
+          },
+          {
+            "line": 807,
+            "block": 76,
+            "arm": 0,
+            "taken": "0"
+          },
+          {
+            "line": 807,
+            "block": 76,
+            "arm": 1,
+            "taken": "0"
+          },
+          {
+            "line": 812,
+            "block": 77,
+            "arm": 1,
+            "taken": "0"
+          },
+          {
+            "line": 839,
+            "block": 81,
+            "arm": 0,
+            "taken": "0"
+          },
+          {
+            "line": 849,
+            "block": 86,
+            "arm": 0,
+            "taken": "0"
+          },
+          {
+            "line": 882,
+            "block": 89,
+            "arm": 1,
+            "taken": "0"
+          },
+          {
+            "line": 890,
+            "block": 91,
+            "arm": 1,
+            "taken": "0"
+          },
+          {
+            "line": 967,
+            "block": 98,
+            "arm": 0,
+            "taken": "0"
+          },
+          {
+            "line": 1011,
+            "block": 100,
+            "arm": 1,
+            "taken": "0"
+          },
+          {
+            "line": 1024,
+            "block": 101,
+            "arm": 0,
+            "taken": "0"
+          },
+          {
+            "line": 1025,
+            "block": 102,
+            "arm": 0,
+            "taken": "0"
+          },
+          {
+            "line": 1027,
+            "block": 103,
+            "arm": 2,
+            "taken": "0"
+          },
+          {
+            "line": 1027,
+            "block": 103,
+            "arm": 5,
+            "taken": "0"
+          },
+          {
+            "line": 1027,
+            "block": 103,
+            "arm": 6,
+            "taken": "0"
+          },
+          {
+            "line": 1027,
+            "block": 103,
+            "arm": 12,
+            "taken": "0"
+          },
+          {
+            "line": 1027,
+            "block": 103,
+            "arm": 13,
+            "taken": "0"
+          },
+          {
+            "line": 1027,
+            "block": 103,
+            "arm": 14,
+            "taken": "0"
+          },
+          {
+            "line": 1027,
+            "block": 103,
+            "arm": 15,
+            "taken": "0"
+          },
+          {
+            "line": 1027,
+            "block": 103,
+            "arm": 16,
+            "taken": "0"
+          },
+          {
+            "line": 1045,
+            "block": 106,
+            "arm": 0,
+            "taken": "0"
+          },
+          {
+            "line": 1045,
+            "block": 106,
+            "arm": 1,
+            "taken": "0"
+          },
+          {
+            "line": 1056,
+            "block": 108,
+            "arm": 1,
+            "taken": "0"
+          },
+          {
+            "line": 1068,
+            "block": 111,
+            "arm": 1,
+            "taken": "0"
+          },
+          {
+            "line": 1069,
+            "block": 112,
+            "arm": 0,
+            "taken": "0"
+          },
+          {
+            "line": 1070,
+            "block": 113,
+            "arm": 0,
+            "taken": "0"
+          },
+          {
+            "line": 1070,
+            "block": 113,
+            "arm": 1,
+            "taken": "0"
+          },
+          {
+            "line": 1071,
+            "block": 114,
+            "arm": 1,
+            "taken": "0"
+          },
+          {
+            "line": 1072,
+            "block": 115,
+            "arm": 1,
+            "taken": "0"
+          },
+          {
+            "line": 1074,
+            "block": 117,
+            "arm": 1,
+            "taken": "0"
+          },
+          {
+            "line": 1076,
+            "block": 118,
+            "arm": 1,
+            "taken": "0"
+          },
+          {
+            "line": 1081,
+            "block": 119,
+            "arm": 0,
+            "taken": "0"
+          },
+          {
+            "line": 1081,
+            "block": 119,
+            "arm": 1,
+            "taken": "0"
+          },
+          {
+            "line": 1082,
+            "block": 120,
+            "arm": 0,
+            "taken": "0"
+          },
+          {
+            "line": 1082,
+            "block": 120,
+            "arm": 1,
+            "taken": "0"
+          },
+          {
+            "line": 1090,
+            "block": 121,
+            "arm": 0,
+            "taken": "0"
+          },
+          {
+            "line": 1090,
+            "block": 121,
+            "arm": 1,
+            "taken": "0"
+          },
+          {
+            "line": 1090,
+            "block": 122,
+            "arm": 0,
+            "taken": "0"
+          },
+          {
+            "line": 1090,
+            "block": 122,
+            "arm": 1,
+            "taken": "0"
+          },
+          {
+            "line": 1091,
+            "block": 123,
+            "arm": 0,
+            "taken": "0"
+          },
+          {
+            "line": 1091,
+            "block": 123,
+            "arm": 1,
+            "taken": "0"
+          },
+          {
+            "line": 1092,
+            "block": 124,
+            "arm": 0,
+            "taken": "0"
+          },
+          {
+            "line": 1092,
+            "block": 124,
+            "arm": 1,
+            "taken": "0"
+          },
+          {
+            "line": 1095,
+            "block": 125,
+            "arm": 0,
+            "taken": "0"
+          },
+          {
+            "line": 1095,
+            "block": 125,
+            "arm": 1,
+            "taken": "0"
+          },
+          {
+            "line": 1095,
+            "block": 126,
+            "arm": 0,
+            "taken": "0"
+          },
+          {
+            "line": 1095,
+            "block": 126,
+            "arm": 1,
+            "taken": "0"
+          },
+          {
+            "line": 1113,
+            "block": 127,
+            "arm": 1,
+            "taken": "0"
+          },
+          {
+            "line": 1117,
+            "block": 128,
+            "arm": 1,
+            "taken": "0"
+          },
+          {
+            "line": 1117,
+            "block": 129,
+            "arm": 1,
+            "taken": "0"
+          },
+          {
+            "line": 1131,
+            "block": 130,
+            "arm": 0,
+            "taken": "0"
+          },
+          {
+            "line": 1150,
+            "block": 131,
+            "arm": 1,
+            "taken": "0"
+          },
+          {
+            "line": 1173,
+            "block": 134,
+            "arm": 0,
+            "taken": "0"
+          },
+          {
+            "line": 1173,
+            "block": 134,
+            "arm": 1,
+            "taken": "0"
+          },
+          {
+            "line": 1174,
+            "block": 135,
+            "arm": 0,
+            "taken": "0"
+          },
+          {
+            "line": 1174,
+            "block": 135,
+            "arm": 1,
+            "taken": "0"
+          },
+          {
+            "line": 1185,
+            "block": 136,
+            "arm": 0,
+            "taken": "0"
+          },
+          {
+            "line": 1185,
+            "block": 136,
+            "arm": 1,
+            "taken": "0"
+          },
+          {
+            "line": 1190,
+            "block": 137,
+            "arm": 0,
+            "taken": "0"
+          },
+          {
+            "line": 1190,
+            "block": 137,
+            "arm": 1,
+            "taken": "0"
+          },
+          {
+            "line": 1191,
+            "block": 138,
+            "arm": 0,
+            "taken": "0"
+          },
+          {
+            "line": 1191,
+            "block": 138,
+            "arm": 1,
+            "taken": "0"
+          }
+        ]
+      }
+    ],
+    "cursor": [
+      {
+        "path": "packages/editor/src/core/stamp-draft.ts",
+        "sha256": "6f2c03c4d4453735565c8cc43ca16a02245ced23dd86eb399e6a58feb2cca671",
+        "branches": {
+          "hit": 129,
+          "total": 169
+        },
+        "uncoveredArms": [
+          {
+            "line": 73,
+            "block": 4,
+            "arm": 0,
+            "taken": "0"
+          },
+          {
+            "line": 75,
+            "block": 5,
+            "arm": 1,
+            "taken": "0"
+          },
+          {
+            "line": 79,
+            "block": 8,
+            "arm": 1,
+            "taken": "0"
+          },
+          {
+            "line": 94,
+            "block": 11,
+            "arm": 1,
+            "taken": "0"
+          },
+          {
+            "line": 135,
+            "block": 17,
+            "arm": 0,
+            "taken": "0"
+          },
+          {
+            "line": 147,
+            "block": 18,
+            "arm": 0,
+            "taken": "0"
+          },
+          {
+            "line": 157,
+            "block": 19,
+            "arm": 0,
+            "taken": "0"
+          },
+          {
+            "line": 221,
+            "block": 29,
+            "arm": 0,
+            "taken": "0"
+          },
+          {
+            "line": 222,
+            "block": 30,
+            "arm": 0,
+            "taken": "0"
+          },
+          {
+            "line": 223,
+            "block": 32,
+            "arm": 0,
+            "taken": "0"
+          },
+          {
+            "line": 226,
+            "block": 34,
+            "arm": 0,
+            "taken": "0"
+          },
+          {
+            "line": 248,
+            "block": 41,
+            "arm": 0,
+            "taken": "0"
+          },
+          {
+            "line": 255,
+            "block": 43,
+            "arm": 1,
+            "taken": "0"
+          },
+          {
+            "line": 256,
+            "block": 44,
+            "arm": 0,
+            "taken": "0"
+          },
+          {
+            "line": 256,
+            "block": 44,
+            "arm": 1,
+            "taken": "0"
+          },
+          {
+            "line": 257,
+            "block": 45,
+            "arm": 0,
+            "taken": "0"
+          },
+          {
+            "line": 257,
+            "block": 45,
+            "arm": 1,
+            "taken": "0"
+          },
+          {
+            "line": 258,
+            "block": 46,
+            "arm": 0,
+            "taken": "0"
+          },
+          {
+            "line": 258,
+            "block": 46,
+            "arm": 1,
+            "taken": "0"
+          },
+          {
+            "line": 261,
+            "block": 47,
+            "arm": 0,
+            "taken": "0"
+          },
+          {
+            "line": 263,
+            "block": 48,
+            "arm": 0,
+            "taken": "0"
+          },
+          {
+            "line": 263,
+            "block": 48,
+            "arm": 1,
+            "taken": "0"
+          },
+          {
+            "line": 265,
+            "block": 49,
+            "arm": 0,
+            "taken": "0"
+          },
+          {
+            "line": 265,
+            "block": 49,
+            "arm": 1,
+            "taken": "0"
+          },
+          {
+            "line": 274,
+            "block": 50,
+            "arm": 0,
+            "taken": "0"
+          },
+          {
+            "line": 275,
+            "block": 51,
+            "arm": 0,
+            "taken": "0"
+          },
+          {
+            "line": 282,
+            "block": 54,
+            "arm": 0,
+            "taken": "0"
+          },
+          {
+            "line": 299,
+            "block": 58,
+            "arm": 0,
+            "taken": "0"
+          },
+          {
+            "line": 301,
+            "block": 60,
+            "arm": 0,
+            "taken": "0"
+          },
+          {
+            "line": 303,
+            "block": 62,
+            "arm": 0,
+            "taken": "0"
+          },
+          {
+            "line": 340,
+            "block": 71,
+            "arm": 0,
+            "taken": "0"
+          },
+          {
+            "line": 345,
+            "block": 72,
+            "arm": 0,
+            "taken": "0"
+          },
+          {
+            "line": 350,
+            "block": 74,
+            "arm": 0,
+            "taken": "0"
+          },
+          {
+            "line": 350,
+            "block": 75,
+            "arm": 1,
+            "taken": "0"
+          },
+          {
+            "line": 361,
+            "block": 76,
+            "arm": 0,
+            "taken": "0"
+          },
+          {
+            "line": 364,
+            "block": 77,
+            "arm": 0,
+            "taken": "0"
+          },
+          {
+            "line": 364,
+            "block": 78,
+            "arm": 1,
+            "taken": "0"
+          },
+          {
+            "line": 368,
+            "block": 79,
+            "arm": 1,
+            "taken": "0"
+          },
+          {
+            "line": 387,
+            "block": 80,
+            "arm": 1,
+            "taken": "0"
+          },
+          {
+            "line": 391,
+            "block": 81,
+            "arm": 0,
+            "taken": "0"
+          }
+        ]
+      },
+      {
+        "path": "packages/editor/src/core/map-selection.ts",
+        "sha256": "65644e11a1c6fca4f5ebd1d4429cdacdf253e10ee2f8e590ada073413cd73713",
+        "branches": {
+          "hit": 211,
+          "total": 228
+        },
+        "uncoveredArms": [
+          {
+            "line": 195,
+            "block": 4,
+            "arm": 1,
+            "taken": "0"
+          },
+          {
+            "line": 201,
+            "block": 5,
+            "arm": 0,
+            "taken": "0"
+          },
+          {
+            "line": 216,
+            "block": 6,
+            "arm": 0,
+            "taken": "0"
+          },
+          {
+            "line": 235,
+            "block": 8,
+            "arm": 1,
+            "taken": "0"
+          },
+          {
+            "line": 235,
+            "block": 8,
+            "arm": 2,
+            "taken": "0"
+          },
+          {
+            "line": 235,
+            "block": 8,
+            "arm": 3,
+            "taken": "0"
+          },
+          {
+            "line": 275,
+            "block": 15,
+            "arm": 1,
+            "taken": "0"
+          },
+          {
+            "line": 387,
+            "block": 39,
+            "arm": 11,
+            "taken": "0"
+          },
+          {
+            "line": 405,
+            "block": 40,
+            "arm": 0,
+            "taken": "0"
+          },
+          {
+            "line": 423,
+            "block": 44,
+            "arm": 0,
+            "taken": "0"
+          },
+          {
+            "line": 486,
+            "block": 54,
+            "arm": 1,
+            "taken": "0"
+          },
+          {
+            "line": 606,
+            "block": 73,
+            "arm": 1,
+            "taken": "0"
+          },
+          {
+            "line": 625,
+            "block": 77,
+            "arm": 0,
+            "taken": "0"
+          },
+          {
+            "line": 651,
+            "block": 79,
+            "arm": 0,
+            "taken": "0"
+          },
+          {
+            "line": 672,
+            "block": 81,
+            "arm": 0,
+            "taken": "0"
+          },
+          {
+            "line": 682,
+            "block": 83,
+            "arm": 0,
+            "taken": "0"
+          },
+          {
+            "line": 735,
+            "block": 89,
+            "arm": 0,
+            "taken": "0"
+          }
+        ]
+      },
+      {
+        "path": "packages/editor/src/core/map-transform.ts",
+        "sha256": "142e3dd3c606431e36ae348e32283fce07af1dab4c86592bcd3673caeb84511c",
+        "branches": {
+          "hit": 110,
+          "total": 131
+        },
+        "uncoveredArms": [
+          {
+            "line": 137,
+            "block": 1,
+            "arm": 0,
+            "taken": "0"
+          },
+          {
+            "line": 137,
+            "block": 1,
+            "arm": 1,
+            "taken": "0"
+          },
+          {
+            "line": 137,
+            "block": 1,
+            "arm": 3,
+            "taken": "0"
+          },
+          {
+            "line": 144,
+            "block": 2,
+            "arm": 0,
+            "taken": "0"
+          },
+          {
+            "line": 149,
+            "block": 3,
+            "arm": 0,
+            "taken": "0"
+          },
+          {
+            "line": 155,
+            "block": 6,
+            "arm": 0,
+            "taken": "0"
+          },
+          {
+            "line": 170,
+            "block": 8,
+            "arm": 0,
+            "taken": "0"
+          },
+          {
+            "line": 173,
+            "block": 9,
+            "arm": 0,
+            "taken": "0"
+          },
+          {
+            "line": 225,
+            "block": 15,
+            "arm": 0,
+            "taken": "0"
+          },
+          {
+            "line": 255,
+            "block": 19,
+            "arm": 0,
+            "taken": "0"
+          },
+          {
+            "line": 260,
+            "block": 21,
+            "arm": 1,
+            "taken": "0"
+          },
+          {
+            "line": 261,
+            "block": 22,
+            "arm": 1,
+            "taken": "0"
+          },
+          {
+            "line": 323,
+            "block": 32,
+            "arm": 0,
+            "taken": "0"
+          },
+          {
+            "line": 374,
+            "block": 40,
+            "arm": 1,
+            "taken": "0"
+          },
+          {
+            "line": 410,
+            "block": 43,
+            "arm": 0,
+            "taken": "0"
+          },
+          {
+            "line": 491,
+            "block": 51,
+            "arm": 0,
+            "taken": "0"
+          },
+          {
+            "line": 498,
+            "block": 52,
+            "arm": 1,
+            "taken": "0"
+          },
+          {
+            "line": 525,
+            "block": 57,
+            "arm": 1,
+            "taken": "0"
+          },
+          {
+            "line": 526,
+            "block": 58,
+            "arm": 0,
+            "taken": "0"
+          },
+          {
+            "line": 526,
+            "block": 59,
+            "arm": 1,
+            "taken": "0"
+          },
+          {
+            "line": 526,
+            "block": 59,
+            "arm": 2,
+            "taken": "0"
+          }
+        ]
+      },
+      {
+        "path": "packages/editor/src/core/stamp-group-transform.ts",
+        "sha256": "7957b457280f6345d5b84d80a55ecf529746853143e0752cbc0fef852f34c2c7",
+        "branches": {
+          "hit": 118,
+          "total": 138
+        },
+        "uncoveredArms": [
+          {
+            "line": 110,
+            "block": 5,
+            "arm": 0,
+            "taken": "0"
+          },
+          {
+            "line": 119,
+            "block": 6,
+            "arm": 1,
+            "taken": "0"
+          },
+          {
+            "line": 120,
+            "block": 7,
+            "arm": 1,
+            "taken": "0"
+          },
+          {
+            "line": 125,
+            "block": 8,
+            "arm": 0,
+            "taken": "0"
+          },
+          {
+            "line": 130,
+            "block": 10,
+            "arm": 0,
+            "taken": "0"
+          },
+          {
+            "line": 142,
+            "block": 11,
+            "arm": 1,
+            "taken": "0"
+          },
+          {
+            "line": 214,
+            "block": 19,
+            "arm": 0,
+            "taken": "0"
+          },
+          {
+            "line": 220,
+            "block": 20,
+            "arm": 0,
+            "taken": "0"
+          },
+          {
+            "line": 229,
+            "block": 22,
+            "arm": 0,
+            "taken": "0"
+          },
+          {
+            "line": 295,
+            "block": 28,
+            "arm": 0,
+            "taken": "0"
+          },
+          {
+            "line": 322,
+            "block": 34,
+            "arm": 1,
+            "taken": "0"
+          },
+          {
+            "line": 338,
+            "block": 39,
+            "arm": 1,
+            "taken": "0"
+          },
+          {
+            "line": 339,
+            "block": 40,
+            "arm": 1,
+            "taken": "0"
+          },
+          {
+            "line": 364,
+            "block": 43,
+            "arm": 1,
+            "taken": "0"
+          },
+          {
+            "line": 379,
+            "block": 48,
+            "arm": 0,
+            "taken": "0"
+          },
+          {
+            "line": 379,
+            "block": 48,
+            "arm": 1,
+            "taken": "0"
+          },
+          {
+            "line": 435,
+            "block": 59,
+            "arm": 0,
+            "taken": "0"
+          },
+          {
+            "line": 449,
+            "block": 60,
+            "arm": 0,
+            "taken": "0"
+          },
+          {
+            "line": 449,
+            "block": 60,
+            "arm": 1,
+            "taken": "0"
+          },
+          {
+            "line": 501,
+            "block": 63,
+            "arm": 0,
+            "taken": "0"
+          }
+        ]
+      },
+      {
+        "path": "packages/editor/src/core/stamp-placement.ts",
+        "sha256": "e021499cb3c6d549019087377ac901a26009fc7691d79d2931634a9a24e3505e",
+        "branches": {
+          "hit": 79,
+          "total": 95
+        },
+        "uncoveredArms": [
+          {
+            "line": 126,
+            "block": 1,
+            "arm": 1,
+            "taken": "0"
+          },
+          {
+            "line": 145,
+            "block": 5,
+            "arm": 0,
+            "taken": "0"
+          },
+          {
+            "line": 147,
+            "block": 7,
+            "arm": 0,
+            "taken": "0"
+          },
+          {
+            "line": 163,
+            "block": 10,
+            "arm": 0,
+            "taken": "0"
+          },
+          {
+            "line": 163,
+            "block": 10,
+            "arm": 1,
+            "taken": "0"
+          },
+          {
+            "line": 237,
+            "block": 25,
+            "arm": 0,
+            "taken": "0"
+          },
+          {
+            "line": 250,
+            "block": 27,
+            "arm": 0,
+            "taken": "0"
+          },
+          {
+            "line": 265,
+            "block": 30,
+            "arm": 0,
+            "taken": "0"
+          },
+          {
+            "line": 294,
+            "block": 34,
+            "arm": 1,
+            "taken": "0"
+          },
+          {
+            "line": 319,
+            "block": 38,
+            "arm": 0,
+            "taken": "0"
+          },
+          {
+            "line": 366,
+            "block": 43,
+            "arm": 0,
+            "taken": "0"
+          },
+          {
+            "line": 366,
+            "block": 43,
+            "arm": 1,
+            "taken": "0"
+          },
+          {
+            "line": 369,
+            "block": 44,
+            "arm": 0,
+            "taken": "0"
+          },
+          {
+            "line": 369,
+            "block": 44,
+            "arm": 1,
+            "taken": "0"
+          },
+          {
+            "line": 371,
+            "block": 45,
+            "arm": 0,
+            "taken": "0"
+          },
+          {
+            "line": 371,
+            "block": 45,
+            "arm": 1,
+            "taken": "0"
+          }
+        ]
+      },
+      {
+        "path": "packages/editor/src/core/stamp-ownership.ts",
+        "sha256": "0d0a98e8cbdb500f3f77d4fc47e226b06515e90a5df9eba818a18a3f1dd18f71",
+        "branches": {
+          "hit": 54,
+          "total": 66
+        },
+        "uncoveredArms": [
+          {
+            "line": 47,
+            "block": 2,
+            "arm": 1,
+            "taken": "0"
+          },
+          {
+            "line": 114,
+            "block": 11,
+            "arm": 0,
+            "taken": "0"
+          },
+          {
+            "line": 133,
+            "block": 14,
+            "arm": 0,
+            "taken": "0"
+          },
+          {
+            "line": 142,
+            "block": 17,
+            "arm": 1,
+            "taken": "0"
+          },
+          {
+            "line": 145,
+            "block": 18,
+            "arm": 0,
+            "taken": "0"
+          },
+          {
+            "line": 148,
+            "block": 20,
+            "arm": 1,
+            "taken": "0"
+          },
+          {
+            "line": 159,
+            "block": 22,
+            "arm": 1,
+            "taken": "0"
+          },
+          {
+            "line": 163,
+            "block": 23,
+            "arm": 1,
+            "taken": "0"
+          },
+          {
+            "line": 167,
+            "block": 24,
+            "arm": 0,
+            "taken": "0"
+          },
+          {
+            "line": 202,
+            "block": 25,
+            "arm": 0,
+            "taken": "0"
+          },
+          {
+            "line": 213,
+            "block": 29,
+            "arm": 0,
+            "taken": "0"
+          },
+          {
+            "line": 222,
+            "block": 30,
+            "arm": 0,
+            "taken": "0"
+          }
+        ]
+      }
+    ]
+  }
+}

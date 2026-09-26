@@ -6,7 +6,9 @@
 
 额度按接手时实际状态确认；历史额度快照不作为当前准入依据。
 
-**当前优先级（用户2026-09-22拍板）**：先补测试覆盖率，E2E准备与实施后置，不立即推进R4检查点或新UI改造。
+**当前优先级（用户2026-09-27拍板）**：GLM/Cursor继续各自隔离补测，Codex暂停主动覆盖率扩展，
+转[快速通关E2E路线方案讨论](../testing/e2e-route-proposal.md)。先讨论如何避免盲探迷宫/剧情，
+不立即实现runner或开始全流程游戏；+5pp余下612分支不是E2E门槛。此前2026-09-22覆盖率优先排期被本条替代。
 **2026-09-24补充**：用户要求推进[全仓架构治理](audits/architecture-debt.md)，改为按职责拆分与补测同步推进。
 第一阶段允许行为不漂移的结构优化，也检查实现bug；纯重构与行为修正分提交。首批A1已独立准入并收口，不扩张为整仓同时重写。
 **2026-09-25分工更新**：先前“全队列Codex独立”只保留为已完成批次的历史授权。新批次按[并行所有权](audits/architecture-debt.md#并行所有权2026-09-26-更新)由Codex保留高风险，GLM/Grok/Cursor只在各自窄卡白名单内实施；Codex独立验收/集成。仍不把结构治理授权解释为玩法、格式或界面变更授权。
@@ -42,7 +44,11 @@ check8896/单次strict8404全过；实际+134分支/+73行，content分支85.55%
 
 | ID | 任务 | 状态 | 负责人/下一步 | 一句话备注 |
 |---|---|---|---|---|
-| TEST-COVERAGE-PLUS5-1 | [全仓分支+5pp持续队列](tasks/TEST-COVERAGE-PLUS5-1-continuous-batches.md) | build | Codex / 下一大批 | 十一批补测+2367B；架构增量另列，当前72.76%/剩余612B；check9712/strict9220通过 |
+| E2E-R4-1 | [路线驱动与检查点薄基线](tasks/E2E-R4-1-route-and-checkpoint-foundation.md) | draft | Codex / 与用户讨论 | 001/002接口已有，runner未建；不盲玩，不手造剧情档 |
+| TEST-GLM-ITEM-LOGIC-1 | [物品纯逻辑六组](tasks/TEST-GLM-ITEM-LOGIC-1-world-use-residuals.md) | build | GLM / 连续补测 | item当前公开函数；生产零改，独立分支交付 |
+| TEST-CURSOR-MAP-LOGIC-2 | [地图纯逻辑六组](tasks/TEST-CURSOR-MAP-LOGIC-2-selection-stamps.md) | build | Cursor / 连续补测 | 选区/组合块/变换，生产零改，不碰E2E |
+| TEST-COVERAGE-PLUS5-1 | [全仓分支+5pp持续队列](tasks/TEST-COVERAGE-PLUS5-1-continuous-batches.md) | build | Codex / 暂停主动扩展 | 用户转E2E讨论，保留72.76%/剩余612B，不作E2E门槛 |
+| TEST-CODEX-FRAME-EDITOR-1 | [帧动画编辑工作流](tasks/TEST-CODEX-FRAME-EDITOR-1-current-workflows.md) | build | Codex / 暂停保留WIP | 未完成测试不计覆盖，不删除现场 |
 | EDITOR-SCENE-FACING-1 | [切场景朝向清除](tasks/EDITOR-SCENE-FACING-1-clear-override.md) | draft | Codex / 后续窄修 | 保持选项仍提交旧方向；真实红诊断+单点oracle已证 |
 | EDITOR-PREVIEW-STEP-1 | [预览单步阶段门](tasks/EDITOR-PREVIEW-STEP-1-command-gates.md) | draft | Codex / 后续窄修 | 当前入口首次step无命令执行，红诊断已落，不随补测关闭 |
 | ARCH-SUPPORT-GLM-1 | [八组并行架构/视觉准备](tasks/ARCH-SUPPORT-GLM-1-eight-audit-packages.md) | draft | Codex / 后续归属与收口 | 58cdf938材料accept，counter清零；文档已合入，按用户要求未标done/未开产品门 |

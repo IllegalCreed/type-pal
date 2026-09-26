@@ -1,0 +1,52 @@
+# TEST-GLM-ITEM-LOGIC-1 — 物品纯逻辑六组补测
+
+Status: build
+Owner: GLM
+Reviewer / Integration Owner: Codex
+Phase: phase2
+Visual Verification Timing: N/A（纯数据合同，不做浏览器或战斗视觉）
+Production Base: `a95618fc`
+Branch: `codex/glm-item-logic-r1`
+
+## 准入与前提
+
+2026-09-27用户明确GLM/Cursor继续补测，Codex转E2E讨论。Codex核定本包build allowed；
+只测试当前content物品合同，不能修改产品政策/公式或以当前行为替代未知设计。
+一手入口`packages/content/src/item.ts`的公开函数；消费链`reforge/src/item-use-executor.ts:98/135/163/186/246`。
+官方fast冻结item.ts为221/326分支（105未命中），只是选题池，不承诺全部可达。
+[共同交付规则与冻结账](../../testing/background-tests-20260927/README.md)。
+一阶段/原版实现对齐N/A：不改第二阶段机制。若触及概率/毒/装备规则争议，列待证，不自行修产品。
+最强替代解释：旧item.test或上层executor已覆盖；先查精确标题，重复合同登记existing-proof。
+
+## 六组连续工作
+
+| 组 | 公开入口 / 源锚 | 应补的剩余合同，不重复旧例 |
+|---|---|---|
+| I1 | describeEquipEffects :71、effectiveStat/Resistances/Skills/Sprite/Statuses/Regen :350–495 | 当前可表达的空/缺席/多项组合、名称resolver回退、稳定次序；完整返回值与实际角色/物品输入不变 |
+| I2 | equippableItems/equipItem/equippedItemIds/usableItems :495–566 | 列表筛选与身份、非空背包哨兵、装备交换/无动作分支；不重复旧交换happy path |
+| I3 | preflightWorldItemUse :645、上下文函数 :219/256 | 拒绝reason/menu/world身份与零副作用；一条同型合法对照，不能只测抛错 |
+| I4 | ownedItemCount/removeOwnedItems/worldResourceValue :742–802 | 计数、扣除不足/零/跨队员与非目标保真；removeOwnedItems本来原地修改，必须核精确变化，不能强加不可变合同 |
+| I5 | resolveWorldItemUse :827–1164 | 现行可达效果/配方/资源池/多目标的剩余组合；固定RNG与次数、完整outcome和库存/世界；未知语义单列 |
+| I6 | completeExternalWorldItemUse/useItem :1167–1217 | 外部成功后的正式消费、已被外部消费/不消费/失效物品、保留外部真实世界变化；不伪造外部脚本执行 |
+
+每组先写旧标题与差异，然后连续做完。I5若范围过大，只做被冻结未命中臂对应且合同明确的输入；
+不扩成新物品系统，不追100%或固定用例数。
+
+## 唯一白名单
+
+- `packages/content/src/item.{derived,inventory,preflight,ownership,effects,external}.background.test.ts`（六个可选新文件）。
+- `packages/content/src/__tests__/glm-item-logic-fixtures.ts`（可选，薄数据/断言，不复制算法）。
+- `docs/testing/glm-item-logic/**`（README/receipt/evidence/mutants及必要只读诊断）；本卡仅追加GLM交付块。
+- 不改产品/旧测试/资产/共享索引/配置/超时/排除/基线；不触碰Codex帧编辑WIP和E2E入口。
+
+合法物品先过validateItems，人物/世界来自当前合法构造器及适用结构守卫；不要使用旧fixture中的强转坏数据。
+不可变函数每次调用前独立深快照，调用后比同一实际入参；原地变更函数则比较精确差值和旁对象保真。
+4–6代表单点反控，优先错误消费、错目标、丢外部变化、输入污染、过滤放行；每针同一输入正控，候选自身业务红。
+定向→相邻item/executor→content全包→TC→改动Biome/docs/diff；不跑全仓check/coverage。
+有疑似产品缺陷时只写隔离红诊断，不改成错误绿预期；继续无关组，交Codex裁定。
+
+## 交接
+
+从含本卡的最新origin/main新建独立worktree/上述分支；以前GLM目录已清理，不复活旧分支。
+冻结只对应a95618fc七包官方基线；交付基点写实际新分支SHA。整包提交推送后给完整SHA、命令/exit/新鲜JSON计数。
+不合main、不标done、不代签。Codex独立接收后安排必要统一质量门，不以本包阻塞E2E讨论。

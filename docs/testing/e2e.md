@@ -56,8 +56,10 @@
 > 全仓代码审计**A–E 首轮取证已完成**（见 `docs/ops/audits/pre-e2e/summary.md`），当前是按总收口
 > 修复影响数据安全、流程正确性和 E2E 可信度的阻断问题，再开始 R4；一般优化不要求在 E2E 前全部完成。
 
-当前准入核对见[前置欠账台账](pre-e2e-admission.md)（2026-09-21）。现有卡done与CI绿不构成R4自动准入；
-R4正式卡、003～010作者边界、runner与连续checkpoint仍待建设。迁移写盘风险已另开draft卡，不借此改变既定版本顺序。
+历史准入核对见[前置欠账台账](pre-e2e-admission.md)（2026-09-21）。现有卡done与CI绿不构成R4自动准入；
+2026-09-27已建[R4准备卡](../ops/tasks/E2E-R4-1-route-and-checkpoint-foundation.md)与[路线方案讨论稿](e2e-route-proposal.md)，
+003～010作者边界、runner与连续checkpoint仍待建设。迁移写盘保护已收口，不借此改变既定版本顺序。
+用户本次将Codex从主动补覆盖转为E2E讨论；GLM/Cursor后台补测不阻塞本轮讨论，尚未授权实现加速旁路。
 
 ### 已登记的商店创作工作流（ED-SHOP-LIFECYCLE-1）
 
