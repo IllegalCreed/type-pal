@@ -1,0 +1,251 @@
+{
+  "task": "ARCH-F2-CURSOR-BATCH-2",
+  "candidate": "2022acc3",
+  "productHead": "6952ffee",
+  "integration": "96e9d3c1",
+  "protectedBase": "5a4ae580",
+  "owner": "Cursor (implementation)",
+  "reviewer": "Codex (independent verification and integration)",
+  "verdict": "accept",
+  "closedCounters": ["R1", "R2", "R3"],
+  "counts": {
+    "before": [8232, 688],
+    "after": [8248, 701]
+  },
+  "total": {
+    "statements": {
+      "covered": 61306,
+      "total": 80643
+    },
+    "branches": {
+      "covered": 43284,
+      "total": 63178
+    },
+    "functions": {
+      "covered": 11409,
+      "total": 15058
+    },
+    "lines": {
+      "covered": 55193,
+      "total": 70600
+    }
+  },
+  "baselineHash": "25a9abb83e912d86a2272887ee84e9bbb6b39de89f9708e05d149f9eea579917",
+  "addedSources": [
+    "packages/editor/src/core/actor-commands.ts",
+    "packages/editor/src/core/asset-commands.ts",
+    "packages/editor/src/core/battle-sprite-commands.ts",
+    "packages/editor/src/core/command-asset-record.ts",
+    "packages/editor/src/core/command-scene-state.ts",
+    "packages/editor/src/core/composite-command.ts",
+    "packages/editor/src/core/entity-commands.ts",
+    "packages/editor/src/core/map-asset-commands.ts",
+    "packages/editor/src/core/map-edit-commands.ts",
+    "packages/editor/src/core/scene-commands.ts",
+    "packages/editor/src/core/sprite-commands.ts",
+    "packages/editor/src/core/startup-commands.ts",
+    "packages/editor/src/core/tileset-commands.ts"
+  ],
+  "selfTests": {
+    "ok": true,
+    "results": [
+      {
+        "id": "ordinary-error-with-assertion-text",
+        "accepted": false,
+        "expected": false
+      },
+      {
+        "id": "wrong-file-and-full-name",
+        "accepted": false,
+        "expected": false
+      },
+      {
+        "id": "zero-executions",
+        "accepted": false,
+        "expected": false
+      },
+      {
+        "id": "exit-2",
+        "accepted": false,
+        "expected": false
+      },
+      {
+        "id": "exit-null",
+        "accepted": false,
+        "expected": false
+      },
+      {
+        "id": "unhit-injection",
+        "accepted": false,
+        "expected": false
+      },
+      {
+        "id": "mixed-error",
+        "accepted": false,
+        "expected": false
+      },
+      {
+        "id": "timeout",
+        "accepted": false,
+        "expected": false
+      },
+      {
+        "id": "legal-green",
+        "accepted": true,
+        "expected": true
+      },
+      {
+        "id": "legal-red",
+        "accepted": true,
+        "expected": true
+      },
+      {
+        "id": "assertion-then-typeerror",
+        "accepted": false,
+        "expected": false
+      },
+      {
+        "id": "assertion-timed-out",
+        "accepted": false,
+        "expected": false
+      },
+      {
+        "id": "extra-failure",
+        "accepted": false,
+        "expected": false
+      },
+      {
+        "id": "suite-error",
+        "accepted": false,
+        "expected": false
+      },
+      {
+        "id": "stack-runWithTimeout-kept",
+        "accepted": true,
+        "expected": true
+      }
+    ]
+  },
+  "cases": [
+    {
+      "id": "c2-entity-delete-guard",
+      "greenExit": 0,
+      "greenPassed": 1,
+      "redExit": 1,
+      "hit": true,
+      "hashUnchanged": true,
+      "failedFullName": "current entity address editor closure delete is fail-loud while lifecycle references exist and remains undoable after cleanup"
+    },
+    {
+      "id": "c3-scene-entry-guard",
+      "greenExit": 0,
+      "greenPassed": 1,
+      "redExit": 1,
+      "hit": true,
+      "hashUnchanged": true,
+      "failedFullName": "W4-1 改名/移动不改变两处引用的稳定 id；引用落点禁止删除"
+    },
+    {
+      "id": "c5-map-edit",
+      "greenExit": 0,
+      "greenPassed": 1,
+      "redExit": 1,
+      "hit": true,
+      "hashUnchanged": true,
+      "failedFullName": "ProjectMap 绘制与图层命令 画瓦按稳定 layer.id 写入；invert 还原，源 state 不动"
+    },
+    {
+      "id": "c6-tileset-or-c7-sprite",
+      "greenExit": 0,
+      "greenPassed": 1,
+      "redExit": 1,
+      "hit": true,
+      "hashUnchanged": true,
+      "failedFullName": "A7-3T 瓦片集命令事务 导入拒绝二进制长度不符与其它 AssetId 的路径碰撞"
+    },
+    {
+      "id": "c8-actor-in-use",
+      "greenExit": 0,
+      "greenPassed": 1,
+      "redExit": 1,
+      "hit": true,
+      "hashUnchanged": true,
+      "failedFullName": "人物 CRUD 与解除关联 coveredBy 自引用与 levelUp 伴随边随人物删除，外部 coveredBy 仍阻断"
+    }
+  ],
+  "mechanical": {
+    "declarations": 90,
+    "exports": 119,
+    "runtimeImportBindings": 62,
+    "newRuntimeCycles": 0,
+    "commandsLines": [3163, 179]
+  },
+  "quality": {
+    "editor": {
+      "files": 324,
+      "tests": 2829,
+      "exit": 0
+    },
+    "compositeRework": {
+      "tests": 2,
+      "exit": 0
+    },
+    "typecheck": 0,
+    "check": {
+      "tests": 8740,
+      "exit": 0
+    },
+    "ratchet": 0,
+    "strict": {
+      "exit": 0,
+      "runs": 1,
+      "baselineBefore": "25a9abb83e912d86a2272887ee84e9bbb6b39de89f9708e05d149f9eea579917",
+      "baselineAfter": "25a9abb83e912d86a2272887ee84e9bbb6b39de89f9708e05d149f9eea579917"
+    },
+    "biome": {
+      "errors": 0,
+      "warnings": 55,
+      "infos": 6
+    },
+    "docs": 0
+  },
+  "scope": {
+    "newTestFiles": 11,
+    "newTests": 16,
+    "retainedProductionSources": 688,
+    "otherSixPackagesUnchanged": true,
+    "allCoverageMetricsUnchanged": true,
+    "glmCandidateIncluded": false
+  },
+  "visual": {
+    "origin": "http://127.0.0.1:6019",
+    "fixture": "/tmp/codex-glm-r12-fixture.Ucmi6D",
+    "project": "lab-v4 (owned memory-only source)",
+    "steps": [
+      "scene name changed, undo/redo, stable id start",
+      "add entity-1 at col8 row1 height0",
+      "change col to9, undo to8",
+      "undo add returns count0, redo restores same entity-1 count1"
+    ],
+    "consoleErrorsAndWarnings": 0,
+    "userEditor6010Touched": false,
+    "userProjectWrites": false,
+    "tabClosed": true,
+    "serverStopped": true,
+    "evidence": "inline screenshots and AX state in Codex conversation"
+  },
+  "logs": [
+    "/tmp/codex-cursor-wave2-r2-audit.json",
+    "/tmp/codex-cursor-wave2-editor.log",
+    "/tmp/codex-cursor-wave2-r2-mutants.log",
+    "/tmp/codex-cursor-wave2-check.log",
+    "/tmp/codex-cursor-wave2-ratchet.log",
+    "/tmp/codex-cursor-wave2-strict.log"
+  ],
+  "limits": [
+    "full/Q1/Q2/story E2E not run",
+    "remote CI for final push not verified here",
+    "other eight architecture batches remain"
+  ],
+  "retirement": "after main push: remove merged Cursor worktree/local/remote branch, retain history in main"
+}

@@ -2,7 +2,7 @@
 
 2026-09-26，Codex。候选`b2e8d712cacad8253fbbe9aaf2225753d6d9de80`，开工ef19ae7e，
 生产对照51048353；主线接收点be5218bb。**九组产品搬移核验通过；整包counter，仅R1–R3收尾。**
-任务卡：[剩余命令拆分](../ops/tasks/ARCH-F2-CURSOR-BATCH-2-remaining-commands.md)。
+任务卡：[剩余命令拆分](../ops/archive/tasks/done/ARCH-F2-CURSOR-BATCH-2-remaining-commands.md)。
 
 ## 已闭合，不重新实施九组
 

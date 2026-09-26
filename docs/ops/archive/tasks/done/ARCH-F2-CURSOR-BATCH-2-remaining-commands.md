@@ -1,6 +1,6 @@
 # ARCH-F2-CURSOR-BATCH-2 — 剩余九组编辑命令模块整理
 
-Status: review
+Status: done
 Owner: Cursor
 Reviewer / Integration Owner: Codex
 Phase: phase2
@@ -23,8 +23,8 @@ Codex于2026-09-26独立读当前`commands.ts`，确认剩余类与下表边界�
 before→after：同一编辑输入、返回对象/引用、历史与错误不变，只改变模块归属。最强替代解释是共享helper迫使反向依赖；
 若拆后出现新runtime SCC或新模块回引commands barrel，说明边界不成立，应在内部下层拆helper而非增加万能Context。
 
-必读：AGENTS/CLAUDE/READ-FIRST、[治理台账](../audits/architecture-debt.md)、
-[前批验收](../../testing/cursor-architecture-batch-integration.md)、`command-contract.ts`、`edit-session.ts`。
+必读：AGENTS/CLAUDE/READ-FIRST、[治理台账](../../../audits/architecture-debt.md)、
+[前批验收](../../../../testing/cursor-architecture-batch-integration.md)、`command-contract.ts`、`edit-session.ts`。
 不复活旧schema/旧入口，旧有fallback是否有问题另登记，不借机械拆分偷偷删除或“修好”。
 
 ## 九组顺序（连续完成，不逐组等批准）
@@ -69,8 +69,15 @@ before→after：同一编辑输入、返回对象/引用、历史与错误不�
 
 - Codex：premise verified / build allowed，2026-09-26；源码范围与Codex的reforge活动场景、GLM的content测试互斥。
 - Coding Owner：Cursor；贡献者自验与Codex独立验收分列。
-- 作者交付：delivered，2026-09-26；产品 C9 `6952ffeec978e7716e7f3e48fd5f240244f07f93`；回执与反控见[receipt.md](../../testing/cursor-commands-wave2/receipt.md)。r1 窄修只动判据、C1 新 fixture 与回执归位。
-- Codex验收：2022acc3的R1–R3已独立闭合，产品接收；最小UI与统一全仓门进行中，done尚未开放。首轮[反证](../../testing/cursor-commands-wave2-review.md)与[机账](../../testing/cursor-commands-wave2-review-evidence.json)保留历史事实，不再是当前未闭counter。
+- 作者交付：delivered，2026-09-26；产品 C9 `6952ffeec978e7716e7f3e48fd5f240244f07f93`；回执与反控见[receipt.md](../../../../testing/cursor-commands-wave2/receipt.md)。r1 窄修只动判据、C1 新 fixture 与回执归位。
+- Codex验收：**accept / done allowed**（2026-09-26，2022acc3，集成96e9d3c1）。R1–R3、最小UI与统一质量门全部通过；[最终验收](../../../../testing/cursor-commands-wave2-integration.md)与[机账](../../../../testing/cursor-commands-wave2-integration-evidence.json)。首轮反证保留历史事实，不代签他席。
+
+## Codex统一收口
+
+check8740→ratchet→保护5a4ae580的单次strict8248/701均exit0；其它六包完整基线不变，原688源文件全保留。
+6019自有内存工程完成场景改名/undo/redo、entity新增/移位/undo/redo，console error/warn为空，未动6010/用户工程。
+本卡完成，F2组织性治理收口；其它架构卡、GLM候选、full/Q1/Q2不借此关闭。无需再次用户技术验收或固定AI签字。
+无下一位Agent提示词；Codex负责推送/退休清理，旧交接块仅作历史。
 
 ## Codex返工复核（2026-09-26，2022acc3）
 

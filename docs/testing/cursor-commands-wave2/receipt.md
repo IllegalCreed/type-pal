@@ -112,4 +112,4 @@ git diff --stat ef19ae7e -- packages/editor/src/core/commands.ts \
   packages/editor/src/core/command-asset-record.ts
 ```
 
-任务卡：[ARCH-F2-CURSOR-BATCH-2](../../ops/tasks/ARCH-F2-CURSOR-BATCH-2-remaining-commands.md)。Cursor 自验不是独立证明。Codex 负责隔离 UI、全仓 check、官方 ratchet 与受保护严格 fast。
+任务卡：[ARCH-F2-CURSOR-BATCH-2](../../ops/archive/tasks/done/ARCH-F2-CURSOR-BATCH-2-remaining-commands.md)。Cursor 自验不是独立证明。Codex 负责隔离 UI、全仓 check、官方 ratchet 与受保护严格 fast。

@@ -1,14 +1,14 @@
 {
   "schemaVersion": 2,
   "profile": "fast",
-  "generatedAt": "2026-09-26T05:51:16.162Z",
+  "generatedAt": "2026-09-26T06:55:47.582Z",
   "provider": {
     "name": "v8",
     "vitest": "4.1.7",
     "coverageV8": "4.1.7"
   },
-  "sourceFileCount": 688,
-  "testCount": 8232,
+  "sourceFileCount": 701,
+  "testCount": 8248,
   "packages": {
     "shared": {
       "name": "@type-pal/shared",
@@ -3797,11 +3797,13 @@
         "**/*.spec.tsx",
         "**/*.d.ts"
       ],
-      "sourceFileCount": 261,
+      "sourceFileCount": 274,
       "sourceFiles": [
+        "packages/editor/src/core/actor-commands.ts",
         "packages/editor/src/core/actor-dialogue-commands.ts",
         "packages/editor/src/core/actor-references.ts",
         "packages/editor/src/core/ambience-commands.ts",
+        "packages/editor/src/core/asset-commands.ts",
         "packages/editor/src/core/asset-diagnostics.ts",
         "packages/editor/src/core/asset-label-command.ts",
         "packages/editor/src/core/audio-preview-session.ts",
@@ -3818,13 +3820,17 @@
         "packages/editor/src/core/battle-simulator-commands.ts",
         "packages/editor/src/core/battle-simulator-library.ts",
         "packages/editor/src/core/battle-simulator-state.ts",
+        "packages/editor/src/core/battle-sprite-commands.ts",
         "packages/editor/src/core/battle-sprite-import.ts",
         "packages/editor/src/core/battle-trial-launch.ts",
         "packages/editor/src/core/binary-signature.ts",
         "packages/editor/src/core/clone.ts",
+        "packages/editor/src/core/command-asset-record.ts",
         "packages/editor/src/core/command-catalog.ts",
         "packages/editor/src/core/command-contract.ts",
+        "packages/editor/src/core/command-scene-state.ts",
         "packages/editor/src/core/commands.ts",
+        "packages/editor/src/core/composite-command.ts",
         "packages/editor/src/core/edit-session.ts",
         "packages/editor/src/core/editor-asset-reader.ts",
         "packages/editor/src/core/editor-asset-references.ts",
@@ -3837,6 +3843,7 @@
         "packages/editor/src/core/enemy-commands.ts",
         "packages/editor/src/core/enemy-team-commands.ts",
         "packages/editor/src/core/entity-address-references.ts",
+        "packages/editor/src/core/entity-commands.ts",
         "packages/editor/src/core/entity-placement.ts",
         "packages/editor/src/core/export-zip.ts",
         "packages/editor/src/core/file-system-access.ts",
@@ -3858,6 +3865,8 @@
         "packages/editor/src/core/level-up-commands.ts",
         "packages/editor/src/core/load-play-project.ts",
         "packages/editor/src/core/locale-commands.ts",
+        "packages/editor/src/core/map-asset-commands.ts",
+        "packages/editor/src/core/map-edit-commands.ts",
         "packages/editor/src/core/map-patch.ts",
         "packages/editor/src/core/map-reference-facts.ts",
         "packages/editor/src/core/map-selection.ts",
@@ -3876,6 +3885,7 @@
         "packages/editor/src/core/project-read-lock.ts",
         "packages/editor/src/core/project-reference-adapters.ts",
         "packages/editor/src/core/project-reference.ts",
+        "packages/editor/src/core/scene-commands.ts",
         "packages/editor/src/core/script-editor-projection.ts",
         "packages/editor/src/core/script-editor.ts",
         "packages/editor/src/core/script-reference-catalog.ts",
@@ -3886,6 +3896,7 @@
         "packages/editor/src/core/skill-commands.ts",
         "packages/editor/src/core/sprite-actions.ts",
         "packages/editor/src/core/sprite-assets.ts",
+        "packages/editor/src/core/sprite-commands.ts",
         "packages/editor/src/core/stamp-commands.ts",
         "packages/editor/src/core/stamp-draft.ts",
         "packages/editor/src/core/stamp-group-command.ts",
@@ -3896,8 +3907,10 @@
         "packages/editor/src/core/stamp-placement-mutation.ts",
         "packages/editor/src/core/stamp-placement.ts",
         "packages/editor/src/core/stamp-template.ts",
+        "packages/editor/src/core/startup-commands.ts",
         "packages/editor/src/core/startup-entries.ts",
         "packages/editor/src/core/static-image.ts",
+        "packages/editor/src/core/tileset-commands.ts",
         "packages/editor/src/core/tileset-references.ts",
         "packages/editor/src/core/ui-review-samples.ts",
         "packages/editor/src/core/video-metadata.ts",
@@ -4061,10 +4074,10 @@
         "packages/editor/src/ui/use-project-leave-guard.ts",
         "packages/editor/src/ui/world-sprite-action-preview.ts"
       ],
-      "scopeDigest": "8e641c93c125efa6765096feed5c3fbdca415b0ee3f733fa3ddc1e5873d50b3d",
+      "scopeDigest": "c4716880879227c04784937a4a68179606665a9237b856c0930985b6c02500c2",
       "fastTests": {
-        "testCount": 2651,
-        "testFileCount": 294,
+        "testCount": 2667,
+        "testFileCount": 305,
         "files": [
           "packages/editor/scripts/battle-simulator-http.test.mjs",
           "packages/editor/scripts/battle-simulator-ui.test.tsx",
@@ -4112,6 +4125,17 @@
           "packages/editor/src/core/commands-assets.boundaries.test.ts",
           "packages/editor/src/core/commands-catalog.boundaries.test.ts",
           "packages/editor/src/core/commands-map.boundaries.test.ts",
+          "packages/editor/src/core/commands-wave2.actor.test.ts",
+          "packages/editor/src/core/commands-wave2.asset.test.ts",
+          "packages/editor/src/core/commands-wave2.battle-sprite.test.ts",
+          "packages/editor/src/core/commands-wave2.composite.test.ts",
+          "packages/editor/src/core/commands-wave2.entity.test.ts",
+          "packages/editor/src/core/commands-wave2.map-asset.test.ts",
+          "packages/editor/src/core/commands-wave2.map-edit.test.ts",
+          "packages/editor/src/core/commands-wave2.scene.test.ts",
+          "packages/editor/src/core/commands-wave2.sprite.test.ts",
+          "packages/editor/src/core/commands-wave2.startup.test.ts",
+          "packages/editor/src/core/commands-wave2.tileset.test.ts",
           "packages/editor/src/core/commands-world.boundaries.test.ts",
           "packages/editor/src/core/commands.test.ts",
           "packages/editor/src/core/edit-session.test.ts",
@@ -4591,6 +4615,61 @@
             "file": "packages/editor/src/core/commands-map.boundaries.test.ts",
             "testCount": 10,
             "identityDigest": "d20b9087cac7ad3e5fa91ac3a6f5868ef59541e2ced846e8767405e996b8bbe9"
+          },
+          {
+            "file": "packages/editor/src/core/commands-wave2.actor.test.ts",
+            "testCount": 2,
+            "identityDigest": "3ccbf4f1a5a12978de58b9427b333beb4ef5014934978ad2a464816d6f607f66"
+          },
+          {
+            "file": "packages/editor/src/core/commands-wave2.asset.test.ts",
+            "testCount": 2,
+            "identityDigest": "f51af4679b3ad7de782317af78a24049a28c9965f8f903100675dfcfdef7afbd"
+          },
+          {
+            "file": "packages/editor/src/core/commands-wave2.battle-sprite.test.ts",
+            "testCount": 1,
+            "identityDigest": "5e2a76b461e3fc2f252dcffbf3fe1018ba1b4e81f4800feaed9942056d98892e"
+          },
+          {
+            "file": "packages/editor/src/core/commands-wave2.composite.test.ts",
+            "testCount": 2,
+            "identityDigest": "640da37b27f0c5c479eefb19af85c05e262343f556641b96047350ad2b05fc06"
+          },
+          {
+            "file": "packages/editor/src/core/commands-wave2.entity.test.ts",
+            "testCount": 1,
+            "identityDigest": "948e6b87252be20f7111551d07e568c7145beb7dc19a85f4389f121181c83654"
+          },
+          {
+            "file": "packages/editor/src/core/commands-wave2.map-asset.test.ts",
+            "testCount": 1,
+            "identityDigest": "9c4fb5b87ba7d993c91d51358b7085af926be2a2552ea919f1788160d2a347e6"
+          },
+          {
+            "file": "packages/editor/src/core/commands-wave2.map-edit.test.ts",
+            "testCount": 1,
+            "identityDigest": "00bc0521cefc164d3b8947b8bc020b6164c92f065e873969d7dc558351f7b447"
+          },
+          {
+            "file": "packages/editor/src/core/commands-wave2.scene.test.ts",
+            "testCount": 2,
+            "identityDigest": "a634e9afe1798366c70ae096d40a06186c7c38a7ef42a6382c5eb9b39dea59c9"
+          },
+          {
+            "file": "packages/editor/src/core/commands-wave2.sprite.test.ts",
+            "testCount": 2,
+            "identityDigest": "59a6d207ba61bb255ec30d8ce4aec0d3a7dce0bd6c370663384d6baaa4beea78"
+          },
+          {
+            "file": "packages/editor/src/core/commands-wave2.startup.test.ts",
+            "testCount": 1,
+            "identityDigest": "9ef10ad1273529715e5cb2466ff68b6af0af285d08abf389c0cb1f0bc74b8ba4"
+          },
+          {
+            "file": "packages/editor/src/core/commands-wave2.tileset.test.ts",
+            "testCount": 1,
+            "identityDigest": "fe5a0a2b6ff6e23a121e62176d9e31e330a0ee524e17ea533cadac0ff5e33457"
           },
           {
             "file": "packages/editor/src/core/commands-world.boundaries.test.ts",
@@ -5833,9 +5912,9 @@
             "identityDigest": "7c181e89600882213bfdc9bf59bf8d2b40273fc45d2d84fecf9ad6313060cf3b"
           }
         ],
-        "identityDigest": "aaee57c79ef402e113d40fdd89c63b3312ea52db387bf9ca6f5cc2f1d370fcd8",
+        "identityDigest": "38d91975296b33e9d17ac41db8884056bf83fb036c00809cad68e86f70d99183",
         "duplicateIdentityCount": 8,
-        "executionDigest": "4b4c65ea0f2ff706358ffac6737364eca85034e38ebd5cd8809bee40b6632ed5"
+        "executionDigest": "e34220c6b29271b08607e1e818f5ffc502b035fa9e7a2aa525bc374ec967c4f6"
       },
       "metrics": {
         "statements": {

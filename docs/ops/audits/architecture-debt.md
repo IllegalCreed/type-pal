@@ -11,8 +11,8 @@
 ## 判断依据
 
 2026-09-26最新执行：用户要求Codex连续完成剩余治理，并明确让Cursor承担大量并行任务。
-[连续收口卡](../tasks/ARCH-CONTINUATION-1-remaining-queue.md)维护本轮11项（D1/E2已完成，剩余9项）；
-[Cursor24组卡](../archive/tasks/done/ARCH-F2-CURSOR-BATCH-1-domain-modules.md)的命令族/控件整理已完成并释放委派所有权，F2其余部分仍在队列。
+[连续收口卡](../tasks/ARCH-CONTINUATION-1-remaining-queue.md)维护本轮11项（D1/E2/F2已完成，剩余8项）；
+[Cursor24组卡](../archive/tasks/done/ARCH-F2-CURSOR-BATCH-1-domain-modules.md)及[剩余九组验收](../../testing/cursor-commands-wave2-integration.md)已完成，F2委派所有权全部释放。
 Codex负责其余高风险实现和全部独立接收；执行仍按单一状态边界串行验证，不改变玩法/格式/UI合同。
 
 不以行数单独判债。重点是：职责是否跨域、状态归谁、谁负责取消/释放、依赖是否反向、
@@ -40,7 +40,7 @@ Codex负责其余高风险实现和全部独立接收；执行仍按单一状态
 | E1 迁移转换 | migrate-content3314行/mapScenesStatic808行；translate-events2472行/walkBody1184行 | 按人物/技能/物品/场景映射及控制流处理阶段拆分 | 生成结果对比、事务写保护、幂等；不得顺手改生成产物 |
 | E2 内容校验边界（[已完成](../../testing/content-validation-refactor.md)） | 原author-script-core ↔ enemy-script 双向依赖 | 4cdefcf1拆协议/形状/AI/演出，50函数体保持、运行期环清零 | ebef3d5a单独修嵌套cue漏options；13项先红后绿，和D1统一门禁；非“有环即有bug” |
 | F1 工具维护 | design-system-audit.mjs6337行/reachableJsxOwners935行 | AST事实、CSS推导、规则、报告分层 | 旧违规样本/反例判据不变；不为加速删规则 |
-| F2 组织性整理（部分完成） | 原盘点commands4475/controls2589；Cursor前批冻结4282/2428 | 24组已接收：commands4282→3163，controls2428→35稳定barrel；32新模块，旧119/50出口与正文保持 | 前批check8707/strict8215/686及隔离UI通过；actor/entity/map/资源剩余九组现委派Cursor，未接收不计完成 |
+| F2 组织性整理（已完成） | 原盘点commands4475/controls2589，按战场/控件/领域命令分批落位 | commands最终179行、controls35行稳定barrel；剩余九组90声明与119出口/62绑定保持，无新运行期环 | [2022acc3最终验收](../../testing/cursor-commands-wave2-integration.md)：check8740/strict8248/701、五针和隔离UI通过；纯搬移无覆盖metrics增长 |
 
 ### 并行所有权（2026-09-26 更新）
 
@@ -49,7 +49,7 @@ Codex负责其余高风险实现和全部独立接收；执行仍按单一状态
 | Codex | A3余下活动场景/移动/绘制；B1/B2、C1、D1/D2、E1/E2 的关键所有权与语义裁决；全仓质量门及集成 | 不借纯重构夹带新玩法或迁移生成物手改 |
 | GLM | 前批已done；[六组同步守卫补测](../tasks/TEST-GLM-CONTENT-GUARDS-2-leaf-boundaries.md)窄返工R1–R4 | 只改content白名单新测试，生产零改，不接视觉/时序混合包；未接收不计官方统计 |
 | Grok | [F2 溢出文本组件搬迁](../archive/tasks/done/ARCH-F2-DS-OVERFLOW-1.md)已按窄切片 done，仅 `DsOverflowText`；下个中风险批另卡核准 | 其它控件、CSS/交互重设计、A3及战斗引擎 |
-| Cursor | 前批均done；[九组剩余命令拆分](../tasks/ARCH-F2-CURSOR-BATCH-2-remaining-commands.md)产品核验通过、工具/fixture/回执窄返工 | 不重做产品九组；未合main，不改算法、UI、保存格式或其它宿主 |
+| Cursor | [九组剩余命令拆分](../archive/tasks/done/ARCH-F2-CURSOR-BATCH-2-remaining-commands.md)已独立accept/done，F2完成 | 本次Owner范围已释放；新工作另卡，不重做已关闭项 |
 
 四位Owner工作树/主文件互不重叠。后续若需要同一文件，按前批Codex接收后再开下一批；没有“两个Agent同时改一个宿主文件”的并行授权。
 

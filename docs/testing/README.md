@@ -8,6 +8,7 @@
 
 ## 文档与附件
 
+- [Cursor九组命令最终验收](cursor-commands-wave2-integration.md)与[统一机账](cursor-commands-wave2-integration-evidence.json)（R1–R3闭合，check8740/strict8248/701）。
 - [Cursor九组命令独立复核](cursor-commands-wave2-review.md)、[审计工具](cursor-commands-wave2-audit.mjs)与[机账](cursor-commands-wave2-review-evidence.json)（产品核验通过，整包窄收尾）。
 - [守卫叶补测独立接收](guard-leaf-intake-review.md)、[反例工具](guard-leaf-review-witnesses.mjs)与[机账](guard-leaf-review-evidence.json)（b8e037cb窄返工）。
 - [A3活动场景与镜头归属](active-scene-refactor.md)、[冻结对照](active-scene-parity.mjs)、[七针反控](active-scene-mutants.mjs)。
