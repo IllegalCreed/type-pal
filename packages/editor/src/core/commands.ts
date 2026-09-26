@@ -1898,6 +1898,7 @@ export {
   DeleteAmbienceCommand,
   UpdateAmbienceCommand,
 } from './ambience-commands.js'
+export { UpdateAssetLabelCommand } from './asset-label-command.js'
 export type { BattleFieldPatch } from './battle-field-commands.js'
 // 战场命令族(四命令 + 表快照/id 分配 helper + BattleFieldInUseError)已整体拆分至
 // battle-field-commands.ts(ARCH-F2 模块归属治理,行为不变)。公开出口维持本文件路径不变;
@@ -1949,52 +1950,6 @@ export { AddSkillCommand, DeleteSkillCommand, UpdateSkillCommand } from './skill
 // ════════════════════════════════════════════════════════════════════
 // A7 资源注册表命令(音乐首切片)
 // ════════════════════════════════════════════════════════════════════
-
-/** 改资源显示名；AssetId/path/引用保持不变。 */
-export class UpdateAssetLabelCommand implements Command {
-  readonly label = '修改资源名称'
-  private readonly assetId: AssetId
-  private readonly next: string | undefined
-  private old: string | undefined
-  private captured = false
-
-  constructor(assetId: AssetId, label: string | undefined) {
-    this.assetId = assetId
-    this.next = label || undefined
-  }
-
-  apply(state: EditorState): EditorState {
-    const current = state.assetCatalog.assets[this.assetId]
-    if (!current) return state
-    if (!this.captured) {
-      this.captured = true
-      this.old = current.label
-    }
-    const record = { ...current, label: this.next }
-    if (!this.next) delete record.label
-    return {
-      ...state,
-      assetCatalog: {
-        ...state.assetCatalog,
-        assets: { ...state.assetCatalog.assets, [this.assetId]: record },
-      },
-    }
-  }
-
-  invert(state: EditorState): EditorState {
-    const current = state.assetCatalog.assets[this.assetId]
-    if (!current) return state
-    const record = { ...current, label: this.old }
-    if (!this.old) delete record.label
-    return {
-      ...state,
-      assetCatalog: {
-        ...state.assetCatalog,
-        assets: { ...state.assetCatalog.assets, [this.assetId]: record },
-      },
-    }
-  }
-}
 
 /** 新增或替换资源；替换保持 AssetId，二进制按新 record.path 暂存在会话。 */
 export class UpsertAssetCommand implements Command {

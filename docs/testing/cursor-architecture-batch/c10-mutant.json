@@ -1,0 +1,13 @@
+{
+  "id": "c10-asset-label-clear",
+  "file": "packages/editor/src/core/asset-label-command.ts",
+  "sha256": "ee701b1ef9d28331116198d1fd5bd36e5fc2875ffc382a31300ba366c434ed50",
+  "hashUnchanged": true,
+  "greenExit": 0,
+  "greenPassed": 1,
+  "redExit": 1,
+  "failedTitle": "keeps asset-label constructor on the old commands barrel and clears empty labels",
+  "failedFullName": "C10 asset label command family keeps asset-label constructor on the old commands barrel and clears empty labels",
+  "assertion": "AssertionError: expected true to be false // Object.is equality",
+  "ok": true
+}

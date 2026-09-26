@@ -90,6 +90,14 @@ const cases = {
     to: "readonly label = '修改文案'",
     title: 'keeps metadata constructors on the old commands barrel and patches locale text',
   },
+  c10: {
+    id: 'c10-asset-label-clear',
+    sourceFile: 'src/core/asset-label-command.ts',
+    testFile: 'src/core/asset-label-command.test.ts',
+    from: 'if (!this.next) delete record.label',
+    to: 'if (false) delete record.label',
+    title: 'keeps asset-label constructor on the old commands barrel and clears empty labels',
+  },
 }
 
 const selected = process.argv[2] ? [process.argv[2]] : Object.keys(cases)
