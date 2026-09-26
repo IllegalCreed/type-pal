@@ -1898,29 +1898,15 @@ import {
   normalizeSceneEntryReferences,
   type SceneEntryNormalizationReport,
 } from './scene-entry-normalize.js'
+import {
+  planSceneMigrationSources,
+  type SourceEventObject,
+  type SourceScene,
+  sourceAddressFromLabel,
+} from './scene-migration-source-plan.js'
 import type { ScriptRegistryAuditRecord } from './translate-events.js'
 
-export interface SourceEventObject {
-  id: number
-  x: number
-  y: number
-  spriteNum: number
-  triggerMode?: number
-  sState?: number
-  sLayer?: number
-  nSpriteFrames?: number
-  nSpriteFramesAuto?: number
-  direction?: number
-  autoLabel?: string
-  triggerLabel?: string
-}
-export interface SourceScene {
-  sceneId: number
-  mapNum: number
-  onEnterLabel?: string
-  onTeleportLabel?: string
-  eventObjects: SourceEventObject[]
-}
+export type { SourceEventObject, SourceScene } from './scene-migration-source-plan.js'
 
 /** PAL 迁移器保留的中性 SpriteDef id；玩法职责不得编码进资源身份。 */
 export function migratedSpriteId(spriteNum: number, layoutVariantFrames?: number): string {
@@ -2157,56 +2143,20 @@ export function mapScenesStatic(
   if (options.worldSpriteFrameCounts)
     assertPalWorldSpriteLayoutOverlaySources(options.worldSpriteFrameCounts)
 
-  // 所有会影响“首见”语义的输入先规范化。PAL 生产输入本来就是该顺序；显式排序让
-  // 测试切片、调用方 Map 插入顺序与未来读盘实现都不能再左右布局 id 或 label 归属。
-  const orderedScenes = [...srcScenes].sort((left, right) => left.sceneId - right.sceneId)
-  const eventSourceRank = (sceneId: number): number =>
-    sceneId >= 0 ? 0 : sceneId === -1 ? 1 : sceneId === -2 ? 2 : 3
-  const orderedEventSources = [...eventsByScene].sort(([left], [right]) => {
-    const rank = eventSourceRank(left) - eventSourceRank(right)
-    return rank || (left >= 0 && right >= 0 ? left - right : right - left)
-  })
-
-  // ── 入口扫描:setPartyPos(raw70)在 loadScene 前 ≤4 步内。
-  // ⚠ 实测(2026-07-02 gap 分布:806 个 loadScene,gap≤4 共 488):主流模式是
-  // `setPartyPos → end → 0x50渐隐 → loadScene`——设位在前一链**末尾**,'end' 不隔断
-  // 真实控制流,勿以 end 重置(初版此误杀 414 对)。gap>4(10 个)与无前置(231,
-  // 沿用当前坐标的传送)不配对 → 归 M3。──
-  const arrivals = new Map<number, { src: number; pos: ReturnType<typeof partyPosToGrid> }[]>()
-  // all.json(-2) 只作为全局控制流索引，为“无 start、无具体来源”的场景提供默认落点兜底；
-  // 它不进入 arrivals、来源计数或任何命名落点定义。
-  const indexedArrivals = new Map<number, ReturnType<typeof partyPosToGrid>[]>()
-  for (const [srcId, cmds] of orderedEventSources) {
-    let last: { pos: ReturnType<typeof partyPosToGrid>; at: number } | null = null
-    cmds.forEach((c, i) => {
-      if (c.op === 'raw' && c.opcode === 70) {
-        const [a = 0, b = 0, h = 0] = c.operands ?? []
-        last = { pos: partyPosToGrid(a, b, h), at: i }
-        return
-      }
-      const rawTarget =
-        (c as { op?: string; sceneId?: number }).op === 'loadScene'
-          ? (c as { sceneId?: number }).sceneId
-          : undefined
-      // loadScene operand 1-based → 0-based scene index(与 loadScene body / sc.sceneId 命名一致)
-      const target = typeof rawTarget === 'number' ? Math.max(0, rawTarget - 1) : undefined
-      if (typeof target === 'number') {
-        if (last && i - last.at <= 4) {
-          if (srcId === -2) {
-            const list = indexedArrivals.get(target) ?? []
-            list.push(last.pos)
-            indexedArrivals.set(target, list)
-          } else {
-            const list = arrivals.get(target) ?? []
-            list.push({ src: srcId, pos: last.pos })
-            arrivals.set(target, list)
-            report.entriesFound++
-          }
-        }
-        last = null
-      }
-    })
-  }
+  const sourcePlan = planSceneMigrationSources(srcScenes, eventsByScene)
+  const {
+    orderedScenes,
+    arrivals,
+    indexedArrivals,
+    allCommands,
+    labelAt,
+    labelScene,
+    explicitLabels,
+    addressesByCommands,
+    ownerScene,
+    graphRoots,
+  } = sourcePlan
+  report.entriesFound = sourcePlan.entriesFound
 
   // ── 每场景:onEnter 链头(自 events 文件的 label 索引)→ start 入口 + musicId ──
   const headScan = (sceneId: number, label: string | undefined) => {
@@ -2240,79 +2190,17 @@ export function mapScenesStatic(
   // sdlpal script.c 语义:0x0F[d,f] d≠0xFFFF→dir=d;0x14[f] 设帧且强制 dir=South(0)。
   // 中性略过 0x09 waitFrames / 0x87 animateObject(不动朝向);其余 op(走位/分支/goto)
   // = 动态行为,静态层不猜 → 停。上限 16 步防长链空转。
-  // label → 指令数组+下标的全局索引:autoLabel 可指向共享段(events/shared.json,IO 壳以
-  // key -1 挂入)或他场景段,勿只查本场景;地址型 label 全局唯一,重复出现内容相同,首见即用。
-  const allCommands = eventsByScene.get(-2)
-  const labelAt = new Map<string, { cmds: readonly SourceCmd[]; idx: number }>()
-  const labelScene = new Map<string, string | undefined>()
-  const explicitLabels = new Set<string>()
-  const addressesByCommands = new Map<readonly SourceCmd[], Array<number | undefined>>()
-  for (const [sourceScene, cmds] of orderedEventSources)
-    cmds.forEach((c, i) => {
-      if (c.label && !labelAt.has(c.label)) {
-        labelAt.set(c.label, { cmds, idx: i })
-        labelScene.set(c.label, sourceScene >= 0 ? sceneSlug(sourceScene) : undefined)
-      }
-    })
-  for (const [, cmds] of orderedEventSources) {
-    const addresses: Array<number | undefined> = []
-    let address: number | undefined
-    cmds.forEach((command, index) => {
-      const match = command.label ? /^L_(\d+)$/.exec(command.label) : null
-      if (match?.[1] !== undefined) address = Number(match[1])
-      else if (address !== undefined) address++
-      addresses[index] = address
-    })
-    addressesByCommands.set(cmds, addresses)
-  }
-  if (allCommands) {
-    allCommands.forEach((command, address) => {
-      const expected = `L_${address}`
-      if (command.label !== undefined && command.label !== expected)
-        throw new Error(
-          `all.json 显式 label 与数组地址不一致: index=${address}, label=${command.label}`,
-        )
-      if (command.label) explicitLabels.add(command.label)
-      if (!labelAt.has(expected)) labelAt.set(expected, { cmds: allCommands, idx: address })
-    })
-    addressesByCommands.set(
-      allCommands,
-      Array.from({ length: allCommands.length }, (_, address) => address),
-    )
-  }
-  const ownerScene = new Map<string, string>()
-  for (const sourceScene of orderedScenes)
-    for (const entity of sourceScene.eventObjects)
-      ownerScene.set(`e${entity.id}`, sceneSlug(sourceScene.sceneId))
-  const addressOf = (label: string | undefined): number | undefined => {
-    const match = label ? /L_(\d+)$/.exec(label) : null
-    return match?.[1] === undefined ? undefined : Number(match[1])
-  }
-  const graphRoots: ScriptRoot[] = []
-  for (const sourceScene of orderedScenes) {
-    const owner = sceneSlug(sourceScene.sceneId)
-    for (const label of [sourceScene.onEnterLabel, sourceScene.onTeleportLabel]) {
-      const entry = addressOf(label)
-      if (entry !== undefined) graphRoots.push({ entry, owner, kind: 'scene' })
-    }
-    for (const entity of sourceScene.eventObjects) {
-      for (const label of [entity.triggerLabel, entity.autoLabel]) {
-        const entry = addressOf(label)
-        if (entry !== undefined) graphRoots.push({ entry, owner, kind: 'scene' })
-      }
-    }
-  }
   const roots = [...graphRoots, ...globalRoots]
   const graph = allCommands ? analyzeScriptGraph(allCommands, roots) : undefined
   const graphSceneFor = (label: string): string | undefined => {
-    const address = addressOf(label)
+    const address = sourceAddressFromLabel(label)
     const owners = address === undefined ? undefined : graph?.owners[address]
     if (owners?.size !== 1) return undefined
     const owner = [...owners][0]
     return owner?.startsWith('global/') ? undefined : owner
   }
   const sccFor = (label: string): string => {
-    const address = addressOf(label)
+    const address = sourceAddressFromLabel(label)
     const componentId = address === undefined ? undefined : graph?.componentOf[address]
     const component = componentId === undefined ? undefined : graph?.components[componentId]
     return `scc-L-${component?.[0] ?? address ?? label.replace(/^L_/, '')}`
@@ -2879,7 +2767,7 @@ export function mapScenesStatic(
             ['auto', entity.autoLabel],
           ] as const
         ).flatMap(([channel, label]) => {
-          const rootAddress = addressOf(label)
+          const rootAddress = sourceAddressFromLabel(label)
           return rootAddress === undefined
             ? []
             : [
