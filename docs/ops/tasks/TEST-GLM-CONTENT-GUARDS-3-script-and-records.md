@@ -97,3 +97,43 @@ docs/testing/coverage-plus5/README.md。核clean并fetch；复用已合入的typ
 整包定向/相邻/全content/TC/Biome/docs，统计从最终JSON生成；不跑全仓门和共享coverage。
 提交推送实际SHA和回执。作者自验不是独立证明，Codex接收后统一门禁合并；不标done、不合main。
 ```
+
+## GLM 作者交付（2026-09-26）
+
+- 八组连续完成：八份 `.guard-residual.test.ts` 共 **110 行**（G1 9/G2 8/G3 11/G4 21/G5 7/G6 6/G7 9/G8 39），
+  复用 wave2 已验收 `__tests__/guard-leaf-fixtures.ts` 助手，未新造 fixture 文件。去重先行：
+  author-script-core.test、author-script-current.boundaries、script-library 15 条、enemy-script 三份、
+  validate.test E18-1/C0/C8、skills-poisons boundaries、wave2 叶守卫 91 行等逐组核对，相同输入不重报。
+- 纪律：合法 fixture 先过真实公开 guard；单轴负例配同入口同形状正控；`expectExactError` 完整 message
+  全等；对象/数组实际入参 deepSnapshot 前后比较；正控意外抛出呈 AssertionError。
+- 负控：[guard-residual-mutants.mjs](../../testing/glm-content-guards-wave3/guard-residual-mutants.mjs)
+  复用 wave2 同一 judge + 判据自测 10 例 + 110 项绿对照 + 8 针（每组一针）各恰红目标 fullName。
+- 门禁：定向 110/110、全 content **92 文件 1132/1132**、TC exit0（新鲜 JSON）；本批改动 Biome 0 error
+  （3 个故意针面 warning 单列；runtime-script.ts 既有 warning 属分支继承）；docs PASS；diff --check 干净。
+  未跑全仓门/逐组 coverage/整包对照（冻结池即选题依据）。
+- 未发现产品疑似缺陷；不可达臂如实不测（详见
+  [回执](../../testing/glm-content-guards-wave3/receipt.md) 与
+  [机账](../../testing/glm-content-guards-wave3/evidence.json)）。
+- 窄返工（2026-09-26，仅 R1–R3，见 origin/main `docs/testing/guard-wave3-review.md`）：
+  R1 loop 三行由同一合法 loop 工厂派生（全部含 cond）、场景效果四行挂 target:scene 同型载体、
+  投掷行以完整合法 magicDamage 为同型正控且各坏行只改单字段；R2 新增薄助手
+  `expectRejectUnchanged`，G3/G8 重写全面改用，其余文件所有拒绝调用逐次快照对补齐
+  （含同一测试内第二、第三次调用），审查席 label 污染探针复跑被候选恰红抓住；
+  R3 两针描述按 runner 实情勘误（effect-id-dup=删重复门、item-status-dup=if (false)），
+  回执/机账按最终树刷新。复验：定向 111/111、单轴自证 3/3、负控 8 针各恰红、
+  全 content **92 文件 1133/1133**、TC 0、改动 Biome 0 error（3 故意针面 warning）、docs PASS。
+- r2 窄返工（2026-09-26，仅 R1/R2 残项与勘误，见 origin/main `docs/testing/guard-wave3-r2-review.md`）：
+  R1 角色/场景/投掷三表改为**逐行同kind合法基线**（先过真实守卫再单字段破坏；gate chance=100 合法
+  正控在列，审查席上限门无条件拒绝变异被候选恰红抓住）；R2 全部八文件对象/数组拒绝调用经
+  `expectRejectUnchanged`/显式快照对逐次保护（审计脚本清零），审查席敌 transition 抛错前污染 kind
+  变异被候选恰红抓住；删除 G3 冗余重复坏 wipe 用例，负控两针描述上一轮已按 runner 实情勘误。
+  复验：定向 110/110、负控自测 10 例+对照+8 针各恰红、全 content **92 文件 1132/1132**、TC 0、
+  改动 Biome 0 error（3 故意针面 warning）、docs PASS、diff --check 干净。
+- r3 定点收口（2026-09-26，仅剩的 R2 匿名对象位，见 origin/main `docs/testing/guard-wave3-r3-review.md`）：
+  onDefeated 数组门拒绝的 `{}` 改为具名 `notAnArray` 非数组对象，调用前独立快照、精确原错误断言后
+  立即比较同一实参；审查席 enemy-script.ts:371 抛原错前给 value 加 `__codex_mutation` 属性的变异
+  复跑被候选自身 AssertionError 恰红（原 frozen 期望 0 为漏检事实记录，复验时按其预告翻转）。
+  随手勘误：回执 fixture 清单补 `glm-guard-residual-fixtures.ts`、顶部 111/1133 标注为上轮历史数据、
+  机账 item-status-dup onlyFailed 同步现 runner 标题。复验：定向 110/110、TC 0、改动 Biome 0 error、
+  docs PASS、diff --check 干净（八针与全 content 上一轮刚验，本轮按卡未重复跑全包负控）。
+  候选 SHA：见本分支头部提交；不合 main、不标 done，交 Codex 独立验收。
