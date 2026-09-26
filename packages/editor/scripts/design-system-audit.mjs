@@ -8,18 +8,15 @@ import {
   cachedScopedValues,
   classTokens,
   hasVisibleLocalBinding,
-  inlineScrollStyle,
   intrinsicClassSelector,
   isStaticStyle,
+  jsxElementFacts,
   jsxTag,
   literalAttribute,
   namedFunctionBodies,
   namedFunctionParameters,
-  reachableAttributeNames,
   reachableClassTokens,
-  reachableClassVariants,
   reachableRenderFlow,
-  reachableStaticAttributes,
   resolveScopedFunctionAt,
   resolveScopedValueAt,
   scopedFunctionDefinitions,
@@ -999,17 +996,11 @@ function reachableJsxOwners(sourcePath, rootComponent, options = {}) {
     const recordElement = (node, tag) => {
       const elementSite = elementSiteFor(node)
       if (!elementMetadata.has(elementSite)) {
-        const classVariantAnalysis = reachableClassVariants(node)
         elementMetadata.set(elementSite, {
           source: componentSource,
           component: publicComponent,
           tag,
-          attributes: reachableStaticAttributes(node),
-          attributeNames: reachableAttributeNames(node),
-          classes: reachableClassTokens(node),
-          classVariants: classVariantAnalysis.variants,
-          classVariantsTruncated: classVariantAnalysis.truncated,
-          inlineScrollStyle: inlineScrollStyle(node),
+          ...jsxElementFacts(node),
           position: node.getStart(module.source),
           elementSite,
           ancestorSites: [...currentAncestorSites],
@@ -1022,23 +1013,25 @@ function reachableJsxOwners(sourcePath, rootComponent, options = {}) {
       const renderSite = `${elementSite}#${callsite}`
       const renderVisit = (currentRenderCounts.get(renderSite) ?? 0) + 1
       currentRenderCounts.set(renderSite, renderVisit)
-      if (!callsiteMetadata.has(renderSite))
+      if (!callsiteMetadata.has(renderSite)) {
+        const element = elementMetadata.get(elementSite)
         callsiteMetadata.set(renderSite, {
           source: componentSource,
           component: publicComponent,
           callsite,
           tag,
           governed,
-          attributes: reachableStaticAttributes(node),
-          attributeNames: reachableAttributeNames(node),
-          classes: reachableClassTokens(node),
-          classVariants: elementMetadata.get(elementSite).classVariants,
-          classVariantsTruncated: elementMetadata.get(elementSite).classVariantsTruncated,
-          inlineScrollStyle: inlineScrollStyle(node),
+          attributes: element.attributes,
+          attributeNames: element.attributeNames,
+          classes: element.classes,
+          classVariants: element.classVariants,
+          classVariantsTruncated: element.classVariantsTruncated,
+          inlineScrollStyle: element.inlineScrollStyle,
           position: node.getStart(module.source),
           elementSite,
           ancestorSites: [...currentAncestorSites],
         })
+      }
     }
     const visitAggregateMember = (node, bindings, visitedInitializers) => {
       const base = unwrapExpression(node.expression)
@@ -1657,7 +1650,7 @@ function reachableVerticalScrollSignature(result, overrides) {
 
 function cachedReachableJsxOwners(sourcePath, rootComponent, options = {}) {
   const initialAnchor = options.initialNode
-    ? `${options.initialNode.getSourceFile().fileName}:${options.initialNode.pos}:${options.initialNode.end}:${options.initialNode.getText()}`
+    ? `${options.initialNode.getSourceFile().fileName}:${options.initialNode.pos}:${options.initialNode.end}`
     : 'function-root'
   const key = `${sourcePath}@${rootComponent}#${initialAnchor}`
   const candidates = reachableOwnerCache.get(key) ?? []

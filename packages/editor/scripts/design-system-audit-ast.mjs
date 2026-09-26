@@ -300,6 +300,24 @@ export function shortFound(node, source) {
   return node.getText(source).split('\n')[0].trim().slice(0, 96)
 }
 
+const jsxElementFactsCache = new WeakMap()
+
+export function jsxElementFacts(node) {
+  const cached = jsxElementFactsCache.get(node)
+  if (cached) return cached
+  const classVariantAnalysis = reachableClassVariants(node)
+  const facts = {
+    attributes: reachableStaticAttributes(node),
+    attributeNames: reachableAttributeNames(node),
+    classes: reachableClassTokens(node),
+    classVariants: classVariantAnalysis.variants,
+    classVariantsTruncated: classVariantAnalysis.truncated,
+    inlineScrollStyle: inlineScrollStyle(node),
+  }
+  jsxElementFactsCache.set(node, facts)
+  return facts
+}
+
 function functionLikeDefinition(node) {
   if (ts.isFunctionDeclaration(node) && node.name && node.body)
     return {
@@ -1088,7 +1106,18 @@ export function reachableRenderFlow(body, initialBindings = new Map(), options =
       }
       const clauses = statement.caseBlock.clauses
       let canContinue = !clauses.some(ts.isDefaultClause)
+      const pathStarts = new Set()
       for (const [start] of clauses.entries()) {
+        let firstExecutable = start
+        while (firstExecutable < clauses.length && clauses[firstExecutable].statements.length === 0)
+          firstExecutable += 1
+        pathStarts.add(firstExecutable)
+      }
+      for (const start of pathStarts) {
+        if (start === clauses.length) {
+          canContinue = true
+          continue
+        }
         const switchBindings = new Map(bindings)
         let pathContinues = true
         for (const clause of clauses.slice(start)) {
