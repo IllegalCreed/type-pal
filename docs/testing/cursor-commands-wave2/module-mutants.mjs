@@ -98,21 +98,63 @@ function executedMatches(json, spec, testFileAbsolute) {
   return found
 }
 
+function isErrorHeader(line) {
+  return /^(?:[A-Za-z][\w$]*Error|Error)\b/.test(line)
+}
+
+function isTimeoutText(line) {
+  return /\btimed[\s_-]+out\b/i.test(line)
+}
+
+function suiteMessages(json) {
+  const messages = []
+  if (typeof json?.message === 'string' && json.message) messages.push(json.message)
+  for (const file of json?.testResults ?? []) {
+    if (typeof file.message === 'string' && file.message) messages.push(file.message)
+  }
+  return messages
+}
+
+function allExecuted(json) {
+  const found = []
+  for (const file of json?.testResults ?? []) {
+    for (const assertion of file.assertionResults ?? []) {
+      if (['passed', 'failed'].includes(assertion.status)) {
+        found.push({
+          file: resolveReportedFile(file.name),
+          title: assertion.title,
+          fullName: assertion.fullName,
+          status: assertion.status,
+          messages: assertion.failureMessages ?? [],
+        })
+      }
+    }
+  }
+  return found
+}
+
 function isExactAssertionFailure(message) {
   if (typeof message !== 'string' || message.length === 0) return false
-  const first = message.split(/\r?\n/, 1)[0] ?? ''
-  if (!/^AssertionError\b/.test(first)) return false
   if (/\bcaused by\b/i.test(message)) return false
-  if (/\btimeout\b/i.test(message)) return false
+  const lines = message.split(/\r?\n/)
+  const first = lines[0] ?? ''
+  if (!/^AssertionError\b/.test(first) || isTimeoutText(first)) return false
+  for (const line of lines) {
+    if (isTimeoutText(line)) return false
+    if (isErrorHeader(line) && !/^AssertionError\b/.test(line)) return false
+  }
   return true
 }
 
 function judgeGreen({ status, json, spec, testFileAbsolute, expectedExecutions = 1 }) {
   const executed = executedMatches(json, spec, testFileAbsolute)
+  const all = allExecuted(json)
   return {
     ok:
       status === 0 &&
       (json?.numFailedTests ?? 1) === 0 &&
+      suiteMessages(json).length === 0 &&
+      all.length === expectedExecutions &&
       executed.length === expectedExecutions &&
       executed.every((entry) => entry.status === 'passed'),
     executed: executed.length,
@@ -130,8 +172,9 @@ function judgeRed({
   expectedExecutions = 1,
 }) {
   const executed = executedMatches(json, spec, testFileAbsolute)
-  const failed = executed.filter((entry) => entry.status === 'failed')
-  const messages = failed.flatMap((entry) => entry.messages)
+  const all = allExecuted(json)
+  const failed = all.filter((entry) => entry.status === 'failed')
+  const messages = executed.flatMap((entry) => entry.messages)
   return {
     ok:
       status === 1 &&
@@ -139,9 +182,12 @@ function judgeRed({
       status !== null &&
       hit === true &&
       before === after &&
+      suiteMessages(json).length === 0 &&
+      all.length === expectedExecutions &&
       executed.length === expectedExecutions &&
       failed.length === expectedExecutions &&
       failed.length === 1 &&
+      failed[0]?.file === testFileAbsolute &&
       failed[0]?.fullName === spec.fullName &&
       failed[0]?.title === spec.title &&
       messages.length > 0 &&
@@ -309,6 +355,165 @@ function runSelfTests() {
   })
   results.push({ id: 'timeout', accepted: timeout.ok, expected: false })
 
+  const legalGreen = judgeGreen({
+    status: 0,
+    json: {
+      testResults: [
+        {
+          name: testFile,
+          assertionResults: [
+            {
+              title: spec.title,
+              fullName: spec.fullName,
+              status: 'passed',
+              failureMessages: [],
+            },
+          ],
+        },
+      ],
+      numFailedTests: 0,
+    },
+    spec,
+    testFileAbsolute: testFile,
+  })
+  results.push({ id: 'legal-green', accepted: legalGreen.ok, expected: true })
+
+  const legalRed = judgeRed({
+    status: 1,
+    json: selfTestPayload({
+      file: testFile,
+      fullName: spec.fullName,
+      title: spec.title,
+      message: 'AssertionError: expected false to be true',
+    }),
+    spec,
+    testFileAbsolute: testFile,
+    before: 'same',
+    after: 'same',
+    hit: true,
+  })
+  results.push({ id: 'legal-red', accepted: legalRed.ok, expected: true })
+
+  const mixedFollowOn = judgeRed({
+    status: 1,
+    json: selfTestPayload({
+      file: testFile,
+      fullName: spec.fullName,
+      title: spec.title,
+      message: 'AssertionError: expected false to be true\nTypeError: boom',
+    }),
+    spec,
+    testFileAbsolute: testFile,
+    before: 'same',
+    after: 'same',
+    hit: true,
+  })
+  results.push({
+    id: 'assertion-then-typeerror',
+    accepted: mixedFollowOn.ok,
+    expected: false,
+  })
+
+  const timedOut = judgeRed({
+    status: 1,
+    json: selfTestPayload({
+      file: testFile,
+      fullName: spec.fullName,
+      title: spec.title,
+      message: 'AssertionError: Test timed out in 5000ms',
+    }),
+    spec,
+    testFileAbsolute: testFile,
+    before: 'same',
+    after: 'same',
+    hit: true,
+  })
+  results.push({ id: 'assertion-timed-out', accepted: timedOut.ok, expected: false })
+
+  const extraFailure = judgeRed({
+    status: 1,
+    json: {
+      testResults: [
+        {
+          name: testFile,
+          assertionResults: [
+            {
+              title: spec.title,
+              fullName: spec.fullName,
+              status: 'failed',
+              failureMessages: ['AssertionError: expected false to be true'],
+            },
+            {
+              title: 'other',
+              fullName: 'suite other',
+              status: 'failed',
+              failureMessages: ['TypeError: boom'],
+            },
+          ],
+        },
+      ],
+      numFailedTests: 2,
+    },
+    spec,
+    testFileAbsolute: testFile,
+    before: 'same',
+    after: 'same',
+    hit: true,
+  })
+  results.push({ id: 'extra-failure', accepted: extraFailure.ok, expected: false })
+
+  const suiteError = judgeRed({
+    status: 1,
+    json: {
+      testResults: [
+        {
+          name: testFile,
+          assertionResults: [
+            {
+              title: spec.title,
+              fullName: spec.fullName,
+              status: 'failed',
+              failureMessages: ['AssertionError: expected false to be true'],
+            },
+          ],
+        },
+        {
+          name: '/other.test.ts',
+          message: 'Error: suite exploded',
+          assertionResults: [],
+        },
+      ],
+      numFailedTests: 1,
+    },
+    spec,
+    testFileAbsolute: testFile,
+    before: 'same',
+    after: 'same',
+    hit: true,
+  })
+  results.push({ id: 'suite-error', accepted: suiteError.ok, expected: false })
+
+  const stackTimeoutName = judgeRed({
+    status: 1,
+    json: selfTestPayload({
+      file: testFile,
+      fullName: spec.fullName,
+      title: spec.title,
+      message:
+        'AssertionError: expected false to be true\n    at runWithTimeout (file:///vitest/runner.js:2272:10)',
+    }),
+    spec,
+    testFileAbsolute: testFile,
+    before: 'same',
+    after: 'same',
+    hit: true,
+  })
+  results.push({
+    id: 'stack-runWithTimeout-kept',
+    accepted: stackTimeoutName.ok,
+    expected: true,
+  })
+
   const ok = results.every((entry) => entry.accepted === entry.expected)
   return { ok, results }
 }
@@ -472,34 +677,32 @@ export default mergeConfig(
   }
 }
 
-// Keep per-case JSON next to the runner for the ledger.
+const outDir = fs.mkdtempSync(path.join(os.tmpdir(), 'cursor-commands-wave2-mutants-'))
 for (const report of reports) {
   fs.writeFileSync(
-    path.join(here, `${report.key}-mutant.json`),
+    path.join(outDir, `${report.key}-mutant.json`),
     `${JSON.stringify(report, null, 2)}\n`,
   )
 }
-
-if (!selectedArg) {
-  fs.writeFileSync(
-    path.join(here, 'evidence.json'),
-    `${JSON.stringify(
-      {
-        kind: 'cursor-commands-wave2-module-mutants',
-        count: reports.length,
-        allOk: reports.every((report) => report.ok === true),
-        allRedExit1: reports.every((report) => report.redExit === 1),
-        allHashUnchanged: reports.every((report) => report.hashUnchanged === true),
-        allHit: reports.every((report) => report.hit === true),
-        selfTest: self,
-        cases: reports,
-      },
-      null,
-      2,
-    )}\n`,
-  )
-}
+fs.writeFileSync(
+  path.join(outDir, 'evidence.json'),
+  `${JSON.stringify(
+    {
+      kind: 'cursor-commands-wave2-module-mutants',
+      count: reports.length,
+      allOk: reports.every((report) => report.ok === true),
+      allRedExit1: reports.every((report) => report.redExit === 1),
+      allHashUnchanged: reports.every((report) => report.hashUnchanged === true),
+      allHit: reports.every((report) => report.hit === true),
+      selfTest: self,
+      cases: reports,
+    },
+    null,
+    2,
+  )}\n`,
+)
+console.error(`mutant output: ${outDir}`)
 
 const out = selected.length === 1 ? reports[0] : reports
-console.log(JSON.stringify({ self, reports: out }, null, 2))
+console.log(JSON.stringify({ self, reports: out, output: outDir }, null, 2))
 if (failed) process.exit(1)

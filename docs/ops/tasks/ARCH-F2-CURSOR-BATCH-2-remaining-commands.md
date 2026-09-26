@@ -66,7 +66,7 @@ before→after：同一编辑输入、返回对象/引用、历史与错误不�
 
 - Codex：premise verified / build allowed，2026-09-26；源码范围与Codex的reforge活动场景、GLM的content测试互斥。
 - Coding Owner：Cursor；贡献者自验与Codex独立验收分列。
-- 作者交付：delivered，2026-09-26；产品 C9 `6952ffeec978e7716e7f3e48fd5f240244f07f93`；回执与反控见[cursor-commands-wave2.md](../../testing/cursor-commands-wave2.md)。最终 HEAD 为证据提交 `docs: record remaining command extraction receipt`。
+- 作者交付：delivered，2026-09-26；产品 C9 `6952ffeec978e7716e7f3e48fd5f240244f07f93`；回执与反控见[receipt.md](../../testing/cursor-commands-wave2/receipt.md)。r1 窄修只动判据、C1 新 fixture 与回执归位。
 - Codex验收：pending；done未开放，无需Kimi/GLM固定签字。
 
 ## 作者交付
