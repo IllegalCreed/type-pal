@@ -10,6 +10,14 @@ Branch: `codex/glm-item-logic-r1`
 
 ## 准入与前提
 
+### 2026-09-27 Codex接收3ac52586
+
+**counter，R2已闭，剩R3/R4及恢复误删断言**，见[本轮复核/接收检查/提示词](../../testing/item-logic-r4-review.md)。
+RNG六次、完整external world、三处实际毒表、imports都通过；原learned数组与抛错快照仍未落盘，两针仍候选绿。
+机账新增“候选红”声明与实跑冲突；本轮还删了既有effectResults断言，须恢复，不能以world快照替代。
+46/1178/executor17/TC/九文件零诊断/作者六针与10自测通过；新增八针接收检查按预期exit1列出两漏检。
+不合候选、不计覆盖、不改其语义；先完成固定实参清单和回执勘误，再由Codex统一门禁。
+
 ### 2026-09-27 Codex接收598777cf
 
 仍 **counter / R2–R4窄残项**，见[本轮复核与可转发提示词](../../testing/item-logic-r3-review.md)。
