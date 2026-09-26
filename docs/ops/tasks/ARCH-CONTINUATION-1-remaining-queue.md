@@ -24,7 +24,7 @@ Codex持续处理[治理台账](../audits/architecture-debt.md)剩余边界，Cu
 | B2 | MapMode手势、选择/剪贴板、组合操作和视图分别有明确边界；取消、权限和原子提交保真 | 3c3fccda..3a633ed7候选四边界齐；待原接收对话统一门/集成后正式完成 |
 | B3 | 命令族表单拆出独立实现；作者桥接类型清晰；现行能力/引用保护不丢失 | f4beb777候选四族+桥齐；待原接收对话统一门/集成后正式完成 |
 | C1 | BattleSession输入、动作/演出、资源屏障、结算呈现的状态归属拆清；公开tick业务序列保真 | afef3cd3候选四owner齐；待原接收对话统一门/集成后正式完成 |
-| D2 | 一阶段opcode族、战斗主控、启动资源生命周期分开，真实机制/数据回归通过 | 待实施 |
+| D2 | 一阶段opcode族、战斗主控、启动资源生命周期分开，真实机制/数据回归通过 | 138c41c8候选边界齐；待原接收对话统一门/集成后正式完成 |
 | E1 | 迁移场景映射与脚本转换阶段独立、纯内存入口可测；输出/幂等/写保护保真 | 待实施 |
 | F1 | design-system audit 的AST事实、CSS推导、规则、报告分层；现有违规/反例与性能门不弱化 | 待实施 |
 | F2 | Cursor24组与剩余actor/entity/map/资源命令边界全部接收，commands/controls成为稳定出口 | 2026-09-26 accept/完成，check8740/strict8248/701 |
@@ -46,6 +46,17 @@ Codex持续处理[治理台账](../audits/architecture-debt.md)剩余边界，Cu
   authorCommandValidationOptions的递归调用合同与同树作者类型反驳该解释，须用正式入口回归固定。
 
 ## 当前推进
+
+- 2026-09-26 D2候选收口（基点 `d70d73b8`，实现头 `138c41c8`）：角色/装备/状态等22个 opcode
+  已归 `event-opcode-player`；战斗隐藏资源与 runner、公共 finalization、主/隐藏经验升级和多屏结算分别归
+  runtime/finalization/progression/settlement owner；启动四类并发下载、glyph 降级与 soundfont 双 barrier 归
+  `bootstrap-resources`。旧主控继续装配/phase 路由并 re-export 公共入口，没有传全局伪 context 或复制正式状态。
+  `event-system` 5570→5108、`battle-system` 3749→3139、`bootstrap` 1946→1931。D2-a 7文件722项，
+  战斗13文件342项，启动6文件27项，Game全包167文件/2459项、TC、Biome、157-module build通过；真实
+  extracted与五个raw MKF仅以临时只读式symlink消费，trap已解除。opcode六针与主控九针全部检出；完整范围、
+  命令、临时摘要和未证项见[回执](../../testing/phase1-main-owners-refactor.md)与
+  [机账](../../testing/phase1-main-owners-refactor-evidence.json)。未跑共享全仓check/ratchet/strict，未更新官方基线、
+  未合main；D2只报候选边界齐，须原接收对话统一门后才可正式完成。
 
 - 2026-09-26 D2-d 启动资源并发批次开工（基点 `6ed5db3f`）：`bootstrap.ts:232-260` 直接启动
   soundfont、场景全量资源、7.8MB glyph 与 dialog 资产，并独自定义“glyph 失败降级、soundfont 失败不挡进入、

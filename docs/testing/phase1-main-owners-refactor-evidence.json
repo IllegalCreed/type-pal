@@ -1,0 +1,130 @@
+{
+  "schemaVersion": 1,
+  "owner": "Codex implementation and self-verification; original intake conversation retains integration",
+  "base": "d70d73b8d",
+  "syncedMainBase": "9fe9ea11055dc4bf9a96c18be0758c3f0d0f6039",
+  "implementationHead": "138c41c863aa91f1ba718b1314e4a816517fe0e8",
+  "scope": "D2 phase1 player opcode family, battle runtime/finalization/progression/settlement owners, and bootstrap initial resource lifecycle",
+  "status": "candidate; not merged to main; unified full-repository gates pending intake",
+  "implementations": {
+    "playerOpcodes": "3b180967e",
+    "battleRuntime": "c2fc60d43",
+    "battleFinalization": "10c99631c",
+    "battleProgression": "9f6ac9c40",
+    "battleSettlement": "6ed5db3f4",
+    "bootstrapResources": "b646815a1"
+  },
+  "ownership": {
+    "eventSystem": {
+      "linesBefore": 5570,
+      "linesAfter": 5108,
+      "newOwner": "packages/game/src/core/event-opcode-player.ts",
+      "ownerLines": 427,
+      "opcodeCases": 22
+    },
+    "battleSystem": {
+      "linesBefore": 3749,
+      "linesAfter": 3139,
+      "owners": {
+        "runtimeContext": 98,
+        "finalization": 67,
+        "progression": 306,
+        "settlement": 246
+      },
+      "wholeRuntimeContextPassed": false,
+      "existingStateOwnerDuplicated": false
+    },
+    "bootstrap": {
+      "linesBefore": 1946,
+      "linesAfter": 1931,
+      "newOwner": "packages/game/src/shell/bootstrap-resources.ts",
+      "ownerLines": 64,
+      "owns": [
+        "soundfont original promise",
+        "soundfont settle barrier",
+        "initial resources ready barrier",
+        "glyph failure degradation"
+      ],
+      "retains": [
+        "resource consumption and shell assembly",
+        "scene cache and scene switching",
+        "playable UI gate"
+      ]
+    }
+  },
+  "tests": {
+    "playerOpcodeTargetedAndAdjacent": {
+      "files": 7,
+      "tests": 722,
+      "exit": 0
+    },
+    "battleTargetedAndAdjacent": {
+      "files": 13,
+      "tests": 342,
+      "exit": 0
+    },
+    "bootstrapTargetedAndAdjacent": {
+      "files": 6,
+      "tests": 27,
+      "exit": 0
+    },
+    "gamePackage": {
+      "filesPassed": 167,
+      "filesSkipped": 2,
+      "testsPassed": 2459,
+      "testsSkipped": 7,
+      "exit": 0,
+      "data": "temporary read-through symlinks to the main checkout's data/extracted and five data/raw MKF files; removed after the run"
+    },
+    "typecheck": {
+      "exit": 0
+    },
+    "biome": {
+      "errors": 0
+    },
+    "build": {
+      "exit": 0,
+      "modules": 157,
+      "existingLargeChunkWarning": true
+    }
+  },
+  "negativeControls": {
+    "playerOpcode": {
+      "tool": "docs/testing/phase1-player-opcode-mutants.mjs",
+      "controls": 6,
+      "detected": 6,
+      "evidence": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-phase1-player-opcode-mutants-Tir7ID/summary.json"
+    },
+    "mainOwners": {
+      "tool": "docs/testing/phase1-main-owners-mutants.mjs",
+      "controls": 19,
+      "detected": 9,
+      "evidence": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-phase1-main-owners-mutants-h3Ek4a/summary.json"
+    },
+    "requirements": [
+      "exact absolute test file and fullName",
+      "exactly one executed candidate test",
+      "exit 1",
+      "AssertionError only",
+      "unique loader injection marker",
+      "all product hashes unchanged"
+    ]
+  },
+  "unchangedContracts": [
+    "SAVE8 and content20",
+    "battle formulas, RNG order, gameplay, rewards, and UI",
+    "opcode constants and event-system public re-exports",
+    "battle-system public re-exports",
+    "resource URLs, formats, scene cache, and playable gate",
+    "generated assets and normal saves"
+  ],
+  "notRun": [
+    "full repository check",
+    "official coverage ratchet",
+    "protected strict coverage",
+    "full/Q1/Q2",
+    "remote CI",
+    "normal save persistence",
+    "browser gameplay or story visual verification"
+  ]
+}

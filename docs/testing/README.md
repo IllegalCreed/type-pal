@@ -17,6 +17,7 @@
 - [全仓分支覆盖率+5pp持续队列](coverage-plus5/README.md)与[GLM同步守卫第三批](glm-content-guards-wave3/README.md)（大批实施、统一统计）。
 - [B3命令表单族所有权候选](command-form-families-refactor.md)、[机账](command-form-families-refactor-evidence.json)与[十二针反控](command-form-families-mutants.mjs)（四命令族/共享控件/作者桥边界齐；定向51、Editor2879、设计门与6056只读隔离功能通过；全仓统一门/集成待原接收对话）。
 - [C1 BattleSession状态所有权候选](battle-session-owners-refactor.md)、[机账](battle-session-owners-refactor-evidence.json)与[十一针反控](battle-session-owners-mutants.mjs)（readiness/结算/命令选择/动作演出四owner边界齐；35新增、Reforge1682、TC/build与6057独立试打通过；全仓统一门/集成待原接收对话）。
+- [D2第一阶段大主控所有权候选](phase1-main-owners-refactor.md)、[机账](phase1-main-owners-refactor-evidence.json)、[opcode六针](phase1-player-opcode-mutants.mjs)与[主控九针](phase1-main-owners-mutants.mjs)（角色opcode族、战斗资源/终态/升级/结算、启动并发资源边界齐；Game2459、真实PAL数据/MKF、TC/build通过；全仓统一门/集成待原接收对话）。
 - [B2地图工作区会话所有权候选](map-workspace-sessions-refactor.md)、[机账](map-workspace-sessions-refactor-evidence.json)、[pointer九针](map-pointer-gesture-mutants.mjs)与[会话十六针](map-workspace-sessions-mutants.mjs)（手势/既有选择/变换剪贴板/视图/组合结构边界齐；21新增、Editor2868、TC/build与6055隔离功能通过；全仓统一门/集成待原接收对话）。
 - [B1编辑器总壳会话所有权候选](editor-app-sessions-refactor.md)、[机账](editor-app-sessions-refactor-evidence.json)与[二十针反控](editor-app-sessions-mutants.mjs)（导航/场景/试玩/工程四owner；18新增、Editor2847、TC/build与6054隔离功能通过；全仓统一门/集成待原接收对话）。
 - [Cursor八组命令行为补测](cursor-command-boundaries-r3/README.md)、[Codex五组资源索引补测](codex-content-resources/README.md)与[共同冻结机账](coverage-parallel-wave3-evidence.json)（独立文件范围，整批统计）。
