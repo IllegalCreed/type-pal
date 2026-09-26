@@ -61,6 +61,13 @@ import {
   updateProjectMapLayer,
 } from '@type-pal/reforge'
 import type { Command } from './command-contract.js'
+import {
+  entityPos,
+  findScene,
+  withEntities,
+  withEntityPos,
+  withScene,
+} from './command-scene-state.js'
 import type { CurrentMapReferenceBatchProvider, EditorState } from './edit-session.js'
 import { withEnemy } from './enemy-commands.js'
 import {
@@ -94,31 +101,13 @@ import {
 
 export { BattleDataInUseError } from './battle-data-command-errors.js'
 export type { Command } from './command-contract.js'
+export { CompositeCommand } from './composite-command.js'
 export {
   AddWorldVariableCommand,
   DeleteWorldVariableCommand,
   UpdateWorldVariableCommand,
   WorldVariableInUseError,
 } from './world-variable-commands.js'
-
-/**
- * 多个命令的一次原子编辑：任一 apply 抛错时 EditSession 看不到中间态；undo 按逆序回滚。
- * 资源导入 + 语义引用切换必须走此命令，避免留下孤儿定义或半写 catalog。
- */
-export class CompositeCommand implements Command {
-  constructor(
-    readonly label: string,
-    private readonly commands: readonly Command[],
-  ) {}
-
-  apply(state: EditorState): EditorState {
-    return this.commands.reduce((current, command) => command.apply(current), state)
-  }
-
-  invert(state: EditorState): EditorState {
-    return [...this.commands].reverse().reduce((current, command) => command.invert(current), state)
-  }
-}
 
 function sameAssetRecord(left: AssetRecordV1, right: AssetRecordV1): boolean {
   return (
@@ -164,59 +153,6 @@ function assertBattleSpriteRecord(record: AssetRecordV1, bytes: ArrayBuffer): vo
   if (!/^[a-f0-9]{64}$/.test(record.sha256)) throw new Error('战斗精灵资源 sha256 非法')
   const view = new Uint8Array(bytes)
   if (view[0] !== 0x1f || view[1] !== 0x8b) throw new Error('战斗精灵资源必须是 canonical gzip')
-}
-
-// ── 不可变更新工具 ──────────────────────────────────────────
-// 照 MoveEntityCommand 的写法:展开 state → map scenes → 命中 sceneId 时展开 scene → 改。
-// 旁场景/旁实体保持同引用(只展开命中路径,最小拷贝)。
-
-/** 不可变:把 sceneId 场景整体替换成 newScene;旁场景同引用。scene 不存在返回原 state。 */
-function withScene(state: EditorState, sceneId: string, newScene: SceneDef): EditorState {
-  let hit = false
-  const scenes = state.scenes.map((s) => {
-    if (s.id !== sceneId) return s
-    hit = true
-    return newScene
-  })
-  return hit ? { ...state, scenes } : state
-}
-
-/** 不可变:把 sceneId 场景的 entities 替换成 newEntities。scene 不存在返回原 state。 */
-function withEntities(state: EditorState, sceneId: string, newEntities: EntityDef[]): EditorState {
-  let hit = false
-  const scenes = state.scenes.map((s) => {
-    if (s.id !== sceneId) return s
-    hit = true
-    return { ...s, entities: newEntities }
-  })
-  return hit ? { ...state, scenes } : state
-}
-
-/** 在 state 里查 scene;找不到 undefined。 */
-function findScene(state: EditorState, sceneId: string): SceneDef | undefined {
-  return state.scenes.find((s) => s.id === sceneId)
-}
-
-/** 不可变更新:把 sceneId 场景里 entityId 实体的 pos 换成 newPos;返回新 state。 */
-function withEntityPos(
-  state: EditorState,
-  sceneId: string,
-  entityId: string,
-  newPos: GridPos,
-): EditorState {
-  const scene = findScene(state, sceneId)
-  if (!scene) return state
-  return withEntities(
-    state,
-    sceneId,
-    scene.entities.map((e) => (e.id === entityId ? { ...e, pos: newPos } : e)),
-  )
-}
-
-/** 取实体当前 pos(用于 apply 时捕获旧 pos 供 invert)。 */
-function entityPos(state: EditorState, sceneId: string, entityId: string): GridPos | undefined {
-  const scene = state.scenes.find((s) => s.id === sceneId)
-  return scene?.entities.find((e) => e.id === entityId)?.pos
 }
 
 /**
