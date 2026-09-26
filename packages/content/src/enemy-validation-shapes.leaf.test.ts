@@ -7,8 +7,11 @@
  * 不复制父入口已证边界，也不新发更严政策。
  * R1：错误路径用完整 message 全等比较（toThrow(string) 是子串匹配）；对象输入
  * 调用前后对独立快照比较，原始值直接做值断言不做空快照。
+ * C1：expectAcceptsUnchanged 的闭包必须消费第二参数这一份实际输入（生产看到哪个
+ * 对象就比较哪个）；对象坏输入（record 数组、exactKeys 未知键对象）同样补快照。
  */
 import { describe, expect, test } from 'vitest'
+import { deepSnapshot } from './__tests__/glm-content-contract-fixtures.js'
 import { expectAcceptsUnchanged, expectExactError } from './__tests__/guard-leaf-fixtures.js'
 import {
   exactKeys,
@@ -33,25 +36,42 @@ describe('G1 record', () => {
     ['数字0', 0],
     ['false', false],
   ] as const)('%s拒绝且路径精确', (_label, bad) => {
-    expectAcceptsUnchanged(() => record({ kind: 'wait', ms: 0 }, 'v'), { kind: 'wait', ms: 0 })
-    expectExactError(() => record(bad, 'v'), 'v: 期望对象')
+    const control = { kind: 'wait', ms: 0 }
+    expectAcceptsUnchanged((value) => record(value, 'v'), control)
+    if (typeof bad === 'object' && bad !== null) {
+      const badBefore = deepSnapshot(bad as object)
+      expectExactError(() => record(bad, 'v'), 'v: 期望对象')
+      expect(bad).toEqual(badBefore)
+    } else {
+      expectExactError(() => record(bad, 'v'), 'v: 期望对象')
+    }
   })
 })
 
 describe('G1 exactKeys', () => {
   test('恰好允许键与允许键子集都通过（缺允许键不是本层错误）', () => {
-    expect(() => exactKeys({ kind: 'wait', ms: 0 }, ['kind', 'ms'], 'v')).not.toThrow()
-    expect(() => exactKeys({ kind: 'wait' }, ['kind', 'ms'], 'v')).not.toThrow()
+    expectAcceptsUnchanged(
+      (value) => expect(() => exactKeys(value, ['kind', 'ms'], 'v')).not.toThrow(),
+      { kind: 'wait', ms: 0 },
+    )
+    expectAcceptsUnchanged(
+      (value) => expect(() => exactKeys(value, ['kind', 'ms'], 'v')).not.toThrow(),
+      { kind: 'wait' },
+    )
   })
 
   test('未知字段拒绝且路径含键名；多个未知按实际键序报第一个', () => {
-    expectAcceptsUnchanged(() => exactKeys({ kind: 'wait' }, ['kind'], 'v'), { kind: 'wait' })
-    expectExactError(
-      () => exactKeys({ kind: 'wait', extra: 1 }, ['kind'], 'v'),
-      'v.extra: 未知字段',
-    )
-    expectAcceptsUnchanged(() => exactKeys({ a: 1, b: 2 }, ['a', 'b'], 'v'), { a: 1, b: 2 })
-    expectExactError(() => exactKeys({ a: 1, b: 2 }, [], 'v'), 'v.a: 未知字段')
+    const subset = { kind: 'wait' }
+    expectAcceptsUnchanged((value) => exactKeys(value, ['kind'], 'v'), subset)
+    const extra = { kind: 'wait', extra: 1 }
+    const extraBefore = deepSnapshot(extra)
+    expectExactError(() => exactKeys(extra, ['kind'], 'v'), 'v.extra: 未知字段')
+    expect(extra).toEqual(extraBefore)
+    const pair = { a: 1, b: 2 }
+    expectAcceptsUnchanged((value) => exactKeys(value, ['a', 'b'], 'v'), pair)
+    const pairBefore = deepSnapshot(pair)
+    expectExactError(() => exactKeys(pair, [], 'v'), 'v.a: 未知字段')
+    expect(pair).toEqual(pairBefore)
   })
 })
 

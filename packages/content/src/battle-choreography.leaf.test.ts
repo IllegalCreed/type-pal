@@ -9,6 +9,10 @@
  * R1：错误路径用完整 message 全等比较；对象/数组实际输入（含合法正控数组、cue）
  * 调用前后对独立快照比较；G5 错误身份保留 catch+toBe。
  * R2：每个拒绝先跑同 kind 合法正控；坏输入相对同 kind 正控只改一个字段。
+ * C1：expectAcceptsUnchanged 闭包消费第二参数这份实际输入（fullInput/body 直入口
+ * 不再各造一份）；['x']/[null] 等对象坏输入补实际输入快照。
+ * C2：G6 参数表每行带同形状 good/bad，when 行的合法 turn 经同一容器入口执行，
+ * 坏输入从合法 turn 复制仅改 op；通用三 hook 输入只作自身正控，不再代替单轴对照。
  */
 import { describe, expect, test } from 'vitest'
 import { deepSnapshot } from './__tests__/glm-content-contract-fixtures.js'
@@ -298,7 +302,8 @@ describe('G6 容器三层', () => {
   })
 
   test('多 hook 只破中间 hook 单轴：先过真实容器，再仅改 ms 一轴', () => {
-    expectAcceptsUnchanged(() => checkBattleChoreography(fullInput(), '演出'), fullInput())
+    const control = fullInput()
+    expectAcceptsUnchanged(() => checkBattleChoreography(control, '演出'), control)
     const broken = fullInput()
     const leaf = broken[1]!.body[0]! as { kind: string; ms: number }
     leaf.ms = -1
@@ -311,10 +316,17 @@ describe('G6 容器三层', () => {
   })
 
   test('整体与 hook 层形状拒绝（非数组/非对象 hook/未知字段）', () => {
-    expectAcceptsUnchanged(() => checkBattleChoreography(fullInput(), '演出'), fullInput())
+    const control = fullInput()
+    expectAcceptsUnchanged(() => checkBattleChoreography(control, '演出'), control)
     expectExactError(() => checkBattleChoreography('x', '演出'), '演出: 期望 BattleChoreography[]')
-    expectExactError(() => checkBattleChoreography(['x'], '演出'), '演出[0]: 期望对象')
-    expectExactError(() => checkBattleChoreography([null], '演出'), '演出[0]: 期望对象')
+    const strWrapped = ['x']
+    const strBefore = deepSnapshot(strWrapped)
+    expectExactError(() => checkBattleChoreography(strWrapped, '演出'), '演出[0]: 期望对象')
+    expect(strWrapped).toEqual(strBefore)
+    const nullWrapped = [null]
+    const nullBefore = deepSnapshot(nullWrapped)
+    expectExactError(() => checkBattleChoreography(nullWrapped, '演出'), '演出[0]: 期望对象')
+    expect(nullWrapped).toEqual(nullBefore)
     const extraHook = [{ at: 'battleStart', body: [waitAction(0)], extra: 1 }]
     const extraBefore = deepSnapshot(extraHook)
     expectExactError(() => checkBattleChoreography(extraHook, '演出'), '演出[0].extra: 未知字段')
@@ -322,41 +334,61 @@ describe('G6 容器三层', () => {
   })
 
   test.each([
-    [
-      'at 非法值',
-      { at: 'midturn', body: [waitAction(0)] },
-      '演出[0].at: 期望 battleStart|turnStart',
-    ],
-    ['at 缺席', { body: [waitAction(0)] }, '演出[0].at: 期望 battleStart|turnStart'],
-    [
-      'once 非布尔',
-      { at: 'battleStart', once: 'yes', body: [waitAction(0)] },
-      '演出[0].once: 期望 boolean',
-    ],
-    [
-      'when 非法条件（合法turn仅改op）',
-      { at: 'battleStart', when: { kind: 'turn', op: '<', value: 1 }, body: [waitAction(0)] },
-      '演出[0].when.op: 期望 ==|>=',
-    ],
-    [
-      'body 非数组',
-      { at: 'battleStart', body: 'x' },
-      '演出[0].body: 期望 BattleChoreographyAction[]',
-    ],
-    ['body 缺席', { at: 'battleStart' }, '演出[0].body: 期望 BattleChoreographyAction[]'],
-  ] as const)('%s拒绝且完整输入保真', (_label, badHook, error) => {
-    expectAcceptsUnchanged(() => checkBattleChoreography(fullInput(), '演出'), fullInput())
-    const input = [badHook]
+    {
+      label: 'at 非法值',
+      good: { at: 'battleStart', body: [waitAction(0)] },
+      bad: { at: 'midturn', body: [waitAction(0)] },
+      error: '演出[0].at: 期望 battleStart|turnStart',
+    },
+    {
+      label: 'at 缺席',
+      good: { at: 'battleStart', body: [waitAction(0)] },
+      bad: { body: [waitAction(0)] },
+      error: '演出[0].at: 期望 battleStart|turnStart',
+    },
+    {
+      label: 'once 非布尔',
+      good: { at: 'battleStart', once: false, body: [waitAction(0)] },
+      bad: { at: 'battleStart', once: 'yes', body: [waitAction(0)] },
+      error: '演出[0].once: 期望 boolean',
+    },
+    {
+      label: 'when 非法条件（同入口合法turn仅改op）',
+      good: {
+        at: 'battleStart',
+        when: { kind: 'turn', op: '>=', value: 1 },
+        body: [waitAction(0)],
+      },
+      bad: {
+        at: 'battleStart',
+        when: { kind: 'turn', op: '<', value: 1 },
+        body: [waitAction(0)],
+      },
+      error: '演出[0].when.op: 期望 ==|>=',
+    },
+    {
+      label: 'body 非数组',
+      good: { at: 'battleStart', body: [waitAction(0)] },
+      bad: { at: 'battleStart', body: 'x' },
+      error: '演出[0].body: 期望 BattleChoreographyAction[]',
+    },
+    {
+      label: 'body 缺席',
+      good: { at: 'battleStart', body: [waitAction(0)] },
+      bad: { at: 'battleStart' },
+      error: '演出[0].body: 期望 BattleChoreographyAction[]',
+    },
+  ] as const)('$label拒绝且完整输入保真（每行同形状good先过同容器）', ({ good, bad, error }) => {
+    const control = [good]
+    expectAcceptsUnchanged((value) => checkBattleChoreography(value, '演出'), control)
+    const input = [bad]
     const before = deepSnapshot(input)
     expectExactError(() => checkBattleChoreography(input, '演出'), error)
     expect(input).toEqual(before)
   })
 
   test('body 直入口：合法数组通过、非数组精确路径拒绝', () => {
-    expectAcceptsUnchanged(
-      () => checkBattleChoreographyBody([waitAction(0)], 'body'),
-      [waitAction(0)],
-    )
+    expectAcceptsUnchanged((value) => checkBattleChoreographyBody(value, 'body'), [waitAction(0)])
     expectExactError(
       () => checkBattleChoreographyBody('x', 'body'),
       'body: 期望 BattleChoreographyAction[]',

@@ -28,10 +28,12 @@ export function expectExactError(run: () => unknown, message: string): void {
 /**
  * R1 输入保真：对象/数组实际输入先取独立快照，守卫执行后比较同一对象未被改写。
  * 原始值（number/string）不可变，由调用方直接做值断言，不做装样子的空快照。
+ * 正控意外抛出走 not.toThrow 包装：失败呈 AssertionError（裸调用会把生产原始
+ * Error 直接冒成测试失败，负控判据会把这类失败判为混错）。
  */
 export function expectAcceptsUnchanged<T>(run: (input: T) => void, input: T): void {
   const before = deepSnapshot(input)
-  run(input)
+  expect(() => run(input)).not.toThrow()
   expect(input).toEqual(before)
 }
 

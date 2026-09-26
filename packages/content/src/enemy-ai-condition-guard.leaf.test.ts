@@ -8,6 +8,8 @@
  * 与输入保真断言），不另称"未证分支"。不测 evalAiCond 求值语义。
  * R1：错误路径用完整 message 全等比较；对象输入（含合法正控）调用前后对独立
  * 快照比较。R2：每个拒绝先跑同 kind 合法正控，坏输入相对正控只改一个字段。
+ * C2：嵌套 turn（not.cond）与未知 kind 行的合法正控走同一入口，坏输入从合法
+ * turn 复制仅改 op，不由别的 kind 代替。
  */
 import { describe, expect, test } from 'vitest'
 import { deepSnapshot } from './__tests__/glm-content-contract-fixtures.js'
@@ -183,10 +185,10 @@ describe('G3 组合容器', () => {
     expect(input).toEqual(before)
   })
 
-  test('not 子条件走 cond 子路径且缺 cond 报对象叶（合法 not 先过）', () => {
-    const control = { kind: 'not', cond: { kind: 'aloneAlive' } }
-    expectAcceptsUnchanged(() => checkEnemyAiCondition(control, 'when'), control)
-    const badCond = { kind: 'not', cond: { kind: 'turn', op: '<', value: 1 } }
+  test('not 子条件走 cond 子路径：同入口合法 turn 仅改 op，缺 cond 报对象叶', () => {
+    const legalTurnInNot = { kind: 'not', cond: { kind: 'turn', op: '>=', value: 1 } }
+    expectAcceptsUnchanged(() => checkEnemyAiCondition(legalTurnInNot, 'when'), legalTurnInNot)
+    const badCond = { kind: 'not', cond: { ...legalTurnInNot.cond, op: '<' } }
     const badBefore = deepSnapshot(badCond)
     expectExactError(() => checkEnemyAiCondition(badCond, 'when'), 'when.cond.op: 期望 ==|>=')
     expect(badCond).toEqual(badBefore)
@@ -196,7 +198,9 @@ describe('G3 组合容器', () => {
     expect(missing).toEqual(missingBefore)
   })
 
-  test('未知 kind 精确报错且输入不变', () => {
+  test('未知 kind 精确报错且输入不变（同入口合法正控先过）', () => {
+    const control = { kind: 'aloneAlive' }
+    expectAcceptsUnchanged(() => checkEnemyAiCondition(control, 'when'), control)
     const input = { kind: 'hypothetical' }
     const before = deepSnapshot(input)
     expectExactError(
