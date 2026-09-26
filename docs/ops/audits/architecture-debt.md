@@ -47,7 +47,7 @@ Codex负责其余高风险实现和全部独立接收；执行仍按单一状态
 | Owner | 可推进的窄批 | 明确不碰 |
 |---|---|---|
 | Codex | A3余下活动场景/移动/绘制；B1/B2、C1、D1/D2、E1/E2 的关键所有权与语义裁决；全仓质量门及集成 | 不借纯重构夹带新玩法或迁移生成物手改 |
-| GLM | 前批已done；[六组同步守卫补测](../tasks/TEST-GLM-CONTENT-GUARDS-2-leaf-boundaries.md)build allowed | 只改content白名单新测试，生产零改，不接视觉/时序混合包 |
+| GLM | 前批已done；[六组同步守卫补测](../tasks/TEST-GLM-CONTENT-GUARDS-2-leaf-boundaries.md)窄返工R1–R4 | 只改content白名单新测试，生产零改，不接视觉/时序混合包；未接收不计官方统计 |
 | Grok | [F2 溢出文本组件搬迁](../archive/tasks/done/ARCH-F2-DS-OVERFLOW-1.md)已按窄切片 done，仅 `DsOverflowText`；下个中风险批另卡核准 | 其它控件、CSS/交互重设计、A3及战斗引擎 |
 | Cursor | 前批均done；[九组剩余命令拆分](../tasks/ARCH-F2-CURSOR-BATCH-2-remaining-commands.md)build allowed | 只机械迁移editor commands与声明helper，不改算法、UI、保存格式或其它宿主 |
 

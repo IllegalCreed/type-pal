@@ -37,7 +37,7 @@ GLM后续补测候选见[十批长队列](../testing/glm-coverage-work-queue.md)
 |---|---|---|---|---|
 | ARCH-CONTINUATION-1 | [剩余架构治理连续收口](tasks/ARCH-CONTINUATION-1-remaining-queue.md) | build | Codex续推A3移动/绘制 | 活动场景/镜头分段已accept，check8724/strict8232/688；A3整体及另八项未done |
 | ARCH-F2-CURSOR-BATCH-2 | [剩余九组编辑命令拆分](tasks/ARCH-F2-CURSOR-BATCH-2-remaining-commands.md) | build | Cursor / Codex独立接收 | 51048353冻结，旧正文与119出口保持，不触Reforge |
-| TEST-GLM-CONTENT-GUARDS-2 | [六组校验叶边界补测](tasks/TEST-GLM-CONTENT-GUARDS-2-leaf-boundaries.md) | build | GLM / Codex独立接收 | 同步纯数据守卫，先去重；产品零改，无视觉与宿主时序 |
+| TEST-GLM-CONTENT-GUARDS-2 | [六组校验叶边界补测](tasks/TEST-GLM-CONTENT-GUARDS-2-leaf-boundaries.md) | rework | GLM窄修R1–R4 / Codex复验 | 957绿/六针实跑成立；三坏实现91全绿、判据五误收与JSON格式门未闭 |
 | ARCH-SUPPORT-GLM-1 | [八组并行架构/视觉准备](tasks/ARCH-SUPPORT-GLM-1-eight-audit-packages.md) | draft | Codex / 后续归属与收口 | 58cdf938材料accept，counter清零；文档已合入，按用户要求未标done/未开产品门 |
 
 2026-09-26 [战场命令族窄拆](../testing/glm-arch-battle-field-commands.md)由GLM实施、Codex独立accept并done归档：7276字节搬移保真、119出口不变、156项与两针通过；完整check8657/受保护严格fast8165/644绿，隔离功能核验完成（原生confirm自动化限制单列）。F2整体仍未完成。

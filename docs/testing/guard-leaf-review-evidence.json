@@ -1,0 +1,128 @@
+{
+  "task": "TEST-GLM-CONTENT-GUARDS-2",
+  "reviewer": "Codex",
+  "candidate": "b8e037cb3f4da68e4c5217842949bddbe6d23828",
+  "base": "ef19ae7e",
+  "receivingMain": "fe4ccdb2",
+  "verdict": "counter",
+  "scopeVerified": true,
+  "productChanges": 0,
+  "oldTestChanges": 0,
+  "configAndBaselineChanges": 0,
+  "checks": {
+    "content": {
+      "files": 79,
+      "tests": 957,
+      "exit": 0
+    },
+    "typecheck": 0,
+    "authorMutants": {
+      "control": 91,
+      "needles": 6,
+      "eachFailedExactlyOne": true,
+      "exit": 0
+    },
+    "biome": {
+      "exit": 1,
+      "errors": 1,
+      "warnings": 4,
+      "errorFile": "docs/testing/glm-content-guards-wave2/evidence.json"
+    },
+    "docs": 0,
+    "diff": 0,
+    "officialCoverage": "not run: counter; baseline unchanged"
+  },
+  "criterion": [
+    {
+      "id": "valid-red",
+      "expected": true,
+      "accepted": true
+    },
+    {
+      "id": "same-message-mixed-error",
+      "expected": false,
+      "accepted": true
+    },
+    {
+      "id": "assertion-prefixed-timeout",
+      "expected": false,
+      "accepted": true
+    },
+    {
+      "id": "additional-unrelated-red",
+      "expected": false,
+      "accepted": true
+    },
+    {
+      "id": "wrong-fullname-red-with-intended-green",
+      "expected": false,
+      "accepted": true
+    },
+    {
+      "id": "foreign-file-same-suffix",
+      "expected": false,
+      "accepted": true
+    },
+    {
+      "id": "exit-two",
+      "expected": false,
+      "accepted": false
+    },
+    {
+      "id": "exit-null",
+      "expected": false,
+      "accepted": false
+    }
+  ],
+  "productionHashes": {
+    "enemy-validation-shapes": "012af705f55cca01000830fe6fed37962afe990e45fc2a75f52980667e8ec8b6",
+    "enemy-ai-condition-guard": "06bd7979ba6e486989635d2f750c4a4757c0f8b6af91339795980a840305c409",
+    "battle-choreography": "ae007332f169e5019f97c08956e14d0f7591df60244d69d3e26bfb07dee4e065"
+  },
+  "witnesses": [
+    {
+      "id": "control",
+      "exit": 0,
+      "passed": 91,
+      "failed": 0,
+      "verdict": "control"
+    },
+    {
+      "id": "record-mutates-same-object",
+      "exit": 0,
+      "passed": 91,
+      "failed": 0,
+      "verdict": "MISSED"
+    },
+    {
+      "id": "callback-mutates-cue-after-delivery",
+      "exit": 0,
+      "passed": 91,
+      "failed": 0,
+      "verdict": "MISSED"
+    },
+    {
+      "id": "difficulty-path-prefix-corrupted",
+      "exit": 0,
+      "passed": 91,
+      "failed": 0,
+      "verdict": "MISSED"
+    }
+  ],
+  "fixes": [
+    "R1 actual input snapshots and exact error message/path",
+    "R2 same-kind positive controls and single-field invalid construction",
+    "R3 actual negative-control verdict binding and runtime injection witness",
+    "R4 final JSON formatting, receipt and overlap classification"
+  ],
+  "logs": [
+    "/tmp/codex-guard-leaf-content.log",
+    "/tmp/codex-guard-leaf-mutants.log",
+    "/tmp/codex-guard-leaf-review.log",
+    "/tmp/codex-guard-leaf-biome.log"
+  ],
+  "rawEvidence": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/codex-guard-leaf-review-oxViwY/summary.json",
+  "candidateEdited": false,
+  "merged": false,
+  "done": false
+}

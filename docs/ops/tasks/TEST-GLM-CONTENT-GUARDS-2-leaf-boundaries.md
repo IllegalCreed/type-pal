@@ -1,6 +1,6 @@
 # TEST-GLM-CONTENT-GUARDS-2 — 六组校验叶边界补测
 
-Status: build
+Status: rework
 Owner: GLM
 Reviewer / Integration Owner: Codex
 Phase: phase2
@@ -58,8 +58,38 @@ Codex已读`enemy-validation-shapes.ts:1–37`、`enemy-ai-condition-guard.ts:4�
 ## 推进记录
 
 - Codex：premise verified / build allowed，2026-09-26，范围是已明确合同的同步叶测试；不扩公共API或格式。
-- GLM作者交付：pending。
-- Codex独立验收：pending；done未开放，固定三签暂停。
+- GLM作者交付（2026-09-26，分支`codex/glm-content-guards-wave2`，生产零diff）：G1–G6连续完成，
+  三份白名单叶测试+`__tests__/guard-leaf-fixtures.ts`共**91行**（G1 33/G2 11/G3 6/G4 28/G5 3/G6 10）。
+  去重先行：wave2 11行表/作者递归13项/G06三路递归已证轴逐条避开，只补未证半界、独立检查分支、容器形状、
+  直入口委派身份。每个拒绝行先同型合法正控、单轴、精确Error路径或原Error身份（catch+toBe）、deepSnapshot输入保真。
+  验证：91/91绿；6针反控（复用codex-content-boundaries判据，恰exit1/唯一注入/目标fullName+file/AssertionError-only）
+  各恰红目标用例；同口径before/after各一次，三模块四维100%（如choreography行44/61→61/61、分支28/54→54/54），
+  全包+20L/+25S/+30B分母零变化；全content 957/957、TC、改动Biome 0 error、check:docs均过。
+  未发现产品缺陷；锁绿现状合同见[回执](https://github.com/IllegalCreed/type-pal/blob/b8e037cb3f4da68e4c5217842949bddbe6d23828/docs/testing/glm-content-guards-wave2/receipt.md)。
+  不合main、不标done，待Codex独立验收。
+- Codex独立验收：counter（b8e037cb，2026-09-26），仅R1–R4；见[本席报告](../../testing/guard-leaf-intake-review.md)与[机账](../../testing/guard-leaf-review-evidence.json)。上方作者交付区来自候选，仅将回执链接适配为固定SHA地址；仅作自验记录，不等于Codex确认其每项声明。done未开放。
+
+## Codex接收日志 / 当前返工提示词
+
+2026-09-26 Codex：白名单、生产零漂移、content957/957、TC与原六针实跑通过；三坏实现仍91/91全绿，
+真实判据误收五类反例，最终JSON格式门exit1。仅落审查，不改GLM测试语义、不合候选、不跑官方统计；
+保持main8232/688基线，工作树和分支留给GLM窄修，不交Kimi。
+
+```text
+在原codex/glm-content-guards-wave2返工TEST-GLM-CONTENT-GUARDS-2，候选b8e037cb，状态rework。
+fetch后先git show origin/main:docs/testing/guard-leaf-intake-review.md，按R1–R4一次闭合；
+无需为取报告合main，目标生产冻结与已过白名单/957全包/六针本次有效红不重开。
+R1：对实际可变输入加独立快照；G1 record、G5回调cue不得共享expected遮盖改写；
+精确路径用完整message全等，不能toThrow字符串子串。三Codex见证应从MISSED转为候选AssertionError检出。
+R2：缺ms配同kind wait正控；turn op坏例保留合法value；多hook先证同型wait合法再仅破ms；
+缺rows别用缺整个cue冒充；核其它同型正控，避免按字段有无猜错kind。
+R3：实际judge钉同一失败项的绝对file+真实fullName、恰一个目标红/其余绿、exit1；
+逐failureMessage拒混错/timeout；真实load记录唯一id/目标命中；自测走同一判据并拒本席五反例。
+R4：修提交的evidence.json格式；最终树回执/计数/输入纪律如实校准；共享percent已证轴与直接入口补强分栏，
+不要用无直测证明零重叠。不要凑91或30–50，不改产品/旧测试/配置/基线/本席反证工具。
+只写本卡GLM返工块、三测试/fixture与专属证据。提交推送真实最终SHA；不合main、不标done。
+无需替Codex补跑全仓check/ratchet/strict；局部自验结果如实登记，独立复验和最终收口由Codex完成。
+```
 
 ## 下一位 GLM 提示词
 
