@@ -37,7 +37,7 @@ import {
   type LoadedBattleSpriteDefinition,
   type LoadedSprite,
 } from '../assets.js'
-import { type SfxPlayer, SfxReadinessFatalError, SfxReadinessResourceError } from '../audio/sfx.js'
+import type { SfxPlayer } from '../audio/sfx.js'
 import { expectDefined } from '../defined.js'
 import type { DialogBox } from '../dialog/dialog-box.js'
 import { startDialogue } from '../dialogue.js'
@@ -86,6 +86,13 @@ import {
 import type { BattleFailureFeedback, BattleLastAction } from './battle-last-action.js'
 import { getPlayerBasePos } from './battle-positions.js'
 import type { BattleResult } from './battle-result.js'
+import {
+  type BattleReadinessErrorContext,
+  BattleTurnReadinessGate,
+  type BattleTurnReadinessSnapshot,
+  battleReadinessOverlayText,
+  createBattleTurnReadinessSnapshot,
+} from './battle-turn-readiness.js'
 import {
   type BattleMenuRow,
   drawBattleGrid,
@@ -149,31 +156,14 @@ type UiPhase =
   | 'item'
   | 'throwItem'
   | 'target'
-  | 'preparing'
-  | 'readinessError'
   | 'acting'
   | 'over'
 
-/**
- * 正常 SFX readiness 是一条内部异步屏障，保持当前战场帧即可，不应向玩家闪现技术文案。
- * 只有 fail-loud 错误态才显示可操作提示。
- */
-export function battleReadinessOverlayText(phase: 'preparing' | 'readinessError'): string | null {
-  return phase === 'readinessError' ? '音效工作集错误' : null
-}
-
-/** 最后一名队员交招后、core 建行动队列前冻结的音效工作集输入。 */
-export interface BattleTurnReadinessSnapshot {
-  turn: number
-  actions: ReadonlyMap<number, BattleAction>
-  activePlayerPoisons: readonly ActivePoison[]
-  activeEnemyPoisons: readonly ActivePoison[]
-}
-
-export interface BattleReadinessErrorContext {
-  turn: number
-  fatal: boolean
-}
+export type {
+  BattleReadinessErrorContext,
+  BattleTurnReadinessSnapshot,
+} from './battle-turn-readiness.js'
+export { battleReadinessOverlayText } from './battle-turn-readiness.js'
 
 export interface BattleSessionAssets {
   bg?: CanvasImageSource
@@ -221,9 +211,7 @@ export class BattleSession {
   private rejectDone!: (reason?: unknown) => void
   private doneSettled = false
   private closed = false
-  /** 每次准备/退出均递增；过期 Promise 回调不得推进 core。 */
-  private preparationSerial = 0
-  private readinessError: Error | null = null
+  private readonly readiness: BattleTurnReadinessGate
   private readonly state: BattleState
   private ui: UiPhase = 'menu'
   /** 主菜单 4 图标选中(0攻击 1法术 2合击 3杂项;一阶段 selectedAction)。 */
@@ -411,6 +399,10 @@ export class BattleSession {
       auto: opts.auto,
       skillUseCounts: opts.skillUseCounts,
     })
+    this.readiness = new BattleTurnReadinessGate({
+      ...(opts.prepareTurnSounds ? { prepare: opts.prepareTurnSounds } : {}),
+      ...(opts.reportReadinessError ? { reportError: opts.reportReadinessError } : {}),
+    })
     this.done = new Promise((res, rej) => {
       this.resolveDone = res
       this.rejectDone = rej
@@ -564,80 +556,19 @@ export class BattleSession {
     this.actTimer = 0
   }
 
-  private reportPreparationFailure(error: Error, fatal: boolean): void {
-    this.opts.reportReadinessError?.(error, { turn: this.state.turn, fatal })
-  }
-
-  private settleTurnPreparation(
-    token: number,
-    outcome: { ok: true } | { ok: false; error: unknown },
-  ): void {
-    if (
-      token !== this.preparationSerial ||
-      this.closed ||
-      this.doneSettled ||
-      this.state.phase !== 'selectAction' ||
-      this.ui !== 'preparing'
-    )
-      return
-    if (outcome.ok) {
-      this.enterActionPhase()
-      return
-    }
-    const { error } = outcome
-    const normalized = error instanceof Error ? error : new Error(String(error))
-    // 只有已知的资源准备失败允许静音降级；预算/collector/未知编程错误一律 fail-loud。
-    const fatal =
-      normalized instanceof SfxReadinessFatalError ||
-      !(normalized instanceof SfxReadinessResourceError)
-    this.reportPreparationFailure(normalized, fatal)
-    if (fatal) {
-      this.readinessError = normalized
-      this.ui = 'readinessError'
-      return
-    }
-    // 单项缺失/读取/WAV/decode 失败：allSettled 已保证其余成功项 ready，再降级行动。
-    this.enterActionPhase()
-  }
-
   private beginTurnPreparation(): void {
-    if (this.closed || this.doneSettled || this.ui === 'preparing') return
-    const prepare = this.opts.prepareTurnSounds
-    if (!prepare) {
-      this.enterActionPhase()
-      return
-    }
-    const snapshot: BattleTurnReadinessSnapshot = {
-      turn: this.state.turn,
-      actions: new Map(this.state.pendingActions),
-      activePlayerPoisons: this.state.players.flatMap((player) =>
-        player.poisons.map((poison) => ({ ...poison })),
-      ),
-      activeEnemyPoisons: this.state.enemies.flatMap((enemy) =>
-        enemy ? enemy.poisons.map((poison) => ({ ...poison })) : [],
-      ),
-    }
-    const token = ++this.preparationSerial
-    this.readinessError = null
-    this.ui = 'preparing'
-    let pending: Promise<void>
-    try {
-      pending = prepare(snapshot)
-    } catch (error) {
-      this.settleTurnPreparation(token, { ok: false, error })
-      return
-    }
-    void pending.then(
-      () => this.settleTurnPreparation(token, { ok: true }),
-      (error: unknown) => this.settleTurnPreparation(token, { ok: false, error }),
-    )
+    if (this.closed || this.doneSettled) return
+    this.readiness.begin(createBattleTurnReadinessSnapshot(this.state), {
+      isCurrent: () => !this.closed && !this.doneSettled && this.state.phase === 'selectAction',
+      enterActionPhase: () => this.enterActionPhase(),
+    })
   }
 
   private complete(result: BattleResult): void {
     if (this.doneSettled) return
     this.doneSettled = true
     this.closed = true
-    this.preparationSerial++
+    this.readiness.invalidate()
     this.resolveDone(result)
   }
 
@@ -646,7 +577,7 @@ export class BattleSession {
     if (this.doneSettled) return
     this.doneSettled = true
     this.closed = true
-    this.preparationSerial++
+    this.readiness.invalidate()
     this.musicSerial++
     this.scheduledMusicStop = null
     this.pendingTerminal = null
@@ -1199,10 +1130,10 @@ export class BattleSession {
     const s = this.state
 
     // readiness pending 期间锁住所有输入；fatal 可见停留，Enter/Escape 明确退出本场。
-    if (this.ui === 'preparing') return
-    if (this.ui === 'readinessError') {
+    if (this.readiness.phase === 'preparing') return
+    if (this.readiness.phase === 'readinessError') {
       if (pressed.has('Enter') || pressed.has('Escape'))
-        this.cancel(this.readinessError ?? undefined)
+        this.cancel(this.readiness.error ?? undefined)
       return
     }
 
@@ -2422,10 +2353,11 @@ export class BattleSession {
   }
 
   /** dev/test:异步音效屏障只读状态。 */
-  debugReadiness(): { phase: UiPhase; error?: string } {
+  debugReadiness(): { phase: UiPhase | 'preparing' | 'readinessError'; error?: string } {
+    const phase = this.readiness.phase === 'idle' ? this.ui : this.readiness.phase
     return {
-      phase: this.ui,
-      ...(this.readinessError ? { error: this.readinessError.message } : {}),
+      phase,
+      ...(this.readiness.error ? { error: this.readiness.error.message } : {}),
     }
   }
 
@@ -2900,9 +2832,7 @@ export class BattleSession {
     // 第二级音效屏障：pending 时只冻结当前战场帧，不显示内部技术提示；真正 fatal 才
     // 显示错误与退出操作。这样缓存命中的 Promise 微任务不会在屏幕中央闪一帧“准备中”。
     const readinessOverlayText =
-      this.ui === 'preparing' || this.ui === 'readinessError'
-        ? battleReadinessOverlayText(this.ui)
-        : null
+      this.readiness.phase === 'idle' ? null : battleReadinessOverlayText(this.readiness.phase)
     if (!dialogActive && readinessOverlayText) {
       ctx.fillStyle = 'rgba(0, 0, 0, 0.72)'
       ctx.fillRect(48, 76, 224, 58)

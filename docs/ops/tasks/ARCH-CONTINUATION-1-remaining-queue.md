@@ -50,7 +50,7 @@ Codex持续处理[治理台账](../audits/architecture-debt.md)剩余边界，Cu
 - 2026-09-26 C1-a 回合资源屏障段开工（基点 `099a615b`）：`BattleSession.ts` 当前 3022 行，
   `preparationSerial/readinessError`、全员交招快照、同步/异步 prepare、资源失败降级、fatal 停留和 cancel 迟到
   失效仍混在总会话。先迁为 `BattleTurnReadinessGate`：owner 独占 token/phase/error 与错误分类，快照函数只接收
-  `BattleState` 并深拷 actions/毒进度，宿主只提供“当前会话仍可提交”和“同步进入行动”两个窄回调；不接收完整
+  `BattleState` 并冻结 actions Map、深拷毒进度，宿主只提供“当前会话仍可提交”和“同步进入行动”两个窄回调；不接收完整
   `BattleSession` 或宿主上下文。保持无 prepare 时同拍进入、同步 throw 同拍分类、Promise settle 后单次提交、pending
   输入锁、资源错误 allSettled 后静音降级、fatal Enter/Escape 以原错误退出、cancel 后迟到结果零推进。验收复用
   readiness/selection/script/round 正式回归，新增 owner 状态机与接线断言、单点反控，再跑战斗相邻/Reforge/TC/
