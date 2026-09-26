@@ -8,6 +8,7 @@
 
 ## 文档与附件
 
+- [Cursor命令第二批](cursor-commands-wave2/README.md)与[GLM守卫叶补测](glm-content-guards-wave2/README.md)（互斥委派中，尚未接收）。
 - [Cursor24组最终验收](cursor-architecture-batch-integration.md)、[GLM十二组准备包收口](architecture-regression-lab-completion.md)与[统一机账](architecture-intake-completion-evidence.json)（两包独立裁决、统一check8707/strict8215/686；剩余环境/深层组合明确归属，不混入A3 WIP）
 
 - [Cursor24组架构拆分首轮接收](cursor-architecture-batch-review.md)、[独立见证](cursor-architecture-review-witnesses.mjs)与[机账](cursor-architecture-batch-review-evidence.json)（正文搬移保持、editor2813绿；R1–R3窄返工，未合候选）

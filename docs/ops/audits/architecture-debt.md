@@ -42,14 +42,14 @@ Codex负责其余高风险实现和全部独立接收；执行仍按单一状态
 | F1 工具维护 | design-system-audit.mjs6337行/reachableJsxOwners935行 | AST事实、CSS推导、规则、报告分层 | 旧违规样本/反例判据不变；不为加速删规则 |
 | F2 组织性整理（部分完成） | 原盘点commands4475/controls2589；Cursor本批冻结4282/2428 | 24组已接收：commands4282→3163，controls2428→35稳定barrel；32新模块，旧119/50出口与正文保持 | check8707/strict8215/686及隔离UI通过；actor/entity/map/资源剩余命令仍归Codex，不把文件数当整体完成 |
 
-### 并行所有权（2026-09-25 更新）
+### 并行所有权（2026-09-26 更新）
 
 | Owner | 可推进的窄批 | 明确不碰 |
 |---|---|---|
 | Codex | A3余下活动场景/移动/绘制；B1/B2、C1、D1/D2、E1/E2 的关键所有权与语义裁决；全仓质量门及集成 | 不借纯重构夹带新玩法或迁移生成物手改 |
-| GLM | [F2 战场命令族搬迁](../archive/tasks/done/ARCH-F2-EDITOR-BATTLE-FIELD-COMMANDS-1.md)及[十二组准备包](../archive/tasks/done/ARCH-REGRESSION-LAB-GLM-1-twelve-packs.md)均已Codex独立接收done | 无新的生产写入授权；后续宜明确合同的中低复杂工作包，不以作者自验替代Codex复核 |
+| GLM | 前批已done；[六组同步守卫补测](../tasks/TEST-GLM-CONTENT-GUARDS-2-leaf-boundaries.md)build allowed | 只改content白名单新测试，生产零改，不接视觉/时序混合包 |
 | Grok | [F2 溢出文本组件搬迁](../archive/tasks/done/ARCH-F2-DS-OVERFLOW-1.md)已按窄切片 done，仅 `DsOverflowText`；下个中风险批另卡核准 | 其它控件、CSS/交互重设计、A3及战斗引擎 |
-| Cursor | [五包文档/纯测试](../archive/tasks/done/CURSOR-WAVE-2-1-docs-and-pure-regressions.md)、[标签/只读值](../archive/tasks/done/ARCH-F2-DS-LABELS-1.md)及[24组F2整理](../archive/tasks/done/ARCH-F2-CURSOR-BATCH-1-domain-modules.md)均已done | 本批写入所有权已释放；下一切片另卡核准，不自行扩至高风险宿主/机制 |
+| Cursor | 前批均done；[九组剩余命令拆分](../tasks/ARCH-F2-CURSOR-BATCH-2-remaining-commands.md)build allowed | 只机械迁移editor commands与声明helper，不改算法、UI、保存格式或其它宿主 |
 
 四位Owner工作树/主文件互不重叠。后续若需要同一文件，按前批Codex接收后再开下一批；没有“两个Agent同时改一个宿主文件”的并行授权。
 
