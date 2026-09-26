@@ -1,7 +1,7 @@
 import ts from 'typescript'
 import { beforeEach, describe, expect, test, vi } from 'vitest'
 import mainSource from '../main.tsx?raw'
-import appSource from '../ui/App.tsx?raw'
+import projectSessionSource from '../ui/use-editor-project-session.ts?raw'
 import { authorSaveStorage, memoryAuthorSaveStore } from './__tests__/author-save-store-fixture.js'
 import { EditorHistoryCoordinator } from './editor-history-coordinator.js'
 import { projectEditorItemShells } from './script-editor-projection.js'
@@ -85,8 +85,8 @@ import {
   withAuthorizedWorkspaceMutation,
 } from './workspace-persistence.js'
 
-/** Execute the actual App refs/serialization/save callback, not a handwritten copy of its control flow. */
-function appSave(
+/** Execute the actual project-session refs/serialization/save callback, not a handwritten copy. */
+function projectSessionSave(
   opened: Opened,
   editor: EditSession,
   options: {
@@ -95,15 +95,16 @@ function appSave(
   } = {},
 ) {
   const ast = ts.createSourceFile(
-    'App.tsx',
-    appSource,
+    'use-editor-project-session.ts',
+    projectSessionSource,
     ts.ScriptTarget.Latest,
     true,
     ts.ScriptKind.TSX,
   )
   const names = new Set([
-    'dirHandleRef',
-    'saveAttemptDirRef',
+    'inputRef',
+    'directoryRef',
+    'saveAttemptDirectoryRef',
     'snapshotRef',
     'authorBaselineRef',
     'firstSaveAuthorRef',
@@ -114,8 +115,16 @@ function appSave(
   const visit = (node: ts.Node) => {
     if (ts.isVariableDeclaration(node) && ts.isIdentifier(node.name) && names.has(node.name.text)) {
       if (declarations.has(node.name.text))
-        throw new Error(`ambiguous App declaration ${node.name.text}`)
+        throw new Error(`ambiguous project session declaration ${node.name.text}`)
       declarations.set(node.name.text, `const ${node.getText(ast)};`)
+    } else if (
+      ts.isFunctionDeclaration(node) &&
+      node.name?.text === 'serializeEditorSnapshot' &&
+      names.has(node.name.text)
+    ) {
+      if (declarations.has(node.name.text))
+        throw new Error(`ambiguous project session declaration ${node.name.text}`)
+      declarations.set(node.name.text, node.getText(ast))
     }
     ts.forEachChild(node, visit)
   }
@@ -128,19 +137,22 @@ function appSave(
     items: structuredClone(opened.project.authorContent.items),
     sharedScripts: structuredClone(opened.project.authorContent.sharedScripts),
   })
+  const projectGuard = new ProjectLeaveGuard(editor, scriptSession)
   const env = {
-    props: {
+    input: {
+      main: editor,
+      script: scriptSession,
+      projectGuard,
+      projectSource: opened.project.source,
       workspace: opened.workspace,
       authorBaseline: opened.authorBaseline,
-      initialDir: options.initialDir === null ? undefined : (options.initialDir ?? opened.dir),
+      initialDirectory:
+        options.initialDir === null ? undefined : (options.initialDir ?? opened.dir),
     },
     useRef: <T>(value: T) => ({ current: value }),
-    project: opened.project,
-    session: editor,
-    scriptSession,
-    projectGuard: new ProjectLeaveGuard(editor, scriptSession),
-    setSaveErr: error,
-    setSaveActivity: activity,
+    useCallback: <T>(value: T) => value,
+    setError: error,
+    setActivity: activity,
     window: { confirm: () => true, setTimeout },
     pickDir: options.picker ?? (() => Promise.resolve(null)),
     serializeProjectWithMapCopies,
@@ -161,7 +173,7 @@ function appSave(
   const javascript = ts.transpileModule([...declarations.values()].join('\n'), {
     compilerOptions: { target: ts.ScriptTarget.ES2022, module: ts.ModuleKind.None },
   }).outputText
-  env.projectGuard.connect()
+  projectGuard.connect()
   const run = new Function(...Object.keys(env), `${javascript}; return save;`)(
     ...Object.values(env),
   ) as () => Promise<void>
@@ -449,12 +461,12 @@ describe('real author open and save conflict boundary', () => {
     expect(bindings.size).toBe(0)
   })
 
-  test('actual App save deletes the last simulator record after reopen, then undo/save restores it', async () => {
+  test('actual project session save deletes the last simulator record after reopen, then undo/save restores it', async () => {
     const disk = memoryAuthorDirectory(await buildBlankProject('sim-app-save'))
     disk.set(BATTLE_SIMULATOR_PATH, simulatorLibrary())
     const opened = await finishOpen(disk.dir),
       editor = session(opened),
-      app = appSave(opened, editor)
+      app = projectSessionSave(opened, editor)
     expect(editor.getState().battleSimulator).toEqual(simulatorLibrary())
     editor.dispatch(new SetBattleSimulatorLibraryCommand(emptyBattleSimulatorLibrary()))
     await app.run()
@@ -467,14 +479,14 @@ describe('real author open and save conflict boundary', () => {
     expect((await finishOpen(disk.dir)).battleSimulator).toEqual(simulatorLibrary())
   })
 
-  test('actual App save callback keeps conflict visible, both sessions usable, and newer disk untouched', async () => {
+  test('actual project session save keeps conflict visible, both sessions usable, and newer disk untouched', async () => {
     const disk = memoryAuthorDirectory(await buildBlankProject('app-conflict'))
     const a = await finishOpen(disk.dir),
       b = await finishOpen(disk.dir)
     const left = session(a),
       right = session(b)
-    const leftApp = appSave(a, left),
-      rightApp = appSave(b, right)
+    const leftApp = projectSessionSave(a, left),
+      rightApp = projectSessionSave(b, right)
     left.dispatch(new UpdateLocaleCommand('name.hero', 'Saved by A'))
     right.dispatch(new RenameProjectCommand('Unsaved B'))
     await leftApp.run()
@@ -491,7 +503,7 @@ describe('real author open and save conflict boundary', () => {
     expect(right.getState().manifest.name).toBe('Still usable')
   })
 
-  test('actual App first-save uses an empty target baseline then reuses its own advanced baseline', async () => {
+  test('actual project session first-save uses an empty target baseline then reuses its own advanced baseline', async () => {
     const source = memoryAuthorDirectory(await buildBlankProject('app-first'))
     const opened = await finishOpen(source.dir),
       editor = session(opened)
@@ -502,7 +514,7 @@ describe('real author open and save conflict boundary', () => {
       '11111111-1111-4111-8111-111111111111',
     )
     const target = memoryAuthorDirectory()
-    const app = appSave({ ...opened, workspace: context }, editor, {
+    const app = projectSessionSave({ ...opened, workspace: context }, editor, {
       initialDir: null,
       picker: async () => target.dir,
     })
@@ -519,11 +531,11 @@ describe('real author open and save conflict boundary', () => {
     expect(readAgain.workspace.workspaceId).toBe(context.workspaceId)
   })
 
-  test('actual App does not clear newer author edits made while saving an earlier snapshot', async () => {
+  test('actual project session does not clear newer author edits made while saving an earlier snapshot', async () => {
     const disk = memoryAuthorDirectory(await buildBlankProject('app-dirty'))
     const opened = await finishOpen(disk.dir),
       editor = session(opened)
-    const app = appSave(opened, editor)
+    const app = projectSessionSave(opened, editor)
     editor.dispatch(new RenameProjectCommand('snapshot'))
     let once = false
     disk.hooks.beforeClose = () => {
@@ -543,12 +555,12 @@ describe('real author open and save conflict boundary', () => {
     expect(editor.isDirty()).toBe(false)
   })
 
-  test('actual App cancel-first-picker neither writes nor clears dirty', async () => {
+  test('actual project session cancel-first-picker neither writes nor clears dirty', async () => {
     const disk = memoryAuthorDirectory(await buildBlankProject('app-cancel'))
     const opened = await finishOpen(disk.dir),
       editor = session(opened)
     editor.dispatch(new RenameProjectCommand('pending'))
-    const app = appSave(opened, editor, { initialDir: null })
+    const app = projectSessionSave(opened, editor, { initialDir: null })
     await app.run()
     expect(editor.isDirty()).toBe(true)
     expect(app.error).not.toHaveBeenCalled()
@@ -703,11 +715,11 @@ describe('real author open and save conflict boundary', () => {
     expect((await finishOpen(disk.dir)).scenes.map((scene) => scene.id)).toEqual(['start'])
   })
 
-  test('actual App save and ordinary reopen complete a new actor and its scene reference together', async () => {
+  test('actual project session save and ordinary reopen complete a new actor and its scene reference together', async () => {
     const disk = memoryAuthorDirectory(await buildBlankProject('app-recovery'))
     const opened = await finishOpen(disk.dir),
       editor = session(opened)
-    const app = appSave(opened, editor)
+    const app = projectSessionSave(opened, editor)
     const actor = structuredClone(editor.getState().actors[0]!)
     actor.id = 'workflow-npc'
     actor.battler!.baseStats.maxHP = 237
@@ -753,14 +765,14 @@ describe('real author open and save conflict boundary', () => {
     await save(reopened, session(reopened))
   })
 
-  test('actual App first-save retry uses its recovered binding even when no author close was observed', async () => {
+  test('actual project session first-save retry uses its recovered binding even when no author close was observed', async () => {
     const opened = await finishOpen(
       memoryAuthorDirectory(await buildBlankProject('first-save-retry')).dir,
     )
     const editor = session(opened)
     const target = memoryAuthorDirectory()
     const picker = vi.fn(async () => target.dir)
-    const app = appSave(
+    const app = projectSessionSave(
       {
         ...opened,
         workspace: createLocalWorkspaceContext(opened.project.manifest.id, 'blank-project'),
@@ -784,11 +796,11 @@ describe('real author open and save conflict boundary', () => {
     expect(picker).toHaveBeenCalledTimes(2)
   })
 
-  test('actual App own retry finishes its prior intent then removes a scene undone during interruption', async () => {
+  test('actual project session own retry finishes its prior intent then removes a scene undone during interruption', async () => {
     const disk = memoryAuthorDirectory(await buildBlankProject('undo-pending-scene'))
     const opened = await finishOpen(disk.dir),
       editor = session(opened)
-    const app = appSave(opened, editor)
+    const app = projectSessionSave(opened, editor)
     const added = { ...structuredClone(opened.scenes[0]!), id: 'temporary-scene' }
     const path = 'content/scenes/temporary-scene.json'
     editor.dispatch(
@@ -813,11 +825,11 @@ describe('real author open and save conflict boundary', () => {
     expect((await finishOpen(disk.dir)).scenes.map((s) => s.id)).toEqual(['start'])
   })
 
-  test('actual App reports cleanup as saved with warning and IO AbortError as a visible failure', async () => {
+  test('actual project session reports cleanup as saved with warning and IO AbortError as a visible failure', async () => {
     const disk = memoryAuthorDirectory(await buildBlankProject('cleanup-ui'))
     const opened = await finishOpen(disk.dir),
       editor = session(opened)
-    const app = appSave(opened, editor)
+    const app = projectSessionSave(opened, editor)
     editor.dispatch(new RenameProjectCommand('saved with cleanup warning'))
     disk.hooks.beforeRemove = (path) => {
       if (path.includes('/blobs/')) throw new Error('cleanup denied')
