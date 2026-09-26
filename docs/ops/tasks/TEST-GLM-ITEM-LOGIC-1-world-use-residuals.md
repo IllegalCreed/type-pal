@@ -10,6 +10,15 @@ Branch: `codex/glm-item-logic-r1`
 
 ## 准入与前提
 
+### 2026-09-27 Codex接收598777cf
+
+仍 **counter / R2–R4窄残项**，见[本轮复核与可转发提示词](../../testing/item-logic-r3-review.md)。
+非空旁库存/八项精确成长/外部money三哨兵真实落盘，原对应三变异已抓住，不重开。
+两原输入污染针仍漏，RNG额外调用与外部HP丢失两残项针也漏；三处毒表仍拍函数而非实际对象。
+回执再次宣称learned/抛错快照已修但提交无对应变化；本批新增两处import排序error，不能按0error接收。
+独立46/1178/executor17/TC、作者10自测+六针通过；不合候选、不计覆盖，不改其语义。
+主线QUALITY-ZERO-1已完成；本批必须自己消除白名单内诊断，接受后再统一门禁。
+
 ### 2026-09-27 Codex接收1c8b57cb
 
 仍 **counter，仅剩R2/R3/R4**，见[本轮直接证据与提示词](../../testing/item-logic-r2-review.md)。

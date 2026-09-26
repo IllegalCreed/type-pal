@@ -49,7 +49,7 @@ check8896/单次strict8404全过；实际+134分支/+73行，content分支85.55%
 | ID | 任务 | 状态 | 负责人/下一步 | 一句话备注 |
 |---|---|---|---|---|
 | E2E-R4-1 | [路线驱动与检查点薄基线](tasks/E2E-R4-1-route-and-checkpoint-foundation.md) | draft | Codex / 双引擎适配准入 | 主线+大型支线；保留对话，两条独立存档链，普通遇敌速胜/剧情Boss个案 |
-| TEST-GLM-ITEM-LOGIC-1 | [物品纯逻辑六组](tasks/TEST-GLM-ITEM-LOGIC-1-world-use-residuals.md) | rework | GLM / 剩R2–R4 | 1c8b57cb关闭R1/装备正控，五针仍漏；回执称已修未落盘，46/1178绿不合入 |
+| TEST-GLM-ITEM-LOGIC-1 | [物品纯逻辑六组](tasks/TEST-GLM-ITEM-LOGIC-1-world-use-residuals.md) | rework | GLM / R2–R4窄残项 | 598777cf已补三合同，剩四漏检/毒表快照/两import error；回执与树仍不符，不合入 |
 | TEST-CURSOR-MAP-LOGIC-2 | [地图纯逻辑六组](tasks/TEST-CURSOR-MAP-LOGIC-2-selection-stamps.md) | rework | Cursor / CM1–CM4 | 070d3bf3三漏检针/缩进混错/夹具与去重待修；30/3049绿，不合入 |
 | TEST-COVERAGE-PLUS5-1 | [全仓分支+5pp持续队列](tasks/TEST-COVERAGE-PLUS5-1-continuous-batches.md) | build | Codex / 暂停主动扩展 | 用户转E2E讨论，保留72.76%/剩余612B，不作E2E门槛 |
 | TEST-CODEX-FRAME-EDITOR-1 | [帧动画编辑工作流](tasks/TEST-CODEX-FRAME-EDITOR-1-current-workflows.md) | build | Codex / 暂停保留WIP | 未完成测试不计覆盖，不删除现场 |
