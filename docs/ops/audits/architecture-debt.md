@@ -10,6 +10,11 @@
 
 ## 判断依据
 
+2026-09-26最新执行：用户要求Codex连续完成剩余治理，并明确让Cursor承担大量并行任务。
+[连续收口卡](../tasks/ARCH-CONTINUATION-1-remaining-queue.md)维护剩余11项；
+[Cursor24组卡](../tasks/ARCH-F2-CURSOR-BATCH-1-domain-modules.md)授权F2的命令族/控件模块边界。
+Codex负责其余高风险实现和全部独立接收；执行仍按单一状态边界串行验证，不改变玩法/格式/UI合同。
+
 不以行数单独判债。重点是：职责是否跨域、状态归谁、谁负责取消/释放、依赖是否反向、
 能否在不启动整个应用的情况下测试一个领域。禁止只搬文件后让每个模块继续接收完整RuntimeContext。
 
