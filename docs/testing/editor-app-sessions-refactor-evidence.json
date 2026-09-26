@@ -1,0 +1,125 @@
+{
+  "schemaVersion": 1,
+  "owner": "Codex implementation and self-verification; original intake conversation retains integration",
+  "sliceBase": "ae989b9b1d155236ef8504e1e18ebc521bb5c178",
+  "syncedMain": "7d64de139643a7aa890b3a9434b8bfb720050f44",
+  "candidateMerge": "f7f46c32571b97dbcfb8e6bc922b9dae62a3156c",
+  "implementations": {
+    "navigation": "4101926d1",
+    "sceneWorkspace": "93e4a9c48",
+    "battleTrial": "6181d7ebf",
+    "projectLifecycle": "52112d86e"
+  },
+  "scope": "B1 editor shell session ownership candidate",
+  "status": "candidate; not merged to main; unified full-repository gates pending intake",
+  "ownership": {
+    "navigation": {
+      "file": "packages/editor/src/ui/use-editor-navigation-session.ts",
+      "lines": 183,
+      "owns": [
+        "current and per-module editor locations",
+        "URL history and popstate",
+        "workspace-scoped persisted location",
+        "three-column scroll capture and restore",
+        "restore animation-frame cleanup"
+      ]
+    },
+    "sceneWorkspace": {
+      "file": "packages/editor/src/ui/use-scene-workspace-session.ts",
+      "lines": 128,
+      "owns": [
+        "active scene identity and scene selection",
+        "placement and scene-script UI state",
+        "scene layer visibility",
+        "scene deep-link synchronization"
+      ]
+    },
+    "battleTrial": {
+      "file": "packages/editor/src/ui/use-battle-trial-session.ts",
+      "lines": 148,
+      "owns": [
+        "temporary trial draft",
+        "discard continuation and beforeunload",
+        "trial popup lifetime",
+        "launch admission and revision revalidation"
+      ]
+    },
+    "projectLifecycle": {
+      "file": "packages/editor/src/ui/use-editor-project-session.ts",
+      "lines": 368,
+      "owns": [
+        "directory binding and interrupted-save references",
+        "snapshots and author baseline",
+        "save, open, save-as, export and rename orchestration",
+        "leave intent execution"
+      ],
+      "retainsExistingOwners": [
+        "ProjectLeaveGuard as sole leave admission and lease owner",
+        "main and script histories as dirty, revision and undo/redo owners"
+      ]
+    },
+    "shellLines": { "before": 5170, "after": 4688 }
+  },
+  "tests": {
+    "new": {
+      "navigation": 5,
+      "sceneWorkspace": 7,
+      "battleTrial": 3,
+      "ownershipAndResourceProtocols": 3,
+      "total": 18
+    },
+    "targeted": { "files": 6, "tests": 54, "exit": 0 },
+    "authorSaveConflict": { "tests": 37, "exit": 0 },
+    "editorAfterMainSync": { "files": 328, "tests": 2847, "exit": 0 },
+    "typecheck": { "exit": 0 },
+    "biome": { "candidateErrors": 0, "existingAppInfos": 3 },
+    "build": { "exit": 0, "modules": 579, "existingLargeChunkWarning": true }
+  },
+  "negativeControls": {
+    "tool": "docs/testing/editor-app-sessions-mutants.mjs",
+    "controls": 50,
+    "detected": 20,
+    "judge": { "positive": 1, "rejected": 9 },
+    "requirements": [
+      "exact absolute test file and fullName",
+      "exactly one executed candidate test",
+      "exit 1",
+      "AssertionError only",
+      "unique loader injection marker",
+      "all product hashes unchanged"
+    ],
+    "evidence": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-editor-app-sessions-mutants-3yaRDP/summary.json"
+  },
+  "functional": {
+    "host": "http://localhost:6054/?module=scene&page=workspace&object=s135",
+    "project": "pal",
+    "observed": [
+      "scene s135 loaded with entities, anchors, layers and inspector",
+      "navigation opened map workspace map-122",
+      "browser back restored the s135 URL, selection and workspace",
+      "console error and warning log was empty"
+    ],
+    "normalSaveOrDirectoryCommandsUsed": false,
+    "userEditor6010Touched": false,
+    "temporaryTabClosed": true,
+    "serverStopped": true,
+    "consoleInspected": true
+  },
+  "unchangedContracts": [
+    "content20 and SAVE8",
+    "schema and asset formats",
+    "gameplay and formulas",
+    "UI shape",
+    "project leave admission and lease semantics",
+    "history dirty, revision and undo/redo ownership"
+  ],
+  "notRun": [
+    "full repository check",
+    "official coverage ratchet",
+    "protected strict coverage",
+    "full/Q1/Q2",
+    "native file-system picker write visual",
+    "720/900 and 125/150-percent zoom matrix",
+    "remote CI"
+  ]
+}
