@@ -14,7 +14,9 @@
  * - g05-immediate-wait：宿主 wait 的 timers.push 改立即 resolve
  *   → G05-02「全量冲刷后流仍停在 wait」断言红（旧等待从未真正挂起即暴露）；
  * - g08-ignore-roots：图根从 [...graphRoots, ...globalRoots] 改为 [...graphRoots]
- *   → G08-06「ownership global=1/unreachable=2」断言红（globalRoots 不进图根即退回无根形态）。
+ *   → G08-06「ownership global=1/unreachable=2」断言红（globalRoots 不进图根即退回无根形态）；
+ * - g08-drop-sprite：translate-events.ts 0x65 的 push({setActorSprite}) 改为空块
+ *   → G08-07「chunk 内 setActorSprite 精确命令体」断言红（成功路径吞命令即暴露）。
  *
  * 临时目录放系统 /tmp：不污染仓内工作树与 Biome 扫描。
  */
@@ -87,6 +89,18 @@ const needles = [
         resolve()
       }),`
       return { from, to, log: 'LAB_RED_MUTATION_APPLIED Playback host wait immediate resolve' }
+    },
+  },
+  {
+    // 丢输出反控：0x65 的 setActorSprite push 被置空 → G08-07「chunk 内精确命令体」红
+    id: 'g08-drop-sprite',
+    productAbs: resolve(repoRoot, 'packages/migrate/src/translate-events.ts'),
+    targetAbs: resolve(labRoot, 'candidates/migrate/g08-conversion-isolation.test.ts'),
+    expectExecuted: 6,
+    buildMutation: () => {
+      const from = "if (actor && sprite) push({ kind: 'setActorSprite', actor, sprite })"
+      const to = 'if (actor && sprite) { /* r10 needle: dropped */ }'
+      return { from, to, log: 'LAB_RED_MUTATION_APPLIED drop setActorSprite output' }
     },
   },
   {

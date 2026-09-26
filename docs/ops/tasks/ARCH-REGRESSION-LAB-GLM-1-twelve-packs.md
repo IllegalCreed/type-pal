@@ -170,7 +170,47 @@ worktree `/Users/zhangxu/illegal/type-pal-glm-lab-r2`，不含旧 GLM 分支。�
 exec JSON）、red-control 五针 detected、check:docs PASS；packages/scripts 零 diff（本批 diff 仅实验目录+本块）。
 **不合 main、不计官方覆盖率、不标 done；Kimi 豁免。**
 
+## GLM r11 批次交付（2026-09-26，回应 r10 counter；本席自记）
+
+分支 codex/glm-architecture-regression-lab-r2（已合入 origin/main 取 r10 审查与任务卡，合并提交 5ea51631）。
+
+- **R10-1 七入口去重表已落 receipt**（branch.then:661 / branch.else:663 / loop.body:669 /
+  startBattle.onLose:708 / onFlee:710 / teleportOut.onFail:722 / confirm.onNo:726 + 跨模块边 :712，
+  逐项列官方既有证据与本仓证据）。**G06-D1 缺陷显式诊断**：diagnostics/lab-choreography-cue-identity-leak.test.ts
+  按「应有行为」书写保持失败（直接 cue 缺 identity 被拒 ✓；同一 cue 经 startBattle.choreography 未拒 ✗ 当前产品；
+  合法 identity 两路通过 = 修复不收紧合法域），交 Codex 产品修复，本席不改生产代码。
+  **G06-11 候选例**：七入口逐点证明校验选项沿嵌套深度透传（非法 identity 门在嵌套深度拒绝、
+  合法 identity 每入口通过），11/11 绿。
+- **R10-2 G08-07 强化**：断言修复后 chunk 内精确命令体 `[{kind:'setActorSprite',actor:'li-xiaoyao',sprite:'sprite-42'}]`、
+  SpriteDef 身份（id/asset:sprite.pal.042）、实体引用一致；失败运行输入前后深快照；「先失败再修复」与独立
+  新鲜正确运行全量 deep-equal（scenes/scriptChunks/sprites/scriptLocale）。**丢输出反控 g08-drop-sprite 针**
+  （translate-events.ts:1625 push 置空）实测 detected：「expected [] to deeply equal [setActorSprite]」。负控现为**六针全 detected**。
+- **R10-3 口径修正**：results 顶层 branch/worktree 改为 r2 分支与本 worktree；receipt 顶部改为 r11 口径
+  （旧 r1 分支/worktree 明确标历史）、小计改 **57 条 54/1/1/1、候选 42/42**、复跑 cwd 标明必须为
+  /Users/zhangxu/illegal/type-pal-glm-lab-r2；README 同步 r11。G01 复现步骤（宿主/坐标/像素算法/反控启动）已补入 receipt。
+- **V01-04 blocked-automation 归因撤销**：根因为本席自动化（IAB press() 键投递缺失 + 撤销按钮定位错），
+  Codex 同路径实测已证明产品正常。**V01 五表单补齐**：物品/技能/敌队(槽位 combobox 空槽→灯笼)/战场/模拟器
+  各自 fill+Enter(页面内合成 KeyboardEvent，绕过 IAB 键投递缺失)提交、撤销按钮（撤销：修改物品/修改技能/
+  修改敌队/修改战场/编辑战斗模拟器配置）点击回退，全部实测通过，截图存 /tmp/type-pal-glm-lab-r2/。
+- **V02/V03/V04 维持未完成登记**（未转环境阻断、未称完成）：V02 需场景工作区脚本面板分隔条
+  （本席会话中持久化导航/离开守卫阻断场景页切换，已记录探查过程）；V03 需自建内存 HTTP 宿主；
+  V04 需 version-4 自有工程 + 正式编码器正控（e2e-own 地图 v2 不改旧生成工程）。
+- 机械门：候选 **42/42**、tsc exit0、verify PASS（**57 条** 54/1/1/1 双向映射）、六针负控 detected、
+  目录 Biome exit0、check:docs PASS；packages/scripts 零 diff。**不合 main、不标 done；Kimi 豁免。**
+
 ### 下一位 Codex 接收提示词
+
+```text
+接收 ARCH-REGRESSION-LAB-GLM-1 r11 批次，分支 codex/glm-architecture-regression-lab-r2
+（worktree /Users/zhangxu/illegal/type-pal-glm-lab-r2），任务 build。先读 r10 审查、codex-r10-evidence.json
+与任务卡 r11 交付块。复跑：candidates.vitest.mts 新鲜 JSON（42/42，含 G06-11）、verify.mjs <JSON>
+（57 条 54/1/1/1，PASS）、red-control.mjs（六针，新增 g08-drop-sprite 应见 expected [] to deeply equal
+[setActorSprite]）、tsc（exit0）、目录 Biome、check:docs；diagnostics.vitest.mjs 应见 G06-D1 第二断言失败
+（产品缺陷在修）。裁决重点：G06 去重矩阵与 G06-D1 诊断口径、G08-07 输出身份断言与丢输出反控、
+V01 五表单实测与 blocked-automation 归因撤销、V02/V03/V04 未完成登记与前置条件。
+G01 已 accept 不重开。GLM 不自审终审，不合 main、不标 done；Kimi 豁免，无 Kimi 提示词。
+```
+
 
 ```text
 接收 ARCH-REGRESSION-LAB-GLM-1 r10 剩余项批次，分支 codex/glm-architecture-regression-lab-r2

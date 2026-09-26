@@ -142,14 +142,16 @@ GLM贡献须在最终实施审查披露；本卡不授予自验充独立终审�
 - 实际文件：[receipt.md](receipt.md)、configs/{candidates,diagnostics}.vitest.mts、configs/tsconfig.json、
   fixtures/{editor,migrate}/**、candidates/{editor,content,game,migrate}/*.test.*（含 lab-startup 启动小样）、
   diagnostics/lab-startup-red.test.tsx、tools/{red-control,verify}.mjs、results.json。
-- 账本 **51 条** = candidate-green 48 / existing-proof 1 / blocked-environment 2；执行 JSON 41/41 全绿，
-  candidate-green fullName 与执行 JSON 一对一双射（verify.mjs v2 硬判据）。
-- r10 批次新增：G06-08/09/10（去重矩阵补口）、G08-07（转换中段真异常）、G01-07（平移取消浏览器实证 +
-  tools/g01-pan-cancel-needle.mjs 反控宿主实测漂移）、V01-04（角色草稿提交自动化阻断登记）。
+- 账本 **57 条** = candidate-green 54 / existing-proof 1 / blocked-environment 1 / reproduced-defect 1；
+  执行 JSON 42/42 全绿，candidate-green fullName 与执行 JSON 一对一双射（verify.mjs v2 硬判据）。
+- r11 批次新增：G06-11（author 七递归入口 options 透传逐点证明）、G06-D1（startBattle.choreography
+  漏传 options 的 cue identity 漏检 reproduced-defect 显式失败诊断，交 Codex 产品修复）、
+  G08-07 强化（实际 setActorSprite 输出/资源身份/新鲜对照 + g08-drop-sprite 丢输出反控针红）、
+  V01-05..09（物品/技能/敌队/战场/模拟器 五表单提交+撤销浏览器实测）；撤销 V01-04 blocked-automation 归因。
 - 负控 runner v2 五针（startup / g05 卸载清理 / g03 committed 终态 / g05 即时 wait / g08 忽略图根）全部 detected，
   每针恰 exit1、AssertionError、witness 命中、产品 hash 不变。
 - 类型门真实通过：`pnpm exec tsc --project …/configs/tsconfig.json --noEmit` exit0（TS5101 已消除）。
 - 截图 6 张在 /tmp/type-pal-glm-regression-lab/（不入 Git），用途登记于 results.json artifacts；
   V01-V04 未执行矩阵在 receipt.md 未证项如实登记。
-- 12 组全部交付；V01（除角色 blocked-automation 外五类）/V02/V03/V04 矩阵与 G08 options 部分维度
-  在 receipt.md 如实登记未证/pending，不把绿数当完整合同。
+- 12 组全部交付；V02/V03/V04 操作矩阵与 G08 options 部分维度在 receipt.md 如实登记未证/pending，
+  不把绿数当完整合同。G06-D1 缺陷诊断保持失败等待 Codex 产品修复。

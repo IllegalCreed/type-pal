@@ -12,7 +12,7 @@
  */
 
 import type { EnemyDef } from '@type-pal/content'
-import { validateEnemies } from '@type-pal/content'
+import { checkAuthorCommands, validateEnemies } from '@type-pal/content'
 import { describe, expect, test } from 'vitest'
 
 /** 合法最小 EnemyDef（stats/ai/sounds 全真实类型域，无强转）。 */
@@ -288,5 +288,83 @@ describe('G06 跨校验器递归', () => {
     expect(() => validateEnemies([mkEnemy('hooks', false)], options)).not.toThrow()
     expect(() => validateEnemies([mkEnemy('onDefeated', false)], options)).not.toThrow()
     expect(() => validateEnemies([mkEnemy('choreography', false)], options)).not.toThrow()
+  })
+
+  test('G06-11 去重矩阵：author 七个递归入口逐点验证校验选项沿嵌套深度透传（非空臂 + 非法 identity 门）', () => {
+    // 七入口 = author-script-core.ts branch.then:661 / branch.else:663 / loop.body:669 /
+    // startBattle.onLose:708 / startBattle.onFlee:710 / teleportOut.onFail:722 / confirm.onNo:726。
+    // 每入口：嵌套 dialog cue 带**非法 identity**（kind:'madeUp'）→ 若校验选项真实到达该深度，
+    // checkAuthorDialogueCue 必在此深度拒绝（path 精确到叶）；换合法 narration identity → 通过。
+    // 该门证明的是「options 透传」而非 cue 内容本身。
+    const badCue = { identity: { kind: 'madeUp' }, rows: [{ text: '台词' }] }
+    const okCue = { identity: { kind: 'narration' }, rows: [{ text: '台词' }] }
+    const dialog = (cue: unknown) => [{ kind: 'dialog', cue }]
+    const cases: Array<{ name: string; anchor: string; build: (cue: unknown) => unknown[] }> = [
+      {
+        name: 'branch.then',
+        anchor: 'author-script-core.ts:661',
+        build: (cue) => [
+          { kind: 'branch', cond: { kind: 'chance', percent: 50 }, then: dialog(cue) },
+        ],
+      },
+      {
+        name: 'branch.else',
+        anchor: 'author-script-core.ts:663',
+        build: (cue) => [
+          { kind: 'branch', cond: { kind: 'chance', percent: 50 }, then: [], else: dialog(cue) },
+        ],
+      },
+      {
+        name: 'loop.body',
+        anchor: 'author-script-core.ts:669',
+        build: (cue) => [
+          {
+            kind: 'loop',
+            mode: 'while',
+            cond: { kind: 'chance', percent: 50 },
+            body: dialog(cue),
+            yield: 'worldTick',
+            maxIterations: 3,
+          },
+        ],
+      },
+      {
+        name: 'startBattle.onLose',
+        anchor: 'author-script-core.ts:708',
+        build: (cue) => [{ kind: 'startBattle', enemyTeamId: 'team-1', onLose: dialog(cue) }],
+      },
+      {
+        name: 'startBattle.onFlee',
+        anchor: 'author-script-core.ts:710',
+        build: (cue) => [{ kind: 'startBattle', enemyTeamId: 'team-1', onFlee: dialog(cue) }],
+      },
+      {
+        name: 'teleportOut.onFail',
+        anchor: 'author-script-core.ts:722',
+        build: (cue) => [{ kind: 'teleportOut', onFail: dialog(cue) }],
+      },
+      {
+        name: 'confirm.onNo',
+        anchor: 'author-script-core.ts:726',
+        build: (cue) => [{ kind: 'confirm', id: 'lab', onNo: dialog(cue) }],
+      },
+    ]
+    for (const { name, anchor, build } of cases) {
+      const bad = build(badCue)
+      const ok = build(okCue)
+      let message = ''
+      try {
+        checkAuthorCommands(bad, 'probe')
+      } catch (error) {
+        message = error instanceof Error ? error.message : String(error)
+      }
+      expect(message, `${name}(${anchor}) 应在嵌套深度拒绝非法 identity`).toContain(
+        'cue.identity.kind',
+      )
+      expect(
+        () => checkAuthorCommands(ok as never, 'probe'),
+        `${name}(${anchor}) 合法 identity 应通过`,
+      ).not.toThrow()
+    }
   })
 })

@@ -2,10 +2,10 @@
   "schemaVersion": 1,
   "task": "ARCH-REGRESSION-LAB-GLM-1 twelve packs (GLM contribution; Codex owner/reviewer)",
   "date": "2026-09-25",
-  "startSha": "a3ceaf05199fe334bdf5dea8d2b362e34de8679b",
+  "startSha": "f5f166aa",
   "productionFreeze": "86e928b5",
-  "branch": "codex/glm-architecture-regression-lab-r1",
-  "worktree": "/Users/zhangxu/illegal/type-pal-glm-regression-lab",
+  "branch": "codex/glm-architecture-regression-lab-r2",
+  "worktree": "/Users/zhangxu/illegal/type-pal-glm-lab-r2",
   "freezeCheck": "git diff 86e928b5..a3ceaf05 -- packages/ scripts/ 为空",
   "environment": {
     "node": "v22.19.0",
@@ -935,9 +935,9 @@
       "pack": "G08",
       "status": "candidate-green",
       "evidenceKind": ["executed", "test-body"],
-      "contract": "转换中段真异常：raw 0x65 → translate-events.ts:1624 spriteIdForNum → resolveSpriteIdForNum 转换中段抛「sprite 42 缺布局证据」（migrate-content.ts:2531）",
-      "expected": "预检通过后于翻译中段抛出；补场景布局证据后同一脚本成功（模块态无残留）",
-      "actual": "toThrow 含缺布局证据；修正后 scenes=1 entities>0",
+      "contract": "转换中段真异常 + 输出身份断言：0x65 → translate-events.ts:1624 spriteIdForNum → resolveSpriteIdForNum 中段抛缺布局证据；修复后断言 chunk 内 setActorSprite {actor:li-xiaoyao, sprite:sprite-42} 精确命令体 + SpriteDef {id,asset:sprite.pal.042} + 实体引用一致 + 与独立新鲜正确运行全量 deep-equal；反控 g08-drop-sprite（push 置空）业务红",
+      "expected": "修复后 chunk 精确命令体非空且身份一致；失败运行与新鲜正确运行输出完全一致；丢输出反控下本例业务红",
+      "actual": "全部实测通过；g08-drop-sprite 针 detected（expected [] to deeply equal [setActorSprite]）",
       "positiveControl": "G08-01",
       "mutation": "pending",
       "cleanup": "—",
@@ -945,7 +945,7 @@
       "attribution": "GLM",
       "test": {
         "file": "candidates/migrate/g08-conversion-isolation.test.ts",
-        "fullName": "G08 迁移转换边界 G08-07 转换中段真异常：脚本引用无布局证据的精灵号在翻译中段抛出，修正证据后同脚本成功"
+        "fullName": "G08 迁移转换边界 G08-07 转换中段真异常：缺布局证据中段抛出；修复后断言实际 setActorSprite 输出与资源身份，并与新鲜正确运行全量对照"
       }
     },
     {
@@ -972,30 +972,139 @@
       }
     },
     {
-      "id": "V01-04",
-      "pack": "V01",
-      "status": "blocked-environment",
-      "evidenceKind": ["browser"],
-      "contract": "DsDraftTextInput 提交合同（controls.tsx:542 blur/Enter commit once，Escape cancels；onCommit → session.dispatch UpdateLocaleCommand，ActorMode.tsx:606-613）",
-      "expected": "自动化键入草稿后 Enter/blur 触发会话提交（撤销键转可用、h1 随更新、⌘Z 恢复 李逍遥）",
-      "actual": "实测：locator.fill + Enter 与 blur 均停留草稿态（DOM value=李逍遥探，撤销键保持 disabled）——自动化路径下的提交根因未定位（产品源码合同存在且正式测试覆盖该控件），登记 blocked-automation，不断言产品缺陷；其余五类表单矩阵本轮未执行",
-      "positiveControl": "—",
-      "mutation": "—",
-      "cleanup": "草稿未提交即丢弃（dev 快照内存工程，无写盘）",
+      "id": "G06-11",
+      "pack": "G06",
+      "status": "candidate-green",
+      "evidenceKind": ["executed", "test-body"],
+      "contract": "author 七递归入口逐点 options 透传证明：branch.then:661 / branch.else:663 / loop.body:669 / startBattle.onLose:708 / onFlee:710 / teleportOut.onFail:722 / confirm.onNo:726，每入口嵌套 dialog cue 带非法 identity（madeUp）→ checkAuthorDialogueCue 在嵌套深度拒绝（path 精确）；合法 narration → 通过",
+      "expected": "七入口逐一：非法 identity 嵌套深度拒绝（cue.identity.kind 路径）；合法通过",
+      "actual": "7/7 入口全部按预期",
+      "positiveControl": "同测试内合法 identity 正控",
+      "mutation": "pending",
+      "cleanup": "—",
       "artifacts": [],
       "attribution": "GLM",
+      "test": {
+        "file": "candidates/content/g06-validation-crosscalls.test.ts",
+        "fullName": "G06 跨校验器递归 G06-11 去重矩阵：author 七个递归入口逐点验证校验选项沿嵌套深度透传（非空臂 + 非法 identity 门）"
+      }
+    },
+    {
+      "id": "V01-05",
+      "pack": "V01",
+      "status": "candidate-green",
+      "evidenceKind": ["browser"],
+      "contract": "物品：名称 fill+Enter 提交（列表/撤销：修改物品 实测）+ 撤销回退 观音符（DsDraftTextInput/DsSelect 提交→会话历史→撤销按钮转可用并回退）",
+      "expected": "提交后撤销按钮转可用且标签带操作名；撤销后业务值回退",
+      "actual": "全部实测通过",
+      "positiveControl": "同输入未编辑态",
+      "mutation": "—",
+      "cleanup": "撤销即回退（dev 内存快照，无写盘）",
+      "artifacts": [],
+      "attribution": "GLM（IAB 浏览器实测；1440×900 CSS、DPR 1；键盘 Enter 经页面内合成 KeyboardEvent——IAB press() 键投递缺失为本环境限制已探明并绕过）",
       "test": {
         "file": "(浏览器操作链)",
         "fullName": ""
       }
+    },
+    {
+      "id": "V01-06",
+      "pack": "V01",
+      "status": "candidate-green",
+      "evidenceKind": ["browser"],
+      "contract": "技能：名字 fill+Enter 提交（撤销：修改技能）+ 撤销回退 梦蛇（DsDraftTextInput/DsSelect 提交→会话历史→撤销按钮转可用并回退）",
+      "expected": "提交后撤销按钮转可用且标签带操作名；撤销后业务值回退",
+      "actual": "全部实测通过",
+      "positiveControl": "同输入未编辑态",
+      "mutation": "—",
+      "cleanup": "撤销即回退（dev 内存快照，无写盘）",
+      "artifacts": [],
+      "attribution": "GLM（IAB 浏览器实测；1440×900 CSS、DPR 1；键盘 Enter 经页面内合成 KeyboardEvent——IAB press() 键投递缺失为本环境限制已探明并绕过）",
+      "test": {
+        "file": "(浏览器操作链)",
+        "fullName": ""
+      }
+    },
+    {
+      "id": "V01-07",
+      "pack": "V01",
+      "status": "candidate-green",
+      "evidenceKind": ["browser"],
+      "contract": "敌队：槽3 空槽→灯笼 combobox 提交（撤销：修改敌队）+ 撤销回退 空槽（DsDraftTextInput/DsSelect 提交→会话历史→撤销按钮转可用并回退）",
+      "expected": "提交后撤销按钮转可用且标签带操作名；撤销后业务值回退",
+      "actual": "全部实测通过",
+      "positiveControl": "同输入未编辑态",
+      "mutation": "—",
+      "cleanup": "撤销即回退（dev 内存快照，无写盘）",
+      "artifacts": [],
+      "attribution": "GLM（IAB 浏览器实测；1440×900 CSS、DPR 1；键盘 Enter 经页面内合成 KeyboardEvent——IAB press() 键投递缺失为本环境限制已探明并绕过）",
+      "test": {
+        "file": "(浏览器操作链)",
+        "fullName": ""
+      }
+    },
+    {
+      "id": "V01-08",
+      "pack": "V01",
+      "status": "candidate-green",
+      "evidenceKind": ["browser"],
+      "contract": "战场：名称 fill+Enter 提交（撤销：修改战场）+ 撤销回退 空名（DsDraftTextInput/DsSelect 提交→会话历史→撤销按钮转可用并回退）",
+      "expected": "提交后撤销按钮转可用且标签带操作名；撤销后业务值回退",
+      "actual": "全部实测通过",
+      "positiveControl": "同输入未编辑态",
+      "mutation": "—",
+      "cleanup": "撤销即回退（dev 内存快照，无写盘）",
+      "artifacts": [],
+      "attribution": "GLM（IAB 浏览器实测；1440×900 CSS、DPR 1；键盘 Enter 经页面内合成 KeyboardEvent——IAB press() 键投递缺失为本环境限制已探明并绕过）",
+      "test": {
+        "file": "(浏览器操作链)",
+        "fullName": ""
+      }
+    },
+    {
+      "id": "V01-09",
+      "pack": "V01",
+      "status": "candidate-green",
+      "evidenceKind": ["browser"],
+      "contract": "模拟器：试打方案名 fill+Enter 提交（撤销：编辑战斗模拟器配置）+ 撤销回退 三人成型（DsDraftTextInput/DsSelect 提交→会话历史→撤销按钮转可用并回退）",
+      "expected": "提交后撤销按钮转可用且标签带操作名；撤销后业务值回退",
+      "actual": "全部实测通过",
+      "positiveControl": "同输入未编辑态",
+      "mutation": "—",
+      "cleanup": "撤销即回退（dev 内存快照，无写盘）",
+      "artifacts": [],
+      "attribution": "GLM（IAB 浏览器实测；1440×900 CSS、DPR 1；键盘 Enter 经页面内合成 KeyboardEvent——IAB press() 键投递缺失为本环境限制已探明并绕过）",
+      "test": {
+        "file": "(浏览器操作链)",
+        "fullName": ""
+      }
+    },
+    {
+      "id": "G06-D1",
+      "pack": "G06",
+      "status": "reproduced-defect",
+      "evidenceKind": ["executed", "test-body"],
+      "contract": "R10-1 产品缺陷（Codex 发现，GLM 显式诊断复现）：author-script-core.ts:712 checkBattleChoreography 漏传 options → author-script.ts:111 checkAuthorDialogueCue 不到达 → startBattle.choreography 内 dialog cue 缺 identity 被漏检（直接路径同 cue 被拒）",
+      "expected": "choreography 内 dialog cue 缺 identity 应与直接路径同样拒绝（diagnostics/lab-choreography-cue-identity-leak.test.ts 第二断言）",
+      "actual": "当前产品未拒绝 → 诊断按应有行为书写并保持失败（1 failed/2 passed），交 Codex 产品修复；合法 identity 两路均通过（修复不收紧合法域）",
+      "positiveControl": "直接路径拒绝 + 合法 identity 两路通过",
+      "mutation": "—（真实产品缺陷，非注入）",
+      "cleanup": "—",
+      "artifacts": [],
+      "attribution": "GLM 诊断复现；缺陷为 Codex r10 审查发现",
+      "test": {
+        "file": "diagnostics/lab-choreography-cue-identity-leak.test.ts",
+        "fullName": "[reproduced-defect] 同一 cue 经 startBattle.choreography 应同样被拒（当前产品漏检 → 本断言失败）"
+      }
     }
   ],
   "groupTotals": {
-    "total": 51,
+    "total": 57,
     "byStatus": {
-      "candidate-green": 48,
+      "candidate-green": 54,
       "existing-proof": 1,
-      "blocked-environment": 2
+      "blocked-environment": 1,
+      "reproduced-defect": 1
     },
     "perPack": {
       "startup": 1,
@@ -1004,10 +1113,10 @@
       "G03": 3,
       "G04": 4,
       "G05": 4,
-      "G06": 10,
+      "G06": 12,
       "G07": 4,
       "G08": 6,
-      "V01": 4,
+      "V01": 8,
       "V02": 2,
       "V03": 1,
       "V04": 2
