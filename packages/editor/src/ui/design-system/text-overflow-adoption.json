@@ -415,8 +415,8 @@
         0
       ],
       "producer": {
-        "source": "design-system/native-inputs.tsx",
-        "component": "DsFilePicker",
+        "source": "design-system/help-tips.tsx",
+        "component": "DsHelpTip",
         "callsite": "class:ds-visually-hidden"
       },
       "policy": "structural-nowrap",
