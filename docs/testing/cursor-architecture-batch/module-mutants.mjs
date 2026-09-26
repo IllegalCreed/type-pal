@@ -74,6 +74,14 @@ const cases = {
     to: '处引用，不可删除',
     title: 'keeps ambience constructors on the old commands barrel and blocks in-use delete',
   },
+  c08: {
+    id: 'c08-shop-id-overflow',
+    sourceFile: 'src/core/shop-commands.ts',
+    testFile: 'src/core/shop-lifecycle.test.ts',
+    from: '商店编号已超出安全整数范围',
+    to: '商店编号已超出整数范围',
+    title: 'keeps shop constructors on the old commands barrel and guards nextShopId overflow',
+  },
 }
 
 const selected = process.argv[2] ? [process.argv[2]] : Object.keys(cases)

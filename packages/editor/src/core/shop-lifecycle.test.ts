@@ -1,5 +1,6 @@
 import type { AuthorCommand, AuthorSceneDef, ShopDef } from '@type-pal/content'
 import { describe, expect, test, vi } from 'vitest'
+import * as oldEntry from './commands.js'
 import {
   AddShopCommand,
   DeleteShopCommand,
@@ -9,6 +10,13 @@ import {
 } from './commands.js'
 import { type EditorState, EditSession } from './edit-session.js'
 import { collectCurrentProjectReferenceIndex } from './project-reference-adapters.js'
+import {
+  AddShopCommand as AddShopMoved,
+  DeleteShopCommand as DeleteShopMoved,
+  DuplicateShopCommand as DuplicateShopMoved,
+  nextShopId as nextShopIdMoved,
+  UpdateShopCommand as UpdateShopMoved,
+} from './shop-commands.js'
 
 function state(shops: ShopDef[] = []): EditorState {
   return {
@@ -70,6 +78,20 @@ function canonical(body: AuthorCommand[]) {
   }
   return { scenes: [scene], items: [], sharedScripts: {} }
 }
+
+describe('C08 shop command family', () => {
+  test('keeps shop constructors on the old commands barrel and guards nextShopId overflow', () => {
+    expect(oldEntry.nextShopId).toBe(nextShopIdMoved)
+    expect(oldEntry.AddShopCommand).toBe(AddShopMoved)
+    expect(oldEntry.UpdateShopCommand).toBe(UpdateShopMoved)
+    expect(oldEntry.DuplicateShopCommand).toBe(DuplicateShopMoved)
+    expect(oldEntry.DeleteShopCommand).toBe(DeleteShopMoved)
+    expect(nextShopId([])).toBe(0)
+    expect(() => nextShopId([{ id: Number.MAX_SAFE_INTEGER, items: [] }])).toThrow(
+      /商店编号已超出安全整数范围/,
+    )
+  })
+})
 
 describe('shop lifecycle commands', () => {
   test('first shop0 registers persistence path, add undo/redo and invalid identities', () => {

@@ -1,0 +1,13 @@
+{
+  "id": "c08-shop-id-overflow",
+  "file": "packages/editor/src/core/shop-commands.ts",
+  "sha256": "62ce3fdc60959ed9bb9cbef27f161d06934dc8b8f3c83f7a0ef1cafd3b41354f",
+  "hashUnchanged": true,
+  "greenExit": 0,
+  "greenPassed": 1,
+  "redExit": 1,
+  "failedTitle": "keeps shop constructors on the old commands barrel and guards nextShopId overflow",
+  "failedFullName": "C08 shop command family keeps shop constructors on the old commands barrel and guards nextShopId overflow",
+  "assertion": "AssertionError: expected [Function] to throw error matching /商店编号已超出安全整数范围/ but got '商店编号已超出整数范围'",
+  "ok": true
+}
