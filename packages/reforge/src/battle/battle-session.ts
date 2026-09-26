@@ -71,7 +71,11 @@ import {
   type OverlayDraw,
 } from './battle-anim.js'
 import {
-  type BattleAction,
+  BattleCommandSelection,
+  type BattleCommandSelectionContext,
+  type BattleCommandSelectionPhase,
+} from './battle-command-selection.js'
+import {
   type BattleState,
   buildAiView,
   type CreatePlayerInput,
@@ -147,16 +151,7 @@ interface FloatNum {
   bornAt: number
 }
 
-type UiPhase =
-  | 'menu'
-  | 'misc'
-  | 'miscSub'
-  | 'skill'
-  | 'item'
-  | 'throwItem'
-  | 'target'
-  | 'acting'
-  | 'over'
+type SessionUiPhase = 'acting' | 'over'
 
 export type {
   BattleReadinessErrorContext,
@@ -212,35 +207,9 @@ export class BattleSession {
   private closed = false
   private readonly readiness: BattleTurnReadinessGate
   private readonly settlementPresentation: BattleSettlementPresentation
+  private readonly selection = new BattleCommandSelection()
   private readonly state: BattleState
-  private ui: UiPhase = 'menu'
-  /** 主菜单 4 图标选中(0攻击 1法术 2合击 3杂项;一阶段 selectedAction)。 */
-  private menuIdx = 0
-  private miscIdx = 0
-  private miscSubIdx = 0
-  private skillIdx = 0
-  private itemIdx = 0
-  /** 仙术选目标中(target 态确认时:有值 → cast,无值 → attack)。 */
-  private pendingSkillId: string | null = null
-  private pendingThrowItem: string | null = null
-  /** 合击选目标中(单体合体技进 target 态时置;确认后 = coop 动作 + 消耗其余队员)。 */
-  private pendingCoop = false
-  private targetIdx = 0
-  /** 选目标阵营:enemy=选敌(默认);ally=选队友(oneAlly 技能/物品 —— 还魂/解状态点名尸体/队友)。 */
-  private targetSide: 'enemy' | 'ally' = 'enemy'
-  /** 物品选队友中(oneAlly 物品进 target 态;确认后 = item 动作带 targetAllyIdx)。 */
-  private pendingItemId: string | null = null
-  // ── 战斗快捷键状态(一阶段 uibattle.c:1166-1302 全套;S 状态屏 reforge 无状态面板暂缺)──
-  /** A 自动战斗:持续每回合自动普攻,菜单态 Esc 取消。 */
-  private fAuto = false
-  /** F 强行(本轮粘滞):剩余队员自动普攻。 */
-  private stickyForce = false
-  /** R 重复(本轮粘滞):剩余队员自动重提上回合动作(耗尽/MP 不足退化普攻)。 */
-  private stickyRepeat = false
-  /** 各队员上回合动作(R 重复的数据源;手动提交时记录)。 */
-  private readonly lastActs = new Map<number, BattleAction>()
-  /** 本回合手动提交顺序(菜单态 Esc 回退上一队员重选,uibattle.c:1298 revert)。 */
-  private submitOrder: number[] = []
+  private sessionUi: SessionUiPhase | null = null
   /** 正在选指令的队员下标(pendingActions 未填的第一个活队员)。 */
   private actTimer = 0
   private floats: FloatNum[] = []
@@ -549,7 +518,7 @@ export class BattleSession {
   private enterActionPhase(): void {
     if (this.closed || this.doneSettled || this.state.phase !== 'selectAction') return
     stepBattle(this.state, this.rng)
-    this.ui = 'acting'
+    this.sessionUi = 'acting'
     this.actTimer = 0
   }
 
@@ -621,20 +590,28 @@ export class BattleSession {
       })
   }
 
-  /** 主菜单 4 项可用性(0攻击/3杂项恒可;1法术=有技能且未封;2合击=有合体技+本人healthy+≥2人healthy)。 */
-  private mainActionValid(sel: number): [boolean, boolean, boolean, boolean] {
-    const p = this.state.players[sel]
-    const magicOk = !!p && p.skills.length > 0 && (p.status?.silence ?? 0) === 0
-    // 合击(fight.c uibattle.c:271-341):有合体技 + 发起者 healthy + 全队 ≥2 healthy
-    const coopOk =
-      !!p && !!p.cooperativeMagicSkillId && isPlayerHealthy(p) && healthyPlayerCount(this.state) > 1
-    return [true, magicOk, coopOk, true]
-  }
-
-  /** 提交指令后回主菜单(一阶段 commit 后 selectedAction 重置)。 */
-  private backToMain(): void {
-    this.ui = 'menu'
-    this.menuIdx = 0
+  private selectionContext(sel: number): BattleCommandSelectionContext {
+    const player = expectDefined(this.state.players[sel])
+    return {
+      playerIndex: sel,
+      player: {
+        skills: player.skills,
+        mp: player.mp,
+        silenced: player.status.silence > 0,
+        ...(player.cooperativeMagicSkillId
+          ? { cooperativeMagicSkillId: player.cooperativeMagicSkillId }
+          : {}),
+        healthy: isPlayerHealthy(player),
+      },
+      playerCount: this.state.players.length,
+      healthyPlayerCount: healthyPlayerCount(this.state),
+      aliveEnemyIndices: this.aliveEnemyIdxs(),
+      usableItems: this.usableItems(),
+      throwableItems: this.throwableItems(),
+      skills: this.opts.skills ?? {},
+      items: this.state.items,
+      money: this.moneyNow(),
+    }
   }
 
   /**
@@ -1149,7 +1126,7 @@ export class BattleSession {
         if (pressed.has(' ') || pressed.has('Enter')) terminalDialog.advance(this.nowMs)
         return
       }
-      this.ui = 'over'
+      this.sessionUi = 'over'
       // 死亡溶解 hold:最后一敌的溶解播完 + 短拍(240ms)才起胜利乐/结算屏 —— 原版
       // PostActionCheck 的 FadeScene 是阻塞式(fight.c:889-894),溶解期间什么都不发生
       // (作者报「结算画面这么快?」= 此 hold 缺失)。render 清过期项,空表 = 直接过。
@@ -1183,277 +1160,21 @@ export class BattleSession {
         )
         return
       }
-      if (this.ui === 'acting') {
-        this.ui = 'menu' // 新回合回菜单
-        this.stickyForce = false // F/R 粘滞只管本轮(uibattle.c 轮末清)
-        this.stickyRepeat = false
-        this.submitOrder = []
+      if (this.sessionUi === 'acting') {
+        this.selection.beginRound()
+        this.sessionUi = null
       }
-      // 粘滞/自动断路:F(本轮)/R(本轮)/A(持续)→ 剩余队员不出菜单自动提交;Esc 取消
-      if (this.fAuto || this.stickyForce || this.stickyRepeat) {
-        if (pressed.has('Escape')) {
-          this.fAuto = false
-          this.stickyForce = false
-          this.stickyRepeat = false
-        } else {
-          if (this.stickyRepeat) this.submitRepeat(sel)
-          else this.submitForce(sel)
-          return
-        }
-      }
-      const confirm = pressed.has(' ') || pressed.has('Enter')
-      if (this.ui === 'menu') {
-        // 战斗快捷键(一阶段 uibattle.c:1166-1302;WASD 原义还原同一阶段 input.ts)
-        const key = (a: string, b: string): boolean => pressed.has(a) || pressed.has(b)
-        if (key('d', 'D')) {
-          this.submitAnd(sel, { kind: 'defend' })
-          return
-        }
-        if (key('q', 'Q')) {
-          this.submitAnd(sel, { kind: 'flee' })
-          return
-        }
-        if (key('e', 'E')) {
-          // 用物品:直开使用列表(uibattle.c:1224)
-          if (this.usableItems().length) {
-            this.ui = 'item'
-            this.itemIdx = 0
-          }
-          return
-        }
-        if (key('w', 'W')) {
-          // 投掷:直开投掷列表(uibattle.c:1230)
-          if (this.throwableItems().length) {
-            this.ui = 'throwItem'
-            this.itemIdx = 0
-          }
-          return
-        }
-        if (key('r', 'R')) {
-          this.stickyRepeat = true // 整轮粘滞(uibattle.c:1240 fRepeat)
-          this.submitRepeat(sel)
-          return
-        }
-        if (key('f', 'F')) {
-          this.stickyForce = true // 整轮粘滞(uibattle.c:1252 fForce)
-          this.submitForce(sel)
-          return
-        }
-        if (key('a', 'A')) {
-          this.fAuto = true // 持续自动(uibattle.c:1266 fAutoAttack;Esc 取消)
-          this.submitForce(sel)
-          return
-        }
-        // Esc:回退上一个已提交队员重选(uibattle.c:1298;无可回退则无操作)
-        if (pressed.has('Escape') && this.submitOrder.length) {
-          const prev = expectDefined(this.submitOrder.pop())
-          s.pendingActions.delete(prev)
-          return
-        }
-        // 一阶段主菜单方向语义:Up→攻击 Down→杂项 Left→法术(valid) Right→合击(valid);invalid 回 0
-        const valid = this.mainActionValid(sel)
-        if (pressed.has('ArrowUp')) this.menuIdx = 0
-        else if (pressed.has('ArrowDown')) this.menuIdx = 3
-        else if (pressed.has('ArrowLeft') && valid[1]) this.menuIdx = 1
-        else if (pressed.has('ArrowRight') && valid[2]) this.menuIdx = 2
-        if (!valid[this.menuIdx]) this.menuIdx = 0
-        if (confirm) {
-          if (this.menuIdx === 0) {
-            this.ui = 'target'
-            this.targetSide = 'enemy'
-            this.pendingSkillId = null
-            this.targetIdx = 0
-          } else if (this.menuIdx === 1) {
-            this.ui = 'skill'
-            this.skillIdx = 0
-          } else if (this.menuIdx === 2) {
-            // 合击:全体合体技直接提交(无目标),单体合体技进选敌
-            const p2 = expectDefined(s.players[sel])
-            const coopSkill = p2.cooperativeMagicSkillId
-              ? this.opts.skills?.[p2.cooperativeMagicSkillId]
-              : undefined
-            if (coopSkill?.target === 'allEnemies') {
-              this.submit(sel, { kind: 'coop' })
-              this.consumeOthersForCoop(sel)
-              this.backToMain()
-            } else {
-              this.pendingCoop = true
-              this.ui = 'target'
-              this.targetSide = 'enemy'
-              this.targetIdx = 0
-            }
-          } else if (this.menuIdx === 3) {
-            this.ui = 'misc'
-            this.miscIdx = 0
-          }
-        }
-      } else if (this.ui === 'misc') {
-        // 杂项盒(一阶段):围攻/道具/防御/逃跑/状态,上下循环;围攻与状态未实现(灰)
-        const n = MISC_LABELS.length
-        if (pressed.has('ArrowUp')) this.miscIdx = (this.miscIdx + n - 1) % n
-        if (pressed.has('ArrowDown')) this.miscIdx = (this.miscIdx + 1) % n
-        if (pressed.has('Escape')) this.ui = 'menu'
-        if (confirm) {
-          if (this.miscIdx === 1) {
-            if (this.usableItems().length) this.ui = 'miscSub'
-            this.miscSubIdx = 0
-          } else if (this.miscIdx === 2) {
-            this.submitAnd(sel, { kind: 'defend' })
-          } else if (this.miscIdx === 3) {
-            this.submitAnd(sel, { kind: 'flee' })
-          } // 0 围攻 / 4 状态:未实现,无响应(灰显)
-        }
-      } else if (this.ui === 'miscSub') {
-        // 物品二级:使用/投掷;Up|Left→使用 Down|Right→投掷
-        if (pressed.has('ArrowUp') || pressed.has('ArrowLeft')) this.miscSubIdx = 0
-        if (pressed.has('ArrowDown') || pressed.has('ArrowRight')) this.miscSubIdx = 1
-        if (pressed.has('Escape')) this.ui = 'misc'
-        if (confirm && this.miscSubIdx === 0) {
-          this.ui = 'item'
-          this.itemIdx = 0
-        }
-        if (confirm && this.miscSubIdx === 1 && this.throwableItems().length) {
-          this.ui = 'throwItem'
-          this.itemIdx = 0
-        }
-      } else if (this.ui === 'skill') {
-        const p = expectDefined(s.players[sel])
-        const list = p.skills
-        // 3 列网格导航:左右 ±1,上下 ±3(clamp)
-        if (pressed.has('ArrowLeft')) this.skillIdx = Math.max(0, this.skillIdx - 1)
-        if (pressed.has('ArrowRight')) this.skillIdx = Math.min(list.length - 1, this.skillIdx + 1)
-        if (pressed.has('ArrowUp')) this.skillIdx = Math.max(0, this.skillIdx - 3)
-        if (pressed.has('ArrowDown')) this.skillIdx = Math.min(list.length - 1, this.skillIdx + 3)
-        if (pressed.has('Escape')) this.ui = 'menu'
-        if (confirm) {
-          const skillId = expectDefined(list[this.skillIdx % list.length])
-          const skill = this.opts.skills?.[skillId]
-          if (skill && p.mp >= (skill.cost.mp ?? 0) && this.moneyNow() >= (skill.cost.money ?? 0)) {
-            if (skill.target === 'oneEnemy') {
-              this.pendingSkillId = skillId
-              this.ui = 'target'
-              this.targetSide = 'enemy'
-              this.targetIdx = 0
-            } else if (skill.target === 'oneAlly' && s.players.length > 1) {
-              // 对队友单体(还魂咒/冰心诀):进己方选人(单人队直落自己,不弹选人)
-              this.pendingSkillId = skillId
-              this.ui = 'target'
-              this.targetSide = 'ally'
-              this.targetIdx = sel
-            } else {
-              this.submitAnd(sel, { kind: 'cast', skillId })
-            }
-          } // MP 不足/缺数据:留在网格(灰显)
-        }
-      } else if (this.ui === 'item') {
-        const list = this.usableItems()
-        if (pressed.has('ArrowLeft')) this.itemIdx = Math.max(0, this.itemIdx - 1)
-        if (pressed.has('ArrowRight')) this.itemIdx = Math.min(list.length - 1, this.itemIdx + 1)
-        if (pressed.has('ArrowUp')) this.itemIdx = Math.max(0, this.itemIdx - 3)
-        if (pressed.has('ArrowDown')) this.itemIdx = Math.min(list.length - 1, this.itemIdx + 3)
-        if (pressed.has('Escape')) this.ui = 'miscSub'
-        if (confirm && list.length) {
-          const it = expectDefined(list[this.itemIdx % list.length])
-          if (this.state.items[it.itemId]?.use?.target === 'oneAlly' && s.players.length > 1) {
-            // oneAlly 物品(还魂香/灵心符):选队友(可选尸体 —— 复活正需要);单人队直落自己
-            this.pendingItemId = it.itemId
-            this.ui = 'target'
-            this.targetSide = 'ally'
-            this.targetIdx = sel
-          } else {
-            this.submitAnd(sel, { kind: 'item', itemId: it.itemId })
-          }
-        }
-      } else if (this.ui === 'throwItem') {
-        const list = this.throwableItems()
-        if (pressed.has('ArrowLeft')) this.itemIdx = Math.max(0, this.itemIdx - 1)
-        if (pressed.has('ArrowRight')) this.itemIdx = Math.min(list.length - 1, this.itemIdx + 1)
-        if (pressed.has('ArrowUp')) this.itemIdx = Math.max(0, this.itemIdx - 3)
-        if (pressed.has('ArrowDown')) this.itemIdx = Math.min(list.length - 1, this.itemIdx + 3)
-        if (pressed.has('Escape')) this.ui = 'miscSub'
-        if (confirm && list.length) {
-          const itemId = expectDefined(list[this.itemIdx % list.length]).itemId
-          const thrown = expectDefined(this.state.items[itemId]?.throw)
-          if (thrown.target === 'allEnemies') {
-            this.submit(sel, { kind: 'throw', itemId })
-            this.pendingThrowItem = null
-            this.backToMain()
-          } else {
-            // 单体投掷才进入敌方目标选择。
-            this.pendingThrowItem = itemId
-            this.ui = 'target'
-            this.targetSide = 'enemy'
-            this.targetIdx = 0
-          }
-        }
-      } else if (this.ui === 'target' && this.targetSide === 'ally') {
-        // 己方选人(oneAlly 技能/物品):全队成员循环,**含死者**(还魂要点名尸体);
-        // 高亮闪目标,Esc 回来源列表,确认提交带 targetAllyIdx
-        const n = s.players.length
-        if (pressed.has('ArrowLeft') || pressed.has('ArrowUp'))
-          this.targetIdx = (this.targetIdx + n - 1) % n
-        if (pressed.has('ArrowRight') || pressed.has('ArrowDown'))
-          this.targetIdx = (this.targetIdx + 1) % n
-        if (pressed.has('Escape')) {
-          this.targetSide = 'enemy'
-          if (this.pendingItemId) {
-            this.pendingItemId = null
-            this.ui = 'item'
-          } else {
-            this.pendingSkillId = null
-            this.ui = 'skill'
-          }
-        }
-        if (confirm) {
-          const t = this.targetIdx % n
-          const action: BattleAction = this.pendingItemId
-            ? { kind: 'item', itemId: this.pendingItemId, targetAllyIdx: t }
-            : { kind: 'cast', skillId: expectDefined(this.pendingSkillId), targetAllyIdx: t }
-          this.pendingItemId = null
-          this.pendingSkillId = null
-          this.targetSide = 'enemy'
-          this.submit(sel, action)
-          this.backToMain()
-        }
-      } else if (this.ui === 'target') {
-        const alive = this.aliveEnemyIdxs()
-        if (alive.length === 0) return
-        if (pressed.has('ArrowLeft'))
-          this.targetIdx = (this.targetIdx + alive.length - 1) % alive.length
-        if (pressed.has('ArrowRight')) this.targetIdx = (this.targetIdx + 1) % alive.length
-        // 返回:投掷态回投掷选物,否则回主菜单(合击/普攻/仙术选敌均回菜单)
-        if (pressed.has('Escape')) {
-          if (this.pendingThrowItem) {
-            this.pendingThrowItem = null
-            this.ui = 'throwItem'
-          } else {
-            this.pendingCoop = false
-            this.ui = 'menu'
-          }
-        }
-        if (confirm) {
-          const t = expectDefined(alive[this.targetIdx % alive.length])
-          const action: BattleAction = this.pendingThrowItem
-            ? { kind: 'throw', itemId: this.pendingThrowItem, targetEnemyIdx: t }
-            : this.pendingCoop
-              ? { kind: 'coop', targetEnemyIdx: t }
-              : this.pendingSkillId
-                ? { kind: 'cast', skillId: this.pendingSkillId, targetEnemyIdx: t }
-                : { kind: 'attack', targetEnemyIdx: t }
-          const wasCoop = this.pendingCoop
-          this.pendingSkillId = null
-          this.pendingThrowItem = null
-          this.pendingCoop = false
-          this.submit(sel, action)
-          if (wasCoop) this.consumeOthersForCoop(sel) // 合击消耗其余队员本回合出手
-          this.backToMain()
-        }
-      }
+      const context = this.selectionContext(sel)
+      this.selection.advance(context, pressed, {
+        submit: (playerIndex, action) => this.state.pendingActions.set(playerIndex, action),
+        retract: (playerIndex) => this.state.pendingActions.delete(playerIndex),
+        consumeOthersForCoop: (casterIndex) => this.consumeOthersForCoop(casterIndex),
+      })
       return
     }
 
     if (s.phase === 'performAction') {
-      this.ui = 'acting'
+      this.sessionUi = 'acting'
       if (this.pumpScriptExecution(dtMs, pressed)) return
       // M4d-2:动画回放中 → 只推进;播完收尾(复位/死亡淡出/死音)
       if (this.anim) {
@@ -2155,60 +1876,6 @@ export class BattleSession {
     })
   }
 
-  /** 手动/快捷键提交统一入口:记 lastActs(R 重复源)+ submitOrder(Esc 回退)。 */
-  private submit(sel: number, act: BattleAction): void {
-    this.state.pendingActions.set(sel, act)
-    this.lastActs.set(sel, act)
-    this.submitOrder.push(sel)
-  }
-
-  /** submit + 回主菜单(快捷键 D/Q 一步提交用)。 */
-  private submitAnd(sel: number, act: BattleAction): void {
-    this.submit(sel, act)
-    this.backToMain()
-  }
-
-  /** 强行/自动:普攻首活敌(无活敌退化防御)。F/A 快捷键与粘滞轮转共用。 */
-  private submitForce(sel: number): void {
-    const alive = this.aliveEnemyIdxs()
-    this.submitAnd(
-      sel,
-      alive.length
-        ? { kind: 'attack', targetEnemyIdx: expectDefined(alive[0]) }
-        : { kind: 'defend' },
-    )
-  }
-
-  /** R 重复:重提上回合动作;物品耗尽/MP 不足/目标已死 → 修正或退化普攻(uibattle.c repeat 语义)。 */
-  private submitRepeat(sel: number): void {
-    let act = this.lastActs.get(sel)
-    if (act?.kind === 'item') {
-      const id = act.itemId
-      if (!this.usableItems().some((i) => i.itemId === id)) act = undefined
-    }
-    if (act?.kind === 'throw') {
-      const id = act.itemId
-      if (!this.throwableItems().some((i) => i.itemId === id)) act = undefined
-    }
-    if (act?.kind === 'cast') {
-      const sk = this.opts.skills?.[act.skillId]
-      const p = this.state.players[sel]
-      if (!sk || !p || p.mp < (sk.cost.mp ?? 0) || this.moneyNow() < (sk.cost.money ?? 0))
-        act = undefined
-    }
-    if (act && 'targetEnemyIdx' in act && act.targetEnemyIdx !== undefined) {
-      const alive = this.aliveEnemyIdxs()
-      if (!alive.includes(act.targetEnemyIdx)) {
-        act = alive.length ? { ...act, targetEnemyIdx: expectDefined(alive[0]) } : undefined
-      }
-    }
-    if (!act) {
-      this.submitForce(sel)
-      return
-    }
-    this.submitAnd(sel, act)
-  }
-
   /** 时间线 delta → 表现层(原版语义:pos 直落;连续位移由时间线插值帧承担)。 */
   private applyDelta(d: {
     side: 'player' | 'enemy'
@@ -2312,8 +1979,14 @@ export class BattleSession {
   }
 
   /** dev/test:异步音效屏障只读状态。 */
-  debugReadiness(): { phase: UiPhase | 'preparing' | 'readinessError'; error?: string } {
-    const phase = this.readiness.phase === 'idle' ? this.ui : this.readiness.phase
+  debugReadiness(): {
+    phase: SessionUiPhase | BattleCommandSelectionPhase | 'preparing' | 'readinessError'
+    error?: string
+  } {
+    const phase =
+      this.readiness.phase === 'idle'
+        ? (this.sessionUi ?? this.selection.phase)
+        : this.readiness.phase
     return {
       phase,
       ...(this.readiness.error ? { error: this.readiness.error.message } : {}),
@@ -2494,17 +2167,19 @@ export class BattleSession {
       if (ht >= 1) this.hideFade = null
     }
     const sel = s.phase === 'selectAction' ? this.nextSelecting() : undefined
+    const selection = this.selection.view
+    const selectionContext = sel === undefined ? null : this.selectionContext(sel)
     // 选敌高亮目标(target 态,闪烁节拍)。选队友是**箭头光标**(drawPlayerTargetArrow,
     // 一阶段两套形制:敌 = colorShift 高亮 / 友 = 箭头移动,勿混 —— 曾拿高亮套友方,作者纠)
     const alive = this.aliveEnemyIdxs()
     const targetBlink = Math.floor(now / 160) % 2 === 0
     const highlightEnemy =
       sel !== undefined &&
-      this.ui === 'target' &&
-      this.targetSide === 'enemy' &&
+      selection.phase === 'target' &&
+      selection.targetSide === 'enemy' &&
       alive.length &&
       targetBlink
-        ? alive[this.targetIdx % alive.length]
+        ? alive[selection.targetIndex % alive.length]
         : undefined
     // 场景(M4d-2:visual 层驱动 —— 动画位移/帧/受击染色;死亡 = 颗粒溶解)
     const enemies: BattleSpriteDraw[] = []
@@ -2749,10 +2424,10 @@ export class BattleSession {
     // 当前行动队员头顶三角(选指令/选目标期间;一阶段 68/69 闪)。
     // 锚 = 底中固定偏移(uibattle.c:1004 x−8/y−74),不随精灵高度 —— 作者原版截图:三角贴头顶正上。
     if (!dialogActive && sel !== undefined && ui) {
-      if (this.ui === 'target' && this.targetSide === 'ally') {
+      if (selection.phase === 'target' && selection.targetSide === 'ally') {
         // 选队友 = **箭头光标**移动到候选队员(一阶段 selectTargetPlayer:只画目标箭头,
         // 不画行动者三角;选敌方才是 colorShift 高亮 —— 曾拿高亮套友方,作者纠)
-        const t = this.targetIdx % Math.max(1, s.players.length)
+        const t = selection.targetIndex % Math.max(1, s.players.length)
         const v = this.visual.players[t]
         if (v) drawPlayerTargetArrow(ctx, ui, v.x, v.y, now)
       } else {
@@ -2808,17 +2483,30 @@ export class BattleSession {
     }
 
     // 指令菜单(一阶段原版形态:4 图标 + 杂项盒 + 3 列网格)。选敌态不画(一阶段 DL30);对话期全隐。
-    if (!dialogActive && sel !== undefined && ui && this.ui !== 'target' && this.ui !== 'acting') {
+    if (
+      !dialogActive &&
+      sel !== undefined &&
+      selectionContext &&
+      ui &&
+      selection.phase !== 'target' &&
+      this.sessionUi !== 'acting'
+    ) {
       const p = expectDefined(s.players[sel])
       // 主菜单 4 图标(法术/物品/杂项态仍画,一阶段 selectMove 全程画)
       if (this.assets.battleIcons) {
-        drawMainIcons(ctx, this.assets.battleIcons, this.menuIdx, this.mainActionValid(sel), true)
+        drawMainIcons(
+          ctx,
+          this.assets.battleIcons,
+          selection.menuIndex,
+          this.selection.mainActionValidity(selectionContext),
+          true,
+        )
       }
-      if (this.ui === 'misc' || this.ui === 'miscSub') {
+      if (selection.phase === 'misc' || selection.phase === 'miscSub') {
         // 杂项盒 box(2,20);进二级后父项(道具)固定金黄
         const rows: BattleMenuRow[] = MISC_LABELS.map((label, i) => ({
           label,
-          disabled: i === 0 || i === 4 || (i === 1 && this.usableItems().length === 0),
+          disabled: i === 0 || i === 4 || (i === 1 && selectionContext.usableItems.length === 0),
         }))
         // 尺寸 = 一阶段实机对照(2026-07-11 截 6005 战斗杂项盒;作者点破「太窄」):
         // 原版 CreateBox 按 tile **实宽**平铺 —— 帽 22/轴头 33/中 16,cols=1 → 顶行 71px。
@@ -2829,23 +2517,23 @@ export class BattleSession {
           ui,
           g,
           rows,
-          this.miscIdx,
+          selection.miscIndex,
           now,
           2,
           20,
           61,
           112,
-          this.ui === 'miscSub',
+          selection.phase === 'miscSub',
         )
-        if (this.ui === 'miscSub') {
+        if (selection.phase === 'miscSub') {
           // 使用/投掷二级 box(30,50):cols=1 rows=1 → 主体 61 × 高 20+18+20=58
           const sub: BattleMenuRow[] = [
             { label: '使用' },
-            { label: '投掷', disabled: this.throwableItems().length === 0 },
+            { label: '投掷', disabled: selectionContext.throwableItems.length === 0 },
           ]
-          drawBattleMenuBox(ctx, ui, g, sub, this.miscSubIdx, now, 30, 50, 61, 58)
+          drawBattleMenuBox(ctx, ui, g, sub, selection.miscSubIndex, now, 30, 50, 61, 58)
         }
-      } else if (this.ui === 'skill') {
+      } else if (selection.phase === 'skill') {
         // 法术网格(红框 3 列)+ 左上 MP 框
         const rows: BattleMenuRow[] = p.skills.map((sid) => {
           const sk = this.opts.skills?.[sid]
@@ -2855,28 +2543,31 @@ export class BattleSession {
             disabled: !sk || p.mp < mp || this.moneyNow() < (sk.cost.money ?? 0),
           }
         })
-        drawBattleGrid(ctx, ui, g, rows, this.skillIdx, now, MAGIC_GRID)
-        const selSkill = this.opts.skills?.[p.skills[this.skillIdx % p.skills.length] ?? '']
+        drawBattleGrid(ctx, ui, g, rows, selection.skillIndex, now, MAGIC_GRID)
+        const selSkill = this.opts.skills?.[p.skills[selection.skillIndex % p.skills.length] ?? '']
         drawMpBox(ctx, ui, selSkill?.cost.mp ?? 0, p.mp)
-      } else if (this.ui === 'item' || this.ui === 'throwItem') {
+      } else if (selection.phase === 'item' || selection.phase === 'throwItem') {
         // 物品/投掷网格(红框 3 列,数量 cyan)+ 左下选中物详情框
-        const list = this.ui === 'item' ? this.usableItems() : this.throwableItems()
+        const list =
+          selection.phase === 'item'
+            ? selectionContext.usableItems
+            : selectionContext.throwableItems
         const rows: BattleMenuRow[] = list.map((it) => ({
           label: this.state.items[it.itemId]?.name ?? it.itemId,
           right: it.count,
         }))
-        drawBattleGrid(ctx, ui, g, rows, this.itemIdx, now, ITEM_GRID)
-        const selItem = this.state.items[list[this.itemIdx % list.length]?.itemId ?? '']
+        drawBattleGrid(ctx, ui, g, rows, selection.itemIndex, now, ITEM_GRID)
+        const selItem = this.state.items[list[selection.itemIndex % list.length]?.itemId ?? '']
         drawItemDetailBox(ctx, ui, selItem?.icon ? ui.itemIcons[selItem.icon] : undefined)
       }
     } else if (sel !== undefined && !ui) {
       // 文字兜底(单测/资产缺失)
       FALLBACK_MENU.forEach((item, i) => {
-        const selMark = i === this.menuIdx ? '▶ ' : '   '
+        const selMark = i === selection.menuIndex ? '▶ ' : '   '
         renderSpans(ctx, [{ text: `${selMark}${item}` }], 10, 26 + i * 17, {
           glyphs: g,
           shadow: true,
-          forceRgba: i === this.menuIdx ? [255, 255, 255] : [139, 147, 163],
+          forceRgba: i === selection.menuIndex ? [255, 255, 255] : [139, 147, 163],
         })
       })
     }
@@ -2903,7 +2594,7 @@ export class BattleSession {
     // 胜利结算屏(B7b:一阶段 PAL_BattleWon box 序列,原版无「战斗胜利!」字样)。
     //   有 UI 资产 → 画当前屏;缺(单测)→ 跳过。败/逃无结算屏(一阶段 PAL_BattleLost 直接黑屏读档)。
     const settlementScreen = this.settlementPresentation.currentScreen
-    if (this.ui === 'over' && settlementScreen && ui)
+    if (this.sessionUi === 'over' && settlementScreen && ui)
       drawSettlementScreen(ctx, settlementScreen, ui, g)
     ctx.restore()
   }

@@ -47,6 +47,16 @@ Codex持续处理[治理台账](../audits/architecture-debt.md)剩余边界，Cu
 
 ## 当前推进
 
+- 2026-09-26 C1-c 选择输入段开工（基点 `450df20d`）：总会话仍混持 command phase、五类游标、三类
+  pending target、F/R/A、`lastActs` 与 `submitOrder`，并在 `tick` 内直接解释完整菜单状态机。迁为
+  `BattleCommandSelection`：owner 独占上述临时态、菜单/目标转换、重复动作修正与回退顺序；每拍只接收当前队员
+  只读选择视图、存活敌槽、可用/投掷清单、技能/物品表和当前金钱，并通过 submit/retract/consumeCoop 三个窄端口
+  同步提交，不接收 `BattleState`/`BattleSession`。脚本自动战斗仍由会话/core 路径持有；render 只读 selection view，
+  core pendingActions 仍是正式动作 owner。保持方向/确认/Esc、D/Q/E/W、F/R/A、MP/金钱与预占过滤、单体敌友目标、
+  合击占位及跨轮 reset 采样时点。验收复用 selection/action/round/script 正式回归，新增 owner 转移矩阵、结构边界和
+  反控；不改未实现围攻/状态灰显、玩法、公式、UI 或物品能力。选择段完成仍不得标 C1 done；Codex 核现行菜单链
+  和一阶段快捷键锚点后 premise verified / build allowed。
+
 - 2026-09-26 C1-b 终态/结算呈现段开工（基点 `aab78c82`）：`terminalResult/settlement/settleIdx/overTimer`
   仍由总会话混持，核心终态映射、多屏 300ms 防连按、无屏胜败 1.2s 停留与逃跑/终止同拍完成没有独立
   owner。迁为 `BattleSettlementPresentation`，只接收已核定 `BattleResult` 或 core terminal phase、enemyFled、
