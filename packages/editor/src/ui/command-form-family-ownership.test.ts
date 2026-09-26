@@ -1,6 +1,7 @@
 import { describe, expect, test } from 'vitest'
 import commandFormSource from './CommandForm.js?raw'
 import actorSource from './command-form-actor.js?raw'
+import controlSource from './command-form-control.js?raw'
 import controlsSource from './command-form-controls.js?raw'
 import dialogueSource from './command-form-dialogue.js?raw'
 import worldSource from './command-form-world.js?raw'
@@ -125,6 +126,52 @@ describe('command form family ownership', () => {
 
     expect(actorSource).toContain("cmd.kind === 'setParty' ? cmd.members : []")
     expect(actorSource).toContain('<JsonForm cmd={cmd} onChange={onChange} />')
+  })
+
+  test('the control/resource family owns the remaining forms behind one default route', () => {
+    expect(commandFormSource.match(/<ControlCommandForm/g)).toHaveLength(1)
+    for (const implementation of [
+      'deriveScriptChunk',
+      '<SoundPicker',
+      '<MusicPicker',
+      "case 'branch': {",
+      "case 'callScript': {",
+    ])
+      expect(commandFormSource).not.toContain(implementation)
+
+    const props = controlSource.match(
+      /export interface ControlCommandFormProps \{([\s\S]*?)\n\}/,
+    )?.[1]
+    expect(props).toBeDefined()
+    for (const field of [
+      'command',
+      'scene',
+      'assetCatalog',
+      'audioResolver',
+      'assetReader',
+      'ambiences',
+      'shops',
+      'references',
+      'scriptIndex',
+      'hasImplicitSelf',
+      'onOpenScript',
+      'worldVariables',
+      'onOpenWorldVariable',
+      'onOpenSound',
+      'showRawJson',
+      'onChange',
+    ])
+      expect(props).toMatch(new RegExp(`\\b${field}[?:]`))
+    for (const unrelated of [
+      'locale',
+      'actors',
+      'battleSprites',
+      'sprites',
+      'onOpenImage',
+      'onOpenBattleSprite',
+      'onOpenSpriteAction',
+    ])
+      expect(props).not.toMatch(new RegExp(`\\b${unrelated}[?:]`))
   })
 
   test('shared controls have one implementation while CommandForm preserves the public picker export', () => {
