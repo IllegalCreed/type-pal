@@ -1,6 +1,6 @@
 {
   "key": "m6",
-  "id": "m6-inherit-index",
+  "id": "m6-visual-owner",
   "file": "packages/editor/src/core/stamp-ownership.ts",
   "testFile": "packages/editor/src/core/stamp-ownership.background.test.ts",
   "fullName": "M6 stamp-ownership 剩余合同 stampVisualOwner/stampCollisionOwner 在真实放置图上精确返回 id，普通邻格 undefined",
@@ -11,8 +11,8 @@
   "redExit": 1,
   "failedTitle": "stampVisualOwner/stampCollisionOwner 在真实放置图上精确返回 id，普通邻格 undefined",
   "failedFullName": "M6 stamp-ownership 剩余合同 stampVisualOwner/stampCollisionOwner 在真实放置图上精确返回 id，普通邻格 undefined",
-  "assertion": "AssertionError: expected undefined to be 'tree-a' // Object.is equality\n    at /Users/zhangxu/illegal/type-pal-cursor-map-logic-r2/packages/editor/src/core/stamp-ownership.background.test.ts:25:73\n    at file:///Users/zhangxu/illegal/type-pal-cursor-map-logic-r2/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/illegal/type-pal-cursor-map-logic-r2/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/illegal/type-pal-cursor-map-logic-r2/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/illegal/type-pal-cursor-map-logic-r2/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/illegal/type-pal-cursor-map-logic-r2/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///Users/zhangxu/illegal/type-pal-cursor-map-logic-r2/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///Users/zhangxu/illegal/type-pal-cursor-map-logic-r2/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64",
+  "assertion": "AssertionError: expected undefined to be 'tree-a' // Object.is equality\n    at /Users/zhangxu/illegal/type-pal-cursor-map-logic-r2/packages/editor/src/core/stamp-ownership.background.test.ts:34:46\n    at file:///Users/zhangxu/illegal/type-pal-cursor-map-logic-r2/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/illegal/type-pal-cursor-map-logic-r2/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/illegal/type-pal-cursor-map-logic-r2/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/illegal/type-pal-cursor-map-logic-r2/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/illegal/type-pal-cursor-map-logic-r2/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///Users/zhangxu/illegal/type-pal-cursor-map-logic-r2/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///Users/zhangxu/illegal/type-pal-cursor-map-logic-r2/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64",
   "hit": true,
-  "evidence": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/m6-inherit-index-RuuwQr",
+  "evidence": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/m6-visual-owner-86lIBZ",
   "ok": true
 }

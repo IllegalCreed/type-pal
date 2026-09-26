@@ -1,0 +1,203 @@
+{
+  "task": "TEST-CURSOR-MAP-LOGIC-2",
+  "candidate": "070d3bf3173024ea0dd79369cb34f02afb7484e5",
+  "reviewer": "Codex",
+  "verdict": "counter",
+  "checks": {
+    "directed": {
+      "files": 17,
+      "passed": 105,
+      "failed": 0,
+      "pending": 0
+    },
+    "editor": {
+      "files": 359,
+      "passed": 3049,
+      "failed": 0,
+      "pending": 0
+    },
+    "newTests": [
+      {
+        "file": "map-selection.background.test.ts",
+        "tests": 5
+      },
+      {
+        "file": "map-transform.background.test.ts",
+        "tests": 6
+      },
+      {
+        "file": "stamp-draft.background.test.ts",
+        "tests": 6
+      },
+      {
+        "file": "stamp-group-transform.background.test.ts",
+        "tests": 5
+      },
+      {
+        "file": "stamp-ownership.background.test.ts",
+        "tests": 4
+      },
+      {
+        "file": "stamp-placement.background.test.ts",
+        "tests": 4
+      }
+    ],
+    "typecheckExit": 0,
+    "biome": {
+      "exit": 0,
+      "files": 15
+    },
+    "docsExit": 0,
+    "diffExit": 0,
+    "originalControls": 6,
+    "originalMutants": 6,
+    "originalJudgeSelfTests": 15
+  },
+  "fixture": {
+    "maps": ["blank", "painted", "group"],
+    "manifest": {
+      "content": {
+        "maps": "content/maps.json"
+      }
+    },
+    "rejection": "manifest: 缺键 \"id\""
+  },
+  "judge": [
+    {
+      "message": "AssertionError: wrong result\nTypeError: broken",
+      "accepted": false
+    },
+    {
+      "message": "AssertionError: wrong result\n  TypeError: broken",
+      "accepted": true
+    },
+    {
+      "message": "AssertionError: wrong result\n\tError: broken",
+      "accepted": true
+    }
+  ],
+  "hashes": {
+    "/Users/zhangxu/illegal/type-pal-cursor-map-logic-r2/packages/editor/src/core/stamp-draft.ts": "6f2c03c4d4453735565c8cc43ca16a02245ced23dd86eb399e6a58feb2cca671",
+    "/Users/zhangxu/illegal/type-pal-cursor-map-logic-r2/packages/editor/src/core/stamp-draft.background.test.ts": "ceabd3f487fdb053057666f739c5c0cad6673beb58dfd16af097172061c44c50",
+    "/Users/zhangxu/illegal/type-pal-cursor-map-logic-r2/packages/editor/src/core/__tests__/cursor-map-logic-fixtures.ts": "ef1a95185a3abdd379a9e36b694d635e9f93a3d936540c0fb2cfd76fbf6ed899",
+    "/Users/zhangxu/illegal/type-pal-cursor-map-logic-r2/packages/editor/src/core/map-selection.ts": "65644e11a1c6fca4f5ebd1d4429cdacdf253e10ee2f8e590ada073413cd73713",
+    "/Users/zhangxu/illegal/type-pal-cursor-map-logic-r2/packages/editor/src/core/map-selection.background.test.ts": "b13e37b36ce3ffdfb99a5483060d8ced2ac2904d27afcc81fb063382a03f3b09",
+    "/Users/zhangxu/illegal/type-pal-cursor-map-logic-r2/packages/editor/src/core/stamp-group-transform.ts": "7957b457280f6345d5b84d80a55ecf529746853143e0752cbc0fef852f34c2c7",
+    "/Users/zhangxu/illegal/type-pal-cursor-map-logic-r2/packages/editor/src/core/stamp-group-transform.background.test.ts": "3f38820788e999c15d6408acaf8618f2080300ef9200c8a255d0ac56b52a2a01"
+  },
+  "witnesses": [
+    {
+      "name": "draft-move-input-mutation-candidate-control",
+      "exit": 0,
+      "passed": 6,
+      "failed": 0,
+      "failures": []
+    },
+    {
+      "name": "draft-move-input-mutation-candidate-mutant",
+      "exit": 0,
+      "passed": 6,
+      "failed": 0,
+      "failures": []
+    },
+    {
+      "name": "draft-move-input-mutation-oracle-control",
+      "exit": 0,
+      "passed": 7,
+      "failed": 0,
+      "failures": []
+    },
+    {
+      "name": "draft-move-input-mutation-oracle-mutant",
+      "exit": 1,
+      "passed": 6,
+      "failed": 1,
+      "failures": [
+        {
+          "file": "/Users/zhangxu/illegal/type-pal-cursor-map-logic-r2/packages/editor/src/core/stamp-draft.background.test.ts",
+          "fullName": "Codex independent oracle draft-move-input-mutation",
+          "messages": [
+            "AssertionError: expected { id: 'bush', name: '灌木', …(7) } to deeply equal { id: 'bush', name: '灌木', …(7) }"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "selection-reducer-input-mutation-candidate-control",
+      "exit": 0,
+      "passed": 5,
+      "failed": 0,
+      "failures": []
+    },
+    {
+      "name": "selection-reducer-input-mutation-candidate-mutant",
+      "exit": 0,
+      "passed": 5,
+      "failed": 0,
+      "failures": []
+    },
+    {
+      "name": "selection-reducer-input-mutation-oracle-control",
+      "exit": 0,
+      "passed": 6,
+      "failed": 0,
+      "failures": []
+    },
+    {
+      "name": "selection-reducer-input-mutation-oracle-mutant",
+      "exit": 1,
+      "passed": 5,
+      "failed": 1,
+      "failures": [
+        {
+          "file": "/Users/zhangxu/illegal/type-pal-cursor-map-logic-r2/packages/editor/src/core/map-selection.background.test.ts",
+          "fullName": "Codex independent oracle selection-reducer-input-mutation",
+          "messages": [
+            "AssertionError: expected { maps: { start: { …(4) } } } to deeply equal { maps: {} }"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "stamp-group-lost-height-candidate-control",
+      "exit": 0,
+      "passed": 5,
+      "failed": 0,
+      "failures": []
+    },
+    {
+      "name": "stamp-group-lost-height-candidate-mutant",
+      "exit": 0,
+      "passed": 5,
+      "failed": 0,
+      "failures": []
+    },
+    {
+      "name": "stamp-group-lost-height-oracle-control",
+      "exit": 0,
+      "passed": 6,
+      "failed": 0,
+      "failures": []
+    },
+    {
+      "name": "stamp-group-lost-height-oracle-mutant",
+      "exit": 1,
+      "passed": 5,
+      "failed": 1,
+      "failures": [
+        {
+          "file": "/Users/zhangxu/illegal/type-pal-cursor-map-logic-r2/packages/editor/src/core/stamp-group-transform.background.test.ts",
+          "fullName": "Codex independent oracle stamp-group-lost-height",
+          "messages": ["AssertionError: expected undefined to be 3 // Object.is equality"]
+        }
+      ]
+    }
+  ],
+  "raw": {
+    "witnesses": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/codex-cursor-map-review-nvdduV",
+    "supplement": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/codex-cursor-map-runner-2Hg6wm",
+    "originalMutants": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/cursor-map-logic-r2-mutants-e089z4"
+  },
+  "reviewToolFirstAttempt": "plain tsx fixture probe hit import.meta.glob TypeError; replaced with real Vite fixture load, not a candidate business failure",
+  "notRun": ["whole-repository check", "ratchet", "strict-fast", "visual/E2E"]
+}

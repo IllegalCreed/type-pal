@@ -4,7 +4,11 @@
  */
 import { paintProjectMapTiles, withProjectMapStampPlacements } from '@type-pal/reforge'
 import { describe, expect, test } from 'vitest'
-import { applyPlanPatch, legalPaintedMap } from './__tests__/cursor-map-logic-fixtures.js'
+import {
+  applyPlanPatch,
+  inputSnap,
+  legalPaintedMap,
+} from './__tests__/cursor-map-logic-fixtures.js'
 import type { MapSelection } from './map-selection.js'
 import { captureMapClipboard, planMapDelete, planMapMove, planMapPaste } from './map-transform.js'
 
@@ -21,56 +25,59 @@ const cells: MapSelection = {
   hitScope: 'active-layer',
 }
 
+const collisionOpts = {
+  includeCollision: true,
+  collisionAuthorityLayerId: 'objects',
+}
+
 describe('M3 map-transform 剩余合同', () => {
   test('planMapMove 越界：空 patch、issues 含 out-of-bounds，map/selection 输入不变', () => {
     const map = legalPaintedMap()
-    const mapSnap = structuredClone(map)
-    const selectionSnap = structuredClone(cells)
-    const plan = planMapMove(
-      map,
-      cells,
-      { row: 20, col: 20 },
-      {
-        includeCollision: true,
-        collisionAuthorityLayerId: 'objects',
-      },
-    )
+    const options = { ...collisionOpts }
+    const mapSnap = inputSnap(map)
+    const selectionSnap = inputSnap(cells)
+    const optionsSnap = inputSnap(options)
+    const plan = planMapMove(map, cells, { row: 20, col: 20 }, options)
+    expect(map).toEqual(mapSnap)
+    expect(cells).toEqual(selectionSnap)
+    expect(options).toEqual(optionsSnap)
     expect(plan.canApply).toBe(false)
     expect(plan.patch).toEqual({ visual: [], collision: [] })
     expect(plan.issues.some((issue) => issue.code === 'out-of-bounds')).toBe(true)
-    expect(map).toEqual(mapSnap)
-    expect(cells).toEqual(selectionSnap)
   })
 
   test('planMapMove reject 占用普通格：空 patch；overwrite 后真实应用搬走源并写目标', () => {
     const map = paintProjectMapTiles(legalPaintedMap(), [
       { layerId: 'objects', row: 2, col: 1, tileId: 7, tilesetId: 'tiles', height: 0 },
     ])
-    const rejected = planMapMove(
-      map,
-      cells,
-      { row: 2, col: 1 },
-      {
-        includeCollision: false,
-        collisionAuthorityLayerId: 'objects',
-        conflictPolicy: 'reject',
-      },
-    )
+    const rejectOpts = {
+      includeCollision: false,
+      collisionAuthorityLayerId: 'objects',
+      conflictPolicy: 'reject' as const,
+    }
+    const mapSnap = inputSnap(map)
+    const selectionSnap = inputSnap(cells)
+    const rejectOptsSnap = inputSnap(rejectOpts)
+    const rejected = planMapMove(map, cells, { row: 2, col: 1 }, rejectOpts)
+    expect(map).toEqual(mapSnap)
+    expect(cells).toEqual(selectionSnap)
+    expect(rejectOpts).toEqual(rejectOptsSnap)
     expect(rejected.canApply).toBe(false)
     expect(rejected.patch).toEqual({ visual: [], collision: [] })
     expect(rejected.conflicts.length).toBeGreaterThan(0)
-    const accepted = planMapMove(
-      map,
-      cells,
-      { row: 2, col: 1 },
-      {
-        includeCollision: false,
-        collisionAuthorityLayerId: 'objects',
-        conflictPolicy: 'overwrite',
-      },
-    )
+    const overwriteOpts = {
+      includeCollision: false,
+      collisionAuthorityLayerId: 'objects',
+      conflictPolicy: 'overwrite' as const,
+    }
+    const overwriteOptsSnap = inputSnap(overwriteOpts)
+    const accepted = planMapMove(map, cells, { row: 2, col: 1 }, overwriteOpts)
+    expect(map).toEqual(mapSnap)
+    expect(cells).toEqual(selectionSnap)
+    expect(overwriteOpts).toEqual(overwriteOptsSnap)
     expect(accepted.canApply).toBe(true)
     const after = applyPlanPatch(map, accepted.patch, accepted.requiredWritableLayerIds)
+    expect(map).toEqual(mapSnap)
     expect(after.layers.find((layer) => layer.id === 'objects')!.tiles[0]![0]).toBeNull()
     expect(after.layers.find((layer) => layer.id === 'objects')!.tiles[2]![1]).toBe(2)
     expect(after.layers.find((layer) => layer.id === 'objects')!.tiles[4]![3]).toBe(9)
@@ -85,13 +92,12 @@ describe('M3 map-transform 剩余合同', () => {
         gridPoints: [{ row: 0, col: 0 }],
       },
     ])
-    const snap = structuredClone(map)
-    const plan = planMapDelete(
-      map,
-      { kind: 'stamp-placements', placementIds: ['tree-1'] },
-      true,
-      'objects',
-    )
+    const selection = { kind: 'stamp-placements' as const, placementIds: ['tree-1'] }
+    const mapSnap = inputSnap(map)
+    const selectionSnap = inputSnap(selection)
+    const plan = planMapDelete(map, selection, true, 'objects')
+    expect(map).toEqual(mapSnap)
+    expect(selection).toEqual(selectionSnap)
     expect(plan.canApply).toBe(false)
     expect(plan.patch).toEqual({ visual: [], collision: [] })
     expect(plan.issues).toEqual([
@@ -100,38 +106,38 @@ describe('M3 map-transform 剩余合同', () => {
         message: '整组删除必须使用图章放置组操作，不能拆成普通 W8 单元格删除',
       },
     ])
-    expect(map).toEqual(snap)
     expect(map.layers.find((layer) => layer.id === 'objects')!.tiles[0]![0]).toBe(2)
   })
 
   test('captureMapClipboard 对 none 与 stamp-placements 都返回 undefined', () => {
     const map = legalPaintedMap()
-    expect(captureMapClipboard('start', map, { kind: 'none' }, true)).toBeUndefined()
-    expect(
-      captureMapClipboard(
-        'start',
-        map,
-        { kind: 'stamp-placements', placementIds: ['tree-1'] },
-        true,
-      ),
-    ).toBeUndefined()
+    const none = { kind: 'none' as const }
+    const stamps = { kind: 'stamp-placements' as const, placementIds: ['tree-1'] }
+    const mapSnap = inputSnap(map)
+    const noneSnap = inputSnap(none)
+    const stampsSnap = inputSnap(stamps)
+    expect(captureMapClipboard('start', map, none, true)).toBeUndefined()
+    expect(map).toEqual(mapSnap)
+    expect(none).toEqual(noneSnap)
+    expect(captureMapClipboard('start', map, stamps, true)).toBeUndefined()
+    expect(map).toEqual(mapSnap)
+    expect(stamps).toEqual(stampsSnap)
   })
 
   test('planMapMove include-collision 成功应用：目标碰撞写入，旁对象 (4,3) 瓦片 9 不动', () => {
     const map = legalPaintedMap()
-    const plan = planMapMove(
-      map,
-      cells,
-      { row: 2, col: 1 },
-      {
-        includeCollision: true,
-        collisionAuthorityLayerId: 'objects',
-        conflictPolicy: 'overwrite',
-      },
-    )
+    const options = { ...collisionOpts, conflictPolicy: 'overwrite' as const }
+    const mapSnap = inputSnap(map)
+    const selectionSnap = inputSnap(cells)
+    const optionsSnap = inputSnap(options)
+    const plan = planMapMove(map, cells, { row: 2, col: 1 }, options)
+    expect(map).toEqual(mapSnap)
+    expect(cells).toEqual(selectionSnap)
+    expect(options).toEqual(optionsSnap)
     expect(plan.canApply).toBe(true)
     expect(plan.patch.collision.length).toBeGreaterThan(0)
     const after = applyPlanPatch(map, plan.patch, plan.requiredWritableLayerIds)
+    expect(map).toEqual(mapSnap)
     expect(after.collision[2]![1]).toBe(5)
     expect(after.layers.find((layer) => layer.id === 'objects')!.tiles[4]![3]).toBe(9)
     expect(after.layers.find((layer) => layer.id === 'objects')!.tiles[0]![0]).toBeNull()
@@ -148,22 +154,24 @@ describe('M3 map-transform 剩余合同', () => {
       ],
       hitScope: 'active-layer',
     }
+    const mapForCapture = inputSnap(map)
+    const mixedSnap = inputSnap(mixed)
     const clipboard = captureMapClipboard('start', map, mixed, true)!
-    const mapSnap = structuredClone(map)
-    const clipSnap = structuredClone(clipboard)
-    const plan = planMapPaste(
-      map,
-      clipboard,
-      { row: 1, col: 1 },
-      {
-        layerMappings: [{ sourceLayerId: 'objects', targetLayerId: 'objects' }],
-        collisionAuthorityLayerId: 'objects',
-      },
-    )
+    expect(map).toEqual(mapForCapture)
+    expect(mixed).toEqual(mixedSnap)
+    const pasteOpts = {
+      layerMappings: [{ sourceLayerId: 'objects', targetLayerId: 'objects' }],
+      collisionAuthorityLayerId: 'objects',
+    }
+    const mapSnap = inputSnap(map)
+    const clipSnap = inputSnap(clipboard)
+    const pasteOptsSnap = inputSnap(pasteOpts)
+    const plan = planMapPaste(map, clipboard, { row: 1, col: 1 }, pasteOpts)
+    expect(map).toEqual(mapSnap)
+    expect(clipboard).toEqual(clipSnap)
+    expect(pasteOpts).toEqual(pasteOptsSnap)
     expect(plan.canApply).toBe(false)
     expect(plan.patch).toEqual({ visual: [], collision: [] })
     expect(plan.issues.some((issue) => issue.code === 'out-of-bounds')).toBe(true)
-    expect(map).toEqual(mapSnap)
-    expect(clipboard).toEqual(clipSnap)
   })
 })

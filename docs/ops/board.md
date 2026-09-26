@@ -46,7 +46,7 @@ check8896/单次strict8404全过；实际+134分支/+73行，content分支85.55%
 |---|---|---|---|---|
 | E2E-R4-1 | [路线驱动与检查点薄基线](tasks/E2E-R4-1-route-and-checkpoint-foundation.md) | draft | Codex / 双引擎适配准入 | 主线+大型支线；保留对话，两条独立存档链，普通遇敌速胜/剧情Boss个案 |
 | TEST-GLM-ITEM-LOGIC-1 | [物品纯逻辑六组](tasks/TEST-GLM-ITEM-LOGIC-1-world-use-residuals.md) | build | GLM / 连续补测 | item当前公开函数；生产零改，独立分支交付 |
-| TEST-CURSOR-MAP-LOGIC-2 | [地图纯逻辑六组](tasks/TEST-CURSOR-MAP-LOGIC-2-selection-stamps.md) | build | Cursor / 连续补测 | 选区/组合块/变换，生产零改，不碰E2E |
+| TEST-CURSOR-MAP-LOGIC-2 | [地图纯逻辑六组](tasks/TEST-CURSOR-MAP-LOGIC-2-selection-stamps.md) | rework | Cursor / CM1–CM4 | 070d3bf3三漏检针/缩进混错/夹具与去重待修；不合入 |
 | TEST-COVERAGE-PLUS5-1 | [全仓分支+5pp持续队列](tasks/TEST-COVERAGE-PLUS5-1-continuous-batches.md) | build | Codex / 暂停主动扩展 | 用户转E2E讨论，保留72.76%/剩余612B，不作E2E门槛 |
 | TEST-CODEX-FRAME-EDITOR-1 | [帧动画编辑工作流](tasks/TEST-CODEX-FRAME-EDITOR-1-current-workflows.md) | build | Codex / 暂停保留WIP | 未完成测试不计覆盖，不删除现场 |
 | EDITOR-SCENE-FACING-1 | [切场景朝向清除](tasks/EDITOR-SCENE-FACING-1-clear-override.md) | draft | Codex / 后续窄修 | 保持选项仍提交旧方向；真实红诊断+单点oracle已证 |

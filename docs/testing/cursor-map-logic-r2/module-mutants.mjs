@@ -16,9 +16,9 @@ const cases = {
     testFile: 'src/core/stamp-draft.background.test.ts',
     from: "throw new Error('移动目标超出组合边界。')",
     to: 'void 0',
-    title: 'moveStampDraftSelection：空点同引用；占用目标拒绝；两点对调保双方值',
+    title: 'moveStampDraftSelection：空点同引用；占用目标拒绝；两点重叠平移保双方值',
     fullName:
-      'M1 stamp-draft 剩余合同 moveStampDraftSelection：空点同引用；占用目标拒绝；两点对调保双方值',
+      'M1 stamp-draft 剩余合同 moveStampDraftSelection：空点同引用；占用目标拒绝；两点重叠平移保双方值',
   },
   m2: {
     id: 'm2-clip-hidden-layer',
@@ -47,9 +47,9 @@ const cases = {
     testFile: 'src/core/stamp-group-transform.background.test.ts',
     from: 'patch: canApply ? patch : { visual: [], collision: [] },',
     to: 'patch,',
-    title: 'planStampGroupMove 撞到未选中组：空 patch，tree-a 原位，tree-b 哨兵与 id 不变',
+    title: 'planStampGroupMove 撞到未选中组：空 patch，tree-a 原位，tree-b 组员与 id 不变',
     fullName:
-      'M4 stamp-group-transform 剩余合同 planStampGroupMove 撞到未选中组：空 patch，tree-a 原位，tree-b 哨兵与 id 不变',
+      'M4 stamp-group-transform 剩余合同 planStampGroupMove 撞到未选中组：空 patch，tree-a 原位，tree-b 组员与 id 不变',
   },
   m5: {
     id: 'm5-actual-height',
@@ -57,12 +57,12 @@ const cases = {
     testFile: 'src/core/stamp-placement.background.test.ts',
     from: 'return baseHeight + relativeHeight',
     to: 'return baseHeight',
-    title: '合法 draft→canonicalize 后 planStampPlacement 给出精确三通道 patch',
+    title: '合法 draft→canonicalize 后 planStampPlacement 给出完整三通道 patch 并应用',
     fullName:
-      'M5 stamp-placement 剩余合同 合法 draft→canonicalize 后 planStampPlacement 给出精确三通道 patch',
+      'M5 stamp-placement 剩余合同 合法 draft→canonicalize 后 planStampPlacement 给出完整三通道 patch 并应用',
   },
   m6: {
-    id: 'm6-inherit-index',
+    id: 'm6-visual-owner',
     sourceFile: 'src/core/stamp-ownership.ts',
     testFile: 'src/core/stamp-ownership.background.test.ts',
     from: 'return buildStampPlacementIndex(map).visualOwnerByKey.get(visualSlotKey(ref))',
@@ -112,7 +112,7 @@ function executedMatches(json, spec, testFileAbsolute) {
 }
 
 function isErrorHeader(line) {
-  return /^(?:[A-Za-z][\w$]*Error|Error)\b/.test(line)
+  return /^(?:[A-Za-z][\w$]*Error|Error)\b/.test(line.trimStart())
 }
 
 function isTimeoutText(line) {
@@ -424,6 +424,46 @@ function runSelfTests() {
   results.push({
     id: 'assertion-then-typeerror',
     accepted: mixedFollowOn.ok,
+    expected: false,
+  })
+
+  const indentedTypeError = judgeRed({
+    status: 1,
+    json: selfTestPayload({
+      file: testFile,
+      fullName: spec.fullName,
+      title: spec.title,
+      message: 'AssertionError: wrong result\n  TypeError: broken',
+    }),
+    spec,
+    testFileAbsolute: testFile,
+    before: 'same',
+    after: 'same',
+    hit: true,
+  })
+  results.push({
+    id: 'assertion-then-indented-typeerror',
+    accepted: indentedTypeError.ok,
+    expected: false,
+  })
+
+  const tabError = judgeRed({
+    status: 1,
+    json: selfTestPayload({
+      file: testFile,
+      fullName: spec.fullName,
+      title: spec.title,
+      message: 'AssertionError: wrong result\n\tError: broken',
+    }),
+    spec,
+    testFileAbsolute: testFile,
+    before: 'same',
+    after: 'same',
+    hit: true,
+  })
+  results.push({
+    id: 'assertion-then-tab-error',
+    accepted: tabError.ok,
     expected: false,
   })
 
