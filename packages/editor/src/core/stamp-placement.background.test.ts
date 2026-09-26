@@ -111,7 +111,11 @@ describe('M5 stamp-placement 剩余合同', () => {
     expect(map).toEqual(mapSnap)
     expect(template).toEqual(templateSnap)
     const session = new EditSession(await editorStateWithMap('map-a', map))
-    expect(session.dispatch(new PlaceStampCommand(plan))).toBe(true)
+    const planSnap = inputSnap(plan)
+    const command = new PlaceStampCommand(plan)
+    expect(plan).toEqual(planSnap)
+    expect(session.dispatch(command)).toBe(true)
+    expect(plan).toEqual(planSnap)
     expect(map).toEqual(mapSnap)
     const after = session.getState().maps['map-a']!
     expect(stampVisualOwner(after, { layerId: 'floor', row: 2, col: 2 })).toBe(plan.placement.id)

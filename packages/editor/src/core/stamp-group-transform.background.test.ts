@@ -64,7 +64,11 @@ describe('M4 stamp-group-transform 剩余合同', () => {
     expect(before).toEqual(mapSnap)
     expect(input).toEqual(inputSnapValue)
     expect(plan.canApply).toBe(true)
-    expect(session.dispatch(new TransformStampPlacementsCommand(plan))).toBe(true)
+    const planSnap = inputSnap(plan)
+    const command = new TransformStampPlacementsCommand(plan)
+    expect(plan).toEqual(planSnap)
+    expect(session.dispatch(command)).toBe(true)
+    expect(plan).toEqual(planSnap)
     expect(before).toEqual(mapSnap)
     const after = session.getState().maps['map-a']!
     expect(projectMapStampPlacements(after).map((placement) => placement.id)).toEqual([
@@ -139,7 +143,11 @@ describe('M4 stamp-group-transform 剩余合同', () => {
     expect(before).toEqual(mapSnap)
     expect(input).toEqual(inputSnapValue)
     expect(plan.canApply).toBe(true)
-    expect(session.dispatch(new TransformStampPlacementsCommand(plan))).toBe(true)
+    const planSnap = inputSnap(plan)
+    const command = new TransformStampPlacementsCommand(plan)
+    expect(plan).toEqual(planSnap)
+    expect(session.dispatch(command)).toBe(true)
+    expect(plan).toEqual(planSnap)
     expect(before).toEqual(mapSnap)
     const after = session.getState().maps['map-a']!
     expect(projectMapStampPlacements(after).map((placement) => placement.id)).toEqual(['tree-b'])

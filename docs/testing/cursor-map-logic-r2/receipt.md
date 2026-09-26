@@ -1,8 +1,12 @@
 # TEST-CURSOR-MAP-LOGIC-2 — 地图与组合块纯逻辑六组回执
 
-2026-09-27。Cursor 在独立 worktree `/Users/zhangxu/illegal/type-pal-cursor-map-logic-r2`、分支 `codex/cursor-map-logic-r2` 上连续补 M1–M6，并按 CM1–CM4 返工。生产冻结 `a95618fc2a9586c77ff42ff253f72fcfba1fa09a`。没有合 main，没有标 done，没有跑官方覆盖率 / ratchet / 严格全仓门。
+2026-09-27。Cursor 在独立 worktree `/Users/zhangxu/illegal/type-pal-cursor-map-logic-r2`、分支 `codex/cursor-map-logic-r2` 上连续补 M1–M6，并按 CM1–CM4 返工。本轮基于 `4dc8fb758f46de5c291fc45397d74255972e4a5c` 只闭 CM1 执行路径的 plan/patch 输入保真；CM2–CM4 不重开、不加新业务矩阵。生产冻结 `a95618fc2a9586c77ff42ff253f72fcfba1fa09a`。没有合 main，没有标 done，没有跑官方覆盖率 / ratchet / 严格全仓门。
 
 本批只补六模块公开入口的剩余合同。成功计划用真实 patch / Command 应用后核业务；失败计划钉空 `{visual:[],collision:[]}`。每次调用前独立 `structuredClone`，调用后立即比同一原对象。公开 owner 只走公开查询。相对冻结 `a95618fc` 无产品 diff。作者自验不能替代 Codex 独立验收。
+
+## CM1 执行路径输入保真
+
+在原 M3–M6 用例中，对实际交给 `applyPlanPatch` 的 `patch` / `requiredWritableLayerIds`，以及交给 `TransformStampPlacementsCommand` / `PlaceStampCommand` 的 `plan`，在构造/应用前独立深快照，构造后与 dispatch/apply 后立即比较同一输入。返回的新 map 与 EditSession 仍允许推进。未改产品、旧测试、基线或 Codex 见证工具。
 
 本文件位于专属目录 `docs/testing/cursor-map-logic-r2/`。仓内 `m*-mutant.json` / `evidence.json` 是紧凑摘要。复跑默认只写唯一 `/tmp` 目录。残项 title / 数量来自当次 `vitest --reporter=json`。公开可调用但本批未测的路径不得写成「真不可达」。
 
@@ -36,15 +40,16 @@ EditorState 走 `buildBlankProject` → 正式 loader → `toEditorState`，只�
 
 ## 验证
 
-作者自验，不能替代 Codex 独立接收。Status 保持 rework。产品相对 `a95618fc` 空 diff。
+作者自验，不能替代 Codex 独立接收。Status 保持 rework。产品相对 `a95618fc` 空 diff。未改 Codex 见证字节；从 origin/main 拷到 `/tmp/cursor-map-r2-witness-tools` 原样复跑。
 
 - `pnpm --filter @type-pal/editor typecheck` exit 0。
-- 改动 Biome：7 个 TS + runner 0 error。
+- 改动 Biome（fixtures + M3–M6 背景 5 个 TS）`--diagnostic-level=info`：**0 error / 0 warning / 0 info**。
 - `git diff --check` 干净。
-- `node scripts/docs/check.mjs`：见提交前复跑。
-- 负控 `--self-test` 17 项通过；六针 `/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/cursor-map-logic-r2-mutants-3MeMEO`：`count=6`、`allOk=true`、`allHit=true`。
-- 定向+相邻 `/tmp/cursor-map-logic-r2-directed-1790448950.json`：17 files / **104** tests。背景 **6 files / 29 tests**（M4 由 5 减到 4）；相邻 11/75。
-- 全 editor `/tmp/cursor-map-logic-r2-editor-1790448958.json`：**359 files / 3048 tests** `success=true`。PAL 资产仍用 gitignored 符号链接，不入 Git。
-- 未跑官方 coverage / ratchet / 受保护 strict / 全仓 check。未开浏览器，6010 未动。
+- `node scripts/docs/check.mjs`：`672 Markdown / 3664 local links / 216 tasks / content20 SAVE8`，PASS。
+- 负控 `--self-test` 17 项通过；六针 `/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/cursor-map-logic-r2-mutants-JOFG3I`：`count=6`、`allOk=true`、`allHit=true`、全部 `redExit=1`、`hashUnchanged=true`。
+- 定向+相邻 `/tmp/cursor-map-logic-r2-directed-1790466349.json`：17 files / **104** tests。背景 **6 files / 29 tests**；相邻 11/75。Codex 额外相邻 `stamp-placement-command` 7 + `stamp-placement-mutation` 6 见 `/tmp/cursor-map-logic-r2-adjacent-extra-1790466352.json`，合计 19/117，不记作者新增。
+- Codex `cursor-map-r2-review-witnesses.mjs` 原三针仍有效（`/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/codex-cursor-map-review-NisA3G`）：draft-move 候选 5绿/1红；selection-reducer 2绿/3红；stamp-group-lost-height 3绿/1红；正控全绿。
+- Codex `cursor-map-r2-plan-witnesses.mjs` 新两针候选自身业务红（`/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/codex-map-r2-plan-nymNkl`）：group-command 候选变异 2绿/2红（两处 Command 入口 AssertionError）；placement-command 候选变异 3绿/1红；正控 4/4 与 5/5 绿。
+- 未跑全 editor / 官方 coverage / ratchet / 受保护 strict / 全仓 check。未开浏览器，6010 未动。
 
 任务卡：[TEST-CURSOR-MAP-LOGIC-2](../../ops/tasks/TEST-CURSOR-MAP-LOGIC-2-selection-stamps.md)。

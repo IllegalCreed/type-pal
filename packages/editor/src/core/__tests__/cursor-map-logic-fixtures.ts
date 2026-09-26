@@ -11,6 +11,7 @@ import {
   paintProjectMapTiles,
   withProjectMapStampPlacements,
 } from '@type-pal/reforge'
+import { expect } from 'vitest'
 import type { EditorState } from '../edit-session.js'
 import type { ProjectMapPatch } from '../map-patch.js'
 import { applyPreparedProjectMapPatch, prepareProjectMapPatch } from '../map-patch.js'
@@ -133,10 +134,15 @@ export function applyPlanPatch(
   patch: ProjectMapPatch,
   requiredWritableLayerIds: readonly string[],
 ): ProjectMap {
+  const patchSnap = inputSnap(patch)
+  const writableSnap = inputSnap(requiredWritableLayerIds)
   const prepared = prepareProjectMapPatch(map, patch, {
     hiddenLayerIds: [],
     lockedLayerIds: [],
     requiredWritableLayerIds: [...requiredWritableLayerIds],
   })
-  return applyPreparedProjectMapPatch(map, prepared)
+  const next = applyPreparedProjectMapPatch(map, prepared)
+  expect(patch).toEqual(patchSnap)
+  expect(requiredWritableLayerIds).toEqual(writableSnap)
+  return next
 }
