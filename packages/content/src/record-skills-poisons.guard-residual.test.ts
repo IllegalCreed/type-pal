@@ -149,25 +149,31 @@ describe('G7 validateSkills/validatePoisons 残差', () => {
       skills: [skill({ effects: [{ kind: 'trance', sprite: 's.1', battleSprite: 'bs.x' }] })],
       levelUp: {},
     }
+    const badSpriteBefore = deepSnapshot(badSprite)
     expectExactError(
       () => validateSkills(badSprite),
       'skills.skills[0].effects[0].sprite: 已退役；请使用 battleSprite',
     )
+    expect(badSprite).toEqual(badSpriteBefore)
     const badBattleSprite = {
       skills: [skill({ effects: [{ kind: 'summon', battleSprite: '' }] })],
       levelUp: {},
     }
+    const badBattleSpriteBefore = deepSnapshot(badBattleSprite)
     expectExactError(
       () => validateSkills(badBattleSprite),
       'skills.skills[0].effects[0].battleSprite: 期望非空 BattleSpriteDef.id',
     )
+    expect(badBattleSprite).toEqual(badBattleSpriteBefore)
     const badResource = {
       skills: [skill({ effects: [{ kind: 'resourceDelta', resource: 'chi', delta: -1 }] })],
       levelUp: {},
     }
+    const badResourceBefore = deepSnapshot(badResource)
     expectExactError(
       () => validateSkills(badResource),
       'skills.skills[0].effects[0].resource: 只支持 hp/mp',
     )
+    expect(badResource).toEqual(badResourceBefore)
   })
 })

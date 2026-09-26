@@ -1,19 +1,18 @@
 /**
  * TEST-GLM-CONTENT-GUARDS-3 G8：validateItems / validateAuthorItemCore / checkThrowSpec 残差。
- * 去重：validate.test.ts（C8 用途契约：合法世界/战斗/剧情用途、gate 缺省、傀儡携带、
- * 15 条非法用途 each、投掷空效果、8 条安全整数 each、私有脚本组合、配方/资源池、
- * 自材料消耗、装备 battleSprite 映射）、validate-author-items.boundaries（私有槽唯一/
- * battleOnly 上下文）、validate-author.test.ts（作者物品脚本 4 条）——本文件只补冻结池内：
- * use 效果 kind 域与 extraPoisonRes/applyStatus/removeStatus/applyPoison/curePoison/
- * permanentStatBoost/gate/runSceneHook/craftRecipe/drawFromResourcePool/
- * modifyHostileAwareness/scaleCurrentHp/levelUp/placeEntityInFront/dieIfNotPoisoned 各臂、
- * checkThrowSpec 的元素/强度/casterAttack 全分支/applyPoison/currentHpDamage/
- * applyStatus/killIfHpAtMost/damageAndHealCaster/target/presentation、
- * 顶层 id/battleOnly/menuAfterUse/上下文组合/装备叶，及作者物品核的 kind/label/上下文叶。
+ * 去重：validate.test.ts（C8 用途契约：合法三用途/gate 缺省/傀儡/15 条非法 each/投掷空效果/
+ * 8 条安全整数 each/私有脚本/配方资源池/自消耗/装备映射）、validate-author-items.boundaries、
+ * validate-author.test.ts——本文件只补冻结池内：use 效果 kind 域与各 switch 臂、
+ * checkThrowSpec 全分支、顶层/装备/作者物品核叶。
+ * R1：角色效果行以同型角色效果为正控；场景效果（runSceneHook/craftRecipe/
+ * drawFromResourcePool/modifyHostileAwareness）行以 target:'scene' 的同型场景效果为正控，
+ * 坏输入从同型合法基线只改所测字段；投掷行以完整合法 magicDamage 为正控，
+ * 坏输入只改 element/strength 单字段。R2：每个对象拒绝调用经 expectRejectUnchanged
+ * 逐次取实际入参独立快照并立即比较（含同一测试的后续调用）。
  */
-import { describe, expect, test } from 'vitest'
-import { deepSnapshot } from './__tests__/glm-content-contract-fixtures.js'
-import { expectAcceptsUnchanged, expectExactError } from './__tests__/guard-leaf-fixtures.js'
+import { describe, test } from 'vitest'
+import { expectRejectUnchanged } from './__tests__/glm-guard-residual-fixtures.js'
+import { expectAcceptsUnchanged } from './__tests__/guard-leaf-fixtures.js'
 import { checkThrowSpec, validateAuthorItemCore, validateItems } from './validate.js'
 
 const item = (use: unknown) => ({
@@ -26,10 +25,16 @@ const item = (use: unknown) => ({
   use,
 })
 
-const useEffects = (effects: unknown[]) => item({ target: 'oneAlly', consuming: true, effects })
+/** 角色效果载体（同型正控/负例共用）。 */
+const useEffects = (effects: readonly unknown[]) =>
+  item({ target: 'oneAlly', consuming: true, effects })
+
+/** 场景效果载体（runSceneHook/craftRecipe/drawFromResourcePool/modifyHostileAwareness 必须唯一场景效果）。 */
+const sceneItem = (effects: readonly unknown[]) =>
+  item({ target: 'scene', consuming: false, effects })
 
 describe('G8 validateItems use 效果残差', () => {
-  test('效果 kind 域与各 switch 臂正控', () => {
+  test('角色与场景两类同型合法正控通过且输入保真', () => {
     expectAcceptsUnchanged(
       (value) => validateItems(value),
       [
@@ -46,20 +51,53 @@ describe('G8 validateItems use 效果残差', () => {
         ]),
       ],
     )
+    expectAcceptsUnchanged(
+      (value) => validateItems(value),
+      [sceneItem([{ kind: 'runSceneHook', hook: 'onTeleport' }])],
+    )
+    expectAcceptsUnchanged(
+      (value) => validateItems(value),
+      [
+        sceneItem([
+          {
+            kind: 'craftRecipe',
+            recipes: [
+              {
+                ingredients: [{ itemId: 'item.y', count: 2 }],
+                products: [{ itemId: 'item.x', count: 1 }],
+              },
+            ],
+          },
+        ]),
+      ],
+    )
+    expectAcceptsUnchanged(
+      (value) => validateItems(value),
+      [
+        sceneItem([
+          {
+            kind: 'drawFromResourcePool',
+            resource: 'pool.x',
+            maxRoll: 1,
+            rewards: [{ itemId: 'item.y', count: 1 }],
+          },
+        ]),
+      ],
+    )
+    expectAcceptsUnchanged(
+      (value) => validateItems(value),
+      [sceneItem([{ kind: 'modifyHostileAwareness', rangeMultiplier: 3, durationMs: 1 }])],
+    )
   })
 
   test.each([
     ['kind 非字符串', 42, 'items[0].use.effects[0].kind: 期望 string'],
     ['kind 未知', 'nope', 'items[0].use.effects[0].kind: 未知物品效果 nope'],
   ] as const)('use 效果 %s拒绝', (_label, kind, error) => {
-    expectAcceptsUnchanged(
-      (value) => validateItems(value),
-      [useEffects([{ kind: 'healHp', amount: 1 }])],
-    )
+    const control = { kind: 'healHp', amount: 1 }
+    expectAcceptsUnchanged((value) => validateItems(value), [useEffects([control])])
     const bad = [useEffects([{ kind }])]
-    const before = deepSnapshot(bad)
-    expectExactError(() => validateItems(bad), error)
-    expect(bad).toEqual(before)
+    expectRejectUnchanged((value) => validateItems(value), bad, error)
   })
 
   test.each([
@@ -109,41 +147,59 @@ describe('G8 validateItems use 效果残差', () => {
       'items[0].use.effects[0].chance: 不得大于 100',
     ],
     [
-      'runSceneHook hook 域',
-      { kind: 'runSceneHook', hook: 'onUse' },
-      'items[0].use.effects[0].hook: 当前只支持 onTeleport',
-    ],
-    [
-      'runSceneHook 空消息',
-      { kind: 'runSceneHook', hook: 'onTeleport', unavailableMessage: '' },
-      'items[0].use.effects[0].unavailableMessage: 期望非空 string',
-    ],
-    [
-      'craftRecipe 空配方',
-      { kind: 'craftRecipe', recipes: [] },
-      'items[0].use.effects[0].recipes: 至少需要一条配方',
-    ],
-    [
-      'modifyHostileAwareness 倍率',
-      { kind: 'modifyHostileAwareness', rangeMultiplier: 1, durationMs: 1 },
-      'items[0].use.effects[0].rangeMultiplier: 期望 0 或 3',
-    ],
-    [
       'scaleCurrentHp 分子',
       { kind: 'scaleCurrentHp', numerator: 0, denominator: 2 },
       'items[0].use.effects[0].numerator: 期望正数',
     ],
-  ] as const)('%s拒绝且实际输入不变', (_label, badEffect, error) => {
-    const control: Record<string, unknown> = { kind: 'extraPoisonRes', amount: 30 }
+  ] as const)('%s拒绝（同型合法效果正控、单字段破坏）', (_label, badEffect, error) => {
+    const control = { kind: 'extraPoisonRes', amount: 30 }
     expectAcceptsUnchanged((value) => validateItems(value), [useEffects([control])])
     const bad = [useEffects([badEffect])]
-    const before = deepSnapshot(bad)
-    expectExactError(() => validateItems(bad), error)
-    expect(bad).toEqual(before)
+    expectRejectUnchanged((value) => validateItems(value), bad, error)
   })
 
-  test('craftRecipe 配方材料叶与上下文组合拒绝', () => {
-    const legalRecipe = [
+  test.each([
+    [
+      'runSceneHook hook 域',
+      [{ kind: 'runSceneHook', hook: 'onUse' }],
+      'items[0].use.effects[0].hook: 当前只支持 onTeleport',
+    ],
+    [
+      'runSceneHook 空消息',
+      [{ kind: 'runSceneHook', hook: 'onTeleport', unavailableMessage: '' }],
+      'items[0].use.effects[0].unavailableMessage: 期望非空 string',
+    ],
+    [
+      'craftRecipe 空配方',
+      [{ kind: 'craftRecipe', recipes: [] }],
+      'items[0].use.effects[0].recipes: 至少需要一条配方',
+    ],
+    [
+      'drawFromResourcePool 资源首尾空白',
+      [
+        {
+          kind: 'drawFromResourcePool',
+          resource: ' pool.x',
+          maxRoll: 1,
+          rewards: [{ itemId: 'item.y', count: 1 }],
+        },
+      ],
+      'items[0].use.effects[0].resource: 稳定 id 不得包含首尾空白',
+    ],
+    [
+      'modifyHostileAwareness 倍率',
+      [{ kind: 'modifyHostileAwareness', rangeMultiplier: 1, durationMs: 1 }],
+      'items[0].use.effects[0].rangeMultiplier: 期望 0 或 3',
+    ],
+  ] as const)('%s拒绝（target:scene 同型场景效果正控、单字段破坏）', (_label, badEffects, error) => {
+    const control = { kind: 'runSceneHook', hook: 'onTeleport' }
+    expectAcceptsUnchanged((value) => validateItems(value), [sceneItem([control])])
+    const bad = [sceneItem(badEffects)]
+    expectRejectUnchanged((value) => validateItems(value), bad, error)
+  })
+
+  test('craftRecipe 配方材料叶拒绝（scene 载体、完整配方正控）', () => {
+    const control = [
       item({
         target: 'scene',
         consuming: false,
@@ -160,8 +216,8 @@ describe('G8 validateItems use 效果残差', () => {
         ],
       }),
     ]
-    expectAcceptsUnchanged((value) => validateItems(value), legalRecipe)
-    const badIngredient = [
+    expectAcceptsUnchanged((value) => validateItems(value), control)
+    const bad = [
       item({
         target: 'scene',
         consuming: false,
@@ -178,68 +234,11 @@ describe('G8 validateItems use 效果残差', () => {
         ],
       }),
     ]
-    const before = deepSnapshot(badIngredient)
-    expectExactError(
-      () => validateItems(badIngredient),
+    expectRejectUnchanged(
+      (value) => validateItems(value),
+      bad,
       'items[0].use.effects[0].recipes[0].ingredients[0].itemId: 期望非空 string',
     )
-    expect(badIngredient).toEqual(before)
-    const badContext = [
-      useEffects([
-        {
-          kind: 'craftRecipe',
-          recipes: [
-            {
-              ingredients: [{ itemId: 'item.y', count: 2 }],
-              products: [{ itemId: 'item.x', count: 1 }],
-            },
-          ],
-        },
-        { kind: 'hideParty', turns: 1 },
-      ]),
-    ]
-    expectExactError(
-      () => validateItems(badContext),
-      'items[0].use.effects: 效果组合不存在可执行的世界/战斗上下文',
-    )
-  })
-
-  test('drawFromResourcePool 资源叶拒绝', () => {
-    const control = [
-      item({
-        target: 'scene',
-        consuming: false,
-        effects: [
-          {
-            kind: 'drawFromResourcePool',
-            resource: 'pool.x',
-            maxRoll: 1,
-            rewards: [{ itemId: 'item.y', count: 1 }],
-          },
-        ],
-      }),
-    ]
-    expectAcceptsUnchanged((value) => validateItems(value), control)
-    const badTrim = [
-      item({
-        target: 'scene',
-        consuming: false,
-        effects: [
-          {
-            kind: 'drawFromResourcePool',
-            resource: ' pool.x',
-            maxRoll: 1,
-            rewards: [{ itemId: 'item.y', count: 1 }],
-          },
-        ],
-      }),
-    ]
-    const before = deepSnapshot(badTrim)
-    expectExactError(
-      () => validateItems(badTrim),
-      'items[0].use.effects[0].resource: 稳定 id 不得包含首尾空白',
-    )
-    expect(badTrim).toEqual(before)
   })
 
   test('placeEntityInFront 唯一效果正控', () => {
@@ -259,17 +258,19 @@ describe('G8 validateItems use 效果残差', () => {
 })
 
 describe('G8 checkThrowSpec 残差', () => {
-  test('投掷效果全分支正控', () => {
+  const legalMagic = () => ({
+    kind: 'magicDamage',
+    baseDamage: 1,
+    element: 'none',
+    strength: { kind: 'fixed', value: 1 },
+  })
+
+  test('投掷效果全分支正控（含完整 magicDamage/casterAttack 强度）', () => {
     expectAcceptsUnchanged((value) => checkThrowSpec(value), {
       target: 'oneEnemy',
       effects: [
         { kind: 'fixedDamage', amount: 5 },
-        {
-          kind: 'magicDamage',
-          baseDamage: 1,
-          element: 'none',
-          strength: { kind: 'fixed', value: 1 },
-        },
+        legalMagic(),
         {
           kind: 'magicDamage',
           baseDamage: 1,
@@ -293,12 +294,22 @@ describe('G8 checkThrowSpec 残差', () => {
     ['kind 非字符串', 42, 'throw.effects[0].kind: 期望 string'],
     [
       '未知元素',
-      { kind: 'magicDamage', baseDamage: 1, element: 'metal' },
+      {
+        kind: 'magicDamage',
+        baseDamage: 1,
+        element: 'metal',
+        strength: { kind: 'fixed', value: 1 },
+      },
       'throw.effects[0].element: 未知投掷元素 metal',
     ],
     [
       '强度 kind',
-      { kind: 'magicDamage', baseDamage: 1, element: 'none', strength: { kind: 'gauss' } },
+      {
+        kind: 'magicDamage',
+        baseDamage: 1,
+        element: 'none',
+        strength: { kind: 'gauss', value: 1 },
+      },
       'throw.effects[0].strength.kind: 期望 fixed/casterAttack',
     ],
     [
@@ -307,7 +318,7 @@ describe('G8 checkThrowSpec 残差', () => {
         kind: 'magicDamage',
         baseDamage: 1,
         element: 'none',
-        strength: { kind: 'casterAttack', bonus: 0, multiplier: { kind: 'gauss' } },
+        strength: { kind: 'casterAttack', bonus: 0, multiplier: { kind: 'gauss', min: 0, max: 3 } },
       },
       'throw.effects[0].strength.multiplier.kind: 期望 uniformInt',
     ],
@@ -345,7 +356,11 @@ describe('G8 checkThrowSpec 残差', () => {
         kind: 'magicDamage',
         baseDamage: 1,
         element: 'none',
-        strength: { kind: 'casterAttack', bonus: -1 },
+        strength: {
+          kind: 'casterAttack',
+          bonus: -1,
+          multiplier: { kind: 'uniformInt', min: 0, max: 3 },
+        },
       },
       'throw.effects[0].strength.bonus: 不得小于 0',
     ],
@@ -380,15 +395,11 @@ describe('G8 checkThrowSpec 残差', () => {
       { kind: 'damageAndHealCaster', damage: 0, heal: 1 },
       'throw.effects[0].damage: 期望正数',
     ],
-  ] as const)('%s拒绝且实际输入不变', (_label, badEffect, error) => {
-    expectAcceptsUnchanged((value) => checkThrowSpec(value), {
-      target: 'oneEnemy',
-      effects: [{ kind: 'fixedDamage', amount: 5 }],
-    })
+  ] as const)('%s拒绝（完整同型投掷正控、单字段破坏）', (_label, badEffect, error) => {
+    const control = { target: 'oneEnemy', effects: [legalMagic()] }
+    expectAcceptsUnchanged((value) => checkThrowSpec(value), control)
     const bad = { target: 'oneEnemy', effects: [badEffect] }
-    const before = deepSnapshot(bad)
-    expectExactError(() => checkThrowSpec(bad), error)
-    expect(bad).toEqual(before)
+    expectRejectUnchanged((value) => checkThrowSpec(value), bad, error)
   })
 
   test('target 域与 presentation 正负控', () => {
@@ -399,28 +410,32 @@ describe('G8 checkThrowSpec 残差', () => {
     }
     expectAcceptsUnchanged((value) => checkThrowSpec(value), legalPresentation)
     const badTarget = { target: 'random', effects: [{ kind: 'fixedDamage', amount: 5 }] }
-    const targetBefore = deepSnapshot(badTarget)
-    expectExactError(() => checkThrowSpec(badTarget), 'throw.target: 期望 oneEnemy/allEnemies')
-    expect(badTarget).toEqual(targetBefore)
+    expectRejectUnchanged(
+      (value) => checkThrowSpec(value),
+      badTarget,
+      'throw.target: 期望 oneEnemy/allEnemies',
+    )
     const badPresentation = {
       target: 'oneEnemy',
       presentation: { kind: 'firework' },
       effects: [{ kind: 'fixedDamage', amount: 5 }],
     }
-    expectExactError(() => checkThrowSpec(badPresentation), 'throw.presentation.kind: 期望 magic')
+    expectRejectUnchanged(
+      (value) => checkThrowSpec(value),
+      badPresentation,
+      'throw.presentation.kind: 期望 magic',
+    )
   })
 })
 
 describe('G8 validateItems 顶层/装备与作者物品核残差', () => {
+  const legalUseItem = () =>
+    item({ target: 'oneAlly', consuming: true, effects: [{ kind: 'healHp', amount: 1 }] })
+
   test('顶层 id/battleOnly/menuAfterUse 叶拒绝', () => {
-    expectAcceptsUnchanged(
-      (value) => validateItems(value),
-      [item({ target: 'oneAlly', consuming: true, effects: [{ kind: 'healHp', amount: 1 }] })],
-    )
+    expectAcceptsUnchanged((value) => validateItems(value), [legalUseItem()])
     const badId = [{ id: 42, name: 'x', desc: [], buyPrice: 0, sellPrice: 0, sellable: false }]
-    const idBefore = deepSnapshot(badId)
-    expectExactError(() => validateItems(badId), 'items[0]: id 非string')
-    expect(badId).toEqual(idBefore)
+    expectRejectUnchanged((value) => validateItems(value), badId, 'items[0]: id 非string')
     const badBattleOnly = [
       item({
         target: 'oneAlly',
@@ -429,7 +444,11 @@ describe('G8 validateItems 顶层/装备与作者物品核残差', () => {
         effects: [{ kind: 'healHp', amount: 1 }],
       }),
     ]
-    expectExactError(() => validateItems(badBattleOnly), 'items[0].use.battleOnly: 期望 boolean')
+    expectRejectUnchanged(
+      (value) => validateItems(value),
+      badBattleOnly,
+      'items[0].use.battleOnly: 期望 boolean',
+    )
     const badMenu = [
       item({
         target: 'oneAlly',
@@ -438,10 +457,14 @@ describe('G8 validateItems 顶层/装备与作者物品核残差', () => {
         effects: [{ kind: 'healHp', amount: 1 }],
       }),
     ]
-    expectExactError(() => validateItems(badMenu), 'items[0].use.menuAfterUse: 期望 keep/close')
+    expectRejectUnchanged(
+      (value) => validateItems(value),
+      badMenu,
+      'items[0].use.menuAfterUse: 期望 keep/close',
+    )
   })
 
-  test('消耗配方不含自身为正控；装备叶正负控', () => {
+  test('场景配方非消耗为正控；装备叶正负控', () => {
     expectAcceptsUnchanged(
       (value) => validateItems(value),
       [
@@ -473,12 +496,11 @@ describe('G8 validateItems 顶层/装备与作者物品核残差', () => {
         equip: { slot: 'weapon', equipableBy: [42], effects: [{ kind: 'statBoost', attack: 1 }] },
       },
     ]
-    const equipBefore = deepSnapshot(badEquipable)
-    expectExactError(
-      () => validateItems(badEquipable),
+    expectRejectUnchanged(
+      (value) => validateItems(value),
+      badEquipable,
       'items[0].equip.equipableBy[0]: 期望非空 ActorDef.id',
     )
-    expect(badEquipable).toEqual(equipBefore)
     const legalEquip = [
       {
         id: 'weapon',
@@ -498,74 +520,52 @@ describe('G8 validateItems 顶层/装备与作者物品核残差', () => {
   })
 
   test('validateAuthorItemCore kind/label/上下文叶拒绝与正控', () => {
-    const control = [
-      {
-        id: 'item-1',
-        name: '物品1',
-        desc: [],
-        buyPrice: 0,
-        sellPrice: 0,
-        sellable: false,
-        use: { target: 'oneAlly', consuming: true, effects: [{ kind: 'healHp', amount: 1 }] },
-      },
-    ]
-    expectAcceptsUnchanged((value) => validateAuthorItemCore(value), control)
-    const badKind = [
-      {
-        id: 'item-1',
-        name: '物品1',
-        desc: [],
-        buyPrice: 0,
-        sellPrice: 0,
-        sellable: false,
-        use: { target: 'oneAlly', consuming: true, effects: [{ kind: 'nope' }] },
-      },
-    ]
-    const kindBefore = deepSnapshot(badKind)
-    expectExactError(
-      () => validateAuthorItemCore(badKind),
+    const authorItem = (use: unknown) => ({
+      id: 'item-1',
+      name: '物品1',
+      desc: [],
+      buyPrice: 0,
+      sellPrice: 0,
+      sellable: false,
+      use,
+    })
+    const control = authorItem({
+      target: 'oneAlly',
+      consuming: true,
+      effects: [{ kind: 'healHp', amount: 1 }],
+    })
+    expectAcceptsUnchanged((value) => validateAuthorItemCore(value), [control])
+    const badKind = authorItem({
+      target: 'oneAlly',
+      consuming: true,
+      effects: [{ kind: 'nope' }],
+    })
+    expectRejectUnchanged(
+      (value) => validateAuthorItemCore(value),
+      [badKind],
       'items[0].use.effects[0].kind: 未知作者物品效果 nope',
     )
-    expect(badKind).toEqual(kindBefore)
-    const badLabel = [
-      {
-        id: 'item-1',
-        name: '物品1',
-        desc: [],
-        buyPrice: 0,
-        sellPrice: 0,
-        sellable: false,
-        use: {
-          target: 'oneAlly',
-          consuming: true,
-          effects: [{ kind: 'itemPrivateScript', script: { id: 'use', label: 42, body: [] } }],
-        },
-      },
-    ]
-    expectExactError(
-      () => validateAuthorItemCore(badLabel),
+    const badLabel = authorItem({
+      target: 'oneAlly',
+      consuming: true,
+      effects: [{ kind: 'itemPrivateScript', script: { id: 'use', label: 42, body: [] } }],
+    })
+    expectRejectUnchanged(
+      (value) => validateAuthorItemCore(value),
+      [badLabel],
       'items[0].use.effects[0].script.label: 期望 string',
     )
-    const badContext = [
-      {
-        id: 'item-1',
-        name: '物品1',
-        desc: [],
-        buyPrice: 0,
-        sellPrice: 0,
-        sellable: false,
-        use: {
-          target: 'oneAlly',
-          consuming: true,
-          effects: [
-            { kind: 'itemPrivateScript', script: { id: 'use', label: 'x', body: [] } },
-            { kind: 'hideParty', turns: 1 },
-          ],
-        },
-      },
-    ]
-    expectExactError(
-      () => validateAuthorItemCore(badContext),
+    const badContext = authorItem({
+      target: 'oneAlly',
+      consuming: true,
+      effects: [
+        { kind: 'itemPrivateScript', script: { id: 'use', label: 'x', body: [] } },
+        { kind: 'hideParty', turns: 1 },
+      ],
+    })
+    expectRejectUnchanged(
+      (value) => validateAuthorItemCore(value),
+      [badContext],
       'items[0].use.effects: 效果组合不存在可执行的世界/战斗上下文',
     )
   })

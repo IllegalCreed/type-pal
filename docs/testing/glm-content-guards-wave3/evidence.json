@@ -6,7 +6,8 @@
     "productionFreeze": "8add8c66",
     "branchFrom": "4c1c5038 (origin/main, 含任务卡)",
     "worktree": "type-pal-glm-content-guards-wave2（复用，主工作树未动）",
-    "frozenEvidence": "docs/testing/glm-content-guards-wave3/frozen-evidence.json"
+    "frozenEvidence": "docs/testing/glm-content-guards-wave3/frozen-evidence.json",
+    "r2CounterBy": "docs/testing/guard-wave3-review.md（origin/main）"
   },
   "newFiles": [
     "packages/content/src/author-flow.guard-residual.test.ts",
@@ -22,15 +23,15 @@
   "leafTests": {
     "G1": 9,
     "G2": 8,
-    "G3": 11,
+    "G3": 12,
     "G4": 21,
     "G5": 7,
     "G6": 6,
     "G7": 9,
     "G8": 39,
-    "total": 110
+    "total": 111
   },
-  "discipline": "去重先行；合法 fixture 先过真实公开 guard；单轴负例配同入口同形状正控；expectExactError 完整 message 全等；对象/数组实际入参 deepSnapshot 前后比较；正控意外抛出经 not.toThrow 呈 AssertionError",
+  "discipline": "去重先行；合法 fixture 先过真实公开 guard；单轴负例配同入口同形状正控（loop 三行由同一合法 loop 工厂派生且全部含 cond；runSceneHook/craftRecipe/modifyHostileAwareness 行挂 target:scene 同型场景效果载体；投掷行以完整合法 magicDamage 为同型正控，强度各坏行只改单字段）；expectExactError 完整 message 全等；所有对象/数组拒绝调用（含同一测试内后续调用）经 expectRejectUnchanged 或显式快照对：调用前独立 deepSnapshot、执行后立即比较同一实参；原始标量直接值断言",
   "oracle": {
     "tool": "docs/testing/glm-content-guards-wave3/guard-residual-mutants.mjs",
     "criteria": "复用 wave2 已验收判据：恰 exit（对照0/变异1）/ 恰一红 / 失败记录绝对文件+实际 fullName / 其余109过且无skip / 逐条拒混错与timeout / 运行态load命中 entered.json={id,target} / 生产sha256每跑不变",
@@ -68,7 +69,7 @@
       {
         "id": "effect-id-dup",
         "module": "enemy-script.ts",
-        "injection": "effect id 重复消息改写",
+        "injection": "effect id 重复门 -> if (false) void id（删重复门，void id 防 if 吞行）",
         "onlyFailed": "G5 enemy hook/AI/onDefeated 残差 setFallback 缺省正控与同 state effect id 重复拒绝"
       },
       {
@@ -86,19 +87,25 @@
       {
         "id": "item-status-dup",
         "module": "validate.ts",
-        "injection": "removeStatus 重复门 -> if (false) void status",
-        "onlyFailed": "G8 validateItems use 效果残差 removeStatus 重复拒绝且实际输入不变"
+        "injection": "removeStatus 重复门 -> if (false)（seen.add 成条件体，语义无害）",
+        "onlyFailed": "G8 validateItems use 效果残差 removeStatus 重复拒绝（同型合法效果正控、单字段破坏）"
       }
-    ]
+    ],
+    "r1r2Verification": {
+      "singleAxisSelfProbe": "克隆实际坏输入仅修所测字段→同入口 not.toThrow：loop 3 行/use 场景 4 行/throw 3 行全部通过",
+      "labelPollutionWitness": "审查席 initial-input 探针（initial 未命中分支改写 machine.label）：control 9/9 绿、probe 恰红在 G1 badInitial 深比较断言——候选已抓住",
+      "note": "审查席 loop/use/throw 见证锚点因候选表结构重构需 Codex 适配（审查已预告）；语义由上述自证覆盖"
+    }
   },
   "gates": {
-    "directed": "八文件 110/110 exit 0（新鲜 JSON /tmp/wave3-leaf.json）",
-    "contentSuite": "92 文件 1132/1132 exit 0（新鲜 JSON /tmp/wave3-content.json；净增恰 110 行测试身份）",
+    "directed": "八文件 111/111 exit 0（新鲜 JSON）",
+    "contentSuite": "92 文件 1133/1133 exit 0（新鲜 JSON /tmp/wave3r3-content.json；净增恰 111 行测试身份）",
     "typecheck": "pnpm --filter @type-pal/content run typecheck exit 0",
-    "biome": "本批改动文件 0 error；仅 guard-residual-mutants.mjs 三个 noTemplateCurlyInString warning（针内故意保留的生产模板字面量）；全 src 另有 runtime-script.ts:146 既有 noUnusedVariables warning 属分支继承",
+    "biome": "本批改动文件（八测试+两个 fixture+本目录三文件）0 error；仅 guard-residual-mutants.mjs 三个 noTemplateCurlyInString warning（负控针内故意保留的生产源码模板字面量），单列不与 error 混算；全 src 另有 runtime-script.ts:146 既有 noUnusedVariables warning 属分支继承",
     "docs": "node scripts/docs/check.mjs PASS；git diff --check 干净",
     "notRun": "全仓 check/ratchet/strict、逐组 coverage、整包 before/after 对照（卡面允许，冻结池即选题依据）"
   },
   "productDefects": "未发现疑似产品缺陷，无需诊断。不可达臂如实不测：author-script-core:802/:610-612、validate 两处 assertNever、enemy-script ?? 右分支、非本卡八组区域（StartWorld/manifest/sprites/locale）。",
-  "handoff": "不合 main、不标 done；候选 SHA 见卡内作者交付块，交 Codex 独立验收。"
+  "handoff": "不合 main、不标 done；候选 SHA 见卡内作者交付块，交 Codex 独立验收。",
+  "round": "r2 rework（r1 候选 a00f12c2 被 Codex counter 仅 R1–R3；本文件按闭合后最终树更新）"
 }

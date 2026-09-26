@@ -75,10 +75,12 @@ describe('G1 author/runtime script flow 残差', () => {
     expect(badStates).toEqual(before)
     const badInitial = deepSnapshot(legalMachine()) as Record<string, unknown>
     ;(badInitial.machine as Record<string, unknown>).initial = 'ghost'
+    const initialBefore = deepSnapshot(badInitial)
     expectExactError(
       () => checkAuthorScriptFlow(badInitial, 'flow'),
       'flow.machine.initial: 未命中 state ghost',
     )
+    expect(badInitial).toEqual(initialBefore)
   })
 
   test('非 initial machine state 携带 entry 拒绝；开 allowSceneEntry 后 initial state 合法 entry 通过', () => {
@@ -146,10 +148,12 @@ describe('G1 author/runtime script flow 残差', () => {
     )
     expect(flow).toEqual(before)
     next.then = { kind: 'goto' }
+    const flowBefore = deepSnapshot(flow)
     expectExactError(
       () => checkAuthorScriptFlow(flow, 'flow'),
       'flow.machine.states.initial.next.then.kind: 期望 stay|restart|continue|advance|to|branch|commandOutcome',
     )
+    expect(flow).toEqual(flowBefore)
   })
 
   test('commandOutcome 的 command 叶与 outcome 叶拒绝', () => {
@@ -167,10 +171,12 @@ describe('G1 author/runtime script flow 残差', () => {
     expect(flow).toEqual(before)
     next.command = 'confirm'
     next.outcome = 'yes'
+    const flowBefore = deepSnapshot(flow)
     expectExactError(
       () => checkAuthorScriptFlow(flow, 'flow'),
       'flow.machine.states.initial.next.outcome: confirm 期望 no',
     )
+    expect(flow).toEqual(flowBefore)
   })
 
   test('未知 flow kind 与 stage entry reveal kind 拒绝', () => {

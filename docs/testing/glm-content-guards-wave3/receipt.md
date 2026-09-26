@@ -6,7 +6,24 @@
 只新增八份 `.guard-residual.test.ts` + 本目录证据（负控工具 + 回执 + 机账）+ 卡内作者交付块；
 产品、旧测试、scripts、配置/超时/排除、官方 baseline、共享 README/看板零 diff。
 
-## 八组交付（去重先行；合法 fixture 先过真实 guard；单轴负例配同入口正控；实际入参 deepSnapshot 前后比较）
+## r2 counter（R1–R3）的闭合
+
+- **R1**：loop 三行改由同一合法 loop 工厂派生（全部含 `cond`），仅改 mode/yield/maxIterations；
+  runSceneHook/craftRecipe 空配方/modifyHostileAwareness 四行改挂 `target:'scene'` 的同型场景效果载体，
+  坏输入只改所测字段；投掷行以**完整合法 magicDamage**（fixed 强度）为同型正控，未知元素/强度 kind/
+  multiplier kind/min 负/min>max/bonus 负各行的坏输入只破坏所测单字段（multiplier 携带合法 min/max）。
+  单轴自证探针（克隆实际坏输入仅修所测字段→同入口 `not.toThrow`）3/3 通过，等价于审查席
+  loop-one-axis/use-one-axis/throw-one-axis 见证语义。
+- **R2**：新增薄助手 `expectRejectUnchanged`（本次调用前独立快照→执行→立即比较同一实参），
+  G3/G8 重写文件全面改用；其余五文件的所有 `expectExactError` 拒绝调用逐一核对，缺失位
+  （G1 badInitial 与 next.kind/outcome 第二次调用、G3 startBattle 后三调用、G4 cue 五连/递归后续/
+  loadScene 后续、G5 badEnemyId/badOnce/badValue/badFlag、G7 后续效果）全部补齐调用前/后快照对；
+  原始标量不做空快照。审查席 label 污染探针（initial 未命中分支改写 `machine.label`）复跑：
+  control 9/9 绿、probe 恰红在 badInitial 的深比较断言——候选已抓住。
+- **R3**：负控两针描述按 runner 实情勘误（见下表），回执/机账合同声明与计数按最终树
+  （111 行；全 content 1133）刷新。
+
+## 八组交付（去重先行；合法 fixture 先过真实 guard；单轴负例配同入口正控；实际入参逐次快照比较）
 
 | 组 | 文件（`packages/content/src/`） | 去重（既有证据，不复制） | 新增轴 | 行数 |
 |---|---|---|---|---:|
@@ -19,7 +36,7 @@
 | G7 | record-skills-poisons.guard-residual.test.ts | validate-skills-poisons.boundaries（毒 16 条矩阵/顶层形状）、validate.test 技能执行分支/敌方 execution/cost items/lifetimeLimit/音效 AssetId | execution.player.animation 正控与音效叶、prepare 未知 kind/剩余 MP 语义、animation effectSprite/落点/数值字段/keepEffect、summon·trance 新旧字段界、resourceDelta 资源域；validatePoisons 冻结零缺仅正控引用 | 9 |
 | G8 | record-items.guard-residual.test.ts | validate.test C8 用途契约（合法三用途/gate 缺省/傀儡/15 条非法 each/投掷空效果/8 条安全整数 each/私有脚本/配方资源池/自消耗/装备映射）、validate-author-items.boundaries、validate-author.test | use 效果 kind 域与 extraPoisonRes/applyStatus/removeStatus/applyPoison/curePoison/permanentStatBoost/gate/runSceneHook/craftRecipe·products/drawFromResourcePool·maxRoll/modifyHostileAwareness/scaleCurrentHp/levelUp/dieIfNotPoisoned/placeEntityInFront 唯一效果各臂；checkThrowSpec 元素/强度 kind/casterAttack·multiplier 全分支/fixedDamage/applyPoison/currentHpDamage/applyStatus onResist/killIfHpAtMost/damageAndHealCaster/target/presentation；顶层 id/battleOnly/menuAfterUse/上下文组合/装备叶；作者物品核 kind/label/上下文叶 | 39 |
 
-合计 **110 行**。每拒绝行：先同入口同形状合法正控（确实执行）、只破一轴、`expectExactError` 完整 message
+合计 **111 行**（G3 含一条精确性自证用例）。每拒绝行：先同入口同形状合法正控（确实执行）、只破一轴、`expectExactError` 完整 message
 全等、对象/数组实际入参 `deepSnapshot` 前后比较；复用 wave2 已验收的
 `__tests__/guard-leaf-fixtures.ts` 助手（expectExactError/expectAcceptsUnchanged，正控意外抛出呈
 AssertionError），未新造 fixture 文件。行数为选题结果，不与新增分支数挂钩；池内疑似噪声行
@@ -39,18 +56,18 @@ AssertionError），未新造 fixture 文件。行数为选题结果，不与新
 | world-flags-bool | flags 布尔叶 → `if (false) continue` | G2 world script state 残差 flags 非布尔拒绝且实际输入不变 |
 | bare-entity-release | releaseEntity 裸实体门收窄至 vanishEntity | G3 author/runtime command 残差 条件与命令里的裸实体 id 拒绝 |
 | dialog-line-retired | dialog.line 退役门 → `if (false)` | G4 checkCommands 残差 dialog.line 退役与 cue rows/autoAdvance 叶拒绝 |
-| effect-id-dup | effect id 重复消息改写 | G5 enemy hook/AI/onDefeated 残差 setFallback 缺省正控与同 state effect id 重复拒绝 |
+| effect-id-dup | effect id 重复门 → `if (false) void id`（删重复门，`void id` 防 if 吞行） | G5 enemy hook/AI/onDefeated 残差 setFallback 缺省正控与同 state effect id 重复拒绝 |
 | actor-percent-int | tempStatBuff percent 整数门 → `if (false)` | G6 validateActors 残差 casualty tempStatBuff percent 非整数拒绝且实际输入不变 |
 | skill-placement | 落点模式白名单 → `false` | G7 validateSkills/validatePoisons 残差 animation placement 非法拒绝 |
-| item-status-dup | removeStatus 重复门 → `if (false) void status` | G8 validateItems use 效果残差 removeStatus 重复拒绝且实际输入不变 |
+| item-status-dup | removeStatus 重复门 → `if (false)`（`seen.add` 成条件体，语义无害） | G8 validateItems use 效果残差 removeStatus 重复拒绝且实际输入不变 |
 
 明细见 [evidence.json](evidence.json)；机账目录 `/var/folders/.../type-pal-guard-residual-mutants-rg8ko4`。
 
 ## 统一门禁（本批范围，最终树实测）
 
-- 定向八文件：110/110 exit 0（新鲜 JSON `/tmp/wave3-leaf.json`）。
-- 全 content：**92 文件 1132/1132** exit 0（新鲜 JSON `/tmp/wave3-content.json`；基线 8add8c66 的
-  content 已含主线资源批增量，本批净增恰 110 行测试身份）。
+- 定向八文件：111/111 exit 0（新鲜 JSON，复跑两次均绿）。
+- 全 content：**92 文件 1133/1133** exit 0（新鲜 JSON `/tmp/wave3r3-content.json`；基线 8add8c66 的
+  content 已含主线资源批增量，本批净增恰 111 行测试身份）。
 - TC：`pnpm --filter @type-pal/content run typecheck` exit 0。
 - Biome（本批改动文件：八测试 + 本目录三文件）：0 error；仅 guard-residual-mutants.mjs 三个
   `noTemplateCurlyInString` warning——负控针内故意保留的生产源码模板字面量，单列不与 error 混算。

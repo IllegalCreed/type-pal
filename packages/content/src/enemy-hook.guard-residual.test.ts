@@ -45,10 +45,12 @@ describe('G5 enemy hook/AI/onDefeated 残差', () => {
       resistanceToSorcery: 0,
       rules: [{ at: 'act', do: { kind: 'summon', enemyId: '', count: 1 } }],
     }
+    const badEnemyIdBefore = deepSnapshot(badEnemyId)
     expectExactError(
       () => checkEnemyAi(badEnemyId, 'ai'),
       'ai.rules[0].do.enemyId: 期望非空且无首尾空格的 string',
     )
+    expect(badEnemyId).toEqual(badEnemyIdBefore)
   })
 
   test('setFallback 缺省正控与同 state effect id 重复拒绝', () => {
@@ -156,7 +158,9 @@ describe('G5 enemy hook/AI/onDefeated 残差', () => {
       resistanceToSorcery: 0,
       rules: [{ at: 'act', do: { kind: 'pass' }, once: 'yes' }],
     }
+    const badOnceBefore = deepSnapshot(badOnce)
     expectExactError(() => checkEnemyAi(badOnce, 'ai'), 'ai.rules[0].once: 期望 boolean')
+    expect(badOnce).toEqual(badOnceBefore)
   })
 
   test('onDefeated 数组门、wait 叶与 setVar/addVar/setFlag 正负控', () => {
@@ -181,14 +185,18 @@ describe('G5 enemy hook/AI/onDefeated 残差', () => {
     )
     expect(badWait).toEqual(waitBefore)
     const badValue = [{ kind: 'setVar', var: 'k', value: 'x' }]
+    const badValueBefore = deepSnapshot(badValue)
     expectExactError(
       () => checkEnemyOnDefeatedCommands(badValue, 'defeated'),
       'defeated[0]: 期望有限数',
     )
+    expect(badValue).toEqual(badValueBefore)
     const badFlag = [{ kind: 'setFlag', flag: 'f', value: 'yes' }]
+    const badFlagBefore = deepSnapshot(badFlag)
     expectExactError(
       () => checkEnemyOnDefeatedCommands(badFlag, 'defeated'),
       'defeated[0].value: 期望 boolean',
     )
+    expect(badFlag).toEqual(badFlagBefore)
   })
 })

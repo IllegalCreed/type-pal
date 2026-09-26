@@ -47,34 +47,44 @@ describe('G4 checkCommands 残差', () => {
     const control = [{ kind: 'dialog', cue: { rows: [{ text: 't', speed: 10 }], autoAdvance: 0 } }]
     expectAcceptsUnchanged((value) => checkCommands(value, 'commands'), control)
     const noText = [{ kind: 'dialog', cue: { rows: [{}] } }]
+    const noTextBefore = deepSnapshot(noText)
     expectExactError(() => checkCommands(noText, 'commands'), 'commands[0].cue.rows[0]: 缺 text')
     const badSpeed = [{ kind: 'dialog', cue: { rows: [{ text: 't', speed: -1 }] } }]
+    const badSpeedBefore = deepSnapshot(badSpeed)
     expectExactError(
       () => checkCommands(badSpeed, 'commands'),
       'commands[0].cue.rows[0].speed: 期望非负有限数',
     )
+    expect(noText).toEqual(noTextBefore)
+    expect(badSpeed).toEqual(badSpeedBefore)
     const badAdvance = [{ kind: 'dialog', cue: { rows: [{ text: 't' }], autoAdvance: -1 } }]
+    const badAdvanceBefore = deepSnapshot(badAdvance)
     expectExactError(
       () => checkCommands(badAdvance, 'commands'),
       'commands[0].cue.autoAdvance: 期望非负有限数',
     )
+    expect(badAdvance).toEqual(badAdvanceBefore)
     const badPortrait = [
       { kind: 'dialog', cue: { rows: [{ text: 't' }], portrait: { asset: '', side: 'left' } } },
     ]
+    const badPortraitBefore = deepSnapshot(badPortrait)
     expectExactError(
       () => checkCommands(badPortrait, 'commands'),
       'commands[0].cue.portrait.asset: 期望非空 AssetId',
     )
+    expect(badPortrait).toEqual(badPortraitBefore)
     const badSide = [
       {
         kind: 'dialog',
         cue: { rows: [{ text: 't' }], portrait: { asset: 'p.a', side: 'center' } },
       },
     ]
+    const badSideBefore = deepSnapshot(badSide)
     expectExactError(
       () => checkCommands(badSide, 'commands'),
       'commands[0].cue.portrait.side: 期望 left/right',
     )
+    expect(badSide).toEqual(badSideBefore)
   })
 
   test('loadScene 叶轴拒绝与 source 过渡正控', () => {
@@ -101,11 +111,14 @@ describe('G4 checkCommands 残差', () => {
     const badFacing = [
       { kind: 'loadScene', scene: 's', pos: { col: 1, row: 1, height: 0 }, facing: 'north' },
     ]
+    const badFacingBefore = deepSnapshot(badFacing)
     expectExactError(
       () => checkCommands(badFacing, 'commands'),
       'commands[0].facing: 期望 up/down/left/right',
     )
+    expect(badFacing).toEqual(badFacingBefore)
     const badPos = [{ kind: 'loadScene', scene: 's', pos: { col: Number.NaN, row: 1, height: 0 } }]
+    const badPosBefore = deepSnapshot(badPos)
     expectExactError(() => checkCommands(badPos, 'commands'), 'commands[0].pos.col: 期望有限数')
     const badSource = [
       {
@@ -120,15 +133,20 @@ describe('G4 checkCommands 残差', () => {
         },
       },
     ]
+    const badSourceBefore = deepSnapshot(badSource)
     expectExactError(
       () => checkCommands(badSource, 'commands'),
       'commands[0].transition: source 需要合法时序和 evidenceId',
     )
+    expect(badPos).toEqual(badPosBefore)
+    expect(badSource).toEqual(badSourceBefore)
     const badWipe = [{ kind: 'loadScene', scene: 's', transition: { kind: 'wipe' } }]
+    const badWipeBefore = deepSnapshot(badWipe)
     expectExactError(
       () => checkCommands(badWipe, 'commands'),
       'commands[0].transition.kind: 未知过渡类型',
     )
+    expect(badWipe).toEqual(badWipeBefore)
   })
 
   test.each([
@@ -224,12 +242,16 @@ describe('G4 checkCommands 残差', () => {
         onFail: [{ kind: 'playMusic', asset: '' }],
       },
     ]
+    const badFailBefore = deepSnapshot(badFail)
     expectExactError(
       () => checkCommands(badFail, 'commands'),
       'commands[0].onFail[0].asset: 期望非空 AssetId',
     )
+    expect(badFail).toEqual(badFailBefore)
     const badNo = [{ kind: 'confirm', onNo: [{}] }]
+    const badNoBefore = deepSnapshot(badNo)
     expectExactError(() => checkCommands(badNo, 'commands'), 'commands[0].onNo[0]: 缺 kind')
+    expect(badNo).toEqual(badNoBefore)
   })
 
   test('四个投影辅助函数的现行合同', () => {
@@ -321,15 +343,19 @@ describe('G4 checkStages / checkEntityPages 残差', () => {
     )
     expect(badAnimation).toEqual(animationBefore)
     const badLoop = [{ animation: { sprite: 's', action: 'a', loop: 1 } }]
+    const badLoopBefore = deepSnapshot(badLoop)
     expectExactError(
       () => checkEntityPages(badLoop, 'pages'),
       'pages[0].animation.loop: 期望 boolean',
     )
+    expect(badLoop).toEqual(badLoopBefore)
     const badStart = [{ animation: { sprite: 's', action: 'a', loop: true, startAtMs: -1 } }]
+    const badStartBefore = deepSnapshot(badStart)
     expectExactError(
       () => checkEntityPages(badStart, 'pages'),
       'pages[0].animation.startAtMs: 期望非负有限数',
     )
+    expect(badStart).toEqual(badStartBefore)
     const badTrigger = [{ trigger: { on: 'near', stages: [{ body: [] }] } }]
     const triggerBefore = deepSnapshot(badTrigger)
     expectExactError(

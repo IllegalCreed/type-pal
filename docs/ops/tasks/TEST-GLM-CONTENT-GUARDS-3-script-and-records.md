@@ -91,4 +91,12 @@ docs/testing/coverage-plus5/README.md。核clean并fetch；复用已合入的typ
 - 未发现产品疑似缺陷；不可达臂如实不测（详见
   [回执](../../testing/glm-content-guards-wave3/receipt.md) 与
   [机账](../../testing/glm-content-guards-wave3/evidence.json)）。
-- 候选 SHA：见本分支头部提交；不合 main、不标 done，交 Codex 独立验收。
+- 窄返工（2026-09-26，仅 R1–R3，见 origin/main `docs/testing/guard-wave3-review.md`）：
+  R1 loop 三行由同一合法 loop 工厂派生（全部含 cond）、场景效果四行挂 target:scene 同型载体、
+  投掷行以完整合法 magicDamage 为同型正控且各坏行只改单字段；R2 新增薄助手
+  `expectRejectUnchanged`，G3/G8 重写全面改用，其余文件所有拒绝调用逐次快照对补齐
+  （含同一测试内第二、第三次调用），审查席 label 污染探针复跑被候选恰红抓住；
+  R3 两针描述按 runner 实情勘误（effect-id-dup=删重复门、item-status-dup=if (false)），
+  回执/机账按最终树刷新。复验：定向 111/111、单轴自证 3/3、负控 8 针各恰红、
+  全 content **92 文件 1133/1133**、TC 0、改动 Biome 0 error（3 故意针面 warning）、docs PASS。
+  候选 SHA：见本分支头部提交；不合 main、不标 done，交 Codex 独立验收。

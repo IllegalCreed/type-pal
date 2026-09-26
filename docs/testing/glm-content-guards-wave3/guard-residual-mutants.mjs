@@ -97,10 +97,10 @@ const mutations = [
     describe: 'G8 validateItems use 效果残差',
     from: 'if (seen.has(status)) throw new Error(`${ctx}.statuses[${index}]: 状态 ${status} 重复`)',
     to: 'if (false)',
-    title: 'removeStatus 重复拒绝且实际输入不变',
+    title: 'removeStatus 重复拒绝（同型合法效果正控、单字段破坏）',
   },
 ]
-const TOTAL = 110
+const TOTAL = 111
 const sourcePath = (name) => resolve(root, `packages/content/src/${name}.ts`)
 const hash = (name) =>
   createHash('sha256')

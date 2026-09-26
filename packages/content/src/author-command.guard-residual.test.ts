@@ -9,10 +9,12 @@
  * enemyTeamId/auto/fieldId/music、callScript 合法正控、selectEntityBehavior channel、
  * selectEntityPage/selectEntityTriggerActivation selection 叶、selectSceneHooks、
  * loadScene 互斥/facing/transition 叶。不重做上波条件叶矩阵。
+ * R1：loop 三行与其它表行一样由同一合法 loop 工厂派生（全部含 cond），只改所测字段。
+ * R2：每个对象/数组拒绝调用经 expectRejectUnchanged 逐次取实际入参独立快照并立即比较。
  */
-import { describe, expect, test } from 'vitest'
-import { deepSnapshot } from './__tests__/glm-content-contract-fixtures.js'
-import { expectAcceptsUnchanged, expectExactError } from './__tests__/guard-leaf-fixtures.js'
+import { describe, test } from 'vitest'
+import { expectRejectUnchanged } from './__tests__/glm-guard-residual-fixtures.js'
+import { expectAcceptsUnchanged } from './__tests__/guard-leaf-fixtures.js'
 import { checkAuthorCommands } from './author-script.js'
 import { checkRuntimeCommands } from './runtime-script.js'
 
@@ -29,111 +31,84 @@ describe('G3 author/runtime command 残差', () => {
 
   test('条件与命令里的裸实体 id 拒绝', () => {
     const badMove = [{ kind: 'animEntity', entity: 'e1', target: { scene: 's', entity: 'e' } }]
-    const before = deepSnapshot(badMove)
-    expectExactError(
-      () => checkAuthorCommands(badMove, 'commands'),
+    expectRejectUnchanged(
+      (value) => checkAuthorCommands(value, 'commands'),
+      badMove,
       'commands[0].entity: 当前作者态禁止裸实体 id',
     )
-    expect(badMove).toEqual(before)
     const badRelease = [{ kind: 'releaseEntity', entity: 'e1' }]
-    const releaseBefore = deepSnapshot(badRelease)
-    expectExactError(
-      () => checkAuthorCommands(badRelease, 'commands'),
+    expectRejectUnchanged(
+      (value) => checkAuthorCommands(value, 'commands'),
+      badRelease,
       'commands[0].entity: 当前作者态禁止裸实体 id',
     )
-    expect(badRelease).toEqual(releaseBefore)
   })
 
   test('setMultiEntityState 裸 entities 与空 targets 拒绝', () => {
     const badEntities = [
       { kind: 'setMultiEntityState', entities: ['e1'], targets: [{ scene: 's', entity: 'e' }] },
     ]
-    const before = deepSnapshot(badEntities)
-    expectExactError(
-      () => checkAuthorCommands(badEntities, 'commands'),
+    expectRejectUnchanged(
+      (value) => checkAuthorCommands(value, 'commands'),
+      badEntities,
       'commands[0].entities: 当前作者态禁止裸实体 id',
     )
-    expect(badEntities).toEqual(before)
     const badTargets = [{ kind: 'setMultiEntityState', targets: [] }]
-    expectExactError(
-      () => checkAuthorCommands(badTargets, 'commands'),
+    expectRejectUnchanged(
+      (value) => checkAuthorCommands(value, 'commands'),
+      badTargets,
       'commands[0].targets: 期望非空 EntityAddress[]',
     )
   })
 
+  const legalLoop = () => ({
+    kind: 'loop',
+    mode: 'while',
+    cond: { kind: 'chance', percent: 50 },
+    body: [],
+    yield: 'worldTick',
+    maxIterations: 2,
+  })
+
   test.each([
-    [
-      'loop mode 非法',
-      { kind: 'loop', mode: 'repeat', body: [], yield: 'worldTick', maxIterations: 2 },
-      'commands[0].mode: 期望 while|until',
-    ],
+    ['loop mode 非法', { mode: 'repeat' }, 'commands[0].mode: 期望 while|until'],
     [
       'loop yield 非 worldTick',
-      {
-        kind: 'loop',
-        mode: 'while',
-        cond: { kind: 'chance', percent: 50 },
-        body: [],
-        yield: 'macroTask',
-        maxIterations: 2,
-      },
+      { yield: 'macroTask' },
       'commands[0].yield: canonical loop 必须 worldTick',
     ],
-    [
-      'loop maxIterations 非正',
-      {
-        kind: 'loop',
-        mode: 'until',
-        cond: { kind: 'chance', percent: 50 },
-        body: [],
-        yield: 'worldTick',
-        maxIterations: 0,
-      },
-      'commands[0].maxIterations: 期望正整数',
-    ],
-  ] as const)('%s拒绝', (_label, bad, error) => {
-    expectAcceptsUnchanged(
-      (value) => checkAuthorCommands(value, 'commands'),
-      [
-        {
-          kind: 'loop',
-          mode: 'while',
-          cond: { kind: 'chance', percent: 50 },
-          body: [],
-          yield: 'worldTick',
-          maxIterations: 2,
-        },
-      ],
-    )
-    const input = [bad]
-    const before = deepSnapshot(input)
-    expectExactError(() => checkAuthorCommands(input, 'commands'), error)
-    expect(input).toEqual(before)
+    ['loop maxIterations 非正', { maxIterations: 0 }, 'commands[0].maxIterations: 期望正整数'],
+  ] as const)('%s拒绝（同一合法 loop 仅改所测字段）', (_label, over, error) => {
+    expectAcceptsUnchanged((value) => checkAuthorCommands(value, 'commands'), [legalLoop()])
+    const bad = { ...legalLoop(), ...over }
+    expectRejectUnchanged((value) => checkAuthorCommands(value, 'commands'), [bad], error)
   })
 
   test('startBattle 叶轴拒绝（runtime 入口）', () => {
     const control = [{ kind: 'startBattle', enemyTeamId: 'team' }]
     expectAcceptsUnchanged((value) => checkRuntimeCommands(value, 'commands'), control)
     const badTeam = [{ kind: 'startBattle', enemyTeamId: '' }]
-    const teamBefore = deepSnapshot(badTeam)
-    expectExactError(
-      () => checkRuntimeCommands(badTeam, 'commands'),
+    expectRejectUnchanged(
+      (value) => checkRuntimeCommands(value, 'commands'),
+      badTeam,
       'commands[0].enemyTeamId: 期望非空字符串',
     )
-    expect(badTeam).toEqual(teamBefore)
     const badAuto = [{ kind: 'startBattle', enemyTeamId: 'team', auto: 'yes' }]
-    expectExactError(
-      () => checkRuntimeCommands(badAuto, 'commands'),
+    expectRejectUnchanged(
+      (value) => checkRuntimeCommands(value, 'commands'),
+      badAuto,
       'commands[0].auto: 期望 boolean',
     )
     const badField = [{ kind: 'startBattle', enemyTeamId: 'team', fieldId: -1 }]
-    expectExactError(
-      () => checkRuntimeCommands(badField, 'commands'),
+    expectRejectUnchanged(
+      (value) => checkRuntimeCommands(value, 'commands'),
+      badField,
       'commands[0].fieldId: 期望非负安全整数',
     )
     const badMusic = [{ kind: 'startBattle', enemyTeamId: 'team', music: 3 }]
-    expectExactError(
-      () => checkRuntimeCommands(badMusic, 'commands'),
+    expectRejectUnchanged(
+      (value) => checkRuntimeCommands(value, 'commands'),
+      badMusic,
       'commands[0].music: 期望非空 AssetId|null',
     )
   })
@@ -155,12 +130,11 @@ describe('G3 author/runtime command 残差', () => {
         channel: 'tap',
       },
     ]
-    const before = deepSnapshot(badChannel)
-    expectExactError(
-      () => checkAuthorCommands(badChannel, 'commands'),
+    expectRejectUnchanged(
+      (value) => checkAuthorCommands(value, 'commands'),
+      badChannel,
       'commands[0].channel: 期望 trigger|auto',
     )
-    expect(badChannel).toEqual(before)
   })
 
   test('selectEntityPage 与 setEntityTriggerActivation selection 叶拒绝', () => {
@@ -179,12 +153,11 @@ describe('G3 author/runtime command 残差', () => {
         selection: { kind: 'disabled' },
       },
     ]
-    const pageBefore = deepSnapshot(badPage)
-    expectExactError(
-      () => checkAuthorCommands(badPage, 'commands'),
+    expectRejectUnchanged(
+      (value) => checkAuthorCommands(value, 'commands'),
+      badPage,
       'commands[0].selection.kind: 期望 inherit|use',
     )
-    expect(badPage).toEqual(pageBefore)
     const legalActivation = [
       {
         kind: 'setEntityTriggerActivation',
@@ -200,12 +173,11 @@ describe('G3 author/runtime command 残差', () => {
         selection: { kind: 'use', value: { on: 'tap' } },
       },
     ]
-    const onBefore = deepSnapshot(badOn)
-    expectExactError(
-      () => checkAuthorCommands(badOn, 'commands'),
+    expectRejectUnchanged(
+      (value) => checkAuthorCommands(value, 'commands'),
+      badOn,
       'commands[0].selection.value.on: 期望 interact|touch',
     )
-    expect(badOn).toEqual(onBefore)
     const badRange = [
       {
         kind: 'setEntityTriggerActivation',
@@ -213,8 +185,9 @@ describe('G3 author/runtime command 残差', () => {
         selection: { kind: 'use', value: { on: 'interact', range: -1 } },
       },
     ]
-    expectExactError(
-      () => checkAuthorCommands(badRange, 'commands'),
+    expectRejectUnchanged(
+      (value) => checkAuthorCommands(value, 'commands'),
+      badRange,
       'commands[0].selection.value.range: 期望非负有限数',
     )
   })
@@ -229,27 +202,26 @@ describe('G3 author/runtime command 残差', () => {
     ]
     expectAcceptsUnchanged((value) => checkAuthorCommands(value, 'commands'), legalHooks)
     const badHooks = [{ kind: 'selectSceneHooks', scene: 's', selection: {} }]
-    const before = deepSnapshot(badHooks)
-    expectExactError(
-      () => checkAuthorCommands(badHooks, 'commands'),
+    expectRejectUnchanged(
+      (value) => checkAuthorCommands(value, 'commands'),
+      badHooks,
       'commands[0].selection: 至少选择一个 hook 槽',
     )
-    expect(badHooks).toEqual(before)
   })
 
   test('loadScene entryId/pos 互斥、facing 与 transition 叶拒绝', () => {
     const control = [{ kind: 'loadScene', scene: 's', entryId: 'a' }]
     expectAcceptsUnchanged((value) => checkAuthorCommands(value, 'commands'), control)
     const badBoth = [{ kind: 'loadScene', scene: 's', entryId: 'a', pos: { col: 1, row: 1 } }]
-    const bothBefore = deepSnapshot(badBoth)
-    expectExactError(
-      () => checkAuthorCommands(badBoth, 'commands'),
+    expectRejectUnchanged(
+      (value) => checkAuthorCommands(value, 'commands'),
+      badBoth,
       'commands[0]: entryId 与 pos 不能同时存在',
     )
-    expect(badBoth).toEqual(bothBefore)
     const badFacing = [{ kind: 'loadScene', scene: 's', entryId: 'a', facing: 'north' }]
-    expectExactError(
-      () => checkAuthorCommands(badFacing, 'commands'),
+    expectRejectUnchanged(
+      (value) => checkAuthorCommands(value, 'commands'),
+      badFacing,
       'commands[0].facing: 期望 up/down/left/right',
     )
     const badTransition = [
@@ -260,13 +232,29 @@ describe('G3 author/runtime command 残差', () => {
         transition: { kind: 'modern', outMs: 1, inMs: 1, color: 'black' },
       },
     ]
-    expectExactError(
-      () => checkAuthorCommands(badTransition, 'commands'),
+    expectRejectUnchanged(
+      (value) => checkAuthorCommands(value, 'commands'),
+      badTransition,
       'commands[0].transition: modern 必须是 260/260 black',
     )
     const badWipe = [{ kind: 'loadScene', scene: 's', entryId: 'a', transition: { kind: 'wipe' } }]
-    expectExactError(
-      () => checkAuthorCommands(badWipe, 'commands'),
+    expectRejectUnchanged(
+      (value) => checkAuthorCommands(value, 'commands'),
+      badWipe,
+      'commands[0].transition.kind: 未知过渡类型',
+    )
+  })
+
+  test('expect 精确性自证：对同一坏输入第二次调用仍拒绝且输入不变', () => {
+    const badWipe = [{ kind: 'loadScene', scene: 's', entryId: 'a', transition: { kind: 'wipe' } }]
+    expectRejectUnchanged(
+      (value) => checkAuthorCommands(value, 'commands'),
+      badWipe,
+      'commands[0].transition.kind: 未知过渡类型',
+    )
+    expectRejectUnchanged(
+      (value) => checkAuthorCommands(value, 'commands'),
+      badWipe,
       'commands[0].transition.kind: 未知过渡类型',
     )
   })
