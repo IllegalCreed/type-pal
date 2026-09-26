@@ -146,6 +146,14 @@ const cases = {
     to: "props.layout === 'inline' && 'ds-field--row'",
     title: 'keeps field-group, field, and control-group identity with inline layout and required asterisk',
   },
+  u06: {
+    id: 'u06-escape-cancel',
+    sourceFile: 'src/ui/design-system/draft-input-state.ts',
+    testFile: 'src/ui/design-system/draft-text-inputs.test.tsx',
+    from: 'onCancel?.()',
+    to: 'void onCancel',
+    title: 'keeps draft text input identity with Enter commit and Escape cancel',
+  },
 }
 
 const selected = process.argv[2] ? [process.argv[2]] : Object.keys(cases)

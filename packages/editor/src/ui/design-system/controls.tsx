@@ -18,14 +18,25 @@ import {
 import { DS_OPTION_VIRTUALIZE_ABOVE, filterDsCollection } from './collection-search.js'
 import type { DsButtonVariant, DsControlSize } from './control-types.js'
 import { classes, describedBy } from './control-utils.js'
+import { useDsDraftController } from './draft-input-state.js'
 import { DsField, type DsFieldChromeProps } from './field-layout.js'
-import { DsHelpTip } from './help-tips.js'
 import { DsFloatingLayer } from './floating-layer.js'
+import { DsHelpTip } from './help-tips.js'
 import { DsIconButton } from './icon-button.js'
 import { DsIcon, type DsIconName } from './icons.js'
+import {
+  DsDraftTextArea,
+  DsDraftTextInput,
+  type DsDraftTextInputProps,
+} from './draft-text-inputs.js'
+import type { DsDraftInputContract } from './draft-input-state.js'
+import { DsTextArea, DsTextInput, type DsFormControlAppearance } from './text-inputs.js'
 
 export { DsActionLink, DsButton, DsPressable } from './buttons.js'
 export type { DsButtonVariant, DsControlSize } from './control-types.js'
+export type { DsDraftInputContract } from './draft-input-state.js'
+export { draftSource, useDsDraftController } from './draft-input-state.js'
+export { DsDraftTextArea, DsDraftTextInput } from './draft-text-inputs.js'
 export type { DsFieldChromeProps, DsFieldControlProps, DsFieldHelp } from './field-layout.js'
 export { DsControlGroup, DsField, DsFieldGroup } from './field-layout.js'
 export { DsHelpTip, DsTooltip } from './help-tips.js'
@@ -35,244 +46,8 @@ export type { DsOverflowTextProps } from './overflow-text.js'
 export { DsOverflowText } from './overflow-text.js'
 export type { DsTagTone } from './status-values.js'
 export { DsReadonlyValue, DsTag } from './status-values.js'
-
-type DsFormControlAppearance = {
-  invalid?: boolean
-  size?: DsControlSize
-  monospace?: boolean
-}
-
-export const DsTextInput = forwardRef<
-  HTMLInputElement,
-  Omit<InputHTMLAttributes<HTMLInputElement>, 'style' | 'size'> & DsFormControlAppearance
->(function DsTextInput(props, ref) {
-  const {
-    className,
-    invalid,
-    size = 'default',
-    monospace = false,
-    'aria-invalid': ariaInvalid,
-    ...rest
-  } = props
-  return (
-    <input
-      {...rest}
-      ref={ref}
-      className={classes(
-        'ds-input',
-        size === 'compact' && 'ds-input--compact',
-        monospace && 'ds-control--monospace',
-        className,
-      )}
-      aria-invalid={invalid || ariaInvalid || undefined}
-    />
-  )
-})
-
-type DsDraftInputState = {
-  source: string
-  value: string
-  error?: string
-}
-
-type DsDraftInputContract = {
-  /** Stable object + field identity. Changing it cancels the previous object's draft. */
-  draftKey: string
-  /** Optional external transaction version used to resync after undo/redo. */
-  syncToken?: string | number
-  validate?: (value: string) => string | undefined
-  /** Return false when the canonical mutation was rejected so the draft resyncs. */
-  onCommit: (value: string) => void | boolean
-  onCancel?: () => void
-}
-
-type DsDraftTextInputProps = Omit<
-  InputHTMLAttributes<HTMLInputElement>,
-  | 'className'
-  | 'style'
-  | 'size'
-  | 'value'
-  | 'defaultValue'
-  | 'onChange'
-  | 'onBlur'
-  | 'onKeyDown'
-  | 'onCompositionStart'
-  | 'onCompositionEnd'
-> &
-  DsFormControlAppearance &
-  DsDraftInputContract & {
-    value: string
-    inputRef?: Ref<HTMLInputElement>
-  }
-
-function draftSource(draftKey: string, syncToken: string | number | undefined, value: string) {
-  return `${draftKey}\0${syncToken ?? ''}\0${value}`
-}
-
-/**
- * Canonical continuous-text transaction boundary.
- * Input and IME composition stay local; blur/Enter commit once, Escape cancels, and
- * identity/canonical changes discard stale drafts.
- */
-export function DsDraftTextInput(props: DsDraftTextInputProps) {
-  const {
-    draftKey,
-    syncToken,
-    value: canonicalValue,
-    validate,
-    onCommit,
-    onCancel,
-    invalid,
-    inputRef,
-    title,
-    ...controlProps
-  } = props
-  const controller = useDsDraftController({
-    draftKey,
-    syncToken,
-    value: canonicalValue,
-    validate,
-    onCommit,
-    onCancel,
-  })
-  return (
-    <DsTextInput
-      {...controlProps}
-      ref={inputRef}
-      value={controller.value}
-      invalid={invalid || Boolean(controller.error)}
-      title={controller.error ?? title}
-      data-ds-draft-commit={controlProps.type === 'number' ? 'number' : 'text'}
-      onChange={(event) => controller.change(event.target.value)}
-      onBlur={controller.blur}
-      onKeyDown={controller.keyDown}
-      onCompositionStart={controller.compositionStart}
-      onCompositionEnd={(event) => controller.compositionEnd(event.currentTarget.value)}
-    />
-  )
-}
-
-function useDsDraftController(props: DsDraftInputContract & { value: string }): {
-  value: string
-  error?: string
-  change(value: string): void
-  replaceAndCommit(value: string): boolean
-  blur(): void
-  keyDown(event: ReactKeyboardEvent<HTMLInputElement | HTMLTextAreaElement>): void
-  compositionStart(): void
-  compositionEnd(value: string): void
-} {
-  const { draftKey, syncToken, value: canonicalValue, validate, onCommit, onCancel } = props
-  const source = draftSource(draftKey, syncToken, canonicalValue)
-  const [draft, setDraft] = useState<DsDraftInputState>({ source, value: canonicalValue })
-  const current = draft.source === source ? draft : { source, value: canonicalValue }
-  const currentRef = useRef<DsDraftInputState>(current)
-  const composingRef = useRef(false)
-  const blurredWhileComposingRef = useRef(false)
-  const committedRef = useRef<string | undefined>(undefined)
-  const suppressNextBlurRef = useRef(false)
-
-  // Keep event handlers on the current object even before the synchronization effect runs.
-  currentRef.current = current
-
-  useEffect(() => {
-    if (draft.source !== source) setDraft({ source, value: canonicalValue })
-  }, [canonicalValue, draft.source, source])
-
-  const commitDraft = useCallback(
-    (next: DsDraftInputState): boolean => {
-      if (next.source !== source) return true
-      const signature = `${source}\0${next.value}`
-      if (committedRef.current === signature) return true
-      const error = validate?.(next.value)
-      if (error) {
-        const invalidDraft = { ...next, error }
-        currentRef.current = invalidDraft
-        setDraft(invalidDraft)
-        return false
-      }
-      const accepted = next.value === canonicalValue ? true : onCommit(next.value)
-      if (accepted === false) {
-        committedRef.current = undefined
-        const cleanDraft = { source, value: canonicalValue }
-        currentRef.current = cleanDraft
-        setDraft(cleanDraft)
-        return false
-      }
-      committedRef.current = signature
-      const cleanDraft = { source, value: next.value }
-      currentRef.current = cleanDraft
-      setDraft(cleanDraft)
-      return true
-    },
-    [canonicalValue, onCommit, source, validate],
-  )
-
-  const commit = useCallback((): boolean => commitDraft(currentRef.current), [commitDraft])
-
-  return {
-    value: current.value,
-    error: current.error,
-    change: (value) => {
-      const next = { source, value }
-      committedRef.current = undefined
-      currentRef.current = next
-      setDraft(next)
-    },
-    replaceAndCommit: (value) => {
-      const next = { source, value }
-      committedRef.current = undefined
-      currentRef.current = next
-      setDraft(next)
-      return commitDraft(next)
-    },
-    blur: () => {
-      if (suppressNextBlurRef.current) {
-        suppressNextBlurRef.current = false
-        return
-      }
-      if (composingRef.current) {
-        blurredWhileComposingRef.current = true
-        return
-      }
-      commit()
-    },
-    keyDown: (event) => {
-      if (
-        (event.key === 'Enter' || event.key === 'Escape') &&
-        (composingRef.current || event.nativeEvent.isComposing || event.nativeEvent.keyCode === 229)
-      )
-        return
-      if (event.key === 'Enter') {
-        event.preventDefault()
-        if (commit()) event.currentTarget.blur()
-        return
-      }
-      if (event.key !== 'Escape') return
-      event.preventDefault()
-      blurredWhileComposingRef.current = false
-      committedRef.current = undefined
-      const cleanDraft = { source, value: canonicalValue }
-      currentRef.current = cleanDraft
-      setDraft(cleanDraft)
-      onCancel?.()
-      event.currentTarget.blur()
-    },
-    compositionStart: () => {
-      composingRef.current = true
-    },
-    compositionEnd: (value) => {
-      composingRef.current = false
-      const next = { source, value }
-      currentRef.current = next
-      setDraft(next)
-      if (blurredWhileComposingRef.current) {
-        blurredWhileComposingRef.current = false
-        queueMicrotask(commit)
-      }
-    },
-  }
-}
+export type { DsFormControlAppearance } from './text-inputs.js'
+export { DsTextArea, DsTextInput } from './text-inputs.js'
 
 type DsDraftNumberInputProps = Omit<
   DsDraftTextInputProps,
@@ -573,44 +348,6 @@ type DsDraftTextAreaProps = Omit<
   }
 
 /** Multiline adapter for the same draft transaction boundary; Enter remains a newline. */
-export function DsDraftTextArea(props: DsDraftTextAreaProps) {
-  const {
-    draftKey,
-    syncToken,
-    value,
-    validate,
-    onCommit,
-    onCancel,
-    invalid,
-    title,
-    ...controlProps
-  } = props
-  const controller = useDsDraftController({
-    draftKey,
-    syncToken,
-    value,
-    validate,
-    onCommit,
-    onCancel,
-  })
-  return (
-    <DsTextArea
-      {...controlProps}
-      value={controller.value}
-      invalid={invalid || Boolean(controller.error)}
-      title={controller.error ?? title}
-      data-ds-draft-commit="textarea"
-      onChange={(event) => controller.change(event.target.value)}
-      onBlur={controller.blur}
-      onKeyDown={(event) => {
-        if (event.key === 'Enter' && !event.metaKey && !event.ctrlKey) return
-        controller.keyDown(event)
-      }}
-      onCompositionStart={controller.compositionStart}
-      onCompositionEnd={(event) => controller.compositionEnd(event.currentTarget.value)}
-    />
-  )
-}
 
 export function DsTextField(
   props: DsFieldChromeProps &
@@ -872,36 +609,6 @@ export function DsDraftNumberField(props: DsFieldChromeProps & DsDraftNumberInpu
     </DsField>
   )
 }
-
-export const DsTextArea = forwardRef<
-  HTMLTextAreaElement,
-  Omit<TextareaHTMLAttributes<HTMLTextAreaElement>, 'style'> & DsFormControlAppearance
->(function DsTextArea(
-  props: Omit<TextareaHTMLAttributes<HTMLTextAreaElement>, 'style'> & DsFormControlAppearance,
-  ref,
-) {
-  const {
-    className,
-    invalid,
-    size = 'default',
-    monospace = false,
-    'aria-invalid': ariaInvalid,
-    ...rest
-  } = props
-  return (
-    <textarea
-      {...rest}
-      ref={ref}
-      className={classes(
-        'ds-textarea',
-        size === 'compact' && 'ds-textarea--compact',
-        monospace && 'ds-control--monospace',
-        className,
-      )}
-      aria-invalid={invalid || ariaInvalid || undefined}
-    />
-  )
-})
 
 export function DsTextAreaField(
   props: DsFieldChromeProps &

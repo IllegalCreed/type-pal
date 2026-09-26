@@ -1,0 +1,13 @@
+{
+  "id": "u06-escape-cancel",
+  "file": "packages/editor/src/ui/design-system/draft-input-state.ts",
+  "sha256": "b8b9e06312338bc0c5153761c6405bd140b485539c06b5dec75bf669fdee3d38",
+  "hashUnchanged": true,
+  "greenExit": 0,
+  "greenPassed": 1,
+  "redExit": 1,
+  "failedTitle": "keeps draft text input identity with Enter commit and Escape cancel",
+  "failedFullName": "U06 draft text inputs keeps draft text input identity with Enter commit and Escape cancel",
+  "assertion": "AssertionError: expected \"vi.fn()\" to be called at least once",
+  "ok": true
+}
