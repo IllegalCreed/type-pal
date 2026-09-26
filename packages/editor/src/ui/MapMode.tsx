@@ -1,13 +1,7 @@
 /** 地图模式：ProjectMap 的 N 视觉层、实例高度与独立碰撞层编辑器。 */
 import type { AssetCatalogV1, MapIndexV1, SceneDef, StampTemplate } from '@type-pal/content'
 import { mapInstanceHeight, mapInstanceTilesetId, nextMapAssetIdentity } from '@type-pal/content'
-import type {
-  AssetBase,
-  LatticePos,
-  ProjectMap,
-  ProjectMapCollisionEdit,
-  ProjectMapTileEdit,
-} from '@type-pal/reforge'
+import type { AssetBase, LatticePos, ProjectMap, ProjectMapTileEdit } from '@type-pal/reforge'
 import {
   buildBlankProjectMap,
   buildProjectMapLayer,
@@ -56,14 +50,12 @@ import {
   createMapWorkspaceState,
   gridPointKey,
   hitTestMapContent,
-  isMapSelectionDrag,
   type MapCellSelectionInput,
   type MapHitCandidate,
   type MapSelection,
   mapSelectionBounds,
   mapWorkspaceDocument,
   mapWorkspaceReducer,
-  type SelectionChangeMode,
   selectAllMapContent,
   selectionForGridPoints,
   selectionForStampPlacementGridPoints,
@@ -133,6 +125,10 @@ import { drawIsometricMapBase, type IsometricMapBaseCache } from './isometric-ma
 import { LayerPaintContext, LayerStackControls } from './LayerStackControls.js'
 import { MapSelectionInspector } from './MapSelectionInspector.js'
 import { MapStampPalette } from './MapStampPalette.js'
+import {
+  type MapStrokeEdit as StrokeEdit,
+  useMapPointerGestureSession,
+} from './map-pointer-gesture-session.js'
 import { drawMapSelectionOverlay } from './map-selection-overlay.js'
 import { StampPlacementSelectionInspector } from './StampPlacementSelectionInspector.js'
 import { StampTemplateDialog } from './StampTemplateDialog.js'
@@ -180,9 +176,6 @@ type MapTool =
   | 'erase'
   | 'collision'
 type CollisionPaint = 'set' | 'clear'
-type StrokeEdit =
-  | { kind: 'tile'; edit: ProjectMapTileEdit }
-  | { kind: 'collision'; edit: ProjectMapCollisionEdit }
 
 type MapTransformIntent =
   | {
@@ -365,8 +358,6 @@ export function MapMode(props: {
     () => stampMappingsFromActiveLayer(activeStamp, liveMap, activeLayerId),
     [activeLayerId, activeStamp, liveMap],
   )
-  const [selectionPreview, setSelectionPreview] = useState<MapSelection>()
-  const selectionPreviewRef = useRef<MapSelection | undefined>(undefined)
   const [includeCollision, setIncludeCollision] = useState(false)
   const [clipboard, setClipboard] = useState<MapCellClipboard | StampGroupClipboard>()
   const [transformIntent, setTransformIntent] = useState<MapTransformIntent>()
@@ -394,25 +385,21 @@ export function MapMode(props: {
     setStampHoverAnchor(undefined)
     setTool((current) => (current === 'stamp' ? 'select' : current))
   }, [activeStamp, activeStampId])
-  const strokeRef = useRef<Map<string, StrokeEdit>>(new Map())
-  const hoverRef = useRef<LatticePos | null>(null)
-  const coordinateHoverRef = useRef<LatticePos | null>(null)
-  const [hoverPoint, setHoverPoint] = useState<LatticePos | null>(null)
-  const panRef = useRef<{ sx: number; sy: number; panX: number; panY: number } | null>(null)
-  const paintingRef = useRef(false)
-  const rectAnchorRef = useRef<LatticePos | null>(null)
-  const cancelPointerInteractionRef = useRef<() => void>(() => undefined)
+  const [paintTick, setPaintTick] = useState(0)
+  const [basePaintTick, setBasePaintTick] = useState(0)
+  const {
+    runtime: pointerGesture,
+    selectionPreview,
+    hoverPoint,
+    setSelectionPreview,
+    cancel: cancelPointerInteraction,
+    reset: resetPointerGesture,
+    updateCoordinateHover,
+  } = useMapPointerGestureSession({
+    onPaintPreviewInvalidated: () => setBasePaintTick((tick) => tick + 1),
+    onInteractionInvalidated: () => setPaintTick((tick) => tick + 1),
+  })
   const stampSessionRef = useRef(session)
-  const selectionDragRef = useRef<{
-    scope: 'map' | 'stamp-group'
-    pointerId: number
-    startClient: { x: number; y: number }
-    startWorld: { wx: number; wy: number }
-    mode: SelectionChangeMode
-    base: MapSelection
-    placementId?: string
-    dragging: boolean
-  } | null>(null)
   useEffect(() => {
     if (stampSessionRef.current === session) return
     stampSessionRef.current = session
@@ -423,8 +410,7 @@ export function MapMode(props: {
     setActiveStampId(undefined)
     setStampHoverAnchor(undefined)
     setRecentStampIds([])
-    setSelectionPreview(undefined)
-    selectionPreviewRef.current = undefined
+    resetPointerGesture()
     setTransformIntent(undefined)
     setTransformTargetLocked(false)
     setTransformOverwriteIntent(undefined)
@@ -436,19 +422,9 @@ export function MapMode(props: {
     stampStructureReturnFocusRef.current = null
     setPendingDeleteId(undefined)
     setWorkspaceNotice(undefined)
-    strokeRef.current.clear()
-    paintingRef.current = false
-    rectAnchorRef.current = null
-    panRef.current = null
-    selectionDragRef.current = null
-    hoverRef.current = null
-    coordinateHoverRef.current = null
-    setHoverPoint(null)
     // mapId / placementId 在不同项目副本中可能相同；选择、隐藏/锁定与组内上下文都必须按会话隔离。
     dispatchWorkspace({ type: 'reset' })
-  }, [session])
-  const [paintTick, setPaintTick] = useState(0)
-  const [basePaintTick, setBasePaintTick] = useState(0)
+  }, [resetPointerGesture, session])
   const baseCanvasCacheRef = useRef<IsometricMapBaseCache | undefined>(undefined)
   const selectionCanvasCacheRef = useRef<
     | {
@@ -606,8 +582,7 @@ export function MapMode(props: {
     void mapId
     setPendingDeleteId(undefined)
     setWorkspaceNotice(undefined)
-    setSelectionPreview(undefined)
-    selectionPreviewRef.current = undefined
+    resetPointerGesture({ preserveCoordinateHover: true })
     setCandidateMenu(undefined)
     setCanvasContextMenu(undefined)
     setTransformIntent(undefined)
@@ -616,16 +591,10 @@ export function MapMode(props: {
     setClipboard((current) => (current?.kind === 'stamp-placements' ? undefined : current))
     setStampStructureIntent(undefined)
     stampStructureReturnFocusRef.current = null
-    strokeRef.current.clear()
-    hoverRef.current = null
     setStampHoverAnchor(undefined)
-    panRef.current = null
-    paintingRef.current = false
-    rectAnchorRef.current = null
-    selectionDragRef.current = null
     baseCanvasCacheRef.current = undefined
     selectionCanvasCacheRef.current = undefined
-  }, [mapId])
+  }, [mapId, resetPointerGesture])
 
   useEffect(() => {
     if (liveMap && mapId) dispatchWorkspace({ type: 'clip-map', mapId, map: liveMap })
@@ -795,7 +764,7 @@ export function MapMode(props: {
     const ctx = canvasRef.current?.getContext('2d')
     if (!loaded || !ctx) return
     const base = liveMap ?? loaded.map
-    const strokes = [...strokeRef.current.values()]
+    const strokes = pointerGesture.strokeItems()
     const tileEdits = strokes.flatMap((item) => (item.kind === 'tile' ? [item.edit] : []))
     const collisionEdits = strokes.flatMap((item) => (item.kind === 'collision' ? [item.edit] : []))
     let map = base
@@ -927,7 +896,7 @@ export function MapMode(props: {
         view,
       })
 
-    const hover = hoverRef.current
+    const hover = pointerGesture.hover()
     if (hover && activeTool !== 'pan' && activeTool !== 'stamp') {
       ctx.save()
       ctx.strokeStyle =
@@ -983,6 +952,7 @@ export function MapMode(props: {
     stampGroupEditPlacementId,
     stampGroupEditSelection,
     activeLayerId,
+    pointerGesture,
   ])
 
   const toWorld = (
@@ -1038,7 +1008,7 @@ export function MapMode(props: {
       item.kind === 'tile'
         ? `tile:${item.edit.layerId}:${edit.col}:${edit.row}`
         : `collision:${edit.col}:${edit.row}`
-    strokeRef.current.set(key, item)
+    pointerGesture.rememberStroke(key, item)
   }
 
   const paintAt = (event: React.PointerEvent<HTMLCanvasElement>): void => {
@@ -1057,13 +1027,13 @@ export function MapMode(props: {
   }
 
   const rectStrokeTo = (event: React.PointerEvent<HTMLCanvasElement>): void => {
-    const anchor = rectAnchorRef.current
+    const anchor = pointerGesture.rectAnchor()
     if (!anchor || !liveMap) return
     const { wx, wy } = toWorld(event)
     const end = pixelToLattice(wx, wy)
     const startCenter = latticeCenter(anchor)
     const endCenter = latticeCenter(end)
-    strokeRef.current.clear()
+    pointerGesture.clearStroke()
     for (const pos of latticeInMapRect(
       liveMap,
       startCenter.x,
@@ -1229,10 +1199,9 @@ export function MapMode(props: {
   }
 
   const updateSelectionDrag = (event: React.PointerEvent<HTMLCanvasElement>): void => {
-    const drag = selectionDragRef.current
-    if (!drag || drag.pointerId !== event.pointerId || !liveMap) return
     const currentClient = { x: event.clientX, y: event.clientY }
-    if (!drag.dragging && isMapSelectionDrag(drag.startClient, currentClient)) drag.dragging = true
+    const drag = pointerGesture.updateSelectionDrag(event.pointerId, currentClient)
+    if (!drag || !liveMap) return
     const points = drag.dragging
       ? latticeInMapRect(
           liveMap,
@@ -1263,7 +1232,6 @@ export function MapMode(props: {
             })
           : selectionInputAt(drag.startWorld.wx, drag.startWorld.wy)
     const next = changeMapSelection(drag.base, input, drag.mode)
-    selectionPreviewRef.current = next
     setSelectionPreview(next)
     setPaintTick((tick) => tick + 1)
   }
@@ -1285,7 +1253,6 @@ export function MapMode(props: {
       nextTool === 'pan' &&
       (selection.kind !== 'none' || Boolean(selectionPreview) || Boolean(stampGroupEditPlacementId))
     if (nextTool === 'pan') {
-      selectionPreviewRef.current = undefined
       setSelectionPreview(undefined)
       dispatchWorkspace({ type: 'clear-selection', mapId })
     }
@@ -1325,7 +1292,7 @@ export function MapMode(props: {
       setTransformOverwriteIntent(undefined)
       setCandidateMenu(undefined)
       setCanvasContextMenu(undefined)
-      const hover = coordinateHoverRef.current
+      const hover = pointerGesture.coordinateHover()
       setStampHoverAnchor(hover && isLatticeInside(liveMap, hover) ? hover : undefined)
       setWorkspaceNotice({
         kind: 'info',
@@ -1336,7 +1303,7 @@ export function MapMode(props: {
       })
       canvasRef.current?.focus({ preventScroll: true })
     },
-    [liveMap, onRequestInspectorOpen, stampGroupEditPlacementId, stamps],
+    [liveMap, onRequestInspectorOpen, pointerGesture, stampGroupEditPlacementId, stamps],
   )
 
   const cancelStampTool = useCallback((): void => {
@@ -1683,7 +1650,7 @@ export function MapMode(props: {
       explainReadOnlySelection()
       return
     }
-    const hover = hoverRef.current
+    const hover = pointerGesture.hover()
     const anchor = hover && isLatticeInside(liveMap, hover) ? hover : source.sourceAnchor
     setTool('select')
     setCandidateMenu(undefined)
@@ -1953,14 +1920,13 @@ export function MapMode(props: {
       const { wx, wy } = toWorld(event)
       const point = pixelToLattice(wx, wy)
       const next = isLatticeInside(liveMap, point) ? point : null
-      coordinateHoverRef.current = next
-      setHoverPoint(next)
+      updateCoordinateHover(next)
     }
     if (transformIntent && event.button === 0 && liveMap) {
       const { wx, wy } = toWorld(event)
       const anchor = pixelToLattice(wx, wy)
       if (isLatticeInside(liveMap, anchor)) {
-        hoverRef.current = anchor
+        pointerGesture.setHover(anchor)
         requestTransformDrop({ ...transformIntent, anchor })
       }
       return
@@ -1968,7 +1934,7 @@ export function MapMode(props: {
     if (activeTool === 'stamp' && event.button === 0 && liveMap) {
       const { wx, wy } = toWorld(event)
       const anchor = pixelToLattice(wx, wy)
-      hoverRef.current = anchor
+      pointerGesture.setHover(anchor)
       setStampHoverAnchor(anchor)
       commitStamp(anchor)
       return
@@ -1987,7 +1953,7 @@ export function MapMode(props: {
           return
         }
         event.currentTarget.setPointerCapture(event.pointerId)
-        selectionDragRef.current = {
+        pointerGesture.beginSelectionDrag({
           scope: 'stamp-group',
           placementId: stampGroupEditPlacementId,
           pointerId: event.pointerId,
@@ -1996,7 +1962,7 @@ export function MapMode(props: {
           mode: selectionModeFromModifiers(event),
           base: stampGroupEditSelection ?? { kind: 'none' },
           dragging: false,
-        }
+        })
         updateSelectionDrag(event)
         return
       }
@@ -2033,7 +1999,7 @@ export function MapMode(props: {
         return
       }
       event.currentTarget.setPointerCapture(event.pointerId)
-      selectionDragRef.current = {
+      pointerGesture.beginSelectionDrag({
         scope: 'map',
         pointerId: event.pointerId,
         startClient: { x: event.clientX, y: event.clientY },
@@ -2041,7 +2007,7 @@ export function MapMode(props: {
         mode: selectionModeFromModifiers(event),
         base: selection,
         dragging: false,
-      }
+      })
       updateSelectionDrag(event)
       return
     }
@@ -2134,12 +2100,12 @@ export function MapMode(props: {
         }
         return
       }
-      paintingRef.current = true
       if (activeTool === 'rect') {
         const { wx, wy } = toWorld(event)
-        rectAnchorRef.current = pixelToLattice(wx, wy)
+        pointerGesture.beginPainting(pixelToLattice(wx, wy))
         rectStrokeTo(event)
       } else {
+        pointerGesture.beginPainting()
         paintAt(event)
       }
       return
@@ -2147,12 +2113,12 @@ export function MapMode(props: {
     if (activeTool !== 'pan' || (event.button !== 0 && event.button !== 1)) return
     event.currentTarget.setPointerCapture(event.pointerId)
     const current = viewRef.current
-    panRef.current = {
+    pointerGesture.beginPan({
       sx: event.clientX,
       sy: event.clientY,
       panX: current.panX,
       panY: current.panY,
-    }
+    })
   }
 
   const onMove = (event: React.PointerEvent<HTMLCanvasElement>): void => {
@@ -2160,14 +2126,11 @@ export function MapMode(props: {
       const { wx, wy } = toWorld(event)
       const point = pixelToLattice(wx, wy)
       const next = isLatticeInside(liveMap, point) ? point : null
-      const previous = coordinateHoverRef.current
-      if (previous?.row !== next?.row || previous?.col !== next?.col) {
-        coordinateHoverRef.current = next
-        setHoverPoint(next)
-      }
+      updateCoordinateHover(next)
     }
-    if (selectionDragRef.current) {
-      if (selectionDragRef.current.pointerId !== event.pointerId) return
+    const selectionDrag = pointerGesture.selectionDrag()
+    if (selectionDrag) {
+      if (selectionDrag.pointerId !== event.pointerId) return
       updateSelectionDrag(event)
       return
     }
@@ -2175,7 +2138,7 @@ export function MapMode(props: {
       const { wx, wy } = toWorld(event)
       const pos = pixelToLattice(wx, wy)
       if (isLatticeInside(liveMap, pos)) {
-        hoverRef.current = pos
+        pointerGesture.setHover(pos)
         if (pos.row !== transformIntent.anchor.row || pos.col !== transformIntent.anchor.col)
           setTransformIntent((current) => (current ? { ...current, anchor: pos } : current))
         setPaintTick((tick) => tick + 1)
@@ -2185,19 +2148,19 @@ export function MapMode(props: {
     if (activeTool === 'stamp' && liveMap) {
       const { wx, wy } = toWorld(event)
       const pos = pixelToLattice(wx, wy)
-      const previous = hoverRef.current
+      const previous = pointerGesture.hover()
       if (!previous || previous.col !== pos.col || previous.row !== pos.row) {
-        hoverRef.current = pos
+        pointerGesture.setHover(pos)
         setStampHoverAnchor(pos)
       }
       return
     }
-    if (paintingRef.current) {
+    if (pointerGesture.isPainting()) {
       if (activeTool === 'rect') rectStrokeTo(event)
       else paintAt(event)
       return
     }
-    const pan = panRef.current
+    const pan = pointerGesture.pan()
     const canvas = canvasRef.current
     if (pan && canvas) {
       const scale = canvas.width / canvas.getBoundingClientRect().width / viewRef.current.zoom
@@ -2211,29 +2174,28 @@ export function MapMode(props: {
     if (activeTool !== 'pan') {
       const { wx, wy } = toWorld(event)
       const pos = pixelToLattice(wx, wy)
-      const previous = hoverRef.current
+      const previous = pointerGesture.hover()
       if (!previous || previous.col !== pos.col || previous.row !== pos.row) {
-        hoverRef.current = pos
+        pointerGesture.setHover(pos)
         setPaintTick((tick) => tick + 1)
       }
     }
   }
 
   const onUp = (event: React.PointerEvent<HTMLCanvasElement>): void => {
-    const selectionDrag = selectionDragRef.current
+    const selectionDrag = pointerGesture.selectionDrag()
     if (selectionDrag && selectionDrag.pointerId !== event.pointerId) return
     if (selectionDrag) {
       updateSelectionDrag(event)
-      const next = selectionPreviewRef.current ?? selectionDrag.base
-      if (selectionDrag.scope === 'stamp-group' && next.kind !== 'stamp-placements')
+      const completed = pointerGesture.finishSelectionDrag(event.pointerId)!
+      const next = completed.selection
+      if (completed.drag.scope === 'stamp-group' && next.kind !== 'stamp-placements')
         dispatchWorkspace({ type: 'set-stamp-group-selection', mapId, selection: next })
       else dispatchWorkspace({ type: 'set-selection', mapId, selection: next })
-      selectionDragRef.current = null
-      selectionPreviewRef.current = undefined
       setSelectionPreview(undefined)
       notifyWorkspace(
         'info',
-        selectionDrag.scope === 'stamp-group'
+        completed.drag.scope === 'stamp-group'
           ? next.kind === 'cells'
             ? `组内已选择 ${next.visualSlots.length} 个视觉成员、${next.gridPoints.length} 个碰撞成员。`
             : '组内 cells 选区已清空；完整 placement 仍保持选中。'
@@ -2242,11 +2204,8 @@ export function MapMode(props: {
             : '选区已清空。',
       )
     }
-    if (paintingRef.current) {
-      paintingRef.current = false
-      rectAnchorRef.current = null
-      const items = [...strokeRef.current.values()]
-      strokeRef.current.clear()
+    const items = pointerGesture.finishPainting()
+    if (items) {
       const tileEdits = items.flatMap((item) => (item.kind === 'tile' ? [item.edit] : []))
       const collisionEdits = items.flatMap((item) => (item.kind === 'collision' ? [item.edit] : []))
       if (stampGroupEditPlacementId) {
@@ -2281,7 +2240,7 @@ export function MapMode(props: {
       }
       setBasePaintTick((tick) => tick + 1)
     }
-    panRef.current = null
+    pointerGesture.endPan()
     try {
       event.currentTarget.releasePointerCapture(event.pointerId)
     } catch {
@@ -2289,33 +2248,11 @@ export function MapMode(props: {
     }
   }
 
-  const cancelPointerInteraction = (): void => {
-    selectionDragRef.current = null
-    selectionPreviewRef.current = undefined
-    setSelectionPreview(undefined)
-    if (paintingRef.current || strokeRef.current.size > 0) {
-      paintingRef.current = false
-      rectAnchorRef.current = null
-      strokeRef.current.clear()
-      setBasePaintTick((tick) => tick + 1)
-    }
-    panRef.current = null
-    setPaintTick((tick) => tick + 1)
-  }
-  cancelPointerInteractionRef.current = cancelPointerInteraction
-
-  useEffect(() => {
-    const onBlur = (): void => cancelPointerInteractionRef.current()
-    window.addEventListener('blur', onBlur)
-    return () => window.removeEventListener('blur', onBlur)
-  }, [])
-
   const onLeave = (): void => {
-    coordinateHoverRef.current = null
-    setHoverPoint(null)
-    if (selectionDragRef.current || transformIntent) return
-    if (!hoverRef.current) return
-    hoverRef.current = null
+    updateCoordinateHover(null)
+    if (pointerGesture.selectionDrag() || transformIntent) return
+    if (!pointerGesture.hover()) return
+    pointerGesture.setHover(null)
     if (activeTool === 'stamp') setStampHoverAnchor(undefined)
     setPaintTick((tick) => tick + 1)
   }
@@ -2722,7 +2659,7 @@ export function MapMode(props: {
       event.preventDefault()
       event.stopPropagation()
       if (activeTool === 'stamp') cancelStampTool()
-      else if (selectionDragRef.current || selectionPreview) cancelPointerInteraction()
+      else if (pointerGesture.selectionDrag() || selectionPreview) cancelPointerInteraction()
       else if (transformIntent) cancelTransform()
       else if (canvasContextMenu) setCanvasContextMenu(undefined)
       else if (candidateMenu) setCandidateMenu(undefined)
@@ -3074,8 +3011,7 @@ export function MapMode(props: {
           onPointerUp={onUp}
           onPointerCancel={cancelPointerInteraction}
           onLostPointerCapture={() => {
-            if (selectionDragRef.current || paintingRef.current || panRef.current)
-              cancelPointerInteraction()
+            if (pointerGesture.isActive()) cancelPointerInteraction()
           }}
           onPointerLeave={onLeave}
           onClick={() => {
