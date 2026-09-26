@@ -19,20 +19,16 @@ import {
   useState,
 } from 'react'
 import { DS_OPTION_VIRTUALIZE_ABOVE, filterDsCollection } from './collection-search.js'
+import type { DsButtonVariant, DsControlSize } from './control-types.js'
+import { classes, describedBy } from './control-utils.js'
 import { DsFloatingLayer } from './floating-layer.js'
 import { DsIcon, type DsIconName } from './icons.js'
 
+export type { DsButtonVariant, DsControlSize } from './control-types.js'
 export type { DsOverflowTextProps } from './overflow-text.js'
 export { DsOverflowText } from './overflow-text.js'
 export type { DsTagTone } from './status-values.js'
 export { DsReadonlyValue, DsTag } from './status-values.js'
-
-function classes(...values: Array<string | false | null | undefined>): string {
-  return values.filter(Boolean).join(' ')
-}
-
-export type DsButtonVariant = 'primary' | 'secondary' | 'quiet' | 'danger'
-export type DsControlSize = 'default' | 'compact'
 
 /**
  * Unskinned semantic button for rich domain surfaces such as tiles, frames and tree rows.
@@ -441,11 +437,6 @@ type DsFieldChromeProps = {
   help?: DsFieldHelp
   error?: string
   fieldClassName?: string
-}
-
-function describedBy(...ids: Array<string | undefined>): string | undefined {
-  const value = ids.filter(Boolean).join(' ')
-  return value || undefined
 }
 
 /** One canonical form shell: a fluid control with optional leading content and trailing actions. */

@@ -1,0 +1,13 @@
+{
+  "id": "u00-described-by-empty",
+  "file": "packages/editor/src/ui/design-system/control-utils.ts",
+  "sha256": "3e0d9a0a07e6804fce5f4ef0ad4a4d70f4596a1489b71df5d02e13c976bc22b5",
+  "hashUnchanged": true,
+  "greenExit": 0,
+  "greenPassed": 1,
+  "redExit": 1,
+  "failedTitle": "joins truthy class tokens and drops empty describedBy ids",
+  "failedFullName": "U00 shared control utilities joins truthy class tokens and drops empty describedBy ids",
+  "assertion": "AssertionError: expected '' to be undefined",
+  "ok": true
+}

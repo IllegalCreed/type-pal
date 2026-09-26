@@ -98,6 +98,14 @@ const cases = {
     to: 'if (false) delete record.label',
     title: 'keeps asset-label constructor on the old commands barrel and clears empty labels',
   },
+  u00: {
+    id: 'u00-described-by-empty',
+    sourceFile: 'src/ui/design-system/control-utils.ts',
+    testFile: 'src/ui/design-system/control-utils.test.ts',
+    from: 'return value || undefined',
+    to: 'return value',
+    title: 'joins truthy class tokens and drops empty describedBy ids',
+  },
 }
 
 const selected = process.argv[2] ? [process.argv[2]] : Object.keys(cases)
