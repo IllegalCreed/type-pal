@@ -1809,6 +1809,39 @@ const provenDesignSystemRenderNodeProps = new Map([
 ])
 const semanticFieldOwnerSources = new Map([['MediaAssetNameField', 'MediaAssetLifecycle.tsx']])
 
+const reachableModuleSourceCache = new Map()
+const reachableNamedFunctionBodiesCache = new WeakMap()
+const reachableNamedFunctionParametersCache = new WeakMap()
+
+function parsedReachableModule(sourcePath, content) {
+  const candidates = reachableModuleSourceCache.get(sourcePath) ?? []
+  const cached = candidates.find((candidate) => candidate.content === content)
+  if (cached) return cached.source
+  const source = ts.createSourceFile(
+    sourcePath,
+    content,
+    ts.ScriptTarget.Latest,
+    true,
+    ts.ScriptKind.TSX,
+  )
+  candidates.unshift({ content, source })
+  if (candidates.length > 4) candidates.length = 4
+  reachableModuleSourceCache.set(sourcePath, candidates)
+  return source
+}
+
+function cachedNamedFunctionBodies(source) {
+  if (!reachableNamedFunctionBodiesCache.has(source))
+    reachableNamedFunctionBodiesCache.set(source, namedFunctionBodies(source))
+  return reachableNamedFunctionBodiesCache.get(source)
+}
+
+function cachedNamedFunctionParameters(source) {
+  if (!reachableNamedFunctionParametersCache.has(source))
+    reachableNamedFunctionParametersCache.set(source, namedFunctionParameters(source))
+  return reachableNamedFunctionParametersCache.get(source)
+}
+
 function reachableJsxOwners(sourcePath, rootComponent, options = {}) {
   const modules = new Map()
   const loadModule = (componentSource) => {
@@ -1817,12 +1850,9 @@ function reachableJsxOwners(sourcePath, rootComponent, options = {}) {
     const sourceOverride = options.overrides?.[componentSource]
     if (sourceOverride === undefined && !statSync(absoluteSource, { throwIfNoEntry: false }))
       return undefined
-    const source = ts.createSourceFile(
+    const source = parsedReachableModule(
       componentSource,
       sourceOverride ?? readUiSource(componentSource, options.overrides),
-      ts.ScriptTarget.Latest,
-      true,
-      ts.ScriptKind.TSX,
     )
     const imports = new Map()
     const designSystemImports = new Set()
@@ -1866,10 +1896,10 @@ function reachableJsxOwners(sourcePath, rootComponent, options = {}) {
     }
     const module = {
       source,
-      functions: namedFunctionBodies(source),
-      parameters: namedFunctionParameters(source),
-      scopedFunctions: scopedFunctionDefinitions(source),
-      scopedValues: scopedValueBindings(source),
+      functions: cachedNamedFunctionBodies(source),
+      parameters: cachedNamedFunctionParameters(source),
+      scopedFunctions: cachedScopedFunctions(source),
+      scopedValues: cachedScopedValues(source),
       imports,
       designSystemImports,
       fragmentTags,
@@ -2747,6 +2777,15 @@ function reachableJsxOwners(sourcePath, rootComponent, options = {}) {
 
 const reachableOwnerCache = new Map()
 
+function reachableVerticalScrollSignature(result, overrides) {
+  const elements = new Map((result.elements ?? []).map((element) => [element.elementSite, element]))
+  return [...elements.values()]
+    .filter((element) => cssElementOwnsVerticalScroll(element, elements, overrides))
+    .map((element) => element.elementSite)
+    .sort()
+    .join('\n')
+}
+
 function cachedReachableJsxOwners(sourcePath, rootComponent, options = {}) {
   const initialAnchor = options.initialNode
     ? `${options.initialNode.getSourceFile().fileName}:${options.initialNode.pos}:${options.initialNode.end}:${options.initialNode.getText()}`
@@ -2760,13 +2799,22 @@ function cachedReachableJsxOwners(sourcePath, rootComponent, options = {}) {
       .map((source) => relative(uiRoot, source))
       .join('\n')
   const css = readUiSource('editor.css', options.overrides)
-  for (const candidate of candidates)
-    if (
+  for (const candidate of candidates) {
+    const sourcesMatch =
       candidate.manifest === manifest &&
-      candidate.css === css &&
       [...candidate.fingerprints].every(([source, content]) => contentFor(source) === content)
-    )
-      return candidate.result
+    if (!sourcesMatch) continue
+    if (candidate.css === css) return candidate.result
+    const baselineScrollSignature =
+      candidate.scrollSignature ??
+      reachableVerticalScrollSignature(candidate.result, { 'editor.css': candidate.css })
+    candidate.scrollSignature = baselineScrollSignature
+    const scrollSignature = reachableVerticalScrollSignature(candidate.result, options.overrides)
+    if (scrollSignature !== baselineScrollSignature) continue
+    candidates.unshift({ ...candidate, css, scrollSignature })
+    if (candidates.length > 12) candidates.length = 12
+    return candidate.result
+  }
   const result = reachableJsxOwners(sourcePath, rootComponent, options)
   const fingerprints = new Map(
     [...result.visitedSources].map((source) => [source, contentFor(source)]),
