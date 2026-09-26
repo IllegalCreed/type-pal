@@ -1,11 +1,39 @@
 /**
- * TEST-GLM-CONTENT-GUARDS-2 test-only fixture：三份叶测试共用的最小合法基线。
+ * TEST-GLM-CONTENT-GUARDS-2 test-only fixture：三份叶测试共用的最小合法基线与断言助手。
  * 只放当前真实类型的数据/薄构造器（无强转、无生产算法副本）；非法输入由各测试
  * 对单字段做收窄突变或以 unknown 字面量构造，不经本文件。
  */
+
+import { expect } from 'vitest'
 import type { BattleChoreographyAction } from '../battle-choreography.js'
 import type { DialogueCue } from '../index.js'
 import type { LevelGrowthDelta } from '../rewards.js'
+import { deepSnapshot } from './glm-content-contract-fixtures.js'
+
+/**
+ * R1 精确错误路径：捕获实际 Error 并对完整 message 做全等比较。
+ * `toThrow(string)` 只是子串匹配，钉不住路径前缀；失败表现为 AssertionError。
+ */
+export function expectExactError(run: () => unknown, message: string): void {
+  let caught: unknown
+  try {
+    run()
+  } catch (error) {
+    caught = error
+  }
+  expect(caught).toBeInstanceOf(Error)
+  expect((caught as Error).message).toBe(message)
+}
+
+/**
+ * R1 输入保真：对象/数组实际输入先取独立快照，守卫执行后比较同一对象未被改写。
+ * 原始值（number/string）不可变，由调用方直接做值断言，不做装样子的空快照。
+ */
+export function expectAcceptsUnchanged<T>(run: (input: T) => void, input: T): void {
+  const before = deepSnapshot(input)
+  run(input)
+  expect(input).toEqual(before)
+}
 
 export function waitAction(ms: number): BattleChoreographyAction {
   return { kind: 'wait', ms }

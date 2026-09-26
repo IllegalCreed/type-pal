@@ -3,10 +3,13 @@
  * 去重：既有证据全部经父入口（enemy-script.wave2 经 checkEnemyAi 的 rules.when、
  * author-battle-dialogue-boundary 经作者递归、validate-enemy-crosscalls 经
  * validateEnemies 三路），六个导出函数自身此前无任何直接测试；本文件补对象身份、
- * 精确未知键路径、trim、有限数/百分比闭区间/正整数叶轴，各错误前放同型合法对照，
+ * 精确未知键路径、trim、有限数/百分比闭区间/正整数叶轴，各拒绝前放同型合法对照，
  * 不复制父入口已证边界，也不新发更严政策。
+ * R1：错误路径用完整 message 全等比较（toThrow(string) 是子串匹配）；对象输入
+ * 调用前后对独立快照比较，原始值直接做值断言不做空快照。
  */
 import { describe, expect, test } from 'vitest'
+import { expectAcceptsUnchanged, expectExactError } from './__tests__/guard-leaf-fixtures.js'
 import {
   exactKeys,
   finite,
@@ -17,9 +20,9 @@ import {
 } from './enemy-validation-shapes.js'
 
 describe('G1 record', () => {
-  test('合法对象原身份透传且字段不被复制改写', () => {
+  test('合法对象原身份透传且内容不被改写', () => {
     const input = { kind: 'wait', ms: 0 }
-    expect(record(input, 'v')).toBe(input)
+    expectAcceptsUnchanged((value) => expect(record(value, 'v')).toBe(value), input)
   })
 
   test.each([
@@ -30,7 +33,8 @@ describe('G1 record', () => {
     ['数字0', 0],
     ['false', false],
   ] as const)('%s拒绝且路径精确', (_label, bad) => {
-    expect(() => record(bad, 'v')).toThrow('v: 期望对象')
+    expectAcceptsUnchanged(() => record({ kind: 'wait', ms: 0 }, 'v'), { kind: 'wait', ms: 0 })
+    expectExactError(() => record(bad, 'v'), 'v: 期望对象')
   })
 })
 
@@ -41,8 +45,13 @@ describe('G1 exactKeys', () => {
   })
 
   test('未知字段拒绝且路径含键名；多个未知按实际键序报第一个', () => {
-    expect(() => exactKeys({ kind: 'wait', extra: 1 }, ['kind'], 'v')).toThrow('v.extra: 未知字段')
-    expect(() => exactKeys({ a: 1, b: 2 }, [], 'v')).toThrow('v.a: 未知字段')
+    expectAcceptsUnchanged(() => exactKeys({ kind: 'wait' }, ['kind'], 'v'), { kind: 'wait' })
+    expectExactError(
+      () => exactKeys({ kind: 'wait', extra: 1 }, ['kind'], 'v'),
+      'v.extra: 未知字段',
+    )
+    expectAcceptsUnchanged(() => exactKeys({ a: 1, b: 2 }, ['a', 'b'], 'v'), { a: 1, b: 2 })
+    expectExactError(() => exactKeys({ a: 1, b: 2 }, [], 'v'), 'v.a: 未知字段')
   })
 })
 
@@ -60,7 +69,8 @@ describe('G1 nonEmptyString', () => {
     ['非字符串', 42],
     ['null', null],
   ] as const)('%s拒绝', (_label, bad) => {
-    expect(() => nonEmptyString(bad, 'v')).toThrow('v: 期望非空且无首尾空格的 string')
+    expect(nonEmptyString('hero', 'v')).toBe('hero')
+    expectExactError(() => nonEmptyString(bad, 'v'), 'v: 期望非空且无首尾空格的 string')
   })
 })
 
@@ -77,7 +87,8 @@ describe('G1 finite', () => {
     ['字符串', '1'],
     ['null', null],
   ] as const)('%s拒绝', (_label, bad) => {
-    expect(() => finite(bad, 'v')).toThrow('v: 期望有限数')
+    expect(finite(0, 'v')).toBe(0)
+    expectExactError(() => finite(bad, 'v'), 'v: 期望有限数')
   })
 })
 
@@ -88,12 +99,13 @@ describe('G1 percent 闭区间', () => {
   })
 
   test.each([
-    ['负小数', -0.5, '期望 0..100 有限数'],
-    ['超上界', 100.01, '期望 0..100 有限数'],
-    ['Infinity', Number.POSITIVE_INFINITY, '期望有限数'],
-    ['NaN', Number.NaN, '期望有限数'],
+    ['负小数', -0.5, 'v: 期望 0..100 有限数'],
+    ['超上界', 100.01, 'v: 期望 0..100 有限数'],
+    ['Infinity', Number.POSITIVE_INFINITY, 'v: 期望有限数'],
+    ['NaN', Number.NaN, 'v: 期望有限数'],
   ] as const)('%s拒绝（非有限先走有限叶）', (_label, bad, message) => {
-    expect(() => percent(bad, 'v')).toThrow(`v: ${message}`)
+    expect(percent(100, 'v')).toBe(100)
+    expectExactError(() => percent(bad, 'v'), message)
   })
 })
 
@@ -111,6 +123,7 @@ describe('G1 positiveInteger', () => {
     ['NaN', Number.NaN],
     ['字符串', '1'],
   ] as const)('%s拒绝', (_label, bad) => {
-    expect(() => positiveInteger(bad, 'v')).toThrow('v: 期望正整数')
+    expect(positiveInteger(1, 'v')).toBe(1)
+    expectExactError(() => positiveInteger(bad, 'v'), 'v: 期望正整数')
   })
 })
