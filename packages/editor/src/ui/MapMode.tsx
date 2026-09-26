@@ -70,7 +70,6 @@ import {
   type MapLayerMapping,
   type MapTransformConflictPolicy,
   type MapTransformPlan,
-  nudgeIsometricLattice,
   planMapDelete,
   planMapMove,
   planMapPaste,
@@ -130,6 +129,11 @@ import {
   useMapPointerGestureSession,
 } from './map-pointer-gesture-session.js'
 import { drawMapSelectionOverlay } from './map-selection-overlay.js'
+import {
+  isStampGroupTransform,
+  type MapTransformIntent,
+  useMapTransformSession,
+} from './map-transform-session.js'
 import { StampPlacementSelectionInspector } from './StampPlacementSelectionInspector.js'
 import { StampTemplateDialog } from './StampTemplateDialog.js'
 import {
@@ -177,23 +181,6 @@ type MapTool =
   | 'collision'
 type CollisionPaint = 'set' | 'clear'
 
-type MapTransformIntent =
-  | {
-      kind: 'paste'
-      clipboard: MapCellClipboard | StampGroupClipboard
-      anchor: LatticePos
-      layerMappings: readonly MapLayerMapping[]
-    }
-  | {
-      kind: 'move'
-      selection: MapSelection
-      anchor: LatticePos
-      includeCollision: boolean
-      layerMappings: readonly MapLayerMapping[]
-      stampClipboard?: StampGroupClipboard
-      stampBaseMap?: ProjectMap
-    }
-
 type MapCandidate =
   | { kind: 'cell'; candidate: MapHitCandidate }
   | {
@@ -222,12 +209,6 @@ interface StampStructureIntent {
   mapRevision: number
   map: ProjectMap
   placementIds: string[]
-}
-
-function isStampGroupTransform(intent: MapTransformIntent): boolean {
-  return intent.kind === 'paste'
-    ? intent.clipboard.kind === 'stamp-placements'
-    : intent.selection.kind === 'stamp-placements'
 }
 
 function tileEditsPatch(_map: ProjectMap, edits: readonly ProjectMapTileEdit[]): ProjectMapPatch {
@@ -358,11 +339,26 @@ export function MapMode(props: {
     () => stampMappingsFromActiveLayer(activeStamp, liveMap, activeLayerId),
     [activeLayerId, activeStamp, liveMap],
   )
-  const [includeCollision, setIncludeCollision] = useState(false)
-  const [clipboard, setClipboard] = useState<MapCellClipboard | StampGroupClipboard>()
-  const [transformIntent, setTransformIntent] = useState<MapTransformIntent>()
-  const [transformTargetLocked, setTransformTargetLocked] = useState(false)
-  const [transformOverwriteIntent, setTransformOverwriteIntent] = useState<MapTransformIntent>()
+  const {
+    includeCollision,
+    clipboard,
+    intent: transformIntent,
+    targetLocked: transformTargetLocked,
+    overwriteIntent: transformOverwriteIntent,
+    setIncludeCollision,
+    rememberClipboard,
+    resetSession: resetTransformSession,
+    resetMap: resetTransformMap,
+    begin: beginTransform,
+    lockTarget: lockTransformTarget,
+    unlockTarget: unlockTransformTarget,
+    requestOverwrite: requestTransformOverwrite,
+    returnToAdjustment: unlockTransformAdjustment,
+    clearOverwrite: clearTransformOverwrite,
+    complete: completeTransform,
+    updateAnchor: updateTransformAnchor,
+    nudge: nudgeTransform,
+  } = useMapTransformSession()
   const [candidateMenu, setCandidateMenu] = useState<MapCandidateMenu>()
   const candidateMenuRef = useRef<HTMLDivElement>(null)
   const [canvasContextMenu, setCanvasContextMenu] = useState<MapCanvasContextMenu>()
@@ -411,12 +407,9 @@ export function MapMode(props: {
     setStampHoverAnchor(undefined)
     setRecentStampIds([])
     resetPointerGesture()
-    setTransformIntent(undefined)
-    setTransformTargetLocked(false)
-    setTransformOverwriteIntent(undefined)
+    resetTransformSession()
     setCandidateMenu(undefined)
     setCanvasContextMenu(undefined)
-    setClipboard(undefined)
     setStampDialogOpen(false)
     setStampStructureIntent(undefined)
     stampStructureReturnFocusRef.current = null
@@ -424,7 +417,7 @@ export function MapMode(props: {
     setWorkspaceNotice(undefined)
     // mapId / placementId 在不同项目副本中可能相同；选择、隐藏/锁定与组内上下文都必须按会话隔离。
     dispatchWorkspace({ type: 'reset' })
-  }, [resetPointerGesture, session])
+  }, [resetPointerGesture, resetTransformSession, session])
   const baseCanvasCacheRef = useRef<IsometricMapBaseCache | undefined>(undefined)
   const selectionCanvasCacheRef = useRef<
     | {
@@ -585,16 +578,13 @@ export function MapMode(props: {
     resetPointerGesture({ preserveCoordinateHover: true })
     setCandidateMenu(undefined)
     setCanvasContextMenu(undefined)
-    setTransformIntent(undefined)
-    setTransformTargetLocked(false)
-    setTransformOverwriteIntent(undefined)
-    setClipboard((current) => (current?.kind === 'stamp-placements' ? undefined : current))
+    resetTransformMap()
     setStampStructureIntent(undefined)
     stampStructureReturnFocusRef.current = null
     setStampHoverAnchor(undefined)
     baseCanvasCacheRef.current = undefined
     selectionCanvasCacheRef.current = undefined
-  }, [mapId, resetPointerGesture])
+  }, [mapId, resetPointerGesture, resetTransformMap])
 
   useEffect(() => {
     if (liveMap && mapId) dispatchWorkspace({ type: 'clip-map', mapId, map: liveMap })
@@ -1257,9 +1247,7 @@ export function MapMode(props: {
       dispatchWorkspace({ type: 'clear-selection', mapId })
     }
     setTool(nextTool)
-    setTransformIntent(undefined)
-    setTransformTargetLocked(false)
-    setTransformOverwriteIntent(undefined)
+    completeTransform()
     setCandidateMenu(undefined)
     if (cancelledTransform)
       setWorkspaceNotice({
@@ -1287,9 +1275,7 @@ export function MapMode(props: {
       setDrawPanelVisited(true)
       onRequestInspectorOpen?.()
       setTool('stamp')
-      setTransformIntent(undefined)
-      setTransformTargetLocked(false)
-      setTransformOverwriteIntent(undefined)
+      completeTransform()
       setCandidateMenu(undefined)
       setCanvasContextMenu(undefined)
       const hover = pointerGesture.coordinateHover()
@@ -1303,7 +1289,14 @@ export function MapMode(props: {
       })
       canvasRef.current?.focus({ preventScroll: true })
     },
-    [liveMap, onRequestInspectorOpen, pointerGesture, stampGroupEditPlacementId, stamps],
+    [
+      completeTransform,
+      liveMap,
+      onRequestInspectorOpen,
+      pointerGesture,
+      stampGroupEditPlacementId,
+      stamps,
+    ],
   )
 
   const cancelStampTool = useCallback((): void => {
@@ -1547,7 +1540,7 @@ export function MapMode(props: {
       notifyWorkspace('error', '请先选择要复制的地图内容。')
       return undefined
     }
-    setClipboard(next)
+    rememberClipboard(next)
     notifyWorkspace(
       'info',
       next.kind === 'stamp-placements'
@@ -1632,7 +1625,7 @@ export function MapMode(props: {
       return
     }
     deleteMapSelection(() => {
-      setClipboard(next)
+      rememberClipboard(next)
       notifyWorkspace('info', '已剪切选区；内容与碰撞（如启用）在同一步撤销。')
     })
   }
@@ -1654,9 +1647,7 @@ export function MapMode(props: {
     const anchor = hover && isLatticeInside(liveMap, hover) ? hover : source.sourceAnchor
     setTool('select')
     setCandidateMenu(undefined)
-    setTransformIntent({ kind: 'paste', clipboard: source, anchor, layerMappings: [] })
-    setTransformTargetLocked(false)
-    setTransformOverwriteIntent(undefined)
+    beginTransform({ kind: 'paste', clipboard: source, anchor, layerMappings: [] })
     setInspectorTab('properties')
     onRequestInspectorOpen?.()
     canvasRef.current?.focus({ preventScroll: true })
@@ -1683,7 +1674,7 @@ export function MapMode(props: {
     }
     setTool('select')
     setCandidateMenu(undefined)
-    setTransformIntent({
+    beginTransform({
       kind: 'move',
       selection: structuredClone(selection),
       anchor: captured.sourceAnchor,
@@ -1693,8 +1684,6 @@ export function MapMode(props: {
         ? { stampClipboard: captured as StampGroupClipboard, stampBaseMap: liveMap }
         : {}),
     })
-    setTransformTargetLocked(false)
-    setTransformOverwriteIntent(undefined)
     setInspectorTab('properties')
     onRequestInspectorOpen?.()
     canvasRef.current?.focus({ preventScroll: true })
@@ -1708,13 +1697,13 @@ export function MapMode(props: {
     if (!intent) return
     const plan = planTransform(intent, conflictPolicy)
     if (!plan) {
-      setTransformTargetLocked(false)
+      unlockTransformTarget()
       return
     }
     const permissionMessage = transformPermissionForPlan(plan, intent)
     if (permissionMessage) {
       notifyWorkspace('error', permissionMessage)
-      setTransformTargetLocked(false)
+      unlockTransformTarget()
       return
     }
     if (!plan.canApply) {
@@ -1724,7 +1713,7 @@ export function MapMode(props: {
           ? `目标有 ${plan.conflicts.length} 处冲突；请选择覆盖或取消。`
           : '当前变换不能提交。')
       notifyWorkspace('error', message)
-      setTransformTargetLocked(false)
+      unlockTransformTarget()
       return
     }
     if ('placementSelection' in plan) {
@@ -1741,18 +1730,16 @@ export function MapMode(props: {
             intent.clipboard.kind === 'stamp-placements' &&
             intent.clipboard.identity === 'preserve'
           )
-            setClipboard({ ...intent.clipboard, identity: 'copy' })
+            rememberClipboard({ ...intent.clipboard, identity: 'copy' })
           notifyWorkspace(
             'info',
             `${plan.kind === 'move' ? '已移动' : '已复制'} ${plan.upsertPlacements.length} 个完整放置组合（始终包含碰撞）；可一步撤销。`,
           )
         }
-        setTransformIntent(undefined)
-        setTransformTargetLocked(false)
-        setTransformOverwriteIntent(undefined)
+        completeTransform()
         canvasRef.current?.focus({ preventScroll: true })
       } catch (error) {
-        setTransformTargetLocked(false)
+        unlockTransformTarget()
         notifyWorkspace('error', error instanceof Error ? error.message : String(error))
       }
       return
@@ -1770,37 +1757,31 @@ export function MapMode(props: {
     const result = dispatchMapPatch(plan.patch, plan.requiredWritableLayerIds, label)
     if (result === 'changed') {
       dispatchWorkspace({ type: 'set-selection', mapId, selection: plan.nextSelection })
-      setTransformIntent(undefined)
-      setTransformTargetLocked(false)
-      setTransformOverwriteIntent(undefined)
+      completeTransform()
       canvasRef.current?.focus({ preventScroll: true })
     } else if (result === 'unchanged') {
-      setTransformIntent(undefined)
-      setTransformTargetLocked(false)
-      setTransformOverwriteIntent(undefined)
+      completeTransform()
       canvasRef.current?.focus({ preventScroll: true })
     }
   }
 
   const requestTransformDrop = (intent = transformIntent): void => {
     if (!intent) return
-    setTransformIntent(intent)
-    setTransformTargetLocked(true)
-    setTransformOverwriteIntent(undefined)
+    lockTransformTarget(intent)
     const plan = planTransform(intent, 'reject')
     if (!plan) {
-      setTransformTargetLocked(false)
+      unlockTransformTarget()
       return
     }
     const permissionMessage = transformPermissionForPlan(plan, intent)
     if (permissionMessage) {
       notifyWorkspace('error', permissionMessage)
-      setTransformTargetLocked(false)
+      unlockTransformTarget()
       return
     }
     if (plan.issues.length > 0) {
       notifyWorkspace('error', plan.issues[0]?.message ?? '当前目标位置不能使用。')
-      setTransformTargetLocked(false)
+      unlockTransformTarget()
       return
     }
     if (plan.conflicts.length > 0) {
@@ -1809,7 +1790,7 @@ export function MapMode(props: {
         ? transformPermissionForPlan(overwritePlan, intent)
         : undefined
       if (overwritePlan?.canApply && !overwritePermission) {
-        setTransformOverwriteIntent(intent)
+        requestTransformOverwrite(intent)
         return
       }
       notifyWorkspace(
@@ -1818,22 +1799,21 @@ export function MapMode(props: {
           overwritePlan?.issues[0]?.message ??
           '目标内容不能被覆盖；请选择其他位置。',
       )
-      setTransformTargetLocked(false)
+      unlockTransformTarget()
       return
     }
     commitTransform('reject', intent)
   }
 
   const returnToTransformAdjustment = (): void => {
-    setTransformOverwriteIntent(undefined)
-    setTransformTargetLocked(false)
+    unlockTransformAdjustment()
     notifyWorkspace('info', '已保留变换预览；请重新选择目标位置。')
   }
 
   const confirmTransformOverwrite = (): void => {
     const intent = transformOverwriteIntent
     if (!intent) return
-    setTransformOverwriteIntent(undefined)
+    clearTransformOverwrite()
     commitTransform('overwrite', intent)
   }
 
@@ -1857,7 +1837,7 @@ export function MapMode(props: {
       notifyWorkspace('error', '当前选区和地图剪贴板都没有可重复内容。')
       return
     }
-    setClipboard(source)
+    rememberClipboard(source)
     const bounds = mapSelectionBounds(selection)
     const sourceRefs =
       source.kind === 'stamp-placements'
@@ -1877,9 +1857,7 @@ export function MapMode(props: {
           col: source.kind === 'stamp-placements' ? maxSourceCol + 1 : source.sourceAnchor.col + 1,
         }
     setTool('select')
-    setTransformIntent({ kind: 'paste', clipboard: source, anchor, layerMappings: [] })
-    setTransformTargetLocked(true)
-    setTransformOverwriteIntent(undefined)
+    beginTransform({ kind: 'paste', clipboard: source, anchor, layerMappings: [] }, true)
     setInspectorTab('properties')
     onRequestInspectorOpen?.()
     canvasRef.current?.focus({ preventScroll: true })
@@ -1893,21 +1871,11 @@ export function MapMode(props: {
   }
 
   const adjustTransform = (direction: IsometricNudgeDirection): void => {
-    setTransformTargetLocked(true)
-    setTransformIntent((current) =>
-      current
-        ? {
-            ...current,
-            anchor: nudgeIsometricLattice(current.anchor, direction),
-          }
-        : current,
-    )
+    nudgeTransform(direction)
   }
 
   const cancelTransform = (): void => {
-    setTransformIntent(undefined)
-    setTransformTargetLocked(false)
-    setTransformOverwriteIntent(undefined)
+    completeTransform()
     canvasRef.current?.focus({ preventScroll: true })
     notifyWorkspace('info', '已取消地图变换预览。')
   }
@@ -2140,7 +2108,7 @@ export function MapMode(props: {
       if (isLatticeInside(liveMap, pos)) {
         pointerGesture.setHover(pos)
         if (pos.row !== transformIntent.anchor.row || pos.col !== transformIntent.anchor.col)
-          setTransformIntent((current) => (current ? { ...current, anchor: pos } : current))
+          updateTransformAnchor(pos)
         setPaintTick((tick) => tick + 1)
       }
       return
