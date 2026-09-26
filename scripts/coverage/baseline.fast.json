@@ -1,14 +1,14 @@
 {
   "schemaVersion": 2,
   "profile": "fast",
-  "generatedAt": "2026-09-26T11:29:53.494Z",
+  "generatedAt": "2026-09-26T12:00:22.877Z",
   "provider": {
     "name": "v8",
     "vitest": "4.1.7",
     "coverageV8": "4.1.7"
   },
   "sourceFileCount": 701,
-  "testCount": 8780,
+  "testCount": 8834,
   "packages": {
     "shared": {
       "name": "@type-pal/shared",
@@ -4352,8 +4352,8 @@
       ],
       "scopeDigest": "c4716880879227c04784937a4a68179606665a9237b856c0930985b6c02500c2",
       "fastTests": {
-        "testCount": 2667,
-        "testFileCount": 305,
+        "testCount": 2721,
+        "testFileCount": 311,
         "files": [
           "packages/editor/scripts/battle-simulator-http.test.mjs",
           "packages/editor/scripts/battle-simulator-ui.test.tsx",
@@ -4463,6 +4463,12 @@
           "packages/editor/src/core/pal-save-identity.test.ts",
           "packages/editor/src/core/play-url.test.ts",
           "packages/editor/src/core/play-workspace.test.ts",
+          "packages/editor/src/core/playback.controls.test.ts",
+          "packages/editor/src/core/playback.effects.test.ts",
+          "packages/editor/src/core/playback.entities.test.ts",
+          "packages/editor/src/core/playback.motion.test.ts",
+          "packages/editor/src/core/playback.presentation.test.ts",
+          "packages/editor/src/core/playback.queries.test.ts",
           "packages/editor/src/core/playback.test.ts",
           "packages/editor/src/core/poison-commands.test.ts",
           "packages/editor/src/core/project-copy.test.ts",
@@ -5201,6 +5207,36 @@
             "file": "packages/editor/src/core/play-workspace.test.ts",
             "testCount": 4,
             "identityDigest": "879a078cf06dfceb410319f614dee7d9cd45109ad72535eb7cc7c5bd04483418"
+          },
+          {
+            "file": "packages/editor/src/core/playback.controls.test.ts",
+            "testCount": 7,
+            "identityDigest": "d072d4a118c251b09c43aa72d8b7d4efe553b37bd3aa06796b83dea64e943175"
+          },
+          {
+            "file": "packages/editor/src/core/playback.effects.test.ts",
+            "testCount": 9,
+            "identityDigest": "ceca2d09957534f19c6d780b968aedf8cffb515b7cbe80142517c9fdc8a2f24b"
+          },
+          {
+            "file": "packages/editor/src/core/playback.entities.test.ts",
+            "testCount": 9,
+            "identityDigest": "4f77de22a9de460f06f53fbd63fd09613d394b39f6ce5e0e7fd2a24d1da7b521"
+          },
+          {
+            "file": "packages/editor/src/core/playback.motion.test.ts",
+            "testCount": 10,
+            "identityDigest": "913be2351713e1cabfdc9b73b6e180bf96e457e35d40b309a0ca09b12e68d901"
+          },
+          {
+            "file": "packages/editor/src/core/playback.presentation.test.ts",
+            "testCount": 7,
+            "identityDigest": "64c7b2169d84a82b057a008cc3630767a85595d3d9e8f50919e48256a5b760c1"
+          },
+          {
+            "file": "packages/editor/src/core/playback.queries.test.ts",
+            "testCount": 12,
+            "identityDigest": "918ac242eadc76a34503c0aa989319710b2c46c7dac3c06431e27c251131909d"
           },
           {
             "file": "packages/editor/src/core/playback.test.ts",
@@ -6188,25 +6224,25 @@
             "identityDigest": "7c181e89600882213bfdc9bf59bf8d2b40273fc45d2d84fecf9ad6313060cf3b"
           }
         ],
-        "identityDigest": "38d91975296b33e9d17ac41db8884056bf83fb036c00809cad68e86f70d99183",
+        "identityDigest": "b47265558823810ad4c52df92df935d964a165f0ef8d9029adfe7d9313c73c22",
         "duplicateIdentityCount": 8,
-        "executionDigest": "e34220c6b29271b08607e1e818f5ffc502b035fa9e7a2aa525bc374ec967c4f6"
+        "executionDigest": "045d1e24f9585e6ca6f9cf45f719b442a6e20f6514476901eb06e4aed32e9e6a"
       },
       "metrics": {
         "statements": {
-          "covered": 26036,
+          "covered": 26239,
           "total": 32757
         },
         "branches": {
-          "covered": 20232,
+          "covered": 20370,
           "total": 28338
         },
         "functions": {
-          "covered": 6469,
+          "covered": 6545,
           "total": 8377
         },
         "lines": {
-          "covered": 23404,
+          "covered": 23592,
           "total": 28638
         }
       }
@@ -6214,19 +6250,19 @@
   },
   "total": {
     "statements": {
-      "covered": 62837,
+      "covered": 63040,
       "total": 80643
     },
     "branches": {
-      "covered": 44993,
+      "covered": 45131,
       "total": 63178
     },
     "functions": {
-      "covered": 11546,
+      "covered": 11622,
       "total": 15058
     },
     "lines": {
-      "covered": 56507,
+      "covered": 56695,
       "total": 70600
     }
   }

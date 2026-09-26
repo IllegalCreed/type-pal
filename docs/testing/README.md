@@ -8,6 +8,8 @@
 
 ## 文档与附件
 
+- [Codex当前预览控制六组](codex-playback/README.md)（公开canonical入口、输入保真、计时与独立单步红诊断）。
+
 - [Codex资源加载与所有权八组](codex-pal-assets/README.md)（自包含PNG/WAV、闭包与失败零写入）。
 
 - [Codex当前敌人钩子翻译六组](codex-enemy-hooks/README.md)（真实wrapper/guard、来源映射与输入保真）。

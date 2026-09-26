@@ -16,6 +16,7 @@
 | [migrate当前脚本翻译](../codex-translate-events/README.md) | Codex | done，59项/六针/统一门通过 | +338 |
 | [migrate当前敌人钩子](../codex-enemy-hooks/README.md) | Codex | done，48项/六针/统一门通过 | +112 |
 | [migrate资源加载与所有权](../codex-pal-assets/README.md) | Codex | done，84项/八针/统一门通过 | +102 |
+| [editor当前预览控制](../codex-playback/README.md) | Codex | done，54项/六针/统一门通过 | +138 |
 
 统计以官方整批并集为准，不相加贡献者局部数字。实现期间只定向/相邻/TC；整批串行check→ratchet→
 受保护单次strict-fast，通过后更新本表并推送。用户无需回来逐次批准继续；需要新的产品裁决时才问。
@@ -50,3 +51,8 @@
 相对起点约+2.49pp，距离目标还差1,584分支。check9,272、保护2838df42的串行ratchet/单次strict8,780通过；
 701生产文件/所有分母与其它六包完整baseline对象不变。八组自包含PNG/WAV及所有权合同全部通过，
 本席大小写文件夹具/反控定位错误已披露；不借合成数据声称原盘真值或UI验证。下一整批继续公开审计消费者。
+
+2026-09-26第七批：45,131/63,178 = **71.4346766279401%**；累计+1,713分支/+430测试，
+相对起点约+2.71pp，距离目标还差1,446分支。check9,326、保护82863cf2的串行ratchet/单次strict8,834通过；
+701生产文件/所有分母与其它六包完整baseline对象不变。预览首次单步阶段门缺陷保留真实红诊断，
+独立修复卡draft，不为覆盖率改成绿预期。Cursor远端仍b6bcc9b4，需新返工SHA，未计入本批。

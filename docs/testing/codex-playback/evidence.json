@@ -1,0 +1,71 @@
+{
+  "base": "82863cf2",
+  "status": "accepted",
+  "newTests": 54,
+  "groups": {
+    "controls": 7,
+    "motion": 10,
+    "entities": 9,
+    "presentation": 7,
+    "effects": 9,
+    "queries": 12
+  },
+  "adjacent": { "tests": 72, "failed": 0, "json": "/tmp/codex-playback-directed-final.json" },
+  "typecheck": { "exit": 0, "log": "/tmp/codex-playback-tc-final.log" },
+  "mutants": {
+    "controls": 6,
+    "detected": 6,
+    "sourceUnchanged": true,
+    "directory": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/codex-playback-mutants-gEttdo"
+  },
+  "diagnostic": {
+    "id": "D1",
+    "status": "reproduced",
+    "exit": 1,
+    "passed": 0,
+    "failed": 1,
+    "kind": "AssertionError",
+    "officialSelection": false,
+    "owner": "EDITOR-PREVIEW-STEP-1"
+  },
+  "sourceSha256": "f411ae72f7e1b04117303f70900124780051cc4913beaba952bef933e62afae0",
+  "biome": {
+    "exit": 0,
+    "changedFiles": 12,
+    "warnings": 0,
+    "log": "/tmp/codex-playback-biome-final.log"
+  },
+  "official": {
+    "baseRef": "82863cf2",
+    "check": { "exit": 0, "tests": 9326, "log": "/tmp/codex-playback-check.log" },
+    "ratchet": { "exit": 0, "log": "/tmp/codex-playback-ratchet.log" },
+    "strict": { "exit": 0, "tests": 8834, "log": "/tmp/codex-playback-strict.log" },
+    "finalLint": {
+      "exit": 0,
+      "warnings": 62,
+      "infos": 6,
+      "log": "/tmp/codex-playback-lint-final.log"
+    },
+    "productionFiles": 701,
+    "denominatorsAndScopeUnchanged": true,
+    "otherSixPackageObjectsUnchanged": true,
+    "strictMetricsEqualRatchet": true,
+    "before": {
+      "branches": [44993, 63178],
+      "statements": [62837, 80643],
+      "lines": [56507, 70600],
+      "functions": [11546, 15058],
+      "tests": 8780
+    },
+    "after": {
+      "branches": [45131, 63178],
+      "statements": [63040, 80643],
+      "lines": [56695, 70600],
+      "functions": [11622, 15058],
+      "tests": 8834
+    },
+    "delta": { "branches": 138, "statements": 203, "lines": 188, "functions": 76, "tests": 54 },
+    "playback": { "branches": [208, 252], "lines": [383, 412], "functions": [118, 135] },
+    "goal": { "coveredBranches": 45131, "targetCoveredBranches": 46577, "remaining": 1446 }
+  }
+}
