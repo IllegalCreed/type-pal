@@ -10,10 +10,8 @@
  *   - startBattle({ gs, enemyTeamId, battleFieldId, isBoss, 资源... }) — 构 BattleState + 切 mode
  *   - tickBattle(gs, input, bus) — phase 路由 + 战斗 UI 输入/动作推进
  *
- * **__battleResources hack**:战斗中 tickBattle 需要 items/spells/magics/playerRoles/commands
- * 五张表,而 GameState 不直接持有(资源数据由 Shell 装载侧管理)。本 task 在 GameState
- * 上挂一个非可见字段 __battleResources 缓存,startBattle 写入、finalizeBattle 清理。
- * M5 可改成 module-level Map 或 DI;本任务先用此简化方案,T23 baseline 对拍后再优化。
+ * **战斗运行资源**:tickBattle 需要 shell 装载的资源表与可选脚本 runner；其安装、读取、
+ * live roles 查询及 finalize 释放由 battle-runtime-context 单一 owner 管理。
  *
  * **enemy id 映射**:enemyTeam.rgwEnemy[j] 在 sdlpal 中是
  * OBJECT 数组绝对 index → OBJECT_ENEMY.wEnemyID → DATA.MKF chunk 1(enemies.json id;battle.c:1602-1611)。
@@ -96,6 +94,15 @@ import {
   resetFightersAfterAction,
   startBattleAnim,
 } from './battle-anim-driver.js'
+import {
+  type BattleResources,
+  clearBattleRuntimeContext,
+  getBattleResources,
+  getBattleRunScript,
+  type RunScriptFn,
+  setBattleResources,
+  setBattleRunScript,
+} from './battle-runtime-context.js'
 import type { BattleSettlementScreen, LevelUpScreenData } from './battle-settlement.js'
 import { settlementScreenTimeoutMs } from './battle-settlement.js'
 import type { BattleAction, BattlePlayer, BattleState } from './battle-state.js'
@@ -125,84 +132,8 @@ const BATTLE_DT = BATTLE_FRAME_TIME
  */
 export const INTRO_FADE_TICKS = 9
 
-/**
- * 战斗运行时所需的资源表 —— 由 startBattle 缓存到 GameState.__battleResources。
- *
- * tickBattle 内的 perform* 调用需要 items/spells/magics/playerRoles/commands;
- * GameState 主表只保 inventory / partyMembers / 等运行状态,资源数据走这里。
- */
-export interface BattleResources {
-  items: Item[]
-  spells: Spell[]
-  magics: Magic[]
-  /** rgObject magic-union 视图(object-magics.json)—— 0x42 SimulateMagic 解析 magic object id。 */
-  objectMagics: ObjectMagicView[]
-  /** rgObject poison-union 视图(object-poisons.json)—— 0x28 apply poison 解析 wEnemyScript。 */
-  objectPoisons: ObjectPoisonView[]
-  /** rgObject player-union 视图(object-players.json)—— 队友死亡 / 濒死触发脚本。 */
-  objectPlayers: ObjectPlayerView[]
-  /** 全部 enemies.json —— 0x9E summon 按 enemyId 取召唤兽 stats。 */
-  enemies: Enemy[]
-  /** 全部 enemy-objects.json —— 0x9E summon 按 objectIndex 解 op0 → enemyId/scripts/抗性。 */
-  enemyObjects: EnemyObject[]
-  /** enemyId → ABC.MKF frame0 height(PAL_RLEGetHeight),供命中特效落点与动态敌人刷新。 */
-  enemySpriteFrameHeights?: Map<number, number>
-  /** ENEMYPOS 表 —— 动态召唤/分裂/变身后刷新敌方 pos/posOriginal。 */
-  enemyPos?: EnemyPosTable
-  playerRoles: PlayerRoles
-  commands: Command[]
-  /**
-   * D17a:rgwBattleEffectIndex[10][2] flat(battle-effect-index.json)—— player 物理攻击
-   * 命中特效帧基号 `[battleSpriteId][1]*3`(fight.c:2055)。省略 → effectFrameBase=0。
-   */
-  battleEffectIndex?: number[]
-  /**
-   * D17:FIRE.MKF magic sprite 帧数 Map(chunk index = magic.effect → frameCount)——
-   * performMagic build OffMagic 时间线取 `n`(总帧数公式 fight.c:2652/2661)。
-   * 省略或缺 chunk → performMagic 不建攻击魔法时间线(走原即时路径,向后兼容)。
-   */
-  magicSpriteFrameCounts?: Map<number, number>
-  /**
-   * 召唤神精灵帧数 Map(F.MKF chunk index = magic.special+10 → frameCount)—— performMagic build
-   * 召唤动画取召唤神逐帧 loop 帧数(fight.c:3160)。省略 → 不建召唤动画(走即时路径)。
-   */
-  summonSpriteFrameCounts?: Map<number, number>
-  /**
-   * D11:LevelUpExp[100](level-up-exp.json)—— 战斗胜利升级 `dwExp >= rgLevelUpExp[level]` 阈值
-   * (battle.c:1106)。省略 → finalizeBattle 升级 loop 跳过(只入 exp,不升级,向后兼容旧 fixture/测试)。
-   */
-  levelUpExp?: number[]
-  /**
-   * D11:LEVELUPMAGIC_ALL[20][5](level-up-magic.json)—— 升级时学新法术(battle.c:1300-1321)。
-   * 省略 → 不学法术。
-   */
-  levelUpMagic?: LevelUpMagicEntry[][]
-}
-
-/** runScript 注入类型(便于测试 mock 替换 free function)。 */
-export type RunScriptFn = (opts: RunScriptOptions) => number
-
-/** GameState 上的非可见 stash 字段名 —— 不在 GameState interface 中,但通过 cast 写入。 */
-const BATTLE_RESOURCES_KEY = '__battleResources' as const
-
-/** 取(可能不存在的)战斗资源。 */
-function getBattleResources(gs: GameState): BattleResources | undefined {
-  return (gs as unknown as Record<string, BattleResources | undefined>)[BATTLE_RESOURCES_KEY]
-}
-
-/**
- * 取战斗中**实时**队员 roles —— 伤害 / 死亡(hp→0)持久写于此份(projectRuntimeToBattleRoles 投影,
- * 含装备 effect)。**present 精灵 / UI 必须读这份**,不能读 bootstrap 的 static 满血基线
- * (`battleAssets.playerRoles`)——否则死员仍按满血画站立帧(user 报"起立")。无战斗时 undefined。
- */
-export function getBattleLiveRoles(gs: GameState): BattleResources['playerRoles'] | undefined {
-  return getBattleResources(gs)?.playerRoles
-}
-
-/** 设置战斗资源(startBattle 用)。 */
-function setBattleResources(gs: GameState, res: BattleResources | undefined): void {
-  ;(gs as unknown as Record<string, BattleResources | undefined>)[BATTLE_RESOURCES_KEY] = res
-}
+export type { BattleResources, RunScriptFn } from './battle-runtime-context.js'
+export { getBattleLiveRoles } from './battle-runtime-context.js'
 
 // ============================================================================
 // startBattle
@@ -429,17 +360,7 @@ export function startBattle(input: StartBattleInput): void {
     levelUpMagic: input.levelUpMagic, // D11:升级学新法术
   })
 
-  // 注入 runScript(测试用)— 通过 BattleState 的 hidden field 走;这里临时挂在 res 上
-  // 默认用 event-system.runScript;测试 mock 时传 runScriptFn
-  if (input.runScriptFn) {
-    ;(input.gs as unknown as Record<string, RunScriptFn>).__battleRunScript = input.runScriptFn
-  }
-}
-
-/** 取注入的 runScript(测试 mock)或默认 event-system.runScript。 */
-function getRunScript(gs: GameState): RunScriptFn {
-  const injected = (gs as unknown as Record<string, RunScriptFn | undefined>).__battleRunScript
-  return injected ?? runScript
+  setBattleRunScript(input.gs, input.runScriptFn)
 }
 
 // ============================================================================
@@ -956,8 +877,8 @@ function runPlayerCasualtyScript(
   res: BattleResources,
 ): number {
   const playerIdx = state.players.findIndex((p) => p.roleId === roleId)
-  const runScript = getRunScript(gs)
-  return runScript({
+  const casualtyRunScript = getBattleRunScript(gs, runScript)
+  return casualtyRunScript({
     commands: res.commands,
     ip: entry,
     bus,
@@ -977,7 +898,7 @@ function runPlayerCasualtyScript(
       enemySpriteFrameHeights: res.enemySpriteFrameHeights,
       items: res.items,
       commands: res.commands,
-      runScript,
+      runScript: casualtyRunScript,
     },
   })
 }
@@ -2542,7 +2463,7 @@ function tickPerformAction(
           playerRoles: res.playerRoles,
           bus,
           commands: res.commands,
-          runScript: getRunScript(gs),
+          runScript: getBattleRunScript(gs, runScript),
         })
         if (state.battleAnim) return // 道具脚本自身又起了动画 → 交给那条新动画收尾复位
       }
@@ -2895,7 +2816,12 @@ function performBattleAction(
         res.playerRoles,
         res.battleEffectIndex,
         // 敌普攻 equivItem 中毒(fight.c:5139):敌→我 命中后按几率 + 抗性跑毒物品 scriptOnUse(0x29)。
-        { gs, items: res.items, commands: res.commands, runScript: getRunScript(gs) },
+        {
+          gs,
+          items: res.items,
+          commands: res.commands,
+          runScript: getBattleRunScript(gs, runScript),
+        },
       )
       // E04:攻击 → rgAttackExp.wCount++ + rgHealthExp.wCount += RandomLong(2,3)(fight.c:3756-3757,序固定)。
       // DL4:exp 掷骰仅在**玩家** case(fight.c:3757);敌方动作不消费 RNG(原实参先求值多耗一抽,RNG 流偏移)。
@@ -2937,7 +2863,7 @@ function performBattleAction(
         playerRoles: res.playerRoles,
         bus,
         commands: res.commands,
-        runScript: getRunScript(gs),
+        runScript: getBattleRunScript(gs, runScript),
         objectMagics: res.objectMagics, // 0x57/0x88 scriptOnUse 解析 magic object id
         gs, // 0x88 set magic damage by money 需 gs.dwCash
         magicSpriteFrameCounts: res.magicSpriteFrameCounts, // D17:OffMagic 时间线 n
@@ -3003,7 +2929,7 @@ function performBattleAction(
         playerRoles: res.playerRoles,
         bus,
         commands: res.commands,
-        runScript: getRunScript(gs),
+        runScript: getBattleRunScript(gs, runScript),
       })
       break
     }
@@ -3045,7 +2971,7 @@ function performBattleAction(
         playerRoles: res.playerRoles, // 0x66 throw weapon 需 caster attackStrength
         bus,
         commands: res.commands,
-        runScript: getRunScript(gs),
+        runScript: getBattleRunScript(gs, runScript),
         magicSpriteFrameCounts: res.magicSpriteFrameCounts, // 投掷 OffMagic 特效时间线 n(fight.c:5340)
         enemySpriteFrameHeights: res.enemySpriteFrameHeights, // M8:动态变身/召唤后保 frame0 height
       })
@@ -3114,7 +3040,7 @@ function tickPostAction(
   // 毒 tick —— 对照 sdlpal `fight.c:1645-1648`(每回合每敌 rgPoisons[j].wPoisonScript 跑)。
   // 每个活敌的每条 poison 跑其 scriptEntry(毒 wEnemyScript,经 0x21 扣血),target = 该敌人。
   // 放在死亡 exp 累计**之前** → 毒杀的敌人也计入死亡奖励。
-  const runPoisonScript = getRunScript(gs)
+  const runPoisonScript = getBattleRunScript(gs, runScript)
   // DM12:毒 tick 前快照敌人 hp(玩家用 prePoisonHp)——毒后任何 HP 变化 = C 的
   //   PAL_BattleDisplayStatChange() 返回 TRUE → 转 selectAction 前设 8 帧停顿。
   const prePoisonEnemyHp = state.enemies.map((e) => e.e.health)
@@ -3306,9 +3232,7 @@ function finalizeBattleCleanup(gs: GameState, outcome: BattleOutcome): void {
   gs.sWaveProgression = gs.battleState?.prevWaveProgression ?? 0
   gs.mode = 'explore'
   gs.battleState = undefined
-  setBattleResources(gs, undefined)
-  // 清 injected runScript(若有)
-  delete (gs as unknown as Record<string, RunScriptFn | undefined>).__battleRunScript
+  clearBattleRuntimeContext(gs)
   // 0x07 触发的战斗 → 接回触发脚本(胜→下一条跑 0x52 隐藏怪 / 负→op[1] / 逃→op[2],script.c:3318-3331)。
   //   会把 gs.mode 改回 'event' + 设 eventCursor;非 0x07 触发(dev panel / 0x07 无 resume)→ no-op 留 explore。
   resumePostBattleScript(gs, outcome)
@@ -3379,7 +3303,10 @@ function runBattleWonPostScripts(
   for (let ei = 0; ei < state.enemies.length; ei++) {
     const en = state.enemies[ei]
     if (!en || (en.scriptOnBattleEnd ?? 0) <= 0) continue
-    getRunScript(gs)({
+    getBattleRunScript(
+      gs,
+      runScript,
+    )({
       commands: res.commands,
       ip: en.scriptOnBattleEnd,
       bus,
