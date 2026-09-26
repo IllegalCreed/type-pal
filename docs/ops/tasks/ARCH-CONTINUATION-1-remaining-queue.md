@@ -47,6 +47,16 @@ Codex持续处理[治理台账](../audits/architecture-debt.md)剩余边界，Cu
 
 ## 当前推进
 
+- 2026-09-26 C1-d 动作/演出调度段开工（基点 `f68d4e89`）：`actTimer/anim/scriptAnimation`
+  仍被会话、脚本 pump 与终态分支交叉清理；三条路径的语义不同，不能合并成一条“动画播完”。迁为
+  `BattleActionPresentationScheduler`：owner 独占行动节拍、`AnimPlayer` 与 scripted 标志，接收已构建 timeline
+  和现有 side-effect 回调；不接收 `BattleState`/会话/资产。分别暴露 script consume 与普通/终态 playback consume，
+  保持脚本完成清 player+scripted，普通与终态只清 player 的现行差异；行动 240ms 门仍在准备 core step 前同拍归零，
+  timeline `tick(0)` 仍同步派发首帧。会话继续拥有 core `stepBattle`、时间线构建、hook/choreography 政策和视觉落地，
+  不复制 actionQueue，不把 render 大函数搬入伪模块。验收复用 action/script/round/terminal 正式回归，新增 scheduler
+  节拍/三种消费语义/首帧/结构反控；不改帧序、公式、音画/UI。此段完成后四类 C1 owner 边界齐，但仍须统一
+  C1 回归、反控、Reforge/TC/Biome/build 与证据收口才可报候选完成。Codex premise verified / build allowed。
+
 - 2026-09-26 C1-c 选择输入段开工（基点 `450df20d`）：总会话仍混持 command phase、五类游标、三类
   pending target、F/R/A、`lastActs` 与 `submitOrder`，并在 `tick` 内直接解释完整菜单状态机。迁为
   `BattleCommandSelection`：owner 独占上述临时态、菜单/目标转换、重复动作修正与回退顺序；每拍只接收当前队员

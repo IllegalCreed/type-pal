@@ -339,14 +339,14 @@ describe('B10-1-R2 鬼降成败反馈', () => {
       { dialogBox },
     )
     startCast(session)
-    const internal = session as unknown as { anim: unknown | null }
-    expect(internal.anim).not.toBeNull()
+    const internal = session as unknown as { actionPresentation: { active: boolean } }
+    expect(internal.actionPresentation.active).toBe(true)
     expect(opened).toHaveLength(0)
     session.tick(1, new Set())
     expect(opened).toHaveLength(0)
 
     let guard = 0
-    while (internal.anim && guard++ < 40) session.tick(100, new Set())
+    while (internal.actionPresentation.active && guard++ < 40) session.tick(100, new Set())
     expect(guard).toBeLessThan(40)
     expect(opened).toHaveLength(1)
     const dialogue = opened[0] as {
@@ -374,7 +374,7 @@ describe('B10-1-R2 鬼降成败反馈', () => {
     )
     const state = startCast(session)
     const internal = session as unknown as {
-      anim: unknown | null
+      actionPresentation: { active: boolean }
       pendingConfusedReveal: Set<number>
       enemyConfusedJitterX(
         enemyIdx: number,
@@ -388,7 +388,7 @@ describe('B10-1-R2 鬼降成败反馈', () => {
     expect(internal.enemyConfusedJitterX(0, target)).toBe(0)
 
     let guard = 0
-    while (internal.anim && guard++ < 40) session.tick(100, new Set())
+    while (internal.actionPresentation.active && guard++ < 40) session.tick(100, new Set())
     expect(guard).toBeLessThan(40)
     expect(internal.pendingConfusedReveal.has(0)).toBe(false)
     expect(internal.enemyConfusedJitterX(0, target)).toBe(1)
@@ -1237,17 +1237,17 @@ describe('B9 特殊战斗形态', () => {
     )
     const internal = session as unknown as {
       state: { phase: string }
-      anim: unknown
+      actionPresentation: { active: boolean }
       doneSettled: boolean
     }
 
     session.tick(16, new Set(['q']))
     for (let index = 0; index < 80; index += 1) {
       session.tick(40, new Set())
-      if (internal.state.phase === 'fled' && internal.anim === null) break
+      if (internal.state.phase === 'fled' && !internal.actionPresentation.active) break
     }
     expect(internal.state.phase).toBe('fled')
-    expect(internal.anim).toBeNull()
+    expect(internal.actionPresentation.active).toBe(false)
     expect(internal.doneSettled).toBe(false)
 
     session.tick(16, new Set())

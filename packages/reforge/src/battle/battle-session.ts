@@ -46,9 +46,10 @@ import { drawRewardGainText } from '../menu/reward-gain.js'
 import { bakeFrame } from '../render.js'
 import { type ScreenShake, shakeOffsetY, WavedBgCache } from '../screen-fx.js'
 import { renderSpans } from '../text/text-render.js'
+import { BattleActionPresentationScheduler } from './battle-action-presentation-scheduler.js'
 import {
   type AnimFrame,
-  AnimPlayer,
+  type AnimSideEffects,
   buildEnemyCast,
   buildEnemyDivide,
   buildEnemyEscape,
@@ -132,8 +133,6 @@ function assertNever(value: never, context: string): never {
 const MISC_LABELS = ['围攻', '道具', '防御', '逃跑', '状态'] as const
 /** 文字兜底菜单(无 UI 资产时;单测)。 */
 const FALLBACK_MENU = ['攻击', '仙术', '物品', '防御', '逃跑'] as const
-/** 每个 action 结算间隔(节奏;一帧全算看不清)。 */
-const ACT_MS = 240
 /** 敌人死亡淡出时长(一阶段 PAL_BattleFadeScene 12×6 步 ≈ 900ms;RGBA 用 alpha 渐隐等价)。 */
 // 死亡溶解时长 = 原版 72 步 × 16ms(PAL_BattleFadeScene,battle.c:608-682;曾 900ms alpha
 // 渐隐,作者报「死亡动画有些怪」→ 改颗粒溶解形态,见 present-battle drawDissolved)
@@ -208,10 +207,9 @@ export class BattleSession {
   private readonly readiness: BattleTurnReadinessGate
   private readonly settlementPresentation: BattleSettlementPresentation
   private readonly selection = new BattleCommandSelection()
+  private readonly actionPresentation = new BattleActionPresentationScheduler()
   private readonly state: BattleState
   private sessionUi: SessionUiPhase | null = null
-  /** 正在选指令的队员下标(pendingActions 未填的第一个活队员)。 */
-  private actTimer = 0
   private floats: FloatNum[] = []
   private nowMs = 0
   // ── M4d-2 表现层:动画回放 + 死亡淡出 ──
@@ -219,7 +217,6 @@ export class BattleSession {
     players: [],
     enemies: [],
   }
-  private anim: AnimPlayer | null = null
   private overlays: OverlayDraw[] | null = null
   /** 本次施法的召唤神精灵(overlays sheet='summon' 图源;非召唤 = null)。 */
   private currentSummon: LoadedSprite | null = null
@@ -270,7 +267,6 @@ export class BattleSession {
   /** actionQueue item 以对象身份去重，dualMove 的两个 entry 各跑一次 ready。 */
   private readonly readyHookEntries = new WeakSet<object>()
   private choreoWaitUntil: number | null = null
-  private scriptAnimation = false
   /** terminal 立即登记、演出 closure 排净后才提交 state.phase。 */
   private pendingTerminal: {
     phase: 'won' | 'lost' | 'fled'
@@ -519,7 +515,7 @@ export class BattleSession {
     if (this.closed || this.doneSettled || this.state.phase !== 'selectAction') return
     stepBattle(this.state, this.rng)
     this.sessionUi = 'acting'
-    this.actTimer = 0
+    this.actionPresentation.resetActionCadence()
   }
 
   private beginTurnPreparation(): void {
@@ -629,8 +625,7 @@ export class BattleSession {
   }
 
   private startTimeline(timeline: AnimFrame[], scripted = false): void {
-    this.scriptAnimation = scripted
-    this.anim = new AnimPlayer(timeline, {
+    const effects: AnimSideEffects = {
       onFighter: (delta) => this.applyDelta(delta),
       onOverlay: (overlays) => {
         this.overlays = overlays
@@ -669,8 +664,8 @@ export class BattleSession {
           this.summonVis = { phase, start: this.nowMs }
         }
       },
-    })
-    this.anim.tick(0)
+    }
+    this.actionPresentation.start(timeline, effects, scripted)
   }
 
   /** 收集当轮遭遇专属演出；敌实例 hook 由 queueTurnStartHooks 单独排队。 */
@@ -979,10 +974,9 @@ export class BattleSession {
       if (this.nowMs < this.choreoWaitUntil) return true
       this.choreoWaitUntil = null
     }
-    if (this.scriptAnimation) {
-      if (this.anim && !this.anim.tick(dtMs)) return true
-      this.anim = null
-      this.scriptAnimation = false
+    const scriptPlayback = this.actionPresentation.advanceScript(dtMs)
+    if (scriptPlayback !== 'inactive') {
+      if (scriptPlayback === 'playing') return true
       this.finishStepVisuals()
       return true
     }
@@ -1114,9 +1108,9 @@ export class BattleSession {
     if (s.phase === 'won' || s.phase === 'lost' || s.phase === 'fled') {
       this.settlementPresentation.observeCorePhase(s.phase, s.enemyFled)
       // 终态但收尾动画未播完(最后一击)→ 先播完(死亡淡出/死音在 finishStepVisuals)
-      if (this.anim) {
-        if (!this.anim.tick(dtMs)) return
-        this.anim = null
+      const terminalPlayback = this.actionPresentation.advancePlayback(dtMs)
+      if (terminalPlayback === 'playing') return
+      if (terminalPlayback === 'finished') {
         this.finishStepVisuals()
         return
       }
@@ -1177,15 +1171,13 @@ export class BattleSession {
       this.sessionUi = 'acting'
       if (this.pumpScriptExecution(dtMs, pressed)) return
       // M4d-2:动画回放中 → 只推进;播完收尾(复位/死亡淡出/死音)
-      if (this.anim) {
-        if (!this.anim.tick(dtMs)) return
-        this.anim = null
+      const actionPlayback = this.actionPresentation.advancePlayback(dtMs)
+      if (actionPlayback === 'playing') return
+      if (actionPlayback === 'finished') {
         this.finishStepVisuals()
         return
       }
-      this.actTimer += dtMs
-      if (this.actTimer < ACT_MS) return
-      this.actTimer = 0
+      if (!this.actionPresentation.consumeActionCadence(dtMs)) return
       const queueHead = s.actionQueue[0]
       if (queueHead?.isEnemy && !this.readyHookEntries.has(queueHead)) {
         this.readyHookEntries.add(queueHead)
