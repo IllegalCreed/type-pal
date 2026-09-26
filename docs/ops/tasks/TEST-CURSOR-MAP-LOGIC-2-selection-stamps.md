@@ -10,6 +10,14 @@ Branch: `codex/cursor-map-logic-r2`
 
 ## 准入与前提
 
+### 2026-09-27 Codex接收4dc8fb75
+
+**counter，仅剩CM1计划/patch实参保真**，见[窄复核及提示词](../../testing/cursor-map-logic-r2-review.md)。
+CM2完整多组搬移/非空哨兵/去重、CM3缩进混错判据、CM4真实typed loader状态均accept，不重开。
+原三漏检针现都候选业务红；仍有两个Command偷偷改原plan.mapRevision的变异候选4/4绿，独立oracle抓住。
+只补原M3–M6应用前后实际plan/patch/权限数组快照，不新增矩阵，不强加返回map/EditSession不变。
+29新增/117定向相邻/全editor3048/TC/15文件零诊断/作者六针与17自测通过；不合候选，不计覆盖。
+
 ### 2026-09-27 Codex接收070d3bf3
 
 **counter / CM1–CM4**，见[独立接收与可转交提示词](../../testing/cursor-map-logic-r1-review.md)。

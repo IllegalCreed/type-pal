@@ -8,6 +8,8 @@
 
 ## 文档与附件
 
+- [Cursor地图六组r2窄复核](cursor-map-logic-r2-review.md)（4dc8fb75，CM2–CM4已闭，仅余CM1计划输入保真）。
+
 - [GLM物品六组r3窄复核](item-logic-r3-review.md)（598777cf，三合同落盘；剩四漏检、毒表实参与两条质量错误）。
 
 - [QUALITY-ZERO-1实施与保真](quality-zero/README.md)（严格零诊断工具、源码字符串与UI样式保真）。

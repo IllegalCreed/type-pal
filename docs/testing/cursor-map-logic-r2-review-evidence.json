@@ -1,0 +1,384 @@
+{
+  "task": "TEST-CURSOR-MAP-LOGIC-2",
+  "date": "2026-09-27",
+  "reviewer": "Codex",
+  "candidate": "4dc8fb758f46de5c291fc45397d74255972e4a5c",
+  "reviewBase": "d502daf4",
+  "verdict": "counter: CM1 plan-input retention only",
+  "accepted": [
+    "CM1 original draft/state pollution witnesses",
+    "CM2 exact multi-group data and sentinel/dedup",
+    "CM3 indented mixed-error rejection",
+    "CM4 typed loaded EditorState and manifest"
+  ],
+  "sourceUnchanged": true,
+  "scope": "six new tests + dedicated fixture/evidence; copied Codex review context equals b4cea56f and is not new author evidence",
+  "gates": {
+    "directed": {
+      "files": 19,
+      "total": 117,
+      "passed": 117,
+      "failed": 0,
+      "background": 29
+    },
+    "editor": {
+      "files": 359,
+      "total": 3048,
+      "passed": 3048,
+      "failed": 0
+    },
+    "typecheck": {
+      "exit": 0,
+      "diagnostics": 0
+    },
+    "biome": {
+      "changed": 0,
+      "unchanged": 15,
+      "matches": 0,
+      "duration": 34453958,
+      "errors": 0,
+      "warnings": 0,
+      "infos": 0,
+      "skipped": 0,
+      "suggestedFixesSkipped": 0,
+      "diagnosticsNotPrinted": 0,
+      "scannerDuration": 6095166
+    },
+    "docs": {
+      "exit": 0
+    },
+    "authorControls": {
+      "controls": 6,
+      "detected": 6,
+      "selfTests": 17
+    }
+  },
+  "originalWitnesses": [
+    {
+      "name": "draft-move-input-mutation-candidate-control",
+      "exit": 0,
+      "total": 6,
+      "passed": 6,
+      "failed": 0,
+      "failures": []
+    },
+    {
+      "name": "draft-move-input-mutation-candidate-mutant",
+      "exit": 1,
+      "total": 6,
+      "passed": 5,
+      "failed": 1,
+      "failures": [
+        {
+          "file": "/Users/zhangxu/illegal/type-pal-cursor-map-logic-r2/packages/editor/src/core/stamp-draft.background.test.ts",
+          "fullName": "M1 stamp-draft 剩余合同 moveStampDraftSelection：空点同引用；占用目标拒绝；两点重叠平移保双方值",
+          "messages": [
+            "AssertionError: expected { id: 'bush', name: '灌木', …(7) } to deeply equal { id: 'bush', name: '灌木', …(7) }"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "draft-move-input-mutation-oracle-control",
+      "exit": 0,
+      "total": 7,
+      "passed": 7,
+      "failed": 0,
+      "failures": []
+    },
+    {
+      "name": "draft-move-input-mutation-oracle-mutant",
+      "exit": 1,
+      "total": 7,
+      "passed": 5,
+      "failed": 2,
+      "failures": [
+        {
+          "file": "/Users/zhangxu/illegal/type-pal-cursor-map-logic-r2/packages/editor/src/core/stamp-draft.background.test.ts",
+          "fullName": "M1 stamp-draft 剩余合同 moveStampDraftSelection：空点同引用；占用目标拒绝；两点重叠平移保双方值",
+          "messages": [
+            "AssertionError: expected { id: 'bush', name: '灌木', …(7) } to deeply equal { id: 'bush', name: '灌木', …(7) }"
+          ]
+        },
+        {
+          "file": "/Users/zhangxu/illegal/type-pal-cursor-map-logic-r2/packages/editor/src/core/stamp-draft.background.test.ts",
+          "fullName": "Codex independent oracle draft-move-input-mutation",
+          "messages": [
+            "AssertionError: expected { id: 'bush', name: '灌木', …(7) } to deeply equal { id: 'bush', name: '灌木', …(7) }"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "selection-reducer-input-mutation-candidate-control",
+      "exit": 0,
+      "total": 5,
+      "passed": 5,
+      "failed": 0,
+      "failures": []
+    },
+    {
+      "name": "selection-reducer-input-mutation-candidate-mutant",
+      "exit": 1,
+      "total": 5,
+      "passed": 2,
+      "failed": 3,
+      "failures": [
+        {
+          "file": "/Users/zhangxu/illegal/type-pal-cursor-map-logic-r2/packages/editor/src/core/map-selection.background.test.ts",
+          "fullName": "M2 map-selection 剩余合同 clip-map 精确保留现存 placementId，并丢掉已删层 hidden/locked",
+          "messages": [
+            "AssertionError: expected { maps: { start: { …(5) } } } to deeply equal { maps: {} }"
+          ]
+        },
+        {
+          "file": "/Users/zhangxu/illegal/type-pal-cursor-map-logic-r2/packages/editor/src/core/map-selection.background.test.ts",
+          "fullName": "M2 map-selection 剩余合同 toggle-hidden/locked 再拨回恢复精确层 id 列表",
+          "messages": [
+            "AssertionError: expected { maps: { start: { …(4) } } } to deeply equal { maps: {} }"
+          ]
+        },
+        {
+          "file": "/Users/zhangxu/illegal/type-pal-cursor-map-logic-r2/packages/editor/src/core/map-selection.background.test.ts",
+          "fullName": "M2 map-selection 剩余合同 change-selection 在组内编辑后清掉 stampGroupEditContext",
+          "messages": [
+            "AssertionError: expected { maps: { start: { …(5) } } } to deeply equal { maps: {} }"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "selection-reducer-input-mutation-oracle-control",
+      "exit": 0,
+      "total": 6,
+      "passed": 6,
+      "failed": 0,
+      "failures": []
+    },
+    {
+      "name": "selection-reducer-input-mutation-oracle-mutant",
+      "exit": 1,
+      "total": 6,
+      "passed": 2,
+      "failed": 4,
+      "failures": [
+        {
+          "file": "/Users/zhangxu/illegal/type-pal-cursor-map-logic-r2/packages/editor/src/core/map-selection.background.test.ts",
+          "fullName": "M2 map-selection 剩余合同 clip-map 精确保留现存 placementId，并丢掉已删层 hidden/locked",
+          "messages": [
+            "AssertionError: expected { maps: { start: { …(5) } } } to deeply equal { maps: {} }"
+          ]
+        },
+        {
+          "file": "/Users/zhangxu/illegal/type-pal-cursor-map-logic-r2/packages/editor/src/core/map-selection.background.test.ts",
+          "fullName": "M2 map-selection 剩余合同 toggle-hidden/locked 再拨回恢复精确层 id 列表",
+          "messages": [
+            "AssertionError: expected { maps: { start: { …(4) } } } to deeply equal { maps: {} }"
+          ]
+        },
+        {
+          "file": "/Users/zhangxu/illegal/type-pal-cursor-map-logic-r2/packages/editor/src/core/map-selection.background.test.ts",
+          "fullName": "M2 map-selection 剩余合同 change-selection 在组内编辑后清掉 stampGroupEditContext",
+          "messages": [
+            "AssertionError: expected { maps: { start: { …(5) } } } to deeply equal { maps: {} }"
+          ]
+        },
+        {
+          "file": "/Users/zhangxu/illegal/type-pal-cursor-map-logic-r2/packages/editor/src/core/map-selection.background.test.ts",
+          "fullName": "Codex independent oracle selection-reducer-input-mutation",
+          "messages": [
+            "AssertionError: expected { maps: { start: { …(4) } } } to deeply equal { maps: {} }"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "stamp-group-lost-height-candidate-control",
+      "exit": 0,
+      "total": 4,
+      "passed": 4,
+      "failed": 0,
+      "failures": []
+    },
+    {
+      "name": "stamp-group-lost-height-candidate-mutant",
+      "exit": 1,
+      "total": 4,
+      "passed": 3,
+      "failed": 1,
+      "failures": [
+        {
+          "file": "/Users/zhangxu/illegal/type-pal-cursor-map-logic-r2/packages/editor/src/core/stamp-group-transform.background.test.ts",
+          "fullName": "M4 stamp-group-transform 剩余合同 planStampGroupMove 两个 id：精确成员/高度/碰撞与未选普通哨兵完整保真",
+          "messages": ["AssertionError: expected undefined to be 3 // Object.is equality"]
+        }
+      ]
+    },
+    {
+      "name": "stamp-group-lost-height-oracle-control",
+      "exit": 0,
+      "total": 5,
+      "passed": 5,
+      "failed": 0,
+      "failures": []
+    },
+    {
+      "name": "stamp-group-lost-height-oracle-mutant",
+      "exit": 1,
+      "total": 5,
+      "passed": 3,
+      "failed": 2,
+      "failures": [
+        {
+          "file": "/Users/zhangxu/illegal/type-pal-cursor-map-logic-r2/packages/editor/src/core/stamp-group-transform.background.test.ts",
+          "fullName": "M4 stamp-group-transform 剩余合同 planStampGroupMove 两个 id：精确成员/高度/碰撞与未选普通哨兵完整保真",
+          "messages": ["AssertionError: expected undefined to be 3 // Object.is equality"]
+        },
+        {
+          "file": "/Users/zhangxu/illegal/type-pal-cursor-map-logic-r2/packages/editor/src/core/stamp-group-transform.background.test.ts",
+          "fullName": "Codex independent oracle stamp-group-lost-height",
+          "messages": ["AssertionError: expected undefined to be 3 // Object.is equality"]
+        }
+      ]
+    }
+  ],
+  "residualWitnesses": [
+    {
+      "name": "group-command-plan-mutation-candidate-control",
+      "exit": 0,
+      "total": 4,
+      "passed": 4,
+      "failed": 0,
+      "failures": []
+    },
+    {
+      "name": "group-command-plan-mutation-candidate-mutant",
+      "exit": 0,
+      "total": 4,
+      "passed": 4,
+      "failed": 0,
+      "failures": []
+    },
+    {
+      "name": "group-command-plan-mutation-oracle-control",
+      "exit": 0,
+      "total": 5,
+      "passed": 5,
+      "failed": 0,
+      "failures": []
+    },
+    {
+      "name": "group-command-plan-mutation-oracle-mutant",
+      "exit": 1,
+      "total": 5,
+      "passed": 4,
+      "failed": 1,
+      "failures": [
+        {
+          "file": "/Users/zhangxu/illegal/type-pal-cursor-map-logic-r2/packages/editor/src/core/stamp-group-transform.background.test.ts",
+          "fullName": "Codex independent oracle group-command-plan-mutation",
+          "messages": [
+            "AssertionError: expected { kind: 'move', mapId: 'map-a', …(13) } to deeply equal { kind: 'move', mapId: 'map-a', …(13) }"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "placement-command-plan-mutation-candidate-control",
+      "exit": 0,
+      "total": 4,
+      "passed": 4,
+      "failed": 0,
+      "failures": []
+    },
+    {
+      "name": "placement-command-plan-mutation-candidate-mutant",
+      "exit": 0,
+      "total": 4,
+      "passed": 4,
+      "failed": 0,
+      "failures": []
+    },
+    {
+      "name": "placement-command-plan-mutation-oracle-control",
+      "exit": 0,
+      "total": 5,
+      "passed": 5,
+      "failed": 0,
+      "failures": []
+    },
+    {
+      "name": "placement-command-plan-mutation-oracle-mutant",
+      "exit": 1,
+      "total": 5,
+      "passed": 4,
+      "failed": 1,
+      "failures": [
+        {
+          "file": "/Users/zhangxu/illegal/type-pal-cursor-map-logic-r2/packages/editor/src/core/stamp-placement.background.test.ts",
+          "fullName": "Codex independent oracle placement-command-plan-mutation",
+          "messages": [
+            "AssertionError: expected { mapId: 'map-a', …(15) } to deeply equal { mapId: 'map-a', …(15) }"
+          ]
+        }
+      ]
+    }
+  ],
+  "actualCandidateJudge": [
+    {
+      "message": "AssertionError: wrong result\nTypeError: broken",
+      "accepted": false
+    },
+    {
+      "message": "AssertionError: wrong result\n  TypeError: broken",
+      "accepted": false
+    },
+    {
+      "message": "AssertionError: wrong result\n\tError: broken",
+      "accepted": false
+    }
+  ],
+  "actualFixture": {
+    "maps": ["blank", "painted", "group"],
+    "manifest": {
+      "id": "map-logic",
+      "name": "map-logic",
+      "contentVersion": 20,
+      "minimumSaveVersion": 8,
+      "defaultEntryId": "new-game",
+      "entryPoints": [
+        {
+          "id": "new-game",
+          "label": "新的故事",
+          "scene": "start",
+          "startWorld": {
+            "party": ["hero"],
+            "money": 0,
+            "inventory": []
+          }
+        }
+      ],
+      "content": {
+        "actors": "content/actors.json",
+        "skills": "content/skills.json",
+        "items": "content/items.json",
+        "locale": "content/locale.json",
+        "sprites": "content/sprites.json",
+        "battleSprites": "content/battle-sprites.json",
+        "tilesets": "content/tilesets.json",
+        "stamps": "content/stamps.json",
+        "scenes": "content/scenes/",
+        "maps": "content/maps/index.json",
+        "sharedScripts": "content/shared-scripts.json",
+        "worldVariables": "content/world-variables.json"
+      },
+      "assets": {
+        "catalog": "assets/index.json",
+        "roles": {
+          "visual.standardColorTable": "color.project-standard"
+        }
+      }
+    }
+  },
+  "notRun": ["whole repository check", "official coverage", "browser/E2E"]
+}
