@@ -1,14 +1,14 @@
 {
   "schemaVersion": 2,
   "profile": "fast",
-  "generatedAt": "2026-09-26T07:58:53.267Z",
+  "generatedAt": "2026-09-26T09:17:11.723Z",
   "provider": {
     "name": "v8",
     "vitest": "4.1.7",
     "coverageV8": "4.1.7"
   },
   "sourceFileCount": 701,
-  "testCount": 8404,
+  "testCount": 8536,
   "packages": {
     "shared": {
       "name": "@type-pal/shared",
@@ -1100,8 +1100,8 @@
       ],
       "scopeDigest": "980711e930306f3ff6a1d70817611eb6f83e3681f7568f886680e6ebe1939e2f",
       "fastTests": {
-        "testCount": 422,
-        "testFileCount": 55,
+        "testCount": 554,
+        "testFileCount": 67,
         "files": [
           "packages/migrate/src/bake-indexed-rgba.test.ts",
           "packages/migrate/src/current-only-product-boundary.test.ts",
@@ -1109,8 +1109,20 @@
           "packages/migrate/src/engine-chrome-assets.test.ts",
           "packages/migrate/src/item-script-roots.test.ts",
           "packages/migrate/src/legacy-dialog.test.ts",
+          "packages/migrate/src/migrate-all.diagnostics.test.ts",
+          "packages/migrate/src/migrate-all.enemies.test.ts",
+          "packages/migrate/src/migrate-all.equipment.test.ts",
+          "packages/migrate/src/migrate-all.records.test.ts",
+          "packages/migrate/src/migrate-all.throw.test.ts",
+          "packages/migrate/src/migrate-all.use.test.ts",
           "packages/migrate/src/migrate-conversion-isolation.test.ts",
           "packages/migrate/src/migrate-enemies.wave2.test.ts",
+          "packages/migrate/src/migrate-equipment.pure.test.ts",
+          "packages/migrate/src/migrate-item-use.pure.test.ts",
+          "packages/migrate/src/migrate-records.pure.test.ts",
+          "packages/migrate/src/migrate-skill-effects.pure.test.ts",
+          "packages/migrate/src/migrate-skills.pure.test.ts",
+          "packages/migrate/src/migrate-throw.pure.test.ts",
           "packages/migrate/src/migration-baseline-pure.boundaries.test.ts",
           "packages/migrate/src/migration-baseline.test.ts",
           "packages/migrate/src/migration-merge.boundaries.test.ts",
@@ -1191,6 +1203,36 @@
             "identityDigest": "79e0147255a4df3dda2bfd62ae7546a019fb9f6655a5a7bbf5875e4f9042fd52"
           },
           {
+            "file": "packages/migrate/src/migrate-all.diagnostics.test.ts",
+            "testCount": 8,
+            "identityDigest": "4b5701b5b8b9266847553201a1007a3deb070df666e97d33b32732ed04bef620"
+          },
+          {
+            "file": "packages/migrate/src/migrate-all.enemies.test.ts",
+            "testCount": 11,
+            "identityDigest": "7e602176cc856399488f3e51b9c71e8edadbf88546c6d4ab1f4d4fb7d8e7304a"
+          },
+          {
+            "file": "packages/migrate/src/migrate-all.equipment.test.ts",
+            "testCount": 4,
+            "identityDigest": "e6b6f98a028b0022e5f0b9cc2ff54f5afe82a7d6e90a8a617b6145a203429972"
+          },
+          {
+            "file": "packages/migrate/src/migrate-all.records.test.ts",
+            "testCount": 5,
+            "identityDigest": "fb4db35337c39f9a8713335d76a4a09b130835d3b86eb9f69cdbaac517fe5193"
+          },
+          {
+            "file": "packages/migrate/src/migrate-all.throw.test.ts",
+            "testCount": 11,
+            "identityDigest": "9c9037147daa75531e0fba9adb0c67185aa7ff9ee8ae4b70623cfd2afe1a45bc"
+          },
+          {
+            "file": "packages/migrate/src/migrate-all.use.test.ts",
+            "testCount": 10,
+            "identityDigest": "168e02290f6318227bd53ad097ee4ca901c6998dac40a9fb3799be9836f71e23"
+          },
+          {
             "file": "packages/migrate/src/migrate-conversion-isolation.test.ts",
             "testCount": 6,
             "identityDigest": "88bcf2c4f0225071c13edcd745e4cc91dcb73b116d18d2886ae5bb947e5d2272"
@@ -1199,6 +1241,36 @@
             "file": "packages/migrate/src/migrate-enemies.wave2.test.ts",
             "testCount": 6,
             "identityDigest": "edc6f4a2beed8996336698df5c016986b4a5df2e5dc7840fd96758c5e5db85cf"
+          },
+          {
+            "file": "packages/migrate/src/migrate-equipment.pure.test.ts",
+            "testCount": 7,
+            "identityDigest": "58d3fa0e04f3d91c87b085b5759ec2e05524a13eaa63c6aaf6982e8b0e51bbae"
+          },
+          {
+            "file": "packages/migrate/src/migrate-item-use.pure.test.ts",
+            "testCount": 20,
+            "identityDigest": "5021be8793acbce8137423c071715751328eb5d90df8027c0814336867a3fd12"
+          },
+          {
+            "file": "packages/migrate/src/migrate-records.pure.test.ts",
+            "testCount": 8,
+            "identityDigest": "a58f83b882ef610c47a4a0f129eb1da301f913b29eced17d5d2122add44279d3"
+          },
+          {
+            "file": "packages/migrate/src/migrate-skill-effects.pure.test.ts",
+            "testCount": 16,
+            "identityDigest": "0079f04645fc039cdc2f7359e00d74b7f4a28216a0b9ff9c61e49c11e04eeb05"
+          },
+          {
+            "file": "packages/migrate/src/migrate-skills.pure.test.ts",
+            "testCount": 24,
+            "identityDigest": "6637ae435114ecf23e37e0df1406d7e93b0cae70bc051561a75168b322063c77"
+          },
+          {
+            "file": "packages/migrate/src/migrate-throw.pure.test.ts",
+            "testCount": 8,
+            "identityDigest": "4284d62c5ea73ec47c79f113f0108653d3556e72d77dde2014eac2ac882cc851"
           },
           {
             "file": "packages/migrate/src/migration-baseline-pure.boundaries.test.ts",
@@ -1436,25 +1508,25 @@
             "identityDigest": "baba8c49c53ef8a741ef1c605723ba72d227914206784bc3a5f719e12c8ff8ee"
           }
         ],
-        "identityDigest": "8642ac467468cf09fcb95e21791d22874d939e7cc880ba42b0d2f2c1b18b2345",
+        "identityDigest": "dfb47f169845981d66eef479b84704942a6bdc9ceace82e93d148b736abffe2c",
         "duplicateIdentityCount": 1,
-        "executionDigest": "41458c9a812da62784260d7566bfb8a12f87b31c09c87851572a927c56ab86aa"
+        "executionDigest": "c3576af16a0e5b43a0fdfccd197205098f4cad0db4f6c0d13f7ebb8ce92e0f25"
       },
       "metrics": {
         "statements": {
-          "covered": 4241,
+          "covered": 4916,
           "total": 7712
         },
         "branches": {
-          "covered": 3155,
+          "covered": 3851,
           "total": 6436
         },
         "functions": {
-          "covered": 650,
+          "covered": 713,
           "total": 1165
         },
         "lines": {
-          "covered": 3804,
+          "covered": 4394,
           "total": 6724
         }
       }
@@ -5986,19 +6058,19 @@
   },
   "total": {
     "statements": {
-      "covered": 61414,
+      "covered": 62089,
       "total": 80643
     },
     "branches": {
-      "covered": 43418,
+      "covered": 44114,
       "total": 63178
     },
     "functions": {
-      "covered": 11412,
+      "covered": 11475,
       "total": 15058
     },
     "lines": {
-      "covered": 55266,
+      "covered": 55856,
       "total": 70600
     }
   }

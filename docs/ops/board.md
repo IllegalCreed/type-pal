@@ -38,10 +38,10 @@ check8896/单次strict8404全过；实际+134分支/+73行，content分支85.55%
 
 | ID | 任务 | 状态 | 负责人/下一步 | 一句话备注 |
 |---|---|---|---|---|
-| TEST-COVERAGE-PLUS5-1 | [全仓分支+5pp持续队列](tasks/TEST-COVERAGE-PLUS5-1-continuous-batches.md) | build | Codex / 连续实施与统一集成 | 冻结43418/63178，目标至少+3159分支；不缩范围、不逐小例统计 |
+| TEST-COVERAGE-PLUS5-1 | [全仓分支+5pp持续队列](tasks/TEST-COVERAGE-PLUS5-1-continuous-batches.md) | build | Codex / 下一大批 | 两批累计+696B至69.82%，剩余2463B；check9028/strict8536通过 |
 | TEST-GLM-CONTENT-GUARDS-3 | [八组同步脚本与记录守卫](tasks/TEST-GLM-CONTENT-GUARDS-3-script-and-records.md) | build | GLM / 连续补测 | 四模块的新测试，实际输入保真与6–8代表负控，生产零改 |
-| TEST-CURSOR-COMMAND-BOUNDARIES-3 | [八组命令行为残项](tasks/TEST-CURSOR-COMMAND-BOUNDARIES-3-editor-residuals.md) | build | Cursor / 连续补测 | 公开apply/undo/redo与真实合法fixture；不重复已done F2拆分 |
-| ARCH-CONTINUATION-1 | [剩余架构治理连续收口](tasks/ARCH-CONTINUATION-1-remaining-queue.md) | build | 原对话集成A3/B1/B2候选；本对话续B3 | A3/B1/B2候选自验齐；D1/E2/F2已完成，其余项未在main标done |
+| TEST-CURSOR-COMMAND-BOUNDARIES-3 | [八组命令行为残项](tasks/TEST-CURSOR-COMMAND-BOUNDARIES-3-editor-residuals.md) | rework | Cursor / R1–R3窄返工 | 29绿但正式保存门拒fixture，图层污染漏检；候选未计覆盖 |
+| ARCH-CONTINUATION-1 | [剩余架构治理连续收口](tasks/ARCH-CONTINUATION-1-remaining-queue.md) | build | 原对话集成A3/B1/B2/B3候选；本对话续C1 | 四项候选自验齐；D1/E2/F2已完成，其余项未在main标done |
 | ARCH-SUPPORT-GLM-1 | [八组并行架构/视觉准备](tasks/ARCH-SUPPORT-GLM-1-eight-audit-packages.md) | draft | Codex / 后续归属与收口 | 58cdf938材料accept，counter清零；文档已合入，按用户要求未标done/未开产品门 |
 
 2026-09-26 [Cursor九组剩余命令](../testing/cursor-commands-wave2-integration.md)2022acc3已独立accept/done：90声明/119出口/62绑定保持、反控与隔离UI通过，check8740/strict8248/701。F2组织性整理完成；新增16身份/顺序回归、13模块，覆盖metrics不变，未混算GLM或A3后续。

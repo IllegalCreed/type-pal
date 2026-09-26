@@ -1,6 +1,6 @@
 # TEST-CURSOR-COMMAND-BOUNDARIES-3 — 八组编辑命令行为残项
 
-Status: build
+Status: rework
 Owner: Cursor
 Reviewer / Integration Owner: Codex
 Phase: phase2
@@ -59,6 +59,13 @@ Branch: `codex/cursor-command-boundaries-r3`
 负责A3/B1等架构产品。Cursor不改这些文件，也不碰App/MapMode/ScriptEditor架构。
 
 ## 下一位Cursor提示词
+
+### 2026-09-26 Codex 独立接收 `b6bcc9b4`
+
+**counter**，详见[接收反证与下一位提示词](../../testing/cursor-command-boundaries-r3-review.md)。
+本席定向29/29、TC与五针通过，但R1成功fixture引用非法、R2完整保真/共享字节哨兵不足、R3回执
+未覆盖/不可达混列阻断。两项正式保存门反证红，图层污染反控漏检。仅这三项返工，未合候选、未计覆盖。
+原作者回执在隔离分支保留，不代签；done未开放。以下为原准入提示词，返工以接收报告为准。
 
 ```text
 接手TEST-CURSOR-COMMAND-BOUNDARIES-3，先读AGENTS/CLAUDE/READ-FIRST、本卡与冻结机账cursor组。
