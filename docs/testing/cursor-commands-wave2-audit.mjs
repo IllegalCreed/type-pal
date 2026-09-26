@@ -215,6 +215,10 @@ const functions = [
   'judgeRed',
   'selfTestPayload',
 ]
+// r2 factored the verdict into extra helpers; run that same implementation, not an old copy.
+for (const name of ['isErrorHeader', 'isTimeoutText', 'suiteMessages', 'allExecuted'])
+  if (toolTree.statements.some((n) => ts.isFunctionDeclaration(n) && n.name?.text === name))
+    functions.push(name)
 const bodies = functions
   .map((name) => {
     const found = toolTree.statements.filter(
