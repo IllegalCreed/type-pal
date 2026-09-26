@@ -1,6 +1,6 @@
 # ARCH-REGRESSION-LAB-GLM-1 — 十二组可执行回归与功能视觉准备
 
-Status: draft
+Status: build
 Phase: ops
 Capability: 架构治理B1/B2/B3/D1/E1/E2回归准备；不改变能力格
 Coding Owner: Codex（正式接入及产品实现）
@@ -43,7 +43,7 @@ Codex保留A3的main/场景/移动/绘制主线，GLM不修改或替其审签。
 - Codex：2026-09-25准许本工作包定义的**draft候选实验/取证**；已核目标与A3互斥，静态事实和已有证据分栏。
 - GLM：接手后在自己results中记录实际读过的合同、复用的既有证据、构造正控及执行结果，不代写Codex判断。
 - Kimi：本架构队列用户豁免，无转交。
-- build准入：**not opened**。白名单外的产品/正式测试/配置/基线不能改；候选转正由Codex独立接收后按对应实施卡核准。
+- build准入：最初的 GLM draft 实验不授权改白名单外文件；2026-09-26 用户再次要求持续推进，且本架构治理队列此前已批准 Codex 独立实施/验收。现仅对 **Codex 正式测试接入**开放 build；GLM 仍限隔离实验目录，产品/配置/基线更改须另核，不得借此扩张。
 - done准入：未开放，本次不预签成果、不提前done。准备材料accept不等于产品修复或覆盖目标达成。
 
 ## 交接日志
@@ -80,6 +80,35 @@ Codex保留A3的main/场景/移动/绘制主线，GLM不修改或替其审签。
 - r8 已接收项不重开，G06 七入口、G08 其它 options 与 V01–V04 矩阵仍未证。隔离 receipt/README/results 命令注释有 r8“三针”与旧 G05 时序残留，列为正式转正前的**文字勘误**；不影响本轮真实测试接收，不合候选、不计官方覆盖率、不标 done。Kimi 本队列豁免。
 - 无下一位 Agent 提示词；正式接入与统一门禁仍由 Codex 单独核准。
 
+## Codex r10 剩余项接收（2026-09-26，候选 `cafac8dc`）
+
+- **整批 counter；G01-07 accept**。[本席报告](../../testing/architecture-regression-lab-codex-r10-review.md)与[机账](../../testing/architecture-regression-lab-codex-r10-evidence.json)：41/41、51条verify、五针、tsc/Biome/docs均通过；Codex独立浏览器三向重放证实正常平移、取消冻结、单点缺清理后漂移，原截图完整SHA一致。V01人物名称 fill+Enter、blur、Escape、undo本席实测通过，blocked-automation不能继续作当前阻断。
+- G06七入口去重表未落，引用的enemy条件递归不能代表author-script-core的七个命令递归点；沿漏测的`:712`跨模块边确认真实缺陷：`checkAuthorCommands`直接拒绝缺identity的dialog，却放行startBattle.choreography内同一cue（漏传options）。须补显式失败诊断，产品修复Owner仍Codex。
+- G08-07恢复正控只数场景/实体，单点吞掉setActorSprite输出仍1/1绿；须钉真实输出与修复输入保真。回执仍混旧分支/45条37项与错误复跑cwd，须纠正。V01其余表单、V02–V04仍未完成，不能因预算未做而收口。本轮不合候选、不动官方基线；主线任务保持build，不回退draft。
+
+### 下一位 GLM r10 收窄返工与剩余项提示词
+
+```text
+在 /Users/zhangxu/illegal/type-pal-glm-lab-r2、codex/glm-architecture-regression-lab-r2
+返工 ARCH-REGRESSION-LAB-GLM-1，候选 cafac8dc。先读 origin/main 的
+docs/testing/architecture-regression-lab-codex-r10-review.md 与机账、任务卡本块。
+只在实验目录和自己的交付块工作，保留Codex原文，生产/正式测试/基线零改。
+R10-1：对author-script-core :661/:663/:669/:708/:710/:722/:726七个递归调用及
+:712跨模块边落逐项旧标题/新增断言/未证映射；当前enemy AI条件引用不能代替它们。
+保留Codex已复现的作者cue缺identity在startBattle.choreography中被错误放行的
+显式失败诊断，交Codex修产品；不要改预期或自行修生产。
+R10-2：G08-07成功路径钉setActorSprite的actor/sprite输出、SpriteDef身份、实际
+修复输入深快照，并比较先失败再正确与新鲜正确运行；Codex丢输出单点反控必须业务红。
+R10-3：回执/README/results改为r2真实worktree与41项/51条口径，补真实七入口表、
+具体旧测试标题、可复制候选cwd命令。G01已由Codex补验accept，不重拍，引用本席
+证据并补完整重放步骤。V01人物名称Enter/blur/取消/undo已由Codex验证，撤当前
+blocked-automation归因；继续其它五类表单及V02/V03/V04矩阵。旧e2e-own map v2
+不要求改生成数据，用已授权buildBlankProject/正式编码器构造当前版本自有宿主。
+逐项交实际操作/前后值/截图完整hash与正反控；真实产品缺陷留显式诊断。
+复跑候选、verify、五针、tsc、Biome、docs；一次性交付精确SHA与剩余项，
+不合main、不标done、不代签。Kimi豁免；Codex负责独立验收与产品修复。
+```
+
 ## Codex 隔离材料集成（2026-09-26，用户明确授权）
 
 - 用户在 r9 候选通过后要求“合并推送”。Coding Owner 仅从 `97e21f34` 精确接入 `docs/testing/glm-architecture-regression-lab/**` 的最终隔离材料，保留本主线的审查记录及其它已完成变更；不做整分支 merge（该分支落后主线且含与本卡无关的历史差异）。来源与 GLM 测试贡献在本卡/回执保留。
@@ -90,6 +119,14 @@ Codex保留A3的main/场景/移动/绘制主线，GLM不修改或替其审签。
 
 - 当前已验收并入仓的是 `docs/testing/glm-architecture-regression-lab/**` 的 **37 项隔离候选**，不是正式测试/官方覆盖率。未完成项分工：GLM 补 G01/G06/G08 未证轴和 V01–V04 功能视觉矩阵；Codex 独立接收后负责正式测试选址/去重、全仓 check、官方 ratchet 与单次严格 fast，并对视觉取证作最终复核。两线互不改对方文件；现有任务仍 `draft`，不提前 done。
 - 用户要求不等待另一 Agent 的空窗：Codex 可先对已接收的非视觉候选进行正式接入准备；GLM 一批连续完成剩余实验，不逐小项请求签收。Kimi 本队列豁免不变。
+- 用户本轮再次要求“不等待，未完即推进”；结合此前架构治理由 Codex 独立实施/验收的裁决，正式测试接入由 Codex 单 Owner 进入 `build`。这是**测试准入**，不授权 GLM 改产品；候选已验收的真实调用链先转正，仍未证的视觉/扩展轴不以降低验收范围消失。正式覆盖率只在测试入包并通过官方 ratchet/strict 后登记。
+- Codex 已把验收通过的 37 项代表合同机械适配进正式包目录：`packages/editor/src/__tests__/architecture-lab/` 21、`packages/content/src/validate-enemy-crosscalls.test.ts` 7、`packages/game/src/core/cross-module-boundaries.test.ts` 4、`packages/migrate/src/migrate-conversion-isolation.test.ts` 5。迁移没有改产品实现；一阶段测试的模块全局态清理由 `finally` 收口。editor 测试置于通用 `src/__tests__`，不改变设计系统生产文件 census。定向/类型检查已绿，统一全仓门与覆盖率待单次结算。隔离原候选保留为贡献历史，不作为第二份官方测试重复计数。
+
+### Codex 正式测试首批验证（2026-09-26）
+
+- 正式 37 项由 GLM 隔离测试贡献、Codex 独立复核后做包内路径/fixture 适配；迁移来源及贡献归属不隐去。`pnpm check` exit0（editor 2782/2782、migrate 539/539、game 2456/2456，其他包亦绿）；设计系统固定 95 文件门因初始落在 `src/ui` 而红一次，移至 `src/__tests__` 后同门定向绿、完整 check 绿；未改门禁预期或生产配置。
+- **单次统一** `pnpm coverage:ratchet` exit0（基线提升 18 项、范围变化 8 项）后，**单次严格** `pnpm coverage:fast` exit0。官方 fast 从 8122→8159 项，生产文件 643 不变；同分母净增语句 101、分支 120、函数 22、行 86。最终总仓语句 61237/80619（75.96%）、分支 43254/63176（68.47%）、函数 11385/15036（75.72%）、行 55132/70572（78.12%）。原 `docs/testing` 隔离套件不算第二份官方测试。
+- 本卡**尚未 done**：G01/G06/G08 剩余轴及 V01–V04 操作矩阵由 GLM 按交接补证，Codex 需独立复核并决定是否需再转正/修产品。不得因首批 37 项通过而清掉未证登记。
 
 ## GLM 剩余项批次交付（2026-09-26，r10；本席自记）
 

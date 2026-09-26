@@ -1,0 +1,67 @@
+{
+  "candidate": "cafac8dcf5370c669ec0ddc9bf8575cb0e925dd0",
+  "candidateBase": "f5f166aa",
+  "reviewedMain": "8e028beb",
+  "verdict": "counter",
+  "checks": {
+    "candidateTests": "41/41",
+    "ledger": "51:48/1/2 PASS",
+    "redControls": "5 detected",
+    "tsc": 0,
+    "biome": 0,
+    "biomeWarnings": 1,
+    "docs": 0,
+    "diffCheck": 0
+  },
+  "g01": {
+    "verdict": "accept with Codex independent browser replay",
+    "originalScreenshot": "/tmp/type-pal-glm-lab-r2/g01-clean-map-canvas.jpg",
+    "originalSha256": "a2d51f7d3ef1b526cbc0a22a6a86a54011516e49c76242e13332ec513846e1d8",
+    "viewport": [1440, 900],
+    "dpr": 1,
+    "canvas": [956, 793],
+    "reviewZoomPercent": 29,
+    "productionMapModeSha256": "8418dee784cd9bea9f589315795891eabe04e6896a76a43aca491fec662edbf6",
+    "positiveBefore": "d23580b462d19e44cef8cdeea0cad31e44ae2579278c7ddd6ef6c4f03f97ff91",
+    "positiveAfter": "a52c8e4b55610c34c0a692a107f479a01a34a67a531475377a4b3e518f14aa14",
+    "cancelHashBothHosts": "8c9c275317c4fe1d1209c59ad5b605bcc4ec2eb41500a5379e833bbd44e571d9",
+    "cleanLateHash": "8c9c275317c4fe1d1209c59ad5b605bcc4ec2eb41500a5379e833bbd44e571d9",
+    "mutantLateHash": "9cc0035846b0f0c242ec5b38b8b62376da664295c207b474f41aada27dcc5f1f",
+    "cancelInput": [["down", 529, 438], ["move", 569, 458], ["cancel", 569, 458]],
+    "lateInput": {
+      "x": 629,
+      "y": 498,
+      "sequence": ["pointermove", "pointerdown", "pointerup"],
+      "isTrusted": true
+    },
+    "temporaryHostsStopped": true,
+    "temporaryTabsClosed": true,
+    "viewportReset": true
+  },
+  "v01ActorName": {
+    "blockedAutomationReproduced": false,
+    "enter": "李逍遥复核 committed; heading/list changed; Undo enabled",
+    "blur": "李逍遥失焦复核 committed; heading/list changed; Undo enabled",
+    "undo": "restores 李逍遥; Undo disabled",
+    "escape": "draft 应被取消 discarded; field returns 李逍遥",
+    "actorModeSha256": "910e354c15d266f216a5e7e53f29f2ec26157b6697ac99eff04d1e349a760cac",
+    "controlsSha256": "cfc350c219e74ebdf9da9fad1a217cd9b90a5ce99dca3706dc4a45950fd9f2fb"
+  },
+  "g06AuthorGuard": {
+    "directMissingIdentity": "rejected",
+    "nestedMissingIdentity": "accepted",
+    "directLegal": "accepted",
+    "nestedLegal": "accepted",
+    "source": "packages/content/src/author-script-core.ts:712",
+    "cause": "checkBattleChoreography called without options"
+  },
+  "g08DropOutput": {
+    "mutation": "translate-events.ts:1625 omit setActorSprite push, keep resolver",
+    "witness": "CODEX_R10_DROP_SPRITE_HIT",
+    "executed": 1,
+    "passed": 1,
+    "failed": 0,
+    "exit": 0,
+    "verdict": "MISSED"
+  }
+}
