@@ -38,7 +38,9 @@ check8896/单次strict8404全过；实际+134分支/+73行，content分支85.55%
 
 | ID | 任务 | 状态 | 负责人/下一步 | 一句话备注 |
 |---|---|---|---|---|
-| TEST-COVERAGE-PLUS5-1 | [全仓分支+5pp持续队列](tasks/TEST-COVERAGE-PLUS5-1-continuous-batches.md) | build | Codex / 下一大批 | 三批累计+1023B至70.34%，剩余2136B；check9081/strict8589通过 |
+| TEST-COVERAGE-PLUS5-1 | [全仓分支+5pp持续队列](tasks/TEST-COVERAGE-PLUS5-1-continuous-batches.md) | build | Codex / 下一大批 | 九批累计+2059B至71.98%，剩余1100B；check9438/strict8946通过 |
+| EDITOR-SCENE-FACING-1 | [切场景朝向清除](tasks/EDITOR-SCENE-FACING-1-clear-override.md) | draft | Codex / 后续窄修 | 保持选项仍提交旧方向；真实红诊断+单点oracle已证 |
+| EDITOR-PREVIEW-STEP-1 | [预览单步阶段门](tasks/EDITOR-PREVIEW-STEP-1-command-gates.md) | draft | Codex / 后续窄修 | 当前入口首次step无命令执行，红诊断已落，不随补测关闭 |
 | TEST-GLM-CONTENT-GUARDS-3 | [八组同步脚本与记录守卫](tasks/TEST-GLM-CONTENT-GUARDS-3-script-and-records.md) | rework | GLM / R1–R3窄返工 | 1132绿/八针通过；同型正控8反证与拒绝输入污染漏检，未计覆盖 |
 | TEST-CURSOR-COMMAND-BOUNDARIES-3 | [八组命令行为残项](tasks/TEST-CURSOR-COMMAND-BOUNDARIES-3-editor-residuals.md) | rework | Cursor / R1–R3窄返工 | 29绿但正式保存门拒fixture，图层污染漏检；候选未计覆盖 |
 | ARCH-CONTINUATION-1 | [剩余架构治理连续收口](tasks/ARCH-CONTINUATION-1-remaining-queue.md) | build | 原对话集成A3/B1/B2/B3候选；本对话续C1 | 四项候选自验齐；D1/E2/F2已完成，其余项未在main标done |

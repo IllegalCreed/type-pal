@@ -1,0 +1,111 @@
+{
+  "schemaVersion": 1,
+  "base": "a73c0ffc",
+  "owner": "Codex",
+  "status": "accept",
+  "sourceHashes": {
+    "packages/migrate/src/translate-enemy-hook-flow.ts": "d2c99deb97fb4d85ce714fe7504024bbfe38c7c338a113205fd41a75cf30136d",
+    "packages/migrate/src/translate-enemy-scripts.ts": "77cafdcc95ce6b61ca62e9aeeb2169c42e0a57d7c9857e0ca99c55219bc6281e"
+  },
+  "testFiles": [
+    {
+      "file": "packages/migrate/src/translate-enemy-hook-flow.cfg.test.ts",
+      "passed": 6,
+      "failed": 0
+    },
+    {
+      "file": "packages/migrate/src/translate-enemy-hook-flow.dialog.test.ts",
+      "passed": 6,
+      "failed": 0
+    },
+    {
+      "file": "packages/migrate/src/translate-enemy-hook-flow.effects.test.ts",
+      "passed": 7,
+      "failed": 0
+    },
+    {
+      "file": "packages/migrate/src/translate-enemy-hook-flow.errors.test.ts",
+      "passed": 16,
+      "failed": 0
+    },
+    {
+      "file": "packages/migrate/src/translate-enemy-hook-flow.growth.test.ts",
+      "passed": 8,
+      "failed": 0
+    },
+    {
+      "file": "packages/migrate/src/translate-enemy-hook-flow.media.test.ts",
+      "passed": 5,
+      "failed": 0
+    }
+  ],
+  "adjacentPassed": 74,
+  "mutants": {
+    "controls": 6,
+    "detected": 6,
+    "directory": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/codex-enemy-hooks-mutants-ORu0ao"
+  },
+  "firstDirected": {
+    "passed": 46,
+    "failed": 2,
+    "reason": "Codex wrote slash-form PAL IDs; corrected against asset.ts:207-216, no product change"
+  },
+  "check": {
+    "exit": 0,
+    "testCount": 9188,
+    "log": "/tmp/codex-enemy-hooks-check.log"
+  },
+  "finalSerial": {
+    "baseRef": "a73c0ffc",
+    "ratchetExit": 0,
+    "strictExit": 0,
+    "logs": ["/tmp/codex-enemy-hooks-ratchet.log", "/tmp/codex-enemy-hooks-strict.log"]
+  },
+  "before": {
+    "total": {
+      "statements": {
+        "covered": 62586,
+        "total": 80643
+      },
+      "branches": {
+        "covered": 44779,
+        "total": 63178
+      },
+      "functions": {
+        "covered": 11522,
+        "total": 15058
+      },
+      "lines": {
+        "covered": 56291,
+        "total": 70600
+      }
+    },
+    "testCount": 8648
+  },
+  "after": {
+    "total": {
+      "statements": {
+        "covered": 62674,
+        "total": 80643
+      },
+      "branches": {
+        "covered": 44891,
+        "total": 63178
+      },
+      "functions": {
+        "covered": 11524,
+        "total": 15058
+      },
+      "lines": {
+        "covered": 56368,
+        "total": 70600
+      }
+    },
+    "testCount": 8696
+  },
+  "sourceFileCount": 701,
+  "otherPackagesIdentical": true,
+  "sourceListsIdentical": true,
+  "remainingBranches": 1686,
+  "baselineSha256": "eedf4f1a1d1f8206adaa636af7f77ac7414631691400616fa2f27df7ea152c03"
+}

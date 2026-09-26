@@ -1,0 +1,43 @@
+{
+  "base": "cd1baa6c",
+  "status": "accepted",
+  "groups": {
+    "commands": 24,
+    "failures": 13,
+    "triggers": 10,
+    "battle": 7,
+    "inspect": 3,
+    "navigation": 4
+  },
+  "newTests": 61,
+  "directed": {
+    "tests": 78,
+    "passed": 78,
+    "failed": 0,
+    "json": "/tmp/codex-debug-directed-final.json"
+  },
+  "typecheck": { "exit": 0, "log": "/tmp/codex-debug-tc-final.log" },
+  "mutants": {
+    "controls": 6,
+    "detected": 6,
+    "sourceUnchanged": true,
+    "directory": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/codex-debug-tools-mutants-S6GOta"
+  },
+  "sourceSha256": "f69fe0206611e390bc24c8b0b0101f9fc22d372f3410f320c3c394a1f494bd70",
+  "beforeTarget": { "branches": [135, 332], "lines": [498, 713], "functions": [50, 110] },
+  "afterTarget": { "branches": [305, 332], "lines": [710, 713], "functions": [106, 110] },
+  "official": {
+    "check": { "exit": 0, "tests": 9387, "log": "/tmp/codex-debug-check.log" },
+    "ratchet": { "exit": 0, "log": "/tmp/codex-debug-ratchet.log" },
+    "strict": { "exit": 0, "log": "/tmp/codex-debug-strict.log", "protectedBase": "cd1baa6c" },
+    "fastTests": 8895,
+    "sourceFiles": 701,
+    "branches": [45304, 63178],
+    "statements": [63277, 80643],
+    "lines": [56908, 70600],
+    "functions": [11678, 15058],
+    "newBranches": 173,
+    "otherSixPackagesUnchanged": true,
+    "sourceScopeAndDenominatorsUnchanged": true
+  }
+}
