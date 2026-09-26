@@ -76,7 +76,8 @@ describe('bootstrap resource lifecycle', () => {
       ports({ loadGlyphs: async () => Promise.reject(error), warn }),
     )
 
-    await expect(load.resourcesReady).resolves.toEqual({
+    const loaded = await load.resourcesReady
+    expect(loaded).toEqual({
       assets,
       glyphs: undefined,
       dialogAssets,
@@ -90,11 +91,17 @@ describe('bootstrap resource lifecycle', () => {
   it('keeps the original soundfont rejection while its settle barrier still resolves', async () => {
     const soundfont = deferred<ArrayBuffer>()
     const load = startBootstrapResourceLoad(0, ports({ fetchSoundfont: () => soundfont.promise }))
-    const originalRejection = expect(load.soundfontData).rejects.toThrow('soundfont failed')
 
     soundfont.reject(new Error('soundfont failed'))
 
-    await originalRejection
+    let rejection: unknown
+    try {
+      await load.soundfontData
+    } catch (error) {
+      rejection = error
+    }
+    expect(rejection).toBeInstanceOf(Error)
+    expect((rejection as Error).message).toBe('soundfont failed')
     await expect(load.soundfontSettled).resolves.toBeUndefined()
   })
 })
