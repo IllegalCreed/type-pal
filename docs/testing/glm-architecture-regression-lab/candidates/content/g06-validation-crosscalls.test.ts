@@ -12,7 +12,7 @@
  */
 
 import type { EnemyDef } from '@type-pal/content'
-import { validateEnemies } from '@type-pal/content'
+import { checkAuthorCommands, validateEnemies } from '@type-pal/content'
 import { describe, expect, test } from 'vitest'
 
 /** 合法最小 EnemyDef（stats/ai/sounds 全真实类型域，无强转）。 */
@@ -192,5 +192,179 @@ describe('G06 跨校验器递归', () => {
     }
     expect(message).toContain('enemies[0].choreography[0].body[0]') // 生产 path 精确到叶
     expect(broken).toEqual(before) // 输入深保真
+  })
+
+  test('G06-08 正控：hooks.turnStart 频道（第二频道）经 validateEnemies 递归通过且输入深等', () => {
+    // 去重矩阵补口：lab 既有例只走 hooks.ready；turnStart 是 checkEnemyAi 的第二合法频道
+    //（enemy-script.ts:556，exactKeys 只允许 ready/turnStart——频道键拒绝由官方 boundaries 覆盖）
+    const enemy = labEnemy()
+    enemy.ai.hooks = {
+      turnStart: {
+        initial: 's0',
+        states: {
+          s0: {
+            body: [{ kind: 'playSound', asset: 'sound.turn' }],
+            next: { kind: 'stay' },
+          },
+        },
+      },
+    }
+    const before = JSON.parse(JSON.stringify(enemy)) as unknown
+    expect(() => validateEnemies([enemy])).not.toThrow()
+    expect(enemy).toEqual(before)
+  })
+
+  test('G06-09 正控：onDefeated branch 嵌套 branch（then/else 递归 589/591）经 validateEnemies 通过', () => {
+    // 去重矩阵补口：onDefeated 的 then/else 递归（enemy-script.ts:589/591）既有例只走一层；
+    // 官方 wave2:178 证 nonempty 臂与计数错误——此处补合法嵌套 typed 组合
+    const enemy = labEnemy()
+    enemy.onDefeated = [
+      {
+        kind: 'branch',
+        cond: { kind: 'flag', flag: 'lab-a', is: true },
+        then: [
+          {
+            kind: 'branch',
+            cond: { kind: 'all', of: [{ kind: 'flag', flag: 'lab-b', is: false }] },
+            then: [{ kind: 'playSound', asset: 'sound.deep' }],
+            else: [],
+          },
+        ],
+        else: [{ kind: 'wait', ms: 120 }],
+      },
+    ]
+    const before = JSON.parse(JSON.stringify(enemy)) as unknown
+    expect(() => validateEnemies([enemy])).not.toThrow()
+    expect(enemy).toEqual(before)
+  })
+
+  test('G06-10 options 透传：checkDialogueCue 经 hooks/onDefeated/choreography 三路递归拒绝非法 cue', () => {
+    // 去重矩阵补口：dialog 臂的 options.checkDialogueCue 优先路径（enemy-script.ts:286-287）
+    // 与 onDefeated 叶的 599 兜底是真实变体——校验选项沿 enemy→author 递归整链透传
+    const cueGate = (cue: unknown, path: string): void => {
+      const rows = (cue as { rows?: unknown[] }).rows
+      if (!Array.isArray(rows) || rows.length === 0)
+        throw new Error(`${path}.cue: 实验门要求非空 rows`)
+    }
+    const options = { checkDialogueCue: cueGate }
+    /** route 决定非法 cue 挂在哪个入口；其余入口挂合法 cue 以隔离证明单路透传。 */
+    const mkEnemy = (route: 'hooks' | 'onDefeated' | 'choreography', bad: boolean): EnemyDef => {
+      const cue = bad ? { rows: [] } : { rows: [{ text: '合法台词' }] }
+      const enemy = labEnemy()
+      enemy.ai.hooks =
+        route === 'hooks'
+          ? {
+              ready: {
+                initial: 's0',
+                states: { s0: { body: [{ kind: 'dialog', cue }], next: { kind: 'stay' } } },
+              },
+            }
+          : {
+              ready: {
+                initial: 's0',
+                states: {
+                  s0: { body: [{ kind: 'playSound', asset: 'sound.ok' }], next: { kind: 'stay' } },
+                },
+              },
+            }
+      enemy.onDefeated = route === 'onDefeated' ? [{ kind: 'dialog', cue }] : []
+      enemy.choreography =
+        route === 'choreography'
+          ? [{ at: 'battleStart', body: [{ kind: 'dialog', cue }] }]
+          : undefined
+      return enemy
+    }
+    // 三路独立证明：非法 cue 只挂在被测入口时，同一选项沿该路递归拒绝
+    expect(() => validateEnemies([mkEnemy('hooks', true)], options)).toThrowError(
+      /实验门要求非空 rows/,
+    )
+    expect(() => validateEnemies([mkEnemy('onDefeated', true)], options)).toThrowError(
+      /实验门要求非空 rows/,
+    )
+    expect(() => validateEnemies([mkEnemy('choreography', true)], options)).toThrowError(
+      /实验门要求非空 rows/,
+    )
+    // 正控：三路合法 cue 在同一 options 下整链通过（拒绝来自 cue 内容而非选项误伤）
+    expect(() => validateEnemies([mkEnemy('hooks', false)], options)).not.toThrow()
+    expect(() => validateEnemies([mkEnemy('onDefeated', false)], options)).not.toThrow()
+    expect(() => validateEnemies([mkEnemy('choreography', false)], options)).not.toThrow()
+  })
+
+  test('G06-11 去重矩阵：author 七个递归入口逐点验证校验选项沿嵌套深度透传（非空臂 + 非法 identity 门）', () => {
+    // 七入口 = author-script-core.ts branch.then:661 / branch.else:663 / loop.body:669 /
+    // startBattle.onLose:708 / startBattle.onFlee:710 / teleportOut.onFail:722 / confirm.onNo:726。
+    // 每入口：嵌套 dialog cue 带**非法 identity**（kind:'madeUp'）→ 若校验选项真实到达该深度，
+    // checkAuthorDialogueCue 必在此深度拒绝（path 精确到叶）；换合法 narration identity → 通过。
+    // 该门证明的是「options 透传」而非 cue 内容本身。
+    const badCue = { identity: { kind: 'madeUp' }, rows: [{ text: '台词' }] }
+    const okCue = { identity: { kind: 'narration' }, rows: [{ text: '台词' }] }
+    const dialog = (cue: unknown) => [{ kind: 'dialog', cue }]
+    const cases: Array<{ name: string; anchor: string; build: (cue: unknown) => unknown[] }> = [
+      {
+        name: 'branch.then',
+        anchor: 'author-script-core.ts:661',
+        build: (cue) => [
+          { kind: 'branch', cond: { kind: 'chance', percent: 50 }, then: dialog(cue) },
+        ],
+      },
+      {
+        name: 'branch.else',
+        anchor: 'author-script-core.ts:663',
+        build: (cue) => [
+          { kind: 'branch', cond: { kind: 'chance', percent: 50 }, then: [], else: dialog(cue) },
+        ],
+      },
+      {
+        name: 'loop.body',
+        anchor: 'author-script-core.ts:669',
+        build: (cue) => [
+          {
+            kind: 'loop',
+            mode: 'while',
+            cond: { kind: 'chance', percent: 50 },
+            body: dialog(cue),
+            yield: 'worldTick',
+            maxIterations: 3,
+          },
+        ],
+      },
+      {
+        name: 'startBattle.onLose',
+        anchor: 'author-script-core.ts:708',
+        build: (cue) => [{ kind: 'startBattle', enemyTeamId: 'team-1', onLose: dialog(cue) }],
+      },
+      {
+        name: 'startBattle.onFlee',
+        anchor: 'author-script-core.ts:710',
+        build: (cue) => [{ kind: 'startBattle', enemyTeamId: 'team-1', onFlee: dialog(cue) }],
+      },
+      {
+        name: 'teleportOut.onFail',
+        anchor: 'author-script-core.ts:722',
+        build: (cue) => [{ kind: 'teleportOut', onFail: dialog(cue) }],
+      },
+      {
+        name: 'confirm.onNo',
+        anchor: 'author-script-core.ts:726',
+        build: (cue) => [{ kind: 'confirm', id: 'lab', onNo: dialog(cue) }],
+      },
+    ]
+    for (const { name, anchor, build } of cases) {
+      const bad = build(badCue)
+      const ok = build(okCue)
+      let message = ''
+      try {
+        checkAuthorCommands(bad, 'probe')
+      } catch (error) {
+        message = error instanceof Error ? error.message : String(error)
+      }
+      expect(message, `${name}(${anchor}) 应在嵌套深度拒绝非法 identity`).toContain(
+        'cue.identity.kind',
+      )
+      expect(
+        () => checkAuthorCommands(ok as never, 'probe'),
+        `${name}(${anchor}) 合法 identity 应通过`,
+      ).not.toThrow()
+    }
   })
 })

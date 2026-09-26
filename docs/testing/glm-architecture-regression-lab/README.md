@@ -134,19 +134,34 @@ JSON最后一次SHA登记后必须再次Biome；避免为填自己的commit hash
 Codex接收时逐组决定转正或返工，并独立复核；正式集成后才串行check→ratchet→受保护strict，整批统一统计。
 GLM贡献须在最终实施审查披露；本卡不授予自验充独立终审、代签或标done权限。
 
-## 实际交付登记（GLM，2026-09-26，r9 定点返工；Codex 候选验收）
+## 实际交付登记（GLM，2026-09-26，r12 剩余视觉/回执收口；Codex 待独立验收）
 
-- 起点 `a3ceaf05199fe334bdf5dea8d2b362e34de8679b`（对冻结 86e928b5 packages/scripts 零 diff）；
-  分支 `codex/glm-architecture-regression-lab-r1` @ worktree `/Users/zhangxu/illegal/type-pal-glm-regression-lab`；
-  活树产品冻结以 `git merge-base origin/main HEAD` 为基准零 diff（verify.mjs v2 硬判据）。
+- 分支 `codex/glm-architecture-regression-lab-r2` @ worktree `/Users/zhangxu/illegal/type-pal-glm-lab-r2`
+  （起点 f5f166aa，已并入当时 origin/main 5ea51631 产品冻结；当前 merge-base=7a18eaa6，
+  `git diff 7a18eaa6..HEAD -- packages/ scripts/` 为空，verify.mjs v2 硬判据）。
 - 实际文件：[receipt.md](receipt.md)、configs/{candidates,diagnostics}.vitest.mts、configs/tsconfig.json、
   fixtures/{editor,migrate}/**、candidates/{editor,content,game,migrate}/*.test.*（含 lab-startup 启动小样）、
-  diagnostics/lab-startup-red.test.tsx、tools/{red-control,verify}.mjs、results.json。
-- 账本 **45 条** = candidate-green 43 / existing-proof 1 / blocked-environment 1；执行 JSON 37/37 全绿，
-  candidate-green fullName 与执行 JSON 一对一双射（verify.mjs v2 硬判据）。
-- 负控 runner v2 五针（startup / g05 卸载清理 / g03 committed 终态 / g05 即时 wait / g08 忽略图根）全部 detected，
-  每针恰 exit1、AssertionError、witness 命中、产品 hash 不变。
+  diagnostics/{lab-startup-red,lab-choreography-cue-identity-leak}.test.*、
+  tools/{red-control,verify,g01-pan-cancel-needle,v03-v04-host}.mjs、tools/fixture/{fixture-gen.config.mts,gen-v4-fixture.test.ts}、
+  results.json。
+- 账本 **75 条** = candidate-green 72 / existing-proof 1 / blocked-environment 1（V04-02 历史环境事实，
+  已被 V04-03..08 解决）/ reproduced-defect 1（G06-D1）；执行 JSON 42/42 全绿（r12 纯浏览器取证批次，
+  候选/diagnostics 零改动），candidate-green fullName 与执行 JSON 一对一双射（verify.mjs v2 硬判据）。
+- r11 批次（历史）：G06-11 七入口透传、G06-D1 显式失败诊断、G08-07 输出身份+丢输出反控、V01-05..09 五表单。
+- r12 批次（本轮）：**V01-10..15** 键盘/焦点矩阵（搜索过滤/Tab 走查/Enter+blur 恰一次/Escape 零历史/
+  方向键步进/对话框关闭焦点还原，全部 Playwright 可信键事件）；**V02-03..05** 分隔条矩阵（键盘 ±16/Home/双击、
+  CDP 真实拖拽、1440/1280/720 三视口、隐藏恢复、非空脚本内容滚动、Inspector Tab 分离、地图工作区）；
+  **V03-02..04** 自有内存宿主 lab-v4 上 A→B 正常/乱序（2501ms 迟到不覆盖）/失败三态（一次性 500 自动重试吸收、
+  持续 500 错误可见、解除恢复）；**V04-03..08** catalog bytes/SHA/decoder 四方正控、fit/1:1/缩放矩阵、切对象身份、
+  同 AssetId 替换→revision 刷新（可撤销）、引用绑定与替换后引用/物品图标刷新、长名称侧栏滚动。
+- 新工具：`tools/v03-v04-host.mjs`（/projects/lab-v4 内存 origin + 一次性 500/受控迟到/内存替换/请求台账控制端点）、
+  `tools/fixture/gen-v4-fixture.test.ts`（buildBlankProject + 正式编码器 + 内置最小 PNG 编码器，node 端目录正控）。
+- V01-07/V01-08 两张「reverted」截图按 Codex r11 目视核对完成**阶段更正**（实为提交后单帧，不证明撤销；
+  撤销回退引用 Codex 独立复验）；「IAB press 受限」撤回为旧自动化路径伪影，r12 键盘全部可信键事件实测。
+- 负控 runner v2 六针（startup / g05 卸载清理 / g03 committed 终态 / g05 即时 wait / g08 忽略图根 / g08 丢输出）
+  全部 detected，每针恰 exit1、AssertionError、witness 命中、产品 hash 不变。
 - 类型门真实通过：`pnpm exec tsc --project …/configs/tsconfig.json --noEmit` exit0（TS5101 已消除）。
-- 截图 6 张在 /tmp/type-pal-glm-regression-lab/（不入 Git），用途登记于 results.json artifacts；
-  V01-V04 未执行矩阵在 receipt.md 未证项如实登记。
-- 12 组全部交付；G06/G07/G08 未证轴与 V01-V04 未证矩阵在 receipt.md 如实收窄登记，不把绿数当完整合同。
+- 截图与浏览器证据在 /tmp/type-pal-glm-lab-r2/（不入 Git），完整 SHA-256 登记于 results.json artifacts
+  （verify 硬校验）；V01-01..03 等旧图在 /tmp/type-pal-glm-regression-lab/（r1 历史）。
+- 未证项（receipt.md 未证节如实登记）：浏览器级缩放 125%/150%（IAB 无受控入口，工具能力缺口）、
+  G01 view 增量 pending-contract、G08 options 其余维度、V03 boot 级三态未单列、G06-D1 产品修复在 Codex 复核分支。

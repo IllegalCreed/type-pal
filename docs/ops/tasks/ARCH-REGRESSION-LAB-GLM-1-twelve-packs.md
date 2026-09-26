@@ -128,7 +128,163 @@ blocked-automation归因；继续其它五类表单及V02/V03/V04矩阵。旧e2e
 - **单次统一** `pnpm coverage:ratchet` exit0（基线提升 18 项、范围变化 8 项）后，**单次严格** `pnpm coverage:fast` exit0。官方 fast 从 8122→8159 项，生产文件 643 不变；同分母净增语句 101、分支 120、函数 22、行 86。最终总仓语句 61237/80619（75.96%）、分支 43254/63176（68.47%）、函数 11385/15036（75.72%）、行 55132/70572（78.12%）。原 `docs/testing` 隔离套件不算第二份官方测试。
 - 本卡**尚未 done**：G01/G06/G08 剩余轴及 V01–V04 操作矩阵由 GLM 按交接补证，Codex 需独立复核并决定是否需再转正/修产品。不得因首批 37 项通过而清掉未证登记。
 
-### 给 GLM 的下一位 Agent 提示词
+## GLM 剩余项批次交付（2026-09-26，r10；本席自记）
+
+新独立检出：origin/main `f5f166aa` → 分支 `codex/glm-architecture-regression-lab-r2`，
+worktree `/Users/zhangxu/illegal/type-pal-glm-lab-r2`，不含旧 GLM 分支。只改实验目录与本块。
+
+**完成项：**
+
+- **G06 递归入口去重 + 缺口补实（+3 例，10/10）**：G06-08 hooks.turnStart 第二频道、G06-09 onDefeated
+  then/else 嵌套递归（enemy-script.ts:589/591）、G06-10 checkDialogueCue 选项沿 hooks/onDefeated/
+  choreography 三入口递归透传（enemy-script.ts:286-287，非法/合法正控隔离）。去重矩阵（入口×证据来源）
+  已入 receipt：hooks 基础边界→官方 enemy-script.boundaries；AI 条件递归→wave2:97；非法 effect→wave2:160；
+  onDefeated 计数/臂→wave2:178；宽泛世界命令→enemy-script.test:219。
+- **G08 转换中段真异常（+G08-07）**：raw 0x65（换角色大世界精灵）→ translate-events.ts:1624 →
+  resolveSpriteIdForNum 在预检之后的翻译中段抛「sprite 42 缺布局证据」（migrate-content.ts:2531）；
+  补场景布局证据后同一脚本成功（模块态无残留）。G08-05 维持预检层收窄口径。
+  options 维度收窄：globalScriptAliases（migrate-content.ts:2572 要求可推导稳定 id，合成输入需生产
+  shard 配置 → pending）、palSemanticProfile/palReferenceSchema（translate-events.test 与 *.pal.test
+  真实 PAL 矩阵 → 既有引用）、sceneSemanticSpriteIds（pal-migration.ts:497-500 → pending）。
+- **G01 平移取消浏览器实证（+G01-07 浏览器证据）**：pal 开发快照工程，独立 6013 干净宿主 / 6014 反控宿主
+  （主线检出运行——两检出 packages/ 冻结零 diff；viewport 1440×900 CSS、DPR 1、画布缩放 38%）。
+  正控：完整合成拖拽（down→move→move→up，经真实 React 监听链；setPointerCapture 测试期替身用后恢复）
+  → 视图平移（画布像素 SHA 47b91a24→19ffdaad）。取消：同输入形状 + pointercancel + **真实 CDP 迟到鼠标
+  移动** → 视图冻结（7fb3de57==7fb3de57）。可证伪反控：tools/g01-pan-cancel-needle.mjs（load 插件内存
+  单点删除 cancelPointerInteraction 的 `panRef.current = null`；产品源零写盘；页面见证
+  `__G01_NEEDLE_LIVE__=true`）→ 同输入取消后视图漂移（ce853fe7→fa7b3405）。
+  截图：/tmp/type-pal-glm-lab-r2/g01-clean-map-canvas.jpg（sha256 a2d51f7d3ef1b526cbc0a22a6a86a54011516e49c76242e13332ec513846e1d8，已目视核对为等距地图+角色精灵）。
+- **负控五针**：red-control.mjs v2 五针全 detected（g08-ignore-roots 针 expectExecuted 修正 5→6 后复跑）。
+
+**阻断/未完成（如实登记）：**
+
+- **V01-04 blocked-automation**：角色「人物显示名称」DsDraftTextInput（controls.tsx:542 blur/Enter commit；
+  ActorMode.tsx:606-613 onCommit→dispatch）——IAB 自动化路径下 fill+Enter 与 blur 均停留草稿态
+  （DOM value=李逍遥探，撤销键保持 disabled，h1 不更新），提交根因未定位；控件合同有正式测试覆盖，
+  不断言产品缺陷。其余五类表单矩阵未执行。
+- **V02/V03/V04 未完成**：本轮会话预算内未执行（V03 需自建内存 HTTP 宿主、V04 需先做 catalog
+  bytes/SHA/decoder 正控——projects/e2e-own 为合适自有工程但其地图为 version 2，须先由 Codex/内容方
+  升版或另建 version-4 自有工程）。维持未证登记，未用源码推断冒充目视。
+
+机械门：候选 **41/41**、tsc exit0、verify PASS（**51 条** 48/1/2 双向映射）、目录 Biome exit0（含提交的
+exec JSON）、red-control 五针 detected、check:docs PASS；packages/scripts 零 diff（本批 diff 仅实验目录+本块）。
+**不合 main、不计官方覆盖率、不标 done；Kimi 豁免。**
+
+## GLM r12 批次交付（2026-09-26，回应 r11 counter：剩余视觉与回执收口；本席自记）
+
+分支 codex/glm-architecture-regression-lab-r2 @ /Users/zhangxu/illegal/type-pal-glm-lab-r2（tip 见提交）。
+r12 为**纯浏览器取证批次**：候选/diagnostics 零改动；产品、正式测试、基线、Codex 审查原文零改动。
+
+- **宿主口径修正（r11 审查要求的回执校准）**：主线检出现被切到 codex/arch-lab-r11-review（产品含 Codex
+  补正修复），不再作为本候选浏览器宿主。r12 全部宿主改从**本 worktree** 运行（repoRoot=worktree，
+  packages/ 即候选冻结产品；merge-base(origin/main,HEAD)=7a18eaa6，`git diff 7a18eaa6..HEAD -- packages/ scripts/` 空）。
+  pal 宿主 6013 需只读 symlink 补 gitignored 生成资源（data/extracted、projects/pal/assets/{migrated,runtime}，
+  实测后已删除）；receipt/README/账本旧分支、旧计数、错误 cwd 已统一改为当前口径，历史段标历史。
+- **V01 剩余键盘/焦点矩阵（V01-10..15，pal 开发快照 6013）**：搜索过滤 234→1→恢复（如实登记：搜索框 Enter
+  不产生选中，产品无此行为）；Tab 走查 名称→减少买价→增加买价；Enter 提交恰一步 + blur 不重复（观音符→观音符K，
+  撤销「修改物品」恰一次复原、撤销禁用）；Escape 取消零历史；买价 spinbutton ArrowUp 150→151 + Enter 提交、
+  ↑↑=152 blur 提交变体；图标对话框关闭后焦点还原到打开前锚点（目录搜索框）。**全部用 Playwright 可信键事件实测**
+  ——r11「IAB press 受限」确认为旧自动化路径伪影，账本归因已撤改；敌队/战场两张「reverted」截图按 Codex 目视
+  核对完成**阶段更正**（实为提交后单帧：槽3 仍灯笼、战场名仍未命名战场探），撤销回退引用 Codex r11 独立复验。
+- **V02 非空工作区分隔条（V02-03..05，场景 s000 进场脚本非空 + 地图 map-020）**：三条 hr 分隔条键盘合同
+  （±16 精确：左 194→210→194→226→Home 194；右 290→×2=258→双击 290；高 420→404→420）；CDP 真实拖拽
+  194→260（+66=拖距）；1440/1280/720 三视口（innerWidth/Height、DPR 1 断言）；隐藏恢复（对象列表切换后
+  .outliner 不可见、恢复后宽度保持）；内容滚动（脚本抽屉 scrollH 866>380，滚 0→485.5，真实脚本非空态）；
+  Inspector Tab 分离（调宽不改选中）。地图工作区同合同（挂载瞬态一次 184→179 已用序列探针排除，终态精确）。
+- **V03 失败→恢复与 A/B 乱序（V03-02..04，自有内存 origin lab-v4 @6014）**：新工具 tools/v03-v04-host.mjs
+  （vite createServer + lab 前置中间件：/projects/lab-v4/* 全内存服务 + /__lab__ 控制端点：一次性 500/受控迟到/
+  内存替换/请求台账）+ tools/fixture/gen-v4-fixture.test.ts（buildBlankProject + 正式编码器 + 内置最小 PNG
+  编码器；node 端先验目录 bytes/sha256；输出 /tmp 不进仓）。A→B 正常切换（镜像精灵 SHA 35c00cea…/212=
+  目录）；乱序：mirror.rle 注入 2500ms 迟到，可见 pending「正在解析帧资源…」→ 选 hero 即时渲染 → 2501ms
+  迟到落地后标题/AssetId 仍 hero（旧结果不覆盖新对象）；失败三态：一次性 500 被产品读取器自动重试吸收
+  （台账 1×500+3×200，无错误泄漏）、持续 500 预览区可见「httpSource … -> 500」+「读取图片…」、解除后重选恢复。
+- **V04 合法媒体与 revision/引用刷新（V04-03..08，lab-v4）**：catalog bytes/SHA/decoder 四方正控（蓝图标
+  d5f16e4c…/102B、镜像精灵 35c00cea…/212，页面「文件」路径/大小显示一致）；缩放矩阵（fit 800%渲染 192×192、
+  1:1=100%=自然尺寸 24×24、放大 125%=30×30、适合回填；宽图 320×240 fit 重算 256%）；切对象五处身份同步；
+  同 AssetId 替换→revision 刷新（153053B→342B、sha→fbecb536…、条目数不变、预览像素刷新、「撤销：导入资源」
+  可撤销）；引用刷新（item-001 绑定 items[0].icon → 引用 1 + 删除被「阻断删除」拦截 → 替换后引用保留、
+  物品页三处图标同步刷新）；长名称侧栏滚动（720 高 scrollH 695>527，滚到底 168）。
+- **账本 75 条** = 72 candidate-green / 1 existing-proof / 1 blocked-environment（V04-02 历史环境事实加解决
+  指针，不再表示未解除阻断）/ 1 reproduced-defect；分包 V01 14 / V02 5 / V03 4 / V04 8；全部新图（含更正
+  阶段的旧图）登记完整 SHA-256，verify 硬校验。负控六针 detected；候选 42/42；tsc exit0；目录 Biome exit0
+  （仅既有 g01 反控宿主 1 warning，r10/r11 已接受）；check:docs PASS。
+- **未证项如实保留**：浏览器级缩放 125%/150%（IAB 无受控入口，工具能力缺口，不称环境阻断）；G01 view 增量
+  pending-contract；G08 options 其余维度；V03 boot 级三态未单列。**不合 main、不标 done；Kimi 豁免。**
+
+### 下一位 Codex 接收提示词
+
+```text
+接收 ARCH-REGRESSION-LAB-GLM-1 r12 批次，分支 codex/glm-architecture-regression-lab-r2
+（worktree /Users/zhangxu/illegal/type-pal-glm-lab-r2），任务 build。先读 origin/codex/arch-lab-r11-review
+的 r11 审查与本卡 Codex r11 块，再读本卡 GLM r12 交付块、docs/testing/glm-architecture-regression-lab/receipt.md。
+复跑（cwd=该 worktree 根）：candidates.vitest.mts 新鲜 JSON（42/42）、verify.mjs <JSON>（75 条
+72/1/1/1，含新图完整 SHA 硬校验，PASS）、red-control.mjs（六针 detected）、tsc（exit0）、目录 Biome、
+check:docs；diagnostics 应见 2 red/2 green（lab-startup 历史红 + G06-D1 冻结树红）。裁决重点：
+V01-10..15 键盘/焦点矩阵（可信键事件、Enter+blur 恰一次、Escape 零历史、归焦还原）、V02-03..05
+分隔条矩阵（±16/拖拽/三视口/隐藏恢复/滚动/Tab 分离）、V03-02..04（内存宿主注入的一次性 500 自动重试
+吸收、持续 500 错误可见、解除恢复、2501ms 乱序不覆盖）、V04-03..08（四方正控、缩放矩阵、同 AssetId
+替换 revision 刷新、引用保留与物品图标刷新）、V01-07/08 截图阶段更正与归因撤改、回执当前段口径
+（分支/计数/cwd/宿主）。浏览器复验可用同 worktree 建 symlink 跑 6013，或 VITE_PROJECT_ID=lab-v4 跑
+tools/v03-v04-host.mjs 6014。G01/G06/G08 已接收部分不重开；Map 快照与 cue 修复仍由本席承担。
+不合 main、不标 done；Kimi 豁免，无 Kimi 提示词。
+```
+
+## GLM r11 批次交付（2026-09-26，回应 r10 counter；本席自记）
+
+分支 codex/glm-architecture-regression-lab-r2（已合入 origin/main 取 r10 审查与任务卡，合并提交 5ea51631）。
+
+- **R10-1 七入口去重表已落 receipt**（branch.then:661 / branch.else:663 / loop.body:669 /
+  startBattle.onLose:708 / onFlee:710 / teleportOut.onFail:722 / confirm.onNo:726 + 跨模块边 :712，
+  逐项列官方既有证据与本仓证据）。**G06-D1 缺陷显式诊断**：diagnostics/lab-choreography-cue-identity-leak.test.ts
+  按「应有行为」书写保持失败（直接 cue 缺 identity 被拒 ✓；同一 cue 经 startBattle.choreography 未拒 ✗ 当前产品；
+  合法 identity 两路通过 = 修复不收紧合法域），交 Codex 产品修复，本席不改生产代码。
+  **G06-11 候选例**：七入口逐点证明校验选项沿嵌套深度透传（非法 identity 门在嵌套深度拒绝、
+  合法 identity 每入口通过），11/11 绿。
+- **R10-2 G08-07 强化**：断言修复后 chunk 内精确命令体 `[{kind:'setActorSprite',actor:'li-xiaoyao',sprite:'sprite-42'}]`、
+  SpriteDef 身份（id/asset:sprite.pal.042）、实体引用一致；失败运行输入前后深快照；「先失败再修复」与独立
+  新鲜正确运行全量 deep-equal（scenes/scriptChunks/sprites/scriptLocale）。**丢输出反控 g08-drop-sprite 针**
+  （translate-events.ts:1625 push 置空）实测 detected：「expected [] to deeply equal [setActorSprite]」。负控现为**六针全 detected**。
+- **R10-3 口径修正**：results 顶层 branch/worktree 改为 r2 分支与本 worktree；receipt 顶部改为 r11 口径
+  （旧 r1 分支/worktree 明确标历史）、小计改 **57 条 54/1/1/1、候选 42/42**、复跑 cwd 标明必须为
+  /Users/zhangxu/illegal/type-pal-glm-lab-r2；README 同步 r11。G01 复现步骤（宿主/坐标/像素算法/反控启动）已补入 receipt。
+- **V01-04 blocked-automation 归因撤销**：根因为本席自动化（IAB press() 键投递缺失 + 撤销按钮定位错），
+  Codex 同路径实测已证明产品正常。**V01 五表单补齐**：物品/技能/敌队(槽位 combobox 空槽→灯笼)/战场/模拟器
+  各自 fill+Enter(页面内合成 KeyboardEvent，绕过 IAB 键投递缺失)提交、撤销按钮（撤销：修改物品/修改技能/
+  修改敌队/修改战场/编辑战斗模拟器配置）点击回退，全部实测通过，截图存 /tmp/type-pal-glm-lab-r2/。
+- **V02/V03/V04 维持未完成登记**（未转环境阻断、未称完成）：V02 需场景工作区脚本面板分隔条
+  （本席会话中持久化导航/离开守卫阻断场景页切换，已记录探查过程）；V03 需自建内存 HTTP 宿主；
+  V04 需 version-4 自有工程 + 正式编码器正控（e2e-own 地图 v2 不改旧生成工程）。
+- 机械门：候选 **42/42**、tsc exit0、verify PASS（**57 条** 54/1/1/1 双向映射）、六针负控 detected、
+  目录 Biome exit0、check:docs PASS；packages/scripts 零 diff。**不合 main、不标 done；Kimi 豁免。**
+
+### 下一位 Codex 接收提示词
+
+```text
+接收 ARCH-REGRESSION-LAB-GLM-1 r11 批次，分支 codex/glm-architecture-regression-lab-r2
+（worktree /Users/zhangxu/illegal/type-pal-glm-lab-r2），任务 build。先读 r10 审查、codex-r10-evidence.json
+与任务卡 r11 交付块。复跑：candidates.vitest.mts 新鲜 JSON（42/42，含 G06-11）、verify.mjs <JSON>
+（57 条 54/1/1/1，PASS）、red-control.mjs（六针，新增 g08-drop-sprite 应见 expected [] to deeply equal
+[setActorSprite]）、tsc（exit0）、目录 Biome、check:docs；diagnostics.vitest.mjs 应见 G06-D1 第二断言失败
+（产品缺陷在修）。裁决重点：G06 去重矩阵与 G06-D1 诊断口径、G08-07 输出身份断言与丢输出反控、
+V01 五表单实测与 blocked-automation 归因撤销、V02/V03/V04 未完成登记与前置条件。
+G01 已 accept 不重开。GLM 不自审终审，不合 main、不标 done；Kimi 豁免，无 Kimi 提示词。
+```
+
+
+```text
+接收 ARCH-REGRESSION-LAB-GLM-1 r10 剩余项批次，分支 codex/glm-architecture-regression-lab-r2
+（worktree /Users/zhangxu/illegal/type-pal-glm-lab-r2，origin/main f5f166aa 起步），任务 draft。
+先读本块与 receipt.md r10 批次节。复跑：candidates.vitest.mts 新鲜 JSON（41/41，G06×3/G08×1 新例）、
+tools/verify.mjs <JSON>（51 条 48/1/2，PASS）、tools/red-control.mjs（五针 detected）、
+tsc --project configs/tsconfig.json --noEmit（exit0）、目录 Biome（含提交的 exec JSON）、check:docs。
+G01 浏览器证据复核：按 receipt 命令启动 6013 干净宿主与 6014 反控宿主（LAB_REPO_ROOT 指向含
+gitignored 资源的完整检出），重放正控/取消/迟到移动三步并核对画布像素 SHA 与截图 sha256
+a2d51f7d3ef1b526cbc0a22a6a86a54011516e49c76242e13332ec513846e1d8；反控宿主应见视图漂移。
+裁决重点：G06 去重矩阵是否成立（引用证据不重复编例）、G08-07 中段异常与 options 收窄口径、
+G01-07 浏览器证据链完整性、V01-04 blocked-automation 归因是否准确。V02/V03/V04 维持未证登记。
+GLM 不自审终审，不合 main、不标 done；Kimi 豁免，无 Kimi 提示词。
+```
+
 
 ```text
 在 /Users/zhangxu/illegal/type-pal 继续 ARCH-REGRESSION-LAB-GLM-1，任务卡

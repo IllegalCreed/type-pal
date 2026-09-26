@@ -3,8 +3,8 @@
   "numPassedTestSuites": 19,
   "numFailedTestSuites": 0,
   "numPendingTestSuites": 0,
-  "numTotalTests": 37,
-  "numPassedTests": 37,
+  "numTotalTests": 42,
+  "numPassedTests": 42,
   "numFailedTests": 0,
   "numPendingTests": 0,
   "numTodoTests": 0,
@@ -24,7 +24,7 @@
     "updated": 0,
     "didUpdate": false
   },
-  "startTime": 1790355987838,
+  "startTime": 1790395510932,
   "success": true,
   "testResults": [
     {
@@ -34,7 +34,7 @@
           "fullName": "G06 跨校验器递归 G06-01 正控：validateEnemies 接受 hooks.ready 合法 hook 流（author 入口 → enemy 校验）",
           "status": "passed",
           "title": "G06-01 正控：validateEnemies 接受 hooks.ready 合法 hook 流（author 入口 → enemy 校验）",
-          "duration": 2.07404200000002,
+          "duration": 2.4365829999999846,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -44,7 +44,7 @@
           "fullName": "G06 跨校验器递归 G06-02 正控：validateEnemies 接受 onDefeated branch+dialog（enemy→author 递归）",
           "status": "passed",
           "title": "G06-02 正控：validateEnemies 接受 onDefeated branch+dialog（enemy→author 递归）",
-          "duration": 1.1517920000000004,
+          "duration": 1.2089169999999854,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -54,7 +54,7 @@
           "fullName": "G06 跨校验器递归 G06-03 跨面正控：hook state body 内嵌 author dialog 叶，经生产链递归校验通过",
           "status": "passed",
           "title": "G06-03 跨面正控：hook state body 内嵌 author dialog 叶，经生产链递归校验通过",
-          "duration": 0.14308399999998755,
+          "duration": 0.14754199999998718,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -64,7 +64,7 @@
           "fullName": "G06 跨校验器递归 G06-04 非法叶：hook body 未知命令 kind 被拒，生产错误 path 精确到叶且输入深等",
           "status": "passed",
           "title": "G06-04 非法叶：hook body 未知命令 kind 被拒，生产错误 path 精确到叶且输入深等",
-          "duration": 0.43962499999997817,
+          "duration": 0.4341670000000022,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -74,7 +74,7 @@
           "fullName": "G06 跨校验器递归 G06-05 跨面非法：onDefeated branch 非法 cond 经 enemy→author 递归被拒且输入深等",
           "status": "passed",
           "title": "G06-05 跨面非法：onDefeated branch 非法 cond 经 enemy→author 递归被拒且输入深等",
-          "duration": 0.20454200000000355,
+          "duration": 0.20679199999995035,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -84,7 +84,7 @@
           "fullName": "G06 跨校验器递归 G06-06 正控：choreography 战斗演出钩子（author 命令叶）经 validateEnemies 递归通过",
           "status": "passed",
           "title": "G06-06 正控：choreography 战斗演出钩子（author 命令叶）经 validateEnemies 递归通过",
-          "duration": 0.19249999999999545,
+          "duration": 0.19870900000000802,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -94,17 +94,57 @@
           "fullName": "G06 跨校验器递归 G06-07 非法 choreography 叶：未知命令 kind 被拒且生产 path 精确到叶",
           "status": "passed",
           "title": "G06-07 非法 choreography 叶：未知命令 kind 被拒且生产 path 精确到叶",
-          "duration": 0.15949999999998,
+          "duration": 0.16225000000002865,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G06 跨校验器递归"],
+          "fullName": "G06 跨校验器递归 G06-08 正控：hooks.turnStart 频道（第二频道）经 validateEnemies 递归通过且输入深等",
+          "status": "passed",
+          "title": "G06-08 正控：hooks.turnStart 频道（第二频道）经 validateEnemies 递归通过且输入深等",
+          "duration": 0.1818749999999909,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G06 跨校验器递归"],
+          "fullName": "G06 跨校验器递归 G06-09 正控：onDefeated branch 嵌套 branch（then/else 递归 589/591）经 validateEnemies 通过",
+          "status": "passed",
+          "title": "G06-09 正控：onDefeated branch 嵌套 branch（then/else 递归 589/591）经 validateEnemies 通过",
+          "duration": 0.49316699999997127,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G06 跨校验器递归"],
+          "fullName": "G06 跨校验器递归 G06-10 options 透传：checkDialogueCue 经 hooks/onDefeated/choreography 三路递归拒绝非法 cue",
+          "status": "passed",
+          "title": "G06-10 options 透传：checkDialogueCue 经 hooks/onDefeated/choreography 三路递归拒绝非法 cue",
+          "duration": 0.701582999999971,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G06 跨校验器递归"],
+          "fullName": "G06 跨校验器递归 G06-11 去重矩阵：author 七个递归入口逐点验证校验选项沿嵌套深度透传（非空臂 + 非法 identity 门）",
+          "status": "passed",
+          "title": "G06-11 去重矩阵：author 七个递归入口逐点验证校验选项沿嵌套深度透传（非空臂 + 非法 identity 门）",
+          "duration": 0.9822089999999548,
           "failureMessages": [],
           "meta": {},
           "tags": []
         }
       ],
-      "startTime": 1790355992778,
-      "endTime": 1790355992782.2046,
+      "startTime": 1790395517225,
+      "endTime": 1790395517232.9822,
       "status": "passed",
       "message": "",
-      "name": "/Users/zhangxu/illegal/type-pal-glm-regression-lab/docs/testing/glm-architecture-regression-lab/candidates/content/g06-validation-crosscalls.test.ts"
+      "name": "/Users/zhangxu/illegal/type-pal-glm-lab-r2/docs/testing/glm-architecture-regression-lab/candidates/content/g06-validation-crosscalls.test.ts"
     },
     {
       "assertionResults": [
@@ -113,7 +153,7 @@
           "fullName": "G01 地图手势终结 G01-01 正控：笔划经正常 pointerup 提交一笔瓦片写入（同输入对照）",
           "status": "passed",
           "title": "G01-01 正控：笔划经正常 pointerup 提交一笔瓦片写入（同输入对照）",
-          "duration": 77.01045800000009,
+          "duration": 126.221,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -123,7 +163,7 @@
           "fullName": "G01 地图手势终结 G01-02 pointercancel 终结笔划：迟到 move/up 不再提交（0 命令）",
           "status": "passed",
           "title": "G01-02 pointercancel 终结笔划：迟到 move/up 不再提交（0 命令）",
-          "duration": 55.612290999999914,
+          "duration": 91.63691700000027,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -133,7 +173,7 @@
           "fullName": "G01 地图手势终结 G01-03 lostpointercapture 终结笔划：迟到 up 不提交",
           "status": "passed",
           "title": "G01-03 lostpointercapture 终结笔划：迟到 up 不提交",
-          "duration": 36.10845800000004,
+          "duration": 62.05774999999994,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -143,7 +183,7 @@
           "fullName": "G01 地图手势终结 G01-04 window blur 终结笔划：迟到 up 不提交",
           "status": "passed",
           "title": "G01-04 window blur 终结笔划：迟到 up 不提交",
-          "duration": 34.86091699999997,
+          "duration": 56.52733400000034,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -153,7 +193,7 @@
           "fullName": "G01 地图手势终结 G01-05 选区拖动 pointercancel：无选区业务状态；正常提交后「删除」对 session 地图真实删瓦片",
           "status": "passed",
           "title": "G01-05 选区拖动 pointercancel：无选区业务状态；正常提交后「删除」对 session 地图真实删瓦片",
-          "duration": 58.74816700000008,
+          "duration": 97.73008299999992,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -163,17 +203,17 @@
           "fullName": "G01 地图手势终结 G01-06 平移中 pointercancel 终结平移：后续选择笔划仍正常提交（跨工具存活）",
           "status": "passed",
           "title": "G01-06 平移中 pointercancel 终结平移：后续选择笔划仍正常提交（跨工具存活）",
-          "duration": 20.155417000000057,
+          "duration": 34.93558299999995,
           "failureMessages": [],
           "meta": {},
           "tags": []
         }
       ],
-      "startTime": 1790355991211,
-      "endTime": 1790355991493.1555,
+      "startTime": 1790395513711,
+      "endTime": 1790395514180.9355,
       "status": "passed",
       "message": "",
-      "name": "/Users/zhangxu/illegal/type-pal-glm-regression-lab/docs/testing/glm-architecture-regression-lab/candidates/editor/g01-map-gesture.test.tsx"
+      "name": "/Users/zhangxu/illegal/type-pal-glm-lab-r2/docs/testing/glm-architecture-regression-lab/candidates/editor/g01-map-gesture.test.tsx"
     },
     {
       "assertionResults": [
@@ -182,7 +222,7 @@
           "fullName": "G02 地图会话失效 G02-01 活跃笔划中换同 mapId 新 EditSession：迟到 up 不把旧笔划提交进新会话",
           "status": "passed",
           "title": "G02-01 活跃笔划中换同 mapId 新 EditSession：迟到 up 不把旧笔划提交进新会话",
-          "duration": 94.36041699999998,
+          "duration": 177.73162500000012,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -192,7 +232,7 @@
           "fullName": "G02 地图会话失效 G02-02 活跃笔划中跨 mapId 切换：清场 effect 覆盖活跃手势，迟到 up 两边都不提交",
           "status": "passed",
           "title": "G02-02 活跃笔划中跨 mapId 切换：清场 effect 覆盖活跃手势，迟到 up 两边都不提交",
-          "duration": 64.34758399999998,
+          "duration": 64.15049999999997,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -202,17 +242,17 @@
           "fullName": "G02 地图会话失效 G02-03 活跃选区拖动中换会话：迟到 up 不在新会话提交选区；新会话新选区的删除只写新会话地图",
           "status": "passed",
           "title": "G02-03 活跃选区拖动中换会话：迟到 up 不在新会话提交选区；新会话新选区的删除只写新会话地图",
-          "duration": 95.24854200000004,
+          "duration": 88.86345800000004,
           "failureMessages": [],
           "meta": {},
           "tags": []
         }
       ],
-      "startTime": 1790355992125,
-      "endTime": 1790355992379.2485,
+      "startTime": 1790395515244,
+      "endTime": 1790395515574.8635,
       "status": "passed",
       "message": "",
-      "name": "/Users/zhangxu/illegal/type-pal-glm-regression-lab/docs/testing/glm-architecture-regression-lab/candidates/editor/g02-map-scope.test.tsx"
+      "name": "/Users/zhangxu/illegal/type-pal-glm-lab-r2/docs/testing/glm-architecture-regression-lab/candidates/editor/g02-map-scope.test.tsx"
     },
     {
       "assertionResults": [
@@ -221,7 +261,7 @@
           "fullName": "G03 App 所有权生命周期 G03-01 真实 App 挂载：会话派发命令反映到页面（项目名可见），状态接线成立",
           "status": "passed",
           "title": "G03-01 真实 App 挂载：会话派发命令反映到页面（项目名可见），状态接线成立",
-          "duration": 143.498834,
+          "duration": 162.54954199999975,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -231,7 +271,7 @@
           "fullName": "G03 App 所有权生命周期 G03-02 卸载→重挂载新会话：旧会话后续派发不影响新页面",
           "status": "passed",
           "title": "G03-02 卸载→重挂载新会话：旧会话后续派发不影响新页面",
-          "duration": 79.52399999999989,
+          "duration": 69.47904199999994,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -241,17 +281,17 @@
           "fullName": "G03 App 所有权生命周期 G03-03 Cmd+S 真实保存事务：save-state 终态 committed + 工程树写闭；卸载后零写盘且派发 fail-loud",
           "status": "passed",
           "title": "G03-03 Cmd+S 真实保存事务：save-state 终态 committed + 工程树写闭；卸载后零写盘且派发 fail-loud",
-          "duration": 723.1488330000002,
+          "duration": 872.4577499999996,
           "failureMessages": [],
           "meta": {},
           "tags": []
         }
       ],
-      "startTime": 1790355990677,
-      "endTime": 1790355991623.149,
+      "startTime": 1790395514877,
+      "endTime": 1790395515981.4578,
       "status": "passed",
       "message": "",
-      "name": "/Users/zhangxu/illegal/type-pal-glm-regression-lab/docs/testing/glm-architecture-regression-lab/candidates/editor/g03-app-lifecycle.test.tsx"
+      "name": "/Users/zhangxu/illegal/type-pal-glm-lab-r2/docs/testing/glm-architecture-regression-lab/candidates/editor/g03-app-lifecycle.test.tsx"
     },
     {
       "assertionResults": [
@@ -260,7 +300,7 @@
           "fullName": "G04 脚本编辑草稿 G04-01 外部 body 替换（外部 undo/redo 模拟）：编辑器行随新 body，旧行不残留",
           "status": "passed",
           "title": "G04-01 外部 body 替换（外部 undo/redo 模拟）：编辑器行随新 body，旧行不残留",
-          "duration": 48.92366599999991,
+          "duration": 50.879459,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -270,7 +310,7 @@
           "fullName": "G04 脚本编辑草稿 G04-02 编辑草稿确认：entered 见证后翻转值 → 确认恰一笔、值正确、弹层收口",
           "status": "passed",
           "title": "G04-02 编辑草稿确认：entered 见证后翻转值 → 确认恰一笔、值正确、弹层收口",
-          "duration": 27.851042000000007,
+          "duration": 31.576708000000053,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -280,7 +320,7 @@
           "fullName": "G04 脚本编辑草稿 G04-03 关闭取消：弹层关闭、onChange 零调用、body 深等",
           "status": "passed",
           "title": "G04-03 关闭取消：弹层关闭、onChange 零调用、body 深等",
-          "duration": 10.685917000000018,
+          "duration": 11.608249999999998,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -290,17 +330,17 @@
           "fullName": "G04 脚本编辑草稿 G04-04 弹层打开时外部替换 body：旧草稿被丢弃（弹层收口零写回），新草稿确认写回新对象",
           "status": "passed",
           "title": "G04-04 弹层打开时外部替换 body：旧草稿被丢弃（弹层收口零写回），新草稿确认写回新对象",
-          "duration": 31.107250000000022,
+          "duration": 32.698582999999985,
           "failureMessages": [],
           "meta": {},
           "tags": []
         }
       ],
-      "startTime": 1790355992221,
-      "endTime": 1790355992339.1072,
+      "startTime": 1790395516637,
+      "endTime": 1790395516763.6985,
       "status": "passed",
       "message": "",
-      "name": "/Users/zhangxu/illegal/type-pal-glm-regression-lab/docs/testing/glm-architecture-regression-lab/candidates/editor/g04-script-draft.test.tsx"
+      "name": "/Users/zhangxu/illegal/type-pal-glm-lab-r2/docs/testing/glm-architecture-regression-lab/candidates/editor/g04-script-draft.test.tsx"
     },
     {
       "assertionResults": [
@@ -309,7 +349,7 @@
           "fullName": "G05 预览停止与换源 G05-01 stop()：running→idle，activePath/poi 清空，onUi 通知",
           "status": "passed",
           "title": "G05-01 stop()：running→idle，activePath/poi 清空，onUi 通知",
-          "duration": 1.8336659999999938,
+          "duration": 1.6875420000000076,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -319,7 +359,7 @@
           "fullName": "G05 预览停止与换源 G05-02 播放中换源：宿主 wait 真实挂起（全量冲刷后流仍停在 wait），越过旧源剩余窗口后尾命令不复活",
           "status": "passed",
           "title": "G05-02 播放中换源：宿主 wait 真实挂起（全量冲刷后流仍停在 wait），越过旧源剩余窗口后尾命令不复活",
-          "duration": 5.851208000000042,
+          "duration": 7.192209000000048,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -329,7 +369,7 @@
           "fullName": "G05 预览停止与换源 G05-03 wait 中 stop 后真实迟到推进（真实定时器）：view/mode 冻结不再推进",
           "status": "passed",
           "title": "G05-03 wait 中 stop 后真实迟到推进（真实定时器）：view/mode 冻结不再推进",
-          "duration": 121.88454200000001,
+          "duration": 120.95720800000004,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -339,17 +379,17 @@
           "fullName": "G05-04 真实工作区卸载清理 真实播放按钮启动 playCanonical，卸载后同实例 stop 调用**增量**>0（生产启动即 stop 不再掩蔽清理缺失）",
           "status": "passed",
           "title": "真实播放按钮启动 playCanonical，卸载后同实例 stop 调用**增量**>0（生产启动即 stop 不再掩蔽清理缺失）",
-          "duration": 59.88129200000003,
+          "duration": 84.10741699999994,
           "failureMessages": [],
           "meta": {},
           "tags": []
         }
       ],
-      "startTime": 1790355989771,
-      "endTime": 1790355989960.8813,
+      "startTime": 1790395516212,
+      "endTime": 1790395516426.1074,
       "status": "passed",
       "message": "",
-      "name": "/Users/zhangxu/illegal/type-pal-glm-regression-lab/docs/testing/glm-architecture-regression-lab/candidates/editor/g05-playback-scope.test.tsx"
+      "name": "/Users/zhangxu/illegal/type-pal-glm-lab-r2/docs/testing/glm-architecture-regression-lab/candidates/editor/g05-playback-scope.test.tsx"
     },
     {
       "assertionResults": [
@@ -358,17 +398,17 @@
           "fullName": "LAB-STARTUP 启动小样 绿正控：真实 EditSession 执行地图改名命令，undo/redo 业务状态保真",
           "status": "passed",
           "title": "绿正控：真实 EditSession 执行地图改名命令，undo/redo 业务状态保真",
-          "duration": 1.4009169999999926,
+          "duration": 1.4414170000000013,
           "failureMessages": [],
           "meta": {},
           "tags": []
         }
       ],
-      "startTime": 1790355993298,
-      "endTime": 1790355993299.401,
+      "startTime": 1790395517794,
+      "endTime": 1790395517795.4414,
       "status": "passed",
       "message": "",
-      "name": "/Users/zhangxu/illegal/type-pal-glm-regression-lab/docs/testing/glm-architecture-regression-lab/candidates/editor/lab-startup.test.tsx"
+      "name": "/Users/zhangxu/illegal/type-pal-glm-lab-r2/docs/testing/glm-architecture-regression-lab/candidates/editor/lab-startup.test.tsx"
     },
     {
       "assertionResults": [
@@ -377,7 +417,7 @@
           "fullName": "G07 第一阶段模块边界 G07-01 scene 写 mapNum → event-system 对话历史按当前图号入账（跨模块写读顺序）",
           "status": "passed",
           "title": "G07-01 scene 写 mapNum → event-system 对话历史按当前图号入账（跨模块写读顺序）",
-          "duration": 2.238707999999974,
+          "duration": 2.6177079999999933,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -387,7 +427,7 @@
           "fullName": "G07 第一阶段模块边界 G07-02 event-system addItemToInventory：真实入账 + id0 拒收 + 两独立 GameState 互不串扰",
           "status": "passed",
           "title": "G07-02 event-system addItemToInventory：真实入账 + id0 拒收 + 两独立 GameState 互不串扰",
-          "duration": 0.3380419999999731,
+          "duration": 0.3829170000000204,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -397,7 +437,7 @@
           "fullName": "G07 第一阶段模块边界 G07-03 装备派生进战斗 opcode：0x30 重算快照消费 writeEquipmentEffectField 派生值",
           "status": "passed",
           "title": "G07-03 装备派生进战斗 opcode：0x30 重算快照消费 writeEquipmentEffectField 派生值",
-          "duration": 0.8482079999999996,
+          "duration": 0.9042080000000396,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -407,17 +447,17 @@
           "fullName": "G07 第一阶段模块边界 G07-04 装备脚本经 event 表执行：scriptOnEquip → 全局命令表 → 效果层 → 派生 getter",
           "status": "passed",
           "title": "G07-04 装备脚本经 event 表执行：scriptOnEquip → 全局命令表 → 效果层 → 派生 getter",
-          "duration": 0.2937090000000353,
+          "duration": 0.31875000000002274,
           "failureMessages": [],
           "meta": {},
           "tags": []
         }
       ],
-      "startTime": 1790355992997,
-      "endTime": 1790355993001.2937,
+      "startTime": 1790395517683,
+      "endTime": 1790395517687.3188,
       "status": "passed",
       "message": "",
-      "name": "/Users/zhangxu/illegal/type-pal-glm-regression-lab/docs/testing/glm-architecture-regression-lab/candidates/game/g07-core-boundaries.test.ts"
+      "name": "/Users/zhangxu/illegal/type-pal-glm-lab-r2/docs/testing/glm-architecture-regression-lab/candidates/game/g07-core-boundaries.test.ts"
     },
     {
       "assertionResults": [
@@ -426,7 +466,7 @@
           "fullName": "G08 迁移转换边界 G08-01 重复调用输出稳定（deep-equal 幂等）且输入深保真",
           "status": "passed",
           "title": "G08-01 重复调用输出稳定（deep-equal 幂等）且输入深保真",
-          "duration": 5.601832999999942,
+          "duration": 6.553959000000077,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -436,7 +476,7 @@
           "fullName": "G08 迁移转换边界 G08-02 soundAssetForNum 回调真实被调用（raw 0x47 playSound）且主动塑造输出",
           "status": "passed",
           "title": "G08-02 soundAssetForNum 回调真实被调用（raw 0x47 playSound）且主动塑造输出",
-          "duration": 1.5425000000000182,
+          "duration": 1.6867090000000644,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -446,7 +486,7 @@
           "fullName": "G08 迁移转换边界 G08-04 非法操作码登记 gap 不抛（gap 含源 legacyId 见证）后，下次调用照常成功",
           "status": "passed",
           "title": "G08-04 非法操作码登记 gap 不抛（gap 含源 legacyId 见证）后，下次调用照常成功",
-          "duration": 2.123291999999992,
+          "duration": 2.4209589999999253,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -456,7 +496,7 @@
           "fullName": "G08 迁移转换边界 G08-05 非法 options 预检拒绝：抛错含 636 且拒绝后可重试（预检层，非转换中段异常）",
           "status": "passed",
           "title": "G08-05 非法 options 预检拒绝：抛错含 636 且拒绝后可重试（预检层，非转换中段异常）",
-          "duration": 0.4152920000000222,
+          "duration": 0.4411250000000564,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -466,17 +506,27 @@
           "fullName": "G08 迁移转换边界 G08-06 globalRoots 进入可达图：根地址 owner=global、可达性随根存在变化（非计数回显）",
           "status": "passed",
           "title": "G08-06 globalRoots 进入可达图：根地址 owner=global、可达性随根存在变化（非计数回显）",
-          "duration": 1.145750000000021,
+          "duration": 1.1681249999999181,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G08 迁移转换边界"],
+          "fullName": "G08 迁移转换边界 G08-07 转换中段真异常：缺布局证据中段抛出；修复后断言实际 setActorSprite 输出与资源身份，并与新鲜正确运行全量对照",
+          "status": "passed",
+          "title": "G08-07 转换中段真异常：缺布局证据中段抛出；修复后断言实际 setActorSprite 输出与资源身份，并与新鲜正确运行全量对照",
+          "duration": 1.0922919999999294,
           "failureMessages": [],
           "meta": {},
           "tags": []
         }
       ],
-      "startTime": 1790355990571,
-      "endTime": 1790355990582.1458,
+      "startTime": 1790395516993,
+      "endTime": 1790395517007.0923,
       "status": "passed",
       "message": "",
-      "name": "/Users/zhangxu/illegal/type-pal-glm-regression-lab/docs/testing/glm-architecture-regression-lab/candidates/migrate/g08-conversion-isolation.test.ts"
+      "name": "/Users/zhangxu/illegal/type-pal-glm-lab-r2/docs/testing/glm-architecture-regression-lab/candidates/migrate/g08-conversion-isolation.test.ts"
     }
   ]
 }

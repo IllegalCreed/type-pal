@@ -2,11 +2,11 @@
   "schemaVersion": 1,
   "task": "ARCH-REGRESSION-LAB-GLM-1 twelve packs (GLM contribution; Codex owner/reviewer)",
   "date": "2026-09-25",
-  "startSha": "a3ceaf05199fe334bdf5dea8d2b362e34de8679b",
-  "productionFreeze": "86e928b5",
-  "branch": "codex/glm-architecture-regression-lab-r1",
-  "worktree": "/Users/zhangxu/illegal/type-pal-glm-regression-lab",
-  "freezeCheck": "git diff 86e928b5..a3ceaf05 -- packages/ scripts/ 为空",
+  "startSha": "f5f166aa",
+  "productionFreeze": "7a18eaa6",
+  "branch": "codex/glm-architecture-regression-lab-r2",
+  "worktree": "/Users/zhangxu/illegal/type-pal-glm-lab-r2",
+  "freezeCheck": "git diff $(git merge-base origin/main HEAD)..HEAD -- packages/ scripts/ 为空（当前 merge-base=7a18eaa6）",
   "environment": {
     "node": "v22.19.0",
     "pnpm": "10.29.2",
@@ -628,9 +628,8 @@
       "cleanup": "刷新丢弃",
       "artifacts": [
         {
-          "path": "/tmp/type-pal-glm-regression-lab/v01-02-name-enter-commit.png",
-          "sha256_16": "3e7e4539edcb79e4",
-          "sha256_full": "3e7e4539edcb79e495f9b407be047dfd3479a3e84440929f60de57acd19e806d"
+          "path": "/tmp/type-pal-glm-lab-r2/v01-actor-typed.png",
+          "sha256_full": "3b092c8deec7a63ca56217e821bac16156844091a840d49c444dfec424155223"
         }
       ],
       "attribution": "GLM"
@@ -761,7 +760,7 @@
         "fullName": "V04-02 精灵库媒体操作矩阵"
       },
       "expected": "—（需自包含合法资源 HTTP/decoder 正控后才能测试）",
-      "actual": "候选 worktree 缺合法精灵二进制（sprite.pal.002 登记 4031、实读 917=Vite 回退页）；资源守卫正确拒绝",
+      "actual": "【历史环境事实，r12 起已被 V04-03..08 解决】候选 worktree 缺合法精灵二进制（sprite.pal.002 登记 4031、实读 917=Vite 回退页）；资源守卫正确拒绝。r12 已按 r11 审查指引改用 buildBlankProject+正式编码器在 /tmp 生成自有 version-4 fixture（lab-v4，内存 HTTP 宿主），媒体矩阵在 V04-03..08 完成闭环；本条仅保留当时的环境事实，不再表示当前存在未解除阻断。",
       "positiveControl": "—",
       "mutation": "—",
       "cleanup": "—",
@@ -875,34 +874,704 @@
         "file": "candidates/migrate/g08-conversion-isolation.test.ts",
         "fullName": "G08 迁移转换边界 G08-06 globalRoots 进入可达图：根地址 owner=global、可达性随根存在变化（非计数回显）"
       }
+    },
+    {
+      "id": "G06-08",
+      "pack": "G06",
+      "status": "candidate-green",
+      "evidenceKind": ["executed", "test-body"],
+      "contract": "hooks.turnStart 第二频道：validateEnemies → checkEnemyAi → checkEnemyHookFlow（enemy-script.ts:556，exactKeys 只允许 ready/turnStart）",
+      "expected": "turnStart 合法 typed 流通过且输入深等",
+      "actual": "通过；深等",
+      "positiveControl": "G06-01（ready 频道）",
+      "mutation": "pending",
+      "cleanup": "—",
+      "artifacts": [],
+      "attribution": "GLM",
+      "test": {
+        "file": "candidates/content/g06-validation-crosscalls.test.ts",
+        "fullName": "G06 跨校验器递归 G06-08 正控：hooks.turnStart 频道（第二频道）经 validateEnemies 递归通过且输入深等"
+      }
+    },
+    {
+      "id": "G06-09",
+      "pack": "G06",
+      "status": "candidate-green",
+      "evidenceKind": ["executed", "test-body"],
+      "contract": "onDefeated branch then/else 递归（enemy-script.ts:589/591）嵌套 typed 组合",
+      "expected": "嵌套 branch（all 条件）+ wait 叶通过且输入深等",
+      "actual": "通过；深等",
+      "positiveControl": "G06-02",
+      "mutation": "pending",
+      "cleanup": "—",
+      "artifacts": [],
+      "attribution": "GLM",
+      "test": {
+        "file": "candidates/content/g06-validation-crosscalls.test.ts",
+        "fullName": "G06 跨校验器递归 G06-09 正控：onDefeated branch 嵌套 branch（then/else 递归 589/591）经 validateEnemies 通过"
+      }
+    },
+    {
+      "id": "G06-10",
+      "pack": "G06",
+      "status": "candidate-green",
+      "evidenceKind": ["executed", "test-body"],
+      "contract": "checkDialogueCue 选项沿 enemy→author 三入口（hooks/onDefeated/choreography）递归透传（enemy-script.ts:286-287 优先路径）",
+      "expected": "非法 cue（空 rows）三路各自被拒；合法 cue 三路整链通过（正控隔离）",
+      "actual": "三路拒 + 三路正控全过",
+      "positiveControl": "同测试内合法 cue 正控",
+      "mutation": "pending",
+      "cleanup": "—",
+      "artifacts": [],
+      "attribution": "GLM",
+      "test": {
+        "file": "candidates/content/g06-validation-crosscalls.test.ts",
+        "fullName": "G06 跨校验器递归 G06-10 options 透传：checkDialogueCue 经 hooks/onDefeated/choreography 三路递归拒绝非法 cue"
+      }
+    },
+    {
+      "id": "G08-07",
+      "pack": "G08",
+      "status": "candidate-green",
+      "evidenceKind": ["executed", "test-body"],
+      "contract": "转换中段真异常 + 输出身份断言：0x65 → translate-events.ts:1624 spriteIdForNum → resolveSpriteIdForNum 中段抛缺布局证据；修复后断言 chunk 内 setActorSprite {actor:li-xiaoyao, sprite:sprite-42} 精确命令体 + SpriteDef {id,asset:sprite.pal.042} + 实体引用一致 + 与独立新鲜正确运行全量 deep-equal；反控 g08-drop-sprite（push 置空）业务红",
+      "expected": "修复后 chunk 精确命令体非空且身份一致；失败运行与新鲜正确运行输出完全一致；丢输出反控下本例业务红",
+      "actual": "全部实测通过；g08-drop-sprite 针 detected（expected [] to deeply equal [setActorSprite]）",
+      "positiveControl": "G08-01",
+      "mutation": "pending",
+      "cleanup": "—",
+      "artifacts": [],
+      "attribution": "GLM",
+      "test": {
+        "file": "candidates/migrate/g08-conversion-isolation.test.ts",
+        "fullName": "G08 迁移转换边界 G08-07 转换中段真异常：缺布局证据中段抛出；修复后断言实际 setActorSprite 输出与资源身份，并与新鲜正确运行全量对照"
+      }
+    },
+    {
+      "id": "G01-07",
+      "pack": "G01",
+      "status": "candidate-green",
+      "evidenceKind": ["browser"],
+      "contract": "MapMode 平移手势 pointercancel 终结（onPointerCancel=cancelPointerInteraction → panRef.current=null，MapMode.tsx:2302）；可观测面 = 画布像素 SHA-256",
+      "expected": "正控：完整合成拖拽（down→move→move→up）视图平移（像素 hash 47b91a24→19ffdaad）；取消：同输入形状 down→move→pointercancel→迟到 move/up，视图冻结在取消前状态（7fb3de57==7fb3de57）。反控 g01-pan-cancel-needle.mjs（cancelPointerInteraction 不清 panRef，内存单点破坏）→ 同输入取消后视图漂移（ce853fe7→fa7b3405），证明冻结真实由取消处理导致",
+      "actual": "三向全部按预期实测（6013 干净宿主 + 6014 反控宿主）",
+      "positiveControl": "完整拖拽正控（同输入形状无取消）",
+      "mutation": "tools/g01-pan-cancel-needle.mjs（LAB_G01_NEEDLE_APPLIED，页面 __G01_NEEDLE_LIVE__ 见证）",
+      "cleanup": "测试期 setPointerCapture 合成替身（用后恢复）；无产品写盘",
+      "artifacts": [
+        {
+          "path": "/tmp/type-pal-glm-lab-r2/g01-clean-map-canvas.jpg",
+          "sha256_full": "a2d51f7d3ef1b526cbc0a22a6a86a54011516e49c76242e13332ec513846e1d8"
+        }
+      ],
+      "attribution": "GLM（IAB 浏览器实测；viewport 1440×900 CSS、DPR 1、画布缩放 38%、指针事件为页面内合成 PointerEvent 经真实 React 监听链、迟到移动为真实 CDP 鼠标事件）",
+      "test": {
+        "file": "(浏览器操作链)",
+        "fullName": ""
+      }
+    },
+    {
+      "id": "G06-11",
+      "pack": "G06",
+      "status": "candidate-green",
+      "evidenceKind": ["executed", "test-body"],
+      "contract": "author 七递归入口逐点 options 透传证明：branch.then:661 / branch.else:663 / loop.body:669 / startBattle.onLose:708 / onFlee:710 / teleportOut.onFail:722 / confirm.onNo:726，每入口嵌套 dialog cue 带非法 identity（madeUp）→ checkAuthorDialogueCue 在嵌套深度拒绝（path 精确）；合法 narration → 通过",
+      "expected": "七入口逐一：非法 identity 嵌套深度拒绝（cue.identity.kind 路径）；合法通过",
+      "actual": "7/7 入口全部按预期",
+      "positiveControl": "同测试内合法 identity 正控",
+      "mutation": "pending",
+      "cleanup": "—",
+      "artifacts": [],
+      "attribution": "GLM",
+      "test": {
+        "file": "candidates/content/g06-validation-crosscalls.test.ts",
+        "fullName": "G06 跨校验器递归 G06-11 去重矩阵：author 七个递归入口逐点验证校验选项沿嵌套深度透传（非空臂 + 非法 identity 门）"
+      }
+    },
+    {
+      "id": "V01-05",
+      "pack": "V01",
+      "status": "candidate-green",
+      "evidenceKind": ["browser"],
+      "contract": "物品：名称 fill+Enter 提交（列表/撤销：修改物品 实测）+ 撤销回退 观音符（DsDraftTextInput/DsSelect 提交→会话历史→撤销按钮转可用并回退）",
+      "expected": "提交后撤销按钮转可用且标签带操作名；撤销后业务值回退",
+      "actual": "全部实测通过",
+      "positiveControl": "同输入未编辑态",
+      "mutation": "—",
+      "cleanup": "撤销即回退（dev 内存快照，无写盘）",
+      "artifacts": [
+        {
+          "path": "/tmp/type-pal-glm-lab-r2/v01-item-committed.png",
+          "sha256_full": "16770f56c644e0c4654387f3c5dd43def5fe1b3a602ac990c3d3da3ed9714c59"
+        }
+      ],
+      "attribution": "GLM（IAB 浏览器实测；1440×900 CSS、DPR 1；r11 批次 Enter 经页面内合成 KeyboardEvent 投递，r12 键盘矩阵改用 Playwright 可信按键（真实键事件）复测全通过；提交/撤销窄流程另有 Codex r11 独立浏览器复验）",
+      "test": {
+        "file": "(浏览器操作链)",
+        "fullName": ""
+      }
+    },
+    {
+      "id": "V01-06",
+      "pack": "V01",
+      "status": "candidate-green",
+      "evidenceKind": ["browser"],
+      "contract": "技能：名字 fill+Enter 提交（撤销：修改技能）+ 撤销回退 梦蛇（DsDraftTextInput/DsSelect 提交→会话历史→撤销按钮转可用并回退）",
+      "expected": "提交后撤销按钮转可用且标签带操作名；撤销后业务值回退",
+      "actual": "全部实测通过",
+      "positiveControl": "同输入未编辑态",
+      "mutation": "—",
+      "cleanup": "撤销即回退（dev 内存快照，无写盘）",
+      "artifacts": [
+        {
+          "path": "/tmp/type-pal-glm-lab-r2/v01-skill-reverted.png",
+          "sha256_full": "381f8b9bf2e9cdf28ddce4333f51ba41c6fcd083b57764ae05ae6370164786b6"
+        }
+      ],
+      "attribution": "GLM（IAB 浏览器实测；1440×900 CSS、DPR 1；r11 批次 Enter 经页面内合成 KeyboardEvent 投递，r12 键盘矩阵改用 Playwright 可信按键（真实键事件）复测全通过；提交/撤销窄流程另有 Codex r11 独立浏览器复验）",
+      "test": {
+        "file": "(浏览器操作链)",
+        "fullName": ""
+      }
+    },
+    {
+      "id": "V01-07",
+      "pack": "V01",
+      "status": "candidate-green",
+      "evidenceKind": ["browser"],
+      "contract": "敌队：槽3 空槽→灯笼 combobox 提交（撤销：修改敌队）+ 撤销回退 空槽（DsDraftTextInput/DsSelect 提交→会话历史→撤销按钮转可用并回退）",
+      "expected": "提交后撤销按钮转可用且标签带操作名；撤销后业务值回退",
+      "actual": "全部实测通过；【r12 阶段更正】本条截图 v01-enemy-team-reverted.png 经 Codex r11 独立目视核对实为**提交后**单帧（槽3 仍显示 灯笼·enemy-399，列表标题仍含灯笼），不能作为撤销回退的图像证明；撤销回退由本席会话内 DOM 断言（槽3 恢复空槽、撤销按钮转禁用）与 Codex r11 独立浏览器复验（灯笼→空槽、撤销禁用）闭合。",
+      "positiveControl": "同输入未编辑态",
+      "mutation": "—",
+      "cleanup": "撤销即回退（dev 内存快照，无写盘）",
+      "artifacts": [
+        {
+          "path": "/tmp/type-pal-glm-lab-r2/v01-enemy-team-reverted.png",
+          "sha256_full": "7c76838f80f525f84586595d6a459099ab54a783091bf82cbb1f5d3f782e7d43"
+        }
+      ],
+      "attribution": "GLM（IAB 浏览器实测；1440×900 CSS、DPR 1；r11 批次 Enter 经页面内合成 KeyboardEvent 投递，r12 键盘矩阵改用 Playwright 可信按键（真实键事件）复测全通过；提交/撤销窄流程另有 Codex r11 独立浏览器复验）",
+      "test": {
+        "file": "(浏览器操作链)",
+        "fullName": ""
+      }
+    },
+    {
+      "id": "V01-08",
+      "pack": "V01",
+      "status": "candidate-green",
+      "evidenceKind": ["browser"],
+      "contract": "战场：名称 fill+Enter 提交（撤销：修改战场）+ 撤销回退 空名（DsDraftTextInput/DsSelect 提交→会话历史→撤销按钮转可用并回退）",
+      "expected": "提交后撤销按钮转可用且标签带操作名；撤销后业务值回退",
+      "actual": "全部实测通过；【r12 阶段更正】本条截图 v01-battlefield-reverted.png 经 Codex r11 独立目视核对实为**提交后**单帧（名称仍为输入值「未命名战场探」），不能作为撤销回退的图像证明；撤销回退由本席会话内 DOM 断言（名称恢复空、撤销按钮转禁用）与 Codex r11 独立浏览器复验（名称实际 value 为空、标题回 战场#006、撤销禁用）闭合。",
+      "positiveControl": "同输入未编辑态",
+      "mutation": "—",
+      "cleanup": "撤销即回退（dev 内存快照，无写盘）",
+      "artifacts": [
+        {
+          "path": "/tmp/type-pal-glm-lab-r2/v01-battlefield-reverted.png",
+          "sha256_full": "4a3973f1cf50e50faa6a1558774e97cba5c1db8ce0fab5b971ba39a83b2783ab"
+        }
+      ],
+      "attribution": "GLM（IAB 浏览器实测；1440×900 CSS、DPR 1；r11 批次 Enter 经页面内合成 KeyboardEvent 投递，r12 键盘矩阵改用 Playwright 可信按键（真实键事件）复测全通过；提交/撤销窄流程另有 Codex r11 独立浏览器复验）",
+      "test": {
+        "file": "(浏览器操作链)",
+        "fullName": ""
+      }
+    },
+    {
+      "id": "V01-09",
+      "pack": "V01",
+      "status": "candidate-green",
+      "evidenceKind": ["browser"],
+      "contract": "模拟器：试打方案名 fill+Enter 提交（撤销：编辑战斗模拟器配置）+ 撤销回退 三人成型（DsDraftTextInput/DsSelect 提交→会话历史→撤销按钮转可用并回退）",
+      "expected": "提交后撤销按钮转可用且标签带操作名；撤销后业务值回退",
+      "actual": "全部实测通过",
+      "positiveControl": "同输入未编辑态",
+      "mutation": "—",
+      "cleanup": "撤销即回退（dev 内存快照，无写盘）",
+      "artifacts": [
+        {
+          "path": "/tmp/type-pal-glm-lab-r2/v01-simulator-reverted.png",
+          "sha256_full": "4ad4c9c472c3128eb6325e08fdab5e29336f56e9b240e07d1d9b01452cf30cf9"
+        }
+      ],
+      "attribution": "GLM（IAB 浏览器实测；1440×900 CSS、DPR 1；r11 批次 Enter 经页面内合成 KeyboardEvent 投递，r12 键盘矩阵改用 Playwright 可信按键（真实键事件）复测全通过；提交/撤销窄流程另有 Codex r11 独立浏览器复验）",
+      "test": {
+        "file": "(浏览器操作链)",
+        "fullName": ""
+      }
+    },
+    {
+      "id": "G06-D1",
+      "pack": "G06",
+      "status": "reproduced-defect",
+      "evidenceKind": ["executed", "test-body"],
+      "contract": "R10-1 产品缺陷（Codex 发现，GLM 显式诊断复现）：author-script-core.ts:712 checkBattleChoreography 漏传 options → author-script.ts:111 checkAuthorDialogueCue 不到达 → startBattle.choreography 内 dialog cue 缺 identity 被漏检（直接路径同 cue 被拒）",
+      "expected": "choreography 内 dialog cue 缺 identity 应与直接路径同样拒绝（diagnostics/lab-choreography-cue-identity-leak.test.ts 第二断言）",
+      "actual": "当前产品未拒绝 → 诊断按应有行为书写并保持失败（1 failed/2 passed），交 Codex 产品修复；合法 identity 两路均通过（修复不收紧合法域）",
+      "positiveControl": "直接路径拒绝 + 合法 identity 两路通过",
+      "mutation": "—（真实产品缺陷，非注入）",
+      "cleanup": "—",
+      "artifacts": [],
+      "attribution": "GLM 诊断复现；缺陷为 Codex r10 审查发现",
+      "test": {
+        "file": "diagnostics/lab-choreography-cue-identity-leak.test.ts",
+        "fullName": "[reproduced-defect] 同一 cue 经 startBattle.choreography 应同样被拒（当前产品漏检 → 本断言失败）"
+      }
+    },
+    {
+      "id": "V01-10",
+      "pack": "V01",
+      "status": "candidate-green",
+      "evidenceKind": ["browser"],
+      "contract": "物品目录搜索框（input[name=item-search]）：真实输入过滤、点击选中、清空恢复",
+      "expected": "过滤 234→1、恢复 234；选中走点击",
+      "actual": "输入「玉菩提」列表 234→1（玉菩提73）；点击选中进入检查器；清空后恢复 234 项。如实登记：搜索框内按 Enter 不产生选中（产品无该行为），选中需点击结果——按观察记录，不称 Enter 选中。",
+      "positiveControl": "同输入未编辑/正常态",
+      "mutation": "—",
+      "cleanup": "dev 内存快照/自有 fixture 内存宿主，无写盘；撤销或恢复原值",
+      "artifacts": [
+        {
+          "path": "/tmp/type-pal-glm-lab-r2/v01-undo-redo-toolbar.png",
+          "sha256_full": "8dbe8e863f9b13197b36da19444b82553524c975a45e0fdf926fcb5489e4a672"
+        }
+      ],
+      "attribution": "GLM（IAB 浏览器实测，Playwright 可信键事件/真实 CDP 指针；viewport/DPR 见 actual）",
+      "test": {
+        "file": "(浏览器操作链)",
+        "fullName": ""
+      }
+    },
+    {
+      "id": "V01-11",
+      "pack": "V01",
+      "status": "candidate-green",
+      "evidenceKind": ["browser"],
+      "contract": "Tab 焦点走查：名称输入框 Tab 出发，经数字步进器按钮序列",
+      "expected": "真实 Tab 键按 DOM 序移动焦点",
+      "actual": "名称(#item-name) →Tab→ 按钮「减少买价」→Tab→ 按钮「增加买价」（document.activeElement 逐步断言，真实可信键事件）",
+      "positiveControl": "同输入未编辑/正常态",
+      "mutation": "—",
+      "cleanup": "dev 内存快照/自有 fixture 内存宿主，无写盘；撤销或恢复原值",
+      "artifacts": [
+        {
+          "path": "/tmp/type-pal-glm-lab-r2/v01-dialog-focus-return.png",
+          "sha256_full": "66df5c52045fae714e951bb2d1026b26f084346bcbd48276c765a3c027ebe1a8"
+        }
+      ],
+      "attribution": "GLM（IAB 浏览器实测，Playwright 可信键事件/真实 CDP 指针；viewport/DPR 见 actual）",
+      "test": {
+        "file": "(浏览器操作链)",
+        "fullName": ""
+      }
+    },
+    {
+      "id": "V01-12",
+      "pack": "V01",
+      "status": "candidate-green",
+      "evidenceKind": ["browser"],
+      "contract": "字段 Enter 提交 + blur 不重复提交（DsDraftTextInput committedRef 合同）",
+      "expected": "Enter 提交恰一步；随后 blur 不产生第二步；一次撤销复原",
+      "actual": "名称 观音符→观音符K：Enter 后撤销=「撤销：修改物品」可用、标题/列表同步；点击其他对象触发 blur 后撤销仍为同一步；撤销恰一次 → 名称恢复 观音符、撤销转禁用（历史清空）",
+      "positiveControl": "同输入未编辑/正常态",
+      "mutation": "—",
+      "cleanup": "dev 内存快照/自有 fixture 内存宿主，无写盘；撤销或恢复原值",
+      "artifacts": [
+        {
+          "path": "/tmp/type-pal-glm-lab-r2/v01-undo-redo-toolbar.png",
+          "sha256_full": "8dbe8e863f9b13197b36da19444b82553524c975a45e0fdf926fcb5489e4a672"
+        }
+      ],
+      "attribution": "GLM（IAB 浏览器实测，Playwright 可信键事件/真实 CDP 指针；viewport/DPR 见 actual）",
+      "test": {
+        "file": "(浏览器操作链)",
+        "fullName": ""
+      }
+    },
+    {
+      "id": "V01-13",
+      "pack": "V01",
+      "status": "candidate-green",
+      "evidenceKind": ["browser"],
+      "contract": "Escape 取消草稿：脏字段 Escape 后回到已提交值且零历史",
+      "expected": "值还原、不产生撤销步",
+      "actual": "名称输入 观音符ZZ 后 Escape：字段值恢复 观音符，撤销保持禁用（零历史），焦点按合同 blur（body）",
+      "positiveControl": "同输入未编辑/正常态",
+      "mutation": "—",
+      "cleanup": "dev 内存快照/自有 fixture 内存宿主，无写盘；撤销或恢复原值",
+      "artifacts": [],
+      "attribution": "GLM（IAB 浏览器实测，Playwright 可信键事件/真实 CDP 指针；viewport/DPR 见 actual）",
+      "test": {
+        "file": "(浏览器操作链)",
+        "fullName": ""
+      }
+    },
+    {
+      "id": "V01-14",
+      "pack": "V01",
+      "status": "candidate-green",
+      "evidenceKind": ["browser"],
+      "contract": "方向键步进：买价 spinbutton 真实 ArrowUp/Down + Enter 提交 + blur 提交变体",
+      "expected": "±1 步进、Enter/blur 均恰一次提交",
+      "actual": "买价 150 →ArrowUp→ 151 →Enter→ 撤销=「撤销：修改物品」；撤销复原 150。变体：ArrowUp×2=152 不按 Enter 直接 blur → 恰一步提交 → 撤销复原 150",
+      "positiveControl": "同输入未编辑/正常态",
+      "mutation": "—",
+      "cleanup": "dev 内存快照/自有 fixture 内存宿主，无写盘；撤销或恢复原值",
+      "artifacts": [],
+      "attribution": "GLM（IAB 浏览器实测，Playwright 可信键事件/真实 CDP 指针；viewport/DPR 见 actual）",
+      "test": {
+        "file": "(浏览器操作链)",
+        "fullName": ""
+      }
+    },
+    {
+      "id": "V01-15",
+      "pack": "V01",
+      "status": "candidate-green",
+      "evidenceKind": ["browser"],
+      "contract": "对话框关闭焦点还原：图标选择对话框（内含搜索框自动聚焦）关闭后焦点还原",
+      "expected": "焦点还原到打开前锚点，不丢失到 body",
+      "actual": "打开前焦点在目录搜索框（前序操作遗留）→ 对话框内焦点在其搜索 input → 关闭后 document.activeElement 还原为目录搜索框（aria=搜索物品名称或稳定 ID），对话框移除。按「还原打开前焦点」语义登记",
+      "positiveControl": "同输入未编辑/正常态",
+      "mutation": "—",
+      "cleanup": "dev 内存快照/自有 fixture 内存宿主，无写盘；撤销或恢复原值",
+      "artifacts": [
+        {
+          "path": "/tmp/type-pal-glm-lab-r2/v01-dialog-focus-return.png",
+          "sha256_full": "66df5c52045fae714e951bb2d1026b26f084346bcbd48276c765a3c027ebe1a8"
+        }
+      ],
+      "attribution": "GLM（IAB 浏览器实测，Playwright 可信键事件/真实 CDP 指针；viewport/DPR 见 actual）",
+      "test": {
+        "file": "(浏览器操作链)",
+        "fullName": ""
+      }
+    },
+    {
+      "id": "V02-03",
+      "pack": "V02",
+      "status": "candidate-green",
+      "evidenceKind": ["browser"],
+      "contract": "分隔条键盘合同：左/右侧宽度 + 脚本高度三条 hr.panel-resizer-hit，方向键 ±16、Home 重置、双击重置",
+      "expected": "恰 ±16 步进；Home/双击回默认值",
+      "actual": "左：194→ArrowRight 210→ArrowLeft 194→×2 226→Home 194；右：290→ArrowRight×2 258（右侧语义：ArrowRight 收窄）→双击 290；脚本高度：420→ArrowDown 404→ArrowUp 420。aria-valuenow 与面板实际盒宽一致（outlinerW 同步断言）",
+      "positiveControl": "同输入未编辑/正常态",
+      "mutation": "—",
+      "cleanup": "dev 内存快照/自有 fixture 内存宿主，无写盘；撤销或恢复原值",
+      "artifacts": [],
+      "attribution": "GLM（IAB 浏览器实测，Playwright 可信键事件/真实 CDP 指针；viewport/DPR 见 actual）",
+      "test": {
+        "file": "(浏览器操作链)",
+        "fullName": ""
+      }
+    },
+    {
+      "id": "V02-04",
+      "pack": "V02",
+      "status": "candidate-green",
+      "evidenceKind": ["browser"],
+      "contract": "分隔条真实指针拖拽 + 三视口矩阵（1440×900 / 1280×800 / 720×640 CSS，DPR 1）",
+      "expected": "拖拽量=面板值变化量；三视口下合同一致",
+      "actual": "1440：CDP 真实拖拽 194→260（+66=拖距）→双击复原 194；1280×800：ArrowRight 194→210、拖拽 +40 →250、Home→194；720×640：同合同 194→210→拖 250→Home 194（innerWidth/innerHeight 断言真实 CSS viewport）",
+      "positiveControl": "同输入未编辑/正常态",
+      "mutation": "—",
+      "cleanup": "dev 内存快照/自有 fixture 内存宿主，无写盘；撤销或恢复原值",
+      "artifacts": [
+        {
+          "path": "/tmp/type-pal-glm-lab-r2/v02-divider-1280.png",
+          "sha256_full": "285c2a8a656e2a98f7b322fe30396ac710094e931b0ed3ee603caccb82abb00b"
+        },
+        {
+          "path": "/tmp/type-pal-glm-lab-r2/v02-divider-720.png",
+          "sha256_full": "7f070ec531c71c2c5df881af3ce61bd0e222343c60a3bfea7958530787b7bb8b"
+        }
+      ],
+      "attribution": "GLM（IAB 浏览器实测，Playwright 可信键事件/真实 CDP 指针；viewport/DPR 见 actual）",
+      "test": {
+        "file": "(浏览器操作链)",
+        "fullName": ""
+      }
+    },
+    {
+      "id": "V02-05",
+      "pack": "V02",
+      "status": "candidate-green",
+      "evidenceKind": ["browser"],
+      "contract": "隐藏/恢复、内容滚动、与 Inspector Tab 分离；地图工作区同合同",
+      "expected": "隐藏后面板与分隔条不可见、恢复后宽度保持；脚本内容可滚动；调宽不改 Tab 选中",
+      "actual": "工具栏「对象列表」切换：隐藏后 .outliner 无盒、分隔条不可见；恢复后宽度保持 194。脚本抽屉正文 .canonical-script-drawer-body scrollH 866>clientH 380，滚动 0→485.5（s000 进场脚本真实 1 步骤内容，非空态）。右分隔条调整前后 Inspector Tab 选中（摘要/进场脚本）不变。地图工作区 map-020 同样存在两条分隔条，方向键步进序列 210/226/210/194/Home 194 精确（挂载初期一次 184→179 瞬态已用序列探针排除）",
+      "positiveControl": "同输入未编辑/正常态",
+      "mutation": "—",
+      "cleanup": "dev 内存快照/自有 fixture 内存宿主，无写盘；撤销或恢复原值",
+      "artifacts": [
+        {
+          "path": "/tmp/type-pal-glm-lab-r2/v02-map-workspace.png",
+          "sha256_full": "72403caf5287ffc531544b2b8a8bcb7e3bc2f29a58de65afce5d631aef5af3d3"
+        }
+      ],
+      "attribution": "GLM（IAB 浏览器实测，Playwright 可信键事件/真实 CDP 指针；viewport/DPR 见 actual）",
+      "test": {
+        "file": "(浏览器操作链)",
+        "fullName": ""
+      }
+    },
+    {
+      "id": "V03-02",
+      "pack": "V03",
+      "status": "candidate-green",
+      "evidenceKind": ["browser"],
+      "contract": "自有内存宿主 lab-v4：精灵库 A→B 正常切换 + 目录正控（catalog↔页面↔HTTP 三方一致）",
+      "expected": "切换后身份一致；页面显示 SHA/bytes 与目录、HTTP 字节一致",
+      "actual": "选 sprite.lab.mirror：标题/AssetId 切换、12 帧解码渲染；资源信息面板 SHA-256 35c00cea…（=生成器目录）、文件大小 212（=catalog bytes）、路径 assets/generated/sprites/mirror.rle；请求台账记录 mirror.rle 200",
+      "positiveControl": "同输入未编辑/正常态",
+      "mutation": "—",
+      "cleanup": "dev 内存快照/自有 fixture 内存宿主，无写盘；撤销或恢复原值",
+      "artifacts": [
+        {
+          "path": "/tmp/type-pal-glm-lab-r2/v03-sprite-mirror-normal.png",
+          "sha256_full": "80ed521d134c6409aaaf240973421ac192536f7aabe56b9991f4c3a0f047c1dd"
+        }
+      ],
+      "attribution": "GLM（IAB 浏览器实测，Playwright 可信键事件/真实 CDP 指针；viewport/DPR 见 actual）",
+      "test": {
+        "file": "(浏览器操作链)",
+        "fullName": ""
+      }
+    },
+    {
+      "id": "V03-03",
+      "pack": "V03",
+      "status": "candidate-green",
+      "evidenceKind": ["browser"],
+      "contract": "A/B 乱序竞态：宿主注入 mirror.rle 2500ms 受控迟到；先开 A(mirror) 再开 B(starter)",
+      "expected": "B 渲染后，A 迟到响应不得覆盖 B",
+      "actual": "选 mirror 后可见 pending 态「正在解析帧资源 sprite.lab.mirror…」；随即选 hero（缓存即时）→ 标题/AssetId=占位主角；mirror.rle 在 2501ms 落地（宿主台账 200/ms=2501）后标题/AssetId 仍为占位主角——旧结果未覆盖新对象",
+      "positiveControl": "同输入未编辑/正常态",
+      "mutation": "—",
+      "cleanup": "dev 内存快照/自有 fixture 内存宿主，无写盘；撤销或恢复原值",
+      "artifacts": [
+        {
+          "path": "/tmp/type-pal-glm-lab-r2/v03-sprite-out-of-order.png",
+          "sha256_full": "dd8ef91b46e04c4b75481919c40b2af5f9746561c0f07b46847e70f7a17a14b0"
+        }
+      ],
+      "attribution": "GLM（IAB 浏览器实测，Playwright 可信键事件/真实 CDP 指针；viewport/DPR 见 actual）",
+      "test": {
+        "file": "(浏览器操作链)",
+        "fullName": ""
+      }
+    },
+    {
+      "id": "V03-04",
+      "pack": "V03",
+      "status": "candidate-green",
+      "evidenceKind": ["browser"],
+      "contract": "读取失败三态：一次性 500（自动重试吸收）/ 持续 500（错误可见）/ 解除后重试恢复",
+      "expected": "失败可见可操作；解除后恢复；三态同输入",
+      "actual": "一次性 500（蓝图标路径）：产品读取器自动重试，台账 1×500+3×200，页面无错误泄漏即渲染（恢复力观察如实登记）；持续 500（宽图路径）：预览区显示业务错误文本「httpSource projects/lab-v4/…4d882d1c….png -> 500」+「读取图片…」占位；disarm 后重选同对象 → 渐变图渲染、无 500 残留",
+      "positiveControl": "同输入未编辑/正常态",
+      "mutation": "—",
+      "cleanup": "dev 内存快照/自有 fixture 内存宿主，无写盘；撤销或恢复原值",
+      "artifacts": [
+        {
+          "path": "/tmp/type-pal-glm-lab-r2/v03-image-read-failure.png",
+          "sha256_full": "a68cea3ac5e7519c6645baf24be452f3f085d46466e2b990d3c45c3259aa246a"
+        },
+        {
+          "path": "/tmp/type-pal-glm-lab-r2/v03-image-recovered.png",
+          "sha256_full": "680bc1e64a5402fd412e0a60ea46414008bf9b5cbca21f70a3d88d724eda0b78"
+        }
+      ],
+      "attribution": "GLM（IAB 浏览器实测，Playwright 可信键事件/真实 CDP 指针；viewport/DPR 见 actual）",
+      "test": {
+        "file": "(浏览器操作链)",
+        "fullName": ""
+      }
+    },
+    {
+      "id": "V04-03",
+      "pack": "V04",
+      "status": "candidate-green",
+      "evidenceKind": ["browser"],
+      "contract": "catalog bytes/SHA/decoder 三方正控：正式编码器字节（内置最小 PNG 编码器+种子 RLE）→ 目录记录 → HTTP 字节 → 应用解码显示",
+      "expected": "四方一致且解码成功",
+      "actual": "node 端生成器断言目录 sha256/bytes 与真实字节一致；页内 fetch HTTP 字节 sha256=d5f16e4c…（=目录=检查器「文件」路径）、大小 102 B（=目录）；精灵 mirror SHA-256 35c00cea…、212 见 V03-02；蓝图标 24×24 解码渲染（像素截图与 fixture 定义一致：蓝底红边）",
+      "positiveControl": "同输入未编辑/正常态",
+      "mutation": "—",
+      "cleanup": "dev 内存快照/自有 fixture 内存宿主，无写盘；撤销或恢复原值",
+      "artifacts": [
+        {
+          "path": "/tmp/type-pal-glm-lab-r2/v04-image-canvas-1to1.png",
+          "sha256_full": "310301897d919dc0615c4e4212bfecc8a3d6f77544c92eca98199dfd6007ebee"
+        },
+        {
+          "path": "/tmp/type-pal-glm-lab-r2/v04-image-fit-clip.png",
+          "sha256_full": "0fef84f4eb7c2b66b9119f82cc54c41c4b1046f4ccc330d1fbc4a0adc50d9bc5"
+        }
+      ],
+      "attribution": "GLM（IAB 浏览器实测，Playwright 可信键事件/真实 CDP 指针；viewport/DPR 见 actual）",
+      "test": {
+        "file": "(浏览器操作链)",
+        "fullName": ""
+      }
+    },
+    {
+      "id": "V04-04",
+      "pack": "V04",
+      "status": "candidate-green",
+      "evidenceKind": ["browser"],
+      "contract": "媒体预览缩放矩阵：适合(fit)/1:1/±步进（media-preview-viewport 合同）",
+      "expected": "1:1 渲染=自然尺寸；步进×1.25；fit 回填",
+      "actual": "24×24 蓝图标：fit=800%（渲染 192×192=24×8）；1:1=100%（渲染 24×24=自然尺寸）；放大→125%（30×30）；适合→回 800%/192；slider aria-valuenow 与百分比同步；切宽图后 fit 重算 256%（320×240）",
+      "positiveControl": "同输入未编辑/正常态",
+      "mutation": "—",
+      "cleanup": "dev 内存快照/自有 fixture 内存宿主，无写盘；撤销或恢复原值",
+      "artifacts": [
+        {
+          "path": "/tmp/type-pal-glm-lab-r2/v04-image-viewport-clip.png",
+          "sha256_full": "37a6cf245df7c7fe2fe2b5225d9004d385a8e3984eb9cd1956b50961d770204e"
+        }
+      ],
+      "attribution": "GLM（IAB 浏览器实测，Playwright 可信键事件/真实 CDP 指针；viewport/DPR 见 actual）",
+      "test": {
+        "file": "(浏览器操作链)",
+        "fullName": ""
+      }
+    },
+    {
+      "id": "V04-05",
+      "pack": "V04",
+      "status": "candidate-green",
+      "evidenceKind": ["browser"],
+      "contract": "切对象身份一致：蓝↔宽图切换后标题/AssetId/文件/尺寸/预览同步",
+      "expected": "选中与预览对象身份一致，无串扰",
+      "actual": "切 item-icon.lab.wide：标题/AssetId/文件 4d882d1c…（=目录）、320×240、fit 重算 256%、预览渲染渐变宽图",
+      "positiveControl": "同输入未编辑/正常态",
+      "mutation": "—",
+      "cleanup": "dev 内存快照/自有 fixture 内存宿主，无写盘；撤销或恢复原值",
+      "artifacts": [
+        {
+          "path": "/tmp/type-pal-glm-lab-r2/v04-image-sidebar-scrolled.png",
+          "sha256_full": "8c73cc3c5dcccbd23ddf75f85637bf68a196b96c99cd01f71f54c01b925f8aca"
+        }
+      ],
+      "attribution": "GLM（IAB 浏览器实测，Playwright 可信键事件/真实 CDP 指针；viewport/DPR 见 actual）",
+      "test": {
+        "file": "(浏览器操作链)",
+        "fullName": ""
+      }
+    },
+    {
+      "id": "V04-06",
+      "pack": "V04",
+      "status": "candidate-green",
+      "evidenceKind": ["browser"],
+      "contract": "替换→revision 刷新：同 AssetId 替换 PNG（正式 image-import 管线）后目录记录/文件路径/预览刷新",
+      "expected": "AssetId 不变；sha256/bytes/预览刷新；替换可撤销",
+      "actual": "宽图 153053B/4d882d1c… → 替换 24×24 绿底黄点 PNG：文件路径→fbecb536…、大小 342B、列表条目数不变（同 id 替换）、预览 canvas 像素=绿底黄点、尺寸行 24×24；蓝图标同样替换 d5f16e4c…→fbecb536…；工具栏出现「撤销：导入资源」（替换走可撤销命令）。两次独立浏览器内编码同像素得到同 sha（fbecb536 相同）——编码确定性旁证",
+      "positiveControl": "同输入未编辑/正常态",
+      "mutation": "—",
+      "cleanup": "dev 内存快照/自有 fixture 内存宿主，无写盘；撤销或恢复原值",
+      "artifacts": [
+        {
+          "path": "/tmp/type-pal-glm-lab-r2/v04-image-replaced-clip.png",
+          "sha256_full": "3fe63061b127c7c0b976e63a543d9879e387690075efdb0773e9b01f7f3f6d23"
+        },
+        {
+          "path": "/tmp/type-pal-glm-lab-r2/v04-icon-blue-replaced-canvas.png",
+          "sha256_full": "fbecb5361b8b028b8c0abb4e57c59088b10bf55d9932420f403f805160e1c8a5"
+        }
+      ],
+      "attribution": "GLM（IAB 浏览器实测，Playwright 可信键事件/真实 CDP 指针；viewport/DPR 见 actual）",
+      "test": {
+        "file": "(浏览器操作链)",
+        "fullName": ""
+      }
+    },
+    {
+      "id": "V04-07",
+      "pack": "V04",
+      "status": "candidate-green",
+      "evidenceKind": ["browser"],
+      "contract": "引用刷新：item-001 经选择器绑定 item-icon.lab.blue（items[0].icon）→ 替换后引用保留、消费方图标刷新",
+      "expected": "替换保留引用；引用面板与物品页图标同步刷新",
+      "actual": "绑定后蓝图标「引用 1」+引用面板显示 物品 item-001/items[0].icon 与「替换图片会保留这些引用」语义、删除被阻断（阻断删除 1 处）；替换后：引用仍 1 处、关系不变；物品页三处图标（页眉/侧栏/图标资源预览）刷新为绿底黄点、AssetId 仍 item-icon.lab.blue",
+      "positiveControl": "同输入未编辑/正常态",
+      "mutation": "—",
+      "cleanup": "dev 内存快照/自有 fixture 内存宿主，无写盘；撤销或恢复原值",
+      "artifacts": [
+        {
+          "path": "/tmp/type-pal-glm-lab-r2/v04-item-icon-bound.png",
+          "sha256_full": "d9ffaabb3f129b0da8ff46e454fe55948503857c6a2a9a27fa3fc050aa790706"
+        },
+        {
+          "path": "/tmp/type-pal-glm-lab-r2/v04-icon-replaced-refs.png",
+          "sha256_full": "62df668b6686328b3ce7c50f12f826dca48786fffe07af94312277d35711f766"
+        },
+        {
+          "path": "/tmp/type-pal-glm-lab-r2/v04-item-icon-refreshed.png",
+          "sha256_full": "87c08545ad414fc7a272a9d1be7f984982562ea7d36ab10d264505167ec16524"
+        }
+      ],
+      "attribution": "GLM（IAB 浏览器实测，Playwright 可信键事件/真实 CDP 指针；viewport/DPR 见 actual）",
+      "test": {
+        "file": "(浏览器操作链)",
+        "fullName": ""
+      }
+    },
+    {
+      "id": "V04-08",
+      "pack": "V04",
+      "status": "candidate-green",
+      "evidenceKind": ["browser"],
+      "contract": "长名称与侧栏滚动：超长 label 条目在 1280×720 视口下侧栏溢出滚动",
+      "expected": "溢出可滚动、滚到底部长名条目完整可见",
+      "actual": "10 个 item-icon（含超长名称宽图与 8 个色样）；720 高度下 .image-asset-list scrollH 695 > clientH 527，滚动到底 scrollTop=168（=695−527），长名条目进入视口（top=616<720）",
+      "positiveControl": "同输入未编辑/正常态",
+      "mutation": "—",
+      "cleanup": "dev 内存快照/自有 fixture 内存宿主，无写盘；撤销或恢复原值",
+      "artifacts": [
+        {
+          "path": "/tmp/type-pal-glm-lab-r2/v04-image-sidebar-scrolled.png",
+          "sha256_full": "8c73cc3c5dcccbd23ddf75f85637bf68a196b96c99cd01f71f54c01b925f8aca"
+        }
+      ],
+      "attribution": "GLM（IAB 浏览器实测，Playwright 可信键事件/真实 CDP 指针；viewport/DPR 见 actual）",
+      "test": {
+        "file": "(浏览器操作链)",
+        "fullName": ""
+      }
     }
   ],
   "groupTotals": {
-    "total": 45,
+    "total": 75,
     "byStatus": {
-      "candidate-green": 43,
+      "candidate-green": 72,
       "existing-proof": 1,
-      "blocked-environment": 1
+      "blocked-environment": 1,
+      "reproduced-defect": 1
     },
     "perPack": {
       "startup": 1,
-      "G01": 6,
+      "G01": 7,
       "G02": 3,
       "G03": 3,
       "G04": 4,
       "G05": 4,
-      "G06": 7,
+      "G06": 12,
       "G07": 4,
-      "G08": 5,
-      "V01": 3,
-      "V02": 2,
-      "V03": 1,
-      "V04": 2
+      "G08": 6,
+      "V01": 14,
+      "V02": 5,
+      "V03": 4,
+      "V04": 8
     }
   },
   "commands": [
     {
-      "cmd": "git worktree add /Users/zhangxu/illegal/type-pal-glm-regression-lab -b codex/glm-architecture-regression-lab-r1 a3ceaf05",
+      "cmd": "git worktree add /Users/zhangxu/illegal/type-pal-glm-lab-r2 -b codex/glm-architecture-regression-lab-r2 f5f166aa",
       "exit": 0
     },
     {
@@ -914,11 +1583,11 @@
       "exit": 0
     },
     {
-      "cmd": "npx vitest run --config docs/testing/glm-architecture-regression-lab/configs/candidates.vitest.mts  # 全部候选（37 项=启动1+G01 6+G02 3+G03 3+G04 4+G05 4+G06 7+G07 4+G08 5）",
+      "cmd": "npx vitest run --config docs/testing/glm-architecture-regression-lab/configs/candidates.vitest.mts  # 全部候选（42 项=启动1+G01 6+G02 3+G03 3+G04 4+G05 4+G06 10+G07 4+G08 6）",
       "exit": 0
     },
     {
-      "cmd": "node docs/testing/glm-architecture-regression-lab/tools/red-control.mjs  # 负控 v2 五针（startup/g05卸载清理/g03 committed终态/g05即时wait/g08忽略图根）verdict=detected",
+      "cmd": "node docs/testing/glm-architecture-regression-lab/tools/red-control.mjs  # 负控 v2 六针（r11 起）（startup/g05卸载清理/g03 committed终态/g05即时wait/g08忽略图根）verdict=detected",
       "exit": 0
     },
     {
@@ -940,12 +1609,36 @@
     {
       "cmd": "pnpm exec tsc --project docs/testing/glm-architecture-regression-lab/configs/tsconfig.json --noEmit  # 候选独立类型门（TS5101 已消除）",
       "exit": 0
+    },
+    {
+      "cmd": "VITE_PROJECT_ID=pal npx vite --port 6013 --strictPort  # 干净宿主（主线检出，含 gitignored 生成资源）",
+      "exit": 0
+    },
+    {
+      "cmd": "LAB_REPO_ROOT=<完整检出> VITE_PROJECT_ID=pal node docs/testing/glm-architecture-regression-lab/tools/g01-pan-cancel-needle.mjs 6014 1200  # G01 反控宿主",
+      "exit": 0
+    },
+    {
+      "cmd": "npx vitest run --config docs/testing/glm-architecture-regression-lab/tools/fixture/fixture-gen.config.mts  # r12：生成 lab-v4 fixture（node 端目录 bytes/sha256 正控）",
+      "exit": 0
+    },
+    {
+      "cmd": "(cd packages/editor && VITE_PROJECT_ID=lab-v4 node ../../docs/testing/glm-architecture-regression-lab/tools/v03-v04-host.mjs 6014 3600 &)  # r12：自有内存 origin 宿主",
+      "exit": 0
+    },
+    {
+      "cmd": "(cd packages/editor && VITE_PROJECT_ID=pal npx vite --port 6013 --strictPort &)  # r12：pal 宿主改从本 worktree 运行（只读 symlink 补 gitignored 生成资源，实测后已删除）",
+      "exit": 0
+    },
+    {
+      "cmd": "npx biome check docs/testing/glm-architecture-regression-lab  # r12 目录 Biome（含 tools/fixture、v03-v04-host.mjs）",
+      "exit": 0
     }
   ],
   "notes": {
     "v04Finding": "V04-01 撤回产品缺陷归因：脏页 beforeunload 预期中止（保存保护正常工作）；Codex 独立复核证实",
-    "v02Pending": "分隔条键盘/拖拽本轮未执行（既有 PanelResizeHandle-interaction 三组测试为已读断言引用）",
-    "g01Pending": "平移 view 增量断言 pending-contract（view 状态 jsdom 无公开可观测面）；选区轴已改为选区业务状态+删除实变见证",
-    "screenShots": "全部位于 /tmp/type-pal-glm-regression-lab/，不入 Git；登记路径与用途于本 JSON artifacts"
+    "v02Status": "r12 已完成：键盘 ±16/Home/双击、CDP 真实拖拽、三视口（1440/1280/720）、隐藏恢复、内容滚动、Tab 分离、地图工作区（V02-03..05）",
+    "g01Pending": "平移 view 增量断言 pending-contract（jsdom 无公开可观测面；浏览器像素级已由 G01-07 覆盖）",
+    "r12": "纯浏览器取证批次：V01-10..15 键盘/焦点矩阵（Playwright 可信键事件）、V02-03..05、V03-02..04 与 V04-03..08（自有内存宿主 lab-v4 + fixture 生成器）；V01-07/08 两张 reverted 截图阶段更正为提交后单帧，撤销回退引用 Codex r11 独立复验；候选/diagnostics 零改动"
   }
 }
