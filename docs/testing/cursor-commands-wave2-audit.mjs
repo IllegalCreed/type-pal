@@ -5,9 +5,7 @@ import { readdirSync, readFileSync } from 'node:fs'
 import path from 'node:path'
 import ts from 'typescript'
 
-const root = path.resolve(
-  process.argv[2] ?? '/Users/zhangxu/illegal/type-pal-cursor-commands-wave2',
-)
+const root = path.resolve(process.argv[2] ?? process.cwd())
 const base = '51048353',
   dir = 'packages/editor/src/core/'
 const modules = [

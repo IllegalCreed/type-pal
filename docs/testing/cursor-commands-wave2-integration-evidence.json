@@ -247,5 +247,15 @@
     "remote CI for final push not verified here",
     "other eight architecture batches remain"
   ],
-  "retirement": "after main push: remove merged Cursor worktree/local/remote branch, retain history in main"
+  "retirement": {
+    "mainPush": "af135d8c",
+    "candidateAncestorVerified": "2022acc3b855d699251078ea5fec8c213f2d4de0",
+    "worktreeRemoved": "/Users/zhangxu/illegal/type-pal-cursor-commands-wave2",
+    "localAndRemoteBranchRemoved": "codex/cursor-commands-wave2",
+    "remoteDeletion": "exact SHA lease",
+    "workingTreeWasClean": true,
+    "activeCwdProcesses": 0,
+    "mainAssetsPreserved": true,
+    "historyRecoverableFromMain": true
+  }
 }
