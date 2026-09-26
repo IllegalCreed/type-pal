@@ -22,7 +22,7 @@ Codex持续处理[治理台账](../audits/architecture-debt.md)剩余边界，Cu
 | A3 | 活动场景、移动与绘制状态各有所有者；main保留装配/协调；取消、切场同步提交和采样时点保真 | 7be10bf4候选四段齐；待原接收对话统一门/集成后正式完成 |
 | B1 | App工程生命周期、导航与场景工作区分离；历史/保存/离开/试玩既有门禁仍通过 | 4101926d..52112d86候选四段齐；待原接收对话统一门/集成后正式完成 |
 | B2 | MapMode手势、选择/剪贴板、组合操作和视图分别有明确边界；取消、权限和原子提交保真 | 3c3fccda..3a633ed7候选四边界齐；待原接收对话统一门/集成后正式完成 |
-| B3 | 命令族表单拆出独立实现；作者桥接类型清晰；现行能力/引用保护不丢失 | 待实施 |
+| B3 | 命令族表单拆出独立实现；作者桥接类型清晰；现行能力/引用保护不丢失 | B3-a 对话命令族开工；B3整体未完成 |
 | C1 | BattleSession输入、动作/演出、资源屏障、结算呈现的状态归属拆清；公开tick业务序列保真 | 待实施 |
 | D2 | 一阶段opcode族、战斗主控、启动资源生命周期分开，真实机制/数据回归通过 | 待实施 |
 | E1 | 迁移场景映射与脚本转换阶段独立、纯内存入口可测；输出/幂等/写保护保真 | 待实施 |
@@ -46,6 +46,16 @@ Codex持续处理[治理台账](../audits/architecture-debt.md)剩余边界，Cu
   authorCommandValidationOptions的递归调用合同与同树作者类型反驳该解释，须用正式入口回归固定。
 
 ## 当前推进
+
+- 2026-09-26 B3-a 对话命令族开工（基点 `b3eada17`）：`CommandForm.tsx` 当前 2098 行，`dialog`
+  分支约 400 行并直接持有作者/运行时 cue 身份、locale 字面量、行 reorder、速度、推进、光标和立绘表单。
+  本段把通用小控件与对话族实现拆为独立模块；对话组件只接收 cue 所需的 locale/assets/actors/回调和 draft
+  身份，不接收全 `CommandForm` props 或 `CanonicalScriptEditorContext`。总路由继续负责命令分派，其它命令族
+  零改；Cursor 当前卡只新增 `src/core` 命令行为测试且明确不碰 `ScriptEditor` 架构，文件范围不重叠。
+  保持作者 identity、旧 runtime cue、locale lookup 后写字面量、单行不可删、reorder key、raw JSON 逃生口和
+  aggregate draft 提交时点。验收复用 CommandForm/ScriptEditor 现行回归，新增 owner/窄 props 断言、单点反控，
+  跑对话相邻/Editor/TC/Biome/build；不改 content20/schema/UI，不把 B3-a 完成冒称 B3 done。Codex 核源码与
+  当前生产调用链后 premise verified / build allowed；无产品取舍变化。
 
 - 2026-09-26 B2 地图工作区候选 `3c3fccda`、`a2ea1dee`、`3a633ed7` 已交付：
   [回执与未证项](../../testing/map-workspace-sessions-refactor.md)。pointer session 独占 stroke/pan/selection preview/
