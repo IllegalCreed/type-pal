@@ -35,7 +35,7 @@ Codex明确采用**分支覆盖率绝对增加5个百分点**，已创建本会�
 | Owner | 本批 | 范围 |
 |---|---|---|
 | GLM | [八组脚本与数据守卫](TEST-GLM-CONTENT-GUARDS-3-script-and-records.md) | content四模块的新测试、专属fixture与证据；生产零改 |
-| Cursor | [八组编辑命令](TEST-CURSOR-COMMAND-BOUNDARIES-3-editor-residuals.md) | 既有白名单保持，不重派 |
+| Cursor | [八组编辑命令](../archive/tasks/done/TEST-CURSOR-COMMAND-BOUNDARIES-3-editor-residuals.md) | 既有白名单保持，不重派 |
 | 本会话Codex | 迁移转换链自包含补测 | 优先migrate-content纯转换与审计消费者；实施前独立核定小批范围，禁止主树迁移写盘 |
 | 另一Codex会话 | [架构治理](../archive/tasks/done/ARCH-CONTINUATION-1-remaining-queue.md) | A3及后续产品所有权；本卡不改其实现文件 |
 
@@ -87,3 +87,9 @@ Codex明确采用**分支覆盖率绝对增加5个百分点**，已创建本会�
   check9438→ratchet→保护7bd8f064的单次strict8946严格串行通过。全仓45477/63178=71.98233562315997%，
   本批+173B、累计+2059B（+3.259045870397923pp），剩余1100B；生产701文件/分母/其它六包对象不变。
   本席TSX夹具误入UI扫描已修并完整重验；真实朝向保持缺陷另卡draft。母目标未完成，继续下一整批。
+
+- 2026-09-26第十批：Cursor a732f7d2 独立验收后集成cf40748a；29新增，R1–R3清零。
+  check9602→官方ratchet→保护449adb54的单次strict9110通过，本批+48B/39L、生产与分母不变。
+  当前45786/63288=72.34546833522943%，目标仍73.72328975276204%，当前分母需46658，尚差872B。
+  十批纯补测合计+2107B；架构统一集成另列+261已覆盖分支/+110分母、701→728文件，不混作纯补测贡献。
+  GLM16e647a1残两counter与帧编辑在途测试未计入。母目标仍build，详见持续队列。

@@ -1,5 +1,9 @@
 # GLM 八组同步守卫第三批：独立接收
 
+**当前结论**：`16e647a1` 返工部分闭合，仍有 R1/R2 残项；见
+[返工复核与新提示词](guard-wave3-r2-review.md)。下文是 `a00f12c2` 首轮反证，已修八个非法正控与
+initial污染不再重开；剩余敌转移污染/同型正控问题以新报告为准。
+
 [任务卡](../ops/tasks/TEST-GLM-CONTENT-GUARDS-3-script-and-records.md) /
 [见证工具](guard-wave3-review-witnesses.mjs) / [隔离配置](guard-wave3-review.config.mjs)
 

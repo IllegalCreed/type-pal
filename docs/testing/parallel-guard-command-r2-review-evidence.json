@@ -1,0 +1,375 @@
+{
+  "date": "2026-09-26",
+  "candidates": {
+    "glm": "16e647a1173df523257ad31bcac5964569d17d9e",
+    "cursor": "a732f7d2dba5401f428cf53ca5df682ec28885f9"
+  },
+  "reviewer": "Codex",
+  "cursorIntegration": {
+    "base": "449adb540548e59d2fc76c0be3db1172bef2eae4",
+    "merge": "cf40748a1ddf90331fe1da2c82a2082a0f7475ea",
+    "check": {
+      "exit": 0,
+      "tests": 9602,
+      "files": 964,
+      "log": "/tmp/codex-cursor-r3-integration-check.log"
+    },
+    "ratchet": {
+      "exit": 0,
+      "tests": 9110,
+      "sourceFiles": 728,
+      "log": "/tmp/codex-cursor-r3-integration-ratchet.log"
+    },
+    "strict": {
+      "exit": 0,
+      "tests": 9110,
+      "sourceFiles": 728,
+      "log": "/tmp/codex-cursor-r3-integration-strict.log"
+    },
+    "strictMatchesRatchetBaselineViewExcludingGeneratedAt": true,
+    "sourceFilesAndDenominatorsUnchanged": true,
+    "otherSixBaselinePackageObjectsUnchanged": true,
+    "delta": { "statements": 47, "branches": 48, "functions": 7, "lines": 39 },
+    "total": {
+      "statements": { "covered": 63935, "total": 80938 },
+      "branches": { "covered": 45786, "total": 63288 },
+      "functions": { "covered": 11931, "total": 15228 },
+      "lines": { "covered": 57500, "total": 70849 }
+    },
+    "glmIncluded": false,
+    "frameEditorWipIncluded": false,
+    "fullE2eQ1Q2Verified": false
+  },
+  "raw": {
+    "glm": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/codex-glm-residual-r2-09NXeM/summary.json",
+    "cursor": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/codex-cursor-residual-r2-Uz9Obl/summary.json"
+  },
+  "results": {
+    "glm": [
+      {
+        "name": "loop-one-axis-control",
+        "exit": 0,
+        "passed": 12,
+        "failed": 0,
+        "failures": [],
+        "hashes": {
+          "/Users/zhangxu/illegal/type-pal-glm-content-guards-wave2/packages/content/src/author-command.guard-residual.test.ts": "db1598d442852c7883e817d17051dc4f043c47f014a91c5171be5a64ffdfd3e3"
+        }
+      },
+      {
+        "name": "loop-one-axis-probe",
+        "exit": 0,
+        "passed": 12,
+        "failed": 0,
+        "failures": [],
+        "hashes": {
+          "/Users/zhangxu/illegal/type-pal-glm-content-guards-wave2/packages/content/src/author-command.guard-residual.test.ts": "db1598d442852c7883e817d17051dc4f043c47f014a91c5171be5a64ffdfd3e3"
+        }
+      },
+      {
+        "name": "use-one-axis-control",
+        "exit": 0,
+        "passed": 39,
+        "failed": 0,
+        "failures": [],
+        "hashes": {
+          "/Users/zhangxu/illegal/type-pal-glm-content-guards-wave2/packages/content/src/record-items.guard-residual.test.ts": "946bebe6e85a08978528ed420d14f5f8fda3846281ee8909b1f463b4a291671b"
+        }
+      },
+      {
+        "name": "use-one-axis-probe",
+        "exit": 0,
+        "passed": 39,
+        "failed": 0,
+        "failures": [],
+        "hashes": {
+          "/Users/zhangxu/illegal/type-pal-glm-content-guards-wave2/packages/content/src/record-items.guard-residual.test.ts": "946bebe6e85a08978528ed420d14f5f8fda3846281ee8909b1f463b4a291671b"
+        }
+      },
+      {
+        "name": "throw-one-axis-control",
+        "exit": 0,
+        "passed": 39,
+        "failed": 0,
+        "failures": [],
+        "hashes": {
+          "/Users/zhangxu/illegal/type-pal-glm-content-guards-wave2/packages/content/src/record-items.guard-residual.test.ts": "946bebe6e85a08978528ed420d14f5f8fda3846281ee8909b1f463b4a291671b"
+        }
+      },
+      {
+        "name": "throw-one-axis-probe",
+        "exit": 0,
+        "passed": 39,
+        "failed": 0,
+        "failures": [],
+        "hashes": {
+          "/Users/zhangxu/illegal/type-pal-glm-content-guards-wave2/packages/content/src/record-items.guard-residual.test.ts": "946bebe6e85a08978528ed420d14f5f8fda3846281ee8909b1f463b4a291671b"
+        }
+      },
+      {
+        "name": "initial-mutation-control",
+        "exit": 0,
+        "passed": 9,
+        "failed": 0,
+        "failures": [],
+        "hashes": {
+          "/Users/zhangxu/illegal/type-pal-glm-content-guards-wave2/packages/content/src/author-script-core.ts": "60d1f7b3f1d4da655bab9dbba83229812f2f0e4ce3523f174a4df381b073949c",
+          "/Users/zhangxu/illegal/type-pal-glm-content-guards-wave2/packages/content/src/author-flow.guard-residual.test.ts": "45ac3e7509bbfb30c9f4de9843401fe49123250fff47cde084f4a66b28243731"
+        }
+      },
+      {
+        "name": "initial-mutation-probe",
+        "exit": 1,
+        "passed": 8,
+        "failed": 1,
+        "failures": [
+          {
+            "file": "/Users/zhangxu/illegal/type-pal-glm-content-guards-wave2/packages/content/src/author-flow.guard-residual.test.ts",
+            "fullName": "G1 author/runtime script flow 残差 machine states 空对象与 initial 未命中拒绝",
+            "messages": [
+              "AssertionError: expected { kind: 'stateMachine', …(1) } to deeply equal { kind: 'stateMachine', …(1) }"
+            ]
+          }
+        ],
+        "hashes": {
+          "/Users/zhangxu/illegal/type-pal-glm-content-guards-wave2/packages/content/src/author-script-core.ts": "60d1f7b3f1d4da655bab9dbba83229812f2f0e4ce3523f174a4df381b073949c",
+          "/Users/zhangxu/illegal/type-pal-glm-content-guards-wave2/packages/content/src/author-flow.guard-residual.test.ts": "45ac3e7509bbfb30c9f4de9843401fe49123250fff47cde084f4a66b28243731"
+        }
+      },
+      {
+        "name": "transition-mutation-control",
+        "exit": 0,
+        "passed": 7,
+        "failed": 0,
+        "failures": [],
+        "hashes": {
+          "/Users/zhangxu/illegal/type-pal-glm-content-guards-wave2/packages/content/src/enemy-script.ts": "e91054b2990839983a27fe0fd1a93bc514c0aca026773ed961438bd6087cdba4",
+          "/Users/zhangxu/illegal/type-pal-glm-content-guards-wave2/packages/content/src/enemy-hook.guard-residual.test.ts": "793f05efd17a1d2fc705d3ff47857f603987b56fcc4f7739b28a99fd91b0c5f2"
+        }
+      },
+      {
+        "name": "transition-mutation-probe",
+        "exit": 0,
+        "passed": 7,
+        "failed": 0,
+        "failures": [],
+        "hashes": {
+          "/Users/zhangxu/illegal/type-pal-glm-content-guards-wave2/packages/content/src/enemy-script.ts": "e91054b2990839983a27fe0fd1a93bc514c0aca026773ed961438bd6087cdba4",
+          "/Users/zhangxu/illegal/type-pal-glm-content-guards-wave2/packages/content/src/enemy-hook.guard-residual.test.ts": "793f05efd17a1d2fc705d3ff47857f603987b56fcc4f7739b28a99fd91b0c5f2"
+        }
+      },
+      {
+        "name": "transition-mutation-oracle-control",
+        "exit": 0,
+        "passed": 8,
+        "failed": 0,
+        "failures": [],
+        "hashes": {
+          "/Users/zhangxu/illegal/type-pal-glm-content-guards-wave2/packages/content/src/enemy-script.ts": "e91054b2990839983a27fe0fd1a93bc514c0aca026773ed961438bd6087cdba4",
+          "/Users/zhangxu/illegal/type-pal-glm-content-guards-wave2/packages/content/src/enemy-hook.guard-residual.test.ts": "793f05efd17a1d2fc705d3ff47857f603987b56fcc4f7739b28a99fd91b0c5f2"
+        }
+      },
+      {
+        "name": "transition-mutation-oracle-probe",
+        "exit": 1,
+        "passed": 7,
+        "failed": 1,
+        "failures": [
+          {
+            "file": "/Users/zhangxu/illegal/type-pal-glm-content-guards-wave2/packages/content/src/enemy-hook.guard-residual.test.ts",
+            "fullName": "Codex oracle: rejected transition preserves its actual input",
+            "messages": [
+              "AssertionError: expected { initial: 'ready', states: { …(1) } } to deeply equal { initial: 'ready', states: { …(1) } }"
+            ]
+          }
+        ],
+        "hashes": {
+          "/Users/zhangxu/illegal/type-pal-glm-content-guards-wave2/packages/content/src/enemy-script.ts": "e91054b2990839983a27fe0fd1a93bc514c0aca026773ed961438bd6087cdba4",
+          "/Users/zhangxu/illegal/type-pal-glm-content-guards-wave2/packages/content/src/enemy-hook.guard-residual.test.ts": "793f05efd17a1d2fc705d3ff47857f603987b56fcc4f7739b28a99fd91b0c5f2"
+        }
+      },
+      {
+        "name": "gate-over-reject-control",
+        "exit": 0,
+        "passed": 39,
+        "failed": 0,
+        "failures": [],
+        "hashes": {
+          "/Users/zhangxu/illegal/type-pal-glm-content-guards-wave2/packages/content/src/validate.ts": "b71778d0ed1fc2f8195cb653f34b6d51a4c37fad9c63c496baa5fcf7d83c30fa",
+          "/Users/zhangxu/illegal/type-pal-glm-content-guards-wave2/packages/content/src/record-items.guard-residual.test.ts": "946bebe6e85a08978528ed420d14f5f8fda3846281ee8909b1f463b4a291671b"
+        }
+      },
+      {
+        "name": "gate-over-reject-probe",
+        "exit": 0,
+        "passed": 39,
+        "failed": 0,
+        "failures": [],
+        "hashes": {
+          "/Users/zhangxu/illegal/type-pal-glm-content-guards-wave2/packages/content/src/validate.ts": "b71778d0ed1fc2f8195cb653f34b6d51a4c37fad9c63c496baa5fcf7d83c30fa",
+          "/Users/zhangxu/illegal/type-pal-glm-content-guards-wave2/packages/content/src/record-items.guard-residual.test.ts": "946bebe6e85a08978528ed420d14f5f8fda3846281ee8909b1f463b4a291671b"
+        }
+      },
+      {
+        "name": "gate-over-reject-oracle-control",
+        "exit": 0,
+        "passed": 40,
+        "failed": 0,
+        "failures": [],
+        "hashes": {
+          "/Users/zhangxu/illegal/type-pal-glm-content-guards-wave2/packages/content/src/validate.ts": "b71778d0ed1fc2f8195cb653f34b6d51a4c37fad9c63c496baa5fcf7d83c30fa",
+          "/Users/zhangxu/illegal/type-pal-glm-content-guards-wave2/packages/content/src/record-items.guard-residual.test.ts": "946bebe6e85a08978528ed420d14f5f8fda3846281ee8909b1f463b4a291671b"
+        }
+      },
+      {
+        "name": "gate-over-reject-oracle-probe",
+        "exit": 1,
+        "passed": 39,
+        "failed": 1,
+        "failures": [
+          {
+            "file": "/Users/zhangxu/illegal/type-pal-glm-content-guards-wave2/packages/content/src/record-items.guard-residual.test.ts",
+            "fullName": "Codex oracle: the gate under test also accepts chance 100",
+            "messages": [
+              "AssertionError: expected [Function] to not throw an error but 'Error: items[0].use.effects[0].chance…' was thrown"
+            ]
+          }
+        ],
+        "hashes": {
+          "/Users/zhangxu/illegal/type-pal-glm-content-guards-wave2/packages/content/src/validate.ts": "b71778d0ed1fc2f8195cb653f34b6d51a4c37fad9c63c496baa5fcf7d83c30fa",
+          "/Users/zhangxu/illegal/type-pal-glm-content-guards-wave2/packages/content/src/record-items.guard-residual.test.ts": "946bebe6e85a08978528ed420d14f5f8fda3846281ee8909b1f463b4a291671b"
+        }
+      }
+    ],
+    "cursor": [
+      {
+        "name": "entity-legal-control",
+        "exit": 0,
+        "passed": 4,
+        "failed": 0,
+        "failures": [],
+        "hashes": {
+          "/Users/zhangxu/illegal/type-pal-cursor-command-boundaries-r3/packages/editor/src/core/entity-commands.residual.test.ts": "43f2d2fc41f8b575e59fb04dff9f56049eec80af3cda290e4ccef8fdc88d27fb"
+        }
+      },
+      {
+        "name": "entity-legal-probe",
+        "exit": 0,
+        "passed": 4,
+        "failed": 0,
+        "failures": [],
+        "hashes": {
+          "/Users/zhangxu/illegal/type-pal-cursor-command-boundaries-r3/packages/editor/src/core/entity-commands.residual.test.ts": "43f2d2fc41f8b575e59fb04dff9f56049eec80af3cda290e4ccef8fdc88d27fb"
+        }
+      },
+      {
+        "name": "enemy-legal-control",
+        "exit": 0,
+        "passed": 4,
+        "failed": 0,
+        "failures": [],
+        "hashes": {
+          "/Users/zhangxu/illegal/type-pal-cursor-command-boundaries-r3/packages/editor/src/core/battle-sprite-commands.residual.test.ts": "37aa75df7eea2bed25ceb13c1f1ca1547e0aaa8e4bbfa823e7a8643936a81b9b"
+        }
+      },
+      {
+        "name": "enemy-legal-probe",
+        "exit": 0,
+        "passed": 4,
+        "failed": 0,
+        "failures": [],
+        "hashes": {
+          "/Users/zhangxu/illegal/type-pal-cursor-command-boundaries-r3/packages/editor/src/core/battle-sprite-commands.residual.test.ts": "37aa75df7eea2bed25ceb13c1f1ca1547e0aaa8e4bbfa823e7a8643936a81b9b"
+        }
+      },
+      {
+        "name": "map-payload-control",
+        "exit": 0,
+        "passed": 2,
+        "failed": 0,
+        "failures": [],
+        "hashes": {
+          "/Users/zhangxu/illegal/type-pal-cursor-command-boundaries-r3/packages/editor/src/core/map-asset-commands.ts": "415fdf063497594409eb4b8d635ffea08a8cfc0152ddc766c8d07c7f7f946cfc",
+          "/Users/zhangxu/illegal/type-pal-cursor-command-boundaries-r3/packages/editor/src/core/map-asset-commands.residual.test.ts": "9218a8a7dcf68d140d43aa47fd86d361299605723f51b6794b21b9c1214853d9"
+        }
+      },
+      {
+        "name": "map-payload-probe",
+        "exit": 1,
+        "passed": 1,
+        "failed": 1,
+        "failures": [
+          {
+            "file": "/Users/zhangxu/illegal/type-pal-cursor-command-boundaries-r3/packages/editor/src/core/map-asset-commands.residual.test.ts",
+            "fullName": "地图资产命令残项 CreateMapAsset 构造后改 def.name / map.width，catalog 仍用 clone，且可 undo/redo",
+            "messages": [
+              "AssertionError: expected { version: 4, width: 12, …(4) } to deeply equal { version: 4, width: 12, …(4) }"
+            ]
+          }
+        ],
+        "hashes": {
+          "/Users/zhangxu/illegal/type-pal-cursor-command-boundaries-r3/packages/editor/src/core/map-asset-commands.ts": "415fdf063497594409eb4b8d635ffea08a8cfc0152ddc766c8d07c7f7f946cfc",
+          "/Users/zhangxu/illegal/type-pal-cursor-command-boundaries-r3/packages/editor/src/core/map-asset-commands.residual.test.ts": "9218a8a7dcf68d140d43aa47fd86d361299605723f51b6794b21b9c1214853d9"
+        }
+      },
+      {
+        "name": "shared-blob-loss-control",
+        "exit": 0,
+        "passed": 5,
+        "failed": 0,
+        "failures": [],
+        "hashes": {
+          "/Users/zhangxu/illegal/type-pal-cursor-command-boundaries-r3/packages/editor/src/core/tileset-commands.ts": "1d43a0b7d4afedadc929dac09b6d34247d8bc02d2c93d8062c85d010bd8742c0",
+          "/Users/zhangxu/illegal/type-pal-cursor-command-boundaries-r3/packages/editor/src/core/tileset-commands.residual.test.ts": "8fa146720f3b611821f8d1f8bee4271dc6780b47ff1c4a3b0384ccdf155dcca0"
+        }
+      },
+      {
+        "name": "shared-blob-loss-probe",
+        "exit": 1,
+        "passed": 4,
+        "failed": 1,
+        "failures": [
+          {
+            "file": "/Users/zhangxu/illegal/type-pal-cursor-command-boundaries-r3/packages/editor/src/core/tileset-commands.residual.test.ts",
+            "fullName": "瓦片集命令残项 AddTileset 新定义共享 starter 资产：createdAsset=false，撤销不删共享资源",
+            "messages": ["AssertionError: expected undefined to deeply equal "]
+          }
+        ],
+        "hashes": {
+          "/Users/zhangxu/illegal/type-pal-cursor-command-boundaries-r3/packages/editor/src/core/tileset-commands.ts": "1d43a0b7d4afedadc929dac09b6d34247d8bc02d2c93d8062c85d010bd8742c0",
+          "/Users/zhangxu/illegal/type-pal-cursor-command-boundaries-r3/packages/editor/src/core/tileset-commands.residual.test.ts": "8fa146720f3b611821f8d1f8bee4271dc6780b47ff1c4a3b0384ccdf155dcca0"
+        }
+      },
+      {
+        "name": "shared-catalog-mutation-control",
+        "exit": 0,
+        "passed": 5,
+        "failed": 0,
+        "failures": [],
+        "hashes": {
+          "/Users/zhangxu/illegal/type-pal-cursor-command-boundaries-r3/packages/editor/src/core/tileset-commands.ts": "1d43a0b7d4afedadc929dac09b6d34247d8bc02d2c93d8062c85d010bd8742c0",
+          "/Users/zhangxu/illegal/type-pal-cursor-command-boundaries-r3/packages/editor/src/core/tileset-commands.residual.test.ts": "8fa146720f3b611821f8d1f8bee4271dc6780b47ff1c4a3b0384ccdf155dcca0"
+        }
+      },
+      {
+        "name": "shared-catalog-mutation-probe",
+        "exit": 1,
+        "passed": 4,
+        "failed": 1,
+        "failures": [
+          {
+            "file": "/Users/zhangxu/illegal/type-pal-cursor-command-boundaries-r3/packages/editor/src/core/tileset-commands.residual.test.ts",
+            "fullName": "瓦片集命令残项 AddTileset 新定义共享 starter 资产：createdAsset=false，撤销不删共享资源",
+            "messages": [
+              "AssertionError: expected { version: 1, assets: { …(4) } } to deeply equal { version: 1, assets: { …(4) } }"
+            ]
+          }
+        ],
+        "hashes": {
+          "/Users/zhangxu/illegal/type-pal-cursor-command-boundaries-r3/packages/editor/src/core/tileset-commands.ts": "1d43a0b7d4afedadc929dac09b6d34247d8bc02d2c93d8062c85d010bd8742c0",
+          "/Users/zhangxu/illegal/type-pal-cursor-command-boundaries-r3/packages/editor/src/core/tileset-commands.residual.test.ts": "8fa146720f3b611821f8d1f8bee4271dc6780b47ff1c4a3b0384ccdf155dcca0"
+        }
+      }
+    ]
+  }
+}

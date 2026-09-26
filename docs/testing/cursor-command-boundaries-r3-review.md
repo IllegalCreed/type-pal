@@ -1,7 +1,10 @@
 # Cursor 八组命令残项：独立接收
 
+**当前结论**：返工 `a732f7d2` 的 R1–R3 已由 Codex 独立复核闭合；见
+[接收与集成](cursor-command-boundaries-r3-integration.md)。以下原候选反证保留为历史，不再阻断新候选。
+
 2026-09-26，候选 `b6bcc9b4`，基点 `7d64de13`。结论 **counter / 窄返工**，候选未合 main、未计官方覆盖。
-[任务卡](../ops/tasks/TEST-CURSOR-COMMAND-BOUNDARIES-3-editor-residuals.md) / [独立见证](cursor-command-boundaries-r3-review-witnesses.mjs)
+[任务卡](../ops/archive/tasks/done/TEST-CURSOR-COMMAND-BOUNDARIES-3-editor-residuals.md) / [独立见证](cursor-command-boundaries-r3-review-witnesses.mjs)
 （使用 [隔离配置](cursor-command-boundaries-r3-review.config.mjs)，只改内存加载，不写候选源码）。
 
 ## 已核与不重开

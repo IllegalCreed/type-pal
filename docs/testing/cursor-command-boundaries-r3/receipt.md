@@ -94,4 +94,4 @@ git diff --stat 7cac1d72 -- packages/editor/src/core/actor-commands.ts \
   packages/editor/src/core/commands.ts
 ```
 
-任务卡：[TEST-CURSOR-COMMAND-BOUNDARIES-3](../../ops/tasks/TEST-CURSOR-COMMAND-BOUNDARIES-3-editor-residuals.md)。Cursor 自验不是独立证明。Codex 负责隔离接收、全仓 check、官方 ratchet 与受保护严格 fast。
+任务卡：[TEST-CURSOR-COMMAND-BOUNDARIES-3](../../ops/archive/tasks/done/TEST-CURSOR-COMMAND-BOUNDARIES-3-editor-residuals.md)。Cursor 自验不是独立证明。Codex 负责隔离接收、全仓 check、官方 ratchet 与受保护严格 fast。

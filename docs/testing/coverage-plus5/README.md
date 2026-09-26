@@ -3,13 +3,14 @@
 [总卡](../../ops/tasks/TEST-COVERAGE-PLUS5-1-continuous-batches.md) / [测试入口](../README.md)
 
 2026-09-26冻结main8add8c66：43,418/63,178分支，68.72328975276204%。
-目标73.72328975276204%，当前分母需46,577分支，净增3,159。8404 fast /701生产文件。
+目标73.72328975276204%，冻结分母需46,577分支，净增3,159。起点8404 fast /701生产文件。
 不以删除代码、排除文件、降低门槛或无业务意义的重复测试达成目标；架构分母变动独立披露。
+最新：45,786/63,288（72.34546833522943%），9110 fast /728生产文件；当前分母目标46,658，仍差872分支。
 
 | 批次 | Owner | 当前状态 | 已验收新增分支 |
 |---|---|---|---:|
-| [content八组同步守卫](../../ops/tasks/TEST-GLM-CONTENT-GUARDS-3-script-and-records.md) | GLM | [R1–R3窄返工](../guard-wave3-review.md)，同型正控/拒绝输入保真 | 0（未验收） |
-| [editor八组命令](../../ops/tasks/TEST-CURSOR-COMMAND-BOUNDARIES-3-editor-residuals.md) | Cursor | 独立复核R1–R3窄返工 | 0（未验收） |
+| [content八组同步守卫](../../ops/tasks/TEST-GLM-CONTENT-GUARDS-3-script-and-records.md) | GLM | [R2接收剩两项](../guard-wave3-r2-review.md)，同型正控/拒绝输入保真 | 0（未验收） |
+| [editor八组命令](../../ops/archive/tasks/done/TEST-CURSOR-COMMAND-BOUNDARIES-3-editor-residuals.md) | Cursor | done，29项/独立五组/统一门通过 | +48 |
 | [migrate纯转换链](../codex-migrate-pure/README.md) | Codex | done，83项/六针/统一门通过 | +527 |
 | [migrate当前汇总链](../codex-migrate-assembly/README.md) | Codex | done，49项/六针/统一门通过 | +169 |
 | [migrate当前场景链](../codex-migrate-scenes/README.md) | Codex | done，53项/六针/统一门通过 | +327 |
@@ -70,3 +71,12 @@ Cursor本地/远端仍b6bcc9b4且工作树干净，GLM仍a00f12c2，二者counte
 ratchet/单次strict8,946通过；701生产文件/所有分母与其它六包完整baseline对象不变。
 本席夹具文件类型导致静态门首次失败已修并留记录；未修改旧测试/产品/排除。
 真实切场景朝向清除缺陷保留原红与单点oracle绿、另卡draft，不借补测关闭。母目标继续。
+
+2026-09-26第十批：Cursor a732f7d2 独立接收，29新增、R1–R3清零；在最新架构449adb54上
+check9602→ratchet→单次受保护strict9110通过。本批净增48B/39L，七包生产清单及分母不变，
+其它六包完整baseline对象不变；当前45,786/63,288=**72.34546833522943%**，距目标至少872分支。
+
+归属分列：九批纯补测+2059B，本次+48B，合计+2107B；另一个Codex会话的
+[架构统一集成](../architecture-continuation-integration.md)单列+261已覆盖分支/+110分支分母，
+生产701→728文件，不能算成本卡纯补测贡献。当前比起点约+3.62pp，母目标尚未完成；
+GLM16e647a1仍counter、主工作树帧编辑在途测试均未计入。

@@ -15,6 +15,15 @@
 ## 最近入库 fast 基线与本地快照（2026-09-26）
 
 当前机器可读数字以[`baseline.fast.json`](../../scripts/coverage/baseline.fast.json)为准。
+[Cursor八组命令残项](cursor-command-boundaries-r3-integration.md)在已完成13批架构治理的449adb54上集成，
+完整check **9602项**、官方ratchet及单次受保护strict **9110项/728生产文件**全部通过。
+本批29新增回归，实际净增**48分支/39行/47语句/7函数**，七包生产清单及分母不变，另外六包完整基线对象不变。
+全仓行**81.16%**、语句**78.99%**、函数**78.35%**、分支**72.35%**（45786/63288）；
+editor行83.08%、分支72.83%。[持续目标进度](coverage-plus5/README.md)单列架构造成的分母变化。
+GLM返工包和帧编辑在途测试未计入；本地fast不代表远端CI、full、E2E或Q1/Q2通过。
+
+### 同日较早快照：守卫叶与资源索引
+
 [GLM守卫叶接收](guard-leaf-r3-review.md)与[Codex五组资源补测](codex-content-resources/README.md)统一集成后，
 完整check **8896项**、官方ratchet与保护7d64de13的**单次严格fast8404项/701生产文件**全部通过。
 新增156项回归，实际多覆盖**134分支/73行/108语句/3函数**；原生产文件与分母、其它六包完整基线对象不变。

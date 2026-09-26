@@ -42,12 +42,15 @@ check8896/单次strict8404全过；实际+134分支/+73行，content分支85.55%
 
 | ID | 任务 | 状态 | 负责人/下一步 | 一句话备注 |
 |---|---|---|---|---|
-| TEST-COVERAGE-PLUS5-1 | [全仓分支+5pp持续队列](tasks/TEST-COVERAGE-PLUS5-1-continuous-batches.md) | build | Codex / 下一大批 | 九批累计+2059B至71.98%，剩余1100B；check9438/strict8946通过 |
+| TEST-COVERAGE-PLUS5-1 | [全仓分支+5pp持续队列](tasks/TEST-COVERAGE-PLUS5-1-continuous-batches.md) | build | Codex / 下一大批 | 十批补测+2107B；架构增量另列，当前72.35%/剩余872B；check9602/strict9110通过 |
 | EDITOR-SCENE-FACING-1 | [切场景朝向清除](tasks/EDITOR-SCENE-FACING-1-clear-override.md) | draft | Codex / 后续窄修 | 保持选项仍提交旧方向；真实红诊断+单点oracle已证 |
 | EDITOR-PREVIEW-STEP-1 | [预览单步阶段门](tasks/EDITOR-PREVIEW-STEP-1-command-gates.md) | draft | Codex / 后续窄修 | 当前入口首次step无命令执行，红诊断已落，不随补测关闭 |
-| TEST-GLM-CONTENT-GUARDS-3 | [八组同步脚本与记录守卫](tasks/TEST-GLM-CONTENT-GUARDS-3-script-and-records.md) | rework | GLM / R1–R3窄返工 | 1132绿/八针通过；同型正控8反证与拒绝输入污染漏检，未计覆盖 |
-| TEST-CURSOR-COMMAND-BOUNDARIES-3 | [八组命令行为残项](tasks/TEST-CURSOR-COMMAND-BOUNDARIES-3-editor-residuals.md) | rework | Cursor / R1–R3窄返工 | 29绿但正式保存门拒fixture，图层污染漏检；候选未计覆盖 |
+| TEST-GLM-CONTENT-GUARDS-3 | [八组同步脚本与记录守卫](tasks/TEST-GLM-CONTENT-GUARDS-3-script-and-records.md) | rework | GLM / R1–R2残项 | 16e647a1合法化已闭，gate过拒/敌转移输入污染仍漏检，未计覆盖 |
 | ARCH-SUPPORT-GLM-1 | [八组并行架构/视觉准备](tasks/ARCH-SUPPORT-GLM-1-eight-audit-packages.md) | draft | Codex / 后续归属与收口 | 58cdf938材料accept，counter清零；文档已合入，按用户要求未标done/未开产品门 |
+
+2026-09-26 [Cursor八组命令残项](../testing/cursor-command-boundaries-r3-integration.md)a732f7d2独立accept/done：
+R1–R3清零，29新增/五作者针/五组独立见证；check9602、ratchet及保护449adb54的单次strict9110全过。
+生产728文件/各分母不变，净增48B/39L；GLM守卫返工仍不计入。
 
 2026-09-26 [Cursor九组剩余命令](../testing/cursor-commands-wave2-integration.md)2022acc3已独立accept/done：90声明/119出口/62绑定保持、反控与隔离UI通过，check8740/strict8248/701。F2组织性整理完成；新增16身份/顺序回归、13模块，覆盖metrics不变，未混算GLM或A3后续。
 

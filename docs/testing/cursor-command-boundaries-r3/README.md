@@ -1,6 +1,6 @@
 # Cursor八组命令行为补测
 
-[任务卡](../../ops/tasks/TEST-CURSOR-COMMAND-BOUNDARIES-3-editor-residuals.md) ·
+[任务卡](../../ops/archive/tasks/done/TEST-CURSOR-COMMAND-BOUNDARIES-3-editor-residuals.md) ·
 [冻结缺口](../coverage-parallel-wave3-evidence.json) ·
 [八行回执](receipt.md)。
 

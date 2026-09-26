@@ -20,8 +20,10 @@
 
 - [Codex当前敌人钩子翻译六组](codex-enemy-hooks/README.md)（真实wrapper/guard、来源映射与输入保真）。
 
-- [Cursor八组残项独立复核与返工提示](cursor-command-boundaries-r3-review.md)（29绿仍有fixture/完整快照反证，不计入覆盖）。
+- [Cursor八组残项接收与集成](cursor-command-boundaries-r3-integration.md)（a732f7d2的R1–R3闭合，统一门禁记录）。
+- [Cursor八组残项首轮反证](cursor-command-boundaries-r3-review.md)（历史counter，当前结论见集成回执）。
 - [GLM守卫第三批独立复核与返工提示](guard-wave3-review.md)（1132绿/八针通过，单轴与输入保真反证，未计覆盖）。
+- [GLM守卫第三批返工复核](guard-wave3-r2-review.md)（16e647a1仍有同型正控与后续输入保真漏检）。
 
 - [Codex六组自包含迁移转换](codex-migrate-pure/README.md)（原盘已有证明与新增边界分列，不写生成产物）。
 - [Codex当前迁移汇总回归](codex-migrate-assembly/README.md)（真实汇总入口、优先级与敌技能闭包）。
