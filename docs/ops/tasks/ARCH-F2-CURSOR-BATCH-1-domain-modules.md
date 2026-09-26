@@ -1,6 +1,6 @@
 # ARCH-F2-CURSOR-BATCH-1 — 24组命令族与设计系统模块整理
 
-Status: build
+Status: rework
 Phase: phase2 editor / 架构治理 F2
 Coding Owner: Cursor
 Review / Integration Owner: Codex
@@ -88,6 +88,29 @@ C00→C01…C10顺序实施。UI先U00→U01/U02→其余；U06/U07/U08/U09按�
 Codex：**premise verified / build allowed**（2026-09-26）。已核上表当前符号、既有战场/标签拆分回执，
 范围与Codex的E2/A3等实现文件互斥。用户已授权本整包由Cursor连续实施；固定三签暂停。
 done尚未开放。无额外产品裁决：本包只保持行为的模块归属整理。
+
+## Codex 独立接收（2026-09-26，候选d0684e78）
+
+**counter，仅R1–R3窄返工。** [本席报告](../../testing/cursor-architecture-batch-review.md)与[见证工具](../../testing/cursor-architecture-review-witnesses.mjs)记录直接反证：三份非法fixture、C07新例未证guard、负控判据错误接受普通Error/错文件，以及旧barrel新增出口/两项格式门。
+
+机械搬移初核接收：139命令声明保持；78控件声明只有一处显式返回类型差异，运行正文保持；32新模块无runtime回引barrel。定向344/344、recipes/reorder57/57、完整editor check313文件2813项及TC/docs通过；完整环境已由Codex补齐，不要求用户验证。没有合入候选、改官方基线或标done，不代写作者结论。用户已委托Codex完成全部验收，窄修后由Codex接续UI与统一门禁。
+
+### 下一位 Cursor 窄返工提示词
+
+```text
+在原codex/cursor-architecture-batch-r1工作树返工ARCH-F2-CURSOR-BATCH-1，候选d0684e78，状态rework。
+fetch后先git show origin/main:docs/testing/cursor-architecture-batch-review.md；只修R1–R3，不为取报告合main。
+机械搬移事实已接收，不重做24组。R1：C00/C05/C10三份fixture改当前typed合法数据，先过生产守卫；
+C07收窄虚称guard的标题，引用commands.test.ts真实引用阻断用例并用删除守卫单点反控验证；
+各组文案/属性针与guard/undo/交互证据分栏，可复用精确既有证据，不硬造重复测试。
+R2：负控实际判据钉绝对file/fullName/执行数/exit1/具名注入命中，逐failureMessage拒普通Error、
+混错、超时；正控零执行不能过。加真实判据自测，复跑24针，保留/tmp JSON/log。不改Codex见证工具。
+R3：旧controls barrel恢复原50出口（下层所需内部出口保留）；更正回执2值+5类型误写；
+修module-mutants.mjs与text-overflow-adoption.json格式门，语义/规则不变。
+正确workspace依赖和自有资源环境下跑定向/editor check/TC/改动Biome/docs/diff，提交推送真实最终SHA。
+不改其它产品正文、CSS、配置/超时/阈值/基线，不代签、不合main、不标done。
+用户无需手工验证；Codex负责后续独立UI/全仓check/覆盖率及集成。
+```
 
 ## 下一位 Cursor 提示词
 

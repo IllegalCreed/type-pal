@@ -1,0 +1,174 @@
+{
+  "schemaVersion": 1,
+  "candidate": "d0684e78928088ae969b989aa44095cb49e12790",
+  "base": "8bf40b90",
+  "verdict": "counter: narrow R1-R3; product move parity accepted",
+  "candidateMerged": false,
+  "officialCoverageRun": false,
+  "visualVerification": "pending after narrow rework; delegated to Codex, not user",
+  "scope": {
+    "changedFiles": 90,
+    "newProductionModules": 32,
+    "otherPackagesCssAssetsLockfileCoverageChanges": 0
+  },
+  "sourceParity": {
+    "commands": {
+      "declarations": 139,
+      "identical": 139,
+      "oldExports": 119,
+      "newExports": 119
+    },
+    "controls": {
+      "declarations": 78,
+      "identical": 77,
+      "onlyDifference": "draftSource explicit string return annotation; body unchanged",
+      "oldExports": 50,
+      "newExports": 57,
+      "additionalValueExports": ["draftSource", "useDsDraftController"],
+      "additionalTypeExports": [
+        "DsDraftInputContract",
+        "DsFieldChromeProps",
+        "DsDraftNumberInputProps",
+        "DsNumberInputProps",
+        "DsFormControlAppearance"
+      ]
+    },
+    "runtime": {
+      "traversedEditorModules": 47,
+      "pathsFromNewModulesToOldBarrels": []
+    },
+    "overflowPolicy": {
+      "changedProducers": 11,
+      "otherSemanticChanges": 0
+    }
+  },
+  "checks": {
+    "targeted": {
+      "passed": 341,
+      "failed": 0,
+      "pending": 0,
+      "files": 31
+    },
+    "additionalWorldReferenceRecipesReorder": {
+      "passed": 60,
+      "failed": 0,
+      "pending": 0,
+      "files": 3
+    },
+    "effectiveDeclaredTargetedTotal": 344,
+    "recipesReorderTotal": 57,
+    "editorTypecheck": 0,
+    "editorCheck": {
+      "exit": 0,
+      "files": 313,
+      "tests": 2813,
+      "log": "/tmp/codex-cursor-architecture-editor-check-final.log",
+      "sha256": "e8547047b52e81f0772d3ab79c632941a1449cbeb2a56f5602d1e47febbf56f5"
+    },
+    "initialReviewerEnvironmentRun": {
+      "exit": 143,
+      "cause": "reviewer --ignore-scripts install omitted canvas native build; stopped, linked existing same-version build and verified getContext before fresh full rerun"
+    },
+    "biome": {
+      "exit": 1,
+      "errors": 2,
+      "warnings": 5,
+      "errorFiles": [
+        "docs/testing/cursor-architecture-batch/module-mutants.mjs",
+        "packages/editor/src/ui/design-system/text-overflow-adoption.json"
+      ]
+    },
+    "docs": 0,
+    "diffCheck": 0
+  },
+  "witnesses": {
+    "root": "/Users/zhangxu/illegal/type-pal-codex-cursor-review",
+    "fixtureResults": [
+      {
+        "file": "command-contract.test.ts",
+        "status": "rejected",
+        "error": "enemies[0]: 缺键 \"name\""
+      },
+      {
+        "file": "skill-commands.test.ts",
+        "status": "rejected",
+        "error": "skills.skills[0]: 缺键 \"animation\""
+      },
+      {
+        "file": "asset-label-command.test.ts",
+        "status": "rejected",
+        "error": "assets/index.json.assets[\"sprite.hero\"].path: authored 资源必须位于 assets/authored/"
+      }
+    ],
+    "judgeCases": [
+      {
+        "id": "ordinary-error-with-assertion-text",
+        "accepted": true,
+        "expectedAccepted": false
+      },
+      {
+        "id": "wrong-file-and-full-name",
+        "accepted": true,
+        "expectedAccepted": false
+      }
+    ],
+    "runs": [
+      {
+        "label": "control",
+        "exit": 0,
+        "results": [
+          {
+            "file": "/Users/zhangxu/illegal/type-pal-codex-cursor-review/packages/editor/src/core/ambience-commands.test.ts",
+            "fullName": "C07 ambience command family keeps ambience constructors on the old commands barrel and blocks in-use delete",
+            "status": "passed"
+          },
+          {
+            "file": "/Users/zhangxu/illegal/type-pal-codex-cursor-review/packages/editor/src/core/commands.test.ts",
+            "fullName": "W6 氛围命令(不可变 + invert) DeleteAmbience:脚本显式引用、昼夜隐式引用和运行态引用均阻断且不改源",
+            "status": "passed"
+          }
+        ]
+      },
+      {
+        "label": "missing-guard",
+        "exit": 1,
+        "results": [
+          {
+            "file": "/Users/zhangxu/illegal/type-pal-codex-cursor-review/packages/editor/src/core/ambience-commands.test.ts",
+            "fullName": "C07 ambience command family keeps ambience constructors on the old commands barrel and blocks in-use delete",
+            "status": "passed"
+          },
+          {
+            "file": "/Users/zhangxu/illegal/type-pal-codex-cursor-review/packages/editor/src/core/commands.test.ts",
+            "fullName": "W6 氛围命令(不可变 + invert) DeleteAmbience:脚本显式引用、昼夜隐式引用和运行态引用均阻断且不改源",
+            "status": "failed",
+            "firstError": "AssertionError: expected function to throw an error, but it didn't"
+          }
+        ]
+      }
+    ],
+    "productHashUnchanged": true,
+    "beforeHash": "d71065b9e0a5a9730a6af49b008604d8b6cf5aacd78ec69355fe5ecc5b967553",
+    "temp": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/codex-cursor-arch-review-KpU5WJ"
+  },
+  "candidateOwnC07Needle": {
+    "id": "c07-ambience-delete-block",
+    "file": "packages/editor/src/core/ambience-commands.ts",
+    "sha256": "d71065b9e0a5a9730a6af49b008604d8b6cf5aacd78ec69355fe5ecc5b967553",
+    "hashUnchanged": true,
+    "greenExit": 0,
+    "greenPassed": 1,
+    "redExit": 1,
+    "failedTitle": "keeps ambience constructors on the old commands barrel and blocks in-use delete",
+    "failedFullName": "C07 ambience command family keeps ambience constructors on the old commands barrel and blocks in-use delete",
+    "assertion": "AssertionError: expected '氛围 day 仍被 0 处引用，不可删除' to contain '不能删除'",
+    "ok": true
+  },
+  "isolatedNewC07MissingGuardOnly": {
+    "passed": 1,
+    "failed": 0,
+    "pending": 0,
+    "files": 1
+  },
+  "candidateTreeUntouched": true
+}
