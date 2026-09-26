@@ -8,8 +8,11 @@ import {
   sceneFixture,
   worldFixture,
 } from './__tests__/world-async-fixture.js'
+import { ActiveScene } from './active-scene.js'
 import { AsyncIntentController, asyncIntentAbortError } from './async-intent.js'
+import { buildBlankProjectMap } from './project-map.js'
 import { Canvas2DRenderer } from './render.js'
+import { runtimeSceneView } from './runtime-project-view.js'
 import { type ProjectScriptHostOptions, ScriptProjectRuntime } from './runtime-script-project.js'
 import type { BaseRuntimeLeafCommand } from './script-compiler-core.js'
 import { executeScriptHostEffect } from './script-host-adapter.js'
@@ -19,19 +22,47 @@ function mapHarness(initial: string | undefined) {
   const world = worldFixture()
   if (initial) world.script!.mapOverride = { source: initial }
   const scene = sceneFixture('source')
-  const oldMap = { width: 1, height: 1 },
+  const oldMap = buildBlankProjectMap(1, 1, 'tiles'),
     oldRenderer = { old: true }
-  const next = { map: { width: 3, height: 2 }, tilesets: new Map() }
+  const next = { map: buildBlankProjectMap(3, 2, 'tiles'), tilesets: new Map() }
+  const activeScene = new ActiveScene<object>(runtimeSceneView(scene, world.script!), () => {})
+  const initialPlan = {
+    sceneId: scene.id,
+    def: activeScene.scene,
+    assets: { map: oldMap, tilesets: new Map() },
+    palette: { colors: [], cycles: [] },
+    renderer: oldRenderer,
+    entityDefs: new Map(),
+    pageActions: [],
+  }
+  activeScene.commit(initialPlan)
+  activeScene.rendererForWave(() => oldRenderer)
   const adapterHost = {} as ScriptHost
   const env = {
     world,
     canonicalScript: world.script,
-    scene,
-    map: oldMap,
-    renderer: oldRenderer,
-    tiles: new Map(),
-    waveRenderer: { old: true } as object | null,
-    room: { col: 0, row: 0, cols: 1, rows: 1 },
+    activeScene,
+    get scene() {
+      return activeScene.scene
+    },
+    set scene(value) {
+      activeScene.commit({ ...initialPlan, def: value })
+    },
+    get map() {
+      return activeScene.map
+    },
+    get renderer() {
+      return activeScene.renderer
+    },
+    get tiles() {
+      return activeScene.tiles
+    },
+    get waveRenderer() {
+      return activeScene.waveRenderer
+    },
+    get room() {
+      return activeScene.room
+    },
     scriptMutationIntent: new AsyncIntentController(),
     Canvas2DRenderer,
     ctx: {},
@@ -240,7 +271,7 @@ describe('WORLD-ASYNC-COMMIT-1 current map: real canonical runtime â†’ adapter â
     await h.runtime.runCommands([{ kind: 'setSceneMapOverride', mapId: 'map.new' }], {
       signal: new AbortController().signal,
     })
-    gate.resolve({ ...h.next, map: { width: 9, height: 9 } })
+    gate.resolve({ ...h.next, map: buildBlankProjectMap(9, 9, 'tiles') })
     await gate.promise
     await Promise.resolve()
     expect(h.world.script?.mapOverride?.source).toBe('map.new')

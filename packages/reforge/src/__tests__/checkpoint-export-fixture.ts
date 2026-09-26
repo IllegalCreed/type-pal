@@ -7,11 +7,13 @@ import {
 } from '@type-pal/content'
 import ts from 'typescript'
 import { expect, vi } from 'vitest'
+import { ActiveScene } from '../active-scene.js'
 import { clearRestoredWorldActorConditions } from '../actor-condition-lifecycle.js'
 import { AsyncIntentController } from '../async-intent.js'
 import { expectDefined } from '../defined.js'
 import { seedFormationTrail } from '../follower.js'
-import { projectedWorldScriptScratch } from '../runtime-project-view.js'
+import { buildBlankProjectMap } from '../project-map.js'
+import { projectedWorldScriptScratch, runtimeSceneView } from '../runtime-project-view.js'
 import { type ProjectScriptHostOptions, ScriptProjectRuntime } from '../runtime-script-project.js'
 import { normalizeCurrentSave, preflightCurrentSave } from '../save/current-codec.js'
 import {
@@ -95,13 +97,21 @@ export function checkpointHarness(overrides: Partial<ProjectScriptHostOptions> =
   )
   const capture = vi.fn(buildCurrentSavePayload),
     effects = vi.fn()
+  const activeScene = new ActiveScene(
+    runtimeSceneView(definition, expectDefined(world.script)),
+    () => {},
+  )
   const env = {
     dev,
     window: {} as { __tpE2e?: Hooks },
     world,
     canonicalScript: expectDefined(world.script),
     runtimeScript: {},
-    scene: definition,
+    definition,
+    activeScene,
+    get scene() {
+      return this.activeScene.scene
+    },
     player: { pos: { col: 1.5, row: 2.5, height: 0 } },
     facing: 'down' as Facing,
     inputProject: project,
@@ -138,12 +148,12 @@ export function checkpointHarness(overrides: Partial<ProjectScriptHostOptions> =
     // No substitute restore algorithm: real restore/replaceWorld/commit consume this resource plan.
     prepareSceneSwitch: vi.fn(
       async (id: string, _world: WorldState, spawn: { pos: GridPos; facing: Facing }) => ({
-        def: sceneFixture(id),
+        def: runtimeSceneView(sceneFixture(id), _world.script ?? emptyWorldScriptState()),
         sceneId: id,
         spawn,
         neededSprites: new Set(),
-        assets: { map: { width: 10, height: 10 }, tilesets: new Map() },
-        palette: [],
+        assets: { map: buildBlankProjectMap(10, 10, 'tiles'), tilesets: new Map() },
+        palette: { colors: [], cycles: [] },
         renderer: {},
         entityDefs: new Map(),
         pageActions: [],
@@ -161,21 +171,8 @@ export function checkpointHarness(overrides: Partial<ProjectScriptHostOptions> =
     bgm: { play: effects, stop: effects },
     spriteCache: { prune: effects },
     resetFrameAnimationPresentation: effects,
-    entityStaticBaseline: new Map(),
-    entityActions: { replaceScene: effects },
-    map: null,
-    tiles: null,
-    palette: null,
-    renderer: null,
-    waveRenderer: null,
-    entitySpriteDefs: new Map(),
-    room: null,
-    viewMinX: 0,
-    viewMinY: 0,
-    viewMaxX: 0,
-    viewMaxY: 0,
-    TILE_W: 32,
-    TILE_H: 16,
+    entityStaticBaseline: activeScene.entityStaticBaseline,
+    entityActions: activeScene.actions,
     partyLayer: 0,
     walking: false,
     stepFrame: 0,

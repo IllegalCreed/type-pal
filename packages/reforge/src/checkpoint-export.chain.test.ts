@@ -110,8 +110,8 @@ test('persistent root exports its next cursor at the safe point, not a partial c
       return answer.promise
     },
   })
-  h.env.scene.hooks!.onTeleport!.variants.exit!.flow = machine([confirm])
-  const running = h.runtime.runSceneHook(h.env.scene, 'onTeleport', {
+  h.env.definition.hooks!.onTeleport!.variants.exit!.flow = machine([confirm])
+  const running = h.runtime.runSceneHook(h.env.definition, 'onTeleport', {
     signal: new AbortController().signal,
   })
   await entered.promise
@@ -125,7 +125,9 @@ test('persistent root exports its next cursor at the safe point, not a partial c
     machine: 'exit',
     state: 'last',
   })
-  await h.runtime.runSceneHook(h.env.scene, 'onTeleport', { signal: new AbortController().signal })
+  await h.runtime.runSceneHook(h.env.definition, 'onTeleport', {
+    signal: new AbortController().signal,
+  })
   expect(h.world.script!.flags).toEqual({ first: true, childEnd: true })
   expect(result.world.script!.flags).toEqual({ first: true })
 })

@@ -15,6 +15,7 @@ import ts from 'typescript'
 import { describe, expect, test } from 'vitest'
 // 生产 BDF 字形源（与 ENGINE_CHROME.fontBdf 同一文件），?raw 在 vitest/Vite 下同步可用。
 import bdfSource from '../../../../data/raw/unifont-cn.bdf?raw'
+import { ActiveScene } from '../active-scene.js'
 import { clearRestoredWorldActorConditions } from '../actor-condition-lifecycle.js'
 import { AsyncIntentController, asyncIntentAbortError } from '../async-intent.js'
 import { collectSceneSoundAssets } from '../audio/sfx-readiness.js'
@@ -22,6 +23,7 @@ import { expectDefined } from '../defined.js'
 import { seedFormationTrail } from '../follower.js'
 import mainSource from '../main.ts?raw'
 import { ItemUseSession } from '../menu/item-use-session.js'
+import { buildBlankProjectMap } from '../project-map.js'
 import { Canvas2DRenderer } from '../render.js'
 import { RuntimeFrameSession } from '../runtime-frame-session.js'
 import {
@@ -194,6 +196,7 @@ function harness(
     ['new-save', sceneDef('new-save')],
   ])
   const empty = () => {}
+  const activeScene = new ActiveScene(sceneDef('live-scene'), empty)
   const env: Record<string, unknown> = {
     ...content,
     normalizeCurrentSave,
@@ -220,7 +223,10 @@ function harness(
     canonicalProject: project,
     world,
     canonicalScript,
-    scene: sceneDef('live-scene'),
+    activeScene,
+    get scene() {
+      return activeScene.scene
+    },
     runtimeScript: projectedWorldScriptScratch(canonicalScript!, 'live-scene'),
     actorSpriteOverrides: new Map(),
     worldMutationIntent: new AsyncIntentController(),
@@ -236,8 +242,8 @@ function harness(
       return structuredClone(cache.get(id))
     },
     sceneResources: { peek: (id: string) => cache.get(id) },
-    getMapAssets: async () => ({ map: { width: 10, height: 10 }, tilesets: new Map() }),
-    getStandardPalette: async () => ({ colors: [] }),
+    getMapAssets: async () => ({ map: buildBlankProjectMap(10, 10, 'tiles'), tilesets: new Map() }),
+    getStandardPalette: async () => ({ colors: [], cycles: [] }),
     spriteCache: {
       load: async () => ({ frames: [] }),
       get: () => ({ frames: [] }),
@@ -248,21 +254,8 @@ function harness(
     ctx: {},
     console: { warn: () => {} },
     showToast: (text: string) => toasts.push(text),
-    entityStaticBaseline: new Map(),
-    entityActions: { replaceScene: empty },
-    map: null,
-    tiles: null,
-    palette: null,
-    renderer: null,
-    waveRenderer: null,
-    entitySpriteDefs: new Map(),
-    room: null,
-    viewMinX: 0,
-    viewMinY: 0,
-    viewMaxX: 0,
-    viewMaxY: 0,
-    TILE_W: 32,
-    TILE_H: 16,
+    entityStaticBaseline: activeScene.entityStaticBaseline,
+    entityActions: activeScene.actions,
     player: { pos: { col: 0, row: 0, height: 0 } },
     facing: 'down',
     partyLayer: 0,

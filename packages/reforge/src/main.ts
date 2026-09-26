@@ -34,6 +34,7 @@ import {
   type WorldState,
 } from '@type-pal/content'
 import type { Palette } from '@type-pal/shared'
+import { ActiveScene } from './active-scene.js'
 import { clearRestoredWorldActorConditions } from './actor-condition-lifecycle.js'
 import { applyWorldActorCondition, clearWorldActorCondition } from './actor-condition-runtime.js'
 import { compositeAmbienceTint } from './ambience-compositor.js'
@@ -72,11 +73,7 @@ import {
   DitherTransitionController,
 } from './dither-transition.js'
 import { assertEngineChromeComplete, loadEngineChromeImage } from './engine-chrome/registry.js'
-import {
-  EntityActionPlayer,
-  type EntityActionSeed,
-  resolveSpriteActionBinding,
-} from './entity-action-player.js'
+import { type EntityActionSeed, resolveSpriteActionBinding } from './entity-action-player.js'
 import {
   advanceEntityLifecycleWorldStep,
   applyEntityLifecycleMutation,
@@ -149,12 +146,7 @@ import {
 } from './motion-runtime-wiring.js'
 import { runOpeningMenu, runOpeningMenuWithMusic } from './opening-menu.js'
 import { type LoadedCurrentProject, loadAllScenes, loadScene } from './project-loader.js'
-import {
-  Canvas2DRenderer,
-  type CellRect,
-  type SpriteDraw,
-  type TilesetFrameRegistry,
-} from './render.js'
+import { Canvas2DRenderer, type SpriteDraw } from './render.js'
 import { renderSceneFrame } from './render-scene.js'
 import { type RuntimeFramePorts, RuntimeFrameSession } from './runtime-frame-session.js'
 import { type RuntimeInputPorts, routeRuntimeInput } from './runtime-input-router.js'
@@ -212,6 +204,7 @@ import { loadGlyphs } from './text/glyph.js'
 import { renderSpans } from './text/text-render.js'
 import type { UseExecutionRequest } from './use-menu-state.js'
 import { playVideo as playVideoOverlay } from './video-player.js'
+import { WorldCamera } from './world-camera.js'
 
 // 切片 1 · 第一步：把真实 map 56（黑水镇民居）整张渲染出来，看清里头几间民居、挑一间。
 // 下一步：定裁剪矩形（只取一间）+ 放李逍遥/鬼 + 走路/对话。
@@ -380,35 +373,13 @@ export async function bootGame(
   }
 
   const WORLD_SCALE = 4 // 逻辑 320×200 → 物理 1280×800;整数倍 + pixelated 保点阵锐利
-  const VIEW_W = 320
-  const VIEW_H = 200
-  const PARTY_OX = 160 // 玩家在屏幕上的落点（PARTYOFFSET，原版 160 / 112）
-  const PARTY_OY = 112
 
-  // ── 活动场景态(M2c:boot = switchScene 第一跳,单一代码路)──
-  let scene: SceneDef = project.entryScene
-  let map!: SceneMapAssets['map']
-  let tiles!: TilesetFrameRegistry
-  let palette!: Palette
-  let renderer!: Canvas2DRenderer
-  let waveRenderer: Canvas2DRenderer | null = null
-  let room!: CellRect
-  let viewMinX = 0
-  let viewMinY = 0
-  let viewMaxX = 0
-  let viewMaxY = 0
-  let entitySpriteDefs = new Map<string, SpriteDef>()
-  /**
-   * Pristine static entity flags. `applyWorldToScene` historically projects entityState into
-   * the live SceneDef, so reading `scene.entities[].hidden/collide` back as the static baseline
-   * would make a restore permanently inherit the old projection. Keep this side table separate
-   * until the current scene projection replaces the flattened renderer fields entirely.
-   */
-  const entityStaticBaseline = new Map<string, { hidden: boolean; collide: boolean }>()
-  // 首次 switchScene 前建立，boot/重入/读档都由 commitSceneSwitch 原子重建页动作。
-  const entityActions = new EntityActionPlayer((_entity, cue) => {
+  // Active scene owns prepared resources and page-action lifetime; host owns world/party commit.
+  const activeScene = new ActiveScene<Canvas2DRenderer>(project.entryScene, (_entity, cue) => {
     if (cue.kind === 'sound') sfx.play(cue.asset)
   })
+  const entityStaticBaseline = activeScene.entityStaticBaseline
+  const entityActions = activeScene.actions
   const player: { pos: GridPos } = { pos: { ...project.entryScene.entry.pos } }
   let facing: Facing = project.entryScene.entry.facing
   // 原版 gs.wLayer：0x6E 第三操作数是逻辑层号，渲染时按 8px/层参与
@@ -437,23 +408,13 @@ export async function bootGame(
   /** D13-1 帧步进(K5):active=冻结墙钟推进,stepRequested=本帧强制一拍(STEP_MS)。 */
   const frames = new RuntimeFrameSession(STEP_MS)
 
-  const camera = { x: 0, y: 0 }
-  // 脚本相机偏移(0x7F 累积;⚠ 一阶段彩依飞走案:走位期间此偏移必须保持,回正才清零,
-  // 绝不在跟随时抹掉 —— 见 CLAUDE.md「相机」陷阱)。切场景清零。
-  const cameraOffset = { x: 0, y: 0 }
-  const clamp = (v: number, lo: number, hi: number): number => (v < lo ? lo : v > hi ? hi : v)
+  const cameraSession = new WorldCamera(
+    () => player.pos,
+    () => activeScene.bounds,
+  )
+  const camera = cameraSession.position
   function updateCamera(): void {
-    const pp = gridToPixel(player.pos)
-    camera.x = clamp(
-      pp.x - PARTY_OX + cameraOffset.x,
-      viewMinX,
-      Math.max(viewMinX, viewMaxX - VIEW_W),
-    )
-    camera.y = clamp(
-      pp.y - PARTY_OY + cameraOffset.y,
-      viewMinY,
-      Math.max(viewMinY, viewMaxY - VIEW_H),
-    )
+    cameraSession.update()
   }
 
   // 精灵解析(C0):实体 → actor/prop → sprites 注册表;玩家 = party[0] 的 ActorDef.spriteId。
@@ -613,7 +574,7 @@ export async function bootGame(
     const target = world as unknown as Record<string, unknown>
     for (const key of Object.keys(target)) delete target[key]
     Object.assign(target, replacement)
-    syncRuntimeScriptScratch(scene.id)
+    syncRuntimeScriptScratch(activeScene.scene.id)
   }
   const actorMutationIntent = (
     intents: Map<string, AsyncIntentController>,
@@ -791,7 +752,7 @@ export async function bootGame(
   }
   const syncDitherDebugDataset = (): void => {
     if (!import.meta.env.DEV) return
-    canvas.dataset.rfScene = scene.id
+    canvas.dataset.rfScene = activeScene.scene.id
     canvas.dataset.rfDither = JSON.stringify(ditherDebugState())
     canvas.dataset.rfSceneEntry = JSON.stringify(sceneEntryDebugState())
     canvas.dataset.rfRender = JSON.stringify({
@@ -804,9 +765,11 @@ export async function bootGame(
       frameAnimationLayerVisible: frameAnimationPresentation.visibleFrame !== undefined,
     })
     if (motionProbeEntityId) {
-      const entity = scene.entities.find((candidate) => candidate.id === motionProbeEntityId)
+      const entity = activeScene.scene.entities.find(
+        (candidate) => candidate.id === motionProbeEntityId,
+      )
       canvas.dataset.rfMotionEntity = JSON.stringify({
-        scene: scene.id,
+        scene: activeScene.scene.id,
         worldTick: worldTickNum,
         id: motionProbeEntityId,
         present: entity !== undefined,
@@ -832,7 +795,7 @@ export async function bootGame(
   // DEV 调试口(__rfBattle 同款):验收/自动化直读世界态(party HP/MP、money、learnedSkills)
   if (import.meta.env.DEV) {
     Object.defineProperty(window, '__rfWorld', { get: () => world, configurable: true })
-    Object.defineProperty(window, '__rfScene', { get: () => scene, configurable: true })
+    Object.defineProperty(window, '__rfScene', { get: () => activeScene.scene, configurable: true })
     Object.defineProperty(window, '__rfDither', {
       get: ditherDebugState,
       configurable: true,
@@ -887,26 +850,7 @@ export async function bootGame(
   ): void {
     spriteCache.prune(plan.neededSprites)
     resetFrameAnimationPresentation()
-    scene = plan.def
-    entityStaticBaseline.clear()
-    for (const entity of plan.def.entities) {
-      entityStaticBaseline.set(`${plan.sceneId}/${entity.id}`, {
-        hidden: entity.hidden === true,
-        collide: entity.collide === true,
-      })
-    }
-    map = plan.assets.map
-    tiles = plan.assets.tilesets
-    palette = plan.palette
-    renderer = plan.renderer
-    waveRenderer = null
-    entitySpriteDefs = plan.entityDefs
-    entityActions.replaceScene(plan.pageActions)
-    room = { col: 0, row: 0, cols: map.width, rows: map.height }
-    viewMinX = room.col * TILE_W - TILE_W
-    viewMinY = room.row * TILE_H - 40
-    viewMaxX = (room.col + room.cols) * TILE_W + TILE_W
-    viewMaxY = (room.row + room.rows) * TILE_H + 16
+    activeScene.commit(plan)
     player.pos = plan.spawn.pos
     facing = plan.spawn.facing
     partyLayer = 0
@@ -1113,7 +1057,7 @@ export async function bootGame(
       signal.throwIfAborted()
       if (autoActivations.get(ownerId) !== activation)
         throw asyncIntentAbortError(`auto 实体 ${ownerId} activation 已被替换`)
-      const entity = scene.entities.find((candidate) => candidate.id === ownerId)
+      const entity = activeScene.scene.entities.find((candidate) => candidate.id === ownerId)
       if (!entity) throw asyncIntentAbortError(`auto 实体 ${ownerId} 已离场`)
       if (
         autoActivationSafePointOpen(
@@ -1149,14 +1093,14 @@ export async function bootGame(
       soundRoles: project.manifest.assets.roles,
       portraits,
       faces: faceImages,
-      palette: () => palette,
+      palette: () => activeScene.palette,
       chrome: { glyphs, ui: menuAssets, battleIcons: menuAssets.battleIcons, dialogBox },
       sfx,
       loadEffect: loadEffectOnce,
     },
     {
       readWorld: () => world,
-      readScene: () => scene,
+      readScene: () => activeScene.scene,
       debugLeaders: () => {
         const params = new URLSearchParams(location.search)
         return {
@@ -1191,7 +1135,7 @@ export async function bootGame(
           assertCurrent()
         }
       },
-      restoreSceneSounds: () => prepareSceneSounds(scene, world),
+      restoreSceneSounds: () => prepareSceneSounds(activeScene.scene, world),
       publishDebug: (session) => {
         if (import.meta.env.DEV) (window as { __rfBattle?: unknown }).__rfBattle = session
       },
@@ -1271,7 +1215,7 @@ export async function bootGame(
     if (inlineTriggerOwners.has(entityId)) return true
     inlineTriggerOwners.add(entityId)
     try {
-      const canonical = sceneResources.peek(scene.id)
+      const canonical = sceneResources.peek(activeScene.scene.id)
       if (!canonical || !scriptRuntime) return false
       return scriptRuntime.runEntityBehavior(canonical, entityId, 'trigger', { signal })
     } finally {
@@ -1295,16 +1239,6 @@ export async function bootGame(
   let playerMotionDirection: Facing | null = null
   // auto 巡逻:每实体独立 runner,与主脚本**并行**(2026-07-03 拍板:不复刻对话冻结 NPC);
   // E6a:仅被主脚本接管(authority)的实体其位移暂停,release 恢复。切场景全停。
-  let cameraPanFx: {
-    fromX: number
-    fromY: number
-    dx: number
-    dy: number
-    steps: number
-    done: number
-    resolve: () => void
-  } | null = null
-
   function lifecycleTableForWorld(): EntityLifecycleTable | undefined {
     const table = world.entityLifecycles
     if (table === undefined) return undefined
@@ -1313,7 +1247,7 @@ export async function bootGame(
   }
 
   function lifecycleEntryFor(entityId: string): EntityLifecycleEntry | undefined {
-    return lifecycleTableForWorld()?.[scene.id]?.[entityId]
+    return lifecycleTableForWorld()?.[activeScene.scene.id]?.[entityId]
   }
 
   function setLifecycleTableForWorld(table: EntityLifecycleTable): void {
@@ -1323,7 +1257,7 @@ export async function bootGame(
 
   function lifecycleFootAnchors(): Record<string, { x: number; y: number }> {
     return Object.fromEntries(
-      scene.entities.map((entity) => {
+      activeScene.scene.entities.map((entity) => {
         const foot = gridToPixel(entity.pos)
         return [entity.id, { x: foot.x - camera.x, y: foot.y - camera.y }]
       }),
@@ -1351,7 +1285,7 @@ export async function bootGame(
     const table = lifecycleTableForWorld()
     if (!table) return
     const stepped = advanceEntityLifecycleWorldStep(table, {
-      currentScene: scene.id,
+      currentScene: activeScene.scene.id,
       eligible: true,
       footAnchors: lifecycleFootAnchors(),
     })
@@ -1378,7 +1312,7 @@ export async function bootGame(
       hasHostile?: boolean
     } = {},
   ) {
-    const baseline = entityStaticBaseline.get(`${scene.id}/${entity.id}`) ?? {
+    const baseline = entityStaticBaseline.get(`${activeScene.scene.id}/${entity.id}`) ?? {
       hidden: entity.hidden === true,
       collide: entity.collide === true,
     }
@@ -1393,9 +1327,9 @@ export async function bootGame(
 
   /** 仅投影显隐/碰撞。lifecycle tick 不得顺带重放旧 endpoint、拉回半途 mover。 */
   function applyWorldEntityGatesToScene(): void {
-    syncRuntimeScriptScratch(scene.id)
-    for (const e of scene.entities) {
-      const baseline = entityStaticBaseline.get(`${scene.id}/${e.id}`) ?? {
+    syncRuntimeScriptScratch(activeScene.scene.id)
+    for (const e of activeScene.scene.entities) {
+      const baseline = entityStaticBaseline.get(`${activeScene.scene.id}/${e.id}`) ?? {
         hidden: e.hidden === true,
         collide: e.collide === true,
       }
@@ -1425,8 +1359,8 @@ export async function bootGame(
 
   /** 显式定位或进场/读档才重放 canonical entityPos；普通 lifecycle 投影禁止调用。 */
   function applyWorldEntityPositionToScene(id: string): void {
-    syncRuntimeScriptScratch(scene.id)
-    const entity = scene.entities.find((candidate) => candidate.id === id)
+    syncRuntimeScriptScratch(activeScene.scene.id)
+    const entity = activeScene.scene.entities.find((candidate) => candidate.id === id)
     const pos = runtimeScript.entityPos?.[id]
     if (!entity || !pos) return
     entity.pos = { ...pos }
@@ -1437,7 +1371,7 @@ export async function bootGame(
   /** 进场/读档的完整世界投影。 */
   function applyWorldToScene(): void {
     applyWorldEntityGatesToScene()
-    for (const entity of scene.entities) applyWorldEntityPositionToScene(entity.id)
+    for (const entity of activeScene.scene.entities) applyWorldEntityPositionToScene(entity.id)
   }
 
   function hostFade(
@@ -1492,7 +1426,7 @@ export async function bootGame(
 
   async function hostSceneEntryReveal(reveal: SceneReveal, signal?: AbortSignal): Promise<void> {
     assertRunnerActive(signal, '场景入场呈现所属 runner 已取消')
-    const entry = sceneEntrySession.startReveal(scene.id, reveal)
+    const entry = sceneEntrySession.startReveal(activeScene.scene.id, reveal)
     // boot、读档直达或 dev ?scene 没有 previous presented frame：prepare 照跑，呈现直接提交。
     if (!entry) return
     try {
@@ -1580,7 +1514,8 @@ export async function bootGame(
   // Motion lifetime follows scene/world replacement, not unrelated same-world mutations (dialogue,
   // inventory, lifecycle counters). A dedicated epoch prevents those writes from invalidating a
   // canonical endpoint while still distinguishing a reload of the same scene id.
-  const currentMotionSceneSessionId = (): string => motionRuntime.currentSceneSessionId(scene.id)
+  const currentMotionSceneSessionId = (): string =>
+    motionRuntime.currentSceneSessionId(activeScene.scene.id)
   const entityMotionPermanentlyRemoved = (id: string): boolean =>
     lifecycleEntryFor(id)?.phase === 'removed'
   const autoMotionTargetHidden = (id: string): boolean => {
@@ -1613,7 +1548,7 @@ export async function bootGame(
   ): Promise<number> {
     return new Promise((resolve, reject) => {
       signal?.throwIfAborted()
-      const e = scene.entities.find((candidate) => candidate.id === id)
+      const e = activeScene.scene.entities.find((candidate) => candidate.id === id)
       if (!e) {
         reject(asyncIntentAbortError(`实体 ${id} 不在场，走位未执行`))
         return
@@ -1676,7 +1611,7 @@ export async function bootGame(
   function scheduleAutoStep(id: string, dir: Facing, signal: AbortSignal): Promise<AutoStepAck> {
     return new Promise((resolve, reject) => {
       signal.throwIfAborted()
-      if (!scene.entities.some((candidate) => candidate.id === id)) {
+      if (!activeScene.scene.entities.some((candidate) => candidate.id === id)) {
         reject(asyncIntentAbortError(`auto stepEntity: 实体 ${id} 不在场`))
         return
       }
@@ -1764,7 +1699,7 @@ export async function bootGame(
   ): Promise<AutoOneShotAck> {
     return new Promise((resolve, reject) => {
       signal.throwIfAborted()
-      if (!scene.entities.some((candidate) => candidate.id === id)) {
+      if (!activeScene.scene.entities.some((candidate) => candidate.id === id)) {
         reject(asyncIntentAbortError(`追逐实体 ${id} 已离场`))
         return
       }
@@ -1855,7 +1790,7 @@ export async function bootGame(
   ): Promise<void> {
     const continuationSceneToken = currentMotionSceneSessionId()
     assertRunnerActive(signal, `追逐 ${entityId} 所属 runner 已取消`)
-    const e = scene.entities.find((candidate) => candidate.id === entityId)
+    const e = activeScene.scene.entities.find((candidate) => candidate.id === entityId)
     if (entityMotionPermanentlyRemoved(entityId))
       throw asyncIntentAbortError(`追逐实体 ${entityId} 已永久移除`)
     const activation = source === 'auto' ? autoActivationBySignal.get(signal) : undefined
@@ -1998,9 +1933,9 @@ export async function bootGame(
     await waitForAutoTargetContinuation({
       signal,
       read: () => {
-        const target = scene.entities.find((candidate) => candidate.id === entityId)
+        const target = activeScene.scene.entities.find((candidate) => candidate.id === entityId)
         const owner = activation
-          ? scene.entities.find((candidate) => candidate.id === activation.entityId)
+          ? activeScene.scene.entities.find((candidate) => candidate.id === activation.entityId)
           : undefined
         return {
           sceneCurrent: currentMotionSceneSessionId() === sceneSessionId,
@@ -2071,50 +2006,8 @@ export async function bootGame(
       dialogBox.close()
     },
     fade: (dir, ms, color, signal) => hostFade(dir, ms, color, signal),
-    cameraPan: (dx, dy, frames, signal) =>
-      new Promise((resolve, reject) => {
-        assertRunnerActive(signal, '相机移动所属 runner 已取消')
-        let settled = false
-        // 每帧位移 (dx,dy),共 frames 帧,累积进 cameraOffset(不回正;走位期保留)
-        const entry = {
-          fromX: cameraOffset.x,
-          fromY: cameraOffset.y,
-          dx,
-          dy,
-          steps: frames,
-          done: 0,
-          resolve: (): void => {
-            if (settled) return
-            settled = true
-            signal.removeEventListener('abort', abort)
-            if (cameraPanFx === entry) cameraPanFx = null
-            resolve()
-          },
-        }
-        const abort = (): void => {
-          if (settled) return
-          settled = true
-          if (cameraPanFx === entry) cameraPanFx = null
-          signal.removeEventListener('abort', abort)
-          reject(asyncIntentAbortError('相机移动所属 runner 已取消'))
-        }
-        cameraPanFx?.resolve()
-        cameraPanFx = entry
-        signal.addEventListener('abort', abort, { once: true })
-        if (signal.aborted) abort()
-      }),
-    cameraSnap: (to) => {
-      if (to) {
-        const tp = gridToPixel(to)
-        const pp = gridToPixel(player.pos)
-        cameraOffset.x = tp.x - pp.x
-        cameraOffset.y = tp.y - pp.y
-      } else {
-        cameraOffset.x = 0
-        cameraOffset.y = 0
-      }
-      updateCamera()
-    },
+    cameraPan: (dx, dy, frames, signal) => cameraSession.pan(dx, dy, frames, signal),
+    cameraSnap: (to) => cameraSession.snap(to),
     frameAnimation: async (opts, signal) => {
       assertRunnerActive(signal, `帧动画 ${opts.asset} 所属 runner 已取消`)
       beginFrameAnimationPlayback()
@@ -2143,10 +2036,7 @@ export async function bootGame(
       r?.()
       fadeDriver.cancel(0)
       resetFrameAnimationPresentation()
-      cameraPanFx?.resolve()
-      cameraPanFx = null
-      cameraOffset.x = 0
-      cameraOffset.y = 0
+      cameraSession.reset()
     },
   }
   const presentation = new CutsceneController(presentationOps, {
@@ -2173,13 +2063,13 @@ export async function bootGame(
         signal ?? new AbortController().signal,
       ),
     vanishEntity: (entityId, seconds) => {
-      const e = scene.entities.find((x) => x.id === entityId)
+      const e = activeScene.scene.entities.find((x) => x.id === entityId)
       if (!e) return
       e.hidden = true
-      const atScene = scene
+      const atScene = activeScene.scene
       void (async () => {
         await host.wait(Math.max(200, seconds * 1000))
-        if (scene === atScene) e.hidden = false // 重生(临时态;换场景后由场景重载自然恢复)
+        if (activeScene.scene === atScene) e.hidden = false // 重生(临时态;换场景后由场景重载自然恢复)
       })()
     },
     loadLastSave: async (signal) => {
@@ -2235,7 +2125,7 @@ export async function bootGame(
       const closedDialogFrame = preserveClosedDialogFrame
         ? ctx.getImageData(0, 0, canvas.width, canvas.height)
         : null
-      const fromSceneId = scene.id
+      const fromSceneId = activeScene.scene.id
       const plan = await prepareAndCommitSceneSwitch({
         prepare: () =>
           prepareSceneSwitch(sceneId, worldView, {
@@ -2406,7 +2296,7 @@ export async function bootGame(
     setEntityState: () => applyWorldEntityGatesToScene(), // runner 已写 world.script,这里只重放显隐/碰撞
     // 0x13 实体绝对定位:持久写 entityPos(跨场景 36/54 处,进场重放)+ 本场景活体生效
     setEntityPos: (id, pos) => {
-      const e = scene.entities.find((x) => x.id === id)
+      const e = activeScene.scene.entities.find((x) => x.id === id)
       const height = e?.pos.height ?? 0
       runtimeScript.entityPos ??= {}
       runtimeScript.entityPos[id] = { col: pos.col, row: pos.row, height }
@@ -2414,7 +2304,7 @@ export async function bootGame(
     },
     // 0x12 相对队伍摆位:绝对格 = 队伍当前格 + (dcol,drow);持久/活体同 setEntityPos
     setEntityPosRelParty: (id, dcol, drow) => {
-      const e = scene.entities.find((x) => x.id === id)
+      const e = activeScene.scene.entities.find((x) => x.id === id)
       const height = e?.pos.height ?? 0
       runtimeScript.entityPos ??= {}
       runtimeScript.entityPos[id] = {
@@ -2428,7 +2318,7 @@ export async function bootGame(
     getEntityState: (id) => {
       const st = runtimeScript.entityState[id]
       if (st !== undefined) return st
-      const e = scene.entities.find((x) => x.id === id)
+      const e = activeScene.scene.entities.find((x) => x.id === id)
       if (!e) return undefined
       const gates = entityLifecycleGates(e)
       return gates.visible ? (gates.collidable ? 2 : 1) : 0
@@ -2456,22 +2346,23 @@ export async function bootGame(
       }
     },
     setEntityFacing: (id, fc) => {
-      const e = scene.entities.find((x) => x.id === id)
+      const e = activeScene.scene.entities.find((x) => x.id === id)
       if (e) e.facing = fc
     },
     setEntityFrame: (id, frame) => entityFrameOverride.set(id, frame),
     playEntityAction: (id, binding, signal) => {
       assertRunnerActive(signal, `实体 ${id} 动作所属 runner 已取消`)
-      const entity = scene.entities.find((candidate) => candidate.id === id)
-      if (!entity) throw new Error(`playEntityAction: 实体 "${id}" 不在当前场景 ${scene.id}`)
-      const sprite = entitySpriteDefs.get(id)
+      const entity = activeScene.scene.entities.find((candidate) => candidate.id === id)
+      if (!entity)
+        throw new Error(`playEntityAction: 实体 "${id}" 不在当前场景 ${activeScene.scene.id}`)
+      const sprite = activeScene.entitySpriteDefs.get(id)
       if (!sprite) throw new Error(`playEntityAction: 实体 "${id}" 没有可解析的大世界精灵`)
       const loaded = spriteCache.get(project.assetResolver, sprite.asset)
       const resolved = resolveSpriteActionBinding(
         sprite,
         binding,
         loaded?.frames.length,
-        `playEntityAction: 场景 ${scene.id} 实体 ${id}`,
+        `playEntityAction: 场景 ${activeScene.scene.id} 实体 ${id}`,
       )
       // 新动作接管外观时清掉显式定帧；移动中的走帧仍保留并以更高优先级暂停动作。
       entityFrameOverride.delete(id)
@@ -2577,7 +2468,7 @@ export async function bootGame(
     // E7 载具(D20 父动子随;原版 0xA1 聚拢 + 0x3F/44/97 骑乘的 clean 表达)
     // 全员叠筏:队长 + 全部跟随者一起 mount 同偏移(原版 0xA1 全员重叠队首;芦苇漂 1 格共乘)。
     mountParty: (entityId, dx, dy) => {
-      const parent = scene.entities.find((entity) => entity.id === entityId)
+      const parent = activeScene.scene.entities.find((entity) => entity.id === entityId)
       if (
         !parent ||
         entityMotionPermanentlyRemoved(entityId) ||
@@ -2691,7 +2582,7 @@ export async function bootGame(
       await scheduleEntityMove('script', id, to, speed, signal)
     },
     stepEntity: (id, dir) => {
-      const e = scene.entities.find((x) => x.id === id)
+      const e = activeScene.scene.entities.find((x) => x.id === id)
       if (!e || entityMotionPermanentlyRemoved(id)) return
       e.facing = dir
       // 原版单步 op(0x0B-0E)= NPCWalkOneStep(speed 2)= 4/2px = 0.25 格(script.c:660;
@@ -2705,7 +2596,7 @@ export async function bootGame(
     nudgeEntity: (id, dx, dy) => {
       // 增量制(0x6C/0x7D 像素位移):绝对 pixelToGrid 的 round 会把 ±4,±2px 碎步吞成 0
       // (开场锅挥动纹丝不动的根因)——格坐标直接累加小数增量。
-      const e = scene.entities.find((x) => x.id === id)
+      const e = activeScene.scene.entities.find((x) => x.id === id)
       if (!e || entityMotionPermanentlyRemoved(id)) return
       const d = pixelDeltaToGridDelta(dx, dy)
       e.pos = { ...e.pos, col: e.pos.col + d.dcol, row: e.pos.row + d.drow }
@@ -2763,7 +2654,7 @@ export async function bootGame(
       )
     },
     setEntityAuto: (id, binding) => {
-      const e = scene.entities.find((x) => x.id === id)
+      const e = activeScene.scene.entities.find((x) => x.id === id)
       if (!e) return
       entityActions.stop(id, false)
       const stages = Array.isArray(binding)
@@ -2774,7 +2665,7 @@ export async function bootGame(
       restartAutoRunner(e) // 停旧起新(空 stages = 仅停)
     },
     setEntityTrigger: (id, binding) => {
-      const e = scene.entities.find((x) => x.id === id)
+      const e = activeScene.scene.entities.find((x) => x.id === id)
       if (!e) return
       const stages = Array.isArray(binding)
         ? binding
@@ -2786,7 +2677,7 @@ export async function bootGame(
       bumpEntityTriggerRevision(id)
     },
     setEntityTriggerMode: (id, on, range) => {
-      const e = scene.entities.find((x) => x.id === id)
+      const e = activeScene.scene.entities.find((x) => x.id === id)
       if (!e?.pages?.[0]?.trigger) return
       if (!on) {
         e.pages[0] = { ...e.pages[0], trigger: undefined } // 关触发
@@ -2839,8 +2730,8 @@ export async function bootGame(
     // sceneScriptOverrides 覆写优先于静态槽;null 显式禁用,不得回退。
     teleportOut: async (signal) => {
       assertRunnerActive(signal, '传送出口所属 runner 已取消')
-      const canonical = sceneResources.peek(scene.id)
-      if (!canonical) throw new Error(`script 当前场景未缓存: ${scene.id}`)
+      const canonical = sceneResources.peek(activeScene.scene.id)
+      if (!canonical) throw new Error(`script 当前场景未缓存: ${activeScene.scene.id}`)
       const ran = await runDetachedScriptChain(signal, (runtime, runSignal) =>
         runtime.runSceneHook(canonical, 'onTeleport', { signal: runSignal }),
       )
@@ -2885,9 +2776,9 @@ export async function bootGame(
           (n, c) => n + Object.values(c.equipment).filter((v) => v === itemId).length,
           0,
         ) >= atLeast,
-      entityInScene: (id) => scene.entities.some((x) => x.id === id),
+      entityInScene: (id) => activeScene.scene.entities.some((x) => x.id === id),
       facingEntity: (id, range) => {
-        const entity = scene.entities.find((candidate) => candidate.id === id)
+        const entity = activeScene.scene.entities.find((candidate) => candidate.id === id)
         if (!entity || !entityLifecycleGates(entity).visible) return false
         const step = WALK_STEP[facing]
         const front = {
@@ -2897,14 +2788,14 @@ export async function bootGame(
         }
         return gridDist(front, entity.pos) <= Math.max(0, range)
       },
-      sceneId: () => scene.id,
+      sceneId: () => activeScene.scene.id,
     },
     // 0x99 当前场景即时换底图:预载完成后在一个无 await 提交块中同时写运行态与持久 override。
     reloadMap: async (mapId, signal, commitCanonical) => {
       assertRunnerActive(signal, `reloadMap(${mapId}) 的 runner 已取消`)
       if (!commitCanonical) throw new Error('reloadMap 缺 canonical 同步提交控制')
       const scriptMutationToken = scriptMutationIntent.capture()
-      const sceneAtRequest = scene
+      const sceneAtRequest = activeScene.scene
       const scriptAtRequest = canonicalScript
       const assets = await awaitRunner(
         getMapAssets(mapId),
@@ -2913,18 +2804,14 @@ export async function bootGame(
       )
       assertRunnerActive(signal, `reloadMap(${mapId}) 的 runner 已取消`)
       scriptMutationIntent.assertCurrent(scriptMutationToken, `reloadMap(${mapId}) 的脚本已失效`)
-      if (scene !== sceneAtRequest)
+      if (activeScene.scene !== sceneAtRequest)
         throw asyncIntentAbortError(`reloadMap(${mapId}) 的所属场景已失效`)
       if (world.script !== scriptAtRequest)
         throw asyncIntentAbortError(`reloadMap(${mapId}) 的所属脚本世界已失效`)
-      const nextRenderer = new Canvas2DRenderer(ctx, palette, assets.tilesets)
+      const nextRenderer = new Canvas2DRenderer(ctx, activeScene.palette, assets.tilesets)
       const nextRoom = { col: 0, row: 0, cols: assets.map.width, rows: assets.map.height }
       commitCanonical()
-      map = assets.map
-      tiles = assets.tilesets
-      renderer = nextRenderer
-      waveRenderer = null
-      room = nextRoom
+      activeScene.replaceMap(assets, nextRenderer, nextRoom)
     },
     // 0xA0 游戏通关退出 → 回标题屏(复用系统菜单 quit 的 ?menu 干净重启;未存进度弃)
     quitToTitle: async (videos, signal) => {
@@ -3066,25 +2953,25 @@ export async function bootGame(
     command.kind === 'removeEntity'
 
   const refreshCurrentCanonicalBindings = (): void => {
-    const canonical = sceneResources.peek(scene.id)
-    if (!canonical) throw new Error(`script 当前场景未缓存: ${scene.id}`)
+    const canonical = sceneResources.peek(activeScene.scene.id)
+    if (!canonical) throw new Error(`script 当前场景未缓存: ${activeScene.scene.id}`)
     refreshSceneViewBindings(
-      scene,
+      activeScene.scene,
       canonical as unknown as import('@type-pal/content').BaseSceneDef,
       canonicalScript,
     )
     const pageActions: EntityActionSeed[] = []
-    for (const entity of scene.entities) {
+    for (const entity of activeScene.scene.entities) {
       const binding = entity.pages?.[0]?.animation
       if (!binding) continue
-      const sprite = entitySpriteDefs.get(entity.id)
+      const sprite = activeScene.entitySpriteDefs.get(entity.id)
       if (!sprite) continue
       const loaded = spriteCache.get(project.assetResolver, sprite.asset)
       const resolved = resolveSpriteActionBinding(
         sprite,
         binding,
         loaded?.frames.length,
-        `reforge: 场景 ${scene.id} 实体 ${entity.id} canonical page animation`,
+        `reforge: 场景 ${activeScene.scene.id} 实体 ${entity.id} canonical page animation`,
       )
       pageActions.push({ entity: entity.id, ...resolved })
     }
@@ -3100,10 +2987,10 @@ export async function bootGame(
   ): void => {
     applyWorldEntityGatesToScene()
     const reset = commit?.resetFrameTarget
-    if (reset?.scene === scene.id) entityFrameOverride.delete(reset.entity)
+    if (reset?.scene === activeScene.scene.id) entityFrameOverride.delete(reset.entity)
     const target = command.target
-    if (target.scene !== scene.id) return
-    const entity = scene.entities.find((candidate) => candidate.id === target.entity)
+    if (target.scene !== activeScene.scene.id) return
+    const entity = activeScene.scene.entities.find((candidate) => candidate.id === target.entity)
     if (!entity) return
     const hasAuto = !!entity.pages?.[0]?.auto
     const gates = entityLifecycleGates(entity, { hasAuto, hasHostile: !!entity.hostile })
@@ -3161,7 +3048,7 @@ export async function bootGame(
     command: RuntimeLeafCommand,
     commit?: Readonly<{ resetFrameTarget?: { scene: string; entity: string } }>,
   ): void => {
-    syncRuntimeScriptScratch(scene.id)
+    syncRuntimeScriptScratch(activeScene.scene.id)
     if (isLifecycleRuntimeCommand(command)) {
       refreshLifecycleProjection(command, commit)
       return
@@ -3170,7 +3057,7 @@ export async function bootGame(
       ((command.kind === 'selectEntityBehavior' && command.channel === 'trigger') ||
         command.kind === 'selectEntityPage' ||
         command.kind === 'setEntityTriggerActivation') &&
-      command.target.scene === scene.id
+      command.target.scene === activeScene.scene.id
     )
       bumpEntityTriggerRevision(command.target.entity)
     if (
@@ -3185,8 +3072,10 @@ export async function bootGame(
       command.kind === 'selectEntityPage'
     ) {
       const target = command.target
-      if (target.scene === scene.id) {
-        const entity = scene.entities.find((candidate) => candidate.id === target.entity)
+      if (target.scene === activeScene.scene.id) {
+        const entity = activeScene.scene.entities.find(
+          (candidate) => candidate.id === target.entity,
+        )
         if (entity) restartAutoRunner(entity)
       }
     }
@@ -3194,10 +3083,10 @@ export async function bootGame(
       applyWorldEntityGatesToScene()
       const targets = command.kind === 'setEntityState' ? [command.target] : command.targets
       for (const target of targets)
-        if (target.scene === scene.id) maybeResumeLifecycleHiddenMotion(target.entity)
+        if (target.scene === activeScene.scene.id) maybeResumeLifecycleHiddenMotion(target.entity)
     } else if (
       (command.kind === 'setEntityPos' || command.kind === 'setEntityPosRelParty') &&
-      command.target.scene === scene.id
+      command.target.scene === activeScene.scene.id
     )
       applyWorldEntityPositionToScene(command.target.entity)
   }
@@ -3208,7 +3097,7 @@ export async function bootGame(
     signal: AbortSignal,
     commitControl?: ScriptEffectCommitControl,
   ): Promise<void> => {
-    if (command.kind === 'moveEntity' && command.target.scene === scene.id) {
+    if (command.kind === 'moveEntity' && command.target.scene === activeScene.scene.id) {
       const source: EntityMoveSource = context.timing === 'auto' ? 'auto' : 'script'
       const continuationSceneToken = currentMotionSceneSessionId()
       if (source === 'script') takeByScript(command.target.entity)
@@ -3232,7 +3121,7 @@ export async function bootGame(
     if (
       command.kind === 'stepEntity' &&
       context.timing === 'auto' &&
-      command.target.scene === scene.id
+      command.target.scene === activeScene.scene.id
     ) {
       // droppedByAuthority completes immediately. An attempted step first crosses the shared
       // target-scoped continuation gate, so same-tick touch/lifecycle ownership is visible before
@@ -3245,7 +3134,7 @@ export async function bootGame(
       command,
       context,
       signal,
-      { currentSceneId: () => scene.id, ...(commitControl ? { commitControl } : {}) },
+      { currentSceneId: () => activeScene.scene.id, ...(commitControl ? { commitControl } : {}) },
     )
   }
 
@@ -3274,13 +3163,15 @@ export async function bootGame(
       },
       worldChanged: (command, _context, commit) => refreshRuntimeProjection(command, commit),
       scene: getCanonicalScene,
-      currentSceneId: () => scene.id,
+      currentSceneId: () => activeScene.scene.id,
       currentSceneSessionId: currentMotionSceneSessionId,
       gate: (signal) => waitForScriptGameplay(signal),
       entityPosRelativeToParty: (target, dcol, drow) => {
-        if (target.scene !== scene.id)
+        if (target.scene !== activeScene.scene.id)
           throw new Error(`setEntityPosRelParty 只能操作当前场景: ${target.scene}/${target.entity}`)
-        const entity = scene.entities.find((candidate) => candidate.id === target.entity)
+        const entity = activeScene.scene.entities.find(
+          (candidate) => candidate.id === target.entity,
+        )
         return {
           col: player.pos.col + dcol,
           row: player.pos.row + drow,
@@ -3304,9 +3195,10 @@ export async function bootGame(
             (character) => character.id === actorId || character.template === actorId,
           ),
         entityInScene: (target) =>
-          target.scene === scene.id && scene.entities.some((entity) => entity.id === target.entity),
+          target.scene === activeScene.scene.id &&
+          activeScene.scene.entities.some((entity) => entity.id === target.entity),
         facingEntity: (target, range) => {
-          if (target.scene !== scene.id) return false
+          if (target.scene !== activeScene.scene.id) return false
           return host.query.facingEntity(target.entity, range)
         },
       },
@@ -3348,13 +3240,13 @@ export async function bootGame(
     const invalidParents = new Set<string>()
     for (const owner of authority.values()) {
       if (owner.kind !== 'mount') continue
-      const parent = scene.entities.find((entity) => entity.id === owner.parent)
+      const parent = activeScene.scene.entities.find((entity) => entity.id === owner.parent)
       if (!parent || !entityLifecycleGates(parent).visible) invalidParents.add(owner.parent)
     }
     for (const parentId of invalidParents) detachMountChildrenOf(parentId)
     for (const [id, a] of authority) {
       if (a.kind !== 'mount') continue
-      const parent = scene.entities.find((e) => e.id === a.parent)
+      const parent = activeScene.scene.entities.find((e) => e.id === a.parent)
       if (!parent) continue
       const pos = {
         col: parent.pos.col + a.dx,
@@ -3365,7 +3257,7 @@ export async function bootGame(
         player.pos = pos
         walking = false // 骑乘不迈步(原版 wFrame 冻结)
       } else {
-        const e = scene.entities.find((x) => x.id === id)
+        const e = activeScene.scene.entities.find((x) => x.id === id)
         if (e) e.pos = pos
       }
     }
@@ -3428,7 +3320,7 @@ export async function bootGame(
           followerPos[m] = { pos: { ...player.pos }, facing }
         }
       } else if (a.kind === 'mount') {
-        const parent = scene.entities.find((e) => e.id === a.parent)
+        const parent = activeScene.scene.entities.find((e) => e.id === a.parent)
         const base = parent ? parent.pos : player.pos
         followerPos[m] = {
           pos: { col: base.col + a.dx, row: base.row + a.dy, height: base.height },
@@ -3478,7 +3370,7 @@ export async function bootGame(
         const actor = motionActorKey(outcome.actor)
         const intent = intentByActor.get(actor)
         return {
-          scene: scene.id,
+          scene: activeScene.scene.id,
           worldTick: worldTickNum,
           actor,
           source: intent?.source ?? 'passive-yield',
@@ -3499,20 +3391,7 @@ export async function bootGame(
 
   /** D15-1:同一 100ms snapshot 统一规划 entity / hostile / player，再原子提交。 */
   function advanceMoves(dt: number, pressed: ReadonlySet<string>): void {
-    // M3c 相机 pan:每步(~16ms)移动 (dx,dy),累积进 cameraOffset;走完兑现(演出 FX,
-    // 独立于世界拍保持原速)
-    if (cameraPanFx) {
-      const fx = cameraPanFx
-      const wantSteps = Math.min(fx.steps, fx.done + Math.max(1, Math.round(dt / 16)))
-      fx.done = wantSteps
-      cameraOffset.x = fx.fromX + fx.dx * fx.done
-      cameraOffset.y = fx.fromY + fx.dy * fx.done
-      updateCamera()
-      if (fx.done >= fx.steps) {
-        cameraPanFx = null
-        fx.resolve()
-      }
-    }
+    cameraSession.advance(dt)
     // A passive-yield landing may have occurred while another script occupied the single runner.
     // Try delivery before accepting any new party movement; suspended targets keep the claim until
     // their lifecycle gate reopens.
@@ -3648,7 +3527,7 @@ export async function bootGame(
       : 1
 
     for (const id of [...movingEntityIds].sort((a, b) => (a < b ? -1 : a > b ? 1 : 0))) {
-      const entity = scene.entities.find((candidate) => candidate.id === id)
+      const entity = activeScene.scene.entities.find((candidate) => candidate.id === id)
       if (!entity) {
         scriptMotionSlots.get(id)?.cancel(`实体 ${id} 已离场，script 走位未完成`)
         autoMotionSlots.get(id)?.cancel(`实体 ${id} 已离场，auto 走位未完成`)
@@ -3672,7 +3551,7 @@ export async function bootGame(
       const autoTargetAllowed = entityLifecycleGates(entity, { hasAuto: true }).autoAllowed
       const autoOwnerAllowed = (() => {
         if (!queuedAuto?.activationOwnerId) return true
-        const owner = scene.entities.find(
+        const owner = activeScene.scene.entities.find(
           (candidate) => candidate.id === queuedAuto.activationOwnerId,
         )
         return !!owner && entityLifecycleGates(owner, { hasAuto: true }).autoAllowed
@@ -3869,7 +3748,7 @@ export async function bootGame(
     const mountedChildren = new Set<string>()
     const extraFootprints = new Map<string, Array<{ dcol: number; drow: number }>>()
     const appendMountedFootprint = (parent: string, pos: GridPos): void => {
-      const parentEntity = scene.entities.find((candidate) => candidate.id === parent)
+      const parentEntity = activeScene.scene.entities.find((candidate) => candidate.id === parent)
       if (!parentEntity) return
       const offsets = extraFootprints.get(parent) ?? []
       const next = { dcol: pos.col - parentEntity.pos.col, drow: pos.row - parentEntity.pos.row }
@@ -3885,14 +3764,14 @@ export async function bootGame(
           if (follower) appendMountedFootprint(owner.parent, follower.pos)
       } else {
         mountedChildren.add(child)
-        const entity = scene.entities.find((candidate) => candidate.id === child)
+        const entity = activeScene.scene.entities.find((candidate) => candidate.id === child)
         // A mounted decoration keeps following its parent, but it joins the external compound body
         // only when the same lifecycle projection says that rider is actually collidable.
         if (entity && entityLifecycleGates(entity).collidable)
           appendMountedFootprint(owner.parent, entity.pos)
       }
     }
-    const actors: MotionSnapshotActor[] = scene.entities.map((entity) => {
+    const actors: MotionSnapshotActor[] = activeScene.scene.entities.map((entity) => {
       const actor = { kind: 'entity' as const, id: entity.id }
       const gates = entityLifecycleGates(entity)
       const carrierOffsets = extraFootprints.get(entity.id) ?? []
@@ -3931,12 +3810,14 @@ export async function bootGame(
       sideSticks: motionSideSticks,
       partyCanYield: canWriteParty && !pendingTouchTrigger.pending,
       fairnessTickForGroup: (members) => motionFairnessClock.tickForGroup(members),
-      terrainBlocked: (pos) => isBlockedAt(map, pos),
+      terrainBlocked: (pos) => isBlockedAt(activeScene.map, pos),
     })
     appendMotionTrace(intents, plan.outcomes)
     const liveMotionMembers = new Set([
       motionActorKey({ kind: 'party' }),
-      ...scene.entities.map((entity) => motionActorKey({ kind: 'entity' as const, id: entity.id })),
+      ...activeScene.scene.entities.map((entity) =>
+        motionActorKey({ kind: 'entity' as const, id: entity.id }),
+      ),
     ])
     // Fairness identity is the stable actor set, not a leaf/command epoch. This preserves rotation
     // across slow rest, hostile cadence and repeated one-shot auto leaves.
@@ -3946,7 +3827,7 @@ export async function bootGame(
       const key = motionActorKey(stick.actor)
       if (activeIntentKeys.has(key) || stick.actor.kind === 'party') return false
       const id = stick.actor.id
-      const entity = scene.entities.find((candidate) => candidate.id === id)
+      const entity = activeScene.scene.entities.find((candidate) => candidate.id === id)
       if (!entity || authority.has(id)) return false
       const slot = autoMotionSlots.get(id)
       if (
@@ -4162,8 +4043,8 @@ export async function bootGame(
     autoActivations.set(e.id, activation)
     autoActivationBySignal.set(ac.signal, activation)
     const runtime = scriptRuntime
-    const canonical = sceneResources.peek(scene.id)
-    if (!runtime || !canonical) throw new Error(`script 当前场景未缓存: ${scene.id}`)
+    const canonical = sceneResources.peek(activeScene.scene.id)
+    if (!runtime || !canonical) throw new Error(`script 当前场景未缓存: ${activeScene.scene.id}`)
     void (async () => {
       try {
         while (!ac.signal.aborted) {
@@ -4189,7 +4070,7 @@ export async function bootGame(
     })()
   }
   function startAutoRunners(): void {
-    for (const e of scene.entities) startAutoRunner(e)
+    for (const e of activeScene.scene.entities) startAutoRunner(e)
   }
 
   // ── B9 敌对行为引擎驱动器(数据化遇敌:零脚本;hostile 字段 = 野怪)──
@@ -4255,7 +4136,7 @@ export async function bootGame(
     return live
   }
   const eligibleHostiles = (): EntityDef[] =>
-    scene.entities
+    activeScene.scene.entities
       .filter(
         (entity) =>
           !!entity.hostile &&
@@ -4319,8 +4200,8 @@ export async function bootGame(
   }
   function hostileBehaviorFor(entityId: string): RuntimeHostileBehavior | undefined {
     if (!canonicalProject) return undefined
-    const canonical = sceneResources.peek(scene.id)
-    if (!canonical) throw new Error(`script 当前场景未缓存: ${scene.id}`)
+    const canonical = sceneResources.peek(activeScene.scene.id)
+    if (!canonical) throw new Error(`script 当前场景未缓存: ${activeScene.scene.id}`)
     return canonical.entities.find((candidate) => candidate.id === entityId)?.hostile
   }
 
@@ -4333,13 +4214,13 @@ export async function bootGame(
       if (policy.kind === 'hide') {
         const command = {
           kind: 'hideEntity',
-          target: { scene: scene.id, entity: entity.id },
+          target: { scene: activeScene.scene.id, entity: entity.id },
           ticks: policy.ticks,
         } as const
         setLifecycleTableForWorld(
           applyEntityLifecycleMutation(lifecycleTableForWorld() ?? {}, {
             kind: 'hideEntity',
-            scene: scene.id,
+            scene: activeScene.scene.id,
             entity: entity.id,
             ticks: policy.ticks,
           }),
@@ -4349,12 +4230,12 @@ export async function bootGame(
       }
       const command = {
         kind: 'removeEntity',
-        target: { scene: scene.id, entity: entity.id },
+        target: { scene: activeScene.scene.id, entity: entity.id },
       } as const
       setLifecycleTableForWorld(
         applyEntityLifecycleMutation(lifecycleTableForWorld() ?? {}, {
           kind: 'removeEntity',
-          scene: scene.id,
+          scene: activeScene.scene.id,
           entity: entity.id,
         }),
       )
@@ -4366,13 +4247,13 @@ export async function bootGame(
       if (policy.kind === 'remain') return true
       const command = {
         kind: 'suspendEntity',
-        target: { scene: scene.id, entity: entity.id },
+        target: { scene: activeScene.scene.id, entity: entity.id },
         ticks: policy.ticks,
       } as const
       setLifecycleTableForWorld(
         applyEntityLifecycleMutation(lifecycleTableForWorld() ?? {}, {
           kind: 'suspendEntity',
-          scene: scene.id,
+          scene: activeScene.scene.id,
           entity: entity.id,
           ticks: policy.ticks,
         }),
@@ -4402,10 +4283,10 @@ export async function bootGame(
         if (applyHostileLifecyclePolicy(e, result)) return
         e.hidden = true // 消失
         if (h.respawnSeconds && h.respawnSeconds > 0) {
-          const atScene = scene
+          const atScene = activeScene.scene
           void (async () => {
             await host.wait(expectDefined(h.respawnSeconds) * 1000)
-            if (scene === atScene) e.hidden = false // 重生
+            if (activeScene.scene === atScene) e.hidden = false // 重生
           })()
         }
       } else if (result === 'playerFled') {
@@ -4425,7 +4306,7 @@ export async function bootGame(
     startAutoRunner(e)
   }
   function maybeResumeLifecycleHiddenMotion(targetId: string): void {
-    const target = scene.entities.find((entity) => entity.id === targetId)
+    const target = activeScene.scene.entities.find((entity) => entity.id === targetId)
     if (!target) return
     const hasAuto = !!target.pages?.[0]?.auto
     // A cross-target command needs the same autonomous target gate even when the target owns no
@@ -4445,7 +4326,7 @@ export async function bootGame(
       targetId,
       targetAutoAllowed,
     )) {
-      const owner = scene.entities.find((entity) => entity.id === ownerId)
+      const owner = activeScene.scene.entities.find((entity) => entity.id === ownerId)
       if (owner && !autoActivations.has(ownerId)) startAutoRunner(owner)
     }
   }
@@ -4476,10 +4357,7 @@ export async function bootGame(
     pendingChaseTerminal.clear()
     pendingTouchTrigger.clear()
     entityTriggerRevision.clear()
-    cameraPanFx?.resolve()
-    cameraPanFx = null
-    cameraOffset.x = 0
-    cameraOffset.y = 0
+    cameraSession.reset()
   }
 
   /**
@@ -4502,7 +4380,7 @@ export async function bootGame(
       while (pendingOnEnter) {
         const pending = pendingOnEnter
         pendingOnEnter = null
-        if (scene.id !== pending.sceneId) {
+        if (activeScene.scene.id !== pending.sceneId) {
           sceneEntrySession.cancel()
           continue
         }
@@ -4542,8 +4420,8 @@ export async function bootGame(
     stepFrame = settledWalk.stepFrame
     if (scriptRuntime) {
       const runtime = scriptRuntime
-      const canonical = sceneResources.peek(scene.id)
-      if (!canonical) throw new Error(`script 当前场景未缓存: ${scene.id}`)
+      const canonical = sceneResources.peek(activeScene.scene.id)
+      if (!canonical) throw new Error(`script 当前场景未缓存: ${activeScene.scene.id}`)
       scriptAbort = new AbortController()
       const controller = scriptAbort
       const active = { running: true }
@@ -4587,14 +4465,14 @@ export async function bootGame(
           releaseAllAuthority()
           const finishedSceneId = key.startsWith('s:') ? key.slice(2) : null
           if (
-            finishedSceneId === scene.id &&
+            finishedSceneId === activeScene.scene.id &&
             sceneEntrySession.active?.targetSceneId === finishedSceneId
           )
             sceneEntrySession.cancel()
           if (pendingOnEnter) {
             const pending = pendingOnEnter
             pendingOnEnter = null
-            if (scene.id === pending.sceneId) {
+            if (activeScene.scene.id === pending.sceneId) {
               startScript(`s:${pending.sceneId}`, pending.binding)
               return
             }
@@ -4651,7 +4529,7 @@ export async function bootGame(
   function findTrigger(on: 'interact' | 'touch'): EntityDef | undefined {
     let best: EntityDef | undefined
     let bestD = Number.POSITIVE_INFINITY
-    for (const e of scene.entities) {
+    for (const e of activeScene.scene.entities) {
       const t = e.pages?.[0]?.trigger
       if (!t || t.on !== on) continue
       const gates = entityLifecycleGates(e, {
@@ -4691,7 +4569,9 @@ export async function bootGame(
       sceneSessionId: currentMotionSceneSessionId(),
       busy: worldTriggerDeliveryBusy(),
       disposition: (pending) => {
-        const entity = scene.entities.find((candidate) => candidate.id === pending.entityId)
+        const entity = activeScene.scene.entities.find(
+          (candidate) => candidate.id === pending.entityId,
+        )
         if (!entity || entityMotionPermanentlyRemoved(entity.id)) return 'drop'
         if ((entityTriggerRevision.get(entity.id) ?? 0) !== pending.landing.triggerRevision)
           return 'drop'
@@ -4699,7 +4579,9 @@ export async function bootGame(
         return entityLifecycleGates(entity).visible ? 'ready' : 'drop'
       },
       fire: (pending) => {
-        const entity = scene.entities.find((candidate) => candidate.id === pending.entityId)
+        const entity = activeScene.scene.entities.find(
+          (candidate) => candidate.id === pending.entityId,
+        )
         return !!entity && fireTrigger(entity)
       },
     })
@@ -4745,7 +4627,7 @@ export async function bootGame(
     {
       readWorld: () => world,
       replaceWorld,
-      sceneId: () => scene.id,
+      sceneId: () => activeScene.scene.id,
       executeItemUse,
       playSound: (asset) => sfx.play(asset),
       presentItemResults: showItemUseResults,
@@ -4822,9 +4704,9 @@ export async function bootGame(
           const step = WALK_STEP[facing]
           const pos = planItemEntityPlacement({
             target,
-            currentSceneId: scene.id,
-            entityIds: new Set(scene.entities.map((candidate) => candidate.id)),
-            map,
+            currentSceneId: activeScene.scene.id,
+            entityIds: new Set(activeScene.scene.entities.map((candidate) => candidate.id)),
+            map: activeScene.map,
             partyPos: player.pos,
             step,
           })
@@ -4834,7 +4716,7 @@ export async function bootGame(
           commitItemEntityPlacement(canonicalScript, target, state, pos)
           syncRuntimeScriptScratch(target.scene)
           applyWorldEntityGatesToScene()
-          if (target.scene === scene.id) {
+          if (target.scene === activeScene.scene.id) {
             applyWorldEntityPositionToScene(target.entity)
             // An item may be the write that finally opens entityState after a lifecycle hide.
             // Consume lifecycle restart markers through the same effective-gate path as scripts.
@@ -4867,7 +4749,7 @@ export async function bootGame(
 
   function captureCurrentSavePayload(): StoredSavePayload {
     const position = {
-      sceneId: scene.id,
+      sceneId: activeScene.scene.id,
       pos: structuredClone(player.pos),
       facing,
     }
@@ -5031,7 +4913,7 @@ export async function bootGame(
     stopAutoRunners()
     replaceWorld(candidate)
     commitSceneSwitch(plan, world, false)
-    syncRuntimeScriptScratch(scene.id)
+    syncRuntimeScriptScratch(activeScene.scene.id)
     refreshCurrentCanonicalBindings()
     syncAmbience() // W6:读档瞬时还原氛围(夜档回夜;旧档缺省昼),不播过渡
     applyWorldToScene() // 实体隐现/挡路按存档世界态重放(读档不重跑 onEnter,对齐原版)
@@ -5174,9 +5056,9 @@ export async function bootGame(
     // 精灵 + 高物瓦片由 renderScene 按投影 Y 统一深度排序（遮挡）；地板自动铺底。
     const sprites: SpriteDraw[] = []
     // 实体站立帧(N 实体;hidden 跳过;zBias 进画序):布局数据化 idleFrameIndex
-    for (const e of scene.entities) {
+    for (const e of activeScene.scene.entities) {
       if (!entityLifecycleGates(e).visible) continue
-      const def = entitySpriteDefs.get(e.id)
+      const def = activeScene.entitySpriteDefs.get(e.id)
       const sp = def ? spriteCache.get(project.assetResolver, def.asset) : undefined
       // 帧优先级:显式定帧 > 移动/显式 anim > 语义动作 > 当前 layout.loop > 站立。
       // 动作步骤已经是绝对源帧，不得再叠方向站立基址。
@@ -5338,10 +5220,12 @@ export async function bootGame(
     if (waveAmp > 0) {
       const wc = ensureWaveCanvas()
       const wctx = get2dContext(wc)
-      waveRenderer ??= new Canvas2DRenderer(wctx, palette, tiles)
+      const waveRenderer = activeScene.rendererForWave(
+        () => new Canvas2DRenderer(wctx, activeScene.palette, activeScene.tiles),
+      )
       renderSceneFrame(wctx, waveRenderer, {
-        map,
-        room,
+        map: activeScene.map,
+        room: activeScene.room,
         camera: shakeCam,
         sprites: [],
         worldScale: WORLD_SCALE,
@@ -5353,12 +5237,14 @@ export async function bootGame(
       ctx.save()
       ctx.scale(WORLD_SCALE, WORLD_SCALE)
       ctx.imageSmoothingEnabled = false
-      renderer.renderScene(map, room, shakeCam, sprites, { skipBase: true })
+      activeScene.renderer.renderScene(activeScene.map, activeScene.room, shakeCam, sprites, {
+        skipBase: true,
+      })
       ctx.restore()
     } else {
-      renderSceneFrame(ctx, renderer, {
-        map,
-        room,
+      renderSceneFrame(ctx, activeScene.renderer, {
+        map: activeScene.map,
+        room: activeScene.room,
         camera: shakeCam,
         sprites,
         worldScale: WORLD_SCALE,
@@ -5513,7 +5399,7 @@ export async function bootGame(
         dither.plan = buildDitherPalettePlan(
           dither.backup.data,
           dither.target.data,
-          palette.colors,
+          activeScene.palette.colors,
           canvas.width * canvas.height,
         )
         dither.prepareMs = performance.now() - prepareStartedAt
@@ -5563,8 +5449,8 @@ export async function bootGame(
     // iso 菱形网格（h=0 地格，中心 = col*32,row*16）
     ctx.strokeStyle = 'rgba(255,255,255,0.22)'
     ctx.lineWidth = 1
-    for (let r = room.row; r <= room.row + room.rows; r++) {
-      for (let c = room.col; c <= room.col + room.cols; c++) {
+    for (let r = activeScene.room.row; r <= activeScene.room.row + activeScene.room.rows; r++) {
+      for (let c = activeScene.room.col; c <= activeScene.room.col + activeScene.room.cols; c++) {
         const cx = c * TILE_W - camera.x
         const cy = r * TILE_H - camera.y
         ctx.beginPath()
@@ -5577,8 +5463,8 @@ export async function bootGame(
       }
     }
     // 站立点：isBlocked 判（绿走/红禁），点也正好落在格中心
-    for (let r = room.row; r < room.row + room.rows; r++) {
-      for (let c = room.col; c < room.col + room.cols; c++) {
+    for (let r = activeScene.room.row; r < activeScene.room.row + activeScene.room.rows; r++) {
+      for (let c = activeScene.room.col; c < activeScene.room.col + activeScene.room.cols; c++) {
         const pts = [
           { x: c * TILE_W, y: r * TILE_H },
           { x: c * TILE_W + TILE_W / 2, y: r * TILE_H + TILE_H / 2 },
@@ -5597,7 +5483,7 @@ export async function bootGame(
     ctx.fillRect(ppp.x - camera.x - 2, ppp.y - camera.y - 2, 4, 4)
     // D13-1 触发区叠加层(?debug overlay 开关):实体 trigger 范围框 + 标签;auto 实体标签。
     if (debugLayers.triggers) {
-      for (const e of scene.entities) {
+      for (const e of activeScene.scene.entities) {
         const page = e.pages?.[0]
         const t = page?.trigger
         const gates = entityLifecycleGates(e, {
@@ -5629,8 +5515,10 @@ export async function bootGame(
   // 静态实体碰撞:collide 实体占其 pos 所在格,玩家目标落该格 → 挡。
   // 闭包读 entities 当前 pos(将来移动 NPC 也自然生效;静态阶段 pos 不变)。
   const isBlocked = (pos: GridPos): boolean =>
-    isBlockedAt(map, pos) ||
-    scene.entities.some((e) => entityLifecycleGates(e).collidable && sameGrid(pos, e.pos))
+    isBlockedAt(activeScene.map, pos) ||
+    activeScene.scene.entities.some(
+      (e) => entityLifecycleGates(e).collidable && sameGrid(pos, e.pos),
+    )
   const keyboard = new Keyboard()
 
   // 调试 / 验证：暴露活动态
@@ -5641,13 +5529,13 @@ export async function bootGame(
     },
     // M2c:切场景后 scene/room 会整体重赋 → 必须 getter 活引用(值捕获曾致 dev 传送用错场景坐标)
     get sceneId() {
-      return scene.id
+      return activeScene.scene.id
     },
     get entities() {
-      return scene.entities
+      return activeScene.scene.entities
     },
     get room() {
-      return room
+      return activeScene.room
     },
     get dialogue() {
       return dialogBox.active
@@ -5750,7 +5638,7 @@ export async function bootGame(
     },
     changeDebugScene: (pressed) => {
       const ids = project.sceneIds
-      const cur = ids.indexOf(scene.id)
+      const cur = ids.indexOf(activeScene.scene.id)
       const nextId = expectDefined(
         ids[(cur + (pressed.has(']') ? 1 : ids.length - 1)) % ids.length],
       )
@@ -5767,8 +5655,8 @@ export async function bootGame(
           applyWorldToScene()
           startAutoRunners()
           showToast(`${nextId}(${ids.indexOf(nextId) + 1}/${ids.length})`)
-          const onEnter = sceneScriptBinding(scene, 'onEnter', runtimeScript)
-          if (onEnter) startScript(`s:${scene.id}`, onEnter)
+          const onEnter = sceneScriptBinding(activeScene.scene, 'onEnter', runtimeScript)
+          if (onEnter) startScript(`s:${activeScene.scene.id}`, onEnter)
         })
         .catch((err: unknown) => showToast(`切场景失败: ${String(err).slice(0, 40)}`))
     },
@@ -5797,7 +5685,7 @@ export async function bootGame(
     advanceLifecycle: advanceLifecycleWorldStepIfEligible,
     advanceEntityActions: (dt) => {
       entityActions.advance(dt, (id) => {
-        const entity = scene.entities.find((candidate) => candidate.id === id)
+        const entity = activeScene.scene.entities.find((candidate) => candidate.id === id)
         return (
           !!battleHost.active ||
           !entity ||
@@ -5854,7 +5742,7 @@ export async function bootGame(
   const captureMotionState = () => {
     const leader = expectDefined(world.party[0])
     return {
-      scene: scene.id,
+      scene: activeScene.scene.id,
       worldTick: worldTickNum,
       player: {
         id: leader.id,
@@ -5902,7 +5790,7 @@ export async function bootGame(
             spriteCache.get(project.assetResolver, definition.asset) !== undefined,
         }
       }),
-      entities: scene.entities
+      entities: activeScene.scene.entities
         .map((entity) => {
           const scriptMotion = captureRegisteredMotion(entity.id, scriptMotionSlots.get(entity.id))
           const autoMotion = captureRegisteredMotion(entity.id, autoMotionSlots.get(entity.id))
@@ -5995,8 +5883,8 @@ export async function bootGame(
       // 读档失败(槽空/归一化拒/工程不符)→ 落回当前已选入口新局:应用世界态 + 跑入口 onEnter。
       applyWorldToScene()
       startAutoRunners()
-      const onEnter = sceneScriptBinding(scene, 'onEnter', runtimeScript)
-      if (onEnter) startScript(`s:${scene.id}`, onEnter)
+      const onEnter = sceneScriptBinding(activeScene.scene, 'onEnter', runtimeScript)
+      if (onEnter) startScript(`s:${activeScene.scene.id}`, onEnter)
     }
     requestAnimationFrame(tick)
     return
@@ -6056,10 +5944,10 @@ export async function bootGame(
   } else if (spawnPos) {
     // X5 跳转预览(?pos 落点):dev 跳转意图 = 落地即自由,跳过 onEnter 剧情垫
     //   (同一阶段 dev 跳场景语义;onEnter 的队伍瞬移会劫持落点)。要看进场演出 → 不带 pos。
-    showToast(`已跳至 ${scene.id} (${spawnPos.col},${spawnPos.row}) — onEnter 已跳过`)
+    showToast(`已跳至 ${activeScene.scene.id} (${spawnPos.col},${spawnPos.row}) — onEnter 已跳过`)
   } else {
-    const onEnter = sceneScriptBinding(scene, 'onEnter', runtimeScript)
-    if (onEnter) startScript(`s:${scene.id}`, onEnter)
+    const onEnter = sceneScriptBinding(activeScene.scene, 'onEnter', runtimeScript)
+    if (onEnter) startScript(`s:${activeScene.scene.id}`, onEnter)
   }
   requestAnimationFrame(tick)
 
@@ -6071,8 +5959,8 @@ export async function bootGame(
       installDebugTools({
         world: () => world,
         motionState: captureMotionState,
-        sceneId: () => scene.id,
-        scene: () => sceneResources.peek(scene.id),
+        sceneId: () => activeScene.scene.id,
+        scene: () => sceneResources.peek(activeScene.scene.id),
         canonicalProject,
         runtime: () => scriptRuntime ?? undefined,
         runnerBusy: () => runner !== null,

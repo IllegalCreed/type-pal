@@ -2,6 +2,8 @@ import ts from 'typescript'
 import { afterEach, expect, test, vi } from 'vitest'
 import { confirm, deferred, fixture, flag } from './__tests__/save-lineage-fixture.js'
 import { mainApi, mainSource } from './__tests__/world-async-fixture.js'
+import { ActiveScene } from './active-scene.js'
+import { runtimeSceneView } from './runtime-project-view.js'
 import type { ProjectScriptHostOptions } from './runtime-script-project.js'
 
 afterEach(() => {
@@ -67,9 +69,13 @@ test.each([
     teleportOut: (signal) => teleport(signal),
   })
   const activeParent = { running: true }
+  const activeScene = new ActiveScene(runtimeSceneView(f.scene, f.world.script!), () => {})
   const env = {
     scriptRuntime: f.runtime,
-    scene: f.scene,
+    activeScene,
+    get scene() {
+      return activeScene.scene
+    },
     runner: activeParent,
     pendingOnEnter: null,
     sceneResources: { peek: (id: string) => (id === f.scene.id ? f.scene : undefined) },
