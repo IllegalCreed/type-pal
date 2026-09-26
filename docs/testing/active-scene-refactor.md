@@ -1,7 +1,7 @@
 # A3-c 活动场景与镜头状态归属
 
 Owner：Codex；冻结51048353；所属[连续治理卡](../ops/tasks/ARCH-CONTINUATION-1-remaining-queue.md)。
-当前开发验证通过，统一全仓门待执行；不是A3整体done，不冒充独立第三方审查。
+实现`2dc5d1d5`；Codex核本分段accept，统一全仓门已通过。不是A3整体done，不冒充独立第三方审查。
 
 ## 边界与实现
 
@@ -48,6 +48,16 @@ error/warn为空。未读写正常存档、未改6010或用户工程；临时页
 
 ## 统一门与后续
 
-check→ratchet→保护51048353的单次strict待执行。分母保留旧main及所有源文件，两新模块纳入，不减范围。
+完整check **8724项**→官方ratchet→保护51048353的**单次strict8232项/688生产文件**全部exit0。
+Node22.23.2/pnpm10.29.2，strict使用CI=true/FORCE_COLOR=1，NODE_COMPILE_CACHE去除；
+strict前后基线SHA256均为`d0b38032d9b6fc7885436751db2cf6135fb75c3c008e55a8a53fe6fe21fc84c8`。
+全仓lint53warnings/6infos与前批相同；FORCE_COLOR/NO_COLOR提示不计产品错误。日志为
+`/tmp/codex-active-scene-{check,ratchet,strict}.log`，数字见[机账](active-scene-evidence.json)。
+原686生产文件全保留，两新模块纳入；其它六包完整基线对象相等。Reforge新增覆盖61行/64语句/24函数/17分支，
+同时分母增加30行/24语句/22函数/2分支，不声称同分母纯补测或main单文件覆盖增长。
+ActiveScene行37/37、函数12/12（V8未生成分支臂）；WorldCamera行55/55、函数11/11、分支19/22。
+未命中三臂：world-camera.ts:63的重复resolve、:71的重复abort、:73的非当前entry取消；正常拥有者路径
+会先settle并detach，保留为未证防御臂，不反射私有轨道凑绿，也不冒称全部调用宿主下绝对不可达。
+全仓行78.18%、语句76.02%、函数75.77%、分支68.51%。此次是本地门禁，不宣称远端CI已通过。
 A3仍有移动/绘制职责待迁；B1/B2/B3/C1/D2/E1/F1继续归Codex，F2剩余九组委派Cursor；GLM六组纯守卫测试另卡。
 全局E2E/full/Q1/Q2与历史独立缺陷不随本段关闭。旧版本兼容审查：pass，无新增fallback/upgrader/双版本。

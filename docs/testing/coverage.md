@@ -15,6 +15,13 @@
 ## 最近入库 fast 基线与本地快照（2026-09-26）
 
 当前机器可读数字以[`baseline.fast.json`](../../scripts/coverage/baseline.fast.json)为准。
+[A3活动场景与镜头分段](active-scene-refactor.md)实现2dc5d1d5完成后，完整check **8724项**、
+官方ratchet及保护51048353的单次严格fast **8232项/688生产文件**全部通过。
+全仓行 **78.18%**、语句 **76.02%**、函数 **75.77%**、分支 **68.51%**。
+17新回归、两新模块，原686生产文件全保留；其它六包完整基线不变。A3移动/绘制未完成，full/Q1/Q2与远端CI另证。
+
+### 同日上一批：Cursor与GLM接收
+
 [Cursor24组](cursor-architecture-batch-integration.md)及[GLM准备包剩余接入](architecture-regression-lab-completion.md)
 完成后，完整check **8707项**、官方ratchet与保护8d851fa6的单次严格fast **8215项/686生产文件**全部通过。
 全仓行 **78.12%**、语句 **75.96%**、函数 **75.72%**、分支 **68.49%**。本批新增29项（Cursor25/GLM4）

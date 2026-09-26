@@ -1,0 +1,318 @@
+{
+  "schemaVersion": 1,
+  "owner": "Codex (implementation and self-verification; not third-party review)",
+  "base": "51048353fc3bde5a3e6bf50653786b905fd2857d",
+  "implementation": "2dc5d1d5",
+  "result": "accept for A3 active-scene/camera slice only",
+  "baselineHash": "d0b38032d9b6fc7885436751db2cf6135fb75c3c008e55a8a53fe6fe21fc84c8",
+  "testCount": 8232,
+  "sourceFileCount": 688,
+  "total": {
+    "statements": {
+      "covered": 61306,
+      "total": 80643
+    },
+    "branches": {
+      "covered": 43284,
+      "total": 63178
+    },
+    "functions": {
+      "covered": 11409,
+      "total": 15058
+    },
+    "lines": {
+      "covered": 55193,
+      "total": 70600
+    }
+  },
+  "reforge": {
+    "statements": {
+      "covered": 12713,
+      "total": 16926
+    },
+    "branches": {
+      "covered": 7474,
+      "total": 11388
+    },
+    "functions": {
+      "covered": 2030,
+      "total": 2681
+    },
+    "lines": {
+      "covered": 11504,
+      "total": 14779
+    }
+  },
+  "newModules": {
+    "packages/reforge/src/active-scene.ts": {
+      "lines": {
+        "total": 37,
+        "covered": 37,
+        "skipped": 0,
+        "pct": 100
+      },
+      "functions": {
+        "total": 12,
+        "covered": 12,
+        "skipped": 0,
+        "pct": 100
+      },
+      "statements": {
+        "total": 37,
+        "covered": 37,
+        "skipped": 0,
+        "pct": 100
+      },
+      "branches": {
+        "total": 0,
+        "covered": 0,
+        "skipped": 0,
+        "pct": 100
+      }
+    },
+    "packages/reforge/src/world-camera.ts": {
+      "lines": {
+        "total": 55,
+        "covered": 55,
+        "skipped": 0,
+        "pct": 100
+      },
+      "functions": {
+        "total": 11,
+        "covered": 11,
+        "skipped": 0,
+        "pct": 100
+      },
+      "statements": {
+        "total": 63,
+        "covered": 61,
+        "skipped": 0,
+        "pct": 96.82
+      },
+      "branches": {
+        "total": 22,
+        "covered": 19,
+        "skipped": 0,
+        "pct": 86.36
+      }
+    }
+  },
+  "negativeControls": [
+    {
+      "id": "control",
+      "exit": 0,
+      "executed": 17
+    },
+    {
+      "id": "baseline-clear",
+      "exit": 1,
+      "executed": 1
+    },
+    {
+      "id": "wave-reset",
+      "exit": 1,
+      "executed": 1
+    },
+    {
+      "id": "action-seed",
+      "exit": 1,
+      "executed": 1
+    },
+    {
+      "id": "pan-rounding",
+      "exit": 1,
+      "executed": 1
+    },
+    {
+      "id": "relative-offset",
+      "exit": 1,
+      "executed": 1
+    },
+    {
+      "id": "reset-sampling",
+      "exit": 1,
+      "executed": 1
+    },
+    {
+      "id": "pre-abort",
+      "exit": 1,
+      "executed": 1
+    }
+  ],
+  "judge": {
+    "positive": 2,
+    "rejected": 12
+  },
+  "parity": {
+    "base": "51048353",
+    "protectedFunctions": [
+      "get2dContext",
+      "isAbortError",
+      "getMapAssets",
+      "getStandardPalette",
+      "getCanonicalScene",
+      "getLifecycleReferences",
+      "getSceneDef",
+      "prepareSceneSwitch",
+      "assertSceneSwitchPlanCurrent",
+      "switchScene",
+      "ensureWaveCanvas",
+      "lifecycleTableForWorld",
+      "lifecycleEntryFor",
+      "setLifecycleTableForWorld",
+      "lifecycleFootAnchors",
+      "advanceLifecycleWorldStepIfEligible",
+      "entityLifecycleGates",
+      "applyWorldEntityGatesToScene",
+      "applyWorldEntityPositionToScene",
+      "applyWorldToScene",
+      "hostFade",
+      "hostHoldScreen",
+      "hostRevealScreen",
+      "awaitOwnedDither",
+      "hostSceneEntryReveal",
+      "scheduleEntityMove",
+      "scheduleAutoStep",
+      "runAutoStepThroughContinuation",
+      "scheduleChaseMotion",
+      "runChaseStep",
+      "waitForAutoMotionContinuation",
+      "deriveMounts",
+      "dismountParty",
+      "detachMountChildrenOf",
+      "deriveFollowers",
+      "displacementFacing",
+      "startAutoRunner",
+      "startAutoRunners",
+      "clearPendingChaseTerminal",
+      "tickHostiles",
+      "hostileBehaviorFor",
+      "applyHostileLifecyclePolicy",
+      "runHostileEncounter",
+      "restartAutoRunner",
+      "maybeResumeLifecycleHiddenMotion",
+      "restartAutoOwnersWaitingOnTarget",
+      "runDetachedScriptChain",
+      "startScript",
+      "abortScript",
+      "gridDist",
+      "findTrigger",
+      "enqueuePendingTouchTrigger",
+      "drainPendingTouchTrigger",
+      "worldTriggerDeliveryBusy",
+      "fireTrigger",
+      "showToast",
+      "showItemUseResults",
+      "executeItemUse",
+      "refreshSaveMetas",
+      "captureCurrentSavePayload",
+      "enqueueSaveSnapshot",
+      "doSave",
+      "reportSaveFailure",
+      "payloadBelongsToProject",
+      "normalizeStoredPayload",
+      "restorePayload",
+      "doLoad",
+      "quickSave",
+      "quickLoad",
+      "browserWrite",
+      "browserLoad",
+      "drawFadeCurtain",
+      "drawCollisionOverlay",
+      "heldDir",
+      "tick",
+      "renderBattlePreview",
+      "renderSpriteGallery",
+      "commitSceneSwitch",
+      "advanceMoves",
+      "stopAutoRunners"
+    ],
+    "cameraSequences": 64,
+    "steps": 2560,
+    "exit": 0
+  },
+  "productionHashCount": 688,
+  "quality": {
+    "check": {
+      "exit": 0,
+      "tests": 8724,
+      "log": "/tmp/codex-active-scene-check.log"
+    },
+    "ratchet": {
+      "exit": 0,
+      "log": "/tmp/codex-active-scene-ratchet.log"
+    },
+    "strict": {
+      "exit": 0,
+      "runs": 1,
+      "protectedBase": "51048353",
+      "baselineBefore": "d0b38032d9b6fc7885436751db2cf6135fb75c3c008e55a8a53fe6fe21fc84c8",
+      "baselineAfter": "d0b38032d9b6fc7885436751db2cf6135fb75c3c008e55a8a53fe6fe21fc84c8",
+      "log": "/tmp/codex-active-scene-strict.log"
+    },
+    "build": {
+      "exit": 0,
+      "log": "/tmp/codex-active-scene-build.log"
+    },
+    "typecheck": {
+      "exit": 0
+    },
+    "biome": {
+      "newErrors": 0,
+      "warnings": 53,
+      "infos": 6
+    }
+  },
+  "scope": {
+    "oldSourcesRetained": 686,
+    "addedSources": [
+      "packages/reforge/src/active-scene.ts",
+      "packages/reforge/src/world-camera.ts"
+    ],
+    "otherPackageBaselinesUnchanged": [
+      "shared",
+      "content",
+      "pal-extract",
+      "migrate",
+      "game",
+      "editor"
+    ],
+    "newTests": 17,
+    "reforgeDelta": {
+      "lines": [61, 30],
+      "statements": [64, 24],
+      "functions": [24, 22],
+      "branches": [17, 2]
+    },
+    "deltaOrder": ["covered", "denominator"]
+  },
+  "visual": {
+    "host": "http://127.0.0.1:6052",
+    "project": "pal",
+    "initial": {
+      "scene": "s135",
+      "pos": [42, 17]
+    },
+    "afterCommand": {
+      "scene": "s134",
+      "pos": [40, 9],
+      "tick": 643
+    },
+    "menu": "opened and closed",
+    "consoleErrorsAndWarnings": 0,
+    "normalSavesReadOrWritten": false,
+    "userEditor6010Touched": false,
+    "temporaryTabClosed": true,
+    "serverStopped": true,
+    "screenshots": "inline in Codex tool conversation; not repository artifacts"
+  },
+  "remaining": {
+    "A3": "movement and drawing ownership still pending",
+    "uncoveredCameraArms": [
+      "63: duplicate resolve",
+      "71: duplicate abort",
+      "73: abort callback no longer owns current entry"
+    ],
+    "notRun": ["full", "Q1", "Q2", "story E2E", "remote CI for this candidate"]
+  }
+}

@@ -9,6 +9,9 @@ Production Base: `51048353fc3bde5a3e6bf50653786b905fd2857d`
 Branch: `codex/glm-content-guards-wave2`
 Worktree: `/Users/zhangxu/illegal/type-pal-glm-content-guards-wave2`
 
+实际起点记录为包含本卡的最新main SHA。51048353冻结的是content目标面；Codex同期Reforge改动属授权主线，
+不归GLM增量，不得回退。产品零diff/白名单以实际开工提交→候选核对，三个目标仍核冻结hash。
+
 ## 目标与前提
 
 为E2已拆出的同步校验器补齐真实未覆盖边界，非继续十二组实验室。只写测试，不改产品与规则。

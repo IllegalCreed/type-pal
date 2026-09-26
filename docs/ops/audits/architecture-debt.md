@@ -30,7 +30,7 @@ Codex负责其余高风险实现和全部独立接收；执行仍按单一状态
 |---|---|---|---|
 | A1 Reforge菜单/物品宿主（已done） | 09429基点main.ts:5293、:5368、:6384，菜单态/物品异步执行混入6696行bootGame | dbe55b55已移出15状态，main7153→6798；MenuSession/ItemUseSession拥有控制状态，窄端口接线 | 28新增、155序列3798步等价、10针、check8440/strict7949通过；A2已另行完成，A3分段推进 |
 | A2 Reforge战斗宿主（[r1 done](../archive/tasks/done/ARCH-REFORGE-BATTLE-1-host-lifecycle.md)） | 7f3840e6 main.ts:2149–2505，资源准备、会话、结算、战后脚本由大闭包调度 | 46287966 BattleHost/准备单元已落；main6798→6486；独立所有权，不改核心 | 23新增/11针/check8463/strict7972/637与真实功能验证通过；自审两处时序补正已闭 |
-| A3 Reforge世界/帧循环（[首段done](../archive/tasks/done/ARCH-REFORGE-FRAME-1-clock-and-input.md)、[资源预检段done](../../testing/scene-preparation-refactor.md)，整体未完成） | main.ts:995、:1780、:4055、:4940、:6288（原盘点基点）；分段分别以b11d4bc9/cb1cb26d重定位 | 8eb93bb7迁时间/单步/等待与输入；fdad980f再迁资源缓存/只读预检，main6486→6427→6260；活动场景/移动/绘制续段未完成 | 首段36新增/11针；资源段26新增/11针/check8525/strict8034/641，16冻结对照、18函数+2宿主保护；同步提交原样 |
+| A3 Reforge世界/帧循环（[首段done](../archive/tasks/done/ARCH-REFORGE-FRAME-1-clock-and-input.md)、[资源预检段done](../../testing/scene-preparation-refactor.md)、[活动场景/镜头段accept](../../testing/active-scene-refactor.md)，整体未完成） | 原大闭包同时拥有场景资源、镜头、移动、绘制；各分段以冻结SHA重定位 | 已迁时钟/输入、资源/预检、ActiveScene/WorldCamera；main6486→6427→6260→6148；移动/绘制续段未完成 | 最新17新增/七针、80宿主函数与64序列2560步对照、check8724/strict8232/688、隔离功能核验；同步提交原样 |
 | B1 编辑器App | App.tsx共5170行；App:360单组件3345行，含导航/保存/历史/试打/场景选择 | 工程会话协调、导航、场景工作区、试打生命周期分别归属 | undo顺序、保存/恢复、离开保护原门禁；最小功能视觉 |
 | B2 地图工作区 | MapMode.tsx:251单组件3569行 | 工具手势会话、选择/剪贴板、组合模板操作与视图拆分 | 操作提交原子性、取消与重放、地图权限原断言；不改格式 |
 | B3 脚本/内容表单 | ScriptEditor.tsx:1710单表单913行；CommandForm.tsx:257单组件1842行 | 按命令族分表单；收敛作者/通用命令桥接类型，不靠强转掩盖边界 | canonical合同与引用保护，不能以“清理”删除仍有真实调用的领域能力 |
@@ -40,7 +40,7 @@ Codex负责其余高风险实现和全部独立接收；执行仍按单一状态
 | E1 迁移转换 | migrate-content3314行/mapScenesStatic808行；translate-events2472行/walkBody1184行 | 按人物/技能/物品/场景映射及控制流处理阶段拆分 | 生成结果对比、事务写保护、幂等；不得顺手改生成产物 |
 | E2 内容校验边界（[已完成](../../testing/content-validation-refactor.md)） | 原author-script-core ↔ enemy-script 双向依赖 | 4cdefcf1拆协议/形状/AI/演出，50函数体保持、运行期环清零 | ebef3d5a单独修嵌套cue漏options；13项先红后绿，和D1统一门禁；非“有环即有bug” |
 | F1 工具维护 | design-system-audit.mjs6337行/reachableJsxOwners935行 | AST事实、CSS推导、规则、报告分层 | 旧违规样本/反例判据不变；不为加速删规则 |
-| F2 组织性整理（部分完成） | 原盘点commands4475/controls2589；Cursor本批冻结4282/2428 | 24组已接收：commands4282→3163，controls2428→35稳定barrel；32新模块，旧119/50出口与正文保持 | check8707/strict8215/686及隔离UI通过；actor/entity/map/资源剩余命令仍归Codex，不把文件数当整体完成 |
+| F2 组织性整理（部分完成） | 原盘点commands4475/controls2589；Cursor前批冻结4282/2428 | 24组已接收：commands4282→3163，controls2428→35稳定barrel；32新模块，旧119/50出口与正文保持 | 前批check8707/strict8215/686及隔离UI通过；actor/entity/map/资源剩余九组现委派Cursor，未接收不计完成 |
 
 ### 并行所有权（2026-09-26 更新）
 

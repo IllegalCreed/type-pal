@@ -9,6 +9,9 @@ Production Base: `51048353fc3bde5a3e6bf50653786b905fd2857d`
 Branch: `codex/cursor-commands-wave2`
 Worktree: `/Users/zhangxu/illegal/type-pal-cursor-commands-wave2`
 
+实际起点记录为包含本卡的最新main SHA。51048353冻结的是本卡editor目标正文；Codex同期获准的Reforge变化
+不归Cursor差异，不得回退。白名单以实际开工提交→候选核对；目标声明仍对51048353做搬迁对照。
+
 ## 目标与前提
 
 在当前119个commands出口不变的前提下，将剩余命令归到领域模块；只改内部依赖归属，不改apply/invert正文、
