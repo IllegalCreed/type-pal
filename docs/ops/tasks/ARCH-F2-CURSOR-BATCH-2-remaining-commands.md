@@ -1,6 +1,6 @@
 # ARCH-F2-CURSOR-BATCH-2 — 剩余九组编辑命令模块整理
 
-Status: build
+Status: rework
 Owner: Cursor
 Reviewer / Integration Owner: Codex
 Phase: phase2
@@ -69,8 +69,29 @@ before→after：同一编辑输入、返回对象/引用、历史与错误不�
 
 - Codex：premise verified / build allowed，2026-09-26；源码范围与Codex的reforge活动场景、GLM的content测试互斥。
 - Coding Owner：Cursor；贡献者自验与Codex独立验收分列。
-- 作者交付：pending。
-- Codex验收：pending；done未开放，无需Kimi/GLM固定签字。
+- 作者交付：候选b2e8d712已收到；[原作者回执](https://github.com/IllegalCreed/type-pal/blob/b2e8d712cacad8253fbbe9aaf2225753d6d9de80/docs/testing/cursor-commands-wave2.md)留在候选，未改其正文。
+- Codex验收：产品九组搬移核验通过；整包counter，仅R1–R3工具/一个fixture/回执收尾。见[独立复核](../../testing/cursor-commands-wave2-review.md)及[机账](../../testing/cursor-commands-wave2-review-evidence.json)。done未开放，不需要Kimi/GLM固定签字。
+
+## Codex接收日志（2026-09-26）
+
+119出口、90声明正文、62运行期绑定和无新环事实已独立通过；editor2829/2829与TC、五针真实业务红均通过。
+判据会误收四类坏报告；新增C1的空强转fixture及回执位置/doc门须窄修。不改候选生产正文，不重做九组。
+未合main、未跑官方覆盖率，保持8232/688；保留分支与worktree用于返工。原有作者块由其分支保留，不代签。
+
+## 下一位 Cursor 窄返工提示词
+
+```text
+在原codex/cursor-commands-wave2窄返工ARCH-F2-CURSOR-BATCH-2，候选b2e8d712。
+fetch后先git show origin/main:docs/testing/cursor-commands-wave2-review.md，状态rework，只修R1–R3。
+产品九组、90声明/119出口/62绑定/无环、2829全包与五针本次有效红已核；不重做、不改产品或旧断言。
+R1：实际judge拒同message混错、timed out、额外执行失败、suite/global错误；绿红均校验完整报告，
+自测走同一真实judge并包含本席四反例与合法对照；默认输出只进/tmp，不回写已跟踪JSON。
+R2：commands-wave2.composite.test.ts的空EditorState强转改合法typed输入并先过现行构造/guard，
+对实际输入快照，保留原执行顺序断言。只修这一新例，不清理历史fixture，不造大矩阵。
+R3：回执移入专属目录receipt.md，校准目录README、卡面和内部相对链接；docs check必须通过。
+不动父索引/看板/配置/基线，不改Codex审计工具；提交推送准确SHA，不合main、不标done。
+Codex负责后续独立复验、必要UI、统一全仓门与集成；不用重新跑整组覆盖率。
+```
 
 ## 下一位 Cursor 提示词
 
