@@ -1,0 +1,13 @@
+{
+  "id": "u08-text-field-id",
+  "file": "packages/editor/src/ui/design-system/field-controls.tsx",
+  "sha256": "8d352d00ada196419aa3b1e70b049c482f98823e45518459440d706f89532c2e",
+  "hashUnchanged": true,
+  "greenExit": 0,
+  "greenPassed": 1,
+  "redExit": 1,
+  "failedTitle": "keeps text field shell identity with label association",
+  "failedFullName": "U08 field controls keeps text field shell identity with label association",
+  "assertion": "AssertionError: expected 'title-input' to be 'title' // Object.is equality",
+  "ok": true
+}
