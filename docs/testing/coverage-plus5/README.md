@@ -9,7 +9,7 @@
 
 | 批次 | Owner | 当前状态 | 已验收新增分支 |
 |---|---|---|---:|
-| [content八组同步守卫](../../ops/tasks/TEST-GLM-CONTENT-GUARDS-3-script-and-records.md) | GLM | [R2接收剩两项](../guard-wave3-r2-review.md)，同型正控/拒绝输入保真 | 0（未验收） |
+| [content八组同步守卫](../../ops/tasks/TEST-GLM-CONTENT-GUARDS-3-script-and-records.md) | GLM | [仅剩R2一处](../guard-wave3-r3-review.md)，onDefeated匿名对象拒绝输入保真 | 0（未验收） |
 | [editor八组命令](../../ops/archive/tasks/done/TEST-CURSOR-COMMAND-BOUNDARIES-3-editor-residuals.md) | Cursor | done，29项/独立五组/统一门通过 | +48 |
 | [migrate纯转换链](../codex-migrate-pure/README.md) | Codex | done，83项/六针/统一门通过 | +527 |
 | [migrate当前汇总链](../codex-migrate-assembly/README.md) | Codex | done，49项/六针/统一门通过 | +169 |

@@ -1,5 +1,8 @@
 # GLM 同步守卫第三批：R1–R3 返工复核
 
+当前结论见[6b371144定点复核](guard-wave3-r3-review.md)：R1与旧敌转移反证已闭，只剩R2一处匿名对象调用。
+下文为16e647a1历史证据，不作为要求重做已闭项的指令。
+
 候选 `16e647a1173df523257ad31bcac5964569d17d9e`；2026-09-26 Codex 独立复核。
 结论：**counter，仍仅 R1/R2 与相应回执勘误，不合入、不计官方覆盖**。
 [任务卡](../ops/tasks/TEST-GLM-CONTENT-GUARDS-3-script-and-records.md) /

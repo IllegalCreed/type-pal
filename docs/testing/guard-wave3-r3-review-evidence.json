@@ -1,0 +1,149 @@
+{
+  "candidate": "6b371144e5a96a2996c73932d04f664ebbb8a8b7",
+  "reviewer": "Codex",
+  "decision": "counter",
+  "remaining": "R2 anonymous onDefeated object input immutability only",
+  "closed": [
+    "R1 same-kind legal controls including gate chance=100",
+    "R2 previous transition/fade/wipe/emptyStages anchors",
+    "G3 duplicate test removed and 110 counts corrected"
+  ],
+  "gates": {
+    "newTests": 110,
+    "contentTests": 1132,
+    "contentFiles": 92,
+    "typecheckExit": 0,
+    "biomeExit": 0,
+    "biomeWarnings": 3,
+    "docsExit": 0,
+    "originalControls": 110,
+    "originalNeedles": 8,
+    "originalJudgeSelfTests": 10,
+    "globalCoverageRun": false
+  },
+  "literalRejectCensus": {
+    "directRejectCalls": 63,
+    "anonymousObjectOrArrayInputs": [
+      {
+        "file": "packages/content/src/enemy-hook.guard-residual.test.ts",
+        "line": 179,
+        "input": "{}"
+      }
+    ]
+  },
+  "raw": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/codex-glm-residual-r2-j0bW2K/summary.json",
+  "runs": [
+    {
+      "name": "r3-gate-over-reject-control",
+      "exit": 0,
+      "passed": 39,
+      "failed": 0,
+      "failures": [],
+      "hashes": {
+        "/Users/zhangxu/illegal/type-pal-glm-content-guards-wave2/packages/content/src/validate.ts": "b71778d0ed1fc2f8195cb653f34b6d51a4c37fad9c63c496baa5fcf7d83c30fa",
+        "/Users/zhangxu/illegal/type-pal-glm-content-guards-wave2/packages/content/src/record-items.guard-residual.test.ts": "6a27d8931063e9e05675fd8832ef543a0626102c8702746df2ffdbb79f033f00"
+      }
+    },
+    {
+      "name": "r3-gate-over-reject-probe",
+      "exit": 1,
+      "passed": 38,
+      "failed": 1,
+      "failures": [
+        {
+          "file": "/Users/zhangxu/illegal/type-pal-glm-content-guards-wave2/packages/content/src/record-items.guard-residual.test.ts",
+          "fullName": "G8 validateItems use 效果残差 'gate chance 上界'拒绝（同kind合法基线先过真实守卫、仅改所测字段）",
+          "messages": [
+            "AssertionError: expected [Function] to not throw an error but 'Error: items[0].use.effects[0].chance…' was thrown\n    at Proxy.<anonymous> (file:///Users/zhangxu/illegal/type-pal-glm-content-guards-wave2/node_modules/.pnpm/@vitest+expect@4.1.7/node_modules/@vitest/expect/dist/index.js:1552:16)\n    at Proxy.<anonymous> (file:///Users/zhangxu/illegal/type-pal-glm-content-guards-wave2/node_modules/.pnpm/@vitest+expect@4.1.7/node_modules/@vitest/expect/dist/index.js:1156:15)\n    at Proxy.methodWrapper (file:///Users/zhangxu/illegal/type-pal-glm-content-guards-wave2/node_modules/.pnpm/chai@6.2.2/node_modules/chai/index.js:1700:25)\n    at expectAcceptsUnchanged (/Users/zhangxu/illegal/type-pal-glm-content-guards-wave2/packages/content/src/__tests__/guard-leaf-fixtures.ts:36:32)\n    at /Users/zhangxu/illegal/type-pal-glm-content-guards-wave2/packages/content/src/record-items.guard-residual.test.ts:169:5\n    at file:///Users/zhangxu/illegal/type-pal-glm-content-guards-wave2/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2027:60\n    at file:///Users/zhangxu/illegal/type-pal-glm-content-guards-wave2/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/illegal/type-pal-glm-content-guards-wave2/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/illegal/type-pal-glm-content-guards-wave2/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)"
+          ]
+        }
+      ],
+      "hashes": {
+        "/Users/zhangxu/illegal/type-pal-glm-content-guards-wave2/packages/content/src/validate.ts": "b71778d0ed1fc2f8195cb653f34b6d51a4c37fad9c63c496baa5fcf7d83c30fa",
+        "/Users/zhangxu/illegal/type-pal-glm-content-guards-wave2/packages/content/src/record-items.guard-residual.test.ts": "6a27d8931063e9e05675fd8832ef543a0626102c8702746df2ffdbb79f033f00"
+      }
+    },
+    {
+      "name": "r3-transition-mutation-control",
+      "exit": 0,
+      "passed": 7,
+      "failed": 0,
+      "failures": [],
+      "hashes": {
+        "/Users/zhangxu/illegal/type-pal-glm-content-guards-wave2/packages/content/src/enemy-script.ts": "e91054b2990839983a27fe0fd1a93bc514c0aca026773ed961438bd6087cdba4",
+        "/Users/zhangxu/illegal/type-pal-glm-content-guards-wave2/packages/content/src/enemy-hook.guard-residual.test.ts": "eb23d0d23154d88f0e653b71d2811b9e519c1b134317798e5e0a5693e91e54b4"
+      }
+    },
+    {
+      "name": "r3-transition-mutation-probe",
+      "exit": 1,
+      "passed": 6,
+      "failed": 1,
+      "failures": [
+        {
+          "file": "/Users/zhangxu/illegal/type-pal-glm-content-guards-wave2/packages/content/src/enemy-hook.guard-residual.test.ts",
+          "fullName": "G5 enemy hook/AI/onDefeated 残差 branch 转移正控、commandOutcome outcome 叶与未知 transition 拒绝",
+          "messages": [
+            "AssertionError: expected { initial: 'ready', states: { …(1) } } to deeply equal { initial: 'ready', states: { …(1) } }\n    at /Users/zhangxu/illegal/type-pal-glm-content-guards-wave2/packages/content/src/enemy-hook.guard-residual.test.ts:128:27\n    at file:///Users/zhangxu/illegal/type-pal-glm-content-guards-wave2/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/illegal/type-pal-glm-content-guards-wave2/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/illegal/type-pal-glm-content-guards-wave2/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/illegal/type-pal-glm-content-guards-wave2/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/illegal/type-pal-glm-content-guards-wave2/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///Users/zhangxu/illegal/type-pal-glm-content-guards-wave2/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///Users/zhangxu/illegal/type-pal-glm-content-guards-wave2/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64"
+          ]
+        }
+      ],
+      "hashes": {
+        "/Users/zhangxu/illegal/type-pal-glm-content-guards-wave2/packages/content/src/enemy-script.ts": "e91054b2990839983a27fe0fd1a93bc514c0aca026773ed961438bd6087cdba4",
+        "/Users/zhangxu/illegal/type-pal-glm-content-guards-wave2/packages/content/src/enemy-hook.guard-residual.test.ts": "eb23d0d23154d88f0e653b71d2811b9e519c1b134317798e5e0a5693e91e54b4"
+      }
+    },
+    {
+      "name": "r3-defeated-input-mutation-control",
+      "exit": 0,
+      "passed": 7,
+      "failed": 0,
+      "failures": [],
+      "hashes": {
+        "/Users/zhangxu/illegal/type-pal-glm-content-guards-wave2/packages/content/src/enemy-script.ts": "e91054b2990839983a27fe0fd1a93bc514c0aca026773ed961438bd6087cdba4",
+        "/Users/zhangxu/illegal/type-pal-glm-content-guards-wave2/packages/content/src/enemy-hook.guard-residual.test.ts": "eb23d0d23154d88f0e653b71d2811b9e519c1b134317798e5e0a5693e91e54b4"
+      }
+    },
+    {
+      "name": "r3-defeated-input-mutation-probe",
+      "exit": 0,
+      "passed": 7,
+      "failed": 0,
+      "failures": [],
+      "hashes": {
+        "/Users/zhangxu/illegal/type-pal-glm-content-guards-wave2/packages/content/src/enemy-script.ts": "e91054b2990839983a27fe0fd1a93bc514c0aca026773ed961438bd6087cdba4",
+        "/Users/zhangxu/illegal/type-pal-glm-content-guards-wave2/packages/content/src/enemy-hook.guard-residual.test.ts": "eb23d0d23154d88f0e653b71d2811b9e519c1b134317798e5e0a5693e91e54b4"
+      }
+    },
+    {
+      "name": "r3-defeated-input-mutation-oracle-control",
+      "exit": 0,
+      "passed": 8,
+      "failed": 0,
+      "failures": [],
+      "hashes": {
+        "/Users/zhangxu/illegal/type-pal-glm-content-guards-wave2/packages/content/src/enemy-script.ts": "e91054b2990839983a27fe0fd1a93bc514c0aca026773ed961438bd6087cdba4",
+        "/Users/zhangxu/illegal/type-pal-glm-content-guards-wave2/packages/content/src/enemy-hook.guard-residual.test.ts": "eb23d0d23154d88f0e653b71d2811b9e519c1b134317798e5e0a5693e91e54b4"
+      }
+    },
+    {
+      "name": "r3-defeated-input-mutation-oracle-probe",
+      "exit": 1,
+      "passed": 7,
+      "failed": 1,
+      "failures": [
+        {
+          "file": "/Users/zhangxu/illegal/type-pal-glm-content-guards-wave2/packages/content/src/enemy-hook.guard-residual.test.ts",
+          "fullName": "Codex oracle: rejected onDefeated object preserves the actual input",
+          "messages": [
+            "AssertionError: expected { __codex_mutation: true } to deeply equal {}\n    at /Users/zhangxu/illegal/type-pal-glm-content-guards-wave2/packages/content/src/enemy-hook.guard-residual.test.ts:210:17\n    at file:///Users/zhangxu/illegal/type-pal-glm-content-guards-wave2/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/illegal/type-pal-glm-content-guards-wave2/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/illegal/type-pal-glm-content-guards-wave2/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/illegal/type-pal-glm-content-guards-wave2/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/illegal/type-pal-glm-content-guards-wave2/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///Users/zhangxu/illegal/type-pal-glm-content-guards-wave2/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///Users/zhangxu/illegal/type-pal-glm-content-guards-wave2/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64"
+          ]
+        }
+      ],
+      "hashes": {
+        "/Users/zhangxu/illegal/type-pal-glm-content-guards-wave2/packages/content/src/enemy-script.ts": "e91054b2990839983a27fe0fd1a93bc514c0aca026773ed961438bd6087cdba4",
+        "/Users/zhangxu/illegal/type-pal-glm-content-guards-wave2/packages/content/src/enemy-hook.guard-residual.test.ts": "eb23d0d23154d88f0e653b71d2811b9e519c1b134317798e5e0a5693e91e54b4"
+      }
+    }
+  ]
+}

@@ -64,6 +64,14 @@ before→after只有测试增量。最强替代解释是旧用例已覆盖或零
 
 ## 下一位GLM提示词
 
+### 2026-09-26 Codex 定点接收 `6b371144`
+
+**counter，仅R2一处**，见[本席直接反证与提示词](../../testing/guard-wave3-r3-review.md)。
+R1 gate过拒及R2原敌transition污染两针已由候选自身抓住，fade/wipe/emptyStages已闭，不重开。
+110新增、全content1132、原八针/10判据自测、TC/Biome/docs独立通过；白名单/生产零diff成立。
+但enemy-hook:179匿名`{}`的onDefeated拒绝仍无快照，抛原错前加属性后候选7/7仍绿，
+同输入独立oracle证明漏检。只补这一实际调用与回执小勘误；未合候选，不计官方覆盖，不标done。
+
 ### 2026-09-26 Codex 返工复核 `16e647a1`
 
 仍 **counter**，仅R1/R2残项与回执勘误，见[直接反证与可复制提示词](../../testing/guard-wave3-r2-review.md)。
