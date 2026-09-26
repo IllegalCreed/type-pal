@@ -9,7 +9,7 @@ Visual Verification Timing: dev-functional；剧情E2E另排
 ## 目标与授权
 
 2026-09-26用户要求“剩余架构治理一口气做完”，随后要求给Cursor大量并行工作。
-Codex持续处理[治理台账](../audits/architecture-debt.md)剩余边界，Cursor按[24组F2卡](ARCH-F2-CURSOR-BATCH-1-domain-modules.md)
+Codex持续处理[治理台账](../audits/architecture-debt.md)剩余边界，Cursor按[24组F2卡](../archive/tasks/done/ARCH-F2-CURSOR-BATCH-1-domain-modules.md)
 实施互斥的中低风险切片。既有GLM实验分支只补候选/视觉证据，未经接收不改主线产品。
 不再因每个小批结束请求“继续”；真实用户产品裁决仍须提出，任何未完成项不虚报done。
 
@@ -27,7 +27,7 @@ Codex持续处理[治理台账](../audits/architecture-debt.md)剩余边界，Cu
 | D2 | 一阶段opcode族、战斗主控、启动资源生命周期分开，真实机制/数据回归通过 | 待实施 |
 | E1 | 迁移场景映射与脚本转换阶段独立、纯内存入口可测；输出/幂等/写保护保真 | 待实施 |
 | F1 | design-system audit 的AST事实、CSS推导、规则、报告分层；现有违规/反例与性能门不弱化 | 待实施 |
-| F2 | Cursor24组接收后核剩余actor/entity/map/资源命令边界，controls成为稳定组合出口；不以文件数冒称完成 | Cursor并行 / Codex接收 |
+| F2 | Cursor24组接收后核剩余actor/entity/map/资源命令边界，controls成为稳定组合出口；不以文件数冒称完成 | Cursor24组完成；其余归Codex继续 |
 
 每个状态所有权边界先读一手源码和既有回归，记录依赖、输入采样、同步提交、取消/释放；纯机械搬迁
 用正文/出口/实际行为对照，不新建传全上下文的伪模块。实际bug与结构变更分提交。
@@ -47,11 +47,12 @@ Codex持续处理[治理台账](../audits/architecture-debt.md)剩余边界，Cu
 
 ## 当前推进
 
+- 2026-09-26 Cursor24组与GLM实验包已独立accept收口，统一check8707/strict8215/686，详见[Cursor](../../testing/cursor-architecture-batch-integration.md)/[GLM](../../testing/architecture-regression-lab-completion.md)。未证后续明确保留：B1核720/900横向裁切、隐藏outliner后残留separator命中/焦点区及boot首屏失败矩阵；E1核globalScriptAliases及profile/reference端到端其它组合（sceneSemanticSpriteIds已有world-sprite-layout-registry三类动态证据，按existing-proof）；原生浏览器125/150% zoom归后续环境/E2E矩阵。以上不是本批已修/已覆盖，不借准备包done关闭架构项。
 - D1六个下层所有者已落：[实现与验证](../../testing/phase1-dependency-refactor.md)。只读工具证实原七节点运行期SCC→无SCC、旧出口不变、161函数体保真（32搬移，仅两处同步状态路由变更）；8新增所有权回归、4既有跨模块、554相邻及类型检查通过。与E2统一check8678/ratchet/保护8bf40b90的单次strict8186/654、三针、生产build及隔离浏览器功能验证全部通过。Codex核该两项accept收口；不混入r11复核分支的GLM拟接入测试，后者仍按交接约束独立保留。
 - E2结构`4cdefcf1`已分离校验协议/形状/AI条件/演出；旧入口52/19出口一致、50函数体保真（11搬移），content运行期二节点环消除。[E2回执](../../testing/content-validation-refactor.md)与D1共享本批门禁。前轮包括GLM四项副本的门禁只作为独立候选证据，本次按实际E2+D1树重新统一执行，不挪用其测试总数。
 
 - E2缺陷修复先行：新增正式`author-battle-dialogue-boundary.test.ts`13项，原实现9项AssertionError红/4项合法与runtime对照绿；`:712`显式透传options后13/13、content全包863/863与typecheck通过。覆盖直接及七递归臂的精确错误路径、三种合法作者identity、实际cue/路径透传、runtime方言保留；结构解环随后另提交，整批质量门统一执行。
 
 Codex：**premise verified / build allowed**，用户全队列授权下按上表顺序连续开工，单批一主要边界；
-Cursor独占其白名单，Codex不同时编辑commands.ts/controls.tsx的委派区。D1/E2已完成，整卡仍build、其余九项未done。
-无下一位Agent提示词（Codex持续实施；Cursor提示词在其卡）。
+Cursor24组已收口并释放本次白名单写入所有权；后续新委派另列任务，当前剩余生产实现由Codex推进。D1/E2已完成，整卡仍build、其余九项未done。
+无下一位Agent提示词（Codex持续实施；归档卡内Cursor提示词仅为历史）。

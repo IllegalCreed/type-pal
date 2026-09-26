@@ -1,5 +1,7 @@
 # ARCH-REGRESSION-LAB-GLM-1 · 简短回执（GLM 十二组，r12 剩余视觉/回执收口批次）
 
+> **Codex收口注（2026-09-26）**：下文为作者候选62142b16的交付快照，分支/main位置和历史状态不代表最终树；现已接收done。Codex补正、独立视觉、正式41项贡献、未证后续归属及统一门禁见[完成回执](../architecture-regression-lab-completion.md)。作者原文和历史标签保留。
+
 > **当前口径以本节为准（r12，2026-09-26）**；r9–r11 批次细节见 Git 历史（分支同下，其描述含当时口径，
 > 例如 r11 时的 42/42、57 条与主线检出宿主说明，均为历史快照，不再代表当前）。
 > - 候选分支 `codex/glm-architecture-regression-lab-r2`（起点 origin/main f5f166aa，已并入当时 origin/main
@@ -21,7 +23,7 @@
 >   React 监听链另以页面内派发 KeyboardEvent 复核（同判）。r11 的「IAB press 受限」确认为旧自动化路径伪影，
 >   不作为产品或平台结论。
 
-任务卡：[ARCH-REGRESSION-LAB-GLM-1](../../ops/tasks/ARCH-REGRESSION-LAB-GLM-1-twelve-packs.md)（build）。
+任务卡：[ARCH-REGRESSION-LAB-GLM-1](../../ops/archive/tasks/done/ARCH-REGRESSION-LAB-GLM-1-twelve-packs.md)（build）。
 账本：[results.json](results.json)（75 条，与执行 JSON 一对一双射）；机械对账器：[tools/verify.mjs](tools/verify.mjs)（v2 全硬判据）。
 
 ## r12 批次（回应 r11 counter：V01 剩余矩阵 / V02 / V03 / V04 / 回执校准）

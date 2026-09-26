@@ -1,6 +1,6 @@
 # GLM十二组架构回归实验包 r1
 
-任务：[ARCH-REGRESSION-LAB-GLM-1](../../ops/tasks/ARCH-REGRESSION-LAB-GLM-1-twelve-packs.md)，状态draft。
+任务：[ARCH-REGRESSION-LAB-GLM-1](../../ops/archive/tasks/done/ARCH-REGRESSION-LAB-GLM-1-twelve-packs.md)，状态draft。
 生产冻结**86e928b5**；独立worktree建议`/Users/zhangxu/illegal/type-pal-glm-regression-lab`，
 分支`codex/glm-architecture-regression-lab-r1`。从包含本工作包的Codex交付提交起步，记录完整SHA。
 

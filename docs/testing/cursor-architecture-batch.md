@@ -1,5 +1,7 @@
 # ARCH-F2-CURSOR-BATCH-1 — 24组命令族与设计系统模块整理
 
+> Codex已独立接收fc09645e并完成统一门禁、最小功能验证与done收口，见[最终验收](cursor-architecture-batch-integration.md)。下文保留作者交付时的“不合main/不标done”职责说明，不代表当前集成状态。
+
 2026-09-26。Cursor 在独立 worktree `/Users/zhangxu/illegal/type-pal-cursor-architecture-batch`、分支 `codex/cursor-architecture-batch-r1` 上连续实施 C00–C10、U00–U12。起点是当时最新 `origin/main` `8bf40b9094d9e43f6c3d146c1bda651962eb36c3`。卡面冻结 `0cb32631` 是它的祖先。没有合 main，没有标 done，没有跑官方覆盖率。
 
 `commands.ts` / `controls.tsx` 保留旧公开出口；新模块对 `Command` 只 type-import `command-contract.ts`，不 runtime 回引旧 barrel。`design-system/index.ts` 仍是 `export * from './controls.js'`。`dsClasses` 在开工前的 main 已公开，本包只改成从 `control-utils.ts` 重导出。`withEnemy` 仍被本文件残留的 `SetEnemyBattleSpriteCommand` 使用，因此留在 `enemy-commands.ts` 并由 `commands.ts` runtime import。CSS、产品宿主、格式配置、超时、排除项和基线未改。
@@ -137,4 +139,4 @@ git diff --check origin/main -- packages/editor/src/core packages/editor/src/ui/
 pnpm --filter @type-pal/editor check
 ```
 
-任务卡：[ARCH-F2-CURSOR-BATCH-1](../ops/tasks/ARCH-F2-CURSOR-BATCH-1-domain-modules.md)。Cursor 自验不是独立证明。Codex 负责隔离 UI、全仓 check、官方 ratchet 与受保护严格 fast。
+任务卡：[ARCH-F2-CURSOR-BATCH-1](../ops/archive/tasks/done/ARCH-F2-CURSOR-BATCH-1-domain-modules.md)。Cursor 自验不是独立证明。Codex 负责隔离 UI、全仓 check、官方 ratchet 与受保护严格 fast。

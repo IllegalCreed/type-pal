@@ -1,6 +1,6 @@
 # ARCH-F2-CURSOR-BATCH-1 — 24组命令族与设计系统模块整理
 
-Status: rework
+Status: done
 Phase: phase2 editor / 架构治理 F2
 Coding Owner: Cursor
 Review / Integration Owner: Codex
@@ -87,11 +87,16 @@ C00→C01…C10顺序实施。UI先U00→U01/U02→其余；U06/U07/U08/U09按�
 
 Codex：**premise verified / build allowed**（2026-09-26）。已核上表当前符号、既有战场/标签拆分回执，
 范围与Codex的E2/A3等实现文件互斥。用户已授权本整包由Cursor连续实施；固定三签暂停。
-done尚未开放。无额外产品裁决：本包只保持行为的模块归属整理。
+done准入已由Codex最终核定（2026-09-26，fc09645e及统一集成树）；[最终验收](../../../../testing/cursor-architecture-batch-integration.md)记录独立证据。无额外产品裁决：本包只保持行为的模块归属整理。
+
+## Codex 最终验收/收口
+
+**accept，R1–R3全部闭合。** 313文件/2813 editor测试、24针及判据自测通过；旧119/50出口保持，正文与producer策略核验不重开。Codex完成隔离UI输入/undo/数字/弹窗/替换/引用刷新与工作区复验，用户无需手测。
+统一check8707→ratchet→保护8d851fa6的单次strict8215/686全部exit0。详见[统一机账](../../../../testing/architecture-intake-completion-evidence.json)。本卡24组完成，整体F2剩余命令族仍归连续治理卡；B1窄屏布局披露保留。无下一位Agent提示词，Codex继续架构主线，不代签作者。
 
 ## Codex 独立接收（2026-09-26，候选d0684e78）
 
-**counter，仅R1–R3窄返工。** [本席报告](../../testing/cursor-architecture-batch-review.md)与[见证工具](../../testing/cursor-architecture-review-witnesses.mjs)记录直接反证：三份非法fixture、C07新例未证guard、负控判据错误接受普通Error/错文件，以及旧barrel新增出口/两项格式门。
+**counter，仅R1–R3窄返工。** [本席报告](../../../../testing/cursor-architecture-batch-review.md)与[见证工具](../../../../testing/cursor-architecture-review-witnesses.mjs)记录直接反证：三份非法fixture、C07新例未证guard、负控判据错误接受普通Error/错文件，以及旧barrel新增出口/两项格式门。
 
 机械搬移初核接收：139命令声明保持；78控件声明只有一处显式返回类型差异，运行正文保持；32新模块无runtime回引barrel。定向344/344、recipes/reorder57/57、完整editor check313文件2813项及TC/docs通过；完整环境已由Codex补齐，不要求用户验证。没有合入候选、改官方基线或标done，不代写作者结论。用户已委托Codex完成全部验收，窄修后由Codex接续UI与统一门禁。
 
@@ -128,7 +133,7 @@ R3：旧controls barrel恢复原50出口（下层所需内部出口保留）；�
 
 ## Cursor 交付（未标 done）
 
-2026-09-26。作者自验回执：[docs/testing/cursor-architecture-batch.md](../../testing/cursor-architecture-batch.md)，24组负控汇总 [evidence.json](../../testing/cursor-architecture-batch/evidence.json)。起点 `origin/main` `8bf40b9094d9e43f6c3d146c1bda651962eb36c3`。24组均已实施，无隔离阻断。不合 main。Codex 独立验收与集成。
+2026-09-26。作者自验回执：[docs/testing/cursor-architecture-batch.md](../../../../testing/cursor-architecture-batch.md)，24组负控汇总 [evidence.json](../../../../testing/cursor-architecture-batch/evidence.json)。起点 `origin/main` `8bf40b9094d9e43f6c3d146c1bda651962eb36c3`。24组均已实施，无隔离阻断。不合 main。Codex 独立验收与集成。
 
 ### Cursor r2 窄修（未标 done）
 

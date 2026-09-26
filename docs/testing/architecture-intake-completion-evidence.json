@@ -1,0 +1,735 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-09-26",
+  "integrationBase": "8d851fa6",
+  "cursor": {
+    "candidate": "fc09645e",
+    "integration": "e0c3b6d0",
+    "verdict": "accept",
+    "counterClosed": ["R1", "R2", "R3"],
+    "editorCheck": {
+      "exit": 0,
+      "files": 313,
+      "tests": 2813
+    },
+    "sourceParity": {
+      "commands": 139,
+      "controls": 78,
+      "onlyAnnotationDifference": "draftSource explicit string result",
+      "publicExports": {
+        "commands": 119,
+        "controls": 50
+      },
+      "newProductionModules": 32
+    },
+    "mutants": {
+      "selfTests": {
+        "ok": true,
+        "results": [
+          {
+            "id": "ordinary-error-with-assertion-text",
+            "accepted": false,
+            "expected": false
+          },
+          {
+            "id": "wrong-file-and-full-name",
+            "accepted": false,
+            "expected": false
+          },
+          {
+            "id": "zero-executions",
+            "accepted": false,
+            "expected": false
+          },
+          {
+            "id": "exit-2",
+            "accepted": false,
+            "expected": false
+          },
+          {
+            "id": "exit-null",
+            "accepted": false,
+            "expected": false
+          },
+          {
+            "id": "unhit-injection",
+            "accepted": false,
+            "expected": false
+          },
+          {
+            "id": "mixed-error",
+            "accepted": false,
+            "expected": false
+          },
+          {
+            "id": "timeout",
+            "accepted": false,
+            "expected": false
+          }
+        ]
+      },
+      "reports": [
+        {
+          "key": "c00",
+          "id": "c00-error-message",
+          "file": "packages/editor/src/core/battle-data-command-errors.ts",
+          "testFile": "packages/editor/src/core/command-contract.test.ts",
+          "fullName": "C00 command contract and battle-data error keeps BattleDataInUseError identity, message and references on the moved module",
+          "sha256": "4dd5b2a9844b7a372ab26502d20d7ff1f6e51afed369824547b3ab3334b33e78",
+          "hashUnchanged": true,
+          "greenExit": 0,
+          "greenPassed": 1,
+          "redExit": 1,
+          "failedTitle": "keeps BattleDataInUseError identity, message and references on the moved module",
+          "failedFullName": "C00 command contract and battle-data error keeps BattleDataInUseError identity, message and references on the moved module",
+          "assertion": "AssertionError: expected '敌人 enemy-1 仍被 0 个引用' to be '敌人 enemy-1 仍被 0 处引用' // Object.is equality",
+          "hit": true,
+          "evidence": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/c00-error-message-wFiKFS",
+          "ok": true
+        },
+        {
+          "key": "c01",
+          "id": "c01-in-use-message",
+          "file": "packages/editor/src/core/world-variable-commands.ts",
+          "testFile": "packages/editor/src/core/world-variable-commands.test.ts",
+          "fullName": "world variable EditSession commands keeps world-variable constructors and in-use error on the old commands barrel",
+          "sha256": "967edb24867d8bfc897adc347714770aadad485f220bf9eff8c43a112220a0d0",
+          "hashUnchanged": true,
+          "greenExit": 0,
+          "greenPassed": 1,
+          "redExit": 1,
+          "failedTitle": "keeps world-variable constructors and in-use error on the old commands barrel",
+          "failedFullName": "world variable EditSession commands keeps world-variable constructors and in-use error on the old commands barrel",
+          "assertion": "AssertionError: expected '世界变量 \"used\" 仍有 2 个脚本引用' to be '世界变量 \"used\" 仍有 2 处脚本引用' // Object.is equality",
+          "hit": true,
+          "evidence": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/c01-in-use-message-44IKKF",
+          "ok": true
+        },
+        {
+          "key": "c02",
+          "id": "c02-update-label",
+          "file": "packages/editor/src/core/enemy-commands.ts",
+          "testFile": "packages/editor/src/core/enemy-commands.test.ts",
+          "fullName": "C02 enemy command family keeps enemy constructors on the old commands barrel and patches on first apply",
+          "sha256": "227e1462c3859194dbfc0db603416a7db307fdbff9606a2821babf964e6c7b25",
+          "hashUnchanged": true,
+          "greenExit": 0,
+          "greenPassed": 1,
+          "redExit": 1,
+          "failedTitle": "keeps enemy constructors on the old commands barrel and patches on first apply",
+          "failedFullName": "C02 enemy command family keeps enemy constructors on the old commands barrel and patches on first apply",
+          "assertion": "AssertionError: expected '修改敌方' to be '修改敌人' // Object.is equality",
+          "hit": true,
+          "evidence": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/c02-update-label-NMJ7QC",
+          "ok": true
+        },
+        {
+          "key": "c03",
+          "id": "c03-slot-cap",
+          "file": "packages/editor/src/core/enemy-team-commands.ts",
+          "testFile": "packages/editor/src/core/enemy-team-references.test.ts",
+          "fullName": "enemy team authoring commands and references keeps enemy-team constructors and in-use error on the old commands barrel",
+          "sha256": "8a2a7434bfe2e9ce2c9efd1d0411cbec0e03356b529e9b2d0de3a093faf5ff73",
+          "hashUnchanged": true,
+          "greenExit": 0,
+          "greenPassed": 1,
+          "redExit": 1,
+          "failedTitle": "keeps enemy-team constructors and in-use error on the old commands barrel",
+          "failedFullName": "enemy team authoring commands and references keeps enemy-team constructors and in-use error on the old commands barrel",
+          "assertion": "AssertionError: expected [ 'a', null, 'b', 'c' ] to deeply equal [ 'a', null, 'b', 'c', 'd' ]",
+          "hit": true,
+          "evidence": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/c03-slot-cap-6glHTq",
+          "ok": true
+        },
+        {
+          "key": "c04",
+          "id": "c04-item-id-exists",
+          "file": "packages/editor/src/core/item-commands.ts",
+          "testFile": "packages/editor/src/core/item-commands.test.ts",
+          "fullName": "C04 item command family keeps item constructors on the old commands barrel and rejects duplicate id",
+          "sha256": "50d635e6d077f77b8d70162ba085bafcdbb624b7a3739462dcc4b79cd4968fc2",
+          "hashUnchanged": true,
+          "greenExit": 0,
+          "greenPassed": 1,
+          "redExit": 1,
+          "failedTitle": "keeps item constructors on the old commands barrel and rejects duplicate id",
+          "failedFullName": "C04 item command family keeps item constructors on the old commands barrel and rejects duplicate id",
+          "assertion": "AssertionError: expected [Function] to throw error matching /id 已存在/ but got '物品 id 已占用：a'",
+          "hit": true,
+          "evidence": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/c04-item-id-exists-0Ozzlw",
+          "ok": true
+        },
+        {
+          "key": "c05",
+          "id": "c05-skill-default-power",
+          "file": "packages/editor/src/core/skill-commands.ts",
+          "testFile": "packages/editor/src/core/skill-commands.test.ts",
+          "fullName": "C05 skill command family keeps skill constructors on the old commands barrel and scaffolds default power",
+          "sha256": "ea34f9f5797593c82732a2fdeef7b5d048cd7f57e5b966ec437701360b21c0e5",
+          "hashUnchanged": true,
+          "greenExit": 0,
+          "greenPassed": 1,
+          "redExit": 1,
+          "failedTitle": "keeps skill constructors on the old commands barrel and scaffolds default power",
+          "failedFullName": "C05 skill command family keeps skill constructors on the old commands barrel and scaffolds default power",
+          "assertion": "AssertionError: expected { kind: 'damage', power: 19, …(1) } to match object { kind: 'damage', power: 20 }",
+          "hit": true,
+          "evidence": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/c05-skill-default-power-orMcqL",
+          "ok": true
+        },
+        {
+          "key": "c06",
+          "id": "c06-poison-curability",
+          "file": "packages/editor/src/core/poison-commands.ts",
+          "testFile": "packages/editor/src/core/poison-commands.test.ts",
+          "fullName": "C06 poison command family keeps poison constructors on the old commands barrel and scaffolds common curability",
+          "sha256": "78a15c4b28d62c688b8871590f71355a58f4bde9e7afccc75d2944d3e9d0dc57",
+          "hashUnchanged": true,
+          "greenExit": 0,
+          "greenPassed": 1,
+          "redExit": 1,
+          "failedTitle": "keeps poison constructors on the old commands barrel and scaffolds common curability",
+          "failedFullName": "C06 poison command family keeps poison constructors on the old commands barrel and scaffolds common curability",
+          "assertion": "AssertionError: expected { id: 1000, name: '试验毒', …(4) } to match object { id: 1000, name: '试验毒', …(1) }",
+          "hit": true,
+          "evidence": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/c06-poison-curability-vBQ4Ok",
+          "ok": true
+        },
+        {
+          "key": "c07",
+          "id": "c07-ambience-delete-guard",
+          "file": "packages/editor/src/core/ambience-commands.ts",
+          "testFile": "packages/editor/src/core/commands.test.ts",
+          "fullName": "W6 氛围命令(不可变 + invert) DeleteAmbience:脚本显式引用、昼夜隐式引用和运行态引用均阻断且不改源",
+          "sha256": "d71065b9e0a5a9730a6af49b008604d8b6cf5aacd78ec69355fe5ecc5b967553",
+          "hashUnchanged": true,
+          "greenExit": 0,
+          "greenPassed": 1,
+          "redExit": 1,
+          "failedTitle": "DeleteAmbience:脚本显式引用、昼夜隐式引用和运行态引用均阻断且不改源",
+          "failedFullName": "W6 氛围命令(不可变 + invert) DeleteAmbience:脚本显式引用、昼夜隐式引用和运行态引用均阻断且不改源",
+          "assertion": "AssertionError: expected function to throw an error, but it didn't",
+          "hit": true,
+          "evidence": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/c07-ambience-delete-guard-mq0czB",
+          "ok": true
+        },
+        {
+          "key": "c08",
+          "id": "c08-shop-id-overflow",
+          "file": "packages/editor/src/core/shop-commands.ts",
+          "testFile": "packages/editor/src/core/shop-lifecycle.test.ts",
+          "fullName": "C08 shop command family keeps shop constructors on the old commands barrel and guards nextShopId overflow",
+          "sha256": "62ce3fdc60959ed9bb9cbef27f161d06934dc8b8f3c83f7a0ef1cafd3b41354f",
+          "hashUnchanged": true,
+          "greenExit": 0,
+          "greenPassed": 1,
+          "redExit": 1,
+          "failedTitle": "keeps shop constructors on the old commands barrel and guards nextShopId overflow",
+          "failedFullName": "C08 shop command family keeps shop constructors on the old commands barrel and guards nextShopId overflow",
+          "assertion": "AssertionError: expected [Function] to throw error matching /商店编号已超出安全整数范围/ but got '商店编号已超出整数范围'",
+          "hit": true,
+          "evidence": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/c08-shop-id-overflow-MRqLdl",
+          "ok": true
+        },
+        {
+          "key": "c09",
+          "id": "c09-locale-label",
+          "file": "packages/editor/src/core/locale-commands.ts",
+          "testFile": "packages/editor/src/core/locale-commands.test.ts",
+          "fullName": "C09 locale level-up and project-name commands keeps metadata constructors on the old commands barrel and patches locale text",
+          "sha256": "ae05e976d5bb08b07cd58c428fa94fda52af08f9f3f6348ea2711d2d86dd2925",
+          "hashUnchanged": true,
+          "greenExit": 0,
+          "greenPassed": 1,
+          "redExit": 1,
+          "failedTitle": "keeps metadata constructors on the old commands barrel and patches locale text",
+          "failedFullName": "C09 locale level-up and project-name commands keeps metadata constructors on the old commands barrel and patches locale text",
+          "assertion": "AssertionError: expected '修改文案' to be '修改文本' // Object.is equality",
+          "hit": true,
+          "evidence": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/c09-locale-label-78jSQM",
+          "ok": true
+        },
+        {
+          "key": "c10",
+          "id": "c10-asset-label-clear",
+          "file": "packages/editor/src/core/asset-label-command.ts",
+          "testFile": "packages/editor/src/core/asset-label-command.test.ts",
+          "fullName": "C10 asset label command family keeps asset-label constructor on the old commands barrel and clears empty labels",
+          "sha256": "ee701b1ef9d28331116198d1fd5bd36e5fc2875ffc382a31300ba366c434ed50",
+          "hashUnchanged": true,
+          "greenExit": 0,
+          "greenPassed": 1,
+          "redExit": 1,
+          "failedTitle": "keeps asset-label constructor on the old commands barrel and clears empty labels",
+          "failedFullName": "C10 asset label command family keeps asset-label constructor on the old commands barrel and clears empty labels",
+          "assertion": "AssertionError: expected true to be false // Object.is equality",
+          "hit": true,
+          "evidence": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/c10-asset-label-clear-WQqzvG",
+          "ok": true
+        },
+        {
+          "key": "u00",
+          "id": "u00-described-by-empty",
+          "file": "packages/editor/src/ui/design-system/control-utils.ts",
+          "testFile": "packages/editor/src/ui/design-system/control-utils.test.ts",
+          "fullName": "U00 shared control utilities joins truthy class tokens and drops empty describedBy ids",
+          "sha256": "3e0d9a0a07e6804fce5f4ef0ad4a4d70f4596a1489b71df5d02e13c976bc22b5",
+          "hashUnchanged": true,
+          "greenExit": 0,
+          "greenPassed": 1,
+          "redExit": 1,
+          "failedTitle": "joins truthy class tokens and drops empty describedBy ids",
+          "failedFullName": "U00 shared control utilities joins truthy class tokens and drops empty describedBy ids",
+          "assertion": "AssertionError: expected '' to be undefined",
+          "hit": true,
+          "evidence": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/u00-described-by-empty-OTULL7",
+          "ok": true
+        },
+        {
+          "key": "u01",
+          "id": "u01-busy-label",
+          "file": "packages/editor/src/ui/design-system/buttons.tsx",
+          "testFile": "packages/editor/src/ui/design-system/buttons.test.tsx",
+          "fullName": "U01 button family keeps pressable, button and action-link identity with busy and default chrome",
+          "sha256": "bcf226c54591582f3e5121374a2c153630025d008018e102465b1e9a938acef4",
+          "hashUnchanged": true,
+          "greenExit": 0,
+          "greenPassed": 1,
+          "redExit": 1,
+          "failedTitle": "keeps pressable, button and action-link identity with busy and default chrome",
+          "failedFullName": "U01 button family keeps pressable, button and action-link identity with busy and default chrome",
+          "assertion": "AssertionError: expected '<button type=\"button\" class=\"ds-butto…' to be '<button type=\"button\" class=\"ds-butto…' // Object.is equality",
+          "hit": true,
+          "evidence": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/u01-busy-label-4crZZG",
+          "ok": true
+        },
+        {
+          "key": "u02",
+          "id": "u02-help-tip-label",
+          "file": "packages/editor/src/ui/design-system/help-tips.tsx",
+          "testFile": "packages/editor/src/ui/design-system/help-tips.test.tsx",
+          "fullName": "U02 help tips keeps tooltip and help-tip identity with visually-hidden descriptions and Escape dismiss",
+          "sha256": "6d5eff19ea94fd55804c5bd2644b13326c489a61f051d602e4c2609aeef9680a",
+          "hashUnchanged": true,
+          "greenExit": 0,
+          "greenPassed": 1,
+          "redExit": 1,
+          "failedTitle": "keeps tooltip and help-tip identity with visually-hidden descriptions and Escape dismiss",
+          "failedFullName": "U02 help tips keeps tooltip and help-tip identity with visually-hidden descriptions and Escape dismiss",
+          "assertion": "AssertionError: expected '分次执行帮助' to be '分次执行说明' // Object.is equality",
+          "hit": true,
+          "evidence": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/u02-help-tip-label-1GrheY",
+          "ok": true
+        },
+        {
+          "key": "u03",
+          "id": "u03-icon-button-compact",
+          "file": "packages/editor/src/ui/design-system/icon-button.tsx",
+          "testFile": "packages/editor/src/ui/design-system/icon-button.test.tsx",
+          "fullName": "U03 icon button keeps icon-button identity with compact class and aria-label",
+          "sha256": "ae2feb56206466e7f92bc9d79c0eaa5778381c9e6226a7f1e8344bf5e4c025f5",
+          "hashUnchanged": true,
+          "greenExit": 0,
+          "greenPassed": 1,
+          "redExit": 1,
+          "failedTitle": "keeps icon-button identity with compact class and aria-label",
+          "failedFullName": "U03 icon button keeps icon-button identity with compact class and aria-label",
+          "assertion": "AssertionError: expected 'ds-icon-button ds-icon-button--second…' to be 'ds-icon-button ds-icon-button--second…' // Object.is equality",
+          "hit": true,
+          "evidence": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/u03-icon-button-compact-Lcqlgq",
+          "ok": true
+        },
+        {
+          "key": "u04",
+          "id": "u04-file-picker-class",
+          "file": "packages/editor/src/ui/design-system/native-inputs.tsx",
+          "testFile": "packages/editor/src/ui/design-system/native-inputs.test.tsx",
+          "fullName": "U04 native inputs keeps native file, range, and color input identity with file-picker class",
+          "sha256": "0cb270ed55f0b88cb85a3ab8b3899ed9e260c7706c66cb50d12852777d0d773d",
+          "hashUnchanged": true,
+          "greenExit": 0,
+          "greenPassed": 1,
+          "redExit": 1,
+          "failedTitle": "keeps native file, range, and color input identity with file-picker class",
+          "failedFullName": "U04 native inputs keeps native file, range, and color input identity with file-picker class",
+          "assertion": "AssertionError: expected 'ds-file-picker-field' to be 'ds-file-picker' // Object.is equality",
+          "hit": true,
+          "evidence": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/u04-file-picker-class-26Xw3q",
+          "ok": true
+        },
+        {
+          "key": "u05",
+          "id": "u05-field-inline",
+          "file": "packages/editor/src/ui/design-system/field-layout.tsx",
+          "testFile": "packages/editor/src/ui/design-system/field-layout.test.tsx",
+          "fullName": "U05 field layout keeps field-group, field, and control-group identity with inline layout and required asterisk",
+          "sha256": "e8f3a51dd8af02120d337fc74b169f3698e32279b1ab67006468bf011ed93b43",
+          "hashUnchanged": true,
+          "greenExit": 0,
+          "greenPassed": 1,
+          "redExit": 1,
+          "failedTitle": "keeps field-group, field, and control-group identity with inline layout and required asterisk",
+          "failedFullName": "U05 field layout keeps field-group, field, and control-group identity with inline layout and required asterisk",
+          "assertion": "AssertionError: expected 'ds-field ds-field--row' to be 'ds-field ds-field--inline' // Object.is equality",
+          "hit": true,
+          "evidence": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/u05-field-inline-YrWHvQ",
+          "ok": true
+        },
+        {
+          "key": "u06",
+          "id": "u06-escape-cancel",
+          "file": "packages/editor/src/ui/design-system/draft-input-state.ts",
+          "testFile": "packages/editor/src/ui/design-system/draft-text-inputs.test.tsx",
+          "fullName": "U06 draft text inputs keeps draft text input identity with Enter commit and Escape cancel",
+          "sha256": "b8b9e06312338bc0c5153761c6405bd140b485539c06b5dec75bf669fdee3d38",
+          "hashUnchanged": true,
+          "greenExit": 0,
+          "greenPassed": 1,
+          "redExit": 1,
+          "failedTitle": "keeps draft text input identity with Enter commit and Escape cancel",
+          "failedFullName": "U06 draft text inputs keeps draft text input identity with Enter commit and Escape cancel",
+          "assertion": "AssertionError: expected \"vi.fn()\" to be called at least once",
+          "hit": true,
+          "evidence": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/u06-escape-cancel-OwOB97",
+          "ok": true
+        },
+        {
+          "key": "u07",
+          "id": "u07-number-step",
+          "file": "packages/editor/src/ui/design-system/number-inputs.tsx",
+          "testFile": "packages/editor/src/ui/design-system/number-inputs.test.tsx",
+          "fullName": "U07 number inputs keeps number input identity with stepped parse validation string",
+          "sha256": "8e6b01f8d6184e46e7f0eb97f40e6d1e61afa5ce71669c4739b425dfa2025abf",
+          "hashUnchanged": true,
+          "greenExit": 0,
+          "greenPassed": 1,
+          "redExit": 1,
+          "failedTitle": "keeps number input identity with stepped parse validation string",
+          "failedFullName": "U07 number inputs keeps number input identity with stepped parse validation string",
+          "assertion": "AssertionError: expected 'any' to be '1' // Object.is equality",
+          "hit": true,
+          "evidence": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/u07-number-step-nc0Dgp",
+          "ok": true
+        },
+        {
+          "key": "u08",
+          "id": "u08-text-field-id",
+          "file": "packages/editor/src/ui/design-system/field-controls.tsx",
+          "testFile": "packages/editor/src/ui/design-system/field-controls.test.tsx",
+          "fullName": "U08 field controls keeps text field shell identity with label association",
+          "sha256": "2bb4d7c1495ae95d7e16bde61d202dc217b92c887d36d7301cfc653d7fea10ae",
+          "hashUnchanged": true,
+          "greenExit": 0,
+          "greenPassed": 1,
+          "redExit": 1,
+          "failedTitle": "keeps text field shell identity with label association",
+          "failedFullName": "U08 field controls keeps text field shell identity with label association",
+          "assertion": "AssertionError: expected 'title-input' to be 'title' // Object.is equality",
+          "hit": true,
+          "evidence": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/u08-text-field-id-4YWNji",
+          "ok": true
+        },
+        {
+          "key": "u09",
+          "id": "u09-select-combobox",
+          "file": "packages/editor/src/ui/design-system/select.tsx",
+          "testFile": "packages/editor/src/ui/design-system/select.test.tsx",
+          "fullName": "U09 select keeps select identity with combobox listbox semantics",
+          "sha256": "47d56c4e197776f37057dc1b3542c70821c12a62eaedd6800a9bf5ffcdebbdf5",
+          "hashUnchanged": true,
+          "greenExit": 0,
+          "greenPassed": 1,
+          "redExit": 1,
+          "failedTitle": "keeps select identity with combobox listbox semantics",
+          "failedFullName": "U09 select keeps select identity with combobox listbox semantics",
+          "assertion": "AssertionError: expected 'button' to be 'combobox' // Object.is equality",
+          "hit": true,
+          "evidence": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/u09-select-combobox-peY7wj",
+          "ok": true
+        },
+        {
+          "key": "u10",
+          "id": "u10-switch-role",
+          "file": "packages/editor/src/ui/design-system/choice-controls.tsx",
+          "testFile": "packages/editor/src/ui/design-system/choice-controls.test.tsx",
+          "fullName": "U10 choice controls keeps checkbox and switch identity with aria semantics",
+          "sha256": "12831dd16e6c7649deab2a3a2cb1091980090c981f3c969fdd44ca7cdb915f44",
+          "hashUnchanged": true,
+          "greenExit": 0,
+          "greenPassed": 1,
+          "redExit": 1,
+          "failedTitle": "keeps checkbox and switch identity with aria semantics",
+          "failedFullName": "U10 choice controls keeps checkbox and switch identity with aria semantics",
+          "assertion": "AssertionError: expected 'checkbox' to be 'switch' // Object.is equality",
+          "hit": true,
+          "evidence": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/u10-switch-role-pqdHgs",
+          "ok": true
+        },
+        {
+          "key": "u11",
+          "id": "u11-list-header-count",
+          "file": "packages/editor/src/ui/design-system/list-header.tsx",
+          "testFile": "packages/editor/src/ui/design-system/list-header.test.tsx",
+          "fullName": "U11 list header keeps list header identity with title and count chrome",
+          "sha256": "f91ec8407248daba9acec46d7e7b346adc27f238c096a3cfd2870419c4af5982",
+          "hashUnchanged": true,
+          "greenExit": 0,
+          "greenPassed": 1,
+          "redExit": 1,
+          "failedTitle": "keeps list header identity with title and count chrome",
+          "failedFullName": "U11 list header keeps list header identity with title and count chrome",
+          "assertion": "AssertionError: expected undefined to be '12 项' // Object.is equality",
+          "hit": true,
+          "evidence": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/u11-list-header-count-T10ZbQ",
+          "ok": true
+        },
+        {
+          "key": "u12",
+          "id": "u12-status-alert",
+          "file": "packages/editor/src/ui/design-system/feedback.tsx",
+          "testFile": "packages/editor/src/ui/design-system/tabs-card-feedback.test.tsx",
+          "fullName": "U12 tabs card feedback keeps tabs, card, and status identity with tablist and alert roles",
+          "sha256": "e8ed75ac61087fbabc7136f9dc6193f1235ebf72242112f748cc1ae83bf070fa",
+          "hashUnchanged": true,
+          "greenExit": 0,
+          "greenPassed": 1,
+          "redExit": 1,
+          "failedTitle": "keeps tabs, card, and status identity with tablist and alert roles",
+          "failedFullName": "U12 tabs card feedback keeps tabs, card, and status identity with tablist and alert roles",
+          "assertion": "AssertionError: expected '<div class=\"ds-status ds-status--erro…' to contain 'role=\"alert\"'",
+          "hit": true,
+          "evidence": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/u12-status-alert-fAyuqX",
+          "ok": true
+        }
+      ]
+    }
+  },
+  "glm": {
+    "candidate": "62142b16",
+    "reviewToolFix": "34f7bf91",
+    "verdict": "accept within preparation scope; explicit followups retained",
+    "candidateTests": {
+      "passed": 42,
+      "failed": 0,
+      "files": 9
+    },
+    "ledger": {
+      "entries": 75,
+      "counts": [72, 1, 1, 1],
+      "verifier": "PASS"
+    },
+    "redControls": {
+      "verdict": "detected",
+      "needles": [
+        {
+          "id": "lab-startup",
+          "verdict": "detected",
+          "witnesses": 1,
+          "executed": 1,
+          "failed": 1,
+          "firstLine": "AssertionError: expected false to be true // Object.is equality",
+          "exit": 1
+        },
+        {
+          "id": "g05-unmount-cleanup",
+          "verdict": "detected",
+          "witnesses": 1,
+          "executed": 4,
+          "failed": 1,
+          "firstLine": "AssertionError: expected 2 to be greater than 2",
+          "exit": 1
+        },
+        {
+          "id": "g03-committed",
+          "verdict": "detected",
+          "witnesses": 1,
+          "executed": 3,
+          "failed": 1,
+          "firstLine": "AssertionError: expected 'data-complete' to be 'committed' // Object.is equality",
+          "exit": 1
+        },
+        {
+          "id": "g05-immediate-wait",
+          "verdict": "detected",
+          "witnesses": 1,
+          "executed": 4,
+          "failed": 1,
+          "firstLine": "AssertionError: expected 'right' to be 'up' // Object.is equality",
+          "exit": 1
+        },
+        {
+          "id": "g08-drop-sprite",
+          "verdict": "detected",
+          "witnesses": 1,
+          "executed": 6,
+          "failed": 1,
+          "firstLine": "AssertionError: expected [] to deeply equal [ { kind: 'setActorSprite', …(2) } ]",
+          "exit": 1
+        },
+        {
+          "id": "g08-ignore-roots",
+          "verdict": "detected",
+          "witnesses": 1,
+          "executed": 6,
+          "failed": 1,
+          "firstLine": "AssertionError: expected 1 to be 2 // Object.is equality",
+          "exit": 1
+        }
+      ]
+    },
+    "fixtureOriginal": {
+      "failed": 1,
+      "error": "ReferenceError: dirname is not defined"
+    },
+    "fixtureFixed": {
+      "passed": 1,
+      "mapGuardAdded": true,
+      "preformattedMapTextPreserved": true
+    },
+    "formalContribution": {
+      "previous": 37,
+      "added": 4,
+      "total": 41,
+      "deduplicated": "G06-11 represented by Codex E2 thirteen tests"
+    }
+  },
+  "unifiedGates": {
+    "check": {
+      "exit": 0,
+      "tests": 8707,
+      "log": "/tmp/codex-cursor-glm-integration-check.log",
+      "sha256": "57b14a9932221a4c052538d1589d8ffd998d93def6de2fc2a2100a3b940cd9f4"
+    },
+    "ratchet": {
+      "exit": 0,
+      "log": "/tmp/codex-cursor-glm-ratchet.log",
+      "sha256": "e9cb9266a6b54db645867791d3ac11895527db6804e9767b91d0a08de9de0f9b"
+    },
+    "strict": {
+      "exit": 0,
+      "protectedRef": "8d851fa6",
+      "tests": 8215,
+      "productionFiles": 686,
+      "log": "/tmp/codex-cursor-glm-strict.log",
+      "sha256": "d9fe42e4aadbdfc2df382d2d62ecb0d9c7bf9d757af54a5218f5e0591c53c570"
+    },
+    "warnings": 53,
+    "infos": 6,
+    "fullOrQ1Q2": false
+  },
+  "baseline": {
+    "before": {
+      "tests": 8186,
+      "files": 654,
+      "metrics": {
+        "statements": {
+          "covered": 61240,
+          "total": 80619
+        },
+        "branches": {
+          "covered": 43261,
+          "total": 63176
+        },
+        "functions": {
+          "covered": 11385,
+          "total": 15036
+        },
+        "lines": {
+          "covered": 55132,
+          "total": 70570
+        }
+      }
+    },
+    "after": {
+      "tests": 8215,
+      "files": 686,
+      "metrics": {
+        "statements": {
+          "covered": 61242,
+          "total": 80619
+        },
+        "branches": {
+          "covered": 43267,
+          "total": 63176
+        },
+        "functions": {
+          "covered": 11385,
+          "total": 15036
+        },
+        "lines": {
+          "covered": 55132,
+          "total": 70570
+        }
+      }
+    }
+  },
+  "visual": {
+    "ownedFixture": "/tmp/codex-glm-r12-fixture.Ucmi6D",
+    "frozenGlmOrigin": "http://localhost:6017",
+    "cursorIntegrationOrigin": "http://127.0.0.1:6018",
+    "userProjectSavesWritten": false,
+    "form": {
+      "enterThenBlurOneUndo": true,
+      "escapeNoNewHistory": true,
+      "buyPrice": [150, 151, 150],
+      "filter": [10, 1],
+      "focusAfterClose": "选择已有图标"
+    },
+    "imageReplacement": {
+      "id": "item-icon.lab.blue",
+      "referencesBeforeAndAfter": 1,
+      "catalogCount": 10,
+      "beforeBytes": 102,
+      "afterBytes": 118,
+      "afterSha": "e2150f76b42dd9df6d5942823b11efb9010dd72d795a66aef8e80a3808f7193c",
+      "threeConsumerImages": "blue -> green/yellow -> blue after undo"
+    },
+    "race": {
+      "enteredLoading": true,
+      "delayedResponseMs": 15003,
+      "normalSha": "35c00cea58c8793e696d74463efcafb7cb03b07d1a3f3c460e0e66cea6b7ed3a",
+      "redMirrorSha": "020b2a99f8e326813d9aefe06cde3a455f54b39ffc5557216e93b58f06721db5",
+      "lateOldDidNotOverwrite": true,
+      "oldSourcePositiveRenderedRed": true
+    },
+    "failureRecovery": {
+      "persistent500Visible": true,
+      "otherResourceOperable": true,
+      "reselectAfterDisarmRendered": true
+    },
+    "workspace": {
+      "viewport": [900, 700],
+      "nonemptyCommands": 6,
+      "leftKeyboard": [194, 210, 194],
+      "leftDrag": [194, 234],
+      "hideRestoreWidth": 234,
+      "scriptHeightObserved": [419, 404],
+      "scroll": {
+        "clientHeight": 364,
+        "scrollHeight": 656,
+        "from": 0,
+        "to": 292
+      },
+      "mapKeyboard": [234, 250],
+      "narrowViewportClippingRetained": true,
+      "hiddenSeparator": {
+        "stillVisibleToDom": true,
+        "x": -4,
+        "width": 8
+      }
+    },
+    "temporaryTabsClosed": true,
+    "viewportReset": true,
+    "ownedServersStopped": true
+  },
+  "followups": {
+    "B1": [
+      "narrow viewport horizontal clipping",
+      "hidden-panel separator hit/focus area",
+      "boot failure matrix outside object-preview coverage"
+    ],
+    "E1": ["additional end-to-end globalScriptAliases/profile/reference combinations"],
+    "environment": ["native browser zoom125/150 unavailable; viewport not proxy for zoom"]
+  },
+  "activeSceneArchitectureWipIncluded": false
+}

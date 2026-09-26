@@ -36,11 +36,11 @@ GLM后续补测候选见[十批长队列](../testing/glm-coverage-work-queue.md)
 | ID | 任务 | 状态 | 负责人/下一步 | 一句话备注 |
 |---|---|---|---|---|
 | ARCH-CONTINUATION-1 | [剩余架构治理连续收口](tasks/ARCH-CONTINUATION-1-remaining-queue.md) | build | Codex续推A3 | E2/D1已accept：两组环消除、嵌套cue修复；check8678/strict8186/654，另九项仍在队列 |
-| ARCH-F2-CURSOR-BATCH-1 | [24组命令族与设计系统整理](tasks/ARCH-F2-CURSOR-BATCH-1-domain-modules.md) | rework | Cursor仅修R1–R3 / Codex验收 | 搬移正文保持、editor2813绿；fixture/C07范围、负控判据、出口/格式窄返工，用户免手工验证 |
-| ARCH-REGRESSION-LAB-GLM-1 | [十二组候选回归与功能视觉](tasks/ARCH-REGRESSION-LAB-GLM-1-twelve-packs.md) | build | GLM按r10反证返工 / Codex修作者cue漏校验 | 37项已转正；G01平移与人物名提交已独立补验；G06/G08及剩余视觉未闭，fast8159/643 |
 | ARCH-SUPPORT-GLM-1 | [八组并行架构/视觉准备](tasks/ARCH-SUPPORT-GLM-1-eight-audit-packages.md) | draft | Codex / 后续归属与收口 | 58cdf938材料accept，counter清零；文档已合入，按用户要求未标done/未开产品门 |
 
 2026-09-26 [战场命令族窄拆](../testing/glm-arch-battle-field-commands.md)由GLM实施、Codex独立accept并done归档：7276字节搬移保真、119出口不变、156项与两针通过；完整check8657/受保护严格fast8165/644绿，隔离功能核验完成（原生confirm自动化限制单列）。F2整体仍未完成。
+
+2026-09-26 [Cursor24组](../testing/cursor-architecture-batch-integration.md)与[GLM十二组准备包](../testing/architecture-regression-lab-completion.md)已由Codex独立accept/收口：前者25新增/32模块、后者本批4新增（累计41），统一check8707/strict8215/686；功能UI已补验，用户无需手测。B1/E1/环境未证轴已归属，A3主线WIP不混算。
 
 2026-09-25 [一阶段菜单与索引渲染十组补测](../testing/grok-present-integration.md)由Grok贡献隔离候选、Codex三轮独立复核后选择性接入正式game测试：25项（23生产绘制/解码+2快照自测）、check/受保护ratchet/单次严格fast均通过；fast8090项/641生产文件，全仓分支43067/63176、同分母净增157。旧候选分支未直接merge以免回退主线；full/E2E/视觉观感另排。
 

@@ -1,14 +1,14 @@
 {
   "schemaVersion": 2,
   "profile": "fast",
-  "generatedAt": "2026-09-26T03:22:09.767Z",
+  "generatedAt": "2026-09-26T04:53:27.121Z",
   "provider": {
     "name": "v8",
     "vitest": "4.1.7",
     "coverageV8": "4.1.7"
   },
-  "sourceFileCount": 654,
-  "testCount": 8186,
+  "sourceFileCount": 686,
+  "testCount": 8215,
   "packages": {
     "shared": {
       "name": "@type-pal/shared",
@@ -223,7 +223,7 @@
       ],
       "scopeDigest": "6b0f53f3a58ebe5227b9528cfce792383a19b27947a7c3d037471ceb6da40c7d",
       "fastTests": {
-        "testCount": 863,
+        "testCount": 866,
         "testFileCount": 76,
         "files": [
           "packages/content/src/actor-condition.boundaries.test.ts",
@@ -631,8 +631,8 @@
           },
           {
             "file": "packages/content/src/validate-enemy-crosscalls.test.ts",
-            "testCount": 7,
-            "identityDigest": "386a53234db9353e6b997532368c3904019f0603d0bab8b3899a59773d540bb5"
+            "testCount": 10,
+            "identityDigest": "46f50e445b87ecf20453f1959b2c97602f4f030313c550edc63e5bb0a52626f5"
           },
           {
             "file": "packages/content/src/validate-refs.contracts.test.ts",
@@ -685,9 +685,9 @@
             "identityDigest": "6bd136e3dc31faf579c7b78a5dd284c6a1fd1a58ee6d3fa624ccee6e21be9a3c"
           }
         ],
-        "identityDigest": "bffa8a31c77f5d8ebc1ccd3536947bb1616c591c806960ec26644118813096e3",
+        "identityDigest": "e4e34b408c82848248d34881ed60eb413ad3b17bb2165e8aeb3a9b6cbc9481d9",
         "duplicateIdentityCount": 0,
-        "executionDigest": "e5bb881a656feed1acee2f7ad744bf14b7ef6f56aef7db3fc714a9d45ca3e34e"
+        "executionDigest": "f44583ffec1debfdbf10f2475bba2e297bff2f0e3a87615bb0178d30e046fcd9"
       },
       "metrics": {
         "statements": {
@@ -695,7 +695,7 @@
           "total": 5856
         },
         "branches": {
-          "covered": 4159,
+          "covered": 4160,
           "total": 5019
         },
         "functions": {
@@ -1052,7 +1052,7 @@
       ],
       "scopeDigest": "980711e930306f3ff6a1d70817611eb6f83e3681f7568f886680e6ebe1939e2f",
       "fastTests": {
-        "testCount": 421,
+        "testCount": 422,
         "testFileCount": 55,
         "files": [
           "packages/migrate/src/bake-indexed-rgba.test.ts",
@@ -1144,8 +1144,8 @@
           },
           {
             "file": "packages/migrate/src/migrate-conversion-isolation.test.ts",
-            "testCount": 5,
-            "identityDigest": "eef8d526b7d45d0c5031fdbce2e8f2c2e6f1b3afc8de8a0930533b23575206b1"
+            "testCount": 6,
+            "identityDigest": "88bcf2c4f0225071c13edcd745e4cc91dcb73b116d18d2886ae5bb947e5d2272"
           },
           {
             "file": "packages/migrate/src/migrate-enemies.wave2.test.ts",
@@ -1388,17 +1388,17 @@
             "identityDigest": "baba8c49c53ef8a741ef1c605723ba72d227914206784bc3a5f719e12c8ff8ee"
           }
         ],
-        "identityDigest": "05aa2f07b278f4df6315c0d3dd77512216054253a917392596d6a7038fb2beef",
+        "identityDigest": "8642ac467468cf09fcb95e21791d22874d939e7cc880ba42b0d2f2c1b18b2345",
         "duplicateIdentityCount": 1,
-        "executionDigest": "3d6c18386eb8f1e63db05924ae38017f0f0c3642e43811ce51249df706af5250"
+        "executionDigest": "41458c9a812da62784260d7566bfb8a12f87b31c09c87851572a927c56ab86aa"
       },
       "metrics": {
         "statements": {
-          "covered": 4240,
+          "covered": 4241,
           "total": 7712
         },
         "branches": {
-          "covered": 3153,
+          "covered": 3155,
           "total": 6436
         },
         "functions": {
@@ -3783,11 +3783,13 @@
         "**/*.spec.tsx",
         "**/*.d.ts"
       ],
-      "sourceFileCount": 229,
+      "sourceFileCount": 261,
       "sourceFiles": [
         "packages/editor/src/core/actor-dialogue-commands.ts",
         "packages/editor/src/core/actor-references.ts",
+        "packages/editor/src/core/ambience-commands.ts",
         "packages/editor/src/core/asset-diagnostics.ts",
+        "packages/editor/src/core/asset-label-command.ts",
         "packages/editor/src/core/audio-preview-session.ts",
         "packages/editor/src/core/audio-preview.ts",
         "packages/editor/src/core/author-command-edit.ts",
@@ -3796,6 +3798,7 @@
         "packages/editor/src/core/author-save-plan.ts",
         "packages/editor/src/core/author-save-prefix.ts",
         "packages/editor/src/core/author-save-store.ts",
+        "packages/editor/src/core/battle-data-command-errors.ts",
         "packages/editor/src/core/battle-data-references.ts",
         "packages/editor/src/core/battle-field-commands.ts",
         "packages/editor/src/core/battle-simulator-commands.ts",
@@ -3806,6 +3809,7 @@
         "packages/editor/src/core/binary-signature.ts",
         "packages/editor/src/core/clone.ts",
         "packages/editor/src/core/command-catalog.ts",
+        "packages/editor/src/core/command-contract.ts",
         "packages/editor/src/core/commands.ts",
         "packages/editor/src/core/edit-session.ts",
         "packages/editor/src/core/editor-asset-reader.ts",
@@ -3816,6 +3820,8 @@
         "packages/editor/src/core/editor-derived.worker.ts",
         "packages/editor/src/core/editor-history-coordinator.ts",
         "packages/editor/src/core/editor-history-participant.ts",
+        "packages/editor/src/core/enemy-commands.ts",
+        "packages/editor/src/core/enemy-team-commands.ts",
         "packages/editor/src/core/entity-address-references.ts",
         "packages/editor/src/core/entity-placement.ts",
         "packages/editor/src/core/export-zip.ts",
@@ -3833,8 +3839,11 @@
         "packages/editor/src/core/isometric-fill.ts",
         "packages/editor/src/core/item-alchemy.ts",
         "packages/editor/src/core/item-authoring.ts",
+        "packages/editor/src/core/item-commands.ts",
         "packages/editor/src/core/item-references.ts",
+        "packages/editor/src/core/level-up-commands.ts",
         "packages/editor/src/core/load-play-project.ts",
+        "packages/editor/src/core/locale-commands.ts",
         "packages/editor/src/core/map-patch.ts",
         "packages/editor/src/core/map-reference-facts.ts",
         "packages/editor/src/core/map-selection.ts",
@@ -3844,10 +3853,12 @@
         "packages/editor/src/core/play-url.ts",
         "packages/editor/src/core/play-workspace.ts",
         "packages/editor/src/core/playback.ts",
+        "packages/editor/src/core/poison-commands.ts",
         "packages/editor/src/core/project-copy-source.ts",
         "packages/editor/src/core/project-diagnostics.ts",
         "packages/editor/src/core/project-io.ts",
         "packages/editor/src/core/project-leave-guard.ts",
+        "packages/editor/src/core/project-name-command.ts",
         "packages/editor/src/core/project-read-lock.ts",
         "packages/editor/src/core/project-reference-adapters.ts",
         "packages/editor/src/core/project-reference.ts",
@@ -3857,6 +3868,8 @@
         "packages/editor/src/core/script-references.ts",
         "packages/editor/src/core/seed-assets.ts",
         "packages/editor/src/core/seed.ts",
+        "packages/editor/src/core/shop-commands.ts",
+        "packages/editor/src/core/skill-commands.ts",
         "packages/editor/src/core/sprite-actions.ts",
         "packages/editor/src/core/sprite-assets.ts",
         "packages/editor/src/core/stamp-commands.ts",
@@ -3877,6 +3890,7 @@
         "packages/editor/src/core/workspace-context.ts",
         "packages/editor/src/core/workspace-persistence.ts",
         "packages/editor/src/core/world-sprite-behavior.ts",
+        "packages/editor/src/core/world-variable-commands.ts",
         "packages/editor/src/core/world-variable-references.ts",
         "packages/editor/src/core/zip.ts",
         "packages/editor/src/design-lab/DesignLab.tsx",
@@ -3984,19 +3998,37 @@
         "packages/editor/src/ui/catalog-controls-test-utils.ts",
         "packages/editor/src/ui/catalog-workspace-test-utils.ts",
         "packages/editor/src/ui/design-system/add-picker.tsx",
+        "packages/editor/src/ui/design-system/buttons.tsx",
+        "packages/editor/src/ui/design-system/card.tsx",
+        "packages/editor/src/ui/design-system/choice-controls.tsx",
         "packages/editor/src/ui/design-system/collection-search.ts",
+        "packages/editor/src/ui/design-system/control-types.ts",
+        "packages/editor/src/ui/design-system/control-utils.ts",
         "packages/editor/src/ui/design-system/controls.tsx",
+        "packages/editor/src/ui/design-system/draft-input-state.ts",
+        "packages/editor/src/ui/design-system/draft-text-inputs.tsx",
+        "packages/editor/src/ui/design-system/feedback.tsx",
+        "packages/editor/src/ui/design-system/field-controls.tsx",
+        "packages/editor/src/ui/design-system/field-layout.tsx",
         "packages/editor/src/ui/design-system/floating-layer.tsx",
+        "packages/editor/src/ui/design-system/help-tips.tsx",
+        "packages/editor/src/ui/design-system/icon-button.tsx",
         "packages/editor/src/ui/design-system/icons.tsx",
         "packages/editor/src/ui/design-system/index.ts",
+        "packages/editor/src/ui/design-system/list-header.tsx",
         "packages/editor/src/ui/design-system/media.tsx",
         "packages/editor/src/ui/design-system/multi-select.tsx",
+        "packages/editor/src/ui/design-system/native-inputs.tsx",
         "packages/editor/src/ui/design-system/navigation.tsx",
+        "packages/editor/src/ui/design-system/number-inputs.tsx",
         "packages/editor/src/ui/design-system/overflow-text.tsx",
         "packages/editor/src/ui/design-system/overlays.tsx",
         "packages/editor/src/ui/design-system/recipes.tsx",
         "packages/editor/src/ui/design-system/reorder.tsx",
+        "packages/editor/src/ui/design-system/select.tsx",
         "packages/editor/src/ui/design-system/status-values.tsx",
+        "packages/editor/src/ui/design-system/tabs.tsx",
+        "packages/editor/src/ui/design-system/text-inputs.tsx",
         "packages/editor/src/ui/design-system/virtual-list.tsx",
         "packages/editor/src/ui/editor-navigation.ts",
         "packages/editor/src/ui/editor-target.ts",
@@ -4015,10 +4047,10 @@
         "packages/editor/src/ui/use-project-leave-guard.ts",
         "packages/editor/src/ui/world-sprite-action-preview.ts"
       ],
-      "scopeDigest": "6092061b66670124a899e7085c139b4a3cce376ec7f92a8638a2c177a4c313ae",
+      "scopeDigest": "8e641c93c125efa6765096feed5c3fbdca415b0ee3f733fa3ddc1e5873d50b3d",
       "fastTests": {
-        "testCount": 2626,
-        "testFileCount": 274,
+        "testCount": 2651,
+        "testFileCount": 294,
         "files": [
           "packages/editor/scripts/battle-simulator-http.test.mjs",
           "packages/editor/scripts/battle-simulator-ui.test.tsx",
@@ -4037,7 +4069,9 @@
           "packages/editor/src/core/actor-dialogue-commands.boundaries.test.ts",
           "packages/editor/src/core/actor-dialogue-commands.test.ts",
           "packages/editor/src/core/actor-references.test.ts",
+          "packages/editor/src/core/ambience-commands.test.ts",
           "packages/editor/src/core/asset-diagnostics.test.ts",
+          "packages/editor/src/core/asset-label-command.test.ts",
           "packages/editor/src/core/asset-reference-commands.test.ts",
           "packages/editor/src/core/audio-preview-session.test.ts",
           "packages/editor/src/core/audio-preview.test.ts",
@@ -4060,6 +4094,7 @@
           "packages/editor/src/core/battle-sprite-import.boundaries.test.ts",
           "packages/editor/src/core/binary-signature.test.ts",
           "packages/editor/src/core/clone.test.ts",
+          "packages/editor/src/core/command-contract.test.ts",
           "packages/editor/src/core/commands-assets.boundaries.test.ts",
           "packages/editor/src/core/commands-catalog.boundaries.test.ts",
           "packages/editor/src/core/commands-map.boundaries.test.ts",
@@ -4073,6 +4108,7 @@
           "packages/editor/src/core/editor-history-foundations.test.ts",
           "packages/editor/src/core/editor-history-paired-workflows.test.ts",
           "packages/editor/src/core/editor-history-timeline.test.ts",
+          "packages/editor/src/core/enemy-commands.test.ts",
           "packages/editor/src/core/enemy-team-references.test.ts",
           "packages/editor/src/core/entity-address-references.test.ts",
           "packages/editor/src/core/file-system-access.test.ts",
@@ -4101,6 +4137,7 @@
           "packages/editor/src/core/item-commands.test.ts",
           "packages/editor/src/core/item-references.test.ts",
           "packages/editor/src/core/load-play-project.test.ts",
+          "packages/editor/src/core/locale-commands.test.ts",
           "packages/editor/src/core/map-patch.boundaries.test.ts",
           "packages/editor/src/core/map-patch.test.ts",
           "packages/editor/src/core/map-selection.boundaries.test.ts",
@@ -4113,6 +4150,7 @@
           "packages/editor/src/core/play-url.test.ts",
           "packages/editor/src/core/play-workspace.test.ts",
           "packages/editor/src/core/playback.test.ts",
+          "packages/editor/src/core/poison-commands.test.ts",
           "packages/editor/src/core/project-copy.test.ts",
           "packages/editor/src/core/project-diagnostics.test.ts",
           "packages/editor/src/core/project-io-admission.test.ts",
@@ -4151,6 +4189,7 @@
           "packages/editor/src/core/script-references.wave2.test.ts",
           "packages/editor/src/core/seed.test.ts",
           "packages/editor/src/core/shop-lifecycle.test.ts",
+          "packages/editor/src/core/skill-commands.test.ts",
           "packages/editor/src/core/sprite-actions.test.ts",
           "packages/editor/src/core/sprite-actions.wave2.test.ts",
           "packages/editor/src/core/sprite-reference-commands.test.ts",
@@ -4270,15 +4309,28 @@
           "packages/editor/src/ui/app-command-registry.test.ts",
           "packages/editor/src/ui/app-layout-commands.test.ts",
           "packages/editor/src/ui/design-system/add-picker.test.tsx",
+          "packages/editor/src/ui/design-system/buttons.test.tsx",
+          "packages/editor/src/ui/design-system/choice-controls.test.tsx",
+          "packages/editor/src/ui/design-system/control-utils.test.ts",
           "packages/editor/src/ui/design-system/controls.test.tsx",
+          "packages/editor/src/ui/design-system/draft-text-inputs.test.tsx",
+          "packages/editor/src/ui/design-system/field-controls.test.tsx",
+          "packages/editor/src/ui/design-system/field-layout.test.tsx",
           "packages/editor/src/ui/design-system/floating-layer.test.tsx",
+          "packages/editor/src/ui/design-system/help-tips.test.tsx",
+          "packages/editor/src/ui/design-system/icon-button.test.tsx",
           "packages/editor/src/ui/design-system/label-association.test.tsx",
+          "packages/editor/src/ui/design-system/list-header.test.tsx",
           "packages/editor/src/ui/design-system/media.test.tsx",
+          "packages/editor/src/ui/design-system/native-inputs.test.tsx",
+          "packages/editor/src/ui/design-system/number-inputs.test.tsx",
           "packages/editor/src/ui/design-system/overflow-text.test.tsx",
           "packages/editor/src/ui/design-system/overlays.test.tsx",
           "packages/editor/src/ui/design-system/recipes.test.tsx",
           "packages/editor/src/ui/design-system/reorder.test.tsx",
+          "packages/editor/src/ui/design-system/select.test.tsx",
           "packages/editor/src/ui/design-system/selector-prefilter.test.ts",
+          "packages/editor/src/ui/design-system/tabs-card-feedback.test.tsx",
           "packages/editor/src/ui/design-system/virtual-list.test.tsx",
           "packages/editor/src/ui/editor-navigation.test.ts",
           "packages/editor/src/ui/editor-target.test.ts",
@@ -4382,9 +4434,19 @@
             "identityDigest": "045fe5d27c3b87dce535b59c7bd5a9dcbc36a9472764bc1d45e4719a5b39ccfc"
           },
           {
+            "file": "packages/editor/src/core/ambience-commands.test.ts",
+            "testCount": 1,
+            "identityDigest": "e8b5634c22a5523cd638ca44a78cb906b28e19b0cac75b6223f317f9cadf6c04"
+          },
+          {
             "file": "packages/editor/src/core/asset-diagnostics.test.ts",
             "testCount": 4,
             "identityDigest": "ddb34efb205452f5cb5083f99c3e630b10d725c06ee7ccbcbe191c58e597e9ae"
+          },
+          {
+            "file": "packages/editor/src/core/asset-label-command.test.ts",
+            "testCount": 1,
+            "identityDigest": "686afd3f4e3b6d67c64ab47737cf34d5d16c75fbe9a43b37e7312334609fce15"
           },
           {
             "file": "packages/editor/src/core/asset-reference-commands.test.ts",
@@ -4497,6 +4559,11 @@
             "identityDigest": "4ae0f39266865e079a57da488987ba17e7f346c4ab64d2001a77f3ef2884e44e"
           },
           {
+            "file": "packages/editor/src/core/command-contract.test.ts",
+            "testCount": 2,
+            "identityDigest": "f22f68ffacd01675e7320f45f5c10571168832d9ec0d767aa438762b8f82de00"
+          },
+          {
             "file": "packages/editor/src/core/commands-assets.boundaries.test.ts",
             "testCount": 2,
             "identityDigest": "64124ece33300b39da40e0092ee4db9f396a52de2b3bc0451f61663a49c45b97"
@@ -4562,9 +4629,14 @@
             "identityDigest": "b2c0fd57a422c1911a761d1158f49e885f29f6c3141e4c3e4387f15ca00bfb71"
           },
           {
+            "file": "packages/editor/src/core/enemy-commands.test.ts",
+            "testCount": 1,
+            "identityDigest": "7e18801738709d1e64391a24b7b4be6d4676d4335b7e250f8038c994b6b6a762"
+          },
+          {
             "file": "packages/editor/src/core/enemy-team-references.test.ts",
-            "testCount": 4,
-            "identityDigest": "5b502643c3680f8fb03d2ceee8c7f1ffc6c307c718233ffc60340e20df64fbf3"
+            "testCount": 5,
+            "identityDigest": "e71de3261bfba45c9eb2d07beec09498f9d7dcd0daedfedacf1442db35482c60"
           },
           {
             "file": "packages/editor/src/core/entity-address-references.test.ts",
@@ -4688,8 +4760,8 @@
           },
           {
             "file": "packages/editor/src/core/item-commands.test.ts",
-            "testCount": 12,
-            "identityDigest": "ff8f4bb4c11611dbb6a60f456a91d3d91357ebd64a82e7a5c536376e1b82e1ea"
+            "testCount": 13,
+            "identityDigest": "3663b56edd37d099b4178600f920d3159c1c54512556aca422266e5968f1645f"
           },
           {
             "file": "packages/editor/src/core/item-references.test.ts",
@@ -4700,6 +4772,11 @@
             "file": "packages/editor/src/core/load-play-project.test.ts",
             "testCount": 3,
             "identityDigest": "edff9b251808300b971231daac2465bca9e6e7ca837a7789e7c8a815adae41be"
+          },
+          {
+            "file": "packages/editor/src/core/locale-commands.test.ts",
+            "testCount": 1,
+            "identityDigest": "be29aad2bfdf6daaf9a63969c52a59a36ed88fe7fc083d4d4aa2d4dacd86f1ba"
           },
           {
             "file": "packages/editor/src/core/map-patch.boundaries.test.ts",
@@ -4760,6 +4837,11 @@
             "file": "packages/editor/src/core/playback.test.ts",
             "testCount": 12,
             "identityDigest": "f2945f20c577f06f4099f0034c3d71dde1ebb8a0530f8e7847380594845b3853"
+          },
+          {
+            "file": "packages/editor/src/core/poison-commands.test.ts",
+            "testCount": 1,
+            "identityDigest": "60e5983685a69bafc9aefcca7b9b940ba0841569623ec3d3c9a07be2603cf1e4"
           },
           {
             "file": "packages/editor/src/core/project-copy.test.ts",
@@ -4948,8 +5030,13 @@
           },
           {
             "file": "packages/editor/src/core/shop-lifecycle.test.ts",
-            "testCount": 4,
-            "identityDigest": "f5f7f9e1e91cf561a8a3c69bd6d21282eec0911c67258839e90f426b5021daf3"
+            "testCount": 5,
+            "identityDigest": "11b8d97118066ac1c983c206a2faeeb7bcfe23f24cfeb113c1f29e51a3730766"
+          },
+          {
+            "file": "packages/editor/src/core/skill-commands.test.ts",
+            "testCount": 1,
+            "identityDigest": "81cff22e0fd36851579105733fef9a86bcd4635cd3d07d9483624e0ae46b9ee2"
           },
           {
             "file": "packages/editor/src/core/sprite-actions.test.ts",
@@ -5118,8 +5205,8 @@
           },
           {
             "file": "packages/editor/src/core/world-variable-commands.test.ts",
-            "testCount": 5,
-            "identityDigest": "f440e601bf9d485de1bfc5a359d23fb1c1ff4b44bae8bccb29c7ef6910302977"
+            "testCount": 6,
+            "identityDigest": "b7f02e102eb3e01ae54d4407fc24d07cfa31c1a6ff5fb137d20b59d99187e67d"
           },
           {
             "file": "packages/editor/src/core/world-variable-references.test.ts",
@@ -5547,9 +5634,39 @@
             "identityDigest": "97b53c2875e201c1702e395c21179e599bb3df36695aa8e14f32d745a63eb592"
           },
           {
+            "file": "packages/editor/src/ui/design-system/buttons.test.tsx",
+            "testCount": 1,
+            "identityDigest": "48b4ebdfacd3a0e5fc327eda8dbd01e73f00553066652c9ca88f5f5986672cb0"
+          },
+          {
+            "file": "packages/editor/src/ui/design-system/choice-controls.test.tsx",
+            "testCount": 1,
+            "identityDigest": "0fa3e8e341921ef339ff693e20343c2b63946c9218522563868a9d876abfd8ed"
+          },
+          {
+            "file": "packages/editor/src/ui/design-system/control-utils.test.ts",
+            "testCount": 1,
+            "identityDigest": "c82631fc2cd72851e5d2461c788d8e15bda9199d5b56ed6b9b2054c0c910e0ec"
+          },
+          {
             "file": "packages/editor/src/ui/design-system/controls.test.tsx",
             "testCount": 43,
             "identityDigest": "d1e914c91530cc75692045d1b90eafcf0dfff780bc6108ebd3282c6096968be7"
+          },
+          {
+            "file": "packages/editor/src/ui/design-system/draft-text-inputs.test.tsx",
+            "testCount": 1,
+            "identityDigest": "89584510967f6657c4a734c09a8f5cfb407cc02c05cf1785c697e85a31a6a9d5"
+          },
+          {
+            "file": "packages/editor/src/ui/design-system/field-controls.test.tsx",
+            "testCount": 1,
+            "identityDigest": "4c71060640152b6ba397559a3b4531ec24a056580f2f0558f33f7db84f6d40e5"
+          },
+          {
+            "file": "packages/editor/src/ui/design-system/field-layout.test.tsx",
+            "testCount": 1,
+            "identityDigest": "c1bc09388987d758997d4acef509ca794df4037855f61426c295632fd67d3da6"
           },
           {
             "file": "packages/editor/src/ui/design-system/floating-layer.test.tsx",
@@ -5557,14 +5674,39 @@
             "identityDigest": "5f348f479b691c05994ef593a2be4243d87f779455e21e4047b6ac72eb4f48e9"
           },
           {
+            "file": "packages/editor/src/ui/design-system/help-tips.test.tsx",
+            "testCount": 1,
+            "identityDigest": "228f724adc3a6e418404e28cbd215258fde0fb7dd04a1ea3b307040b4d99db82"
+          },
+          {
+            "file": "packages/editor/src/ui/design-system/icon-button.test.tsx",
+            "testCount": 1,
+            "identityDigest": "67242765262aef566eacaadbfec3cd26b6ca6cacfba6b1f1d7f9154e756b9d03"
+          },
+          {
             "file": "packages/editor/src/ui/design-system/label-association.test.tsx",
             "testCount": 7,
             "identityDigest": "bce11172a49f073737fa99f4b305b38d3fc86e98462b4e9580a1648386e21262"
           },
           {
+            "file": "packages/editor/src/ui/design-system/list-header.test.tsx",
+            "testCount": 1,
+            "identityDigest": "6886b1f0cc251d3fd09a6738c98c2e450ab18b43aa050b590268582426a88e7c"
+          },
+          {
             "file": "packages/editor/src/ui/design-system/media.test.tsx",
             "testCount": 2,
             "identityDigest": "0a2b46819c5a6d6c5a6cb5d97f7bf0bf3a9fd3655d0e71f5cb840878556bd932"
+          },
+          {
+            "file": "packages/editor/src/ui/design-system/native-inputs.test.tsx",
+            "testCount": 1,
+            "identityDigest": "37cb969c9e86f2a6f13b6ccf9c52288d05c186ad94c4c40c9404eaf032e0e004"
+          },
+          {
+            "file": "packages/editor/src/ui/design-system/number-inputs.test.tsx",
+            "testCount": 1,
+            "identityDigest": "b83414b27a71a3126baf8491c34f17753572301f408a5ed32e6aa128223d0681"
           },
           {
             "file": "packages/editor/src/ui/design-system/overflow-text.test.tsx",
@@ -5587,9 +5729,19 @@
             "identityDigest": "df2b0a33d570984cf3e06db50d4a0109d54954e0855d9b3cc9d1a708a7fad5b8"
           },
           {
+            "file": "packages/editor/src/ui/design-system/select.test.tsx",
+            "testCount": 1,
+            "identityDigest": "892231cdc737f41d2b2d4bdcb2b4f1bbad0f32a334db7958bacc5723bb339fa1"
+          },
+          {
             "file": "packages/editor/src/ui/design-system/selector-prefilter.test.ts",
             "testCount": 3,
             "identityDigest": "7bff989af3ca18cb0d943c494aa7095acbd08d0bbc264735ec5b3263e1331632"
+          },
+          {
+            "file": "packages/editor/src/ui/design-system/tabs-card-feedback.test.tsx",
+            "testCount": 1,
+            "identityDigest": "69884a664e0d28d1c8fa08a9a9fbd357244e120499e16e8fd24faa546ad18bac"
           },
           {
             "file": "packages/editor/src/ui/design-system/virtual-list.test.tsx",
@@ -5667,17 +5819,17 @@
             "identityDigest": "7c181e89600882213bfdc9bf59bf8d2b40273fc45d2d84fecf9ad6313060cf3b"
           }
         ],
-        "identityDigest": "0f09c0f445b9c3a883f343109d4467d11607a4d869b2fd2d26789cab4e04438b",
+        "identityDigest": "aaee57c79ef402e113d40fdd89c63b3312ea52db387bf9ca6f5cc2f1d370fcd8",
         "duplicateIdentityCount": 8,
-        "executionDigest": "fc40af0a163bc7dff85b3cbfcceb8cb4b35a3efca6d35a1378a1b4c5747efe2f"
+        "executionDigest": "4b4c65ea0f2ff706358ffac6737364eca85034e38ebd5cd8809bee40b6632ed5"
       },
       "metrics": {
         "statements": {
-          "covered": 26035,
+          "covered": 26036,
           "total": 32757
         },
         "branches": {
-          "covered": 20229,
+          "covered": 20232,
           "total": 28338
         },
         "functions": {
@@ -5693,11 +5845,11 @@
   },
   "total": {
     "statements": {
-      "covered": 61240,
+      "covered": 61242,
       "total": 80619
     },
     "branches": {
-      "covered": 43261,
+      "covered": 43267,
       "total": 63176
     },
     "functions": {
