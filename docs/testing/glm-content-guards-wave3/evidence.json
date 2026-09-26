@@ -1,0 +1,104 @@
+{
+  "task": "TEST-GLM-CONTENT-GUARDS-3",
+  "date": "2026-09-26",
+  "owner": "GLM",
+  "base": {
+    "productionFreeze": "8add8c66",
+    "branchFrom": "4c1c5038 (origin/main, 含任务卡)",
+    "worktree": "type-pal-glm-content-guards-wave2（复用，主工作树未动）",
+    "frozenEvidence": "docs/testing/glm-content-guards-wave3/frozen-evidence.json"
+  },
+  "newFiles": [
+    "packages/content/src/author-flow.guard-residual.test.ts",
+    "packages/content/src/author-state.guard-residual.test.ts",
+    "packages/content/src/author-command.guard-residual.test.ts",
+    "packages/content/src/script-command.guard-residual.test.ts",
+    "packages/content/src/enemy-hook.guard-residual.test.ts",
+    "packages/content/src/record-actors.guard-residual.test.ts",
+    "packages/content/src/record-skills-poisons.guard-residual.test.ts",
+    "packages/content/src/record-items.guard-residual.test.ts"
+  ],
+  "reusedFixtures": "__tests__/guard-leaf-fixtures.ts（wave2 已验收助手，未新造 fixture 文件）",
+  "leafTests": {
+    "G1": 9,
+    "G2": 8,
+    "G3": 11,
+    "G4": 21,
+    "G5": 7,
+    "G6": 6,
+    "G7": 9,
+    "G8": 39,
+    "total": 110
+  },
+  "discipline": "去重先行；合法 fixture 先过真实公开 guard；单轴负例配同入口同形状正控；expectExactError 完整 message 全等；对象/数组实际入参 deepSnapshot 前后比较；正控意外抛出经 not.toThrow 呈 AssertionError",
+  "oracle": {
+    "tool": "docs/testing/glm-content-guards-wave3/guard-residual-mutants.mjs",
+    "criteria": "复用 wave2 已验收判据：恰 exit（对照0/变异1）/ 恰一红 / 失败记录绝对文件+实际 fullName / 其余109过且无skip / 逐条拒混错与timeout / 运行态load命中 entered.json={id,target} / 生产sha256每跑不变",
+    "selfTest": "10 例（五反例/有效红/exit2/null/零执行/对照）全按预期",
+    "control": {
+      "exitCode": 0,
+      "tests": 110,
+      "failed": 0
+    },
+    "needles": [
+      {
+        "id": "flow-stages-empty",
+        "module": "author-script-core.ts",
+        "injection": "stages 空表门 -> if (false)",
+        "onlyFailed": "G1 author/runtime script flow 残差 stages 空数组拒绝且路径精确"
+      },
+      {
+        "id": "world-flags-bool",
+        "module": "author-script-core.ts",
+        "injection": "flags 布尔叶 -> if (false) continue",
+        "onlyFailed": "G2 world script state 残差 flags 非布尔拒绝且实际输入不变"
+      },
+      {
+        "id": "bare-entity-release",
+        "module": "author-script-core.ts",
+        "injection": "releaseEntity 裸实体门收窄至 vanishEntity",
+        "onlyFailed": "G3 author/runtime command 残差 条件与命令里的裸实体 id 拒绝"
+      },
+      {
+        "id": "dialog-line-retired",
+        "module": "script.ts",
+        "injection": "dialog.line 退役门 -> if (false)",
+        "onlyFailed": "G4 checkCommands 残差 dialog.line 退役与 cue rows/autoAdvance 叶拒绝"
+      },
+      {
+        "id": "effect-id-dup",
+        "module": "enemy-script.ts",
+        "injection": "effect id 重复消息改写",
+        "onlyFailed": "G5 enemy hook/AI/onDefeated 残差 setFallback 缺省正控与同 state effect id 重复拒绝"
+      },
+      {
+        "id": "actor-percent-int",
+        "module": "validate.ts",
+        "injection": "tempStatBuff percent 整数门 -> if (false)",
+        "onlyFailed": "G6 validateActors 残差 casualty tempStatBuff percent 非整数拒绝且实际输入不变"
+      },
+      {
+        "id": "skill-placement",
+        "module": "validate.ts",
+        "injection": "落点模式白名单 -> false",
+        "onlyFailed": "G7 validateSkills/validatePoisons 残差 animation placement 非法拒绝"
+      },
+      {
+        "id": "item-status-dup",
+        "module": "validate.ts",
+        "injection": "removeStatus 重复门 -> if (false) void status",
+        "onlyFailed": "G8 validateItems use 效果残差 removeStatus 重复拒绝且实际输入不变"
+      }
+    ]
+  },
+  "gates": {
+    "directed": "八文件 110/110 exit 0（新鲜 JSON /tmp/wave3-leaf.json）",
+    "contentSuite": "92 文件 1132/1132 exit 0（新鲜 JSON /tmp/wave3-content.json；净增恰 110 行测试身份）",
+    "typecheck": "pnpm --filter @type-pal/content run typecheck exit 0",
+    "biome": "本批改动文件 0 error；仅 guard-residual-mutants.mjs 三个 noTemplateCurlyInString warning（针内故意保留的生产模板字面量）；全 src 另有 runtime-script.ts:146 既有 noUnusedVariables warning 属分支继承",
+    "docs": "node scripts/docs/check.mjs PASS；git diff --check 干净",
+    "notRun": "全仓 check/ratchet/strict、逐组 coverage、整包 before/after 对照（卡面允许，冻结池即选题依据）"
+  },
+  "productDefects": "未发现疑似产品缺陷，无需诊断。不可达臂如实不测：author-script-core:802/:610-612、validate 两处 assertNever、enemy-script ?? 右分支、非本卡八组区域（StartWorld/manifest/sprites/locale）。",
+  "handoff": "不合 main、不标 done；候选 SHA 见卡内作者交付块，交 Codex 独立验收。"
+}

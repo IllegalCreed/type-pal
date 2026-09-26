@@ -74,3 +74,21 @@ docs/testing/coverage-plus5/README.md。核clean并fetch；复用已合入的typ
 整包定向/相邻/全content/TC/Biome/docs，统计从最终JSON生成；不跑全仓门和共享coverage。
 提交推送实际SHA和回执。作者自验不是独立证明，Codex接收后统一门禁合并；不标done、不合main。
 ```
+
+## GLM 作者交付（2026-09-26）
+
+- 八组连续完成：八份 `.guard-residual.test.ts` 共 **110 行**（G1 9/G2 8/G3 11/G4 21/G5 7/G6 6/G7 9/G8 39），
+  复用 wave2 已验收 `__tests__/guard-leaf-fixtures.ts` 助手，未新造 fixture 文件。去重先行：
+  author-script-core.test、author-script-current.boundaries、script-library 15 条、enemy-script 三份、
+  validate.test E18-1/C0/C8、skills-poisons boundaries、wave2 叶守卫 91 行等逐组核对，相同输入不重报。
+- 纪律：合法 fixture 先过真实公开 guard；单轴负例配同入口同形状正控；`expectExactError` 完整 message
+  全等；对象/数组实际入参 deepSnapshot 前后比较；正控意外抛出呈 AssertionError。
+- 负控：[guard-residual-mutants.mjs](../../testing/glm-content-guards-wave3/guard-residual-mutants.mjs)
+  复用 wave2 同一 judge + 判据自测 10 例 + 110 项绿对照 + 8 针（每组一针）各恰红目标 fullName。
+- 门禁：定向 110/110、全 content **92 文件 1132/1132**、TC exit0（新鲜 JSON）；本批改动 Biome 0 error
+  （3 个故意针面 warning 单列；runtime-script.ts 既有 warning 属分支继承）；docs PASS；diff --check 干净。
+  未跑全仓门/逐组 coverage/整包对照（冻结池即选题依据）。
+- 未发现产品疑似缺陷；不可达臂如实不测（详见
+  [回执](../../testing/glm-content-guards-wave3/receipt.md) 与
+  [机账](../../testing/glm-content-guards-wave3/evidence.json)）。
+- 候选 SHA：见本分支头部提交；不合 main、不标 done，交 Codex 独立验收。
