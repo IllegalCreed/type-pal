@@ -51,6 +51,14 @@ Codex持续处理[治理台账](../audits/architecture-debt.md)剩余边界，Cu
 
 - 2026-09-26 A3移动/绘制候选`7be10bf4`（基点`be5218bb`）已交付：[回执与未证项](../../testing/world-runtime-refactor.md)。`WorldMotionRuntime`组合既有Coordinator并拥有世界拍、partyMove、slot注册、gait/fairness/trace；`WorldScenePresentation`拥有定帧/gesture/shake/wave与世界精灵组装/落笔。main6148→5698，不传完整RuntimeContext、不复制authority/slot状态。20新增、定向167、Reforge177文件/1642项、TC/Biome/build、九针与6053隔离功能通过；SAVE8/content20/玩法/公式/UI/资产约定零改。按交接未跑共享全仓check/ratchet/strict、未合main；A3只在候选树四段齐，待原接收对话统一门后正式标完成。本实现对话可继续B1等不重叠项。
 
+- 2026-09-26 B1-a导航段开工（基点`ae989b9b`，同一实现分支）：只拆`App.tsx`当前location、moduleLocations、
+  workspaceId键、URL history、localStorage与三栏scroll恢复为单一navigation session hook；App继续负责业务对象焦点、
+  scene选择/引用跳转、命令菜单和页面装配。输入只含workspaceId/bodyRef与page-change通知，不传完整App context，
+  不碰Cursor命令白名单或MapMode。保持初次URL优先、非法参数归一化、每模块位置记忆、push/replace/none、popstate、
+  localStorage失败降级、离页先捕获scroll及rAF取消时点。验收用现有navigation17、reference-navigation、leave-guard，
+  加owner定向回归与单点反控、editor TC/Biome；功能视觉只核深链/前进后退/页面滚动恢复。B1工程IO/试玩/场景工作区
+  仍属后续段，本段完成不得标B1 done。Codex核源码与P1取证后premise verified / build allowed，无产品取舍变化。
+
 - 2026-09-26 A3活动场景/镜头实现2dc5d1d5已accept：[回执](../../testing/active-scene-refactor.md)。17新增、80宿主函数对账、64序列2560步与七针通过；check8724/保护51048353的单次strict8232/688、6052隔离功能核验全部完成。main6260→6148，A3整体仍build，接续移动/绘制。Cursor接[九组剩余命令](ARCH-F2-CURSOR-BATCH-2-remaining-commands.md)，GLM接[六组守卫测试](TEST-GLM-CONTENT-GUARDS-2-leaf-boundaries.md)，互不写同一生产面。
 
 - A3活动场景/相机段开工（基点8d851fa6，独立`codex/architecture-active-scene`）：`main.ts:389-410`的活动资源、实体基准和页动作归ActiveScene；`:440-458/:2074-2117/:3502-3515`的相机位置/偏移/pan取消归WorldCamera。直接源码核得提交序是新scene/assets/entityDefs→页动作同步cue→room/bounds→队伍落点/轨迹→音频，不能分成await或重排同步cue。reloadMap仍先造renderer/room，再commitCanonical，最后替换地图资源；其既有camera bounds不在本次暗改。准备、令牌校验、world替换与存档提交继续在原协调层。
