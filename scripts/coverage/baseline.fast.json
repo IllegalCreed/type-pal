@@ -1,14 +1,14 @@
 {
   "schemaVersion": 2,
   "profile": "fast",
-  "generatedAt": "2026-09-26T10:31:38.489Z",
+  "generatedAt": "2026-09-26T10:59:37.319Z",
   "provider": {
     "name": "v8",
     "vitest": "4.1.7",
     "coverageV8": "4.1.7"
   },
   "sourceFileCount": 701,
-  "testCount": 8648,
+  "testCount": 8696,
   "packages": {
     "shared": {
       "name": "@type-pal/shared",
@@ -1100,8 +1100,8 @@
       ],
       "scopeDigest": "980711e930306f3ff6a1d70817611eb6f83e3681f7568f886680e6ebe1939e2f",
       "fastTests": {
-        "testCount": 666,
-        "testFileCount": 79,
+        "testCount": 714,
+        "testFileCount": 85,
         "files": [
           "packages/migrate/src/bake-indexed-rgba.test.ts",
           "packages/migrate/src/current-only-product-boundary.test.ts",
@@ -1173,6 +1173,12 @@
           "packages/migrate/src/script-overlays.test.ts",
           "packages/migrate/src/shop-author-merge.test.ts",
           "packages/migrate/src/source-facts.boundaries.test.ts",
+          "packages/migrate/src/translate-enemy-hook-flow.cfg.test.ts",
+          "packages/migrate/src/translate-enemy-hook-flow.dialog.test.ts",
+          "packages/migrate/src/translate-enemy-hook-flow.effects.test.ts",
+          "packages/migrate/src/translate-enemy-hook-flow.errors.test.ts",
+          "packages/migrate/src/translate-enemy-hook-flow.growth.test.ts",
+          "packages/migrate/src/translate-enemy-hook-flow.media.test.ts",
           "packages/migrate/src/translate-enemy-scripts.test.ts",
           "packages/migrate/src/translate-events.bindings.test.ts",
           "packages/migrate/src/translate-events.branches.test.ts",
@@ -1535,6 +1541,36 @@
             "identityDigest": "e1b7db2bd53c26f9bdbd36baf9ed1d9611dc7d95f92166622e724631157df3f6"
           },
           {
+            "file": "packages/migrate/src/translate-enemy-hook-flow.cfg.test.ts",
+            "testCount": 6,
+            "identityDigest": "8150b209ca946fd44e47e41629a44e6e3b914b86eba1b7232823946ef61e3515"
+          },
+          {
+            "file": "packages/migrate/src/translate-enemy-hook-flow.dialog.test.ts",
+            "testCount": 6,
+            "identityDigest": "42a89ee774cf8d3a650834688ccd761f65235ca8080c44c9478f6fdc74c487e5"
+          },
+          {
+            "file": "packages/migrate/src/translate-enemy-hook-flow.effects.test.ts",
+            "testCount": 7,
+            "identityDigest": "02a766c5856607c9c0989b1952bacd7d2539652cf5fb6ae2492752cb944e684c"
+          },
+          {
+            "file": "packages/migrate/src/translate-enemy-hook-flow.errors.test.ts",
+            "testCount": 16,
+            "identityDigest": "d07b91d3ba38b946d96af92823bac39b038a85ef209ec8fea5a7e7ff63d2b189"
+          },
+          {
+            "file": "packages/migrate/src/translate-enemy-hook-flow.growth.test.ts",
+            "testCount": 8,
+            "identityDigest": "100b43e874f0a9d3268ac0046df65b937818c0df5c3549230ebdd61e5164218a"
+          },
+          {
+            "file": "packages/migrate/src/translate-enemy-hook-flow.media.test.ts",
+            "testCount": 5,
+            "identityDigest": "dbad6917e84cf2a560df5e24be727d0523c7e6a1f0a100c60dbe7524dafc5924"
+          },
+          {
             "file": "packages/migrate/src/translate-enemy-scripts.test.ts",
             "testCount": 12,
             "identityDigest": "14373f854165f6653b082ad67a3dab850b0ec8225f4044b4537bb3dc2686fed5"
@@ -1580,25 +1616,25 @@
             "identityDigest": "baba8c49c53ef8a741ef1c605723ba72d227914206784bc3a5f719e12c8ff8ee"
           }
         ],
-        "identityDigest": "5d2622f23e567974ac5a98aefb87d16e7bd75d0dfcda9b141740c9b029c2f29a",
+        "identityDigest": "db4a7ad9740cff58245af20b674306472f4f99b23fa3f4a9d6015948330b24ae",
         "duplicateIdentityCount": 1,
-        "executionDigest": "9764189a81abcff869029fbbfb8001799fe970bdee900dd8710fe9014cd29ad6"
+        "executionDigest": "ff262745e02eb58816d73d2ea4b6d4d56c6acdb124a2c4883975f5d4a8fd1476"
       },
       "metrics": {
         "statements": {
-          "covered": 5413,
+          "covered": 5501,
           "total": 7712
         },
         "branches": {
-          "covered": 4516,
+          "covered": 4628,
           "total": 6436
         },
         "functions": {
-          "covered": 760,
+          "covered": 762,
           "total": 1165
         },
         "lines": {
-          "covered": 4829,
+          "covered": 4906,
           "total": 6724
         }
       }
@@ -6130,19 +6166,19 @@
   },
   "total": {
     "statements": {
-      "covered": 62586,
+      "covered": 62674,
       "total": 80643
     },
     "branches": {
-      "covered": 44779,
+      "covered": 44891,
       "total": 63178
     },
     "functions": {
-      "covered": 11522,
+      "covered": 11524,
       "total": 15058
     },
     "lines": {
-      "covered": 56291,
+      "covered": 56368,
       "total": 70600
     }
   }

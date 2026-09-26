@@ -8,6 +8,8 @@
 
 ## 文档与附件
 
+- [Codex当前敌人钩子翻译六组](codex-enemy-hooks/README.md)（真实wrapper/guard、来源映射与输入保真）。
+
 - [Cursor八组残项独立复核与返工提示](cursor-command-boundaries-r3-review.md)（29绿仍有fixture/完整快照反证，不计入覆盖）。
 - [GLM守卫第三批独立复核与返工提示](guard-wave3-review.md)（1132绿/八针通过，单轴与输入保真反证，未计覆盖）。
 

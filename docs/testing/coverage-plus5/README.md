@@ -14,6 +14,7 @@
 | [migrate当前汇总链](../codex-migrate-assembly/README.md) | Codex | done，49项/六针/统一门通过 | +169 |
 | [migrate当前场景链](../codex-migrate-scenes/README.md) | Codex | done，53项/六针/统一门通过 | +327 |
 | [migrate当前脚本翻译](../codex-translate-events/README.md) | Codex | done，59项/六针/统一门通过 | +338 |
+| [migrate当前敌人钩子](../codex-enemy-hooks/README.md) | Codex | done，48项/六针/统一门通过 | +112 |
 
 统计以官方整批并集为准，不相加贡献者局部数字。实现期间只定向/相邻/TC；整批串行check→ratchet→
 受保护单次strict-fast，通过后更新本表并推送。用户无需回来逐次批准继续；需要新的产品裁决时才问。
@@ -38,3 +39,8 @@
 相对起点约+2.15pp，距离目标还差1,798分支。check9,140、保护9fe9ea11的串行ratchet/strict8,648通过；
 701生产文件/分母及其它六包baseline对象不变。首轮本席误并发导致覆盖目录竞争、无效运行及终止
 已在本批报告披露；不以该首轮作为证据。Cursor仍无新SHA；GLM独立counter未闭，不计入本次增量。
+
+2026-09-26第五批：44,891/63,178 = **71.05479755611131%**；累计+1,473分支/+292测试，
+相对起点约+2.33pp，距离目标还差1,686分支。check9,188、保护a73c0ffc的串行ratchet/单次strict8,696通过；
+701生产文件/所有分母与其它六包完整baseline对象不变。实际输入快照、正式hook守卫与六针全部验证；
+本席首跑两处资源ID预期错误已依正式生成函数纠正披露。Cursor远端仍b6bcc9b4，待新候选；目标继续推进。
