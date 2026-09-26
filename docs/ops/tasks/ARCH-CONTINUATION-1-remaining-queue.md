@@ -47,6 +47,18 @@ Codex持续处理[治理台账](../audits/architecture-debt.md)剩余边界，Cu
 
 ## 当前推进
 
+- 2026-09-26 E1-b 场景源索引阶段开工（基点 `d6226e1a`）：`mapScenesStatic` 起手约 150 行同时做
+  场景/事件源确定排序、loadScene 前置落点配对、all.json 地址校验与补 label、每数组地址推导、entity owner→scene
+  归属及 scene/global 控制流根收集，随后布局、实体映射与脚本翻译都闭包读取这些临时 Map。现行真值是“场景升序；
+  正场景优先、shared(-1)、all(-2) 后置；setPartyPos 距 loadScene≤4 且 loadScene 后清 last；all.json 数组下标必须
+  与显式 `L_n` 相等；PAL对象号保持稳定 owner”。目标迁为纯内存 `scene-migration-source-plan.ts`，一次返回只读
+  ordered inputs、arrival/label/address/owner/root 索引；`mapScenesStatic` 继续拥有布局注册、实体/entry 生成、
+  translator session、patch/fold/externalize 和最终结果，不把输出写盘。最强替代解释是独立 planner 会改变 Map 首见、
+  shared/all 优先级或把 indexed fallback 计入正式 entries；可证伪观察为 plan 索引、最终 scenes/scripts/report 或
+  baseline digest 任一差异。验收以 planner 直接乱序/跨源/地址反例、现有 scene/bindings/session/PAL 回归、
+  生成结果对比与反控固定；不改 source schema、canonical 产物、写保护或生成文件。Codex 已核现行闭包消费者，
+  premise verified / build allowed；完成 planner 与 E1-a 后仍须统一 Migrate/幂等/事务写保护证据才报 E1候选。
+
 - 2026-09-26 E1-a 脚本移动族转换阶段开工（基点 `9013cf86`）：`translate-events.ts:1675-1768`
   在 `walkBody` 巨型 raw 链内混持单步、实体/队伍定点移动、组队、聚拢、骑乘、相对位移、逐步动画与追逐
   12 组 opcode；这些映射只依赖操作数、owner 和稳定实体/角色映射，却借用整个翻译上下文与对话 flush。
