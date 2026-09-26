@@ -1,0 +1,13 @@
+{
+  "id": "c06-poison-curability",
+  "file": "packages/editor/src/core/poison-commands.ts",
+  "sha256": "78a15c4b28d62c688b8871590f71355a58f4bde9e7afccc75d2944d3e9d0dc57",
+  "hashUnchanged": true,
+  "greenExit": 0,
+  "greenPassed": 1,
+  "redExit": 1,
+  "failedTitle": "keeps poison constructors on the old commands barrel and scaffolds common curability",
+  "failedFullName": "C06 poison command family keeps poison constructors on the old commands barrel and scaffolds common curability",
+  "assertion": "AssertionError: expected { id: 1000, name: '试验毒', …(4) } to match object { id: 1000, name: '试验毒', …(1) }",
+  "ok": true
+}

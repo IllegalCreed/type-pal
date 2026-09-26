@@ -58,6 +58,14 @@ const cases = {
     to: 'power: 19',
     title: 'keeps skill constructors on the old commands barrel and scaffolds default power',
   },
+  c06: {
+    id: 'c06-poison-curability',
+    sourceFile: 'src/core/poison-commands.ts',
+    testFile: 'src/core/poison-commands.test.ts',
+    from: "curability: 'common'",
+    to: "curability: 'severe'",
+    title: 'keeps poison constructors on the old commands barrel and scaffolds common curability',
+  },
 }
 
 const selected = process.argv[2] ? [process.argv[2]] : Object.keys(cases)
