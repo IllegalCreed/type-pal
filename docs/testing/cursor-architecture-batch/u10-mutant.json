@@ -1,0 +1,13 @@
+{
+  "id": "u10-switch-role",
+  "file": "packages/editor/src/ui/design-system/choice-controls.tsx",
+  "sha256": "56e41efd4aa840a61f275fb8023398a454bd791d4e982e631dcf782372dc7403",
+  "hashUnchanged": true,
+  "greenExit": 0,
+  "greenPassed": 1,
+  "redExit": 1,
+  "failedTitle": "keeps checkbox and switch identity with aria semantics",
+  "failedFullName": "U10 choice controls keeps checkbox and switch identity with aria semantics",
+  "assertion": "AssertionError: expected 'checkbox' to be 'switch' // Object.is equality",
+  "ok": true
+}
