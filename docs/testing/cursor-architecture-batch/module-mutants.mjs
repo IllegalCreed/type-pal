@@ -34,6 +34,14 @@ const cases = {
     to: "readonly label = '修改敌方'",
     title: 'keeps enemy constructors on the old commands barrel and patches on first apply',
   },
+  c03: {
+    id: 'c03-slot-cap',
+    sourceFile: 'src/core/enemy-team-commands.ts',
+    testFile: 'src/core/enemy-team-references.test.ts',
+    from: 'slots: this.next.slots.slice(0, 5)',
+    to: 'slots: this.next.slots.slice(0, 4)',
+    title: 'keeps enemy-team constructors and in-use error on the old commands barrel',
+  },
 }
 
 const selected = process.argv[2] ? [process.argv[2]] : Object.keys(cases)

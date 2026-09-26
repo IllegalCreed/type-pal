@@ -1,4 +1,5 @@
 import { describe, expect, test, vi } from 'vitest'
+import * as oldEntry from './commands.js'
 import {
   AddEnemyTeamCommand,
   DeleteEnemyTeamCommand,
@@ -7,6 +8,13 @@ import {
 } from './commands.js'
 import type { EditorState } from './edit-session.js'
 import { EditSession } from './edit-session.js'
+import {
+  AddEnemyTeamCommand as AddEnemyTeamMoved,
+  DeleteEnemyTeamCommand as DeleteEnemyTeamMoved,
+  EnemyTeamInUseError as EnemyTeamInUseErrorMoved,
+  UpdateEnemyTeamCommand as UpdateEnemyTeamMoved,
+  UpdateEnemyTeamsCommand as UpdateEnemyTeamsMoved,
+} from './enemy-team-commands.js'
 import { collectCurrentProjectReferenceIndex } from './project-reference-adapters.js'
 import type { ScriptEditorState } from './script-editor.js'
 
@@ -86,6 +94,23 @@ const canonical: ScriptEditorState = {
 }
 
 describe('enemy team authoring commands and references', () => {
+  test('keeps enemy-team constructors and in-use error on the old commands barrel', () => {
+    expect(oldEntry.AddEnemyTeamCommand).toBe(AddEnemyTeamMoved)
+    expect(oldEntry.UpdateEnemyTeamCommand).toBe(UpdateEnemyTeamMoved)
+    expect(oldEntry.UpdateEnemyTeamsCommand).toBe(UpdateEnemyTeamsMoved)
+    expect(oldEntry.DeleteEnemyTeamCommand).toBe(DeleteEnemyTeamMoved)
+    expect(oldEntry.EnemyTeamInUseError).toBe(EnemyTeamInUseErrorMoved)
+    const error = new EnemyTeamInUseError('team-c1', [])
+    expect(error.message).toBe('敌队 team-c1 仍被 0 处引用')
+    const command = new UpdateEnemyTeamCommand('team-c1', {
+      id: 'other',
+      slots: ['a', null, 'b', 'c', 'd', 'e'],
+    })
+    const next = command.apply({ enemyTeams: [{ id: 'team-c1', slots: [] }] } as never)
+    expect(next.enemyTeams?.[0]?.slots).toEqual(['a', null, 'b', 'c', 'd'])
+    expect(command.label).toBe('修改敌队')
+  })
+
   test('collects hostile plus exact canonical startBattle locator', () => {
     const references = collectCurrentProjectReferenceIndex(shell(), canonical).referencesTo({
       kind: 'enemy-team',

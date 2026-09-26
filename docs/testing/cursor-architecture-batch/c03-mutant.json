@@ -1,0 +1,13 @@
+{
+  "id": "c03-slot-cap",
+  "file": "packages/editor/src/core/enemy-team-commands.ts",
+  "sha256": "8a2a7434bfe2e9ce2c9efd1d0411cbec0e03356b529e9b2d0de3a093faf5ff73",
+  "hashUnchanged": true,
+  "greenExit": 0,
+  "greenPassed": 1,
+  "redExit": 1,
+  "failedTitle": "keeps enemy-team constructors and in-use error on the old commands barrel",
+  "failedFullName": "enemy team authoring commands and references keeps enemy-team constructors and in-use error on the old commands barrel",
+  "assertion": "AssertionError: expected [ 'a', null, 'b', 'c' ] to deeply equal [ 'a', null, 'b', 'c', 'd' ]",
+  "ok": true
+}
