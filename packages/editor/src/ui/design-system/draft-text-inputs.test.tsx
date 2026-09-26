@@ -2,8 +2,8 @@
 import { act } from 'react'
 import { createRoot } from 'react-dom/client'
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
-import { DsDraftTextInput } from './draft-text-inputs.js'
 import * as controls from './controls.js'
+import { DsDraftTextInput } from './draft-text-inputs.js'
 
 let host: HTMLDivElement
 let root: ReturnType<typeof createRoot>

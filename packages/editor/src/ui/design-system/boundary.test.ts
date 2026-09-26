@@ -833,6 +833,7 @@ describe('editor design-system static boundary', () => {
   test('keeps all control tooltips on the shared portal layer instead of business positioning', () => {
     const primitives = readFileSync(join(here, 'primitives.css'), 'utf8')
     const controls = readFileSync(join(here, 'controls.tsx'), 'utf8')
+    const helpTips = readFileSync(join(here, 'help-tips.tsx'), 'utf8')
     const floatingLayer = readFileSync(join(here, 'floating-layer.tsx'), 'utf8')
     const businessCss = readFileSync(join(dirname(here), 'editor.css'), 'utf8')
     expect(primitives).toMatch(
@@ -841,7 +842,8 @@ describe('editor design-system static boundary', () => {
     expect(primitives).toMatch(
       /\.ds-select-popover\s*\{[\s\S]*?position:\s*fixed;[\s\S]*?z-index:\s*var\(--ds-z-popover\);/,
     )
-    expect(controls).toMatch(
+    expect(controls).toMatch(/export \{ DsHelpTip, DsTooltip \} from ['"]\.\/help-tips\.js['"]/)
+    expect(helpTips).toMatch(
       /export function DsTooltip[\s\S]*?<DsFloatingLayer[\s\S]*?className="ds-tooltip__bubble"[\s\S]*?width="content"[\s\S]*?align="center"/,
     )
     expect(floatingLayer).toMatch(
@@ -2146,11 +2148,14 @@ describe('editor design-system static boundary', () => {
 
   test('keeps list-header action markup inside the shared component', () => {
     const uiRoot = dirname(here)
+    const listHeader = readFileSync(join(here, 'list-header.tsx'), 'utf8')
+    expect(listHeader).toMatch(/ds-list-header__(?:action|menu)/)
     const sources = filesUnder(uiRoot).filter(
       (path) =>
         path.endsWith('.tsx') &&
         !path.endsWith('.test.tsx') &&
-        !path.endsWith('design-system/controls.tsx'),
+        !path.endsWith('design-system/controls.tsx') &&
+        !path.endsWith('design-system/list-header.tsx'),
     )
     for (const path of sources) {
       const source = readFileSync(path, 'utf8')

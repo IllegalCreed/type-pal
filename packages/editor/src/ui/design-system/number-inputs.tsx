@@ -13,7 +13,7 @@ import { classes, describedBy } from './control-utils.js'
 import { useDsDraftController } from './draft-input-state.js'
 import type { DsDraftTextInputProps } from './draft-text-inputs.js'
 import { DsField, type DsFieldChromeProps } from './field-layout.js'
-import { DsTextInput, type DsFormControlAppearance } from './text-inputs.js'
+import { type DsFormControlAppearance, DsTextInput } from './text-inputs.js'
 
 export type DsDraftNumberInputProps = Omit<
   DsDraftTextInputProps,
@@ -482,4 +482,3 @@ export function DsDraftNumberField(props: DsFieldChromeProps & DsDraftNumberInpu
     </DsField>
   )
 }
-

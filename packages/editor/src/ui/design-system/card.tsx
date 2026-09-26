@@ -20,4 +20,3 @@ export function DsCard(props: {
     </section>
   )
 }
-

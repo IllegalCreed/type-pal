@@ -1,10 +1,4 @@
-import {
-  type MouseEventHandler,
-  type ReactNode,
-  type Ref,
-  useRef,
-  useState,
-} from 'react'
+import { type MouseEventHandler, type ReactNode, type Ref, useRef, useState } from 'react'
 import { DsFloatingLayer } from './floating-layer.js'
 import { DsHelpTip } from './help-tips.js'
 import { DsIconButton } from './icon-button.js'
@@ -159,4 +153,3 @@ export function DsListHeader(props: {
     </header>
   )
 }
-

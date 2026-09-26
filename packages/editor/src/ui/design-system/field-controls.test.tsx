@@ -1,8 +1,8 @@
 // @vitest-environment jsdom
 import { renderToStaticMarkup } from 'react-dom/server'
 import { describe, expect, test } from 'vitest'
-import { DsTextField } from './field-controls.js'
 import * as controls from './controls.js'
+import { DsTextField } from './field-controls.js'
 
 describe('U08 field controls', () => {
   test('keeps text field shell identity with label association', () => {

@@ -102,3 +102,7 @@ done尚未开放。无额外产品裁决：本包只保持行为的模块归属�
 遇到结构或行为冲突只阻断该组，写直接证据，继续其它组；不改预期凑绿，不冒称全部完成。
 不合main、不标done、不跑官方覆盖率。Codex负责独立验收、视觉和统一质量门。
 ```
+
+## Cursor 交付（未标 done）
+
+2026-09-26。作者自验回执：[docs/testing/cursor-architecture-batch.md](../../testing/cursor-architecture-batch.md)，24组负控汇总 [evidence.json](../../testing/cursor-architecture-batch/evidence.json)。起点 `origin/main` `8bf40b9094d9e43f6c3d146c1bda651962eb36c3`。24组均已实施，无隔离阻断。不合 main。Codex 独立验收与集成。

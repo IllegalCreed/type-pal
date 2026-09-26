@@ -2,9 +2,9 @@
 import { renderToStaticMarkup } from 'react-dom/server'
 import { describe, expect, test } from 'vitest'
 import { DsCard } from './card.js'
+import * as controls from './controls.js'
 import { DsEmptyState, DsStatus } from './feedback.js'
 import { DsTabs } from './tabs.js'
-import * as controls from './controls.js'
 
 describe('U12 tabs card feedback', () => {
   test('keeps tabs, card, and status identity with tablist and alert roles', () => {

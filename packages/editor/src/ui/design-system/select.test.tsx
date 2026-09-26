@@ -1,8 +1,8 @@
 // @vitest-environment jsdom
 import { renderToStaticMarkup } from 'react-dom/server'
 import { describe, expect, test } from 'vitest'
-import { DsSelect } from './select.js'
 import * as controls from './controls.js'
+import { DsSelect } from './select.js'
 
 describe('U09 select', () => {
   test('keeps select identity with combobox listbox semantics', () => {

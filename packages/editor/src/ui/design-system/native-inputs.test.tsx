@@ -29,9 +29,7 @@ describe('U04 native inputs', () => {
     expect(pickerHost.querySelector('input')?.getAttribute('accept')).toBe('image/*')
 
     const rangeHost = document.createElement('div')
-    rangeHost.innerHTML = renderToStaticMarkup(
-      <DsRangeInput min={0} max={100} defaultValue={50} />,
-    )
+    rangeHost.innerHTML = renderToStaticMarkup(<DsRangeInput min={0} max={100} defaultValue={50} />)
     const rangeInput = rangeHost.querySelector('input')!
     expect(rangeInput.className).toBe('ds-range-input')
     expect(rangeInput.getAttribute('type')).toBe('range')

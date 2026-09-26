@@ -2,12 +2,12 @@ import type { InputHTMLAttributes, TextareaHTMLAttributes } from 'react'
 import { describedBy } from './control-utils.js'
 import {
   DsDraftTextArea,
-  DsDraftTextInput,
   type DsDraftTextAreaProps,
+  DsDraftTextInput,
   type DsDraftTextInputProps,
 } from './draft-text-inputs.js'
 import { DsField, type DsFieldChromeProps } from './field-layout.js'
-import { DsTextArea, DsTextInput, type DsFormControlAppearance } from './text-inputs.js'
+import { type DsFormControlAppearance, DsTextArea, DsTextInput } from './text-inputs.js'
 
 export function DsTextField(
   props: DsFieldChromeProps &
@@ -156,4 +156,3 @@ export function DsDraftTextAreaField(props: DsFieldChromeProps & DsDraftTextArea
     </DsField>
   )
 }
-

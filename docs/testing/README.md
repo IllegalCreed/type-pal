@@ -18,6 +18,8 @@
 
 - [Cursor DsTag/DsReadonlyValue 迁出回执](cursor-arch-ds-labels.md)、[Codex独立接收](cursor-arch-ds-labels-review.md)及[done任务卡](../ops/archive/tasks/done/ARCH-F2-DS-LABELS-1.md)（仅两个展示组件窄拆已入 main；旧出口/DOM/SSR 保真，adoption 登记与全仓门已闭；F2整批未完成）
 
+- [Cursor 24组命令族/设计系统整理回执](cursor-architecture-batch.md)及[负控机账](cursor-architecture-batch/evidence.json)（C00–C10 / U00–U12 连续实施，未合 main、未标 done；Codex独立验收与全仓门）
+
 - [一阶段有效属性与战斗状态投影补测集成](gemini-phase1-stats-integration.md)（Gemini贡献、Codex接手修订/独立验收；26项正式接入，受保护严格fast8065/641；full/E2E另行验证）
 
 - [Cursor覆盖率说明定点核对回执](cursor-coverage-guide-audit.md)、[Codex独立接收/正式修订](cursor-coverage-guide-review.md)及[done任务卡](../ops/archive/tasks/done/DOC-CURSOR-3-coverage-guide-audit.md)（b5e2ca4a材料已接入；Codex只修当前入口文案，历史数字/基线不改）

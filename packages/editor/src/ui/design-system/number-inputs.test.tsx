@@ -1,8 +1,8 @@
 // @vitest-environment jsdom
 import { renderToStaticMarkup } from 'react-dom/server'
 import { describe, expect, test } from 'vitest'
-import { DsNumberInput } from './number-inputs.js'
 import * as controls from './controls.js'
+import { DsNumberInput } from './number-inputs.js'
 
 describe('U07 number inputs', () => {
   test('keeps number input identity with stepped parse validation string', () => {

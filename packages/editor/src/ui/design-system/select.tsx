@@ -11,7 +11,6 @@ import {
   useState,
 } from 'react'
 import { DS_OPTION_VIRTUALIZE_ABOVE, filterDsCollection } from './collection-search.js'
-import type { DsControlSize } from './control-types.js'
 import { classes, describedBy } from './control-utils.js'
 import { DsField, type DsFieldChromeProps } from './field-layout.js'
 import { DsFloatingLayer } from './floating-layer.js'
