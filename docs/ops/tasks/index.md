@@ -169,6 +169,7 @@
 | [SAVE-PREFLIGHT-1 - 当前存档预检与恢复失败隔离](../archive/tasks/done/SAVE-PREFLIGHT-1-current-save-restore-preflight.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [TEST-BATTLE-WORKFLOWS-1 - 战斗会话完整流程补测](../archive/tasks/done/TEST-BATTLE-WORKFLOWS-1-session-flows.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [TEST-CODEX-CONTENT-RESOURCES-1 — 五组资源索引与引用边界](../archive/tasks/done/TEST-CODEX-CONTENT-RESOURCES-1-indices-and-references.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [TEST-CODEX-DEBUG-TOOLS-1 — 调试面板公开动作六组](../archive/tasks/done/TEST-CODEX-DEBUG-TOOLS-1-public-actions.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [TEST-CODEX-ENEMY-HOOKS-1 — 当前敌人钩子翻译六组边界](../archive/tasks/done/TEST-CODEX-ENEMY-HOOKS-1-current-translation.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [TEST-CODEX-MIGRATE-ASSEMBLY-1 — 当前迁移汇总六组回归](../archive/tasks/done/TEST-CODEX-MIGRATE-ASSEMBLY-1-current-aggregation.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [TEST-CODEX-MIGRATE-PURE-1 — 六组自包含转换边界](../archive/tasks/done/TEST-CODEX-MIGRATE-PURE-1-self-contained-translators.md) | done | 完成证据、历史签字与交接见原卡。 |

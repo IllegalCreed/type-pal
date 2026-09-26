@@ -1,14 +1,14 @@
 {
   "schemaVersion": 2,
   "profile": "fast",
-  "generatedAt": "2026-09-26T12:00:22.877Z",
+  "generatedAt": "2026-09-26T12:30:04.700Z",
   "provider": {
     "name": "v8",
     "vitest": "4.1.7",
     "coverageV8": "4.1.7"
   },
   "sourceFileCount": 701,
-  "testCount": 8834,
+  "testCount": 8895,
   "packages": {
     "shared": {
       "name": "@type-pal/shared",
@@ -1845,8 +1845,8 @@
       ],
       "scopeDigest": "16e5a4446acb9038c7f3ad4557f5a3c2bf89b0c01bcfb52c2e6d45529ba2d146",
       "fastTests": {
-        "testCount": 1627,
-        "testFileCount": 175,
+        "testCount": 1688,
+        "testFileCount": 181,
         "files": [
           "packages/reforge/scripts/battle-trial-assets.test.ts",
           "packages/reforge/scripts/battle-trial-host.test.ts",
@@ -1900,7 +1900,13 @@
           "packages/reforge/src/collision.test.ts",
           "packages/reforge/src/cutscene-controller.dispatch-boundaries.test.ts",
           "packages/reforge/src/cutscene-controller.test.ts",
+          "packages/reforge/src/debug-tools.battle.test.ts",
+          "packages/reforge/src/debug-tools.commands.test.ts",
+          "packages/reforge/src/debug-tools.failures.test.ts",
+          "packages/reforge/src/debug-tools.inspect.test.ts",
+          "packages/reforge/src/debug-tools.navigation.test.ts",
           "packages/reforge/src/debug-tools.test.ts",
+          "packages/reforge/src/debug-tools.triggers.test.ts",
           "packages/reforge/src/deferred-trigger.test.ts",
           "packages/reforge/src/dev-preset.test.ts",
           "packages/reforge/src/dialog/dialog-assets.test.ts",
@@ -2286,9 +2292,39 @@
             "identityDigest": "fa84ae39f8410effa0a8787b21fe844e142e60add023eb99b513766fb639ca05"
           },
           {
+            "file": "packages/reforge/src/debug-tools.battle.test.ts",
+            "testCount": 7,
+            "identityDigest": "dd705efcd5d8994b394a0f7c75dad27799429b82a8e8883328c95986c9303e88"
+          },
+          {
+            "file": "packages/reforge/src/debug-tools.commands.test.ts",
+            "testCount": 24,
+            "identityDigest": "5a0c8d78dce2c3573adf08bf9811badfe2fc649fea0df53cd724d4f61407e3b2"
+          },
+          {
+            "file": "packages/reforge/src/debug-tools.failures.test.ts",
+            "testCount": 13,
+            "identityDigest": "e6de218bfb66132c9c7330fa3bb16ab860f7d486eef3ebf8236d2e938b7cbffd"
+          },
+          {
+            "file": "packages/reforge/src/debug-tools.inspect.test.ts",
+            "testCount": 3,
+            "identityDigest": "c51032c493fe5634c5734ca221ac05ffcaa32b07474391d02df79967c3a834ad"
+          },
+          {
+            "file": "packages/reforge/src/debug-tools.navigation.test.ts",
+            "testCount": 4,
+            "identityDigest": "d375791b45c1f9e35371e9bd5b1454ccfe175c1e7cb483d7f5d2495f646ef839"
+          },
+          {
             "file": "packages/reforge/src/debug-tools.test.ts",
             "testCount": 7,
             "identityDigest": "1dfa7e83facd443b1e0762a1dd389ac579b590ef4e8fe18c3ab1e9c1ef275b6a"
+          },
+          {
+            "file": "packages/reforge/src/debug-tools.triggers.test.ts",
+            "testCount": 10,
+            "identityDigest": "9a9521528c92ca2340975cfa66037c0c08e38d3baf53049c68f8680f9b9e7368"
           },
           {
             "file": "packages/reforge/src/deferred-trigger.test.ts",
@@ -2901,25 +2937,25 @@
             "identityDigest": "5608cc79051622c52435c7a5626c5389e7bc963d53249a85a6dc980c4b637b6a"
           }
         ],
-        "identityDigest": "4f50abe49f9e0091f37d7b2f1a4abc782677de460c20a4ee7ebe3ec784d8fd1b",
+        "identityDigest": "63aad0f367c14f19a6e46845b770cd37ba7ad8ffd66f654eacef5854117b64ad",
         "duplicateIdentityCount": 0,
-        "executionDigest": "355aab9800f9aefc77cecd8e447c28e3d64755bdb23365dc979a5bb090f8527d"
+        "executionDigest": "5a4c5dd794c8eb270f7e1fe99f8fd9ed102fdbbd4c22cc7290aa9a2a5fa38954"
       },
       "metrics": {
         "statements": {
-          "covered": 12713,
+          "covered": 12950,
           "total": 16926
         },
         "branches": {
-          "covered": 7474,
+          "covered": 7647,
           "total": 11388
         },
         "functions": {
-          "covered": 2030,
+          "covered": 2086,
           "total": 2681
         },
         "lines": {
-          "covered": 11504,
+          "covered": 11717,
           "total": 14779
         }
       }
@@ -6250,19 +6286,19 @@
   },
   "total": {
     "statements": {
-      "covered": 63040,
+      "covered": 63277,
       "total": 80643
     },
     "branches": {
-      "covered": 45131,
+      "covered": 45304,
       "total": 63178
     },
     "functions": {
-      "covered": 11622,
+      "covered": 11678,
       "total": 15058
     },
     "lines": {
-      "covered": 56695,
+      "covered": 56908,
       "total": 70600
     }
   }

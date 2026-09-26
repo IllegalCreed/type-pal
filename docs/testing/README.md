@@ -8,6 +8,8 @@
 
 ## 文档与附件
 
+- [Codex调试面板六组公开动作](codex-debug-tools/README.md)（真实DOM/runtime、合法工程与宿主参数边界）。
+
 - [Codex当前预览控制六组](codex-playback/README.md)（公开canonical入口、输入保真、计时与独立单步红诊断）。
 
 - [Codex资源加载与所有权八组](codex-pal-assets/README.md)（自包含PNG/WAV、闭包与失败零写入）。
