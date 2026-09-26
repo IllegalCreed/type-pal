@@ -1,0 +1,13 @@
+{
+  "id": "u02-help-tip-label",
+  "file": "packages/editor/src/ui/design-system/help-tips.tsx",
+  "sha256": "6d5eff19ea94fd55804c5bd2644b13326c489a61f051d602e4c2609aeef9680a",
+  "hashUnchanged": true,
+  "greenExit": 0,
+  "greenPassed": 1,
+  "redExit": 1,
+  "failedTitle": "keeps tooltip and help-tip identity with visually-hidden descriptions and Escape dismiss",
+  "failedFullName": "U02 help tips keeps tooltip and help-tip identity with visually-hidden descriptions and Escape dismiss",
+  "assertion": "AssertionError: expected '分次执行帮助' to be '分次执行说明' // Object.is equality",
+  "ok": true
+}

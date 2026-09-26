@@ -114,6 +114,14 @@ const cases = {
     to: "{busy ? '处理中…' : children}",
     title: 'keeps pressable, button and action-link identity with busy and default chrome',
   },
+  u02: {
+    id: 'u02-help-tip-label',
+    sourceFile: 'src/ui/design-system/help-tips.tsx',
+    testFile: 'src/ui/design-system/help-tips.test.tsx',
+    from: 'aria-label={`${props.label}说明`}',
+    to: 'aria-label={`${props.label}帮助`}',
+    title: 'keeps tooltip and help-tip identity with visually-hidden descriptions and Escape dismiss',
+  },
 }
 
 const selected = process.argv[2] ? [process.argv[2]] : Object.keys(cases)
