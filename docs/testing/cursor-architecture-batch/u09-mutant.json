@@ -1,0 +1,13 @@
+{
+  "id": "u09-select-combobox",
+  "file": "packages/editor/src/ui/design-system/select.tsx",
+  "sha256": "ac316e37994b40afa0d6d615d5e3edc0cec1e6d7203572a97eef5192c468015b",
+  "hashUnchanged": true,
+  "greenExit": 0,
+  "greenPassed": 1,
+  "redExit": 1,
+  "failedTitle": "keeps select identity with combobox listbox semantics",
+  "failedFullName": "U09 select keeps select identity with combobox listbox semantics",
+  "assertion": "AssertionError: expected 'button' to be 'combobox' // Object.is equality",
+  "ok": true
+}
