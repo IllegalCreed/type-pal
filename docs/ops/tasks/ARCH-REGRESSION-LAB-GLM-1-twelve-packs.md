@@ -80,6 +80,35 @@ Codex保留A3的main/场景/移动/绘制主线，GLM不修改或替其审签。
 - r8 已接收项不重开，G06 七入口、G08 其它 options 与 V01–V04 矩阵仍未证。隔离 receipt/README/results 命令注释有 r8“三针”与旧 G05 时序残留，列为正式转正前的**文字勘误**；不影响本轮真实测试接收，不合候选、不计官方覆盖率、不标 done。Kimi 本队列豁免。
 - 无下一位 Agent 提示词；正式接入与统一门禁仍由 Codex 单独核准。
 
+## Codex r10 剩余项接收（2026-09-26，候选 `cafac8dc`）
+
+- **整批 counter；G01-07 accept**。[本席报告](../../testing/architecture-regression-lab-codex-r10-review.md)与[机账](../../testing/architecture-regression-lab-codex-r10-evidence.json)：41/41、51条verify、五针、tsc/Biome/docs均通过；Codex独立浏览器三向重放证实正常平移、取消冻结、单点缺清理后漂移，原截图完整SHA一致。V01人物名称 fill+Enter、blur、Escape、undo本席实测通过，blocked-automation不能继续作当前阻断。
+- G06七入口去重表未落，引用的enemy条件递归不能代表author-script-core的七个命令递归点；沿漏测的`:712`跨模块边确认真实缺陷：`checkAuthorCommands`直接拒绝缺identity的dialog，却放行startBattle.choreography内同一cue（漏传options）。须补显式失败诊断，产品修复Owner仍Codex。
+- G08-07恢复正控只数场景/实体，单点吞掉setActorSprite输出仍1/1绿；须钉真实输出与修复输入保真。回执仍混旧分支/45条37项与错误复跑cwd，须纠正。V01其余表单、V02–V04仍未完成，不能因预算未做而收口。本轮不合候选、不动官方基线；主线任务保持build，不回退draft。
+
+### 下一位 GLM r10 收窄返工与剩余项提示词
+
+```text
+在 /Users/zhangxu/illegal/type-pal-glm-lab-r2、codex/glm-architecture-regression-lab-r2
+返工 ARCH-REGRESSION-LAB-GLM-1，候选 cafac8dc。先读 origin/main 的
+docs/testing/architecture-regression-lab-codex-r10-review.md 与机账、任务卡本块。
+只在实验目录和自己的交付块工作，保留Codex原文，生产/正式测试/基线零改。
+R10-1：对author-script-core :661/:663/:669/:708/:710/:722/:726七个递归调用及
+:712跨模块边落逐项旧标题/新增断言/未证映射；当前enemy AI条件引用不能代替它们。
+保留Codex已复现的作者cue缺identity在startBattle.choreography中被错误放行的
+显式失败诊断，交Codex修产品；不要改预期或自行修生产。
+R10-2：G08-07成功路径钉setActorSprite的actor/sprite输出、SpriteDef身份、实际
+修复输入深快照，并比较先失败再正确与新鲜正确运行；Codex丢输出单点反控必须业务红。
+R10-3：回执/README/results改为r2真实worktree与41项/51条口径，补真实七入口表、
+具体旧测试标题、可复制候选cwd命令。G01已由Codex补验accept，不重拍，引用本席
+证据并补完整重放步骤。V01人物名称Enter/blur/取消/undo已由Codex验证，撤当前
+blocked-automation归因；继续其它五类表单及V02/V03/V04矩阵。旧e2e-own map v2
+不要求改生成数据，用已授权buildBlankProject/正式编码器构造当前版本自有宿主。
+逐项交实际操作/前后值/截图完整hash与正反控；真实产品缺陷留显式诊断。
+复跑候选、verify、五针、tsc、Biome、docs；一次性交付精确SHA与剩余项，
+不合main、不标done、不代签。Kimi豁免；Codex负责独立验收与产品修复。
+```
+
 ## Codex 隔离材料集成（2026-09-26，用户明确授权）
 
 - 用户在 r9 候选通过后要求“合并推送”。Coding Owner 仅从 `97e21f34` 精确接入 `docs/testing/glm-architecture-regression-lab/**` 的最终隔离材料，保留本主线的审查记录及其它已完成变更；不做整分支 merge（该分支落后主线且含与本卡无关的历史差异）。来源与 GLM 测试贡献在本卡/回执保留。
