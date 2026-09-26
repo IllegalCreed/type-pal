@@ -1,0 +1,52 @@
+{
+  "task": "TEST-GLM-CONTENT-GUARDS-2",
+  "date": "2026-09-26",
+  "owner": "GLM",
+  "base": { "productionFreeze": "51048353", "branchFrom": "ef19ae7e (origin/main)" },
+  "newFiles": [
+    "packages/content/src/enemy-validation-shapes.leaf.test.ts",
+    "packages/content/src/enemy-ai-condition-guard.leaf.test.ts",
+    "packages/content/src/battle-choreography.leaf.test.ts",
+    "packages/content/src/__tests__/guard-leaf-fixtures.ts"
+  ],
+  "leafTests": { "G1": 33, "G2": 11, "G3": 6, "G4": 28, "G5": 3, "G6": 10, "total": 91 },
+  "discipline": "每个拒绝先同型合法正控、只破一轴、完整精确 Error 路径或原 Error 身份（catch+toBe）、deepSnapshot 前后输入深等",
+  "oracle": {
+    "tool": "docs/testing/glm-content-guards-wave2/guard-leaf-mutants.mjs",
+    "criteria": "恰 exit1 / 目标 title 唯一 + 预期 fullName+file / 注入点唯一 / 失败全 AssertionError / 混错与 timeout 不算红 / 生产 sha256 不变",
+    "control": { "exitCode": 0, "tests": 91, "failed": 0 },
+    "needles": [
+      { "id": "shapes-trim", "module": "enemy-validation-shapes.ts", "injection": "value !== value.trim() -> typeof value === 'string' && value.includes(' ')", "exitCode": 1, "onlyFailed": "G1 nonEmptyString > 合法串原值返回；内部空格合法（只禁首尾空白）" },
+      { "id": "ai-difficulty-index", "module": "enemy-ai-condition-guard.ts", "injection": "nonEmptyString(entry, `${path}.in[${index}]`) -> nonEmptyString(entry, `${path}.in`)", "exitCode": 1, "onlyFailed": "G2 离散叶轴 > difficulty 非数组与元素非串拒绝（空表/空元素轴 wave2 已证）" },
+      { "id": "ai-of-recursion", "module": "enemy-ai-condition-guard.ts", "injection": "checkEnemyAiCondition(entry, `${path}.of[${index}]`) -> ''", "exitCode": 1, "onlyFailed": "G3 组合容器 > 坏子节点在完整 where 路径上报告且同输入快照不变" },
+      { "id": "choreo-tenths-bound", "module": "battle-choreography.ts", "injection": "Number(action.tenths) > 10 -> Number(action.tenths) > 11", "exitCode": 1, "onlyFailed": "G4 动作叶 > revivePartyAll tenths 越上界拒绝且输入不变" },
+      { "id": "choreo-cue-path", "module": "battle-choreography.ts", "injection": "options.checkDialogueCue(action.cue, `${path}.cue`) -> options.checkDialogueCue(action.cue, path)", "exitCode": 1, "onlyFailed": "G5 dialog 委派 > 选中 callback 收到原 cue 对象与精确路径，正常返回即接受" },
+      { "id": "choreo-once-gate", "module": "battle-choreography.ts", "injection": "if (hook.once !== undefined && typeof hook.once !== 'boolean') -> if (false)", "exitCode": 1, "onlyFailed": "G6 容器三层 > once 非布尔拒绝且完整输入保真" }
+    ],
+    "productionSha256": {
+      "enemy-validation-shapes": "012af705f55cca01000830fe6fed37962afe990e45fc2a75f52980667e8ec8b6",
+      "enemy-ai-condition-guard": "06bd7979ba6e486989635d2f750c4a4757c0f8b6af91339795980a840305c409",
+      "battle-choreography": "ae007332f169e5019f97c08956e14d0f7591df60244d69d3e26bfb07dee4e065"
+    }
+  },
+  "coverage": {
+    "config": "docs/testing/glm-content-guards-wave2/guard-leaf-coverage.config.mjs",
+    "protocol": "before/after 各一次；两侧官方 content fast include/exclude 相同，before 仅额外排除三份新文件；tmp 目录不覆盖官方统计",
+    "before": { "testFiles": 76, "tests": 866, "exitCode": 0 },
+    "after": { "testFiles": 79, "tests": 957, "exitCode": 0 },
+    "modules": {
+      "enemy-validation-shapes.ts": { "lines": "15/16->16/16", "statements": "19/20->20/20", "functions": "6/6", "branches": "23/24->24/24" },
+      "enemy-ai-condition-guard.ts": { "lines": "35/36->36/36", "statements": "37/39->39/39", "functions": "3/3", "branches": "34/36->36/36" },
+      "battle-choreography.ts": { "lines": "44/61->61/61", "statements": "46/67->67/67", "functions": "6/6", "branches": "28/54->54/54" }
+    },
+    "packageTotal": { "lines": "4691/5183->4711/5183", "statements": "5187/5856->5212/5856", "functions": "787/831 unchanged", "branches": "4160/5019->4190/5019" }
+  },
+  "gates": {
+    "contentSuite": "pnpm --filter @type-pal/content run test -> 79 files 957/957 exit 0",
+    "typecheck": "pnpm --filter @type-pal/content run typecheck exit 0",
+    "biome": "0 error on changed files; 4 warnings = intentional needle template literals in guard-leaf-mutants.mjs (noTemplateCurlyInString)",
+    "docs": "pnpm check:docs exit 0"
+  },
+  "productDefects": "未发现；无需缺陷诊断。锁绿现状合同：all/any 接受空 of 数组（仅形状）；wait.ms 非负有限即可（分数合法）；growth delta 整数符号自由；shapes exactKeys 只禁多余键不要求在场。",
+  "handoff": "不合 main、不标 done；待 Codex 独立验收、统一统计与集成。"
+}
