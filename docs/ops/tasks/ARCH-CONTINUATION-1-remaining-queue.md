@@ -47,6 +47,18 @@ Codex持续处理[治理台账](../audits/architecture-debt.md)剩余边界，Cu
 
 ## 当前推进
 
+- 2026-09-26 D2-c 战斗结算主控开工（基点 `a67e5542`）：`battle-system.ts:3160` 之后仍把非胜利
+  写回、公共 cleanup、胜利多屏、战后脚本、半血恢复、主/隐藏经验升级与学法术连成约 500 行终态子系统，
+  而 `battle-settlement.ts` 只持数据形状。原版/primary source 为 `battle.c:991-1373,1822-1855` 与
+  `global.c:2084,2331-2454`；一阶段现行真值是严格的写回→奖励/升级→逐屏→战后脚本→半血恢复→释放/
+  接回事件顺序，当前二阶段不消费此主控。目标将整条终态子系统迁入 `battle-settlement.ts`，直接接收
+  `GameState/BattleState/BattleResources/CommandBus` 四个真实 owner 与输入快照，不复制结算状态、不创建传遍全局的
+  runtime context；`battle-system` 只在 phase 路由的原采样点调用并 re-export 既有 public 测试 API。
+  最强替代解释是模块边界会改变 RNG 抽取、首帧拒键、敌人 post-script 次序或 cleanup 后事件接回；可证伪观察为
+  结算屏序、角色数值、runner 调用、隐藏字段释放和最终 mode/cursor 任一差异。验收复用 battle-system/levelup/
+  settlement/dialog/writeback 正式回归，新增源码边界与反控；不改公式、文本、超时、SAVE8/content20、UI 或资产。
+  Codex 已核当前调用链与机制锚点，premise verified / build allowed；本段完成仍不等于 D2 整体完成。
+
 - 2026-09-26 D2-b 战斗运行资源生命周期开工（基点 `f0d9b09c`）：`battle-system.ts`
   同时定义资源表形状、在 `GameState.__battleResources/__battleRunScript` 写入与读取、present 侧 live roles
   查询及 finalize 清理，主控因而直接知道两项隐藏运行资源的存储细节。现行一手真值是 `startBattle`
