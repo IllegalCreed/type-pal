@@ -1,0 +1,18 @@
+{
+  "key": "c1",
+  "id": "c1-actor-covered-by",
+  "file": "packages/editor/src/core/actor-commands.ts",
+  "testFile": "packages/editor/src/core/actor-commands.residual.test.ts",
+  "fullName": "人物命令残项 UpdateActor 只改 coveredBy 为不存在人物 → 援护者不存在",
+  "sha256": "41bf9d8505a7d239cd452d5d63a316fa0674600a70ea2160913efd91107a5b5e",
+  "hashUnchanged": true,
+  "greenExit": 0,
+  "greenPassed": 1,
+  "redExit": 1,
+  "failedTitle": "UpdateActor 只改 coveredBy 为不存在人物 → 援护者不存在",
+  "failedFullName": "人物命令残项 UpdateActor 只改 coveredBy 为不存在人物 → 援护者不存在",
+  "assertion": "AssertionError: expected [Function] to throw an error\n    at Proxy.<anonymous> (file:///Users/zhangxu/illegal/type-pal-cursor-command-boundaries-r3/node_modules/.pnpm/@vitest+expect@4.1.7/node_modules/@vitest/expect/dist/index.js:1552:16)\n    at Proxy.<anonymous> (file:///Users/zhangxu/illegal/type-pal-cursor-command-boundaries-r3/node_modules/.pnpm/@vitest+expect@4.1.7/node_modules/@vitest/expect/dist/index.js:1156:15)\n    at Proxy.methodWrapper (file:///Users/zhangxu/illegal/type-pal-cursor-command-boundaries-r3/node_modules/.pnpm/chai@6.2.2/node_modules/chai/index.js:1700:25)\n    at expectRejected (/Users/zhangxu/illegal/type-pal-cursor-command-boundaries-r3/packages/editor/src/core/actor-commands.residual.test.ts:17:38)\n    at /Users/zhangxu/illegal/type-pal-cursor-command-boundaries-r3/packages/editor/src/core/actor-commands.residual.test.ts:59:5\n    at file:///Users/zhangxu/illegal/type-pal-cursor-command-boundaries-r3/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:20",
+  "hit": true,
+  "evidence": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/c1-actor-covered-by-HAkIUY",
+  "ok": true
+}

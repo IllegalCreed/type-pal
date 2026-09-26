@@ -1,0 +1,180 @@
+{
+  "kind": "cursor-command-boundaries-r3-module-mutants",
+  "count": 5,
+  "allOk": true,
+  "allRedExit1": true,
+  "allHashUnchanged": true,
+  "allHit": true,
+  "selfTest": {
+    "ok": true,
+    "results": [
+      {
+        "id": "ordinary-error-with-assertion-text",
+        "accepted": false,
+        "expected": false
+      },
+      {
+        "id": "wrong-file-and-full-name",
+        "accepted": false,
+        "expected": false
+      },
+      {
+        "id": "zero-executions",
+        "accepted": false,
+        "expected": false
+      },
+      {
+        "id": "exit-2",
+        "accepted": false,
+        "expected": false
+      },
+      {
+        "id": "exit-null",
+        "accepted": false,
+        "expected": false
+      },
+      {
+        "id": "unhit-injection",
+        "accepted": false,
+        "expected": false
+      },
+      {
+        "id": "mixed-error",
+        "accepted": false,
+        "expected": false
+      },
+      {
+        "id": "timeout",
+        "accepted": false,
+        "expected": false
+      },
+      {
+        "id": "legal-green",
+        "accepted": true,
+        "expected": true
+      },
+      {
+        "id": "legal-red",
+        "accepted": true,
+        "expected": true
+      },
+      {
+        "id": "assertion-then-typeerror",
+        "accepted": false,
+        "expected": false
+      },
+      {
+        "id": "assertion-timed-out",
+        "accepted": false,
+        "expected": false
+      },
+      {
+        "id": "extra-failure",
+        "accepted": false,
+        "expected": false
+      },
+      {
+        "id": "suite-error",
+        "accepted": false,
+        "expected": false
+      },
+      {
+        "id": "stack-runWithTimeout-kept",
+        "accepted": true,
+        "expected": true
+      }
+    ]
+  },
+  "cases": [
+    {
+      "key": "c1",
+      "id": "c1-actor-covered-by",
+      "file": "packages/editor/src/core/actor-commands.ts",
+      "testFile": "packages/editor/src/core/actor-commands.residual.test.ts",
+      "fullName": "人物命令残项 UpdateActor 只改 coveredBy 为不存在人物 → 援护者不存在",
+      "sha256": "41bf9d8505a7d239cd452d5d63a316fa0674600a70ea2160913efd91107a5b5e",
+      "hashUnchanged": true,
+      "greenExit": 0,
+      "greenPassed": 1,
+      "redExit": 1,
+      "failedTitle": "UpdateActor 只改 coveredBy 为不存在人物 → 援护者不存在",
+      "failedFullName": "人物命令残项 UpdateActor 只改 coveredBy 为不存在人物 → 援护者不存在",
+      "assertion": "AssertionError: expected [Function] to throw an error\n    at Proxy.<anonymous> (file:///Users/zhangxu/illegal/type-pal-cursor-command-boundaries-r3/node_modules/.pnpm/@vitest+expect@4.1.7/node_modules/@vitest/expect/dist/index.js:1552:16)\n    at Proxy.<anonymous> (file:///Users/zhangxu/illegal/type-pal-cursor-command-boundaries-r3/node_modules/.pnpm/@vitest+expect@4.1.7/node_modules/@vitest/expect/dist/index.js:1156:15)\n    at Proxy.methodWrapper (file:///Users/zhangxu/illegal/type-pal-cursor-command-boundaries-r3/node_modules/.pnpm/chai@6.2.2/node_modules/chai/index.js:1700:25)\n    at expectRejected (/Users/zhangxu/illegal/type-pal-cursor-command-boundaries-r3/packages/editor/src/core/actor-commands.residual.test.ts:17:38)\n    at /Users/zhangxu/illegal/type-pal-cursor-command-boundaries-r3/packages/editor/src/core/actor-commands.residual.test.ts:59:5\n    at file:///Users/zhangxu/illegal/type-pal-cursor-command-boundaries-r3/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:20",
+      "hit": true,
+      "evidence": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/c1-actor-covered-by-HAkIUY",
+      "ok": true
+    },
+    {
+      "key": "c2",
+      "id": "c2-zone-facing",
+      "file": "packages/editor/src/core/entity-commands.ts",
+      "testFile": "packages/editor/src/core/entity-commands.residual.test.ts",
+      "fullName": "实体命令残项 UpdateEntity facing 对触发区抛无朝向，输入态不变",
+      "sha256": "4cb1055fbfc0a669c72feb74be05bd1a21702ebebf14cfb39f4fcb0b5923b106",
+      "hashUnchanged": true,
+      "greenExit": 0,
+      "greenPassed": 1,
+      "redExit": 1,
+      "failedTitle": "UpdateEntity facing 对触发区抛无朝向，输入态不变",
+      "failedFullName": "实体命令残项 UpdateEntity facing 对触发区抛无朝向，输入态不变",
+      "assertion": "AssertionError: expected [Function] to throw an error\n    at Proxy.<anonymous> (file:///Users/zhangxu/illegal/type-pal-cursor-command-boundaries-r3/node_modules/.pnpm/@vitest+expect@4.1.7/node_modules/@vitest/expect/dist/index.js:1552:16)\n    at Proxy.<anonymous> (file:///Users/zhangxu/illegal/type-pal-cursor-command-boundaries-r3/node_modules/.pnpm/@vitest+expect@4.1.7/node_modules/@vitest/expect/dist/index.js:1156:15)\n    at Proxy.methodWrapper (file:///Users/zhangxu/illegal/type-pal-cursor-command-boundaries-r3/node_modules/.pnpm/chai@6.2.2/node_modules/chai/index.js:1700:25)\n    at /Users/zhangxu/illegal/type-pal-cursor-command-boundaries-r3/packages/editor/src/core/entity-commands.residual.test.ts:66:7\n    at file:///Users/zhangxu/illegal/type-pal-cursor-command-boundaries-r3/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:20",
+      "hit": true,
+      "evidence": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/c2-zone-facing-dEW2UX",
+      "ok": true
+    },
+    {
+      "key": "c3",
+      "id": "c3-tileset-empty-name",
+      "file": "packages/editor/src/core/tileset-commands.ts",
+      "testFile": "packages/editor/src/core/tileset-commands.residual.test.ts",
+      "fullName": "瓦片集命令残项 UpdateTilesetMetadata name 空白 → 瓦片集名称不能为空",
+      "sha256": "1d43a0b7d4afedadc929dac09b6d34247d8bc02d2c93d8062c85d010bd8742c0",
+      "hashUnchanged": true,
+      "greenExit": 0,
+      "greenPassed": 1,
+      "redExit": 1,
+      "failedTitle": "UpdateTilesetMetadata name 空白 → 瓦片集名称不能为空",
+      "failedFullName": "瓦片集命令残项 UpdateTilesetMetadata name 空白 → 瓦片集名称不能为空",
+      "assertion": "AssertionError: expected [Function] to throw an error\n    at Proxy.<anonymous> (file:///Users/zhangxu/illegal/type-pal-cursor-command-boundaries-r3/node_modules/.pnpm/@vitest+expect@4.1.7/node_modules/@vitest/expect/dist/index.js:1552:16)\n    at Proxy.<anonymous> (file:///Users/zhangxu/illegal/type-pal-cursor-command-boundaries-r3/node_modules/.pnpm/@vitest+expect@4.1.7/node_modules/@vitest/expect/dist/index.js:1156:15)\n    at Proxy.methodWrapper (file:///Users/zhangxu/illegal/type-pal-cursor-command-boundaries-r3/node_modules/.pnpm/chai@6.2.2/node_modules/chai/index.js:1700:25)\n    at expectRejected (/Users/zhangxu/illegal/type-pal-cursor-command-boundaries-r3/packages/editor/src/core/tileset-commands.residual.test.ts:17:38)\n    at /Users/zhangxu/illegal/type-pal-cursor-command-boundaries-r3/packages/editor/src/core/tileset-commands.residual.test.ts:116:5\n    at file:///Users/zhangxu/illegal/type-pal-cursor-command-boundaries-r3/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:20",
+      "hit": true,
+      "evidence": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/c3-tileset-empty-name-y2l0lX",
+      "ok": true
+    },
+    {
+      "key": "c4",
+      "id": "c4-sprite-asset-in-use",
+      "file": "packages/editor/src/core/sprite-commands.ts",
+      "testFile": "packages/editor/src/core/sprite-commands.residual.test.ts",
+      "fullName": "精灵命令残项 DeleteUnusedSpriteAssetCommand 删除 hero 资产 → 精灵资产仍被定义引用",
+      "sha256": "2b6f3a3533bbb86ea650690f182a2a171f988860aa5c48b5b24b81dfe23e0ada",
+      "hashUnchanged": true,
+      "greenExit": 0,
+      "greenPassed": 1,
+      "redExit": 1,
+      "failedTitle": "DeleteUnusedSpriteAssetCommand 删除 hero 资产 → 精灵资产仍被定义引用",
+      "failedFullName": "精灵命令残项 DeleteUnusedSpriteAssetCommand 删除 hero 资产 → 精灵资产仍被定义引用",
+      "assertion": "AssertionError: expected [Function] to throw error matching /精灵资产 .* 仍被定义引用/ but got '资源 sprite.generated.starter 仍被 1 处引用，…'\n    at Proxy.<anonymous> (file:///Users/zhangxu/illegal/type-pal-cursor-command-boundaries-r3/node_modules/.pnpm/@vitest+expect@4.1.7/node_modules/@vitest/expect/dist/index.js:1552:16)\n    at Proxy.<anonymous> (file:///Users/zhangxu/illegal/type-pal-cursor-command-boundaries-r3/node_modules/.pnpm/@vitest+expect@4.1.7/node_modules/@vitest/expect/dist/index.js:1156:15)\n    at Proxy.methodWrapper (file:///Users/zhangxu/illegal/type-pal-cursor-command-boundaries-r3/node_modules/.pnpm/chai@6.2.2/node_modules/chai/index.js:1700:25)\n    at expectRejected (/Users/zhangxu/illegal/type-pal-cursor-command-boundaries-r3/packages/editor/src/core/sprite-commands.residual.test.ts:23:38)\n    at /Users/zhangxu/illegal/type-pal-cursor-command-boundaries-r3/packages/editor/src/core/sprite-commands.residual.test.ts:97:5\n    at file:///Users/zhangxu/illegal/type-pal-cursor-command-boundaries-r3/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:20",
+      "hit": true,
+      "evidence": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/c4-sprite-asset-in-use-bGCbkZ",
+      "ok": true
+    },
+    {
+      "key": "c5",
+      "id": "c5-enemy-profile",
+      "file": "packages/editor/src/core/battle-sprite-commands.ts",
+      "testFile": "packages/editor/src/core/battle-sprite-commands.residual.test.ts",
+      "fullName": "战斗精灵命令残项 AddEnemy 后 SetEnemyBattleSprite(starter-fighter) → 敌人只能引用 enemy profile",
+      "sha256": "16041546eef69003ec20515cd91110b910b266df64c3cfbc84f47e9fda89b890",
+      "hashUnchanged": true,
+      "greenExit": 0,
+      "greenPassed": 1,
+      "redExit": 1,
+      "failedTitle": "AddEnemy 后 SetEnemyBattleSprite(starter-fighter) → 敌人只能引用 enemy profile",
+      "failedFullName": "战斗精灵命令残项 AddEnemy 后 SetEnemyBattleSprite(starter-fighter) → 敌人只能引用 enemy profile",
+      "assertion": "AssertionError: expected [Function] to throw an error\n    at Proxy.<anonymous> (file:///Users/zhangxu/illegal/type-pal-cursor-command-boundaries-r3/node_modules/.pnpm/@vitest+expect@4.1.7/node_modules/@vitest/expect/dist/index.js:1552:16)\n    at Proxy.<anonymous> (file:///Users/zhangxu/illegal/type-pal-cursor-command-boundaries-r3/node_modules/.pnpm/@vitest+expect@4.1.7/node_modules/@vitest/expect/dist/index.js:1156:15)\n    at Proxy.methodWrapper (file:///Users/zhangxu/illegal/type-pal-cursor-command-boundaries-r3/node_modules/.pnpm/chai@6.2.2/node_modules/chai/index.js:1700:25)\n    at expectRejected (/Users/zhangxu/illegal/type-pal-cursor-command-boundaries-r3/packages/editor/src/core/battle-sprite-commands.residual.test.ts:21:38)\n    at /Users/zhangxu/illegal/type-pal-cursor-command-boundaries-r3/packages/editor/src/core/battle-sprite-commands.residual.test.ts:96:5\n    at file:///Users/zhangxu/illegal/type-pal-cursor-command-boundaries-r3/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:20",
+      "hit": true,
+      "evidence": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/c5-enemy-profile-YEqRJx",
+      "ok": true
+    }
+  ]
+}
