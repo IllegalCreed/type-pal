@@ -1,0 +1,13 @@
+{
+  "id": "c05-skill-default-power",
+  "file": "packages/editor/src/core/skill-commands.ts",
+  "sha256": "ea34f9f5797593c82732a2fdeef7b5d048cd7f57e5b966ec437701360b21c0e5",
+  "hashUnchanged": true,
+  "greenExit": 0,
+  "greenPassed": 1,
+  "redExit": 1,
+  "failedTitle": "keeps skill constructors on the old commands barrel and scaffolds default power",
+  "failedFullName": "C05 skill command family keeps skill constructors on the old commands barrel and scaffolds default power",
+  "assertion": "AssertionError: expected { kind: 'damage', power: 19, …(1) } to match object { kind: 'damage', power: 20 }",
+  "ok": true
+}

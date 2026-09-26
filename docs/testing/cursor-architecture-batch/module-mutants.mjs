@@ -50,6 +50,14 @@ const cases = {
     to: '物品 id 已占用：',
     title: 'keeps item constructors on the old commands barrel and rejects duplicate id',
   },
+  c05: {
+    id: 'c05-skill-default-power',
+    sourceFile: 'src/core/skill-commands.ts',
+    testFile: 'src/core/skill-commands.test.ts',
+    from: 'power: 20',
+    to: 'power: 19',
+    title: 'keeps skill constructors on the old commands barrel and scaffolds default power',
+  },
 }
 
 const selected = process.argv[2] ? [process.argv[2]] : Object.keys(cases)
