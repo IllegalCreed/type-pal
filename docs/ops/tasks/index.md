@@ -168,6 +168,7 @@
 | [SAVE-PREFLIGHT-1 - 当前存档预检与恢复失败隔离](../archive/tasks/done/SAVE-PREFLIGHT-1-current-save-restore-preflight.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [TEST-BATTLE-WORKFLOWS-1 - 战斗会话完整流程补测](../archive/tasks/done/TEST-BATTLE-WORKFLOWS-1-session-flows.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [TEST-CODEX-CONTENT-RESOURCES-1 — 五组资源索引与引用边界](../archive/tasks/done/TEST-CODEX-CONTENT-RESOURCES-1-indices-and-references.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [TEST-CODEX-MIGRATE-ASSEMBLY-1 — 当前迁移汇总六组回归](../archive/tasks/done/TEST-CODEX-MIGRATE-ASSEMBLY-1-current-aggregation.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [TEST-CODEX-MIGRATE-PURE-1 — 六组自包含转换边界](../archive/tasks/done/TEST-CODEX-MIGRATE-PURE-1-self-contained-translators.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [TEST-CONTENT-CONTRACTS-1 - 内容数据校验与引用边界补测](../archive/tasks/done/TEST-CONTENT-CONTRACTS-1-content-validation-boundaries.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [TEST-CONTENT-RESIDUAL-1 - 内容合同已登记残项补测（队列 TB-01）](../archive/tasks/done/TEST-CONTENT-RESIDUAL-1-registered-gaps.md) | done | 完成证据、历史签字与交接见原卡。 |
