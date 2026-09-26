@@ -47,6 +47,18 @@ Codex持续处理[治理台账](../audits/architecture-debt.md)剩余边界，Cu
 
 ## 当前推进
 
+- 2026-09-26 F1审计分层开工（基点 `fd09c15c`）：`design-system-audit.mjs` 当前6428行，混持TSX
+  语法/可达事实、CSSOM selector/cascade/条件场景推导、registry/allowlist规则及CLI读盘/输出；其中
+  `reachableJsxOwners` 约935行，事实缓存与验证报告共享同一文件级闭包。现行真值由 adoption/effect-card/
+  text-overflow/field-layout/allowlist/navigation反例、完整设计系统gate和`audit-performance-adoption`的同对象
+  override/CSS失效缓存两轴共同固定；二阶段本工具规则为一手真值，原版/一阶段N/A。目标按
+  `design-system-audit-ast/css/rules/report` 分出低层事实、CSS推导、纯规则与IO报告，旧
+  `design-system-audit.mjs` 保持公共出口和route/adoption编排；不删规则、不改registry/allowlist、不扩大缓存
+  信任边界。最强替代解释是模块化会让override绕过缓存失效、CSS条件合并或报告exit code漂移；可证伪观察为
+  任一既有反例/旧违规身份、gate stdout/stderr/exit、matrix JSON或性能测试结果变化。验收用出口身份、报告注入
+  单测、既有全组/Editor全包/TC/Biome、结构与性能反控；不改UI、schema、SAVE、资产或官方覆盖率基线。
+  Codex已核入口与测试调用，premise verified / build allowed；完成单层抽取不等于F1整体完成。
+
 - 2026-09-26 E1候选收口（基点 `9013cf86`，实现头 `0589af91`）：大世界移动/队形/骑乘/相对位移/
   追逐等 opcode 归纯 `translate-event-motion` owner，场景/事件源排序、落点配对、all地址、label/address、
   owner/root 索引归纯 `scene-migration-source-plan` owner；调用壳继续拥有对话/report/cursor与布局/entity/
