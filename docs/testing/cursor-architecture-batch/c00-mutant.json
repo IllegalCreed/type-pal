@@ -1,0 +1,13 @@
+{
+  "id": "c00-error-message",
+  "file": "packages/editor/src/core/battle-data-command-errors.ts",
+  "sha256": "4dd5b2a9844b7a372ab26502d20d7ff1f6e51afed369824547b3ab3334b33e78",
+  "hashUnchanged": true,
+  "greenExit": 0,
+  "greenPassed": 1,
+  "redExit": 1,
+  "failedTitle": "keeps BattleDataInUseError identity, message and references on the moved module",
+  "failedFullName": "C00 command contract and battle-data error keeps BattleDataInUseError identity, message and references on the moved module",
+  "assertion": "AssertionError: expected '敌人 enemy-1 仍被 0 个引用' to be '敌人 enemy-1 仍被 0 处引用' // Object.is equality",
+  "ok": true
+}

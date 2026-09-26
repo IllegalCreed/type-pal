@@ -71,6 +71,8 @@ import {
   removeProjectMapLayer,
   updateProjectMapLayer,
 } from '@type-pal/reforge'
+import { BattleDataInUseError } from './battle-data-command-errors.js'
+import type { Command } from './command-contract.js'
 import type { CurrentMapReferenceBatchProvider, EditorState } from './edit-session.js'
 import {
   applyPreparedProjectMapPatch,
@@ -101,17 +103,8 @@ import {
   type TilesetReplacementProof,
 } from './tileset-references.js'
 
-/**
- * 一次编辑操作。apply/invert 都返回**新** EditorState(不可变 —— 不得 mutate 传入)。
- * invert(s) 接收的是 apply 之后的态,要还原成 apply 之前的态。
- */
-export interface Command {
-  readonly label: string
-  /** 仅供 EditSession 增量维护组合模板引用事实；未声明但改 stamps 时会安全回退全量。 */
-  readonly mapReferenceStampIds?: readonly string[]
-  apply(s: EditorState): EditorState
-  invert(s: EditorState): EditorState
-}
+export { BattleDataInUseError } from './battle-data-command-errors.js'
+export type { Command } from './command-contract.js'
 
 export class WorldVariableInUseError extends Error {
   constructor(
@@ -2266,17 +2259,6 @@ export class AddEnemyCommand implements Command {
   }
   invert(state: EditorState): EditorState {
     return { ...state, enemies: (state.enemies ?? []).filter((e) => e.id !== this.enemy.id) }
-  }
-}
-
-/** 删除敌人。apply 记原索引,invert 插回原位。 */
-export class BattleDataInUseError extends Error {
-  readonly references: readonly ProjectReferenceEdge[]
-
-  constructor(kind: string, id: string, references: readonly ProjectReferenceEdge[]) {
-    super(`${kind} ${id} 仍被 ${references.length} 处引用`)
-    this.name = 'BattleDataInUseError'
-    this.references = references
   }
 }
 
