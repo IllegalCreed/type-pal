@@ -36,9 +36,9 @@ GLM后续补测候选见[十批长队列](../testing/glm-coverage-work-queue.md)
 | ID | 任务 | 状态 | 负责人/下一步 | 一句话备注 |
 |---|---|---|---|---|
 | TEST-CURSOR-COMMAND-BOUNDARIES-3 | [八组命令行为残项](tasks/TEST-CURSOR-COMMAND-BOUNDARIES-3-editor-residuals.md) | build | Cursor / 连续补测 | 公开apply/undo/redo与真实合法fixture；不重复已done F2拆分 |
-| TEST-CODEX-CONTENT-RESOURCES-1 | [五组资源索引与引用](tasks/TEST-CODEX-CONTENT-RESOURCES-1-indices-and-references.md) | build | Codex接收对话 / 实施 | 与GLM三叶、Cursor命令、另一Codex架构互斥；整批质量门 |
+| TEST-CODEX-CONTENT-RESOURCES-1 | [五组资源索引与引用](tasks/TEST-CODEX-CONTENT-RESOURCES-1-indices-and-references.md) | review | Codex / 统一质量门 | 65项+5业务负控通过，与GLM并集一次统计 |
 | ARCH-CONTINUATION-1 | [剩余架构治理连续收口](tasks/ARCH-CONTINUATION-1-remaining-queue.md) | build | 新Codex对话续推A3移动/绘制 | D1/E2/F2已完成，check8740/strict8248/701；含A3的其余八项未done |
-| TEST-GLM-CONTENT-GUARDS-2 | [六组校验叶边界补测](tasks/TEST-GLM-CONTENT-GUARDS-2-leaf-boundaries.md) | rework | GLM仅修C1/C2 / Codex复验 | 99113d22：旧三针/判据/格式闭合；实际输入快照与嵌套turn正控仍漏检，957绿 |
+| TEST-GLM-CONTENT-GUARDS-2 | [六组校验叶边界补测](tasks/TEST-GLM-CONTENT-GUARDS-2-leaf-boundaries.md) | review | Codex / 接收后统一门 | 09c8ccba accept；六见证+原六针检出、957全包绿，C1/C2闭合 |
 | ARCH-SUPPORT-GLM-1 | [八组并行架构/视觉准备](tasks/ARCH-SUPPORT-GLM-1-eight-audit-packages.md) | draft | Codex / 后续归属与收口 | 58cdf938材料accept，counter清零；文档已合入，按用户要求未标done/未开产品门 |
 
 2026-09-26 [Cursor九组剩余命令](../testing/cursor-commands-wave2-integration.md)2022acc3已独立accept/done：90声明/119出口/62绑定保持、反控与隔离UI通过，check8740/strict8248/701。F2组织性整理完成；新增16身份/顺序回归、13模块，覆盖metrics不变，未混算GLM或A3后续。

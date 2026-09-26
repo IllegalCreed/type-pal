@@ -1,6 +1,6 @@
 # TEST-CODEX-CONTENT-RESOURCES-1 — 五组资源索引与引用边界
 
-Status: build
+Status: review
 Owner: Codex（本接收对话）
 Phase: phase2
 Visual Verification Timing: N/A（纯数据/字节与索引合同）
@@ -33,3 +33,9 @@ guard成功样本先走正式validator，坏输入仅破一轴，完整错误mes
 完成后串行全仓check→官方ratchet→受保护单次strict-fast，统计实际并集和未证项。
 本批Codex实施及自验不冒称贡献者独立审查；按当前模式自行收口。视觉N/A，full/Q1/Q2另排。
 无下一位Agent提示词，本对话持续实施。
+
+## 实施记录
+
+2026-09-26：五文件65项已落，定向65/65、content931/931与TC、5代表业务负控通过；
+见[实施/去重回执](../../testing/codex-content-resources/README.md)。R4公开helper暂无生产调用者，仅锁API合同，
+不冒称产品缺陷；不可达/超大内存防御不强造。与GLM已接收91项并集跑一次全仓门后再done。

@@ -13,6 +13,7 @@
 - [Cursor九组命令独立复核](cursor-commands-wave2-review.md)、[审计工具](cursor-commands-wave2-audit.mjs)与[机账](cursor-commands-wave2-review-evidence.json)（产品核验通过，整包窄收尾）。
 - [守卫叶补测独立接收](guard-leaf-intake-review.md)、[反例工具](guard-leaf-review-witnesses.mjs)与[机账](guard-leaf-review-evidence.json)（b8e037cb窄返工）。
 - [守卫叶 r2 窄复核](guard-leaf-r2-review.md)与[机账](guard-leaf-r2-evidence.json)（99113d22：旧三反例/判据/格式已闭，仅实际输入快照与嵌套turn正控残项）。
+- [守卫叶 r3 接收](guard-leaf-r3-review.md)（09c8ccba：C1/C2已闭，六反例检出，与Codex资源批统一门）。
 - [A3活动场景与镜头归属](active-scene-refactor.md)、[冻结对照](active-scene-parity.mjs)、[七针反控](active-scene-mutants.mjs)。
 - [Cursor命令第二批](cursor-commands-wave2/README.md)与[GLM守卫叶补测](glm-content-guards-wave2/README.md)（互斥委派中，尚未接收）。
 - [Cursor24组最终验收](cursor-architecture-batch-integration.md)、[GLM十二组准备包收口](architecture-regression-lab-completion.md)与[统一机账](architecture-intake-completion-evidence.json)（两包独立裁决、统一check8707/strict8215/686；剩余环境/深层组合明确归属，不混入A3 WIP）

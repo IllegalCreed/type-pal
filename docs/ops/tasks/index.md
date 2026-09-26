@@ -10,9 +10,9 @@
 |---|---|---|
 | [ARCH-CONTINUATION-1 — 剩余架构治理连续收口](ARCH-CONTINUATION-1-remaining-queue.md) | build | 以任务卡当前准入与看板分工为准。 |
 | [ARCH-SUPPORT-GLM-1 — 八组并行准备取证](ARCH-SUPPORT-GLM-1-eight-audit-packages.md) | draft | 以任务卡当前准入与看板分工为准。 |
-| [TEST-CODEX-CONTENT-RESOURCES-1 — 五组资源索引与引用边界](TEST-CODEX-CONTENT-RESOURCES-1-indices-and-references.md) | build | 以任务卡当前准入与看板分工为准。 |
+| [TEST-CODEX-CONTENT-RESOURCES-1 — 五组资源索引与引用边界](TEST-CODEX-CONTENT-RESOURCES-1-indices-and-references.md) | review | 以任务卡当前准入与看板分工为准。 |
 | [TEST-CURSOR-COMMAND-BOUNDARIES-3 — 八组编辑命令行为残项](TEST-CURSOR-COMMAND-BOUNDARIES-3-editor-residuals.md) | build | 以任务卡当前准入与看板分工为准。 |
-| [TEST-GLM-CONTENT-GUARDS-2 — 六组校验叶边界补测](TEST-GLM-CONTENT-GUARDS-2-leaf-boundaries.md) | rework | 以任务卡当前准入与看板分工为准。 |
+| [TEST-GLM-CONTENT-GUARDS-2 — 六组校验叶边界补测](TEST-GLM-CONTENT-GUARDS-2-leaf-boundaries.md) | review | 以任务卡当前准入与看板分工为准。 |
 
 ## 已完成（historical）
 

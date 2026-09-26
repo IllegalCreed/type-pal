@@ -1,6 +1,6 @@
 # TEST-GLM-CONTENT-GUARDS-2 — 六组校验叶边界补测
 
-Status: rework
+Status: review
 Owner: GLM
 Reviewer / Integration Owner: Codex
 Phase: phase2
@@ -114,6 +114,40 @@ R4：修提交的evidence.json格式；最终树回执/计数/输入纪律如实
 只写本卡GLM返工块、三测试/fixture与专属证据。提交推送真实最终SHA；不合main、不标done。
 无需替Codex补跑全仓check/ratchet/strict；局部自验结果如实登记，独立复验和最终收口由Codex完成。
 ```
+## GLM 候选 r1–r3 原交付块（合并保留）
+
+- GLM作者交付 r1（2026-09-26，b8e037cb）：G1–G6共91行叶测试+fixture；被Codex intake审查counter
+  （R1–R4，`docs/testing/guard-leaf-intake-review.md`@`ca96d45a`（origin/main，本分支未合入故不作本地链接）：输入保真/精确路径未钉住、同kind正控与单轴构造失实、
+  负控判据误收五反例且缺运行态见证、evidence.json格式error与回执校准）。
+- GLM返工交付 r2（2026-09-26，同分支窄返工）：R1拒绝断言全部改完整message全等（expectExactError），
+  对象/数组实际输入（含合法正控、G5 cue、容器输入）独立快照前后比较，原始值直接值断言；R2每个拒绝先跑
+  同kind同形状合法正控，修wait缺ms、turn补value、多hook先过真实容器仅改ms一轴、真删rows、playSound同kind；
+  R3判据重写为同一judge函数（恰exit/恰一红/失败记录绝对文件+实际fullName/其余90过无skip/逐条拒混错、
+  timeout按首行），load命中写{ id,target}运行态见证，自测10例（五反例+有效红/exit/零执行/对照）全按预期；
+  R4 evidence.json过Biome、回执/卡按最终树校准，G2百分比行改口为共享叶直入口变体不计新证分支。
+  复验：91/91绿；判据自测10例+对照+6针各恰红目标fullName；审查席三探针（record改写/cue改写/路径前缀）
+  各自恰红对应新断言；全content 957/957、TC、改动Biome 0 error（仅4个故意针面warning）、check:docs过。
+  行数仍91，不作为新增分支数主张。不合main、不标done，待Codex复验。
+- GLM返工交付 r3（2026-09-26，同分支窄返工，仅C1/C2）：C1七处expectAcceptsUnchanged改为比较生产
+  实际消费的同一对象（闭包消费第二参数或同一具名input；record/exactKeys/G6 fullInput/body直入口），
+  补['x']/[null]/坏exactKeys对象实际输入快照，G1合法exactKeys也走保真；helper执行包not.toThrow使
+  正控意外抛出呈AssertionError。C2 G3 not行改同入口合法not(turn>=1)先过、坏输入从cond复制仅改op，
+  未知kind行补同入口正控；G6参数表每行带同形状good/bad，when行合法turn经同一容器执行、坏输入仅改op。
+  复验：91/91绿；Codex r2见证工具（guard-leaf-review-witnesses.mjs@7cac1d72）control绿、r1旧三针保持
+  detected、新三针（exactKeys改写实际对象/body数组splice/嵌套turn恒拒）全部MISSED→detected；
+  原6针oracle自测10例+对照+6针重跑全绿（once针目标名随G6参数表重构同步）；全content 957/957、TC、
+  本批改动Biome 0 error（4故意针面warning；全src另有runtime-script.ts既有warning属分支继承）、
+  check:docs、diff --check过。已闭项不重开、矩阵未扩大、行数仍91。不合main、不标done。
+- Codex独立验收：pending；done未开放，固定三签暂停。
+
+## Codex r3 独立接收（当前）
+
+2026-09-26：候选`09c8ccba`（正文`a3ab195a`）**accept**，C1/C2闭合。
+见[接收报告](../../testing/guard-leaf-r3-review.md)。七处调用已比实际实参；逐行turn正控与坏输入同容器，
+本席六针全部检出（旧三针仍有效、新三针由MISSED转AssertionError），判据旧误收反例全拒。
+独立原1+6反控、全content957、TC、改动Biome/docs/diff通过。只接收原白名单、保留历史counter/作者块。
+已进入主线集成验证；done待与Codex资源65项统一check→ratchet→受保护单次strict-fast，不拿作者自验代替独立复核。
+无下一位Agent提示词，本席负责门禁与收口。
 
 ## 下一位 GLM 提示词
 
