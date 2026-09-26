@@ -1,0 +1,13 @@
+{
+  "id": "u03-icon-button-compact",
+  "file": "packages/editor/src/ui/design-system/icon-button.tsx",
+  "sha256": "ae2feb56206466e7f92bc9d79c0eaa5778381c9e6226a7f1e8344bf5e4c025f5",
+  "hashUnchanged": true,
+  "greenExit": 0,
+  "greenPassed": 1,
+  "redExit": 1,
+  "failedTitle": "keeps icon-button identity with compact class and aria-label",
+  "failedFullName": "U03 icon button keeps icon-button identity with compact class and aria-label",
+  "assertion": "AssertionError: expected 'ds-icon-button ds-icon-button--second…' to be 'ds-icon-button ds-icon-button--second…' // Object.is equality",
+  "ok": true
+}

@@ -122,6 +122,14 @@ const cases = {
     to: 'aria-label={`${props.label}帮助`}',
     title: 'keeps tooltip and help-tip identity with visually-hidden descriptions and Escape dismiss',
   },
+  u03: {
+    id: 'u03-icon-button-compact',
+    sourceFile: 'src/ui/design-system/icon-button.tsx',
+    testFile: 'src/ui/design-system/icon-button.test.tsx',
+    from: "size === 'compact' && 'ds-icon-button--compact'",
+    to: "size === 'compact' && 'ds-icon-button--dense'",
+    title: 'keeps icon-button identity with compact class and aria-label',
+  },
 }
 
 const selected = process.argv[2] ? [process.argv[2]] : Object.keys(cases)

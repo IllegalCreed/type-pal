@@ -19,55 +19,18 @@ import { DS_OPTION_VIRTUALIZE_ABOVE, filterDsCollection } from './collection-sea
 import type { DsButtonVariant, DsControlSize } from './control-types.js'
 import { classes, describedBy } from './control-utils.js'
 import { DsFloatingLayer } from './floating-layer.js'
-import { DsHelpTip, DsTooltip } from './help-tips.js'
+import { DsHelpTip } from './help-tips.js'
+import { DsIconButton } from './icon-button.js'
 import { DsIcon, type DsIconName } from './icons.js'
 
 export { DsActionLink, DsButton, DsPressable } from './buttons.js'
 export type { DsButtonVariant, DsControlSize } from './control-types.js'
 export { DsHelpTip, DsTooltip } from './help-tips.js'
+export { DsIconButton } from './icon-button.js'
 export type { DsOverflowTextProps } from './overflow-text.js'
 export { DsOverflowText } from './overflow-text.js'
 export type { DsTagTone } from './status-values.js'
 export { DsReadonlyValue, DsTag } from './status-values.js'
-
-export const DsIconButton = forwardRef<
-  HTMLButtonElement,
-  Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'children' | 'aria-label'> & {
-    label: string
-    icon: DsIconName
-    shortcut?: string
-    variant?: Extract<DsButtonVariant, 'secondary' | 'quiet' | 'danger'>
-    size?: DsControlSize
-  }
->(function DsIconButton(props, ref) {
-  const {
-    label,
-    icon,
-    shortcut,
-    variant = 'quiet',
-    size = 'default',
-    className,
-    ...buttonProps
-  } = props
-  return (
-    <DsTooltip label={label} shortcut={shortcut}>
-      <button
-        ref={ref}
-        type="button"
-        {...buttonProps}
-        className={classes(
-          'ds-icon-button',
-          `ds-icon-button--${variant}`,
-          size === 'compact' && 'ds-icon-button--compact',
-          className,
-        )}
-        aria-label={label}
-      >
-        <DsIcon name={icon} />
-      </button>
-    </DsTooltip>
-  )
-})
 
 /** 由领域动作按钮触发的隐藏文件选择器；统一隔离原生 file input。 */
 export const DsFileInput = forwardRef<HTMLInputElement, InputHTMLAttributes<HTMLInputElement>>(
