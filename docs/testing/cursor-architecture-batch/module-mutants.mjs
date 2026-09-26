@@ -18,6 +18,14 @@ const cases = {
     to: '仍被 ${references.length} 个引用',
     title: 'keeps BattleDataInUseError identity, message and references on the moved module',
   },
+  c01: {
+    id: 'c01-in-use-message',
+    sourceFile: 'src/core/world-variable-commands.ts',
+    testFile: 'src/core/world-variable-commands.test.ts',
+    from: '处脚本引用',
+    to: '个脚本引用',
+    title: 'keeps world-variable constructors and in-use error on the old commands barrel',
+  },
 }
 
 const selected = process.argv[2] ? [process.argv[2]] : Object.keys(cases)

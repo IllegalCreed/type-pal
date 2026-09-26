@@ -1,12 +1,13 @@
 import { describe, expect, test } from 'vitest'
+import * as oldEntry from './commands.js'
+import { type EditorState, EditSession } from './edit-session.js'
+import { collectCurrentProjectReferenceIndex } from './project-reference-adapters.js'
 import {
   AddWorldVariableCommand,
   DeleteWorldVariableCommand,
   UpdateWorldVariableCommand,
   WorldVariableInUseError,
-} from './commands.js'
-import { type EditorState, EditSession } from './edit-session.js'
-import { collectCurrentProjectReferenceIndex } from './project-reference-adapters.js'
+} from './world-variable-commands.js'
 
 function state(): EditorState {
   return {
@@ -62,6 +63,19 @@ function state(): EditorState {
 }
 
 describe('world variable EditSession commands', () => {
+  test('keeps world-variable constructors and in-use error on the old commands barrel', () => {
+    expect(oldEntry.AddWorldVariableCommand).toBe(AddWorldVariableCommand)
+    expect(oldEntry.UpdateWorldVariableCommand).toBe(UpdateWorldVariableCommand)
+    expect(oldEntry.DeleteWorldVariableCommand).toBe(DeleteWorldVariableCommand)
+    expect(oldEntry.WorldVariableInUseError).toBe(WorldVariableInUseError)
+    const error = new WorldVariableInUseError('used', 2)
+    expect(error).toBeInstanceOf(oldEntry.WorldVariableInUseError)
+    expect(error.name).toBe('WorldVariableInUseError')
+    expect(error.message).toBe('世界变量 "used" 仍有 2 处脚本引用')
+    expect(error.variableId).toBe('used')
+    expect(error.referenceCount).toBe(2)
+  })
+
   test('create and metadata update participate in undo/redo without changing stable identity', () => {
     const session = new EditSession(state())
     session.dispatch(

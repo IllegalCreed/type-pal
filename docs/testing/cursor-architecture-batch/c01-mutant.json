@@ -1,0 +1,13 @@
+{
+  "id": "c01-in-use-message",
+  "file": "packages/editor/src/core/world-variable-commands.ts",
+  "sha256": "967edb24867d8bfc897adc347714770aadad485f220bf9eff8c43a112220a0d0",
+  "hashUnchanged": true,
+  "greenExit": 0,
+  "greenPassed": 1,
+  "redExit": 1,
+  "failedTitle": "keeps world-variable constructors and in-use error on the old commands barrel",
+  "failedFullName": "world variable EditSession commands keeps world-variable constructors and in-use error on the old commands barrel",
+  "assertion": "AssertionError: expected '世界变量 \"used\" 仍有 2 个脚本引用' to be '世界变量 \"used\" 仍有 2 处脚本引用' // Object.is equality",
+  "ok": true
+}
