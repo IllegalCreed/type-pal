@@ -244,18 +244,4 @@ describe('G3 author/runtime command 残差', () => {
       'commands[0].transition.kind: 未知过渡类型',
     )
   })
-
-  test('expect 精确性自证：对同一坏输入第二次调用仍拒绝且输入不变', () => {
-    const badWipe = [{ kind: 'loadScene', scene: 's', entryId: 'a', transition: { kind: 'wipe' } }]
-    expectRejectUnchanged(
-      (value) => checkAuthorCommands(value, 'commands'),
-      badWipe,
-      'commands[0].transition.kind: 未知过渡类型',
-    )
-    expectRejectUnchanged(
-      (value) => checkAuthorCommands(value, 'commands'),
-      badWipe,
-      'commands[0].transition.kind: 未知过渡类型',
-    )
-  })
 })

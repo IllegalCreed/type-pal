@@ -284,7 +284,10 @@ describe('G4 checkCommands 残差', () => {
 describe('G4 checkStages / checkEntityPages 残差', () => {
   test('checkStages 数组门与 next 叶拒绝、合法正控', () => {
     expectAcceptsUnchanged((value) => checkStages(value, 'stages'), [{ body: [] }])
-    expectExactError(() => checkStages([], 'stages'), 'stages: 期望非空 ScriptStage[]')
+    const emptyStages: unknown[] = []
+    const emptyBefore = deepSnapshot(emptyStages)
+    expectExactError(() => checkStages(emptyStages, 'stages'), 'stages: 期望非空 ScriptStage[]')
+    expect(emptyStages).toEqual(emptyBefore)
     expectExactError(() => checkStages(42, 'stages'), 'stages: 期望非空 ScriptStage[]')
     const badNext = [{ body: [], next: 'gone' }]
     const before = deepSnapshot(badNext)
@@ -321,15 +324,19 @@ describe('G4 checkStages / checkEntityPages 残差', () => {
     const badFade = [
       { body: [], entry: { prepare: [], reveal: { kind: 'fade', outMs: -1, inMs: 1 } } },
     ]
+    const fadeBefore = deepSnapshot(badFade)
     expectExactError(
       () => checkStages(badFade, 'stages', { allowSceneEntry: true }),
       'stages[0].entry.reveal.outMs: 期望非负有限数',
     )
+    expect(badFade).toEqual(fadeBefore)
     const badWipe = [{ body: [], entry: { prepare: [], reveal: { kind: 'wipe' } } }]
+    const wipeBefore = deepSnapshot(badWipe)
     expectExactError(
       () => checkStages(badWipe, 'stages', { allowSceneEntry: true }),
       'stages[0].entry.reveal.kind: 期望 dither|fade|cut',
     )
+    expect(badWipe).toEqual(wipeBefore)
   })
 
   test('checkEntityPages animation/trigger 叶拒绝与正控', () => {

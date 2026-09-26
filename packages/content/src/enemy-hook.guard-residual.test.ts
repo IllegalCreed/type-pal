@@ -120,10 +120,12 @@ describe('G5 enemy hook/AI/onDefeated 残差', () => {
       initial: 'ready',
       states: { ready: { body: [], next: { kind: 'teleport' } } },
     }
+    const transitionBefore = deepSnapshot(badTransition)
     expectExactError(
       () => checkEnemyHookFlow(badTransition, 'hook'),
       'hook.states.ready.next.kind: 未知敌人 hook transition teleport',
     )
+    expect(badTransition).toEqual(transitionBefore)
   })
 
   test('同一同步路径双 terminal 拒绝（单 state 内）', () => {

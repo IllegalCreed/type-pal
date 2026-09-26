@@ -101,82 +101,115 @@ describe('G8 validateItems use 效果残差', () => {
   })
 
   test.each([
-    [
-      'extraPoisonRes amount',
-      { kind: 'extraPoisonRes', amount: 0 },
-      'items[0].use.effects[0].amount: 期望正数',
-    ],
-    [
-      'applyStatus 未知状态',
-      { kind: 'applyStatus', status: 'bogus', turns: 1 },
-      'items[0].use.effects[0].status: 未知状态 bogus',
-    ],
-    [
-      'applyStatus turns 上界',
-      { kind: 'applyStatus', status: 'sleep', turns: 1000 },
-      'items[0].use.effects[0].turns: 不得大于 999',
-    ],
-    [
-      'removeStatus 重复',
-      { kind: 'removeStatus', statuses: ['sleep', 'sleep'] },
-      'items[0].use.effects[0].statuses[1]: 状态 sleep 重复',
-    ],
-    [
-      'applyPoison 空毒 id',
-      { kind: 'applyPoison', poisonId: '' },
-      'items[0].use.effects[0].poisonId: 期望非空稳定 id',
-    ],
-    [
-      'curePoison 档位',
-      { kind: 'curePoison', curesTier: 'all' },
-      'items[0].use.effects[0].curesTier: 期望 common/severe/incurable',
-    ],
-    [
-      'permanentStatBoost 未知属性',
-      { kind: 'permanentStatBoost', stat: 'hp', delta: 2 },
-      'items[0].use.effects[0].stat: 未知永久属性 hp',
-    ],
-    [
-      'permanentStatBoost delta 0',
-      { kind: 'permanentStatBoost', stat: 'luck', delta: 0 },
-      'items[0].use.effects[0].delta: 不得为 0',
-    ],
-    [
-      'gate chance 上界',
-      { kind: 'gate', chance: 101 },
-      'items[0].use.effects[0].chance: 不得大于 100',
-    ],
-    [
-      'scaleCurrentHp 分子',
-      { kind: 'scaleCurrentHp', numerator: 0, denominator: 2 },
-      'items[0].use.effects[0].numerator: 期望正数',
-    ],
-  ] as const)('%s拒绝（同型合法效果正控、单字段破坏）', (_label, badEffect, error) => {
-    const control = { kind: 'extraPoisonRes', amount: 30 }
+    {
+      label: 'extraPoisonRes amount',
+      control: { kind: 'extraPoisonRes', amount: 30 },
+      bad: { kind: 'extraPoisonRes', amount: 0 },
+      error: 'items[0].use.effects[0].amount: 期望正数',
+    },
+    {
+      label: 'applyStatus 未知状态',
+      control: { kind: 'applyStatus', status: 'sleep', turns: 1 },
+      bad: { kind: 'applyStatus', status: 'bogus', turns: 1 },
+      error: 'items[0].use.effects[0].status: 未知状态 bogus',
+    },
+    {
+      label: 'applyStatus turns 上界',
+      control: { kind: 'applyStatus', status: 'sleep', turns: 1 },
+      bad: { kind: 'applyStatus', status: 'sleep', turns: 1000 },
+      error: 'items[0].use.effects[0].turns: 不得大于 999',
+    },
+    {
+      label: 'removeStatus 重复',
+      control: { kind: 'removeStatus', statuses: ['sleep'] },
+      bad: { kind: 'removeStatus', statuses: ['sleep', 'sleep'] },
+      error: 'items[0].use.effects[0].statuses[1]: 状态 sleep 重复',
+    },
+    {
+      label: 'applyPoison 空毒 id',
+      control: { kind: 'applyPoison', poisonId: 'poison.551' },
+      bad: { kind: 'applyPoison', poisonId: '' },
+      error: 'items[0].use.effects[0].poisonId: 期望非空稳定 id',
+    },
+    {
+      label: 'curePoison 档位',
+      control: { kind: 'curePoison', curesTier: 'common' },
+      bad: { kind: 'curePoison', curesTier: 'all' },
+      error: 'items[0].use.effects[0].curesTier: 期望 common/severe/incurable',
+    },
+    {
+      label: 'permanentStatBoost 未知属性',
+      control: { kind: 'permanentStatBoost', stat: 'luck', delta: 2 },
+      bad: { kind: 'permanentStatBoost', stat: 'hp', delta: 2 },
+      error: 'items[0].use.effects[0].stat: 未知永久属性 hp',
+    },
+    {
+      label: 'permanentStatBoost delta 0',
+      control: { kind: 'permanentStatBoost', stat: 'luck', delta: 2 },
+      bad: { kind: 'permanentStatBoost', stat: 'luck', delta: 0 },
+      error: 'items[0].use.effects[0].delta: 不得为 0',
+    },
+    {
+      label: 'gate chance 上界',
+      control: { kind: 'gate', chance: 100 },
+      bad: { kind: 'gate', chance: 101 },
+      error: 'items[0].use.effects[0].chance: 不得大于 100',
+    },
+    {
+      label: 'scaleCurrentHp 分子',
+      control: { kind: 'scaleCurrentHp', numerator: 1, denominator: 2 },
+      bad: { kind: 'scaleCurrentHp', numerator: 0, denominator: 2 },
+      error: 'items[0].use.effects[0].numerator: 期望正数',
+    },
+  ] as const)('$label拒绝（同kind合法基线先过真实守卫、仅改所测字段）', ({
+    control,
+    bad,
+    error,
+  }) => {
     expectAcceptsUnchanged((value) => validateItems(value), [useEffects([control])])
-    const bad = [useEffects([badEffect])]
-    expectRejectUnchanged((value) => validateItems(value), bad, error)
+    expectRejectUnchanged((value) => validateItems(value), [useEffects([bad])], error)
   })
 
   test.each([
-    [
-      'runSceneHook hook 域',
-      [{ kind: 'runSceneHook', hook: 'onUse' }],
-      'items[0].use.effects[0].hook: 当前只支持 onTeleport',
-    ],
-    [
-      'runSceneHook 空消息',
-      [{ kind: 'runSceneHook', hook: 'onTeleport', unavailableMessage: '' }],
-      'items[0].use.effects[0].unavailableMessage: 期望非空 string',
-    ],
-    [
-      'craftRecipe 空配方',
-      [{ kind: 'craftRecipe', recipes: [] }],
-      'items[0].use.effects[0].recipes: 至少需要一条配方',
-    ],
-    [
-      'drawFromResourcePool 资源首尾空白',
-      [
+    {
+      label: 'runSceneHook hook 域',
+      control: [{ kind: 'runSceneHook', hook: 'onTeleport' }],
+      bad: [{ kind: 'runSceneHook', hook: 'onUse' }],
+      error: 'items[0].use.effects[0].hook: 当前只支持 onTeleport',
+    },
+    {
+      label: 'runSceneHook 空消息',
+      control: [{ kind: 'runSceneHook', hook: 'onTeleport' }],
+      bad: [{ kind: 'runSceneHook', hook: 'onTeleport', unavailableMessage: '' }],
+      error: 'items[0].use.effects[0].unavailableMessage: 期望非空 string',
+    },
+    {
+      label: 'craftRecipe 空配方',
+      control: [
+        {
+          kind: 'craftRecipe',
+          recipes: [
+            {
+              ingredients: [{ itemId: 'item.y', count: 2 }],
+              products: [{ itemId: 'item.x', count: 1 }],
+            },
+          ],
+        },
+      ],
+      bad: [{ kind: 'craftRecipe', recipes: [] }],
+      error: 'items[0].use.effects[0].recipes: 至少需要一条配方',
+    },
+    {
+      label: 'drawFromResourcePool 资源首尾空白',
+      control: [
+        {
+          kind: 'drawFromResourcePool',
+          resource: 'pool.x',
+          maxRoll: 1,
+          rewards: [{ itemId: 'item.y', count: 1 }],
+        },
+      ],
+      bad: [
         {
           kind: 'drawFromResourcePool',
           resource: ' pool.x',
@@ -184,18 +217,21 @@ describe('G8 validateItems use 效果残差', () => {
           rewards: [{ itemId: 'item.y', count: 1 }],
         },
       ],
-      'items[0].use.effects[0].resource: 稳定 id 不得包含首尾空白',
-    ],
-    [
-      'modifyHostileAwareness 倍率',
-      [{ kind: 'modifyHostileAwareness', rangeMultiplier: 1, durationMs: 1 }],
-      'items[0].use.effects[0].rangeMultiplier: 期望 0 或 3',
-    ],
-  ] as const)('%s拒绝（target:scene 同型场景效果正控、单字段破坏）', (_label, badEffects, error) => {
-    const control = { kind: 'runSceneHook', hook: 'onTeleport' }
-    expectAcceptsUnchanged((value) => validateItems(value), [sceneItem([control])])
-    const bad = [sceneItem(badEffects)]
-    expectRejectUnchanged((value) => validateItems(value), bad, error)
+      error: 'items[0].use.effects[0].resource: 稳定 id 不得包含首尾空白',
+    },
+    {
+      label: 'modifyHostileAwareness 倍率',
+      control: [{ kind: 'modifyHostileAwareness', rangeMultiplier: 3, durationMs: 1 }],
+      bad: [{ kind: 'modifyHostileAwareness', rangeMultiplier: 1, durationMs: 1 }],
+      error: 'items[0].use.effects[0].rangeMultiplier: 期望 0 或 3',
+    },
+  ] as const)('$label拒绝（target:scene 同kind场景效果基线先过真实守卫、仅改所测字段）', ({
+    control,
+    bad,
+    error,
+  }) => {
+    expectAcceptsUnchanged((value) => validateItems(value), [sceneItem(control)])
+    expectRejectUnchanged((value) => validateItems(value), [sceneItem(bad)], error)
   })
 
   test('craftRecipe 配方材料叶拒绝（scene 载体、完整配方正控）', () => {
@@ -265,6 +301,17 @@ describe('G8 checkThrowSpec 残差', () => {
     strength: { kind: 'fixed', value: 1 },
   })
 
+  const casterAttackMagic = () => ({
+    kind: 'magicDamage',
+    baseDamage: 1,
+    element: 'none',
+    strength: {
+      kind: 'casterAttack',
+      bonus: 0,
+      multiplier: { kind: 'uniformInt', min: 0, max: 3 },
+    },
+  })
+
   test('投掷效果全分支正控（含完整 magicDamage/casterAttack 强度）', () => {
     expectAcceptsUnchanged((value) => checkThrowSpec(value), {
       target: 'oneEnemy',
@@ -291,40 +338,49 @@ describe('G8 checkThrowSpec 残差', () => {
   })
 
   test.each([
-    ['kind 非字符串', 42, 'throw.effects[0].kind: 期望 string'],
-    [
-      '未知元素',
-      {
+    {
+      label: 'kind 非字符串',
+      control: { kind: 'fixedDamage', amount: 5 },
+      bad: 42,
+      error: 'throw.effects[0].kind: 期望 string',
+    },
+    {
+      label: '未知元素',
+      control: legalMagic(),
+      bad: {
         kind: 'magicDamage',
         baseDamage: 1,
         element: 'metal',
         strength: { kind: 'fixed', value: 1 },
       },
-      'throw.effects[0].element: 未知投掷元素 metal',
-    ],
-    [
-      '强度 kind',
-      {
+      error: 'throw.effects[0].element: 未知投掷元素 metal',
+    },
+    {
+      label: '强度 kind',
+      control: casterAttackMagic(),
+      bad: {
         kind: 'magicDamage',
         baseDamage: 1,
         element: 'none',
         strength: { kind: 'gauss', value: 1 },
       },
-      'throw.effects[0].strength.kind: 期望 fixed/casterAttack',
-    ],
-    [
-      '强度 multiplier kind',
-      {
+      error: 'throw.effects[0].strength.kind: 期望 fixed/casterAttack',
+    },
+    {
+      label: '强度 multiplier kind',
+      control: casterAttackMagic(),
+      bad: {
         kind: 'magicDamage',
         baseDamage: 1,
         element: 'none',
         strength: { kind: 'casterAttack', bonus: 0, multiplier: { kind: 'gauss', min: 0, max: 3 } },
       },
-      'throw.effects[0].strength.multiplier.kind: 期望 uniformInt',
-    ],
-    [
-      '强度 min 负',
-      {
+      error: 'throw.effects[0].strength.multiplier.kind: 期望 uniformInt',
+    },
+    {
+      label: '强度 min 负',
+      control: casterAttackMagic(),
+      bad: {
         kind: 'magicDamage',
         baseDamage: 1,
         element: 'none',
@@ -334,11 +390,12 @@ describe('G8 checkThrowSpec 残差', () => {
           multiplier: { kind: 'uniformInt', min: -1, max: 3 },
         },
       },
-      'throw.effects[0].strength.multiplier: min/max 不得小于 0',
-    ],
-    [
-      '强度 min>max',
-      {
+      error: 'throw.effects[0].strength.multiplier: min/max 不得小于 0',
+    },
+    {
+      label: '强度 min>max',
+      control: casterAttackMagic(),
+      bad: {
         kind: 'magicDamage',
         baseDamage: 1,
         element: 'none',
@@ -348,11 +405,12 @@ describe('G8 checkThrowSpec 残差', () => {
           multiplier: { kind: 'uniformInt', min: 3, max: 1 },
         },
       },
-      'throw.effects[0].strength.multiplier: min 不得大于 max',
-    ],
-    [
-      '强度 bonus 负',
-      {
+      error: 'throw.effects[0].strength.multiplier: min 不得大于 max',
+    },
+    {
+      label: '强度 bonus 负',
+      control: casterAttackMagic(),
+      bad: {
         kind: 'magicDamage',
         baseDamage: 1,
         element: 'none',
@@ -362,44 +420,64 @@ describe('G8 checkThrowSpec 残差', () => {
           multiplier: { kind: 'uniformInt', min: 0, max: 3 },
         },
       },
-      'throw.effects[0].strength.bonus: 不得小于 0',
-    ],
-    ['fixedDamage 零', { kind: 'fixedDamage', amount: 0 }, 'throw.effects[0].amount: 期望正数'],
-    [
-      'applyPoison 空毒 id',
-      { kind: 'applyPoison', poisonId: '' },
-      'throw.effects[0].poisonId: 期望非空稳定 id',
-    ],
-    [
-      'currentHpDamage 分子',
-      { kind: 'currentHpDamage', numerator: 0, denominator: 2 },
-      'throw.effects[0].numerator: 期望正数',
-    ],
-    [
-      'applyStatus 未知状态',
-      { kind: 'applyStatus', status: 'bogus', turns: 1 },
-      'throw.effects[0].status: 未知状态 bogus',
-    ],
-    [
-      'applyStatus onResist',
-      { kind: 'applyStatus', status: 'sleep', turns: 1, onResist: 'x' },
-      'throw.effects[0].onResist: 期望 continue/stopTarget',
-    ],
-    [
-      'killIfHpAtMost 上界',
-      { kind: 'killIfHpAtMost', percent: 101 },
-      'throw.effects[0].percent: 不得大于 100',
-    ],
-    [
-      'damageAndHealCaster 零伤害',
-      { kind: 'damageAndHealCaster', damage: 0, heal: 1 },
-      'throw.effects[0].damage: 期望正数',
-    ],
-  ] as const)('%s拒绝（完整同型投掷正控、单字段破坏）', (_label, badEffect, error) => {
-    const control = { target: 'oneEnemy', effects: [legalMagic()] }
-    expectAcceptsUnchanged((value) => checkThrowSpec(value), control)
-    const bad = { target: 'oneEnemy', effects: [badEffect] }
-    expectRejectUnchanged((value) => checkThrowSpec(value), bad, error)
+      error: 'throw.effects[0].strength.bonus: 不得小于 0',
+    },
+    {
+      label: 'fixedDamage 零',
+      control: { kind: 'fixedDamage', amount: 5 },
+      bad: { kind: 'fixedDamage', amount: 0 },
+      error: 'throw.effects[0].amount: 期望正数',
+    },
+    {
+      label: 'applyPoison 空毒 id',
+      control: { kind: 'applyPoison', poisonId: 'poison.551' },
+      bad: { kind: 'applyPoison', poisonId: '' },
+      error: 'throw.effects[0].poisonId: 期望非空稳定 id',
+    },
+    {
+      label: 'currentHpDamage 分子',
+      control: { kind: 'currentHpDamage', numerator: 1, denominator: 2, bonus: 0, cap: 9 },
+      bad: { kind: 'currentHpDamage', numerator: 0, denominator: 2 },
+      error: 'throw.effects[0].numerator: 期望正数',
+    },
+    {
+      label: 'applyStatus 未知状态',
+      control: { kind: 'applyStatus', status: 'sleep', turns: 1, onResist: 'continue' },
+      bad: { kind: 'applyStatus', status: 'bogus', turns: 1 },
+      error: 'throw.effects[0].status: 未知状态 bogus',
+    },
+    {
+      label: 'applyStatus onResist',
+      control: { kind: 'applyStatus', status: 'sleep', turns: 1, onResist: 'continue' },
+      bad: { kind: 'applyStatus', status: 'sleep', turns: 1, onResist: 'x' },
+      error: 'throw.effects[0].onResist: 期望 continue/stopTarget',
+    },
+    {
+      label: 'killIfHpAtMost 上界',
+      control: { kind: 'killIfHpAtMost', percent: 30 },
+      bad: { kind: 'killIfHpAtMost', percent: 101 },
+      error: 'throw.effects[0].percent: 不得大于 100',
+    },
+    {
+      label: 'damageAndHealCaster 零伤害',
+      control: { kind: 'damageAndHealCaster', damage: 1, heal: 1 },
+      bad: { kind: 'damageAndHealCaster', damage: 0, heal: 1 },
+      error: 'throw.effects[0].damage: 期望正数',
+    },
+  ] as const)('$label拒绝（同kind合法投掷基线先过真实守卫、仅改所测字段）', ({
+    control,
+    bad,
+    error,
+  }) => {
+    expectAcceptsUnchanged((value) => checkThrowSpec(value), {
+      target: 'oneEnemy',
+      effects: [control],
+    })
+    expectRejectUnchanged(
+      (value) => checkThrowSpec(value),
+      { target: 'oneEnemy', effects: [bad] },
+      error,
+    )
   })
 
   test('target 域与 presentation 正负控', () => {

@@ -99,4 +99,11 @@ docs/testing/coverage-plus5/README.md。核clean并fetch；复用已合入的typ
   R3 两针描述按 runner 实情勘误（effect-id-dup=删重复门、item-status-dup=if (false)），
   回执/机账按最终树刷新。复验：定向 111/111、单轴自证 3/3、负控 8 针各恰红、
   全 content **92 文件 1133/1133**、TC 0、改动 Biome 0 error（3 故意针面 warning）、docs PASS。
+- r2 窄返工（2026-09-26，仅 R1/R2 残项与勘误，见 origin/main `docs/testing/guard-wave3-r2-review.md`）：
+  R1 角色/场景/投掷三表改为**逐行同kind合法基线**（先过真实守卫再单字段破坏；gate chance=100 合法
+  正控在列，审查席上限门无条件拒绝变异被候选恰红抓住）；R2 全部八文件对象/数组拒绝调用经
+  `expectRejectUnchanged`/显式快照对逐次保护（审计脚本清零），审查席敌 transition 抛错前污染 kind
+  变异被候选恰红抓住；删除 G3 冗余重复坏 wipe 用例，负控两针描述上一轮已按 runner 实情勘误。
+  复验：定向 110/110、负控自测 10 例+对照+8 针各恰红、全 content **92 文件 1132/1132**、TC 0、
+  改动 Biome 0 error（3 故意针面 warning）、docs PASS、diff --check 干净。
   候选 SHA：见本分支头部提交；不合 main、不标 done，交 Codex 独立验收。

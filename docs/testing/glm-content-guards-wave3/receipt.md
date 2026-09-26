@@ -36,7 +36,7 @@
 | G7 | record-skills-poisons.guard-residual.test.ts | validate-skills-poisons.boundaries（毒 16 条矩阵/顶层形状）、validate.test 技能执行分支/敌方 execution/cost items/lifetimeLimit/音效 AssetId | execution.player.animation 正控与音效叶、prepare 未知 kind/剩余 MP 语义、animation effectSprite/落点/数值字段/keepEffect、summon·trance 新旧字段界、resourceDelta 资源域；validatePoisons 冻结零缺仅正控引用 | 9 |
 | G8 | record-items.guard-residual.test.ts | validate.test C8 用途契约（合法三用途/gate 缺省/傀儡/15 条非法 each/投掷空效果/8 条安全整数 each/私有脚本/配方资源池/自消耗/装备映射）、validate-author-items.boundaries、validate-author.test | use 效果 kind 域与 extraPoisonRes/applyStatus/removeStatus/applyPoison/curePoison/permanentStatBoost/gate/runSceneHook/craftRecipe·products/drawFromResourcePool·maxRoll/modifyHostileAwareness/scaleCurrentHp/levelUp/dieIfNotPoisoned/placeEntityInFront 唯一效果各臂；checkThrowSpec 元素/强度 kind/casterAttack·multiplier 全分支/fixedDamage/applyPoison/currentHpDamage/applyStatus onResist/killIfHpAtMost/damageAndHealCaster/target/presentation；顶层 id/battleOnly/menuAfterUse/上下文组合/装备叶；作者物品核 kind/label/上下文叶 | 39 |
 
-合计 **111 行**（G3 含一条精确性自证用例）。每拒绝行：先同入口同形状合法正控（确实执行）、只破一轴、`expectExactError` 完整 message
+合计 **110 行**（r2 返工删除了 G3 末尾冗余的重复坏 wipe 调用用例——它不构成独立合同，审查指出其名不副实）。每拒绝行：先同入口同形状合法正控（确实执行）、只破一轴、`expectExactError` 完整 message
 全等、对象/数组实际入参 `deepSnapshot` 前后比较；复用 wave2 已验收的
 `__tests__/guard-leaf-fixtures.ts` 助手（expectExactError/expectAcceptsUnchanged，正控意外抛出呈
 AssertionError），未新造 fixture 文件。行数为选题结果，不与新增分支数挂钩；池内疑似噪声行
@@ -65,9 +65,9 @@ AssertionError），未新造 fixture 文件。行数为选题结果，不与新
 
 ## 统一门禁（本批范围，最终树实测）
 
-- 定向八文件：111/111 exit 0（新鲜 JSON，复跑两次均绿）。
-- 全 content：**92 文件 1133/1133** exit 0（新鲜 JSON `/tmp/wave3r3-content.json`；基线 8add8c66 的
-  content 已含主线资源批增量，本批净增恰 111 行测试身份）。
+- 定向八文件：110/110 exit 0（新鲜 JSON）。
+- 全 content：**92 文件 1132/1132** exit 0（新鲜 JSON `/tmp/wave3r4-content.json`；基线 8add8c66 的
+  content 已含主线资源批增量，本批净增恰 110 行测试身份）。
 - TC：`pnpm --filter @type-pal/content run typecheck` exit 0。
 - Biome（本批改动文件：八测试 + 本目录三文件）：0 error；仅 guard-residual-mutants.mjs 三个
   `noTemplateCurlyInString` warning——负控针内故意保留的生产源码模板字面量，单列不与 error 混算。
