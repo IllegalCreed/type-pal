@@ -8,6 +8,8 @@
 
 ## 文档与附件
 
+- [E2内容校验解环与嵌套对话修复](content-validation-refactor.md)、[出口/运行期依赖图复算](content-validation-refactor-audit.mjs)（缺陷修复与结构拆分分提交，13项回归；与D1统一门禁，不混入r11候选统计）
+
 - [D1第一阶段依赖环拆分](phase1-dependency-refactor.md)、[只读等价/依赖图工具](phase1-dependency-refactor-audit.mjs)、[三针所有权反控](phase1-dependency-refactor-mutants.mjs)（六个下层所有者、旧出口/161函数核对；本批质量门按回执登记）
 
 - [GLM 战场命令族拆分回执与Codex验收](glm-arch-battle-field-commands.md)及[done任务卡](../ops/archive/tasks/done/ARCH-F2-EDITOR-BATTLE-FIELD-COMMANDS-1.md)（83833719机械搬移保真；156项/两针/check8657/受保护strict8165/644与隔离功能核验通过，F2整体未完成）

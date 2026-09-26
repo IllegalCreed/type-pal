@@ -1,0 +1,369 @@
+{
+  "schemaVersion": 1,
+  "base": "8bf40b90",
+  "productCandidate": "d488f72e",
+  "bugFix": "ebef3d5a",
+  "contentRefactor": "4cdefcf1",
+  "owner": "Codex",
+  "independentThirdParty": false,
+  "d1": {
+    "beforeScc": [
+      [
+        "packages/game/src/core/battle/battle-opcodes.ts",
+        "packages/game/src/core/equip-effect.ts",
+        "packages/game/src/core/event-system.ts",
+        "packages/game/src/core/menu/magic-script.ts",
+        "packages/game/src/core/menu/menu-driver.ts",
+        "packages/game/src/core/menu/menu-mode.ts",
+        "packages/game/src/core/scene-system.ts"
+      ]
+    ],
+    "afterScc": [],
+    "preservedExports": {
+      "event-system.ts": 186,
+      "scene-system.ts": 10,
+      "equip-effect.ts": 14,
+      "battle/battle-opcodes.ts": 1,
+      "menu/menu-driver.ts": 14,
+      "menu/menu-mode.ts": 3,
+      "menu/magic-script.ts": 2
+    },
+    "functionBodiesChecked": 161,
+    "movedFunctions": [
+      {
+        "name": "patchGiveItemZeroBugs",
+        "from": "event-system.ts",
+        "to": "script-catalog.ts"
+      },
+      {
+        "name": "setGlobalEvents",
+        "from": "event-system.ts",
+        "to": "script-catalog.ts"
+      },
+      {
+        "name": "getGlobalCommands",
+        "from": "event-system.ts",
+        "to": "script-catalog.ts"
+      },
+      {
+        "name": "getGlobalLabelMap",
+        "from": "event-system.ts",
+        "to": "script-catalog.ts"
+      },
+      {
+        "name": "getCmds",
+        "from": "event-system.ts",
+        "to": "script-catalog.ts"
+      },
+      {
+        "name": "getLabels",
+        "from": "event-system.ts",
+        "to": "script-catalog.ts"
+      },
+      {
+        "name": "resolveLabelIp",
+        "from": "event-system.ts",
+        "to": "script-catalog.ts"
+      },
+      {
+        "name": "resolveScriptLabel",
+        "from": "event-system.ts",
+        "to": "script-catalog.ts"
+      },
+      {
+        "name": "setObjectPoisons",
+        "from": "event-system.ts",
+        "to": "player-poison-state.ts"
+      },
+      {
+        "name": "addItemToInventory",
+        "from": "event-system.ts",
+        "to": "inventory-state.ts"
+      },
+      {
+        "name": "consumeItemFromInventory",
+        "from": "event-system.ts",
+        "to": "inventory-state.ts"
+      },
+      {
+        "name": "isPlayerPoisoned",
+        "from": "event-system.ts",
+        "to": "player-poison-state.ts"
+      },
+      {
+        "name": "curePlayerPoisonByKind",
+        "from": "event-system.ts",
+        "to": "player-poison-state.ts"
+      },
+      {
+        "name": "addPoisonForPlayer",
+        "from": "event-system.ts",
+        "to": "player-poison-state.ts"
+      },
+      {
+        "name": "removePoisonLevel99",
+        "from": "event-system.ts",
+        "to": "player-poison-state.ts"
+      },
+      {
+        "name": "curePlayerPoisonByLevel",
+        "from": "event-system.ts",
+        "to": "player-poison-state.ts"
+      },
+      {
+        "name": "getCurrentMapNum",
+        "from": "scene-system.ts",
+        "to": "scene-identity.ts"
+      },
+      {
+        "name": "setCurrentMapNum",
+        "from": "scene-system.ts",
+        "to": "scene-identity.ts"
+      },
+      {
+        "name": "getPlayerAttackStrength",
+        "from": "equip-effect.ts",
+        "to": "equipment-state.ts"
+      },
+      {
+        "name": "getPlayerMagicStrength",
+        "from": "equip-effect.ts",
+        "to": "equipment-state.ts"
+      },
+      {
+        "name": "getPlayerDefense",
+        "from": "equip-effect.ts",
+        "to": "equipment-state.ts"
+      },
+      {
+        "name": "getPlayerDexterity",
+        "from": "equip-effect.ts",
+        "to": "equipment-state.ts"
+      },
+      {
+        "name": "getPlayerFleeRate",
+        "from": "equip-effect.ts",
+        "to": "equipment-state.ts"
+      },
+      {
+        "name": "getPlayerPoisonResistance",
+        "from": "equip-effect.ts",
+        "to": "equipment-state.ts"
+      },
+      {
+        "name": "resyncBattleRoleStatsFromRuntime",
+        "from": "equip-effect.ts",
+        "to": "equipment-state.ts"
+      },
+      {
+        "name": "writeEquipmentEffectField",
+        "from": "equip-effect.ts",
+        "to": "equipment-state.ts"
+      },
+      {
+        "name": "addPlayerStatRow",
+        "from": "equip-effect.ts",
+        "to": "equipment-state.ts"
+      },
+      {
+        "name": "setPlayerStatRow",
+        "from": "equip-effect.ts",
+        "to": "equipment-state.ts"
+      },
+      {
+        "name": "removeEquipmentEffect",
+        "from": "equip-effect.ts",
+        "to": "equipment-state.ts"
+      },
+      {
+        "name": "resumeAfterMenusClosed",
+        "from": "menu/menu-mode.ts",
+        "to": "menu/menu-stack.ts"
+      },
+      {
+        "name": "openMenu",
+        "from": "menu/menu-mode.ts",
+        "to": "menu/menu-stack.ts"
+      },
+      {
+        "name": "closeTopMenu",
+        "from": "menu/menu-mode.ts",
+        "to": "menu/menu-stack.ts"
+      }
+    ],
+    "routingChanges": [
+      "tickAutoScripts: one synchronous read through the shared catalog getter",
+      "loadScene: one synchronous assignment through the shared identity setter"
+    ],
+    "sourceHashes": {
+      "packages/game/src/core/battle/battle-opcodes.ts": "ee75e465d011daff012dbc852402016c465dd9913b417d903aead08828917419",
+      "packages/game/src/core/dependency-ownership.test.ts": "21ff3e7739eca1c54ce5d6000300cb82ee08ce8c8c44ddf11014226fb369bf1e",
+      "packages/game/src/core/equip-effect.ts": "06fb86b9d7ec3526062b066f0e61fff0c4cb783635c5583b4e3d9cddda3ed602",
+      "packages/game/src/core/equipment-state.ts": "5ebe8ee7d1c0ad76f6867253aaaa9875ea473a776afb27a00edca9c21999ed5c",
+      "packages/game/src/core/event-system.ts": "77dd981390617a3617ed67d2c2c919e6aec9cd9b93ce2d21f107baed2fa89fcf",
+      "packages/game/src/core/inventory-state.ts": "61bedc73a9a72cd587b7bb202162528b4c2ad5e1bd5dfd9c6d0eea35ec0d8d25",
+      "packages/game/src/core/menu/magic-script.ts": "ed17cafba112e9f2dcbe2f44f7ad7eb4d687fd5cd272271910506c0b08393220",
+      "packages/game/src/core/menu/menu-driver.ts": "ee2eda0c65e20975ad96955b1fe729c29a59126b0513304ca60a21f5c263aaeb",
+      "packages/game/src/core/menu/menu-mode.ts": "1c5338f6cecc3c25747e91281d6242944a0aefa964259e4ad7e6cffb1adc3d82",
+      "packages/game/src/core/menu/menu-stack.ts": "1a9681b2b26ccb5524486f25083659a0ab0fa4e4d765147e3b2702d0d0e5a7e2",
+      "packages/game/src/core/player-poison-state.ts": "074b4318ac0b92d6e9a5621e23ea84303a335056b83a60803e6690a690de214c",
+      "packages/game/src/core/scene-identity.ts": "8e47a8b7ff7e1d3b360f5984f819b207e480581b4c2042f98ef1abe0681b89ef",
+      "packages/game/src/core/scene-system.ts": "9b11dd7e866210a15dc7e57087fa230a2ab22593f64cc6b5eb4d441948ef2f64",
+      "packages/game/src/core/script-catalog.ts": "15b8c7b86a9d2125198054a32305b4fb83ef8dff15ccde4865e5af2dc301606b"
+    }
+  },
+  "e2": {
+    "before": [
+      ["packages/content/src/author-script-core.ts", "packages/content/src/enemy-script.ts"]
+    ],
+    "after": [],
+    "exports": {
+      "author-script-core.ts": {
+        "count": 52,
+        "equal": true
+      },
+      "enemy-script.ts": {
+        "count": 19,
+        "equal": true
+      }
+    },
+    "preservedFunctionCount": 50,
+    "movedFunctionCount": 11,
+    "bodyParityBase": "ebef3d5a"
+  },
+  "checks": {
+    "targeted": {
+      "passed": 554,
+      "failed": 0,
+      "files": 7
+    },
+    "ownershipAndExistingCrossModule": {
+      "passed": 12,
+      "failed": 0
+    },
+    "mutants": {
+      "temp": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-d1-mutants-oep9SP",
+      "results": [
+        {
+          "id": "control",
+          "exit": 0,
+          "executed": 8,
+          "verdict": "passed"
+        },
+        {
+          "id": "catalog-copy",
+          "exit": 1,
+          "executed": 1,
+          "verdict": "detected"
+        },
+        {
+          "id": "map-write-lost",
+          "exit": 1,
+          "executed": 1,
+          "verdict": "detected"
+        },
+        {
+          "id": "poison-runner-lost",
+          "exit": 1,
+          "executed": 1,
+          "verdict": "detected"
+        }
+      ],
+      "originalHashes": [
+        "15b8c7b86a9d2125198054a32305b4fb83ef8dff15ccde4865e5af2dc301606b",
+        "8e47a8b7ff7e1d3b360f5984f819b207e480581b4c2042f98ef1abe0681b89ef",
+        "074b4318ac0b92d6e9a5621e23ea84303a335056b83a60803e6690a690de214c"
+      ]
+    },
+    "typecheck": 0,
+    "changedFilesBiome": 0,
+    "docs": 0,
+    "fullCheck": {
+      "exit": 0,
+      "tests": 8678,
+      "log": "/tmp/codex-d1-check.log",
+      "sha256": "567240bc257775edb769d1d4700f81d8295555aa2cf25ffd2ec82bea1b787a14"
+    },
+    "productionBuild": {
+      "exit": 0,
+      "log": "/tmp/codex-d1-build.log",
+      "largeChunkWarning": true
+    },
+    "ratchet": {
+      "exit": 0,
+      "log": "/tmp/codex-d1-ratchet.log",
+      "sha256": "f0cc70f742fe54ed85af4c0101c77b7b83b34d9c12aba137aa01a49008c720ef"
+    },
+    "strict": {
+      "status": "passed",
+      "exit": 0,
+      "tests": 8186,
+      "productionFiles": 654,
+      "protectedRef": "8bf40b90",
+      "log": "/tmp/codex-d1-strict.log"
+    }
+  },
+  "baseline": {
+    "before": {
+      "files": 644,
+      "tests": 8165,
+      "metrics": {
+        "statements": {
+          "covered": 61237,
+          "total": 80619
+        },
+        "branches": {
+          "covered": 43254,
+          "total": 63176
+        },
+        "functions": {
+          "covered": 11385,
+          "total": 15036
+        },
+        "lines": {
+          "covered": 55132,
+          "total": 70572
+        }
+      }
+    },
+    "after": {
+      "files": 654,
+      "tests": 8186,
+      "metrics": {
+        "statements": {
+          "covered": 61240,
+          "total": 80619
+        },
+        "branches": {
+          "covered": 43261,
+          "total": 63176
+        },
+        "functions": {
+          "covered": 11385,
+          "total": 15036
+        },
+        "lines": {
+          "covered": 55132,
+          "total": 70570
+        }
+      }
+    },
+    "unchangedPackages": ["shared", "pal-extract", "migrate", "reforge", "editor"],
+    "glmR11SelectedTestsIncluded": false
+  },
+  "visual": {
+    "origin": "http://127.0.0.1:6006/?skip-intro=1",
+    "actual": [
+      "PAL room rendered",
+      "Escape opened four-entry menu",
+      "Return opened Li Xiaoyao status page",
+      "HP 150/150; MP 100/100; attack 35; equipment visible",
+      "Escape returned to exploration"
+    ],
+    "pageErrors": [],
+    "userSavesWritten": false,
+    "temporaryTabClosed": true,
+    "temporaryServerStopped": true,
+    "claim": "minimum functional verification, not story E2E or rendering pixel equivalence"
+  }
+}

@@ -21,6 +21,8 @@
 
 ## 可重建验证
 
+[统一机账](phase1-dependency-refactor-evidence.json)保存D1/E2静态核验、源hash、测试、反控与质量门结果。
+
 ```bash
 node docs/testing/phase1-dependency-refactor-audit.mjs
 node docs/testing/phase1-dependency-refactor-mutants.mjs
@@ -37,5 +39,11 @@ env -u NODE_COMPILE_CACHE pnpm --filter @type-pal/game run typecheck
 
 ## 统一门禁与接入
 
-待完整check、官方ratchet、保护原基线的单次strict-fast及最小功能验证后登记。本批与E2同批收口，**不混入GLM r11四项拟接入副本或其基线**；r11继续独立复核分支，剩余视觉归GLM。
+完整check **8678项exit0** → 官方ratchet **exit0** → 保护`8bf40b90`的单次strict-fast **8186项/654生产文件exit0**。三步串行、去除NODE_COMPILE_CACHE；未以重试多数放行。生产build通过（保留既有大chunk提示），新增脚本/改动文件Biome与docs/diff通过；全仓47 warnings/6 infos既有项未增。
+
+原基线8165/644，本批E2新增13项、D1新增8项，原生产文件全部保留、新增10个下层模块。全仓语句61240/80619（75.96%）、分支43261/63176（68.48%）、函数11385/15036（75.72%）、行55132/70570（78.12%）；结构变化令行分母减少2，不称同分母纯补测提升。shared/pal-extract/migrate/reforge/editor五包完整基线对象逐字不变。
+
+本批D1与E2由Codex核定**accept/该两项收口**，整体ARCH-CONTINUATION-1仍build、其它九项未完成。**不混入GLM r11四项拟接入副本或其基线**；r11继续独立复核分支，剩余视觉归GLM。
+
+最小功能验证：独立`http://127.0.0.1:6006/?skip-intro=1`加载正式PAL提取资源，真实浏览器Escape开菜单→Return进入李逍遥状态页（体力150/150、真气100/100、武术35及装备可见）→Escape回到探索画面。页面无error日志；不读写用户存档，不以此证明剧情。临时标签及本人Vite进程已关闭，未触碰6010/6051。
 不改SAVE8/content20、资产、生成工程、官方统计选择/超时/阈值；剧情E2E/full/Q1/Q2不借本批完成。
