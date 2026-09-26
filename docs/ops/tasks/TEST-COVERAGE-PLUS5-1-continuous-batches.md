@@ -34,7 +34,7 @@ Codex明确采用**分支覆盖率绝对增加5个百分点**，已创建本会�
 
 | Owner | 本批 | 范围 |
 |---|---|---|
-| GLM | [八组脚本与数据守卫](TEST-GLM-CONTENT-GUARDS-3-script-and-records.md) | content四模块的新测试、专属fixture与证据；生产零改 |
+| GLM | [八组脚本与数据守卫](../archive/tasks/done/TEST-GLM-CONTENT-GUARDS-3-script-and-records.md) | done；110新增/260分支，生产零改 |
 | Cursor | [八组编辑命令](../archive/tasks/done/TEST-CURSOR-COMMAND-BOUNDARIES-3-editor-residuals.md) | 既有白名单保持，不重派 |
 | 本会话Codex | 迁移转换链自包含补测 | 优先migrate-content纯转换与审计消费者；实施前独立核定小批范围，禁止主树迁移写盘 |
 | 另一Codex会话 | [架构治理](../archive/tasks/done/ARCH-CONTINUATION-1-remaining-queue.md) | A3及后续产品所有权；本卡不改其实现文件 |
@@ -93,3 +93,8 @@ Codex明确采用**分支覆盖率绝对增加5个百分点**，已创建本会�
   当前45786/63288=72.34546833522943%，目标仍73.72328975276204%，当前分母需46658，尚差872B。
   十批纯补测合计+2107B；架构统一集成另列+261已覆盖分支/+110分母、701→728文件，不混作纯补测贡献。
   GLM16e647a1残两counter与帧编辑在途测试未计入。母目标仍build，详见持续队列。
+
+- 2026-09-27第十一批：[GLM同步守卫](../../testing/guard-wave3-integration.md)6a114727独立accept并收口。
+  check9712→ratchet→保护efab10f3的单次strict9220/728首次通过；新增110项，实际+260B/+184L。
+  当前46046/63288=72.7562887119201%，相对起点+4.033pp，当前目标46658，尚差612B。
+  十一批纯补测合计+2367B，架构另列+261已覆盖分支/+110分母；母目标仍build，帧编辑WIP未计入。

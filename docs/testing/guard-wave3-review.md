@@ -4,7 +4,7 @@
 [返工复核与新提示词](guard-wave3-r2-review.md)。下文是 `a00f12c2` 首轮反证，已修八个非法正控与
 initial污染不再重开；剩余敌转移污染/同型正控问题以新报告为准。
 
-[任务卡](../ops/tasks/TEST-GLM-CONTENT-GUARDS-3-script-and-records.md) /
+[任务卡](../ops/archive/tasks/done/TEST-GLM-CONTENT-GUARDS-3-script-and-records.md) /
 [见证工具](guard-wave3-review-witnesses.mjs) / [隔离配置](guard-wave3-review.config.mjs)
 
 2026-09-26，候选 `a00f12c224b58ef5a2cbc92f3eaab96cbaafe55e`，基点 `4c1c5038`。

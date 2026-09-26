@@ -1,12 +1,22 @@
 # TEST-GLM-CONTENT-GUARDS-3 — 八组同步脚本与记录守卫补测
 
-Status: rework
+Status: done
 Owner: GLM
 Reviewer / Integration Owner: Codex
 Phase: phase2
 Visual Verification Timing: N/A（不测视觉/异步宿主，不声明玩法验证）
 Production Base: `8add8c66`
 Branch: `codex/glm-content-guards-wave3`
+
+## 2026-09-27 Codex统一收口
+
+候选`6a114727`独立accept，R1–R3及历轮残项全部闭合。统一集成`7a1cf54f`后，
+完整check9712、官方ratchet及保护efab10f3的单次strict9220/728全部首次通过。
+原生产、旧测试、配置、资产零改；净增260分支/184行，所有分母与另外六包基线对象不变。
+本卡是纯测试包，由Codex依当前委派模式核定done，无需用户UI复验或固定他席签字；未代签。
+[独立接收与门禁证据](../../../../testing/guard-wave3-integration.md)。
+GLM无需返工，无下一位Agent提示词；母覆盖目标、full/E2E/Q1/Q2不随本卡关闭。
+下方旧提示词与counter保留为历史，已由本节替代当前行动。
 
 ## 准入与真值
 
@@ -64,9 +74,16 @@ before→after只有测试增量。最强替代解释是旧用例已覆盖或零
 
 ## 下一位GLM提示词
 
+### 2026-09-27 Codex 最终实现接收 `6a114727`
+
+实现 **accept**，R1–R3及最后R2输入快照反证已全部闭合。onDefeated实际具名输入调用前深快照、
+抛错后立即比较；本席独立单点污染变异由7/7绿翻为6绿/1候选AssertionError，源码/测试hash不变。
+八文件110/110、TC/Biome独立通过。进入统一集成check→ratchet→单次受保护strict流程；
+完成前不标done，不把主工作树帧动画在途测试混入。GLM为贡献者，作者自验不是独立第三方证明。
+
 ### 2026-09-26 Codex 定点接收 `6b371144`
 
-**counter，仅R2一处**，见[本席直接反证与提示词](../../testing/guard-wave3-r3-review.md)。
+**counter，仅R2一处**，见[本席直接反证与提示词](../../../../testing/guard-wave3-r3-review.md)。
 R1 gate过拒及R2原敌transition污染两针已由候选自身抓住，fade/wipe/emptyStages已闭，不重开。
 110新增、全content1132、原八针/10判据自测、TC/Biome/docs独立通过；白名单/生产零diff成立。
 但enemy-hook:179匿名`{}`的onDefeated拒绝仍无快照，抛原错前加属性后候选7/7仍绿，
@@ -74,14 +91,14 @@ R1 gate过拒及R2原敌transition污染两针已由候选自身抓住，fade/wi
 
 ### 2026-09-26 Codex 返工复核 `16e647a1`
 
-仍 **counter**，仅R1/R2残项与回执勘误，见[直接反证与可复制提示词](../../testing/guard-wave3-r2-review.md)。
+仍 **counter**，仅R1/R2残项与回执勘误，见[直接反证与可复制提示词](../../../../testing/guard-wave3-r2-review.md)。
 原八个输入合法化与initial污染反例已闭合，不重开；111对照/八针/全content1133/TC/Biome/docs通过。
 但“合法gate也拒绝”39/39仍绿、“未知敌转移拒绝时污染输入”7/7仍绿，本席各一独立oracle证实漏检。
 未合候选、不计官方统计、不标done。返工只补同型正控、全部拒绝调用快照和真实机账，不扩覆盖池。
 
 ### 2026-09-26 Codex 独立接收 a00f12c2
 
-**counter / R1–R3窄返工**，见[直接反证与返工提示](../../testing/guard-wave3-review.md)。
+**counter / R1–R3窄返工**，见[直接反证与返工提示](../../../../testing/guard-wave3-review.md)。
 本席复跑110项对照、八针、全content1132项、TC/Biome；白名单及生产零漂移通过。
 但8个“修正所测字段后仍非法”的真实实参反证、initial拒绝污染输入候选9/9仍绿，证明正控与快照
 合同未闭合。只返上述同型构造/逐次输入保真与回执勘误，不改候选语义、不计入覆盖、不开放done。
@@ -106,14 +123,14 @@ docs/testing/coverage-plus5/README.md。核clean并fetch；复用已合入的typ
   validate.test E18-1/C0/C8、skills-poisons boundaries、wave2 叶守卫 91 行等逐组核对，相同输入不重报。
 - 纪律：合法 fixture 先过真实公开 guard；单轴负例配同入口同形状正控；`expectExactError` 完整 message
   全等；对象/数组实际入参 deepSnapshot 前后比较；正控意外抛出呈 AssertionError。
-- 负控：[guard-residual-mutants.mjs](../../testing/glm-content-guards-wave3/guard-residual-mutants.mjs)
+- 负控：[guard-residual-mutants.mjs](../../../../testing/glm-content-guards-wave3/guard-residual-mutants.mjs)
   复用 wave2 同一 judge + 判据自测 10 例 + 110 项绿对照 + 8 针（每组一针）各恰红目标 fullName。
 - 门禁：定向 110/110、全 content **92 文件 1132/1132**、TC exit0（新鲜 JSON）；本批改动 Biome 0 error
   （3 个故意针面 warning 单列；runtime-script.ts 既有 warning 属分支继承）；docs PASS；diff --check 干净。
   未跑全仓门/逐组 coverage/整包对照（冻结池即选题依据）。
 - 未发现产品疑似缺陷；不可达臂如实不测（详见
-  [回执](../../testing/glm-content-guards-wave3/receipt.md) 与
-  [机账](../../testing/glm-content-guards-wave3/evidence.json)）。
+  [回执](../../../../testing/glm-content-guards-wave3/receipt.md) 与
+  [机账](../../../../testing/glm-content-guards-wave3/evidence.json)）。
 - 窄返工（2026-09-26，仅 R1–R3，见 origin/main `docs/testing/guard-wave3-review.md`）：
   R1 loop 三行由同一合法 loop 工厂派生（全部含 cond）、场景效果四行挂 target:scene 同型载体、
   投掷行以完整合法 magicDamage 为同型正控且各坏行只改单字段；R2 新增薄助手

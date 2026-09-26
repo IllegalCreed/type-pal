@@ -8,6 +8,10 @@
 
 ## 文档与附件
 
+- [GLM八组同步守卫接收与集成](guard-wave3-integration.md)（110项、最后输入保真反控闭合）。
+
+- [GLM守卫终轮独立反控](guard-wave3-final-review-witness.mjs)（6a114727实际拒绝输入保真）。
+
 - [剩余八项架构治理统一集成](architecture-continuation-integration.md)（分项证据、统一质量门与未证边界）。
 
 - [Codex当前命令弹层五组](codex-command-forms/README.md)（正式入口51项、输入保真与独立朝向清除红诊断）。

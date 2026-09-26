@@ -5,11 +5,11 @@
 2026-09-26冻结main8add8c66：43,418/63,178分支，68.72328975276204%。
 目标73.72328975276204%，冻结分母需46,577分支，净增3,159。起点8404 fast /701生产文件。
 不以删除代码、排除文件、降低门槛或无业务意义的重复测试达成目标；架构分母变动独立披露。
-最新：45,786/63,288（72.34546833522943%），9110 fast /728生产文件；当前分母目标46,658，仍差872分支。
+最新：46,046/63,288（72.7562887119201%），9220 fast /728生产文件；当前分母目标46,658，仍差612分支。
 
 | 批次 | Owner | 当前状态 | 已验收新增分支 |
 |---|---|---|---:|
-| [content八组同步守卫](../../ops/tasks/TEST-GLM-CONTENT-GUARDS-3-script-and-records.md) | GLM | [仅剩R2一处](../guard-wave3-r3-review.md)，onDefeated匿名对象拒绝输入保真 | 0（未验收） |
+| [content八组同步守卫](../../ops/archive/tasks/done/TEST-GLM-CONTENT-GUARDS-3-script-and-records.md) | GLM | [done，110项/独立反控/统一门通过](../guard-wave3-integration.md) | +260 |
 | [editor八组命令](../../ops/archive/tasks/done/TEST-CURSOR-COMMAND-BOUNDARIES-3-editor-residuals.md) | Cursor | done，29项/独立五组/统一门通过 | +48 |
 | [migrate纯转换链](../codex-migrate-pure/README.md) | Codex | done，83项/六针/统一门通过 | +527 |
 | [migrate当前汇总链](../codex-migrate-assembly/README.md) | Codex | done，49项/六针/统一门通过 | +169 |
@@ -79,4 +79,10 @@ check9602→ratchet→单次受保护strict9110通过。本批净增48B/39L，�
 归属分列：九批纯补测+2059B，本次+48B，合计+2107B；另一个Codex会话的
 [架构统一集成](../architecture-continuation-integration.md)单列+261已覆盖分支/+110分支分母，
 生产701→728文件，不能算成本卡纯补测贡献。当前比起点约+3.62pp，母目标尚未完成；
-GLM16e647a1仍counter、主工作树帧编辑在途测试均未计入。
+该快照时GLM16e647a1仍counter、主工作树帧编辑在途测试均未计入。
+
+2026-09-27第十一批：GLM6a114727最终R2反证闭合，110新增回归，独立接收后集成7a1cf54f。
+check9712→ratchet→保护efab10f3的单次strict9220/728首次全过；本批实际+260B/+184L/+226S/+7F。
+七包生产清单与分母不变，其他六包完整baseline对象不变；strict正式投影与ratchet基线全对象一致。
+当前46046/63288=**72.7562887119201%**，相对冻结起点+4.033pp，剩余612B。
+十一批纯补测累计+2367B，另列架构+261已覆盖分支/+110分母，母目标仍build；帧编辑在途未计入。

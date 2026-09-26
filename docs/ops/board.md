@@ -42,11 +42,14 @@ check8896/单次strict8404全过；实际+134分支/+73行，content分支85.55%
 
 | ID | 任务 | 状态 | 负责人/下一步 | 一句话备注 |
 |---|---|---|---|---|
-| TEST-COVERAGE-PLUS5-1 | [全仓分支+5pp持续队列](tasks/TEST-COVERAGE-PLUS5-1-continuous-batches.md) | build | Codex / 下一大批 | 十批补测+2107B；架构增量另列，当前72.35%/剩余872B；check9602/strict9110通过 |
+| TEST-COVERAGE-PLUS5-1 | [全仓分支+5pp持续队列](tasks/TEST-COVERAGE-PLUS5-1-continuous-batches.md) | build | Codex / 下一大批 | 十一批补测+2367B；架构增量另列，当前72.76%/剩余612B；check9712/strict9220通过 |
 | EDITOR-SCENE-FACING-1 | [切场景朝向清除](tasks/EDITOR-SCENE-FACING-1-clear-override.md) | draft | Codex / 后续窄修 | 保持选项仍提交旧方向；真实红诊断+单点oracle已证 |
 | EDITOR-PREVIEW-STEP-1 | [预览单步阶段门](tasks/EDITOR-PREVIEW-STEP-1-command-gates.md) | draft | Codex / 后续窄修 | 当前入口首次step无命令执行，红诊断已落，不随补测关闭 |
-| TEST-GLM-CONTENT-GUARDS-3 | [八组同步脚本与记录守卫](tasks/TEST-GLM-CONTENT-GUARDS-3-script-and-records.md) | rework | GLM / 最后一处R2 | 6b371144仅onDefeated匿名对象输入保真未闭；原两针已抓住，未计覆盖 |
 | ARCH-SUPPORT-GLM-1 | [八组并行架构/视觉准备](tasks/ARCH-SUPPORT-GLM-1-eight-audit-packages.md) | draft | Codex / 后续归属与收口 | 58cdf938材料accept，counter清零；文档已合入，按用户要求未标done/未开产品门 |
+
+2026-09-27 [GLM八组同步守卫](../testing/guard-wave3-integration.md)6a114727独立accept/done：
+最后R2实际输入保真反控闭合，110新增；check9712/ratchet/受保护单次strict9220通过。
+生产728文件与分母不变，净增260B/184L；content分支90.74%，全仓分支72.76%。
 
 2026-09-26 [Cursor八组命令残项](../testing/cursor-command-boundaries-r3-integration.md)a732f7d2独立accept/done：
 R1–R3清零，29新增/五作者针/五组独立见证；check9602、ratchet及保护449adb54的单次strict9110全过。

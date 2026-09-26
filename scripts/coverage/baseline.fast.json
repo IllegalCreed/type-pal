@@ -1,14 +1,14 @@
 {
   "schemaVersion": 2,
   "profile": "fast",
-  "generatedAt": "2026-09-26T14:12:20.550Z",
+  "generatedAt": "2026-09-26T15:21:57.042Z",
   "provider": {
     "name": "v8",
     "vitest": "4.1.7",
     "coverageV8": "4.1.7"
   },
   "sourceFileCount": 728,
-  "testCount": 9110,
+  "testCount": 9220,
   "packages": {
     "shared": {
       "name": "@type-pal/shared",
@@ -223,8 +223,8 @@
       ],
       "scopeDigest": "6b0f53f3a58ebe5227b9528cfce792383a19b27947a7c3d037471ceb6da40c7d",
       "fastTests": {
-        "testCount": 1022,
-        "testFileCount": 84,
+        "testCount": 1132,
+        "testFileCount": 92,
         "files": [
           "packages/content/src/actor-condition.boundaries.test.ts",
           "packages/content/src/actor-condition.test.ts",
@@ -238,13 +238,16 @@
           "packages/content/src/asset.resource-boundaries.test.ts",
           "packages/content/src/asset.test.ts",
           "packages/content/src/author-battle-dialogue-boundary.test.ts",
+          "packages/content/src/author-command.guard-residual.test.ts",
           "packages/content/src/author-dialogue.contracts.test.ts",
           "packages/content/src/author-dialogue.field-guards.test.ts",
           "packages/content/src/author-dialogue.test.ts",
+          "packages/content/src/author-flow.guard-residual.test.ts",
           "packages/content/src/author-script-core.test.ts",
           "packages/content/src/author-script-core.wave2.test.ts",
           "packages/content/src/author-script-current.boundaries.test.ts",
           "packages/content/src/author-script.current-characterization.test.ts",
+          "packages/content/src/author-state.guard-residual.test.ts",
           "packages/content/src/battle-choreography.leaf.test.ts",
           "packages/content/src/battle-field-reference.test.ts",
           "packages/content/src/battle-formulas.test.ts",
@@ -257,6 +260,7 @@
           "packages/content/src/command-target-reference.test.ts",
           "packages/content/src/enemy-ai-condition-guard.leaf.test.ts",
           "packages/content/src/enemy-ai.test.ts",
+          "packages/content/src/enemy-hook.guard-residual.test.ts",
           "packages/content/src/enemy-script.boundaries.test.ts",
           "packages/content/src/enemy-script.test.ts",
           "packages/content/src/enemy-script.wave2.test.ts",
@@ -280,6 +284,9 @@
           "packages/content/src/project-map.contracts.test.ts",
           "packages/content/src/project-map.resource-boundaries.test.ts",
           "packages/content/src/project-map.test.ts",
+          "packages/content/src/record-actors.guard-residual.test.ts",
+          "packages/content/src/record-items.guard-residual.test.ts",
+          "packages/content/src/record-skills-poisons.guard-residual.test.ts",
           "packages/content/src/rewards.boundaries.test.ts",
           "packages/content/src/rewards.test.ts",
           "packages/content/src/rich-text.test.ts",
@@ -289,6 +296,7 @@
           "packages/content/src/runtime-script.boundaries.test.ts",
           "packages/content/src/scene-index.boundaries.test.ts",
           "packages/content/src/scene-index.test.ts",
+          "packages/content/src/script-command.guard-residual.test.ts",
           "packages/content/src/script-library.resource-boundaries.test.ts",
           "packages/content/src/script-library.test.ts",
           "packages/content/src/shop.test.ts",
@@ -373,6 +381,11 @@
             "identityDigest": "8b855069131683deb760b2eba254003d483cdd8e57f492e3bdbfa861351ad3d5"
           },
           {
+            "file": "packages/content/src/author-command.guard-residual.test.ts",
+            "testCount": 11,
+            "identityDigest": "486ed76f5218998b1025aaeec0d1b7c5bfcd810472dbf3e6fb5fd846be6ce88f"
+          },
+          {
             "file": "packages/content/src/author-dialogue.contracts.test.ts",
             "testCount": 7,
             "identityDigest": "7f0b2bf107da8cb5fc9d59035dbf65ca6820c539475779a92ea8d47e0ae54a0d"
@@ -386,6 +399,11 @@
             "file": "packages/content/src/author-dialogue.test.ts",
             "testCount": 5,
             "identityDigest": "cecc1299125f200820dd91e0322abdc38767fd6916ad630aea7692d2ed84c7e2"
+          },
+          {
+            "file": "packages/content/src/author-flow.guard-residual.test.ts",
+            "testCount": 9,
+            "identityDigest": "13c27a6c3c9f584e6fb13ccd41bb3beb9babae9036d3e9458099726c04894162"
           },
           {
             "file": "packages/content/src/author-script-core.test.ts",
@@ -406,6 +424,11 @@
             "file": "packages/content/src/author-script.current-characterization.test.ts",
             "testCount": 4,
             "identityDigest": "9e038ba65ead275252c423164fe928026f64dafb948d7504ff8a7195841643a1"
+          },
+          {
+            "file": "packages/content/src/author-state.guard-residual.test.ts",
+            "testCount": 8,
+            "identityDigest": "d3be4e1cea22409a4e2ed5afdb103822bf3e4bae791e5bddc2f6715a08839266"
           },
           {
             "file": "packages/content/src/battle-choreography.leaf.test.ts",
@@ -466,6 +489,11 @@
             "file": "packages/content/src/enemy-ai.test.ts",
             "testCount": 9,
             "identityDigest": "fc73d1d2ac7f31ecb043c9073ab42f591e55eebf686f1a7524db91134156f87e"
+          },
+          {
+            "file": "packages/content/src/enemy-hook.guard-residual.test.ts",
+            "testCount": 7,
+            "identityDigest": "5d35df9055b1314fca9ed3672076bec0c7ce9c319b70db190a872d4a91173e04"
           },
           {
             "file": "packages/content/src/enemy-script.boundaries.test.ts",
@@ -583,6 +611,21 @@
             "identityDigest": "649ae7ffa444f001ec4c375e56c149db90ac93476fd9255e9f7281c8802ee22b"
           },
           {
+            "file": "packages/content/src/record-actors.guard-residual.test.ts",
+            "testCount": 6,
+            "identityDigest": "21ae763d119de6cfe16655528ff6c7d610d05c7cb30128c05c2384a9d1a1c302"
+          },
+          {
+            "file": "packages/content/src/record-items.guard-residual.test.ts",
+            "testCount": 39,
+            "identityDigest": "ce96fe19d507a9d83a6c9283533a478d312112bc3404c9ce06d9fe4b47def7bc"
+          },
+          {
+            "file": "packages/content/src/record-skills-poisons.guard-residual.test.ts",
+            "testCount": 9,
+            "identityDigest": "0d1115776ae64e104a0a8bb5d28e3dc6a3182fe34abac8d0f16f804383e5118b"
+          },
+          {
             "file": "packages/content/src/rewards.boundaries.test.ts",
             "testCount": 6,
             "identityDigest": "4e4af005f7a46e3bf3ec0ed7c8a2723e26b8531f18d732733177ffa04256b75f"
@@ -626,6 +669,11 @@
             "file": "packages/content/src/scene-index.test.ts",
             "testCount": 3,
             "identityDigest": "bfd284772010f73190bf6d9fd37b4bd25b9ee189f7c8bdbb7137c4b18bbf3c78"
+          },
+          {
+            "file": "packages/content/src/script-command.guard-residual.test.ts",
+            "testCount": 21,
+            "identityDigest": "990802297a1644c44a9620d3b75d5b3c9e22988fdee0cf8a36c70fc946b65526"
           },
           {
             "file": "packages/content/src/script-library.resource-boundaries.test.ts",
@@ -733,25 +781,25 @@
             "identityDigest": "6bd136e3dc31faf579c7b78a5dd284c6a1fd1a58ee6d3fa624ccee6e21be9a3c"
           }
         ],
-        "identityDigest": "c111bfd13b0084aa210781203fe7c4eb2ff8ac0003a29cdf4397fbf08ac24fd4",
+        "identityDigest": "53ad3aaa3966bb37a313626a6294acd685ac3308623cd64b3448807c3ffb8401",
         "duplicateIdentityCount": 0,
-        "executionDigest": "66b184be73703a2298668163d5e74687bdf713e7fa37a5979b3fb1c9ce4fc972"
+        "executionDigest": "3e1bbfa8ba7c47e9c20d1527cf369d1f62fbe454aa6bc62a1086755f73e1c3ae"
       },
       "metrics": {
         "statements": {
-          "covered": 5295,
+          "covered": 5521,
           "total": 5856
         },
         "branches": {
-          "covered": 4294,
+          "covered": 4554,
           "total": 5019
         },
         "functions": {
-          "covered": 790,
+          "covered": 797,
           "total": 831
         },
         "lines": {
-          "covered": 4764,
+          "covered": 4948,
           "total": 5183
         }
       }
@@ -6529,19 +6577,19 @@
   },
   "total": {
     "statements": {
-      "covered": 63935,
+      "covered": 64161,
       "total": 80938
     },
     "branches": {
-      "covered": 45786,
+      "covered": 46046,
       "total": 63288
     },
     "functions": {
-      "covered": 11931,
+      "covered": 11938,
       "total": 15228
     },
     "lines": {
-      "covered": 57500,
+      "covered": 57684,
       "total": 70849
     }
   }

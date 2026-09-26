@@ -1,8 +1,10 @@
 # GLM 守卫第三批：6b371144 定点接收
 
+历史counter已于2026-09-27在6a114727闭合；当前结论见[接收与集成](guard-wave3-integration.md)。
+
 2026-09-26，Codex独立复核候选`6b371144e5a96a2996c73932d04f664ebbb8a8b7`。
 **counter，仅R2的一处匿名对象输入保真仍未闭合；不合候选，不跑全仓覆盖。**
-[任务卡](../ops/tasks/TEST-GLM-CONTENT-GUARDS-3-script-and-records.md) /
+[任务卡](../ops/archive/tasks/done/TEST-GLM-CONTENT-GUARDS-3-script-and-records.md) /
 [上一轮](guard-wave3-r2-review.md) / [独立见证](guard-wave3-r3-review-witnesses.mjs) /
 [本席机账](guard-wave3-r3-review-evidence.json)。本文替代上一轮的活动阻断清单，历史证据保留。
 

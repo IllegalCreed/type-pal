@@ -5,7 +5,7 @@
 
 候选 `16e647a1173df523257ad31bcac5964569d17d9e`；2026-09-26 Codex 独立复核。
 结论：**counter，仍仅 R1/R2 与相应回执勘误，不合入、不计官方覆盖**。
-[任务卡](../ops/tasks/TEST-GLM-CONTENT-GUARDS-3-script-and-records.md) /
+[任务卡](../ops/archive/tasks/done/TEST-GLM-CONTENT-GUARDS-3-script-and-records.md) /
 [首轮反证](guard-wave3-review.md) / [本轮隔离见证](parallel-guard-command-r2-review-witnesses.mjs) /
 [机账](parallel-guard-command-r2-review-evidence.json)。
 
