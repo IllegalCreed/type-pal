@@ -1,0 +1,165 @@
+{
+  "candidate": "99113d225fe2322395238a7b60fdb4a06e72d69c",
+  "reviewMain": "cc59a2fa7b26a0a0872f8dbc49e9edc5210fcd5a",
+  "verdict": "counter",
+  "remaining": ["C1 actual-input snapshots", "C2 matching nested-turn positive controls"],
+  "original": {
+    "R1": "three original witnesses detected; remaining actual-input snapshots fail",
+    "R2": "wait/rows/playSound/middle hook fixed; nested turn controls remain",
+    "R3": "closed",
+    "R4": "JSON formatting and percent classification closed; receipt fidelity follows C1/C2"
+  },
+  "criterion": [
+    {
+      "id": "valid-red",
+      "expected": true,
+      "accepted": true
+    },
+    {
+      "id": "same-message-mixed-error",
+      "expected": false,
+      "accepted": false
+    },
+    {
+      "id": "assertion-prefixed-timeout",
+      "expected": false,
+      "accepted": false
+    },
+    {
+      "id": "additional-unrelated-red",
+      "expected": false,
+      "accepted": false
+    },
+    {
+      "id": "wrong-fullname-red-with-intended-green",
+      "expected": false,
+      "accepted": false
+    },
+    {
+      "id": "foreign-file-same-suffix",
+      "expected": false,
+      "accepted": false
+    },
+    {
+      "id": "exit-two",
+      "expected": false,
+      "accepted": false
+    },
+    {
+      "id": "exit-null",
+      "expected": false,
+      "accepted": false
+    }
+  ],
+  "hashes": {
+    "enemy-validation-shapes": "012af705f55cca01000830fe6fed37962afe990e45fc2a75f52980667e8ec8b6",
+    "enemy-ai-condition-guard": "06bd7979ba6e486989635d2f750c4a4757c0f8b6af91339795980a840305c409",
+    "battle-choreography": "ae007332f169e5019f97c08956e14d0f7591df60244d69d3e26bfb07dee4e065"
+  },
+  "witnesses": [
+    {
+      "id": "control",
+      "exit": 0,
+      "passed": 91,
+      "verdict": "control",
+      "failed": []
+    },
+    {
+      "id": "record-mutates-same-object",
+      "exit": 1,
+      "passed": 90,
+      "verdict": "detected",
+      "failed": [
+        {
+          "file": "/Users/zhangxu/illegal/type-pal-glm-content-guards-wave2/packages/content/src/enemy-validation-shapes.leaf.test.ts",
+          "fullName": "G1 record 合法对象原身份透传且内容不被改写",
+          "failure": "AssertionError: expected { kind: 'wait', ms: 888 } to deeply equal { kind: 'wait', ms: +0 }"
+        }
+      ]
+    },
+    {
+      "id": "callback-mutates-cue-after-delivery",
+      "exit": 1,
+      "passed": 90,
+      "verdict": "detected",
+      "failed": [
+        {
+          "file": "/Users/zhangxu/illegal/type-pal-glm-content-guards-wave2/packages/content/src/battle-choreography.leaf.test.ts",
+          "fullName": "G5 dialog 委派 选中 callback 收到原 cue 对象与精确路径，正常返回即接受且 cue 不被改写",
+          "failure": "AssertionError: expected { …(2) } to deeply equal { …(2) }"
+        }
+      ]
+    },
+    {
+      "id": "difficulty-path-prefix-corrupted",
+      "exit": 1,
+      "passed": 90,
+      "verdict": "detected",
+      "failed": [
+        {
+          "file": "/Users/zhangxu/illegal/type-pal-glm-content-guards-wave2/packages/content/src/enemy-ai-condition-guard.leaf.test.ts",
+          "fullName": "G2 离散叶轴 difficulty 非数组与元素非串拒绝（空表/空元素轴 wave2 已证）",
+          "failure": "AssertionError: expected 'WRONG.when.in[1]: 期望非空且无首尾空格的 string' to be 'when.in[1]: 期望非空且无首尾空格的 string' // Object.is equality"
+        }
+      ]
+    },
+    {
+      "id": "exactKeys-mutates-actual-object",
+      "exit": 0,
+      "passed": 91,
+      "verdict": "MISSED",
+      "failed": []
+    },
+    {
+      "id": "body-mutates-actual-array",
+      "exit": 0,
+      "passed": 91,
+      "verdict": "MISSED",
+      "failed": []
+    },
+    {
+      "id": "nested-turn-always-rejects",
+      "exit": 0,
+      "passed": 91,
+      "verdict": "MISSED",
+      "failed": []
+    }
+  ],
+  "rawEvidence": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/codex-guard-leaf-review-amUDUr",
+  "checks": {
+    "content": {
+      "files": 79,
+      "tests": 957,
+      "exit": 0
+    },
+    "typecheck": {
+      "exit": 0
+    },
+    "authorMutants": {
+      "controls": 1,
+      "mutants": 6,
+      "judgeSelfTests": 10,
+      "exit": 0
+    },
+    "biome": {
+      "files": 7,
+      "errors": 0,
+      "warnings": 4,
+      "exit": 0
+    },
+    "docs": {
+      "exit": 0
+    },
+    "diffWhitespace": {
+      "exit": 0
+    }
+  },
+  "baseline": {
+    "tests": 8248,
+    "productionFiles": 701,
+    "changed": false,
+    "sha256": "25a9abb83e912d86a2272887ee84e9bbb6b39de89f9708e05d149f9eea579917"
+  },
+  "visual": "N/A",
+  "fullCheckRatchetStrict": "not run: implementation acceptance blocked"
+}
