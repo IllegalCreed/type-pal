@@ -1,8 +1,19 @@
 /**
  * 资源 catalog record 比较与校验。tileset / sprite / battle-sprite 命令共用。
  */
-import type { AssetRecordV1 } from '@type-pal/content'
+import type { AssetId, AssetRecordV1 } from '@type-pal/content'
 import { validateProjectRelativePath } from '@type-pal/content'
+import type { ProjectReferenceEdge } from './project-reference.js'
+
+export class AssetInUseError extends Error {
+  constructor(
+    readonly assetId: AssetId,
+    readonly references: readonly ProjectReferenceEdge[],
+  ) {
+    super(`资源 ${assetId} 仍被 ${references.length} 处引用，不能删除`)
+    this.name = 'AssetInUseError'
+  }
+}
 
 export function sameAssetRecord(left: AssetRecordV1, right: AssetRecordV1): boolean {
   return (
