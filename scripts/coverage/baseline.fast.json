@@ -1,14 +1,14 @@
 {
   "schemaVersion": 2,
   "profile": "fast",
-  "generatedAt": "2026-09-25T17:47:08.278Z",
+  "generatedAt": "2026-09-26T01:44:02.312Z",
   "provider": {
     "name": "v8",
     "vitest": "4.1.7",
     "coverageV8": "4.1.7"
   },
-  "sourceFileCount": 643,
-  "testCount": 8159,
+  "sourceFileCount": 644,
+  "testCount": 8165,
   "packages": {
     "shared": {
       "name": "@type-pal/shared",
@@ -3761,7 +3761,7 @@
         "**/*.spec.tsx",
         "**/*.d.ts"
       ],
-      "sourceFileCount": 228,
+      "sourceFileCount": 229,
       "sourceFiles": [
         "packages/editor/src/core/actor-dialogue-commands.ts",
         "packages/editor/src/core/actor-references.ts",
@@ -3775,6 +3775,7 @@
         "packages/editor/src/core/author-save-prefix.ts",
         "packages/editor/src/core/author-save-store.ts",
         "packages/editor/src/core/battle-data-references.ts",
+        "packages/editor/src/core/battle-field-commands.ts",
         "packages/editor/src/core/battle-simulator-commands.ts",
         "packages/editor/src/core/battle-simulator-library.ts",
         "packages/editor/src/core/battle-simulator-state.ts",
@@ -3992,10 +3993,10 @@
         "packages/editor/src/ui/use-project-leave-guard.ts",
         "packages/editor/src/ui/world-sprite-action-preview.ts"
       ],
-      "scopeDigest": "2b32bd1c236bd8878abf1643ea3dc9e848229ee06bfe67c1750deac74453b111",
+      "scopeDigest": "6092061b66670124a899e7085c139b4a3cce376ec7f92a8638a2c177a4c313ae",
       "fastTests": {
-        "testCount": 2620,
-        "testFileCount": 273,
+        "testCount": 2626,
+        "testFileCount": 274,
         "files": [
           "packages/editor/scripts/battle-simulator-http.test.mjs",
           "packages/editor/scripts/battle-simulator-ui.test.tsx",
@@ -4028,6 +4029,7 @@
           "packages/editor/src/core/battle-data-delete-commands.test.ts",
           "packages/editor/src/core/battle-data-references.test.ts",
           "packages/editor/src/core/battle-data-references.wave2.test.ts",
+          "packages/editor/src/core/battle-field-commands.test.ts",
           "packages/editor/src/core/battle-simulator-commands.wave2.test.ts",
           "packages/editor/src/core/battle-simulator-library.test.ts",
           "packages/editor/src/core/battle-simulator-library.wave2.test.ts",
@@ -4426,6 +4428,11 @@
             "file": "packages/editor/src/core/battle-data-references.wave2.test.ts",
             "testCount": 2,
             "identityDigest": "95576ad85687eb0eb3c942bb4556e6d61d8df440ae7d763657e96b4073926a61"
+          },
+          {
+            "file": "packages/editor/src/core/battle-field-commands.test.ts",
+            "testCount": 6,
+            "identityDigest": "b8d5df2b01cd348d461aab657be706156984f9e91c3f77dcc75fcf38b7183479"
           },
           {
             "file": "packages/editor/src/core/battle-simulator-commands.wave2.test.ts",
@@ -5638,9 +5645,9 @@
             "identityDigest": "7c181e89600882213bfdc9bf59bf8d2b40273fc45d2d84fecf9ad6313060cf3b"
           }
         ],
-        "identityDigest": "f5c09481998f616dd15d5a1b5332e576f00a6aedc06e624dcf2b30c17f730cba",
+        "identityDigest": "0f09c0f445b9c3a883f343109d4467d11607a4d869b2fd2d26789cab4e04438b",
         "duplicateIdentityCount": 8,
-        "executionDigest": "6a2197eec1a12a635e75339eb919587b3bef11cbb9caa65a887905aa94d1b355"
+        "executionDigest": "fc40af0a163bc7dff85b3cbfcceb8cb4b35a3efca6d35a1378a1b4c5747efe2f"
       },
       "metrics": {
         "statements": {

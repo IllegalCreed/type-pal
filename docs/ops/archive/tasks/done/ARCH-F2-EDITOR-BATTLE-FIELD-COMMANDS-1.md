@@ -1,11 +1,12 @@
 # ARCH-F2-EDITOR-BATTLE-FIELD-COMMANDS-1 — 战场命令族独立模块
 
-Status: build
+Status: done
 Phase: phase2 editor / 架构治理 F2
 Coding Owner: GLM
 Review / Integration Owner: Codex
 Branch: `codex/glm-arch-battle-field-commands-r1`（独立 worktree）
-Base / production freeze: `620a29dd`（开工先同步 main 并登记实际 SHA）
+Base / production freeze: `f5f166aa`（实际开工基点；原卡 `620a29dd` 为历史准入锚）
+Implementation candidate: `83833719`
 
 ## 前提与准入
 
@@ -28,7 +29,16 @@ GLM 只在隔离分支提交推送，不合 main、不标 done；其 ARCH-REGRES
 
 ## 阶段门
 
-Codex：**premise verified / build allowed**，仅本卡白名单；用户新分工覆盖旧“全队列 Codex 独立”对本切片的限制，不追溯旧卡。固定 Kimi/GLM 三签当前暂停，GLM 是 Coding Owner 不是独立审查席。done 未开放。
+Codex：**premise verified / build allowed**，仅本卡白名单；用户新分工覆盖旧“全队列 Codex 独立”对本切片的限制，不追溯旧卡。固定 Kimi/GLM 三签当前暂停，GLM 是 Coding Owner 不是独立审查席。2026-09-26 Codex完成下列独立验收后核定 **accept / done allowed**。
+
+## Codex 独立接收与集成验证（2026-09-26）
+
+- 已直读候选源码与新增测试。原 `commands.ts:2185-2387` 与新模块函数体逐字节一致（含结尾换行）：7276 bytes，SHA256 `8a56bbfcc9dd487a92363195deb92fcc475a60cb02a9a1478ea34165ec0351d1`；公开出口119→119，新模块8个出口（7运行期+1type）全部仍从旧入口提供。旧 `commands.test.ts` 零diff。
+- TypeScript擦除type后核运行期本地依赖闭包13模块，新模块没有回到`commands.ts`的路径；content/reforge/shared没有反向editor依赖。候选156/156、editor typecheck、三个改动文件Biome、docs/diff均通过。
+- 重建两针实际源代码加载变异：删除`references.length`阻断门，使原D24引用删除用例在“未抛错”AssertionError红；仅把Add的invert改为return state，使原首次登记还原用例在battleFields未恢复undefined处红。对照D24 8/8；两针均目标执行1/失败1、exit1、注入命中，源文件零改。采用本席证据替代不可重建的临时mock回执。
+- 已将候选白名单文件适配至主线`7a18eaa6`后工作树。完整`pnpm check` exit0（七包8657项）；串行`coverage:ratchet` exit0后，设置`TYPE_PAL_COVERAGE_BASE_REF=7a18eaa6`的单次严格`coverage:fast` exit0。fast8159→8165项，生产文件643→644；四项覆盖率分子/分母完全不变：语句61237/80619、分支43254/63176、函数11385/15036、行55132/70572。基线仅更新模块/测试清单与摘要，未降门槛。日志`/tmp/codex-bfc-{check,ratchet,strict}.log`。
+- 最小功能核验：隔离PAL开发快照6013从52项新建#058→53项，名称改为“Codex战场更新”、火属性0→3；复制#059后54项且属性保留；撤销复制回53项、重做回54项。默认#024删除按钮因引用禁用。IAB原生confirm接口阻塞该临时标签，未将其当产品故障；另以6014专用Vite宿主替身`window.confirm`（记录请求文字并返回true，产品文件不改）验证无引用#058删除后条目消失、撤销恢复原编号，最后撤销创建回52项。截图/可访问树已目视核对，未保存用户项目；原生确认框自身的自动化交互不在本次通过声明内。
+- **Codex独立验收 accept，done准入满足并归档。** GLM是实现贡献者，不代签他席。此卡仅关闭战场命令窄拆，F2其余命令族、ARCH-REGRESSION-LAB剩余项及已登记的作者cue漏校验缺陷不随本卡关闭。无下一位Agent提示词。
 
 ## 下一位 GLM 提示词
 

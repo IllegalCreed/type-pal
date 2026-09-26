@@ -8,6 +8,8 @@
 
 ## 文档与附件
 
+- [GLM 战场命令族拆分回执与Codex验收](glm-arch-battle-field-commands.md)及[done任务卡](../ops/archive/tasks/done/ARCH-F2-EDITOR-BATTLE-FIELD-COMMANDS-1.md)（83833719机械搬移保真；156项/两针/check8657/受保护strict8165/644与隔离功能核验通过，F2整体未完成）
+
 - [Grok一阶段菜单与索引渲染候选](grok-present-regressions/README.md)、[Codex独立复核](grok-present-review.md)及[正式接入](grok-present-integration.md)（P01–P10共25项，23业务绘制+2快照自测；check/ratchet/严格fast8090/641通过，候选历史不等于视觉/E2E）
 
 - [Grok第二批画面合成候选的Codex接收复核](grok-phase1-composition-review.md)、[正式接入](grok-phase1-composition-integration.md)及[done任务卡](../ops/archive/tasks/done/TEST-GROK-PRESENT-2-phase1-composition.md)（P11–P16正式19项、五针；check/ratchet/严格fast8109/641通过，Grok贡献、Codex独立验收）
