@@ -3,7 +3,10 @@
  */
 import type { AssetRecordV1, BattleSpriteDef, EnemyDef } from '@type-pal/content'
 import { describe, expect, test } from 'vitest'
-import { loadBoundaryProject } from './__tests__/cursor-command-boundary-fixtures.js'
+import {
+  loadBoundaryProject,
+  withSharedEnemyBattleSprite,
+} from './__tests__/cursor-command-boundary-fixtures.js'
 import {
   AddBattleSpriteCommand,
   SetEnemyBattleSpriteCommand,
@@ -11,6 +14,7 @@ import {
 } from './battle-sprite-commands.js'
 import type { EditorState } from './edit-session.js'
 import { AddEnemyCommand } from './enemy-commands.js'
+import { assertProjectSaveValid } from './project-diagnostics.js'
 
 function expectRejected(
   command: { apply(state: EditorState): EditorState },
@@ -37,7 +41,7 @@ function typedEnemy(): EnemyDef {
   return {
     id: 'slime',
     name: 'name.slime',
-    battleSprite: 'starter-fighter',
+    battleSprite: 'slime-enemy',
     yPosOffset: 0,
     stats: {
       health: 10,
@@ -90,9 +94,12 @@ describe('战斗精灵命令残项', () => {
   })
 
   test('AddEnemy 后 SetEnemyBattleSprite(starter-fighter) → 敌人只能引用 enemy profile', async () => {
-    const { state } = await loadBoundaryProject('battle-sprite-residual-enemy')
+    const { source, state: loaded } = await loadBoundaryProject('battle-sprite-residual-enemy')
+    const state = await withSharedEnemyBattleSprite(source, loaded, 'slime-enemy')
+    expect(() => assertProjectSaveValid(state)).not.toThrow()
     const enemy = typedEnemy()
     const withEnemy = new AddEnemyCommand(enemy).apply(state)
+    expect(() => assertProjectSaveValid(withEnemy)).not.toThrow()
     expectRejected(
       new SetEnemyBattleSpriteCommand(enemy.id, 'starter-fighter'),
       withEnemy,

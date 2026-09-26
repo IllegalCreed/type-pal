@@ -19,6 +19,18 @@ function expectRejected(
   expect(input).toEqual(snapshot)
 }
 
+function mapCatalogSlice(state: EditorState) {
+  return {
+    manifest: state.manifest,
+    mapIndex: state.mapIndex,
+    maps: state.maps,
+    actors: state.actors,
+    scenes: state.scenes,
+    sprites: state.sprites,
+    assetCatalog: state.assetCatalog,
+  }
+}
+
 describe('地图资产命令残项', () => {
   test('CreateMapAssetCommand id=start（已在 mapIndex）→ 地图 id "start" 已存在', async () => {
     const { source, state } = await loadBoundaryProject('map-residual-dup')
@@ -33,27 +45,38 @@ describe('地图资产命令残项', () => {
     const session = new EditSession(state)
     const neighborActor = state.actors[0]
     const neighborScene = state.scenes[0]
+    const originalCatalog = structuredClone(mapCatalogSlice(state))
     const def: MapAssetDefV1 = { id: 'yard', name: '院子', path: 'content/maps/yard.json' }
     const map = await source.readJson<ProjectMap>('content/maps/start.json')
+    const expectedDef = structuredClone(def)
+    const expectedMap = structuredClone(map)
     const command = new CreateMapAssetCommand(def, map)
     def.name = 'mutated-after-construct'
     map.width = 3
     expect(session.dispatch(command)).toBe(true)
     const after = session.getState()
-    const created = after.mapIndex.maps.find((asset) => asset.id === 'yard')
-    expect(created).toMatchObject({ id: 'yard', name: '院子', path: 'content/maps/yard.json' })
-    expect(after.maps.yard?.width).toBe(12)
-    expect(after.maps.yard?.height).toBe(12)
-    expect(after.maps.yard?.tilesetRefs).toEqual(['starter'])
-    expect(after.maps.yard?.layers[0]?.id).toBe('floor')
-    expect(after.maps.yard?.collision.length).toBe(24)
+    expect(after.mapIndex.maps.find((asset) => asset.id === 'yard')).toEqual(expectedDef)
+    expect(after.maps.yard).toEqual(expectedMap)
+    expect(after.maps.start).toEqual(originalCatalog.maps.start)
+    expect(after.manifest).toEqual(originalCatalog.manifest)
+    expect(after.mapIndex.maps.filter((asset) => asset.id !== 'yard')).toEqual(
+      originalCatalog.mapIndex.maps,
+    )
+    expect(after.actors).toEqual(originalCatalog.actors)
+    expect(after.scenes).toEqual(originalCatalog.scenes)
+    expect(after.sprites).toEqual(originalCatalog.sprites)
+    expect(after.assetCatalog).toEqual(originalCatalog.assetCatalog)
     expect(after.actors[0]).toBe(neighborActor)
     expect(after.scenes[0]).toBe(neighborScene)
     expect(session.undo()).toBe(true)
-    expect(session.getState().mapIndex.maps.some((asset) => asset.id === 'yard')).toBe(false)
-    expect(session.getState().maps.yard).toBeUndefined()
+    expect(mapCatalogSlice(session.getState())).toEqual(originalCatalog)
     expect(session.redo()).toBe(true)
-    expect(session.getState().mapIndex.maps.find((asset) => asset.id === 'yard')?.name).toBe('院子')
-    expect(session.getState().maps.yard?.width).toBe(12)
+    const redone = session.getState()
+    expect(redone.mapIndex.maps.find((asset) => asset.id === 'yard')).toEqual(expectedDef)
+    expect(redone.maps.yard).toEqual(expectedMap)
+    expect(redone.maps.start).toEqual(originalCatalog.maps.start)
+    expect(redone.manifest).toEqual(originalCatalog.manifest)
+    expect(redone.actors).toEqual(originalCatalog.actors)
+    expect(redone.scenes).toEqual(originalCatalog.scenes)
   })
 })

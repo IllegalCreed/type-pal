@@ -88,3 +88,15 @@ env -u NODE_COMPILE_CACHE pnpm --filter @type-pal/editor check
 ```
 
 作者自验：残项 7/29；editor check 331 files / 2858 tests；5 针 ok+hit。不能替代 Codex 独立验收。
+
+## 作者返工
+
+2026-09-26。只闭 R1–R3，已核项不重开。不合 main、不标 done。
+
+- C2：crate/vase 先共享 hero 资源合法登记，AddEntity 后过 `assertProjectSaveValid`
+- C5：先登记 enemy profile/共享字节，保存门通过后再单轴拒绝 player-fighter
+- C6：构造前独立深快照 map/def，三态比完整内容/manifest/索引/旁对象
+- C3：共享路径放入非空合法 pending 字节，独立快照核 catalog/blob 三态
+- 回执分列「本批未覆盖 / 真不可达」；C4 负控登记为重叠保护
+- 产品/旧测试/配置/基线/Codex 见证未改
+- 新鲜 JSON：定向+相邻 `/tmp/cursor-command-boundaries-r3-directed-1790430222.json` 11/52（残项 7/29）；editor `/tmp/cursor-command-boundaries-r3-editor-1790430682.json` 331/2858；五针 `/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/cursor-command-boundaries-r3-mutants-xH2Ggw` 5/5 ok+hit
