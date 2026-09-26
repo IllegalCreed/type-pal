@@ -66,6 +66,14 @@ const cases = {
     to: "curability: 'severe'",
     title: 'keeps poison constructors on the old commands barrel and scaffolds common curability',
   },
+  c07: {
+    id: 'c07-ambience-delete-block',
+    sourceFile: 'src/core/ambience-commands.ts',
+    testFile: 'src/core/ambience-commands.test.ts',
+    from: '处引用，不能删除',
+    to: '处引用，不可删除',
+    title: 'keeps ambience constructors on the old commands barrel and blocks in-use delete',
+  },
 }
 
 const selected = process.argv[2] ? [process.argv[2]] : Object.keys(cases)

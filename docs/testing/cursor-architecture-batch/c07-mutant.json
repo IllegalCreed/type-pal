@@ -1,0 +1,13 @@
+{
+  "id": "c07-ambience-delete-block",
+  "file": "packages/editor/src/core/ambience-commands.ts",
+  "sha256": "d71065b9e0a5a9730a6af49b008604d8b6cf5aacd78ec69355fe5ecc5b967553",
+  "hashUnchanged": true,
+  "greenExit": 0,
+  "greenPassed": 1,
+  "redExit": 1,
+  "failedTitle": "keeps ambience constructors on the old commands barrel and blocks in-use delete",
+  "failedFullName": "C07 ambience command family keeps ambience constructors on the old commands barrel and blocks in-use delete",
+  "assertion": "AssertionError: expected '氛围 day 仍被 0 处引用，不可删除' to contain '不能删除'",
+  "ok": true
+}
