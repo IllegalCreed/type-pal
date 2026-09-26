@@ -8,6 +8,7 @@
 
 ## 文档与附件
 
+- [B2地图工作区会话所有权候选](map-workspace-sessions-refactor.md)、[机账](map-workspace-sessions-refactor-evidence.json)、[pointer九针](map-pointer-gesture-mutants.mjs)与[会话十六针](map-workspace-sessions-mutants.mjs)（手势/既有选择/变换剪贴板/视图/组合结构边界齐；21新增、Editor2868、TC/build与6055隔离功能通过；全仓统一门/集成待原接收对话）。
 - [B1编辑器总壳会话所有权候选](editor-app-sessions-refactor.md)、[机账](editor-app-sessions-refactor-evidence.json)与[二十针反控](editor-app-sessions-mutants.mjs)（导航/场景/试玩/工程四owner；18新增、Editor2847、TC/build与6054隔离功能通过；全仓统一门/集成待原接收对话）。
 - [Cursor八组命令行为补测](cursor-command-boundaries-r3/README.md)、[Codex五组资源索引补测](codex-content-resources/README.md)与[共同冻结机账](coverage-parallel-wave3-evidence.json)（独立文件范围，整批统计）。
 - [Cursor九组命令最终验收](cursor-commands-wave2-integration.md)与[统一机账](cursor-commands-wave2-integration-evidence.json)（R1–R3闭合，check8740/strict8248/701）。

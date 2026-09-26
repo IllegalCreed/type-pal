@@ -1,0 +1,141 @@
+{
+  "schemaVersion": 1,
+  "owner": "Codex implementation and self-verification; original intake conversation retains integration",
+  "base": "1e15f64f",
+  "syncedMain": "7d64de139643a7aa890b3a9434b8bfb720050f44",
+  "implementations": {
+    "pointerGesture": "3c3fccda",
+    "transform": "a2ea1dee",
+    "viewAndStampStructure": "3a633ed7"
+  },
+  "scope": "B2 map workspace gesture, selection-adjacent transform, view and stamp-structure ownership candidate",
+  "status": "candidate; not merged to main; unified full-repository gates pending intake",
+  "ownership": {
+    "pointerGesture": {
+      "file": "packages/editor/src/ui/map-pointer-gesture-session.ts",
+      "lines": 225,
+      "owns": [
+        "painting strokes and rectangle anchor",
+        "pan gesture",
+        "selection drag and preview",
+        "content hover and coordinate hover",
+        "pointer cancellation and blur cleanup"
+      ],
+      "doesNotOwn": [
+        "coordinate or hit-test policy",
+        "map permissions",
+        "commands or history submission"
+      ]
+    },
+    "selection": {
+      "existingOwner": "packages/editor/src/core/map-selection.ts plus mapWorkspaceReducer in MapMode",
+      "retainedAsSoleOwner": [
+        "committed map and stamp-group selection",
+        "hidden and locked layer workspace state"
+      ]
+    },
+    "transform": {
+      "file": "packages/editor/src/ui/map-transform-session.ts",
+      "lines": 185,
+      "owns": [
+        "include-collision preference",
+        "internal map clipboard",
+        "paste and move preview intent",
+        "target lock and overwrite confirmation"
+      ]
+    },
+    "view": {
+      "file": "packages/editor/src/ui/map-workspace-view-session.ts",
+      "lines": 104,
+      "owns": [
+        "grid and collision view preferences",
+        "tool and inspector state",
+        "stamp palette and hover state",
+        "tile source, heights, brush and focus",
+        "active layer and save-stamp dialog state"
+      ]
+    },
+    "stampStructure": {
+      "file": "packages/editor/src/ui/map-stamp-structure-session.ts",
+      "lines": 33,
+      "owns": [
+        "stale map snapshot confirmation intent",
+        "affected stamp placement identity list",
+        "return-focus resource lifetime"
+      ]
+    },
+    "shellLines": { "before": 3819, "after": 3734 }
+  },
+  "tests": {
+    "new": {
+      "pointerGesture": 6,
+      "transform": 7,
+      "view": 4,
+      "stampStructure": 4,
+      "total": 21
+    },
+    "finalOwnerTargeted": { "files": 4, "tests": 21, "exit": 0 },
+    "mapAndStampAdjacent": { "files": 33, "tests": 260, "exit": 0 },
+    "editor": { "files": 332, "tests": 2868, "exit": 0 },
+    "typecheck": { "exit": 0 },
+    "biome": { "candidateErrors": 0 },
+    "build": { "exit": 0, "modules": 583, "existingLargeChunkWarning": true }
+  },
+  "negativeControls": {
+    "pointer": {
+      "tool": "docs/testing/map-pointer-gesture-mutants.mjs",
+      "controls": 6,
+      "detected": 9,
+      "judge": { "positive": 1, "rejected": 9 },
+      "evidence": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-map-pointer-gesture-mutants-NiFnKl/summary.json"
+    },
+    "sessions": {
+      "tool": "docs/testing/map-workspace-sessions-mutants.mjs",
+      "controls": 15,
+      "detected": 16,
+      "judge": { "positive": 1, "rejected": 9 },
+      "evidence": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-map-workspace-sessions-mutants-5lW5Qf/summary.json"
+    },
+    "requirements": [
+      "exact absolute test file and fullName",
+      "exactly one executed candidate test",
+      "exit 1",
+      "AssertionError only",
+      "unique loader injection marker",
+      "all product hashes unchanged"
+    ]
+  },
+  "functional": {
+    "host": "http://localhost:6055/?module=map&page=workspace&object=map-122",
+    "project": "pal",
+    "observed": [
+      "map-122 loaded with two layers, toolbar, canvas and inspector",
+      "one-cell selection opened the semantic canvas operation menu",
+      "repeat created a paste preview at r126:c33 with target locked and one conflict",
+      "Escape cancelled the preview while preserving selection and leaving Save disabled",
+      "console error and warning log was empty"
+    ],
+    "normalSaveOrDirectoryCommandsUsed": false,
+    "userEditor6010Touched": false,
+    "temporaryTabClosed": true,
+    "serverStopped": true,
+    "consoleInspected": true
+  },
+  "unchangedContracts": [
+    "content20 and SAVE8",
+    "map schema and asset formats",
+    "coordinate and collision semantics",
+    "gameplay and formulas",
+    "UI shape",
+    "permission checks and atomic command history"
+  ],
+  "notRun": [
+    "full repository check",
+    "official coverage ratchet",
+    "protected strict coverage",
+    "full/Q1/Q2",
+    "native Cmd/Ctrl+C and Cmd/Ctrl+V visual path because browser automation intercepts the clipboard",
+    "normal project persistence",
+    "remote CI"
+  ]
+}

@@ -21,7 +21,7 @@ Codex持续处理[治理台账](../audits/architecture-debt.md)剩余边界，Cu
 | D1 | 第一阶段七节点SCC按真实状态/查询/脚本桥消环；旧入口/数值/坐标/推进序保持 | 2026-09-26 accept/完成 |
 | A3 | 活动场景、移动与绘制状态各有所有者；main保留装配/协调；取消、切场同步提交和采样时点保真 | 7be10bf4候选四段齐；待原接收对话统一门/集成后正式完成 |
 | B1 | App工程生命周期、导航与场景工作区分离；历史/保存/离开/试玩既有门禁仍通过 | 4101926d..52112d86候选四段齐；待原接收对话统一门/集成后正式完成 |
-| B2 | MapMode手势、选择/剪贴板、组合操作和视图分别有明确边界；取消、权限和原子提交保真 | 待实施 |
+| B2 | MapMode手势、选择/剪贴板、组合操作和视图分别有明确边界；取消、权限和原子提交保真 | 3c3fccda..3a633ed7候选四边界齐；待原接收对话统一门/集成后正式完成 |
 | B3 | 命令族表单拆出独立实现；作者桥接类型清晰；现行能力/引用保护不丢失 | 待实施 |
 | C1 | BattleSession输入、动作/演出、资源屏障、结算呈现的状态归属拆清；公开tick业务序列保真 | 待实施 |
 | D2 | 一阶段opcode族、战斗主控、启动资源生命周期分开，真实机制/数据回归通过 | 待实施 |
@@ -46,6 +46,16 @@ Codex持续处理[治理台账](../audits/architecture-debt.md)剩余边界，Cu
   authorCommandValidationOptions的递归调用合同与同树作者类型反驳该解释，须用正式入口回归固定。
 
 ## 当前推进
+
+- 2026-09-26 B2 地图工作区候选 `3c3fccda`、`a2ea1dee`、`3a633ed7` 已交付：
+  [回执与未证项](../../testing/map-workspace-sessions-refactor.md)。pointer session 独占 stroke/pan/selection preview/
+  hover 与取消；既有 reducer 继续独占正式 selection；transform session 独占 clipboard/preview/lock/overwrite；view
+  与 stamp-structure session 分别独占工具显示态和结构确认快照/焦点。MapMode 保留坐标命中、权限、plan/command、
+  revision guard 与同步历史提交，不传整个上下文。`MapMode.tsx` 3819→3734；21 新增、地图/组合相邻 260、Editor
+  332 文件/2868 项、TC/Biome/build、九针+十六针与 6055 隔离功能通过；content20/SAVE8/地图格式/坐标碰撞/UI
+  零改。浏览器自动化会截获系统 clipboard，原生 Cmd/Ctrl+C/V 视觉仍未证，内部路径已有回归与“重复”预览功能
+  证据。按交接未跑共享全仓 check/ratchet/strict、未合 main；B2 只在候选树四边界齐，待原接收对话统一门后
+  正式标完成。本实现对话可继续 B3 等不重叠项。
 
 - 2026-09-26 B2-a 地图指针手势段开工（基点 `1e15f64f`，同一候选分支）：只把 `MapMode.tsx`
   的 stroke、painting、rect anchor、pan、selection drag/preview、hover 与 coordinate hover 临时态迁入单一

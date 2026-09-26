@@ -30,6 +30,9 @@ afterEach(async () => {
 describe('map workspace view session ownership', () => {
   test('MapMode has one view owner and no duplicate view preference state declarations', () => {
     expect(mapModeSource.match(/useMapWorkspaceViewSession\(/g)).toHaveLength(1)
+    expect(mapModeSource).toContain(
+      "useMapWorkspaceViewSession(liveMap?.tilesetRefs[0] ?? tilesets[0]?.id ?? '')",
+    )
     for (const state of [
       'showGrid',
       'showCollision',
