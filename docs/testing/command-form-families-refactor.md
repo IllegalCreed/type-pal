@@ -1,8 +1,11 @@
 # B3 命令表单族所有权候选
 
+后续统一门与当前集成状态见[统一回执](architecture-continuation-integration.md)；下文为分项候选时的验证快照，
+其中“不合 main/未跑统一门”不代表后续集成状态。
+
 Owner：Codex；基点 `b3eada17`；实现 `ec813052`、`83a8f7be`、`951131d8`、`a5744ee1`、
 `e538d924`；设计审计性能与证据迁移 `703e14cb`、`be2796e6`、`badd411c`、`f4beb777`；所属
-[连续治理卡](../ops/tasks/ARCH-CONTINUATION-1-remaining-queue.md)。本候选不合 main、不运行共享全仓
+[连续治理卡](../ops/archive/tasks/done/ARCH-CONTINUATION-1-remaining-queue.md)。本候选不合 main、不运行共享全仓
 coverage 门；待原接收对话统一集成和执行 check/ratchet/strict。完整计数、命令和未证项见
 [机账](command-form-families-refactor-evidence.json)。
 

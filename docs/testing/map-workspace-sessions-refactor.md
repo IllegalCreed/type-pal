@@ -1,7 +1,10 @@
 # B2 地图工作区会话所有权候选
 
+后续统一门与当前集成状态见[统一回执](architecture-continuation-integration.md)；下文为分项候选时的验证快照，
+其中“不合 main/未跑统一门”不代表后续集成状态。
+
 Owner：Codex；基点 `1e15f64f`；实现 `3c3fccda`、`a2ea1dee`、`3a633ed7`；所属
-[连续治理卡](../ops/tasks/ARCH-CONTINUATION-1-remaining-queue.md)。本候选不合 main、不运行共享全仓
+[连续治理卡](../ops/archive/tasks/done/ARCH-CONTINUATION-1-remaining-queue.md)。本候选不合 main、不运行共享全仓
 coverage 门；待原接收对话统一集成和执行 check/ratchet/strict。完整计数、命令和未证项见
 [机账](map-workspace-sessions-refactor-evidence.json)。
 

@@ -1,5 +1,7 @@
 {
   "schemaVersion": 1,
+  "integrationReceipt": "docs/testing/architecture-continuation-integration.md",
+  "evidenceScope": "candidate snapshot; later unified integration is recorded separately",
   "owner": "Codex implementation and self-verification; original intake conversation retains integration",
   "base": "099a615ba342f32af006bd3b77f5a5708bf436a3",
   "initialSyncedMain": "20544351d1557fcfdd0c6ef21bfb910b71737623",

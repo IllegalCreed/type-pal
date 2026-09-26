@@ -1,8 +1,11 @@
 # B1 编辑器总壳会话所有权候选
 
+后续统一门与当前集成状态见[统一回执](architecture-continuation-integration.md)；下文为分项候选时的验证快照，
+其中“不合 main/未跑统一门”不代表后续集成状态。
+
 Owner：Codex；原始切片基点 `ae989b9b`；实现 `4101926d`、`93e4a9c4`、`6181d7eb`、`52112d86`；
 同步主线 `7d64de13` 后的候选合并为 `f7f46c32`。所属
-[连续治理卡](../ops/tasks/ARCH-CONTINUATION-1-remaining-queue.md)。这里的 `App` 指编辑器总壳
+[连续治理卡](../ops/archive/tasks/done/ARCH-CONTINUATION-1-remaining-queue.md)。这里的 `App` 指编辑器总壳
 `packages/editor/src/ui/App.tsx`，不是移动应用或 Codex 桌面程序。
 
 本候选不合 main、不运行共享全仓 coverage 门；待原接收对话统一集成和执行 check/ratchet/strict。

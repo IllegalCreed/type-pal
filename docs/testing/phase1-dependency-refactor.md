@@ -1,6 +1,6 @@
 # D1 第一阶段依赖环拆分
 
-2026-09-26，基点 `4cdefcf1`，属于 [ARCH-CONTINUATION-1](../ops/tasks/ARCH-CONTINUATION-1-remaining-queue.md)。Coding Owner/验证者均为Codex，按用户架构治理授权执行；不冒充其它Agent独立审查。
+2026-09-26，基点 `4cdefcf1`，属于 [ARCH-CONTINUATION-1](../ops/archive/tasks/done/ARCH-CONTINUATION-1-remaining-queue.md)。Coding Owner/验证者均为Codex，按用户架构治理授权执行；不冒充其它Agent独立审查。
 
 ## 边界与前提
 

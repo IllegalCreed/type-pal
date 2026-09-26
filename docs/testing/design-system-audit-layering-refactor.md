@@ -1,8 +1,11 @@
 # F1 设计系统审计分层候选
 
+后续统一门与当前集成状态见[统一回执](architecture-continuation-integration.md)；下文为分项候选时的验证快照，
+其中“不合 main/未跑统一门”不代表后续集成状态。
+
 Owner：Codex；基点 `fd09c15c`（分支共同 main 基点 `origin/main@9fe9ea11`）；结构实现
 `5d4fca38`，性能实现 `09196d3a`，测试 `559388d2`，反控 `93b7211b`；所属
-[连续治理卡](../ops/tasks/ARCH-CONTINUATION-1-remaining-queue.md)。本候选不合 main、不运行共享全仓
+[连续治理卡](../ops/archive/tasks/done/ARCH-CONTINUATION-1-remaining-queue.md)。本候选不合 main、不运行共享全仓
 coverage 门；待原接收对话同步当前 main 后统一集成。结构化计数与未证项见
 [机账](design-system-audit-layering-refactor-evidence.json)。
 

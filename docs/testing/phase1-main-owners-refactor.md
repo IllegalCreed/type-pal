@@ -1,7 +1,10 @@
 # D2 第一阶段大主控所有权候选
 
+后续统一门与当前集成状态见[统一回执](architecture-continuation-integration.md)；下文为分项候选时的验证快照，
+其中“不合 main/未跑统一门”不代表后续集成状态。
+
 Owner：Codex；基点 `d70d73b8`（已同步 `origin/main@9fe9ea11`）；实现头 `138c41c8`；所属
-[连续治理卡](../ops/tasks/ARCH-CONTINUATION-1-remaining-queue.md)。本候选不合 main、不运行共享全仓
+[连续治理卡](../ops/archive/tasks/done/ARCH-CONTINUATION-1-remaining-queue.md)。本候选不合 main、不运行共享全仓
 coverage 门；待原接收对话统一集成并执行 check/ratchet/strict。结构化计数、命令结果与未证项见
 [机账](phase1-main-owners-refactor-evidence.json)。
 

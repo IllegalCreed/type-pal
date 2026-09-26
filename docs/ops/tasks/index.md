@@ -8,7 +8,6 @@
 
 | 任务 | 顶部状态 | 说明 |
 |---|---|---|
-| [ARCH-CONTINUATION-1 — 剩余架构治理连续收口](ARCH-CONTINUATION-1-remaining-queue.md) | build | 以任务卡当前准入与看板分工为准。 |
 | [ARCH-SUPPORT-GLM-1 — 八组并行准备取证](ARCH-SUPPORT-GLM-1-eight-audit-packages.md) | draft | 以任务卡当前准入与看板分工为准。 |
 | [EDITOR-PREVIEW-STEP-1 — canonical 预览单步的无可见阶段门](EDITOR-PREVIEW-STEP-1-command-gates.md) | draft | 以任务卡当前准入与看板分工为准。 |
 | [EDITOR-SCENE-FACING-1 — 切场景指令无法清除显式朝向](EDITOR-SCENE-FACING-1-clear-override.md) | draft | 以任务卡当前准入与看板分工为准。 |
@@ -31,6 +30,7 @@
 | [A7-3T - 瓦片集索引资源闭包](../archive/tasks/done/A7-3T-tileset-asset-closure.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [A7-3W - 大世界精灵索引资源闭包](../archive/tasks/done/A7-3W-world-sprite-asset-closure.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [ARCH-ACTOR-CONDITION-SEED-1 - 入口与剧情入队角色当前状态播种](../archive/tasks/done/ARCH-ACTOR-CONDITION-SEED-1-entry-and-story-actor-conditions.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [ARCH-CONTINUATION-1 — 剩余架构治理连续收口](../archive/tasks/done/ARCH-CONTINUATION-1-remaining-queue.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [ARCH-CURRENT-ONLY-1 - 开发期单版本架构收口](../archive/tasks/done/ARCH-CURRENT-ONLY-1-development-current-only-consolidation.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [ARCH-ENTRY-ACTOR-SEED-1 入口角色完整初始状态所有权与快照模型](../archive/tasks/done/ARCH-ENTRY-ACTOR-SEED-1-entry-actor-initial-state.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [ARCH-ENTRYPOINT-CANONICAL-1 - 显式启动入口与独立开局配置](../archive/tasks/done/ARCH-ENTRYPOINT-CANONICAL-1-explicit-startup-entry-model.md) | done | 完成证据、历史签字与交接见原卡。 |

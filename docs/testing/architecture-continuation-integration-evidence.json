@@ -1,0 +1,440 @@
+{
+  "schemaVersion": 1,
+  "status": "accepted; all local integration gates passed",
+  "owner": "Codex; user explicitly authorized this conversation to integrate and push",
+  "candidate": "f884e07cc40267fed76916b51414e26b96a6ee9f",
+  "protectedBase": "2647960455ad3e4d67471ff70019ef0bf89dbd8b",
+  "validatedImplementation": "a2485e7d",
+  "queues": ["A3", "B1", "B2", "B3", "C1", "D2", "E1", "F1"],
+  "priorCompleted": ["A1", "A2", "D1", "E2", "F2"],
+  "logDirectory": "/tmp/type-pal-architecture-integration.dSjSiY",
+  "gates": {
+    "check": {
+      "exit": 0,
+      "tests": 9573,
+      "testFiles": 957,
+      "packages": {
+        "shared": 115,
+        "content": 1022,
+        "pal-extract": 299,
+        "game": 2478,
+        "reforge": 1743,
+        "migrate": 926,
+        "editor": 2990
+      },
+      "lint": {
+        "errors": 0,
+        "warnings": 62,
+        "infos": 6
+      }
+    },
+    "ratchet": {
+      "exit": 0,
+      "protected": true,
+      "officialRunner": true
+    },
+    "strict": {
+      "exit": 0,
+      "protected": true,
+      "runs": 1,
+      "metricsMatchRatchetAndBaseline": true
+    },
+    "build": {
+      "game": 0,
+      "reforge": 0,
+      "editor": 0,
+      "existingChunkWarnings": true
+    },
+    "designSystem": {
+      "exit": 0,
+      "productionFiles": 100,
+      "evidenceBoundExceptions": 2
+    }
+  },
+  "coverage": {
+    "sourceFileCount": 728,
+    "testCount": 9081,
+    "before": {
+      "statements": {
+        "covered": 63390,
+        "total": 80643
+      },
+      "branches": {
+        "covered": 45477,
+        "total": 63178
+      },
+      "functions": {
+        "covered": 11742,
+        "total": 15058
+      },
+      "lines": {
+        "covered": 57018,
+        "total": 70600
+      }
+    },
+    "after": {
+      "statements": {
+        "covered": 63888,
+        "total": 80938
+      },
+      "branches": {
+        "covered": 45738,
+        "total": 63288
+      },
+      "functions": {
+        "covered": 11924,
+        "total": 15228
+      },
+      "lines": {
+        "covered": 57461,
+        "total": 70849
+      }
+    },
+    "addedSources": [
+      "packages/migrate/src/scene-migration-source-plan.ts",
+      "packages/migrate/src/translate-event-motion.ts",
+      "packages/reforge/src/battle/battle-action-presentation-scheduler.ts",
+      "packages/reforge/src/battle/battle-command-selection.ts",
+      "packages/reforge/src/battle/battle-settlement-presentation.ts",
+      "packages/reforge/src/battle/battle-turn-readiness.ts",
+      "packages/reforge/src/world-motion-runtime.ts",
+      "packages/reforge/src/world-scene-presentation.ts",
+      "packages/game/src/core/battle/battle-finalization.ts",
+      "packages/game/src/core/battle/battle-progression.ts",
+      "packages/game/src/core/battle/battle-runtime-context.ts",
+      "packages/game/src/core/event-opcode-player.ts",
+      "packages/game/src/shell/bootstrap-resources.ts",
+      "packages/editor/src/ui/command-form-actor.tsx",
+      "packages/editor/src/ui/command-form-contract.ts",
+      "packages/editor/src/ui/command-form-control.tsx",
+      "packages/editor/src/ui/command-form-controls.tsx",
+      "packages/editor/src/ui/command-form-dialogue.tsx",
+      "packages/editor/src/ui/command-form-world.tsx",
+      "packages/editor/src/ui/map-pointer-gesture-session.ts",
+      "packages/editor/src/ui/map-stamp-structure-session.ts",
+      "packages/editor/src/ui/map-transform-session.ts",
+      "packages/editor/src/ui/map-workspace-view-session.ts",
+      "packages/editor/src/ui/use-battle-trial-session.ts",
+      "packages/editor/src/ui/use-editor-navigation-session.ts",
+      "packages/editor/src/ui/use-editor-project-session.ts",
+      "packages/editor/src/ui/use-scene-workspace-session.ts"
+    ],
+    "removedSources": [],
+    "packages": {
+      "shared": {
+        "tests": 115,
+        "files": 11,
+        "before": {
+          "statements": {
+            "covered": 381,
+            "total": 406
+          },
+          "branches": {
+            "covered": 151,
+            "total": 177
+          },
+          "functions": {
+            "covered": 21,
+            "total": 21
+          },
+          "lines": {
+            "covered": 342,
+            "total": 356
+          }
+        },
+        "after": {
+          "statements": {
+            "covered": 381,
+            "total": 406
+          },
+          "branches": {
+            "covered": 151,
+            "total": 177
+          },
+          "functions": {
+            "covered": 21,
+            "total": 21
+          },
+          "lines": {
+            "covered": 342,
+            "total": 356
+          }
+        }
+      },
+      "content": {
+        "tests": 1022,
+        "files": 55,
+        "before": {
+          "statements": {
+            "covered": 5295,
+            "total": 5856
+          },
+          "branches": {
+            "covered": 4294,
+            "total": 5019
+          },
+          "functions": {
+            "covered": 790,
+            "total": 831
+          },
+          "lines": {
+            "covered": 4764,
+            "total": 5183
+          }
+        },
+        "after": {
+          "statements": {
+            "covered": 5295,
+            "total": 5856
+          },
+          "branches": {
+            "covered": 4294,
+            "total": 5019
+          },
+          "functions": {
+            "covered": 790,
+            "total": 831
+          },
+          "lines": {
+            "covered": 4764,
+            "total": 5183
+          }
+        }
+      },
+      "pal-extract": {
+        "tests": 144,
+        "files": 38,
+        "before": {
+          "statements": {
+            "covered": 878,
+            "total": 1492
+          },
+          "branches": {
+            "covered": 311,
+            "total": 539
+          },
+          "functions": {
+            "covered": 94,
+            "total": 140
+          },
+          "lines": {
+            "covered": 783,
+            "total": 1316
+          }
+        },
+        "after": {
+          "statements": {
+            "covered": 878,
+            "total": 1492
+          },
+          "branches": {
+            "covered": 311,
+            "total": 539
+          },
+          "functions": {
+            "covered": 94,
+            "total": 140
+          },
+          "lines": {
+            "covered": 783,
+            "total": 1316
+          }
+        }
+      },
+      "migrate": {
+        "tests": 808,
+        "files": 53,
+        "before": {
+          "statements": {
+            "covered": 5664,
+            "total": 7712
+          },
+          "branches": {
+            "covered": 4730,
+            "total": 6436
+          },
+          "functions": {
+            "covered": 784,
+            "total": 1165
+          },
+          "lines": {
+            "covered": 5045,
+            "total": 6724
+          }
+        },
+        "after": {
+          "statements": {
+            "covered": 5675,
+            "total": 7722
+          },
+          "branches": {
+            "covered": 4741,
+            "total": 6444
+          },
+          "functions": {
+            "covered": 787,
+            "total": 1168
+          },
+          "lines": {
+            "covered": 5052,
+            "total": 6730
+          }
+        }
+      },
+      "reforge": {
+        "tests": 1743,
+        "files": 147,
+        "before": {
+          "statements": {
+            "covered": 12950,
+            "total": 16926
+          },
+          "branches": {
+            "covered": 7647,
+            "total": 11388
+          },
+          "functions": {
+            "covered": 2086,
+            "total": 2681
+          },
+          "lines": {
+            "covered": 11717,
+            "total": 14779
+          }
+        },
+        "after": {
+          "statements": {
+            "covered": 13218,
+            "total": 17061
+          },
+          "branches": {
+            "covered": 7763,
+            "total": 11426
+          },
+          "functions": {
+            "covered": 2179,
+            "total": 2772
+          },
+          "lines": {
+            "covered": 11958,
+            "total": 14893
+          }
+        }
+      },
+      "game": {
+        "tests": 2421,
+        "files": 136,
+        "before": {
+          "statements": {
+            "covered": 11870,
+            "total": 15494
+          },
+          "branches": {
+            "covered": 7801,
+            "total": 11281
+          },
+          "functions": {
+            "covered": 1358,
+            "total": 1843
+          },
+          "lines": {
+            "covered": 10665,
+            "total": 13604
+          }
+        },
+        "after": {
+          "statements": {
+            "covered": 11922,
+            "total": 15511
+          },
+          "branches": {
+            "covered": 7836,
+            "total": 11273
+          },
+          "functions": {
+            "covered": 1371,
+            "total": 1852
+          },
+          "lines": {
+            "covered": 10713,
+            "total": 13617
+          }
+        }
+      },
+      "editor": {
+        "tests": 2828,
+        "files": 288,
+        "before": {
+          "statements": {
+            "covered": 26352,
+            "total": 32757
+          },
+          "branches": {
+            "covered": 20543,
+            "total": 28338
+          },
+          "functions": {
+            "covered": 6609,
+            "total": 8377
+          },
+          "lines": {
+            "covered": 23702,
+            "total": 28638
+          }
+        },
+        "after": {
+          "statements": {
+            "covered": 26519,
+            "total": 32890
+          },
+          "branches": {
+            "covered": 20642,
+            "total": 28410
+          },
+          "functions": {
+            "covered": 6682,
+            "total": 8444
+          },
+          "lines": {
+            "covered": 23849,
+            "total": 28754
+          }
+        }
+      }
+    }
+  },
+  "negativeControls": {
+    "detected": 109,
+    "scope": "previous per-slice evidence, not rerun during integration",
+    "receipts": [
+      "docs/testing/world-runtime-refactor-evidence.json",
+      "docs/testing/editor-app-sessions-refactor-evidence.json",
+      "docs/testing/map-workspace-sessions-refactor-evidence.json",
+      "docs/testing/command-form-families-refactor-evidence.json",
+      "docs/testing/battle-session-owners-refactor-evidence.json",
+      "docs/testing/phase1-main-owners-refactor-evidence.json",
+      "docs/testing/migration-phase-owners-refactor-evidence.json",
+      "docs/testing/design-system-audit-layering-refactor-evidence.json"
+    ]
+  },
+  "unchanged": {
+    "productionSinceValidatedImplementation": true,
+    "coverageConfiguration": true,
+    "provider": true,
+    "timeLimits": true,
+    "generatedAssets": true,
+    "normalSaves": true,
+    "mainWorktreeUncommittedFiles": true,
+    "port6010": true
+  },
+  "notClaimed": [
+    "full coverage report",
+    "complete Q1/Q2 and plot visual acceptance",
+    "native file picker writes and screen/zoom matrix",
+    "all frozen historical migration profile/reference combinations",
+    "unaccepted Cursor/GLM test candidates"
+  ],
+  "remoteCi": {
+    "status": "outside this local receipt; verify GitHub runs for the delivered commit"
+  }
+}

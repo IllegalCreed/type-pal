@@ -1,6 +1,6 @@
 # A3-c 活动场景与镜头状态归属
 
-Owner：Codex；冻结51048353；所属[连续治理卡](../ops/tasks/ARCH-CONTINUATION-1-remaining-queue.md)。
+Owner：Codex；冻结51048353；所属[连续治理卡](../ops/archive/tasks/done/ARCH-CONTINUATION-1-remaining-queue.md)。
 实现`2dc5d1d5`；Codex核本分段accept，统一全仓门已通过。不是A3整体done，不冒充独立第三方审查。
 
 ## 边界与实现

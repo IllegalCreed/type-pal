@@ -37,7 +37,7 @@ Codex明确采用**分支覆盖率绝对增加5个百分点**，已创建本会�
 | GLM | [八组脚本与数据守卫](TEST-GLM-CONTENT-GUARDS-3-script-and-records.md) | content四模块的新测试、专属fixture与证据；生产零改 |
 | Cursor | [八组编辑命令](TEST-CURSOR-COMMAND-BOUNDARIES-3-editor-residuals.md) | 既有白名单保持，不重派 |
 | 本会话Codex | 迁移转换链自包含补测 | 优先migrate-content纯转换与审计消费者；实施前独立核定小批范围，禁止主树迁移写盘 |
-| 另一Codex会话 | [架构治理](ARCH-CONTINUATION-1-remaining-queue.md) | A3及后续产品所有权；本卡不改其实现文件 |
+| 另一Codex会话 | [架构治理](../archive/tasks/done/ARCH-CONTINUATION-1-remaining-queue.md) | A3及后续产品所有权；本卡不改其实现文件 |
 
 执行账见[持续覆盖率记录](../../testing/coverage-plus5/README.md)。全仓统计与基线写入只有本席统一执行；
 其它Owner不写共享coverage产物、不合main、不改baseline。

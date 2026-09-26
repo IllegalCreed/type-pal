@@ -1,6 +1,6 @@
 # E2 内容校验边界解环与嵌套对话漏检修复
 
-2026-09-26，属于 [连续治理卡](../ops/tasks/ARCH-CONTINUATION-1-remaining-queue.md)，Codex实施、自验。用户授权架构治理；两项变更分提交：`ebef3d5a`修真实缺陷，`4cdefcf1`拆依赖。
+2026-09-26，属于 [连续治理卡](../ops/archive/tasks/done/ARCH-CONTINUATION-1-remaining-queue.md)，Codex实施、自验。用户授权架构治理；两项变更分提交：`ebef3d5a`修真实缺陷，`4cdefcf1`拆依赖。
 
 ## 缺陷不是架构推测
 
