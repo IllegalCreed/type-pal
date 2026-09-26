@@ -7,10 +7,8 @@ import type {
   SceneEventObject,
   Tilemap,
 } from '@type-pal/shared'
-import { loadDialogAssets } from '../assets/dialog-assets.js'
 import {
   fetchPalette,
-  loadAll,
   type SceneAssets,
   SceneAssetsCache,
   type SceneFetcher,
@@ -87,7 +85,7 @@ import type { SpriteAsset } from '../present/battle/draw-battle-sprites.js'
 import { type BattleAssets, BattlePresent } from '../present/battle/present-battle.js'
 import { toSpriteImages } from '../present/draw-sprite.js'
 import { drawTilemap } from '../present/draw-tilemap.js'
-import { loadGlyphs, renderText } from '../present/font.js'
+import { renderText } from '../present/font.js'
 import { createFramebuffer } from '../present/framebuffer.js'
 import {
   applyDialogIconPaletteShift,
@@ -113,6 +111,7 @@ import { createSpessaSynthBackend, setBgmVolume } from './audio-midi.js'
 import { createAudioVolumeController } from './audio-volume.js'
 import { playAvi, setVideoVolume } from './avi-player.js'
 import { finishBootLoading, setBootLoadingNote } from './boot-loading.js'
+import { startBootstrapResourceLoad } from './bootstrap-resources.js'
 import {
   colorFadeBlocking,
   fadeInBlocking,
@@ -236,25 +235,11 @@ export async function bootstrap(canvas: HTMLCanvasElement, deps?: BootstrapDeps)
   // (下方 await soundfontSettled)。不等它的话覆盖层收掉后它仍在后台占满带宽(生产
   // pal.illegalscreed.cn 实测 ~440KB/s,32MB 时代要 ~74s):3.mp4 流卡顿、loadScene 黑屏拉长、
   // BGM 等到 AVI 中途才响(2026-06-12 user 报)。失败不挡启动:audio-midi 回退自取,最终 BGM 静默 + warn。
-  const soundfontData = fetch('/soundfont.sf3').then((r) => {
-    if (!r.ok) throw new Error(`soundfont HTTP ${r.status}`)
-    return r.arrayBuffer()
-  })
-  const soundfontSettled = soundfontData.then(
-    () => {},
-    () => {},
-  )
+  const { soundfontData, soundfontSettled, resourcesReady } = startBootstrapResourceLoad(SCENE_ID)
   // M4 P4.T3: loadGlyphs 与 loadAll 并行加载(glyphs.json 7.8MB,不阻塞 tiles/sprites)。
   // glyphs 加载失败则 warn + 继续(所有文字退化为 tofu 占位,不影响游戏可运行性)。
   // M5 Sync.2: dialog 资产(portrait RGM 92 + DATA chunk 12 icon sprite group)并行加载。
-  const [assets, glyphs, dialogAssets] = await Promise.all([
-    loadAll(SCENE_ID),
-    loadGlyphs().catch((err: unknown) => {
-      console.warn('[bootstrap] loadGlyphs failed, text will render as tofu:', err)
-      return undefined
-    }),
-    loadDialogAssets(),
-  ])
+  const { assets, glyphs, dialogAssets } = await resourcesReady
 
   const {
     tilemap,
