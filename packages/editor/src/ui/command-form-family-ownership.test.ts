@@ -1,5 +1,6 @@
 import { describe, expect, test } from 'vitest'
 import commandFormSource from './CommandForm.js?raw'
+import actorSource from './command-form-actor.js?raw'
 import controlsSource from './command-form-controls.js?raw'
 import dialogueSource from './command-form-dialogue.js?raw'
 import worldSource from './command-form-world.js?raw'
@@ -88,6 +89,42 @@ describe('command form family ownership', () => {
     expect(commandFormSource).toContain(
       "export { makeLoadScene, retargetLoadScene } from './command-form-world.js'",
     )
+  })
+
+  test('actor and party commands own their reorder session and fallback locally', () => {
+    expect(commandFormSource.match(/<ActorCommandForm/g)).toHaveLength(1)
+    for (const implementation of [
+      'partyMemberReorderKeys',
+      'CARRIED_STATUS_TURN_RANGE',
+      'story/set-party-members',
+      "case 'applyActorCondition': {",
+    ])
+      expect(commandFormSource).not.toContain(implementation)
+
+    const props = actorSource.match(/export interface ActorCommandFormProps \{([\s\S]*?)\n\}/)?.[1]
+    expect(props).toBeDefined()
+    for (const field of [
+      'command',
+      'scene',
+      'actors',
+      'references',
+      'showRawJson',
+      'reorderScopeKey',
+      'onChange',
+    ])
+      expect(props).toMatch(new RegExp(`\\b${field}[?:]`))
+    for (const unrelated of [
+      'locale',
+      'assetCatalog',
+      'audioResolver',
+      'scriptIndex',
+      'worldVariables',
+      'shops',
+    ])
+      expect(props).not.toMatch(new RegExp(`\\b${unrelated}[?:]`))
+
+    expect(actorSource).toContain("cmd.kind === 'setParty' ? cmd.members : []")
+    expect(actorSource).toContain('<JsonForm cmd={cmd} onChange={onChange} />')
   })
 
   test('shared controls have one implementation while CommandForm preserves the public picker export', () => {
