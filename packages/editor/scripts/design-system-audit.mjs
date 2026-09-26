@@ -2777,6 +2777,43 @@ function reachableJsxOwners(sourcePath, rootComponent, options = {}) {
 
 const reachableOwnerCache = new Map()
 
+function cssScrollRuleIdentity(rule) {
+  return JSON.stringify({
+    condition: rule.condition,
+    declarations: rule.declarations,
+    order: rule.order,
+    selector: rule.selector,
+    specificity: rule.specificity,
+  })
+}
+
+function changedCssScrollRuleTargets(leftCss, rightCss) {
+  const counts = new Map()
+  const rules = new Map()
+  const add = (css, direction) => {
+    for (const rule of parsedCssScrollRules(css).rules) {
+      const identity = cssScrollRuleIdentity(rule)
+      counts.set(identity, (counts.get(identity) ?? 0) + direction)
+      rules.set(identity, rule)
+    }
+  }
+  add(leftCss, 1)
+  add(rightCss, -1)
+  return [...counts]
+    .filter(([, count]) => count !== 0)
+    .map(([identity]) => rules.get(identity).requiredTargetClasses)
+}
+
+function changedScrollRulesCanReachCandidate(candidate, changedRuleTargets) {
+  if (!changedRuleTargets.length) return false
+  const sourceContents = [...candidate.fingerprints.values()]
+  return changedRuleTargets.some(
+    (requiredClasses) =>
+      requiredClasses.length === 0 ||
+      requiredClasses.every((token) => sourceContents.some((content) => content.includes(token))),
+  )
+}
+
 function reachableVerticalScrollSignature(result, overrides) {
   const elements = new Map((result.elements ?? []).map((element) => [element.elementSite, element]))
   return [...elements.values()]
@@ -2805,6 +2842,12 @@ function cachedReachableJsxOwners(sourcePath, rootComponent, options = {}) {
       [...candidate.fingerprints].every(([source, content]) => contentFor(source) === content)
     if (!sourcesMatch) continue
     if (candidate.css === css) return candidate.result
+    const changedRuleTargets = changedCssScrollRuleTargets(candidate.css, css)
+    if (!changedScrollRulesCanReachCandidate(candidate, changedRuleTargets)) {
+      candidates.unshift({ ...candidate, css })
+      if (candidates.length > 12) candidates.length = 12
+      return candidate.result
+    }
     const baselineScrollSignature =
       candidate.scrollSignature ??
       reachableVerticalScrollSignature(candidate.result, { 'editor.css': candidate.css })
