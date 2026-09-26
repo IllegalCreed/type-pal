@@ -1132,7 +1132,16 @@ describe('editor design-system static boundary', () => {
 
   test('keeps the canonical script workbench on design-system controls', () => {
     const uiRoot = dirname(here)
-    for (const file of ['SharedScriptTab.tsx', 'ScriptEditor.tsx', 'CommandForm.tsx']) {
+    for (const file of [
+      'SharedScriptTab.tsx',
+      'ScriptEditor.tsx',
+      'CommandForm.tsx',
+      'command-form-actor.tsx',
+      'command-form-control.tsx',
+      'command-form-controls.tsx',
+      'command-form-dialogue.tsx',
+      'command-form-world.tsx',
+    ]) {
       const source = readFileSync(join(uiRoot, file), 'utf8')
       expect(source, file).not.toMatch(/<(?:button|input|select|textarea)\b/)
       expect(source, `${file} legacy control token`).not.toMatch(

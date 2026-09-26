@@ -4,12 +4,13 @@
     "families": 17,
     "adoptions": 27,
     "dataPaths": 30,
-    "interactionOwnerFiles": 19
+    "interactionOwnerFiles": 20
   },
   "interactionOwnerFiles": [
     "ActorMode.tsx",
     "CasualtyEditor.tsx",
-    "CommandForm.tsx",
+    "command-form-actor.tsx",
+    "command-form-dialogue.tsx",
     "CutsceneTab.tsx",
     "EnemyTab.tsx",
     "EnemyTeamTab.tsx",
@@ -623,7 +624,7 @@
       "adoptions": [
         {
           "adoptionId": "story/dialogue-cue-rows",
-          "source": "CommandForm.tsx",
+          "source": "command-form-dialogue.tsx",
           "dataPaths": ["dialogue.cue.rows"],
           "adapter": "aggregate-draft-insert",
           "identity": "editor-local-token",
@@ -632,7 +633,7 @@
           "verification": ["ui/CommandForm.current-characterization.test.tsx"],
           "contentSurface": "repeat-row",
           "contentOwner": {
-            "file": "CommandForm.tsx",
+            "file": "command-form-dialogue.tsx",
             "fingerprint": "className=\"cf-dialog-row\""
           },
           "railLayout": "inline",
@@ -643,7 +644,7 @@
         },
         {
           "adoptionId": "story/set-party-members",
-          "source": "CommandForm.tsx",
+          "source": "command-form-actor.tsx",
           "dataPaths": ["setParty.members"],
           "adapter": "aggregate-draft-insert",
           "identity": "editor-local-token",
@@ -652,7 +653,7 @@
           "verification": ["ui/CommandForm.current-characterization.test.tsx"],
           "contentSurface": "repeat-row",
           "contentOwner": {
-            "file": "CommandForm.tsx",
+            "file": "command-form-actor.tsx",
             "fingerprint": "className=\"cf-party-row\""
           },
           "railLayout": "inline",

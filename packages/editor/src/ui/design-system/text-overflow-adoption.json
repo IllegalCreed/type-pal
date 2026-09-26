@@ -790,8 +790,8 @@
       "declarations": ["text-overflow:ellipsis", "white-space:nowrap"],
       "specificity": [0, 1, 0],
       "producer": {
-        "source": "CommandForm.tsx",
-        "component": "CommandForm",
+        "source": "command-form-control.tsx",
+        "component": "ControlCommandForm",
         "callsite": "class:cf-ref-target"
       },
       "policy": "selection-summary",
@@ -1215,8 +1215,8 @@
       "declarations": ["text-overflow:ellipsis"],
       "specificity": [0, 2, 0],
       "producer": {
-        "source": "CommandForm.tsx",
-        "component": "CommandForm",
+        "source": "command-form-world.tsx",
+        "component": "WorldCommandForm",
         "callsite": "class:in"
       },
       "policy": "selection-summary",
@@ -2065,8 +2065,8 @@
       "declarations": ["text-overflow:ellipsis", "white-space:nowrap"],
       "specificity": [0, 2, 0],
       "producer": {
-        "source": "CommandForm.tsx",
-        "component": "CommandForm",
+        "source": "command-form-control.tsx",
+        "component": "ControlCommandForm",
         "callsite": "class:mono"
       },
       "policy": "selection-summary",
@@ -2303,8 +2303,8 @@
       "declarations": ["text-overflow:ellipsis", "white-space:nowrap"],
       "specificity": [0, 2, 0],
       "producer": {
-        "source": "CommandForm.tsx",
-        "component": "CommandForm",
+        "source": "command-form-control.tsx",
+        "component": "ControlCommandForm",
         "callsite": "class:mono"
       },
       "policy": "selection-summary",

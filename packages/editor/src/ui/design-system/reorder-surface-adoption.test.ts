@@ -207,8 +207,8 @@ describe('reorder visible surface adoption gate', () => {
       ['EnemyTab.tsx', /<DsRepeatRow[^>]*className="rule-row"/s],
       ['EnemyTeamTab.tsx', /<DsRepeatRow[^>]*className="enemy-team-slot"/s],
       ['ActorMode.tsx', /<DsRepeatRow[^>]*className="actor-initial-magic-row"/s],
-      ['CommandForm.tsx', /<DsRepeatRow[^>]*className="cf-dialog-row"/s],
-      ['CommandForm.tsx', /<DsRepeatRow[^>]*className="cf-party-row"/s],
+      ['command-form-dialogue.tsx', /<DsRepeatRow[^>]*className="cf-dialog-row"/s],
+      ['command-form-actor.tsx', /<DsRepeatRow[^>]*className="cf-party-row"/s],
     ]
     for (const [file, pattern] of expectations) expect(source(file), file).toMatch(pattern)
   })

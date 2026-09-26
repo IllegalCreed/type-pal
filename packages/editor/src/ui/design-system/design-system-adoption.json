@@ -1775,7 +1775,6 @@
       "components": [
         "App.tsx",
         "BattleFieldPicker.tsx",
-        "CommandForm.tsx",
         "EntityPageAnimationEditor.tsx",
         "EntityStateSelect.tsx",
         "ImageAssetPicker.tsx",
@@ -1785,7 +1784,12 @@
         "ScriptBehaviorInspector.tsx",
         "ScriptEditor.tsx",
         "ScriptSceneHookInspector.tsx",
-        "SpriteThumb.tsx"
+        "SpriteThumb.tsx",
+        "command-form-actor.tsx",
+        "command-form-control.tsx",
+        "command-form-controls.tsx",
+        "command-form-dialogue.tsx",
+        "command-form-world.tsx"
       ],
       "status": "adopted",
       "owners": {
@@ -1940,13 +1944,17 @@
       "registry": "story/scripts",
       "components": [
         "BattleFieldPicker.tsx",
-        "CommandForm.tsx",
         "EntityStateSelect.tsx",
         "ImageAssetPicker.tsx",
         "MusicPicker.tsx",
         "NamedIdPicker.tsx",
         "ScriptEditor.tsx",
-        "SharedScriptTab.tsx"
+        "SharedScriptTab.tsx",
+        "command-form-actor.tsx",
+        "command-form-control.tsx",
+        "command-form-controls.tsx",
+        "command-form-dialogue.tsx",
+        "command-form-world.tsx"
       ],
       "status": "adopted",
       "owners": {

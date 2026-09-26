@@ -2036,7 +2036,7 @@ type DataStateProps`,
       cwd: packageRoot,
       encoding: 'utf8',
     })
-    expect(output).toContain('design-system gate passed: 95 files, 2 evidence-bound exceptions')
+    expect(output).toContain('design-system gate passed: 100 files, 2 evidence-bound exceptions')
   }, 15_000)
 
   test('keeps legitimate native and dynamic geometry behind public boundaries', () => {

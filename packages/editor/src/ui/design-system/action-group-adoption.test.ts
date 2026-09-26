@@ -163,11 +163,11 @@ describe('action group adoption gate', () => {
     },
     {
       name: 'mixed presentation mode',
-      file: 'CommandForm.tsx',
+      file: 'command-form-dialogue.tsx',
       mutate: (value: string) =>
         value.replace(
-          '<DsIconButton\n                              variant="danger"',
-          '<DsButton>删除</DsButton><DsIconButton\n                              variant="danger"',
+          /<DsIconButton\n\s+variant="danger"/,
+          '<DsButton>删除</DsButton>$&',
         ),
       error: /one action presentation mode/,
     },
@@ -183,7 +183,7 @@ describe('action group adoption gate', () => {
     },
     {
       name: 'import alias',
-      file: 'CommandForm.tsx',
+      file: 'command-form-dialogue.tsx',
       mutate: (value: string) => value.replace('DsActionGroup,', 'DsActionGroup as Group,'),
       error: /import aliases evade/,
     },

@@ -20,7 +20,7 @@
     },
     {
       "id": "story/dialogue-cue-rows/actions",
-      "source": "CommandForm.tsx",
+      "source": "command-form-dialogue.tsx",
       "fingerprint": "className=\"cf-dialog-row-actions\"",
       "occurrence": 1,
       "density": "compact",
@@ -30,7 +30,7 @@
     },
     {
       "id": "story/set-party-members/actions",
-      "source": "CommandForm.tsx",
+      "source": "command-form-actor.tsx",
       "fingerprint": "className=\"cf-party-row-actions\"",
       "occurrence": 1,
       "density": "compact",

@@ -126,7 +126,7 @@
     },
     {
       "adoptionId": "story/set-party-members-append-default",
-      "source": "CommandForm.tsx",
+      "source": "command-form-actor.tsx",
       "owner": "SetPartyCommandForm",
       "dataPaths": ["scripts[*].commands[kind=setParty].members"],
       "candidateOwner": "live battlers",

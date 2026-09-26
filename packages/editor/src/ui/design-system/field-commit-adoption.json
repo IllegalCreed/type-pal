@@ -9,6 +9,11 @@
         "EntityPageAnimationEditor.tsx",
         "ScriptEditor.tsx",
         "CommandForm.tsx",
+        "command-form-actor.tsx",
+        "command-form-control.tsx",
+        "command-form-controls.tsx",
+        "command-form-dialogue.tsx",
+        "command-form-world.tsx",
         "ScriptSceneHookInspector.tsx",
         "ScriptBehaviorInspector.tsx"
       ],
@@ -34,10 +39,22 @@
           "id": "canonical-command-dialog",
           "kind": "aggregate-draft",
           "owner": "CanonicalScriptBodyEditor.editingDraft",
-          "files": ["ScriptEditor.tsx", "CommandForm.tsx"],
+          "files": [
+            "ScriptEditor.tsx",
+            "CommandForm.tsx",
+            "command-form-actor.tsx",
+            "command-form-control.tsx",
+            "command-form-controls.tsx",
+            "command-form-dialogue.tsx",
+            "command-form-world.tsx"
+          ],
           "controlOwners": [
             "CanonicalCommandForm",
             "CommandForm",
+            "ActorCommandForm",
+            "ControlCommandForm",
+            "DialogueCommandForm",
+            "WorldCommandForm",
             "Num",
             "Txt",
             "JsonForm",
@@ -146,7 +163,16 @@
     {
       "registry": "story/scripts",
       "status": "adopted",
-      "productionFiles": ["SharedScriptTab.tsx", "ScriptEditor.tsx", "CommandForm.tsx"],
+      "productionFiles": [
+        "SharedScriptTab.tsx",
+        "ScriptEditor.tsx",
+        "CommandForm.tsx",
+        "command-form-actor.tsx",
+        "command-form-control.tsx",
+        "command-form-controls.tsx",
+        "command-form-dialogue.tsx",
+        "command-form-world.tsx"
+      ],
       "transactions": [
         {
           "id": "shared-script-metadata",
@@ -158,10 +184,22 @@
           "id": "shared-script-command-dialog",
           "kind": "aggregate-draft",
           "owner": "CanonicalScriptBodyEditor.editingDraft",
-          "files": ["ScriptEditor.tsx", "CommandForm.tsx"],
+          "files": [
+            "ScriptEditor.tsx",
+            "CommandForm.tsx",
+            "command-form-actor.tsx",
+            "command-form-control.tsx",
+            "command-form-controls.tsx",
+            "command-form-dialogue.tsx",
+            "command-form-world.tsx"
+          ],
           "controlOwners": [
             "CanonicalCommandForm",
             "CommandForm",
+            "ActorCommandForm",
+            "ControlCommandForm",
+            "DialogueCommandForm",
+            "WorldCommandForm",
             "Num",
             "Txt",
             "JsonForm",
@@ -242,7 +280,12 @@
         "ItemUseEffectEditor.tsx",
         "SkillAnimationEditor.tsx",
         "ScriptEditor.tsx",
-        "CommandForm.tsx"
+        "CommandForm.tsx",
+        "command-form-actor.tsx",
+        "command-form-control.tsx",
+        "command-form-controls.tsx",
+        "command-form-dialogue.tsx",
+        "command-form-world.tsx"
       ],
       "transactions": [
         {
@@ -264,10 +307,22 @@
           "id": "item-private-script-dialog",
           "kind": "aggregate-draft",
           "owner": "CanonicalScriptBodyEditor.editingDraft",
-          "files": ["ScriptEditor.tsx", "CommandForm.tsx"],
+          "files": [
+            "ScriptEditor.tsx",
+            "CommandForm.tsx",
+            "command-form-actor.tsx",
+            "command-form-control.tsx",
+            "command-form-controls.tsx",
+            "command-form-dialogue.tsx",
+            "command-form-world.tsx"
+          ],
           "controlOwners": [
             "CanonicalCommandForm",
             "CommandForm",
+            "ActorCommandForm",
+            "ControlCommandForm",
+            "DialogueCommandForm",
+            "WorldCommandForm",
             "Num",
             "Txt",
             "JsonForm",
