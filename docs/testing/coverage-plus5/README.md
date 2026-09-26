@@ -13,6 +13,7 @@
 | [migrate纯转换链](../codex-migrate-pure/README.md) | Codex | done，83项/六针/统一门通过 | +527 |
 | [migrate当前汇总链](../codex-migrate-assembly/README.md) | Codex | done，49项/六针/统一门通过 | +169 |
 | [migrate当前场景链](../codex-migrate-scenes/README.md) | Codex | done，53项/六针/统一门通过 | +327 |
+| [migrate当前脚本翻译](../codex-translate-events/README.md) | Codex | done，59项/六针/统一门通过 | +338 |
 
 统计以官方整批并集为准，不相加贡献者局部数字。实现期间只定向/相邻/TC；整批串行check→ratchet→
 受保护单次strict-fast，通过后更新本表并推送。用户无需回来逐次批准继续；需要新的产品裁决时才问。
@@ -32,3 +33,8 @@
 相对起点+1.619234543670265pp，距离目标还差2,136分支。check9,081/ratchet/保护20544351的
 单次strict8,589/701通过；生产清单与各分母不变，六个其它包baseline对象不变。
 已检查远端：Cursor仍为被counter的b6bcc9b4；GLM新候选a00f12c2进入下一批独立接收，不提前计入。
+
+2026-09-26第四批：44,779/63,178 = **70.87752065592453%**；累计+1,361分支/+244测试，
+相对起点约+2.15pp，距离目标还差1,798分支。check9,140、保护9fe9ea11的串行ratchet/strict8,648通过；
+701生产文件/分母及其它六包baseline对象不变。首轮本席误并发导致覆盖目录竞争、无效运行及终止
+已在本批报告披露；不以该首轮作为证据。Cursor仍无新SHA；GLM独立counter未闭，不计入本次增量。

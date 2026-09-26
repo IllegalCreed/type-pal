@@ -14,6 +14,7 @@
 - [Codex六组自包含迁移转换](codex-migrate-pure/README.md)（原盘已有证明与新增边界分列，不写生成产物）。
 - [Codex当前迁移汇总回归](codex-migrate-assembly/README.md)（真实汇总入口、优先级与敌技能闭包）。
 - [Codex当前场景迁移回归](codex-migrate-scenes/README.md)（入口、实体、遇敌、绑定、会话与默认传播六组）。
+- [Codex当前脚本翻译回归](codex-translate-events/README.md)（六组现行消费链，排除未消费历史入口）。
 - [全仓分支覆盖率+5pp持续队列](coverage-plus5/README.md)与[GLM同步守卫第三批](glm-content-guards-wave3/README.md)（大批实施、统一统计）。
 - [Cursor八组命令行为补测](cursor-command-boundaries-r3/README.md)、[Codex五组资源索引补测](codex-content-resources/README.md)与[共同冻结机账](coverage-parallel-wave3-evidence.json)（独立文件范围，整批统计）。
 - [Cursor九组命令最终验收](cursor-commands-wave2-integration.md)与[统一机账](cursor-commands-wave2-integration-evidence.json)（R1–R3闭合，check8740/strict8248/701）。

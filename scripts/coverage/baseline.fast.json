@@ -1,14 +1,14 @@
 {
   "schemaVersion": 2,
   "profile": "fast",
-  "generatedAt": "2026-09-26T09:48:10.239Z",
+  "generatedAt": "2026-09-26T10:31:38.489Z",
   "provider": {
     "name": "v8",
     "vitest": "4.1.7",
     "coverageV8": "4.1.7"
   },
   "sourceFileCount": 701,
-  "testCount": 8589,
+  "testCount": 8648,
   "packages": {
     "shared": {
       "name": "@type-pal/shared",
@@ -1100,8 +1100,8 @@
       ],
       "scopeDigest": "980711e930306f3ff6a1d70817611eb6f83e3681f7568f886680e6ebe1939e2f",
       "fastTests": {
-        "testCount": 607,
-        "testFileCount": 73,
+        "testCount": 666,
+        "testFileCount": 79,
         "files": [
           "packages/migrate/src/bake-indexed-rgba.test.ts",
           "packages/migrate/src/current-only-product-boundary.test.ts",
@@ -1174,6 +1174,12 @@
           "packages/migrate/src/shop-author-merge.test.ts",
           "packages/migrate/src/source-facts.boundaries.test.ts",
           "packages/migrate/src/translate-enemy-scripts.test.ts",
+          "packages/migrate/src/translate-events.bindings.test.ts",
+          "packages/migrate/src/translate-events.branches.test.ts",
+          "packages/migrate/src/translate-events.folds.test.ts",
+          "packages/migrate/src/translate-events.motion.test.ts",
+          "packages/migrate/src/translate-events.registry.test.ts",
+          "packages/migrate/src/translate-events.state.test.ts",
           "packages/migrate/src/translate-events.test.ts",
           "packages/migrate/src/world-sprite-layout-registry.test.ts"
         ],
@@ -1534,6 +1540,36 @@
             "identityDigest": "14373f854165f6653b082ad67a3dab850b0ec8225f4044b4537bb3dc2686fed5"
           },
           {
+            "file": "packages/migrate/src/translate-events.bindings.test.ts",
+            "testCount": 8,
+            "identityDigest": "ae249d7dadc7f8fbf3484108e879c82ea1297705da4795b849124ec32b9a8290"
+          },
+          {
+            "file": "packages/migrate/src/translate-events.branches.test.ts",
+            "testCount": 12,
+            "identityDigest": "7d442d1dfef50c62209e6670d175d8675431adf1d5195cdd1ab4322e17a41898"
+          },
+          {
+            "file": "packages/migrate/src/translate-events.folds.test.ts",
+            "testCount": 6,
+            "identityDigest": "d8e462483138df012e47f0d4a94f9506d25c21814e23718007f7f344b7e57454"
+          },
+          {
+            "file": "packages/migrate/src/translate-events.motion.test.ts",
+            "testCount": 15,
+            "identityDigest": "fa60355274d9b742c7ee332acbbaa86c762c091a4e71367e71d3b5741c7a61c7"
+          },
+          {
+            "file": "packages/migrate/src/translate-events.registry.test.ts",
+            "testCount": 8,
+            "identityDigest": "7d61190ed82e6f534c76cce45025a30c4233c397aa604a03f74797b64070bcb2"
+          },
+          {
+            "file": "packages/migrate/src/translate-events.state.test.ts",
+            "testCount": 10,
+            "identityDigest": "b67ca0c2aa95f9f57cdabe55f5021935c2579725a20595d0799a10bd36c522de"
+          },
+          {
             "file": "packages/migrate/src/translate-events.test.ts",
             "testCount": 78,
             "identityDigest": "65692b290d6b6d0da23c23f502c80c834d19e9419669f40bc9ecc8cb51c79cec"
@@ -1544,25 +1580,25 @@
             "identityDigest": "baba8c49c53ef8a741ef1c605723ba72d227914206784bc3a5f719e12c8ff8ee"
           }
         ],
-        "identityDigest": "10edfdf37213513643f6e67235e0a3e9e282306d170944e3b84e8e96d19f448d",
+        "identityDigest": "5d2622f23e567974ac5a98aefb87d16e7bd75d0dfcda9b141740c9b029c2f29a",
         "duplicateIdentityCount": 1,
-        "executionDigest": "bc47d0f1add153d9a6ac3e7fdd8d3d808e891107b17c57269df8ad1bbd7c30c9"
+        "executionDigest": "9764189a81abcff869029fbbfb8001799fe970bdee900dd8710fe9014cd29ad6"
       },
       "metrics": {
         "statements": {
-          "covered": 5213,
+          "covered": 5413,
           "total": 7712
         },
         "branches": {
-          "covered": 4178,
+          "covered": 4516,
           "total": 6436
         },
         "functions": {
-          "covered": 752,
+          "covered": 760,
           "total": 1165
         },
         "lines": {
-          "covered": 4644,
+          "covered": 4829,
           "total": 6724
         }
       }
@@ -6094,19 +6130,19 @@
   },
   "total": {
     "statements": {
-      "covered": 62386,
+      "covered": 62586,
       "total": 80643
     },
     "branches": {
-      "covered": 44441,
+      "covered": 44779,
       "total": 63178
     },
     "functions": {
-      "covered": 11514,
+      "covered": 11522,
       "total": 15058
     },
     "lines": {
-      "covered": 56106,
+      "covered": 56291,
       "total": 70600
     }
   }

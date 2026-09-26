@@ -1,0 +1,114 @@
+{
+  "schemaVersion": 1,
+  "base": "9fe9ea11",
+  "owner": "Codex",
+  "status": "accept",
+  "sourceHash": "4d4efd3f27eb81d3537071d480a6b4f0a233fc142349b8107ce1c54ceb2de7f3",
+  "testFiles": [
+    {
+      "file": "packages/migrate/src/translate-events.bindings.test.ts",
+      "passed": 8,
+      "failed": 0
+    },
+    {
+      "file": "packages/migrate/src/translate-events.branches.test.ts",
+      "passed": 12,
+      "failed": 0
+    },
+    {
+      "file": "packages/migrate/src/translate-events.folds.test.ts",
+      "passed": 6,
+      "failed": 0
+    },
+    {
+      "file": "packages/migrate/src/translate-events.motion.test.ts",
+      "passed": 15,
+      "failed": 0
+    },
+    {
+      "file": "packages/migrate/src/translate-events.registry.test.ts",
+      "passed": 8,
+      "failed": 0
+    },
+    {
+      "file": "packages/migrate/src/translate-events.state.test.ts",
+      "passed": 10,
+      "failed": 0
+    }
+  ],
+  "adjacentPassed": 190,
+  "mutants": {
+    "controls": 6,
+    "detected": 6,
+    "directory": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/codex-translate-events-mutants-zSXPuE"
+  },
+  "check": {
+    "exit": 0,
+    "testCount": 9140
+  },
+  "invalidRuns": [
+    {
+      "run": "ratchet",
+      "exit": 1,
+      "reason": "Codex prematurely started strict; shared coverage output removed"
+    },
+    {
+      "run": "strict",
+      "exit": 143,
+      "reason": "Codex terminated the concurrent run"
+    }
+  ],
+  "finalSerial": {
+    "baseRef": "9fe9ea11",
+    "ratchetExit": 0,
+    "strictExit": 0,
+    "logs": ["/tmp/codex-translate-ratchet-serial.log", "/tmp/codex-translate-strict-serial.log"]
+  },
+  "before": {
+    "total": {
+      "statements": {
+        "covered": 62386,
+        "total": 80643
+      },
+      "branches": {
+        "covered": 44441,
+        "total": 63178
+      },
+      "functions": {
+        "covered": 11514,
+        "total": 15058
+      },
+      "lines": {
+        "covered": 56106,
+        "total": 70600
+      }
+    },
+    "testCount": 8589
+  },
+  "after": {
+    "total": {
+      "statements": {
+        "covered": 62586,
+        "total": 80643
+      },
+      "branches": {
+        "covered": 44779,
+        "total": 63178
+      },
+      "functions": {
+        "covered": 11522,
+        "total": 15058
+      },
+      "lines": {
+        "covered": 56291,
+        "total": 70600
+      }
+    },
+    "testCount": 8648
+  },
+  "sourceFileCount": 701,
+  "otherPackagesIdentical": true,
+  "sourceListsIdentical": true,
+  "remainingBranches": 1798,
+  "baselineSha256": "ecd2a3ea2972105b2ae35aeba396752fc8fc7017a0436846484c1badad10f969"
+}
