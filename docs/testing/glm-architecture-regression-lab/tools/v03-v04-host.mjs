@@ -23,7 +23,8 @@ import { dirname, join, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
 const labRoot = resolve(dirname(fileURLToPath(import.meta.url)), '..')
-const repoRoot = resolve(labRoot, '../../..')
+// Codex may replay the same owned fixture against an isolated integration candidate.
+const repoRoot = resolve(process.env.LAB_REPO_ROOT ?? resolve(labRoot, '../../..'))
 const fixtureDir = process.env.LAB_V4_DIR ?? '/tmp/type-pal-glm-lab-r2/v4-fixture'
 const port = Number(process.argv[2] ?? 6014)
 const ttlSeconds = Number(process.argv[3] ?? 1800)
@@ -177,7 +178,7 @@ const server = await vite.createServer({
       },
     },
   ],
-  server: { port, strictPort: true },
+  server: { host: '127.0.0.1', port, strictPort: true },
 })
 await server.listen()
 console.log(

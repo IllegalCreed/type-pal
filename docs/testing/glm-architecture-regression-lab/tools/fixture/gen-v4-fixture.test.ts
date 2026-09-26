@@ -10,9 +10,10 @@
  */
 
 import { mkdirSync, writeFileSync } from 'node:fs'
-import { join } from 'node:path'
+import { dirname, join } from 'node:path'
 import { deflateSync } from 'node:zlib'
 import { buildBlankProject } from '@lab/editor/seed'
+import { validateProjectMap } from '@type-pal/content'
 import { expect, test } from 'vitest'
 
 const OUT_DIR = process.env.LAB_V4_OUT ?? '/tmp/type-pal-glm-lab-r2/v4-fixture'
@@ -226,12 +227,21 @@ test('生成 lab-v4 隔离 fixture 并先验 catalog bytes/sha256', async () => 
   const files: Record<string, ArrayBuffer | Uint8Array | string> = {}
   for (const [rel, value] of Object.entries(fileset)) {
     files[rel] =
-      value instanceof ArrayBuffer || value instanceof Uint8Array
-        ? (value as ArrayBuffer | Uint8Array)
-        : // JSON 值统一按 seed 序列化口径：2 空格缩进 + 单个结尾换行（色盘 catalog sha 按此字节计算）
-          `${JSON.stringify(value, null, 2)}\n`
+      typeof value === 'string'
+        ? value
+        : value instanceof ArrayBuffer || value instanceof Uint8Array
+          ? (value as ArrayBuffer | Uint8Array)
+          : // JSON 值统一按 seed 序列化口径：2 空格缩进 + 单个结尾换行（色盘 catalog sha 按此字节计算）
+            `${JSON.stringify(value, null, 2)}\n`
   }
   const replacement = iconBlueV2()
+  // buildBlankProject already formats map JSON as text; do not JSON-stringify it twice.
+  const mapIndex = fileset['content/maps/index.json'] as { maps: Array<{ path: string }> }
+  for (const entry of mapIndex.maps) {
+    const text = files[entry.path]
+    expect(typeof text).toBe('string')
+    validateProjectMap(JSON.parse(text as string))
+  }
   files['__lab__/icon-blue-v2.png'] = replacement // 宿主侧替换源（非工程闭包内文件，宿主启动时剔除）
   const written: Record<string, number | string> = {}
   for (const [rel, value] of Object.entries(files)) {
