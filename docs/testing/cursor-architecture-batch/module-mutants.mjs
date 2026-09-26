@@ -138,6 +138,14 @@ const cases = {
     to: "classes('ds-file-picker-field', disabled && 'is-disabled', className)",
     title: 'keeps native file, range, and color input identity with file-picker class',
   },
+  u05: {
+    id: 'u05-field-inline',
+    sourceFile: 'src/ui/design-system/field-layout.tsx',
+    testFile: 'src/ui/design-system/field-layout.test.tsx',
+    from: "props.layout === 'inline' && 'ds-field--inline'",
+    to: "props.layout === 'inline' && 'ds-field--row'",
+    title: 'keeps field-group, field, and control-group identity with inline layout and required asterisk',
+  },
 }
 
 const selected = process.argv[2] ? [process.argv[2]] : Object.keys(cases)

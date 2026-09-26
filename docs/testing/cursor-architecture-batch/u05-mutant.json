@@ -1,0 +1,13 @@
+{
+  "id": "u05-field-inline",
+  "file": "packages/editor/src/ui/design-system/field-layout.tsx",
+  "sha256": "e8f3a51dd8af02120d337fc74b169f3698e32279b1ab67006468bf011ed93b43",
+  "hashUnchanged": true,
+  "greenExit": 0,
+  "greenPassed": 1,
+  "redExit": 1,
+  "failedTitle": "keeps field-group, field, and control-group identity with inline layout and required asterisk",
+  "failedFullName": "U05 field layout keeps field-group, field, and control-group identity with inline layout and required asterisk",
+  "assertion": "AssertionError: expected 'ds-field ds-field--row' to be 'ds-field ds-field--inline' // Object.is equality",
+  "ok": true
+}
