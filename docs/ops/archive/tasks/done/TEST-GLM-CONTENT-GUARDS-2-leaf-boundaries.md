@@ -1,6 +1,6 @@
 # TEST-GLM-CONTENT-GUARDS-2 — 六组校验叶边界补测
 
-Status: rework
+Status: done
 Owner: GLM
 Reviewer / Integration Owner: Codex
 Phase: phase2
@@ -23,7 +23,7 @@ Codex已读`enemy-validation-shapes.ts:1–37`、`enemy-ai-condition-guard.ts:4�
 非法单字段按已有错误拒绝。最强替代解释是该边界已被别的入口测到；必须先去重，已证写精确title/file，
 不再添一份。若当前guard实际放过违反当前类型/正式loader合同的输入，写最小诊断并交Codex裁决，不锁定缺陷为绿预期。
 
-必读AGENTS/CLAUDE/READ-FIRST、[E2回执](../../testing/content-validation-refactor.md)、
+必读AGENTS/CLAUDE/READ-FIRST、[E2回执](../../../../testing/content-validation-refactor.md)、
 上述三个目标与`enemy-script.test.ts`、`enemy-script.boundaries.test.ts`、`enemy-script.wave2.test.ts`、
 `author-battle-dialogue-boundary.test.ts`、`validate-enemy-crosscalls.test.ts`。
 
@@ -67,12 +67,12 @@ Codex已读`enemy-validation-shapes.ts:1–37`、`enemy-ai-condition-guard.ts:4�
   全包+20L/+25S/+30B分母零变化；全content 957/957、TC、改动Biome 0 error、check:docs均过。
   未发现产品缺陷；锁绿现状合同见[回执](https://github.com/IllegalCreed/type-pal/blob/b8e037cb3f4da68e4c5217842949bddbe6d23828/docs/testing/glm-content-guards-wave2/receipt.md)。
   不合main、不标done，待Codex独立验收。
-- Codex独立验收：counter（b8e037cb，2026-09-26），仅R1–R4；见[本席报告](../../testing/guard-leaf-intake-review.md)与[机账](../../testing/guard-leaf-review-evidence.json)。上方作者交付区来自候选，仅将回执链接适配为固定SHA地址；仅作自验记录，不等于Codex确认其每项声明。done未开放。
+- Codex独立验收：counter（b8e037cb，2026-09-26），仅R1–R4；见[本席报告](../../../../testing/guard-leaf-intake-review.md)与[机账](../../../../testing/guard-leaf-review-evidence.json)。上方作者交付区来自候选，仅将回执链接适配为固定SHA地址；仅作自验记录，不等于Codex确认其每项声明。done未开放。
 
 ## Codex r2 接收 / 当前返工提示词
 
 2026-09-26 Codex：候选 `99113d225fe2322395238a7b60fdb4a06e72d69c` 独立 **counter，仅C1/C2**。
-见[本轮报告](../../testing/guard-leaf-r2-review.md)和[机账](../../testing/guard-leaf-r2-evidence.json)。
+见[本轮报告](../../../../testing/guard-leaf-r2-review.md)和[机账](../../../../testing/guard-leaf-r2-evidence.json)。
 R1原三针已检出、R2 wait/rows/playSound/中间hook已修、R3真实判据旧反例全拒、R4格式与percent归属已闭；不重开。
 全content957/957、TC、Biome/docs通过。但七处helper调用比较了另一个新对象，exactKeys/body改写仍91全绿；
 两处turn正控仍分别是aloneAlive/chance，嵌套turn一律错拒也91全绿。回执相关“全部闭合”声明不能采信。
@@ -114,6 +114,44 @@ R4：修提交的evidence.json格式；最终树回执/计数/输入纪律如实
 只写本卡GLM返工块、三测试/fixture与专属证据。提交推送真实最终SHA；不合main、不标done。
 无需替Codex补跑全仓check/ratchet/strict；局部自验结果如实登记，独立复验和最终收口由Codex完成。
 ```
+## GLM 候选 r1–r3 原交付块（合并保留）
+
+- GLM作者交付 r1（2026-09-26，b8e037cb）：G1–G6共91行叶测试+fixture；被Codex intake审查counter
+  （R1–R4，`docs/testing/guard-leaf-intake-review.md`@`ca96d45a`（origin/main，本分支未合入故不作本地链接）：输入保真/精确路径未钉住、同kind正控与单轴构造失实、
+  负控判据误收五反例且缺运行态见证、evidence.json格式error与回执校准）。
+- GLM返工交付 r2（2026-09-26，同分支窄返工）：R1拒绝断言全部改完整message全等（expectExactError），
+  对象/数组实际输入（含合法正控、G5 cue、容器输入）独立快照前后比较，原始值直接值断言；R2每个拒绝先跑
+  同kind同形状合法正控，修wait缺ms、turn补value、多hook先过真实容器仅改ms一轴、真删rows、playSound同kind；
+  R3判据重写为同一judge函数（恰exit/恰一红/失败记录绝对文件+实际fullName/其余90过无skip/逐条拒混错、
+  timeout按首行），load命中写{ id,target}运行态见证，自测10例（五反例+有效红/exit/零执行/对照）全按预期；
+  R4 evidence.json过Biome、回执/卡按最终树校准，G2百分比行改口为共享叶直入口变体不计新证分支。
+  复验：91/91绿；判据自测10例+对照+6针各恰红目标fullName；审查席三探针（record改写/cue改写/路径前缀）
+  各自恰红对应新断言；全content 957/957、TC、改动Biome 0 error（仅4个故意针面warning）、check:docs过。
+  行数仍91，不作为新增分支数主张。不合main、不标done，待Codex复验。
+- GLM返工交付 r3（2026-09-26，同分支窄返工，仅C1/C2）：C1七处expectAcceptsUnchanged改为比较生产
+  实际消费的同一对象（闭包消费第二参数或同一具名input；record/exactKeys/G6 fullInput/body直入口），
+  补['x']/[null]/坏exactKeys对象实际输入快照，G1合法exactKeys也走保真；helper执行包not.toThrow使
+  正控意外抛出呈AssertionError。C2 G3 not行改同入口合法not(turn>=1)先过、坏输入从cond复制仅改op，
+  未知kind行补同入口正控；G6参数表每行带同形状good/bad，when行合法turn经同一容器执行、坏输入仅改op。
+  复验：91/91绿；Codex r2见证工具（guard-leaf-review-witnesses.mjs@7cac1d72）control绿、r1旧三针保持
+  detected、新三针（exactKeys改写实际对象/body数组splice/嵌套turn恒拒）全部MISSED→detected；
+  原6针oracle自测10例+对照+6针重跑全绿（once针目标名随G6参数表重构同步）；全content 957/957、TC、
+  本批改动Biome 0 error（4故意针面warning；全src另有runtime-script.ts既有warning属分支继承）、
+  check:docs、diff --check过。已闭项不重开、矩阵未扩大、行数仍91。不合main、不标done。
+- Codex独立验收：pending；done未开放，固定三签暂停。
+
+## Codex r3 独立接收（当前）
+
+2026-09-26：候选`09c8ccba`（正文`a3ab195a`）**accept**，C1/C2闭合。
+见[接收报告](../../../../testing/guard-leaf-r3-review.md)。七处调用已比实际实参；逐行turn正控与坏输入同容器，
+本席六针全部检出（旧三针仍有效、新三针由MISSED转AssertionError），判据旧误收反例全拒。
+独立原1+6反控、全content957、TC、改动Biome/docs/diff通过。只接收原白名单、保留历史counter/作者块。
+已进入主线集成验证；done待与Codex资源65项统一check→ratchet→受保护单次strict-fast，不拿作者自验代替独立复核。
+无下一位Agent提示词，本席负责门禁与收口。
+
+2026-09-26统一收口：`d1e99a0d`集成，check8896/官方ratchet/保护7d64de13单次strict-fast8404全过，
+Codex核定**done**。三守卫行113/113、分支114/114；两批并集及贡献披露见
+[机账](../../../../testing/codex-content-resources/evidence.json)。所有历史counter仅作可追溯记录，当前无未闭阻断。
 
 ## 下一位 GLM 提示词
 

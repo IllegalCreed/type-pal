@@ -1,4 +1,52 @@
 # Codex资源索引与引用补测
 
-[任务卡](../../ops/tasks/TEST-CODEX-CONTENT-RESOURCES-1-indices-and-references.md) ·
-[冻结缺口](../coverage-parallel-wave3-evidence.json)。五模块成批补测，尚未计官方增量。
+[任务卡](../../ops/archive/tasks/done/TEST-CODEX-CONTENT-RESOURCES-1-indices-and-references.md) ·
+[冻结缺口](../coverage-parallel-wave3-evidence.json)。五模块成批补测，不以测试数量冒称新增分支。
+
+## 实施候选（2026-09-26）
+
+Codex实施/自验，产品与旧测试零修改；新增五测试65项、一个JSON快照fixture。
+
+| 组 | 新增文件（content/src） | 项数 | 与旧测试的差异 |
+|---|---|---:|---|
+| R1 | frame-sequence.resource-boundaries.test.ts | 20 | 原有35帧像素/UTF8 2与3字节/头部与payload轴不复制；补index叶、4字节码点、块/帧非法索引、provider元数据与故障停止 |
+| R2 | script-library.resource-boundaries.test.ts | 20 | 原创建/更新/删末项/基本imports不复制；补元数据形状、同chunk兄弟保留、输入别名、1MiB精确边界、实际owner/孤儿/字节hash独立轴 |
+| R3 | asset.resource-boundaries.test.ts | 13 | 原kind/bytes/path/角色类型/多域walk不复制；补catalog元数据叶、角色ID、canonical单节点与choreography/递归所有权分工、IO非Error拒绝 |
+| R4 | enemy-team-reference.resource-boundaries.test.ts | 2 | 公开导出叶扫描器的重复ID/精确where/同名非tag；当前**无生产调用者**，不冒称编辑器删除保护或可见缺陷 |
+| R5 | project-map.resource-boundaries.test.ts | 10 | 原矩阵/所有权冲突/完整往返不复制；补root/refs/名称/placement形状剩余轴与shared content直入口 |
+
+坏JSON边界与canonical合法输入分开；不构造不可达内部状态追分。
+TPFS编码器非ASCII元数据、已校验块后的缺前帧/缺块、数GB分配防御，脚本找到owner后缺chunk等仍不强造。
+官方缺口156B/64L不是交付承诺，后续以统一实测为准。
+
+验证：首次65定向绿，TC指出两处branch fixture缺cond（旧guard浅检未拒）；已补真实chance条件，
+随后content81文件931/931与TC通过。反控首次被严格判据拒绝：Vitest异步toThrow失败标作Error；
+改为捕获实际结局、独立比较完整message，未放宽判据。最终[负控工具](mutants.mjs)+[内存加载配置](mutants.config.mjs)
+65绿对照+5针（块索引门/删除输入别名/choreography漏边/空敌队误报/地图名称强转）均恰1个候选AssertionError，
+8类判据反例每针走同一judge拒绝，产品hash未变。原始输出
+`/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/codex-resource-mutants-MBaE2l`。
+
+TPFS索引/provider测试注入恒等字节变换，只证明索引与回调生命周期；真实zlib/完整像素往返沿用旧contracts。
+
+## 正式接入与统一门（2026-09-26）
+
+实现候选`d1e99a0d`，GLM接收候选`09c8ccba`。合计156项：Codex65+GLM91；
+content84文件1022/1022、全仓check8896、官方ratchet、保护`7d64de13`的**单次严格fast8404/701**均exit0。
+本席核其它六包完整基线对象相同，701生产文件/所有分母相同，产品/旧测试/范围配置/阈值零改。
+全仓新增108语句/134分支/3函数/73行；content四维为90.42%/85.55%/95.07%/91.92%（S/B/F/L）。
+全仓为76.16%/68.72%/75.79%/78.28%。[机账](evidence.json)留前后整数与日志，不把用例数当增量。
+
+| 直接目标 | 行前→后 | 分支前→后 |
+|---|---:|---:|
+| frame-sequence | 251→264 /270 | 187→206 /236 |
+| script-library | 163→177 /181 | 164→208 /221 |
+| asset | 283→293 /296 | 260→278 /289 |
+| enemy-team-reference | 0→12 /12 | 0→11 /11 |
+| project-map | 155→156 /157 | 149→156 /159 |
+| GLM三个守卫合计 | 94→113 /113 | 85→114 /114 |
+
+GLM三模块前行数44+35+15=94，直增19行；其包级独立增量20行包含其它调用链。
+五目标直增50L/99B，GLM三目标直增19L/29B；其余content调用链并集4L/6B，不强行分摊作者。
+五目标尚有57臂未命中：包含typed后的防御、可达未补与不值得巨量分配的轴；没有宣称100%或整仓目标完成。
+两卡按当前Codex分派/独立接收模式done；GLM作者自验未冒充第三方。full/Q1/Q2/剧情与远端CI未借此通过。
+不计另一架构对话或Cursor尚未交付批。无下一位Agent提示词。

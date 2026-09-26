@@ -1,0 +1,202 @@
+{
+  "task": "TEST-GLM-CONTENT-GUARDS-2",
+  "date": "2026-09-26",
+  "owner": "GLM",
+  "round": "r3 rework（r2 候选 99113d22 被 Codex counter，仅 C1/C2；本文件按 C1/C2 闭合后的最终树更新）",
+  "base": {
+    "productionFreeze": "51048353",
+    "branchFrom": "ef19ae7e (origin/main)",
+    "r1CounterBy": "docs/testing/guard-leaf-intake-review.md @ ca96d45a",
+    "r2CounterBy": "docs/testing/guard-leaf-r2-review.md @ 7cac1d72"
+  },
+  "newFiles": [
+    "packages/content/src/enemy-validation-shapes.leaf.test.ts",
+    "packages/content/src/enemy-ai-condition-guard.leaf.test.ts",
+    "packages/content/src/battle-choreography.leaf.test.ts",
+    "packages/content/src/__tests__/guard-leaf-fixtures.ts"
+  ],
+  "leafTests": {
+    "G1": 33,
+    "G2": 11,
+    "G3": 6,
+    "G4": 28,
+    "G5": 3,
+    "G6": 10,
+    "total": 91
+  },
+  "discipline": {
+    "exactError": "所有拒绝断言用 expectExactError 捕获实际 Error 并对完整 message 全等比较（替换 toThrow(string) 子串匹配）",
+    "inputFidelity": "expectAcceptsUnchanged 闭包一律消费第二参数这份实际输入（或引用同一具名 input），生产看到哪个对象就比较哪个；对象/数组实际输入（含合法正控、G5 cue、完整容器输入、body 直入口数组）调用前取独立快照（deepSnapshot）、调用后比较同一对象；原始值直接值断言不做空快照；正控意外抛出经 not.toThrow 包装呈 AssertionError",
+    "errorIdentity": "G5 选中 callback 抛出的原 Error 身份保留 catch+toBe",
+    "controls": "每个拒绝先跑同 kind 同形状合法正控且确实执行；坏输入相对正控只改一个字段；G6 参数表每行带同形状 good/bad，when 行合法 turn 经同一容器入口执行、坏输入从合法 turn 复制仅改 op；G3 not 行同入口合法 not(turn) 先过"
+  },
+  "oracle": {
+    "tool": "docs/testing/glm-content-guards-wave2/guard-leaf-mutants.mjs",
+    "criteria": "同一 judge 函数同时服务实跑验收与自测：恰 exit（对照0/变异1）/ 恰一红 / 失败记录的绝对文件与 Vitest 实际 fullName（describe+title 空格连接）都等于目标 / 其余90项全过且无 skip / 逐条 failureMessages 拒混错与非 AssertionError / timeout 签名按首行判定（堆栈行 runWithTimeout 不参与）/ 混错按行首错误构造符判定（vitest not.toThrow 引号内嵌 'Error: ...' 是行中引用不构成混错）/ 生产 sha256 每跑不变",
+    "loadHitWitness": "变异注入插件在 load 实际命中目标时写 entered.json={id,target}，工具按 {id, 变异目标绝对路径} 断言；control 无该文件",
+    "selfTest": {
+      "cases": [
+        "valid-red",
+        "same-message-mixed-error",
+        "assertion-prefixed-timeout",
+        "additional-unrelated-red",
+        "wrong-fullname-red-with-intended-green",
+        "foreign-file-same-suffix",
+        "exit-two",
+        "exit-null",
+        "zero-execution",
+        "control-sample"
+      ],
+      "result": "10/10 按预期接受/拒绝"
+    },
+    "control": {
+      "exitCode": 0,
+      "tests": 91,
+      "failed": 0
+    },
+    "needles": [
+      {
+        "id": "shapes-trim",
+        "module": "enemy-validation-shapes.ts",
+        "injection": "value !== value.trim() -> typeof value === 'string' && value.includes(' ')",
+        "exitCode": 1,
+        "onlyFailed": "G1 nonEmptyString 合法串原值返回；内部空格合法（只禁首尾空白）"
+      },
+      {
+        "id": "ai-difficulty-index",
+        "module": "enemy-ai-condition-guard.ts",
+        "injection": "nonEmptyString(entry, `${path}.in[${index}]`) -> nonEmptyString(entry, `${path}.in`)",
+        "exitCode": 1,
+        "onlyFailed": "G2 离散叶轴 difficulty 非数组与元素非串拒绝（空表/空元素轴 wave2 已证）"
+      },
+      {
+        "id": "ai-of-recursion",
+        "module": "enemy-ai-condition-guard.ts",
+        "injection": "checkEnemyAiCondition(entry, `${path}.of[${index}]`) -> ''",
+        "exitCode": 1,
+        "onlyFailed": "G3 组合容器 坏子节点在完整 where 路径上报告且同输入快照不变（同型合法对照先过）"
+      },
+      {
+        "id": "choreo-tenths-bound",
+        "module": "battle-choreography.ts",
+        "injection": "Number(action.tenths) > 10 -> Number(action.tenths) > 11",
+        "exitCode": 1,
+        "onlyFailed": "G4 动作叶 revivePartyAll tenths 越上界拒绝且输入不变"
+      },
+      {
+        "id": "choreo-cue-path",
+        "module": "battle-choreography.ts",
+        "injection": "options.checkDialogueCue(action.cue, `${path}.cue`) -> options.checkDialogueCue(action.cue, path)",
+        "exitCode": 1,
+        "onlyFailed": "G5 dialog 委派 选中 callback 收到原 cue 对象与精确路径，正常返回即接受且 cue 不被改写"
+      },
+      {
+        "id": "choreo-once-gate",
+        "module": "battle-choreography.ts",
+        "injection": "if (hook.once !== undefined && typeof hook.once !== 'boolean') -> if (false)",
+        "exitCode": 1,
+        "onlyFailed": "G6 容器三层 'once 非布尔'拒绝且完整输入保真（每行同形状good先过同容器）"
+      }
+    ],
+    "r1ProbeVerification": {
+      "note": "用审查席三个生产探针对返工后测试独立复验（临时脚本，不入库）：control 91/91 绿",
+      "probes": [
+        {
+          "id": "record-mutates-same-object",
+          "detectedBy": "G1 record 合法对象原身份透传且内容不被改写（expectAcceptsUnchanged）"
+        },
+        {
+          "id": "callback-mutates-cue-after-delivery",
+          "detectedBy": "G5 选中 callback …且 cue 不被改写（cueBefore 独立快照）"
+        },
+        {
+          "id": "difficulty-path-prefix-corrupted",
+          "detectedBy": "G2 difficulty …（完整 message 全等）"
+        }
+      ]
+    },
+    "productionSha256": {
+      "enemy-validation-shapes": "012af705f55cca01000830fe6fed37962afe990e45fc2a75f52980667e8ec8b6",
+      "enemy-ai-condition-guard": "06bd7979ba6e486989635d2f750c4a4757c0f8b6af91339795980a840305c409",
+      "battle-choreography": "ae007332f169e5019f97c08956e14d0f7591df60244d69d3e26bfb07dee4e065"
+    },
+    "r2ProbeVerification": {
+      "tool": "guard-leaf-review-witnesses.mjs@7cac1d72（origin/main），临时 loader 注入、生产 hash 不变",
+      "control": "91/91 绿",
+      "probes": [
+        {
+          "id": "record-mutates-same-object",
+          "result": "detected（r1 已闭合，保持）"
+        },
+        {
+          "id": "callback-mutates-cue-after-delivery",
+          "result": "detected（r1 已闭合，保持）"
+        },
+        {
+          "id": "difficulty-path-prefix-corrupted",
+          "result": "detected（r1 已闭合，保持）"
+        },
+        {
+          "id": "exactKeys-mutates-actual-object",
+          "result": "detected（C1 闭合：G1 exactKeys 比较生产实际消费对象）"
+        },
+        {
+          "id": "body-mutates-actual-array",
+          "result": "detected（C1 闭合：body 直入口同一数组对象保真）"
+        },
+        {
+          "id": "nested-turn-always-rejects",
+          "result": "detected（C2 闭合：G3 not 行与 G6 when 行先执行同入口合法 turn）"
+        }
+      ]
+    }
+  },
+  "coverage": {
+    "config": "docs/testing/glm-content-guards-wave2/guard-leaf-coverage.config.mjs",
+    "protocol": "作者 tmp 前后各一次（r1 未被推翻）；两侧官方 content fast include/exclude 相同，before 仅额外排除三份新文件；Codex 本轮未独立重跑，不作为验收统计",
+    "before": {
+      "testFiles": 76,
+      "tests": 866,
+      "exitCode": 0
+    },
+    "after": {
+      "testFiles": 79,
+      "tests": 957,
+      "exitCode": 0
+    },
+    "modules": {
+      "enemy-validation-shapes.ts": {
+        "lines": "15/16->16/16",
+        "statements": "19/20->20/20",
+        "functions": "6/6",
+        "branches": "23/24->24/24"
+      },
+      "enemy-ai-condition-guard.ts": {
+        "lines": "35/36->36/36",
+        "statements": "37/39->39/39",
+        "functions": "3/3",
+        "branches": "34/36->36/36"
+      },
+      "battle-choreography.ts": {
+        "lines": "44/61->61/61",
+        "statements": "46/67->67/67",
+        "functions": "6/6",
+        "branches": "28/54->54/54"
+      }
+    },
+    "packageTotal": {
+      "lines": "4691/5183->4711/5183",
+      "statements": "5187/5856->5212/5856",
+      "functions": "787/831 unchanged",
+      "branches": "4160/5019->4190/5019"
+    }
+  },
+  "gates": {
+    "contentSuite": "pnpm --filter @type-pal/content run test -> 79 files 957/957 exit 0",
+    "typecheck": "pnpm --filter @type-pal/content run typecheck exit 0",
+    "biome": "本批改动文件（三测试+fixture+本目录五文件含 evidence.json）0 error；仅 guard-leaf-mutants.mjs 四个 noTemplateCurlyInString warning（反控针内故意保留的生产模板字面量），单列不与 error 混算；全 src 另有 runtime-script.ts:146 既有 noUnusedVariables warning，属分支继承非本批引入",
+    "docs": "pnpm check:docs exit 0"
+  },
+  "productDefects": "未发现；无需缺陷诊断。锁绿现状合同：all/any 接受空 of 数组（仅形状）；wait.ms 非负有限即可（分数合法）；growth delta 整数符号自由；shapes exactKeys 只禁多余键不要求在场。",
+  "handoff": "不合 main、不标 done；待 Codex 复验、统一统计与集成。"
+}

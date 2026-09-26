@@ -15,6 +15,14 @@
 ## 最近入库 fast 基线与本地快照（2026-09-26）
 
 当前机器可读数字以[`baseline.fast.json`](../../scripts/coverage/baseline.fast.json)为准。
+[GLM守卫叶接收](guard-leaf-r3-review.md)与[Codex五组资源补测](codex-content-resources/README.md)统一集成后，
+完整check **8896项**、官方ratchet与保护7d64de13的**单次严格fast8404项/701生产文件**全部通过。
+新增156项回归，实际多覆盖**134分支/73行/108语句/3函数**；原生产文件与分母、其它六包完整基线对象不变。
+全仓行**78.28%**、语句**76.16%**、函数**75.79%**、分支**68.72%**；content行91.92%、分支85.55%。
+这是本地fast证据，未包括另一架构对话/Cursor在途候选，不等于full/Q1/Q2或远端CI通过。
+
+### 同日上一批：Cursor九组命令拆分
+
 [Cursor九组命令拆分](cursor-commands-wave2-integration.md)接收后，完整check **8740项**、官方ratchet及保护5a4ae580的
 单次严格fast **8248项/701生产文件**全部通过。新增16项身份/顺序回归和13个机械拆分模块；
 原688生产文件保留，七包四维覆盖metrics均不变：行78.18%、语句76.02%、函数75.77%、分支68.51%。

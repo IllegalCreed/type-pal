@@ -10,9 +10,9 @@
 |---|---|---|
 | [ARCH-CONTINUATION-1 — 剩余架构治理连续收口](ARCH-CONTINUATION-1-remaining-queue.md) | build | 以任务卡当前准入与看板分工为准。 |
 | [ARCH-SUPPORT-GLM-1 — 八组并行准备取证](ARCH-SUPPORT-GLM-1-eight-audit-packages.md) | draft | 以任务卡当前准入与看板分工为准。 |
-| [TEST-CODEX-CONTENT-RESOURCES-1 — 五组资源索引与引用边界](TEST-CODEX-CONTENT-RESOURCES-1-indices-and-references.md) | build | 以任务卡当前准入与看板分工为准。 |
+| [TEST-COVERAGE-PLUS5-1 — 全仓分支覆盖率连续提升五个百分点](TEST-COVERAGE-PLUS5-1-continuous-batches.md) | build | 以任务卡当前准入与看板分工为准。 |
 | [TEST-CURSOR-COMMAND-BOUNDARIES-3 — 八组编辑命令行为残项](TEST-CURSOR-COMMAND-BOUNDARIES-3-editor-residuals.md) | build | 以任务卡当前准入与看板分工为准。 |
-| [TEST-GLM-CONTENT-GUARDS-2 — 六组校验叶边界补测](TEST-GLM-CONTENT-GUARDS-2-leaf-boundaries.md) | rework | 以任务卡当前准入与看板分工为准。 |
+| [TEST-GLM-CONTENT-GUARDS-3 — 八组同步脚本与记录守卫补测](TEST-GLM-CONTENT-GUARDS-3-script-and-records.md) | build | 以任务卡当前准入与看板分工为准。 |
 
 ## 已完成（historical）
 
@@ -167,6 +167,7 @@
 | [SAVE-ISOLATION-1 - 工程与工作区存档隔离](../archive/tasks/done/SAVE-ISOLATION-1-project-workspace-save-scope.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [SAVE-PREFLIGHT-1 - 当前存档预检与恢复失败隔离](../archive/tasks/done/SAVE-PREFLIGHT-1-current-save-restore-preflight.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [TEST-BATTLE-WORKFLOWS-1 - 战斗会话完整流程补测](../archive/tasks/done/TEST-BATTLE-WORKFLOWS-1-session-flows.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [TEST-CODEX-CONTENT-RESOURCES-1 — 五组资源索引与引用边界](../archive/tasks/done/TEST-CODEX-CONTENT-RESOURCES-1-indices-and-references.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [TEST-CONTENT-CONTRACTS-1 - 内容数据校验与引用边界补测](../archive/tasks/done/TEST-CONTENT-CONTRACTS-1-content-validation-boundaries.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [TEST-CONTENT-RESIDUAL-1 - 内容合同已登记残项补测（队列 TB-01）](../archive/tasks/done/TEST-CONTENT-RESIDUAL-1-registered-gaps.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [TEST-COVERAGE-DETERMINISM-1 - 编辑器覆盖率计数确定性](../archive/tasks/done/TEST-COVERAGE-DETERMINISM-1-editor-ratchet.md) | done | 完成证据、历史签字与交接见原卡。 |
@@ -181,6 +182,7 @@
 | [TEST-GAME-HOST-BOUNDARIES-1 - 第一阶段宿主、隐私与计时补测（TB-09）](../archive/tasks/done/TEST-GAME-HOST-BOUNDARIES-1-privacy-timer.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [TEST-GAME-MENU-BOUNDARIES-1 - 第一阶段菜单导航与请求补测（TB-08）](../archive/tasks/done/TEST-GAME-MENU-BOUNDARIES-1-navigation-requests.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [TEST-GEMINI-PHASE1-STATS-1 — 一阶段有效属性与战斗状态只读投影候选回归](../archive/tasks/done/TEST-GEMINI-PHASE1-STATS-1-effective-readouts.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [TEST-GLM-CONTENT-GUARDS-2 — 六组校验叶边界补测](../archive/tasks/done/TEST-GLM-CONTENT-GUARDS-2-leaf-boundaries.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [TEST-GROK-PRESENT-1 — 一阶段菜单与索引渲染十组候选回归](../archive/tasks/done/TEST-GROK-PRESENT-1-phase1-menu-regressions.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [TEST-GROK-PRESENT-2 — 一阶段画面合成与战斗呈现候选回归](../archive/tasks/done/TEST-GROK-PRESENT-2-phase1-composition.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [TEST-MIGRATION-BOUNDARIES-1 - 当前迁移辅助与隔离文件系统补测（TB-10）](../archive/tasks/done/TEST-MIGRATION-BOUNDARIES-1-current-isolated-io.md) | done | 完成证据、历史签字与交接见原卡。 |

@@ -8,6 +8,7 @@
 
 ## 文档与附件
 
+- [全仓分支覆盖率+5pp持续队列](coverage-plus5/README.md)与[GLM同步守卫第三批](glm-content-guards-wave3/README.md)（大批实施、统一统计）。
 - [B2地图工作区会话所有权候选](map-workspace-sessions-refactor.md)、[机账](map-workspace-sessions-refactor-evidence.json)、[pointer九针](map-pointer-gesture-mutants.mjs)与[会话十六针](map-workspace-sessions-mutants.mjs)（手势/既有选择/变换剪贴板/视图/组合结构边界齐；21新增、Editor2868、TC/build与6055隔离功能通过；全仓统一门/集成待原接收对话）。
 - [B1编辑器总壳会话所有权候选](editor-app-sessions-refactor.md)、[机账](editor-app-sessions-refactor-evidence.json)与[二十针反控](editor-app-sessions-mutants.mjs)（导航/场景/试玩/工程四owner；18新增、Editor2847、TC/build与6054隔离功能通过；全仓统一门/集成待原接收对话）。
 - [Cursor八组命令行为补测](cursor-command-boundaries-r3/README.md)、[Codex五组资源索引补测](codex-content-resources/README.md)与[共同冻结机账](coverage-parallel-wave3-evidence.json)（独立文件范围，整批统计）。
@@ -16,6 +17,7 @@
 - [守卫叶补测独立接收](guard-leaf-intake-review.md)、[反例工具](guard-leaf-review-witnesses.mjs)与[机账](guard-leaf-review-evidence.json)（b8e037cb窄返工）。
 - [A3移动与绘制owner候选](world-runtime-refactor.md)、[机账](world-runtime-refactor-evidence.json)与[九针反控](world-runtime-mutants.mjs)（7be10bf4；20新增、Reforge1642、TC/build与6053隔离功能通过；全仓统一门/集成待原接收对话）。
 - [守卫叶 r2 窄复核](guard-leaf-r2-review.md)与[机账](guard-leaf-r2-evidence.json)（99113d22：旧三反例/判据/格式已闭，仅实际输入快照与嵌套turn正控残项）。
+- [守卫叶 r3 接收](guard-leaf-r3-review.md)（09c8ccba：C1/C2已闭，六反例检出，与Codex资源批统一门）。
 - [A3活动场景与镜头归属](active-scene-refactor.md)、[冻结对照](active-scene-parity.mjs)、[七针反控](active-scene-mutants.mjs)。
 - [Cursor命令第二批](cursor-commands-wave2/README.md)与[GLM守卫叶补测](glm-content-guards-wave2/README.md)（互斥委派中，尚未接收）。
 - [Cursor24组最终验收](cursor-architecture-batch-integration.md)、[GLM十二组准备包收口](architecture-regression-lab-completion.md)与[统一机账](architecture-intake-completion-evidence.json)（两包独立裁决、统一check8707/strict8215/686；剩余环境/深层组合明确归属，不混入A3 WIP）
