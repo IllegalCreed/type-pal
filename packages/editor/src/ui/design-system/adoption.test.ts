@@ -2046,7 +2046,8 @@ type DataStateProps`,
 
     expect(controls).toContain('export const DsFileInput')
     expect(controls).toContain('export const DsFilePicker')
-    expect(controls).toContain('export const DsPressable')
+    expect(controls).toContain("export { DsActionLink, DsButton, DsPressable } from './buttons.js'")
+    expect(readFileSync(join(here, 'buttons.tsx'), 'utf8')).toContain('export const DsPressable')
     expect(uploader).toMatch(
       /style=\{\{ width: frame\.width \* 2, height: frame\.height \* 2, imageRendering: 'pixelated' \}\}/,
     )

@@ -5,8 +5,15 @@
       "source": "design-system/primitives.css",
       "selectorText": ".ds-add-picker-option__content>:is(strong,span)",
       "condition": "default",
-      "declarations": ["text-overflow:ellipsis", "white-space:nowrap"],
-      "specificity": [0, 1, 1],
+      "declarations": [
+        "text-overflow:ellipsis",
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        1,
+        1
+      ],
       "producer": {
         "source": "design-system/add-picker.tsx",
         "component": "DsAddPickerDialog",
@@ -22,8 +29,15 @@
       "source": "design-system/primitives.css",
       "selectorText": ".ds-add-picker-option__detail",
       "condition": "default",
-      "declarations": ["text-overflow:ellipsis", "white-space:nowrap"],
-      "specificity": [0, 1, 0],
+      "declarations": [
+        "text-overflow:ellipsis",
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        1,
+        0
+      ],
       "producer": {
         "source": "design-system/add-picker.tsx",
         "component": "DsAddPickerDialog",
@@ -39,8 +53,14 @@
       "source": "design-system/primitives.css",
       "selectorText": ".ds-add-picker-option__trailing",
       "condition": "default",
-      "declarations": ["white-space:nowrap"],
-      "specificity": [0, 1, 0],
+      "declarations": [
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        1,
+        0
+      ],
       "producer": {
         "source": "design-system/add-picker.tsx",
         "component": "DsAddPickerDialog",
@@ -56,11 +76,17 @@
       "source": "design-system/primitives.css",
       "selectorText": ".ds-file-picker input[type=\"file\"]",
       "condition": "default",
-      "declarations": ["white-space:nowrap"],
-      "specificity": [0, 2, 1],
+      "declarations": [
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        2,
+        1
+      ],
       "producer": {
         "source": "design-system/controls.tsx",
-        "component": "DsPressable",
+        "component": "DsFilePicker",
         "callsite": "class:ds-file-picker"
       },
       "policy": "structural-nowrap",
@@ -73,11 +99,18 @@
       "source": "design-system/primitives.css",
       "selectorText": ".ds-file-picker__description",
       "condition": "default",
-      "declarations": ["text-overflow:ellipsis", "white-space:nowrap"],
-      "specificity": [0, 1, 0],
+      "declarations": [
+        "text-overflow:ellipsis",
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        1,
+        0
+      ],
       "producer": {
         "source": "design-system/controls.tsx",
-        "component": "DsPressable",
+        "component": "DsFilePicker",
         "callsite": "class:ds-file-picker__description"
       },
       "policy": "selection-summary",
@@ -90,11 +123,18 @@
       "source": "design-system/primitives.css",
       "selectorText": ".ds-file-picker__label",
       "condition": "default",
-      "declarations": ["text-overflow:ellipsis", "white-space:nowrap"],
-      "specificity": [0, 1, 0],
+      "declarations": [
+        "text-overflow:ellipsis",
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        1,
+        0
+      ],
       "producer": {
         "source": "design-system/controls.tsx",
-        "component": "DsPressable",
+        "component": "DsFilePicker",
         "callsite": "class:ds-file-picker__label"
       },
       "policy": "selection-summary",
@@ -107,11 +147,17 @@
       "source": "design-system/primitives.css",
       "selectorText": ".ds-list-header__count",
       "condition": "default",
-      "declarations": ["white-space:nowrap"],
-      "specificity": [0, 1, 0],
+      "declarations": [
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        1,
+        0
+      ],
       "producer": {
         "source": "design-system/controls.tsx",
-        "component": "DsPressable",
+        "component": "DsListHeader",
         "callsite": "class:ds-list-header__count"
       },
       "policy": "compact-token",
@@ -124,11 +170,18 @@
       "source": "design-system/primitives.css",
       "selectorText": ".ds-list-header__title",
       "condition": "default",
-      "declarations": ["text-overflow:ellipsis", "white-space:nowrap"],
-      "specificity": [0, 1, 0],
+      "declarations": [
+        "text-overflow:ellipsis",
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        1,
+        0
+      ],
       "producer": {
         "source": "design-system/controls.tsx",
-        "component": "DsPressable",
+        "component": "DsListHeader",
         "callsite": "class:ds-list-header__title"
       },
       "policy": "selection-summary",
@@ -141,8 +194,14 @@
       "source": "design-system/primitives.css",
       "selectorText": ".ds-menu-trigger",
       "condition": "default",
-      "declarations": ["white-space:nowrap"],
-      "specificity": [0, 1, 0],
+      "declarations": [
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        1,
+        0
+      ],
       "producer": {
         "source": "design-system/navigation.tsx",
         "component": "DsMenuBar",
@@ -158,8 +217,15 @@
       "source": "design-system/primitives.css",
       "selectorText": ".ds-overflow-text",
       "condition": "default",
-      "declarations": ["text-overflow:ellipsis", "white-space:nowrap"],
-      "specificity": [0, 1, 0],
+      "declarations": [
+        "text-overflow:ellipsis",
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        1,
+        0
+      ],
       "producer": {
         "source": "design-system/overflow-text.tsx",
         "component": "DsOverflowText",
@@ -175,8 +241,14 @@
       "source": "design-system/primitives.css",
       "selectorText": ".ds-readonly-value",
       "condition": "default",
-      "declarations": ["text-overflow:ellipsis"],
-      "specificity": [0, 1, 0],
+      "declarations": [
+        "text-overflow:ellipsis"
+      ],
+      "specificity": [
+        0,
+        1,
+        0
+      ],
       "producer": {
         "source": "design-system/status-values.tsx",
         "component": "DsReadonlyValue",
@@ -192,11 +264,18 @@
       "source": "design-system/primitives.css",
       "selectorText": ".ds-select__description",
       "condition": "default",
-      "declarations": ["text-overflow:ellipsis", "white-space:nowrap"],
-      "specificity": [0, 1, 0],
+      "declarations": [
+        "text-overflow:ellipsis",
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        1,
+        0
+      ],
       "producer": {
         "source": "design-system/controls.tsx",
-        "component": "DsPressable",
+        "component": "DsSelect",
         "callsite": "class:ds-select__description"
       },
       "policy": "selection-summary",
@@ -209,11 +288,18 @@
       "source": "design-system/primitives.css",
       "selectorText": ".ds-select__value",
       "condition": "default",
-      "declarations": ["text-overflow:ellipsis", "white-space:nowrap"],
-      "specificity": [0, 1, 0],
+      "declarations": [
+        "text-overflow:ellipsis",
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        1,
+        0
+      ],
       "producer": {
         "source": "design-system/controls.tsx",
-        "component": "DsPressable",
+        "component": "DsSelect",
         "callsite": "class:ds-select__value"
       },
       "policy": "selection-summary",
@@ -226,11 +312,18 @@
       "source": "design-system/primitives.css",
       "selectorText": ".ds-select-option__description",
       "condition": "default",
-      "declarations": ["text-overflow:ellipsis", "white-space:nowrap"],
-      "specificity": [0, 1, 0],
+      "declarations": [
+        "text-overflow:ellipsis",
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        1,
+        0
+      ],
       "producer": {
         "source": "design-system/controls.tsx",
-        "component": "DsPressable",
+        "component": "DsSelect",
         "callsite": "class:ds-select-option__description"
       },
       "policy": "selection-summary",
@@ -243,11 +336,18 @@
       "source": "design-system/primitives.css",
       "selectorText": ".ds-select-option__label",
       "condition": "default",
-      "declarations": ["text-overflow:ellipsis", "white-space:nowrap"],
-      "specificity": [0, 1, 0],
+      "declarations": [
+        "text-overflow:ellipsis",
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        1,
+        0
+      ],
       "producer": {
         "source": "design-system/controls.tsx",
-        "component": "DsPressable",
+        "component": "DsSelect",
         "callsite": "class:ds-select-option__label"
       },
       "policy": "selection-summary",
@@ -260,11 +360,17 @@
       "source": "design-system/primitives.css",
       "selectorText": ".ds-tab",
       "condition": "default",
-      "declarations": ["white-space:nowrap"],
-      "specificity": [0, 1, 0],
+      "declarations": [
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        1,
+        0
+      ],
       "producer": {
         "source": "design-system/controls.tsx",
-        "component": "DsPressable",
+        "component": "DsTabs",
         "callsite": "class:ds-tab"
       },
       "policy": "command-label",
@@ -277,8 +383,14 @@
       "source": "design-system/primitives.css",
       "selectorText": ".ds-tag",
       "condition": "default",
-      "declarations": ["white-space:nowrap"],
-      "specificity": [0, 1, 0],
+      "declarations": [
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        1,
+        0
+      ],
       "producer": {
         "source": "design-system/status-values.tsx",
         "component": "DsTag",
@@ -294,11 +406,17 @@
       "source": "design-system/primitives.css",
       "selectorText": ".ds-visually-hidden",
       "condition": "default",
-      "declarations": ["white-space:nowrap"],
-      "specificity": [0, 1, 0],
+      "declarations": [
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        1,
+        0
+      ],
       "producer": {
         "source": "design-system/controls.tsx",
-        "component": "DsPressable",
+        "component": "DsFilePicker",
         "callsite": "class:ds-visually-hidden"
       },
       "policy": "structural-nowrap",
@@ -311,8 +429,15 @@
       "source": "design-system/recipes.css",
       "selectorText": ".ds-catalog-group-header__title",
       "condition": "default",
-      "declarations": ["text-overflow:ellipsis", "white-space:nowrap"],
-      "specificity": [0, 1, 0],
+      "declarations": [
+        "text-overflow:ellipsis",
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        1,
+        0
+      ],
       "producer": {
         "source": "design-system/recipes.tsx",
         "component": "DsInspectorHost",
@@ -328,8 +453,15 @@
       "source": "design-system/recipes.css",
       "selectorText": ".ds-catalog-row__meta",
       "condition": "default",
-      "declarations": ["text-overflow:ellipsis", "white-space:nowrap"],
-      "specificity": [0, 1, 0],
+      "declarations": [
+        "text-overflow:ellipsis",
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        1,
+        0
+      ],
       "producer": {
         "source": "design-system/recipes.tsx",
         "component": "DsInspectorHost",
@@ -345,8 +477,15 @@
       "source": "design-system/recipes.css",
       "selectorText": ".ds-catalog-row__title",
       "condition": "default",
-      "declarations": ["text-overflow:ellipsis", "white-space:nowrap"],
-      "specificity": [0, 1, 0],
+      "declarations": [
+        "text-overflow:ellipsis",
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        1,
+        0
+      ],
       "producer": {
         "source": "design-system/recipes.tsx",
         "component": "DsInspectorHost",
@@ -362,8 +501,14 @@
       "source": "design-system/recipes.css",
       "selectorText": ".ds-inline-composer__action",
       "condition": "default",
-      "declarations": ["white-space:nowrap"],
-      "specificity": [0, 1, 0],
+      "declarations": [
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        1,
+        0
+      ],
       "producer": {
         "source": "design-system/recipes.tsx",
         "component": "DsInspectorHost",
@@ -379,8 +524,15 @@
       "source": "design-system/recipes.css",
       "selectorText": ".ds-reference-row__title",
       "condition": "default",
-      "declarations": ["text-overflow:ellipsis", "white-space:nowrap"],
-      "specificity": [0, 1, 0],
+      "declarations": [
+        "text-overflow:ellipsis",
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        1,
+        0
+      ],
       "producer": {
         "source": "design-system/recipes.tsx",
         "component": "DsInspectorHost",
@@ -396,8 +548,14 @@
       "source": "design-system/reorder.css",
       "selectorText": ".ds-reorder-live",
       "condition": "default",
-      "declarations": ["white-space:nowrap"],
-      "specificity": [0, 1, 0],
+      "declarations": [
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        1,
+        0
+      ],
       "producer": {
         "source": "design-system/reorder.tsx",
         "component": "DsReorderCollection",
@@ -413,8 +571,14 @@
       "source": "editor.css",
       "selectorText": ":is(.inspector,.scene-entity-inspector) :is(.tool,.btn,.mini-txt)",
       "condition": "default",
-      "declarations": ["white-space:nowrap"],
-      "specificity": [0, 2, 0],
+      "declarations": [
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        2,
+        0
+      ],
       "producer": {
         "source": "App.tsx",
         "component": "SceneEntityInspectorTabs",
@@ -430,8 +594,15 @@
       "source": "editor.css",
       "selectorText": ".actor-definition-list dd",
       "condition": "default",
-      "declarations": ["text-overflow:ellipsis", "white-space:nowrap"],
-      "specificity": [0, 1, 1],
+      "declarations": [
+        "text-overflow:ellipsis",
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        1,
+        1
+      ],
       "producer": {
         "source": "ActorMode.tsx",
         "component": "ActorMode",
@@ -447,8 +618,14 @@
       "source": "editor.css",
       "selectorText": ".actor-definition-list dt",
       "condition": "default",
-      "declarations": ["white-space:nowrap"],
-      "specificity": [0, 1, 1],
+      "declarations": [
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        1,
+        1
+      ],
       "producer": {
         "source": "ActorMode.tsx",
         "component": "ActorMode",
@@ -464,8 +641,15 @@
       "source": "editor.css",
       "selectorText": ".actor-inspector-linked-value>span",
       "condition": "default",
-      "declarations": ["text-overflow:ellipsis", "white-space:nowrap"],
-      "specificity": [0, 1, 1],
+      "declarations": [
+        "text-overflow:ellipsis",
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        1,
+        1
+      ],
       "producer": {
         "source": "ActorMode.tsx",
         "component": "ActorInspector",
@@ -481,8 +665,15 @@
       "source": "editor.css",
       "selectorText": ".actor-summary-lines strong",
       "condition": "default",
-      "declarations": ["text-overflow:ellipsis", "white-space:nowrap"],
-      "specificity": [0, 1, 1],
+      "declarations": [
+        "text-overflow:ellipsis",
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        1,
+        1
+      ],
       "producer": {
         "source": "ActorMode.tsx",
         "component": "ActorMode",
@@ -498,8 +689,15 @@
       "source": "editor.css",
       "selectorText": ".arow .nm b",
       "condition": "default",
-      "declarations": ["text-overflow:ellipsis", "white-space:nowrap"],
-      "specificity": [0, 2, 1],
+      "declarations": [
+        "text-overflow:ellipsis",
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        2,
+        1
+      ],
       "producer": {
         "source": "App.tsx",
         "component": "PlacePalette",
@@ -515,8 +713,15 @@
       "source": "editor.css",
       "selectorText": ".arow .nm span",
       "condition": "default",
-      "declarations": ["text-overflow:ellipsis", "white-space:nowrap"],
-      "specificity": [0, 2, 1],
+      "declarations": [
+        "text-overflow:ellipsis",
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        2,
+        1
+      ],
       "producer": {
         "source": "App.tsx",
         "component": "PlacePalette",
@@ -532,8 +737,15 @@
       "source": "editor.css",
       "selectorText": ".audio-library-outliner .ds-catalog-row__meta",
       "condition": "default",
-      "declarations": ["text-overflow:ellipsis", "white-space:nowrap"],
-      "specificity": [0, 2, 0],
+      "declarations": [
+        "text-overflow:ellipsis",
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        2,
+        0
+      ],
       "producer": {
         "source": "AudioAssetWorkbench.tsx",
         "component": "AudioAssetWorkbench",
@@ -549,8 +761,15 @@
       "source": "editor.css",
       "selectorText": ".audio-library-outliner .ds-catalog-row__title",
       "condition": "default",
-      "declarations": ["text-overflow:ellipsis", "white-space:nowrap"],
-      "specificity": [0, 2, 0],
+      "declarations": [
+        "text-overflow:ellipsis",
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        2,
+        0
+      ],
       "producer": {
         "source": "AudioAssetWorkbench.tsx",
         "component": "AudioAssetWorkbench",
@@ -566,8 +785,14 @@
       "source": "editor.css",
       "selectorText": ".battle-action-stage-controls button",
       "condition": "default",
-      "declarations": ["white-space:nowrap"],
-      "specificity": [0, 1, 1],
+      "declarations": [
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        1,
+        1
+      ],
       "producer": {
         "source": "BattleSpriteLibrary.tsx",
         "component": "BattleSpriteLibrary",
@@ -583,8 +808,15 @@
       "source": "editor.css",
       "selectorText": ".battle-action-stage-meta b",
       "condition": "default",
-      "declarations": ["text-overflow:ellipsis", "white-space:nowrap"],
-      "specificity": [0, 1, 1],
+      "declarations": [
+        "text-overflow:ellipsis",
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        1,
+        1
+      ],
       "producer": {
         "source": "BattleSpriteLibrary.tsx",
         "component": "BattleSpriteLibrary",
@@ -600,8 +832,15 @@
       "source": "editor.css",
       "selectorText": ".battle-action-stage-meta code",
       "condition": "default",
-      "declarations": ["text-overflow:ellipsis", "white-space:nowrap"],
-      "specificity": [0, 1, 1],
+      "declarations": [
+        "text-overflow:ellipsis",
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        1,
+        1
+      ],
       "producer": {
         "source": "BattleSpriteLibrary.tsx",
         "component": "BattleSpriteLibrary",
@@ -617,8 +856,15 @@
       "source": "editor.css",
       "selectorText": ".battle-action-stage-meta small",
       "condition": "default",
-      "declarations": ["text-overflow:ellipsis", "white-space:nowrap"],
-      "specificity": [0, 1, 1],
+      "declarations": [
+        "text-overflow:ellipsis",
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        1,
+        1
+      ],
       "producer": {
         "source": "BattleSpriteLibrary.tsx",
         "component": "BattleSpriteLibrary",
@@ -634,8 +880,15 @@
       "source": "editor.css",
       "selectorText": ".battle-enemy-timeline span",
       "condition": "default",
-      "declarations": ["text-overflow:ellipsis", "white-space:nowrap"],
-      "specificity": [0, 1, 1],
+      "declarations": [
+        "text-overflow:ellipsis",
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        1,
+        1
+      ],
       "producer": {
         "source": "BattleSpriteLibrary.tsx",
         "component": "ProfileEditor",
@@ -651,8 +904,15 @@
       "source": "editor.css",
       "selectorText": ".battle-frame-labels",
       "condition": "default",
-      "declarations": ["text-overflow:ellipsis", "white-space:nowrap"],
-      "specificity": [0, 1, 0],
+      "declarations": [
+        "text-overflow:ellipsis",
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        1,
+        0
+      ],
       "producer": {
         "source": "BattleSpriteInlinePreview.tsx",
         "component": "FrameThumbnail",
@@ -668,8 +928,15 @@
       "source": "editor.css",
       "selectorText": ".canonical-script-editor-heading strong",
       "condition": "default",
-      "declarations": ["text-overflow:ellipsis", "white-space:nowrap"],
-      "specificity": [0, 1, 1],
+      "declarations": [
+        "text-overflow:ellipsis",
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        1,
+        1
+      ],
       "producer": {
         "source": "ScriptEditor.tsx",
         "component": "CanonicalScriptBodyEditor",
@@ -685,8 +952,14 @@
       "source": "editor.css",
       "selectorText": ".canonical-script-row-actions",
       "condition": "default",
-      "declarations": ["white-space:nowrap"],
-      "specificity": [0, 1, 0],
+      "declarations": [
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        1,
+        0
+      ],
       "producer": {
         "source": "ScriptEditor.tsx",
         "component": "CommandRows",
@@ -702,8 +975,14 @@
       "source": "editor.css",
       "selectorText": ".casualty-branch-head p",
       "condition": "default",
-      "declarations": ["white-space:nowrap"],
-      "specificity": [0, 1, 1],
+      "declarations": [
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        1,
+        1
+      ],
       "producer": {
         "source": "CasualtyEditor.tsx",
         "component": "BranchEditor",
@@ -719,8 +998,15 @@
       "source": "editor.css",
       "selectorText": ".casualty-branch-select small",
       "condition": "default",
-      "declarations": ["text-overflow:ellipsis", "white-space:nowrap"],
-      "specificity": [0, 1, 1],
+      "declarations": [
+        "text-overflow:ellipsis",
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        1,
+        1
+      ],
       "producer": {
         "source": "CasualtyEditor.tsx",
         "component": "CasualtyEditor",
@@ -736,8 +1022,15 @@
       "source": "editor.css",
       "selectorText": ".casualty-fallback-row small",
       "condition": "default",
-      "declarations": ["text-overflow:ellipsis", "white-space:nowrap"],
-      "specificity": [0, 1, 1],
+      "declarations": [
+        "text-overflow:ellipsis",
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        1,
+        1
+      ],
       "producer": {
         "source": "CasualtyEditor.tsx",
         "component": "CasualtyEditor",
@@ -753,8 +1046,14 @@
       "source": "editor.css",
       "selectorText": ".casualty-fallback-row>em",
       "condition": "default",
-      "declarations": ["white-space:nowrap"],
-      "specificity": [0, 1, 1],
+      "declarations": [
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        1,
+        1
+      ],
       "producer": {
         "source": "CasualtyEditor.tsx",
         "component": "CasualtyEditor",
@@ -770,8 +1069,14 @@
       "source": "editor.css",
       "selectorText": ".casualty-slot-tabs>button>em",
       "condition": "default",
-      "declarations": ["white-space:nowrap"],
-      "specificity": [0, 1, 2],
+      "declarations": [
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        1,
+        2
+      ],
       "producer": {
         "source": "CasualtyEditor.tsx",
         "component": "CasualtyEditor",
@@ -787,8 +1092,15 @@
       "source": "editor.css",
       "selectorText": ".cf-ref-target",
       "condition": "default",
-      "declarations": ["text-overflow:ellipsis", "white-space:nowrap"],
-      "specificity": [0, 1, 0],
+      "declarations": [
+        "text-overflow:ellipsis",
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        1,
+        0
+      ],
       "producer": {
         "source": "CommandForm.tsx",
         "component": "CommandForm",
@@ -804,8 +1116,15 @@
       "source": "editor.css",
       "selectorText": ".cmd-detail",
       "condition": "default",
-      "declarations": ["text-overflow:ellipsis", "white-space:nowrap"],
-      "specificity": [0, 1, 0],
+      "declarations": [
+        "text-overflow:ellipsis",
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        1,
+        0
+      ],
       "producer": {
         "source": "ScriptEditor.tsx",
         "component": "CommandRows",
@@ -821,8 +1140,15 @@
       "source": "editor.css",
       "selectorText": ".cutscene-import-file-content code",
       "condition": "default",
-      "declarations": ["text-overflow:ellipsis", "white-space:nowrap"],
-      "specificity": [0, 1, 1],
+      "declarations": [
+        "text-overflow:ellipsis",
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        1,
+        1
+      ],
       "producer": {
         "source": "CutsceneTab.tsx",
         "component": "CutsceneTab",
@@ -838,8 +1164,14 @@
       "source": "editor.css",
       "selectorText": ".cutscene-inspector .btn",
       "condition": "default",
-      "declarations": ["white-space:nowrap"],
-      "specificity": [0, 2, 0],
+      "declarations": [
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        2,
+        0
+      ],
       "producer": {
         "source": "CutsceneTab.tsx",
         "component": "CutsceneTab",
@@ -855,8 +1187,14 @@
       "source": "editor.css",
       "selectorText": ".cutscene-main .btn",
       "condition": "default",
-      "declarations": ["white-space:nowrap"],
-      "specificity": [0, 2, 0],
+      "declarations": [
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        2,
+        0
+      ],
       "producer": {
         "source": "CutsceneTab.tsx",
         "component": "CutsceneTab",
@@ -872,8 +1210,14 @@
       "source": "editor.css",
       "selectorText": ".editor-header-context",
       "condition": "default",
-      "declarations": ["white-space:nowrap"],
-      "specificity": [0, 1, 0],
+      "declarations": [
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        1,
+        0
+      ],
       "producer": {
         "source": "EditorAppHeader.tsx",
         "component": "EditorAppHeader",
@@ -889,8 +1233,14 @@
       "source": "editor.css",
       "selectorText": ".editor-header-context__project",
       "condition": "default",
-      "declarations": ["text-overflow:ellipsis"],
-      "specificity": [0, 1, 0],
+      "declarations": [
+        "text-overflow:ellipsis"
+      ],
+      "specificity": [
+        0,
+        1,
+        0
+      ],
       "producer": {
         "source": "EditorAppHeader.tsx",
         "component": "EditorAppHeader",
@@ -906,8 +1256,14 @@
       "source": "editor.css",
       "selectorText": ".ef-fields .sound-effect-field>span",
       "condition": "default",
-      "declarations": ["white-space:nowrap"],
-      "specificity": [0, 2, 1],
+      "declarations": [
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        2,
+        1
+      ],
       "producer": {
         "source": "PoisonTab.tsx",
         "component": "TickRow",
@@ -923,8 +1279,14 @@
       "source": "editor.css",
       "selectorText": ".fa-frame span",
       "condition": "default",
-      "declarations": ["text-overflow:ellipsis"],
-      "specificity": [0, 1, 1],
+      "declarations": [
+        "text-overflow:ellipsis"
+      ],
+      "specificity": [
+        0,
+        1,
+        1
+      ],
       "producer": {
         "source": "FrameAnimationEditor.tsx",
         "component": "FrameThumbnail",
@@ -940,8 +1302,14 @@
       "source": "editor.css",
       "selectorText": ".image-preview-size",
       "condition": "default",
-      "declarations": ["white-space:nowrap"],
-      "specificity": [0, 1, 0],
+      "declarations": [
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        1,
+        0
+      ],
       "producer": {
         "source": "ImageTab.tsx",
         "component": "ImageWorkspacePreview",
@@ -957,8 +1325,15 @@
       "source": "editor.css",
       "selectorText": ".insp-head .who",
       "condition": "default",
-      "declarations": ["text-overflow:ellipsis", "white-space:nowrap"],
-      "specificity": [0, 2, 0],
+      "declarations": [
+        "text-overflow:ellipsis",
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        2,
+        0
+      ],
       "producer": {
         "source": "ActorMode.tsx",
         "component": "ActorInspector",
@@ -974,8 +1349,15 @@
       "source": "editor.css",
       "selectorText": ".instance-behavior-group-head b",
       "condition": "default",
-      "declarations": ["text-overflow:ellipsis", "white-space:nowrap"],
-      "specificity": [0, 1, 1],
+      "declarations": [
+        "text-overflow:ellipsis",
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        1,
+        1
+      ],
       "producer": {
         "source": "SpriteFrameWorkbench.tsx",
         "component": "InstanceBehaviorShelf",
@@ -991,8 +1373,15 @@
       "source": "editor.css",
       "selectorText": ".instance-behavior-group-head code",
       "condition": "default",
-      "declarations": ["text-overflow:ellipsis", "white-space:nowrap"],
-      "specificity": [0, 1, 1],
+      "declarations": [
+        "text-overflow:ellipsis",
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        1,
+        1
+      ],
       "producer": {
         "source": "SpriteFrameWorkbench.tsx",
         "component": "InstanceBehaviorShelf",
@@ -1008,8 +1397,14 @@
       "source": "editor.css",
       "selectorText": ".instance-behavior-location-link",
       "condition": "default",
-      "declarations": ["white-space:nowrap"],
-      "specificity": [0, 1, 0],
+      "declarations": [
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        1,
+        0
+      ],
       "producer": {
         "source": "SpriteFrameWorkbench.tsx",
         "component": "InstanceBehaviorShelf",
@@ -1025,8 +1420,15 @@
       "source": "editor.css",
       "selectorText": ".item-base-section-heading>code",
       "condition": "default",
-      "declarations": ["text-overflow:ellipsis", "white-space:nowrap"],
-      "specificity": [0, 1, 1],
+      "declarations": [
+        "text-overflow:ellipsis",
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        1,
+        1
+      ],
       "producer": {
         "source": "ItemTab.tsx",
         "component": "ItemTab",
@@ -1042,8 +1444,15 @@
       "source": "editor.css",
       "selectorText": ".item-base-section-heading>span",
       "condition": "default",
-      "declarations": ["text-overflow:ellipsis", "white-space:nowrap"],
-      "specificity": [0, 1, 1],
+      "declarations": [
+        "text-overflow:ellipsis",
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        1,
+        1
+      ],
       "producer": {
         "source": "ItemTab.tsx",
         "component": "ItemTab",
@@ -1059,8 +1468,15 @@
       "source": "editor.css",
       "selectorText": ".item-catalog-row .nm>.item-row-title",
       "condition": "default",
-      "declarations": ["text-overflow:ellipsis", "white-space:nowrap"],
-      "specificity": [0, 3, 0],
+      "declarations": [
+        "text-overflow:ellipsis",
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        3,
+        0
+      ],
       "producer": {
         "source": "App.tsx",
         "component": "PlacePalette",
@@ -1076,8 +1492,15 @@
       "source": "editor.css",
       "selectorText": ".item-catalog-row .nm>small",
       "condition": "default",
-      "declarations": ["text-overflow:ellipsis", "white-space:nowrap"],
-      "specificity": [0, 2, 1],
+      "declarations": [
+        "text-overflow:ellipsis",
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        2,
+        1
+      ],
       "producer": {
         "source": "App.tsx",
         "component": "PlacePalette",
@@ -1093,8 +1516,15 @@
       "source": "editor.css",
       "selectorText": ".item-icon-option>code",
       "condition": "default",
-      "declarations": ["text-overflow:ellipsis", "white-space:nowrap"],
-      "specificity": [0, 1, 1],
+      "declarations": [
+        "text-overflow:ellipsis",
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        1,
+        1
+      ],
       "producer": {
         "source": "ItemTab.tsx",
         "component": "ItemIconBrowser",
@@ -1110,8 +1540,15 @@
       "source": "editor.css",
       "selectorText": ".item-icon-option>span:last-of-type",
       "condition": "default",
-      "declarations": ["text-overflow:ellipsis", "white-space:nowrap"],
-      "specificity": [0, 2, 1],
+      "declarations": [
+        "text-overflow:ellipsis",
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        2,
+        1
+      ],
       "producer": {
         "source": "ItemTab.tsx",
         "component": "ItemIconBrowser",
@@ -1127,8 +1564,15 @@
       "source": "editor.css",
       "selectorText": ".item-migration-alert span",
       "condition": "default",
-      "declarations": ["text-overflow:ellipsis", "white-space:nowrap"],
-      "specificity": [0, 1, 1],
+      "declarations": [
+        "text-overflow:ellipsis",
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        1,
+        1
+      ],
       "producer": {
         "source": "ItemTab.tsx",
         "component": "ItemTab",
@@ -1144,8 +1588,14 @@
       "source": "editor.css",
       "selectorText": ".item-alchemy-reward-cost",
       "condition": "default",
-      "declarations": ["white-space:nowrap"],
-      "specificity": [0, 1, 0],
+      "declarations": [
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        1,
+        0
+      ],
       "producer": {
         "source": "ItemAlchemyEditors.tsx",
         "component": "ResourceRewardTierList",
@@ -1161,8 +1611,15 @@
       "source": "editor.css",
       "selectorText": ".layer-name small",
       "condition": "default",
-      "declarations": ["text-overflow:ellipsis", "white-space:nowrap"],
-      "specificity": [0, 1, 1],
+      "declarations": [
+        "text-overflow:ellipsis",
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        1,
+        1
+      ],
       "producer": {
         "source": "LayerStackControls.tsx",
         "component": "LayerStackControls",
@@ -1178,8 +1635,15 @@
       "source": "editor.css",
       "selectorText": ".layer-name>span:first-child",
       "condition": "default",
-      "declarations": ["text-overflow:ellipsis", "white-space:nowrap"],
-      "specificity": [0, 2, 1],
+      "declarations": [
+        "text-overflow:ellipsis",
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        2,
+        1
+      ],
       "producer": {
         "source": "LayerStackControls.tsx",
         "component": "LayerStackControls",
@@ -1195,8 +1659,14 @@
       "source": "editor.css",
       "selectorText": ".linked-control>.ds-control-group__control",
       "condition": "default",
-      "declarations": ["text-overflow:ellipsis"],
-      "specificity": [0, 2, 0],
+      "declarations": [
+        "text-overflow:ellipsis"
+      ],
+      "specificity": [
+        0,
+        2,
+        0
+      ],
       "producer": {
         "source": "BattleFieldPicker.tsx",
         "component": "BattleFieldPicker",
@@ -1212,8 +1682,14 @@
       "source": "editor.css",
       "selectorText": ".linked-control>.in",
       "condition": "default",
-      "declarations": ["text-overflow:ellipsis"],
-      "specificity": [0, 2, 0],
+      "declarations": [
+        "text-overflow:ellipsis"
+      ],
+      "specificity": [
+        0,
+        2,
+        0
+      ],
       "producer": {
         "source": "CommandForm.tsx",
         "component": "CommandForm",
@@ -1229,8 +1705,14 @@
       "source": "editor.css",
       "selectorText": ".linked-control>.map-file",
       "condition": "default",
-      "declarations": ["text-overflow:ellipsis"],
-      "specificity": [0, 2, 0],
+      "declarations": [
+        "text-overflow:ellipsis"
+      ],
+      "specificity": [
+        0,
+        2,
+        0
+      ],
       "producer": {
         "source": "MapMode.tsx",
         "component": "MapMode",
@@ -1246,8 +1728,14 @@
       "source": "editor.css",
       "selectorText": ".map-a11y-legend",
       "condition": "default",
-      "declarations": ["white-space:nowrap"],
-      "specificity": [0, 1, 0],
+      "declarations": [
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        1,
+        0
+      ],
       "producer": {
         "source": "MapMode.tsx",
         "component": "MapMode",
@@ -1263,8 +1751,15 @@
       "source": "editor.css",
       "selectorText": ".map-candidate-menu code",
       "condition": "default",
-      "declarations": ["text-overflow:ellipsis", "white-space:nowrap"],
-      "specificity": [0, 1, 1],
+      "declarations": [
+        "text-overflow:ellipsis",
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        1,
+        1
+      ],
       "producer": {
         "source": "MapMode.tsx",
         "component": "MapMode",
@@ -1280,8 +1775,15 @@
       "source": "editor.css",
       "selectorText": ".map-content-selection-preview>header span",
       "condition": "default",
-      "declarations": ["text-overflow:ellipsis", "white-space:nowrap"],
-      "specificity": [0, 1, 2],
+      "declarations": [
+        "text-overflow:ellipsis",
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        1,
+        2
+      ],
       "producer": {
         "source": "MapContentSelectionPreview.tsx",
         "component": "MapContentSelectionPreview",
@@ -1297,8 +1799,15 @@
       "source": "editor.css",
       "selectorText": ".map-content-selection-preview>header strong",
       "condition": "default",
-      "declarations": ["text-overflow:ellipsis", "white-space:nowrap"],
-      "specificity": [0, 1, 2],
+      "declarations": [
+        "text-overflow:ellipsis",
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        1,
+        2
+      ],
       "producer": {
         "source": "MapContentSelectionPreview.tsx",
         "component": "MapContentSelectionPreview",
@@ -1314,8 +1823,15 @@
       "source": "editor.css",
       "selectorText": ".map-paint-context__title>span:last-child",
       "condition": "default",
-      "declarations": ["text-overflow:ellipsis", "white-space:nowrap"],
-      "specificity": [0, 2, 1],
+      "declarations": [
+        "text-overflow:ellipsis",
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        2,
+        1
+      ],
       "producer": {
         "source": "LayerStackControls.tsx",
         "component": "LayerPaintContext",
@@ -1331,8 +1847,15 @@
       "source": "editor.css",
       "selectorText": ".map-stamp-copy small",
       "condition": "default",
-      "declarations": ["text-overflow:ellipsis", "white-space:nowrap"],
-      "specificity": [0, 1, 1],
+      "declarations": [
+        "text-overflow:ellipsis",
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        1,
+        1
+      ],
       "producer": {
         "source": "MapStampPalette.tsx",
         "component": "MapStampPalette",
@@ -1348,8 +1871,15 @@
       "source": "editor.css",
       "selectorText": ".map-stamp-copy strong",
       "condition": "default",
-      "declarations": ["text-overflow:ellipsis", "white-space:nowrap"],
-      "specificity": [0, 1, 1],
+      "declarations": [
+        "text-overflow:ellipsis",
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        1,
+        1
+      ],
       "producer": {
         "source": "MapStampPalette.tsx",
         "component": "MapStampPalette",
@@ -1365,8 +1895,14 @@
       "source": "editor.css",
       "selectorText": ".map-stamp-recent",
       "condition": "default",
-      "declarations": ["white-space:nowrap"],
-      "specificity": [0, 1, 0],
+      "declarations": [
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        1,
+        0
+      ],
       "producer": {
         "source": "MapStampPalette.tsx",
         "component": "MapStampPalette",
@@ -1382,8 +1918,15 @@
       "source": "editor.css",
       "selectorText": ".map-step-actions .hint2",
       "condition": "default",
-      "declarations": ["text-overflow:ellipsis", "white-space:nowrap"],
-      "specificity": [0, 2, 0],
+      "declarations": [
+        "text-overflow:ellipsis",
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        2,
+        0
+      ],
       "producer": {
         "source": "App.tsx",
         "component": "EntityInspector",
@@ -1399,8 +1942,14 @@
       "source": "editor.css",
       "selectorText": ".map-tool-option-tray",
       "condition": "default",
-      "declarations": ["white-space:nowrap"],
-      "specificity": [0, 1, 0],
+      "declarations": [
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        1,
+        0
+      ],
       "producer": {
         "source": "IsometricEditorToolbar.tsx",
         "component": "ToolOptionTray",
@@ -1416,8 +1965,15 @@
       "source": "editor.css",
       "selectorText": ".map-viewport-status",
       "condition": "default",
-      "declarations": ["text-overflow:ellipsis", "white-space:nowrap"],
-      "specificity": [0, 1, 0],
+      "declarations": [
+        "text-overflow:ellipsis",
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        1,
+        0
+      ],
       "producer": {
         "source": "IsometricViewportStatus.tsx",
         "component": "IsometricViewportStatus",
@@ -1433,8 +1989,15 @@
       "source": "editor.css",
       "selectorText": ".missing-editor-target code",
       "condition": "default",
-      "declarations": ["text-overflow:ellipsis", "white-space:nowrap"],
-      "specificity": [0, 1, 1],
+      "declarations": [
+        "text-overflow:ellipsis",
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        1,
+        1
+      ],
       "producer": {
         "source": "App.tsx",
         "component": "MissingEditorTarget",
@@ -1450,8 +2013,15 @@
       "source": "editor.css",
       "selectorText": ".node-label",
       "condition": "default",
-      "declarations": ["text-overflow:ellipsis", "white-space:nowrap"],
-      "specificity": [0, 1, 0],
+      "declarations": [
+        "text-overflow:ellipsis",
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        1,
+        0
+      ],
       "producer": {
         "source": "App.tsx",
         "component": "App",
@@ -1467,8 +2037,14 @@
       "source": "editor.css",
       "selectorText": ".outliner>.pane-h>.k",
       "condition": "default",
-      "declarations": ["white-space:nowrap"],
-      "specificity": [0, 3, 0],
+      "declarations": [
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        3,
+        0
+      ],
       "producer": {
         "source": "App.tsx",
         "component": "App",
@@ -1484,8 +2060,15 @@
       "source": "editor.css",
       "selectorText": ".palette-row .nm",
       "condition": "default",
-      "declarations": ["text-overflow:ellipsis", "white-space:nowrap"],
-      "specificity": [0, 2, 0],
+      "declarations": [
+        "text-overflow:ellipsis",
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        2,
+        0
+      ],
       "producer": {
         "source": "App.tsx",
         "component": "PlacePalette",
@@ -1501,8 +2084,14 @@
       "source": "editor.css",
       "selectorText": ".place-control-legend",
       "condition": "default",
-      "declarations": ["white-space:nowrap"],
-      "specificity": [0, 1, 0],
+      "declarations": [
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        1,
+        0
+      ],
       "producer": {
         "source": "App.tsx",
         "component": "PlacePalette",
@@ -1518,8 +2107,14 @@
       "source": "editor.css",
       "selectorText": ".project-badge",
       "condition": "default",
-      "declarations": ["white-space:nowrap"],
-      "specificity": [0, 1, 0],
+      "declarations": [
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        1,
+        0
+      ],
       "producer": {
         "source": "ProjectWorkbenchTab.tsx",
         "component": "EntryPointEditor",
@@ -1535,8 +2130,14 @@
       "source": "editor.css",
       "selectorText": ".project-center .btn",
       "condition": "default",
-      "declarations": ["white-space:nowrap"],
-      "specificity": [0, 2, 0],
+      "declarations": [
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        2,
+        0
+      ],
       "producer": {
         "source": "ProjectWorkbenchTab.tsx",
         "component": "ProjectPageWorkspace",
@@ -1552,8 +2153,14 @@
       "source": "editor.css",
       "selectorText": ".project-center .linked-value-open",
       "condition": "default",
-      "declarations": ["white-space:nowrap"],
-      "specificity": [0, 2, 0],
+      "declarations": [
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        2,
+        0
+      ],
       "producer": {
         "source": "ProjectWorkbenchTab.tsx",
         "component": "ProjectPageWorkspace",
@@ -1569,8 +2176,15 @@
       "source": "editor.css",
       "selectorText": ".project-entry-list .node code",
       "condition": "default",
-      "declarations": ["text-overflow:ellipsis", "white-space:nowrap"],
-      "specificity": [0, 2, 1],
+      "declarations": [
+        "text-overflow:ellipsis",
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        2,
+        1
+      ],
       "producer": {
         "source": "App.tsx",
         "component": "App",
@@ -1586,8 +2200,14 @@
       "source": "editor.css",
       "selectorText": ".project-inventory-actions",
       "condition": "default",
-      "declarations": ["white-space:nowrap"],
-      "specificity": [0, 1, 0],
+      "declarations": [
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        1,
+        0
+      ],
       "producer": {
         "source": "ProjectWorkbenchTab.tsx",
         "component": "StartWorldFields",
@@ -1603,8 +2223,15 @@
       "source": "editor.css",
       "selectorText": ".project-orphan-seed-identity code",
       "condition": "default",
-      "declarations": ["text-overflow:ellipsis", "white-space:nowrap"],
-      "specificity": [0, 1, 1],
+      "declarations": [
+        "text-overflow:ellipsis",
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        1,
+        1
+      ],
       "producer": {
         "source": "ProjectWorkbenchTab.tsx",
         "component": "StartWorldFields",
@@ -1620,8 +2247,15 @@
       "source": "editor.css",
       "selectorText": ".project-orphan-seed-identity strong",
       "condition": "default",
-      "declarations": ["text-overflow:ellipsis", "white-space:nowrap"],
-      "specificity": [0, 1, 1],
+      "declarations": [
+        "text-overflow:ellipsis",
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        1,
+        1
+      ],
       "producer": {
         "source": "ProjectWorkbenchTab.tsx",
         "component": "StartWorldFields",
@@ -1637,8 +2271,14 @@
       "source": "editor.css",
       "selectorText": ".project-outliner .btn",
       "condition": "default",
-      "declarations": ["white-space:nowrap"],
-      "specificity": [0, 2, 0],
+      "declarations": [
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        2,
+        0
+      ],
       "producer": {
         "source": "ProjectWorkbenchTab.tsx",
         "component": "ProjectAdvancedPage",
@@ -1654,8 +2294,14 @@
       "source": "editor.css",
       "selectorText": ".project-outliner .linked-value-open",
       "condition": "default",
-      "declarations": ["white-space:nowrap"],
-      "specificity": [0, 2, 0],
+      "declarations": [
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        2,
+        0
+      ],
       "producer": {
         "source": "ProjectWorkbenchTab.tsx",
         "component": "ProjectAdvancedPage",
@@ -1671,8 +2317,15 @@
       "source": "editor.css",
       "selectorText": ".project-party-identity code",
       "condition": "default",
-      "declarations": ["text-overflow:ellipsis", "white-space:nowrap"],
-      "specificity": [0, 1, 1],
+      "declarations": [
+        "text-overflow:ellipsis",
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        1,
+        1
+      ],
       "producer": {
         "source": "ProjectWorkbenchTab.tsx",
         "component": "StartWorldFields",
@@ -1688,8 +2341,15 @@
       "source": "editor.css",
       "selectorText": ".project-party-name",
       "condition": "default",
-      "declarations": ["text-overflow:ellipsis", "white-space:nowrap"],
-      "specificity": [0, 1, 0],
+      "declarations": [
+        "text-overflow:ellipsis",
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        1,
+        0
+      ],
       "producer": {
         "source": "ProjectWorkbenchTab.tsx",
         "component": "StartWorldFields",
@@ -1705,8 +2365,15 @@
       "source": "editor.css",
       "selectorText": ".project-resource-identity>code",
       "condition": "default",
-      "declarations": ["text-overflow:ellipsis", "white-space:nowrap"],
-      "specificity": [0, 1, 1],
+      "declarations": [
+        "text-overflow:ellipsis",
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        1,
+        1
+      ],
       "producer": {
         "source": "ProjectWorkbenchTab.tsx",
         "component": "StartWorldFields",
@@ -1722,8 +2389,15 @@
       "source": "editor.css",
       "selectorText": ".project-resource-identity>strong",
       "condition": "default",
-      "declarations": ["text-overflow:ellipsis", "white-space:nowrap"],
-      "specificity": [0, 1, 1],
+      "declarations": [
+        "text-overflow:ellipsis",
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        1,
+        1
+      ],
       "producer": {
         "source": "ProjectWorkbenchTab.tsx",
         "component": "StartWorldFields",
@@ -1739,8 +2413,14 @@
       "source": "editor.css",
       "selectorText": ".project-resource-value",
       "condition": "default",
-      "declarations": ["white-space:nowrap"],
-      "specificity": [0, 1, 0],
+      "declarations": [
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        1,
+        0
+      ],
       "producer": {
         "source": "ProjectWorkbenchTab.tsx",
         "component": "StartWorldFields",
@@ -1756,8 +2436,14 @@
       "source": "editor.css",
       "selectorText": ".project-startup-summary-card .ds-button",
       "condition": "default",
-      "declarations": ["white-space:nowrap"],
-      "specificity": [0, 2, 0],
+      "declarations": [
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        2,
+        0
+      ],
       "producer": {
         "source": "ProjectWorkbenchTab.tsx",
         "component": "ProjectOverviewPage",
@@ -1773,8 +2459,14 @@
       "source": "editor.css",
       "selectorText": ".rel-poison",
       "condition": "default",
-      "declarations": ["white-space:nowrap"],
-      "specificity": [0, 1, 0],
+      "declarations": [
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        1,
+        0
+      ],
       "producer": {
         "source": "PoisonTab.tsx",
         "component": "RelationOverview",
@@ -1790,8 +2482,14 @@
       "source": "editor.css",
       "selectorText": ".rel-warn",
       "condition": "default",
-      "declarations": ["white-space:nowrap"],
-      "specificity": [0, 1, 0],
+      "declarations": [
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        1,
+        0
+      ],
       "producer": {
         "source": "PoisonTab.tsx",
         "component": "RelationOverview",
@@ -1807,8 +2505,15 @@
       "source": "editor.css",
       "selectorText": ".scene-entry-section>summary>span:last-child",
       "condition": "default",
-      "declarations": ["text-overflow:ellipsis", "white-space:nowrap"],
-      "specificity": [0, 2, 2],
+      "declarations": [
+        "text-overflow:ellipsis",
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        2,
+        2
+      ],
       "producer": {
         "source": "ScriptTree.tsx",
         "component": "SceneEntrySections",
@@ -1824,8 +2529,15 @@
       "source": "editor.css",
       "selectorText": ".script-behavior-heading code",
       "condition": "default",
-      "declarations": ["text-overflow:ellipsis", "white-space:nowrap"],
-      "specificity": [0, 1, 1],
+      "declarations": [
+        "text-overflow:ellipsis",
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        1,
+        1
+      ],
       "producer": {
         "source": "ScriptBehaviorInspector.tsx",
         "component": "ScriptBehaviorInspector",
@@ -1841,8 +2553,15 @@
       "source": "editor.css",
       "selectorText": ".script-scheme-card-select span",
       "condition": "default",
-      "declarations": ["text-overflow:ellipsis", "white-space:nowrap"],
-      "specificity": [0, 1, 1],
+      "declarations": [
+        "text-overflow:ellipsis",
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        1,
+        1
+      ],
       "producer": {
         "source": "ScriptEditor.tsx",
         "component": "ScriptSchemeStrip",
@@ -1858,8 +2577,15 @@
       "source": "editor.css",
       "selectorText": ".script-scheme-card-select strong",
       "condition": "default",
-      "declarations": ["text-overflow:ellipsis", "white-space:nowrap"],
-      "specificity": [0, 1, 1],
+      "declarations": [
+        "text-overflow:ellipsis",
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        1,
+        1
+      ],
       "producer": {
         "source": "ScriptEditor.tsx",
         "component": "ScriptSchemeStrip",
@@ -1875,8 +2601,15 @@
       "source": "editor.css",
       "selectorText": ".semantic-frame-group-head b",
       "condition": "default",
-      "declarations": ["text-overflow:ellipsis", "white-space:nowrap"],
-      "specificity": [0, 1, 1],
+      "declarations": [
+        "text-overflow:ellipsis",
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        1,
+        1
+      ],
       "producer": {
         "source": "SpriteFrameWorkbench.tsx",
         "component": "SemanticFrameShelf",
@@ -1892,8 +2625,15 @@
       "source": "editor.css",
       "selectorText": ".semantic-frame-group-head code",
       "condition": "default",
-      "declarations": ["text-overflow:ellipsis", "white-space:nowrap"],
-      "specificity": [0, 1, 1],
+      "declarations": [
+        "text-overflow:ellipsis",
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        1,
+        1
+      ],
       "producer": {
         "source": "SpriteFrameWorkbench.tsx",
         "component": "SemanticFrameShelf",
@@ -1909,8 +2649,14 @@
       "source": "editor.css",
       "selectorText": ".semantic-frame-row-label b",
       "condition": "default",
-      "declarations": ["text-overflow:ellipsis"],
-      "specificity": [0, 1, 1],
+      "declarations": [
+        "text-overflow:ellipsis"
+      ],
+      "specificity": [
+        0,
+        1,
+        1
+      ],
       "producer": {
         "source": "SpriteFrameWorkbench.tsx",
         "component": "FrameRowView",
@@ -1926,8 +2672,14 @@
       "source": "editor.css",
       "selectorText": ".semantic-frame-row-label span",
       "condition": "default",
-      "declarations": ["text-overflow:ellipsis"],
-      "specificity": [0, 1, 1],
+      "declarations": [
+        "text-overflow:ellipsis"
+      ],
+      "specificity": [
+        0,
+        1,
+        1
+      ],
       "producer": {
         "source": "SpriteFrameWorkbench.tsx",
         "component": "FrameRowView",
@@ -1943,8 +2695,15 @@
       "source": "editor.css",
       "selectorText": ".shop-stock-identity strong",
       "condition": "default",
-      "declarations": ["text-overflow:ellipsis", "white-space:nowrap"],
-      "specificity": [0, 1, 1],
+      "declarations": [
+        "text-overflow:ellipsis",
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        1,
+        1
+      ],
       "producer": {
         "source": "ShopTab.tsx",
         "component": "ShopTab",
@@ -1960,8 +2719,15 @@
       "source": "editor.css",
       "selectorText": ".shop-stock-identity>span",
       "condition": "default",
-      "declarations": ["text-overflow:ellipsis", "white-space:nowrap"],
-      "specificity": [0, 1, 1],
+      "declarations": [
+        "text-overflow:ellipsis",
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        1,
+        1
+      ],
       "producer": {
         "source": "ShopTab.tsx",
         "component": "ShopTab",
@@ -1977,8 +2743,15 @@
       "source": "editor.css",
       "selectorText": ".sprite-action-option code",
       "condition": "default",
-      "declarations": ["text-overflow:ellipsis", "white-space:nowrap"],
-      "specificity": [0, 1, 1],
+      "declarations": [
+        "text-overflow:ellipsis",
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        1,
+        1
+      ],
       "producer": {
         "source": "SpriteActionEditor.tsx",
         "component": "SpriteActionEditor",
@@ -1994,8 +2767,15 @@
       "source": "editor.css",
       "selectorText": ".sprite-action-option strong",
       "condition": "default",
-      "declarations": ["text-overflow:ellipsis", "white-space:nowrap"],
-      "specificity": [0, 1, 1],
+      "declarations": [
+        "text-overflow:ellipsis",
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        1,
+        1
+      ],
       "producer": {
         "source": "SpriteActionEditor.tsx",
         "component": "SpriteActionEditor",
@@ -2011,8 +2791,15 @@
       "source": "editor.css",
       "selectorText": ".sprite-frame-cell-caption small",
       "condition": "default",
-      "declarations": ["text-overflow:ellipsis", "white-space:nowrap"],
-      "specificity": [0, 1, 1],
+      "declarations": [
+        "text-overflow:ellipsis",
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        1,
+        1
+      ],
       "producer": {
         "source": "SpriteFrameWorkbench.tsx",
         "component": "FrameCell",
@@ -2028,8 +2815,14 @@
       "source": "editor.css",
       "selectorText": ".sprite-image-viewer-tools-label",
       "condition": "default",
-      "declarations": ["white-space:nowrap"],
-      "specificity": [0, 1, 0],
+      "declarations": [
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        1,
+        0
+      ],
       "producer": {
         "source": "SpriteFrameWorkbench.tsx",
         "component": "RawFrameInspector",
@@ -2045,8 +2838,14 @@
       "source": "editor.css",
       "selectorText": ".stage-head",
       "condition": "default",
-      "declarations": ["white-space:nowrap"],
-      "specificity": [0, 1, 0],
+      "declarations": [
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        1,
+        0
+      ],
       "producer": {
         "source": "ScriptTree.tsx",
         "component": "ScriptTree",
@@ -2062,8 +2861,15 @@
       "source": "editor.css",
       "selectorText": ".stamp-dialog-summary .mono",
       "condition": "default",
-      "declarations": ["text-overflow:ellipsis", "white-space:nowrap"],
-      "specificity": [0, 2, 0],
+      "declarations": [
+        "text-overflow:ellipsis",
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        2,
+        0
+      ],
       "producer": {
         "source": "CommandForm.tsx",
         "component": "CommandForm",
@@ -2079,8 +2885,15 @@
       "source": "editor.css",
       "selectorText": ".stamp-group-layer-list>span",
       "condition": "default",
-      "declarations": ["text-overflow:ellipsis", "white-space:nowrap"],
-      "specificity": [0, 1, 1],
+      "declarations": [
+        "text-overflow:ellipsis",
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        1,
+        1
+      ],
       "producer": {
         "source": "StampPlacementSelectionInspector.tsx",
         "component": "StampPlacementSelectionInspector",
@@ -2096,8 +2909,15 @@
       "source": "editor.css",
       "selectorText": ".stamp-group-selection-head .what",
       "condition": "default",
-      "declarations": ["text-overflow:ellipsis", "white-space:nowrap"],
-      "specificity": [0, 2, 0],
+      "declarations": [
+        "text-overflow:ellipsis",
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        2,
+        0
+      ],
       "producer": {
         "source": "ActorMode.tsx",
         "component": "ActorInspector",
@@ -2113,8 +2933,15 @@
       "source": "editor.css",
       "selectorText": ".stamp-group-selection-head .who",
       "condition": "default",
-      "declarations": ["text-overflow:ellipsis", "white-space:nowrap"],
-      "specificity": [0, 2, 0],
+      "declarations": [
+        "text-overflow:ellipsis",
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        2,
+        0
+      ],
       "producer": {
         "source": "ActorMode.tsx",
         "component": "ActorInspector",
@@ -2130,8 +2957,15 @@
       "source": "editor.css",
       "selectorText": ".stamp-group-summary code",
       "condition": "default",
-      "declarations": ["text-overflow:ellipsis", "white-space:nowrap"],
-      "specificity": [0, 1, 1],
+      "declarations": [
+        "text-overflow:ellipsis",
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        1,
+        1
+      ],
       "producer": {
         "source": "StampPlacementSelectionInspector.tsx",
         "component": "StampPlacementSelectionInspector",
@@ -2147,8 +2981,15 @@
       "source": "editor.css",
       "selectorText": ".stamp-inspector .insp-head .who",
       "condition": "default",
-      "declarations": ["text-overflow:ellipsis", "white-space:nowrap"],
-      "specificity": [0, 3, 0],
+      "declarations": [
+        "text-overflow:ellipsis",
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        3,
+        0
+      ],
       "producer": {
         "source": "ActorMode.tsx",
         "component": "ActorInspector",
@@ -2164,8 +3005,15 @@
       "source": "editor.css",
       "selectorText": ".stamp-lifecycle-list span",
       "condition": "default",
-      "declarations": ["text-overflow:ellipsis", "white-space:nowrap"],
-      "specificity": [0, 1, 1],
+      "declarations": [
+        "text-overflow:ellipsis",
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        1,
+        1
+      ],
       "producer": {
         "source": "MapMode.tsx",
         "component": "MapMode",
@@ -2181,8 +3029,15 @@
       "source": "editor.css",
       "selectorText": ".stamp-lifecycle-list strong",
       "condition": "default",
-      "declarations": ["text-overflow:ellipsis", "white-space:nowrap"],
-      "specificity": [0, 1, 1],
+      "declarations": [
+        "text-overflow:ellipsis",
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        1,
+        1
+      ],
       "producer": {
         "source": "MapMode.tsx",
         "component": "MapMode",
@@ -2198,8 +3053,14 @@
       "source": "editor.css",
       "selectorText": ".stamp-missing-source button>span",
       "condition": "default",
-      "declarations": ["white-space:nowrap"],
-      "specificity": [0, 1, 2],
+      "declarations": [
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        1,
+        2
+      ],
       "producer": {
         "source": "StampLibraryTab.tsx",
         "component": "StampLibraryTab",
@@ -2215,8 +3076,14 @@
       "source": "editor.css",
       "selectorText": ".stamp-origin-badge",
       "condition": "default",
-      "declarations": ["white-space:nowrap"],
-      "specificity": [0, 1, 0],
+      "declarations": [
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        1,
+        0
+      ],
       "producer": {
         "source": "StampLibraryTab.tsx",
         "component": "StampLibraryTab",
@@ -2232,8 +3099,15 @@
       "source": "editor.css",
       "selectorText": ".stamp-row-copy span",
       "condition": "default",
-      "declarations": ["text-overflow:ellipsis", "white-space:nowrap"],
-      "specificity": [0, 1, 1],
+      "declarations": [
+        "text-overflow:ellipsis",
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        1,
+        1
+      ],
       "producer": {
         "source": "StampLibraryTab.tsx",
         "component": "StampLibraryTab",
@@ -2249,8 +3123,15 @@
       "source": "editor.css",
       "selectorText": ".stamp-row-copy strong",
       "condition": "default",
-      "declarations": ["text-overflow:ellipsis", "white-space:nowrap"],
-      "specificity": [0, 1, 1],
+      "declarations": [
+        "text-overflow:ellipsis",
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        1,
+        1
+      ],
       "producer": {
         "source": "StampLibraryTab.tsx",
         "component": "StampLibraryTab",
@@ -2266,8 +3147,14 @@
       "source": "editor.css",
       "selectorText": ".stamp-sr-only",
       "condition": "default",
-      "declarations": ["white-space:nowrap"],
-      "specificity": [0, 1, 0],
+      "declarations": [
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        1,
+        0
+      ],
       "producer": {
         "source": "StampTemplateDialog.tsx",
         "component": "StampTemplateDialog",
@@ -2283,8 +3170,15 @@
       "source": "editor.css",
       "selectorText": ".tileset-category-badge",
       "condition": "default",
-      "declarations": ["text-overflow:ellipsis", "white-space:nowrap"],
-      "specificity": [0, 1, 0],
+      "declarations": [
+        "text-overflow:ellipsis",
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        1,
+        0
+      ],
       "producer": {
         "source": "TilesetTab.tsx",
         "component": "TilesetTab",
@@ -2300,8 +3194,15 @@
       "source": "editor.css",
       "selectorText": ".tileset-library-copy .mono",
       "condition": "default",
-      "declarations": ["text-overflow:ellipsis", "white-space:nowrap"],
-      "specificity": [0, 2, 0],
+      "declarations": [
+        "text-overflow:ellipsis",
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        2,
+        0
+      ],
       "producer": {
         "source": "CommandForm.tsx",
         "component": "CommandForm",
@@ -2317,8 +3218,15 @@
       "source": "editor.css",
       "selectorText": ".tileset-library-copy strong",
       "condition": "default",
-      "declarations": ["text-overflow:ellipsis", "white-space:nowrap"],
-      "specificity": [0, 1, 1],
+      "declarations": [
+        "text-overflow:ellipsis",
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        1,
+        1
+      ],
       "producer": {
         "source": "TilesetTab.tsx",
         "component": "TilesetTab",
@@ -2334,8 +3242,14 @@
       "source": "editor.css",
       "selectorText": ".tileset-primary-action",
       "condition": "default",
-      "declarations": ["white-space:nowrap"],
-      "specificity": [0, 1, 0],
+      "declarations": [
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        1,
+        0
+      ],
       "producer": {
         "source": "TilesetTab.tsx",
         "component": "TilesetTab",
@@ -2351,8 +3265,15 @@
       "source": "editor.css",
       "selectorText": ".tileset-readonly",
       "condition": "default",
-      "declarations": ["text-overflow:ellipsis", "white-space:nowrap"],
-      "specificity": [0, 1, 0],
+      "declarations": [
+        "text-overflow:ellipsis",
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        1,
+        0
+      ],
       "producer": {
         "source": "TilesetTab.tsx",
         "component": "TilesetTab",
@@ -2368,8 +3289,14 @@
       "source": "editor.css",
       "selectorText": ".tileset-secondary-action",
       "condition": "default",
-      "declarations": ["white-space:nowrap"],
-      "specificity": [0, 1, 0],
+      "declarations": [
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        1,
+        0
+      ],
       "producer": {
         "source": "TilesetTab.tsx",
         "component": "TilesetTab",
@@ -2385,8 +3312,14 @@
       "source": "editor.css",
       "selectorText": ".toolbar",
       "condition": "default",
-      "declarations": ["white-space:nowrap"],
-      "specificity": [0, 1, 0],
+      "declarations": [
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        1,
+        0
+      ],
       "producer": {
         "source": "App.tsx",
         "component": "App",
@@ -2402,8 +3335,15 @@
       "source": "editor.css",
       "selectorText": ".toolbar-hint",
       "condition": "default",
-      "declarations": ["text-overflow:ellipsis", "white-space:nowrap"],
-      "specificity": [0, 1, 0],
+      "declarations": [
+        "text-overflow:ellipsis",
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        1,
+        0
+      ],
       "producer": {
         "source": "App.tsx",
         "component": "App",
@@ -2419,8 +3359,15 @@
       "source": "editor.css",
       "selectorText": ".valbar .msg",
       "condition": "default",
-      "declarations": ["text-overflow:ellipsis", "white-space:nowrap"],
-      "specificity": [0, 2, 0],
+      "declarations": [
+        "text-overflow:ellipsis",
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        2,
+        0
+      ],
       "producer": {
         "source": "EditorDiagnosticsBar.tsx",
         "component": "EditorDiagnosticsBar",
@@ -2436,8 +3383,14 @@
       "source": "editor.css",
       "selectorText": ".visually-hidden",
       "condition": "default",
-      "declarations": ["white-space:nowrap"],
-      "specificity": [0, 1, 0],
+      "declarations": [
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        1,
+        0
+      ],
       "producer": {
         "source": "IsometricEditorToolbar.tsx",
         "component": "IsometricEditorToolbar",
@@ -2453,8 +3406,14 @@
       "source": "editor.css",
       "selectorText": ".world-variable-catalog .ds-catalog-row__trailing",
       "condition": "default",
-      "declarations": ["white-space:nowrap"],
-      "specificity": [0, 2, 0],
+      "declarations": [
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        2,
+        0
+      ],
       "producer": {
         "source": "VarsTab.tsx",
         "component": "VarsTab",
@@ -2470,8 +3429,15 @@
       "source": "editor.css",
       "selectorText": ".world-variable-readonly-grid code",
       "condition": "default",
-      "declarations": ["text-overflow:ellipsis", "white-space:nowrap"],
-      "specificity": [0, 1, 1],
+      "declarations": [
+        "text-overflow:ellipsis",
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        1,
+        1
+      ],
       "producer": {
         "source": "VarsTab.tsx",
         "component": "VarsTab",

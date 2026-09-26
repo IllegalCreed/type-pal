@@ -106,6 +106,14 @@ const cases = {
     to: 'return value',
     title: 'joins truthy class tokens and drops empty describedBy ids',
   },
+  u01: {
+    id: 'u01-busy-label',
+    sourceFile: 'src/ui/design-system/buttons.tsx',
+    testFile: 'src/ui/design-system/buttons.test.tsx',
+    from: "{busy ? '处理中' : children}",
+    to: "{busy ? '处理中…' : children}",
+    title: 'keeps pressable, button and action-link identity with busy and default chrome',
+  },
 }
 
 const selected = process.argv[2] ? [process.argv[2]] : Object.keys(cases)

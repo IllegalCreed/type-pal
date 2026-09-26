@@ -1,0 +1,13 @@
+{
+  "id": "u01-busy-label",
+  "file": "packages/editor/src/ui/design-system/buttons.tsx",
+  "sha256": "bcf226c54591582f3e5121374a2c153630025d008018e102465b1e9a938acef4",
+  "hashUnchanged": true,
+  "greenExit": 0,
+  "greenPassed": 1,
+  "redExit": 1,
+  "failedTitle": "keeps pressable, button and action-link identity with busy and default chrome",
+  "failedFullName": "U01 button family keeps pressable, button and action-link identity with busy and default chrome",
+  "assertion": "AssertionError: expected '<button type=\"button\" class=\"ds-butto…' to be '<button type=\"button\" class=\"ds-butto…' // Object.is equality",
+  "ok": true
+}
