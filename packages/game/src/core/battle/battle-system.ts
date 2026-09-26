@@ -76,8 +76,7 @@ import {
   resetFightersAfterAction,
   startBattleAnim,
 } from './battle-anim-driver.js'
-import { finalizeBattle, finalizeBattleCleanup } from './battle-finalization.js'
-import { battleWonLevelUp } from './battle-progression.js'
+import { finalizeBattle } from './battle-finalization.js'
 import {
   type BattleResources,
   getBattleResources,
@@ -86,8 +85,7 @@ import {
   setBattleResources,
   setBattleRunScript,
 } from './battle-runtime-context.js'
-import type { BattleSettlementScreen } from './battle-settlement.js'
-import { settlementScreenTimeoutMs } from './battle-settlement.js'
+import { buildBattleWonSettlement, tickBattleSettlement } from './battle-settlement.js'
 import type { BattleAction, BattlePlayer, BattleState } from './battle-state.js'
 import { createBattleState } from './battle-state.js'
 import { decideEnemyAction } from './enemy-ai.js'
@@ -3136,147 +3134,6 @@ function tickPostAction(
   state.phaseStallTicks = 0
 }
 
-/**
- * D11b phase==='won' 首 tick:处理战果 + 建结算演出序列(对照 PAL_BattleWon battle.c:1025-1328)。
- *  1. 回写战斗 HP/MP → runtime(先于升级,升级读 runtime 判活 + 满血)
- *  2. Phase A exp/cash 屏(iExpGained>0)+ dwCash += cash
- *  3. battleWonLevelUp 升级数据(写 runtime)→ 每升级队员排 Phase B 升级 box,其后排该队员 Phase D 练成屏
- * 不在此 finalize;顶层 tickBattleSettlement 逐屏放完后才 run post scripts + Phase F 半血 + cleanup。
- */
-function buildBattleWonSettlement(gs: GameState, state: BattleState, res: BattleResources): void {
-  // 1. 回写战斗 HP/MP → runtime(伤害/治疗持久化 + 存档对齐;升级读 runtime hp 判活 + 满血)
-  writeBackBattleRolesToRuntime(res.playerRoles, gs.PlayerRolesRuntime, gs.partyMembers)
-
-  const screens: BattleSettlementScreen[] = []
-  // Phase A:获得经验值 / 打败敌人得文钱(battle.c:1025;仅 iExpGained>0)
-  if (state.expGained > 0)
-    screens.push({
-      kind: 'exp-cash',
-      expGained: state.expGained,
-      cashGained: state.cashGained,
-      isBoss: state.isBoss,
-    })
-  // 加 cash(battle.c:1054,无条件)
-  gs.dwCash += state.cashGained
-
-  // 升级数据 + 排升级/练成屏(sdlpal 顺序:per 队员先 Phase B 升级 box,再该队员 Phase D 练成屏)
-  const results = battleWonLevelUp({
-    gs,
-    partyMembers: gs.partyMembers,
-    expGained: state.expGained,
-    levelUpExp: res.levelUpExp ?? [],
-    levelUpMagic: res.levelUpMagic ?? [],
-    rng: state.rng,
-  })
-  for (const r of results) {
-    const name = res.playerRoles.roles[r.roleId]?._name ?? `role#${r.roleId}`
-    if (r.snapshot) screens.push({ kind: 'level-up', data: { ...r.snapshot, name } })
-    // E04:隐藏属性涨点 box(sdlpal CHECK_HIDDEN_EXP battle.c:1264-1273)— 主升级 box 之后、学法术之前,逐属性一屏。
-    for (const g of r.hiddenExpGrowth ?? [])
-      screens.push({
-        kind: 'hidden-exp-up',
-        data: { roleId: r.roleId, name, statLabelWord: g.statLabelWord, delta: g.delta },
-      })
-    for (const magicId of r.learnedMagics) {
-      const magicName = res.spells.find((s) => s.id === magicId)?._name ?? `仙术#${magicId}`
-      screens.push({ kind: 'learn-magic', data: { roleId: r.roleId, name, magicName } })
-    }
-  }
-
-  state.settlement = { screens, index: 0, shownMs: 0 }
-}
-
-/**
- * B2 c6:Phase E post-battle scriptOnBattleEnd(battle.c:1334-1337)在半血恢复**之前**、
- * 仅胜利时,对每只敌跑一次(返回值**不回写**,与 turnStart/ready 的 show-once 不同)。
- */
-function runBattleWonPostScripts(
-  gs: GameState,
-  state: BattleState,
-  res: BattleResources,
-  bus: CommandBus,
-): void {
-  // B2 c6:逐敌跑 scriptOnBattleEnd(battle.c:1334-1337,在半血恢复前)。胜利时全敌已死,
-  //   但 sdlpal 仍对 i=0..wMaxEnemyIndex 跑(不按 health 过滤);返回值不回写。
-  for (let ei = 0; ei < state.enemies.length; ei++) {
-    const en = state.enemies[ei]
-    if (!en || (en.scriptOnBattleEnd ?? 0) <= 0) continue
-    getBattleRunScript(
-      gs,
-      runScript,
-    )({
-      commands: res.commands,
-      ip: en.scriptOnBattleEnd,
-      bus,
-      runtimeMode: 'battle',
-      battleCtx: {
-        state,
-        caster: { type: 'enemy', idx: ei },
-        summonTables: { enemies: res.enemies, enemyObjects: res.enemyObjects },
-        enemyPos: res.enemyPos,
-        enemySpriteFrameHeights: res.enemySpriteFrameHeights,
-        gs,
-      },
-    })
-  }
-}
-
-/**
- * D11b 结算与 Phase E 脚本都完成后 → Phase F 每战后半血恢复(battle.c:1342-1372 PAL_CLASSIC:
- * HP += (maxHP-HP)/2,MP 同)+ finalize → explore。
- */
-function finishBattleWon(gs: GameState): void {
-  const rt = gs.PlayerRolesRuntime
-  for (const roleId of gs.partyMembers) {
-    const maxHP = rt.rgwMaxHP[roleId] ?? 0
-    const hp = rt.rgwHP[roleId] ?? 0
-    rt.rgwHP[roleId] = hp + Math.floor((maxHP - hp) / 2)
-    const maxMP = rt.rgwMaxMP[roleId] ?? 0
-    const mp = rt.rgwMP[roleId] ?? 0
-    rt.rgwMP[roleId] = mp + Math.floor((maxMP - mp) / 2)
-  }
-  finalizeBattleCleanup(gs, 'won')
-}
-
-/**
- * D11b 结算演出 hold(phase-agnostic,同 tickBattleDialog 模式)。settlement active → 暂停一切战斗推进,
- * 逐屏显示(每屏等任意键 / 超时自动翻,sdlpal PAL_WaitForAnyKey)。放完 → finishBattleWon → explore。
- * 返回 true = 本 tick 被结算占用(tickBattle 早退)。
- */
-export function tickBattleSettlement(
-  state: BattleState,
-  gs: GameState,
-  input: InputSnapshot,
-  res: BattleResources,
-  bus: CommandBus,
-): boolean {
-  const s = state.settlement
-  if (!s) return false
-  // 等键是合法玩家等待(非卡死)→ 清 stall 计数,避免被 60s 看门狗强退。
-  state.phaseStallTicks = 0
-
-  if (s.index >= s.screens.length) {
-    if (!s.postBattleScriptsDone) {
-      runBattleWonPostScripts(gs, state, res, bus) // Phase E:scriptOnBattleEnd 可排入 battleDialogQueue。
-      s.postBattleScriptsDone = true
-      if ((state.battleDialogQueue?.length ?? 0) > 0 || gs.dialogBox) return true
-    }
-    if ((state.battleDialogQueue?.length ?? 0) > 0 || gs.dialogBox) return true
-    finishBattleWon(gs) // scriptOnBattleEnd 的对话放完 → 半血恢复 + 收尾回 explore
-    return true
-  }
-
-  s.shownMs += BATTLE_DT
-  const screen = s.screens[s.index]!
-  const timeoutMs = settlementScreenTimeoutMs(screen)
-  const anyKey = input.pressed.size > 0
-  // 首帧(shownMs==BATTLE_DT)不收键,避免上个动作残留 Confirm 同帧误推下一屏。
-  if ((anyKey && s.shownMs > BATTLE_DT) || s.shownMs >= timeoutMs) {
-    s.index++
-    s.shownMs = 0
-  }
-  return true
-}
-
 export type { BattleLevelUpResult, HiddenExpGrowthResult } from './battle-progression.js'
 export { applyHiddenExpGrowth, battleWonLevelUp } from './battle-progression.js'
+export { tickBattleSettlement } from './battle-settlement.js'
