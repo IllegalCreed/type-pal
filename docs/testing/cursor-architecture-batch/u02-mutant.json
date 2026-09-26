@@ -1,6 +1,9 @@
 {
+  "key": "u02",
   "id": "u02-help-tip-label",
   "file": "packages/editor/src/ui/design-system/help-tips.tsx",
+  "testFile": "packages/editor/src/ui/design-system/help-tips.test.tsx",
+  "fullName": "U02 help tips keeps tooltip and help-tip identity with visually-hidden descriptions and Escape dismiss",
   "sha256": "6d5eff19ea94fd55804c5bd2644b13326c489a61f051d602e4c2609aeef9680a",
   "hashUnchanged": true,
   "greenExit": 0,
@@ -8,6 +11,8 @@
   "redExit": 1,
   "failedTitle": "keeps tooltip and help-tip identity with visually-hidden descriptions and Escape dismiss",
   "failedFullName": "U02 help tips keeps tooltip and help-tip identity with visually-hidden descriptions and Escape dismiss",
-  "assertion": "AssertionError: expected '分次执行帮助' to be '分次执行说明' // Object.is equality",
+  "assertion": "AssertionError: expected '分次执行帮助' to be '分次执行说明' // Object.is equality\n    at /Users/zhangxu/illegal/type-pal-cursor-architecture-batch/packages/editor/src/ui/design-system/help-tips.test.tsx:39:47\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:20",
+  "hit": true,
+  "evidence": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/u02-help-tip-label-PFEYkA",
   "ok": true
 }

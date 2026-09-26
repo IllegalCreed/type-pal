@@ -2,6 +2,7 @@
  * C00：Command 协议与 BattleDataInUseError 迁出同证。
  * 旧入口 commands.js 与新模块必须是同一类型/构造器；删除敌人仍抛同一错误身份。
  */
+import { validateEnemies } from '@type-pal/content'
 import { describe, expect, test } from 'vitest'
 import { BattleDataInUseError } from './battle-data-command-errors.js'
 import * as oldEntry from './commands.js'
@@ -39,16 +40,19 @@ function enemyState(): EditorState {
     enemies: [
       {
         id: 'enemy-1',
+        name: 'name.enemy-1',
         battleSprite: 'bs',
         yPosOffset: 0,
         stats: {
-          hp: 1,
-          attack: 1,
-          defense: 1,
-          dexterity: 1,
-          exp: 0,
-          cash: 0,
+          health: 10,
           level: 1,
+          exp: 1,
+          cash: 1,
+          attackStrength: 5,
+          magicStrength: 0,
+          defense: 0,
+          dexterity: 5,
+          fleeRate: 0,
           physicalResistance: 0,
           poisonResistance: 0,
           elemResistance: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 },
@@ -83,6 +87,7 @@ describe('C00 command contract and battle-data error', () => {
   })
 
   test('DeleteEnemy still throws the extracted error on first apply', () => {
+    validateEnemies(enemyState().enemies)
     const command: oldEntry.Command = new DeleteEnemyCommand(
       'enemy-1',
       collectCurrentProjectReferenceIndex,

@@ -1,3 +1,4 @@
+import { validateAssetCatalog } from '@type-pal/content'
 import { describe, expect, test } from 'vitest'
 import { UpdateAssetLabelCommand as UpdateAssetLabelMoved } from './asset-label-command.js'
 import * as oldEntry from './commands.js'
@@ -11,7 +12,7 @@ function state(): EditorState {
       assets: {
         'sprite.hero': {
           kind: 'sprite',
-          path: 'assets/hero.png',
+          path: 'assets/authored/sprites/hero.png',
           mediaType: 'image/png',
           bytes: 1,
           sha256: 'a'.repeat(64),
@@ -51,6 +52,7 @@ describe('C10 asset label command family', () => {
   test('keeps asset-label constructor on the old commands barrel and clears empty labels', () => {
     expect(oldEntry.UpdateAssetLabelCommand).toBe(UpdateAssetLabelMoved)
     const current = state()
+    validateAssetCatalog(current.assetCatalog)
     const command = new UpdateAssetLabelCommand('sprite.hero', '')
     expect(command.label).toBe('修改资源名称')
     const next = command.apply(current)

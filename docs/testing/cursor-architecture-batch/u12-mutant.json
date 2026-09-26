@@ -1,13 +1,18 @@
 {
+  "key": "u12",
   "id": "u12-status-alert",
   "file": "packages/editor/src/ui/design-system/feedback.tsx",
-  "sha256": "872fa18f07ea44184b2e925513f2d7db897824c5bdaaed78c04d90c0f790f611",
+  "testFile": "packages/editor/src/ui/design-system/tabs-card-feedback.test.tsx",
+  "fullName": "U12 tabs card feedback keeps tabs, card, and status identity with tablist and alert roles",
+  "sha256": "e8ed75ac61087fbabc7136f9dc6193f1235ebf72242112f748cc1ae83bf070fa",
   "hashUnchanged": true,
   "greenExit": 0,
   "greenPassed": 1,
   "redExit": 1,
   "failedTitle": "keeps tabs, card, and status identity with tablist and alert roles",
   "failedFullName": "U12 tabs card feedback keeps tabs, card, and status identity with tablist and alert roles",
-  "assertion": "AssertionError: expected '<div class=\"ds-status ds-status--erro…' to contain 'role=\"alert\"'",
+  "assertion": "AssertionError: expected '<div class=\"ds-status ds-status--erro…' to contain 'role=\"alert\"'\n    at /Users/zhangxu/illegal/type-pal-cursor-architecture-batch/packages/editor/src/ui/design-system/tabs-card-feedback.test.tsx:31:72\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64",
+  "hit": true,
+  "evidence": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/u12-status-alert-jd5VLn",
   "ok": true
 }

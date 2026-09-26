@@ -1,6 +1,9 @@
 {
+  "key": "c08",
   "id": "c08-shop-id-overflow",
   "file": "packages/editor/src/core/shop-commands.ts",
+  "testFile": "packages/editor/src/core/shop-lifecycle.test.ts",
+  "fullName": "C08 shop command family keeps shop constructors on the old commands barrel and guards nextShopId overflow",
   "sha256": "62ce3fdc60959ed9bb9cbef27f161d06934dc8b8f3c83f7a0ef1cafd3b41354f",
   "hashUnchanged": true,
   "greenExit": 0,
@@ -8,6 +11,8 @@
   "redExit": 1,
   "failedTitle": "keeps shop constructors on the old commands barrel and guards nextShopId overflow",
   "failedFullName": "C08 shop command family keeps shop constructors on the old commands barrel and guards nextShopId overflow",
-  "assertion": "AssertionError: expected [Function] to throw error matching /商店编号已超出安全整数范围/ but got '商店编号已超出整数范围'",
+  "assertion": "AssertionError: expected [Function] to throw error matching /商店编号已超出安全整数范围/ but got '商店编号已超出整数范围'\n    at Proxy.<anonymous> (file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+expect@4.1.7/node_modules/@vitest/expect/dist/index.js:1552:16)\n    at Proxy.<anonymous> (file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+expect@4.1.7/node_modules/@vitest/expect/dist/index.js:1156:15)\n    at Proxy.methodWrapper (file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/chai@6.2.2/node_modules/chai/index.js:1700:25)\n    at /Users/zhangxu/illegal/type-pal-cursor-architecture-batch/packages/editor/src/core/shop-lifecycle.test.ts:90:76\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20",
+  "hit": true,
+  "evidence": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/c08-shop-id-overflow-5BLK3W",
   "ok": true
 }

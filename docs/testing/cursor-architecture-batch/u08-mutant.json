@@ -1,13 +1,18 @@
 {
+  "key": "u08",
   "id": "u08-text-field-id",
   "file": "packages/editor/src/ui/design-system/field-controls.tsx",
-  "sha256": "8d352d00ada196419aa3b1e70b049c482f98823e45518459440d706f89532c2e",
+  "testFile": "packages/editor/src/ui/design-system/field-controls.test.tsx",
+  "fullName": "U08 field controls keeps text field shell identity with label association",
+  "sha256": "2bb4d7c1495ae95d7e16bde61d202dc217b92c887d36d7301cfc653d7fea10ae",
   "hashUnchanged": true,
   "greenExit": 0,
   "greenPassed": 1,
   "redExit": 1,
   "failedTitle": "keeps text field shell identity with label association",
   "failedFullName": "U08 field controls keeps text field shell identity with label association",
-  "assertion": "AssertionError: expected 'title-input' to be 'title' // Object.is equality",
+  "assertion": "AssertionError: expected 'title-input' to be 'title' // Object.is equality\n    at /Users/zhangxu/illegal/type-pal-cursor-architecture-batch/packages/editor/src/ui/design-system/field-controls.test.tsx:13:45\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64",
+  "hit": true,
+  "evidence": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/u08-text-field-id-vzTuZT",
   "ok": true
 }

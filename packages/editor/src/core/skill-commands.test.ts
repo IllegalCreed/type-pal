@@ -1,3 +1,4 @@
+import { validateSkills } from '@type-pal/content'
 import { describe, expect, test } from 'vitest'
 import * as oldEntry from './commands.js'
 import { AddSkillCommand, DeleteSkillCommand, UpdateSkillCommand } from './commands.js'
@@ -12,7 +13,25 @@ import {
 function state(): EditorState {
   return {
     skills: [
-      { id: 'fire', name: '火', desc: '', cost: { mp: 5 }, target: 'oneEnemy', effects: [] },
+      {
+        id: 'fire',
+        name: '火',
+        desc: '',
+        cost: { mp: 5 },
+        usableOutsideBattle: false,
+        target: 'oneEnemy',
+        effects: [],
+        animation: {
+          effectSprite: 0,
+          placement: 'normal',
+          xOffset: 0,
+          yOffset: 0,
+          speed: 0,
+          fireDelay: 0,
+          effectTimes: 0,
+          shake: 0,
+        },
+      },
     ],
     items: [],
     scenes: [],
@@ -46,6 +65,8 @@ describe('C05 skill command family', () => {
     expect(oldEntry.AddSkillCommand).toBe(AddSkillMoved)
     expect(oldEntry.UpdateSkillCommand).toBe(UpdateSkillMoved)
     expect(oldEntry.DeleteSkillCommand).toBe(DeleteSkillMoved)
+    const current = state()
+    validateSkills({ skills: current.skills, levelUp: current.levelUp })
     const add = new AddSkillCommand('bolt', '雷击')
     expect(add.label).toBe('新建技能')
     const next = add.apply(state())

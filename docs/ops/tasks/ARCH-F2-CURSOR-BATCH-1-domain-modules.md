@@ -106,3 +106,7 @@ done尚未开放。无额外产品裁决：本包只保持行为的模块归属�
 ## Cursor 交付（未标 done）
 
 2026-09-26。作者自验回执：[docs/testing/cursor-architecture-batch.md](../../testing/cursor-architecture-batch.md)，24组负控汇总 [evidence.json](../../testing/cursor-architecture-batch/evidence.json)。起点 `origin/main` `8bf40b9094d9e43f6c3d146c1bda651962eb36c3`。24组均已实施，无隔离阻断。不合 main。Codex 独立验收与集成。
+
+### Cursor r2 窄修（未标 done）
+
+对照 origin/main 上 Codex 首轮接收（R1–R3）：三份 fixture 先过现行守卫；C07 改用既有 `commands.test.ts` 删除门与其单点负控；负控判据钉绝对路径/fullName/执行数/exit1/注入命中；旧 controls 恢复 50 出口；两项格式门已修。机械搬移不重做。最终 SHA 以推送为准。

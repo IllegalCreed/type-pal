@@ -42,7 +42,7 @@ function state(): EditorState {
 }
 
 describe('C07 ambience command family', () => {
-  test('keeps ambience constructors on the old commands barrel and blocks in-use delete', () => {
+  test('keeps ambience constructors on the old commands barrel and add/invert identity', () => {
     expect(oldEntry.AddAmbienceCommand).toBe(AddAmbienceMoved)
     expect(oldEntry.UpdateAmbienceCommand).toBe(UpdateAmbienceMoved)
     expect(oldEntry.DeleteAmbienceCommand).toBe(DeleteAmbienceMoved)
