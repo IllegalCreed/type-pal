@@ -47,6 +47,16 @@ Codex持续处理[治理台账](../audits/architecture-debt.md)剩余边界，Cu
 
 ## 当前推进
 
+- 2026-09-26 B2-a 地图指针手势段开工（基点 `1e15f64f`，同一候选分支）：只把 `MapMode.tsx`
+  的 stroke、painting、rect anchor、pan、selection drag/preview、hover 与 coordinate hover 临时态迁入单一
+  pointer gesture session；MapMode 继续拥有坐标/命中计算、工具政策、权限检查、命令构造与同步历史提交，不把
+  整个 MapMode 上下文传给新 owner。生产源码已证 `pointercancel`、lost capture 与 window blur 本来就统一清场，
+  本段是所有权重构，不把既有实现误报成 bug；保持 pointerId 隔离、selection 先于 stroke 收口、stroke 一次取走、
+  cancel/换 map/换 EditSession 同步零写及 pan/view 采样时点。验收复用 MapMode 72 项与已接入 architecture-lab
+  取消/会话失效回归，新增 runtime 状态机/总壳 owner 断言和定点反控；Editor TC/Biome/build。clipboard/transform、
+  stamp 组合操作与 view/tool 配置仍属后续段，本段完成不得标 B2 done。Codex 核 P2 更正报告与当前生产链后
+  premise verified / build allowed；无新手势、地图格式或 UI 产品取舍。
+
 - 2026-09-26 B1编辑器总壳会话候选 `4101926d`、`93e4a9c4`、`6181d7eb`、`52112d86`
   已交付：[回执与未证项](../../testing/editor-app-sessions-refactor.md)。导航、场景工作区、试玩与工程生命周期
   分别有 owner；既有 `ProjectLeaveGuard` 仍独占 leave admission/lease，历史仍独占 dirty/revision/undo/redo。
