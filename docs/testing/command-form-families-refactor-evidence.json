@@ -1,0 +1,123 @@
+{
+  "schemaVersion": 1,
+  "owner": "Codex implementation and self-verification; original intake conversation retains integration",
+  "base": "b3eada172dcf557d8321ca15e654ccbb6148f2f7",
+  "initialSyncedMain": "4c1c503878db69f5e9e7a46f5de45c10a1232da6",
+  "implementations": {
+    "dialogue": "ec813052",
+    "world": "83a8f7be",
+    "actorAndParty": "951131d8",
+    "controlAndResources": "a5744ee1",
+    "authorBridge": "e538d924",
+    "auditFactCache": "703e14cb",
+    "ownershipEvidence": "be2796e6",
+    "auditCssPrefilter": "badd411c",
+    "evidenceFormatting": "f4beb777"
+  },
+  "scope": "B3 command-form family ownership and explicit author/shared dialect bridge candidate",
+  "status": "candidate; not merged to main; unified full-repository gates pending intake",
+  "ownership": {
+    "dispatcher": {
+      "file": "packages/editor/src/ui/CommandForm.tsx",
+      "lines": { "before": 2098, "after": 203 },
+      "owns": ["command-kind dispatch", "compatibility re-exports"],
+      "doesNotOwn": ["family form state", "family resource policy", "author dialect casts"]
+    },
+    "dialogue": {
+      "file": "packages/editor/src/ui/command-form-dialogue.tsx",
+      "lines": 456,
+      "owns": [
+        "author and runtime dialogue identity",
+        "literal locale resolution",
+        "row reorder and single-row deletion guard",
+        "typing speed, auto advance, cursor and portraits"
+      ]
+    },
+    "world": {
+      "file": "packages/editor/src/ui/command-form-world.tsx",
+      "lines": 691,
+      "owns": ["world and entity commands", "appearance commands", "loadScene target states"]
+    },
+    "actor": {
+      "file": "packages/editor/src/ui/command-form-actor.tsx",
+      "lines": 426,
+      "owns": ["actor conditions", "party reorder and removal", "mount and ride forms"]
+    },
+    "control": {
+      "file": "packages/editor/src/ui/command-form-control.tsx",
+      "lines": 518,
+      "owns": [
+        "variables and branches",
+        "resource, inventory and script-reference forms",
+        "camera and raw fallback forms"
+      ]
+    },
+    "sharedControls": {
+      "file": "packages/editor/src/ui/command-form-controls.tsx",
+      "lines": 176,
+      "owners": ["Row", "Num", "Txt", "Sel", "WorldVariablePicker", "EntitySel", "JsonForm"]
+    },
+    "authorBridge": {
+      "file": "packages/editor/src/ui/command-form-contract.ts",
+      "lines": 107,
+      "rejects": ["command-kind drift", "loss of canonical dialogue identity"]
+    },
+    "scriptEditorLines": { "before": 4361, "after": 4308 }
+  },
+  "tests": {
+    "familyTargeted": { "files": 5, "tests": 51, "exit": 0 },
+    "designOwnershipAdjacent": { "files": 7, "tests": 53, "exit": 0 },
+    "auditPerformance": { "files": 1, "tests": 2, "milliseconds": 11430, "exit": 0 },
+    "editor": { "files": 334, "tests": 2879, "exit": 0 },
+    "typecheck": { "exit": 0 },
+    "designSystemGate": { "files": 100, "evidenceBoundExceptions": 2, "exit": 0 },
+    "biome": { "candidateFiles": 24, "errors": 0, "preExistingWarnings": 5 },
+    "build": { "exit": 0, "modules": 589, "existingLargeChunkWarning": true }
+  },
+  "negativeControls": {
+    "tool": "docs/testing/command-form-families-mutants.mjs",
+    "controls": 20,
+    "detected": 12,
+    "judge": { "positive": 1, "rejected": 9 },
+    "evidence": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-command-form-families-mutants-sDJzxA/summary.json",
+    "requirements": [
+      "exact absolute test file and fullName",
+      "exactly one executed candidate test",
+      "exit 1",
+      "AssertionError only",
+      "unique loader injection marker",
+      "all product hashes unchanged"
+    ]
+  },
+  "functional": {
+    "host": "http://localhost:6056/?module=scene&page=workspace",
+    "project": "pal",
+    "observed": [
+      "s000 onEnter script drawer rendered eleven commands",
+      "dialogue form rendered identity, protected single row, speed, position, auto-advance and cursor",
+      "party form rendered leader, reorder controls and removal",
+      "loadScene form rendered scene, three target modes, facing and transition",
+      "Save stayed disabled and console warning/error log stayed empty"
+    ],
+    "fieldsChanged": false,
+    "normalPersistenceUsed": false,
+    "userEditor6010Touched": false,
+    "temporaryTabClosed": true,
+    "serverStopped": true
+  },
+  "unchangedContracts": [
+    "content20 and SAVE8",
+    "command schema and locale literal writeback",
+    "reorder identity and aggregate draft timing",
+    "gameplay and formulas",
+    "UI shape and asset conventions"
+  ],
+  "notRun": [
+    "full repository check",
+    "official coverage ratchet",
+    "protected strict coverage",
+    "full/Q1/Q2",
+    "normal project persistence",
+    "remote CI"
+  ]
+}

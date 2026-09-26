@@ -22,7 +22,7 @@ Codex持续处理[治理台账](../audits/architecture-debt.md)剩余边界，Cu
 | A3 | 活动场景、移动与绘制状态各有所有者；main保留装配/协调；取消、切场同步提交和采样时点保真 | 7be10bf4候选四段齐；待原接收对话统一门/集成后正式完成 |
 | B1 | App工程生命周期、导航与场景工作区分离；历史/保存/离开/试玩既有门禁仍通过 | 4101926d..52112d86候选四段齐；待原接收对话统一门/集成后正式完成 |
 | B2 | MapMode手势、选择/剪贴板、组合操作和视图分别有明确边界；取消、权限和原子提交保真 | 3c3fccda..3a633ed7候选四边界齐；待原接收对话统一门/集成后正式完成 |
-| B3 | 命令族表单拆出独立实现；作者桥接类型清晰；现行能力/引用保护不丢失 | B3-a 对话命令族开工；B3整体未完成 |
+| B3 | 命令族表单拆出独立实现；作者桥接类型清晰；现行能力/引用保护不丢失 | f4beb777候选四族+桥齐；待原接收对话统一门/集成后正式完成 |
 | C1 | BattleSession输入、动作/演出、资源屏障、结算呈现的状态归属拆清；公开tick业务序列保真 | 待实施 |
 | D2 | 一阶段opcode族、战斗主控、启动资源生命周期分开，真实机制/数据回归通过 | 待实施 |
 | E1 | 迁移场景映射与脚本转换阶段独立、纯内存入口可测；输出/幂等/写保护保真 | 待实施 |
@@ -46,6 +46,15 @@ Codex持续处理[治理台账](../audits/architecture-debt.md)剩余边界，Cu
   authorCommandValidationOptions的递归调用合同与同树作者类型反驳该解释，须用正式入口回归固定。
 
 ## 当前推进
+
+- 2026-09-26 B3 命令表单族候选 `ec813052`、`83a8f7be`、`951131d8`、`a5744ee1`、`e538d924`
+  已交付：[回执与未证项](../../testing/command-form-families-refactor.md)。`CommandForm` 2098→203，只保留 kind
+  分派/公共出口；dialogue、world/entity、actor/party、control/resource 四族分别持有窄资源与表单状态，共享控件
+  只有一份实现。作者桥显式列作者专用 kind，并拒绝 kind 漂移与 dialogue identity 降级；`ScriptEditor` 删除
+  `as Command`/`as AuthorCommand` 方言强转。设计证据迁到真实 owner，既有 15 秒 CSS 失效门未放宽且恢复余量。
+  定向 51、Editor 334 文件/2879 项、TC/Biome/build、设计门 100 文件/2 例外、十二针与 6056 只读隔离功能通过；
+  content20/SAVE8/schema/locale/reorder/UI/玩法/资产约定零改。按交接未跑共享全仓 check/ratchet/strict、未合
+  main；B3 只在候选树边界齐，待原接收对话统一门后正式标完成。本实现对话可继续 C1 等不重叠项。
 
 - 2026-09-26 B3-a 对话命令族开工（基点 `b3eada17`）：`CommandForm.tsx` 当前 2098 行，`dialog`
   分支约 400 行并直接持有作者/运行时 cue 身份、locale 字面量、行 reorder、速度、推进、光标和立绘表单。
