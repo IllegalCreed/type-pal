@@ -26,8 +26,9 @@
  */
 
 import type { Spell } from '@type-pal/shared'
-import { curePlayerPoisonByLevel, getGlobalCommands, getGlobalLabelMap } from '../event-system.js'
 import type { GameState } from '../game-state.js'
+import { curePlayerPoisonByLevel } from '../player-poison-state.js'
+import { getGlobalCommands, getGlobalLabelMap } from '../script-catalog.js'
 
 const MAX_PLAYER_ROLES = 6
 const SCRIPT_TICK_LIMIT = 256

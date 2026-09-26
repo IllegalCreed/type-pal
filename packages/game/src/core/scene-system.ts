@@ -28,7 +28,10 @@ import {
 import { createInGameMenu } from './menu/in-game-menu.js'
 import { openOverworldShortcutMenu } from './menu/menu-driver.js'
 import { openMenu } from './menu/menu-mode.js'
+import { setCurrentMapNum } from './scene-identity.js'
 import { findSearchableNpc } from './scene-system-search.js'
+
+export { getCurrentMapNum, setCurrentMapNum } from './scene-identity.js'
 
 export interface SceneContext {
   tilemap: Tilemap
@@ -40,19 +43,6 @@ let _ctx: SceneContext | null = null
 
 export function setSceneContext(ctx: SceneContext): void {
   _ctx = ctx
-}
-
-// 当前场景所属地图号(SCENE.mapNum)。场景名按 map 而非 wNumScene 命名(同 map 的多个 scene
-// 共享地名更稳),由 loadScene 写入;event-system 历史对话捕获经 getCurrentMapNum 读它。
-let _currentMapNum = 0
-
-export function getCurrentMapNum(): number {
-  return _currentMapNum
-}
-
-/** opcode/正常流程/读档走 bootstrap loadSceneCommon(不经此文件 loadScene),需手动同步当前 mapNum。 */
-export function setCurrentMapNum(n: number): void {
-  _currentMapNum = n
 }
 
 function requireSceneContext(ctxOverride?: SceneContext): SceneContext {
@@ -643,7 +633,7 @@ export async function loadScene(input: LoadSceneInput): Promise<void> {
     eventCommands: sceneAssets.eventCommands,
     labelMap: sceneAssets.labelMap,
   })
-  _currentMapNum = sceneAssets.mapNum // 场景名按 map 命名:历史对话捕获用 getCurrentMapNum 读它
+  setCurrentMapNum(sceneAssets.mapNum) // 场景名按 map 命名:历史对话捕获用 getCurrentMapNum 读它
 
   // P0.e: party 起点 + enter script 副作用顺序:
   //   1. 先跑 wScriptOnEnter(若有)— 设 wNumBattleField / wNumMusic / setSceneObjectState 等

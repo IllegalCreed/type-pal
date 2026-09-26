@@ -8,6 +8,8 @@
 
 ## 文档与附件
 
+- [D1第一阶段依赖环拆分](phase1-dependency-refactor.md)、[只读等价/依赖图工具](phase1-dependency-refactor-audit.mjs)、[三针所有权反控](phase1-dependency-refactor-mutants.mjs)（六个下层所有者、旧出口/161函数核对；本批质量门按回执登记）
+
 - [GLM 战场命令族拆分回执与Codex验收](glm-arch-battle-field-commands.md)及[done任务卡](../ops/archive/tasks/done/ARCH-F2-EDITOR-BATTLE-FIELD-COMMANDS-1.md)（83833719机械搬移保真；156项/两针/check8657/受保护strict8165/644与隔离功能核验通过，F2整体未完成）
 
 - [Grok一阶段菜单与索引渲染候选](grok-present-regressions/README.md)、[Codex独立复核](grok-present-review.md)及[正式接入](grok-present-integration.md)（P01–P10共25项，23业务绘制+2快照自测；check/ratchet/严格fast8090/641通过，候选历史不等于视觉/E2E）

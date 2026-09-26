@@ -21,13 +21,13 @@ import {
   getPlayerDexterity,
   getPlayerMagicStrength,
   getPlayerPoisonResistance,
-} from '../equip-effect.js'
+} from '../equipment-state.js'
+import type { BattleCtx } from '../event-system.js'
 import {
   addPoisonForPlayer,
-  type BattleCtx,
   curePlayerPoisonByKind,
   curePlayerPoisonByLevel,
-} from '../event-system.js'
+} from '../player-poison-state.js'
 import {
   buildEnemyDivisionTimeline,
   buildEnemySummonTimeline,
