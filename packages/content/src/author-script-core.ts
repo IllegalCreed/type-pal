@@ -709,7 +709,7 @@ export function checkBaseAuthorCommands(
       if (command.onFlee !== undefined)
         checkBaseAuthorCommands(command.onFlee, `${commandPath}.onFlee`, options)
       if (command.choreography !== undefined)
-        checkBattleChoreography(command.choreography, `${commandPath}.choreography`)
+        checkBattleChoreography(command.choreography, `${commandPath}.choreography`, options)
     }
     if (kind === 'openShop') {
       exactKeys(command, ['kind', 'shop', 'mode'], commandPath)

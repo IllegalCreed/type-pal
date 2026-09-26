@@ -47,6 +47,8 @@ Codex持续处理[治理台账](../audits/architecture-debt.md)剩余边界，Cu
 
 ## 当前推进
 
+- E2缺陷修复先行：新增正式`author-battle-dialogue-boundary.test.ts`13项，原实现9项AssertionError红/4项合法与runtime对照绿；`:712`显式透传options后13/13、content全包863/863与typecheck通过。覆盖直接及七递归臂的精确错误路径、三种合法作者identity、实际cue/路径透传、runtime方言保留；结构解环随后另提交，整批质量门统一执行。
+
 Codex：**premise verified / build allowed**，用户全队列授权下按上表顺序连续开工，单批一主要边界；
 Cursor独占其白名单，Codex不同时编辑commands.ts/controls.tsx的委派区。尚无done准入。
 无下一位Agent提示词（Codex持续实施；Cursor提示词在其卡）。
