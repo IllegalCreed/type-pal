@@ -1,0 +1,18 @@
+{
+  "key": "c5",
+  "id": "c5-map-edit",
+  "file": "packages/editor/src/core/map-edit-commands.ts",
+  "testFile": "packages/editor/src/core/commands.test.ts",
+  "fullName": "ProjectMap 绘制与图层命令 画瓦按稳定 layer.id 写入；invert 还原，源 state 不动",
+  "sha256": "16eec2025cb8eb4445b5e9b3daaaa7641c900f82d4bd811fed10680a4189081a",
+  "hashUnchanged": true,
+  "greenExit": 0,
+  "greenPassed": 1,
+  "redExit": 1,
+  "failedTitle": "画瓦按稳定 layer.id 写入；invert 还原，源 state 不动",
+  "failedFullName": "ProjectMap 绘制与图层命令 画瓦按稳定 layer.id 写入；invert 还原，源 state 不动",
+  "assertion": "AssertionError: expected null to be 5 // Object.is equality\n    at /Users/zhangxu/illegal/type-pal-cursor-commands-wave2/packages/editor/src/core/commands.test.ts:2558:52\n    at file:///Users/zhangxu/illegal/type-pal-cursor-commands-wave2/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/illegal/type-pal-cursor-commands-wave2/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/illegal/type-pal-cursor-commands-wave2/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/illegal/type-pal-cursor-commands-wave2/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/illegal/type-pal-cursor-commands-wave2/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///Users/zhangxu/illegal/type-pal-cursor-commands-wave2/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///Users/zhangxu/illegal/type-pal-cursor-commands-wave2/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64",
+  "hit": true,
+  "evidence": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/c5-map-edit-lPnOZt",
+  "ok": true
+}
