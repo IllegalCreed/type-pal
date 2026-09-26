@@ -14,7 +14,7 @@
 | [EDITOR-SCENE-FACING-1 — 切场景指令无法清除显式朝向](EDITOR-SCENE-FACING-1-clear-override.md) | draft | 以任务卡当前准入与看板分工为准。 |
 | [TEST-CODEX-FRAME-EDITOR-1 — 当前帧动画编辑五组工作流](TEST-CODEX-FRAME-EDITOR-1-current-workflows.md) | build | 以任务卡当前准入与看板分工为准。 |
 | [TEST-COVERAGE-PLUS5-1 — 全仓分支覆盖率连续提升五个百分点](TEST-COVERAGE-PLUS5-1-continuous-batches.md) | build | 以任务卡当前准入与看板分工为准。 |
-| [TEST-CURSOR-MAP-LOGIC-2 — 地图与组合块纯逻辑六组补测](TEST-CURSOR-MAP-LOGIC-2-selection-stamps.md) | build | 以任务卡当前准入与看板分工为准。 |
+| [TEST-CURSOR-MAP-LOGIC-2 — 地图与组合块纯逻辑六组补测](TEST-CURSOR-MAP-LOGIC-2-selection-stamps.md) | rework | 以任务卡当前准入与看板分工为准。 |
 | [TEST-GLM-ITEM-LOGIC-1 — 物品纯逻辑六组补测](TEST-GLM-ITEM-LOGIC-1-world-use-residuals.md) | rework | 以任务卡当前准入与看板分工为准。 |
 
 ## 已完成（historical）

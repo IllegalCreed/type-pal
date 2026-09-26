@@ -1,6 +1,6 @@
 # TEST-CURSOR-MAP-LOGIC-2 — 地图与组合块纯逻辑六组补测
 
-Status: build
+Status: rework
 Owner: Cursor
 Reviewer / Integration Owner: Codex
 Phase: phase2
@@ -9,6 +9,13 @@ Production Base: `a95618fc`
 Branch: `codex/cursor-map-logic-r2`
 
 ## 准入与前提
+
+### 2026-09-27 Codex接收070d3bf3
+
+**counter / CM1–CM4**，见[独立接收与可转交提示词](../../testing/cursor-map-logic-r1-review.md)。
+30新增/105定向相邻/全editor3049/TC/Biome/原六针独立通过，地图三工厂通过正式guard。
+但实际输入保真两针与组合高度丢失一针候选仍绿；judge接受缩进混错，EditorState为强转假状态，
+双组哨兵/精确结果与去重声明需修。已转rework，候选未合入、不计官方覆盖；产品/旧测试/配置不改。
 
 2026-09-27用户授权Cursor继续补测、Codex转E2E讨论，Codex核本包build allowed。
 当前消费者MapMode.tsx:644/651实际调用planMapPaste/planStampGroupMove；组合草稿与放置均为现行core入口。
