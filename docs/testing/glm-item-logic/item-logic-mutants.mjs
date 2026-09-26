@@ -68,7 +68,7 @@ const mutations = [
     describe: 'I6 completeExternalWorldItemUse 残差',
     from: 'const consumed = consumeItem(nextWorld, itemId, item.use.consuming)',
     to: 'const consumed = false',
-    title: 'consuming 扣 1 件：非默认 host 世界保真、effectResults 全 changed 保序',
+    title: 'consuming 扣 1 件：完整 world 结果 = 输入深克隆仅变库存',
   },
   {
     id: 'external-world-identity',

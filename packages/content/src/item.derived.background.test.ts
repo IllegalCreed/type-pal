@@ -5,7 +5,7 @@
  * describeEquipEffects 六例——本文件只补冻结池内：describeEquipEffects 的 regenMp/
  * maxPool mp/grantSkill 名称回退，effectiveStat 全函数（content 内零直测）、
  * resistance 与其它效果混装的跳过臂、map 外装备 id 的 `?? []` 回退族、
- * battleSprite byActor 空串不覆盖臂、grantStatus 双件去重臂。全部为纯函数：
+ * battleSprite byActor 合法映射覆盖臂、grantStatus 双件去重臂。全部为纯函数：
  * 调用前独立快照、调用后比较同一入参。
  */
 import { describe, expect, test } from 'vitest'

@@ -5,7 +5,7 @@
  * modifyHostileAwareness·scaleCurrentHp·levelUp happy、allAllies 结算、chance 显式 50、
  * applyPoison 自毒/解毒、applyStatus 追加/取长、extraPoisonRes——本文件只补冻结池内：
  * invalid-effect-chain 两种形态、modifyHostileAwareness 免目标与零变化原引用、gate 缺省
- * chance=100 仍有 1% 失败、资源池档位越界的第二处空池、revive 复活清态与活人零变化、
+ * chance=100 仍有 1% 失败、资源池掷档/封顶/空池(value=0)、revive 复活清态与活人零变化、
  * curePoison 显式 id/缺 defs 保留/未知毒保留/无毒回退、removeStatus 过滤与无毒回退、
  * permanentStatBoost 三种钳位与零变化、dieIfNotPoisoned 中毒不杀不停表、oneAlly 跳过
  * 非目标、allAllies 死亡跳过与 stop 表复合、levelUp 零经验仍可 changed。纯函数：
@@ -105,9 +105,10 @@ describe('I5 效果链与门', () => {
     }
     const w = world([{ itemId: 'use-item', count: 1 }])
     let outcome: WorldItemUseOutcome | undefined
+    const defs = poisonDefs()
     expectInputsUnchanged(() => {
-      outcome = resolveWorldItemUse(w, 'hero', 'use-item', items, poisonDefs(), () => 0.999999)
-    }, [w, items, poisonDefs])
+      outcome = resolveWorldItemUse(w, 'hero', 'use-item', items, defs, () => 0.999999)
+    }, [w, items, defs])
     expect(outcome?.status).toBe('failure')
     expect(outcome?.reason).toBe('gate-failed')
     expect(outcome?.effectResults?.[0]?.gate).toEqual({ chance: 100, roll: 100, passed: false })
@@ -208,15 +209,17 @@ describe('I5 目标类效果残差', () => {
     const unknownItems: ItemDataMap = {
       'use-item': useItem([{ kind: 'curePoison', poisonId: '551' }], { consuming: false }),
     }
+    const unknownDefs = poisonDefs()
     expectInputsUnchanged(() => {
-      outcome = resolveWorldItemUse(unknownPoison, 'hero', 'use-item', unknownItems, poisonDefs())
-    }, [unknownPoison, unknownItems, poisonDefs])
+      outcome = resolveWorldItemUse(unknownPoison, 'hero', 'use-item', unknownItems, unknownDefs)
+    }, [unknownPoison, unknownItems, unknownDefs])
     expect(outcome?.changed).toBe(false)
     expect(outcome?.world?.party[0]?.poisons).toEqual([{ poisonId: 999, tickIndex: 1 }])
     const clean = world([{ itemId: 'use-item', count: 1 }])
+    const cleanDefs = poisonDefs()
     expectInputsUnchanged(() => {
-      outcome = resolveWorldItemUse(clean, 'hero', 'use-item', tierItems, poisonDefs())
-    }, [clean, tierItems, poisonDefs])
+      outcome = resolveWorldItemUse(clean, 'hero', 'use-item', tierItems, cleanDefs)
+    }, [clean, tierItems, cleanDefs])
     expect(outcome?.changed).toBe(false)
   })
 
@@ -344,16 +347,21 @@ describe('I5 目标类效果残差', () => {
     expect(mage.poisons).toEqual([{ poisonId: 551, tickIndex: 0 }])
   })
 
-  test('levelUp：零经验队员仍因属性成长记 changed（固定 rng）', () => {
+  test('levelUp：固定 rng 恰 6 次调用、真实 8 项成长精确值、零经验仍 changed', () => {
     const items: ItemDataMap = {
       'use-item': useItem([{ kind: 'levelUp', levels: 1 }]),
     }
     const w = world([{ itemId: 'use-item', count: 1 }])
     let outcome: WorldItemUseOutcome | undefined
     const defs = poisonDefs()
+    let rngCalls = 0
     expectInputsUnchanged(() => {
-      outcome = resolveWorldItemUse(w, 'hero', 'use-item', items, defs, () => 0.5)
+      outcome = resolveWorldItemUse(w, 'hero', 'use-item', items, defs, () => {
+        rngCalls++
+        return 0.5
+      })
     }, [w, items, defs])
+    expect(rngCalls).toBe(6)
     expect(outcome?.changed).toBe(true)
     const after = outcome?.world?.party[0]!
     expect(after.level).toBe(2)

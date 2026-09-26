@@ -4,13 +4,17 @@
  * 去重：item.test.ts 已证 resolve 的 external 待执行请求、useItem 的回 HP/用光/非法/
  * 穿戴可用四例——本文件只补冻结池内：completeExternalWorldItemUse 的 unknown-item、
  * menu close 提前成形、consuming 扣件、consumedByExternal（脚本已搬走物品时上报消耗但
- * 保留 host 世界原引用）、consuming:false 不扣、多效果逐条 changed 保序；useItem 的
+ * 保留 host 世界原引用）、consuming:false 不扣；useItem 的
  * external 原引用路径。不伪造外部脚本执行：external 效果一律不在 content 层结算。
  */
 import { describe, expect, test } from 'vitest'
-import { item as makeItem, world } from './__tests__/glm-item-logic-fixtures.js'
+import { deepSnapshot } from './__tests__/glm-content-contract-fixtures.js'
+import {
+  expectInputsUnchanged,
+  item as makeItem,
+  world,
+} from './__tests__/glm-item-logic-fixtures.js'
 import { expectAcceptsUnchanged } from './__tests__/guard-leaf-fixtures.js'
-import { expectInputsUnchanged } from './__tests__/glm-item-logic-fixtures.js'
 import type { WorldState } from './character.js'
 import type { ItemDataMap } from './item.js'
 import { completeExternalWorldItemUse, useItem } from './item.js'
@@ -63,13 +67,15 @@ describe('I6 completeExternalWorldItemUse 残差', () => {
     expect(outcome?.menu).toBe('close')
   })
 
-  test('consuming 扣 1 件：非默认 host 世界保真、effectResults 全 changed 保序', () => {
+  test('consuming 扣 1 件：完整 world 结果 = 输入深克隆仅变库存', () => {
     const w: WorldState = {
       ...world([{ itemId: 'script-item', count: 1 }]),
       money: 37,
       resources: { herb: 2 },
       learnedSkills: { hero: ['100'] },
     }
+    const expected = deepSnapshot(w)
+    expected.inventory = []
     let outcome: ReturnType<typeof completeExternalWorldItemUse> | undefined
     expectInputsUnchanged(() => {
       outcome = completeExternalWorldItemUse(w, 'script-item', items)
@@ -78,11 +84,7 @@ describe('I6 completeExternalWorldItemUse 残差', () => {
     expect(outcome?.consumed).toBe(true)
     expect(outcome?.changed).toBe(true)
     expect(outcome?.world).not.toBe(w)
-    expect(outcome?.world?.money).toBe(37)
-    expect(outcome?.world?.resources).toEqual({ herb: 2 })
-    expect(outcome?.world?.learnedSkills).toEqual({ hero: ['100'] })
-    expect(outcome?.world?.inventory).toEqual([])
-    expect(outcome?.effectResults).toEqual([{ index: 0, kind: 'runScript', changed: true }])
+    expect(outcome?.world).toEqual(expected)
   })
 
   test('world 引用合同：consumedByExternal 与不消费都返回原 world 引用', () => {

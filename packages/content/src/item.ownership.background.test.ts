@@ -10,11 +10,11 @@
  * 与旁对象保真，不施加不可变合同。
  */
 import { describe, expect, test } from 'vitest'
+import { deepSnapshot } from './__tests__/glm-content-contract-fixtures.js'
 import { hero, world } from './__tests__/glm-item-logic-fixtures.js'
 import { expectAcceptsUnchanged } from './__tests__/guard-leaf-fixtures.js'
 import type { WorldState } from './character.js'
 import { ownedItemCount, removeOwnedItems, worldResourceValue } from './item.js'
-import { deepSnapshot } from './__tests__/glm-content-contract-fixtures.js'
 
 const beadRing = (): WorldState => {
   const w = world([
