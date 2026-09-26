@@ -41,6 +41,9 @@ Branch: `codex/cursor-map-logic-r2`
 
 ## 唯一白名单
 
+用户2026-09-27追加：本包改动lint/格式/typecheck须0error/0warning/0info；主线全仓存量由Codex单独清理，
+不因此授权Cursor越界改产品/配置。全仓尚未清零不得宣布集成门通过。
+
 - `packages/editor/src/core/{stamp-draft,map-selection,map-transform,stamp-group-transform,stamp-placement,stamp-ownership}.background.test.ts`。
 - `packages/editor/src/core/__tests__/cursor-map-logic-fixtures.ts`（可选）。
 - `docs/testing/cursor-map-logic-r2/**`及本卡Cursor交付追加块。

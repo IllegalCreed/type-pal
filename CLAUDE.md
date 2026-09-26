@@ -19,6 +19,9 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - **迁移类 bug 必须先修上游**（2026-07-13 用户拍板）：提取器 / 迁移器 / 数据映射 / 生成脚本 / overlay 有问题时，直接改 `projects/pal` 产物不算修复；必须修真源、全量重迁、验证白名单并确认双跑幂等。详见 [READ-FIRST 铁律 10](docs/phase2/READ-FIRST.md)。
 - **给定范围的批量任务一路做完**，别每步停下问「继续吗」。
 - **报告/审查结论**：复核后的收窄与纠正要合并进正文，别让正文留着未修正的初版结论。
+- **硬性质量零诊断（用户2026-09-27）**：lint/格式/typecheck中的error、warning、info全部清零才可验收。
+  不能只报exit0，不能以既有告警豁免；不降低规则、不加忽略或排除逃避。当前CLI对warning/info未必非零退出，
+  自动门禁收紧前由Codex核完整诊断计数，既有存量清理单列，不把责任转给无产品写权限的贡献者。
 - **第一阶段允许架构治理**（2026-09-24 用户拍板）：忠实还原约束玩法与可见表现，不要求保留旧代码结构，也不假定现有实现没有 bug。允许在行为不漂移的前提下拆模块、整理依赖和优化代码；确认本项目实现缺陷后以失败回归先红后绿修复。纯重构与行为修正分提交、分验证；原版机制争议仍按一手证据和用户裁决处理，不把已知缺陷固化为“保真”。
 - **本轮架构治理由 Codex 独立完成**（2026-09-24 用户追加拍板）：[13批治理队列](docs/ops/audits/architecture-debt.md)的设计、实施、自验和收口不再要求 Kimi/GLM 参与，两席签字豁免、免补审；逐卡登记授权与证据，不代签、不冒充独立第三方审查。前提核验与质量门照常执行，用户可见行为/格式/范围变化仍单独裁决；不外推为其它任务的通用豁免。
 
@@ -119,5 +122,7 @@ When a behavior question can't be settled from the extracted data — or sdlpal 
 ## Notes
 
 - `game/src/dev/dev-panel.ts` is a DEV-only debug overlay (battle / scene / party / effect pickers), dead-code-eliminated in production via `import.meta.env.DEV`.
-- The repo is not fully biome-clean. Biome failures make `pnpm check` / `check:fast` fail; passing typecheck or tests alone is not a passing full check. Known lint findings are tracked in `docs/ops/audits/pre-e2e/engineering.md`.
+- Static quality acceptance requires zero error/warning/info diagnostics, not just exit 0. Existing lint debt is not waived.
+  The current cleanup and machine-gate tightening are tracked in `docs/ops/tasks/QUALITY-ZERO-1-static-diagnostics.md`;
+  historical findings remain in `docs/ops/audits/pre-e2e/engineering.md`.
 - `docs/phase1/plans/` is a historical archive; its plans and audit snapshots do not describe current tasks. `docs/phase1/status/` contains dated v1.0 coverage snapshots, and subsequent defects are tracked in `docs/ops/audits/pre-e2e/summary.md`. Use `docs/phase1/game-mechanics.md` for sourced mechanics, `docs/phase1/04-decisions.md` for decisions, and `docs/phase1/plans/README.md` for historical rationale.

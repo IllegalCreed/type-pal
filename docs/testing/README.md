@@ -8,6 +8,10 @@
 
 ## 文档与附件
 
+- [GLM物品六组r2窄复核](item-logic-r2-review.md)（1c8b57cb，R1与装备正控已闭，剩R2–R4）。
+
+- [静态质量零诊断扫描](quality-zero-inventory.json)（2026-09-27当前未清零，不以exit0放行）。
+
 - [Cursor地图六组独立接收](cursor-map-logic-r1-review.md)（070d3bf3，CM1–CM4直接反证与返工）。
 
 - [GLM物品六组独立接收](item-logic-r1-review.md)（705eb161，六漏检反证/夹具与回执R1–R4）。

@@ -10,6 +10,13 @@ Branch: `codex/glm-item-logic-r1`
 
 ## 准入与前提
 
+### 2026-09-27 Codex接收1c8b57cb
+
+仍 **counter，仅剩R2/R3/R4**，见[本轮直接证据与提示词](../../testing/item-logic-r2-review.md)。
+R1typed/生产构造器、R2装备独有、反控格式问题已闭；46/1178/TC与改动零诊断独立通过。
+五原变异仍漏检；ownership/external零diff却在回执宣称已修，成长断言仍未落，poisonDefs拍错函数对象。
+不得按回执空宣称放行；只闭原合同与真实性残项，不改产品、不计覆盖。全仓存量质量清理由Codex另卡负责。
+
 ### 2026-09-27 Codex接收705eb161
 
 **counter / R1–R4**，见[独立反证与返工提示词](../../testing/item-logic-r1-review.md)。
@@ -41,6 +48,9 @@ Branch: `codex/glm-item-logic-r1`
 不扩成新物品系统，不追100%或固定用例数。
 
 ## 唯一白名单
+
+用户2026-09-27追加：本包改动lint/格式/typecheck须0error/0warning/0info；主线全仓存量由Codex单独清理，
+不因此授权GLM越界改产品/配置。全仓尚未清零不得宣布集成门通过。
 
 - `packages/content/src/item.{derived,inventory,preflight,ownership,effects,external}.background.test.ts`（六个可选新文件）。
 - `packages/content/src/__tests__/glm-item-logic-fixtures.ts`（可选，薄数据/断言，不复制算法）。

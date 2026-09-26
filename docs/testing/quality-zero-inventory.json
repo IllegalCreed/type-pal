@@ -1,0 +1,805 @@
+{
+  "date": "2026-09-27",
+  "base": "b4cea56f73f9cc7addfac30873d47be0b6757a0f",
+  "command": "pnpm exec biome check . --reporter=json --max-diagnostics=none",
+  "readOnly": true,
+  "newAcceptance": "errors/warnings/infos and unreported diagnostics must all be zero",
+  "satisfiesNewGate": false,
+  "summary": {
+    "changed": 0,
+    "unchanged": 2213,
+    "matches": 0,
+    "duration": 1282262334,
+    "errors": 0,
+    "warnings": 90,
+    "infos": 7,
+    "skipped": 0,
+    "suggestedFixesSkipped": 0,
+    "diagnosticsNotPrinted": 0,
+    "scannerDuration": 7973000
+  },
+  "typecheck": {
+    "command": "env -u NODE_COMPILE_CACHE pnpm -r run typecheck",
+    "packages": 7,
+    "exit": 0,
+    "diagnostics": 0
+  },
+  "diagnostics": [
+    {
+      "severity": "info",
+      "category": "lint/style/useTemplate",
+      "message": "Template literals are preferred over string concatenation.",
+      "path": "docs/testing/parallel-guard-command-r2-review-witnesses.mjs",
+      "line": 215,
+      "tracked": true
+    },
+    {
+      "severity": "info",
+      "category": "lint/complexity/noUselessFragments",
+      "message": "This fragment is unnecessary.",
+      "path": "packages/editor/src/ui/App.tsx",
+      "line": 3340,
+      "tracked": true
+    },
+    {
+      "severity": "info",
+      "category": "lint/complexity/noUselessFragments",
+      "message": "This fragment is unnecessary.",
+      "path": "packages/editor/src/ui/App.tsx",
+      "line": 3940,
+      "tracked": true
+    },
+    {
+      "severity": "info",
+      "category": "lint/complexity/noUselessFragments",
+      "message": "This fragment is unnecessary.",
+      "path": "packages/editor/src/ui/App.tsx",
+      "line": 4061,
+      "tracked": true
+    },
+    {
+      "severity": "info",
+      "category": "lint/complexity/noUselessFragments",
+      "message": "This fragment is unnecessary.",
+      "path": "packages/editor/src/ui/design-system/add-picker.test.tsx",
+      "line": 537,
+      "tracked": true
+    },
+    {
+      "severity": "info",
+      "category": "lint/complexity/noUselessFragments",
+      "message": "This fragment is unnecessary.",
+      "path": "packages/editor/src/ui/design-system/overlays.test.tsx",
+      "line": 285,
+      "tracked": true
+    },
+    {
+      "severity": "info",
+      "category": "lint/complexity/noExtraBooleanCast",
+      "message": "Avoid redundant `Boolean` call",
+      "path": "packages/editor/src/ui/design-system/overlays.tsx",
+      "line": 32,
+      "tracked": true
+    },
+    {
+      "severity": "warning",
+      "category": "lint/suspicious/noTemplateCurlyInString",
+      "message": "Unexpected template string placeholder.",
+      "path": "docs/testing/codex-content-resources/mutants.mjs",
+      "line": 44,
+      "tracked": true
+    },
+    {
+      "severity": "warning",
+      "category": "lint/suspicious/noTemplateCurlyInString",
+      "message": "Unexpected template string placeholder.",
+      "path": "docs/testing/cursor-architecture-batch/module-mutants.mjs",
+      "line": 17,
+      "tracked": true
+    },
+    {
+      "severity": "warning",
+      "category": "lint/suspicious/noTemplateCurlyInString",
+      "message": "Unexpected template string placeholder.",
+      "path": "docs/testing/cursor-architecture-batch/module-mutants.mjs",
+      "line": 18,
+      "tracked": true
+    },
+    {
+      "severity": "warning",
+      "category": "lint/suspicious/noTemplateCurlyInString",
+      "message": "Unexpected template string placeholder.",
+      "path": "docs/testing/cursor-architecture-batch/module-mutants.mjs",
+      "line": 147,
+      "tracked": true
+    },
+    {
+      "severity": "warning",
+      "category": "lint/suspicious/noTemplateCurlyInString",
+      "message": "Unexpected template string placeholder.",
+      "path": "docs/testing/cursor-architecture-batch/module-mutants.mjs",
+      "line": 148,
+      "tracked": true
+    },
+    {
+      "severity": "warning",
+      "category": "lint/suspicious/noTemplateCurlyInString",
+      "message": "Unexpected template string placeholder.",
+      "path": "docs/testing/cursor-architecture-batch/module-mutants.mjs",
+      "line": 208,
+      "tracked": true
+    },
+    {
+      "severity": "warning",
+      "category": "lint/suspicious/noTemplateCurlyInString",
+      "message": "Unexpected template string placeholder.",
+      "path": "docs/testing/cursor-command-boundaries-r3/module-mutants.mjs",
+      "line": 31,
+      "tracked": true
+    },
+    {
+      "severity": "warning",
+      "category": "lint/suspicious/noTemplateCurlyInString",
+      "message": "Unexpected template string placeholder.",
+      "path": "docs/testing/cursor-command-boundaries-r3/module-mutants.mjs",
+      "line": 49,
+      "tracked": true
+    },
+    {
+      "severity": "warning",
+      "category": "lint/suspicious/noTemplateCurlyInString",
+      "message": "Unexpected template string placeholder.",
+      "path": "docs/testing/cursor-command-boundaries-r3/module-mutants.mjs",
+      "line": 58,
+      "tracked": true
+    },
+    {
+      "severity": "warning",
+      "category": "lint/suspicious/noTemplateCurlyInString",
+      "message": "Unexpected template string placeholder.",
+      "path": "docs/testing/cursor-commands-wave2/module-mutants.mjs",
+      "line": 17,
+      "tracked": true
+    },
+    {
+      "severity": "warning",
+      "category": "lint/suspicious/noTemplateCurlyInString",
+      "message": "Unexpected template string placeholder.",
+      "path": "docs/testing/cursor-commands-wave2/module-mutants.mjs",
+      "line": 46,
+      "tracked": true
+    },
+    {
+      "severity": "warning",
+      "category": "lint/suspicious/noTemplateCurlyInString",
+      "message": "Unexpected template string placeholder.",
+      "path": "docs/testing/cursor-map-review-witnesses.mjs",
+      "line": 60,
+      "tracked": true
+    },
+    {
+      "severity": "warning",
+      "category": "lint/suspicious/noTemplateCurlyInString",
+      "message": "Unexpected template string placeholder.",
+      "path": "docs/testing/cursor-map-review-witnesses.mjs",
+      "line": 61,
+      "tracked": true
+    },
+    {
+      "severity": "warning",
+      "category": "lint/suspicious/noTemplateCurlyInString",
+      "message": "Unexpected template string placeholder.",
+      "path": "docs/testing/cursor-map-review-witnesses.mjs",
+      "line": 69,
+      "tracked": true
+    },
+    {
+      "severity": "warning",
+      "category": "lint/suspicious/noTemplateCurlyInString",
+      "message": "Unexpected template string placeholder.",
+      "path": "docs/testing/cursor-map-review-witnesses.mjs",
+      "line": 70,
+      "tracked": true
+    },
+    {
+      "severity": "warning",
+      "category": "lint/suspicious/noTemplateCurlyInString",
+      "message": "Unexpected template string placeholder.",
+      "path": "docs/testing/cursor-map-review-witnesses.mjs",
+      "line": 57,
+      "tracked": true
+    },
+    {
+      "severity": "warning",
+      "category": "lint/correctness/noUnusedVariables",
+      "message": "This variable mapModeAbs is unused.",
+      "path": "docs/testing/glm-architecture-regression-lab/tools/g01-pan-cancel-needle.mjs",
+      "line": 26,
+      "tracked": true
+    },
+    {
+      "severity": "warning",
+      "category": "lint/suspicious/noTemplateCurlyInString",
+      "message": "Unexpected template string placeholder.",
+      "path": "docs/testing/glm-content-guards-wave2/guard-leaf-mutants.mjs",
+      "line": 38,
+      "tracked": true
+    },
+    {
+      "severity": "warning",
+      "category": "lint/suspicious/noTemplateCurlyInString",
+      "message": "Unexpected template string placeholder.",
+      "path": "docs/testing/glm-content-guards-wave2/guard-leaf-mutants.mjs",
+      "line": 39,
+      "tracked": true
+    },
+    {
+      "severity": "warning",
+      "category": "lint/suspicious/noTemplateCurlyInString",
+      "message": "Unexpected template string placeholder.",
+      "path": "docs/testing/glm-content-guards-wave2/guard-leaf-mutants.mjs",
+      "line": 47,
+      "tracked": true
+    },
+    {
+      "severity": "warning",
+      "category": "lint/suspicious/noTemplateCurlyInString",
+      "message": "Unexpected template string placeholder.",
+      "path": "docs/testing/glm-content-guards-wave2/guard-leaf-mutants.mjs",
+      "line": 65,
+      "tracked": true
+    },
+    {
+      "severity": "warning",
+      "category": "lint/suspicious/noTemplateCurlyInString",
+      "message": "Unexpected template string placeholder.",
+      "path": "docs/testing/glm-content-guards-wave3/guard-residual-mutants.mjs",
+      "line": 44,
+      "tracked": true
+    },
+    {
+      "severity": "warning",
+      "category": "lint/suspicious/noTemplateCurlyInString",
+      "message": "Unexpected template string placeholder.",
+      "path": "docs/testing/glm-content-guards-wave3/guard-residual-mutants.mjs",
+      "line": 71,
+      "tracked": true
+    },
+    {
+      "severity": "warning",
+      "category": "lint/suspicious/noTemplateCurlyInString",
+      "message": "Unexpected template string placeholder.",
+      "path": "docs/testing/glm-content-guards-wave3/guard-residual-mutants.mjs",
+      "line": 98,
+      "tracked": true
+    },
+    {
+      "severity": "warning",
+      "category": "suppressions/unused",
+      "message": "Suppression comment has no effect. Remove the suppression or make sure you are suppressing the correct rule.",
+      "path": "docs/testing/glm-migration-boundaries-mutants.mjs",
+      "line": 72,
+      "tracked": true
+    },
+    {
+      "severity": "warning",
+      "category": "lint/suspicious/noTemplateCurlyInString",
+      "message": "Unexpected template string placeholder.",
+      "path": "docs/testing/glm-migration-boundaries-mutants.mjs",
+      "line": 72,
+      "tracked": true
+    },
+    {
+      "severity": "warning",
+      "category": "lint/suspicious/noTemplateCurlyInString",
+      "message": "Unexpected template string placeholder.",
+      "path": "docs/testing/glm-resource-tools-mutants.mjs",
+      "line": 53,
+      "tracked": true
+    },
+    {
+      "severity": "warning",
+      "category": "lint/suspicious/noTemplateCurlyInString",
+      "message": "Unexpected template string placeholder.",
+      "path": "docs/testing/guard-wave3-final-review-witness.mjs",
+      "line": 25,
+      "tracked": true
+    },
+    {
+      "severity": "warning",
+      "category": "lint/suspicious/noTemplateCurlyInString",
+      "message": "Unexpected template string placeholder.",
+      "path": "docs/testing/guard-wave3-final-review-witness.mjs",
+      "line": 26,
+      "tracked": true
+    },
+    {
+      "severity": "warning",
+      "category": "lint/suspicious/noTemplateCurlyInString",
+      "message": "Unexpected template string placeholder.",
+      "path": "docs/testing/guard-wave3-r3-review-witnesses.mjs",
+      "line": 40,
+      "tracked": true
+    },
+    {
+      "severity": "warning",
+      "category": "lint/suspicious/noTemplateCurlyInString",
+      "message": "Unexpected template string placeholder.",
+      "path": "docs/testing/guard-wave3-r3-review-witnesses.mjs",
+      "line": 21,
+      "tracked": true
+    },
+    {
+      "severity": "warning",
+      "category": "lint/suspicious/noTemplateCurlyInString",
+      "message": "Unexpected template string placeholder.",
+      "path": "docs/testing/guard-wave3-r3-review-witnesses.mjs",
+      "line": 22,
+      "tracked": true
+    },
+    {
+      "severity": "warning",
+      "category": "lint/suspicious/noTemplateCurlyInString",
+      "message": "Unexpected template string placeholder.",
+      "path": "docs/testing/guard-wave3-r3-review-witnesses.mjs",
+      "line": 24,
+      "tracked": true
+    },
+    {
+      "severity": "warning",
+      "category": "lint/suspicious/noTemplateCurlyInString",
+      "message": "Unexpected template string placeholder.",
+      "path": "docs/testing/guard-wave3-r3-review-witnesses.mjs",
+      "line": 26,
+      "tracked": true
+    },
+    {
+      "severity": "warning",
+      "category": "lint/suspicious/noTemplateCurlyInString",
+      "message": "Unexpected template string placeholder.",
+      "path": "docs/testing/guard-wave3-review-witnesses.mjs",
+      "line": 10,
+      "tracked": true
+    },
+    {
+      "severity": "warning",
+      "category": "lint/suspicious/noTemplateCurlyInString",
+      "message": "Unexpected template string placeholder.",
+      "path": "docs/testing/guard-wave3-review-witnesses.mjs",
+      "line": 14,
+      "tracked": true
+    },
+    {
+      "severity": "warning",
+      "category": "lint/suspicious/noTemplateCurlyInString",
+      "message": "Unexpected template string placeholder.",
+      "path": "docs/testing/gw3r3-witnesses.tmp.mjs",
+      "line": 21,
+      "tracked": false
+    },
+    {
+      "severity": "warning",
+      "category": "lint/suspicious/noTemplateCurlyInString",
+      "message": "Unexpected template string placeholder.",
+      "path": "docs/testing/gw3r3-witnesses.tmp.mjs",
+      "line": 22,
+      "tracked": false
+    },
+    {
+      "severity": "warning",
+      "category": "lint/suspicious/noTemplateCurlyInString",
+      "message": "Unexpected template string placeholder.",
+      "path": "docs/testing/gw3r3-witnesses.tmp.mjs",
+      "line": 24,
+      "tracked": false
+    },
+    {
+      "severity": "warning",
+      "category": "lint/suspicious/noTemplateCurlyInString",
+      "message": "Unexpected template string placeholder.",
+      "path": "docs/testing/gw3r3-witnesses.tmp.mjs",
+      "line": 26,
+      "tracked": false
+    },
+    {
+      "severity": "warning",
+      "category": "lint/suspicious/noTemplateCurlyInString",
+      "message": "Unexpected template string placeholder.",
+      "path": "docs/testing/gw3r3-witnesses.tmp.mjs",
+      "line": 40,
+      "tracked": false
+    },
+    {
+      "severity": "warning",
+      "category": "lint/suspicious/noTemplateCurlyInString",
+      "message": "Unexpected template string placeholder.",
+      "path": "docs/testing/parallel-guard-command-r2-review-witnesses.mjs",
+      "line": 16,
+      "tracked": true
+    },
+    {
+      "severity": "warning",
+      "category": "lint/suspicious/noTemplateCurlyInString",
+      "message": "Unexpected template string placeholder.",
+      "path": "docs/testing/parallel-guard-command-r2-review-witnesses.mjs",
+      "line": 17,
+      "tracked": true
+    },
+    {
+      "severity": "warning",
+      "category": "lint/suspicious/noTemplateCurlyInString",
+      "message": "Unexpected template string placeholder.",
+      "path": "docs/testing/parallel-guard-command-r2-review-witnesses.mjs",
+      "line": 116,
+      "tracked": true
+    },
+    {
+      "severity": "warning",
+      "category": "lint/suspicious/noTemplateCurlyInString",
+      "message": "Unexpected template string placeholder.",
+      "path": "docs/testing/parallel-guard-command-r2-review-witnesses.mjs",
+      "line": 117,
+      "tracked": true
+    },
+    {
+      "severity": "warning",
+      "category": "lint/suspicious/noTemplateCurlyInString",
+      "message": "Unexpected template string placeholder.",
+      "path": "docs/testing/parallel-guard-command-r2-review-witnesses.mjs",
+      "line": 134,
+      "tracked": true
+    },
+    {
+      "severity": "warning",
+      "category": "lint/correctness/noUnusedVariables",
+      "message": "This function record is unused.",
+      "path": "packages/content/src/runtime-script.ts",
+      "line": 146,
+      "tracked": true
+    },
+    {
+      "severity": "warning",
+      "category": "lint/correctness/noUnusedImports",
+      "message": "Several of these imports are unused.",
+      "path": "packages/editor/src/core/entity-placement.ts",
+      "line": 3,
+      "tracked": true
+    },
+    {
+      "severity": "warning",
+      "category": "lint/correctness/noUnusedImports",
+      "message": "Several of these imports are unused.",
+      "path": "packages/editor/src/core/playback.ts",
+      "line": 34,
+      "tracked": true
+    },
+    {
+      "severity": "warning",
+      "category": "lint/correctness/noUnusedImports",
+      "message": "Several of these imports are unused.",
+      "path": "packages/editor/src/core/playback.ts",
+      "line": 18,
+      "tracked": true
+    },
+    {
+      "severity": "warning",
+      "category": "lint/correctness/noUnusedFunctionParameters",
+      "message": "This parameter is unused.",
+      "path": "packages/editor/src/core/script-editor.hooks-session.test.ts",
+      "line": 48,
+      "tracked": true
+    },
+    {
+      "severity": "warning",
+      "category": "lint/style/useConst",
+      "message": "This let declares a variable that is only assigned once.",
+      "path": "packages/editor/src/core/stamp-draft.test.ts",
+      "line": 75,
+      "tracked": true
+    },
+    {
+      "severity": "warning",
+      "category": "lint/style/useImportType",
+      "message": "All these imports are only used as types.",
+      "path": "packages/editor/src/ui/AudioAssetWorkbench.tsx",
+      "line": 1,
+      "tracked": true
+    },
+    {
+      "severity": "warning",
+      "category": "lint/suspicious/noConfusingVoidType",
+      "message": "void is confusing inside a union type.",
+      "path": "packages/editor/src/ui/EnemyAnimPreview.tsx",
+      "line": 80,
+      "tracked": true
+    },
+    {
+      "severity": "warning",
+      "category": "lint/style/useImportType",
+      "message": "All these imports are only used as types.",
+      "path": "packages/editor/src/ui/ImageTab.tsx",
+      "line": 1,
+      "tracked": true
+    },
+    {
+      "severity": "warning",
+      "category": "lint/suspicious/noConfusingVoidType",
+      "message": "void is confusing inside a union type.",
+      "path": "packages/editor/src/ui/LayerStackControls.tsx",
+      "line": 97,
+      "tracked": true
+    },
+    {
+      "severity": "warning",
+      "category": "lint/style/useImportType",
+      "message": "All these imports are only used as types.",
+      "path": "packages/editor/src/ui/MusicTab.tsx",
+      "line": 1,
+      "tracked": true
+    },
+    {
+      "severity": "warning",
+      "category": "lint/correctness/noUnusedImports",
+      "message": "Several of these imports are unused.",
+      "path": "packages/editor/src/ui/ScriptSceneHookInspector.tsx",
+      "line": 14,
+      "tracked": true
+    },
+    {
+      "severity": "warning",
+      "category": "lint/suspicious/noConfusingVoidType",
+      "message": "void is confusing inside a union type.",
+      "path": "packages/editor/src/ui/design-system/add-picker.test.tsx",
+      "line": 81,
+      "tracked": true
+    },
+    {
+      "severity": "warning",
+      "category": "lint/suspicious/noConfusingVoidType",
+      "message": "void is confusing inside a union type.",
+      "path": "packages/editor/src/ui/design-system/add-picker.tsx",
+      "line": 41,
+      "tracked": true
+    },
+    {
+      "severity": "warning",
+      "category": "lint/suspicious/noTemplateCurlyInString",
+      "message": "Unexpected template string placeholder.",
+      "path": "packages/editor/src/ui/design-system/boundary.test.ts",
+      "line": 373,
+      "tracked": true
+    },
+    {
+      "severity": "warning",
+      "category": "lint/suspicious/noTemplateCurlyInString",
+      "message": "Unexpected template string placeholder.",
+      "path": "packages/editor/src/ui/design-system/boundary.test.ts",
+      "line": 451,
+      "tracked": true
+    },
+    {
+      "severity": "warning",
+      "category": "lint/suspicious/noTemplateCurlyInString",
+      "message": "Unexpected template string placeholder.",
+      "path": "packages/editor/src/ui/design-system/boundary.test.ts",
+      "line": 452,
+      "tracked": true
+    },
+    {
+      "severity": "warning",
+      "category": "lint/suspicious/noTemplateCurlyInString",
+      "message": "Unexpected template string placeholder.",
+      "path": "packages/editor/src/ui/design-system/boundary.test.ts",
+      "line": 457,
+      "tracked": true
+    },
+    {
+      "severity": "warning",
+      "category": "lint/correctness/noUnusedVariables",
+      "message": "This variable adoption is unused.",
+      "path": "packages/editor/src/ui/design-system/boundary.test.ts",
+      "line": 647,
+      "tracked": true
+    },
+    {
+      "severity": "warning",
+      "category": "lint/suspicious/noTemplateCurlyInString",
+      "message": "Unexpected template string placeholder.",
+      "path": "packages/editor/src/ui/design-system/catalog-row-content-adoption.test.ts",
+      "line": 580,
+      "tracked": true
+    },
+    {
+      "severity": "warning",
+      "category": "lint/suspicious/noTemplateCurlyInString",
+      "message": "Unexpected template string placeholder.",
+      "path": "packages/editor/src/ui/design-system/catalog-row-content-adoption.test.ts",
+      "line": 583,
+      "tracked": true
+    },
+    {
+      "severity": "warning",
+      "category": "lint/suspicious/noTemplateCurlyInString",
+      "message": "Unexpected template string placeholder.",
+      "path": "packages/editor/src/ui/design-system/catalog-row-content-adoption.test.ts",
+      "line": 619,
+      "tracked": true
+    },
+    {
+      "severity": "warning",
+      "category": "lint/suspicious/noTemplateCurlyInString",
+      "message": "Unexpected template string placeholder.",
+      "path": "packages/editor/src/ui/design-system/catalog-row-content-adoption.test.ts",
+      "line": 622,
+      "tracked": true
+    },
+    {
+      "severity": "warning",
+      "category": "lint/suspicious/noConfusingVoidType",
+      "message": "void is confusing inside a union type.",
+      "path": "packages/editor/src/ui/design-system/draft-input-state.ts",
+      "line": 22,
+      "tracked": true
+    },
+    {
+      "severity": "warning",
+      "category": "lint/suspicious/noTemplateCurlyInString",
+      "message": "Unexpected template string placeholder.",
+      "path": "packages/editor/src/ui/design-system/field-layout-adoption.test.ts",
+      "line": 2629,
+      "tracked": true
+    },
+    {
+      "severity": "warning",
+      "category": "lint/suspicious/noTemplateCurlyInString",
+      "message": "Unexpected template string placeholder.",
+      "path": "packages/editor/src/ui/design-system/field-layout-adoption.test.ts",
+      "line": 2624,
+      "tracked": true
+    },
+    {
+      "severity": "warning",
+      "category": "lint/suspicious/noTemplateCurlyInString",
+      "message": "Unexpected template string placeholder.",
+      "path": "packages/editor/src/ui/design-system/field-layout-adoption.test.ts",
+      "line": 2628,
+      "tracked": true
+    },
+    {
+      "severity": "warning",
+      "category": "lint/correctness/noUnusedFunctionParameters",
+      "message": "This parameter is unused.",
+      "path": "packages/editor/src/ui/design-system/field-layout-adoption.test.ts",
+      "line": 1368,
+      "tracked": true
+    },
+    {
+      "severity": "warning",
+      "category": "lint/suspicious/noConfusingVoidType",
+      "message": "void is confusing inside a union type.",
+      "path": "packages/editor/src/ui/design-system/number-inputs.tsx",
+      "line": 28,
+      "tracked": true
+    },
+    {
+      "severity": "warning",
+      "category": "lint/style/noDescendingSpecificity",
+      "message": "Descending specificity selector found. This selector specificity is (0, 2, 0)",
+      "path": "packages/editor/src/ui/design-system/primitives.css",
+      "line": 640,
+      "tracked": true
+    },
+    {
+      "severity": "warning",
+      "category": "lint/style/noDescendingSpecificity",
+      "message": "Descending specificity selector found. This selector specificity is (0, 1, 0)",
+      "path": "packages/editor/src/ui/design-system/primitives.css",
+      "line": 1062,
+      "tracked": true
+    },
+    {
+      "severity": "warning",
+      "category": "lint/style/noDescendingSpecificity",
+      "message": "Descending specificity selector found. This selector specificity is (0, 1, 0)",
+      "path": "packages/editor/src/ui/design-system/primitives.css",
+      "line": 1074,
+      "tracked": true
+    },
+    {
+      "severity": "warning",
+      "category": "lint/style/noDescendingSpecificity",
+      "message": "Descending specificity selector found. This selector specificity is (0, 1, 1)",
+      "path": "packages/editor/src/ui/design-system/primitives.css",
+      "line": 1111,
+      "tracked": true
+    },
+    {
+      "severity": "warning",
+      "category": "lint/style/noDescendingSpecificity",
+      "message": "Descending specificity selector found. This selector specificity is (0, 1, 0)",
+      "path": "packages/editor/src/ui/design-system/primitives.css",
+      "line": 2108,
+      "tracked": true
+    },
+    {
+      "severity": "warning",
+      "category": "lint/style/noDescendingSpecificity",
+      "message": "Descending specificity selector found. This selector specificity is (0, 1, 0)",
+      "path": "packages/editor/src/ui/design-system/primitives.css",
+      "line": 399,
+      "tracked": true
+    },
+    {
+      "severity": "warning",
+      "category": "lint/style/noDescendingSpecificity",
+      "message": "Descending specificity selector found. This selector specificity is (0, 2, 0)",
+      "path": "packages/editor/src/ui/design-system/primitives.css",
+      "line": 569,
+      "tracked": true
+    },
+    {
+      "severity": "warning",
+      "category": "lint/style/noDescendingSpecificity",
+      "message": "Descending specificity selector found. This selector specificity is (0, 1, 0)",
+      "path": "packages/editor/src/ui/design-system/recipes.css",
+      "line": 467,
+      "tracked": true
+    },
+    {
+      "severity": "warning",
+      "category": "lint/style/noDescendingSpecificity",
+      "message": "Descending specificity selector found. This selector specificity is (0, 1, 0)",
+      "path": "packages/editor/src/ui/design-system/recipes.css",
+      "line": 485,
+      "tracked": true
+    },
+    {
+      "severity": "warning",
+      "category": "lint/style/noDescendingSpecificity",
+      "message": "Descending specificity selector found. This selector specificity is (0, 1, 0)",
+      "path": "packages/editor/src/ui/design-system/recipes.css",
+      "line": 606,
+      "tracked": true
+    },
+    {
+      "severity": "warning",
+      "category": "lint/suspicious/noConfusingVoidType",
+      "message": "void is confusing inside a union type.",
+      "path": "packages/editor/src/ui/design-system/reorder.tsx",
+      "line": 423,
+      "tracked": true
+    },
+    {
+      "severity": "warning",
+      "category": "lint/complexity/noImportantStyles",
+      "message": "Avoid the use of the !important style.",
+      "path": "packages/editor/src/ui/editor.css",
+      "line": 9866,
+      "tracked": true
+    },
+    {
+      "severity": "warning",
+      "category": "lint/complexity/noImportantStyles",
+      "message": "Avoid the use of the !important style.",
+      "path": "packages/editor/src/ui/editor.css",
+      "line": 9867,
+      "tracked": true
+    },
+    {
+      "severity": "warning",
+      "category": "lint/complexity/noImportantStyles",
+      "message": "Avoid the use of the !important style.",
+      "path": "packages/editor/src/ui/editor.css",
+      "line": 9868,
+      "tracked": true
+    },
+    {
+      "severity": "warning",
+      "category": "lint/complexity/noImportantStyles",
+      "message": "Avoid the use of the !important style.",
+      "path": "packages/editor/src/ui/editor.css",
+      "line": 9869,
+      "tracked": true
+    }
+  ]
+}

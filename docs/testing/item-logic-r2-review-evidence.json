@@ -1,0 +1,285 @@
+{
+  "candidate": "1c8b57cb508c2e0363c46d2aa842aa4eed50082a",
+  "verdict": "counter",
+  "closed": [
+    "R1 typed current fixture and production constructors",
+    "R2 equipped-only positive control",
+    "changed-file zero lint diagnostics"
+  ],
+  "remaining": [
+    "R2 inventory sentinel / growth / external-world fidelity",
+    "R3 actual input and rejected input protection",
+    "R4 receipt and machine-ledger truth"
+  ],
+  "checks": {
+    "newTests": 46,
+    "content": {
+      "files": 98,
+      "passed": 1178,
+      "failed": 0,
+      "pending": 0
+    },
+    "oldItemTests": 51,
+    "typecheckExit": 0,
+    "biome": {
+      "changed": 0,
+      "unchanged": 9,
+      "matches": 0,
+      "duration": 19471416,
+      "errors": 0,
+      "warnings": 0,
+      "infos": 0,
+      "skipped": 0,
+      "suggestedFixesSkipped": 0,
+      "diagnosticsNotPrinted": 0,
+      "scannerDuration": 3444250
+    },
+    "originalControls": 46,
+    "originalMutants": 6,
+    "originalJudgeSelfTests": 10
+  },
+  "zeroDiffFiles": [
+    "packages/content/src/item.ownership.background.test.ts",
+    "packages/content/src/item.external.background.test.ts"
+  ],
+  "oracleAdaptation": "r2 fixture maxHP/maxMP changed from150/100 to100/50; only oracle expected growth maxHP/maxMP adapted to114/61; source mutations and judge unchanged",
+  "hashes": {
+    "/Users/zhangxu/illegal/type-pal-glm-item-logic/packages/content/src/item.ts": "1a2ff2c2ef96070cf1609bd26c1f2756e851c9aec525749131582f6fd696963b",
+    "/Users/zhangxu/illegal/type-pal-glm-item-logic/packages/content/src/item.effects.background.test.ts": "b6e7bad742ab036832d94695f4b68c65eee84cd978ea6f1e365509fc69f78b9a",
+    "/Users/zhangxu/illegal/type-pal-glm-item-logic/packages/content/src/__tests__/glm-item-logic-fixtures.ts": "3ffdf6153fa6b61f97567dfdf9c6606529fdc07f8c2d41742e134f1240b30fe4",
+    "/Users/zhangxu/illegal/type-pal-glm-item-logic/packages/content/src/item.ownership.background.test.ts": "1122c22ad06417a081e963f35a9b545bd2b8ab44c371811b3e61354785cbca25",
+    "/Users/zhangxu/illegal/type-pal-glm-item-logic/packages/content/src/item.external.background.test.ts": "55863fb9940ed619756d72dc3cdc696c7d687c31e1aeeec22a2a8733bb210b53",
+    "/Users/zhangxu/illegal/type-pal-glm-item-logic/packages/content/src/item.derived.background.test.ts": "2aebbefc3903985cee8d6b17717a8700a89679e16f0749237888bcb0544f0fb9",
+    "/Users/zhangxu/illegal/type-pal-glm-item-logic/packages/content/src/item.inventory.background.test.ts": "ee24bbe47ec8932a5a34ee1d68b142d9170f207c54eb08504c50554c342cb387"
+  },
+  "runs": [
+    {
+      "name": "growth-no-op-candidate-control",
+      "exit": 0,
+      "passed": 10,
+      "failed": 0,
+      "failures": []
+    },
+    {
+      "name": "growth-no-op-candidate-mutant",
+      "exit": 0,
+      "passed": 10,
+      "failed": 0,
+      "failures": []
+    },
+    {
+      "name": "growth-no-op-oracle-control",
+      "exit": 0,
+      "passed": 11,
+      "failed": 0,
+      "failures": []
+    },
+    {
+      "name": "growth-no-op-oracle-mutant",
+      "exit": 1,
+      "passed": 10,
+      "failed": 1,
+      "failures": [
+        {
+          "file": "/Users/zhangxu/illegal/type-pal-glm-item-logic/packages/content/src/item.effects.background.test.ts",
+          "fullName": "Codex independent oracle growth-no-op",
+          "messages": [
+            "AssertionError: expected { id: 'hero', template: 'hero', …(15) } to deeply equal { id: 'hero', template: 'hero', …(13) }"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "drop-unrelated-inventory-candidate-control",
+      "exit": 0,
+      "passed": 8,
+      "failed": 0,
+      "failures": []
+    },
+    {
+      "name": "drop-unrelated-inventory-candidate-mutant",
+      "exit": 0,
+      "passed": 8,
+      "failed": 0,
+      "failures": []
+    },
+    {
+      "name": "drop-unrelated-inventory-oracle-control",
+      "exit": 0,
+      "passed": 9,
+      "failed": 0,
+      "failures": []
+    },
+    {
+      "name": "drop-unrelated-inventory-oracle-mutant",
+      "exit": 1,
+      "passed": 8,
+      "failed": 1,
+      "failures": [
+        {
+          "file": "/Users/zhangxu/illegal/type-pal-glm-item-logic/packages/content/src/item.ownership.background.test.ts",
+          "fullName": "Codex independent oracle drop-unrelated-inventory",
+          "messages": [
+            "AssertionError: expected { script: { flags: {}, …(3) }, …(5) } to deeply equal { script: { flags: {}, …(3) }, …(5) }"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "drop-external-money-candidate-control",
+      "exit": 0,
+      "passed": 6,
+      "failed": 0,
+      "failures": []
+    },
+    {
+      "name": "drop-external-money-candidate-mutant",
+      "exit": 0,
+      "passed": 6,
+      "failed": 0,
+      "failures": []
+    },
+    {
+      "name": "drop-external-money-oracle-control",
+      "exit": 0,
+      "passed": 7,
+      "failed": 0,
+      "failures": []
+    },
+    {
+      "name": "drop-external-money-oracle-mutant",
+      "exit": 1,
+      "passed": 6,
+      "failed": 1,
+      "failures": [
+        {
+          "file": "/Users/zhangxu/illegal/type-pal-glm-item-logic/packages/content/src/item.external.background.test.ts",
+          "fullName": "Codex independent oracle drop-external-money",
+          "messages": [
+            "AssertionError: expected { script: { flags: {}, …(3) }, …(6) } to deeply equal { script: { flags: {}, …(3) }, …(6) }"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "learned-input-mutation-candidate-control",
+      "exit": 0,
+      "passed": 8,
+      "failed": 0,
+      "failures": []
+    },
+    {
+      "name": "learned-input-mutation-candidate-mutant",
+      "exit": 0,
+      "passed": 8,
+      "failed": 0,
+      "failures": []
+    },
+    {
+      "name": "learned-input-mutation-oracle-control",
+      "exit": 0,
+      "passed": 9,
+      "failed": 0,
+      "failures": []
+    },
+    {
+      "name": "learned-input-mutation-oracle-mutant",
+      "exit": 1,
+      "passed": 8,
+      "failed": 1,
+      "failures": [
+        {
+          "file": "/Users/zhangxu/illegal/type-pal-glm-item-logic/packages/content/src/item.derived.background.test.ts",
+          "fullName": "Codex independent oracle learned-input-mutation",
+          "messages": [
+            "AssertionError: expected [ '100', '__codex_input_pollution' ] to deeply equal [ '100' ]"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "throw-input-mutation-candidate-control",
+      "exit": 0,
+      "passed": 8,
+      "failed": 0,
+      "failures": []
+    },
+    {
+      "name": "throw-input-mutation-candidate-mutant",
+      "exit": 0,
+      "passed": 8,
+      "failed": 0,
+      "failures": []
+    },
+    {
+      "name": "throw-input-mutation-oracle-control",
+      "exit": 0,
+      "passed": 9,
+      "failed": 0,
+      "failures": []
+    },
+    {
+      "name": "throw-input-mutation-oracle-mutant",
+      "exit": 1,
+      "passed": 8,
+      "failed": 1,
+      "failures": [
+        {
+          "file": "/Users/zhangxu/illegal/type-pal-glm-item-logic/packages/content/src/item.ownership.background.test.ts",
+          "fullName": "Codex independent oracle throw-input-mutation",
+          "messages": [
+            "AssertionError: expected { script: { flags: {}, …(3) }, …(5) } to deeply equal { script: { flags: {}, …(3) }, …(5) }"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "drop-equipped-usable-candidate-control",
+      "exit": 0,
+      "passed": 8,
+      "failed": 0,
+      "failures": []
+    },
+    {
+      "name": "drop-equipped-usable-candidate-mutant",
+      "exit": 1,
+      "passed": 7,
+      "failed": 1,
+      "failures": [
+        {
+          "file": "/Users/zhangxu/illegal/type-pal-glm-item-logic/packages/content/src/item.inventory.background.test.ts",
+          "fullName": "I2 equipItem 残差 装备独有正控：空背包但装备中的可用品仍入列（equippedUsable.push 臂）",
+          "messages": ["AssertionError: expected [] to deeply equal [ 'talisman' ]"]
+        }
+      ]
+    },
+    {
+      "name": "drop-equipped-usable-oracle-control",
+      "exit": 0,
+      "passed": 9,
+      "failed": 0,
+      "failures": []
+    },
+    {
+      "name": "drop-equipped-usable-oracle-mutant",
+      "exit": 1,
+      "passed": 7,
+      "failed": 2,
+      "failures": [
+        {
+          "file": "/Users/zhangxu/illegal/type-pal-glm-item-logic/packages/content/src/item.inventory.background.test.ts",
+          "fullName": "I2 equipItem 残差 装备独有正控：空背包但装备中的可用品仍入列（equippedUsable.push 臂）",
+          "messages": ["AssertionError: expected [] to deeply equal [ 'talisman' ]"]
+        },
+        {
+          "file": "/Users/zhangxu/illegal/type-pal-glm-item-logic/packages/content/src/item.inventory.background.test.ts",
+          "fullName": "Codex independent oracle drop-equipped-usable",
+          "messages": ["AssertionError: expected [] to deeply equal [ 'talisman' ]"]
+        }
+      ]
+    }
+  ],
+  "evidenceDirectory": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/codex-item-logic-review-YbezNX",
+  "wholeRepositoryQuality": "tracked separately by Codex; not waived; not cleaned in this review",
+  "notRun": ["whole-repository check", "ratchet", "strict-fast", "browser/E2E"]
+}

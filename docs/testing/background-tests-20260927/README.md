@@ -9,6 +9,10 @@
 
 ## 两包共同纪律
 
+2026-09-27追加硬门：改动文件lint/格式/typecheck必须**0 error / 0 warning / 0 info**，
+不允许“exit0但已有warning”的验收表述。全仓存量归Codex的[清零卡](../../ops/tasks/QUALITY-ZERO-1-static-diagnostics.md)，
+贡献者不越界改共享源码；统一集成门也必须满足零诊断，未完成时如实登记阻断。
+
 先读AGENTS/CLAUDE/phase2 READ-FIRST与本卡；Vitest/pnpm按仓内现行版本与filter命令，
 `env -u NODE_COMPILE_CACHE`。不加ignore/skip/fails，不改旧断言、产品、范围/timeout或官方baseline。
 每组先核当前入口/旧标题/合法fixture；当前合同不清楚则待证，不为LCOV臆造预期。
