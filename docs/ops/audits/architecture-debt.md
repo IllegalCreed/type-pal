@@ -39,7 +39,7 @@ Codex负责其余高风险实现和全部独立接收；执行仍按单一状态
 | D2 第一阶段大主控 | event-system5784行/applyRawOpcode1459行；battle-system3749行；bootstrap1946行 | opcode处理族、运行资源生命周期、启动装配分开 | 真实PAL数据/现有机制回归；结构优化与缺陷修复分提交 |
 | E1 迁移转换 | migrate-content3314行/mapScenesStatic808行；translate-events2472行/walkBody1184行 | 按人物/技能/物品/场景映射及控制流处理阶段拆分 | 生成结果对比、事务写保护、幂等；不得顺手改生成产物 |
 | E2 内容校验边界（[已完成](../../testing/content-validation-refactor.md)） | 原author-script-core ↔ enemy-script 双向依赖 | 4cdefcf1拆协议/形状/AI/演出，50函数体保持、运行期环清零 | ebef3d5a单独修嵌套cue漏options；13项先红后绿，和D1统一门禁；非“有环即有bug” |
-| F1 工具维护 | design-system-audit.mjs6337行/reachableJsxOwners935行 | AST事实、CSS推导、规则、报告分层 | 旧违规样本/反例判据不变；不为加速删规则 |
+| F1 工具维护（[候选](../../testing/design-system-audit-layering-refactor.md)） | 原design-system-audit.mjs6428行，AST/CSS/规则/报告及935行route遍历同文件 | 93b7211b已拆AST事实/静态流、CSS推导、纯规则与IO报告；facade降至4669行并保留route/adoption编排 | Editor2885、设计门100/2、六针与原15秒性能门通过；全仓统一门/集成后正式完成 |
 | F2 组织性整理（已完成） | 原盘点commands4475/controls2589，按战场/控件/领域命令分批落位 | commands最终179行、controls35行稳定barrel；剩余九组90声明与119出口/62绑定保持，无新运行期环 | [2022acc3最终验收](../../testing/cursor-commands-wave2-integration.md)：check8740/strict8248/701、五针和隔离UI通过；纯搬移无覆盖metrics增长 |
 
 ### 并行所有权（2026-09-26 更新）

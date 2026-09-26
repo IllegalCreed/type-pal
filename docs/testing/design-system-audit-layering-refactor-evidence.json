@@ -1,0 +1,127 @@
+{
+  "schemaVersion": 1,
+  "owner": "Codex implementation and self-verification; original intake conversation retains integration",
+  "base": "fd09c15c3",
+  "syncedMainBase": "9fe9ea11055dc4bf9a96c18be0758c3f0d0f6039",
+  "originMainObservedAfterImplementation": "82863cf22007195c4005aafbf751f56cfef80c33",
+  "scope": "F1 AST facts, CSS derivation, pure allowlist rules, IO report, and equivalent switch-flow performance",
+  "status": "candidate; not merged to main; unified full-repository gates pending intake",
+  "implementations": {
+    "layering": "5d4fca38",
+    "performance": "09196d3a",
+    "tests": "559388d2",
+    "negativeControls": "93b7211b"
+  },
+  "layers": {
+    "facade": {
+      "path": "packages/editor/scripts/design-system-audit.mjs",
+      "linesBefore": 6428,
+      "linesAfter": 4669,
+      "owns": [
+        "route and adoption orchestration",
+        "repository source discovery and override boundary",
+        "stable public exports"
+      ]
+    },
+    "ast": {
+      "path": "packages/editor/scripts/design-system-audit-ast.mjs",
+      "lines": 1215,
+      "owns": [
+        "TSX literal facts and per-node fact cache",
+        "scope bindings and static values",
+        "reachable render flow and equivalent switch path coalescing"
+      ]
+    },
+    "css": {
+      "path": "packages/editor/scripts/design-system-audit-css.mjs",
+      "lines": 463,
+      "owns": [
+        "CSSOM and selector specificity",
+        "condition scenarios and cascade",
+        "virtual DOM scroll contracts"
+      ]
+    },
+    "rules": {
+      "path": "packages/editor/scripts/design-system-audit-rules.mjs",
+      "lines": 68,
+      "owns": [
+        "allowlist schema",
+        "exact violation identity",
+        "active, stale, and unapproved classification"
+      ]
+    },
+    "report": {
+      "path": "packages/editor/scripts/design-system-audit-report.mjs",
+      "lines": 110,
+      "owns": ["registry JSON reads", "stdout and stderr", "CLI exit codes"]
+    },
+    "reverseImportsToFacade": 0,
+    "existingPublicNamesPreserved": true
+  },
+  "performance": {
+    "timeoutChanged": false,
+    "rulesRemoved": false,
+    "coldValidateAdoptionMsBefore": 5637.4,
+    "coldValidateAdoptionMsAfter": 2407.3,
+    "cachedValidateAdoptionMsAfter": 240.2,
+    "cause": "unknown switch analysis repeated identical fall-through bodies for consecutive empty case labels",
+    "fix": "coalesce labels by first executable clause and retain terminal empty continuation paths"
+  },
+  "tests": {
+    "newLayerContracts": {
+      "files": 1,
+      "tests": 6,
+      "exit": 0
+    },
+    "parallelExistingGateSet": {
+      "files": 3,
+      "tests": 29,
+      "exit": 0,
+      "durationSeconds": 64.22,
+      "includesOriginal15SecondTimeout": true
+    },
+    "designSystemGate": {
+      "productionFiles": 100,
+      "evidenceBoundExceptions": 2,
+      "exit": 0
+    },
+    "editorCheck": {
+      "typecheckExit": 0,
+      "testFiles": 335,
+      "tests": 2885,
+      "testExit": 0,
+      "maxWorkers": 2
+    },
+    "biome": {
+      "errors": 0
+    }
+  },
+  "negativeControls": {
+    "tool": "docs/testing/design-system-audit-layering-mutants.mjs",
+    "controls": 10,
+    "detected": 6,
+    "evidence": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-design-audit-layering-mutants-3vS4vw/summary.json",
+    "requirements": [
+      "exact absolute test file and fullName",
+      "exactly one executed candidate test",
+      "exit 1",
+      "AssertionError only",
+      "unique loader injection marker",
+      "all product hashes unchanged"
+    ]
+  },
+  "unchangedContracts": [
+    "design-system registries, allowlist, adoption matrices, and violation identities",
+    "existing 15 second performance timeout",
+    "UI, schema, SAVE8, content20, normal saves, and generated assets",
+    "official coverage baseline"
+  ],
+  "notRun": [
+    "full repository check",
+    "official coverage ratchet",
+    "protected strict coverage",
+    "Editor production build",
+    "remote CI",
+    "browser visual verification"
+  ]
+}

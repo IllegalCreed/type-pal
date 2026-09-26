@@ -26,7 +26,7 @@ Codex持续处理[治理台账](../audits/architecture-debt.md)剩余边界，Cu
 | C1 | BattleSession输入、动作/演出、资源屏障、结算呈现的状态归属拆清；公开tick业务序列保真 | afef3cd3候选四owner齐；待原接收对话统一门/集成后正式完成 |
 | D2 | 一阶段opcode族、战斗主控、启动资源生命周期分开，真实机制/数据回归通过 | 138c41c8候选边界齐；待原接收对话统一门/集成后正式完成 |
 | E1 | 迁移场景映射与脚本转换阶段独立、纯内存入口可测；输出/幂等/写保护保真 | 0589af91候选两阶段齐；待原接收对话统一门/集成后正式完成 |
-| F1 | design-system audit 的AST事实、CSS推导、规则、报告分层；现有违规/反例与性能门不弱化 | 待实施 |
+| F1 | design-system audit 的AST事实、CSS推导、规则、报告分层；现有违规/反例与性能门不弱化 | 93b7211b候选四层齐；待原接收对话统一门/集成后正式完成 |
 | F2 | Cursor24组与剩余actor/entity/map/资源命令边界全部接收，commands/controls成为稳定出口 | 2026-09-26 accept/完成，check8740/strict8248/701 |
 
 每个状态所有权边界先读一手源码和既有回归，记录依赖、输入采样、同步提交、取消/释放；纯机械搬迁
@@ -46,6 +46,16 @@ Codex持续处理[治理台账](../audits/architecture-debt.md)剩余边界，Cu
   authorCommandValidationOptions的递归调用合同与同树作者类型反驳该解释，须用正式入口回归固定。
 
 ## 当前推进
+
+- 2026-09-26 F1候选收口（基点 `fd09c15c`，性能实现 `09196d3a`，反控头 `93b7211b`）：AST字面事实/
+  作用域/静态流归 `design-system-audit-ast`，CSSOM/specificity/条件cascade/滚动合同归
+  `design-system-audit-css`，allowlist纯判定与JSON/console/exit分别归rules/report；原facade保留公共出口及
+  route/adoption编排，6428→4669行，四层不反向依赖facade。未知switch连续空case的等价入口归并把冷
+  `validateAdoption` 从约5.6秒降到2.407秒，未放宽15秒timeout、未删规则。新增6项，原三文件并发29项、
+  Editor335文件/2885项、TC/Biome和设计门100文件/2例外通过；control10与六针反控全检出。完整范围、性能
+  根因、临时证据和未证项见[回执](../../testing/design-system-audit-layering-refactor.md)与
+  [机账](../../testing/design-system-audit-layering-refactor-evidence.json)。未跑共享全仓check/ratchet/strict，
+  未更新官方基线、未合main；F1只报候选四层齐。
 
 - 2026-09-26 F1审计分层开工（基点 `fd09c15c`）：`design-system-audit.mjs` 当前6428行，混持TSX
   语法/可达事实、CSSOM selector/cascade/条件场景推导、registry/allowlist规则及CLI读盘/输出；其中
