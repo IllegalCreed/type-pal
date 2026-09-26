@@ -8,6 +8,7 @@
 
 ## 文档与附件
 
+- [全仓分支覆盖率+5pp持续队列](coverage-plus5/README.md)与[GLM同步守卫第三批](glm-content-guards-wave3/README.md)（大批实施、统一统计）。
 - [Cursor八组命令行为补测](cursor-command-boundaries-r3/README.md)、[Codex五组资源索引补测](codex-content-resources/README.md)与[共同冻结机账](coverage-parallel-wave3-evidence.json)（独立文件范围，整批统计）。
 - [Cursor九组命令最终验收](cursor-commands-wave2-integration.md)与[统一机账](cursor-commands-wave2-integration-evidence.json)（R1–R3闭合，check8740/strict8248/701）。
 - [Cursor九组命令独立复核](cursor-commands-wave2-review.md)、[审计工具](cursor-commands-wave2-audit.mjs)与[机账](cursor-commands-wave2-review-evidence.json)（产品核验通过，整包窄收尾）。
