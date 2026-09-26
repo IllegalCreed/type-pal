@@ -165,10 +165,7 @@ describe('action group adoption gate', () => {
       name: 'mixed presentation mode',
       file: 'command-form-dialogue.tsx',
       mutate: (value: string) =>
-        value.replace(
-          /<DsIconButton\n\s+variant="danger"/,
-          '<DsButton>删除</DsButton>$&',
-        ),
+        value.replace(/<DsIconButton\n\s+variant="danger"/, '<DsButton>删除</DsButton>$&'),
       error: /one action presentation mode/,
     },
     {
