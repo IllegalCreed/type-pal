@@ -197,7 +197,7 @@ describe('BattleCommandSelection', () => {
     selection.advance(first, new Set(['Enter']), recorded.port)
     selection.beginRound()
 
-    selection.advance(context({ aliveEnemyIndices: [4] }), new Set(['r']), recorded.port)
+    selection.advance(context({ aliveEnemyIndices: [4, 6] }), new Set(['r']), recorded.port)
     expect(recorded.submissions.at(-1)).toEqual({
       playerIndex: 0,
       action: { kind: 'attack', targetEnemyIdx: 4 },

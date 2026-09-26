@@ -1,0 +1,155 @@
+{
+  "schemaVersion": 1,
+  "owner": "Codex implementation and self-verification; original intake conversation retains integration",
+  "base": "099a615ba342f32af006bd3b77f5a5708bf436a3",
+  "implementations": {
+    "taskOpened": "7cd878951",
+    "readiness": "aab78c822",
+    "settlement": "450df20d3",
+    "selection": "f68d4e895",
+    "actionPresentation": "afef3cd3f"
+  },
+  "scope": "C1 BattleSession readiness, settlement, command selection, and action-presentation ownership candidate",
+  "status": "candidate; not merged to main; unified full-repository gates pending intake",
+  "ownership": {
+    "session": {
+      "file": "packages/reforge/src/battle/battle-session.ts",
+      "lines": {
+        "before": 3022,
+        "after": 2593
+      },
+      "retains": [
+        "BattleState core ownership",
+        "stepBattle and timeline construction",
+        "hook and choreography policy",
+        "visual state and render",
+        "outer terminal admission gates"
+      ]
+    },
+    "readiness": {
+      "file": "packages/reforge/src/battle/battle-turn-readiness.ts",
+      "lines": 129,
+      "owns": [
+        "prepare token",
+        "phase",
+        "original error",
+        "error classification",
+        "late-result invalidation"
+      ]
+    },
+    "settlement": {
+      "file": "packages/reforge/src/battle/battle-settlement-presentation.ts",
+      "lines": 80,
+      "owns": [
+        "admitted result",
+        "settlement screens",
+        "screen index",
+        "confirmation and hold timing"
+      ]
+    },
+    "selection": {
+      "file": "packages/reforge/src/battle/battle-command-selection.ts",
+      "lines": 468,
+      "owns": [
+        "command phase",
+        "cursors",
+        "pending targets",
+        "F/R/A state",
+        "last actions",
+        "LIFO submit order"
+      ]
+    },
+    "actionPresentation": {
+      "file": "packages/reforge/src/battle/battle-action-presentation-scheduler.ts",
+      "lines": 54,
+      "owns": [
+        "240ms cadence",
+        "AnimPlayer",
+        "scripted flag",
+        "first-frame sampling",
+        "path-specific cleanup"
+      ]
+    },
+    "wholeRuntimeContextPassed": false,
+    "existingStateOwnerDuplicated": false,
+    "renderMoved": false
+  },
+  "tests": {
+    "ownerUnit": {
+      "files": 4,
+      "tests": 35,
+      "exit": 0
+    },
+    "c1TargetedAndAdjacent": {
+      "files": 11,
+      "tests": 124,
+      "exit": 0
+    },
+    "reforge": {
+      "files": 182,
+      "tests": 1682,
+      "exit": 0
+    },
+    "typecheck": {
+      "exit": 0
+    },
+    "biome": {
+      "errors": 0
+    },
+    "build": {
+      "exit": 0,
+      "modules": 287,
+      "existingLargeChunkWarning": true
+    }
+  },
+  "negativeControls": {
+    "tool": "docs/testing/battle-session-owners-mutants.mjs",
+    "controls": 35,
+    "detected": 11,
+    "judge": {
+      "positive": 1,
+      "rejected": 9
+    },
+    "evidence": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-battle-session-owners-mutants-TTmPVg/summary.json",
+    "requirements": [
+      "exact absolute test file and fullName",
+      "exactly one executed candidate test",
+      "exit 1",
+      "AssertionError only",
+      "unique loader injection marker",
+      "all product hashes unchanged"
+    ]
+  },
+  "functional": {
+    "host": "http://localhost:6057/?module=simulator&page=plans",
+    "project": "pal",
+    "preset": "三人成型",
+    "observed": [
+      "the editor opened a separate trial page that explicitly does not read or write normal saves",
+      "the battlefield rendered three party members and three enemies",
+      "Space and Enter advanced command and target indicators",
+      "no application error was shown in the page"
+    ],
+    "consoleNote": "Only in-app-browser Electron sandbox bootstrap errors were logged at tab attachment.",
+    "fieldsChanged": false,
+    "normalPersistenceUsed": false,
+    "userEditor6010Touched": false,
+    "temporaryTabsClosed": true,
+    "serverStopped": true
+  },
+  "unchangedContracts": [
+    "content20 and SAVE8",
+    "battle formulas and gameplay",
+    "reward and writeback semantics",
+    "UI copy and layout",
+    "terminal protocol and asset conventions"
+  ],
+  "notRun": [
+    "full repository check",
+    "official coverage ratchet",
+    "protected strict coverage",
+    "full/Q1/Q2",
+    "normal save persistence",
+    "remote CI"
+  ]
+}
