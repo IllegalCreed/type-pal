@@ -40,7 +40,7 @@ import {
 import type { EditorState, EditSession } from '../core/edit-session.js'
 import type { EditorAssetReader } from '../core/editor-asset-reader.js'
 import type { EditorDerivedStatus } from '../core/editor-derived-contract.js'
-import { type IsometricBrushSize, isometricBrushPoints } from '../core/isometric-brush.js'
+import { isometricBrushPoints } from '../core/isometric-brush.js'
 import { floodFillIsometricTiles } from '../core/isometric-fill.js'
 import type { ProjectMapPatch } from '../core/map-patch.js'
 import { ProjectMapPatchError } from '../core/map-patch.js'
@@ -129,11 +129,17 @@ import {
   useMapPointerGestureSession,
 } from './map-pointer-gesture-session.js'
 import { drawMapSelectionOverlay } from './map-selection-overlay.js'
+import { useMapStampStructureSession } from './map-stamp-structure-session.js'
 import {
   isStampGroupTransform,
   type MapTransformIntent,
   useMapTransformSession,
 } from './map-transform-session.js'
+import {
+  type MapInspectorTab,
+  type MapTool,
+  useMapWorkspaceViewSession,
+} from './map-workspace-view-session.js'
 import { StampPlacementSelectionInspector } from './StampPlacementSelectionInspector.js'
 import { StampTemplateDialog } from './StampTemplateDialog.js'
 import {
@@ -169,18 +175,6 @@ function stampMappingsFromActiveLayer(
   })
 }
 
-type MapTool =
-  | 'pan'
-  | 'select'
-  | 'stamp'
-  | 'eyedropper'
-  | 'brush'
-  | 'rect'
-  | 'fill'
-  | 'erase'
-  | 'collision'
-type CollisionPaint = 'set' | 'clear'
-
 type MapCandidate =
   | { kind: 'cell'; candidate: MapHitCandidate }
   | {
@@ -200,15 +194,6 @@ interface MapCandidateMenu {
 interface MapCanvasContextMenu {
   x: number
   y: number
-}
-
-type MapInspectorTab = 'properties' | 'draw' | 'references'
-
-interface StampStructureIntent {
-  operation: StampStructureOperation
-  mapRevision: number
-  map: ProjectMap
-  placementIds: string[]
 }
 
 function tileEditsPatch(_map: ProjectMap, edits: readonly ProjectMapTileEdit[]): ProjectMapPatch {
@@ -284,24 +269,45 @@ export function MapMode(props: {
     canvasRef,
     initial: { zoom: 1, panX: 0, panY: 0 },
   })
-  const [showGrid, setShowGrid] = useState(true)
-  const [showCollision, setShowCollision] = useState(true)
-  const [tool, setTool] = useState<MapTool>('pan')
-  const [inspectorTab, setInspectorTab] = useState<MapInspectorTab>('properties')
-  const [drawPanelVisited, setDrawPanelVisited] = useState(false)
-  const [activeStampId, setActiveStampId] = useState<string>()
-  const [stampHoverAnchor, setStampHoverAnchor] = useState<LatticePos>()
-  const [recentStampIds, setRecentStampIds] = useState<string[]>([])
-  const [collisionPaint, setCollisionPaint] = useState<CollisionPaint>('set')
-  const [selectedTile, setSelectedTile] = useState(0)
-  const [selectedTilesetId, setSelectedTilesetId] = useState(
-    () => liveMap?.tilesetRefs[0] ?? tilesets[0]?.id ?? '',
-  )
-  const [paintHeight, setPaintHeight] = useState(0)
-  const [viewHeight, setViewHeight] = useState(0)
-  const [brushSize, setBrushSize] = useState<IsometricBrushSize>(1)
-  const [focusEnabled, setFocusEnabled] = useState(true)
-  const [activeLayerId, setActiveLayerId] = useState('floor')
+  const {
+    showGrid,
+    setShowGrid,
+    showCollision,
+    setShowCollision,
+    tool,
+    setTool,
+    inspectorTab,
+    setInspectorTab,
+    drawPanelVisited,
+    setDrawPanelVisited,
+    activeStampId,
+    setActiveStampId,
+    stampHoverAnchor,
+    setStampHoverAnchor,
+    recentStampIds,
+    setRecentStampIds,
+    collisionPaint,
+    setCollisionPaint,
+    selectedTile,
+    setSelectedTile,
+    selectedTilesetId,
+    setSelectedTilesetId,
+    paintHeight,
+    setPaintHeight,
+    viewHeight,
+    setViewHeight,
+    brushSize,
+    setBrushSize,
+    focusEnabled,
+    setFocusEnabled,
+    activeLayerId,
+    setActiveLayerId,
+    stampDialogOpen,
+    setStampDialogOpen,
+    resetSession: resetViewSession,
+    clearInvalidStamp,
+    sampleTile: sampleViewTile,
+  } = useMapWorkspaceViewSession(liveMap?.tilesetRefs[0] ?? tilesets[0]?.id ?? '')
   const [mapQuery, setMapQuery] = useState('')
   const [pendingDeleteId, setPendingDeleteId] = useState<string>()
   const [workspace, dispatchWorkspace] = useReducer(
@@ -366,21 +372,24 @@ export function MapMode(props: {
   const [workspaceNotice, setWorkspaceNotice] = useState<
     { kind: 'info' | 'error'; message: string } | undefined
   >()
-  const [stampDialogOpen, setStampDialogOpen] = useState(false)
-  const [stampStructureIntent, setStampStructureIntent] = useState<StampStructureIntent>()
-  const stampStructureReturnFocusRef = useRef<HTMLElement | null>(null)
+  const {
+    intent: stampStructureIntent,
+    returnFocusRef: stampStructureReturnFocusRef,
+    open: openStampStructure,
+    refresh: refreshStampStructure,
+    close: closeStampStructureDialog,
+    reset: resetStampStructureSession,
+  } = useMapStampStructureSession()
   const mapNameInputRef = useRef<HTMLInputElement>(null)
   const selectedMapRowRef = useRef<HTMLButtonElement>(null)
 
   useEffect(() => {
     if (selection.kind !== 'cells') setStampDialogOpen(false)
-  }, [selection.kind])
+  }, [selection.kind, setStampDialogOpen])
   useEffect(() => {
     if (!activeStampId || activeStamp) return
-    setActiveStampId(undefined)
-    setStampHoverAnchor(undefined)
-    setTool((current) => (current === 'stamp' ? 'select' : current))
-  }, [activeStamp, activeStampId])
+    clearInvalidStamp()
+  }, [activeStamp, activeStampId, clearInvalidStamp])
   const [paintTick, setPaintTick] = useState(0)
   const [basePaintTick, setBasePaintTick] = useState(0)
   const {
@@ -400,24 +409,23 @@ export function MapMode(props: {
     if (stampSessionRef.current === session) return
     stampSessionRef.current = session
     // 同 manifest.id 的另一项目副本仍会换 EditSession；图章作者态绝不能借 mapId/stampId 串过去。
-    setTool('pan')
-    setInspectorTab('properties')
-    setDrawPanelVisited(false)
-    setActiveStampId(undefined)
-    setStampHoverAnchor(undefined)
-    setRecentStampIds([])
+    resetViewSession()
     resetPointerGesture()
     resetTransformSession()
     setCandidateMenu(undefined)
     setCanvasContextMenu(undefined)
-    setStampDialogOpen(false)
-    setStampStructureIntent(undefined)
-    stampStructureReturnFocusRef.current = null
+    resetStampStructureSession()
     setPendingDeleteId(undefined)
     setWorkspaceNotice(undefined)
     // mapId / placementId 在不同项目副本中可能相同；选择、隐藏/锁定与组内上下文都必须按会话隔离。
     dispatchWorkspace({ type: 'reset' })
-  }, [resetPointerGesture, resetTransformSession, session])
+  }, [
+    resetPointerGesture,
+    resetStampStructureSession,
+    resetTransformSession,
+    resetViewSession,
+    session,
+  ])
   const baseCanvasCacheRef = useRef<IsometricMapBaseCache | undefined>(undefined)
   const selectionCanvasCacheRef = useRef<
     | {
@@ -559,17 +567,17 @@ export function MapMode(props: {
     if (!liveMap) return
     if (!liveMap.layers.some((layer) => layer.id === activeLayerId))
       setActiveLayerId(liveMap.layers[0]?.id ?? '')
-  }, [liveMap, activeLayerId])
+  }, [liveMap, activeLayerId, setActiveLayerId])
 
   useEffect(() => {
     const fallback = liveMap?.tilesetRefs[0] ?? tilesets[0]?.id ?? ''
     if (!tilesets.some(({ id }) => id === selectedTilesetId)) setSelectedTilesetId(fallback)
-  }, [liveMap, selectedTilesetId, tilesets])
+  }, [liveMap, selectedTilesetId, setSelectedTilesetId, tilesets])
 
   useEffect(() => {
     if (selectedTiles.size > 0 && !selectedTiles.has(selectedTile))
       setSelectedTile(selectedTiles.keys().next().value ?? 0)
-  }, [selectedTile, selectedTiles])
+  }, [selectedTile, selectedTiles, setSelectedTile])
 
   useEffect(() => {
     void mapId
@@ -579,12 +587,17 @@ export function MapMode(props: {
     setCandidateMenu(undefined)
     setCanvasContextMenu(undefined)
     resetTransformMap()
-    setStampStructureIntent(undefined)
-    stampStructureReturnFocusRef.current = null
+    resetStampStructureSession()
     setStampHoverAnchor(undefined)
     baseCanvasCacheRef.current = undefined
     selectionCanvasCacheRef.current = undefined
-  }, [mapId, resetPointerGesture, resetTransformMap])
+  }, [
+    mapId,
+    resetPointerGesture,
+    resetStampStructureSession,
+    resetTransformMap,
+    setStampHoverAnchor,
+  ])
 
   useEffect(() => {
     if (liveMap && mapId) dispatchWorkspace({ type: 'clip-map', mapId, map: liveMap })
@@ -1294,6 +1307,11 @@ export function MapMode(props: {
       liveMap,
       onRequestInspectorOpen,
       pointerGesture,
+      setActiveStampId,
+      setDrawPanelVisited,
+      setInspectorTab,
+      setStampHoverAnchor,
+      setTool,
       stampGroupEditPlacementId,
       stamps,
     ],
@@ -1304,7 +1322,7 @@ export function MapMode(props: {
     setStampHoverAnchor(undefined)
     setWorkspaceNotice({ kind: 'info', message: '已退出组合放置；模板与普通地图选区仍保留。' })
     canvasRef.current?.focus({ preventScroll: true })
-  }, [])
+  }, [setStampHoverAnchor, setTool])
 
   const commitStamp = (targetAnchor = stampHoverAnchor): void => {
     if (!activeStamp || !targetAnchor) {
@@ -1997,11 +2015,7 @@ export function MapMode(props: {
         if (tileId === null || tileId === undefined) return
         const sampledHeight = mapInstanceHeight(activeLayer, pos.row, pos.col)
         const sampledTilesetId = mapInstanceTilesetId(liveMap, activeLayer, pos.row, pos.col)
-        setSelectedTile(tileId)
-        if (sampledTilesetId) setSelectedTilesetId(sampledTilesetId)
-        setPaintHeight(sampledHeight)
-        setViewHeight(sampledHeight)
-        setTool('brush')
+        sampleViewTile({ tileId, tilesetId: sampledTilesetId, height: sampledHeight })
         return
       }
       if (activeTool === 'fill') {
@@ -2299,10 +2313,6 @@ export function MapMode(props: {
     setActiveLayerId(id)
   }
 
-  const closeStampStructureDialog = (): void => {
-    setStampStructureIntent(undefined)
-  }
-
   const stampStructureCommand = (
     operation: StampStructureOperation,
     options: StampStructureResolutionOptions,
@@ -2337,13 +2347,15 @@ export function MapMode(props: {
     const revision = session.getMapRevision(mapId)
     const impact = inspectStampStructureImpact(currentMap, operation)
     if (impact.placementIds.length > 0) {
-      stampStructureReturnFocusRef.current = returnFocus
-      setStampStructureIntent({
-        operation,
-        mapRevision: revision,
-        map: currentMap,
-        placementIds: impact.placementIds,
-      })
+      openStampStructure(
+        {
+          operation,
+          mapRevision: revision,
+          map: currentMap,
+          placementIds: impact.placementIds,
+        },
+        returnFocus,
+      )
       return
     }
     try {
@@ -2367,8 +2379,7 @@ export function MapMode(props: {
       const impact = inspectStampStructureImpact(currentMap, intent.operation)
       if (impact.placementIds.length === 0) closeStampStructureDialog()
       else
-        setStampStructureIntent({
-          ...intent,
+        refreshStampStructure({
           mapRevision: revision,
           map: currentMap,
           placementIds: impact.placementIds,
