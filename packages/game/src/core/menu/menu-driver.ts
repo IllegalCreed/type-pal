@@ -14,9 +14,10 @@
 import type { InputSnapshot, Item, Magic, PlayerRoles, Spell } from '@type-pal/shared'
 import type { CommandBus } from '../command-bus.js'
 import { runEquipScript } from '../equip-effect.js'
-import { addItemToInventory, startOverworldItemScript } from '../event-system.js'
+import { startOverworldItemScript } from '../event-system.js'
 import type { ActiveMenuEntry, GameState } from '../game-state.js'
 import { projectRuntimeToBattleRoles } from '../game-state.js'
+import { addItemToInventory } from '../inventory-state.js'
 import { Save } from '../save/api.js'
 import {
   cancelEquipMenu,
@@ -81,7 +82,7 @@ import {
   inventoryPageUp,
 } from './inventory-menu.js'
 import { castOverworldMagic } from './magic-script.js'
-import { closeTopMenu, openMenu } from './menu-mode.js'
+import { closeTopMenu, openMenu } from './menu-stack.js'
 import {
   type OpeningMenuState,
   openingMenuChoice,

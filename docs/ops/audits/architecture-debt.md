@@ -11,7 +11,7 @@
 ## 判断依据
 
 2026-09-26最新执行：用户要求Codex连续完成剩余治理，并明确让Cursor承担大量并行任务。
-[连续收口卡](../tasks/ARCH-CONTINUATION-1-remaining-queue.md)维护剩余11项；
+[连续收口卡](../tasks/ARCH-CONTINUATION-1-remaining-queue.md)维护本轮11项（D1/E2已完成，剩余9项）；
 [Cursor24组卡](../tasks/ARCH-F2-CURSOR-BATCH-1-domain-modules.md)授权F2的命令族/控件模块边界。
 Codex负责其余高风险实现和全部独立接收；执行仍按单一状态边界串行验证，不改变玩法/格式/UI合同。
 
@@ -35,10 +35,10 @@ Codex负责其余高风险实现和全部独立接收；执行仍按单一状态
 | B2 地图工作区 | MapMode.tsx:251单组件3569行 | 工具手势会话、选择/剪贴板、组合模板操作与视图拆分 | 操作提交原子性、取消与重放、地图权限原断言；不改格式 |
 | B3 脚本/内容表单 | ScriptEditor.tsx:1710单表单913行；CommandForm.tsx:257单组件1842行 | 按命令族分表单；收敛作者/通用命令桥接类型，不靠强转掩盖边界 | canonical合同与引用保护，不能以“清理”删除仍有真实调用的领域能力 |
 | C1 战斗会话 | BattleSession:217单类2806行/134成员，tick:1191为488行 | 选择输入、动作/演出调度、资源屏障、结算呈现各有所有者 | 不拆坏状态推进顺序；先锁实际会话结果，不重写公式 |
-| D1 第一阶段依赖环 | event-system:56/:65/:85、scene-system:12、equip-effect:20；7文件运行时SCC | 先核共享状态/查询和脚本执行桥的依赖，再逐边消环 | 忠实玩法/坐标/时序；不把一阶段角色索引强改为二阶段模型 |
+| D1 第一阶段依赖环（[已完成](../../testing/phase1-dependency-refactor.md)） | 原7文件运行时SCC | d488f72e将脚本目录/背包/毒/装备状态/地图身份/菜单栈下沉，静态运行期环清零 | 161函数体/旧出口保持、8新增/三针、PAL全包与最小功能验证；check8678/strict8186/654 |
 | D2 第一阶段大主控 | event-system5784行/applyRawOpcode1459行；battle-system3749行；bootstrap1946行 | opcode处理族、运行资源生命周期、启动装配分开 | 真实PAL数据/现有机制回归；结构优化与缺陷修复分提交 |
 | E1 迁移转换 | migrate-content3314行/mapScenesStatic808行；translate-events2472行/walkBody1184行 | 按人物/技能/物品/场景映射及控制流处理阶段拆分 | 生成结果对比、事务写保护、幂等；不得顺手改生成产物 |
-| E2 内容校验边界 | author-script-core.ts:3 ↔ enemy-script.ts:1 双向校验依赖 | 核相互递归需求，抽取底层校验协议/公共形状 | 保留精确错误路径与拒绝范围；循环不等同于已发生运行故障 |
+| E2 内容校验边界（[已完成](../../testing/content-validation-refactor.md)） | 原author-script-core ↔ enemy-script 双向依赖 | 4cdefcf1拆协议/形状/AI/演出，50函数体保持、运行期环清零 | ebef3d5a单独修嵌套cue漏options；13项先红后绿，和D1统一门禁；非“有环即有bug” |
 | F1 工具维护 | design-system-audit.mjs6337行/reachableJsxOwners935行 | AST事实、CSS推导、规则、报告分层 | 旧违规样本/反例判据不变；不为加速删规则 |
 | F2 组织性整理 | commands.ts4475行但最大方法95行；controls.tsx2589行含独立组件 | 按领域归档命令类/组件，保持可用出口 | 低于巨型共享状态主控优先级，不用拆文件数量作完成指标 |
 

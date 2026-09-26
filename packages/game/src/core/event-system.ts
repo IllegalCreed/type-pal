@@ -61,9 +61,10 @@ import {
   resyncBattleRoleStatsFromRuntime,
   setPlayerStatRow,
   writeEquipmentEffectField,
-} from './equip-effect.js'
+} from './equipment-state.js'
 import type { DialogBoxState, EventCursor, GameState, NpcState } from './game-state.js'
 import { PARTYOFFSET_X, PARTYOFFSET_Y } from './game-state.js'
+import { addItemToInventory } from './inventory-state.js'
 import {
   blackColors,
   buildColorFade,
@@ -77,8 +78,39 @@ import {
   type PaletteFadeState,
   resolveNightColors,
 } from './palette-fade.js'
-import { getCurrentMapNum } from './scene-system.js'
+import {
+  addPoisonForPlayer,
+  curePlayerPoisonByKind,
+  curePlayerPoisonByLevel,
+  isPlayerPoisoned,
+} from './player-poison-state.js'
+import { getCurrentMapNum } from './scene-identity.js'
+import {
+  getCmds,
+  getGlobalCommands,
+  getGlobalLabelMap,
+  getLabels,
+  resolveLabelIp,
+  resolveScriptLabel,
+} from './script-catalog.js'
 import { getWord } from './word-lookup.js'
+
+export { addItemToInventory, consumeItemFromInventory } from './inventory-state.js'
+export {
+  addPoisonForPlayer,
+  curePlayerPoisonByKind,
+  curePlayerPoisonByLevel,
+  removePoisonLevel99,
+  setObjectPoisons,
+} from './player-poison-state.js'
+export {
+  getCmds,
+  getGlobalCommands,
+  getGlobalLabelMap,
+  patchGiveItemZeroBugs,
+  resolveScriptLabel,
+  setGlobalEvents,
+} from './script-catalog.js'
 
 // ── P0.e: wScriptOnEnter / 战斗触发 opcode 真值(grep sdlpal reference/sdlpal/script.c) ──
 // case 0x0007(7):   Start battle
@@ -752,100 +784,6 @@ export function setObstacleChecker(fn: ObstacleCheckerFn | null): void {
   _obstacleChecker = fn
 }
 
-// P2#5(2026-05-29):旧 shared.json 切片(_sharedCommands/setSharedEvents/getShared*)已删 —
-// shared 只是全局数组的一个切片,塌缩进单一全局数组后 goto `shared#L_xxx` 由 resolveLabelIp 剥前缀
-// 经全局 labelMap 解析(见 'goto' case)。
-
-// ── 全局脚本数组(对应 sdlpal 单一 lprgScriptEntry)─────────────────────────────
-// per-scene + shared 切片是优化,但跨 scene 设的脚本指针(0x24/0x25 把 A scene 对象的
-// trigger/autoScript 设到只切进 B scene 的脚本)会在 A scene 解析失败。全局数组兜底:
-// commands[i] = 全局 script entry i(events/all.json,annotated 未切片全量),label = L_<i>。
-let _globalCommands: Command[] = []
-let _globalLabelMap: Record<string, number> = {}
-
-/**
- * 原版「扬州宝物屋」giveItem 归零 bug 补丁(tp 层修,user 2026-06-13 报开箱「?0」)。
- *
- * 3 个箱脚本提示「获得X」但 `giveItem itemId=0`(原版 SSS 数据 bug;提取器忠实保留,sdlpal
- * `AddItemToInventory(0)→FALSE` 也给空)。真道具确存在,只是提示 MSG 写了错字,故按**前一句
- * showDialog 的 messageIndex**(MSG.DAT 下标,稳定)把 giveItem(0) 补回真 id:
- *   12256「获得九节鞭」→ 九截鞭 164(武器) / 12347「获得紫青玉蓉膏」→ 紫菁玉蓉膏 103
- *   12408「获得腐尸肉」→ 尸腐肉 116
- * 提取器保持忠实(disasm↔recompile roundtrip 不变),修在 setGlobalEvents 加载后的运行时数据上。
- * 偏离原版(原版此处给空)= 跟原版后期/修复版应给的真道具,属 tp 层有意修正。
- */
-const GIVEITEM_ZERO_FIXUP: Record<number, number> = {
-  12256: 164, // 「获得九节鞭」(MSG 错字)→ 九截鞭
-  12347: 103, // 「获得紫青玉蓉膏」→ 紫菁玉蓉膏
-  12408: 116, // 「获得腐尸肉」→ 尸腐肉
-}
-
-export function patchGiveItemZeroBugs(commands: Command[]): void {
-  for (let i = 1; i < commands.length; i++) {
-    const c = commands[i]
-    if (c?.op !== 'giveItem' || c.itemId !== 0) continue
-    const prev = commands[i - 1]
-    if (prev?.op !== 'showDialog') continue
-    const fix = GIVEITEM_ZERO_FIXUP[prev.messageIndex]
-    if (fix !== undefined) c.itemId = fix
-  }
-}
-
-/** bootstrap 注入 events/all.json 的全量命令;labelMap 由带 label 的命令建(L_<i> → i)。 */
-export function setGlobalEvents(commands: Command[]): void {
-  patchGiveItemZeroBugs(commands) // tp 层:修原版宝物屋 giveItem 归零 bug(见函数注释)
-  _globalCommands = commands
-  const map: Record<string, number> = {}
-  for (let i = 0; i < commands.length; i++) {
-    const lbl = commands[i]?.label
-    if (lbl) map[lbl] = i
-  }
-  _globalLabelMap = map
-}
-
-export function getGlobalCommands(): Command[] {
-  return _globalCommands
-}
-
-export function getGlobalLabelMap(): Record<string, number> {
-  return _globalLabelMap
-}
-
-/**
- * P2#5(2026-05-29 单一全局脚本数组):cursor 的命令数组 / labelMap。
- * 生产 cursor 不带 commands/labelMap → 默认读单一全局数组(_globalCommands/_globalLabelMap,
- * = sdlpal 单一 lprgScriptEntry)。单测可传自带数组当 override。
- */
-export function getCmds(cursor: { commands?: Command[] }): Command[] {
-  return cursor.commands ?? _globalCommands
-}
-function getLabels(cursor: { labelMap?: Record<string, number> }): Record<string, number> {
-  return cursor.labelMap ?? _globalLabelMap
-}
-
-/** goto/call/reset 目标 label(可能带 `shared#` 前缀)→ ip(经 cursor labelMap,默认全局)。 */
-function resolveLabelIp(
-  cursor: { labelMap?: Record<string, number> },
-  to: string,
-): number | undefined {
-  const label = to.startsWith('shared#') ? to.slice('shared#'.length) : to
-  return getLabels(cursor)[label]
-}
-
-/**
- * 脚本 label → 全局 ip。P2#5 后塌缩成单一全局数组查找(all.json 的 L_<n> → n 恒等,0 违例)。
- * 返回 ip(全局下标);commands/labelMap 省略 → caller 建的 cursor 默认读全局数组(不再内嵌 → 不膨胀存档)。
- * 保留 gs 参数 + 可选 commands/labelMap 返回字段,兼容旧 caller 的解构(得 undefined → 默认全局)。
- */
-export function resolveScriptLabel(
-  gs: GameState,
-  label: string,
-): { commands?: Command[]; labelMap?: Record<string, number>; ip: number } | null {
-  void gs
-  const ip = _globalLabelMap[label]
-  return ip !== undefined ? { ip } : null
-}
-
 // ── P0.e: opcode 7 startBattle handler 注入 ──────────────────────────────────
 //
 // event-system 不直接持有 enemies/enemyTeams/playerRoles 等战斗资源(避免污染 import 图)。
@@ -903,31 +841,6 @@ let _refreshEquipmentsHandler: ((gs: GameState) => void) | null = null
 
 export function setRefreshEquipmentsHandler(fn: ((gs: GameState) => void) | null): void {
   _refreshEquipmentsHandler = fn
-}
-
-// ── 毒 OBJECT 表注入(0x29 apply-player 取 wPlayerScript / cure-by-level 取真 level)──
-//   ObjectPoisonView{id,level,color,playerScript,enemyScript};id→数据。applyRawOpcode(大世界 + 战斗
-//   fall-through)的 0x29 / curePlayerPoisonByLevel 用。未注入(旧测试)→ 空 Map,playerScript=0/level=0 退化。
-let _objectPoisons = new Map<
-  number,
-  { level: number; color: number; playerScript: number; enemyScript: number }
->()
-
-export function setObjectPoisons(
-  poisons: ReadonlyArray<{
-    id: number
-    level: number
-    color: number
-    playerScript: number
-    enemyScript: number
-  }>,
-): void {
-  _objectPoisons = new Map(
-    poisons.map((p) => [
-      p.id,
-      { level: p.level, color: p.color, playerScript: p.playerScript, enemyScript: p.enemyScript },
-    ]),
-  )
 }
 
 // ── 静态敌人 OBJECT 表注入(0x90 SetObjectScript overlay 播种)──────────────────
@@ -1298,7 +1211,7 @@ function applySetDialogStyle(
 //   - event mode + cursor.waiting='frame-wait': 跑
 //   - 其他 mode / waiting: 不跑
 export function tickAutoScripts(gs: GameState): void {
-  if (_globalCommands.length === 0) return // P2#5:全局脚本数组未就绪(all.json 未载)→ 不跑
+  if (getGlobalCommands().length === 0) return // P2#5:全局脚本数组未就绪(all.json 未载)→ 不跑
   for (const npc of gs.npcs) {
     // sdlpal play.c:176-191:仅 `sState > 0 && sVanishTime == 0` 才跑 autoScript。
     // 负 sState 是等待离开 viewport 后复活的隐藏态;vanishTime 非 0 是临时消失倒计时,
@@ -3359,36 +3272,6 @@ function signExtendI16(u: number): number {
   return u & 0x8000 ? u - 0x10000 : u
 }
 
-/** I-w1.a 共用 helper:inventory 加/减(qty signed)。port sdlpal global.c:1063-1172 PAL_AddItemToInventory。
- *  - **qty == 0 → 1**(sdlpal global.c:1094-1097 真值;giveItem 反编译 count=0 实际给 1 个,
- *    这是 user 2026-05-29 "调查柜子获得净衣符但列表空" 根因之一)
- *  - qty > 0:已有 → count+=qty(max 99 clamp,sdlpal global.c:1123/1128);无则 push 新条目(99 clamp)
- *  - qty < 0:已有 → count clamp 到 0;无则 no-op(简版,不做 sdlpal equipment fallback)
- *  注:itemId 用 ts items.json id(0..234);id 0 = 观音符是真物品,**不** skip(sdlpal
- *  `wObjectID==0` 哨兵是 sdlpal OBJECT id 体系,pal-extract 反编译已转 ts id)。 */
-export function addItemToInventory(gs: GameState, itemId: number, qty: number): void {
-  // sdlpal global.c PAL_AddItemToInventory 开头:`if (wObjectID == 0) return FALSE` —— id 0 绝不入库。
-  //   扬州宝物屋数据含 giveItem itemId=0 的空槽标记(夹在真道具间),漏此守卫会 push 幽灵槽 →
-  //   渲染层 fallback「?」+id =「?0」(user 2026-06-13 报)。原版这些是空宝箱,本就不给道具。
-  if (itemId === 0) return
-  // sdlpal global.c:1094 真值:iNum == 0 → 1
-  if (qty === 0) qty = 1
-  const entry = gs.inventory.find((e) => e.itemId === itemId)
-  if (entry) {
-    entry.count = Math.min(99, Math.max(0, entry.count + qty))
-    if (entry.count === 0) {
-      gs.inventory = gs.inventory.filter((e) => e.itemId !== itemId)
-    }
-  } else if (qty > 0) {
-    gs.inventory.push({ itemId, count: Math.min(99, qty) })
-  }
-}
-
-/** Export for menu-driver(M5.6 session 3:大世界 PAL_GameUseItem 等价 — 物品消耗 / 装备脚本)。 */
-export function consumeItemFromInventory(gs: GameState, itemId: number): void {
-  addItemToInventory(gs, itemId, -1)
-}
-
 /**
  * 大世界用物品 — sdlpal `play.c:244-325` PAL_GameUseItem 真值简版。
  *
@@ -3579,29 +3462,6 @@ function countInventoryItem(gs: GameState, itemId: number): number {
     if (e.itemId === itemId) n += e.count
   }
   return n
-}
-
-/**
- * role 是否中毒(sdlpal PAL_IsPlayerPoisonedByKind / ByLevel(role,0) 等价)。
- * poisonKind 给定 → 只看该种毒(ByKind,不看等级);省略 → ByLevel(role,0):
- *   忽略 level>=99 的装备伪毒(寿葫芦 HP/MP 回补等),对齐 sdlpal global.c:1669-1675。
- *   否则装寿葫芦时这些伪毒会被当"中毒",令毒龙胆/九阴散的 0x61"没中毒就秒杀"误判为有毒 →
- *   白嫖解毒+回满血(原版早期 bug,后期已修)。rgPoisonStatus 16 槽/role。
- */
-function isPlayerPoisoned(gs: GameState, roleId: number, poisonKind?: number): boolean {
-  for (let slot = 0; slot < 16; slot++) {
-    const p = gs.rgPoisonStatus[`${slot}_${roleId}`]
-    if (!p || p.wPoisonID === 0) continue
-    if (poisonKind !== undefined) {
-      // ByKind:只查指定毒 id(0x60),不看等级
-      if (p.wPoisonID === poisonKind) return true
-      continue
-    }
-    // ByLevel(role, 0):level>=99 的装备伪毒不算"中毒"
-    if ((_objectPoisons.get(p.wPoisonID)?.level ?? 0) >= 99) continue
-    return true // level >= wMinLevel(=0) 恒真
-  }
-  return false
 }
 
 /** sdlpal `PAL_AddMagic`(global.c:2084):已学 → no-op;否则填第一个空槽(spell wObjectID)。 */
@@ -5201,80 +5061,6 @@ function playerLevelUp(gs: GameState, role: number, numLevels: number): void {
 // 0x0019/0x001A 行索引写入已统一到 equip-effect.ts 的 addPlayerStatRow/setPlayerStatRow
 //(唯一 PLAYERROLES_ROW 表,sdlpal global.h tagPLAYERROLES 真值)。旧 mutatePlayerStat 本地
 // FIELD_MAP 全错位 -1(P0#1,2026-05-29 删除)。
-
-/** sdlpal PAL_CurePoisonByKind(global.c:1936-1955)— roleId × poisonId 清 0。 */
-export function curePlayerPoisonByKind(gs: GameState, roleId: number, poisonId: number): void {
-  for (let slot = 0; slot < 16; slot++) {
-    const key = `${slot}_${roleId}`
-    const ps = gs.rgPoisonStatus[key]
-    if (ps && ps.wPoisonID === poisonId) {
-      gs.rgPoisonStatus[key] = { wPoisonID: 0, wPoisonScript: 0 }
-    }
-  }
-}
-
-/**
- * sdlpal `PAL_AddPoisonForPlayer`(global.c:1459-1505):去重(已有同毒 skip)+ 首空槽加,
- * wPoisonScript = PAL_RunTriggerScript(obj.wPlayerScript, role) 的返回值;caller 注入 runner 时
- * 施毒当下跑一次入口脚本。**不含**抗性 gate —— gate 在调用方(0x29 / 敌普攻 attackEquivItem),
- * sdlpal 真值同此分工。战斗内(0x29 battle ctx)与大世界 / 装备 scriptOnEquip(寿葫芦)共用。
- */
-export function addPoisonForPlayer(
-  gs: GameState,
-  roleId: number,
-  poisonId: number,
-  runPoisonEntry?: (playerScriptIp: number) => number,
-): void {
-  const playerScript = _objectPoisons.get(poisonId)?.playerScript ?? 0
-  // 去重:已有同毒 → skip
-  for (let slot = 0; slot < 16; slot++) {
-    if (gs.rgPoisonStatus[`${slot}_${roleId}`]?.wPoisonID === poisonId) return
-  }
-  // 首空槽加
-  for (let slot = 0; slot < 16; slot++) {
-    const key = `${slot}_${roleId}`
-    if (!gs.rgPoisonStatus[key] || gs.rgPoisonStatus[key]!.wPoisonID === 0) {
-      // M12(2026-06-07 sdlpal 审查):C global.c:1515 落槽时 `wPoisonScript =
-      //   PAL_RunTriggerScript(playerScript, role)` —— 施毒当下跑一次入口脚本(立即生效入口效果 +
-      //   跳过 0x0001 terminator),存返回的 next entry 供后续每回合 tick。无 runner 的旧 caller
-      //   fallback 存原始入口 ip(向后兼容)。
-      const entry = playerScript > 0 && runPoisonEntry ? runPoisonEntry(playerScript) : playerScript
-      gs.rgPoisonStatus[key] = { wPoisonID: poisonId, wPoisonScript: entry }
-      return
-    }
-  }
-}
-
-/**
- * sdlpal `PAL_RemoveEquipmentEffect` Wear 分支(global.c:1413-1454):清该 role 的 level≥99 毒
- * (level<99 保留)。卸 Wear 装备(如寿葫芦)时调 —— 装备授的常驻"毒"(回血/诅咒)随卸下消失。
- */
-export function removePoisonLevel99(gs: GameState, roleId: number): void {
-  for (let slot = 0; slot < 16; slot++) {
-    const key = `${slot}_${roleId}`
-    const ps = gs.rgPoisonStatus[key]
-    if (!ps || ps.wPoisonID === 0) continue
-    const level = _objectPoisons.get(ps.wPoisonID)?.level ?? 0
-    if (level >= 99) gs.rgPoisonStatus[key] = { wPoisonID: 0, wPoisonScript: 0 }
-  }
-}
-
-/** sdlpal PAL_CurePoisonByLevel(global.c:1567-1614)— 该毒 wPoisonLevel <= maxLevel 就清 0(**无** level==99 例外)。
- *  用注入的 _objectPoisons 取真 level(2026-05-31 plumb;此前简版全清)。装备毒(level 99)靠 cure 物品 maxLevel
- *  都是 1-3(九节菖蒲 2 / 鬼枯藤 2 / 毒龙胆 3)< 99 自然不被清;装备毒由 removePoisonLevel99(卸装备)清。
- *  2026-06-02 review:旧 `level!==99` 守卫 + 注释("sdlpal 跳过 level 99")偏离 sdlpal —— 那是
- *  PAL_RemoveEquipmentEffect(global.c:1440)的行为,不是本函数;已删守卫对齐真值(行为对真物品不变)。 */
-export function curePlayerPoisonByLevel(gs: GameState, roleId: number, maxLevel: number): void {
-  for (let slot = 0; slot < 16; slot++) {
-    const key = `${slot}_${roleId}`
-    const ps = gs.rgPoisonStatus[key]
-    if (!ps || ps.wPoisonID === 0) continue
-    const level = _objectPoisons.get(ps.wPoisonID)?.level ?? 0
-    if (level <= maxLevel) {
-      gs.rgPoisonStatus[key] = { wPoisonID: 0, wPoisonScript: 0 }
-    }
-  }
-}
 
 /** 取 trigger 的 self NPC(sdlpal `pEvtObj`,纯 self 类 opcode 0x14 / 0xF 用)。无效 id 时 warn + 返回 null。 */
 function getSelfNpc(

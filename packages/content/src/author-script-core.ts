@@ -1,6 +1,7 @@
 import { checkActorConditionCommandShape } from './actor-condition.js'
 import type { AssetId } from './asset.js'
-import { checkBattleChoreography } from './enemy-script.js'
+import { checkBattleChoreography } from './battle-choreography.js'
+import type { CommandValidationOptions } from './command-validation-options.js'
 import type { GridPos } from './grid.js'
 import type { Facing } from './index.js'
 import type { Command as RuntimeCommandBase, SceneReveal, SceneSpawn, WalkSpeed } from './script.js'
@@ -550,14 +551,7 @@ const ENTITY_TARGET_KINDS = new Set([
   'takeEntity',
 ])
 
-export interface CommandValidationOptions {
-  forbidLoadScene?: boolean
-  /** Current author dialect extensions are validated in place; no tree-shape downgrade. */
-  commandKinds?: Readonly<Record<string, boolean>>
-  checkExtensionCommand?: (command: Record<string, unknown>, path: string) => boolean
-  checkDialogueCue?: (cue: unknown, path: string) => void
-  dialectLabel?: string
-}
+export type { CommandValidationOptions } from './command-validation-options.js'
 
 function checkFacing(value: unknown, path: string): void {
   if (value !== 'up' && value !== 'down' && value !== 'left' && value !== 'right')
@@ -709,7 +703,7 @@ export function checkBaseAuthorCommands(
       if (command.onFlee !== undefined)
         checkBaseAuthorCommands(command.onFlee, `${commandPath}.onFlee`, options)
       if (command.choreography !== undefined)
-        checkBattleChoreography(command.choreography, `${commandPath}.choreography`)
+        checkBattleChoreography(command.choreography, `${commandPath}.choreography`, options)
     }
     if (kind === 'openShop') {
       exactKeys(command, ['kind', 'shop', 'mode'], commandPath)

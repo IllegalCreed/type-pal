@@ -1,14 +1,14 @@
 {
   "schemaVersion": 2,
   "profile": "fast",
-  "generatedAt": "2026-09-26T01:44:02.312Z",
+  "generatedAt": "2026-09-26T03:22:09.767Z",
   "provider": {
     "name": "v8",
     "vitest": "4.1.7",
     "coverageV8": "4.1.7"
   },
-  "sourceFileCount": 644,
-  "testCount": 8165,
+  "sourceFileCount": 654,
+  "testCount": 8186,
   "packages": {
     "shared": {
       "name": "@type-pal/shared",
@@ -163,7 +163,7 @@
         "**/*.spec.tsx",
         "**/*.d.ts"
       ],
-      "sourceFileCount": 51,
+      "sourceFileCount": 55,
       "sourceFiles": [
         "packages/content/src/actor-condition.ts",
         "packages/content/src/actor-reference.ts",
@@ -177,15 +177,19 @@
         "packages/content/src/author-scene.ts",
         "packages/content/src/author-script-core.ts",
         "packages/content/src/author-script.ts",
+        "packages/content/src/battle-choreography.ts",
         "packages/content/src/battle-field-reference.ts",
         "packages/content/src/battle-formulas.ts",
         "packages/content/src/battle-sprite.ts",
         "packages/content/src/character.ts",
         "packages/content/src/command-target-reference.ts",
+        "packages/content/src/command-validation-options.ts",
+        "packages/content/src/enemy-ai-condition-guard.ts",
         "packages/content/src/enemy-ai.ts",
         "packages/content/src/enemy-script.ts",
         "packages/content/src/enemy-team-reference.ts",
         "packages/content/src/enemy-team.ts",
+        "packages/content/src/enemy-validation-shapes.ts",
         "packages/content/src/enemy.ts",
         "packages/content/src/entity-lifecycle.ts",
         "packages/content/src/frame-sequence.ts",
@@ -217,10 +221,10 @@
         "packages/content/src/validate.ts",
         "packages/content/src/world-variable.ts"
       ],
-      "scopeDigest": "ddd95209167f371644d3cd13db68e744944c06fcfb108f3e67a9452ba52cf3a6",
+      "scopeDigest": "6b0f53f3a58ebe5227b9528cfce792383a19b27947a7c3d037471ceb6da40c7d",
       "fastTests": {
-        "testCount": 850,
-        "testFileCount": 75,
+        "testCount": 863,
+        "testFileCount": 76,
         "files": [
           "packages/content/src/actor-condition.boundaries.test.ts",
           "packages/content/src/actor-condition.test.ts",
@@ -232,6 +236,7 @@
           "packages/content/src/asset-closure.contracts.test.ts",
           "packages/content/src/asset.residual.test.ts",
           "packages/content/src/asset.test.ts",
+          "packages/content/src/author-battle-dialogue-boundary.test.ts",
           "packages/content/src/author-dialogue.contracts.test.ts",
           "packages/content/src/author-dialogue.field-guards.test.ts",
           "packages/content/src/author-dialogue.test.ts",
@@ -348,6 +353,11 @@
             "file": "packages/content/src/asset.test.ts",
             "testCount": 27,
             "identityDigest": "c89dac72cd881d682063e4110bab32739160141cb30759ea40ad24c183448a38"
+          },
+          {
+            "file": "packages/content/src/author-battle-dialogue-boundary.test.ts",
+            "testCount": 13,
+            "identityDigest": "8b855069131683deb760b2eba254003d483cdd8e57f492e3bdbfa861351ad3d5"
           },
           {
             "file": "packages/content/src/author-dialogue.contracts.test.ts",
@@ -675,17 +685,17 @@
             "identityDigest": "6bd136e3dc31faf579c7b78a5dd284c6a1fd1a58ee6d3fa624ccee6e21be9a3c"
           }
         ],
-        "identityDigest": "d7e565bd6492e984627fd51a6c5d9426edc985cc5f4175fb9bae53e1abff001f",
+        "identityDigest": "bffa8a31c77f5d8ebc1ccd3536947bb1616c591c806960ec26644118813096e3",
         "duplicateIdentityCount": 0,
-        "executionDigest": "214dd7c1dd0639719c4e9e3fda5f7f645ee589236586cd97de49acc6f642d3b6"
+        "executionDigest": "e5bb881a656feed1acee2f7ad744bf14b7ef6f56aef7db3fc714a9d45ca3e34e"
       },
       "metrics": {
         "statements": {
-          "covered": 5185,
+          "covered": 5187,
           "total": 5856
         },
         "branches": {
-          "covered": 4155,
+          "covered": 4159,
           "total": 5019
         },
         "functions": {
@@ -693,8 +703,8 @@
           "total": 831
         },
         "lines": {
-          "covered": 4692,
-          "total": 5185
+          "covered": 4691,
+          "total": 5183
         }
       }
     },
@@ -2636,7 +2646,7 @@
         "**/*.spec.tsx",
         "**/*.d.ts"
       ],
-      "sourceFileCount": 125,
+      "sourceFileCount": 131,
       "sourceFiles": [
         "packages/game/src/analytics/analytics-consent-ui.ts",
         "packages/game/src/analytics/analytics-consent.ts",
@@ -2671,9 +2681,11 @@
         "packages/game/src/core/command-bus.ts",
         "packages/game/src/core/dialog-history.ts",
         "packages/game/src/core/equip-effect.ts",
+        "packages/game/src/core/equipment-state.ts",
         "packages/game/src/core/event-system.ts",
         "packages/game/src/core/game-state.ts",
         "packages/game/src/core/inspect/battle-inspect.ts",
+        "packages/game/src/core/inventory-state.ts",
         "packages/game/src/core/menu/equip-menu.ts",
         "packages/game/src/core/menu/in-game-magic-menu.ts",
         "packages/game/src/core/menu/in-game-menu.ts",
@@ -2684,6 +2696,7 @@
         "packages/game/src/core/menu/magic-select.ts",
         "packages/game/src/core/menu/menu-driver.ts",
         "packages/game/src/core/menu/menu-mode.ts",
+        "packages/game/src/core/menu/menu-stack.ts",
         "packages/game/src/core/menu/opening-menu.ts",
         "packages/game/src/core/menu/player-status.ts",
         "packages/game/src/core/menu/primitives.ts",
@@ -2693,11 +2706,14 @@
         "packages/game/src/core/menu/shop-menu.ts",
         "packages/game/src/core/mode.ts",
         "packages/game/src/core/palette-fade.ts",
+        "packages/game/src/core/player-poison-state.ts",
         "packages/game/src/core/rng.ts",
         "packages/game/src/core/save/api.ts",
         "packages/game/src/core/save/indexed-db.ts",
+        "packages/game/src/core/scene-identity.ts",
         "packages/game/src/core/scene-system-search.ts",
         "packages/game/src/core/scene-system.ts",
+        "packages/game/src/core/script-catalog.ts",
         "packages/game/src/core/word-lookup.ts",
         "packages/game/src/dev/dev-panel.ts",
         "packages/game/src/dev/state-dump.ts",
@@ -2764,10 +2780,10 @@
         "packages/game/src/tools/toast.ts",
         "packages/game/src/tools/tools-panel.ts"
       ],
-      "scopeDigest": "172860557359800006b54684305c95556da2645892e450c2d5b4891297aba98e",
+      "scopeDigest": "d9b10ef15f14771811be82be1e75d0042cb5b7c0ec534540b16dd575c629ec13",
       "fastTests": {
-        "testCount": 2399,
-        "testFileCount": 159,
+        "testCount": 2407,
+        "testFileCount": 160,
         "files": [
           "packages/game/src/analytics/analytics-consent-ui.test.ts",
           "packages/game/src/analytics/analytics-consent.boundaries.test.ts",
@@ -2811,6 +2827,7 @@
           "packages/game/src/core/battle/__tests__/turn-queue.test.ts",
           "packages/game/src/core/command-bus.test.ts",
           "packages/game/src/core/cross-module-boundaries.test.ts",
+          "packages/game/src/core/dependency-ownership.test.ts",
           "packages/game/src/core/dialog-bug2-skip.test.ts",
           "packages/game/src/core/dialog-history.test.ts",
           "packages/game/src/core/equip-effect.test.ts",
@@ -3139,6 +3156,11 @@
             "file": "packages/game/src/core/cross-module-boundaries.test.ts",
             "testCount": 4,
             "identityDigest": "a37e666648b00c40c4a54d437302c013d4beb32cf977edd8173cfd48f49848d6"
+          },
+          {
+            "file": "packages/game/src/core/dependency-ownership.test.ts",
+            "testCount": 8,
+            "identityDigest": "d849678dff904663ce7af6332c9581cdef0205b107fd26702fad7aba088e1053"
           },
           {
             "file": "packages/game/src/core/dialog-bug2-skip.test.ts",
@@ -3726,17 +3748,17 @@
             "identityDigest": "916c70c2855d90db70208a6895de9b3254f0e3f039c2bb0b96bc8fd4287d249d"
           }
         ],
-        "identityDigest": "872266436cc26c119972be2ce7c6160cc03ae346fb0d6d9f075d387f6887b230",
+        "identityDigest": "0bdb134f15e961afa7040f6230f4d0fa7686b2f42952df392a1d7e7fa7fc9abd",
         "duplicateIdentityCount": 0,
-        "executionDigest": "ad228aa385df0103a34e336f023957d297acacd1fabd1bc476832c409a3bff26"
+        "executionDigest": "c718e2ba4c82c268ef559b9525f3853c24d6cf776ef27b54812406d8291804c5"
       },
       "metrics": {
         "statements": {
-          "covered": 11869,
+          "covered": 11870,
           "total": 15494
         },
         "branches": {
-          "covered": 7798,
+          "covered": 7801,
           "total": 11281
         },
         "functions": {
@@ -3744,7 +3766,7 @@
           "total": 1843
         },
         "lines": {
-          "covered": 10664,
+          "covered": 10665,
           "total": 13604
         }
       }
@@ -5671,11 +5693,11 @@
   },
   "total": {
     "statements": {
-      "covered": 61237,
+      "covered": 61240,
       "total": 80619
     },
     "branches": {
-      "covered": 43254,
+      "covered": 43261,
       "total": 63176
     },
     "functions": {
@@ -5684,7 +5706,7 @@
     },
     "lines": {
       "covered": 55132,
-      "total": 70572
+      "total": 70570
     }
   }
 }

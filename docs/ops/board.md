@@ -35,8 +35,8 @@ GLM后续补测候选见[十批长队列](../testing/glm-coverage-work-queue.md)
 
 | ID | 任务 | 状态 | 负责人/下一步 | 一句话备注 |
 |---|---|---|---|---|
-| ARCH-CONTINUATION-1 | [剩余架构治理连续收口](tasks/ARCH-CONTINUATION-1-remaining-queue.md) | build | Codex连续实施 | E2/D1优先，随后A3与编辑器/战斗/迁移/工具边界，实际bug另提交 |
-| ARCH-F2-CURSOR-BATCH-1 | [24组命令族与设计系统整理](tasks/ARCH-F2-CURSOR-BATCH-1-domain-modules.md) | build | Cursor整包实施 / Codex独立验收 | C00–C10与U00–U12一次授权；旧出口/行为保持，与Codex高风险面互斥 |
+| ARCH-CONTINUATION-1 | [剩余架构治理连续收口](tasks/ARCH-CONTINUATION-1-remaining-queue.md) | build | Codex续推A3 | E2/D1已accept：两组环消除、嵌套cue修复；check8678/strict8186/654，另九项仍在队列 |
+| ARCH-F2-CURSOR-BATCH-1 | [24组命令族与设计系统整理](tasks/ARCH-F2-CURSOR-BATCH-1-domain-modules.md) | rework | Cursor仅修R1–R3 / Codex验收 | 搬移正文保持、editor2813绿；fixture/C07范围、负控判据、出口/格式窄返工，用户免手工验证 |
 | ARCH-REGRESSION-LAB-GLM-1 | [十二组候选回归与功能视觉](tasks/ARCH-REGRESSION-LAB-GLM-1-twelve-packs.md) | build | GLM按r10反证返工 / Codex修作者cue漏校验 | 37项已转正；G01平移与人物名提交已独立补验；G06/G08及剩余视觉未闭，fast8159/643 |
 | ARCH-SUPPORT-GLM-1 | [八组并行架构/视觉准备](tasks/ARCH-SUPPORT-GLM-1-eight-audit-packages.md) | draft | Codex / 后续归属与收口 | 58cdf938材料accept，counter清零；文档已合入，按用户要求未标done/未开产品门 |
 

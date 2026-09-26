@@ -12,7 +12,17 @@
 开发循环只跑定向/相邻测试、必要TC与反控；整批完成后串行check→官方ratchet→受保护单次strict-fast。
 批次大小服务于完整业务断言，不硬凑用例数、不降低门槛/缩统计范围；必要故障定位的局部覆盖另在/tmp运行。
 
-## 最近入库 fast 基线与本地快照（2026-09-25）
+## 最近入库 fast 基线与本地快照（2026-09-26）
+
+当前机器可读数字以[`baseline.fast.json`](../../scripts/coverage/baseline.fast.json)为准。
+[E2内容校验](content-validation-refactor.md)与[D1第一阶段解环](phase1-dependency-refactor.md)完成后，
+完整check **8678项**、官方ratchet与保护8bf40b90的单次严格fast **8186项/654生产文件**全部通过。
+全仓行 **78.12%**、语句 **75.96%**、函数 **75.72%**、分支 **68.48%**。
+新增21项回归与10个下层模块；原644文件全保留、五个未改包基线对象不变。
+这是结构治理与缺陷修复的本地质量门，不代表full/Q1/Q2/剧情E2E或远端CI。
+GLM r11四项拟接入副本仍在独立复核分支，未计入本次主线数字。
+
+## 历史入库快照（2026-09-25 · Grok呈现合成）
 
 当前机器可读的 fast 数字以 [`baseline.fast.json`](../../scripts/coverage/baseline.fast.json) 为准。
 [Grok 画面合成与战斗呈现补测](grok-phase1-composition-integration.md)正式接入后，入库基线和当次本地
