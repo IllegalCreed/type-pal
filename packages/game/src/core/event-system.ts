@@ -54,14 +54,12 @@ import { dispatchBattleOpcode } from './battle/battle-opcodes.js'
 import type { BattleState } from './battle/battle-state.js'
 import type { CommandBus } from './command-bus.js'
 import { pushDialogHistory } from './dialog-history.js'
+import { removeEquipmentEffect, resyncBattleRoleStatsFromRuntime } from './equipment-state.js'
 import {
-  addPlayerStatRow,
-  getPlayerPoisonResistance,
-  removeEquipmentEffect,
-  resyncBattleRoleStatsFromRuntime,
-  setPlayerStatRow,
-  writeEquipmentEffectField,
-} from './equipment-state.js'
+  applyPlayerOpcode,
+  OP_INCREASE_PLAYER_ATTR,
+  OP_SET_PLAYER_STAT,
+} from './event-opcode-player.js'
 import type { DialogBoxState, EventCursor, GameState, NpcState } from './game-state.js'
 import { PARTYOFFSET_X, PARTYOFFSET_Y } from './game-state.js'
 import { addItemToInventory } from './inventory-state.js'
@@ -78,12 +76,7 @@ import {
   type PaletteFadeState,
   resolveNightColors,
 } from './palette-fade.js'
-import {
-  addPoisonForPlayer,
-  curePlayerPoisonByKind,
-  curePlayerPoisonByLevel,
-  isPlayerPoisoned,
-} from './player-poison-state.js'
+import { isPlayerPoisoned } from './player-poison-state.js'
 import { getCurrentMapNum } from './scene-identity.js'
 import {
   getCmds,
@@ -95,6 +88,30 @@ import {
 } from './script-catalog.js'
 import { getWord } from './word-lookup.js'
 
+export {
+  OP_ADD_MAGIC,
+  OP_CURE_ENEMY_POISON_KIND,
+  OP_CURE_PLAYER_POISON_KIND,
+  OP_CURE_PLAYER_POISON_LEVEL,
+  OP_DAMAGE_ENEMY,
+  OP_EQUIP_ITEM,
+  OP_INCREASE_HP,
+  OP_INCREASE_HP_MP,
+  OP_INCREASE_MP,
+  OP_INCREASE_PLAYER_ATTR,
+  OP_INCREASE_PLAYER_LEVEL,
+  OP_MARK_SCRIPT_FAILED,
+  OP_POISON_ENEMY,
+  OP_POISON_PLAYER,
+  OP_REMOVE_EQUIPMENT,
+  OP_REMOVE_MAGIC,
+  OP_REMOVE_PLAYER_STATUS,
+  OP_REVIVE_PLAYER,
+  OP_SET_ENEMY_STATUS,
+  OP_SET_PLAYER_EXTRA_ATTR,
+  OP_SET_PLAYER_STAT,
+  OP_SET_PLAYER_STATUS,
+} from './event-opcode-player.js'
 export { addItemToInventory, consumeItemFromInventory } from './inventory-state.js'
 export {
   addPoisonForPlayer,
@@ -333,13 +350,11 @@ export const OP_JUMP_BY_RATE = 0x0006 // 6
 // case 0x0017(23): Set player extra attribute(equipment effect — script.c:752-766)
 //   i = operand[0] - 0xB → equipmentEffect[i].field[operand[1]][role] = SHORT(operand[2])
 //   ts:写 rgEquipmentEffect(part,row,role),row 真值见 equip-effect.ts PLAYERROLES_ROW。
-export const OP_SET_PLAYER_EXTRA_ATTR = 0x0017 // 23
 
 // case 0x0018(24): Equip selected item(script.c:768-811)
 //   i = operand[0] - 0xB(equipment slot);writes rgwEquipment[i][role]=operand[1];
 //   inventory swap:remove new item -1,if old != 0 add old +1
 //   sdlpal `g_iCurEquipPart = i` 全局后续 0x1A 写 equipmentEffect 用 — ts 持久到 gs.iCurEquipPart。
-export const OP_EQUIP_ITEM = 0x0018 // 24
 
 // case 0x0019(25): Increase/decrease player attribute(script.c:813-832)
 //   p[operand[0] * MAX_PLAYER_ROLES + role] += SHORT(operand[1])
@@ -349,38 +364,30 @@ export const OP_EQUIP_ITEM = 0x0018 // 24
 //     6=Level / 7=MaxHP / 8=MaxMP / 9=HP / 10=MP / 17=AttackStrength / 18=MagicStrength
 //     19=Defense / 20=Dexterity / 21=FleeRate / 22=PoisonResistance / 31=CoveredBy
 //   (行号唯一来源 = equip-effect.ts PLAYERROLES_ROW;handler 走 addPlayerStatRow/setPlayerStatRow)
-export const OP_INCREASE_PLAYER_ATTR = 0x0019 // 25
 
 // case 0x001A(26): Set player stat(script.c:834-865)
 //   p[operand[0] * MAX_PLAYER_ROLES + role] = SHORT(operand[1])
 //   role 同 0x0019
 //   注:g_iCurEquipPart != -1 时改写 equipmentEffect(equip 时)— ts 不持久,fallback PlayerRoles
-export const OP_SET_PLAYER_STAT = 0x001a // 26
 
 // case 0x001B(27): HP delta(script.c:867-894)
 //   operand[0]=applyToAll;operand[1]=signed delta;wEventObjectID=target role(when not all)
 //   PAL_IncreaseHPMP clamp [0, maxHP]
-export const OP_INCREASE_HP = 0x001b // 27
 
 // case 0x001C(28): MP delta(script.c:896-921)— 同上
-export const OP_INCREASE_MP = 0x001c // 28
 
 // case 0x001D(29): HP+MP 双 delta(script.c:923-950)— 同上
-export const OP_INCREASE_HP_MP = 0x001d // 29
 
 // case 0x0021(33): Inflict damage to enemy(script.c:1026-1050)— 战斗 only
 //   battle context;overworld script 不触发 — log skip + 不阻流
-export const OP_DAMAGE_ENEMY = 0x0021 // 33
 
 // case 0x0022(34): Revive player(script.c:1052-1102)
 //   if HP == 0:HP = maxHP * operand[1] / 10 + cure poison level 3 + clear all status
 //   operand[0]=applyToAll
-export const OP_REVIVE_PLAYER = 0x0022 // 34
 
 // case 0x0023(35): Remove equipment(script.c:1104-1135)
 //   operand[0]=role id;operand[1]==0 → 全槽 / != 0 → 槽 (operand[1]-1)
 //   removed item → inventory +1
-export const OP_REMOVE_EQUIPMENT = 0x0023 // 35
 
 // case 0x0025(37): Set trigger script for NPC(script.c:1147-1155)
 //   if operand[0] != 0:pCurrent.wTriggerScript = operand[1]
@@ -393,15 +400,12 @@ export const OP_SET_TRIGGER_METHOD = 0x0040 // 64
 // case 0x0041(65): Mark the script as failed(script.c:1623-1627)— g_fScriptSuccess = FALSE。
 //   调用方按上下文解释:大世界 item/magic 用 success gate;战斗 magic 只 gate 动画/success 脚本,MP 已先扣;
 //   战斗 UseItem 按 fight.c:4387-4400 不看 success gate,只看 consuming。
-export const OP_MARK_SCRIPT_FAILED = 0x0041 // 65
 
 // case 0x0055(85): Add magic to player(script.c:1816-1830 → global.c:2084 PAL_AddMagic)
 //   role = operand[1]==0 ? eventObjId : operand[1]-1;spell wObjectID = operand[0]
 //   已学则 no-op,否则填第一个空槽
-export const OP_ADD_MAGIC = 0x0055 // 85
 
 // case 0x0056(86): Remove magic from player(script.c:1832-1846 → global.c:2139 PAL_RemoveMagic)
-export const OP_REMOVE_MAGIC = 0x0056 // 86
 
 // case 0x009A(154): Set state for multiple event objects(script.c:2756-2764)
 //   for id in [operand[0], operand[1]] → eventObject[id-1].sState = operand[2]
@@ -434,7 +438,6 @@ export const OP_DELAY = 0x0085 // 133
 // case 0x008D(141): Increase player level(script.c:2591-2595 → global.c:2347 PAL_PlayerLevelUp)
 //   role = wEventObjectID(=currentEventObjectId);operand[0]=升的级数。stat 按固定+RandomLong 增长,
 //   clamp 999,level clamp MAX_LEVELS(99),重置 rgPrimaryExp.wExp=0 / wLevel=新等级。
-export const OP_INCREASE_PLAYER_LEVEL = 0x008d // 141
 // case 0x008F(143): Halve the cash amount(script.c:2598-2603)— dwCash /= 2。
 export const OP_HALVE_CASH = 0x008f // 143
 // case 0x00A1(161): Set positions of all party members = first(script.c:2998-3014)
@@ -469,36 +472,28 @@ export const OP_QUIT = 0x00a0 // 160
 export const OP_GOTO_IF_NO = 0x000a // 10
 
 // case 0x0028(40): Apply poison to enemy(script.c:1175-1255)— 战斗 only,log skip
-export const OP_POISON_ENEMY = 0x0028 // 40
 
 // case 0x0029(41): Apply poison to player(script.c:1257-1285)
 //   if RandomLong(1,100) > PAL_GetPlayerPoisonResistance(role) → AddPoisonForPlayer(role, operand[1])
 //   operand[0]=applyToAll
 //   ts:gs.rgPoisonStatus[`${slot}_${playerIdx}`] = { wPoisonID, wPoisonScript }
-export const OP_POISON_PLAYER = 0x0029 // 41
 
 // case 0x002A(42): Cure poison enemy(script.c:1287-1329)— 战斗 only,log skip
-export const OP_CURE_ENEMY_POISON_KIND = 0x002a // 42
 
 // case 0x002B(43): Cure player poison by kind(script.c:1331-1347)
 //   遍历 rgPoisonStatus,wPoisonID == operand[1] 清 0
-export const OP_CURE_PLAYER_POISON_KIND = 0x002b // 43
 
 // case 0x002C(44): Cure player poison by level(script.c:1349-1365)
 //   遍历 rgPoisonStatus,items[wPoisonID].poison.wPoisonLevel <= operand[1] 清 0
 //   ts:items.poison 字段未完整 plumb — fallback 全清(简化,等 M5.5 poison plumb 真做)
-export const OP_CURE_PLAYER_POISON_LEVEL = 0x002c // 44
 
 // case 0x002D(45): Set player status(script.c:1367-1375)
 //   PAL_SetPlayerStatus(role, statusId, duration)
 //   ts:无大世界 player status 模型(battle-only)— log skip(M6 大世界 status 真做时补)
-export const OP_SET_PLAYER_STATUS = 0x002d // 45
 
 // case 0x002E(46): Set enemy status — 战斗 only,log skip
-export const OP_SET_ENEMY_STATUS = 0x002e // 46
 
 // case 0x002F(47): Remove player status(script.c:1399-1404)— 同 0x002D 模型问题,log skip
-export const OP_REMOVE_PLAYER_STATUS = 0x002f // 47
 
 /** sdlpal palcommon.h enum kDir → our Facing 字面量映射 */
 const SDLPAL_DIR_TO_FACING: Record<number, 'down' | 'left' | 'up' | 'right'> = {
@@ -3464,38 +3459,6 @@ function countInventoryItem(gs: GameState, itemId: number): number {
   return n
 }
 
-/** sdlpal `PAL_AddMagic`(global.c:2084):已学 → no-op;否则填第一个空槽(spell wObjectID)。 */
-function addMagicToRole(gs: GameState, roleId: number, spellObjId: number): void {
-  const rgwMagic = gs.PlayerRolesRuntime.rgwMagic
-  const numRoles = rgwMagic[0]?.length ?? 0
-  if (roleId < 0 || roleId >= numRoles || spellObjId === 0) return
-  // 已学该法术 → no-op
-  for (const slot of rgwMagic) {
-    if (slot?.[roleId] === spellObjId) return
-  }
-  // 填第一个空槽(0 = 空)
-  for (const slot of rgwMagic) {
-    if ((slot?.[roleId] ?? 0) === 0) {
-      slot[roleId] = spellObjId
-      return
-    }
-  }
-  // 槽满 → 失败(sdlpal 返回 FALSE)
-}
-
-/** sdlpal `PAL_RemoveMagic`(global.c:2139):找到该 spell 的槽置 0(不移位)。 */
-function removeMagicFromRole(gs: GameState, roleId: number, spellObjId: number): void {
-  const rgwMagic = gs.PlayerRolesRuntime.rgwMagic
-  const numRoles = rgwMagic[0]?.length ?? 0
-  if (roleId < 0 || roleId >= numRoles) return
-  for (const slot of rgwMagic) {
-    if (slot?.[roleId] === spellObjId) {
-      slot[roleId] = 0
-      return
-    }
-  }
-}
-
 function applyRawOpcode(
   gs: GameState,
   opcode: number,
@@ -3514,6 +3477,17 @@ function applyRawOpcode(
    */
   cursor: ScriptCursor | null = null,
 ): void {
+  if (
+    applyPlayerOpcode({
+      gs,
+      opcode,
+      operands,
+      currentEventObjectId,
+      runPlayerPoisonEntry: runPlayerPoisonEntrySync,
+    })
+  )
+    return
+
   switch (opcode) {
     case OP_FADE_OUT: {
       // battle runScript raw fallback 没有 EventCursor waiting;先启动同一套 paletteFadeState 并消费 opcode。
@@ -3728,18 +3702,6 @@ function applyRawOpcode(
       //   下次走路(0x7A 走位)walking 分支会重新捕获正常跟随偏移,不会永久冻结。
       gs.followerFrozenOffset = [null, ...[1, 2, 3, 4, 5].map(() => ({ dx: 0, dy: -1, dir }))]
       gs.walkingFrame.walking = false // PAL_UpdatePartyGestures(FALSE):站立 pose
-      break
-    }
-
-    case OP_INCREASE_PLAYER_LEVEL: {
-      // sdlpal script.c:2591-2595 → global.c:2347 PAL_PlayerLevelUp(wEventObjectID, operand[0])。
-      //   role = wEventObjectID(=currentEventObjectId,item/特殊脚本上下文里是 role id)。
-      const role = currentEventObjectId
-      if (role === undefined || role === 0xffff) {
-        console.warn('event-system: increasePlayerLevel 无 role 上下文,跳过')
-        break
-      }
-      playerLevelUp(gs, role, operands[0] ?? 0)
       break
     }
 
@@ -4272,197 +4234,6 @@ function applyRawOpcode(
       break
     }
 
-    case OP_SET_PLAYER_EXTRA_ATTR: {
-      // sdlpal script.c:752-766 真值:
-      //   i = op[0] - 0xB;
-      //   p = (WORD*)&gpGlobals->rgEquipmentEffect[i];
-      //   p[op[1] * MAX_PLAYER_ROLES + role] = SHORT(op[2])
-      // op[1] 是 sdlpal global.h tagPLAYERROLES row index — 真值见 equip-effect.ts PLAYERROLES_ROW。
-      const partIdx = (operands[0] ?? 0) - 0x0b
-      const rowIdx = operands[1] ?? 0
-      const value = signExtendI16(operands[2] ?? 0)
-      const roleId = currentEventObjectId
-      if (roleId === undefined || roleId === 0xffff) {
-        console.warn(`event-system: setPlayerExtraAttr no role context`)
-        break
-      }
-      writeEquipmentEffectField(gs, partIdx, rowIdx, roleId, value)
-      break
-    }
-
-    case OP_EQUIP_ITEM: {
-      // sdlpal script.c:768-811 真值:
-      //   i = op[0] - 0xB; g_iCurEquipPart = i; PAL_RemoveEquipmentEffect(role, i);
-      //   if (rgwEquipment[i][role] != op[1])
-      //     swap inventory + rgwEquipment[i][role] = op[1] + wLastUnequippedItem = old
-      const slot = (operands[0] ?? 0) - 0x0b
-      const newItem = operands[1] ?? 0
-      const roleId = currentEventObjectId
-      if (roleId === undefined || roleId === 0xffff) {
-        console.warn(`event-system: equipItem no role context`)
-        break
-      }
-      if (slot < 0 || slot >= 6) {
-        console.warn(`event-system: equipItem invalid slot=${slot}(op[0]=${operands[0]})`)
-        break
-      }
-      // sdlpal script.c:773-778 真值:iCurEquipPart + removeEquipmentEffect 入口先做
-      gs.iCurEquipPart = slot
-      removeEquipmentEffect(gs, roleId, slot)
-      const eqRow = gs.PlayerRolesRuntime.rgwEquipment[slot]
-      if (!eqRow) break
-      const oldItem = eqRow[roleId] ?? 0
-      if (oldItem !== newItem) {
-        eqRow[roleId] = newItem
-        // DL11:新件恰 1 件且旧件不在包 → 原位替换(script.c:784-805,保菜单槽位)。
-        const newEntry = gs.inventory.find((e) => e.itemId === newItem)
-        const oldInInv = oldItem !== 0 && gs.inventory.some((e) => e.itemId === oldItem)
-        if (newEntry && newEntry.count === 1 && oldItem !== 0 && !oldInInv) {
-          newEntry.itemId = oldItem
-        } else {
-          addItemToInventory(gs, newItem, -1)
-          if (oldItem !== 0) addItemToInventory(gs, oldItem, 1)
-        }
-        // sdlpal script.c:809 真值 — swap 后写 wLastUnequippedItem
-        gs.wLastUnequippedItem = oldItem
-      }
-      break
-    }
-
-    case OP_INCREASE_PLAYER_ATTR: {
-      // sdlpal script.c:813-832:p[op[0] * MAX_PLAYER_ROLES + role] += SHORT(op[1])
-      // role = (op[2] == 0) ? wEventObjectID : op[2] - 1
-      const fieldIdx = operands[0] ?? 0
-      const delta = signExtendI16(operands[1] ?? 0)
-      const roleId = (operands[2] ?? 0) === 0 ? currentEventObjectId : (operands[2] ?? 0) - 1
-      if (roleId === undefined || roleId === 0xffff) {
-        console.warn(`event-system: increasePlayerAttr no role context`)
-        break
-      }
-      // 唯一行索引表(equip-effect.ts PLAYERROLES_ROW,sdlpal 真值 Level=6/Atk=17/CoveredBy=31)。
-      // 不再用本地 FIELD_MAP(曾全错位 -1 → 设攻击力实写法力,装备脚本走对表、主解释器走错表的同 opcode 两套行为)。
-      addPlayerStatRow(gs, fieldIdx, roleId, delta)
-      break
-    }
-
-    case OP_SET_PLAYER_STAT: {
-      // sdlpal script.c:834-865:p[op[0] * MAX_PLAYER_ROLES + role] = SHORT(op[1])
-      const fieldIdx = operands[0] ?? 0
-      const newVal = signExtendI16(operands[1] ?? 0)
-      const roleId = (operands[2] ?? 0) === 0 ? currentEventObjectId : (operands[2] ?? 0) - 1
-      if (roleId === undefined || roleId === 0xffff) {
-        console.warn(`event-system: setPlayerStat no role context`)
-        break
-      }
-      // 唯一行索引表(同 0x19);旧 mutatePlayerStat 已删。
-      setPlayerStatRow(gs, fieldIdx, roleId, newVal)
-      break
-    }
-
-    case OP_INCREASE_HP: {
-      // sdlpal script.c:867-894:HP delta。g_fScriptSuccess:applyAll→覆写 anyChanged(873/881);
-      //   单体→仅 !changed 时 FALSE(889-892)。
-      const { applyAll, anyChanged } = applyHPMPDelta(
-        gs,
-        currentEventObjectId,
-        operands,
-        /*hp*/ true,
-        /*mp*/ false,
-      )
-      if (applyAll) gs.fScriptSuccess = anyChanged
-      else if (!anyChanged) gs.fScriptSuccess = false
-      break
-    }
-
-    case OP_INCREASE_MP: {
-      // sdlpal script.c:896-921:MP delta。g_fScriptSuccess:仅单体 !changed → FALSE(918);applyAll 不动。
-      const { applyAll, anyChanged } = applyHPMPDelta(
-        gs,
-        currentEventObjectId,
-        operands,
-        /*hp*/ false,
-        /*mp*/ true,
-      )
-      if (!applyAll && !anyChanged) gs.fScriptSuccess = false
-      break
-    }
-
-    case OP_INCREASE_HP_MP: {
-      // sdlpal script.c:923-950:HP & MP 双 delta。g_fScriptSuccess:仅单体 !changed → FALSE(947);applyAll 不动。
-      const { applyAll, anyChanged } = applyHPMPDelta(
-        gs,
-        currentEventObjectId,
-        operands,
-        /*hp*/ true,
-        /*mp*/ true,
-      )
-      if (!applyAll && !anyChanged) gs.fScriptSuccess = false
-      break
-    }
-
-    case OP_DAMAGE_ENEMY: {
-      // sdlpal script.c:1026-1050:战斗 only(g_Battle.rgEnemy.wHealth)
-      break
-    }
-
-    case OP_REVIVE_PLAYER: {
-      // sdlpal script.c:1052-1102:HP==0 时 HP = maxHP*op[1]/10 + cure poison level 3 + clear all status。
-      // g_fScriptSuccess:applyAll→ FALSE 后任一复活则 TRUE(1061/1077);单体→ 非死者(HP!=0)则 FALSE(1099)。
-      // (用复活药在活人身上 → 不消耗物品。)
-      const applyAll = (operands[0] ?? 0) !== 0
-      const ratioTenths = operands[1] ?? 0
-      const targets = applyAll
-        ? gs.partyMembers
-        : currentEventObjectId !== undefined && currentEventObjectId !== 0xffff
-          ? [currentEventObjectId]
-          : []
-      let revivedAny = false
-      for (const roleId of targets) {
-        const curHP = gs.PlayerRolesRuntime.rgwHP[roleId] ?? 0
-        const maxHP = gs.PlayerRolesRuntime.rgwMaxHP[roleId] ?? 0
-        if (curHP === 0) {
-          gs.PlayerRolesRuntime.rgwHP[roleId] = Math.floor((maxHP * ratioTenths) / 10)
-          curePlayerPoisonByLevel(gs, roleId, 3)
-          revivedAny = true
-          // sdlpal script.c:1072-1075:复活同时清全状态(for x<kStatusAll rgPlayerStatus[role][x]=0)。
-          //   <=999 才清(>999 = 装备永久效果保留,对齐 D14;sdlpal 靠开战重设,type-pal 用哨兵)。
-          const stRow = gs.rgPlayerStatus[roleId]
-          if (stRow) for (let x = 0; x < stRow.length; x++) if ((stRow[x] ?? 0) <= 999) stRow[x] = 0
-        }
-      }
-      if (applyAll) gs.fScriptSuccess = revivedAny
-      else if (!revivedAny) gs.fScriptSuccess = false
-      break
-    }
-
-    case OP_REMOVE_EQUIPMENT: {
-      // sdlpal script.c:1104-1135
-      const roleId = operands[0] ?? 0
-      const slotPlus1 = operands[1] ?? 0 // 0 = 全部 / 非 0 = slot-1
-      const eq = gs.PlayerRolesRuntime.rgwEquipment
-      if (slotPlus1 === 0) {
-        // 全移(sdlpal script.c:1110-1126):每槽 if(w!=0){回包+清};然后**无条件** RemoveEquipmentEffect(role,i)。
-        for (let s = 0; s < 6; s++) {
-          const w = eq[s]?.[roleId] ?? 0
-          if (w !== 0) {
-            addItemToInventory(gs, w, 1)
-            eq[s]![roleId] = 0
-          }
-          removeEquipmentEffect(gs, roleId, s) // 无条件(空槽 no-op,1:1 sdlpal)
-        }
-      } else {
-        // 单移(sdlpal script.c:1128-1134):仅 w!=0 时先 RemoveEquipmentEffect 再回包+清。
-        const slot = slotPlus1 - 1
-        const w = eq[slot]?.[roleId] ?? 0
-        if (w !== 0) {
-          removeEquipmentEffect(gs, roleId, slot)
-          addItemToInventory(gs, w, 1)
-          eq[slot]![roleId] = 0
-        }
-      }
-      break
-    }
-
     case OP_SET_TRIGGER_SCRIPT: {
       // sdlpal script.c:1147-1155:if op[0] != 0 → pCurrent.wTriggerScript = op[1]。
       // pCurrent 由 operand[0] 选(非 self!)—— 旧 bug 用 getSelfNpc 改错对象:客栈剧情
@@ -4480,111 +4251,6 @@ function applyRawOpcode(
       break
     }
 
-    case OP_POISON_ENEMY:
-    case OP_CURE_ENEMY_POISON_KIND:
-    case OP_SET_ENEMY_STATUS: {
-      break
-    }
-
-    case OP_POISON_PLAYER: {
-      // sdlpal script.c:1257-1285:if RandomLong(1,100) > poisonResist → addPoison
-      const applyAll = (operands[0] ?? 0) !== 0
-      const poisonId = operands[1] ?? 0
-      const targets = applyAll
-        ? gs.partyMembers
-        : currentEventObjectId !== undefined && currentEventObjectId !== 0xffff
-          ? [currentEventObjectId]
-          : []
-      // sdlpal script.c:1257-1285 + PAL_AddPoisonForPlayer(global.c:1459):
-      //   仅当 RandomLong(1,100) > poisonResistance(0-100)才中毒;add 逻辑见 addPoisonForPlayer。
-      for (const roleId of targets) {
-        // 抗性突破判定(玩家 0-100,> 而非 >=,区别于敌人 0x28 的 0-10 >=)
-        if (Math.floor(Math.random() * 100) + 1 <= getPlayerPoisonResistance(gs, roleId)) continue
-        addPoisonForPlayer(gs, roleId, poisonId, (ip) => runPlayerPoisonEntrySync(gs, roleId, ip))
-      }
-      break
-    }
-
-    case OP_CURE_PLAYER_POISON_KIND: {
-      // sdlpal script.c:1331-1347:遍历 rgPoisonStatus,wPoisonID == op[1] 清 0
-      const applyAll = (operands[0] ?? 0) !== 0
-      const poisonId = operands[1] ?? 0
-      const targets = applyAll
-        ? gs.partyMembers
-        : currentEventObjectId !== undefined && currentEventObjectId !== 0xffff
-          ? [currentEventObjectId]
-          : []
-      for (const roleId of targets) {
-        curePlayerPoisonByKind(gs, roleId, poisonId)
-      }
-      break
-    }
-
-    case OP_CURE_PLAYER_POISON_LEVEL: {
-      // sdlpal script.c:1349-1365:遍历 rgPoisonStatus,items[wPoisonID].poison.wPoisonLevel <= op[1] 清 0
-      // ts:items.poison 字段未完整 plumb — 简版按 level cap = 99 视为全清(等价 cure all)
-      const applyAll = (operands[0] ?? 0) !== 0
-      const maxLevel = operands[1] ?? 0
-      const targets = applyAll
-        ? gs.partyMembers
-        : currentEventObjectId !== undefined && currentEventObjectId !== 0xffff
-          ? [currentEventObjectId]
-          : []
-      for (const roleId of targets) {
-        curePlayerPoisonByLevel(gs, roleId, maxLevel)
-      }
-      break
-    }
-
-    case OP_SET_PLAYER_STATUS: {
-      // sdlpal global.c PAL_SetPlayerStatus(role, op0=statusId, op1=numRound)恒单目标(wEventObjectID)。
-      //   写持久 gs.rgPlayerStatus(开战 seed 进 BattleState)。target 解析:sdlpal 的 applyToAll buff 物品靠
-      //   PAL_GameUseItem 外层逐队员循环(eventObjectId=roleId)实现;type-pal 把 applyToAll item 跑一次
-      //   (currentEventObjectId=0xFFFF)→ 故此处 0xFFFF/undefined 展开全队(与既有 0x1B applyHPMPDelta 同适配),
-      //   否则单 role。bad(0-3 Confused/Paralyzed/Sleep/Silence):cur==0 才设;puppet(4):仅死人且更久,
-      //   活人→fScriptSuccess=FALSE;good(5-8 Bravery/Protect/Haste/DualAttack):活人且更久。金刚符63/黑狗血85。
-      const statusId = operands[0] ?? 0
-      const numRound = operands[1] ?? 0
-      const stTargets =
-        currentEventObjectId === undefined || currentEventObjectId === 0xffff
-          ? gs.partyMembers
-          : [currentEventObjectId]
-      for (const roleId of stTargets) {
-        const row = gs.rgPlayerStatus[roleId]
-        if (!row || statusId >= row.length) continue
-        const cur = row[statusId] ?? 0
-        const hp = gs.PlayerRolesRuntime.rgwHP[roleId] ?? 0
-        if (statusId <= 3) {
-          // bad:已有则不刷新
-          if (cur === 0) row[statusId] = numRound
-        } else if (statusId === 4) {
-          // puppet:仅死人,且更久才设;活人 → 失败
-          if (hp === 0) {
-            if (cur < numRound) row[statusId] = numRound
-          } else gs.fScriptSuccess = false
-        } else {
-          // good 5-8:活人且更久
-          if (hp !== 0 && cur < numRound) row[statusId] = numRound
-        }
-      }
-      break
-    }
-
-    case OP_REMOVE_PLAYER_STATUS: {
-      // sdlpal global.c:2304 PAL_RemovePlayerStatus:status<=999 才清(>999 = 装备永久效果不清,对齐 D14)。
-      //   灵心符65/银针255 大世界解负面状态。
-      const statusId = operands[0] ?? 0
-      const rmTargets =
-        currentEventObjectId === undefined || currentEventObjectId === 0xffff
-          ? gs.partyMembers
-          : [currentEventObjectId]
-      for (const roleId of rmTargets) {
-        const row = gs.rgPlayerStatus[roleId]
-        if (row && statusId < row.length && (row[statusId] ?? 0) <= 999) row[statusId] = 0
-      }
-      break
-    }
-
     // ── A 类补全(A1:自包含数据/状态,无跳转)─────────────────────────────────
 
     case OP_SET_TRIGGER_METHOD: {
@@ -4598,28 +4264,6 @@ function applyRawOpcode(
         const npc = resolveTargetNpc(gs, operands[0] ?? 0, currentEventObjectId, 'setTriggerMethod')
         if (npc) npc.triggerMode = operands[1] ?? 0
       }
-      break
-    }
-
-    case OP_MARK_SCRIPT_FAILED: {
-      // sdlpal script.c:1623-1627:g_fScriptSuccess = FALSE。消耗规则由调用场景决定:
-      // 大世界 item/magic 用 success gate;战斗 magic MP 已先扣,仅挡后续动画/成功脚本;战斗 UseItem 不看 gate。
-      gs.fScriptSuccess = false
-      break
-    }
-
-    case OP_ADD_MAGIC: {
-      // sdlpal script.c:1816-1830 → global.c:2084 PAL_AddMagic
-      //   role = operand[1]==0 ? eventObjId : operand[1]-1;spell wObjectID = operand[0]
-      const roleId = (operands[1] ?? 0) === 0 ? (currentEventObjectId ?? 0) : (operands[1] ?? 0) - 1
-      addMagicToRole(gs, roleId, operands[0] ?? 0)
-      break
-    }
-
-    case OP_REMOVE_MAGIC: {
-      // sdlpal script.c:1832-1846 → global.c:2139 PAL_RemoveMagic
-      const roleId = (operands[1] ?? 0) === 0 ? (currentEventObjectId ?? 0) : (operands[1] ?? 0) - 1
-      removeMagicFromRole(gs, roleId, operands[0] ?? 0)
       break
     }
 
@@ -4955,112 +4599,6 @@ function applyRawOpcode(
       break
   }
 }
-
-// ── M5.6 session 3:helper for item.scriptOnUse opcode 真值 1:1 port ──────────────
-
-/**
- * 0x001B/0x001C/0x001D 共用 — sdlpal PAL_IncreaseHPMP(global.c:1957+)。
- * 多 target(applyAll)or 单 target(wEventObjectID);clamp HP/MP 到 [0, max]。
- */
-function applyHPMPDelta(
-  gs: GameState,
-  currentEventObjectId: number | undefined,
-  operands: [number, number, number],
-  hp: boolean,
-  mp: boolean,
-): { applyAll: boolean; anyChanged: boolean } {
-  const applyAll = (operands[0] ?? 0) !== 0
-  const delta = signExtendI16(operands[1] ?? 0)
-  const targets = applyAll
-    ? gs.partyMembers
-    : currentEventObjectId !== undefined && currentEventObjectId !== 0xffff
-      ? [currentEventObjectId]
-      : currentEventObjectId === 0xffff
-        ? gs.partyMembers
-        : []
-  // sdlpal PAL_IncreaseHPMP 返回是否真改了 HP/MP(死人 / 已到 max·min → 不变 → FALSE)。
-  // anyChanged = 任一 target 的 HP 或 MP 实际发生变化(供 g_fScriptSuccess gate 用)。
-  let anyChanged = false
-  for (const roleId of targets) {
-    // sdlpal PAL_IncreaseHPMP(global.c:1287)真值:**仅活人**(rgwHP>0)处理;死人(HP==0)不改 HP/MP、
-    //   返回 FALSE(不计入 anyChanged → g_fScriptSuccess 判定正确)。此前 ts 缺此 gate(0x1B/1C/1D 审计 bug)。
-    if ((gs.PlayerRolesRuntime.rgwHP[roleId] ?? 0) <= 0) continue
-    if (hp) {
-      const cur = gs.PlayerRolesRuntime.rgwHP[roleId] ?? 0
-      const max = gs.PlayerRolesRuntime.rgwMaxHP[roleId] ?? 0
-      const next = Math.max(0, Math.min(max, cur + delta))
-      if (next !== cur) anyChanged = true
-      gs.PlayerRolesRuntime.rgwHP[roleId] = next
-    }
-    if (mp) {
-      const cur = gs.PlayerRolesRuntime.rgwMP[roleId] ?? 0
-      const max = gs.PlayerRolesRuntime.rgwMaxMP[roleId] ?? 0
-      const next = Math.max(0, Math.min(max, cur + delta))
-      if (next !== cur) anyChanged = true
-      gs.PlayerRolesRuntime.rgwMP[roleId] = next
-    }
-  }
-  return { applyAll, anyChanged }
-}
-
-/** sdlpal MAX_LEVELS(common.h)— 等级上限 99。 */
-const MAX_LEVELS = 99
-/** sdlpal STAT_LIMIT 宏:单项属性上限 999(global.c:2393)。 */
-const STAT_CAP = 999
-
-/** RandomLong(0, n) 含端点 — 与 0xA2 randomJump 一致用 Math.random(非确定性,save 不可复现)。 */
-function randInclusive(n: number): number {
-  return Math.floor(Math.random() * (n + 1))
-}
-
-/**
- * port sdlpal `PAL_PlayerLevelUp`(global.c:2347-2409)。
- *
- *   rgwLevel[role] += numLevels(clamp MAX_LEVELS);每升一级各属性按 固定+RandomLong 增长:
- *     MaxHP +10+r(0,7) / MaxMP +8+r(0,5) / Atk +4+r(0,1) / MagStr +4+r(0,1)
- *     / Def +2+r(0,1) / Dex +2+r(0,1) / FleeRate +2 — 全部 clamp 999。
- *   重置主经验 rgPrimaryExp[role]:wExp=0,wLevel=新等级。
- *
- * 注:stat 增长用 Math.random(同 0xA2);值不与 sdlpal 字节一致,但范围/确定部分(level/Exp 重置/clamp)忠实。
- * 这是首个 level-up stat 增长实现,后续战斗 level-up(battle-system.ts follow-up)可复用本 helper。
- */
-function playerLevelUp(gs: GameState, role: number, numLevels: number): void {
-  const r = gs.PlayerRolesRuntime
-  if (r.rgwLevel[role] === undefined) {
-    console.warn(`event-system: playerLevelUp role=${role} 不在 PlayerRoles,跳过`)
-    return
-  }
-  r.rgwLevel[role] = Math.min(MAX_LEVELS, (r.rgwLevel[role] ?? 0) + numLevels)
-  for (let i = 0; i < numLevels; i++) {
-    r.rgwMaxHP[role] = (r.rgwMaxHP[role] ?? 0) + 10 + randInclusive(7)
-    r.rgwMaxMP[role] = (r.rgwMaxMP[role] ?? 0) + 8 + randInclusive(5)
-    r.rgwAttackStrength[role] = (r.rgwAttackStrength[role] ?? 0) + 4 + randInclusive(1)
-    r.rgwMagicStrength[role] = (r.rgwMagicStrength[role] ?? 0) + 4 + randInclusive(1)
-    r.rgwDefense[role] = (r.rgwDefense[role] ?? 0) + 2 + randInclusive(1)
-    r.rgwDexterity[role] = (r.rgwDexterity[role] ?? 0) + 2 + randInclusive(1)
-    r.rgwFleeRate[role] = (r.rgwFleeRate[role] ?? 0) + 2
-  }
-  for (const arr of [
-    r.rgwMaxHP,
-    r.rgwMaxMP,
-    r.rgwAttackStrength,
-    r.rgwMagicStrength,
-    r.rgwDefense,
-    r.rgwDexterity,
-    r.rgwFleeRate,
-  ]) {
-    if ((arr[role] ?? 0) > STAT_CAP) arr[role] = STAT_CAP
-  }
-  const exp = gs.Exp.rgPrimaryExp[role]
-  if (exp) {
-    exp.wExp = 0
-    exp.wLevel = r.rgwLevel[role] ?? 0
-  }
-}
-
-// 0x0019/0x001A 行索引写入已统一到 equip-effect.ts 的 addPlayerStatRow/setPlayerStatRow
-//(唯一 PLAYERROLES_ROW 表,sdlpal global.h tagPLAYERROLES 真值)。旧 mutatePlayerStat 本地
-// FIELD_MAP 全错位 -1(P0#1,2026-05-29 删除)。
 
 /** 取 trigger 的 self NPC(sdlpal `pEvtObj`,纯 self 类 opcode 0x14 / 0xF 用)。无效 id 时 warn + 返回 null。 */
 function getSelfNpc(
