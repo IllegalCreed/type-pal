@@ -38,7 +38,7 @@ check8896/单次strict8404全过；实际+134分支/+73行，content分支85.55%
 
 | ID | 任务 | 状态 | 负责人/下一步 | 一句话备注 |
 |---|---|---|---|---|
-| TEST-COVERAGE-PLUS5-1 | [全仓分支+5pp持续队列](tasks/TEST-COVERAGE-PLUS5-1-continuous-batches.md) | build | Codex / 下一大批 | 五批累计+1473B至71.05%，剩余1686B；check9188/strict8696通过 |
+| TEST-COVERAGE-PLUS5-1 | [全仓分支+5pp持续队列](tasks/TEST-COVERAGE-PLUS5-1-continuous-batches.md) | build | Codex / 下一大批 | 六批累计+1575B至71.22%，剩余1584B；check9272/strict8780通过 |
 | TEST-GLM-CONTENT-GUARDS-3 | [八组同步脚本与记录守卫](tasks/TEST-GLM-CONTENT-GUARDS-3-script-and-records.md) | rework | GLM / R1–R3窄返工 | 1132绿/八针通过；同型正控8反证与拒绝输入污染漏检，未计覆盖 |
 | TEST-CURSOR-COMMAND-BOUNDARIES-3 | [八组命令行为残项](tasks/TEST-CURSOR-COMMAND-BOUNDARIES-3-editor-residuals.md) | rework | Cursor / R1–R3窄返工 | 29绿但正式保存门拒fixture，图层污染漏检；候选未计覆盖 |
 | ARCH-CONTINUATION-1 | [剩余架构治理连续收口](tasks/ARCH-CONTINUATION-1-remaining-queue.md) | build | 新Codex对话续推A3移动/绘制 | D1/E2/F2已完成，check8740/strict8248/701；含A3的其余八项未done |

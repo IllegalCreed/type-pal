@@ -1,0 +1,153 @@
+{
+  "schemaVersion": 1,
+  "base": "2838df42",
+  "owner": "Codex",
+  "status": "accept",
+  "sourceHashes": {
+    "packages/migrate/src/pal-assets.ts": "131b101ef065d32bd6b0c76a04ac082eb6b9e56965de211541a198eb7219d5b8"
+  },
+  "testFiles": [
+    {
+      "file": "packages/migrate/src/pal-assets.backgrounds.test.ts",
+      "passed": 6,
+      "failed": 0
+    },
+    {
+      "file": "packages/migrate/src/pal-assets.items.test.ts",
+      "passed": 8,
+      "failed": 0
+    },
+    {
+      "file": "packages/migrate/src/pal-assets.ownership.test.ts",
+      "passed": 21,
+      "failed": 0
+    },
+    {
+      "file": "packages/migrate/src/pal-assets.palette.test.ts",
+      "passed": 11,
+      "failed": 0
+    },
+    {
+      "file": "packages/migrate/src/pal-assets.portraits.test.ts",
+      "passed": 7,
+      "failed": 0
+    },
+    {
+      "file": "packages/migrate/src/pal-assets.retirements.test.ts",
+      "passed": 6,
+      "failed": 0
+    },
+    {
+      "file": "packages/migrate/src/pal-assets.sound-closure.test.ts",
+      "passed": 13,
+      "failed": 0
+    },
+    {
+      "file": "packages/migrate/src/pal-assets.sound-metadata.test.ts",
+      "passed": 12,
+      "failed": 0
+    }
+  ],
+  "adjacentPassed": 114,
+  "mutants": {
+    "controls": 8,
+    "detected": 8,
+    "directory": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/codex-pal-assets-mutants-iUMv6k"
+  },
+  "initialFailures": [
+    "Directed 83/84: macOS case-insensitive 45.WAV replaced existing 45.wav. Changed fixture to unique 46.WAV with directory-entry witness; no product change.",
+    "Typecheck six indexed typed-array reads potentially undefined; added explicit non-null reads.",
+    "Mutation item-order anchor matched three occurrences; rejected by uniqueness criterion and narrowed to itemChunks.",
+    "Mutation background-alpha fullName omitted Vitest-rendered quotes; zero-execution rejected, corrected from fresh JSON."
+  ],
+  "check": {
+    "exit": 0,
+    "testCount": 9272,
+    "log": "/tmp/codex-pal-assets-check.log"
+  },
+  "finalSerial": {
+    "baseRef": "2838df42",
+    "ratchetExit": 0,
+    "strictExit": 0,
+    "logs": ["/tmp/codex-pal-assets-ratchet.log", "/tmp/codex-pal-assets-strict.log"]
+  },
+  "before": {
+    "total": {
+      "statements": {
+        "covered": 62674,
+        "total": 80643
+      },
+      "branches": {
+        "covered": 44891,
+        "total": 63178
+      },
+      "functions": {
+        "covered": 11524,
+        "total": 15058
+      },
+      "lines": {
+        "covered": 56368,
+        "total": 70600
+      }
+    },
+    "testCount": 8696
+  },
+  "after": {
+    "total": {
+      "statements": {
+        "covered": 62837,
+        "total": 80643
+      },
+      "branches": {
+        "covered": 44993,
+        "total": 63178
+      },
+      "functions": {
+        "covered": 11546,
+        "total": 15058
+      },
+      "lines": {
+        "covered": 56507,
+        "total": 70600
+      }
+    },
+    "testCount": 8780,
+    "sourceFileCount": 701
+  },
+  "migrate": {
+    "statements": {
+      "covered": 5664,
+      "total": 7712
+    },
+    "branches": {
+      "covered": 4730,
+      "total": 6436
+    },
+    "functions": {
+      "covered": 784,
+      "total": 1165
+    },
+    "lines": {
+      "covered": 5045,
+      "total": 6724
+    }
+  },
+  "migrateFastFiles": 93,
+  "otherSixPackageObjectsUnchanged": true,
+  "sourceInventoriesAndDenominatorsUnchanged": true,
+  "delta": {
+    "branches": 102,
+    "lines": 139,
+    "statements": 163,
+    "functions": 22,
+    "tests": 84
+  },
+  "baselineHash": "64b049d8bab63e588b53d7014486200e148654f4cd0fffcc1daaad443dcca230",
+  "percent": 71.21624616163854,
+  "remainingBranches": 1584,
+  "limitations": [
+    "Synthetic extracted fixtures prove accepted format/closure, not original PAL content census.",
+    "No UI/E2E/full coverage claim.",
+    "No Cursor/GLM unaccepted tests integrated."
+  ]
+}

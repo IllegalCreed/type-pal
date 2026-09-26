@@ -8,6 +8,8 @@
 
 ## 文档与附件
 
+- [Codex资源加载与所有权八组](codex-pal-assets/README.md)（自包含PNG/WAV、闭包与失败零写入）。
+
 - [Codex当前敌人钩子翻译六组](codex-enemy-hooks/README.md)（真实wrapper/guard、来源映射与输入保真）。
 
 - [Cursor八组残项独立复核与返工提示](cursor-command-boundaries-r3-review.md)（29绿仍有fixture/完整快照反证，不计入覆盖）。

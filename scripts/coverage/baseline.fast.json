@@ -1,14 +1,14 @@
 {
   "schemaVersion": 2,
   "profile": "fast",
-  "generatedAt": "2026-09-26T10:59:37.319Z",
+  "generatedAt": "2026-09-26T11:29:53.494Z",
   "provider": {
     "name": "v8",
     "vitest": "4.1.7",
     "coverageV8": "4.1.7"
   },
   "sourceFileCount": 701,
-  "testCount": 8696,
+  "testCount": 8780,
   "packages": {
     "shared": {
       "name": "@type-pal/shared",
@@ -1100,8 +1100,8 @@
       ],
       "scopeDigest": "980711e930306f3ff6a1d70817611eb6f83e3681f7568f886680e6ebe1939e2f",
       "fastTests": {
-        "testCount": 714,
-        "testFileCount": 85,
+        "testCount": 798,
+        "testFileCount": 93,
         "files": [
           "packages/migrate/src/bake-indexed-rgba.test.ts",
           "packages/migrate/src/current-only-product-boundary.test.ts",
@@ -1145,6 +1145,14 @@
           "packages/migrate/src/migration-write-plan.test.ts",
           "packages/migrate/src/music-reference-audit.test.ts",
           "packages/migrate/src/pal-assets-paths.test.ts",
+          "packages/migrate/src/pal-assets.backgrounds.test.ts",
+          "packages/migrate/src/pal-assets.items.test.ts",
+          "packages/migrate/src/pal-assets.ownership.test.ts",
+          "packages/migrate/src/pal-assets.palette.test.ts",
+          "packages/migrate/src/pal-assets.portraits.test.ts",
+          "packages/migrate/src/pal-assets.retirements.test.ts",
+          "packages/migrate/src/pal-assets.sound-closure.test.ts",
+          "packages/migrate/src/pal-assets.sound-metadata.test.ts",
           "packages/migrate/src/pal-authored-overlays.boundaries.test.ts",
           "packages/migrate/src/pal-authored-overlays.test.ts",
           "packages/migrate/src/pal-boss-overlay.test.ts",
@@ -1401,6 +1409,46 @@
             "identityDigest": "bbce5cbcd7ec4da7c299d0e3aa6ebbe520831cfc9bb0a8f63891d90bfc3e2d61"
           },
           {
+            "file": "packages/migrate/src/pal-assets.backgrounds.test.ts",
+            "testCount": 6,
+            "identityDigest": "d4918d483a1de96147a6520f016905543c7d1b495225f17e6faf093005068892"
+          },
+          {
+            "file": "packages/migrate/src/pal-assets.items.test.ts",
+            "testCount": 8,
+            "identityDigest": "534be0d05ee811686f832c94e82e32443cf3aa13186c6f88e3263a3a5d1d5f22"
+          },
+          {
+            "file": "packages/migrate/src/pal-assets.ownership.test.ts",
+            "testCount": 21,
+            "identityDigest": "d9b1efa752a164c066a6616b433edcf4d748785ab9a2ebb08e423e4f1748d6f1"
+          },
+          {
+            "file": "packages/migrate/src/pal-assets.palette.test.ts",
+            "testCount": 11,
+            "identityDigest": "4b4526f7026007795cf7a9edbb5254a2c642038308a2bee0d04be471a8f4f5fd"
+          },
+          {
+            "file": "packages/migrate/src/pal-assets.portraits.test.ts",
+            "testCount": 7,
+            "identityDigest": "1f431212557435a78003f7b2cf062701e8e84c1824975e1d33d7f6354e4f69c6"
+          },
+          {
+            "file": "packages/migrate/src/pal-assets.retirements.test.ts",
+            "testCount": 6,
+            "identityDigest": "d7db3b9dfe3a5ba3cb9f63f3b480f18785b9dc7c562a728cea8d13f291f522f3"
+          },
+          {
+            "file": "packages/migrate/src/pal-assets.sound-closure.test.ts",
+            "testCount": 13,
+            "identityDigest": "08b1365b0cefecd8c5c9c3e12f3f2d81cf4ea1eb9164454d85c0aa270f520faa"
+          },
+          {
+            "file": "packages/migrate/src/pal-assets.sound-metadata.test.ts",
+            "testCount": 12,
+            "identityDigest": "e7d9aac65862c732faf94b6453e7f24d74dfb97cf73c6cefe6aa40374404eb34"
+          },
+          {
             "file": "packages/migrate/src/pal-authored-overlays.boundaries.test.ts",
             "testCount": 2,
             "identityDigest": "0c0cbba32625f61770974b3891c3e92990736a54bccf94523d29abe923df156e"
@@ -1616,25 +1664,25 @@
             "identityDigest": "baba8c49c53ef8a741ef1c605723ba72d227914206784bc3a5f719e12c8ff8ee"
           }
         ],
-        "identityDigest": "db4a7ad9740cff58245af20b674306472f4f99b23fa3f4a9d6015948330b24ae",
+        "identityDigest": "9c959111788cdcbabbb9db8f015d62d4d8f0578b3a4d79307de21c84e8b747c0",
         "duplicateIdentityCount": 1,
-        "executionDigest": "ff262745e02eb58816d73d2ea4b6d4d56c6acdb124a2c4883975f5d4a8fd1476"
+        "executionDigest": "eebaf99a9561e1fa18ca8bd12ac77cd170ef0b46d7c6405696bc05b23be152dc"
       },
       "metrics": {
         "statements": {
-          "covered": 5501,
+          "covered": 5664,
           "total": 7712
         },
         "branches": {
-          "covered": 4628,
+          "covered": 4730,
           "total": 6436
         },
         "functions": {
-          "covered": 762,
+          "covered": 784,
           "total": 1165
         },
         "lines": {
-          "covered": 4906,
+          "covered": 5045,
           "total": 6724
         }
       }
@@ -6166,19 +6214,19 @@
   },
   "total": {
     "statements": {
-      "covered": 62674,
+      "covered": 62837,
       "total": 80643
     },
     "branches": {
-      "covered": 44891,
+      "covered": 44993,
       "total": 63178
     },
     "functions": {
-      "covered": 11524,
+      "covered": 11546,
       "total": 15058
     },
     "lines": {
-      "covered": 56368,
+      "covered": 56507,
       "total": 70600
     }
   }

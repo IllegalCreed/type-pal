@@ -172,6 +172,7 @@
 | [TEST-CODEX-MIGRATE-ASSEMBLY-1 — 当前迁移汇总六组回归](../archive/tasks/done/TEST-CODEX-MIGRATE-ASSEMBLY-1-current-aggregation.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [TEST-CODEX-MIGRATE-PURE-1 — 六组自包含转换边界](../archive/tasks/done/TEST-CODEX-MIGRATE-PURE-1-self-contained-translators.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [TEST-CODEX-MIGRATE-SCENES-1 — 当前场景迁移六组回归](../archive/tasks/done/TEST-CODEX-MIGRATE-SCENES-1-current-scenes.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [TEST-CODEX-PAL-ASSETS-1 — 自包含资源加载与所有权八组回归](../archive/tasks/done/TEST-CODEX-PAL-ASSETS-1-loader-and-ownership.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [TEST-CODEX-TRANSLATE-EVENTS-1 — 当前脚本翻译六组边界](../archive/tasks/done/TEST-CODEX-TRANSLATE-EVENTS-1-current-boundaries.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [TEST-CONTENT-CONTRACTS-1 - 内容数据校验与引用边界补测](../archive/tasks/done/TEST-CONTENT-CONTRACTS-1-content-validation-boundaries.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [TEST-CONTENT-RESIDUAL-1 - 内容合同已登记残项补测（队列 TB-01）](../archive/tasks/done/TEST-CONTENT-RESIDUAL-1-registered-gaps.md) | done | 完成证据、历史签字与交接见原卡。 |
