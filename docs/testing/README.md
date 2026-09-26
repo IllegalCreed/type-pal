@@ -8,6 +8,8 @@
 
 ## 文档与附件
 
+- [Codex当前命令弹层五组](codex-command-forms/README.md)（正式入口51项、输入保真与独立朝向清除红诊断）。
+
 - [Codex调试面板六组公开动作](codex-debug-tools/README.md)（真实DOM/runtime、合法工程与宿主参数边界）。
 
 - [Codex当前预览控制六组](codex-playback/README.md)（公开canonical入口、输入保真、计时与独立单步红诊断）。

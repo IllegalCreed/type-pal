@@ -1,14 +1,14 @@
 {
   "schemaVersion": 2,
   "profile": "fast",
-  "generatedAt": "2026-09-26T12:30:04.700Z",
+  "generatedAt": "2026-09-26T13:03:42.990Z",
   "provider": {
     "name": "v8",
     "vitest": "4.1.7",
     "coverageV8": "4.1.7"
   },
   "sourceFileCount": 701,
-  "testCount": 8895,
+  "testCount": 8946,
   "packages": {
     "shared": {
       "name": "@type-pal/shared",
@@ -4388,8 +4388,8 @@
       ],
       "scopeDigest": "c4716880879227c04784937a4a68179606665a9237b856c0930985b6c02500c2",
       "fastTests": {
-        "testCount": 2721,
-        "testFileCount": 311,
+        "testCount": 2772,
+        "testFileCount": 316,
         "files": [
           "packages/editor/scripts/battle-simulator-http.test.mjs",
           "packages/editor/scripts/battle-simulator-ui.test.tsx",
@@ -4597,6 +4597,11 @@
           "packages/editor/src/ui/BattleSpritePicker.test.tsx",
           "packages/editor/src/ui/CasualtyEditor.test.tsx",
           "packages/editor/src/ui/CommandForm.current-characterization.test.tsx",
+          "packages/editor/src/ui/CommandForm.current-data.test.tsx",
+          "packages/editor/src/ui/CommandForm.current-dialog.test.tsx",
+          "packages/editor/src/ui/CommandForm.current-identity.test.tsx",
+          "packages/editor/src/ui/CommandForm.current-movement.test.tsx",
+          "packages/editor/src/ui/CommandForm.current-scene.test.tsx",
           "packages/editor/src/ui/CommandForm.test.ts",
           "packages/editor/src/ui/ConnectedEditorPages.test.tsx",
           "packages/editor/src/ui/CutsceneTab.test.tsx",
@@ -5735,6 +5740,31 @@
             "identityDigest": "4519326a209f9a9bab789dd16c26e16fcef4c9220bf5ac45c76ff2a3cabcc955"
           },
           {
+            "file": "packages/editor/src/ui/CommandForm.current-data.test.tsx",
+            "testCount": 8,
+            "identityDigest": "0c9ecdffae711e03567d444e179e6dad6fee645a804079c91919c39424e3ff7c"
+          },
+          {
+            "file": "packages/editor/src/ui/CommandForm.current-dialog.test.tsx",
+            "testCount": 9,
+            "identityDigest": "c9fe49558457e9d3f663d2d7a52aba48a0857c01960b6cf733d2dc9b399acdda"
+          },
+          {
+            "file": "packages/editor/src/ui/CommandForm.current-identity.test.tsx",
+            "testCount": 4,
+            "identityDigest": "3c98c14096892faad884f27e98f9f21ebb30f546aafb33a737bcd00d9d031c7c"
+          },
+          {
+            "file": "packages/editor/src/ui/CommandForm.current-movement.test.tsx",
+            "testCount": 20,
+            "identityDigest": "e662dbf233771732814c7afee8b2d4c1f817db75ee4ad2fdde8ec6e92cf56094"
+          },
+          {
+            "file": "packages/editor/src/ui/CommandForm.current-scene.test.tsx",
+            "testCount": 10,
+            "identityDigest": "3efdf226e010c464f798df530dc6f2224d390e0e884ea2b11e9057b5dc3de000"
+          },
+          {
             "file": "packages/editor/src/ui/CommandForm.test.ts",
             "testCount": 3,
             "identityDigest": "55b40073aabf31a82f85c36a63df0f31d0ecb4f596e4a93dc7faf761f2cb9c94"
@@ -6260,25 +6290,25 @@
             "identityDigest": "7c181e89600882213bfdc9bf59bf8d2b40273fc45d2d84fecf9ad6313060cf3b"
           }
         ],
-        "identityDigest": "b47265558823810ad4c52df92df935d964a165f0ef8d9029adfe7d9313c73c22",
+        "identityDigest": "9ccc8a9d9620e1c9860255b82a008884e2c78a64efe07a5d75e4482fb451c496",
         "duplicateIdentityCount": 8,
-        "executionDigest": "045d1e24f9585e6ca6f9cf45f719b442a6e20f6514476901eb06e4aed32e9e6a"
+        "executionDigest": "aaaee3ebed35278b70947af7e4d267d5bd71f5a275d34944aee78243a0b6f85c"
       },
       "metrics": {
         "statements": {
-          "covered": 26239,
+          "covered": 26352,
           "total": 32757
         },
         "branches": {
-          "covered": 20370,
+          "covered": 20543,
           "total": 28338
         },
         "functions": {
-          "covered": 6545,
+          "covered": 6609,
           "total": 8377
         },
         "lines": {
-          "covered": 23592,
+          "covered": 23702,
           "total": 28638
         }
       }
@@ -6286,19 +6316,19 @@
   },
   "total": {
     "statements": {
-      "covered": 63277,
+      "covered": 63390,
       "total": 80643
     },
     "branches": {
-      "covered": 45304,
+      "covered": 45477,
       "total": 63178
     },
     "functions": {
-      "covered": 11678,
+      "covered": 11742,
       "total": 15058
     },
     "lines": {
-      "covered": 56908,
+      "covered": 57018,
       "total": 70600
     }
   }

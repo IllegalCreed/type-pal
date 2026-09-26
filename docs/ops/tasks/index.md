@@ -11,6 +11,7 @@
 | [ARCH-CONTINUATION-1 — 剩余架构治理连续收口](ARCH-CONTINUATION-1-remaining-queue.md) | build | 以任务卡当前准入与看板分工为准。 |
 | [ARCH-SUPPORT-GLM-1 — 八组并行准备取证](ARCH-SUPPORT-GLM-1-eight-audit-packages.md) | draft | 以任务卡当前准入与看板分工为准。 |
 | [EDITOR-PREVIEW-STEP-1 — canonical 预览单步的无可见阶段门](EDITOR-PREVIEW-STEP-1-command-gates.md) | draft | 以任务卡当前准入与看板分工为准。 |
+| [EDITOR-SCENE-FACING-1 — 切场景指令无法清除显式朝向](EDITOR-SCENE-FACING-1-clear-override.md) | draft | 以任务卡当前准入与看板分工为准。 |
 | [TEST-COVERAGE-PLUS5-1 — 全仓分支覆盖率连续提升五个百分点](TEST-COVERAGE-PLUS5-1-continuous-batches.md) | build | 以任务卡当前准入与看板分工为准。 |
 | [TEST-CURSOR-COMMAND-BOUNDARIES-3 — 八组编辑命令行为残项](TEST-CURSOR-COMMAND-BOUNDARIES-3-editor-residuals.md) | rework | 以任务卡当前准入与看板分工为准。 |
 | [TEST-GLM-CONTENT-GUARDS-3 — 八组同步脚本与记录守卫补测](TEST-GLM-CONTENT-GUARDS-3-script-and-records.md) | rework | 以任务卡当前准入与看板分工为准。 |
@@ -168,6 +169,7 @@
 | [SAVE-ISOLATION-1 - 工程与工作区存档隔离](../archive/tasks/done/SAVE-ISOLATION-1-project-workspace-save-scope.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [SAVE-PREFLIGHT-1 - 当前存档预检与恢复失败隔离](../archive/tasks/done/SAVE-PREFLIGHT-1-current-save-restore-preflight.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [TEST-BATTLE-WORKFLOWS-1 - 战斗会话完整流程补测](../archive/tasks/done/TEST-BATTLE-WORKFLOWS-1-session-flows.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [TEST-CODEX-COMMAND-FORMS-1 — 当前命令弹层参数与输入保真](../archive/tasks/done/TEST-CODEX-COMMAND-FORMS-1-current-dialogs.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [TEST-CODEX-CONTENT-RESOURCES-1 — 五组资源索引与引用边界](../archive/tasks/done/TEST-CODEX-CONTENT-RESOURCES-1-indices-and-references.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [TEST-CODEX-DEBUG-TOOLS-1 — 调试面板公开动作六组](../archive/tasks/done/TEST-CODEX-DEBUG-TOOLS-1-public-actions.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [TEST-CODEX-ENEMY-HOOKS-1 — 当前敌人钩子翻译六组边界](../archive/tasks/done/TEST-CODEX-ENEMY-HOOKS-1-current-translation.md) | done | 完成证据、历史签字与交接见原卡。 |

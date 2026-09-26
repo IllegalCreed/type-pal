@@ -1,0 +1,53 @@
+{
+  "base": "7bd8f064",
+  "status": "accepted",
+  "newTests": 51,
+  "groups": { "movement": 20, "scene": 10, "data": 8, "identity": 4, "dialog": 9 },
+  "directed": { "passed": 91, "failed": 0, "json": "/tmp/codex-forms-directed-final.json" },
+  "typecheck": { "exit": 0, "log": "/tmp/codex-forms-tc-repair.log" },
+  "finalFixtureCheck": { "passed": 136, "failed": 0, "log": "/tmp/codex-forms-gate-repair.log" },
+  "sourceSha256": "d6004c29b4e8b7cda52e9f4d2ac37710be5f564e39b32f0c9533147d63e3a3fe",
+  "beforeTarget": { "branches": [113, 540], "lines": [111, 374], "functions": [54, 219] },
+  "afterTarget": { "branches": [234, 540], "lines": [204, 374], "functions": [117, 219] },
+  "adjacentScriptEditor": { "beforeBranches": [628, 1136], "afterBranches": [629, 1136] },
+  "diagnostic": {
+    "original": { "exit": 1, "log": "/tmp/codex-forms-diagnostic-repair-red.log" },
+    "isolatedOnePointOracle": { "exit": 0, "log": "/tmp/codex-forms-diagnostic-repair-oracle.log" },
+    "productionChanged": false,
+    "reason": "loadScene keep-facing selection preserves the previous explicit facing"
+  },
+  "mutants": {
+    "controls": 5,
+    "detected": 5,
+    "sourceUnchanged": true,
+    "directory": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/codex-command-forms-mutants-Zf5ROR"
+  },
+  "official": {
+    "baseRef": "7bd8f064",
+    "serial": true,
+    "check": { "exit": 0, "passed": 9438, "log": "/tmp/codex-forms-check-repair.log" },
+    "ratchet": { "exit": 0, "log": "/tmp/codex-forms-ratchet.log" },
+    "strict": { "exit": 0, "passed": 8946, "log": "/tmp/codex-forms-strict.log" },
+    "sourceFileCount": 701,
+    "sourceFilesAndDenominatorsUnchanged": true,
+    "otherSixPackageObjectsUnchanged": true,
+    "before": {
+      "statements": [63277, 80643],
+      "branches": [45304, 63178],
+      "functions": [11678, 15058],
+      "lines": [56908, 70600]
+    },
+    "after": {
+      "statements": [63390, 80643],
+      "branches": [45477, 63178],
+      "functions": [11742, 15058],
+      "lines": [57018, 70600]
+    },
+    "delta": { "statements": 113, "branches": 173, "functions": 64, "lines": 110 },
+    "initialCheckFailure": {
+      "exit": 1,
+      "log": "/tmp/codex-forms-check.log",
+      "reason": "New TSX test helper was scanned as a production UI page; moved to TS with equivalent createElement, without changing gates or old tests."
+    }
+  }
+}

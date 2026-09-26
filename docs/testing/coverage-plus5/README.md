@@ -18,6 +18,7 @@
 | [migrate资源加载与所有权](../codex-pal-assets/README.md) | Codex | done，84项/八针/统一门通过 | +102 |
 | [editor当前预览控制](../codex-playback/README.md) | Codex | done，54项/六针/统一门通过 | +138 |
 | [reforge调试面板公开动作](../codex-debug-tools/README.md) | Codex | done，61项/六针/统一门通过 | +173 |
+| [editor当前命令弹层](../codex-command-forms/README.md) | Codex | done，51项/五针/统一门通过 | +173 |
 
 统计以官方整批并集为准，不相加贡献者局部数字。实现期间只定向/相邻/TC；整批串行check→ratchet→
 受保护单次strict-fast，通过后更新本表并推送。用户无需回来逐次批准继续；需要新的产品裁决时才问。
@@ -63,3 +64,9 @@
 ratchet/单次strict8,895通过；701生产文件/所有分母与其它六包完整baseline对象不变。
 新61项走真实DOM/loader/runtime及独立宿主效果端口，不声称战斗/视觉已实测；六反控均业务红。
 Cursor本地/远端仍b6bcc9b4且工作树干净，GLM仍a00f12c2，二者counter未闭，均未计入本次统计。
+
+2026-09-26第九批：45,477/63,178 = **71.98233562315997%**；累计+2,059分支/+542测试，
+相对起点+3.259045870397923pp，距离目标还差1,100分支。check9,438、保护7bd8f064的串行
+ratchet/单次strict8,946通过；701生产文件/所有分母与其它六包完整baseline对象不变。
+本席夹具文件类型导致静态门首次失败已修并留记录；未修改旧测试/产品/排除。
+真实切场景朝向清除缺陷保留原红与单点oracle绿、另卡draft，不借补测关闭。母目标继续。
