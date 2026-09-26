@@ -69,4 +69,18 @@ Branch: `codex/glm-item-logic-r1`
   TC exit0；改动九文件 Biome 0 error 0 warning（全 src runtime-script.ts:146 既有问题属分支继承）；
   docs PASS；diff --check 干净。未发现产品疑似缺陷；池内不可达臂如实不测（详见
   [回执](../../testing/glm-item-logic/receipt.md) / [机账](../../testing/glm-item-logic/evidence.json)）。
-- 候选 SHA：见本分支头部提交；不合 main、不标 done，交 Codex 独立验收。
+- r2 窄返工（2026-09-27，仅 R1–R4，见 origin/main `docs/testing/item-logic-r1-review.md`）：
+  R1 heroActor 用 `satisfies ActorDef` + **当前 player 侧 baseStats**（hp/maxHP/mp/maxMP/attack 等）
+  构造并经 validateActors 验证；hero/world 改用生产 instantiate/buildWorld 可消费基线；
+  移除 preflight `as never`。R2 四合同：I2 补**装备独有正控**（空背包+装备中可用品入列
+  equippedUsable.push 臂）；I4 beadRing 加非空 potion 哨兵并以 deepSnapshot 比较；I5 levelUp
+  改为固定 rng 的真实 8 项成长精确值（level 2/maxHP 164/maxMP 111/attack 15/…）；
+  I6 consuming 行加非默认 host 世界（money 37/resources/learnedSkills）保真。R3 全部六文件
+  对象/数组拒绝调用经 expectInputsUnchanged（多入参逐次快照）或显式快照对保护，worldResourceValue
+  抛错路径补 before/after，removeOwnedItems 保持原地精确差值。R4 mutants:27 空行/Biome format 修、
+  相邻 item.test 实际 51 项（非 96）、runner 第四针正名 resolve-stopped-skip、
+  derived-stat-assign 类别改派生数值错误、external-world-identity 改引用选择合同、
+  runtime-script 既有 warning 表述修正、derived/effects/external 头注释按实际用例收窄。
+  复验：定向 46/46（I2 新增 1 行）；6 针负控各恰红；全 content **98 文件 1178/1178**、TC 0、
+  改动 Biome 0 error（runtime-script 既有 warning 属分支继承）；docs PASS、diff --check 干净。
+  候选 SHA：见本分支头部提交；不合 main、不标 done，交 Codex 独立验收。

@@ -13,6 +13,7 @@
  */
 import { describe, expect, test } from 'vitest'
 import {
+  expectInputsUnchanged,
   hero,
   item as makeItem,
   poisonDefs,
@@ -104,9 +105,9 @@ describe('I5 效果链与门', () => {
     }
     const w = world([{ itemId: 'use-item', count: 1 }])
     let outcome: WorldItemUseOutcome | undefined
-    expectAcceptsUnchanged((value) => {
-      outcome = resolveWorldItemUse(value, 'hero', 'use-item', items, poisonDefs(), () => 0.999999)
-    }, w)
+    expectInputsUnchanged(() => {
+      outcome = resolveWorldItemUse(w, 'hero', 'use-item', items, poisonDefs(), () => 0.999999)
+    }, [w, items, poisonDefs])
     expect(outcome?.status).toBe('failure')
     expect(outcome?.reason).toBe('gate-failed')
     expect(outcome?.effectResults?.[0]?.gate).toEqual({ chance: 100, roll: 100, passed: false })
@@ -122,9 +123,9 @@ describe('I5 效果链与门', () => {
     }
     const w = world([{ itemId: 'use-item', count: 1 }])
     let outcome: WorldItemUseOutcome | undefined
-    expectAcceptsUnchanged((value) => {
-      outcome = resolveWorldItemUse(value, 'nobody', 'use-item', items)
-    }, w)
+    expectInputsUnchanged(() => {
+      outcome = resolveWorldItemUse(w, 'nobody', 'use-item', items)
+    }, [w, items])
     expect(outcome?.status).toBe('success')
     expect(outcome?.changed).toBe(true)
     expect(outcome?.world?.hostileAwareness).toEqual({ rangeMultiplier: 0, remainingMs: 60000 })
@@ -160,7 +161,7 @@ describe('I5 目标类效果残差', () => {
     }, downed)
     expect(outcome?.changed).toBe(true)
     const revived = outcome?.world?.party[0]!
-    expect(revived?.hp).toBe(75)
+    expect(revived?.hp).toBe(50)
     expect(revived?.extraStatuses).toEqual([])
     expect(outcome?.effectResults?.[0]?.targetCharIds).toEqual(['hero'])
     const alive = world([{ itemId: 'use-item', count: 1 }])
@@ -207,15 +208,15 @@ describe('I5 目标类效果残差', () => {
     const unknownItems: ItemDataMap = {
       'use-item': useItem([{ kind: 'curePoison', poisonId: '551' }], { consuming: false }),
     }
-    expectAcceptsUnchanged((value) => {
-      outcome = resolveWorldItemUse(value, 'hero', 'use-item', unknownItems, poisonDefs())
-    }, unknownPoison)
+    expectInputsUnchanged(() => {
+      outcome = resolveWorldItemUse(unknownPoison, 'hero', 'use-item', unknownItems, poisonDefs())
+    }, [unknownPoison, unknownItems, poisonDefs])
     expect(outcome?.changed).toBe(false)
     expect(outcome?.world?.party[0]?.poisons).toEqual([{ poisonId: 999, tickIndex: 1 }])
     const clean = world([{ itemId: 'use-item', count: 1 }])
-    expectAcceptsUnchanged((value) => {
-      outcome = resolveWorldItemUse(value, 'hero', 'use-item', tierItems, poisonDefs())
-    }, clean)
+    expectInputsUnchanged(() => {
+      outcome = resolveWorldItemUse(clean, 'hero', 'use-item', tierItems, poisonDefs())
+    }, [clean, tierItems, poisonDefs])
     expect(outcome?.changed).toBe(false)
   })
 
@@ -339,7 +340,7 @@ describe('I5 目标类效果残差', () => {
     const leader = outcome?.world?.party[0]!
     const mage = outcome?.world?.party[1]!
     expect(leader.hp).toBe(0)
-    expect(mage.hp).toBe(60)
+    expect(mage.hp).toBe(40)
     expect(mage.poisons).toEqual([{ poisonId: 551, tickIndex: 0 }])
   })
 
@@ -349,9 +350,9 @@ describe('I5 目标类效果残差', () => {
     }
     const w = world([{ itemId: 'use-item', count: 1 }])
     let outcome: WorldItemUseOutcome | undefined
-    expectAcceptsUnchanged((value) => {
-      outcome = resolveWorldItemUse(value, 'hero', 'use-item', items, poisonDefs(), () => 0.5)
-    }, w)
+    expectInputsUnchanged(() => {
+      outcome = resolveWorldItemUse(w, 'hero', 'use-item', items, poisonDefs(), () => 0.5)
+    }, [w, items, poisonDefs])
     expect(outcome?.changed).toBe(true)
     expect(outcome?.world?.party[0]?.exp).toBe(0)
     expect(outcome?.world?.party[0]?.level).toBeGreaterThanOrEqual(1)

@@ -24,7 +24,6 @@ const tests = [
   'src/item.external.background.test.ts',
 ]
 
-
 const mutations = [
   {
     id: 'derived-stat-assign',
@@ -82,7 +81,7 @@ const mutations = [
   },
 ]
 
-const TOTAL = 45
+const TOTAL = 46
 const sourcePath = (name) => resolve(root, `packages/content/src/${name}.ts`)
 const hash = (name) =>
   createHash('sha256')

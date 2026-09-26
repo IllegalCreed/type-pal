@@ -7,7 +7,12 @@
  * 失败 outcome 的 world 是原引用，实际入参逐次快照比较，同型合法对照必须通过。
  */
 import { describe, expect, test } from 'vitest'
-import { hero, item as makeItem, world } from './__tests__/glm-item-logic-fixtures.js'
+import {
+  expectInputsUnchanged,
+  hero,
+  item as makeItem,
+  world,
+} from './__tests__/glm-item-logic-fixtures.js'
 import { expectAcceptsUnchanged } from './__tests__/guard-leaf-fixtures.js'
 import type { WorldState } from './character.js'
 import type { WorldItemUseOutcome } from './item.js'
@@ -70,25 +75,25 @@ describe('I3 preflightWorldItemUse 残差', () => {
   test('unknown-item：不在 map 或无 use 块都拒绝，menu 缺省 keep', () => {
     const w = world([{ itemId: 'potion', count: 1 }])
     let outcome: WorldItemUseOutcome | undefined
-    expectAcceptsUnchanged((value) => {
-      outcome = preflightWorldItemUse(value, 'hero', 'gone-item', items)
-    }, w)
+    expectInputsUnchanged(() => {
+      outcome = preflightWorldItemUse(w, 'hero', 'gone-item', items)
+    }, [w, items])
     expectFailure(outcome, w, 'unknown-item')
     const noUse = world([{ itemId: 'noUse', count: 1 }])
-    expectAcceptsUnchanged((value) => {
-      outcome = preflightWorldItemUse(value, 'hero', 'noUse', {
+    expectInputsUnchanged(() => {
+      outcome = preflightWorldItemUse(noUse, 'hero', 'noUse', {
         noUse: makeItem({ id: 'noUse', name: '无用途' }),
       })
-    }, noUse)
+    }, [noUse, items])
     expectFailure(outcome, noUse, 'unknown-item')
   })
 
   test('wrong-context：battleOnly 用途拒绝', () => {
     const w = world([{ itemId: 'battleOnly', count: 1 }])
     let outcome: WorldItemUseOutcome | undefined
-    expectAcceptsUnchanged((value) => {
-      outcome = preflightWorldItemUse(value, 'hero', 'battleOnly', items)
-    }, w)
+    expectInputsUnchanged(() => {
+      outcome = preflightWorldItemUse(w, 'hero', 'battleOnly', items)
+    }, [w, items])
     expectFailure(outcome, w, 'wrong-context')
   })
 
@@ -99,10 +104,10 @@ describe('I3 preflightWorldItemUse 残差', () => {
       outcome = preflightWorldItemUse(value, 'hero', 'potion', items)
     }, none)
     expectFailure(outcome, none, 'not-owned')
-    const equipped = {
+    const equipped: WorldState = {
       ...world([]),
-      party: [{ ...hero(), equipment: { accessory: 'talisman' } } as never],
-    } as WorldState
+      party: [{ ...hero(), equipment: { accessory: 'talisman' } }],
+    }
     const talismanItems: ItemDataMap = {
       talisman: makeItem({
         id: 'talisman',
@@ -115,26 +120,26 @@ describe('I3 preflightWorldItemUse 残差', () => {
         use: { target: 'oneAlly', consuming: true, effects: [{ kind: 'healMp', amount: 20 }] },
       }),
     }
-    expectAcceptsUnchanged((value) => {
-      outcome = preflightWorldItemUse(value, 'hero', 'talisman', talismanItems)
-    }, equipped)
+    expectInputsUnchanged(() => {
+      outcome = preflightWorldItemUse(equipped, 'hero', 'talisman', talismanItems)
+    }, [equipped, talismanItems])
     expect(outcome).toBeUndefined()
   })
 
   test('missing-target：oneAlly 缺目标拒绝、同型合法对照（目标在场）通过', () => {
     const nobody = world([{ itemId: 'potion', count: 1 }])
     let outcome: WorldItemUseOutcome | undefined
-    expectAcceptsUnchanged((value) => {
-      outcome = preflightWorldItemUse(value, 'nobody', 'potion', items)
-    }, nobody)
+    expectInputsUnchanged(() => {
+      outcome = preflightWorldItemUse(nobody, 'nobody', 'potion', items)
+    }, [nobody, items])
     expectFailure(outcome, nobody, 'missing-target')
     const withTarget = {
       ...world([{ itemId: 'potion', count: 1 }]),
       party: [hero(), hero(90, 45, 'mage')],
     } satisfies WorldState
-    expectAcceptsUnchanged((value) => {
-      outcome = preflightWorldItemUse(value, 'mage', 'potion', items)
-    }, withTarget)
+    expectInputsUnchanged(() => {
+      outcome = preflightWorldItemUse(withTarget, 'mage', 'potion', items)
+    }, [withTarget, items])
     expect(outcome).toBeUndefined()
   })
 
@@ -155,23 +160,23 @@ describe('I3 preflightWorldItemUse 残差', () => {
         },
       }),
     }
-    expectAcceptsUnchanged((value) => {
-      outcome = preflightWorldItemUse(value, 'nobody', 'groupTonic', allItems)
-    }, allAllies)
+    expectInputsUnchanged(() => {
+      outcome = preflightWorldItemUse(allAllies, 'nobody', 'groupTonic', allItems)
+    }, [allAllies, allItems])
     expect(outcome).toBeUndefined()
     const sceneW = world([{ itemId: 'sceneCharm', count: 1 }])
-    expectAcceptsUnchanged((value) => {
-      outcome = preflightWorldItemUse(value, 'nobody', 'sceneCharm', items)
-    }, sceneW)
+    expectInputsUnchanged(() => {
+      outcome = preflightWorldItemUse(sceneW, 'nobody', 'sceneCharm', items)
+    }, [sceneW, items])
     expect(outcome).toBeUndefined()
   })
 
   test('menu 在失败 outcome 上提前成形（close）', () => {
     const w = world([])
     let outcome: WorldItemUseOutcome | undefined
-    expectAcceptsUnchanged((value) => {
-      outcome = preflightWorldItemUse(value, 'hero', 'closePotion', items)
-    }, w)
+    expectInputsUnchanged(() => {
+      outcome = preflightWorldItemUse(w, 'hero', 'closePotion', items)
+    }, [w, items])
     expectFailure(outcome, w, 'not-owned', 'close')
   })
 })

@@ -7,7 +7,12 @@
  * equipItem 为不可变 API：原 world 引用前后快照比较；非法时结果 toBe 原 world。
  */
 import { describe, expect, test } from 'vitest'
-import { hero, item as makeItem, world } from './__tests__/glm-item-logic-fixtures.js'
+import {
+  expectInputsUnchanged,
+  hero,
+  item as makeItem,
+  world,
+} from './__tests__/glm-item-logic-fixtures.js'
 import { expectAcceptsUnchanged } from './__tests__/guard-leaf-fixtures.js'
 import type { CharacterInstance, WorldState } from './character.js'
 import {
@@ -74,9 +79,9 @@ describe('I2 equipItem 残差', () => {
       { itemId: 'potion', count: 3 },
     ])
     let next: WorldState | undefined
-    expectAcceptsUnchanged((value) => {
-      next = equipItem(value, 'hero', 'bead', items)
-    }, w)
+    expectInputsUnchanged(() => {
+      next = equipItem(w, 'hero', 'bead', items)
+    }, [w, items])
     expect(next).not.toBe(w)
     expect(next?.inventory).toEqual([
       { itemId: 'oldRing', count: 2 },
@@ -88,10 +93,22 @@ describe('I2 equipItem 残差', () => {
   test('equipableBy 不含成员模板时原引用返回', () => {
     const w = world([{ itemId: 'mareArmor', count: 1 }])
     let next: WorldState | undefined
-    expectAcceptsUnchanged((value) => {
-      next = equipItem(value, 'hero', 'mareArmor', items)
-    }, w)
+    expectInputsUnchanged(() => {
+      next = equipItem(w, 'hero', 'mareArmor', items)
+    }, [w, items])
     expect(next).toBe(w)
+  })
+
+  test('装备独有正控：空背包但装备中的可用品仍入列（equippedUsable.push 臂）', () => {
+    const w: WorldState = {
+      ...world([]),
+      party: [{ ...hero(), equipment: { accessory: 'talisman' } }],
+    }
+    let list: string[] = []
+    expectInputsUnchanged(() => {
+      list = usableItems(w, items).map((it) => it.id)
+    }, [w, items])
+    expect(list).toEqual(['talisman'])
   })
 
   test('非 caster 成员的成员对象引用与内容都不受换装影响', () => {
@@ -99,9 +116,9 @@ describe('I2 equipItem 残差', () => {
     const mage = hero(80, 40, 'mage')
     const withTwo = { ...base, party: [base.party[0]!, mage] } satisfies WorldState
     let next: WorldState | undefined
-    expectAcceptsUnchanged((value) => {
-      next = equipItem(value, 'hero', 'bead', items)
-    }, withTwo)
+    expectInputsUnchanged(() => {
+      next = equipItem(withTwo, 'hero', 'bead', items)
+    }, [withTwo, items])
     expect(next?.party[1]).toBe(mage)
     expect(next?.party[1]?.equipment).toEqual({ accessory: 'oldRing' })
   })
@@ -113,9 +130,9 @@ describe('I2 equipItem 残差', () => {
       party: [{ ...hero(), equipment: {} } as CharacterInstance],
     } satisfies WorldState
     let next: WorldState | undefined
-    expectAcceptsUnchanged((value) => {
-      next = equipItem(value, 'hero', 'bead', items)
-    }, bare)
+    expectInputsUnchanged(() => {
+      next = equipItem(bare, 'hero', 'bead', items)
+    }, [bare, items])
     expect(next?.inventory).toEqual([])
     expect(next?.party[0]?.equipment).toEqual({ accessory: 'bead' })
   })
@@ -144,9 +161,9 @@ describe('I2 equippedItemIds / equippableItems / usableItems 残差', () => {
       { itemId: 'bead', count: 0 },
     ])
     let list: string[] = []
-    expectAcceptsUnchanged((value) => {
-      list = equippableItems(value, 'hero', items).map((it) => it.id)
-    }, w)
+    expectInputsUnchanged(() => {
+      list = equippableItems(w, 'hero', items).map((it) => it.id)
+    }, [w, items])
     expect(list).toEqual(['bead'])
   })
 
@@ -156,9 +173,9 @@ describe('I2 equippedItemIds / equippableItems / usableItems 残差', () => {
       party: [{ ...hero(), equipment: { accessory: 'battleTalisman', weapon: 'talisman' } }],
     }
     let list: string[] = []
-    expectAcceptsUnchanged((value) => {
-      list = usableItems(value, items).map((it) => it.id)
-    }, w)
+    expectInputsUnchanged(() => {
+      list = usableItems(w, items).map((it) => it.id)
+    }, [w, items])
     expect(list).toEqual(['talisman'])
   })
 })

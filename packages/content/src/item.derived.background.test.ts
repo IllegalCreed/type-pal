@@ -9,7 +9,12 @@
  * 调用前独立快照、调用后比较同一入参。
  */
 import { describe, expect, test } from 'vitest'
-import { hero, heroActor, item as makeItem } from './__tests__/glm-item-logic-fixtures.js'
+import {
+  expectInputsUnchanged,
+  hero,
+  heroActor,
+  item as makeItem,
+} from './__tests__/glm-item-logic-fixtures.js'
 import { expectAcceptsUnchanged } from './__tests__/guard-leaf-fixtures.js'
 import type { CharacterInstance } from './character.js'
 import {
@@ -162,9 +167,9 @@ describe('I1 effectiveSkills/effectiveBattleSpriteId 残差', () => {
     const c = char({ weapon: 'bossSprite' })
     const actor = heroActor()
     let sprite: string | undefined
-    expectAcceptsUnchanged((value) => {
-      sprite = effectiveBattleSpriteId(value, actor, items)
-    }, c)
+    expectInputsUnchanged(() => {
+      sprite = effectiveBattleSpriteId(c, actor, items)
+    }, [c, actor, items])
     expect(sprite).toBe('battle.hero.boss')
   })
 })

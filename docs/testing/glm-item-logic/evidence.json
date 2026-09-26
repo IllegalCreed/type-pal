@@ -17,12 +17,24 @@
     "packages/content/src/item.external.background.test.ts",
     "packages/content/src/__tests__/glm-item-logic-fixtures.ts"
   ],
-  "leafTests": { "I1": 8, "I2": 7, "I3": 6, "I4": 8, "I5": 10, "I6": 6, "total": 45 },
+  "leafTests": {
+    "I1": 8,
+    "I2": 8,
+    "I3": 6,
+    "I4": 8,
+    "I5": 10,
+    "I6": 6,
+    "total": 46
+  },
   "discipline": "合法物品经 validateItems（fixtures.item 构造即验证）；每组先旧标题去重；单轴负例配同入口同型正控；纯函数 expectAcceptsUnchanged 独立快照前后比较；removeOwnedItems 按原地合同断言精确差值（计数/键集/数组长度/返回值）不施加不可变断言；I5 混链行用 rawItem 刻意非法载体并显式标注，只测 resolve 自身防御合同",
   "oracle": {
     "tool": "docs/testing/glm-item-logic/item-logic-mutants.mjs",
     "criteria": "复用已验收 judge：恰 exit（对照0/变异1）/ 恰一红 / 失败记录绝对文件+实际 fullName / 其余全过无skip / 逐条拒混错与timeout / load命中 entered.json / 生产sha256不变；自测10例全按预期",
-    "control": { "exitCode": 0, "tests": 45, "failed": 0 },
+    "control": {
+      "exitCode": 0,
+      "tests": 46,
+      "failed": 0
+    },
     "needles": [
       {
         "id": "derived-stat-assign",
@@ -69,9 +81,9 @@
     ]
   },
   "gates": {
-    "directed": "六文件 45/45 exit 0（新鲜 JSON）",
+    "directed": "六文件 46/46 exit 0",
     "adjacent": "item.test.ts 96 项绿；reforge item-use-executor 17 项绿",
-    "contentSuite": "98 文件 1177/1177 exit 0（新鲜 JSON /tmp/item-logic-content.json；净增恰 45 行测试身份）",
+    "contentSuite": "98 文件 1178/1178 exit 0（新鲜 JSON /tmp/item-logic-r2-content.json；净增恰 46 行测试身份）",
     "typecheck": "exit 0",
     "biome": "本批改动九文件 0 error 0 warning；全 src 另有 runtime-script.ts:146 既有 noUnusedVariables 属分支继承（生产零 diff 可证）",
     "docs": "PASS；git diff --check 干净",
