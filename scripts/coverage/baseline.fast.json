@@ -1,14 +1,14 @@
 {
   "schemaVersion": 2,
   "profile": "fast",
-  "generatedAt": "2026-09-26T01:44:02.312Z",
+  "generatedAt": "2026-09-26T02:44:35.337Z",
   "provider": {
     "name": "v8",
     "vitest": "4.1.7",
     "coverageV8": "4.1.7"
   },
-  "sourceFileCount": 644,
-  "testCount": 8165,
+  "sourceFileCount": 648,
+  "testCount": 8182,
   "packages": {
     "shared": {
       "name": "@type-pal/shared",
@@ -163,7 +163,7 @@
         "**/*.spec.tsx",
         "**/*.d.ts"
       ],
-      "sourceFileCount": 51,
+      "sourceFileCount": 55,
       "sourceFiles": [
         "packages/content/src/actor-condition.ts",
         "packages/content/src/actor-reference.ts",
@@ -177,15 +177,19 @@
         "packages/content/src/author-scene.ts",
         "packages/content/src/author-script-core.ts",
         "packages/content/src/author-script.ts",
+        "packages/content/src/battle-choreography.ts",
         "packages/content/src/battle-field-reference.ts",
         "packages/content/src/battle-formulas.ts",
         "packages/content/src/battle-sprite.ts",
         "packages/content/src/character.ts",
         "packages/content/src/command-target-reference.ts",
+        "packages/content/src/command-validation-options.ts",
+        "packages/content/src/enemy-ai-condition-guard.ts",
         "packages/content/src/enemy-ai.ts",
         "packages/content/src/enemy-script.ts",
         "packages/content/src/enemy-team-reference.ts",
         "packages/content/src/enemy-team.ts",
+        "packages/content/src/enemy-validation-shapes.ts",
         "packages/content/src/enemy.ts",
         "packages/content/src/entity-lifecycle.ts",
         "packages/content/src/frame-sequence.ts",
@@ -217,10 +221,10 @@
         "packages/content/src/validate.ts",
         "packages/content/src/world-variable.ts"
       ],
-      "scopeDigest": "ddd95209167f371644d3cd13db68e744944c06fcfb108f3e67a9452ba52cf3a6",
+      "scopeDigest": "6b0f53f3a58ebe5227b9528cfce792383a19b27947a7c3d037471ceb6da40c7d",
       "fastTests": {
-        "testCount": 850,
-        "testFileCount": 75,
+        "testCount": 866,
+        "testFileCount": 76,
         "files": [
           "packages/content/src/actor-condition.boundaries.test.ts",
           "packages/content/src/actor-condition.test.ts",
@@ -232,6 +236,7 @@
           "packages/content/src/asset-closure.contracts.test.ts",
           "packages/content/src/asset.residual.test.ts",
           "packages/content/src/asset.test.ts",
+          "packages/content/src/author-battle-dialogue-boundary.test.ts",
           "packages/content/src/author-dialogue.contracts.test.ts",
           "packages/content/src/author-dialogue.field-guards.test.ts",
           "packages/content/src/author-dialogue.test.ts",
@@ -348,6 +353,11 @@
             "file": "packages/content/src/asset.test.ts",
             "testCount": 27,
             "identityDigest": "c89dac72cd881d682063e4110bab32739160141cb30759ea40ad24c183448a38"
+          },
+          {
+            "file": "packages/content/src/author-battle-dialogue-boundary.test.ts",
+            "testCount": 13,
+            "identityDigest": "8b855069131683deb760b2eba254003d483cdd8e57f492e3bdbfa861351ad3d5"
           },
           {
             "file": "packages/content/src/author-dialogue.contracts.test.ts",
@@ -621,8 +631,8 @@
           },
           {
             "file": "packages/content/src/validate-enemy-crosscalls.test.ts",
-            "testCount": 7,
-            "identityDigest": "386a53234db9353e6b997532368c3904019f0603d0bab8b3899a59773d540bb5"
+            "testCount": 10,
+            "identityDigest": "46f50e445b87ecf20453f1959b2c97602f4f030313c550edc63e5bb0a52626f5"
           },
           {
             "file": "packages/content/src/validate-refs.contracts.test.ts",
@@ -675,17 +685,17 @@
             "identityDigest": "6bd136e3dc31faf579c7b78a5dd284c6a1fd1a58ee6d3fa624ccee6e21be9a3c"
           }
         ],
-        "identityDigest": "d7e565bd6492e984627fd51a6c5d9426edc985cc5f4175fb9bae53e1abff001f",
+        "identityDigest": "e4e34b408c82848248d34881ed60eb413ad3b17bb2165e8aeb3a9b6cbc9481d9",
         "duplicateIdentityCount": 0,
-        "executionDigest": "214dd7c1dd0639719c4e9e3fda5f7f645ee589236586cd97de49acc6f642d3b6"
+        "executionDigest": "f44583ffec1debfdbf10f2475bba2e297bff2f0e3a87615bb0178d30e046fcd9"
       },
       "metrics": {
         "statements": {
-          "covered": 5185,
+          "covered": 5187,
           "total": 5856
         },
         "branches": {
-          "covered": 4155,
+          "covered": 4160,
           "total": 5019
         },
         "functions": {
@@ -693,8 +703,8 @@
           "total": 831
         },
         "lines": {
-          "covered": 4692,
-          "total": 5185
+          "covered": 4691,
+          "total": 5183
         }
       }
     },
@@ -1042,7 +1052,7 @@
       ],
       "scopeDigest": "980711e930306f3ff6a1d70817611eb6f83e3681f7568f886680e6ebe1939e2f",
       "fastTests": {
-        "testCount": 421,
+        "testCount": 422,
         "testFileCount": 55,
         "files": [
           "packages/migrate/src/bake-indexed-rgba.test.ts",
@@ -1134,8 +1144,8 @@
           },
           {
             "file": "packages/migrate/src/migrate-conversion-isolation.test.ts",
-            "testCount": 5,
-            "identityDigest": "eef8d526b7d45d0c5031fdbce2e8f2c2e6f1b3afc8de8a0930533b23575206b1"
+            "testCount": 6,
+            "identityDigest": "88bcf2c4f0225071c13edcd745e4cc91dcb73b116d18d2886ae5bb947e5d2272"
           },
           {
             "file": "packages/migrate/src/migrate-enemies.wave2.test.ts",
@@ -1378,17 +1388,17 @@
             "identityDigest": "baba8c49c53ef8a741ef1c605723ba72d227914206784bc3a5f719e12c8ff8ee"
           }
         ],
-        "identityDigest": "05aa2f07b278f4df6315c0d3dd77512216054253a917392596d6a7038fb2beef",
+        "identityDigest": "8642ac467468cf09fcb95e21791d22874d939e7cc880ba42b0d2f2c1b18b2345",
         "duplicateIdentityCount": 1,
-        "executionDigest": "3d6c18386eb8f1e63db05924ae38017f0f0c3642e43811ce51249df706af5250"
+        "executionDigest": "41458c9a812da62784260d7566bfb8a12f87b31c09c87851572a927c56ab86aa"
       },
       "metrics": {
         "statements": {
-          "covered": 4240,
+          "covered": 4241,
           "total": 7712
         },
         "branches": {
-          "covered": 3153,
+          "covered": 3155,
           "total": 6436
         },
         "functions": {
@@ -5671,11 +5681,11 @@
   },
   "total": {
     "statements": {
-      "covered": 61237,
+      "covered": 61240,
       "total": 80619
     },
     "branches": {
-      "covered": 43254,
+      "covered": 43261,
       "total": 63176
     },
     "functions": {
@@ -5683,8 +5693,8 @@
       "total": 15036
     },
     "lines": {
-      "covered": 55132,
-      "total": 70572
+      "covered": 55131,
+      "total": 70570
     }
   }
 }

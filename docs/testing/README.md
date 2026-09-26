@@ -8,6 +8,8 @@
 
 ## 文档与附件
 
+- [GLM架构回归实验r11接收与Codex补正](architecture-regression-lab-codex-r11-review.md)（42候选/六针绿；4项拟接入与Map补正留复核分支；V01提交undo通过，完整视觉矩阵及回执仍未闭）
+
 - [GLM 战场命令族拆分回执与Codex验收](glm-arch-battle-field-commands.md)及[done任务卡](../ops/archive/tasks/done/ARCH-F2-EDITOR-BATTLE-FIELD-COMMANDS-1.md)（83833719机械搬移保真；156项/两针/check8657/受保护strict8165/644与隔离功能核验通过，F2整体未完成）
 
 - [Grok一阶段菜单与索引渲染候选](grok-present-regressions/README.md)、[Codex独立复核](grok-present-review.md)及[正式接入](grok-present-integration.md)（P01–P10共25项，23业务绘制+2快照自测；check/ratchet/严格fast8090/641通过，候选历史不等于视觉/E2E）

@@ -158,4 +158,62 @@ describe('G08 迁移转换边界', () => {
     // 场景实体不受影响（根只进图分析）
     expect(withRoot.scenes).toEqual(without.scenes)
   })
+
+  test('G08-07 转换中段真异常：缺布局证据中段抛出；修复后断言实际 setActorSprite 输出与资源身份，并与新鲜正确运行全量对照', () => {
+    // 与 G08-05（输入预检层）相区分：raw 0x65（换角色大世界精灵）经 translate-events.ts:1624
+    // 走 spriteIdForNum → migrate-content.ts resolveSpriteIdForNum 在**转换中段**抛出
+    // 「sprite 42 缺布局证据；禁止从脚本资源号猜布局」。
+    // 输出断言落在真实业务产物：chunk 内 setActorSprite 命令（actor/sprite 身份）+ SpriteDef
+    // 注册身份；并与一次**独立构造的新鲜正确运行**做全量 deep-equal 对照 ——
+    // 若成功路径吞掉命令（如 translate-events.ts:1625 push 被置空的丢输出反控），本例即红。
+    const buildInputs = () => {
+      const scene = sourceScene(0)
+      scene.eventObjects.push({ id: 2, x: 96, y: 48, spriteNum: 42, sState: 0, sLayer: -2 })
+      const spriteEvents: SourceCmd[] = [
+        { label: 'L_1', op: 'raw', opcode: 0x65, operands: [0, 42] },
+        { op: 'end' },
+      ]
+      return {
+        scenes: [scene],
+        events: new Map([[0, spriteEvents]]),
+      }
+    }
+    // 先在失败发生前运行独立合法正控，避免两份“失败之后”输出共享污染而伪等价。
+    const referenceInputs = buildInputs()
+    const referenceBefore = structuredClone(referenceInputs)
+    const reference = mapScenesStatic(referenceInputs.scenes, referenceInputs.events)
+    expect(referenceInputs).toEqual(referenceBefore)
+    // ① 失败路径：无 sprite 42 布局证据 → 中段抛出（预检已通过）
+    const missing = buildInputs()
+    delete (missing.scenes[0]!.eventObjects[2] as { spriteNum?: number }).spriteNum
+    const missingBefore = structuredClone(missing)
+    let message = ''
+    try {
+      mapScenesStatic(missing.scenes, missing.events)
+    } catch (error) {
+      message = error instanceof Error ? error.message : String(error)
+    }
+    expect(message).toContain('sprite 42 缺布局证据')
+    expect(missing).toEqual(missingBefore) // 抛出前后输入深保真
+    // ② 修复路径（独立构造，不复用失败输入引用）
+    const fixed = buildInputs()
+    const fixedBefore = JSON.stringify([fixed.scenes, [...fixed.events.entries()]])
+    const good = mapScenesStatic(fixed.scenes, fixed.events)
+    expect(JSON.stringify([fixed.scenes, [...fixed.events.entries()]])).toBe(fixedBefore)
+    // 实际 setActorSprite 输出与稳定资源身份
+    const triggerBody = good.scriptChunks['scene/s000']?.scripts[
+      'scene/s000/root/entity-e1/page-0/trigger/stage-0'
+    ] as unknown
+    expect(triggerBody).toEqual([
+      { kind: 'setActorSprite', actor: 'li-xiaoyao', sprite: 'sprite-42' },
+    ])
+    const spriteDef = good.sprites.find((s) => s.id === 'sprite-42')
+    expect(spriteDef).toMatchObject({ id: 'sprite-42', asset: 'sprite.pal.042' })
+    // 实体也引用同一稳定 id（资源身份一致）
+    expect(good.scenes[0]!.entities.find((e) => e.id === 'e2')).toMatchObject({
+      sprite: 'sprite-42',
+    })
+    // ③ 与失败前的独立合法运行比较全部输出，含报告和脚本注册信息。
+    expect(good).toEqual(reference)
+  })
 })

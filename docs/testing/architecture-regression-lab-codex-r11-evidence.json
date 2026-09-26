@@ -1,0 +1,179 @@
+{
+  "schemaVersion": 1,
+  "candidate": "22dc835cd275c020b644c2281ba35855c6381ac4",
+  "candidateBase": "5ea51631",
+  "reviewBranch": "codex/arch-lab-r11-review",
+  "mainIntegration": false,
+  "done": false,
+  "verdict": "narrow accept; remaining visual and receipt counter",
+  "checks": {
+    "candidates": {
+      "path": "/tmp/codex-glm-r11-candidates.json",
+      "sha256": "e162c92a80605b3964e56050868678f666c86ba2cb0eb2143730e604bfcff8ad",
+      "passed": 42,
+      "failed": 0,
+      "pending": 0,
+      "failures": []
+    },
+    "verify": {
+      "entries": 57,
+      "statusCounts": [54, 1, 1, 1],
+      "exit": 0
+    },
+    "redControl": {
+      "needles": 6,
+      "detected": 6,
+      "exit": 0
+    },
+    "typecheck": 0,
+    "biome": {
+      "exit": 0,
+      "warnings": 1
+    },
+    "docs": 0,
+    "diagnostics": {
+      "path": "/tmp/codex-glm-r11-diagnostics.json",
+      "sha256": "755d816f88898afc9360fe272e9cdd3a714f1575421bc22fc19f7aa7dc128f38",
+      "passed": 2,
+      "failed": 2,
+      "pending": 0,
+      "failures": [
+        {
+          "fullName": "[reproduced-defect] 同一 cue 经 startBattle.choreography 应同样被拒（当前产品漏检 → 本断言失败）",
+          "firstLine": "AssertionError: expected [Function] to throw an error"
+        },
+        {
+          "fullName": "LAB-STARTUP-RED 破坏 apply 后：改名命令不再落到业务对象（恰在绿正控断言处红）",
+          "firstLine": "AssertionError: expected false to be true // Object.is equality"
+        }
+      ]
+    }
+  },
+  "failureInputWitness": {
+    "anchor": "packages/migrate/src/migrate-content.ts: resolveSpriteIdForNum missing layouts throw",
+    "mutation": "Before the existing throw, set eventsByScene.get(0)[0].operands[0] to 999; leave exception unchanged.",
+    "candidate": {
+      "path": "/tmp/codex-glm-r11-input-mutant.json",
+      "sha256": "66fed9a5b9aedefbdab1bbc426233e627ccca1ed56dcac79b999cc97f170acad",
+      "passed": 1,
+      "failed": 0,
+      "pending": 5,
+      "failures": []
+    },
+    "codexPreparedCopy": {
+      "path": "/tmp/codex-r11-main-map-mutant.json",
+      "sha256": "f29512dbb0ddf79a42859067429f191ce261ccdc026c10c152aa1f22accc9afb",
+      "passed": 0,
+      "failed": 1,
+      "pending": 5,
+      "failures": [
+        {
+          "fullName": "G08 迁移转换边界 G08-07 转换中段真异常：缺布局证据中段抛出；修复后断言实际 setActorSprite 输出与资源身份，并与新鲜正确运行全量对照",
+          "firstLine": "AssertionError: expected { …(2) } to deeply equal { …(2) }"
+        }
+      ]
+    },
+    "fix": "structuredClone Map input; compare same input immediately; run independent valid reference before failing call; compare complete outputs",
+    "candidateBranchUntouched": true
+  },
+  "groups": {
+    "G01": "prior accept unchanged",
+    "G06": "seven-entry mapping accepted; G06-D1 confirmed; G06-11 deduplicated against stronger Codex 13; prepare G06-08/09/10",
+    "G08": "drop-sprite detected; Map input hole corrected only in Codex prepared copy",
+    "V01": "five submit/undo paths independently verified; remaining keyboard/focus matrix unverified",
+    "V02": "unperformed, not proven environment block",
+    "V03": "unperformed, not proven environment block",
+    "V04": "unperformed, self-contained valid fixture remains feasible"
+  },
+  "visual": {
+    "independentOrigin": "http://127.0.0.1:6015/",
+    "usedRealBrowserPress": true,
+    "forms": [
+      "item 61",
+      "skill 295",
+      "enemy team-0 slot 3",
+      "battlefield 6",
+      "battle simulator scenario"
+    ],
+    "observedUndoRestoration": true,
+    "temporaryTabClosed": true,
+    "temporaryServerStopped": true,
+    "limitations": [
+      "full V01 keyboard/focus matrix remains unverified",
+      "GLM enemy-team and battlefield reverted screenshots still show edited state",
+      "new screenshots absent from artifacts hash verification"
+    ]
+  },
+  "preparedIntegration": {
+    "bugCommit": "ebef3d5a",
+    "structureCommit": "4cdefcf1",
+    "addedCodexTests": 13,
+    "selectedGlmTests": 4,
+    "check": {
+      "exit": 0,
+      "tests": 8674,
+      "log": "/tmp/codex-e2-check.log",
+      "sha256": "f8bc2ba8ff7c9521d242f9a05d7f4b0934cea5c0b6b9f05513bd4ee160a065bd"
+    },
+    "ratchet": {
+      "exit": 0,
+      "log": "/tmp/codex-e2-ratchet.log",
+      "sha256": "e5b4f1f6e8341228afa8702d4dcd2600fbce29c5611c379595a001e39e8127c9"
+    },
+    "strict": {
+      "status": "passed",
+      "exit": 0,
+      "tests": 8182,
+      "productionFiles": 648,
+      "protectedRef": "8bf40b90",
+      "log": "/tmp/codex-e2-strict.log"
+    },
+    "baseline": {
+      "before": {
+        "files": 644,
+        "tests": 8165,
+        "metrics": {
+          "statements": {
+            "covered": 61237,
+            "total": 80619
+          },
+          "branches": {
+            "covered": 43254,
+            "total": 63176
+          },
+          "functions": {
+            "covered": 11385,
+            "total": 15036
+          },
+          "lines": {
+            "covered": 55132,
+            "total": 70572
+          }
+        }
+      },
+      "after": {
+        "files": 648,
+        "tests": 8182,
+        "metrics": {
+          "statements": {
+            "covered": 61240,
+            "total": 80619
+          },
+          "branches": {
+            "covered": 43261,
+            "total": 63176
+          },
+          "functions": {
+            "covered": 11385,
+            "total": 15036
+          },
+          "lines": {
+            "covered": 55131,
+            "total": 70570
+          }
+        }
+      },
+      "note": "review branch only; not origin/main official status"
+    }
+  }
+}

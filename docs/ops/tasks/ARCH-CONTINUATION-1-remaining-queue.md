@@ -17,8 +17,8 @@ Codex持续处理[治理台账](../audits/architecture-debt.md)剩余边界，Cu
 
 | 队列 | 完成条件 | 当前 |
 |---|---|---|
-| E2 | 作者/敌人校验运行期环消除；共享形状/校验选项明确；七类递归路径与错误位置保真；已证嵌套cue漏检另提交修复 | 开始 |
-| D1 | 第一阶段七节点SCC按真实状态/查询/脚本桥消环；旧入口/数值/坐标/推进序保持 | 待实施 |
+| E2 | 作者/敌人校验运行期环消除；共享形状/校验选项明确；七类递归路径与错误位置保真；已证嵌套cue漏检另提交修复 | 候选全部门禁通过；复核分支未合主线 |
+| D1 | 第一阶段七节点SCC按真实状态/查询/脚本桥消环；旧入口/数值/坐标/推进序保持 | 独立worktree实施 |
 | A3 | 活动场景、移动与绘制状态各有所有者；main保留装配/协调；取消、切场同步提交和采样时点保真 | 待续段 |
 | B1 | App工程生命周期、导航与场景工作区分离；历史/保存/离开/试玩既有门禁仍通过 | 待实施 |
 | B2 | MapMode手势、选择/剪贴板、组合操作和视图分别有明确边界；取消、权限和原子提交保真 | 待实施 |
@@ -47,7 +47,10 @@ Codex持续处理[治理台账](../audits/architecture-debt.md)剩余边界，Cu
 
 ## 当前推进
 
+- D1开工锚：`event-system`全局脚本目录:763-845、背包:3369-3391、毒定义:911-932/毒操作:5206-5277；`scene-system`当前map身份:45-56；`equip-effect`被动派生/写值/卸装状态:30-417；`menu-mode`栈操作与恢复。计划分出script-catalog/inventory-state/player-poison-state/scene-identity/equipment-state/menu-stack，旧出口re-export同一绑定；脚本执行器仍在event/equip高层，底层状态不反向调用执行器，七节点runtime环应消除。源码算法/slot/数值/输入采样点全部保持，同步调用无新增await。第一阶段工程笔记§2.3/§3.1与现行旧测试为保真锚，不修改原版/SDLPal行为；新worktree`codex/architecture-d1`独占该批生产文件，main冻结跑E2门禁。
+
 - E2缺陷修复先行：新增正式`author-battle-dialogue-boundary.test.ts`13项，原实现9项AssertionError红/4项合法与runtime对照绿；`:712`显式透传options后13/13、content全包863/863与typecheck通过。覆盖直接及七递归臂的精确错误路径、三种合法作者identity、实际cue/路径透传、runtime方言保留；结构解环随后另提交，整批质量门统一执行。
+- E2结构候选`4cdefcf1`：校验协议、敌人形状/AI条件、战斗演出守卫分别下沉到独立模块；author-script-core/敌人脚本旧出口52/19个保持。TypeScript擦除type后的content运行时图由一个2节点SCC变为无SCC，既有863项保持全绿。GLM r11新例经独立复核择取4项，失败Map输入快照与前后运行基准由Codex补正；完整check8674→ratchet→保护8bf40b90的单次strict8182/648均通过。按r11交接限制，本次全部候选保存在`codex/arch-lab-r11-review`，未合origin/main；不得把其候选覆盖率称为主线已入库。详见[本席r11复核](../../testing/architecture-regression-lab-codex-r11-review.md)。
 
 Codex：**premise verified / build allowed**，用户全队列授权下按上表顺序连续开工，单批一主要边界；
 Cursor独占其白名单，Codex不同时编辑commands.ts/controls.tsx的委派区。尚无done准入。

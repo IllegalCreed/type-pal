@@ -86,6 +86,29 @@ Codex保留A3的main/场景/移动/绘制主线，GLM不修改或替其审签。
 - G06七入口去重表未落，引用的enemy条件递归不能代表author-script-core的七个命令递归点；沿漏测的`:712`跨模块边确认真实缺陷：`checkAuthorCommands`直接拒绝缺identity的dialog，却放行startBattle.choreography内同一cue（漏传options）。须补显式失败诊断，产品修复Owner仍Codex。
 - G08-07恢复正控只数场景/实体，单点吞掉setActorSprite输出仍1/1绿；须钉真实输出与修复输入保真。回执仍混旧分支/45条37项与错误复跑cwd，须纠正。V01其余表单、V02–V04仍未完成，不能因预算未做而收口。本轮不合候选、不动官方基线；主线任务保持build，不回退draft。
 
+## Codex r11 接收与补正候选（2026-09-26，候选 `22dc835c`）
+
+- [独立复核](../../testing/architecture-regression-lab-codex-r11-review.md)：42/42、57条verify、六针、tsc/Biome/docs绿；G06-D1在冻结树确为2绿/1红（完整diagnostics另含旧启动红例）。G06矩阵方向已修正，G08输出身份与丢输出反控闭合。
+- 本席另见失败输入Map快照被JSON.stringify丢弃，污染其脚本操作数时候选仍绿；已在拟接入副本用structuredClone深比及失败前合法基准修正，相同单点污染现业务红。新增content3/migrate1择取，G06-11由本席更强13项覆盖去重；GLM候选原文不改。产品cue缺identity漏检已另提交`ebef3d5a`，E2解环与统一门禁由连续收口卡推进。全部补正保存在`codex/arch-lab-r11-review`，按本轮限制不合origin/main，候选统计不计主线已入库。
+- Codex独立浏览器已复验物品/技能/敌队/战场/模拟器五类提交与一次undo窄流程，均正常。GLM两张reverted图片未显示回退，新图未入hash机账，须更正阶段与归属；“IAB press缺失”不作已证根因。V01其余键盘/焦点矩阵与V02/V03/V04继续补齐，任务仍build、不标done。
+- 复核分支补正候选已统一通过check8674、ratchet及保护8bf40b90的单次strict8182/648；这不是主线已入库数字。当前裁决是**窄合同accept；剩余视觉/回执counter**，未替GLM签字，未合候选，不标整卡done。
+
+### 下一位 GLM 提示词（剩余视觉与回执收口）
+
+```text
+继续ARCH-REGRESSION-LAB-GLM-1（build），仍在原r2分支/worktree执行。
+先fetch并只读origin/codex/arch-lab-r11-review中的
+docs/testing/architecture-regression-lab-codex-r11-review.md与本卡Codex r11块；不为取报告合入复核分支。
+G06矩阵/G08输出断言及五类表单提交undo已窄接收；Codex已承担Map失败输入快照
+和作者cue漏检修复，不再为这两处重复返工。请集中完成V01剩余键盘/焦点矩阵、
+V02非空工作区分隔条、V03失败→恢复/A-B乱序、V04合法媒体与revision刷新。
+用新的自有origin和buildBlankProject/正式编码器，不等待升级旧e2e-own；不碰用户项目。
+修正receipt当前段的旧分支/45条37项/错误cwd；两张reverted图片实际仍是修改值，
+更正阶段并引用Codex独立补验证据，全部新图登记完整hash，不再把press缺失说成已证平台根因。
+每项交可重放步骤、业务前后值、完成/entered信号及必要正反控。只改实验目录和自己的交付块，
+不改产品/正式测试/基线或Codex结论；不合main、不标done。Codex继续架构实施与最终独立验收。
+```
+
 ### 下一位 GLM r10 收窄返工与剩余项提示词
 
 ```text
