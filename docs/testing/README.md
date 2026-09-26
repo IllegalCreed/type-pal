@@ -8,6 +8,8 @@
 
 ## 文档与附件
 
+- [GLM物品六组独立接收](item-logic-r1-review.md)（705eb161，六漏检反证/夹具与回执R1–R4）。
+
 - [快速通关E2E路线方案](e2e-route-proposal.md)（2026-09-27讨论稿，未开runner实现）。
 - [GLM/Cursor后台补测两包](background-tests-20260927/README.md)（冻结目标与可转发提示词）。
 

@@ -1,6 +1,6 @@
 # TEST-GLM-ITEM-LOGIC-1 — 物品纯逻辑六组补测
 
-Status: build
+Status: rework
 Owner: GLM
 Reviewer / Integration Owner: Codex
 Phase: phase2
@@ -9,6 +9,14 @@ Production Base: `a95618fc`
 Branch: `codex/glm-item-logic-r1`
 
 ## 准入与前提
+
+### 2026-09-27 Codex接收705eb161
+
+**counter / R1–R4**，见[独立反证与返工提示词](../../testing/item-logic-r1-review.md)。
+本包45/全content1177/相邻executor17/TC/原六针与10判据自测独立通过；产品零漂移成立，
+导航单行例外接受。但typed Actor夹具字段错误，六独立变异漏检（独立oracle均能抓住），
+最终Biome有formatter error、回执计数/针归因不符。任务转rework；候选未合入、不计覆盖。
+只修夹具、已声明业务断言与实际输入保真及回执，不授权产品改动；无需固定他席签字。
 
 2026-09-27用户明确GLM/Cursor继续补测，Codex转E2E讨论。Codex核定本包build allowed；
 只测试当前content物品合同，不能修改产品政策/公式或以当前行为替代未知设计。
