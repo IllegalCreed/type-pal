@@ -47,6 +47,19 @@ Codex持续处理[治理台账](../audits/architecture-debt.md)剩余边界，Cu
 
 ## 当前推进
 
+- 2026-09-26 D2-b 战斗运行资源生命周期开工（基点 `f0d9b09c`）：`battle-system.ts`
+  同时定义资源表形状、在 `GameState.__battleResources/__battleRunScript` 写入与读取、present 侧 live roles
+  查询及 finalize 清理，主控因而直接知道两项隐藏运行资源的存储细节。现行一手真值是 `startBattle`
+  在构造 `BattleState` 后同步安装资源与可选脚本 runner，所有 phase 在同一 `GameState` 上读取，
+  `finalizeBattle` 先恢复玩法状态再清资源/runner 并接回事件脚本；原版只要求这些表和脚本入口覆盖整场战斗，
+  不规定 TypeScript 容器。目标迁为 `battle-runtime-context.ts` 单一 owner，仍使用完全相同的隐藏键、对象引用、
+  fallback runner 和清理时点；`battle-system` 只装配/消费窄函数并继续 re-export 既有 public 类型/查询，
+  不引入全局 Map、完整 runtime context 或第二份角色状态。最强替代解释是封装会改变 fixture 直接观察隐藏字段、
+  注入 runner 优先级或战后释放顺序；可证伪观察为引用身份、fallback、hidden key 可见性或 finalize 后状态任一不同。
+  验收以 owner 直接例、现有 battle/dev-panel/present 相邻回归、源码边界与反控固定；玩法、公式、RNG、SAVE8、
+  content20、UI 与资产零改。Codex 已核当前 start/tick/finalize 调用链，premise verified / build allowed；
+  本段只是战斗主控拆分的资源子边界，完成不等于 D2 完成。
+
 - 2026-09-26 D2-a 玩家/装备/毒/状态 opcode 族开工（基点 `d70d73b8`）：当前 `applyRawOpcode`
   仍在 `event-system.ts:3499` 混持角色成长、装备交换、HP/MP、复活、毒/状态、法术表等 22 个 case 及其
   私有 helper。原版/primary source 为 `script.c:752-1404,1816-1846,2591-2595` 与 `global.c` 对应
