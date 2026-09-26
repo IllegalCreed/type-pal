@@ -47,6 +47,20 @@ Codex持续处理[治理台账](../audits/architecture-debt.md)剩余边界，Cu
 
 ## 当前推进
 
+- 2026-09-26 E1-a 脚本移动族转换阶段开工（基点 `9013cf86`）：`translate-events.ts:1675-1768`
+  在 `walkBody` 巨型 raw 链内混持单步、实体/队伍定点移动、组队、聚拢、骑乘、相对位移、逐步动画与追逐
+  12 组 opcode；这些映射只依赖操作数、owner 和稳定实体/角色映射，却借用整个翻译上下文与对话 flush。
+  primary source 为 `script.c` 对应 0x0B–0x0E、0x10/11/7C/82、0x70/7A/7B、0x75、0xA1、
+  0x3F/44/97、0x6E/7D/6C/87/4C；一阶段现行真值由当前 translator、`translate-events.test.ts`、
+  motion/bindings/PAL 测试和 source-facts 稳定对象号规则共同固定。目标迁为纯内存
+  `translate-event-motion.ts`：只收 opcode/operands/owner，返回 commands、terminal、gap 或已核 no-op 结果；
+  `walkBody` 仍独占 dialogue flush、instruction audit、gap/report 和 cursor 推进，不把 `TranslateCtx` 传给新 owner。
+  保持速度枚举、1-based全局对象→e{id-1}、0/FFFF self、0xA1 global用途 no-op、0x4C 同步段终与命令顺序。
+  最强替代解释是提前纯映射会改变 pending dialog flush 或 chase 的同指令终止；可证伪观察为输出 AST、gap/no-op
+  账、terminal 或 source outcome digest 任一差异。验收用 owner 直接矩阵、现有 translate/motion/PAL 相邻回归、
+  反控、Migrate TC/Biome；不运行迁移写盘、不改生成工程、content20 或 schema。Codex 已核调用链与 source-facts，
+  premise verified / build allowed；E1-a 完成不等于 E1 整体完成，场景映射阶段仍后续。
+
 - 2026-09-26 D2候选收口（基点 `d70d73b8`，实现头 `138c41c8`）：角色/装备/状态等22个 opcode
   已归 `event-opcode-player`；战斗隐藏资源与 runner、公共 finalization、主/隐藏经验升级和多屏结算分别归
   runtime/finalization/progression/settlement owner；启动四类并发下载、glyph 降级与 soundfont 双 barrier 归
