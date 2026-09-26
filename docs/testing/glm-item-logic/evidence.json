@@ -1,0 +1,82 @@
+{
+  "task": "TEST-GLM-ITEM-LOGIC-1",
+  "date": "2026-09-27",
+  "owner": "GLM",
+  "base": {
+    "productionFreeze": "a95618fc",
+    "branchFrom": "6c66619e (origin/main, 含任务卡)",
+    "worktree": "type-pal-glm-item-logic（新建隔离，主工作树未动）",
+    "frozenEvidence": "docs/testing/background-tests-20260927/targets.json（item.ts 221/326B，105 未命中臂仅选题）"
+  },
+  "newFiles": [
+    "packages/content/src/item.derived.background.test.ts",
+    "packages/content/src/item.inventory.background.test.ts",
+    "packages/content/src/item.preflight.background.test.ts",
+    "packages/content/src/item.ownership.background.test.ts",
+    "packages/content/src/item.effects.background.test.ts",
+    "packages/content/src/item.external.background.test.ts",
+    "packages/content/src/__tests__/glm-item-logic-fixtures.ts"
+  ],
+  "leafTests": { "I1": 8, "I2": 7, "I3": 6, "I4": 8, "I5": 10, "I6": 6, "total": 45 },
+  "discipline": "合法物品经 validateItems（fixtures.item 构造即验证）；每组先旧标题去重；单轴负例配同入口同型正控；纯函数 expectAcceptsUnchanged 独立快照前后比较；removeOwnedItems 按原地合同断言精确差值（计数/键集/数组长度/返回值）不施加不可变断言；I5 混链行用 rawItem 刻意非法载体并显式标注，只测 resolve 自身防御合同",
+  "oracle": {
+    "tool": "docs/testing/glm-item-logic/item-logic-mutants.mjs",
+    "criteria": "复用已验收 judge：恰 exit（对照0/变异1）/ 恰一红 / 失败记录绝对文件+实际 fullName / 其余全过无skip / 逐条拒混错与timeout / load命中 entered.json / 生产sha256不变；自测10例全按预期",
+    "control": { "exitCode": 0, "tests": 45, "failed": 0 },
+    "needles": [
+      {
+        "id": "derived-stat-assign",
+        "module": "item.ts",
+        "injection": "effectiveStat v += delta -> v = delta",
+        "category": "输入污染（派生累加改赋值）",
+        "onlyFailed": "I1 …同名 stat 累加、异 stat 与非 statBonus 不串扰，map 外装备 id 回退"
+      },
+      {
+        "id": "equippable-count-filter",
+        "module": "item.ts",
+        "injection": "equippableItems e.count > 0 -> >= 0",
+        "category": "过滤放行",
+        "onlyFailed": "I2 …equippableItems 过滤 count>0 与模板（count 0 不列）"
+      },
+      {
+        "id": "ownership-floor-ceiling",
+        "module": "item.ts",
+        "injection": "remaining floor -> ceil",
+        "category": "输入语义（非整数 count）",
+        "onlyFailed": "I4 …需求 0/负数/非整数：floor+max 语义"
+      },
+      {
+        "id": "resolve-target-skip",
+        "module": "item.ts",
+        "injection": "targetIds continue -> if (false)",
+        "category": "错目标",
+        "onlyFailed": "I5 …oneAlly 跳过非目标；allAllies 复合链跳过已停表目标"
+      },
+      {
+        "id": "external-drop-consume",
+        "module": "item.ts",
+        "injection": "completeExternal consumed = consumeItem(…) -> false",
+        "category": "错误消费",
+        "onlyFailed": "I6 …consuming 扣 1 件：世界为 clone、effectResults 全 changed 保序"
+      },
+      {
+        "id": "external-world-identity",
+        "module": "item.ts",
+        "injection": "completeExternal world: consumed ? next : world -> nextWorld",
+        "category": "丢外部变化",
+        "onlyFailed": "I6 …world 引用合同：consumedByExternal 与不消费都返回原 world 引用"
+      }
+    ]
+  },
+  "gates": {
+    "directed": "六文件 45/45 exit 0（新鲜 JSON）",
+    "adjacent": "item.test.ts 96 项绿；reforge item-use-executor 17 项绿",
+    "contentSuite": "98 文件 1177/1177 exit 0（新鲜 JSON /tmp/item-logic-content.json；净增恰 45 行测试身份）",
+    "typecheck": "exit 0",
+    "biome": "本批改动九文件 0 error 0 warning；全 src 另有 runtime-script.ts:146 既有 noUnusedVariables 属分支继承（生产零 diff 可证）",
+    "docs": "PASS；git diff --check 干净",
+    "notRun": "全仓 check/coverage、E2E、主树操作"
+  },
+  "productDefects": "未发现疑似产品缺陷，无需诊断。不可达臂如实不测：assertNever 防御、preflight 后物品消失、外部三 kind/非携带态错分支、drawFromResourcePool 档位越界（roll 基于 maxRoll 恒在档内）、setWorldResourceValue/changeInventory 私有负 delta。锁绿现状合同：resolve 混链失败须 rawItem 载体；consuming 计入 changed（零变化行用 consuming:false 隔离）；permanentStatBoost delta 0 非法，钳位零变化用 maxHP=1 + delta=-1 表达。",
+  "handoff": "不合 main、不标 done；候选 SHA 见卡内作者交付块，交 Codex 独立验收。"
+}

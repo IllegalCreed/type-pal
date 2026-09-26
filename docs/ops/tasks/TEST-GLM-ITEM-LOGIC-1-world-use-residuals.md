@@ -50,3 +50,23 @@ Branch: `codex/glm-item-logic-r1`
 从含本卡的最新origin/main新建独立worktree/上述分支；以前GLM目录已清理，不复活旧分支。
 冻结只对应a95618fc七包官方基线；交付基点写实际新分支SHA。整包提交推送后给完整SHA、命令/exit/新鲜JSON计数。
 不合main、不标done、不代签。Codex独立接收后安排必要统一质量门，不以本包阻塞E2E讨论。
+
+## GLM 作者交付（2026-09-27）
+
+- I1–I6 连续完成：六份 `.background.test.ts` 共 **45 行**（I1 8/I2 7/I3 6/I4 8/I5 10/I6 6），
+  复用已验收 `guard-leaf-fixtures.ts` 助手，新增薄 fixture `__tests__/glm-item-logic-fixtures.ts`
+  （物品构造即过 validateItems；hero/world/heroActor/毒表；另有 rawItem 仅供 I5 混链防御合同并显式标注）。
+- 去重：item.test.ts 既有 96 项逐组核对（describeEquipEffects 六例、equipItem happy/三类非法、
+  C8 支持矩阵、扣除顺序、craftRecipe/资源池/公共效果/chance 等），相同合同登记于回执去重列不重报；
+  **effectiveStat 与 completeExternalWorldItemUse 在 content 内零直测**，为本批两组核心增量。
+- 纪律：合法物品构造即过 validateItems；单轴负例配同入口同型正控；纯函数 expectAcceptsUnchanged
+  独立快照前后比较；**removeOwnedItems 按原地合同断言精确差值**（计数/键集/数组长度/返回值），
+  不施加不可变断言；I5 混链行用 rawItem 刻意非法载体只测 resolve 防御合同。
+- 负控：[item-logic-mutants.mjs](../../testing/glm-item-logic/item-logic-mutants.mjs) 复用已验收
+  judge——自测 10 例 + 45 项对照 + 6 针（错误消费/错目标/丢外部变化/输入污染·派生累加/过滤放行/
+  输入语义 floor）各恰红目标 fullName。
+- 门禁：定向 45/45；相邻 item.test 96 + reforge executor 17 绿；全 content **98 文件 1177/1177**；
+  TC exit0；改动九文件 Biome 0 error 0 warning（全 src runtime-script.ts:146 既有问题属分支继承）；
+  docs PASS；diff --check 干净。未发现产品疑似缺陷；池内不可达臂如实不测（详见
+  [回执](../../testing/glm-item-logic/receipt.md) / [机账](../../testing/glm-item-logic/evidence.json)）。
+- 候选 SHA：见本分支头部提交；不合 main、不标 done，交 Codex 独立验收。
