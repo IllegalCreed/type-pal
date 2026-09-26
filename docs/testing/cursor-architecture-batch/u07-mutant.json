@@ -1,0 +1,13 @@
+{
+  "id": "u07-number-step",
+  "file": "packages/editor/src/ui/design-system/number-inputs.tsx",
+  "sha256": "0a95ee1b495d76f3446a394663fa0007fe6f13054e358a49369158d4542eb54e",
+  "hashUnchanged": true,
+  "greenExit": 0,
+  "greenPassed": 1,
+  "redExit": 1,
+  "failedTitle": "keeps number input identity with stepped parse validation string",
+  "failedFullName": "U07 number inputs keeps number input identity with stepped parse validation string",
+  "assertion": "AssertionError: expected 'any' to be '1' // Object.is equality",
+  "ok": true
+}
