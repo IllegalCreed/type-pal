@@ -47,6 +47,19 @@ Codex持续处理[治理台账](../audits/architecture-debt.md)剩余边界，Cu
 
 ## 当前推进
 
+- 2026-09-26 D2-a 玩家/装备/毒/状态 opcode 族开工（基点 `d70d73b8`）：当前 `applyRawOpcode`
+  仍在 `event-system.ts:3499` 混持角色成长、装备交换、HP/MP、复活、毒/状态、法术表等 22 个 case 及其
+  私有 helper。原版/primary source 为 `script.c:752-1404,1816-1846,2591-2595` 与 `global.c` 对应
+  PlayerRoles/poison/level helper；一阶段真值为 `game-mechanics.md` 的主升级、装备 base+Σeffect、毒与状态规则，
+  当前二阶段不消费此运行时；本段目标只把现有同步实现迁入 `event-opcode-player.ts`，旧 `event-system` 继续
+  re-export 原 opcode 常量并在统一 raw 入口同步委派。新 owner 只接收 `GameState`、三操作数、role context 和
+  毒脚本同步回调，不接收 event runtime/战斗主控/bootstrap；`BattleState` 专属 enemy opcode 仍保持现有 no-op
+  fallback，不借重构改双解释器政策。最强替代解释是模块化会改变 Math.random 采样或 battle raw fallback 的
+  同拍回灌；可证伪观察为同一真实 opcode 序列出现 state/cursor/RNG 调用次序差异。验收以现有 event/equipment/
+  poison/battle-script 回归、owner 直接例、源码边界与单点反控固定；玩法、公式、SAVE8/content20、UI、资产零改。
+  Codex 已直接核 `engineering-notes.md` §2.1–3.5、`game-mechanics.md` 对应条目和当前正式调用链，premise verified /
+  build allowed；D2-a 完成不等于 D2 整体完成，战斗主控与启动资源生命周期仍后续。
+
 - 2026-09-26 C1 BattleSession四owner候选 `aab78c82`、`450df20d`、`f68d4e89`、`afef3cd3`
   已交付：[回执与未证项](../../testing/battle-session-owners-refactor.md)。readiness gate、settlement presentation、
   command selection、action presentation scheduler 分别独占资源屏障、终态呈现、命令临时态与动作演出节拍；
