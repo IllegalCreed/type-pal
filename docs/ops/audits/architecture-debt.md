@@ -30,7 +30,7 @@ Codex负责其余高风险实现和全部独立接收；执行仍按单一状态
 |---|---|---|---|
 | A1 Reforge菜单/物品宿主（已done） | 09429基点main.ts:5293、:5368、:6384，菜单态/物品异步执行混入6696行bootGame | dbe55b55已移出15状态，main7153→6798；MenuSession/ItemUseSession拥有控制状态，窄端口接线 | 28新增、155序列3798步等价、10针、check8440/strict7949通过；A2已另行完成，A3分段推进 |
 | A2 Reforge战斗宿主（[r1 done](../archive/tasks/done/ARCH-REFORGE-BATTLE-1-host-lifecycle.md)） | 7f3840e6 main.ts:2149–2505，资源准备、会话、结算、战后脚本由大闭包调度 | 46287966 BattleHost/准备单元已落；main6798→6486；独立所有权，不改核心 | 23新增/11针/check8463/strict7972/637与真实功能验证通过；自审两处时序补正已闭 |
-| A3 Reforge世界/帧循环（[首段done](../archive/tasks/done/ARCH-REFORGE-FRAME-1-clock-and-input.md)、[资源预检段done](../../testing/scene-preparation-refactor.md)、[活动场景/镜头段accept](../../testing/active-scene-refactor.md)，整体未完成） | 原大闭包同时拥有场景资源、镜头、移动、绘制；各分段以冻结SHA重定位 | 已迁时钟/输入、资源/预检、ActiveScene/WorldCamera；main6486→6427→6260→6148；移动/绘制续段未完成 | 最新17新增/七针、80宿主函数与64序列2560步对照、check8724/strict8232/688、隔离功能核验；同步提交原样 |
+| A3 Reforge世界/帧循环（[首段done](../archive/tasks/done/ARCH-REFORGE-FRAME-1-clock-and-input.md)、[资源预检段done](../../testing/scene-preparation-refactor.md)、[活动场景/镜头段accept](../../testing/active-scene-refactor.md)、[移动/绘制候选](../../testing/world-runtime-refactor.md)） | 原大闭包同时拥有场景资源、镜头、移动、绘制；各分段以冻结SHA重定位 | 7be10bf4候选已迁WorldMotionRuntime/WorldScenePresentation；main6486→6427→6260→6148→5698；统一门/集成后正式完成 | 20新增/九针、Reforge1642、TC/build与6053隔离功能通过；全仓check/ratchet/strict待原接收对话，未提前标done |
 | B1 编辑器App | App.tsx共5170行；App:360单组件3345行，含导航/保存/历史/试打/场景选择 | 工程会话协调、导航、场景工作区、试打生命周期分别归属 | undo顺序、保存/恢复、离开保护原门禁；最小功能视觉 |
 | B2 地图工作区 | MapMode.tsx:251单组件3569行 | 工具手势会话、选择/剪贴板、组合模板操作与视图拆分 | 操作提交原子性、取消与重放、地图权限原断言；不改格式 |
 | B3 脚本/内容表单 | ScriptEditor.tsx:1710单表单913行；CommandForm.tsx:257单组件1842行 | 按命令族分表单；收敛作者/通用命令桥接类型，不靠强转掩盖边界 | canonical合同与引用保护，不能以“清理”删除仍有真实调用的领域能力 |
@@ -46,7 +46,7 @@ Codex负责其余高风险实现和全部独立接收；执行仍按单一状态
 
 | Owner | 可推进的窄批 | 明确不碰 |
 |---|---|---|
-| Codex | A3余下活动场景/移动/绘制；B1/B2、C1、D1/D2、E1/E2 的关键所有权与语义裁决；全仓质量门及集成 | 不借纯重构夹带新玩法或迁移生成物手改 |
+| Codex | A3候选待统一集成；续推B1/B2、C1、D2、E1、F1 的关键所有权与语义裁决；全仓质量门及集成 | 不借纯重构夹带新玩法或迁移生成物手改 |
 | GLM | 前批已done；[六组同步守卫补测](../tasks/TEST-GLM-CONTENT-GUARDS-2-leaf-boundaries.md)窄返工R1–R4 | 只改content白名单新测试，生产零改，不接视觉/时序混合包；未接收不计官方统计 |
 | Grok | [F2 溢出文本组件搬迁](../archive/tasks/done/ARCH-F2-DS-OVERFLOW-1.md)已按窄切片 done，仅 `DsOverflowText`；下个中风险批另卡核准 | 其它控件、CSS/交互重设计、A3及战斗引擎 |
 | Cursor | 前批均done；[九组剩余命令拆分](../tasks/ARCH-F2-CURSOR-BATCH-2-remaining-commands.md)build allowed | 只机械迁移editor commands与声明helper，不改算法、UI、保存格式或其它宿主 |

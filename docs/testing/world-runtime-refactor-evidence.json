@@ -1,0 +1,119 @@
+{
+  "schemaVersion": 1,
+  "owner": "Codex implementation and self-verification; original intake conversation retains integration",
+  "base": "be5218bb8192c2683a9a4b7d6a79dfadd7b9b3da",
+  "implementation": "7be10bf4",
+  "scope": "A3-d/e world motion and presentation ownership candidate",
+  "status": "candidate; not merged to main; unified full-repository gates pending intake",
+  "ownership": {
+    "motion": {
+      "file": "packages/reforge/src/world-motion-runtime.ts",
+      "lines": 563,
+      "composesExistingCoordinator": true,
+      "owns": [
+        "world cadence and tick identity",
+        "motion command epochs",
+        "partyMove lifecycle",
+        "entity gait and explicit animation",
+        "side-stick and fairness clock",
+        "player motion epoch/direction",
+        "motion trace",
+        "move/step/chase slot registration and cancellation"
+      ],
+      "doesNotOwn": [
+        "live world or scene positions",
+        "entity lifecycle policy",
+        "touch or hostile behavior",
+        "canonical endpoint persistence"
+      ]
+    },
+    "existingCoordinator": {
+      "file": "packages/reforge/src/motion-runtime-coordinator.ts",
+      "retainedAsSoleOwner": [
+        "authority and authority epochs",
+        "script and auto slot maps",
+        "scene session epoch",
+        "hidden target restarts",
+        "committed auto continuation lineage"
+      ]
+    },
+    "presentation": {
+      "file": "packages/reforge/src/world-scene-presentation.ts",
+      "lines": 340,
+      "owns": [
+        "entity frame overrides",
+        "party gesture",
+        "world shake",
+        "wave phase and offscreen canvas",
+        "world SpriteDraw assembly",
+        "world layer rendering"
+      ],
+      "doesNotOwn": [
+        "ActiveScene resources",
+        "dialogue/menu/cinematic/fade/ambience/dither sessions",
+        "world or save state"
+      ]
+    },
+    "mainLines": { "before": 6148, "after": 5698 }
+  },
+  "tests": {
+    "new": {
+      "worldMotionRuntime": 10,
+      "worldScenePresentation": 5,
+      "ownershipAndOrder": 5,
+      "total": 20
+    },
+    "targetedAdjacent": { "files": 13, "tests": 167, "exit": 0 },
+    "checkpointAndSaveChains": { "files": 2, "tests": 37, "exit": 0 },
+    "reforge": { "files": 177, "tests": 1642, "exit": 0 },
+    "typecheck": { "exit": 0 },
+    "biome": { "candidateErrors": 0 },
+    "build": { "exit": 0, "existingLargeChunkWarning": true }
+  },
+  "negativeControls": {
+    "tool": "docs/testing/world-runtime-mutants.mjs",
+    "controls": 15,
+    "detected": 9,
+    "judge": { "positive": 1, "rejected": 9 },
+    "requirements": [
+      "exact absolute test file and fullName",
+      "exactly one executed candidate test",
+      "exit 1",
+      "AssertionError only",
+      "unique loader injection marker",
+      "all production hashes unchanged"
+    ],
+    "evidence": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-world-runtime-mutants-mcFlrN/summary.json"
+  },
+  "functional": {
+    "host": "http://localhost:6053/?scene=s135&pos=42,17",
+    "project": "pal",
+    "observed": [
+      "initial scene, player and NPC rendered",
+      "repeated right input moved player and advanced the camera view",
+      "Escape menu opened above the world and closed"
+    ],
+    "normalSaveCommandsUsed": false,
+    "userEditor6010Touched": false,
+    "temporaryTabClosed": true,
+    "serverStopped": true,
+    "consoleInspected": false
+  },
+  "unchangedContracts": [
+    "SAVE8",
+    "content20",
+    "schema and asset formats",
+    "gameplay and formulas",
+    "UI shape",
+    "current-frame foot anchoring and +7 asset convention",
+    "sLayer sort/cover-only convention"
+  ],
+  "notRun": [
+    "full repository check",
+    "official coverage ratchet",
+    "protected strict coverage",
+    "full/Q1/Q2",
+    "story E2E",
+    "remote CI"
+  ]
+}

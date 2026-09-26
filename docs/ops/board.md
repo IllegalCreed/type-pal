@@ -35,7 +35,7 @@ GLM后续补测候选见[十批长队列](../testing/glm-coverage-work-queue.md)
 
 | ID | 任务 | 状态 | 负责人/下一步 | 一句话备注 |
 |---|---|---|---|---|
-| ARCH-CONTINUATION-1 | [剩余架构治理连续收口](tasks/ARCH-CONTINUATION-1-remaining-queue.md) | build | Codex续推A3移动/绘制 | 活动场景/镜头分段已accept，check8724/strict8232/688；A3整体及另八项未done |
+| ARCH-CONTINUATION-1 | [剩余架构治理连续收口](tasks/ARCH-CONTINUATION-1-remaining-queue.md) | build | 原对话集成A3候选；本对话续不重叠项 | 7be10bf4移动/绘制候选自验齐、统一门待跑；A3与其余队列未在main标done |
 | ARCH-F2-CURSOR-BATCH-2 | [剩余九组编辑命令拆分](tasks/ARCH-F2-CURSOR-BATCH-2-remaining-commands.md) | build | Cursor / Codex独立接收 | 51048353冻结，旧正文与119出口保持，不触Reforge |
 | TEST-GLM-CONTENT-GUARDS-2 | [六组校验叶边界补测](tasks/TEST-GLM-CONTENT-GUARDS-2-leaf-boundaries.md) | rework | GLM窄修R1–R4 / Codex复验 | 957绿/六针实跑成立；三坏实现91全绿、判据五误收与JSON格式门未闭 |
 | ARCH-SUPPORT-GLM-1 | [八组并行架构/视觉准备](tasks/ARCH-SUPPORT-GLM-1-eight-audit-packages.md) | draft | Codex / 后续归属与收口 | 58cdf938材料accept，counter清零；文档已合入，按用户要求未标done/未开产品门 |

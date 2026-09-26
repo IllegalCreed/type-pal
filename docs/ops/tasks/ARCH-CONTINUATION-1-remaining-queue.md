@@ -19,7 +19,7 @@ Codex持续处理[治理台账](../audits/architecture-debt.md)剩余边界，Cu
 |---|---|---|
 | E2 | 作者/敌人校验运行期环消除；共享形状/校验选项明确；七类递归路径与错误位置保真；已证嵌套cue漏检另提交修复 | 2026-09-26 accept/完成 |
 | D1 | 第一阶段七节点SCC按真实状态/查询/脚本桥消环；旧入口/数值/坐标/推进序保持 | 2026-09-26 accept/完成 |
-| A3 | 活动场景、移动与绘制状态各有所有者；main保留装配/协调；取消、切场同步提交和采样时点保真 | 活动场景/镜头分段完成；移动/绘制待续 |
+| A3 | 活动场景、移动与绘制状态各有所有者；main保留装配/协调；取消、切场同步提交和采样时点保真 | 7be10bf4候选四段齐；待原接收对话统一门/集成后正式完成 |
 | B1 | App工程生命周期、导航与场景工作区分离；历史/保存/离开/试玩既有门禁仍通过 | 待实施 |
 | B2 | MapMode手势、选择/剪贴板、组合操作和视图分别有明确边界；取消、权限和原子提交保真 | 待实施 |
 | B3 | 命令族表单拆出独立实现；作者桥接类型清晰；现行能力/引用保护不丢失 | 待实施 |
@@ -48,6 +48,8 @@ Codex持续处理[治理台账](../audits/architecture-debt.md)剩余边界，Cu
 ## 当前推进
 
 - 2026-09-26 对话分工交接：用户要求新开Codex对话继续架构治理。新对话接手`/Users/zhangxu/illegal/type-pal-codex-active-scene`（`codex/architecture-active-scene`）的A3移动/绘制实现；原接收对话继续Cursor九组与GLM六组验收。新对话不写main、不接管贡献者目录；分批候选推送后，由原接收对话统一安排check/ratchet/strict、main集成，避免共享coverage目录与基线并发写入。定向/相邻/TC/隔离功能自验由新对话自主完成；后续不重叠架构项可按下方提示连续推进。
+
+- 2026-09-26 A3移动/绘制候选`7be10bf4`（基点`be5218bb`）已交付：[回执与未证项](../../testing/world-runtime-refactor.md)。`WorldMotionRuntime`组合既有Coordinator并拥有世界拍、partyMove、slot注册、gait/fairness/trace；`WorldScenePresentation`拥有定帧/gesture/shake/wave与世界精灵组装/落笔。main6148→5698，不传完整RuntimeContext、不复制authority/slot状态。20新增、定向167、Reforge177文件/1642项、TC/Biome/build、九针与6053隔离功能通过；SAVE8/content20/玩法/公式/UI/资产约定零改。按交接未跑共享全仓check/ratchet/strict、未合main；A3只在候选树四段齐，待原接收对话统一门后正式标完成。本实现对话可继续B1等不重叠项。
 
 - 2026-09-26 A3活动场景/镜头实现2dc5d1d5已accept：[回执](../../testing/active-scene-refactor.md)。17新增、80宿主函数对账、64序列2560步与七针通过；check8724/保护51048353的单次strict8232/688、6052隔离功能核验全部完成。main6260→6148，A3整体仍build，接续移动/绘制。Cursor接[九组剩余命令](ARCH-F2-CURSOR-BATCH-2-remaining-commands.md)，GLM接[六组守卫测试](TEST-GLM-CONTENT-GUARDS-2-leaf-boundaries.md)，互不写同一生产面。
 
