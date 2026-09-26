@@ -86,6 +86,7 @@ import {
 import type { BattleFailureFeedback, BattleLastAction } from './battle-last-action.js'
 import { getPlayerBasePos } from './battle-positions.js'
 import type { BattleResult } from './battle-result.js'
+import { BattleSettlementPresentation } from './battle-settlement-presentation.js'
 import {
   type BattleReadinessErrorContext,
   BattleTurnReadinessGate,
@@ -129,8 +130,6 @@ const MISC_LABELS = ['围攻', '道具', '防御', '逃跑', '状态'] as const
 const FALLBACK_MENU = ['攻击', '仙术', '物品', '防御', '逃跑'] as const
 /** 每个 action 结算间隔(节奏;一帧全算看不清)。 */
 const ACT_MS = 240
-/** 胜/败结果停留展示时长；逃跑自身的滑出屏动画已经承担完整收尾，不再追加。 */
-const OVER_MS = 1200
 /** 敌人死亡淡出时长(一阶段 PAL_BattleFadeScene 12×6 步 ≈ 900ms;RGBA 用 alpha 渐隐等价)。 */
 // 死亡溶解时长 = 原版 72 步 × 16ms(PAL_BattleFadeScene,battle.c:608-682;曾 900ms alpha
 // 渐隐,作者报「死亡动画有些怪」→ 改颗粒溶解形态,见 present-battle drawDissolved)
@@ -212,6 +211,7 @@ export class BattleSession {
   private doneSettled = false
   private closed = false
   private readonly readiness: BattleTurnReadinessGate
+  private readonly settlementPresentation: BattleSettlementPresentation
   private readonly state: BattleState
   private ui: UiPhase = 'menu'
   /** 主菜单 4 图标选中(0攻击 1法术 2合击 3杂项;一阶段 selectedAction)。 */
@@ -243,7 +243,6 @@ export class BattleSession {
   private submitOrder: number[] = []
   /** 正在选指令的队员下标(pendingActions 未填的第一个活队员)。 */
   private actTimer = 0
-  private overTimer = 0
   private floats: FloatNum[] = []
   private nowMs = 0
   // ── M4d-2 表现层:动画回放 + 死亡淡出 ──
@@ -308,8 +307,6 @@ export class BattleSession {
     phase: 'won' | 'lost' | 'fled'
     result: BattleResult
   } | null = null
-  /** phase 不能区分 victory/ enemyFled/ terminated，故由此字段保留唯一总终态事实。 */
-  private terminalResult: BattleResult | null = null
   /** battle choreography 音乐请求序号；迟到 fade-stop 不得误停后播的新曲。 */
   private musicSerial = 0
   private scheduledMusicStop: { serial: number; deadline: number } | null = null
@@ -318,9 +315,6 @@ export class BattleSession {
   private choreoName = ''
   private encounterFired = new Set<number>() // 遭遇演出已播钩子下标(encounter 级,非 per-enemy)
   private choreoTurn = 0 // 已收集过演出的轮次
-  // ── B7b 胜利结算屏(经验金钱 → 升级 → 练成;逐屏空格推进)──
-  private settlement: SettlementScreen[] | null = null // null = 未构建;[] = 无屏
-  private settleIdx = 0
   /** 胜利结算前与败/逃共路均会尝试写回；一次性门防止奖励结算后被旧快照覆盖。 */
   private persistentEffectsWritten = false
   /** B11-1:当前伤亡对话是否已交给 dialogBox/横幅(防止同一 dialogue 反复重开)。 */
@@ -402,6 +396,9 @@ export class BattleSession {
     this.readiness = new BattleTurnReadinessGate({
       ...(opts.prepareTurnSounds ? { prepare: opts.prepareTurnSounds } : {}),
       ...(opts.reportReadinessError ? { reportError: opts.reportReadinessError } : {}),
+    })
+    this.settlementPresentation = new BattleSettlementPresentation({
+      ...(opts.buildSettlement ? { buildSettlement: opts.buildSettlement } : {}),
     })
     this.done = new Promise((res, rej) => {
       this.resolveDone = res
@@ -1056,7 +1053,7 @@ export class BattleSession {
       const terminal = this.pendingTerminal
       this.pendingTerminal = null
       this.state.phase = terminal.phase
-      this.terminalResult = terminal.result
+      this.settlementPresentation.recordResult(terminal.result)
       return true
     }
     return false
@@ -1138,15 +1135,7 @@ export class BattleSession {
     }
 
     if (s.phase === 'won' || s.phase === 'lost' || s.phase === 'fled') {
-      if (!this.terminalResult)
-        this.terminalResult =
-          s.phase === 'lost'
-            ? 'defeat'
-            : s.phase === 'fled'
-              ? 'playerFled'
-              : s.enemyFled
-                ? 'enemyFled'
-                : 'victory'
+      this.settlementPresentation.observeCorePhase(s.phase, s.enemyFled)
       // 终态但收尾动画未播完(最后一击)→ 先播完(死亡淡出/死音在 finishStepVisuals)
       if (this.anim) {
         if (!this.anim.tick(dtMs)) return
@@ -1165,38 +1154,8 @@ export class BattleSession {
       // PostActionCheck 的 FadeScene 是阻塞式(fight.c:889-894),溶解期间什么都不发生
       // (作者报「结算画面这么快?」= 此 hold 缺失)。render 清过期项,空表 = 直接过。
       for (const t of this.deathFades.values()) if (this.nowMs < t + DEATH_FADE_MS + 240) return
-      // B7b 胜利结算屏:win 且非敌逃 → 构建一次(回调内写回 HP + 入账 + 升级)→ 逐屏空格推进
-      if (this.terminalResult === 'victory' && this.settlement === null) {
-        this.settlement = this.opts.buildSettlement?.() ?? []
-      }
-      if (this.settlement?.length) {
-        // 逐屏:空格进下一屏;放完 → 收尾。至少停 300ms 防手滑连按跳屏。
-        this.overTimer += dtMs
-        if ((pressed.has(' ') || pressed.has('Enter')) && this.overTimer >= 300) {
-          this.settleIdx++
-          this.overTimer = 0
-          if (this.settleIdx >= this.settlement.length) {
-            this.complete(this.terminalResult)
-          }
-        }
-        return
-      }
-      // 第一阶段 / 原版：玩家逃跑在 16 步滑出屏后的下一拍直接 finalize；敌逃时间线
-      // 自带出屏后约 500ms hold，terminated 也没有通用结果屏。不能复用胜败的 1.2s 停留，
-      // 否则最后一帧会像卡住一样悬停。
-      if (
-        this.terminalResult === 'playerFled' ||
-        this.terminalResult === 'enemyFled' ||
-        this.terminalResult === 'terminated'
-      ) {
-        this.complete(this.terminalResult)
-        return
-      }
-      // 无结算屏的胜/败仍短暂停留自动收尾。
-      this.overTimer += dtMs
-      if (this.overTimer >= OVER_MS) {
-        this.complete(this.terminalResult)
-      }
+      const completed = this.settlementPresentation.advance(dtMs, pressed)
+      if (completed) this.complete(completed)
       return
     }
 
@@ -2943,10 +2902,9 @@ export class BattleSession {
 
     // 胜利结算屏(B7b:一阶段 PAL_BattleWon box 序列,原版无「战斗胜利!」字样)。
     //   有 UI 资产 → 画当前屏;缺(单测)→ 跳过。败/逃无结算屏(一阶段 PAL_BattleLost 直接黑屏读档)。
-    if (this.ui === 'over' && this.settlement?.length && ui) {
-      const screen = this.settlement[this.settleIdx]
-      if (screen) drawSettlementScreen(ctx, screen, ui, g)
-    }
+    const settlementScreen = this.settlementPresentation.currentScreen
+    if (this.ui === 'over' && settlementScreen && ui)
+      drawSettlementScreen(ctx, settlementScreen, ui, g)
     ctx.restore()
   }
 }

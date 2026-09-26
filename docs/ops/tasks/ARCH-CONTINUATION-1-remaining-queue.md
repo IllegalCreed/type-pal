@@ -47,6 +47,16 @@ Codex持续处理[治理台账](../audits/architecture-debt.md)剩余边界，Cu
 
 ## 当前推进
 
+- 2026-09-26 C1-b 终态/结算呈现段开工（基点 `aab78c82`）：`terminalResult/settlement/settleIdx/overTimer`
+  仍由总会话混持，核心终态映射、多屏 300ms 防连按、无屏胜败 1.2s 停留与逃跑/终止同拍完成没有独立
+  owner。迁为 `BattleSettlementPresentation`，只接收已核定 `BattleResult` 或 core terminal phase、enemyFled、
+  dt/pressed 与既有 buildSettlement 回调，独占结果、屏幕序列、游标和计时；不接收 `BattleState`/`BattleSession`。
+  总会话继续先处理最后一击动画、失败 narration、死亡淡出 hold，门清后才同步调用 owner 并提交 done；render
+  只读 owner 当前屏。保持 victory 恰构建一次、非胜利零构建、每屏至少 300ms、三类即时结果不套 1.2s、胜败无屏
+  仍等 `OVER_MS`。验收复用 terminal/writeback/script 正式回归，新增 owner 状态机、接线边界与反控；不改奖励、
+  写回、公式、UI 文案或终态协议。结算段完成仍不得标 C1 done；Codex 核现行终态生产链后 premise verified /
+  build allowed。
+
 - 2026-09-26 C1-a 回合资源屏障段开工（基点 `099a615b`）：`BattleSession.ts` 当前 3022 行，
   `preparationSerial/readinessError`、全员交招快照、同步/异步 prepare、资源失败降级、fatal 停留和 cancel 迟到
   失效仍混在总会话。先迁为 `BattleTurnReadinessGate`：owner 独占 token/phase/error 与错误分类，快照函数只接收
