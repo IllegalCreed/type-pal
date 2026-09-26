@@ -249,22 +249,13 @@ import {
 } from './session-selector.js'
 import { useEditorNavigationSession } from './use-editor-navigation-session.js'
 import { useProjectLeaveGuard } from './use-project-leave-guard.js'
+import {
+  DEFAULT_ENTRY_SELECTION,
+  SCENE_SELECTION,
+  type SceneSelection,
+  useSceneWorkspaceSession,
+} from './use-scene-workspace-session.js'
 
-type SceneSelection =
-  | { kind: 'scene' }
-  | { kind: 'default-entry' }
-  | { kind: 'named-entry'; id: string }
-  | { kind: 'entity'; id: string }
-
-type SceneLifecycleIntent =
-  | { kind: 'create'; id: string; name: string }
-  | { kind: 'copy'; sourceSceneId: string; id: string; name: string }
-  | { kind: 'delete'; sceneId: string; name: string }
-
-const SCENE_SELECTION: SceneSelection = { kind: 'scene' }
-const DEFAULT_ENTRY_SELECTION: Extract<SceneSelection, { kind: 'default-entry' }> = {
-  kind: 'default-entry',
-}
 const CENTER_MIN_WIDTH = 260
 const OUTLINER_DEFAULT_WIDTH = 194
 const OUTLINER_MIN_WIDTH = 140
@@ -451,37 +442,42 @@ export function App(props: {
     [assetReader],
   )
   const audioResolver = assetReader
-  const [selected, setSelected] = useState<SceneSelection>(SCENE_SELECTION)
-  const [sceneLifecycleIntent, setSceneLifecycleIntent] = useState<SceneLifecycleIntent>()
-  const createSceneButtonRef = useRef<HTMLButtonElement>(null)
-  const sceneOutlineRowRef = useRef<HTMLButtonElement>(null)
-  const [placingEntity, setPlacingEntity] = useState(false)
-  const [scriptChannel, setScriptChannel] = useState<'trigger' | 'auto'>('trigger')
-  const [selectedBehavior, setSelectedBehavior] = useState<string>()
-  const [selectedPage, setSelectedPage] = useState<string>()
-  // 布置模式左栏统一管理画布内容层与辅助叠加层的显隐。
-  const [canvasLayers, setCanvasLayers] = useState({
-    base: true,
-    cover: true,
-    entities: true,
-    grid: false,
-    blocked: false,
-    entries: true,
-    ghosts: true, // 显隐透视:隐藏实体半透明(编辑器默认开;游戏内不渲染)
-  })
-  const [placeSceneId, setPlaceSceneId] = useState<string>(() => {
-    const target = location.objectId
-    return target && state.scenes.some((scene) => scene.id === target)
-      ? target
-      : (defaultEntry?.scene ?? '')
-  })
-  // 放置 palette:add 工具态右栏选择可见实体来源或触发区参数。
-  const [placeMode, setPlaceMode] = useState<EntityPlacementMode>('sprite')
-  const [placeActorId, setPlaceActorId] = useState<string>(state.actors[0]?.id ?? '')
-  const [placeSpriteId, setPlaceSpriteId] = useState<string>(state.sprites[0]?.id ?? '')
-  const [placeZoneRanges, setPlaceZoneRanges] = useState({
-    touch: DEFAULT_ZONE_RANGE.touch,
-    interact: DEFAULT_ZONE_RANGE.interact,
+  const {
+    selected,
+    setSelected,
+    sceneLifecycleIntent,
+    setSceneLifecycleIntent,
+    createSceneButtonRef,
+    sceneOutlineRowRef,
+    placingEntity,
+    setPlacingEntity,
+    scriptChannel,
+    setScriptChannel,
+    selectedBehavior,
+    setSelectedBehavior,
+    selectedPage,
+    setSelectedPage,
+    canvasLayers,
+    setCanvasLayers,
+    placeSceneId,
+    setPlaceSceneId,
+    placeMode,
+    setPlaceMode,
+    placeActorId,
+    setPlaceActorId,
+    placeSpriteId,
+    setPlaceSpriteId,
+    placeZoneRanges,
+    setPlaceZoneRanges,
+    scene,
+    switchPlaceScene,
+  } = useSceneWorkspaceSession({
+    location,
+    applyLocation: applyEditorLocation,
+    scenes: state.scenes,
+    defaultSceneId: defaultEntry?.scene,
+    actors: state.actors,
+    sprites: state.sprites,
   })
   const dirHandleRef = useRef<FileSystemDirectoryHandle | null>(props.initialDir ?? null)
   /** 首存中断时尚未升级为项目句柄；保留尝试目录，重选同一目录时才能续用实际磁盘恢复快照。 */
@@ -544,29 +540,6 @@ export function App(props: {
     await handle.ready
   }
 
-  useEffect(() => {
-    if (
-      location.module === 'scene' &&
-      location.subpage === 'workspace' &&
-      location.objectId &&
-      state.scenes.some((candidate) => candidate.id === location.objectId)
-    ) {
-      setPlaceSceneId(location.objectId)
-    }
-  }, [location, state.scenes])
-
-  // 布置模式当前编辑场景(可切；初始取直接启动入口)。切场景重置选中 —— 实体属于场景。
-  const scene = (state.scenes.find((s) => s.id === placeSceneId) ??
-    state.scenes.find((s) => s.id === defaultEntry?.scene))!
-  const switchPlaceScene = (id: string): void => {
-    setPlaceSceneId(id)
-    setSelected(SCENE_SELECTION)
-    setPlacingEntity(false)
-    const current = locationRef.current
-    if (current.module === 'scene' && current.subpage === 'workspace') {
-      applyEditorLocation({ ...current, objectId: id }, 'replace')
-    }
-  }
   // N5 引用跳转:变量页/物品页点引用 → 事件模式定位到 场景+脚本源。
   // 底部脚本抽屉(audit §6 Step2:场景模式内嵌脚本编辑,独立事件模式已退役)
   const [drawer, setDrawer] = useState<{
@@ -1450,7 +1423,7 @@ export function App(props: {
     if (!scriptPanelAvailable) return
     if (!drawer.open) setPlacingEntity(false)
     setDrawer(toggleSceneScriptPanelState)
-  }, [drawer.open, scriptPanelAvailable])
+  }, [drawer.open, scriptPanelAvailable, setPlacingEntity])
   const resetPanelLayout = useCallback(() => {
     setOutlinerWidth(OUTLINER_DEFAULT_WIDTH)
     setInspectorWidth(INSPECTOR_DEFAULT_WIDTH)
@@ -1603,7 +1576,7 @@ export function App(props: {
     void selectedScriptOwnerKey
     setSelectedPage(undefined)
     setSelectedBehavior(undefined)
-  }, [selectedScriptOwnerKey])
+  }, [selectedScriptOwnerKey, setSelectedBehavior, setSelectedPage])
   useEffect(() => {
     if (
       !canonicalPageFocus ||
@@ -1615,7 +1588,14 @@ export function App(props: {
     setScriptChannel(canonicalPageFocus.channel)
     setSelectedBehavior(canonicalPageFocus.behaviorId)
     setCanonicalPageFocus(undefined)
-  }, [canonicalPageFocus, scene?.id, selEntity?.id])
+  }, [
+    canonicalPageFocus,
+    scene?.id,
+    selEntity?.id,
+    setScriptChannel,
+    setSelectedBehavior,
+    setSelectedPage,
+  ])
   useEffect(() => {
     if (
       !entityPageFocus ||
@@ -1626,7 +1606,7 @@ export function App(props: {
     const page = canonicalEntity?.pages?.[entityPageFocus.pageIndex]
     if (page) setSelectedPage(page.id)
     setEntityPageFocus(undefined)
-  }, [canonicalEntity?.pages, entityPageFocus, scene?.id, selEntity?.id])
+  }, [canonicalEntity?.pages, entityPageFocus, scene?.id, selEntity?.id, setSelectedPage])
   const selectedNamedEntryId = selected.kind === 'named-entry' ? selected.id : undefined
   const sceneReferencesActive = activeSubpage.kind === 'scene'
   const projectReferenceIndex = useMemo(
@@ -1830,6 +1810,8 @@ export function App(props: {
       placingEntity,
       scene,
       currentProjectReferenceIndex,
+      sceneOutlineRowRef,
+      setSelected,
     ],
   )
   const deleteNamedEntry = useCallback(
@@ -1851,7 +1833,9 @@ export function App(props: {
       entryReferencesById,
       placingEntity,
       scene,
+      sceneOutlineRowRef,
       session,
+      setSelected,
     ],
   )
   // 删除键与行尾动作共用同一删除入口；输入控件内不劫持。
@@ -1939,6 +1923,8 @@ export function App(props: {
     redo,
     undo,
     projectGuard,
+    setPlacingEntity,
+    setSelected,
   ])
 
   useEffect(() => {
