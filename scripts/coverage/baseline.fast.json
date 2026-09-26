@@ -1,14 +1,14 @@
 {
   "schemaVersion": 2,
   "profile": "fast",
-  "generatedAt": "2026-09-26T09:17:11.723Z",
+  "generatedAt": "2026-09-26T09:48:10.239Z",
   "provider": {
     "name": "v8",
     "vitest": "4.1.7",
     "coverageV8": "4.1.7"
   },
   "sourceFileCount": 701,
-  "testCount": 8536,
+  "testCount": 8589,
   "packages": {
     "shared": {
       "name": "@type-pal/shared",
@@ -1100,8 +1100,8 @@
       ],
       "scopeDigest": "980711e930306f3ff6a1d70817611eb6f83e3681f7568f886680e6ebe1939e2f",
       "fastTests": {
-        "testCount": 554,
-        "testFileCount": 67,
+        "testCount": 607,
+        "testFileCount": 73,
         "files": [
           "packages/migrate/src/bake-indexed-rgba.test.ts",
           "packages/migrate/src/current-only-product-boundary.test.ts",
@@ -1120,6 +1120,12 @@
           "packages/migrate/src/migrate-equipment.pure.test.ts",
           "packages/migrate/src/migrate-item-use.pure.test.ts",
           "packages/migrate/src/migrate-records.pure.test.ts",
+          "packages/migrate/src/migrate-scenes.bindings.test.ts",
+          "packages/migrate/src/migrate-scenes.defaults.test.ts",
+          "packages/migrate/src/migrate-scenes.encounters.test.ts",
+          "packages/migrate/src/migrate-scenes.entities.test.ts",
+          "packages/migrate/src/migrate-scenes.entries.test.ts",
+          "packages/migrate/src/migrate-scenes.sessions.test.ts",
           "packages/migrate/src/migrate-skill-effects.pure.test.ts",
           "packages/migrate/src/migrate-skills.pure.test.ts",
           "packages/migrate/src/migrate-throw.pure.test.ts",
@@ -1256,6 +1262,36 @@
             "file": "packages/migrate/src/migrate-records.pure.test.ts",
             "testCount": 8,
             "identityDigest": "a58f83b882ef610c47a4a0f129eb1da301f913b29eced17d5d2122add44279d3"
+          },
+          {
+            "file": "packages/migrate/src/migrate-scenes.bindings.test.ts",
+            "testCount": 4,
+            "identityDigest": "a037e5061544bba4ca7856bd4d94c17fce1413bff1a2e576c3d44dbd89e16c0e"
+          },
+          {
+            "file": "packages/migrate/src/migrate-scenes.defaults.test.ts",
+            "testCount": 6,
+            "identityDigest": "1a065cfee5e46800a8a60987233448df51acaf1b3eb029d1c9d494bd68d03272"
+          },
+          {
+            "file": "packages/migrate/src/migrate-scenes.encounters.test.ts",
+            "testCount": 7,
+            "identityDigest": "9a4d92f65721e9f1d2dae8b1c476fa0022014904bf94f09d1564ef8bda631808"
+          },
+          {
+            "file": "packages/migrate/src/migrate-scenes.entities.test.ts",
+            "testCount": 15,
+            "identityDigest": "0a57793a51007e168d0e4840e5705e5f38fe10441f78c8529c4afb53c66aa359"
+          },
+          {
+            "file": "packages/migrate/src/migrate-scenes.entries.test.ts",
+            "testCount": 11,
+            "identityDigest": "7035b5a397ec76c3ae6491dde60c5e4717b32a068d141146e3df051e98582764"
+          },
+          {
+            "file": "packages/migrate/src/migrate-scenes.sessions.test.ts",
+            "testCount": 10,
+            "identityDigest": "48dc812b03e96f1c5347c357553ded427be2bffc54298baf2a929673d2de5634"
           },
           {
             "file": "packages/migrate/src/migrate-skill-effects.pure.test.ts",
@@ -1508,25 +1544,25 @@
             "identityDigest": "baba8c49c53ef8a741ef1c605723ba72d227914206784bc3a5f719e12c8ff8ee"
           }
         ],
-        "identityDigest": "dfb47f169845981d66eef479b84704942a6bdc9ceace82e93d148b736abffe2c",
+        "identityDigest": "10edfdf37213513643f6e67235e0a3e9e282306d170944e3b84e8e96d19f448d",
         "duplicateIdentityCount": 1,
-        "executionDigest": "c3576af16a0e5b43a0fdfccd197205098f4cad0db4f6c0d13f7ebb8ce92e0f25"
+        "executionDigest": "bc47d0f1add153d9a6ac3e7fdd8d3d808e891107b17c57269df8ad1bbd7c30c9"
       },
       "metrics": {
         "statements": {
-          "covered": 4916,
+          "covered": 5213,
           "total": 7712
         },
         "branches": {
-          "covered": 3851,
+          "covered": 4178,
           "total": 6436
         },
         "functions": {
-          "covered": 713,
+          "covered": 752,
           "total": 1165
         },
         "lines": {
-          "covered": 4394,
+          "covered": 4644,
           "total": 6724
         }
       }
@@ -6058,19 +6094,19 @@
   },
   "total": {
     "statements": {
-      "covered": 62089,
+      "covered": 62386,
       "total": 80643
     },
     "branches": {
-      "covered": 44114,
+      "covered": 44441,
       "total": 63178
     },
     "functions": {
-      "covered": 11475,
+      "covered": 11514,
       "total": 15058
     },
     "lines": {
-      "covered": 55856,
+      "covered": 56106,
       "total": 70600
     }
   }

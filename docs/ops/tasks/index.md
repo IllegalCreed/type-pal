@@ -12,7 +12,7 @@
 | [ARCH-SUPPORT-GLM-1 — 八组并行准备取证](ARCH-SUPPORT-GLM-1-eight-audit-packages.md) | draft | 以任务卡当前准入与看板分工为准。 |
 | [TEST-COVERAGE-PLUS5-1 — 全仓分支覆盖率连续提升五个百分点](TEST-COVERAGE-PLUS5-1-continuous-batches.md) | build | 以任务卡当前准入与看板分工为准。 |
 | [TEST-CURSOR-COMMAND-BOUNDARIES-3 — 八组编辑命令行为残项](TEST-CURSOR-COMMAND-BOUNDARIES-3-editor-residuals.md) | rework | 以任务卡当前准入与看板分工为准。 |
-| [TEST-GLM-CONTENT-GUARDS-3 — 八组同步脚本与记录守卫补测](TEST-GLM-CONTENT-GUARDS-3-script-and-records.md) | build | 以任务卡当前准入与看板分工为准。 |
+| [TEST-GLM-CONTENT-GUARDS-3 — 八组同步脚本与记录守卫补测](TEST-GLM-CONTENT-GUARDS-3-script-and-records.md) | rework | 以任务卡当前准入与看板分工为准。 |
 
 ## 已完成（historical）
 
@@ -170,6 +170,7 @@
 | [TEST-CODEX-CONTENT-RESOURCES-1 — 五组资源索引与引用边界](../archive/tasks/done/TEST-CODEX-CONTENT-RESOURCES-1-indices-and-references.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [TEST-CODEX-MIGRATE-ASSEMBLY-1 — 当前迁移汇总六组回归](../archive/tasks/done/TEST-CODEX-MIGRATE-ASSEMBLY-1-current-aggregation.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [TEST-CODEX-MIGRATE-PURE-1 — 六组自包含转换边界](../archive/tasks/done/TEST-CODEX-MIGRATE-PURE-1-self-contained-translators.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [TEST-CODEX-MIGRATE-SCENES-1 — 当前场景迁移六组回归](../archive/tasks/done/TEST-CODEX-MIGRATE-SCENES-1-current-scenes.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [TEST-CONTENT-CONTRACTS-1 - 内容数据校验与引用边界补测](../archive/tasks/done/TEST-CONTENT-CONTRACTS-1-content-validation-boundaries.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [TEST-CONTENT-RESIDUAL-1 - 内容合同已登记残项补测（队列 TB-01）](../archive/tasks/done/TEST-CONTENT-RESIDUAL-1-registered-gaps.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [TEST-COVERAGE-DETERMINISM-1 - 编辑器覆盖率计数确定性](../archive/tasks/done/TEST-COVERAGE-DETERMINISM-1-editor-ratchet.md) | done | 完成证据、历史签字与交接见原卡。 |

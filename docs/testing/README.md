@@ -9,9 +9,11 @@
 ## 文档与附件
 
 - [Cursor八组残项独立复核与返工提示](cursor-command-boundaries-r3-review.md)（29绿仍有fixture/完整快照反证，不计入覆盖）。
+- [GLM守卫第三批独立复核与返工提示](guard-wave3-review.md)（1132绿/八针通过，单轴与输入保真反证，未计覆盖）。
 
 - [Codex六组自包含迁移转换](codex-migrate-pure/README.md)（原盘已有证明与新增边界分列，不写生成产物）。
 - [Codex当前迁移汇总回归](codex-migrate-assembly/README.md)（真实汇总入口、优先级与敌技能闭包）。
+- [Codex当前场景迁移回归](codex-migrate-scenes/README.md)（入口、实体、遇敌、绑定、会话与默认传播六组）。
 - [全仓分支覆盖率+5pp持续队列](coverage-plus5/README.md)与[GLM同步守卫第三批](glm-content-guards-wave3/README.md)（大批实施、统一统计）。
 - [B3命令表单族所有权候选](command-form-families-refactor.md)、[机账](command-form-families-refactor-evidence.json)与[十二针反控](command-form-families-mutants.mjs)（四命令族/共享控件/作者桥边界齐；定向51、Editor2879、设计门与6056只读隔离功能通过；全仓统一门/集成待原接收对话）。
 - [C1 BattleSession状态所有权候选](battle-session-owners-refactor.md)、[机账](battle-session-owners-refactor-evidence.json)与[十一针反控](battle-session-owners-mutants.mjs)（readiness/结算/命令选择/动作演出四owner边界齐；35新增、Reforge1682、TC/build与6057独立试打通过；全仓统一门/集成待原接收对话）。
