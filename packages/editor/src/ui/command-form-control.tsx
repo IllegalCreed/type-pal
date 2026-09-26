@@ -1,7 +1,6 @@
 import type {
   AmbienceDef,
   AssetCatalogV1,
-  Command,
   SceneDef,
   ScriptIndexV1,
   SharedScriptMetaV1,
@@ -12,6 +11,7 @@ import { deriveScriptChunk } from '@type-pal/content'
 import type { AudioAssetReader } from '@type-pal/reforge'
 import type { EditorAssetReader } from '../core/editor-asset-reader.js'
 import type { ScriptReferenceCatalog } from '../core/script-reference-catalog.js'
+import type { CommandFormCommand } from './command-form-contract.js'
 import { JsonForm, Num, Row, Sel, Txt, WorldVariablePicker } from './command-form-controls.js'
 import { DsButton, DsSelect } from './design-system/index.js'
 import { MusicPicker } from './MusicPicker.js'
@@ -49,7 +49,7 @@ type SpecializedCommandKind =
   | 'mountParty'
   | 'ride'
 
-type ControlCommand = Exclude<Command, { kind: SpecializedCommandKind }>
+type ControlCommand = Exclude<CommandFormCommand, { kind: SpecializedCommandKind }>
 
 export interface ControlCommandFormProps {
   command: ControlCommand
@@ -67,7 +67,7 @@ export interface ControlCommandFormProps {
   onOpenWorldVariable?: (id: string) => void
   onOpenSound?: (id: string) => void
   showRawJson: boolean
-  onChange: (next: Command) => void
+  onChange: (next: CommandFormCommand) => void
 }
 
 /** Owns control flow, variables, resources, inventory, script links and camera command forms. */
@@ -90,7 +90,7 @@ export function ControlCommandForm(props: ControlCommandFormProps) {
     showRawJson,
     onChange,
   } = props
-  const set = (patch: object): void => onChange({ ...cmd, ...patch } as Command)
+  const set = (patch: object): void => onChange({ ...cmd, ...patch } as ControlCommand)
 
   switch (cmd.kind) {
     case 'setFlag':

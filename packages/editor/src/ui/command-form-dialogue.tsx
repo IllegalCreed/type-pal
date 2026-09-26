@@ -1,13 +1,13 @@
 import type {
   AssetCatalogV1,
   AuthorDialogueCue,
-  Command,
   DialogueCue,
   DialogueIdentity,
   Locale,
 } from '@type-pal/content'
 import { type ActorDef, lookupText } from '@type-pal/content'
 import type { EditorAssetReader } from '../core/editor-asset-reader.js'
+import type { CommandFormCommand } from './command-form-contract.js'
 import { JsonForm, Num, Row, Sel, Txt } from './command-form-controls.js'
 import {
   DsActionGroup,
@@ -27,7 +27,7 @@ import {
 } from './design-system/index.js'
 import { ImageAssetPicker } from './ImageAssetPicker.js'
 
-type DialogueCommand = Extract<Command, { kind: 'dialog' }>
+type DialogueCommand = Extract<CommandFormCommand, { kind: 'dialog' }>
 
 export interface DialogueCommandFormProps {
   command: DialogueCommand
@@ -39,7 +39,7 @@ export interface DialogueCommandFormProps {
   onDialogueSpeakerOverrideChange?: (text: string) => void
   showRawJson: boolean
   reorderScopeKey: string
-  onChange: (next: Command) => void
+  onChange: (next: CommandFormCommand) => void
 }
 
 /** Owns the complete dialog command family without receiving unrelated command-form context. */
@@ -65,7 +65,7 @@ export function DialogueCommandForm(props: DialogueCommandFormProps) {
     ([, record]) => record.kind === 'portrait',
   )?.[0]
   const setCue = (patch: object): void =>
-    onChange({ ...command, cue: { ...cue, ...patch } } as Command)
+    onChange({ ...command, cue: { ...cue, ...patch } } as DialogueCommand)
   const setRow = (index: number, patch: object): void =>
     setCue({
       rows: cue.rows.map((row, rowIndex) => (rowIndex === index ? { ...row, ...patch } : row)),

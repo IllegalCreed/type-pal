@@ -1,9 +1,4 @@
-import type {
-  Command,
-  SceneDef,
-  WorldVariableKindV1,
-  WorldVariableRegistryV1,
-} from '@type-pal/content'
+import type { SceneDef, WorldVariableKindV1, WorldVariableRegistryV1 } from '@type-pal/content'
 import { useEffect, useState } from 'react'
 import {
   DsButton,
@@ -136,7 +131,10 @@ export function EntitySel(props: {
 }
 
 /** JSON 兜底编辑器。 */
-export function JsonForm(props: { cmd: Command; onChange: (command: Command) => void }) {
+export function JsonForm<TCommand extends { kind: string }>(props: {
+  cmd: TCommand
+  onChange: (command: TCommand) => void
+}) {
   const [text, setText] = useState(() => JSON.stringify(props.cmd, null, 2))
   const [error, setError] = useState('')
   useEffect(() => {
@@ -157,7 +155,7 @@ export function JsonForm(props: { cmd: Command; onChange: (command: Command) => 
         size="compact"
         onClick={() => {
           try {
-            const parsed = JSON.parse(text) as Command
+            const parsed = JSON.parse(text) as TCommand
             if (
               typeof parsed !== 'object' ||
               !parsed ||

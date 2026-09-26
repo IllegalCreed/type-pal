@@ -1,7 +1,6 @@
 import type {
   AssetCatalogV1,
   BattleSpriteDef,
-  Command,
   Facing,
   GridPos,
   LoadSceneCommand,
@@ -15,6 +14,7 @@ import type { EditorAssetReader } from '../core/editor-asset-reader.js'
 import type { ScriptReferenceCatalog } from '../core/script-reference-catalog.js'
 import { defaultActionTargetForEntity, sortedSpriteActions } from '../core/sprite-actions.js'
 import { BattleSpritePicker } from './BattleSpritePicker.js'
+import type { CommandFormCommand } from './command-form-contract.js'
 import { EntitySel, Num, Row, Sel, Txt } from './command-form-controls.js'
 import { DsButton, DsCheckbox, DsSelect, DsTextInput } from './design-system/index.js'
 import { EntityStateSelect } from './EntityStateSelect.js'
@@ -73,7 +73,7 @@ type WorldCommandKind =
   | 'takeEntity'
   | 'releaseEntity'
 
-type WorldCommand = Extract<Command, { kind: WorldCommandKind }>
+type WorldCommand = Extract<CommandFormCommand, { kind: WorldCommandKind }>
 
 export interface WorldCommandFormProps {
   command: WorldCommand
@@ -88,7 +88,7 @@ export interface WorldCommandFormProps {
   onOpenImage?: (id: string) => void
   onOpenBattleSprite?: (id: string) => void
   onOpenSpriteAction?: (spriteId: string, actionId: string) => void
-  onChange: (next: Command) => void
+  onChange: (next: CommandFormCommand) => void
 }
 
 /** Owns world movement, entity action, appearance and scene-transfer command forms. */
@@ -108,7 +108,7 @@ export function WorldCommandForm(props: WorldCommandFormProps) {
     onOpenSpriteAction,
     onChange,
   } = props
-  const set = (patch: object): void => onChange({ ...cmd, ...patch } as Command)
+  const set = (patch: object): void => onChange({ ...cmd, ...patch } as WorldCommand)
   const actorChoices = references.choices('actor')
   const spriteChoices = references.choices('sprite')
 

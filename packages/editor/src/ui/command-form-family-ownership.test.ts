@@ -1,10 +1,12 @@
 import { describe, expect, test } from 'vitest'
 import commandFormSource from './CommandForm.js?raw'
 import actorSource from './command-form-actor.js?raw'
+import contractSource from './command-form-contract.js?raw'
 import controlSource from './command-form-control.js?raw'
 import controlsSource from './command-form-controls.js?raw'
 import dialogueSource from './command-form-dialogue.js?raw'
 import worldSource from './command-form-world.js?raw'
+import scriptEditorSource from './ScriptEditor.js?raw'
 
 describe('command form family ownership', () => {
   test('CommandForm routes dialog through one family component without retaining cue implementation', () => {
@@ -172,6 +174,19 @@ describe('command form family ownership', () => {
       'onOpenSpriteAction',
     ])
       expect(props).not.toMatch(new RegExp(`\\b${unrelated}[?:]`))
+  })
+
+  test('the author bridge owns dialect admission and rejects lossy dialogue commits', () => {
+    expect(commandFormSource).toContain('export interface CommandFormProps')
+    expect(commandFormSource).toContain('cmd: CommandFormCommand')
+    expect(scriptEditorSource).toContain('createAuthorCommandFormBridge(command)')
+    expect(scriptEditorSource).toContain('commandFormBridge.commit(next)')
+    expect(scriptEditorSource).not.toContain('cmd={command as Command}')
+    expect(scriptEditorSource).not.toContain('props.onChange(next as AuthorCommand)')
+    expect(contractSource).toContain('export const AUTHOR_CUSTOM_COMMAND_KINDS')
+    expect(contractSource).toContain(
+      "throw new Error('CommandForm removed canonical dialogue identity')",
+    )
   })
 
   test('shared controls have one implementation while CommandForm preserves the public picker export', () => {

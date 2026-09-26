@@ -13,7 +13,6 @@ import type {
   AmbienceDef,
   AssetCatalogV1,
   BattleSpriteDef,
-  Command,
   Locale,
   SceneDef,
   ScriptIndexV1,
@@ -25,6 +24,7 @@ import type { AssetBase, AudioAssetReader } from '@type-pal/reforge'
 import type { EditorAssetReader } from '../core/editor-asset-reader.js'
 import type { ScriptReferenceCatalog } from '../core/script-reference-catalog.js'
 import { ActorCommandForm } from './command-form-actor.js'
+import type { CommandFormCommand } from './command-form-contract.js'
 import { ControlCommandForm } from './command-form-control.js'
 import { DialogueCommandForm } from './command-form-dialogue.js'
 import { WorldCommandForm } from './command-form-world.js'
@@ -33,8 +33,8 @@ export { WorldVariablePicker } from './command-form-controls.js'
 export type { LoadSceneTarget } from './command-form-world.js'
 export { makeLoadScene, retargetLoadScene } from './command-form-world.js'
 
-export function CommandForm(props: {
-  cmd: Command
+export interface CommandFormProps {
+  cmd: CommandFormCommand
   scene: SceneDef
   locale: Locale
   assetCatalog: AssetCatalogV1
@@ -74,8 +74,10 @@ export function CommandForm(props: {
   showRawJson?: boolean
   /** 当前 aggregate command draft 的稳定身份；用于隔离内部有序集合手势。 */
   reorderScopeKey?: string
-  onChange: (next: Command) => void
-}) {
+  onChange: (next: CommandFormCommand) => void
+}
+
+export function CommandForm(props: CommandFormProps) {
   const {
     cmd,
     scene,

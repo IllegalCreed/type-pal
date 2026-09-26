@@ -41,6 +41,7 @@ import { stateTransitionExecutionLabel } from '../core/script-editor.js'
 import type { ScriptReferenceCatalog } from '../core/script-reference-catalog.js'
 import { BattleFieldPicker } from './BattleFieldPicker.js'
 import { CommandForm, WorldVariablePicker } from './CommandForm.js'
+import { createAuthorCommandFormBridge } from './command-form-contract.js'
 import {
   DsButton,
   DsCheckbox,
@@ -1517,61 +1518,6 @@ function ConditionEditor(props: {
   )
 }
 
-const CUSTOM_COMMANDS = new Set<AuthorCommand['kind']>([
-  'cameraSnap',
-  'chasePlayer',
-  'endBattle',
-  'fleeBattle',
-  'gameOver',
-  'halveMoney',
-  'increaseHpMp',
-  'loadLastSave',
-  'playFrameAnimation',
-  'playVideo',
-  'quitToTitle',
-  'revivePartyAll',
-  'setFollowers',
-  'setSceneMapOverride',
-  'setScreenWave',
-  'shakeScreen',
-  'stopMusic',
-  'stopScript',
-  'toggleDayNight',
-  'unequip',
-  'unmountParty',
-  'suspendEntity',
-  'hideEntity',
-  'restoreEntity',
-  'removeEntity',
-  'setEntityState',
-  'setMultiEntityState',
-  'setEntityPos',
-  'setEntityPosRelParty',
-  'setEntityLayer',
-  'setEntityFacing',
-  'setEntityFrame',
-  'playEntityAction',
-  'stopEntityAction',
-  'moveEntity',
-  'stepEntity',
-  'animEntity',
-  'nudgeEntity',
-  'takeEntity',
-  'releaseEntity',
-  'mountParty',
-  'ride',
-  'startBattle',
-  'teleportOut',
-  'confirm',
-  'branch',
-  'loop',
-  'selectEntityBehavior',
-  'selectEntityPage',
-  'setEntityTriggerActivation',
-  'selectSceneHooks',
-  'callScript',
-])
-
 const PRIMITIVE_FIELD_LABELS: Readonly<Record<string, string>> = {
   var: '数值名称',
   delta: '增减量',
@@ -1715,7 +1661,8 @@ function CanonicalCommandForm(props: {
 }) {
   const command = props.command
   const context = props.context
-  if (!CUSTOM_COMMANDS.has(command.kind) && context) {
+  const commandFormBridge = context ? createAuthorCommandFormBridge(command) : undefined
+  if (commandFormBridge && context) {
     const scene =
       context.shellScenes.find((candidate) => candidate.id === context.currentSceneId) ??
       context.shellScenes[0]
@@ -1723,7 +1670,7 @@ function CanonicalCommandForm(props: {
       return (
         <CommandForm
           reorderScopeKey={props.reorderScopeKey}
-          cmd={command as Command}
+          cmd={commandFormBridge.command}
           scene={scene}
           locale={context.locale}
           assetCatalog={context.assetCatalog}
@@ -1745,7 +1692,7 @@ function CanonicalCommandForm(props: {
           onOpenImage={context.onOpenImage}
           onOpenBattleSprite={context.onOpenBattleSprite}
           onOpenSpriteAction={context.onOpenSpriteAction}
-          onChange={(next) => props.onChange(next as AuthorCommand)}
+          onChange={(next) => props.onChange(commandFormBridge.commit(next))}
         />
       )
   }

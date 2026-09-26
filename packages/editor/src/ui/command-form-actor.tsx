@@ -1,4 +1,4 @@
-import type { CarryableStatusId, Command, SceneDef, WalkSpeed } from '@type-pal/content'
+import type { CarryableStatusId, SceneDef, WalkSpeed } from '@type-pal/content'
 import {
   ACTOR_STATUS_DEFINITIONS,
   type ActorDef,
@@ -6,6 +6,7 @@ import {
   CARRYABLE_STATUS_IDS,
 } from '@type-pal/content'
 import type { ScriptReferenceCatalog } from '../core/script-reference-catalog.js'
+import type { CommandFormCommand } from './command-form-contract.js'
 import { EntitySel, JsonForm, Num, Row, Sel } from './command-form-controls.js'
 import {
   DsActionGroup,
@@ -31,7 +32,7 @@ type ActorCommandKind =
   | 'mountParty'
   | 'ride'
 
-type ActorCommand = Extract<Command, { kind: ActorCommandKind }>
+type ActorCommand = Extract<CommandFormCommand, { kind: ActorCommandKind }>
 
 export interface ActorCommandFormProps {
   command: ActorCommand
@@ -40,14 +41,14 @@ export interface ActorCommandFormProps {
   references: ScriptReferenceCatalog
   showRawJson: boolean
   reorderScopeKey: string
-  onChange: (next: Command) => void
+  onChange: (next: CommandFormCommand) => void
 }
 
 /** Owns actor condition, party composition and party mount command forms. */
 export function ActorCommandForm(props: ActorCommandFormProps) {
   const { command: cmd, scene, actors, references, showRawJson, reorderScopeKey, onChange } = props
   const partyMemberReorderKeys = useDsReorderKeys(cmd.kind === 'setParty' ? cmd.members : [])
-  const set = (patch: object): void => onChange({ ...cmd, ...patch } as Command)
+  const set = (patch: object): void => onChange({ ...cmd, ...patch } as ActorCommand)
   const actorChoices = references.choices('actor')
   const conditionActorChoices = actorChoices.filter((choice) => actors?.[choice.id]?.battler)
   const poisonChoices = references.choices('poison')
