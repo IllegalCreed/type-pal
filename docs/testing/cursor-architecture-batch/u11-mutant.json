@@ -1,0 +1,13 @@
+{
+  "id": "u11-list-header-count",
+  "file": "packages/editor/src/ui/design-system/list-header.tsx",
+  "sha256": "86b42c5f03740173854e61b64d4d392472ed568509438efcf8acfbe94297ab6f",
+  "hashUnchanged": true,
+  "greenExit": 0,
+  "greenPassed": 1,
+  "redExit": 1,
+  "failedTitle": "keeps list header identity with title and count chrome",
+  "failedFullName": "U11 list header keeps list header identity with title and count chrome",
+  "assertion": "AssertionError: expected undefined to be '12 项' // Object.is equality",
+  "ok": true
+}
