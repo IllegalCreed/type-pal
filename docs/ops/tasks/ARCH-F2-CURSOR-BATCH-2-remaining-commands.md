@@ -66,8 +66,32 @@ before→after：同一编辑输入、返回对象/引用、历史与错误不�
 
 - Codex：premise verified / build allowed，2026-09-26；源码范围与Codex的reforge活动场景、GLM的content测试互斥。
 - Coding Owner：Cursor；贡献者自验与Codex独立验收分列。
-- 作者交付：pending。
+- 作者交付：delivered，2026-09-26；产品 C9 `6952ffeec978e7716e7f3e48fd5f240244f07f93`；回执与反控见[cursor-commands-wave2.md](../../testing/cursor-commands-wave2.md)。最终 HEAD 为证据提交 `docs: record remaining command extraction receipt`。
 - Codex验收：pending；done未开放，无需Kimi/GLM固定签字。
+
+## 作者交付
+
+2026-09-26。C1–C9 已连续提交，未合 main，未标 done。
+
+- C1 `8615388c246592a13f55a5b6368f6347d46a0bb5`
+- C2 `2285105c7359d6c9ed3535ac00da0f63ffae2875`
+- C3 `9bf3c17fcc695cb1b3bc99802a2f84525341e354`
+- C4 `d8cd042035020643f123ffa2b35a74f1b793a160`
+- C5 `2fbc02e82ff01c14b16a56023ad91d5a67da7e42`
+- C6 `141b19bd96a4d9d69df0c936600b05906a971b4f`
+- C7 `091c12662c2e62fddbcef66525da1e8028faf4a8`
+- C8 `cc6c5614a44e656f769f5e0b1ea2353041136b87`
+- C9 `6952ffeec978e7716e7f3e48fd5f240244f07f93`
+
+```bash
+cd /Users/zhangxu/illegal/type-pal-cursor-commands-wave2
+env -u NODE_COMPILE_CACHE node docs/testing/cursor-commands-wave2/module-mutants.mjs --self-test
+env -u NODE_COMPILE_CACHE node docs/testing/cursor-commands-wave2/module-mutants.mjs
+env -u NODE_COMPILE_CACHE pnpm --filter @type-pal/editor typecheck
+env -u NODE_COMPILE_CACHE pnpm --filter @type-pal/editor check
+```
+
+作者自验：editor check 324 files / 2829 tests；5 针 ok+hit。不能替代 Codex 独立验收。
 
 ## 下一位 Cursor 提示词
 
