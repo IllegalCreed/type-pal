@@ -8,7 +8,7 @@
 
 | 批次 | Owner | 当前状态 | 已验收新增分支 |
 |---|---|---|---:|
-| [content八组同步守卫](../../ops/tasks/TEST-GLM-CONTENT-GUARDS-3-script-and-records.md) | GLM | a00f12c2已交付，待Codex独立接收 | 0（未验收） |
+| [content八组同步守卫](../../ops/tasks/TEST-GLM-CONTENT-GUARDS-3-script-and-records.md) | GLM | [R1–R3窄返工](../guard-wave3-review.md)，同型正控/拒绝输入保真 | 0（未验收） |
 | [editor八组命令](../../ops/tasks/TEST-CURSOR-COMMAND-BOUNDARIES-3-editor-residuals.md) | Cursor | 独立复核R1–R3窄返工 | 0（未验收） |
 | [migrate纯转换链](../codex-migrate-pure/README.md) | Codex | done，83项/六针/统一门通过 | +527 |
 | [migrate当前汇总链](../codex-migrate-assembly/README.md) | Codex | done，49项/六针/统一门通过 | +169 |

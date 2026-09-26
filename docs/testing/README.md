@@ -9,6 +9,7 @@
 ## 文档与附件
 
 - [Cursor八组残项独立复核与返工提示](cursor-command-boundaries-r3-review.md)（29绿仍有fixture/完整快照反证，不计入覆盖）。
+- [GLM守卫第三批独立复核与返工提示](guard-wave3-review.md)（1132绿/八针通过，单轴与输入保真反证，未计覆盖）。
 
 - [Codex六组自包含迁移转换](codex-migrate-pure/README.md)（原盘已有证明与新增边界分列，不写生成产物）。
 - [Codex当前迁移汇总回归](codex-migrate-assembly/README.md)（真实汇总入口、优先级与敌技能闭包）。

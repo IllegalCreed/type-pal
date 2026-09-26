@@ -1,6 +1,6 @@
 # TEST-GLM-CONTENT-GUARDS-3 — 八组同步脚本与记录守卫补测
 
-Status: build
+Status: rework
 Owner: GLM
 Reviewer / Integration Owner: Codex
 Phase: phase2
@@ -63,6 +63,14 @@ before→after只有测试增量。最强替代解释是旧用例已覆盖或零
 冻结生产以8add8c66为准；若新main生产已进架构改动，记录差异并只冻结这四目标，不倒退主线。
 
 ## 下一位GLM提示词
+
+### 2026-09-26 Codex 独立接收 a00f12c2
+
+**counter / R1–R3窄返工**，见[直接反证与返工提示](../../testing/guard-wave3-review.md)。
+本席复跑110项对照、八针、全content1132项、TC/Biome；白名单及生产零漂移通过。
+但8个“修正所测字段后仍非法”的真实实参反证、initial拒绝污染输入候选9/9仍绿，证明正控与快照
+合同未闭合。只返上述同型构造/逐次输入保真与回执勘误，不改候选语义、不计入覆盖、不开放done。
+原准入提示词保留，返工以接收报告为准；无需其它AI签字。
 
 ```text
 接手TEST-GLM-CONTENT-GUARDS-3，已build allowed。先读AGENTS/CLAUDE/READ-FIRST、本卡及
