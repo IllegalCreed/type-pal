@@ -56,6 +56,7 @@ import {
   sceneSlug,
   signExtendI16,
 } from './source-facts.js'
+import { translatePalMotionOpcode } from './translate-event-motion.js'
 
 /**
  * W9/content13 的 PAL opcode landing。调用方必须先用逐 execution-site ledger 证明正前态；
@@ -546,13 +547,6 @@ export class ScriptRegistry {
 const JUMP_FAMILY = new Set([
   0x2e, 0x33, 0x34, 0x3a, 0x5d, 0x5e, 0x61, 0x64, 0x68, 0x84, 0x91, 0x9c, 0x9e, 0xa2,
 ])
-/** 原版速度码 → WalkSpeed。 */
-const SPEED: Record<number, 'slow' | 'normal' | 'fast' | 'run'> = {
-  2: 'slow',
-  3: 'normal',
-  4: 'fast',
-  8: 'run',
-}
 /** 原版 giveItem-0 数据 bug 修正表(扬州宝物屋 3 箱「获得X」后 giveItem 0 给空;
  *  键 = 前句 showDialog 的 MSG.DAT 下标,值 = 应给物品号。一阶段 event-system
  *  patchGiveItemZeroBugs 同表;reforge 无运行时 patch 层,烘在翻译期,产物即干净)。 */
@@ -1388,6 +1382,20 @@ function walkBody(
           memo.set(memoKey, arm)
           return arm
         }
+        const motion = translatePalMotionOpcode({ opcode: oc, operands: o, owner })
+        if (motion.handled) {
+          if (motion.knownNoOp)
+            knownNoOp(ctx, motion.knownNoOp, sourceAddressAt(ctx, at.cmds, at.idx))
+          else if (motion.gap) gap(motion.gap)
+          else {
+            flush()
+            body.push(...motion.commands)
+          }
+          if (motion.terminal)
+            return { body, term: { kind: motion.terminal }, dialogueState: dialogueSnapshot() }
+          at = { cmds: at.cmds, idx: at.idx + 1 }
+          continue
+        }
         if (oc === 0x09) push({ kind: 'wait', ms: Math.max(1, o[0] ?? 1) * FRAME_MS })
         else if (oc === 0x46) {
           push({ kind: 'teleportParty', pos: partyPosToGrid(o[0] ?? 0, o[1] ?? 0, o[2] ?? 0) })
@@ -1674,101 +1682,6 @@ function walkBody(
         else if (oc === 0x20 && (o[2] ?? 0) === 0) {
           const cnt = (o[1] ?? 0) > 1 ? o[1] : undefined
           push({ kind: 'loseItem', itemId: String(o[0]), ...(cnt ? { count: cnt } : {}) })
-        } else if (oc >= 0x0b && oc <= 0x0e) {
-          if (owner)
-            push({ kind: 'stepEntity', entity: owner, dir: FACING_BY_DIR[oc - 0x0b] ?? 'down' })
-          else gap('单步无属主')
-        } else if (oc === 0x10 || oc === 0x11 || oc === 0x7c || oc === 0x82) {
-          const sp = oc === 0x11 ? 2 : oc === 0x10 ? 3 : oc === 0x7c ? 4 : 8
-          if (owner)
-            push({
-              kind: 'moveEntity',
-              entity: owner,
-              to: partyPosToGrid(o[0] ?? 0, o[1] ?? 0, o[2] ?? 0),
-              speed: SPEED[sp]!,
-            })
-          else gap('walkTo 无属主')
-        } else if (oc === 0x70 || oc === 0x7a || oc === 0x7b) {
-          const sp = oc === 0x70 ? 2 : oc === 0x7a ? 4 : 8
-          push({
-            kind: 'moveParty',
-            to: partyPosToGrid(o[0] ?? 0, o[1] ?? 0, o[2] ?? 0),
-            speed: SPEED[sp]!,
-          })
-        } else if (oc === 0x75) {
-          // SetParty(C7/D22):operand[0..2] = roleId+1(0=空)→ 角色模板 slug 有序表
-          const members = o
-            .filter((v): v is number => typeof v === 'number' && v > 0)
-            .map((v) => ROLE_SLUGS[v - 1])
-            .filter((m): m is (typeof ROLE_SLUGS)[number] => m !== undefined)
-          push({ kind: 'setParty', members: [...members] })
-        } else if (oc === 0xa1) {
-          // SetAllPartyPos 全员聚拢队首:骑乘链开头(E7)→ mountParty(属主=载具,全员叠上)
-          // 共享物品用途的 owner 只是脚本命名空间，不是地图实体。传送后的 trail 收拢在
-          // detached 用途执行结束时已有统一队形收口，不能把 "global/items" 当成伪载具。
-          if (owner?.startsWith('global/'))
-            knownNoOp(ctx, '0xA1.globalTrail', sourceAddressAt(ctx, at.cmds, at.idx))
-          else if (owner) push({ kind: 'mountParty', entity: owner })
-          else gap('聚拢无属主')
-        } else if (oc === 0x3f || oc === 0x44 || oc === 0x97) {
-          // PartyRideEventObject 骑当前对象走位(速 2/4/8);挂载 op-scoped:
-          // 引擎 moveParty 走位即下筏(dismountParty),连骑不卸、无持久态
-          const sp = oc === 0x3f ? 2 : oc === 0x44 ? 4 : 8
-          if (owner)
-            push({
-              kind: 'ride',
-              entity: owner,
-              to: partyPosToGrid(o[0] ?? 0, o[1] ?? 0, o[2] ?? 0),
-              speed: SPEED[sp]!,
-            })
-          else gap('骑乘无属主')
-        } else if (oc === 0x6e) {
-          // sdlpal script.c:2091-2107:每次 0x6E 都写 wLayer = operand[2] * 8；
-          // 第三操作数不能丢，否则上桥/血池过场的人物会按地面层参与遮挡。
-          // clean schema 存逻辑层号，渲染消费端统一换算为像素深度。
-          push({
-            kind: 'nudgeParty',
-            dx: signExtendI16(o[0] ?? 0),
-            dy: signExtendI16(o[1] ?? 0),
-            ...(o[2] ? { layer: signExtendI16(o[2]) } : {}),
-          })
-        } else if (oc === 0x7d) {
-          const ent = pcRef(o[0] ?? 0)
-          if (ent)
-            push({
-              kind: 'nudgeEntity',
-              entity: ent,
-              dx: signExtendI16(o[1] ?? 0),
-              dy: signExtendI16(o[2] ?? 0),
-            })
-          else gap('moveObject 无属主')
-        } else if (oc === 0x6c) {
-          const ent = pcRef(o[0] ?? 0)
-          if (ent) {
-            flush()
-            body.push({
-              kind: 'nudgeEntity',
-              entity: ent,
-              dx: signExtendI16(o[1] ?? 0),
-              dy: signExtendI16(o[2] ?? 0),
-            })
-            body.push({ kind: 'animEntity', entity: ent })
-          } else gap('walkOneStep 无属主')
-        } else if (oc === 0x87) {
-          if (owner) push({ kind: 'animEntity', entity: owner })
-          else gap('animate 无属主')
-        } else if (oc === 0x4c) {
-          // B8 追逐:0x4C [maxDist, speed, floating](缺省 8/4;script.c:1733-1751)。原版靠
-          // goto-self/0x06 概率环逐帧重复 —— 新引擎 auto runner 天然循环,单条声明即持续追逐,
-          // 段后骨架整体吞掉(概率停顿细节属演出损耗,可接受)。
-          flush()
-          body.push({
-            kind: 'chasePlayer',
-            range: (o[0] ?? 0) || 8,
-            speed: (o[1] ?? 0) || 4,
-            ...((o[2] ?? 0) !== 0 ? { floating: true } : {}),
-          })
-          return { body, term: { kind: 'end' }, dialogueState: dialogueSnapshot() }
         } else if (oc === 0x4b) {
           // content12 历史重放专用：已发布 P0/B10 authority 仍需逐字重建旧 vanish 形态。
           // W9/content13 禁止消费此产物，必须走 translatePalW9LifecycleLanding + source ledger。
