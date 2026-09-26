@@ -49,7 +49,7 @@ Codex负责其余高风险实现和全部独立接收；执行仍按单一状态
 | Codex | A3候选待统一集成；续推B1/B2、C1、D2、E1、F1 的关键所有权与语义裁决；全仓质量门及集成 | 不借纯重构夹带新玩法或迁移生成物手改 |
 | GLM | 前批已done；[六组同步守卫补测](../tasks/TEST-GLM-CONTENT-GUARDS-2-leaf-boundaries.md)窄返工R1–R4 | 只改content白名单新测试，生产零改，不接视觉/时序混合包；未接收不计官方统计 |
 | Grok | [F2 溢出文本组件搬迁](../archive/tasks/done/ARCH-F2-DS-OVERFLOW-1.md)已按窄切片 done，仅 `DsOverflowText`；下个中风险批另卡核准 | 其它控件、CSS/交互重设计、A3及战斗引擎 |
-| Cursor | 前批均done；[九组剩余命令拆分](../tasks/ARCH-F2-CURSOR-BATCH-2-remaining-commands.md)build allowed | 只机械迁移editor commands与声明helper，不改算法、UI、保存格式或其它宿主 |
+| Cursor | 前批均done；[九组剩余命令拆分](../tasks/ARCH-F2-CURSOR-BATCH-2-remaining-commands.md)产品核验通过、工具/fixture/回执窄返工 | 不重做产品九组；未合main，不改算法、UI、保存格式或其它宿主 |
 
 四位Owner工作树/主文件互不重叠。后续若需要同一文件，按前批Codex接收后再开下一批；没有“两个Agent同时改一个宿主文件”的并行授权。
 

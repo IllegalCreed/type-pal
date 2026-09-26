@@ -1,0 +1,87 @@
+{
+  "task": "ARCH-F2-CURSOR-BATCH-2",
+  "candidate": "b2e8d712cacad8253fbbe9aaf2225753d6d9de80",
+  "base": "ef19ae7e",
+  "productionFreeze": "51048353",
+  "reviewer": "Codex",
+  "verdict": "counter: R1-R3 only",
+  "productExtraction": "accepted; do not redo C1-C9",
+  "declarationCount": 90,
+  "exportCount": 119,
+  "importBindingCount": 62,
+  "graph": {
+    "files": 274,
+    "components": []
+  },
+  "criterion": [
+    {
+      "id": "valid",
+      "expected": true,
+      "accepted": true
+    },
+    {
+      "id": "same-message-mixed-error",
+      "expected": false,
+      "accepted": true
+    },
+    {
+      "id": "assertion-prefixed-timed-out",
+      "expected": false,
+      "accepted": true
+    },
+    {
+      "id": "extra-runtime-failure",
+      "expected": false,
+      "accepted": true
+    },
+    {
+      "id": "suite-error",
+      "expected": false,
+      "accepted": true
+    }
+  ],
+  "checks": {
+    "editor": {
+      "exit": 0,
+      "files": 324,
+      "tests": 2829
+    },
+    "typecheck": 0,
+    "biome": {
+      "exit": 0,
+      "warnings": 2
+    },
+    "docs": {
+      "exit": 1,
+      "reason": "root receipt outside whitelist and missing parent index"
+    },
+    "diff": 0,
+    "mutants": {
+      "green": 5,
+      "red": 5,
+      "exactlyOneTargetFailureEach": true,
+      "independentStrictInspection": true,
+      "sourceHashesUnchanged": true
+    }
+  },
+  "scope": {
+    "productFiles": 14,
+    "newModules": 13,
+    "newTestFiles": 11,
+    "newTests": 16,
+    "oldTestsChanged": 0,
+    "otherProductChanges": 0,
+    "outsideWhitelist": ["docs/testing/cursor-commands-wave2.md"]
+  },
+  "candidateWorkingTreeChanged": false,
+  "officialCoverageRun": false,
+  "merged": false,
+  "done": false,
+  "logs": [
+    "/tmp/codex-cursor-wave2-audit.json",
+    "/tmp/codex-cursor-wave2-editor.log",
+    "/tmp/codex-cursor-wave2-mutants.log",
+    "/tmp/codex-cursor-wave2-biome.log"
+  ],
+  "negativeEvidence": "/tmp/codex-cursor-wave2-negatives.lacPIT/evidence.json"
+}

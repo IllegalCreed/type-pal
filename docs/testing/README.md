@@ -8,6 +8,7 @@
 
 ## 文档与附件
 
+- [Cursor九组命令独立复核](cursor-commands-wave2-review.md)、[审计工具](cursor-commands-wave2-audit.mjs)与[机账](cursor-commands-wave2-review-evidence.json)（产品核验通过，整包窄收尾）。
 - [守卫叶补测独立接收](guard-leaf-intake-review.md)、[反例工具](guard-leaf-review-witnesses.mjs)与[机账](guard-leaf-review-evidence.json)（b8e037cb窄返工）。
 - [A3移动与绘制owner候选](world-runtime-refactor.md)、[机账](world-runtime-refactor-evidence.json)与[九针反控](world-runtime-mutants.mjs)（7be10bf4；20新增、Reforge1642、TC/build与6053隔离功能通过；全仓统一门/集成待原接收对话）。
 - [A3活动场景与镜头归属](active-scene-refactor.md)、[冻结对照](active-scene-parity.mjs)、[七针反控](active-scene-mutants.mjs)。

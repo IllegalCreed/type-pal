@@ -9,7 +9,7 @@
 | 任务 | 顶部状态 | 说明 |
 |---|---|---|
 | [ARCH-CONTINUATION-1 — 剩余架构治理连续收口](ARCH-CONTINUATION-1-remaining-queue.md) | build | 以任务卡当前准入与看板分工为准。 |
-| [ARCH-F2-CURSOR-BATCH-2 — 剩余九组编辑命令模块整理](ARCH-F2-CURSOR-BATCH-2-remaining-commands.md) | build | 以任务卡当前准入与看板分工为准。 |
+| [ARCH-F2-CURSOR-BATCH-2 — 剩余九组编辑命令模块整理](ARCH-F2-CURSOR-BATCH-2-remaining-commands.md) | rework | 以任务卡当前准入与看板分工为准。 |
 | [ARCH-SUPPORT-GLM-1 — 八组并行准备取证](ARCH-SUPPORT-GLM-1-eight-audit-packages.md) | draft | 以任务卡当前准入与看板分工为准。 |
 | [TEST-GLM-CONTENT-GUARDS-2 — 六组校验叶边界补测](TEST-GLM-CONTENT-GUARDS-2-leaf-boundaries.md) | rework | 以任务卡当前准入与看板分工为准。 |
 
