@@ -80,6 +80,8 @@ describe('player opcode family ownership', () => {
     gs.partyMembers = [0]
     gs.PlayerRolesRuntime.rgwEquipment[0]![0] = 100
     gs.inventory = [{ itemId: 200, count: 1 }]
+    const inventory = gs.inventory
+    const entry = gs.inventory[0]
 
     applyPlayerOpcode({
       gs,
@@ -91,6 +93,8 @@ describe('player opcode family ownership', () => {
 
     expect(gs.iCurEquipPart).toBe(0)
     expect(gs.PlayerRolesRuntime.rgwEquipment[0]?.[0]).toBe(200)
+    expect(gs.inventory).toBe(inventory)
+    expect(gs.inventory[0]).toBe(entry)
     expect(gs.inventory).toEqual([{ itemId: 100, count: 1 }])
     expect(gs.wLastUnequippedItem).toBe(100)
   })
