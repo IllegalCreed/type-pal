@@ -21,7 +21,7 @@
   原始标量不做空快照。审查席 label 污染探针（initial 未命中分支改写 `machine.label`）复跑：
   control 9/9 绿、probe 恰红在 badInitial 的深比较断言——候选已抓住。
 - **R3**：负控两针描述按 runner 实情勘误（见下表），回执/机账合同声明与计数按最终树
-  （111 行；全 content 1133）刷新。
+  （当时 111 行/全 content 1133；r2 删除冗余用例后终态 110 行/1132，见末节数字）刷新。
 
 ## 八组交付（去重先行；合法 fixture 先过真实 guard；单轴负例配同入口正控；实际入参逐次快照比较）
 
@@ -39,7 +39,7 @@
 合计 **110 行**（r2 返工删除了 G3 末尾冗余的重复坏 wipe 调用用例——它不构成独立合同，审查指出其名不副实）。每拒绝行：先同入口同形状合法正控（确实执行）、只破一轴、`expectExactError` 完整 message
 全等、对象/数组实际入参 `deepSnapshot` 前后比较；复用 wave2 已验收的
 `__tests__/guard-leaf-fixtures.ts` 助手（expectExactError/expectAcceptsUnchanged，正控意外抛出呈
-AssertionError），未新造 fixture 文件。行数为选题结果，不与新增分支数挂钩；池内疑似噪声行
+AssertionError）；r2 返工另新增本批专用 `__tests__/glm-guard-residual-fixtures.ts`（expectRejectUnchanged）。行数为选题结果，不与新增分支数挂钩；池内疑似噪声行
 （如 author-script-core:578/876/965、script:744 与既有正控矛盾）未作为负例目标。
 
 ## 代表负控（复用 wave2 已验收判据）

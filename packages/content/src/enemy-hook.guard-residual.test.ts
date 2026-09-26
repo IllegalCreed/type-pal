@@ -175,10 +175,13 @@ describe('G5 enemy hook/AI/onDefeated 残差', () => {
         { kind: 'wait', ms: 0 },
       ],
     )
+    const notAnArray: Record<string, unknown> = {}
+    const notAnArrayBefore = deepSnapshot(notAnArray)
     expectExactError(
-      () => checkEnemyOnDefeatedCommands({}, 'defeated'),
+      () => checkEnemyOnDefeatedCommands(notAnArray, 'defeated'),
       'defeated: 期望 EnemyOnDefeatedCommand[]',
     )
+    expect(notAnArray).toEqual(notAnArrayBefore)
     const badWait = [{ kind: 'wait', ms: -1 }]
     const waitBefore = deepSnapshot(badWait)
     expectExactError(

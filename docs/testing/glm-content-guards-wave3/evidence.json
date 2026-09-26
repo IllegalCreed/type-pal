@@ -89,7 +89,7 @@
         "id": "item-status-dup",
         "module": "validate.ts",
         "injection": "removeStatus 重复门 -> if (false)（seen.add 成条件体，语义无害）",
-        "onlyFailed": "G8 validateItems use 效果残差 removeStatus 重复拒绝（同型合法效果正控、单字段破坏）"
+        "onlyFailed": "G8 validateItems use 效果残差 'removeStatus 重复'拒绝（同kind合法基线先过真实守卫、仅改所测字段）"
       }
     ],
     "r1r2Verification": {
