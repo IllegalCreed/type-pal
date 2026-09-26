@@ -1,6 +1,6 @@
 # ARCH-F2-CURSOR-BATCH-2 — 剩余九组编辑命令模块整理
 
-Status: rework
+Status: done
 Owner: Cursor
 Reviewer / Integration Owner: Codex
 Phase: phase2
@@ -23,8 +23,8 @@ Codex于2026-09-26独立读当前`commands.ts`，确认剩余类与下表边界�
 before→after：同一编辑输入、返回对象/引用、历史与错误不变，只改变模块归属。最强替代解释是共享helper迫使反向依赖；
 若拆后出现新runtime SCC或新模块回引commands barrel，说明边界不成立，应在内部下层拆helper而非增加万能Context。
 
-必读：AGENTS/CLAUDE/READ-FIRST、[治理台账](../audits/architecture-debt.md)、
-[前批验收](../../testing/cursor-architecture-batch-integration.md)、`command-contract.ts`、`edit-session.ts`。
+必读：AGENTS/CLAUDE/READ-FIRST、[治理台账](../../../audits/architecture-debt.md)、
+[前批验收](../../../../testing/cursor-architecture-batch-integration.md)、`command-contract.ts`、`edit-session.ts`。
 不复活旧schema/旧入口，旧有fallback是否有问题另登记，不借机械拆分偷偷删除或“修好”。
 
 ## 九组顺序（连续完成，不逐组等批准）
@@ -69,16 +69,29 @@ before→after：同一编辑输入、返回对象/引用、历史与错误不�
 
 - Codex：premise verified / build allowed，2026-09-26；源码范围与Codex的reforge活动场景、GLM的content测试互斥。
 - Coding Owner：Cursor；贡献者自验与Codex独立验收分列。
-- 作者交付：候选b2e8d712已收到；[原作者回执](https://github.com/IllegalCreed/type-pal/blob/b2e8d712cacad8253fbbe9aaf2225753d6d9de80/docs/testing/cursor-commands-wave2.md)留在候选，未改其正文。
-- Codex验收：产品九组搬移核验通过；整包counter，仅R1–R3工具/一个fixture/回执收尾。见[独立复核](../../testing/cursor-commands-wave2-review.md)及[机账](../../testing/cursor-commands-wave2-review-evidence.json)。done未开放，不需要Kimi/GLM固定签字。
+- 作者交付：delivered，2026-09-26；产品 C9 `6952ffeec978e7716e7f3e48fd5f240244f07f93`；回执与反控见[receipt.md](../../../../testing/cursor-commands-wave2/receipt.md)。r1 窄修只动判据、C1 新 fixture 与回执归位。
+- Codex验收：**accept / done allowed**（2026-09-26，2022acc3，集成96e9d3c1）。R1–R3、最小UI与统一质量门全部通过；[最终验收](../../../../testing/cursor-commands-wave2-integration.md)与[机账](../../../../testing/cursor-commands-wave2-integration-evidence.json)。首轮反证保留历史事实，不代签他席。
 
-## Codex接收日志（2026-09-26）
+## Codex统一收口
+
+check8740→ratchet→保护5a4ae580的单次strict8248/701均exit0；其它六包完整基线不变，原688源文件全保留。
+6019自有内存工程完成场景改名/undo/redo、entity新增/移位/undo/redo，console error/warn为空，未动6010/用户工程。
+本卡完成，F2组织性治理收口；其它架构卡、GLM候选、full/Q1/Q2不借此关闭。无需再次用户技术验收或固定AI签字。
+无下一位Agent提示词；Codex负责推送/退休清理，旧交接块仅作历史。
+
+## Codex返工复核（2026-09-26，2022acc3）
+
+四个旧判据反例全部由实际judge拒绝，合法对照通过；作者15项真实判据自测及五针复跑均通过，默认只写/tmp且候选树干净。
+C1经buildBlankProject/正式loader构造、实际输入快照与原顺序断言通过（2/2，TC0）；回执已归位，docs/diff通过。
+产品对b2e8d712零diff；不重开90声明/119出口/62绑定/运行期无环结论。Codex统一安排质量门，未将GLM返工混入。
+
+## Codex首轮接收日志（历史，2026-09-26）
 
 119出口、90声明正文、62运行期绑定和无新环事实已独立通过；editor2829/2829与TC、五针真实业务红均通过。
 判据会误收四类坏报告；新增C1的空强转fixture及回执位置/doc门须窄修。不改候选生产正文，不重做九组。
 未合main、未跑官方覆盖率，保持8232/688；保留分支与worktree用于返工。原有作者块由其分支保留，不代签。
 
-## 下一位 Cursor 窄返工提示词
+## 下一位 Cursor 窄返工提示词（历史，已闭合）
 
 ```text
 在原codex/cursor-commands-wave2窄返工ARCH-F2-CURSOR-BATCH-2，候选b2e8d712。
@@ -92,6 +105,30 @@ R3：回执移入专属目录receipt.md，校准目录README、卡面和内部�
 不动父索引/看板/配置/基线，不改Codex审计工具；提交推送准确SHA，不合main、不标done。
 Codex负责后续独立复验、必要UI、统一全仓门与集成；不用重新跑整组覆盖率。
 ```
+
+## 作者交付
+
+2026-09-26。C1–C9 已连续提交，未合 main，未标 done。
+
+- C1 `8615388c246592a13f55a5b6368f6347d46a0bb5`
+- C2 `2285105c7359d6c9ed3535ac00da0f63ffae2875`
+- C3 `9bf3c17fcc695cb1b3bc99802a2f84525341e354`
+- C4 `d8cd042035020643f123ffa2b35a74f1b793a160`
+- C5 `2fbc02e82ff01c14b16a56023ad91d5a67da7e42`
+- C6 `141b19bd96a4d9d69df0c936600b05906a971b4f`
+- C7 `091c12662c2e62fddbcef66525da1e8028faf4a8`
+- C8 `cc6c5614a44e656f769f5e0b1ea2353041136b87`
+- C9 `6952ffeec978e7716e7f3e48fd5f240244f07f93`
+
+```bash
+cd /Users/zhangxu/illegal/type-pal-cursor-commands-wave2
+env -u NODE_COMPILE_CACHE node docs/testing/cursor-commands-wave2/module-mutants.mjs --self-test
+env -u NODE_COMPILE_CACHE node docs/testing/cursor-commands-wave2/module-mutants.mjs
+env -u NODE_COMPILE_CACHE pnpm --filter @type-pal/editor typecheck
+env -u NODE_COMPILE_CACHE pnpm --filter @type-pal/editor check
+```
+
+作者自验：editor check 324 files / 2829 tests；5 针 ok+hit。不能替代 Codex 独立验收。
 
 ## 下一位 Cursor 提示词
 

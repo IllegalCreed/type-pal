@@ -5,9 +5,7 @@ import { readdirSync, readFileSync } from 'node:fs'
 import path from 'node:path'
 import ts from 'typescript'
 
-const root = path.resolve(
-  process.argv[2] ?? '/Users/zhangxu/illegal/type-pal-cursor-commands-wave2',
-)
+const root = path.resolve(process.argv[2] ?? process.cwd())
 const base = '51048353',
   dir = 'packages/editor/src/core/'
 const modules = [
@@ -215,6 +213,10 @@ const functions = [
   'judgeRed',
   'selfTestPayload',
 ]
+// r2 factored the verdict into extra helpers; run that same implementation, not an old copy.
+for (const name of ['isErrorHeader', 'isTimeoutText', 'suiteMessages', 'allExecuted'])
+  if (toolTree.statements.some((n) => ts.isFunctionDeclaration(n) && n.name?.text === name))
+    functions.push(name)
 const bodies = functions
   .map((name) => {
     const found = toolTree.statements.filter(

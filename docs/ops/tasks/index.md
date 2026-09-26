@@ -9,8 +9,9 @@
 | 任务 | 顶部状态 | 说明 |
 |---|---|---|
 | [ARCH-CONTINUATION-1 — 剩余架构治理连续收口](ARCH-CONTINUATION-1-remaining-queue.md) | build | 以任务卡当前准入与看板分工为准。 |
-| [ARCH-F2-CURSOR-BATCH-2 — 剩余九组编辑命令模块整理](ARCH-F2-CURSOR-BATCH-2-remaining-commands.md) | rework | 以任务卡当前准入与看板分工为准。 |
 | [ARCH-SUPPORT-GLM-1 — 八组并行准备取证](ARCH-SUPPORT-GLM-1-eight-audit-packages.md) | draft | 以任务卡当前准入与看板分工为准。 |
+| [TEST-CODEX-CONTENT-RESOURCES-1 — 五组资源索引与引用边界](TEST-CODEX-CONTENT-RESOURCES-1-indices-and-references.md) | build | 以任务卡当前准入与看板分工为准。 |
+| [TEST-CURSOR-COMMAND-BOUNDARIES-3 — 八组编辑命令行为残项](TEST-CURSOR-COMMAND-BOUNDARIES-3-editor-residuals.md) | build | 以任务卡当前准入与看板分工为准。 |
 | [TEST-GLM-CONTENT-GUARDS-2 — 六组校验叶边界补测](TEST-GLM-CONTENT-GUARDS-2-leaf-boundaries.md) | rework | 以任务卡当前准入与看板分工为准。 |
 
 ## 已完成（historical）
@@ -32,6 +33,7 @@
 | [ARCH-ENTRY-ACTOR-SEED-1 入口角色完整初始状态所有权与快照模型](../archive/tasks/done/ARCH-ENTRY-ACTOR-SEED-1-entry-actor-initial-state.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [ARCH-ENTRYPOINT-CANONICAL-1 - 显式启动入口与独立开局配置](../archive/tasks/done/ARCH-ENTRYPOINT-CANONICAL-1-explicit-startup-entry-model.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [ARCH-F2-CURSOR-BATCH-1 — 24组命令族与设计系统模块整理](../archive/tasks/done/ARCH-F2-CURSOR-BATCH-1-domain-modules.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [ARCH-F2-CURSOR-BATCH-2 — 剩余九组编辑命令模块整理](../archive/tasks/done/ARCH-F2-CURSOR-BATCH-2-remaining-commands.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [ARCH-F2-DS-LABELS-1 — DsTag / DsReadonlyValue 窄拆](../archive/tasks/done/ARCH-F2-DS-LABELS-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [ARCH-F2-DS-OVERFLOW-1 — DsOverflowText 独立模块](../archive/tasks/done/ARCH-F2-DS-OVERFLOW-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [ARCH-F2-EDITOR-BATTLE-FIELD-COMMANDS-1 — 战场命令族独立模块](../archive/tasks/done/ARCH-F2-EDITOR-BATTLE-FIELD-COMMANDS-1.md) | done | 完成证据、历史签字与交接见原卡。 |

@@ -1,10 +1,11 @@
-/** Codex review of b8e037cb: candidate code is only transformed in a temporary Vite loader. */
+/** Codex r1/r2 review: candidate code is only transformed in a temporary Vite loader. */
 import assert from 'node:assert/strict'
 import { spawnSync } from 'node:child_process'
 import { createHash } from 'node:crypto'
 import { mkdtempSync, readFileSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { resolve } from 'node:path'
+import { stripVTControlCharacters } from 'node:util'
 import ts from 'typescript'
 import { preciseCoverageEnvironment } from '../../scripts/coverage/environment.mjs'
 
@@ -31,24 +32,41 @@ function initializer(name) {
   assert.equal(found.length, 1)
   return found[0].initializer.getText(tree)
 }
-// Execute the author's actual runtime validation block; no substitute predicate.
-const start = tool.indexOf('  assert.equal(data.numTotalTests,')
-const end = tool.indexOf('  for (const [name, before]', start)
-assert(start >= 0 && end > start)
-const judge = new Function(
-  'assert',
-  'mutation',
-  'run',
-  'data',
-  'root',
-  'output',
-  `
+// Execute the author's actual runtime judge (r2), or the historical r1 block.
+const judgeDeclaration = tree.statements.find(
+  (n) => ts.isFunctionDeclaration(n) && n.name?.text === 'judge',
+)
+let judge
+if (judgeDeclaration) {
+  const runtimeJudge = new Function(
+    'resolve',
+    'stripVTControlCharacters',
+    'contentRoot',
+    `const TOTAL=${initializer('TOTAL')};
+     const MIXED_ERROR=${initializer('MIXED_ERROR')};
+     const TIMEOUT=${initializer('TIMEOUT')};
+     ${judgeDeclaration.getText(tree)}; return judge`,
+  )(resolve, stripVTControlCharacters, resolve(root, 'packages/content'))
+  judge = (a, mutation, run, data) => a.deepEqual(runtimeJudge(mutation, run, data), [])
+} else {
+  const start = tool.indexOf('  assert.equal(data.numTotalTests,')
+  const end = tool.indexOf('  for (const [name, before]', start)
+  assert(start >= 0 && end > start)
+  judge = new Function(
+    'assert',
+    'mutation',
+    'run',
+    'data',
+    'root',
+    'output',
+    `
  const id=mutation.id;
  const assertionOnly=${initializer('assertionOnly')};
  const fullNameOf=${initializer('fullNameOf')};
  ${tool.slice(start, end)}
 `,
-)
+  )
+}
 const mutation = new Function(`return (${initializer('mutations')})[0]`)()
 function sample() {
   const entries = Array.from({ length: 91 }, (_, index) => ({
@@ -135,7 +153,7 @@ const criterion = criterionCases.map((item) => {
     judge(
       assert,
       mutation,
-      { status: Object.hasOwn(item, 'exit') ? item.exit : 1 },
+      { status: Object.hasOwn(item, 'exit') ? item.exit : 1, signal: null, stdout: '', stderr: '' },
       data,
       root,
       output,
@@ -175,6 +193,24 @@ const probes = [
     source: 'enemy-ai-condition-guard',
     from: `nonEmptyString(entry, \`\${path}.in[\${index}]\`)`,
     to: `nonEmptyString(entry, \`WRONG.\${path}.in[\${index}]\`)`,
+  },
+  {
+    id: 'exactKeys-mutates-actual-object',
+    source: 'enemy-validation-shapes',
+    from: `  const keys = new Set(allowed)\n  for (const key of Object.keys(value))\n    if (!keys.has(key)) throw new Error(\`\${path}.\${key}: 未知字段\`)\n}`,
+    to: `  const keys = new Set(allowed)\n  for (const key of Object.keys(value))\n    if (!keys.has(key)) throw new Error(\`\${path}.\${key}: 未知字段\`)\n  if (path === "v") value.kind = "changed-by-validator"\n}`,
+  },
+  {
+    id: 'body-mutates-actual-array',
+    source: 'battle-choreography',
+    from: `    checkBattleChoreographyAction(action, \`\${path}[\${index}]\`, options)\n  })\n}`,
+    to: `    checkBattleChoreographyAction(action, \`\${path}[\${index}]\`, options)\n  })\n  if (path === "body") value.splice(0, 1)\n}`,
+  },
+  {
+    id: 'nested-turn-always-rejects',
+    source: 'enemy-ai-condition-guard',
+    from: "    case 'turn':\n      exactKeys(condition, ['kind', 'op', 'value'], path)",
+    to: `    case 'turn':\n      if (path.endsWith('.cond') || path.endsWith('.when')) throw new Error(\`\${path}.op: 期望 ==|>=\`)\n      exactKeys(condition, ['kind', 'op', 'value'], path)`,
   },
 ]
 const rows = []

@@ -69,7 +69,31 @@ Codex已读`enemy-validation-shapes.ts:1–37`、`enemy-ai-condition-guard.ts:4�
   不合main、不标done，待Codex独立验收。
 - Codex独立验收：counter（b8e037cb，2026-09-26），仅R1–R4；见[本席报告](../../testing/guard-leaf-intake-review.md)与[机账](../../testing/guard-leaf-review-evidence.json)。上方作者交付区来自候选，仅将回执链接适配为固定SHA地址；仅作自验记录，不等于Codex确认其每项声明。done未开放。
 
-## Codex接收日志 / 当前返工提示词
+## Codex r2 接收 / 当前返工提示词
+
+2026-09-26 Codex：候选 `99113d225fe2322395238a7b60fdb4a06e72d69c` 独立 **counter，仅C1/C2**。
+见[本轮报告](../../testing/guard-leaf-r2-review.md)和[机账](../../testing/guard-leaf-r2-evidence.json)。
+R1原三针已检出、R2 wait/rows/playSound/中间hook已修、R3真实判据旧反例全拒、R4格式与percent归属已闭；不重开。
+全content957/957、TC、Biome/docs通过。但七处helper调用比较了另一个新对象，exactKeys/body改写仍91全绿；
+两处turn正控仍分别是aloneAlive/chance，嵌套turn一律错拒也91全绿。回执相关“全部闭合”声明不能采信。
+未改候选语义，未合入产品/新测试/统计；main官方8248/701不变，done未开放。GLM作者回执在候选固定SHA保留。
+
+```text
+在 /Users/zhangxu/illegal/type-pal-glm-content-guards-wave2、codex/glm-content-guards-wave2
+对候选99113d22做TEST-GLM-CONTENT-GUARDS-2窄返工。fetch后先读origin/main上的
+docs/testing/guard-leaf-r2-review.md、机账和任务卡当前块；只修C1/C2，旧已闭项不重开。
+C1：修七处expectAcceptsUnchanged调用，生产消费的对象必须正是helper比较的对象；
+G1 exactKeys正/负输入、record坏数组、G6坏hook数组也按报告补实际可变输入深快照，原始值不凑快照。
+C2：G3 not(turn)与G6 when(turn)先执行同入口合法turn，再仅改op；G6参数表逐行明确同形状good/bad；
+G3未知kind补原卡要求的合法对照。不要拿aloneAlive/chance或另一份新对象作保真证明。
+回执/标题/机账如实同步。不追求增项数，不改产品/旧测试/配置/基线/Codex工具，不合main、不标done。
+用origin/main最新guard-leaf-review-witnesses.mjs复验：control绿、原三针继续detected，
+exactKeys-mutates-actual-object/body-mutates-actual-array/nested-turn-always-rejects从MISSED变候选AssertionError。
+原1+6负控、全content/TC/Biome/docs复跑一次即可；不跑覆盖率或全仓check/ratchet/strict。
+只提交原白名单和本人回执，推送最终SHA。Codex复验通过后负责统一质量门、合并推送及清理。
+```
+
+## Codex r1 接收日志 / 历史返工提示词
 
 2026-09-26 Codex：白名单、生产零漂移、content957/957、TC与原六针实跑通过；三坏实现仍91/91全绿，
 真实判据误收五类反例，最终JSON格式门exit1。仅落审查，不改GLM测试语义、不合候选、不跑官方统计；
