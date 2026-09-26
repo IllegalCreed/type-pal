@@ -1,0 +1,13 @@
+{
+  "id": "c09-locale-label",
+  "file": "packages/editor/src/core/locale-commands.ts",
+  "sha256": "ae05e976d5bb08b07cd58c428fa94fda52af08f9f3f6348ea2711d2d86dd2925",
+  "hashUnchanged": true,
+  "greenExit": 0,
+  "greenPassed": 1,
+  "redExit": 1,
+  "failedTitle": "keeps metadata constructors on the old commands barrel and patches locale text",
+  "failedFullName": "C09 locale level-up and project-name commands keeps metadata constructors on the old commands barrel and patches locale text",
+  "assertion": "AssertionError: expected '修改文案' to be '修改文本' // Object.is equality",
+  "ok": true
+}

@@ -1926,12 +1926,15 @@ export {
   ItemInUseError,
   UpdateItemCommand,
 } from './item-commands.js'
+export { UpdateLevelUpCommand } from './level-up-commands.js'
+export { UpdateLocaleCommand } from './locale-commands.js'
 export type { PoisonPatch } from './poison-commands.js'
 export {
   AddPoisonCommand,
   DeletePoisonCommand,
   UpdatePoisonCommand,
 } from './poison-commands.js'
+export { RenameProjectCommand } from './project-name-command.js'
 export {
   AddShopCommand,
   DeleteShopCommand,
@@ -1942,37 +1945,6 @@ export {
 } from './shop-commands.js'
 export type { SkillPatch } from './skill-commands.js'
 export { AddSkillCommand, DeleteSkillCommand, UpdateSkillCommand } from './skill-commands.js'
-
-/** 改 locale 单键文本(敌人/角色名等;invert 还原,新键还原 = 删除)。 */
-export class UpdateLocaleCommand implements Command {
-  readonly label = '修改文本'
-  private readonly key: string
-  private readonly text: string
-  private old: string | undefined
-  private had = false
-  private captured = false
-
-  constructor(key: string, text: string) {
-    this.key = key
-    this.text = text
-  }
-
-  apply(state: EditorState): EditorState {
-    if (!this.captured) {
-      this.captured = true
-      this.had = this.key in state.locale
-      this.old = state.locale[this.key]
-    }
-    return { ...state, locale: { ...state.locale, [this.key]: this.text } }
-  }
-
-  invert(state: EditorState): EditorState {
-    const locale = { ...state.locale }
-    if (this.had) locale[this.key] = this.old!
-    else delete locale[this.key]
-    return { ...state, locale }
-  }
-}
 
 // ════════════════════════════════════════════════════════════════════
 // A7 资源注册表命令(音乐首切片)
@@ -2128,46 +2100,6 @@ export class DeleteAssetCommand implements Command {
     const previous = this.oldCatalog.assets[this.assetId]
     if (previous && this.previousBytes) assetBlobs[previous.path] = this.previousBytes.slice(0)
     return { ...state, assetCatalog: this.oldCatalog, assetBlobs }
-  }
-}
-
-// ════════════════════════════════════════════════════════════════════
-// C6 升级学技能表命令(skills.json 的 levelUp 键:角色 → [{level, skillId}])
-// ════════════════════════════════════════════════════════════════════
-
-/** 改角色的升级学技能行(整列表替换;空/undefined = 删该角色键)。 */
-export class UpdateLevelUpCommand implements Command {
-  readonly label = '改升级学技能'
-  private readonly actorId: string
-  private readonly rows: LevelUpSkill[] | undefined
-  private old: LevelUpSkill[] | undefined
-  private had = false
-  private captured = false
-
-  constructor(actorId: string, rows: LevelUpSkill[] | undefined) {
-    this.actorId = actorId
-    this.rows = rows?.length ? structuredClone(rows) : undefined
-  }
-
-  apply(state: EditorState): EditorState {
-    if (!this.captured) {
-      this.captured = true
-      this.had = this.actorId in state.levelUp
-      this.old = state.levelUp[this.actorId]
-        ? structuredClone(state.levelUp[this.actorId])
-        : undefined
-    }
-    const levelUp = { ...state.levelUp }
-    if (this.rows) levelUp[this.actorId] = structuredClone(this.rows)
-    else delete levelUp[this.actorId]
-    return { ...state, levelUp }
-  }
-
-  invert(state: EditorState): EditorState {
-    const levelUp = { ...state.levelUp }
-    if (this.had && this.old) levelUp[this.actorId] = structuredClone(this.old)
-    else delete levelUp[this.actorId]
-    return { ...state, levelUp }
   }
 }
 
@@ -2380,33 +2312,6 @@ export class DeleteSceneCommand implements Command {
   invert(_state: EditorState): EditorState {
     if (!this.before) throw new Error(`${this.label}: 尚未 apply`)
     return this.before
-  }
-}
-
-/**
- * 重命名项目(manifest.name 显示名;id/文件夹名不变 —— 稳定标识与显示名分离,
- * 改名不断存档/URL 引用)。manifest 整替换,序列化随 manifest.json 落盘。
- */
-export class RenameProjectCommand implements Command {
-  readonly label = '重命名项目'
-  private readonly next: string
-  private old = ''
-  private captured = false
-
-  constructor(next: string) {
-    this.next = next
-  }
-
-  apply(s: EditorState): EditorState {
-    if (!this.captured) {
-      this.old = s.manifest.name
-      this.captured = true
-    }
-    return { ...s, manifest: { ...s.manifest, name: this.next } }
-  }
-
-  invert(s: EditorState): EditorState {
-    return { ...s, manifest: { ...s.manifest, name: this.old } }
   }
 }
 

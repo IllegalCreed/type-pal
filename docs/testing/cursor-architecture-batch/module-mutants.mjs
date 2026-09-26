@@ -82,6 +82,14 @@ const cases = {
     to: '商店编号已超出整数范围',
     title: 'keeps shop constructors on the old commands barrel and guards nextShopId overflow',
   },
+  c09: {
+    id: 'c09-locale-label',
+    sourceFile: 'src/core/locale-commands.ts',
+    testFile: 'src/core/locale-commands.test.ts',
+    from: "readonly label = '修改文本'",
+    to: "readonly label = '修改文案'",
+    title: 'keeps metadata constructors on the old commands barrel and patches locale text',
+  },
 }
 
 const selected = process.argv[2] ? [process.argv[2]] : Object.keys(cases)
