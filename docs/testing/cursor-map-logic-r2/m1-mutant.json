@@ -1,0 +1,18 @@
+{
+  "key": "m1",
+  "id": "m1-draft-move-oob",
+  "file": "packages/editor/src/core/stamp-draft.ts",
+  "testFile": "packages/editor/src/core/stamp-draft.background.test.ts",
+  "fullName": "M1 stamp-draft 剩余合同 moveStampDraftSelection：空点同引用；占用目标拒绝；两点对调保双方值",
+  "sha256": "6f2c03c4d4453735565c8cc43ca16a02245ced23dd86eb399e6a58feb2cca671",
+  "hashUnchanged": true,
+  "greenExit": 0,
+  "greenPassed": 1,
+  "redExit": 1,
+  "failedTitle": "moveStampDraftSelection：空点同引用；占用目标拒绝；两点对调保双方值",
+  "failedFullName": "M1 stamp-draft 剩余合同 moveStampDraftSelection：空点同引用；占用目标拒绝；两点对调保双方值",
+  "assertion": "AssertionError: expected [Function] to throw error including '移动目标超出组合边界。' but got '移动目标在当前视觉层已有成员，请先清理目标位置。'\n    at Proxy.<anonymous> (file:///Users/zhangxu/illegal/type-pal-cursor-map-logic-r2/node_modules/.pnpm/@vitest+expect@4.1.7/node_modules/@vitest/expect/dist/index.js:1552:16)\n    at Proxy.<anonymous> (file:///Users/zhangxu/illegal/type-pal-cursor-map-logic-r2/node_modules/.pnpm/@vitest+expect@4.1.7/node_modules/@vitest/expect/dist/index.js:1156:15)\n    at Proxy.methodWrapper (file:///Users/zhangxu/illegal/type-pal-cursor-map-logic-r2/node_modules/.pnpm/chai@6.2.2/node_modules/chai/index.js:1700:25)\n    at /Users/zhangxu/illegal/type-pal-cursor-map-logic-r2/packages/editor/src/core/stamp-draft.background.test.ts:86:7\n    at file:///Users/zhangxu/illegal/type-pal-cursor-map-logic-r2/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/illegal/type-pal-cursor-map-logic-r2/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/illegal/type-pal-cursor-map-logic-r2/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/illegal/type-pal-cursor-map-logic-r2/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/illegal/type-pal-cursor-map-logic-r2/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20",
+  "hit": true,
+  "evidence": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/m1-draft-move-oob-LtM8v8",
+  "ok": true
+}

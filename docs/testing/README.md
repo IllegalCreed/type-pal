@@ -10,6 +10,7 @@
 
 - [快速通关E2E路线方案](e2e-route-proposal.md)（2026-09-27讨论稿，未开runner实现）。
 - [GLM/Cursor后台补测两包](background-tests-20260927/README.md)（冻结目标与可转发提示词）。
+- [Cursor地图六组纯逻辑补测](cursor-map-logic-r2/README.md)（M1–M6，隔离分支，未计官方覆盖）。
 
 - [Codex帧动画编辑五组](codex-frame-editor/README.md)（真实TPFS、DOM与保存产物）。
 

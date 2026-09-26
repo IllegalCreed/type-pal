@@ -51,3 +51,24 @@ Branch: `codex/cursor-map-logic-r2`
 从含本卡的最新origin/main独立worktree/上述分支开始，旧Cursor目录已清理。
 六组连做，重复/无可达新增项如实existing-proof，不凑数量。receipt/evidence按新鲜JSON逐文件登记。
 完成提交推送完整SHA；不合main、不标done、不代签。Codex独立验收并安排统一门禁。
+
+## 作者交付
+
+2026-09-27。M1–M6 已连续补测并提交，未合 main，未标 done。Status 保持 build。Codex 验收 pending。
+
+- 工作树 `/Users/zhangxu/illegal/type-pal-cursor-map-logic-r2`，分支 `codex/cursor-map-logic-r2`
+- 生产冻结 `a95618fc2a9586c77ff42ff253f72fcfba1fa09a`；准入 `7de01ea6`
+- 6 份 background + 可选 fixture；产品六模块相对冻结空 diff
+- 背景 JSON 6 files / 30 tests；定向+相邻 17/105；editor 359/3049
+- 6 针 ok+hit、`redExit=1`、`hashUnchanged`
+- 回执 [receipt.md](../../testing/cursor-map-logic-r2/receipt.md)
+
+```bash
+cd /Users/zhangxu/illegal/type-pal-cursor-map-logic-r2
+env -u NODE_COMPILE_CACHE node docs/testing/cursor-map-logic-r2/module-mutants.mjs --self-test
+env -u NODE_COMPILE_CACHE node docs/testing/cursor-map-logic-r2/module-mutants.mjs
+env -u NODE_COMPILE_CACHE pnpm --filter @type-pal/editor typecheck
+env -u NODE_COMPILE_CACHE pnpm --filter @type-pal/editor exec vitest run --passWithNoTests --maxWorkers=2
+```
+
+作者自验：背景 6/30；定向+相邻 17/105；editor 359/3049；6 针 ok+hit。不能替代 Codex 独立验收。
