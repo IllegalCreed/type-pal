@@ -40,7 +40,7 @@
         "id": "derived-stat-assign",
         "module": "item.ts",
         "injection": "effectiveStat v += delta -> v = delta",
-        "category": "输入污染（派生累加改赋值）",
+        "category": "派生数值错误（累加改赋值）",
         "onlyFailed": "I1 …同名 stat 累加、异 stat 与非 statBonus 不串扰，map 外装备 id 回退"
       },
       {
@@ -58,7 +58,7 @@
         "onlyFailed": "I4 …需求 0/负数/非整数：floor+max 语义"
       },
       {
-        "id": "resolve-target-skip",
+        "id": "resolve-stopped-skip",
         "module": "item.ts",
         "injection": "targetIds continue -> if (false)",
         "category": "错目标",
@@ -69,21 +69,21 @@
         "module": "item.ts",
         "injection": "completeExternal consumed = consumeItem(…) -> false",
         "category": "错误消费",
-        "onlyFailed": "I6 …consuming 扣 1 件：世界为 clone、effectResults 全 changed 保序"
+        "onlyFailed": "I6 …consuming 扣 1 件：非默认 host 世界保真、effectResults 全 changed 保序"
       },
       {
         "id": "external-world-identity",
         "module": "item.ts",
         "injection": "completeExternal world: consumed ? next : world -> nextWorld",
-        "category": "丢外部变化",
+        "category": "引用选择合同",
         "onlyFailed": "I6 …world 引用合同：consumedByExternal 与不消费都返回原 world 引用"
       }
     ]
   },
   "gates": {
     "directed": "六文件 46/46 exit 0",
-    "adjacent": "item.test.ts 96 项绿；reforge item-use-executor 17 项绿",
-    "contentSuite": "98 文件 1178/1178 exit 0（新鲜 JSON /tmp/item-logic-r2-content.json；净增恰 46 行测试身份）",
+    "adjacent": "item.test.ts 51 项绿；reforge item-use-executor 17 项绿",
+    "contentSuite": "98 文件 1178/1178 exit 0（新鲜 JSON /tmp/item-logic-r3-content.json；净增恰 46 行测试身份）",
     "typecheck": "exit 0",
     "biome": "本批改动九文件 0 error 0 warning；全 src 另有 runtime-script.ts:146 既有 noUnusedVariables 属分支继承（生产零 diff 可证）",
     "docs": "PASS；git diff --check 干净",

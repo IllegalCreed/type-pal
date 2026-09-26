@@ -10,6 +10,7 @@
 import { describe, expect, test } from 'vitest'
 import { item as makeItem, world } from './__tests__/glm-item-logic-fixtures.js'
 import { expectAcceptsUnchanged } from './__tests__/guard-leaf-fixtures.js'
+import { expectInputsUnchanged } from './__tests__/glm-item-logic-fixtures.js'
 import type { WorldState } from './character.js'
 import type { ItemDataMap } from './item.js'
 import { completeExternalWorldItemUse, useItem } from './item.js'
@@ -62,16 +63,24 @@ describe('I6 completeExternalWorldItemUse 残差', () => {
     expect(outcome?.menu).toBe('close')
   })
 
-  test('consuming 扣 1 件：世界为 clone、effectResults 全 changed 保序', () => {
-    const w = world([{ itemId: 'script-item', count: 1 }])
+  test('consuming 扣 1 件：非默认 host 世界保真、effectResults 全 changed 保序', () => {
+    const w: WorldState = {
+      ...world([{ itemId: 'script-item', count: 1 }]),
+      money: 37,
+      resources: { herb: 2 },
+      learnedSkills: { hero: ['100'] },
+    }
     let outcome: ReturnType<typeof completeExternalWorldItemUse> | undefined
-    expectAcceptsUnchanged((value) => {
-      outcome = completeExternalWorldItemUse(value, 'script-item', items)
-    }, w)
+    expectInputsUnchanged(() => {
+      outcome = completeExternalWorldItemUse(w, 'script-item', items)
+    }, [w, items])
     expect(outcome?.status).toBe('success')
     expect(outcome?.consumed).toBe(true)
     expect(outcome?.changed).toBe(true)
     expect(outcome?.world).not.toBe(w)
+    expect(outcome?.world?.money).toBe(37)
+    expect(outcome?.world?.resources).toEqual({ herb: 2 })
+    expect(outcome?.world?.learnedSkills).toEqual({ hero: ['100'] })
     expect(outcome?.world?.inventory).toEqual([])
     expect(outcome?.effectResults).toEqual([{ index: 0, kind: 'runScript', changed: true }])
   })

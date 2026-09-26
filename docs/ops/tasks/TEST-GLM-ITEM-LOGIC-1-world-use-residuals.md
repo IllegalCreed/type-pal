@@ -83,4 +83,15 @@ Branch: `codex/glm-item-logic-r1`
   runtime-script 既有 warning 表述修正、derived/effects/external 头注释按实际用例收窄。
   复验：定向 46/46（I2 新增 1 行）；6 针负控各恰红；全 content **98 文件 1178/1178**、TC 0、
   改动 Biome 0 error（runtime-script 既有 warning 属分支继承）；docs PASS、diff --check 干净。
+- r3 定点收口（2026-09-27，仅 R2 三项落盘 + R3 learned/抛错 + R4 勘误，见 origin/main
+  `docs/testing/item-logic-r2-review.md`）：
+  R2 ownership beadRing 增加非空 `potion` count=3 哨兵（deepSnapshot before/after）、
+  effects levelUp 断言固定 rng 真实 8 项成长精确值（level 2/maxHP 114/maxMP 61/attack 15/…）、
+  external consuming 行改非默认 host 世界（money 37/resources/learnedSkills）并以
+  `expectInputsUnchanged` 保真。R3 derived effectiveSkills 改具名 learned 数组+
+  expectInputsUnchanged；ownership worldResourceValue 两条恰抛路径补 structuredClone→deepSnapshot
+  before/after。R4 receipt 96→51/1177→1178/45→46 全同步、第四针 resolve-stopped-skip、
+  derived 类别=派生数值错误、external-world-identity=引用选择、runtime-script warning(非 error)、
+  fixture 清单补 glm-guard-residual-fixtures。复验：定向 46/46、6 针各恰红、
+  全 content **98 文件 1178/1178**、TC 0、改动 Biome 0 error 0 warning、docs PASS、diff --check 干净。
   候选 SHA：见本分支头部提交；不合 main、不标 done，交 Codex 独立验收。

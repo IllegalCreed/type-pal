@@ -14,9 +14,13 @@ import { hero, world } from './__tests__/glm-item-logic-fixtures.js'
 import { expectAcceptsUnchanged } from './__tests__/guard-leaf-fixtures.js'
 import type { WorldState } from './character.js'
 import { ownedItemCount, removeOwnedItems, worldResourceValue } from './item.js'
+import { deepSnapshot } from './__tests__/glm-content-contract-fixtures.js'
 
 const beadRing = (): WorldState => {
-  const w = world([{ itemId: 'bead', count: 1 }])
+  const w = world([
+    { itemId: 'bead', count: 1 },
+    { itemId: 'potion', count: 3 },
+  ])
   const leader = w.party[0]!
   leader.equipment = {
     head: 'bead',
@@ -54,7 +58,7 @@ describe('I4 removeOwnedItems 原地合同', () => {
     const removed = removeOwnedItems(w, 'bead', 5)
     expect(removed).toBe(4)
     expect(w.inventory.some((e) => e.itemId === 'bead')).toBe(false)
-    expect(w.inventory).toEqual([])
+    expect(w.inventory).toEqual([{ itemId: 'potion', count: 3 }])
     const leader = w.party[0]!
     expect(Object.keys(leader.equipment)).toEqual(['cloak', 'weapon'])
     expect(leader.equipment.accessory).toBeUndefined()
@@ -72,13 +76,15 @@ describe('I4 removeOwnedItems 原地合同', () => {
     expect(w.party[0]?.equipment).toEqual({ accessory: 'oldRing' })
   })
 
-  test('旁对象保真：无关条目与其它装备槽不被触碰', () => {
+  test('旁对象保真：非空 potion 哨兵与其它装备槽不被触碰', () => {
     const w = beadRing()
+    const potionSnapshot = deepSnapshot(w.inventory.find((e) => e.itemId === 'potion'))
     const beforeCloak = w.party[0]!.equipment.cloak
-    const beforeOther = w.inventory.find((e) => e.itemId === 'other')
     removeOwnedItems(w, 'bead', 3)
     expect(w.party[0]!.equipment.cloak).toBe(beforeCloak)
-    expect(w.inventory.find((e) => e.itemId === 'other')).toEqual(beforeOther)
+    const potionAfter = w.inventory.find((e) => e.itemId === 'potion')
+    expect(potionAfter).toEqual(potionSnapshot)
+    expect(potionAfter?.count).toBe(3)
   })
 })
 

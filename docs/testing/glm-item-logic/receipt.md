@@ -13,8 +13,8 @@
 | I2 | item.inventory.background.test.ts | equippableItems 命中/不命中、equipItem 换装 happy 与三类非法原样、usableItems 背包侧 | 旧件回包合并臂、无关条目保留、equipableBy 拒绝、非 caster 引用不变、无旧件换装、equippedItemIds 多成员聚合、usableItems 装备侧入列/去重/battleOnly 排除、count 0 过滤；r2 新增**装备独有正控**（空背包但装备中的可用品入列，equippedUsable.push 臂） | 8 |
 | I3 | item.preflight.background.test.ts | validate C8 支持矩阵、item.test useItem 四例 | preflight 四种失败（unknown-item/wrong-context/not-owned/missing-target）+ menu 提前成形 + allAllies 与非目标类豁免 + 装备中所有权正控；失败 outcome 统一形状（原 world 引用/零副作用） | 6 |
 | I4 | item.ownership.background.test.ts | '材料计数覆盖背包与装备，扣除顺序固定…'（ownedItemCount=5、head/body 先于 accessory） | floor+max 语义（0/负/1.9）、供给不足自然走完（含 splice 与槽序结果）、跨队员 continue、旁对象保真、count 0 计数、worldResourceValue 空键/collectValue 回退/resources 命中/负·小数恰抛。**removeOwnedItems 按原地合同断言精确差值（计数/键集/数组），不施加不可变断言** | 8 |
-| I5 | item.effects.background.test.ts | craftRecipe 成功/材料不足、drawFromResourcePool 掷档/封顶/空池(value=0)、三公共效果 happy、allAllies 结算、chance 显式、自毒/解毒/护体符/大蒜 | invalid-effect-chain 两形态（⚠ 刻意非法载体 rawItem，测 resolve 自身防御合同）、gate 缺省 chance=100 的 1% 失败、modifyHostileAwareness 免目标+同值零变化、revive 复活清态/活人零变化、curePoison 显式 id/缺 defs/未知毒/无毒、removeStatus 过滤、permanentStatBoost 三种钳位与钳位零变化（delta 0 非法不测）、dieIfNotPoisoned 中毒不停表、oneAlly 跳过、allAllies 复合链、levelUp 零经验仍 changed | 10 |
-| I6 | item.external.background.test.ts | '外部脚本只返回待执行请求'、useItem 四例 | completeExternalWorldItemUse（content 零直测）：unknown-item、menu close、consuming 扣件 clone、consumedByExternal 原引用、consuming:false 原引用 changed true、world 引用合同合并用例；useItem external 原引用/battleOnly 联动 | 6 |
+| I5 | item.effects.background.test.ts | craftRecipe 成功/材料不足、drawFromResourcePool 掷档/封顶/空池(value=0)、三公共效果 happy、allAllies 结算、chance 显式、自毒/解毒/护体符/大蒜 | invalid-effect-chain 两形态（⚠ 刻意非法载体 rawItem，测 resolve 自身防御合同）、gate 缺省 chance=100 的 1% 失败、modifyHostileAwareness 免目标+同值零变化、revive 复活清态/活人零变化、curePoison 显式 id/缺 defs/未知毒/无毒、removeStatus 过滤、permanentStatBoost 三种钳位与钳位零变化（delta 0 非法不测）、dieIfNotPoisoned 中毒不停表、oneAlly 跳过、allAllies 复合链、levelUp 固定 rng 真实 8 项成长精确值（level 2/maxHP 114/maxMP 61/attack 15/…）与零经验仍 changed | 10 |
+| I6 | item.external.background.test.ts | '外部脚本只返回待执行请求'、useItem 四例 | completeExternalWorldItemUse（content 零直测）：unknown-item、menu close、consuming 扣件 clone、consumedByExternal 原引用、consuming:false 原引用 changed true、非默认 host 世界保真（money/resources/learnedSkills）、world 引用合同合并用例；useItem external 原引用/battleOnly 联动 | 6 |
 
 合计 **46 行**（I1 8/I2 7/I3 6/I4 8/I5 10/I6 6）。纯函数经 `expectAcceptsUnchanged` 独立快照前后
 比较；失败/零变化 outcome 断言 `world` 为原引用（toBe）；原地 `removeOwnedItems` 只断精确差值。
@@ -42,7 +42,7 @@
 ## 统一门禁（本批范围，最终树实测）
 
 - 定向六文件：46/46 exit 0（新鲜 JSON）。
-- 相邻：item.test.ts 96 项 + reforge item-use-executor 17 项均绿。
+- 相邻：item.test.ts **51 项** + reforge item-use-executor 17 项均绿。
 - 全 content：**98 文件 1177/1177** exit 0（新鲜 JSON `/tmp/item-logic-content.json`；净增恰 45 行测试身份）。
 - TC：exit 0。Biome（本批改动九文件）：0 error、0 warning；全 src 另有 runtime-script.ts:146
   既有 noUnusedVariables error 属分支继承非本批引入（生产零 diff 可证）。

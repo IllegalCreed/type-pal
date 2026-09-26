@@ -350,11 +350,21 @@ describe('I5 目标类效果残差', () => {
     }
     const w = world([{ itemId: 'use-item', count: 1 }])
     let outcome: WorldItemUseOutcome | undefined
+    const defs = poisonDefs()
     expectInputsUnchanged(() => {
-      outcome = resolveWorldItemUse(w, 'hero', 'use-item', items, poisonDefs(), () => 0.5)
-    }, [w, items, poisonDefs])
+      outcome = resolveWorldItemUse(w, 'hero', 'use-item', items, defs, () => 0.5)
+    }, [w, items, defs])
     expect(outcome?.changed).toBe(true)
-    expect(outcome?.world?.party[0]?.exp).toBe(0)
-    expect(outcome?.world?.party[0]?.level).toBeGreaterThanOrEqual(1)
+    const after = outcome?.world?.party[0]!
+    expect(after.level).toBe(2)
+    expect(after.maxHP).toBe(114)
+    expect(after.maxMP).toBe(61)
+    expect(after.attack).toBe(15)
+    expect(after.magicAttack).toBe(15)
+    expect(after.defense).toBe(13)
+    expect(after.speed).toBe(13)
+    expect(after.luck).toBe(12)
+    expect(after.exp).toBe(0)
+    expect(after.hp).toBe(100)
   })
 })
