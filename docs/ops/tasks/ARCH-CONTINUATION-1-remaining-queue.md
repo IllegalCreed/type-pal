@@ -47,6 +47,18 @@ Codex持续处理[治理台账](../audits/architecture-debt.md)剩余边界，Cu
 
 ## 当前推进
 
+- 2026-09-26 D2-d 启动资源并发批次开工（基点 `6ed5db3f`）：`bootstrap.ts:232-260` 直接启动
+  soundfont、场景全量资源、7.8MB glyph 与 dialog 资产，并独自定义“glyph 失败降级、soundfont 失败不挡进入、
+  其余三类等待完成”的 Promise 生命周期；同一 `soundfontData` 稍后注入 MIDI backend，`soundfontSettled`
+  则在启动末尾放行 playable gate。现行一手真值是四类加载在函数调用时立即并发，场景/glyph/dialog 完成后继续
+  装配，soundfont 可更晚但进入前必须 settle；原版与二阶段不规定这层 Web 加载策略。目标迁为
+  `bootstrap-resources.ts` owner，返回资源 ready、原 soundfont promise 与 settle barrier 三个窄出口，bootstrap
+  继续拥有所有资源消费、缓存和 UI gate；测试以注入 ports 固定启动顺序、失败政策与 barrier，不传整个 shell
+  上下文、不复制资产表。最强替代解释是抽取会把并发变串行或吞掉 soundfont 原始 rejection；可证伪观察为任一
+  loader 未同步起跑、glyph 阻断 ready、soundfont 失败阻断 settle、或 backend 收不到原 promise。玩法、SAVE8/
+  content20、资源 URL/格式、缓存和 UI 零改。Codex 已核 bootstrap 生产调用链，premise verified / build allowed；
+  event-objects 与切场景缓存生命周期仍留后续边界，本段完成不等于 D2 完成。
+
 - 2026-09-26 D2-c 战斗结算主控开工（基点 `a67e5542`）：`battle-system.ts:3160` 之后仍把非胜利
   写回、公共 cleanup、胜利多屏、战后脚本、半血恢复、主/隐藏经验升级与学法术连成约 500 行终态子系统，
   而 `battle-settlement.ts` 只持数据形状。原版/primary source 为 `battle.c:991-1373,1822-1855` 与
