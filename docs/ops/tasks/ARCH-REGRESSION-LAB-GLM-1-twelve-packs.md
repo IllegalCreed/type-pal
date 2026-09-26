@@ -170,6 +170,65 @@ worktree `/Users/zhangxu/illegal/type-pal-glm-lab-r2`，不含旧 GLM 分支。�
 exec JSON）、red-control 五针 detected、check:docs PASS；packages/scripts 零 diff（本批 diff 仅实验目录+本块）。
 **不合 main、不计官方覆盖率、不标 done；Kimi 豁免。**
 
+## GLM r12 批次交付（2026-09-26，回应 r11 counter：剩余视觉与回执收口；本席自记）
+
+分支 codex/glm-architecture-regression-lab-r2 @ /Users/zhangxu/illegal/type-pal-glm-lab-r2（tip 见提交）。
+r12 为**纯浏览器取证批次**：候选/diagnostics 零改动；产品、正式测试、基线、Codex 审查原文零改动。
+
+- **宿主口径修正（r11 审查要求的回执校准）**：主线检出现被切到 codex/arch-lab-r11-review（产品含 Codex
+  补正修复），不再作为本候选浏览器宿主。r12 全部宿主改从**本 worktree** 运行（repoRoot=worktree，
+  packages/ 即候选冻结产品；merge-base(origin/main,HEAD)=7a18eaa6，`git diff 7a18eaa6..HEAD -- packages/ scripts/` 空）。
+  pal 宿主 6013 需只读 symlink 补 gitignored 生成资源（data/extracted、projects/pal/assets/{migrated,runtime}，
+  实测后已删除）；receipt/README/账本旧分支、旧计数、错误 cwd 已统一改为当前口径，历史段标历史。
+- **V01 剩余键盘/焦点矩阵（V01-10..15，pal 开发快照 6013）**：搜索过滤 234→1→恢复（如实登记：搜索框 Enter
+  不产生选中，产品无此行为）；Tab 走查 名称→减少买价→增加买价；Enter 提交恰一步 + blur 不重复（观音符→观音符K，
+  撤销「修改物品」恰一次复原、撤销禁用）；Escape 取消零历史；买价 spinbutton ArrowUp 150→151 + Enter 提交、
+  ↑↑=152 blur 提交变体；图标对话框关闭后焦点还原到打开前锚点（目录搜索框）。**全部用 Playwright 可信键事件实测**
+  ——r11「IAB press 受限」确认为旧自动化路径伪影，账本归因已撤改；敌队/战场两张「reverted」截图按 Codex 目视
+  核对完成**阶段更正**（实为提交后单帧：槽3 仍灯笼、战场名仍未命名战场探），撤销回退引用 Codex r11 独立复验。
+- **V02 非空工作区分隔条（V02-03..05，场景 s000 进场脚本非空 + 地图 map-020）**：三条 hr 分隔条键盘合同
+  （±16 精确：左 194→210→194→226→Home 194；右 290→×2=258→双击 290；高 420→404→420）；CDP 真实拖拽
+  194→260（+66=拖距）；1440/1280/720 三视口（innerWidth/Height、DPR 1 断言）；隐藏恢复（对象列表切换后
+  .outliner 不可见、恢复后宽度保持）；内容滚动（脚本抽屉 scrollH 866>380，滚 0→485.5，真实脚本非空态）；
+  Inspector Tab 分离（调宽不改选中）。地图工作区同合同（挂载瞬态一次 184→179 已用序列探针排除，终态精确）。
+- **V03 失败→恢复与 A/B 乱序（V03-02..04，自有内存 origin lab-v4 @6014）**：新工具 tools/v03-v04-host.mjs
+  （vite createServer + lab 前置中间件：/projects/lab-v4/* 全内存服务 + /__lab__ 控制端点：一次性 500/受控迟到/
+  内存替换/请求台账）+ tools/fixture/gen-v4-fixture.test.ts（buildBlankProject + 正式编码器 + 内置最小 PNG
+  编码器；node 端先验目录 bytes/sha256；输出 /tmp 不进仓）。A→B 正常切换（镜像精灵 SHA 35c00cea…/212=
+  目录）；乱序：mirror.rle 注入 2500ms 迟到，可见 pending「正在解析帧资源…」→ 选 hero 即时渲染 → 2501ms
+  迟到落地后标题/AssetId 仍 hero（旧结果不覆盖新对象）；失败三态：一次性 500 被产品读取器自动重试吸收
+  （台账 1×500+3×200，无错误泄漏）、持续 500 预览区可见「httpSource … -> 500」+「读取图片…」、解除后重选恢复。
+- **V04 合法媒体与 revision/引用刷新（V04-03..08，lab-v4）**：catalog bytes/SHA/decoder 四方正控（蓝图标
+  d5f16e4c…/102B、镜像精灵 35c00cea…/212，页面「文件」路径/大小显示一致）；缩放矩阵（fit 800%渲染 192×192、
+  1:1=100%=自然尺寸 24×24、放大 125%=30×30、适合回填；宽图 320×240 fit 重算 256%）；切对象五处身份同步；
+  同 AssetId 替换→revision 刷新（153053B→342B、sha→fbecb536…、条目数不变、预览像素刷新、「撤销：导入资源」
+  可撤销）；引用刷新（item-001 绑定 items[0].icon → 引用 1 + 删除被「阻断删除」拦截 → 替换后引用保留、
+  物品页三处图标同步刷新）；长名称侧栏滚动（720 高 scrollH 695>527，滚到底 168）。
+- **账本 75 条** = 72 candidate-green / 1 existing-proof / 1 blocked-environment（V04-02 历史环境事实加解决
+  指针，不再表示未解除阻断）/ 1 reproduced-defect；分包 V01 14 / V02 5 / V03 4 / V04 8；全部新图（含更正
+  阶段的旧图）登记完整 SHA-256，verify 硬校验。负控六针 detected；候选 42/42；tsc exit0；目录 Biome exit0
+  （仅既有 g01 反控宿主 1 warning，r10/r11 已接受）；check:docs PASS。
+- **未证项如实保留**：浏览器级缩放 125%/150%（IAB 无受控入口，工具能力缺口，不称环境阻断）；G01 view 增量
+  pending-contract；G08 options 其余维度；V03 boot 级三态未单列。**不合 main、不标 done；Kimi 豁免。**
+
+### 下一位 Codex 接收提示词
+
+```text
+接收 ARCH-REGRESSION-LAB-GLM-1 r12 批次，分支 codex/glm-architecture-regression-lab-r2
+（worktree /Users/zhangxu/illegal/type-pal-glm-lab-r2），任务 build。先读 origin/codex/arch-lab-r11-review
+的 r11 审查与本卡 Codex r11 块，再读本卡 GLM r12 交付块、docs/testing/glm-architecture-regression-lab/receipt.md。
+复跑（cwd=该 worktree 根）：candidates.vitest.mts 新鲜 JSON（42/42）、verify.mjs <JSON>（75 条
+72/1/1/1，含新图完整 SHA 硬校验，PASS）、red-control.mjs（六针 detected）、tsc（exit0）、目录 Biome、
+check:docs；diagnostics 应见 2 red/2 green（lab-startup 历史红 + G06-D1 冻结树红）。裁决重点：
+V01-10..15 键盘/焦点矩阵（可信键事件、Enter+blur 恰一次、Escape 零历史、归焦还原）、V02-03..05
+分隔条矩阵（±16/拖拽/三视口/隐藏恢复/滚动/Tab 分离）、V03-02..04（内存宿主注入的一次性 500 自动重试
+吸收、持续 500 错误可见、解除恢复、2501ms 乱序不覆盖）、V04-03..08（四方正控、缩放矩阵、同 AssetId
+替换 revision 刷新、引用保留与物品图标刷新）、V01-07/08 截图阶段更正与归因撤改、回执当前段口径
+（分支/计数/cwd/宿主）。浏览器复验可用同 worktree 建 symlink 跑 6013，或 VITE_PROJECT_ID=lab-v4 跑
+tools/v03-v04-host.mjs 6014。G01/G06/G08 已接收部分不重开；Map 快照与 cue 修复仍由本席承担。
+不合 main、不标 done；Kimi 豁免，无 Kimi 提示词。
+```
+
 ## GLM r11 批次交付（2026-09-26，回应 r10 counter；本席自记）
 
 分支 codex/glm-architecture-regression-lab-r2（已合入 origin/main 取 r10 审查与任务卡，合并提交 5ea51631）。
