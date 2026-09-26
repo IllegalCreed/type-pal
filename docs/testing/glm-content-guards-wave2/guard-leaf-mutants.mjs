@@ -73,7 +73,7 @@ const mutations = [
     describe: 'G6 容器三层',
     from: "if (hook.once !== undefined && typeof hook.once !== 'boolean')",
     to: 'if (false)',
-    title: 'once 非布尔拒绝且完整输入保真',
+    title: "'once 非布尔'拒绝且完整输入保真（每行同形状good先过同容器）",
   },
 ]
 const TOTAL = 91

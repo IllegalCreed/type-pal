@@ -67,6 +67,16 @@ Codex已读`enemy-validation-shapes.ts:1–37`、`enemy-ai-condition-guard.ts:4�
   复验：91/91绿；判据自测10例+对照+6针各恰红目标fullName；审查席三探针（record改写/cue改写/路径前缀）
   各自恰红对应新断言；全content 957/957、TC、改动Biome 0 error（仅4个故意针面warning）、check:docs过。
   行数仍91，不作为新增分支数主张。不合main、不标done，待Codex复验。
+- GLM返工交付 r3（2026-09-26，同分支窄返工，仅C1/C2）：C1七处expectAcceptsUnchanged改为比较生产
+  实际消费的同一对象（闭包消费第二参数或同一具名input；record/exactKeys/G6 fullInput/body直入口），
+  补['x']/[null]/坏exactKeys对象实际输入快照，G1合法exactKeys也走保真；helper执行包not.toThrow使
+  正控意外抛出呈AssertionError。C2 G3 not行改同入口合法not(turn>=1)先过、坏输入从cond复制仅改op，
+  未知kind行补同入口正控；G6参数表每行带同形状good/bad，when行合法turn经同一容器执行、坏输入仅改op。
+  复验：91/91绿；Codex r2见证工具（guard-leaf-review-witnesses.mjs@7cac1d72）control绿、r1旧三针保持
+  detected、新三针（exactKeys改写实际对象/body数组splice/嵌套turn恒拒）全部MISSED→detected；
+  原6针oracle自测10例+对照+6针重跑全绿（once针目标名随G6参数表重构同步）；全content 957/957、TC、
+  本批改动Biome 0 error（4故意针面warning；全src另有runtime-script.ts既有warning属分支继承）、
+  check:docs、diff --check过。已闭项不重开、矩阵未扩大、行数仍91。不合main、不标done。
 - Codex独立验收：pending；done未开放，固定三签暂停。
 
 ## 下一位 GLM 提示词

@@ -1,10 +1,28 @@
-# TEST-GLM-CONTENT-GUARDS-2 · GLM 作者交付回执（r2 返工版）
+# TEST-GLM-CONTENT-GUARDS-2 · GLM 作者交付回执（r3 返工版）
 
 2026-09-26，Owner：GLM；生产冻结 `51048353`，分支自含 `ef19ae7e` 的 origin/main 新建
 `codex/glm-content-guards-wave2`（worktree `type-pal-glm-content-guards-wave2`）。
-r1 候选 `b8e037cb` 被 Codex intake 审查（`docs/testing/guard-leaf-intake-review.md`@`ca96d45a`，origin/main） counter（R1–R4），
-本回执对应窄返工后的最终树；只含三份白名单叶测试 + 一个 typed fixture + 本目录证据，
+r1 候选 `b8e037cb` 被 Codex intake 审查（`docs/testing/guard-leaf-intake-review.md`@`ca96d45a`，origin/main） counter（R1–R4）；
+r2 候选 `99113d22` 被 Codex r2 复核（`docs/testing/guard-leaf-r2-review.md`@`7cac1d72`，origin/main） counter（仅 C1/C2）。
+本回执对应 C1/C2 窄返工后的最终树；只含三份白名单叶测试 + 一个 typed fixture + 本目录证据，
 产品、旧测试、scripts、配置/基线零 diff（含 Codex 反证工具不动）。
+
+## r2 counter（C1/C2）的闭合
+
+- **C1**：`expectAcceptsUnchanged` 七处调用改为比较生产实际消费的同一对象——record 正控、
+  exactKeys 合法/未知键、G6 两处 `fullInput()`、body 直入口数组的闭包一律消费第二参数
+  （`(value) => production(value)`）或引用同一具名 input；补 `['x']`（record）、`['x']/[null]`（G6）、
+  坏 exactKeys 对象的实际输入快照；G1 合法 exactKeys 也走保真比较。
+  另将 helper 执行包进 `expect(...).not.toThrow()`：正控意外抛出呈 AssertionError，
+  不再让生产原始 Error 直接冒成测试失败。
+- **C2**：G3 not 行正控改为同入口合法 `not(turn(op:'>=',value:1))`，坏输入从其 cond 复制仅改 op；
+  未知 kind 行补同入口合法正控；G6 参数表每行带同形状 good/bad（不再用通用三 hook 代替单轴对照），
+  when 行合法 turn 经同一容器入口执行、坏输入仅改 op。
+- 复验（Codex r2 见证工具 `guard-leaf-review-witnesses.mjs`@`7cac1d72`，临时 loader 注入、生产 hash 不变）：
+  control 91/91 绿；r1 旧三针（record 改写/cue 改写/路径前缀）保持 detected；
+  r2 新三针（exactKeys 改写实际对象、body 数组 splice、嵌套 turn 恒拒）全部从 MISSED 转为 detected，
+  失败均为候选自身 AssertionError。原 6 针 oracle（自测 10 例+对照+6 针）重跑全绿
+  （once 针目标名随 G6 参数表重构同步为实际 fullName）。
 
 ## r1 counter 的闭合
 
@@ -36,13 +54,13 @@ r1 候选 `b8e037cb` 被 Codex intake 审查（`docs/testing/guard-leaf-intake-r
 |---|---|---|---|---:|
 | G1 | shapes 六函数 | 全部经父入口（`enemy-script.wave2.test.ts` rules.when 表、`author-battle-dialogue-boundary.test.ts` 作者递归、`validate-enemy-crosscalls.test.ts` 三路递归）；六导出此前无任何直测 | `enemy-validation-shapes.leaf.test.ts`：record 原身份（toBe）+ 独立快照内容保真 + falsy/数组/串叶；exactKeys 允许键子集合法 + 未知键精确路径（全等） + 多未知按键序报首个；nonEmptyString trim/空/纯空白/非串 + 原值返回；finite 0/负/小数 + NaN/±Infinity/串；percent 端点 0/100 闭区间 + 越界走 percent 叶、非有限先走 finite 叶；positiveInteger 1/大整数 + 0/负/小数/非数 | 33 |
 | G2 | AI 叶 | wave2 11 行表已证 chance 上界(101) / hpBelow 下界(-1) / hpAbove 非有限(Infinity) / anyPlayerHpBelow 多余键 / turn `<`、0.5 / allyCount `==`、-1 / role 首尾空格 / difficulty 空表、空元素。**四 kind 共用同一 percent 调用（`enemy-ai-condition-guard.ts:8–14`），上下界合同已由父入口证毕**——本组百分比行是共享叶的直入口变体，凭独立入口、完整 message 路径与输入保真断言成立，不计作"新证上下界分支" | 同上 file：直入口变体（hpAbove 101、hpBelow 100.5、anyPlayerHpBelow -1、chance -1 + 端点正控）+ 缺 percent 走有限数叶；turn 负整数；allyCount 非整数（与 turn 各自独立检查分支）；role 空串；difficulty 非数组、元素非串（索引路径 `in[1]`）；aloneAlive/firstOfKind 多余键；kind 缺失入口叶 | 11 |
-| G3 | AI 组合 | wave2 合法嵌套已证 aloneAlive/firstOfKind/not(chance) | 同上 file：wave2 未覆盖的六类条件（turn/hpAbove/anyPlayerHpBelow/playerInParty/difficulty/not(allyCount)）嵌套 all/any/not 合法；`of: []` 空数组现状可过（容器形状合同，不涉求值）；`of` 非数组拒绝；坏子节点完整 where 路径（`of[1].percent`）+ 同型合法对照 + 快照；not 缺 cond 报对象叶、坏 cond 走 `cond.` 子路径（合法 turn 仅改 op）；未知 kind 精确报错 | 6 |
+| G3 | AI 组合 | wave2 合法嵌套已证 aloneAlive/firstOfKind/not(chance) | 同上 file：wave2 未覆盖的六类条件（turn/hpAbove/anyPlayerHpBelow/playerInParty/difficulty/not(allyCount)）嵌套 all/any/not 合法；`of: []` 空数组现状可过（容器形状合同，不涉求值）；`of` 非数组拒绝；坏子节点完整 where 路径（`of[1].percent`）+ 同型合法对照 + 快照；not 行同入口合法 `not(turn >=1)` 先过、坏输入从其 cond 复制仅改 op 走 `cond.` 子路径、缺 cond 报对象叶；未知 kind 精确报错（同入口合法正控先过） | 6 |
 | G4 | choreography 动作 | G06-06/07 已证 dialog/playSound 正控与未知 kind（default 分支经 giveItem 拒绝，`enemy-script.test.ts`） | `battle-choreography.leaf.test.ts`：playMusic/playSound/fleeBattle/endBattle 三 result 合法正控 + endBattle 未知 result；wait 显式 0/分数 ms、stopMusic 缺席/显式 0 合法 + 同 kind 正控下的负值/缺 ms/Infinity/NaN/多余键；revivePartyAll 0/5/10 + 负/11/7.5/串；increaseHpMp 负 delta/0/三池及缺省 + 非有限 delta/未知池；growth 八字段全负整数合法 + 八字段逐叶非整数精确路径 + 多余字段/非对象 delta；cast effect 错值与 actor trim；playSound trim asset（同 kind 正控） | 28 |
 | G5 | dialogue 委派 | `author-battle-dialogue-boundary.test.ts` 13 项已证作者身份矩阵、cue 转发（message 级）与 runtime 分支经 checkAuthorCommands/checkRuntimeCommands | 同上 file：直入口无 callback 走 runtime 分支（合法 cue.rows 通过 + 对合法 dialog 真删 rows 后经 `checkCommands` 生产路径 `a[0]: dialog 缺非空 cue.rows` 拒绝）；选中 callback 收到原 cue 对象（toBe）与精确路径 `a.cue`、正常返回即接受且 cue/输入对独立快照保真；callback 抛出原 Error 身份传播（catch+toBe，强于既有 message 匹配） | 3 |
-| G6 | choreography 容器 | 既有经父入口只证 battleStart/turnStart+once 的合法组合（G06-06、`enemy-script.test.ts`） | 同上 file：三 hook 非空正控（at 两值 × once 两态 × when 有无 × body 多动作）+ 完整输入保真；中间 hook 以合法 wait(0) 先过真实容器、仅改 `body[0].ms` 一轴 → 叶错误定位 `[1].body[0].ms` + 其余保真；非数组整体/非对象 hook/未知字段；at 非法与缺席、once 非布尔、when 非法条件（合法 turn 仅改 op，容器→AI 委派路径）、body 非数组与缺席；body 直入口 | 10 |
+| G6 | choreography 容器 | 既有经父入口只证 battleStart/turnStart+once 的合法组合（G06-06、`enemy-script.test.ts`） | 同上 file：三 hook 非空正控（at 两值 × once 两态 × when 有无 × body 多动作）+ 完整输入保真；中间 hook 以合法 wait(0) 先过真实容器、仅改 `body[0].ms` 一轴 → 叶错误定位 `[1].body[0].ms` + 其余保真；非数组整体/非对象 hook/未知字段；at 非法与缺席、once 非布尔、when 非法条件、body 非数组与缺席——参数表每行带同形状 good/bad，when 行合法 turn 经同一容器入口执行、坏输入仅改 op；body 直入口（同一数组对象保真） | 10 |
 
 合计 91 行（返工未增删行，只修构造/断言）。每拒绝行：先同型合法正控、只破一轴、完整 message 全等
-（G5 另证原 Error 身份）、对象输入独立快照前后比较；原始值输入直接值断言。行数本身不代表新增未命中
+（G5 另证原 Error 身份）、生产实际消费的对象/数组经 expectAcceptsUnchanged 与独立快照比较（正控意外抛出呈 AssertionError）；原始值输入直接值断言。行数本身不代表新增未命中
 生产分支数；共享 percent 叶等父入口已证合同见上表去重列。
 
 ## 反控（复用 codex-content-boundaries-mutants 判据形态，判据经 R3 重写）
@@ -58,9 +76,9 @@ r1 候选 `b8e037cb` 被 Codex intake 审查（`docs/testing/guard-leaf-intake-r
 | ai-of-recursion | all/any 子递归置空 | G3 组合容器 坏子节点在完整 where 路径上报告且同输入快照不变（同型合法对照先过） |
 | choreo-tenths-bound | `> 10` → `> 11` | G4 动作叶 revivePartyAll tenths 越上界拒绝且输入不变 |
 | choreo-cue-path | `${path}.cue` → `path` | G5 dialog 委派 选中 callback 收到原 cue 对象与精确路径，正常返回即接受且 cue 不被改写 |
-| choreo-once-gate | once 门 → `if (false)` | G6 容器三层 once 非布尔拒绝且完整输入保真 |
+| choreo-once-gate | once 门 → `if (false)` | G6 容器三层 'once 非布尔'拒绝且完整输入保真（每行同形状good先过同容器） |
 
-明细见 [evidence.json](evidence.json)；最近一次机账 `/var/folders/.../type-pal-guard-leaf-mutants-38rxqE`。
+明细见 [evidence.json](evidence.json)；最近一次机账 `/var/folders/.../type-pal-guard-leaf-mutants-ERb8yb`。
 
 ## 同口径覆盖（作者 tmp 测量，r1 数字未被推翻）
 
@@ -80,9 +98,10 @@ r1 候选 `b8e037cb` 被 Codex intake 审查（`docs/testing/guard-leaf-intake-r
 
 - 官方全 content：`pnpm --filter @type-pal/content run test` → 79 文件 **957/957** exit 0。
 - TC：`pnpm --filter @type-pal/content run typecheck` exit 0。
-- Biome（最终树全部改动文件：三测试、fixture、本目录五文件**含 evidence.json**）：0 error；
+- Biome（本批改动文件：三测试、fixture、本目录五文件**含 evidence.json**）：0 error；
   仅 [guard-leaf-mutants.mjs](guard-leaf-mutants.mjs) 四个 `noTemplateCurlyInString` warning——
-  反控针内故意保留的生产源码模板字面量，单列不与 error 混算。
+  反控针内故意保留的生产源码模板字面量，单列不与 error 混算。全 src 扫描另有
+  `runtime-script.ts:146` 既有 `noUnusedVariables` warning，属分支继承、非本批引入，不在此修。
 - docs：`pnpm check:docs` exit 0（含本目录与任务卡交付块）。
 
 ## 边界与观察
