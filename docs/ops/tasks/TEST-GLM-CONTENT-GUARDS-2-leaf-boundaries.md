@@ -55,15 +55,18 @@ Codex已读`enemy-validation-shapes.ts:1–37`、`enemy-ai-condition-guard.ts:4�
 ## 推进记录
 
 - Codex：premise verified / build allowed，2026-09-26，范围是已明确合同的同步叶测试；不扩公共API或格式。
-- GLM作者交付（2026-09-26，分支`codex/glm-content-guards-wave2`，生产零diff）：G1–G6连续完成，
-  三份白名单叶测试+`__tests__/guard-leaf-fixtures.ts`共**91行**（G1 33/G2 11/G3 6/G4 28/G5 3/G6 10）。
-  去重先行：wave2 11行表/作者递归13项/G06三路递归已证轴逐条避开，只补未证半界、独立检查分支、容器形状、
-  直入口委派身份。每个拒绝行先同型合法正控、单轴、精确Error路径或原Error身份（catch+toBe）、deepSnapshot输入保真。
-  验证：91/91绿；6针反控（复用codex-content-boundaries判据，恰exit1/唯一注入/目标fullName+file/AssertionError-only）
-  各恰红目标用例；同口径before/after各一次，三模块四维100%（如choreography行44/61→61/61、分支28/54→54/54），
-  全包+20L/+25S/+30B分母零变化；全content 957/957、TC、改动Biome 0 error、check:docs均过。
-  未发现产品缺陷；锁绿现状合同见[回执](../../testing/glm-content-guards-wave2/receipt.md)。
-  不合main、不标done，待Codex独立验收。
+- GLM作者交付 r1（2026-09-26，b8e037cb）：G1–G6共91行叶测试+fixture；被Codex intake审查counter
+  （R1–R4，`docs/testing/guard-leaf-intake-review.md`@`ca96d45a`（origin/main，本分支未合入故不作本地链接）：输入保真/精确路径未钉住、同kind正控与单轴构造失实、
+  负控判据误收五反例且缺运行态见证、evidence.json格式error与回执校准）。
+- GLM返工交付 r2（2026-09-26，同分支窄返工）：R1拒绝断言全部改完整message全等（expectExactError），
+  对象/数组实际输入（含合法正控、G5 cue、容器输入）独立快照前后比较，原始值直接值断言；R2每个拒绝先跑
+  同kind同形状合法正控，修wait缺ms、turn补value、多hook先过真实容器仅改ms一轴、真删rows、playSound同kind；
+  R3判据重写为同一judge函数（恰exit/恰一红/失败记录绝对文件+实际fullName/其余90过无skip/逐条拒混错、
+  timeout按首行），load命中写{ id,target}运行态见证，自测10例（五反例+有效红/exit/零执行/对照）全按预期；
+  R4 evidence.json过Biome、回执/卡按最终树校准，G2百分比行改口为共享叶直入口变体不计新证分支。
+  复验：91/91绿；判据自测10例+对照+6针各恰红目标fullName；审查席三探针（record改写/cue改写/路径前缀）
+  各自恰红对应新断言；全content 957/957、TC、改动Biome 0 error（仅4个故意针面warning）、check:docs过。
+  行数仍91，不作为新增分支数主张。不合main、不标done，待Codex复验。
 - Codex独立验收：pending；done未开放，固定三签暂停。
 
 ## 下一位 GLM 提示词
