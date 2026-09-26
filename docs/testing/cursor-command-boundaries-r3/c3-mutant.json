@@ -1,0 +1,18 @@
+{
+  "key": "c3",
+  "id": "c3-tileset-empty-name",
+  "file": "packages/editor/src/core/tileset-commands.ts",
+  "testFile": "packages/editor/src/core/tileset-commands.residual.test.ts",
+  "fullName": "瓦片集命令残项 UpdateTilesetMetadata name 空白 → 瓦片集名称不能为空",
+  "sha256": "1d43a0b7d4afedadc929dac09b6d34247d8bc02d2c93d8062c85d010bd8742c0",
+  "hashUnchanged": true,
+  "greenExit": 0,
+  "greenPassed": 1,
+  "redExit": 1,
+  "failedTitle": "UpdateTilesetMetadata name 空白 → 瓦片集名称不能为空",
+  "failedFullName": "瓦片集命令残项 UpdateTilesetMetadata name 空白 → 瓦片集名称不能为空",
+  "assertion": "AssertionError: expected [Function] to throw an error\n    at Proxy.<anonymous> (file:///Users/zhangxu/illegal/type-pal-cursor-command-boundaries-r3/node_modules/.pnpm/@vitest+expect@4.1.7/node_modules/@vitest/expect/dist/index.js:1552:16)\n    at Proxy.<anonymous> (file:///Users/zhangxu/illegal/type-pal-cursor-command-boundaries-r3/node_modules/.pnpm/@vitest+expect@4.1.7/node_modules/@vitest/expect/dist/index.js:1156:15)\n    at Proxy.methodWrapper (file:///Users/zhangxu/illegal/type-pal-cursor-command-boundaries-r3/node_modules/.pnpm/chai@6.2.2/node_modules/chai/index.js:1700:25)\n    at expectRejected (/Users/zhangxu/illegal/type-pal-cursor-command-boundaries-r3/packages/editor/src/core/tileset-commands.residual.test.ts:17:38)\n    at /Users/zhangxu/illegal/type-pal-cursor-command-boundaries-r3/packages/editor/src/core/tileset-commands.residual.test.ts:116:5\n    at file:///Users/zhangxu/illegal/type-pal-cursor-command-boundaries-r3/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:20",
+  "hit": true,
+  "evidence": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/c3-tileset-empty-name-y2l0lX",
+  "ok": true
+}

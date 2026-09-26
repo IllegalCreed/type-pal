@@ -75,3 +75,35 @@ Branch: `codex/cursor-command-boundaries-r3`
 不要改产品/旧测试/配置/基线，不追缺口全清或用例数。全包完成后统一定向/相邻/editor/TC/Biome/docs，
 不跑全仓质量门或逐组覆盖。提交推送最终SHA和真实回执；Codex独立验收后合并收口，不等三席签字。
 ```
+
+## 作者交付
+
+2026-09-26。C1–C8 已连续补测并提交，未合 main，未标 done。Status 保持 build。Codex 验收 pending。
+
+- 工作树 `/Users/zhangxu/illegal/type-pal-cursor-command-boundaries-r3`，分支 `codex/cursor-command-boundaries-r3`
+- 生产冻结 `7cac1d72ac0b8a44521a353cc87dbe1d18d65fa5`；准入 `7d64de139643a7aa890b3a9434b8bfb720050f44`
+- 7 份 residual + fixture；C8 无新文件，登记既有 asset-label 三证明
+- 残项 JSON 7 files / 29 tests；5 针 ok+hit、`redExit=1`、`hashUnchanged`
+- 回执 [receipt.md](../../testing/cursor-command-boundaries-r3/receipt.md)
+
+```bash
+cd /Users/zhangxu/illegal/type-pal-cursor-command-boundaries-r3
+env -u NODE_COMPILE_CACHE node docs/testing/cursor-command-boundaries-r3/module-mutants.mjs --self-test
+env -u NODE_COMPILE_CACHE node docs/testing/cursor-command-boundaries-r3/module-mutants.mjs
+env -u NODE_COMPILE_CACHE pnpm --filter @type-pal/editor typecheck
+env -u NODE_COMPILE_CACHE pnpm --filter @type-pal/editor check
+```
+
+作者自验：残项 7/29；editor check 331 files / 2858 tests；5 针 ok+hit。不能替代 Codex 独立验收。
+
+## 作者返工
+
+2026-09-26。只闭 R1–R3，已核项不重开。不合 main、不标 done。
+
+- C2：crate/vase 先共享 hero 资源合法登记，AddEntity 后过 `assertProjectSaveValid`
+- C5：先登记 enemy profile/共享字节，保存门通过后再单轴拒绝 player-fighter
+- C6：构造前独立深快照 map/def，三态比完整内容/manifest/索引/旁对象
+- C3：共享路径放入非空合法 pending 字节，独立快照核 catalog/blob 三态
+- 回执分列「本批未覆盖 / 真不可达」；C4 负控登记为重叠保护
+- 产品/旧测试/配置/基线/Codex 见证未改
+- 新鲜 JSON：定向+相邻 `/tmp/cursor-command-boundaries-r3-directed-1790430222.json` 11/52（残项 7/29）；editor `/tmp/cursor-command-boundaries-r3-editor-1790430682.json` 331/2858；五针 `/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/cursor-command-boundaries-r3-mutants-xH2Ggw` 5/5 ok+hit

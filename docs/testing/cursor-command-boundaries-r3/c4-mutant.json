@@ -1,0 +1,18 @@
+{
+  "key": "c4",
+  "id": "c4-sprite-asset-in-use",
+  "file": "packages/editor/src/core/sprite-commands.ts",
+  "testFile": "packages/editor/src/core/sprite-commands.residual.test.ts",
+  "fullName": "精灵命令残项 DeleteUnusedSpriteAssetCommand 删除 hero 资产 → 精灵资产仍被定义引用",
+  "sha256": "2b6f3a3533bbb86ea650690f182a2a171f988860aa5c48b5b24b81dfe23e0ada",
+  "hashUnchanged": true,
+  "greenExit": 0,
+  "greenPassed": 1,
+  "redExit": 1,
+  "failedTitle": "DeleteUnusedSpriteAssetCommand 删除 hero 资产 → 精灵资产仍被定义引用",
+  "failedFullName": "精灵命令残项 DeleteUnusedSpriteAssetCommand 删除 hero 资产 → 精灵资产仍被定义引用",
+  "assertion": "AssertionError: expected [Function] to throw error matching /精灵资产 .* 仍被定义引用/ but got '资源 sprite.generated.starter 仍被 1 处引用，…'\n    at Proxy.<anonymous> (file:///Users/zhangxu/illegal/type-pal-cursor-command-boundaries-r3/node_modules/.pnpm/@vitest+expect@4.1.7/node_modules/@vitest/expect/dist/index.js:1552:16)\n    at Proxy.<anonymous> (file:///Users/zhangxu/illegal/type-pal-cursor-command-boundaries-r3/node_modules/.pnpm/@vitest+expect@4.1.7/node_modules/@vitest/expect/dist/index.js:1156:15)\n    at Proxy.methodWrapper (file:///Users/zhangxu/illegal/type-pal-cursor-command-boundaries-r3/node_modules/.pnpm/chai@6.2.2/node_modules/chai/index.js:1700:25)\n    at expectRejected (/Users/zhangxu/illegal/type-pal-cursor-command-boundaries-r3/packages/editor/src/core/sprite-commands.residual.test.ts:23:38)\n    at /Users/zhangxu/illegal/type-pal-cursor-command-boundaries-r3/packages/editor/src/core/sprite-commands.residual.test.ts:97:5\n    at file:///Users/zhangxu/illegal/type-pal-cursor-command-boundaries-r3/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:20",
+  "hit": true,
+  "evidence": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/c4-sprite-asset-in-use-bGCbkZ",
+  "ok": true
+}
