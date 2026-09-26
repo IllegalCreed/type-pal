@@ -25,7 +25,7 @@ Codex持续处理[治理台账](../audits/architecture-debt.md)剩余边界，Cu
 | B3 | 命令族表单拆出独立实现；作者桥接类型清晰；现行能力/引用保护不丢失 | f4beb777候选四族+桥齐；待原接收对话统一门/集成后正式完成 |
 | C1 | BattleSession输入、动作/演出、资源屏障、结算呈现的状态归属拆清；公开tick业务序列保真 | afef3cd3候选四owner齐；待原接收对话统一门/集成后正式完成 |
 | D2 | 一阶段opcode族、战斗主控、启动资源生命周期分开，真实机制/数据回归通过 | 138c41c8候选边界齐；待原接收对话统一门/集成后正式完成 |
-| E1 | 迁移场景映射与脚本转换阶段独立、纯内存入口可测；输出/幂等/写保护保真 | 待实施 |
+| E1 | 迁移场景映射与脚本转换阶段独立、纯内存入口可测；输出/幂等/写保护保真 | 0589af91候选两阶段齐；待原接收对话统一门/集成后正式完成 |
 | F1 | design-system audit 的AST事实、CSS推导、规则、报告分层；现有违规/反例与性能门不弱化 | 待实施 |
 | F2 | Cursor24组与剩余actor/entity/map/资源命令边界全部接收，commands/controls成为稳定出口 | 2026-09-26 accept/完成，check8740/strict8248/701 |
 
@@ -46,6 +46,16 @@ Codex持续处理[治理台账](../audits/architecture-debt.md)剩余边界，Cu
   authorCommandValidationOptions的递归调用合同与同树作者类型反驳该解释，须用正式入口回归固定。
 
 ## 当前推进
+
+- 2026-09-26 E1候选收口（基点 `9013cf86`，实现头 `0589af91`）：大世界移动/队形/骑乘/相对位移/
+  追逐等 opcode 归纯 `translate-event-motion` owner，场景/事件源排序、落点配对、all地址、label/address、
+  owner/root 索引归纯 `scene-migration-source-plan` owner；调用壳继续拥有对话/report/cursor与布局/entity/
+  translation/fold/final result，没有传整个上下文或复制状态。`translate-events` 2472→2385、`migrate-content`
+  3314→3202。定向/相邻分别5文件103项、8文件63项；Migrate全包真实 PAL 数据93文件735项、远端新增
+  translate-events六组59项、TC/Biome通过；control10与十一针反控全检出。输出重复调用、publication replay、
+  merge/plan幂等、transaction/write guard均在全包内通过；未执行发布写盘。完整范围、临时证据和未证项见
+  [回执](../../testing/migration-phase-owners-refactor.md)与[机账](../../testing/migration-phase-owners-refactor-evidence.json)。
+  未跑共享全仓check/ratchet/strict，未更新官方基线、未合main；E1只报候选边界齐。
 
 - 2026-09-26 E1-b 场景源索引阶段开工（基点 `d6226e1a`）：`mapScenesStatic` 起手约 150 行同时做
   场景/事件源确定排序、loadScene 前置落点配对、all.json 地址校验与补 label、每数组地址推导、entity owner→scene

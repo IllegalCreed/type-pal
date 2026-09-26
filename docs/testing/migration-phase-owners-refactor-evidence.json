@@ -1,0 +1,117 @@
+{
+  "schemaVersion": 1,
+  "owner": "Codex implementation and self-verification; original intake conversation retains integration",
+  "base": "9013cf868",
+  "syncedMainBase": "9fe9ea11055dc4bf9a96c18be0758c3f0d0f6039",
+  "implementationHead": "0589af912a3c64b164a6fdaa569c02e17a04a0f1",
+  "originMainObservedAfterImplementation": "2838df42d9ea1f2e24f58cf03d1ed2a6c80c079d",
+  "scope": "E1 pure motion opcode translation owner and pure scene migration source planning owner",
+  "status": "candidate; not merged to main; unified full-repository gates pending intake",
+  "implementations": {
+    "motionOwner": "30929b3e",
+    "motionTests": "d6226e1a",
+    "sceneSourcePlanner": "c10486d9",
+    "sceneSourcePlannerTests": "3ace9a74",
+    "negativeControls": "0589af91"
+  },
+  "ownership": {
+    "translateEvents": {
+      "linesBefore": 2472,
+      "linesAfter": 2385,
+      "newOwner": "packages/migrate/src/translate-event-motion.ts",
+      "ownerLines": 165,
+      "receivesWholeTranslateContext": false,
+      "retainsInCaller": [
+        "dialogue flush and state",
+        "source address and instruction outcome audit",
+        "gap and known-no-op reports",
+        "registry, cursor, and terminal application"
+      ]
+    },
+    "migrateContent": {
+      "linesBefore": 3314,
+      "linesAfter": 3202,
+      "newOwner": "packages/migrate/src/scene-migration-source-plan.ts",
+      "ownerLines": 174,
+      "readsOrWritesFilesystem": false,
+      "retainsInCaller": [
+        "layout registry",
+        "scene entries and entities",
+        "translation session",
+        "patch, fold, externalize, and final result"
+      ]
+    },
+    "existingStateOwnerDuplicated": false
+  },
+  "tests": {
+    "motionTargetedAndAdjacent": {
+      "files": 5,
+      "tests": 103,
+      "exit": 0
+    },
+    "scenePlannerTargetedAndAdjacent": {
+      "files": 8,
+      "tests": 63,
+      "exit": 0
+    },
+    "migratePackage": {
+      "files": 93,
+      "tests": 735,
+      "exit": 0,
+      "data": "temporary read-through symlinks to the main checkout's data/extracted, data/baked, and missing top-level data/raw entries; removed after the run"
+    },
+    "newOriginMainTranslationTests": {
+      "base": "2838df42d",
+      "files": 6,
+      "tests": 59,
+      "exit": 0,
+      "data": "temporarily expanded from origin/main, then removed; not copied into the candidate"
+    },
+    "typecheck": {
+      "exit": 0
+    },
+    "biome": {
+      "files": 7,
+      "errors": 0
+    }
+  },
+  "outputAndPersistenceProof": [
+    "pure scene conversion repeat invocation is deep-equal and preserves inputs",
+    "current PAL publication replay produces zero writes",
+    "scene and script product regressions pass on the real PAL inputs",
+    "merge and plan idempotence regressions pass",
+    "transaction recovery and migration write guard regressions pass",
+    "no migration CLI or production publication write was executed"
+  ],
+  "negativeControls": {
+    "tool": "docs/testing/migration-phase-owners-mutants.mjs",
+    "controls": 10,
+    "detected": 11,
+    "evidence": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-migration-phase-owners-mutants-VUk6zV/summary.json",
+    "requirements": [
+      "exact absolute test file and fullName",
+      "exactly one executed candidate test",
+      "exit 1",
+      "AssertionError only",
+      "unique loader injection marker",
+      "all product hashes unchanged"
+    ]
+  },
+  "unchangedContracts": [
+    "content20 and SAVE8",
+    "source schema, opcode behavior, stable actor and entity identity",
+    "scene layout and generated project output",
+    "asset formats, normal saves, and UI",
+    "official coverage baseline"
+  ],
+  "notRun": [
+    "full repository check",
+    "official coverage ratchet",
+    "protected strict coverage",
+    "full/Q1/Q2",
+    "remote CI",
+    "production migration publication",
+    "normal save persistence",
+    "browser visual verification"
+  ]
+}
