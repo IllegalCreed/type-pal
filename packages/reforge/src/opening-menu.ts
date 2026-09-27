@@ -57,6 +57,12 @@ function openingItemX(label: string): number {
 /** 主菜单选定结果:开新局(某入口点)或读某存档槽。 */
 export type OpeningDecision = { kind: 'new'; entryId: string } | { kind: 'load'; slotId: SlotId }
 
+export interface OpeningMenuObservation {
+  readonly phase: 'menu' | 'load'
+  readonly cursor: number
+  readonly selectedId: string | null
+}
+
 /** 标题菜单音乐是应用壳临时态：菜单结果返回前统一 stop，不写入 WorldState。 */
 export async function runOpeningMenuWithMusic<T>(
   bgm: Pick<BgmPlayer, 'play' | 'stop'>,
@@ -83,6 +89,8 @@ export function runOpeningMenu(deps: {
   /** 存档浏览界面渲染所需 UI 资产(9 块卷轴框等);读档相位才用到。 */
   menuAssets: MenuAssets
   saveStore: SaveStore
+  /** Optional read-only diagnostics, emitted after rendering; never exposes mutable menu objects. */
+  observe?: (snapshot: OpeningMenuObservation) => void
 }): Promise<OpeningDecision> {
   const { ctx, glyphs, bg, items, worldScale, locale, menuAssets, saveStore } = deps
   // 菜单项 = 开局项(新的故事 + DLC 入口,标签来自 entryPoint 数据)+ 末尾「旧的回忆」读档项。
@@ -183,6 +191,13 @@ export function runOpeningMenu(deps: {
         drawSaveBrowser(ctx, browser, menuAssets, glyphs, now, locale, thumbs)
       }
       ctx.restore()
+      deps.observe?.(
+        Object.freeze({
+          phase,
+          cursor: phase === 'menu' ? cursor : browser.cursor,
+          selectedId: phase === 'menu' ? (menuItems[cursor]?.id ?? null) : null,
+        }),
+      )
       raf = requestAnimationFrame(draw)
     }
     window.addEventListener('keydown', onKey, true)

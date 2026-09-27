@@ -37,6 +37,22 @@ GLM/Cursor仍后台补测，用户不承担手动通关。固定三签暂休。
 
 ## 一手锚点与真值
 
+### 2026-09-27 二阶段001首批准入
+
+用户要求继续001。Codex核定本批build allowed：增加只读对话/标题/恢复结果观测和独立Reforge执行器，
+走正式标题、新游戏、自然视频结束、键盘对话与现有安全快照/恢复链。不得通过调试advance/跳场景/赋值世界推进。
+前提：DialogBox:158-177按pageDone/分页/autoAdvance决定按键效果，render:229后才确认已显示；
+runOpeningMenu:85起在局部维护phase/cursor；main:5372的现有dumpSave走save barrier，
+e2e-load:5383成功/失败已有明确分叉。本批只读导出这些既有事实，不改变其执行顺序或游戏语义。
+一阶段只提供001内容锚和结束可控目标，不复制旧引擎的对话冻结NPC机制；原版内部模型N/A。
+反例：观测器自己推进打字/回调持有真实对象可改状态/失败读档落新局冒充恢复。须有读无副作用、快照隔离、
+正常输入推进及显式恢复结果测试；出现真实剧情阻断就留证，不以放宽门禁或改存档掩盖。
+
+本批新增白名单：reforge的dialog/dialog-box.ts、opening-menu.ts、main.ts（只读DEV桥接/观测绑定）、
+相应新*.observation.test.ts与必要薄fixture、scripts/e2e/**、根运行命令及本卡/E2E文档。
+必要基线只由整批check→ratchet→单次strict统一更新。GLM四批16模块与主目录WIP零触碰。
+完整NPC实际提交事件与双阶段时序仍单列，不把本批快照采样冒充完整移动轨迹。
+
 - 当前版本content20/SAVE8，`content/src/character.ts:168-170`；切版checkpoint重建，禁止兼容层。
 - Reforge main:5372-5418的导出/恢复，main:797-809/5073后的读观察点；package.json没有runner。
 - 碰撞与地图实例：reforge/src/collision.ts；动态移动继续走生产输入链，不用测试路径规划替换它。
@@ -85,4 +101,24 @@ Codex核首批流程/检查点小样accept，可集成；packages/与coverage实
 本轮不重复ratchet/strict-fast、不宣称官方覆盖增长。主树未提交帧编辑测试/临时探针保持原样，
 质量门针对隔离的提交树，不把这些未完成WIP计入结果。
 
-无下一位Agent提示词；Codex继续Reforge只读对话适配/实际NPC提交事件，母卡保持build。
+## 2026-09-27 二阶段001实现与实跑
+
+Reforge只读标题/对话/恢复结果接口已落；不修改locale/scene/script内容、移动语义、SAVE8/content20或GLM目标。
+6项观测回归证明读取不推进/不绘制、DTO不可修改真实状态、实际分页与auto尾停顿、正常标题键盘与正式恢复loaded/failed。
+工具合同12项通过；页证明须同时满足实际pageTextIds、已全显phase和排版正文，声明了但没显示的未来行不能充数。
+人物位置/淡入连续值不充当按键确认消费，日志按有意义状态变化记录，不逐帧dump。
+
+Reforge有窗口实跑exit0（约66秒、86事件/30按键），真实检查点sha
+`c14a252153eacf412a33b56048cf46f8ec79bcc4dbf98022436eea7baccfda6d`，恢复前后持久域hash均
+`d401e9d17c413e26c4ec128e9a7e0feb6b478b4a56d35f51669253c252341f98`。
+产物`build/e2e/reforge-001-2026-09-27T03-07-46-121Z/`；截图已目视房间/人物及恢复闭环。
+后续收紧正文证明后的`pnpm e2e:001:both --headless`亦两子进程exit0，日志`/tmp/codex-e2e-001-both-final.log`。
+两套真实结束档各自产生，各自新上下文验证空IndexedDB、正式恢复和菜单可操作，不跨引擎互喂存档。
+新增`e2e:001:reforge`与`e2e:001:both`入口；两套同时跑，一方失败不跳过另一方，运行时不调用AI。
+
+开发校准：新测试host全局窄化导致TC失败，改用boot返回句柄后修复；无产品输入强转或规则降级。
+已知浏览器信息：干净工程save-state文件缺席404与Canvas读回性能提示列报告，不算资产失败或静态诊断豁免。
+Reforge生产build通过，已扫描dist确认__tpE2e/readBootObservation/checkpointLoad桥接不进入生产JS。
+完整check/ratchet/受保护strict待本批统一落证；完整NPC实际提交日志、对话序列偏序比较和capture-ready仍未完成。
+
+无下一位Agent提示词；Codex继续实际NPC提交事件与双阶段差异比较，母卡保持build。

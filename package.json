@@ -9,6 +9,8 @@
     "test": "pnpm test:coverage-tools && pnpm test:quality-tools && pnpm test:e2e-tools && pnpm -r run test",
     "test:e2e-tools": "node --test scripts/e2e/*.test.mjs",
     "e2e:001": "node scripts/e2e/game-opening.mjs",
+    "e2e:001:reforge": "node scripts/e2e/reforge-opening.mjs",
+    "e2e:001:both": "node scripts/e2e/opening-both.mjs",
     "test:coverage-tools": "node --test scripts/coverage/*.test.mjs",
     "test:docs-tools": "node --test scripts/docs/*.test.mjs",
     "test:quality-tools": "node --test scripts/quality/*.test.mjs",

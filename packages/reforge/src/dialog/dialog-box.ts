@@ -79,6 +79,21 @@ interface SlotRender {
   autoAdvance?: number
 }
 
+/** Detached observation of the last rendered page; reading never ticks or advances dialogue. */
+export interface DialogueObservation {
+  readonly dialogueId: string
+  readonly cueIndex: number
+  readonly slot: SlotId
+  readonly pageIndex: number
+  readonly pageCount: number
+  readonly pageStartedAtMs: number
+  readonly phase: 'typing' | 'waiting-input' | 'auto-advance'
+  readonly speaker: string | null
+  readonly rowTextIds: readonly string[]
+  readonly pageTextIds: readonly string[]
+  readonly pageText: string
+}
+
 export class DialogBox {
   private state: DialogueState | null = null
   private slots: SlotState = emptySlots()
@@ -100,6 +115,45 @@ export class DialogBox {
 
   get active(): boolean {
     return this.state !== null
+  }
+
+  observe(): DialogueObservation | null {
+    const state = this.state
+    if (!state) return null
+    const cue = state.dialogue.cues[state.cueIdx]
+    const slot = this.slots.activeSlot
+    const render = this.renders[slot]
+    if (!cue || !render) throw new Error('reforge: active dialogue observation is incomplete')
+    const hasNextPage = render.pageStart + LINES_PER_PAGE < render.displayLines.length
+    const pageTextIds: string[] = []
+    for (const line of render.displayLines.slice(
+      render.pageStart,
+      render.pageStart + LINES_PER_PAGE,
+    )) {
+      const row = cue.rows[line.srcRowIdx]
+      if (!row) throw new Error('reforge: dialogue page observation has no source row')
+      if (!pageTextIds.includes(row.text)) pageTextIds.push(row.text)
+    }
+    return Object.freeze({
+      dialogueId: state.dialogue.id,
+      cueIndex: state.cueIdx,
+      slot,
+      pageIndex: Math.floor(render.pageStart / LINES_PER_PAGE),
+      pageCount: Math.max(1, Math.ceil(render.displayLines.length / LINES_PER_PAGE)),
+      pageStartedAtMs: this.lineStartMs,
+      phase: !this.pageDone
+        ? 'typing'
+        : hasNextPage || render.autoAdvance === undefined
+          ? 'waiting-input'
+          : 'auto-advance',
+      speaker: cue.speaker ?? null,
+      rowTextIds: Object.freeze(cue.rows.map((row) => row.text)),
+      pageTextIds: Object.freeze(pageTextIds),
+      pageText: render.displayLines
+        .slice(render.pageStart, render.pageStart + LINES_PER_PAGE)
+        .map((line) => line.spans.map((span) => span.text).join(''))
+        .join('\n'),
+    })
   }
 
   /** 把第 idx 个 cue 排版进它的 slot。有头像时正文 x 缩进 + 右边界给头像让位。 */

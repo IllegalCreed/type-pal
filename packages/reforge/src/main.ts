@@ -138,7 +138,11 @@ import {
   waitForAutoTargetContinuation,
   wakeDurableMotionEndpoint,
 } from './motion-runtime-wiring.js'
-import { runOpeningMenu, runOpeningMenuWithMusic } from './opening-menu.js'
+import {
+  type OpeningMenuObservation,
+  runOpeningMenu,
+  runOpeningMenuWithMusic,
+} from './opening-menu.js'
 import { type LoadedCurrentProject, loadAllScenes, loadScene } from './project-loader.js'
 import { Canvas2DRenderer } from './render.js'
 import { type RuntimeFramePorts, RuntimeFrameSession } from './runtime-frame-session.js'
@@ -436,6 +440,18 @@ export async function bootGame(
     console.warn(`[boot] 入口点 "${entryResolution.invalidRequestedId}" 不存在,走直接启动项`)
   // 主菜单「读取进度」选定的存档槽:非空 → boot 尾走 doLoad 还原(跳过 onEnter 开场演出)。
   let bootLoadSlot: SlotId | undefined
+  let openingObservation: OpeningMenuObservation | null = null
+  let checkpointLoad: 'none' | 'loading' | 'loaded' | 'failed' = 'none'
+  const readBootObservation = () =>
+    Object.freeze({
+      projectId: inputProject.manifest.id,
+      entryId: bootEntry.id,
+      opening: openingObservation,
+      checkpointLoad,
+    })
+  if (import.meta.env.DEV) {
+    ;(window as unknown as { __tpE2e: unknown }).__tpE2e = { readBoot: readBootObservation }
+  }
   // 存档存储 + 菜单 UI 资产提前建(菜单读档界面即用;总加载量与原先一致,仅提前到菜单前)。
   const saveStore: SaveStore =
     typeof indexedDB !== 'undefined'
@@ -489,8 +505,16 @@ export async function bootGame(
           locale: project.locale,
           menuAssets,
           saveStore,
+          ...(import.meta.env.DEV
+            ? {
+                observe: (snapshot: OpeningMenuObservation) => {
+                  openingObservation = snapshot
+                },
+              }
+            : {}),
         }),
     )
+    openingObservation = null
     if (decision.kind === 'load') bootLoadSlot = decision.slotId
     else {
       const chosen = entryPoints.find((entry) => entry.id === decision.entryId)
@@ -5371,6 +5395,21 @@ export async function bootGame(
   // e2e checkpoint / D15 motion trace：collision 模式才采样，避免普通 DEV 游戏积累诊断数据。
   if (import.meta.env.DEV) {
     ;(window as unknown as { __tpE2e: unknown }).__tpE2e = {
+      readBoot: readBootObservation,
+      readRuntime: () =>
+        Object.freeze({
+          projectId: inputProject.manifest.id,
+          sceneId: activeScene.scene.id,
+          position: Object.freeze({ ...player.pos }),
+          facing,
+          dialogue: dialogBox.observe(),
+          scriptRunning: runner !== null,
+          presentationBusy: presentation.busy(),
+          menuActive: menus.active,
+          battleActive: !!battleHost.active,
+          fadeBlack: fadeDriver.value,
+          ditherActive: ditherTransition.active !== null,
+        }),
       dumpSave: () => enqueueSaveSnapshot(captureCurrentSavePayload),
       dumpMotionTrace: () => motion.dumpTrace(),
       dumpMotionState: captureMotionState,
@@ -5382,6 +5421,7 @@ export async function bootGame(
   // ?e2e-load=<save.json url>:从文件恢复 SavePayload(注入 world + 跳场景、跳过 onEnter 演出),秒进碎片起点(复用 doLoad 逻辑)
   const e2eLoadUrl = params.get('e2e-load')
   if (e2eLoadUrl) {
+    checkpointLoad = 'loading'
     try {
       const token = loadIntent.begin()
       const raw = (await fetch(e2eLoadUrl).then((r) => r.json())) as StoredSavePayload
@@ -5390,6 +5430,7 @@ export async function bootGame(
       if (!payloadBelongsToProject(raw, where)) throw new Error(`${where}: projectId 不匹配`)
       const p = await normalizeStoredPayload(raw, where)
       if (!(await restorePayload(p, token, where))) throw new Error(`${where}: 恢复事务失败`)
+      checkpointLoad = 'loaded'
       const e2eLoadScene = params.get('e2e-load-scene')
       if (import.meta.env.DEV && e2eLoadScene && project.sceneIds.includes(e2eLoadScene)) {
         const e2eLoadPosRaw = params.get('e2e-load-pos')?.split(',').map(Number)
@@ -5414,6 +5455,7 @@ export async function bootGame(
       requestAnimationFrame(tick)
       return
     } catch (err) {
+      checkpointLoad = 'failed'
       console.warn('[e2e-load] 恢复失败,落回当前已选入口新局:', err)
     }
   }
