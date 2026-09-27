@@ -1,0 +1,68 @@
+# TEST-GLM-EDITOR-UI-WAVE-1 — 编辑器十二模块交互回归
+
+Status: build
+Owner: GLM（隔离工作树内唯一测试 Coding Owner）
+Reviewer / Integration Owner: Codex
+Phase: phase2
+Visual Verification Timing: dev-functional（仅在断言涉及可见画布/布局时取最小证据）
+Product Freeze: `31945f4e59e898acbaebaa3f4e5cb76dd58f045a`
+Official Fast at Assignment: 46,615/63,323 branches; 9,505 tests / 730 source files
+
+## 目标与前提
+
+Codex 核准 **build allowed**：只补当前编辑器公开 UI/回调入口的可证伪回归，产品、schema、
+旧测试、资产和覆盖率配置不改。纯测试任务的用户可见 before→after 为 N/A；若发现真实
+产品缺陷，保留独立红诊断并交 Codex 定修复卡，不能改预期、skip 或私自修产品凑绿。
+历史 LCOV 未命中臂仅供选题，不承诺全部可达，也不是新测试数量/比例门槛。
+
+四组互不共享生产写入面，**十二个精确目标**如下。每个模块先读当前源码与同名旧测试，
+只选择仍未被证明、可从正式 props/用户动作到达的业务分支；未新增须给现有精确标题
+或不可达/待证的调用链证据，不堆空列表或非法旧模型输入。
+
+| 组 | 目标（均在 `packages/editor/src/ui/`） | 优先业务轴 |
+|---|---|---|
+| U1 作者数据 | `SkillTab.tsx`、`EnemyTab.tsx`、`ItemUseEffectEditor.tsx` | 合法增改/切换/删除的实际提交、旁项保真、失败不提交；不重复既有默认值与简单渲染测试 |
+| U2 精灵和瓦片 | `BattleSpriteLibrary.tsx`、`WorldSpriteLibrary.tsx`、`TilesetTab.tsx` | 稳定 ID、帧/定义删除后引用与选择、分页/空态；与既有帧删除计划和旧测去重 |
+| U3 媒体工作台 | `CutsceneTab.tsx`、`ImageTab.tsx`、`AudioAssetWorkbench.tsx` | 上传/预览/取消/迟到结果与失败零提交；只测当前入口，不触碰在途 `FrameAnimationEditor` 加载 WIP |
+| U4 画布与导航 | `PreviewCanvas.tsx`、`SceneCanvas.tsx`、`DataMode.tsx` | 真实 props→画布/选择/回调链、空态与目标切换；像素/布局结论要有实际画布或浏览器证据 |
+
+## 边界和所有权
+
+- 只允许各目标旁新增 `*.glm-ui-wave.test.tsx`（确实需要时可用 `.test.ts`），
+  通用 fixture 仅放 `packages/editor/src/ui/__tests__/glm-ui-wave-*.ts(x)`；
+  回执/负控工具放 `docs/testing/glm-editor-ui-wave/**`；可在本卡末尾追加 GLM 交付块。
+  不修改旧测试、生产源码、脚本、测试选择、coverage baseline、任务索引或看板。
+- `TEST-CODEX-FRAME-EDITOR-1` 三个未跟踪 WIP 文件、Codex 的 `ScriptEditor/ScriptTree`、
+  `MapMode/App`、Reforge battle host/main 和 E2E 001 均非本包。与 Cursor content 包零目标重叠。
+- UI fixture 从当前合法类型与已通过的正式 guard/现有 fixture 构造；同一实参调用前
+  深快照、调用后立即比对。用真实组件与回调，不 mock 被测组件或产品业务函数；
+  对用户动作断言实际下游对象，而非只断言按钮存在。引用/资源输入须先过现行结构门。
+- 视觉需要时在隔离服务/浏览器取最少两处代表证据（U2/U4 优先），不得占用用户的
+  6010 页面；无法完成则如实标未证，不拿源码推断代替截图，也不改产品来做视觉美化。
+
+## 一次性交付和验收
+
+按 U1→U4 连续做完再整包交付，不要求用户逐组转发。交付一张十二行表：源码入口与
+当前调用方、旧测试精确标题、合法正控、新断言/分类、负控、文件/测试名、命令退出码；
+每组至少选一条真正可达的单点反控（共四针以上），要求本组新测试自身以确切
+`AssertionError` 业务红、目标 fullName 精确、非 timeout/普通错误、源 hash 不变。
+有组无可达新臂则分类并把反控转到同组另一个真实入口，不造例。
+
+各组定向与相邻 suite 通过，整包 editor 全测一次、editor typecheck、全部白名单文件
+Biome 0 error/warning/info、`check:docs` 通过。Node agent 进程清除 `NODE_COMPILE_CACHE`。
+可在交付末做一次局部覆盖对照，但不跑/不改官方 ratchet、strict-fast 或全仓 check；
+这些由 Codex 接收并合入最新 main 后串行执行。GLM 自验不是独立第三方证明。
+
+## 上下文锚点与当前模式记录
+
+- [`AGENTS.md`](../../../AGENTS.md)、[`CLAUDE.md`](../../../CLAUDE.md)、
+  [二阶段 READ-FIRST](../../phase2/READ-FIRST.md)、同名现行 UI 测试与
+  [覆盖率持续队列](TEST-COVERAGE-PLUS5-1-continuous-batches.md)。
+- 2026-09-27 Codex：已核十二源文件存在、各有当前 UI 入口/旧测试；与 Cursor/Codex
+  目标不交叉。最强反例为旧测试已证或 jsdom 伪造不能代表真实提交；以上去重、合法
+  正控与单点反控为验收方式。`build allowed`，GLM 在新独立分支实施；Codex 独立验收 pending。
+- done 准入：Codex 对最终候选直接读断言、复跑负控/质量门并集成；无固定三席签字。
+
+## 下一位 Agent 提示词
+
+见 Codex 当次交接消息；以本卡最终 main 版本为准，不从聊天复述代替读卡。
