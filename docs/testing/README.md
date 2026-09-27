@@ -8,6 +8,8 @@
 
 ## 文档与附件
 
+- [GLM物品六组最终接收与集成](item-logic-integration.md)（26e7a269原counter闭合，统一门由Codex执行）。
+
 - [GLM物品六组r8收尾复核](item-logic-r8-review.md)（3da6002e，业务清单/八针已过，仅helper与证据残项；附精确替换内容）。
 
 - [GLM物品六组r7窄复核](item-logic-r7-review.md)（170283a0，八针/1178/零诊断已过，剩六处实际输入与原收尾）。
@@ -37,6 +39,7 @@
 - [快速通关E2E路线方案](e2e-route-proposal.md)（2026-09-27既定范围；首批001已进入实现）。
 - [GLM/Cursor后台补测两包](background-tests-20260927/README.md)（冻结目标与可转发提示词）。
 - [Cursor地图六组作者交付](cursor-map-logic-r2/README.md)（M1–M6，保留历史回执，最终结论见独立集成记录）。
+- [GLM物品纯逻辑六组](glm-item-logic/README.md)（item.ts 残余合同补测交付）。
 
 - [Codex帧动画编辑五组](codex-frame-editor/README.md)（真实TPFS、DOM与保存产物）。
 

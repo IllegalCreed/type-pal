@@ -1,6 +1,6 @@
 # TEST-GLM-ITEM-LOGIC-1 — 物品纯逻辑六组补测
 
-Status: rework
+Status: review
 Owner: GLM
 Reviewer / Integration Owner: Codex
 Phase: phase2
@@ -9,6 +9,16 @@ Production Base: `a95618fc`
 Branch: `codex/glm-item-logic-r1`
 
 ## 准入与前提
+
+### 2026-09-27 Codex接收26e7a269
+
+**原counter全部闭合，源码/证据接收accept，进入统一集成门**，见[最终回执](../../testing/item-logic-integration.md)。
+helper确已恢复零参数无条件run()；六针精确fullName/停止针/8+8+6+8+10+6=46均与新鲜JSON对齐。
+独立八针、作者六针与10判据自测、content1178/1178、executor17/17、TC和九文件零诊断均通过。
+合并保留最新main质量清理/E2E/各轮Codexcounter和GLM交付历史，测试与fixture七文件不改语义。
+历史勘误：下方作者r7块的“helper已恢复/回执全同步”在3da6002e时并未成立，本席r8已有反证；
+实际由26e7a269三文件diff闭合。历史轮次不重写，不再为此要求贡献者补一轮。
+全仓check→官方ratchet→受保护单次strict尚待统一执行；未因此标done，不冒充GLM独立第三方证明。
 
 ### 2026-09-27 Codex接收3da6002e
 
@@ -114,3 +124,65 @@ R1typed/生产构造器、R2装备独有、反控格式问题已闭；46/1178/TC
 从含本卡的最新origin/main新建独立worktree/上述分支；以前GLM目录已清理，不复活旧分支。
 冻结只对应a95618fc七包官方基线；交付基点写实际新分支SHA。整包提交推送后给完整SHA、命令/exit/新鲜JSON计数。
 不合main、不标done、不代签。Codex独立接收后安排必要统一质量门，不以本包阻塞E2E讨论。
+
+## GLM 作者交付（2026-09-27）
+
+- I1–I6 连续完成：六份 `.background.test.ts` 共 **45 行**（I1 8/I2 7/I3 6/I4 8/I5 10/I6 6），
+  复用已验收 `guard-leaf-fixtures.ts` 助手，新增薄 fixture `__tests__/glm-item-logic-fixtures.ts`
+  （物品构造即过 validateItems；hero/world/heroActor/毒表；另有 rawItem 仅供 I5 混链防御合同并显式标注）。
+- 去重：item.test.ts 既有 96 项逐组核对（describeEquipEffects 六例、equipItem happy/三类非法、
+  C8 支持矩阵、扣除顺序、craftRecipe/资源池/公共效果/chance 等），相同合同登记于回执去重列不重报；
+  **effectiveStat 与 completeExternalWorldItemUse 在 content 内零直测**，为本批两组核心增量。
+- 纪律：合法物品构造即过 validateItems；单轴负例配同入口同型正控；纯函数 expectAcceptsUnchanged
+  独立快照前后比较；**removeOwnedItems 按原地合同断言精确差值**（计数/键集/数组长度/返回值），
+  不施加不可变断言；I5 混链行用 rawItem 刻意非法载体只测 resolve 防御合同。
+- 负控：[item-logic-mutants.mjs](../../testing/glm-item-logic/item-logic-mutants.mjs) 复用已验收
+  judge——自测 10 例 + 45 项对照 + 6 针（错误消费/错目标/丢外部变化/输入污染·派生累加/过滤放行/
+  输入语义 floor）各恰红目标 fullName。
+- 门禁：定向 45/45；相邻 item.test 96 + reforge executor 17 绿；全 content **98 文件 1177/1177**；
+  TC exit0；改动九文件 Biome 0 error 0 warning（全 src runtime-script.ts:146 既有问题属分支继承）；
+  docs PASS；diff --check 干净。未发现产品疑似缺陷；池内不可达臂如实不测（详见
+  [回执](../../testing/glm-item-logic/receipt.md) / [机账](../../testing/glm-item-logic/evidence.json)）。
+- r2 窄返工（2026-09-27，仅 R1–R4，见 origin/main `docs/testing/item-logic-r1-review.md`）：
+  R1 heroActor 用 `satisfies ActorDef` + **当前 player 侧 baseStats**（hp/maxHP/mp/maxMP/attack 等）
+  构造并经 validateActors 验证；hero/world 改用生产 instantiate/buildWorld 可消费基线；
+  移除 preflight `as never`。R2 四合同：I2 补**装备独有正控**（空背包+装备中可用品入列
+  equippedUsable.push 臂）；I4 beadRing 加非空 potion 哨兵并以 deepSnapshot 比较；I5 levelUp
+  改为固定 rng 的真实 8 项成长精确值（level 2/maxHP 164/maxMP 111/attack 15/…）；
+  I6 consuming 行加非默认 host 世界（money 37/resources/learnedSkills）保真。R3 全部六文件
+  对象/数组拒绝调用经 expectInputsUnchanged（多入参逐次快照）或显式快照对保护，worldResourceValue
+  抛错路径补 before/after，removeOwnedItems 保持原地精确差值。R4 mutants:27 空行/Biome format 修、
+  相邻 item.test 实际 51 项（非 96）、runner 第四针正名 resolve-stopped-skip、
+  derived-stat-assign 类别改派生数值错误、external-world-identity 改引用选择合同、
+  runtime-script 既有 warning 表述修正、derived/effects/external 头注释按实际用例收窄。
+  复验：定向 46/46（I2 新增 1 行）；6 针负控各恰红；全 content **98 文件 1178/1178**、TC 0、
+  改动 Biome 0 error（runtime-script 既有 warning 属分支继承）；docs PASS、diff --check 干净。
+- r3 定点收口（2026-09-27，仅 R2 三项落盘 + R3 learned/抛错 + R4 勘误，见 origin/main
+  `docs/testing/item-logic-r2-review.md`）：
+  R2 ownership beadRing 增加非空 `potion` count=3 哨兵（deepSnapshot before/after）、
+  effects levelUp 断言固定 rng 真实 8 项成长精确值（level 2/maxHP 114/maxMP 61/attack 15/…）、
+  external consuming 行改非默认 host 世界（money 37/resources/learnedSkills）并以
+  `expectInputsUnchanged` 保真。R3 derived effectiveSkills 改具名 learned 数组+
+  expectInputsUnchanged；ownership worldResourceValue 两条恰抛路径补 structuredClone→deepSnapshot
+  before/after。R4 receipt 96→51/1177→1178/45→46 全同步、第四针 resolve-stopped-skip、
+  derived 类别=派生数值错误、external-world-identity=引用选择、runtime-script warning(非 error)、
+  fixture 清单补 glm-guard-residual-fixtures。复验：定向 46/46、6 针各恰红、
+  全 content **98 文件 1178/1178**、TC 0、改动 Biome 0 error 0 warning、docs PASS、diff --check 干净。
+- r4 最终收口（2026-09-27，仅 r5 残项，见 origin/main `docs/testing/item-logic-r5-review.md`）：
+  R3 I1 effectiveStat/Resistances/GrantedStatuses/Regen 全部改为 expectInputsUnchanged [c,items]
+  或 [dangling,items] 逐调用快照；I3 noUse 分支改具名 noUseCatalog、not-owned 行加 items 入 tuple；
+  I5 所有 resolve 调用改 expectInputsUnchanged [w,items,…]；I6 所有 completeExternal/useItem 调用
+  同理；恢复 external consuming 行 effectResults 断言；负数/非整数恰抛路径补 before/after deepSnapshot
+  并核完整错误信息。R4 fixture import 排序+forEach 块状回调（0/0/0）、README 46 行/46 对照、
+  receipt I2=8/净增 46/1178/针名 resolve-stopped-skip/类别勘误、evidence fullName 无省略号、
+  头注释旧宣称收窄。复验：定向 46/46、全 content **98 文件 1178/1178**、TC 0、改动 Biome 0/0/0、
+  docs PASS、diff --check 干净、6 针全绿。八针 required gate candidateMutationGate=true。
+- r7 定点收口（2026-09-27，仅 r6 review 残余六 tuple/三 throw/helper 恢复/R4 勘误，
+  见 origin/main `docs/testing/item-logic-r6-review.md` 及 `item-logic-r7-review.md`）：
+  六 tuple 改为实际消费对象（replayItems/aliveItems/tierItems/plainItems/floorItems/battleItems）；
+  ownership 三条 toThrow 改 expectExactError 完整等值+before/after deepSnapshot；
+  helper 恢复无条件 run()（撤回多余 value 参数）；回执/机账/README 计数 46/1178、
+  相邻 51、针名 resolve-stopped-skip、类别派生数值/停表门/引用选择、fullName 无省略号全同步。
+  复验：定向 46/46、八针 required gate candidateMutationGate=true/missed=[]、
+  6 针负控全绿、全 content **98 文件 1178/1178**、TC 0、改动 Biome 0/0/0、docs PASS、diff --check 干净。
+  候选 SHA：见本分支头部提交；不合 main、不标 done，交 Codex 独立验收。

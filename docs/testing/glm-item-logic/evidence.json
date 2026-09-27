@@ -1,0 +1,141 @@
+{
+  "task": "TEST-GLM-ITEM-LOGIC-1",
+  "date": "2026-09-27",
+  "owner": "GLM",
+  "base": {
+    "productionFreeze": "a95618fc",
+    "branchFrom": "6c66619e (origin/main, 含任务卡)",
+    "worktree": "type-pal-glm-item-logic（新建隔离，主工作树未动）",
+    "frozenEvidence": "docs/testing/background-tests-20260927/targets.json（item.ts 221/326B，105 未命中臂仅选题）",
+    "r2CounterBy": "docs/testing/item-logic-r1-review.md @ c293e8b0（origin/main）",
+    "r3CounterBy": "docs/testing/item-logic-r2-review.md @ d502daf4（origin/main）",
+    "r4CounterBy": "docs/testing/item-logic-r3-review.md（origin/main）",
+    "r5CounterBy": "docs/testing/item-logic-r5-review.md（origin/main）",
+    "r6CounterBy": "docs/testing/item-logic-r6-review.md（origin/main）",
+    "r7CounterBy": "docs/testing/item-logic-r7-review.md（origin/main）"
+  },
+  "newFiles": [
+    "packages/content/src/item.derived.background.test.ts",
+    "packages/content/src/item.inventory.background.test.ts",
+    "packages/content/src/item.preflight.background.test.ts",
+    "packages/content/src/item.ownership.background.test.ts",
+    "packages/content/src/item.effects.background.test.ts",
+    "packages/content/src/item.external.background.test.ts",
+    "packages/content/src/__tests__/glm-item-logic-fixtures.ts"
+  ],
+  "leafTests": {
+    "I1": 8,
+    "I2": 8,
+    "I3": 6,
+    "I4": 8,
+    "I5": 10,
+    "I6": 6,
+    "total": 46
+  },
+  "discipline": "合法物品经 validateItems（fixtures.item 构造即验证）；heroActor 用 satisfies ActorDef player 侧 baseStats 经 validateActors 验证，hero/world 用生产 instantiate/buildWorld 可消费基线；每组先旧标题去重；单轴负例配同入口同型正控；纯函数 expectAcceptsUnchanged/expectInputsUnchanged 独立快照前后比较（多入参逐次快照）；removeOwnedItems 按原地合同断言精确差值（计数/键集/数组长度/返回值）不施加不可变断言；I5 混链行用 rawItem 刻意非法载体并显式标注",
+  "oracle": {
+    "tool": "docs/testing/glm-item-logic/item-logic-mutants.mjs",
+    "criteria": "复用已验收 judge：恰 exit（对照0/变异1）/ 恰一红 / 失败记录绝对文件+实际 fullName / 其余全过无skip / 逐条拒混错与timeout / load命中 entered.json / 生产sha256不变；自测10例全按预期",
+    "control": {
+      "exitCode": 0,
+      "tests": 46,
+      "failed": 0
+    },
+    "needles": [
+      {
+        "id": "derived-stat-assign",
+        "module": "item.ts",
+        "injection": "effectiveStat v += delta -> v = delta",
+        "category": "派生数值错误（累加改赋值）",
+        "onlyFailed": "I1 effectiveStat（content 内零直测的派生口） 同名 stat 累加、异 stat 与非 statBonus 不串扰，map 外装备 id 回退"
+      },
+      {
+        "id": "equippable-count-filter",
+        "module": "item.ts",
+        "injection": "equippableItems e.count > 0 -> >= 0",
+        "category": "过滤放行",
+        "onlyFailed": "I2 equippedItemIds / equippableItems / usableItems 残差 equippableItems 过滤 count>0 与模板（count 0 不列）"
+      },
+      {
+        "id": "ownership-floor-ceiling",
+        "module": "item.ts",
+        "injection": "remaining floor -> ceil",
+        "category": "输入语义（非整数 count）",
+        "onlyFailed": "I4 removeOwnedItems 原地合同 需求 0/负数/非整数：floor+max 语义"
+      },
+      {
+        "id": "resolve-stopped-skip",
+        "module": "item.ts",
+        "injection": "stoppedTargets continue -> if (false)",
+        "category": "停表门失效",
+        "onlyFailed": "I5 目标类效果残差 oneAlly 跳过非目标；allAllies 复合链跳过已停表目标"
+      },
+      {
+        "id": "external-drop-consume",
+        "module": "item.ts",
+        "injection": "completeExternal consumed = consumeItem(…) -> false",
+        "category": "错误消费",
+        "onlyFailed": "I6 completeExternalWorldItemUse 残差 consuming 扣 1 件：完整 world 结果 = 输入深克隆仅变库存"
+      },
+      {
+        "id": "external-world-identity",
+        "module": "item.ts",
+        "injection": "world: consumed ? nextWorld : world -> nextWorld",
+        "category": "引用选择合同",
+        "onlyFailed": "I6 completeExternalWorldItemUse 残差 world 引用合同：consumedByExternal 与不消费都返回原 world 引用"
+      }
+    ],
+    "r2r3Verification": {
+      "note": "审查席 r2/r3 残项五变异复跑验证",
+      "probes": [
+        {
+          "id": "drop-unrelated-inventory",
+          "result": "beadRing 非空 potion 哨兵 deepSnapshot 保护后候选红"
+        },
+        {
+          "id": "growth-no-op",
+          "result": "levelUp 固定 rng 8 项精确值断言后候选红"
+        },
+        {
+          "id": "drop-external-money",
+          "result": "external consuming 行非默认 host 世界保真断言后候选红"
+        },
+        {
+          "id": "learned-input-mutation",
+          "result": "derived effectiveSkills 具名 learned 数组 expectInputsUnchanged 保护后候选红"
+        },
+        {
+          "id": "throw-input-mutation",
+          "result": "ownership worldResourceValue 恰抛路径 before/after 快照后候选红"
+        }
+      ]
+    },
+    "r4r5Verification": {
+      "note": "Codex r4 required gate 复跑",
+      "gate": "candidateMutationGate=true, missed=[]",
+      "eightPins": [
+        "growth-no-op",
+        "drop-unrelated-inventory",
+        "drop-external-money",
+        "learned-input-mutation",
+        "throw-input-mutation",
+        "drop-equipped-usable",
+        "growth-extra-rng",
+        "drop-external-hp"
+      ],
+      "r3ResidualPins": ["growth-extra-rng", "drop-external-hp"]
+    }
+  },
+  "gates": {
+    "directed": "六文件 46/46 exit 0",
+    "adjacent": "item.test.ts 51 项绿；reforge item-use-executor 17 项绿",
+    "contentSuite": "98 文件 1178/1178 exit 0（新鲜 JSON）",
+    "typecheck": "exit 0",
+    "biome": "改动文件 0 error 0 warning 0 info；全 src runtime-script.ts:146 既有 noUnusedVariables warning 属分支继承",
+    "docs": "PASS；git diff --check 干净",
+    "notRun": "全仓 check/coverage、E2E、主树操作"
+  },
+  "productDefects": "未发现疑似产品缺陷，无需诊断。不可达臂如实不测：assertNever 防御、preflight 后物品消失、外部三 kind/非携带态错分支、drawFromResourcePool 档位越界（roll 基于 maxRoll 恒在档内）、setWorldResourceValue/changeInventory 私有负 delta。锁绿现状合同：resolve 混链失败须 rawItem 载体；consuming 计入 changed（零变化行用 consuming:false 隔离）；permanentStatBoost delta 0 非法，钳位零变化用 maxHP=1 + delta=-1 表达。",
+  "handoff": "不合 main、不标 done；候选 SHA 见卡内作者交付块，交 Codex 独立验收。",
+  "round": "r7 rework（r6 候选 37027b2d 后 Codex r6 review 指出六 tuple 不符/三toThrow子串/helper多余参数/回执勘误；本文件按闭合后最终树更新）"
+}
