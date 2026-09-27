@@ -5,7 +5,7 @@ Owner: Codex
 Phase: ops
 Visual Verification Timing: e2e-consolidated（001独立执行器首批）
 
-## 用户意图与当前准入
+## 用户意图与首批准入（首批已完成，当前二阶段增量见后文）
 
 2026-09-27用户要求“回到E2E，推进001”。Codex核定首批build allowed，不再请求已定剧情边界：
 先完成一阶段001从正常新游戏到房间可控的独立Playwright脚本、正式快存导出与新浏览器上下文读回。
@@ -119,11 +119,25 @@ Reforge有窗口实跑exit0（约66秒、86事件/30按键），真实检查点s
 开发校准：新测试host全局窄化导致TC失败，改用boot返回句柄后修复；无产品输入强转或规则降级。
 已知浏览器信息：干净工程save-state文件缺席404与Canvas读回性能提示列报告，不算资产失败或静态诊断豁免。
 Reforge生产build通过，已扫描dist确认__tpE2e/readBootObservation/checkpointLoad桥接不进入生产JS。
-完整check/ratchet/受保护strict待本批统一落证；完整NPC实际提交日志、对话序列偏序比较和capture-ready仍未完成。
+完整NPC实际提交日志、对话序列偏序比较和capture-ready仍未完成。
 
 首遍完整check如实失败：checkpoint-export旧AST回归要求唯一DEV导出注册，早期标题注册造成17项红。
 未改旧fixture/断言：将新只读观测独立为__tpObserve，原__tpE2e注册块与e0844fe7逐字相同。
 原17项+新6项合计23/23复跑通过，桥接修订后Reforge实跑再次exit0，检查点hash与前述相同。
 生产build退出0但有Vite大于500kB的包体积提示；这不包含在lint/typecheck零诊断声明中，未通过改阈值消警。
+
+3901f1d6最终整批门：完整check **9793项**（Reforge1749），另12项E2E工具合同；
+全部包TC与严格lint **2265文件/0error/0warning/0info**。官方ratchet与保护e0844fe7的单次strict-fast
+**9301项/728生产文件**通过，按官方baselineView投影精确相等。源码集合未变，其它六包完整基线对象不变。
+本批是E2E观测能力，不是恢复主动追覆盖率：S +72覆盖/+37分母，B +49/+32，F +11/+8，L +60/+31单列。
+全仓当前B46201/63315=72.97%，L57806/70877=81.56%。不把这次生产分母变化计作GLM补测。
+
+旧检查点17项未改；最终桥接修订后Reforge独立实跑产物为
+`build/e2e/reforge-001-2026-09-27T03-22-22-947Z/`，检查点与持久域hash仍与上文一致。
+双引擎并行证明位于`game-001-2026-09-27T03-14-49-389Z/`与`reforge-001-2026-09-27T03-14-49-393Z/`。
+正式日志`/tmp/codex-reforge-001-{check2,ratchet,strict}.log`；首遍check失败日志另存check.log，未覆盖。
+Vite旧基线e0844fe7隔离替换三原模块构建也有653.46kB提示（baseline-build.log，源hash不变），
+当前包大小未作阈值豁免或性能修复；DEV的__tpObserve/__tpE2e/checkpointLoad均已证不进入生产JS。
+本席核本次流程/检查点增量accept并集成；母卡继续build，不标整个001时序/full-Q1-Q2通过。
 
 无下一位Agent提示词；Codex继续实际NPC提交事件与双阶段差异比较，母卡保持build。

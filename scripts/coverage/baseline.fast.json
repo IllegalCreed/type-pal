@@ -1,14 +1,14 @@
 {
   "schemaVersion": 2,
   "profile": "fast",
-  "generatedAt": "2026-09-27T02:19:55.929Z",
+  "generatedAt": "2026-09-27T03:33:12.012Z",
   "provider": {
     "name": "v8",
     "vitest": "4.1.7",
     "coverageV8": "4.1.7"
   },
   "sourceFileCount": 728,
-  "testCount": 9295,
+  "testCount": 9301,
   "packages": {
     "shared": {
       "name": "@type-pal/shared",
@@ -1949,8 +1949,8 @@
       ],
       "scopeDigest": "16189aab012afb4478b77060f7b830d675f7c6e4a3179ff076a6f537afc81a0f",
       "fastTests": {
-        "testCount": 1743,
-        "testFileCount": 188,
+        "testCount": 1749,
+        "testFileCount": 191,
         "files": [
           "packages/reforge/scripts/battle-trial-assets.test.ts",
           "packages/reforge/scripts/battle-trial-host.test.ts",
@@ -2018,6 +2018,7 @@
           "packages/reforge/src/deferred-trigger.test.ts",
           "packages/reforge/src/dev-preset.test.ts",
           "packages/reforge/src/dialog/dialog-assets.test.ts",
+          "packages/reforge/src/dialog/dialog-box.observation.test.ts",
           "packages/reforge/src/dialog/dialog-box.test.ts",
           "packages/reforge/src/dialog/layout.test.ts",
           "packages/reforge/src/dialog/narration-scroll.test.ts",
@@ -2060,6 +2061,7 @@
           "packages/reforge/src/main.item-flows.test.ts",
           "packages/reforge/src/main.menu-flows.test.ts",
           "packages/reforge/src/main.menu-storage-flows.test.ts",
+          "packages/reforge/src/main.observation.test.ts",
           "packages/reforge/src/main.save-flows.test.ts",
           "packages/reforge/src/main.scene-flows.test.ts",
           "packages/reforge/src/menu-state.navigation-boundaries.test.ts",
@@ -2075,6 +2077,7 @@
           "packages/reforge/src/motion-runtime-wiring.test.ts",
           "packages/reforge/src/movement.test.ts",
           "packages/reforge/src/opening-menu.flows.test.ts",
+          "packages/reforge/src/opening-menu.observation.test.ts",
           "packages/reforge/src/opening-menu.test.ts",
           "packages/reforge/src/project-image-cache.lifecycle.test.ts",
           "packages/reforge/src/project-image-cache.test.ts",
@@ -2473,6 +2476,11 @@
             "identityDigest": "9677229786f3fc33530234277b694ef91bad31678947eba050112ef3205becdb"
           },
           {
+            "file": "packages/reforge/src/dialog/dialog-box.observation.test.ts",
+            "testCount": 3,
+            "identityDigest": "f3dc626e974b9c3d79233df3d627bc71771e7696d7d6182055a684e53d8206cc"
+          },
+          {
             "file": "packages/reforge/src/dialog/dialog-box.test.ts",
             "testCount": 1,
             "identityDigest": "660a8c66b8892aa23bac3d31669cb669fab1f9aeea9091ed466067cfa66a820d"
@@ -2683,6 +2691,11 @@
             "identityDigest": "58ba42b668b6bd18b36fcf76ee21477f2a0489392a74fd2089745c5f805fd539"
           },
           {
+            "file": "packages/reforge/src/main.observation.test.ts",
+            "testCount": 2,
+            "identityDigest": "4b00e222658734c054339aebdaee19d9869baba72be607cff690910faac8aefd"
+          },
+          {
             "file": "packages/reforge/src/main.save-flows.test.ts",
             "testCount": 5,
             "identityDigest": "fc03afc2756552089b381a88ebc40947d14644d690aa16c9e557a8ce17d2c48f"
@@ -2756,6 +2769,11 @@
             "file": "packages/reforge/src/opening-menu.flows.test.ts",
             "testCount": 4,
             "identityDigest": "76b8ec69634abd88eaa0eeb8f788fc6a13c41610cab15ffbefb1aaea044d3fa5"
+          },
+          {
+            "file": "packages/reforge/src/opening-menu.observation.test.ts",
+            "testCount": 1,
+            "identityDigest": "6eb9f85af8470b020e20dbdb1733bf7fa6921f3c7eb9a2c648bc0ce472eee26d"
           },
           {
             "file": "packages/reforge/src/opening-menu.test.ts",
@@ -3083,26 +3101,26 @@
             "identityDigest": "3cbb8fa95917cb86d7414ee21345af8a1a2a0df2d14066318539861c10b28ed8"
           }
         ],
-        "identityDigest": "1d5e5830a4b942e4be342afb57ab4ecda610f79097cedd2bceb557aed3051b80",
+        "identityDigest": "293c488ba8fce8c23d7ecf63872d82f866d88e388553ab672e45caf4092bd494",
         "duplicateIdentityCount": 0,
-        "executionDigest": "66ab2091571f3cd1744a75aeef354fb75d14f8c794a5b63543434fba7f3a637a"
+        "executionDigest": "b67f4d63a65f9379679b7149f271092fb24fd5292e91861af67371f2ed93848f"
       },
       "metrics": {
         "statements": {
-          "covered": 13218,
-          "total": 17061
+          "covered": 13290,
+          "total": 17098
         },
         "branches": {
-          "covered": 7763,
-          "total": 11426
+          "covered": 7812,
+          "total": 11458
         },
         "functions": {
-          "covered": 2179,
-          "total": 2772
+          "covered": 2190,
+          "total": 2780
         },
         "lines": {
-          "covered": 11958,
-          "total": 14893
+          "covered": 12018,
+          "total": 14924
         }
       }
     },
@@ -6649,20 +6667,20 @@
   },
   "total": {
     "statements": {
-      "covered": 64243,
-      "total": 80935
+      "covered": 64315,
+      "total": 80972
     },
     "branches": {
-      "covered": 46152,
-      "total": 63283
+      "covered": 46201,
+      "total": 63315
     },
     "functions": {
-      "covered": 11950,
-      "total": 15227
+      "covered": 11961,
+      "total": 15235
     },
     "lines": {
-      "covered": 57746,
-      "total": 70846
+      "covered": 57806,
+      "total": 70877
     }
   }
 }
