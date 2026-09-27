@@ -1,6 +1,6 @@
 # TEST-GLM-STATE-COMMANDS-1 — 菜单与编辑命令十六组连续补测
 
-Status: build
+Status: rework
 Owner: GLM
 Reviewer / Integration Owner: Codex
 Phase: phase2
@@ -90,3 +90,13 @@ E2E/main/dialogue/motion接口、暂停的FrameAnimationEditor测试。禁止mai
 先去重、合法fixture、核实际输入/原地合同，再真实业务断言与2–3代表单点反控。问题只记隔离诊断，不改预期洗绿。
 每批局部门、四批末两包全测/TC/全部新文件零诊断；不得跑官方覆盖门，不动主目录和E2E。
 每批ledger与回执来自最终树/JSON，整包给完整SHA和命令证据；不代签、不改状态、不合main。
+
+## Codex 独立接收复核（2026-09-27）
+
+候选 `codex/glm-state-commands-r1@36c1f034` 暂签 **counter**，详情见
+[接收反证](../../testing/glm-state-commands/codex-intake-review.md)。16 个源文件 hash 与冻结账一致，
+16 个新增测试文件定向运行 116/116（A 34、B/C/D 82），B/C/D 的 9 针独立复跑业务红。
+但 A 批回执仍为“待实施”且共用反控工具未登记 A；全部新增文件 Biome 有 6 error/1 warning；
+B/C/D 共用正例状态的入口场景 `s` 不在 `scenes: []`，现行项目保存门明确拒绝。
+最后交付块写的候选 `7be02ad6` 不是最终头 `36c1f034`。这四项闭合前不得集成或标 done；
+全仓 check、官方 ratchet、严格 fast 延至独立接收后统一执行。

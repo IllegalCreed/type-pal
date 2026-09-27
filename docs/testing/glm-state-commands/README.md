@@ -4,8 +4,10 @@
 [冻结账](targets.freeze.json) / [交付清单](../glm-delivery-checklist.md) /
 [上批已接收证据](../item-logic-integration.md)。
 
+当前候选接收结论：[Codex 独立反证](codex-intake-review.md)（rework；四批合入暂缓）。
+
 生产冻结1bc7df91，官方fast9295/728。16个目标共277未命中臂/43行，**仅选题，不等于277臂都能或都该补**。
-本包可直接build；按[A菜单](a/README.md)→[B战斗数据编辑](b/README.md)→[C资源命令](c/README.md)→[D工程定义](d/README.md)连续实施。
+原准入允许按[A菜单](a/README.md)→[B战斗数据编辑](b/README.md)→[C资源命令](c/README.md)→[D工程定义](d/README.md)连续实施；目前处于交付返工。
 共用[负控与交付工具入口](tools/README.md)，无需改父目录导航。
 工作量通过更多独立模块扩大，不靠同一函数堆参数。没有固定新增用例数/覆盖百分比指标。
 
