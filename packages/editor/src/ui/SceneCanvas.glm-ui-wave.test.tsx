@@ -12,10 +12,11 @@ import type { SceneDef } from '@type-pal/content'
 import { validateAuthorScenes } from '@type-pal/content'
 import type { ProjectMap } from '@type-pal/reforge'
 import { validateProjectMap } from '@type-pal/reforge'
-import { act } from 'react'
+import React, { act } from 'react'
 import { createRoot, type Root } from 'react-dom/client'
 import { afterAll, afterEach, beforeAll, beforeEach, describe, expect, test, vi } from 'vitest'
 import { EditSession } from '../core/edit-session.js'
+import { createEditorAssetReader } from '../core/editor-asset-reader.js'
 import { AddEntityCommand } from '../core/entity-commands.js'
 import { assertProjectSaveValid } from '../core/project-diagnostics.js'
 import { loadLegalUiProject } from './__tests__/glm-ui-wave-kit.js'
@@ -28,21 +29,12 @@ vi.mock('@type-pal/reforge', async (importOriginal) => {
 
 vi.mock('./scene-stage.js', async (importOriginal) => {
   const original = await importOriginal<typeof import('./scene-stage.js')>()
-  const React = await import('react')
   return {
     ...original,
     drawGridBlocked: vi.fn(),
     drawTriggerHighlight: vi.fn(),
     mapBoxOf: vi.fn(() => ({ minX: 0, minY: 0, maxX: 100, maxY: 100 })),
     useStageSize: vi.fn(() => ({ w: 100, h: 100 })),
-    useSceneAssets: (options: { mapId: string; projectMaps: Record<string, ProjectMap> }) => {
-      const loadedRef = React.useRef({
-        renderer: {} as never,
-        map: options.projectMaps[options.mapId]!,
-        spritesByAsset: new Map(),
-      })
-      return { status: 'ready' as const, err: '', loadedRef }
-    },
     useViewZoomPan: (options: { initial: { zoom: number; panX: number; panY: number } }) => {
       const [view, setView] = React.useState(options.initial)
       const viewRef = React.useRef(view)
@@ -57,6 +49,8 @@ vi.mock('./scene-stage.js', async (importOriginal) => {
 let scene: SceneDef
 let projectMap: ProjectMap
 let legalSession: EditSession
+let legalReader: ReturnType<typeof createEditorAssetReader>
+let legalAssetBase: import('@type-pal/reforge').AssetBase
 
 // Node test-host bridge：blank seed 的 gzip 依赖 Node Blob.stream（jsdom Blob 缺该能力）。
 vi.stubGlobal('Blob', NodeBlob)
@@ -65,7 +59,9 @@ afterAll(() => {
 })
 
 beforeAll(async () => {
-  const { state } = await loadLegalUiProject('glm-ui-wave-scene-canvas')
+  const { source, state, assetBase } = await loadLegalUiProject('glm-ui-wave-scene-canvas')
+  legalReader = createEditorAssetReader(source, () => state)
+  legalAssetBase = assetBase
   const sceneId = state.scenes![0]!.id
   const mapId = (state.scenes![0] as { mapId: string }).mapId
   projectMap = state.maps![mapId]!
@@ -152,15 +148,15 @@ describe('U4a SceneCanvas 残差', () => {
       root.render(
         <SceneCanvas
           scene={current.scenes!.find((entry) => entry.id === scene!.id)!}
-          sprites={[]}
-          actorsById={{}}
+          sprites={current.sprites ?? []}
+          actorsById={Object.fromEntries((current.actors ?? []).map((a) => [a.id, a]))}
           leaderSpriteId={undefined}
-          assetBase={{} as never}
-          assetCatalog={{ version: 1, assets: {} }}
-          assetReader={{} as never}
+          assetBase={legalAssetBase}
+          assetCatalog={current.assetCatalog}
+          assetReader={legalReader}
           projectMaps={current.maps ?? {}}
           mapIndex={current.mapIndex}
-          tilesets={[]}
+          tilesets={current.tilesets ?? []}
           selectedEntityId="zone-a"
           selectedAnchor={null}
           placingEntity={placingEntity}
@@ -185,8 +181,17 @@ describe('U4a SceneCanvas 残差', () => {
     return host.querySelector('canvas')!
   }
 
+  // 真实 useSceneAssets 就绪等待：fit 完成后 view.zoom 落到 96%（fitStageView 0.96）。
+  const waitReady = async (canvas: HTMLCanvasElement): Promise<void> => {
+    await vi.waitFor(() => {
+      expect(host.querySelector('.canvas-note')?.textContent ?? '').not.toContain('载入中')
+    })
+    void canvas
+  }
+
   test('点击命中实体传出精确 onSelectEntity 实参；空白点击仍清选择', async () => {
     const canvas = await renderCanvas()
+    await waitReady(canvas)
     await act(async () => {
       pointer(canvas, 'pointerdown', 5, 5)
       pointer(canvas, 'pointerup', 5, 5)
@@ -204,6 +209,7 @@ describe('U4a SceneCanvas 残差', () => {
 
   test('抓取实体拖动提交 onMoveEntity 精确目标格', async () => {
     const canvas = await renderCanvas()
+    await waitReady(canvas)
     await act(async () => {
       pointer(canvas, 'pointerdown', 0, 0)
     })
@@ -220,6 +226,7 @@ describe('U4a SceneCanvas 残差', () => {
 
   test('放置模式落下传出 onAddAt 精确格子', async () => {
     const canvas = await renderCanvas(true)
+    await waitReady(canvas)
     await act(async () => {
       pointer(canvas, 'pointerdown', 60, 60)
       pointer(canvas, 'pointerup', 60, 60)

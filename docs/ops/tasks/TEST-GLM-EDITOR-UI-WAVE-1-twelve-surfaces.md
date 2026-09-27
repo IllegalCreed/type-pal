@@ -113,3 +113,20 @@ GLM 测试语义、不合 main、不标 done；全仓门留待返工通过。
   editor 全测 3255/3255 exit 0（串行，含合入 origin/main 后的新增测试）；
   editor typecheck 零诊断；白名单 14 文件 Biome 0/0/0；`check:docs` PASS；`git diff --check` 干净。
 - 不改产品/旧测试/基线；不合 main、不标 done；全仓门留 Codex 接收后统一执行。
+
+## GLM 交付块（G2-R2 收口，2026-09-27）
+
+- 基线：origin/main `1dcbc316`（合入工作分支，[R2 反证](../../testing/glm-editor-ui-wave-codex-r2-review.md) 已读）。
+- **U4b PreviewCanvas**：`legalStages`（checkAuthorDialogueCue 正控的对话舞台）现为实际
+  `stages` 实参；`playback.play` 断言按 `scene.id`/legalStages 逐字匹配并真实消费；
+  `playIdentity.projectId` 取正式 manifest id；catalog/maps/mapIndex/tilesets/assetBase/
+  reader 全部来自同一 `loadLegalUiProject` 工程。
+- **U4a SceneCanvas**：组件实参改为同一工程的真实 catalog/tilesets/maps/mapIndex/reader/
+  assetBase；移除 useSceneAssets mock——真实资产准备边界（loadTilesetAsset 解码真实 gzip、
+  loadStandardPalette）在测试内运行，新增就绪等待（fit 96% 后才执行指针断言）；
+  仅几何 hook（useStageSize/mapBoxOf/useViewZoomPan）与画布绘制（renderSceneFrame）隔离
+  以保持指针确定性。
+- 门禁（最终树实测）：U4 定向 6/6、十二文件定向 39/39 exit 0（/tmp/ui-wave-directed.json）；
+  相邻旧 Preview/SceneCanvas 4/4；editor typecheck 零诊断；白名单 Biome 0/0/0；
+  `check:docs` PASS；`git diff --check` 干净；四针（含 scene-blank-clear-drop）复跑全绿。
+- 不改产品/旧测试/基线；不合 main、不标 done；全仓门留 Codex 接收后统一执行。

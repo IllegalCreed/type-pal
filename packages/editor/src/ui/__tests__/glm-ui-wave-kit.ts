@@ -23,6 +23,8 @@ import { buildBlankProject } from '../../core/seed.js'
 export interface LegalProject {
   source: FileSource
   state: EditorState
+  /** 正式 AssetBase（source + assetResolver），供组件真实资产准备边界使用。 */
+  assetBase: import('@type-pal/reforge').AssetBase
 }
 
 /**
@@ -39,7 +41,7 @@ export async function loadLegalUiProject(name = 'glm-ui-wave'): Promise<LegalPro
   const maps = await loadAllProjectMaps(project)
   const state = toEditorState(project, scenes, maps, {}, [])
   assertProjectSaveValid(state)
-  return { source, state }
+  return { source, state, assetBase: project.assetBase }
 }
 
 export function useActEnvironment(): void {

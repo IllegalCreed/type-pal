@@ -11,11 +11,13 @@
 import { Blob as NodeBlob } from 'node:buffer'
 // @ts-expect-error Node test-host bridge only.
 import { webcrypto } from 'node:crypto'
-import type { SceneDef, ScriptStage } from '@type-pal/content'
+import type { AssetCatalogV1, MapIndexV1, SceneDef, ScriptStage } from '@type-pal/content'
 import { checkAuthorDialogueCue } from '@type-pal/content'
+import type { AssetBase, ProjectMap, TilesetDef } from '@type-pal/reforge'
 import { act } from 'react'
 import { createRoot, type Root } from 'react-dom/client'
 import { afterAll, afterEach, beforeAll, beforeEach, describe, expect, test, vi } from 'vitest'
+import { createEditorAssetReader, type EditorAssetReader } from '../core/editor-asset-reader.js'
 import type { Playback } from '../core/playback.js'
 import { loadLegalUiProject } from './__tests__/glm-ui-wave-kit.js'
 import { PreviewCanvas } from './PreviewCanvas.js'
@@ -36,10 +38,21 @@ vi.mock('./scene-stage.js', () => ({
   }),
 }))
 
-// 当前合法阶段：经 checkAuthorDialogueCue 正控的对话舞台（真实 SceneDef 于 beforeAll 装载）。
+// 正式工程身份与合法阶段：同一 loadLegalUiProject 工程的 manifest/场景/目录/资源。
 let scene: SceneDef
 let legalStages: ScriptStage[]
 let previewLocale: Record<string, string> = {}
+let legalCatalog: AssetCatalogV1
+let legalMaps: Record<string, ProjectMap>
+let legalMapIndex: MapIndexV1
+let legalTilesets: readonly TilesetDef[]
+let legalAssetBase: AssetBase
+let legalReader: EditorAssetReader
+let legalProjectId: string
+let stateSprites: SceneDef['entities'] extends never
+  ? never
+  : import('@type-pal/content').SpriteDef[]
+let stateActors: Record<string, import('@type-pal/content').ActorDef>
 
 // Node test-host bridge（模块级一次性）：blank seed 的 gzip 依赖 Node Blob.stream；
 // jsdom 的 Blob 缺该能力。文件内所有用例均为 jsdom+React，桥接全局安全。
@@ -50,7 +63,14 @@ afterAll(() => {
 })
 
 beforeAll(async () => {
-  const { state } = await loadLegalUiProject('glm-ui-wave-preview')
+  const { source, state, assetBase } = await loadLegalUiProject('glm-ui-wave-preview')
+  legalCatalog = state.assetCatalog
+  legalMaps = state.maps ?? {}
+  legalMapIndex = state.mapIndex
+  legalTilesets = state.tilesets ?? []
+  legalAssetBase = assetBase
+  legalReader = createEditorAssetReader(source, () => state)
+  legalProjectId = state.manifest.id
   scene = structuredClone(state.scenes![0]!)
   scene.entities = [
     {
@@ -72,6 +92,8 @@ beforeAll(async () => {
   checkAuthorDialogueCue(cue, 'preview.stage')
   legalStages = [{ body: [{ kind: 'dialog', cue }] as never }]
   previewLocale = { ...(state.locale ?? {}) } as Record<string, string>
+  stateSprites = [...(state.sprites ?? [])]
+  stateActors = Object.fromEntries((state.actors ?? []).map((a) => [a.id, a]))
   expect(legalStages.length).toBe(1)
 })
 
@@ -103,23 +125,23 @@ async function renderPreview(
     root.render(
       <PreviewCanvas
         scene={scene}
-        stages={[{ id: 's0', body: [] } as never]}
-        sourceKey="scene:preview-residual:onEnter:default"
+        stages={legalStages}
+        sourceKey={`scene:${scene.id}:onEnter:default`}
         playIdentity={{
-          projectId: 'demo',
+          projectId: legalProjectId,
           workspaceId: '11111111-1111-4111-8111-111111111111',
           source: 'http',
         }}
         focusEntityId={options.focusEntityId}
-        sprites={[]}
-        actorsById={{}}
+        sprites={stateSprites}
+        actorsById={stateActors}
         leaderSpriteId={undefined}
-        assetBase={{} as never}
-        assetCatalog={{ version: 1, assets: {} }}
-        assetReader={{} as never}
-        projectMaps={{}}
-        mapIndex={{ version: 1, maps: [] }}
-        tilesets={[]}
+        assetBase={legalAssetBase}
+        assetCatalog={legalCatalog}
+        assetReader={legalReader}
+        projectMaps={legalMaps}
+        mapIndex={legalMapIndex}
+        tilesets={legalTilesets}
         locale={previewLocale}
         playback={playback}
       />,
@@ -147,17 +169,15 @@ describe('U4b PreviewCanvas 委派与防御（回放控制器局部合同，非�
     await act(async () => {
       host.querySelector<HTMLButtonElement>('button[aria-label="播放"]')?.click()
     })
-    expect(playback.play).toHaveBeenCalledWith(
-      'scene:preview-residual:onEnter:default',
-      [{ id: 's0', body: [] }],
-      { ownerId: undefined },
-    )
+    expect(playback.play).toHaveBeenCalledWith(`scene:${scene.id}:onEnter:default`, legalStages, {
+      ownerId: undefined,
+    })
     await act(async () => {
       host.querySelector<HTMLButtonElement>('button[aria-label="单步"]')?.click()
     })
     expect(playback.play).toHaveBeenLastCalledWith(
-      'scene:preview-residual:onEnter:default',
-      [{ id: 's0', body: [] }],
+      `scene:${scene.id}:onEnter:default`,
+      legalStages,
       { ownerId: undefined, paused: true },
     )
 
@@ -189,7 +209,7 @@ describe('U4b PreviewCanvas 委派与防御（回放控制器局部合同，非�
     })
     expect(open).toHaveBeenCalledTimes(1)
     const url = open.mock.calls[0]![0] as string
-    expect(url).toContain('play.html?project=demo')
+    expect(url).toContain(`play.html?project=${legalProjectId}`)
     expect(url).toContain(`scene=${scene.id}`)
     expect(url).toContain('pos=3,5')
     expect(url).toContain('facing=up')

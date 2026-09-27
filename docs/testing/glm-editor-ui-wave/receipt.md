@@ -24,6 +24,13 @@
 - **G3 视觉**：两张截图在完整隔离资产（含 gitignored `projects/pal/assets/{migrated,runtime}`）
   下重拍：U2 精灵库渲染真实 PAL 精灵 12 源帧网格与活体预览、无加载失败横幅；U4 场景画布
   渲染真实地图与李逍遥立绘、无场景渲染失败错误。撤回前版「视觉 N/A 部分无」表述。
+- **G2-R2（本轮，2026-09-27）**：①PreviewCanvas 的 `legalStages` 现为实际 `stages` 实参并被
+  `playback.play` 断言消费；`playIdentity.projectId`、scene.id、catalog/maps/tilesets/
+  assetBase/reader 全部来自同一 `loadLegalUiProject` 工程。②SceneCanvas 给组件传入同一工程的
+  真实 catalog/tilesets/maps/reader/assetBase，并移除 useSceneAssets mock——真实资产准备边界
+  （loadTilesetAsset/loadStandardPalette 解码真实 gzip）在测试内运行，新增就绪等待；
+  仅几何 hook（useStageSize/mapBoxOf/useViewZoomPan）与画布绘制（renderSceneFrame）隔离
+  以保持指针确定性。资产闭包声称现基于真实输入+真实解码边界。
 
 ## 十二行去重/分类账
 
@@ -38,8 +45,8 @@
 | 7 | CutsceneTab.tsx（importVideo→UpsertAssetCommand）；正控=blank 项目+正式 EditorAssetReader，过保存门 | 「fails closed when the live shared script still references…」「does not commit deletion when the live oracle changes…」 | ①视频导入→`video.authored.<hash16>` record/path 64hex.mp4/blob 32B/选择与 onObjectFocus；②非法容器→「只支持有效的 MP4 或 WebM」零提交（负控针）；③帧导入弹窗取消→零提交 | 新增 |
 | 8 | ImageTab.tsx（importFile→prepareAuthoredImage+UpsertAssetCommand）；正控=blank 项目+正式 EditorAssetReader，过保存门 | 「keeps delete on the selected object hero and restores the record and bytes on undo」「shows an unknown reference count…」 | ①立绘 PNG 导入→`portrait.authored.*` record/path/label「新立绘」/blob/选择；②非 PNG→「只允许导入 PNG 文件」零提交；③删除弹窗取消→零 readBytes 零提交 | 新增 |
 | 9 | AudioAssetWorkbench.tsx（importFile→真实 authoredWaveRecord+UpsertAssetCommand）；正控=blank 项目+真实命令入库的替换目标，reader 正式，过保存门 | 「recovers when A→B→A reuses an inflight A…」「rechecks live references after the asynchronous delete byte read」 | ①WAV 导入→`sound.authored.<hash16>` path 64hex.wav/label boom/blob 32B/选择；②非法 WAV→「不是有效 WAV 文件」零提交；③替换→同 id sound.hit、label 命中音效保留、新 blob 40B、undo 还原 | 新增 |
-| 10 | PreviewCanvas.tsx（toolbar→playback API；openEngineTrial→window.open；dialog→confirmDialog）。**委派与防御分类**：回放控制器为显式手写桩、阶段为 checkAuthorDialogueCue 正控的真实对话舞台、场景为正式项目场景；不计完整工作流正控 | 「预览控制使用单行共享工具栏…」（startPlayback 代理路径）「默认聚焦否，方向/提交/Escape…」 | ①无 startPlayback：播放→play(sourceKey,stages,{ownerId})、单步→paused、暂停/继续/重置→pause/stop/resume；②引擎试玩 URL 含 pos=3,5&facing=up（focus 实体 3,4→row+1）；③对话行 speaker 解析（李逍遥）+继续 ▾→confirmDialog | 新增 |
-| 11 | SceneCanvas.tsx（onPointerDown/Move/Up→onSelectEntity/onMoveEntity/onAddAt）；正控=正式项目场景/地图索引/地图正文/瓦片集目录互相闭合并过保存门，zone 实体经真实 AddEntityCommand 加入 | 「空白 click 清选择一次，越过阈值的空白 drag 只平移」「cursor 覆盖放置、空白、平移和实体命中四态…」 | ①点击实体→onSelectEntity('zone-a') 恰 1 次（负控针：空白清选择拆除即红）；②抓取拖动→onMoveEntity('zone-a',{col:2,row:1})；③放置→onAddAt({col:6,row:2}) | 新增 |
+| 10 | PreviewCanvas.tsx（toolbar→playback API；openEngineTrial→window.open；dialog→confirmDialog）。**委派与防御**：legalStages（checkAuthorDialogueCue 正控）为实际 stages 实参并被 play() 断言消费；catalog/maps/tilesets/assetBase/reader 与 playIdentity.projectId 均来自同一正式工程；回放控制器仍是显式手写桩 | 「预览控制使用单行共享工具栏…」（startPlayback 代理路径）「默认聚焦否，方向/提交/Escape…」 | ①无 startPlayback：播放→play(sourceKey,stages,{ownerId})、单步→paused、暂停/继续/重置→pause/stop/resume；②引擎试玩 URL 含 pos=3,5&facing=up（focus 实体 3,4→row+1）；③对话行 speaker 解析（李逍遥）+继续 ▾→confirmDialog | 新增 |
+| 11 | SceneCanvas.tsx（onPointerDown/Move/Up→onSelectEntity/onMoveEntity/onAddAt）；正控=同一正式工程的场景/地图索引/地图正文/瓦片集/catalog/reader/assetBase 全部真实传入，真实 useSceneAssets 解码 gzip 就绪后（fit 96%）执行指针断言；仅几何 hook 与画布绘制隔离 | 「空白 click 清选择一次，越过阈值的空白 drag 只平移」「cursor 覆盖放置、空白、平移和实体命中四态…」 | ①点击实体→onSelectEntity('zone-a') 恰 1 次（负控针：空白清选择拆除即红）；②抓取拖动→onMoveEntity('zone-a',{col:2,row:1})；③放置→onAddAt({col:6,row:2}) | 新增 |
 | 12 | DataMode.tsx（tab 路由 switch→各 Tab props 整形）；正控=blank 项目会话与真实数据数组过保存门 | 「crafting 与 spirit-gourd 分别挂载独立机制页」（本文件唯一 DataMode 行为测） | ①scripts 无会话→`[role=alert]` 无法加载可复用脚本；②events 页最小挂载仅消费 tabBar；③敌人试打→onBattleTrial({kind:'enemy',id})；④sprite 页战斗域深链→BattleSpriteLibrary 挂载 | 新增 |
 
 定向合计 **39 项 39/39 exit 0**（JSON /tmp/ui-wave-directed.json）。相邻 12 个同名旧测 **125/125**。
