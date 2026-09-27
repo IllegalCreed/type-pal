@@ -83,6 +83,21 @@ E2E/main/dialogue/motion接口、暂停的FrameAnimationEditor测试。禁止mai
 - 2026-09-27 Codex：核当前源码、旧测试、官方严格LCOV，四批准入；GLM Coding Owner，独立验收待交付。
 - done准入：未满足。GLM不得自行标done/合main，不需Kimi提示词。
 
+## GLM 交付块（批B：战斗数据编辑命令，2026-09-27）
+
+- 交付：四个 `.glm-boundaries.test.ts`（B01 skill 6例 / B02 poison 9例 / B03 enemy-team 6例 /
+  B04 enemy 6例，合计 27）+ fixture `packages/editor/src/core/__tests__/glm-state-commands-b.ts`
+  + 共用负控工具 `tools/state-commands-mutants.mjs`（判据自测10例）+ 批回执
+  `docs/testing/glm-state-commands/b/README.md`（4行ledger）与 tools 登记。
+- 门禁（最终树实测）：定向27/27 exit 0（JSON /tmp/batch-b-directed.json）；相邻133/133；
+  editor typecheck 0诊断；Biome 六文件 0/0/0；docs PASS；`git diff --check` 干净；
+  四个目标源 sha256 与冻结账逐一相符且 oracle 每轮复验不变。
+- 负控：对照 exit 0 全绿；skill-first-capture-overwrite、poison-patch-alias、
+  enemy-team-old-overwrite 三针各恰 exit1、恰一红、fullName 逐字命中、entered.json 见证。
+- 披露：池内 unreachable 臂（withX 系 miss 分支）与 existing-proof 逐条记入批回执；
+  `AddEnemyTeamCommand.invert` 无条件剔除与 `AddSkillCommand.invert` 的 `!this.added`
+  守卫不一致属当前合同，按现状钉死，是否统一交 Codex 裁定。不合 main、不标 done。
+
 ## 可直接转发给GLM
 
 接手TEST-GLM-STATE-COMMANDS-1，状态build、已允许实施。先读本卡、工作包README、冻结账与交付自检清单。
