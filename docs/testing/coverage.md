@@ -17,6 +17,14 @@ GLM/Cursor 隔离补测由 Codex 独立接收。这个目标不构成 E2E 开工
 ## 最近入库 fast 基线（2026-09-27）
 
 机器可读数字始终以[`baseline.fast.json`](../../scripts/coverage/baseline.fast.json)为准。
+[Codex Reforge 状态画面与战斗资源第九批](codex-plus2-runtime-wave8/README.md)：
+完整check **10,129项**、官方ratchet与受保护单次严格fast **9,668项/730生产文件**
+串行通过；分支 **47,425/63,323=74.89%**，本批纯测试净增100已覆盖臂，
+生产分母/范围未变。用户本轮从46,201/63,315起算的绝对+2pp当前尚差49臂；
+full/Q1/Q2、浏览器画面与远端CI均另证。
+
+### 前一快照：GLM 编辑器十二模块
+
 [GLM 编辑器十二模块测试包](glm-editor-ui-wave/codex-integration.md)独立接收后，全仓check **10,104项**、
 官方ratchet与受保护严格fast **9,643项/730生产文件**通过；分支
 **47,325/63,323=74.74%**，本批净增216个覆盖臂、分母不变。

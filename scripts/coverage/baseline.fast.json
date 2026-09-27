@@ -1,14 +1,14 @@
 {
   "schemaVersion": 2,
   "profile": "fast",
-  "generatedAt": "2026-09-27T11:09:47.698Z",
+  "generatedAt": "2026-09-27T12:04:34.680Z",
   "provider": {
     "name": "v8",
     "vitest": "4.1.7",
     "coverageV8": "4.1.7"
   },
   "sourceFileCount": 730,
-  "testCount": 9643,
+  "testCount": 9668,
   "packages": {
     "shared": {
       "name": "@type-pal/shared",
@@ -2065,8 +2065,8 @@
       ],
       "scopeDigest": "b4b6875e840b3c0602ef587af488195abaf20bc3dc6d4adb1b6587a5e9c453d1",
       "fastTests": {
-        "testCount": 1833,
-        "testFileCount": 208,
+        "testCount": 1858,
+        "testFileCount": 214,
         "files": [
           "packages/reforge/scripts/battle-trial-assets.test.ts",
           "packages/reforge/scripts/battle-trial-host.test.ts",
@@ -2079,6 +2079,7 @@
           "packages/reforge/src/ambience-compositor.test.ts",
           "packages/reforge/src/asset-resolver.io-boundaries.test.ts",
           "packages/reforge/src/asset-resolver.test.ts",
+          "packages/reforge/src/assets.battle-bg.residual.test.ts",
           "packages/reforge/src/assets.presentation.residual.test.ts",
           "packages/reforge/src/assets.test.ts",
           "packages/reforge/src/async-intent.test.ts",
@@ -2096,6 +2097,8 @@
           "packages/reforge/src/battle-trial-config.wave2.test.ts",
           "packages/reforge/src/battle-trial-prepare.wave2.test.ts",
           "packages/reforge/src/battle/battle-action-presentation-scheduler.test.ts",
+          "packages/reforge/src/battle/battle-anim.attack-all.residual.test.ts",
+          "packages/reforge/src/battle/battle-anim.coop.residual.test.ts",
           "packages/reforge/src/battle/battle-anim.test.ts",
           "packages/reforge/src/battle/battle-casualty.test.ts",
           "packages/reforge/src/battle/battle-command-selection.residual.test.ts",
@@ -2193,6 +2196,7 @@
           "packages/reforge/src/menu/item-use-result.test.ts",
           "packages/reforge/src/menu/item-use-session.test.ts",
           "packages/reforge/src/menu/menu-box.residual.test.ts",
+          "packages/reforge/src/menu/menu-box.status-residual.test.ts",
           "packages/reforge/src/menu/menu-session.test.ts",
           "packages/reforge/src/menu/reward-gain-queue.boundaries.test.ts",
           "packages/reforge/src/menu/reward-gain-queue.test.ts",
@@ -2255,6 +2259,7 @@
           "packages/reforge/src/script-host-adapter.wave2.test.ts",
           "packages/reforge/src/script-project-core.wave2.test.ts",
           "packages/reforge/src/script-runner-core.test.ts",
+          "packages/reforge/src/script-runner.conditions.residual.test.ts",
           "packages/reforge/src/script-runner.test.ts",
           "packages/reforge/src/script-world.test.ts",
           "packages/reforge/src/script-world.wave2.test.ts",
@@ -2275,6 +2280,7 @@
           "packages/reforge/src/world-motion-runtime.residual.test.ts",
           "packages/reforge/src/world-motion-runtime.test.ts",
           "packages/reforge/src/world-runtime-ownership.test.ts",
+          "packages/reforge/src/world-scene-presentation.residual.test.ts",
           "packages/reforge/src/world-scene-presentation.test.ts"
         ],
         "fileEntries": [
@@ -2332,6 +2338,11 @@
             "file": "packages/reforge/src/asset-resolver.test.ts",
             "testCount": 3,
             "identityDigest": "c8d183ccb3e9beee670dc03ba5d116efa1a7d66a32838bf5bf8240594f8dd04c"
+          },
+          {
+            "file": "packages/reforge/src/assets.battle-bg.residual.test.ts",
+            "testCount": 4,
+            "identityDigest": "bdc777fd7bd7a6ad33fcd02154c0920fc49442c5c2f5a5855ec20fc518e4c3f9"
           },
           {
             "file": "packages/reforge/src/assets.presentation.residual.test.ts",
@@ -2417,6 +2428,16 @@
             "file": "packages/reforge/src/battle/battle-action-presentation-scheduler.test.ts",
             "testCount": 5,
             "identityDigest": "6385db1f6f72a33ad7abf5bda5d8ae8ecc80a1cb6f937ea3af64f9f1f474d953"
+          },
+          {
+            "file": "packages/reforge/src/battle/battle-anim.attack-all.residual.test.ts",
+            "testCount": 3,
+            "identityDigest": "b645429072f641a69029483bec835e31849ffd89e5126e7d428865e768975a88"
+          },
+          {
+            "file": "packages/reforge/src/battle/battle-anim.coop.residual.test.ts",
+            "testCount": 2,
+            "identityDigest": "09e713963a3579488b49b8ce54b1e2e533da695fa12dd97aebf9cd32ea9f5729"
           },
           {
             "file": "packages/reforge/src/battle/battle-anim.test.ts",
@@ -2904,6 +2925,11 @@
             "identityDigest": "2a6865458f1148000ee5ba416487b18b97f33572f85cd663b1f42aba51b3f6f5"
           },
           {
+            "file": "packages/reforge/src/menu/menu-box.status-residual.test.ts",
+            "testCount": 8,
+            "identityDigest": "348e6d2da8c5ed94efbd590a06f861c78eea7915b919b1327bc0ae87508d1c71"
+          },
+          {
             "file": "packages/reforge/src/menu/menu-session.test.ts",
             "testCount": 24,
             "identityDigest": "5082d9dbf0488c8cce490978eb85be0dc0b676d7b8738c4b601fdb5e941bd37c"
@@ -3214,6 +3240,11 @@
             "identityDigest": "fdcb7170f7969ea3b472c64b35f85a854bcfad7cdaafdd8af6bd31488d469ac5"
           },
           {
+            "file": "packages/reforge/src/script-runner.conditions.residual.test.ts",
+            "testCount": 4,
+            "identityDigest": "fc8aba5528ed4afc6baff67bd10c77e1573be845fe22e0c0741ea5a1af104964"
+          },
+          {
             "file": "packages/reforge/src/script-runner.test.ts",
             "testCount": 49,
             "identityDigest": "b03c00cd7fceb04d01d74396918238a2113a8db41e3fe7738f3878752700bfff"
@@ -3314,30 +3345,35 @@
             "identityDigest": "099a608684aeb4fb92bef7e6cf72cbabe9112b3efb162eeac13c72ca7b89cfaf"
           },
           {
+            "file": "packages/reforge/src/world-scene-presentation.residual.test.ts",
+            "testCount": 4,
+            "identityDigest": "2e672b0eaaf77febc43ece082b66601b765a6dc21e6119348993bef895d52a0d"
+          },
+          {
             "file": "packages/reforge/src/world-scene-presentation.test.ts",
             "testCount": 5,
             "identityDigest": "3cbb8fa95917cb86d7414ee21345af8a1a2a0df2d14066318539861c10b28ed8"
           }
         ],
-        "identityDigest": "a680702bb74d2f3d222f36d20899df395abab07b0e83edc16a837aa4f8428661",
+        "identityDigest": "b15192740f627fdf4e9ce02a787d3d5370d977683a8c5893e8eb4d31117c1b5a",
         "duplicateIdentityCount": 0,
-        "executionDigest": "7075758c2e105cc19314b04c8cad4f66f1bdaeae3bcff8616eb82bd6681ca928"
+        "executionDigest": "a8b8c2c32cfc672b7ed670e00125a40320adb1af0e8f01cb90b521634b5c3cfd"
       },
       "metrics": {
         "statements": {
-          "covered": 13828,
+          "covered": 13942,
           "total": 17099
         },
         "branches": {
-          "covered": 8130,
+          "covered": 8230,
           "total": 11458
         },
         "functions": {
-          "covered": 2259,
+          "covered": 2269,
           "total": 2781
         },
         "lines": {
-          "covered": 12468,
+          "covered": 12565,
           "total": 14925
         }
       }
@@ -7107,19 +7143,19 @@
   },
   "total": {
     "statements": {
-      "covered": 65570,
+      "covered": 65684,
       "total": 80978
     },
     "branches": {
-      "covered": 47325,
+      "covered": 47425,
       "total": 63323
     },
     "functions": {
-      "covered": 12222,
+      "covered": 12232,
       "total": 15239
     },
     "lines": {
-      "covered": 58850,
+      "covered": 58947,
       "total": 70882
     }
   }
