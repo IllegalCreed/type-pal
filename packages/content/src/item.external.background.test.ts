@@ -14,7 +14,6 @@ import {
   item as makeItem,
   world,
 } from './__tests__/glm-item-logic-fixtures.js'
-import { expectAcceptsUnchanged } from './__tests__/guard-leaf-fixtures.js'
 import type { WorldState } from './character.js'
 import type { ItemDataMap } from './item.js'
 import { completeExternalWorldItemUse, useItem } from './item.js'

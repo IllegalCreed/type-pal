@@ -20,7 +20,6 @@ import {
   rawItem,
   world,
 } from './__tests__/glm-item-logic-fixtures.js'
-import { expectAcceptsUnchanged } from './__tests__/guard-leaf-fixtures.js'
 import type { CharacterInstance, WorldState } from './character.js'
 import type { ItemDataMap, ItemUseEffect, WorldItemUseOutcome } from './item.js'
 import { resolveWorldItemUse } from './item.js'

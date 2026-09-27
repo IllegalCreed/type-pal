@@ -12,7 +12,6 @@
 import { describe, expect, test } from 'vitest'
 import { deepSnapshot } from './__tests__/glm-content-contract-fixtures.js'
 import { expectInputsUnchanged, hero, world } from './__tests__/glm-item-logic-fixtures.js'
-import { expectAcceptsUnchanged } from './__tests__/guard-leaf-fixtures.js'
 import type { WorldState } from './character.js'
 import { ownedItemCount, removeOwnedItems, worldResourceValue } from './item.js'
 

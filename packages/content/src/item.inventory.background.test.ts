@@ -13,7 +13,6 @@ import {
   item as makeItem,
   world,
 } from './__tests__/glm-item-logic-fixtures.js'
-import { expectAcceptsUnchanged } from './__tests__/guard-leaf-fixtures.js'
 import type { CharacterInstance, WorldState } from './character.js'
 import {
   equipItem,
