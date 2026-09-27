@@ -43,6 +43,7 @@
 - [Codex合法地图目录与作者表单补覆盖第四批](codex-plus2-ui-wave3/README.md)（11项/三针，合法地图 seed 输入；统一门后+14分支，累计+2pp仍待继续）。
 - [Codex Reforge 战斗选择与结算补覆盖第五批](codex-plus2-runtime-wave4/README.md)（9项/两针、当前状态机与结算屏调用合同；统一门后+82分支，累计+2pp仍待继续）。
 - [Codex Reforge 战斗画面与菜单补覆盖第六批](codex-plus2-runtime-wave5/README.md)（12项/四针、绘制调用合同非像素验收；统一门后+45分支，累计+2pp仍待继续）。
+- [Codex Reforge 商店、运动与运行时缓存补覆盖第七批](codex-plus2-runtime-wave6/README.md)（13项/四针、四个当前运行时消费入口；统一门后+90分支，累计+2pp仍待继续）。
 - [快速通关E2E路线方案](e2e-route-proposal.md)（2026-09-27既定范围；首批001已进入实现）。
 - [GLM/Cursor后台补测两包](background-tests-20260927/README.md)（冻结目标与可转发提示词）。
 - [Cursor三包十二模块纯逻辑补测](cursor-pure-wave/README.md)（已[独立接收并收口](cursor-pure-wave/codex-final-review.md)；七项正式回归、六针、分支+5/分母+2）。
