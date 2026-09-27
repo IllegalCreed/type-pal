@@ -44,6 +44,19 @@ catalog，完整比较业务输出/非目标输入，已有旧测去重。先做
 不将该产品修复的6个新增分母隐去。细账见[首批回执](../../testing/codex-plus2-ui.md)。
 母卡仍build，+2pp和原+5pp均未达，继续自主大批补测。
 
+第二批 Codex 独立准入：第一阶段调试面板 `packages/game/src/dev/dev-panel.test.ts` 被官方 fast
+按文件排除，因为其中两条 BOSS_ROSTER 真值测试要读未跟踪的 `data/extracted`；
+同文件另有 29 条不读提取资产的现行业务回归。以**测试搬移**保留31条原 full 测试标题/断言，
+仅把29条纯测试放 `packages/game/src/dev/dev-panel.pure.test.ts` 进入 fast；旧文件保留
+两条原始资源真值测试且仍只在 full。`scripts/coverage/config.mjs` 的选择/排除口径零改，
+产品代码和第一阶段数值规则零改；不复制测试、不借新文件伪造通过。
+Codex 对比源 AST 测试标题为前后31/31精确相等；两文件定向31/31、game typecheck0，
+统一官方 ratchet 留该批封版后执行。若已有审计表把整文件列为已证，须按实际 fast 身份勘误，
+不能把 full-only 套件当已计 fast。
+同批补 `packages/migrate/src/script-control-flow-audit.coverage-batch.test.ts`：针对当前审计
+消费者的零目标分类和同步/延迟脚本执行图，使用完整带地址输入并核精确归因、非零正控与输入保真；
+不改变迁移器实现、生成工程或原版数据。与 GLM 十六模块及 Cursor 十二模块的生产源仍零重叠。
+
 2026-09-26用户要求给GLM新任务，并设置整体覆盖率提升约5%的目标、持续推进。
 Codex明确采用**分支覆盖率绝对增加5个百分点**，已创建本会话持续目标；未设置token预算。
 本卡只授权真实测试与质量门、接收和Git收口，不授权改变产品政策、统计范围或迁移生成物。
