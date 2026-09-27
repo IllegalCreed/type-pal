@@ -10,6 +10,13 @@ Branch: `codex/glm-item-logic-r1`
 
 ## 准入与前提
 
+### 2026-09-27 Codex接收170283a0
+
+**counter，仅原R3/R4收尾**，见[六处精确tuple及提示词](../../testing/item-logic-r7-review.md)。
+derived/noUse/负数与小数world快照已接受；八针、候选1178/1178、TC与九文件零诊断独立通过。
+effects五处仍拍外层items，external一处漏battleItems；完整错误/helper恢复/回执仍未闭。
+不新增矩阵、不重开已过项、不合候选、不计覆盖。Codex继续E2E001；贡献者仅按固定清单收尾。
+
 ### 2026-09-27 Codex接收37027b2d
 
 **counter，仍是R3/R4固定清单未执行完**，见[逐文件定位与提示词](../../testing/item-logic-r6-review.md)。
