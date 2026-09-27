@@ -1,14 +1,14 @@
 {
   "schemaVersion": 2,
   "profile": "fast",
-  "generatedAt": "2026-09-27T10:49:38.421Z",
+  "generatedAt": "2026-09-27T11:09:47.698Z",
   "provider": {
     "name": "v8",
     "vitest": "4.1.7",
     "coverageV8": "4.1.7"
   },
   "sourceFileCount": 730,
-  "testCount": 9604,
+  "testCount": 9643,
   "packages": {
     "shared": {
       "name": "@type-pal/shared",
@@ -4819,8 +4819,8 @@
       ],
       "scopeDigest": "e8503db84898429d43f7182fbfa77a13d53933aad0c938380f7918609d7fcb3e",
       "fastTests": {
-        "testCount": 3054,
-        "testFileCount": 364,
+        "testCount": 3093,
+        "testFileCount": 376,
         "files": [
           "packages/editor/scripts/battle-simulator-http.test.mjs",
           "packages/editor/scripts/battle-simulator-ui.test.tsx",
@@ -5049,9 +5049,11 @@
           "packages/editor/src/ui/App.leave-guard.test.tsx",
           "packages/editor/src/ui/App.reference-navigation.test.tsx",
           "packages/editor/src/ui/AssetInspectorTabs.test.tsx",
+          "packages/editor/src/ui/AudioAssetWorkbench.glm-ui-wave.test.tsx",
           "packages/editor/src/ui/AudioAssetWorkbench.test.tsx",
           "packages/editor/src/ui/BattleFieldTab.test.tsx",
           "packages/editor/src/ui/BattleSpriteInlinePreview.test.tsx",
+          "packages/editor/src/ui/BattleSpriteLibrary.glm-ui-wave.test.tsx",
           "packages/editor/src/ui/BattleSpriteLibrary.test.tsx",
           "packages/editor/src/ui/BattleSpritePicker.test.tsx",
           "packages/editor/src/ui/CasualtyEditor.test.tsx",
@@ -5065,21 +5067,26 @@
           "packages/editor/src/ui/CommandForm.dialogue-workflow-coverage.test.tsx",
           "packages/editor/src/ui/CommandForm.test.ts",
           "packages/editor/src/ui/ConnectedEditorPages.test.tsx",
+          "packages/editor/src/ui/CutsceneTab.glm-ui-wave.test.tsx",
           "packages/editor/src/ui/CutsceneTab.test.tsx",
+          "packages/editor/src/ui/DataMode.glm-ui-wave.test.tsx",
           "packages/editor/src/ui/DataMode.item-alchemy.test.tsx",
           "packages/editor/src/ui/EffectEditorCard.test.tsx",
           "packages/editor/src/ui/EnemyAnimPreview.test.tsx",
           "packages/editor/src/ui/EnemyBattleSpriteThumbnail.test.tsx",
+          "packages/editor/src/ui/EnemyTab.glm-ui-wave.test.tsx",
           "packages/editor/src/ui/EnemyTab.test.tsx",
           "packages/editor/src/ui/EnemyTeamTab.test.tsx",
           "packages/editor/src/ui/EntityPageAnimationEditor.test.tsx",
           "packages/editor/src/ui/EventLibTab.test.tsx",
           "packages/editor/src/ui/FrameAnimationEditor.reorder.test.tsx",
           "packages/editor/src/ui/FrameAnimationEditor.test.ts",
+          "packages/editor/src/ui/ImageTab.glm-ui-wave.test.tsx",
           "packages/editor/src/ui/ImageTab.test.tsx",
           "packages/editor/src/ui/IsometricEditorToolbar.test.tsx",
           "packages/editor/src/ui/ItemAlchemyTab.test.tsx",
           "packages/editor/src/ui/ItemTab.test.tsx",
+          "packages/editor/src/ui/ItemUseEffectEditor.glm-ui-wave.test.tsx",
           "packages/editor/src/ui/ItemUseEffectEditor.test.tsx",
           "packages/editor/src/ui/LayerStackControls.test.tsx",
           "packages/editor/src/ui/LevelCurveEditor.test.ts",
@@ -5098,11 +5105,13 @@
           "packages/editor/src/ui/PanelResizeHandle.test.ts",
           "packages/editor/src/ui/PoisonTab.test.tsx",
           "packages/editor/src/ui/PortraitEditor.test.tsx",
+          "packages/editor/src/ui/PreviewCanvas.glm-ui-wave.test.tsx",
           "packages/editor/src/ui/PreviewCanvas.test.tsx",
           "packages/editor/src/ui/ProjectAudioPreviewButton.test.tsx",
           "packages/editor/src/ui/ProjectPicker-recovery.test.tsx",
           "packages/editor/src/ui/ProjectSaveDialog.test.tsx",
           "packages/editor/src/ui/ProjectWorkbenchTab.test.tsx",
+          "packages/editor/src/ui/SceneCanvas.glm-ui-wave.test.tsx",
           "packages/editor/src/ui/SceneCanvas.test.tsx",
           "packages/editor/src/ui/SceneScriptWorkspace.test.tsx",
           "packages/editor/src/ui/ScriptBehaviorInspector.test.tsx",
@@ -5117,6 +5126,7 @@
           "packages/editor/src/ui/ScriptTree.workflow-coverage.test.tsx",
           "packages/editor/src/ui/SharedScriptTab.test.tsx",
           "packages/editor/src/ui/ShopTab.test.tsx",
+          "packages/editor/src/ui/SkillTab.glm-ui-wave.test.tsx",
           "packages/editor/src/ui/SkillTab.test.tsx",
           "packages/editor/src/ui/SoundPicker.test.ts",
           "packages/editor/src/ui/SoundTab.test.ts",
@@ -5132,8 +5142,10 @@
           "packages/editor/src/ui/StampPlacementInspector.test.tsx",
           "packages/editor/src/ui/StampPreviewCanvas.test.tsx",
           "packages/editor/src/ui/StampTemplateDialog.test.tsx",
+          "packages/editor/src/ui/TilesetTab.glm-ui-wave.test.tsx",
           "packages/editor/src/ui/TilesetTab.test.tsx",
           "packages/editor/src/ui/VarsTab.test.tsx",
+          "packages/editor/src/ui/WorldSpriteLibrary.glm-ui-wave.test.tsx",
           "packages/editor/src/ui/WorldSpriteLibrary.test.tsx",
           "packages/editor/src/ui/app-command-registry.test.ts",
           "packages/editor/src/ui/app-layout-commands.test.ts",
@@ -6324,6 +6336,11 @@
             "identityDigest": "1f23973746015d9d33186c7ca56ec0edc7d02fdb3fb0c307b7a0c8fa592027cb"
           },
           {
+            "file": "packages/editor/src/ui/AudioAssetWorkbench.glm-ui-wave.test.tsx",
+            "testCount": 3,
+            "identityDigest": "e370b496fa3aebb4ff5e099547f613f275bd9e75da39387e9d693b179a70f923"
+          },
+          {
             "file": "packages/editor/src/ui/AudioAssetWorkbench.test.tsx",
             "testCount": 3,
             "identityDigest": "cd16a7d2b9c79f4b4af4b627ad5fec5c42dc78bd98cf93bc572ea1a0b9d2a077"
@@ -6337,6 +6354,11 @@
             "file": "packages/editor/src/ui/BattleSpriteInlinePreview.test.tsx",
             "testCount": 2,
             "identityDigest": "ebad4eb221f0cc6ffa18e08bd658ece71bbabc5731bdfa7434e8b22b369bf183"
+          },
+          {
+            "file": "packages/editor/src/ui/BattleSpriteLibrary.glm-ui-wave.test.tsx",
+            "testCount": 2,
+            "identityDigest": "23e911ee1eee6665a007db7eea9fb70520b9d46bf522f31ac1eef463579b48e7"
           },
           {
             "file": "packages/editor/src/ui/BattleSpriteLibrary.test.tsx",
@@ -6404,9 +6426,19 @@
             "identityDigest": "58765d4295bc2733e316ee07c6e83177e5f2352c51ea9fc32344c418e878787f"
           },
           {
+            "file": "packages/editor/src/ui/CutsceneTab.glm-ui-wave.test.tsx",
+            "testCount": 3,
+            "identityDigest": "8396efae7a99595f9a7860b512358da725fbcda32fc8ff54ffa757476b51635f"
+          },
+          {
             "file": "packages/editor/src/ui/CutsceneTab.test.tsx",
             "testCount": 6,
             "identityDigest": "c5f7bb09167dfc67b59cc0d1614e2f842808a68185c56bf8f4c0108931f74f4a"
+          },
+          {
+            "file": "packages/editor/src/ui/DataMode.glm-ui-wave.test.tsx",
+            "testCount": 4,
+            "identityDigest": "cf66536af6c5d1db577b99cfd5bd6efd5cbb540a5f6adf4cc24011eef9e59a38"
           },
           {
             "file": "packages/editor/src/ui/DataMode.item-alchemy.test.tsx",
@@ -6427,6 +6459,11 @@
             "file": "packages/editor/src/ui/EnemyBattleSpriteThumbnail.test.tsx",
             "testCount": 5,
             "identityDigest": "de8728c6b3ecd6bbbb49a9415689420c6f8aceada359049d63caa69e50b7d687"
+          },
+          {
+            "file": "packages/editor/src/ui/EnemyTab.glm-ui-wave.test.tsx",
+            "testCount": 4,
+            "identityDigest": "5ef9adb60c16a071736b0db7e33095f4dbb634d4c0e4a15b639404413f718b7e"
           },
           {
             "file": "packages/editor/src/ui/EnemyTab.test.tsx",
@@ -6459,6 +6496,11 @@
             "identityDigest": "d95a772430d3500836215af65f6e9097967bf8c9434c201e57808718925d7b9b"
           },
           {
+            "file": "packages/editor/src/ui/ImageTab.glm-ui-wave.test.tsx",
+            "testCount": 3,
+            "identityDigest": "0b9800575202122ef98289bc3df101716f3d4c28be50b2925d322a98a75c7e9b"
+          },
+          {
             "file": "packages/editor/src/ui/ImageTab.test.tsx",
             "testCount": 4,
             "identityDigest": "f190aa4a788b46e4269fbe14151cb85a98b55d264d61a4b9a6bdbc615f2226a1"
@@ -6477,6 +6519,11 @@
             "file": "packages/editor/src/ui/ItemTab.test.tsx",
             "testCount": 28,
             "identityDigest": "6928a8952adbe98d695fcb14295d4351e0c915f7f93197910d465e8a6abeb272"
+          },
+          {
+            "file": "packages/editor/src/ui/ItemUseEffectEditor.glm-ui-wave.test.tsx",
+            "testCount": 4,
+            "identityDigest": "c6738ec1f40d9b62b0713678d8abcc57c75379bcc4425d2c69d79f4240820d4a"
           },
           {
             "file": "packages/editor/src/ui/ItemUseEffectEditor.test.tsx",
@@ -6569,6 +6616,11 @@
             "identityDigest": "fbd898a83c8778724b6d723f01d7fc0978f5bfbe96e223cc7c4b6ac9ab4fde4d"
           },
           {
+            "file": "packages/editor/src/ui/PreviewCanvas.glm-ui-wave.test.tsx",
+            "testCount": 3,
+            "identityDigest": "7726e7dc303b9e6840f40353a9678822e3b5bab48d363442991cf81c5a08dafd"
+          },
+          {
             "file": "packages/editor/src/ui/PreviewCanvas.test.tsx",
             "testCount": 2,
             "identityDigest": "0f0acc1bc6543feb64276d0ab46d9e11260e19fc7bc5517485d7dc8469a6d8e2"
@@ -6592,6 +6644,11 @@
             "file": "packages/editor/src/ui/ProjectWorkbenchTab.test.tsx",
             "testCount": 46,
             "identityDigest": "a15728b2be97af060c70b2d43911a10cfe9b40d29311419bf3bb2b32a8d5a307"
+          },
+          {
+            "file": "packages/editor/src/ui/SceneCanvas.glm-ui-wave.test.tsx",
+            "testCount": 3,
+            "identityDigest": "623eb0334995a9875115f678882f34d3de980d1fb01318b6813b3331f18c2f79"
           },
           {
             "file": "packages/editor/src/ui/SceneCanvas.test.tsx",
@@ -6662,6 +6719,11 @@
             "file": "packages/editor/src/ui/ShopTab.test.tsx",
             "testCount": 10,
             "identityDigest": "f8e1b118b90f1a454e31c05af69ecc9d029fd77c3e2501c47c0a43c52f4e0c62"
+          },
+          {
+            "file": "packages/editor/src/ui/SkillTab.glm-ui-wave.test.tsx",
+            "testCount": 5,
+            "identityDigest": "78564ee928455cac1b1822733f0eee3e96eeeb0e48739013beefad89412ae749"
           },
           {
             "file": "packages/editor/src/ui/SkillTab.test.tsx",
@@ -6739,6 +6801,11 @@
             "identityDigest": "6225c80a52fa0e4a5f93bf054b9c7561d6e8b347b222462c34a0b1b86f11bbdd"
           },
           {
+            "file": "packages/editor/src/ui/TilesetTab.glm-ui-wave.test.tsx",
+            "testCount": 2,
+            "identityDigest": "6a50256f9c13d6d21ff5c5c537b3c6244fd455824e47c665e0145f102e6187e1"
+          },
+          {
             "file": "packages/editor/src/ui/TilesetTab.test.tsx",
             "testCount": 9,
             "identityDigest": "65dfbedfe8c49d08ccb825e84c5ef800b29401893fa53c54b52dd85d897013eb"
@@ -6747,6 +6814,11 @@
             "file": "packages/editor/src/ui/VarsTab.test.tsx",
             "testCount": 7,
             "identityDigest": "a591b1c622ac3397de78c23fa3fa1b655a223e121811ac19656ce0a6a09d435d"
+          },
+          {
+            "file": "packages/editor/src/ui/WorldSpriteLibrary.glm-ui-wave.test.tsx",
+            "testCount": 3,
+            "identityDigest": "fd4c6e087206a4e89514db0005ac280aa95b00ce08b845ad3a5a7dcd8c951ed0"
           },
           {
             "file": "packages/editor/src/ui/WorldSpriteLibrary.test.tsx",
@@ -7009,25 +7081,25 @@
             "identityDigest": "6d9b1e40775d9e105c4ed3770ae488e05c74d354e5c965aae87815ced020c2ff"
           }
         ],
-        "identityDigest": "3a7c03489a705fb6d13761e4f8de0f85cd3e494b242633c0a69d334535cf6d79",
+        "identityDigest": "16da00afdd5211000830b9f4d9763a430b9dcac3231d34ae82237d712c23581f",
         "duplicateIdentityCount": 8,
-        "executionDigest": "566a89c2ea6bdd6bb35405f1d16a0b2dde4912670b3aa224d85e40a489bd0b41"
+        "executionDigest": "25b7e1632d5795f636623b4cfa48f6c08671ddedea528e26a811fcb6ac704cac"
       },
       "metrics": {
         "statements": {
-          "covered": 26911,
+          "covered": 27177,
           "total": 32892
         },
         "branches": {
-          "covered": 21229,
+          "covered": 21445,
           "total": 28416
         },
         "functions": {
-          "covered": 6780,
+          "covered": 6851,
           "total": 8446
         },
         "lines": {
-          "covered": 24153,
+          "covered": 24390,
           "total": 28756
         }
       }
@@ -7035,19 +7107,19 @@
   },
   "total": {
     "statements": {
-      "covered": 65304,
+      "covered": 65570,
       "total": 80978
     },
     "branches": {
-      "covered": 47109,
+      "covered": 47325,
       "total": 63323
     },
     "functions": {
-      "covered": 12151,
+      "covered": 12222,
       "total": 15239
     },
     "lines": {
-      "covered": 58613,
+      "covered": 58850,
       "total": 70882
     }
   }

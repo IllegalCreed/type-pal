@@ -17,11 +17,11 @@ GLM/Cursor 隔离补测由 Codex 独立接收。这个目标不构成 E2E 开工
 ## 最近入库 fast 基线（2026-09-27）
 
 机器可读数字始终以[`baseline.fast.json`](../../scripts/coverage/baseline.fast.json)为准。
-[Codex 正式总壳与画面资源补测](codex-plus2-runtime-wave7/README.md)后，全仓check **10,065项**、
-官方ratchet与受保护严格fast **9,604项/730生产文件**通过；分支
-**47,109/63,323=74.39%**，本批净增71个覆盖臂、分母不变。用户本轮从
-46,201/63,315 起算的+2pp目标按当前分母尚差365个覆盖臂；
-GLM UI返工候选未计入。full/Q1/Q2与远端CI不由这份本地fast证明。
+[GLM 编辑器十二模块测试包](glm-editor-ui-wave/codex-integration.md)独立接收后，全仓check **10,104项**、
+官方ratchet与受保护严格fast **9,643项/730生产文件**通过；分支
+**47,325/63,323=74.74%**，本批净增216个覆盖臂、分母不变。
+用户本轮从46,201/63,315起算的+2pp目标按当前分母尚差149个覆盖臂；
+GLM贡献单列，不冒充Codex自补。full/Q1/Q2与远端CI不由这份本地fast证明。
 
 ### 历史快照：001 执行器观测增量
 

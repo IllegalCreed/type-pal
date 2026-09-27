@@ -14,7 +14,6 @@
 | [EDITOR-SCENE-FACING-1 — 切场景指令无法清除显式朝向](EDITOR-SCENE-FACING-1-clear-override.md) | draft | 以任务卡当前准入与看板分工为准。 |
 | [TEST-CODEX-FRAME-EDITOR-1 — 当前帧动画编辑五组工作流](TEST-CODEX-FRAME-EDITOR-1-current-workflows.md) | build | 以任务卡当前准入与看板分工为准。 |
 | [TEST-COVERAGE-PLUS5-1 — 全仓分支覆盖率连续提升五个百分点](TEST-COVERAGE-PLUS5-1-continuous-batches.md) | build | 以任务卡当前准入与看板分工为准。 |
-| [TEST-GLM-EDITOR-UI-WAVE-1 — 编辑器十二模块交互回归](TEST-GLM-EDITOR-UI-WAVE-1-twelve-surfaces.md) | rework | 以任务卡当前准入与看板分工为准。 |
 
 ## 已完成（historical）
 
@@ -202,6 +201,7 @@
 | [TEST-GEMINI-PHASE1-STATS-1 — 一阶段有效属性与战斗状态只读投影候选回归](../archive/tasks/done/TEST-GEMINI-PHASE1-STATS-1-effective-readouts.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [TEST-GLM-CONTENT-GUARDS-2 — 六组校验叶边界补测](../archive/tasks/done/TEST-GLM-CONTENT-GUARDS-2-leaf-boundaries.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [TEST-GLM-CONTENT-GUARDS-3 — 八组同步脚本与记录守卫补测](../archive/tasks/done/TEST-GLM-CONTENT-GUARDS-3-script-and-records.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [TEST-GLM-EDITOR-UI-WAVE-1 — 编辑器十二模块交互回归](../archive/tasks/done/TEST-GLM-EDITOR-UI-WAVE-1-twelve-surfaces.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [TEST-GLM-ITEM-LOGIC-1 — 物品纯逻辑六组补测](../archive/tasks/done/TEST-GLM-ITEM-LOGIC-1-world-use-residuals.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [TEST-GLM-STATE-COMMANDS-1 — 菜单与编辑命令十六组连续补测](../archive/tasks/done/TEST-GLM-STATE-COMMANDS-1-sixteen-leaf-modules.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [TEST-GROK-PRESENT-1 — 一阶段菜单与索引渲染十组候选回归](../archive/tasks/done/TEST-GROK-PRESENT-1-phase1-menu-regressions.md) | done | 完成证据、历史签字与交接见原卡。 |
