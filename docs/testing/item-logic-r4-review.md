@@ -2,7 +2,7 @@
 
 2026-09-27，候选`3ac525860d769893304c504e9c469bb48afe2aef`（本地/远端一致）。
 Codex结论：**counter，R2已闭，R3/R4仍有原残项；恢复一条本轮误删的既有断言**。
-[任务卡](../ops/tasks/TEST-GLM-ITEM-LOGIC-1-world-use-residuals.md) /
+[任务卡](../ops/archive/tasks/done/TEST-GLM-ITEM-LOGIC-1-world-use-residuals.md) /
 [上一轮](item-logic-r3-review.md) / [机账](item-logic-r4-review-evidence.json)。
 未合候选、不计覆盖，不改GLM测试语义；没有新业务矩阵或产品要求。
 

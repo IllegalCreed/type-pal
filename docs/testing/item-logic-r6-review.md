@@ -1,7 +1,7 @@
 # GLM物品六组：37027b2d固定清单复核
 
 2026-09-27，候选`37027b2d89e671a4442d0a405d99f9ce9efb7615`（本地/远端一致），Codex仍 **counter**。
-[任务卡](../ops/tasks/TEST-GLM-ITEM-LOGIC-1-world-use-residuals.md) /
+[任务卡](../ops/archive/tasks/done/TEST-GLM-ITEM-LOGIC-1-world-use-residuals.md) /
 [上一轮固定清单](item-logic-r5-review.md) / [机账](item-logic-r6-review-evidence.json)。
 本轮没有新业务要求或新反控针；未合候选、未改贡献者测试、不计覆盖。
 

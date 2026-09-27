@@ -8,7 +8,7 @@
 
 ## 文档与附件
 
-- [GLM物品六组最终接收与集成](item-logic-integration.md)（26e7a269原counter闭合，统一门由Codex执行）。
+- [GLM物品六组最终接收与集成](item-logic-integration.md)（26e7a269已done，46新增/check9787/strict9295，实际+85B/+43L）。
 
 - [GLM物品六组r8收尾复核](item-logic-r8-review.md)（3da6002e，业务清单/八针已过，仅helper与证据残项；附精确替换内容）。
 

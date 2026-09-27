@@ -2,7 +2,7 @@
 
 2026-09-27，候选`3da6002e503d07d421b48b963d0960dc588c521e`，本地/远端一致。
 Codex **counter，仅helper与证据收尾**；[上轮](item-logic-r7-review.md)的六处tuple和完整错误均接受。
-[任务卡](../ops/tasks/TEST-GLM-ITEM-LOGIC-1-world-use-residuals.md)。未合入、不计覆盖，不新增矩阵或针。
+[任务卡](../ops/archive/tasks/done/TEST-GLM-ITEM-LOGIC-1-world-use-residuals.md)。未合入、不计覆盖，不新增矩阵或针。
 
 ## 这次真正通过
 

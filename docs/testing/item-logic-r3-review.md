@@ -1,7 +1,7 @@
 # GLM物品六组：598777cf第三轮独立接收
 
 2026-09-27，候选`598777cf30bc9c7537995ba042d341ce5de27a55`（本地/远端一致），Codex **counter**。
-[任务卡](../ops/tasks/TEST-GLM-ITEM-LOGIC-1-world-use-residuals.md) /
+[任务卡](../ops/archive/tasks/done/TEST-GLM-ITEM-LOGIC-1-world-use-residuals.md) /
 [上一轮残项](item-logic-r2-review.md) / [机账](item-logic-r3-review-evidence.json)。
 本轮未改候选语义，未合候选、不计覆盖；仅把复核与窄返工要求提交主线。
 

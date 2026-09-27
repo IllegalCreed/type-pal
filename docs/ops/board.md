@@ -47,13 +47,16 @@ check8896/单次strict8404全过；实际+134分支/+73行，content分支85.55%
 2026-09-27 Cursor地图六组已[接收并收口](../testing/cursor-map-integration.md)：29新增、check9741/strict9249，实际+21B/+19L；
 产品/分母/其它六包对象不变。2026-09-27用户确认Cursor已退出后，孤立worker已结束，原worktree及本地/远端分支均已清理；代码保留main。
 
+2026-09-27 GLM物品六组已[独立接收并核done](../testing/item-logic-integration.md)：26e7a269全部counter闭合，
+46新增、check9787/strict9295、零诊断，实际+85B/+43L；全仓分支72.93%，content92.52%。
+生产/分母/其它六包对象不变；不恢复Codex主动补覆盖，不替代E2E。
+
 ## 进行中
 
 | ID | 任务 | 状态 | 负责人/下一步 | 一句话备注 |
 |---|---|---|---|---|
 | E2E-R4-1 | [路线驱动与检查点薄基线](tasks/E2E-R4-1-route-and-checkpoint-foundation.md) | build | Codex / 二阶段001适配 | game001有/无窗口独立闭环过，正式快存/新页读回一致、check9741与零诊断；双引擎NPC时序未完 |
-| TEST-GLM-ITEM-LOGIC-1 | [物品纯逻辑六组](tasks/TEST-GLM-ITEM-LOGIC-1-world-use-residuals.md) | review | Codex / 统一集成门 | 26e7a269原counter全闭，八针/1178/零诊断过；check→ratchet→strict待统一，不等待他席 |
-| TEST-COVERAGE-PLUS5-1 | [全仓分支+5pp持续队列](tasks/TEST-COVERAGE-PLUS5-1-continuous-batches.md) | build | Codex / 暂停主动扩展 | 仅同步贡献者接收；72.80%/当前分母差588B，不作E2E门槛 |
+| TEST-COVERAGE-PLUS5-1 | [全仓分支+5pp持续队列](tasks/TEST-COVERAGE-PLUS5-1-continuous-batches.md) | build | Codex / 暂停主动扩展 | 仅同步贡献者接收；72.93%/当前分母差503B，不作E2E门槛 |
 | TEST-CODEX-FRAME-EDITOR-1 | [帧动画编辑工作流](tasks/TEST-CODEX-FRAME-EDITOR-1-current-workflows.md) | build | Codex / 暂停保留WIP | 未完成测试不计覆盖，不删除现场 |
 | EDITOR-SCENE-FACING-1 | [切场景朝向清除](tasks/EDITOR-SCENE-FACING-1-clear-override.md) | draft | Codex / 后续窄修 | 保持选项仍提交旧方向；真实红诊断+单点oracle已证 |
 | EDITOR-PREVIEW-STEP-1 | [预览单步阶段门](tasks/EDITOR-PREVIEW-STEP-1-command-gates.md) | draft | Codex / 后续窄修 | 当前入口首次step无命令执行，红诊断已落，不随补测关闭 |

@@ -1,7 +1,7 @@
 # GLM物品六组：705eb161独立接收
 
 2026-09-27，Codex复核`705eb16151796f4baa8a44a5ed9206337e37a632`，结论 **counter / R1–R4**。
-[任务卡](../ops/tasks/TEST-GLM-ITEM-LOGIC-1-world-use-residuals.md) /
+[任务卡](../ops/archive/tasks/done/TEST-GLM-ITEM-LOGIC-1-world-use-residuals.md) /
 [独立见证](item-logic-review-witnesses.mjs) / [本席机账](item-logic-r1-review-evidence.json)。
 不合候选，不修改贡献者测试语义，不运行全仓check/coverage；本轮不恢复主动覆盖率扩展。
 

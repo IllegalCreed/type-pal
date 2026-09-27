@@ -1,14 +1,14 @@
 {
   "schemaVersion": 2,
   "profile": "fast",
-  "generatedAt": "2026-09-27T00:10:33.900Z",
+  "generatedAt": "2026-09-27T02:19:55.929Z",
   "provider": {
     "name": "v8",
     "vitest": "4.1.7",
     "coverageV8": "4.1.7"
   },
   "sourceFileCount": 728,
-  "testCount": 9249,
+  "testCount": 9295,
   "packages": {
     "shared": {
       "name": "@type-pal/shared",
@@ -223,8 +223,8 @@
       ],
       "scopeDigest": "6b0f53f3a58ebe5227b9528cfce792383a19b27947a7c3d037471ceb6da40c7d",
       "fastTests": {
-        "testCount": 1132,
-        "testFileCount": 92,
+        "testCount": 1178,
+        "testFileCount": 98,
         "files": [
           "packages/content/src/actor-condition.boundaries.test.ts",
           "packages/content/src/actor-condition.test.ts",
@@ -273,6 +273,12 @@
           "packages/content/src/frame-sequence.resource-boundaries.test.ts",
           "packages/content/src/frame-sequence.test.ts",
           "packages/content/src/grid.test.ts",
+          "packages/content/src/item.derived.background.test.ts",
+          "packages/content/src/item.effects.background.test.ts",
+          "packages/content/src/item.external.background.test.ts",
+          "packages/content/src/item.inventory.background.test.ts",
+          "packages/content/src/item.ownership.background.test.ts",
+          "packages/content/src/item.preflight.background.test.ts",
           "packages/content/src/item.test.ts",
           "packages/content/src/locale.test.ts",
           "packages/content/src/map-index.contracts.test.ts",
@@ -556,6 +562,36 @@
             "identityDigest": "5f83ce41281090ac103c49bab2fa8eaae96b94bb281c4bc00f796a2896508a13"
           },
           {
+            "file": "packages/content/src/item.derived.background.test.ts",
+            "testCount": 8,
+            "identityDigest": "e257bd2c2c6efabc3bfc60f6070712677f1446cd2a465c47c8a83c751af8f468"
+          },
+          {
+            "file": "packages/content/src/item.effects.background.test.ts",
+            "testCount": 10,
+            "identityDigest": "9207d8f709e78d0bc76272e6f52b54a609cafe0b04295b95351e7e7b1b275399"
+          },
+          {
+            "file": "packages/content/src/item.external.background.test.ts",
+            "testCount": 6,
+            "identityDigest": "cce521fabc3fbdfc0e2891724cd37303114fc08dd8a42ebd83e641fb731f9f44"
+          },
+          {
+            "file": "packages/content/src/item.inventory.background.test.ts",
+            "testCount": 8,
+            "identityDigest": "7ae71289a5f667e79a08f34beebd6d1125c24607e7d5d6edd575630719e05673"
+          },
+          {
+            "file": "packages/content/src/item.ownership.background.test.ts",
+            "testCount": 8,
+            "identityDigest": "fe0cf1e3572faebead7b35635db92e3dd8c5e2ecc772ec7e7185008579033464"
+          },
+          {
+            "file": "packages/content/src/item.preflight.background.test.ts",
+            "testCount": 6,
+            "identityDigest": "2e299184c833063e6086ca31631bc59d738b31ad0ab5d45318c7dfb541fc9565"
+          },
+          {
             "file": "packages/content/src/item.test.ts",
             "testCount": 51,
             "identityDigest": "b4b838ef40156cfcdf470cbdce31fd7a49c6b4bb1e7ff678d7788bbd774d8c95"
@@ -781,25 +817,25 @@
             "identityDigest": "6bd136e3dc31faf579c7b78a5dd284c6a1fd1a58ee6d3fa624ccee6e21be9a3c"
           }
         ],
-        "identityDigest": "53ad3aaa3966bb37a313626a6294acd685ac3308623cd64b3448807c3ffb8401",
+        "identityDigest": "4404799d22ef2762c51e10a58c309273f94029494304062977c26307e9e92e07",
         "duplicateIdentityCount": 0,
-        "executionDigest": "3e1bbfa8ba7c47e9c20d1527cf369d1f62fbe454aa6bc62a1086755f73e1c3ae"
+        "executionDigest": "e91c4897abd68ff8fe566a19aa34bbdfbe7722e34f7d2bad7b64c5f67233685a"
       },
       "metrics": {
         "statements": {
-          "covered": 5521,
+          "covered": 5576,
           "total": 5853
         },
         "branches": {
-          "covered": 4554,
+          "covered": 4639,
           "total": 5014
         },
         "functions": {
-          "covered": 797,
+          "covered": 804,
           "total": 830
         },
         "lines": {
-          "covered": 4948,
+          "covered": 4991,
           "total": 5180
         }
       }
@@ -6613,19 +6649,19 @@
   },
   "total": {
     "statements": {
-      "covered": 64188,
+      "covered": 64243,
       "total": 80935
     },
     "branches": {
-      "covered": 46067,
+      "covered": 46152,
       "total": 63283
     },
     "functions": {
-      "covered": 11943,
+      "covered": 11950,
       "total": 15227
     },
     "lines": {
-      "covered": 57703,
+      "covered": 57746,
       "total": 70846
     }
   }

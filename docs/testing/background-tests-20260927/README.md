@@ -3,7 +3,7 @@
 用户分工：GLM/Cursor继续补测试，Codex暂停主动扩展覆盖率，转E2E方案讨论。
 不以+5pp尚差612分支阻塞E2E；贡献者交付仍须独立验收与必要门禁，不能提前计入官方比例。
 
-- [GLM物品六组](../../ops/tasks/TEST-GLM-ITEM-LOGIC-1-world-use-residuals.md)：item.ts，冻结221/326B。
+- [GLM物品六组](../../ops/archive/tasks/done/TEST-GLM-ITEM-LOGIC-1-world-use-residuals.md)：item.ts，冻结221/326B。
 - [Cursor地图六组](../../ops/archive/tasks/done/TEST-CURSOR-MAP-LOGIC-2-selection-stamps.md)：六模块701/827B。
 - [冻结目标机账](targets.json)：取a95618fc官方strict LCOV，仅选题，不运行新覆盖。
 

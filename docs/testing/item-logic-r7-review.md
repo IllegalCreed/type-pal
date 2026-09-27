@@ -2,7 +2,7 @@
 
 2026-09-27，候选`170283a040e889f4388d0225a1b943983030118e`，本地/远端一致。
 Codex **counter**；只剩原R3/R4清单，未增加矩阵或变异针。
-[任务卡](../ops/tasks/TEST-GLM-ITEM-LOGIC-1-world-use-residuals.md) / [上一轮](item-logic-r6-review.md)。
+[任务卡](../ops/archive/tasks/done/TEST-GLM-ITEM-LOGIC-1-world-use-residuals.md) / [上一轮](item-logic-r6-review.md)。
 
 ## 已闭，不重开
 

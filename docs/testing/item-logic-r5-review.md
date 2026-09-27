@@ -2,7 +2,7 @@
 
 2026-09-27，候选`2796124bb7d582e9eb0016fb33ab5501691d3e70`（本地/远端一致）。
 Codex **counter：八针已闭，但上一轮固定清单/旧断言/回执/零诊断尚未齐**。
-[任务卡](../ops/tasks/TEST-GLM-ITEM-LOGIC-1-world-use-residuals.md) /
+[任务卡](../ops/archive/tasks/done/TEST-GLM-ITEM-LOGIC-1-world-use-residuals.md) /
 [上轮固定清单](item-logic-r4-review.md) / [机账](item-logic-r5-review-evidence.json)。
 不改贡献者测试语义，不合候选、不计覆盖。本轮没有新增业务合同或矩阵。
 

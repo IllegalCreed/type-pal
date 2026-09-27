@@ -1,7 +1,7 @@
 # GLM物品六组：1c8b57cb窄返工接收
 
 2026-09-27，候选`1c8b57cb`，Codex **counter，剩R2/R3/R4**。
-[任务卡](../ops/tasks/TEST-GLM-ITEM-LOGIC-1-world-use-residuals.md) /
+[任务卡](../ops/archive/tasks/done/TEST-GLM-ITEM-LOGIC-1-world-use-residuals.md) /
 [原反证](item-logic-r1-review.md) / [本轮机账](item-logic-r2-review-evidence.json) /
 [同六针复算](item-logic-r2-review-witnesses.mjs)。不合候选、不计覆盖，不改贡献者测试语义。
 
