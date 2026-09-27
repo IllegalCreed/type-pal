@@ -222,3 +222,11 @@ Codex明确采用**分支覆盖率绝对增加5个百分点**，已创建本会�
   串行通过。全仓分支**47,038/63,323=74.28%**，本批+90B、分母不变；
   Codex自有累计+665B，GLM已接收+157B、Cursor已接收+15B分栏。
   GLM UI返工候选未计入，距本轮+2pp目标尚差436B；母卡继续build。
+
+- 2026-09-27 Codex 自有第八批：[Reforge 正式总壳与画面资源](../../testing/codex-plus2-runtime-wave7/README.md)
+  14项真实 loader/bootGame/资源合同回归、四针；五文件相邻39/39、
+  Reforge TC/Biome零诊断。完整check10,065→官方ratchet→保护1dcbc316
+  的单次strict9,604串行通过。全仓分支**47,109/63,323=74.39%**，
+  本批+71B、分母不变；Codex自有累计+736B，GLM已接收+157B、
+  Cursor已接收+15B分栏。GLM UI返工仍未计入，距本轮+2pp目标
+  还差365B；母卡继续build。

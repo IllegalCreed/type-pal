@@ -82,6 +82,7 @@ export interface ScenarioOptions {
   inventory?: WorldState['inventory']
   items?: AuthorItemCore[]
   enemies?: AuthorEnemyDef[]
+  seedStats?: Record<string, { hp?: number; mp?: number }>
 }
 
 /** Extend the old legal in-memory file source, then reload through the formal author guards. */
@@ -90,6 +91,7 @@ export async function scenarioProject(options: ScenarioOptions = {}) {
     first: options.first,
     second: options.second,
     party: options.party ?? ['hero'],
+    seedStats: options.seedStats,
   })
   const manifest = structuredClone(fixture.project.manifest)
   manifest.content.enemies = 'content/enemies.json'

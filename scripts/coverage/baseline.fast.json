@@ -1,14 +1,14 @@
 {
   "schemaVersion": 2,
   "profile": "fast",
-  "generatedAt": "2026-09-27T10:09:14.780Z",
+  "generatedAt": "2026-09-27T10:49:38.421Z",
   "provider": {
     "name": "v8",
     "vitest": "4.1.7",
     "coverageV8": "4.1.7"
   },
   "sourceFileCount": 730,
-  "testCount": 9590,
+  "testCount": 9604,
   "packages": {
     "shared": {
       "name": "@type-pal/shared",
@@ -2065,8 +2065,8 @@
       ],
       "scopeDigest": "b4b6875e840b3c0602ef587af488195abaf20bc3dc6d4adb1b6587a5e9c453d1",
       "fastTests": {
-        "testCount": 1819,
-        "testFileCount": 206,
+        "testCount": 1833,
+        "testFileCount": 208,
         "files": [
           "packages/reforge/scripts/battle-trial-assets.test.ts",
           "packages/reforge/scripts/battle-trial-host.test.ts",
@@ -2079,6 +2079,7 @@
           "packages/reforge/src/ambience-compositor.test.ts",
           "packages/reforge/src/asset-resolver.io-boundaries.test.ts",
           "packages/reforge/src/asset-resolver.test.ts",
+          "packages/reforge/src/assets.presentation.residual.test.ts",
           "packages/reforge/src/assets.test.ts",
           "packages/reforge/src/async-intent.test.ts",
           "packages/reforge/src/audio/bgm.dispose.test.ts",
@@ -2178,6 +2179,7 @@
           "packages/reforge/src/main.battle-host-flows.test.ts",
           "packages/reforge/src/main.boot-flows.test.ts",
           "packages/reforge/src/main.dialog-flows.test.ts",
+          "packages/reforge/src/main.effect-flows.residual.test.ts",
           "packages/reforge/src/main.entity-host-flows.test.ts",
           "packages/reforge/src/main.equipment-flows.test.ts",
           "packages/reforge/src/main.item-flows.test.ts",
@@ -2330,6 +2332,11 @@
             "file": "packages/reforge/src/asset-resolver.test.ts",
             "testCount": 3,
             "identityDigest": "c8d183ccb3e9beee670dc03ba5d116efa1a7d66a32838bf5bf8240594f8dd04c"
+          },
+          {
+            "file": "packages/reforge/src/assets.presentation.residual.test.ts",
+            "testCount": 3,
+            "identityDigest": "fa451b7840feadb5d5543f5509a7bcf2037ea50c6864e5595c3e90c968de00bf"
           },
           {
             "file": "packages/reforge/src/assets.test.ts",
@@ -2827,6 +2834,11 @@
             "identityDigest": "cc43a4c61bfe040d4750c729cfcd90f562ada55100d5e73998407603991efa8c"
           },
           {
+            "file": "packages/reforge/src/main.effect-flows.residual.test.ts",
+            "testCount": 11,
+            "identityDigest": "5a9939ae7bcabc3f6659dd688caaedb10bdd3e4671a75afab71b7a7c3460d869"
+          },
+          {
             "file": "packages/reforge/src/main.entity-host-flows.test.ts",
             "testCount": 7,
             "identityDigest": "99f2663e4f95e68c890d69ba5f793dd6e9c3f06b1c53a18f5260a0181c0c4361"
@@ -3307,25 +3319,25 @@
             "identityDigest": "3cbb8fa95917cb86d7414ee21345af8a1a2a0df2d14066318539861c10b28ed8"
           }
         ],
-        "identityDigest": "894953f15bbe81ee22746c9c91b253b05618380541baa9938634a9f104de0c15",
+        "identityDigest": "a680702bb74d2f3d222f36d20899df395abab07b0e83edc16a837aa4f8428661",
         "duplicateIdentityCount": 0,
-        "executionDigest": "b44af42d4ab63964514d04fe927bd0b92bc971115329f29c3d9da017c4c5ee2b"
+        "executionDigest": "7075758c2e105cc19314b04c8cad4f66f1bdaeae3bcff8616eb82bd6681ca928"
       },
       "metrics": {
         "statements": {
-          "covered": 13680,
+          "covered": 13828,
           "total": 17099
         },
         "branches": {
-          "covered": 8059,
+          "covered": 8130,
           "total": 11458
         },
         "functions": {
-          "covered": 2231,
+          "covered": 2259,
           "total": 2781
         },
         "lines": {
-          "covered": 12334,
+          "covered": 12468,
           "total": 14925
         }
       }
@@ -7023,19 +7035,19 @@
   },
   "total": {
     "statements": {
-      "covered": 65156,
+      "covered": 65304,
       "total": 80978
     },
     "branches": {
-      "covered": 47038,
+      "covered": 47109,
       "total": 63323
     },
     "functions": {
-      "covered": 12123,
+      "covered": 12151,
       "total": 15239
     },
     "lines": {
-      "covered": 58479,
+      "covered": 58613,
       "total": 70882
     }
   }
