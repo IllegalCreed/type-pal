@@ -13,7 +13,6 @@ import {
   item as makeItem,
   world,
 } from './__tests__/glm-item-logic-fixtures.js'
-import { expectAcceptsUnchanged } from './__tests__/guard-leaf-fixtures.js'
 import type { WorldState } from './character.js'
 import type { WorldItemUseOutcome } from './item.js'
 import { type ItemDataMap, preflightWorldItemUse } from './item.js'
@@ -100,9 +99,9 @@ describe('I3 preflightWorldItemUse 残差', () => {
   test('not-owned：包里 0 件且未装备拒绝；装备中的件可通过所有权门', () => {
     const none = world([])
     let outcome: WorldItemUseOutcome | undefined
-    expectAcceptsUnchanged((value) => {
-      outcome = preflightWorldItemUse(value, 'hero', 'potion', items)
-    }, none)
+    expectInputsUnchanged(() => {
+      outcome = preflightWorldItemUse(none, 'hero', 'potion', items)
+    }, [none, items])
     expectFailure(outcome, none, 'not-owned')
     const equipped: WorldState = {
       ...world([]),

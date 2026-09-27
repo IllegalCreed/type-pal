@@ -82,18 +82,18 @@ describe('I1 effectiveStat（content 内零直测的派生口）', () => {
     let attack = 0
     let defense = 0
     let luck = 0
-    expectAcceptsUnchanged((value) => {
-      attack = effectiveStat(value, 'attack', items)
-      defense = effectiveStat(value, 'defense', items)
-      luck = effectiveStat(value, 'luck', items)
-    }, c)
+    expectInputsUnchanged(() => {
+      attack = effectiveStat(c, 'attack', items)
+      defense = effectiveStat(c, 'defense', items)
+      luck = effectiveStat(c, 'luck', items)
+    }, [c, items])
     expect(attack).toBe(12)
     expect(defense).toBe(13)
     expect(luck).toBe(10)
     const dangling = char({ accessory: 'gone-ring' })
-    expectAcceptsUnchanged((value) => {
-      attack = effectiveStat(value, 'attack', items)
-    }, dangling)
+    expectInputsUnchanged(() => {
+      attack = effectiveStat(dangling, 'attack', items)
+    }, [dangling, items])
     expect(attack).toBe(10)
   })
 })
@@ -209,29 +209,29 @@ describe('I1 grantStatus 去重/regen 下落臂/attackAll 回退族', () => {
   test('两件授予同一状态只出一条；map 外 id 回退', () => {
     const c = char({ body: 'dualA', accessory: 'dualB' })
     let statuses: string[] = []
-    expectAcceptsUnchanged((value) => {
-      statuses = effectiveGrantedStatuses(value, items)
-    }, c)
+    expectInputsUnchanged(() => {
+      statuses = effectiveGrantedStatuses(c, items)
+    }, [c, items])
     expect(statuses).toEqual(['dualAttack'])
     const dangling = char({ accessory: 'gone-ring' })
-    expectAcceptsUnchanged((value) => {
-      statuses = effectiveGrantedStatuses(value, items)
-      expect(equipGrantsAttackAll(value, items)).toBe(false)
-    }, dangling)
+    expectInputsUnchanged(() => {
+      statuses = effectiveGrantedStatuses(dangling, items)
+      expect(equipGrantsAttackAll(dangling, items)).toBe(false)
+    }, [dangling, items])
     expect(statuses).toEqual([])
   })
 
   test('regen 装备件只含非 regen 效果时回蓝回血不变；map 外 id 回退', () => {
     const c = char({ weapon: 'regenPiece' })
     let regen: { hp: number; mp: number } | undefined
-    expectAcceptsUnchanged((value) => {
-      regen = effectiveRegen(value, items)
-    }, c)
+    expectInputsUnchanged(() => {
+      regen = effectiveRegen(c, items)
+    }, [c, items])
     expect(regen).toEqual({ hp: 0, mp: 0 })
     const dangling = char({ accessory: 'gone-ring' })
-    expectAcceptsUnchanged((value) => {
-      regen = effectiveRegen(value, items)
-    }, dangling)
+    expectInputsUnchanged(() => {
+      regen = effectiveRegen(dangling, items)
+    }, [dangling, items])
     expect(regen).toEqual({ hp: 0, mp: 0 })
   })
 })

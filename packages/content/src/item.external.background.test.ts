@@ -85,6 +85,7 @@ describe('I6 completeExternalWorldItemUse 残差', () => {
     expect(outcome?.changed).toBe(true)
     expect(outcome?.world).not.toBe(w)
     expect(outcome?.world).toEqual(expected)
+    expect(outcome?.effectResults).toEqual([{ index: 0, kind: 'runScript', changed: true }])
   })
 
   test('world 引用合同：consumedByExternal 与不消费都返回原 world 引用', () => {

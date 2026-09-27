@@ -94,4 +94,13 @@ Branch: `codex/glm-item-logic-r1`
   derived 类别=派生数值错误、external-world-identity=引用选择、runtime-script warning(非 error)、
   fixture 清单补 glm-guard-residual-fixtures。复验：定向 46/46、6 针各恰红、
   全 content **98 文件 1178/1178**、TC 0、改动 Biome 0 error 0 warning、docs PASS、diff --check 干净。
+- r4 最终收口（2026-09-27，仅 r5 残项，见 origin/main `docs/testing/item-logic-r5-review.md`）：
+  R3 I1 effectiveStat/Resistances/GrantedStatuses/Regen 全部改为 expectInputsUnchanged [c,items]
+  或 [dangling,items] 逐调用快照；I3 noUse 分支改具名 noUseCatalog、not-owned 行加 items 入 tuple；
+  I5 所有 resolve 调用改 expectInputsUnchanged [w,items,…]；I6 所有 completeExternal/useItem 调用
+  同理；恢复 external consuming 行 effectResults 断言；负数/非整数恰抛路径补 before/after deepSnapshot
+  并核完整错误信息。R4 fixture import 排序+forEach 块状回调（0/0/0）、README 46 行/46 对照、
+  receipt I2=8/净增 46/1178/针名 resolve-stopped-skip/类别勘误、evidence fullName 无省略号、
+  头注释旧宣称收窄。复验：定向 46/46、全 content **98 文件 1178/1178**、TC 0、改动 Biome 0/0/0、
+  docs PASS、diff --check 干净、6 针全绿。八针 required gate candidateMutationGate=true。
   候选 SHA：见本分支头部提交；不合 main、不标 done，交 Codex 独立验收。
