@@ -1,6 +1,6 @@
 # TEST-CURSOR-MAP-LOGIC-2 — 地图与组合块纯逻辑六组补测
 
-Status: rework
+Status: done
 Owner: Cursor
 Reviewer / Integration Owner: Codex
 Phase: phase2
@@ -10,9 +10,19 @@ Branch: `codex/cursor-map-logic-r2`
 
 ## 准入与前提
 
+### 2026-09-27 Codex接收be9a8636
+
+**代码复核accept，CM1–CM4全部闭合**；见[独立接收/集成回执](../../../../testing/cursor-map-integration.md)。
+最后两plan污染针已候选自身AssertionError红，原三针保持；29新增/117定向相邻/TC/15文件零诊断通过。
+原实现正控绿，六作者针与17自测独立复跑通过；产品/旧测试零改，测试与候选字节保持。
+以70d0ae91为集成基点，完整check9741/官方ratchet/受保护单次strict9249均通过，七包TC与全仓lint零诊断。
+Codex核定done并归档，+21分支/+19行/+27语句/+5函数，生产清单/全部分母/其它六包基线对象不变。
+Cursor是贡献者，独立接收与全仓门由Codex执行；无下一位Agent提示词。不借本卡恢复Codex主动补测。
+Cursor后台worker仍占用原目录，暂保留其worktree/分支，不强行删除；Codex隔离目录合并推送后归档。
+
 ### 2026-09-27 Codex接收4dc8fb75
 
-**counter，仅剩CM1计划/patch实参保真**，见[窄复核及提示词](../../testing/cursor-map-logic-r2-review.md)。
+**counter，仅剩CM1计划/patch实参保真**，见[窄复核及提示词](../../../../testing/cursor-map-logic-r2-review.md)。
 CM2完整多组搬移/非空哨兵/去重、CM3缩进混错判据、CM4真实typed loader状态均accept，不重开。
 原三漏检针现都候选业务红；仍有两个Command偷偷改原plan.mapRevision的变异候选4/4绿，独立oracle抓住。
 只补原M3–M6应用前后实际plan/patch/权限数组快照，不新增矩阵，不强加返回map/EditSession不变。
@@ -20,7 +30,7 @@ CM2完整多组搬移/非空哨兵/去重、CM3缩进混错判据、CM4真实typ
 
 ### 2026-09-27 Codex接收070d3bf3
 
-**counter / CM1–CM4**，见[独立接收与可转交提示词](../../testing/cursor-map-logic-r1-review.md)。
+**counter / CM1–CM4**，见[独立接收与可转交提示词](../../../../testing/cursor-map-logic-r1-review.md)。
 30新增/105定向相邻/全editor3049/TC/Biome/原六针独立通过，地图三工厂通过正式guard。
 但实际输入保真两针与组合高度丢失一针候选仍绿；judge接受缩进混错，EditorState为强转假状态，
 双组哨兵/精确结果与去重声明需修。已转rework，候选未合入、不计官方覆盖；产品/旧测试/配置不改。
@@ -28,7 +38,7 @@ CM2完整多组搬移/非空哨兵/去重、CM3缩进混错判据、CM4真实typ
 2026-09-27用户授权Cursor继续补测、Codex转E2E讨论，Codex核本包build allowed。
 当前消费者MapMode.tsx:644/651实际调用planMapPaste/planStampGroupMove；组合草稿与放置均为现行core入口。
 六目标冻结分支命中共701/827，126未命中；只是选题池，不是必须新增126臂。
-[共同规则/冻结账](../../testing/background-tests-20260927/README.md)。
+[共同规则/冻结账](../../../../testing/background-tests-20260927/README.md)。
 第一阶段/原版N/A：本包仅当前编辑器模型；不改变地图坐标、碰撞或走位语义。
 最强替代解释为既有boundaries已经证明；必须先去重，不把不可能输入当真实用户路径。
 
@@ -69,3 +79,35 @@ CM2完整多组搬移/非空哨兵/去重、CM3缩进混错判据、CM4真实typ
 从含本卡的最新origin/main独立worktree/上述分支开始，旧Cursor目录已清理。
 六组连做，重复/无可达新增项如实existing-proof，不凑数量。receipt/evidence按新鲜JSON逐文件登记。
 完成提交推送完整SHA；不合main、不标done、不代签。Codex独立验收并安排统一门禁。
+
+## 作者交付（历史：070d3bf3时点）
+
+2026-09-27。M1–M6 已连续补测并提交，未合 main，未标 done。Status 保持 build。Codex 验收 pending。
+
+- 工作树 `/Users/zhangxu/illegal/type-pal-cursor-map-logic-r2`，分支 `codex/cursor-map-logic-r2`
+- 生产冻结 `a95618fc2a9586c77ff42ff253f72fcfba1fa09a`；准入 `7de01ea6`
+- 6 份 background + 可选 fixture；产品六模块相对冻结空 diff
+- 背景 JSON 6 files / 30 tests；定向+相邻 17/105；editor 359/3049
+- 6 针 ok+hit、`redExit=1`、`hashUnchanged`
+- 回执 [receipt.md](../../../../testing/cursor-map-logic-r2/receipt.md)
+
+```bash
+cd /Users/zhangxu/illegal/type-pal-cursor-map-logic-r2
+env -u NODE_COMPILE_CACHE node docs/testing/cursor-map-logic-r2/module-mutants.mjs --self-test
+env -u NODE_COMPILE_CACHE node docs/testing/cursor-map-logic-r2/module-mutants.mjs
+env -u NODE_COMPILE_CACHE pnpm --filter @type-pal/editor typecheck
+env -u NODE_COMPILE_CACHE pnpm --filter @type-pal/editor exec vitest run --passWithNoTests --maxWorkers=2
+```
+
+作者自验：背景 6/30；定向+相邻 17/105；editor 359/3049；6 针 ok+hit。不能替代 Codex 独立验收。
+
+## 作者返工（历史：4dc8fb75时点）
+
+2026-09-27。只闭 CM1–CM4，已核项不重开。不合 main、不标 done。Status 保持 rework。
+
+- CM1：六文件逐调用前 `structuredClone`，成功/拒绝后立即比同一原对象
+- CM2：双组移动钉精确成员/tile/source/height/collision 与未选普通哨兵；删除与旧 `stamp-group-transform.test.ts:152` 重复的单组 copy，记 existing-proof
+- CM3：`isErrorHeader` 用 `trimStart`；自测拒绝空格/tab 缩进混错（17 项）
+- CM4：`buildBlankProject` → loader → `toEditorState`，只核 `validateCurrentManifestStartup`；修正重叠平移/哨兵标题
+- 回执按新鲜 JSON：背景 6/29；定向+相邻 17/104；editor 359/3048
+- 产品/旧测试/配置/基线/Codex 见证未改

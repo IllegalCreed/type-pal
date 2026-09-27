@@ -1,14 +1,14 @@
 {
   "schemaVersion": 2,
   "profile": "fast",
-  "generatedAt": "2026-09-26T19:47:42.453Z",
+  "generatedAt": "2026-09-27T00:10:33.900Z",
   "provider": {
     "name": "v8",
     "vitest": "4.1.7",
     "coverageV8": "4.1.7"
   },
   "sourceFileCount": 728,
-  "testCount": 9220,
+  "testCount": 9249,
   "packages": {
     "shared": {
       "name": "@type-pal/shared",
@@ -4541,8 +4541,8 @@
       ],
       "scopeDigest": "e8503db84898429d43f7182fbfa77a13d53933aad0c938380f7918609d7fcb3e",
       "fastTests": {
-        "testCount": 2857,
-        "testFileCount": 334,
+        "testCount": 2886,
+        "testFileCount": 340,
         "files": [
           "packages/editor/scripts/battle-simulator-http.test.mjs",
           "packages/editor/scripts/battle-simulator-ui.test.tsx",
@@ -4648,8 +4648,10 @@
           "packages/editor/src/core/map-asset-commands.residual.test.ts",
           "packages/editor/src/core/map-patch.boundaries.test.ts",
           "packages/editor/src/core/map-patch.test.ts",
+          "packages/editor/src/core/map-selection.background.test.ts",
           "packages/editor/src/core/map-selection.boundaries.test.ts",
           "packages/editor/src/core/map-selection.test.ts",
+          "packages/editor/src/core/map-transform.background.test.ts",
           "packages/editor/src/core/map-transform.boundaries.test.ts",
           "packages/editor/src/core/map-transform.test.ts",
           "packages/editor/src/core/open-actions.test.ts",
@@ -4710,15 +4712,19 @@
           "packages/editor/src/core/sprite-reference-commands.test.ts",
           "packages/editor/src/core/stamp-commands.boundaries.test.ts",
           "packages/editor/src/core/stamp-commands.test.ts",
+          "packages/editor/src/core/stamp-draft.background.test.ts",
           "packages/editor/src/core/stamp-draft.boundaries.test.ts",
           "packages/editor/src/core/stamp-draft.test.ts",
           "packages/editor/src/core/stamp-group-command.test.ts",
+          "packages/editor/src/core/stamp-group-transform.background.test.ts",
           "packages/editor/src/core/stamp-group-transform.boundaries.test.ts",
           "packages/editor/src/core/stamp-group-transform.test.ts",
           "packages/editor/src/core/stamp-lifecycle.test.ts",
+          "packages/editor/src/core/stamp-ownership.background.test.ts",
           "packages/editor/src/core/stamp-ownership.test.ts",
           "packages/editor/src/core/stamp-placement-command.test.ts",
           "packages/editor/src/core/stamp-placement-mutation.test.ts",
+          "packages/editor/src/core/stamp-placement.background.test.ts",
           "packages/editor/src/core/stamp-placement.boundaries.test.ts",
           "packages/editor/src/core/stamp-placement.test.ts",
           "packages/editor/src/core/stamp-template.boundaries.test.ts",
@@ -5401,6 +5407,11 @@
             "identityDigest": "b39296509e3ed3f5786637c93ba3b0cc5216b29316673618edd4cdeab968ee96"
           },
           {
+            "file": "packages/editor/src/core/map-selection.background.test.ts",
+            "testCount": 5,
+            "identityDigest": "88bc2e0639d63a7eee7e9d6f2f64af1d7292db95db1946d194276916487036d8"
+          },
+          {
             "file": "packages/editor/src/core/map-selection.boundaries.test.ts",
             "testCount": 3,
             "identityDigest": "6d5704e30b1def8e197b2393e2fc65301e47c7087ecd45c1211e2a3447011f7b"
@@ -5409,6 +5420,11 @@
             "file": "packages/editor/src/core/map-selection.test.ts",
             "testCount": 15,
             "identityDigest": "b2904dbce4ea9305c2b58ca1b3e1bf2e10145402df243a139b0c61ca21be0060"
+          },
+          {
+            "file": "packages/editor/src/core/map-transform.background.test.ts",
+            "testCount": 6,
+            "identityDigest": "a25552a7e2a2c34ac1e06755ef43e0914f504de8efdde2121e05a26b02b1d8c5"
           },
           {
             "file": "packages/editor/src/core/map-transform.boundaries.test.ts",
@@ -5711,6 +5727,11 @@
             "identityDigest": "66c170420dfb4446e8b8f2c81387c658b9ff8d32e2f32aed106d729c8c03f9ab"
           },
           {
+            "file": "packages/editor/src/core/stamp-draft.background.test.ts",
+            "testCount": 6,
+            "identityDigest": "660d2fff5c7902d9cccae1a1bcfa33580b22fac889620914ad323e67abe30e2b"
+          },
+          {
             "file": "packages/editor/src/core/stamp-draft.boundaries.test.ts",
             "testCount": 4,
             "identityDigest": "e89cc881b767eb071f2927dfc80a7d47aacfa878fb96264e75cc42fd422504bb"
@@ -5724,6 +5745,11 @@
             "file": "packages/editor/src/core/stamp-group-command.test.ts",
             "testCount": 11,
             "identityDigest": "6e394e97e84f3de053a7a1453f2200baed509bb8a1804d4bb890437031bf83ec"
+          },
+          {
+            "file": "packages/editor/src/core/stamp-group-transform.background.test.ts",
+            "testCount": 4,
+            "identityDigest": "98540697b4fcf5b043d7c0dd56c8334bccfa47c26ce32c634cdb259d77714b81"
           },
           {
             "file": "packages/editor/src/core/stamp-group-transform.boundaries.test.ts",
@@ -5741,6 +5767,11 @@
             "identityDigest": "86a4718e2b43af472c76a72b3a0bc99bf09c0b814d606f08272dc180e9054ee7"
           },
           {
+            "file": "packages/editor/src/core/stamp-ownership.background.test.ts",
+            "testCount": 4,
+            "identityDigest": "7b9a13bcdbc891a15a4ca76d986052b2581c7f48df9a92c1e666df9e292e77b1"
+          },
+          {
             "file": "packages/editor/src/core/stamp-ownership.test.ts",
             "testCount": 3,
             "identityDigest": "99898c56accb25b5d2565d05c5cc6d77b64b68fffe2497d0f0d26285e7f8680a"
@@ -5754,6 +5785,11 @@
             "file": "packages/editor/src/core/stamp-placement-mutation.test.ts",
             "testCount": 6,
             "identityDigest": "bb7fae3b18ff98ccc25a3e17771bf959c3379cdc42cfe8031aad011f6fbe416f"
+          },
+          {
+            "file": "packages/editor/src/core/stamp-placement.background.test.ts",
+            "testCount": 4,
+            "identityDigest": "1c19e049831839d59f77956bd216d89f1b8e5b5771385ed86f622df28a374f84"
           },
           {
             "file": "packages/editor/src/core/stamp-placement.boundaries.test.ts",
@@ -6551,25 +6587,25 @@
             "identityDigest": "6d9b1e40775d9e105c4ed3770ae488e05c74d354e5c965aae87815ced020c2ff"
           }
         ],
-        "identityDigest": "2fa4519a79ede9bea16098f30c6ebe8b8c83950e15354287ed4dff3f77e2c54a",
+        "identityDigest": "1d852091bf5fa4914f01f6ceb243d9d98865521d8fc9f95e6b30a8e40917e01c",
         "duplicateIdentityCount": 8,
-        "executionDigest": "d95dfb93334e27ec678729c157c661df583b1ddba06be67640e0eca63f064a0b"
+        "executionDigest": "3e8b8fef21bc125022c9efc50ecde75d885b3fa6283a273475df678c9aeb1a9d"
       },
       "metrics": {
         "statements": {
-          "covered": 26566,
+          "covered": 26593,
           "total": 32890
         },
         "branches": {
-          "covered": 20690,
+          "covered": 20711,
           "total": 28410
         },
         "functions": {
-          "covered": 6689,
+          "covered": 6694,
           "total": 8444
         },
         "lines": {
-          "covered": 23888,
+          "covered": 23907,
           "total": 28754
         }
       }
@@ -6577,19 +6613,19 @@
   },
   "total": {
     "statements": {
-      "covered": 64161,
+      "covered": 64188,
       "total": 80935
     },
     "branches": {
-      "covered": 46046,
+      "covered": 46067,
       "total": 63283
     },
     "functions": {
-      "covered": 11938,
+      "covered": 11943,
       "total": 15227
     },
     "lines": {
-      "covered": 57684,
+      "covered": 57703,
       "total": 70846
     }
   }

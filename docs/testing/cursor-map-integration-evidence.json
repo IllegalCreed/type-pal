@@ -1,0 +1,260 @@
+{
+  "task": "TEST-CURSOR-MAP-LOGIC-2",
+  "date": "2026-09-27",
+  "contributor": "Cursor",
+  "reviewer": "Codex",
+  "candidate": "be9a86366ae94d4dc74cca3ba5d9770ec1332b2e",
+  "integrationBase": "70d0ae919555fd4dbeb2eaa42ce8b234c3bfd9ea",
+  "codeVerdict": "accept",
+  "newTests": 29,
+  "directed": {
+    "files": 19,
+    "total": 117,
+    "passed": 117,
+    "failed": 0
+  },
+  "typecheck": {
+    "exit": 0,
+    "diagnostics": 0
+  },
+  "biome": {
+    "changed": 0,
+    "unchanged": 15,
+    "matches": 0,
+    "duration": 46691125,
+    "errors": 0,
+    "warnings": 0,
+    "infos": 0,
+    "skipped": 0,
+    "suggestedFixesSkipped": 0,
+    "diagnosticsNotPrinted": 0,
+    "scannerDuration": 5985791
+  },
+  "authorControls": {
+    "green": 6,
+    "red": 6,
+    "selfTests": 17
+  },
+  "oldWitnesses": [
+    {
+      "name": "draft-move-input-mutation-candidate-control",
+      "exit": 0,
+      "total": 6,
+      "passed": 6,
+      "failed": 0,
+      "failures": []
+    },
+    {
+      "name": "draft-move-input-mutation-candidate-mutant",
+      "exit": 1,
+      "total": 6,
+      "passed": 5,
+      "failed": 1,
+      "failures": [
+        {
+          "fullName": "M1 stamp-draft 剩余合同 moveStampDraftSelection：空点同引用；占用目标拒绝；两点重叠平移保双方值",
+          "message": "AssertionError: expected { id: 'bush', name: '灌木', …(7) } to deeply equal { id: 'bush', name: '灌木', …(7) }"
+        }
+      ]
+    },
+    {
+      "name": "selection-reducer-input-mutation-candidate-control",
+      "exit": 0,
+      "total": 5,
+      "passed": 5,
+      "failed": 0,
+      "failures": []
+    },
+    {
+      "name": "selection-reducer-input-mutation-candidate-mutant",
+      "exit": 1,
+      "total": 5,
+      "passed": 2,
+      "failed": 3,
+      "failures": [
+        {
+          "fullName": "M2 map-selection 剩余合同 clip-map 精确保留现存 placementId，并丢掉已删层 hidden/locked",
+          "message": "AssertionError: expected { maps: { start: { …(5) } } } to deeply equal { maps: {} }"
+        },
+        {
+          "fullName": "M2 map-selection 剩余合同 toggle-hidden/locked 再拨回恢复精确层 id 列表",
+          "message": "AssertionError: expected { maps: { start: { …(4) } } } to deeply equal { maps: {} }"
+        },
+        {
+          "fullName": "M2 map-selection 剩余合同 change-selection 在组内编辑后清掉 stampGroupEditContext",
+          "message": "AssertionError: expected { maps: { start: { …(5) } } } to deeply equal { maps: {} }"
+        }
+      ]
+    },
+    {
+      "name": "stamp-group-lost-height-candidate-control",
+      "exit": 0,
+      "total": 4,
+      "passed": 4,
+      "failed": 0,
+      "failures": []
+    },
+    {
+      "name": "stamp-group-lost-height-candidate-mutant",
+      "exit": 1,
+      "total": 4,
+      "passed": 3,
+      "failed": 1,
+      "failures": [
+        {
+          "fullName": "M4 stamp-group-transform 剩余合同 planStampGroupMove 两个 id：精确成员/高度/碰撞与未选普通哨兵完整保真",
+          "message": "AssertionError: expected undefined to be 3 // Object.is equality"
+        }
+      ]
+    }
+  ],
+  "planWitnesses": [
+    {
+      "name": "group-command-plan-mutation-candidate-control",
+      "exit": 0,
+      "total": 4,
+      "passed": 4,
+      "failed": 0,
+      "failures": []
+    },
+    {
+      "name": "group-command-plan-mutation-candidate-mutant",
+      "exit": 1,
+      "total": 4,
+      "passed": 2,
+      "failed": 2,
+      "failures": [
+        {
+          "fullName": "M4 stamp-group-transform 剩余合同 planStampGroupMove 两个 id：精确成员/高度/碰撞与未选普通哨兵完整保真",
+          "message": "AssertionError: expected { kind: 'move', mapId: 'map-a', …(13) } to deeply equal { kind: 'move', mapId: 'map-a', …(13) }"
+        },
+        {
+          "fullName": "M4 stamp-group-transform 剩余合同 planStampGroupDelete 只删列出的 id，另一组员格与通道仍在",
+          "message": "AssertionError: expected { kind: 'delete', …(14) } to deeply equal { kind: 'delete', …(14) }"
+        }
+      ]
+    },
+    {
+      "name": "placement-command-plan-mutation-candidate-control",
+      "exit": 0,
+      "total": 4,
+      "passed": 4,
+      "failed": 0,
+      "failures": []
+    },
+    {
+      "name": "placement-command-plan-mutation-candidate-mutant",
+      "exit": 1,
+      "total": 4,
+      "passed": 3,
+      "failed": 1,
+      "failures": [
+        {
+          "fullName": "M5 stamp-placement 剩余合同 PlaceStampCommand 应用后公开查询 owner，旁格仍无归属",
+          "message": "AssertionError: expected { mapId: 'map-a', …(15) } to deeply equal { mapId: 'map-a', …(15) }"
+        }
+      ]
+    }
+  ],
+  "actualJudge": [
+    {
+      "message": "AssertionError: wrong result\nTypeError: broken",
+      "accepted": false
+    },
+    {
+      "message": "AssertionError: wrong result\n  TypeError: broken",
+      "accepted": false
+    },
+    {
+      "message": "AssertionError: wrong result\n\tError: broken",
+      "accepted": false
+    }
+  ],
+  "fixture": {
+    "maps": ["blank", "painted", "group"],
+    "manifest": {
+      "id": "map-logic",
+      "name": "map-logic",
+      "contentVersion": 20,
+      "minimumSaveVersion": 8,
+      "defaultEntryId": "new-game",
+      "entryPoints": [
+        {
+          "id": "new-game",
+          "label": "新的故事",
+          "scene": "start",
+          "startWorld": {
+            "party": ["hero"],
+            "money": 0,
+            "inventory": []
+          }
+        }
+      ],
+      "content": {
+        "actors": "content/actors.json",
+        "skills": "content/skills.json",
+        "items": "content/items.json",
+        "locale": "content/locale.json",
+        "sprites": "content/sprites.json",
+        "battleSprites": "content/battle-sprites.json",
+        "tilesets": "content/tilesets.json",
+        "stamps": "content/stamps.json",
+        "scenes": "content/scenes/",
+        "maps": "content/maps/index.json",
+        "sharedScripts": "content/shared-scripts.json",
+        "worldVariables": "content/world-variables.json"
+      },
+      "assets": {
+        "catalog": "assets/index.json",
+        "roles": {
+          "visual.standardColorTable": "color.project-standard"
+        }
+      }
+    }
+  },
+  "integrationGates": {
+    "check": {
+      "exit": 0,
+      "packageTests": 9741,
+      "testFiles": 978,
+      "typecheckDiagnostics": 0,
+      "lintDiagnostics": 0
+    },
+    "ratchet": {
+      "exit": 0,
+      "tests": 9249
+    },
+    "strict": {
+      "exit": 0,
+      "tests": 9249,
+      "protectedBase": "70d0ae919555fd4dbeb2eaa42ce8b234c3bfd9ea"
+    },
+    "productionFiles": 728,
+    "total": {
+      "statements": {
+        "covered": 64188,
+        "total": 80935
+      },
+      "branches": {
+        "covered": 46067,
+        "total": 63283
+      },
+      "functions": {
+        "covered": 11943,
+        "total": 15227
+      },
+      "lines": {
+        "covered": 57703,
+        "total": 70846
+      }
+    },
+    "delta": {
+      "statements": 27,
+      "branches": 21,
+      "functions": 5,
+      "lines": 19
+    },
+    "productionDenominatorsUnchanged": true,
+    "otherSixPackageObjectsUnchanged": true
+  }
+}

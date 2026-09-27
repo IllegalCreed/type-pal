@@ -8,6 +8,8 @@
 
 ## 文档与附件
 
+- [Cursor地图六组接收与集成](cursor-map-integration.md)（be9a8636已done，29新增、check9741/strict9249、+21B/+19L）。
+
 - [GLM物品六组r4窄复核](item-logic-r4-review.md)（3ac52586，R2已闭；两原输入针仍漏，八针接收检查明确非零）。
 
 - [Cursor地图六组r2窄复核](cursor-map-logic-r2-review.md)（4dc8fb75，CM2–CM4已闭，仅余CM1计划输入保真）。
@@ -26,6 +28,7 @@
 
 - [快速通关E2E路线方案](e2e-route-proposal.md)（2026-09-27讨论稿，未开runner实现）。
 - [GLM/Cursor后台补测两包](background-tests-20260927/README.md)（冻结目标与可转发提示词）。
+- [Cursor地图六组作者交付](cursor-map-logic-r2/README.md)（M1–M6，保留历史回执，最终结论见独立集成记录）。
 
 - [Codex帧动画编辑五组](codex-frame-editor/README.md)（真实TPFS、DOM与保存产物）。
 

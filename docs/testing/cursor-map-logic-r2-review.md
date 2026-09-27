@@ -2,7 +2,7 @@
 
 2026-09-27，Codex复核`4dc8fb758f46de5c291fc45397d74255972e4a5c`（本地/远端一致），
 结论 **counter，仅剩CM1的计划/patch输入保真**。
-[任务卡](../ops/tasks/TEST-CURSOR-MAP-LOGIC-2-selection-stamps.md) /
+[任务卡](../ops/archive/tasks/done/TEST-CURSOR-MAP-LOGIC-2-selection-stamps.md) /
 [上轮要求](cursor-map-logic-r1-review.md) / [机账](cursor-map-logic-r2-review-evidence.json)。
 不合候选、不计覆盖；本轮只提交本席证据，不改Cursor测试语义。
 

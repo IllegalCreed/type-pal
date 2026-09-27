@@ -9,10 +9,13 @@ GLM/Cursor仍按[新两包](../background-tests-20260927/README.md)后台实施�
 2026-09-26冻结main8add8c66：43,418/63,178分支，68.72328975276204%。
 目标73.72328975276204%，冻结分母需46,577分支，净增3,159。起点8404 fast /701生产文件。
 不以删除代码、排除文件、降低门槛或无业务意义的重复测试达成目标；架构分母变动独立披露。
-最新：46,046/63,288（72.7562887119201%），9220 fast /728生产文件；当前分母目标46,658，仍差612分支。
+最新：46,067/63,283（72.80%），9249 fast /728生产文件；当前分母目标46,655，数学差588分支。
+仅同步已委派的Cursor地图六组：实际新增21B；QUALITY-ZERO退役未用函数减少5个分支分母，单列且不计补测贡献。
+Codex主动扩展仍暂停；余量是当前官方口径，不把分母整理算成目标的测试增量。
 
 | 批次 | Owner | 当前状态 | 已验收新增分支 |
 |---|---|---|---:|
+| [地图六组](../cursor-map-integration.md) | Cursor | done，29项/五独立反证/统一门通过 | +21 |
 | [content八组同步守卫](../../ops/archive/tasks/done/TEST-GLM-CONTENT-GUARDS-3-script-and-records.md) | GLM | [done，110项/独立反控/统一门通过](../guard-wave3-integration.md) | +260 |
 | [editor八组命令](../../ops/archive/tasks/done/TEST-CURSOR-COMMAND-BOUNDARIES-3-editor-residuals.md) | Cursor | done，29项/独立五组/统一门通过 | +48 |
 | [migrate纯转换链](../codex-migrate-pure/README.md) | Codex | done，83项/六针/统一门通过 | +527 |
