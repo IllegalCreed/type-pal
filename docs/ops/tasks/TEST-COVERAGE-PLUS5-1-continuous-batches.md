@@ -208,3 +208,10 @@ Codex明确采用**分支覆盖率绝对增加5个百分点**，已创建本会�
   本批+82B、分母不变；Codex自有累计+530B、GLM已接收+157B、
   Cursor已接收+15B。GLM UI 候选尚未独立接收，不提前计入。
   距本轮+2pp目标还差571B；母卡继续build。
+
+- 2026-09-27 Codex 自有第六批：[Reforge 战斗画面与菜单绘制](../../testing/codex-plus2-runtime-wave5/README.md)
+  12项真实绘制命令回归、四针；定向相邻14项、Reforge TC/Biome零诊断。
+  全仓check10,038→官方ratchet→保护3ce5f48f的单次strict9,577
+  串行全过。全仓分支**46,948/63,323=74.14%**，本批+45B、分母不变；
+  Codex自有累计+575B、GLM已接收+157B、Cursor已接收+15B分栏。
+  GLM UI返工候选尚未接收，不计入。距本轮+2pp目标仍差526B，母卡继续build。
