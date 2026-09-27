@@ -71,6 +71,18 @@ F5导出真实档→第二隔离上下文正式导入/菜单读回/菜单控制�
 校准记录：首次误用scene编号验证dialogHistory.map而失败；第二次流程/读回绿但截图处于自动淡入初始窗，
 故补needToFadeIn观察与回归，第三次有窗口实跑闭合。未修改产品/资产/旧测试/覆盖基线；
 安装Playwright时包管理器顺带升级spessasynth_core已撤回并frozen重装，音频依赖保持生产原值。
-执行器7项合同测试通过；统一质量门在集成时追加，不以此小样宣布完整001/Q1/Q2通过。
+执行器7项合同测试通过；不以此小样宣布完整001/Q1/Q2通过。
+
+统一质量门：隔离提交树`9d45ef11`执行`env -u NODE_COMPILE_CACHE pnpm check` exit0，
+七包9741/9741、全包TC零诊断、严格lint扫描2247文件为0error/0warning/0info；
+docs/coverage-tools/quality-tools/e2e-tools全部通过，日志`/tmp/codex-e2e-001-check.log`。
+其后相同执行器散列经`pnpm e2e:001 --headless`独立复跑exit0：131事件/36按键/约76秒，
+结束/读回持久域hash与有窗口跑相同；新档hash为
+`5805d87f8c3dfb03ef5afc6a94c27b73e1052020832136c44b782e8c0c11a599`，
+产物`build/e2e/game-001-2026-09-27T01-39-32-894Z/`。不同实跑档含运行时瞬态，
+不要求跨次全文件hash相等；每次均钉本次F5字节与实际恢复持久域。
+Codex核首批流程/检查点小样accept，可集成；packages/与coverage实现/基线零diff，
+本轮不重复ratchet/strict-fast、不宣称官方覆盖增长。主树未提交帧编辑测试/临时探针保持原样，
+质量门针对隔离的提交树，不把这些未完成WIP计入结果。
 
 无下一位Agent提示词；Codex继续Reforge只读对话适配/实际NPC提交事件，母卡保持build。

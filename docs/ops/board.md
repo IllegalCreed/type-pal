@@ -51,7 +51,7 @@ check8896/单次strict8404全过；实际+134分支/+73行，content分支85.55%
 
 | ID | 任务 | 状态 | 负责人/下一步 | 一句话备注 |
 |---|---|---|---|---|
-| E2E-R4-1 | [路线驱动与检查点薄基线](tasks/E2E-R4-1-route-and-checkpoint-foundation.md) | build | Codex / 001执行器 | 先一阶段真实新局→房间可控→正式快存/新页读回；二阶段与完整NPC时序另续 |
+| E2E-R4-1 | [路线驱动与检查点薄基线](tasks/E2E-R4-1-route-and-checkpoint-foundation.md) | build | Codex / 二阶段001适配 | game001有/无窗口独立闭环过，正式快存/新页读回一致、check9741与零诊断；双引擎NPC时序未完 |
 | TEST-GLM-ITEM-LOGIC-1 | [物品纯逻辑六组](tasks/TEST-GLM-ITEM-LOGIC-1-world-use-residuals.md) | rework | GLM / 六处tuple与收尾 | 170283a0八针/1178/静态门过；六处实际catalog、完整错误/helper/回执未闭；不合入 |
 | TEST-COVERAGE-PLUS5-1 | [全仓分支+5pp持续队列](tasks/TEST-COVERAGE-PLUS5-1-continuous-batches.md) | build | Codex / 暂停主动扩展 | 仅同步贡献者接收；72.80%/当前分母差588B，不作E2E门槛 |
 | TEST-CODEX-FRAME-EDITOR-1 | [帧动画编辑工作流](tasks/TEST-CODEX-FRAME-EDITOR-1-current-workflows.md) | build | Codex / 暂停保留WIP | 未完成测试不计覆盖，不删除现场 |
