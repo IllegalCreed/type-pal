@@ -53,6 +53,27 @@ const cases = {
     fullName:
       'B04 script-chunk-store 剩余合同 二次 resolve 命中缓存：reads 仍为 1，body/ref 完整且 unused sibling chunk 未读',
   },
+  c01: {
+    pkg: 'editor',
+    id: 'c01-loop-has-item',
+    sourceFile: 'src/core/item-references.ts',
+    testFile: 'src/core/item-references.cursor-boundaries.test.ts',
+    from: "else if (command.kind === 'branch' || command.kind === 'loop')",
+    to: "else if (command.kind === 'branch')",
+    title: '保存门后 loop hasItem 读引用完整，sibling 物品不入表',
+    fullName: 'C01 item-references 剩余合同 保存门后 loop hasItem 读引用完整，sibling 物品不入表',
+  },
+  c02: {
+    pkg: 'editor',
+    id: 'c02-grant-skill',
+    sourceFile: 'src/core/battle-data-references.ts',
+    testFile: 'src/core/battle-data-references.cursor-boundaries.test.ts',
+    from: "if (effect.kind !== 'grantSkill') return",
+    to: 'if (true) return',
+    title: '保存门后 trial-sword grantSkill 指向 trial-spark，trial-herb 无授予边',
+    fullName:
+      'C02 battle-data-references 剩余合同 保存门后 trial-sword grantSkill 指向 trial-spark，trial-herb 无授予边',
+  },
 }
 
 function pkgDir(spec) {
