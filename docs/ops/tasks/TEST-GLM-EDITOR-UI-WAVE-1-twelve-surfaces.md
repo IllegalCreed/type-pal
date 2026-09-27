@@ -66,3 +66,20 @@ Biome 0 error/warning/info、`check:docs` 通过。Node agent 进程清除 `NODE
 ## 下一位 Agent 提示词
 
 见 Codex 当次交接消息；以本卡最终 main 版本为准，不从聊天复述代替读卡。
+
+## GLM 交付块（U1–U4 整包，2026-09-27）
+
+- 交付：12 个 `*.glm-ui-wave.test.tsx`（39 项）+ `ui/__tests__/glm-ui-wave-kit.ts` +
+  `docs/testing/glm-editor-ui-wave/{README,receipt.md,ui-wave-mutants.mjs}`（四组共用严判据）。
+  [回执](../../testing/glm-editor-ui-wave/receipt.md)含十二行去重/分类账。
+- 门禁（最终树实测）：定向 39/39 exit 0（/tmp/ui-wave-directed.json）；相邻同名旧测 125/125；
+  editor 全测 **3221/3221 exit 0**（串行；worktree 需复制 gitignored
+  `projects/pal/assets/{migrated,runtime}` 生成内容后 PAL 解码测通过，未动 tracked 文件）；
+  editor typecheck 零诊断；白名单 14 文件 Biome 0/0/0；`check:docs` PASS（含
+  docs/testing/README.md 一行导航登记，既往同形）。
+- 负控：对照 39 项 exit0 全绿；四组各一针——item-consume-self-guard-drop、
+  tileset-metadata-id-drift、cutscene-video-magic-guard-drop、scene-blank-clear-drop——
+  各恰 exit1、恰一红、fullName 逐字命中、生产 hash 不变、entered.json 见证。
+- 视觉：隔离 vite 6177（未占 6010）；U4 场景工作区与 U2 精灵库两张截图。
+  环境内容诊断单列（917 字节 fallback / tileset.pal.020 与 sprite.pal.002 尺寸不符），
+  未改产品、未改预期。不合 main、不标 done。

@@ -9,6 +9,7 @@
 ## 文档与附件
 
 - [GLM菜单与编辑命令四批十六组](glm-state-commands/README.md)（1bc7df91冻结，已准入；277未命中臂仅选题，连续交付不干扰E2E）。
+- [GLM编辑器UI十二模块交互回归](glm-editor-ui-wave/README.md)（8254ce64基线，U1–U4连续交付；四组单点反控共用判据）。
 
 - [GLM物品六组最终接收与集成](item-logic-integration.md)（26e7a269已done，46新增/check9787/strict9295，实际+85B/+43L）。
 
