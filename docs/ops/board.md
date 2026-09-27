@@ -56,7 +56,7 @@ check8896/单次strict8404全过；实际+134分支/+73行，content分支85.55%
 | ID | 任务 | 状态 | 负责人/下一步 | 一句话备注 |
 |---|---|---|---|---|
 | TEST-GLM-STATE-COMMANDS-1 | [菜单与编辑命令十六组](tasks/TEST-GLM-STATE-COMMANDS-1-sixteen-leaf-modules.md) | rework | GLM / 闭合接收反证 | 16文件定向116绿、B/C/D九针红；A回执/反控缺席、Biome 6错1警、正例fixture缺真实场景，暂不集成 |
-| TEST-CURSOR-PURE-WAVE-1 | [三包十二模块纯逻辑回归](tasks/TEST-CURSOR-PURE-WAVE-1-twelve-modules.md) | build | Cursor / A→C连续实施 | content/reforge/editor各四个独立模块；测试与证据隔离，Codex整包独立验收 |
+| TEST-CURSOR-PURE-WAVE-1 | [三包十二模块纯逻辑回归](tasks/TEST-CURSOR-PURE-WAVE-1-twelve-modules.md) | rework | Cursor / 关闭三项正控反证 | 8新测定向绿、A01/C01负控红；A01非正式压缩、A02非法无调用错桶、B04错桶/字节数不实，暂不集成 |
 | E2E-R4-1 | [路线驱动与检查点薄基线](tasks/E2E-R4-1-route-and-checkpoint-foundation.md) | build | Codex / 001逐页与录制矩阵 | 双引擎开场/检查点通过；李大娘两段对话零位移、前中后三段移动偏序已自动核验，138/103稀疏事件；全视觉/音轨未证 |
 | TEST-COVERAGE-PLUS5-1 | [全仓分支+5pp持续队列](tasks/TEST-COVERAGE-PLUS5-1-continuous-batches.md) | build | Codex / 自主补测+2pp | 第一批73.27%=46393/63321；本席净增192B/+0.296pp，距本轮2pp目标尚差1079B；继续整批，不逐例跑覆盖 |
 | TEST-CODEX-FRAME-EDITOR-1 | [帧动画编辑工作流](tasks/TEST-CODEX-FRAME-EDITOR-1-current-workflows.md) | build | Codex / 暂停保留WIP | 未完成测试不计覆盖，不删除现场 |
