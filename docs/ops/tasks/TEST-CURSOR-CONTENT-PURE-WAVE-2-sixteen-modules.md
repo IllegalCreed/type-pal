@@ -71,3 +71,9 @@ Codex 独立审断言/负控并集成后统一串行执行。Cursor 自验不能
 ## 下一位 Agent 提示词
 
 见 Codex 当次交接消息；以本卡最终 main 版本为准，不从聊天复述代替读卡。
+
+## Cursor 交付
+
+作者自验见 [十六行账](../../testing/cursor-content-pure-wave2/README.md)。不合 main，不改 Status。
+四针 c1–c4 均为目标新测自身 `AssertionError`、`redExit=1`、源 hash 未变。
+真实缺陷：无。
