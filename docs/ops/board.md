@@ -11,8 +11,8 @@
 lint/格式/七包typecheck零诊断，完整check9712、ratchet/受保护单次strict9220通过；warning/info/截断均硬失败。
 
 **当前优先级（用户2026-09-27拍板）**：GLM/Cursor继续各自隔离补测，Codex暂停主动覆盖率扩展，
-转[快速通关E2E路线方案讨论](../testing/e2e-route-proposal.md)。先讨论如何避免盲探迷宫/剧情，
-不立即实现runner或开始全流程游戏；+5pp按当前分母尚差588分支，不是E2E门槛。此前2026-09-22覆盖率优先排期被本条替代。
+转[快速通关E2E](../testing/e2e-route-proposal.md)。game001首批执行器已入库，下一步二阶段适配与NPC时序，
+不是立即开全流程盲探；+5pp按当前分母尚差503分支，不是E2E门槛。此前2026-09-22覆盖率优先排期被本条替代。
 **2026-09-24补充**：用户要求推进[全仓架构治理](audits/architecture-debt.md)，改为按职责拆分与补测同步推进。
 第一阶段允许行为不漂移的结构优化，也检查实现bug；纯重构与行为修正分提交。首批A1已独立准入并收口，不扩张为整仓同时重写。
 **2026-09-25分工更新**：先前“全队列Codex独立”只保留为已完成批次的历史授权。新批次按[并行所有权](audits/architecture-debt.md#并行所有权2026-09-26-更新)由Codex保留高风险，GLM/Grok/Cursor只在各自窄卡白名单内实施；Codex独立验收/集成。仍不把结构治理授权解释为玩法、格式或界面变更授权。
@@ -55,6 +55,7 @@ check8896/单次strict8404全过；实际+134分支/+73行，content分支85.55%
 
 | ID | 任务 | 状态 | 负责人/下一步 | 一句话备注 |
 |---|---|---|---|---|
+| TEST-GLM-STATE-COMMANDS-1 | [菜单与编辑命令十六组](tasks/TEST-GLM-STATE-COMMANDS-1-sixteen-leaf-modules.md) | build | GLM / A→D连续实施 | 四批16模块、277未命中臂仅选题；产品/旧测/基线不改，整包交Codex统一门 |
 | E2E-R4-1 | [路线驱动与检查点薄基线](tasks/E2E-R4-1-route-and-checkpoint-foundation.md) | build | Codex / 二阶段001适配 | game001有/无窗口独立闭环过，正式快存/新页读回一致、check9741与零诊断；双引擎NPC时序未完 |
 | TEST-COVERAGE-PLUS5-1 | [全仓分支+5pp持续队列](tasks/TEST-COVERAGE-PLUS5-1-continuous-batches.md) | build | Codex / 暂停主动扩展 | 仅同步贡献者接收；72.93%/当前分母差503B，不作E2E门槛 |
 | TEST-CODEX-FRAME-EDITOR-1 | [帧动画编辑工作流](tasks/TEST-CODEX-FRAME-EDITOR-1-current-workflows.md) | build | Codex / 暂停保留WIP | 未完成测试不计覆盖，不删除现场 |

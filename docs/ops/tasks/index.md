@@ -14,6 +14,7 @@
 | [EDITOR-SCENE-FACING-1 — 切场景指令无法清除显式朝向](EDITOR-SCENE-FACING-1-clear-override.md) | draft | 以任务卡当前准入与看板分工为准。 |
 | [TEST-CODEX-FRAME-EDITOR-1 — 当前帧动画编辑五组工作流](TEST-CODEX-FRAME-EDITOR-1-current-workflows.md) | build | 以任务卡当前准入与看板分工为准。 |
 | [TEST-COVERAGE-PLUS5-1 — 全仓分支覆盖率连续提升五个百分点](TEST-COVERAGE-PLUS5-1-continuous-batches.md) | build | 以任务卡当前准入与看板分工为准。 |
+| [TEST-GLM-STATE-COMMANDS-1 — 菜单与编辑命令十六组连续补测](TEST-GLM-STATE-COMMANDS-1-sixteen-leaf-modules.md) | build | 以任务卡当前准入与看板分工为准。 |
 
 ## 已完成（historical）
 

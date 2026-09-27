@@ -1,0 +1,1382 @@
+{
+  "schemaVersion": 1,
+  "task": "TEST-GLM-STATE-COMMANDS-1",
+  "productionFreeze": "1bc7df91d4078813230d812c5cd3d99582715bef",
+  "baseline": {
+    "sha256": "9e4b987251cbf6f60f9a31ced4d40e202b003a08dfb9c66805e1a9f3d76de18d",
+    "testCount": 9295,
+    "sourceFileCount": 728
+  },
+  "lcovHashes": {
+    "editor": "e92424ae18e577b54ca7546fd3670320448482ba9a017d236ef7daf9d012ec28",
+    "reforge": "65f4684ff83fa27339270cbb0bb487b078c07455c3959b6506ee9e24a352b8e2"
+  },
+  "scopeNote": "Missing [line,block,arm] tuples are only a selection pool, not proven reachable/promised gain. existingReferences are lexical export-name matches, not exhaustive semantic dedup; read sources and report exact fullName.",
+  "totals": {
+    "modules": 16,
+    "missingBranches": 277,
+    "missingLines": 43
+  },
+  "targets": [
+    {
+      "id": "A01",
+      "batch": "A",
+      "package": "reforge",
+      "source": "packages/reforge/src/magic-menu-state.ts",
+      "sourceSha256": "c20e92db54667a54cab4866c85ddc2fd22d124c958f11550cfbb68fb9d114738",
+      "exports": [
+        {
+          "name": "MAGIC_GRID_COLS",
+          "line": 12
+        },
+        {
+          "name": "resolveOutdoorSkills",
+          "line": 29
+        },
+        {
+          "name": "openMagicMenu",
+          "line": 43
+        },
+        {
+          "name": "closeMagicMenu",
+          "line": 63
+        },
+        {
+          "name": "magicMoveCaster",
+          "line": 68
+        },
+        {
+          "name": "magicConfirmCaster",
+          "line": 82
+        },
+        {
+          "name": "magicConfirmSpell",
+          "line": 103
+        },
+        {
+          "name": "magicMoveTarget",
+          "line": 116
+        },
+        {
+          "name": "magicBackFromTarget",
+          "line": 128
+        },
+        {
+          "name": "magicMoveCursor",
+          "line": 134
+        },
+        {
+          "name": "castOutdoorSkill",
+          "line": 154
+        }
+      ],
+      "coverage": {
+        "branches": {
+          "covered": 70,
+          "total": 97,
+          "missing": 27
+        },
+        "lines": {
+          "covered": 65,
+          "total": 81
+        }
+      },
+      "uncoveredBranchArms": [
+        [75, 5, 0],
+        [87, 7, 0],
+        [107, 12, 0],
+        [108, 15, 1],
+        [162, 30, 0],
+        [163, 31, 1],
+        [166, 34, 1],
+        [169, 35, 1],
+        [169, 35, 3],
+        [169, 35, 4],
+        [183, 38, 0],
+        [183, 38, 1],
+        [185, 39, 0],
+        [185, 39, 1],
+        [194, 40, 0],
+        [203, 41, 0],
+        [203, 41, 1],
+        [204, 42, 0],
+        [204, 42, 1],
+        [205, 43, 0],
+        [205, 43, 1],
+        [207, 44, 0],
+        [207, 44, 1],
+        [208, 45, 0],
+        [208, 45, 1],
+        [208, 46, 0],
+        [208, 46, 1]
+      ],
+      "newTest": "packages/reforge/src/magic-menu-state.glm-boundaries.test.ts",
+      "existingReferences": [
+        {
+          "path": "packages/reforge/src/magic-menu-state.boundaries.test.ts",
+          "sha256": "7458ad0aa7d75909c1caf6b66ebd381005854ef74f6956bc13bdbc44b9fea8b1",
+          "frozenFastCount": 4,
+          "frozenFastIdentityDigest": "f00fa3c5e9aaa31411d2083ede637050ba51a8d651cdd061adf7e42f3d65c257"
+        },
+        {
+          "path": "packages/reforge/src/magic-menu-state.test.ts",
+          "sha256": "4ed146ee9ff996a8694be44504a0345d755d365115d2505e246d5e6bcca54f5e",
+          "frozenFastCount": 21,
+          "frozenFastIdentityDigest": "a34954cc7f6373cb9a9262905baa257614413cefda6c43b86ff25d4206b3e5e6"
+        }
+      ]
+    },
+    {
+      "id": "A02",
+      "batch": "A",
+      "package": "reforge",
+      "source": "packages/reforge/src/system-menu-state.ts",
+      "sourceSha256": "7438ee9d8338274182ef3a28e7a110ca1c72bb978b51937ae44ac26b72404f89",
+      "exports": [
+        {
+          "name": "SYSTEM_ITEMS",
+          "line": 15
+        },
+        {
+          "name": "openSystemMenu",
+          "line": 35
+        },
+        {
+          "name": "closeSystemMenu",
+          "line": 41
+        },
+        {
+          "name": "systemMoveCursor",
+          "line": 47
+        },
+        {
+          "name": "systemConfirm",
+          "line": 67
+        },
+        {
+          "name": "systemToggleConfirm",
+          "line": 91
+        },
+        {
+          "name": "systemSwitchCommit",
+          "line": 99
+        },
+        {
+          "name": "systemConfirmYes",
+          "line": 110
+        }
+      ],
+      "coverage": {
+        "branches": {
+          "covered": 34,
+          "total": 41,
+          "missing": 7
+        },
+        "lines": {
+          "covered": 28,
+          "total": 28
+        }
+      },
+      "uncoveredBranchArms": [
+        [37, 1, 0],
+        [51, 2, 0],
+        [53, 3, 0],
+        [76, 7, 0],
+        [85, 13, 1],
+        [92, 14, 0],
+        [114, 19, 0]
+      ],
+      "newTest": "packages/reforge/src/system-menu-state.glm-boundaries.test.ts",
+      "existingReferences": [
+        {
+          "path": "packages/reforge/src/system-menu-state.boundaries.test.ts",
+          "sha256": "e04459d6d9ff0b5c6334076876bc64b04c3b9619d56638a6c7e1e9cf1f114101",
+          "frozenFastCount": 4,
+          "frozenFastIdentityDigest": "cf58832136e54c36ba0119a414cd49392999d24d38b7642a54d36fbb7996a610"
+        },
+        {
+          "path": "packages/reforge/src/system-menu-state.test.ts",
+          "sha256": "d86815c5b218dcbfcbd13472c4a765307f326d11e73fb4d9aec0cdd4fe5dc1c5",
+          "frozenFastCount": 9,
+          "frozenFastIdentityDigest": "31f5c6e8c6fac5b8c898e0c204dd1a481c10dd09d89717a7910bb63f5d94eb23"
+        }
+      ]
+    },
+    {
+      "id": "A03",
+      "batch": "A",
+      "package": "reforge",
+      "source": "packages/reforge/src/equip-menu-state.ts",
+      "sourceSha256": "5dcdfc352400217fdb69c1624d23f7a2aded2ff316b718cefd641e2cbb242ee5",
+      "exports": [
+        {
+          "name": "openEquipMenu",
+          "line": 25
+        },
+        {
+          "name": "closeEquipMenu",
+          "line": 39
+        },
+        {
+          "name": "EQUIP_GRID_COLS",
+          "line": 44
+        },
+        {
+          "name": "equipMoveCursor",
+          "line": 47
+        },
+        {
+          "name": "equipConfirmItem",
+          "line": 62
+        },
+        {
+          "name": "equipBackToList",
+          "line": 70
+        },
+        {
+          "name": "equipApply",
+          "line": 84
+        }
+      ],
+      "coverage": {
+        "branches": {
+          "covered": 26,
+          "total": 30,
+          "missing": 4
+        },
+        "lines": {
+          "covered": 22,
+          "total": 22
+        }
+      },
+      "uncoveredBranchArms": [[63, 7, 0], [75, 9, 0], [89, 10, 0], [92, 12, 1]],
+      "newTest": "packages/reforge/src/equip-menu-state.glm-boundaries.test.ts",
+      "existingReferences": [
+        {
+          "path": "packages/reforge/src/equip-menu-state.navigation-boundaries.test.ts",
+          "sha256": "a66ee233c2b2dd8dd5d17db3bee4606b9723064d7e2dfb65a481537e28fcf2e9",
+          "frozenFastCount": 3,
+          "frozenFastIdentityDigest": "6ebb10e9e24a3e241e4fcb562cbb86b737a70d0b05d3d1ac04028f04e02e0d97"
+        },
+        {
+          "path": "packages/reforge/src/equip-menu-state.test.ts",
+          "sha256": "37b2d7a0a63270c505a8aa397e89afdb502d079a4f59f5e4e91bde6f914d235b",
+          "frozenFastCount": 7,
+          "frozenFastIdentityDigest": "f2c593ca2a43a212ff32d28e07da128afde9ad6e98b32ab1e1458d5acfd7ee7b"
+        }
+      ]
+    },
+    {
+      "id": "A04",
+      "batch": "A",
+      "package": "reforge",
+      "source": "packages/reforge/src/use-menu-state.ts",
+      "sourceSha256": "631a803d2fe9400f5967b5966df6969a3a74e2f6c105f9e7cfbf4f55b08c895d",
+      "exports": [
+        {
+          "name": "USE_GRID_COLS",
+          "line": 16
+        },
+        {
+          "name": "openUseMenu",
+          "line": 27
+        },
+        {
+          "name": "closeUseMenu",
+          "line": 37
+        },
+        {
+          "name": "useMoveCursor",
+          "line": 42
+        },
+        {
+          "name": "useConfirm",
+          "line": 69
+        },
+        {
+          "name": "useBackFromTarget",
+          "line": 92
+        },
+        {
+          "name": "useApply",
+          "line": 99
+        },
+        {
+          "name": "finishUseExecution",
+          "line": 110
+        }
+      ],
+      "coverage": {
+        "branches": {
+          "covered": 34,
+          "total": 39,
+          "missing": 5
+        },
+        "lines": {
+          "covered": 27,
+          "total": 27
+        }
+      },
+      "uncoveredBranchArms": [[46, 2, 0], [48, 3, 0], [74, 9, 0], [93, 13, 0], [105, 14, 0]],
+      "newTest": "packages/reforge/src/use-menu-state.glm-boundaries.test.ts",
+      "existingReferences": [
+        {
+          "path": "packages/reforge/src/use-menu-state.navigation-boundaries.test.ts",
+          "sha256": "1196acdf1076f95610106ee6c185349da0a4f3f114460f3afbe3f5d26aae88bf",
+          "frozenFastCount": 6,
+          "frozenFastIdentityDigest": "97aac7f75c2b426b6cbe7d41ad2ede40f9a0885d7a9a878e0781dad9dd2bcaf9"
+        },
+        {
+          "path": "packages/reforge/src/use-menu-state.test.ts",
+          "sha256": "799fffdd790c0cffec034a4ed352ecfa6ac9ea221923381aa43067b1456ff0b5",
+          "frozenFastCount": 7,
+          "frozenFastIdentityDigest": "339c8c24a0c9301e8ec865cfc971095bfe28c65d8135a4fbd62263cd10d73767"
+        }
+      ]
+    },
+    {
+      "id": "B01",
+      "batch": "B",
+      "package": "editor",
+      "source": "packages/editor/src/core/skill-commands.ts",
+      "sourceSha256": "ea34f9f5797593c82732a2fdeef7b5d048cd7f57e5b966ec437701360b21c0e5",
+      "exports": [
+        {
+          "name": "UpdateSkillCommand",
+          "line": 29
+        },
+        {
+          "name": "AddSkillCommand",
+          "line": 67
+        },
+        {
+          "name": "DeleteSkillCommand",
+          "line": 107
+        }
+      ],
+      "coverage": {
+        "branches": {
+          "covered": 21,
+          "total": 30,
+          "missing": 9
+        },
+        "lines": {
+          "covered": 47,
+          "total": 48
+        }
+      },
+      "uncoveredBranchArms": [
+        [22, 1, 1],
+        [42, 2, 0],
+        [55, 5, 0],
+        [57, 6, 0],
+        [95, 8, 0],
+        [101, 9, 0],
+        [124, 12, 1],
+        [129, 13, 0],
+        [130, 14, 0]
+      ],
+      "newTest": "packages/editor/src/core/skill-commands.glm-boundaries.test.ts",
+      "existingReferences": [
+        {
+          "path": "packages/editor/src/core/battle-data-delete-commands.test.ts",
+          "sha256": "e0664659c9bfef790a2526d020efd01df55664fa62182a3ef10bda8788515224",
+          "frozenFastCount": 6,
+          "frozenFastIdentityDigest": "17d681e47a9fc9f8ea7bdeda04124f823a995d750a286cf36f6b87afdbbbd452"
+        },
+        {
+          "path": "packages/editor/src/core/skill-commands.test.ts",
+          "sha256": "ad386c44ba647ca6573842c2792951658a7029534a7da153a9ee6aa34f414e83",
+          "frozenFastCount": 1,
+          "frozenFastIdentityDigest": "81cff22e0fd36851579105733fef9a86bcd4635cd3d07d9483624e0ae46b9ee2"
+        }
+      ]
+    },
+    {
+      "id": "B02",
+      "batch": "B",
+      "package": "editor",
+      "source": "packages/editor/src/core/poison-commands.ts",
+      "sourceSha256": "78a15c4b28d62c688b8871590f71355a58f4bde9e7afccc75d2944d3e9d0dc57",
+      "exports": [
+        {
+          "name": "UpdatePoisonCommand",
+          "line": 27
+        },
+        {
+          "name": "AddPoisonCommand",
+          "line": 63
+        },
+        {
+          "name": "DeletePoisonCommand",
+          "line": 92
+        }
+      ],
+      "coverage": {
+        "branches": {
+          "covered": 30,
+          "total": 48,
+          "missing": 18
+        },
+        "lines": {
+          "covered": 48,
+          "total": 49
+        }
+      },
+      "uncoveredBranchArms": [
+        [18, 0, 1],
+        [23, 2, 1],
+        [39, 3, 1],
+        [40, 4, 0],
+        [53, 7, 0],
+        [54, 8, 1],
+        [55, 9, 0],
+        [57, 10, 0],
+        [80, 12, 1],
+        [82, 13, 1],
+        [86, 14, 0],
+        [87, 15, 1],
+        [102, 16, 1],
+        [110, 19, 1],
+        [115, 20, 0],
+        [116, 21, 0],
+        [116, 22, 1],
+        [118, 23, 1]
+      ],
+      "newTest": "packages/editor/src/core/poison-commands.glm-boundaries.test.ts",
+      "existingReferences": [
+        {
+          "path": "packages/editor/src/core/battle-data-delete-commands.test.ts",
+          "sha256": "e0664659c9bfef790a2526d020efd01df55664fa62182a3ef10bda8788515224",
+          "frozenFastCount": 6,
+          "frozenFastIdentityDigest": "17d681e47a9fc9f8ea7bdeda04124f823a995d750a286cf36f6b87afdbbbd452"
+        },
+        {
+          "path": "packages/editor/src/core/commands.test.ts",
+          "sha256": "407b81eb284aab21ae795e0fb15bec05bd785674ff6c4bd16b61ede02762037f",
+          "frozenFastCount": 114,
+          "frozenFastIdentityDigest": "9f5e573e15a7f5586ce8cb173a5ca50222765f22cd19077c640536f57a8756f6"
+        },
+        {
+          "path": "packages/editor/src/core/poison-commands.test.ts",
+          "sha256": "e8a0e50f604bd373e6b52d85afbfbf6fbb38d13674a42abeacffca80c74346d5",
+          "frozenFastCount": 1,
+          "frozenFastIdentityDigest": "60e5983685a69bafc9aefcca7b9b940ba0841569623ec3d3c9a07be2603cf1e4"
+        }
+      ]
+    },
+    {
+      "id": "B03",
+      "batch": "B",
+      "package": "editor",
+      "source": "packages/editor/src/core/enemy-team-commands.ts",
+      "sourceSha256": "8a2a7434bfe2e9ce2c9efd1d0411cbec0e03356b529e9b2d0de3a093faf5ff73",
+      "exports": [
+        {
+          "name": "UpdateEnemyTeamsCommand",
+          "line": 14
+        },
+        {
+          "name": "AddEnemyTeamCommand",
+          "line": 42
+        },
+        {
+          "name": "UpdateEnemyTeamCommand",
+          "line": 61
+        },
+        {
+          "name": "EnemyTeamInUseError",
+          "line": 86
+        },
+        {
+          "name": "DeleteEnemyTeamCommand",
+          "line": 96
+        }
+      ],
+      "coverage": {
+        "branches": {
+          "covered": 24,
+          "total": 40,
+          "missing": 16
+        },
+        "lines": {
+          "covered": 43,
+          "total": 43
+        }
+      },
+      "uncoveredBranchArms": [
+        [22, 0, 1],
+        [22, 1, 1],
+        [26, 2, 0],
+        [33, 3, 1],
+        [38, 5, 1],
+        [49, 6, 0],
+        [49, 7, 1],
+        [50, 8, 1],
+        [55, 9, 1],
+        [72, 10, 1],
+        [73, 11, 0],
+        [82, 13, 1],
+        [104, 14, 1],
+        [112, 17, 1],
+        [116, 18, 0],
+        [117, 19, 1]
+      ],
+      "newTest": "packages/editor/src/core/enemy-team-commands.glm-boundaries.test.ts",
+      "existingReferences": [
+        {
+          "path": "packages/editor/src/core/commands.test.ts",
+          "sha256": "407b81eb284aab21ae795e0fb15bec05bd785674ff6c4bd16b61ede02762037f",
+          "frozenFastCount": 114,
+          "frozenFastIdentityDigest": "9f5e573e15a7f5586ce8cb173a5ca50222765f22cd19077c640536f57a8756f6"
+        },
+        {
+          "path": "packages/editor/src/core/enemy-team-references.test.ts",
+          "sha256": "ee67b9e2c9b2fd9108102202d88e8874f9722a20f173fbd95926928350f53960",
+          "frozenFastCount": 5,
+          "frozenFastIdentityDigest": "e71de3261bfba45c9eb2d07beec09498f9d7dcd0daedfedacf1442db35482c60"
+        }
+      ]
+    },
+    {
+      "id": "B04",
+      "batch": "B",
+      "package": "editor",
+      "source": "packages/editor/src/core/enemy-commands.ts",
+      "sourceSha256": "227e1462c3859194dbfc0db603416a7db307fdbff9606a2821babf964e6c7b25",
+      "exports": [
+        {
+          "name": "withEnemy",
+          "line": 13
+        },
+        {
+          "name": "UpdateEnemyCommand",
+          "line": 41
+        },
+        {
+          "name": "AddEnemyCommand",
+          "line": 75
+        },
+        {
+          "name": "DeleteEnemyCommand",
+          "line": 89
+        }
+      ],
+      "coverage": {
+        "branches": {
+          "covered": 23,
+          "total": 36,
+          "missing": 13
+        },
+        "lines": {
+          "covered": 42,
+          "total": 42
+        }
+      },
+      "uncoveredBranchArms": [
+        [14, 0, 1],
+        [21, 2, 1],
+        [53, 3, 1],
+        [65, 6, 0],
+        [66, 7, 1],
+        [67, 8, 0],
+        [69, 9, 0],
+        [82, 10, 1],
+        [85, 11, 1],
+        [100, 12, 1],
+        [108, 15, 1],
+        [112, 16, 0],
+        [113, 17, 1]
+      ],
+      "newTest": "packages/editor/src/core/enemy-commands.glm-boundaries.test.ts",
+      "existingReferences": [
+        {
+          "path": "packages/editor/src/core/battle-data-delete-commands.test.ts",
+          "sha256": "e0664659c9bfef790a2526d020efd01df55664fa62182a3ef10bda8788515224",
+          "frozenFastCount": 6,
+          "frozenFastIdentityDigest": "17d681e47a9fc9f8ea7bdeda04124f823a995d750a286cf36f6b87afdbbbd452"
+        },
+        {
+          "path": "packages/editor/src/core/battle-sprite-commands.residual.test.ts",
+          "sha256": "37aa75df7eea2bed25ceb13c1f1ca1547e0aaa8e4bbfa823e7a8643936a81b9b",
+          "frozenFastCount": 4,
+          "frozenFastIdentityDigest": "2e4e860587c0fab79c573f7748a28b65f77c4740b665c21307a8fb21a5c52fd2"
+        },
+        {
+          "path": "packages/editor/src/core/command-contract.test.ts",
+          "sha256": "4edee6bfbb653988117434a1fc6bba52eb929a9f4cecc68298abb7c3ebccbebc",
+          "frozenFastCount": 2,
+          "frozenFastIdentityDigest": "f22f68ffacd01675e7320f45f5c10571168832d9ec0d767aa438762b8f82de00"
+        },
+        {
+          "path": "packages/editor/src/core/commands-catalog.boundaries.test.ts",
+          "sha256": "bdd299b8f4be37fff5386a1fa164abacc0f6c9971532f44f99ec7cafea70d612",
+          "frozenFastCount": 7,
+          "frozenFastIdentityDigest": "3155a3b32e967e6d01ccd002d81f315ebc7ecba06f2d9e73727667d9dd57f71c"
+        },
+        {
+          "path": "packages/editor/src/core/commands.test.ts",
+          "sha256": "407b81eb284aab21ae795e0fb15bec05bd785674ff6c4bd16b61ede02762037f",
+          "frozenFastCount": 114,
+          "frozenFastIdentityDigest": "9f5e573e15a7f5586ce8cb173a5ca50222765f22cd19077c640536f57a8756f6"
+        },
+        {
+          "path": "packages/editor/src/core/enemy-commands.test.ts",
+          "sha256": "a00e2957f0edc257e655bfcfd00539019d4c84fca1fd21cb429ed7ee94658ca1",
+          "frozenFastCount": 1,
+          "frozenFastIdentityDigest": "7e18801738709d1e64391a24b7b4be6d4676d4335b7e250f8038c994b6b6a762"
+        }
+      ]
+    },
+    {
+      "id": "C01",
+      "batch": "C",
+      "package": "editor",
+      "source": "packages/editor/src/core/actor-commands.ts",
+      "sourceSha256": "41bf9d8505a7d239cd452d5d63a316fa0674600a70ea2160913efd91107a5b5e",
+      "exports": [
+        {
+          "name": "AddActorCommand",
+          "line": 109
+        },
+        {
+          "name": "CopyActorCommand",
+          "line": 135
+        },
+        {
+          "name": "ActorInUseError",
+          "line": 183
+        },
+        {
+          "name": "DeleteActorCommand",
+          "line": 198
+        },
+        {
+          "name": "DetachActorEntityCommand",
+          "line": 254
+        },
+        {
+          "name": "UpdateActorCommand",
+          "line": 302
+        },
+        {
+          "name": "SetActorBattleSpriteCommand",
+          "line": 342
+        }
+      ],
+      "coverage": {
+        "branches": {
+          "covered": 132,
+          "total": 161,
+          "missing": 29
+        },
+        "lines": {
+          "covered": 167,
+          "total": 174
+        }
+      },
+      "uncoveredBranchArms": [
+        [24, 1, 1],
+        [45, 9, 1],
+        [45, 10, 1],
+        [52, 12, 0],
+        [57, 14, 0],
+        [58, 15, 1],
+        [77, 18, 0],
+        [87, 25, 1],
+        [92, 28, 0],
+        [92, 29, 1],
+        [94, 32, 0],
+        [95, 33, 1],
+        [129, 37, 0],
+        [154, 40, 1],
+        [164, 41, 1],
+        [171, 42, 0],
+        [236, 47, 0],
+        [266, 51, 0],
+        [270, 54, 0],
+        [278, 56, 1],
+        [283, 57, 0],
+        [285, 58, 0],
+        [290, 59, 1],
+        [315, 60, 0],
+        [326, 64, 0],
+        [329, 68, 1],
+        [334, 69, 0],
+        [336, 70, 0],
+        [372, 76, 0]
+      ],
+      "newTest": "packages/editor/src/core/actor-commands.glm-boundaries.test.ts",
+      "existingReferences": [
+        {
+          "path": "packages/editor/src/core/actor-commands.residual.test.ts",
+          "sha256": "8a94864c1d91c9595474458014d85b36a1d54a7056c9917da3e2a171afb612bf",
+          "frozenFastCount": 5,
+          "frozenFastIdentityDigest": "6e26b2c166c5e212d298948cba6377e0d2fdaaf91af5c46b9e4aeaa0261852f4"
+        },
+        {
+          "path": "packages/editor/src/core/actor-commands.test.ts",
+          "sha256": "98f3fdec020fda1bbff7fe00011c741019e6ca154382d69c8182e0c18e9c3d2c",
+          "frozenFastCount": 13,
+          "frozenFastIdentityDigest": "81300f179a9c68cb9dc3dbd8642926e30746685f0c77ad7f0da3e1ba66eab377"
+        },
+        {
+          "path": "packages/editor/src/core/author-save-conflict.test.ts",
+          "sha256": "9e8e6149d68f9a0ce7526385f57b00236d497c6207cbae2eb469e152b18e3b9a",
+          "frozenFastCount": 37,
+          "frozenFastIdentityDigest": "adfa4cf518e4cc4317008bf7726575e56450a171fd743cc69ab9268b968b3496"
+        },
+        {
+          "path": "packages/editor/src/core/commands-catalog.boundaries.test.ts",
+          "sha256": "bdd299b8f4be37fff5386a1fa164abacc0f6c9971532f44f99ec7cafea70d612",
+          "frozenFastCount": 7,
+          "frozenFastIdentityDigest": "3155a3b32e967e6d01ccd002d81f315ebc7ecba06f2d9e73727667d9dd57f71c"
+        },
+        {
+          "path": "packages/editor/src/core/commands-wave2.actor.test.ts",
+          "sha256": "a915734ea2995479287822f5681845d7b3e606fdbfba1d0f6af8864ada96a46f",
+          "frozenFastCount": 2,
+          "frozenFastIdentityDigest": "3ccbf4f1a5a12978de58b9427b333beb4ef5014934978ad2a464816d6f607f66"
+        },
+        {
+          "path": "packages/editor/src/core/commands.test.ts",
+          "sha256": "407b81eb284aab21ae795e0fb15bec05bd785674ff6c4bd16b61ede02762037f",
+          "frozenFastCount": 114,
+          "frozenFastIdentityDigest": "9f5e573e15a7f5586ce8cb173a5ca50222765f22cd19077c640536f57a8756f6"
+        },
+        {
+          "path": "packages/editor/src/core/project-reference-adapters.boundaries.test.ts",
+          "sha256": "4a44fb2226f433d09b7bc9db97a110c19408c8706d6ea7604eaab702ac7d2784",
+          "frozenFastCount": 3,
+          "frozenFastIdentityDigest": "062c79bbd845b7c0cd8ce999064f662fca40e8f6f886c4cb2a20a7a241e4cf39"
+        },
+        {
+          "path": "packages/editor/src/ui/ConnectedEditorPages.test.tsx",
+          "sha256": "0290013bc80e06d82ba335f6eecc6c6f75e0455e047763ec4089535ed253abab",
+          "frozenFastCount": 1,
+          "frozenFastIdentityDigest": "58765d4295bc2733e316ee07c6e83177e5f2352c51ea9fc32344c418e878787f"
+        }
+      ]
+    },
+    {
+      "id": "C02",
+      "batch": "C",
+      "package": "editor",
+      "source": "packages/editor/src/core/sprite-commands.ts",
+      "sourceSha256": "2b6f3a3533bbb86ea650690f182a2a171f988860aa5c48b5b24b81dfe23e0ada",
+      "exports": [
+        {
+          "name": "SpriteInUseError",
+          "line": 41
+        },
+        {
+          "name": "UpdateSpriteCommand",
+          "line": 90
+        },
+        {
+          "name": "AddSpriteCommand",
+          "line": 181
+        },
+        {
+          "name": "ReplaceSpriteAssetCommand",
+          "line": 258
+        },
+        {
+          "name": "AddSpriteDefinitionCommand",
+          "line": 388
+        },
+        {
+          "name": "RemoveSpriteDefinitionCommand",
+          "line": 432
+        },
+        {
+          "name": "DeleteUnusedSpriteAssetCommand",
+          "line": 469
+        }
+      ],
+      "coverage": {
+        "branches": {
+          "covered": 172,
+          "total": 202,
+          "missing": 30
+        },
+        "lines": {
+          "covered": 204,
+          "total": 211
+        }
+      },
+      "uncoveredBranchArms": [
+        [28, 1, 1],
+        [171, 25, 0],
+        [173, 26, 0],
+        [195, 27, 0],
+        [200, 29, 0],
+        [205, 32, 0],
+        [280, 40, 0],
+        [283, 42, 0],
+        [285, 44, 0],
+        [287, 46, 0],
+        [300, 50, 0],
+        [325, 59, 0],
+        [329, 60, 0],
+        [340, 62, 1],
+        [342, 63, 0],
+        [349, 65, 1],
+        [352, 67, 1],
+        [369, 68, 0],
+        [372, 70, 1],
+        [375, 71, 1],
+        [410, 75, 0],
+        [423, 78, 0],
+        [450, 81, 1],
+        [461, 82, 0],
+        [482, 84, 0],
+        [489, 86, 0],
+        [490, 87, 0],
+        [496, 88, 1],
+        [506, 89, 0],
+        [509, 91, 1]
+      ],
+      "newTest": "packages/editor/src/core/sprite-commands.glm-boundaries.test.ts",
+      "existingReferences": [
+        {
+          "path": "packages/editor/src/core/commands-wave2.sprite.test.ts",
+          "sha256": "51d50e23c4308fa3161fc4e857b681612ae3bf047398b202767a563185908f2d",
+          "frozenFastCount": 2,
+          "frozenFastIdentityDigest": "59a6d207ba61bb255ec30d8ce4aec0d3a7dce0bd6c370663384d6baaa4beea78"
+        },
+        {
+          "path": "packages/editor/src/core/commands.test.ts",
+          "sha256": "407b81eb284aab21ae795e0fb15bec05bd785674ff6c4bd16b61ede02762037f",
+          "frozenFastCount": 114,
+          "frozenFastIdentityDigest": "9f5e573e15a7f5586ce8cb173a5ca50222765f22cd19077c640536f57a8756f6"
+        },
+        {
+          "path": "packages/editor/src/core/sprite-commands.residual.test.ts",
+          "sha256": "c5fa910b8b67bd611cd6126c8920a88eab68be9d002bc1cd24d0845a6e49f2af",
+          "frozenFastCount": 5,
+          "frozenFastIdentityDigest": "2004aadb6a9c74b25f0f88dbd9f9560c1ca8ed68ba425dc55307f9ed1da45ffb"
+        },
+        {
+          "path": "packages/editor/src/core/sprite-reference-commands.test.ts",
+          "sha256": "6a78660eacbd27ca8da966a4d975d041926dc79c3d9ed1a33e00ed0b988e1323",
+          "frozenFastCount": 4,
+          "frozenFastIdentityDigest": "5744142e7a61ac5e6e52224564dcda62034e133e31c34a92caf0e35dd9cfa521"
+        },
+        {
+          "path": "packages/editor/src/ui/SpriteActionEditorDialog.test.tsx",
+          "sha256": "e458acf57c694748e1d211799ba596365857ac52ee717963e11948b6c12ea541",
+          "frozenFastCount": 21,
+          "frozenFastIdentityDigest": "39cbc5f7731b827e42b6d691f7d1ec1f77bd6297c6bc4106d191b4bdd415859c"
+        },
+        {
+          "path": "packages/editor/src/ui/WorldSpriteLibrary.test.tsx",
+          "sha256": "2a9815cec5fdb88971cfa9c166295031d94f280e1403df56a74f3c09f2adc58b",
+          "frozenFastCount": 28,
+          "frozenFastIdentityDigest": "63afd84c0903cfa3e6f9a6331d0a90c4c317a66a2c531619f7b3a2f580a817d6"
+        }
+      ]
+    },
+    {
+      "id": "C03",
+      "batch": "C",
+      "package": "editor",
+      "source": "packages/editor/src/core/battle-sprite-commands.ts",
+      "sourceSha256": "16041546eef69003ec20515cd91110b910b266df64c3cfbc84f47e9fda89b890",
+      "exports": [
+        {
+          "name": "AddBattleSpriteCommand",
+          "line": 37
+        },
+        {
+          "name": "UpdateBattleSpriteDefinitionCommand",
+          "line": 105
+        },
+        {
+          "name": "ReplaceBattleSpriteAssetCommand",
+          "line": 178
+        },
+        {
+          "name": "RemoveBattleSpriteDefinitionCommand",
+          "line": 304
+        },
+        {
+          "name": "DeleteUnusedBattleSpriteAssetCommand",
+          "line": 340
+        },
+        {
+          "name": "SetEnemyBattleSpriteCommand",
+          "line": 386
+        }
+      ],
+      "coverage": {
+        "branches": {
+          "covered": 133,
+          "total": 164,
+          "missing": 31
+        },
+        "lines": {
+          "covered": 172,
+          "total": 181
+        }
+      },
+      "uncoveredBranchArms": [
+        [27, 0, 0],
+        [52, 4, 0],
+        [54, 5, 0],
+        [121, 15, 0],
+        [123, 17, 1],
+        [148, 26, 1],
+        [154, 27, 0],
+        [158, 28, 1],
+        [197, 30, 0],
+        [200, 32, 0],
+        [205, 36, 0],
+        [226, 44, 0],
+        [232, 46, 0],
+        [237, 49, 0],
+        [270, 53, 1],
+        [273, 55, 1],
+        [290, 56, 0],
+        [293, 58, 1],
+        [296, 59, 1],
+        [332, 62, 0],
+        [353, 64, 0],
+        [360, 66, 0],
+        [361, 67, 0],
+        [367, 68, 1],
+        [377, 69, 0],
+        [380, 71, 1],
+        [396, 73, 1],
+        [397, 74, 0],
+        [406, 77, 0],
+        [407, 78, 1],
+        [408, 79, 1]
+      ],
+      "newTest": "packages/editor/src/core/battle-sprite-commands.glm-boundaries.test.ts",
+      "existingReferences": [
+        {
+          "path": "packages/editor/src/core/battle-sprite-commands.residual.test.ts",
+          "sha256": "37aa75df7eea2bed25ceb13c1f1ca1547e0aaa8e4bbfa823e7a8643936a81b9b",
+          "frozenFastCount": 4,
+          "frozenFastIdentityDigest": "2e4e860587c0fab79c573f7748a28b65f77c4740b665c21307a8fb21a5c52fd2"
+        },
+        {
+          "path": "packages/editor/src/core/commands-wave2.battle-sprite.test.ts",
+          "sha256": "c1e96b87898f974f8edabf167aca5f32f8862edb1d7a88a6636feb82caf0190c",
+          "frozenFastCount": 1,
+          "frozenFastIdentityDigest": "5e2a76b461e3fc2f252dcffbf3fe1018ba1b4e81f4800feaed9942056d98892e"
+        },
+        {
+          "path": "packages/editor/src/core/commands.test.ts",
+          "sha256": "407b81eb284aab21ae795e0fb15bec05bd785674ff6c4bd16b61ede02762037f",
+          "frozenFastCount": 114,
+          "frozenFastIdentityDigest": "9f5e573e15a7f5586ce8cb173a5ca50222765f22cd19077c640536f57a8756f6"
+        },
+        {
+          "path": "packages/editor/src/core/sprite-reference-commands.test.ts",
+          "sha256": "6a78660eacbd27ca8da966a4d975d041926dc79c3d9ed1a33e00ed0b988e1323",
+          "frozenFastCount": 4,
+          "frozenFastIdentityDigest": "5744142e7a61ac5e6e52224564dcda62034e133e31c34a92caf0e35dd9cfa521"
+        }
+      ]
+    },
+    {
+      "id": "C04",
+      "batch": "C",
+      "package": "editor",
+      "source": "packages/editor/src/core/tileset-commands.ts",
+      "sourceSha256": "1d43a0b7d4afedadc929dac09b6d34247d8bc02d2c93d8062c85d010bd8742c0",
+      "exports": [
+        {
+          "name": "AddTilesetCommand",
+          "line": 20
+        },
+        {
+          "name": "RemoveTilesetCommand",
+          "line": 82
+        },
+        {
+          "name": "UpdateTilesetMetadataCommand",
+          "line": 150
+        },
+        {
+          "name": "ReplaceTilesetAssetCommand",
+          "line": 187
+        }
+      ],
+      "coverage": {
+        "branches": {
+          "covered": 78,
+          "total": 106,
+          "missing": 28
+        },
+        "lines": {
+          "covered": 104,
+          "total": 105
+        }
+      },
+      "uncoveredBranchArms": [
+        [34, 1, 1],
+        [37, 2, 0],
+        [48, 7, 1],
+        [72, 13, 1],
+        [97, 14, 1],
+        [99, 15, 0],
+        [121, 18, 1],
+        [132, 20, 0],
+        [133, 22, 1],
+        [138, 23, 1],
+        [140, 24, 1],
+        [142, 25, 1],
+        [160, 27, 1],
+        [161, 28, 0],
+        [169, 33, 1],
+        [176, 35, 0],
+        [179, 36, 1],
+        [180, 37, 1],
+        [204, 38, 0],
+        [206, 39, 0],
+        [208, 40, 1],
+        [210, 41, 0],
+        [211, 42, 1],
+        [212, 43, 0],
+        [225, 46, 1],
+        [228, 48, 1],
+        [244, 49, 0],
+        [247, 51, 1]
+      ],
+      "newTest": "packages/editor/src/core/tileset-commands.glm-boundaries.test.ts",
+      "existingReferences": [
+        {
+          "path": "packages/editor/src/core/commands-wave2.tileset.test.ts",
+          "sha256": "78b5f4124b9c9ea4c6d71d6a9fab23ee03a35b7939d44bd38823f6623b2c5a49",
+          "frozenFastCount": 1,
+          "frozenFastIdentityDigest": "fe5a0a2b6ff6e23a121e62176d9e31e330a0ee524e17ea533cadac0ff5e33457"
+        },
+        {
+          "path": "packages/editor/src/core/tileset-commands.residual.test.ts",
+          "sha256": "8fa146720f3b611821f8d1f8bee4271dc6780b47ff1c4a3b0384ccdf155dcca0",
+          "frozenFastCount": 5,
+          "frozenFastIdentityDigest": "b9d13831715a5e62f5b5455ba7f58883fc1777d134fbbc7735d4afda98c27111"
+        },
+        {
+          "path": "packages/editor/src/core/tileset-lifecycle.test.ts",
+          "sha256": "2ac311a67111cd0a90e0f0bf9aab6cf1b3376bcfa8a43155f5fe75df2bd62a4c",
+          "frozenFastCount": 7,
+          "frozenFastIdentityDigest": "027760dd6995e21a14f4a3b12e325db5addfc633644925d105311094719c2b94"
+        },
+        {
+          "path": "packages/editor/src/core/tileset-references.test.ts",
+          "sha256": "17e04da8ab7cb828e8194ede5963d8f90ddfeed2bb7b43cdd6259504e0f5c283",
+          "frozenFastCount": 9,
+          "frozenFastIdentityDigest": "0052c42a116ae140916f9111450aa0304e6ed000dae38ef71810d80b37435e64"
+        }
+      ]
+    },
+    {
+      "id": "D01",
+      "batch": "D",
+      "package": "editor",
+      "source": "packages/editor/src/core/shop-commands.ts",
+      "sourceSha256": "62ce3fdc60959ed9bb9cbef27f161d06934dc8b8f3c83f7a0ef1cafd3b41354f",
+      "exports": [
+        {
+          "name": "nextShopId",
+          "line": 15
+        },
+        {
+          "name": "UpdateShopCommand",
+          "line": 34
+        },
+        {
+          "name": "AddShopCommand",
+          "line": 71
+        },
+        {
+          "name": "DuplicateShopCommand",
+          "line": 95
+        },
+        {
+          "name": "ShopInUseError",
+          "line": 125
+        },
+        {
+          "name": "DeleteShopCommand",
+          "line": 135
+        }
+      ],
+      "coverage": {
+        "branches": {
+          "covered": 31,
+          "total": 48,
+          "missing": 17
+        },
+        "lines": {
+          "covered": 66,
+          "total": 66
+        }
+      },
+      "uncoveredBranchArms": [
+        [23, 1, 1],
+        [45, 3, 1],
+        [46, 4, 0],
+        [54, 6, 1],
+        [55, 7, 1],
+        [61, 8, 0],
+        [65, 9, 1],
+        [65, 10, 1],
+        [86, 11, 0],
+        [89, 12, 1],
+        [107, 14, 0],
+        [116, 16, 0],
+        [119, 17, 1],
+        [146, 18, 1],
+        [148, 19, 0],
+        [162, 22, 0],
+        [163, 23, 1]
+      ],
+      "newTest": "packages/editor/src/core/shop-commands.glm-boundaries.test.ts",
+      "existingReferences": [
+        {
+          "path": "packages/editor/src/core/project-io.test.ts",
+          "sha256": "fc9912cd26145fe2271e84be8a0cf39f58bb5e4afb3c447fc503a788026c1283",
+          "frozenFastCount": 5,
+          "frozenFastIdentityDigest": "cfca2477f01bfb375b2b9b5a5c8ab49ecf9a185f0af5276736274d2a46130e64"
+        },
+        {
+          "path": "packages/editor/src/core/shop-lifecycle.test.ts",
+          "sha256": "082f4a24cadab23da4c3bceb59e736532e0660f91cda72c808a5d959e48d251b",
+          "frozenFastCount": 5,
+          "frozenFastIdentityDigest": "11b8d97118066ac1c983c206a2faeeb7bcfe23f24cfeb113c1f29e51a3730766"
+        }
+      ]
+    },
+    {
+      "id": "D02",
+      "batch": "D",
+      "package": "editor",
+      "source": "packages/editor/src/core/ambience-commands.ts",
+      "sourceSha256": "d71065b9e0a5a9730a6af49b008604d8b6cf5aacd78ec69355fe5ecc5b967553",
+      "exports": [
+        {
+          "name": "UpdateAmbienceCommand",
+          "line": 17
+        },
+        {
+          "name": "AddAmbienceCommand",
+          "line": 53
+        },
+        {
+          "name": "AmbienceInUseError",
+          "line": 74
+        },
+        {
+          "name": "DeleteAmbienceCommand",
+          "line": 87
+        }
+      ],
+      "coverage": {
+        "branches": {
+          "covered": 26,
+          "total": 42,
+          "missing": 16
+        },
+        "lines": {
+          "covered": 45,
+          "total": 46
+        }
+      },
+      "uncoveredBranchArms": [
+        [29, 0, 1],
+        [30, 1, 0],
+        [31, 2, 1],
+        [37, 3, 1],
+        [44, 5, 0],
+        [45, 6, 1],
+        [63, 9, 1],
+        [65, 10, 1],
+        [69, 11, 0],
+        [70, 12, 1],
+        [97, 13, 1],
+        [105, 16, 1],
+        [113, 17, 0],
+        [114, 18, 0],
+        [114, 19, 1],
+        [116, 20, 1]
+      ],
+      "newTest": "packages/editor/src/core/ambience-commands.glm-boundaries.test.ts",
+      "existingReferences": [
+        {
+          "path": "packages/editor/src/core/ambience-commands.test.ts",
+          "sha256": "33ce679bc57cfe886a768d4cabb1539234520caefb9d843e85fc1307b7709f67",
+          "frozenFastCount": 1,
+          "frozenFastIdentityDigest": "e8b5634c22a5523cd638ca44a78cb906b28e19b0cac75b6223f317f9cadf6c04"
+        },
+        {
+          "path": "packages/editor/src/core/commands.test.ts",
+          "sha256": "407b81eb284aab21ae795e0fb15bec05bd785674ff6c4bd16b61ede02762037f",
+          "frozenFastCount": 114,
+          "frozenFastIdentityDigest": "9f5e573e15a7f5586ce8cb173a5ca50222765f22cd19077c640536f57a8756f6"
+        },
+        {
+          "path": "packages/editor/src/ui/AmbienceTab.test.tsx",
+          "sha256": "1af1a3e5739ec4879587de351acd02d3dfa1cae77ce0a8df0904c4d1a7e9e89f",
+          "frozenFastCount": 15,
+          "frozenFastIdentityDigest": "2db9adf898ca8410b1288b20c06fc8ebb0ce5c6abaaa05ef2c8b2db3c431d8e7"
+        }
+      ]
+    },
+    {
+      "id": "D03",
+      "batch": "D",
+      "package": "editor",
+      "source": "packages/editor/src/core/battle-field-commands.ts",
+      "sourceSha256": "ad251d35eb2fcb033fb862ffc54d3f1aa938b1509b8648db312f47733c01072b",
+      "exports": [
+        {
+          "name": "BATTLE_FIELDS_PATH",
+          "line": 31
+        },
+        {
+          "name": "nextBattleFieldId",
+          "line": 33
+        },
+        {
+          "name": "AddBattleFieldCommand",
+          "line": 83
+        },
+        {
+          "name": "CopyBattleFieldCommand",
+          "line": 106
+        },
+        {
+          "name": "BattleFieldInUseError",
+          "line": 133
+        },
+        {
+          "name": "DeleteBattleFieldCommand",
+          "line": 146
+        },
+        {
+          "name": "UpdateBattleFieldCommand",
+          "line": 184
+        }
+      ],
+      "coverage": {
+        "branches": {
+          "covered": 41,
+          "total": 60,
+          "missing": 19
+        },
+        "lines": {
+          "covered": 73,
+          "total": 73
+        }
+      },
+      "uncoveredBranchArms": [
+        [21, 0, 1],
+        [24, 1, 0],
+        [28, 2, 1],
+        [36, 4, 0],
+        [57, 6, 0],
+        [119, 12, 1],
+        [120, 13, 0],
+        [121, 15, 1],
+        [159, 16, 1],
+        [169, 19, 1],
+        [196, 20, 1],
+        [197, 21, 0],
+        [198, 22, 1],
+        [205, 23, 0],
+        [207, 24, 1],
+        [208, 25, 1],
+        [215, 26, 0],
+        [216, 27, 1],
+        [217, 28, 0]
+      ],
+      "newTest": "packages/editor/src/core/battle-field-commands.glm-boundaries.test.ts",
+      "existingReferences": [
+        {
+          "path": "packages/editor/src/core/battle-field-commands.test.ts",
+          "sha256": "5c88f123600083b36211c06b004cb6b6beb1e7840e064ab105952162b0707c08",
+          "frozenFastCount": 6,
+          "frozenFastIdentityDigest": "b8d5df2b01cd348d461aab657be706156984f9e91c3f77dcc75fcf38b7183479"
+        },
+        {
+          "path": "packages/editor/src/core/commands.test.ts",
+          "sha256": "407b81eb284aab21ae795e0fb15bec05bd785674ff6c4bd16b61ede02762037f",
+          "frozenFastCount": 114,
+          "frozenFastIdentityDigest": "9f5e573e15a7f5586ce8cb173a5ca50222765f22cd19077c640536f57a8756f6"
+        }
+      ]
+    },
+    {
+      "id": "D04",
+      "batch": "D",
+      "package": "editor",
+      "source": "packages/editor/src/core/world-variable-commands.ts",
+      "sourceSha256": "967edb24867d8bfc897adc347714770aadad485f220bf9eff8c43a112220a0d0",
+      "exports": [
+        {
+          "name": "WorldVariableInUseError",
+          "line": 14
+        },
+        {
+          "name": "AddWorldVariableCommand",
+          "line": 24
+        },
+        {
+          "name": "UpdateWorldVariableCommand",
+          "line": 56
+        },
+        {
+          "name": "DeleteWorldVariableCommand",
+          "line": 99
+        }
+      ],
+      "coverage": {
+        "branches": {
+          "covered": 30,
+          "total": 38,
+          "missing": 8
+        },
+        "lines": {
+          "covered": 44,
+          "total": 44
+        }
+      },
+      "uncoveredBranchArms": [
+        [42, 1, 1],
+        [50, 3, 1],
+        [77, 7, 1],
+        [81, 8, 1],
+        [92, 10, 1],
+        [117, 14, 1],
+        [123, 15, 0],
+        [129, 17, 1]
+      ],
+      "newTest": "packages/editor/src/core/world-variable-commands.glm-boundaries.test.ts",
+      "existingReferences": [
+        {
+          "path": "packages/editor/src/core/commands-world.boundaries.test.ts",
+          "sha256": "f747f08de2ffc87743f60ac2bf795b6cf20c342141e6bf780b151d7a5c863f75",
+          "frozenFastCount": 6,
+          "frozenFastIdentityDigest": "97a26b0921703dc12a60775e16688e98028312b77d5cacafe14480d8348d45ef"
+        },
+        {
+          "path": "packages/editor/src/core/project-reference-adapters.boundaries.test.ts",
+          "sha256": "4a44fb2226f433d09b7bc9db97a110c19408c8706d6ea7604eaab702ac7d2784",
+          "frozenFastCount": 3,
+          "frozenFastIdentityDigest": "062c79bbd845b7c0cd8ce999064f662fca40e8f6f886c4cb2a20a7a241e4cf39"
+        },
+        {
+          "path": "packages/editor/src/core/world-variable-commands.test.ts",
+          "sha256": "5f16259cdef739d6a4cc99f9b39801bd6663b4dc401d04ae14c80958ff2f3d2b",
+          "frozenFastCount": 6,
+          "frozenFastIdentityDigest": "b7f02e102eb3e01ae54d4407fc24d07cfa31c1a6ff5fb137d20b59d99187e67d"
+        }
+      ]
+    }
+  ]
+}

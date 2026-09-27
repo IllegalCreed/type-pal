@@ -8,6 +8,8 @@
 
 ## 文档与附件
 
+- [GLM菜单与编辑命令四批十六组](glm-state-commands/README.md)（1bc7df91冻结，已准入；277未命中臂仅选题，连续交付不干扰E2E）。
+
 - [GLM物品六组最终接收与集成](item-logic-integration.md)（26e7a269已done，46新增/check9787/strict9295，实际+85B/+43L）。
 
 - [GLM物品六组r8收尾复核](item-logic-r8-review.md)（3da6002e，业务清单/八针已过，仅helper与证据残项；附精确替换内容）。
