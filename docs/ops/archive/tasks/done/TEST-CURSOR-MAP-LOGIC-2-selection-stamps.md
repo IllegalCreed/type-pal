@@ -18,7 +18,7 @@ Branch: `codex/cursor-map-logic-r2`
 以70d0ae91为集成基点，完整check9741/官方ratchet/受保护单次strict9249均通过，七包TC与全仓lint零诊断。
 Codex核定done并归档，+21分支/+19行/+27语句/+5函数，生产清单/全部分母/其它六包基线对象不变。
 Cursor是贡献者，独立接收与全仓门由Codex执行；无下一位Agent提示词。不借本卡恢复Codex主动补测。
-Cursor后台worker仍占用原目录，暂保留其worktree/分支，不强行删除；Codex隔离目录合并推送后归档。
+初次集成时Cursor后台worker占用原目录，暂保留；2026-09-27用户确认退出后，Codex结束孤立worker并清理原worktree/本地分支，远端分支亦已删除。代码保留main；清理证据见集成回执。
 
 ### 2026-09-27 Codex接收4dc8fb75
 

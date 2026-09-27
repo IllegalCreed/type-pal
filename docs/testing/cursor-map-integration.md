@@ -43,5 +43,11 @@ editor行83.14%、分支72.90%；全仓行81.45%、语句79.31%、函数78.43%�
 
 无下一位Agent提示词；本包不再返工，Codex已核done并统一推送、归档。远端CI/full/E2E/Q1/Q2不在本地通过声明内。
 
-清理边界：Cursor后台worker的cwd仍指向贡献者目录，暂保留该worktree及其分支，不强杀用户进程。
+初次清理边界：Cursor后台worker的cwd仍指向贡献者目录，当时保留该worktree及本地分支，不强杀用户进程。
 Codex专用map-intake检出在门禁结束、合并推送和证据备份后可恢复归档；GLM未接收目录不动。
+
+2026-09-27用户确认已退出Cursor。Codex复核PID82449为PPID1的孤立worker、无子进程；
+工作树干净、无未跟踪工作、be9a8636已为main祖先，远端分支已不存在。正常TERM结束残留worker后，
+用Git原生worktree移除（该目录非Codex托管附件）及`branch -d`清理贡献者目录/本地分支。
+忽略项仅依赖缓存、DS_Store和指向主仓库的生成资产链接；主仓库资产未删。
+已合代码可从main恢复；GLM/E2E工作树及主仓库WIP保持。
