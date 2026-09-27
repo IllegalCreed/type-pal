@@ -32,13 +32,13 @@ const cases = {
   },
   c3: {
     pkg: 'content',
-    id: 'c3-level-growth-zero',
+    id: 'c3-dead-hidden-counts',
     sourceFile: 'src/rewards.ts',
     testFile: 'src/rewards.cursor-pure-wave2.test.ts',
-    from: 'const count = Math.max(0, Math.floor(levels))',
-    to: 'const count = 1',
-    title: 'levels<=0 与不足 1 的小数不改目标，delta 全 0',
-    fullName: 'C3 rewards 剩余合同 levels<=0 与不足 1 的小数不改目标，delta 全 0',
+    from: 'if (c.hp <= 0) continue // 死者不获经验(原版 alive gate)',
+    to: 'if (false) continue // 死者不获经验(原版 alive gate)',
+    title: '死者跳过 hiddenCounts，活人仍成长；死者仍吃 Phase F',
+    fullName: 'C3 rewards 剩余合同 死者跳过 hiddenCounts，活人仍成长；死者仍吃 Phase F',
   },
   c4: {
     pkg: 'content',

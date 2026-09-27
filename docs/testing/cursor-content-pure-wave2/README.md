@@ -21,9 +21,9 @@ fixture 不进 `src/*.ts`，避免再入官方源码统计。不重测上一包
 | C2-2 | `actor-condition.ts` | runtime `applyActorCondition` | `好状态只施加给活人且取更长回合` | 新测 `死者 apply confused 成功；好状态对照仍拒，毒表与命令不变` | 坏状态对 hp=0 为真 | 本组针在 C2-1 |
 | C2-3 | `enemy-ai.ts` | 战斗核 `pickAiTarget` | `random 走 rng;lowestHp 集火残血;strongest 打高攻`（含 lowestMp） | 新测 `highestHp 取最高血；并列取槽序靠前，旁队员不改` | 先过 `checkEnemyAi`；并列 200HP 取 index 2 | 本组针在 C2-1 |
 | C2-4 | `enemy-script.ts` | `checkEnemyHookFlow` → `setFallback` | wave2 直接 `checkEnemyFallback`；residual 缺省 fallback | 新测 `hook setFallback 只许 pass；attack 精确拒绝且流不变` | 嵌套 fallback 仍走 `checkEnemyFallback` | 本组针在 C2-1 |
-| C3-1 | `item.ts` | `resolveWorldItemUse` | `资源池 value=$value 按 1..value 掷后封顶`（只抽 `collectValue`）；不重演 puppet/protect | 新测 `drawFromResourcePool 写 herb，collectValue 与源世界不动` | `resources.herb` 3→2；collectValue=99 | 本组针在 C3-3 |
+| C3-1 | `item.ts` | `resolveWorldItemUse`；奖励须先过 `validateItems` + `validateReferences` | `资源池 value=$value 按 1..value 掷后封顶`（只抽 `collectValue`）；不重演 puppet/protect | 新测 `drawFromResourcePool 写 herb，reward 先过结构与引用闭包，collectValue 与源世界不动` | 真实 `reward` 记录过结构/引用门后 `herb` 3→2；collectValue=99 | 本组针在 C3-3 |
 | C3-2 | `shop.ts` | `shopBuy`/`shopSell` | `卖 1 个得 sellPrice;数量归零移除条目`；钱不够已证 | 新测 `钱够但未知物买为 null；卖 2 件剩 1，源世界不动` | count 2→1；旁符不动 | 本组针在 C3-3 |
-| C3-3 | `rewards.ts` | 战后 `grantBattleRewards` → `applyLevelGrowth` | `通用成长在 99 级仍掷上界…`（levels=1）；死者不获经验已证、未绑 hiddenCounts | 新测 levels≤0 + `死者跳过 hiddenCounts，活人仍成长；死者仍吃 Phase F` | 死者无 hiddenUps；hp 半恢复 | **c3** `count=1` → levels≤0 新测 `AssertionError` |
+| C3-3 | `rewards.ts` | 战后 `grantBattleRewards` 存活门；`applyLevelGrowth` 非正次数不可达 | `通用成长在 99 级仍掷上界…`（levels=1）；死者不获经验已证、未绑 hiddenCounts | 新测 `死者跳过 hiddenCounts，活人仍成长；死者仍吃 Phase F`。`applyLevelGrowth(0/-3/0.9)` 已撤「当前可达业务」归因 | 死者无 hiddenUps；hp 半恢复 | **c3** 去掉 `hp<=0` 存活门 → 该新测 `AssertionError` |
 | C3-4 | `world-variable.ts` | `buildWorld` / 注册表校验 | `validates the exact discriminated registry…`；越界叶与双向隔离 | **existing-proof / saturated** | — | 本组针在 C3-3 |
 | C4-1 | `asset.ts` | editor `collectAssetReferences` | 旧 walker 从不传 `source.tilesets` | 新测 `collectAssetReferences 只收 tileset.asset，不把 id 当路径` | 先过 catalog+`validateTilesets` | 本组针在 C4-3 |
 | C4-2 | `tileset.ts` | loader 总带 catalog | `合法条目原样返回`；map-index 错 kind 正则拒 | 新测匹配 catalog + `catalog 缺 AssetId 与 kind 不符各自精确拒绝` | 精确 missing / kind-mismatch | 本组针在 C4-3 |
@@ -38,11 +38,11 @@ fixture 不进 `src/*.ts`，避免再入官方源码统计。不重测上一包
 
 | 门 | 结果 |
 |---|---|
-| 定向 15 文件 / 18 新测 | 18/18 |
-| content 全测 | 116 files / 1199 tests，exit 0 |
+| 定向 15 文件 / 17 新测 | 17/17 |
+| content 全测 | 116 files / 1198 tests，exit 0 |
 | `packages/content` typecheck | `tsc --noEmit` exit 0 |
 | Biome 17 新代码文件 | 0 error / warning / info |
 | `pnpm check:docs` | 712 Markdown / 0 issues |
-| 四针 | 同跑 `/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/cursor-content-pure-wave2-mutants-gd1l9q`；c1–c4 均 `redExit=1`、`AssertionError`、`hit`、源 hash 未变 |
+| 四针 | 同跑 `/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/cursor-content-pure-wave2-mutants-fTxrUK`；c1–c4 均 `redExit=1`、`AssertionError`、`hit`、源 hash 未变。c3 改为死者 hiddenCounts 存活门 |
 
 候选 SHA 见本分支最新提交。
