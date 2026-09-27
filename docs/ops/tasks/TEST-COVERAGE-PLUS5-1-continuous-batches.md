@@ -183,3 +183,12 @@ Codex明确采用**分支覆盖率绝对增加5个百分点**，已创建本会�
   Codex 本轮自有三批累计+434B，GLM已接收+157B、Cursor已接收+5B另记；
   Cursor 新候选424ac428因两处非法/不可达输入正控已counter，未计入。
   从本轮72.9701%起算的绝对+2pp阈值是47,474/63,323，仍差677B；母卡继续build。
+
+- 2026-09-27 Codex 自有第四批：[合法地图目录与作者表单](../../testing/codex-plus2-ui-wave3/README.md)
+  11项真实工作流、三针；合法 seed→loader→EditSession 地图会话，摆脱旧伪
+  manifest/场景 fixture。相邻147、editor TC/Biome零诊断；全仓check10,000→
+  ratchet→保护561c8af8的单次strict9,539全过。全仓分支
+  **46,811/63,323=73.92%**，本批仅+14B、分母不变，不把旧测试已执行的
+  分支冒记新收益。Codex自有累计+448B；GLM已收口+157B、Cursor已收口+5B
+  分栏。Cursor新候选返工虽已定向绿，未统一集成不计入。距+2pp还差663B，
+  下一批先用逐文件缺口找真实未达分支，不再盲挑同类 UI。

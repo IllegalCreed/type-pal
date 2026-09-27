@@ -40,6 +40,7 @@
 - [001双引擎独立执行器](e2e-001.md)（正常新局、各自真实结束档/新上下文读回；同时运行并核李大娘两段对话静止/移动偏序，全角色与录制矩阵未完成）。
 - [Codex脚本展示补覆盖首批](codex-plus2-ui.md)（已核当前编辑器三源码 +192 分支；队伍成员条件选择器另卡修复，累计 +2pp 目标继续）。
 - [Codex脚本树与属性弹窗补覆盖第三批](codex-plus2-ui-wave2/README.md)（23项/三针，单次统一门后+182分支，累计+2pp仍待继续）。
+- [Codex合法地图目录与作者表单补覆盖第四批](codex-plus2-ui-wave3/README.md)（11项/三针，合法地图 seed 输入；统一门后+14分支，累计+2pp仍待继续）。
 - [快速通关E2E路线方案](e2e-route-proposal.md)（2026-09-27既定范围；首批001已进入实现）。
 - [GLM/Cursor后台补测两包](background-tests-20260927/README.md)（冻结目标与可转发提示词）。
 - [Cursor三包十二模块纯逻辑补测](cursor-pure-wave/README.md)（已[独立接收并收口](cursor-pure-wave/codex-final-review.md)；七项正式回归、六针、分支+5/分母+2）。
