@@ -14,21 +14,21 @@ fixture 不进 `src/*.ts`，避免再入官方源码统计。不重测上一包
 | ID | 目标 | 生产调用 / 现行 guard | 旧测试精确标题 | 本包 | 关键断言 | 反控 |
 |---|---|---|---|---|---|---|
 | C1-1 | `author-dialogue.ts` | 编辑器/作者命令经 `checkAuthorDialogueCue` / `resolveAuthorDialogueCue` | `actor 默认名、称谓覆写、主立绘与表情只从本 Actor 解析`；`非法 slot 拒绝；四个合法值逐一通过` | 新测 `resolve 复制 slot/cursorFrame，无立绘 actor 只出 speaker` | 无立绘 actor 只出 speaker；slot/cursorFrame 复制；cue/actors 同一对象不变 | **c1** 去掉 slot 复制 → 该新测 `AssertionError` |
-| C1-2 | `author-script.ts` | `checkAuthorCommands` → runtime 门；`validate-refs` / 编辑器引用用 `assertAuthorDialogueReferences` | `runtime 全树投影调用同一 resolver`；`author dialogue identity validates once and resolves to the runtime cue once` | 新测 `branch.then 内 dialog 过作者门后投影 slot，sibling wait 保持` | 先过作者命令门；嵌套 cue 带 slot；wait 原样 | 本组针在 C1-1 |
-| C1-3 | `author-script-core.ts` | `enemy-script` 调 `checkAuthorCondition`；作者命令经同一 `checkCondition` | `current nested condition rejects equipped item id and preserves the actual command tree`（wave2 `itemEquipped` 空 id）；`all six current comparison operators and optional item/facing defaults remain accepted` | 新测 `checkAuthorCondition 接受 itemEquipped.atLeast=2，0 按路径拒绝` | 直接公共入口；`cond.atLeast: 期望正整数`；输入不变 | 本组针在 C1-1 |
-| C1-4 | `script.ts` | runner 调 `applyStageNext` | `四个投影辅助函数的现行合同`（advance / 数字 3 / undefined stay） | 新测 `applyStageNext(0) 重置到首段，旁实体阶段不动` | `talker→0`，`other` 仍 4 | 本组针在 C1-1 |
-| C2-1 | `character.ts` | `validate-refs.ts:1636/1650`、editor adapters 调两个 collect | `instantiate 角色 → 实例…`；`组装:party instantiate + seedStats…`；`离队进 reserve,状态不丢;再入队原样搬回` | 新测 `合法 buildWorld/setParty 后收集 reserve 模板与毒/技能叶` | party/reserve 模板 kind 分列；learnedSkills / skillUseCounts / reserve 毒完整 where | **c2** reserve kind 伪称 party → 该新测 `AssertionError` |
-| C2-2 | `actor-condition.ts` | `buildWorld` / 物品 / 剧情命令 | `全部 StatusId 只有傀儡不可作为大世界携带状态`；`三种 carrier 一次性播种，毒统一从 tickIndex=0 开始`；`剧情命令完整覆盖 apply/clear 三类 condition 并拒绝多余字段` | **existing-proof** | 无独立剩余臂 | 本组针在 C2-1 |
-| C2-3 | `enemy-ai.ts` | 战斗核 `pickAiTarget` | `random 走 rng;lowestHp 集火残血;strongest 打高攻`（含 lowestMp） | 新测 `highestHp 取最高血；并列取槽序靠前，旁队员不改` | 并列 200HP 取先出现的 index 2 | 本组针在 C2-1 |
-| C2-4 | `enemy-script.ts` | 敌人定义校验 / choreography | `接受具名 hook state、真实 effect outcome、battle action 与受限 onDefeated`；`battle choreography 与 onDefeated 都拒绝宽泛世界命令`；`最小 stay 流通过` | **existing-proof** | 无独立剩余臂 | 本组针在 C2-1 |
-| C3-1 | `item.ts` | 背包/装备/use；上一包已证 puppet/protect | `applyStatus(puppet) 仅 battle；protect 双上下文仍真；输入不变`；`21 种 effect × world/battle/throw 的消费矩阵完整且唯一`；`用金刚符 → 队员 extraStatuses 有 protect 7…` | **existing-proof**（不重演 puppet/protect） | — | 本组针在 C3-3 |
-| C3-2 | `shop.ts` | `shopBuy`/`shopSell`/`validateShops` | `钱够:扣 buyPrice + 入包(已有叠加/新条目);源不变`（同测含钱不够 null）；`卖 1 个得 sellPrice;数量归零移除条目` | 新测 `钱够但未知物买为 null；卖 2 件剩 1，源世界不动` | 未知物不因有钱成交；count 2→1 | 本组针在 C3-3 |
-| C3-3 | `rewards.ts` | 战后 `grantBattleRewards` → `applyLevelGrowth` | `通用成长在 99 级仍掷上界属性并把七项钳到 999`（levels=1） | 新测 `levels<=0 与不足 1 的小数不改目标，delta 全 0` | 0 / −3 / 0.9 不改 luck=11 | **c3** `count=1` → 该新测 `AssertionError` |
-| C3-4 | `world-variable.ts` | `buildWorld` / 注册表校验 | `validates the exact discriminated registry and returns a detached value`；`builds fresh runtime values from author defaults`；`ID 128/129、name 80/81、description 500/501 各自恰好越界即拒；上界全绿` | **existing-proof** | — | 本组针在 C3-3 |
-| C4-1 | `asset.ts` | catalog / 命令资产收集 | `validateProjectRelativePath` 族见 `asset.test.ts`；`commandAssetTaggedReferencesAtNode` 见 residual；`A3 validateManifestAssetConfig · 角色 kind 门与音频要求` | **existing-proof** | — | 本组针在 C4-3 |
-| C4-2 | `tileset.ts` | 地图/图章经 `validateTilesets`/`resolveTilesetAsset` | `合法条目原样返回`；`注册表 id → AssetId；路径直通与未知 id 均报错`；`带 catalog 时 asset 不存在/kind 不符拒绝` | 新测 `匹配 tileset catalog 通过且输入不变，旁 sprite 记录不入解析` | 正式 `validateAssetCatalog` 后 kind=tileset 通过；旁 sprite 不改解析 | 本组针在 C4-3 |
-| C4-3 | `project-map.ts` | 加载 `validateProjectMap`/`format`/`parse` | `同层同号 tileId 可来自不同瓦片集且解析无歧义`；`map authoring sorts identities…`；`合法地图通过且语义等价返回…` | 新测 `validate 后 isProjectMap 为真；缺 layers 或非 4 为假` | 谓词不替代结构门；v3/无 layers 为假 | **c4** 去掉 version===4 → 该新测 `AssertionError` |
-| C4-4 | `command-target-reference.ts` | 校验/复制场景 | `collects scene/map/shop/battle/ambience targets through nested command trees`（含 toggleDayNight/learnSkill）；`recognizes current author and readonly legacy scene commands without guessing names` | **existing-proof** | — | 本组针在 C4-2 |
+| C1-2 | `author-script.ts` | 编辑器/loader `resolveAuthorDialogueTree`；生产用 `checkAuthorScriptFlow` | `runtime 全树投影调用同一 resolver`（扁平数组） | 新测 `stages 流 branch.then dialog 过作者流门后投影，cond 保持` | 先过 `checkAuthorScriptFlow`；嵌套 cue+slot；cond/wait 原样 | 本组针在 C1-1 |
+| C1-3 | `author-script-core.ts` | `validate.ts` 调 `checkBaseEntityPages` | `validates pages against local behavior registries`（只证匹配页/未命中 behavior） | 新测 `initialPage 未命中 page 精确拒绝，页与 behavior 输入不变` | `entity.initialPage: 未命中 page ghost` | 本组针在 C1-1 |
+| C1-4 | `script.ts` | runner / preparer 调 `stageIndexFor` | `四个投影辅助函数的现行合同`（缺省 0 / 越界 5→末段） | 新测 `负 entityStage 经 checkStages 后钳到 0，越界对照仍是末段` | raw=-2 → 0 | 本组针在 C1-1 |
+| C2-1 | `character.ts` | `applySetParty`；collect 另有 editor/validate-refs 父级边 | `离队进 reserve,状态不丢;再入队原样搬回`（两人） | 新测收集器 + `setParty 再召回两人时未点名第三人仍留 reserve` | 第三人原实例/hp 留 reserve | **c2** reserve kind 伪称 party → 收集器新测 `AssertionError` |
+| C2-2 | `actor-condition.ts` | runtime `applyActorCondition` | `好状态只施加给活人且取更长回合` | 新测 `死者 apply confused 成功；好状态对照仍拒，毒表与命令不变` | 坏状态对 hp=0 为真 | 本组针在 C2-1 |
+| C2-3 | `enemy-ai.ts` | 战斗核 `pickAiTarget` | `random 走 rng;lowestHp 集火残血;strongest 打高攻`（含 lowestMp） | 新测 `highestHp 取最高血；并列取槽序靠前，旁队员不改` | 先过 `checkEnemyAi`；并列 200HP 取 index 2 | 本组针在 C2-1 |
+| C2-4 | `enemy-script.ts` | `checkEnemyHookFlow` → `setFallback` | wave2 直接 `checkEnemyFallback`；residual 缺省 fallback | 新测 `hook setFallback 只许 pass；attack 精确拒绝且流不变` | 嵌套 fallback 仍走 `checkEnemyFallback` | 本组针在 C2-1 |
+| C3-1 | `item.ts` | `resolveWorldItemUse` | `资源池 value=$value 按 1..value 掷后封顶`（只抽 `collectValue`）；不重演 puppet/protect | 新测 `drawFromResourcePool 写 herb，collectValue 与源世界不动` | `resources.herb` 3→2；collectValue=99 | 本组针在 C3-3 |
+| C3-2 | `shop.ts` | `shopBuy`/`shopSell` | `卖 1 个得 sellPrice;数量归零移除条目`；钱不够已证 | 新测 `钱够但未知物买为 null；卖 2 件剩 1，源世界不动` | count 2→1；旁符不动 | 本组针在 C3-3 |
+| C3-3 | `rewards.ts` | 战后 `grantBattleRewards` → `applyLevelGrowth` | `通用成长在 99 级仍掷上界…`（levels=1）；死者不获经验已证、未绑 hiddenCounts | 新测 levels≤0 + `死者跳过 hiddenCounts，活人仍成长；死者仍吃 Phase F` | 死者无 hiddenUps；hp 半恢复 | **c3** `count=1` → levels≤0 新测 `AssertionError` |
+| C3-4 | `world-variable.ts` | `buildWorld` / 注册表校验 | `validates the exact discriminated registry…`；越界叶与双向隔离 | **existing-proof / saturated** | — | 本组针在 C3-3 |
+| C4-1 | `asset.ts` | editor `collectAssetReferences` | 旧 walker 从不传 `source.tilesets` | 新测 `collectAssetReferences 只收 tileset.asset，不把 id 当路径` | 先过 catalog+`validateTilesets` | 本组针在 C4-3 |
+| C4-2 | `tileset.ts` | loader 总带 catalog | `合法条目原样返回`；map-index 错 kind 正则拒 | 新测匹配 catalog + `catalog 缺 AssetId 与 kind 不符各自精确拒绝` | 精确 missing / kind-mismatch | 本组针在 C4-3 |
+| C4-3 | `project-map.ts` | `formatProjectMap` 再校验后落盘 | 多来源夹杂 index 1 的 format；单来源省略 | 新测 `多来源全 0 格 format 仍写 sources，往返保真且输入不变` | 文本含 `"sources"`；`isProjectMap` 无行为消费者已撤 | **c4** 去掉 `tilesetRefs.length===1` → 该新测 `AssertionError` |
+| C4-4 | `command-target-reference.ts` | 校验/复制场景 | 旧 startBattle 总带 `fieldId`、从不带 `music` | 新测 `合法 startBattle.music 只出敌队边，不发明战场 0` | 先过 `checkAuthorCommands` | 本组针在 C4-3 |
 
 ## Cursor 交付（作者自验，不能替代 Codex 独立复核）
 
@@ -38,12 +38,11 @@ fixture 不进 `src/*.ts`，避免再入官方源码统计。不重测上一包
 
 | 门 | 结果 |
 |---|---|
-| 定向 10 新测 | 10/10 |
-| 相邻 20 文件 | 203/203 |
-| content 全测 | 111 files / 1191 tests，exit 0 |
+| 定向 15 文件 / 18 新测 | 18/18 |
+| content 全测 | 116 files / 1199 tests，exit 0 |
 | `packages/content` typecheck | `tsc --noEmit` exit 0 |
-| Biome 12 新代码文件 | 0 error / warning / info |
+| Biome 17 新代码文件 | 0 error / warning / info |
 | `pnpm check:docs` | 712 Markdown / 0 issues |
-| 四针 | 同跑 `/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/cursor-content-pure-wave2-mutants-aTI0uN`；c1–c4 均 `redExit=1`、`AssertionError`、`hit`、源 hash 未变 |
+| 四针 | 同跑 `/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/cursor-content-pure-wave2-mutants-gd1l9q`；c1–c4 均 `redExit=1`、`AssertionError`、`hit`、源 hash 未变 |
 
 候选 SHA 见本分支最新提交。

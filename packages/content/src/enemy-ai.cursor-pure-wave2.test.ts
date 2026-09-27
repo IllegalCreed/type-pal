@@ -5,9 +5,17 @@
 import { describe, expect, test } from 'vitest'
 import { inputSnap } from './__tests__/cursor-pure-wave2-fixtures.js'
 import { pickAiTarget } from './enemy-ai.js'
+import { checkEnemyAi } from './enemy-script.js'
 
 describe('C2 enemy-ai 剩余合同', () => {
   test('highestHp 取最高血；并列取槽序靠前，旁队员不改', () => {
+    checkEnemyAi(
+      {
+        resistanceToSorcery: 0,
+        rules: [{ at: 'act', do: { kind: 'attack', target: 'highestHp' } }],
+      },
+      'ai',
+    )
     const players = [
       { index: 0, hpPercent: 40, hp: 80, mp: 30, attack: 50, role: 'hero.li' },
       { index: 2, hpPercent: 90, hp: 200, mp: 10, attack: 20, role: 'hero.zhao' },

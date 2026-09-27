@@ -18,13 +18,19 @@ describe('C3 shop 剩余合同', () => {
     expect(shopBuy(rich, 'item.ghost', WAVE2_SHOP_ITEMS)).toBeNull()
     expect(rich).toEqual(richSnap)
 
-    const packed = purse(0, [{ itemId: 'item.sword', count: 2 }])
+    const packed = purse(0, [
+      { itemId: 'item.sword', count: 2 },
+      { itemId: 'item.charm', count: 1 },
+    ])
     const packedSnap = inputSnap(packed)
     expect(shopSell(packed, 'item.sword', WAVE2_SHOP_ITEMS)).toEqual({
       party: [],
       money: 25,
       learnedSkills: {},
-      inventory: [{ itemId: 'item.sword', count: 1 }],
+      inventory: [
+        { itemId: 'item.sword', count: 1 },
+        { itemId: 'item.charm', count: 1 },
+      ],
     })
     expect(packed).toEqual(packedSnap)
     expect(packed.inventory[0]?.count).toBe(2)

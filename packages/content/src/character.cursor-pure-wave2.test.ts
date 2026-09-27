@@ -13,7 +13,8 @@ import {
 
 const hero = wave2Actor('hero.li', 'name.li')
 const mate = wave2Actor('hero.zhao', 'name.zhao')
-const actors = { [hero.id]: hero, [mate.id]: mate }
+const extra = wave2Actor('hero.lin', 'name.lin')
+const actors = { [hero.id]: hero, [mate.id]: mate, [extra.id]: extra }
 
 describe('C2 character 剩余合同', () => {
   test('合法 buildWorld/setParty 后收集 reserve 模板与毒/技能叶', () => {
@@ -74,5 +75,19 @@ describe('C2 character 剩余合同', () => {
     expect(worlds[0]).toBe(world)
     expect(world.party[0]?.template).toBe(hero.id)
     expect(world.reserve?.[0]?.template).toBe(mate.id)
+  })
+
+  test('setParty 再召回两人时未点名第三人仍留 reserve', () => {
+    const world = buildWorld({ party: [hero.id], money: 0, inventory: [] }, actors)
+    applySetParty(world, [hero.id, mate.id, extra.id], actors)
+    applySetParty(world, [hero.id], actors)
+    const parked = world.reserve?.find((member) => member.template === extra.id)
+    expect(parked).toBeDefined()
+    parked!.hp = 17
+    applySetParty(world, [hero.id, mate.id], actors)
+    expect(world.party.map((member) => member.template)).toEqual([hero.id, mate.id])
+    expect(world.reserve).toHaveLength(1)
+    expect(world.reserve?.[0]).toBe(parked)
+    expect(world.reserve?.[0]?.hp).toBe(17)
   })
 })

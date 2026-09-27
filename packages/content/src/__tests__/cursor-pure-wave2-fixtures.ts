@@ -51,16 +51,25 @@ export const WAVE2_SHOP_ITEMS: ItemDataMap = {
     sellPrice: 25,
     sellable: true,
   },
+  'item.charm': {
+    id: 'item.charm',
+    name: '符',
+    desc: [],
+    buyPrice: 10,
+    sellPrice: 5,
+    sellable: true,
+  },
 }
 
-export function tilesetCatalogRecord(id: string) {
+export function tilesetCatalogRecord(id: string, origin: 'generated' | 'authored' = 'generated') {
+  const prefix = origin === 'authored' ? 'assets/authored' : 'assets/generated'
   return {
     kind: 'tileset' as const,
-    path: `assets/generated/${id}.rle`,
+    path: `${prefix}/${id}.rle`,
     mediaType: 'application/vnd.type-pal.rle',
     bytes: 8,
     sha256: 'a'.repeat(64),
-    origin: { kind: 'generated' as const },
+    origin: { kind: origin },
     label: id,
   }
 }

@@ -75,5 +75,6 @@ Codex 独立审断言/负控并集成后统一串行执行。Cursor 自验不能
 ## Cursor 交付
 
 作者自验见 [十六行账](../../testing/cursor-content-pure-wave2/README.md)。不合 main，不改 Status。
+首交后按探索结果撤掉无消费者 `isProjectMap`，补 stages 流 / initialPage / 负 stage / 第三人 reserve / 死者坏状态 / hook fallback / 具名资源 / 死者 hiddenExp / tileset 边 / 多来源 sources / startBattle.music。
 四针 c1–c4 均为目标新测自身 `AssertionError`、`redExit=1`、源 hash 未变。
 真实缺陷：无。

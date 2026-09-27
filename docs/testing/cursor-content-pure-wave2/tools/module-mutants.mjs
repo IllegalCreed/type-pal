@@ -42,13 +42,13 @@ const cases = {
   },
   c4: {
     pkg: 'content',
-    id: 'c4-is-project-map-version',
+    id: 'c4-multi-ref-sources',
     sourceFile: 'src/project-map.ts',
     testFile: 'src/project-map.cursor-pure-wave2.test.ts',
-    from: 'return isRecord(value) && value.version === 4 && Array.isArray(value.layers)',
-    to: 'return isRecord(value) && Array.isArray(value.layers)',
-    title: 'validate 后 isProjectMap 为真；缺 layers 或非 4 为假',
-    fullName: 'C4 project-map 剩余合同 validate 后 isProjectMap 为真；缺 layers 或非 4 为假',
+    from: 'map.tilesetRefs.length === 1 &&',
+    to: 'true &&',
+    title: '多来源全 0 格 format 仍写 sources，往返保真且输入不变',
+    fullName: 'C4 project-map 剩余合同 多来源全 0 格 format 仍写 sources，往返保真且输入不变',
   },
 }
 

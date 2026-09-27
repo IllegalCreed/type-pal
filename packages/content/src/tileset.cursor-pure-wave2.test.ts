@@ -32,4 +32,32 @@ describe('C4 tileset 剩余合同', () => {
     expect(resolveTilesetAsset('grass', tilesets)).toBe('tileset.grass')
     expect(catalog.assets['sprite.unused']?.kind).toBe('sprite')
   })
+
+  test('catalog 缺 AssetId 与 kind 不符各自精确拒绝，输入不变', () => {
+    const spriteOnly = validateAssetCatalog({
+      version: 1,
+      assets: {
+        'sprite.x': {
+          kind: 'sprite',
+          path: 'assets/generated/sprite.x.png',
+          mediaType: 'image/png',
+          bytes: 3,
+          sha256: 'c'.repeat(64),
+          origin: { kind: 'generated' },
+        },
+      },
+    })
+    const missing = [{ id: 'grass', name: '草地', category: 'outdoor', asset: 'tileset.ghost' }]
+    const mismatch = [{ id: 'grass', name: '草地', category: 'outdoor', asset: 'sprite.x' }]
+    const missingSnap = inputSnap(missing)
+    const mismatchSnap = inputSnap(mismatch)
+    expect(() => validateTilesets(missing, spriteOnly)).toThrow(
+      'tilesets[0].asset: AssetId "tileset.ghost" 不在 catalog',
+    )
+    expect(() => validateTilesets(mismatch, spriteOnly)).toThrow(
+      'tilesets[0].asset: AssetId "sprite.x" 期望 tileset，实际 sprite',
+    )
+    expect(missing).toEqual(missingSnap)
+    expect(mismatch).toEqual(mismatchSnap)
+  })
 })
