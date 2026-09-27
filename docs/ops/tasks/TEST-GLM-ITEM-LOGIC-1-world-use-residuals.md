@@ -10,6 +10,14 @@ Branch: `codex/glm-item-logic-r1`
 
 ## 准入与前提
 
+### 2026-09-27 Codex接收2796124b
+
+**counter：八针已闭，剩原R3固定清单/恢复旧断言/R4及静态门**，见[收尾复核与提示词](../../testing/item-logic-r5-review.md)。
+learned与空键快照真正落盘，八针接收检查首次true/exit0；不得重开R1/R2/毒表/八针已过业务。
+负数/小数拒绝及其它catalog实参仍未保护，effectResults未恢复，README/evidence零diff且仍过时；
+fixture本轮又引入import排序与forEach返回值两error。1178/executor17/TC/作者六针过，不代替零诊断和清单验收。
+不合候选、不计覆盖；只做既定收尾，不新增矩阵。
+
 ### 2026-09-27 Codex接收3ac52586
 
 **counter，R2已闭，剩R3/R4及恢复误删断言**，见[本轮复核/接收检查/提示词](../../testing/item-logic-r4-review.md)。

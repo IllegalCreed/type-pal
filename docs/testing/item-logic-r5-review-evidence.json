@@ -1,0 +1,155 @@
+{
+  "task": "TEST-GLM-ITEM-LOGIC-1",
+  "reviewer": "Codex",
+  "date": "2026-09-27",
+  "candidate": "2796124bb7d582e9eb0016fb33ab5501691d3e70",
+  "reviewBase": "dc5aec2f",
+  "verdict": "counter: existing R3 checklist, restore assertion, R4 and static diagnostics",
+  "productionUnchanged": true,
+  "merged": false,
+  "requiredWitnessGate": {
+    "candidateMutationGate": true,
+    "missed": [],
+    "exit": 0,
+    "evidenceDirectories": [
+      "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/codex-item-logic-review-ftYQQ9",
+      "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/codex-item-logic-review-zf8WtA"
+    ]
+  },
+  "candidateMutants": [
+    {
+      "name": "growth-no-op-candidate-mutant",
+      "exit": 1,
+      "total": 10,
+      "passed": 9,
+      "failed": 1,
+      "failureNames": [
+        "I5 目标类效果残差 levelUp：固定 rng 恰 6 次调用、真实 8 项成长精确值、零经验仍 changed"
+      ]
+    },
+    {
+      "name": "drop-unrelated-inventory-candidate-mutant",
+      "exit": 1,
+      "total": 8,
+      "passed": 6,
+      "failed": 2,
+      "failureNames": [
+        "I4 removeOwnedItems 原地合同 供给不足自然走完：背包 1 + 装备 3 件扣 5，返回 4",
+        "I4 removeOwnedItems 原地合同 旁对象保真：非空 potion 哨兵与其它装备槽不被触碰"
+      ]
+    },
+    {
+      "name": "drop-external-money-candidate-mutant",
+      "exit": 1,
+      "total": 6,
+      "passed": 5,
+      "failed": 1,
+      "failureNames": [
+        "I6 completeExternalWorldItemUse 残差 consuming 扣 1 件：完整 world 结果 = 输入深克隆仅变库存"
+      ]
+    },
+    {
+      "name": "learned-input-mutation-candidate-mutant",
+      "exit": 1,
+      "total": 8,
+      "passed": 7,
+      "failed": 1,
+      "failureNames": [
+        "I1 effectiveSkills/effectiveBattleSpriteId 残差 grantSkill 与 map 外装备 id：学习集在前、授予追加、map 外无影响"
+      ]
+    },
+    {
+      "name": "throw-input-mutation-candidate-mutant",
+      "exit": 1,
+      "total": 8,
+      "passed": 7,
+      "failed": 1,
+      "failureNames": [
+        "I4 ownedItemCount / worldResourceValue 残差 空键恰抛；collectValue 缺省回退 0；resources 命中返回"
+      ]
+    },
+    {
+      "name": "drop-equipped-usable-candidate-mutant",
+      "exit": 1,
+      "total": 8,
+      "passed": 7,
+      "failed": 1,
+      "failureNames": [
+        "I2 equipItem 残差 装备独有正控：空背包但装备中的可用品仍入列（equippedUsable.push 臂）"
+      ]
+    },
+    {
+      "name": "growth-extra-rng-candidate-mutant",
+      "exit": 1,
+      "total": 10,
+      "passed": 9,
+      "failed": 1,
+      "failureNames": [
+        "I5 目标类效果残差 levelUp：固定 rng 恰 6 次调用、真实 8 项成长精确值、零经验仍 changed"
+      ]
+    },
+    {
+      "name": "drop-external-hp-candidate-mutant",
+      "exit": 1,
+      "total": 6,
+      "passed": 5,
+      "failed": 1,
+      "failureNames": [
+        "I6 completeExternalWorldItemUse 残差 consuming 扣 1 件：完整 world 结果 = 输入深克隆仅变库存"
+      ]
+    }
+  ],
+  "gates": {
+    "content": {
+      "files": 98,
+      "total": 1178,
+      "passed": 1178
+    },
+    "executor": {
+      "total": 17,
+      "passed": 17
+    },
+    "typecheck": {
+      "exit": 0,
+      "diagnostics": 0
+    },
+    "authorMutants": {
+      "controlTests": 46,
+      "detected": 6,
+      "selfTests": 10
+    },
+    "biome": {
+      "summary": {
+        "changed": 0,
+        "unchanged": 9,
+        "matches": 0,
+        "duration": 26543500,
+        "errors": 2,
+        "warnings": 0,
+        "infos": 0,
+        "skipped": 0,
+        "suggestedFixesSkipped": 0,
+        "diagnosticsNotPrinted": 0,
+        "scannerDuration": 6799333
+      },
+      "diagnostics": [
+        {
+          "file": "packages/content/src/__tests__/glm-item-logic-fixtures.ts",
+          "category": "assist/source/organizeImports",
+          "severity": "error",
+          "message": "Sort these imports."
+        },
+        {
+          "file": "packages/content/src/__tests__/glm-item-logic-fixtures.ts",
+          "category": "lint/suspicious/useIterableCallbackReturn",
+          "severity": "error",
+          "message": "This callback passed to forEach() iterable method should not return a value."
+        }
+      ]
+    },
+    "docs": {
+      "exit": 0
+    }
+  },
+  "notRun": ["whole repository check", "official coverage", "browser/E2E"]
+}
