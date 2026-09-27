@@ -1,14 +1,14 @@
 {
   "schemaVersion": 2,
   "profile": "fast",
-  "generatedAt": "2026-09-27T03:33:12.012Z",
+  "generatedAt": "2026-09-27T05:40:50.931Z",
   "provider": {
     "name": "v8",
     "vitest": "4.1.7",
     "coverageV8": "4.1.7"
   },
   "sourceFileCount": 728,
-  "testCount": 9301,
+  "testCount": 9467,
   "packages": {
     "shared": {
       "name": "@type-pal/shared",
@@ -1949,8 +1949,8 @@
       ],
       "scopeDigest": "16189aab012afb4478b77060f7b830d675f7c6e4a3179ff076a6f537afc81a0f",
       "fastTests": {
-        "testCount": 1749,
-        "testFileCount": 191,
+        "testCount": 1783,
+        "testFileCount": 195,
         "files": [
           "packages/reforge/scripts/battle-trial-assets.test.ts",
           "packages/reforge/scripts/battle-trial-host.test.ts",
@@ -2033,6 +2033,7 @@
           "packages/reforge/src/entity-lifecycle.test.ts",
           "packages/reforge/src/entity-motion.test.ts",
           "packages/reforge/src/entity-walk.test.ts",
+          "packages/reforge/src/equip-menu-state.glm-boundaries.test.ts",
           "packages/reforge/src/equip-menu-state.navigation-boundaries.test.ts",
           "packages/reforge/src/equip-menu-state.test.ts",
           "packages/reforge/src/fade-driver.test.ts",
@@ -2052,6 +2053,7 @@
           "packages/reforge/src/item-use-placement.test.ts",
           "packages/reforge/src/latest-snapshot-transaction.test.ts",
           "packages/reforge/src/magic-menu-state.boundaries.test.ts",
+          "packages/reforge/src/magic-menu-state.glm-boundaries.test.ts",
           "packages/reforge/src/magic-menu-state.test.ts",
           "packages/reforge/src/main.battle-host-flows.test.ts",
           "packages/reforge/src/main.boot-flows.test.ts",
@@ -2132,10 +2134,12 @@
           "packages/reforge/src/sprite-anim.test.ts",
           "packages/reforge/src/startup-entry.test.ts",
           "packages/reforge/src/system-menu-state.boundaries.test.ts",
+          "packages/reforge/src/system-menu-state.glm-boundaries.test.ts",
           "packages/reforge/src/system-menu-state.test.ts",
           "packages/reforge/src/text/glyph.test.ts",
           "packages/reforge/src/text/palette-color.test.ts",
           "packages/reforge/src/text/typewriter.test.ts",
+          "packages/reforge/src/use-menu-state.glm-boundaries.test.ts",
           "packages/reforge/src/use-menu-state.navigation-boundaries.test.ts",
           "packages/reforge/src/use-menu-state.test.ts",
           "packages/reforge/src/world-async-commit.test.ts",
@@ -2551,6 +2555,11 @@
             "identityDigest": "1b4e43456793fded2a0f41432075a44a15863e9f8aeacebe8ade55ba9561523b"
           },
           {
+            "file": "packages/reforge/src/equip-menu-state.glm-boundaries.test.ts",
+            "testCount": 7,
+            "identityDigest": "c3743c9bb9474baaa2df304d9c840cc72c0188a67bed4025ba92ee1d9e6cd87c"
+          },
+          {
             "file": "packages/reforge/src/equip-menu-state.navigation-boundaries.test.ts",
             "testCount": 3,
             "identityDigest": "6ebb10e9e24a3e241e4fcb562cbb86b737a70d0b05d3d1ac04028f04e02e0d97"
@@ -2644,6 +2653,11 @@
             "file": "packages/reforge/src/magic-menu-state.boundaries.test.ts",
             "testCount": 4,
             "identityDigest": "f00fa3c5e9aaa31411d2083ede637050ba51a8d651cdd061adf7e42f3d65c257"
+          },
+          {
+            "file": "packages/reforge/src/magic-menu-state.glm-boundaries.test.ts",
+            "testCount": 12,
+            "identityDigest": "69f0f795c369f763d87fc4c15ed18002f16ba763609a69a7d9c7f0a7e9ce6f10"
           },
           {
             "file": "packages/reforge/src/magic-menu-state.test.ts",
@@ -3046,6 +3060,11 @@
             "identityDigest": "cf58832136e54c36ba0119a414cd49392999d24d38b7642a54d36fbb7996a610"
           },
           {
+            "file": "packages/reforge/src/system-menu-state.glm-boundaries.test.ts",
+            "testCount": 7,
+            "identityDigest": "e7040581052d894a8d47efe4636214bf9e8de6186048804a7fd2ebbaaf13ab24"
+          },
+          {
             "file": "packages/reforge/src/system-menu-state.test.ts",
             "testCount": 9,
             "identityDigest": "31f5c6e8c6fac5b8c898e0c204dd1a481c10dd09d89717a7910bb63f5d94eb23"
@@ -3064,6 +3083,11 @@
             "file": "packages/reforge/src/text/typewriter.test.ts",
             "testCount": 7,
             "identityDigest": "45e8b3baadaa7682e3f96660b52df55f0789b4a376d4ff6fc329682e7e71bf9c"
+          },
+          {
+            "file": "packages/reforge/src/use-menu-state.glm-boundaries.test.ts",
+            "testCount": 8,
+            "identityDigest": "5fc5733230906c74112cb5cf789b25ae547f99bdd22bf2c316f54d8751f66828"
           },
           {
             "file": "packages/reforge/src/use-menu-state.navigation-boundaries.test.ts",
@@ -3101,25 +3125,25 @@
             "identityDigest": "3cbb8fa95917cb86d7414ee21345af8a1a2a0df2d14066318539861c10b28ed8"
           }
         ],
-        "identityDigest": "293c488ba8fce8c23d7ecf63872d82f866d88e388553ab672e45caf4092bd494",
+        "identityDigest": "2e5661aaa1d06ce733e4115cca4318a48e4586397e32d3d28a3389f6bfc53b40",
         "duplicateIdentityCount": 0,
-        "executionDigest": "b67f4d63a65f9379679b7149f271092fb24fd5292e91861af67371f2ed93848f"
+        "executionDigest": "776a8a218098e295a0babfbeadd7cd0a58ff4a2622d6c8129b0258e550c2ad2a"
       },
       "metrics": {
         "statements": {
-          "covered": 13290,
+          "covered": 13320,
           "total": 17098
         },
         "branches": {
-          "covered": 7812,
+          "covered": 7840,
           "total": 11458
         },
         "functions": {
-          "covered": 2190,
+          "covered": 2191,
           "total": 2780
         },
         "lines": {
-          "covered": 12018,
+          "covered": 12034,
           "total": 14924
         }
       }
@@ -4595,8 +4619,8 @@
       ],
       "scopeDigest": "e8503db84898429d43f7182fbfa77a13d53933aad0c938380f7918609d7fcb3e",
       "fastTests": {
-        "testCount": 2886,
-        "testFileCount": 340,
+        "testCount": 3018,
+        "testFileCount": 356,
         "files": [
           "packages/editor/scripts/battle-simulator-http.test.mjs",
           "packages/editor/scripts/battle-simulator-ui.test.tsx",
@@ -4612,11 +4636,13 @@
           "packages/editor/src/__tests__/architecture-lab/playback-scope.test.tsx",
           "packages/editor/src/__tests__/architecture-lab/script-draft.test.tsx",
           "packages/editor/src/__tests__/architecture-lab/startup.test.tsx",
+          "packages/editor/src/core/actor-commands.glm-boundaries.test.ts",
           "packages/editor/src/core/actor-commands.residual.test.ts",
           "packages/editor/src/core/actor-commands.test.ts",
           "packages/editor/src/core/actor-dialogue-commands.boundaries.test.ts",
           "packages/editor/src/core/actor-dialogue-commands.test.ts",
           "packages/editor/src/core/actor-references.test.ts",
+          "packages/editor/src/core/ambience-commands.glm-boundaries.test.ts",
           "packages/editor/src/core/ambience-commands.test.ts",
           "packages/editor/src/core/asset-diagnostics.test.ts",
           "packages/editor/src/core/asset-label-command.test.ts",
@@ -4633,12 +4659,14 @@
           "packages/editor/src/core/battle-data-delete-commands.test.ts",
           "packages/editor/src/core/battle-data-references.test.ts",
           "packages/editor/src/core/battle-data-references.wave2.test.ts",
+          "packages/editor/src/core/battle-field-commands.glm-boundaries.test.ts",
           "packages/editor/src/core/battle-field-commands.test.ts",
           "packages/editor/src/core/battle-simulator-commands.wave2.test.ts",
           "packages/editor/src/core/battle-simulator-library.test.ts",
           "packages/editor/src/core/battle-simulator-library.wave2.test.ts",
           "packages/editor/src/core/battle-simulator-persistence.test.ts",
           "packages/editor/src/core/battle-simulator-state.wave2.test.ts",
+          "packages/editor/src/core/battle-sprite-commands.glm-boundaries.test.ts",
           "packages/editor/src/core/battle-sprite-commands.residual.test.ts",
           "packages/editor/src/core/battle-sprite-import.boundaries.test.ts",
           "packages/editor/src/core/binary-signature.test.ts",
@@ -4668,7 +4696,9 @@
           "packages/editor/src/core/editor-history-foundations.test.ts",
           "packages/editor/src/core/editor-history-paired-workflows.test.ts",
           "packages/editor/src/core/editor-history-timeline.test.ts",
+          "packages/editor/src/core/enemy-commands.glm-boundaries.test.ts",
           "packages/editor/src/core/enemy-commands.test.ts",
+          "packages/editor/src/core/enemy-team-commands.glm-boundaries.test.ts",
           "packages/editor/src/core/enemy-team-references.test.ts",
           "packages/editor/src/core/entity-address-references.test.ts",
           "packages/editor/src/core/entity-commands.residual.test.ts",
@@ -4720,6 +4750,7 @@
           "packages/editor/src/core/playback.presentation.test.ts",
           "packages/editor/src/core/playback.queries.test.ts",
           "packages/editor/src/core/playback.test.ts",
+          "packages/editor/src/core/poison-commands.glm-boundaries.test.ts",
           "packages/editor/src/core/poison-commands.test.ts",
           "packages/editor/src/core/project-copy.test.ts",
           "packages/editor/src/core/project-diagnostics.test.ts",
@@ -4758,10 +4789,13 @@
           "packages/editor/src/core/script-references.test.ts",
           "packages/editor/src/core/script-references.wave2.test.ts",
           "packages/editor/src/core/seed.test.ts",
+          "packages/editor/src/core/shop-commands.glm-boundaries.test.ts",
           "packages/editor/src/core/shop-lifecycle.test.ts",
+          "packages/editor/src/core/skill-commands.glm-boundaries.test.ts",
           "packages/editor/src/core/skill-commands.test.ts",
           "packages/editor/src/core/sprite-actions.test.ts",
           "packages/editor/src/core/sprite-actions.wave2.test.ts",
+          "packages/editor/src/core/sprite-commands.glm-boundaries.test.ts",
           "packages/editor/src/core/sprite-commands.residual.test.ts",
           "packages/editor/src/core/sprite-reference-commands.test.ts",
           "packages/editor/src/core/stamp-commands.boundaries.test.ts",
@@ -4784,6 +4818,7 @@
           "packages/editor/src/core/stamp-template.boundaries.test.ts",
           "packages/editor/src/core/stamp-template.test.ts",
           "packages/editor/src/core/startup-commands.residual.test.ts",
+          "packages/editor/src/core/tileset-commands.glm-boundaries.test.ts",
           "packages/editor/src/core/tileset-commands.residual.test.ts",
           "packages/editor/src/core/tileset-lifecycle.test.ts",
           "packages/editor/src/core/tileset-references.test.ts",
@@ -4800,6 +4835,7 @@
           "packages/editor/src/core/workspace-save-admission.test.ts",
           "packages/editor/src/core/world-sprite-behavior.test.ts",
           "packages/editor/src/core/world-sprite-behavior.wave2.test.ts",
+          "packages/editor/src/core/world-variable-commands.glm-boundaries.test.ts",
           "packages/editor/src/core/world-variable-commands.test.ts",
           "packages/editor/src/core/world-variable-references.test.ts",
           "packages/editor/src/core/world-variable-references.wave2.test.ts",
@@ -4865,8 +4901,11 @@
           "packages/editor/src/ui/SceneCanvas.test.tsx",
           "packages/editor/src/ui/SceneScriptWorkspace.test.tsx",
           "packages/editor/src/ui/ScriptBehaviorInspector.test.tsx",
+          "packages/editor/src/ui/ScriptEditor.coverage-batch.test.tsx",
+          "packages/editor/src/ui/ScriptEditor.inparty-condition.test.tsx",
           "packages/editor/src/ui/ScriptEditor.test.tsx",
           "packages/editor/src/ui/ScriptSceneHookInspector.test.tsx",
+          "packages/editor/src/ui/ScriptTree.coverage-batch.test.tsx",
           "packages/editor/src/ui/ScriptTree.test.ts",
           "packages/editor/src/ui/SharedScriptTab.test.tsx",
           "packages/editor/src/ui/ShopTab.test.tsx",
@@ -4921,6 +4960,7 @@
           "packages/editor/src/ui/editor-target.test.ts",
           "packages/editor/src/ui/enemy-defeated-events-boundary.test.mjs",
           "packages/editor/src/ui/enemy-defeated-events.boundaries.test.ts",
+          "packages/editor/src/ui/enemy-defeated-events.coverage-batch.test.ts",
           "packages/editor/src/ui/enemy-defeated-events.test.ts",
           "packages/editor/src/ui/map-pointer-gesture-session.test.tsx",
           "packages/editor/src/ui/map-selection-overlay.test.ts",
@@ -5011,6 +5051,11 @@
             "identityDigest": "bd6494731625fc7b05bb44586eaf6a7d22ff85a4d3fb40e0c318718f28256d22"
           },
           {
+            "file": "packages/editor/src/core/actor-commands.glm-boundaries.test.ts",
+            "testCount": 10,
+            "identityDigest": "01523b928e172aa5544891205452216d1f66c0bc6e9c7d418ea0e2022287c1f4"
+          },
+          {
             "file": "packages/editor/src/core/actor-commands.residual.test.ts",
             "testCount": 5,
             "identityDigest": "6e26b2c166c5e212d298948cba6377e0d2fdaaf91af5c46b9e4aeaa0261852f4"
@@ -5034,6 +5079,11 @@
             "file": "packages/editor/src/core/actor-references.test.ts",
             "testCount": 5,
             "identityDigest": "045fe5d27c3b87dce535b59c7bd5a9dcbc36a9472764bc1d45e4719a5b39ccfc"
+          },
+          {
+            "file": "packages/editor/src/core/ambience-commands.glm-boundaries.test.ts",
+            "testCount": 7,
+            "identityDigest": "cd863f51d1c8db5510dd5bd4f264ed283f12b0c2328015b17bbff767e4ad2d04"
           },
           {
             "file": "packages/editor/src/core/ambience-commands.test.ts",
@@ -5116,6 +5166,11 @@
             "identityDigest": "95576ad85687eb0eb3c942bb4556e6d61d8df440ae7d763657e96b4073926a61"
           },
           {
+            "file": "packages/editor/src/core/battle-field-commands.glm-boundaries.test.ts",
+            "testCount": 7,
+            "identityDigest": "797b9cf7e53f4aaa7916780dfa144d4a3e389d42b896e218f38a0ee40038e5ac"
+          },
+          {
             "file": "packages/editor/src/core/battle-field-commands.test.ts",
             "testCount": 6,
             "identityDigest": "b8d5df2b01cd348d461aab657be706156984f9e91c3f77dcc75fcf38b7183479"
@@ -5144,6 +5199,11 @@
             "file": "packages/editor/src/core/battle-simulator-state.wave2.test.ts",
             "testCount": 4,
             "identityDigest": "cfe94cd634568407b38e777e6dea1650725020f7ca7a40b01dd007c63cb2eee9"
+          },
+          {
+            "file": "packages/editor/src/core/battle-sprite-commands.glm-boundaries.test.ts",
+            "testCount": 6,
+            "identityDigest": "80433fd34658e7240feaced3d85c0f39b71c68afa7bc8aa31f36f0f5d82436cf"
           },
           {
             "file": "packages/editor/src/core/battle-sprite-commands.residual.test.ts",
@@ -5291,9 +5351,19 @@
             "identityDigest": "b2c0fd57a422c1911a761d1158f49e885f29f6c3141e4c3e4387f15ca00bfb71"
           },
           {
+            "file": "packages/editor/src/core/enemy-commands.glm-boundaries.test.ts",
+            "testCount": 8,
+            "identityDigest": "1ac5fe047eb223acad8edf08959f502742b253e0231e584e8b77dcae9c7b258e"
+          },
+          {
             "file": "packages/editor/src/core/enemy-commands.test.ts",
             "testCount": 1,
             "identityDigest": "7e18801738709d1e64391a24b7b4be6d4676d4335b7e250f8038c994b6b6a762"
+          },
+          {
+            "file": "packages/editor/src/core/enemy-team-commands.glm-boundaries.test.ts",
+            "testCount": 8,
+            "identityDigest": "1882a10ee95a943e167b7fd8479567374745659b31c09923e3bee1175848b8fb"
           },
           {
             "file": "packages/editor/src/core/enemy-team-references.test.ts",
@@ -5551,6 +5621,11 @@
             "identityDigest": "f2945f20c577f06f4099f0034c3d71dde1ebb8a0530f8e7847380594845b3853"
           },
           {
+            "file": "packages/editor/src/core/poison-commands.glm-boundaries.test.ts",
+            "testCount": 9,
+            "identityDigest": "288701d4c9a2948294bf23f914a9e6dd979cca5cc5dd8089910e1cf5200419c3"
+          },
+          {
             "file": "packages/editor/src/core/poison-commands.test.ts",
             "testCount": 1,
             "identityDigest": "60e5983685a69bafc9aefcca7b9b940ba0841569623ec3d3c9a07be2603cf1e4"
@@ -5741,9 +5816,19 @@
             "identityDigest": "367b1a477246bf62e27ce53363ffa42747ed7b74ab62926f0ee18578959a4108"
           },
           {
+            "file": "packages/editor/src/core/shop-commands.glm-boundaries.test.ts",
+            "testCount": 6,
+            "identityDigest": "303a32361d970998a36e187840a6704cc46378f5d184b4cc22164065f61971f3"
+          },
+          {
             "file": "packages/editor/src/core/shop-lifecycle.test.ts",
             "testCount": 5,
             "identityDigest": "11b8d97118066ac1c983c206a2faeeb7bcfe23f24cfeb113c1f29e51a3730766"
+          },
+          {
+            "file": "packages/editor/src/core/skill-commands.glm-boundaries.test.ts",
+            "testCount": 7,
+            "identityDigest": "c15ddf1f96fb3a7051eabc5495d4725026946f69233b088a84aeefb29eae09f5"
           },
           {
             "file": "packages/editor/src/core/skill-commands.test.ts",
@@ -5759,6 +5844,11 @@
             "file": "packages/editor/src/core/sprite-actions.wave2.test.ts",
             "testCount": 3,
             "identityDigest": "c0707a7a9987c4f3599d982f7cfdda0e8ee3b93dbcde8b62a34b161f1e508681"
+          },
+          {
+            "file": "packages/editor/src/core/sprite-commands.glm-boundaries.test.ts",
+            "testCount": 10,
+            "identityDigest": "91c4f1df504fe74a81cdf6f66031cb658bf19d6bbcb2d1a1ca4bd732bbe8fe86"
           },
           {
             "file": "packages/editor/src/core/sprite-commands.residual.test.ts",
@@ -5871,6 +5961,11 @@
             "identityDigest": "7fbb8078fffc3d42433a77501ad2ffe3ca7dcfc11e39b229f69d8bf60b3d801c"
           },
           {
+            "file": "packages/editor/src/core/tileset-commands.glm-boundaries.test.ts",
+            "testCount": 9,
+            "identityDigest": "b299dad04f90c3ba493d3c142e74d072036845c7465b36e60b9e57aff0e923f3"
+          },
+          {
             "file": "packages/editor/src/core/tileset-commands.residual.test.ts",
             "testCount": 5,
             "identityDigest": "b9d13831715a5e62f5b5455ba7f58883fc1777d134fbbc7735d4afda98c27111"
@@ -5949,6 +6044,11 @@
             "file": "packages/editor/src/core/world-sprite-behavior.wave2.test.ts",
             "testCount": 5,
             "identityDigest": "7e50f4996f36c5c35bb867021074960d44a0f822ab61b744d72bc0b5cd14ad83"
+          },
+          {
+            "file": "packages/editor/src/core/world-variable-commands.glm-boundaries.test.ts",
+            "testCount": 5,
+            "identityDigest": "5c5121bf35618068041b1e75b80fd40b350e227b20a0da068eea49815f27fb8d"
           },
           {
             "file": "packages/editor/src/core/world-variable-commands.test.ts",
@@ -6276,6 +6376,16 @@
             "identityDigest": "35527a173d5356c12b29b2e31ec29e3d505a15fdaa01ea1f632c0be55b0cc2e0"
           },
           {
+            "file": "packages/editor/src/ui/ScriptEditor.coverage-batch.test.tsx",
+            "testCount": 18,
+            "identityDigest": "f40a56176413e362aa733efea3ed55cf2fafd6208b47fbe531db916ffb5bc7e3"
+          },
+          {
+            "file": "packages/editor/src/ui/ScriptEditor.inparty-condition.test.tsx",
+            "testCount": 1,
+            "identityDigest": "6c93b1c43906ef1391c5fcb3825e341da0c2f3f3cfb42f06b61bcc282263e93f"
+          },
+          {
             "file": "packages/editor/src/ui/ScriptEditor.test.tsx",
             "testCount": 24,
             "identityDigest": "38c307d82ddacaf66f54fe74fe858f50cd3a01a29224f90d819ffca7d67dab73"
@@ -6284,6 +6394,11 @@
             "file": "packages/editor/src/ui/ScriptSceneHookInspector.test.tsx",
             "testCount": 3,
             "identityDigest": "02bc750c25ec4b7f666d2df5f17c84eac478f88a2ce4b5df0bea4b776ef742eb"
+          },
+          {
+            "file": "packages/editor/src/ui/ScriptTree.coverage-batch.test.tsx",
+            "testCount": 5,
+            "identityDigest": "681f05080ef53fae32b34fad3260989069f121515865d2a1c45788a755ba5dba"
           },
           {
             "file": "packages/editor/src/ui/ScriptTree.test.ts",
@@ -6556,6 +6671,11 @@
             "identityDigest": "e8566e7785cec3655a48569f8ba11e0dbc3d35614910defd08aa3a4400b521a6"
           },
           {
+            "file": "packages/editor/src/ui/enemy-defeated-events.coverage-batch.test.ts",
+            "testCount": 16,
+            "identityDigest": "e2bd11ba6d17f5b2191e317067a5f548cbd860f47efb5ee8d8bf8589ff46979e"
+          },
+          {
             "file": "packages/editor/src/ui/enemy-defeated-events.test.ts",
             "testCount": 22,
             "identityDigest": "4c4fd0d9fd7cf134b9e718f9f5522ff33e7a932a09be73bd92e3b248833f1ee7"
@@ -6641,46 +6761,46 @@
             "identityDigest": "6d9b1e40775d9e105c4ed3770ae488e05c74d354e5c965aae87815ced020c2ff"
           }
         ],
-        "identityDigest": "1d852091bf5fa4914f01f6ceb243d9d98865521d8fc9f95e6b30a8e40917e01c",
+        "identityDigest": "89b5d78bc86b3bd8e50e7e7aacf79820656adce1cd2303afacba5f100b938de0",
         "duplicateIdentityCount": 8,
-        "executionDigest": "3e8b8fef21bc125022c9efc50ecde75d885b3fa6283a273475df678c9aeb1a9d"
+        "executionDigest": "d6c5a86b91ea1e16243058b886c21e27c15f0e8b6ac977ae4044801859745140"
       },
       "metrics": {
         "statements": {
-          "covered": 26593,
-          "total": 32890
+          "covered": 26769,
+          "total": 32892
         },
         "branches": {
-          "covered": 20711,
-          "total": 28410
+          "covered": 21032,
+          "total": 28416
         },
         "functions": {
-          "covered": 6694,
-          "total": 8444
+          "covered": 6719,
+          "total": 8446
         },
         "lines": {
-          "covered": 23907,
-          "total": 28754
+          "covered": 24016,
+          "total": 28756
         }
       }
     }
   },
   "total": {
     "statements": {
-      "covered": 64315,
-      "total": 80972
+      "covered": 64521,
+      "total": 80974
     },
     "branches": {
-      "covered": 46201,
-      "total": 63315
+      "covered": 46550,
+      "total": 63321
     },
     "functions": {
-      "covered": 11961,
-      "total": 15235
+      "covered": 11987,
+      "total": 15237
     },
     "lines": {
-      "covered": 57806,
-      "total": 70877
+      "covered": 57931,
+      "total": 70879
     }
   }
 }

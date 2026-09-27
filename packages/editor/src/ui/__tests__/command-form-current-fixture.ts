@@ -29,7 +29,10 @@ afterEach(() => {
   vi.unstubAllGlobals()
 })
 
-export async function commandForm(command: AuthorCommand) {
+export async function commandForm(
+  command: AuthorCommand,
+  options: { requireLeafFormRow?: boolean } = {},
+) {
   checkAuthorCommands([command], 'form.input')
   const nodeBuffer = 'node:buffer'
   const native: { Blob: typeof Blob } = await import(nodeBuffer)
@@ -137,7 +140,7 @@ export async function commandForm(command: AuthorCommand) {
   if (!commandRow) throw new Error('public editor did not render command row')
   await act(async () => commandRow.dispatchEvent(new MouseEvent('dblclick', { bubbles: true })))
   expect(document.querySelector('[role="dialog"]')).not.toBeNull()
-  expect(document.querySelector('.cf-row')).not.toBeNull()
+  if (options.requireLeafFormRow !== false) expect(document.querySelector('.cf-row')).not.toBeNull()
   expect(document.body.textContent).not.toContain('应用 JSON')
   function unchanged() {
     expect(body).toEqual(before)

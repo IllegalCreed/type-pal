@@ -1,6 +1,7 @@
 # Cursor 三包纯逻辑补测工作包
 
 [任务卡](../../ops/tasks/TEST-CURSOR-PURE-WAVE-1-twelve-modules.md) / [当前看板](../../ops/board.md) /
+[Codex 首轮独立接收反证](codex-intake-review.md)（rework；候选尚未合入） /
 [A content](a/README.md) / [B reforge](b/README.md) / [C editor](c/README.md)。
 冻结源树 `19b0101c`。下表为开工前源码 hash 和一次旧 fast 报告的未命中分支臂，
 只帮助选择题目；是否可达、是否已有语义测试由 Cursor 逐条读源码及旧测判定。

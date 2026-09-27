@@ -1463,6 +1463,30 @@ function ConditionEditor(props: {
           />
         </CanonicalField>
       ) : null}
+      {props.value.kind === 'inParty' ? (
+        <CanonicalField label="队员">
+          <DsSelect
+            size="compact"
+            value={props.value.actorId}
+            options={[
+              ...(!props.references?.has('actor', props.value.actorId)
+                ? [
+                    {
+                      value: props.value.actorId,
+                      label: `${props.value.actorId}（引用失效）`,
+                      disabled: true,
+                    },
+                  ]
+                : []),
+              ...(props.references?.choices('actor').map((actor) => ({
+                value: actor.id,
+                label: `${actor.name}（${actor.id}）`,
+              })) ?? []),
+            ]}
+            onValueChange={(actorId) => patch({ actorId })}
+          />
+        </CanonicalField>
+      ) : null}
       {props.value.kind === 'all' || props.value.kind === 'any' ? (
         <div className="canonical-condition-nested">
           {props.value.of.map((condition, index) => (
