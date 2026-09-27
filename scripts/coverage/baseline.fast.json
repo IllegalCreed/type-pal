@@ -1,14 +1,14 @@
 {
   "schemaVersion": 2,
   "profile": "fast",
-  "generatedAt": "2026-09-27T06:20:42.046Z",
+  "generatedAt": "2026-09-27T07:13:34.211Z",
   "provider": {
     "name": "v8",
     "vitest": "4.1.7",
     "coverageV8": "4.1.7"
   },
   "sourceFileCount": 730,
-  "testCount": 9505,
+  "testCount": 9528,
   "packages": {
     "shared": {
       "name": "@type-pal/shared",
@@ -4663,8 +4663,8 @@
       ],
       "scopeDigest": "e8503db84898429d43f7182fbfa77a13d53933aad0c938380f7918609d7fcb3e",
       "fastTests": {
-        "testCount": 3020,
-        "testFileCount": 358,
+        "testCount": 3043,
+        "testFileCount": 361,
         "files": [
           "packages/editor/scripts/battle-simulator-http.test.mjs",
           "packages/editor/scripts/battle-simulator-ui.test.tsx",
@@ -4948,11 +4948,14 @@
           "packages/editor/src/ui/SceneScriptWorkspace.test.tsx",
           "packages/editor/src/ui/ScriptBehaviorInspector.test.tsx",
           "packages/editor/src/ui/ScriptEditor.coverage-batch.test.tsx",
+          "packages/editor/src/ui/ScriptEditor.coverage-workflows-2.test.tsx",
           "packages/editor/src/ui/ScriptEditor.inparty-condition.test.tsx",
           "packages/editor/src/ui/ScriptEditor.test.tsx",
           "packages/editor/src/ui/ScriptSceneHookInspector.test.tsx",
+          "packages/editor/src/ui/ScriptTree.coverage-batch-2.test.ts",
           "packages/editor/src/ui/ScriptTree.coverage-batch.test.tsx",
           "packages/editor/src/ui/ScriptTree.test.ts",
+          "packages/editor/src/ui/ScriptTree.workflow-coverage.test.tsx",
           "packages/editor/src/ui/SharedScriptTab.test.tsx",
           "packages/editor/src/ui/ShopTab.test.tsx",
           "packages/editor/src/ui/SkillTab.test.tsx",
@@ -6437,6 +6440,11 @@
             "identityDigest": "f40a56176413e362aa733efea3ed55cf2fafd6208b47fbe531db916ffb5bc7e3"
           },
           {
+            "file": "packages/editor/src/ui/ScriptEditor.coverage-workflows-2.test.tsx",
+            "testCount": 14,
+            "identityDigest": "b78f9b0b283ab6b9da63b22fb47200e6eb34095ab1cf999aac528f024a79be7e"
+          },
+          {
             "file": "packages/editor/src/ui/ScriptEditor.inparty-condition.test.tsx",
             "testCount": 1,
             "identityDigest": "6c93b1c43906ef1391c5fcb3825e341da0c2f3f3cfb42f06b61bcc282263e93f"
@@ -6452,6 +6460,11 @@
             "identityDigest": "02bc750c25ec4b7f666d2df5f17c84eac478f88a2ce4b5df0bea4b776ef742eb"
           },
           {
+            "file": "packages/editor/src/ui/ScriptTree.coverage-batch-2.test.ts",
+            "testCount": 4,
+            "identityDigest": "5290903dc8d2beb75c5b983c855e0e4833c278a99bccc68f20cca5452a6264b8"
+          },
+          {
             "file": "packages/editor/src/ui/ScriptTree.coverage-batch.test.tsx",
             "testCount": 5,
             "identityDigest": "681f05080ef53fae32b34fad3260989069f121515865d2a1c45788a755ba5dba"
@@ -6460,6 +6473,11 @@
             "file": "packages/editor/src/ui/ScriptTree.test.ts",
             "testCount": 5,
             "identityDigest": "59381d0f7ce1fe6b3e2227e3da55fde9778abe35715115244bb51da3ae43a326"
+          },
+          {
+            "file": "packages/editor/src/ui/ScriptTree.workflow-coverage.test.tsx",
+            "testCount": 5,
+            "identityDigest": "83a0527bfbf6c315166d8d85536528db936b224b19f09e7a1affe937267ccc0b"
           },
           {
             "file": "packages/editor/src/ui/SharedScriptTab.test.tsx",
@@ -6817,25 +6835,25 @@
             "identityDigest": "6d9b1e40775d9e105c4ed3770ae488e05c74d354e5c965aae87815ced020c2ff"
           }
         ],
-        "identityDigest": "4ae0d3190b364bac4c22d7a0b7aca6207cb724c7fdc6e4254b0558a9f70b17d0",
+        "identityDigest": "bd2868821e1cecc2ddeb93aae144cd632a2a9f4f4539f1108ff90df07cc485dd",
         "duplicateIdentityCount": 8,
-        "executionDigest": "4b2ba392ce79b511ecda687ce87ec06b6a4125824edabe9e954b5256a840db4c"
+        "executionDigest": "b2f9adb65c79bf73dbf4d960216f7aad9253b4b4bb0cde7b0dc0411b1a3a54a0"
       },
       "metrics": {
         "statements": {
-          "covered": 26770,
+          "covered": 26882,
           "total": 32892
         },
         "branches": {
-          "covered": 21033,
+          "covered": 21215,
           "total": 28416
         },
         "functions": {
-          "covered": 6719,
+          "covered": 6771,
           "total": 8446
         },
         "lines": {
-          "covered": 24017,
+          "covered": 24126,
           "total": 28756
         }
       }
@@ -6843,19 +6861,19 @@
   },
   "total": {
     "statements": {
-      "covered": 64652,
+      "covered": 64764,
       "total": 80978
     },
     "branches": {
-      "covered": 46615,
+      "covered": 46797,
       "total": 63323
     },
     "functions": {
-      "covered": 12020,
+      "covered": 12072,
       "total": 15239
     },
     "lines": {
-      "covered": 58041,
+      "covered": 58150,
       "total": 70882
     }
   }

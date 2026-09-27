@@ -31,7 +31,11 @@ afterEach(() => {
 
 export async function commandForm(
   command: AuthorCommand,
-  options: { requireLeafFormRow?: boolean } = {},
+  options: {
+    requireLeafFormRow?: boolean
+    includeEntity?: boolean
+    includeSharedScript?: boolean
+  } = {},
 ) {
   checkAuthorCommands([command], 'form.input')
   const nodeBuffer = 'node:buffer'
@@ -49,7 +53,38 @@ export async function commandForm(
       door: { label: '正门', pos: { col: 1, row: 2, height: 3 }, facing: 'up' },
       back: { label: '后门', pos: { col: 7, row: 8, height: 0 }, facing: 'left' },
     },
-    entities: [],
+    entities: options.includeEntity
+      ? [{ id: 'npc', sprite: 'hero', pos: { col: 1, row: 1, height: 0 } }]
+      : [],
+  }
+  const authorScene: AuthorSceneDef = {
+    id: scene.id,
+    mapId: scene.mapId,
+    entry: structuredClone(scene.entry),
+    entries: structuredClone(scene.entries),
+    entities: options.includeEntity
+      ? [
+          {
+            id: 'npc',
+            sprite: 'hero',
+            pos: { col: 1, row: 1, height: 0 },
+            initialPage: 'default',
+            pages: [
+              { id: 'default', label: '默认', trigger: 'talk' },
+              { id: 'silent', label: '静默', trigger: 'talk' },
+            ],
+            behaviors: {
+              trigger: {
+                talk: {
+                  label: '交谈',
+                  order: 0,
+                  flow: { kind: 'stages', initial: 'start', stages: [{ id: 'start', body: [] }] },
+                },
+              },
+            },
+          },
+        ]
+      : [],
   }
   const other: SceneDef & AuthorSceneDef = {
     id: 'other',
@@ -58,7 +93,7 @@ export async function commandForm(
     entities: [],
   }
   validateScenes([scene, other])
-  validateAuthorScenes([scene, other])
+  validateAuthorScenes([authorScene, other])
   const originalSprite = Object.values(project.spritesById)[0]
   if (!originalSprite) throw new Error('fixture requires actual starter sprite')
   const sprites = validateSprites(
@@ -95,7 +130,13 @@ export async function commandForm(
   const onOpenWorldVariable = vi.fn()
   const onOpenBattleSprite = vi.fn()
   const context: CanonicalScriptEditorContext = {
-    state: { scenes: [scene, other], items: project.authorContent.items, sharedScripts: {} },
+    state: {
+      scenes: [authorScene, other],
+      items: project.authorContent.items,
+      sharedScripts: options.includeSharedScript
+        ? { 'shared/user/heal': { name: '治疗', self: 'none', body: [{ kind: 'wait', ms: 1 }] } }
+        : {},
+    },
     currentSceneId: 'start',
     shellScenes: [scene, other],
     locale: project.locale,
