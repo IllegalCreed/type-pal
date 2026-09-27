@@ -1,13 +1,14 @@
 # GLM 菜单与编辑命令：四批十六组
 
-[任务卡](../../ops/tasks/TEST-GLM-STATE-COMMANDS-1-sixteen-leaf-modules.md) /
+[完成卡](../../ops/archive/tasks/done/TEST-GLM-STATE-COMMANDS-1-sixteen-leaf-modules.md) /
 [冻结账](targets.freeze.json) / [交付清单](../glm-delivery-checklist.md) /
 [上批已接收证据](../item-logic-integration.md)。
 
-当前候选接收结论：[Codex 独立反证](codex-intake-review.md)（rework；四批合入暂缓）。
+本包已由 Codex [独立接收与统一集成](codex-integration.md)并核定 done；
+[首轮反证](codex-intake-review.md)按历史事实保留，R1–R4 已逐项闭合。
 
 生产冻结1bc7df91，官方fast9295/728。16个目标共277未命中臂/43行，**仅选题，不等于277臂都能或都该补**。
-原准入允许按[A菜单](a/README.md)→[B战斗数据编辑](b/README.md)→[C资源命令](c/README.md)→[D工程定义](d/README.md)连续实施；目前处于交付返工。
+实施顺序为[A菜单](a/README.md)→[B战斗数据编辑](b/README.md)→[C资源命令](c/README.md)→[D工程定义](d/README.md)，四包均已接收。
 共用[负控与交付工具入口](tools/README.md)，无需改父目录导航。
 工作量通过更多独立模块扩大，不靠同一函数堆参数。没有固定新增用例数/覆盖百分比指标。
 
