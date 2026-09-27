@@ -124,6 +124,21 @@ E2E/main/dialogue/motion接口、暂停的FrameAnimationEditor测试。禁止mai
 - 披露：`AddShopCommand` 无重复 id 守卫（重复 apply 由 validateShops 拒绝）按现状钉死；
   D04 无独立针（三针覆盖）；不合 main、不标 done。
 
+## GLM 交付块（整包收口，2026-09-27）
+
+- **最终候选 SHA：`7be02ad6`**（origin/codex/glm-state-commands-r1 头；基线 `1bc7df91`，
+  四批提交链 `af0b87a4`→`ac61ab5c`→`4a8c2b0c`→`2f221116`→`7be02ad6`）。
+- 全包实测（最终树，新鲜 JSON）：**editor 3130/3130 exit 0**（/tmp/final-editor.json）、
+  **reforge 1777/1777 exit 0**（/tmp/final-reforge.json），均 `env -u NODE_COMPILE_CACHE`
+  且零 skip/零 fail。
+- 16 个目标生产源 sha256 与冻结账逐一相符（逐文件 `sha256sum` 复验，含批C actor `41bf9d85…`、
+  sprite `2b6f3a35…`、battle-sprite `16041546…`、tileset `1d43a0b7…` 与批D四源）。
+- 批C 一处测试内 TS 修复（actor Detach 二次 apply 用 structuredClone 改 facing，避免 union 展开类型
+  误报）在批D提交中漏staging，随本收口提交补上；内容仅为测试文件，生产零 diff。
+- 负控总计 9 针（b/c/d 各 3）+ 1 份共用判据（自测 10 例/批）+ 对照 3 轮全绿；全部 27 针次
+  恰 exit1、恰一红、fullName 逐字命中、生产 hash 不变。
+- 不跑全仓 check/ratchet/strict-fast（留 Codex 统一执行）；不合 main、不标 done、不代签。
+
 ## 可直接转发给GLM
 
 接手TEST-GLM-STATE-COMMANDS-1，状态build、已允许实施。先读本卡、工作包README、冻结账与交付自检清单。

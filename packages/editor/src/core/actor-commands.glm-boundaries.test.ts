@@ -201,19 +201,11 @@ describe('C01 actor-commands 残差', () => {
       .find((scene) => scene.id === 'start')!
       .entities.find((entry) => entry.id === 'npc')!
     expect('actor' in restoredEntity && restoredEntity.actor).toBe('hero')
-    const modified: typeof restored = {
-      ...restored,
-      scenes: restored.scenes.map((scene) =>
-        scene.id !== 'start'
-          ? scene
-          : {
-              ...scene,
-              entities: scene.entities.map((entry) =>
-                entry.id === 'npc' ? { ...entry, facing: 'up' as const } : entry,
-              ),
-            },
-      ),
-    }
+    const modified = structuredClone(restored)
+    const modifiedEntity = modified.scenes
+      .find((scene) => scene.id === 'start')!
+      .entities.find((entry) => entry.id === 'npc')!
+    ;(modifiedEntity as { facing?: string }).facing = 'up'
     const detachedAgain = cmd.apply(modified)
     const undone = cmd.invert(detachedAgain)
     const undoneEntity = undone.scenes
