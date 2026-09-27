@@ -80,15 +80,19 @@ describe('I1 effectiveStat（content 内零直测的派生口）', () => {
   test('同名 stat 累加、异 stat 与非 statBonus 不串扰，map 外装备 id 回退', () => {
     const c = char({ accessory: 'oldRing', weapon: 'sword' })
     let attack = 0
-    let defense = 0
-    let luck = 0
     expectInputsUnchanged(() => {
       attack = effectiveStat(c, 'attack', items)
-      defense = effectiveStat(c, 'defense', items)
-      luck = effectiveStat(c, 'luck', items)
     }, [c, items])
     expect(attack).toBe(12)
+    let defense = 0
+    expectInputsUnchanged(() => {
+      defense = effectiveStat(c, 'defense', items)
+    }, [c, items])
     expect(defense).toBe(13)
+    let luck = 0
+    expectInputsUnchanged(() => {
+      luck = effectiveStat(c, 'luck', items)
+    }, [c, items])
     expect(luck).toBe(10)
     const dangling = char({ accessory: 'gone-ring' })
     expectInputsUnchanged(() => {
@@ -122,9 +126,9 @@ describe('I1 effectiveResistances 残差', () => {
           poisonRes: number
         }
       | undefined
-    expectAcceptsUnchanged((value) => {
-      result = effectiveResistances(value, items)
-    }, c)
+    expectInputsUnchanged(() => {
+      result = effectiveResistances(c, items)
+    }, [c, items])
     expect(result?.elemRes.wind).toBe(30)
     expect(result?.elemRes.fire).toBe(0)
     expect(result?.poisonRes).toBe(40)
@@ -216,9 +220,13 @@ describe('I1 grantStatus 去重/regen 下落臂/attackAll 回退族', () => {
     const dangling = char({ accessory: 'gone-ring' })
     expectInputsUnchanged(() => {
       statuses = effectiveGrantedStatuses(dangling, items)
-      expect(equipGrantsAttackAll(dangling, items)).toBe(false)
     }, [dangling, items])
     expect(statuses).toEqual([])
+    let attackAll = true
+    expectInputsUnchanged(() => {
+      attackAll = equipGrantsAttackAll(dangling, items)
+    }, [dangling, items])
+    expect(attackAll).toBe(false)
   })
 
   test('regen 装备件只含非 regen 效果时回蓝回血不变；map 外 id 回退', () => {

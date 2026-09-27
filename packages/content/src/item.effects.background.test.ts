@@ -68,9 +68,9 @@ describe('I5 效果链与门', () => {
       }),
     }
     let outcome: WorldItemUseOutcome | undefined
-    expectAcceptsUnchanged((value) => {
-      outcome = resolveWorldItemUse(value, 'hero', 'use-item', mixedItems)
-    }, mixed)
+    expectInputsUnchanged(() => {
+      outcome = resolveWorldItemUse(mixed, 'hero', 'use-item', mixedItems)
+    }, [mixed, mixedItems])
     expect(outcome?.status).toBe('failure')
     expect(outcome?.reason).toBe('invalid-effect-chain')
     expect(outcome?.world).toBe(mixed)
@@ -92,9 +92,9 @@ describe('I5 效果链与门', () => {
         },
       }),
     }
-    expectAcceptsUnchanged((value) => {
-      outcome = resolveWorldItemUse(value, 'hero', 'use-item', twinItems)
-    }, twinExternal)
+    expectInputsUnchanged(() => {
+      outcome = resolveWorldItemUse(twinExternal, 'hero', 'use-item', twinItems)
+    }, [twinExternal, twinItems])
     expect(outcome?.reason).toBe('invalid-effect-chain')
     expect(outcome?.world).toBe(twinExternal)
   })
@@ -140,9 +140,9 @@ describe('I5 效果链与门', () => {
         { target: 'scene', consuming: false },
       ),
     }
-    expectAcceptsUnchanged((value) => {
-      outcome = resolveWorldItemUse(value, 'hero', 'use-item', replayItems)
-    }, replay)
+    expectInputsUnchanged(() => {
+      outcome = resolveWorldItemUse(replay, 'hero', 'use-item', replayItems)
+    }, [replay, items])
     expect(outcome?.changed).toBe(false)
     expect(outcome?.world).toBe(replay)
   })
@@ -157,9 +157,9 @@ describe('I5 目标类效果残差', () => {
       party: [{ ...hero(0, 40, 'hero'), extraStatuses: [{ status: 'protect', turns: 7 }] }],
     } satisfies WorldState
     let outcome: WorldItemUseOutcome | undefined
-    expectAcceptsUnchanged((value) => {
-      outcome = resolveWorldItemUse(value, 'hero', 'use-item', items)
-    }, downed)
+    expectInputsUnchanged(() => {
+      outcome = resolveWorldItemUse(downed, 'hero', 'use-item', items)
+    }, [downed, items])
     expect(outcome?.changed).toBe(true)
     const revived = outcome?.world?.party[0]!
     expect(revived?.hp).toBe(50)
@@ -169,9 +169,9 @@ describe('I5 目标类效果残差', () => {
     const aliveItems: ItemDataMap = {
       'use-item': useItem([{ kind: 'revive', hpPercent: 50 }], { consuming: false }),
     }
-    expectAcceptsUnchanged((value) => {
-      outcome = resolveWorldItemUse(value, 'hero', 'use-item', aliveItems)
-    }, alive)
+    expectInputsUnchanged(() => {
+      outcome = resolveWorldItemUse(alive, 'hero', 'use-item', aliveItems)
+    }, [alive, items])
     expect(outcome?.changed).toBe(false)
     expect(outcome?.world).toBe(alive)
   })
@@ -185,9 +185,9 @@ describe('I5 目标类效果残差', () => {
       party: [poisoned('hero')],
     } satisfies WorldState
     let outcome: WorldItemUseOutcome | undefined
-    expectAcceptsUnchanged((value) => {
-      outcome = resolveWorldItemUse(value, 'hero', 'use-item', items)
-    }, w)
+    expectInputsUnchanged(() => {
+      outcome = resolveWorldItemUse(w, 'hero', 'use-item', items)
+    }, [w, items])
     expect(outcome?.changed).toBe(true)
     expect(outcome?.world?.party[0]?.poisons).toEqual([])
     const defsMissing = {
@@ -197,9 +197,9 @@ describe('I5 目标类效果残差', () => {
     const tierItems: ItemDataMap = {
       'use-item': useItem([{ kind: 'curePoison', curesTier: 'common' }], { consuming: false }),
     }
-    expectAcceptsUnchanged((value) => {
-      outcome = resolveWorldItemUse(value, 'hero', 'use-item', tierItems)
-    }, defsMissing)
+    expectInputsUnchanged(() => {
+      outcome = resolveWorldItemUse(defsMissing, 'hero', 'use-item', tierItems)
+    }, [defsMissing, items])
     expect(outcome?.changed).toBe(false)
     expect(outcome?.world).toBe(defsMissing)
     const unknownPoison = {
@@ -240,18 +240,18 @@ describe('I5 目标类效果残差', () => {
       ],
     } satisfies WorldState
     let outcome: WorldItemUseOutcome | undefined
-    expectAcceptsUnchanged((value) => {
-      outcome = resolveWorldItemUse(value, 'hero', 'use-item', items)
-    }, w)
+    expectInputsUnchanged(() => {
+      outcome = resolveWorldItemUse(w, 'hero', 'use-item', items)
+    }, [w, items])
     expect(outcome?.changed).toBe(true)
     expect(outcome?.world?.party[0]?.extraStatuses).toEqual([{ status: 'haste', turns: 5 }])
     const plain = world([{ itemId: 'use-item', count: 1 }])
     const plainItems: ItemDataMap = {
       'use-item': useItem([{ kind: 'removeStatus', statuses: ['protect'] }], { consuming: false }),
     }
-    expectAcceptsUnchanged((value) => {
-      outcome = resolveWorldItemUse(value, 'hero', 'use-item', plainItems)
-    }, plain)
+    expectInputsUnchanged(() => {
+      outcome = resolveWorldItemUse(plain, 'hero', 'use-item', plainItems)
+    }, [plain, items])
     expect(outcome?.changed).toBe(false)
     expect(outcome?.world).toBe(plain)
   })
@@ -269,9 +269,9 @@ describe('I5 目标类效果残差', () => {
       ]),
     }
     let outcome: WorldItemUseOutcome | undefined
-    expectAcceptsUnchanged((value) => {
-      outcome = resolveWorldItemUse(value, 'hero', 'use-item', items)
-    }, w)
+    expectInputsUnchanged(() => {
+      outcome = resolveWorldItemUse(w, 'hero', 'use-item', items)
+    }, [w, items])
     const after = outcome?.world?.party[0]!
     expect(after?.maxHP).toBe(1)
     expect(after?.maxMP).toBe(0)
@@ -286,9 +286,9 @@ describe('I5 目标类效果残差', () => {
         consuming: false,
       }),
     }
-    expectAcceptsUnchanged((value) => {
-      outcome = resolveWorldItemUse(value, 'hero', 'use-item', floorItems)
-    }, floored)
+    expectInputsUnchanged(() => {
+      outcome = resolveWorldItemUse(floored, 'hero', 'use-item', floorItems)
+    }, [floored, items])
     expect(outcome?.changed).toBe(false)
     expect(floored.party[0]?.maxHP).toBe(1)
     expect(outcome?.world).toBe(floored)
@@ -303,9 +303,9 @@ describe('I5 目标类效果残差', () => {
       party: [poisoned('hero', 40)],
     } satisfies WorldState
     let outcome: WorldItemUseOutcome | undefined
-    expectAcceptsUnchanged((value) => {
-      outcome = resolveWorldItemUse(value, 'hero', 'use-item', items)
-    }, w)
+    expectInputsUnchanged(() => {
+      outcome = resolveWorldItemUse(w, 'hero', 'use-item', items)
+    }, [w, items])
     expect(outcome?.changed).toBe(true)
     const after = outcome?.world?.party[0]!
     expect(after?.hp).toBe(60)
@@ -321,9 +321,9 @@ describe('I5 目标类效果残差', () => {
       'use-item': useItem([{ kind: 'healHp', amount: 10 }]),
     }
     let outcome: WorldItemUseOutcome | undefined
-    expectAcceptsUnchanged((value) => {
-      outcome = resolveWorldItemUse(value, 'hero', 'use-item', singleItems)
-    }, single)
+    expectInputsUnchanged(() => {
+      outcome = resolveWorldItemUse(single, 'hero', 'use-item', singleItems)
+    }, [single, singleItems])
     expect(outcome?.effectResults?.[0]?.targetCharIds).toEqual(['hero'])
     expect(outcome?.world?.party[1]?.hp).toBe(70)
     const groupItems: ItemDataMap = {
@@ -336,9 +336,9 @@ describe('I5 目标类效果残差', () => {
       party: [hero(60, 40, 'hero'), poisoned('mage', 0)],
     } satisfies WorldState
     const groupUse = { ...group, inventory: [{ itemId: 'use-item', count: 1 }] } as WorldState
-    expectAcceptsUnchanged((value) => {
-      outcome = resolveWorldItemUse(value, 'hero', 'use-item', groupItems)
-    }, groupUse)
+    expectInputsUnchanged(() => {
+      outcome = resolveWorldItemUse(groupUse, 'hero', 'use-item', groupItems)
+    }, [groupUse, groupItems])
     expect(outcome?.status).toBe('success')
     const leader = outcome?.world?.party[0]!
     const mage = outcome?.world?.party[1]!

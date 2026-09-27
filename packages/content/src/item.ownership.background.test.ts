@@ -11,7 +11,7 @@
  */
 import { describe, expect, test } from 'vitest'
 import { deepSnapshot } from './__tests__/glm-content-contract-fixtures.js'
-import { hero, world } from './__tests__/glm-item-logic-fixtures.js'
+import { expectInputsUnchanged, hero, world } from './__tests__/glm-item-logic-fixtures.js'
 import { expectAcceptsUnchanged } from './__tests__/guard-leaf-fixtures.js'
 import type { WorldState } from './character.js'
 import { ownedItemCount, removeOwnedItems, worldResourceValue } from './item.js'
@@ -37,9 +37,9 @@ describe('I4 removeOwnedItems 原地合同', () => {
     const w = world([{ itemId: 'potion', count: 2 }])
     const before = JSON.parse(JSON.stringify(w))
     let removed = -1
-    expectAcceptsUnchanged((value) => {
-      removed = removeOwnedItems(value, 'bead', 3)
-    }, w)
+    expectInputsUnchanged(() => {
+      removed = removeOwnedItems(w, 'bead', 3)
+    }, [w])
     expect(removed).toBe(0)
     expect(w).toEqual(before)
   })
@@ -97,10 +97,10 @@ describe('I4 ownedItemCount / worldResourceValue 残差', () => {
     w.party[0]!.equipment = { accessory: 'bead', weapon: 'bead' }
     let beadCount = 0
     let potionCount = 0
-    expectAcceptsUnchanged((value) => {
-      beadCount = ownedItemCount(value, 'bead')
-      potionCount = ownedItemCount(value, 'potion')
-    }, w)
+    expectInputsUnchanged(() => {
+      beadCount = ownedItemCount(w, 'bead')
+      potionCount = ownedItemCount(w, 'potion')
+    }, [w])
     expect(beadCount).toBe(2)
     expect(potionCount).toBe(3)
   })
@@ -111,26 +111,30 @@ describe('I4 ownedItemCount / worldResourceValue 残差', () => {
     expect(() => worldResourceValue(w, '  ')).toThrow('worldResourceValue: 资源键不能为空')
     expect(w).toEqual(wBefore)
     let collect = 0
-    expectAcceptsUnchanged((value) => {
-      collect = worldResourceValue(value, 'collectValue')
-    }, w)
+    expectInputsUnchanged(() => {
+      collect = worldResourceValue(w, 'collectValue')
+    }, [w])
     expect(collect).toBe(0)
     const withResources = { ...world([]), resources: { herb: 7 } } as WorldState
     let herb = 0
-    expectAcceptsUnchanged((value) => {
-      herb = worldResourceValue(value, 'herb')
-    }, withResources)
+    expectInputsUnchanged(() => {
+      herb = worldResourceValue(withResources, 'herb')
+    }, [withResources])
     expect(herb).toBe(7)
   })
 
-  test('负数/非整数资源值恰抛且信息含键名', () => {
-    const negative = { ...world([]), resources: { herb: -1 } } as WorldState
+  test('负数/非整数资源值恰抛且信息含键名（每次调用前后快照）', () => {
+    const negative: WorldState = { ...world([]), resources: { herb: -1 } }
+    const negativeBefore = deepSnapshot(negative)
     expect(() => worldResourceValue(negative, 'herb')).toThrow(
       'worldResourceValue: 资源 "herb" 必须是非负安全整数',
     )
-    const fractional = { ...world([]), resources: { herb: 1.5 } } as WorldState
+    expect(negative).toEqual(negativeBefore)
+    const fractional: WorldState = { ...world([]), resources: { herb: 1.5 } }
+    const fractionalBefore = deepSnapshot(fractional)
     expect(() => worldResourceValue(fractional, 'herb')).toThrow(
       'worldResourceValue: 资源 "herb" 必须是非负安全整数',
     )
+    expect(fractional).toEqual(fractionalBefore)
   })
 })

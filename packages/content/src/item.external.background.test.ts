@@ -48,9 +48,9 @@ describe('I6 completeExternalWorldItemUse 残差', () => {
   test('unknown-item 拒绝且 menu 缺省 keep', () => {
     const w = world([])
     let outcome: ReturnType<typeof completeExternalWorldItemUse> | undefined
-    expectAcceptsUnchanged((value) => {
-      outcome = completeExternalWorldItemUse(value, 'gone-item', items)
-    }, w)
+    expectInputsUnchanged(() => {
+      outcome = completeExternalWorldItemUse(w, 'gone-item', items)
+    }, [w, items])
     expect(outcome?.status).toBe('failure')
     expect(outcome?.reason).toBe('unknown-item')
     expect(outcome?.menu).toBe('keep')
@@ -60,9 +60,9 @@ describe('I6 completeExternalWorldItemUse 残差', () => {
   test('menuAfterUse close 在成功 outcome 上成形', () => {
     const w = world([{ itemId: 'closeScript', count: 1 }])
     let outcome: ReturnType<typeof completeExternalWorldItemUse> | undefined
-    expectAcceptsUnchanged((value) => {
-      outcome = completeExternalWorldItemUse(value, 'closeScript', items)
-    }, w)
+    expectInputsUnchanged(() => {
+      outcome = completeExternalWorldItemUse(w, 'closeScript', items)
+    }, [w, items])
     expect(outcome?.status).toBe('success')
     expect(outcome?.menu).toBe('close')
   })
@@ -91,16 +91,16 @@ describe('I6 completeExternalWorldItemUse 残差', () => {
   test('world 引用合同：consumedByExternal 与不消费都返回原 world 引用', () => {
     const consumedByHost = world([{ itemId: 'potion', count: 1 }])
     let outcome: ReturnType<typeof completeExternalWorldItemUse> | undefined
-    expectAcceptsUnchanged((value) => {
-      outcome = completeExternalWorldItemUse(value, 'script-item', items)
-    }, consumedByHost)
+    expectInputsUnchanged(() => {
+      outcome = completeExternalWorldItemUse(consumedByHost, 'script-item', items)
+    }, [consumedByHost, items])
     expect(outcome?.consumed).toBe(true)
     expect(outcome?.changed).toBe(true)
     expect(outcome?.world).toBe(consumedByHost)
     const keepCharmWorld = world([{ itemId: 'keepCharm', count: 1 }])
-    expectAcceptsUnchanged((value) => {
-      outcome = completeExternalWorldItemUse(value, 'keepCharm', items)
-    }, keepCharmWorld)
+    expectInputsUnchanged(() => {
+      outcome = completeExternalWorldItemUse(keepCharmWorld, 'keepCharm', items)
+    }, [keepCharmWorld, items])
     expect(outcome?.consumed).toBe(false)
     expect(outcome?.changed).toBe(true)
     expect(outcome?.world).toBe(keepCharmWorld)
@@ -111,9 +111,9 @@ describe('I6 completeExternalWorldItemUse 残差', () => {
     test('external 物品：不结算不消耗，返回原 world 引用', () => {
       const w = world([{ itemId: 'script-item', count: 1 }])
       let returned: WorldState | undefined
-      expectAcceptsUnchanged((value) => {
-        returned = useItem(value, 'hero', 'script-item', items)
-      }, w)
+      expectInputsUnchanged(() => {
+        returned = useItem(w, 'hero', 'script-item', items)
+      }, [w, items])
       expect(returned).toBe(w)
       expect(w.inventory).toEqual([{ itemId: 'script-item', count: 1 }])
     })
@@ -133,9 +133,9 @@ describe('I6 completeExternalWorldItemUse 残差', () => {
       }
       const w = world([{ itemId: 'battleOnly', count: 1 }])
       let returned: WorldState | undefined
-      expectAcceptsUnchanged((value) => {
-        returned = useItem(value, 'hero', 'battleOnly', battleItems)
-      }, w)
+      expectInputsUnchanged(() => {
+        returned = useItem(w, 'hero', 'battleOnly', battleItems)
+      }, [w])
       expect(returned).toBe(w)
       expect(w.inventory).toEqual([{ itemId: 'battleOnly', count: 1 }])
     })

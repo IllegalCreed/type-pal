@@ -148,9 +148,9 @@ describe('I2 equippedItemIds / equippableItems / usableItems 残差', () => {
       ],
     }
     let ids: Set<string> | undefined
-    expectAcceptsUnchanged((value) => {
-      ids = equippedItemIds(value)
-    }, w)
+    expectInputsUnchanged(() => {
+      ids = equippedItemIds(w)
+    }, [w])
     expect(ids).toEqual(new Set(['oldRing', 'talisman']))
   })
 

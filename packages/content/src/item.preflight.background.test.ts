@@ -79,11 +79,12 @@ describe('I3 preflightWorldItemUse 残差', () => {
     }, [w, items])
     expectFailure(outcome, w, 'unknown-item')
     const noUse = world([{ itemId: 'noUse', count: 1 }])
+    const noUseCatalog: ItemDataMap = {
+      noUse: makeItem({ id: 'noUse', name: '无用途' }),
+    }
     expectInputsUnchanged(() => {
-      outcome = preflightWorldItemUse(noUse, 'hero', 'noUse', {
-        noUse: makeItem({ id: 'noUse', name: '无用途' }),
-      })
-    }, [noUse, items])
+      outcome = preflightWorldItemUse(noUse, 'hero', 'noUse', noUseCatalog)
+    }, [noUse, noUseCatalog])
     expectFailure(outcome, noUse, 'unknown-item')
   })
 
