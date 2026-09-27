@@ -10,6 +10,13 @@ Branch: `codex/glm-item-logic-r1`
 
 ## 准入与前提
 
+### 2026-09-27 Codex接收3da6002e
+
+**counter，仅helper与证据收尾**，见[完整替换函数/精确标题/提示词](../../testing/item-logic-r8-review.md)。
+六处tuple、三条完整错误及实际world快照均接受；八针、作者六针、1178/executor17/TC/九文件零诊断通过。
+helper与receipt相对170283a0整文件零diff，卡内“已恢复/全同步”不符；机账针定位仍有旧值。
+下一轮不再改六个业务测试，只改helper/receipt/evidence并勘误作者交付块。不合候选、不计覆盖。
+
 ### 2026-09-27 Codex接收170283a0
 
 **counter，仅原R3/R4收尾**，见[六处精确tuple及提示词](../../testing/item-logic-r7-review.md)。
