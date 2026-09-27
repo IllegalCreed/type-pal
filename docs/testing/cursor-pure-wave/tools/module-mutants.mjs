@@ -31,6 +31,28 @@ const cases = {
     fullName:
       'A02 script-library 剩余合同 getScriptBody：derived chunk 未命中时回退实际 owner，不改 chunks',
   },
+  b03: {
+    pkg: 'reforge',
+    id: 'b03-hidden-layer-view',
+    sourceFile: 'src/project-map.ts',
+    testFile: 'src/project-map.cursor-boundaries.test.ts',
+    from: 'if (hiddenLayerIds.has(layer.id)) return',
+    to: 'if (false) return',
+    title: '隐藏层不进入 tilesInView，同格可见层完整保留 layerId/tileset/height',
+    fullName:
+      'B03 project-map 剩余合同 隐藏层不进入 tilesInView，同格可见层完整保留 layerId/tileset/height',
+  },
+  b04: {
+    pkg: 'reforge',
+    id: 'b04-chunk-cache-hit',
+    sourceFile: 'src/script-chunk-store.ts',
+    testFile: 'src/script-chunk-store.cursor-boundaries.test.ts',
+    from: 'if (hit) {\n      hit.usedAt = ++this.clock\n      return hit',
+    to: 'if (false) {\n      hit.usedAt = ++this.clock\n      return hit',
+    title: '二次 resolve 命中缓存：reads 仍为 1，body/ref 完整且 unused sibling chunk 未读',
+    fullName:
+      'B04 script-chunk-store 剩余合同 二次 resolve 命中缓存：reads 仍为 1，body/ref 完整且 unused sibling chunk 未读',
+  },
 }
 
 function pkgDir(spec) {
