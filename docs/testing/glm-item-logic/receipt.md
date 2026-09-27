@@ -16,7 +16,7 @@
 | I5 | item.effects.background.test.ts | craftRecipe 成功/材料不足、drawFromResourcePool 掷档/封顶/空池(value=0)、三公共效果 happy、allAllies 结算、chance 显式、自毒/解毒/护体符/大蒜 | invalid-effect-chain 两形态（⚠ 刻意非法载体 rawItem，测 resolve 自身防御合同）、gate 缺省 chance=100 的 1% 失败、modifyHostileAwareness 免目标+同值零变化、revive 复活清态/活人零变化、curePoison 显式 id/缺 defs/未知毒/无毒、removeStatus 过滤、permanentStatBoost 三种钳位与钳位零变化（delta 0 非法不测）、dieIfNotPoisoned 中毒不停表、oneAlly 跳过、allAllies 复合链、levelUp 固定 rng 真实 8 项成长精确值（level 2/maxHP 114/maxMP 61/attack 15/…）与零经验仍 changed | 10 |
 | I6 | item.external.background.test.ts | '外部脚本只返回待执行请求'、useItem 四例 | completeExternalWorldItemUse（content 零直测）：unknown-item、menu close、consuming 扣件 clone、consumedByExternal 原引用、consuming:false 原引用 changed true、非默认 host 世界保真（money/resources/learnedSkills）、world 引用合同合并用例；useItem external 原引用/battleOnly 联动 | 6 |
 
-合计 **46 行**（I1 8/I2 7/I3 6/I4 8/I5 10/I6 6）。纯函数经 `expectAcceptsUnchanged` 独立快照前后
+合计 **46 行**（I1 8/I2 8/I3 6/I4 8/I5 10/I6 6）。纯函数经 `expectInputsUnchanged` 独立快照前后
 比较；失败/零变化 outcome 断言 `world` 为原引用（toBe）；原地 `removeOwnedItems` 只断精确差值。
 池内不可达臂如实不测：assertNever 防御两处、preflight 后物品消失、hideParty/外部三 kind 错分支、
 非携带态 applyStatus、drawFromResourcePool 档位越界（roll 基于 maxRoll 恒在档内，旧测已证 value=0
@@ -30,12 +30,12 @@
 
 | 针 | 生产注入 | 类别 | 恰红用例（fullName） |
 |---|---|---|---|
-| derived-stat-assign | effectiveStat `v +=` → `v =` | 派生数值错误（累加改赋值） | I1 …同名 stat 累加、异 stat 与非 statBonus 不串扰，map 外装备 id 回退 |
-| equippable-count-filter | `e.count > 0` → `>= 0` | 过滤放行 | I2 …equippableItems 过滤 count>0 与模板（count 0 不列） |
-| ownership-floor-ceiling | floor → ceil（仅非整数 count 可感） | 输入语义 | I4 …需求 0/负数/非整数：floor+max 语义 |
-| resolve-stopped-skip | `if (!targetIds.has(next.id)) continue` → `if (false) …` | 错目标 | I5 …oneAlly 跳过非目标；allAllies 复合链跳过已停表目标 |
-| external-drop-consume | completeExternal `const consumed = consumeItem(…)` → `false` | 错误消费 | I6 …consuming 扣 1 件：世界为 clone、effectResults 全 changed 保序 |
-| external-world-identity | `world: consumed ? nextWorld : world` → `world: nextWorld` | 引用选择合同 | I6 …world 引用合同：consumedByExternal 与不消费都返回原 world 引用 |
+| derived-stat-assign | effectiveStat `v +=` → `v =` | 派生数值错误（累加改赋值） | I1 effectiveStat（content 内零直测的派生口） 同名 stat 累加、异 stat 与非 statBonus 不串扰，map 外装备 id 回退 |
+| equippable-count-filter | `e.count > 0` → `>= 0` | 过滤放行 | I2 equippedItemIds / equippableItems / usableItems 残差 equippableItems 过滤 count>0 与模板（count 0 不列） |
+| ownership-floor-ceiling | floor → ceil（仅非整数 count 可感） | 输入语义 | I4 removeOwnedItems 原地合同 需求 0/负数/非整数：floor+max 语义 |
+| resolve-stopped-skip | `if (stoppedTargets.has(next.id)) continue` → `if (false) continue` | 错目标 | I5 目标类效果残差 oneAlly 跳过非目标；allAllies 复合链跳过已停表目标 |
+| external-drop-consume | completeExternal `const consumed = consumeItem(…)` → `false` | 错误消费 | I6 completeExternalWorldItemUse 残差 consuming 扣 1 件：完整 world 结果 = 输入深克隆仅变库存 |
+| external-world-identity | `world: consumed ? nextWorld : world` → `world: nextWorld` | 引用选择合同 | I6 completeExternalWorldItemUse 残差 world 引用合同：consumedByExternal 与不消费都返回原 world 引用 |
 
 明细见 [evidence.json](evidence.json)；机账 `/var/folders/.../type-pal-item-logic-mutants-*`。
 
@@ -43,7 +43,7 @@
 
 - 定向六文件：46/46 exit 0（新鲜 JSON）。
 - 相邻：item.test.ts **51 项** + reforge item-use-executor 17 项均绿。
-- 全 content：**98 文件 1178/1178** exit 0（新鲜 JSON `/tmp/item-logic-content.json`；净增恰 45 行测试身份）。
+- 全 content：**98 文件 1178/1178** exit 0（新鲜 JSON `/tmp/item-logic-content.json`；净增恰 46 行测试身份）。
 - TC：exit 0。Biome（本批改动九文件）：0 error、0 warning；全 src 另有 runtime-script.ts:146
   既有 noUnusedVariables warning 属分支继承非本批引入（生产零 diff 可证）。
 - docs：PASS；`git diff --check` 干净。不跑全仓 check/coverage，不碰主工作树与 E2E。

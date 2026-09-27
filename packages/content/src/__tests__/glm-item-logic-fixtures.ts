@@ -103,12 +103,9 @@ export function runScriptEffect(): ItemUseEffect {
  * 多入参纯函数的输入保真——每个对象实参调用前独立快照，执行后立即逐一比较同一实参。
  * 原始不可变标量不传入；原地 API（removeOwnedItems）不使用本助手。
  */
-export function expectInputsUnchanged(
-  run: (value: object) => void,
-  inputs: readonly object[],
-): void {
+export function expectInputsUnchanged(run: () => void, inputs: readonly object[]): void {
   const snapshots = inputs.map((input) => deepSnapshot(input))
-  if (inputs.length > 0) run(inputs[0] as object)
+  run()
   inputs.forEach((input, index) => {
     expect(input).toEqual(snapshots[index])
   })

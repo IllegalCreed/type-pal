@@ -47,26 +47,26 @@
         "module": "item.ts",
         "injection": "effectiveStat v += delta -> v = delta",
         "category": "派生数值错误（累加改赋值）",
-        "onlyFailed": "I1 同名 stat 累加、异 stat 与非 statBonus 不串扰，map 外装备 id 回退"
+        "onlyFailed": "I1 effectiveStat（content 内零直测的派生口） 同名 stat 累加、异 stat 与非 statBonus 不串扰，map 外装备 id 回退"
       },
       {
         "id": "equippable-count-filter",
         "module": "item.ts",
         "injection": "equippableItems e.count > 0 -> >= 0",
         "category": "过滤放行",
-        "onlyFailed": "I2 equippableItems 过滤 count>0 与模板（count 0 不列）"
+        "onlyFailed": "I2 equippedItemIds / equippableItems / usableItems 残差 equippableItems 过滤 count>0 与模板（count 0 不列）"
       },
       {
         "id": "ownership-floor-ceiling",
         "module": "item.ts",
         "injection": "remaining floor -> ceil",
         "category": "输入语义（非整数 count）",
-        "onlyFailed": "I4 需求 0/负数/非整数：floor+max 语义"
+        "onlyFailed": "I4 removeOwnedItems 原地合同 需求 0/负数/非整数：floor+max 语义"
       },
       {
         "id": "resolve-stopped-skip",
         "module": "item.ts",
-        "injection": "targetIds continue -> if (false)",
+        "injection": "stoppedTargets continue -> if (false)",
         "category": "停表门失效",
         "onlyFailed": "I5 目标类效果残差 oneAlly 跳过非目标；allAllies 复合链跳过已停表目标"
       },
@@ -80,7 +80,7 @@
       {
         "id": "external-world-identity",
         "module": "item.ts",
-        "injection": "completeExternal world: consumed ? next : world -> nextWorld",
+        "injection": "world: consumed ? nextWorld : world -> nextWorld",
         "category": "引用选择合同",
         "onlyFailed": "I6 completeExternalWorldItemUse 残差 world 引用合同：consumedByExternal 与不消费都返回原 world 引用"
       }
@@ -129,7 +129,7 @@
   "gates": {
     "directed": "六文件 46/46 exit 0",
     "adjacent": "item.test.ts 51 项绿；reforge item-use-executor 17 项绿",
-    "contentSuite": "98 文件 1178/1178 exit 0（新鲜 JSON /tmp/item-logic-final.json）",
+    "contentSuite": "98 文件 1178/1178 exit 0（新鲜 JSON）",
     "typecheck": "exit 0",
     "biome": "改动文件 0 error 0 warning 0 info；全 src runtime-script.ts:146 既有 noUnusedVariables warning 属分支继承",
     "docs": "PASS；git diff --check 干净",
