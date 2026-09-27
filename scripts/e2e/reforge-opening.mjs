@@ -3,6 +3,7 @@ import { readFile, writeFile } from 'node:fs/promises'
 import { resolve } from 'node:path'
 import { repoRoot, runBrowserJourney, sha256 } from './browser-journey.mjs'
 import { appendBounded } from './opening-policy.mjs'
+import { openingTiming } from './opening-timing.mjs'
 import {
   assertReforgeOpening,
   openingSaveView,
@@ -27,6 +28,7 @@ await runBrowserJourney({
   name: 'reforge-001',
   packageName: '@type-pal/reforge',
   environment: { VITE_PROJECT_ID: 'pal' },
+  traceConfig: 'scripts/e2e/reforge-trace.config.mts',
   sources: [
     'projects/pal/manifest.json',
     'projects/pal/assets/index.json',
@@ -37,10 +39,14 @@ await runBrowserJourney({
     'scripts/e2e/reforge-opening.mjs',
     'scripts/e2e/reforge-opening-policy.mjs',
     'scripts/e2e/browser-journey.mjs',
+    'scripts/e2e/opening-trace.mjs',
+    'scripts/e2e/opening-trace-plugin.mjs',
+    'scripts/e2e/opening-timing.mjs',
+    'scripts/e2e/reforge-trace.config.mts',
   ],
   journey: async ({ newPage, baseURL, out, report, until, health }) => {
     report.pending = [
-      'complete committed NPC movement events and cross-engine timing',
+      'full dialogue-page and other-actor matrix beyond the two accepted Aunt intervals',
       '002 and capture/audio verification',
     ]
     let page = await newPage('new-story')
@@ -116,6 +122,14 @@ await runBrowserJourney({
       await until(snapshot, (next) => reforgeStateKey(next) !== key, 'story state transition')
     }
     assertReforgeOpening(report, introPath)
+    report.npcTrace = await until(
+      () => page.evaluate(() => window.__readOpeningTrace()),
+      (t) => t.events.at(-1)?.control,
+      'committed final frame returns control',
+      5000,
+    )
+    await writeFile(resolve(out, 'npc-trace.json'), `${JSON.stringify(report.npcTrace, null, 2)}\n`)
+    report.timing = openingTiming(report.npcTrace, 'reforge')
     await press('Escape', 'prove actual menu control')
     await until(snapshot, (s) => s.runtime?.menuActive, 'menu opens')
     await press('Escape', 'return to room')
@@ -158,5 +172,7 @@ await runBrowserJourney({
     await press('Escape', 'restored control returns to room')
     await until(snapshot, (s) => reforgeRoomReady(s.runtime), 'restored menu closes')
     await page.screenshot({ path: resolve(out, '001-restored.png') })
+    if (report.timing.status !== 'passed')
+      throw new Error('001 dialogue/movement ordering differs; inspect npc-trace.json')
   },
 })

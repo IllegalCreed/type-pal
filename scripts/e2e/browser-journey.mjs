@@ -9,12 +9,20 @@ import { setTimeout as delay } from 'node:timers/promises'
 import { fileURLToPath } from 'node:url'
 import { chromium } from 'playwright'
 import { installVideoObserver } from './game-observer.mjs'
+import { installOpeningTrace } from './opening-trace.mjs'
 
 export const repoRoot = fileURLToPath(new URL('../../', import.meta.url))
 export const sha256 = (bytes) => createHash('sha256').update(bytes).digest('hex')
 
 /** Own only a temporary browser/server; no connection to a user profile or existing dev server. */
-export async function runBrowserJourney({ name, packageName, environment, sources, journey }) {
+export async function runBrowserJourney({
+  name,
+  packageName,
+  environment,
+  sources,
+  journey,
+  traceConfig,
+}) {
   const args = new Set(process.argv.slice(2))
   for (const arg of args)
     assert(['--headless', '--headed'].includes(arg), `unknown argument ${arg}`)
@@ -60,6 +68,7 @@ export async function runBrowserJourney({ name, packageName, environment, source
       packageName,
       'exec',
       'vite',
+      ...(traceConfig ? ['--config', resolve(repoRoot, traceConfig)] : []),
       '--host',
       '127.0.0.1',
       '--port',
@@ -123,6 +132,7 @@ export async function runBrowserJourney({ name, packageName, environment, source
       const context = await browser.newContext({ viewport: { width: 1360, height: 900 } })
       contexts.push(context)
       await context.addInitScript(installVideoObserver)
+      if (traceConfig) await context.addInitScript(installOpeningTrace)
       page = await context.newPage()
       page.on('pageerror', (e) => error(e.message))
       page.on('console', (m) => {
@@ -194,5 +204,6 @@ export async function runBrowserJourney({ name, packageName, environment, source
       process.exitCode = 1
     }
     await writeFile(resolve(out, 'report.json'), `${JSON.stringify(report, null, 2)}\n`)
+    process.send?.({ report: resolve(out, 'report.json') })
   }
 }

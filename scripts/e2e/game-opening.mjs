@@ -17,6 +17,8 @@ import {
   stateKey,
   storyAction,
 } from './opening-policy.mjs'
+import { openingTiming } from './opening-timing.mjs'
+import { installOpeningTrace } from './opening-trace.mjs'
 
 const root = fileURLToPath(new URL('../../', import.meta.url))
 const args = new Set(process.argv.slice(2))
@@ -43,8 +45,7 @@ const report = {
   revision: execFileSync('git', ['rev-parse', 'HEAD'], { cwd: root, encoding: 'utf8' }).trim(),
   scope: 'story-flow pilot and genuine checkpoint restore; not full two-engine timing acceptance',
   pending: [
-    'Reforge 001 adapter',
-    'complete committed NPC movement events and cross-engine timing',
+    'full dialogue-page and other-actor matrix beyond the two accepted Aunt intervals',
     '002 and capture/audio verification',
   ],
   events: [],
@@ -66,6 +67,12 @@ for (const name of [
   'scripts/e2e/game-opening.mjs',
   'scripts/e2e/game-observer.mjs',
   'scripts/e2e/opening-policy.mjs',
+  'scripts/e2e/opening-trace.mjs',
+  'scripts/e2e/opening-trace-plugin.mjs',
+  'scripts/e2e/opening-timing.mjs',
+  'scripts/e2e/game-trace.config.mts',
+  'packages/game/src/core/event-system.ts',
+  'packages/game/src/present/present.ts',
   'pnpm-lock.yaml',
 ]) {
   report.runnerHashes[name] = sha256(await readFile(resolve(root, name)))
@@ -91,6 +98,8 @@ const server = spawn(
     '@type-pal/game',
     'exec',
     'vite',
+    '--config',
+    resolve(root, 'scripts/e2e/game-trace.config.mts'),
     '--host',
     '127.0.0.1',
     '--port',
@@ -163,6 +172,7 @@ async function newContext(label) {
   const context = await browser.newContext({ viewport: { width: 1100, height: 760 } })
   contexts.push(context)
   await context.addInitScript(installVideoObserver)
+  await context.addInitScript(installOpeningTrace)
   page = await context.newPage()
   page.on('pageerror', (error) => appendBounded(report.errors, `${label}: ${error.message}`, 50))
   page.on('console', (message) => {
@@ -268,6 +278,9 @@ try {
   report.videos = videoEvidence.events
   report.dialogueHistory = lines
   assertOpeningEvidence({ videos: videoEvidence.events, lines, final })
+  report.npcTrace = await page.evaluate(() => window.__readOpeningTrace())
+  await writeFile(resolve(out, 'npc-trace.json'), `${JSON.stringify(report.npcTrace, null, 2)}\n`)
+  report.timing = openingTiming(report.npcTrace, 'game')
   await press('Escape', 'prove normal control: open actual in-game menu')
   await until(
     () => snapshot(),
@@ -332,6 +345,11 @@ try {
   await press('Escape', 'return to restored room')
   await until(() => snapshot(), isControllableRoom, 'restored menu closes')
   await page.screenshot({ path: resolve(out, '001-restored.png') })
+  assert.equal(
+    report.timing.status,
+    'passed',
+    '001 dialogue/movement ordering differs; inspect npc-trace.json',
+  )
   report.status = 'passed'
   console.log(`[001] PASS: real checkpoint ${report.checkpoint.sha256}\n${out}`)
 } catch (error) {
@@ -366,4 +384,5 @@ try {
     process.exitCode = 1
   }
   await writeFile(resolve(out, 'report.json'), `${JSON.stringify(report, null, 2)}\n`)
+  process.send?.({ report: resolve(out, 'report.json') })
 }

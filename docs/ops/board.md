@@ -11,7 +11,7 @@
 lint/格式/七包typecheck零诊断，完整check9712、ratchet/受保护单次strict9220通过；warning/info/截断均硬失败。
 
 **当前优先级（用户2026-09-27拍板）**：GLM/Cursor继续各自隔离补测，Codex暂停主动覆盖率扩展，
-转[快速通关E2E](../testing/e2e-route-proposal.md)。game001首批执行器已入库，下一步二阶段适配与NPC时序，
+转[快速通关E2E](../testing/e2e-route-proposal.md)。001双引擎流程/检查点已入库，当前补关键NPC时序与后续录制矩阵，
 不是立即开全流程盲探；+5pp按当前分母尚差477分支（E2E观测分母变化单列），不是E2E门槛。此前2026-09-22覆盖率优先排期被本条替代。
 **2026-09-24补充**：用户要求推进[全仓架构治理](audits/architecture-debt.md)，改为按职责拆分与补测同步推进。
 第一阶段允许行为不漂移的结构优化，也检查实现bug；纯重构与行为修正分提交。首批A1已独立准入并收口，不扩张为整仓同时重写。
@@ -56,7 +56,7 @@ check8896/单次strict8404全过；实际+134分支/+73行，content分支85.55%
 | ID | 任务 | 状态 | 负责人/下一步 | 一句话备注 |
 |---|---|---|---|---|
 | TEST-GLM-STATE-COMMANDS-1 | [菜单与编辑命令十六组](tasks/TEST-GLM-STATE-COMMANDS-1-sixteen-leaf-modules.md) | build | GLM / A→D连续实施 | 四批16模块、277未命中臂仅选题；产品/旧测/基线不改，整包交Codex统一门 |
-| E2E-R4-1 | [路线驱动与检查点薄基线](tasks/E2E-R4-1-route-and-checkpoint-foundation.md) | build | Codex / 001实际NPC时序 | 两引擎各自开场/检查点及并行运行通过，check9793/strict9301；NPC提交事件与偏序比较待补 |
+| E2E-R4-1 | [路线驱动与检查点薄基线](tasks/E2E-R4-1-route-and-checkpoint-foundation.md) | build | Codex / 001逐页与录制矩阵 | 双引擎开场/检查点通过；李大娘两段对话零位移、前中后三段移动偏序已自动核验，138/103稀疏事件；全视觉/音轨未证 |
 | TEST-COVERAGE-PLUS5-1 | [全仓分支+5pp持续队列](tasks/TEST-COVERAGE-PLUS5-1-continuous-batches.md) | build | Codex / 暂停主动扩展 | 72.97%/当前分母差477B；E2E观测新增分母单列，不作E2E门槛 |
 | TEST-CODEX-FRAME-EDITOR-1 | [帧动画编辑工作流](tasks/TEST-CODEX-FRAME-EDITOR-1-current-workflows.md) | build | Codex / 暂停保留WIP | 未完成测试不计覆盖，不删除现场 |
 | EDITOR-SCENE-FACING-1 | [切场景朝向清除](tasks/EDITOR-SCENE-FACING-1-clear-override.md) | draft | Codex / 后续窄修 | 保持选项仍提交旧方向；真实红诊断+单点oracle已证 |
