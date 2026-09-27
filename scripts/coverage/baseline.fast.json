@@ -1,14 +1,14 @@
 {
   "schemaVersion": 2,
   "profile": "fast",
-  "generatedAt": "2026-09-27T05:40:50.931Z",
+  "generatedAt": "2026-09-27T06:06:05.554Z",
   "provider": {
     "name": "v8",
     "vitest": "4.1.7",
     "coverageV8": "4.1.7"
   },
   "sourceFileCount": 728,
-  "testCount": 9467,
+  "testCount": 9498,
   "packages": {
     "shared": {
       "name": "@type-pal/shared",
@@ -1186,8 +1186,8 @@
       ],
       "scopeDigest": "06fd6dec8eb4d3f7dbe20a79d6dd1c259f3e94c1ca9a81cd4c01d8df3545d892",
       "fastTests": {
-        "testCount": 808,
-        "testFileCount": 95,
+        "testCount": 810,
+        "testFileCount": 96,
         "files": [
           "packages/migrate/src/bake-indexed-rgba.test.ts",
           "packages/migrate/src/current-only-product-boundary.test.ts",
@@ -1263,6 +1263,7 @@
           "packages/migrate/src/scene-migration-source-plan.test.ts",
           "packages/migrate/src/script-control-flow-audit.test.ts",
           "packages/migrate/src/script-graph.test.ts",
+          "packages/migrate/src/script-library-audit.unit.test.ts",
           "packages/migrate/src/script-library-audit.wave2.test.ts",
           "packages/migrate/src/script-library-normalize.test.ts",
           "packages/migrate/src/script-overlays.test.ts",
@@ -1657,6 +1658,11 @@
             "identityDigest": "0feaf02daff5109eb355e16988a3d80027e5b7a7d74d04ffabc81a55f460df62"
           },
           {
+            "file": "packages/migrate/src/script-library-audit.unit.test.ts",
+            "testCount": 2,
+            "identityDigest": "bc91dabf02d28e14fa5db80d7b00316255ed22fea8b689f91696c186c2eef0af"
+          },
+          {
             "file": "packages/migrate/src/script-library-audit.wave2.test.ts",
             "testCount": 4,
             "identityDigest": "2b745bf7158c6524cc34255438707023829bd1d59e364e294855ab60a8f2d274"
@@ -1762,9 +1768,9 @@
             "identityDigest": "baba8c49c53ef8a741ef1c605723ba72d227914206784bc3a5f719e12c8ff8ee"
           }
         ],
-        "identityDigest": "560f11649a73f0167544854d686c963a35963b8ab108d32afd4329f2c1315a6a",
+        "identityDigest": "484516dd0fa74717cf2a7c58aed5657a0313c5c47e0fe7bab956abe260daff58",
         "duplicateIdentityCount": 1,
-        "executionDigest": "5028507d9340753175eb292e02cc79ecd4ad3b9c49405f34f22165a7a643cea8"
+        "executionDigest": "813695024403e4905073cd509d49ac5fc8aa4f364005c37655cbbbbc1ef71307"
       },
       "metrics": {
         "statements": {
@@ -3301,8 +3307,8 @@
       ],
       "scopeDigest": "76a72f63a8624cfd219214e150493868ed047400df313543a1f0844c491daf75",
       "fastTests": {
-        "testCount": 2421,
-        "testFileCount": 164,
+        "testCount": 2450,
+        "testFileCount": 165,
         "files": [
           "packages/game/src/analytics/analytics-consent-ui.test.ts",
           "packages/game/src/analytics/analytics-consent.boundaries.test.ts",
@@ -3388,6 +3394,7 @@
           "packages/game/src/core/scene-system-search.test.ts",
           "packages/game/src/core/scene-system.test.ts",
           "packages/game/src/core/word-lookup.test.ts",
+          "packages/game/src/dev/dev-panel.pure.test.ts",
           "packages/game/src/e2e.test.ts",
           "packages/game/src/present/__tests__/grok-composition/p11-world-layers.test.ts",
           "packages/game/src/present/__tests__/grok-composition/p12-overlays.test.ts",
@@ -3891,6 +3898,11 @@
             "identityDigest": "44a6a6687e0f0c45c7c722be00dd7bfef6757843334e19c178d82043118c26f9"
           },
           {
+            "file": "packages/game/src/dev/dev-panel.pure.test.ts",
+            "testCount": 29,
+            "identityDigest": "d9d3790299016582374940d9112f11afb068a948f1322df03dcf1f25b27b3a60"
+          },
+          {
             "file": "packages/game/src/e2e.test.ts",
             "testCount": 1,
             "identityDigest": "ae317903e65cb2bafadbd0ab1d0dacc89bf306d95e50dfd329004b8ba73ef3ca"
@@ -4291,25 +4303,25 @@
             "identityDigest": "916c70c2855d90db70208a6895de9b3254f0e3f039c2bb0b96bc8fd4287d249d"
           }
         ],
-        "identityDigest": "6389165ea2ef2eaa34e168763acbc5ac57adba4b38aa9ae763b2dc0a4cee0fa9",
+        "identityDigest": "5e97a73e30e4406480a44f4d8628596b58b4fbbea620253493065c7beb1609d7",
         "duplicateIdentityCount": 0,
-        "executionDigest": "a337e161eb263e3273ac0fc6af98bcd02c2e81d8b20ecc547e853a3048bc7c03"
+        "executionDigest": "c4c7ef144bf0cb768697654943dafc0827609dd87234cd63130b8a68c780b678"
       },
       "metrics": {
         "statements": {
-          "covered": 11922,
+          "covered": 12045,
           "total": 15511
         },
         "branches": {
-          "covered": 7836,
+          "covered": 7896,
           "total": 11273
         },
         "functions": {
-          "covered": 1371,
+          "covered": 1402,
           "total": 1852
         },
         "lines": {
-          "covered": 10713,
+          "covered": 10817,
           "total": 13617
         }
       }
@@ -6787,19 +6799,19 @@
   },
   "total": {
     "statements": {
-      "covered": 64521,
+      "covered": 64644,
       "total": 80974
     },
     "branches": {
-      "covered": 46550,
+      "covered": 46610,
       "total": 63321
     },
     "functions": {
-      "covered": 11987,
+      "covered": 12018,
       "total": 15237
     },
     "lines": {
-      "covered": 57931,
+      "covered": 58035,
       "total": 70879
     }
   }
