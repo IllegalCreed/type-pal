@@ -70,6 +70,59 @@ const batches = {
       },
     ],
   },
+  c: {
+    packageRoot: resolve(root, 'packages/editor'),
+    production: [
+      'src/core/actor-commands.ts',
+      'src/core/sprite-commands.ts',
+      'src/core/battle-sprite-commands.ts',
+      'src/core/tileset-commands.ts',
+    ],
+    control: {
+      tests: [
+        'src/core/actor-commands.glm-boundaries.test.ts',
+        'src/core/sprite-commands.glm-boundaries.test.ts',
+        'src/core/battle-sprite-commands.glm-boundaries.test.ts',
+        'src/core/tileset-commands.glm-boundaries.test.ts',
+      ],
+      total: 33,
+    },
+    mutations: [
+      {
+        id: 'sprite-share-undo-overdelete',
+        module: 'src/core/sprite-commands.ts',
+        file: 'src/core/sprite-commands.glm-boundaries.test.ts',
+        total: 10,
+        describe: 'C02 sprite-commands 残差',
+        title: 'AddSprite：共享物理资产第二语义 → createdAsset=false，undo 保留 catalog/blob',
+        from: '    this.createdAsset = !existing',
+        to: '    this.createdAsset = true',
+        category: '资产旁记录被删：共享物理资产第二语义被撤销时误删 catalog/blob',
+      },
+      {
+        id: 'tileset-remove-shared-cascade',
+        module: 'src/core/tileset-commands.ts',
+        file: 'src/core/tileset-commands.glm-boundaries.test.ts',
+        total: 7,
+        describe: 'C04 tileset-commands 残差',
+        title: 'RemoveTileset：共享分支后 invert 保 catalog/blob（persistedBytes 缺省不覆盖）',
+        from: '    if (nextTilesets.some((candidate) => candidate.asset === removed.asset))',
+        to: '    if (false)',
+        category: '资产旁记录被删：共享 tileset 资产随定义删除级联',
+      },
+      {
+        id: 'actor-detach-first-capture',
+        module: 'src/core/actor-commands.ts',
+        file: 'src/core/actor-commands.glm-boundaries.test.ts',
+        total: 10,
+        describe: 'C01 actor-commands 残差',
+        title: 'DetachActorEntity：二次 apply 保持首轮 original，undo 回首次前实体',
+        from: '    if (!this.original) this.original = structuredClone(entity)',
+        to: '    if (true) this.original = structuredClone(entity)',
+        category: '坏undo：首轮实体快照被二次 apply 覆盖',
+      },
+    ],
+  },
 }
 
 const MIXED_ERROR =

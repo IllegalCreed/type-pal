@@ -98,6 +98,20 @@ E2E/main/dialogue/motion接口、暂停的FrameAnimationEditor测试。禁止mai
   `AddEnemyTeamCommand.invert` 无条件剔除与 `AddSkillCommand.invert` 的 `!this.added`
   守卫不一致属当前合同，按现状钉死，是否统一交 Codex 裁定。不合 main、不标 done。
 
+## GLM 交付块（批C：人物与资源命令，2026-09-27）
+
+- 交付：四个 `.glm-boundaries.test.ts`（C01 actor 10例 / C02 sprite 10例 / C03 battle-sprite 6例 /
+  C04 tileset 7例，合计 33）+ fixture `packages/editor/src/core/__tests__/glm-state-commands-c.ts`
+  + 批回执 `docs/testing/glm-state-commands/c/README.md`（4行ledger）+ tools 登记批C三针。
+- 基线与字节：一律 `buildBlankProject`/`loadBoundaryProject` 正式空白项目；bytes/sha 读真实种子
+  编码产物，实际帧数经 `decodeWorldSpriteAssetBytes`/`decodeBattleSpriteAssetBytes` 解码取得。
+- 门禁（最终树实测）：定向 33/33 exit 0（JSON /tmp/batch-c-directed.json）；相邻 170/170；
+  editor typecheck 零诊断；Biome 六文件 0/0/0；docs PASS；`git diff --check` 干净。
+- 负控：对照 exit 0 全绿；sprite-share-undo-overdelete、tileset-remove-shared-cascade、
+  actor-detach-first-capture 三针各恰 exit1、恰一红、fullName 逐字命中、entered.json 见证。
+- 披露：`expectErrorContaining` 仅用于 profile 换型引用不兼容（含运行期 where 片段）一条守卫消息；
+  C03 无独立针（每批 2–3 针约束下由三针覆盖）；不合 main、不标 done。
+
 ## 可直接转发给GLM
 
 接手TEST-GLM-STATE-COMMANDS-1，状态build、已允许实施。先读本卡、工作包README、冻结账与交付自检清单。
