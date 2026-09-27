@@ -9,6 +9,7 @@ let host: ShellHost | undefined
 afterEach(() => {
   host?.close()
   host = undefined
+  Reflect.deleteProperty(window, '__tpObserve')
 })
 interface Probe {
   readBoot(): { projectId: string; entryId: string; opening: null; checkpointLoad: string }
@@ -21,7 +22,9 @@ interface Probe {
   dumpSave(): Promise<StoredSavePayload>
 }
 function probe(): Probe {
-  return Reflect.get(window, '__tpE2e') as Probe
+  const read = Reflect.get(window, '__tpObserve') as Omit<Probe, 'dumpSave'>
+  const checkpoint = Reflect.get(window, '__tpE2e') as Pick<Probe, 'dumpSave'>
+  return { ...read, dumpSave: checkpoint.dumpSave }
 }
 async function boot(query = '', payload?: StoredSavePayload) {
   host = await installShellHost(query)

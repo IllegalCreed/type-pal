@@ -166,8 +166,8 @@ export async function runBrowserJourney({ name, packageName, environment, source
     if (page && !page.isClosed()) {
       report.lastObservation = await page
         .evaluate(() => ({
-          boot: window.__tpE2e?.readBoot?.(),
-          runtime: window.__tpE2e?.readRuntime?.(),
+          boot: window.__tpObserve?.readBoot?.(),
+          runtime: window.__tpObserve?.readRuntime?.(),
         }))
         .catch(() => null)
       await page.screenshot({ path: resolve(out, 'failure.png') }).catch(() => {})

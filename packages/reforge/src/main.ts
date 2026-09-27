@@ -442,6 +442,7 @@ export async function bootGame(
   let bootLoadSlot: SlotId | undefined
   let openingObservation: OpeningMenuObservation | null = null
   let checkpointLoad: 'none' | 'loading' | 'loaded' | 'failed' = 'none'
+  let runtimeObservationReady = false
   const readBootObservation = () =>
     Object.freeze({
       projectId: inputProject.manifest.id,
@@ -450,7 +451,10 @@ export async function bootGame(
       checkpointLoad,
     })
   if (import.meta.env.DEV) {
-    ;(window as unknown as { __tpE2e: unknown }).__tpE2e = { readBoot: readBootObservation }
+    ;(window as unknown as { __tpObserve: unknown }).__tpObserve = Object.freeze({
+      readBoot: readBootObservation,
+      readRuntime: () => (runtimeObservationReady ? captureRuntimeObservation() : null),
+    })
   }
   // 存档存储 + 菜单 UI 资产提前建(菜单读档界面即用;总加载量与原先一致,仅提前到菜单前)。
   const saveStore: SaveStore =
@@ -5392,24 +5396,25 @@ export async function bootGame(
       runnerActive: runner !== null,
     }
   }
+  function captureRuntimeObservation() {
+    return Object.freeze({
+      projectId: inputProject.manifest.id,
+      sceneId: activeScene.scene.id,
+      position: Object.freeze({ ...player.pos }),
+      facing,
+      dialogue: dialogBox.observe(),
+      scriptRunning: runner !== null,
+      presentationBusy: presentation.busy(),
+      menuActive: menus.active,
+      battleActive: !!battleHost.active,
+      fadeBlack: fadeDriver.value,
+      ditherActive: ditherTransition.active !== null,
+    })
+  }
+  if (import.meta.env.DEV) runtimeObservationReady = true
   // e2e checkpoint / D15 motion trace：collision 模式才采样，避免普通 DEV 游戏积累诊断数据。
   if (import.meta.env.DEV) {
     ;(window as unknown as { __tpE2e: unknown }).__tpE2e = {
-      readBoot: readBootObservation,
-      readRuntime: () =>
-        Object.freeze({
-          projectId: inputProject.manifest.id,
-          sceneId: activeScene.scene.id,
-          position: Object.freeze({ ...player.pos }),
-          facing,
-          dialogue: dialogBox.observe(),
-          scriptRunning: runner !== null,
-          presentationBusy: presentation.busy(),
-          menuActive: menus.active,
-          battleActive: !!battleHost.active,
-          fadeBlack: fadeDriver.value,
-          ditherActive: ditherTransition.active !== null,
-        }),
       dumpSave: () => enqueueSaveSnapshot(captureCurrentSavePayload),
       dumpMotionTrace: () => motion.dumpTrace(),
       dumpMotionState: captureMotionState,

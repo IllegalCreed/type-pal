@@ -121,4 +121,9 @@ Reforge有窗口实跑exit0（约66秒、86事件/30按键），真实检查点s
 Reforge生产build通过，已扫描dist确认__tpE2e/readBootObservation/checkpointLoad桥接不进入生产JS。
 完整check/ratchet/受保护strict待本批统一落证；完整NPC实际提交日志、对话序列偏序比较和capture-ready仍未完成。
 
+首遍完整check如实失败：checkpoint-export旧AST回归要求唯一DEV导出注册，早期标题注册造成17项红。
+未改旧fixture/断言：将新只读观测独立为__tpObserve，原__tpE2e注册块与e0844fe7逐字相同。
+原17项+新6项合计23/23复跑通过，桥接修订后Reforge实跑再次exit0，检查点hash与前述相同。
+生产build退出0但有Vite大于500kB的包体积提示；这不包含在lint/typecheck零诊断声明中，未通过改阈值消警。
+
 无下一位Agent提示词；Codex继续实际NPC提交事件与双阶段差异比较，母卡保持build。

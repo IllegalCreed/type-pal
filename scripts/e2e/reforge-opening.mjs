@@ -48,8 +48,8 @@ await runBrowserJourney({
       const state = await page.evaluate(() => {
         const v = document.querySelector('video')
         return {
-          boot: window.__tpE2e?.readBoot?.() ?? null,
-          runtime: window.__tpE2e?.readRuntime?.() ?? null,
+          boot: window.__tpObserve?.readBoot?.() ?? null,
+          runtime: window.__tpObserve?.readRuntime?.() ?? null,
           video: v ? new URL(v.currentSrc || v.src, location.href).pathname : null,
         }
       })
