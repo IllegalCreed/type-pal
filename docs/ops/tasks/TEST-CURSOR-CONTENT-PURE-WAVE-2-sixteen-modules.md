@@ -1,6 +1,6 @@
 # TEST-CURSOR-CONTENT-PURE-WAVE-2 — 内容模型十六模块纯逻辑回归
 
-Status: build
+Status: rework
 Owner: Cursor（隔离工作树内唯一测试 Coding Owner）
 Reviewer / Integration Owner: Codex
 Phase: phase2
@@ -71,3 +71,14 @@ Codex 独立审断言/负控并集成后统一串行执行。Cursor 自验不能
 ## 下一位 Agent 提示词
 
 见 Codex 当次交接消息；以本卡最终 main 版本为准，不从聊天复述代替读卡。
+
+## Codex 首轮独立接收（2026-09-27）
+
+候选 `424ac428809041081a00998ef574c7da1e770ecd` 暂签 **counter / rework**。
+定向筛选26/26（含本包18新例）、content typecheck 0、17文件 Biome 0、四针
+候选自身业务红均已由 Codex 复跑；白名单外无产品改动。但 C3 两条直接反证见
+[独立接收记录](../../testing/cursor-content-pure-wave2-codex-review.md)：
+`applyLevelGrowth(levels<=0)` 的三个现行生产调用域均不可传该输入，故该新例
+与 c3 针不能算当前业务覆盖；`drawFromResourcePool` 的 reward ID 没有加入
+items map，正式引用闭包会拒绝该正控。其余已核项不重开，Cursor 仅修这两点。
+本候选不合 main、不标 done；完整全仓门/官方覆盖率待独立接收后再执行。
