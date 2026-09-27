@@ -8,7 +8,7 @@ Visual Verification Timing: N/A（解码像素/资源字节合同，不代表界
 ## 准入与一手依据
 
 2026-09-26，基点 `2838df42`，Codex premise verified / build allowed。
-属于[持续+5pp队列](../../../tasks/TEST-COVERAGE-PLUS5-1-continuous-batches.md)，单一测试Owner，产品零改。
+属于[持续+5pp队列](TEST-COVERAGE-PLUS5-1-continuous-batches.md)，单一测试Owner，产品零改。
 固定三席退休，不等待贡献者返工，不修改Cursor/GLM/架构Owner文件。
 
 四向真值：原盘/一阶段N/A于本卡的新机制裁决（不变更游戏、PAL实际资源数量或映射）；

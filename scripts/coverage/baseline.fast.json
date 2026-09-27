@@ -1,14 +1,14 @@
 {
   "schemaVersion": 2,
   "profile": "fast",
-  "generatedAt": "2026-09-27T12:04:34.680Z",
+  "generatedAt": "2026-09-27T12:29:17.031Z",
   "provider": {
     "name": "v8",
     "vitest": "4.1.7",
     "coverageV8": "4.1.7"
   },
   "sourceFileCount": 730,
-  "testCount": 9668,
+  "testCount": 9682,
   "packages": {
     "shared": {
       "name": "@type-pal/shared",
@@ -2065,8 +2065,8 @@
       ],
       "scopeDigest": "b4b6875e840b3c0602ef587af488195abaf20bc3dc6d4adb1b6587a5e9c453d1",
       "fastTests": {
-        "testCount": 1858,
-        "testFileCount": 214,
+        "testCount": 1872,
+        "testFileCount": 217,
         "files": [
           "packages/reforge/scripts/battle-trial-assets.test.ts",
           "packages/reforge/scripts/battle-trial-host.test.ts",
@@ -2099,6 +2099,8 @@
           "packages/reforge/src/battle/battle-action-presentation-scheduler.test.ts",
           "packages/reforge/src/battle/battle-anim.attack-all.residual.test.ts",
           "packages/reforge/src/battle/battle-anim.coop.residual.test.ts",
+          "packages/reforge/src/battle/battle-anim.enemy-cast.residual.test.ts",
+          "packages/reforge/src/battle/battle-anim.summon.residual.test.ts",
           "packages/reforge/src/battle/battle-anim.test.ts",
           "packages/reforge/src/battle/battle-casualty.test.ts",
           "packages/reforge/src/battle/battle-command-selection.residual.test.ts",
@@ -2260,6 +2262,7 @@
           "packages/reforge/src/script-project-core.wave2.test.ts",
           "packages/reforge/src/script-runner-core.test.ts",
           "packages/reforge/src/script-runner.conditions.residual.test.ts",
+          "packages/reforge/src/script-runner.dispatch-residual.test.ts",
           "packages/reforge/src/script-runner.test.ts",
           "packages/reforge/src/script-world.test.ts",
           "packages/reforge/src/script-world.wave2.test.ts",
@@ -2438,6 +2441,16 @@
             "file": "packages/reforge/src/battle/battle-anim.coop.residual.test.ts",
             "testCount": 2,
             "identityDigest": "09e713963a3579488b49b8ce54b1e2e533da695fa12dd97aebf9cd32ea9f5729"
+          },
+          {
+            "file": "packages/reforge/src/battle/battle-anim.enemy-cast.residual.test.ts",
+            "testCount": 2,
+            "identityDigest": "25ba8ee28aeeddbd2d77a6da92fa493e6d46a15367f2d055b905e758a5859b33"
+          },
+          {
+            "file": "packages/reforge/src/battle/battle-anim.summon.residual.test.ts",
+            "testCount": 4,
+            "identityDigest": "c37744876acbac02723415a84bd18168bc3085d1bb15926963dd9e9ea17850ee"
           },
           {
             "file": "packages/reforge/src/battle/battle-anim.test.ts",
@@ -3245,6 +3258,11 @@
             "identityDigest": "fc8aba5528ed4afc6baff67bd10c77e1573be845fe22e0c0741ea5a1af104964"
           },
           {
+            "file": "packages/reforge/src/script-runner.dispatch-residual.test.ts",
+            "testCount": 8,
+            "identityDigest": "98392470caa5bd342588c3f656ecc3a87ce9d9d15b78e096b1ba822dbef6c3a5"
+          },
+          {
             "file": "packages/reforge/src/script-runner.test.ts",
             "testCount": 49,
             "identityDigest": "b03c00cd7fceb04d01d74396918238a2113a8db41e3fe7738f3878752700bfff"
@@ -3355,25 +3373,25 @@
             "identityDigest": "3cbb8fa95917cb86d7414ee21345af8a1a2a0df2d14066318539861c10b28ed8"
           }
         ],
-        "identityDigest": "b15192740f627fdf4e9ce02a787d3d5370d977683a8c5893e8eb4d31117c1b5a",
+        "identityDigest": "3885889a8a74bc03499e0892988054c45e1dcb67d83187a6fc587c32924258ee",
         "duplicateIdentityCount": 0,
-        "executionDigest": "a8b8c2c32cfc672b7ed670e00125a40320adb1af0e8f01cb90b521634b5c3cfd"
+        "executionDigest": "b115a3441c2debf41019cbfda5b3f5402cb846649b89f1759ea44c8308fa62d9"
       },
       "metrics": {
         "statements": {
-          "covered": 13942,
+          "covered": 14001,
           "total": 17099
         },
         "branches": {
-          "covered": 8230,
+          "covered": 8294,
           "total": 11458
         },
         "functions": {
-          "covered": 2269,
+          "covered": 2271,
           "total": 2781
         },
         "lines": {
-          "covered": 12565,
+          "covered": 12615,
           "total": 14925
         }
       }
@@ -7143,19 +7161,19 @@
   },
   "total": {
     "statements": {
-      "covered": 65684,
+      "covered": 65743,
       "total": 80978
     },
     "branches": {
-      "covered": 47425,
+      "covered": 47489,
       "total": 63323
     },
     "functions": {
-      "covered": 12232,
+      "covered": 12234,
       "total": 15239
     },
     "lines": {
-      "covered": 58947,
+      "covered": 58997,
       "total": 70882
     }
   }

@@ -13,7 +13,6 @@
 | [EDITOR-PREVIEW-STEP-1 — canonical 预览单步的无可见阶段门](EDITOR-PREVIEW-STEP-1-command-gates.md) | draft | 以任务卡当前准入与看板分工为准。 |
 | [EDITOR-SCENE-FACING-1 — 切场景指令无法清除显式朝向](EDITOR-SCENE-FACING-1-clear-override.md) | draft | 以任务卡当前准入与看板分工为准。 |
 | [TEST-CODEX-FRAME-EDITOR-1 — 当前帧动画编辑五组工作流](TEST-CODEX-FRAME-EDITOR-1-current-workflows.md) | build | 以任务卡当前准入与看板分工为准。 |
-| [TEST-COVERAGE-PLUS5-1 — 全仓分支覆盖率连续提升五个百分点](TEST-COVERAGE-PLUS5-1-continuous-batches.md) | build | 以任务卡当前准入与看板分工为准。 |
 
 ## 已完成（historical）
 
@@ -184,6 +183,7 @@
 | [TEST-CONTENT-CONTRACTS-1 - 内容数据校验与引用边界补测](../archive/tasks/done/TEST-CONTENT-CONTRACTS-1-content-validation-boundaries.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [TEST-CONTENT-RESIDUAL-1 - 内容合同已登记残项补测（队列 TB-01）](../archive/tasks/done/TEST-CONTENT-RESIDUAL-1-registered-gaps.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [TEST-COVERAGE-DETERMINISM-1 - 编辑器覆盖率计数确定性](../archive/tasks/done/TEST-COVERAGE-DETERMINISM-1-editor-ratchet.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [TEST-COVERAGE-PLUS5-1 — 全仓分支覆盖率连续提升五个百分点](../archive/tasks/done/TEST-COVERAGE-PLUS5-1-continuous-batches.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [TEST-COVERAGE-TRUTH-1 - 类初始化覆盖率合并真值修复](../archive/tasks/done/TEST-COVERAGE-TRUTH-1-class-initializers.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [TEST-CURSOR-COMMAND-BOUNDARIES-3 — 八组编辑命令行为残项](../archive/tasks/done/TEST-CURSOR-COMMAND-BOUNDARIES-3-editor-residuals.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [TEST-CURSOR-CONTENT-PURE-WAVE-2 — 内容模型十六模块纯逻辑回归](../archive/tasks/done/TEST-CURSOR-CONTENT-PURE-WAVE-2-sixteen-modules.md) | done | 完成证据、历史签字与交接见原卡。 |

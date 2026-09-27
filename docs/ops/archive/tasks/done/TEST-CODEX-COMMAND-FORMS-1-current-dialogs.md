@@ -7,7 +7,7 @@ Visual Verification Timing: N/A（DOM合同补测，不改变布局或宣称像�
 
 ## 准入
 
-2026-09-26 Codex build allowed，起点7bd8f064，属于[连续覆盖队列](../../../tasks/TEST-COVERAGE-PLUS5-1-continuous-batches.md)。
+2026-09-26 Codex build allowed，起点7bd8f064，属于[连续覆盖队列](TEST-COVERAGE-PLUS5-1-continuous-batches.md)。
 现行链ScriptEditor.tsx:1710-1755将非CUSTOM_COMMANDS转交CommandForm；:3380-3425在完成前持有draft。
 本批从公开CanonicalScriptBodyEditor双击打开真实弹层，不强转作者命令为旧Command，不直接构造旧实体指令。
 原版/第一阶段N/A：只证现行编辑器聚合参数合同，无玩法或展示变更。

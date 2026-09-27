@@ -1,6 +1,6 @@
 # Codex 覆盖率 +2pp 首批：脚本展示与条件编辑
 
-[持续任务](../ops/tasks/TEST-COVERAGE-PLUS5-1-continuous-batches.md)；
+[持续任务](../ops/archive/tasks/done/TEST-COVERAGE-PLUS5-1-continuous-batches.md)；
 基点 `76c6f5be`，本批仅贡献当前编辑器的脚本展示/条件弹窗/敌人事件展示。
 Cursor 十二模块与 GLM 十六模块候选均未集成进此统计。
 

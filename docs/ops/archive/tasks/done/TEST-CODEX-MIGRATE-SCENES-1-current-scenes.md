@@ -8,7 +8,7 @@ Production Base: `20544351`
 
 ## 准入与前提
 
-[持续目标](../../../tasks/TEST-COVERAGE-PLUS5-1-continuous-batches.md)第三批。2026-09-26 Codex核定 build allowed，
+[持续目标](TEST-COVERAGE-PLUS5-1-continuous-batches.md)第三批。2026-09-26 Codex核定 build allowed，
 只新增真实内存入口回归，不改产品/旧测试/配置/资产；GLM content与Cursor editor白名单不重叠。
 
 | 方向 | 一手证据 | 本批边界 |

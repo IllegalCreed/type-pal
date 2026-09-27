@@ -52,12 +52,16 @@ check8896/单次strict8404全过；实际+134分支/+73行，content分支85.55%
 46新增、check9787/strict9295、零诊断，实际+85B/+43L；全仓分支72.93%，content92.52%。
 生产/分母/其它六包对象不变；不恢复Codex主动补覆盖，不替代E2E。
 
+2026-09-27 `TEST-COVERAGE-PLUS5-1` 全仓分支+5pp持续队列
+已由Codex独立核done并归档：全仓74.99%=47,489/63,323，从本轮72.9701%起精确+2.0248pp、
+从原冻结68.7233%起+6.2716pp；Codex自补+900B、GLM已接收+373B、Cursor已接收+15B分栏。
+完整check10,143/ratchet/受保护单次strict9,682均通过；full/E2E及独立帧编辑WIP另证。
+
 ## 进行中
 
 | ID | 任务 | 状态 | 负责人/下一步 | 一句话备注 |
 |---|---|---|---|---|
 | E2E-R4-1 | [路线驱动与检查点薄基线](tasks/E2E-R4-1-route-and-checkpoint-foundation.md) | build | Codex / 001逐页与录制矩阵 | 双引擎开场/检查点通过；李大娘两段对话零位移、前中后三段移动偏序已自动核验，138/103稀疏事件；全视觉/音轨未证 |
-| TEST-COVERAGE-PLUS5-1 | [全仓分支+5pp持续队列](tasks/TEST-COVERAGE-PLUS5-1-continuous-batches.md) | build | Codex / 自主补测+2pp | 全仓74.89%=47425/63323；本轮Codex自补+836B、GLM已接收+373B、Cursor已接收+15B分栏；距+2pp目标尚差49B |
 | TEST-CODEX-FRAME-EDITOR-1 | [帧动画编辑工作流](tasks/TEST-CODEX-FRAME-EDITOR-1-current-workflows.md) | build | Codex / 暂停保留WIP | 未完成测试不计覆盖，不删除现场 |
 | EDITOR-SCENE-FACING-1 | [切场景朝向清除](tasks/EDITOR-SCENE-FACING-1-clear-override.md) | draft | Codex / 后续窄修 | 保持选项仍提交旧方向；真实红诊断+单点oracle已证 |
 | EDITOR-PREVIEW-STEP-1 | [预览单步阶段门](tasks/EDITOR-PREVIEW-STEP-1-command-gates.md) | draft | Codex / 后续窄修 | 当前入口首次step无命令执行，红诊断已落，不随补测关闭 |

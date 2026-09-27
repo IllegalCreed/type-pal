@@ -57,7 +57,7 @@ Biome 0 error/warning/info、`check:docs` 通过。Node agent 进程清除 `NODE
 
 - [`AGENTS.md`](../../../../../AGENTS.md)、[`CLAUDE.md`](../../../../../CLAUDE.md)、
   [二阶段 READ-FIRST](../../../../phase2/READ-FIRST.md)、同名现行 UI 测试与
-  [覆盖率持续队列](../../../tasks/TEST-COVERAGE-PLUS5-1-continuous-batches.md)。
+  [覆盖率持续队列](TEST-COVERAGE-PLUS5-1-continuous-batches.md)。
 - 2026-09-27 Codex：已核十二源文件存在、各有当前 UI 入口/旧测试；与 Cursor/Codex
   目标不交叉。最强反例为旧测试已证或 jsdom 伪造不能代表真实提交；以上去重、合法
   正控与单点反控为验收方式。`build allowed`，GLM 在新独立分支实施；Codex 独立验收 pending。

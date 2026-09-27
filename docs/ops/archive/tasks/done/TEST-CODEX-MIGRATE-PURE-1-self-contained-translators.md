@@ -8,7 +8,7 @@ Production Base: `8add8c66`
 
 ## 目标与准入
 
-[持续目标](../../../tasks/TEST-COVERAGE-PLUS5-1-continuous-batches.md)首个本席批：
+[持续目标](TEST-COVERAGE-PLUS5-1-continuous-batches.md)首个本席批：
 `packages/migrate/src/migrate-content.ts`的角色/描述、技能效果、技能记录、装备效果、
 物品用途/配方、投掷/表记录六组公开纯函数。只新增测试与专属证据，不改变转换策略。
 Codex于2026-09-26核定build allowed；当前委派模式由本席自验与质量门收口，不等待固定三席。

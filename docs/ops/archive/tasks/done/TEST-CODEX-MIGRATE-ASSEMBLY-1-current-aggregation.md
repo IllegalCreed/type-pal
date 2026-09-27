@@ -8,7 +8,7 @@ Production Base: `f81d365f`
 
 ## 准入与前提
 
-[持续目标](../../../tasks/TEST-COVERAGE-PLUS5-1-continuous-batches.md)第二个本席批。2026-09-26 Codex核定
+[持续目标](TEST-COVERAGE-PLUS5-1-continuous-batches.md)第二个本席批。2026-09-26 Codex核定
 build allowed：只新增真实`migrateAll`汇总调用测试，不改产品、旧测试、全局配置或资产。
 
 | 方向 | 一手锚点 | 裁定 |

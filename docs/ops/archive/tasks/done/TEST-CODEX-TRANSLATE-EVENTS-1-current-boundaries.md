@@ -8,7 +8,7 @@ Visual Verification Timing: N/A（纯迁移中间表示测试，不证明演出�
 ## 准入与前提
 
 2026-09-26 Codex 核定 build allowed，基点 `9fe9ea11`；属于
-[持续+5pp队列](../../../tasks/TEST-COVERAGE-PLUS5-1-continuous-batches.md)。只新增测试，不改迁移产品或生成工程。
+[持续+5pp队列](TEST-COVERAGE-PLUS5-1-continuous-batches.md)。只新增测试，不改迁移产品或生成工程。
 当前模式不等待固定席位。GLM content 守卫、Cursor editor 命令、另一 Codex 架构文件不在本卡范围。
 
 一手依据：`migrate-content.ts:2543-2592,2782-2824,2963,3064` 的真实 ScriptRegistry / translateStages /

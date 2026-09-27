@@ -7,7 +7,7 @@ Visual Verification Timing: N/A（控制器数据与时序合同；不冒称视�
 
 ## 准入
 
-2026-09-26 build allowed，起点 `82863cf2`，属于[覆盖率持续队列](../../../tasks/TEST-COVERAGE-PLUS5-1-continuous-batches.md)。
+2026-09-26 build allowed，起点 `82863cf2`，属于[覆盖率持续队列](TEST-COVERAGE-PLUS5-1-continuous-batches.md)。
 只增测试和专属证据，不改产品/旧测试/全局配置/资产。与Cursor命令族、GLM内容guard、另一Codex架构不重叠。
 
 真实消费者：`SceneScriptWorkspace.tsx:178-194,245-265` 创建Playback并调用playCanonical；

@@ -8,7 +8,7 @@ Visual Verification Timing: N/A（翻译与结构合同；不证明战斗演出�
 ## 准入
 
 2026-09-26，基点 `a73c0ffc`，Codex premise verified / build allowed；属于
-[持续+5pp队列](../../../tasks/TEST-COVERAGE-PLUS5-1-continuous-batches.md)。测试单一Owner，产品零改。
+[持续+5pp队列](TEST-COVERAGE-PLUS5-1-continuous-batches.md)。测试单一Owner，产品零改。
 不等三席；不改Cursor editor命令、GLM content守卫和另一Codex架构的所有权文件。
 
 四向依据：原盘/一阶段N/A于新玩法裁决（本卡只核现行迁移边界，不改机制）；当前生产调用链

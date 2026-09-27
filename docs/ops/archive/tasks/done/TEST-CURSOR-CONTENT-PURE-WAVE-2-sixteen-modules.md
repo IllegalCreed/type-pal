@@ -61,7 +61,7 @@ Codex 独立审断言/负控并集成后统一串行执行。Cursor 自验不能
 
 - [`AGENTS.md`](../../../../../AGENTS.md)、[`CLAUDE.md`](../../../../../CLAUDE.md)、
   [二阶段 READ-FIRST](../../../../phase2/READ-FIRST.md)、上述目标同名及相邻旧测试、
-  [覆盖率持续队列](../../../tasks/TEST-COVERAGE-PLUS5-1-continuous-batches.md)。
+  [覆盖率持续队列](TEST-COVERAGE-PLUS5-1-continuous-batches.md)。
 - 2026-09-27 Codex：已核十六源码文件存在并暴露现行纯逻辑/验证入口，
   与 GLM 十二 UI 模块零目标交集。最强反例为旧套件已证、生产 guard 不收测试
   fixture 或导出无消费者；逐模块账、正式正控和红针必须区分这些情形。

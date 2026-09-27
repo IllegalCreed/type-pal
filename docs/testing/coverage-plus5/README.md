@@ -1,6 +1,6 @@
 # 全仓分支覆盖率 +5pp 持续队列
 
-[总卡](../../ops/tasks/TEST-COVERAGE-PLUS5-1-continuous-batches.md) / [测试入口](../README.md)
+[总卡](../../ops/archive/tasks/done/TEST-COVERAGE-PLUS5-1-continuous-batches.md) / [测试入口](../README.md)
 
 2026-09-27用户调整：Codex暂停主动补测、转[E2E方案讨论](../e2e-route-proposal.md)；
 GLM/Cursor仍按[新两包](../background-tests-20260927/README.md)后台实施。目标尚未完成，不再阻塞E2E。
@@ -103,3 +103,10 @@ check9712→ratchet→保护efab10f3的单次strict9220/728首次全过；本批
 全仓47,425/63,323=**74.89%**，本批净增100已覆盖臂、分母不变；本轮从
 46,201/63,315=72.9701%起算的绝对+2pp当前还差49臂。GLM/Cursor贡献另计，
 测试选取与产品范围未缩；母卡仍build。
+
+2026-09-27第十批[当前脚本命令与施法时间线](../codex-plus2-runtime-wave9/README.md)
+独立自验并串行通过check10,143→ratchet→保护af84871d的单次strict9,682。
+全仓47,489/63,323=**74.994868%**，本批+64B，当前生产730文件/分母未缩。
+相对本轮46,201/63,315精确+2.024797pp，超过追加目标15臂；相对原冻结
+68.723290%精确+6.271578pp。两项覆盖率目标均满足，母卡按当前协议done；
+full、E2E、浏览器画面与独立帧编辑WIP仍是各自任务，不冒充覆盖率完成范围。

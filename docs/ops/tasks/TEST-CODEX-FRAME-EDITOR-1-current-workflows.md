@@ -11,7 +11,7 @@ Visual Verification Timing: N/A（真实DOM与RGBA交付合同；宿主几何是
 不计覆盖、不删除；Codex转[E2E讨论](E2E-R4-1-route-and-checkpoint-foundation.md)。
 Status保留build表示未完成，本节暂停指令优先于下文原连续实施计划。
 
-2026-09-26 Codex build allowed，基点26479604，属于[持续覆盖队列](TEST-COVERAGE-PLUS5-1-continuous-batches.md)。
+2026-09-26 Codex build allowed，基点26479604，属于[持续覆盖队列](../archive/tasks/done/TEST-COVERAGE-PLUS5-1-continuous-batches.md)。
 现行消费者CutsceneTab.tsx:713-721渲染FrameAnimationEditor；目标FrameAnimationEditor.tsx。
 当前官方目标B120/286、L238/412、F58/103。不是把未渲染旧入口转成覆盖。
 原版/第一阶段N/A：这是新编辑器的数据编辑合同，不裁决剧情表现、玩法或资源格式。

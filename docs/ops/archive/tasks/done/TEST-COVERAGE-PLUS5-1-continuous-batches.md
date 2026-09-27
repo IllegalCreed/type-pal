@@ -1,6 +1,6 @@
 # TEST-COVERAGE-PLUS5-1 — 全仓分支覆盖率连续提升五个百分点
 
-Status: build
+Status: done
 Owner: Codex
 Phase: ops
 Visual Verification Timing: N/A（本卡是测试队列，不以数字替代视觉或E2E）
@@ -8,7 +8,7 @@ Visual Verification Timing: N/A（本卡是测试队列，不以数字替代视�
 ## 用户目标与准入
 
 **2026-09-27当时的优先级调整（下方最新裁决已更新）**：用户要求GLM/Cursor继续补测，Codex停止主动推进覆盖率，
-转入[E2E路线方案讨论](E2E-R4-1-route-and-checkpoint-foundation.md)。母目标暂停主动扩展，不标done；
+转入[E2E路线方案讨论](../../../tasks/E2E-R4-1-route-and-checkpoint-foundation.md)。母目标暂停主动扩展，不标done；
 当前72.97%/按现分母数学差477分支，不作为E2E开工门槛。仅接收已委派测试及必要集成门禁。
 2026-09-27同步Cursor地图六组+21B（check9741/strict9249）；QUALITY-ZERO的5B分母退役单列不计补测贡献。
 同日GLM物品六组26e7a269接收：46新增，check9787/ratchet/保护b233b6b4的单次strict9295通过，
@@ -40,8 +40,8 @@ catalog，完整比较业务输出/非目标输入，已有旧测去重。先做
 四个新增回归文件40项；完整check 9,833项、所有包TC零诊断、严格lint 2,276文件零错误/警告/信息；
 官方ratchet与受保护76c6f5be的单次strict-fast 9,341项/728生产文件通过。
 产品缺口「队伍成员条件无角色选择」以独立业务红证实，按
-[修复卡](../archive/tasks/done/EDITOR-CONDITION-INPARTY-1-actor-picker.md)闭合；
-不将该产品修复的6个新增分母隐去。细账见[首批回执](../../testing/codex-plus2-ui.md)。
+[修复卡](EDITOR-CONDITION-INPARTY-1-actor-picker.md)闭合；
+不将该产品修复的6个新增分母隐去。细账见[首批回执](../../../../testing/codex-plus2-ui.md)。
 母卡仍build，+2pp和原+5pp均未达，继续自主大批补测。
 
 同期 GLM 十六模块测试包经 Codex 独立复核、统一质量门后正式集成，贡献者单列 +157B
@@ -92,12 +92,12 @@ Codex明确采用**分支覆盖率绝对增加5个百分点**，已创建本会�
 
 | Owner | 本批 | 范围 |
 |---|---|---|
-| GLM | [八组脚本与数据守卫](../archive/tasks/done/TEST-GLM-CONTENT-GUARDS-3-script-and-records.md) | done；110新增/260分支，生产零改 |
-| Cursor | [八组编辑命令](../archive/tasks/done/TEST-CURSOR-COMMAND-BOUNDARIES-3-editor-residuals.md) | 既有白名单保持，不重派 |
+| GLM | [八组脚本与数据守卫](TEST-GLM-CONTENT-GUARDS-3-script-and-records.md) | done；110新增/260分支，生产零改 |
+| Cursor | [八组编辑命令](TEST-CURSOR-COMMAND-BOUNDARIES-3-editor-residuals.md) | 既有白名单保持，不重派 |
 | 本会话Codex | 迁移转换链自包含补测 | 优先migrate-content纯转换与审计消费者；实施前独立核定小批范围，禁止主树迁移写盘 |
-| 另一Codex会话 | [架构治理](../archive/tasks/done/ARCH-CONTINUATION-1-remaining-queue.md) | A3及后续产品所有权；本卡不改其实现文件 |
+| 另一Codex会话 | [架构治理](ARCH-CONTINUATION-1-remaining-queue.md) | A3及后续产品所有权；本卡不改其实现文件 |
 
-执行账见[持续覆盖率记录](../../testing/coverage-plus5/README.md)。全仓统计与基线写入只有本席统一执行；
+执行账见[持续覆盖率记录](../../../../testing/coverage-plus5/README.md)。全仓统计与基线写入只有本席统一执行；
 其它Owner不写共享coverage产物、不合main、不改baseline。
 
 ## 推进记录
@@ -116,32 +116,32 @@ Codex明确采用**分支覆盖率绝对增加5个百分点**，已创建本会�
 
 无下一位Agent终审提示词；GLM实施提示词在子卡，Codex保持持续推进责任。
 
-- 2026-09-26第四批已验收：[当前脚本翻译六组](../../testing/codex-translate-events/README.md)，59新测试、六针，
+- 2026-09-26第四批已验收：[当前脚本翻译六组](../../../../testing/codex-translate-events/README.md)，59新测试、六针，
   check9,140及保护9fe9ea11的串行ratchet/strict8,648通过。全仓44,779/63,178=70.87752065592453%，
   本批+338B、累计+1,361B（约+2.15pp），剩余1,798B；分母/生产清单/其它六包对象不变。
   本席首轮覆盖误并发已披露，终验只采信之后的串行成功运行。母卡仍build，继续有效大批。
 
-- 2026-09-26第五批已验收：[当前敌人钩子六组](../../testing/codex-enemy-hooks/README.md)，48新增/六针，
+- 2026-09-26第五批已验收：[当前敌人钩子六组](../../../../testing/codex-enemy-hooks/README.md)，48新增/六针，
   check9188→ratchet→保护a73c0ffc的单次strict8696严格串行通过。全仓44891/63178=71.05479755611131%，
   本批+112B、累计+1473B（约+2.33pp），剩余1686B。所有生产清单/分母及其它六包baseline对象不变。
   Cursor远端仍b6bcc9b4，已请补新任务名/SHA；本席不等待，继续下一整批真实业务边界。
 
-- 2026-09-26第六批已验收：[资源加载与所有权八组](../../testing/codex-pal-assets/README.md)，84新增/八针，
+- 2026-09-26第六批已验收：[资源加载与所有权八组](../../../../testing/codex-pal-assets/README.md)，84新增/八针，
   check9272→ratchet→保护2838df42的单次strict8780严格串行通过。全仓44993/63178=71.21624616163854%，
   本批+102B、累计+1575B（约+2.49pp），剩余1584B。所有生产清单/分母及其它六包baseline对象不变。
   本批为合法自包含PNG/WAV/临时工程，不写实际资产；产品零改。母卡仍build，继续下一完整批。
 
-- 2026-09-26第七批已验收：[当前预览控制六组](../../testing/codex-playback/README.md)，54新增/六针，
+- 2026-09-26第七批已验收：[当前预览控制六组](../../../../testing/codex-playback/README.md)，54新增/六针，
   check9326→ratchet→保护82863cf2的单次strict8834严格串行通过。全仓45131/63178=71.4346766279401%，
   本批+138B、累计+1713B（约+2.71pp），剩余1446B。701生产文件/分母与其它六包baseline对象不变。
   首次单步D1真实缺陷另卡draft，不改预期；母卡继续build。Cursor本地/远端仍b6bcc9b4，待新返工SHA。
 
-- 2026-09-26第八批已验收：[调试面板六组公开动作](../../testing/codex-debug-tools/README.md)，61新增/六针，
+- 2026-09-26第八批已验收：[调试面板六组公开动作](../../../../testing/codex-debug-tools/README.md)，61新增/六针，
   check9387→ratchet→保护cd1baa6c的单次strict8895严格串行通过。全仓45304/63178=71.70850612555003%，
   本批+173B、累计+1886B（+2.985216372787996pp），剩余1273B；生产701文件/分母/其它六包对象不变。
   Cursor远端仍旧候选b6bcc9b4，无未提交返工；GLM仍a00f12c2，均不计覆盖。母卡仍build。
 
-- 2026-09-26第九批已验收：[当前命令弹层五组](../../testing/codex-command-forms/README.md)，51新增/五针，
+- 2026-09-26第九批已验收：[当前命令弹层五组](../../../../testing/codex-command-forms/README.md)，51新增/五针，
   check9438→ratchet→保护7bd8f064的单次strict8946严格串行通过。全仓45477/63178=71.98233562315997%，
   本批+173B、累计+2059B（+3.259045870397923pp），剩余1100B；生产701文件/分母/其它六包对象不变。
   本席TSX夹具误入UI扫描已修并完整重验；真实朝向保持缺陷另卡draft。母目标未完成，继续下一整批。
@@ -152,7 +152,7 @@ Codex明确采用**分支覆盖率绝对增加5个百分点**，已创建本会�
   十批纯补测合计+2107B；架构统一集成另列+261已覆盖分支/+110分母、701→728文件，不混作纯补测贡献。
   GLM16e647a1残两counter与帧编辑在途测试未计入。母目标仍build，详见持续队列。
 
-- 2026-09-27第十一批：[GLM同步守卫](../../testing/guard-wave3-integration.md)6a114727独立accept并收口。
+- 2026-09-27第十一批：[GLM同步守卫](../../../../testing/guard-wave3-integration.md)6a114727独立accept并收口。
   check9712→ratchet→保护efab10f3的单次strict9220/728首次通过；新增110项，实际+260B/+184L。
   当前46046/63288=72.7562887119201%，相对起点+4.033pp，当前目标46658，尚差612B。
   十一批纯补测合计+2367B，架构另列+261已覆盖分支/+110分母；母目标仍build，帧编辑WIP未计入。
@@ -170,13 +170,13 @@ Codex明确采用**分支覆盖率绝对增加5个百分点**，已创建本会�
   当前离约74.97%尚需至少862个分支；本批不冒称已达目标。
 
 - 2026-09-27 Cursor 三包纯逻辑回归 `bd8876e4` 经 Codex 独立复核、全仓门禁后收口；
-  [接收证据](../../testing/cursor-pure-wave/codex-final-review.md)列 R1–R3 与六针。
+  [接收证据](../../../../testing/cursor-pure-wave/codex-final-review.md)列 R1–R3 与六针。
   该贡献单独记账：+5已覆盖臂、+2统计臂（两个允许的测试 fixture 进入源码扫描），
   全仓46,615/63,323=73.61%、fast 9,505项/730源码文件。Codex 本轮自有两批
   +252臂、GLM已接收+157臂、Cursor+5臂，互不冒充；距从46,201/63,315
   起算绝对+2pp的当前阈值47,474/63,323尚差859个已覆盖臂，持续队列仍build。
 
-- 2026-09-27 Codex 自有第三批：[脚本树与当前属性弹窗](../../testing/codex-plus2-ui-wave2/README.md)
+- 2026-09-27 Codex 自有第三批：[脚本树与当前属性弹窗](../../../../testing/codex-plus2-ui-wave2/README.md)
   23 项真实交互/摘要回归、三针负控，生产零改；定向相邻115项、editor TC与
   Biome零诊断；完整check9,989→官方ratchet→保护8254ce64的单次strict9,528
   全过。全仓分支 **46,797/63,323=73.90%**，本批+182已覆盖臂、分母不变。
@@ -184,7 +184,7 @@ Codex明确采用**分支覆盖率绝对增加5个百分点**，已创建本会�
   Cursor 新候选424ac428因两处非法/不可达输入正控已counter，未计入。
   从本轮72.9701%起算的绝对+2pp阈值是47,474/63,323，仍差677B；母卡继续build。
 
-- 2026-09-27 Codex 自有第四批：[合法地图目录与作者表单](../../testing/codex-plus2-ui-wave3/README.md)
+- 2026-09-27 Codex 自有第四批：[合法地图目录与作者表单](../../../../testing/codex-plus2-ui-wave3/README.md)
   11项真实工作流、三针；合法 seed→loader→EditSession 地图会话，摆脱旧伪
   manifest/场景 fixture。相邻147、editor TC/Biome零诊断；全仓check10,000→
   ratchet→保护561c8af8的单次strict9,539全过。全仓分支
@@ -194,14 +194,14 @@ Codex明确采用**分支覆盖率绝对增加5个百分点**，已创建本会�
   下一批先用逐文件缺口找真实未达分支，不再盲挑同类 UI。
 
 - 2026-09-27 Cursor 内容十六模块返工候选 `f9bfb527` 经 Codex 独立
-  [接收收口](../../testing/cursor-content-pure-wave2/codex-final-review.md)：
+  [接收收口](../../../../testing/cursor-content-pure-wave2/codex-final-review.md)：
   R1/R2 两项原 counter 闭合，15文件17项、四针。统一check10,017→ratchet→
   保护ce7c9173的单次strict9,556通过；fast 730源码文件、
   **46,821/63,323=73.94%**。贡献者单列+10B、分母不变；Codex自有
   +448B、GLM已接收+157B、Cursor两包共+15B，互不冒充。
   按当前分母+2pp目标47,474仍差653B，母卡继续build。
 
-- 2026-09-27 Codex 自有第五批：[Reforge 战斗选择与结算](../../testing/codex-plus2-runtime-wave4/README.md)
+- 2026-09-27 Codex 自有第五批：[Reforge 战斗选择与结算](../../../../testing/codex-plus2-runtime-wave4/README.md)
   九项真实状态/结算回归、两针；正式技能/物品校验输入、5文件相邻33项、
   Reforge TC/Biome零诊断。全仓check10,026→ratchet→保护afd93a79
   的单次strict9,565全过。全仓分支**46,903/63,323=74.07%**，
@@ -209,21 +209,21 @@ Codex明确采用**分支覆盖率绝对增加5个百分点**，已创建本会�
   Cursor已接收+15B。GLM UI 候选尚未独立接收，不提前计入。
   距本轮+2pp目标还差571B；母卡继续build。
 
-- 2026-09-27 Codex 自有第六批：[Reforge 战斗画面与菜单绘制](../../testing/codex-plus2-runtime-wave5/README.md)
+- 2026-09-27 Codex 自有第六批：[Reforge 战斗画面与菜单绘制](../../../../testing/codex-plus2-runtime-wave5/README.md)
   12项真实绘制命令回归、四针；定向相邻14项、Reforge TC/Biome零诊断。
   全仓check10,038→官方ratchet→保护3ce5f48f的单次strict9,577
   串行全过。全仓分支**46,948/63,323=74.14%**，本批+45B、分母不变；
   Codex自有累计+575B、GLM已接收+157B、Cursor已接收+15B分栏。
   GLM UI返工候选尚未接收，不计入。距本轮+2pp目标仍差526B，母卡继续build。
 
-- 2026-09-27 Codex 自有第七批：[Reforge 商店、运动与运行时缓存](../../testing/codex-plus2-runtime-wave6/README.md)
+- 2026-09-27 Codex 自有第七批：[Reforge 商店、运动与运行时缓存](../../../../testing/codex-plus2-runtime-wave6/README.md)
   13项真实运行时回归、四针；九文件相邻39/39、Reforge TC/Biome零诊断。
   完整check10,051→官方ratchet→保护9dbb9fd1的单次strict9,590
   串行通过。全仓分支**47,038/63,323=74.28%**，本批+90B、分母不变；
   Codex自有累计+665B，GLM已接收+157B、Cursor已接收+15B分栏。
   GLM UI返工候选未计入，距本轮+2pp目标尚差436B；母卡继续build。
 
-- 2026-09-27 Codex 自有第八批：[Reforge 正式总壳与画面资源](../../testing/codex-plus2-runtime-wave7/README.md)
+- 2026-09-27 Codex 自有第八批：[Reforge 正式总壳与画面资源](../../../../testing/codex-plus2-runtime-wave7/README.md)
   14项真实 loader/bootGame/资源合同回归、四针；五文件相邻39/39、
   Reforge TC/Biome零诊断。完整check10,065→官方ratchet→保护1dcbc316
   的单次strict9,604串行通过。全仓分支**47,109/63,323=74.39%**，
@@ -232,17 +232,28 @@ Codex明确采用**分支覆盖率绝对增加5个百分点**，已创建本会�
   还差365B；母卡继续build。
 
 - 2026-09-27 GLM 编辑器十二模块测试包 `071a39d8` 经 Codex 独立
-  [复核并收口](../../testing/glm-editor-ui-wave/codex-integration.md)：U4 两次残项已闭，
+  [复核并收口](../../../../testing/glm-editor-ui-wave/codex-integration.md)：U4 两次残项已闭，
   39新增/四针；最新主线完整check10,104→官方ratchet→保护b1755f77
   的单次strict9,643串行通过。editor净增**216B**、分母不变，
   全仓 **47,325/63,323=74.74%**。贡献者单列：Codex自有+736B、
   GLM已接收合计+373B、Cursor已接收+15B；当前分母+2pp阈值
   47,474还差**149B**，母卡继续build，不因测试卡done提前宣告本目标完成。
 
-- 2026-09-27 Codex 自有第九批：[Reforge 状态画面与战斗资源](../../testing/codex-plus2-runtime-wave8/README.md)
+- 2026-09-27 Codex 自有第九批：[Reforge 状态画面与战斗资源](../../../../testing/codex-plus2-runtime-wave8/README.md)
   25项真实资源/画面命令/条件查询回归、六针负控；新测试及相邻12文件115/115，
   Reforge TC与Biome零诊断。完整check10,129→官方ratchet→保护464758a6
   的单次strict9,668串行通过。全仓分支**47,425/63,323=74.89%**，
   本批+100B、生产分母/清单不变；Codex自有累计+836B，GLM已接收+373B、
   Cursor已接收+15B分栏。以46,201/63,315起算+2pp当前仍差**49B**，
   母卡维持build，不把本批当作完整E2E或视觉验收。
+
+- 2026-09-27 Codex 自有第十批：[当前脚本命令与施法时间线](../../../../testing/codex-plus2-runtime-wave9/README.md)
+  14项当前消费者命令/施法回归、三针；新测与相邻八文件93/93，Reforge TC、Biome零诊断。
+  完整check10,143→官方ratchet→保护af84871d的单次strict9,682串行通过。
+  全仓分支**47,489/63,323=74.994868%**，本批+64B、生产分母/730文件不变；
+  Codex本轮自有累计+900B，GLM已接收+373B、Cursor已接收+15B分栏。
+  以46,201/63,315=72.970070%起算，绝对提升**2.024797pp**，当前分母目标
+  47,474高出15臂。原冻结68.723290%起算提升**6.271578pp**，亦满足+5pp。
+  Codex独立复核正式消费者、负控、源码/统计范围和串行质量门，按当前协作协议
+  核 `review→done`；本卡两项目标均完成。帧编辑独立WIP、full/Q1/Q2、
+  远端CI、浏览器视觉与E2E不因覆盖率目标达成而宣称完成。

@@ -47,6 +47,7 @@
 - [Codex Reforge 商店、运动与运行时缓存补覆盖第七批](codex-plus2-runtime-wave6/README.md)（13项/四针、四个当前运行时消费入口；统一门后+90分支，累计+2pp仍待继续）。
 - [Codex Reforge 正式总壳与画面资源补覆盖第八批](codex-plus2-runtime-wave7/README.md)（14项/四针、正式项目装载与真实 gzip/SHA；统一门后+71分支，累计+2pp仍待继续）。
 - [Codex Reforge 状态画面与战斗资源补覆盖第九批](codex-plus2-runtime-wave8/README.md)（25项/六针；全仓统一门通过，净增100分支，距本轮+2pp还差49）。
+- [Codex Reforge 当前脚本命令与施法时间线补覆盖第十批](codex-plus2-runtime-wave9/README.md)（14项/三针；统一门通过，净增64分支，本轮绝对+2pp达标）。
 - [快速通关E2E路线方案](e2e-route-proposal.md)（2026-09-27既定范围；首批001已进入实现）。
 - [GLM/Cursor后台补测两包](background-tests-20260927/README.md)（冻结目标与可转发提示词）。
 - [Cursor三包十二模块纯逻辑补测](cursor-pure-wave/README.md)（已[独立接收并收口](cursor-pure-wave/codex-final-review.md)；七项正式回归、六针、分支+5/分母+2）。

@@ -7,7 +7,7 @@ Visual Verification Timing: N/A（真实DOM事件/参数合同，不改UI、不�
 
 ## 准入与边界
 
-2026-09-26 Codex build allowed，起点cd1baa6c；属于[+5pp队列](../../../tasks/TEST-COVERAGE-PLUS5-1-continuous-batches.md)。
+2026-09-26 Codex build allowed，起点cd1baa6c；属于[+5pp队列](TEST-COVERAGE-PLUS5-1-continuous-batches.md)。
 当前消费者main.ts:5958-6015经DEV动态import调用installDebugTools；目标debug-tools.ts，
 既有debug-tools.test.ts七项偏安装/生命周期/样式，未覆盖控制台主体、触发实际runtime、battle参数构造。
 原版/第一阶段N/A：本批是Reforge私有调试DOM适配器，不裁决玩法或变更交互。
