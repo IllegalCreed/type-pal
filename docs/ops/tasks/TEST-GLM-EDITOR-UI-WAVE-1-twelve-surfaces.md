@@ -94,3 +94,22 @@ editor typecheck 0、14文件 Biome 0、四针对照绿/业务红；源码/旧�
 请 GLM 在原隔离分支统一整改合法输入/分类与视觉结论，不为凑39项
 保留伪业务绿例；已证模块不无故重开。Codex 仅记录 counter，不改
 GLM 测试语义、不合 main、不标 done；全仓门留待返工通过。
+
+## GLM 交付块（G1–G3 返工收口，2026-09-27）
+
+- 已合入 origin/main 至 `3ce5f48f`；G1–G3 按反证逐条整改，[回执](../../testing/glm-editor-ui-wave/receipt.md)
+  已更新为返工版（十二行账标注各文件正控基座与守卫自证方式）。
+- G1：U1/U2/U3 正控项目全部改为正式 blank 项目链路（loadLegalUiProject = seed→loader→
+  toEditorState→assertProjectSaveValid），资源记录/字节/哈希真实，reader 为正式
+  EditorAssetReader；ItemUseEffectEditor 的 items/scenes 经现行结构守卫可证合法。
+- G2：SceneCanvas 正控改为正式项目场景+地图索引+地图正文+瓦片集目录闭合并过保存门，
+  zone 实体经真实 AddEntityCommand 加入；PreviewCanvas 明确改题「委派与防御」，
+  阶段为 checkAuthorDialogueCue 正控的真实对话舞台，不再宣称完整工作流正控；
+  四针在修后真入口重跑全部业务红。
+- G3：在补齐 gitignored 生成资产（projects/pal/assets/{migrated,runtime}，从主检出复制）
+  的隔离环境重拍两张截图：精灵库真实 12 源帧网格+活体预览、场景画布真实地图与立绘，
+  均无加载失败/渲染失败文案；撤回前版视觉验收表述。
+- 门禁（最终树实测）：定向 39/39 exit 0（/tmp/ui-wave-directed.json）；相邻同名旧测 125/125；
+  editor 全测 3255/3255 exit 0（串行，含合入 origin/main 后的新增测试）；
+  editor typecheck 零诊断；白名单 14 文件 Biome 0/0/0；`check:docs` PASS；`git diff --check` 干净。
+- 不改产品/旧测试/基线；不合 main、不标 done；全仓门留 Codex 接收后统一执行。

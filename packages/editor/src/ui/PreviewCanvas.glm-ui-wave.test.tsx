@@ -6,11 +6,18 @@
  * 无 startPlayback 时的播放/单步内部 play 实参与重置可用性、运行态暂停/继续/停止、
  * 引擎试玩 deep link 的精确 URL（含 focus 实体落点）、对话行的说话人解析与继续回调。
  */
-import type { SceneDef } from '@type-pal/content'
+
+// @ts-expect-error Node test-host bridge only.
+import { Blob as NodeBlob } from 'node:buffer'
+// @ts-expect-error Node test-host bridge only.
+import { webcrypto } from 'node:crypto'
+import type { SceneDef, ScriptStage } from '@type-pal/content'
+import { checkAuthorDialogueCue } from '@type-pal/content'
 import { act } from 'react'
 import { createRoot, type Root } from 'react-dom/client'
-import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
+import { afterAll, afterEach, beforeAll, beforeEach, describe, expect, test, vi } from 'vitest'
 import type { Playback } from '../core/playback.js'
+import { loadLegalUiProject } from './__tests__/glm-ui-wave-kit.js'
 import { PreviewCanvas } from './PreviewCanvas.js'
 
 vi.mock('./scene-stage.js', () => ({
@@ -29,19 +36,44 @@ vi.mock('./scene-stage.js', () => ({
   }),
 }))
 
-const scene: SceneDef = {
-  id: 'preview-residual',
-  mapId: 'map-preview',
-  entry: { pos: { col: 0, row: 0, height: 0 }, facing: 'down' },
-  entities: [
+// 当前合法阶段：经 checkAuthorDialogueCue 正控的对话舞台（真实 SceneDef 于 beforeAll 装载）。
+let scene: SceneDef
+let legalStages: ScriptStage[]
+let previewLocale: Record<string, string> = {}
+
+// Node test-host bridge（模块级一次性）：blank seed 的 gzip 依赖 Node Blob.stream；
+// jsdom 的 Blob 缺该能力。文件内所有用例均为 jsdom+React，桥接全局安全。
+vi.stubGlobal('Blob', NodeBlob)
+vi.stubGlobal('crypto', webcrypto)
+afterAll(() => {
+  vi.unstubAllGlobals()
+})
+
+beforeAll(async () => {
+  const { state } = await loadLegalUiProject('glm-ui-wave-preview')
+  scene = structuredClone(state.scenes![0]!)
+  scene.entities = [
     {
       id: 'npc-a',
-      sprite: 'npc',
+      sprite: state.sprites?.[0]?.id ?? 'npc',
       pos: { col: 3, row: 4, height: 0 },
       facing: 'down',
     },
-  ],
-}
+  ] as SceneDef['entities']
+  const cue = {
+    identity: {
+      kind: 'actor' as const,
+      actor: 'hero',
+      portrait: { kind: 'expression' as const, expression: 'normal', side: 'left' as const },
+    },
+    slot: 'bottom' as const,
+    rows: [{ text: 'r1' }],
+  }
+  checkAuthorDialogueCue(cue, 'preview.stage')
+  legalStages = [{ body: [{ kind: 'dialog', cue }] as never }]
+  previewLocale = { ...(state.locale ?? {}) } as Record<string, string>
+  expect(legalStages.length).toBe(1)
+})
 
 let root: Root
 let host: HTMLDivElement
@@ -88,7 +120,7 @@ async function renderPreview(
         projectMaps={{}}
         mapIndex={{ version: 1, maps: [] }}
         tilesets={[]}
-        locale={{ 'spk.hero': '李逍遥' }}
+        locale={previewLocale}
         playback={playback}
       />,
     )
@@ -105,9 +137,10 @@ beforeEach(() => {
 afterEach(async () => {
   await act(async () => root.unmount())
   host.remove()
+  vi.unstubAllGlobals()
 })
 
-describe('U4b PreviewCanvas 残差', () => {
+describe('U4b PreviewCanvas 委派与防御（回放控制器局部合同，非完整工作流正控）', () => {
   test('无 startPlayback 时播放/单步调用内部 play；运行态暂停/继续/重置走 playback API', async () => {
     const playback = playbackStub('idle')
     await renderPreview(playback)
@@ -157,7 +190,7 @@ describe('U4b PreviewCanvas 残差', () => {
     expect(open).toHaveBeenCalledTimes(1)
     const url = open.mock.calls[0]![0] as string
     expect(url).toContain('play.html?project=demo')
-    expect(url).toContain('scene=preview-residual')
+    expect(url).toContain(`scene=${scene.id}`)
     expect(url).toContain('pos=3,5')
     expect(url).toContain('facing=up')
   })
@@ -168,7 +201,7 @@ describe('U4b PreviewCanvas 残差', () => {
       ...playback.view,
       dialog: {
         cue: {
-          speaker: 'spk.hero',
+          speaker: 'hero',
           identity: { kind: 'narration' },
           rows: [{ text: 'r1' }],
         },
@@ -178,7 +211,8 @@ describe('U4b PreviewCanvas 残差', () => {
     await renderPreview(playback)
     const dialog = host.querySelector('.preview-dialog')
     expect(dialog, 'preview dialog').not.toBeNull()
-    expect(dialog?.querySelector('.spk')?.textContent).toBe('李逍遥')
+    const speakerText = dialog?.querySelector('.spk')?.textContent
+    expect(speakerText).toBe(previewLocale.hero ?? 'hero')
     await act(async () => {
       ;[...host.querySelectorAll<HTMLButtonElement>('button')]
         .find((candidate) => candidate.textContent?.trim() === '继续 ▾')!

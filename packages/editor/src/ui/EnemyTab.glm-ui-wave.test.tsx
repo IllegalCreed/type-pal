@@ -6,18 +6,26 @@
  * 删除确认取消零提交、加规则/删规则（含 ai.rules 键移除）、偷取无/物品两轴、
  * 启用附带效果开关、击败奖励从无到有且保留旁事件、二动、敌队行跳转回调。
  */
-import type { EnemyDef, EnemyTeamDef, ItemData } from '@type-pal/content'
+
+// @ts-expect-error Node test-host bridge only.
+import { Blob as NodeBlob } from 'node:buffer'
+// @ts-expect-error Node test-host bridge only.
+import { webcrypto } from 'node:crypto'
+import type { EnemyDef, ItemData } from '@type-pal/content'
 import { act, useSyncExternalStore } from 'react'
 import { createRoot, type Root } from 'react-dom/client'
-import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
+import { afterAll, afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
+import { withSharedEnemyBattleSprite } from '../core/__tests__/cursor-command-boundary-fixtures.js'
 import type { EditorState } from '../core/edit-session.js'
 import { EditSession } from '../core/edit-session.js'
+import { assertProjectSaveValid } from '../core/project-diagnostics.js'
 import { collectCurrentProjectReferenceIndex } from '../core/project-reference-adapters.js'
 import {
   chooseComboboxOption,
   clickButton,
   clickCheckboxByLabel,
   fieldControlByLabel,
+  loadLegalUiProject,
 } from './__tests__/glm-ui-wave-kit.js'
 import { EnemyTab } from './EnemyTab.js'
 
@@ -53,65 +61,22 @@ const items: ItemData[] = [
   { id: 'item-b', name: 'name.item-b', desc: [], buyPrice: 20, sellPrice: 10, sellable: true },
 ]
 
-function state(enemies: EnemyDef[]): EditorState {
-  return {
-    manifest: {
-      id: 'test-project',
-      name: '测试项目',
-      contentVersion: 20,
-      minimumSaveVersion: 8,
-      defaultEntryId: 'main',
-      content: {},
-      entryPoints: [
-        {
-          id: 'main',
-          label: '主要入口',
-          scene: 's001',
-          startWorld: { party: [], money: 0, inventory: [] },
-        },
-      ],
-      assets: { catalog: 'assets/index.json', roles: {} },
-    },
-    scenes: [],
-    actors: [],
-    levelUp: {},
-    skills: [],
+/** 正式 blank 项目 + 敌方战斗精灵注册 + 被编排敌人/物品，经保存门自证。 */
+async function legalEnemyState(enemies: EnemyDef[]): Promise<EditorState> {
+  const { source, state } = await loadLegalUiProject('glm-ui-wave-enemy')
+  const withSprite = await withSharedEnemyBattleSprite(
+    source,
+    structuredClone(state),
+    'enemy-shape',
+  )
+  const next = {
+    ...withSprite,
+    enemies: enemies.map((enemy) => ({ ...enemy, battleSprite: 'enemy-shape' })),
     items,
-    enemies,
-    enemyTeams: [{ id: 'team-7', slots: [enemies[0]?.id ?? 'enemy-a'] }] as EnemyTeamDef[],
-    locale: {
-      'name.enemy-a': '赤鬼王',
-      'name.enemy-b': '变身者',
-      'name.item-a': '还魂香',
-      'name.item-b': '金蚕王',
-    },
-    sprites: [],
-    battleSprites: [
-      {
-        id: 'battle.enemy',
-        label: '敌人测试精灵',
-        asset: 'battle.enemy.asset',
-        profile: {
-          kind: 'enemy',
-          idle: { start: 0, count: 1 },
-          magic: { start: 1, count: 0 },
-          attack: { start: 1, count: 0 },
-          idleTicksPerFrame: 1,
-          actTicksPerFrame: 0,
-        },
-      },
-    ],
-    maps: {},
-    sceneIndex: { version: 1, scenes: [] },
-    mapIndex: { version: 1, maps: [] },
-    tilesets: [],
-    tilesetBlobs: {},
-    assetCatalog: { version: 1, assets: {} },
-    assetBlobs: {},
-    scriptChunks: {},
-    stamps: [],
-    poisons: [],
-  } as unknown as EditorState
+    enemyTeams: enemies.length > 0 ? [{ id: 'team-7', slots: [enemies[0]!.id] }] : [],
+  }
+  assertProjectSaveValid(next)
+  return next
 }
 
 function Harness(props: {
@@ -147,6 +112,12 @@ function Harness(props: {
 let root: Root
 let host: HTMLDivElement
 
+vi.stubGlobal('Blob', NodeBlob)
+vi.stubGlobal('crypto', webcrypto)
+afterAll(() => {
+  vi.unstubAllGlobals()
+})
+
 beforeEach(() => {
   ;(globalThis as { IS_REACT_ACT_ENVIRONMENT?: boolean }).IS_REACT_ACT_ENVIRONMENT = true
   host = document.createElement('div')
@@ -161,7 +132,7 @@ afterEach(async () => {
 })
 
 async function mountEnemy(enemies: EnemyDef[], focus = 'enemy-a'): Promise<EditSession> {
-  const session = new EditSession(state(enemies))
+  const session = new EditSession(await legalEnemyState(enemies))
   await act(async () => {
     root.render(<Harness session={session} focusObjectId={focus} />)
     await Promise.resolve()
@@ -224,7 +195,7 @@ describe('U1b EnemyTab 残差', () => {
     expect(events[0]).toMatchObject({ kind: 'giveItem', itemId: 'item-a', count: 1 })
 
     const teamOpen: string[] = []
-    const two = new EditSession(state([enemy('enemy-a')]))
+    const two = new EditSession(await legalEnemyState([enemy('enemy-a')]))
     await act(async () => {
       root.render(
         <Harness

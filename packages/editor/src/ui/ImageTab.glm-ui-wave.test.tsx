@@ -4,30 +4,37 @@
  * 去重：ImageTab.test.tsx 已证目录/Tab 语义、删除提交与 undo、扫描失败零 I/O、
  * 迟到 oracle 零提交——本文件只补当前公开入口仍未证明的业务交互：
  * 立绘 PNG 导入真实提交（record/path/blobs/label/选择）、非法文件失败零提交、
- * 删除弹窗用户取消零提交且不做 I/O。
+ * 删除弹窗用户取消零提交零 I/O。项目基座 = 正式 blank 项目（loadLegalUiProject，
+ * 过 assertProjectSaveValid），reader 为正式 EditorAssetReader。
  */
-
+// @ts-expect-error Node test-host bridge only.
+import { Blob as NodeBlob } from 'node:buffer'
 // @ts-expect-error Node test-host bridge only.
 import { webcrypto } from 'node:crypto'
-import type { AssetCatalogV1 } from '@type-pal/content'
 import { act, useSyncExternalStore } from 'react'
 import { createRoot, type Root } from 'react-dom/client'
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
 import { EditSession } from '../core/edit-session.js'
+import { createEditorAssetReader } from '../core/editor-asset-reader.js'
 import { collectCurrentProjectReferenceIndex } from '../core/project-reference-adapters.js'
-import { inputByAccept, loadFilesIntoInput } from './__tests__/glm-ui-wave-kit.js'
 import {
-  catalogControlsAssetCatalog,
-  catalogControlsEditorState,
-  catalogControlsReader,
-} from './catalog-controls-test-utils.js'
+  inputByAccept,
+  loadFilesIntoInput,
+  loadLegalUiProject,
+} from './__tests__/glm-ui-wave-kit.js'
 import { ImageTab } from './ImageTab.js'
 
-const catalog: AssetCatalogV1 = structuredClone(catalogControlsAssetCatalog)
+let reader: ReturnType<typeof createEditorAssetReader>
+
+async function legalImageSession(): Promise<EditSession> {
+  const { source, state } = await loadLegalUiProject('glm-ui-wave-image')
+  const session = new EditSession(state)
+  reader = createEditorAssetReader(source, () => session.getState())
+  return session
+}
 
 function Harness(props: {
   session: EditSession
-  catalog?: AssetCatalogV1
   onObjectFocus?: (id: string | undefined) => void
 }) {
   useSyncExternalStore(
@@ -38,8 +45,8 @@ function Harness(props: {
   return (
     <ImageTab
       assetBase={{} as never}
-      catalog={props.catalog ?? current.assetCatalog}
-      reader={catalogControlsReader as never}
+      catalog={current.assetCatalog}
+      reader={reader}
       session={props.session}
       assetDiagnostics={[] as never}
       referenceIndex={collectCurrentProjectReferenceIndex(props.session.getState())}
@@ -61,6 +68,8 @@ function pngFile(name = 'hero.png', bytes = 24): File {
 
 beforeEach(() => {
   ;(globalThis as { IS_REACT_ACT_ENVIRONMENT?: boolean }).IS_REACT_ACT_ENVIRONMENT = true
+  // Node test-host bridge：blank seed 的 gzip 与导入 sha256 依赖 Node 桥。
+  vi.stubGlobal('Blob', NodeBlob)
   vi.stubGlobal('crypto', webcrypto)
   vi.stubGlobal(
     'createImageBitmap',
@@ -80,12 +89,10 @@ afterEach(async () => {
 
 describe('U3b ImageTab 残差', () => {
   test('立绘 PNG 导入真实提交：record/path/blobs/label/选择与 onObjectFocus', async () => {
-    const session = new EditSession(catalogControlsEditorState())
+    const session = await legalImageSession()
     const focused: Array<string | undefined> = []
     await act(async () => {
-      root.render(
-        <Harness session={session} catalog={catalog} onObjectFocus={(id) => focused.push(id)} />,
-      )
+      root.render(<Harness session={session} onObjectFocus={(id) => focused.push(id)} />)
       await Promise.resolve()
     })
     const input = inputByAccept(host, '.png,image/png')
@@ -109,9 +116,9 @@ describe('U3b ImageTab 残差', () => {
   })
 
   test('非 PNG 内容失败零提交并显示错误', async () => {
-    const session = new EditSession(catalogControlsEditorState())
+    const session = await legalImageSession()
     await act(async () => {
-      root.render(<Harness session={session} catalog={catalog} />)
+      root.render(<Harness session={session} />)
       await Promise.resolve()
     })
     const before = session.getHistoryVersion()
@@ -129,13 +136,22 @@ describe('U3b ImageTab 残差', () => {
   })
 
   test('删除弹窗用户取消 → 零提交零 I/O', async () => {
-    const session = new EditSession(catalogControlsEditorState())
+    const session = await legalImageSession()
     await act(async () => {
-      root.render(<Harness session={session} catalog={catalog} />)
+      root.render(<Harness session={session} />)
       await Promise.resolve()
     })
+    // 先导入一张（选中态来自导入后的自动选择），再走删除-取消
+    const input = inputByAccept(host, '.png,image/png')
+    await loadFilesIntoInput(input, [pngFile('待删.png')])
+    await vi.waitFor(() => {
+      expect(host.querySelector('button')).not.toBeNull()
+      expect(
+        [...host.querySelectorAll('button')].some((b) => b.textContent?.trim() === '删除'),
+      ).toBe(true)
+    })
     await act(async () => {})
-    const readSpy = vi.spyOn(catalogControlsReader, 'readBytes')
+    const readSpy = vi.spyOn(reader, 'readBytes')
     await clickDelete(host)
     const cancel = [...document.querySelectorAll<HTMLButtonElement>('dialog[open] button')].find(
       (candidate) => candidate.textContent?.trim() === '取消',
@@ -145,7 +161,11 @@ describe('U3b ImageTab 残差', () => {
     await act(async () => cancel!.click())
     expect(readSpy).not.toHaveBeenCalled()
     expect(session.getHistoryVersion()).toBe(before)
-    expect(session.getState().assetCatalog.assets['portrait.primary']).toBeDefined()
+    expect(
+      Object.keys(session.getState().assetCatalog.assets).filter((id) =>
+        id.startsWith('portrait.authored.'),
+      ),
+    ).toHaveLength(1)
   })
 })
 

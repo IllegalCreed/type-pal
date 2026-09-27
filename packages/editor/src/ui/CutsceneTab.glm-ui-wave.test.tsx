@@ -8,27 +8,38 @@
  */
 
 // @ts-expect-error Node test-host bridge only.
+import { Blob as NodeBlob } from 'node:buffer'
+// @ts-expect-error Node test-host bridge only.
 import { webcrypto } from 'node:crypto'
 import type { AssetCatalogV1 } from '@type-pal/content'
 import { act, useSyncExternalStore } from 'react'
 import { createRoot, type Root } from 'react-dom/client'
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
 import { EditSession } from '../core/edit-session.js'
+import { createEditorAssetReader } from '../core/editor-asset-reader.js'
 import type { ProjectReferenceIndex } from '../core/project-reference.js'
 import { collectCurrentProjectReferenceIndex } from '../core/project-reference-adapters.js'
-import { inputByAccept, loadFilesIntoInput } from './__tests__/glm-ui-wave-kit.js'
-import { CutsceneTab } from './CutsceneTab.js'
 import {
-  catalogControlsAssetCatalog,
-  catalogControlsEditorState,
-  catalogControlsReader,
-} from './catalog-controls-test-utils.js'
+  inputByAccept,
+  loadFilesIntoInput,
+  loadLegalUiProject,
+} from './__tests__/glm-ui-wave-kit.js'
+import { CutsceneTab } from './CutsceneTab.js'
 
 vi.mock('./FrameAnimationEditor.js', () => ({
   FrameAnimationEditor: () => <div data-testid="frame-editor" />,
 }))
 
-const catalog: AssetCatalogV1 = structuredClone(catalogControlsAssetCatalog)
+let catalog: AssetCatalogV1
+let reader: ReturnType<typeof createEditorAssetReader>
+
+async function legalCutsceneSession(): Promise<EditSession> {
+  const { source, state } = await loadLegalUiProject('glm-ui-wave-cutscene')
+  catalog = state.assetCatalog
+  const session = new EditSession(state)
+  reader = createEditorAssetReader(source, () => session.getState())
+  return session
+}
 
 function Harness(props: {
   session: EditSession
@@ -45,7 +56,7 @@ function Harness(props: {
     <CutsceneTab
       assetBase={{} as never}
       catalog={props.catalog ?? current.assetCatalog}
-      reader={catalogControlsReader as never}
+      reader={reader}
       session={props.session}
       assetDiagnostics={[] as never}
       referenceIndex={
@@ -61,9 +72,12 @@ function Harness(props: {
 let root: Root
 let host: HTMLDivElement
 
+// Node test-host bridge（模块级一次性）：blank seed 的 gzip 依赖 Node Blob.stream；sha256 依赖 webcrypto。
+vi.stubGlobal('Blob', NodeBlob)
+vi.stubGlobal('crypto', webcrypto)
+
 beforeEach(() => {
   ;(globalThis as { IS_REACT_ACT_ENVIRONMENT?: boolean }).IS_REACT_ACT_ENVIRONMENT = true
-  vi.stubGlobal('crypto', webcrypto)
   host = document.createElement('div')
   document.body.append(host)
   root = createRoot(host)
@@ -72,7 +86,6 @@ beforeEach(() => {
 afterEach(async () => {
   await act(async () => root.unmount())
   host.remove()
-  vi.unstubAllGlobals()
   vi.restoreAllMocks()
 })
 
@@ -84,7 +97,7 @@ function mp4File(name = 'clip.mp4', bytes = 32): File {
 
 describe('U3a CutsceneTab 残差', () => {
   test('视频导入真实提交：record/blobs/选择与 onObjectFocus', async () => {
-    const session = new EditSession(catalogControlsEditorState())
+    const session = await legalCutsceneSession()
     const focused: Array<string | undefined> = []
     await act(async () => {
       root.render(
@@ -115,7 +128,7 @@ describe('U3a CutsceneTab 残差', () => {
   })
 
   test('非 MP4/WebM 内容失败零提交并显示错误', async () => {
-    const session = new EditSession(catalogControlsEditorState())
+    const session = await legalCutsceneSession()
     await act(async () => {
       root.render(<Harness session={session} catalog={catalog} />)
       await Promise.resolve()
@@ -136,7 +149,7 @@ describe('U3a CutsceneTab 残差', () => {
   })
 
   test('帧导入弹窗取消 → 零提交', async () => {
-    const session = new EditSession(catalogControlsEditorState())
+    const session = await legalCutsceneSession()
     await act(async () => {
       root.render(<Harness session={session} catalog={catalog} />)
       await Promise.resolve()

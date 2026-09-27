@@ -5,11 +5,20 @@
  * 仍未证明的业务交互：命中实体的点击选择回调实参、抓取实体的拖动提交精确目标格、
  * 放置模式下落的精确格子换算（fit 视图下的 screen→cell 合同）。
  */
+
+// @ts-expect-error Node test-host bridge only.
+import { Blob as NodeBlob } from 'node:buffer'
 import type { SceneDef } from '@type-pal/content'
+import { validateAuthorScenes } from '@type-pal/content'
 import type { ProjectMap } from '@type-pal/reforge'
+import { validateProjectMap } from '@type-pal/reforge'
 import { act } from 'react'
 import { createRoot, type Root } from 'react-dom/client'
-import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
+import { afterAll, afterEach, beforeAll, beforeEach, describe, expect, test, vi } from 'vitest'
+import { EditSession } from '../core/edit-session.js'
+import { AddEntityCommand } from '../core/entity-commands.js'
+import { assertProjectSaveValid } from '../core/project-diagnostics.js'
+import { loadLegalUiProject } from './__tests__/glm-ui-wave-kit.js'
 import { SceneCanvas } from './SceneCanvas.js'
 
 vi.mock('@type-pal/reforge', async (importOriginal) => {
@@ -43,29 +52,36 @@ vi.mock('./scene-stage.js', async (importOriginal) => {
   }
 })
 
-const projectMap: ProjectMap = {
-  version: 4,
-  width: 1,
-  height: 1,
-  tilesetRefs: ['tiles-a'],
-  layers: [{ id: 'floor', name: '地板', tiles: [[0], [null]], sources: [[0], [null]] }],
-  collision: [[0], [0]],
-}
+// U4a 闭包基座：正式 blank 项目（场景/地图索引/地图正文/瓦片集/目录互相闭合并过保存门），
+// 经 AddEntityCommand 增加被编排的 zone 实体。stage 视图几何仍由 scene-stage mock 固定。
+let scene: SceneDef
+let projectMap: ProjectMap
+let legalSession: EditSession
 
-const scene = {
-  id: 'scene-a',
-  mapId: 'map-a',
-  entry: { pos: { col: 0, row: 0, height: 0 }, facing: 'down' },
-  entities: [
-    {
-      id: 'zone-a',
-      zone: true,
-      pos: { col: 0, row: 0, height: 0 },
-      facing: 'down',
-      pages: [],
-    },
-  ],
-} as unknown as SceneDef
+// Node test-host bridge：blank seed 的 gzip 依赖 Node Blob.stream（jsdom Blob 缺该能力）。
+vi.stubGlobal('Blob', NodeBlob)
+afterAll(() => {
+  vi.unstubAllGlobals()
+})
+
+beforeAll(async () => {
+  const { state } = await loadLegalUiProject('glm-ui-wave-scene-canvas')
+  const sceneId = state.scenes![0]!.id
+  const mapId = (state.scenes![0] as { mapId: string }).mapId
+  projectMap = state.maps![mapId]!
+  validateProjectMap(projectMap)
+  const withEntity = new AddEntityCommand(sceneId, {
+    id: 'zone-a',
+    zone: true,
+    pos: { col: 0, row: 0, height: 0 },
+    initialPage: 'p0',
+    pages: [{ id: 'p0', label: '默认页' }],
+  } as never).apply(state)
+  assertProjectSaveValid(withEntity)
+  legalSession = new EditSession(withEntity)
+  scene = legalSession.getState().scenes!.find((entry) => entry.id === sceneId)!
+  validateAuthorScenes([scene])
+})
 
 function pointer(
   target: HTMLCanvasElement,
@@ -131,18 +147,19 @@ describe('U4a SceneCanvas 残差', () => {
   })
 
   const renderCanvas = async (placingEntity = false): Promise<HTMLCanvasElement> => {
+    const current = legalSession.getState()
     await act(async () =>
       root.render(
         <SceneCanvas
-          scene={scene}
+          scene={current.scenes!.find((entry) => entry.id === scene!.id)!}
           sprites={[]}
           actorsById={{}}
           leaderSpriteId={undefined}
           assetBase={{} as never}
           assetCatalog={{ version: 1, assets: {} }}
           assetReader={{} as never}
-          projectMaps={{ 'map-a': projectMap }}
-          mapIndex={{ version: 1, maps: [] }}
+          projectMaps={current.maps ?? {}}
+          mapIndex={current.mapIndex}
           tilesets={[]}
           selectedEntityId="zone-a"
           selectedAnchor={null}

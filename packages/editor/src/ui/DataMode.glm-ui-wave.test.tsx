@@ -6,15 +6,22 @@
  * scripts 页无脚本会话的空态、sprite 页战斗域深链与跨域切换回调、敌人/技能试打回调整形、
  * events 页最小挂载。
  */
+
+// @ts-expect-error Node test-host bridge only.
+import { Blob as NodeBlob } from 'node:buffer'
+// @ts-expect-error Node test-host bridge only.
+import { webcrypto } from 'node:crypto'
 import type { BattleSpriteDef } from '@type-pal/content'
 import { act, type ComponentProps } from 'react'
 import { createRoot, type Root } from 'react-dom/client'
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
-import { type EditorState, EditSession } from '../core/edit-session.js'
+import { EditSession } from '../core/edit-session.js'
+import { assertProjectSaveValid } from '../core/project-diagnostics.js'
 import {
   buildProjectReferenceSnapshot,
   createProjectReferenceIndex,
 } from '../core/project-reference.js'
+import { loadLegalUiProject } from './__tests__/glm-ui-wave-kit.js'
 import { DataMode } from './DataMode.js'
 
 const routeProbe = vi.hoisted(() => ({
@@ -42,6 +49,9 @@ let host: HTMLDivElement
 
 beforeEach(() => {
   ;(globalThis as { IS_REACT_ACT_ENVIRONMENT?: boolean }).IS_REACT_ACT_ENVIRONMENT = true
+  // Node test-host bridge：blank seed 的 gzip 依赖 Node Blob.stream。
+  vi.stubGlobal('Blob', NodeBlob)
+  vi.stubGlobal('crypto', webcrypto)
   routeProbe.enemyProps.length = 0
   vi.stubGlobal('requestAnimationFrame', (callback: FrameRequestCallback) => {
     callback(0)
@@ -59,43 +69,41 @@ afterEach(async () => {
   vi.restoreAllMocks()
 })
 
-function baseProps(): Omit<ComponentProps<typeof DataMode>, 'tab' | 'focusObjectId'> {
-  const session = new EditSession({
-    items: [],
-    maps: {},
-    sceneIndex: { version: 1, scenes: [] },
-    mapIndex: { version: 1, maps: [] },
-    assetCatalog: { version: 1, assets: {} },
-    assetBlobs: {},
-  } as unknown as EditorState)
+/** 正式 blank 项目作为 DataMode 的会话与数据源（过保存门）。 */
+async function baseProps(): Promise<
+  Omit<ComponentProps<typeof DataMode>, 'tab' | 'focusObjectId'>
+> {
+  const { state } = await loadLegalUiProject('glm-ui-wave-datamode')
+  assertProjectSaveValid(state)
+  const session = new EditSession(state)
   return {
     playIdentity: {
       projectId: 'test',
       workspaceId: '11111111-1111-4111-8111-111111111111',
       source: 'http',
     },
-    sprites: [],
-    battleSprites: [],
+    sprites: state.sprites ?? [],
+    battleSprites: state.battleSprites ?? [],
     skills: {},
-    itemList: [],
-    locale: {},
+    itemList: state.items ?? [],
+    locale: state.locale ?? {},
     assetBase: {} as never,
     session,
-    enemies: [],
-    enemyTeams: [],
-    assetCatalog: { version: 1, assets: {} },
+    enemies: state.enemies ?? [],
+    enemyTeams: state.enemyTeams ?? [],
+    assetCatalog: state.assetCatalog,
     assetReader: {} as never,
     audioResolver: {} as never,
-    tilesets: [],
-    tilesetBlobs: {},
-    stamps: [],
-    mapIndex: { version: 1, maps: [] },
-    battleFields: [],
-    poisons: [],
-    ambiences: [],
-    shops: [],
-    skillList: [],
-    scenes: [],
+    tilesets: state.tilesets ?? [],
+    tilesetBlobs: state.tilesetBlobs ?? {},
+    stamps: state.stamps ?? [],
+    mapIndex: state.mapIndex,
+    battleFields: state.battleFields ?? [],
+    poisons: state.poisons ?? [],
+    ambiences: state.ambiences ?? [],
+    shops: state.shops ?? [],
+    skillList: state.skills ?? [],
+    scenes: state.scenes ?? [],
     manifest: {
       id: 'test',
       name: 'test',
@@ -127,21 +135,21 @@ function baseProps(): Omit<ComponentProps<typeof DataMode>, 'tab' | 'focusObject
 
 describe('U4c DataMode 残差', () => {
   test('scripts 页无脚本会话 → 明确空态而非崩溃', async () => {
-    await act(async () => root.render(<DataMode {...baseProps()} tab="scripts" />))
+    await act(async () => root.render(<DataMode {...(await baseProps())} tab="scripts" />))
     const alert = host.querySelector('[role="alert"]')
     expect(alert, 'scripts empty alert').not.toBeNull()
     expect(alert?.textContent).toContain('无法加载可复用脚本')
   })
 
   test('events 页最小挂载只消费 tabBar', async () => {
-    await act(async () => root.render(<DataMode {...baseProps()} tab="events" />))
+    await act(async () => root.render(<DataMode {...(await baseProps())} tab="events" />))
     expect(host.querySelector('[data-testid="tab-bar"]')).not.toBeNull()
   })
 
   test('敌人试打经 onBattleTrial 传出 {kind:"enemy", id}', async () => {
     const onBattleTrial = vi.fn()
     await act(async () =>
-      root.render(<DataMode {...baseProps()} tab="enemy" onBattleTrial={onBattleTrial} />),
+      root.render(<DataMode {...(await baseProps())} tab="enemy" onBattleTrial={onBattleTrial} />),
     )
     expect(routeProbe.enemyProps.length).toBeGreaterThan(0)
     const onTrial = routeProbe.enemyProps.at(-1)!.onTrial as (id: string) => void
@@ -169,7 +177,7 @@ describe('U4c DataMode 残差', () => {
     await act(async () =>
       root.render(
         <DataMode
-          {...baseProps()}
+          {...(await baseProps())}
           tab="sprite"
           focusObjectId="fighter-x"
           battleSprites={battleSprites}

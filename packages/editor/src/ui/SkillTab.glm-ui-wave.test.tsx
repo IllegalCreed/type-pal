@@ -6,12 +6,18 @@
  * 删除确认取消零提交、添加效果缺省 damage 提交、效果类型切换提交与召唤缺精灵失败零提交、
  * gate 概率参数提交、目标/战外可用/说明基础字段、玩家施法分支增删、目录行点击深链回调。
  */
+
+// @ts-expect-error Node test-host bridge only.
+import { Blob as NodeBlob } from 'node:buffer'
+// @ts-expect-error Node test-host bridge only.
+import { webcrypto } from 'node:crypto'
 import type { ItemData, SkillData } from '@type-pal/content'
 import { act, useSyncExternalStore } from 'react'
 import { createRoot, type Root } from 'react-dom/client'
-import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
+import { afterAll, afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
 import type { EditorState } from '../core/edit-session.js'
 import { EditSession } from '../core/edit-session.js'
+import { assertProjectSaveValid } from '../core/project-diagnostics.js'
 import type { ProjectReferenceIndex } from '../core/project-reference.js'
 import {
   type CurrentProjectReferenceIndexProvider,
@@ -23,6 +29,7 @@ import {
   clickCheckboxByLabel,
   comboboxByAriaLabel,
   fieldControlByLabel,
+  loadLegalUiProject,
   setInputValue,
 } from './__tests__/glm-ui-wave-kit.js'
 import { SkillTab } from './SkillTab.js'
@@ -34,12 +41,7 @@ vi.mock('./SummonPreview.js', () => ({
   SummonPreview: () => <div data-testid="summon-preview">召唤预览</div>,
 }))
 
-const ITEMS: ItemData[] = [
-  { id: '148', name: '蛊', desc: [], buyPrice: 0, sellPrice: 0, sellable: false },
-  { id: '86', name: '酒', desc: [], buyPrice: 0, sellPrice: 0, sellable: false },
-]
-
-function skill(effects: SkillData['effects'] = [], id = '352', name = '三尸咒'): SkillData {
+function skill(effects: SkillData['effects'] = [], id = 'skill-glm-a', name = '三尸咒'): SkillData {
   return {
     id,
     name,
@@ -52,45 +54,18 @@ function skill(effects: SkillData['effects'] = [], id = '352', name = '三尸咒
   }
 }
 
-function state(skills: SkillData[]): EditorState {
-  return {
-    manifest: {
-      id: 'test',
-      name: '测试项目',
-      contentVersion: 20,
-      minimumSaveVersion: 8,
-      defaultEntryId: 'main',
-      content: {},
-      entryPoints: [
-        {
-          id: 'main',
-          label: '主要入口',
-          scene: 's001',
-          startWorld: { party: [], money: 0, inventory: [] },
-        },
-      ],
-      assets: { catalog: 'assets/index.json', roles: {} },
-    },
-    scenes: [],
-    actors: [],
-    skills,
-    levelUp: {},
-    items: ITEMS,
-    locale: {},
-    sprites: [],
-    battleSprites: [],
-    maps: {},
-    sceneIndex: { version: 1, scenes: [] },
-    mapIndex: { version: 1, maps: [] },
-    tilesets: [],
-    tilesetBlobs: {},
-    assetCatalog: { version: 1, assets: {} },
-    assetBlobs: {},
-    scriptChunks: {},
-    stamps: [],
-    shops: [],
-    poisons: [],
-  } as unknown as EditorState
+// 正式 blank 项目 + 本批被编排技能，经 assertProjectSaveValid 自证可保存。
+/** 正式 blank 项目 + 本批被编排技能；ITEMS 为真实校验物品（消耗物品行可用）。 */
+const ITEMS: ItemData[] = [
+  { id: 'item-glm-a', name: '蛊', desc: [], buyPrice: 0, sellPrice: 0, sellable: false },
+  { id: 'item-glm-b', name: '酒', desc: [], buyPrice: 0, sellPrice: 0, sellable: false },
+]
+
+async function legalSkillState(skills: SkillData[]): Promise<EditorState> {
+  const { state } = await loadLegalUiProject('glm-ui-wave-skill')
+  const next = { ...state, skills, items: ITEMS }
+  assertProjectSaveValid(next)
+  return next
 }
 
 function Harness(props: {
@@ -130,6 +105,13 @@ function Harness(props: {
 let root: Root
 let host: HTMLDivElement
 
+// Node test-host bridge（模块级一次性）：blank seed 的 gzip 依赖 Node Blob.stream。
+vi.stubGlobal('Blob', NodeBlob)
+vi.stubGlobal('crypto', webcrypto)
+afterAll(() => {
+  vi.unstubAllGlobals()
+})
+
 beforeEach(() => {
   ;(globalThis as { IS_REACT_ACT_ENVIRONMENT?: boolean }).IS_REACT_ACT_ENVIRONMENT = true
   host = document.createElement('div')
@@ -143,8 +125,8 @@ afterEach(async () => {
   vi.restoreAllMocks()
 })
 
-async function mountSkill(skills: SkillData[], focus = '352'): Promise<EditSession> {
-  const session = new EditSession(state(skills))
+async function mountSkill(skills: SkillData[], focus = 'skill-glm-a'): Promise<EditSession> {
+  const session = new EditSession(await legalSkillState(skills))
   await act(async () => {
     root.render(<Harness session={session} focusObjectId={focus} />)
     await Promise.resolve()
@@ -183,7 +165,9 @@ describe('U1a SkillTab 残差', () => {
     ])
 
     const notices: Array<{ kind: string; message?: string } | undefined> = []
-    const bare = new EditSession(state([skill([{ kind: 'damage', power: 10, elemental: 0 }])]))
+    const bare = new EditSession(
+      await legalSkillState([skill([{ kind: 'damage', power: 10, elemental: 0 }])]),
+    )
     await act(async () => {
       root.render(<Harness session={bare} onStatusNotice={(notice) => notices.push(notice)} />)
       await Promise.resolve()
@@ -206,7 +190,9 @@ describe('U1a SkillTab 残差', () => {
     expect(session.getState().skills[0]!.effects[0]).toEqual({ kind: 'gate', chance: 50 })
 
     const focus: string[] = []
-    const two = new EditSession(state([skill([], '352', '甲'), skill([], '353', '乙')]))
+    const two = new EditSession(
+      await legalSkillState([skill([], '352', '甲'), skill([], '353', '乙')]),
+    )
     await act(async () => {
       root.render(
         <Harness

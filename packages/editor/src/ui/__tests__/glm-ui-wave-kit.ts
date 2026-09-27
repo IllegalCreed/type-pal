@@ -1,10 +1,46 @@
 /**
  * TEST-GLM-EDITOR-UI-WAVE-1 通用交互测试夹具：jsdom 挂载生命周期、受控输入提交、
- * 组合框/文件输入驱动与延迟 Promise 助手。只放与组件无关的交互工具；
- * 组件级 fixture/harness 在各组测试文件内（沿用同名旧测的现行模式）。不被生产导入。
+ * 组合框/文件输入驱动、延迟 Promise 助手与「可保存合法项目」装载器（blank seed→loader→
+ * toEditorState→assertProjectSaveValid 自证）。组件级 harness 在各组测试文件内。
+ * 不被生产导入。
  */
+
+import {
+  type FileSource,
+  fsaSource,
+  loadAllAuthorScenes,
+  loadAllProjectMaps,
+  loadCurrentProjectFrom,
+} from '@type-pal/reforge'
 import { act } from 'react'
 import { expect } from 'vitest'
+import { memoryAuthorDirectory } from '../../core/__tests__/author-save-fixture.js'
+import type { EditorState } from '../../core/edit-session.js'
+import { assertProjectSaveValid } from '../../core/project-diagnostics.js'
+import { toEditorState } from '../../core/project-io.js'
+import { buildBlankProject } from '../../core/seed.js'
+
+export interface LegalProject {
+  source: FileSource
+  state: EditorState
+}
+
+/**
+ * 正式 blank 项目装载器：seed→memory 目录→loader→全量场景与地图正文→toEditorState，
+ * 并经 assertProjectSaveValid 自证可通过当前保存门。测试文件需在 beforeEach
+ * 自行 `vi.stubGlobal('Blob', NodeBlob)` 与 `vi.stubGlobal('crypto', webcrypto)`
+ * （jsdom 环境缺 CompressionStream/Response 所需的 Node Blob.stream）。
+ */
+export async function loadLegalUiProject(name = 'glm-ui-wave'): Promise<LegalProject> {
+  const disk = memoryAuthorDirectory(await buildBlankProject(name))
+  const source = fsaSource(disk.dir)
+  const project = await loadCurrentProjectFrom(source)
+  const scenes = await loadAllAuthorScenes(project)
+  const maps = await loadAllProjectMaps(project)
+  const state = toEditorState(project, scenes, maps, {}, [])
+  assertProjectSaveValid(state)
+  return { source, state }
+}
 
 export function useActEnvironment(): void {
   ;(globalThis as { IS_REACT_ACT_ENVIRONMENT?: boolean }).IS_REACT_ACT_ENVIRONMENT = true

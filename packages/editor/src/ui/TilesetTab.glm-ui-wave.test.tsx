@@ -6,14 +6,22 @@
  * 重命名/改分类只动元数据且瓦片集 id 与 asset 绑定保持稳定（undo 精确还原）、
  * focusObjectId 深链直接选中目标瓦片集。
  */
-import type { MapIndexV1, ProjectMap, StampTemplate } from '@type-pal/content'
+
+// @ts-expect-error Node test-host bridge only.
+import { Blob as NodeBlob } from 'node:buffer'
+// @ts-expect-error Node test-host bridge only.
+import { webcrypto } from 'node:crypto'
+import type { ProjectMap } from '@type-pal/content'
 import { buildBlankProjectMap, type TilesetDef } from '@type-pal/reforge'
 import { act } from 'react'
 import { createRoot, type Root } from 'react-dom/client'
-import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
+import { afterAll, afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
 import { sha256Hex } from '../core/binary-signature.js'
 import type { EditorState } from '../core/edit-session.js'
 import { EditSession } from '../core/edit-session.js'
+import { assertProjectSaveValid } from '../core/project-diagnostics.js'
+import { buildSeedAssets } from '../core/seed-assets.js'
+import { loadLegalUiProject } from './__tests__/glm-ui-wave-kit.js'
 import { setCatalogSearch } from './catalog-controls-test-utils.js'
 import { TilesetTab } from './TilesetTab.js'
 
@@ -29,74 +37,70 @@ vi.mock('@type-pal/reforge', async (importOriginal) => {
   }
 })
 
-const tilesets: TilesetDef[] = [
-  { id: 'tiles-a', name: '待删瓦片', category: 'test', asset: 'tileset.a' },
-  { id: 'tiles-b', name: '保留瓦片', category: 'production', asset: 'tileset.b' },
+// 正式 blank 项目（含 starter 瓦片集与起始地图），追加两个真实字节的新瓦片集；
+// mapIndex 取自项目（starter 地图保留），追加地图正文仅用于 loadMap 响应。
+const addedTilesets: TilesetDef[] = [
+  { id: 'tiles-a', name: '待删瓦片', category: 'test', asset: 'tileset.glm.a' },
+  { id: 'tiles-b', name: '保留瓦片', category: 'production', asset: 'tileset.glm.b' },
 ]
 
-const assetBytes = {
-  'tileset.a': new Uint8Array([1]).buffer,
-  'tileset.b': new Uint8Array([2]).buffer,
-}
-const assetHashes = {
-  a: await sha256Hex(assetBytes['tileset.a']),
-  b: await sha256Hex(assetBytes['tileset.b']),
-}
-
-const assetCatalog = {
-  version: 1 as const,
-  assets: Object.fromEntries(
-    ['a', 'b'].map((id) => [
-      `tileset.${id}`,
-      {
+async function legalTilesetProject(_input: {
+  mapB: ProjectMap
+  focusObjectId?: string
+  onObjectFocus?: (id: string | undefined) => void
+}) {
+  const seedAssets = await buildSeedAssets()
+  const { state } = await loadLegalUiProject('glm-ui-wave-tileset')
+  const bytesA = seedAssets.tilesetRle.slice(0)
+  const bytesB = seedAssets.spriteRle.slice(0)
+  const tilesets = [
+    ...(state.tilesets ?? []),
+    { ...addedTilesets[0]!, asset: 'tileset.glm.a' },
+    { ...addedTilesets[1]!, asset: 'tileset.glm.b' },
+  ]
+  const assetCatalog = {
+    version: 1 as const,
+    assets: {
+      ...state.assetCatalog.assets,
+      'tileset.glm.a': {
         kind: 'tileset' as const,
-        path: `assets/authored/tilesets/${id}.rle`,
+        path: 'assets/authored/tilesets/glm-a.rle',
         mediaType: 'application/vnd.type-pal.rle',
-        bytes: 1,
-        sha256: assetHashes[id as keyof typeof assetHashes],
+        bytes: bytesA.byteLength,
+        sha256: await sha256Hex(bytesA),
         origin: { kind: 'authored' as const },
       },
-    ]),
-  ),
-}
-const assetReader = {
-  projectId: 'test',
-  record: (asset: string) => assetCatalog.assets[asset]!,
-  readBytes: async (asset: keyof typeof assetBytes) => assetBytes[asset].slice(0),
-  readRoleBytes: async () => new ArrayBuffer(0),
-  urlFor: async () => '',
-}
-
-const mapIndex: MapIndexV1 = {
-  version: 1,
-  maps: [
-    { id: 'map-a', name: '地图 A', path: 'content/maps/map-a.json' },
-    { id: 'map-b', name: '地图 B', path: 'content/maps/map-b.json' },
-  ],
-}
-
-function editorState(map: ProjectMap, stamps: StampTemplate[] = []): EditorState {
-  return {
-    manifest: {} as never,
-    scenes: [],
-    sceneIndex: { version: 1, scenes: [] },
-    actors: [],
-    skills: [],
-    levelUp: {},
-    items: [],
-    locale: {},
-    sprites: [],
-    battleSprites: [],
-    maps: { 'map-a': map },
-    mapIndex,
+      'tileset.glm.b': {
+        kind: 'tileset' as const,
+        path: 'assets/authored/tilesets/glm-b.rle',
+        mediaType: 'application/vnd.type-pal.rle',
+        bytes: bytesB.byteLength,
+        sha256: await sha256Hex(bytesB),
+        origin: { kind: 'authored' as const },
+      },
+    },
+  }
+  const assetBlobs = {
+    ...state.assetBlobs,
+    'assets/authored/tilesets/glm-a.rle': bytesA,
+    'assets/authored/tilesets/glm-b.rle': bytesB,
+  }
+  const next = {
+    ...state,
     tilesets,
-    tilesetBlobs: {},
     assetCatalog,
-    assetBlobs: {},
-    stamps,
-    scriptChunks: {},
+    assetBlobs,
   } as EditorState
+  assertProjectSaveValid(next)
+  return next
 }
+
+// Node test-host bridge（模块级一次性）：blank seed 的 gzip 依赖 Node Blob.stream。
+vi.stubGlobal('Blob', NodeBlob)
+vi.stubGlobal('crypto', webcrypto)
+afterAll(() => {
+  vi.unstubAllGlobals()
+})
 
 const mounted: Array<{ root: Root; host: HTMLDivElement }> = []
 
@@ -105,7 +109,8 @@ async function mountTilesetTab(input: {
   focusObjectId?: string
   onObjectFocus?: (id: string | undefined) => void
 }) {
-  const session = new EditSession(editorState(buildBlankProjectMap(1, 1, 'tiles-b'), []), {
+  const state = await legalTilesetProject({ mapB: input.mapB })
+  const session = new EditSession(state, {
     loadMap: async (id: string) => {
       if (id !== 'map-b') throw new Error(`unexpected map ${id}`)
       return input.mapB
@@ -118,12 +123,21 @@ async function mountTilesetTab(input: {
   await act(async () => {
     root.render(
       <TilesetTab
-        tilesets={tilesets}
-        assetCatalog={assetCatalog}
-        assetReader={assetReader}
+        tilesets={state.tilesets ?? []}
+        assetCatalog={state.assetCatalog}
+        assetReader={{
+          projectId: 'test',
+          record: (asset: string) => state.assetCatalog.assets[asset]!,
+          readBytes: async (asset: string) => {
+            const record = state.assetCatalog.assets[asset]!
+            return (state.assetBlobs[record.path] as ArrayBuffer | undefined) ?? new ArrayBuffer(0)
+          },
+          readRoleBytes: async () => new ArrayBuffer(0),
+          urlFor: async () => '',
+        }}
         assetBase={{} as never}
         session={session}
-        mapIndex={mapIndex}
+        mapIndex={state.mapIndex}
         focusObjectId={input.focusObjectId}
         onObjectFocus={input.onObjectFocus}
       />,
@@ -157,6 +171,7 @@ describe('U2c TilesetTab 残差', () => {
     const { host, session } = await mountTilesetTab({
       mapB: buildBlankProjectMap(1, 1, 'tiles-b'),
     })
+    const selected = (session.getState().tilesets ?? [])[0] as TilesetDef
     const idsBefore = session.getState().tilesets?.map(({ id, asset }) => ({ id, asset }))
     const name = host.querySelector<HTMLInputElement>('[aria-label="瓦片集名称"]')!
     await act(async () => name.focus())
@@ -167,10 +182,10 @@ describe('U2c TilesetTab 残差', () => {
     await setCatalogSearch(category, 'interior')
     await act(async () => category.blur())
     expect(session.getState().tilesets?.[0]).toEqual({
-      id: 'tiles-a',
+      id: selected.id,
       name: '重命名瓦片集',
       category: 'interior',
-      asset: 'tileset.a',
+      asset: selected.asset,
     })
     expect(session.isDirty()).toBe(true)
     await act(async () => {
@@ -178,8 +193,8 @@ describe('U2c TilesetTab 残差', () => {
       expect(session.undo()).toBe(true)
     })
     expect(session.getState().tilesets?.map(({ id, asset }) => ({ id, asset }))).toEqual(idsBefore)
-    expect(session.getState().tilesets?.[0]?.name).toBe('待删瓦片')
-    expect(session.getState().tilesets?.[0]?.category).toBe('test')
+    expect(session.getState().tilesets?.[0]?.name).toBe(selected.name)
+    expect(session.getState().tilesets?.[0]?.category).toBe(selected.category)
   })
 
   test('focusObjectId 深链直接选中目标瓦片集', async () => {
