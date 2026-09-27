@@ -10,6 +10,13 @@ Branch: `codex/glm-item-logic-r1`
 
 ## 准入与前提
 
+### 2026-09-27 Codex接收37027b2d
+
+**counter，仍是R3/R4固定清单未执行完**，见[逐文件定位与提示词](../../testing/item-logic-r6-review.md)。
+旧effectResults、零诊断、部分catalog保护已修；八针/1178/executor17/TC/作者六针全部通过，已过项不重开。
+ownership/effects零diff却在交付块声称全部完成；noUse仍匿名且拍错catalog，Resistances与若干I5/I6调用仍漏。
+只清现有调用清单及回执，撤回helper无关参数/跳过空数组执行的改动；不加新矩阵，不合候选、不计覆盖。
+
 ### 2026-09-27 Codex接收2796124b
 
 **counter：八针已闭，剩原R3固定清单/恢复旧断言/R4及静态门**，见[收尾复核与提示词](../../testing/item-logic-r5-review.md)。

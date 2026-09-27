@@ -8,6 +8,8 @@
 
 ## 文档与附件
 
+- [GLM物品六组r6固定清单复核](item-logic-r6-review.md)（37027b2d，八针/旧断言/零诊断已过，剩原逐文件清单与回执）。
+
 - [GLM物品六组r5收尾复核](item-logic-r5-review.md)（2796124b，八针已闭；原清单/旧断言/回执与两条质量错误未齐）。
 
 - [Cursor地图六组接收与集成](cursor-map-integration.md)（be9a8636已done，29新增、check9741/strict9249、+21B/+19L）。

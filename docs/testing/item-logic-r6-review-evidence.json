@@ -1,0 +1,120 @@
+{
+  "task": "TEST-GLM-ITEM-LOGIC-1",
+  "reviewer": "Codex",
+  "date": "2026-09-27",
+  "candidate": "37027b2d89e671a4442d0a405d99f9ce9efb7615",
+  "reviewBase": "b6cda510",
+  "verdict": "counter: existing R3 and R4 closeout incomplete",
+  "merged": false,
+  "productionUnchanged": true,
+  "closedThisRound": [
+    "effectResults assertion restored",
+    "fixture lint zero",
+    "not-owned catalog protected",
+    "part of derived catalogs protected"
+  ],
+  "requiredGate": {
+    "candidateMutationGate": true,
+    "missed": [],
+    "exit": 0,
+    "evidenceDirectories": [
+      "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/codex-item-logic-review-KUAn1H",
+      "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/codex-item-logic-review-PjUywo"
+    ]
+  },
+  "candidateMutants": [
+    {
+      "name": "growth-no-op-candidate-mutant",
+      "exit": 1,
+      "total": 10,
+      "passed": 9,
+      "failed": 1
+    },
+    {
+      "name": "drop-unrelated-inventory-candidate-mutant",
+      "exit": 1,
+      "total": 8,
+      "passed": 6,
+      "failed": 2
+    },
+    {
+      "name": "drop-external-money-candidate-mutant",
+      "exit": 1,
+      "total": 6,
+      "passed": 5,
+      "failed": 1
+    },
+    {
+      "name": "learned-input-mutation-candidate-mutant",
+      "exit": 1,
+      "total": 8,
+      "passed": 7,
+      "failed": 1
+    },
+    {
+      "name": "throw-input-mutation-candidate-mutant",
+      "exit": 1,
+      "total": 8,
+      "passed": 7,
+      "failed": 1
+    },
+    {
+      "name": "drop-equipped-usable-candidate-mutant",
+      "exit": 1,
+      "total": 8,
+      "passed": 7,
+      "failed": 1
+    },
+    {
+      "name": "growth-extra-rng-candidate-mutant",
+      "exit": 1,
+      "total": 10,
+      "passed": 9,
+      "failed": 1
+    },
+    {
+      "name": "drop-external-hp-candidate-mutant",
+      "exit": 1,
+      "total": 6,
+      "passed": 5,
+      "failed": 1
+    }
+  ],
+  "gates": {
+    "content": {
+      "files": 98,
+      "tests": 1178,
+      "passed": 1178
+    },
+    "executor": {
+      "tests": 17,
+      "passed": 17
+    },
+    "typecheck": {
+      "exit": 0,
+      "diagnostics": 0
+    },
+    "biome": {
+      "changed": 0,
+      "unchanged": 9,
+      "matches": 0,
+      "duration": 28066125,
+      "errors": 0,
+      "warnings": 0,
+      "infos": 0,
+      "skipped": 0,
+      "suggestedFixesSkipped": 0,
+      "diagnosticsNotPrinted": 0,
+      "scannerDuration": 4466167
+    },
+    "docs": {
+      "exit": 0
+    },
+    "authorMutants": {
+      "greenTests": 46,
+      "detected": 6,
+      "selfTests": 10
+    }
+  },
+  "notRun": ["whole repository check", "official coverage", "browser/E2E"]
+}
