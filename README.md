@@ -4,14 +4,14 @@
 
 - 第一阶段在线试玩：<https://pal.illegalscreed.cn/>
 - 当前开发主线：**第二阶段 Reforge（新运行时 + 内容编辑器 + 迁移器）**
-- 本页状态快照：**2026-09-06**；实时进度以能力地图和任务看板为准。
+- 本页最近核对：**2026-09-27**；实时进度以能力地图、任务看板和机器可读覆盖率基线为准。
 - 完整原版游戏数据不在仓库中；运行 PAL 内容需要自行准备合法取得的原版数据。现有 demo / 回归 fixture 含少量入库的 PAL 派生素材，不代表版权清理或用户种子已经完成。
 
 ## 仓库里有什么
 
 | 应用 | 包 | 用途 | 本地端口 |
 |---|---|---|---:|
-| 第一阶段运行时 | [`@type-pal/game`](packages/game) | 忠实还原版浏览器游戏；已上线，当前作为冻结运行时和行为/UX 参考。 | 6005 |
+| 第一阶段运行时 | [`@type-pal/game`](packages/game) | 已上线的忠实还原版浏览器游戏；继续接受保真重构与缺陷修复，也是第二阶段的行为/UX 参考。 | 6005 |
 | Reforge | [`@type-pal/reforge`](packages/reforge) | 读取现代内容工程的新运行时，负责场景、脚本、战斗、存档、音频和预览。 | 6050 / 6051 |
 | 编辑器 | [`@type-pal/editor`](packages/editor) | 可视化编辑地图、场景、剧情、角色、物品、战斗、资源和项目设置。 | 6010 / 6011 |
 
@@ -20,7 +20,7 @@
 项目分三阶段推进，第一阶段与第二阶段的工程目标和判断标准不能混用：
 
 1. **第一阶段 · 忠实还原（v1.0.0 已上线）**
-   以原版数据和实际行为为首要事实来源，参考 sdlpal 与一阶段考证，在 TypeScript 中重建游戏。`@type-pal/game` 当前冻结，保留为已发布产品、一阶段知识库和第二阶段 UX 参考。
+   以原版数据和实际行为为首要事实来源，参考 sdlpal 与一阶段考证，在 TypeScript 中重建游戏。`@type-pal/game` 是已发布产品、一阶段知识库和第二阶段 UX 参考；行为不漂移的结构治理与确认缺陷的修复仍可继续。
 2. **第二阶段 · Reforge（活跃开发）**
    从现代内容契约出发重写运行时和编辑器，让作者能创建、编辑和运行自有内容工程，并补齐自包含分发地基。PAL 是试炼场、迁移样本和第一份内容包，不是新架构的实现模板；无需源码仓库的独立可玩包仍是本阶段收口项，尚未完成。
 3. **第三阶段 · 产品化（规划中）**
@@ -42,34 +42,32 @@
 
 ## 当前开发状态
 
-第二阶段已经不再是概念验证：Reforge 可以运行自包含的现代内容工程，编辑器已经具备场景、地图、剧情、
-角色、物品、战斗、资源和工程设置等主要工作台，以及本地工程打开/保存、撤销/重做、引用诊断、试玩和
-统一设计系统。PAL 全量迁移使用事务发布与三方合并；开发期运行时、编辑器、工程和存档只接受当前
-canonical 版本。
+第二阶段已具备可运行自包含内容工程的 Reforge，以及场景、地图、剧情、角色、物品、战斗、资源和
+工程设置等编辑器工作台。本地工程打开/保存、撤销/重做、引用诊断、试玩和独立战斗模拟器已落地。
+PAL 迁移使用事务发布与三方合并；开发期运行时、编辑器、工程和存档只接受当前 canonical 版本。
 
-统一工程引用边、删除保护、场景与商店生命周期均已完成，并通过技术终审和产品验收。
-第一、第二阶段五批首轮只读代码审计已收口，发现与修复建议见[审计总报告](docs/ops/audits/pre-e2e/summary.md)。
-首批 [E-06 质量门禁修复](docs/ops/audits/pre-e2e/quality-gate-remediation.md)与
-[B-04 当前存档预检修复](docs/ops/audits/pre-e2e/save-preflight-remediation.md)已完成，全仓 `pnpm check` 通过；
-其余业务缺陷尚待逐批修复，不代表审计问题已全部解决。
-Vitest/V8 全生产源码覆盖率基线与只升不降门禁已经建立；fast/full 口径和带日期的实测记录见
-[`docs/testing/coverage.md`](docs/testing/coverage.md)，当前入库 fast 数字见
-[`scripts/coverage/baseline.fast.json`](scripts/coverage/baseline.fast.json)。覆盖率不替代业务断言与 E2E。
-文档审计整改及自动检查见 [`DOC-GOV-1`](docs/ops/archive/tasks/done/DOC-GOV-1-documentation-cleanup.md)；
-`pnpm check:docs` 已加入日常门禁，检查本地链接、目录索引、任务状态和选定现行合同版本。
-全仓文档按职责归整，入口见 [文档首页](docs/README.md)：第二阶段分现行规范、使用指南、知识参考与
-历史归档；跨阶段测试说明集中到 `docs/testing/`，已关闭任务从活动目录移入归档并保留统一索引。
-下一步处理 E2E 阻断问题并同步补回归、提高覆盖率，再依次进入薄 E2E 基线、窄版意图式脚本能力、战斗专项与完整通关 E2E、编辑器综合工作流、录制适配，
-最后再做服务器版本化预制工程和独立可玩包。准确顺序见
-[`docs/phase2/capability-map.md`](docs/phase2/capability-map.md)；正在执行的单卡见
-[`docs/ops/board.md`](docs/ops/board.md)。
+第一、第二阶段首轮代码审计见[审计总报告](docs/ops/audits/pre-e2e/summary.md)，确认问题按独立任务修复；
+不能把审计完成当成所有缺陷已修复。全仓[13 批结构治理](docs/testing/architecture-continuation-integration.md)
+和[零诊断质量门](docs/testing/quality-zero/README.md)已收口，第一阶段仍可在保真前提下继续修缺陷。
+双引擎 [001 开场 E2E](docs/testing/e2e-001.md)已经有独立可运行的流程、真实存档检查点和关键 NPC 稀疏时序；
+这**不是**完整剧情通关、完整视觉/音轨验收或可直接用于宣传的录像链。
+
+全生产源码的 Vitest/V8 fast/full 覆盖率和只升不降门禁已建立；口径见
+[`docs/testing/coverage.md`](docs/testing/coverage.md)，最新入库 fast 数字以
+[`scripts/coverage/baseline.fast.json`](scripts/coverage/baseline.fast.json)为准。覆盖率不替代业务断言与 E2E。
+`pnpm check:docs` 检查本地链接、索引、任务状态和现行合同版本；完整文档导航见[文档首页](docs/README.md)。
+
+接下来继续 R4 分段 E2E 与必要缺陷修复，再按[路线图](docs/phase2/roadmap.md)处理窄版意图式脚本、
+完整剧情/战斗专项、编辑器综合工作流、录制适配，以及最后的预制工程与独立可玩包。
+正在执行的单卡以[任务看板](docs/ops/board.md)为准。
 
 第二阶段暂不处理真实时间/天气、随机笔刷、时间旅行调试、无障碍设置、完整对话/演出专用工作台及
 版权资源批量替换；这些已经明确移交第三阶段，不应从旧文档或历史任务误判为当前欠项。
 
 ## 快速开始
 
-需要本地安装 Node.js、pnpm 和 Git。
+需要本地安装 Node.js 22、pnpm 和 Git。完整 PAL 路线还需要合法取得的原版数据；
+demo、空白工程和自包含回归工程可跳过提取与迁移。
 
 ### 无需本地原版数据：运行 demo 或创建空白工程
 
@@ -164,10 +162,12 @@ projects/demo ──────────────────────
 pnpm check          # 完整维护者门禁；迁移器完整测试需要本地 PAL 提取数据
 pnpm typecheck      # 全 workspace TypeScript 检查
 pnpm test           # 全 workspace 测试；其中 migrate PAL 项需要本地提取数据
-pnpm lint           # biome check .
+pnpm lint           # 全仓 Biome 零诊断门；error/warning/info 均不可留存
 pnpm check:docs     # 文档链接、索引、任务状态与现行版本；无需 PAL 素材
 pnpm coverage:fast  # 全生产源码 V8 覆盖率 + 每包/全仓只升不降门禁
 pnpm coverage:full  # 在 fast 基础上加入 PAL 真数据 Vitest 测试
+pnpm coverage:ratchet # 维护者在完整验证后只升不降地更新 fast 基线
+pnpm test:e2e-tools # 无游戏资产/浏览器的 E2E 执行器合同测试
 
 # 格式化
 pnpm format         # 只格式化相对 HEAD 的已改文件
@@ -188,6 +188,10 @@ pnpm --filter @type-pal/reforge check
 pnpm --filter @type-pal/migrate test:fast
 pnpm --filter @type-pal/migrate test:pal                  # 需要本地 PAL 数据的较重验证
 ```
+
+已落地的开场 E2E 可在具备 Chrome 和本地 PAL 资产的环境中运行 `pnpm e2e:001:both`；
+它自建隔离服务、分别运行两引擎并生成检查点，不使用已打开的 6005/6051 开发页。
+有/无窗口模式和目前覆盖边界见[001 执行说明](docs/testing/e2e-001.md)。
 
 视觉、音频、浏览器文件系统、长剧情和完整游玩路线不能只靠单元测试判断，仍需按相应任务的浏览器 / E2E 验收记录执行。
 覆盖率口径、基线更新规则和长期目标见 [`docs/testing/coverage.md`](docs/testing/coverage.md)。
@@ -215,7 +219,7 @@ pnpm --filter @type-pal/migrate test:pal                  # 需要本地 PAL 数
 | 路径 | 内容 |
 |---|---|
 | [`docs/`](docs) | 分阶段设计、状态、审计与验收文档。 |
-| [`docs/ops/tasks/`](docs/ops/tasks) | 带证据和三方签字的任务卡。 |
+| [`docs/ops/tasks/`](docs/ops/tasks) | 活动任务卡、证据与交接；当前由 Codex 分派并独立验收，历史三方签字原样保留。 |
 | [`reference/sdlpal/`](reference/sdlpal) | sdlpal 源码副本；是一阶段的重要参考实现，不替代原版实际行为这一首要事实来源。 |
 | [`scripts/`](scripts) | 仓库维护与辅助脚本；部分命令仅供维护者使用。 |
 
@@ -226,7 +230,7 @@ pnpm --filter @type-pal/migrate test:pal                  # 需要本地 PAL 数
 - **生成真源优先。** 提取或迁移缺陷修上游并重新生成，不能把 `data/extracted/` 或 `projects/pal` 的局部手改当成最终修复。
 - **工程必须自包含。** 新内容工程不应在运行时偷偷读取仓库级 `data/extracted/` 或其他工程的资源。
 - **提交前跑合适的门禁。** `pnpm check` 是全仓基线；功能性界面、音频和完整路线还要补最小浏览器或 E2E 证据。
-- **协作状态落库。** 任务状态、设计裁决、签字和交接以 [`docs/ops/`](docs/ops) 为准，不把聊天记录当唯一真相。
+- **协作状态落库。** 任务状态、设计裁决、验收和交接以 [`docs/ops/`](docs/ops) 为准；当前分派/验收模式以 [`AGENTS.md`](AGENTS.md) 为准，不把历史三签要求当成新任务门禁。
 
 ## 资产说明
 

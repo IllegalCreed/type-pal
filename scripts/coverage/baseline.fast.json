@@ -1,14 +1,14 @@
 {
   "schemaVersion": 2,
   "profile": "fast",
-  "generatedAt": "2026-09-27T08:45:27.109Z",
+  "generatedAt": "2026-09-27T10:09:14.780Z",
   "provider": {
     "name": "v8",
     "vitest": "4.1.7",
     "coverageV8": "4.1.7"
   },
   "sourceFileCount": 730,
-  "testCount": 9565,
+  "testCount": 9590,
   "packages": {
     "shared": {
       "name": "@type-pal/shared",
@@ -2065,8 +2065,8 @@
       ],
       "scopeDigest": "b4b6875e840b3c0602ef587af488195abaf20bc3dc6d4adb1b6587a5e9c453d1",
       "fastTests": {
-        "testCount": 1794,
-        "testFileCount": 199,
+        "testCount": 1819,
+        "testFileCount": 206,
         "files": [
           "packages/reforge/scripts/battle-trial-assets.test.ts",
           "packages/reforge/scripts/battle-trial-host.test.ts",
@@ -2119,7 +2119,9 @@
           "packages/reforge/src/battle/battle-settlement.residual.test.ts",
           "packages/reforge/src/battle/battle-sprite-readiness.test.ts",
           "packages/reforge/src/battle/battle-turn-readiness.test.ts",
+          "packages/reforge/src/battle/battle-ui.residual.test.ts",
           "packages/reforge/src/battle/enemy-hook-runtime.test.ts",
+          "packages/reforge/src/battle/present-battle.residual.test.ts",
           "packages/reforge/src/battle/present-battle.test.ts",
           "packages/reforge/src/battle/r13-six-b-battle.test.ts",
           "packages/reforge/src/checkpoint-export.chain.test.ts",
@@ -2188,9 +2190,11 @@
           "packages/reforge/src/menu-state.test.ts",
           "packages/reforge/src/menu/item-use-result.test.ts",
           "packages/reforge/src/menu/item-use-session.test.ts",
+          "packages/reforge/src/menu/menu-box.residual.test.ts",
           "packages/reforge/src/menu/menu-session.test.ts",
           "packages/reforge/src/menu/reward-gain-queue.boundaries.test.ts",
           "packages/reforge/src/menu/reward-gain-queue.test.ts",
+          "packages/reforge/src/menu/shop-box.residual.test.ts",
           "packages/reforge/src/menu/shop-box.test.ts",
           "packages/reforge/src/motion-batch.test.ts",
           "packages/reforge/src/motion-runtime-coordinator.test.ts",
@@ -2233,12 +2237,14 @@
           "packages/reforge/src/scene-resources.test.ts",
           "packages/reforge/src/scene-switch-transaction.test.ts",
           "packages/reforge/src/scene-transition.test.ts",
+          "packages/reforge/src/screen-fx.residual.test.ts",
           "packages/reforge/src/screen-fx.test.ts",
           "packages/reforge/src/screen-hold-transaction.boundaries.test.ts",
           "packages/reforge/src/screen-hold-transaction.test.ts",
           "packages/reforge/src/screen-wave.test.ts",
           "packages/reforge/src/script-activity-lineage.test.ts",
           "packages/reforge/src/script-chunk-store.cursor-boundaries.test.ts",
+          "packages/reforge/src/script-chunk-store.residual.test.ts",
           "packages/reforge/src/script-chunk-store.test.ts",
           "packages/reforge/src/script-compiler-core.test.ts",
           "packages/reforge/src/script-confirm-modal.test.ts",
@@ -2264,6 +2270,7 @@
           "packages/reforge/src/use-menu-state.test.ts",
           "packages/reforge/src/world-async-commit.test.ts",
           "packages/reforge/src/world-camera.test.ts",
+          "packages/reforge/src/world-motion-runtime.residual.test.ts",
           "packages/reforge/src/world-motion-runtime.test.ts",
           "packages/reforge/src/world-runtime-ownership.test.ts",
           "packages/reforge/src/world-scene-presentation.test.ts"
@@ -2525,9 +2532,19 @@
             "identityDigest": "a32513988c724ca939bbaefd94336d088776fd60d8c20131782dc5bc9825bdd7"
           },
           {
+            "file": "packages/reforge/src/battle/battle-ui.residual.test.ts",
+            "testCount": 5,
+            "identityDigest": "bfc8631df3dae2ac5bd8d3f9d4725d3fd8fb1e92bfbe2aafb8d7427fdf379380"
+          },
+          {
             "file": "packages/reforge/src/battle/enemy-hook-runtime.test.ts",
             "testCount": 4,
             "identityDigest": "ee06b3647b1ba1fbc6d740ffa6348e7317c44a0eeff61ab2c8c4d4a76c2298b3"
+          },
+          {
+            "file": "packages/reforge/src/battle/present-battle.residual.test.ts",
+            "testCount": 4,
+            "identityDigest": "63a6a50682a0e4b175b03b45084ccd82ac6f36ad3c46a2b7e80f696b3ba97a63"
           },
           {
             "file": "packages/reforge/src/battle/present-battle.test.ts",
@@ -2870,6 +2887,11 @@
             "identityDigest": "aef41830c201ac607722e96613c1677dbfd43485c667061e0fa04c2f52932527"
           },
           {
+            "file": "packages/reforge/src/menu/menu-box.residual.test.ts",
+            "testCount": 3,
+            "identityDigest": "2a6865458f1148000ee5ba416487b18b97f33572f85cd663b1f42aba51b3f6f5"
+          },
+          {
             "file": "packages/reforge/src/menu/menu-session.test.ts",
             "testCount": 24,
             "identityDigest": "5082d9dbf0488c8cce490978eb85be0dc0b676d7b8738c4b601fdb5e941bd37c"
@@ -2883,6 +2905,11 @@
             "file": "packages/reforge/src/menu/reward-gain-queue.test.ts",
             "testCount": 5,
             "identityDigest": "690a24708491a7339ed3733498c80c997e76545499ffafa3355b412971af2961"
+          },
+          {
+            "file": "packages/reforge/src/menu/shop-box.residual.test.ts",
+            "testCount": 4,
+            "identityDigest": "a00d6a22e86cd30ffb802a0c9df430e1bbd11c5e8f2bb8703c9cf9330af7cfcb"
           },
           {
             "file": "packages/reforge/src/menu/shop-box.test.ts",
@@ -3095,6 +3122,11 @@
             "identityDigest": "59a1fda78bd353ef40e368e698f97b0cdc676e3db6e3fa9aea3bc71d9efdd10f"
           },
           {
+            "file": "packages/reforge/src/screen-fx.residual.test.ts",
+            "testCount": 2,
+            "identityDigest": "5696626bb464e615b50f405f6539c9a6d415512c11b47fd077962f60c1b15674"
+          },
+          {
             "file": "packages/reforge/src/screen-fx.test.ts",
             "testCount": 4,
             "identityDigest": "360c26ee7e93fee427db0bcdda8166e599d274ce7880d08c4fe4052de35a0f91"
@@ -3123,6 +3155,11 @@
             "file": "packages/reforge/src/script-chunk-store.cursor-boundaries.test.ts",
             "testCount": 1,
             "identityDigest": "bc8451f34dd213de72fc9b57749eddc6eb38e08c6bea0cfb07224b79bad47193"
+          },
+          {
+            "file": "packages/reforge/src/script-chunk-store.residual.test.ts",
+            "testCount": 2,
+            "identityDigest": "15a257a531918a750d6a1ead38168ac5e107de4801518d212e2e5d338b9bd712"
           },
           {
             "file": "packages/reforge/src/script-chunk-store.test.ts",
@@ -3250,6 +3287,11 @@
             "identityDigest": "5608cc79051622c52435c7a5626c5389e7bc963d53249a85a6dc980c4b637b6a"
           },
           {
+            "file": "packages/reforge/src/world-motion-runtime.residual.test.ts",
+            "testCount": 5,
+            "identityDigest": "a7511d8eee1bd2e38d02ad6e72556f317bd8b5cebf2cbaa7f00e23b062470574"
+          },
+          {
             "file": "packages/reforge/src/world-motion-runtime.test.ts",
             "testCount": 10,
             "identityDigest": "6d6251a4c8f69b85bdd16ac48681b97b80798b66b7678d1944f28d8e205414ff"
@@ -3265,25 +3307,25 @@
             "identityDigest": "3cbb8fa95917cb86d7414ee21345af8a1a2a0df2d14066318539861c10b28ed8"
           }
         ],
-        "identityDigest": "d7fed0216457719639f47a8991a063461067882861293c3fddf7564c6da791ae",
+        "identityDigest": "894953f15bbe81ee22746c9c91b253b05618380541baa9938634a9f104de0c15",
         "duplicateIdentityCount": 0,
-        "executionDigest": "f446ad46d63e68933d42a5bea29493a0be12f49d9ba9c7da9bbca8cb888f2c7a"
+        "executionDigest": "b44af42d4ab63964514d04fe927bd0b92bc971115329f29c3d9da017c4c5ee2b"
       },
       "metrics": {
         "statements": {
-          "covered": 13476,
+          "covered": 13680,
           "total": 17099
         },
         "branches": {
-          "covered": 7924,
+          "covered": 8059,
           "total": 11458
         },
         "functions": {
-          "covered": 2207,
+          "covered": 2231,
           "total": 2781
         },
         "lines": {
-          "covered": 12172,
+          "covered": 12334,
           "total": 14925
         }
       }
@@ -6981,19 +7023,19 @@
   },
   "total": {
     "statements": {
-      "covered": 64952,
+      "covered": 65156,
       "total": 80978
     },
     "branches": {
-      "covered": 46903,
+      "covered": 47038,
       "total": 63323
     },
     "functions": {
-      "covered": 12099,
+      "covered": 12123,
       "total": 15239
     },
     "lines": {
-      "covered": 58317,
+      "covered": 58479,
       "total": 70882
     }
   }

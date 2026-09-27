@@ -10,9 +10,10 @@
 既有存量不豁免；[QUALITY-ZERO-1收口记录](../testing/quality-zero/README.md)已done：
 lint/格式/七包typecheck零诊断，完整check9712、ratchet/受保护单次strict9220通过；warning/info/截断均硬失败。
 
-**当前优先级（用户2026-09-27拍板）**：GLM/Cursor继续各自隔离补测，Codex暂停主动覆盖率扩展，
-转[快速通关E2E](../testing/e2e-route-proposal.md)。001双引擎流程/检查点已入库，当前补关键NPC时序与后续录制矩阵，
-不是立即开全流程盲探；+5pp按当前分母尚差477分支（E2E观测分母变化单列），不是E2E门槛。此前2026-09-22覆盖率优先排期被本条替代。
+**当前优先级（用户2026-09-27最新裁决）**：GLM/Cursor继续隔离补测，Codex独立验收；
+[快速通关E2E](../testing/e2e-route-proposal.md)的001双引擎流程、检查点和关键NPC稀疏时序已入库，
+完整通关/录制矩阵未证。用户随后要求Codex自主补测再争取全仓分支覆盖率绝对+2pp，
+当前缺口见下方活动卡；覆盖率目标不是E2E门槛，不以盲探代替路线脚本。
 **2026-09-24补充**：用户要求推进[全仓架构治理](audits/architecture-debt.md)，改为按职责拆分与补测同步推进。
 第一阶段允许行为不漂移的结构优化，也检查实现bug；纯重构与行为修正分提交。首批A1已独立准入并收口，不扩张为整仓同时重写。
 **2026-09-25分工更新**：先前“全队列Codex独立”只保留为已完成批次的历史授权。新批次按[并行所有权](audits/architecture-debt.md#并行所有权2026-09-26-更新)由Codex保留高风险，GLM/Grok/Cursor只在各自窄卡白名单内实施；Codex独立验收/集成。仍不把结构治理授权解释为玩法、格式或界面变更授权。
@@ -56,8 +57,8 @@ check8896/单次strict8404全过；实际+134分支/+73行，content分支85.55%
 | ID | 任务 | 状态 | 负责人/下一步 | 一句话备注 |
 |---|---|---|---|---|
 | E2E-R4-1 | [路线驱动与检查点薄基线](tasks/E2E-R4-1-route-and-checkpoint-foundation.md) | build | Codex / 001逐页与录制矩阵 | 双引擎开场/检查点通过；李大娘两段对话零位移、前中后三段移动偏序已自动核验，138/103稀疏事件；全视觉/音轨未证 |
-| TEST-COVERAGE-PLUS5-1 | [全仓分支+5pp持续队列](tasks/TEST-COVERAGE-PLUS5-1-continuous-batches.md) | build | Codex / 自主补测+2pp | 全仓74.07%=46903/63323；本轮Codex自补+530B、GLM已接收+157B、Cursor已接收+15B分栏；GLM UI 候选未计，距+2pp目标尚差571B |
-| TEST-GLM-EDITOR-UI-WAVE-1 | [编辑器十二模块交互回归](tasks/TEST-GLM-EDITOR-UI-WAVE-1-twelve-surfaces.md) | rework | GLM / 合法项目输入与视觉证据同批修 | 39项/四针机械绿，但 U1–U4 正控存在伪项目/强转，截图均为资产加载失败；暂不集成 |
+| TEST-COVERAGE-PLUS5-1 | [全仓分支+5pp持续队列](tasks/TEST-COVERAGE-PLUS5-1-continuous-batches.md) | build | Codex / 自主补测+2pp | 全仓74.28%=47038/63323；本轮Codex自补+665B、GLM已接收+157B、Cursor已接收+15B分栏；GLM UI 候选未计，距+2pp目标尚差436B |
+| TEST-GLM-EDITOR-UI-WAVE-1 | [编辑器十二模块交互回归](tasks/TEST-GLM-EDITOR-UI-WAVE-1-twelve-surfaces.md) | rework | GLM / 收窄修 U4 实际实参 | G1合法会话、G3隔离视觉已闭；39项/四针绿，但 U4 对话舞台未消费、场景资产 props 被空值+ready mock 旁路；暂不集成 |
 | TEST-CODEX-FRAME-EDITOR-1 | [帧动画编辑工作流](tasks/TEST-CODEX-FRAME-EDITOR-1-current-workflows.md) | build | Codex / 暂停保留WIP | 未完成测试不计覆盖，不删除现场 |
 | EDITOR-SCENE-FACING-1 | [切场景朝向清除](tasks/EDITOR-SCENE-FACING-1-clear-override.md) | draft | Codex / 后续窄修 | 保持选项仍提交旧方向；真实红诊断+单点oracle已证 |
 | EDITOR-PREVIEW-STEP-1 | [预览单步阶段门](tasks/EDITOR-PREVIEW-STEP-1-command-gates.md) | draft | Codex / 后续窄修 | 当前入口首次step无命令执行，红诊断已落，不随补测关闭 |
