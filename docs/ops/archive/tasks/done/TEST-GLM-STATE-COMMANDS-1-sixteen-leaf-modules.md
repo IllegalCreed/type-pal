@@ -1,6 +1,6 @@
 # TEST-GLM-STATE-COMMANDS-1 — 菜单与编辑命令十六组连续补测
 
-Status: rework
+Status: done
 Owner: GLM
 Reviewer / Integration Owner: Codex
 Phase: phase2
@@ -17,7 +17,7 @@ Branch: `codex/glm-state-commands-r1`
 
 冻结官方fast9295项/728生产文件。16目标合计 **277个未命中分支臂、43行**，只是选题池，
 不是已证可达、不承诺全部覆盖、不要求100%或固定新增用例数。禁止复制旧用例凑工作量。
-详见[工作包/交付合同](../../testing/glm-state-commands/README.md)与[机械冻结账](../../testing/glm-state-commands/targets.freeze.json)。
+详见[工作包/交付合同](../../../../testing/glm-state-commands/README.md)与[机械冻结账](../../../../testing/glm-state-commands/targets.freeze.json)。
 
 ## 前提真值与范围
 
@@ -72,8 +72,8 @@ E2E/main/dialogue/motion接口、暂停的FrameAnimationEditor测试。禁止mai
 
 ## 上下文锚点
 
-- AGENTS/CLAUDE、phase2 READ-FIRST、[交付清单](../../testing/glm-delivery-checklist.md)。
-- [刚结束物品包](../../testing/item-logic-integration.md)及r7/r8复核：重点防“回执完成、树上没改”和错实参快照。
+- AGENTS/CLAUDE、phase2 READ-FIRST、[交付清单](../../../../testing/glm-delivery-checklist.md)。
+- [刚结束物品包](../../../../testing/item-logic-integration.md)及r7/r8复核：重点防“回执完成、树上没改”和错实参快照。
 - 各模块exports行号、source hash、LCOV臂及旧测试候选清单见冻结账；旧清单是词法匹配，不能冒充完整语义去重。
 - 当前`buildBlankProject`/`buildWorld`/`instantiate`和各validate*守卫；引用provider须真实，不用恒空数组mock。
 - Editor命令允许no-op返回原引用；不可变约束针对实际输入，命令对象自身缓存old/added是合同，不要求冻结它。
@@ -138,7 +138,7 @@ E2E/main/dialogue/motion接口、暂停的FrameAnimationEditor测试。禁止mai
   恰 exit1、恰一红、fullName 逐字命中、生产 hash 不变。
 - 不跑全仓 check/ratchet/strict-fast（留 Codex 统一执行）；不合 main、不标 done、不代签。
 
-## 可直接转发给GLM
+## 历史交接提示词（交付已完成）
 
 接手TEST-GLM-STATE-COMMANDS-1，状态build、已允许实施。先读本卡、工作包README、冻结账与交付自检清单。
 在独立codex/glm-state-commands-r1中按A→B→C→D连续做16组，只动白名单；每批单独提交推送，不等逐组回复。
@@ -146,10 +146,30 @@ E2E/main/dialogue/motion接口、暂停的FrameAnimationEditor测试。禁止mai
 每批局部门、四批末两包全测/TC/全部新文件零诊断；不得跑官方覆盖门，不动主目录和E2E。
 每批ledger与回执来自最终树/JSON，整包给完整SHA和命令证据；不代签、不改状态、不合main。
 
+## Codex 最终独立接收与收口（2026-09-27）
+
+GLM 返工候选 `1b57aa1c`（登记 `90400f17`）对本席原 R1–R4 的四项反证已闭：
+A 包四行账和3针补齐；新增20文件 Biome零诊断；B/C/D业务正例来自正式空白项目，
+`assertProjectSaveValid` 真执行，通过后才进入命令；A/B/C/D逐批计数34/32/35/25，
+最终树 SHA 已回填。GLM 的测试贡献是贡献者自验，独立接受由本席完成。
+
+在 `main@5921cb34` 上集成后的候选 `2a41d168` 中，本席复跑定向
+Reforge34/34、editor92/92，两包typecheck0，新增20文件Biome0，四批各三针
+共12针均在严格判据下出现钉名业务红/绿对照；16个冻结目标源码hash不变。
+完整 `pnpm check` **9,959项**、严格lint **2,296文件/0error/0warning/0info**；
+官方ratchet与保护 `5921cb34` 的单次strict-fast **9,467项/728生产文件**均exit0。
+全仓分支46,393/63,321→**46,550/63,321（73.51%）**，净+157B（Reforge+28、editor+129），
+六个非目标包的baseline对象逐字一致。`check:docs`最后复核通过后本席核done；
+未把这157B冒充Codex自己补测的+192B。
+
+日志：`/tmp/codex-glm-state-r2-{a-directed,bcd-directed,editor-tc,reforge-tc,biome,docs,
+mutants-a,mutants-b,mutants-c,mutants-d,check,ratchet,strict}.log`。
+当前没有待三席签名或新产品行为验收；后续独立补测按新卡执行。
+
 ## Codex 独立接收复核（2026-09-27）
 
 候选 `codex/glm-state-commands-r1@36c1f034` 暂签 **counter**，详情见
-[接收反证](../../testing/glm-state-commands/codex-intake-review.md)。16 个源文件 hash 与冻结账一致，
+[接收反证](../../../../testing/glm-state-commands/codex-intake-review.md)。16 个源文件 hash 与冻结账一致，
 16 个新增测试文件定向运行 116/116（A 34、B/C/D 82），B/C/D 的 9 针独立复跑业务红。
 但 A 批回执仍为“待实施”且共用反控工具未登记 A；全部新增文件 Biome 有 6 error/1 warning；
 B/C/D 共用正例状态的入口场景 `s` 不在 `scenes: []`，现行项目保存门明确拒绝。

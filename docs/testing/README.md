@@ -42,6 +42,7 @@
 - [快速通关E2E路线方案](e2e-route-proposal.md)（2026-09-27既定范围；首批001已进入实现）。
 - [GLM/Cursor后台补测两包](background-tests-20260927/README.md)（冻结目标与可转发提示词）。
 - [Cursor三包十二模块纯逻辑补测](cursor-pure-wave/README.md)（当前 build；与 GLM 命令族和001 E2E 无目标重叠，Codex 独立接收）。
+- [GLM菜单与编辑命令十六组独立集成](glm-state-commands/codex-integration.md)（R1–R4反证闭合，126项测试、12针，官方fast净增157分支）。
 - [Cursor地图六组作者交付](cursor-map-logic-r2/README.md)（M1–M6，保留历史回执，最终结论见独立集成记录）。
 - [GLM物品纯逻辑六组](glm-item-logic/README.md)（item.ts 残余合同补测交付）。
 
