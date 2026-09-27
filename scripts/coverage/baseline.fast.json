@@ -1,14 +1,14 @@
 {
   "schemaVersion": 2,
   "profile": "fast",
-  "generatedAt": "2026-09-27T07:53:18.013Z",
+  "generatedAt": "2026-09-27T08:12:25.265Z",
   "provider": {
     "name": "v8",
     "vitest": "4.1.7",
     "coverageV8": "4.1.7"
   },
   "sourceFileCount": 730,
-  "testCount": 9539,
+  "testCount": 9556,
   "packages": {
     "shared": {
       "name": "@type-pal/shared",
@@ -224,10 +224,11 @@
       ],
       "scopeDigest": "048275ba8e3020dd698db3c0f14f599e200ec84daad1c7f47aac0f15fa067971",
       "fastTests": {
-        "testCount": 1181,
-        "testFileCount": 101,
+        "testCount": 1198,
+        "testFileCount": 116,
         "files": [
           "packages/content/src/actor-condition.boundaries.test.ts",
+          "packages/content/src/actor-condition.cursor-pure-wave2.test.ts",
           "packages/content/src/actor-condition.test.ts",
           "packages/content/src/actor-reference.boundaries.test.ts",
           "packages/content/src/actor-reference.contracts.test.ts",
@@ -235,19 +236,23 @@
           "packages/content/src/ambience.test.ts",
           "packages/content/src/asset-catalog.contracts.test.ts",
           "packages/content/src/asset-closure.contracts.test.ts",
+          "packages/content/src/asset.cursor-pure-wave2.test.ts",
           "packages/content/src/asset.residual.test.ts",
           "packages/content/src/asset.resource-boundaries.test.ts",
           "packages/content/src/asset.test.ts",
           "packages/content/src/author-battle-dialogue-boundary.test.ts",
           "packages/content/src/author-command.guard-residual.test.ts",
           "packages/content/src/author-dialogue.contracts.test.ts",
+          "packages/content/src/author-dialogue.cursor-pure-wave2.test.ts",
           "packages/content/src/author-dialogue.field-guards.test.ts",
           "packages/content/src/author-dialogue.test.ts",
           "packages/content/src/author-flow.guard-residual.test.ts",
+          "packages/content/src/author-script-core.cursor-pure-wave2.test.ts",
           "packages/content/src/author-script-core.test.ts",
           "packages/content/src/author-script-core.wave2.test.ts",
           "packages/content/src/author-script-current.boundaries.test.ts",
           "packages/content/src/author-script.current-characterization.test.ts",
+          "packages/content/src/author-script.cursor-pure-wave2.test.ts",
           "packages/content/src/author-state.guard-residual.test.ts",
           "packages/content/src/battle-choreography.leaf.test.ts",
           "packages/content/src/battle-field-reference.test.ts",
@@ -255,14 +260,18 @@
           "packages/content/src/battle-sprite-profile.contracts.test.ts",
           "packages/content/src/battle-sprite.boundaries.test.ts",
           "packages/content/src/battle-sprite.test.ts",
+          "packages/content/src/character.cursor-pure-wave2.test.ts",
           "packages/content/src/character.test.ts",
           "packages/content/src/command-target-reference.boundaries.test.ts",
           "packages/content/src/command-target-reference.contracts.test.ts",
+          "packages/content/src/command-target-reference.cursor-pure-wave2.test.ts",
           "packages/content/src/command-target-reference.test.ts",
           "packages/content/src/enemy-ai-condition-guard.leaf.test.ts",
+          "packages/content/src/enemy-ai.cursor-pure-wave2.test.ts",
           "packages/content/src/enemy-ai.test.ts",
           "packages/content/src/enemy-hook.guard-residual.test.ts",
           "packages/content/src/enemy-script.boundaries.test.ts",
+          "packages/content/src/enemy-script.cursor-pure-wave2.test.ts",
           "packages/content/src/enemy-script.test.ts",
           "packages/content/src/enemy-script.wave2.test.ts",
           "packages/content/src/enemy-team-reference.resource-boundaries.test.ts",
@@ -276,6 +285,7 @@
           "packages/content/src/frame-sequence.test.ts",
           "packages/content/src/grid.test.ts",
           "packages/content/src/item.cursor-boundaries.test.ts",
+          "packages/content/src/item.cursor-pure-wave2.test.ts",
           "packages/content/src/item.derived.background.test.ts",
           "packages/content/src/item.effects.background.test.ts",
           "packages/content/src/item.external.background.test.ts",
@@ -291,12 +301,14 @@
           "packages/content/src/migration-diagnostic.test.ts",
           "packages/content/src/project-map.boundaries.test.ts",
           "packages/content/src/project-map.contracts.test.ts",
+          "packages/content/src/project-map.cursor-pure-wave2.test.ts",
           "packages/content/src/project-map.resource-boundaries.test.ts",
           "packages/content/src/project-map.test.ts",
           "packages/content/src/record-actors.guard-residual.test.ts",
           "packages/content/src/record-items.guard-residual.test.ts",
           "packages/content/src/record-skills-poisons.guard-residual.test.ts",
           "packages/content/src/rewards.boundaries.test.ts",
+          "packages/content/src/rewards.cursor-pure-wave2.test.ts",
           "packages/content/src/rewards.test.ts",
           "packages/content/src/rich-text.test.ts",
           "packages/content/src/runtime-scene.test.ts",
@@ -308,11 +320,14 @@
           "packages/content/src/script-command.guard-residual.test.ts",
           "packages/content/src/script-library.resource-boundaries.test.ts",
           "packages/content/src/script-library.test.ts",
+          "packages/content/src/script.cursor-pure-wave2.test.ts",
+          "packages/content/src/shop.cursor-pure-wave2.test.ts",
           "packages/content/src/shop.test.ts",
           "packages/content/src/sprite-frame-demand.contracts.test.ts",
           "packages/content/src/stamp.cursor-boundaries.test.ts",
           "packages/content/src/stamp.test.ts",
           "packages/content/src/tileset-stamp.contracts.test.ts",
+          "packages/content/src/tileset.cursor-pure-wave2.test.ts",
           "packages/content/src/tileset.test.ts",
           "packages/content/src/validate-actors.boundaries.test.ts",
           "packages/content/src/validate-author-items.boundaries.test.ts",
@@ -334,6 +349,11 @@
             "file": "packages/content/src/actor-condition.boundaries.test.ts",
             "testCount": 19,
             "identityDigest": "14392f9066e258dfe0cc88ea0c75e47c7dbb929429dc39237976a0668679d2fc"
+          },
+          {
+            "file": "packages/content/src/actor-condition.cursor-pure-wave2.test.ts",
+            "testCount": 1,
+            "identityDigest": "0dfe938e36a42d57e498ea698537fbd6bc59c6d8f9fdddcd001aff0f94295675"
           },
           {
             "file": "packages/content/src/actor-condition.test.ts",
@@ -371,6 +391,11 @@
             "identityDigest": "7aba470485904c85d80e54b3a1f723a638a4b21f23d7a4a64064844b5c758e4f"
           },
           {
+            "file": "packages/content/src/asset.cursor-pure-wave2.test.ts",
+            "testCount": 1,
+            "identityDigest": "d2a3bc45ac2488e0d1dc9857c524863576f9b40e1e467d4d71ad73759a1f73d0"
+          },
+          {
             "file": "packages/content/src/asset.residual.test.ts",
             "testCount": 3,
             "identityDigest": "99e35bbebdbe7aa1b1bac11ecf6b564df80ffa3aa1e329d5692c866d999abbf6"
@@ -401,6 +426,11 @@
             "identityDigest": "7f0b2bf107da8cb5fc9d59035dbf65ca6820c539475779a92ea8d47e0ae54a0d"
           },
           {
+            "file": "packages/content/src/author-dialogue.cursor-pure-wave2.test.ts",
+            "testCount": 1,
+            "identityDigest": "78fde4b8ca921247af8e0a1be88cf3a812318887373f82df77649272a4399c24"
+          },
+          {
             "file": "packages/content/src/author-dialogue.field-guards.test.ts",
             "testCount": 5,
             "identityDigest": "c08449b718e0343c8d3286d9a223937b9750efdfe1c49e450756a6873c90ebb1"
@@ -414,6 +444,11 @@
             "file": "packages/content/src/author-flow.guard-residual.test.ts",
             "testCount": 9,
             "identityDigest": "13c27a6c3c9f584e6fb13ccd41bb3beb9babae9036d3e9458099726c04894162"
+          },
+          {
+            "file": "packages/content/src/author-script-core.cursor-pure-wave2.test.ts",
+            "testCount": 1,
+            "identityDigest": "cf95df4623b8f2b2b99cd4e7ddaf4d07bff3c8ba7ada6d494e96c64d87e09493"
           },
           {
             "file": "packages/content/src/author-script-core.test.ts",
@@ -434,6 +469,11 @@
             "file": "packages/content/src/author-script.current-characterization.test.ts",
             "testCount": 4,
             "identityDigest": "9e038ba65ead275252c423164fe928026f64dafb948d7504ff8a7195841643a1"
+          },
+          {
+            "file": "packages/content/src/author-script.cursor-pure-wave2.test.ts",
+            "testCount": 1,
+            "identityDigest": "22cb2d60e16d6ee14d265f2e23d86d138dd9c804845cda99995b4d65e347f6d7"
           },
           {
             "file": "packages/content/src/author-state.guard-residual.test.ts",
@@ -471,6 +511,11 @@
             "identityDigest": "e00a9256d235b82eddb49a5974cc47964e4019bbb623479b49dc63431a857613"
           },
           {
+            "file": "packages/content/src/character.cursor-pure-wave2.test.ts",
+            "testCount": 2,
+            "identityDigest": "fc09871a9ab109130b0572bc59a9eae76178d3fa588d87e1062d83782f50a9c9"
+          },
+          {
             "file": "packages/content/src/character.test.ts",
             "testCount": 25,
             "identityDigest": "ddcdee5473c2bd87f0311821e5577d47275fe1c9a85c61677fb22a0c51b37377"
@@ -486,6 +531,11 @@
             "identityDigest": "d1a6f909ed5219fc1601f8d61cbff9b5532a9e228dea9020ce746b1f010d94be"
           },
           {
+            "file": "packages/content/src/command-target-reference.cursor-pure-wave2.test.ts",
+            "testCount": 1,
+            "identityDigest": "224d0df92f9ee05104fd710011ef82b0654a9a94494babdfc2fa62700223b57d"
+          },
+          {
             "file": "packages/content/src/command-target-reference.test.ts",
             "testCount": 5,
             "identityDigest": "c14a2cf3cfa9f763b376da4e8d5b333fc1f8100fe30b730f4f97841c34a2a2a3"
@@ -494,6 +544,11 @@
             "file": "packages/content/src/enemy-ai-condition-guard.leaf.test.ts",
             "testCount": 17,
             "identityDigest": "dfe353a8e2a002f8ecabafbd57f4587df37bfbac7257478278f088dfe69f6812"
+          },
+          {
+            "file": "packages/content/src/enemy-ai.cursor-pure-wave2.test.ts",
+            "testCount": 1,
+            "identityDigest": "a22ef3e52feeeff80bcb467f74cda3c1f4f702e9660a2da65c22f2f3357d2c1f"
           },
           {
             "file": "packages/content/src/enemy-ai.test.ts",
@@ -509,6 +564,11 @@
             "file": "packages/content/src/enemy-script.boundaries.test.ts",
             "testCount": 9,
             "identityDigest": "361a8f8713581c3a9d3a87a154372273721a8d07d0e9e5038d20f3b73f108e7c"
+          },
+          {
+            "file": "packages/content/src/enemy-script.cursor-pure-wave2.test.ts",
+            "testCount": 1,
+            "identityDigest": "f14917ba0ea841613259876b53a4cb8eefddb2236bba10b4d2846db43229ccee"
           },
           {
             "file": "packages/content/src/enemy-script.test.ts",
@@ -574,6 +634,11 @@
             "file": "packages/content/src/item.cursor-boundaries.test.ts",
             "testCount": 1,
             "identityDigest": "39cbe83ba31e5692cdcd55fbf12a9291e1635222ae9422b845c76324243596ea"
+          },
+          {
+            "file": "packages/content/src/item.cursor-pure-wave2.test.ts",
+            "testCount": 1,
+            "identityDigest": "3f93b42e2c6b8dff3cbd613b86b8003752eaa8dc445dba0c332997f6d174dd56"
           },
           {
             "file": "packages/content/src/item.derived.background.test.ts",
@@ -651,6 +716,11 @@
             "identityDigest": "96ac92c8f9b870ad27e5dda0172703b86bef48d555beed9d3917d15265d86ced"
           },
           {
+            "file": "packages/content/src/project-map.cursor-pure-wave2.test.ts",
+            "testCount": 1,
+            "identityDigest": "fe09bf7d654e700183be5872afbd8bec2c4afa266f0dc1fc9c1271b212c28965"
+          },
+          {
             "file": "packages/content/src/project-map.resource-boundaries.test.ts",
             "testCount": 10,
             "identityDigest": "c5777923a2e81db284a187b95838d4b1003d8817aae33ed554c3b28a0a5c07d3"
@@ -679,6 +749,11 @@
             "file": "packages/content/src/rewards.boundaries.test.ts",
             "testCount": 6,
             "identityDigest": "4e4af005f7a46e3bf3ec0ed7c8a2723e26b8531f18d732733177ffa04256b75f"
+          },
+          {
+            "file": "packages/content/src/rewards.cursor-pure-wave2.test.ts",
+            "testCount": 1,
+            "identityDigest": "35b3b8203eedfc41e6b1a51d032e68328d499da56592aa56caf27201a1e47a59"
           },
           {
             "file": "packages/content/src/rewards.test.ts",
@@ -736,6 +811,16 @@
             "identityDigest": "7cad7f10a5544e8df72c299ceb630afd299149d8ace9f886f067308d6d740e45"
           },
           {
+            "file": "packages/content/src/script.cursor-pure-wave2.test.ts",
+            "testCount": 1,
+            "identityDigest": "53d42af1222023ab12eb9403140025cc120d9158a7015be7a03f36e967b5c62e"
+          },
+          {
+            "file": "packages/content/src/shop.cursor-pure-wave2.test.ts",
+            "testCount": 1,
+            "identityDigest": "b8ffae233c463d89071fba9d71aa6e02abbf54138c75689274d3ef030bfc97af"
+          },
+          {
             "file": "packages/content/src/shop.test.ts",
             "testCount": 16,
             "identityDigest": "67920e8d6a36dfad5fa734c2e1f5e82c71d1b096b99b0591991bd80a8143e4a8"
@@ -759,6 +844,11 @@
             "file": "packages/content/src/tileset-stamp.contracts.test.ts",
             "testCount": 4,
             "identityDigest": "6c36033e381396720c5af700e12a2ca28e4c2b08c284ce90490cf05c7b6626bd"
+          },
+          {
+            "file": "packages/content/src/tileset.cursor-pure-wave2.test.ts",
+            "testCount": 2,
+            "identityDigest": "fb10541a80baecb46d0ec09141261f727c8796de40bb36d6e3a70bab9d6603fb"
           },
           {
             "file": "packages/content/src/tileset.test.ts",
@@ -836,25 +926,25 @@
             "identityDigest": "6bd136e3dc31faf579c7b78a5dd284c6a1fd1a58ee6d3fa624ccee6e21be9a3c"
           }
         ],
-        "identityDigest": "4949a2afdaa2e2fc60a4d08f8be0bc6ee38177e3fbfd4614af71b59c63614d5a",
+        "identityDigest": "d07b28253090c7d17559e6db87f9d66488cba9006b52c03fe76fd40b9a9d1a6b",
         "duplicateIdentityCount": 0,
-        "executionDigest": "980abb5544ceff52285af9f14e8084309c5e3e5fda5055ceea2606626b6c2ae4"
+        "executionDigest": "a5e8a8943051dbf33aa2ee7d29076e31023ae1c847dad5559c39c089be75d4aa"
       },
       "metrics": {
         "statements": {
-          "covered": 5579,
+          "covered": 5586,
           "total": 5856
         },
         "branches": {
-          "covered": 4641,
+          "covered": 4651,
           "total": 5016
         },
         "functions": {
-          "covered": 805,
+          "covered": 808,
           "total": 831
         },
         "lines": {
-          "covered": 4993,
+          "covered": 4998,
           "total": 5182
         }
       }
@@ -6879,19 +6969,19 @@
   },
   "total": {
     "statements": {
-      "covered": 64793,
+      "covered": 64800,
       "total": 80978
     },
     "branches": {
-      "covered": 46811,
+      "covered": 46821,
       "total": 63323
     },
     "functions": {
-      "covered": 12081,
+      "covered": 12084,
       "total": 15239
     },
     "lines": {
-      "covered": 58177,
+      "covered": 58182,
       "total": 70882
     }
   }

@@ -192,3 +192,11 @@ Codex明确采用**分支覆盖率绝对增加5个百分点**，已创建本会�
   分支冒记新收益。Codex自有累计+448B；GLM已收口+157B、Cursor已收口+5B
   分栏。Cursor新候选返工虽已定向绿，未统一集成不计入。距+2pp还差663B，
   下一批先用逐文件缺口找真实未达分支，不再盲挑同类 UI。
+
+- 2026-09-27 Cursor 内容十六模块返工候选 `f9bfb527` 经 Codex 独立
+  [接收收口](../../testing/cursor-content-pure-wave2/codex-final-review.md)：
+  R1/R2 两项原 counter 闭合，15文件17项、四针。统一check10,017→ratchet→
+  保护ce7c9173的单次strict9,556通过；fast 730源码文件、
+  **46,821/63,323=73.94%**。贡献者单列+10B、分母不变；Codex自有
+  +448B、GLM已接收+157B、Cursor两包共+15B，互不冒充。
+  按当前分母+2pp目标47,474仍差653B，母卡继续build。
