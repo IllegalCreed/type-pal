@@ -1,14 +1,14 @@
 {
   "schemaVersion": 2,
   "profile": "fast",
-  "generatedAt": "2026-09-27T08:12:25.265Z",
+  "generatedAt": "2026-09-27T08:45:27.109Z",
   "provider": {
     "name": "v8",
     "vitest": "4.1.7",
     "coverageV8": "4.1.7"
   },
   "sourceFileCount": 730,
-  "testCount": 9556,
+  "testCount": 9565,
   "packages": {
     "shared": {
       "name": "@type-pal/shared",
@@ -2065,8 +2065,8 @@
       ],
       "scopeDigest": "b4b6875e840b3c0602ef587af488195abaf20bc3dc6d4adb1b6587a5e9c453d1",
       "fastTests": {
-        "testCount": 1785,
-        "testFileCount": 197,
+        "testCount": 1794,
+        "testFileCount": 199,
         "files": [
           "packages/reforge/scripts/battle-trial-assets.test.ts",
           "packages/reforge/scripts/battle-trial-host.test.ts",
@@ -2097,6 +2097,7 @@
           "packages/reforge/src/battle/battle-action-presentation-scheduler.test.ts",
           "packages/reforge/src/battle/battle-anim.test.ts",
           "packages/reforge/src/battle/battle-casualty.test.ts",
+          "packages/reforge/src/battle/battle-command-selection.residual.test.ts",
           "packages/reforge/src/battle/battle-command-selection.test.ts",
           "packages/reforge/src/battle/battle-core.test.ts",
           "packages/reforge/src/battle/battle-enemy-confused.test.ts",
@@ -2115,6 +2116,7 @@
           "packages/reforge/src/battle/battle-session.test.ts",
           "packages/reforge/src/battle/battle-session.writeback-flows.test.ts",
           "packages/reforge/src/battle/battle-settlement-presentation.test.ts",
+          "packages/reforge/src/battle/battle-settlement.residual.test.ts",
           "packages/reforge/src/battle/battle-sprite-readiness.test.ts",
           "packages/reforge/src/battle/battle-turn-readiness.test.ts",
           "packages/reforge/src/battle/enemy-hook-runtime.test.ts",
@@ -2413,6 +2415,11 @@
             "identityDigest": "e4736063c6ecc98c8e3bd8be7a8aa94358c37658d99c939048716bcb27fc39cd"
           },
           {
+            "file": "packages/reforge/src/battle/battle-command-selection.residual.test.ts",
+            "testCount": 6,
+            "identityDigest": "059af2939c90bf40feb098b0d7fd2bbbf82da8816963f00cbcb4c647e1a3de27"
+          },
+          {
             "file": "packages/reforge/src/battle/battle-command-selection.test.ts",
             "testCount": 10,
             "identityDigest": "f8ffc5fbcbbe628e175587081123229340eff0cec031d09f0f636dbaf226a1b5"
@@ -2501,6 +2508,11 @@
             "file": "packages/reforge/src/battle/battle-settlement-presentation.test.ts",
             "testCount": 12,
             "identityDigest": "81e224f567dce9f676893f822bd40c25d7ad14c130985d4dade6d24be2eb158e"
+          },
+          {
+            "file": "packages/reforge/src/battle/battle-settlement.residual.test.ts",
+            "testCount": 3,
+            "identityDigest": "812a857774296e8f95e0df740904126b7716e9b16f7183145b073185d0f15721"
           },
           {
             "file": "packages/reforge/src/battle/battle-sprite-readiness.test.ts",
@@ -3253,25 +3265,25 @@
             "identityDigest": "3cbb8fa95917cb86d7414ee21345af8a1a2a0df2d14066318539861c10b28ed8"
           }
         ],
-        "identityDigest": "697b21d955b802ba0de6ded06ab83677eacc2d2c3c55e11fcec6004b9d72c9a1",
+        "identityDigest": "d7fed0216457719639f47a8991a063461067882861293c3fddf7564c6da791ae",
         "duplicateIdentityCount": 0,
-        "executionDigest": "2f2dfcf733ec6611fe3e8ddb54eedcf9978cd2ff00ae10b213798af4e5060eef"
+        "executionDigest": "f446ad46d63e68933d42a5bea29493a0be12f49d9ba9c7da9bbca8cb888f2c7a"
       },
       "metrics": {
         "statements": {
-          "covered": 13324,
+          "covered": 13476,
           "total": 17099
         },
         "branches": {
-          "covered": 7842,
+          "covered": 7924,
           "total": 11458
         },
         "functions": {
-          "covered": 2192,
+          "covered": 2207,
           "total": 2781
         },
         "lines": {
-          "covered": 12037,
+          "covered": 12172,
           "total": 14925
         }
       }
@@ -6969,19 +6981,19 @@
   },
   "total": {
     "statements": {
-      "covered": 64800,
+      "covered": 64952,
       "total": 80978
     },
     "branches": {
-      "covered": 46821,
+      "covered": 46903,
       "total": 63323
     },
     "functions": {
-      "covered": 12084,
+      "covered": 12099,
       "total": 15239
     },
     "lines": {
-      "covered": 58182,
+      "covered": 58317,
       "total": 70882
     }
   }
