@@ -124,10 +124,9 @@ E2E/main/dialogue/motion接口、暂停的FrameAnimationEditor测试。禁止mai
 - 披露：`AddShopCommand` 无重复 id 守卫（重复 apply 由 validateShops 拒绝）按现状钉死；
   D04 无独立针（三针覆盖）；不合 main、不标 done。
 
-## GLM 交付块（整包收口，2026-09-27）
+## GLM 交付块（整包收口，2026-09-27；⚠ 本块 SHA/计数已被下方「intake R1–R4 返工收口」块取代，仅留历史）
 
-- **最终候选 SHA：`7be02ad6`**（origin/codex/glm-state-commands-r1 头；基线 `1bc7df91`，
-  四批提交链 `af0b87a4`→`ac61ab5c`→`4a8c2b0c`→`2f221116`→`7be02ad6`）。
+- ~~最终候选 SHA：`7be02ad6`~~（已被返工后链取代；提交链随后经两次 rebase 到 origin/main）。
 - 全包实测（最终树，新鲜 JSON）：**editor 3130/3130 exit 0**（/tmp/final-editor.json）、
   **reforge 1777/1777 exit 0**（/tmp/final-reforge.json），均 `env -u NODE_COMPILE_CACHE`
   且零 skip/零 fail。
@@ -176,4 +175,6 @@ B/C/D 共用正例状态的入口场景 `s` 不在 `scenes: []`，现行项目�
 - 门禁（最终树实测）：A 定向 34/34、B/C/D 定向 92/92 exit 0（JSON /tmp/batch-a-directed.json、
   /tmp/bcd-directed.json）；相邻 A 57/57、B/C/D 212/212；editor 与 reforge typecheck 零诊断；
   白名单 Biome 0/0/0；docs PASS；`git diff --check` 干净；四批反控各 1 对照 + 3 针全绿、生产源 hash 不变。
+- 最终候选：**业务返工提交 = `1b57aa1c`**（origin/main `76c6f5bed` 之上；本提交含 R1–R4 全部增量与回执）。
+  其后仅本 SHA 注记随收口提交更新，不再有代码/测试改动。
 - 不改产品/旧测试/覆盖率基线；全仓 check/ratchet/strict-fast 留 Codex 接收后统一执行；不合 main、不标 done。
