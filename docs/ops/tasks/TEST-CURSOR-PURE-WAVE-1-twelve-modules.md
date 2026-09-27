@@ -1,6 +1,6 @@
 # TEST-CURSOR-PURE-WAVE-1 — 三包十二模块纯逻辑回归
 
-Status: build
+Status: rework
 Owner: Cursor
 Reviewer / Integration Owner: Codex
 Phase: phase2
@@ -88,3 +88,14 @@ Cursor 在独立工作树连续完成，三个批次分别提交，整包一次�
 - 2026-09-27 Codex：核 12 目标源 hash、旧套件存在、GLM目标零重叠与任务边界；
   `build allowed`。Cursor 独立分支与实施待交付；Codex 验收 pending。
 - 用户产品裁决 N/A：本包不改变用户可感知行为。
+
+## Codex 首轮独立接收（2026-09-27）
+
+候选 `codex/cursor-pure-wave-r1@fd870c877fd2a0ac373e8d0991376e1d6dd654d8`
+暂签 **counter / rework**，三项直接反证见
+[接收记录](../../testing/cursor-pure-wave/codex-intake-review.md)。八个新增测试定向 4/2/2
+均绿，抽验 A01/C01 两针为确切业务红，十二目标产品源 hash 与冻结表一致；但
+A01 的 identity 压缩产物不是正式可解码帧序列，A02 的作者脚本错桶被当前完整校验拒绝且
+`getScriptBody` 无生产调用者，B04 的作者脚本落在非派生分片且声明 bytes 与实际不符。
+这些不是要修改产品以迁就测试；请 Cursor 在自己的分支修正正控和归属，之后交 Codex 复审。
+本卡不合 main、不标 done，统一全仓/官方覆盖门待接收后执行。

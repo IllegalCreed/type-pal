@@ -14,7 +14,7 @@
 | [EDITOR-SCENE-FACING-1 — 切场景指令无法清除显式朝向](EDITOR-SCENE-FACING-1-clear-override.md) | draft | 以任务卡当前准入与看板分工为准。 |
 | [TEST-CODEX-FRAME-EDITOR-1 — 当前帧动画编辑五组工作流](TEST-CODEX-FRAME-EDITOR-1-current-workflows.md) | build | 以任务卡当前准入与看板分工为准。 |
 | [TEST-COVERAGE-PLUS5-1 — 全仓分支覆盖率连续提升五个百分点](TEST-COVERAGE-PLUS5-1-continuous-batches.md) | build | 以任务卡当前准入与看板分工为准。 |
-| [TEST-CURSOR-PURE-WAVE-1 — 三包十二模块纯逻辑回归](TEST-CURSOR-PURE-WAVE-1-twelve-modules.md) | build | 以任务卡当前准入与看板分工为准。 |
+| [TEST-CURSOR-PURE-WAVE-1 — 三包十二模块纯逻辑回归](TEST-CURSOR-PURE-WAVE-1-twelve-modules.md) | rework | 以任务卡当前准入与看板分工为准。 |
 | [TEST-GLM-STATE-COMMANDS-1 — 菜单与编辑命令十六组连续补测](TEST-GLM-STATE-COMMANDS-1-sixteen-leaf-modules.md) | rework | 以任务卡当前准入与看板分工为准。 |
 
 ## 已完成（historical）
@@ -130,6 +130,7 @@
 | [ED-TEXT-OVERFLOW-1 - 编辑器文本截断与完整值披露合同](../archive/tasks/done/ED-TEXT-OVERFLOW-1-editor-text-overflow-and-reveal-contract.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [ED-WORKSPACE-ADOPTION-DEBT-1 - 编辑器旧工作区滚动壳真实采用清零](../archive/tasks/done/ED-WORKSPACE-ADOPTION-DEBT-1-editor-workspace-owner-adoption.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [ED-WORLD-VARIABLES-1 - 世界变量定义表与作者工作台](../archive/tasks/done/ED-WORLD-VARIABLES-1-world-variable-workbench.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [EDITOR-CONDITION-INPARTY-1 — 队伍成员条件选择角色](../archive/tasks/done/EDITOR-CONDITION-INPARTY-1-actor-picker.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [EDITOR-HISTORY-ORDER-1 - 全局撤销顺序与成对操作完整性](../archive/tasks/done/EDITOR-HISTORY-ORDER-1-global-undo-transactions.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [EDITOR-ITEM-AUTHORING-1 - 物品作者记录与脚本引用身份](../archive/tasks/done/EDITOR-ITEM-AUTHORING-1-item-script-identity.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [EDITOR-LEAVE-GUARD-1 - 未保存修改的离开保护](../archive/tasks/done/EDITOR-LEAVE-GUARD-1-unsaved-project-changes.md) | done | 完成证据、历史签字与交接见原卡。 |
