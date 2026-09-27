@@ -77,3 +77,16 @@ editor typecheck 0、14文件 Biome 0、四针对照绿/业务红；源码/旧�
 请 GLM 在原隔离分支统一整改合法输入/分类与视觉结论，不为凑39项
 保留伪业务绿例；已证模块不无故重开。Codex 仅记录 counter，不改
 GLM 测试语义、不合 main、不标 done；全仓门留待返工通过。
+
+## Codex 第二轮独立接收（2026-09-27）
+
+候选 `89d1be36`：G1 正控会话已用正式 blank seed/loader 和保存门自证，G3
+两张隔离截图已无资源加载失败；本人复跑39/39、editor TC、14文件Biome、
+四针与 docs 均过。**仅 G2 残项 counter，保持 rework**：PreviewCanvas
+构造的合法 `legalStages` 未传给组件，实际使用空 `stages`；SceneCanvas
+虽有合法会话状态，组件仍收到空 catalog/tilesets/reader/base，并被
+`useSceneAssets=ready` mock 旁路。证据、精确行号和唯一返工范围见
+[r2 独立复核](../../testing/glm-editor-ui-wave-codex-r2-review.md)。
+已闭 G1/G3 及 U1–U3 不重开；本卡不合 main、不标 done，正式覆盖率仍以
+主线基线为准。GLM 只修 U4 真实实参或据实降级分类，再交同一分支新 SHA；
+Codex 不代写候选测试语义，全仓 check/ratchet/strict-fast 留接收通过后串行执行。
