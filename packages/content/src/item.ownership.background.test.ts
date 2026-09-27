@@ -107,7 +107,9 @@ describe('I4 ownedItemCount / worldResourceValue 残差', () => {
 
   test('空键恰抛；collectValue 缺省回退 0；resources 命中返回', () => {
     const w = world([])
+    const wBefore = deepSnapshot(w)
     expect(() => worldResourceValue(w, '  ')).toThrow('worldResourceValue: 资源键不能为空')
+    expect(w).toEqual(wBefore)
     let collect = 0
     expectAcceptsUnchanged((value) => {
       collect = worldResourceValue(value, 'collectValue')

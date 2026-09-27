@@ -145,10 +145,11 @@ describe('I1 effectiveSkills/effectiveBattleSpriteId 残差', () => {
       }),
     }
     const c = char({ accessory: 'skillRing', weapon: 'gone-sword' })
+    const learned = ['100']
     let skills: string[] = []
-    expectAcceptsUnchanged((value) => {
-      skills = effectiveSkills(['100'], value, items)
-    }, c)
+    expectInputsUnchanged(() => {
+      skills = effectiveSkills(learned, c, items)
+    }, [learned, c, items])
     expect(skills).toEqual(['100', '336'])
   })
 

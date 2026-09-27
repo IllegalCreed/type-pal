@@ -43,9 +43,9 @@
 
 - 定向六文件：46/46 exit 0（新鲜 JSON）。
 - 相邻：item.test.ts **51 项** + reforge item-use-executor 17 项均绿。
-- 全 content：**98 文件 1177/1177** exit 0（新鲜 JSON `/tmp/item-logic-content.json`；净增恰 45 行测试身份）。
+- 全 content：**98 文件 1178/1178** exit 0（新鲜 JSON `/tmp/item-logic-content.json`；净增恰 45 行测试身份）。
 - TC：exit 0。Biome（本批改动九文件）：0 error、0 warning；全 src 另有 runtime-script.ts:146
-  既有 noUnusedVariables error 属分支继承非本批引入（生产零 diff 可证）。
+  既有 noUnusedVariables warning 属分支继承非本批引入（生产零 diff 可证）。
 - docs：PASS；`git diff --check` 干净。不跑全仓 check/coverage，不碰主工作树与 E2E。
 
 ## 边界与观察
