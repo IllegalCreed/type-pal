@@ -1,13 +1,16 @@
 # B批：战斗数据编辑命令
 
-状态：GLM 已实施（2026-09-27）。范围B01–B04，见[工作包](../README.md)与[冻结账](../targets.freeze.json)。
+状态：GLM 已实施；2026-09-27 按 codex-intake-review R3 返工（正例基座改为正式空白项目并经保存门自证，
+有意缺表防御轴单列），R4 重算计数。范围B01–B04，见[工作包](../README.md)与[冻结账](../targets.freeze.json)。
 生产冻结 `1bc7df91`，四个目标源 sha256 与冻结账逐一相符（skill `ea34f9f5…`、poison `78a15c4b…`、
 enemy-team `8a2a7434…`、enemy `227e1462…`，oracle 每轮复验不变）。
 
 ## 命令与 exit（新鲜 JSON）
 
-- 定向四文件：`env -u NODE_COMPILE_CACHE pnpm exec vitest run src/core/{skill,poison,enemy-team,enemy}-commands.glm-boundaries.test.ts`（cwd packages/editor）→ **27/27 exit 0**，JSON `/tmp/batch-b-directed.json`。
-- 相邻七文件（skill/poison/enemy-commands.test、enemy-team-references、battle-data-delete-commands、commands.test、actor-commands.residual）→ **133/133 exit 0**。
+- 定向四文件：`env -u NODE_COMPILE_CACHE pnpm exec vitest run src/core/{skill,poison,enemy-team,enemy}-commands.glm-boundaries.test.ts`（cwd packages/editor）→ **32/32 exit 0**（B01 7 / B02 9 / B03 8 / B04 8），JSON `/tmp/bcd-directed.json`。
+- 相邻七文件（skill/poison/enemy-commands.test、enemy-team-references、battle-data-delete-commands、commands.test、actor-commands.residual）→ 全绿（本批返工后随 22 文件 212/212 一并复跑）。
+- 正例基座：`legalCommandState` = `buildBlankProject` 正式空白项目（复用 accepted fixture `loadBoundaryProject`）+ 覆盖表，构造后 `assertProjectSaveValid` 自证；敌队/敌人种子经 accepted 助手 `withSharedEnemyBattleSprite` 登记 enemy-profile 战斗精灵以满足引用闭包。
+- 防御轴单列：各文件文末「防御轴（有意缺表）」describe——在合法项目上把整表置 undefined 探测 `?? []` 回退，明确标注为刻意非法输入，不充当合法正例。
 - editor `tsc --noEmit` → exit 0 零诊断；Biome（本批六文件）→ 0 error / 0 warning / 0 info；`node scripts/docs/check.mjs` → PASS；`git diff --check` → 干净。
 
 ## 4行 ledger

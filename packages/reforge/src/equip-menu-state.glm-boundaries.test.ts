@@ -5,8 +5,9 @@
  * selectedItemId 无 equip 块、casterId 不在 party、cursor 越界确认 no-op、
  * backToList list 阶段 no-op、count 0 过滤、EQUIP_GRID_COLS/closeEquipMenu 完整对象。
  */
-import { describe, expect, test } from 'vitest'
+
 import type { ItemDataMap } from '@type-pal/content'
+import { describe, expect, test } from 'vitest'
 import {
   closeEquipMenu,
   EQUIP_GRID_COLS,

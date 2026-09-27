@@ -10,12 +10,12 @@ import {
   closeSystemMenu,
   openSystemMenu,
   SYSTEM_ITEMS,
+  type SystemMenuState,
   systemConfirm,
   systemConfirmYes,
   systemMoveCursor,
   systemSwitchCommit,
   systemToggleConfirm,
-  type SystemMenuState,
 } from './system-menu-state.js'
 
 describe('A02 system-menu-state 残差', () => {

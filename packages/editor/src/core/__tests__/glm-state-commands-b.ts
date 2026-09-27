@@ -1,13 +1,19 @@
 /**
  * TEST-GLM-STATE-COMMANDS-1 B批 fixture：skill/poison/enemy-team/enemy 命令残差共用的
- * 薄构造器、输入保真助手与真实引用 provider。形状取自 world-variable-commands.test.ts 的
- * 现行合法最小 EditorState（manifest/sceneIndex 满足真实引用投影）与
- * battle-data-delete-commands.test.ts 的战斗数据种子；不复制产品算法，不被生产导入。
+ * 薄构造器与输入保真助手。业务正例基座 = buildBlankProject 正式空白项目
+ * （经 cursor-command-boundary-fixtures 的 loadBoundaryProject 载入），构造后由
+ * assertProjectSaveValid 自证通过正式保存门；有意缺表的防御轴单独提供，不得当合法正例。
+ * 不复制产品算法，不被生产导入。
  */
 import type { EnemyDef, EnemyTeamDef, PoisonDef, SkillData } from '@type-pal/content'
 import { expect } from 'vitest'
 import type { EditorState } from '../edit-session.js'
+import { assertProjectSaveValid } from '../project-diagnostics.js'
 import { collectCurrentProjectReferenceIndex } from '../project-reference-adapters.js'
+import {
+  loadBoundaryProject,
+  withSharedEnemyBattleSprite,
+} from './cursor-command-boundary-fixtures.js'
 
 /** 独立深快照：与输入完全脱离引用。 */
 export function deepSnapshot<T>(value: T): T {
@@ -48,48 +54,30 @@ export interface CommandStateOver {
   enemyTeams?: EnemyTeamDef[]
 }
 
-/** 现行合法最小 EditorState：真实引用索引 collector 可直接消费。 */
-export function baseCommandState(over: CommandStateOver = {}): EditorState {
-  return {
-    manifest: {
-      id: 'state-commands-b',
-      name: 'State Commands B',
-      contentVersion: 20,
-      minimumSaveVersion: 8,
-      defaultEntryId: 'main',
-      content: {},
-      assets: { catalog: 'assets/index.json', roles: {} },
-      entryPoints: [
-        {
-          id: 'main',
-          label: '主要入口',
-          scene: 's',
-          startWorld: { party: [], money: 0, inventory: [] },
-        },
-      ],
-    },
-    sceneIndex: { version: 1, scenes: [{ id: 's', name: '场景', path: 'content/scenes/s.json' }] },
-    scenes: [],
-    sharedScripts: {},
-    actors: [],
-    skills: over.skills ?? [],
-    levelUp: {},
-    items: [],
-    poisons: over.poisons ?? [],
-    enemies: over.enemies ?? [],
-    enemyTeams: over.enemyTeams ?? [],
-    locale: {},
-    sprites: [],
-    battleSprites: [],
-    maps: {},
-    mapIndex: { version: 1, maps: [] },
-    tilesets: [],
-    stamps: [],
-    tilesetBlobs: {},
-    scriptChunks: {},
-    assetCatalog: { version: 1, assets: {} },
-    assetBlobs: {},
-  } as unknown as EditorState
+/**
+ * 业务正例基座：正式空白项目 + 覆盖表（skills/poisons/enemies/enemyTeams）。
+ * 构造后由正式保存门 assertProjectSaveValid 自证；未覆盖的表保持空白项目的合法值。
+ */
+export async function legalCommandState(over: CommandStateOver = {}): Promise<EditorState> {
+  const { source, state } = await loadBoundaryProject('glm-state-commands-b')
+  const withEnemyShape = await withSharedEnemyBattleSprite(source, state, 'enemy-shape')
+  const next = { ...withEnemyShape, ...over } as EditorState
+  assertProjectSaveValid(next)
+  return next
+}
+
+/**
+ * 防御轴专用：在合法空白项目上有意把整表置为 undefined，探测命令的 `?? []` 回退；
+ * 这是刻意非法（缺表）输入，不得当合法正例使用。
+ */
+export async function defensiveCommandStateWithout(
+  keys: ReadonlyArray<'skills' | 'poisons' | 'enemies' | 'enemyTeams'>,
+): Promise<EditorState> {
+  const { source, state } = await loadBoundaryProject('glm-state-commands-b')
+  const withEnemyShape = await withSharedEnemyBattleSprite(source, state, 'enemy-shape')
+  const next: Record<string, unknown> = { ...withEnemyShape }
+  for (const key of keys) next[key] = undefined
+  return next as unknown as EditorState
 }
 
 /** 真实当前引用索引 provider——恒不 mock 恒空指数。 */
@@ -127,7 +115,7 @@ export const mkPoison = (id: number, name = `毒${id}`): PoisonDef => ({
 export const mkEnemy = (id: string): EnemyDef => ({
   id,
   name: `name.${id}`,
-  battleSprite: 'bs',
+  battleSprite: 'enemy-shape',
   yPosOffset: 0,
   stats: {
     health: 10,

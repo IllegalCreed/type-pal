@@ -1,7 +1,9 @@
 /**
  * TEST-GLM-STATE-COMMANDS-1 D批 fixture：shop/ambience/battle-field/world-variable 命令残差
- * 共用的薄构造器与输入保真助手。最小 EditorState 形状取自 shop-lifecycle.test.ts /
- * world-variable-commands.test.ts 现行合法种子；不复制产品算法，不被生产导入。
+ * 共用的薄构造器与输入保真助手。业务正例基座 = buildBlankProject 正式空白项目
+ * （经 cursor-command-boundary-fixtures 的 loadBoundaryProject 载入），构造后由
+ * assertProjectSaveValid 自证通过正式保存门；有意缺表的防御轴单独提供，不得当合法正例。
+ * 不复制产品算法，不被生产导入。
  */
 import type {
   AmbienceDef,
@@ -11,6 +13,9 @@ import type {
 } from '@type-pal/content'
 import { expect } from 'vitest'
 import type { EditorState } from '../edit-session.js'
+import { assertProjectSaveValid } from '../project-diagnostics.js'
+import { collectCurrentProjectReferenceIndex } from '../project-reference-adapters.js'
+import { loadBoundaryProject } from './cursor-command-boundary-fixtures.js'
 
 /** 独立深快照：与输入完全脱离引用。 */
 export function deepSnapshot<T>(value: T): T {
@@ -51,52 +56,32 @@ export interface DefinitionStateOver {
   worldVariables?: WorldVariableRegistryV1
 }
 
-/** 最小合法 EditorState：真实引用索引 collector 可直接消费（manifest 满足投影）。 */
-export function definitionState(over: DefinitionStateOver = {}): EditorState {
-  return {
-    manifest: {
-      id: 'state-commands-d',
-      name: 'State Commands D',
-      contentVersion: 20,
-      minimumSaveVersion: 8,
-      defaultEntryId: 'main',
-      content: {},
-      assets: { catalog: 'assets/index.json', roles: {} },
-      entryPoints: [
-        {
-          id: 'main',
-          label: '主要入口',
-          scene: 's',
-          startWorld: { party: [], money: 0, inventory: [] },
-        },
-      ],
-    },
-    sceneIndex: { version: 1, scenes: [{ id: 's', name: '场景', path: 'content/scenes/s.json' }] },
-    scenes: [],
-    sharedScripts: {},
-    actors: [],
-    skills: [],
-    levelUp: {},
-    items: [],
-    shops: over.shops,
-    ambiences: over.ambiences,
-    battleFields: over.battleFields,
-    worldVariables: over.worldVariables,
-    enemies: [],
-    enemyTeams: [],
-    locale: {},
-    sprites: [],
-    battleSprites: [],
-    maps: {},
-    mapIndex: { version: 1, maps: [] },
-    tilesets: [],
-    stamps: [],
-    tilesetBlobs: {},
-    scriptChunks: {},
-    assetCatalog: { version: 1, assets: {} },
-    assetBlobs: {},
-  } as unknown as EditorState
+/**
+ * 业务正例基座：正式空白项目 + 覆盖表（shops/ambiences/battleFields/worldVariables）。
+ * 构造后由正式保存门 assertProjectSaveValid 自证；未覆盖的表保持空白项目的合法值。
+ */
+export async function legalDefinitionState(over: DefinitionStateOver = {}): Promise<EditorState> {
+  const { state } = await loadBoundaryProject('glm-state-commands-d')
+  const next = { ...state, ...over } as EditorState
+  assertProjectSaveValid(next)
+  return next
 }
+
+/**
+ * 防御轴专用：在合法空白项目上有意把整表置为 undefined，探测命令的 `?? []`/`?.` 回退；
+ * 这是刻意非法（缺表）输入，不得当合法正例使用。
+ */
+export async function defensiveDefinitionStateWithout(
+  keys: ReadonlyArray<'shops' | 'ambiences' | 'battleFields' | 'worldVariables'>,
+): Promise<EditorState> {
+  const { state } = await loadBoundaryProject('glm-state-commands-d')
+  const next: Record<string, unknown> = { ...state }
+  for (const key of keys) next[key] = undefined
+  return next as unknown as EditorState
+}
+
+/** 真实当前引用索引 provider——恒不 mock 恒空指数。 */
+export const realRefs = (state: EditorState) => collectCurrentProjectReferenceIndex(state)
 
 /** 构造带清单的战场定义（validateBattleFields 合法形状）。 */
 export const mkField = (id: number): BattleFieldDef => ({

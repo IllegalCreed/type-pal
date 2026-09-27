@@ -156,3 +156,24 @@ E2E/main/dialogue/motion接口、暂停的FrameAnimationEditor测试。禁止mai
 B/C/D 共用正例状态的入口场景 `s` 不在 `scenes: []`，现行项目保存门明确拒绝。
 最后交付块写的候选 `7be02ad6` 不是最终头 `36c1f034`。这四项闭合前不得集成或标 done；
 全仓 check、官方 ratchet、严格 fast 延至独立接收后统一执行。
+
+## GLM 交付块（intake R1–R4 返工收口，2026-09-27）
+
+- 基线：先同步 origin/main（rebase 到 `19b0101c`，含 intake 反证），在 `codex/glm-state-commands-r1` 上返工。
+- R1：`a/README.md` 补齐 A01–A04 四行 ledger（34 例逐文件计数、精确 fullName、命令/exit、去重分类）；
+  共用判据登记 A 批对照（34 项）与 3 针——magic-cure-poison-id-inverted、system-empty-list-guard-drop、
+  useapply-phase-guard-drop，全部「当前测试标题可达」，恰 exit1、恰一红、fullName 逐字命中。
+- R2：白名单 20 个新增文件 `pnpm exec biome check` 0 error / 0 warning / 0 info（A 批四文件导入排序、
+  use-menu 格式、共用工具格式与 noTemplateCurlyInString 均以正规修正消除，未用忽略规则）；
+  12 针原字符串字节与唯一命中保持（ambience 针以等值拼接规避 `${` 误报，运行值逐字节不变，复跑恰红验证）。
+- R3：B/C/D 业务正例基座改为正式空白项目（`buildBlankProject`，经 accepted fixture 载入；C 批额外经
+  `loadAllProjectMaps` 加载地图正文保证引用扫描覆盖完整），构造后由 `assertProjectSaveValid` 自证；
+  敌人种子经 `withSharedEnemyBattleSprite` 登记 enemy-profile 战斗精灵满足引用闭包，商店货单用合法空库存。
+  有意缺表的 `?? []`/`?.` 回退轴与 kind 错标记录（本身无法过保存门）全部单列到各文件文末
+  「防御轴（有意缺表）」describe，明确标注为刻意非法输入。
+- R4：a/b/c/d 回执与 tools 登记按最终提交树重算——A 34（12/7/7/8）、B 32（7/9/8/8）、C 35（10/10/6/9）、
+  D 25（6/7/7/5），合计 122；定向/相邻/四批反控/两包全测/typecheck/Biome 全部复跑（新鲜 JSON 与日志）。
+- 门禁（最终树实测）：A 定向 34/34、B/C/D 定向 92/92 exit 0（JSON /tmp/batch-a-directed.json、
+  /tmp/bcd-directed.json）；相邻 A 57/57、B/C/D 212/212；editor 与 reforge typecheck 零诊断；
+  白名单 Biome 0/0/0；docs PASS；`git diff --check` 干净；四批反控各 1 对照 + 3 针全绿、生产源 hash 不变。
+- 不改产品/旧测试/覆盖率基线；全仓 check/ratchet/strict-fast 留 Codex 接收后统一执行；不合 main、不标 done。

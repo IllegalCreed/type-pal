@@ -1,13 +1,15 @@
 # C批：人物与资源命令
 
-状态：GLM 已实施（2026-09-27）。范围C01–C04，见[工作包](../README.md)与[冻结账](../targets.freeze.json)。
-基线一律取 `buildBlankProject` 正式空白项目（`loadBoundaryProject`）；字节/记录读自真实种子编码产物，
+状态：GLM 已实施；2026-09-27 按 codex-intake-review R3 返工（tileset 正例改用地图正文已加载的
+正式空白项目并经保存门自证，kind 错标与缺表防御轴单列），R4 重算计数。范围C01–C04，见[工作包](../README.md)与[冻结账](../targets.freeze.json)。
+基线一律取 `buildBlankProject` 正式空白项目（C 批 fixture 内 `loadHydratedBlankProject` =
+`loadAllProjectMaps` 地图正文全量加载，保证地图引用扫描覆盖完整）；字节/记录读自真实种子编码产物，
 实际帧数来自 `decodeWorldSpriteAssetBytes`/`decodeBattleSpriteAssetBytes` 对真实字节的解码，
 不把任意字节宣称合法 gzip/RLE。
 
 ## 命令与 exit（新鲜 JSON）
 
-- 定向四文件：`env -u NODE_COMPILE_CACHE pnpm exec vitest run src/core/{actor,sprite,battle-sprite,tileset}-commands.glm-boundaries.test.ts`（cwd packages/editor）→ **33/33 exit 0**，JSON `/tmp/batch-c-directed.json`。
+- 定向四文件：`env -u NODE_COMPILE_CACHE pnpm exec vitest run src/core/{actor,sprite,battle-sprite,tileset}-commands.glm-boundaries.test.ts`（cwd packages/editor）→ **35/35 exit 0**（C01 10 / C02 10 / C03 6 / C04 9），JSON `/tmp/bcd-directed.json`。
 - 相邻十二文件（actor-commands.test/residual、三个资源命令 residual、tileset-lifecycle、tileset-references、sprite-reference-commands、commands-wave2 sprite/battle-sprite/tileset、commands.test）→ **170/170 exit 0**。
 - editor `tsc --noEmit` → 零诊断；Biome（本批六文件）→ 0/0/0；`git diff --check` → 干净。
 
@@ -22,7 +24,7 @@
 
 ## 负控回执（[tools](../tools/README.md) 共用判据，`node state-commands-mutants.mjs c`）
 
-判据自测 10 例全按预期；对照跑 exit 0 全绿（33 项）；三针各自**恰 exit1、恰一红**、失败记录绝对
+判据自测 10 例全按预期；对照跑 exit 0 全绿（35 项）；三针各自**恰 exit1、恰一红**、失败记录绝对
 文件与实际 fullName 逐字匹配、AssertionError-only、生产四源 sha256 每轮复验不变、entered.json 见证：
 
 | 针 | 生产注入 | 类别 | 恰红用例（fullName 尾段） |

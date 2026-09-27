@@ -5,8 +5,10 @@
  * useConfirm pick-target 重复确认/cursor 越界、useBackFromTarget pick-item no-op、
  * finishUseExecution status:external、battleOnly 物品排除、USE_GRID_COLS/closeUseMenu。
  */
-import { describe, expect, test } from 'vitest'
+
 import type { ItemDataMap, WorldItemUseOutcome } from '@type-pal/content'
+import { describe, expect, test } from 'vitest'
+import { makeTestItems, makeTestWorld } from './test-fixtures.js'
 import {
   closeUseMenu,
   finishUseExecution,
@@ -17,7 +19,6 @@ import {
   useConfirm,
   useMoveCursor,
 } from './use-menu-state.js'
-import { makeTestItems, makeTestWorld } from './test-fixtures.js'
 
 const items: ItemDataMap = makeTestItems()
 const w = makeTestWorld()
@@ -79,9 +80,7 @@ describe('A04 use-menu-state 残差', () => {
       presentations: [],
       menu: 'keep',
     }
-    const result = request
-      ? finishUseExecution(request, extOutcome, items)
-      : undefined
+    const result = request ? finishUseExecution(request, extOutcome, items) : undefined
     expect(result).toBe(s)
   })
 

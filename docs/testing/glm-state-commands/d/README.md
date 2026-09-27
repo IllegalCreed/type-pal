@@ -1,12 +1,13 @@
 # D批：工程定义命令
 
-状态：GLM 已实施（2026-09-27）。范围D01–D04，见[工作包](../README.md)与[冻结账](../targets.freeze.json)。
-合法种子形状取自 shop-lifecycle / world-variable-commands 现行测试；删除一律 `realRefs`
-（`collectCurrentProjectReferenceIndex` 真实当前引用索引，恒不 mock 恒空）。
+状态：GLM 已实施；2026-09-27 按 codex-intake-review R3 返工（正例基座改为正式空白项目并经保存门自证，
+商店货单引用合法空库存，有意缺表防御轴单列），R4 重算计数。范围D01–D04，见[工作包](../README.md)与[冻结账](../targets.freeze.json)。
+正例基座 `legalDefinitionState` = `buildBlankProject` 正式空白项目 + 覆盖表，构造后 `assertProjectSaveValid`
+自证；删除一律 `realRefs`（`collectCurrentProjectReferenceIndex` 真实当前引用索引，恒不 mock 恒空）。
 
 ## 命令与 exit（新鲜 JSON）
 
-- 定向四文件：`env -u NODE_COMPILE_CACHE pnpm exec vitest run src/core/{shop,ambience,battle-field,world-variable}-commands.glm-boundaries.test.ts`（cwd packages/editor）→ **22/22 exit 0**，JSON `/tmp/batch-d-directed.json`。
+- 定向四文件：`env -u NODE_COMPILE_CACHE pnpm exec vitest run src/core/{shop,ambience,battle-field,world-variable}-commands.glm-boundaries.test.ts`（cwd packages/editor）→ **25/25 exit 0**（D01 6 / D02 7 / D03 7 / D04 5），JSON `/tmp/bcd-directed.json`。
 - 相邻六文件（shop-lifecycle、project-io、battle-field-commands.test、commands-world.boundaries、world-variable-commands.test、commands.test）→ **142/142 exit 0**。
 - editor `tsc --noEmit` → 零诊断；Biome（本批六文件）→ 0/0/0；docs PASS；`git diff --check` → 干净。
 
@@ -21,7 +22,7 @@
 
 ## 负控回执（[tools](../tools/README.md) 共用判据，`node state-commands-mutants.mjs d`）
 
-判据自测 10 例全按预期；对照跑 exit 0 全绿（22 项）；三针各自**恰 exit1、恰一红**、失败记录绝对
+判据自测 10 例全按预期；对照跑 exit 0 全绿（25 项）；三针各自**恰 exit1、恰一红**、失败记录绝对
 文件与实际 fullName 逐字匹配、AssertionError-only、生产四源 sha256 每轮复验不变、entered.json 见证：
 
 | 针 | 生产注入 | 类别 | 恰红用例（fullName 尾段） |

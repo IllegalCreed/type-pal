@@ -17,6 +17,59 @@ const output = mkdtempSync(join(tmpdir(), 'type-pal-state-commands-mutants-'))
 
 /** 每批注册：包根、控制跑范围、以及该批 2–3 个单点针。 */
 const batches = {
+  a: {
+    packageRoot: resolve(root, 'packages/reforge'),
+    production: [
+      'src/magic-menu-state.ts',
+      'src/system-menu-state.ts',
+      'src/equip-menu-state.ts',
+      'src/use-menu-state.ts',
+    ],
+    control: {
+      tests: [
+        'src/magic-menu-state.glm-boundaries.test.ts',
+        'src/system-menu-state.glm-boundaries.test.ts',
+        'src/equip-menu-state.glm-boundaries.test.ts',
+        'src/use-menu-state.glm-boundaries.test.ts',
+      ],
+      total: 34,
+    },
+    mutations: [
+      {
+        id: 'magic-cure-poison-id-inverted',
+        module: 'src/magic-menu-state.ts',
+        file: 'src/magic-menu-state.glm-boundaries.test.ts',
+        total: 12,
+        describe: 'A01 castOutdoorSkill 残差',
+        title: 'curePoison poisonId 点名：只解匹配毒',
+        from: 't.poisons = t.poisons?.filter((ap) => ap.poisonId !== Number(eff.poisonId))',
+        to: 't.poisons = t.poisons?.filter((ap) => ap.poisonId === Number(eff.poisonId))',
+        category: '错误效果结算：点名校验反转（解错毒）',
+      },
+      {
+        id: 'system-empty-list-guard-drop',
+        module: 'src/system-menu-state.ts',
+        file: 'src/system-menu-state.glm-boundaries.test.ts',
+        total: 7,
+        describe: 'A02 system-menu-state 残差',
+        title: '空列表导航：同引用不变',
+        from: '  if (n === 0) return s',
+        to: '  if (false) return s',
+        category: '空列表防御拆除：环绕取模得到 NaN 并污染光标',
+      },
+      {
+        id: 'useapply-phase-guard-drop',
+        module: 'src/use-menu-state.ts',
+        file: 'src/use-menu-state.glm-boundaries.test.ts',
+        total: 8,
+        describe: 'A04 use-menu-state 残差',
+        title: 'useApply：pick-item 阶段 undefined；pick-target 无 selectedItemId undefined',
+        from: "  if (s.phase !== 'pick-target' || !s.selectedItemId) return undefined",
+        to: '  if (false) return undefined',
+        category: '阶段防御拆除：错误阶段/无选中物仍发出执行请求',
+      },
+    ],
+  },
   b: {
     packageRoot: resolve(root, 'packages/editor'),
     production: [
@@ -32,14 +85,14 @@ const batches = {
         'src/core/enemy-team-commands.glm-boundaries.test.ts',
         'src/core/enemy-commands.glm-boundaries.test.ts',
       ],
-      total: 27,
+      total: 32,
     },
     mutations: [
       {
         id: 'skill-first-capture-overwrite',
         module: 'src/core/skill-commands.ts',
         file: 'src/core/skill-commands.glm-boundaries.test.ts',
-        total: 6,
+        total: 7,
         describe: 'B01 skill-commands 残差',
         title: 'UpdateSkill：二次 apply 不覆盖首轮 oldPatch（undo 回首次前状态）',
         from: '  if (!this.oldPatch) {',
@@ -61,7 +114,7 @@ const batches = {
         id: 'enemy-team-old-overwrite',
         module: 'src/core/enemy-team-commands.ts',
         file: 'src/core/enemy-team-commands.glm-boundaries.test.ts',
-        total: 6,
+        total: 8,
         describe: 'B03 enemy-team-commands 残差',
         title: 'UpdateEnemyTeams：二次 apply 保持首轮旧表；未 apply 的新命令 invert 原引用',
         from: '    if (!this.old) this.old = structuredClone(state.enemyTeams ?? []) as EnemyTeamDef[]',
@@ -85,7 +138,7 @@ const batches = {
         'src/core/battle-sprite-commands.glm-boundaries.test.ts',
         'src/core/tileset-commands.glm-boundaries.test.ts',
       ],
-      total: 33,
+      total: 35,
     },
     mutations: [
       {
@@ -103,7 +156,7 @@ const batches = {
         id: 'tileset-remove-shared-cascade',
         module: 'src/core/tileset-commands.ts',
         file: 'src/core/tileset-commands.glm-boundaries.test.ts',
-        total: 7,
+        total: 9,
         describe: 'C04 tileset-commands 残差',
         title: 'RemoveTileset：共享分支后 invert 保 catalog/blob（persistedBytes 缺省不覆盖）',
         from: '    if (nextTilesets.some((candidate) => candidate.asset === removed.asset))',
@@ -138,7 +191,7 @@ const batches = {
         'src/core/battle-field-commands.glm-boundaries.test.ts',
         'src/core/world-variable-commands.glm-boundaries.test.ts',
       ],
-      total: 22,
+      total: 25,
     },
     mutations: [
       {
@@ -147,7 +200,7 @@ const batches = {
         file: 'src/core/shop-commands.glm-boundaries.test.ts',
         total: 6,
         describe: 'D01 shop-commands 残差',
-        title: 'UpdateShop：二次 apply 保持首轮旧货单（undo 回首次前）',
+        title: 'UpdateShop：二次 apply 保持首轮旧货单（undo 回首次前）；旁店铺同引用保留',
         from: '    if (!this.captured) {',
         to: '    if (true) {',
         category: '坏undo：首轮旧货单捕获被二次 apply 覆盖',
@@ -156,10 +209,10 @@ const batches = {
         id: 'ambience-undo-occupied-silent',
         module: 'src/core/ambience-commands.ts',
         file: 'src/core/ambience-commands.glm-boundaries.test.ts',
-        total: 5,
+        total: 7,
         describe: 'D02 ambience-commands 残差',
-        title: 'DeleteAmbience：undo 时 id 已被占用恰抛（整串）；缺席表 invert 仍插回',
-        from: '      throw new Error(`无法撤销删除：氛围 id 已被占用 ${this.ambienceId}`)',
+        title: 'DeleteAmbience：undo 时 id 已被占用恰抛（整串）',
+        from: '      throw new Error(`无法撤销删除：氛围 id 已被占用 $' + '{this.ambienceId}`)',
         to: '      void 0',
         category: '坏undo：undo 重占用 fail-loud 被静默吞掉',
       },
@@ -167,9 +220,10 @@ const batches = {
         id: 'battlefield-undefined-delete-drop',
         module: 'src/core/battle-field-commands.ts',
         file: 'src/core/battle-field-commands.glm-boundaries.test.ts',
-        total: 6,
+        total: 7,
         describe: 'D03 battle-field-commands 残差',
-        title: 'UpdateBattleField：缺席 id apply 原引用；二次 apply 首轮 oldPatch；可选键 undefined 删键与还原',
+        title:
+          'UpdateBattleField：缺席 id apply 原引用；二次 apply 首轮 oldPatch；可选键 undefined 删键与还原',
         from: '    for (const [k, v] of Object.entries(this.patch)) if (v === undefined) delete next[k]',
         to: '    for (const [k, v] of Object.entries(this.patch)) if (false) void k',
         category: '输入污染：可选键 undefined 删键合同失效，残留显式 undefined',

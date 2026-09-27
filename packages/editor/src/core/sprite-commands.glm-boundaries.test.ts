@@ -17,9 +17,9 @@ import {
   deepSnapshot,
   expectExactError,
   expectInputsUnchanged,
+  legalTilesetState,
   spriteRecord,
   tilesetRecord,
-  tilesetState,
 } from './__tests__/glm-state-commands-c.js'
 import type { EditorState } from './edit-session.js'
 import { collectCurrentProjectReferenceIndex } from './project-reference-adapters.js'
@@ -192,7 +192,7 @@ describe('C02 sprite-commands 残差', () => {
     expect(new DeleteUnusedSpriteAssetCommand('sprite.gone', realRefs).apply(state)).toBe(state)
     expect(new DeleteUnusedSpriteAssetCommand('sprite.gone', realRefs).invert(state)).toBe(state)
     const seedAssets = await buildSeedAssets()
-    const wrongKind = tilesetState({
+    const wrongKind = await legalTilesetState({
       records: {
         'tileset.lone': tilesetRecord(
           'assets/authored/tilesets/lone.rle',

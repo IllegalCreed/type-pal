@@ -6,8 +6,9 @@
  * magicConfirmSpell 越界/无cost.mp、magicMoveCaster 空队、MAGIC_GRID_COLS/closeMagicMenu。
  * castOutdoorSkill 原地改 world（合同如此），不施加不可变断言。
  */
-import { describe, expect, test } from 'vitest'
+
 import type { PoisonDef, SkillData, SkillDataMap, WorldState } from '@type-pal/content'
+import { describe, expect, test } from 'vitest'
 import {
   castOutdoorSkill,
   closeMagicMenu,
