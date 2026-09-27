@@ -16,20 +16,19 @@ const cases = {
     testFile: 'src/frame-sequence.cursor-boundaries.test.ts',
     from: 'if (bytes[5] !== 0 || bytes[6] !== 0 || bytes[7] !== 0)',
     to: 'if (bytes[6] !== 0)',
-    title: 'encode→parse：保留位 [5] 与 [7] 各自拒绝，未改字节仍可 parse',
+    title: 'encode→parse→decode：deflate 正帧可还原，保留位 [5] 与 [7] 各自拒绝',
     fullName:
-      'A01 frame-sequence 剩余合同 encode→parse：保留位 [5] 与 [7] 各自拒绝，未改字节仍可 parse',
+      'A01 frame-sequence 剩余合同 encode→parse→decode：deflate 正帧可还原，保留位 [5] 与 [7] 各自拒绝',
   },
-  a02: {
+  a03: {
     pkg: 'content',
-    id: 'a02-script-body-fallback',
-    sourceFile: 'src/script-library.ts',
-    testFile: 'src/script-library.cursor-boundaries.test.ts',
-    from: 'if (direct) return direct',
-    to: 'if (derived) return direct',
-    title: 'getScriptBody：derived chunk 未命中时回退实际 owner，不改 chunks',
-    fullName:
-      'A02 script-library 剩余合同 getScriptBody：derived chunk 未命中时回退实际 owner，不改 chunks',
+    id: 'a03-anchor-col-overflow',
+    sourceFile: 'src/stamp.ts',
+    testFile: 'src/stamp.cursor-boundaries.test.ts',
+    from: 'if (anchor.row >= content.height * 2 || anchor.col >= content.width)',
+    to: 'if (anchor.row >= content.height * 2)',
+    title: 'anchor 仅 col 越界拒绝；同模板 row 合法空格锚通过',
+    fullName: 'A03 stamp 剩余合同 anchor 仅 col 越界拒绝；同模板 row 合法空格锚通过',
   },
   b03: {
     pkg: 'reforge',

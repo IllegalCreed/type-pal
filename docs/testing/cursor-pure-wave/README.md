@@ -44,24 +44,14 @@ C：从 `buildBlankProject` 或已有通过 `assertProjectSaveValid` 的合法 f
 
 ## Cursor 交付（作者自验，不能替代 Codex 独立复核）
 
-候选分支 `codex/cursor-pure-wave-r1`。生产源 hash 与上表冻结值一致。不合 main，不标 done。
+首轮接收见 [codex-intake-review.md](codex-intake-review.md)（R1–R3 counter）。本树已同步 `origin/main` 并只改这三项。不合 main，不标 done。
 
-| 提交 | SHA | 说明 |
-|---|---|---|
-| A | `321e06b5136a2518ab13feba092b65a11ccb4fc4` | 保留位 [5]/[7]、getScriptBody fallback；A03/A04 无负控名额 |
-| B | `7ba813296aa361605bfd6708d4dcf211670aaa67` | 隐藏层 tilesInView、二次 cache hit；B01/B02 existing-proof |
-| C | `42d1f0349626ae1eca73f66043a186cf87100442` | loop hasItem、trial-sword grantSkill；C03/C04 existing-proof |
-| 文档索引 | 本提交 | `a/b/c` README 导航；`check:docs` PASS 0 issues |
+| 项 | 处理 |
+|---|---|
+| R1 A01 | 正式 `deflateSync`/`inflateSync`；`decodeFrameSequenceFrame` 核 RGBA；保留 [5]/[7] 单轴与 `a01` 针 |
+| R2 A02 | 撤回错桶测试与 `a02` 针；分类为无当前消费者 / 非法输入。A 包第二针改 `a03` |
+| R3 B04 | `deriveScriptChunk` → `shared/c01`；`normalizeScriptLibrary` 真实 bytes；`checkScriptLibrary` 先过再测缓存 |
 
-六针反控均 `redExit=1`、`AssertionError`、`hit`、源 hash 未变。证据目录：
+六针现为 a01 / a03 / b03 / b04 / c01 / c02。同跑证据：`/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/cursor-pure-wave-mutants-PmDfNF`，全部 `redExit=1`、`AssertionError`、`hit`、源 hash 未变。
 
-- A：`/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/cursor-pure-wave-mutants-m0ZR62`
-- B03：`…/cursor-pure-wave-mutants-EJgROl`；B04：`…/cursor-pure-wave-mutants-fqabkd`
-- C01：`…/cursor-pure-wave-mutants-07Ys6o`；C02：`…/cursor-pure-wave-mutants-hEePU7`
-
-整包命令（本机隔离工作树，`node_modules` 为指向主仓的 symlink）：
-
-- content 全测：102 files / 1182 tests，exit 0
-- reforge 全测：192 files / 1747 tests 通过；`scripts/battle-trial-host.test.ts` 因 Vite `Denied ID` 解析到主仓 `type-pal/packages/reforge/src/engine-chrome/assets/...` 套件失败（非本包新增）
-- editor 全测：277 files / 2254 tests 通过；84 个 UI 套件同 Vite `Denied ID`；`tests/world-sprite-behavior.pal.test.ts` 2 条因工作树缺 `projects/pal` ENOENT
-- `check:docs`：704 Markdown / 3810 local links，PASS 0 issues
+定向（R1–R3 后）：content 3/3、reforge 2/2、editor 2/2。三包 `tsc --noEmit` exit 0；Biome 11 files / 0。
