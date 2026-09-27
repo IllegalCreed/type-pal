@@ -13,7 +13,8 @@ env -u NODE_COMPILE_CACHE node docs/testing/glm-state-commands/tools/state-comma
   混错/timeout/多红/错名/异文件/exit2/exitnull/零执行/对照样本）与实跑走同一 judge 函数。
 - 已登记批：`b`（对照 27 项 + 3 针：skill-first-capture-overwrite、poison-patch-alias、
   enemy-team-old-overwrite）、`c`（对照 33 项 + 3 针：sprite-share-undo-overdelete、
-  tileset-remove-shared-cascade、actor-detach-first-capture）。
-  `a/d` 批交付时在脚本 `batches` 表登记各自范围与针。
+  tileset-remove-shared-cascade、actor-detach-first-capture）、`d`（对照 22 项 + 3 针：
+  shop-update-first-capture、ambience-undo-occupied-silent、battlefield-undefined-delete-drop）。
+  `a` 批交付时在脚本 `batches` 表登记各自范围与针。
 - 输出合同：stdout 逐行 `control: green` / `<针id>: business red`，末行给临时目录（summary.json：
   hashes/selfTest/evidence）。不得修改仓库原探针或生产源。

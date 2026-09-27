@@ -123,6 +123,59 @@ const batches = {
       },
     ],
   },
+  d: {
+    packageRoot: resolve(root, 'packages/editor'),
+    production: [
+      'src/core/shop-commands.ts',
+      'src/core/ambience-commands.ts',
+      'src/core/battle-field-commands.ts',
+      'src/core/world-variable-commands.ts',
+    ],
+    control: {
+      tests: [
+        'src/core/shop-commands.glm-boundaries.test.ts',
+        'src/core/ambience-commands.glm-boundaries.test.ts',
+        'src/core/battle-field-commands.glm-boundaries.test.ts',
+        'src/core/world-variable-commands.glm-boundaries.test.ts',
+      ],
+      total: 22,
+    },
+    mutations: [
+      {
+        id: 'shop-update-first-capture',
+        module: 'src/core/shop-commands.ts',
+        file: 'src/core/shop-commands.glm-boundaries.test.ts',
+        total: 6,
+        describe: 'D01 shop-commands 残差',
+        title: 'UpdateShop：二次 apply 保持首轮旧货单（undo 回首次前）',
+        from: '    if (!this.captured) {',
+        to: '    if (true) {',
+        category: '坏undo：首轮旧货单捕获被二次 apply 覆盖',
+      },
+      {
+        id: 'ambience-undo-occupied-silent',
+        module: 'src/core/ambience-commands.ts',
+        file: 'src/core/ambience-commands.glm-boundaries.test.ts',
+        total: 5,
+        describe: 'D02 ambience-commands 残差',
+        title: 'DeleteAmbience：undo 时 id 已被占用恰抛（整串）；缺席表 invert 仍插回',
+        from: '      throw new Error(`无法撤销删除：氛围 id 已被占用 ${this.ambienceId}`)',
+        to: '      void 0',
+        category: '坏undo：undo 重占用 fail-loud 被静默吞掉',
+      },
+      {
+        id: 'battlefield-undefined-delete-drop',
+        module: 'src/core/battle-field-commands.ts',
+        file: 'src/core/battle-field-commands.glm-boundaries.test.ts',
+        total: 6,
+        describe: 'D03 battle-field-commands 残差',
+        title: 'UpdateBattleField：缺席 id apply 原引用；二次 apply 首轮 oldPatch；可选键 undefined 删键与还原',
+        from: '    for (const [k, v] of Object.entries(this.patch)) if (v === undefined) delete next[k]',
+        to: '    for (const [k, v] of Object.entries(this.patch)) if (false) void k',
+        category: '输入污染：可选键 undefined 删键合同失效，残留显式 undefined',
+      },
+    ],
+  },
 }
 
 const MIXED_ERROR =
