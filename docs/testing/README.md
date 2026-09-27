@@ -47,6 +47,7 @@
 - [Cursor三包十二模块纯逻辑补测](cursor-pure-wave/README.md)（已[独立接收并收口](cursor-pure-wave/codex-final-review.md)；七项正式回归、六针、分支+5/分母+2）。
 - [Cursor内容模型十六模块首轮接收](cursor-content-pure-wave2-codex-review.md)（C3 两处正控前提历史 counter；当前结论见最终接收）。
 - [Cursor内容模型十六模块回执](cursor-content-pure-wave2/README.md)（C1–C4，R1/R2 已按[Codex最终接收](cursor-content-pure-wave2/codex-final-review.md)闭合并收口，+10分支）。
+- [GLM编辑器十二模块首轮独立接收](glm-editor-ui-wave-codex-review.md)（39项/四针机械绿；合法工程 fixture 与两处视觉证据 counter，候选未合入）。
 - [GLM菜单与编辑命令十六组独立集成](glm-state-commands/codex-integration.md)（R1–R4反证闭合，126项测试、12针，官方fast净增157分支）。
 - [Cursor地图六组作者交付](cursor-map-logic-r2/README.md)（M1–M6，保留历史回执，最终结论见独立集成记录）。
 - [GLM物品纯逻辑六组](glm-item-logic/README.md)（item.ts 残余合同补测交付）。

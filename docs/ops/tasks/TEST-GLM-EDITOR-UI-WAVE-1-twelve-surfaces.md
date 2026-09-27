@@ -1,6 +1,6 @@
 # TEST-GLM-EDITOR-UI-WAVE-1 — 编辑器十二模块交互回归
 
-Status: build
+Status: rework
 Owner: GLM（隔离工作树内唯一测试 Coding Owner）
 Reviewer / Integration Owner: Codex
 Phase: phase2
@@ -66,3 +66,14 @@ Biome 0 error/warning/info、`check:docs` 通过。Node agent 进程清除 `NODE
 ## 下一位 Agent 提示词
 
 见 Codex 当次交接消息；以本卡最终 main 版本为准，不从聊天复述代替读卡。
+
+## Codex 首轮独立接收（2026-09-27）
+
+候选 `a767c43f` 暂签 **counter / rework**。本人复跑12文件39/39、
+editor typecheck 0、14文件 Biome 0、四针对照绿/业务红；源码/旧测试/
+配置相对8254ce64零漂移。但这些机械通过不能证明新用例的正控输入
+可保存或视觉已验。[直接反证](../../testing/glm-editor-ui-wave-codex-review.md)
+列 U1/U2/U3/U4 横跨的同一 fixture 根因及两张截图的环境阻断。
+请 GLM 在原隔离分支统一整改合法输入/分类与视觉结论，不为凑39项
+保留伪业务绿例；已证模块不无故重开。Codex 仅记录 counter，不改
+GLM 测试语义、不合 main、不标 done；全仓门留待返工通过。
