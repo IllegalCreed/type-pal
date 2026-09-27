@@ -1,7 +1,9 @@
 # Cursor 三包纯逻辑补测工作包
 
-[任务卡](../../ops/tasks/TEST-CURSOR-PURE-WAVE-1-twelve-modules.md) / [当前看板](../../ops/board.md)。
-[Codex 首轮独立接收反证](codex-intake-review.md)（rework；候选尚未合入）。
+[任务卡](../../ops/archive/tasks/done/TEST-CURSOR-PURE-WAVE-1-twelve-modules.md) / [当前看板](../../ops/board.md) /
+[Codex 首轮独立接收反证](codex-intake-review.md) /
+[Codex 返工最终接收](codex-final-review.md) /
+[A content](a/README.md) / [B reforge](b/README.md) / [C editor](c/README.md)。
 冻结源树 `19b0101c`。下表为开工前源码 hash 和一次旧 fast 报告的未命中分支臂，
 只帮助选择题目；是否可达、是否已有语义测试由 Cursor 逐条读源码及旧测判定。
 旧报告位于本机 `build/verification/reforge-001-3901f1d6/coverage-fast/<package>/lcov.info`；
@@ -40,3 +42,19 @@ C：从 `buildBlankProject` 或已有通过 `assertProjectSaveValid` 的合法 f
 
 每组有一行去重/业务断言/新测试或已有证据的账；每包两个可复现的单点负控。
 三包相互独立，某组遇到未定产品政策时留局部诊断并推进其它组，最后统一交付整包给 Codex。
+
+## Cursor 交付（作者自验，不能替代 Codex 独立复核）
+
+首轮接收见 [codex-intake-review.md](codex-intake-review.md)（R1–R3 counter）；
+Codex 独立复核、集成与全仓门禁结论见 [codex-final-review.md](codex-final-review.md)。
+以下仍为 Cursor 作者交付回执原文，不作为独立证明。
+
+| 项 | 处理 |
+|---|---|
+| R1 A01 | 正式 `deflateSync`/`inflateSync`；`decodeFrameSequenceFrame` 核 RGBA；保留 [5]/[7] 单轴与 `a01` 针 |
+| R2 A02 | 撤回错桶测试与 `a02` 针；分类为无当前消费者 / 非法输入。A 包第二针改 `a03` |
+| R3 B04 | `deriveScriptChunk` → `shared/c01`；`normalizeScriptLibrary` 真实 bytes；`checkScriptLibrary` 先过再测缓存 |
+
+六针现为 a01 / a03 / b03 / b04 / c01 / c02。同跑证据：`/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/cursor-pure-wave-mutants-PmDfNF`，全部 `redExit=1`、`AssertionError`、`hit`、源 hash 未变。
+
+定向（R1–R3 后）：content 3/3、reforge 2/2、editor 2/2。三包 `tsc --noEmit` exit 0；Biome 11 files / 0。

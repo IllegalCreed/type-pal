@@ -1,14 +1,14 @@
 {
   "schemaVersion": 2,
   "profile": "fast",
-  "generatedAt": "2026-09-27T06:06:05.554Z",
+  "generatedAt": "2026-09-27T06:20:42.046Z",
   "provider": {
     "name": "v8",
     "vitest": "4.1.7",
     "coverageV8": "4.1.7"
   },
-  "sourceFileCount": 728,
-  "testCount": 9498,
+  "sourceFileCount": 730,
+  "testCount": 9505,
   "packages": {
     "shared": {
       "name": "@type-pal/shared",
@@ -163,7 +163,7 @@
         "**/*.spec.tsx",
         "**/*.d.ts"
       ],
-      "sourceFileCount": 55,
+      "sourceFileCount": 56,
       "sourceFiles": [
         "packages/content/src/actor-condition.ts",
         "packages/content/src/actor-reference.ts",
@@ -184,6 +184,7 @@
         "packages/content/src/character.ts",
         "packages/content/src/command-target-reference.ts",
         "packages/content/src/command-validation-options.ts",
+        "packages/content/src/cursor-pure-fixtures.ts",
         "packages/content/src/enemy-ai-condition-guard.ts",
         "packages/content/src/enemy-ai.ts",
         "packages/content/src/enemy-script.ts",
@@ -221,10 +222,10 @@
         "packages/content/src/validate.ts",
         "packages/content/src/world-variable.ts"
       ],
-      "scopeDigest": "6b0f53f3a58ebe5227b9528cfce792383a19b27947a7c3d037471ceb6da40c7d",
+      "scopeDigest": "048275ba8e3020dd698db3c0f14f599e200ec84daad1c7f47aac0f15fa067971",
       "fastTests": {
-        "testCount": 1178,
-        "testFileCount": 98,
+        "testCount": 1181,
+        "testFileCount": 101,
         "files": [
           "packages/content/src/actor-condition.boundaries.test.ts",
           "packages/content/src/actor-condition.test.ts",
@@ -269,10 +270,12 @@
           "packages/content/src/enemy-validation-shapes.leaf.test.ts",
           "packages/content/src/entity-lifecycle.test.ts",
           "packages/content/src/frame-sequence.contracts.test.ts",
+          "packages/content/src/frame-sequence.cursor-boundaries.test.ts",
           "packages/content/src/frame-sequence.residual.test.ts",
           "packages/content/src/frame-sequence.resource-boundaries.test.ts",
           "packages/content/src/frame-sequence.test.ts",
           "packages/content/src/grid.test.ts",
+          "packages/content/src/item.cursor-boundaries.test.ts",
           "packages/content/src/item.derived.background.test.ts",
           "packages/content/src/item.effects.background.test.ts",
           "packages/content/src/item.external.background.test.ts",
@@ -307,6 +310,7 @@
           "packages/content/src/script-library.test.ts",
           "packages/content/src/shop.test.ts",
           "packages/content/src/sprite-frame-demand.contracts.test.ts",
+          "packages/content/src/stamp.cursor-boundaries.test.ts",
           "packages/content/src/stamp.test.ts",
           "packages/content/src/tileset-stamp.contracts.test.ts",
           "packages/content/src/tileset.test.ts",
@@ -542,6 +546,11 @@
             "identityDigest": "c3742104b9ed7c66acb5279a385a7851e3133e7b0a528f3aaa3adb1fbded9826"
           },
           {
+            "file": "packages/content/src/frame-sequence.cursor-boundaries.test.ts",
+            "testCount": 1,
+            "identityDigest": "2b383ec7b541e8098245a11e5e5e306e3d9373e881fe1123ef6d54a956d58d7f"
+          },
+          {
             "file": "packages/content/src/frame-sequence.residual.test.ts",
             "testCount": 3,
             "identityDigest": "943a5d045c8ed543f594b93207b56cac883776d7da524ee82102afa05889a23a"
@@ -560,6 +569,11 @@
             "file": "packages/content/src/grid.test.ts",
             "testCount": 11,
             "identityDigest": "5f83ce41281090ac103c49bab2fa8eaae96b94bb281c4bc00f796a2896508a13"
+          },
+          {
+            "file": "packages/content/src/item.cursor-boundaries.test.ts",
+            "testCount": 1,
+            "identityDigest": "39cbe83ba31e5692cdcd55fbf12a9291e1635222ae9422b845c76324243596ea"
           },
           {
             "file": "packages/content/src/item.derived.background.test.ts",
@@ -732,6 +746,11 @@
             "identityDigest": "203e4b261a9633c699c7ef6946f964c76f0080a5ff769f832e92bbcfb4e6e5f6"
           },
           {
+            "file": "packages/content/src/stamp.cursor-boundaries.test.ts",
+            "testCount": 1,
+            "identityDigest": "a4e5fde99ca2565fab8d7443ca4ae6139d311c1261efe33b6d1727c9db86790b"
+          },
+          {
             "file": "packages/content/src/stamp.test.ts",
             "testCount": 3,
             "identityDigest": "70556675d141e3418ab7e5cfa753ec153b45bd716c60f0b00d9c0262b0916c0a"
@@ -817,26 +836,26 @@
             "identityDigest": "6bd136e3dc31faf579c7b78a5dd284c6a1fd1a58ee6d3fa624ccee6e21be9a3c"
           }
         ],
-        "identityDigest": "4404799d22ef2762c51e10a58c309273f94029494304062977c26307e9e92e07",
+        "identityDigest": "4949a2afdaa2e2fc60a4d08f8be0bc6ee38177e3fbfd4614af71b59c63614d5a",
         "duplicateIdentityCount": 0,
-        "executionDigest": "e91c4897abd68ff8fe566a19aa34bbdfbe7722e34f7d2bad7b64c5f67233685a"
+        "executionDigest": "980abb5544ceff52285af9f14e8084309c5e3e5fda5055ceea2606626b6c2ae4"
       },
       "metrics": {
         "statements": {
-          "covered": 5576,
-          "total": 5853
+          "covered": 5579,
+          "total": 5856
         },
         "branches": {
-          "covered": 4639,
-          "total": 5014
+          "covered": 4641,
+          "total": 5016
         },
         "functions": {
-          "covered": 804,
-          "total": 830
+          "covered": 805,
+          "total": 831
         },
         "lines": {
-          "covered": 4991,
-          "total": 5180
+          "covered": 4993,
+          "total": 5182
         }
       }
     },
@@ -1803,7 +1822,7 @@
         "**/*.spec.tsx",
         "**/*.d.ts"
       ],
-      "sourceFileCount": 147,
+      "sourceFileCount": 148,
       "sourceFiles": [
         "packages/reforge/src/active-scene.ts",
         "packages/reforge/src/actor-condition-lifecycle.ts",
@@ -1844,6 +1863,7 @@
         "packages/reforge/src/battle/settlement.ts",
         "packages/reforge/src/boot.ts",
         "packages/reforge/src/collision.ts",
+        "packages/reforge/src/cursor-pure-fixtures.ts",
         "packages/reforge/src/cutscene-controller.ts",
         "packages/reforge/src/debug-tools.ts",
         "packages/reforge/src/deferred-trigger.ts",
@@ -1953,10 +1973,10 @@
         "packages/reforge/src/world-motion-runtime.ts",
         "packages/reforge/src/world-scene-presentation.ts"
       ],
-      "scopeDigest": "16189aab012afb4478b77060f7b830d675f7c6e4a3179ff076a6f537afc81a0f",
+      "scopeDigest": "b4b6875e840b3c0602ef587af488195abaf20bc3dc6d4adb1b6587a5e9c453d1",
       "fastTests": {
-        "testCount": 1783,
-        "testFileCount": 195,
+        "testCount": 1785,
+        "testFileCount": 197,
         "files": [
           "packages/reforge/scripts/battle-trial-assets.test.ts",
           "packages/reforge/scripts/battle-trial-host.test.ts",
@@ -2091,6 +2111,7 @@
           "packages/reforge/src/project-image-cache.test.ts",
           "packages/reforge/src/project-loader.current-boundaries.test.ts",
           "packages/reforge/src/project-loader.test.ts",
+          "packages/reforge/src/project-map.cursor-boundaries.test.ts",
           "packages/reforge/src/project-map.test.ts",
           "packages/reforge/src/project-save-state.test.ts",
           "packages/reforge/src/quantize.test.ts",
@@ -2125,6 +2146,7 @@
           "packages/reforge/src/screen-hold-transaction.test.ts",
           "packages/reforge/src/screen-wave.test.ts",
           "packages/reforge/src/script-activity-lineage.test.ts",
+          "packages/reforge/src/script-chunk-store.cursor-boundaries.test.ts",
           "packages/reforge/src/script-chunk-store.test.ts",
           "packages/reforge/src/script-compiler-core.test.ts",
           "packages/reforge/src/script-confirm-modal.test.ts",
@@ -2821,6 +2843,11 @@
             "identityDigest": "03a51d220090ab67fe990c8525a02c54ca2155cf6be4a7a3df1fff7b67c76bc3"
           },
           {
+            "file": "packages/reforge/src/project-map.cursor-boundaries.test.ts",
+            "testCount": 1,
+            "identityDigest": "c94c39b00658dcd9d6f359631db2076c96d47fbeec4d2b8758190a5923fda66a"
+          },
+          {
             "file": "packages/reforge/src/project-map.test.ts",
             "testCount": 13,
             "identityDigest": "b8e13b799bc97154f695a3d685c4867d2a2d7448f7c330717da3432083042ab4"
@@ -2991,6 +3018,11 @@
             "identityDigest": "ad376436d65fa5daf0bce1e2a3da1136b1b54f3202328adc4aeb4ce1b79a23f5"
           },
           {
+            "file": "packages/reforge/src/script-chunk-store.cursor-boundaries.test.ts",
+            "testCount": 1,
+            "identityDigest": "bc8451f34dd213de72fc9b57749eddc6eb38e08c6bea0cfb07224b79bad47193"
+          },
+          {
             "file": "packages/reforge/src/script-chunk-store.test.ts",
             "testCount": 5,
             "identityDigest": "2ac2b838015eafa43e8aaf15de4ece52342d5c01fc4102d4613b5c40e4d1b4c6"
@@ -3131,26 +3163,26 @@
             "identityDigest": "3cbb8fa95917cb86d7414ee21345af8a1a2a0df2d14066318539861c10b28ed8"
           }
         ],
-        "identityDigest": "2e5661aaa1d06ce733e4115cca4318a48e4586397e32d3d28a3389f6bfc53b40",
+        "identityDigest": "697b21d955b802ba0de6ded06ab83677eacc2d2c3c55e11fcec6004b9d72c9a1",
         "duplicateIdentityCount": 0,
-        "executionDigest": "776a8a218098e295a0babfbeadd7cd0a58ff4a2622d6c8129b0258e550c2ad2a"
+        "executionDigest": "2f2dfcf733ec6611fe3e8ddb54eedcf9978cd2ff00ae10b213798af4e5060eef"
       },
       "metrics": {
         "statements": {
-          "covered": 13320,
-          "total": 17098
+          "covered": 13324,
+          "total": 17099
         },
         "branches": {
-          "covered": 7840,
+          "covered": 7842,
           "total": 11458
         },
         "functions": {
-          "covered": 2191,
-          "total": 2780
+          "covered": 2192,
+          "total": 2781
         },
         "lines": {
-          "covered": 12034,
-          "total": 14924
+          "covered": 12037,
+          "total": 14925
         }
       }
     },
@@ -4631,8 +4663,8 @@
       ],
       "scopeDigest": "e8503db84898429d43f7182fbfa77a13d53933aad0c938380f7918609d7fcb3e",
       "fastTests": {
-        "testCount": 3018,
-        "testFileCount": 356,
+        "testCount": 3020,
+        "testFileCount": 358,
         "files": [
           "packages/editor/scripts/battle-simulator-http.test.mjs",
           "packages/editor/scripts/battle-simulator-ui.test.tsx",
@@ -4669,6 +4701,7 @@
           "packages/editor/src/core/author-save-prefix.test.ts",
           "packages/editor/src/core/author-save-store.test.ts",
           "packages/editor/src/core/battle-data-delete-commands.test.ts",
+          "packages/editor/src/core/battle-data-references.cursor-boundaries.test.ts",
           "packages/editor/src/core/battle-data-references.test.ts",
           "packages/editor/src/core/battle-data-references.wave2.test.ts",
           "packages/editor/src/core/battle-field-commands.glm-boundaries.test.ts",
@@ -4738,6 +4771,7 @@
           "packages/editor/src/core/item-authoring.boundaries.test.ts",
           "packages/editor/src/core/item-authoring.test.ts",
           "packages/editor/src/core/item-commands.test.ts",
+          "packages/editor/src/core/item-references.cursor-boundaries.test.ts",
           "packages/editor/src/core/item-references.test.ts",
           "packages/editor/src/core/load-play-project.test.ts",
           "packages/editor/src/core/locale-commands.test.ts",
@@ -5168,6 +5202,11 @@
             "identityDigest": "17d681e47a9fc9f8ea7bdeda04124f823a995d750a286cf36f6b87afdbbbd452"
           },
           {
+            "file": "packages/editor/src/core/battle-data-references.cursor-boundaries.test.ts",
+            "testCount": 1,
+            "identityDigest": "365f8304af2b08d4833b48d280add69239c748609fa7f08376814d5bea25eff8"
+          },
+          {
             "file": "packages/editor/src/core/battle-data-references.test.ts",
             "testCount": 4,
             "identityDigest": "f4848c64092e27a68c3731ed5add45cee2e9360326d6dfc8de69cd2914c03a09"
@@ -5511,6 +5550,11 @@
             "file": "packages/editor/src/core/item-commands.test.ts",
             "testCount": 13,
             "identityDigest": "3663b56edd37d099b4178600f920d3159c1c54512556aca422266e5968f1645f"
+          },
+          {
+            "file": "packages/editor/src/core/item-references.cursor-boundaries.test.ts",
+            "testCount": 1,
+            "identityDigest": "33fb58da80c64675ffdc48b8d4d2ab9f1fccb78f6e1cd52c7a1a93cf87e00cfd"
           },
           {
             "file": "packages/editor/src/core/item-references.test.ts",
@@ -6773,17 +6817,17 @@
             "identityDigest": "6d9b1e40775d9e105c4ed3770ae488e05c74d354e5c965aae87815ced020c2ff"
           }
         ],
-        "identityDigest": "89b5d78bc86b3bd8e50e7e7aacf79820656adce1cd2303afacba5f100b938de0",
+        "identityDigest": "4ae0d3190b364bac4c22d7a0b7aca6207cb724c7fdc6e4254b0558a9f70b17d0",
         "duplicateIdentityCount": 8,
-        "executionDigest": "d6c5a86b91ea1e16243058b886c21e27c15f0e8b6ac977ae4044801859745140"
+        "executionDigest": "4b2ba392ce79b511ecda687ce87ec06b6a4125824edabe9e954b5256a840db4c"
       },
       "metrics": {
         "statements": {
-          "covered": 26769,
+          "covered": 26770,
           "total": 32892
         },
         "branches": {
-          "covered": 21032,
+          "covered": 21033,
           "total": 28416
         },
         "functions": {
@@ -6791,7 +6835,7 @@
           "total": 8446
         },
         "lines": {
-          "covered": 24016,
+          "covered": 24017,
           "total": 28756
         }
       }
@@ -6799,20 +6843,20 @@
   },
   "total": {
     "statements": {
-      "covered": 64644,
-      "total": 80974
+      "covered": 64652,
+      "total": 80978
     },
     "branches": {
-      "covered": 46610,
-      "total": 63321
+      "covered": 46615,
+      "total": 63323
     },
     "functions": {
-      "covered": 12018,
-      "total": 15237
+      "covered": 12020,
+      "total": 15239
     },
     "lines": {
-      "covered": 58035,
-      "total": 70879
+      "covered": 58041,
+      "total": 70882
     }
   }
 }
