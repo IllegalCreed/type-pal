@@ -63,4 +63,4 @@ C：从 `buildBlankProject` 或已有通过 `assertProjectSaveValid` 的合法 f
 - content 全测：102 files / 1182 tests，exit 0
 - reforge 全测：192 files / 1747 tests 通过；`scripts/battle-trial-host.test.ts` 因 Vite `Denied ID` 解析到主仓 `type-pal/packages/reforge/src/engine-chrome/assets/...` 套件失败（非本包新增）
 - editor 全测：277 files / 2254 tests 通过；84 个 UI 套件同 Vite `Denied ID`；`tests/world-sprite-behavior.pal.test.ts` 2 条因工作树缺 `projects/pal` ENOENT
-- `check:docs`：补导航后应 exit 0；初跑 6 条为 `a/b/c` 缺 README / 未进父导航
+- `check:docs`：704 Markdown / 3810 local links，PASS 0 issues
