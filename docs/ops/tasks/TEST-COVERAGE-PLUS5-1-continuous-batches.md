@@ -175,3 +175,36 @@ Codex明确采用**分支覆盖率绝对增加5个百分点**，已创建本会�
   全仓46,615/63,323=73.61%、fast 9,505项/730源码文件。Codex 本轮自有两批
   +252臂、GLM已接收+157臂、Cursor+5臂，互不冒充；距从46,201/63,315
   起算绝对+2pp的当前阈值47,474/63,323尚差859个已覆盖臂，持续队列仍build。
+
+- 2026-09-27 Codex 自有第三批：[脚本树与当前属性弹窗](../../testing/codex-plus2-ui-wave2/README.md)
+  23 项真实交互/摘要回归、三针负控，生产零改；定向相邻115项、editor TC与
+  Biome零诊断；完整check9,989→官方ratchet→保护8254ce64的单次strict9,528
+  全过。全仓分支 **46,797/63,323=73.90%**，本批+182已覆盖臂、分母不变。
+  Codex 本轮自有三批累计+434B，GLM已接收+157B、Cursor已接收+5B另记；
+  Cursor 新候选424ac428因两处非法/不可达输入正控已counter，未计入。
+  从本轮72.9701%起算的绝对+2pp阈值是47,474/63,323，仍差677B；母卡继续build。
+
+- 2026-09-27 Codex 自有第四批：[合法地图目录与作者表单](../../testing/codex-plus2-ui-wave3/README.md)
+  11项真实工作流、三针；合法 seed→loader→EditSession 地图会话，摆脱旧伪
+  manifest/场景 fixture。相邻147、editor TC/Biome零诊断；全仓check10,000→
+  ratchet→保护561c8af8的单次strict9,539全过。全仓分支
+  **46,811/63,323=73.92%**，本批仅+14B、分母不变，不把旧测试已执行的
+  分支冒记新收益。Codex自有累计+448B；GLM已收口+157B、Cursor已收口+5B
+  分栏。Cursor新候选返工虽已定向绿，未统一集成不计入。距+2pp还差663B，
+  下一批先用逐文件缺口找真实未达分支，不再盲挑同类 UI。
+
+- 2026-09-27 Cursor 内容十六模块返工候选 `f9bfb527` 经 Codex 独立
+  [接收收口](../../testing/cursor-content-pure-wave2/codex-final-review.md)：
+  R1/R2 两项原 counter 闭合，15文件17项、四针。统一check10,017→ratchet→
+  保护ce7c9173的单次strict9,556通过；fast 730源码文件、
+  **46,821/63,323=73.94%**。贡献者单列+10B、分母不变；Codex自有
+  +448B、GLM已接收+157B、Cursor两包共+15B，互不冒充。
+  按当前分母+2pp目标47,474仍差653B，母卡继续build。
+
+- 2026-09-27 Codex 自有第五批：[Reforge 战斗选择与结算](../../testing/codex-plus2-runtime-wave4/README.md)
+  九项真实状态/结算回归、两针；正式技能/物品校验输入、5文件相邻33项、
+  Reforge TC/Biome零诊断。全仓check10,026→ratchet→保护afd93a79
+  的单次strict9,565全过。全仓分支**46,903/63,323=74.07%**，
+  本批+82B、分母不变；Codex自有累计+530B、GLM已接收+157B、
+  Cursor已接收+15B。GLM UI 候选尚未独立接收，不提前计入。
+  距本轮+2pp目标还差571B；母卡继续build。

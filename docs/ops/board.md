@@ -56,9 +56,8 @@ check8896/单次strict8404全过；实际+134分支/+73行，content分支85.55%
 | ID | 任务 | 状态 | 负责人/下一步 | 一句话备注 |
 |---|---|---|---|---|
 | E2E-R4-1 | [路线驱动与检查点薄基线](tasks/E2E-R4-1-route-and-checkpoint-foundation.md) | build | Codex / 001逐页与录制矩阵 | 双引擎开场/检查点通过；李大娘两段对话零位移、前中后三段移动偏序已自动核验，138/103稀疏事件；全视觉/音轨未证 |
-| TEST-COVERAGE-PLUS5-1 | [全仓分支+5pp持续队列](tasks/TEST-COVERAGE-PLUS5-1-continuous-batches.md) | build | Codex / 自主补测+2pp | 全仓73.61%=46615/63323；本轮Codex自补+252B、GLM+157B、Cursor+5B分栏；距本轮全局+2pp目标尚差859B，继续整批 |
-| TEST-GLM-EDITOR-UI-WAVE-1 | [编辑器十二模块交互回归](tasks/TEST-GLM-EDITOR-UI-WAVE-1-twelve-surfaces.md) | build | GLM / U1–U4 整包交付 | 测试/fixture/证据白名单；Codex 接收和官方覆盖门；避开帧编辑 WIP 与 Codex 主壳目标 |
-| TEST-CURSOR-CONTENT-PURE-WAVE-2 | [内容模型十六模块纯逻辑回归](tasks/TEST-CURSOR-CONTENT-PURE-WAVE-2-sixteen-modules.md) | build | Cursor / C1–C4 整包交付 | 当前合法输入与四组业务反控；Codex 接收和官方覆盖门；fixture 限 __tests__ |
+| TEST-COVERAGE-PLUS5-1 | [全仓分支+5pp持续队列](tasks/TEST-COVERAGE-PLUS5-1-continuous-batches.md) | build | Codex / 自主补测+2pp | 全仓74.07%=46903/63323；本轮Codex自补+530B、GLM已接收+157B、Cursor已接收+15B分栏；GLM UI 候选未计，距+2pp目标尚差571B |
+| TEST-GLM-EDITOR-UI-WAVE-1 | [编辑器十二模块交互回归](tasks/TEST-GLM-EDITOR-UI-WAVE-1-twelve-surfaces.md) | rework | GLM / 合法项目输入与视觉证据同批修 | 39项/四针机械绿，但 U1–U4 正控存在伪项目/强转，截图均为资产加载失败；暂不集成 |
 | TEST-CODEX-FRAME-EDITOR-1 | [帧动画编辑工作流](tasks/TEST-CODEX-FRAME-EDITOR-1-current-workflows.md) | build | Codex / 暂停保留WIP | 未完成测试不计覆盖，不删除现场 |
 | EDITOR-SCENE-FACING-1 | [切场景朝向清除](tasks/EDITOR-SCENE-FACING-1-clear-override.md) | draft | Codex / 后续窄修 | 保持选项仍提交旧方向；真实红诊断+单点oracle已证 |
 | EDITOR-PREVIEW-STEP-1 | [预览单步阶段门](tasks/EDITOR-PREVIEW-STEP-1-command-gates.md) | draft | Codex / 后续窄修 | 当前入口首次step无命令执行，红诊断已落，不随补测关闭 |

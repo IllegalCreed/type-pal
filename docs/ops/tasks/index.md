@@ -14,8 +14,7 @@
 | [EDITOR-SCENE-FACING-1 — 切场景指令无法清除显式朝向](EDITOR-SCENE-FACING-1-clear-override.md) | draft | 以任务卡当前准入与看板分工为准。 |
 | [TEST-CODEX-FRAME-EDITOR-1 — 当前帧动画编辑五组工作流](TEST-CODEX-FRAME-EDITOR-1-current-workflows.md) | build | 以任务卡当前准入与看板分工为准。 |
 | [TEST-COVERAGE-PLUS5-1 — 全仓分支覆盖率连续提升五个百分点](TEST-COVERAGE-PLUS5-1-continuous-batches.md) | build | 以任务卡当前准入与看板分工为准。 |
-| [TEST-CURSOR-CONTENT-PURE-WAVE-2 — 内容模型十六模块纯逻辑回归](TEST-CURSOR-CONTENT-PURE-WAVE-2-sixteen-modules.md) | build | 以任务卡当前准入与看板分工为准。 |
-| [TEST-GLM-EDITOR-UI-WAVE-1 — 编辑器十二模块交互回归](TEST-GLM-EDITOR-UI-WAVE-1-twelve-surfaces.md) | build | 以任务卡当前准入与看板分工为准。 |
+| [TEST-GLM-EDITOR-UI-WAVE-1 — 编辑器十二模块交互回归](TEST-GLM-EDITOR-UI-WAVE-1-twelve-surfaces.md) | rework | 以任务卡当前准入与看板分工为准。 |
 
 ## 已完成（historical）
 
@@ -188,6 +187,7 @@
 | [TEST-COVERAGE-DETERMINISM-1 - 编辑器覆盖率计数确定性](../archive/tasks/done/TEST-COVERAGE-DETERMINISM-1-editor-ratchet.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [TEST-COVERAGE-TRUTH-1 - 类初始化覆盖率合并真值修复](../archive/tasks/done/TEST-COVERAGE-TRUTH-1-class-initializers.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [TEST-CURSOR-COMMAND-BOUNDARIES-3 — 八组编辑命令行为残项](../archive/tasks/done/TEST-CURSOR-COMMAND-BOUNDARIES-3-editor-residuals.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [TEST-CURSOR-CONTENT-PURE-WAVE-2 — 内容模型十六模块纯逻辑回归](../archive/tasks/done/TEST-CURSOR-CONTENT-PURE-WAVE-2-sixteen-modules.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [TEST-CURSOR-MAP-LOGIC-2 — 地图与组合块纯逻辑六组补测](../archive/tasks/done/TEST-CURSOR-MAP-LOGIC-2-selection-stamps.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [TEST-CURSOR-PURE-WAVE-1 — 三包十二模块纯逻辑回归](../archive/tasks/done/TEST-CURSOR-PURE-WAVE-1-twelve-modules.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [TEST-CURSOR-TOOLS-1 — 八组工具纯函数候选回归](../archive/tasks/done/TEST-CURSOR-TOOLS-1-pure-regressions.md) | done | 完成证据、历史签字与交接见原卡。 |

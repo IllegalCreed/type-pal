@@ -1,6 +1,6 @@
 # TEST-CURSOR-CONTENT-PURE-WAVE-2 — 内容模型十六模块纯逻辑回归
 
-Status: build
+Status: done
 Owner: Cursor（隔离工作树内唯一测试 Coding Owner）
 Reviewer / Integration Owner: Codex
 Phase: phase2
@@ -34,7 +34,7 @@ Codex 核准 **build allowed**：只对当前 canonical 内容模型的现行公
   不作为生产源码进入官方统计）。回执/负控工具仅在
   `docs/testing/cursor-content-pure-wave2/**`；可在本卡末尾追加 Cursor 交付块。
   不碰旧测试、产品、构建脚本、基线、索引和看板。
-- 上轮 [A01–A03/B04 接收](../../testing/cursor-pure-wave/codex-final-review.md)的
+- 上轮 [A01–A03/B04 接收](../../../../testing/cursor-pure-wave/codex-final-review.md)的
   非法错桶/无消费者、伪 deflate 与 fixture 入源码清单教训必须保留；不重测刚收口
   的 `frame-sequence.cursor-boundaries`、`item.cursor-boundaries` 同一业务臂。
   GLM 只做 editor UI；Codex 保留主壳/地图 UI/脚本编辑器/战斗主链/E2E 目标。
@@ -59,9 +59,9 @@ Codex 独立审断言/负控并集成后统一串行执行。Cursor 自验不能
 
 ## 上下文锚点与当前模式记录
 
-- [`AGENTS.md`](../../../AGENTS.md)、[`CLAUDE.md`](../../../CLAUDE.md)、
-  [二阶段 READ-FIRST](../../phase2/READ-FIRST.md)、上述目标同名及相邻旧测试、
-  [覆盖率持续队列](TEST-COVERAGE-PLUS5-1-continuous-batches.md)。
+- [`AGENTS.md`](../../../../../AGENTS.md)、[`CLAUDE.md`](../../../../../CLAUDE.md)、
+  [二阶段 READ-FIRST](../../../../phase2/READ-FIRST.md)、上述目标同名及相邻旧测试、
+  [覆盖率持续队列](../../../tasks/TEST-COVERAGE-PLUS5-1-continuous-batches.md)。
 - 2026-09-27 Codex：已核十六源码文件存在并暴露现行纯逻辑/验证入口，
   与 GLM 十二 UI 模块零目标交集。最强反例为旧套件已证、生产 guard 不收测试
   fixture 或导出无消费者；逐模块账、正式正控和红针必须区分这些情形。
@@ -71,3 +71,33 @@ Codex 独立审断言/负控并集成后统一串行执行。Cursor 自验不能
 ## 下一位 Agent 提示词
 
 见 Codex 当次交接消息；以本卡最终 main 版本为准，不从聊天复述代替读卡。
+
+## Codex 首轮独立接收（2026-09-27）
+
+候选 `424ac428809041081a00998ef574c7da1e770ecd` 暂签 **counter / rework**。
+定向筛选26/26（含本包18新例）、content typecheck 0、17文件 Biome 0、四针
+候选自身业务红均已由 Codex 复跑；白名单外无产品改动。但 C3 两条直接反证见
+[独立接收记录](../../../../testing/cursor-content-pure-wave2-codex-review.md)：
+`applyLevelGrowth(levels<=0)` 的三个现行生产调用域均不可传该输入，故该新例
+与 c3 针不能算当前业务覆盖；`drawFromResourcePool` 的 reward ID 没有加入
+items map，正式引用闭包会拒绝该正控。其余已核项不重开，Cursor 仅修这两点。
+本候选不合 main、不标 done；完整全仓门/官方覆盖率待独立接收后再执行。
+
+## Cursor 交付
+
+作者自验见 [十六行账](../../../../testing/cursor-content-pure-wave2/README.md)。不合 main，不改 Status。
+R1：撤回 `applyLevelGrowth(0/-3/0.9)` 的「当前可达业务」归因与原 c3 针；c3 改打 `grantBattleRewards` 死者 hiddenCounts 存活门。
+R2：资源池 `reward` 补真实物品记录，先过 `validateItems` 与 `validateReferences` 再断言使用结果。
+其余已核组不重开。四针均为目标新测自身 `AssertionError`、`redExit=1`、源 hash 未变。
+真实缺陷：无。
+
+## Codex 最终独立接收与收口（2026-09-27）
+
+返工候选 `f9bfb527` **accept**，R1/R2 按原反证闭合；
+[最终接收记录](../../../../testing/cursor-content-pure-wave2/codex-final-review.md)
+逐项列输入、负控及统一门禁。15新增测试文件17项、四针业务红；
+content全包1198、typecheck/Biome零诊断。隔离集成后串行
+`pnpm check`10,017→官方ratchet→保护`ce7c9173`的单次strict9,556均通过，
+官方fast 730源码文件、分支46,821/63,323；相对接收前+10已覆盖臂、
+分母不变。Cursor 是测试贡献者，作者自验不替代 Codex 独立验收；
+当前委派模式下不等固定三席。本卡 done，不关闭母卡的 +2pp 剩余目标。
