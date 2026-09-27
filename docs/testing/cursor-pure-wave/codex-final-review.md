@@ -17,7 +17,7 @@
 本人复跑 content 3/3、reforge 2/2、editor 2/2；三包 `tsc --noEmit` 均 exit0；
 11改动代码文件 Biome 0；`module-mutants.mjs` 的 a01/a03/b03/b04/c01/c02
 六针对照绿、指定 fullName 的候选自身 `AssertionError` 红、退出码1、源 hash 未变，
-判据自测亦通过。`git diff c442dcb7..候选` 仅测试/fixture/回执/负控工具，
+判据自测亦通过。`git diff 4c1539bf..bd8876e4`（候选自身相对起点）仅测试/fixture/回执/负控工具，
 无生产源码、旧测试或覆盖配置改动。
 
 隔离集成后串行门禁：`pnpm check` exit0（9,966项，lint 2,309文件零问题）→
