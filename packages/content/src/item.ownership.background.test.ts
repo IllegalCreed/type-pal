@@ -12,6 +12,7 @@
 import { describe, expect, test } from 'vitest'
 import { deepSnapshot } from './__tests__/glm-content-contract-fixtures.js'
 import { expectInputsUnchanged, hero, world } from './__tests__/glm-item-logic-fixtures.js'
+import { expectExactError } from './__tests__/guard-leaf-fixtures.js'
 import type { WorldState } from './character.js'
 import { ownedItemCount, removeOwnedItems, worldResourceValue } from './item.js'
 
@@ -107,7 +108,11 @@ describe('I4 ownedItemCount / worldResourceValue 残差', () => {
   test('空键恰抛；collectValue 缺省回退 0；resources 命中返回', () => {
     const w = world([])
     const wBefore = deepSnapshot(w)
-    expect(() => worldResourceValue(w, '  ')).toThrow('worldResourceValue: 资源键不能为空')
+    {
+      const beforeEmpty = deepSnapshot(w)
+      expectExactError(() => worldResourceValue(w, '  '), 'worldResourceValue: 资源键不能为空')
+      expect(w).toEqual(beforeEmpty)
+    }
     expect(w).toEqual(wBefore)
     let collect = 0
     expectInputsUnchanged(() => {
@@ -125,15 +130,25 @@ describe('I4 ownedItemCount / worldResourceValue 残差', () => {
   test('负数/非整数资源值恰抛且信息含键名（每次调用前后快照）', () => {
     const negative: WorldState = { ...world([]), resources: { herb: -1 } }
     const negativeBefore = deepSnapshot(negative)
-    expect(() => worldResourceValue(negative, 'herb')).toThrow(
-      'worldResourceValue: 资源 "herb" 必须是非负安全整数',
-    )
+    {
+      const negSnap = deepSnapshot(negative)
+      expectExactError(
+        () => worldResourceValue(negative, 'herb'),
+        'worldResourceValue: 资源 "herb" 必须是非负安全整数',
+      )
+      expect(negative).toEqual(negSnap)
+    }
     expect(negative).toEqual(negativeBefore)
     const fractional: WorldState = { ...world([]), resources: { herb: 1.5 } }
     const fractionalBefore = deepSnapshot(fractional)
-    expect(() => worldResourceValue(fractional, 'herb')).toThrow(
-      'worldResourceValue: 资源 "herb" 必须是非负安全整数',
-    )
+    {
+      const fracSnap = deepSnapshot(fractional)
+      expectExactError(
+        () => worldResourceValue(fractional, 'herb'),
+        'worldResourceValue: 资源 "herb" 必须是非负安全整数',
+      )
+      expect(fractional).toEqual(fracSnap)
+    }
     expect(fractional).toEqual(fractionalBefore)
   })
 })

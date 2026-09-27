@@ -9,7 +9,10 @@
     "frozenEvidence": "docs/testing/background-tests-20260927/targets.json（item.ts 221/326B，105 未命中臂仅选题）",
     "r2CounterBy": "docs/testing/item-logic-r1-review.md @ c293e8b0（origin/main）",
     "r3CounterBy": "docs/testing/item-logic-r2-review.md @ d502daf4（origin/main）",
-    "r4CounterBy": "docs/testing/item-logic-r3-review.md（origin/main）"
+    "r4CounterBy": "docs/testing/item-logic-r3-review.md（origin/main）",
+    "r5CounterBy": "docs/testing/item-logic-r5-review.md（origin/main）",
+    "r6CounterBy": "docs/testing/item-logic-r6-review.md（origin/main）",
+    "r7CounterBy": "docs/testing/item-logic-r7-review.md（origin/main）"
   },
   "newFiles": [
     "packages/content/src/item.derived.background.test.ts",
@@ -106,18 +109,33 @@
           "result": "ownership worldResourceValue 恰抛路径 before/after 快照后候选红"
         }
       ]
+    },
+    "r4r5Verification": {
+      "note": "Codex r4 required gate 复跑",
+      "gate": "candidateMutationGate=true, missed=[]",
+      "eightPins": [
+        "growth-no-op",
+        "drop-unrelated-inventory",
+        "drop-external-money",
+        "learned-input-mutation",
+        "throw-input-mutation",
+        "drop-equipped-usable",
+        "growth-extra-rng",
+        "drop-external-hp"
+      ],
+      "r3ResidualPins": ["growth-extra-rng", "drop-external-hp"]
     }
   },
   "gates": {
-    "directed": "六文件 46/46 exit 0（新鲜 JSON）",
+    "directed": "六文件 46/46 exit 0",
     "adjacent": "item.test.ts 51 项绿；reforge item-use-executor 17 项绿",
-    "contentSuite": "98 文件 1178/1178 exit 0（新鲜 JSON /tmp/item-logic-r4-content.json；净增恰 46 行测试身份）",
+    "contentSuite": "98 文件 1178/1178 exit 0（新鲜 JSON /tmp/item-logic-final.json）",
     "typecheck": "exit 0",
-    "biome": "本批改动九文件 0 error 0 warning；全 src 另有 runtime-script.ts:146 既有 noUnusedVariables 属分支继承（生产零 diff 可证）",
+    "biome": "改动文件 0 error 0 warning 0 info；全 src runtime-script.ts:146 既有 noUnusedVariables warning 属分支继承",
     "docs": "PASS；git diff --check 干净",
     "notRun": "全仓 check/coverage、E2E、主树操作"
   },
   "productDefects": "未发现疑似产品缺陷，无需诊断。不可达臂如实不测：assertNever 防御、preflight 后物品消失、外部三 kind/非携带态错分支、drawFromResourcePool 档位越界（roll 基于 maxRoll 恒在档内）、setWorldResourceValue/changeInventory 私有负 delta。锁绿现状合同：resolve 混链失败须 rawItem 载体；consuming 计入 changed（零变化行用 consuming:false 隔离）；permanentStatBoost delta 0 非法，钳位零变化用 maxHP=1 + delta=-1 表达。",
   "handoff": "不合 main、不标 done；候选 SHA 见卡内作者交付块，交 Codex 独立验收。",
-  "round": "r4 rework（r3 候选 598777cf 被 counter 仅 R2/RNG次数+完整world、R3 learned/抛错/poisonDefs 具名、R4 勘误；本文件按闭合后最终树更新）"
+  "round": "r7 rework（r6 候选 37027b2d 后 Codex r6 review 指出六 tuple 不符/三toThrow子串/helper多余参数/回执勘误；本文件按闭合后最终树更新）"
 }

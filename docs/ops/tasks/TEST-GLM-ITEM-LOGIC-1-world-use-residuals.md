@@ -103,4 +103,12 @@ Branch: `codex/glm-item-logic-r1`
   receipt I2=8/净增 46/1178/针名 resolve-stopped-skip/类别勘误、evidence fullName 无省略号、
   头注释旧宣称收窄。复验：定向 46/46、全 content **98 文件 1178/1178**、TC 0、改动 Biome 0/0/0、
   docs PASS、diff --check 干净、6 针全绿。八针 required gate candidateMutationGate=true。
+- r7 定点收口（2026-09-27，仅 r6 review 残余六 tuple/三 throw/helper 恢复/R4 勘误，
+  见 origin/main `docs/testing/item-logic-r6-review.md` 及 `item-logic-r7-review.md`）：
+  六 tuple 改为实际消费对象（replayItems/aliveItems/tierItems/plainItems/floorItems/battleItems）；
+  ownership 三条 toThrow 改 expectExactError 完整等值+before/after deepSnapshot；
+  helper 恢复无条件 run()（撤回多余 value 参数）；回执/机账/README 计数 46/1178、
+  相邻 51、针名 resolve-stopped-skip、类别派生数值/停表门/引用选择、fullName 无省略号全同步。
+  复验：定向 46/46、八针 required gate candidateMutationGate=true/missed=[]、
+  6 针负控全绿、全 content **98 文件 1178/1178**、TC 0、改动 Biome 0/0/0、docs PASS、diff --check 干净。
   候选 SHA：见本分支头部提交；不合 main、不标 done，交 Codex 独立验收。

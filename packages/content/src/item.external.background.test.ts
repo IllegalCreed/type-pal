@@ -134,7 +134,7 @@ describe('I6 completeExternalWorldItemUse 残差', () => {
       let returned: WorldState | undefined
       expectInputsUnchanged(() => {
         returned = useItem(w, 'hero', 'battleOnly', battleItems)
-      }, [w])
+      }, [w, battleItems])
       expect(returned).toBe(w)
       expect(w.inventory).toEqual([{ itemId: 'battleOnly', count: 1 }])
     })

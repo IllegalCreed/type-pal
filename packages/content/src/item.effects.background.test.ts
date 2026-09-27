@@ -141,7 +141,7 @@ describe('I5 效果链与门', () => {
     }
     expectInputsUnchanged(() => {
       outcome = resolveWorldItemUse(replay, 'hero', 'use-item', replayItems)
-    }, [replay, items])
+    }, [replay, replayItems])
     expect(outcome?.changed).toBe(false)
     expect(outcome?.world).toBe(replay)
   })
@@ -170,7 +170,7 @@ describe('I5 目标类效果残差', () => {
     }
     expectInputsUnchanged(() => {
       outcome = resolveWorldItemUse(alive, 'hero', 'use-item', aliveItems)
-    }, [alive, items])
+    }, [alive, aliveItems])
     expect(outcome?.changed).toBe(false)
     expect(outcome?.world).toBe(alive)
   })
@@ -198,7 +198,7 @@ describe('I5 目标类效果残差', () => {
     }
     expectInputsUnchanged(() => {
       outcome = resolveWorldItemUse(defsMissing, 'hero', 'use-item', tierItems)
-    }, [defsMissing, items])
+    }, [defsMissing, tierItems])
     expect(outcome?.changed).toBe(false)
     expect(outcome?.world).toBe(defsMissing)
     const unknownPoison = {
@@ -250,7 +250,7 @@ describe('I5 目标类效果残差', () => {
     }
     expectInputsUnchanged(() => {
       outcome = resolveWorldItemUse(plain, 'hero', 'use-item', plainItems)
-    }, [plain, items])
+    }, [plain, plainItems])
     expect(outcome?.changed).toBe(false)
     expect(outcome?.world).toBe(plain)
   })
@@ -287,7 +287,7 @@ describe('I5 目标类效果残差', () => {
     }
     expectInputsUnchanged(() => {
       outcome = resolveWorldItemUse(floored, 'hero', 'use-item', floorItems)
-    }, [floored, items])
+    }, [floored, floorItems])
     expect(outcome?.changed).toBe(false)
     expect(floored.party[0]?.maxHP).toBe(1)
     expect(outcome?.world).toBe(floored)
