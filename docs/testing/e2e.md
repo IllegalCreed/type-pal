@@ -69,8 +69,9 @@ AI仅参与开发/路线校准/失败诊断；运行时不调用模型，不等A
 
 历史准入核对见[前置欠账台账](pre-e2e-admission.md)（2026-09-21）。现有卡done与CI绿不构成R4自动准入；
 2026-09-27已建[R4准备卡](../ops/tasks/E2E-R4-1-route-and-checkpoint-foundation.md)与[路线方案讨论稿](e2e-route-proposal.md)，
-003～010作者边界、runner与连续checkpoint仍待建设。迁移写盘保护已收口，不借此改变既定版本顺序。
-用户本次将Codex从主动补覆盖转为E2E讨论；GLM/Cursor后台补测不阻塞本轮讨论，尚未授权实现加速旁路。
+003～010作者边界与连续checkpoint仍待建设；[001一阶段首批runner](e2e-001.md)已准入，
+采用正常输入与正式存读档，不包含二阶段对话适配或全量NPC事件时序。迁移写盘保护已收口，不改变版本顺序。
+用户本次将Codex从主动补覆盖转为E2E；GLM/Cursor后台补测不阻塞，尚未授权实现加速旁路。
 
 ### 已登记的商店创作工作流（ED-SHOP-LIFECYCLE-1）
 
