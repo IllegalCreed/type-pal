@@ -1,14 +1,14 @@
 {
   "schemaVersion": 2,
   "profile": "fast",
-  "generatedAt": "2026-09-27T03:33:12.012Z",
+  "generatedAt": "2026-09-27T05:08:17.150Z",
   "provider": {
     "name": "v8",
     "vitest": "4.1.7",
     "coverageV8": "4.1.7"
   },
   "sourceFileCount": 728,
-  "testCount": 9301,
+  "testCount": 9341,
   "packages": {
     "shared": {
       "name": "@type-pal/shared",
@@ -4595,8 +4595,8 @@
       ],
       "scopeDigest": "e8503db84898429d43f7182fbfa77a13d53933aad0c938380f7918609d7fcb3e",
       "fastTests": {
-        "testCount": 2886,
-        "testFileCount": 340,
+        "testCount": 2926,
+        "testFileCount": 344,
         "files": [
           "packages/editor/scripts/battle-simulator-http.test.mjs",
           "packages/editor/scripts/battle-simulator-ui.test.tsx",
@@ -4865,8 +4865,11 @@
           "packages/editor/src/ui/SceneCanvas.test.tsx",
           "packages/editor/src/ui/SceneScriptWorkspace.test.tsx",
           "packages/editor/src/ui/ScriptBehaviorInspector.test.tsx",
+          "packages/editor/src/ui/ScriptEditor.coverage-batch.test.tsx",
+          "packages/editor/src/ui/ScriptEditor.inparty-condition.test.tsx",
           "packages/editor/src/ui/ScriptEditor.test.tsx",
           "packages/editor/src/ui/ScriptSceneHookInspector.test.tsx",
+          "packages/editor/src/ui/ScriptTree.coverage-batch.test.tsx",
           "packages/editor/src/ui/ScriptTree.test.ts",
           "packages/editor/src/ui/SharedScriptTab.test.tsx",
           "packages/editor/src/ui/ShopTab.test.tsx",
@@ -4921,6 +4924,7 @@
           "packages/editor/src/ui/editor-target.test.ts",
           "packages/editor/src/ui/enemy-defeated-events-boundary.test.mjs",
           "packages/editor/src/ui/enemy-defeated-events.boundaries.test.ts",
+          "packages/editor/src/ui/enemy-defeated-events.coverage-batch.test.ts",
           "packages/editor/src/ui/enemy-defeated-events.test.ts",
           "packages/editor/src/ui/map-pointer-gesture-session.test.tsx",
           "packages/editor/src/ui/map-selection-overlay.test.ts",
@@ -6276,6 +6280,16 @@
             "identityDigest": "35527a173d5356c12b29b2e31ec29e3d505a15fdaa01ea1f632c0be55b0cc2e0"
           },
           {
+            "file": "packages/editor/src/ui/ScriptEditor.coverage-batch.test.tsx",
+            "testCount": 18,
+            "identityDigest": "f40a56176413e362aa733efea3ed55cf2fafd6208b47fbe531db916ffb5bc7e3"
+          },
+          {
+            "file": "packages/editor/src/ui/ScriptEditor.inparty-condition.test.tsx",
+            "testCount": 1,
+            "identityDigest": "6c93b1c43906ef1391c5fcb3825e341da0c2f3f3cfb42f06b61bcc282263e93f"
+          },
+          {
             "file": "packages/editor/src/ui/ScriptEditor.test.tsx",
             "testCount": 24,
             "identityDigest": "38c307d82ddacaf66f54fe74fe858f50cd3a01a29224f90d819ffca7d67dab73"
@@ -6284,6 +6298,11 @@
             "file": "packages/editor/src/ui/ScriptSceneHookInspector.test.tsx",
             "testCount": 3,
             "identityDigest": "02bc750c25ec4b7f666d2df5f17c84eac478f88a2ce4b5df0bea4b776ef742eb"
+          },
+          {
+            "file": "packages/editor/src/ui/ScriptTree.coverage-batch.test.tsx",
+            "testCount": 5,
+            "identityDigest": "681f05080ef53fae32b34fad3260989069f121515865d2a1c45788a755ba5dba"
           },
           {
             "file": "packages/editor/src/ui/ScriptTree.test.ts",
@@ -6556,6 +6575,11 @@
             "identityDigest": "e8566e7785cec3655a48569f8ba11e0dbc3d35614910defd08aa3a4400b521a6"
           },
           {
+            "file": "packages/editor/src/ui/enemy-defeated-events.coverage-batch.test.ts",
+            "testCount": 16,
+            "identityDigest": "e2bd11ba6d17f5b2191e317067a5f548cbd860f47efb5ee8d8bf8589ff46979e"
+          },
+          {
             "file": "packages/editor/src/ui/enemy-defeated-events.test.ts",
             "testCount": 22,
             "identityDigest": "4c4fd0d9fd7cf134b9e718f9f5522ff33e7a932a09be73bd92e3b248833f1ee7"
@@ -6641,46 +6665,46 @@
             "identityDigest": "6d9b1e40775d9e105c4ed3770ae488e05c74d354e5c965aae87815ced020c2ff"
           }
         ],
-        "identityDigest": "1d852091bf5fa4914f01f6ceb243d9d98865521d8fc9f95e6b30a8e40917e01c",
+        "identityDigest": "b124ea8ab5613c4f2fd23718baab757f2d5e1d6e2eaef155dfa3e36d41ad6d20",
         "duplicateIdentityCount": 8,
-        "executionDigest": "3e8b8fef21bc125022c9efc50ecde75d885b3fa6283a273475df678c9aeb1a9d"
+        "executionDigest": "1f379d1273cd834d6d3573fae24f83294b4c6f03145568d157365e9fff455baf"
       },
       "metrics": {
         "statements": {
-          "covered": 26593,
-          "total": 32890
+          "covered": 26686,
+          "total": 32892
         },
         "branches": {
-          "covered": 20711,
-          "total": 28410
+          "covered": 20903,
+          "total": 28416
         },
         "functions": {
-          "covered": 6694,
-          "total": 8444
+          "covered": 6716,
+          "total": 8446
         },
         "lines": {
-          "covered": 23907,
-          "total": 28754
+          "covered": 23998,
+          "total": 28756
         }
       }
     }
   },
   "total": {
     "statements": {
-      "covered": 64315,
-      "total": 80972
+      "covered": 64408,
+      "total": 80974
     },
     "branches": {
-      "covered": 46201,
-      "total": 63315
+      "covered": 46393,
+      "total": 63321
     },
     "functions": {
-      "covered": 11961,
-      "total": 15235
+      "covered": 11983,
+      "total": 15237
     },
     "lines": {
-      "covered": 57806,
-      "total": 70877
+      "covered": 57897,
+      "total": 70879
     }
   }
 }

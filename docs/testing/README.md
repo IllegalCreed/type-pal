@@ -38,6 +38,7 @@
 - [GLM物品六组独立接收](item-logic-r1-review.md)（705eb161，六漏检反证/夹具与回执R1–R4）。
 
 - [001双引擎独立执行器](e2e-001.md)（正常新局、各自真实结束档/新上下文读回；同时运行并核李大娘两段对话静止/移动偏序，全角色与录制矩阵未完成）。
+- [Codex脚本展示补覆盖首批](codex-plus2-ui.md)（已核当前编辑器三源码 +192 分支；队伍成员条件选择器另卡修复，累计 +2pp 目标继续）。
 - [快速通关E2E路线方案](e2e-route-proposal.md)（2026-09-27既定范围；首批001已进入实现）。
 - [GLM/Cursor后台补测两包](background-tests-20260927/README.md)（冻结目标与可转发提示词）。
 - [Cursor三包十二模块纯逻辑补测](cursor-pure-wave/README.md)（当前 build；与 GLM 命令族和001 E2E 无目标重叠，Codex 独立接收）。

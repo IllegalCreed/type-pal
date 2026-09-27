@@ -7,7 +7,7 @@ Visual Verification Timing: N/A（本卡是测试队列，不以数字替代视�
 
 ## 用户目标与准入
 
-**2026-09-27优先级调整（当前有效）**：用户要求GLM/Cursor继续补测，Codex停止主动推进覆盖率，
+**2026-09-27当时的优先级调整（下方最新裁决已更新）**：用户要求GLM/Cursor继续补测，Codex停止主动推进覆盖率，
 转入[E2E路线方案讨论](E2E-R4-1-route-and-checkpoint-foundation.md)。母目标暂停主动扩展，不标done；
 当前72.97%/按现分母数学差477分支，不作为E2E开工门槛。仅接收已委派测试及必要集成门禁。
 2026-09-27同步Cursor地图六组+21B（check9741/strict9249）；QUALITY-ZERO的5B分母退役单列不计补测贡献。
@@ -15,6 +15,34 @@ Visual Verification Timing: N/A（本卡是测试队列，不以数字替代视�
 实际+85B/+43L；全仓46152/63283，生产与分母及其它六包对象不变。主动扩展暂停不变，母目标未完成。
 001观测实施随后新增49已覆盖分支/32分母，当前46201/63315、strict9301；该生产增量单列，不计入GLM或主动补测贡献。
 下方“持续推进/不等待”是历史工作节奏，不能覆盖本次用户暂停要求。
+
+**2026-09-27最新裁决：用户要求 Codex 自己也推进覆盖率，争取在当前口径上再提高至少2个百分点。**
+主动补测从本条恢复；001 E2E 已有独立脚本，不借本卡修改剧情或动作时序。当前官方fast
+分支 46,201/63,315 = 72.97%，同分母下 +2pp 至少要到 47,468/63,315（净增 1,267 个
+已覆盖分支），目标74.97%。若正当源变更导致分母变化，分别披露绝对百分点与分子/分母，
+不得改 testSelection/exclude 或删生产代码凑比例。
+
+首批 Codex 独立范围：编辑器现行脚本展示/命令表单的真实消费者
+`ui/ScriptTree.tsx`、`ui/ScriptEditor.tsx`、`ui/MapMode.tsx`、`ui/command-form-{control,world,dialogue}.tsx`，
+并包含 EnemyTab/EnemyTeamTab 的当前纯展示消费者 `ui/enemy-defeated-events.ts`；
+只在同目录新增 `*.coverage-batch.test.tsx`，并允许对
+`ui/__tests__/command-form-current-fixture.ts` 作保持旧行为默认值的薄入口扩展；
+沿用当前合法命令、真实 React 渲染/输入与既有引用
+catalog，完整比较业务输出/非目标输入，已有旧测去重。先做多组定向再统一官方覆盖，
+不逐用例反复跑全仓统计。与 Cursor 的十二个 content/reforge/editor-core 目标和 GLM 的十六个
+菜单/命令目标源码均不重叠，主树两份帧编辑 WIP 零触碰。若目标已由现有测试证毕则换题，不堆同例。
+本批测试不改产品/资产/旧测试/官方配置或基线；最终由 Codex 做完整check→ratchet→受保护strict-fast。
+
+首批实测：`ScriptTree` +89B、`ScriptEditor` +80B、`enemy-defeated-events` +23B，
+合计 +192 已覆盖臂；修复 `inParty` 选择器使 `ScriptEditor` 分母 +6。官方fast从
+46,201/63,315（72.9701%）到 **46,393/63,321（73.2664%）**，本席 +0.2963pp。
+按原基点再增 2pp 的当前分母目标为 47,472/63,321，**尚差 1,079 臂**。
+四个新增回归文件40项；完整check 9,833项、所有包TC零诊断、严格lint 2,276文件零错误/警告/信息；
+官方ratchet与受保护76c6f5be的单次strict-fast 9,341项/728生产文件通过。
+产品缺口「队伍成员条件无角色选择」以独立业务红证实，按
+[修复卡](../archive/tasks/done/EDITOR-CONDITION-INPARTY-1-actor-picker.md)闭合；
+不将该产品修复的6个新增分母隐去。细账见[首批回执](../../testing/codex-plus2-ui.md)。
+母卡仍build，+2pp和原+5pp均未达，继续自主大批补测。
 
 2026-09-26用户要求给GLM新任务，并设置整体覆盖率提升约5%的目标、持续推进。
 Codex明确采用**分支覆盖率绝对增加5个百分点**，已创建本会话持续目标；未设置token预算。
