@@ -1,0 +1,126 @@
+{
+  "batch": "a",
+  "hashes": {
+    "src/ui/design-system/select.tsx": "47d56c4e197776f37057dc1b3542c70821c12a62eaedd6800a9bf5ffcdebbdf5",
+    "src/ui/design-system/multi-select.tsx": "9d143ad34bed199e92ff15005d5d72beb812dc073bbabf2e5c08e90d41c3b1e1",
+    "src/ui/design-system/number-inputs.tsx": "e63a5f3ff972146b6b21b2f709e79c18bd0ac60d09658108ee522fd5e1c361fc",
+    "src/ui/design-system/draft-input-state.ts": "659a41a4dbbf3d90c203c7bd24c9bfbb90fb5f48d5d9d6eadfc554b2b05f058f",
+    "src/ui/design-system/list-header.tsx": "f91ec8407248daba9acec46d7e7b346adc27f238c096a3cfd2870419c4af5982",
+    "src/ui/design-system/media.tsx": "b5bc2f9ad3837fbb52db130307d02f355dcea7eb90307583ff42fbaaca3b75cf"
+  },
+  "selfTest": [
+    {
+      "id": "valid-red",
+      "expectReject": false,
+      "rejected": false,
+      "violations": []
+    },
+    {
+      "id": "same-message-mixed-error",
+      "expectReject": true,
+      "rejected": true,
+      "violations": [
+        "mixed non-business error: AssertionError: expected business rejection\nTypeError: environment broken"
+      ]
+    },
+    {
+      "id": "assertion-prefixed-timeout",
+      "expectReject": true,
+      "rejected": true,
+      "violations": [
+        "timeout treated as red: AssertionError: test timed out"
+      ]
+    },
+    {
+      "id": "additional-unrelated-red",
+      "expectReject": true,
+      "rejected": true,
+      "violations": [
+        "failed 2, expected exactly 1"
+      ]
+    },
+    {
+      "id": "wrong-fullname-red-with-intended-green",
+      "expectReject": true,
+      "rejected": true,
+      "violations": [
+        "red fullName \"different group select-all keeps prior values, follows the filter and never adds disabled options\" != \"DsMultiSelect 剩余合同 select-all keeps prior values, follows the filter and never adds disabled options\""
+      ]
+    },
+    {
+      "id": "foreign-file-same-suffix",
+      "expectReject": true,
+      "rejected": true,
+      "violations": [
+        "red file /different-candidate-root/packages/editor/src/ui/design-system/multi-select.glm-leaf-wave.test.tsx != /Users/zhangxu/.codex/worktrees/glm-leaf-workflows/type-pal/packages/editor/src/ui/design-system/multi-select.glm-leaf-wave.test.tsx"
+      ]
+    },
+    {
+      "id": "exit-two",
+      "expectReject": true,
+      "rejected": true,
+      "violations": [
+        "exit 2 != 1"
+      ]
+    },
+    {
+      "id": "exit-null",
+      "expectReject": true,
+      "rejected": true,
+      "violations": [
+        "exit null != 1"
+      ]
+    },
+    {
+      "id": "zero-execution",
+      "expectReject": true,
+      "rejected": true,
+      "violations": [
+        "numTotalTests 0 != 7",
+        "assertions 0 != 7",
+        "duplicate fullName in scope",
+        "passed 0 inconsistent with 0 failed",
+        "failed 0, expected exactly 1"
+      ]
+    },
+    {
+      "id": "control-sample",
+      "expectReject": false,
+      "rejected": false,
+      "violations": []
+    }
+  ],
+  "evidence": [
+    {
+      "id": "control",
+      "exitCode": 0,
+      "tests": 25,
+      "entered": null,
+      "failed": []
+    },
+    {
+      "id": "multiselect-select-all-adds-disabled",
+      "exitCode": 1,
+      "tests": 7,
+      "entered": {
+        "id": "multiselect-select-all-adds-disabled",
+        "target": "/Users/zhangxu/.codex/worktrees/glm-leaf-workflows/type-pal/packages/editor/src/ui/design-system/multi-select.tsx"
+      },
+      "failed": [
+        "DsMultiSelect 剩余合同 select-all keeps prior values, follows the filter and never adds disabled options"
+      ]
+    },
+    {
+      "id": "draft-number-same-value-recommit",
+      "exitCode": 1,
+      "tests": 7,
+      "entered": {
+        "id": "draft-number-same-value-recommit",
+        "target": "/Users/zhangxu/.codex/worktrees/glm-leaf-workflows/type-pal/packages/editor/src/ui/design-system/number-inputs.tsx"
+      },
+      "failed": [
+        "DsDraftNumberInput 剩余合同 Enter and blur commit canonical values; Escape cancels; same value never recommits"
+      ]
+    }
+  ]
+}

@@ -156,7 +156,7 @@ lint/格式/typecheck **error/warning/info 全零**；已有诊断也不能报�
 
 | 批 | 组 | 候选 | GLM 自验 | Codex 独立验收 |
 |---|---|---|---|---|
-| A | G01–04 | pending | pending | pending |
+| A | G01–04 | pending（提交后回填） | pending（提交后回填） | pending |
 | B | G05–08 | pending | pending | pending |
 | C | G09–12 | pending | pending | pending |
 | D | G13–16 | pending | pending | pending |
