@@ -1,6 +1,6 @@
 # TEST-KIMI-EDITOR-WORKFLOWS-1 — 编辑器十二组真实工作流补测
 
-Status: build
+Status: rework
 Owner: Kimi（受委派测试贡献者）
 Reviewer: Codex（独立验收、统一质量门与集成）
 Phase: phase2
@@ -69,8 +69,8 @@ ScriptEditor 连续播放、FrameAnimationEditor 已收口合同、角色换装�
 - Codex 范围/前提：verified；20 个实际存在源码与既有 fast 缺口/当前消费者已核，2401 仅选题上界。
 - build 准入：**build allowed（仅新增测试/隔离证据）**，2026-09-28。
 - Coding Owner：Kimi，单一写入本卡新增文件；Codex 负责 E2E002，不与之并发改测试文件。
-- 贡献者交付/自验：pending，A → B → C 不必逐步请示。
-- Codex 独立验收：pending，按批接收。
+- 贡献者交付/自验：A `04ed4823`、B `524d1930`、C `e838ca30`、回执 `186f046b` 已推送。
+- Codex 独立验收：2026-09-28 `counter / rework`；各批尚未接收或集成，见下节独立证据。
 - 用户产品验收：N/A，本卡不改用户行为；若发现需要新产品取舍，另行裁决。
 - done 准入：未开放，须正式集成与质量门通过；视觉未证不能冒充已证。
 
@@ -78,23 +78,55 @@ ScriptEditor 连续播放、FrameAnimationEditor 已收口合同、角色换装�
 
 - 2026-09-28 Codex：按用户授权派发十二组，20 源码冻结；复用 Vitest/pnpm 现行配置，不重跑覆盖盘点。
   允许 Kimi 隔离最小功能视觉，不触碰用户配置、E2E 或换装范围。下一位 Kimi 直接实施。
+- 2026-09-28 Codex：独立审核实际候选 HEAD `186f046bfa983143494bae74e10158540b8e0411`；
+  21/21 产品源 SHA256 与冻结表一致，7 张截图存在且完整 hash 匹配，抽看七图。
+  117 条机读新例均为 passed；editor `typecheck` 通过；editor 全包 3414 通过、2 条旧
+  `world-sprite-behavior.pal.test.ts` 因隔离树缺 `035.rle`/`044.rle` 资产失败（主树文件存在）。
+  docs 和 diff 检查通过。局部覆盖 `compare.mjs --reuse` 与回执一致：20 目标 +829 行/+751 臂，
+  editor 全包 +1000 行/+862 臂；此为同源码局部对照，不是集成后正式全仓数字。
+  保留的反控原始 Vitest JSON 独立严核：27 红针+20 绿色控制共 47 条有效（另有 2 条废弃惰性针）；
+  用完整模块路径单针复跑 `k01-alive-guard` valid-red。`pnpm lint` 因新增 evidence.json 格式错误失败，
+  反控交接命令及判据也不满足卡面要求，故转 `rework`；未合 main，未跑官方 ratchet/strict-fast。
+
+## Codex 独立审核返工项（候选 `186f046b`）
+
+1. **零诊断门未过**：在候选树运行 `pnpm lint`，Biome 对
+   `docs/testing/kimi-editor-workflows/evidence.json` 报 1 条 format error（约第 1178 行数组排版）。
+   在白名单内格式化并复跑 `pnpm lint`，须 error/warning/info 全零。
+2. **反控命令与严判据不符**：按回执/工作包从仓库根运行
+   `node docs/testing/kimi-editor-workflows/counter-control/run.mjs injections.mjs --only k01-alive-guard`
+   立即 `ERR_MODULE_NOT_FOUND`，因为 `run.mjs:15` 从 `process.cwd()` 解析模块；给完整相对路径才通过。
+   修为文档命令可复跑。`run.mjs:95–128` 目前只比较 fullName/执行数与消息前缀，未绑定失败记录的
+   绝对测试文件，也未拒绝 pending/skip、无 failureMessages、AssertionError 前缀下的 timeout/混错；
+   缺少调用同一个正式判据的自测。不能以现有 runner 的 `valid-red` 直接宣布卡面 46/47 针全 valid。
+   补严判据和自测后按 A/B/C 三份模块全量复跑；记录实际有效数（当前证据为 47，不是交接消息的 46）。
+3. **视觉警告归因错误**：回执把 B2 的 React `Invalid DOM property 'class'` 记作“产品侧”；
+   一手来源是本卡宿主 `docs/testing/kimi-editor-workflows/browser-host/main.tsx:321` 的
+   `<div id="kimi-workbench" class="body">`。改为合法 JSX 后复核该告警消失，修正回执来源与截图元数据。
+4. **合法路径类型掩盖**：本卡要求合法 fixture 无强转，根协议禁止新增 ignore/强转掩盖问题。
+   `EnemyTeamTab.kimi-workflows.test.tsx:579/625` 两处把事件树双重强转为 `EnemyDef['onDefeated']`；
+   `k10-fixtures.ts:77/80` 双重强转 canonical items/scripts；`kit.ts:15–23` 及 k05/k06 fixture
+   用 `@ts-expect-error` 压制 Node 桥接导入。请改为类型安全的当前生产构造/适配与显式测试端口；
+   若存在真实公共类型债，交最小证据给 Codex，贡献者不要越界改产品或共享配置。
+
+本轮代码抽查 K01/K10/K12 的真实 EditSession、reader、保存与 UI 入口有实质业务断言；上述四项是
+接收门，不能用已有测试通过或局部覆盖增量替代。新候选须由 Codex 再次独立核验，之后才可选择性集成、
+串行执行全仓 check → 官方 ratchet → 受保护 strict-fast、更新卡面 done 并清理退休树。
 
 ## 下一位 Agent 提示词
 
 ```text
-在 /Users/zhangxu/illegal/type-pal 接手 TEST-KIMI-EDITOR-WORKFLOWS-1。
+返工 TEST-KIMI-EDITOR-WORKFLOWS-1，以隔离分支当前实际候选 `186f046b` 为起点。
 先读 AGENTS.md、CLAUDE.md、docs/phase2/READ-FIRST.md、本卡
 docs/ops/tasks/TEST-KIMI-EDITOR-WORKFLOWS-1-twelve-groups.md，以及
-docs/testing/kimi-editor-workflows/README.md 和 targets.json。
-你是 Coding Owner，build allowed 仅限新增测试/fixture/专属证据，不是再做一包只读审计。
+docs/testing/kimi-editor-workflows/README.md、receipt.md、evidence.json、targets.json，重点看卡内
+“Codex 独立审核返工项”。你仍是测试 Coding Owner，写入仅限本卡白名单。
 在 /Users/zhangxu/.codex/worktrees/kimi-editor-workflows/type-pal、
-codex/kimi-editor-workflows-r1 分支实施，生产冻结 29e76fe6；
-开工核目标 hash。按 A(K01–04)→B(K05–08)→C(K09–12) 连续做，四组完成即提交推送候选，
-不必等 Codex 审完才能继续下一批。不要自动合 main 或改旧测试/产品/官方配置/基线。
-按工作包做真实入口、合法 fixture、旧断言去重、业务反控、最小隔离浏览器闭环；
-lint/格式/typecheck 必须 error/warning/info 全零。三批完后统一一次局部同口径覆盖对照，
-不要每加一点测试就跑覆盖率，不跑全仓 check/官方 ratchet/strict-fast。
-真 bug 交隔离红诊断，未定政策如实登记，继续其它组；不通过改预期凑绿。
-每批回执给候选 SHA、文件范围、精确新标题/合同增量、命令/JSON/反控/截图证据与剩余项。
+codex/kimi-editor-workflows-r1 分支修四项返工：evidence.json 零格式诊断；反控模块解析、
+文件/skip/timeout/混错等严判据及同 judge 自测，按文档命令全量复跑三模块；
+修宿主 class JSX 并重核 B2 控制台；去除合法 fixture 的强转与类型压制，无法在白名单内解决的
+公共类型债交最小证据。同步 main 审核记录但不改任务卡/看板。给新候选完整 SHA、复跑命令/JSON、
+47 条有效反控和 2 条历史废弃针的清楚口径、静态零诊断及截图回执。
+不要自动合 main 或改旧测试/产品/官方配置/依赖/基线；不跑官方全仓 check/ratchet/strict-fast。
 Kimi 是测试贡献者，不是独立第三方。Codex 独立验收、集成、推送、收口与清理；不代签、不标 done。
 ```
