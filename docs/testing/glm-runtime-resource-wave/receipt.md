@@ -7,6 +7,7 @@
 |---|---|---|---|---|
 | A | R01–R04 | b9d6ce54 | 44 新断言 / 三包定向+相邻全绿 / TC 零错 / Biome 零诊断 / 2 针业务反控恰一红 / RV1 取证 | 见各批末 |
 | B | R05–R08 | 见推送 | 34 新断言 / 定向+相邻 95 全绿 / TC 零错 / Biome 零诊断 / 2 针业务反控恰一红 | 见批B末 |
+| C | R09–R12 | 见推送 | 39 新断言 / 定向+相邻 60 全绿 / TC 零错 / Biome 零诊断 / 2 针业务反控恰一红 / RV2 取证 | 见批C末 |
 
 ## 批A（R01–R04）
 
@@ -123,3 +124,60 @@
 3. annotate 空词哨兵（`|| undefined`）与下游 `if (name)` 双重防护，无法经公开入口单点变异
    区分——不构成新合同，仅留痕。
 4. asset-manifest 冻结表指针过期（existingTestPointers 空 vs 实际两份测试），本批未重做旧合同。
+
+## 批C（R09–R12）
+
+**候选 SHA**：批次推送 HEAD。
+
+### 去重账（旧断言 → 新差异 → 新合同 → 归属）
+
+- R09 `glyph.test` 已覆盖 decodeGlyph 2×2/宽10、真实 Unifont 57k、loadGlyphs 失败路径 →
+  本批新做 **decodeGlyph 截断位图缺字节暗臂、codepoint 0/.notdef 与 ENCODING -1 排除、
+  同码点后者覆盖、CRLF 等价、空表 fail-loud（默认 source）、loadGlyphs 成功路径**；
+  `text-render.ts` 此前**零测试** → **measureSpans 半/全宽/缺字回退/空、renderSpans 光标推进、
+  三层影 (+1,0)/(0,+1)/(+1,+1)、加粗双画、缺字跳过、maxChars 提前返回、forceRgba 覆盖与
+  colorRgba 映射**（bakeGlyph 为浏览器端口替身，decodeGlyph 不在本文件重复证明）→ 13 新断言。
+- R10 `registry.test/lifecycle` 已覆盖 85 slot/失败重试/缓存身份 → 本批新做
+  **default-title 非 UI slot 通道**（engineChromeUiUrl 缺 slot 支：85 slot 全部物理存在，
+  合法 typed 入口不可达，不写强转绿测）；`item-list.ts` 此前**零测试** → **3 列网格坐标、
+  三色（普通/选中闪烁/穿戴绿）、数量>1 青数字、光标 blit、描述 ≤3 行静态与 >3 行裁剪滚动
+  （两个固定时间点窗口平移 + 裁剪矩形）、noDesc、空列表** → 7 新断言。
+- R11 `menu-box.residual/status-residual` 已覆盖数字边界/卷轴自然宽高/确认框/状态板 →
+  本批新做 **drawSlicedBox 默认阴影路径（离屏镂空+source-in+(x+6,y+6) 半透明贴回）、
+  tileFill 平铺精确坐标（15 块）、缺角块跳过、drawScroll 零尺寸早退**；`system-box.ts`
+  此前**零测试** → **inactive 早退、5 项四色布局、confirm 否/是互斥、switch 关/开、占位提示** →
+  7 新断言。
+- R12 magic/use/equip-box 此前**零测试** → **pick-caster 竖列与死人灰红、选人早退、
+  pick-spell 网格/MP 不足禁用/光标/MP 框 needed+current/术描述、use pick-item 纯委托、
+  pick-target 8 属性行（level/hp/mp 池/有效属性）+斜杠+蓝 max+角色名+选中物、
+  equip list 委托 + pick-role 面板（状态板/金名/青数量/6 槽深灰影 label/穿戴名 ?166 缺表/
+  5 有效属性）** → 12 新断言。world/skills/items 复用仓库既有 `src/test-fixtures.ts`。
+
+### 验证证据
+
+- 定向+相邻（14 文件，单 worker，新鲜 JSON）：60/60 绿（新 39 / 邻 21）。
+- typecheck reforge 通过；Biome 10 新文件 + fixture + wave 目录零诊断；docs PASS；
+  `git diff --check` 干净。
+- 反控（`runtime-resource-mutants.mjs c`）：判据自测 10；对照 60 绿 exit0；
+  - 针1 `item-desc-scroll-rate-slowed`（滚动速率 ÷10）→ 恰一红 AssertionError。
+  - 针2 `system-disabled-color-dropped`（禁用色拆除）→ 恰一红 AssertionError。
+  - 9 个产品源 hash 反控前后不变。
+
+### RV2 视觉取证（固定输入，不走游戏）
+
+- 宿主 `hosts/rv2/`（esbuild 打包真实 reforge 源；import.meta.glob/url 按 bundler 桩等价替换，
+  见 entry 头注；127.0.0.1:6073 临时服务已停，web 根 = 仓库根只读）。
+- 真实函数链：drawItemGridList（真实 renderSpans/bakeGlyph/drawNumber/drawSlicedBox）+
+  真实 unifont-cn.bdf（parseBdfGlyphs 真解析）+ 真实 engine chrome PNG（只读 fetch）。
+- 页面内像素断言（ASSERT PASS）：P1 数量区/光标区有像素；P2→P3 同输入不同 now 说明区
+  差异像素 99360（滚动窗口平移）；P4 空列表条目区 lit=0；console/page errors 0。
+- 截图：`/tmp/type-pal-glm-runtime-resource/rv2-batchC.png`
+  sha256 `78acfb06587293e3a25f4e5011506140b644ce181634650565fba41e9c3913f5`（207383 B）。
+
+### 未证项 / 受限登记
+
+1. bakeGlyph 的 canvas 涂绘在 RV2 宿主经真实浏览器间接验证；fast 套件内以端口替身隔离（jsdom 无 2d）。
+2. engineChromeUiUrl 缺 slot 抛错支合法 typed 入口不可达（85 slot 全存在），未强测。
+3. magic use/equip 的 desc 渲染文本来自 fixtures desc（空串已用覆写样本覆盖），原版多行说明的
+   观感不属本卡（RV2 已示真实说明滚动）。
+4. RV2 样本物品为自包含合成输入（披露：非原版资源观感验收）。

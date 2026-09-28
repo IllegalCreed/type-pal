@@ -91,7 +91,7 @@
         "R07",
         "R08"
       ],
-      "candidateSha": "filled-after-push",
+      "candidateSha": "9f99e0b8",
       "directed": {
         "pal-extract": {
           "total": 95,
@@ -142,6 +142,73 @@
         "annotate _spell/_person/_enemy RULES unreachable via typed Command union (no named carrier)",
         "annotate empty-word sentinel doubly guarded; public-entry mutation invisible",
         "targets.json asset-manifest existingTestPointers stale (two existing test files on freeze baseline); only empty-entries axes added"
+      ]
+    },
+    "C": {
+      "groups": [
+        "R09",
+        "R10",
+        "R11",
+        "R12"
+      ],
+      "candidateSha": "filled-after-push",
+      "directed": {
+        "reforge": {
+          "total": 60,
+          "new": 39,
+          "adjacent": 21,
+          "failed": 0
+        }
+      },
+      "newTestFiles": [
+        "packages/reforge/src/text/glyph.glm-runtime-resource.test.ts",
+        "packages/reforge/src/text/text-render.glm-runtime-resource.test.ts",
+        "packages/reforge/src/engine-chrome/registry.glm-runtime-resource.test.ts",
+        "packages/reforge/src/menu/menu-box.glm-runtime-resource.test.ts",
+        "packages/reforge/src/menu/item-list.glm-runtime-resource.test.ts",
+        "packages/reforge/src/menu/system-box.glm-runtime-resource.test.ts",
+        "packages/reforge/src/menu/magic-box.glm-runtime-resource.test.ts",
+        "packages/reforge/src/menu/use-box.glm-runtime-resource.test.ts",
+        "packages/reforge/src/menu/equip-box.glm-runtime-resource.test.ts"
+      ],
+      "fixtures": [
+        "packages/reforge/src/__tests__/glm-runtime-resource/menu-draw-fixtures.ts"
+      ],
+      "gates": {
+        "typecheck": [
+          "reforge"
+        ],
+        "biome": "0/0/0 on new files + fixture + wave dir",
+        "docsCheck": "PASS",
+        "gitDiffCheck": "clean"
+      },
+      "mutants": {
+        "runner": "docs/testing/glm-runtime-resource-wave/tools/runtime-resource-mutants.mjs",
+        "batch": "c",
+        "selfTest": 10,
+        "control": "exit0 60 green",
+        "needles": [
+          {
+            "id": "item-desc-scroll-rate-slowed",
+            "result": "business red, exactly 1, AssertionError, hashes unchanged"
+          },
+          {
+            "id": "system-disabled-color-dropped",
+            "result": "business red, exactly 1, AssertionError, hashes unchanged"
+          }
+        ]
+      },
+      "visual": {
+        "id": "RV2",
+        "host": "http://127.0.0.1:6073/ (temporary, stopped; esbuild bundle of real reforge sources)",
+        "screenshot": "/tmp/type-pal-glm-runtime-resource/rv2-batchC.png",
+        "sha256": "78acfb06587293e3a25f4e5011506140b644ce181634650565fba41e9c3913f5",
+        "canvasAsserts": "P1 amount/cursor lit>0; P2→P3 desc diff 99360; P4 empty region lit=0; console errors 0 → ASSERT PASS"
+      },
+      "unproven": [
+        "bakeGlyph canvas painting verified indirectly via real-browser RV2 host; fast suite uses port double",
+        "engineChromeUiUrl missing-slot throw unreachable via typed entry (all 85 slots exist)",
+        "RV2 item samples are synthetic self-contained inputs, not original-asset appearance acceptance"
       ]
     }
   }

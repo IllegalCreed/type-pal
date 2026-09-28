@@ -18,6 +18,63 @@ const output = mkdtempSync(join(tmpdir(), 'type-pal-glm-runtime-resource-mutants
 
 /** 每批注册：包根、对照跑范围与总数、该批 2 个单点针。 */
 const batches = {
+  c: {
+    packageRoot: resolve(root, 'packages/reforge'),
+    production: [
+      'src/text/glyph.ts',
+      'src/text/text-render.ts',
+      'src/engine-chrome/registry.ts',
+      'src/menu/item-list.ts',
+      'src/menu/menu-box.ts',
+      'src/menu/system-box.ts',
+      'src/menu/magic-box.ts',
+      'src/menu/use-box.ts',
+      'src/menu/equip-box.ts',
+    ],
+    control: {
+      tests: [
+        'src/text/glyph.glm-runtime-resource.test.ts',
+        'src/text/glyph.test.ts',
+        'src/text/text-render.glm-runtime-resource.test.ts',
+        'src/engine-chrome/registry.glm-runtime-resource.test.ts',
+        'src/engine-chrome/registry.test.ts',
+        'src/engine-chrome/registry.lifecycle.test.ts',
+        'src/menu/menu-box.glm-runtime-resource.test.ts',
+        'src/menu/menu-box.residual.test.ts',
+        'src/menu/menu-box.status-residual.test.ts',
+        'src/menu/item-list.glm-runtime-resource.test.ts',
+        'src/menu/system-box.glm-runtime-resource.test.ts',
+        'src/menu/magic-box.glm-runtime-resource.test.ts',
+        'src/menu/use-box.glm-runtime-resource.test.ts',
+        'src/menu/equip-box.glm-runtime-resource.test.ts',
+      ],
+      total: 60,
+    },
+    mutations: [
+      {
+        id: 'item-desc-scroll-rate-slowed',
+        module: 'src/menu/item-list.ts',
+        file: 'src/menu/item-list.glm-runtime-resource.test.ts',
+        total: 5,
+        describe: 'R10 drawItemGridList 描述区',
+        title: '>3 行滚动：now=0 画首 3 行；now=800（scroll=16px）窗口平移到行 1..3；裁剪矩形固定',
+        from: 'const scroll = (now / 50) % period',
+        to: 'const scroll = (now / 500) % period',
+        category: '长说明滚动速率错 10 倍：超出 3 行的描述几乎不可完整阅读（机制全看得到的保证被破坏）',
+      },
+      {
+        id: 'system-disabled-color-dropped',
+        module: 'src/menu/system-box.ts',
+        file: 'src/menu/system-box.glm-runtime-resource.test.ts',
+        total: 4,
+        describe: 'R11 drawSystemMenu',
+        title: '5 项 (53,72+18i)；禁用项红、选中闪烁、禁用选中 0x1C',
+        from: 'const color = it.disabled',
+        to: 'const color = false',
+        category: '禁用色失效：不可用系统项不再红显，用户无法分辨不可选项',
+      },
+    ],
+  },
   b: {
     packageRoot: resolve(root, 'packages/pal-extract'),
     production: [
