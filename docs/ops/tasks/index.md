@@ -11,6 +11,7 @@
 | [ARCH-SUPPORT-GLM-1 — 八组并行准备取证](ARCH-SUPPORT-GLM-1-eight-audit-packages.md) | draft | 以任务卡当前准入与看板分工为准。 |
 | [E2E-R4-1 — 路线驱动与合法检查点薄基线](E2E-R4-1-route-and-checkpoint-foundation.md) | build | 以任务卡当前准入与看板分工为准。 |
 | [EDITOR-SCENE-FACING-1 — 切场景指令无法清除显式朝向](EDITOR-SCENE-FACING-1-clear-override.md) | draft | 以任务卡当前准入与看板分工为准。 |
+| [TEST-GLM-LARGE-WAVE-4 — 五批大型当前合同补测](TEST-GLM-LARGE-WAVE-4-five-large-batches.md) | build | 以任务卡当前准入与看板分工为准。 |
 
 ## 已完成（historical）
 

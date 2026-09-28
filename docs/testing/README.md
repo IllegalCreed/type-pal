@@ -8,6 +8,7 @@
 
 ## 文档与附件
 
+- [GLM五批大型当前合同补测](glm-large-wave/README.md)（9c35748a冻结，A–E每批6组/12源码、总60目标；单一Owner隔离实施，Codex独立验收）。
 - [GLM第三对话一阶段菜单、呈现与工具六批](glm-phase1-leaves/README.md)（4a9ad67f冻结，24组51目标；隔离单worker，不重做Grok旧断言，四项短视觉）。
 - [GLM第二对话运行时与资源七批](glm-runtime-resource-wave/README.md)（f6878b3c冻结，28组62目标；独立分支/工作树，既有full-only贡献另列，四项固定输入视觉）。
 - [GLM三十二组叶层与小界面补测](glm-leaf-workflows/README.md)（3925980c冻结，49目标/八批连续实施；与Kimi分工隔离，六条明确视觉操作）。

@@ -1,0 +1,247 @@
+{
+  "schemaVersion": 1,
+  "task": "TEST-GLM-LARGE-WAVE-4",
+  "productionFreeze": "9c35748a0e36d6b1e4368a6b427ed63ab6d6e700",
+  "baselineSha256": "a682d4e1b970df7c2f5a100ca6a1c8ed9cc23e7a612b7328998949db9fa75b41",
+  "profile": "fast",
+  "newTestRule": "For each source, add only a justified same-directory <stem>.glm-large-wave.test.ts or .tsx matching the source extension.",
+  "selectionCaveat": "Coverage gaps are leads, not proof of reachable new contracts or a promised gain. Existing tests across files and full-only tests must be checked before implementation.",
+  "batches": [
+    {
+      "id": "A",
+      "title": "编辑器命令表单与作者工作区",
+      "sourceDigestSha256": "99bbe65c0a860d66d36dd8224de65ad83dfdb202624990f35a01353d1a7b23c0",
+      "groups": [
+        {
+          "id": "A01",
+          "sources": [
+            "packages/editor/src/ui/command-form-control.tsx",
+            "packages/editor/src/ui/command-form-world.tsx"
+          ]
+        },
+        {
+          "id": "A02",
+          "sources": [
+            "packages/editor/src/ui/command-form-dialogue.tsx",
+            "packages/editor/src/ui/command-form-actor.tsx"
+          ]
+        },
+        {
+          "id": "A03",
+          "sources": [
+            "packages/editor/src/ui/DataMode.tsx",
+            "packages/editor/src/ui/SharedScriptTab.tsx"
+          ]
+        },
+        {
+          "id": "A04",
+          "sources": [
+            "packages/editor/src/ui/SceneScriptWorkspace.tsx",
+            "packages/editor/src/ui/AmbienceTab.tsx"
+          ]
+        },
+        {
+          "id": "A05",
+          "sources": [
+            "packages/editor/src/ui/StampLibraryTab.tsx",
+            "packages/editor/src/ui/SpriteUploadWizard.tsx"
+          ]
+        },
+        {
+          "id": "A06",
+          "sources": [
+            "packages/editor/src/ui/EnemyAnimPreview.tsx",
+            "packages/editor/src/ui/FireEffectPreview.tsx"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "B",
+      "title": "编辑器会话、索引与派生状态",
+      "sourceDigestSha256": "ee114aeb8a790dffbd2f718e5f405af650d3f98a68f8db6f883a9383dd1557f4",
+      "groups": [
+        {
+          "id": "B01",
+          "sources": [
+            "packages/editor/src/core/script-editor.ts",
+            "packages/editor/src/ui/ScriptTree.tsx"
+          ]
+        },
+        {
+          "id": "B02",
+          "sources": [
+            "packages/editor/src/core/project-reference.ts",
+            "packages/editor/src/core/project-reference-adapters.ts"
+          ]
+        },
+        {
+          "id": "B03",
+          "sources": [
+            "packages/editor/src/core/edit-session.ts",
+            "packages/editor/src/core/editor-derived-store.ts"
+          ]
+        },
+        {
+          "id": "B04",
+          "sources": [
+            "packages/editor/src/ui/use-editor-project-session.ts",
+            "packages/editor/src/core/project-io.ts"
+          ]
+        },
+        {
+          "id": "B05",
+          "sources": [
+            "packages/editor/src/core/author-save-journal.ts",
+            "packages/editor/src/core/project-diagnostics.ts"
+          ]
+        },
+        {
+          "id": "B06",
+          "sources": [
+            "packages/editor/src/core/playback.ts",
+            "packages/editor/src/core/tileset-references.ts"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "C",
+      "title": "Reforge 脚本与演出助手",
+      "sourceDigestSha256": "8c0ff2d39be7028bb768621bd81d808d7ca2b2f34571cd829a868c664d437b0d",
+      "groups": [
+        {
+          "id": "C01",
+          "sources": [
+            "packages/reforge/src/script-runner.ts",
+            "packages/reforge/src/script-runner-core.ts"
+          ]
+        },
+        {
+          "id": "C02",
+          "sources": [
+            "packages/reforge/src/script-host-adapter.ts",
+            "packages/reforge/src/script-world.ts"
+          ]
+        },
+        {
+          "id": "C03",
+          "sources": [
+            "packages/reforge/src/script-project-core.ts",
+            "packages/reforge/src/runtime-script-project.ts"
+          ]
+        },
+        {
+          "id": "C04",
+          "sources": [
+            "packages/reforge/src/script-chunk-store.ts",
+            "packages/reforge/src/dialog/dialog-box.ts"
+          ]
+        },
+        {
+          "id": "C05",
+          "sources": [
+            "packages/reforge/src/dither-transition.ts",
+            "packages/reforge/src/frame-animation-player.ts"
+          ]
+        },
+        {
+          "id": "C06",
+          "sources": [
+            "packages/reforge/src/entity-action-player.ts",
+            "packages/reforge/src/world-motion-runtime.ts"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "D",
+      "title": "迁移纯映射与诊断",
+      "sourceDigestSha256": "179a9e724b4c0726994676e220664b0f0e60669c918110eeaa44a3e6c66bb987",
+      "groups": [
+        {
+          "id": "D01",
+          "sources": [
+            "packages/migrate/src/translate-events.ts",
+            "packages/migrate/src/translate-enemy-hook-flow.ts"
+          ]
+        },
+        {
+          "id": "D02",
+          "sources": [
+            "packages/migrate/src/pal-sprite-action-census.ts",
+            "packages/migrate/src/sound-reference-audit.ts"
+          ]
+        },
+        {
+          "id": "D03",
+          "sources": [
+            "packages/migrate/src/script-library-audit.ts",
+            "packages/migrate/src/script-graph.ts"
+          ]
+        },
+        {
+          "id": "D04",
+          "sources": [
+            "packages/migrate/src/migration-merge.ts",
+            "packages/migrate/src/migration-plan.ts"
+          ]
+        },
+        {
+          "id": "D05",
+          "sources": [
+            "packages/migrate/src/pal-authored-overlays.ts",
+            "packages/migrate/src/scene-entry-normalize.ts"
+          ]
+        },
+        {
+          "id": "D06",
+          "sources": [
+            "packages/migrate/src/migration-transaction.ts",
+            "packages/migrate/src/pal-migration-io.ts"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "E",
+      "title": "当前内容校验与项目读取",
+      "sourceDigestSha256": "ad952a9673074e00123cb8f842082a282cfeef9e7e194cfebb08e37444705b60",
+      "groups": [
+        {
+          "id": "E01",
+          "sources": ["packages/content/src/validate.ts", "packages/content/src/validate-refs.ts"]
+        },
+        {
+          "id": "E02",
+          "sources": [
+            "packages/content/src/author-script-core.ts",
+            "packages/content/src/script.ts"
+          ]
+        },
+        {
+          "id": "E03",
+          "sources": ["packages/content/src/item.ts", "packages/content/src/asset.ts"]
+        },
+        {
+          "id": "E04",
+          "sources": [
+            "packages/content/src/actor-condition.ts",
+            "packages/content/src/validate-runtime.ts"
+          ]
+        },
+        {
+          "id": "E05",
+          "sources": [
+            "packages/reforge/src/project-loader.ts",
+            "packages/reforge/src/save/current-codec.ts"
+          ]
+        },
+        {
+          "id": "E06",
+          "sources": ["packages/reforge/src/file-source.ts", "packages/reforge/src/fsa-source.ts"]
+        }
+      ]
+    }
+  ]
+}
