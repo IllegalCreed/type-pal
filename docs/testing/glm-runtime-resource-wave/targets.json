@@ -1,0 +1,1131 @@
+{
+  "schemaVersion": 1,
+  "task": "TEST-GLM-RUNTIME-RESOURCE-2",
+  "productionFreeze": "f6878b3cd18d916d3cac8aba3e50dc8c70556a2c",
+  "status": "dispatch-selection-not-delivery-proof",
+  "coverage": {
+    "profile": "fast",
+    "provider": "v8",
+    "vitest": "4.1.7",
+    "baselineSha256": "8a3077925250909167f23786a8474fb58839976f05777dc64ef4ef9f51f975f5",
+    "reports": [
+      {
+        "package": "shared",
+        "path": "/Users/zhangxu/.codex/worktrees/e2e-opening/type-pal/coverage/fast/shared/lcov.info",
+        "sha256": "93f9433f0d06c0197faab9e8732417b4d74d2cde18d0aec798bfbf36d2c85ef6"
+      },
+      {
+        "package": "pal-extract",
+        "path": "/Users/zhangxu/.codex/worktrees/e2e-opening/type-pal/coverage/fast/pal-extract/lcov.info",
+        "sha256": "8e65455aa5e53691b5b3cf4ee2d159a2ac533cb2365e385284aff6a6c0fe5f96"
+      },
+      {
+        "package": "reforge",
+        "path": "/Users/zhangxu/.codex/worktrees/e2e-opening/type-pal/coverage/fast/reforge/lcov.info",
+        "sha256": "19509c75cb520165f4410023a8ee8ed2718e2309c133cf91b2f6b131f8c5007f"
+      },
+      {
+        "package": "migrate",
+        "path": "/Users/zhangxu/.codex/worktrees/e2e-opening/type-pal/coverage/fast/migrate/lcov.info",
+        "sha256": "ab18c52091b48921f0b021b1f52c4cfb973f1ea030173de9ebeb0d06817a8530"
+      }
+    ],
+    "caveat": "Whole-file missing counts are selection hints, not authorized whole-file implementation or promised gains. R28 is restricted to collectSourceEntrySites. Full-only existing coverage must be disclosed and deduplicated.",
+    "wholeFileTotals": {
+      "lines": {
+        "covered": 4245,
+        "total": 5045,
+        "missing": 800
+      },
+      "branches": {
+        "covered": 2732,
+        "total": 3803,
+        "missing": 1071
+      }
+    }
+  },
+  "pointersCaveat": "Existing test pointers include same basename and __tests__ variants only. Search cross-file users and old assertions; exported ForTest helpers and private internals are not implementation targets.",
+  "sourceOverlapWithKimiAndGlmFirstQueue": [],
+  "groups": [
+    {
+      "id": "R01",
+      "batch": "A",
+      "targets": [
+        {
+          "source": "packages/shared/src/rle.ts",
+          "sha256": "ae864fabcec47b4972299d37142e6340e02ed32bbd06b2118a155301539d0463",
+          "lines": [121, 125],
+          "branches": [82, 100],
+          "publicEntryPointers": [
+            "61: export function decodeRle(buf: Uint8Array, opts?: { skipFilePrefix?: boolean }): RleFrame {",
+            "167: export function parseSpriteChunk(buf: Uint8Array): RleFrame[] {",
+            "189: export function parseSpriteChunkStrict(buf: Uint8Array): RleFrame[] {",
+            "223: export function parseIndexedRleChunk(",
+            "299: export const parseWorldSpriteChunk = parseIndexedRleChunk"
+          ],
+          "existingTestPointers": [
+            "packages/shared/src/rle.boundaries.test.ts",
+            "packages/shared/src/rle.test.ts"
+          ],
+          "newTest": "packages/shared/src/rle.glm-runtime-resource.test.ts"
+        },
+        {
+          "source": "packages/shared/src/rle-encode.ts",
+          "sha256": "047b96879d4889a99f745525f894c6ebcc3714a65bca73c2e609912e0162ba36",
+          "lines": [43, 44],
+          "branches": [21, 24],
+          "publicEntryPointers": [
+            "18: export function encodeRleFrame(frame: RleFrame): Uint8Array {",
+            "48: export function encodeSpriteChunk(frames: readonly RleFrame[]): Uint8Array {"
+          ],
+          "existingTestPointers": [
+            "packages/shared/src/rle-encode.boundaries.test.ts",
+            "packages/shared/src/rle-encode.test.ts"
+          ],
+          "newTest": "packages/shared/src/rle-encode.glm-runtime-resource.test.ts"
+        }
+      ]
+    },
+    {
+      "id": "R02",
+      "batch": "A",
+      "targets": [
+        {
+          "source": "packages/reforge/src/quantize.ts",
+          "sha256": "119dd796683ba01252637ceab849208cead0caea74b80ebf87a4d106de5a1b8d",
+          "lines": [45, 45],
+          "branches": [19, 24],
+          "publicEntryPointers": [
+            "15: export function quantizeToRleFrame(",
+            "60: export function sliceAtlasGrid("
+          ],
+          "existingTestPointers": ["packages/reforge/src/quantize.test.ts"],
+          "newTest": "packages/reforge/src/quantize.glm-runtime-resource.test.ts"
+        },
+        {
+          "source": "packages/pal-extract/src/resources/palette.ts",
+          "sha256": "ad806bc60aa51e5dd61bbb8c9fe50c2c20ae66feed9fa89944393714d3272ba9",
+          "lines": [13, 13],
+          "branches": [8, 11],
+          "publicEntryPointers": [
+            "32: export function decodePalette(buf: Uint8Array, cycles: PaletteCycle[] = []): Palette {"
+          ],
+          "existingTestPointers": [
+            "packages/pal-extract/src/resources/palette.boundaries.test.ts",
+            "packages/pal-extract/src/resources/palette.test.ts"
+          ],
+          "newTest": "packages/pal-extract/src/resources/palette.glm-runtime-resource.test.ts"
+        }
+      ]
+    },
+    {
+      "id": "R03",
+      "batch": "A",
+      "targets": [
+        {
+          "source": "packages/pal-extract/src/resources/parsers/ball.ts",
+          "sha256": "8a8f6de4be9ccaa69e6a50ad1adea06b1b9f20f6503fed8e2f358d0927f09688",
+          "lines": [0, 11],
+          "branches": [0, 12],
+          "publicEntryPointers": [
+            "26: export function decodeBallIcon(chunkIdx: number, buf: Uint8Array): BallIcon | null {"
+          ],
+          "existingTestPointers": [],
+          "newTest": "packages/pal-extract/src/resources/parsers/ball.glm-runtime-resource.test.ts"
+        },
+        {
+          "source": "packages/pal-extract/src/resources/parsers/rgm.ts",
+          "sha256": "92883a8e074005d2b9e25ff9ae3bc31e68619ff165dde4fed2c5a08c3e876b65",
+          "lines": [0, 11],
+          "branches": [0, 12],
+          "publicEntryPointers": [
+            "31: export function decodeRgmPortrait(chunkIdx: number, buf: Uint8Array): RgmPortrait | null {"
+          ],
+          "existingTestPointers": [],
+          "newTest": "packages/pal-extract/src/resources/parsers/rgm.glm-runtime-resource.test.ts"
+        },
+        {
+          "source": "packages/pal-extract/src/resources/parsers/fire.ts",
+          "sha256": "0cfc135544de7ae6e1a2571fdb643333eac35833649e17a4e1b57a167849ac76",
+          "lines": [0, 11],
+          "branches": [0, 4],
+          "publicEntryPointers": [
+            "34: export function parseFirSprite(chunkIdx: number, buf: Uint8Array): FireSpriteOut {"
+          ],
+          "existingTestPointers": [],
+          "newTest": "packages/pal-extract/src/resources/parsers/fire.glm-runtime-resource.test.ts"
+        }
+      ]
+    },
+    {
+      "id": "R04",
+      "batch": "A",
+      "targets": [
+        {
+          "source": "packages/pal-extract/src/resources/scene.ts",
+          "sha256": "59dd66f60f240ebb9bf0ac8141d4c595d6e6e58dcd50fc0e1a66515adbcf1e61",
+          "lines": [12, 22],
+          "branches": [7, 12],
+          "publicEntryPointers": [
+            "44: export function dumpAllEventObjects(",
+            "60: export function dumpScene("
+          ],
+          "existingTestPointers": ["packages/pal-extract/src/resources/scene.test.ts"],
+          "newTest": "packages/pal-extract/src/resources/scene.glm-runtime-resource.test.ts"
+        },
+        {
+          "source": "packages/pal-extract/src/resources/sprite.ts",
+          "sha256": "a67029a3ba5e19f7d4e49f0dc8e0e8926384e8128caf2f8267ea9e5af0cd8331",
+          "lines": [1, 18],
+          "branches": [0, 6],
+          "publicEntryPointers": [
+            "26: export function encodeIndexedPng(",
+            "50: export function framesToOut(frames: RleFrame[]): SpriteFrameOut[] {",
+            "69: export function extractCharacterSprites("
+          ],
+          "existingTestPointers": ["packages/pal-extract/src/resources/sprite.test.ts"],
+          "newTest": "packages/pal-extract/src/resources/sprite.glm-runtime-resource.test.ts"
+        }
+      ]
+    },
+    {
+      "id": "R05",
+      "batch": "B",
+      "targets": [
+        {
+          "source": "packages/pal-extract/src/events/disasm.ts",
+          "sha256": "1850d382e521fd14b00734fb8f963de82046d856e5b348607469e85d844a113e",
+          "lines": [58, 69],
+          "branches": [35, 54],
+          "publicEntryPointers": ["36: export function disasm("],
+          "existingTestPointers": [
+            "packages/pal-extract/src/events/disasm.boundaries.test.ts",
+            "packages/pal-extract/src/events/disasm.test.ts"
+          ],
+          "newTest": "packages/pal-extract/src/events/disasm.glm-runtime-resource.test.ts"
+        },
+        {
+          "source": "packages/pal-extract/src/events/recompile.ts",
+          "sha256": "70a5ac15d498c2a9316080ccfaa2333664b9a99e18e186ec8f524086e2fb209f",
+          "lines": [50, 51],
+          "branches": [43, 48],
+          "publicEntryPointers": [
+            "11: export function recompile(commands: Command[], _messages: string[]): Uint8Array {"
+          ],
+          "existingTestPointers": [
+            "packages/pal-extract/src/events/recompile.boundaries.test.ts",
+            "packages/pal-extract/src/events/recompile.test.ts"
+          ],
+          "newTest": "packages/pal-extract/src/events/recompile.glm-runtime-resource.test.ts"
+        }
+      ]
+    },
+    {
+      "id": "R06",
+      "batch": "B",
+      "targets": [
+        {
+          "source": "packages/pal-extract/src/events/slice.ts",
+          "sha256": "6cb5a4f08c26b1638ea43bfa540961fffd6013aa03c0a1b612fe437eebb2fbbe",
+          "lines": [79, 91],
+          "branches": [59, 83],
+          "publicEntryPointers": ["45: export function sliceByScene("],
+          "existingTestPointers": [
+            "packages/pal-extract/src/events/slice.boundaries.test.ts",
+            "packages/pal-extract/src/events/slice.test.ts"
+          ],
+          "newTest": "packages/pal-extract/src/events/slice.glm-runtime-resource.test.ts"
+        },
+        {
+          "source": "packages/pal-extract/src/events/annotate.ts",
+          "sha256": "4823fae679314f2fd3eb5571d073048b1d6c9e225c79c1efe361d59d9a1f23e8",
+          "lines": [25, 30],
+          "branches": [19, 28],
+          "publicEntryPointers": [
+            "22: export const PERSON_OBJ_START = 36",
+            "23: export const ITEM_OBJ_START = 61",
+            "24: export const SPELL_OBJ_START = 296",
+            "25: export const ENEMY_OBJ_START = 398",
+            "70: export function annotate(commands: Command[], words: Words, symbols: Symbols): Command[] {"
+          ],
+          "existingTestPointers": ["packages/pal-extract/src/events/annotate.test.ts"],
+          "newTest": "packages/pal-extract/src/events/annotate.glm-runtime-resource.test.ts"
+        }
+      ]
+    },
+    {
+      "id": "R07",
+      "batch": "B",
+      "targets": [
+        {
+          "source": "packages/pal-extract/src/resources/parsers/enemy-teams.ts",
+          "sha256": "eb8369584d1ea80317fca82764ef9c0a88f653b9bcf6d8808b5cb92e41c8f5b0",
+          "lines": [26, 27],
+          "branches": [18, 22],
+          "publicEntryPointers": ["56: export function parseEnemyTeams("],
+          "existingTestPointers": [
+            "packages/pal-extract/src/resources/parsers/__tests__/enemy-teams.boundaries.test.ts"
+          ],
+          "newTest": "packages/pal-extract/src/resources/parsers/enemy-teams.glm-runtime-resource.test.ts"
+        },
+        {
+          "source": "packages/pal-extract/src/resources/parsers/items.ts",
+          "sha256": "ce10629b77c6ca18c32e755e1b9f7dfd57287558da7eed0e27528fbac52ba7dc",
+          "lines": [19, 20],
+          "branches": [4, 6],
+          "publicEntryPointers": [
+            "72: export function parseItems(objBuf: Uint8Array, words?: Words): Item[] {"
+          ],
+          "existingTestPointers": [
+            "packages/pal-extract/src/resources/parsers/__tests__/items.boundaries.test.ts"
+          ],
+          "newTest": "packages/pal-extract/src/resources/parsers/items.glm-runtime-resource.test.ts"
+        },
+        {
+          "source": "packages/pal-extract/src/resources/parsers/stores.ts",
+          "sha256": "ac63cfe2cee9ba7ab01d6dd055fb93a78bf0b8a6d61648ac98be0d118d6fc0f4",
+          "lines": [15, 16],
+          "branches": [3, 4],
+          "publicEntryPointers": [
+            "28: export function parseStores(storeBuf: Uint8Array): Store[] {"
+          ],
+          "existingTestPointers": [
+            "packages/pal-extract/src/resources/parsers/__tests__/stores.boundaries.test.ts"
+          ],
+          "newTest": "packages/pal-extract/src/resources/parsers/stores.glm-runtime-resource.test.ts"
+        }
+      ]
+    },
+    {
+      "id": "R08",
+      "batch": "B",
+      "targets": [
+        {
+          "source": "packages/pal-extract/src/font/bdf-to-json.ts",
+          "sha256": "ee6d5b28275ecf6d26f667171a0e75d3bde8213da33cd5930c7e487f5a4b6a20",
+          "lines": [40, 40],
+          "branches": [16, 18],
+          "publicEntryPointers": [
+            "14: export function parseBdf(text: string): BdfGlyph[] {",
+            "71: export function glyphsToJson(glyphs: BdfGlyph[]): GlyphsJson {"
+          ],
+          "existingTestPointers": [
+            "packages/pal-extract/src/font/__tests__/bdf-to-json.boundaries.test.ts",
+            "packages/pal-extract/src/font/__tests__/bdf-to-json.test.ts"
+          ],
+          "newTest": "packages/pal-extract/src/font/bdf-to-json.glm-runtime-resource.test.ts"
+        },
+        {
+          "source": "packages/pal-extract/src/resources/asset-manifest.ts",
+          "sha256": "6946220262cdd9f490e5469c26e209554e5e87eb8188fb2d144f46d23b801a4b",
+          "lines": [21, 21],
+          "branches": [7, 8],
+          "publicEntryPointers": [
+            "28: export function buildManifest(entries: AssetEntry[]): AssetManifest {",
+            "42: export function collectAssetEntries(rootDir: string): AssetEntry[] {"
+          ],
+          "existingTestPointers": [],
+          "newTest": "packages/pal-extract/src/resources/asset-manifest.glm-runtime-resource.test.ts"
+        },
+        {
+          "source": "packages/pal-extract/src/resources/parsers/battle-fields.ts",
+          "sha256": "df5ed939b9761da191590e48fe9dd4c1b334c211b4a523cdc4b18df22a9848a2",
+          "lines": [10, 11],
+          "branches": [1, 2],
+          "publicEntryPointers": [
+            "44: export function parseBattleFields(fieldBuf: Uint8Array): BattleField[] {"
+          ],
+          "existingTestPointers": [
+            "packages/pal-extract/src/resources/parsers/__tests__/battle-fields.boundaries.test.ts"
+          ],
+          "newTest": "packages/pal-extract/src/resources/parsers/battle-fields.glm-runtime-resource.test.ts"
+        }
+      ]
+    },
+    {
+      "id": "R09",
+      "batch": "C",
+      "targets": [
+        {
+          "source": "packages/reforge/src/text/glyph.ts",
+          "sha256": "8338a9af967ad9f0cb723ec3592cdd15b60b53b1d78203a6aa1aa8c8665accea",
+          "lines": [61, 62],
+          "branches": [34, 42],
+          "publicEntryPointers": [
+            "21: export function decodeGlyph(glyph: Glyph, rgba: readonly [number, number, number]): Uint8Array {",
+            "43: export function parseBdfGlyphs(text: string, source = 'BDF'): GlyphTable {",
+            "84: export async function loadGlyphs(url = ENGINE_CHROME.fontBdf): Promise<GlyphTable> {",
+            "99: export function bakeGlyph("
+          ],
+          "existingTestPointers": ["packages/reforge/src/text/glyph.test.ts"],
+          "newTest": "packages/reforge/src/text/glyph.glm-runtime-resource.test.ts"
+        },
+        {
+          "source": "packages/reforge/src/text/text-render.ts",
+          "sha256": "7976cd1ba1493b922fda9cc258ab980876e7c5109cb27157cef3bbcb7fa123e8",
+          "lines": [29, 29],
+          "branches": [22, 26],
+          "publicEntryPointers": [
+            "26: export function renderSpans(",
+            "63: export function measureSpans(spans: readonly TextSpan[], glyphs: GlyphTable): number {"
+          ],
+          "existingTestPointers": [],
+          "newTest": "packages/reforge/src/text/text-render.glm-runtime-resource.test.ts"
+        }
+      ]
+    },
+    {
+      "id": "R10",
+      "batch": "C",
+      "targets": [
+        {
+          "source": "packages/reforge/src/engine-chrome/registry.ts",
+          "sha256": "02bb8bdcfd46edc48a6ea731acc8ed176017c52a9d565b143194f1e524f95792",
+          "lines": [27, 28],
+          "branches": [11, 14],
+          "publicEntryPointers": [
+            "23: export const ENGINE_CHROME_UI_SLOTS: readonly EngineChromeUiSlot[] = [",
+            "59: export const ENGINE_CHROME = {",
+            "68: export function engineChromeUiUrl(slot: EngineChromeUiSlot): string {",
+            "74: export function assertEngineChromeComplete(): void {",
+            "90: export function loadEngineChromeImage(slot: EngineChromeImageSlot): Promise<ImageBitmap> {"
+          ],
+          "existingTestPointers": [
+            "packages/reforge/src/engine-chrome/registry.lifecycle.test.ts",
+            "packages/reforge/src/engine-chrome/registry.test.ts"
+          ],
+          "newTest": "packages/reforge/src/engine-chrome/registry.glm-runtime-resource.test.ts"
+        },
+        {
+          "source": "packages/reforge/src/menu/item-list.ts",
+          "sha256": "1c8b988e6ab8a531020b11fb8c10e97352ba4a972e32b7ad29bbbf7d7ae4ff84",
+          "lines": [54, 67],
+          "branches": [20, 30],
+          "publicEntryPointers": ["91: export function drawItemGridList("],
+          "existingTestPointers": [],
+          "newTest": "packages/reforge/src/menu/item-list.glm-runtime-resource.test.ts"
+        }
+      ]
+    },
+    {
+      "id": "R11",
+      "batch": "C",
+      "targets": [
+        {
+          "source": "packages/reforge/src/menu/menu-box.ts",
+          "sha256": "9c7c7b569e035fe5771fce79e5549e34aea1d66b7577569b2a6d98962ffcf2c1",
+          "lines": [234, 235],
+          "branches": [106, 141],
+          "publicEntryPointers": [
+            "90: export function drawSlicedBox(",
+            "156: export const COLOR_NORMAL = [199, 186, 174] as const",
+            "157: export const COLOR_DISABLED = [166, 40, 32] as const",
+            "158: export const COLOR_DISABLED_SEL = [215, 109, 93] as const",
+            "159: export const SELECTED_COLORS = [",
+            "195: export function drawNumber(",
+            "215: export function drawNumberLeft(",
+            "238: export function drawScroll(",
+            "259: export function drawConfirmBox(",
+            "358: export async function loadMenuAssets(",
+            "451: export class MenuBox {"
+          ],
+          "existingTestPointers": [
+            "packages/reforge/src/menu/menu-box.residual.test.ts",
+            "packages/reforge/src/menu/menu-box.status-residual.test.ts"
+          ],
+          "newTest": "packages/reforge/src/menu/menu-box.glm-runtime-resource.test.ts"
+        },
+        {
+          "source": "packages/reforge/src/menu/system-box.ts",
+          "sha256": "1d9d39cbcf1e5bae560055236abea1fb9f22afc3cdacfc3a200fd801acea6aec",
+          "lines": [17, 19],
+          "branches": [11, 18],
+          "publicEntryPointers": ["25: export function drawSystemMenu("],
+          "existingTestPointers": [],
+          "newTest": "packages/reforge/src/menu/system-box.glm-runtime-resource.test.ts"
+        }
+      ]
+    },
+    {
+      "id": "R12",
+      "batch": "C",
+      "targets": [
+        {
+          "source": "packages/reforge/src/menu/magic-box.ts",
+          "sha256": "622c1f73e0f883c780f39ad618e60cbcc42568355a35dcbc5ccc2076273a03f1",
+          "lines": [87, 87],
+          "branches": [34, 51],
+          "publicEntryPointers": ["84: export function drawMagicMenu("],
+          "existingTestPointers": [],
+          "newTest": "packages/reforge/src/menu/magic-box.glm-runtime-resource.test.ts"
+        },
+        {
+          "source": "packages/reforge/src/menu/use-box.ts",
+          "sha256": "e7b0c2eba93da98538a7b8616192d1c889346ad0853c4882ae32a5bd1a98dd47",
+          "lines": [53, 53],
+          "branches": [22, 32],
+          "publicEntryPointers": ["68: export function drawUseMenu("],
+          "existingTestPointers": [],
+          "newTest": "packages/reforge/src/menu/use-box.glm-runtime-resource.test.ts"
+        },
+        {
+          "source": "packages/reforge/src/menu/equip-box.ts",
+          "sha256": "5fe9dd6c31218af862e03b531b47783026281f3e01df2c6d1a56df680ead74e3",
+          "lines": [51, 52],
+          "branches": [15, 24],
+          "publicEntryPointers": ["176: export function drawEquipMenu("],
+          "existingTestPointers": [],
+          "newTest": "packages/reforge/src/menu/equip-box.glm-runtime-resource.test.ts"
+        }
+      ]
+    },
+    {
+      "id": "R13",
+      "batch": "D",
+      "targets": [
+        {
+          "source": "packages/reforge/src/menu/shop-box.ts",
+          "sha256": "32e2a88959da4ac86507d335cda26231d982c0d846538d2a721f5f2f01c4b48f",
+          "lines": [101, 101],
+          "branches": [75, 88],
+          "publicEntryPointers": [
+            "64: export function openShopUi(mode: 'buy' | 'sell', list: string[]): ShopUiState {",
+            "76: export function shopInput(",
+            "147: export function drawShop("
+          ],
+          "existingTestPointers": [
+            "packages/reforge/src/menu/shop-box.residual.test.ts",
+            "packages/reforge/src/menu/shop-box.test.ts"
+          ],
+          "newTest": "packages/reforge/src/menu/shop-box.glm-runtime-resource.test.ts"
+        },
+        {
+          "source": "packages/reforge/src/menu/save-browser-box.ts",
+          "sha256": "5ad6c627b40530edd66c3354127ea2eb89ef3098a248cefda76373318a968a36",
+          "lines": [76, 77],
+          "branches": [37, 45],
+          "publicEntryPointers": ["61: export function drawSaveBrowser("],
+          "existingTestPointers": [],
+          "newTest": "packages/reforge/src/menu/save-browser-box.glm-runtime-resource.test.ts"
+        }
+      ]
+    },
+    {
+      "id": "R14",
+      "batch": "D",
+      "targets": [
+        {
+          "source": "packages/reforge/src/battle/battle-ui.ts",
+          "sha256": "4c76715c5666ab82a3feb9b6972ff680d48653e1dff9252cd62d0ba36fb4a143",
+          "lines": [116, 143],
+          "branches": [82, 122],
+          "publicEntryPointers": [
+            "65: export const MAGIC_GRID: GridLayout = {",
+            "74: export const ITEM_GRID: GridLayout = {",
+            "147: export function drawPlayerInfoBox(",
+            "212: export function drawBattleMenuBox(",
+            "311: export function drawMainIcons(",
+            "333: export function drawBattleGrid(",
+            "369: export function drawMpBox(",
+            "382: export function drawItemDetailBox(",
+            "394: export function drawCurrentFinger(",
+            "408: export function drawPlayerTargetArrow("
+          ],
+          "existingTestPointers": ["packages/reforge/src/battle/battle-ui.residual.test.ts"],
+          "newTest": "packages/reforge/src/battle/battle-ui.glm-runtime-resource.test.ts"
+        },
+        {
+          "source": "packages/reforge/src/battle/present-battle.ts",
+          "sha256": "ef751013305eda44a632c1e6578e7d8c566eb13d819a60e191e7ed5fe538afbc",
+          "lines": [82, 84],
+          "branches": [37, 46],
+          "publicEntryPointers": [
+            "81: export function drawDissolved(",
+            "127: export function renderBattleScene("
+          ],
+          "existingTestPointers": [
+            "packages/reforge/src/battle/present-battle.residual.test.ts",
+            "packages/reforge/src/battle/present-battle.test.ts"
+          ],
+          "newTest": "packages/reforge/src/battle/present-battle.glm-runtime-resource.test.ts"
+        }
+      ]
+    },
+    {
+      "id": "R15",
+      "batch": "D",
+      "targets": [
+        {
+          "source": "packages/reforge/src/battle/battle-anim.ts",
+          "sha256": "9af34786697d41dabec6e844f67276ac86dc9a272573d1982c118cf5d8bdcedc",
+          "lines": [398, 402],
+          "branches": [286, 318],
+          "publicEntryPointers": [
+            "113: export function buildPlayerAttackAll(input: BuildAttackAllInput): AnimFrame[] {",
+            "183: export function buildPlayerAttack(input: BuildPlayerAttackInput): AnimFrame[] {",
+            "286: export function buildMateAttack(input: BuildMateAttackInput): AnimFrame[] {",
+            "359: export function buildEnemyMateAttack(input: BuildEnemyMateAttackInput): AnimFrame[] {",
+            "453: export function buildUseItem(input: BuildUseItemInput): AnimFrame[] {",
+            "533: export function buildThrowItem(input: BuildThrowItemInput): AnimFrame[] {",
+            "613: export function buildEnemyPhysical(input: BuildEnemyPhysicalInput): AnimFrame[] {",
+            "848: export function buildOffMagic(input: BuildOffMagicInput): AnimFrame[] {",
+            "886: export function buildPlayerCast(input: BuildPlayerCastInput): AnimFrame[] {",
+            "1057: export function buildPlayerCoop(input: BuildPlayerCoopInput): AnimFrame[] {",
+            "1238: export function buildEnemyCast(input: BuildEnemyCastInput): AnimFrame[] {",
+            "1356: export class AnimPlayer {",
+            "1411: export function buildPartyFlee(input: BuildPartyFleeInput & { sound?: AssetId }): AnimFrame[] {",
+            "1431: export function buildFleeFail(input: {",
+            "1464: export function buildSteal(input: {",
+            "1501: export function buildEnemyEscape(input: {",
+            "1526: export function buildEnemyTransform(input: {",
+            "1593: export function buildPlayerScriptCastEffect(input: BuildPlayerScriptCastEffectInput): AnimFrame[] {",
+            "1663: export function buildPlayerTrance(input: BuildPlayerTranceInput): AnimFrame[] {",
+            "1758: export function buildEnemyDivide(input: {"
+          ],
+          "existingTestPointers": [
+            "packages/reforge/src/battle/battle-anim.attack-all.residual.test.ts",
+            "packages/reforge/src/battle/battle-anim.coop.residual.test.ts",
+            "packages/reforge/src/battle/battle-anim.enemy-cast.residual.test.ts",
+            "packages/reforge/src/battle/battle-anim.summon.residual.test.ts",
+            "packages/reforge/src/battle/battle-anim.test.ts"
+          ],
+          "newTest": "packages/reforge/src/battle/battle-anim.glm-runtime-resource.test.ts"
+        },
+        {
+          "source": "packages/reforge/src/battle/battle-positions.ts",
+          "sha256": "1b980a44ec80c34cf9406587d783d0575da8088d82a95f67c88deeb3334b6062",
+          "lines": [7, 7],
+          "branches": [2, 3],
+          "publicEntryPointers": [
+            "7: export const PLAYER_POSITIONS_BY_COUNT: ReadonlyArray<ReadonlyArray<{ x: number; y: number }>> = [",
+            "37: export const ENEMY_POSITIONS_BY_COUNT: ReadonlyArray<ReadonlyArray<{ x: number; y: number }>> = [",
+            "64: export function getPlayerBasePos(",
+            "74: export function getEnemyBasePos("
+          ],
+          "existingTestPointers": [],
+          "newTest": "packages/reforge/src/battle/battle-positions.glm-runtime-resource.test.ts"
+        }
+      ]
+    },
+    {
+      "id": "R16",
+      "batch": "D",
+      "targets": [
+        {
+          "source": "packages/reforge/src/battle/settlement.ts",
+          "sha256": "54dfd45d28187c041c764cfbbb99952d647a62c5e99a2dc3edce5e439389b146",
+          "lines": [105, 105],
+          "branches": [31, 43],
+          "publicEntryPointers": [
+            "47: export function buildSettlementScreens(",
+            "85: export function drawSettlementScreen("
+          ],
+          "existingTestPointers": [],
+          "newTest": "packages/reforge/src/battle/settlement.glm-runtime-resource.test.ts"
+        },
+        {
+          "source": "packages/reforge/src/battle/battle-settlement-presentation.ts",
+          "sha256": "55147f97264d6683ba2c67be5e4eadb7f9eabcf31532964351b9a9a5ec51cd97",
+          "lines": [26, 26],
+          "branches": [34, 35],
+          "publicEntryPointers": ["18: export class BattleSettlementPresentation {"],
+          "existingTestPointers": [
+            "packages/reforge/src/battle/battle-settlement-presentation.test.ts"
+          ],
+          "newTest": "packages/reforge/src/battle/battle-settlement-presentation.glm-runtime-resource.test.ts"
+        }
+      ]
+    },
+    {
+      "id": "R17",
+      "batch": "E",
+      "targets": [
+        {
+          "source": "packages/reforge/src/audio/midi-preview.ts",
+          "sha256": "fef49aabb5e477400078585e72fb8a8e87f36b04d8a3a8ff8023a1cc3126fa5a",
+          "lines": [131, 172],
+          "branches": [95, 123],
+          "publicEntryPointers": [
+            "57: export function createMidiNoteActivity(",
+            "92: export async function analyzeMidiBytes(",
+            "102: export function createBrowserMidiPreviewRuntime(",
+            "182: export function createMidiPreviewTransport("
+          ],
+          "existingTestPointers": [
+            "packages/reforge/src/audio/midi-preview.lifecycle-boundaries.test.ts",
+            "packages/reforge/src/audio/midi-preview.test.ts"
+          ],
+          "newTest": "packages/reforge/src/audio/midi-preview.glm-runtime-resource.test.ts"
+        },
+        {
+          "source": "packages/reforge/src/audio/sfx-readiness.ts",
+          "sha256": "a0f6649e13228d4a0af3fb0013ce194c65b5855c52ac434d993f7ffae626ecc9",
+          "lines": [162, 162],
+          "branches": [110, 132],
+          "publicEntryPointers": [
+            "122: export async function collectScriptSoundAssets(",
+            "152: export async function collectSceneSoundAssets(input: {",
+            "298: export async function collectBattleBaseSounds(input: BattleBaseSoundInput): Promise<Set<AssetId>> {",
+            "348: export function collectTurnActionSounds(input: TurnActionSoundInput): Set<AssetId> {"
+          ],
+          "existingTestPointers": [
+            "packages/reforge/src/audio/sfx-readiness.collections.test.ts",
+            "packages/reforge/src/audio/sfx-readiness.test.ts"
+          ],
+          "newTest": "packages/reforge/src/audio/sfx-readiness.glm-runtime-resource.test.ts"
+        }
+      ]
+    },
+    {
+      "id": "R18",
+      "batch": "E",
+      "targets": [
+        {
+          "source": "packages/reforge/src/audio/bgm.ts",
+          "sha256": "904c5bcd62e5c2dab1e1295ff187e25df09d7e062f57e4dda03ee91bcf787fce",
+          "lines": [108, 137],
+          "branches": [75, 101],
+          "publicEntryPointers": [
+            "54: export const BATTLE_MUSIC_TRANSITION_MS = 300",
+            "121: export function createBgmPlayerWithRuntime(",
+            "295: export function createBgmPlayer(resolver: AudioAssetReader): BgmPlayer {"
+          ],
+          "existingTestPointers": [
+            "packages/reforge/src/audio/bgm.dispose.test.ts",
+            "packages/reforge/src/audio/bgm.runtime-boundaries.test.ts",
+            "packages/reforge/src/audio/bgm.test.ts"
+          ],
+          "newTest": "packages/reforge/src/audio/bgm.glm-runtime-resource.test.ts"
+        },
+        {
+          "source": "packages/reforge/src/audio/sfx.ts",
+          "sha256": "46f2a0e752b79f23f2fbe1f6ccb0a588c5ae30adb1d32cea963f6e357de15e29",
+          "lines": [131, 133],
+          "branches": [73, 82],
+          "publicEntryPointers": [
+            "4: export const SFX_DECODE_BUDGET = 64",
+            "7: export class SfxReadinessFatalError extends Error {",
+            "12: export class SfxReadinessBudgetError extends SfxReadinessFatalError {",
+            "24: export class SfxReadinessCollectionError extends SfxReadinessFatalError {",
+            "29: export class SfxReadinessResourceError extends Error {",
+            "105: export class SfxPlayer {"
+          ],
+          "existingTestPointers": [
+            "packages/reforge/src/audio/sfx.staged-failures.test.ts",
+            "packages/reforge/src/audio/sfx.test.ts"
+          ],
+          "newTest": "packages/reforge/src/audio/sfx.glm-runtime-resource.test.ts"
+        }
+      ]
+    },
+    {
+      "id": "R19",
+      "batch": "E",
+      "targets": [
+        {
+          "source": "packages/reforge/src/battle/battle-sprite-readiness.ts",
+          "sha256": "b21a654bed89acac3c485f236b091246ad6bf61102825bb19f1cb3111c6bff51",
+          "lines": [43, 44],
+          "branches": [14, 20],
+          "publicEntryPointers": [
+            "40: export function collectBattleSkillFireChunks(input: {",
+            "64: export async function prepareBattleSpriteReadiness("
+          ],
+          "existingTestPointers": ["packages/reforge/src/battle/battle-sprite-readiness.test.ts"],
+          "newTest": "packages/reforge/src/battle/battle-sprite-readiness.glm-runtime-resource.test.ts"
+        },
+        {
+          "source": "packages/reforge/src/battle/battle-launch-preparation.ts",
+          "sha256": "c13c54d7e6cad926432e810cbd028661fc216b3f04e538e371e792e9710a7c20",
+          "lines": [79, 90],
+          "branches": [39, 59],
+          "publicEntryPointers": [
+            "64: export const isBattleAbort = (error: unknown): boolean =>",
+            "71: export class BattleLaunchPreparation {"
+          ],
+          "existingTestPointers": ["packages/reforge/src/battle/battle-launch-preparation.test.ts"],
+          "newTest": "packages/reforge/src/battle/battle-launch-preparation.glm-runtime-resource.test.ts"
+        }
+      ]
+    },
+    {
+      "id": "R20",
+      "batch": "E",
+      "targets": [
+        {
+          "source": "packages/reforge/src/battle-trial-assets.ts",
+          "sha256": "deaadfbf73032b40dfe33ed6e217079360a1b51d5191c050f3d8dc53e9184602",
+          "lines": [108, 117],
+          "branches": [55, 75],
+          "publicEntryPointers": [
+            "33: export function trialAbortError(): DOMException {",
+            "36: export function abortableTrial<T>(promise: Promise<T>, signal: AbortSignal): Promise<T> {",
+            "53: export function createTrialFileSnapshot(",
+            "105: export async function prepareBattleTrialAssets("
+          ],
+          "existingTestPointers": ["packages/reforge/src/battle-trial-assets.wave2.test.ts"],
+          "newTest": "packages/reforge/src/battle-trial-assets.glm-runtime-resource.test.ts"
+        },
+        {
+          "source": "packages/reforge/src/battle-trial-config.ts",
+          "sha256": "2f83e8e0cea0581b5b805a25f31b75e4d1dce0dc6a1580d6604597a84f1ff652",
+          "lines": [89, 89],
+          "branches": [75, 77],
+          "publicEntryPointers": [
+            "25: export const TRIAL_MAX_PARTY_MEMBERS = 3",
+            "44: export function trialObject(value: unknown, keys: readonly string[], where: string) {",
+            "55: export function trialArray(value: unknown, where: string): unknown[] {",
+            "61: export function trialId(value: unknown, where: string): string {",
+            "66: export function trialInteger(value: unknown, min: number, max: number, where: string): number {",
+            "71: export function trialBoolean(value: unknown, where: string): boolean {",
+            "103: export function parseTrialMusic(value: unknown, where = 'trial.music'): TrialMusic {",
+            "112: export function parseTrialParty(value: unknown, where = 'trial.party'): TrialParty {",
+            "167: export function parseTrialEnemies(value: unknown, where = 'trial.enemies'): TrialEnemies {",
+            "182: export function parseTrialBag(value: unknown, where = 'trial.bag'): TrialBag {",
+            "201: export function parseBattleTrialConfig(value: unknown, where = 'trial'): BattleTrialConfig {"
+          ],
+          "existingTestPointers": [
+            "packages/reforge/src/battle-trial-config.test.ts",
+            "packages/reforge/src/battle-trial-config.wave2.test.ts"
+          ],
+          "newTest": "packages/reforge/src/battle-trial-config.glm-runtime-resource.test.ts"
+        },
+        {
+          "source": "packages/reforge/src/battle-trial-prepare.ts",
+          "sha256": "2ae9452bdd4d673c0797bb846e5ffab5d059620c6a13dc1d495fda2ed25449d7",
+          "lines": [86, 87],
+          "branches": [78, 84],
+          "publicEntryPointers": [
+            "45: export function battleTrialRevision(project: LoadedCurrentProjectCore): Promise<string> {",
+            "70: export function collectBattleTrialIssues(",
+            "187: export function previewBattleTrialParty(",
+            "199: export function prepareBattleTrial(input: unknown, project: LoadedCurrentProjectCore) {"
+          ],
+          "existingTestPointers": ["packages/reforge/src/battle-trial-prepare.wave2.test.ts"],
+          "newTest": "packages/reforge/src/battle-trial-prepare.glm-runtime-resource.test.ts"
+        }
+      ]
+    },
+    {
+      "id": "R21",
+      "batch": "F",
+      "targets": [
+        {
+          "source": "packages/migrate/src/pal-battle-sprites.ts",
+          "sha256": "dc7c3f3f1ecfe1c2cffa7f0dc4c263f5a3d8c61e07923a5cd1e424e301789978",
+          "lines": [9, 48],
+          "branches": [13, 44],
+          "publicEntryPointers": [
+            "5: export const PAL_PLAYER_BATTLE_SPRITE_FRAME_COUNTS = [",
+            "9: export const PAL_ENEMY_BATTLE_SPRITE_FRAME_COUNTS = [",
+            "17: export const PAL_PLAYER_BATTLE_EFFECT_INDEX = [",
+            "21: export function palPlayerBattleSpriteDefinitionId(sprite: number): string {",
+            "27: export function palEnemyBattleSpriteDefinitionId(sprite: number): string {",
+            "33: export function palSummonBattleSpriteDefinitionId(godId: number): string {",
+            "39: export function createPalPlayerBattleSpriteDefinitions(",
+            "86: export function createPalEnemyBattleSpriteDefinitions(",
+            "132: export function createPalBattleSpriteDefinitions("
+          ],
+          "existingTestPointers": [],
+          "newTest": "packages/migrate/src/pal-battle-sprites.glm-runtime-resource.test.ts"
+        },
+        {
+          "source": "packages/migrate/src/pal-world-sprite-layouts.ts",
+          "sha256": "e09c541b9731270d3c3a36d72e731f98de6763b1da58843f416870e6f1dffb7c",
+          "lines": [17, 19],
+          "branches": [9, 12],
+          "publicEntryPointers": [
+            "23: export const PAL_WORLD_SCENE_SEMANTIC_SPRITE_ALIASES = [",
+            "112: export const PAL_WORLD_SCENE_SEMANTIC_SPRITE_ALIAS_IDS: ReadonlySet<string> = new Set(",
+            "116: export const PAL_WORLD_SPRITE_LAYOUT_OVERLAYS = [",
+            "314: export const PAL_WORLD_SPRITE_LAYOUT_DEBT_AUDIT = [",
+            "338: export function assertPalWorldSpriteLayoutOverlaySources(frameCounts: readonly number[]): void {"
+          ],
+          "existingTestPointers": ["packages/migrate/src/pal-world-sprite-layouts.test.ts"],
+          "newTest": "packages/migrate/src/pal-world-sprite-layouts.glm-runtime-resource.test.ts"
+        }
+      ]
+    },
+    {
+      "id": "R22",
+      "batch": "F",
+      "targets": [
+        {
+          "source": "packages/migrate/src/pal-sprite-action-materialize.ts",
+          "sha256": "dead3d312f084c0398aadafb8fd8cd1d9a2047d38f6a382e5268b0f9837e39fc",
+          "lines": [85, 98],
+          "branches": [54, 77],
+          "publicEntryPointers": ["107: export function materializePalSpriteActions(args: {"],
+          "existingTestPointers": ["packages/migrate/src/pal-sprite-action-materialize.test.ts"],
+          "newTest": "packages/migrate/src/pal-sprite-action-materialize.glm-runtime-resource.test.ts"
+        },
+        {
+          "source": "packages/migrate/src/pal-world-sprite-semantic-alias.ts",
+          "sha256": "45b467fd999ce579e6525f51252d09139ad00fa7bbb0a6b2284796c7f4a8f758",
+          "lines": [82, 92],
+          "branches": [51, 65],
+          "publicEntryPointers": ["80: export function applyPalWorldSpriteSemanticAliases(args: {"],
+          "existingTestPointers": [
+            "packages/migrate/src/pal-world-sprite-semantic-alias.pal.test.ts",
+            "packages/migrate/src/pal-world-sprite-semantic-alias.test.ts"
+          ],
+          "newTest": "packages/migrate/src/pal-world-sprite-semantic-alias.glm-runtime-resource.test.ts"
+        }
+      ]
+    },
+    {
+      "id": "R23",
+      "batch": "F",
+      "targets": [
+        {
+          "source": "packages/migrate/src/pal-item-scheme-labels.ts",
+          "sha256": "2ed904b1e73e8fabc10d20ff3b7846615324af6ea5be2b7d28f6629d8fc0dda9",
+          "lines": [130, 154],
+          "branches": [77, 111],
+          "publicEntryPointers": ["382: export function assertPalItemSchemeLabelInvariant("],
+          "existingTestPointers": [
+            "packages/migrate/src/pal-item-scheme-labels.boundaries.test.ts",
+            "packages/migrate/src/pal-item-scheme-labels.pal.test.ts",
+            "packages/migrate/src/pal-item-scheme-labels.test.ts"
+          ],
+          "newTest": "packages/migrate/src/pal-item-scheme-labels.glm-runtime-resource.test.ts"
+        },
+        {
+          "source": "packages/migrate/src/pal-store-boundary.ts",
+          "sha256": "ed7a219b1504e67adde82793e892d45946a87d83f5c103e15b0c74be9ebdf2b3",
+          "lines": [89, 96],
+          "branches": [85, 97],
+          "publicEntryPointers": [
+            "4: export const PAL_STORE0_REWARD_ITEM_IDS = [",
+            "131: export function assertPalAlchemyBoundaryInvariant(",
+            "145: export function assertPalStoreBoundaryInvariant("
+          ],
+          "existingTestPointers": [
+            "packages/migrate/src/pal-store-boundary.boundaries.test.ts",
+            "packages/migrate/src/pal-store-boundary.pal.test.ts",
+            "packages/migrate/src/pal-store-boundary.test.ts"
+          ],
+          "newTest": "packages/migrate/src/pal-store-boundary.glm-runtime-resource.test.ts"
+        }
+      ]
+    },
+    {
+      "id": "R24",
+      "batch": "F",
+      "targets": [
+        {
+          "source": "packages/migrate/src/pal-casualty-scripts.ts",
+          "sha256": "5229cbce65775e4449da6dbe7a4af6c82391495b0b0c7d9f9839519ab89fd877",
+          "lines": [70, 75],
+          "branches": [59, 74],
+          "publicEntryPointers": [
+            "38: export const PAL_CASUALTY_LOCALE_KEYS: readonly string[] = [",
+            "121: export function translateCasualtyScript(",
+            "149: export function applyPalCasualtyOverlays("
+          ],
+          "existingTestPointers": [
+            "packages/migrate/src/pal-casualty-scripts.test.ts",
+            "packages/migrate/src/pal-casualty-scripts.wave2.test.ts"
+          ],
+          "newTest": "packages/migrate/src/pal-casualty-scripts.glm-runtime-resource.test.ts"
+        },
+        {
+          "source": "packages/migrate/src/music-reference-audit.ts",
+          "sha256": "d19c854fad48a853bab908a70f772cca06f03070dd37012a6ed2a0a6c65b5fd1",
+          "lines": [44, 44],
+          "branches": [29, 39],
+          "publicEntryPointers": ["21: export function auditMusicReferences("],
+          "existingTestPointers": ["packages/migrate/src/music-reference-audit.test.ts"],
+          "newTest": "packages/migrate/src/music-reference-audit.glm-runtime-resource.test.ts"
+        }
+      ]
+    },
+    {
+      "id": "R25",
+      "batch": "G",
+      "targets": [
+        {
+          "source": "packages/reforge/src/runtime-project-view.ts",
+          "sha256": "d4ba866f70a83ddd8bc09d22d625faabe69783c3ed065d37f6d48d1400ecd950",
+          "lines": [69, 71],
+          "branches": [75, 83],
+          "publicEntryPointers": [
+            "48: export function runtimeScriptRef(id: string): ScriptRef {",
+            "81: export function projectItemsView(items: AuthorItemCoreMap | AuthorItemDataMap): ItemDataMap {",
+            "165: export function baseSceneView(scene: BaseSceneDef, world: WorldScriptState): SceneDef {",
+            "178: export function refreshSceneViewBindings(",
+            "200: export function runtimeSceneView(",
+            "208: export function captureRuntimeSceneBehaviorDependencies(",
+            "256: export function runtimeProjectView(",
+            "269: export function projectedWorldScriptScratch(",
+            "287: export function isRuntimeScriptRef(ref: ScriptRef): boolean {"
+          ],
+          "existingTestPointers": [
+            "packages/reforge/src/runtime-project-view.boundaries.test.ts",
+            "packages/reforge/src/runtime-project-view.test.ts"
+          ],
+          "newTest": "packages/reforge/src/runtime-project-view.glm-runtime-resource.test.ts"
+        },
+        {
+          "source": "packages/reforge/src/project-map.ts",
+          "sha256": "3e301a36bbdfe7d0ec9b53fdc32c359d692090b929dc9e7b1179de45fe973a2e",
+          "lines": [168, 189],
+          "branches": [116, 151],
+          "publicEntryPointers": [
+            "47: export function buildBlankProjectMap(width: number, height: number, tilesetId: string): ProjectMap {",
+            "66: export function buildProjectMapLayer(",
+            "80: export function nextProjectMapLayerId(map: ProjectMap): string {",
+            "88: export function isLatticeInside(",
+            "96: export function latticeCenter(pos: LatticePos): { x: number; y: number } {",
+            "104: export function projectMapTileBlitRect(",
+            "113: export function pixelToLattice(x: number, y: number): LatticePos {",
+            "135: export function latticeInRect(x0: number, y0: number, x1: number, y1: number): LatticePos[] {",
+            "152: export function latticeInMapRect(",
+            "174: export function projectMapTilesInView(",
+            "208: export function paintProjectMapTiles<T extends ProjectMap>(",
+            "280: export function paintProjectMapCollision<T extends ProjectMap>(",
+            "297: export function floodFillProjectMapTiles(",
+            "368: export function resizeProjectMap<T extends ProjectMap>(map: T, width: number, height: number): T {",
+            "390: export function insertProjectMapLayer<T extends ProjectMap>(",
+            "400: export function removeProjectMapLayer<T extends ProjectMap>(map: T, layerId: string): T {",
+            "412: export function moveProjectMapLayer<T extends ProjectMap>(",
+            "428: export function updateProjectMapLayer<T extends ProjectMap>(",
+            "442: export function withProjectMapStampPlacements(",
+            "461: export function projectMapStampPlacements(map: ProjectMap): readonly StampPlacementGroupV1[] {"
+          ],
+          "existingTestPointers": [
+            "packages/reforge/src/project-map.cursor-boundaries.test.ts",
+            "packages/reforge/src/project-map.test.ts"
+          ],
+          "newTest": "packages/reforge/src/project-map.glm-runtime-resource.test.ts"
+        },
+        {
+          "source": "packages/reforge/src/asset-resolver.ts",
+          "sha256": "d61bfe5d7b68331d6b182aabec9b9e2b66977c2af1c701fd712535fb697db92b",
+          "lines": [33, 33],
+          "branches": [11, 14],
+          "publicEntryPointers": ["12: export class AssetResolver {"],
+          "existingTestPointers": [
+            "packages/reforge/src/asset-resolver.io-boundaries.test.ts",
+            "packages/reforge/src/asset-resolver.test.ts"
+          ],
+          "newTest": "packages/reforge/src/asset-resolver.glm-runtime-resource.test.ts"
+        }
+      ]
+    },
+    {
+      "id": "R26",
+      "batch": "G",
+      "targets": [
+        {
+          "source": "packages/migrate/src/script-library-normalize.ts",
+          "sha256": "5f67699dd39fbcb0540018fdf122c97c64bbf4a18b7d9f3a1666386bee4949d4",
+          "lines": [65, 69],
+          "branches": [42, 59],
+          "publicEntryPointers": [
+            "12: export const MIGRATION_SCRIPT_VIEW_PATH = 'content/scripts/.mg2-by-script-id.json'",
+            "26: export function isMigrationScriptChunkFile(path: string): boolean {",
+            "54: export function canonicalizeMigrationScriptFiles(",
+            "109: export function materializeMigrationScriptFiles(",
+            "156: export function normalizeMigrationScriptFiles("
+          ],
+          "existingTestPointers": ["packages/migrate/src/script-library-normalize.test.ts"],
+          "newTest": "packages/migrate/src/script-library-normalize.glm-runtime-resource.test.ts"
+        },
+        {
+          "source": "packages/migrate/src/script-overlays.ts",
+          "sha256": "afa2cc75b7187dd3f84248a7fedfb167346cbef5781088d370d0f4877d025ed1",
+          "lines": [39, 39],
+          "branches": [36, 44],
+          "publicEntryPointers": [
+            "29: export function applyPalScriptOverlays(scenes: SceneDef[]): SceneDef[] {"
+          ],
+          "existingTestPointers": ["packages/migrate/src/script-overlays.test.ts"],
+          "newTest": "packages/migrate/src/script-overlays.glm-runtime-resource.test.ts"
+        }
+      ]
+    },
+    {
+      "id": "R27",
+      "batch": "G",
+      "targets": [
+        {
+          "source": "packages/migrate/src/project-map-converter.ts",
+          "sha256": "bbe0dad12fb1e0cd1b5bcdbd4076fa1b5c719ccb22089209fa7d8e37b17e35c3",
+          "lines": [60, 67],
+          "branches": [49, 56],
+          "publicEntryPointers": [
+            "9: export const SOURCE_MAP_RESIDUAL_MASK = 0xe000c000",
+            "10: export const SOURCE_MAP_MODELED_MASK = 0x1fff3fff",
+            "12: export function mapIdFromSourceNumber(mapNum: number): string {",
+            "18: export function tilesetIdFromSourceNumber(mapNum: number): string {",
+            "36: export function decodeSourceMapWord(word: number): DecodedSourceWord {",
+            "50: export function encodeProjectMapWord(",
+            "92: export function convertSourceTilemap(mapNum: number, source: Tilemap): ProjectMap {",
+            "150: export function sourceWordFromProjectMap(map: ProjectMap, latticeRow: number, col: number): number {",
+            "163: export function formattedProjectMapBytes(map: ProjectMap): number {"
+          ],
+          "existingTestPointers": [
+            "packages/migrate/src/project-map-converter.boundaries.test.ts",
+            "packages/migrate/src/project-map-converter.test.ts"
+          ],
+          "newTest": "packages/migrate/src/project-map-converter.glm-runtime-resource.test.ts"
+        },
+        {
+          "source": "packages/migrate/src/project-map-audit.ts",
+          "sha256": "84c93654f3d609f2bcb5b1b2ed3da651ba083d84b019ddf07005a7af39a2bce3",
+          "lines": [55, 57],
+          "branches": [34, 36],
+          "publicEntryPointers": ["55: export function auditAndConvertSourceMaps("],
+          "existingTestPointers": [],
+          "newTest": "packages/migrate/src/project-map-audit.glm-runtime-resource.test.ts"
+        },
+        {
+          "source": "packages/migrate/src/bake-indexed-rgba.ts",
+          "sha256": "ed01ecb33cab1f784207c482d9d307aa7ab97f8013b04d229a846bc2a93a5ea7",
+          "lines": [9, 9],
+          "branches": [6, 8],
+          "publicEntryPointers": [
+            "10: export function bakeIndexedRgba(src: Uint8Array, palette: readonly Rgb[]): Uint8Array {"
+          ],
+          "existingTestPointers": ["packages/migrate/src/bake-indexed-rgba.test.ts"],
+          "newTest": "packages/migrate/src/bake-indexed-rgba.glm-runtime-resource.test.ts"
+        }
+      ]
+    },
+    {
+      "id": "R28",
+      "batch": "G",
+      "targets": [
+        {
+          "source": "packages/migrate/src/script-control-flow-audit.ts",
+          "sha256": "5b0ed4bb3accac3746ac4776288a759cee3ad63e740242f2b2d8463a5b995dea",
+          "lines": [182, 601],
+          "branches": [171, 524],
+          "publicEntryPointers": [
+            "15: export const SCRIPT_CONTROL_FLOW_AUDIT_METHOD = 'n3-p0-v1' as const",
+            "545: export function collectSourceEntrySites(sources: PalMigrationSources): {",
+            "1020: export function auditPalScriptControlFlow(",
+            "1746: export function assertScriptControlFlowAudit(report: ScriptControlFlowAuditV1): void {",
+            "1751: export function semanticSourceGraphForTest(",
+            "1758: export function sourceAddressZeroSitesForTest(",
+            "1766: export function sourceSceneHookPatchesForTest(commands: readonly SourceCmd[]) {",
+            "1770: export function sourceHookInstallerAddressesForTest(",
+            "1786: export function productReferenceSitesForTest(body: readonly Command[]): ProductReferenceSite[] {",
+            "1790: export function productComponentAuditForTest(bodies: Readonly<Record<string, Command[]>>): {"
+          ],
+          "existingTestPointers": ["packages/migrate/src/script-control-flow-audit.test.ts"],
+          "newTest": "packages/migrate/src/script-control-flow-audit.glm-runtime-resource.test.ts",
+          "authorizedRegion": {
+            "export": "collectSourceEntrySites",
+            "startLine": 545,
+            "endLine": 651,
+            "lines": [0, 39],
+            "branches": [0, 31],
+            "note": "Only this public function is assigned in R28; the rest of the file, full audit and ForTest exports are excluded."
+          }
+        }
+      ]
+    }
+  ]
+}
