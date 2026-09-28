@@ -76,6 +76,7 @@ check8896/单次strict8404全过；实际+134分支/+73行，content分支85.55%
 
 | ID | 任务 | 状态 | 负责人/下一步 | 一句话备注 |
 |---|---|---|---|---|
+| TEST-KIMI-EDITOR-WORKFLOWS-1 | [编辑器十二组真实工作流补测](tasks/TEST-KIMI-EDITOR-WORKFLOWS-1-twelve-groups.md) | build | Kimi / A→B→C连续实施 | 20目标，2401未命中臂仅选题；新增测试+隔离视觉，Codex分批验收/统一门，不影响002 |
 | E2E-R4-1 | [路线驱动与检查点薄基线](tasks/E2E-R4-1-route-and-checkpoint-foundation.md) | build | Codex / 002正常移动与跨场景 | 001 verify已收口：55正文/角色/真实读档及像素；002继承真档，录制音轨另排 |
 | EDITOR-SCENE-FACING-1 | [切场景朝向清除](tasks/EDITOR-SCENE-FACING-1-clear-override.md) | draft | Codex / 后续窄修 | 保持选项仍提交旧方向；真实红诊断+单点oracle已证 |
 | ARCH-SUPPORT-GLM-1 | [八组并行架构/视觉准备](tasks/ARCH-SUPPORT-GLM-1-eight-audit-packages.md) | draft | Codex / 后续归属与收口 | 58cdf938材料accept，counter清零；文档已合入，按用户要求未标done/未开产品门 |

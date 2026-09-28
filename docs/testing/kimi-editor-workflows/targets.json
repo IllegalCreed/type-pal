@@ -1,0 +1,512 @@
+{
+  "schemaVersion": 1,
+  "task": "TEST-KIMI-EDITOR-WORKFLOWS-1",
+  "productionFreeze": "29e76fe62070fb03bf2459cf95dc2a70ba0f2a0b",
+  "status": "dispatch-snapshot-not-delivery-evidence",
+  "coverage": {
+    "profile": "fast",
+    "provider": "v8",
+    "vitest": "4.1.7",
+    "source": "/Users/zhangxu/.codex/worktrees/e2e-opening/type-pal/coverage/fast/editor/lcov.info",
+    "lcovSha256": "2ba28c340ae91fed2e72bf7ccd67bb97529f7e05de787387e1cabbe60d19b9e1",
+    "baselinePath": "scripts/coverage/baseline.fast.json",
+    "baselineSha256": "8a3077925250909167f23786a8474fb58839976f05777dc64ef4ef9f51f975f5",
+    "scope": "20 selected modules only; missing arms are selection hints, not guaranteed reachable or novel contracts",
+    "totals": {
+      "lines": {
+        "covered": 5028,
+        "total": 6727,
+        "missing": 1699
+      },
+      "branches": {
+        "covered": 4723,
+        "total": 7124,
+        "missing": 2401
+      }
+    }
+  },
+  "inventoryCaveat": "existingSameStemTests is a starting list, not a complete cross-file dedup audit; read callers and search all editor tests for each contract",
+  "existingProofOnly": [
+    {
+      "source": "packages/editor/src/core/audio-preview-session.ts",
+      "sourceSha256": "8a483b710677210035ad155d23df4132a7df37eb35d5bce1ac05a959cff9ead5",
+      "lines": "10/10",
+      "branches": "4/4",
+      "test": "packages/editor/src/core/audio-preview-session.test.ts",
+      "rule": "reuse as a dependency; no new standalone test quota or coverage contribution"
+    }
+  ],
+  "groups": [
+    {
+      "id": "K01",
+      "delivery": "A",
+      "targets": [
+        {
+          "source": "packages/editor/src/ui/BattleSpriteLibrary.tsx",
+          "sourceSha256": "ee26ec7a0e876f8ec7b674a5b7eef8cd8af28d3b8e8aaca34885fd23a99b0aeb",
+          "coverage": {
+            "lines": {
+              "covered": 281,
+              "total": 489,
+              "missing": 208
+            },
+            "branches": {
+              "covered": 314,
+              "total": 538,
+              "missing": 224
+            }
+          },
+          "newTest": "packages/editor/src/ui/BattleSpriteLibrary.kimi-workflows.test.tsx",
+          "existingSameStemTests": [
+            "packages/editor/src/ui/BattleSpriteLibrary.glm-ui-wave.test.tsx",
+            "packages/editor/src/ui/BattleSpriteLibrary.test.tsx"
+          ]
+        },
+        {
+          "source": "packages/editor/src/ui/BattleSpriteInlinePreview.tsx",
+          "sourceSha256": "162cbf465da3c9585cca3ff9068b16fcd521536a15e44c62e49063abd768c427",
+          "coverage": {
+            "lines": {
+              "covered": 63,
+              "total": 98,
+              "missing": 35
+            },
+            "branches": {
+              "covered": 63,
+              "total": 122,
+              "missing": 59
+            }
+          },
+          "newTest": "packages/editor/src/ui/BattleSpriteInlinePreview.kimi-workflows.test.tsx",
+          "existingSameStemTests": ["packages/editor/src/ui/BattleSpriteInlinePreview.test.tsx"]
+        }
+      ]
+    },
+    {
+      "id": "K02",
+      "delivery": "A",
+      "targets": [
+        {
+          "source": "packages/editor/src/ui/WorldSpriteLibrary.tsx",
+          "sourceSha256": "f1630b1843c2e871407be32ade8796c2af9e78b5d1cc0053d64fd5367e7e7aa1",
+          "coverage": {
+            "lines": {
+              "covered": 310,
+              "total": 403,
+              "missing": 93
+            },
+            "branches": {
+              "covered": 383,
+              "total": 496,
+              "missing": 113
+            }
+          },
+          "newTest": "packages/editor/src/ui/WorldSpriteLibrary.kimi-workflows.test.tsx",
+          "existingSameStemTests": [
+            "packages/editor/src/ui/WorldSpriteLibrary.glm-ui-wave.test.tsx",
+            "packages/editor/src/ui/WorldSpriteLibrary.test.tsx"
+          ]
+        },
+        {
+          "source": "packages/editor/src/ui/SpriteResourceViewer.tsx",
+          "sourceSha256": "6cd374b82635729aae5f090f5b764dca70479b366f4002e16b21a2b160a343bc",
+          "coverage": {
+            "lines": {
+              "covered": 88,
+              "total": 178,
+              "missing": 90
+            },
+            "branches": {
+              "covered": 61,
+              "total": 133,
+              "missing": 72
+            }
+          },
+          "newTest": "packages/editor/src/ui/SpriteResourceViewer.kimi-workflows.test.tsx",
+          "existingSameStemTests": ["packages/editor/src/ui/SpriteResourceViewer.test.tsx"]
+        }
+      ]
+    },
+    {
+      "id": "K03",
+      "delivery": "A",
+      "targets": [
+        {
+          "source": "packages/editor/src/ui/SpriteActionEditor.tsx",
+          "sourceSha256": "2263c9d4a990e0c91848958884b1a829e68c77cbe6dce7c8ae4581006c593cfb",
+          "coverage": {
+            "lines": {
+              "covered": 177,
+              "total": 234,
+              "missing": 57
+            },
+            "branches": {
+              "covered": 182,
+              "total": 246,
+              "missing": 64
+            }
+          },
+          "newTest": "packages/editor/src/ui/SpriteActionEditor.kimi-workflows.test.tsx",
+          "existingSameStemTests": ["packages/editor/src/ui/SpriteActionEditor.test.tsx"]
+        },
+        {
+          "source": "packages/editor/src/core/world-sprite-behavior.ts",
+          "sourceSha256": "102bfdb078688b957aa869f596bf0a88532632cafe8502e19f16b7c566b137d8",
+          "coverage": {
+            "lines": {
+              "covered": 386,
+              "total": 410,
+              "missing": 24
+            },
+            "branches": {
+              "covered": 304,
+              "total": 405,
+              "missing": 101
+            }
+          },
+          "newTest": "packages/editor/src/core/world-sprite-behavior.kimi-workflows.test.ts",
+          "existingSameStemTests": [
+            "packages/editor/src/core/world-sprite-behavior.test.ts",
+            "packages/editor/src/core/world-sprite-behavior.wave2.test.ts"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "K04",
+      "delivery": "A",
+      "targets": [
+        {
+          "source": "packages/editor/src/ui/TilesetTab.tsx",
+          "sourceSha256": "baa88b364641772b5ce02c23af599d0edf84d0a4732e69f987a919707a51cb2c",
+          "coverage": {
+            "lines": {
+              "covered": 183,
+              "total": 294,
+              "missing": 111
+            },
+            "branches": {
+              "covered": 169,
+              "total": 318,
+              "missing": 149
+            }
+          },
+          "newTest": "packages/editor/src/ui/TilesetTab.kimi-workflows.test.tsx",
+          "existingSameStemTests": [
+            "packages/editor/src/ui/TilesetTab.glm-ui-wave.test.tsx",
+            "packages/editor/src/ui/TilesetTab.test.tsx"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "K05",
+      "delivery": "B",
+      "targets": [
+        {
+          "source": "packages/editor/src/ui/ImageTab.tsx",
+          "sourceSha256": "63b2da78db627505c3a56d661f1c5d21985ec3f5f8238f82d39e4c1deafdcb00",
+          "coverage": {
+            "lines": {
+              "covered": 153,
+              "total": 257,
+              "missing": 104
+            },
+            "branches": {
+              "covered": 162,
+              "total": 277,
+              "missing": 115
+            }
+          },
+          "newTest": "packages/editor/src/ui/ImageTab.kimi-workflows.test.tsx",
+          "existingSameStemTests": [
+            "packages/editor/src/ui/ImageTab.glm-ui-wave.test.tsx",
+            "packages/editor/src/ui/ImageTab.test.tsx"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "K06",
+      "delivery": "B",
+      "targets": [
+        {
+          "source": "packages/editor/src/ui/CutsceneTab.tsx",
+          "sourceSha256": "a63ea57856d760b29eafceeb00cb2658b7c641a68c6b60e89850d4c924505638",
+          "coverage": {
+            "lines": {
+              "covered": 180,
+              "total": 248,
+              "missing": 68
+            },
+            "branches": {
+              "covered": 179,
+              "total": 297,
+              "missing": 118
+            }
+          },
+          "newTest": "packages/editor/src/ui/CutsceneTab.kimi-workflows.test.tsx",
+          "existingSameStemTests": [
+            "packages/editor/src/ui/CutsceneTab.glm-ui-wave.test.tsx",
+            "packages/editor/src/ui/CutsceneTab.test.tsx"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "K07",
+      "delivery": "B",
+      "targets": [
+        {
+          "source": "packages/editor/src/ui/AudioAssetWorkbench.tsx",
+          "sourceSha256": "a7580ebfebd8f5b4bb26f924f1003577100817a48470dc42a656be9e804b7465",
+          "coverage": {
+            "lines": {
+              "covered": 201,
+              "total": 243,
+              "missing": 42
+            },
+            "branches": {
+              "covered": 165,
+              "total": 242,
+              "missing": 77
+            }
+          },
+          "newTest": "packages/editor/src/ui/AudioAssetWorkbench.kimi-workflows.test.tsx",
+          "existingSameStemTests": [
+            "packages/editor/src/ui/AudioAssetWorkbench.glm-ui-wave.test.tsx",
+            "packages/editor/src/ui/AudioAssetWorkbench.test.tsx"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "K08",
+      "delivery": "B",
+      "targets": [
+        {
+          "source": "packages/editor/src/ui/ProjectWorkbenchTab.tsx",
+          "sourceSha256": "263bfce723b7fc9a42a766a82feb473cbdb11488727f940c9a9bf880d8147c6f",
+          "coverage": {
+            "lines": {
+              "covered": 510,
+              "total": 558,
+              "missing": 48
+            },
+            "branches": {
+              "covered": 517,
+              "total": 671,
+              "missing": 154
+            }
+          },
+          "newTest": "packages/editor/src/ui/ProjectWorkbenchTab.kimi-workflows.test.tsx",
+          "existingSameStemTests": ["packages/editor/src/ui/ProjectWorkbenchTab.test.tsx"]
+        }
+      ]
+    },
+    {
+      "id": "K09",
+      "delivery": "C",
+      "targets": [
+        {
+          "source": "packages/editor/src/ui/SkillTab.tsx",
+          "sourceSha256": "f97c9ed8c4bc2334a4d79ce5fe4bd4947454accc50bbc6ed96638fa6265bdfe0",
+          "coverage": {
+            "lines": {
+              "covered": 183,
+              "total": 285,
+              "missing": 102
+            },
+            "branches": {
+              "covered": 132,
+              "total": 254,
+              "missing": 122
+            }
+          },
+          "newTest": "packages/editor/src/ui/SkillTab.kimi-workflows.test.tsx",
+          "existingSameStemTests": [
+            "packages/editor/src/ui/SkillTab.glm-ui-wave.test.tsx",
+            "packages/editor/src/ui/SkillTab.test.tsx"
+          ]
+        },
+        {
+          "source": "packages/editor/src/ui/LevelCurveEditor.tsx",
+          "sourceSha256": "04756401d938dfb345d6beb9e9ae14a356307cf14291d22581fa5c75723e66e3",
+          "coverage": {
+            "lines": {
+              "covered": 74,
+              "total": 136,
+              "missing": 62
+            },
+            "branches": {
+              "covered": 32,
+              "total": 91,
+              "missing": 59
+            }
+          },
+          "newTest": "packages/editor/src/ui/LevelCurveEditor.kimi-workflows.test.tsx",
+          "existingSameStemTests": [
+            "packages/editor/src/ui/LevelCurveEditor.test.ts",
+            "packages/editor/src/ui/LevelCurveEditor.ui.test.tsx"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "K10",
+      "delivery": "C",
+      "targets": [
+        {
+          "source": "packages/editor/src/ui/ItemTab.tsx",
+          "sourceSha256": "ec918ae20f67f90ff45253c13468d83e50a427e291ddd235fa74a7b1109af3dd",
+          "coverage": {
+            "lines": {
+              "covered": 314,
+              "total": 412,
+              "missing": 98
+            },
+            "branches": {
+              "covered": 356,
+              "total": 463,
+              "missing": 107
+            }
+          },
+          "newTest": "packages/editor/src/ui/ItemTab.kimi-workflows.test.tsx",
+          "existingSameStemTests": ["packages/editor/src/ui/ItemTab.test.tsx"]
+        },
+        {
+          "source": "packages/editor/src/ui/ItemUseEffectEditor.tsx",
+          "sourceSha256": "f76167acb31f4482127af5752e1cfb08c3e0913486cbfd1962203187eb30f5e1",
+          "coverage": {
+            "lines": {
+              "covered": 243,
+              "total": 329,
+              "missing": 86
+            },
+            "branches": {
+              "covered": 235,
+              "total": 349,
+              "missing": 114
+            }
+          },
+          "newTest": "packages/editor/src/ui/ItemUseEffectEditor.kimi-workflows.test.tsx",
+          "existingSameStemTests": [
+            "packages/editor/src/ui/ItemUseEffectEditor.glm-ui-wave.test.tsx",
+            "packages/editor/src/ui/ItemUseEffectEditor.test.tsx"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "K11",
+      "delivery": "C",
+      "targets": [
+        {
+          "source": "packages/editor/src/ui/EnemyTab.tsx",
+          "sourceSha256": "a4ff9db983aaf4876148d0387993ab19cb8b2ca96d5f52732c716bfcfef95a6c",
+          "coverage": {
+            "lines": {
+              "covered": 167,
+              "total": 227,
+              "missing": 60
+            },
+            "branches": {
+              "covered": 198,
+              "total": 307,
+              "missing": 109
+            }
+          },
+          "newTest": "packages/editor/src/ui/EnemyTab.kimi-workflows.test.tsx",
+          "existingSameStemTests": [
+            "packages/editor/src/ui/EnemyTab.glm-ui-wave.test.tsx",
+            "packages/editor/src/ui/EnemyTab.test.tsx"
+          ]
+        },
+        {
+          "source": "packages/editor/src/ui/EnemyTeamTab.tsx",
+          "sourceSha256": "cb54e22c587173ea982b1e53230c3eb9eccd19266231e7c711b3f88e61a2a4d9",
+          "coverage": {
+            "lines": {
+              "covered": 128,
+              "total": 153,
+              "missing": 25
+            },
+            "branches": {
+              "covered": 134,
+              "total": 165,
+              "missing": 31
+            }
+          },
+          "newTest": "packages/editor/src/ui/EnemyTeamTab.kimi-workflows.test.tsx",
+          "existingSameStemTests": ["packages/editor/src/ui/EnemyTeamTab.test.tsx"]
+        }
+      ]
+    },
+    {
+      "id": "K12",
+      "delivery": "C",
+      "targets": [
+        {
+          "source": "packages/editor/src/ui/MapMode.tsx",
+          "sourceSha256": "f505a310d4c7a9fc2858c5f47fce3b2d777377b1e25a92504f37af0fe0decb84",
+          "coverage": {
+            "lines": {
+              "covered": 1030,
+              "total": 1287,
+              "missing": 257
+            },
+            "branches": {
+              "covered": 971,
+              "total": 1409,
+              "missing": 438
+            }
+          },
+          "newTest": "packages/editor/src/ui/MapMode.kimi-workflows.test.tsx",
+          "existingSameStemTests": [
+            "packages/editor/src/ui/MapMode.catalog-coverage.test.tsx",
+            "packages/editor/src/ui/MapMode.test.tsx"
+          ]
+        },
+        {
+          "source": "packages/editor/src/ui/SceneCanvas.tsx",
+          "sourceSha256": "3a0acc39607ec806a756a3c74e67a90ec224512af65b24dfdac6bd767cbfa9d3",
+          "coverage": {
+            "lines": {
+              "covered": 177,
+              "total": 259,
+              "missing": 82
+            },
+            "branches": {
+              "covered": 96,
+              "total": 210,
+              "missing": 114
+            }
+          },
+          "newTest": "packages/editor/src/ui/SceneCanvas.kimi-workflows.test.tsx",
+          "existingSameStemTests": [
+            "packages/editor/src/ui/SceneCanvas.glm-ui-wave.test.tsx",
+            "packages/editor/src/ui/SceneCanvas.test.tsx"
+          ]
+        },
+        {
+          "source": "packages/editor/src/ui/scene-stage.ts",
+          "sourceSha256": "c2f3b8f371c167ca14ed344911caac720ff5e65aae51aea882905e07f6c2b01a",
+          "coverage": {
+            "lines": {
+              "covered": 180,
+              "total": 227,
+              "missing": 47
+            },
+            "branches": {
+              "covered": 70,
+              "total": 131,
+              "missing": 61
+            }
+          },
+          "newTest": "packages/editor/src/ui/scene-stage.kimi-workflows.test.ts",
+          "existingSameStemTests": ["packages/editor/src/ui/scene-stage.test.tsx"]
+        }
+      ]
+    }
+  ]
+}

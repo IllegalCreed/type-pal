@@ -8,6 +8,7 @@
 
 ## 文档与附件
 
+- [Kimi编辑器十二组工作流补测](kimi-editor-workflows/README.md)（29e76fe6冻结，20目标、三批连续交付，真实业务反控与隔离视觉；统一覆盖门归Codex）。
 - [编辑器连续播放与逐指令单步](preview-controls.md)（普通对话自动/选项手选、首步/尾门修复与真实界面验证）。
 - [脚本步骤卡与继续按钮修复](script-card-ui.md)（整卡状态/圆角/间距与键盘交互，正式6010页面实测）。
 - [GLM菜单与编辑命令四批十六组](glm-state-commands/README.md)（1bc7df91冻结，已准入；277未命中臂仅选题，连续交付不干扰E2E）。
