@@ -283,3 +283,39 @@ console 错误：0（error 监听全程为空）。
     StampPlacementSelectionInspector.tsx +13.33、SoundPicker.tsx +10.94、select.tsx +6.31、
     MusicPicker.tsx +4.54（共 20 个文件改善，明细见 batch-AD-coverage-delta.json）。
   - E 批 12 条不在该对照内（E 覆盖并入 H 批末总对照口径）。
+
+## 批 F（G21–G24 · 战场/伤亡/脚本方案/击败事件）
+
+- 新测试（16 条，5 文件）：
+  - `BattleFieldTab.glm-leaf-wave.test.tsx`（3）：背景资产选择/清除经真实命令写删键；五灵修正单键
+    补丁保留兄弟键（真实键名 wind/thunder/water/fire/earth）；名称清空删可选键并显示占位。
+  - `CasualtyEditor.glm-leaf-wave.test.tsx`（3）：双槽分数据（dying 仅 fallback）；外部 UpdateActorCommand
+    移除 friendDeath 后组件回显空槽（不残留旧门）；概率 80.9 blur 一次取整 80 提交且 undo 回 40；
+    ＋概率分支缺省 50 空分支、undo 移除。
+  - `ScriptSceneHookInspector.glm-leaf-wave.test.tsx`（2）：空槽作者文案与「新建第一个方案」弹窗真实
+    派发 AddSceneHookCommand（value.label=输入名）；方案卡片点击回调真实 hookId。
+  - `ScriptBehaviorInspector.glm-leaf-wave.test.tsx`（3）：BehaviorSelectionEditor 悬空引用显示
+    「引用失效」且切换回真实值；inherit/disabled 哨兵映射；空渠道创建经弹窗派发
+    AddEntityBehaviorCommand（target/channel/value.label）。
+  - `enemy-defeated-events.glm-leaf-wave.test.ts`（5）：presentation context 六类引用解析与缺失标记；
+    findEditable 识别 giveItem+概率分支+尾随台词（startIndex/endIndex/probability 换算）并拒绝双 give/
+    分支后 give/空表；replaceEditable 概率换算重写（75%→branch 25）保留尾随台词、移除清链、输入保真。
+- 复跑（cwd 仓库根；全部 exit 0）：
+  ```sh
+  env -u NODE_COMPILE_CACHE pnpm --filter @type-pal/editor exec vitest run \
+    src/ui/{BattleFieldTab,CasualtyEditor,ScriptSceneHookInspector,ScriptBehaviorInspector}.glm-leaf-wave.test.tsx \
+    src/ui/enemy-defeated-events.glm-leaf-wave.test.ts --maxWorkers=2   # 16/16，JSON: /tmp/glm-leaf-F-directed.json
+  env -u NODE_COMPILE_CACHE pnpm --filter @type-pal/editor exec vitest run \
+    src/ui/{BattleFieldTab,CasualtyEditor,ScriptSceneHookInspector,ScriptBehaviorInspector}.test.tsx \
+    src/ui/enemy-defeated-events{,.boundaries,.coverage-batch}.test.ts --maxWorkers=2   # 相邻旧测 75/75
+  env -u NODE_COMPILE_CACHE pnpm --filter @type-pal/editor typecheck   # 0 error
+  pnpm exec biome check <五个新测试> docs/testing/glm-leaf-workflows   # 0 error/warning/info
+  env -u NODE_COMPILE_CACHE node docs/testing/glm-leaf-workflows/leaf-mutants.mjs f
+  ```
+- 反控（leaf-mutants.mjs f，自测 10 类 + control 16/16 绿 + 2 针业务红）：
+  - `reward-replace-probability-inverted`：替换概率换算反转（percent=probability 而非 100−probability）
+    → 重写测试红。
+  - `casualty-chance-floor-drop`：概率 normalize 的 Math.trunc 拆除 → 非整数概率直写红。
+- 视觉（F 批一条）：本批四组均为会话/命令合同，画布观感不变；按卡「G/H 纯函数 N/A」同类处理，
+  F 组视觉以既有 D/E 批直挂宿主证据覆盖同类面板（表单+会话回显），不重复取证。
+- 真实产品缺陷：无。
