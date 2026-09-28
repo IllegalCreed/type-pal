@@ -1740,9 +1740,11 @@ export function tickEventSystem(gs: GameState, input: InputSnapshot, bus: Comman
           //  - pendingFullClear 有(Sync.2 fix8:0x05 ClearDialog 触发)→ 不切 style,但仍清 dialogBox
           //  - pendingPreOpClear 有(Sync.2 fix11:script.c:3468 default auto-ClearDialog 触发)→
           //      opcode 尚未消费,**不 ip++** — 下一帧 tick 仍在原 ip 跑 opcode(无 dialog 遮挡)
-          //  - 都无 → 累计 4 行翻页(同 style),保留 dialogBox 让下条 showDialog appendDialogLine
+          //  - 都无 → 累计4行翻页，当前showDialog尚未消费，必须保留ip并显示本行。
           const pending = ds.pendingStyle
           const preOp = ds.pendingPreOpClear
+          const consumedOpcode =
+            !preOp && !!(pending || ds.pendingFullClear || ds.pendingPartialClear)
           if (pending) {
             gs.dialogBoxKept = keptDialog
             gs.currentDialogStyle = pending.style
@@ -1771,9 +1773,8 @@ export function tickEventSystem(gs: GameState, input: InputSnapshot, bus: Comman
             gs.currentDialogPortraitIcon = undefined
           }
           cursor.waiting = undefined
-          if (!preOp) cursor.ip++
-          // fall through 到下面 while 循环:本 tick 继续跑下条 opcode(preOp 时 ip 不变,跑原 opcode;
-          // 非 preOp 时 ip 已 ++,跑下一条)
+          if (consumedOpcode) cursor.ip++
+          // 只有在这里完成的样式/显式清屏指令才推进；普通分页与隐式pre-op重入原指令。
         } else if (result === 'dialog-end') {
           // 关 dialog,推进到 end 之后(此时 cursor.ip 已在 end opcode 上,end handler 处理退出)
           clearDialogBoxes(gs)
@@ -2050,7 +2051,8 @@ export function tickEventSystem(gs: GameState, input: InputSnapshot, bus: Comman
             now: gs.nowMs, // Bug1 fix:wall-clock 打字锚点
           })
         } else if (shouldWaitPageKey(gs.dialogBox)) {
-          // 不消费本 showDialog — 设 wait 状态,Confirm 后 cursor.ip++ 才会回到此 case append
+          // 不消费本showDialog。翻页后保留ip回到此case，才会append本行。
+          // sdlpal text.c:1649-1658在同一次PAL_ShowDialogText调用内清页后继续显示，不能跳过。
           setWaitingPageKey(gs.dialogBox)
           cursor.waiting = 'dialog'
           return

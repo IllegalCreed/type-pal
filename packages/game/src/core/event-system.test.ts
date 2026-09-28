@@ -683,6 +683,8 @@ describe('EventSystem', () => {
     let liBox: typeof gs.dialogBox
     let lingerPortrait: number | undefined
     for (let i = 0; i < 200 && gs.eventCursor !== undefined; i++) {
+      // 第5行现在不会被翻页错误跳过，~80必须经过真实时钟推进，不能靠连按跳过尾停顿。
+      gs.nowMs += 100
       tickEventSystem(gs, snap(['Confirm']), bus)
       if (gs.eventCursor?.waiting === 'delay') gs.eventCursor.delayUntilMs = 0
       if (gs.dialogBox?.currentLineText?.includes('蛇女'))
@@ -693,6 +695,7 @@ describe('EventSystem', () => {
       }
     }
     expect(lingerPortrait).toBe(90) // 前提:赵灵儿阶段立绘正常显示 90(确保 setDialogStyleBottom 生效)
+    expect(gs.dialogHistory?.some((line) => line.text === '你．．又何必犯险来救我')).toBe(true)
     expect(liBox).toBeDefined() // 李逍遥对话框确实建立了
     expect(liBox?.portraitIcon).toBeUndefined() // ★核心:李逍遥无立绘(0x7F/0x09 清整 box → 新建无 portrait,非 append)
     expect(liBox?.portraitLayout).toBe(true) // 缩进 metrics 保留(sdlpal posDialogText 持久,clearDialogBoxes 不动)

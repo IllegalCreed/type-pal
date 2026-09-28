@@ -542,9 +542,8 @@ export function tickDialog(state: DialogBoxState, now?: number): void {
 /**
  * Confirm 按键时调,返回值告诉 event-system 接下来做什么:
  *  - 'skip-typing':  当前行 typing 中 → 跳行末(fUserSkip)。caller 不动 cursor。
- *  - 'page-advance': 之前 waiting-page-key → 清屏 + line=0。caller 应 appendDialogLine
- *                    (即推进到下一 showDialog opcode)— 实际上 caller 仍 cursor.ip++ 让
- *                    event-system 跑下一条 opcode。
+ *  - 'page-advance': 之前 waiting-page-key → 清屏 + line=0。普通分页保留当前未消费showDialog，
+ *                    caller重入并append本行；只有已完成的样式/显式清屏指令才推进ip。
  *  - 'dialog-end':   之前 waiting-end-key → 关 dialog。caller 清 gs.dialogBox + cursor.ip++。
  *  - 'noop':         其他状态(line-done 等),Confirm 无效(等自动推进)。
  */
@@ -583,13 +582,13 @@ export function confirmDialog(state: DialogBoxState, now?: number): ConfirmResul
     return 'skip-typing'
   }
   if (state.phase === 'waiting-page-key') {
-    // 清屏 + line=0,准备画新行(caller 在 ip++ 后下条 showDialog 会调 startDialogLine/append)。
+    // 清屏 + line=0，准备继续尚未显示的本行（普通分页不得推进ip）。
     // 注意:caller 应在 page-advance 后读 state.pendingStyle:
     //   - 非空 → 由 setDialogStyleX 触发的 ClearDialog,caller 应 apply pendingStyle 到 gs +
     //           清 gs.dialogBox(让下次 showDialog 重建)
-    //   - 空 → 累计 4 行触发,caller 推 cursor.ip(下条 showDialog 会 append 第 5 行)
+    //   - 空且无显式清屏标志 → 累计4行触发，caller保留ip，当前showDialog显示第5行。
     // 清正文 + 行计数归 0(sdlpal PAL_ClearDialog text.c:1775 nCurrentDialogLine=0)。phase→'line-done'(临时;
-    //   caller 推 ip → 下条 showDialog 调 append 切到 'typing')。
+    //   caller回到showDialog，调append切到typing）。
     // 注:fontColorState 不重置 — sdlpal PAL_ClearDialog 仅 kDialogCenter 重置 bCurrentFontColor
     //   (text.c:1777-1781),普通翻页(kDialogUpper)色态跨页持续。
     resetDialogBody(state)
