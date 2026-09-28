@@ -9,6 +9,8 @@ import { setTimeout as delay } from 'node:timers/promises'
 import { fileURLToPath } from 'node:url'
 import { chromium } from 'playwright'
 import { installVideoObserver, readGame, readWorld } from './game-observer.mjs'
+import { assertOpeningMatrix, readOpeningContract } from './opening-matrix.mjs'
+import { installOpeningMatrix } from './opening-matrix-observer.mjs'
 import {
   appendBounded,
   assertOpeningEvidence,
@@ -21,6 +23,7 @@ import { openingTiming } from './opening-timing.mjs'
 import { installOpeningTrace } from './opening-trace.mjs'
 
 const root = fileURLToPath(new URL('../../', import.meta.url))
+const openingContract = await readOpeningContract(root)
 const args = new Set(process.argv.slice(2))
 for (const arg of args) assert(['--headless', '--headed'].includes(arg), `unknown argument ${arg}`)
 assert(!(args.has('--headless') && args.has('--headed')), 'choose one browser mode')
@@ -43,11 +46,9 @@ const report = {
   engine: 'phase1-game',
   status: 'running',
   revision: execFileSync('git', ['rev-parse', 'HEAD'], { cwd: root, encoding: 'utf8' }).trim(),
-  scope: 'story-flow pilot and genuine checkpoint restore; not full two-engine timing acceptance',
-  pending: [
-    'full dialogue-page and other-actor matrix beyond the two accepted Aunt intervals',
-    '002 and capture/audio verification',
-  ],
+  scope:
+    '001 verify: rendered dialogue, participating actors, real input and genuine checkpoint restore',
+  pending: ['002 and subsequent fragments', 'capture-ready video/audio verification'],
   events: [],
   actions: [],
   errors: [],
@@ -70,6 +71,8 @@ for (const name of [
   'scripts/e2e/opening-trace.mjs',
   'scripts/e2e/opening-trace-plugin.mjs',
   'scripts/e2e/opening-timing.mjs',
+  'scripts/e2e/opening-matrix-observer.mjs',
+  'scripts/e2e/opening-matrix.mjs',
   'scripts/e2e/game-trace.config.mts',
   'packages/game/src/core/event-system.ts',
   'packages/game/src/present/present.ts',
@@ -173,6 +176,7 @@ async function newContext(label) {
   contexts.push(context)
   await context.addInitScript(installVideoObserver)
   await context.addInitScript(installOpeningTrace)
+  await context.addInitScript(installOpeningMatrix)
   page = await context.newPage()
   page.on('pageerror', (error) => appendBounded(report.errors, `${label}: ${error.message}`, 50))
   page.on('console', (message) => {
@@ -254,10 +258,21 @@ try {
   )
   console.log('[001] video 3 ended naturally; following actual dialogue wait states')
   let final
+  report.milestones = {}
   for (;;) {
     checkHealth()
     const s = await snapshot()
     const action = storyAction(s)
+    if (action === 'confirm')
+      for (const [id, needle] of [
+        ['awake', '敢说老娘是什么鬼婆'],
+        ['aunt-at-door', '一大早就有客人上门啦'],
+        ['secret-passage', '这次就从这里溜出去吧'],
+      ])
+        if (!report.milestones[id] && s.dialog.text?.includes(needle)) {
+          await page.screenshot({ path: resolve(out, `001-${id}.png`) })
+          report.milestones[id] = { scene: s.scene, text: s.dialog.text }
+        }
     if (action === 'finish') {
       final = s
       break
@@ -278,7 +293,16 @@ try {
   report.videos = videoEvidence.events
   report.dialogueHistory = lines
   assertOpeningEvidence({ videos: videoEvidence.events, lines, final })
+  assert.equal(Object.keys(report.milestones).length, 3, 'missing visual milestone')
   report.npcTrace = await page.evaluate(() => window.__readOpeningTrace())
+  report.matrix = await page.evaluate(() => window.__readOpeningMatrix())
+  await writeFile(resolve(out, 'matrix.json'), JSON.stringify(report.matrix, null, 2))
+  assert.deepEqual(
+    (await readOpeningContract(root)).hashes,
+    openingContract.hashes,
+    'content changed during 001',
+  )
+  report.matrixVerdict = assertOpeningMatrix(report.matrix, 'game', openingContract)
   await writeFile(resolve(out, 'npc-trace.json'), `${JSON.stringify(report.npcTrace, null, 2)}\n`)
   report.timing = openingTiming(report.npcTrace, 'game')
   await press('Escape', 'prove normal control: open actual in-game menu')

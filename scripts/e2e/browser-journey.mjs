@@ -9,6 +9,7 @@ import { setTimeout as delay } from 'node:timers/promises'
 import { fileURLToPath } from 'node:url'
 import { chromium } from 'playwright'
 import { installVideoObserver } from './game-observer.mjs'
+import { installOpeningMatrix } from './opening-matrix-observer.mjs'
 import { installOpeningTrace } from './opening-trace.mjs'
 
 export const repoRoot = fileURLToPath(new URL('../../', import.meta.url))
@@ -132,7 +133,10 @@ export async function runBrowserJourney({
       const context = await browser.newContext({ viewport: { width: 1360, height: 900 } })
       contexts.push(context)
       await context.addInitScript(installVideoObserver)
-      if (traceConfig) await context.addInitScript(installOpeningTrace)
+      if (traceConfig) {
+        await context.addInitScript(installOpeningTrace)
+        await context.addInitScript(installOpeningMatrix)
+      }
       page = await context.newPage()
       page.on('pageerror', (e) => error(e.message))
       page.on('console', (m) => {

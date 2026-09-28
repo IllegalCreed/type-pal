@@ -2,6 +2,7 @@ import assert from 'node:assert/strict'
 import { readFile, writeFile } from 'node:fs/promises'
 import { resolve } from 'node:path'
 import { repoRoot, runBrowserJourney, sha256 } from './browser-journey.mjs'
+import { assertOpeningMatrix, readOpeningContract } from './opening-matrix.mjs'
 import { appendBounded } from './opening-policy.mjs'
 import { openingTiming } from './opening-timing.mjs'
 import {
@@ -13,6 +14,7 @@ import {
 } from './reforge-opening-policy.mjs'
 
 const manifest = JSON.parse(await readFile(resolve(repoRoot, 'projects/pal/manifest.json'), 'utf8'))
+const openingContract = await readOpeningContract(repoRoot)
 const catalog = JSON.parse(
   await readFile(resolve(repoRoot, 'projects/pal/assets/index.json'), 'utf8'),
 )
@@ -42,13 +44,12 @@ await runBrowserJourney({
     'scripts/e2e/opening-trace.mjs',
     'scripts/e2e/opening-trace-plugin.mjs',
     'scripts/e2e/opening-timing.mjs',
+    'scripts/e2e/opening-matrix-observer.mjs',
+    'scripts/e2e/opening-matrix.mjs',
     'scripts/e2e/reforge-trace.config.mts',
   ],
   journey: async ({ newPage, baseURL, out, report, until, health }) => {
-    report.pending = [
-      'full dialogue-page and other-actor matrix beyond the two accepted Aunt intervals',
-      '002 and capture/audio verification',
-    ]
+    report.pending = ['002 and subsequent fragments', 'capture-ready video/audio verification']
     let page = await newPage('new-story')
     const snapshot = async () => {
       const state = await page.evaluate(() => {
@@ -111,10 +112,27 @@ await runBrowserJourney({
     assert(!videoEvidence.events.some((e) => e.kind === 'error'), 'video decode failure')
     report.videos = videoEvidence.events
     await until(snapshot, (s) => !!s.runtime, 'runtime initialized', 60_000)
+    report.milestones = {}
     for (;;) {
       health()
       const s = await snapshot(),
         action = reforgeStoryAction(s.runtime)
+      if (action === 'confirm')
+        for (const [id, needle] of [
+          ['awake', '敢说老娘是什么鬼婆'],
+          ['aunt-at-door', '一大早就有客人上门啦'],
+          ['secret-passage', '这次就从这里溜出去吧'],
+        ])
+          if (
+            !report.milestones[id] &&
+            s.runtime.dialogue.pageText.replace(/\s/g, '').includes(needle)
+          ) {
+            await page.screenshot({ path: resolve(out, `001-${id}.png`) })
+            report.milestones[id] = {
+              scene: s.runtime.sceneId,
+              ids: s.runtime.dialogue.pageTextIds,
+            }
+          }
       if (action === 'finish') break
       if (action === 'confirm')
         await press('Enter', `dialogue ${s.runtime.dialogue.rowTextIds.join(',')}`)
@@ -122,6 +140,7 @@ await runBrowserJourney({
       await until(snapshot, (next) => reforgeStateKey(next) !== key, 'story state transition')
     }
     assertReforgeOpening(report, introPath)
+    assert.equal(Object.keys(report.milestones).length, 3, 'missing visual milestone')
     report.npcTrace = await until(
       () => page.evaluate(() => window.__readOpeningTrace()),
       (t) => t.events.at(-1)?.control,
@@ -129,6 +148,14 @@ await runBrowserJourney({
       5000,
     )
     await writeFile(resolve(out, 'npc-trace.json'), `${JSON.stringify(report.npcTrace, null, 2)}\n`)
+    report.matrix = await page.evaluate(() => window.__readOpeningMatrix())
+    await writeFile(resolve(out, 'matrix.json'), JSON.stringify(report.matrix, null, 2))
+    assert.deepEqual(
+      (await readOpeningContract(repoRoot)).hashes,
+      openingContract.hashes,
+      'content changed during 001',
+    )
+    report.matrixVerdict = assertOpeningMatrix(report.matrix, 'reforge', openingContract)
     report.timing = openingTiming(report.npcTrace, 'reforge')
     await press('Escape', 'prove actual menu control')
     await until(snapshot, (s) => s.runtime?.menuActive, 'menu opens')

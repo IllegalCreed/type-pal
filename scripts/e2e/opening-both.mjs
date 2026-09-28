@@ -57,6 +57,23 @@ try {
   )
   assert.equal(reports[0].revision, reports[1].revision, 'two engines ran different revisions')
   Object.assign(comparison, compareOpeningTiming(reports[0].npcTrace, reports[1].npcTrace))
+  for (const r of reports)
+    assert.equal(r.matrixVerdict?.status, 'passed', 'complete matrix missing')
+  assert.deepEqual(
+    reports[0].matrixVerdict.sourceHashes,
+    reports[1].matrixVerdict.sourceHashes,
+    'content revisions differ',
+  )
+  assert.equal(
+    reports[0].matrixVerdict.rows,
+    reports[1].matrixVerdict.rows,
+    'rendered dialogue differs',
+  )
+  assert.deepEqual(
+    reports[0].matrixVerdict.actors.semanticOrder,
+    reports[1].matrixVerdict.actors.semanticOrder,
+  )
+  comparison.matrix = { game: reports[0].matrixVerdict, reforge: reports[1].matrixVerdict }
   assert.equal(comparison.status, 'passed', 'semantic timing differs')
 } catch (error) {
   comparison.failure = error.message

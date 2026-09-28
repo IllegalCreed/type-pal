@@ -26,7 +26,7 @@ export function instrumentOpeningTrace(code, file) {
     insert(node.body.end - 1, `\n} finally { ${after} }\n`)
   }
   const gamePoint = (source, gs = 'gs') =>
-    `globalThis.__openingTraceGame?.(${gs}, ${JSON.stringify(source)});`
+    `globalThis.__openingTraceGame?.(${gs}, ${JSON.stringify(source)}); globalThis.__openingMatrixGame?.(${gs}, ${JSON.stringify(source)});`
   function walk(node) {
     if (
       file.endsWith('/event-system.ts') &&
@@ -45,6 +45,7 @@ export function instrumentOpeningTrace(code, file) {
         [
           'applyRawOpcode',
           'npcWalkTo',
+          'partyWalkTo',
           'partyRideEventObject',
           'monsterChasePlayer',
           'tickEventSystem',
@@ -67,6 +68,14 @@ export function instrumentOpeningTrace(code, file) {
       count('presentFrame')
       wrap(node, '', gamePoint('render:world'))
     }
+    if (
+      file.endsWith('/present/present.ts') &&
+      ts.isFunctionDeclaration(node) &&
+      node.name?.text === 'drawDialogOverlay'
+    ) {
+      count('drawDialogOverlay')
+      wrap(node, '', 'globalThis.__openingMatrixGameRendered?.(gs);')
+    }
     if (file.endsWith('/reforge/src/main.ts')) {
       if (
         ts.isExpressionStatement(node) &&
@@ -79,7 +88,7 @@ export function instrumentOpeningTrace(code, file) {
             ['entity.pos', 'e.pos', 'meta.entity.pos', 'player.pos'].includes(left),
             `unreviewed position writer: ${left}`,
           )
-        if (['entity.pos', 'e.pos', 'meta.entity.pos'].includes(left)) {
+        if (['entity.pos', 'e.pos', 'meta.entity.pos', 'player.pos'].includes(left)) {
           count(left)
           // Block keeps a formerly unbraced `if (e) e.pos = pos` conditional.
           insert(node.getStart(ast), `{ __openingPoint(${JSON.stringify(`before:${left}`)}); `)
@@ -96,6 +105,18 @@ export function instrumentOpeningTrace(code, file) {
           node.body.end - 1,
           `\nfunction __openingPoint(source) {
           try {
+            if (['s000','s001'].includes(activeScene.scene.id)) {
+              const actors = {party:{position:[player.pos.col,player.pos.row,player.pos.height], facing,
+                visible:true, sprite:world.party[0] ? partySpriteDef(world.party[0]).id : null,
+                frame:worldPresentation.partyGesture}};
+              if (activeScene.scene.id==='s001') for (const id of ['e3','e8','e10','e11']) {
+                const e=activeScene.scene.entities.find(e=>e.id===id);
+                if (!e) throw new Error('missing reforge actor '+id);
+                actors[id]={position:[e.pos.col,e.pos.row,e.pos.height],facing:e.facing??'down',visible:!e.hidden,
+                  sprite:e.sprite??null,frame:worldPresentation.entityFrame(id)??motion.explicitAnimation(id)??null};
+              }
+              globalThis.__openingMatrixPoint?.(source,{scene:activeScene.scene.id,actors});
+            }
             if (activeScene.scene.id !== 's001') return;
             const e = activeScene.scene.entities.find(e => e.id === 'e10');
             globalThis.__openingTracePoint?.(source, {
@@ -116,7 +137,10 @@ export function instrumentOpeningTrace(code, file) {
       node.expression.getText(ast) === 'this.update(nowMs)'
     ) {
       count('beforeAutoAdvance')
-      insert(node.getStart(ast), 'globalThis.__openingRendered?.(this.observe());\n')
+      insert(
+        node.getStart(ast),
+        'globalThis.__openingRendered?.(this.observe()); globalThis.__openingMatrixRendered?.(this.observe());\n',
+      )
     }
     ts.forEachChild(node, walk)
   }
@@ -131,14 +155,22 @@ export function instrumentOpeningTrace(code, file) {
     ? {
         applyRawOpcode: 1,
         npcWalkTo: 1,
+        partyWalkTo: 1,
         partyRideEventObject: 1,
         monsterChasePlayer: 1,
         tickEventSystem: 1,
       }
     : file.endsWith('/present/present.ts')
-      ? { presentFrame: 1 }
+      ? { presentFrame: 1, drawDialogOverlay: 1 }
       : file.endsWith('/reforge/src/main.ts')
-        ? { 'entity.pos': 1, 'e.pos': 3, 'meta.entity.pos': 1, render: 1, bootGame: 1 }
+        ? {
+            'entity.pos': 1,
+            'e.pos': 3,
+            'meta.entity.pos': 1,
+            'player.pos': 6,
+            render: 1,
+            bootGame: 1,
+          }
         : { beforeAutoAdvance: 1 }
   assert.deepEqual(seen, expected, `trace anchors changed: ${file}`)
   for (const edit of edits.sort((a, b) => b.at - a.at))
