@@ -93,3 +93,38 @@
   - 生产源 hash 前后一致（summary.hashes）。
 - 未证项：state-dump 无 window 分支（jsdom 恒有 window，防御不测）；detectors `enterScene`
   已证合同未重测；覆盖增量未执行，统计由 Codex 统一。
+
+## 批 C — L09–L12（present/menu 绘制层）
+
+- 候选 SHA：见 git log（本节随批固定）；父提交：批 B 回执头。
+- diff 范围：9 个新测试文件 + 本队列 fixture `packages/game/src/__tests__/glm-phase1-leaves/
+  present-fixtures.ts`（自有一套字形/SPRITEUI/时钟冻结，不与 grok 或其它对话共享）+
+  `tools/leaves-mutants.mjs` 批 c 注册 + `evidence/batch-C/**` + 本 receipt。
+- 新文件（34 tests / 34 passed / 0 failed，新鲜 JSON `evidence/batch-C/vitest-new.json`）：
+  - L09 draw-menu（5）：save-slot 槽位框+标签+savedTimes 黄数字、inventory-action 框+两标签
+    选中色、system switch 相 关/开 层、shop-sell 栈项 confirm 相叠 否/是、缺 extra 三种占位框。
+  - L09 draw-confirm（3）：否/是 两框、rightSelected 高亮互换、fShadow 三影黑点、关/开 复用。
+  - L10 draw-magic（4）：施法人死亡未选中 0x18/被选中 0x1C、法术 MP 不足被选中 0x1C
+    （预置 disabled 着色，不冒称 MP 判定已执行）、空法术表只画框+MP needed 0、
+    spell 缺 catalog 回退 item.label。
+  - L10 draw-inventory（3）：目录缺 item `?id` tofu + 0x1C/0x18、混列各归其色、
+    use-target 缺 gs/playerRoles 不叠选人层。
+  - L11 draw-equip（3）：非顺序 party [3,1] equipableBy 按 roleId 位、已装备槽缺 catalog
+    画 `?id`、空槽不画、roles 缺 roleId 跳过。
+  - L11 draw-player-status（4）：runtimeOrBase 0→base 回退与 runtime 优先、装备槽缺 catalog
+    跳过（与 draw-equip `?id` 合同不同）、cursor 越界早退。
+  - L12 draw-shop（4）：ownedCount=库存+跨队已装备、空店铺列表、sellOverlay 非 sellable/
+    缺 cursorItemId 只画框、sellable 半价。
+  - L12 draw-opening-menu（3）：选中 0xF9/非选中 0x4F 精确色+三影、fallback tofu 色、
+    词表 label 同步、无 box（不依赖 uiSpriteFrames）。
+  - L12 draw-box（5）：drawSingleLineBox 缺帧 fail-loud、shadowOffset 0 无阴影、box 越 fb
+    界裁剪不抛错、menuTextMaxCols 空表/全角/缺字 ASCII 量化。
+- 相邻回归：`src/present/` 全量 424/424 passed（`evidence/batch-C/vitest-adjacent.json`，
+  含 grok-present/grok-composition 旧例零回归）。
+- 命令：同前批口径；typecheck 0 诊断、Biome 0 诊断（含 fixture）、docs PASS、diff --check 干净。
+- 反控（`evidence/batch-C/needles-summary.json`，`node tools/leaves-mutants.mjs c`）：
+  - control：9 新文件 34/34 exit0 全绿。
+  - `save-slot-saved-times`：savedTimes 显示断链 → 恰一红。
+  - `shop-owned-equipped-count`：「现有」漏计已装备 → 恰一红。
+- 未证项：绘制只证协议/坐标/色值（素色小图集），不冒称原版观感；真实字体/SPRITEUI 资源观感
+  留 LV1 短视觉样本；覆盖增量未执行，统计由 Codex 统一。

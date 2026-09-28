@@ -99,6 +99,50 @@ const batches = {
       },
     ],
   },
+  c: {
+    control: {
+      tests: [
+        'src/present/menu/draw-menu.glm-phase1-leaves.test.ts',
+        'src/present/menu/draw-confirm.glm-phase1-leaves.test.ts',
+        'src/present/menu/draw-magic.glm-phase1-leaves.test.ts',
+        'src/present/menu/draw-inventory.glm-phase1-leaves.test.ts',
+        'src/present/menu/draw-equip.glm-phase1-leaves.test.ts',
+        'src/present/menu/draw-player-status.glm-phase1-leaves.test.ts',
+        'src/present/menu/draw-shop.glm-phase1-leaves.test.ts',
+        'src/present/menu/draw-opening-menu.glm-phase1-leaves.test.ts',
+        'src/present/menu/draw-box.glm-phase1-leaves.test.ts',
+      ],
+      total: 34,
+    },
+    production: [
+      'src/present/menu/draw-menu.ts',
+      'src/present/menu/draw-shop.ts',
+    ],
+    mutations: [
+      {
+        id: 'save-slot-saved-times',
+        module: 'src/present/menu/draw-menu.ts',
+        file: 'src/present/menu/draw-menu.glm-phase1-leaves.test.ts',
+        total: 5,
+        describe: 'L09 drawMenuStack 剩余分支',
+        title: 'save-slot：5 个单行框 (195,7+38i)、标签字色、slotMetas.savedTimes 黄色数字（缺省 0）',
+        from: 'const savedTimes = meta?.savedTimes ?? 0',
+        to: 'const savedTimes = 0',
+        category: '存档次数显示断链：slotMetas 不再上屏',
+      },
+      {
+        id: 'shop-owned-equipped-count',
+        module: 'src/present/menu/draw-shop.ts',
+        file: 'src/present/menu/draw-shop.glm-phase1-leaves.test.ts',
+        total: 4,
+        describe: 'L12 drawShopMenu 剩余分支',
+        title: 'ownedCount = 库存 2 + 跨队已装备 1 = 3（uigame.c:1554-1577）',
+        from: 'if (eq[slot]?.[role] === itemId) n++',
+        to: 'if (false) n++',
+        category: '「现有」数漏计全队已装备（uigame.c:1554-1577 拆除）',
+      },
+    ],
+  },
 }
 
 const MIXED_ERROR =
