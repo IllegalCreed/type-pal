@@ -1,0 +1,122 @@
+{
+  "batch": "b",
+  "hashes": {
+    "src/core/menu/sell-menu.ts": "8c4b784a0ddd5e10708d19e6539d330ac41b8cdfc405b31ca592490ecfb860b2",
+    "src/core/inspect/battle-inspect.ts": "c8f76c397fd62af1f1bdbfefebeec781413cd29d5fcaa89ba51bfac8a7bf0bd3"
+  },
+  "selfTest": [
+    {
+      "id": "valid-red",
+      "expectReject": false,
+      "rejected": false,
+      "violations": []
+    },
+    {
+      "id": "same-message-mixed-error",
+      "expectReject": true,
+      "rejected": true,
+      "violations": [
+        "mixed non-business error: AssertionError: expected business rejection\nTypeError: environment broken"
+      ]
+    },
+    {
+      "id": "assertion-prefixed-timeout",
+      "expectReject": true,
+      "rejected": true,
+      "violations": [
+        "timeout treated as red: AssertionError: test timed out"
+      ]
+    },
+    {
+      "id": "additional-unrelated-red",
+      "expectReject": true,
+      "rejected": true,
+      "violations": [
+        "failed 2, expected exactly 1"
+      ]
+    },
+    {
+      "id": "wrong-fullname-red-with-intended-green",
+      "expectReject": true,
+      "rejected": true,
+      "violations": [
+        "red fullName \"different group 刷新缩表（非空）：prevCursor 越新末项 → clamp 到 length-1\" != \"L05 sell-menu 剩余合同 刷新缩表（非空）：prevCursor 越新末项 → clamp 到 length-1\""
+      ]
+    },
+    {
+      "id": "foreign-file-same-suffix",
+      "expectReject": true,
+      "rejected": true,
+      "violations": [
+        "red file /different-candidate-root/packages/game/src/core/menu/sell-menu.glm-phase1-leaves.test.ts != /Users/zhangxu/.codex/worktrees/glm-phase1-leaves/type-pal/packages/game/src/core/menu/sell-menu.glm-phase1-leaves.test.ts"
+      ]
+    },
+    {
+      "id": "exit-two",
+      "expectReject": true,
+      "rejected": true,
+      "violations": [
+        "exit 2 != 1"
+      ]
+    },
+    {
+      "id": "exit-null",
+      "expectReject": true,
+      "rejected": true,
+      "violations": [
+        "exit null != 1"
+      ]
+    },
+    {
+      "id": "zero-execution",
+      "expectReject": true,
+      "rejected": true,
+      "violations": [
+        "numTotalTests 0 != 3",
+        "assertions 0 != 3",
+        "duplicate fullName in scope",
+        "passed 0 inconsistent with 0 failed",
+        "failed 0, expected exactly 1"
+      ]
+    },
+    {
+      "id": "control-sample",
+      "expectReject": false,
+      "rejected": false,
+      "violations": []
+    }
+  ],
+  "evidence": [
+    {
+      "id": "control",
+      "exitCode": 0,
+      "tests": 31,
+      "entered": null,
+      "failed": []
+    },
+    {
+      "id": "sell-refresh-shrink-clamp",
+      "exitCode": 1,
+      "tests": 3,
+      "entered": {
+        "id": "sell-refresh-shrink-clamp",
+        "target": "/Users/zhangxu/.codex/worktrees/glm-phase1-leaves/type-pal/packages/game/src/core/menu/sell-menu.ts"
+      },
+      "failed": [
+        "L05 sell-menu 剩余合同 刷新缩表（非空）：prevCursor 越新末项 → clamp 到 length-1"
+      ]
+    },
+    {
+      "id": "steal-money-item-branch",
+      "exitCode": 1,
+      "tests": 9,
+      "entered": {
+        "id": "steal-money-item-branch",
+        "target": "/Users/zhangxu/.codex/worktrees/glm-phase1-leaves/type-pal/packages/game/src/core/inspect/battle-inspect.ts"
+      },
+      "failed": [
+        "L07 collectEnemyStatusReadouts 剩余投影 steal 三分支：金钱/知名物品/缺名物品"
+      ]
+    }
+  ]
+}

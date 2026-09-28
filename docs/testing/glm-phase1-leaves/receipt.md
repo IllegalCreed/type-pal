@@ -53,3 +53,43 @@
 - 未证项：`matchesFilter` 的 `costMP ?? 0` 类运行时缺字段分支在 typed 输入下不可达（登记为防御，
   不凑针）；`createSelectionMenu(pageSize=0)` 语义异常窗口未断言（无生产 caller，留 Codex 裁量）；
   覆盖增量未执行（配置见 README，统计由 Codex 统一）。
+
+## 批 B — L05–L08（shop/sell、save-slot/opening、battle-inspect、state-dump/detectors）
+
+- 候选 SHA：见 git log（本节随批固定）；父提交：批 A 回执头。
+- diff 范围：仅 7 个新测试文件（shop/sell/save-slot/opening/battle-inspect/state-dump/detectors
+  各 `*.glm-phase1-leaves.test.ts`）、`tools/leaves-mutants.mjs` 增批 b 注册、
+  `evidence/batch-B/**`、本 receipt。
+- 新文件（31 tests / 31 passed / 0 failed，新鲜 JSON `evidence/batch-B/vitest-new.json`）：
+  - L05 `shop-menu.glm-phase1-leaves.test.ts`（3）：缺 `_name` 回退 `?id`、pageSize 固定 8、
+    错相 shopSelectItem 零请求、目录缺 item no-op、list 相 shopConfirm null。
+  - L05 `sell-menu.glm-phase1-leaves.test.ts`（3）：grid 固定 filter='sellable'、空库存 `!slot`
+    防御、错相 sellSelectItem/sellConfirm 零请求、刷新缩表（非空）clamp 分支。
+  - L06 `save-slot-menu.glm-phase1-leaves.test.ts`（4）：**只同步合同**（不调 fetchSlotMetas/
+    Save API/IndexedDB）——defaultSlot 自定义槽号 cursor=slot-1、非顺序 slot id 按 id 反查、
+    defaultSlot 越界保持 0、空列表防御。
+  - L06 `opening-menu.glm-phase1-leaves.test.ts`（3）：choice 'new-game'/'load-game' 映射、
+    词表 flat[7]/flat[8] 同步两处、空表 choice 防御。
+  - L07 `battle-inspect.glm-phase1-leaves.test.ts`（9）：persistent 来源 + slow 无持久位、
+    rgPoisonStatus 毒条 entries/tags（知名/未知/ID0 跳过）、battle players[slot].roleId 投影与
+    缺槽回退、hiddenExp 池级 next、steal 金钱/知名/缺名三分支、maxHealth??prevHp??health 链、
+    defeated/巫抗行、敌状态敌毒、isBoss/screenWave、三收集器输入深保真（消费子树逐字段快照比对）。
+    GameState 来自 createInitialGameState 真实工厂 + 完整 BattleState 字面量（createSeedableRng），
+    无 as-cast 掩盖。
+  - L08 `state-dump.glm-phase1-leaves.test.ts`（5）：dumpFrameJson 全字段深比对（dir 映射/
+    wFrame 三来源/3 帧表 [0,1,0,2]/sprite 回退链/npcs 缺省回退）、initStateDump `?tp_dump=1`
+    启用与关闭、push 帧号递增；jsdom 隔离 window + finally 恢复 location/全局，
+    不启用真实页面 dump、不碰 E2E 日志。
+  - L08 `detectors.glm-phase1-leaves.test.ts`（4）：atSpot 默认容差 ±48/±24 恰好边界、
+    atAnySpot 多点任一命中（旧例未覆盖）、leaveScene prev=null 防御、enterAnyScene 集合外/空集、
+    caiyiDetector 自定义敌 id。
+- 相邻回归：`src/core/menu/ + src/core/inspect/ + src/tools/speedrun/` 404/404 passed
+  （`evidence/batch-B/vitest-adjacent.json`）。
+- 命令：同批 A 口径；typecheck 0 诊断、Biome 新文件 0 诊断、docs PASS、`git diff --check` 干净。
+- 反控（`evidence/batch-B/needles-summary.json`，`node tools/leaves-mutants.mjs b`）：
+  - control：7 新文件 31/31 exit0 全绿。
+  - `sell-refresh-shrink-clamp`：refreshSellGrid 缩表 clamp 拆除 → 恰一红。
+  - `steal-money-item-branch`：battle-inspect steal 金钱/物品分支反转 → 恰一红。
+  - 生产源 hash 前后一致（summary.hashes）。
+- 未证项：state-dump 无 window 分支（jsdom 恒有 window，防御不测）；detectors `enterScene`
+  已证合同未重测；覆盖增量未执行，统计由 Codex 统一。

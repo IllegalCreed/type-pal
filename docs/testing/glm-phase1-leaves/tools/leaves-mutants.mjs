@@ -60,6 +60,45 @@ const batches = {
       },
     ],
   },
+  b: {
+    control: {
+      tests: [
+        'src/core/menu/shop-menu.glm-phase1-leaves.test.ts',
+        'src/core/menu/sell-menu.glm-phase1-leaves.test.ts',
+        'src/core/menu/save-slot-menu.glm-phase1-leaves.test.ts',
+        'src/core/menu/opening-menu.glm-phase1-leaves.test.ts',
+        'src/core/inspect/battle-inspect.glm-phase1-leaves.test.ts',
+        'src/dev/state-dump.glm-phase1-leaves.test.ts',
+        'src/tools/speedrun/detectors.glm-phase1-leaves.test.ts',
+      ],
+      total: 31,
+    },
+    production: ['src/core/menu/sell-menu.ts', 'src/core/inspect/battle-inspect.ts'],
+    mutations: [
+      {
+        id: 'sell-refresh-shrink-clamp',
+        module: 'src/core/menu/sell-menu.ts',
+        file: 'src/core/menu/sell-menu.glm-phase1-leaves.test.ts',
+        total: 3,
+        describe: 'L05 sell-menu 剩余合同',
+        title: '刷新缩表（非空）：prevCursor 越新末项 → clamp 到 length-1',
+        from: 'else if (prevCursor >= s.grid.inventory.length) s.grid.cursor = s.grid.inventory.length - 1',
+        to: 'else if (prevCursor >= s.grid.inventory.length) s.grid.cursor = prevCursor',
+        category: '刷新缩表 clamp 拆除：光标悬在已消失条目之外',
+      },
+      {
+        id: 'steal-money-item-branch',
+        module: 'src/core/inspect/battle-inspect.ts',
+        file: 'src/core/inspect/battle-inspect.glm-phase1-leaves.test.ts',
+        total: 9,
+        describe: 'L07 collectEnemyStatusReadouts 剩余投影',
+        title: 'steal 三分支：金钱/知名物品/缺名物品',
+        from: 'else if (stealId === 0) steal = `金钱 ×${stealCount}`',
+        to: 'else if (stealId !== 0) steal = `金钱 ×${stealCount}`',
+        category: 'steal 分类反转：stealItem==0 金钱与物品两分支互换',
+      },
+    ],
+  },
 }
 
 const MIXED_ERROR =
