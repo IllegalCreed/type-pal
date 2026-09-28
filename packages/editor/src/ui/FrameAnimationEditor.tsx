@@ -110,6 +110,22 @@ function sourceArrayBuffer(bytes: Uint8Array): ArrayBuffer {
   return bytes.buffer.slice(bytes.byteOffset, bytes.byteOffset + bytes.byteLength) as ArrayBuffer
 }
 
+function frameAnimationError(cause: unknown): string {
+  return (
+    (cause instanceof Error ? cause.message : String(cause)) || '帧动画处理失败，资源可能已损坏'
+  )
+}
+
+interface FrameEditorSourceOwner {
+  assetId: AssetId
+  revision: string
+  session: EditSession
+}
+
+interface FrameEditorOperation {
+  owner: FrameEditorSourceOwner
+}
+
 function FrameThumbnail(props: {
   draft: FrameAnimationDraft
   index: number
@@ -117,6 +133,7 @@ function FrameThumbnail(props: {
   selected: boolean
   current: boolean
   busy: boolean
+  onError(message: string): void
   onSelect(event: React.MouseEvent): void
   onDragStart(event: DragEvent<HTMLButtonElement>): void
   onDragEnd(): void
@@ -129,6 +146,7 @@ function FrameThumbnail(props: {
     selected,
     current,
     busy,
+    onError,
     onSelect,
     onDragStart,
     onDragEnd,
@@ -137,13 +155,19 @@ function FrameThumbnail(props: {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   useEffect(() => {
     let alive = true
-    void resolveDraftFrame(draft, index, reader).then((rgba) => {
-      if (alive && canvasRef.current) drawFrame(canvasRef.current, draft.width, draft.height, rgba)
-    })
+    void resolveDraftFrame(draft, index, reader).then(
+      (rgba) => {
+        if (alive && canvasRef.current)
+          drawFrame(canvasRef.current, draft.width, draft.height, rgba)
+      },
+      (cause: unknown) => {
+        if (alive) onError(frameAnimationError(cause))
+      },
+    )
     return () => {
       alive = false
     }
-  }, [draft, index, reader])
+  }, [draft, index, reader, onError])
   return (
     <DsPressable
       type="button"
@@ -183,6 +207,11 @@ export function FrameAnimationEditor(props: {
 }) {
   const { asset, reader, assetBase, session, onMetadata, onDirtyChange } = props
   const sequenceReader = useMemo(() => new FrameSequenceReader(reader, undefined, 64), [reader])
+  const sourceOwner = useMemo<FrameEditorSourceOwner>(
+    () => ({ assetId: asset.id, revision: asset.record.sha256, session }),
+    [asset.id, asset.record.sha256, session],
+  )
+  const activeOperation = useRef<FrameEditorOperation | null>(null)
   const [history, setHistory] = useState<FrameAnimationDraftHistory | null>(null)
   const [baseline, setBaseline] = useState<FrameAnimationDraft | null>(null)
   const [selectedIndex, setSelectedIndex] = useState(0)
@@ -223,6 +252,8 @@ export function FrameAnimationEditor(props: {
 
   useEffect(() => {
     let alive = true
+    activeOperation.current = null
+    setBusy('')
     setHistory(null)
     setBaseline(null)
     setSelectedIndex(0)
@@ -236,27 +267,25 @@ export function FrameAnimationEditor(props: {
     panGesture.current = null
     dragFrameIdRef.current = null
     setError('')
-    const expectedRevision = asset.record.sha256
-    sequenceReader.invalidate(asset.id)
-    void sequenceReader.sequence(asset.id).then(
+    const expectedRevision = sourceOwner.revision
+    sequenceReader.invalidate(sourceOwner.assetId)
+    void sequenceReader.sequence(sourceOwner.assetId).then(
       ({ index }) => {
         if (!alive) return
-        const next = draftFromFrameSequence(asset.id, index)
+        const next = draftFromFrameSequence(sourceOwner.assetId, index)
         setHistory(createDraftHistory(next))
         setBaseline(next)
         setSelectedFrameIds(new Set(next.frames[0] ? [next.frames[0].id] : []))
       },
       (cause: unknown) => {
-        if (alive)
-          setError(
-            `${expectedRevision.slice(0, 8)}: ${cause instanceof Error ? cause.message : String(cause)}`,
-          )
+        if (alive) setError(`${expectedRevision.slice(0, 8)}: ${frameAnimationError(cause)}`)
       },
     )
     return () => {
       alive = false
+      activeOperation.current = null
     }
-  }, [asset.id, asset.record.sha256, sequenceReader])
+  }, [sourceOwner, sequenceReader])
 
   useEffect(() => {
     if (!draft) {
@@ -301,7 +330,7 @@ export function FrameAnimationEditor(props: {
           drawFrame(canvasRef.current, draft.width, draft.height, rgba)
       },
       (cause: unknown) => {
-        if (alive) setError(cause instanceof Error ? cause.message : String(cause))
+        if (alive) setError(frameAnimationError(cause))
       },
     )
     return () => {
@@ -495,15 +524,40 @@ export function FrameAnimationEditor(props: {
     selectionAnchor.current = index
   }
 
+  const beginOperation = (message: string): FrameEditorOperation | undefined => {
+    if (activeOperation.current) return
+    if (
+      session.getState().assetCatalog.assets[sourceOwner.assetId]?.sha256 !== sourceOwner.revision
+    )
+      return
+    const operation = { owner: sourceOwner }
+    activeOperation.current = operation
+    setBusy(message)
+    setError('')
+    return operation
+  }
+
+  const ownsOperation = (operation: FrameEditorOperation): boolean =>
+    activeOperation.current === operation &&
+    operation.owner.session.getState().assetCatalog.assets[operation.owner.assetId]?.sha256 ===
+      operation.owner.revision
+
+  const finishOperation = (operation: FrameEditorOperation): void => {
+    if (activeOperation.current !== operation) return
+    activeOperation.current = null
+    setBusy('')
+  }
+
   const importImages = async (
     files: readonly File[],
     mode: 'insert' | 'replace',
   ): Promise<void> => {
     if (!draft || files.length === 0) return
+    const operation = beginOperation('正在读取完整帧…')
+    if (!operation) return
     try {
-      setBusy('正在读取完整帧…')
-      setError('')
       const decoded = await decodeFrameImages(files)
+      if (!ownsOperation(operation)) return
       if (decoded[0]?.width !== draft.width || decoded[0]?.height !== draft.height)
         throw new Error(
           `图片尺寸 ${decoded[0]?.width}x${decoded[0]?.height}，应为 ${draft.width}x${draft.height}`,
@@ -511,6 +565,7 @@ export function FrameAnimationEditor(props: {
       let colors: readonly (readonly [number, number, number])[] | undefined
       if (draft.colorTreatment === 'project-standard')
         colors = (await loadStandardPalette(assetBase)).colors
+      if (!ownsOperation(operation)) return
       const frames: FrameAnimationDraftFrame[] = decoded.map((frame) => ({
         id: nextFrameId(),
         source: {
@@ -529,22 +584,24 @@ export function FrameAnimationEditor(props: {
         selectionAnchor.current = selectedIndex + 1
       }
     } catch (cause) {
-      setError(cause instanceof Error ? cause.message : String(cause))
+      if (ownsOperation(operation)) setError(frameAnimationError(cause))
     } finally {
-      setBusy('')
+      finishOperation(operation)
     }
   }
 
   const quantizeFrames = async (all: boolean): Promise<void> => {
     if (!draft) return
+    const operation = beginOperation(all ? '正在转换全部完整帧…' : '正在转换当前完整帧…')
+    if (!operation) return
     try {
-      setBusy(all ? '正在转换全部完整帧…' : '正在转换当前完整帧…')
-      setError('')
       const colors = (await loadStandardPalette(assetBase)).colors
+      if (!ownsOperation(operation)) return
       const indices = all ? draft.frames.map((_frame, index) => index) : [selectedIndex]
       const sourceFrames: ArrayBuffer[] = []
       for (const index of indices) {
         const rgba = await resolveDraftFrame(draft, index, sequenceReader)
+        if (!ownsOperation(operation)) return
         sourceFrames.push(sourceArrayBuffer(rgba))
       }
       const quantized = await quantizeFrameAnimationInWorker({
@@ -554,6 +611,7 @@ export function FrameAnimationEditor(props: {
         mode: quantization,
         frames: sourceFrames,
       })
+      if (!ownsOperation(operation)) return
       let next = draft
       for (const [position, index] of indices.entries()) {
         next = replaceDraftFrame(next, index, {
@@ -563,22 +621,24 @@ export function FrameAnimationEditor(props: {
       }
       commit(setDraftColorTreatment(next, 'project-standard'))
     } catch (cause) {
-      setError(cause instanceof Error ? cause.message : String(cause))
+      if (ownsOperation(operation)) setError(frameAnimationError(cause))
     } finally {
-      setBusy('')
+      finishOperation(operation)
     }
   }
 
   const save = async (): Promise<void> => {
     if (!draft || !dirty) return
+    const operation = beginOperation('正在后台压缩完整帧…')
+    if (!operation) return
     try {
-      setBusy('正在后台压缩完整帧…')
-      setError('')
       const needsSource = draft.frames.some(
         (frame) => frame.source.kind === 'asset' && frame.source.asset === asset.id,
       )
       const source = needsSource ? await reader.readBytes(asset.id, 'frame-animation') : undefined
+      if (!ownsOperation(operation)) return
       const previousBytes = source ?? (await reader.readBytes(asset.id, 'frame-animation'))
+      if (!ownsOperation(operation)) return
       const frames: FrameAnimationEncodeFrame[] = []
       for (let index = 0; index < draft.frames.length; index++) {
         const frame = draft.frames[index]!
@@ -587,6 +647,7 @@ export function FrameAnimationEditor(props: {
           frames.push({ sourceFrame: frame.source.frameIndex, ...duration })
         else {
           const rgba = await resolveDraftFrame(draft, index, sequenceReader)
+          if (!ownsOperation(operation)) return
           frames.push({ rgba: sourceArrayBuffer(rgba), ...duration })
         }
       }
@@ -598,9 +659,11 @@ export function FrameAnimationEditor(props: {
         ...(source === undefined ? {} : { source }),
         frames,
       })
+      if (!ownsOperation(operation)) return
       const hash = await sha256Hex(encoded)
+      if (!ownsOperation(operation)) return
       const record: AssetRecordV1 = {
-        ...asset.record,
+        ...reader.record(asset.id, 'frame-animation'),
         path: `assets/authored/frame-animation/${hash}.tpfs`,
         mediaType: FRAME_SEQUENCE_MEDIA_TYPE,
         bytes: encoded.byteLength,
@@ -611,9 +674,9 @@ export function FrameAnimationEditor(props: {
         new UpsertAssetCommand(asset.id, record, sourceArrayBuffer(encoded), previousBytes),
       )
     } catch (cause) {
-      setError(cause instanceof Error ? cause.message : String(cause))
+      if (ownsOperation(operation)) setError(frameAnimationError(cause))
     } finally {
-      setBusy('')
+      finishOperation(operation)
     }
   }
 
@@ -768,15 +831,25 @@ export function FrameAnimationEditor(props: {
       </section>
 
       <div className="fa-edit-bar">
-        <DsButton variant="secondary" icon="add" onClick={() => insertRef.current?.click()}>
+        <DsButton
+          variant="secondary"
+          icon="add"
+          disabled={Boolean(busy)}
+          onClick={() => insertRef.current?.click()}
+        >
           插入图片
         </DsButton>
-        <DsButton variant="secondary" onClick={() => replaceRef.current?.click()}>
+        <DsButton
+          variant="secondary"
+          disabled={Boolean(busy)}
+          onClick={() => replaceRef.current?.click()}
+        >
           替换当前帧
         </DsButton>
         <DsButton
           variant="secondary"
           icon="copy"
+          disabled={Boolean(busy)}
           onClick={() => {
             const copies = actionIndices.map((index) => ({
               ...draft.frames[index]!,
@@ -794,7 +867,7 @@ export function FrameAnimationEditor(props: {
         <DsButton
           variant="danger"
           icon="delete"
-          disabled={draft.frames.length <= actionIndices.length}
+          disabled={Boolean(busy) || draft.frames.length <= actionIndices.length}
           onClick={() => {
             const next = deleteDraftFrames(draft, actionIndices)
             const nextIndex = Math.min(actionIndices[0] ?? selectedIndex, next.frames.length - 1)
@@ -811,6 +884,7 @@ export function FrameAnimationEditor(props: {
           {(field) => (
             <DsNumberInput
               {...field}
+              disabled={Boolean(busy)}
               min="0.1"
               step="0.1"
               defaultValue={(1000 / draft.defaultFrameMs).toFixed(2)}
@@ -827,6 +901,7 @@ export function FrameAnimationEditor(props: {
           {(field) => (
             <DsNumberInput
               {...field}
+              disabled={Boolean(busy)}
               min="1"
               placeholder={`${Math.round(draft.defaultFrameMs)} 默认`}
               value={draft.frames[selectedIndex]?.durationMs ?? ''}
@@ -843,6 +918,7 @@ export function FrameAnimationEditor(props: {
         <span className="fa-divider" />
         <DsSelect
           aria-label="颜色转换方式"
+          disabled={Boolean(busy)}
           value={quantization}
           onValueChange={(value) => setQuantization(value as FrameQuantization)}
           options={[
@@ -870,6 +946,7 @@ export function FrameAnimationEditor(props: {
       <DsFileInput
         ref={insertRef}
         hidden
+        disabled={Boolean(busy)}
         multiple
         accept="image/png,image/jpeg,image/webp"
         onChange={(event) => onFileInput(event, 'insert')}
@@ -877,6 +954,7 @@ export function FrameAnimationEditor(props: {
       <DsFileInput
         ref={replaceRef}
         hidden
+        disabled={Boolean(busy)}
         accept="image/png,image/jpeg,image/webp"
         onChange={(event) => onFileInput(event, 'replace')}
       />
@@ -912,6 +990,7 @@ export function FrameAnimationEditor(props: {
                   selected={selectedFrameIds.has(frame.id)}
                   current={index === selectedIndex}
                   busy={Boolean(busy)}
+                  onError={setError}
                   onSelect={(event) => {
                     if (event.shiftKey) {
                       const from = Math.min(selectionAnchor.current, index)

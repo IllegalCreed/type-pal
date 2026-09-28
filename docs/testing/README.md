@@ -60,7 +60,7 @@
 - [Cursor地图六组作者交付](cursor-map-logic-r2/README.md)（M1–M6，保留历史回执，最终结论见独立集成记录）。
 - [GLM物品纯逻辑六组](glm-item-logic/README.md)（item.ts 残余合同补测交付）。
 
-- [Codex帧动画编辑五组](codex-frame-editor/README.md)（真实TPFS、DOM与保存产物）。
+- [Codex帧动画编辑五组](codex-frame-editor/README.md)（33项/十针，异步归属与保存缺陷已修，统一门通过并收口）。
 
 - [GLM八组同步守卫接收与集成](guard-wave3-integration.md)（110项、最后输入保真反控闭合）。
 

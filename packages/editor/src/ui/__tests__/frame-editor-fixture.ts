@@ -59,7 +59,13 @@ function property(target: object, name: string, descriptor: PropertyDescriptor) 
 }
 
 export async function frameEditor(
-  options: { frameCount?: number; initialFailure?: unknown; deferInitial?: Promise<void> } = {},
+  options: {
+    frameCount?: number
+    frames?: readonly Uint8Array[]
+    corruptPayload?: boolean
+    initialFailure?: unknown
+    deferInitial?: Promise<void>
+  } = {},
 ) {
   const nodeBuffer = 'node:buffer'
   const native: { Blob: typeof Blob } = await import(nodeBuffer)
@@ -77,11 +83,23 @@ export async function frameEditor(
     },
   )
   const pixels = new Map<HTMLCanvasElement, Uint8ClampedArray>()
+  const bitmapPixels = new WeakMap<ImageBitmap, Uint8ClampedArray>()
   const draws: HTMLCanvasElement[] = []
   property(HTMLCanvasElement.prototype, 'getContext', {
     value: function (this: HTMLCanvasElement, kind: string) {
       if (kind !== '2d') throw new Error(`unexpected canvas context ${kind}`)
       return {
+        clearRect: () => undefined,
+        drawImage: (bitmap: ImageBitmap) => {
+          const rgba = bitmapPixels.get(bitmap)
+          if (!rgba) throw new Error('unregistered test image bitmap')
+          pixels.set(this, rgba.slice())
+        },
+        getImageData: () => {
+          const rgba = pixels.get(this)
+          if (!rgba) throw new Error('image canvas has no decoded pixels')
+          return { data: rgba.slice(), width: this.width, height: this.height }
+        },
         putImageData: (image: ImageData, x: number, y: number) => {
           expect([x, y]).toEqual([0, 0])
           expect([image.width, image.height]).toEqual([this.width, this.height])
@@ -91,7 +109,7 @@ export async function frameEditor(
       }
     },
   })
-  const observers: ResizeObserver[] = []
+  const observers: Array<ResizeObserver & { callback: ResizeObserverCallback }> = []
   const disconnected = vi.fn()
   vi.stubGlobal(
     'ResizeObserver',
@@ -164,11 +182,15 @@ export async function frameEditor(
       height: 1,
       defaultFrameMs: 40,
       colorTreatment: 'preserve',
-      frames: framePixels
+      frames: (options.frames ?? framePixels)
         .slice(0, count)
         .map((rgba, i) => ({ rgba: owned(rgba), ...(i === 1 ? { durationMs: 70 } : {}) })),
     })
     expect(parseFrameSequence(encoded).index.frames).toHaveLength(count)
+    if (id === animationId && options.corruptPayload) {
+      parseFrameSequence(encoded).payload[0] = 0
+      expect(parseFrameSequence(encoded).index.frames).toHaveLength(count)
+    }
     const record: AssetRecordV1 = {
       kind: 'frame-animation',
       path: `assets/authored/${id}.tpfs`,
@@ -267,6 +289,45 @@ export async function frameEditor(
     if (!card) throw Error('missing frame')
     await act(async () => card.dispatchEvent(new MouseEvent('click', { bubbles: true, ...mods })))
   }
+  const checkbox = async (label: string) => {
+    const input = [...host.querySelectorAll<HTMLInputElement>('input[type="checkbox"]')].find(
+      (candidate) => candidate.closest('label')?.textContent?.includes(label),
+    )
+    if (!input) throw new Error(`missing frame checkbox ${label}`)
+    await act(async () => input.click())
+  }
+  const key = async (value: string) => {
+    await act(async () =>
+      stage().dispatchEvent(new KeyboardEvent('keydown', { key: value, bubbles: true })),
+    )
+  }
+  const pointer = async (
+    type: 'pointerdown' | 'pointermove' | 'pointerup' | 'pointercancel',
+    options: MouseEventInit & { pointerId: number },
+  ) => {
+    const event = new MouseEvent(type, { bubbles: true, ...options })
+    Object.defineProperty(event, 'pointerId', { value: options.pointerId })
+    await act(async () => stage().dispatchEvent(event))
+  }
+  const resize = async () => {
+    await act(async () => {
+      for (const observer of observers) observer.callback([], observer)
+    })
+  }
+  const geometry = () => {
+    property(stage(), 'getBoundingClientRect', {
+      value: () => new DOMRect(100, 50, 100, 80),
+    })
+    property(canvas(), 'getBoundingClientRect', {
+      value: () =>
+        new DOMRect(
+          120 - stage().scrollLeft,
+          60 - stage().scrollTop,
+          Number.parseFloat(canvas().style.width) || 8,
+          Number.parseFloat(canvas().style.height) || 4,
+        ),
+    })
+  }
   const unchanged = () => {
     expect(initialState).toEqual(before)
     expect(files).toEqual(filesBefore)
@@ -353,6 +414,7 @@ export async function frameEditor(
     metadata,
     dirty,
     pixels,
+    bitmapPixels,
     draws,
     captures,
     observers,
@@ -366,6 +428,11 @@ export async function frameEditor(
     button,
     click,
     select,
+    checkbox,
+    key,
+    pointer,
+    resize,
+    geometry,
     unchanged,
     draftOnly,
     wait,

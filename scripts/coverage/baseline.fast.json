@@ -1,14 +1,14 @@
 {
   "schemaVersion": 2,
   "profile": "fast",
-  "generatedAt": "2026-09-27T12:29:17.031Z",
+  "generatedAt": "2026-09-28T01:39:29.502Z",
   "provider": {
     "name": "v8",
     "vitest": "4.1.7",
     "coverageV8": "4.1.7"
   },
   "sourceFileCount": 730,
-  "testCount": 9682,
+  "testCount": 9715,
   "packages": {
     "shared": {
       "name": "@type-pal/shared",
@@ -4873,8 +4873,8 @@
       ],
       "scopeDigest": "e8503db84898429d43f7182fbfa77a13d53933aad0c938380f7918609d7fcb3e",
       "fastTests": {
-        "testCount": 3093,
-        "testFileCount": 376,
+        "testCount": 3126,
+        "testFileCount": 382,
         "files": [
           "packages/editor/scripts/battle-simulator-http.test.mjs",
           "packages/editor/scripts/battle-simulator-ui.test.tsx",
@@ -5133,8 +5133,14 @@
           "packages/editor/src/ui/EnemyTeamTab.test.tsx",
           "packages/editor/src/ui/EntityPageAnimationEditor.test.tsx",
           "packages/editor/src/ui/EventLibTab.test.tsx",
+          "packages/editor/src/ui/FrameAnimationEditor.async-ownership.test.tsx",
+          "packages/editor/src/ui/FrameAnimationEditor.editing.test.tsx",
+          "packages/editor/src/ui/FrameAnimationEditor.loading.test.tsx",
+          "packages/editor/src/ui/FrameAnimationEditor.playback.test.tsx",
           "packages/editor/src/ui/FrameAnimationEditor.reorder.test.tsx",
+          "packages/editor/src/ui/FrameAnimationEditor.save.test.tsx",
           "packages/editor/src/ui/FrameAnimationEditor.test.ts",
+          "packages/editor/src/ui/FrameAnimationEditor.viewport.test.tsx",
           "packages/editor/src/ui/ImageTab.glm-ui-wave.test.tsx",
           "packages/editor/src/ui/ImageTab.test.tsx",
           "packages/editor/src/ui/IsometricEditorToolbar.test.tsx",
@@ -6540,14 +6546,44 @@
             "identityDigest": "ede7aeeec611a2462da3baa2109a0860022dc354ab6d0a475856c2f7756810ce"
           },
           {
+            "file": "packages/editor/src/ui/FrameAnimationEditor.async-ownership.test.tsx",
+            "testCount": 9,
+            "identityDigest": "d49a1ec5cd1db69b6ad0d8e66c46d22c78e5518c31b686a9b4d28a535cceb775"
+          },
+          {
+            "file": "packages/editor/src/ui/FrameAnimationEditor.editing.test.tsx",
+            "testCount": 5,
+            "identityDigest": "eb3849842d06dda3bff88776b7ba573ca16eaef89c6764d30cbb190d9efe69f5"
+          },
+          {
+            "file": "packages/editor/src/ui/FrameAnimationEditor.loading.test.tsx",
+            "testCount": 6,
+            "identityDigest": "195ac84118ff2dfe3d074f439cba7f3e1411b8945e7752d1471883757f0365da"
+          },
+          {
+            "file": "packages/editor/src/ui/FrameAnimationEditor.playback.test.tsx",
+            "testCount": 3,
+            "identityDigest": "9e09b8753d371314048235a2e323503a2920b1afa64fcba2139b8231447af4cb"
+          },
+          {
             "file": "packages/editor/src/ui/FrameAnimationEditor.reorder.test.tsx",
             "testCount": 3,
             "identityDigest": "9bebc5fa7822c174a69346ec24143f93d92c451eb1885db9f6d7d8d12c40f8e2"
           },
           {
+            "file": "packages/editor/src/ui/FrameAnimationEditor.save.test.tsx",
+            "testCount": 7,
+            "identityDigest": "c2a18489a930e102bc3bcba048a00d467c97f6efcc810e351c1e123e39823e18"
+          },
+          {
             "file": "packages/editor/src/ui/FrameAnimationEditor.test.ts",
             "testCount": 3,
             "identityDigest": "d95a772430d3500836215af65f6e9097967bf8c9434c201e57808718925d7b9b"
+          },
+          {
+            "file": "packages/editor/src/ui/FrameAnimationEditor.viewport.test.tsx",
+            "testCount": 3,
+            "identityDigest": "955ff06133d3dc6c714e11e4fd53892d0dfc6591fce5095c3f99e9277a88dfb9"
           },
           {
             "file": "packages/editor/src/ui/ImageTab.glm-ui-wave.test.tsx",
@@ -7135,46 +7171,46 @@
             "identityDigest": "6d9b1e40775d9e105c4ed3770ae488e05c74d354e5c965aae87815ced020c2ff"
           }
         ],
-        "identityDigest": "16da00afdd5211000830b9f4d9763a430b9dcac3231d34ae82237d712c23581f",
+        "identityDigest": "3fa0ff71ba1ea4d2017047cb6f16d5bafe6a0f0875dd6dd4fb71310ece9a9cfa",
         "duplicateIdentityCount": 8,
-        "executionDigest": "25b7e1632d5795f636623b4cfa48f6c08671ddedea528e26a811fcb6ac704cac"
+        "executionDigest": "07d9cf8f244d13c01c5de449efc7fb9b3efce58fd0ff108d3284a6b6e046c30c"
       },
       "metrics": {
         "statements": {
-          "covered": 27177,
-          "total": 32892
+          "covered": 27398,
+          "total": 32944
         },
         "branches": {
-          "covered": 21445,
-          "total": 28416
+          "covered": 21593,
+          "total": 28454
         },
         "functions": {
-          "covered": 6851,
-          "total": 8446
+          "covered": 6898,
+          "total": 8452
         },
         "lines": {
-          "covered": 24390,
-          "total": 28756
+          "covered": 24584,
+          "total": 28789
         }
       }
     }
   },
   "total": {
     "statements": {
-      "covered": 65743,
-      "total": 80978
+      "covered": 65964,
+      "total": 81030
     },
     "branches": {
-      "covered": 47489,
-      "total": 63323
+      "covered": 47637,
+      "total": 63361
     },
     "functions": {
-      "covered": 12234,
-      "total": 15239
+      "covered": 12281,
+      "total": 15245
     },
     "lines": {
-      "covered": 58997,
-      "total": 70882
+      "covered": 59191,
+      "total": 70915
     }
   }
 }
