@@ -381,7 +381,7 @@
         "R27",
         "R28"
       ],
-      "candidateSha": "filled-after-push",
+      "candidateSha": "7c79bd72",
       "directed": {
         "reforge": {
           "total": 34,
@@ -435,5 +435,38 @@
         "hosts main.js bundles no longer committed; rebuild command documented in hosts/README.md"
       ]
     }
+  },
+  "summary": {
+    "queue": "TEST-GLM-RUNTIME-RESOURCE-2 (GLM 第二对话 28 组 / A–G 七批)",
+    "candidates": {
+      "A": "b9d6ce54",
+      "B": "9f99e0b8",
+      "C": "511c63e7",
+      "D": "366c5663",
+      "E": "61686dc3",
+      "F": "8491a0ca",
+      "G": "7c79bd72"
+    },
+    "totals": {
+      "newTests": 115,
+      "directedGreen": {
+        "shared": 48,
+        "reforgeC": 60,
+        "reforgeD": 74,
+        "reforgeE": 77,
+        "migrateF": 42,
+        "reforgeG": 34,
+        "migrateG": 25,
+        "palExtractA": 41,
+        "migrateB": 95
+      }
+    },
+    "needles": "每批 2 针 × 7 批 = 14 针全部恰一红 AssertionError（4 次换针均留痕）",
+    "visuals": {
+      "RV1": "rv1-batchA.png 44fbbb43…",
+      "RV2": "rv2-batchC.png 78acfb06…",
+      "RV3/RV4": "rv3-rv4-batchD.png 6abdb5ab…"
+    },
+    "note": "所有候选未合 main；Codex 独立验收、统一质量门与集成推送另行执行"
   }
 }
