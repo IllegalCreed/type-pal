@@ -248,6 +248,50 @@ const batches = {
       },
     ],
   },
+  f: {
+    packageRoot: resolve(root, 'packages/editor'),
+    production: [
+      'src/ui/BattleFieldTab.tsx',
+      'src/ui/CasualtyEditor.tsx',
+      'src/ui/ScriptSceneHookInspector.tsx',
+      'src/ui/ScriptBehaviorInspector.tsx',
+      'src/ui/enemy-defeated-events.ts',
+    ],
+    control: {
+      tests: [
+        'src/ui/BattleFieldTab.glm-leaf-wave.test.tsx',
+        'src/ui/CasualtyEditor.glm-leaf-wave.test.tsx',
+        'src/ui/ScriptSceneHookInspector.glm-leaf-wave.test.tsx',
+        'src/ui/ScriptBehaviorInspector.glm-leaf-wave.test.tsx',
+        'src/ui/enemy-defeated-events.glm-leaf-wave.test.ts',
+      ],
+      total: 16,
+    },
+    mutations: [
+      {
+        id: 'reward-replace-probability-inverted',
+        module: 'src/ui/enemy-defeated-events.ts',
+        file: 'src/ui/enemy-defeated-events.glm-leaf-wave.test.ts',
+        total: 5,
+        describe: 'replaceEditableEnemyDefeatedItemReward 剩余合同',
+        title: 'rewrites probability branch, item and keeps the trailing dialog text',
+        from: "cond: { kind: 'chance', percent: 100 - next.probability },",
+        to: "cond: { kind: 'chance', percent: next.probability },",
+        category: '奖励替换反转：掉落概率写成其补数',
+      },
+      {
+        id: 'casualty-chance-floor-drop',
+        module: 'src/ui/CasualtyEditor.tsx',
+        file: 'src/ui/CasualtyEditor.glm-leaf-wave.test.tsx',
+        total: 3,
+        describe: 'CasualtyEditor 剩余合同',
+        title: 'chance gates write integers once per blur and undo restores the prior value',
+        from: 'normalize={(value) => Math.max(1, Math.min(100, Math.trunc(value)))}',
+        to: 'normalize={(value) => Math.max(1, Math.min(100, value))}',
+        category: '概率取整拆除：非整数概率直接写库',
+      },
+    ],
+  },
 }
 
 const MIXED_ERROR =
