@@ -156,7 +156,7 @@ lint/格式/typecheck **error/warning/info 全零**；已有诊断也不能报�
 
 | 批 | 组 | 候选 | GLM 自验 | Codex 独立验收 |
 |---|---|---|---|---|
-| A | G01–04 | pending（提交后回填） | pending（提交后回填） | pending |
+| A | G01–04 | `codex/glm-leaf-workflows-r1` 248295eb（回执/登记见同分支下一提交） | 自验通过：定向 25/25、相邻 361/361、typecheck/Biome/docs 零诊断、判据自测 10 类+control 绿+2 针业务红、隔离视觉 3 图（端口 6066，已停） | pending |
 | B | G05–08 | pending | pending | pending |
 | C | G09–12 | pending | pending | pending |
 | D | G13–16 | pending | pending | pending |
