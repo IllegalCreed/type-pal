@@ -1,6 +1,6 @@
 # TEST-GLM-LEAF-WORKFLOWS-1 — 三十二组叶层与小界面补测
 
-Status: build
+Status: rework
 Owner: GLM（受委派测试贡献者）
 Reviewer: Codex（独立验收、统一质量门与集成）
 Phase: phase2
@@ -69,8 +69,8 @@ Codex 独立接收，不恢复固定三签；作者自验不是独立第三方�
 - Codex 前提/范围：verified，32 组 49 目标；统计与 Kimi 零交集校验，移除无当前消费者的旧组件。
 - build 准入：**build allowed（仅本卡新增测试、fixture 与隔离证据）**，2026-09-28。
 - Coding Owner：GLM；不分派其改 E2E/产品，复杂跨组件竞态另归 Kimi/Codex。
-- GLM 交付与自验：pending，A → H 可连续实施。
-- Codex 独立验收：pending，分批接收；已闭合项不重开。
+- GLM 交付与自验：候选 `4b5aade7f75a9129805e48ebf7528ff3d91a1b7a` 已推送，A–H 自验登记见隔离分支回执。
+- Codex 独立验收：2026-09-28 `counter / rework`，具体阻塞见下节；尚未接收或集成任何批次。
 - 用户可感知产品验收：N/A，本卡不改行为；发现需要新产品裁决则另提。
 - done 准入：未开放，待独立验收与正式集成质量门。
 
@@ -78,22 +78,56 @@ Codex 独立接收，不恢复固定三签；作者自验不是独立第三方�
 
 - 2026-09-28 Codex：依现有 Vitest/pnpm 与 fast 证据派发八批，未重跑覆盖率盘点。
   GLM 直接实现，不先堆审计材料；允许有界的隔离功能视觉，不占用用户服务。
+- 2026-09-28 Codex：独立审核贡献者实际 HEAD `4b5aade7f`，候选工作树干净，改动限测试与隔离证据。
+  editor `check` 438 文件/3462 测试、content `check` 123 文件/1222 测试通过；`node scripts/docs/check.mjs`
+  通过，`git diff --check main...HEAD` 通过。`pnpm lint` 失败，9 error、2 warning、2 info，均落在新增测试。
+  任务转 `rework`，不合 main、不跑官方 ratchet/strict-fast、不改基线。截图文件在
+  `/tmp/type-pal-glm-leaf-workflows/`，已核实存在并抽查 A/B/C/D/E 图像。
+
+## Codex 独立审核反例（候选 `4b5aade7f`）
+
+1. **硬门未过**：`pnpm lint` 共 13 条诊断。例：`editor-target.glm-leaf-wave.test.ts:152/158`
+   两条 info；`StampTemplateDialog.glm-leaf-wave.test.tsx:2/16` 两条 warning；
+   `StampContentEditor.glm-leaf-wave.test.tsx`、`MapSelectionInspector.glm-leaf-wave.test.tsx`
+   等有 import/format error。必须全部清零并给完整零诊断回执。
+2. **fixture 与类型掩盖违反准入边界**：任务包要求当前合法输入，明确禁用 `as unknown as` / ignore。
+   候选 `ItemAlchemyTab.glm-leaf-wave.test.tsx:64`、`command-asset-record.glm-leaf-wave.test.ts:71`、
+   `BattleFieldTab.glm-leaf-wave.test.tsx:72` 等将不完整对象双重强转为 `EditorState`；
+   `script-references.glm-leaf-wave.test.ts:13/85/90` 以 `as never` 掩盖当前脚本形状；
+   多个 UI 测试以 `@ts-expect-error` 压制 Node 桥接类型。逐处改为合法 typed fixture/局部真实端口，
+   以当前 guard 或合法项目装载器自证；非法输入测试只在 API 声明接受 `unknown` 的边界注入。
+3. **组合同与去重不足**：G25 指定的 MP4 extended-size/截断 box 没有新增测试，
+   `video-metadata.test.ts` 旧例只证 `soun`/`vide`/非 MP4；G28 指定的相连/隔离 flood-fill、
+   规划前后同图参数保真没有在新增 `stamp-placement.glm-leaf-wave.test.ts` 中验证，需给精确旧断言证据或补测。
+   G27 的新 `script-references` 仅测模糊的 JSON 子串，缺完整 domain/owner/path 与输入深快照。
+   G20 新例的 owner 展示在 `ItemAlchemyTab.test.tsx:241/349/683` 已有更强旧证，需去重并把精力放到
+   尚未覆盖的配方/奖励行合同，或标明 existing-proof 不保留重复例。
+4. **视觉证据未闭合**：任务包明确 A–F 各一条。回执 F 段以 D/E 截图代替 F 自身 casualty 闭环，
+   不满足 F 步骤。E 的 `E-vars-1440-number-created.png` 和 `E-vars-1000-final.png` 显示
+   `score.bonus` 在“开关 2”分组且详情“类型 开关”，与要求的 number 创建相反；回执也承认直挂宿主
+   提交 `kind=flag`。需实际复现并判定宿主操作误差还是产品缺陷；真缺陷交隔离红诊断，不改产品。
+5. **覆盖回执范围不足**：`coverage-delta.mjs` 仅配置 editor，A–H 数字只含 37 个 editor 新测试文件，
+   H 的 7 个 content 文件未进入 before/after；也没有独立 E–H 增量。按任务包在同源码、相同官方 fast
+   选测与同分母下分别补 editor/content 贡献与 A–H 并集，明确局部数字不得充当正式全仓覆盖率。
+   截图回执还需完整 SHA256、尺寸、URL、候选 SHA；目前多为省略号 hash。
+
+这些反例属当前候选返工范围；GLM 仍是测试 Coding Owner，只修改本卡白名单。Codex 在新候选实际 HEAD
+独立复核后决定接收/集成，不将本次全绿单测解释为正式质量门通过。
 
 ## 下一位 Agent 提示词
 
 ```text
-接手 TEST-GLM-LEAF-WORKFLOWS-1。先读 AGENTS.md、CLAUDE.md、docs/phase2/READ-FIRST.md、
+返工 TEST-GLM-LEAF-WORKFLOWS-1。先读 AGENTS.md、CLAUDE.md、docs/phase2/READ-FIRST.md、
 docs/ops/tasks/TEST-GLM-LEAF-WORKFLOWS-1-thirty-two-groups.md、
-docs/testing/glm-leaf-workflows/README.md 和 targets.json。
-你是测试 Coding Owner，已 build allowed；直接实现，不是再做一包只读审计。
+docs/testing/glm-leaf-workflows/README.md、targets.json 和卡内 Codex 独立审核反例。
+你是测试 Coding Owner；以当前实际候选 HEAD 4b5aade7f 为返工起点，不要使用派发时冻结 SHA 当最新交付。
 在 /Users/zhangxu/.codex/worktrees/glm-leaf-workflows/type-pal、
-codex/glm-leaf-workflows-r1 分支，从派发提交连续做 A→H，
-每四组一批，固定 SHA 后提交推送，随后继续下一批，不等 Codex 审完。
+codex/glm-leaf-workflows-r1 分支修本卡白名单内的五项审核反例，提交推送新的固定候选 SHA。
 只改精确新增测试、专属 fixture/证据；不改产品、旧测试、官方配置/依赖/基线或别人的文件。
-先旧断言去重，再用真实公开入口和合法 fixture；业务结果要有正控和可证伪反控。
-按工作包的六条视觉步骤在自有端口/浏览器/临时项目取证，不碰 6010、Kimi 和 E2E 环境。
-静态门必须 error/warning/info 全零；D/H 批末再做受影响包全测和局部覆盖对照，别逐例跑覆盖。
-不跑官方全仓 check/ratchet/strict-fast。真 bug 交隔离红诊断，不改预期凑绿；阻塞一族继续其它族。
-每批回执给候选 SHA、真实新合同/旧证据去重、复跑命令、JSON、反控、截图和未证项。
+先旧断言去重，修掉强转/类型压制，补 G25/G27/G28 的未证合同或给精确 existing-proof；
+按 F 步骤取两种视口视觉证据，复核 E 创建 number 的实测差异。真 bug 交隔离红诊断，不改预期凑绿。
+静态门必须 error/warning/info 全零；补 content 与 E–H 的同口径局部覆盖对照。
+不跑官方全仓 check/ratchet/strict-fast；阻塞一族继续其它族。
+回执给新候选完整 SHA、逐项修复或反证、复跑命令/JSON、反控、完整截图元数据和未证项。
 GLM 是贡献者；Codex 独立验收、集成推送、统一质量门和清理。不要合 main、代签或标 done。
 ```

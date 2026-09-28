@@ -1,6 +1,6 @@
 # TEST-GLM-RUNTIME-RESOURCE-2 — 第二对话运行时与资源七批补测
 
-Status: build
+Status: rework
 Owner: GLM 第二对话（受委派测试贡献者）
 Reviewer: Codex（独立验收与集成）
 Phase: ops（shared/pal-extract 编解码；reforge/migrate 当前二阶段接口）
@@ -72,8 +72,8 @@ Visual Verification Timing: dev-functional（隔离固定输入绘制，不走�
 - Codex 前提/范围：verified；62 源 hash、28 组、新测试路径和跨队列零交集已核；R28 窄准入明确。
 - build 准入：**build allowed（仅新增测试/专属证据）**，2026-09-28。
 - Coding Owner：GLM 第二对话；第一对话继续原卡，两者都由 Codex 独立验收。
-- 贡献者交付：pending；A→G 可连续实施。
-- Codex 独立接收：pending，分批裁决。
+- 贡献者交付：A–G 候选与汇总回执已推送，实际 HEAD `fed0a7869`。
+- Codex 独立接收：2026-09-29 `counter / rework`，尚未接收或集成任何批次；见下节。
 - 用户产品验收：N/A，本卡不改产品；需新产品取舍时另提。
 - done 准入：未开放；验收后 Codex 合并提交推送并清理，不要求用户重复提醒。
 
@@ -81,25 +81,56 @@ Visual Verification Timing: dev-functional（隔离固定输入绘制，不走�
 
 - 2026-09-28 Codex：按用户“两对话并行”授权建立第二队列，不迁走已有 GLM/Kimi 新提交。
   基于当前 Vitest/pnpm 配置冻结目标，不为排任务重跑覆盖；纯渲染与业务执行、合成样本与原版证据分栏。
+- 2026-09-29 Codex：独立审核实际候选 `fed0a7869`，工作树干净；62/62 产品源 SHA256 匹配冻结表，
+  改动仅在本卡新增测试/fixture/证据。四包 typecheck 全过，39 个新测试文件定向 JSON 共 157/157 绿
+  （shared 13、reforge 71、pal-extract 58、migrate 15）；R28 窄入口 4/4、G 批反控对照 27 绿＋
+  两针业务红与判据自测 10 类独立复跑通过。docs/diff 通过，3 张截图存在且全 hash 匹配并已看图。
+  `pnpm lint` 失败（10 error、1 warning），另有测试 fixture、RV3 宿主和汇总口径反例。
+  因接收门未过，未合 main、未跑四包全测/覆盖对照或官方 check/ratchet/strict-fast。
+
+## Codex 独立审核返工项（候选 `fed0a7869`）
+
+1. **零诊断门失败**：`pnpm lint` 共 11 条，均在本卡新增文件：`registry.glm-runtime-resource.test.ts`
+   1 warning；`evidence.json`、`runtime-resource-mutants.mjs`、`ball.glm-runtime-resource.test.ts`、
+   `battle-trial-config`、`battle-anim`、`battle-positions`、`settlement`、`save-browser-box` 新测试
+   合计 10 条格式/import error。逐项修复，完整全仓零诊断输出才可接收。
+2. **合法测试输入被强转掩盖**：`recompile.glm-runtime-resource.test.ts:16–23` 通过
+   `as unknown as Command[]` 把 authored `sequence/if/choice` 塞进只接受字节码 `Command[]`
+   的公开入口，属于卡面禁止的非法 caller 分支；移除或用真实 typed 调用域证明它可触达。
+   `battle-anim.glm-runtime-resource.test.ts:63` 把 `screenShake: {durationMs, screenShakeLevel}`
+   以 `as never` 当合法 `AnimFrame`，实际字段类型是 `boolean`，被测代码只因对象 truthy 触发回调；
+   改成 `screenShake:true, screenShakeLevel:2` 并断言时长/强度等真实参数。扫描本包其它强转，
+   合法路径不保留同类掩盖。
+3. **RV3 视觉宿主无法证明四面板互不覆盖**：`hosts/rv3-rv4/entry.ts` 的 `battlePanel` 在
+   `scale(3,3)` 后仅按 `px/3,py/3` 平移，没有按每个 320×200 逻辑面板裁剪；绘制跨相邻面板，
+   截图可见重叠，回执也承认 MAGIC_GRID 重叠。取样 `lit(35,54)` 等未加 P2/P4 面板偏移，
+   所谓禁用行/箭头 lit 可采到 P1/P3。用独立 canvas 或明确 clip/坐标，重新取证 RV3，
+   断言每块本区与相邻区；不能把宿主重叠写成已通过的产品绘制结论。RV4 可保留已证范围。
+4. **机器账汇总自相矛盾**：`evidence.json` 七批 `directed.new` 为 44+34+39+17+6+8+9=157，
+   Codex 定向新文件 JSON 也为 157；`summary.totals.newTests` 却写 115，B 包被标为 `migrateB`
+   而实为 pal-extract。按新鲜 JSON 重新生成总数/包名，保留批次与 fullName/status 可追溯。
+
+上述问题在本卡白名单内返工；没有扩大产品、格式或迁移写盘权限。新候选固定提交推送后 Codex
+重新独立验收，接收通过才串行执行四包全测、局部覆盖对照及官方 check → ratchet → 受保护 strict-fast。
 
 ## 下一位 Agent 提示词
 
 ```text
-你是 GLM 第二对话，接手 TEST-GLM-RUNTIME-RESOURCE-2，不接第一对话的叶层编辑器卡。
+你是 GLM 第二对话，返工 TEST-GLM-RUNTIME-RESOURCE-2，不接第一对话的叶层编辑器卡。
 先读 AGENTS.md、CLAUDE.md、docs/phase2/READ-FIRST.md，编解码部分另读
 docs/phase1/engineering-notes.md 的 §1.2/§2.3，再读
 docs/ops/tasks/TEST-GLM-RUNTIME-RESOURCE-2-parallel-wave.md、
 docs/testing/glm-runtime-resource-wave/README.md 与 targets.json。
-本卡 build allowed，分支 codex/glm-runtime-resource-r1，生产冻结 f6878b3c。
+本卡原 build allowed 范围不变；先读本卡“Codex 独立审核返工项”，以实际候选 fed0a7869 为起点。
+分支 codex/glm-runtime-resource-r1，生产冻结 f6878b3c。
 工作树 /Users/zhangxu/.codex/worktrees/glm-runtime-resource/type-pal 已备好。
-只在自己的隔离工作树按 A→G 连续实施28组，每四组固定SHA、提交推送后继续下批。
+只在自己的隔离工作树修四项反例，提交推送新的固定候选完整 SHA。
 不挪第一对话/Kimi/E2E 的树，不合它们的分支，不共享或改它们的fixture。
-先核旧断言去重，使用真实公开函数、合法自包含样本；已有full-only合同转fast须单列贡献。
-实际输入深快照/非空业务结果/代表反控必须真实；R28仅collectSourceEntrySites，
-其它大文件也按工作包限定入口，不扩全文件或复杂竞态。真bug交隔离红诊断后继续其它组。
-默认单worker；跑定向/相邻、TC、Biome零诊断、docs/diff；本队列不自行跑大覆盖或全包/全仓门，
-对照config与命令交Codex统一排。四条视觉仅自己的临时宿主，不动用户/其他Agent服务或资产。
+清零 lint 全部诊断；去除 R05 非法 Command[] 与 R15 无效 AnimFrame 的强转并扫描同类；
+修 RV3 四面板变换/取样，复看图并记完整截图元数据；从新鲜 JSON 修 evidence 总数与包名。
+保留 R28 仅 collectSourceEntrySites 的窄范围。默认单worker复跑受影响定向/相邻、TC、
+Biome/docs/diff和相应反控；全包/覆盖/全仓门由Codex接收时串行执行。
 只改白名单新增测试/fixture/证据，不改产品/旧测试/配置/基线/依赖；不执行迁移、烘焙或提取写盘。
-每批交候选SHA、精确合同增量与去重、JSON/反控/截图、命令和未证项。
+回执交新候选完整 SHA、逐项修复与复跑证据、JSON/反控/截图、命令和未证项。
 Codex独立验收、集成推送和清理；不合main、不代签、不标done。
 ```
