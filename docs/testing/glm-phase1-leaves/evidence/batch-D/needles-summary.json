@@ -1,0 +1,114 @@
+{
+  "batch": "d",
+  "hashes": {
+    "src/present/battle/draw-battle-settlement.ts": "ae7c4a1930d7e49afb68809f90e5902ac7bf5aa40f84b2bd6258c6db6af8d7b4",
+    "src/present/screen-wave.ts": "ba2c5dca2d385de8696c55467331090d9621edbca8e8a9f0b79a386f398eaa7e"
+  },
+  "selfTest": [
+    {
+      "id": "valid-red",
+      "expectReject": false,
+      "rejected": false,
+      "violations": []
+    },
+    {
+      "id": "same-message-mixed-error",
+      "expectReject": true,
+      "rejected": true,
+      "violations": [
+        "mixed non-business error: AssertionError: expected business rejection\nTypeError: environment broken"
+      ]
+    },
+    {
+      "id": "assertion-prefixed-timeout",
+      "expectReject": true,
+      "rejected": true,
+      "violations": ["timeout treated as red: AssertionError: test timed out"]
+    },
+    {
+      "id": "additional-unrelated-red",
+      "expectReject": true,
+      "rejected": true,
+      "violations": ["failed 2, expected exactly 1"]
+    },
+    {
+      "id": "wrong-fullname-red-with-intended-green",
+      "expectReject": true,
+      "rejected": true,
+      "violations": [
+        "red fullName \"different group learn-magic：ww 偏移随字宽收窄框，magicName 色 0x1B\" != \"L15 drawBattleSettlement 精确像素 learn-magic：ww 偏移随字宽收窄框，magicName 色 0x1B\""
+      ]
+    },
+    {
+      "id": "foreign-file-same-suffix",
+      "expectReject": true,
+      "rejected": true,
+      "violations": [
+        "red file /different-candidate-root/packages/game/src/present/battle/draw-battle-settlement.glm-phase1-leaves.test.ts != /Users/zhangxu/.codex/worktrees/glm-phase1-leaves/type-pal/packages/game/src/present/battle/draw-battle-settlement.glm-phase1-leaves.test.ts"
+      ]
+    },
+    {
+      "id": "exit-two",
+      "expectReject": true,
+      "rejected": true,
+      "violations": ["exit 2 != 1"]
+    },
+    {
+      "id": "exit-null",
+      "expectReject": true,
+      "rejected": true,
+      "violations": ["exit null != 1"]
+    },
+    {
+      "id": "zero-execution",
+      "expectReject": true,
+      "rejected": true,
+      "violations": [
+        "numTotalTests 0 != 4",
+        "assertions 0 != 4",
+        "duplicate fullName in scope",
+        "passed 0 inconsistent with 0 failed",
+        "failed 0, expected exactly 1"
+      ]
+    },
+    {
+      "id": "control-sample",
+      "expectReject": false,
+      "rejected": false,
+      "violations": []
+    }
+  ],
+  "evidence": [
+    {
+      "id": "control",
+      "exitCode": 0,
+      "tests": 20,
+      "entered": null,
+      "failed": []
+    },
+    {
+      "id": "learn-magic-name-color",
+      "exitCode": 1,
+      "tests": 4,
+      "entered": {
+        "id": "learn-magic-name-color",
+        "target": "/Users/zhangxu/.codex/worktrees/glm-phase1-leaves/type-pal/packages/game/src/present/battle/draw-battle-settlement.ts"
+      },
+      "failed": [
+        "L15 drawBattleSettlement 精确像素 learn-magic：ww 偏移随字宽收窄框，magicName 色 0x1B"
+      ]
+    },
+    {
+      "id": "wave-fade-only-advance",
+      "exitCode": 1,
+      "tests": 3,
+      "entered": {
+        "id": "wave-fade-only-advance",
+        "target": "/Users/zhangxu/.codex/worktrees/glm-phase1-leaves/type-pal/packages/game/src/present/screen-wave.ts"
+      },
+      "failed": [
+        "L16 applyScreenWave 剩余合同 advance=false（DM32 fade-only 补帧）：像素扭曲但 wScreenWave/progression/相位不推进"
+      ]
+    }
+  ]
+}

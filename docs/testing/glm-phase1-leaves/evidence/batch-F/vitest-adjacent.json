@@ -1,0 +1,3453 @@
+{
+  "numTotalTestSuites": 138,
+  "numPassedTestSuites": 138,
+  "numFailedTestSuites": 0,
+  "numPendingTestSuites": 0,
+  "numTotalTests": 293,
+  "numPassedTests": 281,
+  "numFailedTests": 0,
+  "numPendingTests": 12,
+  "numTodoTests": 0,
+  "snapshot": {
+    "added": 0,
+    "failure": false,
+    "filesAdded": 0,
+    "filesRemoved": 0,
+    "filesRemovedList": [],
+    "filesUnmatched": 0,
+    "filesUpdated": 0,
+    "matched": 0,
+    "total": 0,
+    "unchecked": 0,
+    "uncheckedKeysByFile": [],
+    "unmatched": 0,
+    "updated": 0,
+    "didUpdate": false
+  },
+  "startTime": 1790608913649,
+  "success": true,
+  "testResults": [
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["L23 loadDialogAssets 全链路（fetch 全隔离）"],
+          "fullName": "L23 loadDialogAssets 全链路（fetch 全隔离） manifest+PNG 成功就位；单张 404 skip；icons !ok 降级空 map；整体不抛",
+          "status": "passed",
+          "title": "manifest+PNG 成功就位；单张 404 skip；icons !ok 降级空 map；整体不抛",
+          "duration": 135.91024999999996,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["L23 loadDialogAssets 全链路（fetch 全隔离）"],
+          "fullName": "L23 loadDialogAssets 全链路（fetch 全隔离） portraits.json 本身失败 → portraits 空 map，icons 正常路径不受阻",
+          "status": "passed",
+          "title": "portraits.json 本身失败 → portraits 空 map，icons 正常路径不受阻",
+          "duration": 0.76724999999999,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790608940995,
+      "endTime": 1790608941131.7673,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.codex/worktrees/glm-phase1-leaves/type-pal/packages/game/src/assets/dialog-assets.glm-phase1-leaves.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["loadAll"],
+          "fullName": "loadAll fetch 失败 → 抛错",
+          "status": "passed",
+          "title": "fetch 失败 → 抛错",
+          "duration": 1.9234589999999798,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["SceneAssetsCache(M3.5)"],
+          "fullName": "SceneAssetsCache(M3.5) 第一次 loadScene 调 fetcher,第二次 cache hit 不调",
+          "status": "passed",
+          "title": "第一次 loadScene 调 fetcher,第二次 cache hit 不调",
+          "duration": 0.5697079999999914,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["SceneAssetsCache(M3.5)"],
+          "fullName": "SceneAssetsCache(M3.5) SceneAssets 字段透传",
+          "status": "passed",
+          "title": "SceneAssets 字段透传",
+          "duration": 0.18687500000010004,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["SceneAssetsCache LRU 淘汰(内存泄露修复:全场景常驻 → 有界)"],
+          "fullName": "SceneAssetsCache LRU 淘汰(内存泄露修复:全场景常驻 → 有界) 超过 maxEntries → 淘汰最旧条目(重访需重 fetch)+ 触发 onEvict",
+          "status": "passed",
+          "title": "超过 maxEntries → 淘汰最旧条目(重访需重 fetch)+ 触发 onEvict",
+          "duration": 1.179583999999977,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["SceneAssetsCache LRU 淘汰(内存泄露修复:全场景常驻 → 有界)"],
+          "fullName": "SceneAssetsCache LRU 淘汰(内存泄露修复:全场景常驻 → 有界) cache hit 刷新 recency:最近命中的不被淘汰",
+          "status": "passed",
+          "title": "cache hit 刷新 recency:最近命中的不被淘汰",
+          "duration": 0.5617080000000669,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["SceneAssetsCache LRU 淘汰(内存泄露修复:全场景常驻 → 有界)"],
+          "fullName": "SceneAssetsCache LRU 淘汰(内存泄露修复:全场景常驻 → 有界) protect 返回的 sceneId 永不被淘汰(保护当前渲染场景,防黑屏)",
+          "status": "passed",
+          "title": "protect 返回的 sceneId 永不被淘汰(保护当前渲染场景,防黑屏)",
+          "duration": 0.9494580000000497,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["SceneAssetsCache LRU 淘汰(内存泄露修复:全场景常驻 → 有界)"],
+          "fullName": "SceneAssetsCache LRU 淘汰(内存泄露修复:全场景常驻 → 有界) 不传 opts → 无限缓存(向后兼容,永不淘汰)",
+          "status": "passed",
+          "title": "不传 opts → 无限缓存(向后兼容,永不淘汰)",
+          "duration": 0.3546249999999418,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790608950317,
+      "endTime": 1790608950323.3547,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.codex/worktrees/glm-phase1-leaves/type-pal/packages/game/src/assets/loader.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["L23 decodePngToIndices 剩余合同"],
+          "fullName": "L23 decodePngToIndices 剩余合同 alpha=0 → opaque 0（RLE-skip 透明），alpha>0 → opaque 1（palette-0 也保）",
+          "status": "passed",
+          "title": "alpha=0 → opaque 0（RLE-skip 透明），alpha>0 → opaque 1（palette-0 也保）",
+          "duration": 124.90204200000005,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["L23 decodePngToIndices 剩余合同"],
+          "fullName": "L23 decodePngToIndices 剩余合同 坏 blob → 失败上下文带尺寸/类型，不裸抛",
+          "status": "passed",
+          "title": "坏 blob → 失败上下文带尺寸/类型，不裸抛",
+          "duration": 0.8846669999999222,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790608941724,
+      "endTime": 1790608941849.8848,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.codex/worktrees/glm-phase1-leaves/type-pal/packages/game/src/assets/png.glm-phase1-leaves.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["decodePngToIndices"],
+          "fullName": "decodePngToIndices 从 Blob 解出索引数组(取 R 通道)",
+          "status": "passed",
+          "title": "从 Blob 解出索引数组(取 R 通道)",
+          "duration": 176.55829099999994,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790608939710,
+      "endTime": 1790608939886.5583,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.codex/worktrees/glm-phase1-leaves/type-pal/packages/game/src/assets/png.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["decodeRle"],
+          "fullName": "decodeRle 单帧 RLE 无 0x00000002 前缀(普通 sprite frame)— 直接读 width/height",
+          "status": "passed",
+          "title": "单帧 RLE 无 0x00000002 前缀(普通 sprite frame)— 直接读 width/height",
+          "duration": 1.2269999999999754,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["decodeRle"],
+          "fullName": "decodeRle Sync.2 fix3:单帧 RLE 带 0x00000002 前缀(RGM 头像)— skip 前 4 字节后再读",
+          "status": "passed",
+          "title": "Sync.2 fix3:单帧 RLE 带 0x00000002 前缀(RGM 头像)— skip 前 4 字节后再读",
+          "duration": 0.21270800000002055,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["decodeRle"],
+          "fullName": "decodeRle skip-pixels 指令(b >= 0x80)",
+          "status": "passed",
+          "title": "skip-pixels 指令(b >= 0x80)",
+          "duration": 0.18504200000000992,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["parseSpriteChunk"],
+          "fullName": "parseSpriteChunk 解 sprite group 多帧(DATA chunk 12 dialog icons 同样结构)",
+          "status": "passed",
+          "title": "解 sprite group 多帧(DATA chunk 12 dialog icons 同样结构)",
+          "duration": 0.43241700000004357,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["base64ToBytes"],
+          "fullName": "base64ToBytes 空 string → 空 Uint8Array",
+          "status": "passed",
+          "title": "空 string → 空 Uint8Array",
+          "duration": 0.06483299999996461,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["base64ToBytes"],
+          "fullName": "base64ToBytes 解码 round-trip(简单 ASCII)",
+          "status": "passed",
+          "title": "解码 round-trip(简单 ASCII)",
+          "duration": 0.09562500000004093,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790608952723,
+      "endTime": 1790608952725.4324,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.codex/worktrees/glm-phase1-leaves/type-pal/packages/game/src/assets/rle-decode.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["RNG blob 真值对拍(raw RNG.MKF vs extracted .rle)"],
+          "fullName": "RNG blob 真值对拍(raw RNG.MKF vs extracted .rle) 原 RNG.MKF 必须有可核对的 chunk（缺整组输入时显式跳过）",
+          "status": "skipped",
+          "title": "原 RNG.MKF 必须有可核对的 chunk（缺整组输入时显式跳过）",
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790608913649,
+      "endTime": 1790608913649,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.codex/worktrees/glm-phase1-leaves/type-pal/packages/game/src/assets/rng-blob-snapshot.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": [],
+          "fullName": "assertion evidence plain preserves the real counts",
+          "status": "passed",
+          "title": "assertion evidence plain preserves the real counts",
+          "duration": 1.4825419999999951,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "assertion evidence ANSI preserves the real counts",
+          "status": "passed",
+          "title": "assertion evidence ANSI preserves the real counts",
+          "duration": 0.1922919999999948,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "assertion evidence missing still rejects invalid proof",
+          "status": "passed",
+          "title": "assertion evidence missing still rejects invalid proof",
+          "duration": 0.4597089999999895,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "assertion evidence zero still rejects invalid proof",
+          "status": "passed",
+          "title": "assertion evidence zero still rejects invalid proof",
+          "duration": 0.26379200000000935,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "assertion evidence partial still rejects invalid proof",
+          "status": "passed",
+          "title": "assertion evidence partial still rejects invalid proof",
+          "duration": 0.13599999999999568,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "'effect-control' → 'pass' (real resource test runner)",
+          "status": "passed",
+          "title": "'effect-control' → 'pass' (real resource test runner)",
+          "duration": 428.4387919999999,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "'missing-effect' → 'fail' (real resource test runner)",
+          "status": "passed",
+          "title": "'missing-effect' → 'fail' (real resource test runner)",
+          "duration": 409.28149999999994,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "'empty-enemy' → 'fail' (real resource test runner)",
+          "status": "passed",
+          "title": "'empty-enemy' → 'fail' (real resource test runner)",
+          "duration": 403.80158399999993,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "'empty-player' → 'fail' (real resource test runner)",
+          "status": "passed",
+          "title": "'empty-player' → 'fail' (real resource test runner)",
+          "duration": 390.7751249999999,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "'empty-fire' → 'fail' (real resource test runner)",
+          "status": "passed",
+          "title": "'empty-fire' → 'fail' (real resource test runner)",
+          "duration": 389.88312500000006,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "'empty-npc' → 'fail' (real resource test runner)",
+          "status": "passed",
+          "title": "'empty-npc' → 'fail' (real resource test runner)",
+          "duration": 391.71891700000015,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "'absent-sprite' → 'skip' (real resource test runner)",
+          "status": "passed",
+          "title": "'absent-sprite' → 'skip' (real resource test runner)",
+          "duration": 377.9395420000001,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "'absent-sprite-extracted' → 'skip' (real resource test runner)",
+          "status": "passed",
+          "title": "'absent-sprite-extracted' → 'skip' (real resource test runner)",
+          "duration": 388.05533400000013,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "'absent-rng' → 'skip' (real resource test runner)",
+          "status": "passed",
+          "title": "'absent-rng' → 'skip' (real resource test runner)",
+          "duration": 387.1037919999999,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "'absent-rng-directory' → 'skip' (real resource test runner)",
+          "status": "passed",
+          "title": "'absent-rng-directory' → 'skip' (real resource test runner)",
+          "duration": 381.41733299999987,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "'absent-tileset' → 'skip' (real resource test runner)",
+          "status": "passed",
+          "title": "'absent-tileset' → 'skip' (real resource test runner)",
+          "duration": 390.70137499999964,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "'absent-tileset-directory' → 'skip' (real resource test runner)",
+          "status": "passed",
+          "title": "'absent-tileset-directory' → 'skip' (real resource test runner)",
+          "duration": 378.41599999999926,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "'rng-control' → 'pass' (real resource test runner)",
+          "status": "passed",
+          "title": "'rng-control' → 'pass' (real resource test runner)",
+          "duration": 394.7907920000007,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "'missing-rng-blob' → 'fail' (real resource test runner)",
+          "status": "passed",
+          "title": "'missing-rng-blob' → 'fail' (real resource test runner)",
+          "duration": 399.7279580000004,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "'empty-rng-chunk' → 'pass' (real resource test runner)",
+          "status": "passed",
+          "title": "'empty-rng-chunk' → 'pass' (real resource test runner)",
+          "duration": 403.1649159999997,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "'zero-rng-chunks' → 'fail' (real resource test runner)",
+          "status": "passed",
+          "title": "'zero-rng-chunks' → 'fail' (real resource test runner)",
+          "duration": 381.81041599999935,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "'tileset-control' → 'pass' (real resource test runner)",
+          "status": "passed",
+          "title": "'tileset-control' → 'pass' (real resource test runner)",
+          "duration": 386.4628329999996,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "'missing-tileset' → 'fail' (real resource test runner)",
+          "status": "passed",
+          "title": "'missing-tileset' → 'fail' (real resource test runner)",
+          "duration": 377.9712920000002,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "'denied-rng' → 'denied' (real resource test runner)",
+          "status": "passed",
+          "title": "'denied-rng' → 'denied' (real resource test runner)",
+          "duration": 378.8489579999996,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "'denied-tileset' → 'denied' (real resource test runner)",
+          "status": "passed",
+          "title": "'denied-tileset' → 'denied' (real resource test runner)",
+          "duration": 380.75874999999996,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790608926140,
+      "endTime": 1790608933965.7588,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.codex/worktrees/glm-phase1-leaves/type-pal/packages/game/src/assets/snapshot-input-boundaries.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["sprite blob 真值对拍(npc / battle / magic)"],
+          "fullName": "sprite blob 真值对拍(npc / battle / magic) npc: data/sprite/{id}.rle == decompressYj2(MGO.MKF[id])",
+          "status": "skipped",
+          "title": "npc: data/sprite/{id}.rle == decompressYj2(MGO.MKF[id])",
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["sprite blob 真值对拍(npc / battle / magic)"],
+          "fullName": "sprite blob 真值对拍(npc / battle / magic) battle enemy: data/battle-sprite/enemy/{id}.rle == tryYj2(ABC.MKF[id])",
+          "status": "skipped",
+          "title": "battle enemy: data/battle-sprite/enemy/{id}.rle == tryYj2(ABC.MKF[id])",
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["sprite blob 真值对拍(npc / battle / magic)"],
+          "fullName": "sprite blob 真值对拍(npc / battle / magic) battle player: data/battle-sprite/player/{id}.rle == tryYj2(F.MKF[id])",
+          "status": "skipped",
+          "title": "battle player: data/battle-sprite/player/{id}.rle == tryYj2(F.MKF[id])",
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["sprite blob 真值对拍(npc / battle / magic)"],
+          "fullName": "sprite blob 真值对拍(npc / battle / magic) magic effect: data/magic/effect.rle == DATA.MKF[10]",
+          "status": "skipped",
+          "title": "magic effect: data/magic/effect.rle == DATA.MKF[10]",
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["sprite blob 真值对拍(npc / battle / magic)"],
+          "fullName": "sprite blob 真值对拍(npc / battle / magic) magic fire: data/magic/fire-{NN}.rle == tryYj2(FIRE.MKF[NN])",
+          "status": "skipped",
+          "title": "magic fire: data/magic/fire-{NN}.rle == tryYj2(FIRE.MKF[NN])",
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790608913649,
+      "endTime": 1790608913649,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.codex/worktrees/glm-phase1-leaves/type-pal/packages/game/src/assets/sprite-blob-snapshot.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["S5 tileset blob 像素一致性(真实 GOP.MKF vs extracted blob)"],
+          "fullName": "S5 tileset blob 像素一致性(真实 GOP.MKF vs extracted blob) mapNum=1: blob 解出的 tile 像素 == 原 GOP.MKF chunk 直接解出",
+          "status": "skipped",
+          "title": "mapNum=1: blob 解出的 tile 像素 == 原 GOP.MKF chunk 直接解出",
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["S5 tileset blob 像素一致性(真实 GOP.MKF vs extracted blob)"],
+          "fullName": "S5 tileset blob 像素一致性(真实 GOP.MKF vs extracted blob) mapNum=6: blob 解出的 tile 像素 == 原 GOP.MKF chunk 直接解出",
+          "status": "skipped",
+          "title": "mapNum=6: blob 解出的 tile 像素 == 原 GOP.MKF chunk 直接解出",
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["S5 tileset blob 像素一致性(真实 GOP.MKF vs extracted blob)"],
+          "fullName": "S5 tileset blob 像素一致性(真实 GOP.MKF vs extracted blob) mapNum=12: blob 解出的 tile 像素 == 原 GOP.MKF chunk 直接解出",
+          "status": "skipped",
+          "title": "mapNum=12: blob 解出的 tile 像素 == 原 GOP.MKF chunk 直接解出",
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["S5 tileset blob 像素一致性(真实 GOP.MKF vs extracted blob)"],
+          "fullName": "S5 tileset blob 像素一致性(真实 GOP.MKF vs extracted blob) mapNum=50: blob 解出的 tile 像素 == 原 GOP.MKF chunk 直接解出",
+          "status": "skipped",
+          "title": "mapNum=50: blob 解出的 tile 像素 == 原 GOP.MKF chunk 直接解出",
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["S5 tileset blob 像素一致性(真实 GOP.MKF vs extracted blob)"],
+          "fullName": "S5 tileset blob 像素一致性(真实 GOP.MKF vs extracted blob) mapNum=100: blob 解出的 tile 像素 == 原 GOP.MKF chunk 直接解出",
+          "status": "skipped",
+          "title": "mapNum=100: blob 解出的 tile 像素 == 原 GOP.MKF chunk 直接解出",
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["S5 tileset blob 像素一致性(真实 GOP.MKF vs extracted blob)"],
+          "fullName": "S5 tileset blob 像素一致性(真实 GOP.MKF vs extracted blob) mapNum=200: blob 解出的 tile 像素 == 原 GOP.MKF chunk 直接解出",
+          "status": "skipped",
+          "title": "mapNum=200: blob 解出的 tile 像素 == 原 GOP.MKF chunk 直接解出",
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790608913649,
+      "endTime": 1790608913649,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.codex/worktrees/glm-phase1-leaves/type-pal/packages/game/src/assets/tileset-blob-snapshot.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["rleFrameToIndexedImage"],
+          "fullName": "rleFrameToIndexedImage RleFrame → IndexedImage 字段重命名(pixels→indices),数组复用不拷贝",
+          "status": "passed",
+          "title": "RleFrame → IndexedImage 字段重命名(pixels→indices),数组复用不拷贝",
+          "duration": 1.1605829999999742,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["decodeTilesetBlob"],
+          "fullName": "decodeTilesetBlob GOP chunk → Map<tileIndex, IndexedImage>,下标连续 0,1,...",
+          "status": "passed",
+          "title": "GOP chunk → Map<tileIndex, IndexedImage>,下标连续 0,1,...",
+          "duration": 0.31691699999998946,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["decodeTilesetBlob"],
+          "fullName": "decodeTilesetBlob 键一致性:Map key == parseSpriteChunk 返回数组下标 == 旧 framesToOut index",
+          "status": "passed",
+          "title": "键一致性:Map key == parseSpriteChunk 返回数组下标 == 旧 framesToOut index",
+          "duration": 0.2993329999999901,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["decodeTilesetBlob"],
+          "fullName": "decodeTilesetBlob 透明像素 + opaque palette-0 都正确表达",
+          "status": "passed",
+          "title": "透明像素 + opaque palette-0 都正确表达",
+          "duration": 0.1531659999999988,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["decodeSpriteFrames / loadSpriteFramesBlob (npc/battle/magic 共用)"],
+          "fullName": "decodeSpriteFrames / loadSpriteFramesBlob (npc/battle/magic 共用) decodeSpriteFrames:chunk → IndexedImage[],序与 parseSpriteChunk 一致",
+          "status": "passed",
+          "title": "decodeSpriteFrames:chunk → IndexedImage[],序与 parseSpriteChunk 一致",
+          "duration": 0.16466700000000856,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["decodeSpriteFrames / loadSpriteFramesBlob (npc/battle/magic 共用)"],
+          "fullName": "decodeSpriteFrames / loadSpriteFramesBlob (npc/battle/magic 共用) loadSpriteFramesBlob:fetch mock → 解压 → IndexedImage[]",
+          "status": "passed",
+          "title": "loadSpriteFramesBlob:fetch mock → 解压 → IndexedImage[]",
+          "duration": 6.361333000000002,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["decodeSpriteFrames / loadSpriteFramesBlob (npc/battle/magic 共用)"],
+          "fullName": "decodeSpriteFrames / loadSpriteFramesBlob (npc/battle/magic 共用) loadSpriteFramesBlob:404 抛错",
+          "status": "passed",
+          "title": "loadSpriteFramesBlob:404 抛错",
+          "duration": 0.8816659999999956,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["framesToCharacterSprite (锚点派生)"],
+          "fullName": "framesToCharacterSprite (锚点派生) 锚点 = 首帧 floor(width/2) / height(与旧 loader 同源)",
+          "status": "passed",
+          "title": "锚点 = 首帧 floor(width/2) / height(与旧 loader 同源)",
+          "duration": 0.8429580000000101,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["framesToCharacterSprite (锚点派生)"],
+          "fullName": "framesToCharacterSprite (锚点派生) 空帧 → 锚点 0",
+          "status": "passed",
+          "title": "空帧 → 锚点 0",
+          "duration": 0.6136249999999563,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["framesToCharacterSprite (锚点派生)"],
+          "fullName": "framesToCharacterSprite (锚点派生) loadCharacterSpriteBlob:fetch mock → 帧 + 锚点",
+          "status": "passed",
+          "title": "loadCharacterSpriteBlob:fetch mock → 帧 + 锚点",
+          "duration": 1.0588750000000005,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["decompressGzip"],
+          "fullName": "decompressGzip gzip roundtrip:解压后 == 原始字节",
+          "status": "passed",
+          "title": "gzip roundtrip:解压后 == 原始字节",
+          "duration": 0.8745839999999703,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["decompressGzip"],
+          "fullName": "decompressGzip 空 blob 也支持(边界)",
+          "status": "passed",
+          "title": "空 blob 也支持(边界)",
+          "duration": 0.4207080000000474,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["decompressGzip"],
+          "fullName": "decompressGzip Content-Encoding 已解压(无 gzip 魔数)→ 原样返回,不二次解压",
+          "status": "passed",
+          "title": "Content-Encoding 已解压(无 gzip 魔数)→ 原样返回,不二次解压",
+          "duration": 0.09129199999995308,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["loadTilesetBlob"],
+          "fullName": "loadTilesetBlob 完整链路:fetch mock → 解压 → 解析 → Map(键一致性 + 像素)",
+          "status": "passed",
+          "title": "完整链路:fetch mock → 解压 → 解析 → Map(键一致性 + 像素)",
+          "duration": 1.4278340000000185,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["loadTilesetBlob"],
+          "fullName": "loadTilesetBlob fetch 失败抛错",
+          "status": "passed",
+          "title": "fetch 失败抛错",
+          "duration": 0.20170799999999645,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790608946341,
+      "endTime": 1790608946357.2017,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.codex/worktrees/glm-phase1-leaves/type-pal/packages/game/src/assets/tileset-blob.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["H03 createAudioVolumeController 显式 0 与键位"],
+          "fullName": "H03 createAudioVolumeController 显式 0 与键位 stored '0' 不落 default（|| 0 与缺省可区分）；defaultVolume 0 生效",
+          "status": "passed",
+          "title": "stored '0' 不落 default（|| 0 与缺省可区分）；defaultVolume 0 生效",
+          "duration": 1.931250000000034,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["H03 createAudioVolumeController 显式 0 与键位"],
+          "fullName": "H03 createAudioVolumeController 显式 0 与键位 三通道 keyVol 独立、keyMute 共享：精确 IO；静音中改目标仍 apply 0，unmute 恢复新值",
+          "status": "passed",
+          "title": "三通道 keyVol 独立、keyMute 共享：精确 IO；静音中改目标仍 apply 0，unmute 恢复新值",
+          "duration": 0.6950840000000085,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790608955255,
+      "endTime": 1790608955257.695,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.codex/worktrees/glm-phase1-leaves/type-pal/packages/game/src/shell/audio-volume.boundaries.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["audio-volume"],
+          "fullName": "audio-volume setVolume 钳制 0..1,调 applyVolume,写 localStorage",
+          "status": "passed",
+          "title": "setVolume 钳制 0..1,调 applyVolume,写 localStorage",
+          "duration": 1.658583999999962,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["audio-volume"],
+          "fullName": "audio-volume 静音:applyVolume 收 0,取消静音恢复音量值;持久 tp-muted",
+          "status": "passed",
+          "title": "静音:applyVolume 收 0,取消静音恢复音量值;持久 tp-muted",
+          "duration": 1.0684590000000185,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["audio-volume"],
+          "fullName": "audio-volume 启动读回 localStorage(音量 + 静音)并即时应用",
+          "status": "passed",
+          "title": "启动读回 localStorage(音量 + 静音)并即时应用",
+          "duration": 0.4106670000000463,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790608953628,
+      "endTime": 1790608953631.4106,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.codex/worktrees/glm-phase1-leaves/type-pal/packages/game/src/shell/audio-volume.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["L24 setOggVolumeScale 即时刷新"],
+          "fullName": "L24 setOggVolumeScale 即时刷新 先调 scale 再 play：新元素 volume = 0.6·scale；播放中改 scale：当前元素即时跟随",
+          "status": "passed",
+          "title": "先调 scale 再 play：新元素 volume = 0.6·scale；播放中改 scale：当前元素即时跟随",
+          "duration": 0.9533330000000433,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["L24 audio-midi 无 Web Audio 端口"],
+          "fullName": "L24 audio-midi 无 Web Audio 端口 setBgmVolume 在合成器未就绪（masterGain 未建）时只暂存不抛",
+          "status": "passed",
+          "title": "setBgmVolume 在合成器未就绪（masterGain 未建）时只暂存不抛",
+          "duration": 0.37350000000003547,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["L24 audio-midi 无 Web Audio 端口"],
+          "fullName": "L24 audio-midi 无 Web Audio 端口 无 AudioContext（SSR/测试）→ no-op backend，play/stop 安全空实现",
+          "status": "passed",
+          "title": "无 AudioContext（SSR/测试）→ no-op backend，play/stop 安全空实现",
+          "duration": 0.3624170000000504,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790608955744,
+      "endTime": 1790608955746.3623,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.codex/worktrees/glm-phase1-leaves/type-pal/packages/game/src/shell/audio.glm-phase1-leaves.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["M6 audio url 映射(纯)"],
+          "fullName": "M6 audio url 映射(纯) sfxUrl → {base}/sounds/{id}.wav",
+          "status": "passed",
+          "title": "sfxUrl → {base}/sounds/{id}.wav",
+          "duration": 0.8762090000000171,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["M6 audio url 映射(纯)"],
+          "fullName": "M6 audio url 映射(纯) musicUrl → {base}/music/{NNN}.mid(3 位零填充,sdlpal midi.c:67 Musics/%.3d.mid)",
+          "status": "passed",
+          "title": "musicUrl → {base}/music/{NNN}.mid(3 位零填充,sdlpal midi.c:67 Musics/%.3d.mid)",
+          "duration": 0.18891700000000355,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["M6 audio url 映射(纯)"],
+          "fullName": "M6 audio url 映射(纯) pickMusicTrack:战斗中→wNumBattleMusic,否则→wNumMusic(battle.c:728/1849)",
+          "status": "passed",
+          "title": "pickMusicTrack:战斗中→wNumBattleMusic,否则→wNumMusic(battle.c:728/1849)",
+          "duration": 0.09499999999997044,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["M6 audio url 映射(纯)"],
+          "fullName": "M6 audio url 映射(纯) battleVictoryTrack:won 且 exp>0 → isBoss?2:3,其余 -1(battle.c:1030-1032)",
+          "status": "passed",
+          "title": "battleVictoryTrack:won 且 exp>0 → isBoss?2:3,其余 -1(battle.c:1030-1032)",
+          "duration": 0.1953749999999559,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["M6 AudioManager.sync"],
+          "fullName": "M6 AudioManager.sync drain gs.pendingSounds → 就地清空队列(core 复用同引用)",
+          "status": "passed",
+          "title": "drain gs.pendingSounds → 就地清空队列(core 复用同引用)",
+          "duration": 0.3824999999999932,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["M6 AudioManager.sync"],
+          "fullName": "M6 AudioManager.sync BGM:track 变化 → backend.play(track, loop);track=0 → stop;同号 → 不重复",
+          "status": "passed",
+          "title": "BGM:track 变化 → backend.play(track, loop);track=0 → stop;同号 → 不重复",
+          "duration": 0.10591699999997672,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["M6 AudioManager.sync"],
+          "fullName": "M6 AudioManager.sync setMusicEnabled(false) → stop;(true) → 重播当前 track",
+          "status": "passed",
+          "title": "setMusicEnabled(false) → stop;(true) → 重播当前 track",
+          "duration": 0.18145800000002055,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["M6 AudioManager.sync"],
+          "fullName": "M6 AudioManager.sync setMusicBackend 注入时若已有当前 track → 立即起播(补 M6a no-op 期间漏播)",
+          "status": "passed",
+          "title": "setMusicBackend 注入时若已有当前 track → 立即起播(补 M6a no-op 期间漏播)",
+          "duration": 0.07454100000001063,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "M6 sfxForBattleEvent(战斗视觉 bus 事件 → SFX id,fight.c/battle.c AUDIO_PlaySound)"
+          ],
+          "fullName": "M6 sfxForBattleEvent(战斗视觉 bus 事件 → SFX id,fight.c/battle.c AUDIO_PlaySound) 敌死 → enemy.deathSound(fight.c:756)",
+          "status": "passed",
+          "title": "敌死 → enemy.deathSound(fight.c:756)",
+          "duration": 0.37654100000003154,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "M6 sfxForBattleEvent(战斗视觉 bus 事件 → SFX id,fight.c/battle.c AUDIO_PlaySound)"
+          ],
+          "fullName": "M6 sfxForBattleEvent(战斗视觉 bus 事件 → SFX id,fight.c/battle.c AUDIO_PlaySound) 敌攻 → enemy.attackSound",
+          "status": "passed",
+          "title": "敌攻 → enemy.attackSound",
+          "duration": 0.07604199999997263,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "M6 sfxForBattleEvent(战斗视觉 bus 事件 → SFX id,fight.c/battle.c AUDIO_PlaySound)"
+          ],
+          "fullName": "M6 sfxForBattleEvent(战斗视觉 bus 事件 → SFX id,fight.c/battle.c AUDIO_PlaySound) 我攻 → partyMembers[idx]→role.weaponSound(fight.c:2124)",
+          "status": "passed",
+          "title": "我攻 → partyMembers[idx]→role.weaponSound(fight.c:2124)",
+          "duration": 0.09020900000001575,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "M6 sfxForBattleEvent(战斗视觉 bus 事件 → SFX id,fight.c/battle.c AUDIO_PlaySound)"
+          ],
+          "fullName": "M6 sfxForBattleEvent(战斗视觉 bus 事件 → SFX id,fight.c/battle.c AUDIO_PlaySound) 无音:deathSound=0 / weaponSound=0 / 非战斗事件 → 0(不播)",
+          "status": "passed",
+          "title": "无音:deathSound=0 / weaponSound=0 / 非战斗事件 → 0(不播)",
+          "duration": 0.05824999999998681,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "L46 SFX lastSFX 同号去重(sound.c:769-772 SOUND_Play / sound.c:930 复位)"
+          ],
+          "fullName": "L46 SFX lastSFX 同号去重(sound.c:769-772 SOUND_Play / sound.c:930 复位) 同号未播完 → 第二次 tryPlay false(去重);markEnded 复位后再放行",
+          "status": "passed",
+          "title": "同号未播完 → 第二次 tryPlay false(去重);markEnded 复位后再放行",
+          "duration": 0.06637499999999363,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "L46 SFX lastSFX 同号去重(sound.c:769-772 SOUND_Play / sound.c:930 复位)"
+          ],
+          "fullName": "L46 SFX lastSFX 同号去重(sound.c:769-772 SOUND_Play / sound.c:930 复位) lastSFX 只压制紧邻同号,异号放行",
+          "status": "passed",
+          "title": "lastSFX 只压制紧邻同号,异号放行",
+          "duration": 0.053541999999993095,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "L46 SFX lastSFX 同号去重(sound.c:769-772 SOUND_Play / sound.c:930 复位)"
+          ],
+          "fullName": "L46 SFX lastSFX 同号去重(sound.c:769-772 SOUND_Play / sound.c:930 复位) markEnded 仅当 id 仍是 lastSFX 时复位(被异号覆盖后旧 id 完成不误清)",
+          "status": "passed",
+          "title": "markEnded 仅当 id 仍是 lastSFX 时复位(被异号覆盖后旧 id 完成不误清)",
+          "duration": 0.03816599999998971,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["M6 OGG 音乐后端:释放旧 HTMLAudioElement(内存泄露修复)"],
+          "fullName": "M6 OGG 音乐后端:释放旧 HTMLAudioElement(内存泄露修复) 切歌:旧元素 pause + 清空 src + load(释放解码资源,不游离在内存)",
+          "status": "passed",
+          "title": "切歌:旧元素 pause + 清空 src + load(释放解码资源,不游离在内存)",
+          "duration": 0.33499999999997954,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["M6 OGG 音乐后端:释放旧 HTMLAudioElement(内存泄露修复)"],
+          "fullName": "M6 OGG 音乐后端:释放旧 HTMLAudioElement(内存泄露修复) stop:释放当前元素 src",
+          "status": "passed",
+          "title": "stop:释放当前元素 src",
+          "duration": 0.07545799999996916,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790608949245,
+      "endTime": 1790608949249.0754,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.codex/worktrees/glm-phase1-leaves/type-pal/packages/game/src/shell/audio.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["playAvi — sdlpal PAL_PlayAVI 等价 (M5.6 T18 Step 3)"],
+          "fullName": "playAvi — sdlpal PAL_PlayAVI 等价 (M5.6 T18 Step 3) 返回 Promise + 创 <video> 元素 + src 正确",
+          "status": "passed",
+          "title": "返回 Promise + 创 <video> 元素 + src 正确",
+          "duration": 17.719749999999976,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["playAvi — sdlpal PAL_PlayAVI 等价 (M5.6 T18 Step 3)"],
+          "fullName": "playAvi — sdlpal PAL_PlayAVI 等价 (M5.6 T18 Step 3) Space 键跳过 → Promise resolve + element 移除",
+          "status": "passed",
+          "title": "Space 键跳过 → Promise resolve + element 移除",
+          "duration": 503.49129199999993,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["playAvi — sdlpal PAL_PlayAVI 等价 (M5.6 T18 Step 3)"],
+          "fullName": "playAvi — sdlpal PAL_PlayAVI 等价 (M5.6 T18 Step 3) Enter 键跳过",
+          "status": "passed",
+          "title": "Enter 键跳过",
+          "duration": 502.2115839999999,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["playAvi — sdlpal PAL_PlayAVI 等价 (M5.6 T18 Step 3)"],
+          "fullName": "playAvi — sdlpal PAL_PlayAVI 等价 (M5.6 T18 Step 3) Escape 键跳过",
+          "status": "passed",
+          "title": "Escape 键跳过",
+          "duration": 501.846,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["playAvi — sdlpal PAL_PlayAVI 等价 (M5.6 T18 Step 3)"],
+          "fullName": "playAvi — sdlpal PAL_PlayAVI 等价 (M5.6 T18 Step 3) 非跳过键不触发(其他键 keydown 忽略)",
+          "status": "passed",
+          "title": "非跳过键不触发(其他键 keydown 忽略)",
+          "duration": 13.535791000000245,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["playAvi — sdlpal PAL_PlayAVI 等价 (M5.6 T18 Step 3)"],
+          "fullName": "playAvi — sdlpal PAL_PlayAVI 等价 (M5.6 T18 Step 3) 自定义 skipKeys 覆盖默认",
+          "status": "passed",
+          "title": "自定义 skipKeys 覆盖默认",
+          "duration": 513.4581250000001,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["playAvi — sdlpal PAL_PlayAVI 等价 (M5.6 T18 Step 3)"],
+          "fullName": "playAvi — sdlpal PAL_PlayAVI 等价 (M5.6 T18 Step 3) video error 事件触发 → Promise 仍 resolve(不抛)",
+          "status": "passed",
+          "title": "video error 事件触发 → Promise 仍 resolve(不抛)",
+          "duration": 1.3135829999996531,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["playAvi — sdlpal PAL_PlayAVI 等价 (M5.6 T18 Step 3)"],
+          "fullName": "playAvi — sdlpal PAL_PlayAVI 等价 (M5.6 T18 Step 3) 多次 cleanup 调用 idempotent(settled flag 防双重 resolve)",
+          "status": "passed",
+          "title": "多次 cleanup 调用 idempotent(settled flag 防双重 resolve)",
+          "duration": 1.4088339999998425,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["playAvi — 视频音量(工具面板「视频」滑块 / 主静音)"],
+          "fullName": "playAvi — 视频音量(工具面板「视频」滑块 / 主静音) playAvi 建 <video> 时套用当前 videoVolume",
+          "status": "passed",
+          "title": "playAvi 建 <video> 时套用当前 videoVolume",
+          "duration": 1.4535000000000764,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["playAvi — 视频音量(工具面板「视频」滑块 / 主静音)"],
+          "fullName": "playAvi — 视频音量(工具面板「视频」滑块 / 主静音) setVideoVolume 实时刷新正在播放的 video.volume",
+          "status": "passed",
+          "title": "setVideoVolume 实时刷新正在播放的 video.volume",
+          "duration": 0.5496250000001055,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["playAvi — 视频音量(工具面板「视频」滑块 / 主静音)"],
+          "fullName": "playAvi — 视频音量(工具面板「视频」滑块 / 主静音) setVideoVolume 钳制到 0..1",
+          "status": "passed",
+          "title": "setVideoVolume 钳制到 0..1",
+          "duration": 0.396125000000211,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["playAvi — 视频音量(工具面板「视频」滑块 / 主静音)"],
+          "fullName": "playAvi — 视频音量(工具面板「视频」滑块 / 主静音) cleanup 后解除 curVideoEl 跟踪:后续 setVideoVolume 不再改已移除元素",
+          "status": "passed",
+          "title": "cleanup 后解除 curVideoEl 跟踪:后续 setVideoVolume 不再改已移除元素",
+          "duration": 0.32254199999988487,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790608934615,
+      "endTime": 1790608936672.3962,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.codex/worktrees/glm-phase1-leaves/type-pal/packages/game/src/shell/avi-player.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["boot-loading(启动加载覆盖层)"],
+          "fullName": "boot-loading(启动加载覆盖层) init 后 fetch 计数驱动状态文本与进度条(分母 = max(已发起, 预估总量))",
+          "status": "passed",
+          "title": "init 后 fetch 计数驱动状态文本与进度条(分母 = max(已发起, 预估总量))",
+          "duration": 26.836250000000064,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["boot-loading(启动加载覆盖层)"],
+          "fullName": "boot-loading(启动加载覆盖层) 进度单调不回退:新一波请求发起(分母涨)时显示值保持(2026-06-12 用户反馈条回退)",
+          "status": "passed",
+          "title": "进度单调不回退:新一波请求发起(分母涨)时显示值保持(2026-06-12 用户反馈条回退)",
+          "duration": 37.17391599999996,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["boot-loading(启动加载覆盖层)"],
+          "fullName": "boot-loading(启动加载覆盖层) finish 还原 fetch、补满格并移除 overlay(过渡后)",
+          "status": "passed",
+          "title": "finish 还原 fetch、补满格并移除 overlay(过渡后)",
+          "duration": 2.4617909999999483,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["boot-loading(启动加载覆盖层)"],
+          "fullName": "boot-loading(启动加载覆盖层) fail 显示错误文本、还原 fetch、overlay 保留",
+          "status": "passed",
+          "title": "fail 显示错误文本、还原 fetch、overlay 保留",
+          "duration": 0.847582999999986,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["boot-loading(启动加载覆盖层)"],
+          "fullName": "boot-loading(启动加载覆盖层) setBootLoadingNote 追加说明到计数文本,清空恢复(soundfont 尾段等待文案)",
+          "status": "passed",
+          "title": "setBootLoadingNote 追加说明到计数文本,清空恢复(soundfont 尾段等待文案)",
+          "duration": 34.480999999999995,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["boot-loading(启动加载覆盖层)"],
+          "fullName": "boot-loading(启动加载覆盖层) 无 overlay 节点(单测/SSR)时全部 no-op 不抛错",
+          "status": "passed",
+          "title": "无 overlay 节点(单测/SSR)时全部 no-op 不抛错",
+          "duration": 1.4778749999999263,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["boot-loading(启动加载覆盖层)"],
+          "fullName": "boot-loading(启动加载覆盖层) 重复 init 幂等(不双层包 fetch)",
+          "status": "passed",
+          "title": "重复 init 幂等(不双层包 fetch)",
+          "duration": 0.6494159999999738,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["boot-loading(启动加载覆盖层)"],
+          "fullName": "boot-loading(启动加载覆盖层) 未 init(PROD 走 SW 统一进度)时 render 不抢写 #boot-loading-status/fill",
+          "status": "passed",
+          "title": "未 init(PROD 走 SW 统一进度)时 render 不抢写 #boot-loading-status/fill",
+          "duration": 15.297708000000057,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["boot-loading(启动加载覆盖层)"],
+          "fullName": "boot-loading(启动加载覆盖层) PROD 模式(传 onProgress)→ render 回调 fraction、不写 #boot-loading DOM",
+          "status": "passed",
+          "title": "PROD 模式(传 onProgress)→ render 回调 fraction、不写 #boot-loading DOM",
+          "duration": 17.803709000000026,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790608940405,
+      "endTime": 1790608940541.8037,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.codex/worktrees/glm-phase1-leaves/type-pal/packages/game/src/shell/boot-loading.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["syncShellAudio"],
+          "fullName": "syncShellAudio suspendRaf/modal CG 期间仍同步 BGM/SFX,不等画面 present 恢复后才 flush",
+          "status": "passed",
+          "title": "suspendRaf/modal CG 期间仍同步 BGM/SFX,不等画面 present 恢复后才 flush",
+          "duration": 1.5042079999999487,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790608959132,
+      "endTime": 1790608959133.5042,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.codex/worktrees/glm-phase1-leaves/type-pal/packages/game/src/shell/bootstrap-audio.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["load palette transition helpers"],
+          "fullName": "load palette transition helpers 读档黑屏 palette 不会污染存档恢复用的原 palette",
+          "status": "passed",
+          "title": "读档黑屏 palette 不会污染存档恢复用的原 palette",
+          "duration": 1.306583000000046,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790608954802,
+      "endTime": 1790608954803.3066,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.codex/worktrees/glm-phase1-leaves/type-pal/packages/game/src/shell/bootstrap-load.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["bootstrap resource lifecycle"],
+          "fullName": "bootstrap resource lifecycle starts soundfont first and all resource loaders before awaiting any result",
+          "status": "passed",
+          "title": "starts soundfont first and all resource loaders before awaiting any result",
+          "duration": 1.7838329999999587,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["bootstrap resource lifecycle"],
+          "fullName": "bootstrap resource lifecycle degrades a glyph failure without blocking the other initial resources",
+          "status": "passed",
+          "title": "degrades a glyph failure without blocking the other initial resources",
+          "duration": 0.8134579999999687,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["bootstrap resource lifecycle"],
+          "fullName": "bootstrap resource lifecycle keeps the original soundfont rejection while its settle barrier still resolves",
+          "status": "passed",
+          "title": "keeps the original soundfont rejection while its settle barrier still resolves",
+          "duration": 0.29404199999999037,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790608952274,
+      "endTime": 1790608952277.294,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.codex/worktrees/glm-phase1-leaves/type-pal/packages/game/src/shell/bootstrap-resources.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["结局 ending-player playEndingAnimation(PAL_EndingAnimation port)"],
+          "fullName": "结局 ending-player playEndingAnimation(PAL_EndingAnimation port) 跑完 N 帧不崩;背景(lower)+ 女孩精灵写入 fb",
+          "status": "passed",
+          "title": "跑完 N 帧不崩;背景(lower)+ 女孩精灵写入 fb",
+          "duration": 7.665624999999977,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["结局 ending-player playEndingAnimation(PAL_EndingAnimation port)"],
+          "fullName": "结局 ending-player playEndingAnimation(PAL_EndingAnimation port) beastFrames 不足 2 帧 → 跳过妖兽不崩",
+          "status": "passed",
+          "title": "beastFrames 不足 2 帧 → 跳过妖兽不崩",
+          "duration": 1.4897919999999658,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["结局 阻塞 fade 助手(suspendRaf 期间不走 present 驱动)"],
+          "fullName": "结局 阻塞 fade 助手(suspendRaf 期间不走 present 驱动) fadeOut / fadeIn / colorFade 跑完不崩并刷 canvas(fake timers)",
+          "status": "passed",
+          "title": "fadeOut / fadeIn / colorFade 跑完不崩并刷 canvas(fake timers)",
+          "duration": 14.864624999999933,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790608944913,
+      "endTime": 1790608944936.8647,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.codex/worktrees/glm-phase1-leaves/type-pal/packages/game/src/shell/ending-player.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["特效 B fbp-player showFbp(PAL_ShowFBP port)"],
+          "fullName": "特效 B fbp-player showFbp(PAL_ShowFBP port) fade=0 → 整屏 = target FBP indices(瞬时 blit)",
+          "status": "passed",
+          "title": "fade=0 → 整屏 = target FBP indices(瞬时 blit)",
+          "duration": 3.1825410000000147,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["特效 B fbp-player showFbp(PAL_ShowFBP port)"],
+          "fullName": "特效 B fbp-player showFbp(PAL_ShowFBP port) 无图(indices 长度不符)→ 全黑(sdlpal memset 0 / WIN95 SDL_FillRect)",
+          "status": "passed",
+          "title": "无图(indices 长度不符)→ 全黑(sdlpal memset 0 / WIN95 SDL_FillRect)",
+          "duration": 1.0362499999999955,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["特效 B fbp-player showFbp(PAL_ShowFBP port)"],
+          "fullName": "特效 B fbp-player showFbp(PAL_ShowFBP port) HACKHACK chunk(win95=68)fade=0 → 跳过最终 blit,fb 保持原样",
+          "status": "passed",
+          "title": "HACKHACK chunk(win95=68)fade=0 → 跳过最终 blit,fb 保持原样",
+          "duration": 0.6931250000000091,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["特效 B fbp-player showFbp(PAL_ShowFBP port)"],
+          "fullName": "特效 B fbp-player showFbp(PAL_ShowFBP port) fade>0 + HACKHACK chunk → dither 自身收敛到 target(高 nibble 跳 + 低 nibble migrate 满)",
+          "status": "passed",
+          "title": "fade>0 + HACKHACK chunk → dither 自身收敛到 target(高 nibble 跳 + 低 nibble migrate 满)",
+          "duration": 52.69533300000006,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["特效 B fbp-player scrollFbp(PAL_ScrollFBP port)"],
+          "fullName": "特效 B fbp-player scrollFbp(PAL_ScrollFBP port) 下滑卷入完成 → 整屏 = 新图(末帧 CopyEntireSurface)",
+          "status": "passed",
+          "title": "下滑卷入完成 → 整屏 = 新图(末帧 CopyEntireSurface)",
+          "duration": 114.33608300000003,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["特效 B fbp-player scrollFbp(PAL_ScrollFBP port)"],
+          "fullName": "特效 B fbp-player scrollFbp(PAL_ScrollFBP port) 滚动中间帧 = 旧屏下移 + 新图自顶推入(下滑方向)",
+          "status": "passed",
+          "title": "滚动中间帧 = 旧屏下移 + 新图自顶推入(下滑方向)",
+          "duration": 115.58962500000007,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["特效 B FBP effectSprite 叠加(g_wCurEffectSprite)"],
+          "fullName": "特效 B FBP effectSprite 叠加(g_wCurEffectSprite) fade>0 + HACKHACK chunk + effectSprite → 渐变期叠 MGO 精灵帧(末帧无 final blit 故精灵保留)",
+          "status": "passed",
+          "title": "fade>0 + HACKHACK chunk + effectSprite → 渐变期叠 MGO 精灵帧(末帧无 final blit 故精灵保留)",
+          "duration": 64.65583400000003,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790608938080,
+      "endTime": 1790608938432.6558,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.codex/worktrees/glm-phase1-leaves/type-pal/packages/game/src/shell/fbp-player.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["H01 installFetchRetry 边界"],
+          "fullName": "H01 installFetchRetry 边界 init.method 优先于 Request.method：非幂等覆盖不重试（503 也只调一次）；GET 对照重试",
+          "status": "passed",
+          "title": "init.method 优先于 Request.method：非幂等覆盖不重试（503 也只调一次）；GET 对照重试",
+          "duration": 4.2498749999999745,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["H01 installFetchRetry 边界"],
+          "fullName": "H01 installFetchRetry 边界 502/504 与 503 同样重试；耗尽抛最后一次 Error 身份",
+          "status": "passed",
+          "title": "502/504 与 503 同样重试；耗尽抛最后一次 Error 身份",
+          "duration": 0.6410829999999805,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["H01 installFetchRetry 边界"],
+          "fullName": "H01 installFetchRetry 边界 重试后成功：返回最终那次 Response 身份（502→504→200）",
+          "status": "passed",
+          "title": "重试后成功：返回最终那次 Response 身份（502→504→200）",
+          "duration": 0.5569160000000011,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["H01 installFetchRetry 边界"],
+          "fullName": "H01 installFetchRetry 边界 backoff 末值复用与空数组 fallback（1000ms）",
+          "status": "passed",
+          "title": "backoff 末值复用与空数组 fallback（1000ms）",
+          "duration": 1.3290830000000255,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790608947258,
+      "endTime": 1790608947265.329,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.codex/worktrees/glm-phase1-leaves/type-pal/packages/game/src/shell/fetch-retry.boundaries.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["L23 uninstallFetchRetryForTest 还原合同"],
+          "fullName": "L23 uninstallFetchRetryForTest 还原合同 安装后网络错误重试 3 次；还原后同一错误直接抛（不再经过重试包装）",
+          "status": "passed",
+          "title": "安装后网络错误重试 3 次；还原后同一错误直接抛（不再经过重试包装）",
+          "duration": 4.984708000000012,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["L23 uninstallFetchRetryForTest 还原合同"],
+          "fullName": "L23 uninstallFetchRetryForTest 还原合同 还原后 install 可重新装载（installed 复位合同）",
+          "status": "passed",
+          "title": "还原后 install 可重新装载（installed 复位合同）",
+          "duration": 0.9567080000000487,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790608949698,
+      "endTime": 1790608949703.9568,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.codex/worktrees/glm-phase1-leaves/type-pal/packages/game/src/shell/fetch-retry.glm-phase1-leaves.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["fetch-retry(GET 网络层重试兜底)"],
+          "fullName": "fetch-retry(GET 网络层重试兜底) GET 网络错误(reject)→ 重试后成功(nginx GOAWAY 竞态 net::ERR_FAILED 场景)",
+          "status": "passed",
+          "title": "GET 网络错误(reject)→ 重试后成功(nginx GOAWAY 竞态 net::ERR_FAILED 场景)",
+          "duration": 3.1555000000000177,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["fetch-retry(GET 网络层重试兜底)"],
+          "fullName": "fetch-retry(GET 网络层重试兜底) 重试耗尽(默认 2 次重试 = 共 3 attempt)→ 抛最后一次错误",
+          "status": "passed",
+          "title": "重试耗尽(默认 2 次重试 = 共 3 attempt)→ 抛最后一次错误",
+          "duration": 3.366291999999987,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["fetch-retry(GET 网络层重试兜底)"],
+          "fullName": "fetch-retry(GET 网络层重试兜底) 503 → 重试;404 → 原样返回不重试(资源性错误)",
+          "status": "passed",
+          "title": "503 → 重试;404 → 原样返回不重试(资源性错误)",
+          "duration": 1.8781669999999622,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["fetch-retry(GET 网络层重试兜底)"],
+          "fullName": "fetch-retry(GET 网络层重试兜底) 非 GET(POST)不重试(非幂等)",
+          "status": "passed",
+          "title": "非 GET(POST)不重试(非幂等)",
+          "duration": 0.32262500000001637,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["fetch-retry(GET 网络层重试兜底)"],
+          "fullName": "fetch-retry(GET 网络层重试兜底) 重复 install 幂等(不双层包)",
+          "status": "passed",
+          "title": "重复 install 幂等(不双层包)",
+          "duration": 0.11929200000002993,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790608946812,
+      "endTime": 1790608946821.3225,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.codex/worktrees/glm-phase1-leaves/type-pal/packages/game/src/shell/fetch-retry.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["H02 KeyboardInputSource 宿主边界"],
+          "fullName": "H02 KeyboardInputSource 宿主边界 真实 Window 事件驱动；两个 snapshot Set 防别名（改返回集合不动内部）",
+          "status": "passed",
+          "title": "真实 Window 事件驱动；两个 snapshot Set 防别名（改返回集合不动内部）",
+          "duration": 2.061207999999965,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["H02 KeyboardInputSource 宿主边界"],
+          "fullName": "H02 KeyboardInputSource 宿主边界 未知 keyup 不清合法 held；fade 抑制只针对方向键且物理松开解除",
+          "status": "passed",
+          "title": "未知 keyup 不清合法 held；fade 抑制只针对方向键且物理松开解除",
+          "duration": 1.156915999999967,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["H02 KeyboardInputSource 宿主边界"],
+          "fullName": "H02 KeyboardInputSource 宿主边界 detach 后真实事件不再进入",
+          "status": "passed",
+          "title": "detach 后真实事件不再进入",
+          "duration": 0.5628340000000094,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790608951278,
+      "endTime": 1790608951281.5627,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.codex/worktrees/glm-phase1-leaves/type-pal/packages/game/src/shell/input.boundaries.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["codeToAbstractKey"],
+          "fullName": "codeToAbstractKey 方向键映射",
+          "status": "passed",
+          "title": "方向键映射",
+          "duration": 0.8336670000000481,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["codeToAbstractKey"],
+          "fullName": "codeToAbstractKey WASD = sdlpal 原义(input.c:84-90),不是方向",
+          "status": "passed",
+          "title": "WASD = sdlpal 原义(input.c:84-90),不是方向",
+          "duration": 0.17074999999999818,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["codeToAbstractKey"],
+          "fullName": "codeToAbstractKey 确认 / 菜单(sdlpal input.c:66-74 真值)",
+          "status": "passed",
+          "title": "确认 / 菜单(sdlpal input.c:66-74 真值)",
+          "duration": 0.18900000000002137,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["codeToAbstractKey"],
+          "fullName": "codeToAbstractKey Numpad 方向键(sdlpal input.c:58-65)",
+          "status": "passed",
+          "title": "Numpad 方向键(sdlpal input.c:58-65)",
+          "duration": 0.07204200000001038,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["codeToAbstractKey"],
+          "fullName": "codeToAbstractKey 翻页 / Home/End(sdlpal input.c:75-82)",
+          "status": "passed",
+          "title": "翻页 / Home/End(sdlpal input.c:75-82)",
+          "duration": 0.1063750000000141,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["codeToAbstractKey"],
+          "fullName": "codeToAbstractKey 战斗 / 大世界专用键(sdlpal input.c:83-90)",
+          "status": "passed",
+          "title": "战斗 / 大世界专用键(sdlpal input.c:83-90)",
+          "duration": 0.09904199999999719,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["codeToAbstractKey"],
+          "fullName": "codeToAbstractKey 未知键 → null",
+          "status": "passed",
+          "title": "未知键 → null",
+          "duration": 0.09745800000001736,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["KeyboardInputSource"],
+          "fullName": "KeyboardInputSource keydown/keyup 维护 held;snapshot 后 pressed 清空",
+          "status": "passed",
+          "title": "keydown/keyup 维护 held;snapshot 后 pressed 清空",
+          "duration": 1.077083000000016,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["KeyboardInputSource"],
+          "fullName": "KeyboardInputSource clearPressed 清掉未消费的 pressed(等价 sdlpal PAL_ClearKeyState),held 保留",
+          "status": "passed",
+          "title": "clearPressed 清掉未消费的 pressed(等价 sdlpal PAL_ClearKeyState),held 保留",
+          "duration": 0.40058299999998326,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["KeyboardInputSource", "last-press priority (sdlpal input.c:180-189)"],
+          "fullName": "KeyboardInputSource last-press priority (sdlpal input.c:180-189) Up 然后 Down → held Set 末位 = Down",
+          "status": "passed",
+          "title": "Up 然后 Down → held Set 末位 = Down",
+          "duration": 0.5209169999999972,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["KeyboardInputSource", "last-press priority (sdlpal input.c:180-189)"],
+          "fullName": "KeyboardInputSource last-press priority (sdlpal input.c:180-189) Up,keyup Up,再按 Up → 末位还是 Up(delete-then-add 刷新顺序)",
+          "status": "passed",
+          "title": "Up,keyup Up,再按 Up → 末位还是 Up(delete-then-add 刷新顺序)",
+          "duration": 0.32533300000000054,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["KeyboardInputSource", "last-press priority (sdlpal input.c:180-189)"],
+          "fullName": "KeyboardInputSource last-press priority (sdlpal input.c:180-189) e.repeat=true 不刷新 held order(sdlpal input.c:213)",
+          "status": "passed",
+          "title": "e.repeat=true 不刷新 held order(sdlpal input.c:213)",
+          "duration": 0.2297500000000241,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["KeyboardInputSource", "last-press priority (sdlpal input.c:180-189)"],
+          "fullName": "KeyboardInputSource last-press priority (sdlpal input.c:180-189) repeat 也不污染 pressed(只在初次按下时 add pressed)",
+          "status": "passed",
+          "title": "repeat 也不污染 pressed(只在初次按下时 add pressed)",
+          "duration": 0.08799999999996544,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["ReplayInputSource"],
+          "fullName": "ReplayInputSource 按帧顺序回放",
+          "status": "passed",
+          "title": "按帧顺序回放",
+          "duration": 0.07175000000000864,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["ReplayInputSource"],
+          "fullName": "ReplayInputSource 超出序列 → 空快照",
+          "status": "passed",
+          "title": "超出序列 → 空快照",
+          "duration": 0.04099999999999682,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["RecordingInputSource"],
+          "fullName": "RecordingInputSource 装饰任意 source,把每帧 snapshot 留档",
+          "status": "passed",
+          "title": "装饰任意 source,把每帧 snapshot 留档",
+          "duration": 0.202083000000016,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["DM30:fade 抑制按住的方向键(palette.c:313-316)"],
+          "fullName": "DM30:fade 抑制按住的方向键(palette.c:313-316) suppressHeldForFade 后按住的方向键不进 held,keyup 重按恢复;pressed 被清",
+          "status": "passed",
+          "title": "suppressHeldForFade 后按住的方向键不进 held,keyup 重按恢复;pressed 被清",
+          "duration": 0.1389159999999947,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790608948172,
+      "endTime": 1790608948177.139,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.codex/worktrees/glm-phase1-leaves/type-pal/packages/game/src/shell/input.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["tickN"],
+          "fullName": "tickN 跑 N tick,每 tick 调 onPresent",
+          "status": "passed",
+          "title": "跑 N tick,每 tick 调 onPresent",
+          "duration": 2.4535840000000917,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["tickN"],
+          "fullName": "tickN Replay 向右走 3 步 → party.x + 3*16, party.y + 3*8 (East 右下)",
+          "status": "passed",
+          "title": "Replay 向右走 3 步 → party.x + 3*16, party.y + 3*8 (East 右下)",
+          "duration": 0.40883400000006986,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["advanceRafFrame / logicIntervalMs(M1 三不变量)"],
+          "fullName": "advanceRafFrame / logicIntervalMs(M1 三不变量) ① logicIntervalMs:battle 40 / 否则 100",
+          "status": "passed",
+          "title": "① logicIntervalMs:battle 40 / 否则 100",
+          "duration": 0.19287499999995816,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["advanceRafFrame / logicIntervalMs(M1 三不变量)"],
+          "fullName": "advanceRafFrame / logicIntervalMs(M1 三不变量) ② accumulator clamp:dt 巨大(>3×interval)→ 单 tick(非 catch-up 多 tick)+ 修 while-后死代码",
+          "status": "passed",
+          "title": "② accumulator clamp:dt 巨大(>3×interval)→ 单 tick(非 catch-up 多 tick)+ 修 while-后死代码",
+          "duration": 0.19508400000006532,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["advanceRafFrame / logicIntervalMs(M1 三不变量)"],
+          "fullName": "advanceRafFrame / logicIntervalMs(M1 三不变量) ④ 稳态节奏:60Hz 显示器下 battle 应 25 tick/s(40ms/tick),不被累积器丢余量拖慢",
+          "status": "passed",
+          "title": "④ 稳态节奏:60Hz 显示器下 battle 应 25 tick/s(40ms/tick),不被累积器丢余量拖慢",
+          "duration": 0.4594170000000304,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["advanceRafFrame / logicIntervalMs(M1 三不变量)"],
+          "fullName": "advanceRafFrame / logicIntervalMs(M1 三不变量) ③ present 门控:无 tick + 无 fade → 不 present;有 paletteFade → present",
+          "status": "passed",
+          "title": "③ present 门控:无 tick + 无 fade → 不 present;有 paletteFade → present",
+          "duration": 0.29425000000003365,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["advanceRafFrame / logicIntervalMs(M1 三不变量)"],
+          "fullName": "advanceRafFrame / logicIntervalMs(M1 三不变量) ⑤ battleFade(D17 死亡淡出)门控:无 tick 也每 rAF present(wall-clock 细分平滑)",
+          "status": "passed",
+          "title": "⑤ battleFade(D17 死亡淡出)门控:无 tick 也每 rAF present(wall-clock 细分平滑)",
+          "duration": 0.18320900000003348,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["advanceRafFrame / logicIntervalMs(M1 三不变量)"],
+          "fullName": "advanceRafFrame / logicIntervalMs(M1 三不变量) ⑥ frozen=true:累积达 interval 也不 tick(速通手动暂停冻结世界)",
+          "status": "passed",
+          "title": "⑥ frozen=true:累积达 interval 也不 tick(速通手动暂停冻结世界)",
+          "duration": 0.22225000000003092,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["渐变吞键仅限 scene-fade(palette.c 真值边界)"],
+          "fullName": "渐变吞键仅限 scene-fade(palette.c 真值边界) waiting='scene-fade'(0x93/0x80-update)→ 每 rAF 抑制按键(C 每步清键)",
+          "status": "passed",
+          "title": "waiting='scene-fade'(0x93/0x80-update)→ 每 rAF 抑制按键(C 每步清键)",
+          "duration": 0.4759999999999991,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["渐变吞键仅限 scene-fade(palette.c 真值边界)"],
+          "fullName": "渐变吞键仅限 scene-fade(palette.c 真值边界) waiting='palette-fade'(0x50/0x51/0x8C/0x4F)→ 不抑制(C 不清键,按键应累积)",
+          "status": "passed",
+          "title": "waiting='palette-fade'(0x50/0x51/0x8C/0x4F)→ 不抑制(C 不清键,按键应累积)",
+          "duration": 0.15895799999998417,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["渐变吞键仅限 scene-fade(palette.c 真值边界)"],
+          "fullName": "渐变吞键仅限 scene-fade(palette.c 真值边界) 无游标的自动渐入(战后/进场 PAL_FadeIn)→ 不抑制(战后卡键根因)",
+          "status": "passed",
+          "title": "无游标的自动渐入(战后/进场 PAL_FadeIn)→ 不抑制(战后卡键根因)",
+          "duration": 0.15466700000001765,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["渐变吞键仅限 scene-fade(palette.c 真值边界)"],
+          "fullName": "渐变吞键仅限 scene-fade(palette.c 真值边界) 无渐变 → 不抑制",
+          "status": "passed",
+          "title": "无渐变 → 不抑制",
+          "duration": 0.08262500000000728,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790608948776,
+      "endTime": 1790608948781.159,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.codex/worktrees/glm-phase1-leaves/type-pal/packages/game/src/shell/main-loop.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["L22 precache-client 早到指令"],
+          "fullName": "L22 precache-client 早到指令 pause/resume 早于 ready：静默丢弃（不缓冲不补发）；start 早到才缓冲补发",
+          "status": "passed",
+          "title": "pause/resume 早于 ready：静默丢弃（不缓冲不补发）；start 早到才缓冲补发",
+          "duration": 1.457749999999976,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["L22 precache-client 早到指令"],
+          "fullName": "L22 precache-client 早到指令 ready 后 start/pause/resume 依次按协议载荷直达 worker",
+          "status": "passed",
+          "title": "ready 后 start/pause/resume 依次按协议载荷直达 worker",
+          "duration": 0.353416999999979,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790608956177,
+      "endTime": 1790608956178.4578,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.codex/worktrees/glm-phase1-leaves/type-pal/packages/game/src/shell/precache-client.glm-phase1-leaves.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["registerPrecache"],
+          "fullName": "registerPrecache PROD=false(dev/e2e)→ 不注册",
+          "status": "passed",
+          "title": "PROD=false(dev/e2e)→ 不注册",
+          "duration": 1.1134589999999776,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["registerPrecache"],
+          "fullName": "registerPrecache PROD=true → 以 updateViaCache:none 注册 /sw.js",
+          "status": "passed",
+          "title": "PROD=true → 以 updateViaCache:none 注册 /sw.js",
+          "duration": 0.7709590000000048,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["registerPrecache"],
+          "fullName": "registerPrecache 无 serviceWorker 能力 → 安全 no-op",
+          "status": "passed",
+          "title": "无 serviceWorker 能力 → 安全 no-op",
+          "duration": 0.32654200000001765,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["registerPrecache"],
+          "fullName": "registerPrecache PROD + SW → onReady 触发,但 registerPrecache 不自动触发预缓存;start/pause/resume 各发对应消息",
+          "status": "passed",
+          "title": "PROD + SW → onReady 触发,但 registerPrecache 不自动触发预缓存;start/pause/resume 各发对应消息",
+          "duration": 0.6492089999999848,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["registerPrecache"],
+          "fullName": "registerPrecache 无 SW 能力 → onUnavailable 触发(调用方据此自动放行门)",
+          "status": "passed",
+          "title": "无 SW 能力 → onUnavailable 触发(调用方据此自动放行门)",
+          "duration": 0.2426250000000323,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["registerPrecache"],
+          "fullName": "registerPrecache register 抛错 → onUnavailable 触发,不向上抛",
+          "status": "passed",
+          "title": "register 抛错 → onUnavailable 触发,不向上抛",
+          "duration": 2.045708999999988,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["registerPrecache"],
+          "fullName": "registerPrecache startPrecache 早于 SW ready → 缓冲,registerPrecache 就绪后补发 precache",
+          "status": "passed",
+          "title": "startPrecache 早于 SW ready → 缓冲,registerPrecache 就绪后补发 precache",
+          "duration": 0.7574159999999779,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790608947714,
+      "endTime": 1790608947719.7573,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.codex/worktrees/glm-phase1-leaves/type-pal/packages/game/src/shell/precache-client.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["createPrecacheWidget"],
+          "fullName": "createPrecacheWidget 挂到 document.body,update 写百分比与 MB,done 后淡出移除",
+          "status": "passed",
+          "title": "挂到 document.body,update 写百分比与 MB,done 后淡出移除",
+          "duration": 54.666375000000016,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["createUnifiedProgressUi"],
+          "fullName": "createUnifiedProgressUi 虚线前 setNecessaryProgress 映射到 0→虚线(12%),单调不回退",
+          "status": "passed",
+          "title": "虚线前 setNecessaryProgress 映射到 0→虚线(12%),单调不回退",
+          "duration": 3.3857080000000224,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["createUnifiedProgressUi"],
+          "fullName": "createUnifiedProgressUi markPlayable:进度到虚线(12%)+ 显示按钮,click 同步触发 onEnter",
+          "status": "passed",
+          "title": "markPlayable:进度到虚线(12%)+ 显示按钮,click 同步触发 onEnter",
+          "duration": 3.0711670000000026,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["createUnifiedProgressUi"],
+          "fullName": "createUnifiedProgressUi 虚线后 setFullProgress = SW 真实进度 bytes/total,单调不回退;necessary 段不响应",
+          "status": "passed",
+          "title": "虚线后 setFullProgress = SW 真实进度 bytes/total,单调不回退;necessary 段不响应",
+          "duration": 0.9363329999999905,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["createUnifiedProgressUi"],
+          "fullName": "createUnifiedProgressUi enterGame 移除覆盖层并建右上角 widget,之后 setFullProgress 走 widget",
+          "status": "passed",
+          "title": "enterGame 移除覆盖层并建右上角 widget,之后 setFullProgress 走 widget",
+          "duration": 4.039375000000007,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["createUnifiedProgressUi"],
+          "fullName": "createUnifiedProgressUi 进入前 SW 已 done(竞速等满 100%)→ enterGame 不建右上角 widget",
+          "status": "passed",
+          "title": "进入前 SW 已 done(竞速等满 100%)→ enterGame 不建右上角 widget",
+          "duration": 0.8549160000000029,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["createUnifiedProgressUi"],
+          "fullName": "createUnifiedProgressUi enterGame 用最后进度初始化 widget,消除空白瞬间",
+          "status": "passed",
+          "title": "enterGame 用最后进度初始化 widget,消除空白瞬间",
+          "duration": 3.715082999999936,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790608942859,
+      "endTime": 1790608942929.715,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.codex/worktrees/glm-phase1-leaves/type-pal/packages/game/src/shell/precache-ui.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["playRng — sdlpal PAL_RNGPlay 等价 (M5.6 T18 Step 4)"],
+          "fullName": "playRng — sdlpal PAL_RNGPlay 等价 (M5.6 T18 Step 4) 全部帧播完 → fb.indices = 末帧填充",
+          "status": "passed",
+          "title": "全部帧播完 → fb.indices = 末帧填充",
+          "duration": 7.910542000000078,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["playRng — sdlpal PAL_RNGPlay 等价 (M5.6 T18 Step 4)"],
+          "fullName": "playRng — sdlpal PAL_RNGPlay 等价 (M5.6 T18 Step 4) Space 按键跳过 → 不到末帧停",
+          "status": "passed",
+          "title": "Space 按键跳过 → 不到末帧停",
+          "duration": 155.26579199999992,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["playRng — sdlpal PAL_RNGPlay 等价 (M5.6 T18 Step 4)"],
+          "fullName": "playRng — sdlpal PAL_RNGPlay 等价 (M5.6 T18 Step 4) manifest 缺该 chunk → 警告 + return,不抛",
+          "status": "passed",
+          "title": "manifest 缺该 chunk → 警告 + return,不抛",
+          "duration": 1.6685420000000022,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["playRng — sdlpal PAL_RNGPlay 等价 (M5.6 T18 Step 4)"],
+          "fullName": "playRng — sdlpal PAL_RNGPlay 等价 (M5.6 T18 Step 4) startFrame > endFrame → 立即 return 不播",
+          "status": "passed",
+          "title": "startFrame > endFrame → 立即 return 不播",
+          "duration": 0.49458400000003166,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["playRng — sdlpal PAL_RNGPlay 等价 (M5.6 T18 Step 4)"],
+          "fullName": "playRng — sdlpal PAL_RNGPlay 等价 (M5.6 T18 Step 4) endFrame=-1 → 默认播到 frameCount-1",
+          "status": "passed",
+          "title": "endFrame=-1 → 默认播到 frameCount-1",
+          "duration": 5.290208000000007,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["playRng — sdlpal PAL_RNGPlay 等价 (M5.6 T18 Step 4)"],
+          "fullName": "playRng — sdlpal PAL_RNGPlay 等价 (M5.6 T18 Step 4) manifest fetch throw → 警告 + return,不抛",
+          "status": "passed",
+          "title": "manifest fetch throw → 警告 + return,不抛",
+          "duration": 0.8888749999999845,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["playRng — sdlpal PAL_RNGPlay 等价 (M5.6 T18 Step 4)"],
+          "fullName": "playRng — sdlpal PAL_RNGPlay 等价 (M5.6 T18 Step 4) 单帧 fetch throw → warn + skip 该帧 + 继续",
+          "status": "passed",
+          "title": "单帧 fetch throw → warn + skip 该帧 + 继续",
+          "duration": 3.5368330000000014,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "playRng — sdlpal PAL_RNGPlay 等价 (M5.6 T18 Step 4)",
+            "shakeState 透传(VIDEO_UpdateScreen shake 分支)"
+          ],
+          "fullName": "playRng — sdlpal PAL_RNGPlay 等价 (M5.6 T18 Step 4) shakeState 透传(VIDEO_UpdateScreen shake 分支) shakeTime 随每显示帧递减(3 帧视频:65→62)",
+          "status": "passed",
+          "title": "shakeTime 随每显示帧递减(3 帧视频:65→62)",
+          "duration": 5.208292000000029,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "playRng — sdlpal PAL_RNGPlay 等价 (M5.6 T18 Step 4)",
+            "shakeState 透传(VIDEO_UpdateScreen shake 分支)"
+          ],
+          "fullName": "playRng — sdlpal PAL_RNGPlay 等价 (M5.6 T18 Step 4) shakeState 透传(VIDEO_UpdateScreen shake 分支) 视频帧本身被震:偶 shakeTime 帧整幅下移 shakeLevel 行,顶部填黑",
+          "status": "passed",
+          "title": "视频帧本身被震:偶 shakeTime 帧整幅下移 shakeLevel 行,顶部填黑",
+          "duration": 2.291208000000097,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "playRng — sdlpal PAL_RNGPlay 等价 (M5.6 T18 Step 4)",
+            "shakeState 透传(VIDEO_UpdateScreen shake 分支)"
+          ],
+          "fullName": "playRng — sdlpal PAL_RNGPlay 等价 (M5.6 T18 Step 4) shakeState 透传(VIDEO_UpdateScreen shake 分支) shakeTime 中途耗尽 → 剩余帧不震不再递减(不下穿 0)",
+          "status": "passed",
+          "title": "shakeTime 中途耗尽 → 剩余帧不震不再递减(不下穿 0)",
+          "duration": 5.8783750000000055,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "playRng — sdlpal PAL_RNGPlay 等价 (M5.6 T18 Step 4)",
+            "shakeState 透传(VIDEO_UpdateScreen shake 分支)"
+          ],
+          "fullName": "playRng — sdlpal PAL_RNGPlay 等价 (M5.6 T18 Step 4) shakeState 透传(VIDEO_UpdateScreen shake 分支) 跳过键提前结束 → 未显示帧的递减一次性结清(与完整播完一致)",
+          "status": "passed",
+          "title": "跳过键提前结束 → 未显示帧的递减一次性结清(与完整播完一致)",
+          "duration": 154.16162499999996,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "playRng — sdlpal PAL_RNGPlay 等价 (M5.6 T18 Step 4)",
+            "shakeState 透传(VIDEO_UpdateScreen shake 分支)"
+          ],
+          "fullName": "playRng — sdlpal PAL_RNGPlay 等价 (M5.6 T18 Step 4) shakeState 透传(VIDEO_UpdateScreen shake 分支) 不传 shakeState → 行为不变",
+          "status": "passed",
+          "title": "不传 shakeState → 行为不变",
+          "duration": 5.153332999999975,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["playRng — sdlpal PAL_RNGPlay 等价 (M5.6 T18 Step 4)"],
+          "fullName": "playRng — sdlpal PAL_RNGPlay 等价 (M5.6 T18 Step 4) initialFadeInMs:第一帧先按黑 palette 显示,再恢复目标 palette",
+          "status": "passed",
+          "title": "initialFadeInMs:第一帧先按黑 palette 显示,再恢复目标 palette",
+          "duration": 22.693250000000035,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["playRng — sdlpal PAL_RNGPlay 等价 (M5.6 T18 Step 4)"],
+          "fullName": "playRng — sdlpal PAL_RNGPlay 等价 (M5.6 T18 Step 4) 单次 playRng:同一 chunk 的 N 帧并发只触发一次底层加载(防 O(N²) stampede)",
+          "status": "passed",
+          "title": "单次 playRng:同一 chunk 的 N 帧并发只触发一次底层加载(防 O(N²) stampede)",
+          "duration": 10.969999999999914,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790608937216,
+      "endTime": 1790608937597.97,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.codex/worktrees/glm-phase1-leaves/type-pal/packages/game/src/shell/rng-player.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": [
+            "playSplashFallback — sdlpal main.c:206-456 PAL_SplashScreen 1:1 port"
+          ],
+          "fullName": "playSplashFallback — sdlpal main.c:206-456 PAL_SplashScreen 1:1 port Space 跳过 → 补完渐变 + 0.5s delay + resolve",
+          "status": "passed",
+          "title": "Space 跳过 → 补完渐变 + 0.5s delay + resolve",
+          "duration": 1861.3112500000002,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "playSplashFallback — sdlpal main.c:206-456 PAL_SplashScreen 1:1 port"
+          ],
+          "fullName": "playSplashFallback — sdlpal main.c:206-456 PAL_SplashScreen 1:1 port Enter / Escape 也跳过",
+          "status": "passed",
+          "title": "Enter / Escape 也跳过",
+          "duration": 1856.7667079999997,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "playSplashFallback — sdlpal main.c:206-456 PAL_SplashScreen 1:1 port"
+          ],
+          "fullName": "playSplashFallback — sdlpal main.c:206-456 PAL_SplashScreen 1:1 port 自定义 skipKeys 覆盖默认",
+          "status": "passed",
+          "title": "自定义 skipKeys 覆盖默认",
+          "duration": 1843.5258750000003,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "playSplashFallback — sdlpal main.c:206-456 PAL_SplashScreen 1:1 port"
+          ],
+          "fullName": "playSplashFallback — sdlpal main.c:206-456 PAL_SplashScreen 1:1 port 画屏后 fb 含 bitmapUp 或 bitmapDown 像素(滚动 bitmap blit 真的运行)",
+          "status": "passed",
+          "title": "画屏后 fb 含 bitmapUp 或 bitmapDown 像素(滚动 bitmap blit 真的运行)",
+          "duration": 1919.8832499999999,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "playSplashFallback — sdlpal main.c:206-456 PAL_SplashScreen 1:1 port"
+          ],
+          "fullName": "playSplashFallback — sdlpal main.c:206-456 PAL_SplashScreen 1:1 port L44:早跳过时标题补满完整高度(底部行也被画上)",
+          "status": "passed",
+          "title": "L44:早跳过时标题补满完整高度(底部行也被画上)",
+          "duration": 1856.4662079999998,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "playSplashFallback — sdlpal main.c:206-456 PAL_SplashScreen 1:1 port"
+          ],
+          "fullName": "playSplashFallback — sdlpal main.c:206-456 PAL_SplashScreen 1:1 port L42:splash 结束做 PAL_FadeOut(1) 淡黑(最终帧全黑)",
+          "status": "passed",
+          "title": "L42:splash 结束做 PAL_FadeOut(1) 淡黑(最终帧全黑)",
+          "duration": 1846.8201250000002,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790608914834,
+      "endTime": 1790608926018.82,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.codex/worktrees/glm-phase1-leaves/type-pal/packages/game/src/shell/splash-fallback.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": [
+            "playTrademarkFallback — sdlpal main.c:197-203 PAL_TrademarkScreen DOS path"
+          ],
+          "fullName": "playTrademarkFallback — sdlpal main.c:197-203 PAL_TrademarkScreen DOS path 完整流程:playRng → delay → fadeOut → resolve",
+          "status": "passed",
+          "title": "完整流程:playRng → delay → fadeOut → resolve",
+          "duration": 89.03320800000006,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "playTrademarkFallback — sdlpal main.c:197-203 PAL_TrademarkScreen DOS path"
+          ],
+          "fullName": "playTrademarkFallback — sdlpal main.c:197-203 PAL_TrademarkScreen DOS path Space 中途跳过 → 缩短流程仍 resolve",
+          "status": "passed",
+          "title": "Space 中途跳过 → 缩短流程仍 resolve",
+          "duration": 85.27308400000004,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790608938972,
+      "endTime": 1790608939146.2732,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.codex/worktrees/glm-phase1-leaves/type-pal/packages/game/src/shell/trademark-fallback.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["checkpoints"],
+          "fullName": "checkpoints 正好 21 个,id 唯一,时间单调递增",
+          "status": "passed",
+          "title": "正好 21 个,id 唯一,时间单调递增",
+          "duration": 1.1016669999999635,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["checkpoints"],
+          "fullName": "checkpoints 首尾节点正确",
+          "status": "passed",
+          "title": "首尾节点正确",
+          "duration": 0.13170900000000074,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["checkpoints"],
+          "fullName": "checkpoints 香蕉配置(照抄 PalTimer 3 精确格 + PARTYOFFSET,零容差)",
+          "status": "passed",
+          "title": "香蕉配置(照抄 PalTimer 3 精确格 + PARTYOFFSET,零容差)",
+          "duration": 0.33295799999996234,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790608957529,
+      "endTime": 1790608957530.333,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.codex/worktrees/glm-phase1-leaves/type-pal/packages/game/src/tools/speedrun/checkpoints.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["L20 showCountdown 单例合同"],
+          "fullName": "L20 showCountdown 单例合同 连显 3→2：同一元素更新，不产生第二个节点",
+          "status": "passed",
+          "title": "连显 3→2：同一元素更新，不产生第二个节点",
+          "duration": 26.936624999999992,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["L20 showCountdown 单例合同"],
+          "fullName": "L20 showCountdown 单例合同 null 移除后可重建；再 null 幂等",
+          "status": "passed",
+          "title": "null 移除后可重建；再 null 幂等",
+          "duration": 1.9510000000000218,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790608945402,
+      "endTime": 1790608945430.951,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.codex/worktrees/glm-phase1-leaves/type-pal/packages/game/src/tools/speedrun/countdown.glm-phase1-leaves.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["showCountdown"],
+          "fullName": "showCountdown 传字符串挂出、更新文本",
+          "status": "passed",
+          "title": "传字符串挂出、更新文本",
+          "duration": 17.550125000000037,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["showCountdown"],
+          "fullName": "showCountdown 传 null 移除",
+          "status": "passed",
+          "title": "传 null 移除",
+          "duration": 1.0452089999999998,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790608945879,
+      "endTime": 1790608945898.0452,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.codex/worktrees/glm-phase1-leaves/type-pal/packages/game/src/tools/speedrun/countdown.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["L08 detectors 剩余边界"],
+          "fullName": "L08 detectors 剩余边界 atSpot 默认容差 ±48/±24：恰好边界命中、超出 1px 不命中",
+          "status": "passed",
+          "title": "atSpot 默认容差 ±48/±24：恰好边界命中、超出 1px 不命中",
+          "duration": 0.8881249999999454,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["L08 detectors 剩余边界"],
+          "fullName": "L08 detectors 剩余边界 atAnySpot 多点：任一格命中即真；全部未命中/场景不符为假",
+          "status": "passed",
+          "title": "atAnySpot 多点：任一格命中即真；全部未命中/场景不符为假",
+          "duration": 0.32766700000001947,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["L08 detectors 剩余边界"],
+          "fullName": "L08 detectors 剩余边界 leaveScene prev=null → false（无前帧不判离开）；enterAnyScene 集合外/空集合不触发",
+          "status": "passed",
+          "title": "leaveScene prev=null → false（无前帧不判离开）；enterAnyScene 集合外/空集合不触发",
+          "duration": 0.18641600000000835,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["L08 detectors 剩余边界"],
+          "fullName": "L08 detectors 剩余边界 caiyiDetector 自定义敌 id：见 72 置位，其消失触发",
+          "status": "passed",
+          "title": "caiyiDetector 自定义敌 id：见 72 置位，其消失触发",
+          "duration": 0.26025000000004184,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790608959825,
+      "endTime": 1790608959826.3276,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.codex/worktrees/glm-phase1-leaves/type-pal/packages/game/src/tools/speedrun/detectors.glm-phase1-leaves.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["detectors"],
+          "fullName": "detectors enterScene 仅在进入那一帧触发",
+          "status": "passed",
+          "title": "enterScene 仅在进入那一帧触发",
+          "duration": 0.8591250000000059,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["detectors"],
+          "fullName": "detectors leaveScene 仅在离开那一帧触发",
+          "status": "passed",
+          "title": "leaveScene 仅在离开那一帧触发",
+          "duration": 0.16358399999995754,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["detectors"],
+          "fullName": "detectors enterAnyScene 任一进入即触发",
+          "status": "passed",
+          "title": "enterAnyScene 任一进入即触发",
+          "duration": 0.09370799999999235,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["detectors"],
+          "fullName": "detectors atSpot 容差矩形",
+          "status": "passed",
+          "title": "atSpot 容差矩形",
+          "duration": 0.18687499999998636,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["detectors"],
+          "fullName": "detectors bossWon 需 boss 在场且全场血≤0",
+          "status": "passed",
+          "title": "bossWon 需 boss 在场且全场血≤0",
+          "duration": 0.11004199999996445,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["detectors"],
+          "fullName": "detectors hasItem / bgmIs",
+          "status": "passed",
+          "title": "hasItem / bgmIs",
+          "duration": 0.08166599999998425,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["detectors"],
+          "fullName": "detectors caiyi 两段:先见 71 入场,再等其消失/血≤0",
+          "status": "passed",
+          "title": "caiyi 两段:先见 71 入场,再等其消失/血≤0",
+          "duration": 0.1633340000000203,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["detectors"],
+          "fullName": "detectors caiyi 第二段:战斗结束(battle=null)也触发",
+          "status": "passed",
+          "title": "caiyi 第二段:战斗结束(battle=null)也触发",
+          "duration": 0.058334000000002106,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790608956646,
+      "endTime": 1790608956647.1868,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.codex/worktrees/glm-phase1-leaves/type-pal/packages/game/src/tools/speedrun/detectors.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["L21 setupSpeedrunHotkeys 解绑"],
+          "fullName": "L21 setupSpeedrunHotkeys 解绑 启用时 F4 弹重置 toast；解绑后 F4 无新 toast",
+          "status": "passed",
+          "title": "启用时 F4 弹重置 toast；解绑后 F4 无新 toast",
+          "duration": 38.49433300000004,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["L21 setupSpeedrunHotkeys 解绑"],
+          "fullName": "L21 setupSpeedrunHotkeys 解绑 未启用时按键短路（无 toast、无覆盖层）；解绑函数幂等可重复调",
+          "status": "passed",
+          "title": "未启用时按键短路（无 toast、无覆盖层）；解绑函数幂等可重复调",
+          "duration": 1.7867500000000405,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790608944362,
+      "endTime": 1790608944402.7869,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.codex/worktrees/glm-phase1-leaves/type-pal/packages/game/src/tools/speedrun/index.glm-phase1-leaves.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["tickSpeedrunTimer"],
+          "fullName": "tickSpeedrunTimer 未启用 → 不挂覆盖层、计时不动",
+          "status": "passed",
+          "title": "未启用 → 不挂覆盖层、计时不动",
+          "duration": 1.1996670000000336,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["tickSpeedrunTimer"],
+          "fullName": "tickSpeedrunTimer 启用后起表、挂覆盖层、wall-clock 累加",
+          "status": "passed",
+          "title": "启用后起表、挂覆盖层、wall-clock 累加",
+          "duration": 37.208417,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["tickSpeedrunTimer"],
+          "fullName": "tickSpeedrunTimer show=0 时不挂覆盖层但仍计时",
+          "status": "passed",
+          "title": "show=0 时不挂覆盖层但仍计时",
+          "duration": 0.300042000000019,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["bests 默认播种"],
+          "fullName": "bests 默认播种 首次读取用 CHECKPOINTS 默认参考线",
+          "status": "passed",
+          "title": "首次读取用 CHECKPOINTS 默认参考线",
+          "duration": 0.109375,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["setupSpeedrunHotkeys"],
+          "fullName": "setupSpeedrunHotkeys F4 启用时重置本局",
+          "status": "passed",
+          "title": "F4 启用时重置本局",
+          "duration": 17.320082999999954,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["setupSpeedrunHotkeys"],
+          "fullName": "setupSpeedrunHotkeys F4 未启用时不重置",
+          "status": "passed",
+          "title": "F4 未启用时不重置",
+          "duration": 4.620416999999975,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["setupSpeedrunHotkeys"],
+          "fullName": "setupSpeedrunHotkeys F8 启用时暂停本局",
+          "status": "passed",
+          "title": "F8 启用时暂停本局",
+          "duration": 7.372332999999969,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["setupSpeedrunHotkeys"],
+          "fullName": "setupSpeedrunHotkeys F2 启用时切换覆盖层显隐设置",
+          "status": "passed",
+          "title": "F2 启用时切换覆盖层显隐设置",
+          "duration": 2.935292000000004,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["isSpeedrunPaused (主循环冻结门控)"],
+          "fullName": "isSpeedrunPaused (主循环冻结门控) 手动暂停 → true(冻结游戏)",
+          "status": "passed",
+          "title": "手动暂停 → true(冻结游戏)",
+          "duration": 3.9555840000000444,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["isSpeedrunPaused (主循环冻结门控)"],
+          "fullName": "isSpeedrunPaused (主循环冻结门控) 未暂停 → false",
+          "status": "passed",
+          "title": "未暂停 → false",
+          "duration": 3.7604579999999714,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["isSpeedrunPaused (主循环冻结门控)"],
+          "fullName": "isSpeedrunPaused (主循环冻结门控) 香蕉树暂停 → false(不冻结,否则走不过去捡香蕉)",
+          "status": "passed",
+          "title": "香蕉树暂停 → false(不冻结,否则走不过去捡香蕉)",
+          "duration": 6.805375000000026,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790608942311,
+      "endTime": 1790608942397.8054,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.codex/worktrees/glm-phase1-leaves/type-pal/packages/game/src/tools/speedrun/index.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["L21 overlay 原位更新与幂等"],
+          "fullName": "L21 overlay 原位更新与幂等 render 两次 → 单根节点、文本随数据更新",
+          "status": "passed",
+          "title": "render 两次 → 单根节点、文本随数据更新",
+          "duration": 51.79720800000001,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["L21 overlay 原位更新与幂等"],
+          "fullName": "L21 overlay 原位更新与幂等 injectOverlayStyles 幂等；hideOverlay 二次调用不抛",
+          "status": "passed",
+          "title": "injectOverlayStyles 幂等；hideOverlay 二次调用不抛",
+          "duration": 1.1714999999999804,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790608943369,
+      "endTime": 1790608943422.1714,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.codex/worktrees/glm-phase1-leaves/type-pal/packages/game/src/tools/speedrun/overlay.glm-phase1-leaves.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["overlay"],
+          "fullName": "overlay 渲染 21 行 + 主计时",
+          "status": "passed",
+          "title": "渲染 21 行 + 主计时",
+          "duration": 39.90191699999997,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["overlay"],
+          "fullName": "overlay 暂停加 * 前缀",
+          "status": "passed",
+          "title": "暂停加 * 前缀",
+          "duration": 2.759416999999985,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["overlay"],
+          "fullName": "overlay hideOverlay 移除",
+          "status": "passed",
+          "title": "hideOverlay 移除",
+          "duration": 1.8649169999999913,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790608943871,
+      "endTime": 1790608943915.865,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.codex/worktrees/glm-phase1-leaves/type-pal/packages/game/src/tools/speedrun/overlay.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["buildSnapshot"],
+          "fullName": "buildSnapshot 抽取场景/坐标/音乐/物品(仅 count>0)",
+          "status": "passed",
+          "title": "抽取场景/坐标/音乐/物品(仅 count>0)",
+          "duration": 0.8882500000000277,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["buildSnapshot"],
+          "fullName": "buildSnapshot 有战斗时汇总敌人 id 与总血",
+          "status": "passed",
+          "title": "有战斗时汇总敌人 id 与总血",
+          "duration": 0.19574999999997544,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["buildSnapshot.canMove(计时起表门)"],
+          "fullName": "buildSnapshot.canMove(计时起表门) explore + 无加载/淡入/挂起 → 可移动",
+          "status": "passed",
+          "title": "explore + 无加载/淡入/挂起 → 可移动",
+          "duration": 0.10745900000000574,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["buildSnapshot.canMove(计时起表门)"],
+          "fullName": "buildSnapshot.canMove(计时起表门) 开场菜单(mode!=explore)→ 不可移动",
+          "status": "passed",
+          "title": "开场菜单(mode!=explore)→ 不可移动",
+          "duration": 0.05804200000000037,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["buildSnapshot.canMove(计时起表门)"],
+          "fullName": "buildSnapshot.canMove(计时起表门) explore 但 suspendRaf(boot 预载/开场 CG/梦境)→ 不可移动",
+          "status": "passed",
+          "title": "explore 但 suspendRaf(boot 预载/开场 CG/梦境)→ 不可移动",
+          "duration": 0.05562499999996362,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["buildSnapshot.canMove(计时起表门)"],
+          "fullName": "buildSnapshot.canMove(计时起表门) explore 但场景加载中 → 不可移动",
+          "status": "passed",
+          "title": "explore 但场景加载中 → 不可移动",
+          "duration": 0.10058299999997189,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["buildSnapshot.canMove(计时起表门)"],
+          "fullName": "buildSnapshot.canMove(计时起表门) explore 但 palette 淡入中 → 不可移动",
+          "status": "passed",
+          "title": "explore 但 palette 淡入中 → 不可移动",
+          "duration": 0.09287499999999227,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790608957086,
+      "endTime": 1790608957087.1958,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.codex/worktrees/glm-phase1-leaves/type-pal/packages/game/src/tools/speedrun/snapshot.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["L21 store 坏数据与往返"],
+          "fullName": "L21 store 坏数据与往返 bests 非法 JSON → 返回 defaults 副本不抛；defaults 外的存储 key 忽略",
+          "status": "passed",
+          "title": "bests 非法 JSON → 返回 defaults 副本不抛；defaults 外的存储 key 忽略",
+          "duration": 1.398083999999983,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["L21 store 坏数据与往返"],
+          "fullName": "L21 store 坏数据与往返 saveBests → loadBests 全往返；settings 仅识别 1/0（坏值走各自默认）",
+          "status": "passed",
+          "title": "saveBests → loadBests 全往返；settings 仅识别 1/0（坏值走各自默认）",
+          "duration": 0.5562079999999696,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790608951787,
+      "endTime": 1790608951788.5562,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.codex/worktrees/glm-phase1-leaves/type-pal/packages/game/src/tools/speedrun/store.glm-phase1-leaves.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["speedrun store"],
+          "fullName": "speedrun store settings 默认:enabled=false, show=true, banana=false",
+          "status": "passed",
+          "title": "settings 默认:enabled=false, show=true, banana=false",
+          "duration": 1.262707999999975,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["speedrun store"],
+          "fullName": "speedrun store saveSetting 往返",
+          "status": "passed",
+          "title": "saveSetting 往返",
+          "duration": 0.33662499999996953,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["speedrun store"],
+          "fullName": "speedrun store bests 无记录时返回 defaults 副本",
+          "status": "passed",
+          "title": "bests 无记录时返回 defaults 副本",
+          "duration": 0.17637499999995043,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["speedrun store"],
+          "fullName": "speedrun store bests 往返,缺失 key 用 default 补",
+          "status": "passed",
+          "title": "bests 往返,缺失 key 用 default 补",
+          "duration": 0.15962500000000546,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790608954074,
+      "endTime": 1790608954076.3367,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.codex/worktrees/glm-phase1-leaves/type-pal/packages/game/src/tools/speedrun/store.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["H08 进位与符号边界"],
+          "fullName": "H08 进位与符号边界 59.995s 进位到 60 秒；负数归 0；formatHms 同步",
+          "status": "passed",
+          "title": "59.995s 进位到 60 秒；负数归 0；formatHms 同步",
+          "duration": 1.4737499999999955,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["H08 进位与符号边界"],
+          "fullName": "H08 进位与符号边界 formatDiff：正/负号、0 无符号、绝对值截断到整秒",
+          "status": "passed",
+          "title": "formatDiff：正/负号、0 无符号、绝对值截断到整秒",
+          "duration": 0.3975000000000364,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["H08 进位与符号边界"],
+          "fullName": "H08 进位与符号边界 parseHms：2/3 段合法；负号/空白段/非数字/分秒 60/单段全拒绝",
+          "status": "passed",
+          "title": "parseHms：2/3 段合法；负号/空白段/非数字/分秒 60/单段全拒绝",
+          "duration": 0.29166600000002063,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790608960322,
+      "endTime": 1790608960324.3975,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.codex/worktrees/glm-phase1-leaves/type-pal/packages/game/src/tools/speedrun/time-format.boundaries.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["L20 time-format 小时位"],
+          "fullName": "L20 time-format 小时位 formatClock 1h01m01s.23：3661234ms → \"1:01:01.23\"（手算 3600s+60s+1s+230ms）",
+          "status": "passed",
+          "title": "formatClock 1h01m01s.23：3661234ms → \"1:01:01.23\"（手算 3600s+60s+1s+230ms）",
+          "duration": 0.8824170000000322,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["L20 time-format 小时位"],
+          "fullName": "L20 time-format 小时位 formatHms 小时进位与负数归 0",
+          "status": "passed",
+          "title": "formatHms 小时进位与负数归 0",
+          "duration": 0.17537500000003092,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790608960801,
+      "endTime": 1790608960802.1753,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.codex/worktrees/glm-phase1-leaves/type-pal/packages/game/src/tools/speedrun/time-format.glm-phase1-leaves.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["time-format"],
+          "fullName": "time-format formatClock 到厘秒",
+          "status": "passed",
+          "title": "formatClock 到厘秒",
+          "duration": 0.8422500000000355,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["time-format"],
+          "fullName": "time-format formatHms 到秒",
+          "status": "passed",
+          "title": "formatHms 到秒",
+          "duration": 0.16095900000004804,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["time-format"],
+          "fullName": "time-format parseHms 支持 H:MM:SS 与 M:SS",
+          "status": "passed",
+          "title": "parseHms 支持 H:MM:SS 与 M:SS",
+          "duration": 0.25533400000000483,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["time-format"],
+          "fullName": "time-format formatDiff 带符号",
+          "status": "passed",
+          "title": "formatDiff 带符号",
+          "duration": 0.14741599999996424,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790608958445,
+      "endTime": 1790608958446.2554,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.codex/worktrees/glm-phase1-leaves/type-pal/packages/game/src/tools/speedrun/time-format.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["H06 SpeedrunTimer 边界"],
+          "fullName": "H06 SpeedrunTimer 边界 同 now 双 tick 不累计；finished 后不累计；一次性 flag 二次消费 false",
+          "status": "passed",
+          "title": "同 now 双 tick 不累计；finished 后不累计；一次性 flag 二次消费 false",
+          "duration": 1.0071250000000305,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["H06 SpeedrunTimer 边界"],
+          "fullName": "H06 SpeedrunTimer 边界 手动暂停 3 秒倒计时精确边界：2999 未恢复、3000 恢复且恢复帧不计时；justResumed 一次",
+          "status": "passed",
+          "title": "手动暂停 3 秒倒计时精确边界：2999 未恢复、3000 恢复且恢复帧不计时；justResumed 一次",
+          "duration": 0.348165999999992,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["H06 SpeedrunTimer 边界"],
+          "fullName": "H06 SpeedrunTimer 边界 setStep 合法 idx 重置检测记忆与暂停；实例间 mem/bests 不串",
+          "status": "passed",
+          "title": "setStep 合法 idx 重置检测记忆与暂停；实例间 mem/bests 不串",
+          "duration": 0.3981249999999932,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["H07 detector 边界"],
+          "fullName": "H07 detector 边界 enterAny：集合内转场不触发；从集合外进入触发；prev=null 视为进入",
+          "status": "passed",
+          "title": "enterAny：集合内转场不触发；从集合外进入触发；prev=null 视为进入",
+          "duration": 0.10183399999999665,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["H07 detector 边界"],
+          "fullName": "H07 detector 边界 atSpot：tol 相等命中、+1 越界；leaveScene prev=null 恒 false；enterScene prev=null 立即真",
+          "status": "passed",
+          "title": "atSpot：tol 相等命中、+1 越界；leaveScene prev=null 恒 false；enterScene prev=null 立即真",
+          "duration": 0.27883299999996325,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["H07 detector 边界"],
+          "fullName": "H07 detector 边界 caiyi：未见 boss 前不误报（含战斗结束态）；独立 mem 互不影响",
+          "status": "passed",
+          "title": "caiyi：未见 boss 前不误报（含战斗结束态）；独立 mem 互不影响",
+          "duration": 0.18970899999999347,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790608953170,
+      "endTime": 1790608953173.2788,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.codex/worktrees/glm-phase1-leaves/type-pal/packages/game/src/tools/speedrun/timer.boundaries.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["L20 SpeedrunTimer 剩余合同"],
+          "fullName": "L20 SpeedrunTimer 剩余合同 getCountdownRemainingSec：无倒计时/无主时钟 → null；有 → ceil 剩余秒，到点 0",
+          "status": "passed",
+          "title": "getCountdownRemainingSec：无倒计时/无主时钟 → null；有 → ceil 剩余秒，到点 0",
+          "duration": 1.2865830000000074,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["L20 SpeedrunTimer 剩余合同"],
+          "fullName": "L20 SpeedrunTimer 剩余合同 consumeBestsDirty 一次性读；reset 保留 bests 只清本局",
+          "status": "passed",
+          "title": "consumeBestsDirty 一次性读；reset 保留 bests 只清本局",
+          "duration": 0.5829160000000115,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790608957990,
+      "endTime": 1790608957992.583,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.codex/worktrees/glm-phase1-leaves/type-pal/packages/game/src/tools/speedrun/timer.glm-phase1-leaves.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["SpeedrunTimer 起表与打点"],
+          "fullName": "SpeedrunTimer 起表与打点 scene>0 且可移动才起表,之后按 wall-clock 累加",
+          "status": "passed",
+          "title": "scene>0 且可移动才起表,之后按 wall-clock 累加",
+          "duration": 0.9546250000000214,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["SpeedrunTimer 起表与打点"],
+          "fullName": "SpeedrunTimer 起表与打点 scene>0 但李逍遥不可移动(标题/开场演出/加载/淡入)→ 不起表",
+          "status": "passed",
+          "title": "scene>0 但李逍遥不可移动(标题/开场演出/加载/淡入)→ 不起表",
+          "duration": 0.20762499999995043,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["SpeedrunTimer 起表与打点"],
+          "fullName": "SpeedrunTimer 起表与打点 依序打点,一帧至多推进一个节点",
+          "status": "passed",
+          "title": "依序打点,一帧至多推进一个节点",
+          "duration": 0.1676249999999868,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["SpeedrunTimer setStep(手动跳节点,测试用)"],
+          "fullName": "SpeedrunTimer setStep(手动跳节点,测试用) 跳过前面节点,从第 N 个起依序检测",
+          "status": "passed",
+          "title": "跳过前面节点,从第 N 个起依序检测",
+          "duration": 0.15675000000004502,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["SpeedrunTimer setStep(手动跳节点,测试用)"],
+          "fullName": "SpeedrunTimer setStep(手动跳节点,测试用) 已处于目标条件时(prevSnap 重置)下一帧立即命中 = 认\"读档已到此\"",
+          "status": "passed",
+          "title": "已处于目标条件时(prevSnap 重置)下一帧立即命中 = 认\"读档已到此\"",
+          "duration": 0.06245799999999235,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["SpeedrunTimer setStep(手动跳节点,测试用)"],
+          "fullName": "SpeedrunTimer setStep(手动跳节点,测试用) finished 后 setStep 回到 running、清手动暂停",
+          "status": "passed",
+          "title": "finished 后 setStep 回到 running、清手动暂停",
+          "duration": 0.08000000000004093,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["SpeedrunTimer PB 更新"],
+          "fullName": "SpeedrunTimer PB 更新 通关破纪录 → 整条覆盖 bests",
+          "status": "passed",
+          "title": "通关破纪录 → 整条覆盖 bests",
+          "duration": 0.3440840000000094,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["SpeedrunTimer PB 更新"],
+          "fullName": "SpeedrunTimer PB 更新 未破纪录 → 不动 bests",
+          "status": "passed",
+          "title": "未破纪录 → 不动 bests",
+          "duration": 0.11554100000000744,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["SpeedrunTimer 香蕉暂停 + 拿到直接恢复(无倒计时)"],
+          "fullName": "SpeedrunTimer 香蕉暂停 + 拿到直接恢复(无倒计时) 站到香蕉格暂停;拿香蕉直接恢复,不起倒计时",
+          "status": "passed",
+          "title": "站到香蕉格暂停;拿香蕉直接恢复,不起倒计时",
+          "duration": 0.44870800000001054,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["SpeedrunTimer 手动操作"],
+          "fullName": "SpeedrunTimer 手动操作 reset 清空本局",
+          "status": "passed",
+          "title": "reset 清空本局",
+          "duration": 0.11529099999995651,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["SpeedrunTimer 手动操作"],
+          "fullName": "SpeedrunTimer 手动操作 setBestsFromCurrentRun / clearBests / setBest",
+          "status": "passed",
+          "title": "setBestsFromCurrentRun / clearBests / setBest",
+          "duration": 0.16587499999997135,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["SpeedrunTimer 手动暂停/恢复"],
+          "fullName": "SpeedrunTimer 手动暂停/恢复 暂停停表;恢复起 3 秒倒计时;到点恢复后继续累加(不计暂停期)",
+          "status": "passed",
+          "title": "暂停停表;恢复起 3 秒倒计时;到点恢复后继续累加(不计暂停期)",
+          "duration": 0.13629100000002836,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["SpeedrunTimer 手动暂停/恢复"],
+          "fullName": "SpeedrunTimer 手动暂停/恢复 倒计时恢复中再切 → 取消恢复,留在暂停",
+          "status": "passed",
+          "title": "倒计时恢复中再切 → 取消恢复,留在暂停",
+          "duration": 0.07637499999998454,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["SpeedrunTimer 手动暂停/恢复"],
+          "fullName": "SpeedrunTimer 手动暂停/恢复 非 running 态 toggle 无效",
+          "status": "passed",
+          "title": "非 running 态 toggle 无效",
+          "duration": 0.029291000000000622,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790608950842,
+      "endTime": 1790608950845.1658,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.codex/worktrees/glm-phase1-leaves/type-pal/packages/game/src/tools/speedrun/timer.test.ts"
+    }
+  ]
+}

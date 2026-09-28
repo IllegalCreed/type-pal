@@ -1,0 +1,114 @@
+{
+  "batch": "c",
+  "hashes": {
+    "src/present/menu/draw-menu.ts": "10c96d95b287c9b5c94ffa65a283cf8d6ab7dab2a6a2b138ef678ae87154c09c",
+    "src/present/menu/draw-shop.ts": "4cd77e0892a460ba387eeeaff6d0ad94a7f2be3f40a17376df1361e84b14da19"
+  },
+  "selfTest": [
+    {
+      "id": "valid-red",
+      "expectReject": false,
+      "rejected": false,
+      "violations": []
+    },
+    {
+      "id": "same-message-mixed-error",
+      "expectReject": true,
+      "rejected": true,
+      "violations": [
+        "mixed non-business error: AssertionError: expected business rejection\nTypeError: environment broken"
+      ]
+    },
+    {
+      "id": "assertion-prefixed-timeout",
+      "expectReject": true,
+      "rejected": true,
+      "violations": ["timeout treated as red: AssertionError: test timed out"]
+    },
+    {
+      "id": "additional-unrelated-red",
+      "expectReject": true,
+      "rejected": true,
+      "violations": ["failed 2, expected exactly 1"]
+    },
+    {
+      "id": "wrong-fullname-red-with-intended-green",
+      "expectReject": true,
+      "rejected": true,
+      "violations": [
+        "red fullName \"different group save-slot：5 个单行框 (195,7+38i)、标签字色、slotMetas.savedTimes 黄色数字（缺省 0）\" != \"L09 drawMenuStack 剩余分支 save-slot：5 个单行框 (195,7+38i)、标签字色、slotMetas.savedTimes 黄色数字（缺省 0）\""
+      ]
+    },
+    {
+      "id": "foreign-file-same-suffix",
+      "expectReject": true,
+      "rejected": true,
+      "violations": [
+        "red file /different-candidate-root/packages/game/src/present/menu/draw-menu.glm-phase1-leaves.test.ts != /Users/zhangxu/.codex/worktrees/glm-phase1-leaves/type-pal/packages/game/src/present/menu/draw-menu.glm-phase1-leaves.test.ts"
+      ]
+    },
+    {
+      "id": "exit-two",
+      "expectReject": true,
+      "rejected": true,
+      "violations": ["exit 2 != 1"]
+    },
+    {
+      "id": "exit-null",
+      "expectReject": true,
+      "rejected": true,
+      "violations": ["exit null != 1"]
+    },
+    {
+      "id": "zero-execution",
+      "expectReject": true,
+      "rejected": true,
+      "violations": [
+        "numTotalTests 0 != 5",
+        "assertions 0 != 5",
+        "duplicate fullName in scope",
+        "passed 0 inconsistent with 0 failed",
+        "failed 0, expected exactly 1"
+      ]
+    },
+    {
+      "id": "control-sample",
+      "expectReject": false,
+      "rejected": false,
+      "violations": []
+    }
+  ],
+  "evidence": [
+    {
+      "id": "control",
+      "exitCode": 0,
+      "tests": 34,
+      "entered": null,
+      "failed": []
+    },
+    {
+      "id": "save-slot-saved-times",
+      "exitCode": 1,
+      "tests": 5,
+      "entered": {
+        "id": "save-slot-saved-times",
+        "target": "/Users/zhangxu/.codex/worktrees/glm-phase1-leaves/type-pal/packages/game/src/present/menu/draw-menu.ts"
+      },
+      "failed": [
+        "L09 drawMenuStack 剩余分支 save-slot：5 个单行框 (195,7+38i)、标签字色、slotMetas.savedTimes 黄色数字（缺省 0）"
+      ]
+    },
+    {
+      "id": "shop-owned-equipped-count",
+      "exitCode": 1,
+      "tests": 4,
+      "entered": {
+        "id": "shop-owned-equipped-count",
+        "target": "/Users/zhangxu/.codex/worktrees/glm-phase1-leaves/type-pal/packages/game/src/present/menu/draw-shop.ts"
+      },
+      "failed": [
+        "L12 drawShopMenu 剩余分支 ownedCount = 库存 2 + 跨队已装备 1 = 3（uigame.c:1554-1577）"
+      ]
+    }
+  ]
+}

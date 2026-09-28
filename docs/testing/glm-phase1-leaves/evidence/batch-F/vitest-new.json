@@ -1,0 +1,273 @@
+{
+  "numTotalTestSuites": 17,
+  "numPassedTestSuites": 17,
+  "numFailedTestSuites": 0,
+  "numPendingTestSuites": 0,
+  "numTotalTests": 17,
+  "numPassedTests": 17,
+  "numFailedTests": 0,
+  "numPendingTests": 0,
+  "numTodoTests": 0,
+  "snapshot": {
+    "added": 0,
+    "failure": false,
+    "filesAdded": 0,
+    "filesRemoved": 0,
+    "filesRemovedList": [],
+    "filesUnmatched": 0,
+    "filesUpdated": 0,
+    "matched": 0,
+    "total": 0,
+    "unchecked": 0,
+    "uncheckedKeysByFile": [],
+    "unmatched": 0,
+    "updated": 0,
+    "didUpdate": false
+  },
+  "startTime": 1790608839987,
+  "success": true,
+  "testResults": [
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["L23 loadDialogAssets 全链路（fetch 全隔离）"],
+          "fullName": "L23 loadDialogAssets 全链路（fetch 全隔离） manifest+PNG 成功就位；单张 404 skip；icons !ok 降级空 map；整体不抛",
+          "status": "passed",
+          "title": "manifest+PNG 成功就位；单张 404 skip；icons !ok 降级空 map；整体不抛",
+          "duration": 131.11699999999996,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["L23 loadDialogAssets 全链路（fetch 全隔离）"],
+          "fullName": "L23 loadDialogAssets 全链路（fetch 全隔离） portraits.json 本身失败 → portraits 空 map，icons 正常路径不受阻",
+          "status": "passed",
+          "title": "portraits.json 本身失败 → portraits 空 map，icons 正常路径不受阻",
+          "duration": 0.7665829999999687,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790608841262,
+      "endTime": 1790608841393.7666,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.codex/worktrees/glm-phase1-leaves/type-pal/packages/game/src/assets/dialog-assets.glm-phase1-leaves.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["L23 decodePngToIndices 剩余合同"],
+          "fullName": "L23 decodePngToIndices 剩余合同 alpha=0 → opaque 0（RLE-skip 透明），alpha>0 → opaque 1（palette-0 也保）",
+          "status": "passed",
+          "title": "alpha=0 → opaque 0（RLE-skip 透明），alpha>0 → opaque 1（palette-0 也保）",
+          "duration": 132.68212500000004,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["L23 decodePngToIndices 剩余合同"],
+          "fullName": "L23 decodePngToIndices 剩余合同 坏 blob → 失败上下文带尺寸/类型，不裸抛",
+          "status": "passed",
+          "title": "坏 blob → 失败上下文带尺寸/类型，不裸抛",
+          "duration": 0.7937499999999318,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790608840644,
+      "endTime": 1790608840777.7937,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.codex/worktrees/glm-phase1-leaves/type-pal/packages/game/src/assets/png.glm-phase1-leaves.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["L24 setOggVolumeScale 即时刷新"],
+          "fullName": "L24 setOggVolumeScale 即时刷新 先调 scale 再 play：新元素 volume = 0.6·scale；播放中改 scale：当前元素即时跟随",
+          "status": "passed",
+          "title": "先调 scale 再 play：新元素 volume = 0.6·scale；播放中改 scale：当前元素即时跟随",
+          "duration": 0.9995419999999626,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["L24 audio-midi 无 Web Audio 端口"],
+          "fullName": "L24 audio-midi 无 Web Audio 端口 setBgmVolume 在合成器未就绪（masterGain 未建）时只暂存不抛",
+          "status": "passed",
+          "title": "setBgmVolume 在合成器未就绪（masterGain 未建）时只暂存不抛",
+          "duration": 0.39800000000002456,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["L24 audio-midi 无 Web Audio 端口"],
+          "fullName": "L24 audio-midi 无 Web Audio 端口 无 AudioContext（SSR/测试）→ no-op backend，play/stop 安全空实现",
+          "status": "passed",
+          "title": "无 AudioContext（SSR/测试）→ no-op backend，play/stop 安全空实现",
+          "duration": 0.37000000000000455,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790608844403,
+      "endTime": 1790608844405.37,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.codex/worktrees/glm-phase1-leaves/type-pal/packages/game/src/shell/audio.glm-phase1-leaves.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["L23 uninstallFetchRetryForTest 还原合同"],
+          "fullName": "L23 uninstallFetchRetryForTest 还原合同 安装后网络错误重试 3 次；还原后同一错误直接抛（不再经过重试包装）",
+          "status": "passed",
+          "title": "安装后网络错误重试 3 次；还原后同一错误直接抛（不再经过重试包装）",
+          "duration": 3.202541999999994,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["L23 uninstallFetchRetryForTest 还原合同"],
+          "fullName": "L23 uninstallFetchRetryForTest 还原合同 还原后 install 可重新装载（installed 复位合同）",
+          "status": "passed",
+          "title": "还原后 install 可重新装载（installed 复位合同）",
+          "duration": 0.834666000000027,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790608842968,
+      "endTime": 1790608842972.8347,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.codex/worktrees/glm-phase1-leaves/type-pal/packages/game/src/shell/fetch-retry.glm-phase1-leaves.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["L22 precache-client 早到指令"],
+          "fullName": "L22 precache-client 早到指令 pause/resume 早于 ready：静默丢弃（不缓冲不补发）；start 早到才缓冲补发",
+          "status": "passed",
+          "title": "pause/resume 早于 ready：静默丢弃（不缓冲不补发）；start 早到才缓冲补发",
+          "duration": 1.4669169999999667,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["L22 precache-client 早到指令"],
+          "fullName": "L22 precache-client 早到指令 ready 后 start/pause/resume 依次按协议载荷直达 worker",
+          "status": "passed",
+          "title": "ready 后 start/pause/resume 依次按协议载荷直达 worker",
+          "duration": 0.35862500000001774,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790608843412,
+      "endTime": 1790608843413.4668,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.codex/worktrees/glm-phase1-leaves/type-pal/packages/game/src/shell/precache-client.glm-phase1-leaves.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["L21 setupSpeedrunHotkeys 解绑"],
+          "fullName": "L21 setupSpeedrunHotkeys 解绑 启用时 F4 弹重置 toast；解绑后 F4 无新 toast",
+          "status": "passed",
+          "title": "启用时 F4 弹重置 toast；解绑后 F4 无新 toast",
+          "duration": 35.54979099999997,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["L21 setupSpeedrunHotkeys 解绑"],
+          "fullName": "L21 setupSpeedrunHotkeys 解绑 未启用时按键短路（无 toast、无覆盖层）；解绑函数幂等可重复调",
+          "status": "passed",
+          "title": "未启用时按键短路（无 toast、无覆盖层）；解绑函数幂等可重复调",
+          "duration": 1.4771670000000086,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790608842489,
+      "endTime": 1790608842525.477,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.codex/worktrees/glm-phase1-leaves/type-pal/packages/game/src/tools/speedrun/index.glm-phase1-leaves.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["L21 overlay 原位更新与幂等"],
+          "fullName": "L21 overlay 原位更新与幂等 render 两次 → 单根节点、文本随数据更新",
+          "status": "passed",
+          "title": "render 两次 → 单根节点、文本随数据更新",
+          "duration": 49.67145799999997,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["L21 overlay 原位更新与幂等"],
+          "fullName": "L21 overlay 原位更新与幂等 injectOverlayStyles 幂等；hideOverlay 二次调用不抛",
+          "status": "passed",
+          "title": "injectOverlayStyles 幂等；hideOverlay 二次调用不抛",
+          "duration": 1.8422499999999218,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790608841916,
+      "endTime": 1790608841966.8423,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.codex/worktrees/glm-phase1-leaves/type-pal/packages/game/src/tools/speedrun/overlay.glm-phase1-leaves.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["L21 store 坏数据与往返"],
+          "fullName": "L21 store 坏数据与往返 bests 非法 JSON → 返回 defaults 副本不抛；defaults 外的存储 key 忽略",
+          "status": "passed",
+          "title": "bests 非法 JSON → 返回 defaults 副本不抛；defaults 外的存储 key 忽略",
+          "duration": 2.592999999999961,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["L21 store 坏数据与往返"],
+          "fullName": "L21 store 坏数据与往返 saveBests → loadBests 全往返；settings 仅识别 1/0（坏值走各自默认）",
+          "status": "passed",
+          "title": "saveBests → loadBests 全往返；settings 仅识别 1/0（坏值走各自默认）",
+          "duration": 0.6365829999999733,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790608843890,
+      "endTime": 1790608843893.6365,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.codex/worktrees/glm-phase1-leaves/type-pal/packages/game/src/tools/speedrun/store.glm-phase1-leaves.test.ts"
+    }
+  ]
+}

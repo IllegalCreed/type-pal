@@ -1,0 +1,284 @@
+{
+  "numTotalTestSuites": 16,
+  "numPassedTestSuites": 16,
+  "numFailedTestSuites": 0,
+  "numPendingTestSuites": 0,
+  "numTotalTests": 19,
+  "numPassedTests": 19,
+  "numFailedTests": 0,
+  "numPendingTests": 0,
+  "numTodoTests": 0,
+  "snapshot": {
+    "added": 0,
+    "failure": false,
+    "filesAdded": 0,
+    "filesRemoved": 0,
+    "filesRemovedList": [],
+    "filesUnmatched": 0,
+    "filesUpdated": 0,
+    "matched": 0,
+    "total": 0,
+    "unchecked": 0,
+    "uncheckedKeysByFile": [],
+    "unmatched": 0,
+    "updated": 0,
+    "didUpdate": false
+  },
+  "startTime": 1790608280648,
+  "success": true,
+  "testResults": [
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["L19 display-scale 剩余合同"],
+          "fullName": "L19 display-scale 剩余合同 非整数 setPercent 四舍五入（clampPct round 分支）",
+          "status": "passed",
+          "title": "非整数 setPercent 四舍五入（clampPct round 分支）",
+          "duration": 7.936582999999985,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["L19 display-scale 剩余合同"],
+          "fullName": "L19 display-scale 剩余合同 画布居中锚定样式（fixed/50%/translate -50%），常量边界 10/1000 可达",
+          "status": "passed",
+          "title": "画布居中锚定样式（fixed/50%/translate -50%），常量边界 10/1000 可达",
+          "duration": 1.8688340000000494,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["L19 display-scale 剩余合同"],
+          "fullName": "L19 display-scale 剩余合同 toggleFullscreen：无全屏元素 → canvas.requestFullscreen；有 → exitFullscreen",
+          "status": "passed",
+          "title": "toggleFullscreen：无全屏元素 → canvas.requestFullscreen；有 → exitFullscreen",
+          "duration": 1.0206249999999955,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["L19 fps-overlay 剩余合同"],
+          "fullName": "L19 fps-overlay 剩余合同 hideFpsOverlay 从未创建 → no-op 不抛",
+          "status": "passed",
+          "title": "hideFpsOverlay 从未创建 → no-op 不抛",
+          "duration": 0.8434159999999906,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["L19 fps-overlay 剩余合同"],
+          "fullName": "L19 fps-overlay 剩余合同 启用建框后 hide 清根节点；样式留存（幂等注入不重复）；非法持久值视为关",
+          "status": "passed",
+          "title": "启用建框后 hide 清根节点；样式留存（幂等注入不重复）；非法持久值视为关",
+          "duration": 27.947457999999983,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790608285029,
+      "endTime": 1790608285068.9475,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.codex/worktrees/glm-phase1-leaves/type-pal/packages/game/src/tools/display-scale.glm-phase1-leaves.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["L18 drawMinimap 真实 canvas"],
+          "fullName": "L18 drawMinimap 真实 canvas 暗底占位 + 玩家白点落在 worldToThumb 手算坐标 + 宝物/NPC 点按 toggle 显隐",
+          "status": "passed",
+          "title": "暗底占位 + 玩家白点落在 worldToThumb 手算坐标 + 宝物/NPC 点按 toggle 显隐",
+          "duration": 211.69108299999994,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["L18 drawMinimap 真实 canvas"],
+          "fullName": "L18 drawMinimap 真实 canvas worldToThumb (wx+16)*SCALE 单调且原点偏移一个相机半格",
+          "status": "passed",
+          "title": "worldToThumb (wx+16)*SCALE 单调且原点偏移一个相机半格",
+          "duration": 0.4515000000001237,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["L18 setupMinimap 控制器持久化"],
+          "fullName": "L18 setupMinimap 控制器持久化 默认 NPC/宝物显、widget 关；setShowNpc(false) 立即生效并持久化；非法持久值回默认",
+          "status": "passed",
+          "title": "默认 NPC/宝物显、widget 关；setShowNpc(false) 立即生效并持久化；非法持久值回默认",
+          "duration": 6.945375000000013,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["L18 setupMinimap 控制器持久化"],
+          "fullName": "L18 setupMinimap 控制器持久化 持久值非 '0' 非法串 → 视为默认开；widget 非 '1' → 关",
+          "status": "passed",
+          "title": "持久值非 '0' 非法串 → 视为默认开；widget 非 '1' → 关",
+          "duration": 0.20374999999989996,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790608283716,
+      "endTime": 1790608283935.2039,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.codex/worktrees/glm-phase1-leaves/type-pal/packages/game/src/tools/minimap.glm-phase1-leaves.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["L19 showToast 堆叠合同"],
+          "fullName": "L19 showToast 堆叠合同 两条共存；到期只移除自己，容器保留",
+          "status": "passed",
+          "title": "两条共存；到期只移除自己，容器保留",
+          "duration": 49.02350000000001,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["L19 showToast 堆叠合同"],
+          "fullName": "L19 showToast 堆叠合同 最后一条移除后容器自删；info 类型用 · 图标与专属 class",
+          "status": "passed",
+          "title": "最后一条移除后容器自删；info 类型用 · 图标与专属 class",
+          "duration": 10.007458000000042,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790608284487,
+      "endTime": 1790608284546.0076,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.codex/worktrees/glm-phase1-leaves/type-pal/packages/game/src/tools/toast.glm-phase1-leaves.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["L17 tools-panel 显示区委托"],
+          "fullName": "L17 tools-panel 显示区委托 缩放滑块 input → setPercent(posToPct(v))（对数刻度 0.75→316%）并同步 % 文案",
+          "status": "passed",
+          "title": "缩放滑块 input → setPercent(posToPct(v))（对数刻度 0.75→316%）并同步 % 文案",
+          "duration": 451.8175409999999,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["L17 tools-panel 显示区委托"],
+          "fullName": "L17 tools-panel 显示区委托 全屏按钮 → toggleFullscreen；FPS 开关 → setFpsEnabled(true) 持久化 tp-fps-show=1",
+          "status": "passed",
+          "title": "全屏按钮 → toggleFullscreen；FPS 开关 → setFpsEnabled(true) 持久化 tp-fps-show=1",
+          "duration": 27.18566699999974,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790608282295,
+      "endTime": 1790608282774.1855,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.codex/worktrees/glm-phase1-leaves/type-pal/packages/game/src/tools/tools-panel.glm-phase1-leaves.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["L20 showCountdown 单例合同"],
+          "fullName": "L20 showCountdown 单例合同 连显 3→2：同一元素更新，不产生第二个节点",
+          "status": "passed",
+          "title": "连显 3→2：同一元素更新，不产生第二个节点",
+          "duration": 26.544708000000014,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["L20 showCountdown 单例合同"],
+          "fullName": "L20 showCountdown 单例合同 null 移除后可重建；再 null 幂等",
+          "status": "passed",
+          "title": "null 移除后可重建；再 null 幂等",
+          "duration": 2.334082999999964,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790608285521,
+      "endTime": 1790608285549.334,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.codex/worktrees/glm-phase1-leaves/type-pal/packages/game/src/tools/speedrun/countdown.glm-phase1-leaves.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["L20 time-format 小时位"],
+          "fullName": "L20 time-format 小时位 formatClock 1h01m01s.23：3661234ms → \"1:01:01.23\"（手算 3600s+60s+1s+230ms）",
+          "status": "passed",
+          "title": "formatClock 1h01m01s.23：3661234ms → \"1:01:01.23\"（手算 3600s+60s+1s+230ms）",
+          "duration": 0.8675829999999678,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["L20 time-format 小时位"],
+          "fullName": "L20 time-format 小时位 formatHms 小时进位与负数归 0",
+          "status": "passed",
+          "title": "formatHms 小时进位与负数归 0",
+          "duration": 0.1552499999999668,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790608286525,
+      "endTime": 1790608286526.1553,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.codex/worktrees/glm-phase1-leaves/type-pal/packages/game/src/tools/speedrun/time-format.glm-phase1-leaves.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["L20 SpeedrunTimer 剩余合同"],
+          "fullName": "L20 SpeedrunTimer 剩余合同 getCountdownRemainingSec：无倒计时/无主时钟 → null；有 → ceil 剩余秒，到点 0",
+          "status": "passed",
+          "title": "getCountdownRemainingSec：无倒计时/无主时钟 → null；有 → ceil 剩余秒，到点 0",
+          "duration": 1.4579579999999623,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["L20 SpeedrunTimer 剩余合同"],
+          "fullName": "L20 SpeedrunTimer 剩余合同 consumeBestsDirty 一次性读；reset 保留 bests 只清本局",
+          "status": "passed",
+          "title": "consumeBestsDirty 一次性读；reset 保留 bests 只清本局",
+          "duration": 0.5722089999999866,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790608286049,
+      "endTime": 1790608286050.5723,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.codex/worktrees/glm-phase1-leaves/type-pal/packages/game/src/tools/speedrun/timer.glm-phase1-leaves.test.ts"
+    }
+  ]
+}

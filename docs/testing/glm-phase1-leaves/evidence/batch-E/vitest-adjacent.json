@@ -1,0 +1,1744 @@
+{
+  "numTotalTestSuites": 70,
+  "numPassedTestSuites": 70,
+  "numFailedTestSuites": 0,
+  "numPendingTestSuites": 0,
+  "numTotalTests": 147,
+  "numPassedTests": 147,
+  "numFailedTests": 0,
+  "numPendingTests": 0,
+  "numTodoTests": 0,
+  "snapshot": {
+    "added": 0,
+    "failure": false,
+    "filesAdded": 0,
+    "filesRemoved": 0,
+    "filesRemovedList": [],
+    "filesUnmatched": 0,
+    "filesUpdated": 0,
+    "matched": 0,
+    "total": 0,
+    "unchecked": 0,
+    "uncheckedKeysByFile": [],
+    "unmatched": 0,
+    "updated": 0,
+    "didUpdate": false
+  },
+  "startTime": 1790608162713,
+  "success": true,
+  "testResults": [
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["L19 display-scale 剩余合同"],
+          "fullName": "L19 display-scale 剩余合同 非整数 setPercent 四舍五入（clampPct round 分支）",
+          "status": "passed",
+          "title": "非整数 setPercent 四舍五入（clampPct round 分支）",
+          "duration": 10.975833999999963,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["L19 display-scale 剩余合同"],
+          "fullName": "L19 display-scale 剩余合同 画布居中锚定样式（fixed/50%/translate -50%），常量边界 10/1000 可达",
+          "status": "passed",
+          "title": "画布居中锚定样式（fixed/50%/translate -50%），常量边界 10/1000 可达",
+          "duration": 2.735708000000045,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["L19 display-scale 剩余合同"],
+          "fullName": "L19 display-scale 剩余合同 toggleFullscreen：无全屏元素 → canvas.requestFullscreen；有 → exitFullscreen",
+          "status": "passed",
+          "title": "toggleFullscreen：无全屏元素 → canvas.requestFullscreen；有 → exitFullscreen",
+          "duration": 1.1760000000000446,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["L19 fps-overlay 剩余合同"],
+          "fullName": "L19 fps-overlay 剩余合同 hideFpsOverlay 从未创建 → no-op 不抛",
+          "status": "passed",
+          "title": "hideFpsOverlay 从未创建 → no-op 不抛",
+          "duration": 0.7055420000000368,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["L19 fps-overlay 剩余合同"],
+          "fullName": "L19 fps-overlay 剩余合同 启用建框后 hide 清根节点；样式留存（幂等注入不重复）；非法持久值视为关",
+          "status": "passed",
+          "title": "启用建框后 hide 清根节点；样式留存（幂等注入不重复）；非法持久值视为关",
+          "duration": 29.885166000000027,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790608167096,
+      "endTime": 1790608167140.8853,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.codex/worktrees/glm-phase1-leaves/type-pal/packages/game/src/tools/display-scale.glm-phase1-leaves.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["display-scale"],
+          "fullName": "display-scale 默认 100% = 960×600(index.html 现状)",
+          "status": "passed",
+          "title": "默认 100% = 960×600(index.html 现状)",
+          "duration": 5.8716249999999945,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["display-scale"],
+          "fullName": "display-scale setPercent 改 canvas + 持久;clamp [10,1000]",
+          "status": "passed",
+          "title": "setPercent 改 canvas + 持久;clamp [10,1000]",
+          "duration": 1.8605420000000095,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["display-scale"],
+          "fullName": "display-scale 1000% = 9600×6000",
+          "status": "passed",
+          "title": "1000% = 9600×6000",
+          "duration": 0.33850000000001046,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["display-scale"],
+          "fullName": "display-scale 启动读回 localStorage",
+          "status": "passed",
+          "title": "启动读回 localStorage",
+          "duration": 0.32579199999997854,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["display-scale"],
+          "fullName": "display-scale 损坏或非正存储 foo 回落到 100%，不得沿用脏值",
+          "status": "passed",
+          "title": "损坏或非正存储 foo 回落到 100%，不得沿用脏值",
+          "duration": 0.3381660000000011,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["display-scale"],
+          "fullName": "display-scale 损坏或非正存储 0 回落到 100%，不得沿用脏值",
+          "status": "passed",
+          "title": "损坏或非正存储 0 回落到 100%，不得沿用脏值",
+          "duration": 0.346541000000002,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["display-scale"],
+          "fullName": "display-scale 损坏或非正存储 -12 回落到 100%，不得沿用脏值",
+          "status": "passed",
+          "title": "损坏或非正存储 -12 回落到 100%，不得沿用脏值",
+          "duration": 0.2244580000000269,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["display-scale"],
+          "fullName": "display-scale 损坏或非正存储 NaN 回落到 100%，不得沿用脏值",
+          "status": "passed",
+          "title": "损坏或非正存储 NaN 回落到 100%，不得沿用脏值",
+          "duration": 0.2253750000000423,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790608170290,
+      "endTime": 1790608170299.3464,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.codex/worktrees/glm-phase1-leaves/type-pal/packages/game/src/tools/display-scale.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["fps-overlay"],
+          "fullName": "fps-overlay isFpsEnabled / setFpsEnabled 持久化 localStorage",
+          "status": "passed",
+          "title": "isFpsEnabled / setFpsEnabled 持久化 localStorage",
+          "duration": 1.631750000000011,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["fps-overlay"],
+          "fullName": "fps-overlay 未启用 → tickFps 纯 no-op,不建 overlay",
+          "status": "passed",
+          "title": "未启用 → tickFps 纯 no-op,不建 overlay",
+          "duration": 0.30341599999997015,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["fps-overlay"],
+          "fullName": "fps-overlay 启用 → 首帧立即建框,采样窗满后显示正确 FPS(120fps 模拟)",
+          "status": "passed",
+          "title": "启用 → 首帧立即建框,采样窗满后显示正确 FPS(120fps 模拟)",
+          "duration": 32.73762500000004,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["fps-overlay"],
+          "fullName": "fps-overlay 启用 → 25fps(逻辑 tick 量化)如实显示 ~25",
+          "status": "passed",
+          "title": "启用 → 25fps(逻辑 tick 量化)如实显示 ~25",
+          "duration": 1.1052079999999478,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["fps-overlay"],
+          "fullName": "fps-overlay setFpsEnabled(false) → 立即隐藏 overlay",
+          "status": "passed",
+          "title": "setFpsEnabled(false) → 立即隐藏 overlay",
+          "duration": 0.7262079999999287,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["fps-overlay"],
+          "fullName": "fps-overlay 启用中途关闭(localStorage 改 0)→ tickFps 自清 overlay",
+          "status": "passed",
+          "title": "启用中途关闭(localStorage 改 0)→ tickFps 自清 overlay",
+          "duration": 0.6712090000000899,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["fps-overlay"],
+          "fullName": "fps-overlay 采样满窗后 ≥50 为绿、<50 为红；49 不得误标绿",
+          "status": "passed",
+          "title": "采样满窗后 ≥50 为绿、<50 为红；49 不得误标绿",
+          "duration": 2.878832999999986,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["fps-overlay"],
+          "fullName": "fps-overlay 连续启停丢弃未满窗的脏帧计数，下一窗按新节奏采样",
+          "status": "passed",
+          "title": "连续启停丢弃未满窗的脏帧计数，下一窗按新节奏采样",
+          "duration": 0.9209169999999176,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790608167643,
+      "endTime": 1790608167683.921,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.codex/worktrees/glm-phase1-leaves/type-pal/packages/game/src/tools/fps-overlay.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["map-names"],
+          "fullName": "map-names 已知地图返回考据地名",
+          "status": "passed",
+          "title": "已知地图返回考据地名",
+          "duration": 0.8647919999999658,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["map-names"],
+          "fullName": "map-names 未知地图回退 地图N",
+          "status": "passed",
+          "title": "未知地图回退 地图N",
+          "duration": 0.1639170000000263,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["map-names"],
+          "fullName": "map-names hasMapName 区分已知/未知",
+          "status": "passed",
+          "title": "hasMapName 区分已知/未知",
+          "duration": 0.14683400000001257,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790608176933,
+      "endTime": 1790608176934.1638,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.codex/worktrees/glm-phase1-leaves/type-pal/packages/game/src/tools/map-names.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["L18 drawMinimap 真实 canvas"],
+          "fullName": "L18 drawMinimap 真实 canvas 暗底占位 + 玩家白点落在 worldToThumb 手算坐标 + 宝物/NPC 点按 toggle 显隐",
+          "status": "passed",
+          "title": "暗底占位 + 玩家白点落在 worldToThumb 手算坐标 + 宝物/NPC 点按 toggle 显隐",
+          "duration": 150.89329199999997,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["L18 drawMinimap 真实 canvas"],
+          "fullName": "L18 drawMinimap 真实 canvas worldToThumb (wx+16)*SCALE 单调且原点偏移一个相机半格",
+          "status": "passed",
+          "title": "worldToThumb (wx+16)*SCALE 单调且原点偏移一个相机半格",
+          "duration": 0.4766670000000204,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["L18 setupMinimap 控制器持久化"],
+          "fullName": "L18 setupMinimap 控制器持久化 默认 NPC/宝物显、widget 关；setShowNpc(false) 立即生效并持久化；非法持久值回默认",
+          "status": "passed",
+          "title": "默认 NPC/宝物显、widget 关；setShowNpc(false) 立即生效并持久化；非法持久值回默认",
+          "duration": 7.386124999999993,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["L18 setupMinimap 控制器持久化"],
+          "fullName": "L18 setupMinimap 控制器持久化 持久值非 '0' 非法串 → 视为默认开；widget 非 '1' → 关",
+          "status": "passed",
+          "title": "持久值非 '0' 非法串 → 视为默认开；widget 非 '1' → 关",
+          "duration": 0.47720800000001873,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790608165799,
+      "endTime": 1790608165958.4773,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.codex/worktrees/glm-phase1-leaves/type-pal/packages/game/src/tools/minimap.glm-phase1-leaves.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["worldToThumb"],
+          "fullName": "worldToThumb 世界像素 → 底图像素((wx+16)*SCALE)",
+          "status": "passed",
+          "title": "世界像素 → 底图像素((wx+16)*SCALE)",
+          "duration": 0.8719580000000065,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["computeView"],
+          "fullName": "computeView 视野>=全图 → 全图(sx=sy=0,sw=BASE_PX)",
+          "status": "passed",
+          "title": "视野>=全图 → 全图(sx=sy=0,sw=BASE_PX)",
+          "duration": 0.3912499999999568,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["computeView"],
+          "fullName": "computeView 缩放档以主角为中心(960 世界px → 1/3 框),clamp 在底图内",
+          "status": "passed",
+          "title": "缩放档以主角为中心(960 世界px → 1/3 框),clamp 在底图内",
+          "duration": 0.16775000000001228,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["computeView"],
+          "fullName": "computeView 主角在边角 → clamp 不越界(sx>=0, sx+sw<=BASE_PX)",
+          "status": "passed",
+          "title": "主角在边角 → clamp 不越界(sx>=0, sx+sw<=BASE_PX)",
+          "duration": 0.07799999999997453,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["classifyTrigger"],
+          "fullName": "classifyTrigger giveItem(count>0) → item + 物品名",
+          "status": "passed",
+          "title": "giveItem(count>0) → item + 物品名",
+          "duration": 0.16262499999999136,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["classifyTrigger"],
+          "fullName": "classifyTrigger loadScene(无 giveItem) → teleport(不标)",
+          "status": "passed",
+          "title": "loadScene(无 giveItem) → teleport(不标)",
+          "duration": 0.06012500000002774,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["classifyTrigger"],
+          "fullName": "classifyTrigger item 优先于 teleport",
+          "status": "passed",
+          "title": "item 优先于 teleport",
+          "duration": 0.09904199999999719,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["classifyTrigger"],
+          "fullName": "classifyTrigger count=0 → item(sdlpal count==0 给 1 个;**绝大多数地图宝物 count=0**,如木鞋)",
+          "status": "passed",
+          "title": "count=0 → item(sdlpal count==0 给 1 个;**绝大多数地图宝物 count=0**,如木鞋)",
+          "duration": 0.11887500000000273,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["classifyTrigger"],
+          "fullName": "classifyTrigger count<0(扣道具) → other",
+          "status": "passed",
+          "title": "count<0(扣道具) → other",
+          "duration": 0.30745800000005374,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["classifyTrigger"],
+          "fullName": "classifyTrigger 0x1E 加钱(正额) → item(金钱);扣钱(负额)→ other",
+          "status": "passed",
+          "title": "0x1E 加钱(正额) → item(金钱);扣钱(负额)→ other",
+          "duration": 0.1692920000000413,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["classifyTrigger"],
+          "fullName": "classifyTrigger 0x55 学法术 → item(法术)",
+          "status": "passed",
+          "title": "0x55 学法术 → item(法术)",
+          "duration": 0.12375000000002956,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["classifyTrigger"],
+          "fullName": "classifyTrigger label 缺失 → other;`L_<n>` 直解兜底(labelMap 无也能解全局 ip)",
+          "status": "passed",
+          "title": "label 缺失 → other;`L_<n>` 直解兜底(labelMap 无也能解全局 ip)",
+          "duration": 0.0790410000000179,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["collectEventKinds"],
+          "fullName": "collectEventKinds 扫全 npc → id → 类别(item/teleport/other)",
+          "status": "passed",
+          "title": "扫全 npc → id → 类别(item/teleport/other)",
+          "duration": 0.16837499999996908,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["collectMinimapData"],
+          "fullName": "collectMinimapData teleport 不标 / item / NPC 分类 + 主角镜头",
+          "status": "passed",
+          "title": "teleport 不标 / item / NPC 分类 + 主角镜头",
+          "duration": 0.19616700000000264,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790608164575,
+      "endTime": 1790608164578.1963,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.codex/worktrees/glm-phase1-leaves/type-pal/packages/game/src/tools/minimap.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["quick-save"],
+          "fullName": "quick-save canQuickSave:explore 无对话无菜单 → true;战斗/对话/菜单 → false",
+          "status": "passed",
+          "title": "canQuickSave:explore 无对话无菜单 → true;战斗/对话/菜单 → false",
+          "duration": 0.9567080000000487,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["quick-save"],
+          "fullName": "quick-save F5 可存态 → saveSlot(1, gs)",
+          "status": "passed",
+          "title": "F5 可存态 → saveSlot(1, gs)",
+          "duration": 34.842040999999995,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["quick-save"],
+          "fullName": "quick-save F5 不可存态(战斗) → 不调 saveSlot",
+          "status": "passed",
+          "title": "F5 不可存态(战斗) → 不调 saveSlot",
+          "duration": 4.344666000000075,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["quick-save"],
+          "fullName": "quick-save F9 → loadSlotIntoGame(1)",
+          "status": "passed",
+          "title": "F9 → loadSlotIntoGame(1)",
+          "duration": 2.5806660000000647,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790608169811,
+      "endTime": 1790608169853.5806,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.codex/worktrees/glm-phase1-leaves/type-pal/packages/game/src/tools/quick-save.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["save-io"],
+          "fullName": "save-io serializeSave:gs → 带版本头的 JSON 字符串",
+          "status": "passed",
+          "title": "serializeSave:gs → 带版本头的 JSON 字符串",
+          "duration": 0.909041000000002,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["save-io"],
+          "fullName": "save-io parseImportedSave:合法 → 返回 gs;格式错 → 抛",
+          "status": "passed",
+          "title": "parseImportedSave:合法 → 返回 gs;格式错 → 抛",
+          "duration": 0.6112919999999917,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["save-io"],
+          "fullName": "save-io parseImportedSave:缺必要字段(partyMembers)→ 抛",
+          "status": "passed",
+          "title": "parseImportedSave:缺必要字段(partyMembers)→ 抛",
+          "duration": 0.10420799999997143,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790608173651,
+      "endTime": 1790608173653.1042,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.codex/worktrees/glm-phase1-leaves/type-pal/packages/game/src/tools/save-io.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["L19 showToast 堆叠合同"],
+          "fullName": "L19 showToast 堆叠合同 两条共存；到期只移除自己，容器保留",
+          "status": "passed",
+          "title": "两条共存；到期只移除自己，容器保留",
+          "duration": 37.668499999999995,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["L19 showToast 堆叠合同"],
+          "fullName": "L19 showToast 堆叠合同 最后一条移除后容器自删；info 类型用 · 图标与专属 class",
+          "status": "passed",
+          "title": "最后一条移除后容器自删；info 类型用 · 图标与专属 class",
+          "duration": 7.971917000000019,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790608171227,
+      "endTime": 1790608171272.972,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.codex/worktrees/glm-phase1-leaves/type-pal/packages/game/src/tools/toast.glm-phase1-leaves.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["toast"],
+          "fullName": "toast 挂出含消息的 toast",
+          "status": "passed",
+          "title": "挂出含消息的 toast",
+          "duration": 43.404540999999995,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["toast"],
+          "fullName": "toast success / error 不同类型 class",
+          "status": "passed",
+          "title": "success / error 不同类型 class",
+          "duration": 8.031790999999998,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["toast"],
+          "fullName": "toast duration 后淡出并移除(容器也清掉)",
+          "status": "passed",
+          "title": "duration 后淡出并移除(容器也清掉)",
+          "duration": 8.167374999999993,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["toast"],
+          "fullName": "toast 未到 duration 不得移除，负控证明计时器不是一挂就清",
+          "status": "passed",
+          "title": "未到 duration 不得移除，负控证明计时器不是一挂就清",
+          "duration": 2.6833330000000615,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790608171796,
+      "endTime": 1790608171857.6833,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.codex/worktrees/glm-phase1-leaves/type-pal/packages/game/src/tools/toast.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["L17 tools-panel 显示区委托"],
+          "fullName": "L17 tools-panel 显示区委托 缩放滑块 input → setPercent(posToPct(v))（对数刻度 0.75→316%）并同步 % 文案",
+          "status": "passed",
+          "title": "缩放滑块 input → setPercent(posToPct(v))（对数刻度 0.75→316%）并同步 % 文案",
+          "duration": 205.49420800000001,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["L17 tools-panel 显示区委托"],
+          "fullName": "L17 tools-panel 显示区委托 全屏按钮 → toggleFullscreen；FPS 开关 → setFpsEnabled(true) 持久化 tp-fps-show=1",
+          "status": "passed",
+          "title": "全屏按钮 → toggleFullscreen；FPS 开关 → setFpsEnabled(true) 持久化 tp-fps-show=1",
+          "duration": 12.033333000000084,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790608165060,
+      "endTime": 1790608165277.0334,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.codex/worktrees/glm-phase1-leaves/type-pal/packages/game/src/tools/tools-panel.glm-phase1-leaves.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["tools-panel 框架"],
+          "fullName": "tools-panel 框架 战斗页250ms轮询由受控时间推进：变化刷新、相同签名和关闭时不重绘",
+          "status": "passed",
+          "title": "战斗页250ms轮询由受控时间推进：变化刷新、相同签名和关闭时不重绘",
+          "duration": 255.784542,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["tools-panel 框架"],
+          "fullName": "tools-panel 框架 setup 挂根节点(默认隐藏) + 唤出印钮 + 6 个左竖 tab + 注入样式",
+          "status": "passed",
+          "title": "setup 挂根节点(默认隐藏) + 唤出印钮 + 6 个左竖 tab + 注入样式",
+          "duration": 12.10087499999986,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["tools-panel 框架"],
+          "fullName": "tools-panel 框架 反引号 toggle 显隐",
+          "status": "passed",
+          "title": "反引号 toggle 显隐",
+          "duration": 8.248417000000018,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["tools-panel 框架"],
+          "fullName": "tools-panel 框架 点过 tab 后 ` 仍能关闭面板(焦点在面板内,Backquote 须放行冒泡到 window 切换器)",
+          "status": "passed",
+          "title": "点过 tab 后 ` 仍能关闭面板(焦点在面板内,Backquote 须放行冒泡到 window 切换器)",
+          "duration": 8.292416999999887,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["tools-panel 框架"],
+          "fullName": "tools-panel 框架 × 关闭 + 点 tab 切换 active",
+          "status": "passed",
+          "title": "× 关闭 + 点 tab 切换 active",
+          "duration": 9.885500000000093,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["tools-panel 框架"],
+          "fullName": "tools-panel 框架 幂等:重复 setup 不重复挂",
+          "status": "passed",
+          "title": "幂等:重复 setup 不重复挂",
+          "duration": 4.621208000000024,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["tools-panel 框架"],
+          "fullName": "tools-panel 框架 场景 tab:显示场景名 + 主角坐标",
+          "status": "passed",
+          "title": "场景 tab:显示场景名 + 主角坐标",
+          "duration": 7.181166000000076,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["tools-panel 框架"],
+          "fullName": "tools-panel 框架 快捷键 tab:5 分区 + 同键不同义(战斗投掷 / 大世界装备)+ 工具与快存键",
+          "status": "passed",
+          "title": "快捷键 tab:5 分区 + 同键不同义(战斗投掷 / 大世界装备)+ 工具与快存键",
+          "duration": 13.499500000000126,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["tools-panel 框架"],
+          "fullName": "tools-panel 框架 对话 tab:按场景分组(场景名标题) + 倒序(新在上、旧在下) + 搜索过滤",
+          "status": "passed",
+          "title": "对话 tab:按场景分组(场景名标题) + 倒序(新在上、旧在下) + 搜索过滤",
+          "duration": 12.02325000000019,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["tools-panel 框架"],
+          "fullName": "tools-panel 框架 系统 tab 音频:音乐 / 音效 / 视频 三条音量滑块",
+          "status": "passed",
+          "title": "系统 tab 音频:音乐 / 音效 / 视频 三条音量滑块",
+          "duration": 12.382082999999966,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["tools-panel 框架"],
+          "fullName": "tools-panel 框架 系统 tab:视频滑块 input → videoVolume.setVolume(0..1)",
+          "status": "passed",
+          "title": "系统 tab:视频滑块 input → videoVolume.setVolume(0..1)",
+          "duration": 10.803957999999966,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["tools-panel 框架"],
+          "fullName": "tools-panel 框架 主静音按钮:一键 静音/恢复 音乐+音效+视频",
+          "status": "passed",
+          "title": "主静音按钮:一键 静音/恢复 音乐+音效+视频",
+          "duration": 9.523458000000119,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["tools-panel 框架"],
+          "fullName": "tools-panel 框架 主静音按钮:初始已静音 → 显示「已静音」态",
+          "status": "passed",
+          "title": "主静音按钮:初始已静音 → 显示「已静音」态",
+          "duration": 15.216583000000128,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["tools-panel 框架"],
+          "fullName": "tools-panel 框架 计时器 tab:渲染开关 + 21 个节点最佳时间输入",
+          "status": "passed",
+          "title": "计时器 tab:渲染开关 + 21 个节点最佳时间输入",
+          "duration": 16.179541999999856,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["tools-panel 框架"],
+          "fullName": "tools-panel 框架 战斗 tab 敌方:每敌显示灵葫值(>0 显数字、=0 显「无」)",
+          "status": "passed",
+          "title": "战斗 tab 敌方:每敌显示灵葫值(>0 显数字、=0 显「无」)",
+          "duration": 13.517666999999847,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790608163692,
+      "endTime": 1790608164101.5176,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.codex/worktrees/glm-phase1-leaves/type-pal/packages/game/src/tools/tools-panel.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["checkpoints"],
+          "fullName": "checkpoints 正好 21 个,id 唯一,时间单调递增",
+          "status": "passed",
+          "title": "正好 21 个,id 唯一,时间单调递增",
+          "duration": 1.2004999999999768,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["checkpoints"],
+          "fullName": "checkpoints 首尾节点正确",
+          "status": "passed",
+          "title": "首尾节点正确",
+          "duration": 0.137958000000026,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["checkpoints"],
+          "fullName": "checkpoints 香蕉配置(照抄 PalTimer 3 精确格 + PARTYOFFSET,零容差)",
+          "status": "passed",
+          "title": "香蕉配置(照抄 PalTimer 3 精确格 + PARTYOFFSET,零容差)",
+          "duration": 0.3382499999999595,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790608174063,
+      "endTime": 1790608174064.3381,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.codex/worktrees/glm-phase1-leaves/type-pal/packages/game/src/tools/speedrun/checkpoints.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["L20 showCountdown 单例合同"],
+          "fullName": "L20 showCountdown 单例合同 连显 3→2：同一元素更新，不产生第二个节点",
+          "status": "passed",
+          "title": "连显 3→2：同一元素更新，不产生第二个节点",
+          "duration": 21.560833000000002,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["L20 showCountdown 单例合同"],
+          "fullName": "L20 showCountdown 单例合同 null 移除后可重建；再 null 幂等",
+          "status": "passed",
+          "title": "null 移除后可重建；再 null 幂等",
+          "duration": 1.930499999999995,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790608172325,
+      "endTime": 1790608172348.9304,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.codex/worktrees/glm-phase1-leaves/type-pal/packages/game/src/tools/speedrun/countdown.glm-phase1-leaves.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["showCountdown"],
+          "fullName": "showCountdown 传字符串挂出、更新文本",
+          "status": "passed",
+          "title": "传字符串挂出、更新文本",
+          "duration": 17.509625000000028,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["showCountdown"],
+          "fullName": "showCountdown 传 null 移除",
+          "status": "passed",
+          "title": "传 null 移除",
+          "duration": 1.1385000000000218,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790608177361,
+      "endTime": 1790608177379.1384,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.codex/worktrees/glm-phase1-leaves/type-pal/packages/game/src/tools/speedrun/countdown.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["L08 detectors 剩余边界"],
+          "fullName": "L08 detectors 剩余边界 atSpot 默认容差 ±48/±24：恰好边界命中、超出 1px 不命中",
+          "status": "passed",
+          "title": "atSpot 默认容差 ±48/±24：恰好边界命中、超出 1px 不命中",
+          "duration": 0.955250000000035,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["L08 detectors 剩余边界"],
+          "fullName": "L08 detectors 剩余边界 atAnySpot 多点：任一格命中即真；全部未命中/场景不符为假",
+          "status": "passed",
+          "title": "atAnySpot 多点：任一格命中即真；全部未命中/场景不符为假",
+          "duration": 0.22579200000001265,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["L08 detectors 剩余边界"],
+          "fullName": "L08 detectors 剩余边界 leaveScene prev=null → false（无前帧不判离开）；enterAnyScene 集合外/空集合不触发",
+          "status": "passed",
+          "title": "leaveScene prev=null → false（无前帧不判离开）；enterAnyScene 集合外/空集合不触发",
+          "duration": 0.18241700000004357,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["L08 detectors 剩余边界"],
+          "fullName": "L08 detectors 剩余边界 caiyiDetector 自定义敌 id：见 72 置位，其消失触发",
+          "status": "passed",
+          "title": "caiyiDetector 自定义敌 id：见 72 置位，其消失触发",
+          "duration": 0.12129199999998264,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790608169182,
+      "endTime": 1790608169183.2258,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.codex/worktrees/glm-phase1-leaves/type-pal/packages/game/src/tools/speedrun/detectors.glm-phase1-leaves.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["detectors"],
+          "fullName": "detectors enterScene 仅在进入那一帧触发",
+          "status": "passed",
+          "title": "enterScene 仅在进入那一帧触发",
+          "duration": 0.9094160000000215,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["detectors"],
+          "fullName": "detectors leaveScene 仅在离开那一帧触发",
+          "status": "passed",
+          "title": "leaveScene 仅在离开那一帧触发",
+          "duration": 0.1728329999999687,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["detectors"],
+          "fullName": "detectors enterAnyScene 任一进入即触发",
+          "status": "passed",
+          "title": "enterAnyScene 任一进入即触发",
+          "duration": 0.09583300000002737,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["detectors"],
+          "fullName": "detectors atSpot 容差矩形",
+          "status": "passed",
+          "title": "atSpot 容差矩形",
+          "duration": 0.1892090000000053,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["detectors"],
+          "fullName": "detectors bossWon 需 boss 在场且全场血≤0",
+          "status": "passed",
+          "title": "bossWon 需 boss 在场且全场血≤0",
+          "duration": 0.11495800000000145,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["detectors"],
+          "fullName": "detectors hasItem / bgmIs",
+          "status": "passed",
+          "title": "hasItem / bgmIs",
+          "duration": 0.08537499999999909,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["detectors"],
+          "fullName": "detectors caiyi 两段:先见 71 入场,再等其消失/血≤0",
+          "status": "passed",
+          "title": "caiyi 两段:先见 71 入场,再等其消失/血≤0",
+          "duration": 0.14358400000003257,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["detectors"],
+          "fullName": "detectors caiyi 第二段:战斗结束(battle=null)也触发",
+          "status": "passed",
+          "title": "caiyi 第二段:战斗结束(battle=null)也触发",
+          "duration": 0.05658300000004601,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790608168708,
+      "endTime": 1790608168710.0566,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.codex/worktrees/glm-phase1-leaves/type-pal/packages/game/src/tools/speedrun/detectors.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["tickSpeedrunTimer"],
+          "fullName": "tickSpeedrunTimer 未启用 → 不挂覆盖层、计时不动",
+          "status": "passed",
+          "title": "未启用 → 不挂覆盖层、计时不动",
+          "duration": 1.2908330000000205,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["tickSpeedrunTimer"],
+          "fullName": "tickSpeedrunTimer 启用后起表、挂覆盖层、wall-clock 累加",
+          "status": "passed",
+          "title": "启用后起表、挂覆盖层、wall-clock 累加",
+          "duration": 41.84870799999999,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["tickSpeedrunTimer"],
+          "fullName": "tickSpeedrunTimer show=0 时不挂覆盖层但仍计时",
+          "status": "passed",
+          "title": "show=0 时不挂覆盖层但仍计时",
+          "duration": 0.32037500000001273,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["bests 默认播种"],
+          "fullName": "bests 默认播种 首次读取用 CHECKPOINTS 默认参考线",
+          "status": "passed",
+          "title": "首次读取用 CHECKPOINTS 默认参考线",
+          "duration": 0.11112500000001546,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["setupSpeedrunHotkeys"],
+          "fullName": "setupSpeedrunHotkeys F4 启用时重置本局",
+          "status": "passed",
+          "title": "F4 启用时重置本局",
+          "duration": 20.26466700000003,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["setupSpeedrunHotkeys"],
+          "fullName": "setupSpeedrunHotkeys F4 未启用时不重置",
+          "status": "passed",
+          "title": "F4 未启用时不重置",
+          "duration": 6.650040999999987,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["setupSpeedrunHotkeys"],
+          "fullName": "setupSpeedrunHotkeys F8 启用时暂停本局",
+          "status": "passed",
+          "title": "F8 启用时暂停本局",
+          "duration": 7.568750000000023,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["setupSpeedrunHotkeys"],
+          "fullName": "setupSpeedrunHotkeys F2 启用时切换覆盖层显隐设置",
+          "status": "passed",
+          "title": "F2 启用时切换覆盖层显隐设置",
+          "duration": 3.6049170000000004,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["isSpeedrunPaused (主循环冻结门控)"],
+          "fullName": "isSpeedrunPaused (主循环冻结门控) 手动暂停 → true(冻结游戏)",
+          "status": "passed",
+          "title": "手动暂停 → true(冻结游戏)",
+          "duration": 4.2231669999999895,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["isSpeedrunPaused (主循环冻结门控)"],
+          "fullName": "isSpeedrunPaused (主循环冻结门控) 未暂停 → false",
+          "status": "passed",
+          "title": "未暂停 → false",
+          "duration": 4.26075000000003,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["isSpeedrunPaused (主循环冻结门控)"],
+          "fullName": "isSpeedrunPaused (主循环冻结门控) 香蕉树暂停 → false(不冻结,否则走不过去捡香蕉)",
+          "status": "passed",
+          "title": "香蕉树暂停 → false(不冻结,否则走不过去捡香蕉)",
+          "duration": 4.763042000000041,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790608166435,
+      "endTime": 1790608166530.763,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.codex/worktrees/glm-phase1-leaves/type-pal/packages/game/src/tools/speedrun/index.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["overlay"],
+          "fullName": "overlay 渲染 21 行 + 主计时",
+          "status": "passed",
+          "title": "渲染 21 行 + 主计时",
+          "duration": 47.852959,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["overlay"],
+          "fullName": "overlay 暂停加 * 前缀",
+          "status": "passed",
+          "title": "暂停加 * 前缀",
+          "duration": 5.100541999999962,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["overlay"],
+          "fullName": "overlay hideOverlay 移除",
+          "status": "passed",
+          "title": "hideOverlay 移除",
+          "duration": 2.9577090000000226,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790608170723,
+      "endTime": 1790608170778.9578,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.codex/worktrees/glm-phase1-leaves/type-pal/packages/game/src/tools/speedrun/overlay.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["buildSnapshot"],
+          "fullName": "buildSnapshot 抽取场景/坐标/音乐/物品(仅 count>0)",
+          "status": "passed",
+          "title": "抽取场景/坐标/音乐/物品(仅 count>0)",
+          "duration": 0.9287919999999872,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["buildSnapshot"],
+          "fullName": "buildSnapshot 有战斗时汇总敌人 id 与总血",
+          "status": "passed",
+          "title": "有战斗时汇总敌人 id 与总血",
+          "duration": 0.21387500000003,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["buildSnapshot.canMove(计时起表门)"],
+          "fullName": "buildSnapshot.canMove(计时起表门) explore + 无加载/淡入/挂起 → 可移动",
+          "status": "passed",
+          "title": "explore + 无加载/淡入/挂起 → 可移动",
+          "duration": 0.11025000000000773,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["buildSnapshot.canMove(计时起表门)"],
+          "fullName": "buildSnapshot.canMove(计时起表门) 开场菜单(mode!=explore)→ 不可移动",
+          "status": "passed",
+          "title": "开场菜单(mode!=explore)→ 不可移动",
+          "duration": 0.05762500000003001,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["buildSnapshot.canMove(计时起表门)"],
+          "fullName": "buildSnapshot.canMove(计时起表门) explore 但 suspendRaf(boot 预载/开场 CG/梦境)→ 不可移动",
+          "status": "passed",
+          "title": "explore 但 suspendRaf(boot 预载/开场 CG/梦境)→ 不可移动",
+          "duration": 0.056791999999973086,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["buildSnapshot.canMove(计时起表门)"],
+          "fullName": "buildSnapshot.canMove(计时起表门) explore 但场景加载中 → 不可移动",
+          "status": "passed",
+          "title": "explore 但场景加载中 → 不可移动",
+          "duration": 0.10208299999999326,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["buildSnapshot.canMove(计时起表门)"],
+          "fullName": "buildSnapshot.canMove(计时起表门) explore 但 palette 淡入中 → 不可移动",
+          "status": "passed",
+          "title": "explore 但 palette 淡入中 → 不可移动",
+          "duration": 0.09508399999998574,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790608168186,
+      "endTime": 1790608168188.1104,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.codex/worktrees/glm-phase1-leaves/type-pal/packages/game/src/tools/speedrun/snapshot.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["speedrun store"],
+          "fullName": "speedrun store settings 默认:enabled=false, show=true, banana=false",
+          "status": "passed",
+          "title": "settings 默认:enabled=false, show=true, banana=false",
+          "duration": 1.451249999999959,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["speedrun store"],
+          "fullName": "speedrun store saveSetting 往返",
+          "status": "passed",
+          "title": "saveSetting 往返",
+          "duration": 0.8432500000000118,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["speedrun store"],
+          "fullName": "speedrun store bests 无记录时返回 defaults 副本",
+          "status": "passed",
+          "title": "bests 无记录时返回 defaults 副本",
+          "duration": 0.2987080000000333,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["speedrun store"],
+          "fullName": "speedrun store bests 往返,缺失 key 用 default 补",
+          "status": "passed",
+          "title": "bests 往返,缺失 key 用 default 补",
+          "duration": 0.18279200000006313,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790608175181,
+      "endTime": 1790608175184.2988,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.codex/worktrees/glm-phase1-leaves/type-pal/packages/game/src/tools/speedrun/store.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["H08 进位与符号边界"],
+          "fullName": "H08 进位与符号边界 59.995s 进位到 60 秒；负数归 0；formatHms 同步",
+          "status": "passed",
+          "title": "59.995s 进位到 60 秒；负数归 0；formatHms 同步",
+          "duration": 0.9670830000000024,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["H08 进位与符号边界"],
+          "fullName": "H08 进位与符号边界 formatDiff：正/负号、0 无符号、绝对值截断到整秒",
+          "status": "passed",
+          "title": "formatDiff：正/负号、0 无符号、绝对值截断到整秒",
+          "duration": 0.2764169999999808,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["H08 进位与符号边界"],
+          "fullName": "H08 进位与符号边界 parseHms：2/3 段合法；负号/空白段/非数字/分秒 60/单段全拒绝",
+          "status": "passed",
+          "title": "parseHms：2/3 段合法；负号/空白段/非数字/分秒 60/单段全拒绝",
+          "duration": 0.27533299999998917,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790608173218,
+      "endTime": 1790608173219.2764,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.codex/worktrees/glm-phase1-leaves/type-pal/packages/game/src/tools/speedrun/time-format.boundaries.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["L20 time-format 小时位"],
+          "fullName": "L20 time-format 小时位 formatClock 1h01m01s.23：3661234ms → \"1:01:01.23\"（手算 3600s+60s+1s+230ms）",
+          "status": "passed",
+          "title": "formatClock 1h01m01s.23：3661234ms → \"1:01:01.23\"（手算 3600s+60s+1s+230ms）",
+          "duration": 1.2762499999999477,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["L20 time-format 小时位"],
+          "fullName": "L20 time-format 小时位 formatHms 小时进位与负数归 0",
+          "status": "passed",
+          "title": "formatHms 小时进位与负数归 0",
+          "duration": 0.174082999999996,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790608176511,
+      "endTime": 1790608176512.2764,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.codex/worktrees/glm-phase1-leaves/type-pal/packages/game/src/tools/speedrun/time-format.glm-phase1-leaves.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["time-format"],
+          "fullName": "time-format formatClock 到厘秒",
+          "status": "passed",
+          "title": "formatClock 到厘秒",
+          "duration": 0.8584999999999923,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["time-format"],
+          "fullName": "time-format formatHms 到秒",
+          "status": "passed",
+          "title": "formatHms 到秒",
+          "duration": 0.16395800000003646,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["time-format"],
+          "fullName": "time-format parseHms 支持 H:MM:SS 与 M:SS",
+          "status": "passed",
+          "title": "parseHms 支持 H:MM:SS 与 M:SS",
+          "duration": 0.27095800000000736,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["time-format"],
+          "fullName": "time-format formatDiff 带符号",
+          "status": "passed",
+          "title": "formatDiff 带符号",
+          "duration": 0.14791700000000674,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790608176095,
+      "endTime": 1790608176096.271,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.codex/worktrees/glm-phase1-leaves/type-pal/packages/game/src/tools/speedrun/time-format.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["H06 SpeedrunTimer 边界"],
+          "fullName": "H06 SpeedrunTimer 边界 同 now 双 tick 不累计；finished 后不累计；一次性 flag 二次消费 false",
+          "status": "passed",
+          "title": "同 now 双 tick 不累计；finished 后不累计；一次性 flag 二次消费 false",
+          "duration": 1.0774589999999762,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["H06 SpeedrunTimer 边界"],
+          "fullName": "H06 SpeedrunTimer 边界 手动暂停 3 秒倒计时精确边界：2999 未恢复、3000 恢复且恢复帧不计时；justResumed 一次",
+          "status": "passed",
+          "title": "手动暂停 3 秒倒计时精确边界：2999 未恢复、3000 恢复且恢复帧不计时；justResumed 一次",
+          "duration": 0.3763749999999959,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["H06 SpeedrunTimer 边界"],
+          "fullName": "H06 SpeedrunTimer 边界 setStep 合法 idx 重置检测记忆与暂停；实例间 mem/bests 不串",
+          "status": "passed",
+          "title": "setStep 合法 idx 重置检测记忆与暂停；实例间 mem/bests 不串",
+          "duration": 0.4219580000000178,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["H07 detector 边界"],
+          "fullName": "H07 detector 边界 enterAny：集合内转场不触发；从集合外进入触发；prev=null 视为进入",
+          "status": "passed",
+          "title": "enterAny：集合内转场不触发；从集合外进入触发；prev=null 视为进入",
+          "duration": 0.11050000000000182,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["H07 detector 边界"],
+          "fullName": "H07 detector 边界 atSpot：tol 相等命中、+1 越界；leaveScene prev=null 恒 false；enterScene prev=null 立即真",
+          "status": "passed",
+          "title": "atSpot：tol 相等命中、+1 越界；leaveScene prev=null 恒 false；enterScene prev=null 立即真",
+          "duration": 0.13716699999997672,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["H07 detector 边界"],
+          "fullName": "H07 detector 边界 caiyi：未见 boss 前不误报（含战斗结束态）；独立 mem 互不影响",
+          "status": "passed",
+          "title": "caiyi：未见 boss 前不误报（含战斗结束态）；独立 mem 互不影响",
+          "duration": 0.17087500000002365,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790608174521,
+      "endTime": 1790608174524.171,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.codex/worktrees/glm-phase1-leaves/type-pal/packages/game/src/tools/speedrun/timer.boundaries.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["L20 SpeedrunTimer 剩余合同"],
+          "fullName": "L20 SpeedrunTimer 剩余合同 getCountdownRemainingSec：无倒计时/无主时钟 → null；有 → ceil 剩余秒，到点 0",
+          "status": "passed",
+          "title": "getCountdownRemainingSec：无倒计时/无主时钟 → null；有 → ceil 剩余秒，到点 0",
+          "duration": 1.1754999999999995,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["L20 SpeedrunTimer 剩余合同"],
+          "fullName": "L20 SpeedrunTimer 剩余合同 consumeBestsDirty 一次性读；reset 保留 bests 只清本局",
+          "status": "passed",
+          "title": "consumeBestsDirty 一次性读；reset 保留 bests 只清本局",
+          "duration": 0.5646249999999782,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790608175673,
+      "endTime": 1790608175674.5647,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.codex/worktrees/glm-phase1-leaves/type-pal/packages/game/src/tools/speedrun/timer.glm-phase1-leaves.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["SpeedrunTimer 起表与打点"],
+          "fullName": "SpeedrunTimer 起表与打点 scene>0 且可移动才起表,之后按 wall-clock 累加",
+          "status": "passed",
+          "title": "scene>0 且可移动才起表,之后按 wall-clock 累加",
+          "duration": 0.9759169999999813,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["SpeedrunTimer 起表与打点"],
+          "fullName": "SpeedrunTimer 起表与打点 scene>0 但李逍遥不可移动(标题/开场演出/加载/淡入)→ 不起表",
+          "status": "passed",
+          "title": "scene>0 但李逍遥不可移动(标题/开场演出/加载/淡入)→ 不起表",
+          "duration": 0.45608399999997573,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["SpeedrunTimer 起表与打点"],
+          "fullName": "SpeedrunTimer 起表与打点 依序打点,一帧至多推进一个节点",
+          "status": "passed",
+          "title": "依序打点,一帧至多推进一个节点",
+          "duration": 0.21316600000000108,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["SpeedrunTimer setStep(手动跳节点,测试用)"],
+          "fullName": "SpeedrunTimer setStep(手动跳节点,测试用) 跳过前面节点,从第 N 个起依序检测",
+          "status": "passed",
+          "title": "跳过前面节点,从第 N 个起依序检测",
+          "duration": 0.1757910000000038,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["SpeedrunTimer setStep(手动跳节点,测试用)"],
+          "fullName": "SpeedrunTimer setStep(手动跳节点,测试用) 已处于目标条件时(prevSnap 重置)下一帧立即命中 = 认\"读档已到此\"",
+          "status": "passed",
+          "title": "已处于目标条件时(prevSnap 重置)下一帧立即命中 = 认\"读档已到此\"",
+          "duration": 0.06879200000003038,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["SpeedrunTimer setStep(手动跳节点,测试用)"],
+          "fullName": "SpeedrunTimer setStep(手动跳节点,测试用) finished 后 setStep 回到 running、清手动暂停",
+          "status": "passed",
+          "title": "finished 后 setStep 回到 running、清手动暂停",
+          "duration": 0.08262500000000728,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["SpeedrunTimer PB 更新"],
+          "fullName": "SpeedrunTimer PB 更新 通关破纪录 → 整条覆盖 bests",
+          "status": "passed",
+          "title": "通关破纪录 → 整条覆盖 bests",
+          "duration": 0.36933299999998326,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["SpeedrunTimer PB 更新"],
+          "fullName": "SpeedrunTimer PB 更新 未破纪录 → 不动 bests",
+          "status": "passed",
+          "title": "未破纪录 → 不动 bests",
+          "duration": 0.1240839999999821,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["SpeedrunTimer 香蕉暂停 + 拿到直接恢复(无倒计时)"],
+          "fullName": "SpeedrunTimer 香蕉暂停 + 拿到直接恢复(无倒计时) 站到香蕉格暂停;拿香蕉直接恢复,不起倒计时",
+          "status": "passed",
+          "title": "站到香蕉格暂停;拿香蕉直接恢复,不起倒计时",
+          "duration": 0.4683750000000373,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["SpeedrunTimer 手动操作"],
+          "fullName": "SpeedrunTimer 手动操作 reset 清空本局",
+          "status": "passed",
+          "title": "reset 清空本局",
+          "duration": 0.11787500000002638,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["SpeedrunTimer 手动操作"],
+          "fullName": "SpeedrunTimer 手动操作 setBestsFromCurrentRun / clearBests / setBest",
+          "status": "passed",
+          "title": "setBestsFromCurrentRun / clearBests / setBest",
+          "duration": 0.18849999999997635,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["SpeedrunTimer 手动暂停/恢复"],
+          "fullName": "SpeedrunTimer 手动暂停/恢复 暂停停表;恢复起 3 秒倒计时;到点恢复后继续累加(不计暂停期)",
+          "status": "passed",
+          "title": "暂停停表;恢复起 3 秒倒计时;到点恢复后继续累加(不计暂停期)",
+          "duration": 0.13787500000000819,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["SpeedrunTimer 手动暂停/恢复"],
+          "fullName": "SpeedrunTimer 手动暂停/恢复 倒计时恢复中再切 → 取消恢复,留在暂停",
+          "status": "passed",
+          "title": "倒计时恢复中再切 → 取消恢复,留在暂停",
+          "duration": 0.07887500000003911,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["SpeedrunTimer 手动暂停/恢复"],
+          "fullName": "SpeedrunTimer 手动暂停/恢复 非 running 态 toggle 无效",
+          "status": "passed",
+          "title": "非 running 态 toggle 无效",
+          "duration": 0.02924999999999045,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790608172795,
+      "endTime": 1790608172799.138,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.codex/worktrees/glm-phase1-leaves/type-pal/packages/game/src/tools/speedrun/timer.test.ts"
+    }
+  ]
+}

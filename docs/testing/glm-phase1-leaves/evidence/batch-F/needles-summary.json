@@ -1,0 +1,114 @@
+{
+  "batch": "f",
+  "hashes": {
+    "src/tools/speedrun/store.ts": "91d426c75e4cb17d6a47ef4c4ffdc1e7fa93c85ef033d0b9d4118ff474b41f95",
+    "src/shell/audio.ts": "27dbb8f4244916bb92bf904162ff3f0933df1edac2009a5ba2efa84eac000018"
+  },
+  "selfTest": [
+    {
+      "id": "valid-red",
+      "expectReject": false,
+      "rejected": false,
+      "violations": []
+    },
+    {
+      "id": "same-message-mixed-error",
+      "expectReject": true,
+      "rejected": true,
+      "violations": [
+        "mixed non-business error: AssertionError: expected business rejection\nTypeError: environment broken"
+      ]
+    },
+    {
+      "id": "assertion-prefixed-timeout",
+      "expectReject": true,
+      "rejected": true,
+      "violations": ["timeout treated as red: AssertionError: test timed out"]
+    },
+    {
+      "id": "additional-unrelated-red",
+      "expectReject": true,
+      "rejected": true,
+      "violations": ["failed 2, expected exactly 1"]
+    },
+    {
+      "id": "wrong-fullname-red-with-intended-green",
+      "expectReject": true,
+      "rejected": true,
+      "violations": [
+        "red fullName \"different group bests 非法 JSON → 返回 defaults 副本不抛；defaults 外的存储 key 忽略\" != \"L21 store 坏数据与往返 bests 非法 JSON → 返回 defaults 副本不抛；defaults 外的存储 key 忽略\""
+      ]
+    },
+    {
+      "id": "foreign-file-same-suffix",
+      "expectReject": true,
+      "rejected": true,
+      "violations": [
+        "red file /different-candidate-root/packages/game/src/tools/speedrun/store.glm-phase1-leaves.test.ts != /Users/zhangxu/.codex/worktrees/glm-phase1-leaves/type-pal/packages/game/src/tools/speedrun/store.glm-phase1-leaves.test.ts"
+      ]
+    },
+    {
+      "id": "exit-two",
+      "expectReject": true,
+      "rejected": true,
+      "violations": ["exit 2 != 1"]
+    },
+    {
+      "id": "exit-null",
+      "expectReject": true,
+      "rejected": true,
+      "violations": ["exit null != 1"]
+    },
+    {
+      "id": "zero-execution",
+      "expectReject": true,
+      "rejected": true,
+      "violations": [
+        "numTotalTests 0 != 2",
+        "assertions 0 != 2",
+        "duplicate fullName in scope",
+        "passed 0 inconsistent with 0 failed",
+        "failed 0, expected exactly 1"
+      ]
+    },
+    {
+      "id": "control-sample",
+      "expectReject": false,
+      "rejected": false,
+      "violations": []
+    }
+  ],
+  "evidence": [
+    {
+      "id": "control",
+      "exitCode": 0,
+      "tests": 17,
+      "entered": null,
+      "failed": []
+    },
+    {
+      "id": "store-bests-key-merge",
+      "exitCode": 1,
+      "tests": 2,
+      "entered": {
+        "id": "store-bests-key-merge",
+        "target": "/Users/zhangxu/.codex/worktrees/glm-phase1-leaves/type-pal/packages/game/src/tools/speedrun/store.ts"
+      },
+      "failed": [
+        "L21 store 坏数据与往返 bests 非法 JSON → 返回 defaults 副本不抛；defaults 外的存储 key 忽略"
+      ]
+    },
+    {
+      "id": "ogg-volume-live-refresh",
+      "exitCode": 1,
+      "tests": 3,
+      "entered": {
+        "id": "ogg-volume-live-refresh",
+        "target": "/Users/zhangxu/.codex/worktrees/glm-phase1-leaves/type-pal/packages/game/src/shell/audio.ts"
+      },
+      "failed": [
+        "L24 setOggVolumeScale 即时刷新 先调 scale 再 play：新元素 volume = 0.6·scale；播放中改 scale：当前元素即时跟随"
+      ]
+    }
+  ]
+}
