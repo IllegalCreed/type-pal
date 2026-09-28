@@ -5,11 +5,12 @@
  * 四面板 = 同一物品菜单输入：短说明 / 长说明 now=0 / 长说明 now=800（滚动窗口平移）/ 空列表。
  * 由 esbuild 打包为 main.js（见同目录 build 注释），web 根 = 仓库根（临时 http.server 6073）。
  */
+
+import type { ItemData, WorldState } from '@type-pal/content'
 import { drawItemGridList } from '../../../../../packages/reforge/src/menu/item-list'
-import { parseBdfGlyphs } from '../../../../../packages/reforge/src/text/glyph'
 import type { BoxTiles, MenuAssets } from '../../../../../packages/reforge/src/menu/menu-box'
 import type { GlyphTable } from '../../../../../packages/reforge/src/text/glyph'
-import type { ItemData, WorldState } from '@type-pal/content'
+import { parseBdfGlyphs } from '../../../../../packages/reforge/src/text/glyph'
 
 async function fetchBitmap(url: string): Promise<ImageBitmap> {
   const res = await fetch(url)
@@ -20,7 +21,9 @@ async function fetchBitmap(url: string): Promise<ImageBitmap> {
 async function fetchTiles(dir: string): Promise<BoxTiles> {
   const tiles: ImageBitmap[] = []
   for (let i = 0; i < 9; i++) {
-    tiles.push(await fetchBitmap(`/packages/reforge/src/engine-chrome/assets/ui/${dir}/frame-0${i}.png`))
+    tiles.push(
+      await fetchBitmap(`/packages/reforge/src/engine-chrome/assets/ui/${dir}/frame-0${i}.png`),
+    )
   }
   return { tiles }
 }
@@ -63,12 +66,18 @@ async function main(): Promise<void> {
     slash,
     itemIcons: {},
     redBox,
-    magicPlayerBox: await fetchBitmap(`/packages/reforge/src/engine-chrome/assets/ui/magic/playerbox.png`),
+    magicPlayerBox: await fetchBitmap(
+      `/packages/reforge/src/engine-chrome/assets/ui/magic/playerbox.png`,
+    ),
     cursorGrid,
     cursorUp: await fetchBitmap(`/packages/reforge/src/engine-chrome/assets/ui/cursor/up.png`),
-    cursorUpRed: await fetchBitmap(`/packages/reforge/src/engine-chrome/assets/ui/cursor/up-red.png`),
+    cursorUpRed: await fetchBitmap(
+      `/packages/reforge/src/engine-chrome/assets/ui/cursor/up-red.png`,
+    ),
     cursorDown: await fetchBitmap(`/packages/reforge/src/engine-chrome/assets/ui/cursor/down.png`),
-    settleArrow: await fetchBitmap(`/packages/reforge/src/engine-chrome/assets/ui/cursor/settle-arrow.png`),
+    settleArrow: await fetchBitmap(
+      `/packages/reforge/src/engine-chrome/assets/ui/cursor/settle-arrow.png`,
+    ),
     battleIcons: [],
   }
 
@@ -87,8 +96,22 @@ async function main(): Promise<void> {
     ],
   }
   const shortItems: ItemData[] = [
-    { id: '61', name: '观音符', desc: ['恢复单人 HP75。'], buyPrice: 50, sellPrice: 25, sellable: true },
-    { id: '78', name: '茶叶蛋', desc: ['恢复 HP 与 MP 各 15。'], buyPrice: 10, sellPrice: 5, sellable: true },
+    {
+      id: '61',
+      name: '观音符',
+      desc: ['恢复单人 HP75。'],
+      buyPrice: 50,
+      sellPrice: 25,
+      sellable: true,
+    },
+    {
+      id: '78',
+      name: '茶叶蛋',
+      desc: ['恢复 HP 与 MP 各 15。'],
+      buyPrice: 10,
+      sellPrice: 5,
+      sellable: true,
+    },
   ]
   const longDesc = [
     '灵珠起手，天地灵气',
@@ -98,10 +121,7 @@ async function main(): Promise<void> {
     '碎之则灵力四散成雾，',
     '雾散之处百草同枯。',
   ]
-  const longItems: ItemData[] = [
-    { ...shortItems[0]!, desc: longDesc },
-    shortItems[1]!,
-  ]
+  const longItems: ItemData[] = [{ ...shortItems[0]!, desc: longDesc }, shortItems[1]!]
 
   const canvas = document.getElementById('stage') as HTMLCanvasElement
   const ctx = canvas.getContext('2d')!
@@ -126,7 +146,8 @@ async function main(): Promise<void> {
     ctx.getImageData(x * 3, y * 3, w * 3, h * 3).data
   const lit = (data: Uint8ClampedArray): number => {
     let n = 0
-    for (let i = 0; i < data.length; i += 4) if (data[i + 3]! > 0 && data[i]! + data[i + 1]! + data[i + 2]! > 60) n++
+    for (let i = 0; i < data.length; i += 4)
+      if (data[i + 3]! > 0 && data[i]! + data[i + 1]! + data[i + 2]! > 60) n++
     return n
   }
   const results: string[] = []
@@ -139,7 +160,13 @@ async function main(): Promise<void> {
   const p3 = regionPixels(71 + 0, 151 - 200 + 600, 240, 46) // P3 面板位于 (0,200)
   let diff = 0
   for (let i = 0; i < p2.length; i += 4) {
-    if (Math.abs(p2[i]! - p3[i]!) + Math.abs(p2[i + 1]! - p3[i + 1]!) + Math.abs(p2[i + 2]! - p3[i + 2]!) > 30) diff++
+    if (
+      Math.abs(p2[i]! - p3[i]!) +
+        Math.abs(p2[i + 1]! - p3[i + 1]!) +
+        Math.abs(p2[i + 2]! - p3[i + 2]!) >
+      30
+    )
+      diff++
   }
   results.push(`P2→P3 说明区差异像素=${diff}`)
   // ③ P4 空列表：条目名区应无文字像素（仅框）
@@ -158,5 +185,6 @@ async function main(): Promise<void> {
 }
 
 main().catch((err: unknown) => {
-  document.getElementById('result')!.textContent = `HOST ERROR: ${err instanceof Error ? err.message : String(err)}`
+  document.getElementById('result')!.textContent =
+    `HOST ERROR: ${err instanceof Error ? err.message : String(err)}`
 })

@@ -5,6 +5,7 @@
  * RV4 = 真实 settlement（buildSettlementScreens 非空报告逐屏 + 空报告对照）。
  * 全部真实函数 + 真实 unifont-cn.bdf + 真实 engine chrome PNG（只读）。
  */
+
 import {
   drawBattleGrid,
   drawCurrentFinger,
@@ -13,11 +14,13 @@ import {
   drawPlayerTargetArrow,
   MAGIC_GRID,
 } from '../../../../../packages/reforge/src/battle/battle-ui'
-import { buildSettlementScreens, drawSettlementScreen } from '../../../../../packages/reforge/src/battle/settlement'
-import { parseBdfGlyphs } from '../../../../../packages/reforge/src/text/glyph'
+import {
+  buildSettlementScreens,
+  drawSettlementScreen,
+} from '../../../../../packages/reforge/src/battle/settlement'
 import type { BoxTiles, MenuAssets } from '../../../../../packages/reforge/src/menu/menu-box'
 import type { GlyphTable } from '../../../../../packages/reforge/src/text/glyph'
-import type { ItemDataMap } from '@type-pal/content'
+import { parseBdfGlyphs } from '../../../../../packages/reforge/src/text/glyph'
 
 async function fetchBitmap(url: string): Promise<ImageBitmap> {
   const res = await fetch(url)
@@ -27,7 +30,9 @@ async function fetchBitmap(url: string): Promise<ImageBitmap> {
 async function fetchTiles(dir: string): Promise<BoxTiles> {
   const tiles: ImageBitmap[] = []
   for (let i = 0; i < 9; i++) {
-    tiles.push(await fetchBitmap(`/packages/reforge/src/engine-chrome/assets/ui/${dir}/frame-0${i}.png`))
+    tiles.push(
+      await fetchBitmap(`/packages/reforge/src/engine-chrome/assets/ui/${dir}/frame-0${i}.png`),
+    )
   }
   return { tiles }
 }
@@ -43,21 +48,33 @@ const errors: string[] = []
 window.addEventListener('error', (e) => errors.push(`window: ${e.message}`))
 
 async function main(): Promise<void> {
-  const [box, redBox, scroll, itembox, nums, numsBlue, numsCyan, slash, cursorGrid, cursorDown, cursorUp, cursorUpRed] =
-    await Promise.all([
-      fetchTiles('box'),
-      fetchTiles('box-red'),
-      fetchTiles('scroll'),
-      fetchTiles('itembox'),
-      fetchDigits('num'),
-      fetchDigits('num-blue'),
-      fetchDigits('num-cyan'),
-      fetchBitmap('/packages/reforge/src/engine-chrome/assets/ui/num/slash.png'),
-      fetchBitmap('/packages/reforge/src/engine-chrome/assets/ui/cursor/grid.png'),
-      fetchBitmap('/packages/reforge/src/engine-chrome/assets/ui/cursor/down.png'),
-      fetchBitmap('/packages/reforge/src/engine-chrome/assets/ui/cursor/up.png'),
-      fetchBitmap('/packages/reforge/src/engine-chrome/assets/ui/cursor/up-red.png'),
-    ])
+  const [
+    box,
+    redBox,
+    scroll,
+    itembox,
+    nums,
+    numsBlue,
+    numsCyan,
+    slash,
+    cursorGrid,
+    cursorDown,
+    cursorUp,
+    cursorUpRed,
+  ] = await Promise.all([
+    fetchTiles('box'),
+    fetchTiles('box-red'),
+    fetchTiles('scroll'),
+    fetchTiles('itembox'),
+    fetchDigits('num'),
+    fetchDigits('num-blue'),
+    fetchDigits('num-cyan'),
+    fetchBitmap('/packages/reforge/src/engine-chrome/assets/ui/num/slash.png'),
+    fetchBitmap('/packages/reforge/src/engine-chrome/assets/ui/cursor/grid.png'),
+    fetchBitmap('/packages/reforge/src/engine-chrome/assets/ui/cursor/down.png'),
+    fetchBitmap('/packages/reforge/src/engine-chrome/assets/ui/cursor/up.png'),
+    fetchBitmap('/packages/reforge/src/engine-chrome/assets/ui/cursor/up-red.png'),
+  ])
   const menu: MenuAssets = {
     box,
     itembox,
@@ -69,14 +86,22 @@ async function main(): Promise<void> {
     numsBlue,
     numsCyan,
     slash,
-    itemIcons: { 'i:herb': await fetchBitmap('/packages/reforge/src/engine-chrome/assets/ui/battle/icon-attack.png') },
+    itemIcons: {
+      'i:herb': await fetchBitmap(
+        '/packages/reforge/src/engine-chrome/assets/ui/battle/icon-attack.png',
+      ),
+    },
     redBox,
-    magicPlayerBox: await fetchBitmap('/packages/reforge/src/engine-chrome/assets/ui/magic/playerbox.png'),
+    magicPlayerBox: await fetchBitmap(
+      '/packages/reforge/src/engine-chrome/assets/ui/magic/playerbox.png',
+    ),
     cursorGrid,
     cursorUp,
     cursorUpRed,
     cursorDown,
-    settleArrow: await fetchBitmap('/packages/reforge/src/engine-chrome/assets/ui/cursor/settle-arrow.png'),
+    settleArrow: await fetchBitmap(
+      '/packages/reforge/src/engine-chrome/assets/ui/cursor/settle-arrow.png',
+    ),
     battleIcons: [],
   }
   const bdf = await fetch('/data/raw/unifont-cn.bdf')
@@ -129,8 +154,30 @@ async function main(): Promise<void> {
         from: 9,
         to: 10,
         learned: ['296'],
-        before: { level: 9, hp: 300, maxHP: 300, mp: 50, maxMP: 50, attack: 90, magicAttack: 60, defense: 80, speed: 70, luck: 65 },
-        after: { level: 10, hp: 330, maxHP: 330, mp: 55, maxMP: 55, attack: 95, magicAttack: 63, defense: 83, speed: 73, luck: 66 },
+        before: {
+          level: 9,
+          hp: 300,
+          maxHP: 300,
+          mp: 50,
+          maxMP: 50,
+          attack: 90,
+          magicAttack: 60,
+          defense: 80,
+          speed: 70,
+          luck: 65,
+        },
+        after: {
+          level: 10,
+          hp: 330,
+          maxHP: 330,
+          mp: 55,
+          maxMP: 55,
+          attack: 95,
+          magicAttack: 63,
+          defense: 83,
+          speed: 73,
+          luck: 66,
+        },
       },
     ],
     [{ characterId: 'zhao-linger', stat: 'luck', delta: 2 }],
@@ -151,13 +198,27 @@ async function main(): Promise<void> {
   })
   sctx.font = '12px system-ui'
   sctx.fillStyle = '#9cf'
-  sctx.fillText(`空报告屏数 = ${buildSettlementScreens(0, 0, [], [], (i) => i, (i) => i).length}（对照：0 屏 → 无绘制）`, 8, 116)
+  sctx.fillText(
+    `空报告屏数 = ${
+      buildSettlementScreens(
+        0,
+        0,
+        [],
+        [],
+        (i) => i,
+        (i) => i,
+      ).length
+    }（对照：0 屏 → 无绘制）`,
+    8,
+    116,
+  )
 
   // ── 页面内像素断言 ──
   const lit = (x: number, y: number, w: number, h: number): number => {
     const data = ctx.getImageData(x * 3, y * 3, w * 3, h * 3).data
     let n = 0
-    for (let i = 0; i < data.length; i += 4) if (data[i + 3]! > 0 && data[i]! + data[i + 1]! + data[i + 2]! > 60) n++
+    for (let i = 0; i < data.length; i += 4)
+      if (data[i + 3]! > 0 && data[i]! + data[i + 1]! + data[i + 2]! > 60) n++
     return n
   }
   const p1row1 = lit(35 + 87, 54, 60, 14) // P1 '仙术' 选中（非禁用）
@@ -168,7 +229,8 @@ async function main(): Promise<void> {
   const settleLit = (() => {
     const data = sctx.getImageData(0, 0, 960, 100).data
     let n = 0
-    for (let i = 0; i < data.length; i += 4) if (data[i + 3]! > 0 && data[i]! + data[i + 1]! + data[i + 2]! > 60) n++
+    for (let i = 0; i < data.length; i += 4)
+      if (data[i + 3]! > 0 && data[i]! + data[i + 1]! + data[i + 2]! > 60) n++
     return n
   })()
   const results = [
@@ -179,11 +241,18 @@ async function main(): Promise<void> {
     `RV4 结算条 lit=${settleLit}`,
   ]
   const ok =
-    p1row1 > 50 && p2row0 > 50 && mpDigits > 30 && finger > 20 && arrow > 20 && settleLit > 500 && errors.length === 0
+    p1row1 > 50 &&
+    p2row0 > 50 &&
+    mpDigits > 30 &&
+    finger > 20 &&
+    arrow > 20 &&
+    settleLit > 500 &&
+    errors.length === 0
   document.getElementById('result')!.textContent =
     `${results.join(' ； ')} ； console/page errors: ${errors.length} ${errors.join('|')} → ${ok ? 'ASSERT PASS' : 'ASSERT FAIL'}`
 }
 
 main().catch((err: unknown) => {
-  document.getElementById('result')!.textContent = `HOST ERROR: ${err instanceof Error ? err.message : String(err)}`
+  document.getElementById('result')!.textContent =
+    `HOST ERROR: ${err instanceof Error ? err.message : String(err)}`
 })

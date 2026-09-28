@@ -48,7 +48,7 @@ try {
   // ① 真实 PNG：bytes → createImageBitmap（浏览器真实 PNG 解码）→ 双尺度绘制
   const bytes = Uint8Array.from(atob(artifact.fire.pngBase64), (c) => c.charCodeAt(0))
   const bitmap = await createImageBitmap(new Blob([bytes], { type: 'image/png' }))
-  for (const [id, scale] of [['png1x', 1], ['png4x', 4]]) {
+  for (const id of ['png1x', 'png4x']) {
     const canvas = document.getElementById(id)
     const ctx = canvas.getContext('2d')
     ctx.imageSmoothingEnabled = false
@@ -71,7 +71,7 @@ try {
 
   // ② 真实量化输出数组 → 调色板上屏（与测试同输入）
   const { pixels, opaque, palette } = artifact.quantize
-  for (const [id, scale] of [['q1x', 1], ['q4x', 4]]) {
+  for (const id of ['q1x', 'q4x']) {
     const canvas = document.getElementById(id)
     const ctx = canvas.getContext('2d')
     const cell = canvas.width / 2

@@ -9,8 +9,8 @@ import { writeFileSync } from 'node:fs'
 import { join } from 'node:path'
 import { YJ2_SPRITE_CHUNK_2X2 } from '../../../../packages/pal-extract/src/__tests__/glm-runtime-resource/yj2-sprite-chunk-vector.ts'
 import { parseFirSprite } from '../../../../packages/pal-extract/src/resources/parsers/fire.ts'
-import type { Palette } from '../../../../packages/shared/src/resources.ts'
 import { quantizeToRleFrame } from '../../../../packages/reforge/src/quantize.ts'
+import type { Palette } from '../../../../packages/shared/src/resources.ts'
 
 const fire = parseFirSprite(3, YJ2_SPRITE_CHUNK_2X2)
 
@@ -23,12 +23,7 @@ const palette: Palette = {
   cycles: [],
 }
 // 2×2 输入：绿、透明、蓝、红 —— 与 fire 帧同尺寸，含两种非同色实心像素
-const rgba = Uint8Array.from([
-  40, 160, 60, 255,
-  0, 0, 0, 0,
-  50, 80, 220, 255,
-  200, 40, 40, 255,
-])
+const rgba = Uint8Array.from([40, 160, 60, 255, 0, 0, 0, 0, 50, 80, 220, 255, 200, 40, 40, 255])
 const quantized = quantizeToRleFrame(rgba, 2, 2, palette)
 
 const artifact = {

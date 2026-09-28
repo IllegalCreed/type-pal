@@ -18,6 +18,62 @@ const output = mkdtempSync(join(tmpdir(), 'type-pal-glm-runtime-resource-mutants
 
 /** 每批注册：包根、对照跑范围与总数、该批 2 个单点针。 */
 const batches = {
+  g: {
+    packages: [
+      {
+        root: resolve(root, 'packages/reforge'),
+        tests: ['src/project-map.glm-runtime-resource.test.ts'],
+        total: 2,
+      },
+      {
+        root: resolve(root, 'packages/migrate'),
+        tests: [
+          'src/script-library-normalize.glm-runtime-resource.test.ts',
+          'src/project-map-converter.glm-runtime-resource.test.ts',
+          'src/script-control-flow-audit.glm-runtime-resource.test.ts',
+          'src/script-library-normalize.test.ts',
+          'src/script-overlays.test.ts',
+          'src/project-map-converter.test.ts',
+          'src/project-map-converter.boundaries.test.ts',
+          'src/bake-indexed-rgba.test.ts',
+        ],
+        total: 25,
+      },
+    ],
+    production: [
+      'reforge/src/project-map.ts',
+      'migrate/src/script-library-normalize.ts',
+      'migrate/src/project-map-converter.ts',
+      'migrate/src/script-control-flow-audit.ts',
+    ],
+    mutations: [
+      {
+        id: 'layer-id-gap-backfill-dropped',
+        module: 'reforge/src/project-map.ts',
+        package: 0,
+        file: 'src/project-map.glm-runtime-resource.test.ts',
+        total: 2,
+        describe: 'R25 nextProjectMapLayerId',
+        title: '仅 floor 层 → layer-1；已有 layer-1/2 → layer-3',
+        from: 'for (let n = 1; ; n++) {',
+        to: 'for (let n = 2; ; n++) {',
+        category: '层 id 序起点错位：新建层永远跳过 layer-1，id 序合同被破坏',
+      },
+      {
+        id: 'zero-pointer-classification-swapped',
+        module: 'migrate/src/script-control-flow-audit.ts',
+        package: 1,
+        file: 'src/script-control-flow-audit.glm-runtime-resource.test.ts',
+        total: 4,
+        describe: 'R28 collectSourceEntrySites',
+        title:
+          '0/缺席指针 → empty-pointers 分类（scene L_0、item equip、actor dying、enemy 尾字段）',
+        from: "else emptyPointers.push({ sourceId: site.sourceId, disposition: 'empty-pointer' })",
+        to: "else emptyPointers.push({ sourceId: site.sourceId, disposition: 'zero-marker' })",
+        category: '0 指针处置标记破坏：empty-pointer 分类被改名，下游按处置过滤/统计的消费者失配',
+      },
+    ],
+  },
   f: {
     packageRoot: resolve(root, 'packages/migrate'),
     production: ['src/pal-battle-sprites.ts'],
@@ -89,8 +145,8 @@ const batches = {
         total: 4,
         describe: 'R20 trial 原语校验器',
         title: 'trialInteger：合法回读；非整数/越界拒绝且消息带 where 与范围',
-        from: 'if (typeof value !== \'number\' || !Number.isSafeInteger(value) || value < min || value > max)',
-        to: 'if (typeof value !== \'number\' || !Number.isSafeInteger(value) || value < -1000000000 || value > max)',
+        from: "if (typeof value !== 'number' || !Number.isSafeInteger(value) || value < min || value > max)",
+        to: "if (typeof value !== 'number' || !Number.isSafeInteger(value) || value < -1000000000 || value > max)",
         category: '试打配置上界失守：越界整数被接受，敌人/数值配置可越权',
       },
       {
@@ -202,7 +258,8 @@ const batches = {
         title: '>3 行滚动：now=0 画首 3 行；now=800（scroll=16px）窗口平移到行 1..3；裁剪矩形固定',
         from: 'const scroll = (now / 50) % period',
         to: 'const scroll = (now / 500) % period',
-        category: '长说明滚动速率错 10 倍：超出 3 行的描述几乎不可完整阅读（机制全看得到的保证被破坏）',
+        category:
+          '长说明滚动速率错 10 倍：超出 3 行的描述几乎不可完整阅读（机制全看得到的保证被破坏）',
       },
       {
         id: 'system-disabled-color-dropped',
@@ -319,9 +376,10 @@ const batches = {
         total: 5,
         describe: 'R03 decodeBallIcon 空槽与标记头',
         title: '0x02000000 标记头剥离：2×1 帧（跳1 + opaque palette-0）→ PNG 真解码 alpha 0/255',
-        from: "if (buf[0] === 0x02 && buf[1] === 0x00 && buf[2] === 0x00 && buf[3] === 0x00) {\n    rleBuf = buf.subarray(4)\n  }",
+        from: 'if (buf[0] === 0x02 && buf[1] === 0x00 && buf[2] === 0x00 && buf[3] === 0x00) {\n    rleBuf = buf.subarray(4)\n  }',
         to: 'if (false) {\n    rleBuf = buf.subarray(4)\n  }',
-        category: '标记头语义破坏：BALL/RGM 单帧整-chunk 的 0x02000000 前缀被忽略，带头图标整体解坏成空槽',
+        category:
+          '标记头语义破坏：BALL/RGM 单帧整-chunk 的 0x02000000 前缀被忽略，带头图标整体解坏成空槽',
       },
       {
         id: 'scene-label-zero-entry',
@@ -330,9 +388,10 @@ const batches = {
         total: 5,
         describe: 'R04 dumpScene 未占用切片轴',
         title: '入口 0：sceneId=0 从 0 切片；onEnter=0 → undefined；onTeleport 非 0 → L_ip',
-        from: 'return ip > 0 ? `L_${ip}` : undefined',
-        to: 'return ip >= 0 ? `L_${ip}` : undefined',
-        category: '入口 0 语义破坏：ip=0「无入口」被伪造成假 label L_0，runtime 会把 0 当真入口跳转',
+        from: 'return ip > 0 ? `L_${' + 'ip}` : undefined',
+        to: 'return ip >= 0 ? `L_$' + '{ip}` : undefined',
+        category:
+          '入口 0 语义破坏：ip=0「无入口」被伪造成假 label L_0，runtime 会把 0 当真入口跳转',
       },
     ],
   },
@@ -345,7 +404,12 @@ const TIMEOUT = /timed out|timeout/i
 function judge(mutation, run, data) {
   const violations = []
   const expectedExit = mutation ? 1 : 0
-  const expectedTotal = mutation ? mutation.total : mutation_batch.control.total
+  const expectedTotal = mutation
+    ? mutation.total
+    : (mutation_batch.control?.total ??
+      (mutation_batch.packages
+        ? mutation_batch.packages.reduce((sum, pkg) => sum + pkg.total, 0)
+        : 0))
   if (run.signal !== null) violations.push(`terminated by signal ${String(run.signal)}`)
   if (run.status !== expectedExit) violations.push(`exit ${String(run.status)} != ${expectedExit}`)
   const text = stripVTControlCharacters(`${run.stdout ?? ''}\n${run.stderr ?? ''}`)
@@ -389,7 +453,7 @@ function judge(mutation, run, data) {
   const host = data.testResults.find((file) =>
     (file.assertionResults ?? []).some((entry) => entry.status === 'failed'),
   )
-  const targetFile = resolve(mutation_batch.packageRoot, mutation.file)
+  const targetFile = resolve(packageRootOf(mutation), mutation.file)
   if (!host || host.name !== targetFile)
     violations.push(`red file ${String(host?.name)} != ${targetFile}`)
   const messages = red.failureMessages ?? []
@@ -407,6 +471,12 @@ function judge(mutation, run, data) {
   }
   return violations
 }
+
+const isMulti = (batch) => Array.isArray(batch.packages)
+const packageRootOf = (mutation) =>
+  isMulti(mutation_batch)
+    ? mutation_batch.packages[mutation.package].root
+    : mutation_batch.packageRoot
 
 function sample(mutation) {
   const entries = Array.from({ length: mutation.total }, (_, index) => ({
@@ -429,7 +499,7 @@ function sample(mutation) {
     numTodoTests: 0,
     success: false,
     testResults: [
-      { name: resolve(mutation_batch.packageRoot, mutation.file), assertionResults: entries },
+      { name: resolve(packageRootOf(mutation), mutation.file), assertionResults: entries },
     ],
   }
 }
@@ -494,8 +564,18 @@ function selfTest() {
         )
       },
     },
-    { id: 'exit-two', expectReject: true, run: { status: 2, signal: null, stdout: '', stderr: '' }, edit() {} },
-    { id: 'exit-null', expectReject: true, run: { status: null, signal: null, stdout: '', stderr: '' }, edit() {} },
+    {
+      id: 'exit-two',
+      expectReject: true,
+      run: { status: 2, signal: null, stdout: '', stderr: '' },
+      edit() {},
+    },
+    {
+      id: 'exit-null',
+      expectReject: true,
+      run: { status: null, signal: null, stdout: '', stderr: '' },
+      edit() {},
+    },
     {
       id: 'zero-execution',
       expectReject: true,
@@ -520,12 +600,17 @@ function selfTest() {
     results.push({ id: item.id, expectReject: item.expectReject, rejected, violations })
   }
   const controlData = sample(mutation)
-  controlData.numTotalTests = mutation_batch.control.total
+  controlData.numTotalTests =
+    mutation_batch.control?.total ??
+    mutation_batch.packages.reduce((sum, pkg) => sum + pkg.total, 0)
   controlData.success = true
   const controlEntries = controlData.testResults[0].assertionResults.map((entry, index) =>
     index === 0 ? { ...entry, status: 'passed', failureMessages: [] } : entry,
   )
-  while (controlEntries.length < mutation_batch.control.total)
+  const controlTotal =
+    mutation_batch.control?.total ??
+    mutation_batch.packages.reduce((sum, pkg) => sum + pkg.total, 0)
+  while (controlEntries.length < controlTotal)
     controlEntries.push({
       title: `control filler ${controlEntries.length}`,
       ancestorTitles: ['control'],
@@ -550,40 +635,48 @@ function selfTest() {
 
 const batchKey = process.argv[2] ?? ''
 const mutation_batch = batches[batchKey]
-assert.ok(mutation_batch, `usage: node runtime-resource-mutants.mjs <${Object.keys(batches).join('|')}>`)
+assert.ok(
+  mutation_batch,
+  `usage: node runtime-resource-mutants.mjs <${Object.keys(batches).join('|')}>`,
+)
 
 const selfTestResults = selfTest()
 console.log(`criteria self-test: ${selfTestResults.length} cases, all as expected`)
 
 const sourcePath = (name) => resolve(mutation_batch.packageRoot, name)
 const hash = (name) =>
-  createHash('sha256').update(readFileSync(sourcePath(name))).digest('hex')
-const hashes = Object.fromEntries(mutation_batch.production.map((name) => [name, hash(name)]))
+  createHash('sha256')
+    .update(readFileSync(sourcePath(name)))
+    .digest('hex')
+const hashOf = (name) =>
+  createHash('sha256')
+    .update(readFileSync(resolve(root, 'packages', name)))
+    .digest('hex')
+const hashes = Object.fromEntries(
+  mutation_batch.production.map((name) => [
+    name,
+    isMulti(mutation_batch) ? hashOf(name) : hash(name),
+  ]),
+)
 
 const evidence = []
-for (const mutation of [null, ...mutation_batch.mutations]) {
-  const id = mutation?.id ?? 'control'
-  const tests = mutation ? [mutation.file] : mutation_batch.control.tests
-  if (mutation)
-    assert.equal(
-      readFileSync(sourcePath(mutation.module), 'utf8').split(mutation.from).length - 1,
-      1,
-      `${id}: unique needle required`,
-    )
+const runVitest = (packageRoot, tests, id, mutation) => {
   const report = join(output, `${id}.json`)
   const entered = join(output, `${id}.entered.json`)
   const config = join(output, `${id}.config.mjs`)
-  const target = mutation ? sourcePath(mutation.module) : ''
+  const moduleRel =
+    mutation && isMulti(mutation_batch) ? mutation.module.replace(/^[^/]+\//, '') : mutation?.module
+  const target = mutation ? resolve(packageRoot, moduleRel) : ''
   writeFileSync(
     config,
     `import {readFileSync,writeFileSync} from 'node:fs';
 const mutation=${JSON.stringify(mutation)}, target=${JSON.stringify(target)};
-export default {root:${JSON.stringify(mutation_batch.packageRoot)},
-plugins:mutation?[{name:'isolated-runtime-resource',enforce:'pre',load(id){if(id!==target)return;const source=readFileSync(id,'utf8');if(source.split(mutation.from).length!==2)throw Error('needle not unique');writeFileSync(${JSON.stringify(entered)},JSON.stringify({id:mutation.id,target}));return source.replace(mutation.from,mutation.to)}}]:[],
+export default {root:${JSON.stringify(packageRoot)},
+plugins:mutation?[{name:'isolated-runtime-resource',enforce:'pre',load(id){const hit=typeof id==='string'&&id.endsWith(target.split('/').slice(-3).join('/'));if(!hit)return;const targetPath=id;const source=readFileSync(targetPath,'utf8');if(source.split(mutation.from).length!==2)throw Error('needle not unique');writeFileSync(${JSON.stringify(entered)},JSON.stringify({id:mutation.id,target:targetPath}));return source.replace(mutation.from,mutation.to)}}]:[],
 test:{include:${JSON.stringify(tests)},maxWorkers:1,reporters:['json'],outputFile:${JSON.stringify(report)}}};\n`,
   )
   const run = spawnSync('pnpm', ['exec', 'vitest', 'run', '--config', config], {
-    cwd: mutation_batch.packageRoot,
+    cwd: packageRoot,
     encoding: 'utf8',
   })
   writeFileSync(join(output, `${id}.log`), `${run.stdout ?? ''}\n${run.stderr ?? ''}`)
@@ -591,28 +684,103 @@ test:{include:${JSON.stringify(tests)},maxWorkers:1,reporters:['json'],outputFil
   try {
     data = JSON.parse(readFileSync(report, 'utf8'))
   } catch {}
-  const violations = judge(mutation, run, data)
+  return { run, data }
+}
+
+for (const mutation of [null, ...mutation_batch.mutations]) {
+  const id = mutation?.id ?? 'control'
+  if (mutation)
+    assert.equal(
+      readFileSync(
+        resolve(
+          isMulti(mutation_batch) ? root : mutation_batch.packageRoot,
+          ...(isMulti(mutation_batch) ? ['packages'] : []),
+          mutation.module,
+        ),
+        'utf8',
+      ).split(mutation.from).length - 1,
+      1,
+      `${id}: unique needle required`,
+    )
+  const runs = isMulti(mutation_batch)
+    ? mutation_batch.packages
+        .map((pkg, index) => {
+          const runId = mutation && index !== mutation.package ? `${id}#${index}` : id
+          const active = !mutation || index === mutation.package
+          return {
+            ...runVitest(
+              pkg.root,
+              active ? (mutation ? [mutation.file] : pkg.tests) : [],
+              runId,
+              mutation,
+            ),
+            pkg,
+            index,
+            enteredFile: join(output, `${runId}.entered.json`),
+          }
+        })
+        .filter((entry) => !mutation || entry.index === mutation.package)
+    : [
+        {
+          ...runVitest(
+            mutation_batch.packageRoot,
+            mutation ? [mutation.file] : mutation_batch.control.tests,
+            id,
+            mutation,
+          ),
+          pkg: { root: mutation_batch.packageRoot, total: mutation_batch.control.total },
+          index: 0,
+          enteredFile: join(output, `${id}.entered.json`),
+        },
+      ]
+
+  const combined = {
+    numTotalTests: runs.reduce((sum, entry) => sum + (entry.data?.numTotalTests ?? 0), 0),
+    numPendingTests: 0,
+    numTodoTests: 0,
+    success: runs.every((entry) => entry.run.status === 0),
+    testResults: runs.flatMap((entry) => entry.data?.testResults ?? []),
+  }
+  const combinedRun = {
+    status: runs.every((entry) => entry.run.status === 0)
+      ? 0
+      : (runs.find((entry) => entry.run.status !== 0)?.run.status ?? 1),
+    signal: runs.every((entry) => entry.run.signal === null) ? null : 'SIGKILL',
+    stdout: '',
+    stderr: '',
+  }
+  const violations = judge(mutation, combinedRun, combined)
   assert.deepEqual(violations, [], `${id}: judge violations: ${JSON.stringify(violations)}`)
+  const failed = (combined.testResults ?? []).flatMap((file) =>
+    (file.assertionResults ?? []).filter((x) => x.status === 'failed').map((x) => x.fullName),
+  )
   let enteredWitness = null
   if (mutation) {
-    enteredWitness = JSON.parse(readFileSync(entered, 'utf8'))
-    assert.deepEqual(enteredWitness, { id, target }, `${id}: load-hit witness mismatch`)
+    const witness = JSON.parse(readFileSync(runs[0].enteredFile, 'utf8'))
+    assert.deepEqual(
+      witness,
+      { id, target: resolve(runs[0].pkg.root, isMulti(mutation_batch) ? mutation.module.replace(/^[^/]+\//, '') : mutation.module) },
+      `${id}: load-hit witness mismatch`,
+    )
+    enteredWitness = witness
   }
-  for (const [name, before] of Object.entries(hashes))
-    assert.equal(hash(name), before, `${id}: production modified`)
-  const failed = (data?.testResults ?? []).flatMap((file) =>
-    (file.assertionResults ?? [])
-      .filter((entry) => entry.status === 'failed')
-      .map((entry) => entry.fullName),
-  )
+  const totalTests = combined.numTotalTests
+  for (const name of mutation_batch.production) {
+    const before = hashes[name]
+    assert.equal(
+      isMulti(mutation_batch) ? hashOf(name) : hash(name),
+      before,
+      `${id}: production modified`,
+    )
+  }
   evidence.push({
     id,
-    exitCode: run.status,
-    tests: data?.numTotalTests ?? null,
+    exitCode: runs[0].run.status,
+    tests: totalTests,
     entered: enteredWitness,
     failed,
   })
-  console.log(`${id}: ${mutation ? 'business red' : 'green'}`)
+  console.log(`${id}: ${mutation ? 'business red' : 'green'} (${totalTests} tests)`)
 }
 writeFileSync(
   join(output, 'summary.json'),

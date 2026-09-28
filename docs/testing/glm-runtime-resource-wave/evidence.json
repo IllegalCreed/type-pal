@@ -331,7 +331,7 @@
         "R23",
         "R24"
       ],
-      "candidateSha": "filled-after-push",
+      "candidateSha": "8491a0ca",
       "directed": {
         "migrate": {
           "total": 42,
@@ -372,6 +372,67 @@
       },
       "unproven": [
         "enemy 153-fixture programmatically derived from frame-count constants (exact/extra relation is the tested contract itself)"
+      ]
+    },
+    "G": {
+      "groups": [
+        "R25",
+        "R26",
+        "R27",
+        "R28"
+      ],
+      "candidateSha": "filled-after-push",
+      "directed": {
+        "reforge": {
+          "total": 34,
+          "new": 2,
+          "adjacent": 32,
+          "failed": 0
+        },
+        "migrate": {
+          "total": 25,
+          "new": 7,
+          "adjacent": 18,
+          "failed": 0
+        }
+      },
+      "newTestFiles": [
+        "packages/reforge/src/project-map.glm-runtime-resource.test.ts",
+        "packages/migrate/src/script-library-normalize.glm-runtime-resource.test.ts",
+        "packages/migrate/src/project-map-converter.glm-runtime-resource.test.ts",
+        "packages/migrate/src/script-control-flow-audit.glm-runtime-resource.test.ts"
+      ],
+      "noNewContractFiles": [
+        "runtime-project-view/asset-resolver (covered), script-overlays/bake-indexed-rgba (covered)"
+      ],
+      "gates": {
+        "typecheck": [
+          "reforge",
+          "migrate"
+        ],
+        "biome": "0/0/0",
+        "docsCheck": "PASS",
+        "gitDiffCheck": "clean"
+      },
+      "mutants": {
+        "batch": "g (multi-package runner)",
+        "selfTest": 10,
+        "control": "exit0 27 green (reforge 2 + migrate 25)",
+        "needles": [
+          {
+            "id": "layer-id-gap-backfill-dropped",
+            "result": "business red, exactly 1"
+          },
+          {
+            "id": "zero-pointer-classification-swapped",
+            "result": "business red, exactly 1"
+          }
+        ],
+        "regression": "batches a-f re-run passed after runner multi-package refactor; two needle replacements disclosed (infinite-loop needle, sites/empty mutually-exclusive needle)"
+      },
+      "unproven": [
+        "R28 restricted to collectSourceEntrySites; full auditor/graph/ForTest exports untouched",
+        "hosts main.js bundles no longer committed; rebuild command documented in hosts/README.md"
       ]
     }
   }

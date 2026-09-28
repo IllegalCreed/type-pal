@@ -11,6 +11,7 @@
 | D | R13–R16 | 见推送 | 17 新断言 / 定向+相邻 74 全绿 / TC 零错 / Biome 零诊断 / 2 针业务反控恰一红 / RV3+RV4 取证 | 见批D末 |
 | E | R17–R20 | 见推送 | 6 新断言 / 定向+相邻 77 全绿 / TC 零错 / Biome 零诊断 / 2 针业务反控恰一红 | 见批E末 |
 | F | R21–R24 | 见推送 | 8 新断言 / 定向+相邻 42 全绿 / TC 零错 / Biome 零诊断 / 2 针业务反控恰一红 | 见批F末 |
+| G | R25–R28 | 见推送 | 9 新断言 / 定向+相邻 59 全绿 / TC 零错 / Biome 零诊断 / 2 针业务反控恰一红 | 见批G末 |
 
 ## 批A（R01–R04）
 
@@ -297,3 +298,44 @@
 
 1. R21 enemy 153 只全量 fixture 为按帧数常量程序化构造（exact/extra 关系为被测合同本身）。
 2. R22–R24 无新合同登记如上；如 Codex 复核发现可用轴另行补派。
+
+## 批G（R25–R28）
+
+**候选 SHA**：批次推送 HEAD。
+
+### 去重账（旧断言 → 新差异 → 新合同 → 归属）
+
+- R25 runtime-project-view/asset-resolver：既有 test/boundaries 已覆盖 → 无新合同不建文件；
+  `project-map.ts` 旧测覆盖 build/flood/resize/insert/stamp → 本批新做
+  **nextProjectMapLayerId（floor 表 layer-1 起、layer-1/2 满 → layer-3、空洞回填 layer-2）**。
+- R26 script-library-normalize：既有测试覆盖 canonicalize/materialize 全流程 → 本批新做
+  **isMigrationScriptChunkFile 路径分类矩阵（index/view 两保留路径）与
+  normalizeMigrationScriptFiles 无库快照的分离 Map 合同**（内容相等、非同实例、零突变）；
+  script-overlays 已覆盖不重复。
+- R27 project-map-converter：word 编解码/转换/审计已覆盖 → 本批新做
+  **formattedProjectMapBytes（确定性、随尺寸增长、正整数）**；bake-indexed-rgba 已覆盖。
+- R28 `script-control-flow-audit.ts:545–651` **唯一入口 collectSourceEntrySites** 此前零测试 →
+  **全通道位点（scene enter/teleport、entity trigger/auto、全局 item/skill/enemy/actor）、
+  0/缺席指针 empty-pointers 分类、kind→sourceId→entry 排序、enemyObjects 缺 objectIndex
+  fail-loud、输入零突变** → 完整最小合法 PalMigrationSources fixture（38 字段 assetReport 等
+  全显式，无强转）→ 9 新断言（批G合计）。
+
+### 验证证据
+
+- 定向+相邻（reforge 7 文件 34 绿 新2/邻32；migrate 8 文件 25 绿 新7/邻18）。
+- typecheck reforge/migrate 通过；Biome 4 新文件 + wave 目录零诊断；docs PASS；`git diff --check` 干净。
+- 反控（`runtime-resource-mutants.mjs g`，runner 升级为多包形态——批G跨 reforge+migrate，
+  控制为两包合计 27 绿；witness/唯一性路径按批形态解析）：
+  - 针1 `layer-id-gap-backfill-dropped`（层 id 序起点 +1）→ 恰一红 AssertionError。
+  - 针2 `zero-pointer-classification-swapped`（empty-pointer 处置标记改名）→ 恰一红 AssertionError。
+  - 首版针（`if (!used.has(id))` 变异）在 layer-1/3 空洞用例上死循环、恰一红不可达，已换针留痕；
+    第二版（sites/empty 互斥变异）恰一红不可达，同样换针。
+  - 4 个产品源 hash 反控前后不变。
+- **全批反控回归**：修正 runner 多包解析后，a–f 六批全部重跑通过（自检 10 + 对照绿 + 恰一红 ×2）。
+
+### 未证项 / 受限登记
+
+1. R28 仅 collectSourceEntrySites（授权区）；完整审计器/图算法/ForTest 出口未触碰。
+2. R25/R26/R27 其余轴既有测试已覆盖，未重建（登记非跳过）。
+3. hosts/rv2、rv3-rv4 的 `main.js` 为 esbuild 构建产物，自本批起不入库；重建命令见
+   `hosts/README.md`（entry 源入库，biome 格式化与取证时语义等价）。
