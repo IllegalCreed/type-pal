@@ -5,7 +5,8 @@
 
 | 批 | 组 | 候选 | 自验摘要 | 未证项 |
 |---|---|---|---|---|
-| A | R01–R04 | 见下 | 44 新断言 / 三包定向+相邻全绿 / TC 零错 / Biome 零诊断 / 2 针业务反控恰一红 / RV1 取证 | 见各批末 |
+| A | R01–R04 | b9d6ce54 | 44 新断言 / 三包定向+相邻全绿 / TC 零错 / Biome 零诊断 / 2 针业务反控恰一红 / RV1 取证 | 见各批末 |
+| B | R05–R08 | 见推送 | 34 新断言 / 定向+相邻 95 全绿 / TC 零错 / Biome 零诊断 / 2 针业务反控恰一红 | 见批B末 |
 
 ## 批A（R01–R04）
 
@@ -73,3 +74,52 @@
 3. decodeRle 截断指令流会死循环（lenient 解码器无界读）——**未**写进测试（挂起不可作断言），
    合法输入上侧截断（尾随字节）已测；如需防御属产品改动，交 Codex 裁决。
 4. RV1 样本为自包含合成帧（披露：非原版资源观感，不冒充原版全部资源验收）。
+
+## 批B（R05–R08）
+
+**候选 SHA**：批次推送 HEAD。
+
+### 去重账（旧断言 → 新差异 → 新合同 → 归属）
+
+- R05 `disasm.test/boundaries + recompile.test/boundaries`：已覆盖具名命令/goto 标签/入口 ip/
+  L29 13 跳/u16 无符号/messageIndex/8 类命令字节 oracle；且 R04 boundaries 明确「缺 label 目标
+  默认值政策未定，不补绿」——本批遵守 → 本批新做 **0xA2 随机跳相对目标收集（含 op0=0）、
+  0x04/0x24 脚本入口 raw 目标收集、具名未处理 op（startBattle）raw fallback 保号、标签越界
+  丢弃、bytecode subarray、authored 结构化命令（sequence/if/choice）拒绝、entry+goto+raw+
+  style 混合往返（原始字节为独立预期）** → 10 新断言。
+- R06 `slice.test/boundaries + annotate.test`：已覆盖单/双场景、shared 改写、globalEntries、
+  end 变体、全部跳转目标收集、choice 之外的递归、_item/off-by-61/symbols 优先 → 本批新做
+  **跨文件标签 goto 的 BFS 死端、越界目标忽略、globalEntries 非正入口过滤、choice 递归、
+  if 无 else、wordAt 邻位边界（id=start 空词 / start-1 / 恰出表）、输入零突变** → 8 新断言。
+  `_spell/_person/_enemy` 三条 RULES 无具名命令携带（Command 联合仅 itemId/enemyTeamId/
+  sceneId），合法 typed 输入不可达，不写强转绿测，登记待具名命令出现后补。
+- R07 `enemy-teams/items/stores`（各自 boundaries + tables.test 已覆盖翻译模式/全字段/截断）→
+  本批新做 **纯模式精确对象形状（无可选键）、非整除 throw、奇偏移 subarray、_name 空串
+  假臂、满 9 与紧邻空记录边界不串位** → 7 新断言。
+- R08 `bdf-to-json/asset-manifest/battle-fields`：bdf 已有完整位图/base64 oracle → 本批新做
+  **ENCODING -1/0 排除、缺 ENCODING、缺 BBX 默认 16×16、短行零填充、EOF 终止、空输入**；
+  **asset-manifest 的 targets.json existingTestPointers 为空但实际已有两份覆盖
+  （asset-manifest.test + boundaries，TB-05/RESOURCE-TOOLS R09，均在冻结基线）——指针过期
+  已登记，仅补空 entries 清单与全剔除同 version 两个未占用轴**；battle-fields 补奇偏移
+  subarray → 9 新断言。
+
+### 验证证据
+
+- 定向+相邻（25 文件，单 worker，新鲜 JSON `/tmp/glm-runtime-B-palextract.json`）：
+  95/95 绿（新 34 / 邻 61）；新增文件单独复跑 34/34。
+- typecheck pal-extract 通过；Biome 10 新文件 + wave 目录 error/warning/info 全零；
+  docs PASS（wave README 目录索引补 receipt/evidence 链接）；`git diff --check` 干净。
+- 反控（`runtime-resource-mutants.mjs b`）：判据自测 10 例；对照 95 全绿 exit0；
+  - 针1 `disasm-random-jump-skip-first-target`：0xA2 起点漏收 → 恰一红 AssertionError。
+  - 针2 `stores-truncation-sentinel-dropped`：首-0 哨兵失效（买菜单读穿）→ 恰一红 AssertionError。
+  - 首版针2（annotate 空词 `|| undefined`）被下游 `if (name)` 掩蔽（变异经公开入口不可见，
+    判据按 exit0 拒收）——已换针并在本节留痕，无凑绿。
+- 10 个产品源 hash 反控前后不变（runner 内置断言）。
+
+### 未证项 / 受限登记
+
+1. recompile 对缺失 goto 目标写 0 的默认值政策：前一队列 R04 已明示未定，本批不补绿测。
+2. annotate `_spell/_person/_enemy` RULES 合法 typed 输入不可达（无具名命令携带），待补。
+3. annotate 空词哨兵（`|| undefined`）与下游 `if (name)` 双重防护，无法经公开入口单点变异
+   区分——不构成新合同，仅留痕。
+4. asset-manifest 冻结表指针过期（existingTestPointers 空 vs 实际两份测试），本批未重做旧合同。

@@ -10,7 +10,7 @@
         "R03",
         "R04"
       ],
-      "candidateSha": "filled-after-push",
+      "candidateSha": "b9d6ce54",
       "directed": {
         "shared": {
           "total": 48,
@@ -82,6 +82,66 @@
         "parseIndexedRleChunk '未找到可解释的坏尾槽' branch structurally unreachable (slot0 word == frameCount)",
         "decodeRle truncated stream hangs (lenient decoder) — not asserted, referred to Codex",
         "RV1 samples are synthetic self-contained frames, not original-asset appearance"
+      ]
+    },
+    "B": {
+      "groups": [
+        "R05",
+        "R06",
+        "R07",
+        "R08"
+      ],
+      "candidateSha": "filled-after-push",
+      "directed": {
+        "pal-extract": {
+          "total": 95,
+          "new": 34,
+          "adjacent": 61,
+          "failed": 0
+        }
+      },
+      "newTestFiles": [
+        "packages/pal-extract/src/events/disasm.glm-runtime-resource.test.ts",
+        "packages/pal-extract/src/events/recompile.glm-runtime-resource.test.ts",
+        "packages/pal-extract/src/events/slice.glm-runtime-resource.test.ts",
+        "packages/pal-extract/src/events/annotate.glm-runtime-resource.test.ts",
+        "packages/pal-extract/src/resources/parsers/enemy-teams.glm-runtime-resource.test.ts",
+        "packages/pal-extract/src/resources/parsers/items.glm-runtime-resource.test.ts",
+        "packages/pal-extract/src/resources/parsers/stores.glm-runtime-resource.test.ts",
+        "packages/pal-extract/src/font/bdf-to-json.glm-runtime-resource.test.ts",
+        "packages/pal-extract/src/resources/asset-manifest.glm-runtime-resource.test.ts",
+        "packages/pal-extract/src/resources/parsers/battle-fields.glm-runtime-resource.test.ts"
+      ],
+      "gates": {
+        "typecheck": [
+          "pal-extract"
+        ],
+        "biome": "0/0/0 on new files + wave dir",
+        "docsCheck": "PASS",
+        "gitDiffCheck": "clean"
+      },
+      "mutants": {
+        "runner": "docs/testing/glm-runtime-resource-wave/tools/runtime-resource-mutants.mjs",
+        "batch": "b",
+        "selfTest": 10,
+        "control": "exit0 95 green",
+        "needles": [
+          {
+            "id": "disasm-random-jump-skip-first-target",
+            "result": "business red, exactly 1, AssertionError, hashes unchanged"
+          },
+          {
+            "id": "stores-truncation-sentinel-dropped",
+            "result": "business red, exactly 1, AssertionError, hashes unchanged"
+          }
+        ],
+        "replacedNeedle": "annotate-empty-word-sentinel masked by downstream if(name) — judge rejected as exit0, replaced, no green-fix"
+      },
+      "unproven": [
+        "recompile missing-goto-label default policy: left undefined by prior queue R04, not pinned",
+        "annotate _spell/_person/_enemy RULES unreachable via typed Command union (no named carrier)",
+        "annotate empty-word sentinel doubly guarded; public-entry mutation invisible",
+        "targets.json asset-manifest existingTestPointers stale (two existing test files on freeze baseline); only empty-entries axes added"
       ]
     }
   }
