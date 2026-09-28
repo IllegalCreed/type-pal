@@ -180,6 +180,46 @@ const batches = {
       },
     ],
   },
+  e: {
+    control: {
+      tests: [
+        'src/tools/toast.glm-phase1-leaves.test.ts',
+        'src/tools/countdown.glm-phase1-leaves.test.ts',
+        'src/tools/display-scale.glm-phase1-leaves.test.ts',
+        'src/tools/minimap.glm-phase1-leaves.test.ts',
+        'src/tools/tools-panel.glm-phase1-leaves.test.ts',
+        'src/tools/speedrun/time-format.glm-phase1-leaves.test.ts',
+        'src/tools/speedrun/countdown.glm-phase1-leaves.test.ts',
+        'src/tools/speedrun/timer.glm-phase1-leaves.test.ts',
+      ],
+      total: 19,
+    },
+    production: ['src/tools/toast.ts', 'src/tools/tools-panel.ts'],
+    mutations: [
+      {
+        id: 'toast-container-cleanup',
+        module: 'src/tools/toast.ts',
+        file: 'src/tools/toast.glm-phase1-leaves.test.ts',
+        total: 2,
+        describe: 'L19 showToast 堆叠合同',
+        title: '最后一条移除后容器自删；info 类型用 · 图标与专属 class',
+        from: 'if (container.childElementCount === 0) container.remove()',
+        to: 'if (false) container.remove()',
+        category: '空容器自删拆除：DOM 残留累积',
+      },
+      {
+        id: 'tools-panel-scale-delegate',
+        module: 'src/tools/tools-panel.ts',
+        file: 'src/tools/tools-panel.glm-phase1-leaves.test.ts',
+        total: 2,
+        describe: 'L17 tools-panel 显示区委托',
+        title: '缩放滑块 input → setPercent(posToPct(v))（对数刻度 0.75→316%）并同步 % 文案',
+        from: 'ds.setPercent(posToPct(Number(scaleSlider.value)))',
+        to: 'ds.setPercent(100)',
+        category: '缩放滑块委托断链：恒写 100%',
+      },
+    ],
+  },
 }
 
 const MIXED_ERROR =

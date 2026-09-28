@@ -1,0 +1,112 @@
+{
+  "batch": "e",
+  "hashes": {
+    "src/tools/toast.ts": "fe6ab0697ded3905c0bbbb1635f5bb5e2363da860e2f717427dce899553bebfa",
+    "src/tools/tools-panel.ts": "6a4d63af21493632bf6c55b5b87d5cb87880754b4b9669f88e861224aa32b853"
+  },
+  "selfTest": [
+    {
+      "id": "valid-red",
+      "expectReject": false,
+      "rejected": false,
+      "violations": []
+    },
+    {
+      "id": "same-message-mixed-error",
+      "expectReject": true,
+      "rejected": true,
+      "violations": [
+        "mixed non-business error: AssertionError: expected business rejection\nTypeError: environment broken"
+      ]
+    },
+    {
+      "id": "assertion-prefixed-timeout",
+      "expectReject": true,
+      "rejected": true,
+      "violations": ["timeout treated as red: AssertionError: test timed out"]
+    },
+    {
+      "id": "additional-unrelated-red",
+      "expectReject": true,
+      "rejected": true,
+      "violations": ["failed 2, expected exactly 1"]
+    },
+    {
+      "id": "wrong-fullname-red-with-intended-green",
+      "expectReject": true,
+      "rejected": true,
+      "violations": [
+        "red fullName \"different group 最后一条移除后容器自删；info 类型用 · 图标与专属 class\" != \"L19 showToast 堆叠合同 最后一条移除后容器自删；info 类型用 · 图标与专属 class\""
+      ]
+    },
+    {
+      "id": "foreign-file-same-suffix",
+      "expectReject": true,
+      "rejected": true,
+      "violations": [
+        "red file /different-candidate-root/packages/game/src/tools/toast.glm-phase1-leaves.test.ts != /Users/zhangxu/.codex/worktrees/glm-phase1-leaves/type-pal/packages/game/src/tools/toast.glm-phase1-leaves.test.ts"
+      ]
+    },
+    {
+      "id": "exit-two",
+      "expectReject": true,
+      "rejected": true,
+      "violations": ["exit 2 != 1"]
+    },
+    {
+      "id": "exit-null",
+      "expectReject": true,
+      "rejected": true,
+      "violations": ["exit null != 1"]
+    },
+    {
+      "id": "zero-execution",
+      "expectReject": true,
+      "rejected": true,
+      "violations": [
+        "numTotalTests 0 != 2",
+        "assertions 0 != 2",
+        "duplicate fullName in scope",
+        "passed 0 inconsistent with 0 failed",
+        "failed 0, expected exactly 1"
+      ]
+    },
+    {
+      "id": "control-sample",
+      "expectReject": false,
+      "rejected": false,
+      "violations": []
+    }
+  ],
+  "evidence": [
+    {
+      "id": "control",
+      "exitCode": 0,
+      "tests": 19,
+      "entered": null,
+      "failed": []
+    },
+    {
+      "id": "toast-container-cleanup",
+      "exitCode": 1,
+      "tests": 2,
+      "entered": {
+        "id": "toast-container-cleanup",
+        "target": "/Users/zhangxu/.codex/worktrees/glm-phase1-leaves/type-pal/packages/game/src/tools/toast.ts"
+      },
+      "failed": ["L19 showToast 堆叠合同 最后一条移除后容器自删；info 类型用 · 图标与专属 class"]
+    },
+    {
+      "id": "tools-panel-scale-delegate",
+      "exitCode": 1,
+      "tests": 2,
+      "entered": {
+        "id": "tools-panel-scale-delegate",
+        "target": "/Users/zhangxu/.codex/worktrees/glm-phase1-leaves/type-pal/packages/game/src/tools/tools-panel.ts"
+      },
+      "failed": [
+        "L17 tools-panel 显示区委托 缩放滑块 input → setPercent(posToPct(v))（对数刻度 0.75→316%）并同步 % 文案"
+      ]
+    }
+  ]
+}
