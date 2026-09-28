@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="color-scheme" content="dark" />
+    <title>kimi 编辑器工作流隔离宿主</title>
+    <style>
+      html {
+        color-scheme: dark;
+        background: #1b1d23;
+      }
+      body {
+        margin: 0;
+        background: #1b1d23;
+        color: #edf1f7;
+        font-family: system-ui, sans-serif;
+      }
+      #kimi-host-bar {
+        display: flex;
+        gap: 8px;
+        align-items: center;
+        padding: 6px 10px;
+        background: #252830;
+        font-size: 12px;
+      }
+      #kimi-host-bar button {
+        font-size: 12px;
+        padding: 2px 10px;
+      }
+      #kimi-host-status {
+        color: #9fe8a9;
+      }
+      #kimi-host-status.error {
+        color: #ff9b9b;
+      }
+      #kimi-workbench {
+        height: calc(100vh - 33px);
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/main.tsx"></script>
+  </body>
+</html>
