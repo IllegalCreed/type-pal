@@ -25,7 +25,7 @@ function mkVol(): AudioVolumeController {
 function mkDeps(over: Partial<ToolsPanelDeps> = {}): ToolsPanelDeps {
   return {
     getGs: () => createInitialGameState({ x: 0, y: 0, facing: 'down' }),
-    getResources: () => ({ playerRoles: { roles: [] }, objectPoisons: [], items: [] }) as never,
+    getResources: () => ({ playerRoles: { roles: [] }, objectPoisons: [], items: [] }),
     displayScale: {
       getPercent: () => 100,
       setPercent: vi.fn(),

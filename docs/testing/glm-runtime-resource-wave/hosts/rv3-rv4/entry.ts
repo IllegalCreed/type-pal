@@ -191,7 +191,7 @@ async function main(): Promise<void> {
     `MP 哨兵 lit=${mpDigits} 详情图标 lit=${detailIcon}`,
     `P4 头指 lit=${finger} 箭头 lit=${arrow}`,
   ]
-  const ok =
+  let ok =
     p1Selected > 50 &&
     p1Cursor > 20 &&
     p2Selected > 50 &&
@@ -287,6 +287,7 @@ async function main(): Promise<void> {
   })()
   results.push(`RV4 结算条 lit=${settleLit}`)
   if (settleLit <= 500) errors.push('RV4 settle strip too empty')
+  ok = ok && settleLit > 500 && errors.length === 0
   document.getElementById('result')!.textContent =
     `${results.join(' ； ')} ； console/page errors: ${errors.length} ${errors.join('|')} → ${ok ? 'ASSERT PASS' : 'ASSERT FAIL'}`
 }

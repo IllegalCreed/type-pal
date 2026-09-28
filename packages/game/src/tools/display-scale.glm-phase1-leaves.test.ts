@@ -58,7 +58,7 @@ describe('L19 display-scale 剩余合同', () => {
   it('toggleFullscreen：无全屏元素 → canvas.requestFullscreen；有 → exitFullscreen', () => {
     const canvas = mkCanvas()
     const req = vi.fn()
-    ;(canvas as unknown as { requestFullscreen: unknown }).requestFullscreen = req
+    Object.defineProperty(canvas, 'requestFullscreen', { configurable: true, value: req })
     const ctl = createDisplayScaleController(canvas)
     ctl.toggleFullscreen() // fullscreenElement 天然 undefined → 进全屏分支
     expect(req).toHaveBeenCalledTimes(1)

@@ -230,13 +230,14 @@
       },
       "visual": {
         "ids": ["RV3", "RV4"],
-        "screenshot": "/tmp/type-pal-glm-runtime-resource/rv3-rv4-batchD.png",
-        "sha256": "6abdb5abbf09d659a35da6165a08ac030b3d8926521ed6f524eca499d2230e2b",
-        "canvasAsserts": "ASSERT PASS; console errors 0"
+        "screenshot": "/tmp/type-pal-glm-runtime-resource/rv3-rv4-rework.png",
+        "sha256": "f6c39540c9a38281094168e1f4f8afe30a41f64e79fb9f448eef93f261d75fa5",
+        "canvasAsserts": "four clipped panels sampled at their own origins; zero adjacent bleed; RV4 settlement lit > 500; console errors 0",
+        "reworkCandidateSha": "272712323ed3657a4b1d1a33f3a887261814312d"
       },
       "unproven": [
         "battle-anim large flows out of narrow scope",
-        "RV3 MAGIC_GRID 301px width causes slight panel overlap in display (asserts sample per-panel coords)"
+        "RV3/RV4 host validates fixed rendering inputs only; battle execution and reward posting remain out of scope"
       ]
     },
     "E": {

@@ -343,12 +343,12 @@ function lv4() {
 
 window.addEventListener('error', (e) => log(`页面错误: ${e.message}`))
 window.__lv = { lv1, lv2 }
-document
-  .querySelectorAll('button[data-lv1]')
-  .forEach((b) => b.addEventListener('click', () => lv1(Number(b.dataset.lv1))))
-document
-  .querySelectorAll('button[data-lv2]')
-  .forEach((b) => b.addEventListener('click', () => lv2(Number(b.dataset.lv2))))
+document.querySelectorAll('button[data-lv1]').forEach((b) => {
+  b.addEventListener('click', () => lv1(Number(b.dataset.lv1)))
+})
+document.querySelectorAll('button[data-lv2]').forEach((b) => {
+  b.addEventListener('click', () => lv2(Number(b.dataset.lv2)))
+})
 lv1(0)
 lv2(0)
 lv3()
