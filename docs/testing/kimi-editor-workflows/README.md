@@ -2,6 +2,7 @@
 
 [任务卡](../../ops/tasks/TEST-KIMI-EDITOR-WORKFLOWS-1-twelve-groups.md) ·
 [冻结目标与精确新增测试路径](targets.json) · [上级](../README.md) ·
+[交付回执](receipt.md) ·
 [单点反控 harness](counter-control/README.md) · [隔离浏览器宿主](browser-host/README.md) ·
 [同口径覆盖对照](coverage-compare/README.md)
 
@@ -127,6 +128,6 @@ before 仅排除本卡新增测试，after 包含它们，两侧产品相同、�
 |---|---|---|---|---|
 | A | K01–K04 | 04ed4823 | 40/40 绿 + 17 针反控全 valid + 浏览器闭环×2 | pending |
 | B | K05–K08 | 524d1930 | 34/34 绿 + 12 针反控全 valid + 浏览器闭环×2 | pending |
-| C | K09–K12 | pending | pending | pending |
+| C | K09–K12 | e838ca30 | 43/43 绿 + 18 针反控全 valid + 浏览器闭环×2 | pending |
 
 Kimi 只更新候选和自己的自验列，不能代填 Codex 结论或标 done。无需 Kimi/GLM/Grok 互审或恢复三席。
