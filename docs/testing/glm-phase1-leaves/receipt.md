@@ -126,35 +126,41 @@
 | D | L13–16 | 4f8fa63d0dbcd18552274b540b3885f4dc2213a0 | done（20/20+444相邻+2针反控，见 receipt.md） | pending || C | L09–12 | 38072e8d8bc4f6e6e0223bd2f3ba8ffcbeede56b | done（34/34+424相邻+2针反控，见 receipt.md） | pending |
 | D | L13–16 | 4f8fa63d0dbcd18552274b540b3885f4dc2213a0 | done（20/20+444相邻+2针反控，见 receipt.md） | pending || D | L13–16 | pending | pending | pending |
 | D | L13–16 | 4f8fa63d0dbcd18552274b540b3885f4dc2213a0 | done（20/20+444相邻+2针反控，见 receipt.md） | pending || E | L17–20 | a399a1fb04a6a4b446f628ad37594339db4da72e | done（19/19+147相邻+2针反控，见 receipt.md） | pending |
-| D | L13–16 | 4f8fa63d0dbcd18552274b540b3885f4dc2213a0 | done（20/20+444相邻+2针反控，见 receipt.md） | pending || F | L21–24 | pending | pending | pending |
+| D | L13–16 | 4f8fa63d0dbcd18552274b540b3885f4dc2213a0 | done（20/20+444相邻+2针反控，见 receipt.md） | pending || F | L21–24 | b6eaa15b3f1ccbaa08c15dff5ab35fa789ab7c0f | done（17/17+281相邻+2针反控，见 receipt.md） | pending |
 | D | L13–16 | 4f8fa63d0dbcd18552274b540b3885f4dc2213a0 | done（20/20+444相邻+2针反控，见 receipt.md） | pending |
 | D | L13–16 | 4f8fa63d0dbcd18552274b540b3885f4dc2213a0 | done（20/20+444相邻+2针反控，见 receipt.md） | pending |只填本人候选/自验，不代签、不合main、不标done。第三阶段地图构件化/拆房迁移仍是规划，不在本卡开工。
 
-## 批 E — L17–L20（tools 面板与小工具）
+## 批 F — L21–L24（speedrun 存储编排 + shell 装载与资产）
 
-- 候选 SHA：`a399a1fb04a6a4b446f628ad37594339db4da72e`；父提交：批 D 回执头 `36ea9f50`。
-- diff 范围：9 个新测试文件 + runner 批 e 注册 + `evidence/batch-E/**` + 本 receipt。
-- 新文件（19 tests / 19 passed / 0 failed，`evidence/batch-E/vitest-new.json`）：
-  - L17 tools-panel（2）：缩放滑块 input → setPercent(posToPct(v))（0.75→316%）+ % 文案同步、
-    全屏按钮 → toggleFullscreen、FPS 开关 → setFpsEnabled（tp-fps-show 持久可观察）。
-    委托边界；不触真实缩放/全屏/存档写盘。
-  - L18 minimap（4）：drawMinimap 真实 canvas 2D 像素（暗底占位、玩家白点在手算
-    worldToThumb 坐标、宝物金色点 toggle 显隐整图扫描）、setupMinimap 控制器 toggle 与
-    localStorage 持久读回、非法持久值回默认。真实 canvas（jsdom+canvas 包），自有 GameState。
-  - L19 toast（2）：多条堆叠共存与按条到期移除、info 图标/class、空容器自删。
-  - L19 display-scale + fps-overlay（4）：非整数 setPercent 四舍五入、居中锚定样式、
-    MIN/MAX 常量可达、toggleFullscreen requestFullscreen/exitFullscreen 分支、
-    hideFpsOverlay 从未创建 no-op、样式幂等留存、非法持久值视为关。
-  - L20 time-format（2）：formatClock/formatHms 小时位进位手算（1:01:01.23）。
-  - L20 countdown（2）：单例元素复用不重复建、null 移除幂等、移除后重建。
-  - L20 timer（2）：两段式手动暂停（一按停表、再按 13000 倒计时窗）+
-    getCountdownRemainingSec ceil 语义与清零后 null、consumeBestsDirty 一次性读、
-    reset 保留 bests 只清本局。
-- 相邻回归：`src/tools/` 全量 147/147 passed（`evidence/batch-E/vitest-adjacent.json`）。
+- 候选 SHA：`b6eaa15b3f1ccbaa08c15dff5ab35fa789ab7c0f`；父提交：批 E 回执头 `0439e0d7`。
+- diff 范围：8 个新测试文件 + runner 批 f 注册 + `evidence/batch-F/**` + 本 receipt。
+  **existing-proof 登记**：boot-loading.test（9 项 init/finish/fail/note/幂等/PROD 分流已密）、
+  precache-ui.test（7 项两段进度/按钮/widget 生命周期已密）、tileset-blob.test（13 项
+  RLE/GOP/gzip/角色锚点/全链路已密）——三源未发现新合同，不凑文件。
+- 新文件（17 tests / 17 passed / 0 failed，`evidence/batch-F/vitest-new.json`）：
+  - L21 store（2）：bests 非法 JSON 降级 defaults 副本、defaults 外存储 key 忽略、
+    saveBests→loadBests 往返、settings 仅识别 '1'/'0'。
+  - L21 speedrun index（2）：setupSpeedrunHotkeys 解绑函数移除监听（解绑后 F4 无新 toast）、
+    未启用按键短路、解绑幂等。
+  - L21 overlay（2）：renderOverlay 原位更新单根不重复建、样式注入幂等、hideOverlay 幂等。
+  - L22 precache-client（2）：pause/resume 早于 ready 静默丢弃（仅 start 缓冲补发）、
+    ready 后 start/pause/resume 协议载荷顺序直达 worker。fake ServiceWorkerContainer 桩，
+    不注册真实 SW。
+  - L23 fetch-retry（2）：uninstallFetchRetryForTest 还原后网络错误不再重试包装（恰 1 次）、
+    还原后可重新装载（installed 复位）。
+  - L23 png（2）：alpha=0 透明 / palette-0 opaque 双通道合同、坏 blob 失败上下文
+    （带尺寸/类型，不裸抛）。
+  - L23 dialog-assets（2，无既有测试）：manifest+PNG 成功就位、单张 404 skip、icons !ok
+    降级空 map、portraits.json 500 → 空 map 不阻整体；fetch 全隔离不触真实 /extracted。
+  - L24 audio + audio-midi（3，audio-midi 无既有测试）：setOggVolumeScale 对新建与播放中
+    元素即时生效（0.6·scale）、setBgmVolume 合成器未就绪只暂存不抛、无 AudioContext →
+    no-op backend。FakeAudio 端口，不 mock 本模块，不证听感。
+- 相邻回归：`src/shell/ + src/assets/ + src/tools/speedrun/` 281 passed / 0 failed
+  （12 skipped 为既有 skip；`evidence/batch-F/vitest-adjacent.json`）。
 - 命令：同前批口径；typecheck 0 诊断、Biome 0 诊断、docs PASS、diff --check 干净。
-- 反控（`evidence/batch-E/needles-summary.json`，`node tools/leaves-mutants.mjs e`）：
-  - control：8 新文件 19/19 exit0 全绿。
-  - `toast-container-cleanup`：空容器自删拆除 → 恰一红。
-  - `tools-panel-scale-delegate`：缩放滑块委托断链 → 恰一红。
-- 未证项：minimap mountSceneView 的 rAF 自更新循环与底图 Image 异步加载未测（需 fake rAF +
-  Image onload 桩，登记后续）；tools-panel 存档导入/导出委托按卡面边界不测；覆盖增量未执行。
+- 反控（`evidence/batch-F/needles-summary.json`，`node tools/leaves-mutants.mjs f`）：
+  - control：8 新文件 17/17 exit0 全绿。
+  - `store-bests-key-merge`：bests 坏 JSON 降级拆除 → 恰一红。
+  - `ogg-volume-live-refresh`：OGG 音量即时刷新拆除 → 恰一红。
+- 未证项：audio-midi 真实 SpessaSynth 初始化/AudioWorklet 与真实 SW 离线行为不测（端口协议
+  已按桩证）；听感/真实离线未证，不冒称；覆盖增量未执行，统计由 Codex 统一。

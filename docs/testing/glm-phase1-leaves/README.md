@@ -126,6 +126,6 @@
 | D | L13–16 | 4f8fa63d0dbcd18552274b540b3885f4dc2213a0 | done（20/20+444相邻+2针反控，见 receipt.md） | pending || C | L09–12 | 38072e8d8bc4f6e6e0223bd2f3ba8ffcbeede56b | done（34/34+424相邻+2针反控，见 receipt.md） | pending |
 | D | L13–16 | 4f8fa63d0dbcd18552274b540b3885f4dc2213a0 | done（20/20+444相邻+2针反控，见 receipt.md） | pending || D | L13–16 | pending | pending | pending |
 | D | L13–16 | 4f8fa63d0dbcd18552274b540b3885f4dc2213a0 | done（20/20+444相邻+2针反控，见 receipt.md） | pending || E | L17–20 | a399a1fb04a6a4b446f628ad37594339db4da72e | done（19/19+147相邻+2针反控，见 receipt.md） | pending |
-| D | L13–16 | 4f8fa63d0dbcd18552274b540b3885f4dc2213a0 | done（20/20+444相邻+2针反控，见 receipt.md） | pending || F | L21–24 | pending | pending | pending |
+| D | L13–16 | 4f8fa63d0dbcd18552274b540b3885f4dc2213a0 | done（20/20+444相邻+2针反控，见 receipt.md） | pending || F | L21–24 | b6eaa15b3f1ccbaa08c15dff5ab35fa789ab7c0f | done（17/17+281相邻+2针反控，见 receipt.md） | pending |
 | D | L13–16 | 4f8fa63d0dbcd18552274b540b3885f4dc2213a0 | done（20/20+444相邻+2针反控，见 receipt.md） | pending |
 | D | L13–16 | 4f8fa63d0dbcd18552274b540b3885f4dc2213a0 | done（20/20+444相邻+2针反控，见 receipt.md） | pending |只填本人候选/自验，不代签、不合main、不标done。第三阶段地图构件化/拆房迁移仍是规划，不在本卡开工。
