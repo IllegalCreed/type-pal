@@ -163,7 +163,7 @@ lint/格式/typecheck **error/warning/info 全零**；已有诊断也不能报�
 | D | G13–16 | `codex/glm-leaf-workflows-r1` e002fbea | 自验通过：定向 33/33、相邻 41/41、全包 3413/3413、A–D 覆盖对照（行 +177/分支 +172，20 文件改善）、typecheck/Biome/docs 零诊断、判据 control 绿+2 针红、隔离视觉 2 图（6068，已停） | pending |
 | E | G17–20 | `codex/glm-leaf-workflows-r1` e002fbea | 自验通过：定向 12/12、相邻 42/42、typecheck/Biome/docs 零诊断、判据 control 绿+2 针红、隔离视觉 3 图（6068，已停） | pending |
 | F | G21–24 | `codex/glm-leaf-workflows-r1` 5645aa7f | 自验通过：定向 16/16、相邻 75/75、typecheck/Biome/docs 零诊断、判据 control 绿+2 针红 | pending |
-| G | G25–28 | `codex/glm-leaf-workflows-r1`（G+H 合并提交） | 自验通过：定向 21/21、相邻 86/86、typecheck/Biome 零诊断、判据 control 绿+2 针红 | pending |
-| H | G29–32 | 同上（G+H 合并提交） | 自验通过：定向 24/24、相邻 152/152、content/editor 全包 3462+1222 全绿、A–H 覆盖对照（行 +223/分支 +220，30 文件改善）、判据 control 绿+2 针红 | pending |
+| G | G25–28 | `codex/glm-leaf-workflows-r1` 0bb3cda0 | 自验通过：定向 21/21、相邻 86/86、typecheck/Biome 零诊断、判据 control 绿+2 针红 | pending |
+| H | G29–32 | `codex/glm-leaf-workflows-r1` 0bb3cda0 | 自验通过：定向 24/24、相邻 152/152、content/editor 全包 3462+1222 全绿、A–H 覆盖对照（行 +223/分支 +220，30 文件改善）、判据 control 绿+2 针红 | pending |
 
 GLM 只填候选和本人自验列，不代填 Codex 结论、不合 main、不标 done；Codex 验收后统一集成推送及清理。
