@@ -77,7 +77,7 @@ check8896/单次strict8404全过；实际+134分支/+73行，content分支85.55%
 | ID | 任务 | 状态 | 负责人/下一步 | 一句话备注 |
 |---|---|---|---|---|
 | TEST-GLM-PHASE1-LEAVES-3 | [第三对话一阶段菜单、呈现与工具六批](tasks/TEST-GLM-PHASE1-LEAVES-3-menus-presentation-tools.md) | build | GLM第三对话 / L01–L24连续实施 | 51目标与两GLM/Kimi零交集；不碰E2E/机制核心/第三阶段，单worker，无大覆盖 |
-| TEST-GLM-RUNTIME-RESOURCE-2 | [第二对话运行时与资源七批](tasks/TEST-GLM-RUNTIME-RESOURCE-2-parallel-wave.md) | build | GLM第二对话 / R01–R28连续实施 | 独立树/分支，62目标与第一GLM/Kimi零交集；公开窄入口/四视觉，包全测和覆盖由Codex统一 |
+| TEST-GLM-RUNTIME-RESOURCE-2 | [第二对话运行时与资源七批](tasks/TEST-GLM-RUNTIME-RESOURCE-2-parallel-wave.md) | rework | GLM第二对话 / 修 Codex 四项反例 | fed0a7869：62源hash、157定向例和G反控通过；lint 11诊断、强转、RV3宿主与汇总口径待修 |
 | TEST-GLM-LEAF-WORKFLOWS-1 | [三十二组叶层与小界面补测](tasks/TEST-GLM-LEAF-WORKFLOWS-1-thirty-two-groups.md) | rework | GLM / 修 Codex 五项反例后交新候选 | 4b5aade7f 全包测试绿，但 lint 13 诊断、fixture/合同/视觉/覆盖回执未达接收门 |
 | TEST-KIMI-EDITOR-WORKFLOWS-1 | [编辑器十二组真实工作流补测](tasks/TEST-KIMI-EDITOR-WORKFLOWS-1-twelve-groups.md) | rework | Kimi / 修 Codex 四项反例后交新候选 | 186f046b：117 新例、21 源 hash、7 图与局部覆盖已核；lint、反控工具、宿主告警及强转未过门 |
 | E2E-R4-1 | [路线驱动与检查点薄基线](tasks/E2E-R4-1-route-and-checkpoint-foundation.md) | build | Codex / 002正常移动与跨场景 | 001 verify已收口：55正文/角色/真实读档及像素；002继承真档，录制音轨另排 |

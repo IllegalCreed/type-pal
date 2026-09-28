@@ -13,7 +13,7 @@
 | [EDITOR-SCENE-FACING-1 — 切场景指令无法清除显式朝向](EDITOR-SCENE-FACING-1-clear-override.md) | draft | 以任务卡当前准入与看板分工为准。 |
 | [TEST-GLM-LEAF-WORKFLOWS-1 — 三十二组叶层与小界面补测](TEST-GLM-LEAF-WORKFLOWS-1-thirty-two-groups.md) | rework | 以任务卡当前准入与看板分工为准。 |
 | [TEST-GLM-PHASE1-LEAVES-3 — 第三对话一阶段菜单、呈现与工具六批补测](TEST-GLM-PHASE1-LEAVES-3-menus-presentation-tools.md) | build | 以任务卡当前准入与看板分工为准。 |
-| [TEST-GLM-RUNTIME-RESOURCE-2 — 第二对话运行时与资源七批补测](TEST-GLM-RUNTIME-RESOURCE-2-parallel-wave.md) | build | 以任务卡当前准入与看板分工为准。 |
+| [TEST-GLM-RUNTIME-RESOURCE-2 — 第二对话运行时与资源七批补测](TEST-GLM-RUNTIME-RESOURCE-2-parallel-wave.md) | rework | 以任务卡当前准入与看板分工为准。 |
 | [TEST-KIMI-EDITOR-WORKFLOWS-1 — 编辑器十二组真实工作流补测](TEST-KIMI-EDITOR-WORKFLOWS-1-twelve-groups.md) | rework | 以任务卡当前准入与看板分工为准。 |
 
 ## 已完成（historical）
