@@ -1,6 +1,7 @@
 import type { Palette, PlayerRoles, Tilemap } from '@type-pal/shared'
 import { afterEach, describe, expect, it, vi } from 'vitest'
 import { createInitialGameState } from '../core/game-state.js'
+import { buildFadeIn, buildSceneFade, makeWorkingPalette } from '../core/palette-fade.js'
 import { FRAMES_PER_CHAR, setWaitingEndKey, startDialogLine, tickDialog } from './dialog-box.js'
 import type { SpriteImage } from './draw-sprite.js'
 import * as drawSpriteModule from './draw-sprite.js'
@@ -70,6 +71,57 @@ function baseCtx(tilemap?: Tilemap): PresentContext {
     ]),
   }
 }
+
+describe('cursorless fade completion preserves the actual restored palette', () => {
+  afterEach(() => vi.restoreAllMocks())
+  const palette = (): Palette => ({
+    colors: Array.from({ length: 256 }, (_, i) => [i, (i * 2) % 256, 255 - i]),
+    cycles: [],
+  })
+  it.each([
+    undefined,
+    'dialog',
+    'frame-wait',
+  ] as const)('FadeIn without owning waiter (%s) restores all target colors', (waiting) => {
+    const base = palette(),
+      before = structuredClone(base)
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    gs.palette = makeWorkingPalette(base)
+    gs.paletteFadeState = buildFadeIn(base.colors, 600, 0)
+    if (waiting) gs.eventCursor = { commands: [], labelMap: {}, ip: 0, waiting }
+    vi.spyOn(performance, 'now').mockReturnValue(600)
+    presentFrame(createFramebuffer(), gs, baseCtx())
+    expect(gs.paletteFadeState).toBeUndefined()
+    expect(gs.palette.colors).toEqual(before.colors)
+    expect(base).toEqual(before)
+  })
+  it.each([
+    'palette-fade',
+    'scene-fade',
+  ] as const)('%s remains owned by the event system', (waiting) => {
+    const base = palette(),
+      gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    gs.palette = makeWorkingPalette(base)
+    const fade = buildFadeIn(base.colors, 600, 0)
+    gs.paletteFadeState = fade
+    gs.eventCursor = { commands: [], labelMap: {}, ip: 0, waiting }
+    vi.spyOn(performance, 'now').mockReturnValue(600)
+    presentFrame(createFramebuffer(), gs, baseCtx())
+    expect(gs.paletteFadeState).toBe(fade)
+    expect(gs.palette.colors).toEqual(base.colors.map((c) => c.map((v) => (v * 60) >> 6)))
+    expect(gs.eventCursor.ip).toBe(0)
+  })
+  it('cursorless SceneFade still keeps its documented 63/64 endpoint', () => {
+    const base = palette(),
+      gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    gs.palette = makeWorkingPalette(base)
+    gs.paletteFadeState = buildSceneFade(base.colors, base.colors, true, 600, 0)
+    vi.spyOn(performance, 'now').mockReturnValue(600)
+    presentFrame(createFramebuffer(), gs, baseCtx())
+    expect(gs.paletteFadeState).toBeUndefined()
+    expect(gs.palette.colors).toEqual(base.colors.map((c) => c.map((v) => (v * 63) >> 6)))
+  })
+})
 
 describe('presentFrame 菜单渲染门控(物品/手卷 use 脚本期间 mode=event → 不画菜单遮挡对话)', () => {
   afterEach(() => {

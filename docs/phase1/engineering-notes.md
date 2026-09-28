@@ -102,6 +102,9 @@ sdlpal 的阻塞调用返回后**同一帧**常还有后续步骤,异步化(跨�
 ### 3.5 time-based 状态要有兜底收尾人
 sdlpal 阻塞式过程(PAL_FadeIn 等)tick 化后变成"状态对象 + 收尾人"。收尾人若按"谁在等"分派,中间路径点火的状态就成**孤儿** → `state != null` 当全局门(吞键/冻逻辑)时即死锁(tickSceneAutoFadeIn 演出 frame-wait 中点的自动渐入两边都不收,main-loop 把 `paletteFadeState != null` 当 fade 进行中每 rAF 吞键 → 香兰报信等键死锁)。
 - 新增 time-based gs 状态(fade/shake/wave/hold):① 列全点火路径(opcode handler / auto 触发 / 读档恢复);② 每条路径指定收尾人,无人等的给"到时自清"兜底;③ 凡 `state != null` 作输入门/逻辑门的,审一遍孤儿可能。
+- 2026-09-28实际像素回验补充：**自清必须执行同一套finalize，不只是置undefined**。
+  自动FadeIn在presentFrame自清，但量化循环最高60/64，漏finalize使读档后永久暗6.25%。
+  调用既有finalizePaletteFade后补满；SceneFade仍按其63/64合同，不能统一强写target。
 
 ### 3.6 战斗动画拍频(施法慢/卡顿)
 战斗用 40ms 固定逻辑 tick,`advanceBattleAnimFrames` 按 40ms 累积推进时间线帧。凡帧时长**非 40ms 整数倍**就拍频离散抖动:法术效果帧 `(speed+5)*10ms`(**45/104 法术 speed=0=50ms** 最坏 → frame0 在 40ms tick 下停 80ms,80/40/40/40 拍频);召唤 loop / fade 步同理。sdlpal 原版是独立 `PAL_DelayUntil` blocking 循环(精确),塞进 25fps 异步 tick 就抖。

@@ -3,7 +3,7 @@ import type { IndexedImage } from '../assets/png.js'
 import type { BusEntry } from '../core/command-bus.js'
 import type { GameState } from '../core/game-state.js'
 import { getOverworldSpriteNum, projectRuntimeToBattleRoles } from '../core/game-state.js'
-import { stepPaletteFade } from '../core/palette-fade.js'
+import { finalizePaletteFade, stepPaletteFade } from '../core/palette-fade.js'
 import { isWalkable } from '../core/scene-system.js'
 import type { BattleBgAsset } from './battle/draw-battle-bg.js'
 import type { BattleAssets, BattlePresent } from './battle/present-battle.js'
@@ -214,7 +214,10 @@ export function presentFrame(
     const w = gs.eventCursor?.waiting
     const awaited = w === 'palette-fade' || w === 'scene-fade'
     if (!awaited && performance.now() - pf.startTimeMs >= pf.totalMs) {
-      gs.paletteFadeState = undefined // colors 已 = target(stepPaletteFade progress clamp 1)
+      // FadeIn循环只到60/64；无人等待时本处也须做正式收尾，不能让读档画面永久变暗。
+      // 复用finalize以保留SceneFade的63/64终值，不改变有事件等待者的收尾归属。
+      finalizePaletteFade(gs.palette.colors, pf)
+      gs.paletteFadeState = undefined
     }
   }
 

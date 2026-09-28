@@ -25,6 +25,16 @@ sdlpal `text.c:1649-1658`四行后等键/清页，然后仍显示当前传入文
 最强替代解释“只是日志遗漏/迁移缺句”已由真实tickEventSystem可见行+history双断言和双方源数据推翻。
 已有`event-dialogue-pagination.test.ts`原红先保留复跑；补多页/换样式/显隐清框与后续副作用一次性回归。
 
+### 像素回验追加发现（同轮准入）
+
+新增严格像素回验拒绝game读回：形状/非黑像素数53003完全相同，但全部非黑颜色变为原色×60/64取整。
+不是前述图像展示工具误判。`present.ts:211-217`无人等待的fade到时只清状态，未调finalize；
+`palette-fade.ts:263-280/305-317`循环最高60/64、最终补满由finalize负责，
+sdlpal `palette.c:257-259` FadeIn循环后明确VIDEO_SetPalette(palette)。
+二阶段同引擎RGBA一致；不改变其产品。Codex核定补presentFrame的唯一收尾调用与真实present回归：
+无人等待淡入补满，等待者仍由事件系统收尾，SceneFade仍保留63/64语义，不改存档格式或资产。
+失败回执`both-001-2026-09-28T04-06-55-249Z`保留，禁止放宽像素门通过。
+
 ## 范围与验收
 
 允许game事件游标窄修与dialog-box注释更正、对应回归、scripts/e2e工具/合同/只读隔离插桩、
