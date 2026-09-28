@@ -121,3 +121,62 @@ console 错误：0（error 监听全程为空）。
   - console 错误 0。
 - 未证项：关闭后触发器焦点恢复依赖 rAF，隐藏 IAB 标签页 rAF 暂停（同 A 批），单测已覆盖；
   键盘输入首拍因焦点竞态未落入输入框，重取坐标后成功，非产品缺陷。
+
+## 批 C（G09–G12 · 资源选择/试听/分栏/地图工具条）
+
+- 新测试（28 条，7 文件）：
+  - `ImageAssetPicker.glm-leaf-wave.test.tsx`（7）：`imageAssets` kind 过滤+排序、`imageAssetLabel`
+    回退；缩略图经真实 `EditorAssetReader` 读真实字节→object URL `<img>`、卸载回收 URL、读失败出
+    带标题错误片、无 id 空片；picker 选择/`(无)` 清除回传实际值、缺失或类型错误出 `⚠` 选项且缩略图
+    置空、空目录提示、`onOpenAsset` 动作。
+  - `MusicPicker.glm-leaf-wave.test.tsx`（4）：`musicAssets`/`musicLabel`；`(延续上一曲)`→undefined、
+    `(停止音乐)`→null、普通曲目→id 三个哨兵逐一回传；空目录提示；PreviewButton 空闲端口态与无资产禁用。
+  - `SoundPicker.glm-leaf-wave.test.tsx`（5）：`soundAssets`/`soundLabel`；`(无音效)` 哨兵；错误类型值
+    显示 `⚠`、空目录提示；`SoundPreviewButton` 真实 reader 拒绝→可见错误文本；无有效选择禁用试听。
+  - `PortraitEditor.glm-leaf-wave.test.tsx`（3）：无 portrait 资产时触发器禁用+导入提示；真实会话中的
+    表情换图/删行/删整组 roundtrip；资产类型被替换后 `⚠` 展示且兄弟行合法编辑照常入库。
+  - `ProjectAudioPreviewButton.glm-leaf-wave.test.tsx`（2）：idle→loading→playing→stopped 四步按钮态
+    （aria-busy/aria-pressed/图标标签切换、load 参数）；paused 快照回 idle 后可重播。
+  - `PanelResizeHandle.glm-leaf-wave.test.tsx`（4）：`parseStoredPanelNumber` 取整钳制/非有限拒绝/
+    空串按 0 钳到 min；`useStoredPanelNumber/Boolean` localStorage 水合、写透（写入不钳制，读时钳制）
+    与坏值回退；键盘 ±16 方向按姿态、Home 重置、disabled 忽略、toggle 与双击重置。
+  - `IsometricEditorToolbar.glm-leaf-wave.test.tsx`（3）：工具切换/aria-pressed/按工具禁用/选择选项
+    fieldset；笔刷面积与绘制高度经托盘回传、高度禁用、非笔刷/矩形/填充工具不渲染高度托盘；碰撞
+    标记/清除切换、视图菜单显示网格/碰撞 checked 切换（每项点击后菜单收层，重开再点）。
+- 合法输入基线：真实 `loadLegalUiProject` 工程 + 真实 `EditSession` + 真实 `UpsertAssetCommand`
+  注册真实字节资产 + 真实 `createEditorAssetReader`；不 mock 被测组件/核心命令。
+- 复跑（cwd 仓库根；全部 exit 0）：
+  ```sh
+  env -u NODE_COMPILE_CACHE pnpm --filter @type-pal/editor exec vitest run \
+    src/ui/{ImageAssetPicker,MusicPicker,SoundPicker,PortraitEditor,ProjectAudioPreviewButton,PanelResizeHandle,IsometricEditorToolbar}.glm-leaf-wave.test.tsx \
+    --maxWorkers=2   # 28/28，JSON: /tmp/glm-leaf-C-directed.json
+  env -u NODE_COMPILE_CACHE pnpm --filter @type-pal/editor exec vitest run \
+    src/ui/MusicPicker.test.tsx src/ui/SoundPicker.test.ts src/ui/PortraitEditor.test.tsx \
+    src/ui/ProjectAudioPreviewButton.test.tsx src/ui/PanelResizeHandle.test.ts \
+    src/ui/IsometricEditorToolbar.test.tsx --maxWorkers=2   # 相邻旧测 15/15
+  env -u NODE_COMPILE_CACHE pnpm --filter @type-pal/editor typecheck   # 0 error
+  pnpm exec biome check <七个新测试> docs/testing/glm-leaf-workflows   # 0 error/warning/info
+  env -u NODE_COMPILE_CACHE node scripts/docs/check.mjs               # PASS
+  env -u NODE_COMPILE_CACHE node docs/testing/glm-leaf-workflows/leaf-mutants.mjs c
+  ```
+- 反控（leaf-mutants.mjs c，自测 10 类 + control 28/28 绿 + 2 针业务红）：
+  - `music-stop-sentinel-mapped-to-id`：`(停止音乐)` 哨兵被映射回曲目 id → MusicPicker 哨兵回传红。
+  - `sound-preview-error-swallowed`：试听失败 `setError` 被吞 → 可见错误红（C 失败状态）。
+- 视觉（C 批一条；白名单内最小宿主 `docs/testing/glm-leaf-workflows/browser-host/`，真实组件+真实
+  样式+真实 reader+真实 PNG（复制自项目 item-icon 资产），vite 6067 strictPort，已停）：
+  - 图片选择：缩略图为真实解码图（naturalWidth>0，非错误占位）→ `(无)` 清除 → `data-selected` 变
+    `(未选)`、缩略图置空 → 重选回 item-icon.leaf.001（1440×900 与 1000×720 均见真实图）。
+  - 分栏手柄：真实键盘 ArrowLeft/Right 每次 ±16，压到 min 120 / max 400 均被钳制且 `aria-valuenow`
+    同步、分栏无反向溢出（截图 C-panel-handle-1440-max-boundary.png 等）。
+  - 截图（/tmp/type-pal-glm-leaf-workflows/，SHA-256）：
+    - C-imagepicker-panel-1440-selected.png 07c73dcf…dcfa09
+    - C-panel-handle-1440-max-boundary.png c0fdf4d9…69fc4c02
+    - C-imagepicker-panel-1000.png 12662144…1976584
+  - console 错误 0。
+- 未证项：
+  - `PortraitEditor` 的 `DsStatus` 错误横幅无合法 UI 路径可达（补丁校验只查新增引用，既有引用被
+    `previousPortraits` 跳过；同值重选被去重）——按卡登记为防御性不可达，不以 mock 上游守卫硬打。
+  - `ImageAssetThumbnail` 战场背景调色板分支需 `createImageBitmap`+320×200 索引图契约，jsdom 无该
+    API 且不属于本组窄合同，未测。
+  - 1000×720 视口手柄键盘步进因焦点竞态未生效（边界钳制行为已在 1440×900 用真实键盘逐步实证）。
+- 真实产品缺陷：无。

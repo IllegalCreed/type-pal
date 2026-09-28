@@ -106,6 +106,54 @@ const batches = {
       },
     ],
   },
+  c: {
+    packageRoot: resolve(root, 'packages/editor'),
+    production: [
+      'src/ui/ImageAssetPicker.tsx',
+      'src/ui/MusicPicker.tsx',
+      'src/ui/SoundPicker.tsx',
+      'src/ui/PortraitEditor.tsx',
+      'src/ui/ProjectAudioPreviewButton.tsx',
+      'src/ui/PanelResizeHandle.tsx',
+      'src/ui/IsometricEditorToolbar.tsx',
+    ],
+    control: {
+      tests: [
+        'src/ui/ImageAssetPicker.glm-leaf-wave.test.tsx',
+        'src/ui/MusicPicker.glm-leaf-wave.test.tsx',
+        'src/ui/SoundPicker.glm-leaf-wave.test.tsx',
+        'src/ui/PortraitEditor.glm-leaf-wave.test.tsx',
+        'src/ui/ProjectAudioPreviewButton.glm-leaf-wave.test.tsx',
+        'src/ui/PanelResizeHandle.glm-leaf-wave.test.tsx',
+        'src/ui/IsometricEditorToolbar.glm-leaf-wave.test.tsx',
+      ],
+      total: 28,
+    },
+    mutations: [
+      {
+        id: 'music-stop-sentinel-mapped-to-id',
+        module: 'src/ui/MusicPicker.tsx',
+        file: 'src/ui/MusicPicker.glm-leaf-wave.test.tsx',
+        total: 4,
+        describe: 'MusicPicker 剩余合同',
+        title: 'commits plain selections and (延续上一曲)/(停止音乐) sentinels exactly',
+        from: 'next === STOP ? null : next',
+        to: "next === STOP ? 'music.lab.001' : next",
+        category: '类型哨兵拆除：停止音乐被映射回具体曲目而非 null',
+      },
+      {
+        id: 'sound-preview-error-swallowed',
+        module: 'src/ui/SoundPicker.tsx',
+        file: 'src/ui/SoundPicker.glm-leaf-wave.test.tsx',
+        total: 5,
+        describe: 'SoundPicker 剩余合同',
+        title: 'surfaces a visible preview error when the reader rejects the asset',
+        from: 'setError(cause instanceof Error ? cause.message : String(cause))',
+        to: 'void cause',
+        category: '失败状态拆除：试听失败不再显示可读错误',
+      },
+    ],
+  },
 }
 
 const MIXED_ERROR =

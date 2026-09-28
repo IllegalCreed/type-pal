@@ -26,17 +26,13 @@
       "id": "assertion-prefixed-timeout",
       "expectReject": true,
       "rejected": true,
-      "violations": [
-        "timeout treated as red: AssertionError: test timed out"
-      ]
+      "violations": ["timeout treated as red: AssertionError: test timed out"]
     },
     {
       "id": "additional-unrelated-red",
       "expectReject": true,
       "rejected": true,
-      "violations": [
-        "failed 2, expected exactly 1"
-      ]
+      "violations": ["failed 2, expected exactly 1"]
     },
     {
       "id": "wrong-fullname-red-with-intended-green",
@@ -58,17 +54,13 @@
       "id": "exit-two",
       "expectReject": true,
       "rejected": true,
-      "violations": [
-        "exit 2 != 1"
-      ]
+      "violations": ["exit 2 != 1"]
     },
     {
       "id": "exit-null",
       "expectReject": true,
       "rejected": true,
-      "violations": [
-        "exit null != 1"
-      ]
+      "violations": ["exit null != 1"]
     },
     {
       "id": "zero-execution",
