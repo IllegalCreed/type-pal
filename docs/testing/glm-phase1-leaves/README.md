@@ -1,6 +1,7 @@
 # GLM 第三对话：一阶段菜单、呈现与工具六批
 
 [任务卡](../../ops/tasks/TEST-GLM-PHASE1-LEAVES-3-menus-presentation-tools.md) · [冻结表](targets.json) ·
+[回执](receipt.md) ·
 [上级](../README.md) · [第一对话](../glm-leaf-workflows/README.md) · [第二对话](../glm-runtime-resource-wave/README.md)
 
 **已准入新增测试，直接实施。** 本包 L01–L24，A–F每批四组；前两对话编号G/R，不共享文件/fixture/报告。
@@ -120,7 +121,7 @@ browser host/diagnostics与receipt.md/evidence.json。冻结表只读，派发�
 
 | 批 | 组 | 候选 | GLM第三对话自验 | Codex独立验收 |
 |---|---|---|---|---|
-| A | L01–04 | d2cc22b27c824810e3b9d81bca3935721e7215ef | done（50/50+308相邻+2针反控，见 receipt.md） | pending |
+| A | L01–04 | 1c1d07010b7e47443346741d012c2f021655832d | done（50/50+308相邻+2针反控，见 receipt.md） | pending |
 | B | L05–08 | pending | pending | pending |
 | C | L09–12 | pending | pending | pending |
 | D | L13–16 | pending | pending | pending |

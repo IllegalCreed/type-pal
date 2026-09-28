@@ -10,7 +10,7 @@
 
 ## 批 A — L01–L04（menu 数据层）
 
-- 候选 SHA：`d2cc22b27c824810e3b9d81bca3935721e7215ef`；父提交：`65f44758`（派发提交）。
+- 候选 SHA：`1c1d07010b7e47443346741d012c2f021655832d`；父提交：`65f44758`（派发提交）。
 - diff 范围：仅 `packages/game/src/core/menu/*.glm-phase1-leaves.test.ts` ×8、
   `docs/testing/glm-phase1-leaves/{tools/leaves-mutants.mjs,receipt.md,evidence/batch-A/**}`。
 - 新文件（50 tests / 50 passed / 0 failed，新鲜 JSON `evidence/batch-A/vitest-new.json`）：
