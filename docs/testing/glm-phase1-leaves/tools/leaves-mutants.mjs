@@ -220,6 +220,46 @@ const batches = {
       },
     ],
   },
+  f: {
+    control: {
+      tests: [
+        'src/tools/speedrun/store.glm-phase1-leaves.test.ts',
+        'src/tools/speedrun/index.glm-phase1-leaves.test.ts',
+        'src/tools/speedrun/overlay.glm-phase1-leaves.test.ts',
+        'src/shell/precache-client.glm-phase1-leaves.test.ts',
+        'src/shell/fetch-retry.glm-phase1-leaves.test.ts',
+        'src/assets/png.glm-phase1-leaves.test.ts',
+        'src/assets/dialog-assets.glm-phase1-leaves.test.ts',
+        'src/shell/audio.glm-phase1-leaves.test.ts',
+      ],
+      total: 17,
+    },
+    production: ['src/tools/speedrun/store.ts', 'src/shell/audio.ts'],
+    mutations: [
+      {
+        id: 'store-bests-key-merge',
+        module: 'src/tools/speedrun/store.ts',
+        file: 'src/tools/speedrun/store.glm-phase1-leaves.test.ts',
+        total: 2,
+        describe: 'L21 store 坏数据与往返',
+        title: 'bests 非法 JSON → 返回 defaults 副本不抛；defaults 外的存储 key 忽略',
+        from: '  } catch {\n    return { ...defaults }\n  }',
+        to: '  } catch {\n    return {}\n  }',
+        category: 'bests 坏 JSON 降级拆除：非法存储直接吐空表',
+      },
+      {
+        id: 'ogg-volume-live-refresh',
+        module: 'src/shell/audio.ts',
+        file: 'src/shell/audio.glm-phase1-leaves.test.ts',
+        total: 3,
+        describe: 'L24 setOggVolumeScale 即时刷新',
+        title: '先调 scale 再 play：新元素 volume = 0.6·scale；播放中改 scale：当前元素即时跟随',
+        from: '  if (curOggEl) curOggEl.volume = 0.6 * s // 当前播放即时刷新',
+        to: '  if (false) curOggEl.volume = 0.6 * s',
+        category: 'OGG 音量即时刷新拆除：正在播的歌不跟音量',
+      },
+    ],
+  },
 }
 
 const MIXED_ERROR =
