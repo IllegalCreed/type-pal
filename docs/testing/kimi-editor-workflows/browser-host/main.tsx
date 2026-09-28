@@ -16,6 +16,7 @@ import {
 import { useState, useSyncExternalStore } from 'react'
 import { createRoot } from 'react-dom/client'
 import { memoryAuthorDirectory } from '../../../../packages/editor/src/core/__tests__/author-save-fixture.js'
+import { collectEditorAssetDiagnostics } from '../../../../packages/editor/src/core/asset-diagnostics.js'
 import { type EditorState, EditSession } from '../../../../packages/editor/src/core/edit-session.js'
 import { createEditorAssetReader } from '../../../../packages/editor/src/core/editor-asset-reader.js'
 import { assertProjectSaveValid } from '../../../../packages/editor/src/core/project-diagnostics.js'
@@ -26,6 +27,8 @@ import {
 import { collectCurrentProjectReferenceIndex } from '../../../../packages/editor/src/core/project-reference-adapters.js'
 import { buildBlankProject } from '../../../../packages/editor/src/core/seed.js'
 import { BattleSpriteLibrary } from '../../../../packages/editor/src/ui/BattleSpriteLibrary.js'
+import { ImageTab } from '../../../../packages/editor/src/ui/ImageTab.js'
+import { SoundTab } from '../../../../packages/editor/src/ui/SoundTab.js'
 import { TilesetTab } from '../../../../packages/editor/src/ui/TilesetTab.js'
 
 /**
@@ -123,6 +126,37 @@ function Workbench(props: { context: HostContext; component: string }) {
         tabBar={null}
         focusObjectId={focus}
         onObjectFocus={setFocus}
+      />
+    )
+  if (props.component === 'image')
+    return (
+      <ImageTab
+        assetBase={props.context.assetBase}
+        catalog={current.assetCatalog}
+        reader={reader}
+        session={session}
+        tabBar={null}
+        focusObjectId={focus}
+        onObjectFocus={setFocus}
+        assetDiagnostics={collectEditorAssetDiagnostics(current.assetCatalog, [])}
+        referenceIndex={collectCurrentProjectReferenceIndex(current)}
+        referenceStatus="current"
+        getCurrentReferenceIndex={(state) => collectCurrentProjectReferenceIndex(state)}
+      />
+    )
+  if (props.component === 'sound')
+    return (
+      <SoundTab
+        catalog={current.assetCatalog}
+        reader={reader}
+        session={session}
+        tabBar={null}
+        focusObjectId={focus}
+        onObjectFocus={setFocus}
+        assetDiagnostics={collectEditorAssetDiagnostics(current.assetCatalog, [])}
+        referenceIndex={collectCurrentProjectReferenceIndex(current)}
+        referenceStatus="current"
+        getCurrentReferenceIndex={(state) => collectCurrentProjectReferenceIndex(state)}
       />
     )
   return (

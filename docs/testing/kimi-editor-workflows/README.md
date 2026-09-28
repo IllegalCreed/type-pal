@@ -1,7 +1,8 @@
 # Kimi 编辑器十二组真实工作流补测
 
 [任务卡](../../ops/tasks/TEST-KIMI-EDITOR-WORKFLOWS-1-twelve-groups.md) ·
-[冻结目标与精确新增测试路径](targets.json) · [上级](../README.md)
+[冻结目标与精确新增测试路径](targets.json) · [上级](../README.md) ·
+[单点反控 harness](counter-control/README.md) · [隔离浏览器宿主](browser-host/README.md)
 
 2026-09-28 Codex 派发，**build allowed：测试实施，不是只交审计报告**。
 当前模式为 Kimi 实施 / Codex 独立接收；作者自验不替代独立证据。A/B/C 各四组，连续交付。
@@ -123,7 +124,7 @@ before 仅排除本卡新增测试，after 包含它们，两侧产品相同、�
 
 | 批次 | 范围 | 候选 | Kimi 自验 | Codex 独立验收 |
 |---|---|---|---|---|
-| A | K01–K04 | pending | pending | pending |
+| A | K01–K04 | 04ed4823 | 40/40 绿 + 17 针反控全 valid + 浏览器闭环×2 | pending |
 | B | K05–K08 | pending | pending | pending |
 | C | K09–K12 | pending | pending | pending |
 
