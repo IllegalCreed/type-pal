@@ -28,6 +28,8 @@ import { collectCurrentProjectReferenceIndex } from '../../../../packages/editor
 import { buildBlankProject } from '../../../../packages/editor/src/core/seed.js'
 import { BattleSpriteLibrary } from '../../../../packages/editor/src/ui/BattleSpriteLibrary.js'
 import { ImageTab } from '../../../../packages/editor/src/ui/ImageTab.js'
+import { LevelCurveEditor } from '../../../../packages/editor/src/ui/LevelCurveEditor.js'
+import { MapMode } from '../../../../packages/editor/src/ui/MapMode.js'
 import { SoundTab } from '../../../../packages/editor/src/ui/SoundTab.js'
 import { TilesetTab } from '../../../../packages/editor/src/ui/TilesetTab.js'
 
@@ -159,6 +161,45 @@ function Workbench(props: { context: HostContext; component: string }) {
         getCurrentReferenceIndex={(state) => collectCurrentProjectReferenceIndex(state)}
       />
     )
+  if (props.component === 'map') {
+    const sceneDef = current.scenes[0]
+    if (!sceneDef) return <div>缺场景</div>
+    return (
+      <MapMode
+        scene={sceneDef}
+        session={session}
+        assetBase={props.context.assetBase}
+        assetCatalog={current.assetCatalog}
+        assetReader={reader}
+        projectMaps={current.maps}
+        mapIndex={current.mapIndex}
+        selectedMapId={sceneDef.mapId}
+        onSelectMap={() => undefined}
+        referenceIndex={collectCurrentProjectReferenceIndex(current)}
+        referenceStatus="current"
+        getCurrentReferenceIndex={(state) => collectCurrentProjectReferenceIndex(state)}
+        onOpenReference={() => undefined}
+        tilesets={current.tilesets}
+        stamps={current.stamps}
+        onWorkspaceNotice={(notice) => {
+          if (notice) setStatus(notice.message, notice.kind === 'error')
+        }}
+      />
+    )
+  }
+  if (props.component === 'levelcurve') {
+    const actor = current.actors[0]
+    if (!actor?.battler) return <div>缺可参战角色</div>
+    return (
+      <LevelCurveEditor
+        actor={actor as typeof actor & { battler: NonNullable<typeof actor.battler> }}
+        levelUpRows={current.levelUp[actor.id] ?? []}
+        skills={Object.fromEntries(current.skills.map((skill) => [skill.id, skill]))}
+        session={session}
+        onClose={() => undefined}
+      />
+    )
+  }
   return (
     <BattleSpriteLibrary
       definitions={current.battleSprites}
