@@ -18,6 +18,60 @@ const output = mkdtempSync(join(tmpdir(), 'type-pal-glm-runtime-resource-mutants
 
 /** 每批注册：包根、对照跑范围与总数、该批 2 个单点针。 */
 const batches = {
+  d: {
+    packageRoot: resolve(root, 'packages/reforge'),
+    production: [
+      'src/menu/shop-box.ts',
+      'src/menu/save-browser-box.ts',
+      'src/battle/battle-ui.ts',
+      'src/battle/present-battle.ts',
+      'src/battle/battle-anim.ts',
+      'src/battle/battle-positions.ts',
+      'src/battle/settlement.ts',
+      'src/battle/battle-settlement-presentation.ts',
+    ],
+    control: {
+      tests: [
+        'src/menu/save-browser-box.glm-runtime-resource.test.ts',
+        'src/battle/battle-positions.glm-runtime-resource.test.ts',
+        'src/battle/settlement.glm-runtime-resource.test.ts',
+        'src/battle/battle-anim.glm-runtime-resource.test.ts',
+        'src/battle/battle-anim.test.ts',
+        'src/battle/battle-anim.attack-all.residual.test.ts',
+        'src/battle/present-battle.test.ts',
+        'src/battle/present-battle.residual.test.ts',
+        'src/battle/battle-ui.residual.test.ts',
+        'src/battle/battle-settlement-presentation.test.ts',
+        'src/menu/shop-box.test.ts',
+        'src/menu/shop-box.residual.test.ts',
+      ],
+      total: 74,
+    },
+    mutations: [
+      {
+        id: 'settlement-hidden-duplicated',
+        module: 'src/battle/settlement.ts',
+        file: 'src/battle/settlement.glm-runtime-resource.test.ts',
+        total: 4,
+        describe: 'R16 buildSettlementScreens 屏序',
+        title: 'exp-cash → 升级者（升级 → 其隐藏 → 其习得）→ 未升级者隐藏收尾',
+        from: 'for (const h of hiddenUps) if (!emitted.has(h)) screens.push(hiddenScreen(h))',
+        to: 'for (const h of hiddenUps) if (true) screens.push(hiddenScreen(h))',
+        category: '结算屏序破坏：已随升级展示的隐藏提升重复再播，结算流程多出冗余屏',
+      },
+      {
+        id: 'save-browser-blocked-dropped',
+        module: 'src/menu/save-browser-box.ts',
+        file: 'src/menu/save-browser-box.glm-runtime-resource.test.ts',
+        total: 5,
+        describe: 'R13 drawSaveBrowser',
+        title: 'auto 槽两行标签；save 模式禁用红、选中禁用亮红',
+        from: "const blocked = state.mode === 'save' && kind !== 'manual'",
+        to: "const blocked = state.mode === 'save' && false",
+        category: '存档保护失效：auto/quick 槽在存档模式不再禁用红显，诱导覆盖系统存档',
+      },
+    ],
+  },
   c: {
     packageRoot: resolve(root, 'packages/reforge'),
     production: [

@@ -8,6 +8,7 @@
 | A | R01–R04 | b9d6ce54 | 44 新断言 / 三包定向+相邻全绿 / TC 零错 / Biome 零诊断 / 2 针业务反控恰一红 / RV1 取证 | 见各批末 |
 | B | R05–R08 | 见推送 | 34 新断言 / 定向+相邻 95 全绿 / TC 零错 / Biome 零诊断 / 2 针业务反控恰一红 | 见批B末 |
 | C | R09–R12 | 见推送 | 39 新断言 / 定向+相邻 60 全绿 / TC 零错 / Biome 零诊断 / 2 针业务反控恰一红 / RV2 取证 | 见批C末 |
+| D | R13–R16 | 见推送 | 17 新断言 / 定向+相邻 74 全绿 / TC 零错 / Biome 零诊断 / 2 针业务反控恰一红 / RV3+RV4 取证 | 见批D末 |
 
 ## 批A（R01–R04）
 
@@ -181,3 +182,51 @@
 3. magic use/equip 的 desc 渲染文本来自 fixtures desc（空串已用覆写样本覆盖），原版多行说明的
    观感不属本卡（RV2 已示真实说明滚动）。
 4. RV2 样本物品为自包含合成输入（披露：非原版资源观感验收）。
+
+## 批D（R13–R16）
+
+**候选 SHA**：批次推送 HEAD。
+
+### 去重账（旧断言 → 新差异 → 新合同 → 归属）
+
+- R13 shop：shop-box.test + residual 已覆盖买/卖输入、八行窗、卖光重算、绘制派发（含确认框），
+  **无剩余合法新合同 → 未建新文件**（README 允许：无新合同不强建）；`save-browser-box.ts`
+  此前**零测试** → **inactive 早退、标题黄/页码/翻页三角（fillRect 像素行计数）、auto 两行
+  标签 + save 模式禁用色、手动槽 meta 行（队伍/存次黄注/地图/右对齐时间）、覆盖确认框** →
+  5 新断言。
+- R14 battle-ui / present-battle：residual + test 已覆盖信息框/菜单网格/MP 框/详情/箭头/
+  遮挡排序/溶解 → **无剩余合法新合同 → 未建新文件**（登记，不强凑）。
+- R15 `battle-positions.ts` 此前**零测试** → **按人数选表、>3 钳 3、idx 越界 undefined、
+  敌方 yPosOffset、表形状**；battle-anim 已有大流程覆盖 → 本批只做 **AnimPlayer 剩余简单
+  边界（播完 tick 立即 true、流末 onOverlay(null)、单帧多副作用一次性派发）** → 8 新断言。
+- R16 `settlement.ts` 此前**零测试**（presentation 类已有测试不重复）→ **buildSettlementScreens
+  原版屏序（升级者分组/未升级收尾/空报告）、drawSettlementScreen exp-cash 居中双卷轴逐字段
+  手算 + hidden-up 文本** → 4 新断言。
+
+### 验证证据
+
+- 定向+相邻（12 文件，单 worker，新鲜 JSON）：74/74 绿（新 17 / 邻 57）。
+- typecheck reforge 通过；Biome 4 新文件 + wave 目录零诊断；docs PASS；`git diff --check` 干净。
+- 反控（`runtime-resource-mutants.mjs d`）：判据自测 10；对照 74 绿 exit0；
+  - 针1 `settlement-hidden-duplicated`（隐藏提升重复成屏）→ 恰一红 AssertionError。
+  - 针2 `save-browser-blocked-dropped`（auto/quick 存档保护拆除）→ 恰一红 AssertionError。
+  - 8 个产品源 hash 反控前后不变。
+
+### RV3/RV4 视觉取证（固定输入，不走游戏）
+
+- 宿主 `hosts/rv3-rv4/`（esbuild 打包真实 reforge 源；127.0.0.1:6074 临时服务已停）。
+- RV3：真实 drawBattleGrid 两种菜单/禁用态（选中黄闪 vs 禁用红/禁用亮红）、drawMpBox
+  非零哨兵 23/8（黄/青数字 + 斜杠）、drawItemDetailBox、drawCurrentFinger/drawPlayerTargetArrow。
+- RV4：真实 buildSettlementScreens 非空报告（exp-cash → level-up → hidden-up → learn-magic）
+  逐屏 drawSettlementScreen + 空报告 0 屏对照。
+- 页面内像素断言（ASSERT PASS）：P1 选中行/P2 禁用行/MP 数字区/头指/箭头 lit 均 >阈值；
+  RV4 结算条 lit=94377；console/page errors 0。
+- 截图：`/tmp/type-pal-glm-runtime-resource/rv3-rv4-batchD.png`
+  sha256 `6abdb5abbf09d659a35da6165a08ac030b3d8926521ed6f524eca499d2230e2b`（214787 B）。
+
+### 未证项 / 受限登记
+
+1. shop/battle-ui/present-battle 未建新文件：旧测试已覆盖本卡轴（登记非跳过）。
+2. battle-anim 大流程（施法/合击/召唤）不属本卡窄入口，未触碰。
+3. RV3 面板 320×200 内 MAGIC_GRID 宽 301 导致相邻面板轻微视觉重叠（绘制本身 1:1 保真，
+   断言按各自面板坐标取样）。

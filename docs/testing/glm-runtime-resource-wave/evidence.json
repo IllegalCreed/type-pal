@@ -151,7 +151,7 @@
         "R11",
         "R12"
       ],
-      "candidateSha": "filled-after-push",
+      "candidateSha": "511c63e7",
       "directed": {
         "reforge": {
           "total": 60,
@@ -209,6 +209,69 @@
         "bakeGlyph canvas painting verified indirectly via real-browser RV2 host; fast suite uses port double",
         "engineChromeUiUrl missing-slot throw unreachable via typed entry (all 85 slots exist)",
         "RV2 item samples are synthetic self-contained inputs, not original-asset appearance acceptance"
+      ]
+    },
+    "D": {
+      "groups": [
+        "R13",
+        "R14",
+        "R15",
+        "R16"
+      ],
+      "candidateSha": "filled-after-push",
+      "directed": {
+        "reforge": {
+          "total": 74,
+          "new": 17,
+          "adjacent": 57,
+          "failed": 0
+        }
+      },
+      "newTestFiles": [
+        "packages/reforge/src/menu/save-browser-box.glm-runtime-resource.test.ts",
+        "packages/reforge/src/battle/battle-positions.glm-runtime-resource.test.ts",
+        "packages/reforge/src/battle/settlement.glm-runtime-resource.test.ts",
+        "packages/reforge/src/battle/battle-anim.glm-runtime-resource.test.ts"
+      ],
+      "noNewContractFiles": [
+        "shop-box (covered by shop-box.test/residual)",
+        "battle-ui/present-battle (covered by residual/test)"
+      ],
+      "gates": {
+        "typecheck": [
+          "reforge"
+        ],
+        "biome": "0/0/0",
+        "docsCheck": "PASS",
+        "gitDiffCheck": "clean"
+      },
+      "mutants": {
+        "batch": "d",
+        "selfTest": 10,
+        "control": "exit0 74 green",
+        "needles": [
+          {
+            "id": "settlement-hidden-duplicated",
+            "result": "business red, exactly 1"
+          },
+          {
+            "id": "save-browser-blocked-dropped",
+            "result": "business red, exactly 1"
+          }
+        ]
+      },
+      "visual": {
+        "ids": [
+          "RV3",
+          "RV4"
+        ],
+        "screenshot": "/tmp/type-pal-glm-runtime-resource/rv3-rv4-batchD.png",
+        "sha256": "6abdb5abbf09d659a35da6165a08ac030b3d8926521ed6f524eca499d2230e2b",
+        "canvasAsserts": "ASSERT PASS; console errors 0"
+      },
+      "unproven": [
+        "battle-anim large flows out of narrow scope",
+        "RV3 MAGIC_GRID 301px width causes slight panel overlap in display (asserts sample per-panel coords)"
       ]
     }
   }

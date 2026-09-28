@@ -1,0 +1,16 @@
+<!doctype html>
+<html lang="zh">
+<head><meta charset="utf-8"><title>RV3/RV4 · 战斗绘制快照与结算屏（TEST-GLM-RUNTIME-RESOURCE-2 批D）</title>
+<style>body{background:#111;color:#ddd;font:13px/1.5 system-ui;margin:12px}canvas{image-rendering:pixelated;border:1px solid #555;display:block;margin-bottom:8px}</style>
+</head>
+<body>
+<h1>RV3（战斗绘制快照，非战斗执行）+ RV4（结算屏序列，非奖励入账）</h1>
+<p>真实 battle-ui / settlement 函数 + 真实 unifont-cn.bdf + 真实 engine chrome PNG（只读）。
+RV3：P1 菜单网格选中态 · P2 禁用态 · P3 MP 框非零哨兵(23/8)+物品详情 · P4 头指/箭头。
+RV4：非空 RewardReport 屏序（exp-cash → level-up → hidden-up → learn-magic）+ 空报告对照。</p>
+<canvas id="stage" width="960" height="600"></canvas>
+<canvas id="settle" width="960" height="120"></canvas>
+<div id="result">running…</div>
+<script src="./main.js"></script>
+</body>
+</html>
