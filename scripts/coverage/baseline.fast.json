@@ -1,14 +1,14 @@
 {
   "schemaVersion": 2,
   "profile": "fast",
-  "generatedAt": "2026-09-28T03:13:16.175Z",
+  "generatedAt": "2026-09-28T04:25:33.033Z",
   "provider": {
     "name": "v8",
     "vitest": "4.1.7",
     "coverageV8": "4.1.7"
   },
   "sourceFileCount": 730,
-  "testCount": 9730,
+  "testCount": 9746,
   "packages": {
     "shared": {
       "name": "@type-pal/shared",
@@ -3549,8 +3549,8 @@
       ],
       "scopeDigest": "76a72f63a8624cfd219214e150493868ed047400df313543a1f0844c491daf75",
       "fastTests": {
-        "testCount": 2450,
-        "testFileCount": 165,
+        "testCount": 2466,
+        "testFileCount": 166,
         "files": [
           "packages/game/src/analytics/analytics-consent-ui.test.ts",
           "packages/game/src/analytics/analytics-consent.boundaries.test.ts",
@@ -3600,6 +3600,7 @@
           "packages/game/src/core/dialog-bug2-skip.test.ts",
           "packages/game/src/core/dialog-history.test.ts",
           "packages/game/src/core/equip-effect.test.ts",
+          "packages/game/src/core/event-dialogue-pagination.test.ts",
           "packages/game/src/core/event-opcode-player.test.ts",
           "packages/game/src/core/event-system.test.ts",
           "packages/game/src/core/game-state.test.ts",
@@ -3958,6 +3959,11 @@
             "file": "packages/game/src/core/equip-effect.test.ts",
             "testCount": 36,
             "identityDigest": "142dbc3758d1429b770ee8b19ea5d788f73ba6e10fd3219aa0027c1b2226e889"
+          },
+          {
+            "file": "packages/game/src/core/event-dialogue-pagination.test.ts",
+            "testCount": 10,
+            "identityDigest": "1f6bfc97af7a5099f6ada6660db16b74ec368bf46e4e15e321be7c163d331331"
           },
           {
             "file": "packages/game/src/core/event-opcode-player.test.ts",
@@ -4336,8 +4342,8 @@
           },
           {
             "file": "packages/game/src/present/present.test.ts",
-            "testCount": 52,
-            "identityDigest": "f4b034824e8aa3231f827cf53c0bc6e687b35e29dd473bda1a102941f8d5c646"
+            "testCount": 58,
+            "identityDigest": "992b2a82b701ccf6f7af575f20895d0b6f701ed4d91aed9c13fbca814c1c1b95"
           },
           {
             "file": "packages/game/src/present/screen-shake.test.ts",
@@ -4545,26 +4551,26 @@
             "identityDigest": "916c70c2855d90db70208a6895de9b3254f0e3f039c2bb0b96bc8fd4287d249d"
           }
         ],
-        "identityDigest": "5e97a73e30e4406480a44f4d8628596b58b4fbbea620253493065c7beb1609d7",
+        "identityDigest": "850e2ac71862bd37ded701b4b2a6059de38691799ee286d0ce0e46bd609bb515",
         "duplicateIdentityCount": 0,
-        "executionDigest": "c4c7ef144bf0cb768697654943dafc0827609dd87234cd63130b8a68c780b678"
+        "executionDigest": "a6b9e513fd452350778b7f79417c1e9f700cd908a48833202f7285362de758cb"
       },
       "metrics": {
         "statements": {
-          "covered": 12045,
-          "total": 15511
+          "covered": 12055,
+          "total": 15513
         },
         "branches": {
-          "covered": 7896,
-          "total": 11273
+          "covered": 7907,
+          "total": 11278
         },
         "functions": {
-          "covered": 1402,
+          "covered": 1403,
           "total": 1852
         },
         "lines": {
-          "covered": 10817,
-          "total": 13617
+          "covered": 10828,
+          "total": 13619
         }
       }
     },
@@ -7203,20 +7209,20 @@
   },
   "total": {
     "statements": {
-      "covered": 66010,
-      "total": 81077
+      "covered": 66020,
+      "total": 81079
     },
     "branches": {
-      "covered": 47667,
-      "total": 63393
+      "covered": 47678,
+      "total": 63398
     },
     "functions": {
-      "covered": 12283,
+      "covered": 12284,
       "total": 15247
     },
     "lines": {
-      "covered": 59231,
-      "total": 70954
+      "covered": 59242,
+      "total": 70956
     }
   }
 }

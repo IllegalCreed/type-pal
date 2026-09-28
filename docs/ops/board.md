@@ -69,12 +69,14 @@ check8896/单次strict8404全过；实际+134分支/+73行，content分支85.55%
 首步空门修复；15新回归、11针、6010实际按钮闭环。check10,191/strict9,730，静态零诊断；
 运行时保存安全门不变，E2E001/002独立继续。
 
+2026-09-28[001双引擎验证已收口](../testing/e2e-001.md)：55正文/说话人/参与角色、真实档读回与像素一致，
+修复一阶段翻页跳行和自动淡入变暗。check10,207/strict9,746、静态零诊断；母任务转002，capture音轨另排。
+
 ## 进行中
 
 | ID | 任务 | 状态 | 负责人/下一步 | 一句话备注 |
 |---|---|---|---|---|
-| E2E-001-CLOSE-1 | [001完整验证收口](tasks/E2E-001-CLOSE-1-dialogue-and-actors.md) | build | Codex / 翻页缺陷与完整事件矩阵 | 修一阶段漏两句，核全对白/角色/真实存读档；录制音轨另属capture |
-| E2E-R4-1 | [路线驱动与检查点薄基线](tasks/E2E-R4-1-route-and-checkpoint-foundation.md) | build | Codex / 001逐页与录制矩阵 | 双引擎开场/检查点通过；李大娘两段对话零位移、前中后三段移动偏序已自动核验，138/103稀疏事件；全视觉/音轨未证 |
+| E2E-R4-1 | [路线驱动与检查点薄基线](tasks/E2E-R4-1-route-and-checkpoint-foundation.md) | build | Codex / 002正常移动与跨场景 | 001 verify已收口：55正文/角色/真实读档及像素；002继承真档，录制音轨另排 |
 | EDITOR-SCENE-FACING-1 | [切场景朝向清除](tasks/EDITOR-SCENE-FACING-1-clear-override.md) | draft | Codex / 后续窄修 | 保持选项仍提交旧方向；真实红诊断+单点oracle已证 |
 | ARCH-SUPPORT-GLM-1 | [八组并行架构/视觉准备](tasks/ARCH-SUPPORT-GLM-1-eight-audit-packages.md) | draft | Codex / 后续归属与收口 | 58cdf938材料accept，counter清零；文档已合入，按用户要求未标done/未开产品门 |
 
