@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="zh">
+<head>
+<meta charset="utf-8">
+<title>RV1 · R03 真实解码 PNG + R02 量化（TEST-GLM-RUNTIME-RESOURCE-2 批A）</title>
+<style>
+  body { background: #222; color: #ddd; font: 13px/1.5 system-ui; margin: 16px; }
+  section { margin-bottom: 24px; }
+  canvas { background:
+    repeating-conic-gradient(#666 0% 25%, #999 0% 50%) 0 0 / 16px 16px; /* 棋盘衬托透明格 */
+    image-rendering: pixelated; border: 1px solid #555; }
+  .row { display: flex; gap: 24px; align-items: flex-start; }
+  .cap { color: #9cf; }
+  #errors { color: #f99; white-space: pre-wrap; }
+</style>
+</head>
+<body>
+<h1>RV1 · 固定输入视觉取证（非游戏总壳）</h1>
+<p>输入 = 批A测试同源 fixture；解码/量化全部为真实函数输出（artifact.json 由
+<code>tools/rv1-artifact.ts</code> 经真实 parseFirSprite / quantizeToRleFrame 生成）。
+棋盘格 = 透明格背景。左 1:1，右 4×（imageSmoothing 关闭）。</p>
+
+<section>
+  <h2>① R03：YJ2 压缩 sprite chunk → 真实 PNG 解码（2×2，透明/0xAA/opaque-palette-0/透明）</h2>
+  <div class="row">
+    <div><canvas id="png1x" width="2" height="2"></canvas><div class="cap">1:1</div></div>
+    <div><canvas id="png4x" width="8" height="8"></canvas><div class="cap">4×</div></div>
+    <div class="cap" id="pngexpect">独立预期 RGBA：px0 (0,0,0,0) · px1 (170,170,170,255) · px2 (0,0,0,255) · px3 (0,0,0,0)</div>
+  </div>
+</section>
+
+<section>
+  <h2>② R02：quantizeToRleFrame 最近邻量化（2×2：绿/透明/蓝/红 → 盘 1/透明/2/0）</h2>
+  <div class="row">
+    <div><canvas id="q1x" width="2" height="2"></canvas><div class="cap">1:1</div></div>
+    <div><canvas id="q4x" width="8" height="8"></canvas><div class="cap">4×</div></div>
+    <div class="cap" id="qexpect">盘色 0=(200,40,40) 1=(40,160,60) 2=(50,80,220)；opaque=[1,0,1,1]</div>
+  </div>
+</section>
+
+<div id="errors"></div>
+<script type="module">
+const errors = []
+window.addEventListener('error', (e) => errors.push(`window error: ${e.message}`))
+try {
+  const artifact = await (await fetch('./artifact.json')).json()
+
+  // ① 真实 PNG：bytes → createImageBitmap（浏览器真实 PNG 解码）→ 双尺度绘制
+  const bytes = Uint8Array.from(atob(artifact.fire.pngBase64), (c) => c.charCodeAt(0))
+  const bitmap = await createImageBitmap(new Blob([bytes], { type: 'image/png' }))
+  for (const [id, scale] of [['png1x', 1], ['png4x', 4]]) {
+    const canvas = document.getElementById(id)
+    const ctx = canvas.getContext('2d')
+    ctx.imageSmoothingEnabled = false
+    ctx.drawImage(bitmap, 0, 0, canvas.width, canvas.height)
+  }
+  // 代码断言：4× 画布像素逐格与独立预期一致（同源真解码）
+  {
+    const ctx = document.getElementById('png4x').getContext('2d')
+    const expected = [[0,0,0,0],[170,170,170,255],[0,0,0,255],[0,0,0,0]]
+    const got = []
+    for (let i = 0; i < 4; i++) {
+      const px = ctx.getImageData((i % 2) * 4 + 2, Math.floor(i / 2) * 4 + 2, 1, 1).data
+      got.push([...px])
+    }
+    const ok = JSON.stringify(got) === JSON.stringify(expected)
+    document.getElementById('pngexpect').textContent +=
+      ok ? ' —— 画布像素断言 PASS' : ` —— FAIL got ${JSON.stringify(got)}`
+    if (!ok) errors.push('png canvas pixel assert fail')
+  }
+
+  // ② 真实量化输出数组 → 调色板上屏（与测试同输入）
+  const { pixels, opaque, palette } = artifact.quantize
+  for (const [id, scale] of [['q1x', 1], ['q4x', 4]]) {
+    const canvas = document.getElementById(id)
+    const ctx = canvas.getContext('2d')
+    const cell = canvas.width / 2
+    for (let i = 0; i < 4; i++) {
+      if (!opaque[i]) continue // 透明格留棋盘
+      const [r, g, b] = palette.colors[pixels[i]]
+      ctx.fillStyle = `rgb(${r},${g},${b})`
+      ctx.fillRect((i % 2) * cell, Math.floor(i / 2) * cell, cell, cell)
+    }
+  }
+  {
+    const ctx = document.getElementById('q4x').getContext('2d')
+    const expected = [[40,160,60,255], null, [50,80,220,255], [200,40,40,255]]
+    for (let i = 0; i < 4; i++) {
+      const px = [...ctx.getImageData((i % 2) * 4 + 2, Math.floor(i / 2) * 4 + 2, 1, 1).data]
+      if (expected[i] === null) {
+        if (px[3] !== 0) { errors.push(`q px${i} expected transparent got ${px}`); }
+        continue
+      }
+      if (JSON.stringify(px) !== JSON.stringify(expected[i])) errors.push(`q px${i} got ${px}`)
+    }
+    if (!errors.length) document.getElementById('qexpect').textContent += ' —— 画布像素断言 PASS'
+  }
+} catch (err) {
+  errors.push(`host error: ${err.message}`)
+}
+document.getElementById('errors').textContent = errors.length ? errors.join('\n') : 'console/page errors: 0'
+</script>
+</body>
+</html>

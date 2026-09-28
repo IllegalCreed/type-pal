@@ -1,0 +1,88 @@
+{
+  "task": "TEST-GLM-RUNTIME-RESOURCE-2",
+  "productionFreeze": "f6878b3cd18d916d3cac8aba3e50dc8c70556a2c",
+  "dispatchSha": "48e201935841c268c1576a3ca2020b6807c17120",
+  "batches": {
+    "A": {
+      "groups": [
+        "R01",
+        "R02",
+        "R03",
+        "R04"
+      ],
+      "candidateSha": "filled-after-push",
+      "directed": {
+        "shared": {
+          "total": 48,
+          "new": 13,
+          "adjacent": 35,
+          "failed": 0
+        },
+        "reforge": {
+          "total": 10,
+          "new": 7,
+          "adjacent": 3,
+          "failed": 0
+        },
+        "pal-extract": {
+          "total": 41,
+          "new": 24,
+          "adjacent": 17,
+          "failed": 0
+        }
+      },
+      "newTestFiles": [
+        "packages/shared/src/rle.glm-runtime-resource.test.ts",
+        "packages/shared/src/rle-encode.glm-runtime-resource.test.ts",
+        "packages/reforge/src/quantize.glm-runtime-resource.test.ts",
+        "packages/pal-extract/src/resources/palette.glm-runtime-resource.test.ts",
+        "packages/pal-extract/src/resources/parsers/ball.glm-runtime-resource.test.ts",
+        "packages/pal-extract/src/resources/parsers/rgm.glm-runtime-resource.test.ts",
+        "packages/pal-extract/src/resources/parsers/fire.glm-runtime-resource.test.ts",
+        "packages/pal-extract/src/resources/scene.glm-runtime-resource.test.ts",
+        "packages/pal-extract/src/resources/sprite.glm-runtime-resource.test.ts"
+      ],
+      "fixtures": [
+        "packages/pal-extract/src/__tests__/glm-runtime-resource/yj2-sprite-chunk-vector.ts"
+      ],
+      "gates": {
+        "typecheck": [
+          "shared",
+          "reforge",
+          "pal-extract"
+        ],
+        "biome": "0/0/0 on new files + wave dir",
+        "docsCheck": "PASS",
+        "gitDiffCheck": "clean"
+      },
+      "mutants": {
+        "runner": "docs/testing/glm-runtime-resource-wave/tools/runtime-resource-mutants.mjs",
+        "selfTest": 10,
+        "control": "exit0 41 green",
+        "needles": [
+          {
+            "id": "ball-marker-prefix-misread",
+            "result": "business red, exactly 1, AssertionError, load-hit witness, hashes unchanged"
+          },
+          {
+            "id": "scene-label-zero-entry",
+            "result": "business red, exactly 1, AssertionError, load-hit witness, hashes unchanged"
+          }
+        ]
+      },
+      "visual": {
+        "id": "RV1",
+        "host": "http://127.0.0.1:6072/ (temporary, stopped)",
+        "screenshot": "/tmp/type-pal-glm-runtime-resource/rv1-batchA.png",
+        "sha256": "44fbbb43623fb6e6ed70a01393ecea36c7307e598ccceaf855aaa1b531fb8c81",
+        "canvasAsserts": "PNG 4x PASS; quantize 4x PASS; console errors 0"
+      },
+      "unproven": [
+        "fire raw-branch successful multi-frame parse unreachable via public entry (count/uncompLen dual-use)",
+        "parseIndexedRleChunk '未找到可解释的坏尾槽' branch structurally unreachable (slot0 word == frameCount)",
+        "decodeRle truncated stream hangs (lenient decoder) — not asserted, referred to Codex",
+        "RV1 samples are synthetic self-contained frames, not original-asset appearance"
+      ]
+    }
+  }
+}

@@ -1,0 +1,45 @@
+{
+  "note": "全部字段来自真实函数输出（parseFirSprite / quantizeToRleFrame），见 wave/tools/rv1-artifact.ts",
+  "fire": {
+    "frameCount": 1,
+    "width": 2,
+    "height": 2,
+    "pngBase64": "iVBORw0KGgoAAAANSUhEUgAAAAIAAAACCAYAAABytg0kAAAAFUlEQVR4AWMAgVWrVv1nAIL/DEAAACbrA/2sYknkAAAAAElFTkSuQmCC"
+  },
+  "quantize": {
+    "width": 2,
+    "height": 2,
+    "pixels": [
+      1,
+      0,
+      2,
+      0
+    ],
+    "opaque": [
+      1,
+      0,
+      1,
+      1
+    ],
+    "palette": {
+      "colors": [
+        [
+          200,
+          40,
+          40
+        ],
+        [
+          40,
+          160,
+          60
+        ],
+        [
+          50,
+          80,
+          220
+        ]
+      ],
+      "cycles": []
+    }
+  }
+}
