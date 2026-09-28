@@ -96,7 +96,7 @@
 
 ## 批 C — L09–L12（present/menu 绘制层）
 
-- 候选 SHA：见 git log（本节随批固定）；父提交：批 B 回执头。
+- 候选 SHA：`38072e8d8bc4f6e6e0223bd2f3ba8ffcbeede56b`；父提交：批 B 回执头 `33fbbb15`。
 - diff 范围：9 个新测试文件 + 本队列 fixture `packages/game/src/__tests__/glm-phase1-leaves/
   present-fixtures.ts`（自有一套字形/SPRITEUI/时钟冻结，不与 grok 或其它对话共享）+
   `tools/leaves-mutants.mjs` 批 c 注册 + `evidence/batch-C/**` + 本 receipt。

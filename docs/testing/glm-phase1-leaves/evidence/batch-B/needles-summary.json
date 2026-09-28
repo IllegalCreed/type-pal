@@ -23,17 +23,13 @@
       "id": "assertion-prefixed-timeout",
       "expectReject": true,
       "rejected": true,
-      "violations": [
-        "timeout treated as red: AssertionError: test timed out"
-      ]
+      "violations": ["timeout treated as red: AssertionError: test timed out"]
     },
     {
       "id": "additional-unrelated-red",
       "expectReject": true,
       "rejected": true,
-      "violations": [
-        "failed 2, expected exactly 1"
-      ]
+      "violations": ["failed 2, expected exactly 1"]
     },
     {
       "id": "wrong-fullname-red-with-intended-green",
@@ -55,17 +51,13 @@
       "id": "exit-two",
       "expectReject": true,
       "rejected": true,
-      "violations": [
-        "exit 2 != 1"
-      ]
+      "violations": ["exit 2 != 1"]
     },
     {
       "id": "exit-null",
       "expectReject": true,
       "rejected": true,
-      "violations": [
-        "exit null != 1"
-      ]
+      "violations": ["exit null != 1"]
     },
     {
       "id": "zero-execution",
@@ -102,9 +94,7 @@
         "id": "sell-refresh-shrink-clamp",
         "target": "/Users/zhangxu/.codex/worktrees/glm-phase1-leaves/type-pal/packages/game/src/core/menu/sell-menu.ts"
       },
-      "failed": [
-        "L05 sell-menu 剩余合同 刷新缩表（非空）：prevCursor 越新末项 → clamp 到 length-1"
-      ]
+      "failed": ["L05 sell-menu 剩余合同 刷新缩表（非空）：prevCursor 越新末项 → clamp 到 length-1"]
     },
     {
       "id": "steal-money-item-branch",
@@ -114,9 +104,7 @@
         "id": "steal-money-item-branch",
         "target": "/Users/zhangxu/.codex/worktrees/glm-phase1-leaves/type-pal/packages/game/src/core/inspect/battle-inspect.ts"
       },
-      "failed": [
-        "L07 collectEnemyStatusReadouts 剩余投影 steal 三分支：金钱/知名物品/缺名物品"
-      ]
+      "failed": ["L07 collectEnemyStatusReadouts 剩余投影 steal 三分支：金钱/知名物品/缺名物品"]
     }
   ]
 }

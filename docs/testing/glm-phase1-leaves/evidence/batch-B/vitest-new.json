@@ -1,1 +1,404 @@
-{"numTotalTestSuites":17,"numPassedTestSuites":17,"numFailedTestSuites":0,"numPendingTestSuites":0,"numTotalTests":31,"numPassedTests":31,"numFailedTests":0,"numPendingTests":0,"numTodoTests":0,"snapshot":{"added":0,"failure":false,"filesAdded":0,"filesRemoved":0,"filesRemovedList":[],"filesUnmatched":0,"filesUpdated":0,"matched":0,"total":0,"unchecked":0,"uncheckedKeysByFile":[],"unmatched":0,"updated":0,"didUpdate":false},"startTime":1790605136620,"success":true,"testResults":[{"assertionResults":[{"ancestorTitles":["L08 dumpFrameJson 字段合同"],"fullName":"L08 dumpFrameJson 字段合同 全字段：scene/viewport/dir 映射(w=1)/idle wFrame=dir*walkFrames/role/sprite/members/npcs","status":"passed","title":"全字段：scene/viewport/dir 映射(w=1)/idle wFrame=dir*walkFrames/role/sprite/members/npcs","duration":2.0930829999999787,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["L08 dumpFrameJson 字段合同"],"fullName":"L08 dumpFrameJson 字段合同 wFrame 三来源：脚本帧 > 行走(3帧表 [0,1,0,2] / 4帧直通) > 站立","status":"passed","title":"wFrame 三来源：脚本帧 > 行走(3帧表 [0,1,0,2] / 4帧直通) > 站立","duration":0.49891700000000583,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["L08 dumpFrameJson 字段合同"],"fullName":"L08 dumpFrameJson 字段合同 sprite 回退链：rgwSpriteNum 命中优先；稀疏（legacy 短数组）才落 partyLeaderSpriteId；空队伍 role 0","status":"passed","title":"sprite 回退链：rgwSpriteNum 命中优先；稀疏（legacy 短数组）才落 partyLeaderSpriteId；空队伍 role 0","duration":0.2652500000000373,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["L08 initStateDump 控制器"],"fullName":"L08 initStateDump 控制器 无 ?tp_dump=1：enabled false，push no-op 且不暴露全局","status":"passed","title":"无 ?tp_dump=1：enabled false，push no-op 且不暴露全局","duration":4.212458999999967,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["L08 initStateDump 控制器"],"fullName":"L08 initStateDump 控制器 ?tp_dump=1：push 进 __tpDumpBuffer 且帧号从 0 递增；download 句柄暴露（不点击）","status":"passed","title":"?tp_dump=1：push 进 __tpDumpBuffer 且帧号从 0 递增；download 句柄暴露（不点击）","duration":1.177500000000009,"failureMessages":[],"meta":{},"tags":[]}],"startTime":1790605137252,"endTime":1790605137260.1775,"status":"passed","message":"","name":"/Users/zhangxu/.codex/worktrees/glm-phase1-leaves/type-pal/packages/game/src/dev/state-dump.glm-phase1-leaves.test.ts"},{"assertionResults":[{"ancestorTitles":["L08 detectors 剩余边界"],"fullName":"L08 detectors 剩余边界 atSpot 默认容差 ±48/±24：恰好边界命中、超出 1px 不命中","status":"passed","title":"atSpot 默认容差 ±48/±24：恰好边界命中、超出 1px 不命中","duration":0.8854999999999791,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["L08 detectors 剩余边界"],"fullName":"L08 detectors 剩余边界 atAnySpot 多点：任一格命中即真；全部未命中/场景不符为假","status":"passed","title":"atAnySpot 多点：任一格命中即真；全部未命中/场景不符为假","duration":0.2087919999999599,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["L08 detectors 剩余边界"],"fullName":"L08 detectors 剩余边界 leaveScene prev=null → false（无前帧不判离开）；enterAnyScene 集合外/空集合不触发","status":"passed","title":"leaveScene prev=null → false（无前帧不判离开）；enterAnyScene 集合外/空集合不触发","duration":0.1700829999999769,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["L08 detectors 剩余边界"],"fullName":"L08 detectors 剩余边界 caiyiDetector 自定义敌 id：见 72 置位，其消失触发","status":"passed","title":"caiyiDetector 自定义敌 id：见 72 置位，其消失触发","duration":0.11658399999998892,"failureMessages":[],"meta":{},"tags":[]}],"startTime":1790605139099,"endTime":1790605139101.1702,"status":"passed","message":"","name":"/Users/zhangxu/.codex/worktrees/glm-phase1-leaves/type-pal/packages/game/src/tools/speedrun/detectors.glm-phase1-leaves.test.ts"},{"assertionResults":[{"ancestorTitles":["L07 collectPartyStatusReadouts 剩余投影"],"fullName":"L07 collectPartyStatusReadouts 剩余投影 persistent 来源：explore 下 rgPlayerStatus[role][idx] 计数 → 状态标签；slow 无持久位不出现","status":"passed","title":"persistent 来源：explore 下 rgPlayerStatus[role][idx] 计数 → 状态标签；slow 无持久位不出现","duration":2.1924170000000913,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["L07 collectPartyStatusReadouts 剩余投影"],"fullName":"L07 collectPartyStatusReadouts 剩余投影 rgPoisonStatus 毒条：知名毒 → 名#id + L级 + script；未知毒 → #id；毒ID 0 跳过","status":"passed","title":"rgPoisonStatus 毒条：知名毒 → 名#id + L级 + script；未知毒 → #id；毒ID 0 跳过","duration":0.6762919999999895,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["L07 collectPartyStatusReadouts 剩余投影"],"fullName":"L07 collectPartyStatusReadouts 剩余投影 battle players[slot].roleId 投影：显示身份按战斗槽而非 party 顺序；缺槽回退 persistent","status":"passed","title":"battle players[slot].roleId 投影：显示身份按战斗槽而非 party 顺序；缺槽回退 persistent","duration":0.2430419999999458,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["L07 collectPartyStatusReadouts 剩余投影"],"fullName":"L07 collectPartyStatusReadouts 剩余投影 hiddenExp：cur/next/gained 按各自池（next 用池 wLevel 阈值），与主经验 nextExp 区分","status":"passed","title":"hiddenExp：cur/next/gained 按各自池（next 用池 wLevel 阈值），与主经验 nextExp 区分","duration":0.20008400000006077,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["L07 collectEnemyStatusReadouts 剩余投影"],"fullName":"L07 collectEnemyStatusReadouts 剩余投影 steal 三分支：金钱/知名物品/缺名物品","status":"passed","title":"steal 三分支：金钱/知名物品/缺名物品","duration":0.5514160000000174,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["L07 collectEnemyStatusReadouts 剩余投影"],"fullName":"L07 collectEnemyStatusReadouts 剩余投影 maxHp 回退链 maxHealth ?? prevHp ?? health；defeated 与巫抗行","status":"passed","title":"maxHp 回退链 maxHealth ?? prevHp ?? health；defeated 与巫抗行","duration":0.3042920000000322,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["L07 collectEnemyStatusReadouts 剩余投影"],"fullName":"L07 collectEnemyStatusReadouts 剩余投影 敌方状态与毒条：be.status/confused → 乱；be.poisons → 毒 entries/tags","status":"passed","title":"敌方状态与毒条：be.status/confused → 乱；be.poisons → 毒 entries/tags","duration":0.25604199999997945,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["L07 collectFieldInfoReadout 剩余投影与深保真"],"fullName":"L07 collectFieldInfoReadout 剩余投影与深保真 isBoss/screenWave 原样透出；boss 标志 false 时如实 false","status":"passed","title":"isBoss/screenWave 原样透出；boss 标志 false 时如实 false","duration":0.14733400000000074,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["L07 collectFieldInfoReadout 剩余投影与深保真"],"fullName":"L07 collectFieldInfoReadout 剩余投影与深保真 输入深保真：三收集器调用前后实际消费的 gs 子树/roles/poisons/items 逐字段不变","status":"passed","title":"输入深保真：三收集器调用前后实际消费的 gs 子树/roles/poisons/items 逐字段不变","duration":1.3584170000000313,"failureMessages":[],"meta":{},"tags":[]}],"startTime":1790605137869,"endTime":1790605137874.3584,"status":"passed","message":"","name":"/Users/zhangxu/.codex/worktrees/glm-phase1-leaves/type-pal/packages/game/src/core/inspect/battle-inspect.glm-phase1-leaves.test.ts"},{"assertionResults":[{"ancestorTitles":["L06 OpeningMenu 剩余合同"],"fullName":"L06 OpeningMenu 剩余合同 choice 映射：cursor 0 → new-game，Down → load-game（uigame.c value 0/1 语义）","status":"passed","title":"choice 映射：cursor 0 → new-game，Down → load-game（uigame.c value 0/1 语义）","duration":1.259708000000046,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["L06 OpeningMenu 剩余合同"],"fullName":"L06 OpeningMenu 剩余合同 词表载入：菜单 items 与 openingMenuLabels 同取 flat[7]/flat[8]（单一文案源）","status":"passed","title":"词表载入：菜单 items 与 openingMenuLabels 同取 flat[7]/flat[8]（单一文案源）","duration":0.5689579999999523,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["L06 OpeningMenu 剩余合同"],"fullName":"L06 OpeningMenu 剩余合同 空表 choice 防御 undefined（直造状态可达）","status":"passed","title":"空表 choice 防御 undefined（直造状态可达）","duration":0.1007080000000542,"failureMessages":[],"meta":{},"tags":[]}],"startTime":1790605139647,"endTime":1790605139649.1006,"status":"passed","message":"","name":"/Users/zhangxu/.codex/worktrees/glm-phase1-leaves/type-pal/packages/game/src/core/menu/opening-menu.glm-phase1-leaves.test.ts"},{"assertionResults":[{"ancestorTitles":["L06 SaveSlotMenu 同步合同"],"fullName":"L06 SaveSlotMenu 同步合同 defaultSlot 指定默认槽号（1-based → cursor=slot-1；uigame.c:225 真值）","status":"passed","title":"defaultSlot 指定默认槽号（1-based → cursor=slot-1；uigame.c:225 真值）","duration":0.8757080000000315,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["L06 SaveSlotMenu 同步合同"],"fullName":"L06 SaveSlotMenu 同步合同 非顺序自定义 slot id：defaultSlot 按 id 反查非下标；current 返回真 id","status":"passed","title":"非顺序自定义 slot id：defaultSlot 按 id 反查非下标；current 返回真 id","duration":0.1925420000000031,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["L06 SaveSlotMenu 同步合同"],"fullName":"L06 SaveSlotMenu 同步合同 defaultSlot 不在列表 → 保持建表默认 0（idx<0 分支）","status":"passed","title":"defaultSlot 不在列表 → 保持建表默认 0（idx<0 分支）","duration":0.08304199999997763,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["L06 SaveSlotMenu 同步合同"],"fullName":"L06 SaveSlotMenu 同步合同 空列表：current undefined，Up/Down 不抛错（防御）","status":"passed","title":"空列表：current undefined，Up/Down 不抛错（防御）","duration":0.22537499999998545,"failureMessages":[],"meta":{},"tags":[]}],"startTime":1790605138676,"endTime":1790605138677.2253,"status":"passed","message":"","name":"/Users/zhangxu/.codex/worktrees/glm-phase1-leaves/type-pal/packages/game/src/core/menu/save-slot-menu.glm-phase1-leaves.test.ts"},{"assertionResults":[{"ancestorTitles":["L05 sell-menu 剩余合同"],"fullName":"L05 sell-menu 剩余合同 grid 固定 filter=sellable 入口；空库存 !slot 防御不进 confirm","status":"passed","title":"grid 固定 filter=sellable 入口；空库存 !slot 防御不进 confirm","duration":1.270667000000003,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["L05 sell-menu 剩余合同"],"fullName":"L05 sell-menu 剩余合同 错相 sellSelectItem / list 相 sellConfirm 零请求","status":"passed","title":"错相 sellSelectItem / list 相 sellConfirm 零请求","duration":0.308290999999997,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["L05 sell-menu 剩余合同"],"fullName":"L05 sell-menu 剩余合同 刷新缩表（非空）：prevCursor 越新末项 → clamp 到 length-1","status":"passed","title":"刷新缩表（非空）：prevCursor 越新末项 → clamp 到 length-1","duration":0.4263750000000073,"failureMessages":[],"meta":{},"tags":[]}],"startTime":1790605138280,"endTime":1790605138281.4263,"status":"passed","message":"","name":"/Users/zhangxu/.codex/worktrees/glm-phase1-leaves/type-pal/packages/game/src/core/menu/sell-menu.glm-phase1-leaves.test.ts"},{"assertionResults":[{"ancestorTitles":["L05 shop-menu 剩余合同"],"fullName":"L05 shop-menu 剩余合同 缺 _name 的店铺物品 → label 回退 ?<id>；买菜单 pageSize 固定 8","status":"passed","title":"缺 _name 的店铺物品 → label 回退 ?<id>；买菜单 pageSize 固定 8","duration":0.8947499999999877,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["L05 shop-menu 剩余合同"],"fullName":"L05 shop-menu 剩余合同 错相 shopSelectItem 零请求；买目录缺该 item → no-op 留 list","status":"passed","title":"错相 shopSelectItem 零请求；买目录缺该 item → no-op 留 list","duration":0.23770899999999529,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["L05 shop-menu 剩余合同"],"fullName":"L05 shop-menu 剩余合同 list 相 shopConfirm → null（未进 confirm 无意图）","status":"passed","title":"list 相 shopConfirm → null（未进 confirm 无意图）","duration":0.11945800000000872,"failureMessages":[],"meta":{},"tags":[]}],"startTime":1790605140100,"endTime":1790605140102.1194,"status":"passed","message":"","name":"/Users/zhangxu/.codex/worktrees/glm-phase1-leaves/type-pal/packages/game/src/core/menu/shop-menu.glm-phase1-leaves.test.ts"}]}
+{
+  "numTotalTestSuites": 17,
+  "numPassedTestSuites": 17,
+  "numFailedTestSuites": 0,
+  "numPendingTestSuites": 0,
+  "numTotalTests": 31,
+  "numPassedTests": 31,
+  "numFailedTests": 0,
+  "numPendingTests": 0,
+  "numTodoTests": 0,
+  "snapshot": {
+    "added": 0,
+    "failure": false,
+    "filesAdded": 0,
+    "filesRemoved": 0,
+    "filesRemovedList": [],
+    "filesUnmatched": 0,
+    "filesUpdated": 0,
+    "matched": 0,
+    "total": 0,
+    "unchecked": 0,
+    "uncheckedKeysByFile": [],
+    "unmatched": 0,
+    "updated": 0,
+    "didUpdate": false
+  },
+  "startTime": 1790605136620,
+  "success": true,
+  "testResults": [
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["L08 dumpFrameJson 字段合同"],
+          "fullName": "L08 dumpFrameJson 字段合同 全字段：scene/viewport/dir 映射(w=1)/idle wFrame=dir*walkFrames/role/sprite/members/npcs",
+          "status": "passed",
+          "title": "全字段：scene/viewport/dir 映射(w=1)/idle wFrame=dir*walkFrames/role/sprite/members/npcs",
+          "duration": 2.0930829999999787,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["L08 dumpFrameJson 字段合同"],
+          "fullName": "L08 dumpFrameJson 字段合同 wFrame 三来源：脚本帧 > 行走(3帧表 [0,1,0,2] / 4帧直通) > 站立",
+          "status": "passed",
+          "title": "wFrame 三来源：脚本帧 > 行走(3帧表 [0,1,0,2] / 4帧直通) > 站立",
+          "duration": 0.49891700000000583,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["L08 dumpFrameJson 字段合同"],
+          "fullName": "L08 dumpFrameJson 字段合同 sprite 回退链：rgwSpriteNum 命中优先；稀疏（legacy 短数组）才落 partyLeaderSpriteId；空队伍 role 0",
+          "status": "passed",
+          "title": "sprite 回退链：rgwSpriteNum 命中优先；稀疏（legacy 短数组）才落 partyLeaderSpriteId；空队伍 role 0",
+          "duration": 0.2652500000000373,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["L08 initStateDump 控制器"],
+          "fullName": "L08 initStateDump 控制器 无 ?tp_dump=1：enabled false，push no-op 且不暴露全局",
+          "status": "passed",
+          "title": "无 ?tp_dump=1：enabled false，push no-op 且不暴露全局",
+          "duration": 4.212458999999967,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["L08 initStateDump 控制器"],
+          "fullName": "L08 initStateDump 控制器 ?tp_dump=1：push 进 __tpDumpBuffer 且帧号从 0 递增；download 句柄暴露（不点击）",
+          "status": "passed",
+          "title": "?tp_dump=1：push 进 __tpDumpBuffer 且帧号从 0 递增；download 句柄暴露（不点击）",
+          "duration": 1.177500000000009,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790605137252,
+      "endTime": 1790605137260.1775,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.codex/worktrees/glm-phase1-leaves/type-pal/packages/game/src/dev/state-dump.glm-phase1-leaves.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["L08 detectors 剩余边界"],
+          "fullName": "L08 detectors 剩余边界 atSpot 默认容差 ±48/±24：恰好边界命中、超出 1px 不命中",
+          "status": "passed",
+          "title": "atSpot 默认容差 ±48/±24：恰好边界命中、超出 1px 不命中",
+          "duration": 0.8854999999999791,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["L08 detectors 剩余边界"],
+          "fullName": "L08 detectors 剩余边界 atAnySpot 多点：任一格命中即真；全部未命中/场景不符为假",
+          "status": "passed",
+          "title": "atAnySpot 多点：任一格命中即真；全部未命中/场景不符为假",
+          "duration": 0.2087919999999599,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["L08 detectors 剩余边界"],
+          "fullName": "L08 detectors 剩余边界 leaveScene prev=null → false（无前帧不判离开）；enterAnyScene 集合外/空集合不触发",
+          "status": "passed",
+          "title": "leaveScene prev=null → false（无前帧不判离开）；enterAnyScene 集合外/空集合不触发",
+          "duration": 0.1700829999999769,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["L08 detectors 剩余边界"],
+          "fullName": "L08 detectors 剩余边界 caiyiDetector 自定义敌 id：见 72 置位，其消失触发",
+          "status": "passed",
+          "title": "caiyiDetector 自定义敌 id：见 72 置位，其消失触发",
+          "duration": 0.11658399999998892,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790605139099,
+      "endTime": 1790605139101.1702,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.codex/worktrees/glm-phase1-leaves/type-pal/packages/game/src/tools/speedrun/detectors.glm-phase1-leaves.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["L07 collectPartyStatusReadouts 剩余投影"],
+          "fullName": "L07 collectPartyStatusReadouts 剩余投影 persistent 来源：explore 下 rgPlayerStatus[role][idx] 计数 → 状态标签；slow 无持久位不出现",
+          "status": "passed",
+          "title": "persistent 来源：explore 下 rgPlayerStatus[role][idx] 计数 → 状态标签；slow 无持久位不出现",
+          "duration": 2.1924170000000913,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["L07 collectPartyStatusReadouts 剩余投影"],
+          "fullName": "L07 collectPartyStatusReadouts 剩余投影 rgPoisonStatus 毒条：知名毒 → 名#id + L级 + script；未知毒 → #id；毒ID 0 跳过",
+          "status": "passed",
+          "title": "rgPoisonStatus 毒条：知名毒 → 名#id + L级 + script；未知毒 → #id；毒ID 0 跳过",
+          "duration": 0.6762919999999895,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["L07 collectPartyStatusReadouts 剩余投影"],
+          "fullName": "L07 collectPartyStatusReadouts 剩余投影 battle players[slot].roleId 投影：显示身份按战斗槽而非 party 顺序；缺槽回退 persistent",
+          "status": "passed",
+          "title": "battle players[slot].roleId 投影：显示身份按战斗槽而非 party 顺序；缺槽回退 persistent",
+          "duration": 0.2430419999999458,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["L07 collectPartyStatusReadouts 剩余投影"],
+          "fullName": "L07 collectPartyStatusReadouts 剩余投影 hiddenExp：cur/next/gained 按各自池（next 用池 wLevel 阈值），与主经验 nextExp 区分",
+          "status": "passed",
+          "title": "hiddenExp：cur/next/gained 按各自池（next 用池 wLevel 阈值），与主经验 nextExp 区分",
+          "duration": 0.20008400000006077,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["L07 collectEnemyStatusReadouts 剩余投影"],
+          "fullName": "L07 collectEnemyStatusReadouts 剩余投影 steal 三分支：金钱/知名物品/缺名物品",
+          "status": "passed",
+          "title": "steal 三分支：金钱/知名物品/缺名物品",
+          "duration": 0.5514160000000174,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["L07 collectEnemyStatusReadouts 剩余投影"],
+          "fullName": "L07 collectEnemyStatusReadouts 剩余投影 maxHp 回退链 maxHealth ?? prevHp ?? health；defeated 与巫抗行",
+          "status": "passed",
+          "title": "maxHp 回退链 maxHealth ?? prevHp ?? health；defeated 与巫抗行",
+          "duration": 0.3042920000000322,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["L07 collectEnemyStatusReadouts 剩余投影"],
+          "fullName": "L07 collectEnemyStatusReadouts 剩余投影 敌方状态与毒条：be.status/confused → 乱；be.poisons → 毒 entries/tags",
+          "status": "passed",
+          "title": "敌方状态与毒条：be.status/confused → 乱；be.poisons → 毒 entries/tags",
+          "duration": 0.25604199999997945,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["L07 collectFieldInfoReadout 剩余投影与深保真"],
+          "fullName": "L07 collectFieldInfoReadout 剩余投影与深保真 isBoss/screenWave 原样透出；boss 标志 false 时如实 false",
+          "status": "passed",
+          "title": "isBoss/screenWave 原样透出；boss 标志 false 时如实 false",
+          "duration": 0.14733400000000074,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["L07 collectFieldInfoReadout 剩余投影与深保真"],
+          "fullName": "L07 collectFieldInfoReadout 剩余投影与深保真 输入深保真：三收集器调用前后实际消费的 gs 子树/roles/poisons/items 逐字段不变",
+          "status": "passed",
+          "title": "输入深保真：三收集器调用前后实际消费的 gs 子树/roles/poisons/items 逐字段不变",
+          "duration": 1.3584170000000313,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790605137869,
+      "endTime": 1790605137874.3584,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.codex/worktrees/glm-phase1-leaves/type-pal/packages/game/src/core/inspect/battle-inspect.glm-phase1-leaves.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["L06 OpeningMenu 剩余合同"],
+          "fullName": "L06 OpeningMenu 剩余合同 choice 映射：cursor 0 → new-game，Down → load-game（uigame.c value 0/1 语义）",
+          "status": "passed",
+          "title": "choice 映射：cursor 0 → new-game，Down → load-game（uigame.c value 0/1 语义）",
+          "duration": 1.259708000000046,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["L06 OpeningMenu 剩余合同"],
+          "fullName": "L06 OpeningMenu 剩余合同 词表载入：菜单 items 与 openingMenuLabels 同取 flat[7]/flat[8]（单一文案源）",
+          "status": "passed",
+          "title": "词表载入：菜单 items 与 openingMenuLabels 同取 flat[7]/flat[8]（单一文案源）",
+          "duration": 0.5689579999999523,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["L06 OpeningMenu 剩余合同"],
+          "fullName": "L06 OpeningMenu 剩余合同 空表 choice 防御 undefined（直造状态可达）",
+          "status": "passed",
+          "title": "空表 choice 防御 undefined（直造状态可达）",
+          "duration": 0.1007080000000542,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790605139647,
+      "endTime": 1790605139649.1006,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.codex/worktrees/glm-phase1-leaves/type-pal/packages/game/src/core/menu/opening-menu.glm-phase1-leaves.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["L06 SaveSlotMenu 同步合同"],
+          "fullName": "L06 SaveSlotMenu 同步合同 defaultSlot 指定默认槽号（1-based → cursor=slot-1；uigame.c:225 真值）",
+          "status": "passed",
+          "title": "defaultSlot 指定默认槽号（1-based → cursor=slot-1；uigame.c:225 真值）",
+          "duration": 0.8757080000000315,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["L06 SaveSlotMenu 同步合同"],
+          "fullName": "L06 SaveSlotMenu 同步合同 非顺序自定义 slot id：defaultSlot 按 id 反查非下标；current 返回真 id",
+          "status": "passed",
+          "title": "非顺序自定义 slot id：defaultSlot 按 id 反查非下标；current 返回真 id",
+          "duration": 0.1925420000000031,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["L06 SaveSlotMenu 同步合同"],
+          "fullName": "L06 SaveSlotMenu 同步合同 defaultSlot 不在列表 → 保持建表默认 0（idx<0 分支）",
+          "status": "passed",
+          "title": "defaultSlot 不在列表 → 保持建表默认 0（idx<0 分支）",
+          "duration": 0.08304199999997763,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["L06 SaveSlotMenu 同步合同"],
+          "fullName": "L06 SaveSlotMenu 同步合同 空列表：current undefined，Up/Down 不抛错（防御）",
+          "status": "passed",
+          "title": "空列表：current undefined，Up/Down 不抛错（防御）",
+          "duration": 0.22537499999998545,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790605138676,
+      "endTime": 1790605138677.2253,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.codex/worktrees/glm-phase1-leaves/type-pal/packages/game/src/core/menu/save-slot-menu.glm-phase1-leaves.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["L05 sell-menu 剩余合同"],
+          "fullName": "L05 sell-menu 剩余合同 grid 固定 filter=sellable 入口；空库存 !slot 防御不进 confirm",
+          "status": "passed",
+          "title": "grid 固定 filter=sellable 入口；空库存 !slot 防御不进 confirm",
+          "duration": 1.270667000000003,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["L05 sell-menu 剩余合同"],
+          "fullName": "L05 sell-menu 剩余合同 错相 sellSelectItem / list 相 sellConfirm 零请求",
+          "status": "passed",
+          "title": "错相 sellSelectItem / list 相 sellConfirm 零请求",
+          "duration": 0.308290999999997,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["L05 sell-menu 剩余合同"],
+          "fullName": "L05 sell-menu 剩余合同 刷新缩表（非空）：prevCursor 越新末项 → clamp 到 length-1",
+          "status": "passed",
+          "title": "刷新缩表（非空）：prevCursor 越新末项 → clamp 到 length-1",
+          "duration": 0.4263750000000073,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790605138280,
+      "endTime": 1790605138281.4263,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.codex/worktrees/glm-phase1-leaves/type-pal/packages/game/src/core/menu/sell-menu.glm-phase1-leaves.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["L05 shop-menu 剩余合同"],
+          "fullName": "L05 shop-menu 剩余合同 缺 _name 的店铺物品 → label 回退 ?<id>；买菜单 pageSize 固定 8",
+          "status": "passed",
+          "title": "缺 _name 的店铺物品 → label 回退 ?<id>；买菜单 pageSize 固定 8",
+          "duration": 0.8947499999999877,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["L05 shop-menu 剩余合同"],
+          "fullName": "L05 shop-menu 剩余合同 错相 shopSelectItem 零请求；买目录缺该 item → no-op 留 list",
+          "status": "passed",
+          "title": "错相 shopSelectItem 零请求；买目录缺该 item → no-op 留 list",
+          "duration": 0.23770899999999529,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["L05 shop-menu 剩余合同"],
+          "fullName": "L05 shop-menu 剩余合同 list 相 shopConfirm → null（未进 confirm 无意图）",
+          "status": "passed",
+          "title": "list 相 shopConfirm → null（未进 confirm 无意图）",
+          "duration": 0.11945800000000872,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790605140100,
+      "endTime": 1790605140102.1194,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.codex/worktrees/glm-phase1-leaves/type-pal/packages/game/src/core/menu/shop-menu.glm-phase1-leaves.test.ts"
+    }
+  ]
+}
