@@ -2,6 +2,7 @@ import assert from 'node:assert/strict'
 import { readFile, writeFile } from 'node:fs/promises'
 import { resolve } from 'node:path'
 import { repoRoot, runBrowserJourney, sha256 } from './browser-journey.mjs'
+import { waitForOpeningFrame } from './opening-frame.mjs'
 import { assertOpeningMatrix, readOpeningContract } from './opening-matrix.mjs'
 import { appendBounded } from './opening-policy.mjs'
 import { openingTiming } from './opening-timing.mjs'
@@ -46,6 +47,7 @@ await runBrowserJourney({
     'scripts/e2e/opening-timing.mjs',
     'scripts/e2e/opening-matrix-observer.mjs',
     'scripts/e2e/opening-matrix.mjs',
+    'scripts/e2e/opening-frame.mjs',
     'scripts/e2e/reforge-trace.config.mts',
   ],
   journey: async ({ newPage, baseURL, out, report, until, health }) => {
@@ -161,6 +163,7 @@ await runBrowserJourney({
     await until(snapshot, (s) => s.runtime?.menuActive, 'menu opens')
     await press('Escape', 'return to room')
     await until(snapshot, (s) => reforgeRoomReady(s.runtime), 'menu closes')
+    report.endFrame = await waitForOpeningFrame(page, until)
     await page.screenshot({ path: resolve(out, '001-end.png') })
     const original = await page.evaluate(() => window.__tpE2e.dumpSave())
     const bytes = JSON.stringify(original)
@@ -198,6 +201,7 @@ await runBrowserJourney({
     await until(snapshot, (s) => s.runtime?.menuActive, 'restored menu opens')
     await press('Escape', 'restored control returns to room')
     await until(snapshot, (s) => reforgeRoomReady(s.runtime), 'restored menu closes')
+    report.restoredFrame = await waitForOpeningFrame(page, until, report.endFrame)
     await page.screenshot({ path: resolve(out, '001-restored.png') })
     if (report.timing.status !== 'passed')
       throw new Error('001 dialogue/movement ordering differs; inspect npc-trace.json')

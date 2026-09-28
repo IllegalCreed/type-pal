@@ -121,6 +121,16 @@ sdlpal 阻塞式过程(PAL_FadeIn 等)tick 化后变成"状态对象 + 收尾人
 - **静止演出/划船期 sdlpal 从不重算队员 wFrame**(`PAL_GameUpdate` 不调 `PAL_UpdatePartyGestures`;ride 也不调)。只有自由行走/`PAL_PartyWalkTo`/`0x6E` 才从 rgTrail 重算。故队员朝向 = 最后一次 0x15 或走路设的值,冻到下次走路。渲染:跟随者静止且有 scriptedFrame 时用脚本帧,否则回退 trail——只动 operand[2] 点名那员。
 - **位置同样冻结**:0x46 setPartyPos 循环写 `rgParty[i]=rgTrail[i]=队长+i×offset`(每员退一格)→ 静止演出跟随者位置 = `trail[m]`,不是 trail[1] 再叠方向偏移(=多退一格=间隙)。扇形布局只属走路态。
 
+### 3.7c 四行分页不能跳过未显示行
+
+001逐页E2E发现message1331/1338缺失：`shouldWaitPageKey`在第5条showDialog尚未消费时挂起，
+确认分支却无条件按“非preOp”推进ip，导致下一页首行直接被跳过。
+sdlpal `text.c:1649-1658`在同一次ShowDialogText调用内等键/清页后继续当前文本，
+`script.c:3463-3464`只在显示结束后推进一次。修复：普通分页保留ip，样式/显式清屏完成后才推进，
+隐式pre-op仍重入。`event-dialogue-pagination.test.ts`以真实tick证明可见行和history无漏/重行。
+旧scene145第五行含~80的测试此前靠“该行被跳过”假绿；恢复该行后必须推进gs.nowMs验证尾停顿，
+不能通过多按Confirm或删第五行修测试。原版提取数据未改，本项属于本实现的异步游标bug。
+
 ### 3.8 瓦片接缝漏黑
 原版美术里少数瓦片在崖边斜接缝处自带透明像素;原版/sdlpal runtime 的 PAL_MakeScene **不清屏**(糊上持久 gpScreen)→ 缝里显示上一帧残留邻接地形,肉眼看不出。type-pal present 每帧 `fb.clear()` 清成 index 0 → 同样的缝露**纯黑**(血池 map76)。
 - 修:`repairTilemapSeams`(draw-tilemap.ts;drawTilemap 传 coverage mask 标记已画像素 → 没画的用最近邻地形逐圈 dilation 填,在两层 tilemap 之后、applyScreenWave 之前)。**关键:用 coverage 判漏黑,不能用 `indices===0`**(瓦片可合法画 opaque index-0)。

@@ -9,6 +9,7 @@ import { setTimeout as delay } from 'node:timers/promises'
 import { fileURLToPath } from 'node:url'
 import { chromium } from 'playwright'
 import { installVideoObserver, readGame, readWorld } from './game-observer.mjs'
+import { waitForOpeningFrame } from './opening-frame.mjs'
 import { assertOpeningMatrix, readOpeningContract } from './opening-matrix.mjs'
 import { installOpeningMatrix } from './opening-matrix-observer.mjs'
 import {
@@ -73,6 +74,7 @@ for (const name of [
   'scripts/e2e/opening-timing.mjs',
   'scripts/e2e/opening-matrix-observer.mjs',
   'scripts/e2e/opening-matrix.mjs',
+  'scripts/e2e/opening-frame.mjs',
   'scripts/e2e/game-trace.config.mts',
   'packages/game/src/core/event-system.ts',
   'packages/game/src/present/present.ts',
@@ -314,6 +316,7 @@ try {
   await press('Escape', 'close actual in-game menu')
   await until(() => snapshot(), isControllableRoom, 'control restored')
   report.endWorld = worldSummary(await page.evaluate(readWorld))
+  report.endFrame = await waitForOpeningFrame(page, until)
   await page.screenshot({ path: resolve(out, '001-end.png') })
   await press('F5', 'formal quick-save slot 1')
   const checkpoint = await until(
@@ -368,6 +371,7 @@ try {
   )
   await press('Escape', 'return to restored room')
   await until(() => snapshot(), isControllableRoom, 'restored menu closes')
+  report.restoredFrame = await waitForOpeningFrame(page, until, report.endFrame)
   await page.screenshot({ path: resolve(out, '001-restored.png') })
   assert.equal(
     report.timing.status,
