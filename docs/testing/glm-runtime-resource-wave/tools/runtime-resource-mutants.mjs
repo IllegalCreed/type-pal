@@ -18,6 +18,47 @@ const output = mkdtempSync(join(tmpdir(), 'type-pal-glm-runtime-resource-mutants
 
 /** 每批注册：包根、对照跑范围与总数、该批 2 个单点针。 */
 const batches = {
+  f: {
+    packageRoot: resolve(root, 'packages/migrate'),
+    production: ['src/pal-battle-sprites.ts'],
+    control: {
+      tests: [
+        'src/pal-battle-sprites.glm-runtime-resource.test.ts',
+        'src/pal-world-sprite-layouts.test.ts',
+        'src/pal-sprite-action-materialize.test.ts',
+        'src/pal-world-sprite-semantic-alias.test.ts',
+        'src/pal-item-scheme-labels.test.ts',
+        'src/pal-store-boundary.test.ts',
+        'src/pal-casualty-scripts.test.ts',
+        'src/music-reference-audit.test.ts',
+      ],
+      total: 42,
+    },
+    mutations: [
+      {
+        id: 'player-steal-frame-threshold-lowered',
+        module: 'src/pal-battle-sprites.ts',
+        file: 'src/pal-battle-sprites.glm-runtime-resource.test.ts',
+        total: 8,
+        describe: 'R21 createPalPlayerBattleSpriteDefinitions',
+        title: '常量输入 → 19 定义；fighter 帧映射/steal 条件/effect base 手算',
+        from: '...(frameCount > 10 ? { steal: 10 } : {})',
+        to: '...(frameCount > 5 ? { steal: 10 } : {})',
+        category: 'steal 帧位漂移：10 帧精灵被误配偷窃帧，运行时取到越界帧',
+      },
+      {
+        id: 'summon-definition-id-off-by-one',
+        module: 'src/pal-battle-sprites.ts',
+        file: 'src/pal-battle-sprites.glm-runtime-resource.test.ts',
+        total: 8,
+        describe: 'R21 定义号函数',
+        title: 'summon godId 0..8 → player-summon-(godId+10)；9 越界拒绝',
+        from: 'return palPlayerBattleSpriteDefinitionId(godId + 10)',
+        to: 'return palPlayerBattleSpriteDefinitionId(godId + 9)',
+        category: '召唤定义号错位：godId 映射到错误战斗精灵（召唤神演出整体错位）',
+      },
+    ],
+  },
   e: {
     packageRoot: resolve(root, 'packages/reforge'),
     production: [

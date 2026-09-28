@@ -10,6 +10,7 @@
 | C | R09–R12 | 见推送 | 39 新断言 / 定向+相邻 60 全绿 / TC 零错 / Biome 零诊断 / 2 针业务反控恰一红 / RV2 取证 | 见批C末 |
 | D | R13–R16 | 见推送 | 17 新断言 / 定向+相邻 74 全绿 / TC 零错 / Biome 零诊断 / 2 针业务反控恰一红 / RV3+RV4 取证 | 见批D末 |
 | E | R17–R20 | 见推送 | 6 新断言 / 定向+相邻 77 全绿 / TC 零错 / Biome 零诊断 / 2 针业务反控恰一红 | 见批E末 |
+| F | R21–R24 | 见推送 | 8 新断言 / 定向+相邻 42 全绿 / TC 零错 / Biome 零诊断 / 2 针业务反控恰一红 | 见批F末 |
 
 ## 批A（R01–R04）
 
@@ -266,3 +267,33 @@
 1. R17/R18/R19 其余轴（transport 生命周期、BGM/SFX 播放器、sprite 闭包）既有测试已覆盖，
    本批未重建（登记非跳过）。
 2. analyzeMidiBytes 未测损坏 MIDI 字节路径（BasicMIDI 抛错行为属库合同；未占用轴仅合法输入）。
+
+## 批F（R21–R24）
+
+**候选 SHA**：批次推送 HEAD。
+
+### 去重账（旧断言 → 新差异 → 新合同 → 归属）
+
+- R21 `pal-battle-sprites.ts` **整文件零测试** → 本批新做 **player/enemy/summon 定义号
+  （范围拒绝/命名）、createPalPlayerBattleSpriteDefinitions 常量防漂移 + fighter profile
+  （帧映射、steal 仅 frameCount>10、castEffectBase/attackEffectBase 手算）+ summon profile、
+  createPalEnemyBattleSpriteDefinitions exact=145/extra=8 恒定 + 段位/tick 手算 +
+  缺数据/帧不足/漂移 fail-loud、createPalBattleSpriteDefinitions 组合** → 8 新断言。
+- R22/R23/R24（materialize/semantic-alias/item-scheme-labels/store-boundary/casualty/
+  music-audit）：既有 test/boundaries/pal/wave2 测试已覆盖本卡轴 → **无剩余合法新合同 →
+  未建新文件**（README 允许；登记非跳过）。
+
+### 验证证据
+
+- 定向+相邻（8 文件，migrate `--project unit`，单 worker，新鲜 JSON）：42/42 绿（新 8 / 邻 34）。
+- typecheck migrate 通过；Biome 新文件零诊断；docs PASS；`git diff --check` 干净。
+- 反控（`runtime-resource-mutants.mjs f`）：判据自测 10；对照 42 绿 exit0；
+  - 针1 `player-steal-frame-threshold-lowered`（steal 帧阈值 10→5）→ 恰一红 AssertionError。
+  - 针2 `summon-definition-id-off-by-one`（godId+10→+9）→ 恰一红 AssertionError。
+    （首版针 exact/extra 常量漂移会同时打红组合用例 → 恰一红不满足，已换针并留痕。）
+  - 产品源 hash 反控前后不变。
+
+### 未证项 / 受限登记
+
+1. R21 enemy 153 只全量 fixture 为按帧数常量程序化构造（exact/extra 关系为被测合同本身）。
+2. R22–R24 无新合同登记如上；如 Codex 复核发现可用轴另行补派。

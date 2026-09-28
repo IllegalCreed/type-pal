@@ -281,7 +281,7 @@
         "R19",
         "R20"
       ],
-      "candidateSha": "filled-after-push",
+      "candidateSha": "61686dc3",
       "directed": {
         "reforge": {
           "total": 77,
@@ -322,6 +322,56 @@
       },
       "unproven": [
         "corrupt-MIDI path of analyzeMidiBytes (library contract, only legal input authorized)"
+      ]
+    },
+    "F": {
+      "groups": [
+        "R21",
+        "R22",
+        "R23",
+        "R24"
+      ],
+      "candidateSha": "filled-after-push",
+      "directed": {
+        "migrate": {
+          "total": 42,
+          "new": 8,
+          "adjacent": 34,
+          "failed": 0
+        }
+      },
+      "newTestFiles": [
+        "packages/migrate/src/pal-battle-sprites.glm-runtime-resource.test.ts"
+      ],
+      "noNewContractFiles": [
+        "R22 materialize/semantic-alias, R23 item-scheme-labels/store-boundary, R24 casualty/music-audit covered by existing tests"
+      ],
+      "gates": {
+        "typecheck": [
+          "migrate"
+        ],
+        "biome": "0/0/0",
+        "docsCheck": "PASS",
+        "gitDiffCheck": "clean"
+      },
+      "mutants": {
+        "batch": "f",
+        "selfTest": 10,
+        "control": "exit0 42 green",
+        "needles": [
+          {
+            "id": "player-steal-frame-threshold-lowered",
+            "result": "business red, exactly 1"
+          },
+          {
+            "id": "summon-definition-id-off-by-one",
+            "result": "business red, exactly 1"
+          }
+        ],
+        "replacedNeedle": "exact/extra constant drift red-2 (composition test same function) — replaced, disclosed"
+      },
+      "unproven": [
+        "enemy 153-fixture programmatically derived from frame-count constants (exact/extra relation is the tested contract itself)"
       ]
     }
   }
