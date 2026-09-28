@@ -15,6 +15,8 @@ import { stripVTControlCharacters } from 'node:util'
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '../../..')
 const output = mkdtempSync(join(tmpdir(), 'type-pal-glm-leaf-mutants-'))
+// 反引号字符，供拼接含模板字面量的 needle；避免触发 noTemplateCurlyInString。
+const BT = String.fromCharCode(96)
 
 /** 每批注册：包根、控制跑范围（该批全部新测试文件）、以及该批代表单点针。 */
 const batches = {
@@ -289,6 +291,104 @@ const batches = {
         from: 'normalize={(value) => Math.max(1, Math.min(100, Math.trunc(value)))}',
         to: 'normalize={(value) => Math.max(1, Math.min(100, value))}',
         category: '概率取整拆除：非整数概率直接写库',
+      },
+    ],
+  },
+  g: {
+    packageRoot: resolve(root, 'packages/editor'),
+    production: [
+      'src/core/asset-diagnostics.ts',
+      'src/core/video-metadata.ts',
+      'src/core/command-asset-record.ts',
+      'src/core/battle-data-references.ts',
+      'src/core/item-references.ts',
+      'src/core/script-references.ts',
+      'src/core/stamp-ownership.ts',
+      'src/core/stamp-placement.ts',
+    ],
+    control: {
+      tests: [
+        'src/core/asset-diagnostics.glm-leaf-wave.test.ts',
+        'src/core/command-asset-record.glm-leaf-wave.test.ts',
+        'src/core/item-references.glm-leaf-wave.test.ts',
+        'src/core/script-references.glm-leaf-wave.test.ts',
+        'src/core/stamp-placement.glm-leaf-wave.test.ts',
+      ],
+      total: 21,
+    },
+    mutations: [
+      {
+        id: 'asset-record-gzip-head-drop',
+        module: 'src/core/command-asset-record.ts',
+        file: 'src/core/command-asset-record.glm-leaf-wave.test.ts',
+        total: 6,
+        describe: 'assert*Record 剩余合同',
+        title:
+          'sprite and battle-sprite guards enforce their own kinds with the same bytes contract',
+        from: "  const view = new Uint8Array(bytes)\n  if (view[0] !== 0x1f || view[1] !== 0x8b) throw new Error('战斗精灵资源必须是 canonical gzip')",
+        to: "  const view = new Uint8Array(bytes)\n  if (false) throw new Error('战斗精灵资源必须是 canonical gzip')",
+        category: 'record 头部校验拆除：非 gzip 字节被当战斗精灵资产接受',
+      },
+      {
+        id: 'stamp-placement-suffix-one',
+        module: 'src/core/stamp-placement.ts',
+        file: 'src/core/stamp-placement.glm-leaf-wave.test.ts',
+        total: 4,
+        describe: 'stamp-placement 剩余合同',
+        title: 'nextStampPlacementId sanitizes and dedupes existing ids',
+        from: '  if (!used.has(stem)) return stem\n  for (let index = 2; ; index++) {',
+        to: '  if (!used.has(stem)) return stem\n  for (let index = 1; ; index++) {',
+        category: 'ID 边界拆除：首个候选后缀从 1 起与既有序号语义漂移',
+      },
+    ],
+  },
+  h: {
+    packageRoot: resolve(root, 'packages/content'),
+    production: [
+      'src/frame-sequence.ts',
+      'src/script-library.ts',
+      'src/world-variable.ts',
+      'src/stamp.ts',
+      'src/migration-diagnostic.ts',
+      'src/map-index.ts',
+      'src/tileset.ts',
+    ],
+    control: {
+      tests: [
+        'src/frame-sequence.glm-leaf-wave.test.ts',
+        'src/script-library.glm-leaf-wave.test.ts',
+        'src/world-variable.glm-leaf-wave.test.ts',
+        'src/stamp.glm-leaf-wave.test.ts',
+        'src/migration-diagnostic.glm-leaf-wave.test.ts',
+        'src/map-index.glm-leaf-wave.test.ts',
+        'src/tileset.glm-leaf-wave.test.ts',
+      ],
+      total: 24,
+    },
+    mutations: [
+      {
+        id: 'stamp-anchor-bounds-drop',
+        module: 'src/stamp.ts',
+        file: 'src/stamp.glm-leaf-wave.test.ts',
+        total: 3,
+        describe: 'stamp 剩余合同',
+        title: 'rejects duplicate ids, slash ids, empty visuals and out-of-surface anchors',
+        from: ['throw new Error(', BT, '$', '{path}.anchor: 锚点超出局部 surface', BT, ')'].join(
+          '',
+        ),
+        to: 'void 0',
+        category: '合法边界拆除：越界锚点被接受',
+      },
+      {
+        id: 'script-library-empty-chunk-keep',
+        module: 'src/script-library.ts',
+        file: 'src/script-library.glm-leaf-wave.test.ts',
+        total: 4,
+        describe: 'script-library 剩余合同',
+        title: 'remove deletes the library entry and the emptied chunk, failing loudly when absent',
+        from: '  if (Object.keys(ownerChunk.scripts).length === 0) delete nextChunks[owner]',
+        to: '  if (false) delete nextChunks[owner]',
+        category: '分域清理拆除：清空后的 chunk 不再移除',
       },
     ],
   },

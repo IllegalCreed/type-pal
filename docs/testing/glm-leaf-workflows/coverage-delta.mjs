@@ -39,6 +39,20 @@ const newTests = [
   'src/ui/StampPlacementSelectionInspector.glm-leaf-wave.test.tsx',
   'src/ui/StampContentEditor.glm-leaf-wave.test.tsx',
   'src/ui/StampTemplateDialog.glm-leaf-wave.test.tsx',
+  'src/ui/PoisonTab.glm-leaf-wave.test.tsx',
+  'src/ui/VarsTab.glm-leaf-wave.test.tsx',
+  'src/ui/ShopTab.glm-leaf-wave.test.tsx',
+  'src/ui/ItemAlchemyTab.glm-leaf-wave.test.tsx',
+  'src/ui/BattleFieldTab.glm-leaf-wave.test.tsx',
+  'src/ui/CasualtyEditor.glm-leaf-wave.test.tsx',
+  'src/ui/ScriptSceneHookInspector.glm-leaf-wave.test.tsx',
+  'src/ui/ScriptBehaviorInspector.glm-leaf-wave.test.tsx',
+  'src/ui/enemy-defeated-events.glm-leaf-wave.test.ts',
+  'src/core/asset-diagnostics.glm-leaf-wave.test.ts',
+  'src/core/command-asset-record.glm-leaf-wave.test.ts',
+  'src/core/item-references.glm-leaf-wave.test.ts',
+  'src/core/script-references.glm-leaf-wave.test.ts',
+  'src/core/stamp-placement.glm-leaf-wave.test.ts',
 ]
 
 // 与 scripts/coverage/config.mjs 的 official fast 口径一致：
@@ -139,7 +153,7 @@ const result = {
   improvedFiles: rows.slice(0, 40),
   outputDir: output,
 }
-writeFileSync('/tmp/glm-leaf-A-D-coverage-delta.json', `${JSON.stringify(result, null, 2)}\n`)
+writeFileSync('/tmp/glm-leaf-A-H-coverage-delta.json', `${JSON.stringify(result, null, 2)}\n`)
 console.log(
   `lines ${(before.total.lines.pct).toFixed(2)}% -> ${(after.total.lines.pct).toFixed(2)}% ` +
     `(${before.total.lines.covered}/${before.total.lines.total} -> ${after.total.lines.covered}/${after.total.lines.total})`,

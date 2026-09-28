@@ -1,0 +1,209 @@
+{
+  "beforeTotal": {
+    "total": 28827,
+    "covered": 24623,
+    "skipped": 0,
+    "pct": 85.41
+  },
+  "afterTotal": {
+    "total": 28827,
+    "covered": 24846,
+    "skipped": 0,
+    "pct": 86.19
+  },
+  "beforeBranches": {
+    "total": 28484,
+    "covered": 21621,
+    "skipped": 0,
+    "pct": 75.9
+  },
+  "afterBranches": {
+    "total": 28484,
+    "covered": 21841,
+    "skipped": 0,
+    "pct": 76.67
+  },
+  "improvedFiles": [
+    {
+      "file": "src/ui/design-system/media.tsx",
+      "before": 27.27,
+      "after": 100,
+      "delta": 72.73
+    },
+    {
+      "file": "src/ui/map-selection-overlay.ts",
+      "before": 30.9,
+      "after": 100,
+      "delta": 69.1
+    },
+    {
+      "file": "src/ui/design-system/list-header.tsx",
+      "before": 47.22,
+      "after": 97.22,
+      "delta": 50
+    },
+    {
+      "file": "src/ui/design-system/navigation.tsx",
+      "before": 60,
+      "after": 83.52,
+      "delta": 23.52
+    },
+    {
+      "file": "src/ui/PortraitEditor.tsx",
+      "before": 73.43,
+      "after": 90.62,
+      "delta": 17.19
+    },
+    {
+      "file": "src/ui/MapSelectionInspector.tsx",
+      "before": 67.01,
+      "after": 83.5,
+      "delta": 16.49
+    },
+    {
+      "file": "src/ui/ScriptSceneHookInspector.tsx",
+      "before": 60.78,
+      "after": 76.47,
+      "delta": 15.69
+    },
+    {
+      "file": "src/ui/StampPlacementSelectionInspector.tsx",
+      "before": 85.33,
+      "after": 98.66,
+      "delta": 13.33
+    },
+    {
+      "file": "src/ui/VarsTab.tsx",
+      "before": 75,
+      "after": 86.76,
+      "delta": 11.76
+    },
+    {
+      "file": "src/ui/SoundPicker.tsx",
+      "before": 84.37,
+      "after": 95.31,
+      "delta": 10.94
+    },
+    {
+      "file": "src/ui/BattleFieldTab.tsx",
+      "before": 72.72,
+      "after": 79.33,
+      "delta": 6.61
+    },
+    {
+      "file": "src/ui/design-system/select.tsx",
+      "before": 82.03,
+      "after": 88.34,
+      "delta": 6.31
+    },
+    {
+      "file": "src/ui/ScriptBehaviorInspector.tsx",
+      "before": 86.36,
+      "after": 92.42,
+      "delta": 6.06
+    },
+    {
+      "file": "src/ui/MusicPicker.tsx",
+      "before": 86.36,
+      "after": 90.9,
+      "delta": 4.54
+    },
+    {
+      "file": "src/ui/design-system/overlays.tsx",
+      "before": 93.91,
+      "after": 98.26,
+      "delta": 4.35
+    },
+    {
+      "file": "src/ui/design-system/multi-select.tsx",
+      "before": 89.58,
+      "after": 93.75,
+      "delta": 4.17
+    },
+    {
+      "file": "src/core/command-asset-record.ts",
+      "before": 89.65,
+      "after": 93.1,
+      "delta": 3.45
+    },
+    {
+      "file": "src/ui/ProjectAudioPreviewButton.tsx",
+      "before": 95,
+      "after": 98.33,
+      "delta": 3.33
+    },
+    {
+      "file": "src/ui/ImageAssetPicker.tsx",
+      "before": 58.2,
+      "after": 61.19,
+      "delta": 2.99
+    },
+    {
+      "file": "src/ui/StampTemplateDialog.tsx",
+      "before": 78.67,
+      "after": 81.61,
+      "delta": 2.94
+    },
+    {
+      "file": "src/ui/IsometricEditorToolbar.tsx",
+      "before": 92.95,
+      "after": 95.77,
+      "delta": 2.82
+    },
+    {
+      "file": "src/ui/design-system/virtual-list.tsx",
+      "before": 93.71,
+      "after": 95.81,
+      "delta": 2.1
+    },
+    {
+      "file": "src/ui/design-system/add-picker.tsx",
+      "before": 94.94,
+      "after": 96.96,
+      "delta": 2.02
+    },
+    {
+      "file": "src/ui/enemy-defeated-events.ts",
+      "before": 87.85,
+      "after": 89.71,
+      "delta": 1.86
+    },
+    {
+      "file": "src/ui/PoisonTab.tsx",
+      "before": 75.81,
+      "after": 77.12,
+      "delta": 1.31
+    },
+    {
+      "file": "src/ui/ShopTab.tsx",
+      "before": 85.98,
+      "after": 86.91,
+      "delta": 0.93
+    },
+    {
+      "file": "src/ui/StampContentEditor.tsx",
+      "before": 89.25,
+      "after": 90.08,
+      "delta": 0.83
+    },
+    {
+      "file": "src/ui/CasualtyEditor.tsx",
+      "before": 81.45,
+      "after": 82.25,
+      "delta": 0.8
+    },
+    {
+      "file": "src/core/script-references.ts",
+      "before": 91.91,
+      "after": 92.64,
+      "delta": 0.73
+    },
+    {
+      "file": "src/ui/design-system/reorder.tsx",
+      "before": 95.32,
+      "after": 95.5,
+      "delta": 0.18
+    }
+  ],
+  "outputDir": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-leaf-coverage-SctOIQ"
+}

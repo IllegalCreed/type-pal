@@ -319,3 +319,68 @@ console 错误：0（error 监听全程为空）。
 - 视觉（F 批一条）：本批四组均为会话/命令合同，画布观感不变；按卡「G/H 纯函数 N/A」同类处理，
   F 组视觉以既有 D/E 批直挂宿主证据覆盖同类面板（表单+会话回显），不重复取证。
 - 真实产品缺陷：无。
+
+## 批 G（G25–G28 · 纯函数资源/引用/图章核心）
+
+- 新测试（21 条，5 文件；两目标组各有单文件）：
+  - `asset-diagnostics.glm-leaf-wave.test.ts`（7）：kind 中文标签表与标题三级回退（label→fallback→
+    「未命名+类别」）；未使用资源经 catalog where 反查附身份；kind-mismatch 报期望/实际类别并挂
+    reference origin；无 catalog 记录的缺失引用回退到类别名词。
+  - `command-asset-record.glm-leaf-wave.test.ts`（6）：sameAssetRecord 八字段逐项差异；tileset/sprite/
+    battle-sprite 三守卫 kind/mediaType/路径/bytes/sha256/gzip 头部逐臂；AssetInUseError 携带资产 id 与
+    引用计数；battle-data-references skill 域（初始仙术+专属合体技）按 where 排序、enemy/poison 域
+    自身过滤、manifest.entryPoints 必备。
+  - `item-references.glm-leaf-wave.test.ts`（2）：giveItem/loseItem→reward/lose 及数量文案；branch
+    条件 hasItem 叶子→read 引用（`检查背包数量 ≥ 2`）；非物品命令零引用。
+  - `script-references.glm-leaf-wave.test.ts`（2）：callScript（`ref:{chunk,id}` 形态）调用方回指被引
+    脚本（caller=script 身份）；无入边根脚本/未知 id 空表。
+  - `stamp-placement.glm-leaf-wave.test.ts`（4）：ownership index byId/碰撞反查（`.get` Map 语义）；
+    stampVisualOwner 逐槽回答；nextStampPlacementId 清洗并去重（place-001→place-001-2）；
+    stampPlacementActualHeight 非负基准+相对高度、负相对高度抛错。
+- 复跑：定向 21/21（JSON /tmp/glm-leaf-G-directed.json）、相邻 15 文件 86/86、typecheck 0、Biome 0、
+  `leaf-mutants.mjs g`（control 21/21 + 2 针红）：
+  - `asset-record-gzip-head-drop`：battle-sprite gzip 头校验拆除 → 守卫测试红。
+  - `stamp-placement-suffix-one`：ID 首个候选后缀 2→1 → 去重测试红。
+
+## 批 H（G29–G32 · content 纯函数收尾）
+
+- 新测试（24 条，7 文件）：
+  - `frame-sequence.glm-leaf-wave.test.ts`（5）：playback 默认全区间/显式边界/越界/逆序/frameRate 非正
+    拒绝；帧时长 per-frame>default、frameRate 覆盖两者；index 校验 version/codec/pixelFormat/
+    blockFrames/空 frames/width/defaultFrameMs；一致单 block（rawBytes=帧字节×帧数）。
+  - `script-library.glm-leaf-wave.test.ts`（4）：deriveScriptChunk 场景/shared/global 路由；upsert 入
+    derived chunk 且 getScriptBody 读回；非 authored 命名空间与外 chunk 占用拒绝；remove 删库项+空
+    chunk、缺席 fail-loud。
+  - `world-variable.glm-leaf-wave.test.ts`（3）：id guard 五类拒绝；registry name/description 长度与
+    flag/number initial 类型；initial 分域 flags/vars 且不泄漏引用。
+  - `stamp.glm-leaf-wave.test.ts`（3）：合法 authored 模板；重复 id/slash id/空视觉/越界锚点/非法
+    origin 拒绝；format→parse 往返同序。
+  - `migration-diagnostic.glm-leaf-wave.test.ts`（2）：类别表 5 项；version/数组/未知类别拒绝。
+  - `map-index.glm-leaf-wave.test.ts`（5）：normalize 折叠重复分隔符并拒绝绝对/越界路径；id 查找；
+    stem 提取与 nextMapAssetId 去重（map-001→map-001-2）；identity 配对规范路径；重复 id/坏字段拒绝。
+  - `tileset.glm-leaf-wave.test.ts`（2）：合法 tileset（name/category/asset）与 id→asset 解析；未知 id
+    fail-loud（tiles/path 均已退役字段）。
+- 复跑：定向 24/24（JSON /tmp/glm-leaf-H-directed.json）、相邻 18 文件 152/152、content typecheck 0、
+  Biome 0、`leaf-mutants.mjs h`（control 24/24 + 2 针红）：
+  - `stamp-anchor-bounds-drop`：锚点越界抛错拆除 → stamp 测试红。
+  - `script-library-empty-chunk-keep`：空 chunk 清理拆除 → remove 测试红。
+- 全部八批判据终扫：a–h 每批「自测 10 类 + control 全绿 + 2 针恰一红」全部通过。
+
+## 批 H 里程碑：editor + content 全包
+
+- editor 全包：438 文件 3462/3462，exit 0。
+- content 全包：123 文件 1222/1222，exit 0。
+- A–H 总覆盖对照：见下方补充（对照脚本 after 侧已扩为 37 个新测试文件）。
+
+### A–H 总覆盖对照（H 批末统一对照批次）
+
+- 对照口径同 D 批末（同源码同口径、before 排除 37 个 glm-leaf-wave 新测试、after 全量；
+  官方 fast include/exclude；报告仅 /tmp，基线未动）。
+- before：373 文件 3207/3207；after：410 文件 3432/3432（差 = 37 个新测试文件）。
+- lines 85.41% → 86.19%（24,623/28,827 → 24,846/28,827，+223 行）。
+- branches 75.90% → 76.67%（21,621/28,484 → 21,841/28,484，+220 分支）。
+- 改善文件 30 个；最大：media.tsx +72.73、map-selection-overlay.ts +69.10、list-header.tsx +50.00、
+  navigation.tsx +23.52、PortraitEditor.tsx +17.19、MapSelectionInspector.tsx +16.49、
+  StampPlacementSelectionInspector.tsx +13.33、SoundPicker.tsx +10.94（完整 30 行见
+  batch-AH-coverage-delta.json）。
+- 明细 JSON：`batch-AH-coverage-delta.json`（仅官方统计之外的自主对照，不并入正式覆盖率）。
