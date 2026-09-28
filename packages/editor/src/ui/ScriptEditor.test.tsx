@@ -1376,6 +1376,16 @@ describe('CanonicalScriptEditor author presentation', () => {
     expect(host.textContent).toContain('下次进入步骤 2')
     expect(host.querySelectorAll('.canonical-stage-card-details')).toHaveLength(2)
     expect(host.querySelector('.canonical-flow-actions')?.textContent).not.toContain('步骤详情')
+    const firstStage = host.querySelector<HTMLButtonElement>('.canonical-stage-card-select')!
+    expect(firstStage.getAttribute('aria-label')).toBe('步骤 1，1 条指令，首次运行，下次进入步骤 2')
+    expect(
+      [...firstStage.querySelectorAll(':scope > .canonical-stage-card-heading > *')].map(
+        (part) => part.textContent,
+      ),
+    ).toEqual(['步骤 1', '1 条指令'])
+    expect(
+      [...firstStage.querySelectorAll(':scope > small > span')].map((part) => part.textContent),
+    ).toEqual(['首次运行', '下次进入步骤 2'])
 
     await act(async () =>
       host

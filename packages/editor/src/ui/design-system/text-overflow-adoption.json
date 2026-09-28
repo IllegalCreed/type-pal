@@ -700,6 +700,40 @@
     },
     {
       "source": "editor.css",
+      "selectorText": ".canonical-stage-card-heading strong",
+      "condition": "default",
+      "declarations": ["white-space:nowrap"],
+      "specificity": [0, 1, 1],
+      "producer": {
+        "source": "ScriptEditor.tsx",
+        "component": "CanonicalScriptFlowEditor",
+        "callsite": "class:canonical-stage-card-heading"
+      },
+      "policy": "compact-token",
+      "contentKind": "compact-token",
+      "reveal": "none",
+      "reason": "步骤编号是短整数组合，不做截断；标题行允许各短项整体换行，避免编号与数量粘连或数字拆行。",
+      "verification": "ScriptEditor.test.tsx#separates trigger-stage creation, details, and deletion while preserving body tabs"
+    },
+    {
+      "source": "editor.css",
+      "selectorText": ".canonical-stage-card-heading>span",
+      "condition": "default",
+      "declarations": ["white-space:nowrap"],
+      "specificity": [0, 1, 1],
+      "producer": {
+        "source": "ScriptEditor.tsx",
+        "component": "CanonicalScriptFlowEditor",
+        "callsite": "class:canonical-stage-card-heading"
+      },
+      "policy": "compact-token",
+      "contentKind": "compact-token",
+      "reveal": "none",
+      "reason": "指令数量是数组长度与固定单位，不做截断；与步骤编号独立排布，空间不足时整项换行。",
+      "verification": "ScriptEditor.test.tsx#separates trigger-stage creation, details, and deletion while preserving body tabs"
+    },
+    {
+      "source": "editor.css",
       "selectorText": ".casualty-branch-head p",
       "condition": "default",
       "declarations": ["white-space:nowrap"],

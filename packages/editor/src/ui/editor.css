@@ -13423,23 +13423,26 @@ button.sprite-frame-cell[draggable="true"]:active {
   border-color: var(--accent);
   background: color-mix(in srgb, var(--accent) 12%, var(--panel2));
 }
-.canonical-flow-editor > nav:not(.canonical-stage-tabs) > button strong,
-.canonical-stage-card-select strong {
+.canonical-flow-editor > nav:not(.canonical-stage-tabs) > button strong {
   color: var(--fg);
   font-size: 10px;
 }
-.canonical-flow-editor > nav span,
-.canonical-flow-editor > nav small {
+.canonical-flow-editor > nav:not(.canonical-stage-tabs) span,
+.canonical-flow-editor > nav:not(.canonical-stage-tabs) small {
   color: var(--dim);
   font-size: 9px;
 }
+.canonical-flow-editor > nav.canonical-stage-tabs {
+  gap: var(--ds-space-4);
+  padding: var(--ds-space-2);
+}
 .canonical-stage-card {
   display: grid;
-  flex: 0 0 128px;
-  grid-template-rows: minmax(58px, auto) auto;
+  flex: 0 0 160px;
+  grid-template-rows: minmax(64px, auto) auto;
   min-width: 0;
   border: 1px solid var(--line);
-  border-radius: 4px;
+  border-radius: var(--ds-radius-card);
   background: var(--bg);
   transition:
     border-color 120ms ease,
@@ -13447,40 +13450,62 @@ button.sprite-frame-cell[draggable="true"]:active {
 }
 .canonical-stage-card:hover {
   border-color: color-mix(in srgb, var(--accent) 58%, var(--line));
+  background: var(--ds-surface-raised);
 }
 .canonical-stage-card.active {
   border-color: var(--accent);
   background: color-mix(in srgb, var(--accent) 12%, var(--panel2));
 }
-.canonical-stage-card-select,
-.canonical-stage-card-details {
+.canonical-stage-card.active:hover {
+  background: color-mix(in srgb, var(--accent) 18%, var(--panel2));
+}
+.canonical-stage-card:has(.canonical-stage-card-select:focus-visible) {
+  outline: 2px solid var(--ds-focus-ring);
+  outline-offset: 2px;
+}
+.canonical-stage-card-select {
   min-width: 0;
   border: 0;
+  border-radius: inherit;
   background: transparent;
   color: var(--fg);
   cursor: pointer;
-}
-.canonical-stage-card-select {
   display: grid;
   align-content: start;
-  gap: 2px;
-  padding: 6px 7px 3px;
+  gap: var(--ds-space-3);
+  padding: var(--ds-space-4) var(--ds-space-5);
+  font: var(--ds-font-caption);
   text-align: left;
 }
+.canonical-stage-card-select:focus-visible {
+  outline: 0;
+}
+.canonical-stage-card-heading {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--ds-space-2) var(--ds-space-4);
+}
+.canonical-stage-card-heading strong {
+  color: var(--fg);
+  font-weight: 650;
+  white-space: nowrap;
+}
+.canonical-stage-card-heading > span {
+  color: var(--ds-text-secondary);
+  white-space: nowrap;
+}
 .canonical-stage-card-select small {
-  line-height: 1.35;
+  display: grid;
+  gap: var(--ds-space-1);
+  color: var(--ds-text-secondary);
+  font: inherit;
+  line-height: 1.5;
 }
 .canonical-stage-card-details {
   justify-self: end;
-  margin: 0 4px 4px;
-  padding: 2px 4px;
-  color: var(--dim);
-  font-size: 9px;
-}
-.canonical-stage-card-details:hover,
-.canonical-stage-card-details:focus-visible {
-  color: var(--accent);
-  outline: 0;
+  margin: 0 var(--ds-space-2) var(--ds-space-2);
 }
 .canonical-stage-initial-setting {
   display: flex;

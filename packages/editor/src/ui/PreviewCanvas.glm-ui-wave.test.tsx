@@ -235,7 +235,7 @@ describe('U4b PreviewCanvas 委派与防御（回放控制器局部合同，非�
     expect(speakerText).toBe(previewLocale.hero ?? 'hero')
     await act(async () => {
       ;[...host.querySelectorAll<HTMLButtonElement>('button')]
-        .find((candidate) => candidate.textContent?.trim() === '继续 ▾')!
+        .find((candidate) => candidate.textContent?.trim() === '继续')!
         .click()
     })
     expect(playback.confirmDialog).toHaveBeenCalledTimes(1)

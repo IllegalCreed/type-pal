@@ -592,7 +592,7 @@ export function PreviewCanvas(props: {
               </fieldset>
             ) : (
               <DsButton size="compact" variant="secondary" onClick={() => playback.confirmDialog()}>
-                继续 ▾
+                继续
               </DsButton>
             )}
           </div>

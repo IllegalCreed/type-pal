@@ -3923,20 +3923,21 @@ export function CanonicalScriptFlowEditor(props: {
                 key={candidate.id}
                 className={`canonical-stage-card${candidate.id === stage?.id ? ' active' : ''}`}
               >
-                <DsButton
-                  size="compact"
-                  variant={candidate.id === stage?.id ? 'primary' : 'secondary'}
+                <DsPressable
                   className="canonical-stage-card-select"
                   aria-pressed={candidate.id === stage?.id}
+                  aria-label={`${stageLabel(candidate.id)}，${candidate.body.length} 条指令，${candidate.id === flow.initial ? '首次运行，' : ''}${stageNextLabel(candidate)}`}
                   onClick={() => setSelectedId(candidate.id)}
                 >
-                  <strong>步骤 {index + 1}</strong>
-                  <span>{candidate.body.length} 条指令</span>
+                  <span className="canonical-stage-card-heading">
+                    <strong>步骤 {index + 1}</strong>
+                    <span>{candidate.body.length} 条指令</span>
+                  </span>
                   <small>
-                    {candidate.id === flow.initial ? '首次运行 · ' : ''}
-                    {stageNextLabel(candidate)}
+                    {candidate.id === flow.initial ? <span>首次运行</span> : null}
+                    <span>{stageNextLabel(candidate)}</span>
                   </small>
-                </DsButton>
+                </DsPressable>
                 <DsButton
                   size="compact"
                   variant="quiet"
