@@ -11,6 +11,13 @@ Visual Verification Timing: N/A（真实DOM与RGBA交付合同；宿主几何是
 不计覆盖、不删除；Codex转[E2E讨论](E2E-R4-1-route-and-checkpoint-foundation.md)。
 Status保留build表示未完成，本节暂停指令优先于下文原连续实施计划。
 
+2026-09-28用户要求清理未跟踪文件后，Codex核两份帧编辑 WIP 的真实用途与相互依赖：
+`FrameAnimationEditor.loading.test.tsx` 五项定向绿，editor typecheck 与两文件 Biome 均零诊断。
+已将测试及 `ui/__tests__/frame-editor-fixture.ts` 保存于独立分支
+`codex/frame-editor-wip` 的 `45421fdf`（已推远端），主工作树不再残留未跟踪副本。
+这只是可恢复的中途检查点；其余四组、代表反控及统一质量/覆盖率门未完成，
+**不合 main、不计官方 fast、不标 done**。原暂停继续有效，恢复本卡时从该分支取回。
+
 2026-09-26 Codex build allowed，基点26479604，属于[持续覆盖队列](../archive/tasks/done/TEST-COVERAGE-PLUS5-1-continuous-batches.md)。
 现行消费者CutsceneTab.tsx:713-721渲染FrameAnimationEditor；目标FrameAnimationEditor.tsx。
 当前官方目标B120/286、L238/412、F58/103。不是把未渲染旧入口转成覆盖。
