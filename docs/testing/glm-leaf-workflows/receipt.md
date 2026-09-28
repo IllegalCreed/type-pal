@@ -83,3 +83,41 @@ console 错误：0（error 监听全程为空）。
 ### 真实产品缺陷
 
 无（未发现需要隔离红诊断的产品缺陷）。
+
+## 批 B（G05–G08 · 导航/虚拟列表/重排/浮层）
+
+- 新测试（28 条）：
+  - `navigation.glm-leaf-wave.test.tsx`（6）：菜单开层聚焦首可用项、真实 onSelect、箭头换触发器（闭态不粘连）、ArrowDown 开层、Escape 回焦、分组/checkbox/href 导航/禁用链接；工具条 execute/pressed/busy/禁用/分组分隔/带标签；`handleMenuCharacterSearch` 前缀匹配与修饰键/多字符忽略（jsdom DOM 事件垫片，函数只读 key/修饰键）。
+  - `virtual-list.glm-leaf-wave.test.tsx`（6）：远端 selectedKey 挂载即滚入、ArrowUp/Home 首行钳制、hover 换 active 不选；listbox 点击选行/hover 激活/禁用行 inert、`virtualizeAbove` 阈值下全量挂载、IME keyCode 229 不导航。
+  - `reorder.glm-leaf-wave.test.tsx`（10）：`reorderDsItems` insert/swap/越界与同索引原引用返回、自定义 equal no-op 回原引用；`sameDsSerializableValue` 深比较/键序敏感/undefined 键序列化等价；移动按钮提交 `input:'button'` 完整 intent、dropDisabled 链跳落到可用目标、边界与整表禁用；`useDsReorderKeys` 对象身份 token 随移动保持、重复值独立 token 且移除按值匹配存活、`reset()` 弃 token 重发。
+  - `overlays.glm-leaf-wave.test.tsx`（6）：DsDrawer 开层聚焦正文、关闭按钮一次 onClose、回焦触发器、滚动锁释放；DsDialog `dismissible:false` 无关闭钮且 cancel 事件不外发、alertdialog 角色与自定义 closeLabel、正文无可聚焦时落焦页脚；add-picker Escape 收起→方向键重展→二次 Escape 关层、`searchLabel`/`emptyMessage`/searchText 数组/disabledReason 可搜索、禁用行与空态文案。
+- 复跑（cwd 仓库根；全部 exit 0）：
+  ```sh
+  env -u NODE_COMPILE_CACHE pnpm --filter @type-pal/editor exec vitest run \
+    src/ui/design-system/{navigation,virtual-list,reorder,overlays}.glm-leaf-wave.test.tsx \
+    --maxWorkers=2   # 28/28，JSON: /tmp/glm-leaf-B-directed.json
+  env -u NODE_COMPILE_CACHE pnpm --filter @type-pal/editor exec vitest run src/ui/design-system --maxWorkers=2
+    # 相邻 46 文件 389/389
+  env -u NODE_COMPILE_CACHE pnpm --filter @type-pal/editor typecheck   # exit 0
+  pnpm exec biome check <四个新测试> docs/testing/glm-leaf-workflows   # 0 error/warning/info
+  env -u NODE_COMPILE_CACHE node scripts/docs/check.mjs               # PASS
+  env -u NODE_COMPILE_CACHE node docs/testing/glm-leaf-workflows/leaf-mutants.mjs b
+  ```
+- 反控（leaf-mutants.mjs b，判据自测 10 类 + control 28/28 绿 + 2 针业务红）：
+  - `reorder-move-walk-ignores-drop-disabled`：`entries[target]?.dropDisabled`→`false && …`；
+    红 = 移动按钮「walks over drop-disabled chains…」（跳过不可落点的解析合同）。
+  - `dialog-close-focus-restore-drop`：`: null\n      target?.focus()`→`void target`（唯一锚点）；
+    红 = DsDrawer 关闭回焦。
+- 旧测去重说明：G06/G07/G08 旧测已覆盖 roving 选择、token 存活、picker 主链与 dialog 生命周期；
+  本批只补上述剩余臂，不复制旧断言。
+- 视觉（B 批一条：添加选择器闭环；宿主 design-lab RF-22，端口 6066，已停）：
+  - 打开 picker → cua 真实键盘输入「道具 013」→ ArrowDown → Enter：过滤 3 行、
+    `测试道具 013` aria-selected、确认按钮由禁用点亮（截图 B-addpicker-1440-keyboard-selected.png，
+    SHA-256 797b70dc…3d516）。
+  - 确认 → 弹层关闭、`最近确认：item-013`、dialog 外 0 个 option 节点（关闭态 dialog 子树保留属
+    产品行为，非孤立浮层）。
+  - 1000×720 重开 → 键盘输入无结果词 → 「没有找到匹配项。」空态、弹层在视口内
+    （截图 B-addpicker-1000-empty-search.png，SHA-256 6641fe2c…6824d0）。
+  - console 错误 0。
+- 未证项：关闭后触发器焦点恢复依赖 rAF，隐藏 IAB 标签页 rAF 暂停（同 A 批），单测已覆盖；
+  键盘输入首拍因焦点竞态未落入输入框，重取坐标后成功，非产品缺陷。

@@ -63,6 +63,49 @@ const batches = {
       },
     ],
   },
+  b: {
+    packageRoot: resolve(root, 'packages/editor'),
+    production: [
+      'src/ui/design-system/navigation.tsx',
+      'src/ui/design-system/virtual-list.tsx',
+      'src/ui/design-system/reorder.tsx',
+      'src/ui/design-system/overlays.tsx',
+      'src/ui/design-system/add-picker.tsx',
+    ],
+    control: {
+      tests: [
+        'src/ui/design-system/navigation.glm-leaf-wave.test.tsx',
+        'src/ui/design-system/virtual-list.glm-leaf-wave.test.tsx',
+        'src/ui/design-system/reorder.glm-leaf-wave.test.tsx',
+        'src/ui/design-system/overlays.glm-leaf-wave.test.tsx',
+      ],
+      total: 28,
+    },
+    mutations: [
+      {
+        id: 'reorder-move-walk-ignores-drop-disabled',
+        module: 'src/ui/design-system/reorder.tsx',
+        file: 'src/ui/design-system/reorder.glm-leaf-wave.test.tsx',
+        total: 10,
+        describe: 'DsReorderMoveButton 剩余合同',
+        title: 'walks over drop-disabled chains and disables at boundaries and collection locks',
+        from: '    entries[target]?.dropDisabled',
+        to: '    false && entries[target]?.dropDisabled',
+        category: '边界移动拆除：移动目标解析跳过 dropDisabled 链的合同失效',
+      },
+      {
+        id: 'dialog-close-focus-restore-drop',
+        module: 'src/ui/design-system/overlays.tsx',
+        file: 'src/ui/design-system/overlays.glm-leaf-wave.test.tsx',
+        total: 6,
+        describe: 'DsDrawer 剩余合同',
+        title: 'opens with body focus, closes once from the close button and restores opener focus',
+        from: ': null\n      target?.focus()',
+        to: ': null\n      void target',
+        category: '关闭恢复拆除：弹层关闭后不再恢复触发器焦点',
+      },
+    ],
+  },
 }
 
 const MIXED_ERROR =
