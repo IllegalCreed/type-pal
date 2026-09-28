@@ -1,24 +1,21 @@
 // @vitest-environment jsdom
-import { describe, expect, test, vi } from 'vitest'
-// @ts-expect-error Node test-host bridge only.
-import { Blob as NodeBlob } from 'node:buffer'
-// @ts-expect-error Node test-host bridge only.
-import { webcrypto } from 'node:crypto'
-import { UpsertAssetCommand } from '../core/asset-commands.js'
+
 import type { AssetRecordV1 } from '@type-pal/content'
-import { AddSkillCommand } from '../core/skill-commands.js'
+import { describe, expect, test } from 'vitest'
+import { UpsertAssetCommand } from '../core/asset-commands.js'
 import { EditSession } from '../core/edit-session.js'
+import { AddSkillCommand } from '../core/skill-commands.js'
+import { stubNodeTestHost } from './__tests__/glm-leaf-workflows/node-bridge.js'
 import { loadLegalUiProject } from './__tests__/glm-ui-wave-kit.js'
-import { editorObjectTargetMissing } from './editor-target.js'
 import {
   decodeEditorLocation,
   editorLocationHref,
   normalizeEditorLocation,
   sameEditorLocation,
 } from './editor-navigation.js'
+import { editorObjectTargetMissing } from './editor-target.js'
 
-vi.stubGlobal('Blob', NodeBlob)
-vi.stubGlobal('crypto', webcrypto)
+await stubNodeTestHost()
 
 const assetRecord = (kind: AssetRecordV1['kind'], id: string): AssetRecordV1 => ({
   kind,
@@ -60,7 +57,11 @@ describe('editorObjectTargetMissing 剩余域', () => {
       editorObjectTargetMissing(state, { module: 'map', subpage: 'workspace', objectId: mapId }),
     ).toBe(false)
     expect(
-      editorObjectTargetMissing(state, { module: 'map', subpage: 'workspace', objectId: 'map.gone' }),
+      editorObjectTargetMissing(state, {
+        module: 'map',
+        subpage: 'workspace',
+        objectId: 'map.gone',
+      }),
     ).toBe(true)
     expect(
       editorObjectTargetMissing(state, {
@@ -90,16 +91,44 @@ describe('editorObjectTargetMissing 剩余域', () => {
       }),
     ).toBe(false)
     expect(
-      editorObjectTargetMissing(state, { module: 'battle', subpage: 'skill', objectId: 'skill.gone' }),
+      editorObjectTargetMissing(state, {
+        module: 'battle',
+        subpage: 'skill',
+        objectId: 'skill.gone',
+      }),
     ).toBe(true)
   })
 
   test('music, sound, image and cutscene deep links check the asset kind', async () => {
     const { session } = await legalSession()
-    session.dispatch(new UpsertAssetCommand('music.leaf.001', assetRecord('music', 'music.leaf.001'), new ArrayBuffer(2)))
-    session.dispatch(new UpsertAssetCommand('sound.leaf.001', assetRecord('sound', 'sound.leaf.001'), new ArrayBuffer(2)))
-    session.dispatch(new UpsertAssetCommand('portrait.leaf.001', assetRecord('portrait', 'portrait.leaf.001'), new ArrayBuffer(2)))
-    session.dispatch(new UpsertAssetCommand('video.leaf.001', assetRecord('video', 'video.leaf.001'), new ArrayBuffer(2)))
+    session.dispatch(
+      new UpsertAssetCommand(
+        'music.leaf.001',
+        assetRecord('music', 'music.leaf.001'),
+        new ArrayBuffer(2),
+      ),
+    )
+    session.dispatch(
+      new UpsertAssetCommand(
+        'sound.leaf.001',
+        assetRecord('sound', 'sound.leaf.001'),
+        new ArrayBuffer(2),
+      ),
+    )
+    session.dispatch(
+      new UpsertAssetCommand(
+        'portrait.leaf.001',
+        assetRecord('portrait', 'portrait.leaf.001'),
+        new ArrayBuffer(2),
+      ),
+    )
+    session.dispatch(
+      new UpsertAssetCommand(
+        'video.leaf.001',
+        assetRecord('video', 'video.leaf.001'),
+        new ArrayBuffer(2),
+      ),
+    )
     const state = session.getState()
     const expectMissing = (subpage: string, objectId: string) =>
       editorObjectTargetMissing(state, {
@@ -149,13 +178,16 @@ describe('editor-navigation 剩余合同', () => {
       `http://localhost:6010/editor?project=pal&module=asset&view=asset#${encodeURIComponent('调试面板')}`,
     )
     expect(href).toBe(
-      '/editor?project=pal&module=actor&page=workspace&object=hero#' + encodeURIComponent('调试面板'),
+      '/editor?project=pal&module=actor&page=workspace&object=hero#' +
+        encodeURIComponent('调试面板'),
     )
     const stale = editorLocationHref(
       { module: 'scene', subpage: 'workspace' },
       `http://localhost:6010/editor?project=pal&module=actor&page=workspace&object=hero&domain=world&view=definition&action=basic#${encodeURIComponent('锚点')}`,
     )
-    expect(stale).toBe('/editor?project=pal&module=scene&page=workspace#' + encodeURIComponent('锚点'))
+    expect(stale).toBe(
+      `/editor?project=pal&module=scene&page=workspace#${encodeURIComponent('锚点')}`,
+    )
   })
 
   test('normalization trims identifiers and keeps actor workspace sections', () => {
@@ -178,12 +210,20 @@ describe('editor-navigation 剩余合同', () => {
       }).actionId,
     ).toBeUndefined()
     expect(
-      normalizeEditorLocation({ module: 'asset', subpage: 'sprite', objectId: 'hero', actionId: 'basic' })
-        .actionId,
+      normalizeEditorLocation({
+        module: 'asset',
+        subpage: 'sprite',
+        objectId: 'hero',
+        actionId: 'basic',
+      }).actionId,
     ).toBe('basic')
     expect(
-      normalizeEditorLocation({ module: 'asset', subpage: 'sprite', objectId: 'hero', view: 'asset' })
-        .actionId,
+      normalizeEditorLocation({
+        module: 'asset',
+        subpage: 'sprite',
+        objectId: 'hero',
+        view: 'asset',
+      }).actionId,
     ).toBeUndefined()
   })
 
@@ -195,11 +235,13 @@ describe('editor-navigation 剩余合同', () => {
       domain: 'battle',
       view: 'asset',
     })
-    const href = editorLocationHref(
-      location,
-      'http://localhost:6010/editor?project=pal',
-    )
+    const href = editorLocationHref(location, 'http://localhost:6010/editor?project=pal')
     expect(decodeEditorLocation(new URL(href, 'http://localhost:6010').search)).toEqual(location)
-    expect(sameEditorLocation(location, decodeEditorLocation(new URL(href, 'http://localhost:6010').search))).toBe(true)
+    expect(
+      sameEditorLocation(
+        location,
+        decodeEditorLocation(new URL(href, 'http://localhost:6010').search),
+      ),
+    ).toBe(true)
   })
 })

@@ -1,9 +1,5 @@
 // @vitest-environment jsdom
 
-// @ts-expect-error Node test-host bridge only.
-import { Blob as NodeBlob } from 'node:buffer'
-// @ts-expect-error Node test-host bridge only.
-import { webcrypto } from 'node:crypto'
 import type { AssetRecordV1 } from '@type-pal/content'
 import { act, useSyncExternalStore } from 'react'
 import { createRoot, type Root } from 'react-dom/client'
@@ -12,16 +8,16 @@ import { UpsertAssetCommand } from '../core/asset-commands.js'
 import { UpdateActorCommand } from '../core/commands.js'
 import { EditSession } from '../core/edit-session.js'
 import { createEditorAssetReader } from '../core/editor-asset-reader.js'
+import { stubNodeTestHost } from './__tests__/glm-leaf-workflows/node-bridge.js'
 import { loadLegalUiProject } from './__tests__/glm-ui-wave-kit.js'
 import { PortraitEditor } from './PortraitEditor.js'
 
 let host: HTMLDivElement
 let root: Root
 
-beforeEach(() => {
+beforeEach(async () => {
   ;(globalThis as { IS_REACT_ACT_ENVIRONMENT?: boolean }).IS_REACT_ACT_ENVIRONMENT = true
-  vi.stubGlobal('Blob', NodeBlob)
-  vi.stubGlobal('crypto', webcrypto)
+  await stubNodeTestHost()
   vi.stubGlobal('requestAnimationFrame', (callback: FrameRequestCallback) => {
     queueMicrotask(() => callback(0))
     return 1

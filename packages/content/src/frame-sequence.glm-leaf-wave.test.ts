@@ -67,12 +67,13 @@ describe('validateFrameSequenceIndex 剩余合同', () => {
   })
 
   test('rejects wrong version/codec/pixelFormat/blockFrames and empty frames', () => {
-    expect(() => validateFrameSequenceIndex(index({ version: 2 as never }), 0)).toThrow('version')
-    expect(() => validateFrameSequenceIndex(index({ codec: 'other' as never }), 0)).toThrow('codec')
-    expect(() => validateFrameSequenceIndex(index({ pixelFormat: 'rgb565' as never }), 0)).toThrow(
+    // API 声明 value: unknown —— 非法字段以裸对象注入，不经类型压制。
+    expect(() => validateFrameSequenceIndex({ ...index(), version: 2 }, 0)).toThrow('version')
+    expect(() => validateFrameSequenceIndex({ ...index(), codec: 'other' }, 0)).toThrow('codec')
+    expect(() => validateFrameSequenceIndex({ ...index(), pixelFormat: 'rgb565' }, 0)).toThrow(
       'pixelFormat',
     )
-    expect(() => validateFrameSequenceIndex(index({ blockFrames: 33 as never }), 0)).toThrow(
+    expect(() => validateFrameSequenceIndex({ ...index(), blockFrames: 33 }, 0)).toThrow(
       'blockFrames',
     )
     expect(() => validateFrameSequenceIndex(index({ frames: [] }), 0)).toThrow('非空数组')

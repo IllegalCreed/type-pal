@@ -1,3 +1,4 @@
+import type { AuthorCommand } from '@type-pal/content'
 import { describe, expect, test } from 'vitest'
 import { collectCanonicalItemTaggedReferences } from './item-references.js'
 
@@ -32,15 +33,12 @@ describe('collectCanonicalItemTaggedReferences 剩余合同', () => {
   })
 
   test('branch conditions scan item leaves as reads and non-item commands yield nothing', () => {
-    const branch = {
+    const branch: AuthorCommand = {
       kind: 'branch',
       cond: { kind: 'hasItem', itemId: 'key', atLeast: 2 },
       then: [],
     }
-    const references = collectCanonicalItemTaggedReferences(
-      branch as never,
-      'shared/user/route.body[2]',
-    )
+    const references = collectCanonicalItemTaggedReferences(branch, 'shared/user/route.body[2]')
     expect(references).toHaveLength(1)
     const first = references[0]!
     expect(first).toMatchObject({
@@ -51,10 +49,7 @@ describe('collectCanonicalItemTaggedReferences 剩余合同', () => {
     expect(first.where).toContain('.cond')
 
     expect(
-      collectCanonicalItemTaggedReferences(
-        { kind: 'setFlag', flag: 'x', value: true } as never,
-        'p',
-      ),
+      collectCanonicalItemTaggedReferences({ kind: 'setFlag', flag: 'x', value: true }, 'p'),
     ).toEqual([])
   })
 })

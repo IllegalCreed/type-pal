@@ -1,8 +1,13 @@
 // @vitest-environment jsdom
+
+import type { FileSource } from '@type-pal/reforge'
 import { act } from 'react'
 import { createRoot, type Root } from 'react-dom/client'
-import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
+import { afterEach, beforeAll, beforeEach, describe, expect, test, vi } from 'vitest'
 import { stopEditorAudioPreview } from '../core/audio-preview-session.js'
+import { createEditorAssetReader } from '../core/editor-asset-reader.js'
+import { loadLegalUiProject } from './__tests__/glm-leaf-workflows/legal-session.js'
+import { stubNodeTestHost } from './__tests__/glm-leaf-workflows/node-bridge.js'
 import {
   ProjectAudioPreviewButton,
   type ProjectAudioPreviewTransport,
@@ -38,6 +43,30 @@ function transport(parts: {
   }
 }
 
+// 真实 EditorAssetReader 端口（transport 已注入，reader 不参与 I/O）。
+let legal: Awaited<ReturnType<typeof loadLegalUiProject>>
+const reader = createEditorAssetReader(
+  {
+    readBytes: async (rel) => {
+      throw new DOMException(rel, 'NotFoundError')
+    },
+    readText: async (rel) => {
+      throw new DOMException(rel, 'NotFoundError')
+    },
+    readJson: async (rel) => {
+      throw new DOMException(rel, 'NotFoundError')
+    },
+    urlFor: async (rel) => `blob:${rel}`,
+  } satisfies FileSource,
+  () => legal.state,
+)
+
+beforeAll(async () => {
+  await stubNodeTestHost()
+  const legalProject = await loadLegalUiProject('glm-leaf-project-audio')
+  legal = legalProject
+})
+
 function previewButton(createTransport: () => ProjectAudioPreviewTransport) {
   return (
     <ProjectAudioPreviewButton
@@ -45,7 +74,7 @@ function previewButton(createTransport: () => ProjectAudioPreviewTransport) {
       label="主题曲"
       kind="music"
       cacheKey="music.lab.001"
-      reader={{} as never}
+      reader={reader}
       createTransport={createTransport}
     />
   )

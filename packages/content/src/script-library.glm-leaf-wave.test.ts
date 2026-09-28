@@ -1,4 +1,6 @@
 import { describe, expect, test } from 'vitest'
+import type { Command } from './script.js'
+import type { ScriptChunkV1 } from './script-library.js'
 import {
   AUTHORED_SCRIPT_PREFIX,
   createScriptIndex,
@@ -35,13 +37,14 @@ describe('script-library 剩余合同', () => {
     expect(() =>
       upsertAuthoredScript(index, {}, 'scene/s001/main', { name: 'x', self: 'none' }, body),
     ).toThrow(AUTHORED_SCRIPT_PREFIX)
-    const foreign = {
+    // 外 chunk 占用：derive 的 shared chunk 与现存 owner 冲突。
+    const foreign: Record<string, ScriptChunkV1> = {
       'scene/s001': {
         version: 1,
         id: 'scene/s001',
-        scripts: { 'shared/user/route': [] as never[] },
+        scripts: { 'shared/user/route': [] as Command[] },
       },
-    } as never
+    }
     expect(() =>
       upsertAuthoredScript(index, foreign, 'shared/user/route', { name: 'x', self: 'none' }, body),
     ).toThrow('重分桶')

@@ -223,7 +223,7 @@ const batches = {
         'src/ui/ShopTab.glm-leaf-wave.test.tsx',
         'src/ui/ItemAlchemyTab.glm-leaf-wave.test.tsx',
       ],
-      total: 12,
+      total: 13,
     },
     mutations: [
       {
@@ -314,7 +314,7 @@ const batches = {
         'src/core/script-references.glm-leaf-wave.test.ts',
         'src/core/stamp-placement.glm-leaf-wave.test.ts',
       ],
-      total: 21,
+      total: 22,
     },
     mutations: [
       {
@@ -333,7 +333,7 @@ const batches = {
         id: 'stamp-placement-suffix-one',
         module: 'src/core/stamp-placement.ts',
         file: 'src/core/stamp-placement.glm-leaf-wave.test.ts',
-        total: 4,
+        total: 5,
         describe: 'stamp-placement 剩余合同',
         title: 'nextStampPlacementId sanitizes and dedupes existing ids',
         from: '  if (!used.has(stem)) return stem\n  for (let index = 2; ; index++) {',

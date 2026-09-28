@@ -1,35 +1,36 @@
 // @vitest-environment jsdom
+import type { ItemData } from '@type-pal/content'
 import { act } from 'react'
 import { createRoot, type Root } from 'react-dom/client'
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
-import type { EditorState } from '../core/edit-session.js'
 import { EditSession } from '../core/edit-session.js'
+import { AddItemCommand } from '../core/item-commands.js'
 import {
   buildProjectReferenceSnapshot,
   createProjectReferenceIndex,
 } from '../core/project-reference.js'
+import { AddShopCommand, UpdateShopCommand } from '../core/shop-commands.js'
+import { loadLegalUiProject } from './__tests__/glm-leaf-workflows/legal-session.js'
+import { stubNodeTestHost } from './__tests__/glm-leaf-workflows/node-bridge.js'
 import { ShopTab } from './ShopTab.js'
 
 const referenceIndex = createProjectReferenceIndex(buildProjectReferenceSnapshot([]))
 
-function session(): EditSession {
-  return new EditSession({
-    manifest: { id: 'shop-test', content: {} },
-    shops: [
-      { id: 0, items: ['herb', 'sword'] },
-      { id: 1, items: [] },
-    ],
-    items: [
-      { id: 'herb', name: '草药' },
-      { id: 'sword', name: '铁剑' },
-    ],
-    scenes: [],
-    sceneIndex: { version: 1, scenes: [] },
-    mapIndex: { version: 1, maps: [] },
-    maps: {},
-    assetCatalog: { version: 1, assets: {} },
-    assetBlobs: {},
-  } as unknown as EditorState)
+function plain(id: string, name: string): ItemData {
+  return { id, name, desc: [], buyPrice: 0, sellPrice: 0, sellable: false }
+}
+
+/** 合法项目 + 真实物品/店铺命令：两家店（一家两个货单、一家空）。 */
+async function makeShopSession(): Promise<EditSession> {
+  await stubNodeTestHost()
+  const legal = await loadLegalUiProject('glm-leaf-shop-tab')
+  const session = new EditSession(legal.state)
+  session.dispatch(new AddItemCommand(plain('herb', '草药')))
+  session.dispatch(new AddItemCommand(plain('sword', '铁剑')))
+  session.dispatch(new AddShopCommand(0))
+  session.dispatch(new AddShopCommand(1))
+  session.dispatch(new UpdateShopCommand(0, ['herb', 'sword']))
+  return session
 }
 
 let root: Root
@@ -81,7 +82,7 @@ function byLabel(label: string): HTMLButtonElement {
 
 describe('ShopTab 剩余合同', () => {
   test('delisting one stock entry commits exactly once and undo restores the order', async () => {
-    const shopSession = session()
+    const shopSession = await makeShopSession()
     await act(async () => root.render(<Harness shopSession={shopSession} />))
     const historyBefore = shopSession.getHistoryVersion()
     await act(async () => byLabel('下架 铁剑').click())
@@ -93,7 +94,7 @@ describe('ShopTab 剩余合同', () => {
   })
 
   test('an empty shop renders its empty state and cannot delist anything', async () => {
-    const shopSession = session()
+    const shopSession = await makeShopSession()
     await act(async () => root.render(<Harness shopSession={shopSession} />))
     // 切到第二家空铺：目录第二项标题「空货单」。
     const entries = [...host.querySelectorAll('button')].filter(

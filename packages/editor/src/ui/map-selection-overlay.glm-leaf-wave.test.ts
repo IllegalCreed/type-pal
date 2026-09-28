@@ -52,6 +52,7 @@ function fakeContext(width = 320, height = 200) {
     lineJoin: '',
     lineCap: '',
   }
+  // 记录器替身：drawMapSelectionOverlay 只消费 canvas/save/restore/fill/stroke 与样式字段。
   return ctx as unknown as CanvasRenderingContext2D & {
     fill: ReturnType<typeof vi.fn>
     stroke: ReturnType<typeof vi.fn>
@@ -64,7 +65,10 @@ function drawnPaths(ctx: { fill: ReturnType<typeof vi.fn>; stroke: ReturnType<ty
   return [...ctx.fill.mock.calls, ...ctx.stroke.mock.calls].map(([path]) => path as PathRecorder)
 }
 
-function undirectedKey(edge: { from: { x: number; y: number }; to: { x: number; y: number } }): string {
+function undirectedKey(edge: {
+  from: { x: number; y: number }
+  to: { x: number; y: number }
+}): string {
   const left = `${edge.from.x}:${edge.from.y}`
   const right = `${edge.to.x}:${edge.to.y}`
   return left < right ? `${left}|${right}` : `${right}|${left}`
@@ -177,7 +181,8 @@ describe('drawMapSelectionOverlay 剩余合同', () => {
     const ctx = fakeContext()
     drawMapSelectionOverlay(
       ctx,
-      { kind: 'entities', entityIds: ['a'] } as unknown as MapSelection,
+      // 声明为非 cells 选区（MapSelection 联合的其它成员）；类型经 Extract 收窄不出 cells。
+      { kind: 'none' } satisfies Extract<MapSelection, { kind: 'none' }>,
       { zoom: 1, panX: 0, panY: 0 },
     )
     expect(ctx.fill).not.toHaveBeenCalled()
@@ -186,11 +191,15 @@ describe('drawMapSelectionOverlay 剩余合同', () => {
 
   test('visual slot duplicates of the same cell are drawn once', () => {
     const ctx = fakeContext(640, 480)
-    drawMapSelectionOverlay(ctx, cellsSelection([{ row: 3, col: 3 }], [{ layerId: 'objects', row: 3, col: 3 }]), {
-      zoom: 1,
-      panX: 0,
-      panY: 0,
-    })
+    drawMapSelectionOverlay(
+      ctx,
+      cellsSelection([{ row: 3, col: 3 }], [{ layerId: 'objects', row: 3, col: 3 }]),
+      {
+        zoom: 1,
+        panX: 0,
+        panY: 0,
+      },
+    )
     const fillPath = drawnPaths(ctx)[0]!
     expect(fillPath.movePoints.length).toBe(1)
   })

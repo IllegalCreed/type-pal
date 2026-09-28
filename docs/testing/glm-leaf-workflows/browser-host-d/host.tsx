@@ -1,70 +1,39 @@
-import type { WorldVariableRegistryV1 } from '@type-pal/content'
-import { useState, useSyncExternalStore } from 'react'
+import { useEffect, useState, useSyncExternalStore } from 'react'
 import { createRoot } from 'react-dom/client'
-import type { EditorState } from '../../../../packages/editor/src/core/edit-session.js'
+import { UpdateActorCommand } from '../../../../packages/editor/src/core/commands.js'
 import { EditSession } from '../../../../packages/editor/src/core/edit-session.js'
-import {
-  buildProjectReferenceSnapshot,
-  createProjectReferenceIndex,
-} from '../../../../packages/editor/src/core/project-reference.js'
-import { collectCurrentProjectReferenceIndex } from '../../../../packages/editor/src/core/project-reference-adapters.js'
+import { loadLegalUiProject } from '../../../../packages/editor/src/ui/__tests__/glm-leaf-workflows/legal-session.js'
 import '../../../../packages/editor/src/ui/design-system/index.css'
 import '../../../../packages/editor/src/ui/editor.css'
-import { VarsTab } from '../../../../packages/editor/src/ui/VarsTab.js'
+import { CasualtyEditor } from '../../../../packages/editor/src/ui/CasualtyEditor.js'
 
-// 直挂组件宿主（非完整 App）：真实 VarsTab + 真实 EditSession + 合法 registry fixture。
+// 直挂组件宿主（非完整 App）：真实 CasualtyEditor + 合法项目会话 + 真实命令种子。
 
-const registry: WorldVariableRegistryV1 = {
-  'quest.started': {
-    kind: 'flag',
-    name: '任务已开始',
-    description: '主线任务开关',
-    initial: false,
-  },
-}
-
-function minimalState(): EditorState {
-  return {
-    manifest: {
-      id: 'leaf-host',
-      name: 'leaf-host',
-      contentVersion: 20,
-      minimumSaveVersion: 8,
-      defaultEntryId: 'main',
-      content: { worldVariables: 'content/world-variables.json' },
-      assets: { catalog: 'assets/index.json', roles: {} },
-      entryPoints: [
-        {
-          id: 'main',
-          label: '主入口',
-          scene: 's',
-          startWorld: { party: [], money: 0, inventory: [] },
+const legal = await loadLegalUiProject('glm-leaf-casualty-host')
+const session = new EditSession(legal.state)
+const hero = session.getState().actors[0]!
+session.dispatch(
+  new UpdateActorCommand(hero.id, {
+    battler: {
+      ...hero.battler!,
+      casualty: {
+        friendDeath: {
+          gates: [
+            {
+              chance: 40,
+              branch: { lines: [{ text: 'name.hero', style: 'bottom' }], effects: [] },
+            },
+          ],
+          fallback: { lines: [], effects: [] },
         },
-      ],
+        dying: {
+          gates: [],
+          fallback: { lines: [{ text: 'name.hero', style: 'bottom' }], effects: [] },
+        },
+      },
     },
-    sceneIndex: { version: 1, scenes: [{ id: 's', name: '场景', path: 'content/scenes/s.json' }] },
-    worldVariables: registry,
-    scenes: [],
-    actors: [],
-    skills: [],
-    levelUp: {},
-    items: [],
-    locale: {},
-    sprites: [],
-    battleSprites: [],
-    maps: {},
-    mapIndex: { version: 1, maps: [] },
-    tilesets: [],
-    stamps: [],
-    tilesetBlobs: {},
-    scriptChunks: {},
-    assetCatalog: { version: 1, assets: {} },
-    assetBlobs: {},
-  } as unknown as EditorState
-}
-
-const session = new EditSession(minimalState())
-const referenceIndex = createProjectReferenceIndex(buildProjectReferenceSnapshot([]))
+  }),
+)
 
 function Harness() {
   useSyncExternalStore(
@@ -72,29 +41,19 @@ function Harness() {
     () => session.getVersion(),
   )
   const current = session.getState()
+  const actor = current.actors.find((candidate) => candidate.id === hero.id)!
   return (
-    <VarsTab
-      variables={current.worldVariables ?? {}}
-      referenceIndex={referenceIndex}
-      referenceStatus="current"
-      getCurrentReferenceIndex={collectCurrentProjectReferenceIndex}
+    <CasualtyEditor
+      actor={actor as typeof actor & { battler: NonNullable<typeof actor.battler> }}
       session={session}
+      locale={current.locale}
+      onClose={() => undefined}
     />
   )
 }
 
 function StatusBar() {
-  const [snap, setSnap] = useState('')
-  useState(() => {
-    session.subscribe(() => {
-      setSnap(
-        JSON.stringify({
-          version: session.getHistoryVersion(),
-          vars: session.getState().worldVariables,
-        }),
-      )
-    })
-  })
+  const [snap, _setSnap] = usePendingSnap()
   return (
     <p>
       <button type="button" data-undo onClick={() => session.undo()}>
@@ -103,6 +62,23 @@ function StatusBar() {
       <output data-session>{snap}</output>
     </p>
   )
+}
+
+function usePendingSnap() {
+  const [snap, setSnap] = useState('')
+  useEffect(
+    () =>
+      session.subscribe(() => {
+        setSnap(
+          JSON.stringify({
+            version: session.getHistoryVersion(),
+            casualty: session.getState().actors[0]?.battler?.casualty,
+          }),
+        )
+      }),
+    [],
+  )
+  return [snap, setSnap] as const
 }
 
 createRoot(document.getElementById('root')!).render(

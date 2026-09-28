@@ -1,5 +1,5 @@
 // @vitest-environment jsdom
-import type { StampTemplate } from '@type-pal/content'
+
 import {
   buildBlankProjectMap,
   buildProjectMapLayer,
@@ -9,23 +9,18 @@ import {
 import { act } from 'react'
 import { createRoot, type Root } from 'react-dom/client'
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
-// @ts-expect-error Node test-host bridge only.
-import { Blob as NodeBlob } from 'node:buffer'
-// @ts-expect-error Node test-host bridge only.
-import { webcrypto } from 'node:crypto'
-import type { EditorState } from '../core/edit-session.js'
 import { EditSession } from '../core/edit-session.js'
 import type { MapSelection } from '../core/map-selection.js'
+import { stubNodeTestHost } from './__tests__/glm-leaf-workflows/node-bridge.js'
 import { loadLegalUiProject } from './__tests__/glm-ui-wave-kit.js'
 import { StampTemplateDialog } from './StampTemplateDialog.js'
 
-vi.stubGlobal('Blob', NodeBlob)
-vi.stubGlobal('crypto', webcrypto)
+await stubNodeTestHost()
 
 let root: Root
 let host: HTMLDivElement
 
-beforeEach(() => {
+beforeEach(async () => {
   document.body.innerHTML = ''
   Object.defineProperty(HTMLDialogElement.prototype, 'showModal', {
     configurable: true,
@@ -170,14 +165,11 @@ describe('StampTemplateDialog 剩余合同', () => {
       ['objects', '物件槽'],
     ])
     expect(stored?.anchor).toEqual({ row: 0, col: 0 })
-    expect(stored?.collision).toEqual([
-      [0],
-      [4],
-    ])
+    expect(stored?.collision).toEqual([[0], [4]])
     // 未勾选时碰撞会被丢弃，这里已勾选 → 汇总数为 2。
-    expect(
-      stored?.collision.flatMap((row) => row.filter((value) => value !== null)),
-    ).toHaveLength(2)
+    expect(stored?.collision.flatMap((row) => row.filter((value) => value !== null))).toHaveLength(
+      2,
+    )
     expect(
       stored?.layers.flatMap((layer) => layer.tiles.flat()).filter((tile) => tile !== null),
     ).toHaveLength(2)
@@ -201,10 +193,7 @@ describe('StampTemplateDialog 剩余合同', () => {
         />,
       ),
     )
-    await input(
-      document.querySelector<HTMLInputElement>('input[name="stamp-anchor-row"]')!,
-      '1.5',
-    )
+    await input(document.querySelector<HTMLInputElement>('input[name="stamp-anchor-row"]')!, '1.5')
     await act(async () => button('创建组合').click())
     expect(document.querySelector('[role="alert"]')?.textContent).toContain('锚点行必须是整数。')
     expect(onSaved).not.toHaveBeenCalled()

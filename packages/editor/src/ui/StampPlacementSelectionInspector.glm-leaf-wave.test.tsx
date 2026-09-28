@@ -188,9 +188,7 @@ describe('StampPlacementSelectionInspector 组内编辑', () => {
       [1, 9],
     ])
 
-    const height = host.querySelector<HTMLInputElement>(
-      'input[aria-label="组内当前层实例高度"]',
-    )!
+    const height = host.querySelector<HTMLInputElement>('input[aria-label="组内当前层实例高度"]')!
     // 高度 3 与 1 → 混合占位。
     expect(height.value).toBe('')
     expect(height.placeholder).toBe('混合')

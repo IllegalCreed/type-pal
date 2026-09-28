@@ -66,9 +66,10 @@ describe('stamp 剩余合同', () => {
     expect(() => validateStampTemplates([template({ anchor: { row: 2, col: 0 } })])).toThrow(
       '锚点超出',
     )
-    expect(() => validateStampTemplates([template({ origin: 'legacy' as never })])).toThrow(
-      '期望 authored 或 migrated',
-    )
+    // API 声明 value: unknown —— 非法 origin 以裸对象注入。
+    expect(() =>
+      validateStampTemplates([{ ...template({ category: '道路' }), origin: 'legacy' }]),
+    ).toThrow('期望 authored 或 migrated')
   })
 
   test('format and parse round-trip through the same canonical order', () => {

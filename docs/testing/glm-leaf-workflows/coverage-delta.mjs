@@ -55,6 +55,16 @@ const newTests = [
   'src/core/stamp-placement.glm-leaf-wave.test.ts',
 ]
 
+const contentNewTests = [
+  'src/frame-sequence.glm-leaf-wave.test.ts',
+  'src/script-library.glm-leaf-wave.test.ts',
+  'src/world-variable.glm-leaf-wave.test.ts',
+  'src/stamp.glm-leaf-wave.test.ts',
+  'src/migration-diagnostic.glm-leaf-wave.test.ts',
+  'src/map-index.glm-leaf-wave.test.ts',
+  'src/tileset.glm-leaf-wave.test.ts',
+]
+
 // 与 scripts/coverage/config.mjs 的 official fast 口径一致：
 // coverage.exclude（报告面）+ fastTestGlobs/coverageTestExcludes（fast 测试选择）。
 const reportExcludes = [
@@ -84,13 +94,16 @@ const fastTestExcludes = [
   'src/ui/design-system/field-commit-boundary.test.ts',
 ]
 
-function runBatch(label, extraExcludes) {
+function runBatch(label, packageRoot, extraExcludes, withReactPlugin) {
+  const pluginImport = withReactPlugin
+    ? `plugins: (await import(${JSON.stringify(pathToFileURL(reactPluginPath).href)})).default(),`
+    : ''
   const config = join(output, `${label}.config.mjs`)
   writeFileSync(
     config,
     `export default {
-  root: ${JSON.stringify(editorRoot)},
-  plugins: (await import(${JSON.stringify(pathToFileURL(reactPluginPath).href)})).default(),
+  root: ${JSON.stringify(packageRoot)},
+  ${pluginImport}
   test: {
     environment: 'node',
     coverage: {
@@ -116,50 +129,107 @@ function runBatch(label, extraExcludes) {
   const run = spawnSync(
     'pnpm',
     ['exec', 'vitest', 'run', '--coverage', '--config', config, '--reporter=dot'],
-    { cwd: editorRoot, encoding: 'utf8', env: { ...process.env, NODE_COMPILE_CACHE: '' } },
+    { cwd: packageRoot, encoding: 'utf8', env: { ...process.env, NODE_COMPILE_CACHE: '' } },
   )
   writeFileSync(join(output, `${label}.log`), `${run.stdout ?? ''}\n${run.stderr ?? ''}`)
   if (run.status !== 0) throw new Error(`${label} exited ${run.status}`)
   return JSON.parse(readFileSync(join(output, label, 'coverage-summary.json'), 'utf8'))
 }
 
-const before = runBatch(
-  'before',
-  newTests.map((file) => `**/${file.split('/').at(-1)}`),
-)
-const after = runBatch('after', [])
+const ehFiles = [
+  'src/ui/PoisonTab.glm-leaf-wave.test.tsx',
+  'src/ui/VarsTab.glm-leaf-wave.test.tsx',
+  'src/ui/ShopTab.glm-leaf-wave.test.tsx',
+  'src/ui/ItemAlchemyTab.glm-leaf-wave.test.tsx',
+  'src/ui/BattleFieldTab.glm-leaf-wave.test.tsx',
+  'src/ui/CasualtyEditor.glm-leaf-wave.test.tsx',
+  'src/ui/ScriptSceneHookInspector.glm-leaf-wave.test.tsx',
+  'src/ui/ScriptBehaviorInspector.glm-leaf-wave.test.tsx',
+  'src/ui/enemy-defeated-events.glm-leaf-wave.test.ts',
+  'src/core/asset-diagnostics.glm-leaf-wave.test.ts',
+  'src/core/command-asset-record.glm-leaf-wave.test.ts',
+  'src/core/item-references.glm-leaf-wave.test.ts',
+  'src/core/script-references.glm-leaf-wave.test.ts',
+  'src/core/stamp-placement.glm-leaf-wave.test.ts',
+]
 
-const rows = []
-for (const [file, afterEntry] of Object.entries(after)) {
+const globFor = (file) => `**/${file.split('/').at(-1)}`
+
+// editor: before（排除全部新测试）/ ad（A–D 在，E–H 排除）/ after（全量）。
+const beforeEditor = runBatch('before-editor', editorRoot, newTests.map(globFor), true)
+const adEditor = runBatch('ad-editor', editorRoot, ehFiles.map(globFor), true)
+const afterEditor = runBatch('after-editor', editorRoot, [], true)
+
+// content: before/after（7 个 H 批新测试文件）。
+const contentRoot = resolve(root, 'packages/content')
+const beforeContent = runBatch('before-content', contentRoot, contentNewTests.map(globFor), false)
+const afterContent = runBatch('after-content', contentRoot, [], false)
+
+function delta(beforeEntry, afterEntry) {
+  return {
+    lines: {
+      before: beforeEntry.lines,
+      after: afterEntry.lines,
+      coveredDelta: afterEntry.lines.covered - beforeEntry.lines.covered,
+    },
+    branches: {
+      before: beforeEntry.branches,
+      after: afterEntry.branches,
+      coveredDelta: afterEntry.branches.covered - beforeEntry.branches.covered,
+    },
+  }
+}
+
+const improvedRows = []
+for (const [file, afterEntry] of Object.entries(afterEditor)) {
   if (file === 'total') continue
-  const beforeEntry = before[file]
-  const beforeLines = beforeEntry?.lines.pct ?? 0
-  const delta = Number((afterEntry.lines.pct - beforeLines).toFixed(2))
-  if (delta > 0)
-    rows.push({
+  const beforePct = beforeEditor[file]?.lines.pct ?? 0
+  const deltaPct = Number((afterEntry.lines.pct - beforePct).toFixed(2))
+  if (deltaPct > 0)
+    improvedRows.push({
       file: file.replace(`${editorRoot}/`, ''),
-      before: beforeLines,
+      before: beforePct,
       after: afterEntry.lines.pct,
-      delta,
+      delta: deltaPct,
     })
 }
-rows.sort((left, right) => right.delta - left.delta)
+improvedRows.sort((left, right) => right.delta - left.delta)
 
 const result = {
-  beforeTotal: before.total.lines,
-  afterTotal: after.total.lines,
-  beforeBranches: before.total.branches,
-  afterBranches: after.total.branches,
-  improvedFiles: rows.slice(0, 40),
+  editor: {
+    adVsBefore: delta(beforeEditor.total, adEditor.total),
+    ehIncrement: delta(adEditor.total, afterEditor.total),
+    union: delta(beforeEditor.total, afterEditor.total),
+    testCounts: {
+      before: beforeEditor.total,
+      note: 'testCounts 为覆盖 summary 的行分母，不是用例数；用例数见各 log。',
+    },
+  },
+  content: {
+    beforeVsAfter: delta(beforeContent.total, afterContent.total),
+  },
+  improvedFiles: improvedRows.slice(0, 40),
   outputDir: output,
 }
 writeFileSync('/tmp/glm-leaf-A-H-coverage-delta.json', `${JSON.stringify(result, null, 2)}\n`)
 console.log(
-  `lines ${(before.total.lines.pct).toFixed(2)}% -> ${(after.total.lines.pct).toFixed(2)}% ` +
-    `(${before.total.lines.covered}/${before.total.lines.total} -> ${after.total.lines.covered}/${after.total.lines.total})`,
+  `editor lines ${beforeEditor.total.lines.pct}% -> ${afterEditor.total.lines.pct}% ` +
+    `(+${afterEditor.total.lines.covered - beforeEditor.total.lines.covered}); ` +
+    `A–D +${adEditor.total.lines.covered - beforeEditor.total.lines.covered}; ` +
+    `E–H +${afterEditor.total.lines.covered - adEditor.total.lines.covered}`,
 )
 console.log(
-  `branches ${(before.total.branches.pct).toFixed(2)}% -> ${(after.total.branches.pct).toFixed(2)}% ` +
-    `(${before.total.branches.covered}/${before.total.branches.total} -> ${after.total.branches.covered}/${after.total.branches.total})`,
+  `editor branches ${beforeEditor.total.branches.pct}% -> ${afterEditor.total.branches.pct}% ` +
+    `(+${afterEditor.total.branches.covered - beforeEditor.total.branches.covered}); ` +
+    `A–D +${adEditor.total.branches.covered - beforeEditor.total.branches.covered}; ` +
+    `E–H +${afterEditor.total.branches.covered - adEditor.total.branches.covered}`,
 )
-console.log(`improved files: ${rows.length} (top rows in /tmp/glm-leaf-A-D-coverage-delta.json)`)
+console.log(
+  `content lines ${beforeContent.total.lines.pct}% -> ${afterContent.total.lines.pct}% ` +
+    `(+${afterContent.total.lines.covered - beforeContent.total.lines.covered}); ` +
+    `branches ${beforeContent.total.branches.pct}% -> ${afterContent.total.branches.pct}% ` +
+    `(+${afterContent.total.branches.covered - beforeContent.total.branches.covered})`,
+)
+console.log(
+  `improved editor files: ${improvedRows.length} (top rows in /tmp/glm-leaf-A-H-coverage-delta.json)`,
+)

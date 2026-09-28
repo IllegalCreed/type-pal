@@ -1,18 +1,15 @@
 // @vitest-environment jsdom
+
 import type { StampTemplate } from '@type-pal/content'
 import { act } from 'react'
 import { createRoot, type Root } from 'react-dom/client'
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
-// @ts-expect-error Node test-host bridge only.
-import { Blob as NodeBlob } from 'node:buffer'
-// @ts-expect-error Node test-host bridge only.
-import { webcrypto } from 'node:crypto'
 import { createEditorAssetReader } from '../core/editor-asset-reader.js'
+import { stubNodeTestHost } from './__tests__/glm-leaf-workflows/node-bridge.js'
 import { loadLegalUiProject } from './__tests__/glm-ui-wave-kit.js'
 import { StampContentEditor } from './StampContentEditor.js'
 
-vi.stubGlobal('Blob', NodeBlob)
-vi.stubGlobal('crypto', webcrypto)
+await stubNodeTestHost()
 vi.stubGlobal(
   'requestAnimationFrame',
   vi.fn((callback: FrameRequestCallback) => {
@@ -29,7 +26,7 @@ Object.defineProperty(URL, 'revokeObjectURL', { configurable: true, value: vi.fn
 let root: Root
 let host: HTMLDivElement
 
-beforeEach(() => {
+beforeEach(async () => {
   ;(globalThis as { IS_REACT_ACT_ENVIRONMENT?: boolean }).IS_REACT_ACT_ENVIRONMENT = true
   host = document.createElement('div')
   document.body.append(host)
@@ -157,7 +154,9 @@ describe('StampContentEditor 剩余合同', () => {
     const onChange = vi.fn()
     await renderEditor({ onChange })
     const toggles = [
-      ...layersHost.querySelectorAll<HTMLButtonElement>('[aria-label^="图层可见"], [aria-label^="图层锁定"]'),
+      ...layersHost.querySelectorAll<HTMLButtonElement>(
+        '[aria-label^="图层可见"], [aria-label^="图层锁定"]',
+      ),
     ]
     expect(toggles.length).toBeGreaterThan(0)
     await act(async () => toggles[0]!.click())

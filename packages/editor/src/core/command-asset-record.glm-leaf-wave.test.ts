@@ -1,6 +1,6 @@
 import type { AssetRecordV1 } from '@type-pal/content'
 import { describe, expect, test } from 'vitest'
-import type { EditorState } from '../core/edit-session.js'
+import { loadLegalUiProject } from '../ui/__tests__/glm-leaf-workflows/legal-session.js'
 import { collectBattleDataReferences } from './battle-data-references.js'
 import {
   AssetInUseError,
@@ -9,6 +9,15 @@ import {
   assertTilesetRecord,
   sameAssetRecord,
 } from './command-asset-record.js'
+import { UpdateActorCommand } from './commands.js'
+import type { EditorState } from './edit-session.js'
+import { EditSession } from './edit-session.js'
+import {
+  buildProjectReferenceSnapshot,
+  createProjectReferenceIndex,
+  createProjectReferenceSource,
+} from './project-reference.js'
+import { AddSkillCommand } from './skill-commands.js'
 
 function record(overrides: Partial<AssetRecordV1> = {}): AssetRecordV1 {
   return {
@@ -25,50 +34,24 @@ function record(overrides: Partial<AssetRecordV1> = {}): AssetRecordV1 {
 const gzipBytes = new Uint8Array([0x1f, 0x8b, 0, 1]).buffer
 const plainBytes = new Uint8Array([0, 1, 2, 3]).buffer
 
-function baseState(): EditorState {
-  return {
-    actors: [
-      {
-        id: 'hero',
-        name: 'name.hero',
-        spriteId: 'hero-sprite',
-        battler: {
-          battleSprite: 'hero-battle',
-          baseStats: {
-            level: 1,
-            hp: 100,
-            maxHP: 100,
-            mp: 10,
-            maxMP: 10,
-            attack: 5,
-            defense: 5,
-            magicAttack: 5,
-            speed: 5,
-            luck: 5,
-          },
-          initialEquipment: {},
-          initialMagic: ['skill.fire', 'skill.ice'],
-          cooperativeMagicSkillId: 'skill.duo',
-        },
+/** 合法项目 + 真实命令：新建技能、把初始仙术/专属合体技写入 hero（保存门可见）。 */
+async function legalSkillState(): Promise<EditorState> {
+  const legal = await loadLegalUiProject('glm-leaf-battle-refs')
+  const session = new EditSession(legal.state)
+  session.dispatch(new AddSkillCommand('skill.fire', '火'))
+  session.dispatch(new AddSkillCommand('skill.ice', '冰'))
+  session.dispatch(new AddSkillCommand('skill.duo', '合击'))
+  const hero = session.getState().actors[0]!
+  session.dispatch(
+    new UpdateActorCommand(hero.id, {
+      battler: {
+        ...hero.battler!,
+        initialMagic: ['skill.fire', 'skill.ice'],
+        cooperativeMagicSkillId: 'skill.duo',
       },
-    ],
-    skills: [],
-    enemies: [],
-    poisons: [],
-    scenes: [],
-    manifest: {
-      id: 't',
-      content: {},
-      entryPoints: [
-        {
-          id: 'main',
-          label: '主入口',
-          scene: 's001',
-          startWorld: { party: [], money: 0, inventory: [] },
-        },
-      ],
-    },
-  } as unknown as EditorState
+    }),
+  )
+  return session.getState()
 }
 
 describe('sameAssetRecord 剩余合同', () => {
@@ -122,15 +105,21 @@ describe('assert*Record 剩余合同', () => {
   })
 
   test('AssetInUseError carries the asset id and reference count in its message', () => {
-    const error = new AssetInUseError('sprite.idle', [
-      {
-        target: { kind: 'item', id: 'x' },
-        source: { kind: 'catalog' },
-        relation: { kind: 'asset', assetId: 'sprite.idle', expectedKind: 'sprite' },
-        where: 'items[0]',
-        detail: 'icon',
-      },
-    ] as never)
+    // 经真实 reference index 产出一条结构化边（无强转）。
+    const index = createProjectReferenceIndex(
+      buildProjectReferenceSnapshot([
+        {
+          target: { kind: 'asset', id: 'sprite.idle' },
+          source: createProjectReferenceSource({ kind: 'item', id: 'x' }, '物品 x'),
+          relation: { kind: 'asset-use', expectedKind: 'sprite' },
+          where: 'items[0].icon',
+          detail: '图标',
+          locator: { kind: 'unavailable', reason: '只读来源' },
+          deletePolicy: 'block',
+        },
+      ]),
+    )
+    const error = new AssetInUseError('sprite.idle', index.allReferences())
     expect(error).toBeInstanceOf(Error)
     expect(error.name).toBe('AssetInUseError')
     expect(error.assetId).toBe('sprite.idle')
@@ -139,8 +128,8 @@ describe('assert*Record 剩余合同', () => {
 })
 
 describe('collectBattleDataReferences 剩余合同', () => {
-  test('skill references come from initial magic and the cooperative skill, sorted by where', () => {
-    const references = collectBattleDataReferences(baseState(), 'skill')
+  test('skill references come from initial magic and the cooperative skill, sorted by where', async () => {
+    const references = collectBattleDataReferences(await legalSkillState(), 'skill')
     // 输出按 where 字典序排序：actor-cooperative… 排在 actor-initial… 之前。
     expect(references.map((entry) => [entry.kind, entry.targetId])).toEqual([
       ['actor-cooperative-magic', 'skill.duo'],
@@ -151,17 +140,16 @@ describe('collectBattleDataReferences 剩余合同', () => {
     expect(references[0]?.locator).toEqual({ kind: 'actor', actorId: 'hero' })
   })
 
-  test('enemy and poison targets on a skill-only project return only their own domain', () => {
-    const enemy = collectBattleDataReferences(baseState(), 'enemy')
+  test('enemy and poison targets on a skill-only project return only their own domain', async () => {
+    const enemy = collectBattleDataReferences(await legalSkillState(), 'enemy')
     expect(enemy.every((entry) => entry.target === 'enemy')).toBe(true)
-    const poison = collectBattleDataReferences(baseState(), 'poison', {
+    const state = await legalSkillState()
+    const poison = collectBattleDataReferences(state, 'poison', {
       includeScriptCommands: false,
     })
     expect(poison.every((entry) => entry.target === 'poison')).toBe(true)
     expect(
-      collectBattleDataReferences(baseState(), 'poison').every(
-        (entry) => entry.target === 'poison',
-      ),
+      collectBattleDataReferences(state, 'poison').every((entry) => entry.target === 'poison'),
     ).toBe(true)
   })
 })

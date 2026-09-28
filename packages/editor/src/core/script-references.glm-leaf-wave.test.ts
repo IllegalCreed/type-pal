@@ -1,101 +1,61 @@
+import { upsertAuthoredScript } from '@type-pal/content'
 import { describe, expect, test } from 'vitest'
+import { loadLegalUiProject } from '../ui/__tests__/glm-leaf-workflows/legal-session.js'
+import { stubNodeTestHost } from '../ui/__tests__/glm-leaf-workflows/node-bridge.js'
 import { findScriptReferences } from './script-references.js'
 
-const sharedScript = {
-  'shared/user/route': {
-    name: '路线',
-    description: '行走路线',
-    self: 'none',
-    body: [
-      { kind: 'callScript', ref: { chunk: 'shared/c00', id: 'shared/user/helper' } },
-      { kind: 'setFlag', flag: 'routed', value: true },
-    ],
-  } as never,
-  'shared/user/helper': {
-    name: '辅助',
-    self: 'none',
-    body: [{ kind: 'setFlag', flag: 'helped', value: true }],
-  } as never,
-}
-
-const state = {
-  scenes: [
-    {
-      id: 's001',
-      mapId: 'map-001',
-      entry: { pos: { col: 0, row: 0, height: 0 }, facing: 'down' },
-      entities: [
-        {
-          id: 'e1',
-          sprite: 'npc',
-          pos: { col: 1, row: 1, height: 0 },
-          initialPage: 'default',
-          pages: [{ id: 'default', label: '默认', trigger: 'talk' }],
-          behaviors: {
-            trigger: {
-              talk: {
-                label: '交谈',
-                order: 0,
-                flow: {
-                  kind: 'stages',
-                  initial: 'start',
-                  stages: [
-                    {
-                      id: 'start',
-                      body: [
-                        {
-                          kind: 'callScript',
-                          ref: { chunk: 'shared/c00', id: 'shared/user/route' },
-                        },
-                      ],
-                    },
-                  ],
-                },
-              },
-            },
-          },
-        },
-      ],
-    },
-  ],
-  items: [],
-  sharedScripts: sharedScript,
-  scriptIndex: {
+/** 合法项目 + 真实 upsertAuthoredScript：route 调 helper，均为作者命名空间脚本。 */
+async function scriptedState() {
+  await stubNodeTestHost()
+  const legal = await loadLegalUiProject('glm-leaf-script-refs')
+  const index = legal.state.scriptIndex ?? {
     version: 1,
     shards: { shared: 16, global: {} },
     chunks: {},
-    library: {
-      'shared/user/route': { name: '路线', self: 'none' },
-      'shared/user/helper': { name: '辅助', self: 'none' },
-    },
-  },
-  scriptChunks: {
-    'shared/user-000': {
-      version: 1,
-      id: 'shared/user-000',
-      scripts: {
-        'shared/user/route': [
-          { kind: 'callScript', ref: { chunk: 'shared/c00', id: 'shared/user/helper' } },
-          { kind: 'setFlag', flag: 'routed', value: true },
-        ],
-        'shared/user/helper': [{ kind: 'setFlag', flag: 'helped', value: true }],
-      },
-    },
-  },
-} as never
+  }
+  const route = upsertAuthoredScript(
+    index,
+    legal.state.scriptChunks,
+    'shared/user/route',
+    { name: '路线', self: 'none' },
+    [
+      { kind: 'callScript', ref: { chunk: 'shared/c00', id: 'shared/user/helper' } },
+      { kind: 'setFlag', flag: 'routed', value: true },
+    ],
+  )
+  const withHelper = upsertAuthoredScript(
+    route.index,
+    route.chunks,
+    'shared/user/helper',
+    { name: '辅助', self: 'none' },
+    [{ kind: 'setFlag', flag: 'helped', value: true }],
+  )
+  return { ...legal.state, scriptIndex: withHelper.index, scriptChunks: withHelper.chunks }
+}
 
 describe('script-references 剩余合同', () => {
-  test('callScript callers point back at the referenced shared script with locator detail', () => {
-    // route 调 helper → helper 的引用表记录调用方；含场景 id 便于定位。
-    const references = findScriptReferences(state as never, 'shared/user/helper')
+  test('callScript callers point back with full target/kind/caller/path and input deep snapshot', async () => {
+    const state = await scriptedState()
+    const stateBefore = JSON.stringify(state)
+    // route 调 helper → helper 的引用表记录完整结构化条目（G27：domain/owner/path 全断言）。
+    const references = findScriptReferences(state, 'shared/user/helper')
     expect(references).toHaveLength(1)
-    expect(references[0]).toMatchObject({ target: { id: 'shared/user/helper' } })
-    // 调用方身份是脚本（chunk 内 body），不是场景实体。
-    expect(JSON.stringify(references[0])).toContain('shared/user/route')
+    const entry = references[0]!
+    expect(entry.target).toEqual({ chunk: 'shared/c00', id: 'shared/user/helper' })
+    expect(entry.kind).toBe('call')
+    expect(entry.caller).toEqual({
+      type: 'script',
+      scriptId: 'shared/user/route',
+      label: '路线(shared/user/route)',
+    })
+    expect(entry.path).toBe('/0')
+    // 输入保真：查询不改写 index/chunks。
+    expect(JSON.stringify(state)).toBe(stateBefore)
   })
 
-  test('a root script with no inbound callers yields an empty reference list', () => {
-    expect(findScriptReferences(state as never, 'shared/user/route')).toEqual([])
-    expect(findScriptReferences(state as never, 'shared/user/gone')).toEqual([])
+  test('a root script with no inbound callers yields an empty reference list', async () => {
+    const state = await scriptedState()
+    expect(findScriptReferences(state, 'shared/user/route')).toEqual([])
+    expect(findScriptReferences(state, 'shared/user/gone')).toEqual([])
   })
 })

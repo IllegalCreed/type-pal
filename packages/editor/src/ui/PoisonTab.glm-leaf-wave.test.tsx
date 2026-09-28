@@ -1,57 +1,20 @@
 // @vitest-environment jsdom
-import type { PoisonDef } from '@type-pal/content'
 import { act, useSyncExternalStore } from 'react'
 import { createRoot, type Root } from 'react-dom/client'
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
-import type { EditorState } from '../core/edit-session.js'
 import { EditSession } from '../core/edit-session.js'
+import { AddPoisonCommand } from '../core/poison-commands.js'
 import { collectCurrentProjectReferenceIndex } from '../core/project-reference-adapters.js'
+import { loadLegalUiProject } from './__tests__/glm-leaf-workflows/legal-session.js'
+import { stubNodeTestHost } from './__tests__/glm-leaf-workflows/node-bridge.js'
 import { PoisonTab } from './PoisonTab.js'
 
-const poisons: PoisonDef[] = [
-  { id: 1, name: '赤蝎粉', curability: 'common', color: 2, playerTicks: [{ hpDelta: -5 }] },
-]
-
-function state(): EditorState {
-  return {
-    manifest: {
-      id: 'test',
-      name: '测试项目',
-      contentVersion: 20,
-      minimumSaveVersion: 8,
-      defaultEntryId: 'main',
-      content: {},
-      entryPoints: [
-        {
-          id: 'main',
-          label: '主要入口',
-          scene: 's001',
-          startWorld: { party: [], money: 0, inventory: [] },
-        },
-      ],
-      assets: { catalog: 'assets/index.json', roles: {} },
-    },
-    scenes: [],
-    actors: [],
-    levelUp: {},
-    skills: [],
-    items: [],
-    enemies: [],
-    enemyTeams: [],
-    poisons,
-    locale: {},
-    sprites: [],
-    battleSprites: [],
-    maps: {},
-    sceneIndex: { version: 1, scenes: [] },
-    mapIndex: { version: 1, maps: [] },
-    tilesets: [],
-    tilesetBlobs: {},
-    assetCatalog: { version: 1, assets: {} },
-    assetBlobs: {},
-    scriptChunks: {},
-    stamps: [],
-  } as unknown as EditorState
+/** 合法项目 + 真实 AddPoisonCommand 建毒（走当前命令构造 guard）。 */
+async function poisonedSession() {
+  const legal = await loadLegalUiProject('glm-leaf-poison-tab')
+  const session = new EditSession(legal.state)
+  session.dispatch(new AddPoisonCommand(1, '赤蝎粉'))
+  return session
 }
 
 function Harness(props: { session: EditSession }) {
@@ -76,7 +39,8 @@ function Harness(props: { session: EditSession }) {
 let root: Root
 let host: HTMLDivElement
 
-beforeEach(() => {
+beforeEach(async () => {
+  await stubNodeTestHost()
   ;(globalThis as { IS_REACT_ACT_ENVIRONMENT?: boolean }).IS_REACT_ACT_ENVIRONMENT = true
   host = document.createElement('div')
   document.body.append(host)
@@ -132,7 +96,7 @@ async function chooseCombobox(label: string, optionText: string): Promise<void> 
 
 describe('PoisonTab 剩余合同', () => {
   test('curability switch commits through the real session and undoes exactly', async () => {
-    const session = new EditSession(state())
+    const session = await poisonedSession()
     await act(async () => root.render(<Harness session={session} />))
     const historyBefore = session.getHistoryVersion()
 
@@ -146,7 +110,7 @@ describe('PoisonTab 剩余合同', () => {
   })
 
   test('color stepper commits the palette number and undo restores it', async () => {
-    const session = new EditSession(state())
+    const session = await poisonedSession()
     await act(async () => root.render(<Harness session={session} />))
     const color = fieldInput('染色#')
     const historyBefore = session.getHistoryVersion()
@@ -163,7 +127,7 @@ describe('PoisonTab 剩余合同', () => {
   })
 
   test('unknown ids fall back to the first poison hero', async () => {
-    const session = new EditSession(state())
+    const session = await poisonedSession()
     await act(async () => root.render(<Harness session={session} />))
     expect(host.querySelector('h1')?.textContent).toBe('赤蝎粉')
   })

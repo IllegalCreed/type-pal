@@ -130,10 +130,13 @@ describe('MapSelectionInspector 剩余合同', () => {
     const onPatch = vi.fn()
     renderInspector({
       onPatch,
-      selection: cellsSelection([{ layerId: 'objects', row: 0, col: 0 }], [
-        { row: 1, col: 1 },
-        { row: 2, col: 2 },
-      ]),
+      selection: cellsSelection(
+        [{ layerId: 'objects', row: 0, col: 0 }],
+        [
+          { row: 1, col: 1 },
+          { row: 2, col: 2 },
+        ],
+      ),
     })
     await commit(inputByLabel('选区 collision'), '4')
     expect(onPatch).toHaveBeenCalledTimes(1)
@@ -177,9 +180,7 @@ describe('MapSelectionInspector 剩余合同', () => {
         [],
       ),
     })
-    await act(async () =>
-      host.querySelector<HTMLButtonElement>('[aria-label="高度加 1"]')!.click(),
-    )
+    await act(async () => host.querySelector<HTMLButtonElement>('[aria-label="高度加 1"]')!.click())
     expect(onPatch).toHaveBeenCalledTimes(1)
     const [patch, , label] = onPatch.mock.calls[0] as [
       { visual: { channel: string; ref: { row: number; col: number }; value: number }[] },

@@ -384,3 +384,105 @@ console 错误：0（error 监听全程为空）。
   StampPlacementSelectionInspector.tsx +13.33、SoundPicker.tsx +10.94（完整 30 行见
   batch-AH-coverage-delta.json）。
 - 明细 JSON：`batch-AH-coverage-delta.json`（仅官方统计之外的自主对照，不并入正式覆盖率）。
+
+## 返工（候选 4b5aade7f → 新候选）：逐项闭合 Codex 独立审核反例
+
+### 反例 1：13 条 lint 清零
+
+`env -u NODE_COMPILE_CACHE pnpm lint` → **PASS — 2463 files; 0 errors / 0 warnings / 0 infos**。
+原 13 条（2 info useTemplate、2 warning noUnusedImports、9 error format/organizeImports）全部修复。
+
+### 反例 2：fixture 强转与类型压制裁除
+
+- **Node 桥接 @ts-expect-error 全部移除**：新增白名单 typed fixture
+  `packages/editor/src/ui/__tests__/glm-leaf-workflows/node-bridge.ts`
+  （动态 import 字符串变量 + DOM 类型注界，参照 reforge debug-tools-fixtures.ts:74 的已接收模式，
+  无任何压制），9 个 UI 测试改为 `await stubNodeTestHost()`。
+- **EditorState 双强转移除**（6 文件全部改为合法项目装载器 + 真实命令自证）：
+  - command-asset-record：loadLegalUiProject + AddSkillCommand/UpdateActorCommand；
+    AssetInUseError 的边改经真实 createProjectReferenceIndex 产出。
+  - BattleFieldTab：loadLegalUiProject + AddBattleFieldCommand + UpsertAssetCommand；
+    reader/assetBase 走真实 createEditorAssetReader(legal.source) 与 legal.assetBase；
+    `'name' in stored` 替代 Record 强转。
+  - CasualtyEditor / PoisonTab / ShopTab：同样 legal loader；Casualty 用 hero 自带 battleSprite +
+    UpdateActorCommand；Poison 用 AddPoisonCommand；Shop 用 AddItemCommand×2 + AddShopCommand×2 +
+    UpdateShopCommand。
+  - script-references：真实 upsertAuthoredScript 产出 index/chunks（无 as never 的手写形状）。
+- **unknown 边界的合法注入**：frame-sequence/stamp 的非法字段以裸对象展开直接传入
+  （API 声明 value: unknown），删除全部 `as never`；item-references branch 以
+  `const branch: AuthorCommand` 注解；script-library 外部 chunk 以
+  `Record<string, ScriptChunkV1>` 注解。残留 `as` 仅为：map-selection-overlay 的 canvas
+  记录器替身（canvas 渲染端口，非 fixture）。
+
+### 反例 3：G25/G27/G28 合同补齐与 G20 去重
+
+- **G25 MP4 extended-size/截断 → existing-proof（精确旧断言）**：
+  `video-metadata.boxes.test.ts:42`「size=1 的 64 位扩展 size：正常解析；声明越界或非安全整数拒绝」
+  与 `:56`「size=0 表示到文件尾…」/截断用例已逐字节覆盖扩展 size 正常解析、越界声明、截断头三类
+  分支；本包新增例（asset-diagnostics.glm-leaf-wave.test.ts）只补 nested container/meta +4 偏移与
+  hdlr 前缀陷阱，不复制旧断言。
+- **G28 flood-fill/规划保真**：flood-fill 相连/隔离 existing-proof =
+  `stamp-group-command.test.ts:88-114`（floodFillStampPlacementTiles 相连扩散与隔离断开）；
+  新增 `stamp-placement.glm-leaf-wave.test.ts`「planning keeps the same map and parameters
+  byte-identical before/after」：planStampPlacement 前后 map/template/mappings 逐字节
+  deep-snapshot 保真（旧测只断言输出，未断言输入不动）。
+- **G27 完整 domain/owner/path + 深快照**：script-references 新测改为真实
+  upsertAuthoredScript 产出 index/chunks，完整断言 `target{chunk,id}` / `kind:'call'` /
+  `caller{type:'script',scriptId,label}` / `path:'/0'`，并断言查询前后 state 逐字节不变。
+- **G20 去重**：删除与 `ItemAlchemyTab.test.tsx:241/353/434/501` 重复的 surface 渲染例
+  （existing-proof 归属旧测）；保留并强化 ItemAlchemyEditors 行级合同
+  （CraftRecipeList 材料/产物行与 consuming=false owner 候选、ResourceRewardTierList 档位数量编辑
+  实际改写、appendCraftRecipe 纯函数）。
+
+### 反例 4：E number 创建判定 + F 双视口视觉
+
+- **E 判定：宿主操作误差，非产品缺陷**。重做流程：同步 ArrowDown keydown 开层（此前 CUA keypress
+  打在失焦元素上未开层，点击 option 时浮层未挂载）→ 点选「数值（number）」→ 触发器文本确认
+  「数值（number）」→ 创建 → 会话回显 `score.bonus kind:number`（version 1）；初始值改 5
+  （version 2）→ 真实 session.undo → 回 0（version 3）。单测同路径本就通过。
+  证据：E-number-1440-created-edited.png（列表「数值 1」分组 + 详情「类型 数值」）。
+- **F 双视口闭环（本次新增）**：直挂 CasualtyEditor + 合法项目会话 + 真实 UpdateActorCommand 种子。
+  1440×900：切「自己濒死时」槽 → 添加概率分支（chance 50 只写入 dying，friendDeath 40 门不受扰）
+  → F-casualty-1440-dying-gate-added.png；真实 session.undo → dying 门回 0 → 1000×720 切回
+  「队友阵亡时」40 门完好 → F-casualty-1000-frienddeath-undo.png。console 错误 0。
+
+### 反例 5：覆盖对照与截图元数据
+
+- **content 同口径对照（新增）**：content before/after（7 个 H 批新测试文件排除/全量）：
+  lines 96.44% → 96.50%（+3）；branches 92.72% → 92.80%（+4）。
+- **editor E–H 增量（新增三段口径）**：before / A–D（E–H 14 文件排除）/ after 三批：
+  lines 85.41% → 86.19%（+224），其中 **A–D +177、E–H +47**；branches 75.90% → 76.67%（+218），
+  其中 **A–D +172、E–H +46**；30 个 editor 文件改善。A–H 并集不重复相加，以 union 字段为准。
+- 以上均为局部自主对照（editor/content 包分母），**不充当正式全仓覆盖率**；官方统计仍由 Codex 执行。
+- 截图完整元数据（文件 /tmp/type-pal-glm-leaf-workflows/，均 8-bit RGB PNG，URL 均为本卡隔离
+  vite 宿主 http://127.0.0.1:606x，候选 SHA 见交付登记）：
+
+| 文件 | SHA-256 | 尺寸 | 字节 |
+|---|---|---|---|
+| A-multiselect-1440-open-selectall.png | f254b86ee3ecc39eee5c5b2d6dee829a3071b0b486bd3500adc99b6968235e0c | 1440×900 | 161535 |
+| A-multiselect-1000-reopen.png | e87fb1084819f79ed8c7bb32dc9fdce6d1da038aef72b22b2577cb800ce9a84f | 1000×720 | 138944 |
+| B-addpicker-1440-keyboard-selected.png | 797b70dcbc81e494d3f8b371616926b7337794100c5e9332f640628d2ad3d516 | 1440×900 | 129486 |
+| B-addpicker-1000-empty-search.png | 6641fe2c620e388dd8f40538ef0a0b585d284f99062cf37564fd261cdb6824d0 | 1000×720 | 90626 |
+| C-imagepicker-panel-1440-selected.png | 07c73dcf63591132a07b0d92ff870d8cedcffc22af102f6359fd1f74d7dcfa09 | 1440×900 | 27283 |
+| C-panel-handle-1440-max-boundary.png | c0fdf4d97b58a4ae7758a41aa46d0fac9dbc29f0afda8ac5148c651169fc4c02 | 1440×900 | 27577 |
+| C-imagepicker-panel-1000.png | 1266214477aef51fc939c0170d19b02b7749b8eca1a5e85e59046a2b71976584 | 1000×720 | 24654 |
+| D-stamp-dialog-1440-anchor-edited.png | c430de8ab09f656981ced34cba2f1cafc0dd7b4d95eabfbc9ae9786146ce6eea | 1440×900 | 129605 |
+| D-stamp-dialog-1000-reopened.png | 5309d017b67cb21cb7ef7c2e2e985d0cde4a30729f3e47a4d90c59c0f326551a | 1000×720 | 105555 |
+| E-number-1440-created-edited.png | e272a718a6aea61eda06ebcd462f17c4cb2f24d87fae8f6a30db74d1d55f0908 | 1440×900 | 87733 |
+| E-flag-1000-selected.png | 3ec151aeb5ccf90fe04be8455b361a02a8eb7d65a5d8526dee9275e8007d91e2 | 1000×720 | 81151 |
+| E-vars-1440-flag-initial-undo.png | 6c8035a431475d0f62901f31f79bb15e7f6abfa4de1cfb95b4d18a7779b7a611 | 1440×900 | 87911 |
+| F-casualty-1440-dying-gate-added.png | 38ce8d83fbfcbcad2d1e541f761e8d38a0a21eb9785bd8710481ea85df1f169e | 1440×900 | 190991 |
+| F-casualty-1000-frienddeath-undo.png | 69b79fe36440976acd49954e393d6aa14773e53c0b15620962a9aa1afd7c403f | 1000×720 | 116112 |
+
+（A/B/C/D 图摄于前一候选，流程与断言未变；E/F 图摄于本候选。）
+
+### 返工终门复跑（新候选提交前）
+
+- lint PASS（2463 files，0/0/0）；editor/content typecheck 0 error；docs PASS；diff check 干净。
+- editor 定向（36 个新测试文件）165/165（JSON /tmp/glm-leaf-rework-directed.json）；
+  content 定向 24/24（JSON /tmp/glm-leaf-rework-content.json）。
+- 八批判据终扫 a–h 全过（每批自测 10 类 + control 全绿 + 2 针恰一红）。
+- editor 全包 438 文件 3464/3464；content 全包 123 文件 1222/1222（均 exit 0）。
+- 覆盖对照终值（coverage-delta.mjs 三段口径）：editor lines 85.41%→86.19%（+224；A–D +177 /
+  E–H +47）、branches 75.90%→76.67%（+218；A–D +172 / E–H +46）；content lines 96.44%→96.50%
+  (+3)、branches 92.72%→92.80% (+4)；30 个 editor 文件改善。局部数字不充当正式全仓覆盖率。
