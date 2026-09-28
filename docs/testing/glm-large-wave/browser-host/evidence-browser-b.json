@@ -1,0 +1,25 @@
+{
+  "url": "http://127.0.0.1:6087/index-b.html",
+  "captures": [
+    {
+      "id": "B1",
+      "title": "脚本会话：选择行 → 修改命令值 → undo 回原值 → redo 复原",
+      "viewport": "1440x900 -> 1000x720",
+      "steps": [
+        "初始正文 setVar count=2（截图 B1-script-session-initial-1440x900.png）",
+        "双击树行打开属性表单，把值改为 9 完成（截图 B1-script-session-edited-1440x900.png）",
+        "点撤销（截图 B1-script-session-undone-1000x720.png）后点重做"
+      ],
+      "expect": "编辑后会话正文 value=9、历史版本 +1；undo 后回到 value=2；redo 后回到 value=9",
+      "actual": {
+        "initial": "{\"kind\":\"setVar\",\"var\":\"count\",\"value\":2}",
+        "afterEdit": "{\"kind\":\"setVar\",\"var\":\"count\",\"value\":9}",
+        "versionAfterEdit": "1",
+        "afterUndo": "{\"kind\":\"setVar\",\"var\":\"count\",\"value\":2}",
+        "versionAfterUndo": "2",
+        "afterRedo": "{\"kind\":\"setVar\",\"var\":\"count\",\"value\":9}"
+      }
+    }
+  ],
+  "consoleErrors": []
+}
