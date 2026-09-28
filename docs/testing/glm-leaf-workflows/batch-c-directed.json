@@ -1,0 +1,35 @@
+{
+  "numTotalTests": 28,
+  "numPassedTests": 28,
+  "numFailedTests": 0,
+  "files": [
+    {
+      "file": "src/ui/ImageAssetPicker.glm-leaf-wave.test.tsx",
+      "tests": 7
+    },
+    {
+      "file": "src/ui/IsometricEditorToolbar.glm-leaf-wave.test.tsx",
+      "tests": 3
+    },
+    {
+      "file": "src/ui/MusicPicker.glm-leaf-wave.test.tsx",
+      "tests": 4
+    },
+    {
+      "file": "src/ui/PanelResizeHandle.glm-leaf-wave.test.tsx",
+      "tests": 4
+    },
+    {
+      "file": "src/ui/PortraitEditor.glm-leaf-wave.test.tsx",
+      "tests": 3
+    },
+    {
+      "file": "src/ui/ProjectAudioPreviewButton.glm-leaf-wave.test.tsx",
+      "tests": 2
+    },
+    {
+      "file": "src/ui/SoundPicker.glm-leaf-wave.test.tsx",
+      "tests": 5
+    }
+  ]
+}

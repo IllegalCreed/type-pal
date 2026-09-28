@@ -1,0 +1,119 @@
+{
+  "batch": "c",
+  "hashes": {
+    "src/ui/ImageAssetPicker.tsx": "27fd90d4a325a52e7b404945b876cee6de3872415ff11b8bca9b576ebab28d82",
+    "src/ui/MusicPicker.tsx": "0e08c7cb02dcd827c71d073bcb671f43ba1fe8d9d998aae7dc38361348a4c55b",
+    "src/ui/SoundPicker.tsx": "6e4308f760f870e5347e52963bcdd39efd39e552d4dd0e9cead9000eccb649f1",
+    "src/ui/PortraitEditor.tsx": "9b9515364c9cc5ae5db0b6b22e28ff6887a074c722daf1525de17da5309d2ca1",
+    "src/ui/ProjectAudioPreviewButton.tsx": "6c180e1c67e6bbba617fc502526bb13986214d1e2ce38a93e97064783d4270c1",
+    "src/ui/PanelResizeHandle.tsx": "e464b4e758b942c39ff1c936d809042fd0ed3712353a90c79b5816a29d27ef53",
+    "src/ui/IsometricEditorToolbar.tsx": "a5b3420868078a885fd107bbea2425b69a52599fe8b3ecdd852cff15aa005a4a"
+  },
+  "selfTest": [
+    {
+      "id": "valid-red",
+      "expectReject": false,
+      "rejected": false,
+      "violations": []
+    },
+    {
+      "id": "same-message-mixed-error",
+      "expectReject": true,
+      "rejected": true,
+      "violations": [
+        "mixed non-business error: AssertionError: expected business rejection\nTypeError: environment broken"
+      ]
+    },
+    {
+      "id": "assertion-prefixed-timeout",
+      "expectReject": true,
+      "rejected": true,
+      "violations": ["timeout treated as red: AssertionError: test timed out"]
+    },
+    {
+      "id": "additional-unrelated-red",
+      "expectReject": true,
+      "rejected": true,
+      "violations": ["failed 2, expected exactly 1"]
+    },
+    {
+      "id": "wrong-fullname-red-with-intended-green",
+      "expectReject": true,
+      "rejected": true,
+      "violations": [
+        "red fullName \"different group commits plain selections and (延续上一曲)/(停止音乐) sentinels exactly\" != \"MusicPicker 剩余合同 commits plain selections and (延续上一曲)/(停止音乐) sentinels exactly\""
+      ]
+    },
+    {
+      "id": "foreign-file-same-suffix",
+      "expectReject": true,
+      "rejected": true,
+      "violations": [
+        "red file /different-candidate-root/packages/editor/src/ui/MusicPicker.glm-leaf-wave.test.tsx != /Users/zhangxu/.codex/worktrees/glm-leaf-workflows/type-pal/packages/editor/src/ui/MusicPicker.glm-leaf-wave.test.tsx"
+      ]
+    },
+    {
+      "id": "exit-two",
+      "expectReject": true,
+      "rejected": true,
+      "violations": ["exit 2 != 1"]
+    },
+    {
+      "id": "exit-null",
+      "expectReject": true,
+      "rejected": true,
+      "violations": ["exit null != 1"]
+    },
+    {
+      "id": "zero-execution",
+      "expectReject": true,
+      "rejected": true,
+      "violations": [
+        "numTotalTests 0 != 4",
+        "assertions 0 != 4",
+        "duplicate fullName in scope",
+        "passed 0 inconsistent with 0 failed",
+        "failed 0, expected exactly 1"
+      ]
+    },
+    {
+      "id": "control-sample",
+      "expectReject": false,
+      "rejected": false,
+      "violations": []
+    }
+  ],
+  "evidence": [
+    {
+      "id": "control",
+      "exitCode": 0,
+      "tests": 28,
+      "entered": null,
+      "failed": []
+    },
+    {
+      "id": "music-stop-sentinel-mapped-to-id",
+      "exitCode": 1,
+      "tests": 4,
+      "entered": {
+        "id": "music-stop-sentinel-mapped-to-id",
+        "target": "/Users/zhangxu/.codex/worktrees/glm-leaf-workflows/type-pal/packages/editor/src/ui/MusicPicker.tsx"
+      },
+      "failed": [
+        "MusicPicker 剩余合同 commits plain selections and (延续上一曲)/(停止音乐) sentinels exactly"
+      ]
+    },
+    {
+      "id": "sound-preview-error-swallowed",
+      "exitCode": 1,
+      "tests": 5,
+      "entered": {
+        "id": "sound-preview-error-swallowed",
+        "target": "/Users/zhangxu/.codex/worktrees/glm-leaf-workflows/type-pal/packages/editor/src/ui/SoundPicker.tsx"
+      },
+      "failed": [
+        "SoundPicker 剩余合同 surfaces a visible preview error when the reader rejects the asset"
+      ]
+    }
+  ]
+}

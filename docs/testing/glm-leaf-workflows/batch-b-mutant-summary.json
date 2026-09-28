@@ -1,0 +1,117 @@
+{
+  "batch": "b",
+  "hashes": {
+    "src/ui/design-system/navigation.tsx": "ce5b38093cef05cf89397d337393356d2ed3f019ba19e9f2109f4c8812c31af9",
+    "src/ui/design-system/virtual-list.tsx": "adedc4baa6ff1c365d6c8f37a1277e3594990eb2348feeca1dfb3d81e890b241",
+    "src/ui/design-system/reorder.tsx": "524576947ee10977af9364f711856d4130e88ac76467828054b8dc696d3b2290",
+    "src/ui/design-system/overlays.tsx": "a5284499bfe2311a30333f3b163f01da05ca77a2fbd3243447cb952d92a063b7",
+    "src/ui/design-system/add-picker.tsx": "591951ef9cd0389ec52150abc375ab9101f5122826d6107219039ed71e8f1c83"
+  },
+  "selfTest": [
+    {
+      "id": "valid-red",
+      "expectReject": false,
+      "rejected": false,
+      "violations": []
+    },
+    {
+      "id": "same-message-mixed-error",
+      "expectReject": true,
+      "rejected": true,
+      "violations": [
+        "mixed non-business error: AssertionError: expected business rejection\nTypeError: environment broken"
+      ]
+    },
+    {
+      "id": "assertion-prefixed-timeout",
+      "expectReject": true,
+      "rejected": true,
+      "violations": ["timeout treated as red: AssertionError: test timed out"]
+    },
+    {
+      "id": "additional-unrelated-red",
+      "expectReject": true,
+      "rejected": true,
+      "violations": ["failed 2, expected exactly 1"]
+    },
+    {
+      "id": "wrong-fullname-red-with-intended-green",
+      "expectReject": true,
+      "rejected": true,
+      "violations": [
+        "red fullName \"different group walks over drop-disabled chains and disables at boundaries and collection locks\" != \"DsReorderMoveButton 剩余合同 walks over drop-disabled chains and disables at boundaries and collection locks\""
+      ]
+    },
+    {
+      "id": "foreign-file-same-suffix",
+      "expectReject": true,
+      "rejected": true,
+      "violations": [
+        "red file /different-candidate-root/packages/editor/src/ui/design-system/reorder.glm-leaf-wave.test.tsx != /Users/zhangxu/.codex/worktrees/glm-leaf-workflows/type-pal/packages/editor/src/ui/design-system/reorder.glm-leaf-wave.test.tsx"
+      ]
+    },
+    {
+      "id": "exit-two",
+      "expectReject": true,
+      "rejected": true,
+      "violations": ["exit 2 != 1"]
+    },
+    {
+      "id": "exit-null",
+      "expectReject": true,
+      "rejected": true,
+      "violations": ["exit null != 1"]
+    },
+    {
+      "id": "zero-execution",
+      "expectReject": true,
+      "rejected": true,
+      "violations": [
+        "numTotalTests 0 != 10",
+        "assertions 0 != 10",
+        "duplicate fullName in scope",
+        "passed 0 inconsistent with 0 failed",
+        "failed 0, expected exactly 1"
+      ]
+    },
+    {
+      "id": "control-sample",
+      "expectReject": false,
+      "rejected": false,
+      "violations": []
+    }
+  ],
+  "evidence": [
+    {
+      "id": "control",
+      "exitCode": 0,
+      "tests": 28,
+      "entered": null,
+      "failed": []
+    },
+    {
+      "id": "reorder-move-walk-ignores-drop-disabled",
+      "exitCode": 1,
+      "tests": 10,
+      "entered": {
+        "id": "reorder-move-walk-ignores-drop-disabled",
+        "target": "/Users/zhangxu/.codex/worktrees/glm-leaf-workflows/type-pal/packages/editor/src/ui/design-system/reorder.tsx"
+      },
+      "failed": [
+        "DsReorderMoveButton 剩余合同 walks over drop-disabled chains and disables at boundaries and collection locks"
+      ]
+    },
+    {
+      "id": "dialog-close-focus-restore-drop",
+      "exitCode": 1,
+      "tests": 6,
+      "entered": {
+        "id": "dialog-close-focus-restore-drop",
+        "target": "/Users/zhangxu/.codex/worktrees/glm-leaf-workflows/type-pal/packages/editor/src/ui/design-system/overlays.tsx"
+      },
+      "failed": [
+        "DsDrawer 剩余合同 opens with body focus, closes once from the close button and restores opener focus"
+      ]
+    }
+  ]
+}
