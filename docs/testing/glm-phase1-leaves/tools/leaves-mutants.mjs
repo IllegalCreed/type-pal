@@ -114,10 +114,7 @@ const batches = {
       ],
       total: 34,
     },
-    production: [
-      'src/present/menu/draw-menu.ts',
-      'src/present/menu/draw-shop.ts',
-    ],
+    production: ['src/present/menu/draw-menu.ts', 'src/present/menu/draw-shop.ts'],
     mutations: [
       {
         id: 'save-slot-saved-times',
@@ -125,7 +122,8 @@ const batches = {
         file: 'src/present/menu/draw-menu.glm-phase1-leaves.test.ts',
         total: 5,
         describe: 'L09 drawMenuStack 剩余分支',
-        title: 'save-slot：5 个单行框 (195,7+38i)、标签字色、slotMetas.savedTimes 黄色数字（缺省 0）',
+        title:
+          'save-slot：5 个单行框 (195,7+38i)、标签字色、slotMetas.savedTimes 黄色数字（缺省 0）',
         from: 'const savedTimes = meta?.savedTimes ?? 0',
         to: 'const savedTimes = 0',
         category: '存档次数显示断链：slotMetas 不再上屏',
@@ -155,10 +153,7 @@ const batches = {
       ],
       total: 20,
     },
-    production: [
-      'src/present/battle/draw-battle-settlement.ts',
-      'src/present/screen-wave.ts',
-    ],
+    production: ['src/present/battle/draw-battle-settlement.ts', 'src/present/screen-wave.ts'],
     mutations: [
       {
         id: 'learn-magic-name-color',
@@ -177,7 +172,8 @@ const batches = {
         file: 'src/present/screen-wave.glm-phase1-leaves.test.ts',
         total: 3,
         describe: 'L16 applyScreenWave 剩余合同',
-        title: 'advance=false（DM32 fade-only 补帧）：像素扭曲但 wScreenWave/progression/相位不推进',
+        title:
+          'advance=false（DM32 fade-only 补帧）：像素扭曲但 wScreenWave/progression/相位不推进',
         from: 'if (advance) gs.wScreenWave += gs.sWaveProgression',
         to: 'gs.wScreenWave += gs.sWaveProgression',
         category: 'fade-only 补帧误推进波幅计数（DM32 拆除）',

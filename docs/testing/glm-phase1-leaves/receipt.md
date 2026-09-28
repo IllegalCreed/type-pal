@@ -128,3 +128,33 @@
   - `shop-owned-equipped-count`：「现有」漏计已装备 → 恰一红。
 - 未证项：绘制只证协议/坐标/色值（素色小图集），不冒称原版观感；真实字体/SPRITEUI 资源观感
   留 LV1 短视觉样本；覆盖增量未执行，统计由 Codex 统一。
+
+## 批 D — L13–L16（战斗呈现 + font/framebuffer/screen-wave）
+
+- 候选 SHA：`4f8fa63d0dbcd18552274b540b3885f4dc2213a0`；父提交：批 C 回执头 `d7db3d1b623fc14bf5e28bc7b95bc9c1f964f21e`。
+- diff 范围：6 个新测试文件 + fixture 增补（SPRITEUI 40-43 战斗图标）+ runner 批 d 注册 +
+  `evidence/batch-D/**` + 本 receipt。**present-battle.ts 登记 existing-proof**：
+  present-battle.test + grok P12/P13/P14 已覆盖 draw 全管线/fade-only/消息条/召唤 crossfade/
+  入场 dither，本组未发现新合同，不凑文件。
+- 新文件（20 tests / 20 passed / 0 failed，`evidence/batch-D/vitest-new.json`）：
+  - L13 draw-battle-ui（3）：当前行动队员箭头 frame69 at anchor+(-8,-74)（blink 冻结 40ms 相位）、
+    uiState='wait'/selectingPlayerIdx 缺省无箭头、DL30 selectTargetEnemy 不画主菜单图标
+    （对照 selectMove 选中全彩）。合法小 BattleState 字面量，不启动 battle-system。
+  - L14 draw-battle-sprites（3）：blitFrame 底中锚右缘/完全出界/顶缘裁剪（不抛错、界内照写、
+    colorShift 仍应用）。
+  - L15 draw-battle-settlement（4）：exp-cash 右/中对齐精确数字、level-up 8 行 old→cur+slash+
+    箭头+0xBB 标签、hidden-exp-up 词表拼字+涨点 x=167（公式交叉验证）、learn-magic ww 偏移+
+    magicName 0x1B。
+  - L16 font（3）：renderColoredText 逐字符色+缺色 0x4F 回退+fShadow 三影（全仓首测）、
+    tofu 缺字形几何、measureText 空表 fallback。
+  - L16 framebuffer（3）：writePixel 越界静默、自定义尺寸、toImageData 缺色 fallback。
+  - L16 screen-wave（3）：advance=false 计数不推进（DM32）、循环卷动独立手算
+    shift=trunc(60·w/256)、相位跨帧推进（帧1 左移 30、帧2 在已卷内容上再 56=总 86）。
+- 相邻回归：`src/present/` 全量 444/444 passed（`evidence/batch-D/vitest-adjacent.json`）。
+- 命令：同前批口径；typecheck 0 诊断、Biome 0 诊断、docs PASS、diff --check 干净。
+- 反控（`evidence/batch-D/needles-summary.json`，`node tools/leaves-mutants.mjs d`）：
+  - control：6 新文件 20/20 exit0 全绿。
+  - `learn-magic-name-color`：练成屏 magicName 0x1B 色丢失 → 恰一红。
+  - `wave-fade-only-advance`：fade-only 补帧误推进波幅（DM32 拆除）→ 恰一红。
+- 未证项：箭头 blink 红/蓝两相只冻结证 frame69 相位（frame 68 未入 fixture，红相位留观感样本）；
+  loadGlyphs fetch 失败分支需网络桩，登记防御不测；覆盖增量未执行，统计由 Codex 统一。
