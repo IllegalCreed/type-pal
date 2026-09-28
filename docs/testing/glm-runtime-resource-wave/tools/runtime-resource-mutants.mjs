@@ -18,6 +18,53 @@ const output = mkdtempSync(join(tmpdir(), 'type-pal-glm-runtime-resource-mutants
 
 /** 每批注册：包根、对照跑范围与总数、该批 2 个单点针。 */
 const batches = {
+  e: {
+    packageRoot: resolve(root, 'packages/reforge'),
+    production: [
+      'src/audio/midi-preview.ts',
+      'src/battle-trial-config.ts',
+      'src/battle/battle-launch-preparation.ts',
+    ],
+    control: {
+      tests: [
+        'src/audio/midi-preview.glm-runtime-resource.test.ts',
+        'src/audio/midi-preview.test.ts',
+        'src/battle-trial-config.glm-runtime-resource.test.ts',
+        'src/battle-trial-config.test.ts',
+        'src/battle-trial-config.wave2.test.ts',
+        'src/battle-trial-assets.wave2.test.ts',
+        'src/battle-trial-prepare.wave2.test.ts',
+        'src/battle-sprite-readiness.test.ts',
+        'src/battle-launch-preparation.test.ts',
+        'src/audio/sfx-readiness.test.ts',
+      ],
+      total: 77,
+    },
+    mutations: [
+      {
+        id: 'trial-integer-upper-bound-dropped',
+        module: 'src/battle-trial-config.ts',
+        file: 'src/battle-trial-config.glm-runtime-resource.test.ts',
+        total: 4,
+        describe: 'R20 trial 原语校验器',
+        title: 'trialInteger：合法回读；非整数/越界拒绝且消息带 where 与范围',
+        from: 'if (typeof value !== \'number\' || !Number.isSafeInteger(value) || value < min || value > max)',
+        to: 'if (typeof value !== \'number\' || !Number.isSafeInteger(value) || value < -1000000000 || value > max)',
+        category: '试打配置上界失守：越界整数被接受，敌人/数值配置可越权',
+      },
+      {
+        id: 'battle-abort-classification-blinded',
+        module: 'src/battle/battle-launch-preparation.ts',
+        file: 'src/battle-trial-config.glm-runtime-resource.test.ts',
+        total: 4,
+        describe: 'R20 isBattleAbort 分类矩阵',
+        title: 'AbortError 名分类：trialAbortError/DOMException 真；普通错误/字符串/null 假',
+        from: "'name' in error && error.name === 'AbortError'",
+        to: "'name' in error && error.name === 'NeverAbort'",
+        category: '取消分类失明：战斗/试打取消被当普通失败处理，取消语义破坏',
+      },
+    ],
+  },
   d: {
     packageRoot: resolve(root, 'packages/reforge'),
     production: [

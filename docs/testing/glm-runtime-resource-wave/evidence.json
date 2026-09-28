@@ -218,7 +218,7 @@
         "R15",
         "R16"
       ],
-      "candidateSha": "filled-after-push",
+      "candidateSha": "366c5663",
       "directed": {
         "reforge": {
           "total": 74,
@@ -272,6 +272,56 @@
       "unproven": [
         "battle-anim large flows out of narrow scope",
         "RV3 MAGIC_GRID 301px width causes slight panel overlap in display (asserts sample per-panel coords)"
+      ]
+    },
+    "E": {
+      "groups": [
+        "R17",
+        "R18",
+        "R19",
+        "R20"
+      ],
+      "candidateSha": "filled-after-push",
+      "directed": {
+        "reforge": {
+          "total": 77,
+          "new": 6,
+          "adjacent": 71,
+          "failed": 0
+        }
+      },
+      "newTestFiles": [
+        "packages/reforge/src/audio/midi-preview.glm-runtime-resource.test.ts",
+        "packages/reforge/src/battle-trial-config.glm-runtime-resource.test.ts"
+      ],
+      "noNewContractFiles": [
+        "sfx-readiness/bgm/sfx/sprite-readiness/trial-prepare/trial-assets covered by existing tests"
+      ],
+      "gates": {
+        "typecheck": [
+          "reforge"
+        ],
+        "biome": "0/0/0",
+        "docsCheck": "PASS",
+        "gitDiffCheck": "clean"
+      },
+      "mutants": {
+        "batch": "e",
+        "selfTest": 10,
+        "control": "exit0 77 green",
+        "needles": [
+          {
+            "id": "trial-integer-upper-bound-dropped",
+            "result": "business red, exactly 1"
+          },
+          {
+            "id": "battle-abort-classification-blinded",
+            "result": "business red, exactly 1"
+          }
+        ]
+      },
+      "unproven": [
+        "corrupt-MIDI path of analyzeMidiBytes (library contract, only legal input authorized)"
       ]
     }
   }

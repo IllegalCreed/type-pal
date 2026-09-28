@@ -9,6 +9,7 @@
 | B | R05–R08 | 见推送 | 34 新断言 / 定向+相邻 95 全绿 / TC 零错 / Biome 零诊断 / 2 针业务反控恰一红 | 见批B末 |
 | C | R09–R12 | 见推送 | 39 新断言 / 定向+相邻 60 全绿 / TC 零错 / Biome 零诊断 / 2 针业务反控恰一红 / RV2 取证 | 见批C末 |
 | D | R13–R16 | 见推送 | 17 新断言 / 定向+相邻 74 全绿 / TC 零错 / Biome 零诊断 / 2 针业务反控恰一红 / RV3+RV4 取证 | 见批D末 |
+| E | R17–R20 | 见推送 | 6 新断言 / 定向+相邻 77 全绿 / TC 零错 / Biome 零诊断 / 2 针业务反控恰一红 | 见批E末 |
 
 ## 批A（R01–R04）
 
@@ -230,3 +231,38 @@
 2. battle-anim 大流程（施法/合击/召唤）不属本卡窄入口，未触碰。
 3. RV3 面板 320×200 内 MAGIC_GRID 宽 301 导致相邻面板轻微视觉重叠（绘制本身 1:1 保真，
    断言按各自面板坐标取样）。
+
+## 批E（R17–R20）
+
+**候选 SHA**：批次推送 HEAD。
+
+### 去重账（旧断言 → 新差异 → 新合同 → 归属）
+
+- R17 midi-preview：旧测已覆盖 createMidiNoteActivity 归一化/空轨与 transport → 本批新做
+  **analyzeMidiBytes（真实 spessasynth_core 解析手构 SMF，非模拟解析器）：时长/单音符/
+  桶数参数与绝对刻度归一化合同（peak = max(1, 实际)，vel64 → 每桶 64/127）**；collectTurnActionSounds
+  由 sfx-readiness.test 'turn 只收实际 cast/item/throw' 等覆盖 → 无新合同不建文件。
+- R18 bgm/sfx：bgm.test/dispose/runtime-boundaries + sfx.test/staged-failures 已覆盖生命周期/
+  停止/释放/失败分级 → **无剩余合法新合同 → 未建新文件**（登记）。
+- R19 battle-sprite-readiness/launch-preparation：既有测试覆盖闭包/预载/快照 → 剩余未占用轴
+  仅 **isBattleAbort 分类矩阵**（归入 R20 文件，组合 trialAbortError）→ collectBattleSkillFireChunks
+  等已覆盖不重复。
+- R20 trial-config：wave2 已覆盖 parse* 组合/trialObject/abortableTrial/createTrialFileSnapshot →
+  本批新做 **trialInteger/trialBoolean/trialId 原语校验（合法回读 + 带 where 拒绝消息）**；
+  trial-prepare/assets 已覆盖不重复 → 6 新断言。
+
+### 验证证据
+
+- 定向+相邻（10 文件，单 worker，新鲜 JSON）：77/77 绿（新 6 / 邻 71）。
+- typecheck reforge 通过；Biome 2 新文件零诊断；docs PASS；`git diff --check` 干净。
+- 反控（`runtime-resource-mutants.mjs e`）：判据自测 10；对照 77 绿 exit0；
+  - 针1 `trial-integer-upper-bound-dropped`（上界拆除）→ 恰一红 AssertionError。
+  - 针2 `battle-abort-classification-blinded`（AbortError 分类失明）→ 恰一红 AssertionError。
+  - 3 个产品源 hash 反控前后不变。控制/针计数以全套件实际数为准（修正过一轮 control=77、
+    针=4，修正留痕：初版按坏套件少算了 battle-trial-config.glm）。
+
+### 未证项 / 受限登记
+
+1. R17/R18/R19 其余轴（transport 生命周期、BGM/SFX 播放器、sprite 闭包）既有测试已覆盖，
+   本批未重建（登记非跳过）。
+2. analyzeMidiBytes 未测损坏 MIDI 字节路径（BasicMIDI 抛错行为属库合同；未占用轴仅合法输入）。
