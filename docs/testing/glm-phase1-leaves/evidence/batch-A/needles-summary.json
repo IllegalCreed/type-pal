@@ -1,0 +1,122 @@
+{
+  "batch": "a",
+  "hashes": {
+    "src/core/menu/inventory-menu.ts": "3b5937e3092de693855d91f768dafb86a55a6f07ecd46ca3c332bd95f7cea609",
+    "src/core/menu/in-game-magic-menu.ts": "a9135c31a3fca5af2491e61dba05db7a0cd7124f4af0036d7d7caee77baa9414"
+  },
+  "selfTest": [
+    {
+      "id": "valid-red",
+      "expectReject": false,
+      "rejected": false,
+      "violations": []
+    },
+    {
+      "id": "same-message-mixed-error",
+      "expectReject": true,
+      "rejected": true,
+      "violations": [
+        "mixed non-business error: AssertionError: expected business rejection\nTypeError: environment broken"
+      ]
+    },
+    {
+      "id": "assertion-prefixed-timeout",
+      "expectReject": true,
+      "rejected": true,
+      "violations": [
+        "timeout treated as red: AssertionError: test timed out"
+      ]
+    },
+    {
+      "id": "additional-unrelated-red",
+      "expectReject": true,
+      "rejected": true,
+      "violations": [
+        "failed 2, expected exactly 1"
+      ]
+    },
+    {
+      "id": "wrong-fullname-red-with-intended-green",
+      "expectReject": true,
+      "rejected": true,
+      "violations": [
+        "red fullName \"different group gs.iCurInvMenuItem 恢复为起始 cursor；越界 clamp 到末项\" != \"L03 createInventoryMenu 起始光标与快照默认 gs.iCurInvMenuItem 恢复为起始 cursor；越界 clamp 到末项\""
+      ]
+    },
+    {
+      "id": "foreign-file-same-suffix",
+      "expectReject": true,
+      "rejected": true,
+      "violations": [
+        "red file /different-candidate-root/packages/game/src/core/menu/inventory-menu.glm-phase1-leaves.test.ts != /Users/zhangxu/.codex/worktrees/glm-phase1-leaves/type-pal/packages/game/src/core/menu/inventory-menu.glm-phase1-leaves.test.ts"
+      ]
+    },
+    {
+      "id": "exit-two",
+      "expectReject": true,
+      "rejected": true,
+      "violations": [
+        "exit 2 != 1"
+      ]
+    },
+    {
+      "id": "exit-null",
+      "expectReject": true,
+      "rejected": true,
+      "violations": [
+        "exit null != 1"
+      ]
+    },
+    {
+      "id": "zero-execution",
+      "expectReject": true,
+      "rejected": true,
+      "violations": [
+        "numTotalTests 0 != 6",
+        "assertions 0 != 6",
+        "duplicate fullName in scope",
+        "passed 0 inconsistent with 0 failed",
+        "failed 0, expected exactly 1"
+      ]
+    },
+    {
+      "id": "control-sample",
+      "expectReject": false,
+      "rejected": false,
+      "violations": []
+    }
+  ],
+  "evidence": [
+    {
+      "id": "control",
+      "exitCode": 0,
+      "tests": 50,
+      "entered": null,
+      "failed": []
+    },
+    {
+      "id": "inv-menu-icur-clamp",
+      "exitCode": 1,
+      "tests": 6,
+      "entered": {
+        "id": "inv-menu-icur-clamp",
+        "target": "/Users/zhangxu/.codex/worktrees/glm-phase1-leaves/type-pal/packages/game/src/core/menu/inventory-menu.ts"
+      },
+      "failed": [
+        "L03 createInventoryMenu 起始光标与快照默认 gs.iCurInvMenuItem 恢复为起始 cursor；越界 clamp 到末项"
+      ]
+    },
+    {
+      "id": "magic-caster-cursor-memory",
+      "exitCode": 1,
+      "tests": 10,
+      "entered": {
+        "id": "magic-caster-cursor-memory",
+        "target": "/Users/zhangxu/.codex/worktrees/glm-phase1-leaves/type-pal/packages/game/src/core/menu/in-game-magic-menu.ts"
+      },
+      "failed": [
+        "L02 DL22 施法人光标跨开启记忆（uigame.c:674/719 static w） 确认即记忆；再开菜单默认停回上次施法人；队伍变小越界归 0"
+      ]
+    }
+  ]
+}

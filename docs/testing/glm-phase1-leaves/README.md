@@ -120,7 +120,7 @@ browser host/diagnostics与receipt.md/evidence.json。冻结表只读，派发�
 
 | 批 | 组 | 候选 | GLM第三对话自验 | Codex独立验收 |
 |---|---|---|---|---|
-| A | L01–04 | pending | pending | pending |
+| A | L01–04 | d2cc22b27c824810e3b9d81bca3935721e7215ef | done（50/50+308相邻+2针反控，见 receipt.md） | pending |
 | B | L05–08 | pending | pending | pending |
 | C | L09–12 | pending | pending | pending |
 | D | L13–16 | pending | pending | pending |
