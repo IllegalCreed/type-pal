@@ -46,9 +46,10 @@ Codex 独立接收和集成；固定三签暂休。此卡不授权产品、schem
 | D 迁移纯映射/诊断 | D01–D06，12 源；`translate-events.ts:65`、`migration-transaction.ts:27` 等 | 原始输入/当前输出、审计路径、临时 journal；不跑真实迁移/提取/烘焙/发布 | pending | pending |
 | E 当前内容校验/项目读取 | E01–E06，12 源；`validate.ts:78`、`project-loader.ts:71` 等 | 当前 canonical guard、引用、loader/save preflight；不保旧版兼容、不写真档 | pending | pending |
 
-同一实现文件同一时间仅 GLM 一位 Coding Owner。五批在一个隔离分支/工作树中 A→E 连续做，
-每完成 6 组固定提交并推送完整候选 SHA，可继续下一批，不等固定 AI 席位签字。
-隔离工作树/分支由 Codex 在派发提交后准备；不得在 main 或 E2E 工作树实施。
+同一实现文件同一时间仅 GLM 一位 Coding Owner。五批在
+`/Users/zhangxu/.codex/worktrees/glm-large-wave/type-pal`、`codex/glm-large-wave-r1` 分支中
+A→E 连续做；每完成 6 组固定提交并推送完整候选 SHA，可继续下一批，不等固定 AI 席位签字。
+该隔离树从派发提交建立；不得在 main 或 E2E 工作树实施。
 
 ## 精确白名单与质量门
 
@@ -75,6 +76,9 @@ Codex 独立接收和集成；固定三签暂休。此卡不授权产品、schem
 
 - 2026-09-29 Codex：当前正式基线与60个源码、旧队列零交集、所有派生新测试路径未占用均已核；
   每批 6 组/12 源，五个 source digest 可独立复算。Coding Owner：GLM；Reviewer：Codex。
+- 2026-09-29 Codex：派发文档提交 `86c5590928da523a1338c6ea79d4567bedfeff2b` 后创建隔离
+  工作树 `/Users/zhangxu/.codex/worktrees/glm-large-wave/type-pal`，分支 `codex/glm-large-wave-r1`；
+  单一写入 Owner 仍为 GLM，Codex 只负责准入、独立验收与最终集成。
 - `draft -> build` 准入：**build allowed 仅限上述测试/fixture/隔离证据**。高风险 D/E 仍须每组
   用当前合法输入与直接证据，不授权产品/格式/写盘变更。用户可见产品验收 N/A。
 - `review -> done` 尚未开放；待 GLM A–E 候选、自验、反控/视觉与 Codex 独立验收、统一质量门。
@@ -86,7 +90,8 @@ Codex 独立接收和集成；固定三签暂休。此卡不授权产品、schem
 docs/phase2/READ-FIRST.md、docs/ops/tasks/TEST-GLM-LARGE-WAVE-4-five-large-batches.md、
 docs/testing/glm-large-wave/README.md 和 targets.json；D 批遇原版数据语义再读
 docs/phase1/engineering-notes.md 与相应一手字节/reference。先运行
-node docs/testing/glm-large-wave/verify-targets.mjs。仅在 Codex 指定的隔离分支/工作树
+node docs/testing/glm-large-wave/verify-targets.mjs。仅在
+/Users/zhangxu/.codex/worktrees/glm-large-wave/type-pal 的 codex/glm-large-wave-r1 分支
 连续做 A→E 五批，每批 6 组/12 源；每批完成提交推送固定 SHA 后继续，不等固定席位签字。
 先核现行 caller 与精确旧断言，确有新合同才建同目录 .glm-large-wave.test.ts(x)；
 合法 typed fixture/真实公开 API/输入深快照，禁止强转、mock 核心或改预期凑绿。
