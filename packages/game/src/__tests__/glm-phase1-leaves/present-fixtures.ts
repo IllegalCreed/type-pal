@@ -17,6 +17,8 @@ export const SENTINEL = 0x5a
 export const BOX_STYLE0 = 0x11
 export const BOX_STYLE1 = 0x22
 export const TILE = 8
+/** SPRITEUI 40-43 战斗主菜单图标素色。 */
+export const BATTLE_ICON_COLOR = 0x33
 
 export const ITEMBOX_ID = 0x6e
 export const SLASH_ID = 0x39
@@ -80,6 +82,8 @@ export function makeUiFrames(): IndexedImage[] {
     frames[56 + d] = sparseImage(6, 8, [{ x: 0, y: 0, index: cyanDigit(d) }])
   }
   frames[39] = iconImage(SLASH_ID)
+  // SPRITEUI 40-43 = BATTLEICON_ATTACK+0..3（战斗主菜单 4 图标）
+  for (let i = 0; i < 4; i++) frames[40 + i] = solidImage(TILE, TILE, BATTLE_ICON_COLOR)
   frames[44] = solidImage(TILE, TILE, BOX_STYLE0)
   frames[45] = solidImage(TILE, TILE, BOX_STYLE0)
   frames[46] = solidImage(TILE, TILE, BOX_STYLE0)

@@ -1,0 +1,285 @@
+{
+  "numTotalTestSuites": 13,
+  "numPassedTestSuites": 13,
+  "numFailedTestSuites": 0,
+  "numPendingTestSuites": 0,
+  "numTotalTests": 20,
+  "numPassedTests": 20,
+  "numFailedTests": 0,
+  "numPendingTests": 0,
+  "numTodoTests": 0,
+  "snapshot": {
+    "added": 0,
+    "failure": false,
+    "filesAdded": 0,
+    "filesRemoved": 0,
+    "filesRemovedList": [],
+    "filesUnmatched": 0,
+    "filesUpdated": 0,
+    "matched": 0,
+    "total": 0,
+    "unchecked": 0,
+    "uncheckedKeysByFile": [],
+    "unmatched": 0,
+    "updated": 0,
+    "didUpdate": false
+  },
+  "startTime": 1790607410768,
+  "success": true,
+  "testResults": [
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["L16 renderColoredText（逐字符色）"],
+          "fullName": "L16 renderColoredText（逐字符色） 逐字符颜色数组按 code point 对位上色",
+          "status": "passed",
+          "title": "逐字符颜色数组按 code point 对位上色",
+          "duration": 0.9092500000000427,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["L16 renderColoredText（逐字符色）"],
+          "fullName": "L16 renderColoredText（逐字符色） colors 缺项回退 0x4F；fShadow 三影写黑 0",
+          "status": "passed",
+          "title": "colors 缺项回退 0x4F；fShadow 三影写黑 0",
+          "duration": 0.2922919999999749,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["L16 tofu 缺字形回退"],
+          "fullName": "L16 tofu 缺字形回退 缺字形 → 16×16 空心框：顶/底行 cols0-14 亮 col15 暗，中间行只有 col0/col9",
+          "status": "passed",
+          "title": "缺字形 → 16×16 空心框：顶/底行 cols0-14 亮 col15 暗，中间行只有 col0/col9",
+          "duration": 0.24095800000003464,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["L16 tofu 缺字形回退"],
+          "fullName": "L16 tofu 缺字形回退 measureText 空表 ASCII fallback 16px/字（布局入口禁止用它，doc 锚）",
+          "status": "passed",
+          "title": "measureText 空表 ASCII fallback 16px/字（布局入口禁止用它，doc 锚）",
+          "duration": 0.07579199999997854,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790607413509,
+      "endTime": 1790607413511.0757,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.codex/worktrees/glm-phase1-leaves/type-pal/packages/game/src/present/font.glm-phase1-leaves.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["L16 framebuffer 剩余合同"],
+          "fullName": "L16 framebuffer 剩余合同 writePixel 越界（负值/超宽高）静默不写不抛",
+          "status": "passed",
+          "title": "writePixel 越界（负值/超宽高）静默不写不抛",
+          "duration": 0.8048329999999737,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["L16 framebuffer 剩余合同"],
+          "fullName": "L16 framebuffer 剩余合同 自定义尺寸离屏缓冲（dev panel 缩略图路径）",
+          "status": "passed",
+          "title": "自定义尺寸离屏缓冲（dev panel 缩略图路径）",
+          "duration": 0.17420800000002146,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["L16 framebuffer 剩余合同"],
+          "fullName": "L16 framebuffer 剩余合同 toImageData：palette 缺该索引颜色 → fallback [0,0,0]、alpha 恒 255",
+          "status": "passed",
+          "title": "toImageData：palette 缺该索引颜色 → fallback [0,0,0]、alpha 恒 255",
+          "duration": 0.3492080000000328,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790607413132,
+      "endTime": 1790607413133.349,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.codex/worktrees/glm-phase1-leaves/type-pal/packages/game/src/present/framebuffer.glm-phase1-leaves.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["L16 applyScreenWave 剩余合同"],
+          "fullName": "L16 applyScreenWave 剩余合同 advance=false（DM32 fade-only 补帧）：像素扭曲但 wScreenWave/progression/相位不推进",
+          "status": "passed",
+          "title": "advance=false（DM32 fade-only 补帧）：像素扭曲但 wScreenWave/progression/相位不推进",
+          "duration": 0.9501249999999573,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["L16 applyScreenWave 剩余合同"],
+          "fullName": "L16 applyScreenWave 剩余合同 循环卷动：行 0 整体左移 shift=trunc(60·w/256)，卷出像素接回行尾",
+          "status": "passed",
+          "title": "循环卷动：行 0 整体左移 shift=trunc(60·w/256)，卷出像素接回行尾",
+          "duration": 2.286790999999994,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["L16 applyScreenWave 剩余合同"],
+          "fullName": "L16 applyScreenWave 剩余合同 相位跨帧推进：第二帧行 0 用 wave[1]=trunc(112·w/256)，图案继续滚动",
+          "status": "passed",
+          "title": "相位跨帧推进：第二帧行 0 用 wave[1]=trunc(112·w/256)，图案继续滚动",
+          "duration": 2.052708999999936,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790607411351,
+      "endTime": 1790607411356.0527,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.codex/worktrees/glm-phase1-leaves/type-pal/packages/game/src/present/screen-wave.glm-phase1-leaves.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["L15 drawBattleSettlement 精确像素"],
+          "fullName": "L15 drawBattleSettlement 精确像素 exp-cash：exp 右对齐 5 位 at (182,74)、cash 中对齐 at y=119、两单行框",
+          "status": "passed",
+          "title": "exp-cash：exp 右对齐 5 位 at (182,74)、cash 中对齐 at y=119、两单行框",
+          "duration": 2.3461670000000368,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["L15 drawBattleSettlement 精确像素"],
+          "fullName": "L15 drawBattleSettlement 精确像素 level-up：8 行 old→cur + slash + 箭头 + 0xBB 标签 + 标题",
+          "status": "passed",
+          "title": "level-up：8 行 old→cur + slash + 箭头 + 0xBB 标签 + 标题",
+          "duration": 2.2882079999999974,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["L15 drawBattleSettlement 精确像素"],
+          "fullName": "L15 drawBattleSettlement 精确像素 hidden-exp-up：词表拼 名字+属性+提升，涨点数 x=191（仙剑 maxName=3/maxProp=1）",
+          "status": "passed",
+          "title": "hidden-exp-up：词表拼 名字+属性+提升，涨点数 x=191（仙剑 maxName=3/maxProp=1）",
+          "duration": 0.3685419999999908,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["L15 drawBattleSettlement 精确像素"],
+          "fullName": "L15 drawBattleSettlement 精确像素 learn-magic：ww 偏移随字宽收窄框，magicName 色 0x1B",
+          "status": "passed",
+          "title": "learn-magic：ww 偏移随字宽收窄框，magicName 色 0x1B",
+          "duration": 0.24645799999996143,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790607411771,
+      "endTime": 1790607411776.2463,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.codex/worktrees/glm-phase1-leaves/type-pal/packages/game/src/present/battle/draw-battle-settlement.glm-phase1-leaves.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["L14 blitFrame 边缘裁剪"],
+          "fullName": "L14 blitFrame 边缘裁剪 8×8 精灵 anchor 右缘（baseX=316）：右侧 4 列被裁，界内 4 列照写、不抛错",
+          "status": "passed",
+          "title": "8×8 精灵 anchor 右缘（baseX=316）：右侧 4 列被裁，界内 4 列照写、不抛错",
+          "duration": 0.9028749999999945,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["L14 blitFrame 边缘裁剪"],
+          "fullName": "L14 blitFrame 边缘裁剪 anchor 完全出右界（baseX=320）：全裁剪无写入",
+          "status": "passed",
+          "title": "anchor 完全出右界（baseX=320）：全裁剪无写入",
+          "duration": 0.5960830000000215,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["L14 blitFrame 边缘裁剪"],
+          "fullName": "L14 blitFrame 边缘裁剪 anchorY 在顶缘（baseY<0）：顶部裁剪，底部行照写；iColorShift 仍应用",
+          "status": "passed",
+          "title": "anchorY 在顶缘（baseY<0）：顶部裁剪，底部行照写；iColorShift 仍应用",
+          "duration": 0.535000000000025,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790607412752,
+      "endTime": 1790607412754.535,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.codex/worktrees/glm-phase1-leaves/type-pal/packages/game/src/present/battle/draw-battle-sprites.glm-phase1-leaves.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["L13 drawBattleUI 剩余分支"],
+          "fullName": "L13 drawBattleUI 剩余分支 selectMove：当前行动队员头顶箭头 frame69 at anchor+(-8,-74)",
+          "status": "passed",
+          "title": "selectMove：当前行动队员头顶箭头 frame69 at anchor+(-8,-74)",
+          "duration": 1.8037499999999227,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["L13 drawBattleUI 剩余分支"],
+          "fullName": "L13 drawBattleUI 剩余分支 uiState='wait' 或 selectingPlayerIdx 缺省 → 无当前行动箭头",
+          "status": "passed",
+          "title": "uiState='wait' 或 selectingPlayerIdx 缺省 → 无当前行动箭头",
+          "duration": 0.6646250000000009,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["L13 drawBattleUI 剩余分支"],
+          "fullName": "L13 drawBattleUI 剩余分支 DL30：selectTargetEnemy 不画主菜单图标；selectMove 选中图标全彩",
+          "status": "passed",
+          "title": "DL30：selectTargetEnemy 不画主菜单图标；selectMove 选中图标全彩",
+          "duration": 0.3438340000000153,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790607412327,
+      "endTime": 1790607412330.3438,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.codex/worktrees/glm-phase1-leaves/type-pal/packages/game/src/present/battle/draw-battle-ui.glm-phase1-leaves.test.ts"
+    }
+  ]
+}

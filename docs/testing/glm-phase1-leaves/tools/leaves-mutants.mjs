@@ -143,6 +143,47 @@ const batches = {
       },
     ],
   },
+  d: {
+    control: {
+      tests: [
+        'src/present/font.glm-phase1-leaves.test.ts',
+        'src/present/framebuffer.glm-phase1-leaves.test.ts',
+        'src/present/screen-wave.glm-phase1-leaves.test.ts',
+        'src/present/battle/draw-battle-settlement.glm-phase1-leaves.test.ts',
+        'src/present/battle/draw-battle-ui.glm-phase1-leaves.test.ts',
+        'src/present/battle/draw-battle-sprites.glm-phase1-leaves.test.ts',
+      ],
+      total: 20,
+    },
+    production: [
+      'src/present/battle/draw-battle-settlement.ts',
+      'src/present/screen-wave.ts',
+    ],
+    mutations: [
+      {
+        id: 'learn-magic-name-color',
+        module: 'src/present/battle/draw-battle-settlement.ts',
+        file: 'src/present/battle/draw-battle-settlement.glm-phase1-leaves.test.ts',
+        total: 4,
+        describe: 'L15 drawBattleSettlement 精确像素',
+        title: 'learn-magic：ww 偏移随字宽收窄框，magicName 色 0x1B',
+        from: 'renderText(fb, magicName, 75 + 16 * (w1 + w2) - ww, 115, ADDMAGIC_NAME_COLOR, glyphs, false)',
+        to: 'renderText(fb, magicName, 75 + 16 * (w1 + w2) - ww, 115, 0, glyphs, false)',
+        category: '练成屏 magicName 0x1B 色丢失（battle.c:1321）',
+      },
+      {
+        id: 'wave-fade-only-advance',
+        module: 'src/present/screen-wave.ts',
+        file: 'src/present/screen-wave.glm-phase1-leaves.test.ts',
+        total: 3,
+        describe: 'L16 applyScreenWave 剩余合同',
+        title: 'advance=false（DM32 fade-only 补帧）：像素扭曲但 wScreenWave/progression/相位不推进',
+        from: 'if (advance) gs.wScreenWave += gs.sWaveProgression',
+        to: 'gs.wScreenWave += gs.sWaveProgression',
+        category: 'fade-only 补帧误推进波幅计数（DM32 拆除）',
+      },
+    ],
+  },
 }
 
 const MIXED_ERROR =
