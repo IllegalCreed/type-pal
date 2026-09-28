@@ -162,7 +162,8 @@
 ## 批 E — L17–L20（tools 面板与小工具）
 
 - 候选 SHA：`a399a1fb04a6a4b446f628ad37594339db4da72e`；父提交：批 D 回执头 `36ea9f50`。
-- diff 范围：9 个新测试文件 + runner 批 e 注册 + `evidence/batch-E/**` + 本 receipt。
+- diff 范围：7 个新测试文件（fps-overlay 合并入 display-scale 文件，targets 布局微调已核）+
+  runner 批 e 注册 + `evidence/batch-E/**` + 本 receipt。
 - 新文件（19 tests / 19 passed / 0 failed，`evidence/batch-E/vitest-new.json`）：
   - L17 tools-panel（2）：缩放滑块 input → setPercent(posToPct(v))（0.75→316%）+ % 文案同步、
     全屏按钮 → toggleFullscreen、FPS 开关 → setFpsEnabled（tp-fps-show 持久可观察）。

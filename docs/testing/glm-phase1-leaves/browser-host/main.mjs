@@ -3,24 +3,32 @@
 import { fetchPalette } from '/packages/game/src/assets/loader.js'
 import { decodePngToIndices } from '/packages/game/src/assets/png.js'
 import { createInitialGameState } from '/packages/game/src/core/game-state.js'
-import { createInGameMenu, createSystemMenu, systemMenuEnterSwitch } from '/packages/game/src/core/menu/in-game-menu.js'
-import { createSaveSlotMenu } from '/packages/game/src/core/menu/save-slot-menu.js'
+import {
+  createInGameMenu,
+  createSystemMenu,
+  systemMenuEnterSwitch,
+} from '/packages/game/src/core/menu/in-game-menu.js'
 import { openMenu } from '/packages/game/src/core/menu/menu-stack.js'
-import { drawMenuStack } from '/packages/game/src/present/menu/draw-menu.js'
-import { drawBattleUI } from '/packages/game/src/present/battle/draw-battle-ui.js'
+import { createSaveSlotMenu } from '/packages/game/src/core/menu/save-slot-menu.js'
 import { drawBattleSettlement } from '/packages/game/src/present/battle/draw-battle-settlement.js'
-import { createFramebuffer } from '/packages/game/src/present/framebuffer.js'
+import { drawBattleUI } from '/packages/game/src/present/battle/draw-battle-ui.js'
 import { loadGlyphs } from '/packages/game/src/present/font.js'
-import { drawMinimap } from '/packages/game/src/tools/minimap.js'
-import { setupToolsPanel } from '/packages/game/src/tools/tools-panel.js'
+import { createFramebuffer } from '/packages/game/src/present/framebuffer.js'
+import { drawMenuStack } from '/packages/game/src/present/menu/draw-menu.js'
 import { createUnifiedProgressUi } from '/packages/game/src/shell/precache-ui.js'
-import { renderOverlay, hideOverlay, injectOverlayStyles } from '/packages/game/src/tools/speedrun/overlay.js'
-import { showCountdown } from '/packages/game/src/tools/speedrun/countdown.js'
+import { drawMinimap } from '/packages/game/src/tools/minimap.js'
 import { CHECKPOINTS } from '/packages/game/src/tools/speedrun/checkpoints.js'
+import { showCountdown } from '/packages/game/src/tools/speedrun/countdown.js'
+import {
+  hideOverlay,
+  injectOverlayStyles,
+  renderOverlay,
+} from '/packages/game/src/tools/speedrun/overlay.js'
+import { setupToolsPanel } from '/packages/game/src/tools/tools-panel.js'
 
 const log = (line) => {
   const el = document.getElementById('log')
-  el.textContent = `${new Date().toISOString().slice(11, 23)} ${line}\n` + el.textContent
+  el.textContent = `${new Date().toISOString().slice(11, 23)} ${line}\n${el.textContent}`
 }
 const status = (id, text) => {
   document.getElementById(id).textContent = text
@@ -42,7 +50,9 @@ try {
   await Promise.all(
     meta.frames.map(async (f) => {
       try {
-        const blob = await (await fetch(`/extracted/images/ui/frame-${f.index.toString().padStart(2, '0')}.png`)).blob()
+        const blob = await (
+          await fetch(`/extracted/images/ui/frame-${f.index.toString().padStart(2, '0')}.png`)
+        ).blob()
         uiSpriteFrames[f.index] = await decodePngToIndices(blob)
       } catch {
         /* 单帧缺失留空（生产 fail-loud 语义照旧） */
@@ -93,7 +103,11 @@ function battleState(patch = {}) {
       { roleId: 1, prevHp: 77, prevMp: 25, defending: false, status: { ...ZERO_STATUS } },
     ],
     enemies: [],
-    field: { id: 0, screenWave: 0, magicEffect: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 } },
+    field: {
+      id: 0,
+      screenWave: 0,
+      magicEffect: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 },
+    },
     isBoss: false,
     phase: 'selectAction',
     turn: 1,
@@ -108,7 +122,13 @@ function battleState(patch = {}) {
     miscSubMenuCursor: 0,
     expGained: 0,
     cashGained: 0,
-    rng: { next: () => 0, range: () => 0, rangeInclusive: () => 0, rangeFloat: () => 0, getState: () => 0 },
+    rng: {
+      next: () => 0,
+      range: () => 0,
+      rangeInclusive: () => 0,
+      rangeFloat: () => 0,
+      getState: () => 0,
+    },
     phaseStallTicks: 0,
     selectionStartedForTurn: 1,
     selectingPlayerIdx: 0,
@@ -166,7 +186,12 @@ function lv2(mode) {
   if (mode === 0) {
     drawBattleUI(fb, battleState(), roles, [], [], battleGs(), glyphs, uiSpriteFrames)
   } else if (mode === 1) {
-    drawBattleSettlement({ fb, screen: { kind: 'exp-cash', expGained: 120, cashGained: 7, isBoss: false }, uiSpriteFrames, glyphs })
+    drawBattleSettlement({
+      fb,
+      screen: { kind: 'exp-cash', expGained: 120, cashGained: 7, isBoss: false },
+      uiSpriteFrames,
+      glyphs,
+    })
   } else if (mode === 2) {
     const pair = (old, cur) => ({ old, cur })
     drawBattleSettlement({
@@ -190,7 +215,12 @@ function lv2(mode) {
       glyphs,
     })
   } else {
-    drawBattleSettlement({ fb, screen: { kind: 'learn-magic', data: { roleId: 0, name: '赵灵儿', magicName: '观音咒' } }, uiSpriteFrames, glyphs })
+    drawBattleSettlement({
+      fb,
+      screen: { kind: 'learn-magic', data: { roleId: 0, name: '赵灵儿', magicName: '观音咒' } },
+      uiSpriteFrames,
+      glyphs,
+    })
   }
   paint(fb, 'lv2-canvas')
   log(`LV2 状态 ${mode} 渲染完成`)
@@ -202,7 +232,11 @@ function lv3() {
   setupToolsPanel({
     getGs: () => createInitialGameState({ x: 1600, y: 1040, facing: 'down' }),
     getResources: () => ({ playerRoles: { roles: [] }, objectPoisons: [], items: [] }),
-    displayScale: { getPercent: () => 100, setPercent: (p) => log(`displayScale.setPercent(${p})`), toggleFullscreen: () => log('toggleFullscreen()') },
+    displayScale: {
+      getPercent: () => 100,
+      setPercent: (p) => log(`displayScale.setPercent(${p})`),
+      toggleFullscreen: () => log('toggleFullscreen()'),
+    },
     audioVolume: vol,
     sfxVolume: vol,
     videoVolume: vol,
@@ -232,7 +266,9 @@ function lv3() {
   })
   document.getElementById('lv3-click').addEventListener('click', () => {
     status('lv3-callback', '（点击委派已记录：见回调注册说明）')
-    log('LV3 点击：minimap 点击回调按 setupMinimap 合同委派（本宿主只画 drawMinimap；控制器点击坐标回调在单测已证）')
+    log(
+      'LV3 点击：minimap 点击回调按 setupMinimap 合同委派（本宿主只画 drawMinimap；控制器点击坐标回调在单测已证）',
+    )
   })
 }
 
@@ -263,7 +299,9 @@ function lv4() {
     }
   }, 120)
   const countdownHost = document.getElementById('lv4-countdown-host')
-  countdownHost.appendChild(document.getElementById('tp-speedrun-countdown') ?? document.createElement('div'))
+  countdownHost.appendChild(
+    document.getElementById('tp-speedrun-countdown') ?? document.createElement('div'),
+  )
   let n = 3
   showCountdown(String(n))
   const cdTimer = setInterval(() => {
@@ -288,7 +326,11 @@ function lv4() {
       hasUnCheated: false,
       countdownEndMs: null,
     }
-    renderOverlay(run, CHECKPOINTS, Object.fromEntries(CHECKPOINTS.map((c) => [c.id, c.defaultBestMs])))
+    renderOverlay(
+      run,
+      CHECKPOINTS,
+      Object.fromEntries(CHECKPOINTS.map((c) => [c.id, c.defaultBestMs])),
+    )
     status('lv4-overlay-state', '显示')
     log('LV4 overlay 显示（renderOverlay 真函数）')
   })
@@ -301,12 +343,12 @@ function lv4() {
 
 window.addEventListener('error', (e) => log(`页面错误: ${e.message}`))
 window.__lv = { lv1, lv2 }
-document.querySelectorAll('button[data-lv1]').forEach((b) =>
-  b.addEventListener('click', () => lv1(Number(b.dataset.lv1))),
-)
-document.querySelectorAll('button[data-lv2]').forEach((b) =>
-  b.addEventListener('click', () => lv2(Number(b.dataset.lv2))),
-)
+document
+  .querySelectorAll('button[data-lv1]')
+  .forEach((b) => b.addEventListener('click', () => lv1(Number(b.dataset.lv1))))
+document
+  .querySelectorAll('button[data-lv2]')
+  .forEach((b) => b.addEventListener('click', () => lv2(Number(b.dataset.lv2))))
 lv1(0)
 lv2(0)
 lv3()

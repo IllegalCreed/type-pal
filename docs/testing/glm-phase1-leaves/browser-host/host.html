@@ -22,9 +22,9 @@
   <h2>LV1/C 菜单绘制（drawMenuStack）</h2>
   <canvas id="lv1-canvas" class="screen" width="320" height="200"></canvas>
   <div>
-    <button data-lv1="0">主菜单 hub</button>
-    <button data-lv1="1">系统菜单 关/开</button>
-    <button data-lv1="2">存档槽 savedTimes</button>
+    <button type="button" data-lv1="0">主菜单 hub</button>
+    <button type="button" data-lv1="1">系统菜单 关/开</button>
+    <button type="button" data-lv1="2">存档槽 savedTimes</button>
   </div>
 </section>
 
@@ -32,10 +32,10 @@
   <h2>LV2/D 战斗 UI 与结算（drawBattleUI / drawBattleSettlement）</h2>
   <canvas id="lv2-canvas" class="screen" width="320" height="200"></canvas>
   <div>
-    <button data-lv2="0">selectMove 主菜单</button>
-    <button data-lv2="1">结算 exp-cash</button>
-    <button data-lv2="2">结算 level-up</button>
-    <button data-lv2="3">结算 learn-magic</button>
+    <button type="button" data-lv2="0">selectMove 主菜单</button>
+    <button type="button" data-lv2="1">结算 exp-cash</button>
+    <button type="button" data-lv2="2">结算 level-up</button>
+    <button type="button" data-lv2="3">结算 learn-magic</button>
   </div>
 </section>
 
@@ -45,7 +45,7 @@
     <div id="lv3-panel-host"></div>
     <div>
       <canvas id="lv3-minimap" class="small" width="96" height="96"></canvas>
-      <div><button id="lv3-open">Backquote 唤出面板</button> <button id="lv3-click">点小地图（记录回调）</button></div>
+      <div><button type="button" id="lv3-open">Backquote 唤出面板</button> <button type="button" id="lv3-click">点小地图（记录回调）</button></div>
       <div>点击坐标回调：<span id="lv3-callback" class="status">（未点）</span></div>
     </div>
   </div>
@@ -58,7 +58,7 @@
     <div>
       <div id="lv4-countdown-host" style="min-height:80px"></div>
       <div>overlay：<span id="lv4-overlay-state" class="status">隐藏</span></div>
-      <div><button id="lv4-overlay-show">显示计时 overlay</button><button id="lv4-overlay-hide">隐藏</button></div>
+      <div><button type="button" id="lv4-overlay-show">显示计时 overlay</button><button type="button" id="lv4-overlay-hide">隐藏</button></div>
     </div>
   </div>
 </section>

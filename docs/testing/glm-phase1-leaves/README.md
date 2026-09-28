@@ -124,7 +124,7 @@ browser host/diagnostics与receipt.md/evidence.json。冻结表只读，派发�
 | A | L01–04 | 1c1d07010b7e47443346741d012c2f021655832d | done（50/50+308相邻+2针反控，见 receipt.md） | pending |
 | B | L05–08 | 9b4972f1a0efb5c875dfab23a4e500a257e6839e | done（31/31+404相邻+2针反控，见 receipt.md） | pending |
 | C | L09–12 | 38072e8d8bc4f6e6e0223bd2f3ba8ffcbeede56b | done（34/34+424相邻+2针反控，见 receipt.md） | pending |
-| D | L13–16 | pending | pending | pending |
+| D | L13–16 | 4f8fa63d0dbcd18552274b540b3885f4dc2213a0 | done（20/20+444相邻+2针反控，见 receipt.md） | pending |
 | E | L17–20 | a399a1fb04a6a4b446f628ad37594339db4da72e | done（19/19+147相邻+2针反控，见 receipt.md） | pending |
 | F | L21–24 | b6eaa15b3f1ccbaa08c15dff5ab35fa789ab7c0f | done（17/17+281相邻+2针反控，见 receipt.md） | pending |
 
