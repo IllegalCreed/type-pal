@@ -1,7 +1,8 @@
 # GLM 五批大型当前合同补测（A–E）
 
 [任务卡](../../ops/tasks/TEST-GLM-LARGE-WAVE-4-five-large-batches.md) ·
-[60 个冻结目标](targets.json) · [只读冻结校验](verify-targets.mjs) · [上级](../README.md)
+[60 个冻结目标](targets.json) · [只读冻结校验](verify-targets.mjs) · [上级](../README.md) ·
+[A 批回执](receipt-batch-a.md)
 
 本包给**一个 GLM 测试 Coding Owner** 顺序完成五个大批。每批 6 个窄工作组、12 个互不重复的
 当前生产源码目标；五批共 30 组/60 目标。上一轮 A–H 每批只有 4 组，本轮每批容量更大。
