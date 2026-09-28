@@ -76,6 +76,7 @@ check8896/单次strict8404全过；实际+134分支/+73行，content分支85.55%
 
 | ID | 任务 | 状态 | 负责人/下一步 | 一句话备注 |
 |---|---|---|---|---|
+| TEST-GLM-PHASE1-LEAVES-3 | [第三对话一阶段菜单、呈现与工具六批](tasks/TEST-GLM-PHASE1-LEAVES-3-menus-presentation-tools.md) | build | GLM第三对话 / L01–L24连续实施 | 51目标与两GLM/Kimi零交集；不碰E2E/机制核心/第三阶段，单worker，无大覆盖 |
 | TEST-GLM-RUNTIME-RESOURCE-2 | [第二对话运行时与资源七批](tasks/TEST-GLM-RUNTIME-RESOURCE-2-parallel-wave.md) | build | GLM第二对话 / R01–R28连续实施 | 独立树/分支，62目标与第一GLM/Kimi零交集；公开窄入口/四视觉，包全测和覆盖由Codex统一 |
 | TEST-GLM-LEAF-WORKFLOWS-1 | [三十二组叶层与小界面补测](tasks/TEST-GLM-LEAF-WORKFLOWS-1-thirty-two-groups.md) | build | GLM / A→H八批连续实施 | 49目标/1125未命中臂仅选题；与Kimi目标零交集，六条隔离视觉，D/H才做局部覆盖 |
 | TEST-KIMI-EDITOR-WORKFLOWS-1 | [编辑器十二组真实工作流补测](tasks/TEST-KIMI-EDITOR-WORKFLOWS-1-twelve-groups.md) | build | Kimi / A→B→C连续实施 | 20目标，2401未命中臂仅选题；新增测试+隔离视觉，Codex分批验收/统一门，不影响002 |

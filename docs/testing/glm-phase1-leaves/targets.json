@@ -1,0 +1,965 @@
+{
+  "schemaVersion": 1,
+  "task": "TEST-GLM-PHASE1-LEAVES-3",
+  "productionFreeze": "4a9ad67faa07b004f259dcde1e175e864684dbd0",
+  "status": "dispatch-snapshot-not-delivery-proof",
+  "coverage": {
+    "profile": "fast",
+    "provider": "v8",
+    "vitest": "4.1.7",
+    "lcovPath": "/Users/zhangxu/.codex/worktrees/e2e-opening/type-pal/coverage/fast/game/lcov.info",
+    "lcovSha256": "cc98d0e12eea8f230ff4071eb48c518be589d078f6cedd37d1e0675bdf2faabf",
+    "baselineSha256": "8a3077925250909167f23786a8474fb58839976f05777dc64ef4ef9f51f975f5",
+    "wholeFileTotals": {
+      "lines": {
+        "covered": 3116,
+        "total": 3539,
+        "missing": 423
+      },
+      "branches": {
+        "covered": 1721,
+        "total": 2416,
+        "missing": 695
+      }
+    },
+    "caveat": "Whole-file missing counters are selection hints, not a promise of reachable new coverage; exact allowed boundaries are in README. Source set is disjoint from the other three active contributor queues."
+  },
+  "dedupRequiredBeyondSameStem": [
+    "packages/game/src/present/__tests__/grok-present/",
+    "packages/game/src/present/__tests__/grok-composition/",
+    "packages/game/src/core/menu/__tests__/",
+    "all cross-file tests for the selected public entry"
+  ],
+  "exclusions": [
+    "E2E001/002",
+    "phase3 map reconstruction",
+    "core/event-system and event-opcode-player",
+    "core/scene-system, core/game-state implementation",
+    "core/battle/battle-system, battle-opcodes and action/formula implementation",
+    "core/menu/menu-driver, magic-script execution",
+    "shell/bootstrap/main-loop/input and main",
+    "present/present, dialog-box and draw-tilemap",
+    "real save API, IndexedDB, live service workers or network telemetry"
+  ],
+  "groups": [
+    {
+      "id": "L01",
+      "batch": "A",
+      "targets": [
+        {
+          "source": "packages/game/src/core/menu/primitives.ts",
+          "sha256": "f94760c7ed26cc1beb9720cf55508d3d191e67b6316fc2b4e401d7b09e910ab7",
+          "lines": [37, 39],
+          "branches": [26, 33],
+          "publicEntryPointers": [
+            "50: export function createSelectionMenu(",
+            "87: export function moveSelectionUp(s: SelectionMenuState): void {",
+            "93: export function moveSelectionDown(s: SelectionMenuState): void {",
+            "111: export function pageUp(s: SelectionMenuState): void {",
+            "121: export function pageDown(s: SelectionMenuState): void {",
+            "129: export function getSelected(s: SelectionMenuState): SelectionMenuItem | undefined {",
+            "135: export function createConfirmMenu(message: string, defaultYes = true): ConfirmMenuState {",
+            "139: export function toggleConfirm(s: ConfirmMenuState): void {",
+            "145: export function createTripleMenu(",
+            "152: export function moveTripleUp(s: TripleMenuState): void {",
+            "156: export function moveTripleDown(s: TripleMenuState): void {",
+            "162: export function createSwitchMenu(options: string[], current = 0): SwitchMenuState {",
+            "166: export function switchLeft(s: SwitchMenuState): void {",
+            "171: export function switchRight(s: SwitchMenuState): void {"
+          ],
+          "existingTestPointers": [
+            "packages/game/src/core/menu/__tests__/primitives.test.ts",
+            "packages/game/src/core/menu/primitives.boundaries.test.ts"
+          ],
+          "newTest": "packages/game/src/core/menu/primitives.glm-phase1-leaves.test.ts"
+        },
+        {
+          "source": "packages/game/src/core/menu/item-select.ts",
+          "sha256": "ffc6433c185ec8fafe13ed4c2cf6421fd2e01d00b791da4fb3ea8208d84433c5",
+          "lines": [22, 23],
+          "branches": [20, 24],
+          "publicEntryPointers": [
+            "38: export function matchesFilter(item: Item, filter: ItemFilter): boolean {",
+            "69: export function createItemSelectMenu(cfg: ItemSelectMenuConfig): SelectionMenuState {"
+          ],
+          "existingTestPointers": [],
+          "newTest": "packages/game/src/core/menu/item-select.glm-phase1-leaves.test.ts"
+        }
+      ]
+    },
+    {
+      "id": "L02",
+      "batch": "A",
+      "targets": [
+        {
+          "source": "packages/game/src/core/menu/magic-select.ts",
+          "sha256": "1ec01d279f979e728ebe6403ad59a0cf28b9625fd5622235b0f9f4bf3ff01e47",
+          "lines": [13, 13],
+          "branches": [12, 16],
+          "publicEntryPointers": [
+            "26: export function createMagicSelectMenu(cfg: MagicSelectMenuConfig): SelectionMenuState {"
+          ],
+          "existingTestPointers": ["packages/game/src/core/menu/magic-select.boundaries.test.ts"],
+          "newTest": "packages/game/src/core/menu/magic-select.glm-phase1-leaves.test.ts"
+        },
+        {
+          "source": "packages/game/src/core/menu/in-game-magic-menu.ts",
+          "sha256": "a9135c31a3fca5af2491e61dba05db7a0cd7124f4af0036d7d7caee77baa9414",
+          "lines": [90, 94],
+          "branches": [91, 127],
+          "publicEntryPointers": [
+            "60: export function rememberMagicCasterCursor(cursor: number): void {",
+            "64: export function createInGameMagicMenu(",
+            "109: export function confirmCaster(",
+            "146: export function refreshSpellMenu(",
+            "169: export function confirmSpell(",
+            "203: export function confirmTarget(",
+            "225: export function cancelInGameMagic(state: InGameMagicMenuState): void {",
+            "256: export function inGameMagicMoveUp(s: InGameMagicMenuState): void {",
+            "265: export function inGameMagicMoveDown(s: InGameMagicMenuState): void {",
+            "274: export function inGameMagicMoveLeft(s: InGameMagicMenuState): void {",
+            "280: export function inGameMagicMoveRight(s: InGameMagicMenuState): void {",
+            "286: export function inGameMagicPageUp(s: InGameMagicMenuState): void {",
+            "292: export function inGameMagicPageDown(s: InGameMagicMenuState): void {",
+            "298: export function inGameMagicHome(s: InGameMagicMenuState): void {",
+            "302: export function inGameMagicEnd(s: InGameMagicMenuState): void {"
+          ],
+          "existingTestPointers": [
+            "packages/game/src/core/menu/in-game-magic-menu.boundaries.test.ts",
+            "packages/game/src/core/menu/in-game-magic-menu.test.ts"
+          ],
+          "newTest": "packages/game/src/core/menu/in-game-magic-menu.glm-phase1-leaves.test.ts"
+        }
+      ]
+    },
+    {
+      "id": "L03",
+      "batch": "A",
+      "targets": [
+        {
+          "source": "packages/game/src/core/menu/inventory-menu.ts",
+          "sha256": "3b5937e3092de693855d91f768dafb86a55a6f07ecd46ca3c332bd95f7cea609",
+          "lines": [84, 88],
+          "branches": [67, 84],
+          "publicEntryPointers": [
+            "44: export const INV_ITEMS_PER_LINE = 3",
+            "46: export const INV_LINES_PER_PAGE = 7",
+            "48: export const INV_ITEM_TEXT_WIDTH = 100",
+            "51: export const MENUITEM_COLOR = 0x4f // ui.h:29  默认",
+            "52: export const MENUITEM_COLOR_INACTIVE = 0x18 // ui.h:30  filter 不命中 + 非选",
+            "53: export const MENUITEM_COLOR_SELECTED_INACTIVE = 0x1c // ui.h:32  filter 不命中 + 选中",
+            "54: export const MENUITEM_COLOR_EQUIPPEDITEM = 0xc8 // ui.h:38  equipment 中(amount=0)",
+            "55: export const MENUITEM_COLOR_SELECTED_FIRST = 0xf9 // ui.h:33  闪烁起始色",
+            "56: export const MENUITEM_COLOR_SELECTED_TOTAL = 6 // ui.h:34  闪烁 cycle",
+            "75: export function pickItemRowColor(opts: {",
+            "114: export function createInventoryMenu(",
+            "169: export function inventoryMoveUp(s: InventoryMenuState): void {",
+            "178: export function inventoryMoveDown(s: InventoryMenuState): void {",
+            "187: export function inventoryMoveLeft(s: InventoryMenuState): void {",
+            "192: export function inventoryMoveRight(s: InventoryMenuState): void {",
+            "197: export function inventoryPageUp(s: InventoryMenuState): void {",
+            "202: export function inventoryPageDown(s: InventoryMenuState): void {",
+            "207: export function inventoryHome(s: InventoryMenuState): void {",
+            "212: export function inventoryEnd(s: InventoryMenuState): void {",
+            "219: export function confirmInventoryItem(",
+            "254: export function confirmInventoryTarget(",
+            "267: export function cancelInventoryMenu(state: InventoryMenuState): void {"
+          ],
+          "existingTestPointers": [
+            "packages/game/src/core/menu/__tests__/inventory-menu.test.ts",
+            "packages/game/src/core/menu/inventory-menu.boundaries.test.ts",
+            "packages/game/src/core/menu/inventory-menu.test.ts"
+          ],
+          "newTest": "packages/game/src/core/menu/inventory-menu.glm-phase1-leaves.test.ts"
+        },
+        {
+          "source": "packages/game/src/core/menu/inventory-action-menu.ts",
+          "sha256": "c439e1cdca4d9e01f82956378a1ecc85ebd59f7917b5f518f619e53f80d5ddc2",
+          "lines": [11, 11],
+          "branches": [6, 7],
+          "publicEntryPointers": [
+            "55: export function createInventoryActionMenu(defaultCursor = 0): InventoryActionMenuState {",
+            "65: export function inventoryActionChoice(",
+            "73: export function inventoryActionMenuUp(s: InventoryActionMenuState): void {",
+            "77: export function inventoryActionMenuDown(s: InventoryActionMenuState): void {"
+          ],
+          "existingTestPointers": ["packages/game/src/core/menu/inventory-action-menu.test.ts"],
+          "newTest": "packages/game/src/core/menu/inventory-action-menu.glm-phase1-leaves.test.ts"
+        }
+      ]
+    },
+    {
+      "id": "L04",
+      "batch": "A",
+      "targets": [
+        {
+          "source": "packages/game/src/core/menu/equip-menu.ts",
+          "sha256": "c6e061d30a0aa7e4220ad90a37dc582245a84836cc4c249afd872aa8095fda69",
+          "lines": [25, 25],
+          "branches": [24, 27],
+          "publicEntryPointers": [
+            "43: export function createEquipMenu(gs: GameState, items: Item[]): EquipMenuState {",
+            "54: export function confirmEquipItem(",
+            "80: export function confirmEquipRole(state: EquipMenuState): { itemId: number; roleId: number } | null {",
+            "89: export function cancelEquipMenu(state: EquipMenuState): void {",
+            "100: export function equipMoveUp(s: EquipMenuState): void {",
+            "107: export function equipMoveDown(s: EquipMenuState): void {"
+          ],
+          "existingTestPointers": [
+            "packages/game/src/core/menu/equip-menu.boundaries.test.ts",
+            "packages/game/src/core/menu/equip-menu.test.ts"
+          ],
+          "newTest": "packages/game/src/core/menu/equip-menu.glm-phase1-leaves.test.ts"
+        },
+        {
+          "source": "packages/game/src/core/menu/in-game-menu.ts",
+          "sha256": "5387e21e873228f0f4ab07c13bcb21bca39a0fcf4de85face9ceefdea6f7699e",
+          "lines": [27, 27],
+          "branches": [12, 14],
+          "publicEntryPointers": [
+            "57: export function createInGameMenu(defaultCursor = 0): InGameMenuState {",
+            "65: export function inGameMenuChoice(s: InGameMenuState): InGameMenuChoice | undefined {",
+            "71: export function inGameMenuUp(s: InGameMenuState): void {",
+            "74: export function inGameMenuDown(s: InGameMenuState): void {",
+            "95: export function createSystemMenu(defaultCursor = 0): SystemMenuState {",
+            "104: export function systemMenuEnterConfirm(s: SystemMenuState): void {",
+            "110: export function systemMenuToggleConfirm(s: SystemMenuState): void {",
+            "118: export function systemMenuEnterSwitch(",
+            "130: export function systemMenuChoice(s: SystemMenuState): SystemMenuChoice | undefined {",
+            "136: export function systemMenuUp(s: SystemMenuState): void {",
+            "139: export function systemMenuDown(s: SystemMenuState): void {"
+          ],
+          "existingTestPointers": [
+            "packages/game/src/core/menu/in-game-menu.boundaries.test.ts",
+            "packages/game/src/core/menu/in-game-menu.test.ts"
+          ],
+          "newTest": "packages/game/src/core/menu/in-game-menu.glm-phase1-leaves.test.ts"
+        }
+      ]
+    },
+    {
+      "id": "L05",
+      "batch": "B",
+      "targets": [
+        {
+          "source": "packages/game/src/core/menu/shop-menu.ts",
+          "sha256": "5b2adaaf06fc5a053e04ff09e44842e6aa95d2fdd9f3c324df4e991f8623e9d4",
+          "lines": [27, 27],
+          "branches": [16, 22],
+          "publicEntryPointers": [
+            "45: export function createBuyMenu(shopItems: Item[]): ShopMenuState {",
+            "50: export function shopMoveUp(s: ShopMenuState): void {",
+            "55: export function shopMoveDown(s: ShopMenuState): void {",
+            "65: export function shopSelectItem(s: ShopMenuState, items: Item[], gsCash: number): boolean {",
+            "83: export function shopConfirm(",
+            "96: export function shopCancel(s: ShopMenuState): 'close' | 'back' {"
+          ],
+          "existingTestPointers": [
+            "packages/game/src/core/menu/shop-menu.boundaries.test.ts",
+            "packages/game/src/core/menu/shop-menu.test.ts"
+          ],
+          "newTest": "packages/game/src/core/menu/shop-menu.glm-phase1-leaves.test.ts"
+        },
+        {
+          "source": "packages/game/src/core/menu/sell-menu.ts",
+          "sha256": "8c4b784a0ddd5e10708d19e6539d330ac41b8cdfc405b31ca592490ecfb860b2",
+          "lines": [33, 38],
+          "branches": [22, 35],
+          "publicEntryPointers": [
+            "46: export function createSellMenu(gs: GameState, items: Item[]): SellMenuState {",
+            "52: export function sellMoveUp(s: SellMenuState): void {",
+            "57: export function sellMoveDown(s: SellMenuState): void {",
+            "62: export function sellMoveLeft(s: SellMenuState): void {",
+            "67: export function sellMoveRight(s: SellMenuState): void {",
+            "72: export function sellPageUp(s: SellMenuState): void {",
+            "76: export function sellPageDown(s: SellMenuState): void {",
+            "80: export function sellHome(s: SellMenuState): void {",
+            "84: export function sellEnd(s: SellMenuState): void {",
+            "94: export function sellSelectItem(s: SellMenuState, items: Item[]): boolean {",
+            "110: export function sellConfirm(s: SellMenuState): { itemId: number; yes: boolean } | null {",
+            "119: export function sellCancel(s: SellMenuState): 'close' | 'back' {",
+            "132: export function refreshSellGrid(s: SellMenuState, gs: GameState, items: Item[]): void {"
+          ],
+          "existingTestPointers": [
+            "packages/game/src/core/menu/sell-menu.boundaries.test.ts",
+            "packages/game/src/core/menu/sell-menu.test.ts"
+          ],
+          "newTest": "packages/game/src/core/menu/sell-menu.glm-phase1-leaves.test.ts"
+        }
+      ]
+    },
+    {
+      "id": "L06",
+      "batch": "B",
+      "targets": [
+        {
+          "source": "packages/game/src/core/menu/save-slot-menu.ts",
+          "sha256": "0e10cdd94ad929cead8b01bc1277438ee649cc956633344ae0bf9c57f4dc2d97",
+          "lines": [13, 16],
+          "branches": [4, 8],
+          "publicEntryPointers": [
+            "40: export function createSaveSlotMenu(",
+            "70: export function fetchSlotMetas(state: SaveSlotMenuState): Promise<void> {",
+            "82: export function saveSlotMenuUp(s: SaveSlotMenuState): void {",
+            "85: export function saveSlotMenuDown(s: SaveSlotMenuState): void {",
+            "90: export function saveSlotMenuCurrent(s: SaveSlotMenuState): number | undefined {"
+          ],
+          "existingTestPointers": ["packages/game/src/core/menu/save-slot-menu.test.ts"],
+          "newTest": "packages/game/src/core/menu/save-slot-menu.glm-phase1-leaves.test.ts"
+        },
+        {
+          "source": "packages/game/src/core/menu/opening-menu.ts",
+          "sha256": "cc81a74d8264afc9cccdc061c32829953da1482c7c0fd7d3124e102949d48e82",
+          "lines": [9, 9],
+          "branches": [1, 2],
+          "publicEntryPointers": [
+            "44: export function openingMenuLabels(): ReadonlyArray<{ id: number; label: string }> {",
+            "53: export function createOpeningMenu(): OpeningMenuState {",
+            "63: export function openingMenuChoice(s: OpeningMenuState): OpeningMenuChoice | undefined {",
+            "69: export function openingMenuUp(s: OpeningMenuState): void {",
+            "72: export function openingMenuDown(s: OpeningMenuState): void {"
+          ],
+          "existingTestPointers": ["packages/game/src/core/menu/opening-menu.test.ts"],
+          "newTest": "packages/game/src/core/menu/opening-menu.glm-phase1-leaves.test.ts"
+        }
+      ]
+    },
+    {
+      "id": "L07",
+      "batch": "B",
+      "targets": [
+        {
+          "source": "packages/game/src/core/inspect/battle-inspect.ts",
+          "sha256": "c8f76c397fd62af1f1bdbfefebeec781413cd29d5fcaa89ba51bfac8a7bf0bd3",
+          "lines": [115, 115],
+          "branches": [104, 142],
+          "publicEntryPointers": [
+            "136: export function collectPartyStatusReadouts(",
+            "319: export function collectEnemyStatusReadouts(",
+            "384: export function collectFieldInfoReadout(gs: GameState): FieldInfoReadout | null {"
+          ],
+          "existingTestPointers": ["packages/game/src/core/inspect/battle-inspect.test.ts"],
+          "newTest": "packages/game/src/core/inspect/battle-inspect.glm-phase1-leaves.test.ts"
+        }
+      ]
+    },
+    {
+      "id": "L08",
+      "batch": "B",
+      "targets": [
+        {
+          "source": "packages/game/src/dev/state-dump.ts",
+          "sha256": "99e47d97825563442027305087f2d49a6a5cb98fb7e3619d16782faecb4c0212",
+          "lines": [1, 36],
+          "branches": [0, 30],
+          "publicEntryPointers": [
+            "35: export function dumpFrameJson(gs: GameState, frame: number, walkFrames: number): string {",
+            "86: export function initStateDump(): DumpController {"
+          ],
+          "existingTestPointers": [],
+          "newTest": "packages/game/src/dev/state-dump.glm-phase1-leaves.test.ts"
+        },
+        {
+          "source": "packages/game/src/tools/speedrun/detectors.ts",
+          "sha256": "781e9ef535ee7603c84a601116e4ebe6bc367bc2ad5804a82a9a15ad8cef57f5",
+          "lines": [21, 22],
+          "branches": [34, 37],
+          "publicEntryPointers": [
+            "12: export function enterScene(n: number): Detector {",
+            "17: export function leaveScene(n: number): Detector {",
+            "22: export function enterAnyScene(ns: readonly number[]): Detector {",
+            "28: export function atSpot(scene: number, x: number, y: number, tolX = 48, tolY = 24): Detector {",
+            "34: export function atAnySpot(",
+            "46: export function bossWon(enemyId: number): Detector {",
+            "54: export function hasItem(itemId: number): Detector {",
+            "59: export function bgmIs(musicId: number): Detector {",
+            "64: export function caiyiDetector(enemyId = 71): Detector {"
+          ],
+          "existingTestPointers": ["packages/game/src/tools/speedrun/detectors.test.ts"],
+          "newTest": "packages/game/src/tools/speedrun/detectors.glm-phase1-leaves.test.ts"
+        }
+      ]
+    },
+    {
+      "id": "L09",
+      "batch": "C",
+      "targets": [
+        {
+          "source": "packages/game/src/present/menu/draw-menu.ts",
+          "sha256": "10c96d95b287c9b5c94ffa65a283cf8d6ab7dab2a6a2b138ef678ae87154c09c",
+          "lines": [60, 101],
+          "branches": [18, 48],
+          "publicEntryPointers": ["99: export function drawMenuStack("],
+          "existingTestPointers": ["packages/game/src/present/menu/draw-menu.test.ts"],
+          "newTest": "packages/game/src/present/menu/draw-menu.glm-phase1-leaves.test.ts"
+        },
+        {
+          "source": "packages/game/src/present/menu/draw-confirm.ts",
+          "sha256": "ce7a06e9e4f4c9559c0979d797bf3b367cd6cd6add3c21901911bdd984ff8dcc",
+          "lines": [10, 10],
+          "branches": [3, 5],
+          "publicEntryPointers": ["33: export function drawConfirmBox("],
+          "existingTestPointers": [],
+          "newTest": "packages/game/src/present/menu/draw-confirm.glm-phase1-leaves.test.ts"
+        }
+      ]
+    },
+    {
+      "id": "L10",
+      "batch": "C",
+      "targets": [
+        {
+          "source": "packages/game/src/present/menu/draw-magic.ts",
+          "sha256": "76059179edbbfceaa0e66401f311b334834724ae9c6f7622b7219035ea1ab49c",
+          "lines": [122, 122],
+          "branches": [46, 72],
+          "publicEntryPointers": [
+            "339: export function drawInGameMagicMenu(input: DrawInGameMagicMenuInput): void {"
+          ],
+          "existingTestPointers": ["packages/game/src/present/menu/draw-magic.test.ts"],
+          "newTest": "packages/game/src/present/menu/draw-magic.glm-phase1-leaves.test.ts"
+        },
+        {
+          "source": "packages/game/src/present/menu/draw-inventory.ts",
+          "sha256": "5eddb467417c86a6ad632f197a287ddc2995f613d7a0e0c8afe175af49668f03",
+          "lines": [135, 135],
+          "branches": [62, 82],
+          "publicEntryPointers": [
+            "277: export function drawInventoryMenu(input: DrawInventoryInput): void {"
+          ],
+          "existingTestPointers": [],
+          "newTest": "packages/game/src/present/menu/draw-inventory.glm-phase1-leaves.test.ts"
+        }
+      ]
+    },
+    {
+      "id": "L11",
+      "batch": "C",
+      "targets": [
+        {
+          "source": "packages/game/src/present/menu/draw-equip.ts",
+          "sha256": "1a848a399adc95b4be61a767e63c8e08ff4343851566fc21ec7355c66aeb55db",
+          "lines": [61, 61],
+          "branches": [29, 44],
+          "publicEntryPointers": [
+            "275: export function drawEquipMenu(input: DrawEquipMenuInput): void {"
+          ],
+          "existingTestPointers": [],
+          "newTest": "packages/game/src/present/menu/draw-equip.glm-phase1-leaves.test.ts"
+        },
+        {
+          "source": "packages/game/src/present/menu/draw-player-status.ts",
+          "sha256": "0318fcf76daa1ade0e7556cb946714603df5459f2e78300af3937ea0788278d0",
+          "lines": [107, 108],
+          "branches": [48, 62],
+          "publicEntryPointers": [
+            "178: export function drawPlayerStatus(input: DrawPlayerStatusInput): void {"
+          ],
+          "existingTestPointers": ["packages/game/src/present/menu/draw-player-status.test.ts"],
+          "newTest": "packages/game/src/present/menu/draw-player-status.glm-phase1-leaves.test.ts"
+        }
+      ]
+    },
+    {
+      "id": "L12",
+      "batch": "C",
+      "targets": [
+        {
+          "source": "packages/game/src/present/menu/draw-shop.ts",
+          "sha256": "4cd77e0892a460ba387eeeaff6d0ad94a7f2be3f40a17376df1361e84b14da19",
+          "lines": [70, 70],
+          "branches": [23, 36],
+          "publicEntryPointers": [
+            "99: export function drawShopMenu(input: DrawShopInput): void {",
+            "197: export function drawSellOverlay(input: DrawSellOverlayInput): void {"
+          ],
+          "existingTestPointers": [],
+          "newTest": "packages/game/src/present/menu/draw-shop.glm-phase1-leaves.test.ts"
+        },
+        {
+          "source": "packages/game/src/present/menu/draw-opening-menu.ts",
+          "sha256": "1e44195ef42a04fc0c2864b5868a25cd3ec23824d4520d372f25ce4a7e97835a",
+          "lines": [17, 17],
+          "branches": [7, 8],
+          "publicEntryPointers": [
+            "36: export function openingItemX(label: string): number {",
+            "52: export function drawOpeningMenu(input: DrawOpeningMenuInput): void {"
+          ],
+          "existingTestPointers": ["packages/game/src/present/menu/draw-opening-menu.test.ts"],
+          "newTest": "packages/game/src/present/menu/draw-opening-menu.glm-phase1-leaves.test.ts"
+        },
+        {
+          "source": "packages/game/src/present/menu/draw-box.ts",
+          "sha256": "7f0509e12428217023464c69a20abdb7aca49569cb504b0e4a3ea917c6ce715e",
+          "lines": [64, 64],
+          "branches": [34, 35],
+          "publicEntryPointers": [
+            "25: export function menuTextMaxCols(texts: readonly string[], glyphs?: GlyphTable): number {",
+            "70: export function drawBox(input: DrawBoxInput): void {",
+            "162: export function drawSingleLineBox(input: DrawSingleLineBoxInput): void {"
+          ],
+          "existingTestPointers": ["packages/game/src/present/menu/draw-box.test.ts"],
+          "newTest": "packages/game/src/present/menu/draw-box.glm-phase1-leaves.test.ts"
+        }
+      ]
+    },
+    {
+      "id": "L13",
+      "batch": "D",
+      "targets": [
+        {
+          "source": "packages/game/src/present/battle/draw-battle-ui.ts",
+          "sha256": "fee830027b4d8428e4f4bff98a2f4f4a905c3b98d163642ab088710962aa868f",
+          "lines": [275, 276],
+          "branches": [182, 220],
+          "publicEntryPointers": [
+            "235: export function drawBattleUI(",
+            "364: export function computePlayerFaceColor("
+          ],
+          "existingTestPointers": [
+            "packages/game/src/present/battle/__tests__/draw-battle-ui.test.ts"
+          ],
+          "newTest": "packages/game/src/present/battle/draw-battle-ui.glm-phase1-leaves.test.ts"
+        }
+      ]
+    },
+    {
+      "id": "L14",
+      "batch": "D",
+      "targets": [
+        {
+          "source": "packages/game/src/present/battle/draw-battle-sprites.ts",
+          "sha256": "bf9d33201028c448361549c2c8d1971ba8193d7cd41b99abd6dd97348ca44d58",
+          "lines": [103, 103],
+          "branches": [125, 150],
+          "publicEntryPointers": [
+            "26: export function computeEnemyAnchor(",
+            "45: export function computePlayerAnchor(",
+            "86: export function computeIdleFrameIndex(",
+            "107: export function blitFrame(",
+            "134: export const DEATH_FADE_TOTAL_STEPS = 72",
+            "157: export function blitFrameDeathFade(",
+            "220: export function enemyTargetHighlightShift(",
+            "241: export function confusedShakeDelta(rand01: number): number {",
+            "252: export function computePlayerBattleIdleFrame(",
+            "263: export function drawBattleSprites("
+          ],
+          "existingTestPointers": [
+            "packages/game/src/present/battle/__tests__/draw-battle-sprites.test.ts"
+          ],
+          "newTest": "packages/game/src/present/battle/draw-battle-sprites.glm-phase1-leaves.test.ts"
+        },
+        {
+          "source": "packages/game/src/present/battle/present-battle.ts",
+          "sha256": "7ca203c4de814c295b4e70ca414e3d62b31e22da1af980a52119bd83590fae2e",
+          "lines": [106, 109],
+          "branches": [114, 130],
+          "publicEntryPointers": ["108: export class BattlePresent {"],
+          "existingTestPointers": [
+            "packages/game/src/present/battle/__tests__/present-battle.test.ts"
+          ],
+          "newTest": "packages/game/src/present/battle/present-battle.glm-phase1-leaves.test.ts"
+        }
+      ]
+    },
+    {
+      "id": "L15",
+      "batch": "D",
+      "targets": [
+        {
+          "source": "packages/game/src/present/battle/draw-battle-settlement.ts",
+          "sha256": "ae7c4a1930d7e49afb68809f90e5902ac7bf5aa40f84b2bd6258c6db6af8d7b4",
+          "lines": [87, 87],
+          "branches": [13, 20],
+          "publicEntryPointers": [
+            "81: export function drawBattleSettlement(input: DrawBattleSettlementInput): void {",
+            "111: export function hiddenExpUpNumberX(maxNameWidth: number, maxPropertyWidth: number): number {"
+          ],
+          "existingTestPointers": [
+            "packages/game/src/present/battle/__tests__/draw-battle-settlement.test.ts"
+          ],
+          "newTest": "packages/game/src/present/battle/draw-battle-settlement.glm-phase1-leaves.test.ts"
+        }
+      ]
+    },
+    {
+      "id": "L16",
+      "batch": "D",
+      "targets": [
+        {
+          "source": "packages/game/src/present/font.ts",
+          "sha256": "3df0f1a1b23d221f55050f1a172725f32f5019016b99da1e3f98d68fab46b539",
+          "lines": [54, 65],
+          "branches": [19, 24],
+          "publicEntryPointers": [
+            "46: export async function loadGlyphs(baseUrl = '/extracted'): Promise<GlyphTable> {",
+            "101: export function renderText(",
+            "136: export function renderColoredText(",
+            "170: export function measureText(text: string, glyphs: GlyphTable = EMPTY_GLYPH_TABLE): number {",
+            "189: export function palCharWidth(cp: number): number {",
+            "198: export function palWordWidth(text: string): number {"
+          ],
+          "existingTestPointers": ["packages/game/src/present/font.test.ts"],
+          "newTest": "packages/game/src/present/font.glm-phase1-leaves.test.ts"
+        },
+        {
+          "source": "packages/game/src/present/framebuffer.ts",
+          "sha256": "eafcf690d4e5988c1332e2638e233b8c7125ffe0781f6a338c34f505c486b60b",
+          "lines": [16, 16],
+          "branches": [9, 10],
+          "publicEntryPointers": [
+            "3: export const SCREEN_W = 320",
+            "4: export const SCREEN_H = 200",
+            "20: export function createFramebuffer(width = SCREEN_W, height = SCREEN_H): Framebuffer {"
+          ],
+          "existingTestPointers": ["packages/game/src/present/framebuffer.test.ts"],
+          "newTest": "packages/game/src/present/framebuffer.glm-phase1-leaves.test.ts"
+        },
+        {
+          "source": "packages/game/src/present/screen-wave.ts",
+          "sha256": "ba2c5dca2d385de8696c55467331090d9621edbca8e8a9f0b79a386f398eaa7e",
+          "lines": [29, 29],
+          "branches": [14, 15],
+          "publicEntryPointers": [
+            "20: export function resetScreenWavePhase(): void {",
+            "28: export function applyScreenWave("
+          ],
+          "existingTestPointers": ["packages/game/src/present/screen-wave.test.ts"],
+          "newTest": "packages/game/src/present/screen-wave.glm-phase1-leaves.test.ts"
+        }
+      ]
+    },
+    {
+      "id": "L17",
+      "batch": "E",
+      "targets": [
+        {
+          "source": "packages/game/src/tools/tools-panel.ts",
+          "sha256": "6a4d63af21493632bf6c55b5b87d5cb87880754b4b9669f88e861224aa32b853",
+          "lines": [461, 514],
+          "branches": [100, 155],
+          "publicEntryPointers": [
+            "75: export function injectToolsPanelStyles(): void {",
+            "909: export function setupToolsPanel(deps: ToolsPanelDeps): void {"
+          ],
+          "existingTestPointers": ["packages/game/src/tools/tools-panel.test.ts"],
+          "newTest": "packages/game/src/tools/tools-panel.glm-phase1-leaves.test.ts"
+        }
+      ]
+    },
+    {
+      "id": "L18",
+      "batch": "E",
+      "targets": [
+        {
+          "source": "packages/game/src/tools/minimap.ts",
+          "sha256": "7c8e7c2ade472c4de6fa7918cc3a0694fc81e50b1fa43a5cb39fe8dcdbfc461d",
+          "lines": [157, 239],
+          "branches": [87, 161],
+          "publicEntryPointers": [
+            "22: export const BASE_PX = 640 // 底图渲染分辨率(px;= worldToThumb 值域 + bootstrap getMapThumbnail outW)。高→各缩放档皆降采样=清晰",
+            "30: export function worldToThumb(wx: number, wy: number): [number, number] {",
+            "38: export const ZOOM_WORLD_WIDTHS = [2080, 1280, 960, 640] as const",
+            "39: export const DEFAULT_ZOOM_INDEX = 2",
+            "48: export function computeView(targetWorldWidth: number, cx: number, cy: number): MinimapView {",
+            "57: export const DOT_COLORS = {",
+            "84: export function classifyTrigger(",
+            "112: export function collectEventKinds(",
+            "137: export function collectMinimapData(",
+            "188: export function drawMinimap(",
+            "267: export function setupMinimap(deps: MinimapDeps): MinimapController {"
+          ],
+          "existingTestPointers": ["packages/game/src/tools/minimap.test.ts"],
+          "newTest": "packages/game/src/tools/minimap.glm-phase1-leaves.test.ts"
+        }
+      ]
+    },
+    {
+      "id": "L19",
+      "batch": "E",
+      "targets": [
+        {
+          "source": "packages/game/src/tools/display-scale.ts",
+          "sha256": "d4e8c6b76cc2fdad64eea63a0124be1c955f04c074413022f246f0ba415c6cc8",
+          "lines": [24, 27],
+          "branches": [5, 10],
+          "publicEntryPointers": [
+            "7: export const MIN_PERCENT = 10",
+            "8: export const MAX_PERCENT = 1000",
+            "20: export function createDisplayScaleController(canvas: HTMLCanvasElement): DisplayScaleController {"
+          ],
+          "existingTestPointers": ["packages/game/src/tools/display-scale.test.ts"],
+          "newTest": "packages/game/src/tools/display-scale.glm-phase1-leaves.test.ts"
+        },
+        {
+          "source": "packages/game/src/tools/fps-overlay.ts",
+          "sha256": "66884943d42398559449bbdc7d7934d0b9e93f35cc0fd6cedbd8b491ab6cfc40",
+          "lines": [55, 55],
+          "branches": [23, 26],
+          "publicEntryPointers": [
+            "13: export function isFpsEnabled(): boolean {",
+            "44: export function hideFpsOverlay(): void {",
+            "77: export function tickFps(nowMs: number): void {",
+            "103: export function setFpsEnabled(on: boolean): void {"
+          ],
+          "existingTestPointers": ["packages/game/src/tools/fps-overlay.test.ts"],
+          "newTest": "packages/game/src/tools/fps-overlay.glm-phase1-leaves.test.ts"
+        },
+        {
+          "source": "packages/game/src/tools/toast.ts",
+          "sha256": "fe6ab0697ded3905c0bbbb1635f5bb5e2363da860e2f717427dce899553bebfa",
+          "lines": [29, 29],
+          "branches": [9, 11],
+          "publicEntryPointers": ["37: export function showToast("],
+          "existingTestPointers": ["packages/game/src/tools/toast.test.ts"],
+          "newTest": "packages/game/src/tools/toast.glm-phase1-leaves.test.ts"
+        }
+      ]
+    },
+    {
+      "id": "L20",
+      "batch": "E",
+      "targets": [
+        {
+          "source": "packages/game/src/tools/speedrun/timer.ts",
+          "sha256": "fd8335bcaf0aa8a0cc5461d075e2c5f72b2344b108d523e323117d84b8e1315a",
+          "lines": [98, 98],
+          "branches": [64, 67],
+          "publicEntryPointers": ["21: export class SpeedrunTimer {"],
+          "existingTestPointers": [
+            "packages/game/src/tools/speedrun/timer.boundaries.test.ts",
+            "packages/game/src/tools/speedrun/timer.test.ts"
+          ],
+          "newTest": "packages/game/src/tools/speedrun/timer.glm-phase1-leaves.test.ts"
+        },
+        {
+          "source": "packages/game/src/tools/speedrun/time-format.ts",
+          "sha256": "7cb180cb8b83f7c106f516f12ef6f539d3ec41dd7f185c2aaaf0fe12e4e34a50",
+          "lines": [18, 18],
+          "branches": [23, 24],
+          "publicEntryPointers": [
+            "5: export function formatClock(ms: number): string {",
+            "13: export function formatHms(ms: number): string {",
+            "19: export function parseHms(s: string): number | null {",
+            "31: export function formatDiff(ms: number): string {"
+          ],
+          "existingTestPointers": [
+            "packages/game/src/tools/speedrun/time-format.boundaries.test.ts",
+            "packages/game/src/tools/speedrun/time-format.test.ts"
+          ],
+          "newTest": "packages/game/src/tools/speedrun/time-format.glm-phase1-leaves.test.ts"
+        },
+        {
+          "source": "packages/game/src/tools/speedrun/countdown.ts",
+          "sha256": "1496186d3dddd0c818aac769fec34fa4b98cf6b7aef06e8173618b3d65551a62",
+          "lines": [12, 12],
+          "branches": [6, 8],
+          "publicEntryPointers": ["4: export function showCountdown(text: string | null): void {"],
+          "existingTestPointers": ["packages/game/src/tools/speedrun/countdown.test.ts"],
+          "newTest": "packages/game/src/tools/speedrun/countdown.glm-phase1-leaves.test.ts"
+        }
+      ]
+    },
+    {
+      "id": "L21",
+      "batch": "F",
+      "targets": [
+        {
+          "source": "packages/game/src/tools/speedrun/store.ts",
+          "sha256": "91d426c75e4cb17d6a47ef4c4ffdc1e7fa93c85ef033d0b9d4118ff474b41f95",
+          "lines": [18, 19],
+          "branches": [7, 8],
+          "publicEntryPointers": [
+            "17: export function loadSettings(): SpeedrunSettings {",
+            "31: export function saveSetting(key: keyof SpeedrunSettings, val: boolean): void {",
+            "36: export function loadBests(defaults: BestTimes): BestTimes {",
+            "48: export function saveBests(bests: BestTimes): void {"
+          ],
+          "existingTestPointers": ["packages/game/src/tools/speedrun/store.test.ts"],
+          "newTest": "packages/game/src/tools/speedrun/store.glm-phase1-leaves.test.ts"
+        },
+        {
+          "source": "packages/game/src/tools/speedrun/index.ts",
+          "sha256": "6dc10a66fe524d8c77c53cd65ad0cd07b58b2904e7b4ec5ba9ecaf1d2f8ecddd",
+          "lines": [45, 55],
+          "branches": [25, 34],
+          "publicEntryPointers": [
+            "20: export function __resetSpeedrunForTest(): void {",
+            "25: export function tickSpeedrunTimer(gs: GameState, nowMs: number): void {",
+            "45: export function resetSpeedrun(): void {",
+            "48: export function getSpeedrunRun() {",
+            "51: export function getSpeedrunBests() {",
+            "54: export function setSpeedrunBestFromCurrent(): void {",
+            "59: export function clearSpeedrunBests(): void {",
+            "64: export function setSpeedrunBest(id: string, ms: number | null): void {",
+            "70: export function setSpeedrunStep(index: number): void {",
+            "75: export function toggleSpeedrunPause(): void {",
+            "86: export function isSpeedrunPaused(): boolean {",
+            "96: export function setupSpeedrunHotkeys(): () => void {"
+          ],
+          "existingTestPointers": ["packages/game/src/tools/speedrun/index.test.ts"],
+          "newTest": "packages/game/src/tools/speedrun/index.glm-phase1-leaves.test.ts"
+        },
+        {
+          "source": "packages/game/src/tools/speedrun/overlay.ts",
+          "sha256": "60c44dec89eeb0acf88719ff4cd86c81ff58f00932b3dc15f87ec77e737b9fdc",
+          "lines": [53, 64],
+          "branches": [22, 40],
+          "publicEntryPointers": [
+            "11: export function injectOverlayStyles(): void {",
+            "50: export function hideOverlay(): void {",
+            "55: export function renderOverlay("
+          ],
+          "existingTestPointers": ["packages/game/src/tools/speedrun/overlay.test.ts"],
+          "newTest": "packages/game/src/tools/speedrun/overlay.glm-phase1-leaves.test.ts"
+        }
+      ]
+    },
+    {
+      "id": "L22",
+      "batch": "F",
+      "targets": [
+        {
+          "source": "packages/game/src/shell/boot-loading.ts",
+          "sha256": "d3b407ee9e960f43c18577b7422be1aa8288cdd1905ffbd6c700aedd2977f845",
+          "lines": [62, 65],
+          "branches": [32, 41],
+          "publicEntryPointers": [
+            "76: export function setBootLoadingNote(note: string): void {",
+            "99: export function restoreBootFetch(): void {",
+            "104: export function initBootLoading(",
+            "130: export function finishBootLoading(): void {",
+            "142: export function failBootLoading(msg: string): void {"
+          ],
+          "existingTestPointers": ["packages/game/src/shell/boot-loading.test.ts"],
+          "newTest": "packages/game/src/shell/boot-loading.glm-phase1-leaves.test.ts"
+        },
+        {
+          "source": "packages/game/src/shell/precache-ui.ts",
+          "sha256": "0c7d6a54a3018f0d5c134719430c66706cf651e738156ec37214845d77156a5d",
+          "lines": [68, 77],
+          "branches": [24, 42],
+          "publicEntryPointers": [
+            "29: export function createPrecacheWidget(): PrecacheWidget {",
+            "79: export function createUnifiedProgressUi(opts?: { playableFraction?: number }): UnifiedProgressUi {"
+          ],
+          "existingTestPointers": ["packages/game/src/shell/precache-ui.test.ts"],
+          "newTest": "packages/game/src/shell/precache-ui.glm-phase1-leaves.test.ts"
+        },
+        {
+          "source": "packages/game/src/shell/precache-client.ts",
+          "sha256": "aec9894d9c6422d0f6d1f7dbf97c757e6b805c518203a87726cb56e56648d7c2",
+          "lines": [25, 28],
+          "branches": [9, 16],
+          "publicEntryPointers": [
+            "35: export function startPrecache(): void {",
+            "41: export function pausePrecache(): void {",
+            "46: export function resumePrecache(): void {",
+            "50: export async function registerPrecache(opts: RegisterPrecacheOpts): Promise<void> {"
+          ],
+          "existingTestPointers": ["packages/game/src/shell/precache-client.test.ts"],
+          "newTest": "packages/game/src/shell/precache-client.glm-phase1-leaves.test.ts"
+        }
+      ]
+    },
+    {
+      "id": "L23",
+      "batch": "F",
+      "targets": [
+        {
+          "source": "packages/game/src/shell/fetch-retry.ts",
+          "sha256": "e908b57c950a02327c75fdce7fc14c0c69d09749fd0fdf6b34a6c006dd22e18d",
+          "lines": [23, 23],
+          "branches": [24, 26],
+          "publicEntryPointers": [
+            "20: export function installFetchRetry(opts: { retries?: number; backoffMs?: number[] } = {}): void {",
+            "57: export function uninstallFetchRetryForTest(restoreTo: typeof fetch): void {"
+          ],
+          "existingTestPointers": [
+            "packages/game/src/shell/fetch-retry.boundaries.test.ts",
+            "packages/game/src/shell/fetch-retry.test.ts"
+          ],
+          "newTest": "packages/game/src/shell/fetch-retry.glm-phase1-leaves.test.ts"
+        },
+        {
+          "source": "packages/game/src/assets/dialog-assets.ts",
+          "sha256": "eecebbe3c11de70e361762ba4184cce17a61a19c30da306d36d426706d1e6fe5",
+          "lines": [1, 31],
+          "branches": [0, 6],
+          "publicEntryPointers": [
+            "101: export async function loadDialogAssets(): Promise<DialogAssets> {"
+          ],
+          "existingTestPointers": [],
+          "newTest": "packages/game/src/assets/dialog-assets.glm-phase1-leaves.test.ts"
+        },
+        {
+          "source": "packages/game/src/assets/png.ts",
+          "sha256": "4954c8f732085b29f94904caf21a0b43a40aba9437aedcd0ab34d34a1286c2d5",
+          "lines": [18, 18],
+          "branches": [3, 4],
+          "publicEntryPointers": [
+            "23: export async function decodePngToIndices(source: Blob): Promise<IndexedImage> {"
+          ],
+          "existingTestPointers": ["packages/game/src/assets/png.test.ts"],
+          "newTest": "packages/game/src/assets/png.glm-phase1-leaves.test.ts"
+        },
+        {
+          "source": "packages/game/src/assets/tileset-blob.ts",
+          "sha256": "dae6e19f7dcff0f731a73c90d669a35e7fba0846a24ddad947df51b14c2208ed",
+          "lines": [39, 40],
+          "branches": [16, 17],
+          "publicEntryPointers": [
+            "26: export function rleFrameToIndexedImage(frame: RleFrame): IndexedImage {",
+            "41: export function decodeTilesetBlob(gopBytes: Uint8Array): Map<number, IndexedImage> {",
+            "54: export function decodeSpriteFrames(chunkBytes: Uint8Array): IndexedImage[] {",
+            "59: export async function loadSpriteFramesBlob(url: string): Promise<IndexedImage[]> {",
+            "75: export function framesToCharacterSprite(frames: IndexedImage[]): CharacterSprite {",
+            "85: export async function loadCharacterSpriteBlob(url: string): Promise<CharacterSprite> {",
+            "105: export async function decompressGzip(blob: Blob): Promise<Uint8Array> {",
+            "142: export async function loadTilesetBlob(url: string): Promise<Map<number, IndexedImage>> {"
+          ],
+          "existingTestPointers": ["packages/game/src/assets/tileset-blob.test.ts"],
+          "newTest": "packages/game/src/assets/tileset-blob.glm-phase1-leaves.test.ts"
+        }
+      ]
+    },
+    {
+      "id": "L24",
+      "batch": "F",
+      "targets": [
+        {
+          "source": "packages/game/src/shell/audio.ts",
+          "sha256": "27dbb8f4244916bb92bf904162ff3f0933df1edac2009a5ba2efa84eac000018",
+          "lines": [66, 108],
+          "branches": [57, 106],
+          "publicEntryPointers": [
+            "47: export function sfxUrl(baseUrl: string, soundId: number): string {",
+            "57: export function createSfxDedup(): {",
+            "75: export function musicUrl(baseUrl: string, track: number): string {",
+            "84: export function pickMusicTrack(",
+            "105: export function battleVictoryTrack(",
+            "118: export function sfxForBattleEvent(",
+            "153: export function setOggVolumeScale(s: number): void {",
+            "160: export function setSfxVolume(s: number): void {",
+            "164: export function createOggMusicBackend(baseUrl: string): MusicBackend {",
+            "200: export function createAudioManager(baseUrl = ''): AudioManager {"
+          ],
+          "existingTestPointers": ["packages/game/src/shell/audio.test.ts"],
+          "newTest": "packages/game/src/shell/audio.glm-phase1-leaves.test.ts"
+        },
+        {
+          "source": "packages/game/src/shell/audio-midi.ts",
+          "sha256": "eda656f202d7cf64023c661740a172a3241fa7f5141ffdeab1bb596243e2b4fb",
+          "lines": [0, 63],
+          "branches": [0, 45],
+          "publicEntryPointers": [
+            "46: export function setBgmVolume(v: number): void {",
+            "51: export function createSpessaSynthBackend(opts: SpessaSynthBackendOptions): MusicBackend {"
+          ],
+          "existingTestPointers": [],
+          "newTest": "packages/game/src/shell/audio-midi.glm-phase1-leaves.test.ts"
+        }
+      ]
+    }
+  ]
+}
