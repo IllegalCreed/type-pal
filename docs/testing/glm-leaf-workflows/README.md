@@ -1,6 +1,7 @@
 # GLM 三十二组叶层与小界面补测
 
 [任务卡](../../ops/tasks/TEST-GLM-LEAF-WORKFLOWS-1-thirty-two-groups.md) · [冻结目标](targets.json) ·
+[批次回执](receipt.md) ·
 [上级](../README.md) · [并行 Kimi 包](../kimi-editor-workflows/README.md)
 
 **当前已 build allowed，直接写测试，不先花一轮只写审计。** 32 组分 A–H 八批，每批四组，
