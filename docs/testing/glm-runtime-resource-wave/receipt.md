@@ -12,6 +12,7 @@
 | E | R17–R20 | 61686dc3 | 6 新断言 / 定向+相邻 77 全绿 / TC 零错 / Biome 零诊断 / 2 针业务反控恰一红 | 见批E末 |
 | F | R21–R24 | 8491a0ca | 8 新断言 / 定向+相邻 42 全绿 / TC 零错 / Biome 零诊断 / 2 针业务反控恰一红 | 见批F末 |
 | G | R25–R28 | 7c79bd72 | 9 新断言 / 定向+相邻 59 全绿 / TC 零错 / Biome 零诊断 / 2 针业务反控恰一红 | 见批G末 |
+| 返工 | 全卡 | 见推送 | lint 11→0 / R05·R15 强转移除并扫同类 / RV3 重取证 ASSERT PASS / evidence 157·包名更正 / a–g 反控回归 | 见返工节 |
 
 ## 批A（R01–R04）
 
@@ -298,6 +299,46 @@
 
 1. R21 enemy 153 只全量 fixture 为按帧数常量程序化构造（exact/extra 关系为被测合同本身）。
 2. R22–R24 无新合同登记如上；如 Codex 复核发现可用轴另行补派。
+
+## 返工（Codex 独立审核返工项 · 候选 fed0a7869 → 本候选）
+
+逐项修复与证据（2026-09-29，起点 = main 95a326fc 合并后的 fed0a786）：
+
+1. **11 条 lint 清零**：registry.glm 1 条 unused import（`vi`）+ evidence.json/runtime-resource-mutants.mjs/
+   ball.glm/battle-trial-config/battle-anim/battle-positions/settlement/save-browser-box 共 10 条
+   format/organizeImports——`biome check --write`（mutants.mjs 另用 `--unsafe` 修引号风格）后
+   上述文件 + wave 目录 `biome check` 退出码 0。注意：返工中重建的 `hosts/rv3-rv4/main.js` 为
+   esbuild 构建产物（含摇树残留未用常量，天然非零诊断），按批G决定不入库，已删除本地副本，
+   重建命令见 `hosts/README.md`。
+2. **强转移除**：R05 `recompile.glm` 的 3 处 `as unknown as Command[]` 移除——sequence/if/choice
+   本就是 `Command` 联合成员（authored 合法 typed 输入），改 `ReadonlyArray<[string, Command[]]>`
+   直接赋参；choice 补 `prompt` 字段对齐 `ChoiceCommand`。R15 `battle-anim.glm` 的 2 处
+   `as never` 移除——按真实类型改 `screenShake: true, screenShakeLevel: 2`，并断言派发实参
+   `(durationMs=40, level=2)`。同类扫描：其余强转全部为浏览器端口替身（ctx/ImageBitmap/
+   HTMLCanvasElement/fetch stub）与 R28 单点篡改入口（卡面明示允许），无一属合法路径掩盖，
+   逐一分类登记保留。
+3. **RV3 重取证**：宿主重构——四面板独立 `clip`（面板设备区 960×600）、面板原点改设备像素
+   （原 320 逻辑偏移使 P2/P4 落在画布外，旧取样无偏移采到 P1 才"绿"，即 Codex 指出的问题）、
+   画布扩 1920×1200、取样公式 = 面板设备原点 + 逻辑×3、亮像素口径排除 #333 背板。页面断言
+   **ASSERT PASS**：P1 选中行 5040/光标 3456；P2 选中行 5040/光标 3456/禁用行 5040；
+   P2/P4 左缘渗入 0/0（无跨板）；MP 哨兵 5400/详情图标 10521；P4 头指/箭头 306/306；
+   RV4 结算条 94666；console 0 错误。新截图
+   `/tmp/type-pal-glm-runtime-resource/rv3-rv4-rework.png`
+   sha256 `f6c39540c9a38281094168e1f4f8afe30a41f64e79fb9f448eef93f261d75fa5`（415521 B，
+   页面 1280 视口 fullPage；URL `http://127.0.0.1:6074/.../rv3-rv4/` 临时服务已停）。
+   RV4 保留原已证范围不变。
+4. **evidence 机器账**：`summary.totals` 重写——`newTests: 157`（44+34+39+17+6+8+9），
+   `perPackageFreshRerun` 按返工后新鲜 JSON（shared 48/13/35、pal-extract 136/58/78、
+   reforge 252/71/181、migrate 67/15/52，全绿 failed=0），B 包名更正为 pal-extract，
+   批次映射与 `perBatchNew` 保留可追溯。
+
+### 返工复跑证据
+
+- 四包 typecheck 通过（shared/pal-extract/reforge/migrate）。
+- 定向+相邻新鲜 JSON：shared 48/48、pal-extract 136/136、reforge(C+D+E) 232/232、
+  reforge(G) 20/20、migrate(F+G) 67/67——全绿 failed=0。
+- 反控 a–g 七批全部重跑通过（自检 10 + 对照绿 + 恰一红 ×2）；runner 文件同受 biome 修复。
+- docs PASS；`git diff --check` 干净； Biome 全仓口径见上（本卡文件零诊断）。
 
 ## 批G（R25–R28）
 

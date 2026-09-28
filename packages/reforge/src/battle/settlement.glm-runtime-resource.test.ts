@@ -4,15 +4,16 @@
  * 原版屏序（exp-cash → 升级者[升级屏→隐藏提升→习得]→未升级者隐藏提升收尾）、空报告空屏、
  * drawSettlementScreen 的 exp-cash 居中双卷轴逐字段（文字/数字/坐标手算）与 hidden-up 文本。
  */
+
+import type { HiddenUpReport, LevelUpReport } from '@type-pal/content'
 import { describe, expect, test, vi } from 'vitest'
-import type { LevelUpReport, HiddenUpReport } from '@type-pal/content'
-import { buildSettlementScreens, drawSettlementScreen } from './settlement.js'
 import {
   drawHost,
   glyphTable,
   menuAssets,
   stubDocumentCanvas,
 } from '../__tests__/glm-runtime-resource/menu-draw-fixtures.js'
+import { buildSettlementScreens, drawSettlementScreen } from './settlement.js'
 
 const textCalls = vi.hoisted(() => vi.fn())
 vi.mock('../text/text-render.js', async (importOriginal) => {
@@ -31,8 +32,30 @@ const lu = (over: Partial<LevelUpReport>): LevelUpReport => ({
   from: 1,
   to: 2,
   learned: [],
-  before: { level: 1, hp: 100, maxHP: 100, mp: 30, maxMP: 30, attack: 33, magicAttack: 20, defense: 32, speed: 28, luck: 32 },
-  after: { level: 2, hp: 120, maxHP: 120, mp: 36, maxMP: 36, attack: 36, magicAttack: 22, defense: 34, speed: 30, luck: 33 },
+  before: {
+    level: 1,
+    hp: 100,
+    maxHP: 100,
+    mp: 30,
+    maxMP: 30,
+    attack: 33,
+    magicAttack: 20,
+    defense: 32,
+    speed: 28,
+    luck: 32,
+  },
+  after: {
+    level: 2,
+    hp: 120,
+    maxHP: 120,
+    mp: 36,
+    maxMP: 36,
+    attack: 36,
+    magicAttack: 22,
+    defense: 34,
+    speed: 30,
+    luck: 33,
+  },
   ...over,
 })
 const hu = (characterId: string, stat: HiddenUpReport['stat'], delta: number): HiddenUpReport => ({
@@ -66,8 +89,24 @@ describe('R16 buildSettlementScreens 屏序', () => {
   })
 
   test('零经验零现金零报告 → 空屏序列；隐藏提升不依赖升级独立成屏', () => {
-    expect(buildSettlementScreens(0, 0, [], [], (id) => id, (id) => id)).toEqual([])
-    const screens = buildSettlementScreens(0, 0, [], [hu('b', 'speed', 3)], (id) => id, (id) => id)
+    expect(
+      buildSettlementScreens(
+        0,
+        0,
+        [],
+        [],
+        (id) => id,
+        (id) => id,
+      ),
+    ).toEqual([])
+    const screens = buildSettlementScreens(
+      0,
+      0,
+      [],
+      [hu('b', 'speed', 3)],
+      (id) => id,
+      (id) => id,
+    )
     expect(screens).toEqual([{ kind: 'hidden-up', name: 'b', statLabel: '身法', delta: 3 }])
   })
 })
@@ -106,9 +145,7 @@ describe('R16 drawSettlementScreen exp-cash 居中双卷轴', () => {
       menuAssets(),
       glyphTable(),
     )
-    const texts = textCalls.mock.calls.map(
-      (c: unknown[]) => (c[1] as { text: string }[])[0]!.text,
-    )
+    const texts = textCalls.mock.calls.map((c: unknown[]) => (c[1] as { text: string }[])[0]!.text)
     expect(texts).toEqual(['李逍遥吉运提升'])
   })
 })

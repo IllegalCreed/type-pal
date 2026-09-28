@@ -5,12 +5,17 @@
  * 选中三角光标、已存槽 meta 行（队伍/存次黄注/地图/右对齐时间）、覆盖确认框。
  */
 import type { Locale } from '@type-pal/content'
+import { lookupText } from '@type-pal/content'
 import { afterEach, describe, expect, test, vi } from 'vitest'
-import { drawSaveBrowser } from './save-browser-box.js'
+import {
+  drawHost,
+  glyphTable,
+  menuAssets,
+  stubDocumentCanvas,
+} from '../__tests__/glm-runtime-resource/menu-draw-fixtures.js'
 import type { SaveBrowserState } from '../save/browser-state.js'
 import { ALL_SLOT_IDS, type SlotId } from '../save/types.js'
-import { drawHost, glyphTable, menuAssets, stubDocumentCanvas } from '../__tests__/glm-runtime-resource/menu-draw-fixtures.js'
-import { lookupText } from '@type-pal/content'
+import { drawSaveBrowser } from './save-browser-box.js'
 
 const textCalls = vi.hoisted(() => vi.fn())
 vi.mock('../text/text-render.js', async (importOriginal) => {
@@ -50,7 +55,15 @@ function texts(): [string, number, number, readonly number[]][] {
 describe('R13 drawSaveBrowser', () => {
   test('inactive 早退：零绘制', () => {
     const h = drawHost()
-    drawSaveBrowser(h.ctx, state({ active: false }), menuAssets(), glyphTable(), 0, locale, new Map())
+    drawSaveBrowser(
+      h.ctx,
+      state({ active: false }),
+      menuAssets(),
+      glyphTable(),
+      0,
+      locale,
+      new Map(),
+    )
     expect(texts()).toEqual([])
     expect(h.fillRect).not.toHaveBeenCalled()
   })
@@ -69,7 +82,15 @@ describe('R13 drawSaveBrowser', () => {
   test('auto 槽两行标签；save 模式禁用红、选中禁用亮红', () => {
     const h = drawHost()
     textCalls.mockClear()
-    drawSaveBrowser(h.ctx, state({ mode: 'save', cursor: 0 }), menuAssets(), glyphTable(), 0, locale, new Map())
+    drawSaveBrowser(
+      h.ctx,
+      state({ mode: 'save', cursor: 0 }),
+      menuAssets(),
+      glyphTable(),
+      0,
+      locale,
+      new Map(),
+    )
     const rows = texts()
     expect(rows[2]).toEqual(['自动', 26, 36, [215, 109, 93]]) // blocked + selected
     expect(rows[3]).toEqual(['存档', 26, 54, [215, 109, 93]])
@@ -80,7 +101,7 @@ describe('R13 drawSaveBrowser', () => {
 
   test('已存手动槽：选中三角、队伍行、存次黄注右对齐、地图名、时间右对齐', () => {
     const h = drawHost()
-    const metas: (SaveBrowserState["metas"][number])[] = ALL_SLOT_IDS.map(() => null)
+    const metas: SaveBrowserState['metas'][number][] = ALL_SLOT_IDS.map(() => null)
     metas[2] = {
       slotId: 'm01',
       kind: 'manual',

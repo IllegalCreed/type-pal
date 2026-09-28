@@ -759,7 +759,13 @@ for (const mutation of [null, ...mutation_batch.mutations]) {
     const witness = JSON.parse(readFileSync(runs[0].enteredFile, 'utf8'))
     assert.deepEqual(
       witness,
-      { id, target: resolve(runs[0].pkg.root, isMulti(mutation_batch) ? mutation.module.replace(/^[^/]+\//, '') : mutation.module) },
+      {
+        id,
+        target: resolve(
+          runs[0].pkg.root,
+          isMulti(mutation_batch) ? mutation.module.replace(/^[^/]+\//, '') : mutation.module,
+        ),
+      },
       `${id}: load-hit witness mismatch`,
     )
     enteredWitness = witness

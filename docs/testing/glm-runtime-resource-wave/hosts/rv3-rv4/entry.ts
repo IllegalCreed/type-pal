@@ -112,15 +112,23 @@ async function main(): Promise<void> {
   const ctx = canvas.getContext('2d')!
   ctx.imageSmoothingEnabled = false
   ctx.fillStyle = '#333'
-  ctx.fillRect(0, 0, 960, 600)
+  ctx.fillRect(0, 0, 1920, 1200)
 
-  // ── RV3：固定合法战斗绘制快照（四面板 320×200×3）──
-  const battlePanel = (px: number, py: number, draw: () => void): void => {
-    ctx.save()
-    ctx.scale(3, 3)
-    ctx.translate(px / 3, py / 3)
-    draw()
-    ctx.restore()
+  // ── RV3：固定合法战斗绘制快照（四面板 320×200×3，逐面板 clip 防跨板绘制）──
+  const battlePanel = (px: number, py: number, name: string, draw: () => void): void => {
+    try {
+      ctx.save()
+      ctx.beginPath()
+      ctx.rect(px, py, 960, 600) // 面板裁剪（设备像素 3×逻辑 320×200）：绘制不得越板
+      ctx.clip()
+      ctx.scale(3, 3)
+      ctx.translate(px / 3, py / 3)
+      draw()
+    } catch (err) {
+      errors.push(`${name}: ${err instanceof Error ? err.message : String(err)}`)
+    } finally {
+      ctx.restore()
+    }
   }
   const rowsEnabled = [
     { label: '物理' },
@@ -133,16 +141,71 @@ async function main(): Promise<void> {
     { label: '仙术', disabled: true },
     { label: '合击', disabled: true },
   ]
-  battlePanel(0, 0, () => drawBattleGrid(ctx, menu, glyphs, rowsEnabled, 1, 0, MAGIC_GRID))
-  battlePanel(320, 0, () => drawBattleGrid(ctx, menu, glyphs, rowsDisabled, 0, 0, MAGIC_GRID))
-  battlePanel(0, 200, () => {
+  battlePanel(0, 0, 'P1', () => drawBattleGrid(ctx, menu, glyphs, rowsEnabled, 1, 0, MAGIC_GRID))
+  battlePanel(960, 0, 'P2', () => drawBattleGrid(ctx, menu, glyphs, rowsDisabled, 0, 0, MAGIC_GRID))
+  battlePanel(0, 600, 'P3', () => {
     drawMpBox(ctx, menu, 23, 8)
     drawItemDetailBox(ctx, menu, menu.itemIcons['i:herb'])
   })
-  battlePanel(320, 200, () => {
+  battlePanel(960, 600, 'P4', () => {
     drawCurrentFinger(ctx, menu, 160, 120, 0)
     drawPlayerTargetArrow(ctx, menu, 240, 150, 0)
   })
+
+  // ── 页面内像素断言（取样一律 = 面板原点 + 面板内逻辑坐标）──
+  const litIn = (
+    panelX: number,
+    panelY: number,
+    x: number,
+    y: number,
+    w: number,
+    h: number,
+  ): number => {
+    const data = ctx.getImageData(panelX + x * 3, panelY + y * 3, w * 3, h * 3).data
+    let n = 0
+    for (let i = 0; i < data.length; i += 4)
+      if (Math.abs(data[i]! - 51) + Math.abs(data[i + 1]! - 51) + Math.abs(data[i + 2]! - 51) > 45)
+        n++
+    return n
+  }
+  // P1 (0,0)：'仙术' 选中行 (122,54) 与其光标 (147,64)；同偏移的 P2 区域应无光标
+  const p1Selected = litIn(0, 0, 122, 54, 40, 14)
+  const p1Cursor = litIn(0, 0, 140, 60, 24, 16)
+  const p2Selected = litIn(960, 0, 122, 54, 40, 14)
+  const p2Cursor = litIn(960, 0, 55, 60, 24, 16)
+  // P2 (320,0)：禁用 '物理' 行 (35,54) 有字；相邻面板左缘 (0..6) 无邻板渗入 → 证明逐面板 clip
+  const p2Disabled = litIn(960, 0, 35, 54, 40, 14)
+  const p2LeftMargin = litIn(960, 0, 0, 0, 6, 200)
+  const p4LeftMargin = litIn(960, 600, 0, 0, 6, 200)
+  // P3 (0,200)：MP 哨兵数字 23/8 (0,8,60,12) + 物品详情图标 (8,147,48,40)
+  const mpDigits = litIn(0, 200, 0, 8, 60, 12)
+  const detailIcon = litIn(0, 200, 8, 147, 48, 40)
+  // P4 (320,200)：头指 (152,46,20,14)、箭头 (232,83,20,14)
+  const finger = litIn(960, 600, 152, 46, 20, 14)
+  const arrow = litIn(960, 600, 232, 83, 20, 14)
+  const results = [
+    `P1 选中行 lit=${p1Selected} 光标 lit=${p1Cursor}`,
+    `P2 选中行 lit=${p2Selected} 光标 lit=${p2Cursor}`,
+    `P2 禁用行 lit=${p2Disabled}`,
+    `P2/P4 左缘渗入 lit=${p2LeftMargin}/${p4LeftMargin}（应 0/0 → 无跨板绘制）`,
+    `MP 哨兵 lit=${mpDigits} 详情图标 lit=${detailIcon}`,
+    `P4 头指 lit=${finger} 箭头 lit=${arrow}`,
+  ]
+  const ok =
+    p1Selected > 50 &&
+    p1Cursor > 20 &&
+    p2Selected > 50 &&
+    p2Cursor > 20 &&
+    p2Disabled > 50 &&
+    p2LeftMargin === 0 &&
+    p4LeftMargin === 0 &&
+    mpDigits > 30 &&
+    detailIcon > 100 &&
+    finger > 20 &&
+    arrow > 20 &&
+    errors.length === 0
+  document.getElementById('result')!.textContent =
+    `${results.join(' ； ')} ； console/page errors: ${errors.length} ${errors.join('|')} → ${ok ? 'ASSERT PASS' : 'ASSERT FAIL'}`
 
   // ── RV4：非空 RewardReport 屏序 + 空对照（下方条带 960×120，每屏 320×120×... 简化 1:1 缩放 2）──
   const screens = buildSettlementScreens(
@@ -213,41 +276,17 @@ async function main(): Promise<void> {
     116,
   )
 
-  // ── 页面内像素断言 ──
-  const lit = (x: number, y: number, w: number, h: number): number => {
-    const data = ctx.getImageData(x * 3, y * 3, w * 3, h * 3).data
-    let n = 0
-    for (let i = 0; i < data.length; i += 4)
-      if (data[i + 3]! > 0 && data[i]! + data[i + 1]! + data[i + 2]! > 60) n++
-    return n
-  }
-  const p1row1 = lit(35 + 87, 54, 60, 14) // P1 '仙术' 选中（非禁用）
-  const p2row0 = lit(35, 54, 60, 14) // P2 '物理' 禁用
-  const mpDigits = lit(0, 8, 60, 12)
-  const finger = lit(152 - 8, 46 - 8, 30, 20) // P4 头顶三角区（160,120 → 152,46）
-  const arrow = lit(232 - 8, 83 - 8, 30, 20) // P4 箭头（240,150 → 232,83）
+  // RV4 结算条像素断言（1.6× 缩放条带取样）并入总判定
   const settleLit = (() => {
     const data = sctx.getImageData(0, 0, 960, 100).data
     let n = 0
     for (let i = 0; i < data.length; i += 4)
-      if (data[i + 3]! > 0 && data[i]! + data[i + 1]! + data[i + 2]! > 60) n++
+      if (Math.abs(data[i]! - 51) + Math.abs(data[i + 1]! - 51) + Math.abs(data[i + 2]! - 51) > 45)
+        n++
     return n
   })()
-  const results = [
-    `P1 选中行 lit=${p1row1}`,
-    `P2 禁用行 lit=${p2row0}`,
-    `MP 哨兵数字区 lit=${mpDigits}`,
-    `P4 头指 lit=${finger} 箭头 lit=${arrow}`,
-    `RV4 结算条 lit=${settleLit}`,
-  ]
-  const ok =
-    p1row1 > 50 &&
-    p2row0 > 50 &&
-    mpDigits > 30 &&
-    finger > 20 &&
-    arrow > 20 &&
-    settleLit > 500 &&
-    errors.length === 0
+  results.push(`RV4 结算条 lit=${settleLit}`)
+  if (settleLit <= 500) errors.push('RV4 settle strip too empty')
   document.getElementById('result')!.textContent =
     `${results.join(' ； ')} ； console/page errors: ${errors.length} ${errors.join('|')} → ${ok ? 'ASSERT PASS' : 'ASSERT FAIL'}`
 }

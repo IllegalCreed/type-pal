@@ -6,8 +6,8 @@
 import { describe, expect, test } from 'vitest'
 import {
   ENEMY_POSITIONS_BY_COUNT,
-  getPlayerBasePos,
   getEnemyBasePos,
+  getPlayerBasePos,
   PLAYER_POSITIONS_BY_COUNT,
 } from './battle-positions.js'
 

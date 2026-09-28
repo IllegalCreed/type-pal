@@ -4,12 +4,7 @@
   "dispatchSha": "48e201935841c268c1576a3ca2020b6807c17120",
   "batches": {
     "A": {
-      "groups": [
-        "R01",
-        "R02",
-        "R03",
-        "R04"
-      ],
+      "groups": ["R01", "R02", "R03", "R04"],
       "candidateSha": "b9d6ce54",
       "directed": {
         "shared": {
@@ -46,11 +41,7 @@
         "packages/pal-extract/src/__tests__/glm-runtime-resource/yj2-sprite-chunk-vector.ts"
       ],
       "gates": {
-        "typecheck": [
-          "shared",
-          "reforge",
-          "pal-extract"
-        ],
+        "typecheck": ["shared", "reforge", "pal-extract"],
         "biome": "0/0/0 on new files + wave dir",
         "docsCheck": "PASS",
         "gitDiffCheck": "clean"
@@ -85,12 +76,7 @@
       ]
     },
     "B": {
-      "groups": [
-        "R05",
-        "R06",
-        "R07",
-        "R08"
-      ],
+      "groups": ["R05", "R06", "R07", "R08"],
       "candidateSha": "9f99e0b8",
       "directed": {
         "pal-extract": {
@@ -113,9 +99,7 @@
         "packages/pal-extract/src/resources/parsers/battle-fields.glm-runtime-resource.test.ts"
       ],
       "gates": {
-        "typecheck": [
-          "pal-extract"
-        ],
+        "typecheck": ["pal-extract"],
         "biome": "0/0/0 on new files + wave dir",
         "docsCheck": "PASS",
         "gitDiffCheck": "clean"
@@ -145,12 +129,7 @@
       ]
     },
     "C": {
-      "groups": [
-        "R09",
-        "R10",
-        "R11",
-        "R12"
-      ],
+      "groups": ["R09", "R10", "R11", "R12"],
       "candidateSha": "511c63e7",
       "directed": {
         "reforge": {
@@ -171,13 +150,9 @@
         "packages/reforge/src/menu/use-box.glm-runtime-resource.test.ts",
         "packages/reforge/src/menu/equip-box.glm-runtime-resource.test.ts"
       ],
-      "fixtures": [
-        "packages/reforge/src/__tests__/glm-runtime-resource/menu-draw-fixtures.ts"
-      ],
+      "fixtures": ["packages/reforge/src/__tests__/glm-runtime-resource/menu-draw-fixtures.ts"],
       "gates": {
-        "typecheck": [
-          "reforge"
-        ],
+        "typecheck": ["reforge"],
         "biome": "0/0/0 on new files + fixture + wave dir",
         "docsCheck": "PASS",
         "gitDiffCheck": "clean"
@@ -212,12 +187,7 @@
       ]
     },
     "D": {
-      "groups": [
-        "R13",
-        "R14",
-        "R15",
-        "R16"
-      ],
+      "groups": ["R13", "R14", "R15", "R16"],
       "candidateSha": "366c5663",
       "directed": {
         "reforge": {
@@ -238,9 +208,7 @@
         "battle-ui/present-battle (covered by residual/test)"
       ],
       "gates": {
-        "typecheck": [
-          "reforge"
-        ],
+        "typecheck": ["reforge"],
         "biome": "0/0/0",
         "docsCheck": "PASS",
         "gitDiffCheck": "clean"
@@ -261,10 +229,7 @@
         ]
       },
       "visual": {
-        "ids": [
-          "RV3",
-          "RV4"
-        ],
+        "ids": ["RV3", "RV4"],
         "screenshot": "/tmp/type-pal-glm-runtime-resource/rv3-rv4-batchD.png",
         "sha256": "6abdb5abbf09d659a35da6165a08ac030b3d8926521ed6f524eca499d2230e2b",
         "canvasAsserts": "ASSERT PASS; console errors 0"
@@ -275,12 +240,7 @@
       ]
     },
     "E": {
-      "groups": [
-        "R17",
-        "R18",
-        "R19",
-        "R20"
-      ],
+      "groups": ["R17", "R18", "R19", "R20"],
       "candidateSha": "61686dc3",
       "directed": {
         "reforge": {
@@ -298,9 +258,7 @@
         "sfx-readiness/bgm/sfx/sprite-readiness/trial-prepare/trial-assets covered by existing tests"
       ],
       "gates": {
-        "typecheck": [
-          "reforge"
-        ],
+        "typecheck": ["reforge"],
         "biome": "0/0/0",
         "docsCheck": "PASS",
         "gitDiffCheck": "clean"
@@ -325,12 +283,7 @@
       ]
     },
     "F": {
-      "groups": [
-        "R21",
-        "R22",
-        "R23",
-        "R24"
-      ],
+      "groups": ["R21", "R22", "R23", "R24"],
       "candidateSha": "8491a0ca",
       "directed": {
         "migrate": {
@@ -340,16 +293,12 @@
           "failed": 0
         }
       },
-      "newTestFiles": [
-        "packages/migrate/src/pal-battle-sprites.glm-runtime-resource.test.ts"
-      ],
+      "newTestFiles": ["packages/migrate/src/pal-battle-sprites.glm-runtime-resource.test.ts"],
       "noNewContractFiles": [
         "R22 materialize/semantic-alias, R23 item-scheme-labels/store-boundary, R24 casualty/music-audit covered by existing tests"
       ],
       "gates": {
-        "typecheck": [
-          "migrate"
-        ],
+        "typecheck": ["migrate"],
         "biome": "0/0/0",
         "docsCheck": "PASS",
         "gitDiffCheck": "clean"
@@ -375,12 +324,7 @@
       ]
     },
     "G": {
-      "groups": [
-        "R25",
-        "R26",
-        "R27",
-        "R28"
-      ],
+      "groups": ["R25", "R26", "R27", "R28"],
       "candidateSha": "7c79bd72",
       "directed": {
         "reforge": {
@@ -406,10 +350,7 @@
         "runtime-project-view/asset-resolver (covered), script-overlays/bake-indexed-rgba (covered)"
       ],
       "gates": {
-        "typecheck": [
-          "reforge",
-          "migrate"
-        ],
+        "typecheck": ["reforge", "migrate"],
         "biome": "0/0/0",
         "docsCheck": "PASS",
         "gitDiffCheck": "clean"
@@ -448,24 +389,53 @@
       "G": "7c79bd72"
     },
     "totals": {
-      "newTests": 115,
-      "directedGreen": {
-        "shared": 48,
-        "reforgeC": 60,
-        "reforgeD": 74,
-        "reforgeE": 77,
-        "migrateF": 42,
-        "reforgeG": 34,
-        "migrateG": 25,
-        "palExtractA": 41,
-        "migrateB": 95
-      }
+      "newTests": 157,
+      "perBatchNew": {
+        "A": 44,
+        "B": 34,
+        "C": 39,
+        "D": 17,
+        "E": 6,
+        "F": 8,
+        "G": 9
+      },
+      "perPackageFreshRerun": {
+        "shared": {
+          "total": 48,
+          "new": 13,
+          "adjacent": 35,
+          "failed": 0,
+          "batches": "A"
+        },
+        "pal-extract": {
+          "total": 136,
+          "new": 58,
+          "adjacent": 78,
+          "failed": 0,
+          "batches": "A+B"
+        },
+        "reforge": {
+          "total": 252,
+          "new": 71,
+          "adjacent": 181,
+          "failed": 0,
+          "batches": "C+D+E+G(project-map)"
+        },
+        "migrate": {
+          "total": 67,
+          "new": 15,
+          "adjacent": 52,
+          "failed": 0,
+          "batches": "F+G"
+        }
+      },
+      "note": "2026-09-29 返工后新鲜 JSON 重跑（合并 main 95a326fc 后同口径）；perBatchNew 为各批授权增量，157 = 44+34+39+17+6+8+9"
     },
-    "needles": "每批 2 针 × 7 批 = 14 针全部恰一红 AssertionError（4 次换针均留痕）",
+    "needles": "每批 2 针 × 7 批 = 14 针全部恰一红 AssertionError（4 次换针均留痕）；返工后全批回归重跑通过",
     "visuals": {
-      "RV1": "rv1-batchA.png 44fbbb43…",
-      "RV2": "rv2-batchC.png 78acfb06…",
-      "RV3/RV4": "rv3-rv4-batchD.png 6abdb5ab…"
+      "RV1": "rv1-batchA.png 44fbbb43…（候选 b9d6ce54 时期）",
+      "RV2": "rv2-batchC.png 78acfb06…（候选 511c63e7 时期）",
+      "RV3/RV4": "rv3-rv4-rework.png f6c39540…（返工后重取证：四面板独立 clip、逐面板取样、邻板零渗入）"
     },
     "note": "所有候选未合 main；Codex 独立验收、统一质量门与集成推送另行执行"
   }

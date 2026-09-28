@@ -5,7 +5,7 @@
  * 本文件只做未占用合同：'opening.default-title' 非 UI slot 走 ENGINE_CHROME.defaultTitle。
  * （engineChromeUiUrl 缺 slot 抛错支：85 slot 全部物理存在，合法 typed 入口不可达，不写强转绿测。）
  */
-import { describe, expect, test, vi } from 'vitest'
+import { describe, expect, test } from 'vitest'
 import { ENGINE_CHROME, loadEngineChromeImage } from './registry.js'
 
 describe('R10 loadEngineChromeImage default-title 通道', () => {

@@ -6,7 +6,7 @@
  * waveAdd / banner / summonPhase 缺省 null）。
  */
 import { describe, expect, test, vi } from 'vitest'
-import { AnimPlayer, type AnimFrame } from './battle-anim.js'
+import { type AnimFrame, AnimPlayer } from './battle-anim.js'
 
 function fx() {
   return {
@@ -51,7 +51,7 @@ describe('R15 AnimPlayer 剩余简单边界', () => {
     expect(f.onOverlay).toHaveBeenLastCalledWith(null)
   })
 
-  test('单帧多副作用一次性派发：damageNums tone / screenShake / waveAdd / banner / summonPhase 缺省 null', () => {
+  test('单帧多副作用一次性派发：damageNums tone / screenShake+level / waveAdd / banner / summonPhase 缺省 null', () => {
     const f = fx()
     const p = new AnimPlayer(
       [
@@ -60,9 +60,10 @@ describe('R15 AnimPlayer 剩余简单边界', () => {
             { target: { side: 'enemy', idx: 1 }, value: 12 },
             { target: { side: 'enemy', idx: 2 }, value: 34, tone: 'yellow' },
           ],
-          screenShake: { durationMs: 300, screenShakeLevel: 2 } as never,
+          screenShake: true,
+          screenShakeLevel: 2,
           waveAdd: 3,
-          banner: { text: '合击', durationMs: 500 } as never,
+          banner: { text: '合击', durationMs: 500 },
         }),
       ],
       f,
@@ -70,6 +71,7 @@ describe('R15 AnimPlayer 剩余简单边界', () => {
     p.tick(40)
     expect(f.onDamage).toHaveBeenNthCalledWith(1, { side: 'enemy', idx: 1 }, 12, undefined)
     expect(f.onDamage).toHaveBeenNthCalledWith(2, { side: 'enemy', idx: 2 }, 34, 'yellow')
+    expect(f.onScreenShake).toHaveBeenNthCalledWith(1, 40, 2) // 真实合同：时长=帧 durationMs、强度=screenShakeLevel
     expect(f.onScreenShake).toHaveBeenCalledTimes(1)
     expect(f.onWaveAdd).toHaveBeenCalledWith(3)
     expect(f.onBanner).toHaveBeenCalledTimes(1)

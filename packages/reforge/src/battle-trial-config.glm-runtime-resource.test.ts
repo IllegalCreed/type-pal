@@ -7,8 +7,8 @@
  */
 import { describe, expect, test } from 'vitest'
 import { isBattleAbort } from './battle/battle-launch-preparation.js'
-import { trialBoolean, trialId, trialInteger } from './battle-trial-config.js'
 import { trialAbortError } from './battle-trial-assets.js'
+import { trialBoolean, trialId, trialInteger } from './battle-trial-config.js'
 
 describe('R20 trial 原语校验器', () => {
   test('trialInteger：合法回读；非整数/越界拒绝且消息带 where 与范围', () => {

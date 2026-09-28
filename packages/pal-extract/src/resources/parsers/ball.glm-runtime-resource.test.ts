@@ -47,8 +47,14 @@ describe('R03 decodeBallIcon 空槽与标记头', () => {
     expect(bare!.height).toBe(1)
     const png = PNG.sync.read(Buffer.from(bare!.pngBytes))
     expect([...png.data]).toEqual([
-      0x33, 0x33, 0x33, 255,
-      0x44, 0x44, 0x44, 255, // 全实心 2 px
+      0x33,
+      0x33,
+      0x33,
+      255,
+      0x44,
+      0x44,
+      0x44,
+      255, // 全实心 2 px
     ])
   })
 

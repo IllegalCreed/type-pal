@@ -12,16 +12,14 @@ import { disasm } from './disasm.js'
 import { recompile } from './recompile.js'
 
 describe('R05 recompile authored 结构化命令拒绝', () => {
-  test.each([
-    ['sequence', [{ op: 'sequence', steps: [] }] as unknown as Command[]],
-    [
-      'if',
-      [
-        { op: 'if', cond: { op: 'raw', opcode: 1, operands: [0, 0, 0] }, then: [] },
-      ] as unknown as Command[],
-    ],
-    ['choice', [{ op: 'choice', options: [] }] as unknown as Command[]],
-  ])('%s 不是字节码命令：抛 unsupported op', (_name, commands) => {
+  // sequence/if/choice 本就是 Command 联合成员（authored 内容合法 typed 输入），
+  // 可直接赋参——合同 = recompile 对非字节码命令 fail-loud。
+  const authoredCases: ReadonlyArray<[string, Command[]]> = [
+    ['sequence', [{ op: 'sequence', steps: [] }]],
+    ['if', [{ op: 'if', cond: { op: 'raw', opcode: 1, operands: [0, 0, 0] }, then: [] }]],
+    ['choice', [{ op: 'choice', prompt: '选择', options: [] }]],
+  ]
+  test.each(authoredCases)('%s 不是字节码命令：抛 unsupported op', (_name, commands) => {
     expect(() => recompile(commands, [])).toThrow('unsupported op')
   })
 })
