@@ -56,7 +56,7 @@
 
 ## 批 B — L05–L08（shop/sell、save-slot/opening、battle-inspect、state-dump/detectors）
 
-- 候选 SHA：见 git log（本节随批固定）；父提交：批 A 回执头。
+- 候选 SHA：`9b4972f1a0efb5c875dfab23a4e500a257e6839e`；父提交：批 A 回执头 `5aca67e182bb5de2696b0f534bfac822cf694515`。
 - diff 范围：仅 7 个新测试文件（shop/sell/save-slot/opening/battle-inspect/state-dump/detectors
   各 `*.glm-phase1-leaves.test.ts`）、`tools/leaves-mutants.mjs` 增批 b 注册、
   `evidence/batch-B/**`、本 receipt。
