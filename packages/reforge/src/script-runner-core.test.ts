@@ -12,6 +12,132 @@ import { ScriptRunnerCore } from './script-runner-core.js'
 
 const digest = 'b'.repeat(64)
 
+describe('optional command debugger hook', () => {
+  const oneCommand = () =>
+    compile({
+      kind: 'stages',
+      initial: 'one',
+      stages: [
+        {
+          id: 'one',
+          body: [{ kind: 'setFlag', flag: 'ran', value: true }],
+        },
+      ],
+    })
+  const drain = () => new Promise<void>((resolve) => setTimeout(resolve, 0))
+
+  test('waits exactly at authored commands, keeping stage and final host gates', async () => {
+    const host = fakeHost()
+    const gate = vi.fn()
+    host.gate = gate
+    const release = deferred<void>()
+    const runner = new ScriptRunnerCore(host, new AbortController().signal)
+    const observed: string[] = []
+    const step = vi.fn()
+    runner.onStep = step
+    runner.beforeStep = async (event) => {
+      observed.push(`${event.path.join('/')}:${event.command.kind}`)
+      await release.promise
+    }
+    const pending = runner.runFlow(oneCommand(), { cursorController: controller() })
+    try {
+      await drain()
+      expect(observed).toEqual(['one/0:leaf'])
+      expect(gate).toHaveBeenCalledTimes(1)
+      expect(host.calls).toEqual([])
+      expect(step).not.toHaveBeenCalled()
+      release.resolve()
+      await pending
+      expect(host.calls).toEqual(['execute:setFlag:-:-'])
+      expect(step).toHaveBeenCalledOnce()
+      expect(gate).toHaveBeenCalledTimes(3)
+    } finally {
+      release.resolve()
+      await pending
+    }
+  })
+
+  test('checks abort after a suspended debugger hook and never emits or executes the command', async () => {
+    const host = fakeHost()
+    const ac = new AbortController()
+    const release = deferred<void>()
+    const runner = new ScriptRunnerCore(host, ac.signal)
+    const entered: string[] = []
+    runner.beforeStep = async (event) => {
+      entered.push(event.path.join('/'))
+      await release.promise
+    }
+    const step = vi.fn()
+    runner.onStep = step
+    const pending = runner
+      .runFlow(oneCommand(), { cursorController: controller() })
+      .catch((error) => error)
+    try {
+      await drain()
+      expect(entered).toEqual(['one/0'])
+      ac.abort()
+      release.resolve()
+      expect(await pending).toMatchObject({ name: 'AbortError' })
+      expect(host.calls).toEqual([])
+      expect(step).not.toHaveBeenCalled()
+      expect(runner.running).toBe(false)
+    } finally {
+      ac.abort()
+      release.resolve()
+      await pending
+    }
+  })
+
+  test('a host modal closing during debugger pause still blocks execution after release', async () => {
+    const host = fakeHost()
+    const debug = deferred<void>()
+    const modal = deferred<void>()
+    const runner = new ScriptRunnerCore(host, new AbortController().signal)
+    const trace: string[] = []
+    let closed = false
+    host.gate = () => {
+      trace.push('host')
+      if (closed) return modal.promise
+    }
+    runner.beforeStep = async () => {
+      trace.push('debug')
+      await debug.promise
+    }
+    const pending = runner.runFlow(oneCommand(), { cursorController: controller() })
+    try {
+      await drain()
+      expect(trace).toEqual(['host', 'debug'])
+      closed = true
+      debug.resolve()
+      await drain()
+      expect(trace).toEqual(['host', 'debug', 'host'])
+      expect(host.calls).toEqual([])
+      modal.resolve()
+      await pending
+      expect(host.calls).toEqual(['execute:setFlag:-:-'])
+      expect(trace).toEqual(['host', 'debug', 'host', 'host'])
+    } finally {
+      debug.resolve()
+      modal.resolve()
+      await pending
+    }
+  })
+
+  test('debugger failure preserves the error and executes no command', async () => {
+    const host = fakeHost()
+    const failure = new Error('debugger rejected')
+    const runner = new ScriptRunnerCore(host, new AbortController().signal)
+    runner.beforeStep = () => {
+      throw failure
+    }
+    await expect(runner.runFlow(oneCommand(), { cursorController: controller() })).rejects.toBe(
+      failure,
+    )
+    expect(host.calls).toEqual([])
+    expect(runner.running).toBe(false)
+  })
+})
+
 function deferred<T>() {
   let resolve!: (value: T | PromiseLike<T>) => void
   const promise = new Promise<T>((accept) => {

@@ -108,6 +108,10 @@ export class ScriptRunnerCore<RuntimeLeafCommand = BaseRuntimeLeafCommand> {
   private self?: EntityAddress
   running = false
   onStep?: (event: ScriptStepEventLike<RuntimeLeafCommand>) => void
+  /** Optional debugger pause at an authored command, never at an internal safe point.
+   * The normal host gate and cancellation check still run after this hook settles.
+   */
+  beforeStep?: (event: ScriptStepEventLike<RuntimeLeafCommand>) => void | Promise<void>
 
   constructor(
     private readonly host: ScriptRuntimeHostLike<RuntimeLeafCommand>,
@@ -301,8 +305,9 @@ export class ScriptRunnerCore<RuntimeLeafCommand = BaseRuntimeLeafCommand> {
   ): Promise<void> {
     for (const [index, command] of commands.entries()) {
       throwIfAborted(this.signal)
-      await this.awaitGate()
       const commandPath = [...path, index]
+      if (this.beforeStep) await this.beforeStep({ path: commandPath, command })
+      await this.awaitGate()
       this.onStep?.({ path: commandPath, command })
       await this.runCommand(command, commandPath, outcomes, recordTopLevelOutcomes)
       throwIfAborted(this.signal)

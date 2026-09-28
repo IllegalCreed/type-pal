@@ -100,6 +100,7 @@ describe('PreviewCanvas confirm controls', () => {
     })
     expect(startPlayback).toHaveBeenNthCalledWith(1, false)
     expect(startPlayback).toHaveBeenNthCalledWith(2, true)
+    expect(playback.step).toHaveBeenCalledTimes(1)
     expect(toolbar?.querySelector<HTMLButtonElement>('button[aria-label="重置"]')?.disabled).toBe(
       true,
     )
@@ -181,6 +182,7 @@ describe('PreviewCanvas confirm controls', () => {
     expect(noButton?.textContent).toBe('否')
     expect(yesButton?.textContent).toBe('是')
     expect(buttons.every((button) => button.classList.contains('ds-button'))).toBe(true)
+    expect(host.querySelector<HTMLButtonElement>('button[aria-label="单步"]')?.disabled).toBe(true)
     expect(document.activeElement).toBe(noButton)
 
     await act(async () => {

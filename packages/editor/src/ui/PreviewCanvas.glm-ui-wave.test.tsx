@@ -12,13 +12,13 @@ import { Blob as NodeBlob } from 'node:buffer'
 // @ts-expect-error Node test-host bridge only.
 import { webcrypto } from 'node:crypto'
 import type { AssetCatalogV1, MapIndexV1, SceneDef, ScriptStage } from '@type-pal/content'
-import { checkAuthorDialogueCue } from '@type-pal/content'
+import { checkAuthorDialogueCue, validateAuthorScenes } from '@type-pal/content'
 import type { AssetBase, ProjectMap, TilesetDef } from '@type-pal/reforge'
 import { act } from 'react'
 import { createRoot, type Root } from 'react-dom/client'
 import { afterAll, afterEach, beforeAll, beforeEach, describe, expect, test, vi } from 'vitest'
 import { createEditorAssetReader, type EditorAssetReader } from '../core/editor-asset-reader.js'
-import type { Playback } from '../core/playback.js'
+import { Playback } from '../core/playback.js'
 import { loadLegalUiProject } from './__tests__/glm-ui-wave-kit.js'
 import { PreviewCanvas } from './PreviewCanvas.js'
 
@@ -119,7 +119,7 @@ function playbackStub(mode: string): Playback {
 
 async function renderPreview(
   playback: Playback,
-  options: { focusEntityId?: string } = {},
+  options: { focusEntityId?: string; startPlayback?: (paused: boolean) => void } = {},
 ): Promise<void> {
   await act(async () => {
     root.render(
@@ -144,6 +144,7 @@ async function renderPreview(
         tilesets={legalTilesets}
         locale={previewLocale}
         playback={playback}
+        startPlayback={options.startPlayback}
       />,
     )
     await Promise.resolve()
@@ -163,6 +164,59 @@ afterEach(async () => {
 })
 
 describe('U4b PreviewCanvas 委派与防御（回放控制器局部合同，非完整工作流正控）', () => {
+  test('初次单步按钮直接驱动真实canonical首条命令，恢复播放仍是同一按钮', async () => {
+    const playback = new Playback(scene)
+    const authorScene = {
+      id: scene.id,
+      mapId: scene.mapId,
+      entry: structuredClone(scene.entry),
+      entities: [],
+    }
+    validateAuthorScenes([authorScene])
+    // The production startPlayback delegate is supplied by SceneScriptWorkspace.
+    const startPlayback = (paused: boolean) =>
+      playback.playCanonical(
+        'ui:steps',
+        {
+          kind: 'stages',
+          initial: 'start',
+          stages: [
+            {
+              id: 'start',
+              body: [
+                { kind: 'setPartyFacing', facing: 'left' },
+                { kind: 'setPartyFacing', facing: 'up' },
+              ],
+            },
+          ],
+        },
+        { scene: authorScene, sharedScripts: {}, actorsById: {}, paused },
+      )
+    try {
+      await renderPreview(playback, { startPlayback })
+      await act(async () => {
+        host.querySelector<HTMLButtonElement>('button[aria-label="单步"]')!.click()
+        await new Promise((resolve) => setTimeout(resolve, 0))
+      })
+      expect(playback.view.player.facing).toBe('left')
+      expect(playback.mode).toBe('paused')
+      expect(playback.activePath).toBe('start/0')
+      await renderPreview(playback, { startPlayback })
+      const buttons = host.querySelectorAll('[role="toolbar"] .ds-toolbar__group button')
+      expect(buttons).toHaveLength(4)
+      expect(host.textContent).toContain('当前第 1 条指令')
+      expect(host.querySelector('[aria-label="播放"]')).toBeNull()
+      await act(async () => {
+        host.querySelector<HTMLButtonElement>('button[aria-label="恢复播放"]')!.click()
+        await new Promise((resolve) => setTimeout(resolve, 0))
+      })
+      expect(playback.view.player.facing).toBe('up')
+      expect(playback.mode).toBe('done')
+    } finally {
+      playback.stop()
+    }
+  })
+
   test('无 startPlayback 时播放/单步调用内部 play；运行态暂停/继续/重置走 playback API', async () => {
     const playback = playbackStub('idle')
     await renderPreview(playback)
@@ -195,7 +249,7 @@ describe('U4b PreviewCanvas 委派与防御（回放控制器局部合同，非�
     const paused = playbackStub('paused')
     await renderPreview(paused)
     await act(async () => {
-      host.querySelector<HTMLButtonElement>('button[aria-label="继续"]')?.click()
+      host.querySelector<HTMLButtonElement>('button[aria-label="恢复播放"]')?.click()
     })
     expect(paused.resume).toHaveBeenCalledTimes(1)
   })
@@ -235,7 +289,7 @@ describe('U4b PreviewCanvas 委派与防御（回放控制器局部合同，非�
     expect(speakerText).toBe(previewLocale.hero ?? 'hero')
     await act(async () => {
       ;[...host.querySelectorAll<HTMLButtonElement>('button')]
-        .find((candidate) => candidate.textContent?.trim() === '继续')!
+        .find((candidate) => candidate.textContent?.trim() === '下一句')!
         .click()
     })
     expect(playback.confirmDialog).toHaveBeenCalledTimes(1)

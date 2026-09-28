@@ -17,6 +17,13 @@ GLM/Cursor 隔离补测由 Codex 独立接收。这个目标不构成 E2E 开工
 ## 最近入库 fast 基线（2026-09-28）
 
 机器可读数字始终以[`baseline.fast.json`](../../scripts/coverage/baseline.fast.json)为准。
+[预览播放与单步修复](preview-controls.md)：15新回归、11针，完整check **10,191项**、
+官方ratchet与保护2f59be7f的单次严格fast **9,730项/730生产文件**通过，静态零诊断。
+全仓分支 **47,667/63,393=75.19%**；本次产品改动增加32分支分母、30覆盖分子，不冒称纯补测收益。
+editor/reforge之外五包完整基线对象不变；正式6010按钮验证另证，不代替E2E/full/Q1/Q2。
+
+### 前一快照：帧动画编辑器工作流
+
 [帧动画编辑器工作流与业务修复](codex-frame-editor/README.md)：33新增、十针，
 完整check **10,176项**、官方ratchet与保护e8710f87的单次严格fast
 **9,715项/730生产文件**串行通过，静态零诊断。全仓分支

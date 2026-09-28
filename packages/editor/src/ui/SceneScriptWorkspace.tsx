@@ -179,8 +179,9 @@ export function CanonicalSceneScriptWorkspace(props: {
       props.scene,
       undefined,
       new Map(props.state.items.map((item) => [item.id, item.name])),
+      props.locale,
     )
-  }, [props.scene, props.state.items])
+  }, [props.scene, props.state.items, props.locale])
   const [, setUiTick] = useState(0)
 
   useEffect(() => {

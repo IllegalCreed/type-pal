@@ -65,13 +65,16 @@ check8896/单次strict8404全过；实际+134分支/+73行，content分支85.55%
 2026-09-28脚本步骤卡与继续按钮已[修复收口](../testing/script-card-ui.md)：整卡状态/圆角/间距、
 误导箭头与键盘焦点完成6010实际验证；check10,176/严格fast9,715通过、静态零诊断、基线不变。
 
+2026-09-28[预览连续播放与单步](../testing/preview-controls.md)已收口：普通对话自动/选项手选，
+首步空门修复；15新回归、11针、6010实际按钮闭环。check10,191/strict9,730，静态零诊断；
+运行时保存安全门不变，E2E001/002独立继续。
+
 ## 进行中
 
 | ID | 任务 | 状态 | 负责人/下一步 | 一句话备注 |
 |---|---|---|---|---|
 | E2E-R4-1 | [路线驱动与检查点薄基线](tasks/E2E-R4-1-route-and-checkpoint-foundation.md) | build | Codex / 001逐页与录制矩阵 | 双引擎开场/检查点通过；李大娘两段对话零位移、前中后三段移动偏序已自动核验，138/103稀疏事件；全视觉/音轨未证 |
 | EDITOR-SCENE-FACING-1 | [切场景朝向清除](tasks/EDITOR-SCENE-FACING-1-clear-override.md) | draft | Codex / 后续窄修 | 保持选项仍提交旧方向；真实红诊断+单点oracle已证 |
-| EDITOR-PREVIEW-STEP-1 | [预览单步阶段门](tasks/EDITOR-PREVIEW-STEP-1-command-gates.md) | draft | Codex / 后续窄修 | 当前入口首次step无命令执行，红诊断已落，不随补测关闭 |
 | ARCH-SUPPORT-GLM-1 | [八组并行架构/视觉准备](tasks/ARCH-SUPPORT-GLM-1-eight-audit-packages.md) | draft | Codex / 后续归属与收口 | 58cdf938材料accept，counter清零；文档已合入，按用户要求未标done/未开产品门 |
 
 2026-09-27 [GLM八组同步守卫](../testing/guard-wave3-integration.md)6a114727独立accept/done：

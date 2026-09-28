@@ -63,7 +63,7 @@ describe('Canonical preview controls', () => {
     r.unchanged()
   })
 
-  test('dialogue step keeps the question under confirm; toggle and step choose yes once', async () => {
+  test('dialogue step keeps the question under confirm; explicit submit chooses yes once', async () => {
     const r = preview(),
       p = r.p
     await r.start(
@@ -81,6 +81,11 @@ describe('Canonical preview controls', () => {
     p.toggleConfirm()
     expect(p.view.confirm?.selectedYes).toBe(true)
     p.step()
+    await settle()
+    expect(p.view.confirm?.selectedYes).toBe(true)
+    expect(p.view.logs).toEqual([])
+    p.submitConfirm()
+    p.resume()
     await settle()
     expect(p.view.confirm).toBeNull()
     expect(p.view.heldDialog).toBeUndefined()
@@ -167,9 +172,11 @@ describe('Canonical preview controls', () => {
     expect(p.tick(200)).toBe(true)
     expect(p.view.player.pos.col).toBe(0.5)
     await r.start(flowOf([dialogue('replacement')]))
+    // Freeze the new dialogue's auto-read clock while proving the old move cannot return.
+    p.pause()
     expect(p.tick(5000)).toBe(false)
     await settle()
-    expect(p.mode).toBe('running')
+    expect(p.mode).toBe('paused')
     expect(p.view.player.pos).toEqual(r.scene.entry.pos)
     expect(p.view.dialog?.cue.rows).toEqual([{ text: 'replacement' }])
     expect(p.view.logs).toEqual([])

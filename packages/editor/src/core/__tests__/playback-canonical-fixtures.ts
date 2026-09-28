@@ -5,6 +5,7 @@ import {
   type AuthorScriptLibrary,
   checkAuthorScriptFlow,
   checkAuthorScriptLibrary,
+  type Locale,
   validateAuthorScenes,
   validateScenes,
 } from '@type-pal/content'
@@ -29,7 +30,7 @@ export function dialogue(text = 'preview.question'): AuthorCommand {
   return { kind: 'dialog', cue: { identity: { kind: 'narration' }, rows: [{ text }] } }
 }
 
-export function preview() {
+export function preview(locale: Locale = {}) {
   // Same minimal current scene shape consumed by SceneScriptWorkspace; no old stages/pages.
   const scene = {
     id: 'preview-room',
@@ -43,7 +44,7 @@ export function preview() {
   const authorScene: AuthorSceneDef = structuredClone(scene)
   validateAuthorScenes([authorScene])
   validateScenes([scene])
-  const p = new Playback(scene, undefined, new Map([['potion', '药草']]))
+  const p = new Playback(scene, undefined, new Map([['potion', '药草']]), locale)
   live.push(p)
   const originals: Array<() => void> = []
   const sceneBefore = structuredClone(scene),

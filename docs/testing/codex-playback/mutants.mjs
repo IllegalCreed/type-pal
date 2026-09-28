@@ -10,10 +10,50 @@ export const needles = [
   {
     id: 'resume-dialog',
     group: 'controls',
-    from: "this.mode = 'running'\n    for (const r of this.gateQueue",
-    to: "this.mode = 'running'\n    this.confirmDialog()\n    for (const r of this.gateQueue",
+    from: "this.mode = 'running'\n    this.stepRequested = false\n    for (const r of this.gateQueue",
+    to: "this.mode = 'running'\n    this.stepRequested = false\n    this.confirmDialog()\n    for (const r of this.gateQueue",
     fullName:
       'Canonical preview controls resume releases the gate but never accepts an open dialogue',
+  },
+  {
+    id: 'command-step-hook',
+    group: 'stepping',
+    from: 'runner.beforeStep = () => this.waitForCommandGate(ac)',
+    to: 'runner.beforeStep = undefined',
+    fullName:
+      'preview command stepping and continuous dialogue the first click executes one command and the last command needs no empty finish click',
+  },
+  {
+    id: 'auto-dialogue-pause',
+    group: 'stepping',
+    from: "const autoDialogue = this.mode === 'running' && this.view.dialog !== null",
+    to: 'const autoDialogue = this.view.dialog !== null',
+    fullName:
+      'preview command stepping and continuous dialogue pause freezes dialogue time; resume keeps remaining time and applies speed',
+  },
+  {
+    id: 'confirm-no-step',
+    group: 'stepping',
+    from: 'if (this.view.confirm) {\n      this.onUi?.()',
+    to: 'if (this.view.confirm) {\n      this.submitConfirm()\n      this.onUi?.()',
+    fullName:
+      'preview command stepping and continuous dialogue ordinary dialogue advances automatically but never chooses a confirm option',
+  },
+  {
+    id: 'initial-step-credit',
+    group: 'stepping',
+    from: 'else this.stepRequested = true',
+    to: 'else this.stepRequested = false',
+    fullName:
+      'preview command stepping and continuous dialogue the first click executes one command and the last command needs no empty finish click',
+  },
+  {
+    id: 'resolved-reading-time',
+    group: 'stepping',
+    from: 'Array.from(lookupText(row.text, this.locale)).length',
+    to: 'Array.from(row.text).length',
+    fullName:
+      'preview command stepping and continuous dialogue reading time uses resolved Unicode text, with fresh timing after manual advance or replacement',
   },
   {
     id: 'move-threshold',

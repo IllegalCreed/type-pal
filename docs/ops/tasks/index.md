@@ -10,7 +10,6 @@
 |---|---|---|
 | [ARCH-SUPPORT-GLM-1 — 八组并行准备取证](ARCH-SUPPORT-GLM-1-eight-audit-packages.md) | draft | 以任务卡当前准入与看板分工为准。 |
 | [E2E-R4-1 — 路线驱动与合法检查点薄基线](E2E-R4-1-route-and-checkpoint-foundation.md) | build | 以任务卡当前准入与看板分工为准。 |
-| [EDITOR-PREVIEW-STEP-1 — canonical 预览单步的无可见阶段门](EDITOR-PREVIEW-STEP-1-command-gates.md) | draft | 以任务卡当前准入与看板分工为准。 |
 | [EDITOR-SCENE-FACING-1 — 切场景指令无法清除显式朝向](EDITOR-SCENE-FACING-1-clear-override.md) | draft | 以任务卡当前准入与看板分工为准。 |
 
 ## 已完成（historical）
@@ -130,6 +129,7 @@
 | [EDITOR-HISTORY-ORDER-1 - 全局撤销顺序与成对操作完整性](../archive/tasks/done/EDITOR-HISTORY-ORDER-1-global-undo-transactions.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [EDITOR-ITEM-AUTHORING-1 - 物品作者记录与脚本引用身份](../archive/tasks/done/EDITOR-ITEM-AUTHORING-1-item-script-identity.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [EDITOR-LEAVE-GUARD-1 - 未保存修改的离开保护](../archive/tasks/done/EDITOR-LEAVE-GUARD-1-unsaved-project-changes.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [EDITOR-PREVIEW-STEP-1 — canonical 预览单步的无可见阶段门](../archive/tasks/done/EDITOR-PREVIEW-STEP-1-command-gates.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [EDITOR-SAVE-CONFLICT-1 - 编辑器旧快照保存冲突保护](../archive/tasks/done/EDITOR-SAVE-CONFLICT-1-stale-author-snapshot.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [EDITOR-SAVE-RECOVERY-1 - 编辑器保存中断恢复](../archive/tasks/done/EDITOR-SAVE-RECOVERY-1-interrupted-author-save.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [EDITOR-SCENE-REF-GUARD-1 - 场景删除前的引用保护补齐](../archive/tasks/done/EDITOR-SCENE-REF-GUARD-1-scene-deletion-reference-closure.md) | done | 完成证据、历史签字与交接见原卡。 |

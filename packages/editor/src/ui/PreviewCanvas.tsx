@@ -450,7 +450,7 @@ export function PreviewCanvas(props: {
           [
             {
               id: 'preview-play',
-              label: mode === 'running' ? '暂停' : mode === 'paused' ? '继续' : '播放',
+              label: mode === 'running' ? '暂停' : mode === 'paused' ? '恢复播放' : '播放',
               icon: mode === 'running' ? 'pause' : 'play',
               execute: () => {
                 if (mode === 'running') playback.pause()
@@ -463,11 +463,14 @@ export function PreviewCanvas(props: {
               id: 'preview-step',
               label: '单步',
               icon: 'skip-forward',
+              disabled: playback.view.confirm !== null,
+              disabledReason: playback.view.confirm ? '请先选择“是”或“否”' : undefined,
               execute: () => {
                 if (mode === 'idle' || mode === 'done') {
                   if (startPlayback) startPlayback(true)
-                  else playback.play(sourceKey, stages, { paused: true })
-                } else playback.step()
+                  else playback.play(sourceKey, stages, { paused: true, ownerId: focusEntityId })
+                }
+                playback.step()
               },
             },
             {
@@ -507,14 +510,23 @@ export function PreviewCanvas(props: {
               />
             </div>
             <DsTag tone="neutral">
-              {mode === 'running'
-                ? '播放中'
-                : mode === 'paused'
-                  ? '已暂停'
-                  : mode === 'done'
-                    ? '播放完毕'
-                    : '就绪'}
+              {playback.view.confirm
+                ? '等待选择'
+                : mode === 'running'
+                  ? '播放中'
+                  : mode === 'paused'
+                    ? '已暂停'
+                    : mode === 'done'
+                      ? '播放完毕'
+                      : '就绪'}
             </DsTag>
+            {playback.stepNumber > 0 && (
+              <DsTag tone="neutral">
+                {mode === 'done'
+                  ? `共执行 ${playback.stepNumber} 条`
+                  : `当前第 ${playback.stepNumber} 条指令`}
+              </DsTag>
+            )}
           </div>
         }
       />
@@ -591,8 +603,15 @@ export function PreviewCanvas(props: {
                 </DsButton>
               </fieldset>
             ) : (
-              <DsButton size="compact" variant="secondary" onClick={() => playback.confirmDialog()}>
-                继续
+              <DsButton
+                size="compact"
+                variant="secondary"
+                onClick={() => {
+                  if (mode === 'paused') playback.step()
+                  else playback.confirmDialog()
+                }}
+              >
+                下一句
               </DsButton>
             )}
           </div>

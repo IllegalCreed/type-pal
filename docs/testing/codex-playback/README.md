@@ -1,5 +1,9 @@
 # 当前脚本预览控制器六组补测
 
+2026-09-28更新：历史D1现已由[预览控制修复](../preview-controls.md)转绿，并纳入正式stepping回归。
+用户新增普通对话自动播放/单步不代选合同；原六针resume锚点适配现行代码，并新增五针。
+以下计数、失败记录与静态诊断为原补测批历史，不当成当前未修结论。
+
 [上级](../README.md) / [任务卡](../../ops/archive/tasks/done/TEST-CODEX-PLAYBACK-1-canonical-controls.md) /
 [机账](evidence.json) / [反控](mutants.mjs)（[配置](mutants.config.mjs)）。
 
@@ -37,7 +41,7 @@ env -u NODE_COMPILE_CACHE pnpm --filter @type-pal/editor typecheck
 ## 新发现与失败记录
 
 - 首轮53绿/1红：首次canonical step只消费阶段门，没有执行第一条命令。保留[红诊断](diagnostics.test.ts)
-  与[独立配置](diagnostics.config.mjs)，归[修复卡](../../ops/tasks/EDITOR-PREVIEW-STEP-1-command-gates.md)。
+  与[独立配置](diagnostics.config.mjs)，归[修复卡](../../ops/archive/tasks/done/EDITOR-PREVIEW-STEP-1-command-gates.md)。
   未把down改成正确预期；正式controls用例只测真实wait之后的命令间单步，不声称首次单步已通过。
 - 初版TC失败：editor没有node types；改为平台setTimeout0任务checkpoint。SceneReveal fixture遗漏
   fade.outMs/dither.source，按当前类型补齐，未改产品守卫/配置。原单步失败独立复跑仍exit1。

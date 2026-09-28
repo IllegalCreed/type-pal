@@ -37,7 +37,7 @@ Codex连续实施；无下一位Agent提示词，不等待他席。
 
 六组54项（7/10/9/7/9/12）与旧12+lab4+Canvas2合计72/72；editor TC exit0。
 六正控/六单点反控真实AssertionError通过，源码hash不变。单步首次阶段门问题保留
-[独立红诊断](../../../../testing/codex-playback/README.md)，归[后续修复卡](../../../tasks/EDITOR-PREVIEW-STEP-1-command-gates.md)，
+[独立红诊断](../../../../testing/codex-playback/README.md)，归[后续修复卡](EDITOR-PREVIEW-STEP-1-command-gates.md)，
 不改绿预期掩盖。
 
 ## 2026-09-26 统一验收与收口

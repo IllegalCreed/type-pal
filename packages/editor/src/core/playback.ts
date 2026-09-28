@@ -15,6 +15,7 @@ import type {
   EntityAddress,
   Facing,
   GridPos,
+  Locale,
   RuntimeSceneDef,
   RuntimeScriptFlow,
   RuntimeScriptLibrary,
@@ -25,6 +26,7 @@ import type {
 import {
   buildEntityLifecycleReferenceIndex,
   emptyProjectedWorldScriptState,
+  lookupText,
   pixelDeltaToGridDelta,
   resolveAuthorDialogueTree,
 } from '@type-pal/content'
@@ -108,6 +110,8 @@ export class Playback {
   onUi?: () => void
   /** 当前命令路径(如 "0/12/then/3";null = 未在播)。 */
   activePath: string | null = null
+  /** 本轮已进入的指令序号；纯状态/日志指令也给单步提供可见反馈。 */
+  stepNumber = 0
   /**
    * 相机兴趣点(「命令即导演」):播放时初始 = 触发 owner 实体(onEnter = 玩家),
    * 之后跟随最后被命令作用的对象 —— 实体走位/转向/显隐 → 该实体;队伍走位/瞬移 →
@@ -123,12 +127,16 @@ export class Playback {
   /** 纯表现层的 0x76 黑幕事务；不进入 scratch world，更不会写回项目。 */
   private screenHoldToken: string | null = null
   private gateQueue: (() => void)[] = []
+  private stepRequested = false
+  private commandInFlight = false
+  private dialogTimeLeft = 0
   private timers: { left: number; resolve: () => void }[] = []
 
   constructor(
     scene: SceneDef,
     private readonly resolver?: ScriptResolver,
     private readonly itemNames: ReadonlyMap<string, string> = new Map(),
+    private readonly locale: Locale = {},
   ) {
     this.scene = scene
     this.view = this.freshView()
@@ -231,6 +239,7 @@ export class Playback {
       this.resolver,
     )
     runner.onStep = (ev: StepEvent) => {
+      this.stepNumber++
       this.activePath = ev.path.join('/')
       const p = this.poiOf(ev.cmd as { kind: string; entity?: string })
       if (p) this.poi = p
@@ -243,6 +252,8 @@ export class Playback {
       })
       .then(() => {
         if (this.abort === ac) {
+          this.stepRequested = false
+          this.commandInFlight = false
           this.mode = 'done'
           this.activePath = null
           this.onUi?.()
@@ -269,9 +280,18 @@ export class Playback {
   }
 
   private waitForCommandGate(ac: AbortController): Promise<void> {
+    if (ac.signal.aborted) return Promise.resolve()
+    this.commandInFlight = false
     return new Promise<void>((resolve) => {
-      if (ac.signal.aborted || this.mode === 'running') return resolve()
-      this.gateQueue.push(resolve)
+      const enter = (): void => {
+        if (!ac.signal.aborted) {
+          this.stepRequested = false
+          this.commandInFlight = true
+        }
+        resolve()
+      }
+      if (this.mode === 'running' || this.stepRequested) enter()
+      else this.gateQueue.push(enter)
     })
   }
 
@@ -327,7 +347,6 @@ export class Playback {
     const coordinator = new FlowRuntimeCoordinator()
     const runtimeHost = new ProjectScriptRuntimeHost(scratch, coordinator, {
       lifecycleReferences: buildEntityLifecycleReferenceIndex([runtimeScene]),
-      gate: () => this.waitForCommandGate(ac),
       executeEffect: (command, context, signal, commitControl) => {
         if (
           command.kind === 'suspendEntity' ||
@@ -420,7 +439,9 @@ export class Playback {
       ac.signal,
       new RuntimeSharedScriptResolver(runtimeSharedScripts, digest),
     )
+    runner.beforeStep = () => this.waitForCommandGate(ac)
     runner.onStep = (event) => {
+      this.stepNumber++
       this.activePath = event.path.join('/')
       const command =
         event.command.kind === 'leaf'
@@ -446,6 +467,8 @@ export class Playback {
       )
       .then(() => {
         if (this.abort === ac) {
+          this.stepRequested = false
+          this.commandInFlight = false
           this.mode = 'done'
           this.activePath = null
           this.onUi?.()
@@ -483,22 +506,28 @@ export class Playback {
   resume(): void {
     if (this.mode !== 'paused') return
     this.mode = 'running'
+    this.stepRequested = false
     for (const r of this.gateQueue.splice(0)) r()
-    // 悬挂对话不自动确认——继续播放仍等用户点「继续」(对话本身是阻塞语义)
+    // 普通对话从剩余阅读时间继续；二选一仍只能由明确选择提交。
     this.onUi?.()
   }
 
-  /** 单步:放行一条命令(若正停在对话上,先确认对话)。 */
+  /** 单步进入暂停模式；确认当前句后放行一条命令，不积攒连点、不代选。 */
   step(): void {
-    if (this.view.dialog) {
-      this.confirmDialog()
-      return
-    }
+    if (this.mode === 'idle' || this.mode === 'done') return
+    this.mode = 'paused'
     if (this.view.confirm) {
-      this.submitConfirm()
+      this.onUi?.()
       return
     }
-    this.gateQueue.shift()?.()
+    if (this.view.dialog) this.confirmDialog()
+    else if (this.commandInFlight) {
+      this.onUi?.()
+      return
+    }
+    const enter = this.gateQueue.shift()
+    if (enter) enter()
+    else this.stepRequested = true
     this.onUi?.()
   }
 
@@ -506,6 +535,7 @@ export class Playback {
   confirmDialog(): void {
     const d = this.view.dialog
     if (!d) return
+    this.dialogTimeLeft = 0
     this.view.dialog = null
     this.view.heldDialog = d.cue
     d.resolve()
@@ -573,6 +603,9 @@ export class Playback {
   stop(): void {
     this.abort?.abort()
     this.abort = null
+    this.stepRequested = false
+    this.commandInFlight = false
+    this.dialogTimeLeft = 0
     this.finalizeScreenHold()
     for (const r of this.gateQueue.splice(0)) r()
     for (const m of this.moves.splice(0)) m.resolve()
@@ -587,6 +620,7 @@ export class Playback {
     this.view = this.freshView()
     this.mode = 'idle'
     this.activePath = null
+    this.stepNumber = 0
     this.poi = null
     this.onUi?.()
   }
@@ -594,7 +628,13 @@ export class Playback {
   /** rAF 驱动:推进走位/淡幕/计时。返回是否有活动(需要重绘)。 */
   tick(dt: number): boolean {
     const d = dt * this.speed
-    const active = this.moves.length > 0 || this.fadeJob !== null || this.timers.length > 0
+    const autoDialogue = this.mode === 'running' && this.view.dialog !== null
+    const active =
+      this.moves.length > 0 || this.fadeJob !== null || this.timers.length > 0 || autoDialogue
+    if (autoDialogue) {
+      this.dialogTimeLeft -= d
+      if (this.dialogTimeLeft <= 0) this.confirmDialog()
+    }
     // 走位
     for (const mv of [...this.moves]) {
       mv.acc += d
@@ -658,12 +698,18 @@ export class Playback {
     dialog: (cue) =>
       new Promise<void>((resolve) => {
         this.view.heldDialog = undefined
+        const characters = cue.rows.reduce(
+          (count, row) => count + Array.from(lookupText(row.text, this.locale)).length,
+          0,
+        )
+        this.dialogTimeLeft = Math.min(8000, 1200 + characters * 80)
         this.view.dialog = { cue, resolve }
         this.onUi?.()
       }),
     clearDialog: () => {
       const d = this.view.dialog
       this.view.dialog = null
+      this.dialogTimeLeft = 0
       this.view.heldDialog = undefined
       d?.resolve()
       this.onUi?.()

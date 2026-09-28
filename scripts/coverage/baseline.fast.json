@@ -1,14 +1,14 @@
 {
   "schemaVersion": 2,
   "profile": "fast",
-  "generatedAt": "2026-09-28T01:39:29.502Z",
+  "generatedAt": "2026-09-28T03:13:16.175Z",
   "provider": {
     "name": "v8",
     "vitest": "4.1.7",
     "coverageV8": "4.1.7"
   },
   "sourceFileCount": 730,
-  "testCount": 9715,
+  "testCount": 9730,
   "packages": {
     "shared": {
       "name": "@type-pal/shared",
@@ -2065,7 +2065,7 @@
       ],
       "scopeDigest": "b4b6875e840b3c0602ef587af488195abaf20bc3dc6d4adb1b6587a5e9c453d1",
       "fastTests": {
-        "testCount": 1872,
+        "testCount": 1876,
         "testFileCount": 217,
         "files": [
           "packages/reforge/scripts/battle-trial-assets.test.ts",
@@ -3249,8 +3249,8 @@
           },
           {
             "file": "packages/reforge/src/script-runner-core.test.ts",
-            "testCount": 17,
-            "identityDigest": "fdcb7170f7969ea3b472c64b35f85a854bcfad7cdaafdd8af6bd31488d469ac5"
+            "testCount": 21,
+            "identityDigest": "3eec519eab220a0dc8a05d9f214907f336aead009ee85be9606e39f7b170ca9b"
           },
           {
             "file": "packages/reforge/src/script-runner.conditions.residual.test.ts",
@@ -3373,26 +3373,26 @@
             "identityDigest": "3cbb8fa95917cb86d7414ee21345af8a1a2a0df2d14066318539861c10b28ed8"
           }
         ],
-        "identityDigest": "3885889a8a74bc03499e0892988054c45e1dcb67d83187a6fc587c32924258ee",
+        "identityDigest": "a719d5f20e43139ae52db362ff5d6fd421ce43d253eb1db173f7afa119f3e407",
         "duplicateIdentityCount": 0,
-        "executionDigest": "b115a3441c2debf41019cbfda5b3f5402cb846649b89f1759ea44c8308fa62d9"
+        "executionDigest": "8c6a28db95e26d32c77026c173a861d35759a5acf42b790302dd119a7f8393d1"
       },
       "metrics": {
         "statements": {
-          "covered": 14001,
-          "total": 17099
+          "covered": 14003,
+          "total": 17101
         },
         "branches": {
-          "covered": 8294,
-          "total": 11458
+          "covered": 8296,
+          "total": 11460
         },
         "functions": {
           "covered": 2271,
           "total": 2781
         },
         "lines": {
-          "covered": 12615,
-          "total": 14925
+          "covered": 12616,
+          "total": 14926
         }
       }
     },
@@ -4873,8 +4873,8 @@
       ],
       "scopeDigest": "e8503db84898429d43f7182fbfa77a13d53933aad0c938380f7918609d7fcb3e",
       "fastTests": {
-        "testCount": 3126,
-        "testFileCount": 382,
+        "testCount": 3137,
+        "testFileCount": 383,
         "files": [
           "packages/editor/scripts/battle-simulator-http.test.mjs",
           "packages/editor/scripts/battle-simulator-ui.test.tsx",
@@ -5005,6 +5005,7 @@
           "packages/editor/src/core/playback.motion.test.ts",
           "packages/editor/src/core/playback.presentation.test.ts",
           "packages/editor/src/core/playback.queries.test.ts",
+          "packages/editor/src/core/playback.stepping.test.ts",
           "packages/editor/src/core/playback.test.ts",
           "packages/editor/src/core/poison-commands.glm-boundaries.test.ts",
           "packages/editor/src/core/poison-commands.test.ts",
@@ -5878,7 +5879,7 @@
           {
             "file": "packages/editor/src/core/playback.controls.test.ts",
             "testCount": 7,
-            "identityDigest": "d072d4a118c251b09c43aa72d8b7d4efe553b37bd3aa06796b83dea64e943175"
+            "identityDigest": "bb662f6ad157ec8aa87f7604dd5f584d3b9a93d1efcf5b59da6d965fb342042f"
           },
           {
             "file": "packages/editor/src/core/playback.effects.test.ts",
@@ -5904,6 +5905,11 @@
             "file": "packages/editor/src/core/playback.queries.test.ts",
             "testCount": 12,
             "identityDigest": "918ac242eadc76a34503c0aa989319710b2c46c7dac3c06431e27c251131909d"
+          },
+          {
+            "file": "packages/editor/src/core/playback.stepping.test.ts",
+            "testCount": 10,
+            "identityDigest": "d3ecb12f08d1cd27f81938cc29dd785b56b28f7cd0424386b7c7bf6b719b258e"
           },
           {
             "file": "packages/editor/src/core/playback.test.ts",
@@ -6707,8 +6713,8 @@
           },
           {
             "file": "packages/editor/src/ui/PreviewCanvas.glm-ui-wave.test.tsx",
-            "testCount": 3,
-            "identityDigest": "7726e7dc303b9e6840f40353a9678822e3b5bab48d363442991cf81c5a08dafd"
+            "testCount": 4,
+            "identityDigest": "389e4333faad82d90a99fd9c0da57b8b74aabce6b2d68292a627ec62055c2e2f"
           },
           {
             "file": "packages/editor/src/ui/PreviewCanvas.test.tsx",
@@ -7171,46 +7177,46 @@
             "identityDigest": "6d9b1e40775d9e105c4ed3770ae488e05c74d354e5c965aae87815ced020c2ff"
           }
         ],
-        "identityDigest": "3fa0ff71ba1ea4d2017047cb6f16d5bafe6a0f0875dd6dd4fb71310ece9a9cfa",
+        "identityDigest": "d48200cf4db56d3a265151e320239903a2d29be6e61d53ff21f7f35cf950374c",
         "duplicateIdentityCount": 8,
-        "executionDigest": "07d9cf8f244d13c01c5de449efc7fb9b3efce58fd0ff108d3284a6b6e046c30c"
+        "executionDigest": "a0b2028ec2cff1ed7b7186feec468a32188969f02d04ea50fd98ba429c84a93d"
       },
       "metrics": {
         "statements": {
-          "covered": 27398,
-          "total": 32944
+          "covered": 27442,
+          "total": 32989
         },
         "branches": {
-          "covered": 21593,
-          "total": 28454
+          "covered": 21621,
+          "total": 28484
         },
         "functions": {
-          "covered": 6898,
-          "total": 8452
+          "covered": 6900,
+          "total": 8454
         },
         "lines": {
-          "covered": 24584,
-          "total": 28789
+          "covered": 24623,
+          "total": 28827
         }
       }
     }
   },
   "total": {
     "statements": {
-      "covered": 65964,
-      "total": 81030
+      "covered": 66010,
+      "total": 81077
     },
     "branches": {
-      "covered": 47637,
-      "total": 63361
+      "covered": 47667,
+      "total": 63393
     },
     "functions": {
-      "covered": 12281,
-      "total": 15245
+      "covered": 12283,
+      "total": 15247
     },
     "lines": {
-      "covered": 59191,
-      "total": 70915
+      "covered": 59231,
+      "total": 70954
     }
   }
 }
