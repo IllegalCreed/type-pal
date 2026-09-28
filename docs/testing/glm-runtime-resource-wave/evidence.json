@@ -1,0 +1,442 @@
+{
+  "task": "TEST-GLM-RUNTIME-RESOURCE-2",
+  "productionFreeze": "f6878b3cd18d916d3cac8aba3e50dc8c70556a2c",
+  "dispatchSha": "48e201935841c268c1576a3ca2020b6807c17120",
+  "batches": {
+    "A": {
+      "groups": ["R01", "R02", "R03", "R04"],
+      "candidateSha": "b9d6ce54",
+      "directed": {
+        "shared": {
+          "total": 48,
+          "new": 13,
+          "adjacent": 35,
+          "failed": 0
+        },
+        "reforge": {
+          "total": 10,
+          "new": 7,
+          "adjacent": 3,
+          "failed": 0
+        },
+        "pal-extract": {
+          "total": 41,
+          "new": 24,
+          "adjacent": 17,
+          "failed": 0
+        }
+      },
+      "newTestFiles": [
+        "packages/shared/src/rle.glm-runtime-resource.test.ts",
+        "packages/shared/src/rle-encode.glm-runtime-resource.test.ts",
+        "packages/reforge/src/quantize.glm-runtime-resource.test.ts",
+        "packages/pal-extract/src/resources/palette.glm-runtime-resource.test.ts",
+        "packages/pal-extract/src/resources/parsers/ball.glm-runtime-resource.test.ts",
+        "packages/pal-extract/src/resources/parsers/rgm.glm-runtime-resource.test.ts",
+        "packages/pal-extract/src/resources/parsers/fire.glm-runtime-resource.test.ts",
+        "packages/pal-extract/src/resources/scene.glm-runtime-resource.test.ts",
+        "packages/pal-extract/src/resources/sprite.glm-runtime-resource.test.ts"
+      ],
+      "fixtures": [
+        "packages/pal-extract/src/__tests__/glm-runtime-resource/yj2-sprite-chunk-vector.ts"
+      ],
+      "gates": {
+        "typecheck": ["shared", "reforge", "pal-extract"],
+        "biome": "0/0/0 on new files + wave dir",
+        "docsCheck": "PASS",
+        "gitDiffCheck": "clean"
+      },
+      "mutants": {
+        "runner": "docs/testing/glm-runtime-resource-wave/tools/runtime-resource-mutants.mjs",
+        "selfTest": 10,
+        "control": "exit0 41 green",
+        "needles": [
+          {
+            "id": "ball-marker-prefix-misread",
+            "result": "business red, exactly 1, AssertionError, load-hit witness, hashes unchanged"
+          },
+          {
+            "id": "scene-label-zero-entry",
+            "result": "business red, exactly 1, AssertionError, load-hit witness, hashes unchanged"
+          }
+        ]
+      },
+      "visual": {
+        "id": "RV1",
+        "host": "http://127.0.0.1:6072/ (temporary, stopped)",
+        "screenshot": "/tmp/type-pal-glm-runtime-resource/rv1-batchA.png",
+        "sha256": "44fbbb43623fb6e6ed70a01393ecea36c7307e598ccceaf855aaa1b531fb8c81",
+        "canvasAsserts": "PNG 4x PASS; quantize 4x PASS; console errors 0"
+      },
+      "unproven": [
+        "fire raw-branch successful multi-frame parse unreachable via public entry (count/uncompLen dual-use)",
+        "parseIndexedRleChunk '未找到可解释的坏尾槽' branch structurally unreachable (slot0 word == frameCount)",
+        "decodeRle truncated stream hangs (lenient decoder) — not asserted, referred to Codex",
+        "RV1 samples are synthetic self-contained frames, not original-asset appearance"
+      ]
+    },
+    "B": {
+      "groups": ["R05", "R06", "R07", "R08"],
+      "candidateSha": "9f99e0b8",
+      "directed": {
+        "pal-extract": {
+          "total": 95,
+          "new": 34,
+          "adjacent": 61,
+          "failed": 0
+        }
+      },
+      "newTestFiles": [
+        "packages/pal-extract/src/events/disasm.glm-runtime-resource.test.ts",
+        "packages/pal-extract/src/events/recompile.glm-runtime-resource.test.ts",
+        "packages/pal-extract/src/events/slice.glm-runtime-resource.test.ts",
+        "packages/pal-extract/src/events/annotate.glm-runtime-resource.test.ts",
+        "packages/pal-extract/src/resources/parsers/enemy-teams.glm-runtime-resource.test.ts",
+        "packages/pal-extract/src/resources/parsers/items.glm-runtime-resource.test.ts",
+        "packages/pal-extract/src/resources/parsers/stores.glm-runtime-resource.test.ts",
+        "packages/pal-extract/src/font/bdf-to-json.glm-runtime-resource.test.ts",
+        "packages/pal-extract/src/resources/asset-manifest.glm-runtime-resource.test.ts",
+        "packages/pal-extract/src/resources/parsers/battle-fields.glm-runtime-resource.test.ts"
+      ],
+      "gates": {
+        "typecheck": ["pal-extract"],
+        "biome": "0/0/0 on new files + wave dir",
+        "docsCheck": "PASS",
+        "gitDiffCheck": "clean"
+      },
+      "mutants": {
+        "runner": "docs/testing/glm-runtime-resource-wave/tools/runtime-resource-mutants.mjs",
+        "batch": "b",
+        "selfTest": 10,
+        "control": "exit0 95 green",
+        "needles": [
+          {
+            "id": "disasm-random-jump-skip-first-target",
+            "result": "business red, exactly 1, AssertionError, hashes unchanged"
+          },
+          {
+            "id": "stores-truncation-sentinel-dropped",
+            "result": "business red, exactly 1, AssertionError, hashes unchanged"
+          }
+        ],
+        "replacedNeedle": "annotate-empty-word-sentinel masked by downstream if(name) — judge rejected as exit0, replaced, no green-fix"
+      },
+      "unproven": [
+        "recompile missing-goto-label default policy: left undefined by prior queue R04, not pinned",
+        "annotate _spell/_person/_enemy RULES unreachable via typed Command union (no named carrier)",
+        "annotate empty-word sentinel doubly guarded; public-entry mutation invisible",
+        "targets.json asset-manifest existingTestPointers stale (two existing test files on freeze baseline); only empty-entries axes added"
+      ]
+    },
+    "C": {
+      "groups": ["R09", "R10", "R11", "R12"],
+      "candidateSha": "511c63e7",
+      "directed": {
+        "reforge": {
+          "total": 60,
+          "new": 39,
+          "adjacent": 21,
+          "failed": 0
+        }
+      },
+      "newTestFiles": [
+        "packages/reforge/src/text/glyph.glm-runtime-resource.test.ts",
+        "packages/reforge/src/text/text-render.glm-runtime-resource.test.ts",
+        "packages/reforge/src/engine-chrome/registry.glm-runtime-resource.test.ts",
+        "packages/reforge/src/menu/menu-box.glm-runtime-resource.test.ts",
+        "packages/reforge/src/menu/item-list.glm-runtime-resource.test.ts",
+        "packages/reforge/src/menu/system-box.glm-runtime-resource.test.ts",
+        "packages/reforge/src/menu/magic-box.glm-runtime-resource.test.ts",
+        "packages/reforge/src/menu/use-box.glm-runtime-resource.test.ts",
+        "packages/reforge/src/menu/equip-box.glm-runtime-resource.test.ts"
+      ],
+      "fixtures": ["packages/reforge/src/__tests__/glm-runtime-resource/menu-draw-fixtures.ts"],
+      "gates": {
+        "typecheck": ["reforge"],
+        "biome": "0/0/0 on new files + fixture + wave dir",
+        "docsCheck": "PASS",
+        "gitDiffCheck": "clean"
+      },
+      "mutants": {
+        "runner": "docs/testing/glm-runtime-resource-wave/tools/runtime-resource-mutants.mjs",
+        "batch": "c",
+        "selfTest": 10,
+        "control": "exit0 60 green",
+        "needles": [
+          {
+            "id": "item-desc-scroll-rate-slowed",
+            "result": "business red, exactly 1, AssertionError, hashes unchanged"
+          },
+          {
+            "id": "system-disabled-color-dropped",
+            "result": "business red, exactly 1, AssertionError, hashes unchanged"
+          }
+        ]
+      },
+      "visual": {
+        "id": "RV2",
+        "host": "http://127.0.0.1:6073/ (temporary, stopped; esbuild bundle of real reforge sources)",
+        "screenshot": "/tmp/type-pal-glm-runtime-resource/rv2-batchC.png",
+        "sha256": "78acfb06587293e3a25f4e5011506140b644ce181634650565fba41e9c3913f5",
+        "canvasAsserts": "P1 amount/cursor lit>0; P2→P3 desc diff 99360; P4 empty region lit=0; console errors 0 → ASSERT PASS"
+      },
+      "unproven": [
+        "bakeGlyph canvas painting verified indirectly via real-browser RV2 host; fast suite uses port double",
+        "engineChromeUiUrl missing-slot throw unreachable via typed entry (all 85 slots exist)",
+        "RV2 item samples are synthetic self-contained inputs, not original-asset appearance acceptance"
+      ]
+    },
+    "D": {
+      "groups": ["R13", "R14", "R15", "R16"],
+      "candidateSha": "366c5663",
+      "directed": {
+        "reforge": {
+          "total": 74,
+          "new": 17,
+          "adjacent": 57,
+          "failed": 0
+        }
+      },
+      "newTestFiles": [
+        "packages/reforge/src/menu/save-browser-box.glm-runtime-resource.test.ts",
+        "packages/reforge/src/battle/battle-positions.glm-runtime-resource.test.ts",
+        "packages/reforge/src/battle/settlement.glm-runtime-resource.test.ts",
+        "packages/reforge/src/battle/battle-anim.glm-runtime-resource.test.ts"
+      ],
+      "noNewContractFiles": [
+        "shop-box (covered by shop-box.test/residual)",
+        "battle-ui/present-battle (covered by residual/test)"
+      ],
+      "gates": {
+        "typecheck": ["reforge"],
+        "biome": "0/0/0",
+        "docsCheck": "PASS",
+        "gitDiffCheck": "clean"
+      },
+      "mutants": {
+        "batch": "d",
+        "selfTest": 10,
+        "control": "exit0 74 green",
+        "needles": [
+          {
+            "id": "settlement-hidden-duplicated",
+            "result": "business red, exactly 1"
+          },
+          {
+            "id": "save-browser-blocked-dropped",
+            "result": "business red, exactly 1"
+          }
+        ]
+      },
+      "visual": {
+        "ids": ["RV3", "RV4"],
+        "screenshot": "/tmp/type-pal-glm-runtime-resource/rv3-rv4-batchD.png",
+        "sha256": "6abdb5abbf09d659a35da6165a08ac030b3d8926521ed6f524eca499d2230e2b",
+        "canvasAsserts": "ASSERT PASS; console errors 0"
+      },
+      "unproven": [
+        "battle-anim large flows out of narrow scope",
+        "RV3 MAGIC_GRID 301px width causes slight panel overlap in display (asserts sample per-panel coords)"
+      ]
+    },
+    "E": {
+      "groups": ["R17", "R18", "R19", "R20"],
+      "candidateSha": "61686dc3",
+      "directed": {
+        "reforge": {
+          "total": 77,
+          "new": 6,
+          "adjacent": 71,
+          "failed": 0
+        }
+      },
+      "newTestFiles": [
+        "packages/reforge/src/audio/midi-preview.glm-runtime-resource.test.ts",
+        "packages/reforge/src/battle-trial-config.glm-runtime-resource.test.ts"
+      ],
+      "noNewContractFiles": [
+        "sfx-readiness/bgm/sfx/sprite-readiness/trial-prepare/trial-assets covered by existing tests"
+      ],
+      "gates": {
+        "typecheck": ["reforge"],
+        "biome": "0/0/0",
+        "docsCheck": "PASS",
+        "gitDiffCheck": "clean"
+      },
+      "mutants": {
+        "batch": "e",
+        "selfTest": 10,
+        "control": "exit0 77 green",
+        "needles": [
+          {
+            "id": "trial-integer-upper-bound-dropped",
+            "result": "business red, exactly 1"
+          },
+          {
+            "id": "battle-abort-classification-blinded",
+            "result": "business red, exactly 1"
+          }
+        ]
+      },
+      "unproven": [
+        "corrupt-MIDI path of analyzeMidiBytes (library contract, only legal input authorized)"
+      ]
+    },
+    "F": {
+      "groups": ["R21", "R22", "R23", "R24"],
+      "candidateSha": "8491a0ca",
+      "directed": {
+        "migrate": {
+          "total": 42,
+          "new": 8,
+          "adjacent": 34,
+          "failed": 0
+        }
+      },
+      "newTestFiles": ["packages/migrate/src/pal-battle-sprites.glm-runtime-resource.test.ts"],
+      "noNewContractFiles": [
+        "R22 materialize/semantic-alias, R23 item-scheme-labels/store-boundary, R24 casualty/music-audit covered by existing tests"
+      ],
+      "gates": {
+        "typecheck": ["migrate"],
+        "biome": "0/0/0",
+        "docsCheck": "PASS",
+        "gitDiffCheck": "clean"
+      },
+      "mutants": {
+        "batch": "f",
+        "selfTest": 10,
+        "control": "exit0 42 green",
+        "needles": [
+          {
+            "id": "player-steal-frame-threshold-lowered",
+            "result": "business red, exactly 1"
+          },
+          {
+            "id": "summon-definition-id-off-by-one",
+            "result": "business red, exactly 1"
+          }
+        ],
+        "replacedNeedle": "exact/extra constant drift red-2 (composition test same function) — replaced, disclosed"
+      },
+      "unproven": [
+        "enemy 153-fixture programmatically derived from frame-count constants (exact/extra relation is the tested contract itself)"
+      ]
+    },
+    "G": {
+      "groups": ["R25", "R26", "R27", "R28"],
+      "candidateSha": "7c79bd72",
+      "directed": {
+        "reforge": {
+          "total": 34,
+          "new": 2,
+          "adjacent": 32,
+          "failed": 0
+        },
+        "migrate": {
+          "total": 25,
+          "new": 7,
+          "adjacent": 18,
+          "failed": 0
+        }
+      },
+      "newTestFiles": [
+        "packages/reforge/src/project-map.glm-runtime-resource.test.ts",
+        "packages/migrate/src/script-library-normalize.glm-runtime-resource.test.ts",
+        "packages/migrate/src/project-map-converter.glm-runtime-resource.test.ts",
+        "packages/migrate/src/script-control-flow-audit.glm-runtime-resource.test.ts"
+      ],
+      "noNewContractFiles": [
+        "runtime-project-view/asset-resolver (covered), script-overlays/bake-indexed-rgba (covered)"
+      ],
+      "gates": {
+        "typecheck": ["reforge", "migrate"],
+        "biome": "0/0/0",
+        "docsCheck": "PASS",
+        "gitDiffCheck": "clean"
+      },
+      "mutants": {
+        "batch": "g (multi-package runner)",
+        "selfTest": 10,
+        "control": "exit0 27 green (reforge 2 + migrate 25)",
+        "needles": [
+          {
+            "id": "layer-id-gap-backfill-dropped",
+            "result": "business red, exactly 1"
+          },
+          {
+            "id": "zero-pointer-classification-swapped",
+            "result": "business red, exactly 1"
+          }
+        ],
+        "regression": "batches a-f re-run passed after runner multi-package refactor; two needle replacements disclosed (infinite-loop needle, sites/empty mutually-exclusive needle)"
+      },
+      "unproven": [
+        "R28 restricted to collectSourceEntrySites; full auditor/graph/ForTest exports untouched",
+        "hosts main.js bundles no longer committed; rebuild command documented in hosts/README.md"
+      ]
+    }
+  },
+  "summary": {
+    "queue": "TEST-GLM-RUNTIME-RESOURCE-2 (GLM 第二对话 28 组 / A–G 七批)",
+    "candidates": {
+      "A": "b9d6ce54",
+      "B": "9f99e0b8",
+      "C": "511c63e7",
+      "D": "366c5663",
+      "E": "61686dc3",
+      "F": "8491a0ca",
+      "G": "7c79bd72"
+    },
+    "totals": {
+      "newTests": 157,
+      "perBatchNew": {
+        "A": 44,
+        "B": 34,
+        "C": 39,
+        "D": 17,
+        "E": 6,
+        "F": 8,
+        "G": 9
+      },
+      "perPackageFreshRerun": {
+        "shared": {
+          "total": 48,
+          "new": 13,
+          "adjacent": 35,
+          "failed": 0,
+          "batches": "A"
+        },
+        "pal-extract": {
+          "total": 136,
+          "new": 58,
+          "adjacent": 78,
+          "failed": 0,
+          "batches": "A+B"
+        },
+        "reforge": {
+          "total": 252,
+          "new": 71,
+          "adjacent": 181,
+          "failed": 0,
+          "batches": "C+D+E+G(project-map)"
+        },
+        "migrate": {
+          "total": 67,
+          "new": 15,
+          "adjacent": 52,
+          "failed": 0,
+          "batches": "F+G"
+        }
+      },
+      "note": "2026-09-29 返工后新鲜 JSON 重跑（合并 main 95a326fc 后同口径）；perBatchNew 为各批授权增量，157 = 44+34+39+17+6+8+9"
+    },
+    "needles": "每批 2 针 × 7 批 = 14 针全部恰一红 AssertionError（4 次换针均留痕）；返工后全批回归重跑通过",
+    "visuals": {
+      "RV1": "rv1-batchA.png 44fbbb43…（候选 b9d6ce54 时期）",
+      "RV2": "rv2-batchC.png 78acfb06…（候选 511c63e7 时期）",
+      "RV3/RV4": "rv3-rv4-rework.png f6c39540…（返工后重取证：四面板独立 clip、逐面板取样、邻板零渗入）"
+    },
+    "note": "所有候选未合 main；Codex 独立验收、统一质量门与集成推送另行执行"
+  }
+}
