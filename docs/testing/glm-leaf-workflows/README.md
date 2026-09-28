@@ -160,8 +160,8 @@ lint/格式/typecheck **error/warning/info 全零**；已有诊断也不能报�
 | A | G01–04 | `codex/glm-leaf-workflows-r1` 248295eb（回执/登记见同分支下一提交） | 自验通过：定向 25/25、相邻 361/361、typecheck/Biome/docs 零诊断、判据自测 10 类+control 绿+2 针业务红、隔离视觉 3 图（端口 6066，已停） | pending |
 | B | G05–08 | `codex/glm-leaf-workflows-r1` 87684ead | 自验通过：定向 28/28、相邻 389/389、typecheck/Biome/docs 零诊断、判据 control 绿+2 针业务红、隔离视觉 2 图（端口 6066，已停） | pending |
 | C | G09–12 | `codex/glm-leaf-workflows-r1` 2c6322fb | 自验通过：定向 28/28、相邻旧测 15/15、typecheck/Biome/docs 零诊断、判据 control 绿+2 针业务红、隔离视觉 3 图（端口 6067，已停） | pending |
-| D | G13–16 | pending | pending | pending |
-| E | G17–20 | pending | pending | pending |
+| D | G13–16 | 本批首提交 SHA（提交后回填于登记提交） | 自验通过：定向 33/33、相邻 41/41、全包 3413/3413、A–D 覆盖对照（行 +177/分支 +172，20 文件改善）、typecheck/Biome/docs 零诊断、判据 control 绿+2 针红、隔离视觉 2 图（6068，已停） | pending |
+| E | G17–20 | 本批首提交 SHA（提交后回填于登记提交） | 自验通过：定向 12/12、相邻 42/42、typecheck/Biome/docs 零诊断、判据 control 绿+2 针红、隔离视觉 3 图（6068，已停） | pending |
 | F | G21–24 | pending | pending | pending |
 | G | G25–28 | pending | pending | pending |
 | H | G29–32 | pending | pending | pending |

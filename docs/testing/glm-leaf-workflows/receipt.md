@@ -180,3 +180,106 @@ console 错误：0（error 监听全程为空）。
     API 且不属于本组窄合同，未测。
   - 1000×720 视口手柄键盘步进因焦点竞态未生效（边界钳制行为已在 1440×900 用真实键盘逐步实证）。
 - 真实产品缺陷：无。
+
+## 批 D（G13–G16 · 深链定位/选区轮廓/检查器/图章表单）
+
+- 新测试（33 条，6 文件）：
+  - `editor-target.glm-leaf-wave.test.ts`（7）：真实合法工程下 scene/map/actor workspace 深链只认
+    现存稳定 id；skill 深链走 `battle` 模块（易错点）；music/sound/image/cutscene 按 asset kind 区分
+    （image 接受 portrait/face/item-icon/battle-background，cutscene 接受 video/frame-animation）；
+    battle-sprite 的 domain×view 四象限；href 重写保留无关 query 与 hash（编码后逐字节断言）并清陈旧
+    domain/view/action 参数；标识符 trim 与 actor workspace actionId 白名单；battle sprite asset 位置
+    URL 编解码 round-trip。
+  - `map-selection-overlay.glm-leaf-wave.test.ts`（7）：实测等距错排格的共边邻接（偶行↔下两行同列/
+    右列）；四邻环 16 条含 4 条洞轮廓、并入中心抵消为 12；重复点折叠；canvas 外格 fill 剔除而边界
+    描边保留并集；pan/zoom 变换 fill 菱形与边界端点逐坐标；四 tone 的 fill/内描边色值与两次 stroke
+    协议；非 cells 选区零绘制；visual slot 重复只画一次。
+  - `MapSelectionInspector.glm-leaf-wave.test.tsx`（5）：tileId 提交把全部 visual slot 映射为输入值并
+    带标签补丁；collision 提交只写 gridPoints 且 required=[activeLayer]；非法 tileId/collision 走
+    onValidationError 且零补丁；高度 +1 只写有瓦片槽（空槽跳过）；换选区清陈旧错误且零提交。
+  - `StampPlacementSelectionInspector.glm-leaf-wave.test.tsx`（8）：单组摘要（组数/成员数/锚点/来源）
+    与 enter-edit 真实 id；多选禁进入、解组转发全部 id；锁定层禁解组但允许进入；组内 tile/height 提交
+    限于当前层子集（混合值显示占位）；碰撞提交与「移出碰撞成员（保留值）」的 removeGridPoints；整层
+    擦除在最后成员时禁用（title 说明）而子集允许；非法数字 validation；退出组内零补丁。
+  - `StampContentEditor.glm-leaf-wave.test.tsx`（3）：名称/标签 blur 提交完整模板（id/图层矩阵不变）；
+    migrated 只读直到接管勾选（onChange origin→authored 且解锁）；图层显隐切换不提交。
+  - `StampTemplateDialog.glm-leaf-wave.test.tsx`（3）：取消零命令零修改（map 逐字节比对）；完成创建把
+    完整模板（重命名局部槽、显式锚点、勾选后含碰撞 0 值快照）经真实 AddStampTemplateCommand 入
+    session；锚点非整数报「锚点行必须是整数。」且不关闭。
+- 复跑（cwd 仓库根；全部 exit 0）：
+  ```sh
+  env -u NODE_COMPILE_CACHE pnpm --filter @type-pal/editor exec vitest run \
+    src/ui/{editor-target,map-selection-overlay}.glm-leaf-wave.test.{ts,ts} \
+    src/ui/{MapSelectionInspector,StampPlacementSelectionInspector,StampContentEditor,StampTemplateDialog}.glm-leaf-wave.test.tsx \
+    --maxWorkers=2   # 33/33，JSON: /tmp/glm-leaf-D-directed.json
+  env -u NODE_COMPILE_CACHE pnpm --filter @type-pal/editor exec vitest run \
+    src/ui/{editor-target,editor-navigation,map-selection-overlay}.test.{ts,ts} \
+    src/ui/{MapSelectionInspector,StampTemplateDialog}.test.tsx --maxWorkers=2   # 相邻旧测 41/41
+  env -u NODE_COMPILE_CACHE pnpm --filter @type-pal/editor typecheck   # 0 error
+  pnpm exec biome check <六个新测试> docs/testing/glm-leaf-workflows   # 0 error/warning/info
+  env -u NODE_COMPILE_CACHE node docs/testing/glm-leaf-workflows/leaf-mutants.mjs d
+  ```
+- 反控（leaf-mutants.mjs d，自测 10 类 + control 33/33 绿 + 2 针业务红）：
+  - `overlay-boundary-dedup-drop`：`boundary.has(key)→delete` 拆除 → 边数翻倍红（同实参保真）。
+  - `inspector-tileid-validation-drop`：tileId 非负校验拆除 → 「invalid tile and collision inputs」红。
+- 视觉（D 批一条；直挂 StampTemplateDialog + 真实 map fixtures + 真实 EditSession + 真实
+  drawMapSelectionOverlay，端口 6068，已停；非完整 App、不宣称 MapMode 提交链）：
+  - 表单锚点行 0→2 实际写入（截图 D-stamp-dialog-1440-anchor-edited.png，c430de8a…6ce6eea）；
+    预览汇总（2 视觉成员/1 图层/碰撞 0/瓦片源）可见。
+  - 取消 → 弹层关、重开 → 锚点回默认 0、名称「新组合」、槽名「地板」（D-stamp-dialog-1000-reopened.png，
+    5309d017…26551a）——取消保留原值 ✓。同一小选区 selected/locked 两 tone 菱形在背景画布可辨。
+  - console 错误 0。
+
+## 批 E（G17–G20 · 会话数据表单）
+
+- 新测试（12 条，4 文件）：
+  - `PoisonTab.glm-leaf-wave.test.tsx`（3）：可解度切换经真实 UpdatePoisonCommand 提交并精确 undo；
+    染色号 stepper 提交/空值回 0/undo；未知 id 回落首项 hero。
+  - `VarsTab.glm-leaf-wave.test.tsx`（3）：number 变量创建经真实 AddWorldVariableCommand（kind/name/
+    initial:0 精确对象）；重复 id 是静默 no-op（目录不增、零历史、原定义不变）、`sys:` 前缀构造期拒绝；
+    flag initial 勾选提交且 number 视图无 number 输入（分域不互冒充）。
+  - `ShopTab.glm-leaf-wave.test.tsx`（2）：下架一件恰好一条命令且 undo 恢复顺序；空铺空态可见且无下架
+    按钮。
+  - `ItemAlchemyTab.glm-leaf-wave.test.tsx`（4）：crafting/spirit-gourd 两入口各自渲染 canonical owner
+    （炼蛊皿/紫金葫芦）与对应文案；无 owner 表面可读空态；`appendCraftRecipe` 选非 owner 材料+首产物、
+    空物品表返回 undefined。
+- 复跑（cwd 仓库根；全部 exit 0）：
+  ```sh
+  env -u NODE_COMPILE_CACHE pnpm --filter @type-pal/editor exec vitest run \
+    src/ui/{PoisonTab,VarsTab,ShopTab,ItemAlchemyTab}.glm-leaf-wave.test.tsx \
+    --maxWorkers=2   # 12/12，JSON: /tmp/glm-leaf-E-directed.json
+  env -u NODE_COMPILE_CACHE pnpm --filter @type-pal/editor exec vitest run \
+    src/ui/{PoisonTab,VarsTab,ShopTab,ItemAlchemyTab}.test.tsx --maxWorkers=2   # 相邻旧测 42/42
+  env -u NODE_COMPILE_CACHE pnpm --filter @type-pal/editor typecheck   # 0 error
+  pnpm exec biome check <四个新测试> docs/testing/glm-leaf-workflows   # 0 error/warning/info
+  env -u NODE_COMPILE_CACHE node docs/testing/glm-leaf-workflows/leaf-mutants.mjs e
+  ```
+- 反控（leaf-mutants.mjs e，自测 10 类 + control 12/12 绿 + 2 针业务红）：
+  - `shop-delist-filter-inverted`：下架过滤反转（保留的恰是被下架单件）→ 下架测试红。
+  - `world-variable-dup-silent-overwrite`：重复 id 静默防线拆除 → VarsTab dup 测试红（覆盖发生即
+    version+1）。
+- 视觉（E 批一条；直挂 VarsTab + 真实 EditSession + 合法 registry fixture，端口 6068，已停）：
+  - 新建变量卡片布局完整；flag 变量「新开局时开启」勾选 → 会话回显 initial:true（version 2）→ 宿主
+    内真实 `session.undo()` → initial:false 回显（E-vars-1440-flag-initial-undo.png，6c8035a4…77a611）。
+  - 1000×720 复验目录/hero/表单布局无遮挡（E-vars-1000-final.png，ea2e5e6c…1acf4f）。
+  - console 错误 0。
+- 未证项：
+  - number 变量创建的类型选择在直挂宿主中两次实测（合成与 CUA 真实点击）DOM 均显示「数值（number）」
+    但提交 kind=flag；单测 G18-1 同一路径（act 内 option.click）断言 kind:number 通过。差异属直挂宿主
+    环境时序，未在视觉环境证成，如实登记；不据此改产品或测试。
+- 真实产品缺陷：无（重复 id 静默 no-op 是实测既有合同，反控针钉住该合同）。
+
+## 批 D 里程碑：editor 全包 + A–D 局部覆盖对照
+
+- editor 全包普通测试（D 批末）：424 文件 3413/3413，exit 0。
+- 覆盖对照（`coverage-delta.mjs`，同源码同口径两次 editor 全包 v8 coverage，
+  before 排除 22 个 glm-leaf-wave 新测试、after 全量；include/exclude 与
+  `scripts/coverage/config.mjs` official fast 口径一致；报告仅写 /tmp，基线未动）：
+  - before：387 文件 3149/3149；after：409 文件 3263/3263（差 = 22 个新测试文件）。
+  - lines 85.48% → 86.09%（24,642/28,827 → 24,819/28,827，+177 行）。
+  - branches 75.93% → 76.54%（21,630/28,484 → 21,802/28,484，+172 分支）。
+  - 改善最大的文件：media.tsx +72.73、map-selection-overlay.ts +69.10、list-header.tsx +50.00、
+    navigation.tsx +23.52、PortraitEditor.tsx +17.19、MapSelectionInspector.tsx +16.49、
+    StampPlacementSelectionInspector.tsx +13.33、SoundPicker.tsx +10.94、select.tsx +6.31、
+    MusicPicker.tsx +4.54（共 20 个文件改善，明细见 batch-AD-coverage-delta.json）。
+  - E 批 12 条不在该对照内（E 覆盖并入 H 批末总对照口径）。
