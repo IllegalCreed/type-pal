@@ -12,19 +12,18 @@
  *   全部保持真实实现。
  */
 
-// @ts-expect-error Node test-host bridge only.
-import { Buffer, Blob as NodeBlob } from 'node:buffer'
-// @ts-expect-error Node test-host bridge only.
-import { webcrypto } from 'node:crypto'
-// @ts-expect-error Node test-host bridge only.
 import { createRequire } from 'node:module'
-// @ts-expect-error Node test-host bridge only.
 import { dirname, join } from 'node:path'
-// @ts-expect-error Node test-host bridge only.
 import { fileURLToPath } from 'node:url'
 import type { FileSource } from '@type-pal/reforge'
 import { vi } from 'vitest'
 import { deferred } from '../glm-ui-wave-kit.js'
+
+/** 经显式端口（node-port.d.ts）取得 Node 桥接，类型安全、无压制。 */
+const { Blob: NodeBlob, Buffer } = createRequire(join(selfDir(), '../../../../package.json'))(
+  'node:buffer',
+)
+const { webcrypto } = createRequire(join(selfDir(), '../../../../package.json'))('node:crypto')
 
 /** 本文件真实磁盘路径（vitest 下 import.meta.url 可能是 http /@fs 形式，两种都还原）。 */
 function selfDir(): string {
@@ -210,10 +209,7 @@ export function pngFileOf(name: string, bytes: Uint8Array): File {
 export function installBrowserHardwarePorts(): void {
   vi.stubGlobal('Blob', NodeBlob)
   vi.stubGlobal('crypto', webcrypto)
-  const gameRequire = createRequire(join(selfDir(), '../../../../../game/package.json'))
-  const { loadImage } = gameRequire('canvas') as {
-    loadImage: (bytes: Uint8Array) => Promise<{ width: number; height: number }>
-  }
+  const { loadImage } = createRequire(join(selfDir(), '../../../../../game/package.json'))('canvas')
   vi.stubGlobal('createImageBitmap', async (source: { arrayBuffer(): Promise<ArrayBuffer> }) => {
     const image = await loadImage(Buffer.from(await source.arrayBuffer()))
     if (typeof (image as { close?: unknown }).close !== 'function')

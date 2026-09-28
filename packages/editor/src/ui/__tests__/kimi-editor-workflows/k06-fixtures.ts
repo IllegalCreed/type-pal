@@ -13,11 +13,8 @@
  *   mdia/hdlr），不含也不宣称任何音视频解码保真。
  */
 
-// @ts-expect-error Node test-host bridge only.
 import { createRequire } from 'node:module'
-// @ts-expect-error Node test-host bridge only.
 import { dirname, join } from 'node:path'
-// @ts-expect-error Node test-host bridge only.
 import { fileURLToPath } from 'node:url'
 import {
   type AssetCatalogV1,
@@ -202,8 +199,7 @@ function replaceProperty(target: object, name: string, value: unknown): void {
  */
 export function installCutsceneHardwarePorts(): ObjectUrlWitness {
   installBrowserHardwarePorts()
-  const gameRequire = createRequire(join(selfDir(), '../../../../../game/package.json'))
-  const { ImageData } = gameRequire('canvas') as { ImageData: typeof globalThis.ImageData }
+  const { ImageData } = createRequire(join(selfDir(), '../../../../../game/package.json'))('canvas')
   vi.stubGlobal('ImageData', ImageData)
   vi.stubGlobal(
     'ResizeObserver',

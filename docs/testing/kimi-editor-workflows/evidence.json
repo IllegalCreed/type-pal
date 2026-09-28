@@ -1,9 +1,10 @@
 {
   "task": "TEST-KIMI-EDITOR-WORKFLOWS-1",
-  "generated": "2026-09-28T14:20:11.424Z",
+  "generated": "2026-09-28T15:11:42.060Z",
   "branch": "codex/kimi-editor-workflows-r1",
   "productionFreeze": "29e76fe62070fb03bf2459cf95dc2a70ba0f2a0b",
   "productionSourcesUnchanged": "21/21 sha256 与 targets.json 冻结值一致（开工核与收口核两次）",
+  "counterControlJudge": "judge.mjs 唯一正式判据：文件绑定/exit/pending+skip/空消息/AssertionError 首行/timeout+混错（首行）/执行数基线/产品 hash；selftest.mjs 17 例方向断言全过",
   "batches": {
     "A": {
       "candidate": "04ed4823",
@@ -229,16 +230,6 @@
             "verdict": "valid-green-control"
           },
           {
-            "label": "k01-alive-guard",
-            "target": "packages/editor/src/ui/BattleSpriteInlinePreview.tsx",
-            "exitCode": 1,
-            "executed": 3,
-            "failedFullNames": [
-              "K01 BattleSpriteInlinePreview 异步归属 迟到解码结果不得覆盖已切换的新选择"
-            ],
-            "verdict": "valid-red"
-          },
-          {
             "label": "control-k01-preview",
             "target": null,
             "exitCode": 0,
@@ -285,6 +276,16 @@
             "executed": 6,
             "failedFullNames": [],
             "verdict": "valid-green-control"
+          },
+          {
+            "label": "k01-alive-guard",
+            "target": "packages/editor/src/ui/BattleSpriteInlinePreview.tsx",
+            "exitCode": 1,
+            "executed": 3,
+            "failedFullNames": [
+              "K01 BattleSpriteInlinePreview 异步归属 迟到解码结果不得覆盖已切换的新选择"
+            ],
+            "verdict": "valid-red"
           },
           {
             "label": "k01-shrink-repairs-dropped",
@@ -1027,6 +1028,14 @@
             "verdict": "valid-green-control"
           },
           {
+            "label": "control-k12-scenestage",
+            "target": null,
+            "exitCode": 0,
+            "executed": 4,
+            "failedFullNames": [],
+            "verdict": "valid-green-control"
+          },
+          {
             "label": "k09-delete-fallback-reversed",
             "target": "packages/editor/src/ui/SkillTab.tsx",
             "exitCode": 1,
@@ -1037,12 +1046,17 @@
             "verdict": "valid-red"
           },
           {
-            "label": "k09-noop-drop-committed",
+            "label": "k09-commit-double-dispatched",
             "target": "packages/editor/src/ui/LevelCurveEditor.tsx",
-            "exitCode": 0,
+            "exitCode": 1,
             "executed": 5,
-            "failedFullNames": [],
-            "verdict": "superseded:惰性：commit 等值守卫先短路，注入无鉴别力；已替换为 k09-commit-double-dispatched（valid-red）"
+            "failedFullNames": [
+              "K09 LevelCurveEditor 曲线绘图交互 拖点调值：在途只动本地草稿，松手单命令入史，undo/redo 对称还原且单拖拽恰一步",
+              "K09 LevelCurveEditor 曲线绘图交互 拖点边界：下沿钳 0 触发回落警告、上沿外推扩量程、回拖原值与无移动松手均零提交",
+              "K09 LevelCurveEditor 曲线绘图交互 级数改级落到实际数组：加长按末段增量外推、缩短截断、同值与越界草稿零提交",
+              "K09 LevelCurveEditor 曲线绘图交互 按增量生成与点选精调提交实际数组；学技能标记渲染与返回入口"
+            ],
+            "verdict": "valid-red"
           },
           {
             "label": "k10-private-script-leftover",
@@ -1086,12 +1100,14 @@
             "verdict": "valid-red"
           },
           {
-            "label": "k12-stage-alive-guard",
+            "label": "k12-zoom-floor-raised",
             "target": "packages/editor/src/ui/scene-stage.ts",
-            "exitCode": 0,
+            "exitCode": 1,
             "executed": 4,
-            "failedFullNames": [],
-            "verdict": "superseded:惰性：第三次同资源 effect 的顺序完成已覆盖迟到结果，注入无鉴别力；已替换为 k12-zoom-floor-raised（valid-red）"
+            "failedFullNames": [
+              "K12 scene-stage 共享层真实工作流 滚轮光标锚缩放：精数、往返对称与下限夹回"
+            ],
+            "verdict": "valid-red"
           },
           {
             "label": "k12-pointer-cancel-committed",
@@ -1115,43 +1131,21 @@
               "K12 MapMode 真实地图变换工作流 键盘全选/删除/不变粘贴与指针取消：计数真实、撤销对称、中断零提交"
             ],
             "verdict": "valid-red"
-          },
-          {
-            "label": "control-k12-scenestage",
-            "target": null,
-            "exitCode": 0,
-            "executed": 4,
-            "failedFullNames": [],
-            "verdict": "valid-green-control"
-          },
-          {
-            "label": "k09-commit-double-dispatched",
-            "target": "packages/editor/src/ui/LevelCurveEditor.tsx",
-            "exitCode": 1,
-            "executed": 5,
-            "failedFullNames": [
-              "K09 LevelCurveEditor 曲线绘图交互 拖点调值：在途只动本地草稿，松手单命令入史，undo/redo 对称还原且单拖拽恰一步",
-              "K09 LevelCurveEditor 曲线绘图交互 拖点边界：下沿钳 0 触发回落警告、上沿外推扩量程、回拖原值与无移动松手均零提交",
-              "K09 LevelCurveEditor 曲线绘图交互 级数改级落到实际数组：加长按末段增量外推、缩短截断、同值与越界草稿零提交",
-              "K09 LevelCurveEditor 曲线绘图交互 按增量生成与点选精调提交实际数组；学技能标记渲染与返回入口"
-            ],
-            "verdict": "valid-red"
-          },
-          {
-            "label": "k12-zoom-floor-raised",
-            "target": "packages/editor/src/ui/scene-stage.ts",
-            "exitCode": 1,
-            "executed": 4,
-            "failedFullNames": [
-              "K12 scene-stage 共享层真实工作流 滚轮光标锚缩放：精数、往返对称与下限夹回"
-            ],
-            "verdict": "valid-red"
           }
         ],
         "validRed": 9,
         "validControls": 9,
         "invalid": 0,
-        "superseded": 2
+        "supersededInitialNeedles": [
+          {
+            "label": "k09-noop-drop-committed",
+            "note": "初版惰性（commit 等值守卫先短路），已替换为 k09-commit-double-dispatched（valid-red）"
+          },
+          {
+            "label": "k12-stage-alive-guard",
+            "note": "初版惰性（第三次同资源 effect 顺序完成已覆盖迟到结果），已替换为 k12-zoom-floor-raised（valid-red）"
+          }
+        ]
       },
       "browserEvidence": [
         {
@@ -1175,9 +1169,7 @@
   },
   "coverageCompare": {
     "argsEcho": {
-      "beforeExcludes": [
-        "**/*.kimi-workflows.test.*"
-      ],
+      "beforeExcludes": ["**/*.kimi-workflows.test.*"],
       "afterExcludes": []
     },
     "census": [

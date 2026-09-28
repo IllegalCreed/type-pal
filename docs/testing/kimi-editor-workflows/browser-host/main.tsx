@@ -318,7 +318,7 @@ async function boot(): Promise<void> {
           </button>
           <span id="kimi-host-status">就绪</span>
         </div>
-        <div id="kimi-workbench" class="body">
+        <div id="kimi-workbench" className="body">
           <Workbench
             context={{ session, source, assetBase: project.assetBase, reload }}
             component={component}

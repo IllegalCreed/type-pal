@@ -43,6 +43,7 @@
  * 被测函数。保持敌方五语义槽现状，不测实际战斗。
  */
 import type { EnemyDef, EnemyTeamDef, HostileBehavior, ItemData } from '@type-pal/content'
+import { checkEnemyOnDefeatedCommands } from '@type-pal/content'
 import { act, useState, useSyncExternalStore } from 'react'
 import { createRoot, type Root } from 'react-dom/client'
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
@@ -569,14 +570,16 @@ describe('K11 EnemyTeamTab 敌队预制真实业务工作流', () => {
   })
 
   test('战后结算汇总与成员摘要跟踪真实敌人定义变更（数值/偷取/击败后事件）', async () => {
-    // 作者态 onDefeated 树（EditorState 的 EnemyDef 标注是既存类型债，同 EnemyTab.tsx:636 口径）。
+    // 作者态 onDefeated 树经生产守卫 checkEnemyOnDefeatedCommands 定型（enemy-script.ts:366），
+    // 无需桥接强转；守卫同时给 fixture 做合法性自证。
     const defeatedSeed = [
       { kind: 'giveItem', itemId: ITEM_A, count: 1 },
       {
         kind: 'dialog',
         cue: { identity: { kind: 'narration' }, rows: [{ text: 'dlg.k11.reward' }] },
       },
-    ] as unknown as EnemyDef['onDefeated']
+    ]
+    checkEnemyOnDefeatedCommands(defeatedSeed, 'k11.onDefeated.seed')
     const mounted = await mountTeamTab({
       name: 'k11-team-summary',
       enemies: [
@@ -619,10 +622,12 @@ describe('K11 EnemyTeamTab 敌队预制真实业务工作流', () => {
     expect(memberRows()[0]!.textContent).not.toContain('还魂香 ×2')
 
     // 击败后事件变更：摘要按当前事件重新生成。
+    const defeatedGiveMoney = [{ kind: 'giveMoney', delta: 99 }]
+    checkEnemyOnDefeatedCommands(defeatedGiveMoney, 'k11.onDefeated.giveMoney')
     await act(async () => {
       mounted.session.dispatch(
         new UpdateEnemyCommand(ENEMY_A, {
-          onDefeated: [{ kind: 'giveMoney', delta: 99 }] as unknown as EnemyDef['onDefeated'],
+          onDefeated: defeatedGiveMoney,
         }),
       )
     })

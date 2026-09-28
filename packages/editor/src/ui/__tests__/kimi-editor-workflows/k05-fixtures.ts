@@ -12,14 +12,13 @@
  *   jsdom 不布局，image-preview-stage 的 clientWidth/clientHeight 由条件 getter 给出固定视口，
  *   其余元素保持 jsdom 原生 0。
  */
-// @ts-expect-error Node test-host bridge only.
-import { Buffer } from 'node:buffer'
-// @ts-expect-error Node test-host bridge only.
 import { createRequire } from 'node:module'
-// @ts-expect-error Node test-host bridge only.
 import { dirname, join } from 'node:path'
-// @ts-expect-error Node test-host bridge only.
 import { fileURLToPath } from 'node:url'
+
+/** 经显式端口（node-port.d.ts）取得 Node 桥接，类型安全、无压制。 */
+const { Buffer } = createRequire(join(selfDir(), '../../../../package.json'))('node:buffer')
+
 import { vi } from 'vitest'
 import { type Deferred, deferred } from '../glm-ui-wave-kit.js'
 
@@ -50,10 +49,7 @@ export function installImageDecodePort(): ImageDecodePort {
   const gates = new Map<number, Deferred<void>[]>()
   let live = 0
   let closes = 0
-  const gameRequire = createRequire(join(selfDir(), '../../../../../game/package.json'))
-  const { loadImage } = gameRequire('canvas') as {
-    loadImage: (bytes: Uint8Array) => Promise<{ width: number; height: number }>
-  }
+  const { loadImage } = createRequire(join(selfDir(), '../../../../../game/package.json'))('canvas')
   vi.stubGlobal('createImageBitmap', async (source: { arrayBuffer(): Promise<ArrayBuffer> }) => {
     const bytes = new Uint8Array(await source.arrayBuffer())
     entries.push(bytes.byteLength)

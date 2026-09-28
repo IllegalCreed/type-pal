@@ -5,6 +5,23 @@
 **20 个目标源 + audio-preview-session 共 21 个产品文件 sha256，开工核与收口核均与
 [targets.json](targets.json) 冻结值一致（21/21），本卡全程零产品改动、零旧测试改动。**
 
+> 2026-09-29 返工修订（对应卡面「Codex 独立审核返工项」四条）：
+> 1. evidence.json 已按 Biome 格式化重建；`pnpm lint` 全仓 2443 文件 0 errors/0 warnings/0 infos。
+> 2. 反控 runner 已修：模块名先按 cwd 再按本目录解析（卡面裸文件名命令可复跑）；判据抽为
+>    `counter-control/judge.mjs` 唯一 `judgeRun`（新增：失败记录绑定声明测试文件绝对路径、
+>    pending/todo/skip 拒绝、空 failureMessages 拒绝、AssertionError 首行 timeout/混错拒绝——
+>    首行判定避免 vitest 定时器堆栈帧误伤）；`counter-control/selftest.mjs` 以同一判据做 17 例
+>    方向自测（全过）。A/B/C 三模块全量复跑：**27 红 + 20 控制 = 47 全 valid、0 invalid**
+>    （另有 2 枚初版惰性针按废弃登记，见批C节）。
+> 3. B2 告警归因更正：来源是宿主 `browser-host/main.tsx` 的非法 JSX 属性 `class=`（非产品侧），
+>    已改 `className` 并复开同页复核 console 0 errors/0 warnings（见批B节）。
+> 4. 合法 fixture 类型安全化：`k10-fixtures.ts` 两条不必要桥接强转删除（CurrentAuthorContent 与
+>    ScriptEditorState 字段类型本就一致）；`EnemyTeamTab.kimi-workflows.test.tsx` 两条 onDefeated
+>    强转改为经生产守卫 `checkEnemyOnDefeatedCommands` 定型；kit/k05/k06 的 `@ts-expect-error`
+>    Node 桥接改为显式端口声明 `__tests__/kimi-editor-workflows/node-port.d.ts`
+>    （类型化 createRequire 映射取得 Blob/Buffer/webcrypto/canvas，零压制；刻意不声明
+>    'node:buffer'/'node:crypto' 模块本体，既有旧测试桥接行不受影响）。无遗留公共类型债。
+
 | 批次 | 范围 | 候选 SHA | 新测试 | 反控 | 浏览器闭环 |
 |---|---|---|---|---|---|
 | A | K01–K04 | `04ed4823` | 40 | 10 针 valid-red + 7 控制 | 2（宽/窄） |
@@ -26,7 +43,9 @@ EditorAssetReader/loader；无 vi.mock 被测核心、无私有栈、无 ts-noch
 - 批末 editor 全包 `pnpm --filter @type-pal/editor test`：A/B/C 三次均**仅剩 2 个环境性旧例红**
   （`tests/world-sprite-behavior.pal.test.ts` 读 `projects/pal/assets/migrated/sprites/*.rle`，
   该 gitignored 资产不随 worktree 创建复制；与本卡 diff 无因果关系，主树有资产时不受影响）。
-  三次全包测试数：3339 / 3373 / 3416（本卡 117 例全部在内且全绿）。
+  三次全包测试数：3339 / 3373 / 3416（本卡 117 例全部在内且全绿）；2026-09-29 返工后复跑
+  3414 通过、同样仅剩该 2 条环境性旧例。
+- `pnpm lint`（scripts/quality/lint-zero.mjs）：2026-09-29 复跑 **2443 文件 0 errors/0 warnings/0 infos**。
 
 ## 批A K01–K04（候选 04ed4823）
 
@@ -115,8 +134,9 @@ derived 发布驱动 checking→current→stale→failed→恢复。
   viewer 800% 缩放（工具条/适合/1:1）→ undo。截图 loopB1-image-imported-wide.png。
 - B2 窄 1000×720 `?component=sound`：真实 WAV 导入 → 真实 AudioContext 解码（0:00.50 时长、
   PCM 波形渐弱可见）→ 播放时钟走到 0:00.27 → 保存/重读 → undo。截图 loopB2-sound-playing-narrow.png。
-  console：favicon 404 + 一条产品侧 `Invalid DOM property 'class'`（仅 sound 场景初始渲染出现；
-  jsdom 同组件无此警告；静态检索未定位来源，交 Codex 裁量，不影响任何合同与门）。
+  console：favicon 404。曾观察到一条 React `Invalid DOM property 'class'`——初版回执误记为
+  产品侧；一手来源实为宿主 `browser-host/main.tsx` 的 `<div id="kimi-workbench" class="body">`
+  非法 JSX 属性。已改 `className` 并在 2026-09-28 复开同页复核：console 0 errors / 0 warnings。
 
 ## 批C K09–K12（候选 e838ca30）
 
@@ -190,7 +210,8 @@ effect 顺序完成已覆盖迟到结果，已替换。）
 
 - 2 个 `tests/world-sprite-behavior.pal.test.ts` 旧例在本 worktree 因缺 gitignored 迁移资产而红，
   与本卡无关；主树/Codex 环境不受影响。
-- sound 场景一条产品侧 `Invalid DOM property 'class'` console 警告未定位（见批B节），交 Codex 裁量。
+- ~~sound 场景一条 `Invalid DOM property 'class'` console 警告~~：来源已查明为本卡宿主 JSX 的
+  `class=` 属性（非产品侧），已修 `className` 并复核 console 归零（见批B节）。
 - 浏览器宿主为**直接组件宿主**（非完整 App 入口）；磁盘为内存 FSA 端口替身；壳层授权/journal
   属平台原生持久化件（核心保存测试亦以 store mock 覆盖），宿主取证组件→serialize→写盘→重读段。
 - 未发现真缺陷；diagnostics/ 未创建。无 skip/无改预期凑绿。

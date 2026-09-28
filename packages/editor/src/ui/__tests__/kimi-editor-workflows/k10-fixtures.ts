@@ -72,12 +72,12 @@ export async function loadK10ItemProject(
     items: projectEditorItemShells(project),
   }
   const session = new EditSession(state)
+  // CurrentAuthorContent.items/sharedScripts 与 ScriptEditorState 字段类型本就一致
+  // （project-loader.ts:94-102 ↔ script-editor.ts:42-46），直接结构化克隆，无需桥接。
   const canonical: ScriptEditorState = {
     scenes: structuredClone(scenes),
-    items: structuredClone(project.authorContent.items) as unknown as ScriptEditorState['items'],
-    sharedScripts: structuredClone(
-      project.authorContent.sharedScripts,
-    ) as unknown as ScriptEditorState['sharedScripts'],
+    items: structuredClone(project.authorContent.items),
+    sharedScripts: structuredClone(project.authorContent.sharedScripts),
   }
   const scriptSession = new ScriptEditSession(canonical)
   const rig: K10ItemRig = {

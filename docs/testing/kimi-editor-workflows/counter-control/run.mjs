@@ -1,18 +1,40 @@
 #!/usr/bin/env node
 /**
- * TEST-KIMI-EDITOR-WORKFLOWS-1 单点反控 runner（判据见同目录 README.md）。
- * 用法：node run.mjs <injections 模块> [--only <label>]
+ * TEST-KIMI-EDITOR-WORKFLOWS-1 单点反控 runner（判据见 judge.mjs 与同目录 README.md）。
+ * 用法（仓库根）：
+ *   node docs/testing/kimi-editor-workflows/counter-control/run.mjs <injections 模块名> [--only <label>]
+ * 模块名先按 cwd 解析，找不到再按本目录解析——README/回执命令的裸文件名因此可复跑。
  */
 import { spawnSync } from 'node:child_process'
 import { createHash } from 'node:crypto'
-import { appendFileSync, mkdirSync, mkdtempSync, readFileSync, writeFileSync } from 'node:fs'
+import {
+  appendFileSync,
+  existsSync,
+  mkdirSync,
+  mkdtempSync,
+  readFileSync,
+  writeFileSync,
+} from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join, resolve } from 'node:path'
 import { fileURLToPath, pathToFileURL } from 'node:url'
+import { judgeRun } from './judge.mjs'
 
 const here = fileURLToPath(new URL('.', import.meta.url))
 const root = resolve(here, '..', '..', '..', '..')
-const injectionsPath = resolve(process.cwd(), process.argv[2] ?? '')
+const injectionsArg = process.argv[2] ?? ''
+const injectionsPath = [resolve(process.cwd(), injectionsArg), resolve(here, injectionsArg)].find(
+  (candidate) => existsSync(candidate),
+)
+if (!injectionsPath) {
+  console.error(
+    JSON.stringify({
+      verdict: 'invalid:module-not-found',
+      tried: [injectionsArg, 'counter-control/'],
+    }),
+  )
+  process.exit(2)
+}
 const onlyIndex = process.argv.indexOf('--only')
 const only = onlyIndex >= 0 ? process.argv[onlyIndex + 1] : undefined
 const { injections } = await import(pathToFileURL(injectionsPath).href)
@@ -33,14 +55,10 @@ const records = []
 for (const item of selected) {
   const targetAbs = item.target ? resolve(root, item.target) : null
   const beforeHash = targetAbs ? sha(targetAbs) : null
-  const verdicts = []
   const logs = mkdtempSync(join(tmpdir(), 'kimi-cc-'))
 
-  if (targetAbs) {
-    const source = readFileSync(targetAbs, 'utf8')
-    const occurrences = source.split(item.find).length - 1
-    if (occurrences !== 1) verdicts.push(`invalid:find-occurrences=${occurrences}`)
-  }
+  const source = targetAbs ? readFileSync(targetAbs, 'utf8') : ''
+  const findOccurrences = targetAbs ? source.split(item.find).length - 1 : 1
 
   const mutation = targetAbs
     ? { label: item.label, file: targetAbs, find: item.find, replace: item.replace }
@@ -86,61 +104,43 @@ for (const item of selected) {
   try {
     report = JSON.parse(readFileSync(jsonOut, 'utf8'))
   } catch {
-    verdicts.push('invalid:no-json-report')
+    report = null
   }
 
-  if (run.signal) verdicts.push(`invalid:signal=${run.signal}`)
-  if (run.error) verdicts.push(`invalid:spawn=${run.error.message}`)
+  const setKey = item.tests.join('|')
+  const reasons = judgeRun({
+    item,
+    expectedTestFiles: item.tests.map((t) => resolve(root, t)),
+    exitCode: run.status ?? null,
+    signal: run.signal ?? null,
+    spawnError: run.error?.message,
+    stdout,
+    report,
+    controlExecuted: item.control ? undefined : controlCounts.get(setKey),
+    mutationHitExpected: !item.control,
+    productHashChanged: targetAbs ? sha(targetAbs) !== beforeHash : false,
+    findOccurrences,
+  })
 
-  const expectedExit = item.control ? 0 : 1
-  if (run.status !== expectedExit) verdicts.push(`invalid:exit=${String(run.status)}`)
-
-  let failedFullNames = []
-  let executed = null
-  if (report) {
-    executed = report.numTotalTests
-    failedFullNames = report.testResults.flatMap((file) =>
-      file.assertionResults
-        .filter((assertion) => assertion.status === 'failed')
-        .map((assertion) => assertion.fullName),
-    )
-    if (item.control) {
-      if (failedFullNames.length) verdicts.push(`invalid:control-red=${failedFullNames.join(',')}`)
-    } else {
-      const expectedSet = [...item.expectFailed].sort()
-      const actualSet = [...failedFullNames].sort()
-      if (JSON.stringify(actualSet) !== JSON.stringify(expectedSet))
-        verdicts.push(`invalid:failed-set=${actualSet.join('|') || '(empty)'}`)
-      const allAssertionError = report.testResults
-        .flatMap((file) => file.assertionResults)
-        .filter((assertion) => assertion.status === 'failed')
-        .every((assertion) =>
-          assertion.failureMessages.every((message) => message.startsWith('AssertionError')),
-        )
-      if (failedFullNames.length && !allAssertionError)
-        verdicts.push('invalid:non-assertion-failure')
-    }
-    const key = item.tests.join('|')
-    if (item.control) controlCounts.set(key, executed)
-    else if (controlCounts.has(key) && controlCounts.get(key) !== executed)
-      verdicts.push(`invalid:executed=${executed}!=control=${controlCounts.get(key)}`)
-  }
-
-  if (!item.control && !stdout.includes(`MUTATION_HIT ${item.label}`))
-    verdicts.push('invalid:mutation-not-loaded')
-  if (item.control && stdout.includes('MUTATION_HIT'))
-    verdicts.push('invalid:control-loaded-mutation')
-  if (targetAbs && sha(targetAbs) !== beforeHash) verdicts.push('invalid:product-hash-changed')
+  const failedFullNames = report
+    ? report.testResults.flatMap((file) =>
+        file.assertionResults
+          .filter((assertion) => assertion.status === 'failed')
+          .map((assertion) => assertion.fullName),
+      )
+    : []
+  if (item.control && report && reasons.length === 0)
+    controlCounts.set(setKey, report.numTotalTests)
 
   records.push({
     label: item.label,
     target: item.target ?? null,
     tests: item.tests,
     exitCode: run.status ?? null,
-    executed,
+    executed: report?.numTotalTests ?? null,
     failedFullNames,
-    verdict: verdicts.length
-      ? verdicts.join(';')
+    verdict: reasons.length
+      ? reasons.join(';')
       : item.control
         ? 'valid-green-control'
         : 'valid-red',
