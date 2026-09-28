@@ -1,6 +1,6 @@
 # GLM 三十二组叶层与小界面补测
 
-[任务卡](../../ops/tasks/TEST-GLM-LEAF-WORKFLOWS-1-thirty-two-groups.md) · [冻结目标](targets.json) ·
+[任务卡](../../ops/archive/tasks/done/TEST-GLM-LEAF-WORKFLOWS-1-thirty-two-groups.md) · [冻结目标](targets.json) ·
 [批次回执](receipt.md) ·
 [上级](../README.md) · [并行 Kimi 包](../kimi-editor-workflows/README.md)
 

@@ -1,6 +1,6 @@
 # TEST-GLM-LEAF-WORKFLOWS-1 — 三十二组叶层与小界面补测
 
-Status: rework
+Status: done
 Owner: GLM（受委派测试贡献者）
 Reviewer: Codex（独立验收、统一质量门与集成）
 Phase: phase2
@@ -14,7 +14,7 @@ Visual Verification Timing: dev-functional（明确步骤的隔离小闭环；G/
 Codex 独立接收，不恢复固定三签；作者自验不是独立第三方证明。
 
 生产冻结 `3925980cab8e1e62bb59cf560db756935fda7d05`（对 `29e76fe6` 仅派发文档变更）。
-[冻结表](../../testing/glm-leaf-workflows/targets.json)含 49 个实际目标源 hash、正式 fast 统计、
+[冻结表](../../../../testing/glm-leaf-workflows/targets.json)含 49 个实际目标源 hash、正式 fast 统计、
 公开入口行号、静态 import 线索及同名旧测试入口；工作包定义每组窄范围。
 分支 `codex/glm-leaf-workflows-r1`，已准备隔离工作树
 `/Users/zhangxu/.codex/worktrees/glm-leaf-workflows/type-pal`；不借 main、Kimi 或 Codex E2E 树。
@@ -51,7 +51,7 @@ Codex 独立接收，不恢复固定三签；作者自验不是独立第三方�
 
 ## 验收
 
-完整分组、操作步骤、精简账与运行要求见[工作包](../../testing/glm-leaf-workflows/README.md)。
+完整分组、操作步骤、精简账与运行要求见[工作包](../../../../testing/glm-leaf-workflows/README.md)。
 
 1. 真实公开入口、有效 fixture 与业务结果；允许组件规定的 callback，不以 mock 核心函数冒充业务链。
 2. 每批优先 2 个最强代表单点反控（全包约 16–24 针），共用严判据，不逐组搭一套验证框架。
@@ -69,10 +69,10 @@ Codex 独立接收，不恢复固定三签；作者自验不是独立第三方�
 - Codex 前提/范围：verified，32 组 49 目标；统计与 Kimi 零交集校验，移除无当前消费者的旧组件。
 - build 准入：**build allowed（仅本卡新增测试、fixture 与隔离证据）**，2026-09-28。
 - Coding Owner：GLM；不分派其改 E2E/产品，复杂跨组件竞态另归 Kimi/Codex。
-- GLM 交付与自验：候选 `4b5aade7f75a9129805e48ebf7528ff3d91a1b7a` 已推送，A–H 自验登记见隔离分支回执。
-- Codex 独立验收：2026-09-28 `counter / rework`，具体阻塞见下节；尚未接收或集成任何批次。
+- GLM 交付与自验：旧候选 `4b5aade7f` 与返工候选 `12fe2208d02d4eb6ca09c74660d8d05d0c476a09` 已推送，A–H 自验见回执。
+- Codex 独立验收：2026-09-29 `accept`，五项历史返工已逐项闭合；见最终验收。
 - 用户可感知产品验收：N/A，本卡不改行为；发现需要新产品裁决则另提。
-- done 准入：未开放，待独立验收与正式集成质量门。
+- done 准入：**done allowed**，测试包无用户可见产品取舍，用户产品验收 N/A。
 
 ## 交接日志
 
@@ -114,7 +114,7 @@ Codex 独立接收，不恢复固定三签；作者自验不是独立第三方�
 这些反例属当前候选返工范围；GLM 仍是测试 Coding Owner，只修改本卡白名单。Codex 在新候选实际 HEAD
 独立复核后决定接收/集成，不将本次全绿单测解释为正式质量门通过。
 
-## 下一位 Agent 提示词
+## 下一位 Agent 提示词（返工阶段历史）
 
 ```text
 返工 TEST-GLM-LEAF-WORKFLOWS-1。先读 AGENTS.md、CLAUDE.md、docs/phase2/READ-FIRST.md、
@@ -131,3 +131,20 @@ codex/glm-leaf-workflows-r1 分支修本卡白名单内的五项审核反例，�
 回执给新候选完整 SHA、逐项修复或反证、复跑命令/JSON、反控、完整截图元数据和未证项。
 GLM 是贡献者；Codex 独立验收、集成推送、统一质量门和清理。不要合 main、代签或标 done。
 ```
+
+## 2026-09-29 Codex 最终独立验收
+
+- 以返工候选 `12fe2208d` 对 49/49 冻结产品源 hash；只接入本卡测试、专属 fixture/证据。
+  Codex 新鲜定向 editor 36 文件 165/165、content 7 文件 24/24；八批同一严判据的对照绿、
+  16 枚单点业务反控红与自测均独立通过。14 张 A–F 截图全 hash 匹配；重看 E 数值变量正确落入
+  “数值”分组、F 两视口 casualty 分槽/undo 回显。F 直挂宿主左栏概率行在 1440 宽时偏拥挤，
+  本卡仅以会话合同与分槽可见性收口，不据此声明完整 App 响应式验收。
+- 历史五项 `counter` 已闭合：零诊断；合法项目 typed fixture/Node 端口；G25 旧精确断言与
+  G27/G28 新合同及 G20 去重；E/F 视觉；editor A–D/E–H/总并集和 content 的同口径局部对照。
+  本卡局部 editor 分支 +218、content +4 仅作贡献者自验，不与其它隔离分支直接相加。
+- 三条 GLM 候选合入主树后统一 `pnpm check` exit 0，七包共 **10,841/10,841** 测试通过，
+  lint 2623 文件 **0 error/0 warning/0 info**。保护基点 `3bae1a69` 的官方 ratchet exit 0，
+  随后单次 `pnpm coverage:fast` exit 0：全仓 fast **10,380/10,380**、730 生产文件，
+  分支 **49,081/63,398（77.42%）**，新基线逐整数复现、零回退；三队列的正式净增由此并集决定。
+  旧 `counter` 仅对旧候选有效，不再阻止本卡 done。剧情 E2E 另卡执行。
+- **无下一位 Agent 提示词；本卡技术收口完成。**

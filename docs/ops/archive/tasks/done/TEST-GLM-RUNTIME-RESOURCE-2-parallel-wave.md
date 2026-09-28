@@ -1,6 +1,6 @@
 # TEST-GLM-RUNTIME-RESOURCE-2 — 第二对话运行时与资源七批补测
 
-Status: rework
+Status: done
 Owner: GLM 第二对话（受委派测试贡献者）
 Reviewer: Codex（独立验收与集成）
 Phase: ops（shared/pal-extract 编解码；reforge/migrate 当前二阶段接口）
@@ -17,7 +17,7 @@ Visual Verification Timing: dev-functional（隔离固定输入绘制，不走�
 生产冻结 `f6878b3cd18d916d3cac8aba3e50dc8c70556a2c`（对 `29e76fe6` 产品/scripts 无变更）。
 分支 `codex/glm-runtime-resource-r1`，已备好工作树
 `/Users/zhangxu/.codex/worktrees/glm-runtime-resource/type-pal`；不得借 main、GLM 第一对话、Kimi 或 E2E 树。
-准确目标/newTest/hash 在[冻结表](../../testing/glm-runtime-resource-wave/targets.json)。
+准确目标/newTest/hash 在[冻结表](../../../../testing/glm-runtime-resource-wave/targets.json)。
 
 ## 前提真值门
 
@@ -29,7 +29,7 @@ Visual Verification Timing: dev-functional（隔离固定输入绘制，不走�
   `collectSourceEntrySites:545–651`（函数范围现有 0/31 臂、0/39 行）。
 - 编解码一手依据：shared `rle.ts/rle-encode.ts`；pal-extract `events/recompile.ts:11` 与
   `disasm.ts:36` 的真实字节接口，`resources/parsers/ball.ts` 的头部/帧处理。
-  第一阶段要求保持字节忠实，按 [engineering-notes §1.2/§2.3](../../phase1/engineering-notes.md)
+  第一阶段要求保持字节忠实，按 [engineering-notes §1.2/§2.3](../../../../phase1/engineering-notes.md)
   调真实解码器，不能用自己写的模拟算法充当测试对象。合成小字节样本不是“原版实测”。
 - 二阶段一手依据：`menu/item-list.ts` 的 320 逻辑坐标/裁剪合同，`battle/settlement.ts:47/85` 的
   屏幕构造和绘制，`battle-trial-config.ts` 的我方最多三人，`project-map.ts:47/208` 的合法纯构造/编辑，
@@ -56,7 +56,7 @@ Visual Verification Timing: dev-functional（隔离固定输入绘制，不走�
 
 ## 验证节奏
 
-详见[工作包](../../testing/glm-runtime-resource-wave/README.md)。
+详见[工作包](../../../../testing/glm-runtime-resource-wave/README.md)。
 
 1. 每批定向新增 + 相邻、涉及包 typecheck、精确新增文件 Biome error/warning/info 全零、docs/diff。
 2. 默认单 worker、单测试进程；只在自己的 checkout 操作，不能终止他人的测试/服务。
@@ -72,10 +72,10 @@ Visual Verification Timing: dev-functional（隔离固定输入绘制，不走�
 - Codex 前提/范围：verified；62 源 hash、28 组、新测试路径和跨队列零交集已核；R28 窄准入明确。
 - build 准入：**build allowed（仅新增测试/专属证据）**，2026-09-28。
 - Coding Owner：GLM 第二对话；第一对话继续原卡，两者都由 Codex 独立验收。
-- 贡献者交付：A–G 候选与汇总回执已推送，实际 HEAD `fed0a7869`。
-- Codex 独立接收：2026-09-29 `counter / rework`，尚未接收或集成任何批次；见下节。
+- 贡献者交付：A–G 与返工候选 `272712323ed3657a4b1d1a33f3a887261814312d` 已推送。
+- Codex 独立接收：2026-09-29 `accept`，四项历史返工已闭合；见最终验收。
 - 用户产品验收：N/A，本卡不改产品；需新产品取舍时另提。
-- done 准入：未开放；验收后 Codex 合并提交推送并清理，不要求用户重复提醒。
+- done 准入：**done allowed**，纯测试包用户产品验收 N/A。
 
 ## 交接日志
 
@@ -113,7 +113,7 @@ Visual Verification Timing: dev-functional（隔离固定输入绘制，不走�
 上述问题在本卡白名单内返工；没有扩大产品、格式或迁移写盘权限。新候选固定提交推送后 Codex
 重新独立验收，接收通过才串行执行四包全测、局部覆盖对照及官方 check → ratchet → 受保护 strict-fast。
 
-## 下一位 Agent 提示词
+## 下一位 Agent 提示词（返工阶段历史）
 
 ```text
 你是 GLM 第二对话，返工 TEST-GLM-RUNTIME-RESOURCE-2，不接第一对话的叶层编辑器卡。
@@ -134,3 +134,20 @@ Biome/docs/diff和相应反控；全包/覆盖/全仓门由Codex接收时串行�
 回执交新候选完整 SHA、逐项修复与复跑证据、JSON/反控/截图、命令和未证项。
 Codex独立验收、集成推送和清理；不合main、不代签、不标done。
 ```
+
+## 2026-09-29 Codex 最终独立验收
+
+- 以返工候选 `272712323` 对 62/62 冻结产品源 hash；改动限本卡白名单。
+  Codex 新鲜定向四包共 **157/157** 新例（shared 13、reforge 71、pal-extract 58、migrate 15）全绿；
+  A–G 共 14 针业务反控、对照绿和同一判据自测独立通过。R28 仅测
+  `collectSourceEntrySites`，4/4 定向通过，未扩完整审计器。
+- 历史四项 `counter` 已闭合：lint 零诊断；R05/R15 合法 typed 输入；RV3/RV4 独立 clip 与面板
+  坐标重取证；evidence 157 总数与包名。Codex 更正 D 批机读 visual 指向返工截图，并使 RV4
+  亮像素阈值真正参与最终判定。主树隔离 Chrome 复验四面板邻板渗入 0/0、结算条 lit=94666，
+  最终 `ASSERT PASS`，console warning/error 与 page error 全为 0。合成样本只证固定绘制/解析，
+  不冒充实际战斗、原版资源观感或奖励入账；lenient RLE 截断流未纳入本卡防御修复。
+- 三条 GLM 候选合入主树后统一 `pnpm check` exit 0，七包 **10,841/10,841** 全绿，
+  lint 2623 文件 0/0/0；保护 `3bae1a69` 的官方 ratchet 与单次 strict-fast 均 exit 0。
+  全仓 fast **10,380/10,380**、730 生产文件、分支 **49,081/63,398（77.42%）**，
+  只升不降且新基线零回退。正式增量以三队列集成并集为准，不相加隔离回执。
+- **无下一位 Agent 提示词；本卡技术收口完成。**

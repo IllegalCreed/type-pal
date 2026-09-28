@@ -1,6 +1,6 @@
 # TEST-GLM-PHASE1-LEAVES-3 — 第三对话一阶段菜单、呈现与工具六批补测
 
-Status: build
+Status: done
 Owner: GLM 第三对话（测试贡献者）
 Reviewer: Codex（独立验收与集成）
 Phase: phase1
@@ -16,8 +16,8 @@ Visual Verification Timing: dev-functional（隔离菜单/工具样本，不走�
 冻结 `4a9ad67faa07b004f259dcde1e175e864684dbd0`（相对 `29e76fe6` 产品/scripts 零变更），
 分支 `codex/glm-phase1-leaves-r1`，已备好工作树
 `/Users/zhangxu/.codex/worktrees/glm-phase1-leaves/type-pal`；不借其它对话或 main。
-具体新文件/hash/公开入口/旧测试线索见[冻结表](../../testing/glm-phase1-leaves/targets.json)，
-逐组合同与验证方式见[工作包](../../testing/glm-phase1-leaves/README.md)。
+具体新文件/hash/公开入口/旧测试线索见[冻结表](../../../../testing/glm-phase1-leaves/targets.json)，
+逐组合同与验证方式见[工作包](../../../../testing/glm-phase1-leaves/README.md)。
 
 ## 前提真值门
 
@@ -27,8 +27,8 @@ Visual Verification Timing: dev-functional（隔离菜单/工具样本，不走�
   建表/阶段变化；`core/inspect/battle-inspect.ts:136/319/384` 的只读投影；
   `dev/state-dump.ts:35` 的 JSON 输出；`present/menu/draw-menu.ts` 的真实菜单栈绘制；
   `shell/precache-client.ts` 的浏览器消息端口，不允许借测试注册真实 SW。
-- 第一阶段规则：先读 CLAUDE、[engineering-notes](../../phase1/engineering-notes.md)和相关
-  [game-mechanics](../../phase1/game-mechanics.md)。原始数据/已核原版行为优先，sdlpal 只能按来源标注，
+- 第一阶段规则：先读 CLAUDE、[engineering-notes](../../../../phase1/engineering-notes.md)和相关
+  [game-mechanics](../../../../phase1/game-mechanics.md)。原始数据/已核原版行为优先，sdlpal 只能按来源标注，
   不能把合成 fixture 或 C 注释说成原版实测。用户已确认的一阶段保真规则不重写。
 - 旧证据必须去重：Grok 两批正式 25+19 已在 `present/__tests__/grok-present` 与 `grok-composition`；
   不因目标无同名测试就宣称空白。`targets.json` 列同名指针，不覆盖所有跨文件测试。
@@ -65,15 +65,16 @@ Visual Verification Timing: dev-functional（隔离菜单/工具样本，不走�
 - Codex 前提/范围：verified；51源/hash、24组、新文件占用及跨三队列零交集已核；排除E2E与高风险核心。
 - build 准入：**build allowed（只增本卡测试与证据）**，2026-09-28。
 - Coding Owner：GLM 第三对话，A→F 连续实施；第一/第二对话按原卡继续。
-- GLM 自验与候选：pending；Codex 独立验收：pending。
-- 用户产品取舍：N/A，无行为改动；done 未开放，正式验收/集成由 Codex 完成，不代签。
+- GLM 自验与候选：A–F 候选及修订 `f560138190fd166e25644c98d5bde8d8cbdace0d` 已推送；
+  Codex 独立验收：2026-09-29 `accept`，见最终验收。
+- 用户产品取舍：N/A，无行为改动；**done allowed**，由 Codex 技术收口。
 
 ## 交接日志
 
 - 2026-09-28 Codex：按用户追加并行任务请求派发第三队列。复用 Vitest/pnpm 现行配置和既有 fast
   报告，不为排队重跑覆盖率；原版事实与合成样本、显示与执行分栏。
 
-## 下一位 Agent 提示词
+## 下一位 Agent 提示词（实施阶段历史）
 
 ```text
 你是 GLM 第三对话，接手 TEST-GLM-PHASE1-LEAVES-3，不接前两条GLM或Kimi的任务。
@@ -92,3 +93,18 @@ docs/testing/glm-phase1-leaves/README.md 和 targets.json。
 每批交SHA、命令/JSON/反控/截图和剩余项；覆盖配置交Codex统一执行。
 不合main、不代签、不标done，Codex独立验收、集成推送与清理。第三阶段地图重建仍不实施。
 ```
+
+## 2026-09-29 Codex 最终独立验收
+
+- 以候选 `f56013819` 对 51/51 冻结产品源 hash；仅新增本卡测试/fixture/证据，
+  未改第一阶段机制、正式资产、E2E 或第三阶段地图重建。Codex 新鲜定向 45 文件
+  **171/171** 全绿；A–F 共 12 针业务反控、对照绿与判据自测独立通过。
+  LV1–LV4 十二图全 hash 匹配，抽看菜单、战斗呈现、工具面板与 overlay；宿主仅证固定输入的
+  绘制/委派，不冒充真存档、真实 SW 离线、音频听感或完整剧情。
+- Codex 接收时修宿主两条 `forEach` lint error，并将 L17 合法 `PanelResources` fixture 去掉
+  旧测试沿用的 `as never`；浏览器全屏端口用 `Object.defineProperty`，相关 7/7 定向复跑通过。
+- 三条 GLM 候选主树统一 `pnpm check` exit 0：七包 **10,841/10,841** 测试通过，
+  lint 2623 文件 **0 error/0 warning/0 info**。保护 `3bae1a69` 的官方 ratchet 与单次
+  strict-fast 均 exit 0：全仓 fast **10,380/10,380**、730 生产文件、分支
+  **49,081/63,398（77.42%）**，新基线逐整数复现、零回退。第一阶段保真行为与产品 UI 未改变。
+- **无下一位 Agent 提示词；本卡技术收口完成。**

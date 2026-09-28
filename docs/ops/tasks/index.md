@@ -11,9 +11,6 @@
 | [ARCH-SUPPORT-GLM-1 — 八组并行准备取证](ARCH-SUPPORT-GLM-1-eight-audit-packages.md) | draft | 以任务卡当前准入与看板分工为准。 |
 | [E2E-R4-1 — 路线驱动与合法检查点薄基线](E2E-R4-1-route-and-checkpoint-foundation.md) | build | 以任务卡当前准入与看板分工为准。 |
 | [EDITOR-SCENE-FACING-1 — 切场景指令无法清除显式朝向](EDITOR-SCENE-FACING-1-clear-override.md) | draft | 以任务卡当前准入与看板分工为准。 |
-| [TEST-GLM-LEAF-WORKFLOWS-1 — 三十二组叶层与小界面补测](TEST-GLM-LEAF-WORKFLOWS-1-thirty-two-groups.md) | rework | 以任务卡当前准入与看板分工为准。 |
-| [TEST-GLM-PHASE1-LEAVES-3 — 第三对话一阶段菜单、呈现与工具六批补测](TEST-GLM-PHASE1-LEAVES-3-menus-presentation-tools.md) | build | 以任务卡当前准入与看板分工为准。 |
-| [TEST-GLM-RUNTIME-RESOURCE-2 — 第二对话运行时与资源七批补测](TEST-GLM-RUNTIME-RESOURCE-2-parallel-wave.md) | rework | 以任务卡当前准入与看板分工为准。 |
 
 ## 已完成（historical）
 
@@ -208,6 +205,9 @@
 | [TEST-GLM-CONTENT-GUARDS-3 — 八组同步脚本与记录守卫补测](../archive/tasks/done/TEST-GLM-CONTENT-GUARDS-3-script-and-records.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [TEST-GLM-EDITOR-UI-WAVE-1 — 编辑器十二模块交互回归](../archive/tasks/done/TEST-GLM-EDITOR-UI-WAVE-1-twelve-surfaces.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [TEST-GLM-ITEM-LOGIC-1 — 物品纯逻辑六组补测](../archive/tasks/done/TEST-GLM-ITEM-LOGIC-1-world-use-residuals.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [TEST-GLM-LEAF-WORKFLOWS-1 — 三十二组叶层与小界面补测](../archive/tasks/done/TEST-GLM-LEAF-WORKFLOWS-1-thirty-two-groups.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [TEST-GLM-PHASE1-LEAVES-3 — 第三对话一阶段菜单、呈现与工具六批补测](../archive/tasks/done/TEST-GLM-PHASE1-LEAVES-3-menus-presentation-tools.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [TEST-GLM-RUNTIME-RESOURCE-2 — 第二对话运行时与资源七批补测](../archive/tasks/done/TEST-GLM-RUNTIME-RESOURCE-2-parallel-wave.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [TEST-GLM-STATE-COMMANDS-1 — 菜单与编辑命令十六组连续补测](../archive/tasks/done/TEST-GLM-STATE-COMMANDS-1-sixteen-leaf-modules.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [TEST-GROK-PRESENT-1 — 一阶段菜单与索引渲染十组候选回归](../archive/tasks/done/TEST-GROK-PRESENT-1-phase1-menu-regressions.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [TEST-GROK-PRESENT-2 — 一阶段画面合成与战斗呈现候选回归](../archive/tasks/done/TEST-GROK-PRESENT-2-phase1-composition.md) | done | 完成证据、历史签字与交接见原卡。 |

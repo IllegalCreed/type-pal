@@ -1,6 +1,6 @@
 # GLM 第二对话：运行时与资源七批补测
 
-[任务卡](../../ops/tasks/TEST-GLM-RUNTIME-RESOURCE-2-parallel-wave.md) · [冻结表](targets.json) ·
+[任务卡](../../ops/archive/tasks/done/TEST-GLM-RUNTIME-RESOURCE-2-parallel-wave.md) · [冻结表](targets.json) ·
 [交付回执](receipt.md) · [证据](evidence.json) · [取证宿主](hosts/README.md) ·
 [第一对话独立包](../glm-leaf-workflows/README.md) · [上级](../README.md)
 

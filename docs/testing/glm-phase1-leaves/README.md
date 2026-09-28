@@ -1,6 +1,6 @@
 # GLM 第三对话：一阶段菜单、呈现与工具六批
 
-[任务卡](../../ops/tasks/TEST-GLM-PHASE1-LEAVES-3-menus-presentation-tools.md) · [冻结表](targets.json) ·
+[任务卡](../../ops/archive/tasks/done/TEST-GLM-PHASE1-LEAVES-3-menus-presentation-tools.md) · [冻结表](targets.json) ·
 [回执](receipt.md) · [视觉样本](browser-host/README.md) ·
 [上级](../README.md) · [第一对话](../glm-leaf-workflows/README.md) · [第二对话](../glm-runtime-resource-wave/README.md)
 

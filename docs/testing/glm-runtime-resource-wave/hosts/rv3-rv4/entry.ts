@@ -109,7 +109,7 @@ async function main(): Promise<void> {
   const glyphs: GlyphTable = parseBdfGlyphs(await bdf.text(), 'unifont-cn.bdf(RV3/4)')
 
   const canvas = document.getElementById('stage') as HTMLCanvasElement
-  const ctx = canvas.getContext('2d')!
+  const ctx = canvas.getContext('2d', { willReadFrequently: true })!
   ctx.imageSmoothingEnabled = false
   ctx.fillStyle = '#333'
   ctx.fillRect(0, 0, 1920, 1200)
@@ -248,7 +248,7 @@ async function main(): Promise<void> {
     (id) => (id === '296' ? '气疗术' : id),
   )
   const strip = document.getElementById('settle') as HTMLCanvasElement
-  const sctx = strip.getContext('2d')!
+  const sctx = strip.getContext('2d', { willReadFrequently: true })!
   sctx.imageSmoothingEnabled = false
   sctx.fillStyle = '#222'
   sctx.fillRect(0, 0, 960, 120)
