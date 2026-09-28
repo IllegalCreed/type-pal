@@ -1,0 +1,1783 @@
+{
+  "task": "TEST-KIMI-EDITOR-WORKFLOWS-1",
+  "generated": "2026-09-28T15:11:42.060Z",
+  "branch": "codex/kimi-editor-workflows-r1",
+  "productionFreeze": "29e76fe62070fb03bf2459cf95dc2a70ba0f2a0b",
+  "productionSourcesUnchanged": "21/21 sha256 与 targets.json 冻结值一致（开工核与收口核两次）",
+  "counterControlJudge": "judge.mjs 唯一正式判据：文件绑定/exit/pending+skip/空消息/AssertionError 首行/timeout+混错（首行）/执行数基线/产品 hash；selftest.mjs 17 例方向断言全过",
+  "batches": {
+    "A": {
+      "candidate": "04ed4823",
+      "vitest": {
+        "report": "/tmp/kimi-editor-A.json",
+        "reportSha256": "913074fdbfad1ab503400fef28ca5b69fc140249fc0d1f2dde35611b0546e3fd",
+        "success": true,
+        "files": 7,
+        "tests": 40,
+        "passed": 40,
+        "failed": 0,
+        "assertionResults": [
+          {
+            "file": "packages/editor/src/ui/BattleSpriteInlinePreview.kimi-workflows.test.tsx",
+            "fullName": "K01 BattleSpriteInlinePreview 异步归属 迟到解码结果不得覆盖已切换的新选择",
+            "status": "passed"
+          },
+          {
+            "file": "packages/editor/src/ui/BattleSpriteInlinePreview.kimi-workflows.test.tsx",
+            "fullName": "K01 BattleSpriteInlinePreview 异步归属 record 缺失或 kind 不符立即 fail-loud，不冒充加载中",
+            "status": "passed"
+          },
+          {
+            "file": "packages/editor/src/ui/BattleSpriteInlinePreview.kimi-workflows.test.tsx",
+            "fullName": "K01 BattleSpriteInlinePreview 异步归属 profile 期望不符走真实拒绝；缺资源空态与正常加载分明",
+            "status": "passed"
+          },
+          {
+            "file": "packages/editor/src/ui/BattleSpriteLibrary.kimi-workflows.test.tsx",
+            "fullName": "K01 BattleSpriteLibrary 真实源帧工作流 真实 PNG 图集导入：catalog/bytes/定义精确入库且 undo/redo 对称",
+            "status": "passed"
+          },
+          {
+            "file": "packages/editor/src/ui/BattleSpriteLibrary.kimi-workflows.test.tsx",
+            "fullName": "K01 BattleSpriteLibrary 真实源帧工作流 新增用途过真实解码门入库；替换单帧带双用途 proof，取消侧零提交",
+            "status": "passed"
+          },
+          {
+            "file": "packages/editor/src/ui/BattleSpriteLibrary.kimi-workflows.test.tsx",
+            "fullName": "K01 BattleSpriteLibrary 真实源帧工作流 追加原始帧：真实切格量化入库，共享双用途与 undo 全链一致",
+            "status": "passed"
+          },
+          {
+            "file": "packages/editor/src/ui/BattleSpriteLibrary.kimi-workflows.test.tsx",
+            "fullName": "K01 BattleSpriteLibrary 真实源帧工作流 删除原始帧走敌人分段 ABI 修复事务；确认取消零提交",
+            "status": "passed"
+          },
+          {
+            "file": "packages/editor/src/ui/BattleSpriteLibrary.kimi-workflows.test.tsx",
+            "fullName": "K01 BattleSpriteLibrary 真实源帧工作流 替换共享帧源：缩帧 fail-closed 零提交，增帧确认后原子替换可撤销",
+            "status": "passed"
+          },
+          {
+            "file": "packages/editor/src/ui/BattleSpriteLibrary.kimi-workflows.test.tsx",
+            "fullName": "K01 BattleSpriteLibrary 真实源帧工作流 动作阶段槽拖放：非法载荷零提交，合法帧落槽后真实提交并可撤销",
+            "status": "passed"
+          },
+          {
+            "file": "packages/editor/src/ui/SpriteActionEditor.kimi-workflows.test.tsx",
+            "fullName": "K03 SpriteActionEditor 合法动作 pose 工作流 空用途连续新建两个动作落到实际 session（越界已选回退帧 0），undo/redo 对称",
+            "status": "passed"
+          },
+          {
+            "file": "packages/editor/src/ui/SpriteActionEditor.kimi-workflows.test.tsx",
+            "fullName": "K03 SpriteActionEditor 合法动作 pose 工作流 删除动作：confirm 取消零提交；确认后剩余 order 重排并逐个删空为 undefined，undo/redo 对称",
+            "status": "passed"
+          },
+          {
+            "file": "packages/editor/src/ui/SpriteActionEditor.kimi-workflows.test.tsx",
+            "fullName": "K03 SpriteActionEditor 合法动作 pose 工作流 前移/后移重排 order 且 ActionId/内容稳定，首尾方向禁用，undo/redo 对称",
+            "status": "passed"
+          },
+          {
+            "file": "packages/editor/src/ui/SpriteActionEditor.kimi-workflows.test.tsx",
+            "fullName": "K03 SpriteActionEditor 合法动作 pose 工作流 循环播放开关与循环起点选择落到实际 session，undo 链逐级还原",
+            "status": "passed"
+          },
+          {
+            "file": "packages/editor/src/ui/SpriteActionEditor.kimi-workflows.test.tsx",
+            "fullName": "K03 SpriteActionEditor 合法动作 pose 工作流 步骤插入/删除迁移 loopFrom 到实际 session；追加按钮两入口与越界禁用",
+            "status": "passed"
+          },
+          {
+            "file": "packages/editor/src/ui/SpriteActionEditor.kimi-workflows.test.tsx",
+            "fullName": "K03 SpriteActionEditor 合法动作 pose 工作流 同步音效 cue：增/改/删落到实际 session 且不触碰 catalog，undo 链逐级还原",
+            "status": "passed"
+          },
+          {
+            "file": "packages/editor/src/ui/SpriteActionEditor.kimi-workflows.test.tsx",
+            "fullName": "K03 SpriteActionEditor 合法动作 pose 工作流 真实引用边（实体页 animation）阻断删除并接通查看引用；撤销引用后放行",
+            "status": "passed"
+          },
+          {
+            "file": "packages/editor/src/ui/SpriteResourceViewer.kimi-workflows.test.tsx",
+            "fullName": "K02 SpriteResourceViewer 真实帧编辑工作流 追加源帧：真实量化编码入库、共享用途逐字段保全、reader 重读 14 帧、undo/redo 对称",
+            "status": "passed"
+          },
+          {
+            "file": "packages/editor/src/ui/SpriteResourceViewer.kimi-workflows.test.tsx",
+            "fullName": "K02 SpriteResourceViewer 真实帧编辑工作流 替换当前帧：双用途 confirm 取消侧零提交、放行侧真实重编码且双定义保全、undo 还原字节",
+            "status": "passed"
+          },
+          {
+            "file": "packages/editor/src/ui/SpriteResourceViewer.kimi-workflows.test.tsx",
+            "fullName": "K02 SpriteResourceViewer 真实帧编辑工作流 删除源帧：姿势修复随替换原子提交、confirm 列精确冲击清单、取消零提交、undo 全还原",
+            "status": "passed"
+          },
+          {
+            "file": "packages/editor/src/ui/SpriteResourceViewer.kimi-workflows.test.tsx",
+            "fullName": "K02 SpriteResourceViewer 真实帧编辑工作流 四向行走前缀内删帧被真实规划器阻断（错误反馈零提交）；单帧容器删除按钮禁用",
+            "status": "passed"
+          },
+          {
+            "file": "packages/editor/src/ui/SpriteResourceViewer.kimi-workflows.test.tsx",
+            "fullName": "K02 SpriteResourceViewer 真实帧编辑工作流 迟到磁盘读取归属：闸门内旧资源完成后不得盖掉已切换的新选择，缓存结果归原资产",
+            "status": "passed"
+          },
+          {
+            "file": "packages/editor/src/ui/TilesetTab.kimi-workflows.test.tsx",
+            "fullName": "K04 TilesetTab 真实图集工作流 真实 PNG 切格入库：量化/编码/字节链精确落账且 undo/redo 对称",
+            "status": "passed"
+          },
+          {
+            "file": "packages/editor/src/ui/TilesetTab.kimi-workflows.test.tsx",
+            "fullName": "K04 TilesetTab 真实图集工作流 向导分页：超页帧数导航、改瓦宽缩减夹回首页，取消上传零提交且选中保持",
+            "status": "passed"
+          },
+          {
+            "file": "packages/editor/src/ui/TilesetTab.kimi-workflows.test.tsx",
+            "fullName": "K04 TilesetTab 真实图集工作流 移除：真实引用扫描下被引用瓦片集 fail-closed；未引用新集移除正控与撤销还原",
+            "status": "passed"
+          },
+          {
+            "file": "packages/editor/src/ui/TilesetTab.kimi-workflows.test.tsx",
+            "fullName": "K04 TilesetTab 真实图集工作流 替换：越界缩帧面板与提交双重 fail-closed；增帧正控真实换字节可撤销",
+            "status": "passed"
+          },
+          {
+            "file": "packages/editor/src/ui/TilesetTab.kimi-workflows.test.tsx",
+            "fullName": "K04 TilesetTab 真实图集工作流 共享定义替换：confirm 取消零进入、放行后双定义保全且可撤销",
+            "status": "passed"
+          },
+          {
+            "file": "packages/editor/src/ui/TilesetTab.kimi-workflows.test.tsx",
+            "fullName": "K04 TilesetTab 真实图集工作流 替换竞态：读取在途时源资源被改写则 fail-closed 保留草稿，重试正控成功",
+            "status": "passed"
+          },
+          {
+            "file": "packages/editor/src/ui/WorldSpriteLibrary.kimi-workflows.test.tsx",
+            "fullName": "K02 WorldSpriteLibrary 真实资源 proof 工作流 proof 绑定真实帧数：解码在途时编辑禁用；新增四向用途默认帧数取 floor(实际帧数/4)",
+            "status": "passed"
+          },
+          {
+            "file": "packages/editor/src/ui/WorldSpriteLibrary.kimi-workflows.test.tsx",
+            "fullName": "K02 WorldSpriteLibrary 真实资源 proof 工作流 实际帧数不足 4 时四向入口禁用；默认定格用途经真实 proof 入库且不动 catalog/blob",
+            "status": "passed"
+          },
+          {
+            "file": "packages/editor/src/ui/WorldSpriteLibrary.kimi-workflows.test.tsx",
+            "fullName": "K02 WorldSpriteLibrary 真实资源 proof 工作流 布局编辑与源帧追加串联：reader 重读后每向帧数上限绑新帧数，编辑继续可用，undo 全链还原",
+            "status": "passed"
+          },
+          {
+            "file": "packages/editor/src/ui/WorldSpriteLibrary.kimi-workflows.test.tsx",
+            "fullName": "K02 WorldSpriteLibrary 真实资源 proof 工作流 迟到磁盘读取归属：闸门内旧读取完成后不得盖掉已切换的新选择",
+            "status": "passed"
+          },
+          {
+            "file": "packages/editor/src/ui/WorldSpriteLibrary.kimi-workflows.test.tsx",
+            "fullName": "K02 WorldSpriteLibrary 真实资源 proof 工作流 磁盘字节损坏：真实解码失败 fail-loud 且编辑保持禁用；切走再切回真实重试",
+            "status": "passed"
+          },
+          {
+            "file": "packages/editor/src/ui/WorldSpriteLibrary.kimi-workflows.test.tsx",
+            "fullName": "K02 WorldSpriteLibrary 真实资源 proof 工作流 删除未使用源资源：磁盘端口捕获 undo 字节，撤销后 catalog 与 blob 完整还原",
+            "status": "passed"
+          },
+          {
+            "file": "packages/editor/src/core/world-sprite-behavior.kimi-workflows.test.ts",
+            "fullName": "K03 collectSpriteAutomaticScriptBehaviorsForResource 同资产多定义分组、相同帧序跨实例合并计数，directional 定义聚合落 unavailable，混合资产拒绝",
+            "status": "passed"
+          },
+          {
+            "file": "packages/editor/src/core/world-sprite-behavior.kimi-workflows.test.ts",
+            "fullName": "K03 describeSpriteReferenceBehavior 引用归属边界 非场景 owner 分类与失效场景引用回退；scene-page owner 同样解析实例行为",
+            "status": "passed"
+          },
+          {
+            "file": "packages/editor/src/core/world-sprite-behavior.kimi-workflows.test.ts",
+            "fullName": "K03 describeSpriteReferenceBehavior 引用归属边界 无 auto 的实例按布局分类：loop→用途自动循环，directional→四向场景实例读实体朝向",
+            "status": "passed"
+          },
+          {
+            "file": "packages/editor/src/core/world-sprite-behavior.kimi-workflows.test.ts",
+            "fullName": "K03 describeSpriteReferenceBehavior 引用归属边界 可证脚本在缺实际帧数时不伪装 cycle；不可证控制流的 unavailable 形状精确",
+            "status": "passed"
+          },
+          {
+            "file": "packages/editor/src/core/world-sprite-behavior.kimi-workflows.test.ts",
+            "fullName": "K03 describeSpriteReferenceBehavior 引用归属边界 chance 采样超 48 tick 预算：披露截断且仍报代表性 variants，不伪装唯一循环",
+            "status": "passed"
+          },
+          {
+            "file": "packages/editor/src/core/world-sprite-behavior.kimi-workflows.test.ts",
+            "fullName": "K03 projectCanonicalSpritePreviewState 投影边界 无 canonical 对应的场景/实体原引用保留；shell 页字段保留；共享 chunk 注入不动既有；输入隔离",
+            "status": "passed"
+          },
+          {
+            "file": "packages/editor/src/core/world-sprite-behavior.kimi-workflows.test.ts",
+            "fullName": "K03 collectAutomaticScriptSpriteInstanceSites 真实状态边界 真实装载/真实命令下未知 actor 跳过，site 全字段精确",
+            "status": "passed"
+          }
+        ]
+      },
+      "counterControl": {
+        "records": [
+          {
+            "label": "control-k01-library",
+            "target": null,
+            "exitCode": 0,
+            "executed": 6,
+            "failedFullNames": [],
+            "verdict": "valid-green-control"
+          },
+          {
+            "label": "control-k01-preview",
+            "target": null,
+            "exitCode": 0,
+            "executed": 3,
+            "failedFullNames": [],
+            "verdict": "valid-green-control"
+          },
+          {
+            "label": "control-k02-library",
+            "target": null,
+            "exitCode": 0,
+            "executed": 6,
+            "failedFullNames": [],
+            "verdict": "valid-green-control"
+          },
+          {
+            "label": "control-k02-viewer",
+            "target": null,
+            "exitCode": 0,
+            "executed": 5,
+            "failedFullNames": [],
+            "verdict": "valid-green-control"
+          },
+          {
+            "label": "control-k03-action-editor",
+            "target": null,
+            "exitCode": 0,
+            "executed": 7,
+            "failedFullNames": [],
+            "verdict": "valid-green-control"
+          },
+          {
+            "label": "control-k03-behavior",
+            "target": null,
+            "exitCode": 0,
+            "executed": 7,
+            "failedFullNames": [],
+            "verdict": "valid-green-control"
+          },
+          {
+            "label": "control-k04-tileset",
+            "target": null,
+            "exitCode": 0,
+            "executed": 6,
+            "failedFullNames": [],
+            "verdict": "valid-green-control"
+          },
+          {
+            "label": "k01-alive-guard",
+            "target": "packages/editor/src/ui/BattleSpriteInlinePreview.tsx",
+            "exitCode": 1,
+            "executed": 3,
+            "failedFullNames": [
+              "K01 BattleSpriteInlinePreview 异步归属 迟到解码结果不得覆盖已切换的新选择"
+            ],
+            "verdict": "valid-red"
+          },
+          {
+            "label": "k01-shrink-repairs-dropped",
+            "target": "packages/editor/src/ui/BattleSpriteLibrary.tsx",
+            "exitCode": 1,
+            "executed": 6,
+            "failedFullNames": [
+              "K01 BattleSpriteLibrary 真实源帧工作流 删除原始帧走敌人分段 ABI 修复事务；确认取消零提交"
+            ],
+            "verdict": "valid-red"
+          },
+          {
+            "label": "k02-framesperdir-ceil",
+            "target": "packages/editor/src/ui/WorldSpriteLibrary.tsx",
+            "exitCode": 1,
+            "executed": 6,
+            "failedFullNames": [
+              "K02 WorldSpriteLibrary 真实资源 proof 工作流 proof 绑定真实帧数：解码在途时编辑禁用；新增四向用途默认帧数取 floor(实际帧数/4)"
+            ],
+            "verdict": "valid-red"
+          },
+          {
+            "label": "k02-append-drops-existing",
+            "target": "packages/editor/src/ui/SpriteResourceViewer.tsx",
+            "exitCode": 1,
+            "executed": 5,
+            "failedFullNames": [
+              "K02 SpriteResourceViewer 真实帧编辑工作流 追加源帧：真实量化编码入库、共享用途逐字段保全、reader 重读 14 帧、undo/redo 对称"
+            ],
+            "verdict": "valid-red"
+          },
+          {
+            "label": "k03-delete-confirm-bypassed",
+            "target": "packages/editor/src/ui/SpriteActionEditor.tsx",
+            "exitCode": 1,
+            "executed": 7,
+            "failedFullNames": [
+              "K03 SpriteActionEditor 合法动作 pose 工作流 删除动作：confirm 取消零提交；确认后剩余 order 重排并逐个删空为 undefined，undo/redo 对称"
+            ],
+            "verdict": "valid-red"
+          },
+          {
+            "label": "k03-instance-count-not-merged",
+            "target": "packages/editor/src/core/world-sprite-behavior.ts",
+            "exitCode": 1,
+            "executed": 7,
+            "failedFullNames": [
+              "K03 collectSpriteAutomaticScriptBehaviorsForResource 同资产多定义分组、相同帧序跨实例合并计数，directional 定义聚合落 unavailable，混合资产拒绝"
+            ],
+            "verdict": "valid-red"
+          },
+          {
+            "label": "k03-bounded-note-dropped",
+            "target": "packages/editor/src/core/world-sprite-behavior.ts",
+            "exitCode": 1,
+            "executed": 7,
+            "failedFullNames": [
+              "K03 describeSpriteReferenceBehavior 引用归属边界 chance 采样超 48 tick 预算：披露截断且仍报代表性 variants，不伪装唯一循环"
+            ],
+            "verdict": "valid-red"
+          },
+          {
+            "label": "k04-page-clamp-dropped",
+            "target": "packages/editor/src/ui/TilesetTab.tsx",
+            "exitCode": 1,
+            "executed": 6,
+            "failedFullNames": [
+              "K04 TilesetTab 真实图集工作流 向导分页：超页帧数导航、改瓦宽缩减夹回首页，取消上传零提交且选中保持"
+            ],
+            "verdict": "valid-red"
+          },
+          {
+            "label": "k04-oob-map-guard-opened",
+            "target": "packages/editor/src/ui/TilesetTab.tsx",
+            "exitCode": 1,
+            "executed": 6,
+            "failedFullNames": [
+              "K04 TilesetTab 真实图集工作流 替换：越界缩帧面板与提交双重 fail-closed；增帧正控真实换字节可撤销"
+            ],
+            "verdict": "valid-red"
+          },
+          {
+            "label": "k04-replace-race-guard-dropped",
+            "target": "packages/editor/src/ui/TilesetTab.tsx",
+            "exitCode": 1,
+            "executed": 6,
+            "failedFullNames": [
+              "K04 TilesetTab 真实图集工作流 替换竞态：读取在途时源资源被改写则 fail-closed 保留草稿，重试正控成功"
+            ],
+            "verdict": "valid-red"
+          }
+        ],
+        "validRed": 10,
+        "validControls": 7,
+        "invalid": 0
+      },
+      "browserEvidence": [
+        {
+          "id": "loopA1-imported-wide",
+          "viewport": "1440x900",
+          "scenario": "battle-sprite-library",
+          "url": "http://localhost:6062/?component=battle-sprite-library",
+          "path": "/tmp/type-pal-kimi-editor-workflows/loopA1-imported-wide.png",
+          "sha256": "12ca0067b78dac2908a22f0e86f6de96c265178e48b2818dcfa973246daee9eb"
+        },
+        {
+          "id": "loopA2-tileset-wizard-narrow",
+          "viewport": "1000x720",
+          "scenario": "tileset",
+          "url": "http://localhost:6062/?component=tileset",
+          "path": "/tmp/type-pal-kimi-editor-workflows/loopA2-tileset-wizard-narrow.png",
+          "sha256": "592c7e84c05a90f8214bc4992217a9a8f3d64d0532626bee7be2e4a1143ce128"
+        },
+        {
+          "id": "loopA2-tileset-restored-narrow",
+          "viewport": "1000x720",
+          "scenario": "tileset",
+          "url": "http://localhost:6062/?component=tileset",
+          "path": "/tmp/type-pal-kimi-editor-workflows/loopA2-tileset-restored-narrow.png",
+          "sha256": "60bc474569709d59885b37f4e7ae2c6e01d6bda5f3f1fa0b05d76eb86f5e658a"
+        }
+      ]
+    },
+    "B": {
+      "candidate": "524d1930",
+      "vitest": {
+        "report": "/tmp/kimi-editor-B.json",
+        "reportSha256": "377139f0535507e6a3c319b0c63b460c7ec1949b85ad57e3fde8907a9d69f7b5",
+        "success": true,
+        "files": 4,
+        "tests": 34,
+        "passed": 34,
+        "failed": 0,
+        "assertionResults": [
+          {
+            "file": "packages/editor/src/ui/AudioAssetWorkbench.kimi-workflows.test.tsx",
+            "fullName": "K07 MusicTab 真实 wrapper 策略连接 空目录接线 + 真实 .mid 导入入库 + 真实解析时间轴 + undo/redo + 无硬件端口播放降级",
+            "status": "passed"
+          },
+          {
+            "file": "packages/editor/src/ui/AudioAssetWorkbench.kimi-workflows.test.tsx",
+            "fullName": "K07 MusicTab 真实 wrapper 策略连接 同字节重复导入分配 -2 后缀 id；非法扩展名与坏魔数零提交且选择保全",
+            "status": "passed"
+          },
+          {
+            "file": "packages/editor/src/ui/AudioAssetWorkbench.kimi-workflows.test.tsx",
+            "fullName": "K07 SoundTab 真实 wrapper 与 WAV transport 所有权 真实 .wav 导入经硬件端口真实解码出 PCM 峰值；同字节再导入覆盖稳定 id",
+            "status": "passed"
+          },
+          {
+            "file": "packages/editor/src/ui/AudioAssetWorkbench.kimi-workflows.test.tsx",
+            "fullName": "K07 SoundTab 真实 wrapper 与 WAV transport 所有权 播放/时钟/seek/暂停/自然结束的协议后果与单一预览所有权转移",
+            "status": "passed"
+          },
+          {
+            "file": "packages/editor/src/ui/AudioAssetWorkbench.kimi-workflows.test.tsx",
+            "fullName": "K07 SoundTab 真实 wrapper 与 WAV transport 所有权 播放中切选停止旧源但不销毁 transport；卸载 dispose 关闭硬件端口",
+            "status": "passed"
+          },
+          {
+            "file": "packages/editor/src/ui/AudioAssetWorkbench.kimi-workflows.test.tsx",
+            "fullName": "K07 SoundTab 真实 wrapper 与 WAV transport 所有权 替换非法 WAV 失败：selection/catalog/blob/解码计数全保全且零提交",
+            "status": "passed"
+          },
+          {
+            "file": "packages/editor/src/ui/AudioAssetWorkbench.kimi-workflows.test.tsx",
+            "fullName": "K07 SoundTab 真实 wrapper 与 WAV transport 所有权 删除生命周期：取消零提交、引用阻断禁用、解除后成功删除并 undo/redo 字节级还原",
+            "status": "passed"
+          },
+          {
+            "file": "packages/editor/src/ui/AudioAssetWorkbench.kimi-workflows.test.tsx",
+            "fullName": "K07 SoundTab 真实 wrapper 与 WAV transport 所有权 删除在途磁盘读取失败：错误身份透传、对话框保持开启、选择/记录保全、取消收尾",
+            "status": "passed"
+          },
+          {
+            "file": "packages/editor/src/ui/CutsceneTab.kimi-workflows.test.tsx",
+            "fullName": "K06 CutsceneTab 真实过场工作流 帧队列乱序输入自然排序、按钮重排与排除后真实创建：TPFS 帧序等于队列序且 undo/redo 对称",
+            "status": "passed"
+          },
+          {
+            "file": "packages/editor/src/ui/CutsceneTab.kimi-workflows.test.tsx",
+            "fullName": "K06 CutsceneTab 真实过场工作流 帧队列空选择不开窗、排除到空自动关窗且全程零提交",
+            "status": "passed"
+          },
+          {
+            "file": "packages/editor/src/ui/CutsceneTab.kimi-workflows.test.tsx",
+            "fullName": "K06 CutsceneTab 真实过场工作流 帧序列尺寸不齐创建失败：错误可见、队列保留、排除坏帧后重试成功",
+            "status": "passed"
+          },
+          {
+            "file": "packages/editor/src/ui/CutsceneTab.kimi-workflows.test.tsx",
+            "fullName": "K06 CutsceneTab 真实过场工作流 替换帧动画：同 AssetId 真实换字节、标签保全、项目标准色彩量化生效且 undo 还原旧字节",
+            "status": "passed"
+          },
+          {
+            "file": "packages/editor/src/ui/CutsceneTab.kimi-workflows.test.tsx",
+            "fullName": "K06 CutsceneTab 真实过场工作流 视频 metadata 真实容器解析与切换在途重置：音轨有/无、objectURL 建立与回收",
+            "status": "passed"
+          },
+          {
+            "file": "packages/editor/src/ui/CutsceneTab.kimi-workflows.test.tsx",
+            "fullName": "K06 CutsceneTab 真实过场工作流 视频读取失败只伤当前资源：错误可见、检查器保持读取中、切走正常",
+            "status": "passed"
+          },
+          {
+            "file": "packages/editor/src/ui/CutsceneTab.kimi-workflows.test.tsx",
+            "fullName": "K06 CutsceneTab 真实过场工作流 删除在途期间实时引用出现则真实拒绝；解除后真实删除且 undo 字节级还原",
+            "status": "passed"
+          },
+          {
+            "file": "packages/editor/src/ui/CutsceneTab.kimi-workflows.test.tsx",
+            "fullName": "K06 CutsceneTab 真实过场工作流 帧动画 metadata 经真实 FrameAnimationEditor 进检查器，并与视频行随选择互切",
+            "status": "passed"
+          },
+          {
+            "file": "packages/editor/src/ui/ImageTab.kimi-workflows.test.tsx",
+            "fullName": "K05 ImageTab 真实图像工作流 真实 PNG 导入：像素/尺寸/摘要落账，undo 停留缺失面板，redo 还原",
+            "status": "passed"
+          },
+          {
+            "file": "packages/editor/src/ui/ImageTab.kimi-workflows.test.tsx",
+            "fullName": "K05 ImageTab 真实图像工作流 同字节再导入派生 -2 后缀 id；真实资源间选择切换零提交且预览互换真实像素",
+            "status": "passed"
+          },
+          {
+            "file": "packages/editor/src/ui/ImageTab.kimi-workflows.test.tsx",
+            "fullName": "K05 ImageTab 真实图像工作流 替换链：保留 label 真实换字节、撤销物化旧字节可解码、预览按新 sha 重载",
+            "status": "passed"
+          },
+          {
+            "file": "packages/editor/src/ui/ImageTab.kimi-workflows.test.tsx",
+            "fullName": "K05 ImageTab 真实图像工作流 失败不污染：损坏 PNG 替换保留原 record、战场背景尺寸守卫零提交",
+            "status": "passed"
+          },
+          {
+            "file": "packages/editor/src/ui/ImageTab.kimi-workflows.test.tsx",
+            "fullName": "K05 ImageTab 真实图像工作流 预览守卫：尺寸不符的战场背景资源显示错误面与缩略图徽标（守卫输入只证守卫）",
+            "status": "passed"
+          },
+          {
+            "file": "packages/editor/src/ui/ImageTab.kimi-workflows.test.tsx",
+            "fullName": "K05 ImageTab 真实图像工作流 战场背景评审链：取消零提交选择不动；确认入库索引图合同、色盘重映射与 undo/redo",
+            "status": "passed"
+          },
+          {
+            "file": "packages/editor/src/ui/ImageTab.kimi-workflows.test.tsx",
+            "fullName": "K05 ImageTab 真实图像工作流 预览 viewer：fit 几何、键盘/滚轮/工具条缩放与拖拽平移真实合同",
+            "status": "passed"
+          },
+          {
+            "file": "packages/editor/src/ui/ImageTab.kimi-workflows.test.tsx",
+            "fullName": "K05 ImageTab 真实图像工作流 预览资源生命周期：切选后迟到解码不盖新选择、bitmap 关闭与 object URL 零泄漏",
+            "status": "passed"
+          },
+          {
+            "file": "packages/editor/src/ui/ImageTab.kimi-workflows.test.tsx",
+            "fullName": "K05 ImageTab 真实图像工作流 删除真实资源：真实引用索引确认、选择回退与焦点、undo 字节级还原可真实解码",
+            "status": "passed"
+          },
+          {
+            "file": "packages/editor/src/ui/ProjectWorkbenchTab.kimi-workflows.test.tsx",
+            "fullName": "K08 ProjectWorkbenchTab 项目页真实业务工作流 startup 页角色绑定经真实选择器写 UpdateManifestAssetRolesCommand：绑定、解绑与撤销全链对称",
+            "status": "passed"
+          },
+          {
+            "file": "packages/editor/src/ui/ProjectWorkbenchTab.kimi-workflows.test.tsx",
+            "fullName": "K08 ProjectWorkbenchTab 项目页真实业务工作流 entrypoint 页标签、起始场景与入口视频经 SetStartupEntriesCommand 原子提交，undo/redo 对称且全程过保存门",
+            "status": "passed"
+          },
+          {
+            "file": "packages/editor/src/ui/ProjectWorkbenchTab.kimi-workflows.test.tsx",
+            "fullName": "K08 ProjectWorkbenchTab 项目页真实业务工作流 新增入口默认深拷直接启动入口且数据隔离；删除选中入口后回选直接启动入口并通知 focus",
+            "status": "passed"
+          },
+          {
+            "file": "packages/editor/src/ui/ProjectWorkbenchTab.kimi-workflows.test.tsx",
+            "fullName": "K08 ProjectWorkbenchTab 项目页真实业务工作流 初始队伍与金钱在合法项目下编辑：金钱、种子 HP、开局状态弹窗、移出与重新加入均单命令可撤销",
+            "status": "passed"
+          },
+          {
+            "file": "packages/editor/src/ui/ProjectWorkbenchTab.kimi-workflows.test.tsx",
+            "fullName": "K08 ProjectWorkbenchTab 项目页真实业务工作流 初始道具与世界资源行在合法项目下增删改：行内切换、数量与资源值编辑均过保存门",
+            "status": "passed"
+          },
+          {
+            "file": "packages/editor/src/ui/ProjectWorkbenchTab.kimi-workflows.test.tsx",
+            "fullName": "K08 ProjectWorkbenchTab 项目页真实业务工作流 概览显示名经 RenameProjectCommand 改名：空名守卫零命令，改名带脏标记且 undo/redo 对称",
+            "status": "passed"
+          },
+          {
+            "file": "packages/editor/src/ui/ProjectWorkbenchTab.kimi-workflows.test.tsx",
+            "fullName": "K08 ProjectWorkbenchTab 项目页真实业务工作流 概览诊断态与入口视频联动：空白项目零诊断，checking/failed 不冒充健康，绑定与问题计数真实呈现",
+            "status": "passed"
+          },
+          {
+            "file": "packages/editor/src/ui/ProjectWorkbenchTab.kimi-workflows.test.tsx",
+            "fullName": "K08 ProjectWorkbenchTab 项目页真实业务工作流 advanced 页 checking/stale/failed 三态：空列表不冒充健康，失败保留上一版问题列表",
+            "status": "passed"
+          },
+          {
+            "file": "packages/editor/src/ui/ProjectWorkbenchTab.kimi-workflows.test.tsx",
+            "fullName": "K08 ProjectWorkbenchTab 项目页真实业务工作流 ConnectedProjectWorkbench 真实调用域：derived 发布驱动诊断态，编辑偏航即 stale，failed 显示上一版",
+            "status": "passed"
+          }
+        ]
+      },
+      "counterControl": {
+        "records": [
+          {
+            "label": "control-k05-image",
+            "target": null,
+            "exitCode": 0,
+            "executed": 9,
+            "failedFullNames": [],
+            "verdict": "valid-green-control"
+          },
+          {
+            "label": "control-k06-cutscene",
+            "target": null,
+            "exitCode": 0,
+            "executed": 8,
+            "failedFullNames": [],
+            "verdict": "valid-green-control"
+          },
+          {
+            "label": "control-k07-audio",
+            "target": null,
+            "exitCode": 0,
+            "executed": 8,
+            "failedFullNames": [],
+            "verdict": "valid-green-control"
+          },
+          {
+            "label": "control-k08-project",
+            "target": null,
+            "exitCode": 0,
+            "executed": 9,
+            "failedFullNames": [],
+            "verdict": "valid-green-control"
+          },
+          {
+            "label": "k05-replace-label-dropped",
+            "target": "packages/editor/src/ui/ImageTab.tsx",
+            "exitCode": 1,
+            "executed": 9,
+            "failedFullNames": [
+              "K05 ImageTab 真实图像工作流 替换链：保留 label 真实换字节、撤销物化旧字节可解码、预览按新 sha 重载"
+            ],
+            "verdict": "valid-red"
+          },
+          {
+            "label": "k05-pan-direction-inverted",
+            "target": "packages/editor/src/ui/ImageTab.tsx",
+            "exitCode": 1,
+            "executed": 9,
+            "failedFullNames": [
+              "K05 ImageTab 真实图像工作流 预览 viewer：fit 几何、键盘/滚轮/工具条缩放与拖拽平移真实合同"
+            ],
+            "verdict": "valid-red"
+          },
+          {
+            "label": "k06-queue-order-dropped",
+            "target": "packages/editor/src/ui/CutsceneTab.tsx",
+            "exitCode": 1,
+            "executed": 8,
+            "failedFullNames": [
+              "K06 CutsceneTab 真实过场工作流 帧队列乱序输入自然排序、按钮重排与排除后真实创建：TPFS 帧序等于队列序且 undo/redo 对称"
+            ],
+            "verdict": "valid-red"
+          },
+          {
+            "label": "k06-delete-in-use-bypassed",
+            "target": "packages/editor/src/core/asset-commands.ts",
+            "exitCode": 1,
+            "executed": 8,
+            "failedFullNames": [
+              "K06 CutsceneTab 真实过场工作流 删除在途期间实时引用出现则真实拒绝；解除后真实删除且 undo 字节级还原"
+            ],
+            "verdict": "valid-red"
+          },
+          {
+            "label": "k07-music-id-collision",
+            "target": "packages/editor/src/ui/MusicTab.tsx",
+            "exitCode": 1,
+            "executed": 8,
+            "failedFullNames": [
+              "K07 MusicTab 真实 wrapper 策略连接 同字节重复导入分配 -2 后缀 id；非法扩展名与坏魔数零提交且选择保全"
+            ],
+            "verdict": "valid-red"
+          },
+          {
+            "label": "k07-previous-bytes-dropped",
+            "target": "packages/editor/src/ui/AudioAssetWorkbench.tsx",
+            "exitCode": 1,
+            "executed": 8,
+            "failedFullNames": [
+              "K07 SoundTab 真实 wrapper 与 WAV transport 所有权 删除在途磁盘读取失败：错误身份透传、对话框保持开启、选择/记录保全、取消收尾"
+            ],
+            "verdict": "valid-red"
+          },
+          {
+            "label": "k08-entry-patch-dropped",
+            "target": "packages/editor/src/ui/ProjectWorkbenchTab.tsx",
+            "exitCode": 1,
+            "executed": 9,
+            "failedFullNames": [
+              "K08 ProjectWorkbenchTab 项目页真实业务工作流 entrypoint 页标签、起始场景与入口视频经 SetStartupEntriesCommand 原子提交，undo/redo 对称且全程过保存门",
+              "K08 ProjectWorkbenchTab 项目页真实业务工作流 新增入口默认深拷直接启动入口且数据隔离；删除选中入口后回选直接启动入口并通知 focus",
+              "K08 ProjectWorkbenchTab 项目页真实业务工作流 初始队伍与金钱在合法项目下编辑：金钱、种子 HP、开局状态弹窗、移出与重新加入均单命令可撤销",
+              "K08 ProjectWorkbenchTab 项目页真实业务工作流 初始道具与世界资源行在合法项目下增删改：行内切换、数量与资源值编辑均过保存门"
+            ],
+            "verdict": "valid-red"
+          },
+          {
+            "label": "k08-derived-issues-emptied",
+            "target": "packages/editor/src/ui/ConnectedEditorPages.tsx",
+            "exitCode": 1,
+            "executed": 9,
+            "failedFullNames": [
+              "K08 ProjectWorkbenchTab 项目页真实业务工作流 ConnectedProjectWorkbench 真实调用域：derived 发布驱动诊断态，编辑偏航即 stale，failed 显示上一版"
+            ],
+            "verdict": "valid-red"
+          }
+        ],
+        "validRed": 8,
+        "validControls": 4,
+        "invalid": 0
+      },
+      "browserEvidence": [
+        {
+          "id": "loopB1-image-imported-wide",
+          "viewport": "1440x900",
+          "scenario": "image",
+          "url": "http://localhost:6062/?component=image",
+          "path": "/tmp/type-pal-kimi-editor-workflows/loopB1-image-imported-wide.png",
+          "sha256": "f43e65199316ef684300aa9cc73c24ccda3e2b5633bfd6b01686afb4be2195a5"
+        },
+        {
+          "id": "loopB2-sound-playing-narrow",
+          "viewport": "1000x720",
+          "scenario": "sound",
+          "url": "http://localhost:6062/?component=sound",
+          "path": "/tmp/type-pal-kimi-editor-workflows/loopB2-sound-playing-narrow.png",
+          "sha256": "8c2ffdc9563da4ff97983dbc9f8745041de9f79f683ac7bfa3cb41eed7212345"
+        }
+      ]
+    },
+    "C": {
+      "candidate": "e838ca30",
+      "vitest": {
+        "report": "/tmp/kimi-editor-C.json",
+        "reportSha256": "79b0dccb002b811ead3a8de99117fd88666f7ac8332d20f1b1d90e8f47daae57",
+        "success": true,
+        "files": 9,
+        "tests": 43,
+        "passed": 43,
+        "failed": 0,
+        "assertionResults": [
+          {
+            "file": "packages/editor/src/ui/EnemyTab.kimi-workflows.test.tsx",
+            "fullName": "K11 EnemyTab 敌定义真实业务工作流 新建敌人：无 enemy profile 战斗精灵时禁用守卫；播种后经 CompositeCommand 落生产模板并递增",
+            "status": "passed"
+          },
+          {
+            "file": "packages/editor/src/ui/EnemyTab.kimi-workflows.test.tsx",
+            "fullName": "K11 EnemyTab 敌定义真实业务工作流 删除引用证明：共享槽位计数 → 真实命令逐处解除 → 确认删除 → 选中回退与 notice 清除 → undo 原位还原",
+            "status": "passed"
+          },
+          {
+            "file": "packages/editor/src/ui/EnemyTab.kimi-workflows.test.tsx",
+            "fullName": "K11 EnemyTab 敌定义真实业务工作流 AI 规则行编辑：条件/数值/时机/动作/技能/目标/once 每步单命令到 session，undo/redo 逐格对称",
+            "status": "passed"
+          },
+          {
+            "file": "packages/editor/src/ui/EnemyTab.kimi-workflows.test.tsx",
+            "fullName": "K11 EnemyTab 敌定义真实业务工作流 UI 创建变身/召唤规则实时产生真实引用：目标敌人删除被阻断，改回同种召唤即解除",
+            "status": "passed"
+          },
+          {
+            "file": "packages/editor/src/ui/EnemyTab.kimi-workflows.test.tsx",
+            "fullName": "K11 EnemyTab 敌定义真实业务工作流 战斗音效：SoundPicker 选择/清除删键、施法音优先开关、打开音效库回调，undo/redo 对称",
+            "status": "passed"
+          },
+          {
+            "file": "packages/editor/src/ui/EnemyTab.kimi-workflows.test.tsx",
+            "fullName": "K11 EnemyTab 敌定义真实业务工作流 击败后奖励：物品切换与数量提交逐条命令保留旁事件，段落摘要按实际奖励刷新",
+            "status": "passed"
+          },
+          {
+            "file": "packages/editor/src/ui/EnemyTeamTab.kimi-workflows.test.tsx",
+            "fullName": "K11 EnemyTeamTab 敌队预制真实业务工作流 槽位选择：空洞保留不挤压、尾部空槽裁剪、汇总与目录标题联动，undo/redo 逐格对称",
+            "status": "passed"
+          },
+          {
+            "file": "packages/editor/src/ui/EnemyTeamTab.kimi-workflows.test.tsx",
+            "fullName": "K11 EnemyTeamTab 敌队预制真实业务工作流 槽位上移/下移按钮真实交换到 session 并通报，首槽上移边界禁用零命令",
+            "status": "passed"
+          },
+          {
+            "file": "packages/editor/src/ui/EnemyTeamTab.kimi-workflows.test.tsx",
+            "fullName": "K11 EnemyTeamTab 敌队预制真实业务工作流 新建敌队：预选下一个稳定 ID，空 ID 与重名守卫零提交报 notice，取消与创建后的选择联动",
+            "status": "passed"
+          },
+          {
+            "file": "packages/editor/src/ui/EnemyTeamTab.kimi-workflows.test.tsx",
+            "fullName": "K11 EnemyTeamTab 敌队预制真实业务工作流 删除敌队：场景引用阻断 → 真实命令解除 → confirm 取消零提交 → 确认删除选中回退 → undo 全链还原",
+            "status": "passed"
+          },
+          {
+            "file": "packages/editor/src/ui/EnemyTeamTab.kimi-workflows.test.tsx",
+            "fullName": "K11 EnemyTeamTab 敌队预制真实业务工作流 战后结算汇总与成员摘要跟踪真实敌人定义变更（数值/偷取/击败后事件）",
+            "status": "passed"
+          },
+          {
+            "file": "packages/editor/src/ui/EnemyTeamTab.kimi-workflows.test.tsx",
+            "fullName": "K11 EnemyTeamTab 敌队预制真实业务工作流 目录搜索按成员名与敌队 ID 过滤：命中、空结果、清空恢复，且不偷换当前选中",
+            "status": "passed"
+          },
+          {
+            "file": "packages/editor/src/ui/ItemTab.kimi-workflows.test.tsx",
+            "fullName": "K10 ItemTab 物品页真实业务工作流 使用/投掷能力开关写入合法默认并经保存门；删除确认取消零提交、确认删除带通知可撤销",
+            "status": "passed"
+          },
+          {
+            "file": "packages/editor/src/ui/ItemTab.kimi-workflows.test.tsx",
+            "fullName": "K10 ItemTab 物品页真实业务工作流 添加当前物品脚本：壳引用/canonical 身份/通知/序列化落盘全输出与配对撤销重做；缺协调器拒绝",
+            "status": "passed"
+          },
+          {
+            "file": "packages/editor/src/ui/ItemTab.kimi-workflows.test.tsx",
+            "fullName": "K10 ItemTab 物品页真实业务工作流 两个物品各自的私有脚本 owner 身份隔离：选中切换与正文编辑只写当前物品",
+            "status": "passed"
+          },
+          {
+            "file": "packages/editor/src/ui/ItemTab.kimi-workflows.test.tsx",
+            "fullName": "K10 ItemTab 物品页真实业务工作流 关闭使用能力配对删除私有脚本并通知；缺历史协调器时拒绝且双侧零提交",
+            "status": "passed"
+          },
+          {
+            "file": "packages/editor/src/ui/ItemUseEffectEditor.kimi-workflows.test.tsx",
+            "fullName": "K10 ItemUseEffectEditor 效果链真实会话工作流 使用效果链增/改类/字段/重排/删除经真实会话逐步落库，保存门与撤销重做对称",
+            "status": "passed"
+          },
+          {
+            "file": "packages/editor/src/ui/ItemUseEffectEditor.kimi-workflows.test.tsx",
+            "fullName": "K10 ItemUseEffectEditor 效果链真实会话工作流 独占场景钩子锁定使用目标与仅战斗开关并摘除 battleOnly，退回后复原",
+            "status": "passed"
+          },
+          {
+            "file": "packages/editor/src/ui/ItemUseEffectEditor.kimi-workflows.test.tsx",
+            "fullName": "K10 ItemUseEffectEditor 效果链真实会话工作流 可复用脚本切换消费真实选中 runtime ref，壳引用形态精确且可撤销",
+            "status": "passed"
+          },
+          {
+            "file": "packages/editor/src/ui/ItemUseEffectEditor.kimi-workflows.test.tsx",
+            "fullName": "K10 ItemUseEffectEditor 效果链真实会话工作流 解毒方式按等级/指定毒往返与施毒改选：实际被消费输入完整落库",
+            "status": "passed"
+          },
+          {
+            "file": "packages/editor/src/ui/ItemUseEffectEditor.kimi-workflows.test.tsx",
+            "fullName": "K10 ItemUseEffectEditor 效果链真实会话工作流 投掷字段族（法术力量耦合/状态抵抗）与末条删除守卫经真实会话落库",
+            "status": "passed"
+          },
+          {
+            "file": "packages/editor/src/ui/LevelCurveEditor.kimi-workflows.test.tsx",
+            "fullName": "K09 LevelCurveEditor 曲线绘图交互 拖点调值：在途只动本地草稿，松手单命令入史，undo/redo 对称还原且单拖拽恰一步",
+            "status": "passed"
+          },
+          {
+            "file": "packages/editor/src/ui/LevelCurveEditor.kimi-workflows.test.tsx",
+            "fullName": "K09 LevelCurveEditor 曲线绘图交互 拖点边界：下沿钳 0 触发回落警告、上沿外推扩量程、回拖原值与无移动松手均零提交",
+            "status": "passed"
+          },
+          {
+            "file": "packages/editor/src/ui/LevelCurveEditor.kimi-workflows.test.tsx",
+            "fullName": "K09 LevelCurveEditor 曲线绘图交互 滚轮锚点缩放与空白平移只调视窗：clamp/全览恢复，canonical 与历史全程零变化",
+            "status": "passed"
+          },
+          {
+            "file": "packages/editor/src/ui/LevelCurveEditor.kimi-workflows.test.tsx",
+            "fullName": "K09 LevelCurveEditor 曲线绘图交互 级数改级落到实际数组：加长按末段增量外推、缩短截断、同值与越界草稿零提交",
+            "status": "passed"
+          },
+          {
+            "file": "packages/editor/src/ui/LevelCurveEditor.kimi-workflows.test.tsx",
+            "fullName": "K09 LevelCurveEditor 曲线绘图交互 按增量生成与点选精调提交实际数组；学技能标记渲染与返回入口",
+            "status": "passed"
+          },
+          {
+            "file": "packages/editor/src/ui/MapMode.kimi-workflows.test.tsx",
+            "fullName": "K12 MapMode 真实地图变换工作流 cells 选区→复制→粘贴预览→越界拒绝→冲突弹窗返回调整→覆盖粘贴→undo/redo 全链",
+            "status": "passed"
+          },
+          {
+            "file": "packages/editor/src/ui/MapMode.kimi-workflows.test.tsx",
+            "fullName": "K12 MapMode 真实地图变换工作流 预览进行中锁定/隐藏活动层：Enter 提交被 permission 拒绝零写，剪贴板保全且解锁后可提交",
+            "status": "passed"
+          },
+          {
+            "file": "packages/editor/src/ui/MapMode.kimi-workflows.test.tsx",
+            "fullName": "K12 MapMode 真实地图变换工作流 组合放置：活动层锁定时 commitStamp 整组拒绝零写，解锁后真实放置可撤销",
+            "status": "passed"
+          },
+          {
+            "file": "packages/editor/src/ui/MapMode.kimi-workflows.test.tsx",
+            "fullName": "K12 MapMode 真实地图变换工作流 整组移动预览期间地图被外部改写：过期拒绝零写且选区保全，重做移动成功",
+            "status": "passed"
+          },
+          {
+            "file": "packages/editor/src/ui/MapMode.kimi-workflows.test.tsx",
+            "fullName": "K12 MapMode 真实地图变换工作流 键盘全选/删除/不变粘贴与指针取消：计数真实、撤销对称、中断零提交",
+            "status": "passed"
+          },
+          {
+            "file": "packages/editor/src/ui/SceneCanvas.kimi-workflows.test.tsx",
+            "fullName": "K12 SceneCanvas 真实布置画布工作流 默认/命名落点：画布点选、拖动提交到真实命令并可撤销；拖动在途取消零提交",
+            "status": "passed"
+          },
+          {
+            "file": "packages/editor/src/ui/SceneCanvas.kimi-workflows.test.tsx",
+            "fullName": "K12 SceneCanvas 真实布置画布工作流 真实解码精灵帧命中 actor 实体：拖动提交 MoveEntityCommand 可撤销，拖动在途取消零提交",
+            "status": "passed"
+          },
+          {
+            "file": "packages/editor/src/ui/SceneCanvas.kimi-workflows.test.tsx",
+            "fullName": "K12 SceneCanvas 真实布置画布工作流 滚轮缩放保持光标锚格不变，平移后放置坐标精确；缩放下限夹回",
+            "status": "passed"
+          },
+          {
+            "file": "packages/editor/src/ui/SceneCanvas.kimi-workflows.test.tsx",
+            "fullName": "K12 SceneCanvas 真实布置画布工作流 磁盘回退迟到归属：切图在途的 tileset 解码完成也不覆盖当前场景资源",
+            "status": "passed"
+          },
+          {
+            "file": "packages/editor/src/ui/SkillTab.kimi-workflows.test.tsx",
+            "fullName": "K09 SkillTab 引用与生命周期工作流 引用在途：面板列出真实初始仙术引用且删除禁用、表单照可提交；真实命令解除引用后删除放行并 undo/redo 对称",
+            "status": "passed"
+          },
+          {
+            "file": "packages/editor/src/ui/SkillTab.kimi-workflows.test.tsx",
+            "fullName": "K09 SkillTab 引用与生命周期工作流 渲染期索引落后于 canonical 时删除被 live oracle 阻断：notice 精确、技能/历史/选中保全，索引刷新后删除禁用",
+            "status": "passed"
+          },
+          {
+            "file": "packages/editor/src/ui/SkillTab.kimi-workflows.test.tsx",
+            "fullName": "K09 SkillTab 引用与生命周期工作流 新建技能：prompt 取消与纯空白零提交；id 冲突递增 1001，缺省字段完整落账且选中/焦点/undo/redo 对称",
+            "status": "passed"
+          },
+          {
+            "file": "packages/editor/src/ui/SkillTab.kimi-workflows.test.tsx",
+            "fullName": "K09 SkillTab 引用与生命周期工作流 删除选中回退：删中间落到后继、删末尾落到前驱，undo 按原索引还原数组顺序",
+            "status": "passed"
+          },
+          {
+            "file": "packages/editor/src/ui/scene-stage.kimi-workflows.test.ts",
+            "fullName": "K12 scene-stage 共享层真实工作流 滚轮光标锚缩放：精数、往返对称与下限夹回",
+            "status": "passed"
+          },
+          {
+            "file": "packages/editor/src/ui/scene-stage.kimi-workflows.test.ts",
+            "fullName": "K12 scene-stage 共享层真实工作流 centerAnchor 预览模式：滚轮只改缩放，pan 偏移不动",
+            "status": "passed"
+          },
+          {
+            "file": "packages/editor/src/ui/scene-stage.kimi-workflows.test.ts",
+            "fullName": "K12 scene-stage 共享层真实工作流 useSceneAssets：live 编辑只换 map 引用不重读；catalog 换字节真实重载解出新帧",
+            "status": "passed"
+          },
+          {
+            "file": "packages/editor/src/ui/scene-stage.kimi-workflows.test.ts",
+            "fullName": "K12 scene-stage 共享层真实工作流 磁盘回退读取失败：error 状态带真实路径消息，不冒充 loading",
+            "status": "passed"
+          }
+        ]
+      },
+      "counterControl": {
+        "records": [
+          {
+            "label": "control-k09-skill",
+            "target": null,
+            "exitCode": 0,
+            "executed": 4,
+            "failedFullNames": [],
+            "verdict": "valid-green-control"
+          },
+          {
+            "label": "control-k09-curve",
+            "target": null,
+            "exitCode": 0,
+            "executed": 5,
+            "failedFullNames": [],
+            "verdict": "valid-green-control"
+          },
+          {
+            "label": "control-k10-item",
+            "target": null,
+            "exitCode": 0,
+            "executed": 4,
+            "failedFullNames": [],
+            "verdict": "valid-green-control"
+          },
+          {
+            "label": "control-k10-effect",
+            "target": null,
+            "exitCode": 0,
+            "executed": 5,
+            "failedFullNames": [],
+            "verdict": "valid-green-control"
+          },
+          {
+            "label": "control-k11-enemy",
+            "target": null,
+            "exitCode": 0,
+            "executed": 6,
+            "failedFullNames": [],
+            "verdict": "valid-green-control"
+          },
+          {
+            "label": "control-k11-team",
+            "target": null,
+            "exitCode": 0,
+            "executed": 6,
+            "failedFullNames": [],
+            "verdict": "valid-green-control"
+          },
+          {
+            "label": "control-k12-mapmode",
+            "target": null,
+            "exitCode": 0,
+            "executed": 5,
+            "failedFullNames": [],
+            "verdict": "valid-green-control"
+          },
+          {
+            "label": "control-k12-scenecanvas",
+            "target": null,
+            "exitCode": 0,
+            "executed": 4,
+            "failedFullNames": [],
+            "verdict": "valid-green-control"
+          },
+          {
+            "label": "control-k12-scenestage",
+            "target": null,
+            "exitCode": 0,
+            "executed": 4,
+            "failedFullNames": [],
+            "verdict": "valid-green-control"
+          },
+          {
+            "label": "k09-delete-fallback-reversed",
+            "target": "packages/editor/src/ui/SkillTab.tsx",
+            "exitCode": 1,
+            "executed": 4,
+            "failedFullNames": [
+              "K09 SkillTab 引用与生命周期工作流 删除选中回退：删中间落到后继、删末尾落到前驱，undo 按原索引还原数组顺序"
+            ],
+            "verdict": "valid-red"
+          },
+          {
+            "label": "k09-commit-double-dispatched",
+            "target": "packages/editor/src/ui/LevelCurveEditor.tsx",
+            "exitCode": 1,
+            "executed": 5,
+            "failedFullNames": [
+              "K09 LevelCurveEditor 曲线绘图交互 拖点调值：在途只动本地草稿，松手单命令入史，undo/redo 对称还原且单拖拽恰一步",
+              "K09 LevelCurveEditor 曲线绘图交互 拖点边界：下沿钳 0 触发回落警告、上沿外推扩量程、回拖原值与无移动松手均零提交",
+              "K09 LevelCurveEditor 曲线绘图交互 级数改级落到实际数组：加长按末段增量外推、缩短截断、同值与越界草稿零提交",
+              "K09 LevelCurveEditor 曲线绘图交互 按增量生成与点选精调提交实际数组；学技能标记渲染与返回入口"
+            ],
+            "verdict": "valid-red"
+          },
+          {
+            "label": "k10-private-script-leftover",
+            "target": "packages/editor/src/ui/ItemTab.tsx",
+            "exitCode": 1,
+            "executed": 4,
+            "failedFullNames": [
+              "K10 ItemTab 物品页真实业务工作流 关闭使用能力配对删除私有脚本并通知；缺历史协调器时拒绝且双侧零提交"
+            ],
+            "verdict": "valid-red"
+          },
+          {
+            "label": "k10-scene-target-unlocked",
+            "target": "packages/editor/src/ui/ItemUseEffectEditor.tsx",
+            "exitCode": 1,
+            "executed": 5,
+            "failedFullNames": [
+              "K10 ItemUseEffectEditor 效果链真实会话工作流 独占场景钩子锁定使用目标与仅战斗开关并摘除 battleOnly，退回后复原"
+            ],
+            "verdict": "valid-red"
+          },
+          {
+            "label": "k11-new-enemy-template-drift",
+            "target": "packages/editor/src/ui/EnemyTab.tsx",
+            "exitCode": 1,
+            "executed": 6,
+            "failedFullNames": [
+              "K11 EnemyTab 敌定义真实业务工作流 新建敌人：无 enemy profile 战斗精灵时禁用守卫；播种后经 CompositeCommand 落生产模板并递增"
+            ],
+            "verdict": "valid-red"
+          },
+          {
+            "label": "k11-trailing-slot-kept",
+            "target": "packages/editor/src/ui/EnemyTeamTab.tsx",
+            "exitCode": 1,
+            "executed": 6,
+            "failedFullNames": [
+              "K11 EnemyTeamTab 敌队预制真实业务工作流 槽位选择：空洞保留不挤压、尾部空槽裁剪、汇总与目录标题联动，undo/redo 逐格对称",
+              "K11 EnemyTeamTab 敌队预制真实业务工作流 槽位上移/下移按钮真实交换到 session 并通报，首槽上移边界禁用零命令"
+            ],
+            "verdict": "valid-red"
+          },
+          {
+            "label": "k12-zoom-floor-raised",
+            "target": "packages/editor/src/ui/scene-stage.ts",
+            "exitCode": 1,
+            "executed": 4,
+            "failedFullNames": [
+              "K12 scene-stage 共享层真实工作流 滚轮光标锚缩放：精数、往返对称与下限夹回"
+            ],
+            "verdict": "valid-red"
+          },
+          {
+            "label": "k12-pointer-cancel-committed",
+            "target": "packages/editor/src/ui/SceneCanvas.tsx",
+            "exitCode": 1,
+            "executed": 4,
+            "failedFullNames": [
+              "K12 SceneCanvas 真实布置画布工作流 默认/命名落点：画布点选、拖动提交到真实命令并可撤销；拖动在途取消零提交",
+              "K12 SceneCanvas 真实布置画布工作流 真实解码精灵帧命中 actor 实体：拖动提交 MoveEntityCommand 可撤销，拖动在途取消零提交"
+            ],
+            "verdict": "valid-red"
+          },
+          {
+            "label": "k12-overwrite-bypassed",
+            "target": "packages/editor/src/ui/MapMode.tsx",
+            "exitCode": 1,
+            "executed": 5,
+            "failedFullNames": [
+              "K12 MapMode 真实地图变换工作流 cells 选区→复制→粘贴预览→越界拒绝→冲突弹窗返回调整→覆盖粘贴→undo/redo 全链",
+              "K12 MapMode 真实地图变换工作流 预览进行中锁定/隐藏活动层：Enter 提交被 permission 拒绝零写，剪贴板保全且解锁后可提交",
+              "K12 MapMode 真实地图变换工作流 键盘全选/删除/不变粘贴与指针取消：计数真实、撤销对称、中断零提交"
+            ],
+            "verdict": "valid-red"
+          }
+        ],
+        "validRed": 9,
+        "validControls": 9,
+        "invalid": 0,
+        "supersededInitialNeedles": [
+          {
+            "label": "k09-noop-drop-committed",
+            "note": "初版惰性（commit 等值守卫先短路），已替换为 k09-commit-double-dispatched（valid-red）"
+          },
+          {
+            "label": "k12-stage-alive-guard",
+            "note": "初版惰性（第三次同资源 effect 顺序完成已覆盖迟到结果），已替换为 k12-zoom-floor-raised（valid-red）"
+          }
+        ]
+      },
+      "browserEvidence": [
+        {
+          "id": "loopC1-map-pasted-wide",
+          "viewport": "1440x900",
+          "scenario": "map",
+          "url": "http://localhost:6062/?component=map",
+          "path": "/tmp/type-pal-kimi-editor-workflows/loopC1-map-pasted-wide.png",
+          "sha256": "d4aeed9fac1e9a35b0ad1bd4c6e32afa140e9eade38c9ccf79e17fb95164d9df"
+        },
+        {
+          "id": "loopC2-curve-warning-narrow",
+          "viewport": "1000x720",
+          "scenario": "levelcurve",
+          "url": "http://localhost:6062/?component=levelcurve",
+          "path": "/tmp/type-pal-kimi-editor-workflows/loopC2-curve-warning-narrow.png",
+          "sha256": "7766a519f40fe1a2afdccfc324a925961f9d17210d05af3dae060e0a30faad96"
+        }
+      ]
+    }
+  },
+  "coverageCompare": {
+    "argsEcho": {
+      "beforeExcludes": ["**/*.kimi-workflows.test.*"],
+      "afterExcludes": []
+    },
+    "census": [
+      {
+        "missing": 0,
+        "unexpected": 0,
+        "side": "before"
+      },
+      {
+        "missing": 0,
+        "unexpected": 0,
+        "side": "after"
+      }
+    ],
+    "targets20": {
+      "before": {
+        "lines": {
+          "covered": 5028,
+          "total": 6727
+        },
+        "branches": {
+          "covered": 4723,
+          "total": 7124
+        }
+      },
+      "after": {
+        "lines": {
+          "covered": 5857,
+          "total": 6727
+        },
+        "branches": {
+          "covered": 5474,
+          "total": 7124
+        }
+      },
+      "delta": {
+        "lines": 829,
+        "branches": 751
+      }
+    },
+    "editorTotal": {
+      "before": {
+        "lines": {
+          "covered": 24623,
+          "total": 28827
+        },
+        "branches": {
+          "covered": 21621,
+          "total": 28484
+        }
+      },
+      "after": {
+        "lines": {
+          "covered": 25623,
+          "total": 28827
+        },
+        "branches": {
+          "covered": 22483,
+          "total": 28484
+        }
+      },
+      "delta": {
+        "lines": 1000,
+        "branches": 862
+      }
+    },
+    "perFile": [
+      {
+        "source": "packages/editor/src/ui/BattleSpriteLibrary.tsx",
+        "before": {
+          "lines": {
+            "covered": 281,
+            "total": 489
+          },
+          "branches": {
+            "covered": 314,
+            "total": 538
+          }
+        },
+        "after": {
+          "lines": {
+            "covered": 398,
+            "total": 489
+          },
+          "branches": {
+            "covered": 395,
+            "total": 538
+          }
+        },
+        "delta": {
+          "lines": 117,
+          "branches": 81
+        }
+      },
+      {
+        "source": "packages/editor/src/ui/BattleSpriteInlinePreview.tsx",
+        "before": {
+          "lines": {
+            "covered": 63,
+            "total": 98
+          },
+          "branches": {
+            "covered": 63,
+            "total": 122
+          }
+        },
+        "after": {
+          "lines": {
+            "covered": 87,
+            "total": 98
+          },
+          "branches": {
+            "covered": 96,
+            "total": 122
+          }
+        },
+        "delta": {
+          "lines": 24,
+          "branches": 33
+        }
+      },
+      {
+        "source": "packages/editor/src/ui/WorldSpriteLibrary.tsx",
+        "before": {
+          "lines": {
+            "covered": 310,
+            "total": 403
+          },
+          "branches": {
+            "covered": 383,
+            "total": 496
+          }
+        },
+        "after": {
+          "lines": {
+            "covered": 333,
+            "total": 403
+          },
+          "branches": {
+            "covered": 393,
+            "total": 496
+          }
+        },
+        "delta": {
+          "lines": 23,
+          "branches": 10
+        }
+      },
+      {
+        "source": "packages/editor/src/ui/SpriteResourceViewer.tsx",
+        "before": {
+          "lines": {
+            "covered": 88,
+            "total": 178
+          },
+          "branches": {
+            "covered": 61,
+            "total": 133
+          }
+        },
+        "after": {
+          "lines": {
+            "covered": 171,
+            "total": 178
+          },
+          "branches": {
+            "covered": 106,
+            "total": 133
+          }
+        },
+        "delta": {
+          "lines": 83,
+          "branches": 45
+        }
+      },
+      {
+        "source": "packages/editor/src/ui/SpriteActionEditor.tsx",
+        "before": {
+          "lines": {
+            "covered": 177,
+            "total": 234
+          },
+          "branches": {
+            "covered": 182,
+            "total": 246
+          }
+        },
+        "after": {
+          "lines": {
+            "covered": 220,
+            "total": 234
+          },
+          "branches": {
+            "covered": 208,
+            "total": 246
+          }
+        },
+        "delta": {
+          "lines": 43,
+          "branches": 26
+        }
+      },
+      {
+        "source": "packages/editor/src/core/world-sprite-behavior.ts",
+        "before": {
+          "lines": {
+            "covered": 386,
+            "total": 410
+          },
+          "branches": {
+            "covered": 304,
+            "total": 405
+          }
+        },
+        "after": {
+          "lines": {
+            "covered": 393,
+            "total": 410
+          },
+          "branches": {
+            "covered": 323,
+            "total": 405
+          }
+        },
+        "delta": {
+          "lines": 7,
+          "branches": 19
+        }
+      },
+      {
+        "source": "packages/editor/src/ui/TilesetTab.tsx",
+        "before": {
+          "lines": {
+            "covered": 183,
+            "total": 294
+          },
+          "branches": {
+            "covered": 169,
+            "total": 318
+          }
+        },
+        "after": {
+          "lines": {
+            "covered": 272,
+            "total": 294
+          },
+          "branches": {
+            "covered": 248,
+            "total": 318
+          }
+        },
+        "delta": {
+          "lines": 89,
+          "branches": 79
+        }
+      },
+      {
+        "source": "packages/editor/src/ui/ImageTab.tsx",
+        "before": {
+          "lines": {
+            "covered": 153,
+            "total": 257
+          },
+          "branches": {
+            "covered": 162,
+            "total": 277
+          }
+        },
+        "after": {
+          "lines": {
+            "covered": 243,
+            "total": 257
+          },
+          "branches": {
+            "covered": 240,
+            "total": 277
+          }
+        },
+        "delta": {
+          "lines": 90,
+          "branches": 78
+        }
+      },
+      {
+        "source": "packages/editor/src/ui/CutsceneTab.tsx",
+        "before": {
+          "lines": {
+            "covered": 180,
+            "total": 248
+          },
+          "branches": {
+            "covered": 179,
+            "total": 297
+          }
+        },
+        "after": {
+          "lines": {
+            "covered": 227,
+            "total": 248
+          },
+          "branches": {
+            "covered": 221,
+            "total": 297
+          }
+        },
+        "delta": {
+          "lines": 47,
+          "branches": 42
+        }
+      },
+      {
+        "source": "packages/editor/src/ui/AudioAssetWorkbench.tsx",
+        "before": {
+          "lines": {
+            "covered": 201,
+            "total": 243
+          },
+          "branches": {
+            "covered": 165,
+            "total": 242
+          }
+        },
+        "after": {
+          "lines": {
+            "covered": 229,
+            "total": 243
+          },
+          "branches": {
+            "covered": 195,
+            "total": 242
+          }
+        },
+        "delta": {
+          "lines": 28,
+          "branches": 30
+        }
+      },
+      {
+        "source": "packages/editor/src/ui/ProjectWorkbenchTab.tsx",
+        "before": {
+          "lines": {
+            "covered": 510,
+            "total": 558
+          },
+          "branches": {
+            "covered": 517,
+            "total": 671
+          }
+        },
+        "after": {
+          "lines": {
+            "covered": 525,
+            "total": 558
+          },
+          "branches": {
+            "covered": 569,
+            "total": 671
+          }
+        },
+        "delta": {
+          "lines": 15,
+          "branches": 52
+        }
+      },
+      {
+        "source": "packages/editor/src/ui/SkillTab.tsx",
+        "before": {
+          "lines": {
+            "covered": 183,
+            "total": 285
+          },
+          "branches": {
+            "covered": 132,
+            "total": 254
+          }
+        },
+        "after": {
+          "lines": {
+            "covered": 186,
+            "total": 285
+          },
+          "branches": {
+            "covered": 143,
+            "total": 254
+          }
+        },
+        "delta": {
+          "lines": 3,
+          "branches": 11
+        }
+      },
+      {
+        "source": "packages/editor/src/ui/LevelCurveEditor.tsx",
+        "before": {
+          "lines": {
+            "covered": 74,
+            "total": 136
+          },
+          "branches": {
+            "covered": 32,
+            "total": 91
+          }
+        },
+        "after": {
+          "lines": {
+            "covered": 127,
+            "total": 136
+          },
+          "branches": {
+            "covered": 65,
+            "total": 91
+          }
+        },
+        "delta": {
+          "lines": 53,
+          "branches": 33
+        }
+      },
+      {
+        "source": "packages/editor/src/ui/ItemTab.tsx",
+        "before": {
+          "lines": {
+            "covered": 314,
+            "total": 412
+          },
+          "branches": {
+            "covered": 356,
+            "total": 463
+          }
+        },
+        "after": {
+          "lines": {
+            "covered": 321,
+            "total": 412
+          },
+          "branches": {
+            "covered": 362,
+            "total": 463
+          }
+        },
+        "delta": {
+          "lines": 7,
+          "branches": 6
+        }
+      },
+      {
+        "source": "packages/editor/src/ui/ItemUseEffectEditor.tsx",
+        "before": {
+          "lines": {
+            "covered": 243,
+            "total": 329
+          },
+          "branches": {
+            "covered": 235,
+            "total": 349
+          }
+        },
+        "after": {
+          "lines": {
+            "covered": 265,
+            "total": 329
+          },
+          "branches": {
+            "covered": 256,
+            "total": 349
+          }
+        },
+        "delta": {
+          "lines": 22,
+          "branches": 21
+        }
+      },
+      {
+        "source": "packages/editor/src/ui/EnemyTab.tsx",
+        "before": {
+          "lines": {
+            "covered": 167,
+            "total": 227
+          },
+          "branches": {
+            "covered": 198,
+            "total": 307
+          }
+        },
+        "after": {
+          "lines": {
+            "covered": 197,
+            "total": 227
+          },
+          "branches": {
+            "covered": 241,
+            "total": 307
+          }
+        },
+        "delta": {
+          "lines": 30,
+          "branches": 43
+        }
+      },
+      {
+        "source": "packages/editor/src/ui/EnemyTeamTab.tsx",
+        "before": {
+          "lines": {
+            "covered": 128,
+            "total": 153
+          },
+          "branches": {
+            "covered": 134,
+            "total": 165
+          }
+        },
+        "after": {
+          "lines": {
+            "covered": 145,
+            "total": 153
+          },
+          "branches": {
+            "covered": 149,
+            "total": 165
+          }
+        },
+        "delta": {
+          "lines": 17,
+          "branches": 15
+        }
+      },
+      {
+        "source": "packages/editor/src/ui/MapMode.tsx",
+        "before": {
+          "lines": {
+            "covered": 1030,
+            "total": 1287
+          },
+          "branches": {
+            "covered": 971,
+            "total": 1409
+          }
+        },
+        "after": {
+          "lines": {
+            "covered": 1064,
+            "total": 1287
+          },
+          "branches": {
+            "covered": 1009,
+            "total": 1409
+          }
+        },
+        "delta": {
+          "lines": 34,
+          "branches": 38
+        }
+      },
+      {
+        "source": "packages/editor/src/ui/SceneCanvas.tsx",
+        "before": {
+          "lines": {
+            "covered": 177,
+            "total": 259
+          },
+          "branches": {
+            "covered": 96,
+            "total": 210
+          }
+        },
+        "after": {
+          "lines": {
+            "covered": 253,
+            "total": 259
+          },
+          "branches": {
+            "covered": 167,
+            "total": 210
+          }
+        },
+        "delta": {
+          "lines": 76,
+          "branches": 71
+        }
+      },
+      {
+        "source": "packages/editor/src/ui/scene-stage.ts",
+        "before": {
+          "lines": {
+            "covered": 180,
+            "total": 227
+          },
+          "branches": {
+            "covered": 70,
+            "total": 131
+          }
+        },
+        "after": {
+          "lines": {
+            "covered": 201,
+            "total": 227
+          },
+          "branches": {
+            "covered": 88,
+            "total": 131
+          }
+        },
+        "delta": {
+          "lines": 21,
+          "branches": 18
+        }
+      }
+    ],
+    "_note": "before=官方 fast 选择排除 **/*.kimi-workflows.test.*; after=原样; 均 exit0 且 census 闭合; before 20目标小计与冻结 LCOV 一致"
+  }
+}

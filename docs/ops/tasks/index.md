@@ -14,7 +14,6 @@
 | [TEST-GLM-LEAF-WORKFLOWS-1 — 三十二组叶层与小界面补测](TEST-GLM-LEAF-WORKFLOWS-1-thirty-two-groups.md) | rework | 以任务卡当前准入与看板分工为准。 |
 | [TEST-GLM-PHASE1-LEAVES-3 — 第三对话一阶段菜单、呈现与工具六批补测](TEST-GLM-PHASE1-LEAVES-3-menus-presentation-tools.md) | build | 以任务卡当前准入与看板分工为准。 |
 | [TEST-GLM-RUNTIME-RESOURCE-2 — 第二对话运行时与资源七批补测](TEST-GLM-RUNTIME-RESOURCE-2-parallel-wave.md) | rework | 以任务卡当前准入与看板分工为准。 |
-| [TEST-KIMI-EDITOR-WORKFLOWS-1 — 编辑器十二组真实工作流补测](TEST-KIMI-EDITOR-WORKFLOWS-1-twelve-groups.md) | rework | 以任务卡当前准入与看板分工为准。 |
 
 ## 已完成（historical）
 
@@ -212,6 +211,7 @@
 | [TEST-GLM-STATE-COMMANDS-1 — 菜单与编辑命令十六组连续补测](../archive/tasks/done/TEST-GLM-STATE-COMMANDS-1-sixteen-leaf-modules.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [TEST-GROK-PRESENT-1 — 一阶段菜单与索引渲染十组候选回归](../archive/tasks/done/TEST-GROK-PRESENT-1-phase1-menu-regressions.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [TEST-GROK-PRESENT-2 — 一阶段画面合成与战斗呈现候选回归](../archive/tasks/done/TEST-GROK-PRESENT-2-phase1-composition.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [TEST-KIMI-EDITOR-WORKFLOWS-1 — 编辑器十二组真实工作流补测](../archive/tasks/done/TEST-KIMI-EDITOR-WORKFLOWS-1-twelve-groups.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [TEST-MIGRATION-BOUNDARIES-1 - 当前迁移辅助与隔离文件系统补测（TB-10）](../archive/tasks/done/TEST-MIGRATION-BOUNDARIES-1-current-isolated-io.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [TEST-NONVISUAL-COVERAGE-2 - 六领域非视觉测试覆盖率第二波](../archive/tasks/done/TEST-NONVISUAL-COVERAGE-2-six-domain-boundaries.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [TEST-PAL-TABLES-COVERAGE-1 - 原版表格与文本自包含补测（TB-04）](../archive/tasks/done/TEST-PAL-TABLES-COVERAGE-1-self-contained-inputs.md) | done | 完成证据、历史签字与交接见原卡。 |

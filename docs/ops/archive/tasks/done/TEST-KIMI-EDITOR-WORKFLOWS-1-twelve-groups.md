@@ -1,6 +1,6 @@
 # TEST-KIMI-EDITOR-WORKFLOWS-1 — 编辑器十二组真实工作流补测
 
-Status: rework
+Status: done
 Owner: Kimi（受委派测试贡献者）
 Reviewer: Codex（独立验收、统一质量门与集成）
 Phase: phase2
@@ -14,7 +14,7 @@ Kimi 在隔离分支实施新增测试，不先交一轮纯盘点等待批准。
 Codex 可逐批验收；不必等前批审完才开始下一批。固定三签暂休，作者自验不冒充独立证明。
 
 生产冻结 `29e76fe62070fb03bf2459cf95dc2a70ba0f2a0b`；起点可以包含本次派发文档的 main 后继，
-但开工时须核 20 个目标源文件 SHA 与[冻结表](../../testing/kimi-editor-workflows/targets.json)一致。
+但开工时须核 20 个目标源文件 SHA 与[冻结表](../../../../testing/kimi-editor-workflows/targets.json)一致。
 分支 `codex/kimi-editor-workflows-r1`，Codex 已备好隔离工作树
 `/Users/zhangxu/.codex/worktrees/kimi-editor-workflows/type-pal`；不得借用 main 或 Codex 的 E2E 树。
 
@@ -25,7 +25,7 @@ Codex 可逐批验收；不必等前批审完才开始下一批。固定三签�
 - 真值来源：冻结表记录正式 fast LCOV 的 SHA256、源文件 SHA256、逐文件 LH/LF/BRH/BRF 和旧测试入口。
   当前直接调用域包括 `DataMode.tsx:243/273/333/370/463/515/552/689/721`、
   `ConnectedEditorPages.tsx:121`、`SoundTab.tsx:80`、`MusicTab.tsx:83`、
-  `ActorMode.tsx:527`、`App.tsx:2182/2676`。逐组代码锚在[工作包](../../testing/kimi-editor-workflows/README.md)。
+  `ActorMode.tsx:527`、`App.tsx:2182/2676`。逐组代码锚在[工作包](../../../../testing/kimi-editor-workflows/README.md)。
 - 第一阶段/原版机制：N/A，本卡不改引擎机制、资源格式或用户行为，也不把旧引擎结构当二阶段合同。
   当前守卫、真实 EditorAssetReader/EditSession/命令与现有产品 UI 是本卡被测对象。
 - before → after：产品行为完全不变；新增可证伪的业务回归、局部覆盖证据及最小界面取证。
@@ -52,7 +52,7 @@ ScriptEditor 连续播放、FrameAnimationEditor 已收口合同、角色换装�
 
 ## 验证与交付
 
-完整要求在[工作包](../../testing/kimi-editor-workflows/README.md)，关键门：
+完整要求在[工作包](../../../../testing/kimi-editor-workflows/README.md)，关键门：
 
 1. 同一真实输入/当前合法 fixture、公开调用域与业务结果；异步进入/释放/迟到结果均有见证。
 2. 每组至少一个代表性业务单点反控；资源替换/异步归属/地图原子提交高风险组优先两个。
@@ -69,10 +69,10 @@ ScriptEditor 连续播放、FrameAnimationEditor 已收口合同、角色换装�
 - Codex 范围/前提：verified；20 个实际存在源码与既有 fast 缺口/当前消费者已核，2401 仅选题上界。
 - build 准入：**build allowed（仅新增测试/隔离证据）**，2026-09-28。
 - Coding Owner：Kimi，单一写入本卡新增文件；Codex 负责 E2E002，不与之并发改测试文件。
-- 贡献者交付/自验：A `04ed4823`、B `524d1930`、C `e838ca30`、回执 `186f046b` 已推送。
-- Codex 独立验收：2026-09-28 `counter / rework`；各批尚未接收或集成，见下节独立证据。
+- 贡献者交付/自验：A `04ed4823`、B `524d1930`、C `e838ca30`、回执 `186f046b`、返工 `d056af0e` 已推送。
+- Codex 独立验收：2026-09-29 `accept`，四项历史返工已闭合，正式集成门通过；见最终验收。
 - 用户产品验收：N/A，本卡不改用户行为；若发现需要新产品取舍，另行裁决。
-- done 准入：未开放，须正式集成与质量门通过；视觉未证不能冒充已证。
+- done 准入：**done allowed**；纯测试包无用户可见行为取舍，产品验收 N/A。
 
 ## 交接日志
 
@@ -113,7 +113,7 @@ ScriptEditor 连续播放、FrameAnimationEditor 已收口合同、角色换装�
 接收门，不能用已有测试通过或局部覆盖增量替代。新候选须由 Codex 再次独立核验，之后才可选择性集成、
 串行执行全仓 check → 官方 ratchet → 受保护 strict-fast、更新卡面 done 并清理退休树。
 
-## 下一位 Agent 提示词
+## 下一位 Agent 提示词（返工阶段历史）
 
 ```text
 返工 TEST-KIMI-EDITOR-WORKFLOWS-1，以隔离分支当前实际候选 `186f046b` 为起点。
@@ -130,3 +130,26 @@ codex/kimi-editor-workflows-r1 分支修四项返工：evidence.json 零格式�
 不要自动合 main 或改旧测试/产品/官方配置/依赖/基线；不跑官方全仓 check/ratchet/strict-fast。
 Kimi 是测试贡献者，不是独立第三方。Codex 独立验收、集成、推送、收口与清理；不代签、不标 done。
 ```
+
+## 2026-09-29 Codex 最终独立验收
+
+- 候选实际 HEAD `d056af0e65f8e02324709fe79eac6e3643b8bdb7`；与集成前 main
+  `95a326fcb617c0ede1d9bbcc24488dbd147aadbe` 对照，只接入本卡新增测试、专属 fixture/证据，
+  21/21 产品源 SHA256 与冻结表一致，未改产品/旧测试/共享配置。七张浏览器截图 hash 匹配并已看图。
+- 四项返工闭合：`pnpm lint` 完整报告 2443 文件 **0 error/0 warning/0 info**；裸文件名反控命令
+  `k01-alive-guard` valid-red，`judge.mjs` 同判据自测 17/17，通过后 A/B/C 串行全量为
+  **27 红针＋20 绿色控制＝47/47 valid**（两枚初版惰性针只保留历史）。第一次 A 针与另队重覆盖
+  并发时曾出现一次零红，停并发后四次单针与 A/B/C 整批复跑均通过；留此时序观察，不改历史计数。
+  `EnemyTeamTab`/k10/Node 测试端口现用生产守卫和显式类型，无原先强转或压制。
+- sound 直挂宿主的 React `class` 告警已消失。Codex 在主树修正宿主启动命令与 favicon 404 后，
+  1000×720 Chrome 隔离复验 `?component=sound`：console error/warning
+  与 page error 均 0；宿主仍仅证明组件→临时 FSA 保存/重读段，不冒充完整 App/E2E。
+- 正式串行门：`pnpm check` exit 0，七包 **10,324/10,324** 测试通过，editor 3416/3416（隔离
+  worktree 缺 `035.rle`/`044.rle` 的两条旧 PAL 例在主树全绿），最终 lint 仍 0/0/0。
+  `TYPE_PAL_COVERAGE_BASE_REF=95a326fc pnpm coverage:ratchet` exit 0，只升不降（8 项指标提升，
+  2 项测试范围变化）；随后同一保护基点的**单次** `pnpm coverage:fast` exit 0，9863/9863 项、
+  730 生产文件，分支 **48,540/63,398（76.56%）**，相对新基线零回退、零新增提升。
+  正式 editor 分支 22,483/28,484（78.93%），本卡对 editor 净增 862 命中臂；其余六包
+  生产范围与指标保持前值。剧情 E2E 由独立任务执行，不计入本卡。
+- Codex 判定 `review -> done`。历史 `counter` 仅对旧候选有效，已逐项复核闭合。
+  **无下一位 Agent 提示词；本卡技术收口完成。**

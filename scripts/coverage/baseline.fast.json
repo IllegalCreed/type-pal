@@ -1,14 +1,14 @@
 {
   "schemaVersion": 2,
   "profile": "fast",
-  "generatedAt": "2026-09-28T04:25:33.033Z",
+  "generatedAt": "2026-09-28T15:55:07.946Z",
   "provider": {
     "name": "v8",
     "vitest": "4.1.7",
     "coverageV8": "4.1.7"
   },
   "sourceFileCount": 730,
-  "testCount": 9746,
+  "testCount": 9863,
   "packages": {
     "shared": {
       "name": "@type-pal/shared",
@@ -4879,8 +4879,8 @@
       ],
       "scopeDigest": "e8503db84898429d43f7182fbfa77a13d53933aad0c938380f7918609d7fcb3e",
       "fastTests": {
-        "testCount": 3137,
-        "testFileCount": 383,
+        "testCount": 3254,
+        "testFileCount": 403,
         "files": [
           "packages/editor/scripts/battle-simulator-http.test.mjs",
           "packages/editor/scripts/battle-simulator-ui.test.tsx",
@@ -5096,6 +5096,7 @@
           "packages/editor/src/core/workspace-open-identity.test.ts",
           "packages/editor/src/core/workspace-persistence.test.ts",
           "packages/editor/src/core/workspace-save-admission.test.ts",
+          "packages/editor/src/core/world-sprite-behavior.kimi-workflows.test.ts",
           "packages/editor/src/core/world-sprite-behavior.test.ts",
           "packages/editor/src/core/world-sprite-behavior.wave2.test.ts",
           "packages/editor/src/core/world-variable-commands.glm-boundaries.test.ts",
@@ -5111,10 +5112,13 @@
           "packages/editor/src/ui/App.reference-navigation.test.tsx",
           "packages/editor/src/ui/AssetInspectorTabs.test.tsx",
           "packages/editor/src/ui/AudioAssetWorkbench.glm-ui-wave.test.tsx",
+          "packages/editor/src/ui/AudioAssetWorkbench.kimi-workflows.test.tsx",
           "packages/editor/src/ui/AudioAssetWorkbench.test.tsx",
           "packages/editor/src/ui/BattleFieldTab.test.tsx",
+          "packages/editor/src/ui/BattleSpriteInlinePreview.kimi-workflows.test.tsx",
           "packages/editor/src/ui/BattleSpriteInlinePreview.test.tsx",
           "packages/editor/src/ui/BattleSpriteLibrary.glm-ui-wave.test.tsx",
+          "packages/editor/src/ui/BattleSpriteLibrary.kimi-workflows.test.tsx",
           "packages/editor/src/ui/BattleSpriteLibrary.test.tsx",
           "packages/editor/src/ui/BattleSpritePicker.test.tsx",
           "packages/editor/src/ui/CasualtyEditor.test.tsx",
@@ -5129,6 +5133,7 @@
           "packages/editor/src/ui/CommandForm.test.ts",
           "packages/editor/src/ui/ConnectedEditorPages.test.tsx",
           "packages/editor/src/ui/CutsceneTab.glm-ui-wave.test.tsx",
+          "packages/editor/src/ui/CutsceneTab.kimi-workflows.test.tsx",
           "packages/editor/src/ui/CutsceneTab.test.tsx",
           "packages/editor/src/ui/DataMode.glm-ui-wave.test.tsx",
           "packages/editor/src/ui/DataMode.item-alchemy.test.tsx",
@@ -5136,7 +5141,9 @@
           "packages/editor/src/ui/EnemyAnimPreview.test.tsx",
           "packages/editor/src/ui/EnemyBattleSpriteThumbnail.test.tsx",
           "packages/editor/src/ui/EnemyTab.glm-ui-wave.test.tsx",
+          "packages/editor/src/ui/EnemyTab.kimi-workflows.test.tsx",
           "packages/editor/src/ui/EnemyTab.test.tsx",
+          "packages/editor/src/ui/EnemyTeamTab.kimi-workflows.test.tsx",
           "packages/editor/src/ui/EnemyTeamTab.test.tsx",
           "packages/editor/src/ui/EntityPageAnimationEditor.test.tsx",
           "packages/editor/src/ui/EventLibTab.test.tsx",
@@ -5149,18 +5156,23 @@
           "packages/editor/src/ui/FrameAnimationEditor.test.ts",
           "packages/editor/src/ui/FrameAnimationEditor.viewport.test.tsx",
           "packages/editor/src/ui/ImageTab.glm-ui-wave.test.tsx",
+          "packages/editor/src/ui/ImageTab.kimi-workflows.test.tsx",
           "packages/editor/src/ui/ImageTab.test.tsx",
           "packages/editor/src/ui/IsometricEditorToolbar.test.tsx",
           "packages/editor/src/ui/ItemAlchemyTab.test.tsx",
+          "packages/editor/src/ui/ItemTab.kimi-workflows.test.tsx",
           "packages/editor/src/ui/ItemTab.test.tsx",
           "packages/editor/src/ui/ItemUseEffectEditor.glm-ui-wave.test.tsx",
+          "packages/editor/src/ui/ItemUseEffectEditor.kimi-workflows.test.tsx",
           "packages/editor/src/ui/ItemUseEffectEditor.test.tsx",
           "packages/editor/src/ui/LayerStackControls.test.tsx",
+          "packages/editor/src/ui/LevelCurveEditor.kimi-workflows.test.tsx",
           "packages/editor/src/ui/LevelCurveEditor.test.ts",
           "packages/editor/src/ui/LevelCurveEditor.ui.test.tsx",
           "packages/editor/src/ui/LevelingEditor.test.tsx",
           "packages/editor/src/ui/MapContentSelectionPreview.test.tsx",
           "packages/editor/src/ui/MapMode.catalog-coverage.test.tsx",
+          "packages/editor/src/ui/MapMode.kimi-workflows.test.tsx",
           "packages/editor/src/ui/MapMode.test.tsx",
           "packages/editor/src/ui/MapSelectionInspector.test.tsx",
           "packages/editor/src/ui/MapStampPalette.test.tsx",
@@ -5177,8 +5189,10 @@
           "packages/editor/src/ui/ProjectAudioPreviewButton.test.tsx",
           "packages/editor/src/ui/ProjectPicker-recovery.test.tsx",
           "packages/editor/src/ui/ProjectSaveDialog.test.tsx",
+          "packages/editor/src/ui/ProjectWorkbenchTab.kimi-workflows.test.tsx",
           "packages/editor/src/ui/ProjectWorkbenchTab.test.tsx",
           "packages/editor/src/ui/SceneCanvas.glm-ui-wave.test.tsx",
+          "packages/editor/src/ui/SceneCanvas.kimi-workflows.test.tsx",
           "packages/editor/src/ui/SceneCanvas.test.tsx",
           "packages/editor/src/ui/SceneScriptWorkspace.test.tsx",
           "packages/editor/src/ui/ScriptBehaviorInspector.test.tsx",
@@ -5194,14 +5208,17 @@
           "packages/editor/src/ui/SharedScriptTab.test.tsx",
           "packages/editor/src/ui/ShopTab.test.tsx",
           "packages/editor/src/ui/SkillTab.glm-ui-wave.test.tsx",
+          "packages/editor/src/ui/SkillTab.kimi-workflows.test.tsx",
           "packages/editor/src/ui/SkillTab.test.tsx",
           "packages/editor/src/ui/SoundPicker.test.ts",
           "packages/editor/src/ui/SoundTab.test.ts",
+          "packages/editor/src/ui/SpriteActionEditor.kimi-workflows.test.tsx",
           "packages/editor/src/ui/SpriteActionEditor.test.tsx",
           "packages/editor/src/ui/SpriteActionEditorDialog.test.tsx",
           "packages/editor/src/ui/SpriteFrameDeletion.test.ts",
           "packages/editor/src/ui/SpriteFrameWorkbench.test.tsx",
           "packages/editor/src/ui/SpriteFrames.test.tsx",
+          "packages/editor/src/ui/SpriteResourceViewer.kimi-workflows.test.tsx",
           "packages/editor/src/ui/SpriteResourceViewer.test.tsx",
           "packages/editor/src/ui/SpriteUploadWizard.selection.test.tsx",
           "packages/editor/src/ui/SpriteUploadWizard.test.tsx",
@@ -5210,9 +5227,11 @@
           "packages/editor/src/ui/StampPreviewCanvas.test.tsx",
           "packages/editor/src/ui/StampTemplateDialog.test.tsx",
           "packages/editor/src/ui/TilesetTab.glm-ui-wave.test.tsx",
+          "packages/editor/src/ui/TilesetTab.kimi-workflows.test.tsx",
           "packages/editor/src/ui/TilesetTab.test.tsx",
           "packages/editor/src/ui/VarsTab.test.tsx",
           "packages/editor/src/ui/WorldSpriteLibrary.glm-ui-wave.test.tsx",
+          "packages/editor/src/ui/WorldSpriteLibrary.kimi-workflows.test.tsx",
           "packages/editor/src/ui/WorldSpriteLibrary.test.tsx",
           "packages/editor/src/ui/app-command-registry.test.ts",
           "packages/editor/src/ui/app-layout-commands.test.ts",
@@ -5258,6 +5277,7 @@
           "packages/editor/src/ui/preview-cache-boundaries.test.tsx",
           "packages/editor/src/ui/project-asset-roles.test.ts",
           "packages/editor/src/ui/project-role-groups.test.ts",
+          "packages/editor/src/ui/scene-stage.kimi-workflows.test.ts",
           "packages/editor/src/ui/scene-stage.test.tsx",
           "packages/editor/src/ui/session-selector.test.tsx",
           "packages/editor/src/ui/stamp-placement-overlay.test.ts",
@@ -6338,6 +6358,11 @@
             "identityDigest": "bcf177c266a9077bd5c10e46aa7ff34341d5016e67ec148b4fd8beae0dab8c4a"
           },
           {
+            "file": "packages/editor/src/core/world-sprite-behavior.kimi-workflows.test.ts",
+            "testCount": 7,
+            "identityDigest": "20f26bbcc685e578b1c886286544dddd24eb6a115c9b57c76961074023c08c94"
+          },
+          {
             "file": "packages/editor/src/core/world-sprite-behavior.test.ts",
             "testCount": 19,
             "identityDigest": "c836e0cb5c171b9fcbedebbe2c8615fa209ec66a9965d23d1cdbcfa4fe0fdd5a"
@@ -6413,6 +6438,11 @@
             "identityDigest": "e370b496fa3aebb4ff5e099547f613f275bd9e75da39387e9d693b179a70f923"
           },
           {
+            "file": "packages/editor/src/ui/AudioAssetWorkbench.kimi-workflows.test.tsx",
+            "testCount": 8,
+            "identityDigest": "f0247ebb0ec05e0f8b5c1a534c5fc8eeaa3d31dca995082f28f17c857ffcf85d"
+          },
+          {
             "file": "packages/editor/src/ui/AudioAssetWorkbench.test.tsx",
             "testCount": 3,
             "identityDigest": "cd16a7d2b9c79f4b4af4b627ad5fec5c42dc78bd98cf93bc572ea1a0b9d2a077"
@@ -6423,6 +6453,11 @@
             "identityDigest": "81b5df06f4093cdda64831f89bc1cad63d6526bbcbac157ef360e5f8cee7014f"
           },
           {
+            "file": "packages/editor/src/ui/BattleSpriteInlinePreview.kimi-workflows.test.tsx",
+            "testCount": 3,
+            "identityDigest": "cf9c5b5f6b8c6080251f7b10f6d82e7df55b98ad804e1a3208dae1e2b8920550"
+          },
+          {
             "file": "packages/editor/src/ui/BattleSpriteInlinePreview.test.tsx",
             "testCount": 2,
             "identityDigest": "ebad4eb221f0cc6ffa18e08bd658ece71bbabc5731bdfa7434e8b22b369bf183"
@@ -6431,6 +6466,11 @@
             "file": "packages/editor/src/ui/BattleSpriteLibrary.glm-ui-wave.test.tsx",
             "testCount": 2,
             "identityDigest": "23e911ee1eee6665a007db7eea9fb70520b9d46bf522f31ac1eef463579b48e7"
+          },
+          {
+            "file": "packages/editor/src/ui/BattleSpriteLibrary.kimi-workflows.test.tsx",
+            "testCount": 6,
+            "identityDigest": "35597908a42a0b1fd5b3beb1d4378e70424b4b8ef2dd3dfa172968622539d99e"
           },
           {
             "file": "packages/editor/src/ui/BattleSpriteLibrary.test.tsx",
@@ -6503,6 +6543,11 @@
             "identityDigest": "8396efae7a99595f9a7860b512358da725fbcda32fc8ff54ffa757476b51635f"
           },
           {
+            "file": "packages/editor/src/ui/CutsceneTab.kimi-workflows.test.tsx",
+            "testCount": 8,
+            "identityDigest": "50f2015da7207a4d112f93fde7e9ef6ee12c3df9870e92b569e40dbf76a1b33c"
+          },
+          {
             "file": "packages/editor/src/ui/CutsceneTab.test.tsx",
             "testCount": 6,
             "identityDigest": "c5f7bb09167dfc67b59cc0d1614e2f842808a68185c56bf8f4c0108931f74f4a"
@@ -6538,9 +6583,19 @@
             "identityDigest": "5ef9adb60c16a071736b0db7e33095f4dbb634d4c0e4a15b639404413f718b7e"
           },
           {
+            "file": "packages/editor/src/ui/EnemyTab.kimi-workflows.test.tsx",
+            "testCount": 6,
+            "identityDigest": "54d7b38fd27d8175d927a86d3af7d0ed1cd0165a199c9c6956e13b433626169b"
+          },
+          {
             "file": "packages/editor/src/ui/EnemyTab.test.tsx",
             "testCount": 18,
             "identityDigest": "23e5d4f3fa06bb1df8a156a4ac1b8177c08544b0d172aaf4d952312f6a13cdfe"
+          },
+          {
+            "file": "packages/editor/src/ui/EnemyTeamTab.kimi-workflows.test.tsx",
+            "testCount": 6,
+            "identityDigest": "2c6552bb20d3700d2dc1d2e3bd112b76e634b40916d39eb7fb998aa26685a4b4"
           },
           {
             "file": "packages/editor/src/ui/EnemyTeamTab.test.tsx",
@@ -6603,6 +6658,11 @@
             "identityDigest": "0b9800575202122ef98289bc3df101716f3d4c28be50b2925d322a98a75c7e9b"
           },
           {
+            "file": "packages/editor/src/ui/ImageTab.kimi-workflows.test.tsx",
+            "testCount": 9,
+            "identityDigest": "1402db8c17168a40c11568209a54fb6365b5556823eab9397d216e5ce236f687"
+          },
+          {
             "file": "packages/editor/src/ui/ImageTab.test.tsx",
             "testCount": 4,
             "identityDigest": "f190aa4a788b46e4269fbe14151cb85a98b55d264d61a4b9a6bdbc615f2226a1"
@@ -6618,6 +6678,11 @@
             "identityDigest": "7a2f681909726cc685a16f194f05431da6aea0fc5f817b42eda05c4b85fc4237"
           },
           {
+            "file": "packages/editor/src/ui/ItemTab.kimi-workflows.test.tsx",
+            "testCount": 4,
+            "identityDigest": "2d63dbbf2d42bb8716b70dbb76c64d12d231930faf4ca27b2df345e548103c2a"
+          },
+          {
             "file": "packages/editor/src/ui/ItemTab.test.tsx",
             "testCount": 28,
             "identityDigest": "6928a8952adbe98d695fcb14295d4351e0c915f7f93197910d465e8a6abeb272"
@@ -6628,6 +6693,11 @@
             "identityDigest": "c6738ec1f40d9b62b0713678d8abcc57c75379bcc4425d2c69d79f4240820d4a"
           },
           {
+            "file": "packages/editor/src/ui/ItemUseEffectEditor.kimi-workflows.test.tsx",
+            "testCount": 5,
+            "identityDigest": "a30b5925ed42f4ba5b338509eda98e5a137428cb06c8ac5d798aebf08cc32270"
+          },
+          {
             "file": "packages/editor/src/ui/ItemUseEffectEditor.test.tsx",
             "testCount": 12,
             "identityDigest": "0ad2d4215e914349b3621033c8dad55a7fb6af903f2bfdbd99ae23e5994ddbeb"
@@ -6636,6 +6706,11 @@
             "file": "packages/editor/src/ui/LayerStackControls.test.tsx",
             "testCount": 6,
             "identityDigest": "84eed6991c8f61e0844b4eb0896c46452bffa15ff40002624edabc3b0909c226"
+          },
+          {
+            "file": "packages/editor/src/ui/LevelCurveEditor.kimi-workflows.test.tsx",
+            "testCount": 5,
+            "identityDigest": "a94f73de68f926f709f6c7f34f1df1dbabb5258f70d44f4ba716ff5234955e10"
           },
           {
             "file": "packages/editor/src/ui/LevelCurveEditor.test.ts",
@@ -6661,6 +6736,11 @@
             "file": "packages/editor/src/ui/MapMode.catalog-coverage.test.tsx",
             "testCount": 5,
             "identityDigest": "a17922730b7a69fe0a79ac64de51a63626b7412ee4806631382e1f3bcbba124d"
+          },
+          {
+            "file": "packages/editor/src/ui/MapMode.kimi-workflows.test.tsx",
+            "testCount": 5,
+            "identityDigest": "9843bdb1950f6f0993401e0ffbfa6d20eb57594b00023e9fcb7a94e51b95a8f8"
           },
           {
             "file": "packages/editor/src/ui/MapMode.test.tsx",
@@ -6743,6 +6823,11 @@
             "identityDigest": "56b9711e06879a1e76fe687fe18b82c5957e724f79b0d77f54e80ff55bb8d364"
           },
           {
+            "file": "packages/editor/src/ui/ProjectWorkbenchTab.kimi-workflows.test.tsx",
+            "testCount": 9,
+            "identityDigest": "ae0f565f14dd520b1d1b55bcb66e7b8ac371b892837c13597738f7cb23129ef3"
+          },
+          {
             "file": "packages/editor/src/ui/ProjectWorkbenchTab.test.tsx",
             "testCount": 46,
             "identityDigest": "a15728b2be97af060c70b2d43911a10cfe9b40d29311419bf3bb2b32a8d5a307"
@@ -6751,6 +6836,11 @@
             "file": "packages/editor/src/ui/SceneCanvas.glm-ui-wave.test.tsx",
             "testCount": 3,
             "identityDigest": "623eb0334995a9875115f678882f34d3de980d1fb01318b6813b3331f18c2f79"
+          },
+          {
+            "file": "packages/editor/src/ui/SceneCanvas.kimi-workflows.test.tsx",
+            "testCount": 4,
+            "identityDigest": "8969ce4b18202e7608291946e561c99124b3ac93b55f6a4986e1c4cf195f737a"
           },
           {
             "file": "packages/editor/src/ui/SceneCanvas.test.tsx",
@@ -6828,6 +6918,11 @@
             "identityDigest": "78564ee928455cac1b1822733f0eee3e96eeeb0e48739013beefad89412ae749"
           },
           {
+            "file": "packages/editor/src/ui/SkillTab.kimi-workflows.test.tsx",
+            "testCount": 4,
+            "identityDigest": "764ad92366b8e247afacac7942eab7c6e8619da85b242550233f056dde6e0df9"
+          },
+          {
             "file": "packages/editor/src/ui/SkillTab.test.tsx",
             "testCount": 21,
             "identityDigest": "ead0eb97596e9d48a9f6a63544cc754320adcf3641073734f4972a51b0dc4ffc"
@@ -6841,6 +6936,11 @@
             "file": "packages/editor/src/ui/SoundTab.test.ts",
             "testCount": 3,
             "identityDigest": "f04b2042099c82246fdfe154eb45844049e283d2e6dcf028d3ddcf7bb75ef260"
+          },
+          {
+            "file": "packages/editor/src/ui/SpriteActionEditor.kimi-workflows.test.tsx",
+            "testCount": 7,
+            "identityDigest": "09d9321957a40981b00128eafcf08c1b1ec0009ce0ebf8c2b2de241e0a9c1af0"
           },
           {
             "file": "packages/editor/src/ui/SpriteActionEditor.test.tsx",
@@ -6866,6 +6966,11 @@
             "file": "packages/editor/src/ui/SpriteFrames.test.tsx",
             "testCount": 1,
             "identityDigest": "3feade41e5366d226ecc8374fdf510e4542aaf873ae781bd4ab39d525744d7bf"
+          },
+          {
+            "file": "packages/editor/src/ui/SpriteResourceViewer.kimi-workflows.test.tsx",
+            "testCount": 5,
+            "identityDigest": "eb1c002a7fe5bc3b8a9238e376a879a69ae0dce9e90445c33bac6e6a0301db95"
           },
           {
             "file": "packages/editor/src/ui/SpriteResourceViewer.test.tsx",
@@ -6908,6 +7013,11 @@
             "identityDigest": "6a50256f9c13d6d21ff5c5c537b3c6244fd455824e47c665e0145f102e6187e1"
           },
           {
+            "file": "packages/editor/src/ui/TilesetTab.kimi-workflows.test.tsx",
+            "testCount": 6,
+            "identityDigest": "3c01761d1b7002901403825c471ce6cb5828b7a46c0962843467a0804505d49a"
+          },
+          {
             "file": "packages/editor/src/ui/TilesetTab.test.tsx",
             "testCount": 9,
             "identityDigest": "65dfbedfe8c49d08ccb825e84c5ef800b29401893fa53c54b52dd85d897013eb"
@@ -6921,6 +7031,11 @@
             "file": "packages/editor/src/ui/WorldSpriteLibrary.glm-ui-wave.test.tsx",
             "testCount": 3,
             "identityDigest": "fd4c6e087206a4e89514db0005ac280aa95b00ce08b845ad3a5a7dcd8c951ed0"
+          },
+          {
+            "file": "packages/editor/src/ui/WorldSpriteLibrary.kimi-workflows.test.tsx",
+            "testCount": 6,
+            "identityDigest": "23a91f96c632d7767a1c3effa40956d286e0248f7f4f6f62cd31c59974bd9d51"
           },
           {
             "file": "packages/editor/src/ui/WorldSpriteLibrary.test.tsx",
@@ -7148,6 +7263,11 @@
             "identityDigest": "e9d94e5bd1c1839511eb03ba745bda72b10f3e1410a39a6805f86f8d7fe8efca"
           },
           {
+            "file": "packages/editor/src/ui/scene-stage.kimi-workflows.test.ts",
+            "testCount": 4,
+            "identityDigest": "3b8813b055b052cd04283c583d787f44dfb7849c03462a4bf0ca023e0a376e56"
+          },
+          {
             "file": "packages/editor/src/ui/scene-stage.test.tsx",
             "testCount": 8,
             "identityDigest": "98864e1b6698c63b9f485e58276942ed62367fcd9998c4e845e15c9d4848c992"
@@ -7183,25 +7303,25 @@
             "identityDigest": "6d9b1e40775d9e105c4ed3770ae488e05c74d354e5c965aae87815ced020c2ff"
           }
         ],
-        "identityDigest": "d48200cf4db56d3a265151e320239903a2d29be6e61d53ff21f7f35cf950374c",
+        "identityDigest": "cc718556afe2e04d4a02c94b4532da090a7b0e2ba5eb45c3a29155f902606258",
         "duplicateIdentityCount": 8,
-        "executionDigest": "a0b2028ec2cff1ed7b7186feec468a32188969f02d04ea50fd98ba429c84a93d"
+        "executionDigest": "93cf0faa2e4abb4d65311e9bd636e00c874087de642513706cbe5907d4163bce"
       },
       "metrics": {
         "statements": {
-          "covered": 27442,
+          "covered": 28544,
           "total": 32989
         },
         "branches": {
-          "covered": 21621,
+          "covered": 22483,
           "total": 28484
         },
         "functions": {
-          "covered": 6900,
+          "covered": 7188,
           "total": 8454
         },
         "lines": {
-          "covered": 24623,
+          "covered": 25623,
           "total": 28827
         }
       }
@@ -7209,19 +7329,19 @@
   },
   "total": {
     "statements": {
-      "covered": 66020,
+      "covered": 67122,
       "total": 81079
     },
     "branches": {
-      "covered": 47678,
+      "covered": 48540,
       "total": 63398
     },
     "functions": {
-      "covered": 12284,
+      "covered": 12572,
       "total": 15247
     },
     "lines": {
-      "covered": 59242,
+      "covered": 60242,
       "total": 70956
     }
   }
