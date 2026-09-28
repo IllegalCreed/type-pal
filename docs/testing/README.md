@@ -8,6 +8,9 @@
 
 ## 文档与附件
 
+- [GLM第三对话一阶段菜单、呈现与工具六批](glm-phase1-leaves/README.md)（4a9ad67f冻结，24组51目标；隔离单worker，不重做Grok旧断言，四项短视觉）。
+- [GLM第二对话运行时与资源七批](glm-runtime-resource-wave/README.md)（f6878b3c冻结，28组62目标；独立分支/工作树，既有full-only贡献另列，四项固定输入视觉）。
+- [GLM三十二组叶层与小界面补测](glm-leaf-workflows/README.md)（3925980c冻结，49目标/八批连续实施；与Kimi分工隔离，六条明确视觉操作）。
 - [Kimi编辑器十二组工作流补测](kimi-editor-workflows/README.md)（29e76fe6冻结，20目标、三批连续交付，真实业务反控与隔离视觉；统一覆盖门归Codex）。
 - [编辑器连续播放与逐指令单步](preview-controls.md)（普通对话自动/选项手选、首步/尾门修复与真实界面验证）。
 - [脚本步骤卡与继续按钮修复](script-card-ui.md)（整卡状态/圆角/间距与键盘交互，正式6010页面实测）。

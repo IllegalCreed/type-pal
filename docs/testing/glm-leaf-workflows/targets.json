@@ -1,0 +1,2141 @@
+{
+  "schemaVersion": 1,
+  "task": "TEST-GLM-LEAF-WORKFLOWS-1",
+  "productionFreeze": "3925980cab8e1e62bb59cf560db756935fda7d05",
+  "status": "dispatch-not-implementation-evidence",
+  "baselineSha256": "8a3077925250909167f23786a8474fb58839976f05777dc64ef4ef9f51f975f5",
+  "coverage": {
+    "profile": "fast",
+    "provider": "v8",
+    "vitest": "4.1.7",
+    "reports": [
+      {
+        "package": "editor",
+        "path": "/Users/zhangxu/.codex/worktrees/e2e-opening/type-pal/coverage/fast/editor/lcov.info",
+        "sha256": "2ba28c340ae91fed2e72bf7ccd67bb97529f7e05de787387e1cabbe60d19b9e1"
+      },
+      {
+        "package": "content",
+        "path": "/Users/zhangxu/.codex/worktrees/e2e-opening/type-pal/coverage/fast/content/lcov.info",
+        "sha256": "c9d015aefb4369aaec9a44c26cdedf406ed1dd1b35d4378da5e1769492b00dec"
+      }
+    ],
+    "totals": {
+      "lines": {
+        "covered": 4500,
+        "total": 5161,
+        "missing": 661
+      },
+      "branches": {
+        "covered": 4459,
+        "total": 5584,
+        "missing": 1125
+      }
+    },
+    "caveat": "Missing arms are selection hints, not proven reachable/new; count integration union, never sum Kimi and GLM independent gains."
+  },
+  "inventoryCaveat": "Same-stem tests and relative-import examples are read-first pointers, not complete dedup or a proof of runtime reachability. Inspect actual consumers/assertions. Exports include data constants; do not manufacture tests to hit declarations.",
+  "exclusions": [
+    "Kimi target/new-test whitelist",
+    "E2E001/002",
+    "App/ScriptEditor/PreviewCanvas/FrameAnimationEditor behavior",
+    "wardrobe feature",
+    "EDITOR-SCENE-FACING-1 known diagnostic",
+    "product/old-test/shared-config/dependency/baseline changes",
+    "StampPlacementInspector.tsx: no current production consumer found; do not create an artificial UI route"
+  ],
+  "groups": [
+    {
+      "id": "G01",
+      "batch": "A",
+      "package": "editor",
+      "targets": [
+        {
+          "source": "packages/editor/src/ui/design-system/select.tsx",
+          "sourceSha256": "47d56c4e197776f37057dc1b3542c70821c12a62eaedd6800a9bf5ffcdebbdf5",
+          "coverage": {
+            "lines": {
+              "covered": 169,
+              "total": 206,
+              "missing": 37
+            },
+            "branches": {
+              "covered": 207,
+              "total": 273,
+              "missing": 66
+            }
+          },
+          "publicEntryStartLines": [
+            {
+              "line": 126,
+              "declaration": "export const DsSelect = forwardRef<HTMLButtonElement, DsSelectProps>(function DsSelect(props, ref) {"
+            },
+            {
+              "line": 616,
+              "declaration": "export function DsSelectField(props: DsFieldChromeProps & Omit<DsSelectProps, 'id' | 'required'>) {"
+            }
+          ],
+          "directRelativeImportExamples": [
+            "packages/editor/src/ui/design-system/choice-controls.tsx",
+            "packages/editor/src/ui/design-system/controls.tsx"
+          ],
+          "existingSameStemTests": ["packages/editor/src/ui/design-system/select.test.tsx"],
+          "newTest": "packages/editor/src/ui/design-system/select.glm-leaf-wave.test.tsx"
+        }
+      ]
+    },
+    {
+      "id": "G02",
+      "batch": "A",
+      "package": "editor",
+      "targets": [
+        {
+          "source": "packages/editor/src/ui/design-system/multi-select.tsx",
+          "sourceSha256": "9d143ad34bed199e92ff15005d5d72beb812dc073bbabf2e5c08e90d41c3b1e1",
+          "coverage": {
+            "lines": {
+              "covered": 43,
+              "total": 48,
+              "missing": 5
+            },
+            "branches": {
+              "covered": 28,
+              "total": 45,
+              "missing": 17
+            }
+          },
+          "publicEntryStartLines": [
+            {
+              "line": 6,
+              "declaration": "export function DsMultiSelect(props: {"
+            }
+          ],
+          "directRelativeImportExamples": ["packages/editor/src/ui/design-system/index.ts"],
+          "existingSameStemTests": [],
+          "newTest": "packages/editor/src/ui/design-system/multi-select.glm-leaf-wave.test.tsx"
+        }
+      ]
+    },
+    {
+      "id": "G03",
+      "batch": "A",
+      "package": "editor",
+      "targets": [
+        {
+          "source": "packages/editor/src/ui/design-system/number-inputs.tsx",
+          "sourceSha256": "e63a5f3ff972146b6b21b2f709e79c18bd0ac60d09658108ee522fd5e1c361fc",
+          "coverage": {
+            "lines": {
+              "covered": 122,
+              "total": 129,
+              "missing": 7
+            },
+            "branches": {
+              "covered": 152,
+              "total": 173,
+              "missing": 21
+            }
+          },
+          "publicEntryStartLines": [
+            {
+              "line": 297,
+              "declaration": "export function DsDraftNumberInput(props: DsDraftNumberInputProps) {"
+            },
+            {
+              "line": 405,
+              "declaration": "export const DsNumberInput = forwardRef<HTMLInputElement, DsNumberInputProps>("
+            },
+            {
+              "line": 411,
+              "declaration": "export function DsNumberField("
+            },
+            {
+              "line": 452,
+              "declaration": "export function DsDraftNumberField(props: DsFieldChromeProps & DsDraftNumberInputProps) {"
+            }
+          ],
+          "directRelativeImportExamples": ["packages/editor/src/ui/design-system/controls.tsx"],
+          "existingSameStemTests": ["packages/editor/src/ui/design-system/number-inputs.test.tsx"],
+          "newTest": "packages/editor/src/ui/design-system/number-inputs.glm-leaf-wave.test.tsx"
+        }
+      ]
+    },
+    {
+      "id": "G04",
+      "batch": "A",
+      "package": "editor",
+      "targets": [
+        {
+          "source": "packages/editor/src/ui/design-system/list-header.tsx",
+          "sourceSha256": "f91ec8407248daba9acec46d7e7b346adc27f238c096a3cfd2870419c4af5982",
+          "coverage": {
+            "lines": {
+              "covered": 17,
+              "total": 36,
+              "missing": 19
+            },
+            "branches": {
+              "covered": 15,
+              "total": 30,
+              "missing": 15
+            }
+          },
+          "publicEntryStartLines": [
+            {
+              "line": 25,
+              "declaration": "export function DsListHeader(props: {"
+            }
+          ],
+          "directRelativeImportExamples": ["packages/editor/src/ui/design-system/controls.tsx"],
+          "existingSameStemTests": ["packages/editor/src/ui/design-system/list-header.test.tsx"],
+          "newTest": "packages/editor/src/ui/design-system/list-header.glm-leaf-wave.test.tsx"
+        },
+        {
+          "source": "packages/editor/src/ui/design-system/media.tsx",
+          "sourceSha256": "b5bc2f9ad3837fbb52db130307d02f355dcea7eb90307583ff42fbaaca3b75cf",
+          "coverage": {
+            "lines": {
+              "covered": 6,
+              "total": 22,
+              "missing": 16
+            },
+            "branches": {
+              "covered": 8,
+              "total": 22,
+              "missing": 14
+            }
+          },
+          "publicEntryStartLines": [
+            {
+              "line": 17,
+              "declaration": "export function DsZoomToolbar(props: {"
+            },
+            {
+              "line": 73,
+              "declaration": "export function DsMediaViewport(props: {"
+            }
+          ],
+          "directRelativeImportExamples": ["packages/editor/src/ui/design-system/index.ts"],
+          "existingSameStemTests": ["packages/editor/src/ui/design-system/media.test.tsx"],
+          "newTest": "packages/editor/src/ui/design-system/media.glm-leaf-wave.test.tsx"
+        }
+      ]
+    },
+    {
+      "id": "G05",
+      "batch": "B",
+      "package": "editor",
+      "targets": [
+        {
+          "source": "packages/editor/src/ui/design-system/navigation.tsx",
+          "sourceSha256": "ce5b38093cef05cf89397d337393356d2ed3f019ba19e9f2109f4c8812c31af9",
+          "coverage": {
+            "lines": {
+              "covered": 51,
+              "total": 85,
+              "missing": 34
+            },
+            "branches": {
+              "covered": 76,
+              "total": 122,
+              "missing": 46
+            }
+          },
+          "publicEntryStartLines": [
+            {
+              "line": 40,
+              "declaration": "export function DsMenuBar(props: {"
+            },
+            {
+              "line": 256,
+              "declaration": "export function DsToolbar(props: {"
+            },
+            {
+              "line": 306,
+              "declaration": "export function handleMenuCharacterSearch("
+            }
+          ],
+          "directRelativeImportExamples": ["packages/editor/src/ui/design-system/index.ts"],
+          "existingSameStemTests": [],
+          "newTest": "packages/editor/src/ui/design-system/navigation.glm-leaf-wave.test.tsx"
+        }
+      ]
+    },
+    {
+      "id": "G06",
+      "batch": "B",
+      "package": "editor",
+      "targets": [
+        {
+          "source": "packages/editor/src/ui/design-system/virtual-list.tsx",
+          "sourceSha256": "adedc4baa6ff1c365d6c8f37a1277e3594990eb2348feeca1dfb3d81e890b241",
+          "coverage": {
+            "lines": {
+              "covered": 179,
+              "total": 191,
+              "missing": 12
+            },
+            "branches": {
+              "covered": 164,
+              "total": 191,
+              "missing": 27
+            }
+          },
+          "publicEntryStartLines": [
+            {
+              "line": 89,
+              "declaration": "export function DsVirtualList<T>(props: {"
+            },
+            {
+              "line": 246,
+              "declaration": "export function DsVirtualListbox<T>(props: {"
+            }
+          ],
+          "directRelativeImportExamples": [
+            "packages/editor/src/ui/design-system/add-picker.tsx",
+            "packages/editor/src/ui/design-system/index.ts"
+          ],
+          "existingSameStemTests": ["packages/editor/src/ui/design-system/virtual-list.test.tsx"],
+          "newTest": "packages/editor/src/ui/design-system/virtual-list.glm-leaf-wave.test.tsx"
+        }
+      ]
+    },
+    {
+      "id": "G07",
+      "batch": "B",
+      "package": "editor",
+      "targets": [
+        {
+          "source": "packages/editor/src/ui/design-system/reorder.tsx",
+          "sourceSha256": "524576947ee10977af9364f711856d4130e88ac76467828054b8dc696d3b2290",
+          "coverage": {
+            "lines": {
+              "covered": 551,
+              "total": 578,
+              "missing": 27
+            },
+            "branches": {
+              "covered": 447,
+              "total": 535,
+              "missing": 88
+            }
+          },
+          "publicEntryStartLines": [
+            {
+              "line": 48,
+              "declaration": "export function reorderDsItems<T>("
+            },
+            {
+              "line": 77,
+              "declaration": "export function sameDsSerializableValue<T>(left: T, right: T): boolean {"
+            },
+            {
+              "line": 416,
+              "declaration": "export function DsReorderCollection(props: {"
+            },
+            {
+              "line": 1163,
+              "declaration": "export function DsReorderItem(props: {"
+            },
+            {
+              "line": 1249,
+              "declaration": "export function DsReorderMoveButton(props: {"
+            },
+            {
+              "line": 1306,
+              "declaration": "export function useDsReorderKeys<T>("
+            }
+          ],
+          "directRelativeImportExamples": [
+            "packages/editor/src/ui/ActorMode.tsx",
+            "packages/editor/src/ui/EffectEditorCard.tsx",
+            "packages/editor/src/ui/EnemyTab.tsx",
+            "packages/editor/src/ui/EnemyTeamTab.tsx"
+          ],
+          "existingSameStemTests": ["packages/editor/src/ui/design-system/reorder.test.tsx"],
+          "newTest": "packages/editor/src/ui/design-system/reorder.glm-leaf-wave.test.tsx"
+        }
+      ]
+    },
+    {
+      "id": "G08",
+      "batch": "B",
+      "package": "editor",
+      "targets": [
+        {
+          "source": "packages/editor/src/ui/design-system/overlays.tsx",
+          "sourceSha256": "a5284499bfe2311a30333f3b163f01da05ca77a2fbd3243447cb952d92a063b7",
+          "coverage": {
+            "lines": {
+              "covered": 108,
+              "total": 115,
+              "missing": 7
+            },
+            "branches": {
+              "covered": 98,
+              "total": 110,
+              "missing": 12
+            }
+          },
+          "publicEntryStartLines": [
+            {
+              "line": 177,
+              "declaration": "export function DsDialog(props: {"
+            },
+            {
+              "line": 234,
+              "declaration": "export function DsDrawer(props: {"
+            }
+          ],
+          "directRelativeImportExamples": [
+            "packages/editor/src/ui/BattleSimulatorWorkbench.tsx",
+            "packages/editor/src/ui/BattleTrialDialog.tsx",
+            "packages/editor/src/ui/EnemyTab.tsx",
+            "packages/editor/src/ui/ShopTab.tsx"
+          ],
+          "existingSameStemTests": ["packages/editor/src/ui/design-system/overlays.test.tsx"],
+          "newTest": "packages/editor/src/ui/design-system/overlays.glm-leaf-wave.test.tsx"
+        },
+        {
+          "source": "packages/editor/src/ui/design-system/add-picker.tsx",
+          "sourceSha256": "591951ef9cd0389ec52150abc375ab9101f5122826d6107219039ed71e8f1c83",
+          "coverage": {
+            "lines": {
+              "covered": 94,
+              "total": 99,
+              "missing": 5
+            },
+            "branches": {
+              "covered": 104,
+              "total": 112,
+              "missing": 8
+            }
+          },
+          "publicEntryStartLines": [
+            {
+              "line": 58,
+              "declaration": "export function DsAddPickerDialog(props: DsAddPickerDialogProps) {"
+            }
+          ],
+          "directRelativeImportExamples": [
+            "packages/editor/src/ui/ShopTab.tsx",
+            "packages/editor/src/ui/design-system/index.ts"
+          ],
+          "existingSameStemTests": ["packages/editor/src/ui/design-system/add-picker.test.tsx"],
+          "newTest": "packages/editor/src/ui/design-system/add-picker.glm-leaf-wave.test.tsx"
+        }
+      ]
+    },
+    {
+      "id": "G09",
+      "batch": "C",
+      "package": "editor",
+      "targets": [
+        {
+          "source": "packages/editor/src/ui/ImageAssetPicker.tsx",
+          "sourceSha256": "27fd90d4a325a52e7b404945b876cee6de3872415ff11b8bca9b576ebab28d82",
+          "coverage": {
+            "lines": {
+              "covered": 39,
+              "total": 67,
+              "missing": 28
+            },
+            "branches": {
+              "covered": 55,
+              "total": 87,
+              "missing": 32
+            }
+          },
+          "publicEntryStartLines": [
+            {
+              "line": 14,
+              "declaration": "export function imageAssets(catalog: AssetCatalogV1, kind: StaticImageKind): ImageAssetOption[] {"
+            },
+            {
+              "line": 21,
+              "declaration": "export function imageAssetLabel(asset: ImageAssetOption): string {"
+            },
+            {
+              "line": 76,
+              "declaration": "export function ImageAssetThumbnail(props: {"
+            },
+            {
+              "line": 153,
+              "declaration": "export function ImageAssetPicker(props: {"
+            }
+          ],
+          "directRelativeImportExamples": [
+            "packages/editor/src/ui/ActorMode.tsx",
+            "packages/editor/src/ui/BattleFieldTab.tsx",
+            "packages/editor/src/ui/ImageTab.tsx",
+            "packages/editor/src/ui/ItemTab.tsx"
+          ],
+          "existingSameStemTests": [],
+          "newTest": "packages/editor/src/ui/ImageAssetPicker.glm-leaf-wave.test.tsx"
+        }
+      ]
+    },
+    {
+      "id": "G10",
+      "batch": "C",
+      "package": "editor",
+      "targets": [
+        {
+          "source": "packages/editor/src/ui/MusicPicker.tsx",
+          "sourceSha256": "0e08c7cb02dcd827c71d073bcb671f43ba1fe8d9d998aae7dc38361348a4c55b",
+          "coverage": {
+            "lines": {
+              "covered": 38,
+              "total": 44,
+              "missing": 6
+            },
+            "branches": {
+              "covered": 27,
+              "total": 38,
+              "missing": 11
+            }
+          },
+          "publicEntryStartLines": [
+            {
+              "line": 17,
+              "declaration": "export function musicAssets(catalog: AssetCatalogV1): MusicAsset[] {"
+            },
+            {
+              "line": 41,
+              "declaration": "export function stopPreview(): void {"
+            },
+            {
+              "line": 77,
+              "declaration": "export function PreviewButton(props: {"
+            },
+            {
+              "line": 96,
+              "declaration": "export function musicLabel(asset: MusicAsset): string {"
+            },
+            {
+              "line": 103,
+              "declaration": "export function MusicPicker(props: {"
+            }
+          ],
+          "directRelativeImportExamples": [
+            "packages/editor/src/ui/App.tsx",
+            "packages/editor/src/ui/ScriptEditor.tsx",
+            "packages/editor/src/ui/command-form-control.tsx"
+          ],
+          "existingSameStemTests": ["packages/editor/src/ui/MusicPicker.test.tsx"],
+          "newTest": "packages/editor/src/ui/MusicPicker.glm-leaf-wave.test.tsx"
+        },
+        {
+          "source": "packages/editor/src/ui/SoundPicker.tsx",
+          "sourceSha256": "6e4308f760f870e5347e52963bcdd39efd39e552d4dd0e9cead9000eccb649f1",
+          "coverage": {
+            "lines": {
+              "covered": 54,
+              "total": 64,
+              "missing": 10
+            },
+            "branches": {
+              "covered": 40,
+              "total": 60,
+              "missing": 20
+            }
+          },
+          "publicEntryStartLines": [
+            {
+              "line": 24,
+              "declaration": "export function soundAssets(catalog: AssetCatalogV1): SoundAsset[] {"
+            },
+            {
+              "line": 31,
+              "declaration": "export function soundLabel(asset: SoundAsset): string {"
+            },
+            {
+              "line": 65,
+              "declaration": "export async function prepareSoundPreview("
+            },
+            {
+              "line": 79,
+              "declaration": "export async function previewSound(reader: EditorAssetReader, asset: AssetId): Promise<void> {"
+            },
+            {
+              "line": 96,
+              "declaration": "export async function disposeSoundPreview(reader?: EditorAssetReader): Promise<void> {"
+            },
+            {
+              "line": 105,
+              "declaration": "export function SoundPreviewButton(props: {"
+            },
+            {
+              "line": 205,
+              "declaration": "export const SoundPicker = memo(SoundPickerImpl)"
+            }
+          ],
+          "directRelativeImportExamples": [
+            "packages/editor/src/ui/ActorMode.tsx",
+            "packages/editor/src/ui/App.tsx",
+            "packages/editor/src/ui/EnemyTab.tsx",
+            "packages/editor/src/ui/FireEffectPreview.tsx"
+          ],
+          "existingSameStemTests": ["packages/editor/src/ui/SoundPicker.test.ts"],
+          "newTest": "packages/editor/src/ui/SoundPicker.glm-leaf-wave.test.tsx"
+        }
+      ]
+    },
+    {
+      "id": "G11",
+      "batch": "C",
+      "package": "editor",
+      "targets": [
+        {
+          "source": "packages/editor/src/ui/PortraitEditor.tsx",
+          "sourceSha256": "9b9515364c9cc5ae5db0b6b22e28ff6887a074c722daf1525de17da5309d2ca1",
+          "coverage": {
+            "lines": {
+              "covered": 47,
+              "total": 64,
+              "missing": 17
+            },
+            "branches": {
+              "covered": 33,
+              "total": 56,
+              "missing": 23
+            }
+          },
+          "publicEntryStartLines": [
+            {
+              "line": 115,
+              "declaration": "export function PortraitEditor(props: {"
+            }
+          ],
+          "directRelativeImportExamples": ["packages/editor/src/ui/ActorMode.tsx"],
+          "existingSameStemTests": ["packages/editor/src/ui/PortraitEditor.test.tsx"],
+          "newTest": "packages/editor/src/ui/PortraitEditor.glm-leaf-wave.test.tsx"
+        },
+        {
+          "source": "packages/editor/src/ui/ProjectAudioPreviewButton.tsx",
+          "sourceSha256": "6c180e1c67e6bbba617fc502526bb13986214d1e2ce38a93e97064783d4270c1",
+          "coverage": {
+            "lines": {
+              "covered": 57,
+              "total": 60,
+              "missing": 3
+            },
+            "branches": {
+              "covered": 31,
+              "total": 40,
+              "missing": 9
+            }
+          },
+          "publicEntryStartLines": [
+            {
+              "line": 29,
+              "declaration": "export const createProjectAudioPreviewTransport: ProjectAudioPreviewTransportFactory = ("
+            },
+            {
+              "line": 34,
+              "declaration": "export function ProjectAudioPreviewButton(props: {"
+            }
+          ],
+          "directRelativeImportExamples": ["packages/editor/src/ui/ProjectWorkbenchTab.tsx"],
+          "existingSameStemTests": ["packages/editor/src/ui/ProjectAudioPreviewButton.test.tsx"],
+          "newTest": "packages/editor/src/ui/ProjectAudioPreviewButton.glm-leaf-wave.test.tsx"
+        }
+      ]
+    },
+    {
+      "id": "G12",
+      "batch": "C",
+      "package": "editor",
+      "targets": [
+        {
+          "source": "packages/editor/src/ui/PanelResizeHandle.tsx",
+          "sourceSha256": "e464b4e758b942c39ff1c936d809042fd0ed3712353a90c79b5816a29d27ef53",
+          "coverage": {
+            "lines": {
+              "covered": 59,
+              "total": 64,
+              "missing": 5
+            },
+            "branches": {
+              "covered": 55,
+              "total": 70,
+              "missing": 15
+            }
+          },
+          "publicEntryStartLines": [
+            {
+              "line": 41,
+              "declaration": "export function useStoredPanelNumber("
+            },
+            {
+              "line": 49,
+              "declaration": "export function parseStoredPanelNumber("
+            },
+            {
+              "line": 61,
+              "declaration": "export function useStoredPanelBoolean("
+            },
+            {
+              "line": 72,
+              "declaration": "export function PanelResizeHandle(props: {"
+            }
+          ],
+          "directRelativeImportExamples": [
+            "packages/editor/src/ui/App.tsx",
+            "packages/editor/src/ui/SceneScriptWorkspace.tsx"
+          ],
+          "existingSameStemTests": ["packages/editor/src/ui/PanelResizeHandle.test.ts"],
+          "newTest": "packages/editor/src/ui/PanelResizeHandle.glm-leaf-wave.test.tsx"
+        },
+        {
+          "source": "packages/editor/src/ui/IsometricEditorToolbar.tsx",
+          "sourceSha256": "a5b3420868078a885fd107bbea2425b69a52599fe8b3ecdd852cff15aa005a4a",
+          "coverage": {
+            "lines": {
+              "covered": 66,
+              "total": 71,
+              "missing": 5
+            },
+            "branches": {
+              "covered": 55,
+              "total": 63,
+              "missing": 8
+            }
+          },
+          "publicEntryStartLines": [
+            {
+              "line": 197,
+              "declaration": "export function IsometricEditorToolbar(props: {"
+            }
+          ],
+          "directRelativeImportExamples": [
+            "packages/editor/src/ui/MapMode.tsx",
+            "packages/editor/src/ui/StampContentEditor.tsx"
+          ],
+          "existingSameStemTests": ["packages/editor/src/ui/IsometricEditorToolbar.test.tsx"],
+          "newTest": "packages/editor/src/ui/IsometricEditorToolbar.glm-leaf-wave.test.tsx"
+        }
+      ]
+    },
+    {
+      "id": "G13",
+      "batch": "D",
+      "package": "editor",
+      "targets": [
+        {
+          "source": "packages/editor/src/ui/editor-target.ts",
+          "sourceSha256": "140fedaa775be7560bb007b7e642dfe42c755cdd3a333a72f06a7ba72b1318d0",
+          "coverage": {
+            "lines": {
+              "covered": 51,
+              "total": 55,
+              "missing": 4
+            },
+            "branches": {
+              "covered": 67,
+              "total": 85,
+              "missing": 18
+            }
+          },
+          "publicEntryStartLines": [
+            {
+              "line": 10,
+              "declaration": "export function editorObjectTargetMissing("
+            }
+          ],
+          "directRelativeImportExamples": ["packages/editor/src/ui/App.tsx"],
+          "existingSameStemTests": ["packages/editor/src/ui/editor-target.test.ts"],
+          "newTest": "packages/editor/src/ui/editor-target.glm-leaf-wave.test.ts"
+        },
+        {
+          "source": "packages/editor/src/ui/editor-navigation.ts",
+          "sourceSha256": "091277ddd2850f0074f9199fe27dfd738fb329df7f7c4dbb1a108490c2ddb4a8",
+          "coverage": {
+            "lines": {
+              "covered": 72,
+              "total": 81,
+              "missing": 9
+            },
+            "branches": {
+              "covered": 91,
+              "total": 107,
+              "missing": 16
+            }
+          },
+          "publicEntryStartLines": [
+            {
+              "line": 1,
+              "declaration": "export const EDITOR_MODULE_IDS = ["
+            },
+            {
+              "line": 15,
+              "declaration": "export const ACTOR_WORKSPACE_SECTIONS = ["
+            },
+            {
+              "line": 24,
+              "declaration": "export const DATA_PAGE_IDS = ["
+            },
+            {
+              "line": 48,
+              "declaration": "export const PROJECT_PAGE_IDS = ['overview', 'startup', 'entrypoint', 'advanced'] as const"
+            },
+            {
+              "line": 74,
+              "declaration": "export const EDITOR_MODULES: readonly EditorModuleDefinition[] = ["
+            },
+            {
+              "line": 381,
+              "declaration": "export function editorModule(id: EditorModuleId): EditorModuleDefinition {"
+            },
+            {
+              "line": 385,
+              "declaration": "export function editorSubpage(location: EditorLocation): EditorSubpageDefinition {"
+            },
+            {
+              "line": 390,
+              "declaration": "export function editorSubpageHasInspector(subpage: EditorSubpageDefinition): boolean {"
+            },
+            {
+              "line": 394,
+              "declaration": "export function editorSubpageHasOutliner(subpage: EditorSubpageDefinition): boolean {"
+            },
+            {
+              "line": 404,
+              "declaration": "export function objectIdForSubpageNavigation("
+            },
+            {
+              "line": 414,
+              "declaration": "export function locationForSubpageNavigation("
+            },
+            {
+              "line": 437,
+              "declaration": "export function editorSubpageForDataPage(page: DataPageId): EditorSubpageDefinition {"
+            },
+            {
+              "line": 445,
+              "declaration": "export function defaultEditorLocation(moduleId: EditorModuleId = 'scene'): EditorLocation {"
+            },
+            {
+              "line": 450,
+              "declaration": "export function normalizeEditorLocation("
+            },
+            {
+              "line": 482,
+              "declaration": "export function decodeEditorLocation(search: string): EditorLocation {"
+            },
+            {
+              "line": 494,
+              "declaration": "export function editorLocationHref(location: EditorLocation, currentHref: string): string {"
+            },
+            {
+              "line": 510,
+              "declaration": "export function sameEditorLocation(left: EditorLocation, right: EditorLocation): boolean {"
+            },
+            {
+              "line": 523,
+              "declaration": "export const editorLinks = {"
+            }
+          ],
+          "directRelativeImportExamples": [
+            "packages/editor/src/ui/ActorMode.tsx",
+            "packages/editor/src/ui/App.tsx",
+            "packages/editor/src/ui/DataMode.tsx",
+            "packages/editor/src/ui/ModuleNav.tsx"
+          ],
+          "existingSameStemTests": ["packages/editor/src/ui/editor-navigation.test.ts"],
+          "newTest": "packages/editor/src/ui/editor-navigation.glm-leaf-wave.test.ts"
+        }
+      ]
+    },
+    {
+      "id": "G14",
+      "batch": "D",
+      "package": "editor",
+      "targets": [
+        {
+          "source": "packages/editor/src/ui/map-selection-overlay.ts",
+          "sourceSha256": "50fd7b19a1144fde09193357e474d59559e1da7f4786b792c2c1cbb5c6336b29",
+          "coverage": {
+            "lines": {
+              "covered": 17,
+              "total": 55,
+              "missing": 38
+            },
+            "branches": {
+              "covered": 7,
+              "total": 25,
+              "missing": 18
+            }
+          },
+          "publicEntryStartLines": [
+            {
+              "line": 36,
+              "declaration": "export function mapSelectionBoundarySegments("
+            },
+            {
+              "line": 62,
+              "declaration": "export function drawMapSelectionOverlay("
+            }
+          ],
+          "directRelativeImportExamples": [
+            "packages/editor/src/ui/MapMode.tsx",
+            "packages/editor/src/ui/StampContentEditor.tsx",
+            "packages/editor/src/ui/stamp-placement-overlay.ts",
+            "packages/editor/src/ui/stamp-placement-selection-overlay.ts"
+          ],
+          "existingSameStemTests": ["packages/editor/src/ui/map-selection-overlay.test.ts"],
+          "newTest": "packages/editor/src/ui/map-selection-overlay.glm-leaf-wave.test.ts"
+        }
+      ]
+    },
+    {
+      "id": "G15",
+      "batch": "D",
+      "package": "editor",
+      "targets": [
+        {
+          "source": "packages/editor/src/ui/MapSelectionInspector.tsx",
+          "sourceSha256": "12c018e7eda0aed1fa91ee8989e4e56b71818b8851aedf2b0a22a195e8076463",
+          "coverage": {
+            "lines": {
+              "covered": 65,
+              "total": 97,
+              "missing": 32
+            },
+            "branches": {
+              "covered": 87,
+              "total": 122,
+              "missing": 35
+            }
+          },
+          "publicEntryStartLines": [
+            {
+              "line": 37,
+              "declaration": "export function MapSelectionInspector(props: MapSelectionInspectorProps) {"
+            }
+          ],
+          "directRelativeImportExamples": ["packages/editor/src/ui/MapMode.tsx"],
+          "existingSameStemTests": ["packages/editor/src/ui/MapSelectionInspector.test.tsx"],
+          "newTest": "packages/editor/src/ui/MapSelectionInspector.glm-leaf-wave.test.tsx"
+        },
+        {
+          "source": "packages/editor/src/ui/StampPlacementSelectionInspector.tsx",
+          "sourceSha256": "4c2965e326d1e3208d4e98c8dc2da7780a98815a5faee43a6bb3df2773333392",
+          "coverage": {
+            "lines": {
+              "covered": 64,
+              "total": 75,
+              "missing": 11
+            },
+            "branches": {
+              "covered": 113,
+              "total": 144,
+              "missing": 31
+            }
+          },
+          "publicEntryStartLines": [
+            {
+              "line": 50,
+              "declaration": "export function StampPlacementSelectionInspector(props: StampPlacementSelectionInspectorProps) {"
+            }
+          ],
+          "directRelativeImportExamples": ["packages/editor/src/ui/MapMode.tsx"],
+          "existingSameStemTests": [],
+          "newTest": "packages/editor/src/ui/StampPlacementSelectionInspector.glm-leaf-wave.test.tsx"
+        }
+      ]
+    },
+    {
+      "id": "G16",
+      "batch": "D",
+      "package": "editor",
+      "targets": [
+        {
+          "source": "packages/editor/src/ui/StampContentEditor.tsx",
+          "sourceSha256": "d7ac46cb8a2cea10f7ed86ba4a5be0a20c2fcd2baa0ff5e8a6c0c616a4f01bfd",
+          "coverage": {
+            "lines": {
+              "covered": 216,
+              "total": 242,
+              "missing": 26
+            },
+            "branches": {
+              "covered": 167,
+              "total": 219,
+              "missing": 52
+            }
+          },
+          "publicEntryStartLines": [
+            {
+              "line": 79,
+              "declaration": "export function StampContentEditor(props: {"
+            }
+          ],
+          "directRelativeImportExamples": ["packages/editor/src/ui/StampLibraryTab.tsx"],
+          "existingSameStemTests": [],
+          "newTest": "packages/editor/src/ui/StampContentEditor.glm-leaf-wave.test.tsx"
+        },
+        {
+          "source": "packages/editor/src/ui/StampTemplateDialog.tsx",
+          "sourceSha256": "7de587fe897af3ab8ffccf032507b531ff8f4845221037f66d95c15ce78428dc",
+          "coverage": {
+            "lines": {
+              "covered": 107,
+              "total": 136,
+              "missing": 29
+            },
+            "branches": {
+              "covered": 95,
+              "total": 124,
+              "missing": 29
+            }
+          },
+          "publicEntryStartLines": [
+            {
+              "line": 27,
+              "declaration": "export function StampTemplateDialog(props: {"
+            }
+          ],
+          "directRelativeImportExamples": ["packages/editor/src/ui/MapMode.tsx"],
+          "existingSameStemTests": ["packages/editor/src/ui/StampTemplateDialog.test.tsx"],
+          "newTest": "packages/editor/src/ui/StampTemplateDialog.glm-leaf-wave.test.tsx"
+        }
+      ]
+    },
+    {
+      "id": "G17",
+      "batch": "E",
+      "package": "editor",
+      "targets": [
+        {
+          "source": "packages/editor/src/ui/PoisonTab.tsx",
+          "sourceSha256": "5d67b4888875ccf4496a25c700862dbc9c0f8182d37d6247f22f06bae844031f",
+          "coverage": {
+            "lines": {
+              "covered": 116,
+              "total": 153,
+              "missing": 37
+            },
+            "branches": {
+              "covered": 100,
+              "total": 142,
+              "missing": 42
+            }
+          },
+          "publicEntryStartLines": [
+            {
+              "line": 353,
+              "declaration": "export function PoisonTab(props: {"
+            }
+          ],
+          "directRelativeImportExamples": ["packages/editor/src/ui/DataMode.tsx"],
+          "existingSameStemTests": ["packages/editor/src/ui/PoisonTab.test.tsx"],
+          "newTest": "packages/editor/src/ui/PoisonTab.glm-leaf-wave.test.tsx"
+        }
+      ]
+    },
+    {
+      "id": "G18",
+      "batch": "E",
+      "package": "editor",
+      "targets": [
+        {
+          "source": "packages/editor/src/ui/VarsTab.tsx",
+          "sourceSha256": "4d413b9d8f59e529051549ff196202de2c588ad43f83d2d87640a82bc7e6ef93",
+          "coverage": {
+            "lines": {
+              "covered": 102,
+              "total": 136,
+              "missing": 34
+            },
+            "branches": {
+              "covered": 132,
+              "total": 171,
+              "missing": 39
+            }
+          },
+          "publicEntryStartLines": [
+            {
+              "line": 64,
+              "declaration": "export function VarsTab(props: {"
+            }
+          ],
+          "directRelativeImportExamples": ["packages/editor/src/ui/DataMode.tsx"],
+          "existingSameStemTests": ["packages/editor/src/ui/VarsTab.test.tsx"],
+          "newTest": "packages/editor/src/ui/VarsTab.glm-leaf-wave.test.tsx"
+        }
+      ]
+    },
+    {
+      "id": "G19",
+      "batch": "E",
+      "package": "editor",
+      "targets": [
+        {
+          "source": "packages/editor/src/ui/ShopTab.tsx",
+          "sourceSha256": "8cb4259be24c75aa6e69845a2729b6e093655a8475be9790a1d53fcc964bf144",
+          "coverage": {
+            "lines": {
+              "covered": 92,
+              "total": 107,
+              "missing": 15
+            },
+            "branches": {
+              "covered": 131,
+              "total": 156,
+              "missing": 25
+            }
+          },
+          "publicEntryStartLines": [
+            {
+              "line": 77,
+              "declaration": "export function ShopTab(props: {"
+            }
+          ],
+          "directRelativeImportExamples": ["packages/editor/src/ui/DataMode.tsx"],
+          "existingSameStemTests": ["packages/editor/src/ui/ShopTab.test.tsx"],
+          "newTest": "packages/editor/src/ui/ShopTab.glm-leaf-wave.test.tsx"
+        }
+      ]
+    },
+    {
+      "id": "G20",
+      "batch": "E",
+      "package": "editor",
+      "targets": [
+        {
+          "source": "packages/editor/src/ui/ItemAlchemyTab.tsx",
+          "sourceSha256": "059a2ff7827ea6a9541686001924d3fe1af282926a8d8c97567e82f1ae34fa22",
+          "coverage": {
+            "lines": {
+              "covered": 50,
+              "total": 67,
+              "missing": 17
+            },
+            "branches": {
+              "covered": 103,
+              "total": 139,
+              "missing": 36
+            }
+          },
+          "publicEntryStartLines": [
+            {
+              "line": 81,
+              "declaration": "export function ItemAlchemyTab(props: ItemAlchemyTabProps) {"
+            },
+            {
+              "line": 479,
+              "declaration": "export function CraftingAlchemyTab(props: Omit<ItemAlchemyTabProps, 'surface'>) {"
+            },
+            {
+              "line": 483,
+              "declaration": "export function SpiritGourdAlchemyTab(props: Omit<ItemAlchemyTabProps, 'surface'>) {"
+            }
+          ],
+          "directRelativeImportExamples": ["packages/editor/src/ui/DataMode.tsx"],
+          "existingSameStemTests": ["packages/editor/src/ui/ItemAlchemyTab.test.tsx"],
+          "newTest": "packages/editor/src/ui/ItemAlchemyTab.glm-leaf-wave.test.tsx"
+        },
+        {
+          "source": "packages/editor/src/ui/ItemAlchemyEditors.tsx",
+          "sourceSha256": "c9fbfeab816f463c3adce633b4a26a06351de5b1e80a3dbcfd1bd0dcda92ee31",
+          "coverage": {
+            "lines": {
+              "covered": 56,
+              "total": 61,
+              "missing": 5
+            },
+            "branches": {
+              "covered": 22,
+              "total": 30,
+              "missing": 8
+            }
+          },
+          "publicEntryStartLines": [
+            {
+              "line": 93,
+              "declaration": "export function CraftRecipeList(props: {"
+            },
+            {
+              "line": 216,
+              "declaration": "export function appendCraftRecipe("
+            },
+            {
+              "line": 237,
+              "declaration": "export function ResourceRewardTierList(props: {"
+            }
+          ],
+          "directRelativeImportExamples": ["packages/editor/src/ui/ItemAlchemyTab.tsx"],
+          "existingSameStemTests": [],
+          "newTest": "packages/editor/src/ui/ItemAlchemyEditors.glm-leaf-wave.test.tsx"
+        }
+      ]
+    },
+    {
+      "id": "G21",
+      "batch": "F",
+      "package": "editor",
+      "targets": [
+        {
+          "source": "packages/editor/src/ui/BattleFieldTab.tsx",
+          "sourceSha256": "a14b337815a224d1f503d36fc58b7ebe9268b82045c0d7bd2b88281d25a985e9",
+          "coverage": {
+            "lines": {
+              "covered": 88,
+              "total": 121,
+              "missing": 33
+            },
+            "branches": {
+              "covered": 111,
+              "total": 155,
+              "missing": 44
+            }
+          },
+          "publicEntryStartLines": [
+            {
+              "line": 105,
+              "declaration": "export function BattleFieldTab(props: {"
+            }
+          ],
+          "directRelativeImportExamples": ["packages/editor/src/ui/DataMode.tsx"],
+          "existingSameStemTests": ["packages/editor/src/ui/BattleFieldTab.test.tsx"],
+          "newTest": "packages/editor/src/ui/BattleFieldTab.glm-leaf-wave.test.tsx"
+        }
+      ]
+    },
+    {
+      "id": "G22",
+      "batch": "F",
+      "package": "editor",
+      "targets": [
+        {
+          "source": "packages/editor/src/ui/CasualtyEditor.tsx",
+          "sourceSha256": "6d1400fae00e9cb7084bfc0f4ebcc41c0df60e0887d10a90849813246367a9e1",
+          "coverage": {
+            "lines": {
+              "covered": 101,
+              "total": 124,
+              "missing": 23
+            },
+            "branches": {
+              "covered": 74,
+              "total": 101,
+              "missing": 27
+            }
+          },
+          "publicEntryStartLines": [
+            {
+              "line": 67,
+              "declaration": "export function CasualtyEditor(props: {"
+            }
+          ],
+          "directRelativeImportExamples": ["packages/editor/src/ui/ActorMode.tsx"],
+          "existingSameStemTests": ["packages/editor/src/ui/CasualtyEditor.test.tsx"],
+          "newTest": "packages/editor/src/ui/CasualtyEditor.glm-leaf-wave.test.tsx"
+        }
+      ]
+    },
+    {
+      "id": "G23",
+      "batch": "F",
+      "package": "editor",
+      "targets": [
+        {
+          "source": "packages/editor/src/ui/ScriptSceneHookInspector.tsx",
+          "sourceSha256": "6f3905537286dec293f0e59c3f170459b8b4f4655f5b7b896094877fc96f3978",
+          "coverage": {
+            "lines": {
+              "covered": 31,
+              "total": 51,
+              "missing": 20
+            },
+            "branches": {
+              "covered": 29,
+              "total": 56,
+              "missing": 27
+            }
+          },
+          "publicEntryStartLines": [
+            {
+              "line": 64,
+              "declaration": "export function ScriptSceneHookInspector(props: {"
+            }
+          ],
+          "directRelativeImportExamples": ["packages/editor/src/ui/SceneScriptWorkspace.tsx"],
+          "existingSameStemTests": ["packages/editor/src/ui/ScriptSceneHookInspector.test.tsx"],
+          "newTest": "packages/editor/src/ui/ScriptSceneHookInspector.glm-leaf-wave.test.tsx"
+        },
+        {
+          "source": "packages/editor/src/ui/ScriptBehaviorInspector.tsx",
+          "sourceSha256": "f558f857b47966c55188825ff65d11026496b35eff313400de7203a35ae77651",
+          "coverage": {
+            "lines": {
+              "covered": 57,
+              "total": 66,
+              "missing": 9
+            },
+            "branches": {
+              "covered": 62,
+              "total": 86,
+              "missing": 24
+            }
+          },
+          "publicEntryStartLines": [
+            {
+              "line": 48,
+              "declaration": "export function BehaviorSelectionEditor(props: {"
+            },
+            {
+              "line": 112,
+              "declaration": "export function ScriptBehaviorInspector(props: {"
+            }
+          ],
+          "directRelativeImportExamples": [
+            "packages/editor/src/ui/App.tsx",
+            "packages/editor/src/ui/SceneScriptWorkspace.tsx"
+          ],
+          "existingSameStemTests": ["packages/editor/src/ui/ScriptBehaviorInspector.test.tsx"],
+          "newTest": "packages/editor/src/ui/ScriptBehaviorInspector.glm-leaf-wave.test.tsx"
+        }
+      ]
+    },
+    {
+      "id": "G24",
+      "batch": "F",
+      "package": "editor",
+      "targets": [
+        {
+          "source": "packages/editor/src/ui/enemy-defeated-events.ts",
+          "sourceSha256": "87a2b266dfa3200a20d11ad16ff2a2aa663b86e21773377780a8773db583b493",
+          "coverage": {
+            "lines": {
+              "covered": 188,
+              "total": 214,
+              "missing": 26
+            },
+            "branches": {
+              "covered": 241,
+              "total": 304,
+              "missing": 63
+            }
+          },
+          "publicEntryStartLines": [
+            {
+              "line": 79,
+              "declaration": "export function createEnemyDefeatedPresentationContext(args: {"
+            },
+            {
+              "line": 665,
+              "declaration": "export function presentEnemyDefeatedEvents("
+            },
+            {
+              "line": 714,
+              "declaration": "export function findEditableEnemyDefeatedItemReward("
+            },
+            {
+              "line": 745,
+              "declaration": "export function replaceEditableEnemyDefeatedItemReward("
+            }
+          ],
+          "directRelativeImportExamples": [
+            "packages/editor/src/ui/EnemyTab.tsx",
+            "packages/editor/src/ui/EnemyTeamTab.tsx"
+          ],
+          "existingSameStemTests": [
+            "packages/editor/src/ui/enemy-defeated-events.boundaries.test.ts",
+            "packages/editor/src/ui/enemy-defeated-events.coverage-batch.test.ts",
+            "packages/editor/src/ui/enemy-defeated-events.test.ts"
+          ],
+          "newTest": "packages/editor/src/ui/enemy-defeated-events.glm-leaf-wave.test.ts"
+        }
+      ]
+    },
+    {
+      "id": "G25",
+      "batch": "G",
+      "package": "editor",
+      "targets": [
+        {
+          "source": "packages/editor/src/core/asset-diagnostics.ts",
+          "sourceSha256": "0518d49cf211c9a110c14bc46cd578864a3c0f3e7c6be2282f6db47c00216ae2",
+          "coverage": {
+            "lines": {
+              "covered": 40,
+              "total": 43,
+              "missing": 3
+            },
+            "branches": {
+              "covered": 38,
+              "total": 48,
+              "missing": 10
+            }
+          },
+          "publicEntryStartLines": [
+            {
+              "line": 12,
+              "declaration": "export const EDITOR_ASSET_KIND_LABELS = {"
+            },
+            {
+              "line": 30,
+              "declaration": "export function editorAssetCatalogTitle("
+            },
+            {
+              "line": 88,
+              "declaration": "export function collectEditorAssetDiagnostics("
+            }
+          ],
+          "directRelativeImportExamples": [
+            "packages/editor/src/core/editor-derived-contract.ts",
+            "packages/editor/src/core/project-diagnostics.ts",
+            "packages/editor/src/ui/AudioAssetWorkbench.tsx",
+            "packages/editor/src/ui/BattleSpriteLibrary.tsx"
+          ],
+          "existingSameStemTests": ["packages/editor/src/core/asset-diagnostics.test.ts"],
+          "newTest": "packages/editor/src/core/asset-diagnostics.glm-leaf-wave.test.ts"
+        },
+        {
+          "source": "packages/editor/src/core/video-metadata.ts",
+          "sourceSha256": "46912f0f773857bfa254a30c10c3dc078532ca838b071b458e52aa8010015a2d",
+          "coverage": {
+            "lines": {
+              "covered": 28,
+              "total": 28,
+              "missing": 0
+            },
+            "branches": {
+              "covered": 37,
+              "total": 46,
+              "missing": 9
+            }
+          },
+          "publicEntryStartLines": [
+            {
+              "line": 50,
+              "declaration": "export function mp4HasAudioTrack(bytes: Uint8Array): boolean | undefined {"
+            }
+          ],
+          "directRelativeImportExamples": ["packages/editor/src/ui/CutsceneTab.tsx"],
+          "existingSameStemTests": [
+            "packages/editor/src/core/video-metadata.boxes.test.ts",
+            "packages/editor/src/core/video-metadata.test.ts"
+          ],
+          "newTest": "packages/editor/src/core/video-metadata.glm-leaf-wave.test.ts"
+        }
+      ]
+    },
+    {
+      "id": "G26",
+      "batch": "G",
+      "package": "editor",
+      "targets": [
+        {
+          "source": "packages/editor/src/core/command-asset-record.ts",
+          "sourceSha256": "3271377c334a37d9f25518ca6d28ef9437760bcad7f2d523307abf74470a650f",
+          "coverage": {
+            "lines": {
+              "covered": 26,
+              "total": 29,
+              "missing": 3
+            },
+            "branches": {
+              "covered": 31,
+              "total": 44,
+              "missing": 13
+            }
+          },
+          "publicEntryStartLines": [
+            {
+              "line": 8,
+              "declaration": "export class AssetInUseError extends Error {"
+            },
+            {
+              "line": 18,
+              "declaration": "export function sameAssetRecord(left: AssetRecordV1, right: AssetRecordV1): boolean {"
+            },
+            {
+              "line": 31,
+              "declaration": "export function assertTilesetRecord(record: AssetRecordV1, bytes: ArrayBuffer): void {"
+            },
+            {
+              "line": 42,
+              "declaration": "export function assertSpriteRecord(record: AssetRecordV1, bytes: ArrayBuffer): void {"
+            },
+            {
+              "line": 53,
+              "declaration": "export function assertBattleSpriteRecord(record: AssetRecordV1, bytes: ArrayBuffer): void {"
+            }
+          ],
+          "directRelativeImportExamples": [
+            "packages/editor/src/core/asset-commands.ts",
+            "packages/editor/src/core/battle-sprite-commands.ts",
+            "packages/editor/src/core/commands.ts",
+            "packages/editor/src/core/sprite-commands.ts"
+          ],
+          "existingSameStemTests": [],
+          "newTest": "packages/editor/src/core/command-asset-record.glm-leaf-wave.test.ts"
+        },
+        {
+          "source": "packages/editor/src/core/battle-data-references.ts",
+          "sourceSha256": "7fa87bd40f396f997bd7fdba2e073baaa5f1e924fd706483141c7226b2d451e8",
+          "coverage": {
+            "lines": {
+              "covered": 75,
+              "total": 78,
+              "missing": 3
+            },
+            "branches": {
+              "covered": 80,
+              "total": 90,
+              "missing": 10
+            }
+          },
+          "publicEntryStartLines": [
+            {
+              "line": 294,
+              "declaration": "export function collectBattleDataReferences("
+            }
+          ],
+          "directRelativeImportExamples": [
+            "packages/editor/src/core/project-reference-adapters.ts",
+            "packages/editor/src/core/project-reference.ts"
+          ],
+          "existingSameStemTests": [
+            "packages/editor/src/core/battle-data-references.cursor-boundaries.test.ts",
+            "packages/editor/src/core/battle-data-references.test.ts",
+            "packages/editor/src/core/battle-data-references.wave2.test.ts"
+          ],
+          "newTest": "packages/editor/src/core/battle-data-references.glm-leaf-wave.test.ts"
+        }
+      ]
+    },
+    {
+      "id": "G27",
+      "batch": "G",
+      "package": "editor",
+      "targets": [
+        {
+          "source": "packages/editor/src/core/item-references.ts",
+          "sourceSha256": "4a1625a26c4977ef36ee115d98794e90a9e280232f3bd9dfd348b2e366231783",
+          "coverage": {
+            "lines": {
+              "covered": 171,
+              "total": 173,
+              "missing": 2
+            },
+            "branches": {
+              "covered": 167,
+              "total": 180,
+              "missing": 13
+            }
+          },
+          "publicEntryStartLines": [
+            {
+              "line": 299,
+              "declaration": "export function collectCanonicalItemTaggedReferences("
+            },
+            {
+              "line": 324,
+              "declaration": "export function collectCanonicalItemTransitionTaggedReferences("
+            },
+            {
+              "line": 448,
+              "declaration": "export function collectCanonicalItemReferences(state: ScriptEditorState): ItemReference[] {"
+            },
+            {
+              "line": 501,
+              "declaration": "export function collectLegacyItemReferences("
+            },
+            {
+              "line": 533,
+              "declaration": "export function collectItemReferences("
+            }
+          ],
+          "directRelativeImportExamples": [
+            "packages/editor/src/core/project-reference-adapters.ts"
+          ],
+          "existingSameStemTests": [
+            "packages/editor/src/core/item-references.cursor-boundaries.test.ts",
+            "packages/editor/src/core/item-references.test.ts"
+          ],
+          "newTest": "packages/editor/src/core/item-references.glm-leaf-wave.test.ts"
+        },
+        {
+          "source": "packages/editor/src/core/script-references.ts",
+          "sourceSha256": "6e8b39443694ee28a92e54c6bd6b79fd94b19afbc7a65a8af128b06189d8beae",
+          "coverage": {
+            "lines": {
+              "covered": 125,
+              "total": 136,
+              "missing": 11
+            },
+            "branches": {
+              "covered": 117,
+              "total": 138,
+              "missing": 21
+            }
+          },
+          "publicEntryStartLines": [
+            {
+              "line": 50,
+              "declaration": "export function sceneEntryReferenceKey(sceneId: string, entryId: string): string {"
+            },
+            {
+              "line": 55,
+              "declaration": "export function buildCanonicalSceneEntryReferenceIndexFromVisits("
+            },
+            {
+              "line": 81,
+              "declaration": "export function buildCanonicalSceneEntryReferenceIndex("
+            },
+            {
+              "line": 110,
+              "declaration": "export function buildScriptReferenceIndex(state: EditorState): ScriptProjectDiagnostics {"
+            },
+            {
+              "line": 343,
+              "declaration": "export function findScriptReferences(state: EditorState, scriptId: string): ScriptReferenceEntry[] {"
+            },
+            {
+              "line": 347,
+              "declaration": "export function findSceneEntryReferences("
+            },
+            {
+              "line": 359,
+              "declaration": "export function assertScriptProjectValid(state: EditorState): ScriptProjectDiagnostics {"
+            }
+          ],
+          "directRelativeImportExamples": ["packages/editor/src/core/project-diagnostics.ts"],
+          "existingSameStemTests": [
+            "packages/editor/src/core/script-references.test.ts",
+            "packages/editor/src/core/script-references.wave2.test.ts"
+          ],
+          "newTest": "packages/editor/src/core/script-references.glm-leaf-wave.test.ts"
+        }
+      ]
+    },
+    {
+      "id": "G28",
+      "batch": "G",
+      "package": "editor",
+      "targets": [
+        {
+          "source": "packages/editor/src/core/stamp-ownership.ts",
+          "sourceSha256": "0d0a98e8cbdb500f3f77d4fc47e226b06515e90a5df9eba818a18a3f1dd18f71",
+          "coverage": {
+            "lines": {
+              "covered": 100,
+              "total": 100,
+              "missing": 0
+            },
+            "branches": {
+              "covered": 55,
+              "total": 66,
+              "missing": 11
+            }
+          },
+          "publicEntryStartLines": [
+            {
+              "line": 80,
+              "declaration": "export function buildStampPlacementIndex(map: ProjectMap): StampPlacementIndex {"
+            },
+            {
+              "line": 92,
+              "declaration": "export function inheritStampPlacementIndex(beforeMap: ProjectMap, afterMap: ProjectMap): void {"
+            },
+            {
+              "line": 127,
+              "declaration": "export function seedStampPlacementIndexDelta("
+            },
+            {
+              "line": 182,
+              "declaration": "export function stampVisualOwner(map: ProjectMap, ref: VisualSlotRef): string | undefined {"
+            },
+            {
+              "line": 186,
+              "declaration": "export function stampCollisionOwner(map: ProjectMap, ref: GridPointRef): string | undefined {"
+            },
+            {
+              "line": 191,
+              "declaration": "export function floodFillStampPlacementTiles("
+            },
+            {
+              "line": 231,
+              "declaration": "export function directStampPlacementOwners(map: ProjectMap): {"
+            }
+          ],
+          "directRelativeImportExamples": [
+            "packages/editor/src/core/map-edit-commands.ts",
+            "packages/editor/src/core/map-patch.ts",
+            "packages/editor/src/core/stamp-group-command.ts",
+            "packages/editor/src/core/stamp-group-transform.ts"
+          ],
+          "existingSameStemTests": [
+            "packages/editor/src/core/stamp-ownership.background.test.ts",
+            "packages/editor/src/core/stamp-ownership.test.ts"
+          ],
+          "newTest": "packages/editor/src/core/stamp-ownership.glm-leaf-wave.test.ts"
+        },
+        {
+          "source": "packages/editor/src/core/stamp-placement.ts",
+          "sourceSha256": "e021499cb3c6d549019087377ac901a26009fc7691d79d2931634a9a24e3505e",
+          "coverage": {
+            "lines": {
+              "covered": 121,
+              "total": 133,
+              "missing": 12
+            },
+            "branches": {
+              "covered": 82,
+              "total": 95,
+              "missing": 13
+            }
+          },
+          "publicEntryStartLines": [
+            {
+              "line": 124,
+              "declaration": "export function nextStampPlacementId(map: ProjectMap, preferred = 'stamp-placement'): string {"
+            },
+            {
+              "line": 144,
+              "declaration": "export function stampPlacementActualHeight(baseHeight: number, relativeHeight: number): number {"
+            },
+            {
+              "line": 152,
+              "declaration": "export function planStampPlacement(input: PlanStampPlacementInput): StampPlacementPlan {"
+            }
+          ],
+          "directRelativeImportExamples": [
+            "packages/editor/src/core/stamp-placement-command.ts",
+            "packages/editor/src/ui/MapMode.tsx",
+            "packages/editor/src/ui/StampPlacementInspector.tsx",
+            "packages/editor/src/ui/stamp-placement-overlay.ts"
+          ],
+          "existingSameStemTests": [
+            "packages/editor/src/core/stamp-placement.background.test.ts",
+            "packages/editor/src/core/stamp-placement.boundaries.test.ts",
+            "packages/editor/src/core/stamp-placement.test.ts"
+          ],
+          "newTest": "packages/editor/src/core/stamp-placement.glm-leaf-wave.test.ts"
+        }
+      ]
+    },
+    {
+      "id": "G29",
+      "batch": "H",
+      "package": "content",
+      "targets": [
+        {
+          "source": "packages/content/src/frame-sequence.ts",
+          "sourceSha256": "c4d91861ebbb6f5f8590a98e5dc64c723c3cb0f76b474d5d91e9b82cf7994842",
+          "coverage": {
+            "lines": {
+              "covered": 264,
+              "total": 270,
+              "missing": 6
+            },
+            "branches": {
+              "covered": 206,
+              "total": 236,
+              "missing": 30
+            }
+          },
+          "publicEntryStartLines": [
+            {
+              "line": 1,
+              "declaration": "export const FRAME_SEQUENCE_MAGIC = 'TPFS'"
+            },
+            {
+              "line": 2,
+              "declaration": "export const FRAME_SEQUENCE_VERSION = 1"
+            },
+            {
+              "line": 3,
+              "declaration": "export const FRAME_SEQUENCE_BLOCK_FRAMES = 32"
+            },
+            {
+              "line": 4,
+              "declaration": "export const FRAME_SEQUENCE_CODEC = 'deflate-rgba8-xor-v1'"
+            },
+            {
+              "line": 5,
+              "declaration": "export const FRAME_SEQUENCE_MEDIA_TYPE = 'application/vnd.type-pal.frame-sequence'"
+            },
+            {
+              "line": 173,
+              "declaration": "export function validateFrameSequenceIndex("
+            },
+            {
+              "line": 255,
+              "declaration": "export function parseFrameSequence(bytes: Uint8Array): ParsedFrameSequenceV1 {"
+            },
+            {
+              "line": 436,
+              "declaration": "export async function encodeFrameSequence("
+            },
+            {
+              "line": 458,
+              "declaration": "export function encodeFrameSequenceSync("
+            },
+            {
+              "line": 484,
+              "declaration": "export async function encodeFrameSequenceFromProvider("
+            },
+            {
+              "line": 521,
+              "declaration": "export async function decodeFrameSequenceBlock("
+            },
+            {
+              "line": 551,
+              "declaration": "export async function decodeFrameSequenceFrame("
+            },
+            {
+              "line": 567,
+              "declaration": "export function resolveFrameSequencePlayback("
+            },
+            {
+              "line": 593,
+              "declaration": "export function frameSequenceFrameDurationMs("
+            }
+          ],
+          "directRelativeImportExamples": ["packages/content/src/index.ts"],
+          "existingSameStemTests": [
+            "packages/content/src/frame-sequence.contracts.test.ts",
+            "packages/content/src/frame-sequence.cursor-boundaries.test.ts",
+            "packages/content/src/frame-sequence.residual.test.ts",
+            "packages/content/src/frame-sequence.resource-boundaries.test.ts",
+            "packages/content/src/frame-sequence.test.ts"
+          ],
+          "newTest": "packages/content/src/frame-sequence.glm-leaf-wave.test.ts"
+        }
+      ]
+    },
+    {
+      "id": "G30",
+      "batch": "H",
+      "package": "content",
+      "targets": [
+        {
+          "source": "packages/content/src/script-library.ts",
+          "sourceSha256": "aa7ba01496e0dc41bc222a5863fdf6cd558499b741c6326ab9cb1b994f47da95",
+          "coverage": {
+            "lines": {
+              "covered": 177,
+              "total": 181,
+              "missing": 4
+            },
+            "branches": {
+              "covered": 208,
+              "total": 221,
+              "missing": 13
+            }
+          },
+          "publicEntryStartLines": [
+            {
+              "line": 4,
+              "declaration": "export const AUTHORED_SCRIPT_PREFIX = 'shared/user/'"
+            },
+            {
+              "line": 51,
+              "declaration": "export const DEFAULT_SCRIPT_SHARDS: ScriptShardConfigV1 = { shared: 16, global: {} }"
+            },
+            {
+              "line": 64,
+              "declaration": "export function utf8ByteLength(value: string): number {"
+            },
+            {
+              "line": 73,
+              "declaration": "export function isScriptRef(value: unknown): value is ScriptRef {"
+            },
+            {
+              "line": 84,
+              "declaration": "export function checkScriptRef(value: unknown, path: string): asserts value is ScriptRef {"
+            },
+            {
+              "line": 89,
+              "declaration": "export function visitScriptRefs(node: unknown, visit: (ref: ScriptRef) => void): void {"
+            },
+            {
+              "line": 103,
+              "declaration": "export function stableScriptHash(value: string): number {"
+            },
+            {
+              "line": 127,
+              "declaration": "export function deriveScriptChunk(id: string, shards: ScriptShardConfigV1): string | undefined {"
+            },
+            {
+              "line": 152,
+              "declaration": "export function checkScriptIndex("
+            },
+            {
+              "line": 198,
+              "declaration": "export function createScriptIndex("
+            },
+            {
+              "line": 224,
+              "declaration": "export function normalizeScriptLibrary("
+            },
+            {
+              "line": 278,
+              "declaration": "export function findScriptOwnerChunk("
+            },
+            {
+              "line": 291,
+              "declaration": "export function getScriptBody("
+            },
+            {
+              "line": 317,
+              "declaration": "export function upsertAuthoredScript("
+            },
+            {
+              "line": 343,
+              "declaration": "export function removeAuthoredScript("
+            },
+            {
+              "line": 367,
+              "declaration": "export function checkScriptLibrary("
+            }
+          ],
+          "directRelativeImportExamples": [
+            "packages/content/src/asset.ts",
+            "packages/content/src/index.ts",
+            "packages/content/src/item-script-runtime-ref.ts",
+            "packages/content/src/item.ts"
+          ],
+          "existingSameStemTests": [
+            "packages/content/src/script-library.resource-boundaries.test.ts",
+            "packages/content/src/script-library.test.ts"
+          ],
+          "newTest": "packages/content/src/script-library.glm-leaf-wave.test.ts"
+        }
+      ]
+    },
+    {
+      "id": "G31",
+      "batch": "H",
+      "package": "content",
+      "targets": [
+        {
+          "source": "packages/content/src/world-variable.ts",
+          "sourceSha256": "ff1c655944da906e1eda84346bda1fde59cafa64af56683fbc09971f234fc198",
+          "coverage": {
+            "lines": {
+              "covered": 51,
+              "total": 51,
+              "missing": 0
+            },
+            "branches": {
+              "covered": 41,
+              "total": 44,
+              "missing": 3
+            }
+          },
+          "publicEntryStartLines": [
+            {
+              "line": 24,
+              "declaration": "export const WORLD_VARIABLE_ID_MAX_LENGTH = 128"
+            },
+            {
+              "line": 25,
+              "declaration": "export const WORLD_VARIABLE_NAME_MAX_LENGTH = 80"
+            },
+            {
+              "line": 26,
+              "declaration": "export const WORLD_VARIABLE_DESCRIPTION_MAX_LENGTH = 500"
+            },
+            {
+              "line": 42,
+              "declaration": "export function validateWorldVariableIdV1(value: unknown, path = 'worldVariable.id'): string {"
+            },
+            {
+              "line": 67,
+              "declaration": "export function validateWorldVariableRegistryV1(value: unknown): WorldVariableRegistryV1 {"
+            },
+            {
+              "line": 104,
+              "declaration": "export function initialWorldVariablesV1(registry: WorldVariableRegistryV1): {"
+            }
+          ],
+          "directRelativeImportExamples": [
+            "packages/content/src/character.ts",
+            "packages/content/src/index.ts"
+          ],
+          "existingSameStemTests": [
+            "packages/content/src/world-variable.boundaries.test.ts",
+            "packages/content/src/world-variable.test.ts"
+          ],
+          "newTest": "packages/content/src/world-variable.glm-leaf-wave.test.ts"
+        },
+        {
+          "source": "packages/content/src/stamp.ts",
+          "sourceSha256": "272fb28dcde6a8ce99dcb7a7adb24951afd11c7b3e25bcb9b1880ffbe48ce42a",
+          "coverage": {
+            "lines": {
+              "covered": 29,
+              "total": 32,
+              "missing": 3
+            },
+            "branches": {
+              "covered": 27,
+              "total": 33,
+              "missing": 6
+            }
+          },
+          "publicEntryStartLines": [
+            {
+              "line": 31,
+              "declaration": "export function validateStampTemplates(value: unknown): StampTemplate[] {"
+            },
+            {
+              "line": 71,
+              "declaration": "export function formatStampTemplates(value: readonly StampTemplate[]): string {"
+            },
+            {
+              "line": 75,
+              "declaration": "export function parseStampTemplates(text: string): StampTemplate[] {"
+            }
+          ],
+          "directRelativeImportExamples": ["packages/content/src/index.ts"],
+          "existingSameStemTests": [
+            "packages/content/src/stamp.cursor-boundaries.test.ts",
+            "packages/content/src/stamp.test.ts"
+          ],
+          "newTest": "packages/content/src/stamp.glm-leaf-wave.test.ts"
+        }
+      ]
+    },
+    {
+      "id": "G32",
+      "batch": "H",
+      "package": "content",
+      "targets": [
+        {
+          "source": "packages/content/src/migration-diagnostic.ts",
+          "sourceSha256": "c99ae1305ab1a75a81c6beab814db69380a9b1a3d6bc7cbd04218c11bfe2e4d1",
+          "coverage": {
+            "lines": {
+              "covered": 40,
+              "total": 42,
+              "missing": 2
+            },
+            "branches": {
+              "covered": 60,
+              "total": 62,
+              "missing": 2
+            }
+          },
+          "publicEntryStartLines": [
+            {
+              "line": 7,
+              "declaration": "export const MIGRATION_DIAGNOSTIC_CATEGORIES = ["
+            },
+            {
+              "line": 44,
+              "declaration": "export function validateMigrationDiagnostics(json: unknown): MigrationDiagnosticsV1 {"
+            }
+          ],
+          "directRelativeImportExamples": ["packages/content/src/index.ts"],
+          "existingSameStemTests": [
+            "packages/content/src/migration-diagnostic.boundaries.test.ts",
+            "packages/content/src/migration-diagnostic.test.ts"
+          ],
+          "newTest": "packages/content/src/migration-diagnostic.glm-leaf-wave.test.ts"
+        },
+        {
+          "source": "packages/content/src/map-index.ts",
+          "sourceSha256": "2094da4342bfcf63093012e74fd49490d750a0d7e9b5b59f959e2e6d84ce6e85",
+          "coverage": {
+            "lines": {
+              "covered": 53,
+              "total": 53,
+              "missing": 0
+            },
+            "branches": {
+              "covered": 47,
+              "total": 49,
+              "missing": 2
+            }
+          },
+          "publicEntryStartLines": [
+            {
+              "line": 13,
+              "declaration": "export const MAP_INDEX_PATH = 'content/maps/index.json'"
+            },
+            {
+              "line": 20,
+              "declaration": "export function isMapAssetId(value: unknown): value is string {"
+            },
+            {
+              "line": 25,
+              "declaration": "export function normalizeMapAssetPath(value: string): string {"
+            },
+            {
+              "line": 40,
+              "declaration": "export function validateMapIndex(value: unknown): MapIndexV1 {"
+            },
+            {
+              "line": 65,
+              "declaration": "export function mapAssetById(index: MapIndexV1, id: string): MapAssetDefV1 | undefined {"
+            },
+            {
+              "line": 79,
+              "declaration": "export function mapIdStem(path: string): string {"
+            },
+            {
+              "line": 84,
+              "declaration": "export function nextMapAssetId(index: MapIndexV1, preferred: string): string {"
+            },
+            {
+              "line": 94,
+              "declaration": "export function nextMapAssetIdentity("
+            }
+          ],
+          "directRelativeImportExamples": [
+            "packages/content/src/index.ts",
+            "packages/content/src/validate.ts"
+          ],
+          "existingSameStemTests": [
+            "packages/content/src/map-index.contracts.test.ts",
+            "packages/content/src/map-index.residual.test.ts",
+            "packages/content/src/map-index.test.ts"
+          ],
+          "newTest": "packages/content/src/map-index.glm-leaf-wave.test.ts"
+        },
+        {
+          "source": "packages/content/src/tileset.ts",
+          "sourceSha256": "45d411546e1d5378ed64cd1d1bd65bf0b52842e6329a93cf9d7944330f027ed2",
+          "coverage": {
+            "lines": {
+              "covered": 27,
+              "total": 28,
+              "missing": 1
+            },
+            "branches": {
+              "covered": 36,
+              "total": 39,
+              "missing": 3
+            }
+          },
+          "publicEntryStartLines": [
+            {
+              "line": 23,
+              "declaration": "export function validateTilesets(value: unknown, catalog?: AssetCatalogV1): TilesetDef[] {"
+            },
+            {
+              "line": 58,
+              "declaration": "export function resolveTilesetAsset(tilesetId: string, tilesets: readonly TilesetDef[]): string {"
+            }
+          ],
+          "directRelativeImportExamples": [
+            "packages/content/src/asset.ts",
+            "packages/content/src/index.ts"
+          ],
+          "existingSameStemTests": [
+            "packages/content/src/tileset.cursor-pure-wave2.test.ts",
+            "packages/content/src/tileset.test.ts"
+          ],
+          "newTest": "packages/content/src/tileset.glm-leaf-wave.test.ts"
+        }
+      ]
+    }
+  ]
+}
