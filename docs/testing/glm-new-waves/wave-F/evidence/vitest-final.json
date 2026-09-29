@@ -1,0 +1,341 @@
+{
+  "numTotalTestSuites": 20,
+  "numPassedTestSuites": 20,
+  "numFailedTestSuites": 0,
+  "numPendingTestSuites": 0,
+  "numTotalTests": 22,
+  "numPassedTests": 22,
+  "numFailedTests": 0,
+  "numPendingTests": 0,
+  "numTodoTests": 0,
+  "snapshot": {
+    "added": 0,
+    "failure": false,
+    "filesAdded": 0,
+    "filesRemoved": 0,
+    "filesRemovedList": [],
+    "filesUnmatched": 0,
+    "filesUpdated": 0,
+    "matched": 0,
+    "total": 0,
+    "unchecked": 0,
+    "uncheckedKeysByFile": [],
+    "unmatched": 0,
+    "updated": 0,
+    "didUpdate": false
+  },
+  "startTime": 1790650049768,
+  "success": true,
+  "testResults": [
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["F03 DesignLab fixture 路由回显"],
+          "fullName": "F03 DesignLab fixture 路由回显 缺省 fixture 参数回显 RF-01 舞台与版本头，导航仅 RF-01 为当前页",
+          "status": "passed",
+          "title": "缺省 fixture 参数回显 RF-01 舞台与版本头，导航仅 RF-01 为当前页",
+          "duration": 25.767791999999986,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["F03 DesignLab fixture 路由回显"],
+          "fullName": "F03 DesignLab fixture 路由回显 ?fixture=RF-25 切换舞台内容并把 aria-current 迁移到 RF-25",
+          "status": "passed",
+          "title": "?fixture=RF-25 切换舞台内容并把 aria-current 迁移到 RF-25",
+          "duration": 25.22558300000003,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["F03 DesignLab fixture 路由回显"],
+          "fullName": "F03 DesignLab fixture 路由回显 未知 fixture 值渲染 lab-error 错误页且不设置舞台",
+          "status": "passed",
+          "title": "未知 fixture 值渲染 lab-error 错误页且不设置舞台",
+          "duration": 2.220042000000035,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790650056541,
+      "endTime": 1790650056594.22,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.codex/worktrees/glm-new-f/type-pal/packages/editor/src/design-lab/DesignLab.glm-next-wave.test.tsx"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["F06 battle-sprite-commands 输入保真与最小 undo/redo"],
+          "fullName": "F06 battle-sprite-commands 输入保真与最小 undo/redo apply 后篡改调用方输入不污染会话与 redo；apply 不改写传入 state；undo/redo 逐值还原",
+          "status": "passed",
+          "title": "apply 后篡改调用方输入不污染会话与 redo；apply 不改写传入 state；undo/redo 逐值还原",
+          "duration": 22.59633299999996,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["F06 battle-sprite-commands 输入保真与最小 undo/redo"],
+          "fullName": "F06 battle-sprite-commands 输入保真与最小 undo/redo SetEnemyBattleSprite 的 previous 只在首次 apply 捕获，外部改引用后 invert 仍回最初值",
+          "status": "passed",
+          "title": "SetEnemyBattleSprite 的 previous 只在首次 apply 捕获，外部改引用后 invert 仍回最初值",
+          "duration": 3.533040999999912,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790650058166,
+      "endTime": 1790650058191.533,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.codex/worktrees/glm-new-f/type-pal/packages/editor/src/core/battle-sprite-commands.glm-next-wave.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["F05 battle-trial-launch 端到端端口保真与失败释放"],
+          "fullName": "F05 battle-trial-launch 端到端端口保真与失败释放 显式配置经真实 admission 到达端口逐字段保真，ack 后 start 才完成",
+          "status": "passed",
+          "title": "显式配置经真实 admission 到达端口逐字段保真，ack 后 start 才完成",
+          "duration": 73.95770900000002,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["F05 battle-trial-launch 端到端端口保真与失败释放"],
+          "fullName": "F05 battle-trial-launch 端到端端口保真与失败释放 弹窗被拒即失败并释放独占槽位，随后完整握手仍可成功",
+          "status": "passed",
+          "title": "弹窗被拒即失败并释放独占槽位，随后完整握手仍可成功",
+          "duration": 57.480999999999995,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["F05 battle-trial-launch 端到端端口保真与失败释放"],
+          "fullName": "F05 battle-trial-launch 端到端端口保真与失败释放 ack 前卸载编辑器：abort 投递到端口，start 以 AbortError 拒绝",
+          "status": "passed",
+          "title": "ack 前卸载编辑器：abort 投递到端口，start 以 AbortError 拒绝",
+          "duration": 58.4543749999998,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790650051359,
+      "endTime": 1790650051548.4543,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.codex/worktrees/glm-new-f/type-pal/packages/editor/src/core/battle-trial-launch.glm-next-wave.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["F06 sprite-commands 输入保真与最小 undo/redo"],
+          "fullName": "F06 sprite-commands 输入保真与最小 undo/redo UpdateSprite apply 后篡改调用方 patch 不污染会话与 redo；undo/redo 逐值还原",
+          "status": "passed",
+          "title": "UpdateSprite apply 后篡改调用方 patch 不污染会话与 redo；undo/redo 逐值还原",
+          "duration": 22.37866600000001,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["F06 sprite-commands 输入保真与最小 undo/redo"],
+          "fullName": "F06 sprite-commands 输入保真与最小 undo/redo AddSpriteDefinitionCommand 第二语义入库/撤销对称，事后篡改定义不影响 redo",
+          "status": "passed",
+          "title": "AddSpriteDefinitionCommand 第二语义入库/撤销对称，事后篡改定义不影响 redo",
+          "duration": 3.677166999999997,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790650058393,
+      "endTime": 1790650058418.6772,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.codex/worktrees/glm-new-f/type-pal/packages/editor/src/core/sprite-commands.glm-next-wave.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["F03 ActorMode 焦点回退与空库禁用回显"],
+          "fullName": "F03 ActorMode 焦点回退与空库禁用回显 陈旧 focusActorId 回落到第一名角色并回报 onActorFocus，非法 focusSection 回显总览",
+          "status": "passed",
+          "title": "陈旧 focusActorId 回落到第一名角色并回报 onActorFocus，非法 focusSection 回显总览",
+          "duration": 55.87374999999997,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["F03 ActorMode 焦点回退与空库禁用回显"],
+          "fullName": "F03 ActorMode 焦点回退与空库禁用回显 空人物库复制动作禁用，新建面板取消零派发",
+          "status": "passed",
+          "title": "空人物库复制动作禁用，新建面板取消零派发",
+          "duration": 15.222250000000031,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790650055909,
+      "endTime": 1790650055980.2222,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.codex/worktrees/glm-new-f/type-pal/packages/editor/src/ui/ActorMode.glm-next-wave.test.tsx"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["F01 App 路由→命令编辑回显与取消"],
+          "fullName": "F01 App 路由→命令编辑回显与取消 脚本库路由打开共享脚本，命令编辑弹窗回显 ms=17，取消零历史零 dirty",
+          "status": "passed",
+          "title": "脚本库路由打开共享脚本，命令编辑弹窗回显 ms=17，取消零历史零 dirty",
+          "duration": 137.97112500000003,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790650054589,
+      "endTime": 1790650054726.9712,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.codex/worktrees/glm-new-f/type-pal/packages/editor/src/ui/App.glm-next-wave.test.tsx"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["F04 BattleSpriteUploader 预览与取消零提交"],
+          "fullName": "F04 BattleSpriteUploader 预览与取消零提交 合法小图集真实解码：缺省帧宽高猜测、逐帧预览、应用产出帧带",
+          "status": "passed",
+          "title": "合法小图集真实解码：缺省帧宽高猜测、逐帧预览、应用产出帧带",
+          "duration": 222.85054200000002,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["F04 BattleSpriteUploader 预览与取消零提交"],
+          "fullName": "F04 BattleSpriteUploader 预览与取消零提交 帧宽破坏整除 → 精确失败文案与应用禁用；取消零提交",
+          "status": "passed",
+          "title": "帧宽破坏整除 → 精确失败文案与应用禁用；取消零提交",
+          "duration": 9.219124999999963,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790650052222,
+      "endTime": 1790650052454.2192,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.codex/worktrees/glm-new-f/type-pal/packages/editor/src/ui/BattleSpriteUploader.glm-next-wave.test.tsx"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["F02 FrameAnimationEditor 播放中选择切换"],
+          "fullName": "F02 FrameAnimationEditor 播放中选择切换 播放中点击第 3 帧以该帧时长重锚时钟并保持播放，随后循环回第 1 帧",
+          "status": "passed",
+          "title": "播放中点击第 3 帧以该帧时长重锚时钟并保持播放，随后循环回第 1 帧",
+          "duration": 79.81383399999993,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790650055276,
+      "endTime": 1790650055355.8137,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.codex/worktrees/glm-new-f/type-pal/packages/editor/src/ui/FrameAnimationEditor.glm-next-wave.test.tsx"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["F02 PreviewCanvas 资产失败态回显"],
+          "fullName": "F02 PreviewCanvas 资产失败态回显 资产读取中显示加载提示且不进入 rAF 渲染循环",
+          "status": "passed",
+          "title": "资产读取中显示加载提示且不进入 rAF 渲染循环",
+          "duration": 21.262166999999977,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["F02 PreviewCanvas 资产失败态回显"],
+          "fullName": "F02 PreviewCanvas 资产失败态回显 资产读取失败精确回显错误消息，同样不排帧",
+          "status": "passed",
+          "title": "资产读取失败精确回显错误消息，同样不排帧",
+          "duration": 4.068457999999964,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790650057125,
+      "endTime": 1790650057150.0684,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.codex/worktrees/glm-new-f/type-pal/packages/editor/src/ui/PreviewCanvas.glm-next-wave.test.tsx"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["F04 RawFrameInspector 源帧检查器回显"],
+          "fullName": "F04 RawFrameInspector 源帧检查器回显 当前帧切换在首末帧禁用并回显 N/M 与像素尺寸",
+          "status": "passed",
+          "title": "当前帧切换在首末帧禁用并回显 N/M 与像素尺寸",
+          "duration": 137.38645799999995,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["F04 RawFrameInspector 源帧检查器回显"],
+          "fullName": "F04 RawFrameInspector 源帧检查器回显 单帧资产禁用删除并给出保留原因，多帧时删除可用",
+          "status": "passed",
+          "title": "单帧资产禁用删除并给出保留原因，多帧时删除可用",
+          "duration": 9.887459000000035,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["F04 RawFrameInspector 源帧检查器回显"],
+          "fullName": "F04 RawFrameInspector 源帧检查器回显 共享与无用途提示按 consumerCount 切换，编辑消息按级别使用 alert/status",
+          "status": "passed",
+          "title": "共享与无用途提示按 consumerCount 切换，编辑消息按级别使用 alert/status",
+          "duration": 9.072916999999961,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["F04 RawFrameInspector 源帧检查器回显"],
+          "fullName": "F04 RawFrameInspector 源帧检查器回显 showHero=false 时不再重复资源身份头",
+          "status": "passed",
+          "title": "showHero=false 时不再重复资源身份头",
+          "duration": 3.905083999999988,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790650052977,
+      "endTime": 1790650053136.905,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.codex/worktrees/glm-new-f/type-pal/packages/editor/src/ui/SpriteFrameWorkbench.glm-next-wave.test.tsx"
+    }
+  ]
+}
