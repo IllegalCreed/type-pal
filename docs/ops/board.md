@@ -79,9 +79,12 @@ check8896/单次strict8404全过；实际+134分支/+73行，content分支85.55%
 85% 未达，仍差 4,360 臂。A–E/F–J 六张纯测试卡均已由 Codex 归档 done；
 G/I 的功能视觉与 console 后续补验也已闭合，不把这些卡的完成误写为 85% 达标。
 
+2026-09-29 [GLM Wave K](../testing/glm-event-wave-k/codex-accept-r2-1f26d421.md)
+已独立验收、串行质量门通过并归档 done；官方 fast 基线净增 55 分支，
+全仓 49584/63398（78.21%），距 85% 仍差 4305 臂。
+
 | ID | 任务 | 状态 | 负责人/下一步 | 一句话备注 |
 |---|---|---|---|---|
-| TEST-GLM-EVENT-WAVE-K-1 | [一阶段事件系统六组当前脚本合同补测](tasks/TEST-GLM-EVENT-WAVE-K-1-current-script-contracts.md) | rework | GLM Wave K / 原白名单窄返工后 Codex 再审 | 4ebea2b5 未合 main；K04 假无 handler、反控输入/判据、K03 卖出真值、K06 非法夹具 |
 | E2E-R4-1 | [路线驱动与检查点薄基线](tasks/E2E-R4-1-route-and-checkpoint-foundation.md) | build | Codex / 002正常移动与跨场景 | 001 verify已收口：55正文/角色/真实读档及像素；002继承真档，录制音轨另排 |
 | EDITOR-SCENE-FACING-1 | [切场景朝向清除](tasks/EDITOR-SCENE-FACING-1-clear-override.md) | draft | Codex / 后续窄修 | 保持选项仍提交旧方向；真实红诊断+单点oracle已证 |
 | ARCH-SUPPORT-GLM-1 | [八组并行架构/视觉准备](tasks/ARCH-SUPPORT-GLM-1-eight-audit-packages.md) | draft | Codex / 后续归属与收口 | 58cdf938材料accept，counter清零；文档已合入，按用户要求未标done/未开产品门 |

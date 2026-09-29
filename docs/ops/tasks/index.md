@@ -11,7 +11,6 @@
 | [ARCH-SUPPORT-GLM-1 — 八组并行准备取证](ARCH-SUPPORT-GLM-1-eight-audit-packages.md) | draft | 以任务卡当前准入与看板分工为准。 |
 | [E2E-R4-1 — 路线驱动与合法检查点薄基线](E2E-R4-1-route-and-checkpoint-foundation.md) | build | 以任务卡当前准入与看板分工为准。 |
 | [EDITOR-SCENE-FACING-1 — 切场景指令无法清除显式朝向](EDITOR-SCENE-FACING-1-clear-override.md) | draft | 以任务卡当前准入与看板分工为准。 |
-| [TEST-GLM-EVENT-WAVE-K-1 — 一阶段事件系统六组当前脚本合同补测](TEST-GLM-EVENT-WAVE-K-1-current-script-contracts.md) | rework | 以任务卡当前准入与看板分工为准。 |
 
 ## 已完成（historical）
 
@@ -205,6 +204,7 @@
 | [TEST-GLM-CONTENT-GUARDS-2 — 六组校验叶边界补测](../archive/tasks/done/TEST-GLM-CONTENT-GUARDS-2-leaf-boundaries.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [TEST-GLM-CONTENT-GUARDS-3 — 八组同步脚本与记录守卫补测](../archive/tasks/done/TEST-GLM-CONTENT-GUARDS-3-script-and-records.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [TEST-GLM-EDITOR-UI-WAVE-1 — 编辑器十二模块交互回归](../archive/tasks/done/TEST-GLM-EDITOR-UI-WAVE-1-twelve-surfaces.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [TEST-GLM-EVENT-WAVE-K-1 — 一阶段事件系统六组当前脚本合同补测](../archive/tasks/done/TEST-GLM-EVENT-WAVE-K-1-current-script-contracts.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [TEST-GLM-ITEM-LOGIC-1 — 物品纯逻辑六组补测](../archive/tasks/done/TEST-GLM-ITEM-LOGIC-1-world-use-residuals.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [TEST-GLM-LARGE-WAVE-4 — 五批大型当前合同补测](../archive/tasks/done/TEST-GLM-LARGE-WAVE-4-five-large-batches.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [TEST-GLM-LEAF-WORKFLOWS-1 — 三十二组叶层与小界面补测](../archive/tasks/done/TEST-GLM-LEAF-WORKFLOWS-1-thirty-two-groups.md) | done | 完成证据、历史签字与交接见原卡。 |

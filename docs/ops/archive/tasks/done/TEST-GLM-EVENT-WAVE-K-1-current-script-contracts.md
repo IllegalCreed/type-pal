@@ -1,6 +1,6 @@
 # TEST-GLM-EVENT-WAVE-K-1 — 一阶段事件系统六组当前脚本合同补测
 
-Status: rework
+Status: done
 Owner: GLM Wave K（本包唯一测试 Coding Owner）
 Reviewer: Codex（独立验收、选择性集成与官方覆盖结算）
 Phase: phase1
@@ -10,7 +10,7 @@ Capability: current-script-contract / coverage
 
 2026-09-29 用户要求再给 GLM 一包。Codex 核定此包只增当前一阶段脚本的非重复测试与隔离证据，
 **build allowed**；不修改任何产品、旧测、共享配置、原始/提取资产、官方基线、既有任务卡。
-[冻结表](../../testing/glm-event-wave-k/targets.json)指定唯一产品目标和六个新测试路径；
+[冻结表](../../../../testing/glm-event-wave-k/targets.json)指定唯一产品目标和六个新测试路径；
 先运行 `node docs/testing/glm-event-wave-k/verify-targets.mjs`。
 源 SHA256 `c3332dd087e5b7b3ef5b9056c32a27d342a93d6f087c516b904ec40949868fcb`，
 与 Kimi/GLM 六个既有目标队列无交集。最新 fast 报告对该源显示 595 个未覆盖分支，
@@ -30,7 +30,7 @@ Capability: current-script-contract / coverage
 
 ## 六组交付范围
 
-组别、标题和新测试路径由[冻结表](../../testing/glm-event-wave-k/targets.json)唯一规定：
+组别、标题和新测试路径由[冻结表](../../../../testing/glm-event-wave-k/targets.json)唯一规定：
 K01 trigger 游标/子脚本/恢复，K02 auto/onEnter/等待，K03 物品金钱商店队伍，
 K04 场景对象地图相机，K05 对话调色板音画，K06 战斗/大世界脚本与失败门。
 每组至少交「caller、旧测 fullName/断言、一手真值、缺口结论」审计行；
@@ -90,7 +90,7 @@ existing-proof/unreachable 对照、新鲜 Vitest JSON file/fullName/status、�
 ## 2026-09-29 Codex 独立首轮审核
 
 候选 `4ebea2b58e4110133cc2ffdd37974c2c6a1a7ade` **rework，未合 main**。
-[独立审核回执](../../testing/glm-event-wave-k/codex-review-4ebea2b5.md)记录：白名单/冻结 hash、
+[独立审核回执](../../../../testing/glm-event-wave-k/codex-review-4ebea2b5.md)记录：白名单/冻结 hash、
 Game 2772 全绿及静态零诊断成立；K04“无 handler”对照仍保留 handler，三反控仅改答案且判据
 可误收 timeout/未核文件，K03 将卖出 opcode 未消费的 storeNum 锁为真值，K06 正控 caster
 指向空玩家表。只在原白名单内返工后推新完整 SHA；Codex 再审前不合 main、不标 done。
@@ -100,3 +100,15 @@ Game 2772 全绿及静态零诊断成立；K04“无 handler”对照仍保留 h
 从 main 同步当前卡面/审核证据并保留候选测试。逐项闭合四个返工点；
 重新提交六组回执、定向 JSON、三枚合法输入反控及零诊断，推送新 40 位 SHA。
 产品、旧测、共享配置/基线只读；不得合 main 或标 done。Codex 独立再审。
+
+## 2026-09-29 Codex r2 独立验收与集成终态
+
+新候选 `1f26d421ab81090c83b704968973e369473d563a` 的四项返工
+已由 Codex 独立闭合；[接收与正式结算回执](../../../../testing/glm-event-wave-k/codex-accept-r2-1f26d421.md)
+记录 20 个新增测试、3/3 合法输入反控与 8/8 判据自测。贡献经快进进入 main；
+串行 `pnpm check → coverage:ratchet → coverage:fast` 均通过，静态门零诊断。
+目标源和生产分母未变，官方 fast 基线净增 55 分支，至 49584/63398（78.21%）；
+85% 尚差 4305，`0x12` 符号表示疑点另证，不包含在本包完成范围。
+
+本卡纯测试/证据按验收条件由 Codex 标记 `done` 并归档。
+无下一位 Agent 提示词；前文派发/返工提示词仅为历史记录。

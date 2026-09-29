@@ -1,14 +1,14 @@
 {
   "schemaVersion": 2,
   "profile": "fast",
-  "generatedAt": "2026-09-29T03:36:50.126Z",
+  "generatedAt": "2026-09-29T07:23:31.295Z",
   "provider": {
     "name": "v8",
     "vitest": "4.1.7",
     "coverageV8": "4.1.7"
   },
   "sourceFileCount": 730,
-  "testCount": 10659,
+  "testCount": 10679,
   "packages": {
     "shared": {
       "name": "@type-pal/shared",
@@ -3993,8 +3993,8 @@
       ],
       "scopeDigest": "76a72f63a8624cfd219214e150493868ed047400df313543a1f0844c491daf75",
       "fastTests": {
-        "testCount": 2725,
-        "testFileCount": 232,
+        "testCount": 2745,
+        "testFileCount": 238,
         "files": [
           "packages/game/src/analytics/analytics-consent-ui.test.ts",
           "packages/game/src/analytics/analytics-consent.boundaries.test.ts",
@@ -4060,6 +4060,12 @@
           "packages/game/src/core/event-dialogue-pagination.test.ts",
           "packages/game/src/core/event-opcode-player.glm-next-wave.test.ts",
           "packages/game/src/core/event-opcode-player.test.ts",
+          "packages/game/src/core/event-system.glm-event-k01.test.ts",
+          "packages/game/src/core/event-system.glm-event-k02.test.ts",
+          "packages/game/src/core/event-system.glm-event-k03.test.ts",
+          "packages/game/src/core/event-system.glm-event-k04.test.ts",
+          "packages/game/src/core/event-system.glm-event-k05.test.ts",
+          "packages/game/src/core/event-system.glm-event-k06.test.ts",
           "packages/game/src/core/event-system.test.ts",
           "packages/game/src/core/game-state.glm-next-wave.test.ts",
           "packages/game/src/core/game-state.test.ts",
@@ -4549,6 +4555,36 @@
             "file": "packages/game/src/core/event-opcode-player.test.ts",
             "testCount": 6,
             "identityDigest": "ae123aa1a87016fc7448c325eeed4a6d669c10f36ae66842c5ffe1882324f408"
+          },
+          {
+            "file": "packages/game/src/core/event-system.glm-event-k01.test.ts",
+            "testCount": 2,
+            "identityDigest": "53c3b7ae9c64953706eb742324b5b15a0f614130b6fc40d7784828dfea545b11"
+          },
+          {
+            "file": "packages/game/src/core/event-system.glm-event-k02.test.ts",
+            "testCount": 5,
+            "identityDigest": "934ac06e665c9f160a32e978fc4f1114fe0b89252c1143fcdec289273c2ec96b"
+          },
+          {
+            "file": "packages/game/src/core/event-system.glm-event-k03.test.ts",
+            "testCount": 2,
+            "identityDigest": "22003e5cfd1b496721ad92df06afaf5910d384cf90fac0fd8124425efa5b7588"
+          },
+          {
+            "file": "packages/game/src/core/event-system.glm-event-k04.test.ts",
+            "testCount": 2,
+            "identityDigest": "4c035e172924d18c3cc1c4fb22d85842eb5524ff4caedb9e41d18b4beebdf31c"
+          },
+          {
+            "file": "packages/game/src/core/event-system.glm-event-k05.test.ts",
+            "testCount": 3,
+            "identityDigest": "5ebca777b8dfb18251d38c4006fcc2372a26210a4d74fe728f1bfa8bd069f64d"
+          },
+          {
+            "file": "packages/game/src/core/event-system.glm-event-k06.test.ts",
+            "testCount": 6,
+            "identityDigest": "b6565131af073cb9514282ff8db8bf08689cb1246d12b9a86b8796b89b478048"
           },
           {
             "file": "packages/game/src/core/event-system.test.ts",
@@ -5391,25 +5427,25 @@
             "identityDigest": "916c70c2855d90db70208a6895de9b3254f0e3f039c2bb0b96bc8fd4287d249d"
           }
         ],
-        "identityDigest": "e63e9078bc9fa4fafd02e9848afbda7f466ae7b22e66c7f36261bb987076fb69",
+        "identityDigest": "bdb78aca0db8ab5c2844beeebc944a45b581bfd108663dee8af68a6cf0ee4ce4",
         "duplicateIdentityCount": 0,
-        "executionDigest": "7284eee97ddb56cd15799398b23d0a3710a4aa59d2384fac1f55bf515155a0bc"
+        "executionDigest": "2add3455274250111a696cb8fddf00907d4ada995edc74cc772ab87514e12595"
       },
       "metrics": {
         "statements": {
-          "covered": 12875,
+          "covered": 12926,
           "total": 15513
         },
         "branches": {
-          "covered": 8205,
+          "covered": 8260,
           "total": 11278
         },
         "functions": {
-          "covered": 1470,
+          "covered": 1471,
           "total": 1852
         },
         "lines": {
-          "covered": 11579,
+          "covered": 11627,
           "total": 13619
         }
       }
@@ -8523,19 +8559,19 @@
   },
   "total": {
     "statements": {
-      "covered": 68805,
+      "covered": 68856,
       "total": 81079
     },
     "branches": {
-      "covered": 49529,
+      "covered": 49584,
       "total": 63398
     },
     "functions": {
-      "covered": 12880,
+      "covered": 12881,
       "total": 15247
     },
     "lines": {
-      "covered": 61709,
+      "covered": 61757,
       "total": 70956
     }
   }

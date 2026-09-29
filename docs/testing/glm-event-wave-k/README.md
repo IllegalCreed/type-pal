@@ -1,8 +1,9 @@
 # GLM Wave K：一阶段事件系统当前合同补测
 
-入口：[任务卡](../../ops/tasks/TEST-GLM-EVENT-WAVE-K-1-current-script-contracts.md)；
+入口：[已归档任务卡](../../ops/archive/tasks/done/TEST-GLM-EVENT-WAVE-K-1-current-script-contracts.md)；
 [冻结目标与六组](targets.json)；[只读冻结核对](verify-targets.mjs)。
 [Codex 对 4ebea2b5 的独立首轮审核](codex-review-4ebea2b5.md)：rework，候选未合 main。
+[Codex 对 1f26d421 的独立接收与正式结算](codex-accept-r2-1f26d421.md)：done，正式基线 +55 分支。
 GLM 交付记录：[evidence.md](evidence.md)（六组对照 / Vitest JSON / 质量门 / 反控
 [counter-control/](counter-control/)）。
 
