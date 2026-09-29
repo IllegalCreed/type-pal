@@ -80,6 +80,9 @@ test('F5/F9 只更新状态栏存读档提示；真实战斗打到 victory 并�
   const member = f.config.party.members[0]
   if (!member) throw new Error('fixture party missing')
   member.stats.attack = 9999 // 单点提速：保证帧预算内真实击杀，不改变被测合同
+  // 真实会话默认走 Math.random；固定敌普攻的 7/17 被动格挡掷骰，避免同一组全绿测试
+  // 偶尔不经过格挡表现链，令受保护 fast coverage 在相同产品源码上随机回退。
+  vi.spyOn(Math, 'random').mockReturnValue(0.99)
   const results: string[] = []
   const running = runBattleTrial(
     f.project,
@@ -99,7 +102,7 @@ test('F5/F9 只更新状态栏存读档提示；真实战斗打到 victory 并�
   await running
   expect(results).toEqual(['胜利'])
   expect(statusText()).toContain('金钱 100 → ')
-  expect(statusText()).toContain('体力 100 → ')
+  expect(statusText()).toContain('体力 100 → 100') // 固定格挡后未扣血
   expect(statusText()).toContain('本场结果不保存')
 })
 
