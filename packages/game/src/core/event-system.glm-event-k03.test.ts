@@ -41,9 +41,6 @@ function loadRaw(gs: GameState, ops: Command[]): void {
 
 describe('K03 opcode 0x27 sellMenu:handler 注入 → mode=sell + waiting=shop + ip 预推进(sdlpal script.c:1168-1173)', () => {
   // 0x27 真值:script.c:1168-1173 `PAL_SellMenu()` **不读 operand**(卖出菜单无 store 概念);
-  // bootstrap sell 分支同样忽略 storeNum。故本组不断言卖出侧 storeNum 语义,只用两个合法
-  // operand 值作单轴对照,证明 mode/停驻行为与 operand 无关。
-  // 0x27 真值:script.c:1168-1173 `PAL_SellMenu()` **不读 operand**(卖出菜单无 store 概念);
   // bootstrap sell 分支同样忽略 storeNum。故本组不断言卖出侧 storeNum 语义,而在同一 it 内用
   // 两个合法 operand 值(4/9)作单轴对照,证明 mode/停驻行为与 operand 无关。
   it('0x27 → handler 一次({mode:sell});cursor 停在 waiting=shop、ip=1;operand 4/9 行为一致(卖出侧不读 operand)', () => {

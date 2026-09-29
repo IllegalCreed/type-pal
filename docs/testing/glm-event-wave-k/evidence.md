@@ -11,7 +11,7 @@ main(`4d34a007`)之上,Codex 审核记录原样保留(`codex-review-4ebea2b5.md`
    真正 `setMapReloader(null)`,断言 `reloadedMaps` 保持 `[99]`(撤下后未再触发),`finally` 清理保留。
 2. **三枚反控改为合法输入单轴变异**(r1 变异的是期望值,只证断言会红)→ r2 断言零改动,只变异输入:
    - CC-K02:脚本 operand `idleFrames: 3 → 4`(合法域)→ 第 3 tick 仍在 resetTo,"满次 fall-through 落 ip1" 业务断言红;
-   - CC-K05:0x73 operand `[1,0,0] → [0,0,0]`(合法域)→ totalMs 720,"totalMs=1440" 业务断言红;
+   - CC-K05:0x73 operand `[1,0,0] → [0,0,0]`(合法域)→ speed=0、totalMs=720,先由 "speed=1" 业务断言检出;
    - CC-K03:opcode `0x27 → 0x26`(同族合法)→ handler mode='buy',"mode=sell" 业务断言红。
    判据单一化(`judgeControl`):正控 exit0;反控 exit1 + 执行数非零 + 恰一个指定测试的业务断言红
    **且该断言来自注入副本绝对路径**(拒非目标文件)+ 无 skip + 无 timeout(消息级扫描)+ 无收集/基础设施红;

@@ -40,7 +40,7 @@ const controls = [
     source: 'event-system.glm-event-k05.test.ts',
     itTitle: '0x73[1] → fadeState',
     inputMutation:
-      'opcode operand 合法域内单轴:0x73 fade speed [1,0,0] → [0,0,0](video.c (op0+1)*10*72 → totalMs 720,业务断言 totalMs=1440 必须识别)',
+      'opcode operand 合法域内单轴:0x73 fade speed [1,0,0] → [0,0,0](video.c (op0+1)*10*72 → totalMs 720,业务断言 speed=1 首先识别)',
     old: `{ op: 'raw', opcode: OP_FADE_SCREEN, operands: [1, 0, 0] }`,
     new: `{ op: 'raw', opcode: OP_FADE_SCREEN, operands: [0, 0, 0] }`,
   },
