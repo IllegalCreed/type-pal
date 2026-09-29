@@ -2,7 +2,7 @@
 
 [冻结目标](targets.json) · [只读校验](verify-targets.mjs) · [测试总览](../README.md) ·
 [F](../../ops/tasks/TEST-GLM-NEW-F-1-editor-shell.md) ·
-[G](../../ops/tasks/TEST-GLM-NEW-G-1-reforge-host.md) ·
+[G](../../ops/tasks/TEST-GLM-NEW-G-1-reforge-host.md)（G 回执/反控/视觉证据：[wave-G](wave-G/README.md)） ·
 [H](../../ops/tasks/TEST-GLM-NEW-H-1-game-battle.md) ·
 [I](../../ops/tasks/TEST-GLM-NEW-I-1-game-shell.md) ·
 [J](../../ops/tasks/TEST-GLM-NEW-J-1-migrate-orchestration.md)

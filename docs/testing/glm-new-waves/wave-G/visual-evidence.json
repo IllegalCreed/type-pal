@@ -1,0 +1,79 @@
+{
+  "url": "http://localhost:6092/",
+  "viewport": "1440x900",
+  "browser": "chromium channel=chrome headless",
+  "steps": [
+    "goto / → 等待试打面板三按钮且状态离开“正在准备战斗资源…” → trial-menu.png",
+    "menuStatus=\"战斗中 · 按正式规则消耗真气、物品与金钱\"",
+    "keydown F5 → 状态=存读档拦截文案 → trial-f5-notice.png",
+    "click 重新试打（宿主 onRestart 注入抛错）→ 状态=错误回显 → trial-restart-error.png",
+    "restartErrorStatus=\"重启失败注入（视觉取证）\"",
+    "click 停止试打 → 状态=已停止 + runBattleTrial settled → trial-stop-recovered.png",
+    "stopStatus=\"已停止。本场变化已丢弃，可重新试打。\""
+  ],
+  "pageStatus": "booting…\n[2026-09-29T02:20:45.280Z] project loaded: 仙剑奇侠传·复刻\n[2026-09-29T02:20:45.288Z] starting isolated battle trial…\n[2026-09-29T02:20:46.064Z] runBattleTrial settled",
+  "screenshots": [
+    {
+      "name": "trial-menu.png",
+      "sha256": "6c7ec154c6aaa36f3931a2ba7935da2a8b075b075665c178b237c803ad4d3c17"
+    },
+    {
+      "name": "trial-f5-notice.png",
+      "sha256": "69c677b15422c0f5fcd7f9dfde9ebdd4b0415242d82e6c548231543e462c5e67"
+    },
+    {
+      "name": "trial-restart-error.png",
+      "sha256": "7ca058af1dddfe8d18e21f50f461fece3f586455184ddb9711be9ae4b7abbabc"
+    },
+    {
+      "name": "trial-stop-recovered.png",
+      "sha256": "63ffe521fe883a6a04ffee6a245a22ff6bf60c41ba4cfa81fe30d5fe2ba59e90"
+    }
+  ],
+  "console": [
+    {
+      "type": "debug",
+      "text": "[vite] connecting..."
+    },
+    {
+      "type": "debug",
+      "text": "[vite] connected."
+    },
+    {
+      "type": "error",
+      "text": "Failed to load resource: the server responded with a status of 404 (Not Found)"
+    },
+    {
+      "type": "error",
+      "text": "Failed to load resource: the server responded with a status of 404 (Not Found)"
+    },
+    {
+      "type": "error",
+      "text": "Failed to load resource: the server responded with a status of 404 (Not Found)"
+    },
+    {
+      "type": "error",
+      "text": "Failed to load resource: the server responded with a status of 404 (Not Found)"
+    },
+    {
+      "type": "error",
+      "text": "Failed to load resource: the server responded with a status of 404 (Not Found)"
+    },
+    {
+      "type": "error",
+      "text": "Failed to load resource: the server responded with a status of 404 (Not Found)"
+    },
+    {
+      "type": "error",
+      "text": "Failed to load resource: the server responded with a status of 404 (Not Found)"
+    },
+    {
+      "type": "error",
+      "text": "Failed to load resource: the server responded with a status of 404 (Not Found)"
+    },
+    {
+      "type": "error",
+      "text": "Failed to load resource: the server responded with a status of 404 (Not Found)"
+    }
+  ]
+}

@@ -1,0 +1,64 @@
+{
+  "wave": "G",
+  "judge": "needle-judge.mjs",
+  "generatedAt": "2026-09-29T02:08:44.610Z",
+  "allValid": true,
+  "verdicts": [
+    {
+      "id": "G-N1",
+      "target": "packages/reforge/src/battle/battle-session.ts",
+      "rationale": "构造边界 playerBaseDefinitionIds 长度守卫失效 → 负控必须业务红",
+      "controlExit": 0,
+      "controlStatus": "passed",
+      "injectedExit": 1,
+      "injectedFailed": [
+        "G01 battle-session 公开边界残差 playerBaseDefinitionIds 长度与 players 不符在构造边界 fail-loud（battle-session.ts:373）"
+      ],
+      "restoredSha256": "cd4bb233eacac2d2c175d7e1d8b466a90d7c8173dbd0308bf5160b19e6936b19",
+      "restoreMatches": true,
+      "valid": true
+    },
+    {
+      "id": "G-N2",
+      "target": "packages/reforge/src/screen-fx.ts",
+      "rationale": "shift≥w 整行复制 else 臂被绕过 → 波动卷行合同红",
+      "controlExit": 0,
+      "controlStatus": "passed",
+      "injectedExit": 1,
+      "injectedFailed": [
+        "G06 screen-fx 波动背景缓存残差 shift ≥ w（小画布大波幅）走整行复制 else 臂；0<shift<w 对照两段卷行"
+      ],
+      "restoredSha256": "21af23eb8a04f82eaa3beaa8ac1ed9540aabda83efe94e3388dec3873e400174",
+      "restoreMatches": true,
+      "valid": true
+    },
+    {
+      "id": "G-N3",
+      "target": "packages/reforge/src/battle-trial-host.ts",
+      "rationale": "trial host 入口画布守卫消息漂移 → 精确消息合同红",
+      "controlExit": 0,
+      "controlStatus": "passed",
+      "injectedExit": 1,
+      "injectedFailed": [
+        "无 #screen 画布时入口精确 fail-loud（battle-trial-host.ts:33）"
+      ],
+      "restoredSha256": "8051d0cde032352903e1a096ea8bb279924675d383201ef58ed3e14b7bbad627",
+      "restoreMatches": true,
+      "valid": true
+    },
+    {
+      "id": "G-N4",
+      "target": "packages/reforge/src/magic-menu-state.ts",
+      "rationale": "curePoison 缺省 tier 漂移为 severe → severe 毒被误解、保留毒臂红（common 解毒臂不受影响，证明针尖精确）",
+      "controlExit": 0,
+      "controlStatus": "passed",
+      "injectedExit": 1,
+      "injectedFailed": [
+        "G05 magic-menu-state 残差 curePoison 缺 curesTier 对 severe 毒：保留毒、零效果不扣 MP"
+      ],
+      "restoredSha256": "c20e92db54667a54cab4866c85ddc2fd22d124c958f11550cfbb68fb9d114738",
+      "restoreMatches": true,
+      "valid": true
+    }
+  ]
+}
