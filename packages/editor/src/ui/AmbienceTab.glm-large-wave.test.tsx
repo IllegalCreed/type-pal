@@ -12,6 +12,7 @@ import { createRoot, type Root } from 'react-dom/client'
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
 import { AddAmbienceCommand, UpdateAmbienceCommand } from '../core/commands.js'
 import { EditSession } from '../core/edit-session.js'
+import { createEditorAssetReader } from '../core/editor-asset-reader.js'
 import { collectCurrentProjectReferenceIndex } from '../core/project-reference-adapters.js'
 import { stubNodeTestHost } from './__tests__/glm-leaf-workflows/node-bridge.js'
 import { loadLegalUiProject } from './__tests__/glm-ui-wave-kit.js'
@@ -48,15 +49,17 @@ afterEach(async () => {
 async function sessionWithAmbiences(): Promise<{
   session: EditSession
   ambiences: AmbienceDef[]
+  legal: Awaited<ReturnType<typeof loadLegalUiProject>>
 }> {
-  const { state } = await loadLegalUiProject('glm-large-wave-ambience')
+  const legal = await loadLegalUiProject('glm-large-wave-ambience')
+  const { state } = legal
   const session = new EditSession(state)
   session.dispatch(new AddAmbienceCommand('day', '白天'))
   session.dispatch(new AddAmbienceCommand('dusk', '黄昏'))
   session.dispatch(
     new UpdateAmbienceCommand('dusk', { tint: [255, 150, 80] as AmbienceDef['tint'] }),
   )
-  return { session, ambiences: session.getState().ambiences ?? [] }
+  return { session, ambiences: session.getState().ambiences ?? [], legal }
 }
 
 type TabProps = ComponentProps<typeof AmbienceTab>
@@ -117,28 +120,20 @@ describe('A04 AmbienceTab 乘色回显与预览接线', () => {
   })
 
   test('传入 preview 包时把实时 tint 与 projectKey 传给场景预览', async () => {
-    const { session, ambiences } = await sessionWithAmbiences()
+    const { session, ambiences, legal } = await sessionWithAmbiences()
     const state = session.getState()
     const preview: ComponentProps<typeof AmbienceTab>['preview'] = {
-      manifest: {
-        id: 'test',
-        name: 'test',
-        contentVersion: 20,
-        defaultEntryId: 'main',
-        content: {},
-        assets: { catalog: 'assets/index.json', roles: {} },
-        entryPoints: [],
-      } as ComponentProps<typeof AmbienceTab>['preview'] extends { manifest: infer M } ? M : never,
+      manifest: legal.state.manifest,
       scenes: state.scenes ?? [],
       actors: [],
       sprites: state.sprites ?? [],
-      assetBase: {} as never,
+      assetBase: legal.assetBase,
       assetCatalog: state.assetCatalog,
-      assetReader: {} as never,
+      assetReader: createEditorAssetReader(legal.source, legal.state),
       mapIndex: state.mapIndex,
       sceneIndex: undefined,
       tilesets: state.tilesets ?? [],
-      projectKey: 'test:ws-1',
+      projectKey: `${state.manifest.id}:ws-1`,
     }
     await act(async () =>
       root.render(
@@ -152,7 +147,7 @@ describe('A04 AmbienceTab 乘色回显与预览接线', () => {
     )
     expect(host.querySelector('[data-testid="ambience-preview"]')).not.toBeNull()
     const first = previewProbe.calls.at(-1)!
-    expect(first.projectKey).toBe('test:ws-1')
+    expect(first.projectKey).toBe('glm-large-wave-ambience:ws-1')
     expect(first.tint).toEqual([255, 255, 255])
     const hex = host.querySelector<HTMLInputElement>('input[aria-label="氛围颜色 HEX"]')!
     const setter = Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, 'value')!.set!

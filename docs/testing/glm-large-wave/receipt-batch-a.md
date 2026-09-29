@@ -1,6 +1,6 @@
 # TEST-GLM-LARGE-WAVE-4 · A 批回执（编辑器命令表单与作者工作区）
 
-- 候选 SHA：见本批提交（分支 `codex/glm-large-wave-r1`，工作树 `/Users/zhangxu/.codex/worktrees/glm-large-wave/type-pal`）
+- 候选 SHA（r1 本批完整提交）：`1429e1b1b845821bc2b30eeea5bb449610ec2289`；R2 返工以新的完整候选 SHA 为准（见返工提交）。
 - 逐条 file/fullName/status：[batch-a-directed.json](batch-a-directed.json)（新鲜 Vitest JSON，47/47 passed）
 - 新增文件：12 个源文件各一个同目录 `.glm-large-wave.test.ts(x)` + 白名单 fixture
   `packages/editor/src/__tests__/glm-large-wave/command-form-glw-kit.ts` + 隔离宿主
@@ -71,3 +71,7 @@ URL `http://127.0.0.1:6086/`；直挂范围声明：只挂 CommandForm（草稿�
 
 - 上述「不可达/未证」清单 4 条。
 - B/C/D/E 批待做；Codex 独立验收、全仓质量门与覆盖率门未运行（本批不运行全仓 check/ratchet/strict-fast/E2E）。
+
+> R2（返工）：`command-form-world` 测试改名 `.tsx`（与源扩展名一致）；11 枚代表针已按
+> R2 严格判据（needle-judge R2 + selftest 反例套件）重跑，全部 VALID；本批新增测试已清零
+> 全部 `as never`/`as unknown as` 强转，DataMode 改为全真实挂载（无组件替身）。

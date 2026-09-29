@@ -1,18 +1,22 @@
 // @vitest-environment jsdom
 /**
- * TEST-GLM-LARGE-WAVE-4 A03（DataMode 对）：数据页路由的委派合同。
+ * TEST-GLM-LARGE-WAVE-4 A03（DataMode 对）：数据页路由的委派合同（R2 全真实挂载）。
  * 去重：DataMode.glm-ui-wave 已证 scripts 空态、events 页、敌人试打与战斗域深链；
- * item-alchemy 已证双炼化页。本文件只补：scripts 页带真实 canonical 脚本会话时挂载
- * 可复用脚本目录、sprite 域切换回调的世界/战斗 id 与视图回退（含无 onSpriteLocation 的
- * onObjectFocus 兜底）、shop 页 isProjectDirty 对主会话与脚本会话脏态的合成。
- * 库组件仅做 props 探针替身；项目、会话与命令全部真实。
+ * item-alchemy 已证双炼化页。本文件只补：scripts 页带真实 canonical 脚本会话时的目录
+ * 挂载、sprite 页经真实大世界/战斗精灵库域切换回调（含视图回退与 onObjectFocus 兜底）、
+ * shop 页 isProjectDirty 对主会话与脚本会话脏态的真实合成显示。
+ * 无任何组件替身：项目、会话、命令、资产端口与页内子组件全部真实；
+ * 仅 Node 测试宿主桥（Blob/crypto）与 requestAnimationFrame 属硬件端口替身。
  */
-import type { ComponentProps } from 'react'
-import { act } from 'react'
+
+import { validateShops } from '@type-pal/content'
+import { act, type ComponentProps } from 'react'
 import { createRoot, type Root } from 'react-dom/client'
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
 import { AddAmbienceCommand } from '../core/commands.js'
 import { EditSession } from '../core/edit-session.js'
+import { createEditorAssetReader } from '../core/editor-asset-reader.js'
+import { collectCurrentProjectReferenceIndex } from '../core/project-reference-adapters.js'
 import {
   AddSharedScriptCommand,
   type ScriptEditorState,
@@ -22,37 +26,12 @@ import { stubNodeTestHost } from './__tests__/glm-leaf-workflows/node-bridge.js'
 import { loadLegalUiProject } from './__tests__/glm-ui-wave-kit.js'
 import { DataMode } from './DataMode.js'
 
-const probes = vi.hoisted(() => ({
-  world: [] as Array<Record<string, unknown>>,
-  battle: [] as Array<Record<string, unknown>>,
-  shop: [] as Array<Record<string, unknown>>,
-}))
-
-vi.mock('./WorldSpriteLibrary.js', () => ({
-  WorldSpriteLibrary: (props: Record<string, unknown>) => {
-    probes.world.push(props)
-    return <div data-testid="world-library" />
-  },
-}))
-vi.mock('./BattleSpriteLibrary.js', () => ({
-  BattleSpriteLibrary: (props: Record<string, unknown>) => {
-    probes.battle.push(props)
-    return <div data-testid="battle-library" />
-  },
-}))
-vi.mock('./ShopTab.js', () => ({
-  ShopTab: (props: Record<string, unknown>) => {
-    probes.shop.push(props)
-    return <div data-testid="shop-tab" />
-  },
-}))
-
 let root: Root
 let host: HTMLDivElement
 
 beforeEach(async () => {
-  ;(globalThis as { IS_REACT_ACT_ENVIRONMENT?: boolean }).IS_REACT_ACT_ENVIRONMENT = true
   await stubNodeTestHost()
+  ;(globalThis as { IS_REACT_ACT_ENVIRONMENT?: boolean }).IS_REACT_ACT_ENVIRONMENT = true
   vi.stubGlobal('requestAnimationFrame', (callback: FrameRequestCallback) => {
     callback(0)
     return 1
@@ -77,13 +56,19 @@ const scriptState: ScriptEditorState = {
   },
 }
 
-async function baseProps(): Promise<
-  Omit<ComponentProps<typeof DataMode>, 'tab' | 'session' | 'script'>
-> {
-  const { state } = await loadLegalUiProject('glm-large-wave-datamode')
-  return {
+async function mounted(): Promise<{
+  props: Omit<ComponentProps<typeof DataMode>, 'tab'>
+  session: EditSession
+  scriptSession: ScriptEditSession
+}> {
+  const legal = await loadLegalUiProject('glm-large-wave-datamode')
+  const state = legal.state
+  const session = new EditSession(state)
+  const scriptSession = new ScriptEditSession(scriptState)
+  const reader = createEditorAssetReader(legal.source, state)
+  const props: Omit<ComponentProps<typeof DataMode>, 'tab'> = {
     playIdentity: {
-      projectId: 'test',
+      projectId: state.manifest.id,
       workspaceId: '11111111-1111-4111-8111-111111111111',
       source: 'http',
     },
@@ -92,12 +77,13 @@ async function baseProps(): Promise<
     skills: {},
     itemList: state.items ?? [],
     locale: state.locale ?? {},
-    assetBase: {} as never,
+    assetBase: legal.assetBase,
+    session,
     enemies: state.enemies ?? [],
     enemyTeams: state.enemyTeams ?? [],
     assetCatalog: state.assetCatalog,
-    assetReader: {} as never,
-    audioResolver: {} as never,
+    assetReader: reader,
+    audioResolver: reader,
     tilesets: state.tilesets ?? [],
     tilesetBlobs: state.tilesetBlobs ?? {},
     stamps: state.stamps ?? [],
@@ -108,134 +94,100 @@ async function baseProps(): Promise<
     shops: state.shops ?? [],
     skillList: state.skills ?? [],
     scenes: state.scenes ?? [],
-    manifest: {
-      id: 'test',
-      name: 'test',
-      contentVersion: 20,
-      minimumSaveVersion: 8,
-      defaultEntryId: 'main',
-      content: {},
-      assets: { catalog: 'assets/index.json', roles: {} },
-      entryPoints: [
-        {
-          id: 'main',
-          label: '主要入口',
-          scene: 'scene-a',
-          startWorld: { party: [], money: 0, inventory: [] },
-        },
-      ],
-    },
+    manifest: state.manifest,
     projectIssues: [],
     projectDiagnosticsStatus: 'current',
     projectReferenceStatus: 'current',
-    getCurrentProjectReferenceIndex: undefined as never,
+    getCurrentProjectReferenceIndex: collectCurrentProjectReferenceIndex,
     onOpenProjectReference: vi.fn(),
     actors: [],
     onJumpToEvent: vi.fn(),
     tabBar: <div data-testid="tab-bar" />,
   }
+  return { props, session, scriptSession }
 }
 
-describe('A03 DataMode 委派', () => {
+async function rerender(props: ComponentProps<typeof DataMode>): Promise<void> {
+  await act(async () => root.render(<DataMode {...props} />))
+}
+
+describe('A03 DataMode 委派（真实挂载）', () => {
   test('scripts 页在真实脚本会话下挂载可复用脚本目录与工作区', async () => {
-    const session = new EditSession((await loadLegalUiProject('glm-large-wave-scripts')).state)
-    await act(async () =>
-      root.render(
-        <DataMode
-          {...(await baseProps())}
-          tab="scripts"
-          session={session}
-          script={{
-            state: scriptState,
-            session: new ScriptEditSession(scriptState),
-          }}
-        />,
-      ),
-    )
+    const { props, scriptSession } = await mounted()
+    await rerender({
+      ...props,
+      tab: 'scripts',
+      script: { state: scriptState, session: scriptSession },
+    })
     expect(host.querySelector('[data-testid="tab-bar"]')).not.toBeNull()
     expect(host.textContent).toContain('开宝箱')
     expect(host.textContent).toContain('shared/user/chest')
     expect(host.textContent).not.toContain('无法加载可复用脚本')
   })
 
-  test('sprite 战斗域切回世界域时回退到首个定义与 definition 视图', async () => {
-    const onSpriteLocation = vi.fn()
-    const props = await baseProps()
+  test('sprite 页经真实大世界库切到战斗域，再切回世界域，回调带稳定 id', async () => {
+    const { props } = await mounted()
     const battleFirst = props.battleSprites[0]?.id
     const worldFirst = props.sprites[0]?.id
     expect(battleFirst, 'fixture requires battle sprites').toBeDefined()
     expect(worldFirst, 'fixture requires world sprites').toBeDefined()
-    await act(async () =>
-      root.render(
-        <DataMode
-          {...props}
-          tab="sprite"
-          session={new EditSession((await loadLegalUiProject('glm-large-wave-sprite')).state)}
-          onSpriteLocation={onSpriteLocation}
-        />,
-      ),
+    const onSpriteLocation = vi.fn()
+    await rerender({ ...props, tab: 'sprite', onSpriteLocation })
+    expect(host.textContent).toContain('大世界精灵')
+    const battleTab = [...host.querySelectorAll<HTMLButtonElement>('[role="tab"]')].find(
+      (candidate) => candidate.textContent?.trim() === '战斗',
     )
-    expect(host.querySelector('[data-testid="world-library"]')).not.toBeNull()
-    const worldProps = probes.world.at(-1)! as { onBattleDomain: () => void }
-    worldProps.onBattleDomain()
+    expect(battleTab, 'world library exposes the battle domain tab').toBeDefined()
+    await act(async () => battleTab!.click())
     expect(onSpriteLocation).toHaveBeenCalledWith('battle', 'definition', battleFirst)
     await act(async () => {})
-    const battleProps = probes.battle.at(-1)! as { onWorldDomain: () => void }
-    battleProps.onWorldDomain()
+    expect(host.textContent).toContain('战斗精灵')
+    const worldTab = [...host.querySelectorAll<HTMLButtonElement>('[role="tab"]')].find(
+      (candidate) => candidate.textContent?.trim() === '大世界',
+    )
+    expect(worldTab, 'battle library exposes the world domain tab').toBeDefined()
+    await act(async () => worldTab!.click())
     expect(onSpriteLocation).toHaveBeenLastCalledWith('world', 'definition', worldFirst)
   })
 
   test('sprite 域切换在无 onSpriteLocation 时兜底 onObjectFocus', async () => {
+    const { props } = await mounted()
     const onObjectFocus = vi.fn()
-    await act(async () =>
-      root.render(
-        <DataMode
-          {...(await baseProps())}
-          tab="sprite"
-          session={new EditSession((await loadLegalUiProject('glm-large-wave-focus')).state)}
-          onObjectFocus={onObjectFocus}
-        />,
-      ),
+    await rerender({ ...props, tab: 'sprite', onObjectFocus })
+    const battleTab = [...host.querySelectorAll<HTMLButtonElement>('[role="tab"]')].find(
+      (candidate) => candidate.textContent?.trim() === '战斗',
     )
-    const worldProps = probes.world.at(-1)! as { onBattleDomain: () => void }
-    await act(async () => worldProps.onBattleDomain())
+    await act(async () => battleTab!.click())
     expect(onObjectFocus).toHaveBeenCalledWith(expect.any(String))
   })
 
-  test('shop 页 isProjectDirty 合成主会话与脚本会话脏态', async () => {
-    const session = new EditSession((await loadLegalUiProject('glm-large-wave-shop')).state)
-    const scriptSession = new ScriptEditSession(scriptState)
-    await act(async () =>
-      root.render(
-        <DataMode
-          {...(await baseProps())}
-          tab="shop"
-          session={session}
-          script={{ state: scriptState, session: scriptSession }}
-        />,
-      ),
+  test('shop 页经真实试买弹窗合成主会话与脚本会话脏态为保存提示', async () => {
+    const { props, session, scriptSession } = await mounted()
+    const shopProps = { ...props, shops: validateShops([{ id: 2, items: [] }]) }
+    const renderShop = (): Promise<void> =>
+      rerender({
+        ...shopProps,
+        tab: 'shop',
+        script: { state: scriptState, session: scriptSession },
+      })
+    await renderShop()
+    await act(async () => host.querySelector<HTMLButtonElement>('.ds-catalog-row')!.click())
+    const trial = [...host.querySelectorAll<HTMLButtonElement>('button')].find(
+      (candidate) => candidate.textContent === '独立试买',
     )
-    const shopProps = probes.shop.at(-1)! as { isProjectDirty: () => boolean }
-    expect(shopProps.isProjectDirty()).toBe(false)
+    expect(trial, 'selected shop exposes the trial-buy action').toBeDefined()
+    await act(async () => trial!.click())
+    expect(host.textContent).not.toContain('请先保存项目，再试买。')
     scriptSession.dispatch(
       new AddSharedScriptCommand('shared/user/more', { name: '追加', self: 'none', body: [] }),
     )
-    expect(shopProps.isProjectDirty()).toBe(true)
-
-    const fresh = new EditSession((await loadLegalUiProject('glm-large-wave-shop')).state)
-    await act(async () =>
-      root.render(
-        <DataMode
-          {...(await baseProps())}
-          tab="shop"
-          session={fresh}
-          script={{ state: scriptState, session: new ScriptEditSession(scriptState) }}
-        />,
-      ),
-    )
-    const freshShopProps = probes.shop.at(-1)! as { isProjectDirty: () => boolean }
-    fresh.dispatch(new AddAmbienceCommand('dusk', '黄昏'))
-    expect(freshShopProps.isProjectDirty()).toBe(true)
-    expect(fresh.isDirty()).toBe(true)
+    await renderShop()
+    expect(host.textContent).toContain('请先保存项目，再试买。')
+    scriptSession.markSaved()
+    await renderShop()
+    expect(host.textContent).not.toContain('请先保存项目，再试买。')
+    session.dispatch(new AddAmbienceCommand('dusk', '黄昏'))
+    await renderShop()
+    expect(host.textContent).toContain('请先保存项目，再试买。')
   })
 })

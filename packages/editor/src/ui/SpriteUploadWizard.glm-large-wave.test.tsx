@@ -9,7 +9,13 @@
 import { act } from 'react'
 import { createRoot, type Root } from 'react-dom/client'
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
+import { spyCanvas2dPort } from '../__tests__/glm-large-wave/canvas-2d-port.js'
+import { EditSession } from '../core/edit-session.js'
+import { stubNodeTestHost } from './__tests__/glm-leaf-workflows/node-bridge.js'
+import { loadLegalUiProject } from './__tests__/glm-ui-wave-kit.js'
 import { SpriteUploadWizard } from './SpriteUploadWizard.js'
+
+let legal: Awaited<ReturnType<typeof loadLegalUiProject>>
 
 const reforgeMocks = vi.hoisted(() => ({
   quantizeToRleFrame: vi.fn(() => ({ width: 1, height: 1 })),
@@ -37,23 +43,20 @@ const HEIGHT = 20
 let root: Root
 let host: HTMLDivElement
 
-beforeEach(() => {
+beforeEach(async () => {
+  await stubNodeTestHost()
+  legal ??= await loadLegalUiProject('glm-large-wave-wizard')
   ;(globalThis as { IS_REACT_ACT_ENVIRONMENT?: boolean }).IS_REACT_ACT_ENVIRONMENT = true
   host = document.createElement('div')
   document.body.append(host)
   root = createRoot(host)
-  vi.spyOn(HTMLCanvasElement.prototype, 'getContext').mockImplementation(
-    () =>
-      ({
-        clearRect: vi.fn(),
-        drawImage: vi.fn(),
-        getImageData: vi.fn(() => {
-          const data = new Uint8ClampedArray(WIDTH * HEIGHT * 4)
-          for (let index = 3; index < data.length; index += 4) data[index] = 255
-          return { data, width: WIDTH, height: HEIGHT }
-        }),
-      }) as never,
-  )
+  spyCanvas2dPort({
+    getImageData: vi.fn(() => {
+      const data = new Uint8ClampedArray(WIDTH * HEIGHT * 4)
+      for (let index = 3; index < data.length; index += 4) data[index] = 255
+      return { data, width: WIDTH, height: HEIGHT }
+    }),
+  })
   vi.spyOn(HTMLCanvasElement.prototype, 'toDataURL').mockReturnValue('data:image/png;base64,AA==')
   Object.defineProperty(globalThis, 'createImageBitmap', {
     configurable: true,
@@ -101,8 +104,8 @@ describe('A05 动作帧行网格推导', () => {
       root.render(
         <SpriteUploadWizard
           sprites={[]}
-          assetBase={{} as never}
-          session={{} as never}
+          assetBase={legal.assetBase}
+          session={new EditSession(legal.state)}
           onDone={vi.fn()}
         />,
       ),
@@ -120,8 +123,8 @@ describe('A05 动作帧行网格推导', () => {
       root.render(
         <SpriteUploadWizard
           sprites={[]}
-          assetBase={{} as never}
-          session={{} as never}
+          assetBase={legal.assetBase}
+          session={new EditSession(legal.state)}
           onDone={vi.fn()}
         />,
       ),

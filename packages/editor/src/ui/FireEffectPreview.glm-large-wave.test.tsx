@@ -9,6 +9,7 @@
 import { act } from 'react'
 import { createRoot, type Root } from 'react-dom/client'
 import { afterEach, beforeEach, expect, test, vi } from 'vitest'
+import { spyCanvas2dPort } from '../__tests__/glm-large-wave/canvas-2d-port.js'
 import { stubNodeTestHost } from './__tests__/glm-leaf-workflows/node-bridge.js'
 import { deferred, previewCacheFixture } from './__tests__/preview-cache-fixture.js'
 import { FireEffectPreview } from './FireEffectPreview.js'
@@ -22,20 +23,14 @@ beforeEach(async () => {
   host = document.createElement('div')
   document.body.append(host)
   root = createRoot(host)
-  vi.spyOn(HTMLCanvasElement.prototype, 'getContext').mockImplementation(
-    () =>
-      ({
-        clearRect: vi.fn(),
-        drawImage: vi.fn(),
-        imageSmoothingEnabled: false,
-        createImageData: (width: number, height: number) => ({
-          width,
-          height,
-          data: new Uint8ClampedArray(width * height * 4),
-        }),
-        putImageData: vi.fn(),
-      }) as unknown as CanvasRenderingContext2D,
-  )
+  spyCanvas2dPort({
+    createImageData: (width: number, height: number) => ({
+      width,
+      height,
+      data: new Uint8ClampedArray(width * height * 4),
+    }),
+    putImageData: vi.fn(),
+  })
 })
 
 afterEach(async () => {

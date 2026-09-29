@@ -2,7 +2,6 @@
  * A 批隔离功能视觉驱动：命令表单清除/取消 + 音效选择缺失恢复。
  * 仅操作本仓 6086 隔离宿主；截图写 /tmp/type-pal-glm-large-wave/，证据 JSON 写回本目录。
  */
-import { createHash } from 'node:crypto'
 import { mkdirSync, writeFileSync } from 'node:fs'
 import { createRequire } from 'node:module'
 
@@ -90,5 +89,10 @@ evidence.captures.push({
 })
 
 await browser.close()
-writeFileSync(new URL('./evidence-browser-a.json', import.meta.url), JSON.stringify(evidence, null, 2))
-console.log(JSON.stringify({ consoleErrors, actuals: evidence.captures.map((c) => c.actual) }, null, 2))
+writeFileSync(
+  new URL('./evidence-browser-a.json', import.meta.url),
+  JSON.stringify(evidence, null, 2),
+)
+console.log(
+  JSON.stringify({ consoleErrors, actuals: evidence.captures.map((c) => c.actual) }, null, 2),
+)

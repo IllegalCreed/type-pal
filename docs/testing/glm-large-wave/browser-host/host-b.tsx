@@ -77,10 +77,10 @@ function SessionSection() {
         <output data-version>{session.getHistoryVersion()}</output>
       </p>
       <div style={{ display: 'flex', gap: 8 }}>
-        <button data-action="undo" onClick={() => session.undo()}>
+        <button type="button" data-action="undo" onClick={() => session.undo()}>
           撤销
         </button>
-        <button data-action="redo" onClick={() => session.redo()}>
+        <button type="button" data-action="redo" onClick={() => session.redo()}>
           重做
         </button>
       </div>

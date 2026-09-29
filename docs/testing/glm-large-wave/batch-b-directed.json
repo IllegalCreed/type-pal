@@ -1,17 +1,17 @@
 [
- {
-  "file": "packages/editor/src/ui/use-editor-project-session.glm-large-wave.test.tsx",
-  "fullName": "B04 编辑器项目会话 hook 初始绑定目录时报告 local 身份与干净脏态",
-  "status": "passed"
- },
- {
-  "file": "packages/editor/src/ui/use-editor-project-session.glm-large-wave.test.tsx",
-  "fullName": "B04 编辑器项目会话 hook rename 经一次真实命令改显示名，不改文件夹身份",
-  "status": "passed"
- },
- {
-  "file": "packages/editor/src/ui/use-editor-project-session.glm-large-wave.test.tsx",
-  "fullName": "B04 编辑器项目会话 hook rename 输入原名称是 no-op，不入历史",
-  "status": "passed"
- }
+  {
+    "file": "packages/editor/src/ui/use-editor-project-session.glm-large-wave.test.ts",
+    "fullName": "B04 编辑器项目会话 hook 初始绑定目录时报告 local 身份与干净脏态",
+    "status": "passed"
+  },
+  {
+    "file": "packages/editor/src/ui/use-editor-project-session.glm-large-wave.test.ts",
+    "fullName": "B04 编辑器项目会话 hook rename 经一次真实命令改显示名，不改文件夹身份",
+    "status": "passed"
+  },
+  {
+    "file": "packages/editor/src/ui/use-editor-project-session.glm-large-wave.test.ts",
+    "fullName": "B04 编辑器项目会话 hook rename 输入原名称是 no-op，不入历史",
+    "status": "passed"
+  }
 ]

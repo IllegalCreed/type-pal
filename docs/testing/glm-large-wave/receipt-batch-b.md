@@ -1,6 +1,6 @@
 # TEST-GLM-LARGE-WAVE-4 · B 批回执（编辑器会话、索引与派生状态）
 
-- 候选 SHA：见本批提交（分支 `codex/glm-large-wave-r1`）
+- 候选 SHA（r1 本批完整提交）：`1af7883b48cc14c9a5cc002c69948560581290fa`；R2 返工以新的完整候选 SHA 为准（见返工提交）。
 - 逐条 file/fullName/status：[batch-b-directed.json](batch-b-directed.json)（3/3 passed）
 - 新增文件：`packages/editor/src/ui/use-editor-project-session.glm-large-wave.test.tsx`
   （B04 hook 专测）+ B 视觉宿主 `browser-host/{host-b.tsx,index-b.html,vite.config.b.mts,drive-b.mjs}`。
@@ -56,3 +56,6 @@ CanonicalScriptBodyEditor，不含 App 壳/保存/预览。
 ## 未证项汇总
 
 - 上述「不可达/未证」2 条；B01/B02/B03/B05/B06 按 existing-proof 处置（依据见表）。
+
+> R2（返工）：本文件改名 `.ts`（与源扩展名一致，JSX 改 createElement）；B1/B2 针已按 R2
+> 严格判据重跑 VALID；hook 侧强转清零，保存链未证项维持原状（见上文登记）。

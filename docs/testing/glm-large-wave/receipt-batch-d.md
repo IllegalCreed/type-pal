@@ -1,6 +1,6 @@
 # TEST-GLM-LARGE-WAVE-4 · D 批回执（迁移纯映射与诊断）
 
-- 候选 SHA：见本批提交（分支 `codex/glm-large-wave-r1`）
+- 候选 SHA（r1 本批完整提交）：`623aa49c10bda493a640a07f9a3028f760538180`；R2 返工以新的完整候选 SHA 为准（见返工提交）。
 - 逐条 file/fullName/status：[batch-d-directed.json](batch-d-directed.json)（9/9 passed）
 - 新增文件：`packages/migrate/src/sound-reference-audit.glm-large-wave.test.ts`（4）+
   `packages/migrate/src/pal-migration-io.glm-large-wave.test.ts`（5）+
@@ -42,3 +42,5 @@ D/E 为纯函数审计与 IO 守卫，按卡不造视觉。
   `data/extracted` 漂移时由生产迁移入口触发，属 Codex 管辖的真实数据门。
 - `loadPalMigrationSources` 的 `loadPalAssets` 资产装载段（合成树不构造完整资产文件）：
   守卫后的资产装载错误仅在第五测试中证明「非四类守卫消息」，未证其成功路径。
+
+> R2（返工）：D1/D2 针已按 R2 严格判据重跑 VALID（judge 现解析带 `|unit|` 项目标签的 FAIL 行）。

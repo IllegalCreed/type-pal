@@ -1,17 +1,25 @@
 /**
- * TEST-GLM-LARGE-WAVE-4 共用反控判据（五批共用）。
- * 用法：node needle-judge.mjs --file <候选测试文件> --name <测试名子串>
- *       --find <精确注入点> --replace <注入串> [--package editor|reforge|migrate|content]
- * 步骤：① 候选原文件按 -t 过滤运行必须 exit 0 且至少执行 1 条测试；
- *       ② 同目录临时副本注入（--find 恰好一处）后运行必须恰 exit 1，
- *          且失败 fullName 含 --name；timeout/多失败/零执行/exit2 判 invalid；
- *       ③ 全程前后对生产源码目录做 SHA256 快照，产品 hash 必须不变。
- * 临时副本跑完即删，不进提交。
+ * TEST-GLM-LARGE-WAVE-4 共用反控判据（五批共用，R2 严格版）。
+ *
+ * 用法：
+ *   node needle-judge.mjs --file <相对 repo 根的测试文件> --name <完整失败名子串>
+ *        --find <精确注入点> --replace <注入串> [--package editor|reforge|migrate|content]
+ *        [--repo-root <沙箱根，selftest 用>] [--timeout-ms <毫秒>]
+ *
+ * 严格判据（全部满足才 VALID，否则非零退出）：
+ *   ① 候选原文件整体运行（无 -t 过滤）exit 0，且 executed>0、skipped=0；
+ *   ② --find 在候选文件中恰好出现 1 次；
+ *   ③ 同目录临时副本注入后整体运行：恰 exit 1、恰 1 条 FAIL、FAIL 行确为该临时文件、
+ *      完整失败名含 --name、失败为 AssertionError、executed 与基线一致、无 skip/timeout；
+ *   ④ 注入前后生产源（<package>/src，剔除测试与 __tests__）SHA256 完全一致，
+ *      漂移即 INVALID（此门不满足绝不判 VALID）。
+ * 临时副本跑完即删，不进提交。--repo-root 仅供 selftest 在 /tmp 沙箱复跑同一判据。
  */
-import { createHash } from 'node:crypto'
+
 import { spawnSync } from 'node:child_process'
-import { existsSync, readFileSync, readdirSync, rmSync, statSync, writeFileSync } from 'node:fs'
-import { dirname, join, resolve } from 'node:path'
+import { createHash } from 'node:crypto'
+import { existsSync, readdirSync, readFileSync, rmSync, statSync, writeFileSync } from 'node:fs'
+import { dirname, join, relative as relative0, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
 function arg(name) {
@@ -19,13 +27,25 @@ function arg(name) {
   return index === -1 ? undefined : process.argv[index + 1]
 }
 
-const repoRoot = resolve(dirname(fileURLToPath(import.meta.url)), '../../..')
-const file = resolve(repoRoot, arg('file'))
+const defaultRepoRoot = resolve(dirname(fileURLToPath(import.meta.url)), '../../..')
+const repoRoot = resolve(arg('repo-root') ?? defaultRepoRoot)
+const fileRel = arg('file')
 const name = arg('name')
 const find = arg('find')
 const replace = arg('replace')
 const packageName = arg('package') ?? 'editor'
+const timeoutMs = Number(arg('timeout-ms') ?? 420_000)
 const packageDir = join(repoRoot, 'packages', packageName)
+
+function invalid(reason, extra = {}) {
+  console.log(JSON.stringify({ verdict: 'INVALID', reason, ...extra }, null, 2))
+  process.exit(2)
+}
+
+if (!fileRel || !name || !find || replace === undefined)
+  invalid('missing required args: --file/--name/--find/--replace')
+const file = resolve(repoRoot, fileRel)
+if (!existsSync(file)) invalid(`candidate file not found: ${file}`)
 
 function hashSources(dir) {
   const digest = createHash('sha256')
@@ -46,78 +66,107 @@ function hashSources(dir) {
   return digest.digest('hex')
 }
 
-function runVitest(targetFile, filter) {
-  const result = spawnSync(
-    'npx',
-    [
-      'vitest',
-      'run',
-      '--no-file-parallelism',
-      targetFile,
-      ...(filter ? ['-t', filter] : []),
-    ],
-    { cwd: packageDir, encoding: 'utf8', timeout: 420_000 },
-  )
-  return { code: result.status, output: `${result.stdout ?? ''}\n${result.stderr ?? ''}` }
+function runVitest(targetFile) {
+  // vitest 把 CLI 路径参数当 include 过滤器：必须用相对 cwd 的路径，绝对路径匹配不到任何文件。
+  const relative = join(relative0(packageDir, targetFile))
+  const result = spawnSync('npx', ['vitest', 'run', '--no-file-parallelism', relative], {
+    cwd: packageDir,
+    encoding: 'utf8',
+    timeout: timeoutMs,
+  })
+  return {
+    code: result.status,
+    timedOut: result.error?.code === 'ETIMEDOUT' || result.signal === 'SIGTERM',
+    output: `${result.stdout ?? ''}\n${result.stderr ?? ''}`,
+  }
 }
 
-function failedTestNames(output) {
-  return [...output.matchAll(/FAIL[^\n]*?> ([^\n]+)$/gm)].map((match) => match[1])
+function summary(output) {
+  // 只解析 "Tests" 汇总行（形如 "Tests  2 passed (2)" / "Tests  1 failed | 1 passed (2)"）；
+  // "Test Files" 行同样是 N passed/failed，抢先匹配会把文件数当测试数。
+  const line = /^[ \t]*Tests[ \t]+(.+)$/m.exec(output)?.[1] ?? ''
+  const passed = Number(/(\d+)[ \t]+passed/.exec(line)?.[1] ?? 0)
+  const failed = Number(/(\d+)[ \t]+failed\b/.exec(line)?.[1] ?? 0)
+  const skipped = Number(/\b(\d+)[ \t]+skipped\b/.exec(line)?.[1] ?? 0)
+  return { executed: passed + failed, skipped }
+}
+
+/** FAIL 行 → { file, fullName }；格式形如 "FAIL [tag] path > a > b"（tag 可省）。 */
+function failures(output) {
+  const result = []
+  for (const match of output.matchAll(/^[ \t]*FAIL[ \t]+(.+)$/gm)) {
+    const tokens = match[1].split(/[ \t]+/)
+    const fileIndex = tokens.findIndex((token) => /\.test\.(ts|tsx)$/.test(token))
+    if (fileIndex === -1) continue
+    const rest = tokens.slice(fileIndex + 1).join(' ')
+    if (!rest.startsWith('> ')) continue
+    result.push({ file: tokens[fileIndex], fullName: rest.slice(2) })
+  }
+  return result
 }
 
 const beforeHash = hashSources(packageDir)
 
-// ① 候选原文件对照：必须 exit 0 且真实执行。
-const baseline = runVitest(file, name)
-if (baseline.code !== 0) {
-  console.error('JUDGE INVALID: 候选原文件未 exit 0（对照失败）\n' + baseline.output.slice(-3000))
-  process.exit(2)
-}
-const executed = /Tests\s+(\d+)\s+passed/.exec(baseline.output)
-const executedCount = executed ? Number(executed[1]) : 0
-if (executedCount < 1) {
-  console.error('JUDGE INVALID: 对照运行零执行')
-  process.exit(2)
-}
+// ① 候选原文件对照：整体 exit0、真实执行、无 skip。
+const baseline = runVitest(file)
+if (baseline.timedOut) invalid('baseline run timed out')
+if (baseline.code !== 0) invalid('baseline run did not exit 0', { code: baseline.code })
+const baselineStats = summary(baseline.output)
+if (baselineStats.executed < 1) invalid('baseline executed zero tests')
+if (baselineStats.skipped !== 0)
+  invalid('baseline contains skipped tests', { skipped: baselineStats.skipped })
 
-// ② 临时副本注入：必须恰 exit 1 且失败测试名匹配。
+// ② 注入点唯一。
 const source = readFileSync(file, 'utf8')
 const occurrences = source.split(find).length - 1
-if (occurrences !== 1) {
-  console.error(`JUDGE INVALID: 注入点出现 ${occurrences} 次（要求恰好 1 次）`)
-  process.exit(2)
-}
-const needleFile = file.replace(/(\.(test\.[jt]sx?))$/, '.needle-tmp$1')
-writeFileSync(needleFile, source.replace(find, replace))
+if (occurrences !== 1) invalid(`injection site occurs ${occurrences} times (require exactly 1)`)
+
+// ③ 临时副本注入后整体运行。
+const needleFile = file.replace(/(\.test\.(?:ts|tsx))$/, '.needle-tmp$1')
+const needleBasename = needleFile.split('/').at(-1)
 let verdict
 try {
-  const injected = runVitest(needleFile, name)
-  if (injected.code === 1) {
-    const failures = failedTestNames(injected.output)
-    const matched = failures.filter((failure) => failure.includes(name))
-    const asserted = /AssertionError/.test(injected.output)
-    if (matched.length === 1 && failures.length === 1 && asserted) {
-      verdict = {
-        verdict: 'VALID',
-        fullName: matched[0],
-        baselineTests: executedCount,
-        productHashUnchanged: hashSources(packageDir) === beforeHash,
-      }
-    } else {
-      verdict = {
-        verdict: 'INVALID',
-        reason: asserted ? '失败集合不唯一' : '失败非 AssertionError（疑似 timeout/错误抛出）',
-        failures,
-      }
-    }
-  } else if (injected.code === 0) {
-    verdict = { verdict: 'INVALID', reason: '注入后仍 exit 0：断言无鉴别力' }
-  } else {
-    verdict = { verdict: 'INVALID', reason: `注入后 exit ${injected.code}（非恰 1）` }
+  writeFileSync(needleFile, source.replace(find, replace))
+  const injected = runVitest(needleFile)
+  if (injected.timedOut) invalid('injected run timed out')
+  if (injected.code === 0)
+    invalid('injected run still exits 0: assertion has no discriminating power')
+  if (injected.code !== 1) invalid(`injected run exit ${injected.code} (require exactly 1)`)
+  const injectedStats = summary(injected.output)
+  if (injectedStats.skipped !== 0)
+    invalid('injected run contains skipped tests', { skipped: injectedStats.skipped })
+  if (injectedStats.executed !== baselineStats.executed)
+    invalid('executed count changed between baseline and injected run', {
+      baseline: baselineStats.executed,
+      injected: injectedStats.executed,
+      __output: `${injected.output.slice(-2500)}\n=====BASELINE=====\n${baseline.output.slice(-2500)}`,
+    })
+  const failed = failures(injected.output)
+  if (failed.length !== 1)
+    invalid('failure set is not exactly one test', { failures: failed.map((f) => f.fullName) })
+  if (!failed[0].file.includes(needleBasename))
+    invalid('failure did not come from the injected needle file', { failedFile: failed[0].file })
+  if (!failed[0].fullName.includes(name))
+    invalid('full failure name does not contain --name', { fullName: failed[0].fullName })
+  if (!/AssertionError/.test(injected.output))
+    invalid('failure is not an AssertionError (suspect thrown error/timeout)')
+  const afterHash = hashSources(packageDir)
+  if (afterHash !== beforeHash)
+    invalid('production source hash drifted during the needle run', {
+      file: needleFile,
+      fullName: failed[0].fullName,
+    })
+  verdict = {
+    verdict: 'VALID',
+    file: needleFile,
+    fullName: failed[0].fullName,
+    baselineExecuted: baselineStats.executed,
+    injectedExecuted: injectedStats.executed,
+    productHashUnchanged: true,
   }
 } finally {
   rmSync(needleFile, { force: true })
 }
 
 console.log(JSON.stringify(verdict, null, 2))
-process.exit(verdict.verdict === 'VALID' ? 0 : 1)
+process.exit(verdict.verdict === 'VALID' ? 0 : 2)

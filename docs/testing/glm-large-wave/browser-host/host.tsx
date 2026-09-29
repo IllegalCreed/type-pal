@@ -8,11 +8,11 @@ import { validateWorldVariableRegistryV1 } from '@type-pal/content'
 import { useState } from 'react'
 import { createRoot } from 'react-dom/client'
 import { createEditorAssetReader } from '../../../../packages/editor/src/core/editor-asset-reader.js'
-import type { FileSource } from '../../../../packages/reforge/src/file-source.js'
 import { CommandForm } from '../../../../packages/editor/src/ui/CommandForm.js'
+import { DsButton } from '../../../../packages/editor/src/ui/design-system/index.js'
 import { CanonicalScriptDialog } from '../../../../packages/editor/src/ui/ScriptEditor.js'
 import { SoundPicker } from '../../../../packages/editor/src/ui/SoundPicker.js'
-import { DsButton } from '../../../../packages/editor/src/ui/design-system/index.js'
+import type { FileSource } from '../../../../packages/reforge/src/file-source.js'
 import '../../../../packages/editor/src/ui/design-system/index.css'
 import '../../../../packages/editor/src/ui/editor.css'
 
@@ -87,15 +87,21 @@ function CommandFormSection() {
   return (
     <section data-visual="command-form" style={{ display: 'grid', gap: 12 }}>
       <h2>命令表单：清除 / 取消</h2>
-      <p>当前已保存值：<output data-committed>{committed}</output></p>
-      <DsButton onClick={() => setOpen(true)} data-action="open-form">打开表单</DsButton>
+      <p>
+        当前已保存值：<output data-committed>{committed}</output>
+      </p>
+      <DsButton onClick={() => setOpen(true)} data-action="open-form">
+        打开表单
+      </DsButton>
       {open ? (
         <CanonicalScriptDialog
           title="修改变量"
           onClose={discardAndClose}
           footer={
             <>
-              <DsButton data-action="cancel" onClick={discardAndClose}>取消</DsButton>
+              <DsButton data-action="cancel" onClick={discardAndClose}>
+                取消
+              </DsButton>
               <DsButton
                 variant="primary"
                 data-action="commit"
@@ -134,12 +140,7 @@ function SoundSection() {
   return (
     <section data-visual="sound-picker" style={{ display: 'grid', gap: 12 }}>
       <h2>音效选择：缺失恢复</h2>
-      <SoundPicker
-        value={value}
-        catalog={soundCatalog}
-        reader={reader}
-        onChange={setValue}
-      />
+      <SoundPicker value={value} catalog={soundCatalog} reader={reader} onChange={setValue} />
       <output data-sound-value>{value ?? '(未选)'}</output>
     </section>
   )

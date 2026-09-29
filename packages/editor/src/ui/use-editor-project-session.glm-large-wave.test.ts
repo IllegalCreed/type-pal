@@ -6,7 +6,7 @@
  * 全链路由 author-save-journal.test 51 例在同样内存 FSA+IDB 替身环境专测；hook 侧直挂保存
  * 全链在替身环境触发一个空消息错误（疑似 editor/battle-simulator.json 移除路径），登记回执未证。
  */
-import { act, useSyncExternalStore } from 'react'
+import { act, createElement, useSyncExternalStore } from 'react'
 import { createRoot, type Root } from 'react-dom/client'
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
 import { memoryAuthorDirectory } from '../core/__tests__/author-save-fixture.js'
@@ -168,7 +168,7 @@ async function mountedSession(options: { failManifestWrite?: boolean } = {}) {
     return null
   }
   const off = guard.connect()
-  await act(async () => root.render(<Harness />))
+  await act(async () => root.render(createElement(Harness)))
   if (!latest) throw new Error('hook did not initialize')
   return { latest, main, script, disk, guard, release: off, rawSource, fsa }
 }

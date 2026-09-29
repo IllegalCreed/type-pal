@@ -1,6 +1,6 @@
 # TEST-GLM-LARGE-WAVE-4 · C 批回执（Reforge 脚本与演出助手）
 
-- 候选 SHA：见本批提交（分支 `codex/glm-large-wave-r1`）
+- 候选 SHA（r1 本批完整提交）：`0e05c34610fdc6a6c704a0061b21ed9d5fe67edf`；R2 返工以新的完整候选 SHA 为准（见返工提交）。
 - 逐条 file/fullName/status：[batch-c-directed.json](batch-c-directed.json)（7/7 passed）
 - 新增文件：`packages/reforge/src/script-chunk-store.glm-large-wave.test.ts`（5）、
   `packages/reforge/src/dialog/dialog-box.glm-large-wave.test.ts`（2）
@@ -54,3 +54,5 @@ URL `http://127.0.0.1:6088/index-c.html`；直挂范围声明：真实 DialogBox
 ## 未证项汇总
 
 - 上述视觉字形替身 1 条；其余 10 个源文件按 existing-proof 处置（依据见表）。
+
+> R2（返工）：C1/C2 针已按 R2 严格判据重跑 VALID；script-chunk-store 测试格式化至零诊断。

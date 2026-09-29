@@ -5,11 +5,7 @@
  * 无任何直接测试。本文件只补其 N2 同语义：提示 chunk 命中、错误提示下按稳定 id 重推导、
  * chunk 缺失与 script id 缺失的显式诊断、进入即拒的 AbortError。
  */
-import {
-  checkScriptLibrary,
-  normalizeScriptLibrary,
-  type ScriptIndexV1,
-} from '@type-pal/content'
+import { checkScriptLibrary, normalizeScriptLibrary, type ScriptIndexV1 } from '@type-pal/content'
 import { describe, expect, test } from 'vitest'
 import { MemoryScriptResolver } from './script-chunk-store.js'
 

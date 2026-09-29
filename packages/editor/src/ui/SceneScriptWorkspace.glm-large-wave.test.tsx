@@ -9,8 +9,14 @@ import type { AuthorSceneDef, SceneDef } from '@type-pal/content'
 import { act } from 'react'
 import { createRoot, type Root } from 'react-dom/client'
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
+import { createEditorAssetReader } from '../core/editor-asset-reader.js'
 import type { ScriptEditorState } from '../core/script-editor.js'
+import { stubNodeTestHost } from './__tests__/glm-leaf-workflows/node-bridge.js'
+import { loadLegalUiProject } from './__tests__/glm-ui-wave-kit.js'
 import { CanonicalSceneScriptWorkspace } from './SceneScriptWorkspace.js'
+
+/** 合法工程真实资产端口：locale/assetBase/mapIndex/catalog/reader 全部当前构造。 */
+let legal: Awaited<ReturnType<typeof loadLegalUiProject>>
 
 type PreviewProbeProps = {
   timing?: 'interactive' | 'auto'
@@ -119,7 +125,8 @@ const state: ScriptEditorState = {
 let host: HTMLDivElement
 let root: Root
 
-beforeEach(() => {
+beforeEach(async () => {
+  await stubNodeTestHost()
   ;(globalThis as { IS_REACT_ACT_ENVIRONMENT?: boolean }).IS_REACT_ACT_ENVIRONMENT = true
   vi.stubGlobal(
     'ResizeObserver',
@@ -159,6 +166,7 @@ const scriptTab = (label: string): HTMLButtonElement => {
 }
 
 async function renderWorkspace(selectedEntityId: string | null): Promise<void> {
+  legal ??= await loadLegalUiProject('glm-large-wave-workspace')
   await act(async () =>
     root.render(
       <CanonicalSceneScriptWorkspace
@@ -166,15 +174,15 @@ async function renderWorkspace(selectedEntityId: string | null): Promise<void> {
         state={state}
         selectedEntityId={selectedEntityId}
         leaderSpriteId={undefined}
-        locale={{} as never}
-        sprites={[]}
+        locale={legal.state.locale}
+        sprites={legal.state.sprites ?? []}
         actorsById={{}}
-        assetBase={{} as never}
-        projectMaps={{}}
-        mapIndex={{} as never}
-        tilesets={[]}
-        assetCatalog={{} as never}
-        assetReader={{} as never}
+        assetBase={legal.assetBase}
+        projectMaps={legal.state.maps}
+        mapIndex={legal.state.mapIndex}
+        tilesets={legal.state.tilesets ?? []}
+        assetCatalog={legal.state.assetCatalog}
+        assetReader={createEditorAssetReader(legal.source, legal.state)}
         playIdentity={{
           projectId: 'test',
           workspaceId: '11111111-1111-4111-8111-111111111111',

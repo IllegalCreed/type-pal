@@ -11,9 +11,19 @@ import type { RleFrame } from '@type-pal/reforge'
 import { act, useSyncExternalStore } from 'react'
 import { createRoot, type Root } from 'react-dom/client'
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
+import { spyCanvas2dPort } from '../__tests__/glm-large-wave/canvas-2d-port.js'
 import { EditSession } from '../core/edit-session.js'
+import { stubNodeTestHost } from './__tests__/glm-leaf-workflows/node-bridge.js'
+import { loadLegalUiProject } from './__tests__/glm-ui-wave-kit.js'
 import { catalogControlsEditorState } from './catalog-controls-test-utils.js'
 import { EnemyAnimPreview } from './EnemyAnimPreview.js'
+
+/** 合法工程的真实 AssetBase；懒加载一次，全套用例共享。 */
+let legalBase: Promise<import('@type-pal/reforge').AssetBase> | undefined
+function legalAssetBase(): Promise<import('@type-pal/reforge').AssetBase> {
+  legalBase ??= loadLegalUiProject('glm-large-wave-enemy').then((legal) => legal.assetBase)
+  return legalBase
+}
 
 const mocks = vi.hoisted(() => ({
   loadDefinition: vi.fn(),
@@ -53,9 +63,24 @@ function enemyFor(battleSprite: string): EnemyDef {
     name: 'enemy.test.name',
     battleSprite,
     yPosOffset: 0,
-    stats: {} as never,
-    ai: {} as never,
-    sounds: {} as never,
+    stats: {
+      health: 10,
+      level: 1,
+      exp: 1,
+      cash: 1,
+      attackStrength: 2,
+      magicStrength: 2,
+      defense: 2,
+      dexterity: 2,
+      fleeRate: 0,
+      physicalResistance: 0,
+      poisonResistance: 0,
+      elemResistance: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 },
+      dualMove: false,
+      collectValue: 0,
+    },
+    ai: { resistanceToSorcery: 0 },
+    sounds: {},
   }
 }
 
@@ -105,7 +130,11 @@ function harnessEnv() {
     readRoleBytes: async () => new ArrayBuffer(0),
     urlFor: async () => '',
   }
-  function Harness(props: { enemy: EnemyDef; definitions: BattleSpriteDef[] }) {
+  function Harness(props: {
+    enemy: EnemyDef
+    definitions: BattleSpriteDef[]
+    assetBase: Awaited<ReturnType<typeof legalAssetBase>>
+  }) {
     useSyncExternalStore(
       (listener) => session.subscribe(listener),
       () => session.getVersion(),
@@ -114,7 +143,7 @@ function harnessEnv() {
       <EnemyAnimPreview
         enemy={props.enemy}
         definitions={props.definitions}
-        assetBase={{} as never}
+        assetBase={props.assetBase}
         assetReader={reader}
         session={session}
         referenceIndex={undefined}
@@ -125,13 +154,14 @@ function harnessEnv() {
       />
     )
   }
-  return { Harness, session, reader }
+  return { Harness, session, reader, HarnessWithBase: Harness }
 }
 
 let host: HTMLDivElement
 let root: Root
 
-beforeEach(() => {
+beforeEach(async () => {
+  await stubNodeTestHost()
   ;(globalThis as { IS_REACT_ACT_ENVIRONMENT?: boolean }).IS_REACT_ACT_ENVIRONMENT = true
   host = document.createElement('div')
   document.body.append(host)
@@ -144,11 +174,7 @@ beforeEach(() => {
     canvas.height = 1
     return canvas
   })
-  vi.spyOn(HTMLCanvasElement.prototype, 'getContext').mockReturnValue({
-    clearRect: vi.fn(),
-    drawImage: vi.fn(),
-    imageSmoothingEnabled: true,
-  } as unknown as CanvasRenderingContext2D)
+  spyCanvas2dPort({ imageSmoothingEnabled: true })
 })
 
 afterEach(async () => {
@@ -164,7 +190,13 @@ describe('A06 敌人动画预览', () => {
   test('定义缺失给出显式失败而不是空白画布', async () => {
     const { Harness } = harnessEnv()
     await act(async () =>
-      root.render(<Harness enemy={enemyFor('battle.enemy.missing')} definitions={[first]} />),
+      root.render(
+        <Harness
+          enemy={enemyFor('battle.enemy.missing')}
+          definitions={[first]}
+          assetBase={await legalAssetBase()}
+        />,
+      ),
     )
     await act(async () => Promise.resolve())
     const error = host.querySelector('.err')
@@ -178,7 +210,13 @@ describe('A06 敌人动画预览', () => {
     const { Harness } = harnessEnv()
     const orphan = definition('battle.enemy.c', 'battle-sprite.missing')
     await act(async () =>
-      root.render(<Harness enemy={enemyFor('battle.enemy.c')} definitions={[orphan]} />),
+      root.render(
+        <Harness
+          enemy={enemyFor('battle.enemy.c')}
+          definitions={[orphan]}
+          assetBase={await legalAssetBase()}
+        />,
+      ),
     )
     await act(async () => Promise.resolve())
     expect(mocks.loadDefinition).not.toHaveBeenCalled()
@@ -189,7 +227,15 @@ describe('A06 敌人动画预览', () => {
   test('无施法帧与 0 tick 动作给出对应提示', async () => {
     const { Harness } = harnessEnv()
     mocks.loadDefinition.mockResolvedValue({ sprite: { frames: frame(2) } })
-    await act(async () => root.render(<Harness enemy={enemyFor(first.id)} definitions={[first]} />))
+    await act(async () =>
+      root.render(
+        <Harness
+          enemy={enemyFor(first.id)}
+          definitions={[first]}
+          assetBase={await legalAssetBase()}
+        />,
+      ),
+    )
     await act(async () => Promise.resolve())
     const modeButton = (label: string): HTMLButtonElement =>
       [...host.querySelectorAll<HTMLButtonElement>('.ea-modes button')].find(
@@ -208,18 +254,31 @@ describe('A06 敌人动画预览', () => {
     const firstLoad = new Promise<{ sprite: { frames: RleFrame[] } }>((done) => {
       releaseFirst = done
     })
-    mocks.loadDefinition.mockImplementation((_cache, _reader, definitionArg) =>
-      (definitionArg as BattleSpriteDef).id === first.id
-        ? firstLoad
-        : Promise.resolve({ sprite: { frames: frame(3) } }),
+    mocks.loadDefinition.mockImplementation(
+      (_cache: unknown, _reader: unknown, definitionArg: BattleSpriteDef) =>
+        definitionArg.id === first.id
+          ? firstLoad
+          : Promise.resolve({ sprite: { frames: frame(3) } }),
     )
     await act(async () =>
-      root.render(<Harness enemy={enemyFor(first.id)} definitions={[first, second]} />),
+      root.render(
+        <Harness
+          enemy={enemyFor(first.id)}
+          definitions={[first, second]}
+          assetBase={await legalAssetBase()}
+        />,
+      ),
     )
     await act(async () => Promise.resolve())
     expect(frameTag()).not.toContain('帧')
     await act(async () =>
-      root.render(<Harness enemy={enemyFor(second.id)} definitions={[first, second]} />),
+      root.render(
+        <Harness
+          enemy={enemyFor(second.id)}
+          definitions={[first, second]}
+          assetBase={await legalAssetBase()}
+        />,
+      ),
     )
     await act(async () => Promise.resolve())
     // 旧加载此刻才完成：其 2 帧结果不得覆盖 second 的 3 帧归属。

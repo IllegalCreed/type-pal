@@ -10,6 +10,7 @@ import { act } from 'react'
 import { createRoot, type Root } from 'react-dom/client'
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
 import { EditSession } from '../core/edit-session.js'
+import { createEditorAssetReader } from '../core/editor-asset-reader.js'
 import { AddStampTemplateCommand } from '../core/stamp-commands.js'
 import { stubNodeTestHost } from './__tests__/glm-leaf-workflows/node-bridge.js'
 import { loadLegalUiProject } from './__tests__/glm-ui-wave-kit.js'
@@ -61,13 +62,15 @@ async function stampSession(): Promise<{
   session: EditSession
   tilesetBlobs: Record<string, ArrayBuffer>
   state: Awaited<ReturnType<typeof loadLegalUiProject>>['state']
+  legal: Awaited<ReturnType<typeof loadLegalUiProject>>
 }> {
-  const { state } = await loadLegalUiProject('glm-large-wave-stamp')
+  const legal = await loadLegalUiProject('glm-large-wave-stamp')
+  const { state } = legal
   const session = new EditSession(state)
   const tilesetId = (state.tilesets ?? [])[0]!.id
   session.dispatch(new AddStampTemplateCommand(template('tree-stamp', tilesetId)))
   session.dispatch(new AddStampTemplateCommand(template('shrub-stamp', tilesetId)))
-  return { session, tilesetBlobs: {}, state }
+  return { session, tilesetBlobs: {}, state, legal }
 }
 
 const selectedRow = (element: HTMLElement): string | undefined =>
@@ -75,12 +78,12 @@ const selectedRow = (element: HTMLElement): string | undefined =>
 
 describe('A05 StampLibraryTab 深链', () => {
   test('focusObjectId 决定初始选中并随 prop 跟随', async () => {
-    const { session, state } = await stampSession()
+    const { session, state, legal } = await stampSession()
     const base = {
       tilesets: state.tilesets ?? [],
       assetCatalog: state.assetCatalog,
-      assetReader: {} as never,
-      assetBase: {} as never,
+      assetReader: createEditorAssetReader(legal.source, state),
+      assetBase: legal.assetBase,
       session,
       mapIndex: state.mapIndex,
     }
