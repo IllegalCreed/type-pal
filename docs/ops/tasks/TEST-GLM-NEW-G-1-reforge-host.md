@@ -1,6 +1,6 @@
 # TEST-GLM-NEW-G-1 — Reforge 战斗与场景宿主边界
 
-Status: rework
+Status: review
 Owner: GLM Wave G（仅本 wave 单一测试 Coding Owner）
 Reviewer: Codex（独立验收、选择性集成、统一质量/覆盖门）
 Phase: phase2
@@ -77,7 +77,7 @@ docs/ops/tasks/TEST-GLM-NEW-G-1-reforge-host.md、docs/testing/glm-new-waves/REA
 截图 hash/console（如要求）、未证/真实红项。你不合 main、不标 done；Codex 独立验收。
 ```
 
-## 下一位 Agent 提示词：GLM Wave G 返工
+## 历史 GLM Wave G 返工提示词（已执行）
 
 ```text
 你仍是 TEST-GLM-NEW-G-1 测试 Coding Owner。只在
@@ -93,3 +93,11 @@ docs/testing/glm-new-waves/codex-review-G-07140f75.md。清零完整 lint 7 erro
 复跑定向+相邻、reforge typecheck、完整 lint 零诊断、docs/diff，推送新 SHA。
 你不合 main、不标 done；Codex 独立再审。
 ```
+
+## 2026-09-29 Codex r2 候选验收
+
+候选 `fd1189a314e96863f052439cd1d33b01f1e2951d` **代码候选 accept**，
+见[独立验收回执](../../testing/glm-new-waves/codex-accept-G-r2-fd1189a3.md)。
+状态为 `review`，尚未合 main；父级共享导航、视觉 console 未证项与统一
+`pnpm check`、官方 ratchet、受保护 fast、正式覆盖收益待 Codex 并集成门。
+无下一位 GLM 提示词。
