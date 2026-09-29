@@ -1,9 +1,10 @@
 # TEST-GLM-LARGE-WAVE-4 · B 批回执（编辑器会话、索引与派生状态）
 
-- 候选 SHA（r1 本批完整提交）：`1af7883b48cc14c9a5cc002c69948560581290fa`；R2 返工以新的完整候选 SHA 为准（见返工提交）。
+- 候选 SHA（r1 本批完整提交）：`1af7883b48cc14c9a5cc002c69948560581290fa`；
+  R2 返工完整候选：`031b3e479e18bf1add1d5b559716172cfb7c031f`；R3 窄返工候选：本次推送提交（完整 SHA 见推送输出与最终回执）。
 - 逐条 file/fullName/status：[batch-b-directed.json](batch-b-directed.json)（3/3 passed）
-- 新增文件：`packages/editor/src/ui/use-editor-project-session.glm-large-wave.test.tsx`
-  （B04 hook 专测）+ B 视觉宿主 `browser-host/{host-b.tsx,index-b.html,vite.config.b.mts,drive-b.mjs}`。
+- 新增文件：`packages/editor/src/ui/use-editor-project-session.glm-large-wave.test.ts`
+  （B04 hook 专测；R2 改名 `.tsx`→`.ts` 与源扩展名一致，JSX 改 createElement）+ B 视觉宿主 `browser-host/{host-b.tsx,index-b.html,vite.config.b.mts,drive-b.mjs}`。
 - 门禁：editor `tsc --noEmit` 0 诊断；新增文件 Biome error/warning/info 全零；
   `node scripts/docs/check.mjs` PASS；`git diff --check` 干净。
 
@@ -57,5 +58,7 @@ CanonicalScriptBodyEditor，不含 App 壳/保存/预览。
 
 - 上述「不可达/未证」2 条；B01/B02/B03/B05/B06 按 existing-proof 处置（依据见表）。
 
-> R2（返工）：本文件改名 `.ts`（与源扩展名一致，JSX 改 createElement）；B1/B2 针已按 R2
-> 严格判据重跑 VALID；hook 侧强转清零，保存链未证项维持原状（见上文登记）。
+> R2（返工，候选 `031b3e479e18bf1add1d5b559716172cfb7c031f`）：本文件改名 `.ts`（与源扩展名一致，JSX 改 createElement）；B1/B2 针按 R2 严格判据重跑 VALID；
+> hook 侧强转清零，保存链未证项维持原状（见上文登记）。
+> R3（窄返工）：B1/B2 针改用完整失败名精确相等重跑 VALID；判据所有 INVALID/异常路径先清理
+> 临时针再退出，selftest 逐例断言无 `.needle-tmp` 遗留。

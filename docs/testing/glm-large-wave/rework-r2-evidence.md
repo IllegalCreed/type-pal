@@ -1,6 +1,8 @@
 # TEST-GLM-LARGE-WAVE-4 · R2 返工逐项证据（对 codex-review-8cb0af0a.md）
 
-返工候选：`codex/glm-large-wave-r1` 新的完整 HEAD（见返工提交）；基点 `8cb0af0ad2e5952c01e8fa95144b495df4ceaecc`。
+R2 返工候选（本文档所述各项）：`031b3e479e18bf1add1d5b559716172cfb7c031f`；
+R3 窄返工候选（judge 清理/精确匹配与回执锚修正）：本次推送提交，完整 SHA 见推送输出与最终回执；
+基点（R1）：`8cb0af0ad2e5952c01e8fa95144b495df4ceaecc`。
 范围：仅原卡白名单（同目录 `.glm-large-wave.test.ts(x)`、`src/__tests__/glm-large-wave/**` fixture、
 `docs/testing/glm-large-wave/**` 工具/回执/证据/隔离宿主）；未触产品、旧测试、官方基线或 F–J。
 
@@ -56,7 +58,7 @@
 - 五份批回执补记本批完整候选 SHA（A `1429e1b1b8…`、B `1af7883b48…`、C `0e05c34610…`、
   D `623aa49c10…`、E `8cb0af0ad2…`）。
 - `README.md` 已恢复到派发基点 `ced193f4` 的原样（GLM 只读范围）。已知后果：`docs/check.mjs`
-  报 6 条「目录索引未链接」（五份回执 + 并集清单）——按审查指示留待 Codex 验收后维护链接。
+  报 7 条「目录索引未链接」（五份回执 + 并集清单 + 本证据文档）——按审查指示留待 Codex 验收后维护链接。
 
 ## 复跑门（R2 候选）
 
@@ -64,3 +66,27 @@
 - typecheck：editor / reforge / migrate 三包 `tsc --noEmit` 全部 0 诊断。
 - 完整 `pnpm lint`：PASS 0/0/0（2666 files，complete report）。
 - `git diff --check`：干净。`verify-targets.mjs`：exit 0。
+
+## R3 反控命令（可复跑；--name 为完整失败名，精确相等）
+
+判据：`node docs/testing/glm-large-wave/needle-judge.mjs <args>`；R3 起所有
+INVALID/异常路径先删除 `.needle-tmp` 临时副本再退出（selftest 逐例断言零遗留），
+FAIL 文件经 `resolve` 与被注入绝对路径全等、失败名与 `--name` 完整相等、汇总 failed 恰 1。
+
+| 针 | --file --package | --name（完整失败名） |
+|---|---|---|
+| A1 | packages/editor/src/ui/command-form-control.glm-large-wave.test.tsx（editor） | `playSound picks a catalog sound and forwards onOpenSound with the stable asset id` |
+| A2 | packages/editor/src/ui/command-form-world.glm-large-wave.test.tsx（editor） | `makeLoadScene field preservation > pos mode deep-copies the temporary position so later mutation cannot leak in` |
+| A3 | packages/editor/src/ui/EnemyAnimPreview.glm-large-wave.test.tsx（editor） | `A06 敌人动画预览 > 在途换定义时旧加载完成不得以旧帧数覆盖新选` |
+| B1 | packages/editor/src/ui/use-editor-project-session.glm-large-wave.test.ts（editor） | `B04 编辑器项目会话 hook > rename 经一次真实命令改显示名，不改文件夹身份` |
+| B2 | packages/editor/src/ui/use-editor-project-session.glm-large-wave.test.ts（editor） | `B04 编辑器项目会话 hook > 初始绑定目录时报告 local 身份与干净脏态` |
+| C1 | packages/reforge/src/script-chunk-store.glm-large-wave.test.ts（reforge） | `MemoryScriptResolver current semantics > 错误 hint 不掩盖正文：按稳定 id 重推导命中另一 chunk` |
+| C2 | packages/reforge/src/dialog/dialog-box.glm-large-wave.test.ts（reforge） | `异槽共存推进后关闭，重开单槽对话不残留旧槽渲染` |
+| D1 | packages/migrate/src/sound-reference-audit.glm-large-wave.test.ts（migrate） | `auditPalSoundReferences current ledger > 源位点与目标引用边分离记账，通道各归其类` |
+| D2 | packages/migrate/src/pal-migration-io.glm-large-wave.test.ts（migrate） | `loadPalMigrationSources source-tree guards > 场景源数量偏离 295 时停止迁移并给出精确计数` |
+| E1 | packages/content/src/validate-refs.test.ts（content） | `干净 bundle → 无 issue` |
+| E2 | packages/reforge/src/save/current-save.current-characterization.test.ts（reforge） | `current SAVE8/content20 contract > round-trips the current envelope without mutating input or resetting world values` |
+
+R3 复跑结果：11/11 VALID（输出含被注入绝对临时文件与完整失败名，跑后零 `.needle-tmp` 遗留、
+生产源 hash 不变）；`needle-judge.selftest.mjs` 9 项（好针 + 7 类 invalid 反例 + 逐例遗留断言）
+全部通过。--find/--replace 注入点原文见各批回执与提交历史（judge 要求注入点恰 1 次）。

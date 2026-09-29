@@ -5,7 +5,7 @@
  * 全部符合预期才 exit 0。
  */
 import { spawnSync } from 'node:child_process'
-import { cpSync, mkdirSync, rmSync, writeFileSync } from 'node:fs'
+import { cpSync, mkdirSync, readdirSync, rmSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { dirname, join, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
@@ -63,7 +63,21 @@ const REPLACE = 'expect(add(1, 1)).toBe(BASE + 1)'
 const NAME = 'alpha adds two numbers'
 
 let failures = 0
+function leftoverNeedles() {
+  const src = join(sandboxRoot, 'packages', 'sandbox', 'src')
+  try {
+    return readdirSync(src).filter((name) => name.includes('needle-tmp'))
+  } catch {
+    return []
+  }
+}
 function expectCase(label, condition, detail) {
+  const leftovers = leftoverNeedles()
+  if (leftovers.length > 0) {
+    failures++
+    console.error(`FAIL ${label}: leftover needle files: ${leftovers.join(', ')}`)
+    return
+  }
   if (condition) console.log(`ok   ${label}`)
   else {
     failures++
@@ -153,7 +167,7 @@ expectCase(
   'mixed double failure is INVALID',
   mixed.code !== 0 &&
     mixed.parsed?.verdict === 'INVALID' &&
-    /not exactly one/.test(mixed.parsed?.reason ?? ''),
+    /must fail exactly one test/.test(mixed.parsed?.reason ?? ''),
   JSON.stringify(mixed.parsed ?? mixed.output.slice(-600)),
 )
 
@@ -212,7 +226,7 @@ expectCase(
   'wrong --name is INVALID',
   wrongName.code !== 0 &&
     wrongName.parsed?.verdict === 'INVALID' &&
-    /does not contain --name/.test(wrongName.parsed?.reason ?? ''),
+    /does not equal --name/.test(wrongName.parsed?.reason ?? ''),
   JSON.stringify(wrongName.parsed ?? wrongName.output.slice(-600)),
 )
 
