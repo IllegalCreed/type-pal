@@ -1,0 +1,42 @@
+{
+  "schemaVersion": 1,
+  "campaign": "TEST-GLM-EVENT-WAVE-K-1",
+  "productionFreeze": "aac9443bfe81799b06afdb1787d32abf7cb43e14",
+  "baselineSha256": "ea0fcdba42f41cf4be5b41c39b15a5c399e7ec0d944d454cdd5b68c07eff40c9",
+  "profile": "fast",
+  "source": "packages/game/src/core/event-system.ts",
+  "sourceSha256": "c3332dd087e5b7b3ef5b9056c32a27d342a93d6f087c516b904ec40949868fcb",
+  "historicalUncoveredBranches": 595,
+  "groups": [
+    {
+      "id": "K01",
+      "title": "trigger 游标、子脚本及恢复",
+      "test": "packages/game/src/core/event-system.glm-event-k01.test.ts"
+    },
+    {
+      "id": "K02",
+      "title": "autoScript、onEnter 与跨帧等待",
+      "test": "packages/game/src/core/event-system.glm-event-k02.test.ts"
+    },
+    {
+      "id": "K03",
+      "title": "物品、金钱、商店及队伍状态",
+      "test": "packages/game/src/core/event-system.glm-event-k03.test.ts"
+    },
+    {
+      "id": "K04",
+      "title": "场景对象、地图与相机边界",
+      "test": "packages/game/src/core/event-system.glm-event-k04.test.ts"
+    },
+    {
+      "id": "K05",
+      "title": "对话、调色板、音画等待与消费",
+      "test": "packages/game/src/core/event-system.glm-event-k05.test.ts"
+    },
+    {
+      "id": "K06",
+      "title": "战斗/大世界脚本入口与失败门",
+      "test": "packages/game/src/core/event-system.glm-event-k06.test.ts"
+    }
+  ]
+}

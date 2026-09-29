@@ -81,6 +81,7 @@ G/I 的功能视觉与 console 后续补验也已闭合，不把这些卡的完�
 
 | ID | 任务 | 状态 | 负责人/下一步 | 一句话备注 |
 |---|---|---|---|---|
+| TEST-GLM-EVENT-WAVE-K-1 | [一阶段事件系统六组当前脚本合同补测](tasks/TEST-GLM-EVENT-WAVE-K-1-current-script-contracts.md) | build | GLM Wave K / 隔离交付，Codex 独立验收 | 1 源六组；与既有队列零交集，595 未覆盖臂只作选题线索 |
 | E2E-R4-1 | [路线驱动与检查点薄基线](tasks/E2E-R4-1-route-and-checkpoint-foundation.md) | build | Codex / 002正常移动与跨场景 | 001 verify已收口：55正文/角色/真实读档及像素；002继承真档，录制音轨另排 |
 | EDITOR-SCENE-FACING-1 | [切场景朝向清除](tasks/EDITOR-SCENE-FACING-1-clear-override.md) | draft | Codex / 后续窄修 | 保持选项仍提交旧方向；真实红诊断+单点oracle已证 |
 | ARCH-SUPPORT-GLM-1 | [八组并行架构/视觉准备](tasks/ARCH-SUPPORT-GLM-1-eight-audit-packages.md) | draft | Codex / 后续归属与收口 | 58cdf938材料accept，counter清零；文档已合入，按用户要求未标done/未开产品门 |
