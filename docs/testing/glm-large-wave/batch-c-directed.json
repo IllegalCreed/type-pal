@@ -1,0 +1,37 @@
+[
+ {
+  "file": "packages/reforge/src/script-chunk-store.glm-large-wave.test.ts",
+  "fullName": "MemoryScriptResolver current semantics 提示 chunk 命中时返回该 chunk 的正文，ref 归一到实际 chunk 且 release 幂等",
+  "status": "passed"
+ },
+ {
+  "file": "packages/reforge/src/script-chunk-store.glm-large-wave.test.ts",
+  "fullName": "MemoryScriptResolver current semantics 错误 hint 不掩盖正文：按稳定 id 重推导命中另一 chunk",
+  "status": "passed"
+ },
+ {
+  "file": "packages/reforge/src/script-chunk-store.glm-large-wave.test.ts",
+  "fullName": "MemoryScriptResolver current semantics chunk 不存在与 script id 不存在分别给出显式诊断",
+  "status": "passed"
+ },
+ {
+  "file": "packages/reforge/src/script-chunk-store.glm-large-wave.test.ts",
+  "fullName": "MemoryScriptResolver current semantics 已中止的 signal 进入即拒，不读取任何 chunk",
+  "status": "passed"
+ },
+ {
+  "file": "packages/reforge/src/script-chunk-store.glm-large-wave.test.ts",
+  "fullName": "MemoryScriptResolver current semantics 解析输入不携带正文的空 chunks 表时按 chunk 缺失拒绝",
+  "status": "passed"
+ },
+ {
+  "file": "packages/reforge/src/dialog/dialog-box.glm-large-wave.test.ts",
+  "fullName": "异槽共存推进后关闭，重开单槽对话不残留旧槽渲染",
+  "status": "passed"
+ },
+ {
+  "file": "packages/reforge/src/dialog/dialog-box.glm-large-wave.test.ts",
+  "fullName": "关闭后 advance 与 render 是无观察副作用的 noop",
+  "status": "passed"
+ }
+]

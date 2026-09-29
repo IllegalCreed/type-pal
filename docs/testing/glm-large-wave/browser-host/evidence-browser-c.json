@@ -1,0 +1,25 @@
+{
+  "url": "http://127.0.0.1:6088/index-c.html",
+  "captures": [
+    {
+      "id": "C1",
+      "title": "DialogBox：bottom 槽开场 → 推进到 top 槽共存 → 关闭清空",
+      "viewport": "1000x720",
+      "steps": [
+        "打开对话（截图 C1-dialog-bottom-slot-1000x720.png）：bottom 槽 speaker+正文",
+        "推进下一段（截图 C1-dialog-top-slot-1000x720.png）：top 槽接棒",
+        "关闭：观察清空、状态 closed"
+      ],
+      "expect": "open 后 observe.slot=bottom 且画布显示文本；advance 后 slot=top；close 后 observe=null",
+      "actual": {
+        "bottomSlot": "bottom",
+        "bottomPhase": "typing",
+        "topSlot": "top",
+        "topCueIndex": 1,
+        "closedObservation": "(closed)",
+        "closedStatus": "closed"
+      }
+    }
+  ],
+  "consoleErrors": []
+}
