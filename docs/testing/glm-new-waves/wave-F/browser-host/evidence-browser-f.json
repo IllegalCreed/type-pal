@@ -1,0 +1,36 @@
+{
+  "url": "http://127.0.0.1:6091/",
+  "viewport": ["1440x900", "1000x720"],
+  "captures": [
+    {
+      "file": "F1-script-edit-echo-1440x900.png",
+      "viewport": "1440x900",
+      "step": "双击等待命令 → 弹窗回显 ms=17 → 修改为 40（未提交）",
+      "expect": "弹窗输入回显 17，可编辑为 40",
+      "actual": "回显=17"
+    },
+    {
+      "file": "F1-script-edit-cancelled-1000x720.png",
+      "viewport": "1000x720",
+      "step": "关闭取消 → 重开同一命令弹窗",
+      "expect": "取消不留草稿：回显仍为 17",
+      "actual": "回显=17"
+    },
+    {
+      "file": "F2-uploader-failure-1440x900.png",
+      "viewport": "1440x900",
+      "step": "页面内 Canvas 生成 48×16 PNG 并经 DataTransfer 选择（picked={\"name\":\"atlas.png\",\"bytes\":151}）→ 预览 3 帧 → 帧宽改 10",
+      "expect": "先显「共 3 帧（横排逐行切）」，失败显「图 48×16 切不开（宽高须整除）」且应用禁用",
+      "actual": "healthy=共 3 帧（横排逐行切） failure=图 48×16 切不开（宽高须整除） applyDisabled=true"
+    },
+    {
+      "file": "F2-uploader-recovered-1000x720.png",
+      "viewport": "1000x720",
+      "step": "帧宽改回 16 恢复",
+      "expect": "恢复「共 3 帧（横排逐行切）」且 3 枚预览格；未点应用 → 零提交",
+      "actual": "recovered=共 3 帧（横排逐行切） thumbs=3 status=尚未应用"
+    }
+  ],
+  "consoleErrors": [],
+  "ok": true
+}
