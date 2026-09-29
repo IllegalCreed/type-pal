@@ -1,0 +1,36 @@
+{
+  "url": "http://127.0.0.1:6086/",
+  "captures": [
+    {
+      "id": "A1",
+      "title": "命令表单：编辑后取消，草稿被清除且不落库",
+      "viewport": "1440x900 -> 1000x720",
+      "steps": [
+        "打开表单，把「设为」从 2 改为 5（截图 A1-command-form-editing-1440x900.png）",
+        "点「取消」关闭弹层，重开表单（截图 A1-command-form-after-cancel-1000x720.png）"
+      ],
+      "expect": "取消后重开，数值输入恢复为 2；已保存值保持 {kind:\"setVar\",var:\"count\",value:2}",
+      "actual": {
+        "committedAfterCancel": "{\"kind\":\"setVar\",\"var\":\"count\",\"value\":2}",
+        "valueAfterReopen": "2",
+        "valueAfterReopenIsOriginal": true
+      }
+    },
+    {
+      "id": "A2",
+      "title": "音效资源选择：缺失/类型错误资产显示警告，选择有效资产后恢复",
+      "viewport": "1440x900 -> 1000x720",
+      "steps": [
+        "初始值为不在目录中的 sound-ghost（截图 A2-sound-picker-missing-1440x900.png）",
+        "打开组合框选择「鼓点 (sound-drum)」（截图 A2-sound-picker-recovered-1000x720.png）"
+      ],
+      "expect": "缺失态显示 ⚠ sound-ghost（缺失或类型错误）；选择后显示 鼓点 (sound-drum) 且无警告",
+      "actual": {
+        "missingShowsWarning": true,
+        "recoveredValue": "sound-drum",
+        "recoveredClean": true
+      }
+    }
+  ],
+  "consoleErrors": []
+}

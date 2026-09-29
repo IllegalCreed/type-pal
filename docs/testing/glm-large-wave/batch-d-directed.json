@@ -1,0 +1,47 @@
+[
+  {
+    "file": "packages/migrate/src/pal-migration-io.glm-large-wave.test.ts",
+    "fullName": "loadPalMigrationSources source-tree guards 场景源数量偏离 295 时停止迁移并给出精确计数",
+    "status": "passed"
+  },
+  {
+    "file": "packages/migrate/src/pal-migration-io.glm-large-wave.test.ts",
+    "fullName": "loadPalMigrationSources source-tree guards s294 不再是精确空 stub 时停止迁移",
+    "status": "passed"
+  },
+  {
+    "file": "packages/migrate/src/pal-migration-io.glm-large-wave.test.ts",
+    "fullName": "loadPalMigrationSources source-tree guards s000-s293 出现非正 mapNum 时停止迁移",
+    "status": "passed"
+  },
+  {
+    "file": "packages/migrate/src/pal-migration-io.glm-large-wave.test.ts",
+    "fullName": "loadPalMigrationSources source-tree guards 地图源数量偏离 223 时停止迁移",
+    "status": "passed"
+  },
+  {
+    "file": "packages/migrate/src/pal-migration-io.glm-large-wave.test.ts",
+    "fullName": "loadPalMigrationSources source-tree guards 场景与地图守卫全部通过后才进入资产装载（守卫先于资产 IO）",
+    "status": "passed"
+  },
+  {
+    "file": "packages/migrate/src/sound-reference-audit.glm-large-wave.test.ts",
+    "fullName": "auditPalSoundReferences current ledger 源位点与目标引用边分离记账，通道各归其类",
+    "status": "passed"
+  },
+  {
+    "file": "packages/migrate/src/sound-reference-audit.glm-large-wave.test.ts",
+    "fullName": "auditPalSoundReferences current ledger 负 magicSound 目标语义破坏时按稳定敌 id 报告违例",
+    "status": "passed"
+  },
+  {
+    "file": "packages/migrate/src/sound-reference-audit.glm-large-wave.test.ts",
+    "fullName": "auditPalSoundReferences current ledger 目录中未被引用的音效进入未引用清单且保序",
+    "status": "passed"
+  },
+  {
+    "file": "packages/migrate/src/sound-reference-audit.glm-large-wave.test.ts",
+    "fullName": "auditPalSoundReferences current ledger 审计是纯读取：sources 与 files 深快照前后一致",
+    "status": "passed"
+  }
+]

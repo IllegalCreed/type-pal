@@ -1,0 +1,252 @@
+[
+  {
+    "file": "packages/editor/src/ui/AmbienceTab.glm-large-wave.test.tsx",
+    "fullName": "A04 AmbienceTab 乘色回显与预览接线 当前乘色随草稿即时回显，Escape 恢复 canonical，提交后保持",
+    "status": "passed"
+  },
+  {
+    "file": "packages/editor/src/ui/AmbienceTab.glm-large-wave.test.tsx",
+    "fullName": "A04 AmbienceTab 乘色回显与预览接线 切换目录行后色板切到该氛围的 canonical 乘色",
+    "status": "passed"
+  },
+  {
+    "file": "packages/editor/src/ui/AmbienceTab.glm-large-wave.test.tsx",
+    "fullName": "A04 AmbienceTab 乘色回显与预览接线 传入 preview 包时把实时 tint 与 projectKey 传给场景预览",
+    "status": "passed"
+  },
+  {
+    "file": "packages/editor/src/ui/DataMode.glm-large-wave.test.tsx",
+    "fullName": "A03 DataMode 委派（真实挂载） scripts 页在真实脚本会话下挂载可复用脚本目录与工作区",
+    "status": "passed"
+  },
+  {
+    "file": "packages/editor/src/ui/DataMode.glm-large-wave.test.tsx",
+    "fullName": "A03 DataMode 委派（真实挂载） sprite 页经真实大世界库切到战斗域，再切回世界域，回调带稳定 id",
+    "status": "passed"
+  },
+  {
+    "file": "packages/editor/src/ui/DataMode.glm-large-wave.test.tsx",
+    "fullName": "A03 DataMode 委派（真实挂载） sprite 域切换在无 onSpriteLocation 时兜底 onObjectFocus",
+    "status": "passed"
+  },
+  {
+    "file": "packages/editor/src/ui/DataMode.glm-large-wave.test.tsx",
+    "fullName": "A03 DataMode 委派（真实挂载） shop 页经真实试买弹窗合成主会话与脚本会话脏态为保存提示",
+    "status": "passed"
+  },
+  {
+    "file": "packages/editor/src/ui/EnemyAnimPreview.glm-large-wave.test.tsx",
+    "fullName": "A06 敌人动画预览 定义缺失给出显式失败而不是空白画布",
+    "status": "passed"
+  },
+  {
+    "file": "packages/editor/src/ui/EnemyAnimPreview.glm-large-wave.test.tsx",
+    "fullName": "A06 敌人动画预览 资产记录缺失给出 AssetId 修复上下文",
+    "status": "passed"
+  },
+  {
+    "file": "packages/editor/src/ui/EnemyAnimPreview.glm-large-wave.test.tsx",
+    "fullName": "A06 敌人动画预览 无施法帧与 0 tick 动作给出对应提示",
+    "status": "passed"
+  },
+  {
+    "file": "packages/editor/src/ui/EnemyAnimPreview.glm-large-wave.test.tsx",
+    "fullName": "A06 敌人动画预览 在途换定义时旧加载完成不得以旧帧数覆盖新选",
+    "status": "passed"
+  },
+  {
+    "file": "packages/editor/src/ui/FireEffectPreview.glm-large-wave.test.tsx",
+    "fullName": "无音效特效可播放/暂停并切换倍速，figcaption 标注帧数与实速",
+    "status": "passed"
+  },
+  {
+    "file": "packages/editor/src/ui/FireEffectPreview.glm-large-wave.test.tsx",
+    "fullName": "音效准备失败时错误可见且不进入播放",
+    "status": "passed"
+  },
+  {
+    "file": "packages/editor/src/ui/FireEffectPreview.glm-large-wave.test.tsx",
+    "fullName": "真实 fire 字节读取失败时给出失败态且无画布",
+    "status": "passed"
+  },
+  {
+    "file": "packages/editor/src/ui/FireEffectPreview.glm-large-wave.test.tsx",
+    "fullName": "闸门未释放时保持加载态不出现画布，释放后真实解码完成挂载",
+    "status": "passed"
+  },
+  {
+    "file": "packages/editor/src/ui/SceneScriptWorkspace.glm-large-wave.test.tsx",
+    "fullName": "A04 场景脚本工作区槽位与通道 传送出口槽位切换回显已有变体",
+    "status": "passed"
+  },
+  {
+    "file": "packages/editor/src/ui/SceneScriptWorkspace.glm-large-wave.test.tsx",
+    "fullName": "A04 场景脚本工作区槽位与通道 实体自动行为通道切换给出空态提示",
+    "status": "passed"
+  },
+  {
+    "file": "packages/editor/src/ui/SharedScriptTab.glm-large-wave.test.tsx",
+    "fullName": "A03 SharedScriptTab 深链与元数据 focusScriptId 选中聚焦脚本，且 focusCommandPath/Revision 只传给聚焦脚本",
+    "status": "passed"
+  },
+  {
+    "file": "packages/editor/src/ui/SharedScriptTab.glm-large-wave.test.tsx",
+    "fullName": "A03 SharedScriptTab 深链与元数据 self 契约切换写入会话状态",
+    "status": "passed"
+  },
+  {
+    "file": "packages/editor/src/ui/SharedScriptTab.glm-large-wave.test.tsx",
+    "fullName": "A03 SharedScriptTab 深链与元数据 重复稳定 ID 创建经 createError 与 onError 双路上抛",
+    "status": "passed"
+  },
+  {
+    "file": "packages/editor/src/ui/SharedScriptTab.glm-large-wave.test.tsx",
+    "fullName": "A03 SharedScriptTab 深链与元数据 引用未就绪时删除按钮关闭并给出检查中原因",
+    "status": "passed"
+  },
+  {
+    "file": "packages/editor/src/ui/SharedScriptTab.glm-large-wave.test.tsx",
+    "fullName": "A03 SharedScriptTab 深链与元数据 引用面板逐行列出阻断引用并回调 onOpenReference",
+    "status": "passed"
+  },
+  {
+    "file": "packages/editor/src/ui/SpriteUploadWizard.glm-large-wave.test.tsx",
+    "fullName": "A05 动作帧行网格推导 默认行走图按 4 行切分，动作帧行参与整除与切帧读数",
+    "status": "passed"
+  },
+  {
+    "file": "packages/editor/src/ui/SpriteUploadWizard.glm-large-wave.test.tsx",
+    "fullName": "A05 动作帧行网格推导 动作帧行导致整除失败时显式报错并撤下缩略图，回退后恢复",
+    "status": "passed"
+  },
+  {
+    "file": "packages/editor/src/ui/StampLibraryTab.glm-large-wave.test.tsx",
+    "fullName": "A05 StampLibraryTab 深链 focusObjectId 决定初始选中并随 prop 跟随",
+    "status": "passed"
+  },
+  {
+    "file": "packages/editor/src/ui/command-form-actor.glm-large-wave.test.tsx",
+    "fullName": "applyActorCondition marks a non-battler actor as ineligible instead of dropping it",
+    "status": "passed"
+  },
+  {
+    "file": "packages/editor/src/ui/command-form-actor.glm-large-wave.test.tsx",
+    "fullName": "applyActorCondition keeps an unknown actor visible as a repair context",
+    "status": "passed"
+  },
+  {
+    "file": "packages/editor/src/ui/command-form-actor.glm-large-wave.test.tsx",
+    "fullName": "applied status turns clamp into the carried-status turn range",
+    "status": "passed"
+  },
+  {
+    "file": "packages/editor/src/ui/command-form-actor.glm-large-wave.test.tsx",
+    "fullName": "applied poison resistance floors at one",
+    "status": "passed"
+  },
+  {
+    "file": "packages/editor/src/ui/command-form-actor.glm-large-wave.test.tsx",
+    "fullName": "setParty replaces a member in place and keeps the seating order",
+    "status": "passed"
+  },
+  {
+    "file": "packages/editor/src/ui/command-form-control.glm-large-wave.test.tsx",
+    "fullName": "playSound picks a catalog sound and forwards onOpenSound with the stable asset id",
+    "status": "passed"
+  },
+  {
+    "file": "packages/editor/src/ui/command-form-control.glm-large-wave.test.tsx",
+    "fullName": "playSound surfaces a missing or mistyped asset as an explicit invalid option",
+    "status": "passed"
+  },
+  {
+    "file": "packages/editor/src/ui/command-form-control.glm-large-wave.test.tsx",
+    "fullName": "playSound with an empty catalog states the lack instead of offering a commit",
+    "status": "passed"
+  },
+  {
+    "file": "packages/editor/src/ui/command-form-control.glm-large-wave.test.tsx",
+    "fullName": "playMusic commits the selected music asset id",
+    "status": "passed"
+  },
+  {
+    "file": "packages/editor/src/ui/command-form-control.glm-large-wave.test.tsx",
+    "fullName": "setAmbience with a project ambience table commits the stable id via the picker",
+    "status": "passed"
+  },
+  {
+    "file": "packages/editor/src/ui/command-form-control.glm-large-wave.test.tsx",
+    "fullName": "setAmbience without a table degrades to a raw text input that commits the typed id",
+    "status": "passed"
+  },
+  {
+    "file": "packages/editor/src/ui/command-form-control.glm-large-wave.test.tsx",
+    "fullName": "learnSkill keeps the legacy numeric role slot and commits the role change",
+    "status": "passed"
+  },
+  {
+    "file": "packages/editor/src/ui/command-form-control.glm-large-wave.test.tsx",
+    "fullName": "clearDialog has no editable parameters",
+    "status": "passed"
+  },
+  {
+    "file": "packages/editor/src/ui/command-form-dialogue.glm-large-wave.test.tsx",
+    "fullName": "unbound identity enables a portrait from the first catalog portrait and commits the asset id",
+    "status": "passed"
+  },
+  {
+    "file": "packages/editor/src/ui/command-form-dialogue.glm-large-wave.test.tsx",
+    "fullName": "unbound portrait keeps its asset when the side flips and clears the whole portrait when disabled",
+    "status": "passed"
+  },
+  {
+    "file": "packages/editor/src/ui/command-form-dialogue.glm-large-wave.test.tsx",
+    "fullName": "actor portrait enables from the actor portrait set and switches to a named expression",
+    "status": "passed"
+  },
+  {
+    "file": "packages/editor/src/ui/command-form-world.glm-large-wave.test.tsx",
+    "fullName": "makeLoadScene field preservation default mode carries only the scene and optional patches",
+    "status": "passed"
+  },
+  {
+    "file": "packages/editor/src/ui/command-form-world.glm-large-wave.test.tsx",
+    "fullName": "makeLoadScene field preservation entry mode keeps the named entry and drops position fields",
+    "status": "passed"
+  },
+  {
+    "file": "packages/editor/src/ui/command-form-world.glm-large-wave.test.tsx",
+    "fullName": "makeLoadScene field preservation pos mode deep-copies the temporary position so later mutation cannot leak in",
+    "status": "passed"
+  },
+  {
+    "file": "packages/editor/src/ui/command-form-world.glm-large-wave.test.tsx",
+    "fullName": "retargetLoadScene field preservation 'default target keeps facing and sourc…'",
+    "status": "passed"
+  },
+  {
+    "file": "packages/editor/src/ui/command-form-world.glm-large-wave.test.tsx",
+    "fullName": "retargetLoadScene field preservation 'named entry resets to the default lan…'",
+    "status": "passed"
+  },
+  {
+    "file": "packages/editor/src/ui/command-form-world.glm-large-wave.test.tsx",
+    "fullName": "retargetLoadScene field preservation 'temporary coordinates reset to the de…'",
+    "status": "passed"
+  },
+  {
+    "file": "packages/editor/src/ui/use-editor-project-session.glm-large-wave.test.ts",
+    "fullName": "B04 编辑器项目会话 hook 初始绑定目录时报告 local 身份与干净脏态",
+    "status": "passed"
+  },
+  {
+    "file": "packages/editor/src/ui/use-editor-project-session.glm-large-wave.test.ts",
+    "fullName": "B04 编辑器项目会话 hook rename 经一次真实命令改显示名，不改文件夹身份",
+    "status": "passed"
+  },
+  {
+    "file": "packages/editor/src/ui/use-editor-project-session.glm-large-wave.test.ts",
+    "fullName": "B04 编辑器项目会话 hook rename 输入原名称是 no-op，不入历史",
+    "status": "passed"
+  }
+]
