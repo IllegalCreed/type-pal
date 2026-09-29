@@ -1,6 +1,6 @@
 # TEST-GLM-LARGE-WAVE-4 — 五批大型当前合同补测
 
-Status: build
+Status: rework
 Owner: GLM（单一测试 Coding Owner）
 Reviewer: Codex（独立验收、统一质量门与集成）
 Phase: phase2（editor/content/reforge/migrate；D 批仅引用原版数据格式，不改一阶段引擎）
@@ -83,7 +83,17 @@ A→E 连续做；每完成 6 组固定提交并推送完整候选 SHA，可继�
   用当前合法输入与直接证据，不授权产品/格式/写盘变更。用户可见产品验收 N/A。
 - `review -> done` 尚未开放；待 GLM A–E 候选、自验、反控/视觉与 Codex 独立验收、统一质量门。
 
-## 下一位 Agent 提示词
+## 2026-09-29 Codex 独立审核与返工
+
+候选 `8cb0af0ad2e5952c01e8fa95144b495df4ceaecc` 独立审核结论为 **rework，
+未接收/未合 main**。完整一手命令、通过项和五条返工项见
+[Codex 审核回执](../../testing/glm-large-wave/codex-review-8cb0af0a.md)。
+定向 66/66、三包 typecheck、冻结/文档检查通过；但完整 lint 有 15 error/2 warning/1 info，
+且 typed fixture、测试路径和反控判据不合卡面。GLM 只修原白名单内问题，
+复跑零诊断和反控并推送新完整 SHA；Codex 再审后才可能做全仓/官方覆盖门。
+用户可见产品取舍仍未授权；F–J 并行 wave 与本卡独立。
+
+## 历史首轮派发提示词（已执行）
 
 ```text
 你是 GLM，本卡 TEST-GLM-LARGE-WAVE-4 的唯一测试 Coding Owner。先读 AGENTS.md、CLAUDE.md、
@@ -100,4 +110,18 @@ A 两条、B/C 各一条自有端口功能视觉，D/E 不造视觉。只改白�
 不改产品、旧测试、配置/依赖/基线/正式工程，不跑真实迁移/提取/烘焙或 E2E。
 每批回执给完整候选 SHA、逐组旧证→新差异、JSON file/fullName/status、反控、截图和未证项。
 GLM 贡献者不合 main/标 done；Codex 独立验收、统一覆盖率门、集成推送和清理。
+```
+
+## 下一位 Agent 提示词：GLM 返工
+
+```text
+你仍是 TEST-GLM-LARGE-WAVE-4 的测试 Coding Owner。只在原工作树
+/Users/zhangxu/.codex/worktrees/glm-large-wave/type-pal、原分支 codex/glm-large-wave-r1
+返工候选 8cb0af0ad2e5952c01e8fa95144b495df4ceaecc。先读本卡和
+main 上 docs/testing/glm-large-wave/codex-review-8cb0af0a.md（必要时 git show origin/main:路径）；
+不拉取/合并 F–J 分支。逐项闭合完整 lint 15/2/1、24 处非法强转、两个测试扩展名、
+needle-judge 判据及自测、并集 17/43 计数和逐批完整 SHA。UI 子组件替身须按卡面端口
+边界改成真实消费链或收窄未证声明；恢复只读 README，别修改产品、旧测试、配置、
+官方基线或正式工程。复跑新测+相邻、三包 typecheck、完整 pnpm lint 零诊断、docs/diff、
+严格反控；提交推送新完整候选 SHA 和逐项证据。你不合 main、不标 done；Codex 独立复核。
 ```
