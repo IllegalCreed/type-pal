@@ -1,6 +1,6 @@
 # TEST-GLM-NEW-H-1 — 一阶段战斗当前合同
 
-Status: rework
+Status: review
 Owner: GLM Wave H（仅本 wave 单一测试 Coding Owner）
 Reviewer: Codex（独立验收、选择性集成、统一质量/覆盖门）
 Phase: phase1
@@ -77,7 +77,7 @@ docs/ops/tasks/TEST-GLM-NEW-H-1-game-battle.md、docs/testing/glm-new-waves/READ
 截图 hash/console（如要求）、未证/真实红项。你不合 main、不标 done；Codex 独立验收。
 ```
 
-## 下一位 Agent 提示词：GLM Wave H 返工
+## 历史 GLM Wave H 返工提示词（已执行）
 
 ```text
 你仍是 TEST-GLM-NEW-H-1 测试 Coding Owner。只在
@@ -91,3 +91,12 @@ docs/testing/glm-new-waves/codex-review-H-013abf99.md。清零三份 JSON 的完
 或其它 GLM 分支。复跑定向+相邻、game typecheck、完整 pnpm lint 零诊断、docs/diff，
 推送新完整 SHA；你不合 main、不标 done，交 Codex 再审。
 ```
+
+## 2026-09-29 Codex r1 返工候选验收
+
+分支 HEAD `6a25727ccc0806640f444c01e271207094207ee8`（返工测试/证据
+提交 `6e9fe6e01eb69bb243712c0720941e88dc3c8bfa`）**代码候选 accept**，
+见[独立验收回执](../../testing/glm-new-waves/codex-accept-H-r1-6a25727c.md)。
+状态为 `review`，尚未合 main；统一 `pnpm check`、官方 ratchet、受保护 fast
+与正式覆盖收益待 Codex 并集成门。无下一位 GLM 提示词；未证机制疑点仍
+按回执登记，不自动变成产品修复授权。

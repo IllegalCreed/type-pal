@@ -2,6 +2,7 @@
 
 [冻结目标](targets.json) · [只读校验](verify-targets.mjs) ·
 [Wave H Codex r1 审核](codex-review-H-013abf99.md) ·
+[Wave H r1 返工验收](codex-accept-H-r1-6a25727c.md) ·
 [Wave G Codex r1 审核](codex-review-G-07140f75.md) ·
 [Wave F Codex r1 审核](codex-review-F-9b015064.md) ·
 [Wave I Codex r1 审核](codex-review-I-2534b72c.md) ·
