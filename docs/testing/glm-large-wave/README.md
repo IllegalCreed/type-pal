@@ -5,7 +5,8 @@
 [A 批回执](receipt-batch-a.md) ·
 [B 批回执](receipt-batch-b.md) ·
 [C 批回执](receipt-batch-c.md) ·
-[D 批回执](receipt-batch-d.md)
+[D 批回执](receipt-batch-d.md) ·
+[E 批回执](receipt-batch-e.md) · [五批并集](five-batch-union.md)
 
 本包给**一个 GLM 测试 Coding Owner** 顺序完成五个大批。每批 6 个窄工作组、12 个互不重复的
 当前生产源码目标；五批共 30 组/60 目标。上一轮 A–H 每批只有 4 组，本轮每批容量更大。
