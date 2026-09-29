@@ -1,0 +1,91 @@
+{
+  "numTotalTestSuites": 5,
+  "numPassedTestSuites": 3,
+  "numFailedTestSuites": 2,
+  "numPendingTestSuites": 0,
+  "numTotalTests": 4,
+  "numPassedTests": 3,
+  "numFailedTests": 1,
+  "numPendingTests": 0,
+  "numTodoTests": 0,
+  "snapshot": {
+    "added": 0,
+    "failure": false,
+    "filesAdded": 0,
+    "filesRemoved": 0,
+    "filesRemovedList": [],
+    "filesUnmatched": 0,
+    "filesUpdated": 0,
+    "matched": 0,
+    "total": 0,
+    "unchecked": 0,
+    "uncheckedKeysByFile": [],
+    "unmatched": 0,
+    "updated": 0,
+    "didUpdate": false
+  },
+  "startTime": 1790645986941,
+  "success": false,
+  "testResults": [
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["反控针 C1 — rng-player 帧窗口(错误期望)"],
+          "fullName": "反控针 C1 — rng-player 帧窗口(错误期望) 窗口 [1,2] 却期望 fetch 全部 4 帧(故意错 → 必须红)",
+          "status": "failed",
+          "title": "窗口 [1,2] 却期望 fetch 全部 4 帧(故意错 → 必须红)",
+          "duration": 8.963999999999999,
+          "failureMessages": [
+            "AssertionError: expected [ 1, 2 ] to deeply equal [ +0, 1, 2, 3 ]\n    at /Users/zhangxu/.codex/worktrees/glm-new-i/type-pal/packages/game/src/shell/rng-player.glm-next-wave.counter1.test.ts:57:52\n    at file:///Users/zhangxu/.codex/worktrees/glm-new-i/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:20"
+          ],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["反控针 C1 — rng-player 帧窗口(错误期望)"],
+          "fullName": "反控针 C1 — rng-player 帧窗口(错误期望) 对照组:同文件真窗口合同(必须保持绿)",
+          "status": "passed",
+          "title": "对照组:同文件真窗口合同(必须保持绿)",
+          "duration": 3.6119170000000054,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790645988352,
+      "endTime": 1790645988364.6118,
+      "status": "failed",
+      "message": "",
+      "name": "/Users/zhangxu/.codex/worktrees/glm-new-i/type-pal/packages/game/src/shell/rng-player.glm-next-wave.counter1.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["playRng 帧窗口(startFrame/endFrame 决定实际请求与显示集合)"],
+          "fullName": "playRng 帧窗口(startFrame/endFrame 决定实际请求与显示集合) 窗口 [1,2]:fetchFrame 恰被调 2 次(frame 1、2),窗外帧 0/3 零请求,末屏 = frame 2",
+          "status": "passed",
+          "title": "窗口 [1,2]:fetchFrame 恰被调 2 次(frame 1、2),窗外帧 0/3 零请求,末屏 = frame 2",
+          "duration": 137.53162499999996,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["playRng chunk 加载失败不长期缓存失败 Promise(允许重试)"],
+          "fullName": "playRng chunk 加载失败不长期缓存失败 Promise(允许重试) 首次加载失败 → 0 帧静默 resolve;再次播放重新加载成功并显帧(加载器恰 2 次调用)",
+          "status": "passed",
+          "title": "首次加载失败 → 0 帧静默 resolve;再次播放重新加载成功并显帧(加载器恰 2 次调用)",
+          "duration": 4.134625000000028,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790645987797,
+      "endTime": 1790645987939.1345,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.codex/worktrees/glm-new-i/type-pal/packages/game/src/shell/rng-player.glm-next-wave.test.ts"
+    }
+  ]
+}

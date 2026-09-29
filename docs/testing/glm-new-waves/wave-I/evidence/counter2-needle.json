@@ -1,0 +1,52 @@
+{
+  "numTotalTestSuites": 2,
+  "numPassedTestSuites": 0,
+  "numFailedTestSuites": 2,
+  "numPendingTestSuites": 0,
+  "numTotalTests": 1,
+  "numPassedTests": 0,
+  "numFailedTests": 1,
+  "numPendingTests": 0,
+  "numTodoTests": 0,
+  "snapshot": {
+    "added": 0,
+    "failure": false,
+    "filesAdded": 0,
+    "filesRemoved": 0,
+    "filesRemovedList": [],
+    "filesUnmatched": 0,
+    "filesUpdated": 0,
+    "matched": 0,
+    "total": 0,
+    "unchecked": 0,
+    "uncheckedKeysByFile": [],
+    "unmatched": 0,
+    "updated": 0,
+    "didUpdate": false
+  },
+  "startTime": 1790648096077,
+  "success": false,
+  "testResults": [
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["反控针 C2 — magic-script goto 终止合同(错误期望)"],
+          "fullName": "反控针 C2 — magic-script goto 终止合同(错误期望) goto 自环死循环被 SCRIPT_TICK_LIMIT 终止(故意断言 true → 必须红)",
+          "status": "failed",
+          "title": "goto 自环死循环被 SCRIPT_TICK_LIMIT 终止(故意断言 true → 必须红)",
+          "duration": 4.956625000000031,
+          "failureMessages": [
+            "AssertionError: expected false to be true // Object.is equality\n    at /Users/zhangxu/.codex/worktrees/glm-new-i/type-pal/packages/game/src/core/menu/magic-script.glm-next-wave.counter2.test.ts:28:46\n    at file:///Users/zhangxu/.codex/worktrees/glm-new-i/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/.codex/worktrees/glm-new-i/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/.codex/worktrees/glm-new-i/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/.codex/worktrees/glm-new-i/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/.codex/worktrees/glm-new-i/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///Users/zhangxu/.codex/worktrees/glm-new-i/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///Users/zhangxu/.codex/worktrees/glm-new-i/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64"
+          ],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790648096787,
+      "endTime": 1790648096791.9565,
+      "status": "failed",
+      "message": "",
+      "name": "/Users/zhangxu/.codex/worktrees/glm-new-i/type-pal/packages/game/src/core/menu/magic-script.glm-next-wave.counter2.test.ts"
+    }
+  ]
+}

@@ -1,0 +1,58 @@
+{
+  "numTotalTestSuites": 3,
+  "numPassedTestSuites": 3,
+  "numFailedTestSuites": 0,
+  "numPendingTestSuites": 0,
+  "numTotalTests": 2,
+  "numPassedTests": 0,
+  "numFailedTests": 0,
+  "numPendingTests": 2,
+  "numTodoTests": 0,
+  "snapshot": {
+    "added": 0,
+    "failure": false,
+    "filesAdded": 0,
+    "filesRemoved": 0,
+    "filesRemovedList": [],
+    "filesUnmatched": 0,
+    "filesUpdated": 0,
+    "matched": 0,
+    "total": 0,
+    "unchecked": 0,
+    "uncheckedKeysByFile": [],
+    "unmatched": 0,
+    "updated": 0,
+    "didUpdate": false
+  },
+  "startTime": 1790645999940,
+  "success": true,
+  "testResults": [
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["playRng 帧窗口(startFrame/endFrame 决定实际请求与显示集合)"],
+          "fullName": "playRng 帧窗口(startFrame/endFrame 决定实际请求与显示集合) 窗口 [1,2]:fetchFrame 恰被调 2 次(frame 1、2),窗外帧 0/3 零请求,末屏 = frame 2",
+          "status": "skipped",
+          "title": "窗口 [1,2]:fetchFrame 恰被调 2 次(frame 1、2),窗外帧 0/3 零请求,末屏 = frame 2",
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["playRng chunk 加载失败不长期缓存失败 Promise(允许重试)"],
+          "fullName": "playRng chunk 加载失败不长期缓存失败 Promise(允许重试) 首次加载失败 → 0 帧静默 resolve;再次播放重新加载成功并显帧(加载器恰 2 次调用)",
+          "status": "skipped",
+          "title": "首次加载失败 → 0 帧静默 resolve;再次播放重新加载成功并显帧(加载器恰 2 次调用)",
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790645999940,
+      "endTime": 1790645999940,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.codex/worktrees/glm-new-i/type-pal/packages/game/src/shell/rng-player.glm-next-wave.test.ts"
+    }
+  ]
+}
