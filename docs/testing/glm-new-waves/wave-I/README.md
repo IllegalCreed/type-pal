@@ -11,7 +11,8 @@
   `@type-pal/game` typecheck 0 诊断;新增 9 文件 Biome error/warning/info 全零;
   **完整 `pnpm lint` PASS 0/0/0**(2641 files,含本目录全部证据 JSON)。
 - 未跑(按卡面禁令):官方 ratchet / 受保护 fast、E2E、合 main、标 done。
-- **r2(2026-09-29)按 [codex-review-I-2534b72c](../codex-review-I-2534b72c.md) 返工**:
+- **r2(2026-09-29)按 Codex r1 审核意见返工**(`docs/testing/glm-new-waves/codex-review-I-2534b72c.md`,
+  该文件在 main 提交、本分支不含,故不挂本地链接):
   ① 证据 JSON 全部按原规则格式化,完整 `pnpm lint` 清零;② 计数更正 9 文件 / 3
   existing-proof 并写入完整 SHA;③ 作废含 skipped 的旧过滤反控,补一枚不同业务合同的
   严格反控(统一判据含产品 hash 不变);④ showError 记录调用时序,铺底 `#400` 由断言直证;
