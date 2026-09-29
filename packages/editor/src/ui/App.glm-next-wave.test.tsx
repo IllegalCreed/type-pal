@@ -13,12 +13,14 @@ import {
   type AppScriptContext,
   createAppScriptContext,
 } from '../__tests__/glm-next-wave/F/app-script-kit.js'
-import { memoryAuthorSaveStore } from '../core/__tests__/author-save-store-fixture.js'
 
 vi.mock('./SceneCanvas.js', () => ({ SceneCanvas: () => <div /> }))
-vi.mock('../core/author-save-store.js', async (original) =>
-  memoryAuthorSaveStore(await original<typeof import('../core/author-save-store.js')>()),
-)
+// hoist-safe：mock 工厂只允许依赖 vi.hoisted 绑定与工厂内动态 import；
+// 静态导入在 Vitest 转换后是尚未初始化的命名空间变量，工厂内引用会收集期爆炸。
+vi.mock('../core/author-save-store.js', async (original) => {
+  const { memoryAuthorSaveStore } = await import('../core/__tests__/author-save-store-fixture.js')
+  return memoryAuthorSaveStore(await original<typeof import('../core/author-save-store.js')>())
+})
 const bindings = vi.hoisted(
   () => new Map<string, import('../core/handle-store.js').WorkspaceHandleRecord>(),
 )

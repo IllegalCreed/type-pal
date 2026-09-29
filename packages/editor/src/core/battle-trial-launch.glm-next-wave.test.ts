@@ -11,7 +11,7 @@
  */
 import type { BattleTrialConfig } from '@type-pal/reforge'
 import { battleTrialRevision, loadAllAuthorScenes, loadCurrentProjectFrom } from '@type-pal/reforge'
-import { act } from 'react'
+import { act, createElement } from 'react'
 import { createRoot, type Root } from 'react-dom/client'
 import { afterEach, beforeAll, beforeEach, describe, expect, test, vi } from 'vitest'
 import { useActEnvironment } from '../ui/__tests__/glm-ui-wave-kit.js'
@@ -92,14 +92,14 @@ function Harness() {
     getAuthorBaseline: () => baseline,
     onResult: () => undefined,
   })
-  return <output>trial-session</output>
+  return createElement('output', null, 'trial-session')
 }
 
 async function mount(): Promise<void> {
   host = document.createElement('div')
   document.body.append(host)
   root = createRoot(host)
-  await act(async () => root.render(<Harness />))
+  await act(async () => root.render(createElement(Harness)))
 }
 
 /** MessagePort 的鸭子类型窄化（环境全局通道端口在运行期满足此形状）。 */
