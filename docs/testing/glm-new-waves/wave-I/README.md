@@ -3,7 +3,8 @@
 - 分支 / 工作树:`codex/glm-new-i-r1` @ `/Users/zhangxu/.codex/worktrees/glm-new-i/type-pal`
 - 生产冻结:`ced193f4f590c57d25ad2d48e2aa256e4b70a902`;wave I digest 与
   `verify-targets.mjs` 输出一致(`d07621c5…c404`,2026-09-29 实跑通过)。
-- **候选完整 SHA(r2 测试与证据提交):见文末「候选 SHA」节,40 位十六进制,非"见提交"。**
+- **候选完整 SHA(r2 测试与证据提交):`8f71e0f3fd0d366558e7b2dda07a9c2eeb546f57`**
+  (详见文末「候选 SHA」节)。
 - 新增文件:**9 个**同目录 `<stem>.glm-next-wave.test.ts`(12 个冻结源中 **9 源**有新测试,
   **3 源**登记 existing-proof);证据仅本目录。
 - 门禁:定向新测(9 文件 / 40 测试)+ 相邻旧测(15 文件 / 595 测试)全绿(maxWorkers 1);
@@ -101,8 +102,10 @@ tests 40 / passed 40 / failed 0 / success true,exit 0;相邻旧测 15 文件 595
 
 ## 候选 SHA
 
-- r2 测试与证据提交(本回执所属内容):见下节回执更新提交中写入的 40 位完整 SHA。
-- 分支 HEAD:见最终回复与推送记录。
+- **r2 候选(本回执所属的测试与证据提交)完整 SHA:
+  `8f71e0f3fd0d366558e7b2dda07a9c2eeb546f57`**
+  (父提交 = 派发基点后的 r1 候选 `2534b72c49366370e56841c5f2422515f83a7c5c`)。
+- 分支 HEAD = 上述提交之上仅多一枚「回执钉 SHA」提交,以最终推送记录为准。
 
 ## 待 Codex 独立验收(再审)
 
