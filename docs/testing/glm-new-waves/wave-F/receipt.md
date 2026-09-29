@@ -108,4 +108,6 @@ diff 仅 F 白名单新增文件。
 ## 候选与登记
 
 - **r1 候选**：`38d849a170e97b59c743660f1b3c3bc7816b9bb8`（head `9b015064`，已判 rework）。
-- **r2 候选**：见下（登记块提交后固定；基于基线 `2948810f docs: dispatch five new parallel GLM coverage waves`）。
+- **r2 候选完整 SHA：`08371dc26d05990ca412ef80390eac703eb871de`**
+  （r2 返工五项 + 本回执 r2 节/README，单提交；父提交即 r1 登记 `9b015064`。
+  登记 SHA 见下一提交。）
