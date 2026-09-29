@@ -1,6 +1,6 @@
 # TEST-GLM-NEW-G-1 — Reforge 战斗与场景宿主边界
 
-Status: review
+Status: done
 Owner: GLM Wave G（仅本 wave 单一测试 Coding Owner）
 Reviewer: Codex（独立验收、选择性集成、统一质量/覆盖门）
 Phase: phase2
@@ -10,8 +10,8 @@ Capability: coverage / current-public-contract
 
 2026-09-29 用户明确先前 GLM A–E 已在执行，要求**另外多个新 wave 并行**，
 并争取当日全仓分支覆盖率 85%。本卡只授权自己的六组/12 源；完整窄合同见
-[F–J 工作包](../../testing/glm-new-waves/README.md)，精确源与 source digest
-见[冻结表](../../testing/glm-new-waves/targets.json)：`993ee48d7cea947139128a9a8fe80f4fd5a0825345292ac1cc4fc7672da6005f`。
+[F–J 工作包](../../../../testing/glm-new-waves/README.md)，精确源与 source digest
+见[冻结表](../../../../testing/glm-new-waves/targets.json)：`993ee48d7cea947139128a9a8fe80f4fd5a0825345292ac1cc4fc7672da6005f`。
 先运行 `node docs/testing/glm-new-waves/verify-targets.mjs`；目标已与 A–E 和此前四队列去重。
 先读真实 caller、同名/跨文件旧测试的完整 title/断言，有未证公开合同才建测试；
 分支未命中只是选题线索，不承诺收益或以凑数为验收。85% 由 Codex 在 main 并集实测。
@@ -57,7 +57,7 @@ Codex 独立审核 F–J 与 A–E 并集，选择性集成，串行 check → r
 ## 2026-09-29 Codex 独立审核与返工
 
 候选 `07140f7596798c7687322eba83b110fcec0d033a` 独立审核结论
-**rework，未合 main**。完整[审核回执](../../testing/glm-new-waves/codex-review-G-07140f75.md)
+**rework，未合 main**。完整[审核回执](../../../../testing/glm-new-waves/codex-review-G-07140f75.md)
 记录 47/47、Reforge typecheck 和视觉截图 hash 通过；完整 lint 7 error、三处
 双强转、反控越界改生产源、陈旧缓存合同与未归因的 404 console 仍待闭合。
 GLM 只修原白名单并推新完整 SHA；共享导航由 Codex 负责，官方覆盖门暂缓。
@@ -97,7 +97,7 @@ docs/testing/glm-new-waves/codex-review-G-07140f75.md。清零完整 lint 7 erro
 ## 2026-09-29 Codex r2 候选验收
 
 候选 `fd1189a314e96863f052439cd1d33b01f1e2951d` **代码候选 accept**，
-见[独立验收回执](../../testing/glm-new-waves/codex-accept-G-r2-fd1189a3.md)。
+见[独立验收回执](../../../../testing/glm-new-waves/codex-accept-G-r2-fd1189a3.md)。
 状态为 `review`，尚未合 main；父级共享导航、视觉 console 未证项与统一
 `pnpm check`、官方 ratchet、受保护 fast、正式覆盖收益待 Codex 并集成门。
 无下一位 GLM 提示词。
@@ -105,8 +105,22 @@ docs/testing/glm-new-waves/codex-review-G-07140f75.md。清零完整 lint 7 erro
 ## 2026-09-29 Codex 代码集成后保留 review
 
 本卡测试/证据已进入 main `056cb6cb26dbe46e374e9121c1a2bdb94b12d990`，
-见[统一集成回执](../../testing/glm-wave-union-20260929.md)。完整 `pnpm check`、
+见[统一集成回执](../../../../testing/glm-wave-union-20260929.md)。完整 `pnpm check`、
 官方 ratchet、受保护 fast 与静态零诊断均通过；正式并集分支覆盖率
 78.12%，不单独相加本 wave 收益。**仍非 done**：隔离试打截图已看图，
 但 9 条 console error 只有 8 条请求可按 URL 归因到预期无存档探测，
 余 1 条未证。Codex 负责后续 console 补验；无下一位 GLM 提示词。
+
+## 2026-09-29 Codex 集成与视觉终态
+
+本卡测试/证据已进入 main `056cb6cb26dbe46e374e9121c1a2bdb94b12d990`，
+见[统一集成回执](../../../../testing/glm-wave-union-20260929.md)：完整 check、
+官方 ratchet、受保护 fast、静态零诊断均通过，生产源码与覆盖分母不变。
+原 r2 视觉回执中唯一未归因的 console error 经 Codex
+[URL 级补验](../../../../testing/glm-new-waves/codex-G-console-closure-20260929.md)
+确认为隔离宿主 favicon 404；宿主补内联 favicon 后完整流程的 8 条 console
+error 均逐条对应预期无存档探测，requestfailed/pageerror 均 0。
+功能视觉与 console 验收闭合，本纯测试卡由 Codex 标记 `done`。
+全仓 85% 目标仍未达（并集 78.12%），不冒充本卡单独覆盖收益。
+
+无下一位 Agent 提示词；历史派发/返工提示词仅作记录。

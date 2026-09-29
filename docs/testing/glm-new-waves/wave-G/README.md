@@ -1,5 +1,8 @@
 # Wave G 回执 v2 — Reforge 战斗与场景宿主边界（TEST-GLM-NEW-G-1 rework）
 
+Codex 后续已对原回执未归因的 console 补做[URL 级验收](../codex-G-console-closure-20260929.md)；
+下文 r2 `console 未证` 是当时原始结果，未追溯改写。
+
 候选：分支 `codex/glm-new-g-r1`（本回执所在提交即返工候选，Codex 验收以推送的完整 SHA 为准）。
 r1 候选 `07140f7596798c7687322eba83b110fcec0d033a`；本次按 main 上
 `docs/testing/glm-new-waves/codex-review-G-07140f75.md`（2026-09-29，rework）六项逐条返工。

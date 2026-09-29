@@ -76,13 +76,11 @@ check8896/单次strict8404全过；实际+134分支/+73行，content分支85.55%
 
 2026-09-29 [GLM A–J 并集](../testing/glm-wave-union-20260929.md)已进入 main：
 完整 check、ratchet、受保护 fast 通过，分支 49,529/63,398（78.12%，+448）；
-85% 未达，仍差 4,360 臂。A–E/F/H/J 纯测试卡 done 归档；G/I 代码已入库，
-仅浏览器 console 未证，保留 review。
+85% 未达，仍差 4,360 臂。A–E/F–J 六张纯测试卡均已由 Codex 归档 done；
+G/I 的功能视觉与 console 后续补验也已闭合，不把这些卡的完成误写为 85% 达标。
 
 | ID | 任务 | 状态 | 负责人/下一步 | 一句话备注 |
 |---|---|---|---|---|
-| TEST-GLM-NEW-G-1 | [Reforge 战斗与场景宿主边界](tasks/TEST-GLM-NEW-G-1-reforge-host.md) | review | Codex / 补验试打 console 余项 | 代码已入 main、官方门全绿；9 条 console error 有 1 条未归因 |
-| TEST-GLM-NEW-I-1 | [一阶段壳层、菜单与呈现](tasks/TEST-GLM-NEW-I-1-game-shell.md) | review | Codex / 补采菜单 console | 代码已入 main、官方门全绿；菜单画面已证，console 历史未证 |
 | E2E-R4-1 | [路线驱动与检查点薄基线](tasks/E2E-R4-1-route-and-checkpoint-foundation.md) | build | Codex / 002正常移动与跨场景 | 001 verify已收口：55正文/角色/真实读档及像素；002继承真档，录制音轨另排 |
 | EDITOR-SCENE-FACING-1 | [切场景朝向清除](tasks/EDITOR-SCENE-FACING-1-clear-override.md) | draft | Codex / 后续窄修 | 保持选项仍提交旧方向；真实红诊断+单点oracle已证 |
 | ARCH-SUPPORT-GLM-1 | [八组并行架构/视觉准备](tasks/ARCH-SUPPORT-GLM-1-eight-audit-packages.md) | draft | Codex / 后续归属与收口 | 58cdf938材料accept，counter清零；文档已合入，按用户要求未标done/未开产品门 |

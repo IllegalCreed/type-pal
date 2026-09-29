@@ -1,5 +1,8 @@
 # Wave I 回执 — TEST-GLM-NEW-I-1(一阶段壳层、菜单与呈现)
 
+Codex 后续已在同一 OpeningMenu 场景补做[console 验收](../codex-I-console-closure-20260929.md)；
+下文 r2 `console 未证` 是当时原始结果，未追溯改写。
+
 - 分支 / 工作树:`codex/glm-new-i-r1` @ `/Users/zhangxu/.codex/worktrees/glm-new-i/type-pal`
 - 生产冻结:`ced193f4f590c57d25ad2d48e2aa256e4b70a902`;wave I digest 与
   `verify-targets.mjs` 输出一致(`d07621c5…c404`,2026-09-29 实跑通过)。

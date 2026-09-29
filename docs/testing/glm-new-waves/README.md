@@ -5,16 +5,18 @@
 [Wave H r1 返工验收](codex-accept-H-r1-6a25727c.md) ·
 [Wave G Codex r1 审核](codex-review-G-07140f75.md) ·
 [Wave G r2 候选验收](codex-accept-G-r2-fd1189a3.md) ·
+[Wave G console 补验](codex-G-console-closure-20260929.md) ·
 [Wave F Codex r1 审核](codex-review-F-9b015064.md) ·
 [Wave F r2 候选验收](codex-accept-F-r2-c5ecf694.md) ·
 [Wave I Codex r1 审核](codex-review-I-2534b72c.md) ·
 [Wave I r2 候选验收](codex-accept-I-r2-044d3fa4.md) ·
+[Wave I console 补验](codex-I-console-closure-20260929.md) ·
 [Wave J Codex r1 审核](codex-review-J-009c5578.md) · [测试总览](../README.md) ·
 [Wave J r2 候选验收](codex-accept-J-r2-acd67499.md) ·
 [F](../../ops/archive/tasks/done/TEST-GLM-NEW-F-1-editor-shell.md) ·
-[G](../../ops/tasks/TEST-GLM-NEW-G-1-reforge-host.md) ·
+[G](../../ops/archive/tasks/done/TEST-GLM-NEW-G-1-reforge-host.md) ·
 [H](../../ops/archive/tasks/done/TEST-GLM-NEW-H-1-game-battle.md) ·
-[I](../../ops/tasks/TEST-GLM-NEW-I-1-game-shell.md) ·
+[I](../../ops/archive/tasks/done/TEST-GLM-NEW-I-1-game-shell.md) ·
 [J](../../ops/archive/tasks/done/TEST-GLM-NEW-J-1-migrate-orchestration.md)
 
 交付证据目录：[F](wave-F/README.md) · [G](wave-G/README.md) ·

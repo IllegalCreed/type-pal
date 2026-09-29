@@ -64,3 +64,14 @@
   标 done，也不冒充完整 E2E。
 - H 回执登记的 baseDamage≤0 RNG 消耗序与 physicalResistance=0 偏离仍为
   未证产品疑点；本次仅集成测试，不自动授权产品修复。
+
+后续收口：G 的宿主 favicon 404 已由 Codex
+[URL 级补验](glm-new-waves/codex-G-console-closure-20260929.md)定位并消除；
+试打 console 其余 8 条均是可解释的无存档探测，G 卡已 done。
+I 的菜单 console 历史在统一门当时仍未形成同场景逐条证据，因此曾留 review。
+
+后续补验：I 已由 Codex 在同一 OpeningMenu 场景从页面加载到 ArrowDown
+完成[console/光标补验](glm-new-waves/codex-I-console-closure-20260929.md)：
+console error、≥400 response、requestfailed、pageerror 全为 0，
+光标 0→1 与截图一致。I 卡现可 done；本次只补视觉证据，未改变上述
+覆盖率结果或 85% 未达结论。
