@@ -2,6 +2,7 @@
 
 入口：[任务卡](../../ops/tasks/TEST-GLM-EVENT-WAVE-K-1-current-script-contracts.md)；
 [冻结目标与六组](targets.json)；[只读冻结核对](verify-targets.mjs)。
+[Codex 对 4ebea2b5 的独立首轮审核](codex-review-4ebea2b5.md)：rework，候选未合 main。
 
 生产冻结 `aac9443bfe81799b06afdb1787d32abf7cb43e14`；只写六个新测试文件和本目录的隔离证据。
 目标 `packages/game/src/core/event-system.ts` 与 Kimi/GLM 既有六个冻结队列无源码交集。

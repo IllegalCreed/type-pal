@@ -1,6 +1,6 @@
 # TEST-GLM-EVENT-WAVE-K-1 — 一阶段事件系统六组当前脚本合同补测
 
-Status: build
+Status: rework
 Owner: GLM Wave K（本包唯一测试 Coding Owner）
 Reviewer: Codex（独立验收、选择性集成与官方覆盖结算）
 Phase: phase1
@@ -86,3 +86,17 @@ existing-proof/unreachable 对照、新鲜 Vitest JSON file/fullName/status、�
 零诊断报告和完整 40 位提交 SHA，推送分支。你不合 main、不标 done；Codex 独立验收
 和正式 check→ratchet→protected fast 收口。595 未覆盖臂只是选题线索，85% 不保证。
 ```
+
+## 2026-09-29 Codex 独立首轮审核
+
+候选 `4ebea2b58e4110133cc2ffdd37974c2c6a1a7ade` **rework，未合 main**。
+[独立审核回执](../../testing/glm-event-wave-k/codex-review-4ebea2b5.md)记录：白名单/冻结 hash、
+Game 2772 全绿及静态零诊断成立；K04“无 handler”对照仍保留 handler，三反控仅改答案且判据
+可误收 timeout/未核文件，K03 将卖出 opcode 未消费的 storeNum 锁为真值，K06 正控 caster
+指向空玩家表。只在原白名单内返工后推新完整 SHA；Codex 再审前不合 main、不标 done。
+
+下一位 GLM 提示词：你仍是本卡唯一测试 Coding Owner，在原工作树/原分支返工
+`4ebea2b58e4110133cc2ffdd37974c2c6a1a7ade`。先读本卡与上述独立审核回执，
+从 main 同步当前卡面/审核证据并保留候选测试。逐项闭合四个返工点；
+重新提交六组回执、定向 JSON、三枚合法输入反控及零诊断，推送新 40 位 SHA。
+产品、旧测、共享配置/基线只读；不得合 main 或标 done。Codex 独立再审。
