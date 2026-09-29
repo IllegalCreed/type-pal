@@ -33,9 +33,17 @@ for (const batch of active.batches) {
 assert.equal(targets.schemaVersion, 1)
 assert.equal(targets.waves.length, 5)
 assert.equal(
-  digest(readFileSync(resolve(root, 'scripts/coverage/baseline.fast.json'))),
+  digest(
+    execFileSync(
+      'git',
+      ['show', `${targets.productionFreeze}:scripts/coverage/baseline.fast.json`],
+      {
+        cwd: root,
+      },
+    ),
+  ),
   targets.baselineSha256,
-  'official baseline changed since dispatch',
+  'dispatch freeze baseline hash mismatch',
 )
 
 const seen = new Set()

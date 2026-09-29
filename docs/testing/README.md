@@ -8,6 +8,7 @@
 
 ## 文档与附件
 
+- [2026-09-29 GLM A–J 并集集成与覆盖率回执](glm-wave-union-20260929.md)（全仓 check、官方 ratchet/受保护 fast 通过；分支 78.12%，距 85% 仍差 4,360 臂）。
 - [GLM五批大型当前合同补测](glm-large-wave/README.md)（9c35748a冻结，A–E每批6组/12源码、总60目标；单一Owner隔离实施，Codex独立验收）。
 - [GLM新增五个并行 Wave F–J](glm-new-waves/README.md)（与在执行的 A–E 零交集；各独立Owner/工作树、每 wave 六组/12 源；85% 只按 main 并集实测）。
 - [GLM第三对话一阶段菜单、呈现与工具六批](glm-phase1-leaves/README.md)（4a9ad67f冻结，24组51目标；隔离单worker，不重做Grok旧断言，四项短视觉）。
