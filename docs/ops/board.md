@@ -78,7 +78,7 @@ check8896/单次strict8404全过；实际+134分支/+73行，content分支85.55%
 |---|---|---|---|---|
 | TEST-GLM-LARGE-WAVE-4 | [五批大型当前合同补测](tasks/TEST-GLM-LARGE-WAVE-4-five-large-batches.md) | review | Codex / 待并集选择性集成与官方门 | R3 候选 accept：66 定向、lint/typecheck 0；未合 main、不计正式收益 |
 | TEST-GLM-NEW-F-1 | [编辑器主工作台与预览](tasks/TEST-GLM-NEW-F-1-editor-shell.md) | build | GLM F / 独立工作树六组 | 新 12 源，与 A–E 零交集；主工作台/功能视觉 |
-| TEST-GLM-NEW-G-1 | [Reforge 战斗与场景宿主边界](tasks/TEST-GLM-NEW-G-1-reforge-host.md) | build | GLM G / 独立工作树六组 | 新 12 源；战斗/宿主公开合同，不碰 E2E |
+| TEST-GLM-NEW-G-1 | [Reforge 战斗与场景宿主边界](tasks/TEST-GLM-NEW-G-1-reforge-host.md) | rework | GLM G / 按 Codex r1 返工推新 SHA | 47 定向通过；lint 7 error、强转/反控/缓存/console 待修 |
 | TEST-GLM-NEW-H-1 | [一阶段战斗当前合同](tasks/TEST-GLM-NEW-H-1-game-battle.md) | rework | GLM H / 按 Codex r1 返工后推新 SHA | 定向 48/48；完整 lint 3 error、伪顺序日志与反控越界待修 |
 | TEST-GLM-NEW-I-1 | [一阶段壳层、菜单与呈现](tasks/TEST-GLM-NEW-I-1-game-shell.md) | review | Codex / 待并集集成与菜单 console 补验 | r2 候选 accept：40 定向、lint/typecheck 0；未合 main、不计正式收益 |
 | TEST-GLM-NEW-J-1 | [迁移编排与发布前校验](tasks/TEST-GLM-NEW-J-1-migrate-orchestration.md) | review | Codex / 待并集选择性集成与官方门 | r2 候选 accept：58 定向、lint/typecheck 0；未合 main、不计正式收益 |

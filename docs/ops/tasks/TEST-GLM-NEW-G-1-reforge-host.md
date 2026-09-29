@@ -1,6 +1,6 @@
 # TEST-GLM-NEW-G-1 — Reforge 战斗与场景宿主边界
 
-Status: build
+Status: rework
 Owner: GLM Wave G（仅本 wave 单一测试 Coding Owner）
 Reviewer: Codex（独立验收、选择性集成、统一质量/覆盖门）
 Phase: phase2
@@ -54,7 +54,15 @@ Codex 独立审核 F–J 与 A–E 并集，选择性集成，串行 check → r
 准入记录：2026-09-29 Codex 核生产 hash、60 新源互斥、旧队列和 A–E 零交集；
 本卡仅测试/fixture/隔离证据 build allowed。review → done 待 Codex 独立验收。
 
-## 下一位 Agent 提示词
+## 2026-09-29 Codex 独立审核与返工
+
+候选 `07140f7596798c7687322eba83b110fcec0d033a` 独立审核结论
+**rework，未合 main**。完整[审核回执](../../testing/glm-new-waves/codex-review-G-07140f75.md)
+记录 47/47、Reforge typecheck 和视觉截图 hash 通过；完整 lint 7 error、三处
+双强转、反控越界改生产源、陈旧缓存合同与未归因的 404 console 仍待闭合。
+GLM 只修原白名单并推新完整 SHA；共享导航由 Codex 负责，官方覆盖门暂缓。
+
+## 历史首轮派发提示词（已执行）
 
 ```text
 你是 GLM Wave G 的唯一测试 Coding Owner。只在 /Users/zhangxu/.codex/worktrees/glm-new-g/type-pal
@@ -69,3 +77,19 @@ docs/ops/tasks/TEST-GLM-NEW-G-1-reforge-host.md、docs/testing/glm-new-waves/REA
 截图 hash/console（如要求）、未证/真实红项。你不合 main、不标 done；Codex 独立验收。
 ```
 
+## 下一位 Agent 提示词：GLM Wave G 返工
+
+```text
+你仍是 TEST-GLM-NEW-G-1 测试 Coding Owner。只在
+/Users/zhangxu/.codex/worktrees/glm-new-g/type-pal 的 codex/glm-new-g-r1 分支返工
+07140f7596798c7687322eba83b110fcec0d033a。先读本卡与 main 上
+docs/testing/glm-new-waves/codex-review-G-07140f75.md。清零完整 lint 7 error；
+移除三处 as unknown as，改用类型化 Canvas 端口；反控只在隔离副本/loader
+注入，不改正式生产源，拒绝 skipped/混错并精确核绝对 file/fullName、执行数、
+产品 hash，附同一判据反例自测。screen-fx 两例陈旧缓存断言若无当前合法
+调用证据就移除并登记未证。补 404 请求 URL/status 与预期 NotFound 归因，
+无法归因就标 console 未证；恢复只读共享 README（Codex 负责导航）。
+只改 Wave G 新测与 wave-G 证据/宿主，更新完整 SHA、JSON 回执、反控/视觉；
+复跑定向+相邻、reforge typecheck、完整 lint 零诊断、docs/diff，推送新 SHA。
+你不合 main、不标 done；Codex 独立再审。
+```
