@@ -145,32 +145,39 @@ export function hEnemies(state: BattleState): BattleEnemy[] {
 /**
  * 脚本化 + 记录型 rng:rangeInclusive/rangeFloat/range 依次吃 ints/floats,并把每次调用
  * (含参数)记进 calls,用于断言「RNG 抽取顺序」(DM6 / DL6 等)。队列用尽回退 1 / 1 / lo。
+ * 传入 trace 时,每次 RNG 消费**实时**同步追加进该外部数组 —— 供「RNG 与脚本回调写同一条
+ * 实时事件轨迹」的先后断言(两方都在事件发生瞬间 push,顺序即真实交错序)。
  */
 export function recordingRng(
   ints: number[] = [],
   floats: number[] = [],
+  trace?: string[],
 ): SeedableRng & { calls: string[] } {
   const calls: string[] = []
   let i = 0
   let f = 0
+  const emit = (event: string): void => {
+    calls.push(event)
+    trace?.push(`rng:${event}`)
+  }
   return {
     calls,
     next: () => {
-      calls.push('next')
+      emit('next')
       return 0
     },
     range: (lo: number, hi: number) => {
-      calls.push(`range(${lo},${hi})`)
+      emit(`range(${lo},${hi})`)
       const v = ints[i++] ?? lo
       return Math.min(hi - 1, Math.max(lo, v))
     },
     rangeInclusive: (lo: number, hi: number) => {
-      calls.push(`rangeInclusive(${lo},${hi})`)
+      emit(`rangeInclusive(${lo},${hi})`)
       const v = ints[i++] ?? 1
       return Math.min(hi, Math.max(lo, v))
     },
     rangeFloat: (lo: number, hi: number) => {
-      calls.push(`rangeFloat(${lo},${hi})`)
+      emit(`rangeFloat(${lo},${hi})`)
       const v = floats[f++] ?? 1
       return Math.min(hi, Math.max(lo, v))
     },

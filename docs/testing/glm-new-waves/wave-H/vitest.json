@@ -1,320 +1,320 @@
 {
- "numTotalTests": 48,
- "numPassedTests": 48,
- "numFailedTests": 0,
- "success": true,
- "testResults": [
-  {
-   "name": "/Users/zhangxu/.codex/worktrees/glm-new-h/type-pal/packages/game/src/core/battle/actions/attack.glm-next-wave.test.ts",
-   "status": "passed",
-   "assertionResults": [
+  "numTotalTests": 48,
+  "numPassedTests": 48,
+  "numFailedTests": 0,
+  "success": true,
+  "testResults": [
     {
-     "fullName": "performAttack × battleEffectIndex(fight.c:2055-2056 命中特效帧基号) sprite0 → flat[sprite*2+1]=2 → base=6,特效帧 frameIdx 6/7/8",
-     "status": "passed",
-     "title": "sprite0 → flat[sprite*2+1]=2 → base=6,特效帧 frameIdx 6/7/8"
+      "name": "/Users/zhangxu/.codex/worktrees/glm-new-h/type-pal/packages/game/src/core/battle/actions/attack.glm-next-wave.test.ts",
+      "status": "passed",
+      "assertionResults": [
+        {
+          "fullName": "performAttack × battleEffectIndex(fight.c:2055-2056 命中特效帧基号) sprite0 → flat[sprite*2+1]=2 → base=6,特效帧 frameIdx 6/7/8",
+          "status": "passed",
+          "title": "sprite0 → flat[sprite*2+1]=2 → base=6,特效帧 frameIdx 6/7/8"
+        },
+        {
+          "fullName": "performAttack × battleEffectIndex(fight.c:2055-2056 命中特效帧基号) 表缺省(undefined)→ base=0,特效帧 frameIdx 0/1/2(缺表防御语义)",
+          "status": "passed",
+          "title": "表缺省(undefined)→ base=0,特效帧 frameIdx 0/1/2(缺表防御语义)"
+        }
+      ]
     },
     {
-     "fullName": "performAttack × battleEffectIndex(fight.c:2055-2056 命中特效帧基号) 表缺省(undefined)→ base=0,特效帧 frameIdx 0/1/2(缺表防御语义)",
-     "status": "passed",
-     "title": "表缺省(undefined)→ base=0,特效帧 frameIdx 0/1/2(缺表防御语义)"
+      "name": "/Users/zhangxu/.codex/worktrees/glm-new-h/type-pal/packages/game/src/core/battle/actions/coop-magic.glm-next-wave.test.ts",
+      "status": "passed",
+      "assertionResults": [
+        {
+          "fullName": "performCoopMagic 退化普攻 × DL6 隐藏经验(fight.c:3374-3378 → 3756-3757) healthy≤1(仅发起者活)→ 退化普攻:敌掉血、不付 HP 代价、attackExp+1/healthExp+=R(2,3)",
+          "status": "passed",
+          "title": "healthy≤1(仅发起者活)→ 退化普攻:敌掉血、不付 HP 代价、attackExp+1/healthExp+=R(2,3)"
+        },
+        {
+          "fullName": "performCoopMagic 退化普攻 × DL6 隐藏经验(fight.c:3374-3378 → 3756-3757) RNG 序:普攻修饰(jitter→crit→李逍遥→float)先消耗,(2,3) 隐藏经验最后(C 同序)",
+          "status": "passed",
+          "title": "RNG 序:普攻修饰(jitter→crit→李逍遥→float)先消耗,(2,3) 隐藏经验最后(C 同序)"
+        },
+        {
+          "fullName": "performCoopMagic 退化普攻 × DL6 隐藏经验(fight.c:3374-3378 → 3756-3757) 双人健康(≥2 contributors)→ 正常合击,无 attackExp 累计、付 HP 代价",
+          "status": "passed",
+          "title": "双人健康(≥2 contributors)→ 正常合击,无 attackExp 累计、付 HP 代价"
+        }
+      ]
+    },
+    {
+      "name": "/Users/zhangxu/.codex/worktrees/glm-new-h/type-pal/packages/game/src/core/battle/actions/magic.glm-next-wave.test.ts",
+      "status": "passed",
+      "assertionResults": [
+        {
+          "fullName": "DM6:敌方法术自动防御预掷先于脚本(fight.c:4719-4775 → 4761/4768) 实时交错轨迹:首掷 range(0,3) 早于 scriptOnUse,整条轨迹逐项吻合",
+          "status": "passed",
+          "title": "实时交错轨迹:首掷 range(0,3) 早于 scriptOnUse,整条轨迹逐项吻合"
+        },
+        {
+          "fullName": "DM6:敌方法术自动防御预掷先于脚本(fight.c:4719-4775 → 4761/4768) 脚本施睡不剥夺预掷资格:与「不施睡」孪生战斗伤害逐位一致",
+          "status": "passed",
+          "title": "脚本施睡不剥夺预掷资格:与「不施睡」孪生战斗伤害逐位一致"
+        },
+        {
+          "fullName": "DM6:敌方法术自动防御预掷先于脚本(fight.c:4719-4775 → 4761/4768) 预掷未中(range(0,3)!=0)→ 无 +1 减伤除数,伤害高于预掷命中(可证伪对照)",
+          "status": "passed",
+          "title": "预掷未中(range(0,3)!=0)→ 无 +1 减伤除数,伤害高于预掷命中(可证伪对照)"
+        }
+      ]
+    },
+    {
+      "name": "/Users/zhangxu/.codex/worktrees/glm-new-h/type-pal/packages/game/src/core/battle/anim-timeline.glm-next-wave.test.ts",
+      "status": "passed",
+      "assertionResults": [
+        {
+          "fullName": "buildStealTimeline(fight.c:5218-5246 PAL_BattleStealFromEnemy 动画段) frame10 偷窃姿 + offset=(target-player)*8 冲到敌前 + 5 步逼近(i==4 敌闪白) + 收尾 x-- 敌复色",
+          "status": "passed",
+          "title": "frame10 偷窃姿 + offset=(target-player)*8 冲到敌前 + 5 步逼近(i==4 敌闪白) + 收尾 x-- 敌复色"
+        },
+        {
+          "fullName": "buildStealTimeline(fight.c:5218-5246 PAL_BattleStealFromEnemy 动画段) 目标在玩家左(target<player)→ 负 offset 反向落点(同一公式,不分支)",
+          "status": "passed",
+          "title": "目标在玩家左(target<player)→ 负 offset 反向落点(同一公式,不分支)"
+        },
+        {
+          "fullName": "buildPlayerMagicHitReaction(fight.c:4857-4899 敌方魔法命中我方 5 帧受击) 5 帧:frame4 受击姿;前 3 帧 iColorShift=6 后 2 帧复位;位移逐帧累加 (8>>i, 4>>i)",
+          "status": "passed",
+          "title": "5 帧:frame4 受击姿;前 3 帧 iColorShift=6 后 2 帧复位;位移逐帧累加 (8>>i, 4>>i)"
+        },
+        {
+          "fullName": "buildPlayerMagicHitReaction(fight.c:4857-4899 敌方魔法命中我方 5 帧受击) AoE 多队员同帧各自独立累加位移(不受彼此影响)",
+          "status": "passed",
+          "title": "AoE 多队员同帧各自独立累加位移(不受彼此影响)"
+        },
+        {
+          "fullName": "buildPlayerMagicHitReaction(fight.c:4857-4899 敌方魔法命中我方 5 帧受击) 无受伤队员(affected 空)→ 空时间线(生产 caller 只传掉血队员)",
+          "status": "passed",
+          "title": "无受伤队员(affected 空)→ 空时间线(生产 caller 只传掉血队员)"
+        }
+      ]
+    },
+    {
+      "name": "/Users/zhangxu/.codex/worktrees/glm-new-h/type-pal/packages/game/src/core/battle/battle-opcodes.glm-next-wave.test.ts",
+      "status": "passed",
+      "assertionResults": [
+        {
+          "fullName": "0x0005 / 0x008E ClearDialog(script.c:3267-3269 / 3428-3430) 0x05 → battleDialogPendingClear = true(战斗侧延迟清屏标记)",
+          "status": "passed",
+          "title": "0x05 → battleDialogPendingClear = true(战斗侧延迟清屏标记)"
+        },
+        {
+          "fullName": "0x0005 / 0x008E ClearDialog(script.c:3267-3269 / 3428-3430) 0x8E → battleDialogPendingClear = true(与 0x05 同一战斗侧语义)",
+          "status": "passed",
+          "title": "0x8E → battleDialogPendingClear = true(与 0x05 同一战斗侧语义)"
+        },
+        {
+          "fullName": "0x0005 / 0x008E ClearDialog(script.c:3267-3269 / 3428-3430) 战斗脚本内 0x05 → 下一个 showDialog 带 clearBefore 且只清一次;后续行不受影响",
+          "status": "passed",
+          "title": "战斗脚本内 0x05 → 下一个 showDialog 带 clearBefore 且只清一次;后续行不受影响"
+        },
+        {
+          "fullName": "0x006B Blow Away(script.c:2049-2054 iBlow = (SHORT)op0) 正操作数 → 原值存入 state.iBlow(present 击退位移消费)",
+          "status": "passed",
+          "title": "正操作数 → 原值存入 state.iBlow(present 击退位移消费)"
+        },
+        {
+          "fullName": "0x006B Blow Away(script.c:2049-2054 iBlow = (SHORT)op0) 0xFFFF → (SHORT) 截断为 -1(负值 = 反向吹飞;fight.c:2681 RandomLong(iBlow,0) 分支)",
+          "status": "passed",
+          "title": "0xFFFF → (SHORT) 截断为 -1(负值 = 反向吹飞;fight.c:2681 RandomLong(iBlow,0) 分支)"
+        }
+      ]
+    },
+    {
+      "name": "/Users/zhangxu/.codex/worktrees/glm-new-h/type-pal/packages/game/src/core/battle/battle-progression.glm-next-wave.test.ts",
+      "status": "passed",
+      "assertionResults": [
+        {
+          "fullName": "applyHiddenExpGrowth —— CHECK_HIDDEN_EXP 宏边角(battle.c:1238-1293) wLevel=120 先钳 99;99 级上继续扣阈值涨属性,wLevel 停 99 不再 ++",
+          "status": "passed",
+          "title": "wLevel=120 先钳 99;99 级上继续扣阈值涨属性,wLevel 停 99 不再 ++"
+        },
+        {
+          "fullName": "applyHiddenExpGrowth —— CHECK_HIDDEN_EXP 宏边角(battle.c:1238-1293) 隐藏涨点无 STAT_LIMIT 999 钳:base 998 再涨 → 突破 999(与主升级 cap 明确不同)",
+          "status": "passed",
+          "title": "隐藏涨点无 STAT_LIMIT 999 钳:base 998 再涨 → 突破 999(与主升级 cap 明确不同)"
+        },
+        {
+          "fullName": "applyHiddenExpGrowth —— CHECK_HIDDEN_EXP 宏边角(battle.c:1238-1293) 多池同涨:R(1,2) 按 Health→Magic 严格序消费(rng 调用序可证)",
+          "status": "passed",
+          "title": "多池同涨:R(1,2) 按 Health→Magic 严格序消费(rng 调用序可证)"
+        },
+        {
+          "fullName": "battleWonLevelUp:隐藏经验抬 maxHP 与回满的先后(battle.c:1287-1292) 无主升级但隐藏涨 maxHP → HP 保持战后值不回满(if(fLevelUp) 才回满)",
+          "status": "passed",
+          "title": "无主升级但隐藏涨 maxHP → HP 保持战后值不回满(if(fLevelUp) 才回满)"
+        },
+        {
+          "fullName": "battleWonLevelUp:隐藏经验抬 maxHP 与回满的先后(battle.c:1287-1292) 主升级成立 → 隐藏涨点后 HP/MP 回满到(可能更高的)新 max(battle.c:1289-1292)",
+          "status": "passed",
+          "title": "主升级成立 → 隐藏涨点后 HP/MP 回满到(可能更高的)新 max(battle.c:1289-1292)"
+        }
+      ]
+    },
+    {
+      "name": "/Users/zhangxu/.codex/worktrees/glm-new-h/type-pal/packages/game/src/core/battle/battle-settlement.glm-next-wave.test.ts",
+      "status": "passed",
+      "assertionResults": [
+        {
+          "fullName": "settlementScreenTimeoutMs(battle.c:1048/1218/1272/1324 PAL_WaitForAnyKey) exp 屏 boss 5500ms / 普通战 3000ms;升级/隐藏涨点/练成屏一律 3000ms",
+          "status": "passed",
+          "title": "exp 屏 boss 5500ms / 普通战 3000ms;升级/隐藏涨点/练成屏一律 3000ms"
+        },
+        {
+          "fullName": "buildBattleWonSettlement(battle.c:991-1328 won 首 tick 战果处理) 不升级:仅 exp-cash 一屏;cash 无条件入账;战斗 HP/MP 先回写 runtime",
+          "status": "passed",
+          "title": "不升级:仅 exp-cash 一屏;cash 无条件入账;战斗 HP/MP 先回写 runtime"
+        },
+        {
+          "fullName": "buildBattleWonSettlement(battle.c:991-1328 won 首 tick 战果处理) 屏序:exp-cash → level-up → hidden-exp-up → learn-magic(battle.c 逐屏同序)",
+          "status": "passed",
+          "title": "屏序:exp-cash → level-up → hidden-exp-up → learn-magic(battle.c 逐屏同序)"
+        },
+        {
+          "fullName": "tickBattleSettlement(逐屏等键/超时 + Phase E + 半血收尾) 首帧不收键;任意键次帧生效;无键 75 tick(3000ms)超时自动翻",
+          "status": "passed",
+          "title": "首帧不收键;任意键次帧生效;无键 75 tick(3000ms)超时自动翻"
+        },
+        {
+          "fullName": "tickBattleSettlement(逐屏等键/超时 + Phase E + 半血收尾) 屏放完 → Phase E scriptOnBattleEnd 仅跑一次;对话 hold 不收尾;清后 finalize 半血恢复",
+          "status": "passed",
+          "title": "屏放完 → Phase E scriptOnBattleEnd 仅跑一次;对话 hold 不收尾;清后 finalize 半血恢复"
+        }
+      ]
+    },
+    {
+      "name": "/Users/zhangxu/.codex/worktrees/glm-new-h/type-pal/packages/game/src/core/battle/battle-state.glm-next-wave.test.ts",
+      "status": "passed",
+      "assertionResults": [
+        {
+          "fullName": "createBattleState —— DH1 零占位槽(battle.c:1598-1720) null 槽 → defeated 空槽:objectId=0、e 全零、无脚本、不参与目标(defeated)",
+          "status": "passed",
+          "title": "null 槽 → defeated 空槽:objectId=0、e 全零、无脚本、不参与目标(defeated)"
+        },
+        {
+          "fullName": "createBattleState —— DH1 零占位槽(battle.c:1598-1720) 真实槽不受空槽影响:e shallow copy + maxHealth=战前满血(0x64 真值基线)",
+          "status": "passed",
+          "title": "真实槽不受空槽影响:e shallow copy + maxHealth=战前满血(0x64 真值基线)"
+        },
+        {
+          "fullName": "createBattleState —— 开战 seed gs.fAutoBattle(true)→ state.fAutoBattle(true);缺省 false(0x8A 跨战斗持久)",
+          "status": "passed",
+          "title": "gs.fAutoBattle(true)→ state.fAutoBattle(true);缺省 false(0x8A 跨战斗持久)"
+        },
+        {
+          "fullName": "createBattleState —— 开战 seed players prevHp/prevMp/scriptPrevHp 三快照 = 战前 role.hp/mp",
+          "status": "passed",
+          "title": "players prevHp/prevMp/scriptPrevHp 三快照 = 战前 role.hp/mp"
+        }
+      ]
+    },
+    {
+      "name": "/Users/zhangxu/.codex/worktrees/glm-new-h/type-pal/packages/game/src/core/battle/battle-system.glm-next-wave.test.ts",
+      "status": "passed",
+      "assertionResults": [
+        {
+          "fullName": "scriptOnTurnStart 与 battleDialogPendingClear(battle-opcodes 0x05/0x8E 消费链) turnStart 脚本内 0x05 → 首句对话带 clearBefore;脚本结束标记复位(不跨脚本泄漏)",
+          "status": "passed",
+          "title": "turnStart 脚本内 0x05 → 首句对话带 clearBefore;脚本结束标记复位(不跨脚本泄漏)"
+        },
+        {
+          "fullName": "scriptOnTurnStart 与 battleDialogPendingClear(battle-opcodes 0x05/0x8E 消费链) 敌 A 的 0x05(无对话)不泄漏到敌 B 的对话(每脚本起手重置,battle-system.ts:2187)",
+          "status": "passed",
+          "title": "敌 A 的 0x05(无对话)不泄漏到敌 B 的对话(每脚本起手重置,battle-system.ts:2187)"
+        },
+        {
+          "fullName": "DL23:turn-start 置终态 → break(battle.c:747-750 BattleResult != PreBattle) 敌 A turnStart 0x89 [3] won → 敌 B turnStart 不跑、无对话;phase 进 won",
+          "status": "passed",
+          "title": "敌 A turnStart 0x89 [3] won → 敌 B turnStart 不跑、无对话;phase 进 won"
+        }
+      ]
+    },
+    {
+      "name": "/Users/zhangxu/.codex/worktrees/glm-new-h/type-pal/packages/game/src/core/equip-effect.glm-next-wave.test.ts",
+      "status": "passed",
+      "assertionResults": [
+        {
+          "fullName": "0x2D scriptOnEquip → 坏状态不刷新(global.c:2229-2241) 已有 Sleep 5 → 脚本设 3 不覆盖(保持 5);另一 role 当前 0 → 设为 3",
+          "status": "passed",
+          "title": "已有 Sleep 5 → 脚本设 3 不覆盖(保持 5);另一 role 当前 0 → 设为 3"
+        },
+        {
+          "fullName": "0x2D scriptOnEquip → 坏状态不刷新(global.c:2229-2241) Silence(3) 同规则:已有 8 不被 2 覆盖",
+          "status": "passed",
+          "title": "Silence(3) 同规则:已有 8 不被 2 覆盖"
+        },
+        {
+          "fullName": "0x2D scriptOnEquip → 傀儡仅死人可设 + set-if-longer(global.c:2243-2257) 活人(Hp>0)设 Puppet 9 → 不施加;死人 → 设为 9",
+          "status": "passed",
+          "title": "活人(Hp>0)设 Puppet 9 → 不施加;死人 → 设为 9"
+        },
+        {
+          "fullName": "0x2D scriptOnEquip → 傀儡仅死人可设 + set-if-longer(global.c:2243-2257) 死人已有 Puppet 12 → 脚本设 9 不覆盖(set-if-longer)",
+          "status": "passed",
+          "title": "死人已有 Puppet 12 → 脚本设 9 不覆盖(set-if-longer)"
+        }
+      ]
+    },
+    {
+      "name": "/Users/zhangxu/.codex/worktrees/glm-new-h/type-pal/packages/game/src/core/equipment-state.glm-next-wave.test.ts",
+      "status": "passed",
+      "assertionResults": [
+        {
+          "fullName": "writeEquipmentEffectField —— 0x17 HP/MP 族 row(script.c:752-766) MAX_HP7/MAX_MP8/HP9/MP10 写进对应 part 覆盖层,base 不动、其余 role 不受影响",
+          "status": "passed",
+          "title": "MAX_HP7/MAX_MP8/HP9/MP10 写进对应 part 覆盖层,base 不动、其余 role 不受影响"
+        },
+        {
+          "fullName": "writeEquipmentEffectField —— 0x17 HP/MP 族 row(script.c:752-766) partIdx -1 / 7(MAX_PLAYER_EQUIPMENTS 之外)→ no-op 不抛错",
+          "status": "passed",
+          "title": "partIdx -1 / 7(MAX_PLAYER_EQUIPMENTS 之外)→ no-op 不抛错"
+        },
+        {
+          "fullName": "addPlayerStatRow —— 0x19 COVERED_BY row(script.c:813-832) row 31(COVERED_BY)按 delta 累加,不影响其他 row",
+          "status": "passed",
+          "title": "row 31(COVERED_BY)按 delta 累加,不影响其他 row"
+        },
+        {
+          "fullName": "removeEquipmentEffect 部位边界(global.c:1372;Extra=6 战末清理合法) part 6(kBodyPartExtra)合法:清该 role 覆盖层;part 7 越界 no-op 不清",
+          "status": "passed",
+          "title": "part 6(kBodyPartExtra)合法:清该 role 覆盖层;part 7 越界 no-op 不清"
+        },
+        {
+          "fullName": "removeEquipmentEffect 部位边界(global.c:1372;Extra=6 战末清理合法) part 6 只清目标 role,其他 role 的 Extra 槽保留",
+          "status": "passed",
+          "title": "part 6 只清目标 role,其他 role 的 Extra 槽保留"
+        }
+      ]
+    },
+    {
+      "name": "/Users/zhangxu/.codex/worktrees/glm-new-h/type-pal/packages/game/src/core/game-state.glm-next-wave.test.ts",
+      "status": "passed",
+      "assertionResults": [
+        {
+          "fullName": "getOverworldSpriteNum 三级快照解析(present/bootstrap 现行 caller) role0 + 旧字段 partyLeaderSpriteId → 最高优先(旧存档/0x65 镜像)",
+          "status": "passed",
+          "title": "role0 + 旧字段 partyLeaderSpriteId → 最高优先(旧存档/0x65 镜像)"
+        },
+        {
+          "fullName": "getOverworldSpriteNum 三级快照解析(present/bootstrap 现行 caller) 无旧字段 → runtime rgwSpriteNum>0 生效;=0 跳过(0x65 变身写 runtime 的当前值)",
+          "status": "passed",
+          "title": "无旧字段 → runtime rgwSpriteNum>0 生效;=0 跳过(0x65 变身写 runtime 的当前值)"
+        },
+        {
+          "fullName": "getOverworldSpriteNum 三级快照解析(present/bootstrap 现行 caller) runtime 缺行(旧档归一化前)→ 静态 player-roles.json 兜底;两者皆无 → undefined",
+          "status": "passed",
+          "title": "runtime 缺行(旧档归一化前)→ 静态 player-roles.json 兜底;两者皆无 → undefined"
+        },
+        {
+          "fullName": "createInitialPlayerStatus(sdlpal global.h:522 布局) 6 role × 9 状态槽全零(Confused0..DualAttack8)",
+          "status": "passed",
+          "title": "6 role × 9 状态槽全零(Confused0..DualAttack8)"
+        }
+      ]
     }
-   ]
-  },
-  {
-   "name": "/Users/zhangxu/.codex/worktrees/glm-new-h/type-pal/packages/game/src/core/battle/actions/coop-magic.glm-next-wave.test.ts",
-   "status": "passed",
-   "assertionResults": [
-    {
-     "fullName": "performCoopMagic 退化普攻 × DL6 隐藏经验(fight.c:3374-3378 → 3756-3757) healthy≤1(仅发起者活)→ 退化普攻:敌掉血、不付 HP 代价、attackExp+1/healthExp+=R(2,3)",
-     "status": "passed",
-     "title": "healthy≤1(仅发起者活)→ 退化普攻:敌掉血、不付 HP 代价、attackExp+1/healthExp+=R(2,3)"
-    },
-    {
-     "fullName": "performCoopMagic 退化普攻 × DL6 隐藏经验(fight.c:3374-3378 → 3756-3757) RNG 序:普攻修饰(jitter→crit→李逍遥→float)先消耗,(2,3) 隐藏经验最后(C 同序)",
-     "status": "passed",
-     "title": "RNG 序:普攻修饰(jitter→crit→李逍遥→float)先消耗,(2,3) 隐藏经验最后(C 同序)"
-    },
-    {
-     "fullName": "performCoopMagic 退化普攻 × DL6 隐藏经验(fight.c:3374-3378 → 3756-3757) 双人健康(≥2 contributors)→ 正常合击,无 attackExp 累计、付 HP 代价",
-     "status": "passed",
-     "title": "双人健康(≥2 contributors)→ 正常合击,无 attackExp 累计、付 HP 代价"
-    }
-   ]
-  },
-  {
-   "name": "/Users/zhangxu/.codex/worktrees/glm-new-h/type-pal/packages/game/src/core/battle/actions/magic.glm-next-wave.test.ts",
-   "status": "passed",
-   "assertionResults": [
-    {
-     "fullName": "DM6:敌方法术自动防御预掷先于脚本(fight.c:4719-4775 → 4761/4768) 抽取序:range(0,3) 在 scriptOnUse 之前(RNG 序对齐 C)",
-     "status": "passed",
-     "title": "抽取序:range(0,3) 在 scriptOnUse 之前(RNG 序对齐 C)"
-    },
-    {
-     "fullName": "DM6:敌方法术自动防御预掷先于脚本(fight.c:4719-4775 → 4761/4768) 脚本施睡不剥夺预掷资格:与「不施睡」孪生战斗伤害逐位一致",
-     "status": "passed",
-     "title": "脚本施睡不剥夺预掷资格:与「不施睡」孪生战斗伤害逐位一致"
-    },
-    {
-     "fullName": "DM6:敌方法术自动防御预掷先于脚本(fight.c:4719-4775 → 4761/4768) 预掷未中(range(0,3)!=0)→ 无 +1 减伤除数,伤害高于预掷命中(可证伪对照)",
-     "status": "passed",
-     "title": "预掷未中(range(0,3)!=0)→ 无 +1 减伤除数,伤害高于预掷命中(可证伪对照)"
-    }
-   ]
-  },
-  {
-   "name": "/Users/zhangxu/.codex/worktrees/glm-new-h/type-pal/packages/game/src/core/battle/anim-timeline.glm-next-wave.test.ts",
-   "status": "passed",
-   "assertionResults": [
-    {
-     "fullName": "buildStealTimeline(fight.c:5218-5246 PAL_BattleStealFromEnemy 动画段) frame10 偷窃姿 + offset=(target-player)*8 冲到敌前 + 5 步逼近(i==4 敌闪白) + 收尾 x-- 敌复色",
-     "status": "passed",
-     "title": "frame10 偷窃姿 + offset=(target-player)*8 冲到敌前 + 5 步逼近(i==4 敌闪白) + 收尾 x-- 敌复色"
-    },
-    {
-     "fullName": "buildStealTimeline(fight.c:5218-5246 PAL_BattleStealFromEnemy 动画段) 目标在玩家左(target<player)→ 负 offset 反向落点(同一公式,不分支)",
-     "status": "passed",
-     "title": "目标在玩家左(target<player)→ 负 offset 反向落点(同一公式,不分支)"
-    },
-    {
-     "fullName": "buildPlayerMagicHitReaction(fight.c:4857-4899 敌方魔法命中我方 5 帧受击) 5 帧:frame4 受击姿;前 3 帧 iColorShift=6 后 2 帧复位;位移逐帧累加 (8>>i, 4>>i)",
-     "status": "passed",
-     "title": "5 帧:frame4 受击姿;前 3 帧 iColorShift=6 后 2 帧复位;位移逐帧累加 (8>>i, 4>>i)"
-    },
-    {
-     "fullName": "buildPlayerMagicHitReaction(fight.c:4857-4899 敌方魔法命中我方 5 帧受击) AoE 多队员同帧各自独立累加位移(不受彼此影响)",
-     "status": "passed",
-     "title": "AoE 多队员同帧各自独立累加位移(不受彼此影响)"
-    },
-    {
-     "fullName": "buildPlayerMagicHitReaction(fight.c:4857-4899 敌方魔法命中我方 5 帧受击) 无受伤队员(affected 空)→ 空时间线(生产 caller 只传掉血队员)",
-     "status": "passed",
-     "title": "无受伤队员(affected 空)→ 空时间线(生产 caller 只传掉血队员)"
-    }
-   ]
-  },
-  {
-   "name": "/Users/zhangxu/.codex/worktrees/glm-new-h/type-pal/packages/game/src/core/battle/battle-opcodes.glm-next-wave.test.ts",
-   "status": "passed",
-   "assertionResults": [
-    {
-     "fullName": "0x0005 / 0x008E ClearDialog(script.c:3267-3269 / 3428-3430) 0x05 → battleDialogPendingClear = true(战斗侧延迟清屏标记)",
-     "status": "passed",
-     "title": "0x05 → battleDialogPendingClear = true(战斗侧延迟清屏标记)"
-    },
-    {
-     "fullName": "0x0005 / 0x008E ClearDialog(script.c:3267-3269 / 3428-3430) 0x8E → battleDialogPendingClear = true(与 0x05 同一战斗侧语义)",
-     "status": "passed",
-     "title": "0x8E → battleDialogPendingClear = true(与 0x05 同一战斗侧语义)"
-    },
-    {
-     "fullName": "0x0005 / 0x008E ClearDialog(script.c:3267-3269 / 3428-3430) 战斗脚本内 0x05 → 下一个 showDialog 带 clearBefore 且只清一次;后续行不受影响",
-     "status": "passed",
-     "title": "战斗脚本内 0x05 → 下一个 showDialog 带 clearBefore 且只清一次;后续行不受影响"
-    },
-    {
-     "fullName": "0x006B Blow Away(script.c:2049-2054 iBlow = (SHORT)op0) 正操作数 → 原值存入 state.iBlow(present 击退位移消费)",
-     "status": "passed",
-     "title": "正操作数 → 原值存入 state.iBlow(present 击退位移消费)"
-    },
-    {
-     "fullName": "0x006B Blow Away(script.c:2049-2054 iBlow = (SHORT)op0) 0xFFFF → (SHORT) 截断为 -1(负值 = 反向吹飞;fight.c:2681 RandomLong(iBlow,0) 分支)",
-     "status": "passed",
-     "title": "0xFFFF → (SHORT) 截断为 -1(负值 = 反向吹飞;fight.c:2681 RandomLong(iBlow,0) 分支)"
-    }
-   ]
-  },
-  {
-   "name": "/Users/zhangxu/.codex/worktrees/glm-new-h/type-pal/packages/game/src/core/battle/battle-progression.glm-next-wave.test.ts",
-   "status": "passed",
-   "assertionResults": [
-    {
-     "fullName": "applyHiddenExpGrowth —— CHECK_HIDDEN_EXP 宏边角(battle.c:1238-1293) wLevel=120 先钳 99;99 级上继续扣阈值涨属性,wLevel 停 99 不再 ++",
-     "status": "passed",
-     "title": "wLevel=120 先钳 99;99 级上继续扣阈值涨属性,wLevel 停 99 不再 ++"
-    },
-    {
-     "fullName": "applyHiddenExpGrowth —— CHECK_HIDDEN_EXP 宏边角(battle.c:1238-1293) 隐藏涨点无 STAT_LIMIT 999 钳:base 998 再涨 → 突破 999(与主升级 cap 明确不同)",
-     "status": "passed",
-     "title": "隐藏涨点无 STAT_LIMIT 999 钳:base 998 再涨 → 突破 999(与主升级 cap 明确不同)"
-    },
-    {
-     "fullName": "applyHiddenExpGrowth —— CHECK_HIDDEN_EXP 宏边角(battle.c:1238-1293) 多池同涨:R(1,2) 按 Health→Magic 严格序消费(rng 调用序可证)",
-     "status": "passed",
-     "title": "多池同涨:R(1,2) 按 Health→Magic 严格序消费(rng 调用序可证)"
-    },
-    {
-     "fullName": "battleWonLevelUp:隐藏经验抬 maxHP 与回满的先后(battle.c:1287-1292) 无主升级但隐藏涨 maxHP → HP 保持战后值不回满(if(fLevelUp) 才回满)",
-     "status": "passed",
-     "title": "无主升级但隐藏涨 maxHP → HP 保持战后值不回满(if(fLevelUp) 才回满)"
-    },
-    {
-     "fullName": "battleWonLevelUp:隐藏经验抬 maxHP 与回满的先后(battle.c:1287-1292) 主升级成立 → 隐藏涨点后 HP/MP 回满到(可能更高的)新 max(battle.c:1289-1292)",
-     "status": "passed",
-     "title": "主升级成立 → 隐藏涨点后 HP/MP 回满到(可能更高的)新 max(battle.c:1289-1292)"
-    }
-   ]
-  },
-  {
-   "name": "/Users/zhangxu/.codex/worktrees/glm-new-h/type-pal/packages/game/src/core/battle/battle-settlement.glm-next-wave.test.ts",
-   "status": "passed",
-   "assertionResults": [
-    {
-     "fullName": "settlementScreenTimeoutMs(battle.c:1048/1218/1272/1324 PAL_WaitForAnyKey) exp 屏 boss 5500ms / 普通战 3000ms;升级/隐藏涨点/练成屏一律 3000ms",
-     "status": "passed",
-     "title": "exp 屏 boss 5500ms / 普通战 3000ms;升级/隐藏涨点/练成屏一律 3000ms"
-    },
-    {
-     "fullName": "buildBattleWonSettlement(battle.c:991-1328 won 首 tick 战果处理) 不升级:仅 exp-cash 一屏;cash 无条件入账;战斗 HP/MP 先回写 runtime",
-     "status": "passed",
-     "title": "不升级:仅 exp-cash 一屏;cash 无条件入账;战斗 HP/MP 先回写 runtime"
-    },
-    {
-     "fullName": "buildBattleWonSettlement(battle.c:991-1328 won 首 tick 战果处理) 屏序:exp-cash → level-up → hidden-exp-up → learn-magic(battle.c 逐屏同序)",
-     "status": "passed",
-     "title": "屏序:exp-cash → level-up → hidden-exp-up → learn-magic(battle.c 逐屏同序)"
-    },
-    {
-     "fullName": "tickBattleSettlement(逐屏等键/超时 + Phase E + 半血收尾) 首帧不收键;任意键次帧生效;无键 75 tick(3000ms)超时自动翻",
-     "status": "passed",
-     "title": "首帧不收键;任意键次帧生效;无键 75 tick(3000ms)超时自动翻"
-    },
-    {
-     "fullName": "tickBattleSettlement(逐屏等键/超时 + Phase E + 半血收尾) 屏放完 → Phase E scriptOnBattleEnd 仅跑一次;对话 hold 不收尾;清后 finalize 半血恢复",
-     "status": "passed",
-     "title": "屏放完 → Phase E scriptOnBattleEnd 仅跑一次;对话 hold 不收尾;清后 finalize 半血恢复"
-    }
-   ]
-  },
-  {
-   "name": "/Users/zhangxu/.codex/worktrees/glm-new-h/type-pal/packages/game/src/core/battle/battle-state.glm-next-wave.test.ts",
-   "status": "passed",
-   "assertionResults": [
-    {
-     "fullName": "createBattleState —— DH1 零占位槽(battle.c:1598-1720) null 槽 → defeated 空槽:objectId=0、e 全零、无脚本、不参与目标(defeated)",
-     "status": "passed",
-     "title": "null 槽 → defeated 空槽:objectId=0、e 全零、无脚本、不参与目标(defeated)"
-    },
-    {
-     "fullName": "createBattleState —— DH1 零占位槽(battle.c:1598-1720) 真实槽不受空槽影响:e shallow copy + maxHealth=战前满血(0x64 真值基线)",
-     "status": "passed",
-     "title": "真实槽不受空槽影响:e shallow copy + maxHealth=战前满血(0x64 真值基线)"
-    },
-    {
-     "fullName": "createBattleState —— 开战 seed gs.fAutoBattle(true)→ state.fAutoBattle(true);缺省 false(0x8A 跨战斗持久)",
-     "status": "passed",
-     "title": "gs.fAutoBattle(true)→ state.fAutoBattle(true);缺省 false(0x8A 跨战斗持久)"
-    },
-    {
-     "fullName": "createBattleState —— 开战 seed players prevHp/prevMp/scriptPrevHp 三快照 = 战前 role.hp/mp",
-     "status": "passed",
-     "title": "players prevHp/prevMp/scriptPrevHp 三快照 = 战前 role.hp/mp"
-    }
-   ]
-  },
-  {
-   "name": "/Users/zhangxu/.codex/worktrees/glm-new-h/type-pal/packages/game/src/core/battle/battle-system.glm-next-wave.test.ts",
-   "status": "passed",
-   "assertionResults": [
-    {
-     "fullName": "scriptOnTurnStart 与 battleDialogPendingClear(battle-opcodes 0x05/0x8E 消费链) turnStart 脚本内 0x05 → 首句对话带 clearBefore;脚本结束标记复位(不跨脚本泄漏)",
-     "status": "passed",
-     "title": "turnStart 脚本内 0x05 → 首句对话带 clearBefore;脚本结束标记复位(不跨脚本泄漏)"
-    },
-    {
-     "fullName": "scriptOnTurnStart 与 battleDialogPendingClear(battle-opcodes 0x05/0x8E 消费链) 敌 A 的 0x05(无对话)不泄漏到敌 B 的对话(每脚本起手重置,battle-system.ts:2187)",
-     "status": "passed",
-     "title": "敌 A 的 0x05(无对话)不泄漏到敌 B 的对话(每脚本起手重置,battle-system.ts:2187)"
-    },
-    {
-     "fullName": "DL23:turn-start 置终态 → break(battle.c:747-750 BattleResult != PreBattle) 敌 A turnStart 0x89 [3] won → 敌 B turnStart 不跑、无对话;phase 进 won",
-     "status": "passed",
-     "title": "敌 A turnStart 0x89 [3] won → 敌 B turnStart 不跑、无对话;phase 进 won"
-    }
-   ]
-  },
-  {
-   "name": "/Users/zhangxu/.codex/worktrees/glm-new-h/type-pal/packages/game/src/core/equip-effect.glm-next-wave.test.ts",
-   "status": "passed",
-   "assertionResults": [
-    {
-     "fullName": "0x2D scriptOnEquip → 坏状态不刷新(global.c:2229-2241) 已有 Sleep 5 → 脚本设 3 不覆盖(保持 5);另一 role 当前 0 → 设为 3",
-     "status": "passed",
-     "title": "已有 Sleep 5 → 脚本设 3 不覆盖(保持 5);另一 role 当前 0 → 设为 3"
-    },
-    {
-     "fullName": "0x2D scriptOnEquip → 坏状态不刷新(global.c:2229-2241) Silence(3) 同规则:已有 8 不被 2 覆盖",
-     "status": "passed",
-     "title": "Silence(3) 同规则:已有 8 不被 2 覆盖"
-    },
-    {
-     "fullName": "0x2D scriptOnEquip → 傀儡仅死人可设 + set-if-longer(global.c:2243-2257) 活人(Hp>0)设 Puppet 9 → 不施加;死人 → 设为 9",
-     "status": "passed",
-     "title": "活人(Hp>0)设 Puppet 9 → 不施加;死人 → 设为 9"
-    },
-    {
-     "fullName": "0x2D scriptOnEquip → 傀儡仅死人可设 + set-if-longer(global.c:2243-2257) 死人已有 Puppet 12 → 脚本设 9 不覆盖(set-if-longer)",
-     "status": "passed",
-     "title": "死人已有 Puppet 12 → 脚本设 9 不覆盖(set-if-longer)"
-    }
-   ]
-  },
-  {
-   "name": "/Users/zhangxu/.codex/worktrees/glm-new-h/type-pal/packages/game/src/core/equipment-state.glm-next-wave.test.ts",
-   "status": "passed",
-   "assertionResults": [
-    {
-     "fullName": "writeEquipmentEffectField —— 0x17 HP/MP 族 row(script.c:752-766) MAX_HP7/MAX_MP8/HP9/MP10 写进对应 part 覆盖层,base 不动、其余 role 不受影响",
-     "status": "passed",
-     "title": "MAX_HP7/MAX_MP8/HP9/MP10 写进对应 part 覆盖层,base 不动、其余 role 不受影响"
-    },
-    {
-     "fullName": "writeEquipmentEffectField —— 0x17 HP/MP 族 row(script.c:752-766) partIdx -1 / 7(MAX_PLAYER_EQUIPMENTS 之外)→ no-op 不抛错",
-     "status": "passed",
-     "title": "partIdx -1 / 7(MAX_PLAYER_EQUIPMENTS 之外)→ no-op 不抛错"
-    },
-    {
-     "fullName": "addPlayerStatRow —— 0x19 COVERED_BY row(script.c:813-832) row 31(COVERED_BY)按 delta 累加,不影响其他 row",
-     "status": "passed",
-     "title": "row 31(COVERED_BY)按 delta 累加,不影响其他 row"
-    },
-    {
-     "fullName": "removeEquipmentEffect 部位边界(global.c:1372;Extra=6 战末清理合法) part 6(kBodyPartExtra)合法:清该 role 覆盖层;part 7 越界 no-op 不清",
-     "status": "passed",
-     "title": "part 6(kBodyPartExtra)合法:清该 role 覆盖层;part 7 越界 no-op 不清"
-    },
-    {
-     "fullName": "removeEquipmentEffect 部位边界(global.c:1372;Extra=6 战末清理合法) part 6 只清目标 role,其他 role 的 Extra 槽保留",
-     "status": "passed",
-     "title": "part 6 只清目标 role,其他 role 的 Extra 槽保留"
-    }
-   ]
-  },
-  {
-   "name": "/Users/zhangxu/.codex/worktrees/glm-new-h/type-pal/packages/game/src/core/game-state.glm-next-wave.test.ts",
-   "status": "passed",
-   "assertionResults": [
-    {
-     "fullName": "getOverworldSpriteNum 三级快照解析(present/bootstrap 现行 caller) role0 + 旧字段 partyLeaderSpriteId → 最高优先(旧存档/0x65 镜像)",
-     "status": "passed",
-     "title": "role0 + 旧字段 partyLeaderSpriteId → 最高优先(旧存档/0x65 镜像)"
-    },
-    {
-     "fullName": "getOverworldSpriteNum 三级快照解析(present/bootstrap 现行 caller) 无旧字段 → runtime rgwSpriteNum>0 生效;=0 跳过(0x65 变身写 runtime 的当前值)",
-     "status": "passed",
-     "title": "无旧字段 → runtime rgwSpriteNum>0 生效;=0 跳过(0x65 变身写 runtime 的当前值)"
-    },
-    {
-     "fullName": "getOverworldSpriteNum 三级快照解析(present/bootstrap 现行 caller) runtime 缺行(旧档归一化前)→ 静态 player-roles.json 兜底;两者皆无 → undefined",
-     "status": "passed",
-     "title": "runtime 缺行(旧档归一化前)→ 静态 player-roles.json 兜底;两者皆无 → undefined"
-    },
-    {
-     "fullName": "createInitialPlayerStatus(sdlpal global.h:522 布局) 6 role × 9 状态槽全零(Confused0..DualAttack8)",
-     "status": "passed",
-     "title": "6 role × 9 状态槽全零(Confused0..DualAttack8)"
-    }
-   ]
-  }
- ]
+  ]
 }
