@@ -83,5 +83,7 @@ playwright setInputFiles 注入路径在本宿主不稳定，弃用）。
 
 ## 候选与登记
 
-- 候选（tests+kit+evidence 单提交）：见推送记录（本次推送的倒数第二个提交即候选）。
-- 登记（本回执补候选 SHA）：见推送 head。
+- **候选完整 SHA：`38d849a170e97b59c743660f1b3c3bc7816b9bb8`**
+  （tests 10 文件 22 例 + kit + 反控判官 + 视觉宿主/证据 + 本回执，单提交；
+  基于基线 `2948810f docs: dispatch five new parallel GLM coverage waves`。）
+- 本节为登记块（第二提交），不含其它改动。
