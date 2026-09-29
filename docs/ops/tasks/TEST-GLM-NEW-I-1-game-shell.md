@@ -102,3 +102,11 @@ file/fullName/status、反控与视觉 console 未证说明，推送新完整 SH
 状态为 `review`，尚未合 main；共享导航、菜单浏览器 console 补验与统一
 `pnpm check`、官方 ratchet、受保护 fast 待 Codex 集成时完成。
 无下一位 GLM 提示词；不把隔离分支测试数当正式覆盖收益。
+
+## 2026-09-29 Codex 代码集成后保留 review
+
+本卡测试/证据已进入 main `056cb6cb26dbe46e374e9121c1a2bdb94b12d990`，
+见[统一集成回执](../../testing/glm-wave-union-20260929.md)。完整 `pnpm check`、
+官方 ratchet、受保护 fast 与静态零诊断均通过；正式并集分支覆盖率
+78.12%。**仍非 done**：菜单高亮截图已看图，但浏览器 console 历史
+未采集。Codex 负责后续最小 console 补验；无下一位 GLM 提示词。

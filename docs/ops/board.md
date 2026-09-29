@@ -74,14 +74,15 @@ check8896/单次strict8404全过；实际+134分支/+73行，content分支85.55%
 
 ## 进行中
 
+2026-09-29 [GLM A–J 并集](../testing/glm-wave-union-20260929.md)已进入 main：
+完整 check、ratchet、受保护 fast 通过，分支 49,529/63,398（78.12%，+448）；
+85% 未达，仍差 4,360 臂。A–E/F/H/J 纯测试卡 done 归档；G/I 代码已入库，
+仅浏览器 console 未证，保留 review。
+
 | ID | 任务 | 状态 | 负责人/下一步 | 一句话备注 |
 |---|---|---|---|---|
-| TEST-GLM-LARGE-WAVE-4 | [五批大型当前合同补测](tasks/TEST-GLM-LARGE-WAVE-4-five-large-batches.md) | review | Codex / 待并集选择性集成与官方门 | R3 候选 accept：66 定向、lint/typecheck 0；未合 main、不计正式收益 |
-| TEST-GLM-NEW-F-1 | [编辑器主工作台与预览](tasks/TEST-GLM-NEW-F-1-editor-shell.md) | review | Codex / 待并集选择性集成与官方门 | r2 候选 accept：22 定向、lint/typecheck 0；未合 main |
-| TEST-GLM-NEW-G-1 | [Reforge 战斗与场景宿主边界](tasks/TEST-GLM-NEW-G-1-reforge-host.md) | review | Codex / 待并集成门与 console 补验 | r2 候选 accept：45 定向、lint/typecheck 0；未合 main |
-| TEST-GLM-NEW-H-1 | [一阶段战斗当前合同](tasks/TEST-GLM-NEW-H-1-game-battle.md) | review | Codex / 待并集选择性集成与官方门 | r1 返工候选 accept：48 定向、lint/typecheck 0；未合 main |
-| TEST-GLM-NEW-I-1 | [一阶段壳层、菜单与呈现](tasks/TEST-GLM-NEW-I-1-game-shell.md) | review | Codex / 待并集集成与菜单 console 补验 | r2 候选 accept：40 定向、lint/typecheck 0；未合 main、不计正式收益 |
-| TEST-GLM-NEW-J-1 | [迁移编排与发布前校验](tasks/TEST-GLM-NEW-J-1-migrate-orchestration.md) | review | Codex / 待并集选择性集成与官方门 | r2 候选 accept：58 定向、lint/typecheck 0；未合 main、不计正式收益 |
+| TEST-GLM-NEW-G-1 | [Reforge 战斗与场景宿主边界](tasks/TEST-GLM-NEW-G-1-reforge-host.md) | review | Codex / 补验试打 console 余项 | 代码已入 main、官方门全绿；9 条 console error 有 1 条未归因 |
+| TEST-GLM-NEW-I-1 | [一阶段壳层、菜单与呈现](tasks/TEST-GLM-NEW-I-1-game-shell.md) | review | Codex / 补采菜单 console | 代码已入 main、官方门全绿；菜单画面已证，console 历史未证 |
 | E2E-R4-1 | [路线驱动与检查点薄基线](tasks/E2E-R4-1-route-and-checkpoint-foundation.md) | build | Codex / 002正常移动与跨场景 | 001 verify已收口：55正文/角色/真实读档及像素；002继承真档，录制音轨另排 |
 | EDITOR-SCENE-FACING-1 | [切场景朝向清除](tasks/EDITOR-SCENE-FACING-1-clear-override.md) | draft | Codex / 后续窄修 | 保持选项仍提交旧方向；真实红诊断+单点oracle已证 |
 | ARCH-SUPPORT-GLM-1 | [八组并行架构/视觉准备](tasks/ARCH-SUPPORT-GLM-1-eight-audit-packages.md) | draft | Codex / 后续归属与收口 | 58cdf938材料accept，counter清零；文档已合入，按用户要求未标done/未开产品门 |

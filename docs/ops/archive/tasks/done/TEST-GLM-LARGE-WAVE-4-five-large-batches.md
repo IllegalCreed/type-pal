@@ -1,6 +1,6 @@
 # TEST-GLM-LARGE-WAVE-4 — 五批大型当前合同补测
 
-Status: review
+Status: done
 Owner: GLM（单一测试 Coding Owner）
 Reviewer: Codex（独立验收、统一质量门与集成）
 Phase: phase2（editor/content/reforge/migrate；D 批仅引用原版数据格式，不改一阶段引擎）
@@ -12,10 +12,10 @@ Visual Verification Timing: dev-functional（A 两条、B/C 各一条隔离小�
 2026-09-29 用户要求“再来至少 5 批任务给 GLM，每批都量大一些”。本卡给**一个 GLM 对话**
 顺序实施 A–E **五个大批**：每批 6 个工作组、12 个互不重复的生产源码目标，共 30 组/60 目标。
 每组须先旧测去重，有新合同才建测试；每批规划约 30–50 条有意义用例作为工作量参考，
-不以凑用例或命中率为门。完整窄合同在[工作包](../../testing/glm-large-wave/README.md)，
-路径与 source digest 在[冻结清单](../../testing/glm-large-wave/targets.json)。
+不以凑用例或命中率为门。完整窄合同在[工作包](../../../../testing/glm-large-wave/README.md)，
+路径与 source digest 在[冻结清单](../../../../testing/glm-large-wave/targets.json)。
 
-当前临时模式按 [`AGENTS.md`](../../../AGENTS.md) 顶部：Codex 定范围/单一 Owner，GLM 贡献并自验，
+当前临时模式按 [`AGENTS.md`](../../../../../AGENTS.md) 顶部：Codex 定范围/单一 Owner，GLM 贡献并自验，
 Codex 独立接收和集成；固定三签暂休。此卡不授权产品、schema、存档、资产或用户可见行为变化。
 
 ## 前提真值门与上下文锚点
@@ -23,8 +23,8 @@ Codex 独立接收和集成；固定三签暂休。此卡不授权产品、schem
 | 方向 | 当前核定 |
 |---|---|
 | 原版/primary source | 本卡没有原版玩法变更，普通 UI/当前 schema 测试 N/A。D 批若以原版字节/脚本映射作预期，须从 `data/raw` 或 `reference/sdlpal` 等一手输入逐轴核，不把合成输入说成原版实测。 |
-| 第一阶段 | 不改 `packages/game` 或一阶段可见行为；一阶段机制对 A/B/C/E 为 N/A。D 批原始数据语义若有争议，先读 [`CLAUDE.md`](../../../CLAUDE.md) 与[工程经验](../../phase1/engineering-notes.md)，停止该轴交 Codex。 |
-| 当前二阶段 | 生产冻结 `9c35748a0e36d6b1e4368a6b427ed63ab6d6e700`、正式 fast 基线 SHA256 `a682d4e1b970df7c2f5a100ca6a1c8ed9cc23e7a612b7328998949db9fa75b41`。`CommandForm.tsx:28–34` 组合 A 表单，`editor/main.tsx:24/28` 接 B 会话，`reforge/main.ts:179/181` 用 C script host，`migrate/migrate-content.ts:199/211` 用 D translator，`reforge/main.ts:146/159` 用 E 当前 loader/save preflight；先读 [`READ-FIRST`](../../phase2/READ-FIRST.md)。 |
+| 第一阶段 | 不改 `packages/game` 或一阶段可见行为；一阶段机制对 A/B/C/E 为 N/A。D 批原始数据语义若有争议，先读 [`CLAUDE.md`](../../../../../CLAUDE.md) 与[工程经验](../../../../phase1/engineering-notes.md)，停止该轴交 Codex。 |
+| 当前二阶段 | 生产冻结 `9c35748a0e36d6b1e4368a6b427ed63ab6d6e700`、正式 fast 基线 SHA256 `a682d4e1b970df7c2f5a100ca6a1c8ed9cc23e7a612b7328998949db9fa75b41`。`CommandForm.tsx:28–34` 组合 A 表单，`editor/main.tsx:24/28` 接 B 会话，`reforge/main.ts:179/181` 用 C script host，`migrate/migrate-content.ts:199/211` 用 D translator，`reforge/main.ts:146/159` 用 E 当前 loader/save preflight；先读 [`READ-FIRST`](../../../../phase2/READ-FIRST.md)。 |
 | 本任务目标 | 产品 before → after 为**不变**；只新增可证伪回归及少量隔离功能画面。60 源目标及五个 digest 的只读验证命令：`node docs/testing/glm-large-wave/verify-targets.mjs`。 |
 
 五批整文件未命中分支选题空间依次为 A 639、B 515、C 368、D 650、E 328；数字不是
@@ -87,7 +87,7 @@ A→E 连续做；每完成 6 组固定提交并推送完整候选 SHA，可继�
 
 候选 `8cb0af0ad2e5952c01e8fa95144b495df4ceaecc` 独立审核结论为 **rework，
 未接收/未合 main**。完整一手命令、通过项和五条返工项见
-[Codex 审核回执](../../testing/glm-large-wave/codex-review-8cb0af0a.md)。
+[Codex 审核回执](../../../../testing/glm-large-wave/codex-review-8cb0af0a.md)。
 定向 66/66、三包 typecheck、冻结/文档检查通过；但完整 lint 有 15 error/2 warning/1 info，
 且 typed fixture、测试路径和反控判据不合卡面。GLM 只修原白名单内问题，
 复跑零诊断和反控并推送新完整 SHA；Codex 再审后才可能做全仓/官方覆盖门。
@@ -96,7 +96,7 @@ A→E 连续做；每完成 6 组固定提交并推送完整候选 SHA，可继�
 R2 候选 `031b3e479e18bf1add1d5b559716172cfb7c031f` 的 lint、三包 typecheck、
 66 项定向测试、强转/后缀/17:43 已核闭合，但严格反控的 INVALID 路径会遗留临时针文件，
 且部分回执锚仍陈旧；结论仍为 **rework**。见
-[Codex R2 审核回执](../../testing/glm-large-wave/codex-review-r2-031b3e47.md)。
+[Codex R2 审核回执](../../../../testing/glm-large-wave/codex-review-r2-031b3e47.md)。
 GLM 只修反控判据/自测与记录，不再扩大测试范围；官方覆盖门继续暂缓。
 
 ## 历史首轮派发提示词（已执行）
@@ -151,7 +151,19 @@ selftest 对每种 INVALID 断言无遗留临时文件。修 receipt-batch-b 的
 ## 2026-09-29 Codex R3 候选验收
 
 候选 `4e200099257ed5167b640eb5abadd7129859dfee` **代码/证据 accept**，
-见[独立验收回执](../../testing/glm-large-wave/codex-accept-r3-4e200099.md)。
+见[独立验收回执](../../../../testing/glm-large-wave/codex-accept-r3-4e200099.md)。
 状态为 `review`，尚未合 main；7 条只读 README 导航由 Codex 集成时补齐，
 统一 `pnpm check`、官方 ratchet、受保护 fast 和 main 并集收益均未运行/未确认。
 无下一位 GLM 提示词；等待 Codex 与其它已接收 wave 选择性集成及统一收口。
+
+## 2026-09-29 Codex 集成终态
+
+本卡测试/证据已作为 A–J 并集进入 main `056cb6cb26dbe46e374e9121c1a2bdb94b12d990`，
+见[统一集成回执](../../../../testing/glm-wave-union-20260929.md)。完整 `pnpm check`、
+官方 ratchet、受 `origin/main` 旧基线保护的单次 fast 均通过；完整 lint
+0 error / 0 warning / 0 info，生产源码与覆盖分母不变。本卡按测试-only
+验收条件由 Codex 标记 `done`。全仓 85% 目标未达（实测 78.12%），
+不把该目标冒充本卡已完成的产品行为验收。
+
+无下一位 Agent 提示词；历史派发/返工提示词仅作记录。
+

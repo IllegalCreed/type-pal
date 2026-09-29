@@ -11,11 +11,11 @@
 [Wave I r2 候选验收](codex-accept-I-r2-044d3fa4.md) ·
 [Wave J Codex r1 审核](codex-review-J-009c5578.md) · [测试总览](../README.md) ·
 [Wave J r2 候选验收](codex-accept-J-r2-acd67499.md) ·
-[F](../../ops/tasks/TEST-GLM-NEW-F-1-editor-shell.md) ·
+[F](../../ops/archive/tasks/done/TEST-GLM-NEW-F-1-editor-shell.md) ·
 [G](../../ops/tasks/TEST-GLM-NEW-G-1-reforge-host.md) ·
-[H](../../ops/tasks/TEST-GLM-NEW-H-1-game-battle.md) ·
+[H](../../ops/archive/tasks/done/TEST-GLM-NEW-H-1-game-battle.md) ·
 [I](../../ops/tasks/TEST-GLM-NEW-I-1-game-shell.md) ·
-[J](../../ops/tasks/TEST-GLM-NEW-J-1-migrate-orchestration.md)
+[J](../../ops/archive/tasks/done/TEST-GLM-NEW-J-1-migrate-orchestration.md)
 
 交付证据目录：[F](wave-F/README.md) · [G](wave-G/README.md) ·
 [I](wave-I/README.md) · [J](wave-J/README.md)。Wave H 证据为

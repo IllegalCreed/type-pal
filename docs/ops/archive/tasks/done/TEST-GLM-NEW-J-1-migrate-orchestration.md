@@ -1,6 +1,6 @@
 # TEST-GLM-NEW-J-1 — 迁移编排与发布前校验
 
-Status: review
+Status: done
 Owner: GLM Wave J（仅本 wave 单一测试 Coding Owner）
 Reviewer: Codex（独立验收、选择性集成、统一质量/覆盖门）
 Phase: phase2
@@ -10,8 +10,8 @@ Capability: coverage / current-public-contract
 
 2026-09-29 用户明确先前 GLM A–E 已在执行，要求**另外多个新 wave 并行**，
 并争取当日全仓分支覆盖率 85%。本卡只授权自己的六组/12 源；完整窄合同见
-[F–J 工作包](../../testing/glm-new-waves/README.md)，精确源与 source digest
-见[冻结表](../../testing/glm-new-waves/targets.json)：`5d835075e94d8fe2c7b934d101e05e758c4158f7fadbc3c10999d4c462e58a1b`。
+[F–J 工作包](../../../../testing/glm-new-waves/README.md)，精确源与 source digest
+见[冻结表](../../../../testing/glm-new-waves/targets.json)：`5d835075e94d8fe2c7b934d101e05e758c4158f7fadbc3c10999d4c462e58a1b`。
 先运行 `node docs/testing/glm-new-waves/verify-targets.mjs`；目标已与 A–E 和此前四队列去重。
 先读真实 caller、同名/跨文件旧测试的完整 title/断言，有未证公开合同才建测试；
 分支未命中只是选题线索，不承诺收益或以凑数为验收。85% 由 Codex 在 main 并集实测。
@@ -57,7 +57,7 @@ Codex 独立审核 F–J 与 A–E 并集，选择性集成，串行 check → r
 ## 2026-09-29 Codex 独立审核与返工
 
 候选 `009c557851e43759b20e10d4d1284bdf1aa21247` 已完成独立审核，结论
-**rework，未合 main**。完整[审核回执](../../testing/glm-new-waves/codex-review-J-009c5578.md)
+**rework，未合 main**。完整[审核回执](../../../../testing/glm-new-waves/codex-review-J-009c5578.md)
 记录 55/55 新测、996/996 migrate 全包、lint/typecheck 零诊断及两项合同返工：
 J01 不得冻结无现行消费者的 `[undefined]` 审计辅助函数行为；J06 毒 golden
 须以一手机制证据核实并纠正“全表逐条深等”口径。GLM 只修原白名单，推新完整 SHA；
@@ -97,7 +97,19 @@ pnpm lint 零诊断、docs/diff，提交推送新 SHA。共享导航由 Codex �
 ## 2026-09-29 Codex r2 候选验收
 
 候选 `acd67499dc0d7a5e0b1de6fb7df2c7838b021a00` **代码/证据 accept**，
-见[独立验收回执](../../testing/glm-new-waves/codex-accept-J-r2-acd67499.md)。
+见[独立验收回执](../../../../testing/glm-new-waves/codex-accept-J-r2-acd67499.md)。
 状态为 `review`，尚未合 main；共享导航由 Codex 集成时补齐，统一
 `pnpm check`、官方 ratchet、受保护 fast 与 main 并集收益均未运行/未确认。
 无下一位 GLM 提示词；等待 Codex 与其它已接收 wave 选择性集成及统一收口。
+
+## 2026-09-29 Codex 集成终态
+
+本卡测试/证据已作为 A–J 并集进入 main `056cb6cb26dbe46e374e9121c1a2bdb94b12d990`，
+见[统一集成回执](../../../../testing/glm-wave-union-20260929.md)。完整 `pnpm check`、
+官方 ratchet、受 `origin/main` 旧基线保护的单次 fast 均通过；完整 lint
+0 error / 0 warning / 0 info，生产源码与覆盖分母不变。本卡按测试-only
+验收条件由 Codex 标记 `done`。全仓 85% 目标未达（实测 78.12%），
+不把该目标冒充本卡已完成的产品行为验收。
+
+无下一位 Agent 提示词；历史派发/返工提示词仅作记录。
+

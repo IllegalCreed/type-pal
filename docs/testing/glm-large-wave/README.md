@@ -1,6 +1,6 @@
 # GLM 五批大型当前合同补测（A–E）
 
-[任务卡](../../ops/tasks/TEST-GLM-LARGE-WAVE-4-five-large-batches.md) ·
+[任务卡](../../ops/archive/tasks/done/TEST-GLM-LARGE-WAVE-4-five-large-batches.md) ·
 [60 个冻结目标](targets.json) · [只读冻结校验](verify-targets.mjs) ·
 [Codex r1 审核回执](codex-review-8cb0af0a.md) ·
 [Codex R2 审核回执](codex-review-r2-031b3e47.md) · [上级](../README.md)

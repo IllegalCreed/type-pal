@@ -1,7 +1,7 @@
 # Wave F — 编辑器主工作台与预览（TEST-GLM-NEW-F-1 证据目录）
 
 GLM Wave F 的回执、反控判据与隔离视觉宿主。任务卡
-[TEST-GLM-NEW-F-1-editor-shell](../../../ops/tasks/TEST-GLM-NEW-F-1-editor-shell.md)；
+[TEST-GLM-NEW-F-1-editor-shell](../../../ops/archive/tasks/done/TEST-GLM-NEW-F-1-editor-shell.md)；
 冻结目标与本 wave 定位见[父 README](../README.md)（父目录导航由 Codex 维护）。
 候选/登记 SHA 与逐组旧证→新差异见 [receipt.md](receipt.md)。
 

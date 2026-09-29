@@ -11,12 +11,8 @@
 | [ARCH-SUPPORT-GLM-1 — 八组并行准备取证](ARCH-SUPPORT-GLM-1-eight-audit-packages.md) | draft | 以任务卡当前准入与看板分工为准。 |
 | [E2E-R4-1 — 路线驱动与合法检查点薄基线](E2E-R4-1-route-and-checkpoint-foundation.md) | build | 以任务卡当前准入与看板分工为准。 |
 | [EDITOR-SCENE-FACING-1 — 切场景指令无法清除显式朝向](EDITOR-SCENE-FACING-1-clear-override.md) | draft | 以任务卡当前准入与看板分工为准。 |
-| [TEST-GLM-LARGE-WAVE-4 — 五批大型当前合同补测](TEST-GLM-LARGE-WAVE-4-five-large-batches.md) | review | 以任务卡当前准入与看板分工为准。 |
-| [TEST-GLM-NEW-F-1 — 编辑器主工作台与预览](TEST-GLM-NEW-F-1-editor-shell.md) | review | 以任务卡当前准入与看板分工为准。 |
 | [TEST-GLM-NEW-G-1 — Reforge 战斗与场景宿主边界](TEST-GLM-NEW-G-1-reforge-host.md) | review | 以任务卡当前准入与看板分工为准。 |
-| [TEST-GLM-NEW-H-1 — 一阶段战斗当前合同](TEST-GLM-NEW-H-1-game-battle.md) | review | 以任务卡当前准入与看板分工为准。 |
 | [TEST-GLM-NEW-I-1 — 一阶段壳层、菜单与呈现](TEST-GLM-NEW-I-1-game-shell.md) | review | 以任务卡当前准入与看板分工为准。 |
-| [TEST-GLM-NEW-J-1 — 迁移编排与发布前校验](TEST-GLM-NEW-J-1-migrate-orchestration.md) | review | 以任务卡当前准入与看板分工为准。 |
 
 ## 已完成（historical）
 
@@ -211,7 +207,11 @@
 | [TEST-GLM-CONTENT-GUARDS-3 — 八组同步脚本与记录守卫补测](../archive/tasks/done/TEST-GLM-CONTENT-GUARDS-3-script-and-records.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [TEST-GLM-EDITOR-UI-WAVE-1 — 编辑器十二模块交互回归](../archive/tasks/done/TEST-GLM-EDITOR-UI-WAVE-1-twelve-surfaces.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [TEST-GLM-ITEM-LOGIC-1 — 物品纯逻辑六组补测](../archive/tasks/done/TEST-GLM-ITEM-LOGIC-1-world-use-residuals.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [TEST-GLM-LARGE-WAVE-4 — 五批大型当前合同补测](../archive/tasks/done/TEST-GLM-LARGE-WAVE-4-five-large-batches.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [TEST-GLM-LEAF-WORKFLOWS-1 — 三十二组叶层与小界面补测](../archive/tasks/done/TEST-GLM-LEAF-WORKFLOWS-1-thirty-two-groups.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [TEST-GLM-NEW-F-1 — 编辑器主工作台与预览](../archive/tasks/done/TEST-GLM-NEW-F-1-editor-shell.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [TEST-GLM-NEW-H-1 — 一阶段战斗当前合同](../archive/tasks/done/TEST-GLM-NEW-H-1-game-battle.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [TEST-GLM-NEW-J-1 — 迁移编排与发布前校验](../archive/tasks/done/TEST-GLM-NEW-J-1-migrate-orchestration.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [TEST-GLM-PHASE1-LEAVES-3 — 第三对话一阶段菜单、呈现与工具六批补测](../archive/tasks/done/TEST-GLM-PHASE1-LEAVES-3-menus-presentation-tools.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [TEST-GLM-RUNTIME-RESOURCE-2 — 第二对话运行时与资源七批补测](../archive/tasks/done/TEST-GLM-RUNTIME-RESOURCE-2-parallel-wave.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [TEST-GLM-STATE-COMMANDS-1 — 菜单与编辑命令十六组连续补测](../archive/tasks/done/TEST-GLM-STATE-COMMANDS-1-sixteen-leaf-modules.md) | done | 完成证据、历史签字与交接见原卡。 |
