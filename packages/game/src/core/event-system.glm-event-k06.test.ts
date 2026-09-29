@@ -18,9 +18,9 @@
  * - 缺口结论:runScript end 三态返回值、battle 具名 giveItem、startOverworldItemScript 失败门
  *   可达且无旧证 → 新增;battle 对话队列/0x69/0x35/0x19 回灌/条件跳转 fall-back 已证不重做。
  */
-import type { Command } from '@type-pal/shared'
+import type { Command, Enemy, PlayerRole } from '@type-pal/shared'
 import { describe, expect, it } from 'vitest'
-import type { BattleState } from './battle/battle-state.js'
+import { createBattleState } from './battle/battle-state.js'
 import { type CommandBus, createCommandBus } from './command-bus.js'
 import {
   type BattleCtx,
@@ -33,36 +33,95 @@ import {
 import { createInitialGameState, type GameState } from './game-state.js'
 import { createSeedableRng } from './rng.js'
 
-/** 最小战斗 ctx(runScript battle 模式必需;对齐旧测 makeMinimalBattleCtx 形状)。 */
-function makeMinimalBattleCtx(gs?: GameState): BattleCtx {
-  const state: BattleState = {
-    players: [],
-    enemies: [],
+/** 现行 PlayerRole fixture(battle-state.test.ts minimalRole 同款,合法 CreateBattleStateInput)。 */
+function minimalRole(id: number): PlayerRole {
+  return {
+    id,
+    _name: `Role${id}`,
+    avatar: 0,
+    spriteNumInBattle: 0,
+    spriteNum: 0,
+    name: 0,
+    attackAll: 0,
+    level: 10,
+    maxHP: 200,
+    maxMP: 30,
+    hp: 200,
+    mp: 30,
+    attackStrength: 0,
+    magicStrength: 0,
+    defense: 0,
+    dexterity: 30,
+    fleeRate: 5,
+    poisonResistance: 0,
+    elemResistance: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 },
+    walkFrames: 0,
+    attackSound: 0,
+    weaponSound: 0,
+    criticalSound: 0,
+    magicSound: 0,
+    deathSound: 0,
+  }
+}
+
+/** 现行 Enemy fixture(battle-state.test.ts minimalEnemy 同款)。 */
+function minimalEnemy(id: number, health = 50): Enemy {
+  return {
+    id,
+    _name: 'TestEnemy',
+    idleFrames: 0,
+    magicFrames: 0,
+    attackFrames: 0,
+    idleAnimSpeed: 0,
+    actWaitFrames: 0,
+    yPosOffset: 0,
+    attackSound: 0,
+    actionSound: 0,
+    magicSound: 0,
+    deathSound: 0,
+    callSound: 0,
+    health,
+    exp: 10,
+    cash: 30,
+    level: 5,
+    magic: 0,
+    magicRate: 0,
+    attackEquivItem: 0,
+    attackEquivItemRate: 0,
+    stealItem: 0,
+    stealItemCount: 0,
+    attackStrength: 0,
+    magicStrength: 0,
+    defense: 0,
+    dexterity: 20,
+    fleeRate: 5,
+    poisonResistance: 0,
+    elemResistance: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 },
+    physicalResistance: 1,
+    dualMove: 0,
+    collectValue: 0,
+  }
+}
+
+/**
+ * 合法战斗 ctx:经现行构造器 createBattleState 派生(gs.partyMembers=[0] + 1 敌),
+ * caster.idx 0 指向真实 state.players[0](卡面"合法正控/现行构造器"要求)。
+ */
+function makeLegalBattleCtx(gs: GameState): BattleCtx {
+  gs.partyMembers = [0]
+  const state = createBattleState({
+    gs,
+    playerRoles: { roles: [minimalRole(0)] },
+    enemies: [minimalEnemy(100)],
     field: {
       id: 0,
       screenWave: 0,
       magicEffect: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 },
     },
     isBoss: false,
-    phase: 'preBattle',
-    turn: 0,
-    actionQueue: [],
-    currentActionIndex: 0,
-    pendingActions: new Map(),
-    uiState: 'hidden',
-    menuState: 'main',
-    selectedAction: 0,
-    miscMenuCursor: 0,
-    miscSubMenuCursor: 0,
-    uiCursor: 0,
-    expGained: 0,
-    cashGained: 0,
     rng: createSeedableRng(1),
-    phaseStallTicks: 0,
-  }
-  const ctx: BattleCtx = { state, caster: { type: 'player', idx: 0 } }
-  if (gs) ctx.gs = gs
-  return ctx
+  })
+  return { state, caster: { type: 'player', idx: 0 }, gs }
 }
 
 function runBattleScript(commands: Command[], gs: GameState, bus: CommandBus): number {
@@ -71,16 +130,16 @@ function runBattleScript(commands: Command[], gs: GameState, bus: CommandBus): n
     ip: 0,
     bus,
     runtimeMode: 'battle',
-    battleCtx: makeMinimalBattleCtx(gs),
+    battleCtx: makeLegalBattleCtx(gs),
   }
   return runScript(opts)
 }
 
 describe('K06 runScript end 三态返回值(fight.c 写回 wScriptOnTurnStart/Ready 的合同)', () => {
   const bus = createCommandBus()
-  const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
 
   it('0x01 advance end → 返回 ip+1(show-once:下轮不再跑本段)', () => {
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
     const ret = runBattleScript(
       [
         { op: 'raw', opcode: OP_NOOP_A7, operands: [0, 0, 0] }, // ip0
@@ -93,6 +152,7 @@ describe('K06 runScript end 三态返回值(fight.c 写回 wScriptOnTurnStart/Re
   })
 
   it('0x02 reset end → 返回 resetTo 解析的 label ip(re-arm 到指定段)', () => {
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
     const ret = runBattleScript(
       [
         { op: 'raw', opcode: OP_NOOP_A7, operands: [0, 0, 0] }, // ip0
@@ -107,6 +167,7 @@ describe('K06 runScript end 三态返回值(fight.c 写回 wScriptOnTurnStart/Re
   })
 
   it('单轴对照 0x00 plain end → 返回起始 ip(每轮重显;同时排除 advance/reset 两臂)', () => {
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
     const ret = runBattleScript(
       [
         { op: 'raw', opcode: OP_NOOP_A7, operands: [0, 0, 0] }, // ip0
@@ -133,6 +194,14 @@ describe('K06 battle 具名 giveItem:毒 tick 脚本末尾炼成蛊入包(sdlpal
     )
     expect(ret).toBe(0) // plain end 正常收尾
     expect(gs.inventory).toEqual([{ itemId: 178, count: 2 }])
+  })
+
+  it('夹具合法性对照:caster.idx 0 指向 createBattleState 派生的真实玩家(卡面合法正控)', () => {
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    const ctx = makeLegalBattleCtx(gs)
+    expect(ctx.state.players).toHaveLength(1)
+    expect(ctx.state.players[0]?.roleId).toBe(0) // caster {player, idx:0} 指向真实玩家
+    expect(ctx.state.players[0]?.prevHp).toBe(200) // 从 minimalRole hp 派生
   })
 })
 

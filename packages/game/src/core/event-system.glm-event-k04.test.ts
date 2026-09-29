@@ -105,7 +105,9 @@ describe('K04 opcode 0x99 changeMap op0=0xFFFF:当前场景只换地图 + 立即
       expect(soundsOf(gs)).toEqual([77])
       expect(gs.mode).toBe('explore')
 
-      // 守卫臂:未注入 mapReloader(非 bootstrap 路径)→ 仍改写 override,只是不触发 reload,不崩
+      // 守卫臂(单轴:唯一变量 = 撤下注入):setMapReloader(null) 后再跑同脚本
+      // → 仍改写 override、不触发 reload(reloadedMaps 保持 [99])、不崩
+      setMapReloader(null)
       const gsNoReloader = createInitialGameState({ x: 0, y: 0, facing: 'down' })
       gsNoReloader.wNumScene = 2
       gsNoReloader.eventCursor = { commands, labelMap: buildLabelMap(commands), ip: 0 }
@@ -113,6 +115,7 @@ describe('K04 opcode 0x99 changeMap op0=0xFFFF:当前场景只换地图 + 立即
       tickEventSystem(gsNoReloader, snap(), createCommandBus())
       expect(gsNoReloader.sceneMapNumOverride?.[2]).toBe(99)
       expect(gsNoReloader.mode).toBe('explore')
+      expect(reloadedMaps).toEqual([99]) // 撤下注入后未再触发 reload
     } finally {
       setMapReloader(null)
     }

@@ -1,13 +1,14 @@
 {
   "campaign": "TEST-GLM-EVENT-WAVE-K-1",
-  "generatedAt": "2026-09-29T06:06:34.751Z",
-  "judge": "PASS:3/3 反控有效(正控 exit0;注入后恰一个指定业务断言红 + exit1 + 执行数非零 + 无 skip/timeout/收集错误;临时副本已删)",
+  "revision": "r2",
+  "generatedAt": "2026-09-29T06:46:30.452Z",
+  "judge": "PASS:3/3 反控有效(合法输入单轴变异;正控 exit0;注入后恰一个指定业务断言红且来自注入副本绝对路径;exit1;执行数非零;无 skip/timeout/收集错;临时副本已删)",
   "controls": [
     {
       "id": "CC-K02-auto-reset-idleframes",
       "group": "K02",
       "source": "packages/game/src/core/event-system.glm-event-k02.test.ts",
-      "mutation": "business expectation `第 3 tick 计数满 fall-through 落 ip1` 1 → 0(否定 fall-through 合同)",
+      "inputMutation": "脚本 operand 合法域内单轴:idleFrames 3 → 4(计数门推迟一 tick → 第 3 tick 仍在 resetTo,业务断言\"第 3 tick 计数满 fall-through 落 ip1\"必须识别)",
       "positive": {
         "exitCode": 0,
         "numTotalTests": 5,
@@ -15,91 +16,103 @@
         "numFailedTests": 0,
         "numPendingTests": 0,
         "numTodoTests": 0,
-        "success": true,
         "fileLevelMessages": [],
+        "sawTimeout": false,
         "assertion": [
           {
+            "file": "/Users/zhangxu/.codex/worktrees/glm-union-intake/type-pal/packages/game/src/core/event-system.glm-event-k02.test.ts",
             "fullName": "K02 autoScript 0x0002 reset 带 idleFrames:计数跳 resetTo,满次 fall-through(sdlpal PAL_RunAutoScript case 0x0002) idleFrames=3:前 2 tick 停在 resetTo(L_0),第 3 tick 计数满推进到 ip1 并 park,之后不再动",
             "status": "passed",
             "failureMessages": []
           },
           {
+            "file": "/Users/zhangxu/.codex/worktrees/glm-union-intake/type-pal/packages/game/src/core/event-system.glm-event-k02.test.ts",
             "fullName": "K02 onEnter 0x02 reset 收尾 → sceneOnEnterIp 持久化 resetTo(play.c:64 写回) 异步 tick 路径:onEnter cursor 撞 0x02 end → sceneOnEnterIp[sceneId]=4(非起始 0、非 advance ip+1=2)",
             "status": "passed",
             "failureMessages": []
           },
           {
+            "file": "/Users/zhangxu/.codex/worktrees/glm-union-intake/type-pal/packages/game/src/core/event-system.glm-event-k02.test.ts",
             "fullName": "K02 onEnter 0x02 reset 收尾 → sceneOnEnterIp 持久化 resetTo(play.c:64 写回) 同步 runEnterScript 路径(skip-intro):0x02 end → 同样写回 resetTo=4",
             "status": "passed",
             "failureMessages": []
           },
           {
+            "file": "/Users/zhangxu/.codex/worktrees/glm-union-intake/type-pal/packages/game/src/core/event-system.glm-event-k02.test.ts",
             "fullName": "K02 opcode 0x09 wait 带 operand[2]:等待期全队切站立帧 + 相位复位(sdlpal script.c:3360-3363 + scene.c:773-774) op2=1:进入等待后的第一个 wait tick 复位 walking/stepFrame;等待耗尽后续跑",
             "status": "passed",
             "failureMessages": []
           },
           {
+            "file": "/Users/zhangxu/.codex/worktrees/glm-union-intake/type-pal/packages/game/src/core/event-system.glm-event-k02.test.ts",
             "fullName": "K02 opcode 0x09 wait 带 operand[2]:等待期全队切站立帧 + 相位复位(sdlpal script.c:3360-3363 + scene.c:773-774) 单轴负控 op2=0:同一等待只倒数,walking/stepFrame 不被复位(sdlpal operand[2]=0 不调 UpdatePartyGestures)",
             "status": "passed",
             "failureMessages": []
           }
         ]
       },
-      "negativeInjectedCopyDeleted": true,
+      "negativeCopyDeleted": true,
       "negative": {
         "numTotalTests": 5,
         "numPassedTests": 4,
         "numFailedTests": 1,
         "numPendingTests": 0,
         "numTodoTests": 0,
-        "success": false,
         "fileLevelMessages": [],
+        "sawTimeout": false,
         "assertion": [
           {
+            "file": "/Users/zhangxu/.codex/worktrees/glm-union-intake/type-pal/packages/game/src/core/event-system.glm-event-k02.cc-injected.test.ts",
             "fullName": "K02 autoScript 0x0002 reset 带 idleFrames:计数跳 resetTo,满次 fall-through(sdlpal PAL_RunAutoScript case 0x0002) idleFrames=3:前 2 tick 停在 resetTo(L_0),第 3 tick 计数满推进到 ip1 并 park,之后不再动",
             "status": "failed",
             "failureMessages": [
-              "AssertionError: expected 1 to be +0 // Object.is equality |     at /Users/zhangxu/.codex/worktrees/glm-union-intake/type-pal/packages/game/src/core/event-system.glm-event-k02.cc-injected.test.ts:71:22 |     at file:///Users/zhangxu/.codex/worktrees/glm-union-intake/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11"
+              "AssertionError: expected +0 to be 1 // Object.is equality |     at /Users/zhangxu/.codex/worktrees/glm-union-intake/type-pal/packages/game/src/core/event-system.glm-event-k02.cc-injected.test.ts:71:22 |     at file:///Users/zhangxu/.codex/worktrees/glm-union-intake/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11 |     at file:///Users/zhangxu/.codex/worktrees/glm-union-intake/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26"
             ]
           },
           {
+            "file": "/Users/zhangxu/.codex/worktrees/glm-union-intake/type-pal/packages/game/src/core/event-system.glm-event-k02.cc-injected.test.ts",
             "fullName": "K02 onEnter 0x02 reset 收尾 → sceneOnEnterIp 持久化 resetTo(play.c:64 写回) 异步 tick 路径:onEnter cursor 撞 0x02 end → sceneOnEnterIp[sceneId]=4(非起始 0、非 advance ip+1=2)",
             "status": "passed",
             "failureMessages": []
           },
           {
+            "file": "/Users/zhangxu/.codex/worktrees/glm-union-intake/type-pal/packages/game/src/core/event-system.glm-event-k02.cc-injected.test.ts",
             "fullName": "K02 onEnter 0x02 reset 收尾 → sceneOnEnterIp 持久化 resetTo(play.c:64 写回) 同步 runEnterScript 路径(skip-intro):0x02 end → 同样写回 resetTo=4",
             "status": "passed",
             "failureMessages": []
           },
           {
+            "file": "/Users/zhangxu/.codex/worktrees/glm-union-intake/type-pal/packages/game/src/core/event-system.glm-event-k02.cc-injected.test.ts",
             "fullName": "K02 opcode 0x09 wait 带 operand[2]:等待期全队切站立帧 + 相位复位(sdlpal script.c:3360-3363 + scene.c:773-774) op2=1:进入等待后的第一个 wait tick 复位 walking/stepFrame;等待耗尽后续跑",
             "status": "passed",
             "failureMessages": []
           },
           {
+            "file": "/Users/zhangxu/.codex/worktrees/glm-union-intake/type-pal/packages/game/src/core/event-system.glm-event-k02.cc-injected.test.ts",
             "fullName": "K02 opcode 0x09 wait 带 operand[2]:等待期全队切站立帧 + 相位复位(sdlpal script.c:3360-3363 + scene.c:773-774) 单轴负控 op2=0:同一等待只倒数,walking/stepFrame 不被复位(sdlpal operand[2]=0 不调 UpdatePartyGestures)",
             "status": "passed",
             "failureMessages": []
           }
         ],
         "runExitCode": 1,
+        "injectedCopyAbsolutePath": "/Users/zhangxu/.codex/worktrees/glm-union-intake/type-pal/packages/game/src/core/event-system.glm-event-k02.cc-injected.test.ts",
         "verdict": {
-          "exitCode1": true,
-          "executedNonZero": true,
-          "exactlyOneBusinessFailure": true,
-          "noSkip": true,
-          "noCollectionOrInfraError": true,
           "positiveGreen": true,
+          "negativeExit1": true,
+          "executedNonZero": true,
+          "noSkip": true,
+          "noTimeout": true,
+          "noCollectionOrInfraError": true,
+          "exactlyOneTargetBusinessFailure": true,
           "valid": true
         }
       }
     },
     {
-      "id": "CC-K05-fadescreen-totalms",
+      "id": "CC-K05-fadescreen-speed",
       "group": "K05",
       "source": "packages/game/src/core/event-system.glm-event-k05.test.ts",
-      "mutation": "business expectation `dither 总时长 (op0+1)*10*72` 1440 → 720(否定 video.c 步数合同)",
+      "inputMutation": "opcode operand 合法域内单轴:0x73 fade speed [1,0,0] → [0,0,0](video.c (op0+1)*10*72 → totalMs 720,业务断言 totalMs=1440 必须识别)",
       "positive": {
         "exitCode": 0,
         "numTotalTests": 3,
@@ -107,71 +120,79 @@
         "numFailedTests": 0,
         "numPendingTests": 0,
         "numTodoTests": 0,
-        "success": true,
         "fileLevelMessages": [],
+        "sawTimeout": false,
         "assertion": [
           {
+            "file": "/Users/zhangxu/.codex/worktrees/glm-union-intake/type-pal/packages/game/src/core/event-system.glm-event-k05.test.ts",
             "fullName": "K05 opcode 0x73 fadeScreen:dither fadeState 数学 + 等待消费(sdlpal script.c:2140-2147 + video.c VIDEO_FadeScreen) 0x73[1] → fadeState{speed:1,totalMs:1440} + 清黑屏保持/冻屏 + waiting=fade-screen;到时消费 → ip++ 同帧续跑",
             "status": "passed",
             "failureMessages": []
           },
           {
+            "file": "/Users/zhangxu/.codex/worktrees/glm-union-intake/type-pal/packages/game/src/core/event-system.glm-event-k05.test.ts",
             "fullName": "K05 tickSceneAutoFadeIn MakeScene 步判定:0x70 PartyWalkTo / 0x44 Ride / 0x7F pan 即将执行态消费 needToFadeIn 0x70 / 0x44 / 0x7F 多帧 pan(即将执行)→ 消费 needToFadeIn 启动淡入(黑→base,target=basePalette 昼色)",
             "status": "passed",
             "failureMessages": []
           },
           {
+            "file": "/Users/zhangxu/.codex/worktrees/glm-union-intake/type-pal/packages/game/src/core/event-system.glm-event-k05.test.ts",
             "fullName": "K05 tickSceneAutoFadeIn MakeScene 步判定:0x70 PartyWalkTo / 0x44 Ride / 0x7F pan 即将执行态消费 needToFadeIn 负控:cursor 停在非 MakeScene op(0x35 shake)→ 不消费(sdlpal shake 帧不跑 PAL_MakeScene)",
             "status": "passed",
             "failureMessages": []
           }
         ]
       },
-      "negativeInjectedCopyDeleted": true,
+      "negativeCopyDeleted": true,
       "negative": {
         "numTotalTests": 3,
         "numPassedTests": 2,
         "numFailedTests": 1,
         "numPendingTests": 0,
         "numTodoTests": 0,
-        "success": false,
         "fileLevelMessages": [],
+        "sawTimeout": false,
         "assertion": [
           {
+            "file": "/Users/zhangxu/.codex/worktrees/glm-union-intake/type-pal/packages/game/src/core/event-system.glm-event-k05.cc-injected.test.ts",
             "fullName": "K05 opcode 0x73 fadeScreen:dither fadeState 数学 + 等待消费(sdlpal script.c:2140-2147 + video.c VIDEO_FadeScreen) 0x73[1] → fadeState{speed:1,totalMs:1440} + 清黑屏保持/冻屏 + waiting=fade-screen;到时消费 → ip++ 同帧续跑",
             "status": "failed",
             "failureMessages": [
-              "AssertionError: expected 1440 to be 720 // Object.is equality |     at /Users/zhangxu/.codex/worktrees/glm-union-intake/type-pal/packages/game/src/core/event-system.glm-event-k05.cc-injected.test.ts:67:35 |     at file:///Users/zhangxu/.codex/worktrees/glm-union-intake/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11"
+              "AssertionError: expected +0 to be 1 // Object.is equality |     at /Users/zhangxu/.codex/worktrees/glm-union-intake/type-pal/packages/game/src/core/event-system.glm-event-k05.cc-injected.test.ts:66:33 |     at file:///Users/zhangxu/.codex/worktrees/glm-union-intake/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11 |     at file:///Users/zhangxu/.codex/worktrees/glm-union-intake/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26"
             ]
           },
           {
+            "file": "/Users/zhangxu/.codex/worktrees/glm-union-intake/type-pal/packages/game/src/core/event-system.glm-event-k05.cc-injected.test.ts",
             "fullName": "K05 tickSceneAutoFadeIn MakeScene 步判定:0x70 PartyWalkTo / 0x44 Ride / 0x7F pan 即将执行态消费 needToFadeIn 0x70 / 0x44 / 0x7F 多帧 pan(即将执行)→ 消费 needToFadeIn 启动淡入(黑→base,target=basePalette 昼色)",
             "status": "passed",
             "failureMessages": []
           },
           {
+            "file": "/Users/zhangxu/.codex/worktrees/glm-union-intake/type-pal/packages/game/src/core/event-system.glm-event-k05.cc-injected.test.ts",
             "fullName": "K05 tickSceneAutoFadeIn MakeScene 步判定:0x70 PartyWalkTo / 0x44 Ride / 0x7F pan 即将执行态消费 needToFadeIn 负控:cursor 停在非 MakeScene op(0x35 shake)→ 不消费(sdlpal shake 帧不跑 PAL_MakeScene)",
             "status": "passed",
             "failureMessages": []
           }
         ],
         "runExitCode": 1,
+        "injectedCopyAbsolutePath": "/Users/zhangxu/.codex/worktrees/glm-union-intake/type-pal/packages/game/src/core/event-system.glm-event-k05.cc-injected.test.ts",
         "verdict": {
-          "exitCode1": true,
-          "executedNonZero": true,
-          "exactlyOneBusinessFailure": true,
-          "noSkip": true,
-          "noCollectionOrInfraError": true,
           "positiveGreen": true,
+          "negativeExit1": true,
+          "executedNonZero": true,
+          "noSkip": true,
+          "noTimeout": true,
+          "noCollectionOrInfraError": true,
+          "exactlyOneTargetBusinessFailure": true,
           "valid": true
         }
       }
     },
     {
-      "id": "CC-K03-sellmenu-mode",
+      "id": "CC-K03-sellmenu-opcode",
       "group": "K03",
       "source": "packages/game/src/core/event-system.glm-event-k03.test.ts",
-      "mutation": "business expectation `0x27 handler mode` sell → buy(否定卖出侧 opcode 分派合同)",
+      "inputMutation": "opcode 合法域内单轴:0x27 卖出 → 0x26 买入(同族合法 opcode;业务断言 handler mode=sell 必须识别菜单开错侧)",
       "positive": {
         "exitCode": 0,
         "numTotalTests": 2,
@@ -179,52 +200,58 @@
         "numFailedTests": 0,
         "numPendingTests": 0,
         "numTodoTests": 0,
-        "success": true,
         "fileLevelMessages": [],
+        "sawTimeout": false,
         "assertion": [
           {
-            "fullName": "K03 opcode 0x27 sellMenu:handler 注入 → waiting=shop + ip 预推进 + handler 收到 sell(storeNum)(sdlpal script.c:1168-1173) 0x27[4] → handler 一次({mode:sell, storeNum:4});cursor 停在 waiting=shop、ip=1(菜单关后续跑)",
+            "file": "/Users/zhangxu/.codex/worktrees/glm-union-intake/type-pal/packages/game/src/core/event-system.glm-event-k03.test.ts",
+            "fullName": "K03 opcode 0x27 sellMenu:handler 注入 → mode=sell + waiting=shop + ip 预推进(sdlpal script.c:1168-1173) 0x27 → handler 一次({mode:sell});cursor 停在 waiting=shop、ip=1;operand 4/9 行为一致(卖出侧不读 operand)",
             "status": "passed",
             "failureMessages": []
           },
           {
+            "file": "/Users/zhangxu/.codex/worktrees/glm-union-intake/type-pal/packages/game/src/core/event-system.glm-event-k03.test.ts",
             "fullName": "K03 shop opcode 无 handler 注入:两条 opcode 均降级 skip + ip++(不卡死,对齐 0x07/0x37/0x76 防御合同) 0x26 与 0x27 同 tick 连续 skip → 无 waiting、脚本跑完回 explore(单轴对照:注入 handler 则停 shop)",
             "status": "passed",
             "failureMessages": []
           }
         ]
       },
-      "negativeInjectedCopyDeleted": true,
+      "negativeCopyDeleted": true,
       "negative": {
         "numTotalTests": 2,
         "numPassedTests": 1,
         "numFailedTests": 1,
         "numPendingTests": 0,
         "numTodoTests": 0,
-        "success": false,
         "fileLevelMessages": [],
+        "sawTimeout": false,
         "assertion": [
           {
-            "fullName": "K03 opcode 0x27 sellMenu:handler 注入 → waiting=shop + ip 预推进 + handler 收到 sell(storeNum)(sdlpal script.c:1168-1173) 0x27[4] → handler 一次({mode:sell, storeNum:4});cursor 停在 waiting=shop、ip=1(菜单关后续跑)",
+            "file": "/Users/zhangxu/.codex/worktrees/glm-union-intake/type-pal/packages/game/src/core/event-system.glm-event-k03.cc-injected.test.ts",
+            "fullName": "K03 opcode 0x27 sellMenu:handler 注入 → mode=sell + waiting=shop + ip 预推进(sdlpal script.c:1168-1173) 0x27 → handler 一次({mode:sell});cursor 停在 waiting=shop、ip=1;operand 4/9 行为一致(卖出侧不读 operand)",
             "status": "failed",
             "failureMessages": [
-              "AssertionError: expected 'sell' to be 'buy' // Object.is equality |     at /Users/zhangxu/.codex/worktrees/glm-union-intake/type-pal/packages/game/src/core/event-system.glm-event-k03.cc-injected.test.ts:59:30 |     at file:///Users/zhangxu/.codex/worktrees/glm-union-intake/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11"
+              "AssertionError: expected 'buy' to be 'sell' // Object.is equality |     at /Users/zhangxu/.codex/worktrees/glm-union-intake/type-pal/packages/game/src/core/event-system.glm-event-k03.cc-injected.test.ts:66:32 |     at file:///Users/zhangxu/.codex/worktrees/glm-union-intake/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11 |     at file:///Users/zhangxu/.codex/worktrees/glm-union-intake/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26"
             ]
           },
           {
+            "file": "/Users/zhangxu/.codex/worktrees/glm-union-intake/type-pal/packages/game/src/core/event-system.glm-event-k03.cc-injected.test.ts",
             "fullName": "K03 shop opcode 无 handler 注入:两条 opcode 均降级 skip + ip++(不卡死,对齐 0x07/0x37/0x76 防御合同) 0x26 与 0x27 同 tick 连续 skip → 无 waiting、脚本跑完回 explore(单轴对照:注入 handler 则停 shop)",
             "status": "passed",
             "failureMessages": []
           }
         ],
         "runExitCode": 1,
+        "injectedCopyAbsolutePath": "/Users/zhangxu/.codex/worktrees/glm-union-intake/type-pal/packages/game/src/core/event-system.glm-event-k03.cc-injected.test.ts",
         "verdict": {
-          "exitCode1": true,
-          "executedNonZero": true,
-          "exactlyOneBusinessFailure": true,
-          "noSkip": true,
-          "noCollectionOrInfraError": true,
           "positiveGreen": true,
+          "negativeExit1": true,
+          "executedNonZero": true,
+          "noSkip": true,
+          "noTimeout": true,
+          "noCollectionOrInfraError": true,
+          "exactlyOneTargetBusinessFailure": true,
           "valid": true
         }
       }

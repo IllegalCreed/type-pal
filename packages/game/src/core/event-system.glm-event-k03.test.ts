@@ -12,7 +12,7 @@
  *   - **handler 未注入的降级 skip(two opcodes)** 零断言(对照同类防御合同:0x07 :1340、
  *     0x37 :5348、0x76 :5480 均有"未注入 → skip + ip++ 不卡死"旧证,shop 侧缺)。
  * - 一手真值:reference/sdlpal/script.c:1157-1173(case 0x0026 `PAL_BuyMenu(operand[0])`;
- *   case 0x0027 `PAL_SellMenu()` —— 阻塞 modal,玩家退出才返回后继续脚本;0x27 无 operand)。
+ *   case 0x0027 `PAL_SellMenu()` —— 阻塞 modal,玩家退出才返回后继续脚本;0x27 **不读 operand**)。
  * - 缺口结论:0x27 handler 合同与 0x26/0x27 无 handler 降级可达且无旧证 → 新增;
  *   0x26 handler 端到端、买卖菜单内部交互、钱/物品结算已证不重做(见 shop-menu.test.ts)。
  */
@@ -39,31 +39,38 @@ function loadRaw(gs: GameState, ops: Command[]): void {
   gs.mode = 'event'
 }
 
-describe('K03 opcode 0x27 sellMenu:handler 注入 → waiting=shop + ip 预推进 + handler 收到 sell(storeNum)(sdlpal script.c:1168-1173)', () => {
-  it('0x27[4] → handler 一次({mode:sell, storeNum:4});cursor 停在 waiting=shop、ip=1(菜单关后续跑)', () => {
-    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
-    const calls: ShopMenuHandlerInput[] = []
-    const commands: Command[] = [
-      { op: 'raw', opcode: OP_SELL_MENU, operands: [4, 0, 0] }, // ip0:storeNum=4
-      { op: 'raw', opcode: OP_NOOP_A7, operands: [0, 0, 0] }, // ip1:菜单关后从此续跑
-      { op: 'end' }, // ip2
-    ]
-    try {
-      setShopMenuHandler((input) => {
-        calls.push(input)
-      })
-      loadRaw(gs, commands)
-      tickEventSystem(gs, snap(), createCommandBus())
-      // 单次调用、参数精确(0x27 与 0x26 的 mode 区分 = 菜单开对侧的唯一依据)
-      expect(calls.length).toBe(1)
-      expect(calls[0]?.mode).toBe('sell')
-      expect(calls[0]?.storeNum).toBe(4)
-      // 脚本停驻合同:waiting='shop' + ip 已预推进到下一条(菜单关后续跑)
-      expect(gs.mode).toBe('event') // 测试 handler 不开菜单,mode 不变(真 handler 由 bootstrap 开)
-      expect(gs.eventCursor?.waiting).toBe('shop')
-      expect(gs.eventCursor?.ip).toBe(1)
-    } finally {
-      setShopMenuHandler(null)
+describe('K03 opcode 0x27 sellMenu:handler 注入 → mode=sell + waiting=shop + ip 预推进(sdlpal script.c:1168-1173)', () => {
+  // 0x27 真值:script.c:1168-1173 `PAL_SellMenu()` **不读 operand**(卖出菜单无 store 概念);
+  // bootstrap sell 分支同样忽略 storeNum。故本组不断言卖出侧 storeNum 语义,只用两个合法
+  // operand 值作单轴对照,证明 mode/停驻行为与 operand 无关。
+  // 0x27 真值:script.c:1168-1173 `PAL_SellMenu()` **不读 operand**(卖出菜单无 store 概念);
+  // bootstrap sell 分支同样忽略 storeNum。故本组不断言卖出侧 storeNum 语义,而在同一 it 内用
+  // 两个合法 operand 值(4/9)作单轴对照,证明 mode/停驻行为与 operand 无关。
+  it('0x27 → handler 一次({mode:sell});cursor 停在 waiting=shop、ip=1;operand 4/9 行为一致(卖出侧不读 operand)', () => {
+    for (const operand0 of [4, 9] as const) {
+      const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+      const calls: ShopMenuHandlerInput[] = []
+      const commands: Command[] = [
+        { op: 'raw', opcode: OP_SELL_MENU, operands: [operand0, 0, 0] }, // ip0
+        { op: 'raw', opcode: OP_NOOP_A7, operands: [0, 0, 0] }, // ip1:菜单关后从此续跑
+        { op: 'end' }, // ip2
+      ]
+      try {
+        setShopMenuHandler((input) => {
+          calls.push(input)
+        })
+        loadRaw(gs, commands)
+        tickEventSystem(gs, snap(), createCommandBus())
+        // 单次调用;mode='sell' 是菜单开卖出侧的唯一依据(PAL_SellMenu 无 operand 合同)
+        expect(calls.length).toBe(1)
+        expect(calls[0]?.mode).toBe('sell')
+        // 脚本停驻合同:waiting='shop' + ip 已预推进到下一条(菜单关后续跑)
+        expect(gs.mode).toBe('event') // 测试 handler 不开菜单,mode 不变(真 handler 由 bootstrap 开)
+        expect(gs.eventCursor?.waiting).toBe('shop')
+        expect(gs.eventCursor?.ip).toBe(1)
+      } finally {
+        setShopMenuHandler(null)
+      }
     }
   })
 })
