@@ -1,6 +1,6 @@
 # TEST-GLM-LARGE-WAVE-4 — 五批大型当前合同补测
 
-Status: rework
+Status: review
 Owner: GLM（单一测试 Coding Owner）
 Reviewer: Codex（独立验收、统一质量门与集成）
 Phase: phase2（editor/content/reforge/migrate；D 批仅引用原版数据格式，不改一阶段引擎）
@@ -118,7 +118,7 @@ A 两条、B/C 各一条自有端口功能视觉，D/E 不造视觉。只改白�
 GLM 贡献者不合 main/标 done；Codex 独立验收、统一覆盖率门、集成推送和清理。
 ```
 
-## 下一位 Agent 提示词：GLM 返工
+## 历史 GLM r1 返工提示词（已执行）
 
 ```text
 你仍是 TEST-GLM-LARGE-WAVE-4 的测试 Coding Owner。只在原工作树
@@ -132,7 +132,7 @@ needle-judge 判据及自测、并集 17/43 计数和逐批完整 SHA。UI 子�
 严格反控；提交推送新完整候选 SHA 和逐项证据。你不合 main、不标 done；Codex 独立复核。
 ```
 
-## 下一位 Agent 提示词：GLM R3 窄返工
+## 历史 GLM R3 窄返工提示词（已执行）
 
 ```text
 你仍是 TEST-GLM-LARGE-WAVE-4 测试 Coding Owner。只在原工作树
@@ -147,3 +147,11 @@ selftest 对每种 INVALID 断言无遗留临时文件。修 receipt-batch-b 的
 定向测试、三包 typecheck、完整 pnpm lint 0/0/0、docs/diff，推送 R3 完整 SHA
 和逐项证据。你不合 main、不标 done；Codex 独立再审。
 ```
+
+## 2026-09-29 Codex R3 候选验收
+
+候选 `4e200099257ed5167b640eb5abadd7129859dfee` **代码/证据 accept**，
+见[独立验收回执](../../testing/glm-large-wave/codex-accept-r3-4e200099.md)。
+状态为 `review`，尚未合 main；7 条只读 README 导航由 Codex 集成时补齐，
+统一 `pnpm check`、官方 ratchet、受保护 fast 和 main 并集收益均未运行/未确认。
+无下一位 GLM 提示词；等待 Codex 与其它已接收 wave 选择性集成及统一收口。

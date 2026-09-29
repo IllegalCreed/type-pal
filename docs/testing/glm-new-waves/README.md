@@ -4,6 +4,7 @@
 [Wave H Codex r1 审核](codex-review-H-013abf99.md) ·
 [Wave I Codex r1 审核](codex-review-I-2534b72c.md) ·
 [Wave J Codex r1 审核](codex-review-J-009c5578.md) · [测试总览](../README.md) ·
+[Wave J r2 候选验收](codex-accept-J-r2-acd67499.md) ·
 [F](../../ops/tasks/TEST-GLM-NEW-F-1-editor-shell.md) ·
 [G](../../ops/tasks/TEST-GLM-NEW-G-1-reforge-host.md) ·
 [H](../../ops/tasks/TEST-GLM-NEW-H-1-game-battle.md) ·

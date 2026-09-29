@@ -11,12 +11,12 @@
 | [ARCH-SUPPORT-GLM-1 — 八组并行准备取证](ARCH-SUPPORT-GLM-1-eight-audit-packages.md) | draft | 以任务卡当前准入与看板分工为准。 |
 | [E2E-R4-1 — 路线驱动与合法检查点薄基线](E2E-R4-1-route-and-checkpoint-foundation.md) | build | 以任务卡当前准入与看板分工为准。 |
 | [EDITOR-SCENE-FACING-1 — 切场景指令无法清除显式朝向](EDITOR-SCENE-FACING-1-clear-override.md) | draft | 以任务卡当前准入与看板分工为准。 |
-| [TEST-GLM-LARGE-WAVE-4 — 五批大型当前合同补测](TEST-GLM-LARGE-WAVE-4-five-large-batches.md) | rework | 以任务卡当前准入与看板分工为准。 |
+| [TEST-GLM-LARGE-WAVE-4 — 五批大型当前合同补测](TEST-GLM-LARGE-WAVE-4-five-large-batches.md) | review | 以任务卡当前准入与看板分工为准。 |
 | [TEST-GLM-NEW-F-1 — 编辑器主工作台与预览](TEST-GLM-NEW-F-1-editor-shell.md) | build | 以任务卡当前准入与看板分工为准。 |
 | [TEST-GLM-NEW-G-1 — Reforge 战斗与场景宿主边界](TEST-GLM-NEW-G-1-reforge-host.md) | build | 以任务卡当前准入与看板分工为准。 |
 | [TEST-GLM-NEW-H-1 — 一阶段战斗当前合同](TEST-GLM-NEW-H-1-game-battle.md) | rework | 以任务卡当前准入与看板分工为准。 |
 | [TEST-GLM-NEW-I-1 — 一阶段壳层、菜单与呈现](TEST-GLM-NEW-I-1-game-shell.md) | rework | 以任务卡当前准入与看板分工为准。 |
-| [TEST-GLM-NEW-J-1 — 迁移编排与发布前校验](TEST-GLM-NEW-J-1-migrate-orchestration.md) | rework | 以任务卡当前准入与看板分工为准。 |
+| [TEST-GLM-NEW-J-1 — 迁移编排与发布前校验](TEST-GLM-NEW-J-1-migrate-orchestration.md) | review | 以任务卡当前准入与看板分工为准。 |
 
 ## 已完成（historical）
 

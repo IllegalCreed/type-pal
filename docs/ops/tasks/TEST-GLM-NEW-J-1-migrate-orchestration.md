@@ -1,6 +1,6 @@
 # TEST-GLM-NEW-J-1 — 迁移编排与发布前校验
 
-Status: rework
+Status: review
 Owner: GLM Wave J（仅本 wave 单一测试 Coding Owner）
 Reviewer: Codex（独立验收、选择性集成、统一质量/覆盖门）
 Phase: phase2
@@ -78,7 +78,7 @@ docs/ops/tasks/TEST-GLM-NEW-J-1-migrate-orchestration.md、docs/testing/glm-new-
 截图 hash/console（如要求）、未证/真实红项。你不合 main、不标 done；Codex 独立验收。
 ```
 
-## 下一位 Agent 提示词：GLM Wave J 返工
+## 历史 GLM Wave J 返工提示词（已执行）
 
 ```text
 你仍是 TEST-GLM-NEW-J-1 的测试 Coding Owner。只在
@@ -93,3 +93,11 @@ file/fullName/status、反控与未证项，复跑定向+相邻、migrate typech
 pnpm lint 零诊断、docs/diff，提交推送新 SHA。共享导航由 Codex 处理；
 不要合 main 或标 done，交 Codex 再审。
 ```
+
+## 2026-09-29 Codex r2 候选验收
+
+候选 `acd67499dc0d7a5e0b1de6fb7df2c7838b021a00` **代码/证据 accept**，
+见[独立验收回执](../../testing/glm-new-waves/codex-accept-J-r2-acd67499.md)。
+状态为 `review`，尚未合 main；共享导航由 Codex 集成时补齐，统一
+`pnpm check`、官方 ratchet、受保护 fast 与 main 并集收益均未运行/未确认。
+无下一位 GLM 提示词；等待 Codex 与其它已接收 wave 选择性集成及统一收口。
