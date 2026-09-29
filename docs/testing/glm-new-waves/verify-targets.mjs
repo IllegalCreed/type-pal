@@ -1,8 +1,8 @@
 /** F–J parallel wave inventory check; read-only and independent of generated coverage. */
 import assert from 'node:assert/strict'
-import { execFileSync } from 'node:child_process'
+import { execFileSync, spawnSync } from 'node:child_process'
 import { createHash } from 'node:crypto'
-import { existsSync, readFileSync } from 'node:fs'
+import { readFileSync } from 'node:fs'
 import { dirname, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
@@ -59,7 +59,18 @@ for (const wave of targets.waves) {
     rows.push([source, digest(current)])
 
     const newTest = source.replace(/\.(ts|tsx)$/, '.glm-next-wave.test.$1')
-    assert.ok(!existsSync(resolve(root, newTest)), `new test path already occupied: ${newTest}`)
+    const occupiedAtDispatch = spawnSync(
+      'git',
+      ['cat-file', '-e', `${targets.productionFreeze}:${newTest}`],
+      {
+        cwd: root,
+        stdio: 'ignore',
+      },
+    )
+    assert.ok(
+      occupiedAtDispatch.status !== null && occupiedAtDispatch.status !== 0,
+      `new test path occupied at dispatch: ${newTest}`,
+    )
   }
   rows.sort((left, right) => (left[0] < right[0] ? -1 : left[0] > right[0] ? 1 : 0))
   const actual = digest(`${rows.map(([source, sha]) => `${source}\0${sha}`).join('\n')}\n`)
