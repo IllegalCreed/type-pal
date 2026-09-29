@@ -1,6 +1,6 @@
 # TEST-GLM-NEW-H-1 — 一阶段战斗当前合同
 
-Status: build
+Status: rework
 Owner: GLM Wave H（仅本 wave 单一测试 Coding Owner）
 Reviewer: Codex（独立验收、选择性集成、统一质量/覆盖门）
 Phase: phase1
@@ -54,7 +54,15 @@ Codex 独立审核 F–J 与 A–E 并集，选择性集成，串行 check → r
 准入记录：2026-09-29 Codex 核生产 hash、60 新源互斥、旧队列和 A–E 零交集；
 本卡仅测试/fixture/隔离证据 build allowed。review → done 待 Codex 独立验收。
 
-## 下一位 Agent 提示词
+## 2026-09-29 Codex 独立审核与返工
+
+候选 `013abf99e647ecd027aeb05d6225ae5c9ee7c6c2` 已独立审核，结论
+**rework，未合 main**。完整[审核回执](../../testing/glm-new-waves/codex-review-H-013abf99.md)
+记录 48/48、game typecheck 与一手源码抽查通过，但完整 lint 的三份 JSON 格式
+error、H02 伪顺序日志及反控越界改生产源仍待闭合。GLM 只修原白名单，推新完整
+SHA；派发校验器的交付后误报由 Codex 负责。官方覆盖率门暂缓。
+
+## 历史首轮派发提示词（已执行）
 
 ```text
 你是 GLM Wave H 的唯一测试 Coding Owner。只在 /Users/zhangxu/.codex/worktrees/glm-new-h/type-pal
@@ -67,4 +75,19 @@ docs/ops/tasks/TEST-GLM-NEW-H-1-game-battle.md、docs/testing/glm-new-waves/READ
 2–4 枚反控；视觉要求：纯/有界状态测试，不要求浏览器视觉。
 提交推送完整候选 SHA，回执列逐组旧证→新差异、file/fullName/status、反控、
 截图 hash/console（如要求）、未证/真实红项。你不合 main、不标 done；Codex 独立验收。
+```
+
+## 下一位 Agent 提示词：GLM Wave H 返工
+
+```text
+你仍是 TEST-GLM-NEW-H-1 测试 Coding Owner。只在
+/Users/zhangxu/.codex/worktrees/glm-new-h/type-pal 的 codex/glm-new-h-r1 分支返工
+013abf99e647ecd027aeb05d6225ae5c9ee7c6c2。先读本卡与 main 上
+docs/testing/glm-new-waves/codex-review-H-013abf99.md。清零三份 JSON 的完整 lint
+格式 error；H02 让 RNG 与 script 回调写同一实时轨迹，再断言预掷先后；反控不要
+临时改正式生产源码，用隔离副本/loader 注入重做，核绝对 file/fullName、执行数、
+失败集合与前后产品 hash。回执写 r1 和新候选完整 SHA，更新新鲜 JSON 与反控。
+只改 Wave H 新测、专属 fixture 和 wave-H 证据；不碰产品、旧测、共享配置/基线
+或其它 GLM 分支。复跑定向+相邻、game typecheck、完整 pnpm lint 零诊断、docs/diff，
+推送新完整 SHA；你不合 main、不标 done，交 Codex 再审。
 ```

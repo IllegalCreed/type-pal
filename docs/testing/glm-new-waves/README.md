@@ -1,6 +1,7 @@
 # GLM 新增并行 Wave F–J：当前公开合同补测
 
 [冻结目标](targets.json) · [只读校验](verify-targets.mjs) ·
+[Wave H Codex r1 审核](codex-review-H-013abf99.md) ·
 [Wave I Codex r1 审核](codex-review-I-2534b72c.md) ·
 [Wave J Codex r1 审核](codex-review-J-009c5578.md) · [测试总览](../README.md) ·
 [F](../../ops/tasks/TEST-GLM-NEW-F-1-editor-shell.md) ·
