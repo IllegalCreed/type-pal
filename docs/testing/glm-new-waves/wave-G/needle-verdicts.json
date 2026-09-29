@@ -1,0 +1,133 @@
+{
+  "wave": "G",
+  "judge": "needle-judge.mjs v2 (loader injection; whole-file runs; strict absolute file/fullName/executed-count/no-skip/product-hash verdicts)",
+  "generatedAt": "2026-09-29T02:51:43.811Z",
+  "allValid": true,
+  "selfTestOk": true,
+  "selfTest": [
+    {
+      "name": "good pair",
+      "expectValid": true,
+      "actualValid": true,
+      "ok": true,
+      "problems": []
+    },
+    {
+      "name": "baseline red",
+      "expectValid": false,
+      "actualValid": false,
+      "ok": true,
+      "problems": [
+        "baseline: exit 1 ≠ 0",
+        "baseline: 存在 failed",
+        "baseline: 目标 fullName 未 passed（failed）"
+      ]
+    },
+    {
+      "name": "injected exit 0",
+      "expectValid": false,
+      "actualValid": false,
+      "ok": true,
+      "problems": ["injected: exit 0 ≠ 1（拒绝 exit0/exit2/崩溃）"]
+    },
+    {
+      "name": "injected exit 2",
+      "expectValid": false,
+      "actualValid": false,
+      "ok": true,
+      "problems": ["injected: exit 2 ≠ 1（拒绝 exit0/exit2/崩溃）"]
+    },
+    {
+      "name": "double failure",
+      "expectValid": false,
+      "actualValid": false,
+      "ok": true,
+      "problems": ["injected: 恰 1 条 failed，实际 2"]
+    },
+    {
+      "name": "wrong fullName",
+      "expectValid": false,
+      "actualValid": false,
+      "ok": true,
+      "problems": ["injected: 失败 fullName 不精确（T > other）"]
+    },
+    {
+      "name": "wrong file",
+      "expectValid": false,
+      "actualValid": false,
+      "ok": true,
+      "problems": ["injected: 测试文件非绝对期望路径 /other/path.test.ts"]
+    },
+    {
+      "name": "skipped present",
+      "expectValid": false,
+      "actualValid": false,
+      "ok": true,
+      "problems": ["injected: 存在 skipped/todo（执行 1/2）"]
+    },
+    {
+      "name": "zero executed",
+      "expectValid": false,
+      "actualValid": false,
+      "ok": true,
+      "problems": [
+        "baseline: 零执行",
+        "baseline: 存在 skipped/todo（执行 0/2）",
+        "baseline: 目标 fullName 未 passed（skipped）",
+        "injected: 零执行",
+        "injected: 存在 skipped/todo（执行 0/2）",
+        "injected: 恰 1 条 failed，实际 0",
+        "injected: 失败 fullName 不精确（缺失）"
+      ]
+    },
+    {
+      "name": "product hash drift",
+      "expectValid": false,
+      "actualValid": false,
+      "ok": true,
+      "problems": ["product: 目标源码 SHA256 注入前后不一致"]
+    }
+  ],
+  "verdicts": [
+    {
+      "id": "G-N1",
+      "target": "packages/reforge/src/battle/battle-session.ts",
+      "rationale": "构造边界 playerBaseDefinitionIds 长度守卫失效 → 负控必须业务红",
+      "injection": "loader 注入（一次性 vitest pre-load 插件；产品磁盘文件零写入，整文件执行无 -t）",
+      "executedTotal": 4,
+      "worktreeClean": true,
+      "valid": true,
+      "problems": []
+    },
+    {
+      "id": "G-N2",
+      "target": "packages/reforge/src/screen-fx.ts",
+      "rationale": "shift≥w 整行复制 else 臂被绕过 → 波动卷行合同红",
+      "injection": "loader 注入（一次性 vitest pre-load 插件；产品磁盘文件零写入，整文件执行无 -t）",
+      "executedTotal": 1,
+      "worktreeClean": true,
+      "valid": true,
+      "problems": []
+    },
+    {
+      "id": "G-N3",
+      "target": "packages/reforge/src/battle-trial-host.ts",
+      "rationale": "trial host 入口画布守卫消息漂移 → 精确消息合同红",
+      "injection": "loader 注入（一次性 vitest pre-load 插件；产品磁盘文件零写入，整文件执行无 -t）",
+      "executedTotal": 4,
+      "worktreeClean": true,
+      "valid": true,
+      "problems": []
+    },
+    {
+      "id": "G-N4",
+      "target": "packages/reforge/src/magic-menu-state.ts",
+      "rationale": "curePoison 缺省 tier 漂移为 severe → severe 毒被误解、保留毒臂红（common 解毒臂不受影响，证明针尖精确）",
+      "injection": "loader 注入（一次性 vitest pre-load 插件；产品磁盘文件零写入，整文件执行无 -t）",
+      "executedTotal": 3,
+      "worktreeClean": true,
+      "valid": true,
+      "problems": []
+    }
+  ]
+}

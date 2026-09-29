@@ -1,0 +1,123 @@
+{
+  "url": "http://localhost:6092/",
+  "viewport": "1440x900",
+  "browser": "chromium channel=chrome headless",
+  "steps": [
+    "goto / → 等待试打面板三按钮且状态离开“正在准备战斗资源…” → trial-menu.png",
+    "menuStatus=\"战斗中 · 按正式规则消耗真气、物品与金钱\"",
+    "keydown F5 → 状态=存读档拦截文案 → trial-f5-notice.png",
+    "click 停止试打 → 状态=已停止 + runBattleTrial settled → trial-stop-recovered.png",
+    "stopStatus=\"已停止。本场变化已丢弃，可重新试打。\"",
+    "click 重新试打（停止后解锁；宿主 onRestart 注入抛错）→ 状态=错误回显 → trial-restart-error.png",
+    "restartErrorStatus=\"重启失败注入（视觉取证）\""
+  ],
+  "pageStatus": "booting…\n[2026-09-29T02:49:50.228Z] project loaded: 仙剑奇侠传·复刻\n[2026-09-29T02:49:50.238Z] starting isolated battle trial…\n[2026-09-29T02:49:51.249Z] runBattleTrial settled",
+  "failedRequestAttribution": {
+    "failedRequests": [
+      {
+        "url": "http://localhost:6092/projects/pal/.type-pal/save-state.json",
+        "status": 404
+      },
+      {
+        "url": "http://localhost:6092/projects/pal/.type-pal/save-state.json",
+        "status": 404
+      },
+      {
+        "url": "http://localhost:6092/projects/pal/.type-pal/save-state.json",
+        "status": 404
+      },
+      {
+        "url": "http://localhost:6092/projects/pal/.type-pal/save-state.json",
+        "status": 404
+      },
+      {
+        "url": "http://localhost:6092/projects/pal/.type-pal/save-state.json",
+        "status": 404
+      },
+      {
+        "url": "http://localhost:6092/projects/pal/.type-pal/save-state.json",
+        "status": 404
+      },
+      {
+        "url": "http://localhost:6092/projects/pal/.type-pal/save-state.json",
+        "status": 404
+      },
+      {
+        "url": "http://localhost:6092/projects/pal/.type-pal/save-state.json",
+        "status": 404
+      }
+    ],
+    "saveStateProbe404": 8,
+    "unattributedCount": 0,
+    "unattributed": [],
+    "consoleErrorCount": 9,
+    "consoleErrorVsRequestDelta": 1,
+    "rule": "404 × /projects/pal/.type-pal/save-state.json = readProjectSaveState 的预期 NotFound（无存档档位→null）；其余失败请求不可归因",
+    "consoleAttested": false,
+    "consoleAttestedNote": "失败请求侧已全量归因，但 console error 行数与失败请求数差值非零且文本无 URL，无法逐条归因 → console 标未证"
+  },
+  "screenshots": [
+    {
+      "name": "trial-menu.png",
+      "sha256": "0fb69dfe9d96a949b2aec71a5f2a9d5d23195149aab792611e2ad2244efabb41"
+    },
+    {
+      "name": "trial-f5-notice.png",
+      "sha256": "db598104a91dc823fe4464334750e512c6272bd7a70f6a0348ce14e64120c97f"
+    },
+    {
+      "name": "trial-restart-error.png",
+      "sha256": "af03c52030cb92e62975570236d14bbecf5abc42960cf7526504fa00545bace2"
+    },
+    {
+      "name": "trial-stop-recovered.png",
+      "sha256": "f3c03e99a897dbfd9634f733f4aa148d46e323ca9d5c5eaa2c4e8172ca804184"
+    }
+  ],
+  "console": [
+    {
+      "type": "debug",
+      "text": "[vite] connecting..."
+    },
+    {
+      "type": "debug",
+      "text": "[vite] connected."
+    },
+    {
+      "type": "error",
+      "text": "Failed to load resource: the server responded with a status of 404 (Not Found)"
+    },
+    {
+      "type": "error",
+      "text": "Failed to load resource: the server responded with a status of 404 (Not Found)"
+    },
+    {
+      "type": "error",
+      "text": "Failed to load resource: the server responded with a status of 404 (Not Found)"
+    },
+    {
+      "type": "error",
+      "text": "Failed to load resource: the server responded with a status of 404 (Not Found)"
+    },
+    {
+      "type": "error",
+      "text": "Failed to load resource: the server responded with a status of 404 (Not Found)"
+    },
+    {
+      "type": "error",
+      "text": "Failed to load resource: the server responded with a status of 404 (Not Found)"
+    },
+    {
+      "type": "error",
+      "text": "Failed to load resource: the server responded with a status of 404 (Not Found)"
+    },
+    {
+      "type": "error",
+      "text": "Failed to load resource: the server responded with a status of 404 (Not Found)"
+    },
+    {
+      "type": "error",
+      "text": "Failed to load resource: the server responded with a status of 404 (Not Found)"
+    }
+  ]
+}
