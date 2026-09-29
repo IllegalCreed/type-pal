@@ -1,6 +1,6 @@
 # TEST-GLM-NEW-J-1 — 迁移编排与发布前校验
 
-Status: build
+Status: rework
 Owner: GLM Wave J（仅本 wave 单一测试 Coding Owner）
 Reviewer: Codex（独立验收、选择性集成、统一质量/覆盖门）
 Phase: phase2
@@ -54,7 +54,16 @@ Codex 独立审核 F–J 与 A–E 并集，选择性集成，串行 check → r
 准入记录：2026-09-29 Codex 核生产 hash、60 新源互斥、旧队列和 A–E 零交集；
 本卡仅测试/fixture/隔离证据 build allowed。review → done 待 Codex 独立验收。
 
-## 下一位 Agent 提示词
+## 2026-09-29 Codex 独立审核与返工
+
+候选 `009c557851e43759b20e10d4d1284bdf1aa21247` 已完成独立审核，结论
+**rework，未合 main**。完整[审核回执](../../testing/glm-new-waves/codex-review-J-009c5578.md)
+记录 55/55 新测、996/996 migrate 全包、lint/typecheck 零诊断及两项合同返工：
+J01 不得冻结无现行消费者的 `[undefined]` 审计辅助函数行为；J06 毒 golden
+须以一手机制证据核实并纠正“全表逐条深等”口径。GLM 只修原白名单，推新完整 SHA；
+共享导航和冻结校验器缺陷由 Codex 负责。官方覆盖率门待返工通过及选择性集成后统一运行。
+
+## 历史首轮派发提示词（已执行）
 
 ```text
 你是 GLM Wave J 的唯一测试 Coding Owner。只在 /Users/zhangxu/.codex/worktrees/glm-new-j/type-pal
@@ -69,3 +78,18 @@ docs/ops/tasks/TEST-GLM-NEW-J-1-migrate-orchestration.md、docs/testing/glm-new-
 截图 hash/console（如要求）、未证/真实红项。你不合 main、不标 done；Codex 独立验收。
 ```
 
+## 下一位 Agent 提示词：GLM Wave J 返工
+
+```text
+你仍是 TEST-GLM-NEW-J-1 的测试 Coding Owner。只在
+/Users/zhangxu/.codex/worktrees/glm-new-j/type-pal 的 codex/glm-new-j-r1 分支返工
+009c557851e43759b20e10d4d1284bdf1aa21247。先读本卡与 main 上
+docs/testing/glm-new-waves/codex-review-J-009c5578.md。删除或以现行调用证据
+重新论证 migrationScenes 三例，绝不把缺正文 [undefined] 钉为合法合同；
+J06 逐项核一手毒机制证据并纠正“13 条全表深等”口径，未证 golden 移出。
+只改 Wave J 同目录测试和 wave-J 回执，不碰产品、旧测、共享 README/targets/
+verifier、其它 GLM 分支或正式工程。写明本次和新候选完整 SHA，更新新鲜 JSON
+file/fullName/status、反控与未证项，复跑定向+相邻、migrate typecheck、完整
+pnpm lint 零诊断、docs/diff，提交推送新 SHA。共享导航由 Codex 处理；
+不要合 main 或标 done，交 Codex 再审。
+```

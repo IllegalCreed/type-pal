@@ -16,7 +16,7 @@
 | [TEST-GLM-NEW-G-1 — Reforge 战斗与场景宿主边界](TEST-GLM-NEW-G-1-reforge-host.md) | build | 以任务卡当前准入与看板分工为准。 |
 | [TEST-GLM-NEW-H-1 — 一阶段战斗当前合同](TEST-GLM-NEW-H-1-game-battle.md) | build | 以任务卡当前准入与看板分工为准。 |
 | [TEST-GLM-NEW-I-1 — 一阶段壳层、菜单与呈现](TEST-GLM-NEW-I-1-game-shell.md) | build | 以任务卡当前准入与看板分工为准。 |
-| [TEST-GLM-NEW-J-1 — 迁移编排与发布前校验](TEST-GLM-NEW-J-1-migrate-orchestration.md) | build | 以任务卡当前准入与看板分工为准。 |
+| [TEST-GLM-NEW-J-1 — 迁移编排与发布前校验](TEST-GLM-NEW-J-1-migrate-orchestration.md) | rework | 以任务卡当前准入与看板分工为准。 |
 
 ## 已完成（historical）
 
