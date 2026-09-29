@@ -1,6 +1,6 @@
 # TEST-GLM-NEW-I-1 — 一阶段壳层、菜单与呈现
 
-Status: rework
+Status: review
 Owner: GLM Wave I（仅本 wave 单一测试 Coding Owner）
 Reviewer: Codex（独立验收、选择性集成、统一质量/覆盖门）
 Phase: phase1
@@ -78,7 +78,7 @@ docs/ops/tasks/TEST-GLM-NEW-I-1-game-shell.md、docs/testing/glm-new-waves/READM
 截图 hash/console（如要求）、未证/真实红项。你不合 main、不标 done；Codex 独立验收。
 ```
 
-## 下一位 Agent 提示词：GLM Wave I 返工
+## 历史 GLM Wave I 返工提示词（已执行）
 
 ```text
 你仍是 TEST-GLM-NEW-I-1 的测试 Coding Owner。只在
@@ -93,3 +93,12 @@ showError 的 #400 铺底断言；AVI 异步改为确定性进入/释放，不�
 file/fullName/status、反控与视觉 console 未证说明，推送新完整 SHA。
 你不合 main、不标 done；Codex 独立再审。
 ```
+
+## 2026-09-29 Codex r2 候选验收
+
+分支 HEAD `044d3fa4c525521658c28b4a7a5365098c706d86`（测试/证据提交
+`8f71e0f3fd0d366558e7b2dda07a9c2eeb546f57`）**代码候选 accept**，
+见[独立验收回执](../../testing/glm-new-waves/codex-accept-I-r2-044d3fa4.md)。
+状态为 `review`，尚未合 main；共享导航、菜单浏览器 console 补验与统一
+`pnpm check`、官方 ratchet、受保护 fast 待 Codex 集成时完成。
+无下一位 GLM 提示词；不把隔离分支测试数当正式覆盖收益。
