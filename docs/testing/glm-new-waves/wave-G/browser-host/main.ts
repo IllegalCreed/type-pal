@@ -1,10 +1,11 @@
 /** GLM Wave G 隔离 battle trial 视觉宿主：真实 runBattleTrial + 真实 pal 工程（HTTP source）。 */
+
+import { parseBattleTrialConfig } from '../../../../../packages/reforge/src/battle-trial-config.js'
+import { runBattleTrial } from '../../../../../packages/reforge/src/battle-trial-host.js'
+import { battleTrialRevision } from '../../../../../packages/reforge/src/battle-trial-prepare.js'
 import { httpSource } from '../../../../../packages/reforge/src/file-source.js'
 import { loadCurrentProjectFrom } from '../../../../../packages/reforge/src/project-loader.js'
-import { runBattleTrial } from '../../../../../packages/reforge/src/battle-trial-host.js'
-import { parseBattleTrialConfig } from '../../../../../packages/reforge/src/battle-trial-config.js'
 import { assertProjectSaveReadable } from '../../../../../packages/reforge/src/project-save-state.js'
-import { battleTrialRevision } from '../../../../../packages/reforge/src/battle-trial-prepare.js'
 
 const pageStatus = document.getElementById('page-status')
 if (!pageStatus) throw new Error('page status node missing')
@@ -56,7 +57,8 @@ async function boot(): Promise<void> {
     onResult: (result) => note(`onResult: ${result}`),
   }).then(
     () => note('runBattleTrial settled'),
-    (error) => note(`runBattleTrial rejected: ${error instanceof Error ? error.message : String(error)}`),
+    (error) =>
+      note(`runBattleTrial rejected: ${error instanceof Error ? error.message : String(error)}`),
   )
 }
 

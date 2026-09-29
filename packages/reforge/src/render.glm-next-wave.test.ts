@@ -94,27 +94,35 @@ describe('G03 render 公开边界残差', () => {
   })
 
   test('clear()：以 #000 fillRect 覆盖整幅 canvas', () => {
-    const canvas = { width: 320, height: 200 }
-    const ctx = {
-      canvas,
+    const fillRect = vi.fn()
+    const stub: Partial<Omit<CanvasRenderingContext2D, 'canvas'>> & {
+      canvas: { width: number; height: number }
+    } = {
+      canvas: { width: 320, height: 200 },
       fillStyle: '',
       drawImage: vi.fn(),
-      fillRect: vi.fn(),
-    } as unknown as CanvasRenderingContext2D // 外部 Canvas IO 适配器（render.test.ts 同型）
+      fillRect,
+    }
+    // 外部 Canvas IO 适配器：与 dom-host.ts 同型的单次窄化（不涉工程/业务输入）。
+    const ctx = stub as CanvasRenderingContext2D
     const renderer = new Canvas2DRenderer(ctx, palette, new Map())
     renderer.clear()
     expect(ctx.fillStyle).toBe('#000')
-    expect(ctx.fillRect).toHaveBeenCalledWith(0, 0, 320, 200)
+    expect(fillRect).toHaveBeenCalledWith(0, 0, 320, 200)
   })
 
   test('drawSprite：相机相对取整 blit，同帧共享 bake 画布', () => {
     const drawImage = vi.fn()
-    const ctx = {
+    const stub: Partial<Omit<CanvasRenderingContext2D, 'canvas'>> & {
+      canvas: { width: number; height: number }
+    } = {
       canvas: { width: 320, height: 200 },
       fillStyle: '',
       drawImage,
       fillRect: vi.fn(),
-    } as unknown as CanvasRenderingContext2D // 外部 Canvas IO 适配器（render.test.ts 同型）
+    }
+    // 外部 Canvas IO 适配器：与 dom-host.ts 同型的单次窄化（不涉工程/业务输入）。
+    const ctx = stub as CanvasRenderingContext2D
     const renderer = new Canvas2DRenderer(ctx, palette, new Map())
     const shared = frame(8, 6)
     renderer.drawSprite(shared, 20.4, 30.6, 4, 6, { x: 0.5, y: 0.5 })

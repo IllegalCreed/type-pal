@@ -48,14 +48,19 @@ function spriteDef(id: string): SpriteDef {
   }
 }
 
-function context() {
-  return {
+function context(): CanvasRenderingContext2D {
+  const stub: Partial<Omit<CanvasRenderingContext2D, 'canvas'>> & {
+    canvas: { width: number; height: number }
+  } = {
+    canvas: { width: 1280, height: 800 },
     save: vi.fn(),
     restore: vi.fn(),
     scale: vi.fn(),
     drawImage: vi.fn(),
     imageSmoothingEnabled: true,
-  } as unknown as CanvasRenderingContext2D // 外部 Canvas IO 适配器（既有测试同型）
+  }
+  // 外部 Canvas IO 适配器：与 dom-host.ts 同型的单次窄化（不涉工程/业务输入）。
+  return stub as CanvasRenderingContext2D
 }
 
 function renderer(ctx: CanvasRenderingContext2D, log: string[], label: string): Renderer {
