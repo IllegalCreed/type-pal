@@ -144,9 +144,11 @@
     "performAttack 单体目标已死/defeated 早退: UI 层不产生该输入且 C 无对应真值, 不测"
   ],
   "shas": {
-    "note": "候选(测试)提交固定为 aecd695926c597a675e2ae848e7e221091749616; 回执提交经 amend 后分支头即最终交付, 以 origin/codex/glm-new-h-r1 tip 为准(本提交为其父链末端)",
-    "testCommit": "aecd695926c597a675e2ae848e7e221091749616",
-    "head": "branch tip of codex/glm-new-h-r1 at push"
+    "r1Candidate": "013abf99e647ecd027aeb05d6225ae5c9ee7c6c2",
+    "r1CandidateNote": "2026-09-29 首轮交付（Codex 审 codex-review-H-013abf99.md，结论 rework）",
+    "reworkCandidate": "6e9fe6e01eb69bb243712c0720941e88dc3c8bfa",
+    "reworkCandidateNote": "r1 返工工作提交（本回执的父提交；分支头 = 本回执提交）。返工项 1-3 见 reworkR1；本回执提交只钉 SHA",
+    "verification": "vitest.json = 返工后 12 文件定向实测;counter-controls.json = counter-run.mjs 返工后实测"
   },
   "acceptance": "不合 main、不标 done; 待 Codex 独立验收 + 与 A-E 去重选择性集成",
   "reworkR1": {
