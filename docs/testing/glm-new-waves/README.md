@@ -7,9 +7,6 @@
 [I](../../ops/tasks/TEST-GLM-NEW-I-1-game-shell.md) ·
 [J](../../ops/tasks/TEST-GLM-NEW-J-1-migrate-orchestration.md)
 
-Wave 证据目录（各 wave 回执仅登记自己的结论）：
-[I 回执](wave-I/README.md)（docs check 要求子目录入导航；其余 wave 在其交付时自行登记）
-
 用户 2026-09-29 明确：先前[大型 A–E 五批](../glm-large-wave/README.md)已经有 GLM 在执行，
 **不得重排或抢其工作树**。F–J 是另外五个可由五个 GLM 会话并行领取的 wave；
 每 wave 六组/12 个互异生产源，总计新增 60 源，与 A–E 及此前四条已收口队列零交集。

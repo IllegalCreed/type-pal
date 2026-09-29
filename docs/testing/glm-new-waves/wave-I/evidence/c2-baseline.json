@@ -1,0 +1,80 @@
+{
+  "numTotalTestSuites": 2,
+  "numPassedTestSuites": 2,
+  "numFailedTestSuites": 0,
+  "numPendingTestSuites": 0,
+  "numTotalTests": 4,
+  "numPassedTests": 4,
+  "numFailedTests": 0,
+  "numPendingTests": 0,
+  "numTodoTests": 0,
+  "snapshot": {
+    "added": 0,
+    "failure": false,
+    "filesAdded": 0,
+    "filesRemoved": 0,
+    "filesRemovedList": [],
+    "filesUnmatched": 0,
+    "filesUpdated": 0,
+    "matched": 0,
+    "total": 0,
+    "unchecked": 0,
+    "uncheckedKeysByFile": [],
+    "unmatched": 0,
+    "updated": 0,
+    "didUpdate": false
+  },
+  "startTime": 1790648094706,
+  "success": true,
+  "testResults": [
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["runMagicScriptSync goto / 具名 op / 0xFFFF 目标分支"],
+          "fullName": "runMagicScriptSync goto / 具名 op / 0xFFFF 目标分支 goto 自环死循环被 SCRIPT_TICK_LIMIT 终止:返回 false,0x1B 恰执行 128 次(HP 50→178)",
+          "status": "passed",
+          "title": "goto 自环死循环被 SCRIPT_TICK_LIMIT 终止:返回 false,0x1B 恰执行 128 次(HP 50→178)",
+          "duration": 3.409791999999925,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["runMagicScriptSync goto / 具名 op / 0xFFFF 目标分支"],
+          "fullName": "runMagicScriptSync goto / 具名 op / 0xFFFF 目标分支 goto 目标 label 缺失 → false;前序已执行副作用保留(HP +1)",
+          "status": "passed",
+          "title": "goto 目标 label 缺失 → false;前序已执行副作用保留(HP +1)",
+          "duration": 0.49187499999993634,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["runMagicScriptSync goto / 具名 op / 0xFFFF 目标分支"],
+          "fullName": "runMagicScriptSync goto / 具名 op / 0xFFFF 目标分支 非 raw 具名 op(showDialog)warn skip 不阻流:后续 0x1B 照常执行,success=true",
+          "status": "passed",
+          "title": "非 raw 具名 op(showDialog)warn skip 不阻流:后续 0x1B 照常执行,success=true",
+          "duration": 0.2938330000000633,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["runMagicScriptSync goto / 具名 op / 0xFFFF 目标分支"],
+          "fullName": "runMagicScriptSync goto / 具名 op / 0xFFFF 目标分支 single-target 0x1B 在 target=0xFFFF(applyToAll 语境)→ no-op 且 success=true(不误报失败)",
+          "status": "passed",
+          "title": "single-target 0x1B 在 target=0xFFFF(applyToAll 语境)→ no-op 且 success=true(不误报失败)",
+          "duration": 0.5044589999999971,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790648095647,
+      "endTime": 1790648095652.5044,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.codex/worktrees/glm-new-i/type-pal/packages/game/src/core/menu/magic-script.glm-next-wave.test.ts"
+    }
+  ]
+}
