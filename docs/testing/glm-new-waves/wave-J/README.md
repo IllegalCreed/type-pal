@@ -1,67 +1,92 @@
-# Wave J 回执 — TEST-GLM-NEW-J-1 迁移编排与发布前校验
+# Wave J 回执（r2）— TEST-GLM-NEW-J-1 迁移编排与发布前校验
 
 分支 `codex/glm-new-j-r1`（worktree `/Users/zhangxu/.codex/worktrees/glm-new-j/type-pal`）。
-基线 `2948810f`（生产冻结 `ced193f4` 检查通过：`node docs/testing/glm-new-waves/verify-targets.mjs`
-输出 Wave J digest `5d835075e94d8fe2c7b934d101e05e758c4158f7fadbc3c10999d4c462e58a1b` 与卡面一致）。
-候选 SHA 见交接回执（分支推送 head）；本 wave 只新增 12 个同目录测试文件与本证据目录，零产品/旧测/共享配置改动。
+**r1 候选完整 SHA：`009c557851e43759b20e10d4d1284bdf1aa21247`**；本 r2 按
+`docs/testing/glm-new-waves/codex-review-J-009c5578.md` 两项必须返工收窄，
+**r2 候选完整 SHA 见本文件底部与交接回执**。基点仍为派发 `2948810f`
+（verify-targets Wave J digest `5d835075…a58a1b` 与卡面一致）。
+本 wave 只改 12 个同目录测试文件与本证据目录，零产品/旧测/共享配置改动。
 
-## 运行门禁
+## r1 → r2 返工对照
+
+1. **migrationScenes 三例删除**（Codex 审核项 1）：`migrationScenes`
+   （pal-migration.ts:703-707）自述仅供审计/测试，仓内除 r1 新测外无调用者；
+   正文缺失臂只是源码 `as unknown as SceneDef` 的现状而非有效 `SceneDef[]` 合同。
+   按卡面「现行 caller」停止线删除三个测试并登记 **`unreachable/未证`**；
+   同文件保留有生产调用者（`buildPalMigration` pal-migration.ts:392 唯一解析口径）的
+   `palSoundAssetForSources` 两例。未把 `[undefined]` 现状钉为正确行为。
+2. **J06 毒断言收窄为一手核实范围**（Codex 审核项 2）：oracle 全部换锚
+   `docs/phase1/game-mechanics.md`——:1187-1201 等级/每回合表（551 −7/−7、552 −12、
+   553 −20、554 −32、556-560 −50/−100）、:1210-1216 三尸蛊逐回合（0→−1→−2→−3→−200 后
+   0x2B 自解；−111→−222→−333 后 0x2A 自解）、:1219 无影毒 `0x5B` 半血上限 1000
+   （script.c:1895-1905）且 level 173 谁都解不了、:1227-1232 相克单向 6 元环逐边与
+   三对致死双向组合、:1246-1253 解毒 `0x2C` 等级上限（灵血咒/九节菖蒲 ≤2 → 551-554
+   common；复活 ≤3 → 555-560 severe；173/4 级 → 137/561/562 incurable）。
+   r1 的「13 条全表逐条深等」标题与回执宣称已修正：现在 **11 毒（551-560+137）逐条深等 +
+   全表 id 序/颜色透传/结构关系**；**561/562 只断言一手可证身份字段**（名/可解性/颜色/
+   无 lethal/counters），其精确 tick 数据化（每回合 −1×7 + 末回合 −8 + grantItem
+   '145'/'149' + selfCure）在 doc 中仅有「寄生、每回合 −1、到期掉道具（灵蛊/赤血蚕）」
+   形状描述、无数值锚，已移出深等并登记**未证**。137 的 `selfCure:true` 为
+   「一次性结算」（:1219）加脚本指针推进机制（:1206-1209）的必然蕴含，随深等保留并在此注明。
+
+## 运行门禁（r2 全量复跑）
 
 | 门 | 结果 |
 |---|---|
 | `pnpm --filter @type-pal/migrate run typecheck`（tsc --noEmit） | PASS |
-| Biome check（精确 12 个新增文件） | error 0 / warning 0 / info 0（"No fixes applied"，无 ignore/降级） |
-| 定向新测（12 文件，maxWorkers 1，unit project） | 55/55 passed，exit 0 |
-| 相邻定向（17 个既有套件：12 源旧测 + conversion-isolation + scenes.defaults + pal-assets paths/retirements/ownership） | 177/177 passed（110+67），exit 0 |
-| `pnpm check:docs` | 37/37 子测试 PASS；唯一 issue「子目录未进入导航：docs/testing/glm-new-waves/wave-J」——共享 README/targets 对本 wave 只读（卡面白名单），导航注册留给 Codex 集成时统一添加（A–E 证据目录落地时同理），非本 wave 可修项 |
-| diff 白名单 | 仅 `packages/migrate/src/*.glm-next-wave.test.ts` ×12 + 本目录；未碰 A–E/产品/旧测/共享配置 |
+| **完整 `pnpm lint`**（全仓零诊断硬门） | **PASS — 2639 files; 0 errors / 0 warnings / 0 infos** |
+| 定向新测（12 文件，maxWorkers 1，unit project） | 58/58 passed，exit 0 |
+| 相邻定向（17 个既有套件） | 177/177 passed，exit 0 |
+| `pnpm check:docs` | 37/37 子测试 PASS；唯一 issue 仍为共享目录缺 `wave-J` 导航链接（Codex r1 已认领该共享索引写入，非 GLM 返工项） |
+| diff 白名单 | 仅 12 个 `packages/migrate/src/*.glm-next-wave.test.ts` + 本目录；r2 相对 r1 只改 `pal-migration.glm-next-wave.test.ts`、`pal-derived-content.glm-next-wave.test.ts` 与本 README |
 
-环境注记：本 worktree 缺 gitignored `data/extracted/`，以符号链接指向主仓同名只读目录后，
-两个消费真实提取数据的旧套件（`migrate-content.test.ts`、`migrate-enemies.test.ts`）方可加载；
-本 wave 新测全部为合成输入/纯函数/自有 mkdtemp，不消费该目录，未运行任何真实 migrate/extract/bake/publish，
-未写 `data/`、`projects/`、baseline（migration-baseline/project-io/write-plan 测试的 IO 全在 `mkdtempSync` 临时根）。
+环境注记：worktree 的 gitignored `data/extracted/` 以只读符号链接指向主仓（不进提交），
+仅使两个消费真实提取数据的旧套件可加载；本 wave 新测全部为合成输入/纯函数/自有 mkdtemp，
+未运行任何真实 migrate/extract/bake/publish，未写 `data/`、`projects/`、baseline。
 
-## 逐组旧证 → 新差异
+## 逐组旧证 → 新差异（r2 口径）
 
-| 组 | 源 | 旧证（不重复） | 新增直接断言 |
+| 组 | 源 | 旧证（不重复） | 新增直接断言（r2） |
 |---|---|---|---|
-| J01 | `pal-migration.ts` | pal-assets 系列（物化/退役/真源加载）；`palSoundAssetForSources`、`migrationScenes` 全仓零直接断言 | 5 tests：catalog 内 kind=sound 才映射、缺失/非 sound/非整数/≤0 一律 undefined、幂等；migrationScenes 按 index 序抽取、输入深保真、正文缺失暴露 undefined、非法 index fail-loud |
-| J01 | `pal-assets.ts` | pal-assets.test.ts 盖 format/load/materialize；pal-manifest.test.ts 只透传 roles | 4 tests：PAL_AUDIO_ROLES/PAL_SOUND_ROLES 精确 AssetId 绑定（002/003/004/037/028/029/045/047）、键不相交、PAL_ASSET_ROLES 并集+三非音频角色、PAL_RNG_LEGACY_PALETTE 冻结 {3:2,6:3,7:6} |
-| J02 | `migrate-content.ts` | migrate-content.test.ts + migrate-scenes.*（deepStrip/finalize/propagate/bindings 均有旧证） | 5 tests：`resolveSceneScriptPatches` 首次直接断言——_addr→callScript 根（绝对 ref id/chunk）、私有键全拆、同 key 复用不重复注册、目标场景缺失/目标脚本不可译两类 0x6D gap、源链深保真；`migratedSpriteId` 稳定 id 形状 |
-| J02 | `pal-current-publication.ts` | pal-current-publication.pal.test.ts 走真实全量 baseline | 4 tests：`palAssetPreconditions` 首次直接断言——按 target 排序 projects/pal 前置、hash 取 catalog、空 catalog→[]、缺 assets/index.json 与非法 sha256 两条 fail-loud、输入深保真 |
-| J03 | `translate-event-motion.ts` | translate-event-motion.test.ts 8 臂 | 9 tests：0x0c/0x0d 方向、0x70/0x7a slow/fast、0x3f/0x97 骑乘 slow/run、walkTo/骑乘/animate/moveObject/walkOneStep 五类无属主具名 gap、0x87 有属主、0x6e 无 layer 键、0x4c 无 floating 键、空操作数原点投影 |
-| J03 | `migration-baseline.ts` | migration-baseline.test.ts + pure.boundaries（state v1/序列化/D5 null/缺席） | 6 tests：`loadPalBaseline` 原子地图 hash-only 加载（正文缺席仍可加载）、哈希不符/缺文件/缺 hash 三类 fail-loud、无 state→undefined、`assertPalBaselineSnapshotCurrent` _state.json 漂移臂、`baselineWrites` 不落原子图正文且 state 含其 hash |
-| J04 | `migration-project-io.ts` | migration-project-io(.boundaries).test.ts（discover/load 正控、TOCTOU、越界） | 3 tests：托管正文坏 JSON fail-loud 含 cause（旧证只有 discover 索引臂）、hashes=原始字节 sha256、托管缺失跳过、PAL_PROJECT_REL 冻结 |
-| J04 | `legacy-dialog.ts` | legacy-dialog.test.ts（解码颜色/速度/终止/变速） | 5 tests：`legacyDialogueTextId` 基准 key vs `v-<8hex>` 变体且确定；`putLegacyDialogueText` 同 messageIndex 异原文落同 key 冲突 fail-loud（双方 JSON）、同值幂等；`(` 光标帧 2、行尾孤立反斜杠、空行默认态 |
-| J05 | `migrate-enemies.ts` | migrate-enemies.test.ts（真实 census）+ wave2（合成 stats/fallback/dangling/队槽） | 4 tests：`withScript` 脚本指针计数、`reportHookSources=false` v9 报告形状（无 hookSources 键，toEqual 精确）、无 tctx 缺省音效五路 + 负 magicSound 拆分、enemySlug/teamSlug join 键 |
-| J05 | `sound-migration.ts` | resolveSoundAsset 仅经 mapScenesStatic 0x47 间接消费；`palOptionalSoundAssetId` 全仓零测试 | 3 tests：0/空/负/非整数/undefined 全 undefined 臂、缺省 palSoundAssetId、注入 resolver 以原始号真实调用且其结果（含 undefined）胜出、非法号不调用注入 resolver |
-| J06 | `migration-write-plan.ts` | migration-write-plan(.boundaries).test.ts（排序/去重/manifest-last/退役/baseline 跳写） | 4 tests：工程 write 的 `expectedPreviousHash` TOCTOU 锚首次断言（已有正文=字节 hash、新文件=null）、「未纳入规划快照」「缺原始字节 hash」两条 fail-loud、plan/snapshot 深保真 |
-| J06 | `pal-derived-content.ts` | pal-derived-content.test.ts 只盖 migratePalShops | 3 tests：`migratePalPoisons` 13 毒全表冻结（id 序/names/curability/ticks/lethal 互指/counters 环/grantItem/halveHp）、颜色透传提取表、缺 id fail-loud、输入深保真。注释声明字段为一阶段实测/反汇编数据化 overlay；颜色为合成值透传，不冒称原版实测 |
+| J01 | `pal-migration.ts` | pal-assets 系列；`palSoundAssetForSources` 零直接断言 | 2 tests：catalog 内 kind=sound 才映射、缺失/非 sound/非整数/≤0 → undefined、幂等。~~migrationScenes 三例~~ 删除，登记 unreachable/未证 |
+| J01 | `pal-assets.ts` | pal-assets.test.ts；pal-manifest.test.ts 只透传 roles | 4 tests：PAL_AUDIO_ROLES/PAL_SOUND_ROLES 精确 AssetId（002/003/004/037/028/029/045/047）、键不相交、PAL_ASSET_ROLES 并集+三非音频角色、PAL_RNG_LEGACY_PALETTE {3:2,6:3,7:6} |
+| J02 | `migrate-content.ts` | migrate-content.test.ts + migrate-scenes.* | 5 tests：`resolveSceneScriptPatches` 首次直接断言（_addr→callScript 根、私有键全拆、同 key 复用、两类 0x6D gap、源链深保真）；`migratedSpriteId` |
+| J02 | `pal-current-publication.ts` | pal-current-publication.pal.test.ts | 4 tests：`palAssetPreconditions` 首次直接断言（排序 projects/pal 前置、空 catalog→[]、缺 index 与非法 sha256 fail-loud、深保真） |
+| J03 | `translate-event-motion.ts` | translate-event-motion.test.ts 8 臂 | 9 tests：0x0c/0x0d、0x70/0x7a、0x3f/0x97、五类无属主 gap、0x87 有属主、0x6e 无 layer、0x4c 无 floating、空操作数原点投影 |
+| J03 | `migration-baseline.ts` | migration-baseline(.pure.boundaries).test.ts | 6 tests：原子地图 hash-only 加载、哈希不符/缺文件/缺 hash fail-loud、无 state→undefined、_state.json 漂移臂、baselineWrites 不落原子图正文 |
+| J04 | `migration-project-io.ts` | migration-project-io(.boundaries).test.ts | 3 tests：托管坏 JSON fail-loud 含 cause、原始字节 sha256 锚、托管缺失跳过、PAL_PROJECT_REL |
+| J04 | `legacy-dialog.ts` | legacy-dialog.test.ts | 5 tests：`legacyDialogueTextId` 基准/变体 key、同 messageIndex 异原文冲突 fail-loud、`(` 光标帧 2、行尾孤立反斜杠、空行默认态 |
+| J05 | `migrate-enemies.ts` | migrate-enemies(.wave2).test.ts | 4 tests：withScript 计数、reportHookSources=false v9 形状、缺省音效五路+负号拆分、enemySlug/teamSlug |
+| J05 | `sound-migration.ts` | 仅经 0x47 间接消费；`palOptionalSoundAssetId` 零测试 | 3 tests：全 undefined 臂、缺省解析、注入 resolver 真实调用且其结果胜出、非法号不调 resolver |
+| J06 | `migration-write-plan.ts` | migration-write-plan(.boundaries).test.ts | 4 tests：write `expectedPreviousHash` 锚（已有正文=字节 hash、新文件=null）+ 两条缺快照 fail-loud + 深保真 |
+| J06 | `pal-derived-content.ts` | pal-derived-content.test.ts 只盖 shops | 9 tests：11 毒一手深等（含 555 逐回合、137 半血上限、556-560 fixed −50/−100 + lethal/counters 逐边）、561/562 仅身份字段、全表 id 序/颜色透传/结构关系、缺 id fail-loud、深保真 |
 
-## 反控（判据隔离，仅本目录）
+## 反控（r2 全套重采，判据隔离，仅本目录）
 
-对照与注入全部用 `--reporter=json --outputFile` 采集（`/tmp/type-pal-glm-new-wave/J/`，SHA256 见下）。
-三枚注入均为**单点变异、跑完即还原**，还原后三文件重跑 11/11 绿。
+对照与注入全部 `--reporter=json --outputFile` 采集（`/tmp/type-pal-glm-new-wave/J/`）。
+三枚注入均为单点变异、跑完即还原，还原后三文件 17/17 回绿。
 
-| # | 类型 | 注入点（唯一） | exit | 实际执行 | 恰红 fullName（绝对 file + test） | 证据 JSON SHA256 |
+| # | 类型 | 注入点（唯一） | exit | 实际执行 | 恰红 fullName（绝对 file + test） | r2 证据 JSON SHA256 |
 |---|---|---|---|---|---|---|
-| 0 | 对照 exit0 | 无 | 0 | 12 文件 55/55 passed | —（全绿） | `713956321a9bba232bc95ff1ae90c3ae649afa4339db182761c22816ee556fd4`（j-wave-control-exit0.json） |
-| A | 恰 exit1 业务红 | sound-migration 测试内 `palOptionalSoundAssetId(1)` 期望 `sound.pal.001`→`002` | 1 | 该文件 3 tests：2 passed 1 failed | `.../packages/migrate/src/sound-migration.glm-next-wave.test.ts` ‖ `palOptionalSoundAssetId：0 或空 chunk 的显式 undefined 边界 正整数映射 palSoundAssetId；undefined/非整数/≤0 一律 undefined` | `514b61bd1fc6874c1fd3dda45bf6c804e09711a293dc837186924744f28b8ba9` |
-| B | 恰 exit1 业务红 | pal-derived-content 赤毒 golden `hpDelta: -7`→`-8` | 1 | 该文件 3 tests：2 passed 1 failed | `.../packages/migrate/src/pal-derived-content.glm-next-wave.test.ts` ‖ `migratePalPoisons：受保护迁移 overlay 的全表冻结 13 条毒：id/名/可解性/每回合数值/相克配对逐条深等，颜色透传提取表` | `5e58815f6456b1682f21079c8d5a6381775e98a5ec4d14704936f42659050893` |
-| C | 恰 exit1 业务红 | migrate-content 期望根 id `stage-0`→`stage-1` | 1 | 该文件 5 tests：4 passed 1 failed | `.../packages/migrate/src/migrate-content.glm-next-wave.test.ts` ‖ `resolveSceneScriptPatches：0x6D 覆写占位解析为 registry 分片根 占位 _addr 解析成 callScript 根绑定并删除全部迁移期私有键` | `2a645ff63e9202207937ab3e543f0c2f3f2d7f06b8939cc486fbef97287e3f2d` |
+| 0 | 对照 exit0 | 无 | 0 | 12 文件 58/58 passed | —（全绿） | `c74316938e7245bb3080e1ddb4d40ce4a671c82bf4216d4af994b87218d67618`（j-wave-r2-control-exit0.json；另 58/58 明细同内容 `8f504499…` j-wave-r2-green.json） |
+| A | 恰 exit1 业务红 | sound 测试 `palOptionalSoundAssetId(1)` 期望 `sound.pal.001`→`002` | 1 | 3 tests：1 failed | `.../packages/migrate/src/sound-migration.glm-next-wave.test.ts` ‖ `palOptionalSoundAssetId：0 或空 chunk 的显式 undefined 边界 正整数映射 palSoundAssetId；undefined/非整数/≤0 一律 undefined` | `063b23bb2e84506288ca6bd71de7113ca7301166b3b5fe77496afbeb8cfce68f` |
+| B | 恰 exit1 业务红 | 毒测试三尸蛊 golden `hpDelta: -200`→`-201` | 1 | 9 tests：1 failed | `.../packages/migrate/src/pal-derived-content.glm-next-wave.test.ts` ‖ `migratePalPoisons：一手核实的逐条深等（game-mechanics 锚定） 三尸蛊 555：逐回合推进 + 末回合自解（:1210-1216 逐回合段）` | `152dd5b84539d44bed05bfd05bc3ed4bc41696b3cf15b150e40f3172dce0bf6e` |
+| C | 恰 exit1 业务红 | 0x6D 期望根 id `stage-0`→`stage-1` | 1 | 5 tests：1 failed | `.../packages/migrate/src/migrate-content.glm-next-wave.test.ts` ‖ `resolveSceneScriptPatches：0x6D 覆写占位解析为 registry 分片根 占位 _addr 解析成 callScript 根绑定并删除全部迁移期私有键` | `cdbbf65d83c8e40434fcb9caf029b1d1f76abb01f5b3ad0f766111d3216945e9` |
 
-无混错、无 skip、无 timeout、无零执行、无 exit2；三枚红的 failed 计数恰为 1 且失败用例与注入断言一一对应。
+无混错、无 skip、无 timeout、无零执行、无 exit2；r1 反控 JSON（needle-sound/poison/patch 旧版）作废，以本表 r2 采集为准。
 
-## 未证 / 风险登记
+## 未证 / 风险登记（r2）
 
-- 本 wave 无浏览器视觉要求（纯结果/临时 FS 测试），未做任何视觉取证。
-- `migrationScenes` 正文缺失臂现为「暴露 undefined 元素」而非 throw：这是现行实现形状，
-  消费方（审计）需自行判空；若 Codex 认为应 fail-loud，属产品行为变更，另卡裁决。
-- `migratePalPoisons` 全表深等是 overlay 漂移钉（golden pin）；数值出处为源文件注释声明的一阶段
-  实测/反汇编结论，本次未重新核 `data/raw`（本卡红线禁止真实迁移/提取消费，且该表既有 goldens
-  已由 pal-current-publication.pal 测试间接消费）。
-- `data/extracted` 符号链接是本地环境修复（gitignored，只读），不进提交。
+- `migrationScenes`（pal-migration.ts:703-707）：**unreachable/未证**——仓内无本 wave 之外调用者；
+  正文缺失行为（`as unknown as SceneDef` 现状）未钉为合同。若未来出现真实消费方，另立证据再测。
+- `migratePalPoisons` 561/562 的精确 tick 数据化（−1×7、末 −8、grantItem '145'/'149'、selfCure）：
+  **未证**——doc（:1200）只有形状描述且明确「561/562 自身 tick 脚本为空，寄生逻辑在投掷道具脚本」；
+  如需钉值须先核 items 144/147 的 wScriptOnThrow 原始脚本（另卡/另行取证）。
+- 本 wave 无浏览器视觉要求，未做视觉取证。
+- `data/extracted` 只读符号链接是本地环境修复（gitignored），不进提交。
 
 ## 候选
 
-单提交推送于 `codex/glm-new-j-r1`；完整候选 SHA 以交接回执为准。不合 main、不标 done，待 Codex 独立验收。
+- r1：`009c557851e43759b20e10d4d1284bdf1aa21247`（已按审核意见返工，不再是候选）。
+- **r2 候选：见下方推送记录与交接回执的完整 SHA**（单提交于 `codex/glm-new-j-r1`）。
+不合 main、不标 done，待 Codex 再审。
