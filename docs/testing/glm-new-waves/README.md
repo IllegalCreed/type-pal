@@ -5,6 +5,7 @@
 [Wave H r1 返工验收](codex-accept-H-r1-6a25727c.md) ·
 [Wave G Codex r1 审核](codex-review-G-07140f75.md) ·
 [Wave F Codex r1 审核](codex-review-F-9b015064.md) ·
+[Wave F r2 候选验收](codex-accept-F-r2-c5ecf694.md) ·
 [Wave I Codex r1 审核](codex-review-I-2534b72c.md) ·
 [Wave I r2 候选验收](codex-accept-I-r2-044d3fa4.md) ·
 [Wave J Codex r1 审核](codex-review-J-009c5578.md) · [测试总览](../README.md) ·

@@ -1,6 +1,6 @@
 # TEST-GLM-NEW-F-1 — 编辑器主工作台与预览
 
-Status: rework
+Status: review
 Owner: GLM Wave F（仅本 wave 单一测试 Coding Owner）
 Reviewer: Codex（独立验收、选择性集成、统一质量/覆盖门）
 Phase: phase2
@@ -78,7 +78,7 @@ docs/ops/tasks/TEST-GLM-NEW-F-1-editor-shell.md、docs/testing/glm-new-waves/REA
 截图 hash/console（如要求）、未证/真实红项。你不合 main、不标 done；Codex 独立验收。
 ```
 
-## 下一位 Agent 提示词：GLM Wave F 返工
+## 历史 GLM Wave F 返工提示词（已执行）
 
 ```text
 你仍是 TEST-GLM-NEW-F-1 测试 Coding Owner。只在
@@ -94,3 +94,11 @@ needle-judge 所有 INVALID 也须删临时针，精确核绝对 file/fullName�
 完整 pnpm lint 零诊断、docs/diff 与四针；提交推送新完整 SHA。
 你不合 main、不标 done；Codex 独立再审。
 ```
+
+## 2026-09-29 Codex r2 候选验收
+
+分支 HEAD `c5ecf694ed4942a42ecd7e32f5f033e785d47b69`（返工测试/证据
+提交 `08371dc26d05990ca412ef80390eac703eb871de`）**代码候选 accept**，
+见[独立验收回执](../../testing/glm-new-waves/codex-accept-F-r2-c5ecf694.md)。
+状态为 `review`，尚未合 main；父级共享导航与统一 `pnpm check`、官方 ratchet、
+受保护 fast、正式覆盖收益待 Codex 并集成门。无下一位 GLM 提示词。
