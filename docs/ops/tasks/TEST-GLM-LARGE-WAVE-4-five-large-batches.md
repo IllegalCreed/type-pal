@@ -93,6 +93,12 @@ A→E 连续做；每完成 6 组固定提交并推送完整候选 SHA，可继�
 复跑零诊断和反控并推送新完整 SHA；Codex 再审后才可能做全仓/官方覆盖门。
 用户可见产品取舍仍未授权；F–J 并行 wave 与本卡独立。
 
+R2 候选 `031b3e479e18bf1add1d5b559716172cfb7c031f` 的 lint、三包 typecheck、
+66 项定向测试、强转/后缀/17:43 已核闭合，但严格反控的 INVALID 路径会遗留临时针文件，
+且部分回执锚仍陈旧；结论仍为 **rework**。见
+[Codex R2 审核回执](../../testing/glm-large-wave/codex-review-r2-031b3e47.md)。
+GLM 只修反控判据/自测与记录，不再扩大测试范围；官方覆盖门继续暂缓。
+
 ## 历史首轮派发提示词（已执行）
 
 ```text
@@ -124,4 +130,20 @@ needle-judge 判据及自测、并集 17/43 计数和逐批完整 SHA。UI 子�
 边界改成真实消费链或收窄未证声明；恢复只读 README，别修改产品、旧测试、配置、
 官方基线或正式工程。复跑新测+相邻、三包 typecheck、完整 pnpm lint 零诊断、docs/diff、
 严格反控；提交推送新完整候选 SHA 和逐项证据。你不合 main、不标 done；Codex 独立复核。
+```
+
+## 下一位 Agent 提示词：GLM R3 窄返工
+
+```text
+你仍是 TEST-GLM-LARGE-WAVE-4 测试 Coding Owner。只在原工作树
+/Users/zhangxu/.codex/worktrees/glm-large-wave/type-pal、原分支 codex/glm-large-wave-r1
+返工 R2 候选 031b3e479e18bf1add1d5b559716172cfb7c031f。先读本卡和 main 上
+docs/testing/glm-large-wave/codex-review-r2-031b3e47.md。重点修 needle-judge.mjs：
+INVALID/异常也必须删临时针；精确核绝对失败文件、完整 fullName 和 failed=1，
+selftest 对每种 INVALID 断言无遗留临时文件。修 receipt-batch-b 的旧 .tsx 后缀；
+五批回执和 R2/R3 证据写完整候选 SHA，docs issue 按实际 7 条登记。
+只改原卡隔离工具/回执/必要新测，不碰产品、旧测、共享配置/基线或 F–J；
+不要为过 docs 门修改只读 README（Codex 负责导航）。复跑 selftest、11 枚业务针、
+定向测试、三包 typecheck、完整 pnpm lint 0/0/0、docs/diff，推送 R3 完整 SHA
+和逐项证据。你不合 main、不标 done；Codex 独立再审。
 ```
