@@ -1,0 +1,243 @@
+{
+  "schemaVersion": 1,
+  "campaign": "TEST-GLM-NEW-WAVES-F-J-1",
+  "productionFreeze": "ced193f4f590c57d25ad2d48e2aa256e4b70a902",
+  "baselineSha256": "a682d4e1b970df7c2f5a100ca6a1c8ed9cc23e7a612b7328998949db9fa75b41",
+  "profile": "fast",
+  "selectionCaveat": "Historical per-file gaps are leads only, not a current or reachable gain. Every group must dedupe exact existing assertions and prove a current public caller.",
+  "waves": [
+    {
+      "id": "F",
+      "title": "编辑器主工作台与预览",
+      "sourceDigestSha256": "27ee3a811311a586cc013b83f0b2117ecc66fd69149c51c9d45ab95493504276",
+      "groups": [
+        {
+          "id": "F01",
+          "sources": ["packages/editor/src/ui/App.tsx", "packages/editor/src/ui/ScriptEditor.tsx"]
+        },
+        {
+          "id": "F02",
+          "sources": [
+            "packages/editor/src/ui/PreviewCanvas.tsx",
+            "packages/editor/src/ui/FrameAnimationEditor.tsx"
+          ]
+        },
+        {
+          "id": "F03",
+          "sources": [
+            "packages/editor/src/design-lab/DesignLab.tsx",
+            "packages/editor/src/ui/ActorMode.tsx"
+          ]
+        },
+        {
+          "id": "F04",
+          "sources": [
+            "packages/editor/src/ui/BattleSpriteUploader.tsx",
+            "packages/editor/src/ui/SpriteFrameWorkbench.tsx"
+          ]
+        },
+        {
+          "id": "F05",
+          "sources": [
+            "packages/editor/src/ui/BattleSimulatorWorkbench.tsx",
+            "packages/editor/src/core/battle-trial-launch.ts"
+          ]
+        },
+        {
+          "id": "F06",
+          "sources": [
+            "packages/editor/src/core/battle-sprite-commands.ts",
+            "packages/editor/src/core/sprite-commands.ts"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "G",
+      "title": "Reforge 战斗与场景宿主边界",
+      "sourceDigestSha256": "993ee48d7cea947139128a9a8fe80f4fd5a0825345292ac1cc4fc7672da6005f",
+      "groups": [
+        {
+          "id": "G01",
+          "sources": [
+            "packages/reforge/src/battle/battle-session.ts",
+            "packages/reforge/src/battle/battle-core.ts"
+          ]
+        },
+        {
+          "id": "G02",
+          "sources": [
+            "packages/reforge/src/battle/battle-command-selection.ts",
+            "packages/reforge/src/battle-trial-host.ts"
+          ]
+        },
+        {
+          "id": "G03",
+          "sources": ["packages/reforge/src/assets.ts", "packages/reforge/src/render.ts"]
+        },
+        {
+          "id": "G04",
+          "sources": [
+            "packages/reforge/src/entity-motion.ts",
+            "packages/reforge/src/world-scene-presentation.ts"
+          ]
+        },
+        {
+          "id": "G05",
+          "sources": [
+            "packages/reforge/src/debug-tools.ts",
+            "packages/reforge/src/magic-menu-state.ts"
+          ]
+        },
+        {
+          "id": "G06",
+          "sources": [
+            "packages/reforge/src/menu/menu-session.ts",
+            "packages/reforge/src/screen-fx.ts"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "H",
+      "title": "一阶段战斗当前合同",
+      "sourceDigestSha256": "ebe7d9d5794d3a51fb1234e6bc58a164467260846849c5c1c98d02955aa2a5da",
+      "groups": [
+        {
+          "id": "H01",
+          "sources": [
+            "packages/game/src/core/battle/battle-opcodes.ts",
+            "packages/game/src/core/battle/battle-system.ts"
+          ]
+        },
+        {
+          "id": "H02",
+          "sources": [
+            "packages/game/src/core/battle/actions/magic.ts",
+            "packages/game/src/core/battle/battle-progression.ts"
+          ]
+        },
+        {
+          "id": "H03",
+          "sources": [
+            "packages/game/src/core/equip-effect.ts",
+            "packages/game/src/core/equipment-state.ts"
+          ]
+        },
+        {
+          "id": "H04",
+          "sources": [
+            "packages/game/src/core/game-state.ts",
+            "packages/game/src/core/battle/battle-state.ts"
+          ]
+        },
+        {
+          "id": "H05",
+          "sources": [
+            "packages/game/src/core/battle/actions/attack.ts",
+            "packages/game/src/core/battle/actions/coop-magic.ts"
+          ]
+        },
+        {
+          "id": "H06",
+          "sources": [
+            "packages/game/src/core/battle/anim-timeline.ts",
+            "packages/game/src/core/battle/battle-settlement.ts"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "I",
+      "title": "一阶段壳层、菜单与呈现",
+      "sourceDigestSha256": "d07621c54c3504a1104353d87376d9273c2e1580741d4e735d710face41ec404",
+      "groups": [
+        {
+          "id": "I01",
+          "sources": ["packages/game/src/dev/dev-panel.ts", "packages/game/src/shell/bootstrap.ts"]
+        },
+        {
+          "id": "I02",
+          "sources": [
+            "packages/game/src/core/menu/menu-driver.ts",
+            "packages/game/src/core/event-opcode-player.ts"
+          ]
+        },
+        {
+          "id": "I03",
+          "sources": [
+            "packages/game/src/present/present.ts",
+            "packages/game/src/present/dialog-box.ts"
+          ]
+        },
+        {
+          "id": "I04",
+          "sources": [
+            "packages/game/src/core/scene-system.ts",
+            "packages/game/src/core/menu/magic-script.ts"
+          ]
+        },
+        {
+          "id": "I05",
+          "sources": [
+            "packages/game/src/shell/ending-player.ts",
+            "packages/game/src/shell/rng-player.ts"
+          ]
+        },
+        {
+          "id": "I06",
+          "sources": [
+            "packages/game/src/shell/avi-player.ts",
+            "packages/game/src/shell/splash-fallback.ts"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "J",
+      "title": "迁移编排与发布前校验",
+      "sourceDigestSha256": "5d835075e94d8fe2c7b934d101e05e758c4158f7fadbc3c10999d4c462e58a1b",
+      "groups": [
+        {
+          "id": "J01",
+          "sources": ["packages/migrate/src/pal-migration.ts", "packages/migrate/src/pal-assets.ts"]
+        },
+        {
+          "id": "J02",
+          "sources": [
+            "packages/migrate/src/migrate-content.ts",
+            "packages/migrate/src/pal-current-publication.ts"
+          ]
+        },
+        {
+          "id": "J03",
+          "sources": [
+            "packages/migrate/src/translate-event-motion.ts",
+            "packages/migrate/src/migration-baseline.ts"
+          ]
+        },
+        {
+          "id": "J04",
+          "sources": [
+            "packages/migrate/src/migration-project-io.ts",
+            "packages/migrate/src/legacy-dialog.ts"
+          ]
+        },
+        {
+          "id": "J05",
+          "sources": [
+            "packages/migrate/src/migrate-enemies.ts",
+            "packages/migrate/src/sound-migration.ts"
+          ]
+        },
+        {
+          "id": "J06",
+          "sources": [
+            "packages/migrate/src/migration-write-plan.ts",
+            "packages/migrate/src/pal-derived-content.ts"
+          ]
+        }
+      ]
+    }
+  ]
+}
