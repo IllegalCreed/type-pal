@@ -1,6 +1,6 @@
 # TEST-GLM-NEW-F-1 — 编辑器主工作台与预览
 
-Status: build
+Status: rework
 Owner: GLM Wave F（仅本 wave 单一测试 Coding Owner）
 Reviewer: Codex（独立验收、选择性集成、统一质量/覆盖门）
 Phase: phase2
@@ -54,7 +54,16 @@ Codex 独立审核 F–J 与 A–E 并集，选择性集成，串行 check → r
 准入记录：2026-09-29 Codex 核生产 hash、60 新源互斥、旧队列和 A–E 零交集；
 本卡仅测试/fixture/隔离证据 build allowed。review → done 待 Codex 独立验收。
 
-## 下一位 Agent 提示词
+## 2026-09-29 Codex 独立审核与返工
+
+最终 HEAD `9b0150643ee65749678780011ae0fc8380dd2034`（测试/证据提交
+`38d849a170e97b59c743660f1b3c3bc7816b9bb8`）独立审核结论
+**rework，未合 main**。完整[审核回执](../../testing/glm-new-waves/codex-review-F-9b015064.md)
+记录 Editor typecheck 与两条功能截图成立；但 App 新测当前 HEAD 收集失败、
+完整 lint 1 error、测试扩展名/反控/证据目录索引尚未闭合。GLM 只修原白名单
+并推新完整 SHA；父导航由 Codex 负责，官方覆盖门暂缓。
+
+## 历史首轮派发提示词（已执行）
 
 ```text
 你是 GLM Wave F 的唯一测试 Coding Owner。只在 /Users/zhangxu/.codex/worktrees/glm-new-f/type-pal
@@ -69,3 +78,19 @@ docs/ops/tasks/TEST-GLM-NEW-F-1-editor-shell.md、docs/testing/glm-new-waves/REA
 截图 hash/console（如要求）、未证/真实红项。你不合 main、不标 done；Codex 独立验收。
 ```
 
+## 下一位 Agent 提示词：GLM Wave F 返工
+
+```text
+你仍是 TEST-GLM-NEW-F-1 测试 Coding Owner。只在
+/Users/zhangxu/.codex/worktrees/glm-new-f/type-pal 的 codex/glm-new-f-r1 分支返工
+9b0150643ee65749678780011ae0fc8380dd2034。先读本卡与 main 上
+docs/testing/glm-new-waves/codex-review-F-9b015064.md。修 App 测试 hoisted
+vi.mock 静态导入导致的收集失败，重跑完整 10 文件新测；清零完整 lint 的 JSON
+格式 error；battle-trial-launch 源为 .ts，新测改 .test.ts 并更新证据；
+needle-judge 所有 INVALID 也须删临时针，精确核绝对 file/fullName、failed=1、
+实际执行数与产品 hash，附同一判据反例自测。wave-F 内须有 README 索引
+（可把回执整理为 README）；父级共享导航由 Codex 负责，勿越界改它。
+只改 Wave F 新测、专属 fixture/宿主/证据，复跑定向+相邻、editor typecheck、
+完整 pnpm lint 零诊断、docs/diff 与四针；提交推送新完整 SHA。
+你不合 main、不标 done；Codex 独立再审。
+```
