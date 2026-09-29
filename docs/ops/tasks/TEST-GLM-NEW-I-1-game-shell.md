@@ -1,6 +1,6 @@
 # TEST-GLM-NEW-I-1 — 一阶段壳层、菜单与呈现
 
-Status: build
+Status: rework
 Owner: GLM Wave I（仅本 wave 单一测试 Coding Owner）
 Reviewer: Codex（独立验收、选择性集成、统一质量/覆盖门）
 Phase: phase1
@@ -54,7 +54,16 @@ Codex 独立审核 F–J 与 A–E 并集，选择性集成，串行 check → r
 准入记录：2026-09-29 Codex 核生产 hash、60 新源互斥、旧队列和 A–E 零交集；
 本卡仅测试/fixture/隔离证据 build allowed。review → done 待 Codex 独立验收。
 
-## 下一位 Agent 提示词
+## 2026-09-29 Codex 独立审核与返工
+
+候选 `2534b72c49366370e56841c5f2422515f83a7c5c` 已独立复核，结论
+**rework，未合 main**。完整[审核回执](../../testing/glm-new-waves/codex-review-I-2534b72c.md)
+记录 9 新测试文件/40/40、新截图真值、game typecheck 通过，但完整 lint 有四个
+JSON 格式 error；反控只有一枚独立业务针、回执 8/4 计数错误，另有
+`showError` 背景色断言与 AVI 固定延时证明待纠正。共享导航由 Codex 负责。
+GLM 只修原白名单，推新完整 SHA；官方覆盖率门待返工通过并集成后运行。
+
+## 历史首轮派发提示词（已执行）
 
 ```text
 你是 GLM Wave I 的唯一测试 Coding Owner。只在 /Users/zhangxu/.codex/worktrees/glm-new-i/type-pal
@@ -67,4 +76,20 @@ docs/ops/tasks/TEST-GLM-NEW-I-1-game-shell.md、docs/testing/glm-new-waves/READM
 2–4 枚反控；视觉要求：一条 dev-panel/菜单隔离功能视觉，6093 空闲端口。
 提交推送完整候选 SHA，回执列逐组旧证→新差异、file/fullName/status、反控、
 截图 hash/console（如要求）、未证/真实红项。你不合 main、不标 done；Codex 独立验收。
+```
+
+## 下一位 Agent 提示词：GLM Wave I 返工
+
+```text
+你仍是 TEST-GLM-NEW-I-1 的测试 Coding Owner。只在
+/Users/zhangxu/.codex/worktrees/glm-new-i/type-pal 的 codex/glm-new-i-r1 分支返工
+2534b72c49366370e56841c5f2422515f83a7c5c。先读本卡及 main 上
+docs/testing/glm-new-waves/codex-review-I-2534b72c.md。将完整 lint 的四个
+证据 JSON 格式 error 清零；回执改成 9 新测试/3 existing-proof 并写完整 SHA；
+补至少一枚不同业务合同的严格反控，C2 的 skipped 不得记 valid；补证或收窄
+showError 的 #400 铺底断言；AVI 异步改为确定性进入/释放，不用 setTimeout(0)。
+仅改 Wave I 同目录新测与 wave-I 证据，恢复共享 README 原状；Codex 负责其导航。
+复跑定向+相邻、game typecheck、完整 pnpm lint 零诊断、docs/diff，更新 JSON
+file/fullName/status、反控与视觉 console 未证说明，推送新完整 SHA。
+你不合 main、不标 done；Codex 独立再审。
 ```
