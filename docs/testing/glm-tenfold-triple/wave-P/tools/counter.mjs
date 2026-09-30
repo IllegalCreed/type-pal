@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+import { execFileSync, spawnSync } from 'node:child_process'
 /**
  * Wave-P 反控取证工具（白名单 docs/testing/glm-tenfold-triple/wave-P/tools/**）。
  *
@@ -18,9 +19,8 @@
  * failureMessages 首行匹配 AssertionError/^expect(；positive 与 restored 必须 exit=0。
  */
 import { createHash } from 'node:crypto'
-import { execFileSync, spawnSync } from 'node:child_process'
-import { cpSync, existsSync, mkdirSync, readFileSync, rmSync, statSync, writeFileSync } from 'node:fs'
-import { dirname, join, resolve } from 'node:path'
+import { cpSync, existsSync, mkdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
+import { join, resolve } from 'node:path'
 
 const args = process.argv.slice(2)
 function need(name) {
@@ -37,7 +37,7 @@ const outDir = resolve(need('out'))
 const candidateRoot = process.cwd()
 
 const sha256 = (bytes) => createHash('sha256').update(bytes).digest('hex')
-const title = (s) => s
+const _title = (s) => s
 const die = (msg) => {
   console.error(`[${id}] ${msg}`)
   process.exit(2)
@@ -46,8 +46,7 @@ const die = (msg) => {
 if (!existsSync(join(candidateRoot, productFile))) die(`product file missing: ${productFile}`)
 const original = readFileSync(join(candidateRoot, productFile), 'utf8')
 const occurrences = original.split(findText).length - 1
-if (occurrences !== 1)
-  die(`--find must match exactly once in ${productFile}, got ${occurrences}`)
+if (occurrences !== 1) die(`--find must match exactly once in ${productFile}, got ${occurrences}`)
 const mutated = original.replace(findText, replaceText)
 const patch = [
   `--- a/${productFile}`,
@@ -78,8 +77,7 @@ const linkNodeModules = (from, to) => {
 linkNodeModules(join(candidateRoot, 'node_modules'), rel('node_modules'))
 for (const pkg of ['editor', 'content', 'reforge', 'game', 'shared', 'pal-extract', 'migrate']) {
   const from = join(candidateRoot, 'packages', pkg, 'node_modules')
-  if (existsSync(from))
-    linkNodeModules(from, join(counterTree, 'packages', pkg, 'node_modules'))
+  if (existsSync(from)) linkNodeModules(from, join(counterTree, 'packages', pkg, 'node_modules'))
 }
 
 function cleanup() {
@@ -100,11 +98,12 @@ function runVitest(tree, extraArgs = []) {
     bin,
     ['run', testSpec, '--maxWorkers=1', '--reporter=json', '--reporter=default', ...extraArgs],
     {
-    cwd: join(tree, 'packages', 'editor'),
-    encoding: 'utf8',
-    maxBuffer: 512 * 1024 * 1024,
-    env: { ...process.env, NODE_COMPILE_CACHE: '' },
-  })
+      cwd: join(tree, 'packages', 'editor'),
+      encoding: 'utf8',
+      maxBuffer: 512 * 1024 * 1024,
+      env: { ...process.env, NODE_COMPILE_CACHE: '' },
+    },
+  )
   const output = `${result.stdout ?? ''}${result.stderr ?? ''}`
   const start = output.lastIndexOf('{"numTotalTestSuites"')
   let json = null
@@ -174,7 +173,10 @@ const record = {
   findText,
   replaceText,
   testSpec,
-  candidateHead: execFileSync('git', ['rev-parse', 'HEAD'], { cwd: candidateRoot, encoding: 'utf8' }).trim(),
+  candidateHead: execFileSync('git', ['rev-parse', 'HEAD'], {
+    cwd: candidateRoot,
+    encoding: 'utf8',
+  }).trim(),
   productSha256Candidate: sha256(readFileSync(join(candidateRoot, productFile))),
   patch,
 }
@@ -184,7 +186,7 @@ const positive = runVitest(candidateRoot)
 const positiveStats = collect(positive)
 if (positive.exit !== 0) die(`positive run must exit 0, got ${positive.exit}`)
 writeFileSync(join(outDir, 'positive.json'), JSON.stringify(positive.json, null, 2))
-writeFileSync(join(outDir, 'positive.raw.txt'), positive.output)
+writeFileSync(join(outDir, 'positive.raw.txt'), `${positive.output.replace(/\n+$/, '')}\n`)
 record.positive = { exitCode: positive.exit, executed: positiveStats.executed }
 
 // ---- mutated：隔离树单针替换 ----
@@ -193,20 +195,18 @@ record.productSha256MutatedTree = sha256(readFileSync(rel(productFile)))
 const mutatedRun = runVitest(counterTree)
 const mutatedStats = collect(mutatedRun)
 writeFileSync(join(outDir, 'mutated.json'), JSON.stringify(mutatedRun.json, null, 2))
-writeFileSync(join(outDir, 'mutated.raw.txt'), mutatedRun.output)
+writeFileSync(join(outDir, 'mutated.raw.txt'), `${mutatedRun.output.replace(/\n+$/, '')}\n`)
 const first = mutatedStats.firstFailure
 // vitest rejects 断言红的两种既定首行格式：AssertionError / Error: promise resolved…。
 const assertionRed =
-  first !== null &&
-  /^(AssertionError|expect\(|Error: promise resolved)/i.test(first.message)
+  first !== null && /^(AssertionError|expect\(|Error: promise resolved)/i.test(first.message)
 record.mutated = {
   exitCode: mutatedRun.exit,
   executed: mutatedStats.executed,
   failed: mutatedStats.failed,
   targetAssertionRed: assertionRed,
 }
-const validMutant =
-  mutatedRun.exit !== 0 && assertionRed && mutatedStats.failed.length >= 1
+const validMutant = mutatedRun.exit !== 0 && assertionRed && mutatedStats.failed.length >= 1
 if (!validMutant)
   die(
     `mutated run invalid: exit=${mutatedRun.exit} assertionRed=${assertionRed} failed=${JSON.stringify(mutatedStats.failed)}`,
@@ -215,10 +215,11 @@ if (!validMutant)
 // ---- restored：同树还原后必须回到绿 ----
 writeFileSync(rel(productFile), original)
 const restoredSha = sha256(readFileSync(rel(productFile)))
-if (restoredSha !== record.productSha256Candidate) die('restored file does not match candidate bytes')
+if (restoredSha !== record.productSha256Candidate)
+  die('restored file does not match candidate bytes')
 const restored = runVitest(counterTree)
 writeFileSync(join(outDir, 'restored.json'), JSON.stringify(restored.json, null, 2))
-writeFileSync(join(outDir, 'restored.raw.txt'), restored.output)
+writeFileSync(join(outDir, 'restored.raw.txt'), `${restored.output.replace(/\n+$/, '')}\n`)
 record.restored = { exitCode: restored.exit, executed: collect(restored).executed }
 if (restored.exit !== 0) die(`restored run must exit 0, got ${restored.exit}`)
 
@@ -229,7 +230,11 @@ console.log(
     id,
     ok: true,
     positive: record.positive,
-    mutated: { exitCode: record.mutated.exitCode, target: first?.fullName, message: first?.message },
+    mutated: {
+      exitCode: record.mutated.exitCode,
+      target: first?.fullName,
+      message: first?.message,
+    },
     restored: record.restored,
     outDir,
   }),

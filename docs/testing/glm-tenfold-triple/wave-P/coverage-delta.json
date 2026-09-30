@@ -1,0 +1,59 @@
+{
+  "note": "私有隔离测量：同命令同排除项（v8, include src/**, exclude tests/__tests__ 与四个静态adoption门）；分母与官方 baseline 不同，不与之相加或对比",
+  "command": "pnpm exec vitest run --maxWorkers=1 --coverage --coverage.provider=v8 --coverage.reporter=json --coverage.include=src/** --coverage.exclude=src/**/*.test.* --coverage.exclude=src/**/__tests__/** --exclude src/ui/design-system/*adoption*.test.ts --exclude src/ui/design-system/field-commit-boundary.test.ts",
+  "before": {
+    "branches": {
+      "covered": 23111,
+      "total": 28489
+    },
+    "statements": {
+      "covered": 29179,
+      "total": 33046
+    },
+    "functions": {
+      "covered": 7407,
+      "total": 8458
+    },
+    "targetedSourceBranches": {
+      "src/core/editor-asset-reader.ts": "11/14",
+      "src/core/file-system-access.ts": "5/6",
+      "src/core/open-actions.ts": "106/108",
+      "src/core/project-diagnostics.ts": "209/240",
+      "src/core/project-io.ts": "219/242",
+      "src/core/seed.ts": "18/22",
+      "src/ui/IsometricEditorToolbar.tsx": "55/63",
+      "src/ui/LayerStackControls.tsx": "42/48",
+      "src/ui/MapSelectionInspector.tsx": "110/122"
+    }
+  },
+  "after": {
+    "branches": {
+      "covered": 23143,
+      "total": 28489
+    },
+    "statements": {
+      "covered": 29195,
+      "total": 33046
+    },
+    "functions": {
+      "covered": 7409,
+      "total": 8458
+    },
+    "targetedSourceBranches": {
+      "src/core/editor-asset-reader.ts": "13/14",
+      "src/core/file-system-access.ts": "5/6",
+      "src/core/open-actions.ts": "106/108",
+      "src/core/project-diagnostics.ts": "217/240",
+      "src/core/project-io.ts": "221/242",
+      "src/core/seed.ts": "21/22",
+      "src/ui/IsometricEditorToolbar.tsx": "57/63",
+      "src/ui/LayerStackControls.tsx": "47/48",
+      "src/ui/MapSelectionInspector.tsx": "118/122"
+    }
+  },
+  "delta": {
+    "branches": 32,
+    "statements": 16,
+    "functions": 2
+  }
+}

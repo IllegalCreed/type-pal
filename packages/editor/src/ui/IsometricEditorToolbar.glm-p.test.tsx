@@ -8,7 +8,7 @@
 import { act } from 'react'
 import { createRoot, type Root } from 'react-dom/client'
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
-import { IsometricEditorToolbar, type IsometricEditorTool } from './IsometricEditorToolbar.js'
+import { type IsometricEditorTool, IsometricEditorToolbar } from './IsometricEditorToolbar.js'
 
 let host: HTMLDivElement
 let root: Root
@@ -63,9 +63,7 @@ function tray(): HTMLElement {
 
 const key = (element: Element, key: string): Promise<void> =>
   act(async () => {
-    element.dispatchEvent(
-      new KeyboardEvent('keydown', { key, bubbles: true, cancelable: true }),
-    )
+    element.dispatchEvent(new KeyboardEvent('keydown', { key, bubbles: true, cancelable: true }))
   })
 
 describe('P02-G03 工具选项托盘键盘合同', () => {
@@ -103,8 +101,15 @@ describe('P02-G03 工具选项托盘键盘合同', () => {
     renderToolbar()
     const trigger = brushTrigger()
     await act(async () => trigger.click())
+    // 等开盘聚焦 effect 真正把焦点落进托盘（portal 二次挂载有先后），再自设焦点。
+    for (let i = 0; i < 20 && !tray().contains(document.activeElement); i++)
+      await act(async () => {})
+    expect(tray().contains(document.activeElement)).toBe(true)
     const options = [...tray().querySelectorAll<HTMLButtonElement>('button')]
     expect(options.length).toBeGreaterThanOrEqual(3)
+    await act(async () => {
+      options[1]!.focus()
+    })
     await key(tray(), 'End')
     expect(document.activeElement).toBe(options.at(-1))
     await key(tray(), 'ArrowLeft')

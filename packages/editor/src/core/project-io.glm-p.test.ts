@@ -14,47 +14,48 @@
  *     进度不提早 100%、目录创建、成功后无本页恢复意图、manifest 引用表最后 close）
  * 全 typed：合法输入来自 blank seed 真实项目；不 mock 业务核心。
  */
-import type { CurrentManifest } from '@type-pal/content'
 import { formatStampTemplates, parseStampTemplates } from '@type-pal/content'
 import {
   fsaSource,
+  type LoadedCurrentProjectCore,
   loadAllAuthorScenes,
   loadCurrentProjectFrom,
-  type LoadedCurrentProjectCore,
 } from '@type-pal/reforge'
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
-import { memoryAuthorDirectory } from './__tests__/author-save-fixture.js'
-import { authorSaveStorage, memoryAuthorSaveStore } from './__tests__/author-save-store-fixture.js'
 import { loadLegalProject } from '../__tests__/glm-p/kit.js'
-import { binarySnapshotSignature } from './binary-signature.js'
+import { memoryAuthorDirectory } from './__tests__/author-save-fixture.js'
+import { authorSaveStorage } from './__tests__/author-save-store-fixture.js'
 import {
   BATTLE_SIMULATOR_PATH,
   type BattleSimulatorLibrary,
   emptyBattleSimulatorLibrary,
   parseBattleSimulatorLibrary,
 } from './battle-simulator-library.js'
+import { binarySnapshotSignature } from './binary-signature.js'
+import type { EditorState } from './edit-session.js'
 import { finishOpen } from './open-actions.js'
+import { assetCopyInputs } from './project-copy-source.js'
 import {
   diffFiles,
   preflightProjectWriteSet,
+  resumeOwnProjectSave,
   serializeProject,
   serializeProjectWithMapCopies,
   toEditorState,
   writeProject,
-  resumeOwnProjectSave,
 } from './project-io.js'
 import { buildBlankProject } from './seed.js'
-import { assetCopyInputs } from './project-copy-source.js'
 import { createLocalWorkspaceContext } from './workspace-context.js'
 import { authorizeBoundWorkspaceTarget, authorizeFirstSaveTarget } from './workspace-persistence.js'
-import type { EditorState } from './edit-session.js'
 
 const bindings = vi.hoisted(
   () => new Map<string, import('./handle-store.js').WorkspaceHandleRecord>(),
 )
-vi.mock('./author-save-store.js', async (original) =>
-  memoryAuthorSaveStore(await original<typeof import('./author-save-store.js')>()),
-)
+vi.mock('./author-save-store.js', async (original) => {
+  // 工厂内动态获取：与 biome 排序无关，避免提升期 TDZ（kit.js 会先行传递触发本 mock）。
+  const store = await import('./__tests__/author-save-store-fixture.js')
+  return store.memoryAuthorSaveStore(await original<typeof import('./author-save-store.js')>())
+})
 vi.mock('./handle-store.js', async (original) => {
   const actual = await original<typeof import('./handle-store.js')>()
   const save = async (
@@ -144,17 +145,11 @@ async function openBoundBlank(name: string) {
   })
   const boundTarget = async () =>
     authorizeBoundWorkspaceTarget(opened.workspace, disk.dir, opened.authorBaseline)
-  const state = toEditorState(
-    opened.project,
-    await loadAllAuthorScenes(opened.project),
-    {},
-    {},
-    [],
-  )
-  const files = (await serializeProjectWithMapCopies(
-    state,
-    opened.project.source,
-  )) as Record<string, unknown>
+  const state = toEditorState(opened.project, await loadAllAuthorScenes(opened.project), {}, {}, [])
+  const files = (await serializeProjectWithMapCopies(state, opened.project.source)) as Record<
+    string,
+    unknown
+  >
   return { disk, opened, boundTarget, state, files }
 }
 
@@ -222,7 +217,11 @@ describe('P01-G01 serializeProject 守卫残余', () => {
       ...state,
       manifest: {
         ...state.manifest,
-        content: { ...state.manifest.content, items: 'content/dup.json', skills: 'content/dup.json' },
+        content: {
+          ...state.manifest.content,
+          items: 'content/dup.json',
+          skills: 'content/dup.json',
+        },
       },
     }
     // byKey 迭代序 skills 先于 items：先到者得路径，后到者报冲突。
@@ -239,7 +238,9 @@ describe('P01-G01 serializeProject 守卫残余', () => {
       ...state,
       manifest: { ...state.manifest, content },
     }
-    expect(() => serializeProject(mapless)).toThrow('serializeProject: 项目缺 manifest.content.maps')
+    expect(() => serializeProject(mapless)).toThrow(
+      'serializeProject: 项目缺 manifest.content.maps',
+    )
   })
 
   test('声明的内容表在 state 缺数组时按空表序列化（enemies 缺省臂）', async () => {
@@ -409,16 +410,20 @@ describe('P01-G05 writeProject 受控真实 IO', () => {
     const target = memoryAuthorDirectory()
     const context = createLocalWorkspaceContext(opened.workspace.projectId, 'save-as')
     const editorFiles: Record<string, unknown> = { ...files, 'notes/same.txt': 'editor wins' }
-    const result = await writeProject(await authorizeFirstSaveTarget(context, target.dir), editorFiles, {
-      copies: [
-        ...assetCopyInputs(files, opened.project.source),
-        {
-          path: 'notes/same.txt',
-          read: async () => new Blob([new Uint8Array(disk.files.get('notes/same.txt')!)]),
-        },
-      ],
-      verifySource: async () => {},
-    })
+    const result = await writeProject(
+      await authorizeFirstSaveTarget(context, target.dir),
+      editorFiles,
+      {
+        copies: [
+          ...assetCopyInputs(files, opened.project.source),
+          {
+            path: 'notes/same.txt',
+            read: async () => new Blob([new Uint8Array(disk.files.get('notes/same.txt')!)]),
+          },
+        ],
+        verifySource: async () => {},
+      },
+    )
     expect(result.snapshot.get('notes/same.txt')).toBe('editor wins')
     expect(await fsaSource(target.dir).readText('notes/same.txt')).toBe('editor wins')
     // 让位鉴别器：该路径只允许编辑产物一次 close，copy 步骤必须被剔除。
@@ -512,7 +517,10 @@ describe('P01-G05 writeProject 受控真实 IO', () => {
     })
     expect(frames.length).toBeGreaterThan(0)
     for (const frame of frames.slice(0, -1)) expect(frame.completed).toBeLessThan(frame.total)
-    const totalBytes = Object.values(files).reduce<number>((sum, value) => sum + byteLengthOf(value), 0)
+    const totalBytes = Object.values(files).reduce<number>(
+      (sum, value) => sum + byteLengthOf(value),
+      0,
+    )
     expect(frames.at(-1)).toEqual({ completed: totalBytes, total: totalBytes })
     expect(frames.filter((frame) => frame.completed === frame.total)).toHaveLength(1)
   })
@@ -521,13 +529,17 @@ describe('P01-G05 writeProject 受控真实 IO', () => {
     const { opened, files } = await openBoundBlank('glm-p-dirs')
     const target = memoryAuthorDirectory()
     const context = createLocalWorkspaceContext(opened.workspace.projectId, 'save-as')
-    const result = await writeProject(await authorizeFirstSaveTarget(context, target.dir), {
-      ...files,
-    }, {
-      directories: ['assets/generated/deep'],
-      copies: assetCopyInputs(files, opened.project.source),
-      verifySource: async () => {},
-    })
+    const result = await writeProject(
+      await authorizeFirstSaveTarget(context, target.dir),
+      {
+        ...files,
+      },
+      {
+        directories: ['assets/generated/deep'],
+        copies: assetCopyInputs(files, opened.project.source),
+        verifySource: async () => {},
+      },
+    )
     expect(target.changes.creates).toContain('assets/generated/deep')
     expect(result.snapshot.has('assets/generated/deep')).toBe(false)
   })
@@ -536,9 +548,14 @@ describe('P01-G05 writeProject 受控真实 IO', () => {
     const { disk, opened, boundTarget, files } = await openBoundBlank('glm-p-resume-clean')
     await writeProject(await boundTarget(), files)
     let recovering = 0
-    const resumed = await resumeOwnProjectSave(opened.workspace, disk.dir, opened.authorBaseline, () => {
-      recovering += 1
-    })
+    const resumed = await resumeOwnProjectSave(
+      opened.workspace,
+      disk.dir,
+      opened.authorBaseline,
+      () => {
+        recovering += 1
+      },
+    )
     expect(resumed).toBeNull()
     expect(recovering).toBe(0)
   })

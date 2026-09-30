@@ -136,10 +136,13 @@ describe('P02-G01 选区检查器警告与摘要残余', () => {
 
   test('纯格点选区无视觉实例 → 图层行显示「无视觉层」', () => {
     renderInspector({
-      selection: cellsSelection([], [
-        { row: 1, col: 1 },
-        { row: 0, col: 0 },
-      ]),
+      selection: cellsSelection(
+        [],
+        [
+          { row: 1, col: 1 },
+          { row: 0, col: 0 },
+        ],
+      ),
     })
     expect(host.querySelector('.map-selection-summary')?.textContent).toContain('无视觉层')
     expect(host.querySelector('.map-selection-summary')?.textContent).toContain('r0:c0 → r1:c1')

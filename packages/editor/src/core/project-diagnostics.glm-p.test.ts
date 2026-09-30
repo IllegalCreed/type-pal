@@ -59,9 +59,7 @@ describe('P01-G06 保存门分段拒绝残余', () => {
         },
       ],
     }
-    expect(() => assertProjectSaveValid(broken)).toThrow(
-      /保存前场景数据校验失败.*initialPage/,
-    )
+    expect(() => assertProjectSaveValid(broken)).toThrow(/保存前场景数据校验失败.*initialPage/)
   })
 
   test('敌人正文重复 id → 敌人数据分段拒绝', async () => {
@@ -110,9 +108,9 @@ describe('P01-G06 保存门分段拒绝残余', () => {
         ],
       },
     }
-    expect(() =>
-      assertProjectSaveValid({ ...state, sharedScripts: scripts }),
-    ).toThrow(/保存前对话身份校验失败.*ghost-actor/)
+    expect(() => assertProjectSaveValid({ ...state, sharedScripts: scripts })).toThrow(
+      /保存前对话身份校验失败.*ghost-actor/,
+    )
   })
 
   test('实体地址指向不存在的实体 → 实体引用分段拒绝并给出 scene/entity', async () => {
@@ -185,16 +183,32 @@ describe('P01-G07 聚合诊断残余', () => {
     const manifest = {
       ...state.manifest,
       entryPoints: [
-        { id: 'dlc', label: 'DLC', scene: 'ghost-scene', startWorld: { party: [], money: 0, inventory: [] } },
-        { id: '  ', label: '空白', scene: 'ghost-scene-2', startWorld: { party: [], money: 0, inventory: [] } },
+        {
+          id: 'dlc',
+          label: 'DLC',
+          scene: 'ghost-scene',
+          startWorld: { party: [], money: 0, inventory: [] },
+        },
+        {
+          id: '  ',
+          label: '空白',
+          scene: 'ghost-scene-2',
+          startWorld: { party: [], money: 0, inventory: [] },
+        },
       ] as CurrentManifest['entryPoints'],
       defaultEntryId: 'dlc',
     }
     const issues = collectProjectIssues({ ...state, manifest })
-    const named = issues.find((issue) => issue.code === 'missing-entry-point-scene' && issue.path === 'entryPoints[0].scene')
+    const named = issues.find(
+      (issue) =>
+        issue.code === 'missing-entry-point-scene' && issue.path === 'entryPoints[0].scene',
+    )
     expect(named?.target).toEqual({ module: 'project', page: 'entrypoint', objectId: 'dlc' })
     expect(named?.message).toBe('入口点 "dlc" 指向不存在的场景 "ghost-scene"')
-    const blanked = issues.find((issue) => issue.code === 'missing-entry-point-scene' && issue.path === 'entryPoints[1].scene')
+    const blanked = issues.find(
+      (issue) =>
+        issue.code === 'missing-entry-point-scene' && issue.path === 'entryPoints[1].scene',
+    )
     expect(blanked?.target).toEqual({ module: 'project', page: 'entrypoint' })
     expect(blanked?.message).toBe('入口点 "#1" 指向不存在的场景 "ghost-scene-2"')
   })
@@ -255,7 +269,14 @@ describe('P01-G07 聚合诊断残余', () => {
     const state = await legalState()
     const silent: EditorState = {
       ...state,
-      battleFields: [{ id: 24, name: '默认战场', screenWave: 0, magicEffect: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 } }],
+      battleFields: [
+        {
+          id: 24,
+          name: '默认战场',
+          screenWave: 0,
+          magicEffect: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 },
+        },
+      ],
       manifest: {
         ...state.manifest,
         content: { ...state.manifest.content, battleFields: 'content/battle-fields.json' },
@@ -264,11 +285,12 @@ describe('P01-G07 聚合诊断残余', () => {
     const messages = collectEditorStatusIssues(silent).map((issue) => issue.message)
     expect(messages).not.toContain('项目默认战场 #24 缺失；未显式指定战场的战斗会回落到黑底。')
     // 对照：同一 state 撤掉 #24 后警告出现，证明上面的静默来自 #24 在场而非其它原因。
-    const withoutDefault: EditorState = { ...silent, battleFields: silent.battleFields?.filter((field) => field.id !== 24) }
+    const withoutDefault: EditorState = {
+      ...silent,
+      battleFields: silent.battleFields?.filter((field) => field.id !== 24),
+    }
     expect(
-      collectEditorStatusIssues(withoutDefault).some((issue) =>
-        issue.message.includes('#24 缺失'),
-      ),
+      collectEditorStatusIssues(withoutDefault).some((issue) => issue.message.includes('#24 缺失')),
     ).toBe(true)
   })
 

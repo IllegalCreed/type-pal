@@ -11,16 +11,18 @@
 import type { AssetKind, CurrentManifest } from '@type-pal/content'
 import { fsaSource, loadAllAuthorScenes, loadCurrentProjectFrom } from '@type-pal/reforge'
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
-import { memoryAuthorDirectory } from './__tests__/author-save-fixture.js'
-import { authorSaveStorage, memoryAuthorSaveStore } from './__tests__/author-save-store-fixture.js'
 import { loadLegalProject } from '../__tests__/glm-p/kit.js'
+import { memoryAuthorDirectory } from './__tests__/author-save-fixture.js'
+import { authorSaveStorage } from './__tests__/author-save-store-fixture.js'
 
 const bindings = vi.hoisted(
   () => new Map<string, import('./handle-store.js').WorkspaceHandleRecord>(),
 )
-vi.mock('./author-save-store.js', async (original) =>
-  memoryAuthorSaveStore(await original<typeof import('./author-save-store.js')>()),
-)
+vi.mock('./author-save-store.js', async (original) => {
+  // 工厂内动态获取：与 biome 排序无关，避免提升期 TDZ（kit.js 会先行传递触发本 mock）。
+  const store = await import('./__tests__/author-save-store-fixture.js')
+  return store.memoryAuthorSaveStore(await original<typeof import('./author-save-store.js')>())
+})
 vi.mock('./handle-store.js', async (original) => {
   const actual = await original<typeof import('./handle-store.js')>()
   const save = async (
@@ -48,13 +50,17 @@ beforeEach(() => {
   bindings.clear()
   authorSaveStorage.receipts.clear()
 })
-import { classifyDirectoryPicker } from './file-system-access.js'
+
 import { createEditorAssetReader } from './editor-asset-reader.js'
-import { buildBlankProject, enumerateSeedFiles, scenesDir } from './seed.js'
-import { palFingerprintPaths } from './workspace-context.js'
-import { createLocalWorkspaceContext, PAL_DEVELOPMENT_SENTINEL_PATH } from './workspace-context.js'
+import { classifyDirectoryPicker } from './file-system-access.js'
 import { finishOpen, saveProjectAs } from './open-actions.js'
 import { serializeProjectWithMapCopies, toEditorState } from './project-io.js'
+import { buildBlankProject, enumerateSeedFiles, scenesDir } from './seed.js'
+import {
+  createLocalWorkspaceContext,
+  PAL_DEVELOPMENT_SENTINEL_PATH,
+  palFingerprintPaths,
+} from './workspace-context.js'
 
 afterEach(() => {
   vi.unstubAllGlobals()
@@ -111,9 +117,7 @@ describe('P01-G08 editor-asset-reader 契约', () => {
     await expect(reader.readRoleBytes('audio.midiSoundfont')).rejects.toThrow(
       '项目缺资源角色 "audio.midiSoundfont"',
     )
-    expect(
-      (await reader.readRoleBytes('visual.standardColorTable')).byteLength,
-    ).toBeGreaterThan(0)
+    expect((await reader.readRoleBytes('visual.standardColorTable')).byteLength).toBeGreaterThan(0)
   })
 
   test('urlFor：pending blob 直接生成 object URL（携带 record mediaType，不经源读取）', async () => {
@@ -179,7 +183,6 @@ describe('P01-G09 classifyDirectoryPicker 分类', () => {
   })
 })
 
-
 /** 供克隆清单/指纹测试的最小完整 manifest 构造器（合法形状，仅 content 路径不同）。 */
 function manifestOf(content: Record<string, string>): CurrentManifest {
   const entry = {
@@ -214,9 +217,9 @@ describe('P01-G10 seed 克隆清单残余', () => {
       'content/scenes/index.json',
       'manifest.json',
     ])
-    expect(
-      palFingerprintPaths(manifestOf({ scenes: 'content/story-scenes' })),
-    ).toContain('content/story-scenes/index.json')
+    expect(palFingerprintPaths(manifestOf({ scenes: 'content/story-scenes' }))).toContain(
+      'content/story-scenes/index.json',
+    )
   })
 
   test('克隆清单内容路径重复 → 输出路径重复拒绝并指名', () => {
@@ -225,9 +228,7 @@ describe('P01-G10 seed 克隆清单残余', () => {
         version: 1,
         scenes: [],
       }),
-    ).toThrow(
-      '克隆输出路径重复: content/dup.json',
-    )
+    ).toThrow('克隆输出路径重复: content/dup.json')
   })
 })
 

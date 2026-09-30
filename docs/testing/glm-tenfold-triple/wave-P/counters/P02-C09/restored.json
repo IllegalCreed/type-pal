@@ -1,0 +1,120 @@
+{
+  "numTotalTestSuites": 2,
+  "numPassedTestSuites": 2,
+  "numFailedTestSuites": 0,
+  "numPendingTestSuites": 0,
+  "numTotalTests": 8,
+  "numPassedTests": 8,
+  "numFailedTests": 0,
+  "numPendingTests": 0,
+  "numTodoTests": 0,
+  "snapshot": {
+    "added": 0,
+    "failure": false,
+    "filesAdded": 0,
+    "filesRemoved": 0,
+    "filesRemovedList": [],
+    "filesUnmatched": 0,
+    "filesUpdated": 0,
+    "matched": 0,
+    "total": 0,
+    "unchecked": 0,
+    "uncheckedKeysByFile": [],
+    "unmatched": 0,
+    "updated": 0,
+    "didUpdate": false
+  },
+  "startTime": 1790786950014,
+  "success": true,
+  "testResults": [
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["P02-G01 选区检查器警告与摘要残余"],
+          "fullName": "P02-G01 选区检查器警告与摘要残余 活动层隐藏 → 整笔修改禁用警告指向显式显示",
+          "status": "passed",
+          "title": "活动层隐藏 → 整笔修改禁用警告指向显式显示",
+          "duration": 33.102750000000015,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["P02-G01 选区检查器警告与摘要残余"],
+          "fullName": "P02-G01 选区检查器警告与摘要残余 活动层锁定 → 整笔修改禁用警告指向显式解锁",
+          "status": "passed",
+          "title": "活动层锁定 → 整笔修改禁用警告指向显式解锁",
+          "duration": 6.74412499999994,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["P02-G01 选区检查器警告与摘要残余"],
+          "fullName": "P02-G01 选区检查器警告与摘要残余 选区命中隐藏层成员（活动层可见）→ 按成员数警告",
+          "status": "passed",
+          "title": "选区命中隐藏层成员（活动层可见）→ 按成员数警告",
+          "duration": 7.387834000000112,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["P02-G01 选区检查器警告与摘要残余"],
+          "fullName": "P02-G01 选区检查器警告与摘要残余 选区命中锁定层成员按层计（同层两槽仍报 1）→ 按成员层警告",
+          "status": "passed",
+          "title": "选区命中锁定层成员按层计（同层两槽仍报 1）→ 按成员层警告",
+          "duration": 5.151957999999922,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["P02-G01 选区检查器警告与摘要残余"],
+          "fullName": "P02-G01 选区检查器警告与摘要残余 跨层选区摘要：图层名以「、」连接，范围行给出 min→max",
+          "status": "passed",
+          "title": "跨层选区摘要：图层名以「、」连接，范围行给出 min→max",
+          "duration": 6.14712499999996,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["P02-G01 选区检查器警告与摘要残余"],
+          "fullName": "P02-G01 选区检查器警告与摘要残余 纯格点选区无视觉实例 → 图层行显示「无视觉层」",
+          "status": "passed",
+          "title": "纯格点选区无视觉实例 → 图层行显示「无视觉层」",
+          "duration": 5.031083000000081,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["P02-G01 选区检查器警告与摘要残余"],
+          "fullName": "P02-G01 选区检查器警告与摘要残余 高度输入框内按 Enter 直接触发 blur 提交，无需手动焦点移出",
+          "status": "passed",
+          "title": "高度输入框内按 Enter 直接触发 blur 提交，无需手动焦点移出",
+          "duration": 9.30837500000007,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["P02-G01 选区检查器警告与摘要残余"],
+          "fullName": "P02-G01 选区检查器警告与摘要残余 tileId 负数 → 校验错误「必须是非负整数」且零 patch",
+          "status": "passed",
+          "title": "tileId 负数 → 校验错误「必须是非负整数」且零 patch",
+          "duration": 12.898999999999887,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790786951428,
+      "endTime": 1790786951513.899,
+      "status": "passed",
+      "message": "",
+      "name": "/private/tmp/glm-p-counter-P02-C09/packages/editor/src/ui/MapSelectionInspector.glm-p.test.tsx"
+    }
+  ]
+}

@@ -1,0 +1,90 @@
+{
+  "numTotalTestSuites": 2,
+  "numPassedTestSuites": 2,
+  "numFailedTestSuites": 0,
+  "numPendingTestSuites": 0,
+  "numTotalTests": 5,
+  "numPassedTests": 5,
+  "numFailedTests": 0,
+  "numPendingTests": 0,
+  "numTodoTests": 0,
+  "snapshot": {
+    "added": 0,
+    "failure": false,
+    "filesAdded": 0,
+    "filesRemoved": 0,
+    "filesRemovedList": [],
+    "filesUnmatched": 0,
+    "filesUpdated": 0,
+    "matched": 0,
+    "total": 0,
+    "unchecked": 0,
+    "uncheckedKeysByFile": [],
+    "unmatched": 0,
+    "updated": 0,
+    "didUpdate": false
+  },
+  "startTime": 1790786935310,
+  "success": true,
+  "testResults": [
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["P02-G03 工具选项托盘键盘合同"],
+          "fullName": "P02-G03 工具选项托盘键盘合同 触发器 ArrowDown/Enter/空格 开盘；点击选项提交 brush 尺寸",
+          "status": "passed",
+          "title": "触发器 ArrowDown/Enter/空格 开盘；点击选项提交 brush 尺寸",
+          "duration": 48.6790410000001,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["P02-G03 工具选项托盘键盘合同"],
+          "fullName": "P02-G03 工具选项托盘键盘合同 托盘内 Escape 关盘并把焦点还给触发器",
+          "status": "passed",
+          "title": "托盘内 Escape 关盘并把焦点还给触发器",
+          "duration": 9.656541000000061,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["P02-G03 工具选项托盘键盘合同"],
+          "fullName": "P02-G03 工具选项托盘键盘合同 托盘内 Home/End 分别聚焦首/尾选项；ArrowRight/Left 在选项间移动",
+          "status": "passed",
+          "title": "托盘内 Home/End 分别聚焦首/尾选项；ArrowRight/Left 在选项间移动",
+          "duration": 12.289207999999917,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["P02-G03 工具选项托盘键盘合同"],
+          "fullName": "P02-G03 工具选项托盘键盘合同 绘制高度托盘 disabled 时按键不开盘",
+          "status": "passed",
+          "title": "绘制高度托盘 disabled 时按键不开盘",
+          "duration": 3.5460420000001704,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["P02-G03 工具选项托盘键盘合同"],
+          "fullName": "P02-G03 工具选项托盘键盘合同 绘制高度托盘选项按 maxPaintHeight 枚举并提交所选高度",
+          "status": "passed",
+          "title": "绘制高度托盘选项按 maxPaintHeight 枚举并提交所选高度",
+          "duration": 5.702792000000045,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790786936785,
+      "endTime": 1790786936864.703,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.codex/worktrees/glm-wave-p-editor-residual/type-pal/packages/editor/src/ui/IsometricEditorToolbar.glm-p.test.tsx"
+    }
+  ]
+}

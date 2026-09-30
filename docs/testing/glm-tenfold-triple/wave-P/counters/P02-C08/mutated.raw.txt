@@ -1,0 +1,201 @@
+
+ RUN  v4.1.7 /private/tmp/glm-p-counter-P02-C08/packages/editor
+
+ ❯ src/ui/IsometricEditorToolbar.glm-p.test.tsx (5 tests | 1 failed) 91ms
+     ✓ 触发器 ArrowDown/Enter/空格 开盘；点击选项提交 brush 尺寸 51ms
+     × 托盘内 Escape 关盘并把焦点还给触发器 17ms
+     ✓ 托盘内 Home/End 分别聚焦首/尾选项；ArrowRight/Left 在选项间移动 12ms
+     ✓ 绘制高度托盘 disabled 时按键不开盘 4ms
+     ✓ 绘制高度托盘选项按 maxPaintHeight 枚举并提交所选高度 6ms
+{"numTotalTestSuites":2,"numPassedTestSuites":0,"numFailedTestSuites":2,"numPendingTestSuites":0,"numTotalTests":5,"numPassedTests":4,"numFailedTests":1,"numPendingTests":0,"numTodoTests":0,"snapshot":{"added":0,"failure":false,"filesAdded":0,"filesRemoved":0,"filesRemovedList":[],"filesUnmatched":0,"filesUpdated":0,"matched":0,"total":0,"unchecked":0,"uncheckedKeysByFile":[],"unmatched":0,"updated":0,"didUpdate":false},"startTime":1790786937956,"success":false,"testResults":[{"assertionResults":[{"ancestorTitles":["P02-G03 工具选项托盘键盘合同"],"fullName":"P02-G03 工具选项托盘键盘合同 触发器 ArrowDown/Enter/空格 开盘；点击选项提交 brush 尺寸","status":"passed","title":"触发器 ArrowDown/Enter/空格 开盘；点击选项提交 brush 尺寸","duration":50.78533299999981,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["P02-G03 工具选项托盘键盘合同"],"fullName":"P02-G03 工具选项托盘键盘合同 托盘内 Escape 关盘并把焦点还给触发器","status":"failed","title":"托盘内 Escape 关盘并把焦点还给触发器","duration":17.084749999999985,"failureMessages":["AssertionError: expected <body><div>…(5)</div></body> to be <button type=\"button\" …(6)>…(1)</button> // Object.is equality\n    at /private/tmp/glm-p-counter-P02-C08/packages/editor/src/ui/IsometricEditorToolbar.glm-p.test.tsx:99:36\n    at file:///Users/zhangxu/.codex/worktrees/glm-wave-p-editor-residual/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:20"],"meta":{},"tags":[]},{"ancestorTitles":["P02-G03 工具选项托盘键盘合同"],"fullName":"P02-G03 工具选项托盘键盘合同 托盘内 Home/End 分别聚焦首/尾选项；ArrowRight/Left 在选项间移动","status":"passed","title":"托盘内 Home/End 分别聚焦首/尾选项；ArrowRight/Left 在选项间移动","duration":12.413125000000036,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["P02-G03 工具选项托盘键盘合同"],"fullName":"P02-G03 工具选项托盘键盘合同 绘制高度托盘 disabled 时按键不开盘","status":"passed","title":"绘制高度托盘 disabled 时按键不开盘","duration":4.250792000000274,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["P02-G03 工具选项托盘键盘合同"],"fullName":"P02-G03 工具选项托盘键盘合同 绘制高度托盘选项按 maxPaintHeight 枚举并提交所选高度","status":"passed","title":"绘制高度托盘选项按 maxPaintHeight 枚举并提交所选高度","duration":5.972916000000168,"failureMessages":[],"meta":{},"tags":[]}],"startTime":1790786940435,"endTime":1790786940525.973,"status":"failed","message":"","name":"/private/tmp/glm-p-counter-P02-C08/packages/editor/src/ui/IsometricEditorToolbar.glm-p.test.tsx"}]}
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 4 passed (5)
+   Start at  01:48:57
+   Duration  2.56s (transform 1.31s, setup 0ms, import 1.59s, tests 91ms, environment 743ms)
+
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/ui/IsometricEditorToolbar.glm-p.test.tsx > P02-G03 工具选项托盘键盘合同 > 托盘内 Escape 关盘并把焦点还给触发器
+AssertionError: expected <body><div>…(5)</div></body> to be <button type="button" …(6)>…(1)</button> // Object.is equality
+
+- Expected
++ Received
+
+@@ -1,6 +1,64 @@
++ <body>
++   <div>
++     <div
++       class="tool-group"
++     >
++       <button
++         aria-pressed="false"
++         class="ds-button ds-button--quiet ds-button--compact"
++         title="平移画布"
++         type="button"
++       >
++         <span>
++           ✋ 平移
++         </span>
++       </button>
++       <button
++         aria-label="选择地图内容"
++         aria-pressed="false"
++         class="ds-button ds-button--quiet ds-button--compact"
++         title="选择已有内容"
++         type="button"
++       >
++         <span>
++           ⛶ 选择
++         </span>
++       </button>
++     </div>
++     <div
++       class="tool-group"
++     >
++       <button
++         aria-pressed="false"
++         class="ds-button ds-button--quiet ds-button--compact"
++         title="取样瓦片与实例高度"
++         type="button"
++       >
++         <span>
++           ◉ 取样
++         </span>
++       </button>
++     </div>
++     <div
++       class="tool-group"
++     >
+        <button
++         aria-pressed="true"
++         class="ds-button ds-button--quiet ds-button--compact"
++         title="绘制选中瓦片"
++         type="button"
++       >
++         <span>
++           🖌 笔刷
++         </span>
++       </button>
++       <div
++         class="map-tool-option"
++         data-align="start"
++       >
++         <button
+            aria-controls="_r_2_"
+            aria-expanded="false"
+            aria-haspopup="listbox"
+            aria-label="笔刷面积"
+            class="ds-button ds-button--quiet ds-button--compact map-tool-option-trigger"
+@@ -88,5 +146,100 @@
+                  data-active="false"
+                />
+              </span>
+            </span>
+          </button>
++       </div>
++       <button
++         aria-pressed="false"
++         class="ds-button ds-button--quiet ds-button--compact"
++         title="矩形铺瓦"
++         type="button"
++       >
++         <span>
++           ▭ 矩形
++         </span>
++       </button>
++       <button
++         aria-pressed="false"
++         class="ds-button ds-button--quiet ds-button--compact"
++         title="填充连通区域"
++         type="button"
++       >
++         <span>
++           🪣 填充
++         </span>
++       </button>
++       <button
++         aria-pressed="false"
++         class="ds-button ds-button--quiet ds-button--compact"
++         title="擦除瓦片"
++         type="button"
++       >
++         <span>
++           ⌫ 擦除
++         </span>
++       </button>
++       <div
++         class="map-tool-option"
++         data-align="end"
++       >
++         <button
++           aria-controls="_r_3_"
++           aria-expanded="false"
++           aria-haspopup="listbox"
++           aria-label="绘制高度"
++           class="ds-button ds-button--quiet ds-button--compact map-tool-option-trigger"
++           title="选择笔刷、矩形和填充共用的实例高度 · 当前 H0"
++           type="button"
++         >
++           <span>
++             <span
++               class="map-paint-height-label"
++             >
++               H
++               0
++             </span>
++           </span>
++         </button>
++       </div>
++     </div>
++     <div
++       class="tool-group"
++     >
++       <button
++         aria-pressed="false"
++         class="ds-button ds-button--quiet ds-button--compact"
++         title="绘制独立碰撞层"
++         type="button"
++       >
++         <span>
++           ⛔ 碰撞
++         </span>
++       </button>
++     </div>
++     <div
++       class="tool-group map-view-menu"
++     >
++       <div
++         aria-label="画布显示"
++         class="ds-menubar"
++         role="menubar"
++       >
++         <div
++           class="ds-menu"
++           data-menu-visibility="all"
++         >
++           <button
++             aria-expanded="false"
++             aria-haspopup="menu"
++             class="ds-menu-trigger"
++             role="menuitem"
++             type="button"
++           >
++             视图
++           </button>
++         </div>
++       </div>
++     </div>
++   </div>
++ </body>
+
+ ❯ src/ui/IsometricEditorToolbar.glm-p.test.tsx:99:36
+     97|     await key(tray(), 'Escape')
+     98|     expect(trigger.getAttribute('aria-expanded')).toBe('false')
+     99|     expect(document.activeElement).toBe(trigger)
+       |                                    ^
+    100|   })
+    101|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
