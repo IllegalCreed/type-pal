@@ -187,6 +187,12 @@ Owner提议合法headless子路径，Codex核定 **r3 build allowed**：
 - 真实Node import及CLI子进程必须通过；浏览器editor build、现有author-save/preset/projection
   回归由Codex独立验证。此修订只是拆除浏览器宿主耦合，不改变源字段维护权或脚本模型。
 
+Node静态所有权补充：新CLI专用tsconfig的`types:['node']`真实报TS2688，editor未直接声明
+Node类型。Codex读取当前lock与game/migrate声明后批准唯一依赖例外：editor新增devDependency
+`@types/node:^25.9.1`，复用已锁定25.9.1；追加`pnpm-lock.yaml`白名单仅对应editor importer。
+用pnpm离线更新，不升级其它包或锁定版本；不借其它包node_modules、pnpm内部typeRoots、
+全局声明或跳过CLI typecheck。原“不改依赖/lock”限制除本项外继续有效。
+
 ## 交接记录
 
 - 2026-09-30 Codex：用户批准职责方向；开draft卡，首批只读核资产/静态表与脚本推导依赖。
