@@ -3,13 +3,13 @@
 Status: build
 Phase: phase2
 Capability: A7（现有内容供应链治理，不新增能力格）
-Coding Owner: pal_author_check（首批隔离实现）
+Coding Owner: Codex（首批已接收；核下批资源供应准入）
 Generation Owner: N/A
 Reviewer: Codex（独立验收）
-Visual Verification Owner: N/A
-Visual Verification Timing: N/A
+Visual Verification Owner: Codex（r4.1最小入口冷启动；首批CLI N/A）
+Visual Verification Timing: build期最小功能验证；剧情E2E不在范围
 Contributor: pal_supply_audit（r1只读准备）、pal_author_check（r2首批实现）
-Branch: codex/pal-author-check-r1
+Branch: main（首批候选705d07ec已接收集成；母卡未done）
 
 ## 用户裁决与目标（2026-09-30）
 
@@ -83,7 +83,8 @@ Branch: codex/pal-author-check-r1
 工程验证发布重放零差异。不得运行主项目--write，不动用户编辑器、存档或真实检查点。
 单测/集成与反控须证独立边界，不只比较“两个实现同时漏掉某字段”的摘要。lint/格式/typecheck
 全零诊断及全仓check单独记录；不将作者自验当Codex独立验收，不宣称本卡带来覆盖率增长。
-视觉N/A：不改显示或剧情；001/002流程仍由E2E母卡负责，本卡不冒充剧情验收。
+首批CLI视觉N/A：不改显示或剧情；r4.1追加质量包仅核三个功能入口冷启动，不进入剧情。
+001/002流程仍由E2E母卡负责，本卡不冒充剧情验收。
 
 ## r1只读准备与独立复核（2026-09-30）
 
@@ -193,6 +194,102 @@ Node类型。Codex读取当前lock与game/migrate声明后批准唯一依赖例�
 用pnpm离线更新，不升级其它包或锁定版本；不借其它包node_modules、pnpm内部typeRoots、
 全局声明或跳过CLI typecheck。原“不改依赖/lock”限制除本项外继续有效。
 
+### r4独立复核与中央质量清理（2026-09-30，进行中）
+
+Owner交回候选`705d07ec`，16文件669增/7删；隔离树干净。Codex独立逐文件核保存校验核的
+原/新路径、五处纯导入变更、Node路径/错误边界和反控，真实Node import通过；独立定向回归
+7文件157项通过，真实PAL只读CLI通过294场景/223地图/1934资源。本地合并`e24da370`后，
+根入口相对路径`pnpm check:content projects/pal`再次通过；没有调用PAL重导或写盘CLI。
+作者自验8文件179项与上述独立结果分别记录，不混写为同一验收计数。
+
+首轮全仓check：其它六包全部通过；editor为3687通过/1失败，设计系统子进程审计超过既有
+15秒测试限额（约15.99秒），未发现审计内容红项。单独执行同一`audit-legacy-controls --gate`
+通过。根lint另跑2768文件、0 error/warning/info。保留失败事实；不得由局部通过宣布全仓门通过。
+包串行调度重跑仍有一个editor失败，完整原因待核；测试超时与断言不放宽，暂不假定已闭合。
+
+editor build退出0但有默认500kB超限warning（main 1441.35kB、共享块748.37kB），不能作
+零诊断收口。Codex按AGENTS中央质量责任接手；**r4 build allowed，仅以下最小质量白名单**：
+
+- `packages/editor/vite.config.ts`：保留三个HTML input和所有中间件；使用Vite8正式
+  `rolldownOptions.output.codeSplitting.groups`，单组`modules / entriesAware:true / maxSize:500000`。
+  保留递归依赖true、跨入口合并阈值0和执行顺序选项的官方默认，不改warning阈值或隐藏日志。
+- `packages/editor/package.json`的test调度：只有相同全量测试在单worker实测通过并核定资源
+  竞争前提后，才可从2改1；不减少测试、改timeout或放宽硬门。本项尚未实施。
+- 本卡与看板质量/验收记录由Codex维护；不改UI源码、依赖/lock、规则、覆盖率或用户工程。
+
+独立只读审查`pal_supply_audit`读取安装Vite8.0.14/Rolldown1.0.2类型、三个源入口及原产物
+传递静态闭包：同意最小分包可试行，指出maxSize是模块字节近似目标，不能代替最终压缩输出
+和副作用顺序验证。证据为Rolldown的CodeSplittingGroup entriesAware/mergeThreshold/
+recursive条目，及`reforge/src/audio/spessa-browser-runtime.ts:23`、`midi-preview.ts:96/126`、
+`bgm.ts:85`、`index.ts:343`的真实动态边。正式验收还须：实际零warning、最大JS字节、
+入口静态闭包/模块归属/新增环、三个生产入口冷启动；不把分包称为减少首页总下载或懒加载优化。
+临时构建诊断最大压缩JS 241.26kB，不算正式配置或全仓验收；不进入剧情、不写存档或工程。
+
+首批源码复核可接收，但统一质量与集成收口仍pending；母卡资源供应拆分/转换核退役仍未完成。
+
+#### r4.1质量反证与最小修订准入
+
+包串行、editor双worker的第二次全仓check仍在同一15秒gate超时（3687通过/1失败）。同样483
+文件/3688项测试、原断言/timeout不变，editor单worker完整运行425.74秒通过。独立审查核
+Vitest同步函数返回后的elapsed检查、审计父worker有界AST缓存与另起Node的冷加载；只能证明
+低并发满足预算，不宣称消除了审计计算成本或已证明内存泄漏。Codex核定执行r4的editor test
+从2改1；追加根`package.json`白名单，仅check/test/check:fast中递归check/test调度显式
+`--workspace-concurrency=1`，避免包级重型PAL/设计审计竞争。测试集合、规则与超时不改。
+
+首个分包候选正式产物虽零warning，但拒收：新增静态回边归并4个SCC；更强反证为index.html
+与两个chunk引用`main-CNcHZOo3.js`，产物中该文件不存在。独立审查用TS AST和目录实证，
+Codex真实Chrome冷启动确认404与空body，不能把“小块/成功退出”视为安全。没有推广或推送该配置。
+
+**r4.1 build allowed，仍仅同一vite配置白名单**：group只匹配JS/TS源扩展
+`/\.[cm]?[jt]sx?(?:\?|$)/`，排除HTML facade；保持entriesAware/递归/merge默认边界。
+已出现跨chunk循环后，启用官方`strictExecutionOrder:true`的内部ESM初始化器，保留源模块
+执行顺序，不靠反控豁免掩盖顺序风险。安装Rolldown类型明确此选项注入runtime helper；内存
+构建反控34块/max244569字节，所有静态/动态及3个HTML脚本目标存在。此结果仍不能代替正式
+构建、真实初始化器/闭包证据与三页启动。静态SCC可存在，但须证明是初始化器保护的边，而不是
+以“浏览器偶然没报错”证明所有初始化安全；若入口缺失/提前加载/启动失败继续拒收。
+
+#### r4.1正式产物与最小启动证据
+
+正式`pnpm --filter @type-pal/editor build`退出0、0 warning；最大压缩JS 244569字节。
+Codex以同一配置的Vite output metadata独立核所有HTML/静态/dynamic目标存在，实际模块归属
+证明Design Lab初始闭包没有reforge/editor-core，main/play初始闭包没有Spessa两库或独立
+试打host。初始JS为main2535100字节/26块、play768019/10块、Design Lab331760/10块；
+较原产物总字节与请求数略增，不把消除单块超限包装成首页下载/性能优化。
+
+原生Chrome全新隔离context（Playwright默认browser二进制缺失，改用已安装Chrome，不安装
+依赖或碰用户profile）：index?picker、Design Lab及play独立试打握手等待均真实渲染，
+0 pageerror / console error / HTTP失败。截图位于临时证据目录
+`/tmp/type-pal-author-build-CeNbp6/{editor-cold,design-lab-cold,play-cold}.png`，Codex逐张查看。
+不选择本地文件夹、不发试打配置、不进入剧情；无用户工程/游戏存档写入，测试context已关闭。
+新增结构SCC的初始化器证明由独立只读审查补核；全仓check最终结果仍待返回。
+
+### 首批独立验收结论（2026-09-30）
+
+Codex：**accept，仅首批只读作者检查及r4.1中央质量小包；母卡继续build**。已核候选
+`705d07ec`与本地集成`e24da370`，不由作者自验替代独立复核；两次全仓超时与首个分包
+缺失入口反证保留为历史，未降低规则、提高timeout、删测试或抬高chunk warning阈值。
+
+最终普通入口`pnpm check`退出0：7包1304测试文件/11175项全部通过，工具测试125项通过，
+合计11300项；全部包typecheck（含Node CLI专用程序）零诊断。完整lint报告2768文件、
+0 error / 0 warning / 0 info。editor全量483文件/3688项在最终根流程通过，原15秒审计
+限制不变；迁移包132文件/1008项通过。正式editor build零warning；diff检查与本批格式检查通过。
+最终根相对路径CLI再次只读通过294场景/223地图/1934资源；主PAL与官方覆盖率基线无diff。
+
+独立只读审查最终用TS AST核正式产物4个SCC（2/4/2/6块）：直接顶层跨块eager binding读取
+和NewExpression均0，顶层调用仅创建runtime initializer；React两块是CJS closure，其余
+12块是ESM once closure。三个保留HTML facade先init依赖再init页面，页面createRoot/
+play DOM与boot均在初始化函数体内，源执行顺序由官方strictExecutionOrder机制保持。
+全部HTML/静态/字面量dynamic目标存在，懒边界与最大字节独立核同。局部counter闭合，
+不声称已验证所有深层交互；Codex三页真实冷启动与截图补齐最小功能门。
+
+本批复用已有作者保存校验核与事务门，未引入另一套validator或作者写盘协议；pnpm/Vitest
+调度仅收敛并发，Vite8真实分包保留入口与源初始化顺序。剧情/NPC移动/parallel、当前schema/
+save版本、PAL资源/作者正文、官方覆盖率和GLM候选包均未改。未运行剧情E2E或主工程重导/写盘。
+
+后续仍须核定独占文件白名单，再分离资源/地图/静态表与真实窄脚本producer，做旧/新内存
+输出保真及作者数据保留。完整转换核仍有PAL重导/专用审计消费者，未删除；不得将首批accept
+写作整个migrate包退休或母卡done。临时贡献者worktree/分支按接收后流程清理，代码由Git保留。
+
 ## 交接记录
 
 - 2026-09-30 Codex：用户批准职责方向；开draft卡，首批只读核资产/静态表与脚本推导依赖。
@@ -203,10 +300,14 @@ Node类型。Codex读取当前lock与game/migrate声明后批准唯一依赖例�
   文档保留并单独落Git证据；本次不合入GLM L/M/N候选、不改其冻结源。
 - 2026-09-30 Codex / pal_supply_audit：实际Node加载反证和独立源码证据收敛；Owner暂停宽
   barrel方案。r3改为现有纯叶author-io子路径，新增导入白名单后继续，不伪造浏览器接口。
+- 2026-09-30 pal_author_check：交回705d07ec，隔离树干净；35项新增反控、作者定向回归与
+  typecheck/格式自验通过。Codex另做源码复核、真实PAL/Node CLI与定向回归后本地集成。
+- 2026-09-30 Codex / pal_supply_audit：r4首个分包候选被真实缺失入口反证拒收；r4.1正式
+  产物/初始化器独立只读复核通过，Codex三入口真实冷启动通过。最终全仓check/零诊断通过，
+  首批accept；母卡后续资源供应拆分与完整转换退役仍未完成。
 
 ## 下一位Agent提示词
 
-首批Owner在上述隔离目录读取本卡r2、AGENTS当前模式、CLAUDE阶段声明、READ-FIRST及pnpm/
-Vitest技能，独占白名单内实现只读作者检查入口。复用现有作者保存校验核及save-state门，不重复
-造validator，不改PAL重导/剧情/生成目录/覆盖率。按r2反控自测、零诊断格式/typecheck，提交候选后
-向Codex交文件清单、命令/结果与风险；不合main、不标done、不写用户工程。Codex独立复核集成。
+无下一位Agent提示词：首批Owner已交回，Codex负责独立质量与集成收口。母卡仍build；后续
+资源供应拆分须先核具体文件白名单与旧/新内存输出保真，不以首批通过授权删除真实源解码、
+扩大字段维护权或修改作者剧情。当前不要求用户转发、重跑技术门或进行剧情验收。

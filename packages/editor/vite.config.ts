@@ -106,12 +106,29 @@ function serveDir(urlPrefix: string, fsDir: string): Plugin {
 
 export default {
   build: {
-    rollupOptions: {
+    rolldownOptions: {
       // 多页:主编辑器 + 同源试玩页 + 与业务数据隔离的 Design Lab。
       input: {
         main: resolve(dirname(fileURLToPath(import.meta.url)), 'index.html'),
         play: resolve(dirname(fileURLToPath(import.meta.url)), 'play.html'),
         designLab: resolve(dirname(fileURLToPath(import.meta.url)), 'design-lab.html'),
+      },
+      output: {
+        // Size splitting exposes cyclic chunk edges; preserve source initialization order.
+        strictExecutionOrder: true,
+        codeSplitting: {
+          // Split by actual entry usage without merging editor code into Design Lab or play.
+          // Keep HTML facades outside the module group so their entry chunks remain intact.
+          // maxSize targets module bytes; the default minified chunk warning still applies.
+          groups: [
+            {
+              name: 'modules',
+              test: /\.[cm]?[jt]sx?(?:\?|$)/,
+              entriesAware: true,
+              maxSize: 500_000,
+            },
+          ],
+        },
       },
     },
   },

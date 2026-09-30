@@ -11,7 +11,7 @@
     "benchmark:references": "tsx scripts/benchmark-derived-reference-index.mts",
     "typecheck": "tsc --noEmit && tsc --noEmit -p scripts/tsconfig.author-check.json",
     "check:project": "tsx scripts/check-project.mts",
-    "test": "vitest run --passWithNoTests --maxWorkers=2",
+    "test": "vitest run --passWithNoTests --maxWorkers=1",
     "check": "pnpm typecheck && pnpm test",
     "dev:demo": "vite --port 6011 --strictPort"
   },
