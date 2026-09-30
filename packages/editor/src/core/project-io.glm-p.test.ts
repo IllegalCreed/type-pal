@@ -421,6 +421,8 @@ describe('P01-G05 writeProject 受控真实 IO', () => {
     })
     expect(result.snapshot.get('notes/same.txt')).toBe('editor wins')
     expect(await fsaSource(target.dir).readText('notes/same.txt')).toBe('editor wins')
+    // 让位鉴别器：该路径只允许编辑产物一次 close，copy 步骤必须被剔除。
+    expect(target.changes.closes.filter((path) => path === 'notes/same.txt')).toHaveLength(1)
   })
 
   test('copy 撞 removePaths 让位：既不复制也不删除，路径不进快照', async () => {

@@ -1,0 +1,220 @@
+{
+  "numTotalTestSuites": 3,
+  "numPassedTestSuites": 3,
+  "numFailedTestSuites": 0,
+  "numPendingTestSuites": 0,
+  "numTotalTests": 15,
+  "numPassedTests": 15,
+  "numFailedTests": 0,
+  "numPendingTests": 0,
+  "numTodoTests": 0,
+  "snapshot": {
+    "added": 0,
+    "failure": false,
+    "filesAdded": 0,
+    "filesRemoved": 0,
+    "filesRemovedList": [],
+    "filesUnmatched": 0,
+    "filesUpdated": 0,
+    "matched": 0,
+    "total": 0,
+    "unchecked": 0,
+    "uncheckedKeysByFile": [],
+    "unmatched": 0,
+    "updated": 0,
+    "didUpdate": false
+  },
+  "startTime": 1790786328755,
+  "success": true,
+  "testResults": [
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": [
+            "P01-G06 保存门分段拒绝残余"
+          ],
+          "fullName": "P01-G06 保存门分段拒绝残余 manifest 缺 worldVariables 注册表路径 → 世界变量分段拒绝并指名缺路径",
+          "status": "passed",
+          "title": "manifest 缺 worldVariables 注册表路径 → 世界变量分段拒绝并指名缺路径",
+          "duration": 28.57162500000004,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "P01-G06 保存门分段拒绝残余"
+          ],
+          "fullName": "P01-G06 保存门分段拒绝残余 实体声明 initialPage 却无 pages → 场景数据分段拒绝",
+          "status": "passed",
+          "title": "实体声明 initialPage 却无 pages → 场景数据分段拒绝",
+          "duration": 7.2029999999999745,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "P01-G06 保存门分段拒绝残余"
+          ],
+          "fullName": "P01-G06 保存门分段拒绝残余 敌人正文重复 id → 敌人数据分段拒绝",
+          "status": "passed",
+          "title": "敌人正文重复 id → 敌人数据分段拒绝",
+          "duration": 4.096166000000039,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "P01-G06 保存门分段拒绝残余"
+          ],
+          "fullName": "P01-G06 保存门分段拒绝残余 共享脚本 self 槽非法 → 共享脚本分段拒绝（非法域拒绝合同，非合法正控）",
+          "status": "passed",
+          "title": "共享脚本 self 槽非法 → 共享脚本分段拒绝（非法域拒绝合同，非合法正控）",
+          "duration": 3.2068329999999605,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "P01-G06 保存门分段拒绝残余"
+          ],
+          "fullName": "P01-G06 保存门分段拒绝残余 对话身份引用未知 Actor → 对话身份分段拒绝并指名",
+          "status": "passed",
+          "title": "对话身份引用未知 Actor → 对话身份分段拒绝并指名",
+          "duration": 2.941332999999986,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "P01-G06 保存门分段拒绝残余"
+          ],
+          "fullName": "P01-G06 保存门分段拒绝残余 实体地址指向不存在的实体 → 实体引用分段拒绝并给出 scene/entity",
+          "status": "passed",
+          "title": "实体地址指向不存在的实体 → 实体引用分段拒绝并给出 scene/entity",
+          "duration": 3.1632090000000517,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "P01-G06 保存门分段拒绝残余"
+          ],
+          "fullName": "P01-G06 保存门分段拒绝残余 开局资源保留键 collectValue → 开局数据分段拒绝",
+          "status": "passed",
+          "title": "开局资源保留键 collectValue → 开局数据分段拒绝",
+          "duration": 2.6911669999999503,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "P01-G06 保存门分段拒绝残余"
+          ],
+          "fullName": "P01-G06 保存门分段拒绝残余 catalog 记录字节数非法 → 资源注册表分段拒绝",
+          "status": "passed",
+          "title": "catalog 记录字节数非法 → 资源注册表分段拒绝",
+          "duration": 3.13795899999991,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "P01-G06 保存门分段拒绝残余"
+          ],
+          "fullName": "P01-G06 保存门分段拒绝残余 场景 mapId 指向未登记地图 → 内容引用分段拒绝（mapId 臂，区别于旧 missing-sprite）",
+          "status": "passed",
+          "title": "场景 mapId 指向未登记地图 → 内容引用分段拒绝（mapId 臂，区别于旧 missing-sprite）",
+          "duration": 3.7148329999999987,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "P01-G07 聚合诊断残余"
+          ],
+          "fullName": "P01-G07 聚合诊断残余 missing-entry-point-scene：唯一合法 id 携带 objectId，空白 id 消息退回 #序号",
+          "status": "passed",
+          "title": "missing-entry-point-scene：唯一合法 id 携带 objectId，空白 id 消息退回 #序号",
+          "duration": 5.100292000000081,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "P01-G07 聚合诊断残余"
+          ],
+          "fullName": "P01-G07 聚合诊断残余 startWorld.resources 非法键 → invalid-start-world issue 指向 resources 路径与入口",
+          "status": "passed",
+          "title": "startWorld.resources 非法键 → invalid-start-world issue 指向 resources 路径与入口",
+          "duration": 2.7112079999999423,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "P01-G07 聚合诊断残余"
+          ],
+          "fullName": "P01-G07 聚合诊断残余 catalog 非法时资产闭包诊断整体跳过：只剩注册表问题，无 sprite 缺失噪声",
+          "status": "passed",
+          "title": "catalog 非法时资产闭包诊断整体跳过：只剩注册表问题，无 sprite 缺失噪声",
+          "duration": 2.551832999999988,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "P01-G07 聚合诊断残余"
+          ],
+          "fullName": "P01-G07 聚合诊断残余 manifest.assets.roles 引用不存在资产 → manifest-assets-invalid issue 指向 assets/startup",
+          "status": "passed",
+          "title": "manifest.assets.roles 引用不存在资产 → manifest-assets-invalid issue 指向 assets/startup",
+          "duration": 1.965791999999965,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "P01-G07 聚合诊断残余"
+          ],
+          "fullName": "P01-G07 聚合诊断残余 战场表含系统默认 #24 → 状态诊断不再出现缺省战场警告",
+          "status": "passed",
+          "title": "战场表含系统默认 #24 → 状态诊断不再出现缺省战场警告",
+          "duration": 4.002875000000131,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "P01-G07 聚合诊断残余"
+          ],
+          "fullName": "P01-G07 聚合诊断残余 状态诊断收集器对同一 state 对象命中身份快路径：复用同一数组引用",
+          "status": "passed",
+          "title": "状态诊断收集器对同一 state 对象命中身份快路径：复用同一数组引用",
+          "duration": 2.2007089999999607,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790786330169,
+      "endTime": 1790786330247.2007,
+      "status": "passed",
+      "message": "",
+      "name": "/private/tmp/glm-p-counter-P01-C02/packages/editor/src/core/project-diagnostics.glm-p.test.ts"
+    }
+  ]
+}

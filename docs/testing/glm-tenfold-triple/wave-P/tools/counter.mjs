@@ -63,6 +63,9 @@ const patch = [
 /** 隔离树：git worktree（共享对象库，独立检出）。node_modules 硬链接候选树。 */
 const counterTree = `/tmp/glm-p-counter-${id}`
 rmSync(counterTree, { recursive: true, force: true })
+try {
+  execFileSync('git', ['worktree', 'prune'], { cwd: candidateRoot })
+} catch {}
 execFileSync('git', ['worktree', 'add', '--detach', counterTree, 'HEAD'], { cwd: candidateRoot })
 const rel = (p) => join(counterTree, p)
 const linkNodeModules = (from, to) => {
@@ -75,7 +78,8 @@ const linkNodeModules = (from, to) => {
 linkNodeModules(join(candidateRoot, 'node_modules'), rel('node_modules'))
 for (const pkg of ['editor', 'content', 'reforge', 'game', 'shared', 'pal-extract', 'migrate']) {
   const from = join(candidateRoot, 'packages', pkg, 'node_modules')
-  if (existsSync(from)) linkNodeModules(from, rel('packages', pkg, 'node_modules'))
+  if (existsSync(from))
+    linkNodeModules(from, join(counterTree, 'packages', pkg, 'node_modules'))
 }
 
 function cleanup() {
@@ -91,7 +95,7 @@ function cleanup() {
 
 /** 在指定树跑定向 vitest；返回 {exit, stdout, json}。 */
 function runVitest(tree, extraArgs = []) {
-  const bin = join(candidateRoot, 'packages', 'editor', 'node_modules', '.bin', 'vitest')
+  const bin = join(candidateRoot, 'node_modules', '.bin', 'vitest')
   const result = spawnSync(
     bin,
     ['run', testSpec, '--maxWorkers=1', '--reporter=json', '--reporter=default', ...extraArgs],
@@ -105,13 +109,45 @@ function runVitest(tree, extraArgs = []) {
   const start = output.lastIndexOf('{"numTotalTestSuites"')
   let json = null
   if (start >= 0) {
-    try {
-      json = JSON.parse(output.slice(start))
-    } catch {
-      json = null
+    // JSON 后还跟着 default reporter 文本：按括号配平截取完整 JSON 文档。
+    let depth = 0
+    let inString = false
+    let escaped = false
+    let end = -1
+    for (let index = start; index < output.length; index++) {
+      const char = output[index]
+      if (inString) {
+        if (escaped) escaped = false
+        else if (char === '\\') escaped = true
+        else if (char === '"') inString = false
+        continue
+      }
+      if (char === '"') inString = true
+      else if (char === '{') depth += 1
+      else if (char === '}') {
+        depth -= 1
+        if (depth === 0) {
+          end = index + 1
+          break
+        }
+      }
+    }
+    if (end > 0) {
+      try {
+        json = JSON.parse(output.slice(start, end))
+      } catch {
+        json = null
+      }
     }
   }
-  return { exit: result.status ?? (result.error ? -1 : 0), output, json }
+  if (result.error) {
+    return {
+      exit: -1,
+      output: `${output}\nSPAWN-ERROR: ${result.error.message}`,
+      json,
+    }
+  }
+  return { exit: result.status ?? 0, output, json }
 }
 
 const collect = (run) => {
@@ -159,8 +195,10 @@ const mutatedStats = collect(mutatedRun)
 writeFileSync(join(outDir, 'mutated.json'), JSON.stringify(mutatedRun.json, null, 2))
 writeFileSync(join(outDir, 'mutated.raw.txt'), mutatedRun.output)
 const first = mutatedStats.firstFailure
+// vitest rejects 断言红的两种既定首行格式：AssertionError / Error: promise resolved…。
 const assertionRed =
-  first !== null && /^(AssertionError|expect\()/i.test(first.message)
+  first !== null &&
+  /^(AssertionError|expect\(|Error: promise resolved)/i.test(first.message)
 record.mutated = {
   exitCode: mutatedRun.exit,
   executed: mutatedStats.executed,
