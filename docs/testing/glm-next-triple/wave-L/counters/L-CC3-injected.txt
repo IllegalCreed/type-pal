@@ -1,0 +1,29 @@
+
+ RUN  v4.1.7 /Users/zhangxu/illegal/type-pal-wave-l/packages/editor
+
+ ❯ src/core/map-patch.glm-l.test.ts (4 tests | 1 failed) 8ms
+     × 组内窄入口对已删除的 placement 报 stamp-placement-missing 5ms
+     ✓ 整组窄入口撞他组成员时逐通道报归属冲突；未归属槽位可写 1ms
+     ✓ tilesetId 空串与负高度是非法值；碰撞非整数坐标与越界各自拒绝 1ms
+     ✓ 空槽写非空瓦片但缺 tilesetId 通道：missing-source 拒绝 0ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/core/map-patch.glm-l.test.ts > TEST-GLM-WAVE-L-1 L03 map patch narrow entries & value guards > 组内窄入口对已删除的 placement 报 stamp-placement-missing
+AssertionError: expected AssertionError: expected "应抛出 ProjectMapP… { …(3) } to be an instance of ProjectMapPatchError
+ ❯ src/core/map-patch.glm-l.test.ts:44:21
+     42|       expect.unreachable('应抛出 ProjectMapPatchError')
+     43|     } catch (error) {
+     44|       expect(error).toBeInstanceOf(ProjectMapPatchError)
+       |                     ^
+     45|       const issues = (error as ProjectMapPatchError).issues
+     46|       expect(issues).toEqual([
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 3 passed (4)
+   Start at  11:16:40
+   Duration  1.06s (transform 795ms, setup 0ms, import 943ms, tests 8ms, environment 0ms)
+

@@ -18,6 +18,7 @@ function sprite(id: string, asset: string): SpriteDef {
   return {
     id,
     asset: asset as SpriteDef['asset'],
+    label: '测试精灵',
     layout: { kind: 'static' },
   }
 }
@@ -118,7 +119,10 @@ describe('TEST-GLM-WAVE-L-1 L02 scene stage pure helpers', () => {
   test('fitStageView 把极端纵横比夹进 [0.04,16]；mapBoxOf 支持房间偏移', () => {
     const huge = fitStageView({ minX: 0, minY: 0, maxX: 1, maxY: 1 }, { w: 10000, h: 10000 })
     expect(huge.zoom).toBe(16)
-    const tiny = fitStageView({ minX: 0, minY: 0, maxX: 1_000_000, maxY: 1_000_000 }, { w: 800, h: 600 })
+    const tiny = fitStageView(
+      { minX: 0, minY: 0, maxX: 1_000_000, maxY: 1_000_000 },
+      { w: 800, h: 600 },
+    )
     expect(tiny.zoom).toBe(0.04)
 
     const whole = mapBoxOf({ width: 20, height: 10 }, undefined)

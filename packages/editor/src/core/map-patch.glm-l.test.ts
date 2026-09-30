@@ -31,8 +31,11 @@ function ownedMap(): ProjectMap {
   ])
 }
 
-const writable = { hiddenLayerIds: [] as string[], lockedLayerIds: [] as string[] }
-const floorWritable = { hiddenLayerIds: [] as string[], lockedLayerIds: [] as string[], requiredWritableLayerIds: ['floor'] }
+const floorWritable = {
+  hiddenLayerIds: [] as string[],
+  lockedLayerIds: [] as string[],
+  requiredWritableLayerIds: ['floor'],
+}
 
 describe('TEST-GLM-WAVE-L-1 L03 map patch narrow entries & value guards', () => {
   test('组内窄入口对已删除的 placement 报 stamp-placement-missing', () => {
@@ -92,22 +95,36 @@ describe('TEST-GLM-WAVE-L-1 L03 map patch narrow entries & value guards', () => 
     expect(() =>
       prepareProjectMapPatch(
         map,
-        { visual: [{ channel: 'tilesetId', ref: { layerId: 'floor', row: 1, col: 1 }, value: '' }], collision: [] },
+        {
+          visual: [{ channel: 'tilesetId', ref: { layerId: 'floor', row: 1, col: 1 }, value: '' }],
+          collision: [],
+        },
         floorWritable,
       ),
     ).toThrow('tilesetId 必须是非空字符串或 null')
     expect(() =>
       prepareProjectMapPatch(
         map,
-        { visual: [{ channel: 'height', ref: { layerId: 'floor', row: 1, col: 1 }, value: -1 }], collision: [] },
+        {
+          visual: [{ channel: 'height', ref: { layerId: 'floor', row: 1, col: 1 }, value: -1 }],
+          collision: [],
+        },
         floorWritable,
       ),
     ).toThrow('实例高度必须是非负整数')
     expect(() =>
-      prepareProjectMapPatch(map, { visual: [], collision: [{ ref: { row: 1.5, col: 1 }, value: 1 }] }, floorWritable),
+      prepareProjectMapPatch(
+        map,
+        { visual: [], collision: [{ ref: { row: 1.5, col: 1 }, value: 1 }] },
+        floorWritable,
+      ),
     ).toThrow('坐标必须是整数')
     expect(() =>
-      prepareProjectMapPatch(map, { visual: [], collision: [{ ref: { row: 99, col: 1 }, value: 1 }] }, floorWritable),
+      prepareProjectMapPatch(
+        map,
+        { visual: [], collision: [{ ref: { row: 99, col: 1 }, value: 1 }] },
+        floorWritable,
+      ),
     ).toThrow('越出地图边界')
   })
 
@@ -116,7 +133,10 @@ describe('TEST-GLM-WAVE-L-1 L03 map patch narrow entries & value guards', () => 
     expect(() =>
       prepareProjectMapPatch(
         map,
-        { visual: [{ channel: 'tileId', ref: { layerId: 'floor', row: 1, col: 1 }, value: 5 }], collision: [] },
+        {
+          visual: [{ channel: 'tileId', ref: { layerId: 'floor', row: 1, col: 1 }, value: 5 }],
+          collision: [],
+        },
         floorWritable,
       ),
     ).toThrow('必须指定瓦片集来源')

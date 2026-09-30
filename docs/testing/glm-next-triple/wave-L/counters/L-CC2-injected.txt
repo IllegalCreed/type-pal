@@ -1,0 +1,36 @@
+
+ RUN  v4.1.7 /Users/zhangxu/illegal/type-pal-wave-l/packages/editor
+
+ ❯ src/core/scene-commands.glm-l.test.ts (7 tests | 1 failed) 6ms
+     ✓ UpdateScene 对缺场景 apply/invert 均零写；重复 apply 只捕获一次旧值 1ms
+     ✓ UpsertSceneEntry 拒绝空 id；缺场景 apply/invert 零写 1ms
+     ✓ DeleteSceneEntry 缺场景或缺落点时先于引用索引早退 0ms
+     ✓ AddScene 双重身份门：id 重复与 index/id 不符都在 apply 期抛错 0ms
+     ✓ DuplicateScene 缺源与目标 id 冲突都在 apply 期抛错 0ms
+     × UpdateSceneName 三个守卫：缺场景抛错、空白名抛错、同名零写 3ms
+     ✓ DeleteScene 守卫：缺正文、缺登记与未 apply 的 invert 都显式失败 0ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/core/scene-commands.glm-l.test.ts > TEST-GLM-WAVE-L-1 L02 scene command no-op & guard branches > UpdateSceneName 三个守卫：缺场景抛错、空白名抛错、同名零写
+AssertionError: expected [Function] to throw error including '场景显示名不能为空' but got 'sceneIndex.scenes[0].name: 期望非空字符串'
+
+Expected: "场景显示名不能为空"
+Received: "sceneIndex.scenes[0].name: 期望非空字符串"
+
+ ❯ src/core/scene-commands.glm-l.test.ts:132:75
+    130|       '场景不存在 ghost',
+    131|     )
+    132|     expect(() => new UpdateSceneNameCommand('source', '   ').apply(bas…
+       |                                                                           ^
+    133|       '场景显示名不能为空',
+    134|     )
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 6 passed (7)
+   Start at  11:16:13
+   Duration  1.43s (transform 1.08s, setup 0ms, import 1.30s, tests 6ms, environment 0ms)
+

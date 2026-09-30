@@ -151,9 +151,7 @@ describe('TEST-GLM-WAVE-L-1 L04 sprite action dialog scope & save guards', () =>
       ),
     )
     act(() => {
-      window.dispatchEvent(
-        new KeyboardEvent('keydown', { key: 's', ctrlKey: true, bubbles: true }),
-      )
+      window.dispatchEvent(new KeyboardEvent('keydown', { key: 's', ctrlKey: true, bubbles: true }))
     })
     expect(host.textContent).toContain('请先创建动作，再保存项目。')
     expect(onRequestSave).not.toHaveBeenCalled()

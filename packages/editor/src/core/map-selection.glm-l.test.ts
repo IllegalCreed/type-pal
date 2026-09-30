@@ -9,11 +9,11 @@ import {
   changeMapSelection,
   clipMapSelection,
   hitTestMapContent,
+  type MapSelection,
   mapSelectionBounds,
   mapWorkspaceReducer,
   selectionForStampPlacementGridPoints,
   stampPlacementAllMemberSelection,
-  type MapSelection,
 } from './map-selection.js'
 
 function placedMap(): ProjectMap {
@@ -46,11 +46,19 @@ describe('TEST-GLM-WAVE-L-1 L01 map selection gaps', () => {
     expect(stampPlacementAllMemberSelection(undefined)).toEqual({ kind: 'none' })
 
     // 已知 placement：只取选中点上的成员，跨点普通格不进选区。
-    const placement = { id: 'duo', anchor: { row: 0, col: 0 }, visualSlots: [{ layerId: 'floor', row: 0, col: 0 }], gridPoints: [{ row: 1, col: 0 }] }
+    const placement = {
+      id: 'duo',
+      anchor: { row: 0, col: 0 },
+      visualSlots: [{ layerId: 'floor', row: 0, col: 0 }],
+      gridPoints: [{ row: 1, col: 0 }],
+    }
     const derived = selectionForStampPlacementGridPoints(
       map,
       placement,
-      [{ row: 1, col: 0 }, { row: 2, col: 0 }],
+      [
+        { row: 1, col: 0 },
+        { row: 2, col: 0 },
+      ],
       'floor',
     )
     expect(derived.visualSlots).toEqual([])
@@ -104,9 +112,7 @@ describe('TEST-GLM-WAVE-L-1 L01 map selection gaps', () => {
       { type: 'reset' },
     )
     expect(populated.maps).toEqual({})
-    expect(
-      mapWorkspaceReducer({ maps: {} }, { type: 'reset' }),
-    ).toEqual({ maps: {} })
+    expect(mapWorkspaceReducer({ maps: {} }, { type: 'reset' })).toEqual({ maps: {} })
   })
 
   test('命中候选携带非空实例的真实绘制边界，空槽候选没有 imageBounds', () => {
@@ -120,13 +126,9 @@ describe('TEST-GLM-WAVE-L-1 L01 map selection gaps', () => {
     expect(primary?.imageBounds).toMatchObject({ width: 64, height: 16 })
     expect(hit.logicalPoint).toEqual({ row: 0, col: 0 })
 
-    const emptySlotHit = hitTestMapContent(
-      placedMap(),
-      new Map(),
-      32,
-      0,
-      { activeLayerId: 'floor' },
-    )
+    const emptySlotHit = hitTestMapContent(placedMap(), new Map(), 32, 0, {
+      activeLayerId: 'floor',
+    })
     const emptyCandidate = emptySlotHit.candidates.find((item) => item.ref.col === 1)
     expect(emptyCandidate?.tileId).toBeNull()
     expect(emptyCandidate?.imageBounds).toBeUndefined()

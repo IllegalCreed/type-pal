@@ -7,6 +7,7 @@ import {
   withProjectMapStampPlacements,
 } from '@type-pal/reforge'
 import { describe, expect, test } from 'vitest'
+import { waveLEditorState } from '../__tests__/glm-l/editor-state.js'
 import type { EditorState } from './edit-session.js'
 import {
   AddProjectMapLayerCommand,
@@ -37,7 +38,7 @@ function fixtureMap(): ProjectMap {
 }
 
 function state(map: ProjectMap = fixtureMap()): EditorState {
-  return { maps: { 'map-a': map } } as EditorState
+  return waveLEditorState({ maps: { 'map-a': map } })
 }
 
 const writable = { hiddenLayerIds: [] as string[], lockedLayerIds: [] as string[] }
@@ -87,9 +88,7 @@ describe('TEST-GLM-WAVE-L-1 L03 map edit command guards', () => {
     const patch = new ApplyProjectMapPatchCommand(
       'map-a',
       {
-        visual: [
-          { channel: 'tileId', ref: { layerId: 'floor', row: 1, col: 1 }, value: 3 },
-        ],
+        visual: [{ channel: 'tileId', ref: { layerId: 'floor', row: 1, col: 1 }, value: 3 }],
         collision: [],
       },
       { ...writable, requiredWritableLayerIds: ['floor'] },

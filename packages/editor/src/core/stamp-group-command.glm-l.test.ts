@@ -8,6 +8,7 @@ import {
   withProjectMapStampPlacements,
 } from '@type-pal/reforge'
 import { describe, expect, test } from 'vitest'
+import { waveLEditorState } from '../__tests__/glm-l/editor-state.js'
 import type { EditorState } from './edit-session.js'
 import {
   EditStampPlacementCommand,
@@ -40,27 +41,7 @@ function fixtureMap(): ProjectMap {
 }
 
 function state(map: ProjectMap = fixtureMap()): EditorState {
-  return {
-    manifest: { content: {} },
-    scenes: [],
-    actors: [],
-    skills: [],
-    levelUp: {},
-    items: [],
-    locale: {},
-    sprites: [],
-    battleSprites: [],
-    entryPoints: [],
-    maps: { 'map-a': map },
-    sceneIndex: { version: 1, scenes: [] },
-    mapIndex: { version: 1, maps: [] },
-    tilesets: [],
-    tilesetBlobs: {},
-    assetCatalog: { version: 1, assets: {} },
-    assetBlobs: {},
-    scriptChunks: {},
-    stamps: [],
-  } as EditorState
+  return waveLEditorState({ maps: { 'map-a': map } })
 }
 
 const writable = { hiddenLayerIds: [] as string[], lockedLayerIds: [] as string[] }
@@ -198,9 +179,7 @@ describe('TEST-GLM-WAVE-L-1 L06 stamp group command guards', () => {
       },
     ])
     expect(plan.canApply).toBe(false)
-    expect(() => new TransformStampPlacementsCommand(plan)).toThrow(
-      '组合目标有 1 处普通内容冲突。',
-    )
+    expect(() => new TransformStampPlacementsCommand(plan)).toThrow('组合目标有 1 处普通内容冲突。')
   })
 
   test('组内编辑构造器：未知组、未知活动层与非成员输入都精确拒绝', () => {
@@ -241,7 +220,9 @@ describe('TEST-GLM-WAVE-L-1 L06 stamp group command guards', () => {
         new EditStampPlacementCommand({
           ...baseInput,
           patch: {
-            visual: [{ channel: 'tileId', ref: { layerId: 'objects', row: 2, col: 2 }, value: null }],
+            visual: [
+              { channel: 'tileId', ref: { layerId: 'objects', row: 2, col: 2 }, value: null },
+            ],
             collision: [],
           },
         }),

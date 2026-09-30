@@ -72,9 +72,7 @@ describe('TEST-GLM-WAVE-L-1 L03 map transform gaps', () => {
       { row: 0, col: 2 },
       { includeCollision: false, collisionAuthorityLayerId: 'floor' },
     )
-    expect(plan.issues).toEqual([
-      { code: 'empty-selection', message: '选区没有可变换的地图内容' },
-    ])
+    expect(plan.issues).toEqual([{ code: 'empty-selection', message: '选区没有可变换的地图内容' }])
     expect(plan.canApply).toBe(false)
     expect(plan.patch).toEqual({ visual: [], collision: [] })
   })
@@ -101,7 +99,10 @@ describe('TEST-GLM-WAVE-L-1 L03 map transform gaps', () => {
       true,
     )!
     expect(clip.visual).toHaveLength(1)
-    expect(clip.visual[0]).toMatchObject({ sourceRef: { layerId: 'floor', row: 0, col: 0 }, tileId: 1 })
+    expect(clip.visual[0]).toMatchObject({
+      sourceRef: { layerId: 'floor', row: 0, col: 0 },
+      tileId: 1,
+    })
     expect(clip.collision).toEqual({
       kind: 'included',
       cells: [{ sourceRef: { row: 0, col: 0 }, offset: { dRow: 0, du: 0 }, value: 0 }],
@@ -109,7 +110,10 @@ describe('TEST-GLM-WAVE-L-1 L03 map transform gaps', () => {
   })
 
   test('无映射的粘贴按来源层身份落笔（identity fallback）', () => {
-    const map = insertProjectMapLayer(plainMap(), buildProjectMapLayer(plainMap(), 'objects', '物件'))
+    const map = insertProjectMapLayer(
+      plainMap(),
+      buildProjectMapLayer(plainMap(), 'objects', '物件'),
+    )
     const clip = captureMapClipboard(
       'map-a',
       map,

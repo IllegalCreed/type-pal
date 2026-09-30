@@ -2,6 +2,7 @@ import type { SceneDef } from '@type-pal/content'
 import { MAP_INDEX_PATH } from '@type-pal/content'
 import { buildBlankProjectMap } from '@type-pal/reforge'
 import { describe, expect, test } from 'vitest'
+import { waveLEditorState } from '../__tests__/glm-l/editor-state.js'
 import type { EditorState } from './edit-session.js'
 import {
   BindSceneMapCommand,
@@ -19,27 +20,14 @@ function state(): EditorState {
     entry: { pos: { col: 0, row: 0, height: 0 }, facing: 'down' },
     entities: [],
   }
-  return {
-    manifest: { content: {} },
+  return waveLEditorState({
     scenes: [scene],
-    actors: [],
-    skills: [],
-    levelUp: {},
-    items: [],
-    locale: {},
-    sprites: [],
-    battleSprites: [],
-    entryPoints: [],
     maps: { 'map-a': buildBlankProjectMap(2, 1, 'tiles') },
-    mapIndex: { version: 1, maps: [{ id: 'map-a', name: 'A', path: 'content/maps/map-a.json' }] },
-    sceneIndex: { version: 1, scenes: [] },
-    tilesets: [],
-    tilesetBlobs: {},
-    scriptChunks: {},
-    assetCatalog: { version: 1, assets: {} },
-    assetBlobs: {},
-    stamps: [],
-  } as EditorState
+    mapIndex: {
+      version: 1,
+      maps: [{ id: 'map-a', name: 'A', path: 'content/maps/map-a.json' }],
+    },
+  })
 }
 
 describe('TEST-GLM-WAVE-L-1 L03 map asset command gaps', () => {
@@ -69,10 +57,11 @@ describe('TEST-GLM-WAVE-L-1 L03 map asset command gaps', () => {
 
   test('复制命令缺源地图零写；未 apply 的 invert 零写', () => {
     const base = state()
-    const ghost = new DuplicateMapAssetCommand(
-      'ghost',
-      { id: 'copy', name: '副本', path: 'content/maps/copy.json' },
-    )
+    const ghost = new DuplicateMapAssetCommand('ghost', {
+      id: 'copy',
+      name: '副本',
+      path: 'content/maps/copy.json',
+    })
     expect(ghost.apply(base)).toBe(base)
     expect(ghost.invert(base)).toBe(base)
   })
@@ -96,11 +85,16 @@ describe('TEST-GLM-WAVE-L-1 L03 map asset command gaps', () => {
       throw new Error('不应调用')
     })
     expect(del.invert(base)).toBe(base)
-    const create = new CreateProjectMapCommand('ghost-scene', 'content/maps/new.json', buildBlankProjectMap(2, 1, 'tiles'), {
-      col: 0,
-      row: 0,
-      height: 0,
-    })
+    const create = new CreateProjectMapCommand(
+      'ghost-scene',
+      'content/maps/new.json',
+      buildBlankProjectMap(2, 1, 'tiles'),
+      {
+        col: 0,
+        row: 0,
+        height: 0,
+      },
+    )
     expect(create.apply(base)).toBe(base)
     expect(create.invert(base)).toBe(base)
   })

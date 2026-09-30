@@ -11,7 +11,11 @@ import { createRoot, type Root } from 'react-dom/client'
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
 import { EditSession } from '../core/edit-session.js'
 import type { MapSelection } from '../core/map-selection.js'
-import { canonicalizeStampDraft, createBlankStampDraft, setStampDraftVisual } from '../core/stamp-draft.js'
+import {
+  canonicalizeStampDraft,
+  createBlankStampDraft,
+  setStampDraftVisual,
+} from '../core/stamp-draft.js'
 import { stubNodeTestHost } from './__tests__/glm-leaf-workflows/node-bridge.js'
 import { loadLegalUiProject } from './__tests__/glm-ui-wave-kit.js'
 import { StampTemplateDialog } from './StampTemplateDialog.js'
@@ -154,9 +158,9 @@ describe('TEST-GLM-WAVE-L-1 L05 stamp template dialog validation gates', () => {
     expect(onSaved).toHaveBeenCalledTimes(1)
     const [savedId] = onSaved.mock.calls[0] as unknown as [string]
     const stored = session.getState().stamps.find((template) => template.id === savedId)
-    expect(
-      stored?.collision.flatMap((row) => row.filter((value) => value !== null)),
-    ).toHaveLength(0)
+    expect(stored?.collision.flatMap((row) => row.filter((value) => value !== null))).toHaveLength(
+      0,
+    )
     expect(
       stored?.layers.flatMap((layer) => layer.tiles.flat()).filter((tile) => tile !== null),
     ).toHaveLength(2)

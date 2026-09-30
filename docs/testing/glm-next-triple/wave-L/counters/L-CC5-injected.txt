@@ -1,0 +1,31 @@
+
+ RUN  v4.1.7 /Users/zhangxu/illegal/type-pal-wave-l/packages/editor
+
+ ❯ src/core/map-selection.glm-l.test.ts (5 tests | 1 failed) 7ms
+     × 组内派生与全成员选区对已删除的 placement 都安全回退 4ms
+     ✓ 空 incoming 的 toggle 按 subtract 处理：内容与 hitScope 原样保留 1ms
+     ✓ clipMapSelection 在无需裁剪时返回原选区身份 0ms
+     ✓ bounds 只对 cells 选区存在；非空 reset 返回全新空工作区 0ms
+     ✓ 命中候选携带非空实例的真实绘制边界，空槽候选没有 imageBounds 1ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/core/map-selection.glm-l.test.ts > TEST-GLM-WAVE-L-1 L01 map selection gaps > 组内派生与全成员选区对已删除的 placement 都安全回退
+TypeError: Cannot read properties of undefined (reading 'visualSlots')
+ ❯ selectionForStampPlacementGridPoints src/core/map-selection.ts:223:28
+    221|   )
+    222|   return {
+    223|     visualSlots: placement.visualSlots
+       |                            ^
+    224|       .filter((ref) => ref.layerId === activeLayerId && pointKeys.has(…
+    225|       .map((ref) => ({ ...ref })),
+ ❯ src/core/map-selection.glm-l.test.ts:44:7
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 4 passed (5)
+   Start at  11:17:42
+   Duration  2.11s (transform 1.63s, setup 0ms, import 1.93s, tests 7ms, environment 0ms)
+

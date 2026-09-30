@@ -1,7 +1,8 @@
 import type { SceneDef } from '@type-pal/content'
 import { describe, expect, test } from 'vitest'
-import type { CurrentProjectReferenceIndexProvider } from './project-reference-adapters.js'
+import { waveLEditorState } from '../__tests__/glm-l/editor-state.js'
 import type { EditorState } from './edit-session.js'
+import type { CurrentProjectReferenceIndexProvider } from './project-reference-adapters.js'
 import {
   AddSceneCommand,
   DeleteSceneCommand,
@@ -22,30 +23,14 @@ function scene(id: string): SceneDef {
 }
 
 function state(): EditorState {
-  return {
-    manifest: { content: {} },
+  return waveLEditorState({
     scenes: [scene('source')],
-    actors: [],
-    skills: [],
-    levelUp: {},
-    items: [],
-    locale: {},
-    sprites: [],
-    battleSprites: [],
-    entryPoints: [],
     sceneIndex: {
       version: 1,
       scenes: [{ id: 'source', name: '来源', path: 'content/scenes/source.json' }],
     },
     maps: {},
-    mapIndex: { version: 1, maps: [] },
-    tilesets: [],
-    tilesetBlobs: {},
-    scriptChunks: {},
-    assetCatalog: { version: 1, assets: {} },
-    assetBlobs: {},
-    stamps: [],
-  } as EditorState
+  })
 }
 
 const neverProvider: CurrentProjectReferenceIndexProvider = () => {
@@ -72,9 +57,13 @@ describe('TEST-GLM-WAVE-L-1 L02 scene command no-op & guard branches', () => {
   })
 
   test('UpsertSceneEntry 拒绝空 id；缺场景 apply/invert 零写', () => {
-    expect(() => new UpsertSceneEntryCommand('source', '', { label: 'x', pos: { col: 0, row: 0, height: 0 } })).toThrow(
-      '落点 id 不能为空',
-    )
+    expect(
+      () =>
+        new UpsertSceneEntryCommand('source', '', {
+          label: 'x',
+          pos: { col: 0, row: 0, height: 0 },
+        }),
+    ).toThrow('落点 id 不能为空')
     const base = state()
     const command = new UpsertSceneEntryCommand('ghost', 'door', {
       label: '门',
@@ -98,12 +87,11 @@ describe('TEST-GLM-WAVE-L-1 L02 scene command no-op & guard branches', () => {
     expect(() => new AddSceneCommand(asset, scene('source')).apply(base)).toThrow(
       '场景 id "source" 已存在',
     )
-    expect(
-      () =>
-        new AddSceneCommand(
-          { id: 'created', name: '新', path: 'content/scenes/created.json' },
-          scene('other'),
-        ).apply(base),
+    expect(() =>
+      new AddSceneCommand(
+        { id: 'created', name: '新', path: 'content/scenes/created.json' },
+        scene('other'),
+      ).apply(base),
     ).toThrow('场景 index/id 不符 "created" / "other"')
     const command = new AddSceneCommand(
       { id: 'created', name: '新', path: 'content/scenes/created.json' },
@@ -115,9 +103,7 @@ describe('TEST-GLM-WAVE-L-1 L02 scene command no-op & guard branches', () => {
   test('DuplicateScene 缺源与目标 id 冲突都在 apply 期抛错', () => {
     const base = state()
     const asset = { id: 'copy', name: '副本', path: 'content/scenes/copy.json' }
-    expect(() => new DuplicateSceneCommand('ghost', asset).apply(base)).toThrow(
-      '场景不存在 ghost',
-    )
+    expect(() => new DuplicateSceneCommand('ghost', asset).apply(base)).toThrow('场景不存在 ghost')
     const conflicting = { ...asset, id: 'source' }
     expect(() => new DuplicateSceneCommand('source', conflicting).apply(base)).toThrow(
       '场景 id "source" 已存在',
