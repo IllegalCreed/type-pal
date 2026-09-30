@@ -1086,6 +1086,27 @@
                       "ms": 600
                     },
                     {
+                      "kind": "takeEntity",
+                      "target": {
+                        "scene": "s003",
+                        "entity": "e59"
+                      }
+                    },
+                    {
+                      "kind": "takeEntity",
+                      "target": {
+                        "scene": "s003",
+                        "entity": "e60"
+                      }
+                    },
+                    {
+                      "kind": "takeEntity",
+                      "target": {
+                        "scene": "s003",
+                        "entity": "e61"
+                      }
+                    },
+                    {
                       "cue": {
                         "identity": {
                           "kind": "unbound",
@@ -1260,6 +1281,27 @@
                       "kind": "dialog"
                     },
                     {
+                      "kind": "releaseEntity",
+                      "target": {
+                        "scene": "s003",
+                        "entity": "e59"
+                      }
+                    },
+                    {
+                      "kind": "releaseEntity",
+                      "target": {
+                        "scene": "s003",
+                        "entity": "e60"
+                      }
+                    },
+                    {
+                      "kind": "releaseEntity",
+                      "target": {
+                        "scene": "s003",
+                        "entity": "e61"
+                      }
+                    },
+                    {
                       "kind": "wait",
                       "ms": 320
                     },
@@ -1270,6 +1312,27 @@
                     {
                       "kind": "wait",
                       "ms": 40
+                    },
+                    {
+                      "kind": "takeEntity",
+                      "target": {
+                        "scene": "s003",
+                        "entity": "e59"
+                      }
+                    },
+                    {
+                      "kind": "takeEntity",
+                      "target": {
+                        "scene": "s003",
+                        "entity": "e60"
+                      }
+                    },
+                    {
+                      "kind": "takeEntity",
+                      "target": {
+                        "scene": "s003",
+                        "entity": "e61"
+                      }
                     },
                     {
                       "cue": {
@@ -1284,6 +1347,27 @@
                         }
                       },
                       "kind": "dialog"
+                    },
+                    {
+                      "kind": "releaseEntity",
+                      "target": {
+                        "scene": "s003",
+                        "entity": "e59"
+                      }
+                    },
+                    {
+                      "kind": "releaseEntity",
+                      "target": {
+                        "scene": "s003",
+                        "entity": "e60"
+                      }
+                    },
+                    {
+                      "kind": "releaseEntity",
+                      "target": {
+                        "scene": "s003",
+                        "entity": "e61"
+                      }
                     }
                   ],
                   "next": "legacy-002"
