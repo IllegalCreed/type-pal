@@ -1,0 +1,34 @@
+
+ RUN  v4.1.7 /Users/zhangxu/.codex/worktrees/glm-wave-q/type-pal/packages/reforge
+
+ ✓ src/__defect-probe.glm-q.test.ts (1 test) 287ms
+⎯⎯⎯⎯⎯⎯ Unhandled Errors ⎯⎯⎯⎯⎯⎯
+
+Vitest caught 1 unhandled error during the test run.
+This might cause false positive tests. Resolve unhandled errors to make sure your tests are not affected.
+
+⎯⎯⎯⎯ Unhandled Rejection ⎯⎯⎯⎯⎯
+Error: host requires PNG
+ ❯ src/__tests__/runtime-shell/dom-host.ts:122:13
+    120|     const bytes = new Uint8Array(await blob.arrayBuffer())
+    121|     if (bytes[0] !== 137 || bytes[1] !== 80 || bytes[2] !== 78 || byte…
+    122|       throw new Error('host requires PNG')
+       |             ^
+    123|     const view = new DataView(bytes.buffer, bytes.byteOffset, bytes.by…
+    124|     const bitmap = { width: view.getUint32(16), height: view.getUint32…
+ ❯ processTicksAndRejections node:internal/process/task_queues:103:5
+ ❯ enterLoad src/opening-menu.ts:118:40
+
+This error originated in "src/__defect-probe.glm-q.test.ts" test file. It doesn't mean the error was thrown inside the file itself, but while it was running.
+The latest test that might've caused the error is "D-Q01-1 corrupt thumb causes unhandled rejection in enterLoad". It might mean one of the following:
+- The error was thrown, while Vitest was running this test.
+- If the error occurred after the test had been completed, this was the last documented test before it was thrown.
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯
+
+
+ Test Files  1 passed (1)
+      Tests  1 passed (1)
+     Errors  1 error
+   Start at  00:23:26
+   Duration  1.36s (transform 467ms, setup 0ms, import 457ms, tests 287ms, environment 525ms)
+
