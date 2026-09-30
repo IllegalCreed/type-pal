@@ -5,7 +5,24 @@ Coding Owner: GLM N。分支 `codex/glm-wave-n-reforge-host-r1`，独立工作�
 r1 `61dc0de1`、r2 `7bcd0fcd` 先后被 Codex counter（审核段见任务卡）；本文件描述 **r3 返工候选**。
 不合 main、不标 done，待 Codex 复核与正式覆盖结算。
 
-## r3 相对 r2 的改动（对应二审四项）
+## r4 相对 r3 的改动（对应三审三项）
+
+1. **canvas-host 弃 Partial 伪装**：`installGlmNCanvasHost` 现返回**真实 jsdom 2D 上下文**——
+   `PRISTINE_GET_CONTEXT` 在模块求值期捕获 jsdom 原生 getContext（先于任何测试内 spy，
+   不受 dom-host 接管影响），`getContext` mock 内调原实现取真 ctx，仅以 typed spy 控制
+   外部 IO（getImageData 按测试值合成、drawImage 拦截假位图）；删除
+   `as HTMLCanvasElement['getContext']` 函数强转与 Partial/`Fake2dContext` 伪装。
+   函数体内仅剩 RenderingContext 联合按实参 `'2d'` 收窄到成员的单次断言（非 unknown 跳板）。
+2. **mono 调制臂改回合法断言**：battle-ui 的 drawImage 宿主 spy 把源位图按不透明白像素
+   写入真画布（getImageData→填白→putImageData 真写），mono 调制按白底 luma=1 真实执行；
+   断言恢复真实调制色：中毒 `[200,100,50,255]`、可用灰带 `ICON_GRAY[11]=186`、
+   不可用暗红带 `ICON_RED[11]=[203,89,77,255]`（readBack 从真画布 getImageData 读回）。
+   三审指出的“宿主限制误记产品 unreachable”已改正；该臂并入覆盖账（battle-ui +12）。
+3. **数量/覆盖账统一**：本文件主体统一为 **11 个测试文件 + 2 个专属 fixture、53 用例、
+   隔离 1528→1623/3001（+95）、battle-ui +12**；r2 的 +96 为历史记录，
+   15 色短色板轴已被三审否决（非现行合法输入），不再计作覆盖。
+
+## r3 相对 r2 的改动（二审四项，历史记录）
 
 1. **三处 `as unknown as CanvasRenderingContext2D` 清零**（menu-box/battle-ui/canvas-host）：
    探针证实本仓 jsdom 29 + canvas 3.2.3 提供**真实 2D 上下文**（fillRect/getImageData 真执行）。
@@ -14,7 +31,7 @@ r1 `61dc0de1`、r2 `7bcd0fcd` 先后被 Codex counter（审核段见任务卡）
    （save/clip/fillRect/putImageData/getImageData）保持真实行为；`canvas-host.ts` 的替身
    改为显式 `Partial<CanvasRenderingContext2D>` 标注 + 单次收窄（无 unknown 跳板）。
    mono 调制色值断言依赖真实位图解码（现宿主画布为透明底、调制循环对 alpha=0 逐像素跳过），
-   无法合法观测 → 登记 unreachable，改断言调制写回的 ImageData 尺寸与单色化画布身份/缓存。
+   （r3 曾把调制色值断言改为“宿主限制 unreachable”，r4 经 Codex 探针路线改回合法断言，见顶部。）
 2. **删除 15 色非法 Palette 轴**：现行 loader 强制 256 色（`resources.ts:31-33`、
    `assets.ts:67`），短色板不是合法作者输入；状态字正常臂（256 全色）保留，
    固定索引缺色防御臂登记 unreachable。
@@ -46,7 +63,7 @@ r1 `61dc0de1`、r2 `7bcd0fcd` 先后被 Codex counter（审核段见任务卡）
    （脚本硬断言）。相位切换用 canvas 像素差分证明（menu→load 0.730、load→menu 0.730、
    菜单内移动 0.018），截图 3 张 SHA256 入账。
 
-## 新增测试（13 文件 / 53 用例，全绿）
+## 新增测试（11 个测试文件 + 2 个专属 fixture / 53 用例，全绿）
 
 | 组 | 文件 | 用例 | 新合同（排重后未覆盖的公开入口臂） |
 |---|---|---|---|
@@ -81,10 +98,11 @@ r1 `61dc0de1`、r2 `7bcd0fcd` 先后被 Codex counter（审核段见任务卡）
 
 ## 覆盖对照（隔离，不更新官方 ratchet）
 
-见 `coverage-delta.json`：11 源合计 **1528/3001 → 1624/3001（+96 臂）**。
-video-player 0→15/18、main +26、project-map +11、midi-preview +10、battle-ui +13、
+见 `coverage-delta.json`：11 源合计 **1528/3001 → 1623/3001（+95 臂）**。
+video-player 0→15/18、main +26、project-map +11、midi-preview +10、battle-ui +12、
 launch-prep +7、trial-assets +5、battle-anim +5、bgm +1、menu-box +3、sfx-readiness ±0。
-r1 曾报 +116；r2 去强转放弃非法 fixture 用例后如实降为 +96（放弃臂的合法部分多为既有证明）。
+历史：r1 曾报 +116；r2 去强转放弃非法 fixture 用例后报 +96；r3 删除被三审否决的
+15 色非法短色板轴（非现行合法输入，不计覆盖）后报 +94；r4 恢复 mono 合法像素断言后为 +95，为本候选最终账。
 
 ## 业务反控（4 枚，r3 最终代码重采：原始正反控输出/执行数/AssertionError 原文/三态 SHA256 见 `counter-controls.json`）
 

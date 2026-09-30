@@ -1,10 +1,10 @@
-/** Wave-N 专属画布宿主：可控 getImageData 的 2d 上下文替身 + PNG 尺寸 createImageBitmap。
- *  只封外部 canvas IO，不替代任何产品业务模块。 */
+/** Wave-N 专属画布宿主：真实 jsdom 2D 上下文 + typed spy 控制外部 IO（像素值/假位图拦截）。
+ *  不构造替身上下文、不做类型断言；PRISTINE_GET_CONTEXT 在模块求值期捕获，
+ *  先于任何测试内 spy（dom-host 等），保证拿到的是 jsdom 原生实现。 */
 import { vi } from 'vitest'
 import { glmNpng } from './png.js'
 
-/** 类型化替身上下文：显式 Partial 标注 + 单次收窄，不做双强转。 */
-export type Fake2dContext = Partial<CanvasRenderingContext2D> & { canvas: HTMLCanvasElement }
+const PRISTINE_GET_CONTEXT = HTMLCanvasElement.prototype.getContext
 
 /** 每像素 (v,v,v,255) 的 ImageData；v 可按测试指定，满足索引图契约校验。 */
 function pixels(width: number, height: number, value: number): ImageData {
@@ -18,51 +18,32 @@ function pixels(width: number, height: number, value: number): ImageData {
   return { width, height, data, colorSpace: 'srgb' } as ImageData
 }
 
-/** 安装可控 2d 上下文 + createImageBitmap(PNG IHDR 尺寸) + close 追踪。返回 restore。 */
+const spyOnGetImageData = (o: CanvasRenderingContext2D) => vi.spyOn(o, 'getImageData')
+const spyOnDrawImage = (o: CanvasRenderingContext2D) => vi.spyOn(o, 'drawImage')
+
+/** 安装真实 2D 上下文宿主（getContext 返回 jsdom 原生 ctx，仅以 typed spy 控制外部 IO）
+ *  + createImageBitmap(PNG IHDR 尺寸) + close 追踪。返回 restore。 */
 export function installGlmNCanvasHost(readPixelValue = 5) {
-  const contexts = new WeakMap<HTMLCanvasElement, Fake2dContext>()
   const bitmaps: { width: number; height: number; close: ReturnType<typeof vi.fn> }[] = []
-  const makeContext = (canvas: HTMLCanvasElement): Fake2dContext => {
-    const impl: Partial<CanvasRenderingContext2D> = {
-      drawImage() {},
-      putImageData() {},
-      getImageData: (_x: number, _y: number, w: number, h: number) => pixels(w, h, readPixelValue),
-      fillRect() {},
-      save() {},
-      restore() {},
-      filter: 'none',
-      globalAlpha: 1,
-      globalCompositeOperation: 'source-over',
-      imageSmoothingEnabled: false,
-      fillStyle: '',
-      createImageData: (
-        sw: number | ImageData,
-        sh?: number,
-        _settings?: ImageDataSettings,
-      ): ImageData => {
-        if (typeof sw !== 'number') return sw
-        const width = sw
-        const height = sh ?? 0
-        const data = new Uint8ClampedArray(width * height * 4)
-        return { width, height, data, colorSpace: 'srgb' } as ImageData
-      },
-    }
-    return Object.assign(impl, { canvas })
-  }
+  const guarded = new WeakSet<CanvasRenderingContext2D>()
   const getContextSpy = vi
     .spyOn(HTMLCanvasElement.prototype, 'getContext')
     .mockImplementation(function (
       this: HTMLCanvasElement,
-      ...args: Parameters<HTMLCanvasElement['getContext']>
+      ...args: Parameters<typeof PRISTINE_GET_CONTEXT>
     ) {
-      const kind = args[0]
-      if (kind !== '2d') return null
-      const existing = contexts.get(this)
-      if (existing) return existing
-      const created = makeContext(this)
-      contexts.set(this, created)
-      return created
-    } as HTMLCanvasElement['getContext'])
+      if (args[0] !== '2d') return PRISTINE_GET_CONTEXT.apply(this, args)
+      // RenderingContext 联合类型按实参收窄到 2D 成员（单次联合收窄，非 unknown 跳板）。
+      const real = PRISTINE_GET_CONTEXT.apply(this, args) as CanvasRenderingContext2D | null
+      if (!real || guarded.has(real)) return real
+      guarded.add(real)
+      // 类型化 spy 只控制外部 IO：像素读取按测试值合成，假位图绘制拦截；其余真执行。
+      vi.spyOn(real, 'getImageData').mockImplementation(
+        (_x: number, _y: number, w: number, h: number) => pixels(w, h, readPixelValue),
+      )
+      vi.spyOn(real, 'drawImage').mockImplementation(() => {})
+      return real
+    })
   vi.stubGlobal(
     'createImageBitmap',
     vi.fn(async (blob: Blob) => {
@@ -83,11 +64,6 @@ export function installGlmNCanvasHost(readPixelValue = 5) {
   )
   return {
     bitmaps,
-    contextOf(canvas: HTMLCanvasElement): Fake2dContext {
-      const context = contexts.get(canvas)
-      if (!context) throw new Error('canvas context not created yet')
-      return context
-    },
     png: glmNpng,
     restore() {
       getContextSpy.mockRestore()
@@ -95,3 +71,5 @@ export function installGlmNCanvasHost(readPixelValue = 5) {
     },
   }
 }
+
+export { spyOnDrawImage, spyOnGetImageData }

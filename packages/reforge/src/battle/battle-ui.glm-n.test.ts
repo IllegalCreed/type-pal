@@ -85,6 +85,18 @@ vi.mock('../text/text-render.js', async (importOriginal) => {
 
 /** jsdom 真实 2D 原型（全局绑定未导出构造器，经实例取原型；原型对象即接口形态）。 */
 let proto2d: CanvasRenderingContext2D
+/** CanvasImageSource 各成员的像素尺寸（in 收窄 + typeof 守卫，无类型断言）。 */
+function pixelSource(image: CanvasImageSource): { width: number; height: number } | undefined {
+  if ('videoWidth' in image) return { width: image.videoWidth, height: image.videoHeight }
+  if ('naturalWidth' in image) return { width: image.naturalWidth, height: image.naturalHeight }
+  if ('width' in image && 'height' in image) {
+    const width = image.width
+    const height = image.height
+    if (typeof width === 'number' && typeof height === 'number') return { width, height }
+  }
+  return undefined
+}
+
 const spyOnDrawImage = (o: CanvasRenderingContext2D) => vi.spyOn(o, 'drawImage')
 const spyOnPutImageData = (o: CanvasRenderingContext2D) => vi.spyOn(o, 'putImageData')
 /** 画布类实参守卫：jsdom+canvas 集成下 mono 表面可能是底层 Canvas（非 DOM 包装），
@@ -105,7 +117,37 @@ let putImageDataSpy: ReturnType<typeof vi.spyOn>
 beforeEach(() => {
   // 类型化外部宿主边界：jsdom 真实 2D 上下文，只在原型层拦截绘制并记录写回。
   proto2d = Object.getPrototypeOf(document.createElement('canvas').getContext('2d')!)
-  drawImageSpy = spyOnDrawImage(proto2d).mockImplementation(() => {})
+  // 类型化宿主边界：拦截绘制并把源位图按不透明白像素写入目标画布
+  // （模拟真实位图源），使 mono 调制在真画布上按白底 luma=1 真实执行。
+  drawImageSpy = spyOnDrawImage(proto2d).mockImplementation(function (
+    this: CanvasRenderingContext2D,
+    source: CanvasImageSource,
+    firstOffsetX?: number,
+    firstOffsetY?: number,
+    _sx?: number,
+    _sy?: number,
+    _sw?: number,
+    _sh?: number,
+    lastOffsetX?: number,
+    lastOffsetY?: number,
+  ) {
+    // 兼容 drawImage(image, dx, dy) 与 9 参裁剪形态：dx/dy 取对应槽位。
+    const nineArg = lastOffsetX !== undefined || lastOffsetY !== undefined
+    const size = pixelSource(source)
+    const width = size?.width ?? 0
+    const height = size?.height ?? 0
+    if (width <= 0 || height <= 0) return
+    const x = (nineArg ? lastOffsetX : firstOffsetX) ?? 0
+    const y = (nineArg ? lastOffsetY : firstOffsetY) ?? 0
+    const region = this.getImageData(x, y, width, height)
+    for (let i = 0; i < region.data.length; i += 4) {
+      region.data[i] = 255
+      region.data[i + 1] = 255
+      region.data[i + 2] = 255
+      region.data[i + 3] = 255
+    }
+    this.putImageData(region, x, y)
+  })
   putImageDataSpy = spyOnPutImageData(proto2d)
 })
 afterEach(() => {
@@ -190,9 +232,8 @@ describe('N04 信息框头像形态与状态字调色门', () => {
     if (!first) throw new Error('mono canvas not drawn')
     expect(first.width).toBe(8)
     expect(first.height).toBe(8)
-    // 调制结果按画布尺寸写回一次。
-    const written = putImageDataSpy.mock.calls.map((call: unknown[]) => call[0] as ImageData)
-    expect(written.some((img: ImageData) => img.width === 8 && img.height === 8)).toBe(true)
+    // 白底（luma 1）× 毒色 → 单色化调制在真画布上产出毒色（PAL_RLEBlitMonoColor RGBA 近似）。
+    expect(readBack(first)).toEqual([200, 100, 50, 255])
     // 同 roleId+rgb 再绘 → 命中缓存返回同一画布；换色 → 新画布。
     drawPlayerInfoBox(host.ctx, host.menu, face, poisoned, 1, host.glyphs, palette())
     expect(canvasArgs()[1]).toBe(first)
@@ -336,6 +377,9 @@ describe('N04 主图标单色化缓存与缺位跳过', () => {
     const grayBand = drawn[0]
     const redBand = drawn[1]
     expect(grayBand).not.toBe(redBand) // 灰带 / 暗红带各自成画布
+    // luma 255 → lv 15-4 = 11：可用灰带 ICON_GRAY[11]=186，不可用暗红带 ICON_RED[11]。
+    expect(readBack(grayBand)).toEqual([186, 186, 186, 255])
+    expect(readBack(redBand)).toEqual([203, 89, 77, 255])
     // 同 bitmap 再绘 → 缓存画布身份一致；highlight 选中 = 原位图直绘。
     drawImageSpy.mockClear()
     drawMainIcons(
@@ -357,4 +401,12 @@ function palette(): Palette {
   colors[0x0e] = [7, 8, 9]
   colors[0x3c] = [10, 11, 12]
   return { colors, cycles: [] }
+}
+
+/** 从真 mono 画布读回首像素（宿主 putImageData 真写、getImageData 真读）。 */
+function readBack(canvas: HTMLCanvasElement | undefined): number[] {
+  if (!canvas) throw new Error('mono canvas missing')
+  const context = canvas.getContext('2d')
+  if (!context) throw new Error('mono canvas 2d context missing')
+  return Array.from(context.getImageData(0, 0, 1, 1).data.slice(0, 4))
 }
