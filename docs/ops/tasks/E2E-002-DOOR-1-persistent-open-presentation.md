@@ -1,23 +1,26 @@
 # E2E-002-DOOR-1 — 开门呈现的持久语义
 
-Status: draft
+Status: build
 Phase: phase2
 Capability: E2E-R4 / 002 / X1
-Coding Owner: Unassigned
+Coding Owner: Codex Root
 Generation Owner: N/A
 Reviewer: Codex（独立验收）
 Visual Verification Owner: Codex
 Visual Verification Timing: e2e-deferred
-Contributor: TBD
-Branch: TBD
+Contributor: e2e_002_runner（只读独立前提/压力审）
+Branch: codex/e2e-002-r1
 
 ## 目标与范围
 
 登记正式002恢复暴露的独立缺陷：三苗人进房后已打开的e73/e74门，正式读档后变成关闭帧。
 修复应让持久门状态导出同一呈现意图，而不是把演出期间所有瞬态定帧自动持久化。
-本卡仅登记证据与后续准入要求，尚未批准产品实现或schema/save变更。
+沿用现有Page选择持久化与SpriteActionBinding，不修改schema、SAVE9或通用瞬态定帧语义。
 
-- 范围待核：s003门的页面/状态/动作表达与其全部调用方，必要的窄runtime呈现绑定。
+- 唯一实现Owner为Root。产品白名单：`projects/pal/content/scenes/s003.json`的两门页面及三处开门链、
+  `projects/pal/content/sprites.json`的sprite53/54动作；回归白名单为`packages/reforge/src/pal-inn-door-save.test.ts`。
+- 工具白名单：`scripts/e2e/inn-trace-plugin.mjs`及`inn-contract.test.mjs`窄只读门动作观测、
+  `inn-contract.mjs`补实际动作来源hash；不改成功条件、像素区域、恢复采样时刻或生产调度。
 - 不恢复转换器、不重生成作者正文、不改一阶段、资产字节、NPC速度/路线或剧情奖励。
 - 不过滤门区域、放宽Canvas hash/等待阈值，不把原档或candidate当实际恢复观测。
 - 6012保持运行；不重跑同一失败视觉流程，先以现有证据与单测核修复层。
@@ -31,10 +34,10 @@ Branch: TBD
 
 | 维度 | 真值 / 边界 | 直接证据 |
 |---|---|---|
-| 原版 / primary source | 原版字节码不决定现代frame Map是否持久；本卡不据低层frame命令直接新增保存字段 | 当前实际作者开门链`s003.json:7806–7853`与正式002字节/trace为直接缺陷来源；原版调用域在实现准入前另核 |
-| 第一阶段 | 已有正式002保存/新上下文恢复passed，具体门帧映射不能由这一标签单独推断 | 隔离证据`build/e2e/game-002-2026-09-30T09-06-32-906Z/report.json`；build前须直接核其门状态/帧来源，不重复跑剧情 |
+| 原版 / primary source | L411先到门前、调L3739开门再进房隐藏；L3739对一基74/75调用L35644：state1＋gesture1 | `data/extracted/events/all.json:2911/2942/24051/233518`；`game/event-system.ts:4435`一基转零基73/74、`:4018`gesture置frame1/down；不由低层opcode推导现代通用保存字段 |
+| 第一阶段 | 两门state1/scriptedFrame1/nSpriteFrames0真实入档；恢复后实际Canvas与结束帧同SHA `b66199d84496f4dc82a15478dd4e4c0be736dfd68303dd44b3ff7d1cebf6a194` | 正式`build/e2e/game-002-2026-09-30T09-06-32-906Z/{002.end.save.json,report.json}`；`game/core/save/api.ts:56–73`deepClone、`shell/bootstrap.ts:1642/845`恢复全gs再切片、`game-state.ts:2068`仅补undefined帧 |
 | 当前二阶段 | end e73/e74 state1/visible/frame1；restore相同state/pos/sprite但frame0；frame仅在呈现Map，abortScript清除 | 正式`build/e2e/reforge-002-2026-09-30T15-29-25-294Z/{inn-trace.json,002-restored-trace.json,report.json}`；`main.ts:2200/4287/4683`；`world-scene-presentation.ts:72/88/104/120–151` |
-| 本任务目标 | 已核持久开门意图在新上下文恢复后生成相同门画面；临时演出定帧仍不默认入SAVE | 当前SAVE9全量提交点严格相等；现行entity page animation/sprite action合同为候选，修复层尚未准入 |
+| 本任务目标 | 已核持久开门意图在新上下文恢复后生成相同门画面；临时演出定帧仍不默认入SAVE | `script-world.ts:331–341`page写World且保留同有效行为cursor；`main.ts:2794–2814`重建页base动作；`entity-action-player.ts:315–318/365`完成后仍留末帧；SAVE9不变 |
 
 ### 反证与替代解释
 
@@ -65,7 +68,16 @@ Branch: TBD
   `projects/pal/content/sprites.json` sprite53/54为static、尚无open pose。
 - `s003.json:11346/11435`两门当前default页，交互正文重复设置state/facing/frame；
   `:7822/7846`三人进房链设置frame1。需核全部跨场景引用、关门路径与state1/2含义。
-- 优先评估现有page/action能否声明持久closed/open意图；这是候选，不是批准实施方案。
+- 全content JSON结构遍历含任意EntityAddress：共18条两门引用，只有e60.auto.legacy-003与
+  两门default.trigger三处；均state1→facing down→frame1，无跨场景引用或真实关门路径。
+- 保留default页ID/initialPage（默认关闭）；增加open页，同default trigger和interact/range1、无auto；
+  sprite53/54各增加单帧frame1、100ms、无cue、nonloop的open动作；base完成后停留末帧。
+- 仅在原六个frame1命令位置改selectEntityPage(use open)，不提前到state1，不改其它演出命令。
+  state0/1/2的隐藏/可见不挡/可见挡语义与动画正交；不从state1推断open。
+- 作者sprites由窄供应保留（`pal-world-sprite-semantic-alias.ts:207`返回currentSprites），两门不是role alias；
+  因此本次直接维护作者数据，不改退役转换核或重生成资产。
+- 工具旧frame字段只读瞬态Map，不包含page action。新增只读fallback至entityActions.frame并保留
+  override优先；门为static且无gait/explicitAnimation。Canvas仍是实际呈现最终证据，不能拿trace替代像素。
 - completion改动未修改setEntityFrame/呈现Map/abort清除路径，两门触发flow不是443fold目标；
   不把本缺陷回填成completed cursor失败，也不借修门改SAVE安全点。
 
@@ -85,8 +97,29 @@ Branch: TBD
 - 来源冻结9d15218b；实际结束Canvas SHA
   `90e49d7cc22b1a454d250a54ca7447fde8cefc3452c239e2b5320bcd72612400`，恢复末帧SHA
   `001bf25a53146cd9d53045d555de19ad98839a08c96bdf87825b6b992c13179c`。
-- 独立审查、第一阶段具体门映射、修复层/设计/唯一Owner尚未核定；无build allowed，不得开始实现。
+- 2026-10-01 e2e_002_runner（非Coding Owner，只读）：独立读取原始L411/L3739/L35644、第一阶段真档与
+  恢复调用域、全部18条引用、page选择与base动作完成留帧，签`premise verified / design agree`。
+  最强反控：open页漏trigger/改complete导致再次交互消失和lease失效；提前选择/漏frame叶/动作增帧或cue
+  改时序或画面。独立指出旧trace只看frame Map，不能作为页动作呈现证据；未改文件/未重跑浏览器。
+- 2026-10-01 Root：直接读上述原始链、第一阶段真档73/74与报告两Canvas、Save/load/静态补帧代码，
+  全作者调用域与现有page/播放器/实际渲染优先级，核`premise verified / design agree`。
+  `build allowed`：现有模型作者修复＋窄只读取证；Root唯一写入Owner。先红绿主壳回归，冻结后正式002。
 
 ## 下一位Agent提示词
 
-无下一位Agent提示词。后续由Codex先核定修复层与准入；当前仅draft登记，不自动授权任何贡献者写产品。
+无下一位Agent提示词。只读前提审查已交付，Root继续质量门与冻结后的正式002验收；不需要用户转发。
+
+## 实现与开发期验证
+
+- Root逐一替换六个原frame叶，并只新增两门open页及sprite53/54单帧动作；schema/runtime/save代码无改动。
+- 红例`build/e2e/door-20261001/regression-red-v2.log`：未开门1项绿；e73/e74/e60三个实际作者
+  开门正文经真实主壳F5/F9均实际render输入frame1→0失败，作者合同项失败（4红/1绿）。
+  早先harness调试红例另保留，不冒充产品反控。
+- 绿例`regression-green-v2.log`：门7项＋邻接46项共53通过；实际frame选择spy不替换实现，
+  legal小地图仅适配几何/scene地址，e60只抽其完整六条开门段（全离场链另由正式002验）。
+  验未开/开/隐藏/回default、两门再次交互、完整script树恢复、一次性setup奖励不重放、
+  普通临时定帧仍清除；hidden/closed回归是现有模型测试，不新增作者关门剧情。
+- 工具反控`observer-red.log`原Map-only对page base1报0失败；修后`observer-green.log`26项绿，
+  override0仍优先于base1。补sprites/实际帧选择/动作播放器hash，Canvas/全World断言未松动。
+- `lint.log`2704文件0 error/warning/info、`typecheck.log`零诊断；`author-check.log`当前pal
+  294场景/223地图/1934资源闭包通过。完整质量门、正式002和独立代码复核仍待执行，不提前done。

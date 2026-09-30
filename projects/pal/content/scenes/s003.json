@@ -7819,8 +7819,11 @@
                       }
                     },
                     {
-                      "frame": 1,
-                      "kind": "setEntityFrame",
+                      "kind": "selectEntityPage",
+                      "selection": {
+                        "kind": "use",
+                        "value": "open"
+                      },
                       "target": {
                         "scene": "s003",
                         "entity": "e73"
@@ -7843,8 +7846,11 @@
                       }
                     },
                     {
-                      "frame": 1,
-                      "kind": "setEntityFrame",
+                      "kind": "selectEntityPage",
+                      "selection": {
+                        "kind": "use",
+                        "value": "open"
+                      },
                       "target": {
                         "scene": "s003",
                         "entity": "e74"
@@ -11360,6 +11366,20 @@
             "on": "interact",
             "range": 1
           }
+        },
+        {
+          "id": "open",
+          "label": "已打开",
+          "trigger": "default",
+          "triggerActivation": {
+            "on": "interact",
+            "range": 1
+          },
+          "animation": {
+            "sprite": "sprite-54",
+            "action": "open",
+            "loop": false
+          }
         }
       ],
       "initialPage": "default",
@@ -11392,8 +11412,11 @@
                       }
                     },
                     {
-                      "frame": 1,
-                      "kind": "setEntityFrame",
+                      "kind": "selectEntityPage",
+                      "selection": {
+                        "kind": "use",
+                        "value": "open"
+                      },
                       "target": {
                         "scene": "s003",
                         "entity": "e73"
@@ -11416,8 +11439,11 @@
                       }
                     },
                     {
-                      "frame": 1,
-                      "kind": "setEntityFrame",
+                      "kind": "selectEntityPage",
+                      "selection": {
+                        "kind": "use",
+                        "value": "open"
+                      },
                       "target": {
                         "scene": "s003",
                         "entity": "e74"
@@ -11449,6 +11475,20 @@
             "on": "interact",
             "range": 1
           }
+        },
+        {
+          "id": "open",
+          "label": "已打开",
+          "trigger": "default",
+          "triggerActivation": {
+            "on": "interact",
+            "range": 1
+          },
+          "animation": {
+            "sprite": "sprite-53",
+            "action": "open",
+            "loop": false
+          }
         }
       ],
       "initialPage": "default",
@@ -11481,8 +11521,11 @@
                       }
                     },
                     {
-                      "frame": 1,
-                      "kind": "setEntityFrame",
+                      "kind": "selectEntityPage",
+                      "selection": {
+                        "kind": "use",
+                        "value": "open"
+                      },
                       "target": {
                         "scene": "s003",
                         "entity": "e73"
@@ -11505,8 +11548,11 @@
                       }
                     },
                     {
-                      "frame": 1,
-                      "kind": "setEntityFrame",
+                      "kind": "selectEntityPage",
+                      "selection": {
+                        "kind": "use",
+                        "value": "open"
+                      },
                       "target": {
                         "scene": "s003",
                         "entity": "e74"

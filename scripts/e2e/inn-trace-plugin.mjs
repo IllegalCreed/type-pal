@@ -86,7 +86,7 @@ export function instrumentInnTrace(code, file) {
           const e=activeScene.scene.entities.find(e=>e.id===id); if(!e)throw new Error('missing inn actor '+id);
           actors[id]={position:[e.pos.col,e.pos.row,e.pos.height],facing:e.facing??'down',visible:!e.hidden};
           if (['e54','e55','e73','e74'].includes(id)) Object.assign(actors[id],{
-            state:host.getEntityState(id),frame:worldPresentation.entityFrame(id)??0,sprite:Number(e.sprite.slice(7))
+            state:host.getEntityState(id),frame:worldPresentation.entityFrame(id)??entityActions.frame(id)??0,sprite:Number(e.sprite.slice(7))
           });
         }
         globalThis.__innPoint?.(source,{scene:activeScene.scene.id,actors,money:world.money,

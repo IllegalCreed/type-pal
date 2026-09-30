@@ -276,6 +276,49 @@ function actualFunction(code, name) {
   })
 }
 
+test('inn door observation reads persistent page base frames without hiding transient override priority', () => {
+  const file = 'packages/reforge/src/main.ts',
+    raw = readFileSync(new URL(`../../${file}`, import.meta.url), 'utf8'),
+    transformed = instrumentInnTrace(raw, file).code,
+    entities = ['e54', 'e55', 'e56', 'e59', 'e60', 'e61', 'e73', 'e74'].map((id) => ({
+      id,
+      pos: { col: 133, row: 44, height: 0 },
+      facing: 'down',
+      sprite: 'sprite-54',
+    })),
+    activeScene = { scene: { id: 's003', entities } },
+    before = structuredClone(activeScene)
+  for (const [override, action, expected] of [
+    [undefined, 1, 1],
+    [0, 1, 0],
+    [1, undefined, 1],
+    [undefined, undefined, 0],
+  ]) {
+    const samples = [],
+      scope = {
+        globalThis: { __innPoint: (source, value) => samples.push({ source, value }) },
+        activeScene,
+        player: { pos: { col: 126, row: 45, height: 0 } },
+        facing: 'down',
+        host: { getEntityState: () => 1 },
+        worldPresentation: { entityFrame: () => override },
+        entityActions: { frame: () => action },
+        world: { money: 500, script: {} },
+        runner: null,
+        dialogBox: { active: false },
+        presentation: { busy: () => false },
+      },
+      point = new Function(
+        ...Object.keys(scope),
+        `${actualFunction(transformed, '__openingPoint')}\nreturn __openingPoint;`,
+      )(...Object.values(scope))
+    point('actual door projection')
+    assert.equal(samples.length, 1)
+    for (const id of ['e73', 'e74']) assert.equal(samples[0].value.actors[id].frame, expected)
+    assert.deepEqual(activeScene, before)
+  }
+})
+
 test('actual transformed restore reads committed World before real auto call, not its input or late state', async () => {
   const file = 'packages/reforge/src/main.ts',
     raw = readFileSync(new URL(`../../${file}`, import.meta.url), 'utf8'),

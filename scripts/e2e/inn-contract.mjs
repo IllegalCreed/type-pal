@@ -161,6 +161,9 @@ export async function readInnContract(root = repoRoot) {
     'packages/reforge/src/entity-lifecycle.ts',
     'projects/pal/content/actors.json',
     'packages/content/src/author-dialogue.ts',
+    'projects/pal/content/sprites.json',
+    'packages/reforge/src/world-scene-presentation.ts',
+    'packages/reforge/src/entity-action-player.ts',
   ]
   const bytes = await Promise.all(files.map((f) => readFile(resolve(root, f))))
   const hashes = Object.fromEntries(files.map((f, i) => [f, sha256(bytes[i])]))
