@@ -15,6 +15,103 @@ Visual Verification Timing: e2e-consolidated（001独立执行器首批）
 按既定消失/控制权边界收段并核实际500文奖励；不造档、不跳场景、不重问已定范围。
 母卡仍build，后续片段与capture/录像音轨独立继续，不能把001通过说成全局Q1/Q2通过。
 
+## 脚本合理化要求（用户，2026-09-30）
+
+用户要求后续E2E增加脚本合理化任务：逐段判断剧情脚本的编排是否合理、是否需要改进、
+以及如何以更清晰、更现代的内容表达实现目标观感。Codex负责结合源码与实际演出给出判断，
+从002开始与流程验证一并交付。001既有verify收口保留，不追溯冒称已经完成本次新增审查。
+
+每段重点检查：动作与对白的先后/并行关系；移动目标与速度的表达；等待究竟服务演出节拍还是
+猜测异步动作完成；NPC自动行为与剧情接管的所有权；场景退出/取消后的收尾；阶段切换、奖励
+与控制权恢复；重复步骤、隐式全局依赖和迁移遗留低层指令是否有必要。优先使用已有明确命令，
+按动作完成条件衔接后续步骤；有观感依据的停顿保留并写明理由，不机械删wait或把速度改成时长。
+
+已核例子：`packages/content/src/author-script-core.ts:188`的moveEntity使用target/to/speed；
+`projects/pal/content/scenes/s001.json:7288`起李大娘按目标坐标、normal速度分段移动，另有wait与对白。
+当前不是“坐标+指定移动时间”。新编排应表达“走到哪里、何时说话、何时转身/离场”的演出意图，
+不以改参数名字、增加指令或复制原版逐帧机制作为现代化判据。上下文按
+[READ-FIRST](../../phase2/READ-FIRST.md)铁律4/6/8/9/10及相关一阶段知识核定。
+
+每段回执须有“脚本编排审查”：源码/实际事件证据 → 问题或保留理由 → 建议表达与收益 →
+保留 / 本段改进 / 后续能力建设 / 待产品裁决，并列出验证结果和未完成项。
+保持既定剧情与观感的局部编排改进可在核前提、单Owner和白名单后落实；触及schema/公共接口、
+移动语义或主动改变节拍/剧情目标时开对应任务，产品取舍给出before→after和代表场景。
+PAL生成内容的修复落到已定位的迁移器/overlay真源，再重生成、核白名单和双跑幂等；
+验证改进后的实际演出与真实检查点接续，测试不得为了迁就错误编排放宽预期。
+语义与时序断言用于证明剧情目标，不要求两引擎内部坐标、步数或指令数相等。
+
+## 脚本系统调研（Codex，2026-09-30）
+
+用户要求深入调研当前脚本系统。本轮只读核作者模型、编辑器、迁移发布、编译执行、生产宿主、
+所有权与保存链，并以一阶段和001作对照；未修改产品脚本、schema、运行时或迁移实现，未实跑002。
+下述是源码与契约测试结论，不是所有场景的合理性审计或新的剧情视觉验收。
+
+### 当前链路与关键语义
+
+- 作者内容：实体Page选择具名trigger/auto行为，场景选择具名onEnter/onTeleport钩子；跨处复用
+  走共享库`callScript`和显式`self`契约，物品私有正文归物品。实体地址为`{scene, entity}`，
+  stage/state/behavior/hook均有稳定身份。当前作者命令取自current runtime方言，不应把内部Base
+  类型中的旧命令当作产品仍接受的语法。锚点：`packages/content/src/author-script.ts:37`、
+  `packages/content/src/runtime-script.ts:1`及[现行合同](../../phase2/specs/script-system.md)。
+- 编辑：通用正文/flow组件经`ScriptEditSession`维护canonical内容、引用校验、undo/redo/save；
+  场景投影不是作者真源。锚点：`packages/editor/src/core/script-editor.ts:1299`、
+  `packages/editor/src/ui/ScriptEditor.tsx:3105/3812`、`packages/editor/src/core/script-editor-projection.ts`。
+- 执行：作者对白身份解析成runtime命令；编译器生成只读、带content digest的内存Executable，
+  runner递归顺序await正文、分支与共享调用。`callScript`不是并行派发；目前无通用parallel/join
+  作者结构。锚点：`packages/content/src/author-script.ts:57`、`packages/reforge/src/runtime-script-compiler.ts`、
+  `packages/reforge/src/script-runner-core.ts:300/325`。
+- 阶段：stages每次激活只执行当前stage，`next`写下次激活cursor；没有next会再次执行本stage。
+  stateMachine的continue在同次激活继续且不提交安全点，advance提交后返回，to提交后显式让步
+  并继续。默认auto编译为每命令后的100ms边界；`cadence:'transition'`改由状态迁移控制节拍。
+  改分组/内联/复用可能改变节拍和保存边界，不能当成纯文字整理。
+  锚点：`packages/reforge/src/script-runner-core.ts:153/193`、`packages/reforge/src/script-compiler-core.ts:166/304`。
+- 移动：当前moveEntity是目标坐标+速度枚举，正式宿主等待实际终点提交才返回；不是固定时长
+  tween。生产按100ms世界拍、速度对应格距和slow休拍推进。其后的wait应单独审查演出意图，
+  不能默认解释为等走完。锚点：`packages/content/src/author-script-core.ts:188`、
+  `packages/reforge/src/entity-walk.ts:13`、`packages/reforge/src/script-project-core.ts:157`、`packages/reforge/src/main.ts:2910`。
+- 并行/接管：各NPC自动行为有独立activation，和前台剧情并行；前台位移隐式接管目标，转向/
+  定帧不接管。被接管的auto move保留终点并在release后续走，auto单步可因权限而跳过。
+  对话不全局冻结NPC，中央confirm等执行门是另一机制；正常脚本链finally和强停负责归还权限、
+  取消悬挂效果。锚点：`packages/reforge/src/main.ts:2676/2710/3776/4233`及motion-runtime-coordinator。
+- 持久化：WorldScriptState保存场景分区状态、选择与flow cursor，不保存命令索引、调用栈或
+  wait半程。保存gate等待真实活动lease到安全边界，旧owner epoch不能回写过期cursor；共享/
+  物品/嵌套活动也计数，不能漏掉等待中的效果。锚点：`packages/reforge/src/script-world.ts:441`、
+  `packages/reforge/src/runtime-script-project.ts:466`。重排奖励/隐藏/阶段切换须验证防重复与读回接续。
+
+### 维护入口与验证边界
+
+第一阶段已同时存在方向单步与坐标+速度NPCWalkTo，不是本来只有方向+速度。纯转换分别映射为
+stepEntity和moveEntity；当前坐标模型也不是“坐标+移动时间”。锚点：
+`packages/game/src/core/event-system.ts:1415/2680/4699`、`packages/migrate/src/translate-event-motion.ts:37/48`。
+001当前的李大娘分段move/dialog/facing编排见`projects/pal/content/scenes/s001.json:7288`；
+纯迁移overlay亦有这套编排，但不能据此断言改overlay会直接覆盖当前场景正文。
+
+当前publication从current baseline保留作者场景/共享正文，刷新原始源拥有的资源、地图等分区，
+再与当前工程三方合并。作者编排改进应维护canonical作者内容；已证实的生成缺陷才修对应生成
+真源。baseline禁止手工拼接。锚点：`packages/migrate/src/pal-current-publication.ts:100/108/147`、
+`packages/migrate/scripts/migrate-content.mts:56/69`及[发布维护入口](../../../packages/migrate/README.md)。
+
+编辑器实际场景工作台使用playCanonical，复用当前compiler/runner；但移动预览仍以简化半格步进
+和独立SPEED_MS推进，只加载当前场景。预览不是正式移动节拍、完整多人调度或存读档的证据。
+锚点：`packages/editor/src/ui/SceneScriptWorkspace.tsx:246`、`packages/editor/src/core/playback.ts:73/85/437/456`。
+
+只读盘点294场景及共享库（含未选中方案和全部登记flow，非活跃调用图）有4459个stages、195个
+stateMachine，含13849处stepEntity与3430处nudgeEntity。数字只说明仍有大批低层表达待按实际
+调用域审查，不证明全部是缺陷，也不授权全仓批量改写。
+
+### 后续E2E采用的判断顺序
+
+先确认选中行为/调用链和剧情意图，再核实际事件偏序；优先以现有moveEntity、动作完成等待、
+明确接管/归还和合理阶段边界表达。逐拍步进只有在确认中间路线、朝向、动画、触发与节拍无
+必要差异时才考虑替换；wait逐个区分停顿、节拍和冗余等待。重复正文只有真复用时才抽共享脚本。
+确需“多人同走后汇合”而现有表达不足时登记parallel/join等能力候选，另开语义设计，不以auto
+旁路或估算wait拼凑同步。每个保留/改进结论仍须在本段E2E回执附实际演出和检查点接续证据。
+
+验证：Reforge五文件56项、编辑器canonical播放相关四文件39项、迁移移动/overlay/current
+publication三文件12项，共107项全部通过；其中publication读取真实PAL source并核作者保留及
+重放零差异。本轮未跑全仓统一质量门、未新增覆盖率结论、未重复001视觉流程或执行002。
+本轮无跨Agent交接；无下一位Agent提示词，研究结论供本卡后续002编排审查使用。
+
 ## 用户意图与首批准入（首批已完成，当前二阶段增量见后文）
 
 2026-09-27用户要求“回到E2E，推进001”。Codex核定首批build allowed，不再请求已定剧情边界：
