@@ -1,8 +1,8 @@
 {
-  "method": "同一工作树 f70db722 冻结源，v8 coverage --coverage.include 11 源逐文件；before=本分支新测写入前整包运行，after=含 53 条 glm-n 定向整包运行（r2 返工后）。两次分母均为 3001（可比）。",
+  "method": "同一工作树 f70db722 冻结源，v8 coverage --coverage.include 11 源逐文件；before=本分支新测写入前整包运行，after=r3 最终代码（53 条 glm-n 定向）整包运行。两次分母均为 3001（可比）。",
   "beforeTotal": "1528/3001",
-  "afterTotal": "1624/3001",
-  "deltaBranches": 96,
+  "afterTotal": "1622/3001",
+  "deltaBranches": 94,
   "perFile": {
     "battle-trial-assets.ts": {
       "before": "55/75",
@@ -51,8 +51,8 @@
     },
     "battle/battle-ui.ts": {
       "before": "85/122",
-      "after": "98/122",
-      "delta": 13
+      "after": "96/122",
+      "delta": 11
     },
     "menu/menu-box.ts": {
       "before": "114/141",
@@ -60,6 +60,6 @@
       "delta": 3
     }
   },
-  "r2Note": "r1 曾报 +116；r2 按审核去除双强转与 undefined 强作后，放弃依赖非法 fixture 的用例（menu-box 缺块/加载中回落 -18、battle-ui 缺 slash/缺图手指 -2），delta 如实降为 +96。被放弃臂中可合法到达部分属 status-residual/glm-runtime-resource 既有证明（existing-proof）。",
+  "r3Note": "r2 报 +96；r3 按二审删除 15 色非法 Palette 轴（状态字缺色防御臂按现行 256 色 loader 记 unreachable）并把 mono 断言改为类型化真实宿主观测，delta 如实降为 +94。",
   "note": "main.ts 大量缺口属剧情/E2E（E2E-R4-1 占用）；官方 ratchet 由 Codex 串行结算。"
 }

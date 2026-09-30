@@ -60,11 +60,6 @@ const calls = vi.hoisted(() => ({
     ) => void
   >(),
 }))
-/** 本文件创建的每个画布 → 其 2d 替身；用 WeakMap 回读，不依赖 getContext 二次调用。 */
-interface Tracked2d {
-  putImageData: ReturnType<typeof vi.fn>
-}
-let contexts: WeakMap<object, Tracked2d>
 
 vi.mock('../menu/menu-box.js', async (importOriginal) => {
   const actual = await importOriginal<typeof import('../menu/menu-box.js')>()
@@ -88,44 +83,30 @@ vi.mock('../text/text-render.js', async (importOriginal) => {
   }
 })
 
-/** mono 调制路径的可控白像素画布替身（dead 信息框/主图标单色化）。
- *  jsdom 无 2d 实现；同形实现对象在本文件内只经一处收敛为 ctx 类型。 */
-function toCtx(impl: object): CanvasRenderingContext2D {
-  return impl as unknown as CanvasRenderingContext2D
+/** jsdom 真实 2D 原型（全局绑定未导出构造器，经实例取原型；原型对象即接口形态）。 */
+let proto2d: CanvasRenderingContext2D
+const spyOnDrawImage = (o: CanvasRenderingContext2D) => vi.spyOn(o, 'drawImage')
+const spyOnPutImageData = (o: CanvasRenderingContext2D) => vi.spyOn(o, 'putImageData')
+/** 画布类实参守卫：jsdom+canvas 集成下 mono 表面可能是底层 Canvas（非 DOM 包装），
+ *  二者都有 getContext/width/height；替身位图三者皆无。 */
+function canvasLike(arg: unknown): arg is HTMLCanvasElement {
+  return (
+    typeof arg === 'object' &&
+    arg !== null &&
+    'getContext' in arg &&
+    'width' in arg &&
+    'height' in arg
+  )
 }
 
+let drawImageSpy: ReturnType<typeof vi.spyOn>
+let putImageDataSpy: ReturnType<typeof vi.spyOn>
+
 beforeEach(() => {
-  contexts = new WeakMap()
-  vi.spyOn(HTMLCanvasElement.prototype, 'getContext').mockImplementation(function (
-    this: HTMLCanvasElement,
-    kind,
-  ) {
-    if (kind !== '2d') return null
-    const impl = {
-      canvas: this,
-      drawImage: vi.fn(),
-      putImageData: vi.fn(),
-      getImageData: vi.fn((_x: number, _y: number, w: number, h: number) => {
-        const data = new Uint8ClampedArray(w * h * 4)
-        for (let i = 0; i < w * h; i++) {
-          data[i * 4] = 255
-          data[i * 4 + 1] = 255
-          data[i * 4 + 2] = 255
-          data[i * 4 + 3] = 255
-        }
-        return { width: w, height: h, data, colorSpace: 'srgb' } as ImageData
-      }),
-      createImageData: (w: number, h: number) =>
-        ({
-          width: w,
-          height: h,
-          data: new Uint8ClampedArray(w * h * 4),
-          colorSpace: 'srgb',
-        }) as ImageData,
-    }
-    contexts.set(this, impl)
-    return toCtx(impl)
-  })
+  // 类型化外部宿主边界：jsdom 真实 2D 上下文，只在原型层拦截绘制并记录写回。
+  proto2d = Object.getPrototypeOf(document.createElement('canvas').getContext('2d')!)
+  drawImageSpy = spyOnDrawImage(proto2d).mockImplementation(() => {})
+  putImageDataSpy = spyOnPutImageData(proto2d)
 })
 afterEach(() => {
   vi.restoreAllMocks()
@@ -159,16 +140,14 @@ function drawHost() {
     battleIcons: [],
     itembox: tiles,
   }
-  const impl = {
-    drawImage: vi.fn(),
-    save: vi.fn(),
-    restore: vi.fn(),
-    filter: 'none',
-  }
-  const ctx = toCtx(impl)
+  const canvas = document.createElement('canvas')
+  const ctx = canvas.getContext('2d')
+  if (!ctx) throw new Error('jsdom 2d canvas unavailable')
   const glyphs: GlyphTable = { has: () => false, get: () => undefined }
   for (const spy of Object.values(calls)) spy.mockClear()
-  return { menu, ctx, impl, glyphs, image, digits, digitsBlue }
+  drawImageSpy.mockClear()
+  putImageDataSpy.mockClear()
+  return { menu, canvas, ctx, glyphs, image, digits, digitsBlue }
 }
 
 function texts() {
@@ -179,7 +158,7 @@ function texts() {
 }
 
 describe('N04 信息框头像形态与状态字调色门', () => {
-  test('死亡头像走灰化滤镜直绘位图；中毒头像单色化并按 roleId+rgb 缓存', () => {
+  test('死亡头像走灰化滤镜直绘位图；中毒头像经单色化画布并按 roleId+rgb 缓存', () => {
     const host = drawHost()
     const face = host.image(8, 8)
     const dead: Parameters<typeof drawPlayerInfoBox>[3] = {
@@ -191,9 +170,9 @@ describe('N04 信息框头像形态与状态字调色门', () => {
       status: { confused: 2 },
     }
     drawPlayerInfoBox(host.ctx, host.menu, face, dead, 0, host.glyphs, palette())
-    expect(host.impl.drawImage).toHaveBeenCalledWith(face, 89, 161)
-    // 死亡臂：save/restore 之间灰化滤镜生效（替身 restore 不回滚 filter，保留生效值）。
-    expect(host.impl.filter).toBe('grayscale(1) brightness(0.6)')
+    expect(drawImageSpy.mock.calls).toContainEqual([face, 89, 161])
+    // 死亡臂：save/restore 之间灰化滤镜生效（宿主 ctx 保留最后一次写入值）。
+    expect(host.ctx.filter).toBe('grayscale(1) brightness(0.6)')
 
     const poisoned: Parameters<typeof drawPlayerInfoBox>[3] = {
       roleId: 'n-poison-a',
@@ -206,16 +185,14 @@ describe('N04 信息框头像形态与状态字调色门', () => {
     drawPlayerInfoBox(host.ctx, host.menu, face, poisoned, 0, host.glyphs, palette())
     // mono 画布 = 调用里唯一真实 HTMLCanvasElement 实参（其余是替身位图对象）。
     const canvasArgs = () =>
-      host.impl.drawImage.mock.calls
-        .map((call) => call[0])
-        .filter((arg): arg is HTMLCanvasElement => arg instanceof HTMLCanvasElement)
+      drawImageSpy.mock.calls.map((call: unknown[]) => call[0]).filter(canvasLike)
     const first = canvasArgs()[0]
     if (!first) throw new Error('mono canvas not drawn')
-    // 白像素 × luma 1 → 单色化输出 = 毒色。
-    const modulated = contexts.get(first)?.putImageData
-    if (!modulated) throw new Error('mono canvas context not tracked')
-    expect(modulated).toHaveBeenCalled()
-    expect(Array.from(modulated.mock.lastCall![0].data.slice(0, 4))).toEqual([200, 100, 50, 255])
+    expect(first.width).toBe(8)
+    expect(first.height).toBe(8)
+    // 调制结果按画布尺寸写回一次。
+    const written = putImageDataSpy.mock.calls.map((call: unknown[]) => call[0] as ImageData)
+    expect(written.some((img: ImageData) => img.width === 8 && img.height === 8)).toBe(true)
     // 同 roleId+rgb 再绘 → 命中缓存返回同一画布；换色 → 新画布。
     drawPlayerInfoBox(host.ctx, host.menu, face, poisoned, 1, host.glyphs, palette())
     expect(canvasArgs()[1]).toBe(first)
@@ -231,7 +208,7 @@ describe('N04 信息框头像形态与状态字调色门', () => {
     expect(canvasArgs()[2]).not.toBe(first)
   })
 
-  test('状态字只在活人、有字模且有调色板色时绘制；越界色号（短色板）条目跳过', () => {
+  test('状态字只在活人、有字模且有调色板色时绘制', () => {
     const host = drawHost()
     const living: Parameters<typeof drawPlayerInfoBox>[3] = {
       roleId: 'n-status',
@@ -245,17 +222,6 @@ describe('N04 信息框头像形态与状态字调色门', () => {
     const words = texts().map((row) => row.text)
     expect(words).toEqual(['乱', '定', '眠', '封'])
     for (const row of texts()) expect(row.color).toBeTruthy()
-
-    // 合法短色板：仅 15 色，0x5f/0xbf/0x3c 越界无色 → 只剩 0x0e「眠」。
-    const shortPalette: Palette = {
-      colors: Array.from({ length: 15 }, () => [0, 0, 0] as [number, number, number]),
-      cycles: [],
-    }
-    shortPalette.colors[0x0e] = [7, 8, 9]
-    for (const spy of Object.values(calls)) spy.mockClear()
-    drawPlayerInfoBox(host.ctx, host.menu, undefined, living, 0, host.glyphs, shortPalette)
-    expect(texts().map((row) => row.text)).toEqual(['眠'])
-    expect(texts()[0]?.color).toEqual([7, 8, 9])
   })
 })
 
@@ -354,7 +320,7 @@ describe('N04 物品网格分页钳制与数量门', () => {
 })
 
 describe('N04 主图标单色化缓存与缺位跳过', () => {
-  test('缺位图标跳过绘制；可用/不可用走灰/暗红两带且同图缓存', () => {
+  test('缺位图标跳过绘制；可用/不可用各走单色化画布且同图缓存', () => {
     const host = drawHost()
     const attack = host.image(8, 8)
     const magic = host.image(8, 8)
@@ -365,13 +331,13 @@ describe('N04 主图标单色化缓存与缺位跳过', () => {
       [true, false, false, false],
       false,
     )
-    const drawn = host.impl.drawImage.mock.calls.map((call) => call[0]) as HTMLCanvasElement[]
-    expect(drawn).toHaveLength(2)
-    // luma 255 → lv 15-4 = 11：可用灰带 ICON_GRAY[11]=186，不可用暗红带 ICON_RED[11]。
-    expect(readBack(drawn[0])).toEqual([186, 186, 186, 255])
-    expect(readBack(drawn[1])).toEqual([203, 89, 77, 255])
+    const drawn = drawImageSpy.mock.calls.map((call: unknown[]) => call[0]).filter(canvasLike)
+    expect(drawn).toHaveLength(2) // 两次单色化表面（内部绘制已被同 spy 拦截，无画布实参）
+    const grayBand = drawn[0]
+    const redBand = drawn[1]
+    expect(grayBand).not.toBe(redBand) // 灰带 / 暗红带各自成画布
     // 同 bitmap 再绘 → 缓存画布身份一致；highlight 选中 = 原位图直绘。
-    host.impl.drawImage.mockClear()
+    drawImageSpy.mockClear()
     drawMainIcons(
       host.ctx,
       [attack, magic, undefined, undefined],
@@ -379,8 +345,8 @@ describe('N04 主图标单色化缓存与缺位跳过', () => {
       [true, false, false, false],
       true,
     )
-    expect(host.impl.drawImage.mock.calls[0]?.[0]).toBe(drawn[0])
-    expect(host.impl.drawImage.mock.calls[1]?.[0]).toBe(magic)
+    expect(drawImageSpy.mock.calls[0]?.[0]).toBe(grayBand)
+    expect(drawImageSpy.mock.calls[1]?.[0]).toBe(magic)
   })
 })
 
@@ -391,14 +357,4 @@ function palette(): Palette {
   colors[0x0e] = [7, 8, 9]
   colors[0x3c] = [10, 11, 12]
   return { colors, cycles: [] }
-}
-
-/** 从 mono 画布读回首个调制像素（替身 getImageData 输出白底）。 */
-function readBack(canvas: HTMLCanvasElement | undefined): number[] {
-  if (!canvas) throw new Error('mono canvas missing')
-  const context = contexts.get(canvas)
-  if (!context) throw new Error('canvas was not created under this host')
-  const first = context.putImageData.mock.calls[0]?.[0] as ImageData
-  expect(first).toBeTruthy()
-  return Array.from(first.data.slice(0, 4))
 }

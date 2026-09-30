@@ -3,21 +3,8 @@
 import { vi } from 'vitest'
 import { glmNpng } from './png.js'
 
-export interface Fake2dContext {
-  canvas: HTMLCanvasElement
-  readonly drawImage: ReturnType<typeof vi.fn>
-  readonly putImageData: ReturnType<typeof vi.fn>
-  readonly getImageData: ReturnType<typeof vi.fn>
-  readonly fillRect: ReturnType<typeof vi.fn>
-  readonly save: ReturnType<typeof vi.fn>
-  readonly restore: ReturnType<typeof vi.fn>
-  filter: string
-  globalAlpha: number
-  globalCompositeOperation: string
-  imageSmoothingEnabled: boolean
-  fillStyle: string
-  createImageData(width: number, height: number): ImageData
-}
+/** 类型化替身上下文：显式 Partial 标注 + 单次收窄，不做双强转。 */
+export type Fake2dContext = Partial<CanvasRenderingContext2D> & { canvas: HTMLCanvasElement }
 
 /** 每像素 (v,v,v,255) 的 ImageData；v 可按测试指定，满足索引图契约校验。 */
 function pixels(width: number, height: number, value: number): ImageData {
@@ -36,26 +23,31 @@ export function installGlmNCanvasHost(readPixelValue = 5) {
   const contexts = new WeakMap<HTMLCanvasElement, Fake2dContext>()
   const bitmaps: { width: number; height: number; close: ReturnType<typeof vi.fn> }[] = []
   const makeContext = (canvas: HTMLCanvasElement): Fake2dContext => {
-    return {
-      canvas,
-      drawImage: vi.fn(),
-      putImageData: vi.fn(),
-      getImageData: vi.fn((_x: number, _y: number, w: number, h: number) =>
-        pixels(w, h, readPixelValue),
-      ),
-      fillRect: vi.fn(),
-      save: vi.fn(),
-      restore: vi.fn(),
+    const impl: Partial<CanvasRenderingContext2D> = {
+      drawImage() {},
+      putImageData() {},
+      getImageData: (_x: number, _y: number, w: number, h: number) => pixels(w, h, readPixelValue),
+      fillRect() {},
+      save() {},
+      restore() {},
       filter: 'none',
       globalAlpha: 1,
       globalCompositeOperation: 'source-over',
       imageSmoothingEnabled: false,
       fillStyle: '',
-      createImageData: (width, height) => {
+      createImageData: (
+        sw: number | ImageData,
+        sh?: number,
+        _settings?: ImageDataSettings,
+      ): ImageData => {
+        if (typeof sw !== 'number') return sw
+        const width = sw
+        const height = sh ?? 0
         const data = new Uint8ClampedArray(width * height * 4)
         return { width, height, data, colorSpace: 'srgb' } as ImageData
       },
     }
+    return Object.assign(impl, { canvas })
   }
   const getContextSpy = vi
     .spyOn(HTMLCanvasElement.prototype, 'getContext')
@@ -69,7 +61,7 @@ export function installGlmNCanvasHost(readPixelValue = 5) {
       if (existing) return existing
       const created = makeContext(this)
       contexts.set(this, created)
-      return created as unknown as CanvasRenderingContext2D
+      return created
     } as HTMLCanvasElement['getContext'])
   vi.stubGlobal(
     'createImageBitmap',

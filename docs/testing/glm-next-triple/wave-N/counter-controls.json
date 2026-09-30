@@ -5,9 +5,9 @@
     "targetFullName": "N04 战斗菜单盒禁用/确认配色与右值数字色 > 禁用行选中暗红选中色、确认父项金黄、禁用右值走蓝数字",
     "axis": "输入轴单变异：rows[0] { label: '杂项', disabled: true } → { label: '杂项' }（合法输入；断言不动）",
     "sha256": {
-      "original": "bce56b5e8c7e2ba19096487d37e18ddb6d4709ff01438c69c95bfc5f6ce061e4",
-      "mutated": "8f170bd7c7302dcee922599774516a50b7424b0c620759d283630f25c00a25f3",
-      "restored": "bce56b5e8c7e2ba19096487d37e18ddb6d4709ff01438c69c95bfc5f6ce061e4"
+      "original": "abb2afb83faf3160899b79e8381fde21584e5a210064fa01bd00f854345bfefa",
+      "mutated": "d51d75ee1ef0a106dfa974d917695a4e77b83321b2544daaaa37b4a0cd7a7424",
+      "restored": "abb2afb83faf3160899b79e8381fde21584e5a210064fa01bd00f854345bfefa"
     },
     "restoredHashUnchanged": true,
     "positiveControl": {
@@ -22,9 +22,10 @@
         "Tests  1 failed | 5 passed (6)",
         "⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯"
       ],
-      "failedTestsBlock": "Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯\n\n FAIL  src/battle/battle-ui.glm-n.test.ts > N04 战斗菜单盒禁用/确认配色与右值数字色 > 禁用行选中暗红选中色、确认父项金黄、禁用右值走蓝数字\nAssertionError: expected [ 255, 203, 113 ] to deeply equal [ 215, 109, 93 ]\n\n- Expected\n+ Received\n\n  [\n-   215,\n-   109,\n-   93,\n+   255,\n+   203,\n+   113,\n  ]\n\n ❯ src/battle/battle-ui.glm-n.test.ts:281:28\n    279|     )\n    280|     const rows = texts()\n    281|     expect(rows[0]?.color).toEqual([215, 109, 93]) // COLOR_DISABLED_S…\n       |                            ^\n    282|     expect(rows[1]?.color).toEqual([166, 40, 32]) // COLOR_DISABLED\n    283|     expect(rows[2]?.color).toEqual([199, 186, 174]) // COLOR_NORMAL（co…\n\n⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯"
+      "targetAssertionError": "AssertionError: expected [ 255, 203, 113 ] to deeply equal [ 215, 109, 93 ]",
+      "failedTestsBlock": "Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯\n\n FAIL  src/battle/battle-ui.glm-n.test.ts > N04 战斗菜单盒禁用/确认配色与右值数字色 > 禁用行选中暗红选中色、确认父项金黄、禁用右值走蓝数字\nAssertionError: expected [ 255, 203, 113 ] to deeply equal [ 215, 109, 93 ]\n\n- Expected\n+ Received\n\n  [\n-   215,\n-   109,\n-   93,\n+   255,\n+   203,\n+   113,\n  ]\n\n ❯ src/battle/battle-ui.glm-n.test.ts:249:28\n    247|     )\n    248|     const rows = texts()\n    249|     expect(rows[0]?.color).toEqual([215, 109, 93]) // COLOR_DISABLED_S…\n       |                            ^\n    250|     expect(rows[1]?.color).toEqual([166, 40, 32]) // COLOR_DISABLED\n    251|     expect(rows[2]?.color).toEqual([199, 186, 174]) // COLOR_NORMAL（co…\n\n⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯"
     },
-    "criteria": "判据：正控 exit0 全绿；单轴变异后 exit1 且仅目标 fullName 红（无 skip/timeout/收集错误/额外用例红/零执行）；断言未改（仅输入轴变异）；恢复后文件 SHA256 与原一致"
+    "criteria": "判据：正控 exit0 全绿；最终候选文件上单轴合法输入变异后 exit1 且仅目标 fullName 红（无 skip/timeout/收集错误/额外用例红/零执行）；断言未改；三态 SHA256 与最终候选文件一致（original === restored === 最终提交内容）"
   },
   {
     "id": "RC2",
@@ -49,9 +50,10 @@
         "Tests  1 failed | 2 passed (3)",
         "⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯"
       ],
+      "targetAssertionError": "AssertionError: expected +0 to be 128 // Object.is equality",
       "failedTestsBlock": "Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯\n\n FAIL  src/battle/battle-launch-preparation.glm-n.test.ts > N05 指定战场号读取常驻波、索引背景与投掷特效精灵\nAssertionError: expected +0 to be 128 // Object.is equality\n\n- Expected\n+ Received\n\n- 128\n+ 0\n\n ❯ src/battle/battle-launch-preparation.glm-n.test.ts:144:45\n    142|     .prepare('encounter', options, new AbortController().signal, () =>…\n    143|     .then((result) => ({ ...result, ...result.commit() }))\n    144|   expect(prepared.sessionOptions.fieldWave).toBe(128)\n       |                                             ^\n    145|   expect(prepared.sessionAssets.bg).toBeTruthy()\n    146|   const indexed = prepared.sessionAssets.bgIndexed\n\n⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯"
     },
-    "criteria": "判据：正控 exit0 全绿；单轴变异后 exit1 且仅目标 fullName 红（无 skip/timeout/收集错误/额外用例红/零执行）；断言未改（仅输入轴变异）；恢复后文件 SHA256 与原一致"
+    "criteria": "判据：正控 exit0 全绿；最终候选文件上单轴合法输入变异后 exit1 且仅目标 fullName 红（无 skip/timeout/收集错误/额外用例红/零执行）；断言未改；三态 SHA256 与最终候选文件一致（original === restored === 最终提交内容）"
   },
   {
     "id": "RC3",
@@ -76,9 +78,10 @@
         "Tests  1 failed | 6 passed (7)",
         "⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯"
       ],
-      "failedTestsBlock": "Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯\n\n FAIL  src/video-player.glm-n.test.ts > N03 视频覆盖层生命周期 > 加载失败：仅 warn 不抛出，Promise resolve 且视频层移除\nAssertionError: expected \"warn\" to be called with arguments: [ Array(1) ]\n\nReceived:\n\n  1st warn call:\n\n  [\n-   \"[video-player] load/decode failed: videos/broken.mp4\",\n+   \"[video-player] load/decode failed: videos/other.mp4\",\n  ]\n\n\nNumber of calls: 1\n\n ❯ src/video-player.glm-n.test.ts:77:18\n     75|     video.dispatchEvent(new Event('error'))\n     76|     await expect(pending).resolves.toBeUndefined()\n     77|     expect(warn).toHaveBeenCalledWith('[video-player] load/decode fail…\n       |                  ^\n     78|     expect(document.body.contains(video)).toBe(false)\n     79|   })\n\n⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯"
+      "targetAssertionError": "AssertionError: expected \"warn\" to be called with arguments: [ Array(1) ]",
+      "failedTestsBlock": "Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯\n\n FAIL  src/video-player.glm-n.test.ts > N03 视频覆盖层生命周期 > 加载失败：仅 warn 不抛出，Promise resolve 且视频层移除\nAssertionError: expected \"warn\" to be called with arguments: [ Array(1) ]\n\nReceived:\n\n  1st warn call:\n\n  [\n-   \"[video-player] load/decode failed: videos/broken.mp4\",\n+   \"[video-player] load/decode failed: videos/other.mp4\",\n  ]\n\n\nNumber of calls: 1\n\n ❯ src/video-player.glm-n.test.ts:77:18\n     75|     video.dispatchEvent(new Event('error'))\n     76|     await expect(pending).resolves.toBeUndefined()\n     77|     expect(warn).toHaveBeenCalledWith('[video-player] load/decode fail…\n       |                  ^\n     78|     expect(document.body.contains(video)).toBe(false)"
     },
-    "criteria": "判据：正控 exit0 全绿；单轴变异后 exit1 且仅目标 fullName 红（无 skip/timeout/收集错误/额外用例红/零执行）；断言未改（仅输入轴变异）；恢复后文件 SHA256 与原一致"
+    "criteria": "判据：正控 exit0 全绿；最终候选文件上单轴合法输入变异后 exit1 且仅目标 fullName 红（无 skip/timeout/收集错误/额外用例红/零执行）；断言未改；三态 SHA256 与最终候选文件一致（original === restored === 最终提交内容）"
   },
   {
     "id": "RC4",
@@ -103,8 +106,9 @@
         "Tests  1 failed | 8 passed (9)",
         "⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯"
       ],
-      "failedTestsBlock": "Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯\n\n FAIL  src/project-map.glm-n.test.ts > N01 填充/视图的退化输入 > tilesInView 缺行缺列与隐藏层都不产出；null 瓦片跳过\nAssertionError: expected { layerId: 'floor', …(8) } to match object { col: +0, row: +0, tileId: 1, …(4) }\n(2 matching properties omitted from actual)\n\n- Expected\n+ Received\n\n  {\n    \"centerX\": 0,\n    \"centerY\": 0,\n    \"col\": 0,\n-   \"height\": 2,\n+   \"height\": 5,\n    \"row\": 0,\n    \"tileId\": 1,\n    \"tilesetId\": \"tileset-001\",\n  }\n\n ❯ src/project-map.glm-n.test.ts:116:22\n    114|     const draws = projectMapTilesInView(map, { col: 0, row: 0, cols: 2…\n    115|     expect(draws).toHaveLength(1)\n    116|     expect(draws[0]).toMatchObject({\n       |                      ^\n    117|       col: 0,\n    118|       row: 0,\n\n⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯"
+      "targetAssertionError": "AssertionError: expected { layerId: 'floor', …(8) } to match object { col: +0, row: +0, tileId: 1, …(4) }",
+      "failedTestsBlock": "Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯\n\n FAIL  src/project-map.glm-n.test.ts > N01 填充/视图的退化输入 > tilesInView 缺行缺列与隐藏层都不产出；null 瓦片跳过\nAssertionError: expected { layerId: 'floor', …(8) } to match object { col: +0, row: +0, tileId: 1, …(4) }\n(2 matching properties omitted from actual)\n\n- Expected\n+ Received\n\n  {\n    \"centerX\": 0,\n    \"centerY\": 0,\n    \"col\": 0,\n-   \"height\": 2,\n+   \"height\": 5,\n    \"row\": 0,\n    \"tileId\": 1,\n    \"tilesetId\": \"tileset-001\",\n  }\n\n ❯ src/project-map.glm-n.test.ts:116:22\n    114|     const draws = projectMapTilesInView(map, { col: 0, row: 0, cols: 2…\n    115|     expect(draws).toHaveLength(1)\n    116|     expect(draws[0]).toMatchObject({\n       |                      ^\n    117|"
     },
-    "criteria": "判据：正控 exit0 全绿；单轴变异后 exit1 且仅目标 fullName 红（无 skip/timeout/收集错误/额外用例红/零执行）；断言未改（仅输入轴变异）；恢复后文件 SHA256 与原一致"
+    "criteria": "判据：正控 exit0 全绿；最终候选文件上单轴合法输入变异后 exit1 且仅目标 fullName 红（无 skip/timeout/收集错误/额外用例红/零执行）；断言未改；三态 SHA256 与最终候选文件一致（original === restored === 最终提交内容）"
   }
 ]
