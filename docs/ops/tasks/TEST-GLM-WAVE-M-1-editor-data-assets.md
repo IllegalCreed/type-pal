@@ -1,6 +1,6 @@
 # TEST-GLM-WAVE-M-1 — 编辑器数据页、资源库和设计控件大包
 
-Status: rework
+Status: review
 Phase: phase2
 Capability: editor-data / test-coverage
 Coding Owner: GLM M（仅新增测试、专属 fixture/证据）
@@ -83,7 +83,7 @@ Editor 定向/相邻及全包 `env -u NODE_COMPILE_CACHE pnpm --filter @type-pal
   V2 的“Enter 不激活、Space 激活”仅作观察，尚无足够一手证据定产品缺陷，
   不随本测试波改 UI。隔离覆盖未成功产出，不可主张本包覆盖增量。
 
-### 下一位 GLM M 返工提示词
+### 历史 r1 返工提示词（已执行）
 
 ```text
 你是 TEST-GLM-WAVE-M-1 唯一测试 Coding Owner。先读 AGENTS.md、
@@ -96,6 +96,34 @@ docs/phase2/READ-FIRST.md、本卡独立审核段、共同协议及 wave-M 证�
 共享 README 导航缺行如实报告，留 Codex 集成时补。产品、旧测、公共配置、
 L/N 文件、官方基线只读；不合 main、不标 done，推送完整候选 SHA。
 ```
+
+## Codex 二审（2026-09-30，r2 候选 b59f1738）
+
+候选 `b59f1738f56f153a3c6d80b5f7dee1bcf27f7fae`：**独立代码验收 accept**。
+新测试/fixture 已无禁用双强转或 as never；真实 blank loader/save-valid 底座、
+真实 AssetBase/createEditorAssetReader 和当前 typed schema 替代伪造输入。
+目录缺失 AssetId 的失败面是合法作者编辑下的可诊断引用，不造非法宿主。
+定向 JSON 12 文件/31 唯一 fullName/31 passed，62 源冻结校验通过，白名单通过。
+五张截图 SHA256 均匹配且实际看图：名称编辑→撤销恢复、目录键盘到立绘003
+回显成立；原始 before 图片为001，README 操作描述先点击002作为中间起点，
+不把截图前态改写成002。Enter/Space 仅保持观察，不随本卡改产品。
+
+独立复跑 Editor **493 文件/3684 测试通过**、typecheck 零诊断，根 lint
+**2778 文件完整 0 error/0 warning/0 info**；区间 diff 零诊断。docs 只有
+共享 README 缺 wave-M 导航，Codex 隔离接收时补。反控 self-test **10/10**，
+新增 TypeError/混合错误拒绝已闭合；独立执行四枚反控 **4/4 valid**，
+各正控4/2/3/2例全绿，反控每枚仅目标 AssertionError 红且 exit1。
+独立结果落临时目录 `codex-m-counters-Q9azOE/evidence.json`，未覆盖 GLM 证据；
+副本删除、候选工作树保持干净。旧版本兼容审查 pass：未新增产品兼容路径。
+
+接收至 `codex/glm-lmn-acceptance-r1`，与 L 并集后仍须完整串行
+check/官方 ratchet/protected fast；当前 review，未计正式收益、未清树。
+无下一位 GLM 返工提示词；下一位 Codex 完成统一门和正式结算后才能 done。
+
+并集最终门：完整 check 10715 例及硬性静态门通过，但官方 ratchet exit1，
+migrate statements/branches/lines 比率回退；baseline 未改，protected fast 未执行。
+详见[统一记录](../../testing/glm-next-triple/codex-lm-union-review.md)。
+保持 review，测试未合 main、未正式结算、未清树；不把存量 migrate 问题转给 GLM M。
 
 ### 历史首轮派发提示词（已执行，非本次返工指令）
 
