@@ -84,6 +84,11 @@ check8896/单次strict8404全过；实际+134分支/+73行，content分支85.55%
 2026-09-28[001双引擎验证已收口](../testing/e2e-001.md)：55正文/说话人/参与角色、真实档读回与像素一致，
 修复一阶段翻页跳行和自动淡入变暗。check10,207/strict9,746、静态零诊断；母任务转002，capture音轨另排。
 
+2026-09-30 作者发布与PAL供给拆分、脚本转换退役（ARCH-PAL-SUPPLY-1，证据见[任务卡索引](tasks/index.md)）
+已由Codex独立accept并done：完整原版转换核与动作审计按用户裁决删除，资源/地图/安全发布保留；
+旧oracle537文件保真，全仓check10742项、2690文件静态零诊断。当前PAL作者工程未改，
+002与脚本合理化另归E2E母卡；不宣称覆盖率增长或新的编排结构已实现。
+
 ## 进行中
 
 2026-09-29 [GLM A–J 并集](../testing/glm-wave-union-20260929.md)已进入 main：
@@ -98,7 +103,6 @@ G/I 的功能视觉与 console 后续补验也已闭合，不把这些卡的完�
 | ID | 任务 | 状态 | 负责人/下一步 | 一句话备注 |
 |---|---|---|---|---|
 | E2E-R4-1 | [路线驱动与检查点薄基线](tasks/E2E-R4-1-route-and-checkpoint-foundation.md) | build | Codex / 002流程与脚本编排审查 | 001 verify已收口；002继承真档，同步核编排合理性与改进方案，录制音轨另排 |
-| ARCH-PAL-SUPPLY-1 | [作者发布与PAL导入职责拆分](tasks/ARCH-PAL-SUPPLY-1-author-publication-and-import-retirement.md) | review | Codex独立验收 / 全仓质量 | r6冻结903f833da，537文件独立保真通过；统一零诊断与集成收口pending |
 | EDITOR-SCENE-FACING-1 | [切场景朝向清除](tasks/EDITOR-SCENE-FACING-1-clear-override.md) | draft | Codex / 后续窄修 | 保持选项仍提交旧方向；真实红诊断+单点oracle已证 |
 | ARCH-SUPPORT-GLM-1 | [八组并行架构/视觉准备](tasks/ARCH-SUPPORT-GLM-1-eight-audit-packages.md) | draft | Codex / 后续归属与收口 | 58cdf938材料accept，counter清零；文档已合入，按用户要求未标done/未开产品门 |
 

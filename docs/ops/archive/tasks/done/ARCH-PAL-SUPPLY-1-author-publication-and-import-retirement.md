@@ -1,15 +1,15 @@
 # ARCH-PAL-SUPPLY-1 — 作者发布与PAL导入职责拆分、脚本转换退役
 
-Status: review
+Status: done
 Phase: phase2
 Capability: A7（现有内容供应链治理，不新增能力格）
-Coding Owner: pal_resource_supply（r5第二批隔离实现；Codex独立验收）
+Coding Owner: pal_resource_supply（r5/r6隔离实现；Codex独立验收）
 Generation Owner: N/A
 Reviewer: Codex（独立验收）
 Visual Verification Owner: Codex（r4.1最小入口冷启动；首批CLI N/A）
 Visual Verification Timing: build期最小功能验证；剧情E2E不在范围
 Contributor: pal_supply_audit（r1只读准备）、pal_author_check（r2首批实现）、pal_supply_boundary（r5独立前提审查）、pal_resource_supply（r5实现）
-Branch: codex/pal-resource-supply-r1（基点d3df4bbb；首批已入main，母卡未done）
+Branch: codex/pal-resource-supply-r1（基点d3df4bbb；r5/r6冻结903f833da，已合main 3cfa22d3）
 
 ## 用户裁决与目标（2026-09-30）
 
@@ -55,16 +55,16 @@ Branch: codex/pal-resource-supply-r1（基点d3df4bbb；首批已入main，母�
 
 ## 上下文锚点
 
-- [READ-FIRST](../../phase2/READ-FIRST.md)铁律4/6/10/11：架构优先、合理脚本、真实生成缺陷修源、当前单版本。
-- [发布维护入口](../../../packages/migrate/README.md)、[发布指南](../../phase2/guides/content-publication.md)、
-  [作者脚本合同](../../phase2/specs/script-system.md)。
+- [READ-FIRST](../../../../phase2/READ-FIRST.md)铁律4/6/10/11：架构优先、合理脚本、真实生成缺陷修源、当前单版本。
+- [发布维护入口](../../../../../packages/migrate/README.md)、[发布指南](../../../../phase2/guides/content-publication.md)、
+  [作者脚本合同](../../../../phase2/specs/script-system.md)。
 - `packages/migrate/src/pal-migration.ts:390/405`：migrateAll、mapScenesStatic、原始脚本图/overlay/
   动作物化/闭包审计仍在完整生成核内；不得只删入口而留下另一条同等转换路径。
 - `packages/migrate/scripts/migrate-content.mts:54/73/115`：恢复事务、三方合并、TOCTOU检查、
   资源物化、manifest/baseline事务、重放零差异均须保留。
 - `packages/migrate/src/pal-item-scheme-labels.ts:69`：PAL专用手写命令遍历不是通用作者校验的理想维护点。
 - `packages/editor/src/core/project-io.ts:163`：作者保存已有当前工程加载/序列化与资源预检，不依赖migrate。
-- 一阶段知识按[harvest](../../phase2/reference/phase1-knowledge-harvest.md)资源/地图相关条目核资产约定；
+- 一阶段知识按[harvest](../../../../phase2/reference/phase1-knowledge-harvest.md)资源/地图相关条目核资产约定；
   本卡不重新实现解码、调色板、瓦片转换或绘制，不把旧审计快照当当前缺陷。
 - 当前基点`784fb098`；主树E2E合理化文档改动保留，GLM L/M/N各自隔离任务不重叠。
 
@@ -519,6 +519,49 @@ Root中央只清理coverage config三条已删测试的dead exclude，30覆盖�
 Biome零诊断；source include/资源前提/门限/基线不改。统一全仓质量、最终独立只读审查结论、
 集成推送与清理仍pending，母卡review不是done；不宣布NPC/parallel或002已验证。
 
+### r7 Codex独立验收与统一质量（2026-09-30）
+
+Codex：**accept / done allowed**。r5/r6源码、mixed有效case保留、独立旧oracle与禁载反控
+均已复核；`3cfa22d3`本地集成后的实际全仓`pnpm check`退出0。七包共1249文件10617项，
+四组工具125项，合计10742项全部通过。工具实际为docs37、coverage30、quality27、E2E31；
+typecheck全部零诊断，根lint完整扫描2690文件，0 error / 0 warning / 0 info，不降低规则。
+
+| 包 | 通过文件 | 通过测试 |
+|---|---:|---:|
+| content | 123 | 1222 |
+| shared | 16 | 128 |
+| game | 243 | 2773 |
+| pal-extract | 59 | 357 |
+| reforge | 248 | 1999 |
+| editor | 483 | 3688 |
+| migrate | 77 | 450 |
+
+完整日志`/tmp/type-pal-supply-proof-nLdnEI/full-check.log`；editor测试stdout仍原样保留
+jsdom的`Not implemented: navigation to another Document`，不伪称所有运行输出为空，
+该行不是硬性静态门诊断。文档检查798 Markdown / 4180本地链接 / 241卡，content20/SAVE8，
+零问题；归档后的任务索引/链接另复验。未执行官方coverage测量或更改其历史基线。
+
+Root另外实际运行main的`pnpm check:content`：294场景/223地图/1934资源通过，只读未写盘。
+保留的`pnpm --filter @type-pal/migrate audit:maps`实际退出0，223地图/3653632晶格，
+semantic round-trip mismatch=0；raw mismatch=6、residual word=4和空layer1非零height=3
+保留源观察，不把这些数清成零或冒称原始地图无残留。日志同目录`map-audit.log`。
+没有运行会先恢复事务的migrate:content CLI（含dry-run），也未运行写资产的bake。
+
+冻结旧oracle原始字节SHA256
+`41561cc871fe127798bb0ade82adb101949a5bfc778dfc7e6a8eb9c6d2aa0e7f`；归一publication
+SHA256 `07cf552e3ddb2e0a5a5cb7606bf8441fa6a8f143ea703384d8c2b01545eee6e6`。
+主树合入后的migrate实现/入口字节与冻结候选一致；`07c8b4d7..3cfa22d3`对PAL工程、
+第一阶段、editor/reforge/content、lock和官方coverage baseline的diff为空，主树干净。
+97个旧实现/命令/fixture/测试文件按上述库存退休，可从Git恢复；历史审计快照字节保留。
+母卡技术验收完成，不新增UI/剧情验收义务；002实际脚本合理化仍由E2E母卡推进。
+任务归档、main推送及本次隔离工作树/分支清理随后记录；保留E2E与GLM L/M/N其它工作树。
+
+归档首两轮文档工具各37项通过，但文档门各报同1项：看板完成说明直接链接终态卡。
+首轮仅移到完成记录区仍不足；直接读取check.mjs:197-200确认该约束覆盖整个看板，随后
+改为任务索引链接，不修改检查规则、旧记录或任务索引生成逻辑，再做完整文档复验。
+最终`pnpm check:docs`退出0，37工具项、798 Markdown / 4180本地链接 / 241卡全通过，
+零问题；任务已机械归档done并重生成索引，diff-check为空。
+
 ## 交接记录
 
 - 2026-09-30 Codex：用户批准职责方向；开draft卡，首批只读核资产/静态表与脚本推导依赖。
@@ -546,10 +589,5 @@ Biome零诊断；source include/资源前提/门限/基线不改。统一全仓�
 
 ## 下一位Agent提示词
 
-接手任务：ARCH-PAL-SUPPLY-1，当前build，r6已准入；同贡献者pal_resource_supply在上述
-隔离工作树/分支从冻结63aafb81续接。先完整读AGENTS.md、CLAUDE.md、READ-FIRST、本卡
-r5冻结证据与r6精确白名单。用户已明确取消原版动作审计，按真实消费者删除完整核、死API及
-专属测试，迁出实际静态类型/helper与mixed有效case；current项目/作者/地图/资产/事务测试全保留。
-不改真实工程/baseline/覆盖率/配置/依赖或运行重导CLI；patch使用隔离绝对路径。交回干净
-候选提交、删除/迁留case映射与自验日志。不得合main或标done；Codex独立比旧537文件oracle、
-做只读作者门及全仓零诊断验收，不要求用户转发或代跑技术门。
+无下一位Agent提示词；本卡技术收口，无新增产品/UI取舍等待用户验收。
+后续002与作者脚本合理化归E2E-R4-1，不把转换退役视为NPC新移动合同或parallel/join已完成。
