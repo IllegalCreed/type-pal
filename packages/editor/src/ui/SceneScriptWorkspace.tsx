@@ -297,7 +297,7 @@ export function CanonicalSceneScriptWorkspace(props: {
         <div className="drawer-head">
           <span className="t">📜 {props.scene.id}</span>
           <DsTabs
-            size="compact"
+            variant="inspector"
             label="脚本类型"
             activeId={owner === 'scene' ? `scene-${hookSlot}` : `entity-${behaviorChannel}`}
             items={scriptTabs}

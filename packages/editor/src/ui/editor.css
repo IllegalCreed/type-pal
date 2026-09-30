@@ -13641,6 +13641,11 @@ button.sprite-frame-cell[draggable="true"]:active {
 .canonical-script-drawer .drawer-head .t {
   flex: 0 1 auto;
 }
+.canonical-script-drawer .drawer-head > .ds-tabs {
+  flex: 1 1 auto;
+  min-width: 0;
+  border-bottom: 0;
+}
 .canonical-script-drawer-body {
   min-width: 0;
   min-height: 0;
