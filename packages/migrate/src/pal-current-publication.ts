@@ -42,17 +42,14 @@ import {
   validateTilesets,
   validateWorldVariableRegistryV1,
 } from '@type-pal/content'
-import { mapRoleSpritesByNumber } from './migrate-content.js'
 import type { MigrationSnapshot } from './migration-baseline.js'
 import type { TransactionPrecondition } from './migration-transaction.js'
-import {
-  applyPalGeneratedCraftMessages,
-  applyPalGeneratedResourcePoolMessages,
-  applyPalItemOverlays,
-} from './pal-authored-overlays.js'
+import { applyPalItemOverlays } from './pal-authored-overlays.js'
+import { buildPalContentSupply, type PalContentSupplySources } from './pal-content-supply.js'
 import { assertPalInPartyActorIdInvariant } from './pal-inparty-actor-id-invariant.js'
+import { applyPalItemMessageSources } from './pal-item-message-source.js'
 import { assertPalItemSchemeLabelInvariant } from './pal-item-scheme-labels.js'
-import { buildPalMigration, type MigrationJson, type PalMigrationSources } from './pal-migration.js'
+import type { MigrationJson } from './pal-migration.js'
 import { assertPalSceneIndexOwnership } from './pal-scene-index.js'
 import {
   assertPalAlchemyBoundaryInvariant,
@@ -94,12 +91,12 @@ function requiredPath(path: string | undefined, label: string): string {
 
 /**
  * 唯一发布模型：作者内容以 current baseline 为三方合并 base；可重建的 catalog、
- * PAL 六名原始角色、地图和瓦片集每次直接从同一个纯生成核取值。角色分区
+ * PAL 六名原始角色、地图和瓦片集每次直接从窄供应核取值。角色分区
  * 按 stable id 替换，baseline 中不属于 PAL 原始六角色的作者角色保留。
  */
 export function buildPalCurrentPublication(
   baseline: MigrationSnapshot,
-  sources: PalMigrationSources,
+  sources: PalContentSupplySources,
 ): PalCurrentPublication {
   const forbidden = [...baseline.managedFiles].filter((path) => FORBIDDEN_CURRENT_PATH.test(path))
   if (forbidden.length)
@@ -107,7 +104,7 @@ export function buildPalCurrentPublication(
 
   const files = new Map(baseline.files)
   const managedFiles = new Set(baseline.managedFiles)
-  const generated = buildPalMigration(sources)
+  const generated = buildPalContentSupply(sources)
   const previousMapPaths = [...managedFiles].filter((path) =>
     /^content\/maps\/(?!index\.json$)[^/]+\.json$/.test(path),
   )
@@ -130,7 +127,7 @@ export function buildPalCurrentPublication(
   const authoredActors = baselineActors.filter(({ id }) => !generatedActorIds.has(id))
 
   const currentSprites = validateSprites(required(files, 'content/sprites.json'))
-  const generatedSprites = validateSprites(required(generated.files, 'content/sprites.json'))
+  const generatedSprites = generated.roleDefinitions
   const sceneSurface = (source: ReadonlyMap<string, MigrationJson>, label: string) => {
     const index = validateSceneIndex(required(source, 'content/scenes/index.json'))
     return {
@@ -145,26 +142,17 @@ export function buildPalCurrentPublication(
     }
   }
   const currentSceneSurface = sceneSurface(files, 'PAL current baseline')
-  const generatedSceneSurface = sceneSurface(generated.files, 'PAL generated publication')
   assertPalSceneIndexOwnership({
     current: currentSceneSurface.index,
-    generated: generatedSceneSurface.index,
+    generated: generated.sceneIndex,
   })
   const currentScenes = validateAuthorScenes(currentSceneSurface.values)
-  const generatedScenes = generatedSceneSurface.values.map((value, index) => {
-    if (!value || typeof value !== 'object')
-      throw new Error(`PAL generated publication: scenes[${index}] 期望 object`)
-    const scene = value as Record<string, unknown>
-    if (typeof scene.id !== 'string' || !Array.isArray(scene.entities))
-      throw new Error(`PAL generated publication: scenes[${index}] 缺 id/entities`)
-    return { id: scene.id, entities: scene.entities }
-  })
   const spriteAliases = applyPalWorldSpriteSemanticAliases({
     currentSprites,
     generatedSprites,
     currentScenes: new Map(currentScenes.map((scene) => [scene.id, scene])),
-    generatedScenes: new Map(generatedScenes.map((scene) => [scene.id, scene])),
-    roleSpritesByNumber: mapRoleSpritesByNumber(sources.migrate.roles, generatedSprites),
+    generatedScenes: new Map(generated.scenes.map((scene) => [scene.id, scene])),
+    roleSpritesByNumber: generated.roleSpritesByNumber,
     aliases: PAL_WORLD_SCENE_SEMANTIC_SPRITE_ALIASES,
   })
 
@@ -173,17 +161,11 @@ export function buildPalCurrentPublication(
   const baselineItems = required(files, 'content/items.json')
   if (!Array.isArray(baselineItems))
     throw new Error('PAL current baseline: content/items.json 期望数组')
-  const generatedItems = required(generated.files, 'content/items.json')
-  if (!Array.isArray(generatedItems))
-    throw new Error('PAL generated publication: content/items.json 期望数组')
   put(
     'content/items.json',
-    applyPalGeneratedResourcePoolMessages(
-      applyPalGeneratedCraftMessages(
-        applyPalItemOverlays(baselineItems as ItemData[]),
-        generatedItems as ItemData[],
-      ),
-      generatedItems as ItemData[],
+    applyPalItemMessageSources(
+      applyPalItemOverlays(baselineItems as ItemData[]),
+      generated.itemMessages,
     ),
   )
   put('content/shops.json', required(generated.files, 'content/shops.json'))
@@ -220,14 +202,14 @@ export function buildPalCurrentPublication(
     expectedSellCalls: 6,
     expectedSellShopId: 0,
   })
-  return { files, managedFiles, mapReport: generated.report.maps }
+  return { files, managedFiles, mapReport: generated.mapReport }
 }
 
 /** current canonical 内容的内存发布门；在资源写入和事务 journal 创建之前执行。 */
 export function validatePalCurrentPublication(args: {
   publication: PalCurrentPublication
   manifest: CurrentManifest
-  sources: PalMigrationSources
+  sources: PalContentSupplySources
 }): PalCurrentPublicationValidation {
   const { files, managedFiles } = args.publication
   const { manifest } = args

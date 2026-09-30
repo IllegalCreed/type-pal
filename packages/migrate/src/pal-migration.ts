@@ -12,7 +12,6 @@ import type {
 import {
   collectBattleSpriteDefinitionReferences,
   palBattleBackgroundAssetId,
-  palSoundAssetId,
   palSpriteAssetId,
   palTilesetAssetId,
   spriteDefinitionFrameDemand,
@@ -44,6 +43,7 @@ import {
 } from './pal-derived-content.js'
 import { mapNameFromSourceNumber } from './pal-map-names.js'
 import { buildPalSceneIndex } from './pal-scene-index.js'
+import { palSoundAssetForSources } from './pal-sound-assets.js'
 import { auditPalSpriteActions } from './pal-sprite-action-census.js'
 import { materializePalSpriteActions } from './pal-sprite-action-materialize.js'
 import {
@@ -64,7 +64,9 @@ import {
   worldCommandAuditRoots,
 } from './script-library-audit.js'
 import { normalizeScriptLibrary } from './script-library-normalize.js'
-import type { SoundAssetForNum } from './sound-migration.js'
+
+export { palSoundAssetForSources } from './pal-sound-assets.js'
+
 import { sceneSlug } from './source-facts.js'
 
 export type MigrationJson =
@@ -119,17 +121,6 @@ export interface MigrationFileSet {
     bossOverlay: { attached: number; clearedEnemies: string[] }
     maps: ProjectMapAuditReport
     assets: import('./pal-assets.js').PalAssetMigrationReport
-  }
-}
-
-/** PAL 源编号到已物化音效资产的唯一解析口径。 */
-export function palSoundAssetForSources(
-  sources: Pick<PalMigrationSources, 'assetCatalog'>,
-): SoundAssetForNum {
-  return (sound) => {
-    if (!Number.isInteger(sound) || sound <= 0) return undefined
-    const id = palSoundAssetId(sound)
-    return sources.assetCatalog.assets[id]?.kind === 'sound' ? id : undefined
   }
 }
 
@@ -386,7 +377,7 @@ function assertPalBattleSpriteBaseline(args: {
     throw new Error(`PAL 敌 AI 间接目标集漂移: ${JSON.stringify(uniqueTargets)}`)
 }
 
-/** data/extracted 到当前 canonical 内容的唯一纯生成核。 */
+/** 原版完整脚本转换与专用审计生成核；current 内容供应不依赖此核。 */
 export function buildPalMigration(sources: PalMigrationSources): MigrationFileSet {
   const palSemanticProfile = 'current-r13-6b' as const
   const soundAssetForNum = palSoundAssetForSources(sources)

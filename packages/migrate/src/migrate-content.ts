@@ -21,23 +21,33 @@ import type {
   SkillData,
   SpriteDef,
 } from '@type-pal/content'
-import {
-  DEFAULT_SCRIPT_SHARDS,
-  deriveScriptChunk,
-  palFaceAssetId,
-  palItemIconAssetId,
-  palPortraitAssetId,
-  palSpriteAssetId,
-} from '@type-pal/content'
+import { DEFAULT_SCRIPT_SHARDS, deriveScriptChunk, palItemIconAssetId } from '@type-pal/content'
 import {
   palPlayerBattleSpriteDefinitionId,
   palSummonBattleSpriteDefinitionId,
 } from './pal-battle-sprites.js'
 import {
-  assertPalWorldSpriteLayoutOverlaySources,
-  PAL_WORLD_SPRITE_LAYOUT_OVERLAYS,
-  type PalWorldSpriteLayoutOverlay,
-} from './pal-world-sprite-layouts.js'
+  buildLabelIndex,
+  buildSourceAddressLabelIndex,
+  translateCraftRecipeScript,
+  translateResourcePoolScript,
+} from './pal-item-message-source.js'
+import { EQUIP_INDEX_TO_SLOT, mapActor, mapSprites } from './pal-role-mapping.js'
+import { createPalWorldSpriteRegistry } from './pal-world-sprite-registry.js'
+
+export {
+  buildLabelIndex,
+  translateCraftRecipeScript,
+  translateResourcePoolScript,
+} from './pal-item-message-source.js'
+export {
+  EQUIP_INDEX_TO_SLOT,
+  mapActor,
+  mapRoleSpritesByNumber,
+  mapSprites,
+} from './pal-role-mapping.js'
+export { migratedSpriteId } from './pal-world-sprite-registry.js'
+
 import { resolveSoundAsset, type SoundAssetForNum } from './sound-migration.js'
 
 // ── 源数据形状(结构最小化;字段名 2026-07-02 对 data/extracted 实测钉死)──
@@ -190,7 +200,6 @@ import { applyPalScriptOverlays } from './script-overlays.js'
 import type { SourceCmd } from './source-facts.js'
 import {
   FACING_BY_DIR,
-  PAL_PLAYER_FACE_FRAME_BY_ROLE_ID,
   partyPosToGrid,
   ROLE_SLUGS,
   sceneSlug,
@@ -217,22 +226,7 @@ export interface LevelUpMagicCell {
 // ── 身份/槽位真值 ──────────────────────────────────────────
 /** roleId → 语义 slug(原版 6 角色固定;roleId 3=巫后 4=阿奴,勿按 words 顺序重取——parser 已修对调)。 */
 
-/**
- * role.equipment[] 下标 → 装备槽真序。
- * ⚠ pal-extract player-roles.ts:130 的注释(0=武器…)是**错的**:role0 = [196头巾,225披风,208布袍,166木剑,235草鞋,249护腕]
- * 对已核物品名逐位验证 → 真序如下(= sdlpal 身体部位枚举 Head/Body(→cloak)/Shoulder(→body)/Hand/Feet/Wear)。
- * golden 测:mapActor(role0).initialEquipment 必须深等 demo 手作 li-xiaoyao。
- */
-export const EQUIP_INDEX_TO_SLOT = ['head', 'cloak', 'body', 'weapon', 'feet', 'accessory'] as const
-
 // ── desc 提取(scriptDesc → showDialog 链)──────────────────
-export function buildLabelIndex(commands: readonly SourceCmd[]): Map<string, number> {
-  const m = new Map<string, number>()
-  commands.forEach((c, i) => {
-    if (c.label) m.set(c.label, i)
-  })
-  return m
-}
 
 export interface DescResult {
   lines: string[]
@@ -270,115 +264,6 @@ export function walkDesc(
     }
   }
   return { lines }
-}
-
-// ── 角色 ──────────────────────────────────────────────────
-export function mapActor(
-  role: SourceRole,
-  expTable: readonly number[],
-  soundAssetForNum?: SoundAssetForNum,
-): ActorDef {
-  const slug = ROLE_SLUGS[role.id]
-  if (!slug) throw new Error(`mapActor: 未知 roleId ${role.id}`)
-  const initialEquipment: Record<string, string> = {}
-  role.equipment.forEach((itemId, i) => {
-    const slot = EQUIP_INDEX_TO_SLOT[i]
-    if (slot && itemId > 0) initialEquipment[slot] = String(itemId)
-  })
-  return {
-    id: slug,
-    name: `name.${slug}`,
-    spriteId: slug,
-    // 头像组(C1):迁移填主头像(role.avatar);命名表情由编辑器人工加(原版无表情组数据)
-    ...(role.avatar ? { portraits: { default: palPortraitAssetId(role.avatar) } } : {}),
-    ...(PAL_PLAYER_FACE_FRAME_BY_ROLE_ID[role.id] !== undefined
-      ? { face: palFaceAssetId(slug) }
-      : {}),
-    battler: {
-      baseStats: {
-        level: role.level,
-        hp: role.hp,
-        maxHP: role.maxHP,
-        mp: role.mp,
-        maxMP: role.maxMP,
-        attack: role.attackStrength,
-        defense: role.defense,
-        magicAttack: role.magicStrength,
-        speed: role.dexterity,
-        luck: role.fleeRate,
-      },
-      initialEquipment,
-      initialMagic: role.magic.filter((m) => m > 0).map(String),
-      // 合体技 id(原版 player-roles cooperativeMagic obj-id = 合体仙术 skills.json id;0 = 无)
-      ...((role.cooperativeMagic ?? 0) > 0
-        ? { cooperativeMagicSkillId: String(role.cooperativeMagic) }
-        : {}),
-      // 援护关系(原版 player-roles rgwCoveredBy;B11-1 阵亡/濒死脚本与 B9 替挡都依赖它)
-      coveredBy: ROLE_SLUGS[role.coveredBy],
-      leveling: { expTable: [...expTable] },
-      battleSprite: palPlayerBattleSpriteDefinitionId(role.spriteNumInBattle),
-      // 战斗音效七件套(rgw*Sound 全量;演出层经 session opts 消费)
-      sounds: Object.fromEntries(
-        [
-          ['attack', role.attackSound],
-          ['critical', role.criticalSound],
-          ['weapon', role.weaponSound],
-          ['magic', role.magicSound],
-          ['cover', role.coverSound],
-          ['dying', role.dyingSound],
-          ['death', role.deathSound],
-        ].flatMap(([field, value]) => {
-          const asset = resolveSoundAsset(value as number, soundAssetForNum)
-          return asset ? [[field, asset]] : []
-        }),
-      ),
-    },
-  }
-}
-
-/** 6 角色的大世界精灵表登记(walkFrames 0 = 默认 3;非字面拷贝)。 */
-export function mapSprites(roles: readonly SourceRole[]): SpriteDef[] {
-  return roles.map((r) => {
-    const slug = ROLE_SLUGS[r.id]
-    if (!slug) throw new Error(`mapSprites: 未知 roleId ${r.id}`)
-    return {
-      id: slug,
-      asset: palSpriteAssetId(r.spriteNum),
-      label: `${r._name}(大世界)`,
-      layout: { kind: 'directional' as const, framesPerDir: r.walkFrames || 3 },
-    }
-  })
-}
-
-/**
- * 旧角色表中的 spriteNum 只允许在迁移边界解析一次。映射由 source role 与语义
- * SpriteDef.id 显式建立，不能从 AssetId/path 反推；同一旧编号若落到多个语义定义则
- * 无法替脚本猜测意图，必须 fail-loud。
- */
-export function mapRoleSpritesByNumber(
-  roles: readonly SourceRole[],
-  sprites: readonly SpriteDef[],
-): ReadonlyMap<number, SpriteDef> {
-  const spritesById = new Map(sprites.map((sprite) => [sprite.id, sprite]))
-  const result = new Map<number, SpriteDef>()
-  for (const role of roles) {
-    const id = ROLE_SLUGS[role.id]
-    if (!id) throw new Error(`mapRoleSpritesByNumber: 未知 roleId ${role.id}`)
-    const sprite = spritesById.get(id)
-    if (!sprite) throw new Error(`mapRoleSpritesByNumber: 角色 ${id} 缺少语义 SpriteDef`)
-    const expectedAsset = palSpriteAssetId(role.spriteNum)
-    if (sprite.asset !== expectedAsset)
-      throw new Error(
-        `mapRoleSpritesByNumber: 角色 ${id} 的资源应为 ${expectedAsset}，实际 ${sprite.asset}`,
-      )
-    const existing = result.get(role.spriteNum)
-    if (existing !== undefined && existing.id !== id)
-      throw new Error(
-        `mapRoleSpritesByNumber: 旧精灵号 ${role.spriteNum} 同时对应 ${existing.id} 与 ${id}`,
-      )
-    result.set(role.spriteNum, sprite)
-  }
-  return result
 }
 
 /** level-up-magic:20 行 × 5 列,**列 = roleId**(列主序;行内取列,勿按行)。空槽 level/magic=0 滤掉。 */
@@ -956,134 +841,6 @@ export function migratedItemUseScriptRef(itemId: number | string): ScriptRef {
 }
 
 /**
- * 识别 0x20 “有任一材料就扣除并跳到同一产物段”的有序配方形状。
- * PAL 炼蛊皿只是该形状的一条源数据；产物、材料和优先级全部从命令流提取。
- */
-export function translateCraftRecipeScript(
-  commands: readonly SourceCmd[],
-  labelIndex: Map<string, number>,
-  ip: number,
-): NonNullable<ItemData['use']>['effects'][number] | undefined {
-  let cursor = labelIndex.get(`L_${ip}`)
-  if (cursor === undefined) return undefined
-  const seen = new Set<number>()
-  const ingredients: Array<{ itemId: string; count: number }> = []
-  let productStart: number | undefined
-  let terminalFailure: number | undefined
-
-  while (cursor !== undefined) {
-    if (seen.has(cursor)) return undefined
-    seen.add(cursor)
-    const command = commands[cursor]
-    if (command?.op !== 'raw' || command.opcode !== 0x20) break
-    const [itemId = 0, rawCount = 0, failureAddress = 0] = command.operands ?? []
-    if (itemId <= 0 || failureAddress <= 0) return undefined
-    const next = commands[cursor + 1] as (SourceCmd & { to?: string }) | undefined
-    const successStart = next?.op === 'goto' && next.to ? labelIndex.get(next.to) : cursor + 1
-    if (successStart === undefined) return undefined
-    if (productStart === undefined) productStart = successStart
-    else if (productStart !== successStart) return undefined
-    ingredients.push({ itemId: String(itemId), count: Math.max(1, rawCount) })
-
-    const failure = labelIndex.get(`L_${failureAddress}`)
-    if (failure === undefined) return undefined
-    const failureCommand = commands[failure]
-    if (failureCommand?.op === 'raw' && failureCommand.opcode === 0x20) {
-      cursor = failure
-      continue
-    }
-    terminalFailure = failure
-    break
-  }
-
-  if (!ingredients.length || productStart === undefined || terminalFailure === undefined)
-    return undefined
-  const failureStyle = commands[terminalFailure]
-  const failureMessage = commands[terminalFailure + 1]
-  const failureEnd = commands[terminalFailure + 2]
-  const nextFailureBlock = commands[terminalFailure + 3]
-  if (
-    failureStyle?.op !== 'setDialogStyleNarration' ||
-    failureMessage?.op !== 'showDialog' ||
-    typeof failureMessage.text !== 'string' ||
-    failureMessage.text.trim().length === 0 ||
-    failureEnd?.op !== 'end' ||
-    (nextFailureBlock !== undefined && nextFailureBlock.label === undefined)
-  )
-    return undefined
-  const unavailableMessage = failureMessage.text.trim()
-  const products: Array<{ itemId: string; count: number }> = []
-  for (let index = productStart; index < commands.length; index++) {
-    const command = commands[index] as (SourceCmd & { itemId?: number; count?: number }) | undefined
-    if (command?.op !== 'giveItem') break
-    if ((command.itemId ?? 0) <= 0) return undefined
-    products.push({
-      itemId: String(command.itemId),
-      count: command.count === 0 ? 1 : (command.count ?? 1),
-    })
-  }
-  if (!products.length) return undefined
-  return {
-    kind: 'craftRecipe',
-    recipes: ingredients.map((ingredient) => ({ ingredients: [ingredient], products })),
-    unavailableMessage,
-  }
-}
-
-/** 读取共享失败臂的严格旁白三元组；共享入边数量不参与 owner 判断。 */
-function strictNarrationFailureMessage(
-  commands: readonly SourceCmd[],
-  start: number,
-): string | undefined {
-  const style = commands[start]
-  const message = commands[start + 1]
-  const end = commands[start + 2]
-  const nextBlock = commands[start + 3]
-  if (
-    style?.op !== 'setDialogStyleNarration' ||
-    message?.op !== 'showDialog' ||
-    typeof message.text !== 'string' ||
-    message.text.trim().length === 0 ||
-    end?.op !== 'end' ||
-    (nextBlock !== undefined && nextBlock.label === undefined)
-  )
-    return undefined
-  return message.text.trim()
-}
-
-/**
- * 识别 0x34“从 collectValue 抽取并扣同档资源、按 Store0 档位给奖励”的完整形状。
- * operand0 是零资源时的直接失败地址；共享失败臂只按该控制流读取，不要求唯一入边。
- */
-export function translateResourcePoolScript(
-  commands: readonly SourceCmd[],
-  labelIndex: ReadonlyMap<string, number>,
-  ip: number,
-  rewardItemIds: readonly number[],
-):
-  | Extract<NonNullable<ItemData['use']>['effects'][number], { kind: 'drawFromResourcePool' }>
-  | undefined {
-  const start = labelIndex.get(`L_${ip}`)
-  if (start === undefined || rewardItemIds.length === 0) return undefined
-  const command = commands[start]
-  if (command?.op !== 'raw' || command.opcode !== 0x34 || commands[start + 1]?.op !== 'end')
-    return undefined
-  const [failureAddress = 0] = command.operands ?? []
-  if (failureAddress <= 0) return undefined
-  const failure = labelIndex.get(`L_${failureAddress}`)
-  if (failure === undefined) return undefined
-  const unavailableMessage = strictNarrationFailureMessage(commands, failure)
-  if (unavailableMessage === undefined) return undefined
-  return {
-    kind: 'drawFromResourcePool',
-    resource: 'collectValue',
-    maxRoll: rewardItemIds.length,
-    rewards: rewardItemIds.map((itemId) => ({ itemId: String(itemId), count: 1 })),
-    unavailableMessage,
-  }
-}
-
-/**
  * 识别原版 0x84“把指定场景对象放到队伍前方”的完整事务形状。
  * 成功直接结束；失败臂只负责旁白提示和 0x41 终止，不能把失败对白并进成功效果。
  */
@@ -1494,16 +1251,8 @@ export function migrateAll(
   enemyAuthority?: EnemyMigrationAuthority,
   options: MigrateAllOptions = {},
 ): MigrateOutput {
-  const labelIndex = buildLabelIndex(src.commands)
-  const explicitLabels = new Set(labelIndex.keys())
-  src.commands.forEach((command, address) => {
-    const expected = `L_${address}`
-    if (command.label !== undefined && command.label !== expected)
-      throw new Error(
-        `all.json 显式 label 与数组地址不一致: index=${address}, label=${command.label}`,
-      )
-    if (!labelIndex.has(expected)) labelIndex.set(expected, address)
-  })
+  const explicitLabels = new Set(buildLabelIndex(src.commands).keys())
+  const labelIndex = buildSourceAddressLabelIndex(src.commands)
   const blockedDescs: MigrateOutput['report']['blockedDescs'] = []
   /** 按域包一层护栏记录(id = scriptDesc 的 ip,足以定位手修)。 */
   const descOf =
@@ -1908,11 +1657,6 @@ import type { ScriptRegistryAuditRecord } from './translate-events.js'
 
 export type { SourceEventObject, SourceScene } from './scene-migration-source-plan.js'
 
-/** PAL 迁移器保留的中性 SpriteDef id；玩法职责不得编码进资源身份。 */
-export function migratedSpriteId(spriteNum: number, layoutVariantFrames?: number): string {
-  return `sprite-${spriteNum}${layoutVariantFrames === undefined ? '' : `-f${layoutVariantFrames}`}`
-}
-
 export interface SceneMigrationResult {
   scenes: SceneDef[]
   scriptIndex: ScriptIndexV1
@@ -2140,9 +1884,6 @@ export function mapScenesStatic(
   }
   const foldedHostileRoots: SceneMigrationResult['foldedHostileRoots'] = []
 
-  if (options.worldSpriteFrameCounts)
-    assertPalWorldSpriteLayoutOverlaySources(options.worldSpriteFrameCounts)
-
   const sourcePlan = planSceneMigrationSources(srcScenes, eventsByScene)
   const {
     orderedScenes,
@@ -2229,201 +1970,15 @@ export function mapScenesStatic(
     return dir
   }
 
-  // ── 精灵布局注册表(预扫描 + 只读解析)──
-  // 0x65/0x1A 只携带资源号，没有布局信息。先扫描全部 scene 声明，再叠加逐项 PAL
-  // 证据；翻译脚本时只查表，绝不在引用路径上创建 directional/3 默认值。
-  type LayoutRegistration = {
-    spriteNum: number
-    nSpriteFrames?: number
-    id: string
-    layout: SpriteDef['layout']
-    source: 'scene' | 'pal-overlay'
-    evidence: string
-    label: string
-    /** 稳定视觉定义由角色迁移持有；场景只复用 id，不能再生成一份重复 SpriteDef。 */
-    externalDefinition?: true
-  }
-  const layoutKey = (layout: SpriteDef['layout']): string =>
-    layout.kind === 'directional'
-      ? `directional:${layout.framesPerDir}`
-      : layout.kind === 'loop'
-        ? `loop:${layout.frameCount}:${layout.ticksPerFrame ?? ''}`
-        : 'static'
-  const sceneLayout = (nSpriteFrames: number): SpriteDef['layout'] =>
-    nSpriteFrames > 0 ? { kind: 'directional', framesPerDir: nSpriteFrames } : { kind: 'static' }
-  const roleSpriteAliasFor = (
-    spriteNum: number,
-    layout: SpriteDef['layout'] | undefined,
-    usage: 'script' | 'scene',
-  ): SpriteDef | undefined => {
-    const roleSprite = roleSpritesByNum.get(spriteNum)
-    if (!roleSprite || roleSprite.asset !== palSpriteAssetId(spriteNum)) return undefined
-    if (layout && layoutKey(roleSprite.layout) !== layoutKey(layout)) return undefined
-    if (usage === 'scene' && !options.sceneSemanticSpriteIds?.has(roleSprite.id)) return undefined
-    return roleSprite
-  }
-  type SceneLayoutEvidence = {
-    nSpriteFrames: number
-    sceneId: number
-    entityId: number
-  }
-  const sceneEvidenceBySprite = new Map<number, Map<number, SceneLayoutEvidence>>()
-  for (const sourceScene of orderedScenes) {
-    for (const entity of [...sourceScene.eventObjects].sort((left, right) => left.id - right.id)) {
-      if (entity.spriteNum <= 0) continue
-      const nSpriteFrames = entity.nSpriteFrames ?? 0
-      const layouts = sceneEvidenceBySprite.get(entity.spriteNum) ?? new Map()
-      const existing = layouts.get(nSpriteFrames)
-      if (
-        !existing ||
-        sourceScene.sceneId < existing.sceneId ||
-        (sourceScene.sceneId === existing.sceneId && entity.id < existing.entityId)
-      )
-        layouts.set(nSpriteFrames, {
-          nSpriteFrames,
-          sceneId: sourceScene.sceneId,
-          entityId: entity.id,
-        })
-      sceneEvidenceBySprite.set(entity.spriteNum, layouts)
-    }
-  }
-
-  const overlaysBySprite = new Map<number, PalWorldSpriteLayoutOverlay>(
-    PAL_WORLD_SPRITE_LAYOUT_OVERLAYS.map((overlay) => [overlay.spriteNum, overlay] as const),
-  )
-  if (overlaysBySprite.size !== PAL_WORLD_SPRITE_LAYOUT_OVERLAYS.length)
-    throw new Error('PAL 大世界精灵布局 overlay 含重复 spriteNum')
-
-  const registrationsBySprite = new Map<number, Map<string, LayoutRegistration>>()
-  const sceneRegistrationByKey = new Map<string, LayoutRegistration>()
-  const allSpriteNums = new Set([...sceneEvidenceBySprite.keys(), ...overlaysBySprite.keys()])
-  for (const spriteNum of [...allSpriteNums].sort((left, right) => left - right)) {
-    const sceneEvidence = [...(sceneEvidenceBySprite.get(spriteNum)?.values() ?? [])].sort(
-      (left, right) =>
-        left.sceneId - right.sceneId ||
-        left.entityId - right.entityId ||
-        left.nSpriteFrames - right.nSpriteFrames,
-    )
-    const overlay = overlaysBySprite.get(spriteNum)
-    const semanticRoleSprite = roleSpriteAliasFor(spriteNum, undefined, 'scene')
-    const primaryLayout =
-      semanticRoleSprite?.layout ??
-      overlay?.layout ??
-      sceneLayout(sceneEvidence[0]?.nSpriteFrames ?? 0)
-    const primaryKey = layoutKey(primaryLayout)
-    const layouts = new Map<string, LayoutRegistration>()
-    if (semanticRoleSprite) {
-      layouts.set(layoutKey(semanticRoleSprite.layout), {
-        spriteNum,
-        id: semanticRoleSprite.id,
-        layout: semanticRoleSprite.layout,
-        source: 'scene',
-        evidence: `player-roles spriteNum=${spriteNum}`,
-        label: semanticRoleSprite.label,
-        externalDefinition: true,
-      })
-    }
-    if (overlay) {
-      const key = layoutKey(overlay.layout)
-      if (!layouts.has(key))
-        layouts.set(key, {
-          spriteNum,
-          id: migratedSpriteId(spriteNum),
-          layout: overlay.layout,
-          source: 'pal-overlay',
-          evidence: overlay.evidence,
-          label: `原精灵 ${spriteNum}(0x65 换装)`,
-        })
-    }
-    for (const evidence of sceneEvidence) {
-      const layout = sceneLayout(evidence.nSpriteFrames)
-      const key = layoutKey(layout)
-      const matchesPrimary = key === primaryKey
-      // overlay 与场景证据相同 = 同一个 stable base；保留历史人读 label，避免纯布局修复
-      // 与作者改名形成无意义 MG2 冲突。不同布局才建立 scene -f<n> 变体。
-      const registration: LayoutRegistration = layouts.has(key)
-        ? layouts.get(key)!
-        : {
-            spriteNum,
-            nSpriteFrames: evidence.nSpriteFrames,
-            id: matchesPrimary
-              ? migratedSpriteId(spriteNum)
-              : migratedSpriteId(spriteNum, evidence.nSpriteFrames),
-            layout,
-            source: 'scene',
-            evidence: `scene ${sceneSlug(evidence.sceneId)}/e${evidence.entityId} nSpriteFrames=${evidence.nSpriteFrames}`,
-            label: `原精灵 ${spriteNum}`,
-          }
-      layouts.set(key, registration)
-      sceneRegistrationByKey.set(`${spriteNum}:${evidence.nSpriteFrames}`, registration)
-    }
-    registrationsBySprite.set(spriteNum, layouts)
-    for (const registration of layouts.values())
-      if (!registration.externalDefinition && registration.id !== migratedSpriteId(spriteNum))
-        report.layoutConflicts.push(registration.id)
-  }
-  report.layoutConflicts.sort()
-
-  const spriteDefs = new Map<string, SpriteDef>()
-  const recordedLayoutEvidence = new Set<string>()
-  const ensureSpriteDefinitionIn = (
-    definitions: Map<string, SpriteDef>,
-    registration: LayoutRegistration,
-    recordEvidence: boolean,
-  ): string => {
-    if (registration.externalDefinition) return registration.id
-    if (!definitions.has(registration.id))
-      definitions.set(registration.id, {
-        id: registration.id,
-        asset: palSpriteAssetId(registration.spriteNum),
-        label: registration.label,
-        layout: registration.layout,
-      })
-    if (recordEvidence) {
-      const evidenceKey = `${registration.spriteNum}:${registration.id}:${registration.source}`
-      if (!recordedLayoutEvidence.has(evidenceKey)) {
-        recordedLayoutEvidence.add(evidenceKey)
-        report.layoutEvidence.push({
-          spriteNum: registration.spriteNum,
-          definitionId: registration.id,
-          source: registration.source,
-          evidence: registration.evidence,
-        })
-      }
-    }
-    return registration.id
-  }
-  const ensureSpriteDefinition = (registration: LayoutRegistration): string =>
-    ensureSpriteDefinitionIn(spriteDefs, registration, true)
-  const spriteRef = (entity: SourceEventObject): string => {
-    const nSpriteFrames = entity.nSpriteFrames ?? 0
-    const registration = sceneRegistrationByKey.get(`${entity.spriteNum}:${nSpriteFrames}`)
-    if (!registration)
-      throw new Error(`sprite ${entity.spriteNum} 缺场景布局注册: nSpriteFrames=${nSpriteFrames}`)
-    return ensureSpriteDefinition(registration)
-  }
-
-  /** 0x65 / 0x1A field=2 / 0x98 共用的只读旧号解析器。 */
-  const resolveSpriteIdForNum = (
-    num: number,
-    ensure: (registration: LayoutRegistration) => string,
-  ): string => {
-    const roleSprite = roleSpriteAliasFor(num, undefined, 'script')
-    if (roleSprite) return roleSprite.id
-    const layouts = registrationsBySprite.get(num)
-    if (!layouts?.size) throw new Error(`sprite ${num} 缺布局证据；禁止从脚本资源号猜布局`)
-    const overlay = overlaysBySprite.get(num)
-    if (overlay) {
-      const registration = layouts.get(layoutKey(overlay.layout))
-      if (!registration) throw new Error(`sprite ${num} 的 PAL overlay 未进入布局注册表`)
-      return ensure(registration)
-    }
-    if (layouts.size !== 1)
-      throw new Error(
-        `sprite ${num} 有 ${layouts.size} 种场景布局，脚本资源号无法消歧；需要逐项 PAL overlay`,
-      )
-    return ensure([...layouts.values()][0]!)
-  }
+  const {
+    spriteDefs,
+    spriteRef,
+    resolveSpriteIdForNum,
+    ensureSpriteDefinitionIn,
+    report: layoutReport,
+  } = createPalWorldSpriteRegistry(srcScenes, roleSpritesByNum, options)
+  report.layoutConflicts = layoutReport.layoutConflicts
+  report.layoutEvidence = layoutReport.layoutEvidence
   // ── M3a 脚本翻译上下文(触发链/onEnter → 结构化 stages;文本进 locale)──
   const createTranslateContext = (
     definitions: Map<string, SpriteDef>,

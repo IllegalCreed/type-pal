@@ -1,5 +1,5 @@
 import type { AuthorSceneDef, SpriteDef } from '@type-pal/content'
-import { migratedSpriteId } from './migrate-content.js'
+import { migratedSpriteId } from './pal-world-sprite-registry.js'
 
 export interface PalWorldSceneSemanticSpriteAlias {
   semanticId: string
