@@ -97,11 +97,9 @@
                       }
                     }
                   ],
-                  "next": "completed"
-                },
-                {
-                  "id": "completed",
-                  "body": []
+                  "next": {
+                    "kind": "complete"
+                  }
                 }
               ]
             }
