@@ -1,0 +1,1 @@
+  expect(() => resizeProjectMap(stamped, 4, 4) /* 变异轴：安全尺寸 */).toThrow(

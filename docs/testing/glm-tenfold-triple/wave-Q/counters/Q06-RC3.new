@@ -1,0 +1,2 @@
+    addPoisonForPlayer(g, 0, 8, runner) // 变异轴：换未登记毒（playerScript 退化 0）
+    expect(runner).toHaveBeenCalledWith(300)

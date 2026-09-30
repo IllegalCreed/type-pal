@@ -13,10 +13,7 @@
       "videoVisible": true,
       "menuReached": true,
       "worldMounted": false,
-      "shots": [
-        "f1-trademark-video.png",
-        "f1-menu-after-videos.png"
-      ],
+      "shots": ["f1-trademark-video.png", "f1-menu-after-videos.png"],
       "console": [
         {
           "type": "debug",
@@ -63,9 +60,7 @@
       "visibleChange": true,
       "cursorAfterMove": 1,
       "cursorMoved": true,
-      "shots": [
-        "f2-menu-move.png"
-      ],
+      "shots": ["f2-menu-move.png"],
       "worldMounted": false,
       "console": [
         {
@@ -111,9 +106,7 @@
       "name": "光标在「旧的回忆」上 Enter 进空档存档浏览",
       "loadDiff": 0.7299375,
       "loadBrowserVisible": true,
-      "shots": [
-        "f3-load-browser.png"
-      ]
+      "shots": ["f3-load-browser.png"]
     },
     {
       "id": "F4",
@@ -126,9 +119,7 @@
       "wrapVisible": true,
       "cursorAfterWrap": 0,
       "wrappedToFirst": true,
-      "shots": [
-        "f4-back-to-menu.png"
-      ]
+      "shots": ["f4-back-to-menu.png"]
     },
     {
       "id": "F5",
@@ -147,9 +138,7 @@
       "nonzeroChannels": 10475,
       "canvasPainted": true,
       "worldMounted": false,
-      "shots": [
-        "f6-gallery.png"
-      ],
+      "shots": ["f6-gallery.png"],
       "console": [
         {
           "type": "debug",
@@ -201,9 +190,7 @@
       "nonzeroChannels": 46884,
       "canvasPainted": true,
       "worldMounted": false,
-      "shots": [
-        "f7-battle-preview.png"
-      ],
+      "shots": ["f7-battle-preview.png"],
       "console": [
         {
           "type": "debug",
@@ -254,9 +241,7 @@
       "errorLogged": true,
       "errorText": "[reforge] Error: 独立试买参数 money 必须为非负安全整数\n    at number (http://localhost:6051/src/shop-trial.ts:22:87)\n    at parseShopTrialParameters (http://localhost:6051/src/shop-trial.ts:27:10)\n    at bootGame (http://localhost:6051/src/main.ts:123:16)\n    at boot (http://localhost:6051/src/boot.ts:11:8)",
       "canvasPainted": true,
-      "shots": [
-        "f8-shop-trial-error.png"
-      ],
+      "shots": ["f8-shop-trial-error.png"],
       "console": [
         {
           "type": "debug",
@@ -310,10 +295,7 @@
         "hidden": false
       },
       "shopPainted": true,
-      "shots": [
-        "f9-shop-open.png",
-        "f9-shop-exit.png"
-      ],
+      "shots": ["f9-shop-open.png", "f9-shop-exit.png"],
       "console": [
         {
           "type": "debug",
@@ -367,9 +349,7 @@
         "hidden": true
       },
       "exitedCleanly": true,
-      "shots": [
-        "f10-shop-resize.png"
-      ]
+      "shots": ["f10-shop-resize.png"]
     }
   ],
   "screenshots": {

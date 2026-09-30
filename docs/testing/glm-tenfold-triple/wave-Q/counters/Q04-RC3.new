@@ -1,0 +1,1 @@
+        return resolver.resolve('probe', timing, boundaryPolicy) // 变异轴：返回匹配 id

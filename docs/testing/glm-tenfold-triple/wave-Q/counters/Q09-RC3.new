@@ -1,0 +1,2 @@
+    fb.writePixel(0, 0, 4) // 变异轴：合法索引换值
+    fb.writePixel(1, 0, 200)

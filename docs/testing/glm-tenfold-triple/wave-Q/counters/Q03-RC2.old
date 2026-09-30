@@ -1,0 +1,2 @@
+  adapter.currentTime = 3
+  expect(adapter.currentTime).toBe(3)

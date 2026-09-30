@@ -1,0 +1,16 @@
+{
+  "id": "Q04-RC2",
+  "file": "packages/reforge/src/script-runner-core.gates.glm-q.test.ts",
+  "targetSubstring": "callScript 自递归在深度 128 处精确熔断",
+  "sha256": {
+    "original": "896fab49346937562f8aa66e780b9fdf24c85e73a1a8f4d1833e8387a20208a7",
+    "mutated": "2d5f3effb43e6101fe7ac435ed39f02178c289cacf48db55a6f0e4d9773b56dd",
+    "restored": "896fab49346937562f8aa66e780b9fdf24c85e73a1a8f4d1833e8387a20208a7"
+  },
+  "restoredHashUnchanged": true,
+  "positiveExit": 0,
+  "mutantExit": 1,
+  "package": "reforge",
+  "targetFailureBlock": " FAIL  src/script-runner-core.gates.glm-q.test.ts > Q04 commandOutcome 与 callScript 门 > callScript 自递归在深度 128 处精确熔断\nAssertionError: promise resolved \"undefined\" instead of rejecting\n\n- Expected:\nError {\n  \"message\": \"rejected promise\",\n}\n\n+ Received:\nundefined\n\n ❯ src/script-runner-core.gates.glm-q.test.ts:167:5\n    165|         { cursorController: controller() },\n    166|       ),\n    167|     ).rejects.toThrow('ScriptRunnerCore: callScript 调用深度超过 128')\n       |     ^\n    168|   })\n    169|\n\n⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯\n\n",
+  "summaryLines": []
+}

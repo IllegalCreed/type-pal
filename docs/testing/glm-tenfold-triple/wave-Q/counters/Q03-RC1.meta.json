@@ -1,0 +1,16 @@
+{
+  "id": "Q03-RC1",
+  "file": "packages/reforge/src/audio-spessa-runtime.glm-q.test.ts",
+  "targetSubstring": "无任何 AudioContext 构造器返回 undefined",
+  "sha256": {
+    "original": "9a3b9b7b541d4488a394eb8383091ea3e16135665075834e638189cbfa35b521",
+    "mutated": "26fab2083311585440ac704c7e6cf36d4b84f44324f8d5148bf6e8fa6cbd75b3",
+    "restored": "9a3b9b7b541d4488a394eb8383091ea3e16135665075834e638189cbfa35b521"
+  },
+  "restoredHashUnchanged": true,
+  "positiveExit": 0,
+  "mutantExit": 1,
+  "package": "reforge",
+  "targetFailureBlock": " FAIL  src/audio-spessa-runtime.glm-q.test.ts > Q03 试听 runtime：无任何 AudioContext 构造器返回 undefined\nAssertionError: expected undefined to be defined\n ❯ src/audio-spessa-runtime.glm-q.test.ts:219:68\n    217|   vi.stubGlobal('AudioContext', undefined)\n    218|   vi.stubGlobal('webkitAudioContext', undefined)\n    219|   expect(createBrowserMidiPreviewRuntime(roleReader(riffBytes()))).toB…\n       |                                                                    ^\n    220| })\n    221|\n\n⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯\n\n",
+  "summaryLines": []
+}

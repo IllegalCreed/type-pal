@@ -1,0 +1,2 @@
+    seed(g, 0, 0, 90) // 寿葫芦类伪毒
+    expect(isPlayerPoisoned(g, 0)).toBe(false)

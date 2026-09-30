@@ -1,0 +1,16 @@
+{
+  "id": "Q05-RC5",
+  "file": "packages/reforge/src/enemy-closure.glm-q.test.ts",
+  "targetSubstring": "fallback cast 计入技能闭包",
+  "sha256": {
+    "original": "4c9d2efa7df5b13d3296b4b09c3134f23167880c0ccea1cabb2e36fc28606323",
+    "mutated": "07cdd3219603549436cd32de669e959bc531e74497b21ecab70774299e3c0e1b",
+    "restored": "4c9d2efa7df5b13d3296b4b09c3134f23167880c0ccea1cabb2e36fc28606323"
+  },
+  "restoredHashUnchanged": true,
+  "positiveExit": 0,
+  "mutantExit": 1,
+  "package": "reforge",
+  "targetFailureBlock": " FAIL  src/enemy-closure.glm-q.test.ts > Q05 collectReachableEnemySkillIds > fallback cast 计入技能闭包；hook effect summon/divide 不产生技能\nAssertionError: expected [ 'hex2' ] to deeply equal [ 'hex' ]\n\n- Expected\n+ Received\n\n  [\n-   \"hex\",\n+   \"hex2\",\n  ]\n\n ❯ src/enemy-closure.glm-q.test.ts:123:65\n    121|       }),\n    122|     }\n    123|     expect(collectReachableEnemySkillIds([table.root!], table)).toEqua…\n       |                                                                 ^\n    124|     expect(collectReachableEnemySkillIds([], table)).toEqual([])\n    125|   })\n\n⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯\n\n",
+  "summaryLines": []
+}

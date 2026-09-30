@@ -1,0 +1,2 @@
+      x: withRules('x', [cast('s0')]), // 变异轴：改为非 transform 合法动作
+      y: withRules('y', [transform('x')]),

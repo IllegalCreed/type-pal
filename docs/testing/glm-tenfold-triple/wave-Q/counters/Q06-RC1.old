@@ -1,0 +1,2 @@
+    seed(g, 0, 0, 7)
+    expect(isPlayerPoisoned(g, 0, 7)).toBe(true)

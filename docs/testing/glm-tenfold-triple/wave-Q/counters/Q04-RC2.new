@@ -1,0 +1,5 @@
+      recurse: {
+        name: '非递归',
+        self: 'optional',
+        body: [{ kind: 'clearDialog' }], // 变异轴：合法非递归体
+      },

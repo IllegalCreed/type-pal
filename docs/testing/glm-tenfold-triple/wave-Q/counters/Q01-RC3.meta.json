@@ -1,0 +1,16 @@
+{
+  "id": "Q01-RC3",
+  "file": "packages/reforge/src/boot-page-shell.glm-q.test.ts",
+  "targetSubstring": "加载失败：错误画屏绘制",
+  "sha256": {
+    "original": "96b30fa1b9e9c9b5c77f8e07fad39bae331bedabce556a5f2c5f9dcc9bd248ce",
+    "mutated": "540b13f27cfdc9e68214d28c3fb24171d0347bd401327eee04b1e3346092f335",
+    "restored": "96b30fa1b9e9c9b5c77f8e07fad39bae331bedabce556a5f2c5f9dcc9bd248ce"
+  },
+  "restoredHashUnchanged": true,
+  "positiveExit": 0,
+  "mutantExit": 1,
+  "package": "reforge",
+  "targetFailureBlock": " FAIL  src/boot-page-shell.glm-q.test.ts > Q01 加载失败：错误画屏绘制 reforge ERR 文本并 console.error，模块导入不 reject\nAssertionError: expected [ 'reforge ERR: boom: other project' ] to include 'reforge ERR: boom: no such project'\n ❯ src/boot-page-shell.glm-q.test.ts:74:17\n     72|     .filter((draw) => draw.method === 'fillText')\n     73|     .map((draw) => String(draw.args[0]))\n     74|   expect(texts).toContain('reforge ERR: boom: no such project')\n       |                 ^\n     75|   const rects = host.draws.filter((draw) => draw.method === 'fillRect')\n     76|   expect(rects.length).toBeGreaterThan(0)\n\n⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯\n\n",
+  "summaryLines": []
+}

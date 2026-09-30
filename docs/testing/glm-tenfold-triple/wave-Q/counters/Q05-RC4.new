@@ -1,0 +1,1 @@
+      wing: withRules('wing', [cast('fire'), cast('fire'), { kind: 'attack' }]), // 变异轴：重复技能

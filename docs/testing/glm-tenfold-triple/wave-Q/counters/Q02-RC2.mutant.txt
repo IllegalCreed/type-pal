@@ -1,0 +1,101 @@
+
+ RUN  v4.1.7 /private/tmp/glmq/counter-copy/type-pal/packages/reforge
+
+ ❯ src/assets-decode-gates.glm-q.test.ts (11 tests | 1 failed) 43ms
+   ✓ Q02 battle-sprite 解码核：kind / mediaType / bytes / sha256 逐门精确拒绝 20ms
+   ✓ Q02 battle-sprite 解码核：非 gzip 字节拒收；合法字节解出锚点与 canonical profile 11ms
+   ✓ Q02 battle-sprite 解码核：legacy-migrated origin 选择 legacy profile 2ms
+   × Q02 battle 缓存以完整 record（含 label/origin.ref）为失效签名 4ms
+   ✓ Q02 battle 缓存保护裁剪：受保护项存活、非保护项逐出后重读 2ms
+   ✓ Q02 effect-sprite record 门：mediaType / bytes 登记 / sha256 逐臂拒绝 + 合法对照 1ms
+   ✓ Q02 loadFireSprite 按 chunk 派生 catalog 身份读取法术特效 1ms
+   ✓ Q02 tilesFromChunkBytes：非 gzip 拒收带默认与显式标签；合法字节解出帧表 1ms
+   ✓ Q02 decompressGzip 对无 gzip 魔数的字节原样透传 0ms
+   ✓ Q02 compressGzip 接受带偏移的字节视图并只压缩可见区间 0ms
+   ✓ Q02 compressGzip 缺 CompressionStream 端口时 fail-loud 0ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/assets-decode-gates.glm-q.test.ts > Q02 battle 缓存以完整 record（含 label/origin.ref）为失效签名
+AssertionError: expected { frames: [ …(3) ], anchorX: 1, …(3) } to be undefined
+
+- Expected:
+undefined
+
++ Received:
+{
+  "anchorX": 1,
+  "anchorY": 2,
+  "decode": {
+    "declaredSlots": 3,
+    "skippedLegacyTailSlots": 0,
+    "trailingSentinel": false,
+  },
+  "frames": [
+    {
+      "height": 2,
+      "opaque": Uint8Array [
+        1,
+        1,
+        1,
+        1,
+      ],
+      "pixels": Uint8Array [
+        1,
+        2,
+        3,
+        4,
+      ],
+      "width": 2,
+    },
+    {
+      "height": 2,
+      "opaque": Uint8Array [
+        1,
+        1,
+        1,
+        1,
+      ],
+      "pixels": Uint8Array [
+        1,
+        2,
+        3,
+        4,
+      ],
+      "width": 2,
+    },
+    {
+      "height": 2,
+      "opaque": Uint8Array [
+        1,
+        1,
+        1,
+        1,
+      ],
+      "pixels": Uint8Array [
+        1,
+        2,
+        3,
+        4,
+      ],
+      "width": 2,
+    },
+  ],
+  "profile": "canonical",
+}
+
+ ❯ src/assets-decode-gates.glm-q.test.ts:111:35
+    109|   expect(reads).toBe(1)
+    110|   // 变异轴：label 保持不变
+    111|   expect(cache.get(reader, 'bs')).toBeUndefined()
+       |                                   ^
+    112|   await cache.load(reader, 'bs')
+    113|   expect(reads).toBe(2)
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 10 passed (11)
+   Start at  01:42:36
+   Duration  383ms (transform 219ms, setup 0ms, import 267ms, tests 43ms, environment 0ms)

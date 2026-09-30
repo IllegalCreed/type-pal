@@ -1,0 +1,3 @@
+  test('默认 320×200；自定义尺寸按参数建', () => {
+    const fb = createFramebuffer(8, 6) // 变异轴：显式传参（合法离屏尺寸）
+    expect(fb.width).toBe(SCREEN_W)

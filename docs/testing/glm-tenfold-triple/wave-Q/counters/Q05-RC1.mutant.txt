@@ -1,0 +1,40 @@
+
+ RUN  v4.1.7 /private/tmp/glmq/counter-copy/type-pal/packages/reforge
+
+ ❯ src/enemy-closure.glm-q.test.ts (6 tests | 1 failed) 6ms
+     ✓ 无 transform/summon 时闭包只含初始敌人且按序去重 1ms
+     × transform 与 summon 都把目标敌入队；未知目标精确报错 4ms
+     ✓ enemyId 缺省的 summon 不入队；hooks 内 effect summon 参与闭包 0ms
+     ✓ 循环 transform 引用不发散（seen 去重终止） 0ms
+     ✓ 仅收集 cast 技能、跨敌人去重且顺序稳定 0ms
+     ✓ fallback cast 计入技能闭包；hook effect summon/divide 不产生技能 0ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/enemy-closure.glm-q.test.ts > Q05 collectReachableEnemyDefs > transform 与 summon 都把目标敌入队；未知目标精确报错
+AssertionError: expected [ 'boss', 'minion' ] to deeply equal [ 'boss', 'wing', 'minion' ]
+
+- Expected
++ Received
+
+  [
+    "boss",
+-   "wing",
+    "minion",
+  ]
+
+ ❯ src/enemy-closure.glm-q.test.ts:43:45
+     41|     }
+     42|     const result = collectReachableEnemyDefs([table.boss!], table)
+     43|     expect(result.map((enemy) => enemy.id)).toEqual(['boss', 'wing', '…
+       |                                             ^
+     44|     const broken = { boss: withRules('boss', [transform('ghost')]) }
+     45|     expect(() => collectReachableEnemyDefs([broken.boss!], broken)).to…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 5 passed (6)
+   Start at  01:43:48
+   Duration  461ms (transform 304ms, setup 0ms, import 378ms, tests 6ms, environment 0ms)

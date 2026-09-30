@@ -1,0 +1,16 @@
+{
+  "id": "Q02-RC1",
+  "file": "packages/reforge/src/assets-decode-gates.glm-q.test.ts",
+  "targetSubstring": "bytes / sha256 逐门精确拒绝",
+  "sha256": {
+    "original": "52c84b6e5b5d6d497f4aeed4e62e689505dc598e24227702176f3c0290c9a70e",
+    "mutated": "ea40c663b0e1282a79d7bbef6462aa9c68d2685fdb9bdca006eebc1df42e5597",
+    "restored": "52c84b6e5b5d6d497f4aeed4e62e689505dc598e24227702176f3c0290c9a70e"
+  },
+  "restoredHashUnchanged": true,
+  "positiveExit": 0,
+  "mutantExit": 1,
+  "package": "reforge",
+  "targetFailureBlock": " FAIL  src/assets-decode-gates.glm-q.test.ts > Q02 battle-sprite 解码核：kind / mediaType / bytes / sha256 逐门精确拒绝\nAssertionError: promise resolved \"{ frames: [ …(3) ], anchorX: 1, …(3) }\" instead of rejecting\n\n- Expected\n+ Received\n\n- Error {\n-   \"message\": \"rejected promise\",\n+ {\n+   \"anchorX\": 1,\n+   \"anchorY\": 2,\n+   \"decode\": {\n+     \"declaredSlots\": 3,\n+     \"skippedLegacyTailSlots\": 0,\n+     \"trailingSentinel\": false,\n+   },\n+   \"frames\": [\n+     {\n+       \"height\": 2,\n+       \"opaque\": Uint8Array [\n+         1,\n+         1,\n+         1,\n+         1,\n+       ],\n+       \"pixels\": Uint8Array [\n+         1,\n+         2,\n+         3,\n+         4,\n+       ],\n+       \"width\": 2,\n+     },\n+     {\n+       \"height\": 2,\n+       \"opaque\": Uint8Array [\n+         1,\n+         1,\n+         1,\n+         1,\n+       ],\n+       \"pixels\": Uint8Array [\n+         1,\n+         2,\n+         3,\n+         4,\n+       ],\n+       \"width\": 2,\n+     },\n+     {\n+       \"height\": 2,\n+       \"opaque\": Uint8Array [\n+         1,\n+         1,\n+         1,\n+         1,\n+       ],\n+       \"pixels\": Uint8Array [\n+         1,\n+         2,\n+         3,\n+         4,\n+       ],\n+       \"width\": 2,\n+     },\n+   ],\n+   \"profile\": \"canonical\",\n  }\n\n ❯ src/assets-decode-gates.glm-q.test.ts:62:61\n     60|     'mediaType 非法 image/png',\n     61|   )\n     62|   await expect(decodeBattleSpriteAssetBytes(bytesBad, bytes)).rejects.…\n       |                                                             ^\n     63|     `bytes 登记 ${good.bytes + 1}，实际 ${bytes.byteLength}`,\n     64|   )\n\n⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯\n\n",
+  "summaryLines": []
+}

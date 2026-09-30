@@ -1,0 +1,1 @@
+  const bytesBad = await battleRecord({ bytes: good.bytes }) // 变异轴：bytes 匹配

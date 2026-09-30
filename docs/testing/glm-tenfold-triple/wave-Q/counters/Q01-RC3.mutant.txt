@@ -1,0 +1,45 @@
+
+ RUN  v4.1.7 /private/tmp/glmq/counter-copy/type-pal/packages/reforge
+
+stderr | src/boot-page-shell.glm-q.test.ts > Q01 页壳默认加载 demo 工程：真实 bootGame 进入主循环并设置标题
+[sfx] AudioContext 不可用，音效播放器停用
+
+stdout | src/boot-page-shell.glm-q.test.ts > Q01 页壳默认加载 demo 工程：真实 bootGame 进入主循环并设置标题
+[reforge] room#0 可玩：方向键走（10fps 步进 + 朝向 + 走帧）/ 撞墙，靠近老者按空格搭话
+
+stderr | src/boot-page-shell.glm-q.test.ts > Q01 加载失败：错误画屏绘制 reforge ERR 文本并 console.error，模块导入不 reject
+[reforge] TypeError: object.stream is not a function
+    at extractBody (node:internal/deps/undici/undici:5644:25)
+    at new Response (node:internal/deps/undici/undici:9473:41)
+    at compressGzip (/private/tmp/glmq/counter-copy/type-pal/packages/reforge/src/assets.ts:584:16)
+    at Module.shellProject (/private/tmp/glmq/counter-copy/type-pal/packages/reforge/src/__tests__/runtime-shell/project.ts:242:11)
+    at Object.wired.loader (/private/tmp/glmq/counter-copy/type-pal/packages/reforge/src/boot-page-shell.glm-q.test.ts:53:13)
+    at boot (/private/tmp/glmq/counter-copy/type-pal/packages/reforge/src/boot.ts:11:19)
+
+ ❯ src/boot-page-shell.glm-q.test.ts (6 tests | 1 failed) 716ms
+   ✓ Q01 页壳默认加载 demo 工程：真实 bootGame 进入主循环并设置标题  607ms
+   ✓ Q01 VITE_PROJECT_ID 覆写工程 id 并透传给加载器 23ms
+   × Q01 加载失败：错误画屏绘制 reforge ERR 文本并 console.error，模块导入不 reject 25ms
+   ✓ Q01 加载失败且页面无画布：不绘制任何内容，仅 console.error 21ms
+   ✓ Q01 加载失败且画布无 2d 上下文：跳过画屏，仅 console.error 20ms
+   ✓ Q01 非 Error 拒绝值按 String 序列化进错误画屏 20ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/boot-page-shell.glm-q.test.ts > Q01 加载失败：错误画屏绘制 reforge ERR 文本并 console.error，模块导入不 reject
+AssertionError: expected [ 'reforge ERR: boom: other project' ] to include 'reforge ERR: boom: no such project'
+ ❯ src/boot-page-shell.glm-q.test.ts:74:17
+     72|     .filter((draw) => draw.method === 'fillText')
+     73|     .map((draw) => String(draw.args[0]))
+     74|   expect(texts).toContain('reforge ERR: boom: no such project')
+       |                 ^
+     75|   const rects = host.draws.filter((draw) => draw.method === 'fillRect')
+     76|   expect(rects.length).toBeGreaterThan(0)
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 5 passed (6)
+   Start at  01:42:18
+   Duration  1.37s (transform 681ms, setup 0ms, import 281ms, tests 716ms, environment 302ms)

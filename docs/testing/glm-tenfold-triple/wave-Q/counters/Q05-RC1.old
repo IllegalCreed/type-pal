@@ -1,0 +1,1 @@
+      boss: withRules('boss', [transform('wing'), summon('minion')]),

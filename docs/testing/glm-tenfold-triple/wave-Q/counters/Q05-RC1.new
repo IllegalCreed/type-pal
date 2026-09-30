@@ -1,0 +1,1 @@
+      boss: withRules('boss', [transform('minion'), summon('minion')]), // 变异轴：transform 改指同表另一目标

@@ -1,0 +1,5 @@
+      recurse: {
+        name: '递归',
+        self: 'optional',
+        body: [{ kind: 'callScript', script: 'recurse' }],
+      },

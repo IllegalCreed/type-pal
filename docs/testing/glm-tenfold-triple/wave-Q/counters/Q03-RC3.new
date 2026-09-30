@@ -1,0 +1,5 @@
+  runtime.dispose() // 变异轴：复用断言前先关闭（合法宿主时序）
+  await expect(runtime.initialize()).resolves.toBe(adapter)
+})
+
+test('Q03 试听 runtime：dispose 暂停并销毁合成器、关闭 context；之后 initialize AbortError'

@@ -1,0 +1,144 @@
+{
+  "note": "after = 本候选三包全测 v8 覆盖(隔离, 不更新官方 ratchet); before = targets.json 派发基点逐源冻结值; 同源同分母对照。pal-extract 未测: 覆盖插桩使 rng-frames 真实数据用例超时, 且本包 Q10 零新测, delta 恒 0。",
+  "packages": {
+    "reforge": {
+      "poolTotals": {
+        "before": {
+          "branches": "8510/11460",
+          "statements": "14302/17101",
+          "lines": "12856/14926"
+        },
+        "after": {
+          "branches": "8592/11460",
+          "statements": "14432/17101",
+          "lines": "12968/14926"
+        },
+        "branchDelta": 82
+      },
+      "touchedSourcesWithGains": [
+        {
+          "path": "assets.ts",
+          "branchBefore": 134,
+          "branchAfter": 153,
+          "branchTotal": 180,
+          "gain": 19
+        },
+        {
+          "path": "script-runner-core.ts",
+          "branchBefore": 109,
+          "branchAfter": 123,
+          "branchTotal": 149,
+          "gain": 14
+        },
+        {
+          "path": "boot.ts",
+          "branchBefore": 0,
+          "branchAfter": 8,
+          "branchTotal": 8,
+          "gain": 8
+        },
+        {
+          "path": "audio/midi-preview.ts",
+          "branchBefore": 105,
+          "branchAfter": 113,
+          "branchTotal": 123,
+          "gain": 8
+        },
+        {
+          "path": "project-map.ts",
+          "branchBefore": 129,
+          "branchAfter": 135,
+          "branchTotal": 151,
+          "gain": 6
+        },
+        {
+          "path": "audio/spessa-browser-runtime.ts",
+          "branchBefore": 0,
+          "branchAfter": 5,
+          "branchTotal": 6,
+          "gain": 5
+        },
+        {
+          "path": "main.ts",
+          "branchBefore": 570,
+          "branchAfter": 574,
+          "branchTotal": 1761,
+          "gain": 4
+        },
+        {
+          "path": "opening-menu.ts",
+          "branchBefore": 45,
+          "branchAfter": 49,
+          "branchTotal": 56,
+          "gain": 4
+        },
+        {
+          "path": "runnable-project-loader.ts",
+          "branchBefore": 0,
+          "branchAfter": 4,
+          "branchTotal": 4,
+          "gain": 4
+        },
+        {
+          "path": "script-confirm-modal.ts",
+          "branchBefore": 41,
+          "branchAfter": 44,
+          "branchTotal": 49,
+          "gain": 3
+        },
+        {
+          "path": "menu/shop-box.ts",
+          "branchBefore": 75,
+          "branchAfter": 78,
+          "branchTotal": 88,
+          "gain": 3
+        },
+        {
+          "path": "project-loader.ts",
+          "branchBefore": 53,
+          "branchAfter": 55,
+          "branchTotal": 84,
+          "gain": 2
+        },
+        {
+          "path": "script-compiler-core.ts",
+          "branchBefore": 42,
+          "branchAfter": 43,
+          "branchTotal": 45,
+          "gain": 1
+        },
+        {
+          "path": "audio/sfx.ts",
+          "branchBefore": 73,
+          "branchAfter": 74,
+          "branchTotal": 82,
+          "gain": 1
+        }
+      ]
+    },
+    "game": {
+      "poolTotals": {
+        "before": {
+          "branches": "8260/11260",
+          "statements": "12926/15468",
+          "lines": "11627/13578"
+        },
+        "after": {
+          "branches": "8264/11260",
+          "statements": "12933/15472",
+          "lines": "11633/13582"
+        },
+        "branchDelta": 4
+      },
+      "touchedSourcesWithGains": [
+        {
+          "path": "core/player-poison-state.ts",
+          "branchBefore": 39,
+          "branchAfter": 43,
+          "branchTotal": 44,
+          "gain": 4
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,7 @@
+          fallback: { action: cast('hex2'), chancePercent: 50 }, // 变异轴：换合法 fallback 技能
+          hooks: {
+            ready: {
+              initial: 'main',
+              states: {
+                main: {
+                  body: [{ id: 'h1', kind: 'effect', effect: { kind: 'divide', copies: 2 } }],

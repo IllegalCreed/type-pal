@@ -1,0 +1,16 @@
+{
+  "id": "Q02-RC3",
+  "file": "packages/reforge/src/runnable-project-loader.glm-q.test.ts",
+  "targetSubstring": "过期 contentVersion 带工程名精确拒绝",
+  "sha256": {
+    "original": "5ed29b0ebaa48e453f563d26766cef86b6dee4e3c47bc2899faf447df24b4689",
+    "mutated": "0086a0d968b2250f324b7eb5bfa807da43c525b25c21b6931a458a071670db4b",
+    "restored": "5ed29b0ebaa48e453f563d26766cef86b6dee4e3c47bc2899faf447df24b4689"
+  },
+  "restoredHashUnchanged": true,
+  "positiveExit": 0,
+  "mutantExit": 1,
+  "package": "reforge",
+  "targetFailureBlock": " FAIL  src/runnable-project-loader.glm-q.test.ts > Q02 版本门：过期 contentVersion 带工程名精确拒绝\nAssertionError: expected [Function] to throw error including '工程 \"shell-project\": runtime 只接受当前 con…' but got '项目保存状态无法读取，请保留目录并回到编辑器处理'\n\nExpected: \"工程 \"shell-project\": runtime 只接受当前 contentVersion 20，收到 19\"\nReceived: \"项目保存状态无法读取，请保留目录并回到编辑器处理\"\n\n ❯ src/runnable-project-loader.glm-q.test.ts:40:47\n     38|   const stale = files.get('manifest.json') as { contentVersion: number…\n     39|   stale.contentVersion = CONTENT_VERSION // 变异轴：版本匹配\n     40|   await expect(loadRunnableProjectFrom(source)).rejects.toThrow(\n       |                                               ^\n     41|     `工程 \"shell-project\": runtime 只接受当前 contentVersion ${CONTENT_VERSIO…\n     42|   )\n\n⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯\n\n",
+  "summaryLines": []
+}

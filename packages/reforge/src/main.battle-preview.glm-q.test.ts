@@ -22,16 +22,17 @@ async function preview(query: string) {
   return { log }
 }
 
-test.each(['?battle-preview=0&enemies=foe', '?battle-preview=abc&enemies=foe', '?battle-preview=-5&enemies=foe'] as const)(
-  'Q01 非正/非数 field %s 回退默认战场 24',
-  async (query) => {
-    const { log } = await preview(query)
-    expect(log.mock.calls.map((args) => String(args[0]))).toEqual([
-      '[reforge] battle preview: field 24, 1 敌 / 1 队员',
-    ])
-    expect(host!.frames.size).toBe(0)
-  },
-)
+test.each([
+  '?battle-preview=0&enemies=foe',
+  '?battle-preview=abc&enemies=foe',
+  '?battle-preview=-5&enemies=foe',
+] as const)('Q01 非正/非数 field %s 回退默认战场 24', async (query) => {
+  const { log } = await preview(query)
+  expect(log.mock.calls.map((args) => String(args[0]))).toEqual([
+    '[reforge] battle preview: field 24, 1 敌 / 1 队员',
+  ])
+  expect(host!.frames.size).toBe(0)
+})
 
 test('Q01 缺 enemies 参数：默认取工程敌表前 3 项', async () => {
   const { log } = await preview('?battle-preview=24')

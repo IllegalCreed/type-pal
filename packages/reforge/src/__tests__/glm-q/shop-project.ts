@@ -1,8 +1,9 @@
 // Q01 专属薄 fixture：在只读 runtime-shell 工程上追加合法商店分区，经正式 loader 重载。
-import { loadCurrentProjectFrom } from '../../project-loader.js'
-import { medicine } from '../runtime-shell/scenarios.js'
-import { projectData, shellProject } from '../runtime-shell/project.js'
+
 import type { LoadedCurrentProject } from '../../project-loader.js'
+import { loadCurrentProjectFrom } from '../../project-loader.js'
+import { projectData, shellProject } from '../runtime-shell/project.js'
+import { medicine } from '../runtime-shell/scenarios.js'
 
 /** 带一个合法商店（id 0，含一件 0 元补品）的完整当前工程。 */
 export async function shopProject() {
@@ -20,6 +21,6 @@ export async function shopProject() {
   return { ...fixture, project }
 }
 
+export type { LoadedCurrentProject }
 /** projectData 的再导出：输入不变性断言用。 */
 export { projectData }
-export type { LoadedCurrentProject }

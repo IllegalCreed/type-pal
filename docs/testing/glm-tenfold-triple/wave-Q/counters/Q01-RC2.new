@@ -1,0 +1,2 @@
+  await key(o.h, 'ArrowDown') // 环绕 → 0
+  await key(o.h, 'ArrowDown') // 变异轴：再按一次

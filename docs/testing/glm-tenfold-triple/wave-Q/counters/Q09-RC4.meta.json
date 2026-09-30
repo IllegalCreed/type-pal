@@ -1,0 +1,16 @@
+{
+  "id": "Q09-RC4",
+  "file": "packages/game/src/framebuffer-ports.glm-q.test.ts",
+  "targetSubstring": "缺色回退黑",
+  "sha256": {
+    "original": "259c5dd0ee0ece5efc2f97edb35fe4f723d7d2b841b94ea2b379c43629b4dce1",
+    "mutated": "621ea1b66da74e6cef18d3456c73e5b34195f80a07c39089edfc500fa28873a5",
+    "restored": "259c5dd0ee0ece5efc2f97edb35fe4f723d7d2b841b94ea2b379c43629b4dce1"
+  },
+  "restoredHashUnchanged": true,
+  "positiveExit": 0,
+  "mutantExit": 1,
+  "package": "game",
+  "targetFailureBlock": " FAIL  src/framebuffer-ports.glm-q.test.ts > Q09 createFramebuffer > toImageData 按 palette 展开 RGBA、alpha 恒 255、缺色回退黑\nAssertionError: expected [ 250, 244, 5, 255 ] to deeply equal [ +0, +0, +0, 255 ]\n\n- Expected\n+ Received\n\n  [\n-   0,\n-   0,\n-   0,\n+   250,\n+   244,\n+   5,\n    255,\n  ]\n\n ❯ src/framebuffer-ports.glm-q.test.ts:60:28\n     58|     const missing: Palette = { colors: [], cycles: [] }\n     59|     const dark = hole.toImageData(palette) // 变异轴：换成完整调色板（合法输入）\n     60|     expect([...dark.data]).toEqual([0, 0, 0, 255])\n       |                            ^\n     61|   })\n     62| })\n\n⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯\n\n",
+  "summaryLines": []
+}

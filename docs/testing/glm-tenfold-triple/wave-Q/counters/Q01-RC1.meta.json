@@ -1,0 +1,16 @@
+{
+  "id": "Q01-RC1",
+  "file": "packages/reforge/src/script-confirm-modal.glm-q.test.ts",
+  "targetSubstring": "队头取消即离队",
+  "sha256": {
+    "original": "06784dcb2ab7acdee02a59fbeaa2b1f76ee3939bf58589c063714a490e329d9a",
+    "mutated": "e4246a04e6835ab2ccfd9c5038ab0c96773bc0a3557c82021db6554c2e878d07",
+    "restored": "06784dcb2ab7acdee02a59fbeaa2b1f76ee3939bf58589c063714a490e329d9a"
+  },
+  "restoredHashUnchanged": true,
+  "positiveExit": 0,
+  "mutantExit": 1,
+  "package": "reforge",
+  "targetFailureBlock": " FAIL  src/script-confirm-modal.glm-q.test.ts > Q01 队头取消即离队：pendingCount 同步收缩，激活命中下一个；captureFrame 只替换被激活项\nAssertionError: expected 2 to be 1 // Object.is equality\n\n- Expected\n+ Received\n\n- 1\n+ 2\n\n ❯ src/script-confirm-modal.glm-q.test.ts:96:30\n     94|   const next = queue.enqueue('second', NOOP_SIGNAL)\n     95|   void abortedHead // 变异轴：队头保持未取消\n     96|   expect(queue.pendingCount).toBe(1) // 取消监听同步把队头移出队列\n       |                              ^\n     97|   expect(queue.activateIfPossible(true, () => 'captured')).toBe(true)\n     98|   expect(queue.view?.frame).toBe('captured')\n\n⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯\n\n",
+  "summaryLines": []
+}

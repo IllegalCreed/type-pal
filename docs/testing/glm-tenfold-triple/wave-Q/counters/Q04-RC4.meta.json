@@ -1,0 +1,16 @@
+{
+  "id": "Q04-RC4",
+  "file": "packages/reforge/src/script-runner-core.gates.glm-q.test.ts",
+  "targetSubstring": "self=none 禁显式 self",
+  "sha256": {
+    "original": "896fab49346937562f8aa66e780b9fdf24c85e73a1a8f4d1833e8387a20208a7",
+    "mutated": "6141b9f8c16f7e88b45994c688d2d9e656c4bb579c82afec612a3c130f2a16eb",
+    "restored": "896fab49346937562f8aa66e780b9fdf24c85e73a1a8f4d1833e8387a20208a7"
+  },
+  "restoredHashUnchanged": true,
+  "positiveExit": 0,
+  "mutantExit": 1,
+  "package": "reforge",
+  "targetFailureBlock": " FAIL  src/script-runner-core.gates.glm-q.test.ts > Q04 commandOutcome 与 callScript 门 > self=none 禁显式 self；self=required 缺 self 拒绝\nAssertionError: promise resolved \"undefined\" instead of rejecting\n\n- Expected:\nError {\n  \"message\": \"rejected promise\",\n}\n\n+ Received:\nundefined\n\n ❯ src/script-runner-core.gates.glm-q.test.ts:258:5\n    256|         { cursorController: controller() },\n    257|       ),\n    258|     ).rejects.toThrow('ScriptRunnerCore: free self=none，禁止显式 self')\n       |     ^\n    259|     await expect(\n    260|       runner.runFlow(\n\n⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯\n\n",
+  "summaryLines": []
+}

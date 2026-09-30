@@ -1,0 +1,16 @@
+{
+  "id": "Q09-RC2",
+  "file": "packages/game/src/framebuffer-ports.glm-q.test.ts",
+  "targetSubstring": "界内按 y*width+x 落位",
+  "sha256": {
+    "original": "259c5dd0ee0ece5efc2f97edb35fe4f723d7d2b841b94ea2b379c43629b4dce1",
+    "mutated": "7fc5d5157a642719f681ad5ca20f0dfb22961fc19f5012dee65622aa396a7ece",
+    "restored": "259c5dd0ee0ece5efc2f97edb35fe4f723d7d2b841b94ea2b379c43629b4dce1"
+  },
+  "restoredHashUnchanged": true,
+  "positiveExit": 0,
+  "mutantExit": 1,
+  "package": "game",
+  "targetFailureBlock": " FAIL  src/framebuffer-ports.glm-q.test.ts > Q09 createFramebuffer > writePixel 四边界外全部忽略；界内按 y*width+x 落位\nAssertionError: expected +0 to be 7 // Object.is equality\n\n- Expected\n+ Received\n\n- 7\n+ 0\n\n ❯ src/framebuffer-ports.glm-q.test.ts:36:35\n     34|     expect([...fb.indices].every((v) => v === 0)).toBe(true)\n     35|     fb.writePixel(1, 1, 7) // 变异轴：合法界内另一格\n     36|     expect(fb.indices[1 * 4 + 2]).toBe(7)\n       |                                   ^\n     37|   })\n     38|\n\n⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯\n\n",
+  "summaryLines": []
+}

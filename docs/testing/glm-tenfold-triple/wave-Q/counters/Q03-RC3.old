@@ -1,0 +1,4 @@
+  await expect(runtime.initialize()).resolves.toBe(adapter)
+})
+
+test('Q03 试听 runtime：dispose 暂停并销毁合成器、关闭 context；之后 initialize AbortError'

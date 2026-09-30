@@ -1,0 +1,1 @@
+  const activity = await analyzeMidiBytes(minimalMidi(), 16) // 变异轴：桶数换合法值

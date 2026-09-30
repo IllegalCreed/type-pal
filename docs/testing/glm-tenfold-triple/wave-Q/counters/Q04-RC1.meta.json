@@ -1,0 +1,16 @@
+{
+  "id": "Q04-RC1",
+  "file": "packages/reforge/src/script-runner-core.gates.glm-q.test.ts",
+  "targetSubstring": "machine id 不匹配的 state cursor 精确拒绝",
+  "sha256": {
+    "original": "896fab49346937562f8aa66e780b9fdf24c85e73a1a8f4d1833e8387a20208a7",
+    "mutated": "ff721f63a10e271aa203bece96843caf14d69ff4b1d435435712d5b1f8f750d8",
+    "restored": "896fab49346937562f8aa66e780b9fdf24c85e73a1a8f4d1833e8387a20208a7"
+  },
+  "restoredHashUnchanged": true,
+  "positiveExit": 0,
+  "mutantExit": 1,
+  "package": "reforge",
+  "targetFailureBlock": " FAIL  src/script-runner-core.gates.glm-q.test.ts > Q04 非法光标组合 > machine id 不匹配的 state cursor 精确拒绝\nAssertionError: promise resolved \"undefined\" instead of rejecting\n\n- Expected:\nError {\n  \"message\": \"rejected promise\",\n}\n\n+ Received:\nundefined\n\n ❯ src/script-runner-core.gates.glm-q.test.ts:90:5\n     88|     await expect(\n     89|       runner.runFlow(compile(machineFlow()), { cursor, cursorControlle…\n     90|     ).rejects.toThrow('ScriptRunnerCore: machine cursor other 不匹配 mach…\n       |     ^\n     91|   })\n     92|\n\n⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯\n\n",
+  "summaryLines": []
+}

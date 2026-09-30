@@ -1,0 +1,2 @@
+    fb.writePixel(2, 1, 7)
+    expect(fb.indices[1 * 4 + 2]).toBe(7)

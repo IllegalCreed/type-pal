@@ -1,0 +1,16 @@
+{
+  "id": "Q05-RC2",
+  "file": "packages/reforge/src/enemy-closure.glm-q.test.ts",
+  "targetSubstring": "hooks 内 effect summon 参与闭包",
+  "sha256": {
+    "original": "4c9d2efa7df5b13d3296b4b09c3134f23167880c0ccea1cabb2e36fc28606323",
+    "mutated": "206d2ccf9a70ad3b3e4125aa63c672024573a8bf31bcb5e8ea87623e72317b15",
+    "restored": "4c9d2efa7df5b13d3296b4b09c3134f23167880c0ccea1cabb2e36fc28606323"
+  },
+  "restoredHashUnchanged": true,
+  "positiveExit": 0,
+  "mutantExit": 1,
+  "package": "reforge",
+  "targetFailureBlock": " FAIL  src/enemy-closure.glm-q.test.ts > Q05 collectReachableEnemyDefs > enemyId 缺省的 summon 不入队；hooks 内 effect summon 参与闭包\nAssertionError: expected [ 'root' ] to deeply equal [ 'root', 'support' ]\n\n- Expected\n+ Received\n\n  [\n    \"root\",\n-   \"support\",\n  ]\n\n ❯ src/enemy-closure.glm-q.test.ts:77:45\n     75|     }\n     76|     const result = collectReachableEnemyDefs([table.root!], table)\n     77|     expect(result.map((enemy) => enemy.id)).toEqual(['root', 'support'…\n       |                                             ^\n     78|   })\n     79|\n\n⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯\n\n",
+  "summaryLines": []
+}

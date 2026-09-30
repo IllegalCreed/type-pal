@@ -1,0 +1,16 @@
+{
+  "id": "Q05-RC4",
+  "file": "packages/reforge/src/enemy-closure.glm-q.test.ts",
+  "targetSubstring": "仅收集 cast 技能、跨敌人去重且顺序稳定",
+  "sha256": {
+    "original": "4c9d2efa7df5b13d3296b4b09c3134f23167880c0ccea1cabb2e36fc28606323",
+    "mutated": "503d83e090c558a0e79e79ebc2be99492395787a6d71e80c4ef03c5cf82ff2da",
+    "restored": "4c9d2efa7df5b13d3296b4b09c3134f23167880c0ccea1cabb2e36fc28606323"
+  },
+  "restoredHashUnchanged": true,
+  "positiveExit": 0,
+  "mutantExit": 1,
+  "package": "reforge",
+  "targetFailureBlock": " FAIL  src/enemy-closure.glm-q.test.ts > Q05 collectReachableEnemySkillIds > 仅收集 cast 技能、跨敌人去重且顺序稳定\nAssertionError: expected [ 'fire' ] to deeply equal [ 'fire', 'gust' ]\n\n- Expected\n+ Received\n\n  [\n    \"fire\",\n-   \"gust\",\n  ]\n\n ❯ src/enemy-closure.glm-q.test.ts:98:20\n     96|     }\n     97|     const result = collectReachableEnemySkillIds([table.boss!, table.m…\n     98|     expect(result).toEqual(['fire', 'gust'])\n       |                    ^\n     99|   })\n    100|\n\n⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯\n\n",
+  "summaryLines": []
+}

@@ -1,0 +1,2 @@
+    seed(g, 0, 0, 8) // 变异轴：换另一毒 id（合法毒表值）
+    expect(isPlayerPoisoned(g, 0, 7)).toBe(true)

@@ -1,0 +1,16 @@
+{
+  "id": "Q03-RC4",
+  "file": "packages/reforge/src/audio-spessa-runtime.glm-q.test.ts",
+  "targetSubstring": "解析真实 MIDI 字节并产出 note-activity",
+  "sha256": {
+    "original": "9a3b9b7b541d4488a394eb8383091ea3e16135665075834e638189cbfa35b521",
+    "mutated": "fc0ddfbdd11bce53b21baeb57ba7d4fdff7bc64b36fefaca129f697e03737105",
+    "restored": "9a3b9b7b541d4488a394eb8383091ea3e16135665075834e638189cbfa35b521"
+  },
+  "restoredHashUnchanged": true,
+  "positiveExit": 0,
+  "mutantExit": 1,
+  "package": "reforge",
+  "targetFailureBlock": " FAIL  src/audio-spessa-runtime.glm-q.test.ts > Q03 analyzeMidiBytes 解析真实 MIDI 字节并产出 note-activity\nAssertionError: expected [ 0.7874015748031497, …(15) ] to have a length of 32 but got 16\n\n- Expected\n+ Received\n\n- 32\n+ 16\n\n ❯ src/audio-spessa-runtime.glm-q.test.ts:290:28\n    288|   expect(activity.kind).toBe('note-activity')\n    289|   expect(activity.noteCount).toBeGreaterThan(0)\n    290|   expect(activity.buckets).toHaveLength(32)\n       |                            ^\n    291|   expect(Math.max(...activity.buckets)).toBeLessThanOrEqual(1)\n    292|   expect(Math.max(...activity.buckets)).toBeGreaterThan(0)\n\n⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯\n\n",
+  "summaryLines": []
+}

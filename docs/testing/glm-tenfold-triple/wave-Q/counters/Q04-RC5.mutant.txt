@@ -1,0 +1,46 @@
+
+ RUN  v4.1.7 /private/tmp/glmq/counter-copy/type-pal/packages/reforge
+
+ ❯ src/script-runner-core.gates.glm-q.test.ts (13 tests | 1 failed) 19ms
+     ✓ machine id 不匹配的 state cursor 精确拒绝 6ms
+     ✓ stage cursor 不能运行 stateMachine flow；state cursor 不能运行 stages flow 1ms
+     ✓ stage cursor 指向不存在 stage 时精确报错 0ms
+     ✓ state cursor 指向不存在 state 时按 machine.path 精确报错 0ms
+     ✓ 无 resolver 时 callScript 前置拒绝 0ms
+     ✓ callScript 自递归在深度 128 处精确熔断 2ms
+     ✓ resolver 返回错误 script id 时拒绝 1ms
+     ✓ shared executable digest/timing/boundary 任一过期都拒绝 1ms
+     ✓ self=none 禁显式 self；self=required 缺 self 拒绝 1ms
+     × host 未实现 revealSceneEntry 时 scene entry fail-loud 3ms
+     ✓ while 循环先判条件再执行体：条件即假时体零执行 1ms
+     ✓ 合法 shared 调用在同 digest/timing 下放行并执行体 0ms
+     ✓ 当前编译器版本标识为常量且被 executable 记录 0ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/script-runner-core.gates.glm-q.test.ts > Q04 其它公开守卫 > host 未实现 revealSceneEntry 时 scene entry fail-loud
+AssertionError: promise resolved "undefined" instead of rejecting
+
+- Expected:
+Error {
+  "message": "rejected promise",
+}
+
++ Received:
+undefined
+
+ ❯ src/script-runner-core.gates.glm-q.test.ts:294:5
+    292|         allowSceneEntry: true,
+    293|       }),
+    294|     ).rejects.toThrow('ScriptRunnerCore: host 未实现 revealSceneEntry')
+       |     ^
+    295|   })
+    296|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 12 passed (13)
+   Start at  01:43:46
+   Duration  376ms (transform 219ms, setup 0ms, import 279ms, tests 19ms, environment 0ms)

@@ -1,0 +1,16 @@
+{
+  "id": "Q03-RC2",
+  "file": "packages/reforge/src/audio-spessa-runtime.glm-q.test.ts",
+  "targetSubstring": "适配器透传 sequencer 传输操作与快照字段",
+  "sha256": {
+    "original": "9a3b9b7b541d4488a394eb8383091ea3e16135665075834e638189cbfa35b521",
+    "mutated": "814734df0449679ddca2056d197efd8ca28eb23f500d61e786663a72e9223c90",
+    "restored": "9a3b9b7b541d4488a394eb8383091ea3e16135665075834e638189cbfa35b521"
+  },
+  "restoredHashUnchanged": true,
+  "positiveExit": 0,
+  "mutantExit": 1,
+  "package": "reforge",
+  "targetFailureBlock": " FAIL  src/audio-spessa-runtime.glm-q.test.ts > Q03 试听 runtime：适配器透传 sequencer 传输操作与快照字段，二次 initialize 复用\nAssertionError: expected 4 to be 3 // Object.is equality\n\n- Expected\n+ Received\n\n- 3\n+ 4\n\n ❯ src/audio-spessa-runtime.glm-q.test.ts:253:31\n    251|   expect(instance.options).toMatchObject({ skipToFirstNoteOn: false })\n    252|   adapter.currentTime = 4 // 变异轴：换合法 seek 值\n    253|   expect(adapter.currentTime).toBe(3)\n       |                               ^\n    254|   expect(adapter.duration).toBe(12.5)\n    255|   expect(adapter.paused).toBe(true)\n\n⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯\n\n",
+  "summaryLines": []
+}

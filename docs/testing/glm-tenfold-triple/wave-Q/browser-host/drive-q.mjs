@@ -66,7 +66,9 @@ function attachPage(page, bucket) {
   page.on('console', (message) =>
     bucket.console.push({ type: message.type(), text: message.text().slice(0, 300) }),
   )
-  page.on('pageerror', (error) => bucket.console.push({ type: 'pageerror', text: String(error).slice(0, 300) }))
+  page.on('pageerror', (error) =>
+    bucket.console.push({ type: 'pageerror', text: String(error).slice(0, 300) }),
+  )
   page.on('response', (response) => {
     if (response.status() >= 400)
       bucket.failedRequests.push({
@@ -188,7 +190,9 @@ const shotPaths = []
   await page.waitForTimeout(400)
   const afterMove = await sample()
   const moveDiff = diffRatio(baseline, afterMove)
-  const openingAfterMove = await page.evaluate(() => Reflect.get(window, '__tpObserve').readBoot().opening)
+  const openingAfterMove = await page.evaluate(
+    () => Reflect.get(window, '__tpObserve').readBoot().opening,
+  )
   const f2Shot = resolve(shotDir, 'f2-menu-move.png')
   await page.screenshot({ path: f2Shot, fullPage: true })
   shotPaths.push(f2Shot)
@@ -214,7 +218,9 @@ const shotPaths = []
     else stable = 0
     loadDiff = d
   }
-  const openingInLoad = await page.evaluate(() => Reflect.get(window, '__tpObserve').readBoot().opening)
+  const openingInLoad = await page.evaluate(
+    () => Reflect.get(window, '__tpObserve').readBoot().opening,
+  )
   const loadBrowserVisible = openingInLoad?.phase === 'load'
   const f3Shot = resolve(shotDir, 'f3-load-browser.png')
   await page.screenshot({ path: f3Shot, fullPage: true })
@@ -249,7 +255,9 @@ const shotPaths = []
   await page.waitForTimeout(300)
   const wrapSample = await sample()
   const wrapDiff = diffRatio(backSample, wrapSample)
-  const openingAfterWrap = await page.evaluate(() => Reflect.get(window, '__tpObserve').readBoot().opening)
+  const openingAfterWrap = await page.evaluate(
+    () => Reflect.get(window, '__tpObserve').readBoot().opening,
+  )
   const f4Shot = resolve(shotDir, 'f4-back-to-menu.png')
   await page.screenshot({ path: f4Shot, fullPage: true })
   shotPaths.push(f4Shot)
@@ -273,7 +281,9 @@ const shotPaths = []
   await page.waitForTimeout(400)
   const afterA = await sample()
   const aDiff = diffRatio(backSample, afterA)
-  const afterAOpening = await page.evaluate(() => Reflect.get(window, '__tpObserve').readBoot().opening)
+  const afterAOpening = await page.evaluate(
+    () => Reflect.get(window, '__tpObserve').readBoot().opening,
+  )
   flows.push({
     id: 'F5',
     name: '菜单相位未处理键 passthrough',
@@ -335,9 +345,7 @@ for (const [id, url, logMarker, shotName] of [
   const badUrl = 'http://localhost:6051/?shop-trial=1&money=abc'
   await page.goto(badUrl, { waitUntil: 'domcontentloaded' })
   await page.waitForTimeout(4000)
-  const errLogged = bucket.console.find(
-    (c) => c.type === 'error' && c.text.includes('[reforge]'),
-  )
+  const errLogged = bucket.console.find((c) => c.type === 'error' && c.text.includes('[reforge]'))
   const f8Shot = resolve(shotDir, 'f8-shop-trial-error.png')
   await page.screenshot({ path: f8Shot, fullPage: true })
   shotPaths.push(f8Shot)

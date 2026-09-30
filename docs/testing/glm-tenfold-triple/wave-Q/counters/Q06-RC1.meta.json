@@ -1,0 +1,16 @@
+{
+  "id": "Q06-RC1",
+  "file": "packages/game/src/status-poison-equip.glm-q.test.ts",
+  "targetSubstring": "ByKind 只查指定毒 id",
+  "sha256": {
+    "original": "f19d45cd5f90cc728a6d9118f5c80ad1595ca425e47ba9161e01484d33f21e4e",
+    "mutated": "b8a4b83c875021741b4a14b65f64b2ccf79dd28ec076190cc15ff98c3f3ac4ad",
+    "restored": "f19d45cd5f90cc728a6d9118f5c80ad1595ca425e47ba9161e01484d33f21e4e"
+  },
+  "restoredHashUnchanged": true,
+  "positiveExit": 0,
+  "mutantExit": 1,
+  "package": "game",
+  "targetFailureBlock": " FAIL  src/status-poison-equip.glm-q.test.ts > Q06 isPlayerPoisoned > ByKind 只查指定毒 id，不看等级与其它毒\nAssertionError: expected false to be true // Object.is equality\n\n- Expected\n+ Received\n\n- true\n+ false\n\n ❯ src/status-poison-equip.glm-q.test.ts:53:39\n     51|     expect(isPlayerPoisoned(g, 0)).toBe(false)\n     52|     seed(g, 0, 0, 8) // 变异轴：换另一毒 id（合法毒表值）\n     53|     expect(isPlayerPoisoned(g, 0, 7)).toBe(true)\n       |                                       ^\n     54|     expect(isPlayerPoisoned(g, 0, 5)).toBe(false)\n     55|   })\n\n⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯\n\n",
+  "summaryLines": []
+}

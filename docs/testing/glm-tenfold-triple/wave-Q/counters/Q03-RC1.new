@@ -1,0 +1,2 @@
+  vi.stubGlobal('webkitAudioContext', undefined)
+  expect(createBrowserMidiPreviewRuntime(roleReader(riffBytes()))).toBeDefined() // 变异轴：webkit 存在

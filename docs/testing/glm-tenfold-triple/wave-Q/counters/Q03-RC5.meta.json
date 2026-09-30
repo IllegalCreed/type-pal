@@ -1,0 +1,16 @@
+{
+  "id": "Q03-RC5",
+  "file": "packages/reforge/src/video-sfx-ports.glm-q.test.ts",
+  "targetSubstring": "视频静音播放",
+  "sha256": {
+    "original": "77ba5223a1402b958f54e8fcf1d85fc9df3dc4875c9cea3187850ed44f17127e",
+    "mutated": "d28234e5added93fdc561827de515fd75b134b4f384535f4d0c302c14691ce09",
+    "restored": "77ba5223a1402b958f54e8fcf1d85fc9df3dc4875c9cea3187850ed44f17127e"
+  },
+  "restoredHashUnchanged": true,
+  "positiveExit": 0,
+  "mutantExit": 1,
+  "package": "reforge",
+  "targetFailureBlock": " FAIL  src/video-sfx-ports.glm-q.test.ts > Q03 视频静音播放：video.muted 置真、ended 后清理兑现\nAssertionError: expected false to be true // Object.is equality\n\n- Expected\n+ Received\n\n- true\n+ false\n\n ❯ src/video-sfx-ports.glm-q.test.ts:38:23\n     36|   const done = playVideo({ src: 'videos/q3.mp4', muted: false }) // 变异…\n     37|   const video = liveVideo()\n     38|   expect(video.muted).toBe(true)\n       |                       ^\n     39|   video.dispatchEvent(new Event('ended'))\n     40|   await done\n\n⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯\n",
+  "summaryLines": []
+}

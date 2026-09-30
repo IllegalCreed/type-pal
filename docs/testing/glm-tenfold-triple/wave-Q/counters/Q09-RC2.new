@@ -1,0 +1,2 @@
+    fb.writePixel(1, 1, 7) // 变异轴：合法界内另一格
+    expect(fb.indices[1 * 4 + 2]).toBe(7)

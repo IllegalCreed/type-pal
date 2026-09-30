@@ -1,0 +1,36 @@
+
+ RUN  v4.1.7 /private/tmp/glmq/counter-copy/type-pal/packages/reforge
+
+ ❯ src/opening-menu.glm-q.test.ts (5 tests | 1 failed) 230ms
+   ✓ Q01 菜单相位未处理键不拦截：不 preventDefault、光标不动、不选定 130ms
+   × Q01 末项 ArrowDown 环绕回首项并选定第一入口 24ms
+   ✓ Q01 菜单相位 Enter/Space 之外的中排键不触发选定；Escape 不拦截 22ms
+   ✓ Q01 读档相位未处理键早退且不 preventDefault；← 在首页钳制不 wrap 21ms
+   ✓ Q01 读档相位缩略图逐槽恰读一次：多帧渲染不重读 store 31ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/opening-menu.glm-q.test.ts > Q01 末项 ArrowDown 环绕回首项并选定第一入口
+AssertionError: expected 1 to be +0 // Object.is equality
+
+- Expected
++ Received
+
+- 0
++ 1
+
+ ❯ src/opening-menu.glm-q.test.ts:104:38
+    102|   await key(o.h, 'ArrowDown') // 环绕 → 0
+    103|   await key(o.h, 'ArrowDown') // 变异轴：再按一次
+    104|   expect(o.snapshots.at(-1)?.cursor).toBe(0)
+       |                                      ^
+    105|   await key(o.h, 'Enter')
+    106|   expect(await o.done).toEqual({ kind: 'new', entryId: 'first' })
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 4 passed (5)
+   Start at  01:42:15
+   Duration  927ms (transform 322ms, setup 0ms, import 305ms, tests 230ms, environment 321ms)

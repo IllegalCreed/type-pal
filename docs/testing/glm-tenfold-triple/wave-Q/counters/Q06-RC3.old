@@ -1,0 +1,2 @@
+    addPoisonForPlayer(g, 0, 7, runner)
+    expect(runner).toHaveBeenCalledWith(300)

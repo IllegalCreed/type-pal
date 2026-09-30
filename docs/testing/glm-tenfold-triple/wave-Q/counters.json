@@ -1,0 +1,750 @@
+[
+  {
+    "id": "Q01-RC1",
+    "file": "packages/reforge/src/script-confirm-modal.glm-q.test.ts",
+    "targetSubstring": "队头取消即离队",
+    "sha256": {
+      "original": "06784dcb2ab7acdee02a59fbeaa2b1f76ee3939bf58589c063714a490e329d9a",
+      "mutated": "e4246a04e6835ab2ccfd9c5038ab0c96773bc0a3557c82021db6554c2e878d07",
+      "restored": "06784dcb2ab7acdee02a59fbeaa2b1f76ee3939bf58589c063714a490e329d9a"
+    },
+    "restoredHashUnchanged": true,
+    "positiveExit": 0,
+    "mutantExit": 1,
+    "package": "reforge",
+    "targetFailureBlock": " FAIL  src/script-confirm-modal.glm-q.test.ts > Q01 队头取消即离队：pendingCount 同步收缩，激活命中下一个；captureFrame 只替换被激活项\nAssertionError: expected 2 to be 1 // Object.is equality\n\n- Expected\n+ Received\n\n- 1\n+ 2\n\n ❯ src/script-confirm-modal.glm-q.test.ts:96:30\n     94|   const next = queue.enqueue('second', NOOP_SIGNAL)\n     95|   void abortedHead // 变异轴：队头保持未取消\n     96|   expect(queue.pendingCount).toBe(1) // 取消监听同步把队头移出队列\n       |                              ^\n     97|   expect(queue.activateIfPossible(true, () => 'captured')).toBe(true)\n     98|   expect(queue.view?.frame).toBe('captured')\n\n⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯\n\n",
+    "summaryLines": [],
+    "evidence": {
+      "positiveLog": "counters/Q01-RC1.positive.txt",
+      "mutantLog": "counters/Q01-RC1.mutant.txt",
+      "patchOld": "counters/Q01-RC1.old",
+      "patchNew": "counters/Q01-RC1.new"
+    }
+  },
+  {
+    "id": "Q01-RC2",
+    "file": "packages/reforge/src/opening-menu.glm-q.test.ts",
+    "targetSubstring": "末项 ArrowDown 环绕回首项",
+    "sha256": {
+      "original": "07d51438de42336661ba88be9f4360c92a8e27f0d3612661c34ad8cee295a47a",
+      "mutated": "ebbd41d2e0d415bdaed5eb1b4780089095a6d3dd6051aea65491840078f732d4",
+      "restored": "07d51438de42336661ba88be9f4360c92a8e27f0d3612661c34ad8cee295a47a"
+    },
+    "restoredHashUnchanged": true,
+    "positiveExit": 0,
+    "mutantExit": 1,
+    "package": "reforge",
+    "targetFailureBlock": " FAIL  src/opening-menu.glm-q.test.ts > Q01 末项 ArrowDown 环绕回首项并选定第一入口\nAssertionError: expected 1 to be +0 // Object.is equality\n\n- Expected\n+ Received\n\n- 0\n+ 1\n\n ❯ src/opening-menu.glm-q.test.ts:104:38\n    102|   await key(o.h, 'ArrowDown') // 环绕 → 0\n    103|   await key(o.h, 'ArrowDown') // 变异轴：再按一次\n    104|   expect(o.snapshots.at(-1)?.cursor).toBe(0)\n       |                                      ^\n    105|   await key(o.h, 'Enter')\n    106|   expect(await o.done).toEqual({ kind: 'new', entryId: 'first' })\n\n⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯\n\n",
+    "summaryLines": [],
+    "evidence": {
+      "positiveLog": "counters/Q01-RC2.positive.txt",
+      "mutantLog": "counters/Q01-RC2.mutant.txt",
+      "patchOld": "counters/Q01-RC2.old",
+      "patchNew": "counters/Q01-RC2.new"
+    }
+  },
+  {
+    "id": "Q01-RC3",
+    "file": "packages/reforge/src/boot-page-shell.glm-q.test.ts",
+    "targetSubstring": "加载失败：错误画屏绘制",
+    "sha256": {
+      "original": "96b30fa1b9e9c9b5c77f8e07fad39bae331bedabce556a5f2c5f9dcc9bd248ce",
+      "mutated": "540b13f27cfdc9e68214d28c3fb24171d0347bd401327eee04b1e3346092f335",
+      "restored": "96b30fa1b9e9c9b5c77f8e07fad39bae331bedabce556a5f2c5f9dcc9bd248ce"
+    },
+    "restoredHashUnchanged": true,
+    "positiveExit": 0,
+    "mutantExit": 1,
+    "package": "reforge",
+    "targetFailureBlock": " FAIL  src/boot-page-shell.glm-q.test.ts > Q01 加载失败：错误画屏绘制 reforge ERR 文本并 console.error，模块导入不 reject\nAssertionError: expected [ 'reforge ERR: boom: other project' ] to include 'reforge ERR: boom: no such project'\n ❯ src/boot-page-shell.glm-q.test.ts:74:17\n     72|     .filter((draw) => draw.method === 'fillText')\n     73|     .map((draw) => String(draw.args[0]))\n     74|   expect(texts).toContain('reforge ERR: boom: no such project')\n       |                 ^\n     75|   const rects = host.draws.filter((draw) => draw.method === 'fillRect')\n     76|   expect(rects.length).toBeGreaterThan(0)\n\n⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯\n\n",
+    "summaryLines": [],
+    "evidence": {
+      "positiveLog": "counters/Q01-RC3.positive.txt",
+      "mutantLog": "counters/Q01-RC3.mutant.txt",
+      "patchOld": "counters/Q01-RC3.old",
+      "patchNew": "counters/Q01-RC3.new"
+    }
+  },
+  {
+    "id": "Q01-RC4",
+    "file": "packages/reforge/src/shop-trial.glm-q.test.ts",
+    "targetSubstring": "白名单伴随参数",
+    "sha256": {
+      "original": "5f2fa0e7a3e39b5f846076b3d37073e6fac6cb87d7cde8a1a92e40de1f55297b",
+      "mutated": "9aff9841afd6ef14da0fff08bd1e55145491aed755f2fd1d97a137b3ab549210",
+      "restored": "5f2fa0e7a3e39b5f846076b3d37073e6fac6cb87d7cde8a1a92e40de1f55297b"
+    },
+    "restoredHashUnchanged": true,
+    "positiveExit": 0,
+    "mutantExit": 1,
+    "package": "reforge",
+    "targetFailureBlock": " FAIL  src/shop-trial.glm-q.test.ts > Q01 白名单伴随参数（project/workspace/save-workspace）接受并精确解析\nAssertionError: expected { shopId: 4, money: 12 } to deeply equal { shopId: 3, money: 12 }\n\n- Expected\n+ Received\n\n  {\n    \"money\": 12,\n-   \"shopId\": 3,\n+   \"shopId\": 4,\n  }\n\n ❯ src/shop-trial.glm-q.test.ts:31:18\n     29|     new URLSearchParams('shop-trial=4&money=12&project=demo&workspace=…\n     30|   )\n     31|   expect(parsed).toEqual({ shopId: 3, money: 12 })\n       |                  ^\n     32| })\n     33|\n\n⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯\n\n",
+    "summaryLines": [],
+    "evidence": {
+      "positiveLog": "counters/Q01-RC4.positive.txt",
+      "mutantLog": "counters/Q01-RC4.mutant.txt",
+      "patchOld": "counters/Q01-RC4.old",
+      "patchNew": "counters/Q01-RC4.new"
+    }
+  },
+  {
+    "id": "Q01-RC5",
+    "file": "packages/reforge/src/main.boot-shell.glm-q.test.ts",
+    "targetSubstring": "半开关偏好只关音乐",
+    "sha256": {
+      "original": "e5a1ed00e72b3f0ac35b8baa92461a56a69089a6e9fce48f762c2924f437bbe4",
+      "mutated": "a5208fbf738c3bb61f57376850f6b212962ac4e458a4386a41c54d59ceb338b1",
+      "restored": "e5a1ed00e72b3f0ac35b8baa92461a56a69089a6e9fce48f762c2924f437bbe4"
+    },
+    "restoredHashUnchanged": true,
+    "positiveExit": 0,
+    "mutantExit": 1,
+    "package": "reforge",
+    "targetFailureBlock": " FAIL  src/main.boot-shell.glm-q.test.ts > Q01 半开关偏好只关音乐：缺省 sound 键按开启解析\nAssertionError: expected [ { player: 'bgm', on: true }, …(1) ] to deeply equal [ { player: 'bgm', on: false }, …(1) ]\n\n- Expected\n+ Received\n\n  [\n    {\n-     \"on\": false,\n+     \"on\": true,\n      \"player\": \"bgm\",\n    },\n    {\n-     \"on\": true,\n+     \"on\": false,\n      \"player\": \"sfx\",\n    },\n  ]\n\n ❯ src/main.boot-shell.glm-q.test.ts:80:27\n     78| test('Q01 半开关偏好只关音乐：缺省 sound 键按开启解析', async () => {\n     79|   const { setEnabledCalls } = await bootWithAudioPrefs('{\"sound\":false…\n     80|   expect(setEnabledCalls).toEqual([\n       |                           ^\n     81|     { player: 'bgm', on: false },\n     82|     { player: 'sfx', on: true },\n\n⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯\n\n",
+    "summaryLines": [],
+    "evidence": {
+      "positiveLog": "counters/Q01-RC5.positive.txt",
+      "mutantLog": "counters/Q01-RC5.mutant.txt",
+      "patchOld": "counters/Q01-RC5.old",
+      "patchNew": "counters/Q01-RC5.new"
+    }
+  },
+  {
+    "id": "Q02-RC1",
+    "file": "packages/reforge/src/assets-decode-gates.glm-q.test.ts",
+    "targetSubstring": "bytes / sha256 逐门精确拒绝",
+    "sha256": {
+      "original": "52c84b6e5b5d6d497f4aeed4e62e689505dc598e24227702176f3c0290c9a70e",
+      "mutated": "ea40c663b0e1282a79d7bbef6462aa9c68d2685fdb9bdca006eebc1df42e5597",
+      "restored": "52c84b6e5b5d6d497f4aeed4e62e689505dc598e24227702176f3c0290c9a70e"
+    },
+    "restoredHashUnchanged": true,
+    "positiveExit": 0,
+    "mutantExit": 1,
+    "package": "reforge",
+    "targetFailureBlock": " FAIL  src/assets-decode-gates.glm-q.test.ts > Q02 battle-sprite 解码核：kind / mediaType / bytes / sha256 逐门精确拒绝\nAssertionError: promise resolved \"{ frames: [ …(3) ], anchorX: 1, …(3) }\" instead of rejecting\n\n- Expected\n+ Received\n\n- Error {\n-   \"message\": \"rejected promise\",\n+ {\n+   \"anchorX\": 1,\n+   \"anchorY\": 2,\n+   \"decode\": {\n+     \"declaredSlots\": 3,\n+     \"skippedLegacyTailSlots\": 0,\n+     \"trailingSentinel\": false,\n+   },\n+   \"frames\": [\n+     {\n+       \"height\": 2,\n+       \"opaque\": Uint8Array [\n+         1,\n+         1,\n+         1,\n+         1,\n+       ],\n+       \"pixels\": Uint8Array [\n+         1,\n+         2,\n+         3,\n+         4,\n+       ],\n+       \"width\": 2,\n+     },\n+     {\n+       \"height\": 2,\n+       \"opaque\": Uint8Array [\n+         1,\n+         1,\n+         1,\n+         1,\n+       ],\n+       \"pixels\": Uint8Array [\n+         1,\n+         2,\n+         3,\n+         4,\n+       ],\n+       \"width\": 2,\n+     },\n+     {\n+       \"height\": 2,\n+       \"opaque\": Uint8Array [\n+         1,\n+         1,\n+         1,\n+         1,\n+       ],\n+       \"pixels\": Uint8Array [\n+         1,\n+         2,\n+         3,\n+         4,\n+       ],\n+       \"width\": 2,\n+     },\n+   ],\n+   \"profile\": \"canonical\",\n  }\n\n ❯ src/assets-decode-gates.glm-q.test.ts:62:61\n     60|     'mediaType 非法 image/png',\n     61|   )\n     62|   await expect(decodeBattleSpriteAssetBytes(bytesBad, bytes)).rejects.…\n       |                                                             ^\n     63|     `bytes 登记 ${good.bytes + 1}，实际 ${bytes.byteLength}`,\n     64|   )\n\n⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯\n\n",
+    "summaryLines": [],
+    "evidence": {
+      "positiveLog": "counters/Q02-RC1.positive.txt",
+      "mutantLog": "counters/Q02-RC1.mutant.txt",
+      "patchOld": "counters/Q02-RC1.old",
+      "patchNew": "counters/Q02-RC1.new"
+    }
+  },
+  {
+    "id": "Q02-RC2",
+    "file": "packages/reforge/src/assets-decode-gates.glm-q.test.ts",
+    "targetSubstring": "完整 record（含 label/origin.ref）为失效签名",
+    "sha256": {
+      "original": "52c84b6e5b5d6d497f4aeed4e62e689505dc598e24227702176f3c0290c9a70e",
+      "mutated": "604297e5723f5e20040ed8ae3eb8334296afdf0e1758ed18b4e893a1e2183c28",
+      "restored": "52c84b6e5b5d6d497f4aeed4e62e689505dc598e24227702176f3c0290c9a70e"
+    },
+    "restoredHashUnchanged": true,
+    "positiveExit": 0,
+    "mutantExit": 1,
+    "package": "reforge",
+    "targetFailureBlock": " FAIL  src/assets-decode-gates.glm-q.test.ts > Q02 battle 缓存以完整 record（含 label/origin.ref）为失效签名\nAssertionError: expected { frames: [ …(3) ], anchorX: 1, …(3) } to be undefined\n\n- Expected:\nundefined\n\n+ Received:\n{\n  \"anchorX\": 1,\n  \"anchorY\": 2,\n  \"decode\": {\n    \"declaredSlots\": 3,\n    \"skippedLegacyTailSlots\": 0,\n    \"trailingSentinel\": false,\n  },\n  \"frames\": [\n    {\n      \"height\": 2,\n      \"opaque\": Uint8Array [\n        1,\n        1,\n        1,\n        1,\n      ],\n      \"pixels\": Uint8Array [\n        1,\n        2,\n        3,\n        4,\n      ],\n      \"width\": 2,\n    },\n    {\n      \"height\": 2,\n      \"opaque\": Uint8Array [\n        1,\n        1,\n        1,\n        1,\n      ],\n      \"pixels\": Uint8Array [\n        1,\n        2,\n        3,\n        4,\n      ],\n      \"width\": 2,\n    },\n    {\n      \"height\": 2,\n      \"opaque\": Uint8Array [\n        1,\n        1,\n        1,\n        1,\n      ],\n      \"pixels\": Uint8Array [\n        1,\n        2,\n        3,\n        4,\n      ],\n      \"width\": 2,\n    },\n  ],\n  \"profile\": \"canonical\",\n}\n\n ❯ src/assets-decode-gates.glm-q.test.ts:111:35\n    109|   expect(reads).toBe(1)\n    110|   // 变异轴：label 保持不变\n    111|   expect(cache.get(reader, 'bs')).toBeUndefined()\n       |                                   ^\n    112|   await cache.load(reader, 'bs')\n    113|   expect(reads).toBe(2)\n\n⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯\n\n",
+    "summaryLines": [],
+    "evidence": {
+      "positiveLog": "counters/Q02-RC2.positive.txt",
+      "mutantLog": "counters/Q02-RC2.mutant.txt",
+      "patchOld": "counters/Q02-RC2.old",
+      "patchNew": "counters/Q02-RC2.new"
+    }
+  },
+  {
+    "id": "Q02-RC3",
+    "file": "packages/reforge/src/runnable-project-loader.glm-q.test.ts",
+    "targetSubstring": "过期 contentVersion 带工程名精确拒绝",
+    "sha256": {
+      "original": "5ed29b0ebaa48e453f563d26766cef86b6dee4e3c47bc2899faf447df24b4689",
+      "mutated": "0086a0d968b2250f324b7eb5bfa807da43c525b25c21b6931a458a071670db4b",
+      "restored": "5ed29b0ebaa48e453f563d26766cef86b6dee4e3c47bc2899faf447df24b4689"
+    },
+    "restoredHashUnchanged": true,
+    "positiveExit": 0,
+    "mutantExit": 1,
+    "package": "reforge",
+    "targetFailureBlock": " FAIL  src/runnable-project-loader.glm-q.test.ts > Q02 版本门：过期 contentVersion 带工程名精确拒绝\nAssertionError: expected [Function] to throw error including '工程 \"shell-project\": runtime 只接受当前 con…' but got '项目保存状态无法读取，请保留目录并回到编辑器处理'\n\nExpected: \"工程 \"shell-project\": runtime 只接受当前 contentVersion 20，收到 19\"\nReceived: \"项目保存状态无法读取，请保留目录并回到编辑器处理\"\n\n ❯ src/runnable-project-loader.glm-q.test.ts:40:47\n     38|   const stale = files.get('manifest.json') as { contentVersion: number…\n     39|   stale.contentVersion = CONTENT_VERSION // 变异轴：版本匹配\n     40|   await expect(loadRunnableProjectFrom(source)).rejects.toThrow(\n       |                                               ^\n     41|     `工程 \"shell-project\": runtime 只接受当前 contentVersion ${CONTENT_VERSIO…\n     42|   )\n\n⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯\n\n",
+    "summaryLines": [],
+    "evidence": {
+      "positiveLog": "counters/Q02-RC3.positive.txt",
+      "mutantLog": "counters/Q02-RC3.mutant.txt",
+      "patchOld": "counters/Q02-RC3.old",
+      "patchNew": "counters/Q02-RC3.new"
+    }
+  },
+  {
+    "id": "Q02-RC4",
+    "file": "packages/reforge/src/assets-decode-gates.glm-q.test.ts",
+    "targetSubstring": "无 gzip 魔数的字节原样透传",
+    "sha256": {
+      "original": "52c84b6e5b5d6d497f4aeed4e62e689505dc598e24227702176f3c0290c9a70e",
+      "mutated": "b652bb1deaaca1cdb5430bbbbb4f7fcfec4bdcf840b7c9e39c1fd69ef50c179b",
+      "restored": "52c84b6e5b5d6d497f4aeed4e62e689505dc598e24227702176f3c0290c9a70e"
+    },
+    "restoredHashUnchanged": true,
+    "positiveExit": 0,
+    "mutantExit": 1,
+    "package": "reforge",
+    "targetFailureBlock": " FAIL  src/assets-decode-gates.glm-q.test.ts > Q02 decompressGzip 对无 gzip 魔数的字节原样透传\nAssertionError: expected [ 1, 2, 3, 4, 6 ] to deeply equal [ 1, 2, 3, 4, 5 ]\n\n- Expected\n+ Received\n\n  [\n    1,\n    2,\n    3,\n    4,\n-   5,\n+   6,\n  ]\n\n ❯ src/assets-decode-gates.glm-q.test.ts:265:20\n    263|   const plain = new Uint8Array([1, 2, 3, 4, 6]) // 变异轴：透传内容换值\n    264|   const out = await decompressGzip(new Blob([plain]))\n    265|   expect([...out]).toEqual([1, 2, 3, 4, 5])\n       |                    ^\n    266| })\n    267|\n\n⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯\n\n",
+    "summaryLines": [],
+    "evidence": {
+      "positiveLog": "counters/Q02-RC4.positive.txt",
+      "mutantLog": "counters/Q02-RC4.mutant.txt",
+      "patchOld": "counters/Q02-RC4.old",
+      "patchNew": "counters/Q02-RC4.new"
+    }
+  },
+  {
+    "id": "Q02-RC5",
+    "file": "packages/reforge/src/project-map-stamp-resize.glm-q.test.ts",
+    "targetSubstring": "会破坏组合时精确拒绝并点名组合 id",
+    "sha256": {
+      "original": "1eee8760939b10b1b5728748356ca8ed50727c81eb566485b4ae77afc4a84e99",
+      "mutated": "f89ba33d69f3ecf197b0be89b1037c66fcd50ac7d15030887737c5c8a9afa78a",
+      "restored": "1eee8760939b10b1b5728748356ca8ed50727c81eb566485b4ae77afc4a84e99"
+    },
+    "restoredHashUnchanged": true,
+    "positiveExit": 0,
+    "mutantExit": 1,
+    "package": "reforge",
+    "targetFailureBlock": " FAIL  src/project-map-stamp-resize.glm-q.test.ts > Q02 resize 会破坏组合时精确拒绝并点名组合 id\nAssertionError: expected [Function] to throw an error\n\n- Expected:\nnull\n\n+ Received:\nundefined\n\n ❯ src/project-map-stamp-resize.glm-q.test.ts:101:64\n     99| test('Q02 resize 会破坏组合时精确拒绝并点名组合 id', () => {\n    100|   const stamped = withProjectMapStampPlacements(paintedBase(), [placem…\n    101|   expect(() => resizeProjectMap(stamped, 4, 4) /* 变异轴：安全尺寸 */).toThrow(\n       |                                                                ^\n    102|     '缩小地图会破坏 1 个组合（grp1）；请先解组或删除整组。',\n    103|   )\n\n⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯\n\n",
+    "summaryLines": [],
+    "evidence": {
+      "positiveLog": "counters/Q02-RC5.positive.txt",
+      "mutantLog": "counters/Q02-RC5.mutant.txt",
+      "patchOld": "counters/Q02-RC5.old",
+      "patchNew": "counters/Q02-RC5.new"
+    }
+  },
+  {
+    "id": "Q03-RC1",
+    "file": "packages/reforge/src/audio-spessa-runtime.glm-q.test.ts",
+    "targetSubstring": "无任何 AudioContext 构造器返回 undefined",
+    "sha256": {
+      "original": "9a3b9b7b541d4488a394eb8383091ea3e16135665075834e638189cbfa35b521",
+      "mutated": "26fab2083311585440ac704c7e6cf36d4b84f44324f8d5148bf6e8fa6cbd75b3",
+      "restored": "9a3b9b7b541d4488a394eb8383091ea3e16135665075834e638189cbfa35b521"
+    },
+    "restoredHashUnchanged": true,
+    "positiveExit": 0,
+    "mutantExit": 1,
+    "package": "reforge",
+    "targetFailureBlock": " FAIL  src/audio-spessa-runtime.glm-q.test.ts > Q03 试听 runtime：无任何 AudioContext 构造器返回 undefined\nAssertionError: expected undefined to be defined\n ❯ src/audio-spessa-runtime.glm-q.test.ts:219:68\n    217|   vi.stubGlobal('AudioContext', undefined)\n    218|   vi.stubGlobal('webkitAudioContext', undefined)\n    219|   expect(createBrowserMidiPreviewRuntime(roleReader(riffBytes()))).toB…\n       |                                                                    ^\n    220| })\n    221|\n\n⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯\n\n",
+    "summaryLines": [],
+    "evidence": {
+      "positiveLog": "counters/Q03-RC1.positive.txt",
+      "mutantLog": "counters/Q03-RC1.mutant.txt",
+      "patchOld": "counters/Q03-RC1.old",
+      "patchNew": "counters/Q03-RC1.new"
+    }
+  },
+  {
+    "id": "Q03-RC2",
+    "file": "packages/reforge/src/audio-spessa-runtime.glm-q.test.ts",
+    "targetSubstring": "适配器透传 sequencer 传输操作与快照字段",
+    "sha256": {
+      "original": "9a3b9b7b541d4488a394eb8383091ea3e16135665075834e638189cbfa35b521",
+      "mutated": "814734df0449679ddca2056d197efd8ca28eb23f500d61e786663a72e9223c90",
+      "restored": "9a3b9b7b541d4488a394eb8383091ea3e16135665075834e638189cbfa35b521"
+    },
+    "restoredHashUnchanged": true,
+    "positiveExit": 0,
+    "mutantExit": 1,
+    "package": "reforge",
+    "targetFailureBlock": " FAIL  src/audio-spessa-runtime.glm-q.test.ts > Q03 试听 runtime：适配器透传 sequencer 传输操作与快照字段，二次 initialize 复用\nAssertionError: expected 4 to be 3 // Object.is equality\n\n- Expected\n+ Received\n\n- 3\n+ 4\n\n ❯ src/audio-spessa-runtime.glm-q.test.ts:253:31\n    251|   expect(instance.options).toMatchObject({ skipToFirstNoteOn: false })\n    252|   adapter.currentTime = 4 // 变异轴：换合法 seek 值\n    253|   expect(adapter.currentTime).toBe(3)\n       |                               ^\n    254|   expect(adapter.duration).toBe(12.5)\n    255|   expect(adapter.paused).toBe(true)\n\n⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯\n\n",
+    "summaryLines": [],
+    "evidence": {
+      "positiveLog": "counters/Q03-RC2.positive.txt",
+      "mutantLog": "counters/Q03-RC2.mutant.txt",
+      "patchOld": "counters/Q03-RC2.old",
+      "patchNew": "counters/Q03-RC2.new"
+    }
+  },
+  {
+    "id": "Q03-RC3",
+    "file": "packages/reforge/src/audio-spessa-runtime.glm-q.test.ts",
+    "targetSubstring": "适配器透传 sequencer 传输操作与快照字段",
+    "sha256": {
+      "original": "9a3b9b7b541d4488a394eb8383091ea3e16135665075834e638189cbfa35b521",
+      "mutated": "985429d5f5442109658b6770c45e050970326292483d36dfc603f75992a0ef46",
+      "restored": "9a3b9b7b541d4488a394eb8383091ea3e16135665075834e638189cbfa35b521"
+    },
+    "restoredHashUnchanged": true,
+    "positiveExit": 0,
+    "mutantExit": 1,
+    "package": "reforge",
+    "targetFailureBlock": " FAIL  src/audio-spessa-runtime.glm-q.test.ts > Q03 试听 runtime：适配器透传 sequencer 传输操作与快照字段，二次 initialize 复用\nAssertionError: promise rejected \"DOMException{ stack: 'AbortError: MI…', …(1) }\" instead of resolving\n ❯ src/audio-spessa-runtime.glm-q.test.ts:258:36\n    256|   expect(adapter.finished).toBe(false)\n    257|   runtime.dispose() // 变异轴：复用断言前先关闭（合法宿主时序）\n    258|   await expect(runtime.initialize()).resolves.toBe(adapter)\n       |                                    ^\n    259| })\n    260|\n\nCaused by: AbortError: MIDI 试听已关闭\n ❯ Object.initialize src/audio/midi-preview.ts:123:27\n ❯ src/audio-spessa-runtime.glm-q.test.ts:258:24\n\n⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯\nSerialized Error: { code: 20, INDEX_SIZE_ERR: 1, DOMSTRING_SIZE_ERR: 2, HIERARCHY_REQUEST_ERR: 3, WRONG_DOCUMENT_ERR: 4, INVALID_CHARACTER_ERR: 5, NO_DATA_ALLOWED_ERR: 6, NO_MODIFICATION_ALLOWED_ERR: 7, NOT_FOUND_ERR: 8, NOT_SUPPORTED_ERR: 9, INUSE_ATTRIBUTE_ERR: 10, INVALID_STATE_ERR: 11, SYNTAX_ERR: 12, INVALID_MODIFICATION_ERR: 13, NAMESPACE_ERR: 14, INVALID_ACCESS_ERR: 15, VALIDATION_ERR: 16, TYPE_MISMATCH_ERR: 17, SECURITY_ERR: 18, NETWORK_ERR: 19, ABORT_ERR: 20, URL_MISMATCH_ERR: 21, QUOTA_EXCEEDED_ERR: 22, TIMEOUT_ERR: 23, INVALID_NODE_TYPE_ERR: 24, DATA_CLONE_ERR: 25 }\n⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯\n\n",
+    "summaryLines": [],
+    "evidence": {
+      "positiveLog": "counters/Q03-RC3.positive.txt",
+      "mutantLog": "counters/Q03-RC3.mutant.txt",
+      "patchOld": "counters/Q03-RC3.old",
+      "patchNew": "counters/Q03-RC3.new"
+    }
+  },
+  {
+    "id": "Q03-RC4",
+    "file": "packages/reforge/src/audio-spessa-runtime.glm-q.test.ts",
+    "targetSubstring": "解析真实 MIDI 字节并产出 note-activity",
+    "sha256": {
+      "original": "9a3b9b7b541d4488a394eb8383091ea3e16135665075834e638189cbfa35b521",
+      "mutated": "fc0ddfbdd11bce53b21baeb57ba7d4fdff7bc64b36fefaca129f697e03737105",
+      "restored": "9a3b9b7b541d4488a394eb8383091ea3e16135665075834e638189cbfa35b521"
+    },
+    "restoredHashUnchanged": true,
+    "positiveExit": 0,
+    "mutantExit": 1,
+    "package": "reforge",
+    "targetFailureBlock": " FAIL  src/audio-spessa-runtime.glm-q.test.ts > Q03 analyzeMidiBytes 解析真实 MIDI 字节并产出 note-activity\nAssertionError: expected [ 0.7874015748031497, …(15) ] to have a length of 32 but got 16\n\n- Expected\n+ Received\n\n- 32\n+ 16\n\n ❯ src/audio-spessa-runtime.glm-q.test.ts:290:28\n    288|   expect(activity.kind).toBe('note-activity')\n    289|   expect(activity.noteCount).toBeGreaterThan(0)\n    290|   expect(activity.buckets).toHaveLength(32)\n       |                            ^\n    291|   expect(Math.max(...activity.buckets)).toBeLessThanOrEqual(1)\n    292|   expect(Math.max(...activity.buckets)).toBeGreaterThan(0)\n\n⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯\n\n",
+    "summaryLines": [],
+    "evidence": {
+      "positiveLog": "counters/Q03-RC4.positive.txt",
+      "mutantLog": "counters/Q03-RC4.mutant.txt",
+      "patchOld": "counters/Q03-RC4.old",
+      "patchNew": "counters/Q03-RC4.new"
+    }
+  },
+  {
+    "id": "Q03-RC5",
+    "file": "packages/reforge/src/video-sfx-ports.glm-q.test.ts",
+    "targetSubstring": "视频静音播放",
+    "sha256": {
+      "original": "77ba5223a1402b958f54e8fcf1d85fc9df3dc4875c9cea3187850ed44f17127e",
+      "mutated": "d28234e5added93fdc561827de515fd75b134b4f384535f4d0c302c14691ce09",
+      "restored": "77ba5223a1402b958f54e8fcf1d85fc9df3dc4875c9cea3187850ed44f17127e"
+    },
+    "restoredHashUnchanged": true,
+    "positiveExit": 0,
+    "mutantExit": 1,
+    "package": "reforge",
+    "targetFailureBlock": " FAIL  src/video-sfx-ports.glm-q.test.ts > Q03 视频静音播放：video.muted 置真、ended 后清理兑现\nAssertionError: expected false to be true // Object.is equality\n\n- Expected\n+ Received\n\n- true\n+ false\n\n ❯ src/video-sfx-ports.glm-q.test.ts:38:23\n     36|   const done = playVideo({ src: 'videos/q3.mp4', muted: false }) // 变异…\n     37|   const video = liveVideo()\n     38|   expect(video.muted).toBe(true)\n       |                       ^\n     39|   video.dispatchEvent(new Event('ended'))\n     40|   await done\n\n⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯\n",
+    "summaryLines": [],
+    "evidence": {
+      "positiveLog": "counters/Q03-RC5.positive.txt",
+      "mutantLog": "counters/Q03-RC5.mutant.txt",
+      "patchOld": "counters/Q03-RC5.old",
+      "patchNew": "counters/Q03-RC5.new"
+    }
+  },
+  {
+    "id": "Q04-RC1",
+    "file": "packages/reforge/src/script-runner-core.gates.glm-q.test.ts",
+    "targetSubstring": "machine id 不匹配的 state cursor 精确拒绝",
+    "sha256": {
+      "original": "896fab49346937562f8aa66e780b9fdf24c85e73a1a8f4d1833e8387a20208a7",
+      "mutated": "ff721f63a10e271aa203bece96843caf14d69ff4b1d435435712d5b1f8f750d8",
+      "restored": "896fab49346937562f8aa66e780b9fdf24c85e73a1a8f4d1833e8387a20208a7"
+    },
+    "restoredHashUnchanged": true,
+    "positiveExit": 0,
+    "mutantExit": 1,
+    "package": "reforge",
+    "targetFailureBlock": " FAIL  src/script-runner-core.gates.glm-q.test.ts > Q04 非法光标组合 > machine id 不匹配的 state cursor 精确拒绝\nAssertionError: promise resolved \"undefined\" instead of rejecting\n\n- Expected:\nError {\n  \"message\": \"rejected promise\",\n}\n\n+ Received:\nundefined\n\n ❯ src/script-runner-core.gates.glm-q.test.ts:90:5\n     88|     await expect(\n     89|       runner.runFlow(compile(machineFlow()), { cursor, cursorControlle…\n     90|     ).rejects.toThrow('ScriptRunnerCore: machine cursor other 不匹配 mach…\n       |     ^\n     91|   })\n     92|\n\n⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯\n\n",
+    "summaryLines": [],
+    "evidence": {
+      "positiveLog": "counters/Q04-RC1.positive.txt",
+      "mutantLog": "counters/Q04-RC1.mutant.txt",
+      "patchOld": "counters/Q04-RC1.old",
+      "patchNew": "counters/Q04-RC1.new"
+    }
+  },
+  {
+    "id": "Q04-RC2",
+    "file": "packages/reforge/src/script-runner-core.gates.glm-q.test.ts",
+    "targetSubstring": "callScript 自递归在深度 128 处精确熔断",
+    "sha256": {
+      "original": "896fab49346937562f8aa66e780b9fdf24c85e73a1a8f4d1833e8387a20208a7",
+      "mutated": "2d5f3effb43e6101fe7ac435ed39f02178c289cacf48db55a6f0e4d9773b56dd",
+      "restored": "896fab49346937562f8aa66e780b9fdf24c85e73a1a8f4d1833e8387a20208a7"
+    },
+    "restoredHashUnchanged": true,
+    "positiveExit": 0,
+    "mutantExit": 1,
+    "package": "reforge",
+    "targetFailureBlock": " FAIL  src/script-runner-core.gates.glm-q.test.ts > Q04 commandOutcome 与 callScript 门 > callScript 自递归在深度 128 处精确熔断\nAssertionError: promise resolved \"undefined\" instead of rejecting\n\n- Expected:\nError {\n  \"message\": \"rejected promise\",\n}\n\n+ Received:\nundefined\n\n ❯ src/script-runner-core.gates.glm-q.test.ts:167:5\n    165|         { cursorController: controller() },\n    166|       ),\n    167|     ).rejects.toThrow('ScriptRunnerCore: callScript 调用深度超过 128')\n       |     ^\n    168|   })\n    169|\n\n⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯\n\n",
+    "summaryLines": [],
+    "evidence": {
+      "positiveLog": "counters/Q04-RC2.positive.txt",
+      "mutantLog": "counters/Q04-RC2.mutant.txt",
+      "patchOld": "counters/Q04-RC2.old",
+      "patchNew": "counters/Q04-RC2.new"
+    }
+  },
+  {
+    "id": "Q04-RC3",
+    "file": "packages/reforge/src/script-runner-core.gates.glm-q.test.ts",
+    "targetSubstring": "resolver 返回错误 script id 时拒绝",
+    "sha256": {
+      "original": "896fab49346937562f8aa66e780b9fdf24c85e73a1a8f4d1833e8387a20208a7",
+      "mutated": "fa0052a9a05f4f37d8a423aa911f9506c9ee18fc643183ee1874b2cfd5cae410",
+      "restored": "896fab49346937562f8aa66e780b9fdf24c85e73a1a8f4d1833e8387a20208a7"
+    },
+    "restoredHashUnchanged": true,
+    "positiveExit": 0,
+    "mutantExit": 1,
+    "package": "reforge",
+    "targetFailureBlock": " FAIL  src/script-runner-core.gates.glm-q.test.ts > Q04 commandOutcome 与 callScript 门 > resolver 返回错误 script id 时拒绝\nAssertionError: promise resolved \"undefined\" instead of rejecting\n\n- Expected:\nError {\n  \"message\": \"rejected promise\",\n}\n\n+ Received:\nundefined\n\n ❯ src/script-runner-core.gates.glm-q.test.ts:199:5\n    197|         { cursorController: controller() },\n    198|       ),\n    199|     ).rejects.toThrow('ScriptRunnerCore: resolver 返回错误 script id other…\n       |     ^\n    200|   })\n    201|\n\n⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯\n\n",
+    "summaryLines": [],
+    "evidence": {
+      "positiveLog": "counters/Q04-RC3.positive.txt",
+      "mutantLog": "counters/Q04-RC3.mutant.txt",
+      "patchOld": "counters/Q04-RC3.old",
+      "patchNew": "counters/Q04-RC3.new"
+    }
+  },
+  {
+    "id": "Q04-RC4",
+    "file": "packages/reforge/src/script-runner-core.gates.glm-q.test.ts",
+    "targetSubstring": "self=none 禁显式 self",
+    "sha256": {
+      "original": "896fab49346937562f8aa66e780b9fdf24c85e73a1a8f4d1833e8387a20208a7",
+      "mutated": "6141b9f8c16f7e88b45994c688d2d9e656c4bb579c82afec612a3c130f2a16eb",
+      "restored": "896fab49346937562f8aa66e780b9fdf24c85e73a1a8f4d1833e8387a20208a7"
+    },
+    "restoredHashUnchanged": true,
+    "positiveExit": 0,
+    "mutantExit": 1,
+    "package": "reforge",
+    "targetFailureBlock": " FAIL  src/script-runner-core.gates.glm-q.test.ts > Q04 commandOutcome 与 callScript 门 > self=none 禁显式 self；self=required 缺 self 拒绝\nAssertionError: promise resolved \"undefined\" instead of rejecting\n\n- Expected:\nError {\n  \"message\": \"rejected promise\",\n}\n\n+ Received:\nundefined\n\n ❯ src/script-runner-core.gates.glm-q.test.ts:258:5\n    256|         { cursorController: controller() },\n    257|       ),\n    258|     ).rejects.toThrow('ScriptRunnerCore: free self=none，禁止显式 self')\n       |     ^\n    259|     await expect(\n    260|       runner.runFlow(\n\n⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯\n\n",
+    "summaryLines": [],
+    "evidence": {
+      "positiveLog": "counters/Q04-RC4.positive.txt",
+      "mutantLog": "counters/Q04-RC4.mutant.txt",
+      "patchOld": "counters/Q04-RC4.old",
+      "patchNew": "counters/Q04-RC4.new"
+    }
+  },
+  {
+    "id": "Q04-RC5",
+    "file": "packages/reforge/src/script-runner-core.gates.glm-q.test.ts",
+    "targetSubstring": "host 未实现 revealSceneEntry 时 scene entry fail-loud",
+    "sha256": {
+      "original": "896fab49346937562f8aa66e780b9fdf24c85e73a1a8f4d1833e8387a20208a7",
+      "mutated": "799bbc323fef41b26cf44fbfa536f76c0e602ff5070b0022c913aa6cea178658",
+      "restored": "896fab49346937562f8aa66e780b9fdf24c85e73a1a8f4d1833e8387a20208a7"
+    },
+    "restoredHashUnchanged": true,
+    "positiveExit": 0,
+    "mutantExit": 1,
+    "package": "reforge",
+    "targetFailureBlock": " FAIL  src/script-runner-core.gates.glm-q.test.ts > Q04 其它公开守卫 > host 未实现 revealSceneEntry 时 scene entry fail-loud\nAssertionError: promise resolved \"undefined\" instead of rejecting\n\n- Expected:\nError {\n  \"message\": \"rejected promise\",\n}\n\n+ Received:\nundefined\n\n ❯ src/script-runner-core.gates.glm-q.test.ts:294:5\n    292|         allowSceneEntry: true,\n    293|       }),\n    294|     ).rejects.toThrow('ScriptRunnerCore: host 未实现 revealSceneEntry')\n       |     ^\n    295|   })\n    296|\n\n⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯\n\n",
+    "summaryLines": [],
+    "evidence": {
+      "positiveLog": "counters/Q04-RC5.positive.txt",
+      "mutantLog": "counters/Q04-RC5.mutant.txt",
+      "patchOld": "counters/Q04-RC5.old",
+      "patchNew": "counters/Q04-RC5.new"
+    }
+  },
+  {
+    "id": "Q05-RC1",
+    "file": "packages/reforge/src/enemy-closure.glm-q.test.ts",
+    "targetSubstring": "transform 与 summon 都把目标敌入队",
+    "sha256": {
+      "original": "4c9d2efa7df5b13d3296b4b09c3134f23167880c0ccea1cabb2e36fc28606323",
+      "mutated": "6cfc55fc9730a7b72fabfadeb40457d8df5baa83f28f94ea249edec070311965",
+      "restored": "4c9d2efa7df5b13d3296b4b09c3134f23167880c0ccea1cabb2e36fc28606323"
+    },
+    "restoredHashUnchanged": true,
+    "positiveExit": 0,
+    "mutantExit": 1,
+    "package": "reforge",
+    "targetFailureBlock": " FAIL  src/enemy-closure.glm-q.test.ts > Q05 collectReachableEnemyDefs > transform 与 summon 都把目标敌入队；未知目标精确报错\nAssertionError: expected [ 'boss', 'minion' ] to deeply equal [ 'boss', 'wing', 'minion' ]\n\n- Expected\n+ Received\n\n  [\n    \"boss\",\n-   \"wing\",\n    \"minion\",\n  ]\n\n ❯ src/enemy-closure.glm-q.test.ts:43:45\n     41|     }\n     42|     const result = collectReachableEnemyDefs([table.boss!], table)\n     43|     expect(result.map((enemy) => enemy.id)).toEqual(['boss', 'wing', '…\n       |                                             ^\n     44|     const broken = { boss: withRules('boss', [transform('ghost')]) }\n     45|     expect(() => collectReachableEnemyDefs([broken.boss!], broken)).to…\n\n⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯\n\n",
+    "summaryLines": [],
+    "evidence": {
+      "positiveLog": "counters/Q05-RC1.positive.txt",
+      "mutantLog": "counters/Q05-RC1.mutant.txt",
+      "patchOld": "counters/Q05-RC1.old",
+      "patchNew": "counters/Q05-RC1.new"
+    }
+  },
+  {
+    "id": "Q05-RC2",
+    "file": "packages/reforge/src/enemy-closure.glm-q.test.ts",
+    "targetSubstring": "hooks 内 effect summon 参与闭包",
+    "sha256": {
+      "original": "4c9d2efa7df5b13d3296b4b09c3134f23167880c0ccea1cabb2e36fc28606323",
+      "mutated": "206d2ccf9a70ad3b3e4125aa63c672024573a8bf31bcb5e8ea87623e72317b15",
+      "restored": "4c9d2efa7df5b13d3296b4b09c3134f23167880c0ccea1cabb2e36fc28606323"
+    },
+    "restoredHashUnchanged": true,
+    "positiveExit": 0,
+    "mutantExit": 1,
+    "package": "reforge",
+    "targetFailureBlock": " FAIL  src/enemy-closure.glm-q.test.ts > Q05 collectReachableEnemyDefs > enemyId 缺省的 summon 不入队；hooks 内 effect summon 参与闭包\nAssertionError: expected [ 'root' ] to deeply equal [ 'root', 'support' ]\n\n- Expected\n+ Received\n\n  [\n    \"root\",\n-   \"support\",\n  ]\n\n ❯ src/enemy-closure.glm-q.test.ts:77:45\n     75|     }\n     76|     const result = collectReachableEnemyDefs([table.root!], table)\n     77|     expect(result.map((enemy) => enemy.id)).toEqual(['root', 'support'…\n       |                                             ^\n     78|   })\n     79|\n\n⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯\n\n",
+    "summaryLines": [],
+    "evidence": {
+      "positiveLog": "counters/Q05-RC2.positive.txt",
+      "mutantLog": "counters/Q05-RC2.mutant.txt",
+      "patchOld": "counters/Q05-RC2.old",
+      "patchNew": "counters/Q05-RC2.new"
+    }
+  },
+  {
+    "id": "Q05-RC3",
+    "file": "packages/reforge/src/enemy-closure.glm-q.test.ts",
+    "targetSubstring": "循环 transform 引用不发散",
+    "sha256": {
+      "original": "4c9d2efa7df5b13d3296b4b09c3134f23167880c0ccea1cabb2e36fc28606323",
+      "mutated": "4d3ed70714700121b00c3f20e0c99728a82b35efb87cebe11fc2897a2758030e",
+      "restored": "4c9d2efa7df5b13d3296b4b09c3134f23167880c0ccea1cabb2e36fc28606323"
+    },
+    "restoredHashUnchanged": true,
+    "positiveExit": 0,
+    "mutantExit": 1,
+    "package": "reforge",
+    "targetFailureBlock": " FAIL  src/enemy-closure.glm-q.test.ts > Q05 collectReachableEnemyDefs > 循环 transform 引用不发散（seen 去重终止）\nAssertionError: expected [ 'x' ] to deeply equal [ 'x', 'y' ]\n\n- Expected\n+ Received\n\n  [\n    \"x\",\n-   \"y\",\n  ]\n\n ❯ src/enemy-closure.glm-q.test.ts:86:45\n     84|     }\n     85|     const result = collectReachableEnemyDefs([table.x!], table)\n     86|     expect(result.map((enemy) => enemy.id)).toEqual(['x', 'y'])\n       |                                             ^\n     87|   })\n     88| })\n\n⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯\n\n",
+    "summaryLines": [],
+    "evidence": {
+      "positiveLog": "counters/Q05-RC3.positive.txt",
+      "mutantLog": "counters/Q05-RC3.mutant.txt",
+      "patchOld": "counters/Q05-RC3.old",
+      "patchNew": "counters/Q05-RC3.new"
+    }
+  },
+  {
+    "id": "Q05-RC4",
+    "file": "packages/reforge/src/enemy-closure.glm-q.test.ts",
+    "targetSubstring": "仅收集 cast 技能、跨敌人去重且顺序稳定",
+    "sha256": {
+      "original": "4c9d2efa7df5b13d3296b4b09c3134f23167880c0ccea1cabb2e36fc28606323",
+      "mutated": "503d83e090c558a0e79e79ebc2be99492395787a6d71e80c4ef03c5cf82ff2da",
+      "restored": "4c9d2efa7df5b13d3296b4b09c3134f23167880c0ccea1cabb2e36fc28606323"
+    },
+    "restoredHashUnchanged": true,
+    "positiveExit": 0,
+    "mutantExit": 1,
+    "package": "reforge",
+    "targetFailureBlock": " FAIL  src/enemy-closure.glm-q.test.ts > Q05 collectReachableEnemySkillIds > 仅收集 cast 技能、跨敌人去重且顺序稳定\nAssertionError: expected [ 'fire' ] to deeply equal [ 'fire', 'gust' ]\n\n- Expected\n+ Received\n\n  [\n    \"fire\",\n-   \"gust\",\n  ]\n\n ❯ src/enemy-closure.glm-q.test.ts:98:20\n     96|     }\n     97|     const result = collectReachableEnemySkillIds([table.boss!, table.m…\n     98|     expect(result).toEqual(['fire', 'gust'])\n       |                    ^\n     99|   })\n    100|\n\n⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯\n\n",
+    "summaryLines": [],
+    "evidence": {
+      "positiveLog": "counters/Q05-RC4.positive.txt",
+      "mutantLog": "counters/Q05-RC4.mutant.txt",
+      "patchOld": "counters/Q05-RC4.old",
+      "patchNew": "counters/Q05-RC4.new"
+    }
+  },
+  {
+    "id": "Q05-RC5",
+    "file": "packages/reforge/src/enemy-closure.glm-q.test.ts",
+    "targetSubstring": "fallback cast 计入技能闭包",
+    "sha256": {
+      "original": "4c9d2efa7df5b13d3296b4b09c3134f23167880c0ccea1cabb2e36fc28606323",
+      "mutated": "07cdd3219603549436cd32de669e959bc531e74497b21ecab70774299e3c0e1b",
+      "restored": "4c9d2efa7df5b13d3296b4b09c3134f23167880c0ccea1cabb2e36fc28606323"
+    },
+    "restoredHashUnchanged": true,
+    "positiveExit": 0,
+    "mutantExit": 1,
+    "package": "reforge",
+    "targetFailureBlock": " FAIL  src/enemy-closure.glm-q.test.ts > Q05 collectReachableEnemySkillIds > fallback cast 计入技能闭包；hook effect summon/divide 不产生技能\nAssertionError: expected [ 'hex2' ] to deeply equal [ 'hex' ]\n\n- Expected\n+ Received\n\n  [\n-   \"hex\",\n+   \"hex2\",\n  ]\n\n ❯ src/enemy-closure.glm-q.test.ts:123:65\n    121|       }),\n    122|     }\n    123|     expect(collectReachableEnemySkillIds([table.root!], table)).toEqua…\n       |                                                                 ^\n    124|     expect(collectReachableEnemySkillIds([], table)).toEqual([])\n    125|   })\n\n⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯\n\n",
+    "summaryLines": [],
+    "evidence": {
+      "positiveLog": "counters/Q05-RC5.positive.txt",
+      "mutantLog": "counters/Q05-RC5.mutant.txt",
+      "patchOld": "counters/Q05-RC5.old",
+      "patchNew": "counters/Q05-RC5.new"
+    }
+  },
+  {
+    "id": "Q06-RC1",
+    "file": "packages/game/src/status-poison-equip.glm-q.test.ts",
+    "targetSubstring": "ByKind 只查指定毒 id",
+    "sha256": {
+      "original": "f19d45cd5f90cc728a6d9118f5c80ad1595ca425e47ba9161e01484d33f21e4e",
+      "mutated": "b8a4b83c875021741b4a14b65f64b2ccf79dd28ec076190cc15ff98c3f3ac4ad",
+      "restored": "f19d45cd5f90cc728a6d9118f5c80ad1595ca425e47ba9161e01484d33f21e4e"
+    },
+    "restoredHashUnchanged": true,
+    "positiveExit": 0,
+    "mutantExit": 1,
+    "package": "game",
+    "targetFailureBlock": " FAIL  src/status-poison-equip.glm-q.test.ts > Q06 isPlayerPoisoned > ByKind 只查指定毒 id，不看等级与其它毒\nAssertionError: expected false to be true // Object.is equality\n\n- Expected\n+ Received\n\n- true\n+ false\n\n ❯ src/status-poison-equip.glm-q.test.ts:53:39\n     51|     expect(isPlayerPoisoned(g, 0)).toBe(false)\n     52|     seed(g, 0, 0, 8) // 变异轴：换另一毒 id（合法毒表值）\n     53|     expect(isPlayerPoisoned(g, 0, 7)).toBe(true)\n       |                                       ^\n     54|     expect(isPlayerPoisoned(g, 0, 5)).toBe(false)\n     55|   })\n\n⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯\n\n",
+    "summaryLines": [],
+    "evidence": {
+      "positiveLog": "counters/Q06-RC1.positive.txt",
+      "mutantLog": "counters/Q06-RC1.mutant.txt",
+      "patchOld": "counters/Q06-RC1.old",
+      "patchNew": "counters/Q06-RC1.new"
+    }
+  },
+  {
+    "id": "Q06-RC2",
+    "file": "packages/game/src/status-poison-equip.glm-q.test.ts",
+    "targetSubstring": "level>=99 装备伪毒不算中毒",
+    "sha256": {
+      "original": "f19d45cd5f90cc728a6d9118f5c80ad1595ca425e47ba9161e01484d33f21e4e",
+      "mutated": "37a3c148ad8f45abc1a07a1e71d453c6a2b245aef77416b58468646f95787a30",
+      "restored": "f19d45cd5f90cc728a6d9118f5c80ad1595ca425e47ba9161e01484d33f21e4e"
+    },
+    "restoredHashUnchanged": true,
+    "positiveExit": 0,
+    "mutantExit": 1,
+    "package": "game",
+    "targetFailureBlock": " FAIL  src/status-poison-equip.glm-q.test.ts > Q06 isPlayerPoisoned > ByLevel(role,0)：level>=99 装备伪毒不算中毒\nAssertionError: expected true to be false // Object.is equality\n\n- Expected\n+ Received\n\n- false\n+ true\n\n ❯ src/status-poison-equip.glm-q.test.ts:64:36\n     62|     const g = gs()\n     63|     seed(g, 0, 0, 5) // 变异轴：同槽换真毒\n     64|     expect(isPlayerPoisoned(g, 0)).toBe(false)\n       |                                    ^\n     65|     seed(g, 0, 1, 5) // 真毒\n     66|     expect(isPlayerPoisoned(g, 0)).toBe(true)\n\n⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯\n\n",
+    "summaryLines": [],
+    "evidence": {
+      "positiveLog": "counters/Q06-RC2.positive.txt",
+      "mutantLog": "counters/Q06-RC2.mutant.txt",
+      "patchOld": "counters/Q06-RC2.old",
+      "patchNew": "counters/Q06-RC2.new"
+    }
+  },
+  {
+    "id": "Q06-RC3",
+    "file": "packages/game/src/status-poison-equip.glm-q.test.ts",
+    "targetSubstring": "runner 注入：施毒当下跑入口脚本",
+    "sha256": {
+      "original": "f19d45cd5f90cc728a6d9118f5c80ad1595ca425e47ba9161e01484d33f21e4e",
+      "mutated": "48c2e9299fd04d131b247be4eec130b061dcd04b034deef70fb7143df99e73e1",
+      "restored": "f19d45cd5f90cc728a6d9118f5c80ad1595ca425e47ba9161e01484d33f21e4e"
+    },
+    "restoredHashUnchanged": true,
+    "positiveExit": 0,
+    "mutantExit": 1,
+    "package": "game",
+    "targetFailureBlock": " FAIL  src/status-poison-equip.glm-q.test.ts > Q06 addPoisonForPlayer > runner 注入：施毒当下跑入口脚本并存返回的 next entry；无 runner 存原始 ip\nAssertionError: expected \"vi.fn()\" to be called with arguments: [ 300 ]\n\nNumber of calls: 0\n\n ❯ src/status-poison-equip.glm-q.test.ts:126:20\n    124|     const runner = vi.fn((ip: number) => ip + 5)\n    125|     addPoisonForPlayer(g, 0, 8, runner) // 变异轴：换未登记毒（playerScript 退化 0）\n    126|     expect(runner).toHaveBeenCalledWith(300)\n       |                    ^\n    127|     expect(g.rgPoisonStatus['0_0']).toEqual({ wPoisonID: 7, wPoisonScr…\n    128|     const g2 = gs()\n\n⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯\n\n",
+    "summaryLines": [],
+    "evidence": {
+      "positiveLog": "counters/Q06-RC3.positive.txt",
+      "mutantLog": "counters/Q06-RC3.mutant.txt",
+      "patchOld": "counters/Q06-RC3.old",
+      "patchNew": "counters/Q06-RC3.new"
+    }
+  },
+  {
+    "id": "Q06-RC4",
+    "file": "packages/game/src/status-poison-equip.glm-q.test.ts",
+    "targetSubstring": "fleeRate = runtime base + 各装备槽之和",
+    "sha256": {
+      "original": "f19d45cd5f90cc728a6d9118f5c80ad1595ca425e47ba9161e01484d33f21e4e",
+      "mutated": "f47e94d1fafa09cbe57a3ccc7138b981e05f27e8bc2ac9f810676474e373444d",
+      "restored": "f19d45cd5f90cc728a6d9118f5c80ad1595ca425e47ba9161e01484d33f21e4e"
+    },
+    "restoredHashUnchanged": true,
+    "positiveExit": 0,
+    "mutantExit": 1,
+    "package": "game",
+    "targetFailureBlock": " FAIL  src/status-poison-equip.glm-q.test.ts > Q06 装备派生值读取器 > fleeRate = runtime base + 各装备槽之和\nAssertionError: expected 18 to be 17 // Object.is equality\n\n- Expected\n+ Received\n\n- 17\n+ 18\n\n ❯ src/status-poison-equip.glm-q.test.ts:153:37\n    151|     g.rgEquipmentEffect[1] = effectRoles({ rgwFleeRate: [5] })\n    152|     g.rgEquipmentEffect[6] = effectRoles({ rgwFleeRate: [2] })\n    153|     expect(getPlayerFleeRate(g, 0)).toBe(17)\n       |                                     ^\n    154|   })\n    155|\n\n⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯\n\n",
+    "summaryLines": [],
+    "evidence": {
+      "positiveLog": "counters/Q06-RC4.positive.txt",
+      "mutantLog": "counters/Q06-RC4.mutant.txt",
+      "patchOld": "counters/Q06-RC4.old",
+      "patchNew": "counters/Q06-RC4.new"
+    }
+  },
+  {
+    "id": "Q06-RC5",
+    "file": "packages/game/src/status-poison-equip.glm-q.test.ts",
+    "targetSubstring": "poisonResistance 钳制",
+    "sha256": {
+      "original": "f19d45cd5f90cc728a6d9118f5c80ad1595ca425e47ba9161e01484d33f21e4e",
+      "mutated": "715b8f32d630b3a80d1899f93de04a21d99191411440bff7a9d45851a0ef2f5f",
+      "restored": "f19d45cd5f90cc728a6d9118f5c80ad1595ca425e47ba9161e01484d33f21e4e"
+    },
+    "restoredHashUnchanged": true,
+    "positiveExit": 0,
+    "mutantExit": 1,
+    "package": "game",
+    "targetFailureBlock": " FAIL  src/status-poison-equip.glm-q.test.ts > Q06 装备派生值读取器 > poisonResistance 钳制 [0,100]：负值归零、超百封顶\nAssertionError: expected 99 to be 100 // Object.is equality\n\n- Expected\n+ Received\n\n- 100\n+ 99\n\n ❯ src/status-poison-equip.glm-q.test.ts:160:45\n    158|     g.PlayerRolesRuntime.rgwPoisonResistance[0] = 69 // 变异轴：合法 base 使和…\n    159|     g.rgEquipmentEffect[0] = effectRoles({ rgwPoisonResistance: [30] })\n    160|     expect(getPlayerPoisonResistance(g, 0)).toBe(100)\n       |                                             ^\n    161|     g.PlayerRolesRuntime.rgwPoisonResistance[0] = 10\n    162|     g.rgEquipmentEffect[0] = effectRoles({ rgwPoisonResistance: [-40] …\n\n⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯\n\n",
+    "summaryLines": [],
+    "evidence": {
+      "positiveLog": "counters/Q06-RC5.positive.txt",
+      "mutantLog": "counters/Q06-RC5.mutant.txt",
+      "patchOld": "counters/Q06-RC5.old",
+      "patchNew": "counters/Q06-RC5.new"
+    }
+  },
+  {
+    "id": "Q09-RC1",
+    "file": "packages/game/src/framebuffer-ports.glm-q.test.ts",
+    "targetSubstring": "默认 320×200；自定义尺寸按参数建",
+    "sha256": {
+      "original": "259c5dd0ee0ece5efc2f97edb35fe4f723d7d2b841b94ea2b379c43629b4dce1",
+      "mutated": "eb167b0d6f4fda423f6c1f3618a2413a61a1674ed7026c545d56c84e294229ac",
+      "restored": "259c5dd0ee0ece5efc2f97edb35fe4f723d7d2b841b94ea2b379c43629b4dce1"
+    },
+    "restoredHashUnchanged": true,
+    "positiveExit": 0,
+    "mutantExit": 1,
+    "package": "game",
+    "targetFailureBlock": " FAIL  src/framebuffer-ports.glm-q.test.ts > Q09 createFramebuffer > 默认 320×200；自定义尺寸按参数建\nAssertionError: expected 8 to be 320 // Object.is equality\n\n- Expected\n+ Received\n\n- 320\n+ 8\n\n ❯ src/framebuffer-ports.glm-q.test.ts:15:22\n     13|   test('默认 320×200；自定义尺寸按参数建', () => {\n     14|     const fb = createFramebuffer(8, 6) // 变异轴：显式传参（合法离屏尺寸）\n     15|     expect(fb.width).toBe(SCREEN_W)\n       |                      ^\n     16|     expect(fb.height).toBe(SCREEN_H)\n     17|     expect(fb.indices).toHaveLength(SCREEN_W * SCREEN_H)\n\n⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯\n\n",
+    "summaryLines": [],
+    "evidence": {
+      "positiveLog": "counters/Q09-RC1.positive.txt",
+      "mutantLog": "counters/Q09-RC1.mutant.txt",
+      "patchOld": "counters/Q09-RC1.old",
+      "patchNew": "counters/Q09-RC1.new"
+    }
+  },
+  {
+    "id": "Q09-RC2",
+    "file": "packages/game/src/framebuffer-ports.glm-q.test.ts",
+    "targetSubstring": "界内按 y*width+x 落位",
+    "sha256": {
+      "original": "259c5dd0ee0ece5efc2f97edb35fe4f723d7d2b841b94ea2b379c43629b4dce1",
+      "mutated": "7fc5d5157a642719f681ad5ca20f0dfb22961fc19f5012dee65622aa396a7ece",
+      "restored": "259c5dd0ee0ece5efc2f97edb35fe4f723d7d2b841b94ea2b379c43629b4dce1"
+    },
+    "restoredHashUnchanged": true,
+    "positiveExit": 0,
+    "mutantExit": 1,
+    "package": "game",
+    "targetFailureBlock": " FAIL  src/framebuffer-ports.glm-q.test.ts > Q09 createFramebuffer > writePixel 四边界外全部忽略；界内按 y*width+x 落位\nAssertionError: expected +0 to be 7 // Object.is equality\n\n- Expected\n+ Received\n\n- 7\n+ 0\n\n ❯ src/framebuffer-ports.glm-q.test.ts:36:35\n     34|     expect([...fb.indices].every((v) => v === 0)).toBe(true)\n     35|     fb.writePixel(1, 1, 7) // 变异轴：合法界内另一格\n     36|     expect(fb.indices[1 * 4 + 2]).toBe(7)\n       |                                   ^\n     37|   })\n     38|\n\n⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯\n\n",
+    "summaryLines": [],
+    "evidence": {
+      "positiveLog": "counters/Q09-RC2.positive.txt",
+      "mutantLog": "counters/Q09-RC2.mutant.txt",
+      "patchOld": "counters/Q09-RC2.old",
+      "patchNew": "counters/Q09-RC2.new"
+    }
+  },
+  {
+    "id": "Q09-RC3",
+    "file": "packages/game/src/framebuffer-ports.glm-q.test.ts",
+    "targetSubstring": "toImageData 按 palette 展开",
+    "sha256": {
+      "original": "259c5dd0ee0ece5efc2f97edb35fe4f723d7d2b841b94ea2b379c43629b4dce1",
+      "mutated": "4deb2f89d34b6d15ef3046d01fde008e2030484ccab41c26753491f09fe586ea",
+      "restored": "259c5dd0ee0ece5efc2f97edb35fe4f723d7d2b841b94ea2b379c43629b4dce1"
+    },
+    "restoredHashUnchanged": true,
+    "positiveExit": 0,
+    "mutantExit": 1,
+    "package": "game",
+    "targetFailureBlock": " FAIL  src/framebuffer-ports.glm-q.test.ts > Q09 createFramebuffer > toImageData 按 palette 展开 RGBA、alpha 恒 255、缺色回退黑\nAssertionError: expected [ 4, 8, 251, 255 ] to deeply equal [ 3, 6, 252, 255 ]\n\n- Expected\n+ Received\n\n  [\n-   3,\n-   6,\n-   252,\n+   4,\n+   8,\n+   251,\n    255,\n  ]\n\n ❯ src/framebuffer-ports.glm-q.test.ts:54:41\n     52|     expect(image.width).toBe(2)\n     53|     expect(image.height).toBe(1)\n     54|     expect([...image.data.slice(0, 4)]).toEqual([3, 6, 252, 255])\n       |                                         ^\n     55|     expect([...image.data.slice(4, 8)]).toEqual([200, 144, 55, 255])\n     56|     const hole = createFramebuffer(1, 1)\n\n⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯\n\n",
+    "summaryLines": [],
+    "evidence": {
+      "positiveLog": "counters/Q09-RC3.positive.txt",
+      "mutantLog": "counters/Q09-RC3.mutant.txt",
+      "patchOld": "counters/Q09-RC3.old",
+      "patchNew": "counters/Q09-RC3.new"
+    }
+  },
+  {
+    "id": "Q09-RC4",
+    "file": "packages/game/src/framebuffer-ports.glm-q.test.ts",
+    "targetSubstring": "缺色回退黑",
+    "sha256": {
+      "original": "259c5dd0ee0ece5efc2f97edb35fe4f723d7d2b841b94ea2b379c43629b4dce1",
+      "mutated": "621ea1b66da74e6cef18d3456c73e5b34195f80a07c39089edfc500fa28873a5",
+      "restored": "259c5dd0ee0ece5efc2f97edb35fe4f723d7d2b841b94ea2b379c43629b4dce1"
+    },
+    "restoredHashUnchanged": true,
+    "positiveExit": 0,
+    "mutantExit": 1,
+    "package": "game",
+    "targetFailureBlock": " FAIL  src/framebuffer-ports.glm-q.test.ts > Q09 createFramebuffer > toImageData 按 palette 展开 RGBA、alpha 恒 255、缺色回退黑\nAssertionError: expected [ 250, 244, 5, 255 ] to deeply equal [ +0, +0, +0, 255 ]\n\n- Expected\n+ Received\n\n  [\n-   0,\n-   0,\n-   0,\n+   250,\n+   244,\n+   5,\n    255,\n  ]\n\n ❯ src/framebuffer-ports.glm-q.test.ts:60:28\n     58|     const missing: Palette = { colors: [], cycles: [] }\n     59|     const dark = hole.toImageData(palette) // 变异轴：换成完整调色板（合法输入）\n     60|     expect([...dark.data]).toEqual([0, 0, 0, 255])\n       |                            ^\n     61|   })\n     62| })\n\n⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯\n\n",
+    "summaryLines": [],
+    "evidence": {
+      "positiveLog": "counters/Q09-RC4.positive.txt",
+      "mutantLog": "counters/Q09-RC4.mutant.txt",
+      "patchOld": "counters/Q09-RC4.old",
+      "patchNew": "counters/Q09-RC4.new"
+    }
+  }
+]

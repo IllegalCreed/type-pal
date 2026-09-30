@@ -1,0 +1,57 @@
+
+ RUN  v4.1.7 /private/tmp/glmq/counter-copy/type-pal/packages/reforge
+
+ ❯ src/video-sfx-ports.glm-q.test.ts (3 tests | 2 failed) 22ms
+   × Q03 视频静音播放：video.muted 置真、ended 后清理兑现 14ms
+   × Q03 cleanup 中 video.pause 抛错被容忍：层移除且 Promise 照常兑现 6ms
+   ✓ Q03 SfxPlayer maxDecoded 非正整数逐臂精确拒绝；无适配器给出降级告警 1ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/video-sfx-ports.glm-q.test.ts > Q03 视频静音播放：video.muted 置真、ended 后清理兑现
+AssertionError: expected false to be true // Object.is equality
+
+- Expected
++ Received
+
+- true
++ false
+
+ ❯ src/video-sfx-ports.glm-q.test.ts:38:23
+     36|   const done = playVideo({ src: 'videos/q3.mp4', muted: false }) // 变异…
+     37|   const video = liveVideo()
+     38|   expect(video.muted).toBe(true)
+       |                       ^
+     39|   video.dispatchEvent(new Event('ended'))
+     40|   await done
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+ FAIL  src/video-sfx-ports.glm-q.test.ts > Q03 cleanup 中 video.pause 抛错被容忍：层移除且 Promise 照常兑现
+AssertionError: expected <video src="videos/q3.mp4" …(2)></video> to be null
+
+- Expected:
+null
+
++ Received:
+<video
+  playsinline=""
+  src="videos/q3.mp4"
+  style="position: fixed; top: 0px; left: 0px; width: 100vw; height: 100vh; object-fit: contain; background-color: rgb(0, 0, 0); z-index: 10000;"
+/>
+
+ ❯ src/video-sfx-ports.glm-q.test.ts:52:43
+     50|   video.dispatchEvent(new Event('ended'))
+     51|   await done
+     52|   expect(document.querySelector('video')).toBeNull()
+       |                                           ^
+     53| })
+     54|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  2 failed | 1 passed (3)
+   Start at  01:42:51
+   Duration  454ms (transform 26ms, setup 0ms, import 37ms, tests 22ms, environment 319ms)

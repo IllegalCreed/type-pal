@@ -1,0 +1,7 @@
+          fallback: { action: cast('hex'), chancePercent: 50 },
+          hooks: {
+            ready: {
+              initial: 'main',
+              states: {
+                main: {
+                  body: [{ id: 'h1', kind: 'effect', effect: { kind: 'divide', copies: 2 } }],

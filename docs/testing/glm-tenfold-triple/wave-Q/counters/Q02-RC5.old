@@ -1,0 +1,1 @@
+  expect(() => resizeProjectMap(stamped, 1, 1)).toThrow(
