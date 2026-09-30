@@ -586,6 +586,15 @@ SHA256 `07cf552e3ddb2e0a5a5cb7606bf8441fa6a8f143ea703384d8c2b01545eee6e6`。
   落在主树migrate-content及两新leaf。Owner立即暂停，将本次精确diff转入隔离绝对路径，
   用apply_patch逆本次diff恢复主树并撤出本次新建文件；未用reset/checkout，不触碰其它内容。
   Codex另核主树status干净/diff-check为空、隔离仅这三文件后允许继续；旧oracle此前已冻结。
+- 2026-09-30 pal_resource_supply / Codex：r5/r6冻结903f833da交回，Codex源码/旧oracle/
+  实际Node禁载反控/作者只读门独立accept；3cfa22d3统一check10742项和2690文件静态零诊断。
+  母卡done归档、37项文档工具及798篇/4180链接/241卡零问题复验通过；d7e94a09已推送main。
+- 2026-09-30 Codex：管理工具已将本次资源供给工作树归档为可恢复附件，exact identity为
+  `/Users/zhangxu/.codex/worktrees/pal-resource-supply/type-pal`，列表状态archived_worktree；
+  已合本地分支`codex/pal-resource-supply-r1`由非强制branch -d删除，末端903f833da留在Git。
+  忽略项只有可重装node_modules与指向主树原始输入的symlink，无独有输入需要搬走；主树
+  extracted输入、E2E工作树、GLM L/M/N及另行出现的GLM验收工作树均未操作。97旧文件删除
+  可由Git恢复，工作树可由附件恢复；本条收口回执另提交推送，不改产品或已通过实现候选。
 
 ## 下一位Agent提示词
 
