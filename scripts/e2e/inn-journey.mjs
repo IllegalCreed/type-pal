@@ -7,6 +7,7 @@ import {
   assertInnChoreography,
   assertInnDialogueHolds,
   assertInnEvidence,
+  assertInnRestoreCommitted,
   innArguments,
   readInnContract,
   readPredecessor,
@@ -500,20 +501,28 @@ export async function runInnJourney(engine) {
       assert.equal(s.cash, 500)
       assert(s.trio.every((e) => !e.visible))
       assert(s.roomActors.every((e) => e.visible))
+      const restoredTrace = await page.evaluate(() => window.__readInnEvidence())
       await writeFile(
         resolve(out, '002-restored-trace.json'),
-        JSON.stringify(await page.evaluate(() => window.__readInnEvidence()), null, 2),
+        JSON.stringify(restoredTrace, null, 2),
       )
+      if (engine === 'reforge') report.restoreCommits = restoredTrace.restoreCommits
       report.restoredWorld =
         engine === 'game'
           ? await page.evaluate(readWorld)
-          : openingSaveView(await formalReforgeSnapshot('restored-world'))
+          : assertInnRestoreCommitted(restoredTrace, report.endWorld)
       report.restoredWorldHash = sha256(JSON.stringify(report.restoredWorld))
       assert.equal(
         report.restoredWorldHash,
         report.endWorldHash,
         'restored persistent world differs',
       )
+      if (engine === 'reforge') {
+        // This second real barrier can settle an already resumed background stage. Preserve its
+        // complete result and before/after evidence, but do not use it as the load equality oracle.
+        report.postResumeWorld = openingSaveView(await formalReforgeSnapshot('post-resume'))
+        report.postResumeWorldHash = sha256(JSON.stringify(report.postResumeWorld))
+      }
       report.restoredFrame = await waitForOpeningFrame(page, until, report.endFrame)
       await page.screenshot({ path: resolve(out, '002-restored.png') })
       await press('Escape', 'restored normal menu')

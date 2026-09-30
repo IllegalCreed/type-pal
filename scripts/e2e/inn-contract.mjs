@@ -2,6 +2,7 @@ import assert from 'node:assert/strict'
 import { readFile } from 'node:fs/promises'
 import { dirname, resolve } from 'node:path'
 import { repoRoot, sha256 } from './browser-journey.mjs'
+import { openingSaveView } from './reforge-opening-policy.mjs'
 
 export const INN_ROWS = Object.freeze([
   25, 27, 29, 30, 32, 33, 34, 36, 37, 38, 40, 41, 43, 45, 46, 47, 49, 50, 51, 53,
@@ -96,6 +97,20 @@ export async function readPredecessor(path, engine) {
   const bytes = await readFile(resolve(dirname(path), '001.end.save.json'), 'utf8')
   const payload = JSON.parse(bytes)
   return { path, bytes, payload, ...validatePredecessor(report, payload, engine, bytes) }
+}
+
+/** Compare the real synchronous restore commit, never a later background-resumed save. */
+export function assertInnRestoreCommitted(trace, expected) {
+  assert.equal(trace.overflow, false, 'inn restore collector overflow')
+  assert.deepEqual(trace.errors, [], 'inn restore observer error')
+  assert.equal(trace.restoreCommits?.length, 1, 'one actual restore commit required')
+  const commit = trace.restoreCommits[0]
+  assert.equal(commit.seq, 0)
+  assert(Number.isFinite(commit.atMs), 'missing restore commit clock')
+  assert.equal(commit.source, 'commit:restorePayload')
+  const actual = openingSaveView(commit.payload)
+  assert.deepEqual(actual, expected, 'restored committed persistent world differs')
+  return actual
 }
 
 export async function readInnContract(root = repoRoot) {

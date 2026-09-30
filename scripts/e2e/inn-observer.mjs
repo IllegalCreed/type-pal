@@ -2,6 +2,7 @@
 export function installInnObserver() {
   const events = [],
     pages = [],
+    restoreCommits = [],
     errors = [],
     previous = new Map(),
     sources = {},
@@ -90,6 +91,22 @@ export function installInnObserver() {
   }
   globalThis.__innPoint = record
   globalThis.__innError = fail
+  globalThis.__innRestoreCommitted = (payload) => {
+    try {
+      if (restoreCommits.length >= 2) {
+        overflow = true
+        return
+      }
+      restoreCommits.push({
+        seq: restoreCommits.length,
+        atMs: performance.now(),
+        source: 'commit:restorePayload',
+        payload: structuredClone(payload),
+      })
+    } catch (error) {
+      fail(error)
+    }
+  }
   globalThis.__innRendered = (page) => {
     rendered('reforge', page && page.phase !== 'typing' ? page : null)
   }
@@ -157,7 +174,7 @@ export function installInnObserver() {
     }
   }
   globalThis.__readInnEvidence = () =>
-    structuredClone({ events, pages, errors, overflow, sources, final })
+    structuredClone({ events, pages, restoreCommits, errors, overflow, sources, final })
 }
 
 export function readInnGame() {

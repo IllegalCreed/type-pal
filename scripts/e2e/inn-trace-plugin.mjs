@@ -95,6 +95,66 @@ export function instrumentInnTrace(code, file) {
       } catch(error) {globalThis.__innError?.(String(error));}
     }`
     result.code = result.code.slice(0, hook.getStart(ast)) + body + result.code.slice(hook.end)
+    const restoreAst = ts.createSourceFile(file, result.code, ts.ScriptTarget.Latest, true)
+    const restores = []
+    const findRestore = (node) => {
+      if (ts.isFunctionDeclaration(node) && node.name?.text === 'restorePayload')
+        restores.push(node)
+      ts.forEachChild(node, findRestore)
+    }
+    findRestore(restoreAst)
+    assert.equal(restores.length, 1, 'inn restore commit anchor function changed')
+    const statements = restores[0].body.statements,
+      calls = []
+    const census = (node) => {
+      if (ts.isCallExpression(node) && ts.isIdentifier(node.expression)) calls.push(node)
+      ts.forEachChild(node, census)
+    }
+    census(restores[0].body)
+    const names = [
+      'abortScript',
+      'stopAutoRunners',
+      'replaceWorld',
+      'commitSceneSwitch',
+      'syncRuntimeScriptScratch',
+      'refreshCurrentCanonicalBindings',
+      'syncAmbience',
+      'applyWorldToScene',
+      'startAutoRunners',
+    ]
+    const ordered = names.map((name) => {
+      const matches = calls.filter((call) => call.expression.text === name)
+      assert.equal(matches.length, 1, `inn restore commit anchor ${name} census changed`)
+      const statement = matches[0].parent
+      assert(
+        ts.isExpressionStatement(statement) && statements.includes(statement),
+        `inn restore commit anchor ${name} is not a direct successful-tail statement`,
+      )
+      return { call: matches[0], statement, index: statements.indexOf(statement) }
+    })
+    assert(
+      ordered.every((value, index) => index === 0 || value.index > ordered[index - 1].index),
+      'inn restore commit anchor ordering changed',
+    )
+    assert.equal(ordered[2].call.getText(restoreAst), 'replaceWorld(candidate)')
+    assert.equal(ordered[3].call.getText(restoreAst), 'commitSceneSwitch(plan, world, false)')
+    const resume = ordered.at(-1)
+    assert.equal(
+      statements[resume.index + 1]?.getText(restoreAst),
+      'return true',
+      'inn restore commit anchor successful return changed',
+    )
+    const noAwait = (node) => {
+      assert(!ts.isAwaitExpression(node), 'inn restore commit anchor contains await')
+      ts.forEachChild(node, noAwait)
+    }
+    for (const statement of statements.slice(ordered[0].index, resume.index + 1)) noAwait(statement)
+    const at = resume.statement.getStart(restoreAst)
+    result.code =
+      result.code.slice(0, at) +
+      'globalThis.__innRestoreCommitted?.(captureCurrentSavePayload());\n' +
+      result.code.slice(at)
+    result.anchors.restorePayloadCommitted = 1
   }
   assert.equal(
     ts.createSourceFile(file, result.code, ts.ScriptTarget.Latest, true).parseDiagnostics.length,

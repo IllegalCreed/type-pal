@@ -7,6 +7,7 @@ import {
   assertInnChoreography,
   assertInnDialogueHolds,
   assertInnEvidence,
+  assertInnRestoreCommitted,
   INN_ROWS,
   innArguments,
   innSpeaker,
@@ -16,6 +17,7 @@ import {
 import { installInnObserver } from './inn-observer.mjs'
 import { planInnRoute } from './inn-route.mjs'
 import { INN_TRACE_TARGETS, instrumentInnTrace } from './inn-trace-plugin.mjs'
+import { openingSaveView } from './reforge-opening-policy.mjs'
 
 const observer = () => {
   const host = {}
@@ -140,16 +142,218 @@ test('002 real module AST write census retains all 001 anchors and adds normal i
   )
 })
 
+test('restore observation is uniquely after the synchronous real commit and before auto resumption', () => {
+  const file = 'packages/reforge/src/main.ts',
+    raw = readFileSync(new URL(`../../${file}`, import.meta.url), 'utf8'),
+    result = instrumentInnTrace(raw, file)
+  assert.equal(result.anchors.restorePayloadCommitted, 1)
+  assert.equal(
+    result.code.match(/__innRestoreCommitted\?\.\(captureCurrentSavePayload\(\)\)/g)?.length,
+    1,
+  )
+  const before = '    replaceWorld(candidate)'
+  const resume = '    startAutoRunners()\n    return true'
+  for (const changed of [
+    raw.replace(resume, '    return true'),
+    raw.replace(resume, '    startAutoRunners()\n    startAutoRunners()\n    return true'),
+    raw.replace(before, `    startAutoRunners()\n${before}`).replace(resume, '    return true'),
+    raw.replace(before, '    commitSceneSwitch(plan, world, false)\n    replaceWorld(candidate)'),
+    raw.replace(before, `${before}\n    await Promise.resolve()`),
+  ])
+    assert.throws(() => instrumentInnTrace(changed, file), /restore commit anchor/)
+})
+
+test('committed restore DTO is separately bounded and detached without changing core event order', () => {
+  const h = observer(),
+    payload = { world: { money: 500 } }
+  h.__innRestoreCommitted(payload)
+  payload.world.money = 9
+  h.__innPoint('commit:move', state())
+  const dto = h.__readInnEvidence()
+  assert.equal(dto.restoreCommits[0].payload.world.money, 500)
+  assert.equal(dto.restoreCommits[0].source, 'commit:restorePayload')
+  assert.equal(dto.events[0].order, 0)
+  dto.restoreCommits[0].payload.world.money = 11
+  assert.equal(h.__readInnEvidence().restoreCommits[0].payload.world.money, 500)
+  h.__innRestoreCommitted(payload)
+  h.__innRestoreCommitted(payload)
+  assert.equal(h.__readInnEvidence().restoreCommits.length, 2)
+  assert.equal(h.__readInnEvidence().overflow, true)
+})
+
+const restorePayloadFixture = () => ({
+  version: 9,
+  contentVersion: 21,
+  projectId: 'pal',
+  position: { sceneId: 's003', pos: { col: 126, row: 45, height: 0 }, facing: 'down' },
+  world: {
+    money: 500,
+    party: [{ id: 'li-xiaoyao' }],
+    script: {
+      behaviors: {
+        entities: {
+          s003: {
+            e62: {
+              auto: { cursor: { behavior: 'default', at: { kind: 'stage', stage: 'legacy-003' } } },
+            },
+            e59: { auto: { cursor: { behavior: 'legacy-003', at: { kind: 'completed' } } } },
+          },
+        },
+      },
+    },
+  },
+})
+
+test('restore oracle keeps every cursor, reward and completed field; late normal advance is separate', () => {
+  const payload = restorePayloadFixture(),
+    expected = openingSaveView(payload),
+    h = observer()
+  h.__innRestoreCommitted(payload)
+  const late = structuredClone(payload)
+  late.world.script.behaviors.entities.s003.e62.auto.cursor.at.stage = 'initial'
+  assert.notDeepEqual(openingSaveView(late), expected)
+  assert.deepEqual(assertInnRestoreCommitted(h.__readInnEvidence(), expected), expected)
+  for (const mutate of [
+    (value) => {
+      delete value.world.script.behaviors.entities.s003.e62.auto.cursor
+    },
+    (value) => {
+      value.world.money = 499
+    },
+    (value) => {
+      value.world.script.behaviors.entities.s003.e59.auto.cursor.at = {
+        kind: 'stage',
+        stage: 'initial',
+      }
+    },
+  ]) {
+    const bad = restorePayloadFixture(),
+      host = observer()
+    mutate(bad)
+    host.__innRestoreCommitted(bad)
+    assert.throws(
+      () => assertInnRestoreCommitted(host.__readInnEvidence(), expected),
+      /restored committed persistent world differs/,
+    )
+  }
+  for (const mutate of [
+    (trace) => {
+      trace.restoreCommits = []
+    },
+    (trace) => {
+      trace.restoreCommits.push(trace.restoreCommits[0])
+    },
+    (trace) => {
+      trace.overflow = true
+    },
+    (trace) => {
+      trace.errors.push('lost commit')
+    },
+    (trace) => {
+      trace.restoreCommits[0].atMs = null
+    },
+    (trace) => {
+      trace.restoreCommits[0].source = 'input:payload'
+    },
+  ]) {
+    const trace = h.__readInnEvidence()
+    mutate(trace)
+    assert.throws(() => assertInnRestoreCommitted(trace, expected))
+  }
+})
+
 function actualFunction(code, name) {
   const ast = ts.createSourceFile('real.ts', code, ts.ScriptTarget.Latest, true)
-  const declarations = ast.statements.filter(
-    (n) => ts.isFunctionDeclaration(n) && n.name?.text === name,
-  )
+  const declarations = []
+  const walk = (node) => {
+    if (ts.isFunctionDeclaration(node) && node.name?.text === name) declarations.push(node)
+    ts.forEachChild(node, walk)
+  }
+  walk(ast)
   assert.equal(declarations.length, 1)
   return ts.transpile(declarations[0].getText(ast).replace(/^export /, ''), {
     target: ts.ScriptTarget.ES2022,
   })
 }
+
+test('actual transformed restore reads committed World before real auto call, not its input or late state', async () => {
+  const file = 'packages/reforge/src/main.ts',
+    raw = readFileSync(new URL(`../../${file}`, import.meta.url), 'utf8'),
+    transformed = instrumentInnTrace(raw, file).code,
+    builder = readFileSync(
+      new URL('../../packages/reforge/src/save/ops.ts', import.meta.url),
+      'utf8',
+    ),
+    world = { money: 0 },
+    activeScene = { scene: { id: 's000' } },
+    player = { pos: { col: 0, row: 0, height: 0 } },
+    h = observer(),
+    calls = [],
+    payload = restorePayloadFixture()
+  const scope = {
+    globalThis: h,
+    world,
+    activeScene,
+    player,
+    facing: 'down',
+    inputProject: { manifest: { id: 'pal' } },
+    SAVE_VERSION: 9,
+    CONTENT_VERSION: 21,
+    assertRunnerActive: () => {},
+    payloadBelongsToProject: () => true,
+    clearRestoredWorldActorConditions: () => {},
+    prepareSceneSwitch: async () => ({ def: {} }),
+    loadIntent: { assertCurrent: () => {} },
+    assertSceneSwitchPlanCurrent: () => {},
+    resolveRestoredMusic: () => ({ action: 'stop' }),
+    abortScript: () => calls.push('abort'),
+    stopAutoRunners: () => calls.push('stop'),
+    replaceWorld: (value) => {
+      for (const key of Object.keys(world)) delete world[key]
+      Object.assign(world, structuredClone(value))
+      // A deliberately wrong production commit must remain observable rather than be replaced by p.
+      world.money = 499
+      calls.push('world')
+    },
+    commitSceneSwitch: () => {
+      activeScene.scene.id = 's003'
+      player.pos = structuredClone(payload.position.pos)
+      calls.push('scene')
+    },
+    syncRuntimeScriptScratch: () => {},
+    refreshCurrentCanonicalBindings: () => {},
+    syncAmbience: () => {},
+    applyWorldToScene: () => calls.push('projection'),
+    bgm: { stop: () => {}, play: () => {} },
+    startAutoRunners: () => {
+      calls.push('auto')
+      world.money = 500
+      world.script.behaviors.entities.s003.e62.auto.cursor.at.stage = 'initial'
+    },
+  }
+  const restore = new Function(
+    ...Object.keys(scope),
+    `${actualFunction(transformed, 'restorePayload')}
+     ${actualFunction(raw, 'captureCurrentSavePayload')}
+     ${actualFunction(builder, 'buildCurrentSavePayload')}
+     const currentWorldSnapshot = () => structuredClone(world);
+     return restorePayload;`,
+  )(...Object.values(scope))
+  assert.equal(await restore(payload, 1, 'fixture actual restore'), true)
+  assert.deepEqual(calls, ['abort', 'stop', 'world', 'scene', 'projection', 'auto'])
+  const commit = h.__readInnEvidence().restoreCommits[0].payload
+  assert.equal(commit.world.money, 499)
+  assert.equal(commit.world.script.behaviors.entities.s003.e62.auto.cursor.at.stage, 'legacy-003')
+  assert.deepEqual(commit.position, payload.position)
+  assert.equal(world.money, 500)
+  assert.equal(world.script.behaviors.entities.s003.e62.auto.cursor.at.stage, 'initial')
+  assert.equal(payload.world.money, 500)
+  assert.equal(payload.world.script.behaviors.entities.s003.e62.auto.cursor.at.stage, 'legacy-003')
+  assert.throws(
+    () => assertInnRestoreCommitted(h.__readInnEvidence(), openingSaveView(payload)),
+    /restored committed persistent world differs/,
+  )
+})
 test('new real blocker-push wrapper preserves actual return, world writes and thrown identity', () => {
   const file = 'packages/game/src/core/scene-system.ts',
     raw = readFileSync(new URL(`../../${file}`, import.meta.url), 'utf8'),
