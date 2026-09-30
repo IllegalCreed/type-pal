@@ -9,6 +9,7 @@ import {
   assertInnEvidence,
   INN_ROWS,
   innArguments,
+  innSpeaker,
   TRIO,
   validatePredecessor,
 } from './inn-contract.mjs'
@@ -29,6 +30,24 @@ const state = (position = [0, 0, 0]) => ({
   money: 0,
   control: false,
   roomActors: [],
+})
+test('actor identity resolves actual actor name/locale or explicit speaker override, never hardcodes an aunt', () => {
+  const actors = [
+      { id: 'a', name: 'name.a' },
+      { id: 'b', name: 'name.b' },
+    ],
+    locale = { 'name.a': '甲', 'name.b': '乙', speaker: '丙' }
+  assert.equal(innSpeaker({ kind: 'actor', actor: 'b' }, actors, locale), '乙')
+  assert.equal(
+    innSpeaker({ kind: 'actor', actor: 'b', speakerOverride: 'speaker' }, actors, locale),
+    '丙',
+  )
+  assert.equal(innSpeaker({ kind: 'narration' }, actors, locale), null)
+  assert.throws(
+    () => innSpeaker({ kind: 'actor', actor: 'unknown' }, actors, locale),
+    /unknown inn actor/,
+  )
+  assert.throws(() => innSpeaker({ kind: 'actor', actor: 'b' }, actors, {}), /missing inn speaker/)
 })
 test('002 inputs require explicit authentic engine predecessors and one browser mode', () => {
   assert.throws(() => innArguments([]), /required --from/)
@@ -208,8 +227,15 @@ function evidenceFixture(engine = 'reforge') {
         ids === null
           ? null
           : engine === 'game'
-            ? { lines: ids.map((id) => `row ${id}`), title: '苗人头领' }
-            : { pageText: ids.map((id) => `row ${id}`).join('\n'), speaker: 'speaker.fixture' },
+            ? { instance: pages.length, lines: ids.map((id) => `row ${id}`), title: '苗人头领' }
+            : {
+                dialogueId: `fixture-${pages.length}`,
+                cueIndex: 0,
+                pageIndex: 0,
+                pageStartedAtMs: timeline.length * 100,
+                pageText: ids.map((id) => `row ${id}`).join('\n'),
+                speaker: 'speaker.fixture',
+              },
     })
   add('event', { kind: 'money', value: 0 })
   for (const id of TRIO) actor(id, [0, 0, 0], true)
@@ -295,9 +321,56 @@ test('rendered cue replay, duplicate row and accumulated-page rollback cannot be
   )
   const growth = evidenceFixture('game'),
     index = growth.trace.pages.findIndex((p) => p.page?.lines[0] === 'row 29')
-  growth.trace.pages[index + 1].page = { lines: ['row 29', 'row 30'], title: '苗人头领' }
-  growth.trace.pages[index + 2].page = { lines: ['row 29'], title: '苗人头领' }
+  growth.trace.pages[index + 1].page = {
+    ...growth.trace.pages[index].page,
+    lines: ['row 29', 'row 30'],
+  }
+  growth.trace.pages[index + 2].page = { ...growth.trace.pages[index].page, lines: ['row 29'] }
   assert.throws(() => assertInnEvidence(growth.trace, 'game', fixtureContract), /rolled back/)
+})
+test('a new actual render instance cannot replay a complete cue without a null separator', () => {
+  for (const engine of ['game', 'reforge']) {
+    const { trace } = evidenceFixture(engine),
+      first = trace.pages[0]
+    trace.pages[1].page = structuredClone(first.page)
+    if (engine === 'game') trace.pages[1].page.instance++
+    else trace.pages[1].page.pageStartedAtMs++
+    assert.throws(() => assertInnEvidence(trace, engine, fixtureContract), /repeated\/replayed/)
+  }
+})
+test('same-instance progressive accumulation remains legal but metadata instance loss fails closed', () => {
+  for (const engine of ['game', 'reforge']) {
+    const { trace } = evidenceFixture(engine),
+      page = structuredClone(trace.pages[0].page)
+    if (engine === 'game') page.lines.push('row 27')
+    else page.pageText += '\nrow 27'
+    trace.pages[1].page = structuredClone(page)
+    trace.pages[2].page = page
+    assert.equal(assertInnEvidence(trace, engine, fixtureContract).status, 'passed')
+    if (engine === 'game') delete trace.pages[2].page.instance
+    else delete trace.pages[2].page.pageStartedAtMs
+    assert.throws(() => assertInnEvidence(trace, engine, fixtureContract), /missing actual/)
+  }
+})
+test('game page identities follow actual body arrays: append is one page, actual reset is another', () => {
+  const h = observer()
+  h.__innPoint('render:world', state())
+  const d = {
+    shownLines: [],
+    currentLineText: 'row 25',
+    charsRevealed: 6,
+    titleText: '苗人头领',
+    style: 'bottom',
+  }
+  h.__innGameRendered({ wNumScene: 4, dialogBox: d })
+  d.shownLines.push('row 25')
+  d.currentLineText = 'row 27'
+  h.__innGameRendered({ wNumScene: 4, dialogBox: d })
+  d.shownLines = []
+  h.__innGameRendered({ wNumScene: 4, dialogBox: d })
+  const pages = h.__readInnEvidence().pages
+  assert.equal(pages[0].page.instance, pages[1].page.instance)
+  assert.notEqual(pages[1].page.instance, pages[2].page.instance)
 })
 test('missing/extra rows and wrong actual rendered speaker fail rather than inferred text IDs passing', () => {
   for (const kind of ['missing', 'extra', 'speaker']) {
@@ -379,6 +452,13 @@ test('normal reader holds require both visible stable participants and subsequen
     },
   }))
   assert.equal(assertInnDialogueHolds(trace, holds).status, 'passed')
+  for (const hold of holds)
+    for (const point of [hold.start, hold.end])
+      point.authority = TRIO.map((id) => ({ id, kind: 'script' }))
+  assert.equal(assertInnDialogueHolds(trace, holds, 'reforge').status, 'passed')
+  holds[0].end.authority[0].kind = 'world'
+  assert.throws(() => assertInnDialogueHolds(trace, holds, 'reforge'), /not explicitly held/)
+  holds[0].end.authority[0].kind = 'script'
   holds[1].end.trio[0].position[0] = 1
   assert.throws(() => assertInnDialogueHolds(trace, holds), /participants moved/)
   holds[1].end.trio = structuredClone(trio)

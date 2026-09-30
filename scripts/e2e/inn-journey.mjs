@@ -324,6 +324,18 @@ export async function runInnJourney(engine) {
                 dialogue: { phase: dialog.phase, text },
                 order: evidence.events.length + evidence.pages.length,
               }
+              const authority = () =>
+                page.evaluate(() =>
+                  window.__tpE2e
+                    .dumpMotionState()
+                    .entities.filter((e) => ['e59', 'e60', 'e61'].includes(e.id))
+                    .map((e) => ({
+                      id: e.id,
+                      kind: e.authority.kind,
+                      autoMotion: e.autoMotion ?? null,
+                    })),
+                )
+              if (engine === 'reforge') start.authority = await authority()
               const began = Date.now()
               const hold = {
                 cue: heldCue,
@@ -346,6 +358,7 @@ export async function runInnJourney(engine) {
                 },
                 order: after.events.length + after.pages.length,
               }
+              if (engine === 'reforge') hold.end.authority = await authority()
               report.dialogueHolds.push(hold)
             }
             await press('Enter', 'normal full-dialogue confirmation')
@@ -509,7 +522,7 @@ export async function runInnJourney(engine) {
       await until(snapshot, (s) => ready(s, engine), 'restored menu closes')
       assert.equal(report.choreography.status, 'passed', report.choreography.failure)
       if (options.holdLeader)
-        report.dialogueHoldVerdict = assertInnDialogueHolds(trace, report.dialogueHolds)
+        report.dialogueHoldVerdict = assertInnDialogueHolds(trace, report.dialogueHolds, engine)
     },
   })
 }

@@ -6,12 +6,14 @@ export function installInnObserver() {
     previous = new Map(),
     sources = {},
     previousRooms = new Map()
+  const pageInstances = new WeakMap()
   let order = 0,
     sample = 0,
     overflow = false,
     scene = null,
     money,
-    final = null
+    final = null,
+    nextPageInstance = 1
   const fail = (value) => {
     if (errors.length < 12) errors.push(String(value))
     else overflow = true
@@ -133,12 +135,23 @@ export function installInnObserver() {
       }
       const d = gs.dialogBox,
         lines = [...d.shownLines]
+      if (!pageInstances.has(d.shownLines)) pageInstances.set(d.shownLines, nextPageInstance++)
       if (
         d.currentLineText !== null &&
         (d.style === 'narration' || d.charsRevealed >= d.currentLineText.length)
       )
         lines.push(d.currentLineText)
-      rendered('game', lines.length ? { lines, title: d.titleText ?? null, slot: d.style } : null)
+      rendered(
+        'game',
+        lines.length
+          ? {
+              instance: pageInstances.get(d.shownLines),
+              lines,
+              title: d.titleText ?? null,
+              slot: d.style,
+            }
+          : null,
+      )
     } catch (error) {
       fail(error)
     }

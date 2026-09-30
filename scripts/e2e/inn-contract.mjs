@@ -140,6 +140,12 @@ export async function readInnContract(root = repoRoot) {
     'packages/reforge/src/runtime-script-project.ts',
     'packages/reforge/src/script-world.ts',
     'packages/reforge/src/script-runner-core.ts',
+    'packages/reforge/src/script-project-core.ts',
+    'packages/reforge/src/motion-runtime-wiring.ts',
+    'packages/reforge/src/motion-runtime-coordinator.ts',
+    'packages/reforge/src/entity-lifecycle.ts',
+    'projects/pal/content/actors.json',
+    'packages/content/src/author-dialogue.ts',
   ]
   const bytes = await Promise.all(files.map((f) => readFile(resolve(root, f))))
   const hashes = Object.fromEntries(files.map((f, i) => [f, sha256(bytes[i])]))
@@ -155,7 +161,8 @@ export async function readInnContract(root = repoRoot) {
     INN_ROWS,
   )
   const scene = JSON.parse(bytes[4]),
-    locale = JSON.parse(bytes[5])
+    locale = JSON.parse(bytes[5]),
+    actors = JSON.parse(bytes[files.indexOf('projects/pal/content/actors.json')])
   const flow = scene.entities.find((e) => e.id === 'e56').behaviors.trigger.default.flow
   const dialogs = flow.stages
     .find((s) => s.id === 'initial')
@@ -168,17 +175,24 @@ export async function readInnContract(root = repoRoot) {
     const cue = dialogs.find((c) =>
       c.cue.rows.some((r) => r.text === `dlg.${line.messageIndex}`),
     ).cue
-    const identity = cue.identity
-    const speaker =
-      identity.kind === 'actor'
-        ? '李大娘'
-        : identity.kind === 'narration'
-          ? null
-          : locale[identity.speaker]
+    const speaker = innSpeaker(cue.identity, actors, locale)
     assert.equal(locale[`dlg.${line.messageIndex}`], line.text)
     return { id: `dlg.${line.messageIndex}`, text: line.text, speaker }
   })
   return { hashes, rows, locale }
+}
+
+export function innSpeaker(identity, actors, locale) {
+  if (identity.kind === 'narration') return null
+  let speakerId = identity.speaker
+  if (identity.kind === 'actor') {
+    const actor = actors.find((a) => a.id === identity.actor)
+    assert(actor, `unknown inn actor identity ${identity.actor}`)
+    speakerId = identity.speakerOverride ?? actor.name
+  }
+  if (speakerId === undefined) return null
+  assert(typeof locale[speakerId] === 'string', `missing inn speaker locale ${speakerId}`)
+  return locale[speakerId]
 }
 
 export function assertInnEvidence(trace, engine, contract) {
@@ -223,13 +237,35 @@ export function assertInnEvidence(trace, engine, contract) {
   const normalize = (s) => s.replace(/\s/g, '').replace(/[∶：:]$/u, '')
   const shown = new Map()
   let previousLines = [],
-    maxRow = -1
+    maxRow = -1,
+    previousInstance = null
   for (const page of trace.pages) {
     assert.equal(page.engine, engine)
     if (!page.page) {
       previousLines = []
+      previousInstance = null
       continue
     }
+    const instance =
+      engine === 'game'
+        ? page.page.instance
+        : JSON.stringify([
+            page.page.dialogueId,
+            page.page.cueIndex,
+            page.page.pageIndex,
+            page.page.pageStartedAtMs,
+          ])
+    if (engine === 'game')
+      assert(Number.isSafeInteger(instance), 'missing actual game page instance')
+    else {
+      assert(typeof page.page.dialogueId === 'string', 'missing actual RF dialogue instance')
+      assert(Number.isFinite(page.page.pageStartedAtMs), 'missing actual RF page start')
+      assert(
+        Number.isInteger(page.page.cueIndex) && Number.isInteger(page.page.pageIndex),
+        'missing actual RF cue/page index',
+      )
+    }
+    if (instance !== previousInstance) previousLines = []
     const lines = engine === 'game' ? page.page.lines : page.page.pageText.split('\n')
     const speakerId = engine === 'game' ? page.page.title : page.page.speaker
     const speaker = contract.locale[speakerId] ?? speakerId
@@ -260,6 +296,7 @@ export function assertInnEvidence(trace, engine, contract) {
       }
     }
     previousLines = ids
+    previousInstance = instance
   }
   assert.deepEqual(
     [...shown.keys()],
@@ -346,7 +383,7 @@ export function assertInnEvidence(trace, engine, contract) {
 }
 
 /** A normal reader may stay on these pages. Only the three participants must remain in place. */
-export function assertInnDialogueHolds(trace, holds) {
+export function assertInnDialogueHolds(trace, holds, engine) {
   assert.deepEqual(
     holds.map((h) => h.cue),
     ['dlg.32', 'dlg.53'],
@@ -364,6 +401,13 @@ export function assertInnDialogueHolds(trace, holds) {
       `participant gone at ${hold.cue}`,
     )
     assert.deepEqual(hold.end.trio, hold.start.trio, `participants moved during ${hold.cue}`)
+    if (engine === 'reforge')
+      for (const boundary of [hold.start, hold.end])
+        assert.deepEqual(
+          boundary.authority?.map((a) => ({ id: a.id, kind: a.kind })),
+          TRIO.map((id) => ({ id, kind: 'script' })),
+          `participants not explicitly held during ${hold.cue}`,
+        )
     const movements = trace.events.filter(
       (e) =>
         e.kind === 'actor' &&
