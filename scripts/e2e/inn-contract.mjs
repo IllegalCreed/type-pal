@@ -70,8 +70,8 @@ export function validatePredecessor(report, payload, engine, bytes) {
     assert.equal(payload.gs.dwCash, 0)
     assert.deepEqual(payload.gs.partyMembers, [0])
   } else {
-    assert.equal(payload.version, 8)
-    assert.equal(payload.contentVersion, 20)
+    assert.equal(payload.version, 9)
+    assert.equal(payload.contentVersion, 21)
     assert.equal(payload.projectId, 'pal')
     assert.deepEqual(payload.position, {
       sceneId: 's001',

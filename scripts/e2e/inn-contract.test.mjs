@@ -84,6 +84,33 @@ test('failed predecessor, changed bytes and other fragment cannot become 002 adm
   )
   assert.throws(() => validatePredecessor(r, { ...p, gs: { ...p.gs, dwCash: 500 } }, 'game', bytes))
 })
+test('002 Reforge admission strictly requires the current SAVE9/content21 predecessor', () => {
+  const payload = {
+    version: 9,
+    contentVersion: 21,
+    projectId: 'pal',
+    position: { sceneId: 's001', pos: { col: 60, height: 0, row: -24 }, facing: 'down' },
+    world: { money: 0, party: [{ id: 'li-xiaoyao' }] },
+  }
+  const validate = (value) => {
+    const bytes = JSON.stringify(value)
+    return validatePredecessor(
+      {
+        status: 'passed',
+        name: 'reforge-001',
+        revision: 'a'.repeat(40),
+        checkpoint: { path: '001.end.save.json', sha256: sha256(bytes) },
+      },
+      value,
+      'reforge',
+      bytes,
+    )
+  }
+  assert.equal(validate(payload).sha256, sha256(JSON.stringify(payload)))
+  assert.throws(() => validate({ ...payload, version: 8 }))
+  assert.throws(() => validate({ ...payload, contentVersion: 20 }))
+  assert.throws(() => validate({ ...payload, version: 8, contentVersion: 20 }))
+})
 test('002 real module AST write census retains all 001 anchors and adds normal input', () => {
   for (const file of INN_TRACE_TARGETS) {
     const code = readFileSync(new URL(`../../${file}`, import.meta.url), 'utf8'),

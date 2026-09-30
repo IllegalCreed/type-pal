@@ -71,10 +71,10 @@ export function assertReforgeOpening(report, introPath) {
   }
 }
 
-/** SAVE8 explicitly defaults the use-count container and clears transient actor conditions on load. */
+/** SAVE9 explicitly defaults the use-count container and clears transient actor conditions on load. */
 export function openingSaveView(payload) {
-  assert.equal(payload.version, 8)
-  assert.equal(payload.contentVersion, 20)
+  assert.equal(payload.version, 9)
+  assert.equal(payload.contentVersion, 21)
   assert.equal(payload.projectId, 'pal')
   const value = structuredClone(payload)
   value.world.skillUseCounts ??= {}
