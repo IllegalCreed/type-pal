@@ -1,0 +1,319 @@
+{
+  "campaign": "TEST-GLM-WAVE-M-1",
+  "generatedAt": "2026-09-30T05:34:27.214Z",
+  "judge": "PASS:4/4 反控有效(合法输入单轴变异;正控 exit0;注入后恰一个指定业务断言红且来自注入副本绝对路径;红色为 AssertionError 业务断言而非 TypeError 等非业务错;exit1;执行数非零;无 skip/timeout/收集错;临时副本已删)",
+  "controls": [
+    {
+      "id": "CC-M01-battlefield-screenwave",
+      "group": "M01",
+      "source": "packages/editor/src/ui/BattleFieldTab.glm-m.test.tsx",
+      "inputMutation": "作者输入单轴：战场常驻波动强度 3 → 4（screenWave 合法非负整数域；业务断言「落账 screenWave=3」必须识别输入被改）",
+      "positive": {
+        "exitCode": 0,
+        "numTotalTests": 4,
+        "numPassedTests": 4,
+        "numFailedTests": 0,
+        "numPendingTests": 0,
+        "numTodoTests": 0,
+        "fileLevelMessages": [],
+        "sawTimeout": false,
+        "assertion": [
+          {
+            "file": "/Users/zhangxu/illegal/type-pal-wave-m/packages/editor/src/ui/BattleFieldTab.glm-m.test.tsx",
+            "fullName": "M01 BattleFieldTab 提交/取消/资源失败边界 复制当前战场：单命令落账并选中新副本，undo 精确移除，源战场不受影响",
+            "status": "passed",
+            "failureMessages": []
+          },
+          {
+            "file": "/Users/zhangxu/illegal/type-pal-wave-m/packages/editor/src/ui/BattleFieldTab.glm-m.test.tsx",
+            "fullName": "M01 BattleFieldTab 提交/取消/资源失败边界 创建表单「取消」零提交；非法编号提交零命令并给出可读 notice",
+            "status": "passed",
+            "failureMessages": []
+          },
+          {
+            "file": "/Users/zhangxu/illegal/type-pal-wave-m/packages/editor/src/ui/BattleFieldTab.glm-m.test.tsx",
+            "fullName": "M01 BattleFieldTab 提交/取消/资源失败边界 常驻波动强度 blur 一次提交精确值，undo 还原；兄弟战场键保持不变",
+            "status": "passed",
+            "failureMessages": []
+          },
+          {
+            "file": "/Users/zhangxu/illegal/type-pal-wave-m/packages/editor/src/ui/BattleFieldTab.glm-m.test.tsx",
+            "fullName": "M01 BattleFieldTab 提交/取消/资源失败边界 预览资源失败面：catalog 缺失的背景 AssetId 加载失败仍可编辑；无背景显示黑底空态",
+            "status": "passed",
+            "failureMessages": []
+          }
+        ]
+      },
+      "negativeCopyDeleted": true,
+      "negative": {
+        "numTotalTests": 4,
+        "numPassedTests": 3,
+        "numFailedTests": 1,
+        "numPendingTests": 0,
+        "numTodoTests": 0,
+        "fileLevelMessages": [],
+        "sawTimeout": false,
+        "assertion": [
+          {
+            "file": "/Users/zhangxu/illegal/type-pal-wave-m/packages/editor/src/ui/BattleFieldTab.glm-m.cc-injected.test.tsx",
+            "fullName": "M01 BattleFieldTab 提交/取消/资源失败边界 复制当前战场：单命令落账并选中新副本，undo 精确移除，源战场不受影响",
+            "status": "passed",
+            "failureMessages": []
+          },
+          {
+            "file": "/Users/zhangxu/illegal/type-pal-wave-m/packages/editor/src/ui/BattleFieldTab.glm-m.cc-injected.test.tsx",
+            "fullName": "M01 BattleFieldTab 提交/取消/资源失败边界 创建表单「取消」零提交；非法编号提交零命令并给出可读 notice",
+            "status": "passed",
+            "failureMessages": []
+          },
+          {
+            "file": "/Users/zhangxu/illegal/type-pal-wave-m/packages/editor/src/ui/BattleFieldTab.glm-m.cc-injected.test.tsx",
+            "fullName": "M01 BattleFieldTab 提交/取消/资源失败边界 常驻波动强度 blur 一次提交精确值，undo 还原；兄弟战场键保持不变",
+            "status": "failed",
+            "failureMessages": [
+              "AssertionError: expected { id: 6, name: '战场 6', …(2) } to deeply equal { id: 6, name: '战场 6', …(2) } |     at /Users/zhangxu/illegal/type-pal-wave-m/packages/editor/src/ui/BattleFieldTab.glm-m.cc-injected.test.tsx:157:56 |     at file:///Users/zhangxu/illegal/type-pal-wave-m/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:20"
+            ]
+          },
+          {
+            "file": "/Users/zhangxu/illegal/type-pal-wave-m/packages/editor/src/ui/BattleFieldTab.glm-m.cc-injected.test.tsx",
+            "fullName": "M01 BattleFieldTab 提交/取消/资源失败边界 预览资源失败面：catalog 缺失的背景 AssetId 加载失败仍可编辑；无背景显示黑底空态",
+            "status": "passed",
+            "failureMessages": []
+          }
+        ],
+        "runExitCode": 1,
+        "injectedCopyAbsolutePath": "/Users/zhangxu/illegal/type-pal-wave-m/packages/editor/src/ui/BattleFieldTab.glm-m.cc-injected.test.tsx",
+        "verdict": {
+          "positiveGreen": true,
+          "negativeExit1": true,
+          "executedNonZero": true,
+          "noSkip": true,
+          "noTimeout": true,
+          "noCollectionOrInfraError": true,
+          "redIsBusinessAssertion": true,
+          "exactlyOneTargetBusinessFailure": true,
+          "valid": true
+        }
+      }
+    },
+    {
+      "id": "CC-M02-item-desc-linebreak",
+      "group": "M02",
+      "source": "packages/editor/src/ui/ItemTab.glm-m.test.tsx",
+      "inputMutation": "作者输入单轴：介绍第二行文本「第二行」→「第X行」（合法多行文本；业务断言按原文落账必须识别行内容差异）",
+      "positive": {
+        "exitCode": 0,
+        "numTotalTests": 2,
+        "numPassedTests": 2,
+        "numFailedTests": 0,
+        "numPendingTests": 0,
+        "numTodoTests": 0,
+        "fileLevelMessages": [],
+        "sawTimeout": false,
+        "assertion": [
+          {
+            "file": "/Users/zhangxu/illegal/type-pal-wave-m/packages/editor/src/ui/ItemTab.glm-m.test.tsx",
+            "fullName": "M02 ItemTab 交易/说明字段当前合同 买价/卖价 blur 各提交一次精确值，商店可收购开关键入账，undo 逐步还原",
+            "status": "passed",
+            "failureMessages": []
+          },
+          {
+            "file": "/Users/zhangxu/illegal/type-pal-wave-m/packages/editor/src/ui/ItemTab.glm-m.test.tsx",
+            "fullName": "M02 ItemTab 交易/说明字段当前合同 介绍按换行拆分并剥离空行，blur 一次提交；undo 恢复空说明",
+            "status": "passed",
+            "failureMessages": []
+          }
+        ]
+      },
+      "negativeCopyDeleted": true,
+      "negative": {
+        "numTotalTests": 2,
+        "numPassedTests": 1,
+        "numFailedTests": 1,
+        "numPendingTests": 0,
+        "numTodoTests": 0,
+        "fileLevelMessages": [],
+        "sawTimeout": false,
+        "assertion": [
+          {
+            "file": "/Users/zhangxu/illegal/type-pal-wave-m/packages/editor/src/ui/ItemTab.glm-m.cc-injected.test.tsx",
+            "fullName": "M02 ItemTab 交易/说明字段当前合同 买价/卖价 blur 各提交一次精确值，商店可收购开关键入账，undo 逐步还原",
+            "status": "passed",
+            "failureMessages": []
+          },
+          {
+            "file": "/Users/zhangxu/illegal/type-pal-wave-m/packages/editor/src/ui/ItemTab.glm-m.cc-injected.test.tsx",
+            "fullName": "M02 ItemTab 交易/说明字段当前合同 介绍按换行拆分并剥离空行，blur 一次提交；undo 恢复空说明",
+            "status": "failed",
+            "failureMessages": [
+              "AssertionError: expected [ ' recover', '第X行', '第三行 ' ] to deeply equal [ ' recover', '第二行', '第三行 ' ] |     at /Users/zhangxu/illegal/type-pal-wave-m/packages/editor/src/ui/ItemTab.glm-m.cc-injected.test.tsx:126:47 |     at file:///Users/zhangxu/illegal/type-pal-wave-m/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:20"
+            ]
+          }
+        ],
+        "runExitCode": 1,
+        "injectedCopyAbsolutePath": "/Users/zhangxu/illegal/type-pal-wave-m/packages/editor/src/ui/ItemTab.glm-m.cc-injected.test.tsx",
+        "verdict": {
+          "positiveGreen": true,
+          "negativeExit1": true,
+          "executedNonZero": true,
+          "noSkip": true,
+          "noTimeout": true,
+          "noCollectionOrInfraError": true,
+          "redIsBusinessAssertion": true,
+          "exactlyOneTargetBusinessFailure": true,
+          "valid": true
+        }
+      }
+    },
+    {
+      "id": "CC-M04-poison-tick-hpdelta",
+      "group": "M04",
+      "source": "packages/editor/src/ui/PoisonTab.glm-m.test.tsx",
+      "inputMutation": "作者输入单轴：毒 tick 扣血 -25 → -52（hpDelta 合法负整数域；业务断言 tick 落账 -25 必须识别数值被改）",
+      "positive": {
+        "exitCode": 0,
+        "numTotalTests": 3,
+        "numPassedTests": 3,
+        "numFailedTests": 0,
+        "numPendingTests": 0,
+        "numTodoTests": 0,
+        "fileLevelMessages": [],
+        "sawTimeout": false,
+        "assertion": [
+          {
+            "file": "/Users/zhangxu/illegal/type-pal-wave-m/packages/editor/src/ui/PoisonTab.glm-m.test.tsx",
+            "fullName": "M04 PoisonTab 逐回合序列与关系当前合同 玩家 tick 四轴：扣血/半血/产道具/自解逐字段提交，undo 逐步还原",
+            "status": "passed",
+            "failureMessages": []
+          },
+          {
+            "file": "/Users/zhangxu/illegal/type-pal-wave-m/packages/editor/src/ui/PoisonTab.glm-m.test.tsx",
+            "fullName": "M04 PoisonTab 逐回合序列与关系当前合同 敌人序列独立：改敌人 tick 不动玩家序列",
+            "status": "passed",
+            "failureMessages": []
+          },
+          {
+            "file": "/Users/zhangxu/illegal/type-pal-wave-m/packages/editor/src/ui/PoisonTab.glm-m.test.tsx",
+            "fullName": "M04 PoisonTab 逐回合序列与关系当前合同 致死配对/所克之毒写入关系键并产生 poison-poison 引用；undo 精确删键",
+            "status": "passed",
+            "failureMessages": []
+          }
+        ]
+      },
+      "negativeCopyDeleted": true,
+      "negative": {
+        "numTotalTests": 3,
+        "numPassedTests": 2,
+        "numFailedTests": 1,
+        "numPendingTests": 0,
+        "numTodoTests": 0,
+        "fileLevelMessages": [],
+        "sawTimeout": false,
+        "assertion": [
+          {
+            "file": "/Users/zhangxu/illegal/type-pal-wave-m/packages/editor/src/ui/PoisonTab.glm-m.cc-injected.test.tsx",
+            "fullName": "M04 PoisonTab 逐回合序列与关系当前合同 玩家 tick 四轴：扣血/半血/产道具/自解逐字段提交，undo 逐步还原",
+            "status": "failed",
+            "failureMessages": [
+              "AssertionError: expected [ { hpDelta: -52 } ] to deeply equal [ { hpDelta: -25 } ] |     at /Users/zhangxu/illegal/type-pal-wave-m/packages/editor/src/ui/PoisonTab.glm-m.cc-injected.test.tsx:97:41 |     at file:///Users/zhangxu/illegal/type-pal-wave-m/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:20"
+            ]
+          },
+          {
+            "file": "/Users/zhangxu/illegal/type-pal-wave-m/packages/editor/src/ui/PoisonTab.glm-m.cc-injected.test.tsx",
+            "fullName": "M04 PoisonTab 逐回合序列与关系当前合同 敌人序列独立：改敌人 tick 不动玩家序列",
+            "status": "passed",
+            "failureMessages": []
+          },
+          {
+            "file": "/Users/zhangxu/illegal/type-pal-wave-m/packages/editor/src/ui/PoisonTab.glm-m.cc-injected.test.tsx",
+            "fullName": "M04 PoisonTab 逐回合序列与关系当前合同 致死配对/所克之毒写入关系键并产生 poison-poison 引用；undo 精确删键",
+            "status": "passed",
+            "failureMessages": []
+          }
+        ],
+        "runExitCode": 1,
+        "injectedCopyAbsolutePath": "/Users/zhangxu/illegal/type-pal-wave-m/packages/editor/src/ui/PoisonTab.glm-m.cc-injected.test.tsx",
+        "verdict": {
+          "positiveGreen": true,
+          "negativeExit1": true,
+          "executedNonZero": true,
+          "noSkip": true,
+          "noTimeout": true,
+          "noCollectionOrInfraError": true,
+          "redIsBusinessAssertion": true,
+          "exactlyOneTargetBusinessFailure": true,
+          "valid": true
+        }
+      }
+    },
+    {
+      "id": "CC-M06-poison-resistance-bonus",
+      "group": "M06",
+      "source": "packages/editor/src/ui/ProjectWorkbenchTab.glm-m.test.tsx",
+      "inputMutation": "作者输入单轴：临时毒抗加值 3 → 5（正整数合法域；业务断言 seedConditions.poisonResistance=3 必须识别加值被改）",
+      "positive": {
+        "exitCode": 0,
+        "numTotalTests": 2,
+        "numPassedTests": 2,
+        "numFailedTests": 0,
+        "numPendingTests": 0,
+        "numTodoTests": 0,
+        "fileLevelMessages": [],
+        "sawTimeout": false,
+        "assertion": [
+          {
+            "file": "/Users/zhangxu/illegal/type-pal-wave-m/packages/editor/src/ui/ProjectWorkbenchTab.glm-m.test.tsx",
+            "fullName": "M06 开局状态弹窗 · 临时毒抗当前合同 勾选毒抗→加值 3 保存进 seedConditions；重开回显；摘要行显示临时毒抗 +3",
+            "status": "passed",
+            "failureMessages": []
+          },
+          {
+            "file": "/Users/zhangxu/illegal/type-pal-wave-m/packages/editor/src/ui/ProjectWorkbenchTab.glm-m.test.tsx",
+            "fullName": "M06 开局状态弹窗 · 临时毒抗当前合同 已配置毒抗重开取消勾选后保存 → 输出不含 poisonResistance 键",
+            "status": "passed",
+            "failureMessages": []
+          }
+        ]
+      },
+      "negativeCopyDeleted": true,
+      "negative": {
+        "numTotalTests": 2,
+        "numPassedTests": 1,
+        "numFailedTests": 1,
+        "numPendingTests": 0,
+        "numTodoTests": 0,
+        "fileLevelMessages": [],
+        "sawTimeout": false,
+        "assertion": [
+          {
+            "file": "/Users/zhangxu/illegal/type-pal-wave-m/packages/editor/src/ui/ProjectWorkbenchTab.glm-m.cc-injected.test.tsx",
+            "fullName": "M06 开局状态弹窗 · 临时毒抗当前合同 勾选毒抗→加值 3 保存进 seedConditions；重开回显；摘要行显示临时毒抗 +3",
+            "status": "failed",
+            "failureMessages": [
+              "AssertionError: expected { poisonResistance: 5 } to deeply equal { poisonResistance: 3 } |     at /Users/zhangxu/illegal/type-pal-wave-m/packages/editor/src/ui/ProjectWorkbenchTab.glm-m.cc-injected.test.tsx:133:46 |     at file:///Users/zhangxu/illegal/type-pal-wave-m/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:20"
+            ]
+          },
+          {
+            "file": "/Users/zhangxu/illegal/type-pal-wave-m/packages/editor/src/ui/ProjectWorkbenchTab.glm-m.cc-injected.test.tsx",
+            "fullName": "M06 开局状态弹窗 · 临时毒抗当前合同 已配置毒抗重开取消勾选后保存 → 输出不含 poisonResistance 键",
+            "status": "passed",
+            "failureMessages": []
+          }
+        ],
+        "runExitCode": 1,
+        "injectedCopyAbsolutePath": "/Users/zhangxu/illegal/type-pal-wave-m/packages/editor/src/ui/ProjectWorkbenchTab.glm-m.cc-injected.test.tsx",
+        "verdict": {
+          "positiveGreen": true,
+          "negativeExit1": true,
+          "executedNonZero": true,
+          "noSkip": true,
+          "noTimeout": true,
+          "noCollectionOrInfraError": true,
+          "redIsBusinessAssertion": true,
+          "exactlyOneTargetBusinessFailure": true,
+          "valid": true
+        }
+      }
+    }
+  ]
+}
