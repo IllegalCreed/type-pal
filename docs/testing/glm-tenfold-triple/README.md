@@ -1,0 +1,107 @@
+# GLM O/P/Q：十倍规模的三条独立残余合同测试包
+
+2026-09-30 用户要求再派三卡，每卡工作量至少上一轮十倍。L/M/N **代码 accept**，
+但统一 ratchet 未通过，因此仍 review、未合 main、未 done。本轮不冒称已正式结算。
+
+派发分支 `codex/glm-lmn-acceptance-r1` 包含 L/M/N 151 例，避免从缺少它们的 main
+重复造测试。生产冻结 `3ac9a2e2f6aba8a5cc97640c18fef8549d199380`；
+从本轮已推送派发提交各建全新的分支/worktree，不能继续写 L/M/N 退休候选。
+
+## 规模与独占所有权
+
+| 卡 | 包独占 | 冻结源池 | 工作组 | 新用例目标 | 有效反控 |
+|---|---|---:|---:|---:|---:|
+| [O](../../ops/tasks/TEST-GLM-WAVE-O-1-supply-validation-tenfold.md) | migrate/content/shared | 105 | 60 | 700 | 40 |
+| [P](../../ops/tasks/TEST-GLM-WAVE-P-1-editor-residual-tenfold.md) | editor | 288 | 70 | 700 | 40 |
+| [Q](../../ops/tasks/TEST-GLM-WAVE-Q-1-runtime-residual-tenfold.md) | reforge/game/pal-extract | 323 | 50 | 700 | 40 |
+
+上一轮 L/M/N 为 67/31/53 例；700 分别约 10.4/22.6/13.2 倍。总目标 2100 个
+**合法未重复的合同用例**，不是 2100 行代码、参数行或断言。40 枚反控为旧门 4 枚的十倍。
+每卡按十个连续里程碑推进，不逐小组回来等待用户。独立会话可同时工作，包目录不抢写。
+
+[冻结清单](targets.json)列716个生产源的 SHA256、同轮逐文件缺口；O/P/Q 的
+825/5426/6136 未命中臂是**候选上限线索**，不是全部可达或保证获得收益。
+这是剩余合同扩围：允许读 A–N 曾涉及的源，但必须按旧 fullName **及真实断言**去重；
+不是重领原卡，也不是复制旧用例换名称/输入值。100% 文件也只读分类，不强制造新测。
+找不到足够合法新合同时，交逐项 existing-proof/unreachable/blocked 账并停受影响组，
+请 Codex 调整范围；不得凑数后声称完成。700 不是绕过产品真值与质量门的配额。
+
+## 为什么上一轮覆盖率门失败
+
+完整证据见 [L/M/N 并集记录](../glm-next-triple/codex-lm-union-review.md)与
+[转换退役卡](../../ops/archive/tasks/done/ARCH-PAL-SUPPLY-1-author-publication-and-import-retirement.md)。
+
+- 旧正式全仓分支 49584/63398（78.21%）；当前候选测量 46386/58773（78.92%），
+  **整体比率没有下降**，但两者分母不同，不能把百分点差全归因测试。
+- migrate 冻结库存 53→38：旧池24个转换生产源已实际删除，9个窄供应源加入。
+  旧实现/专属测试退出统计，剩余和新增的供应路径仍有覆盖缺口；生产职责与分母
+  都已改变，不说明 L/M/N 测试把覆盖“弄坏”。L/M/N只写editor/reforge，不写migrate。
+- migrate statements 5965/7722→1879/2615，branches 4876/6444→1368/1814，
+  lines 5294/6730→1643/2286。旧 baseline 没被改写；三项比率门仍拒绝回退。
+  剩余 publication、资源、事务及CLI路径的真实缺口由 O 优先补，不恢复退役转换核。
+- 同分母不变时，migrate至少再需142 statements、5 branches、156 lines才追平
+  旧比率；这是算术下界，不是写142/156条测试的承诺。O 首个里程碑优先接此门。
+- 当前候选分母58773下，85%还需至少3572个净命中臂。2100用例不等于2100分支，
+  更不保证85%；正式收益只认 Codex 最终 main 并集实测。
+
+## 开工、写入与停线
+
+1. 先读 AGENTS、各卡、阶段铁律、[GLM自检](../glm-delivery-checklist.md)、本协议、
+   冻结表、旧测试。运行 `node docs/testing/glm-tenfold-triple/verify-targets.mjs`。
+2. 写入只准自己所属包 `src/**/*.glm-o.test.ts(x)` / `.glm-p` / `.glm-q`，
+   各包 `src/__tests__/glm-o|p|q/**` 专属薄fixture，以及自己 `wave-O|P|Q/**`。
+   CLI源在scripts时，新测试仍置src，使用原公开入口与临时工程。共享README、
+   targets/verifier、任务卡、看板、其它卡证据、旧测、产品、依赖、配置、官方baseline只读。
+3. 每个合同先登记公开caller与守卫、旧断言锚点、合法输入轴、预期可观察结果、
+   分类和拒收反例。只是新增 fullName、只验 spy 调用、快照大块DOM不能证明新业务合同。
+   input/output fixture需合法typed；故意坏数据仅准公开 unknown/IO 校验入口的拒绝合同，
+   不把非法 Palette/缺字段对象强作有效 runtime 状态。禁止 any、双强转、as never、
+   ts-ignore/expect-error、私有态反射、mock业务核心、弱化assert、忽略诊断、扩大超时。
+4. 产品真缺陷只交最小红诊断和 primary/caller 证据，停止该组；不擅修产品、改schema、
+   兼容旧开发版本、修改原版机制或用户可见行为。移动/碰撞/NPC/剧情新真值不在本次 build。
+5. E2E-002、检查点、存档自动保存产品卡、NPC编排及PAL001/002路线只读，不启动或
+   接管他人的浏览器/服务器。P用自有小工程；Q浏览器仅菜单/有限battle trial错误恢复。
+   母树冻结源漂移时停该源，交 Codex 重冻；不能继续对旧副本宣称 main 已通过。
+6. IO写、事务、CLI、extract/bake只在本卡 mkdtemp 隔离工程；不得跑主项目 migrate CLI，
+   包括看似 dry-run（它先恢复事务）。不改真实PAL工程、baseline目录、资产或存档。
+
+## 十个里程碑的证据与门禁
+
+- 首批先核旧测与可达性，不大批制造未经验证fixture。每批约70例目标；每批至少4枚
+  不同合同的代表反控，共40枚不同目标，不重用同一断言凑反控数。连续推进十批；
+  批间跑定向/相邻及本包 typecheck，末批全包。
+- 反控只在mkdtemp复制树打补丁，不临时改候选/主树产品源。使用合法单轴输入；
+  正控、变异、恢复各有完整定向 Vitest JSON/raw输出、exitCode、
+  执行数、目标file/fullName、目标 AssertionError、三态 SHA256和可重建变异patch。
+  负控必须恰一个目标业务断言红；skip/timeout/收集/环境错误、额外红、零执行、改答案拒收。
+  最后格式化后重核hash；不能拿中途JSON和摘要布尔值冒充最终证据。
+- `contracts.json`逐合同含 batch/id/source/caller/oldAssertion/axis/oracle/classification；
+  `directed-vitest.json`以最终代码实跑含全部file/fullName/status，数量从树生成。
+  `counters.json`索引40枚原始正反控与hash；`coverage-delta.json`同源/同分母before/after。
+  只跑私有隔离覆盖，不写官方baseline；若分母不同明确不可比，不相加孤立百分比。
+- `README.md`给准确当前候选与累计数量、未证项/缺陷；阶段日志保留历史计数并明确历史。
+  `receipt.json`列 dispatchBase/HEAD/productionFreeze/源hash/命令结果。浏览器证据须实际操作、
+  相位差分、截图SHA256与完整console分类；不能拿源码推断或透明底画布冒充真实像素。
+- 最终串行各Owner包全量 `env -u NODE_COMPILE_CACHE pnpm --filter @type-pal/<pkg> test`、
+  typecheck、根 `pnpm lint` 完整0/0/0、docs、`git diff --check <DISPATCH_SHA>...HEAD`。
+  再跑 verifier `--wave O|P|Q --base <DISPATCH_SHA>` 核源冻结及候选白名单。
+  每卡自目录README导航初始已登记，不能以共享导航缺行常驻豁免。
+- GLM仅提交推送完整40位候选，不合main、不标done、不运行官方ratchet/清树。
+  Codex独立复核三个Owner与交集后，串行check→官方ratchet→受保护fast。O补门后
+  先解L/M/N全局阻塞；产品无新取舍的测试包由Codex收口，不再申请固定三签。
+
+## Codex派发前复核（2026-09-30）
+
+本轮仅新增任务、冻结清单与只读复核工具，不修改产品/旧测试/官方baseline。
+源核验716/716，三Owner源交集为0；写入判据自测30/30，docs工具37/37。
+首轮格式预检在新targets/verifier有2项诊断，经正常格式化后根lint完整2745文件
+0 error/0 warning/0 info；docs 814 Markdown/4276本地链接/245任务，零问题。
+本轮派发不重跑或冒称通过全仓ratchet；L/M/N统一门证据仍以上方链接为准。
+GLM开工/交付均须再次运行冻结与白名单复核，派发后生产漂移不能拿旧数值替代。
+
+## 三个会话
+
+- [Wave O](wave-O/README.md)：当前供应链/内容守卫，migrate门优先。
+- [Wave P](wave-P/README.md)：Editor全域残余工作流。
+- [Wave Q](wave-Q/README.md)：两阶段runtime与解码残余合同，阶段严格分段。
+- [只读冻结/白名单复核](verify-targets.mjs)、[判据自测](verify-targets.test.mjs)。

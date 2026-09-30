@@ -1,0 +1,86 @@
+# TEST-GLM-WAVE-P-1 — Editor全域残余工作流十倍测试包
+
+Status: build
+Phase: phase2
+Capability: editor-workflows / test-coverage
+Coding Owner: GLM P（仅新测试与专属证据）
+Reviewer: Codex（独立验收、集成与正式结算）
+Visual Verification Timing: dev-functional（自有小工程；不改产品UI）
+Branch: `codex/glm-wave-p-editor-residual-r1`（新独立worktree）
+
+## 目标与冻结
+
+本卡目标 **700合法未重复用例、70合同工作组、40有效反控、20条实际功能流程**。
+[共同协议](../../testing/glm-tenfold-triple/README.md)为硬验收，
+[冻结表](../../testing/glm-tenfold-triple/targets.json)给Editor288源/SHA256/5426未命中臂池。
+冻结 `3ac9a2e2f6aba8a5cc97640c18fef8549d199380`；派发含L/M，必须读其67/31例及
+全部相邻旧断言。新测试名不等于新合同，重复的undo/数字换值/DOM快照不计700。
+
+## 前提与上下文
+
+一句话前提：现行Editor真实输入、命令、资源与保存入口有已冻结公开调用，可观察业务结果；
+不是授权修产品、改变样式、save/schema或恢复旧开发版本。before→after仅测试证据增强。
+
+| 真值维度 | 直接锚点/边界 |
+|---|---|
+| primary | `packages/editor/src/core/project-io.ts:263,393,471`序列化/写入；`:690`写集合预检；`:180`作者只读校验 |
+| 一阶段 | 仅既有UI形态参考；没有原版玩法/碰撞真值变更，不重新决定图标/菜单布局 |
+| 二阶段 | `core/script-editor.ts:295,674,1008`canonical遍历/引用/解析；真实App/MapMode/ScriptEditor组件与命令caller |
+| 目标 | 各公开workflow typed fixture、真实undo/redo与最终状态；资源/目录边界只封外部IO |
+
+最强替代解释：大量未覆盖是不可合法构造、宿主限制或L/M/更早工作包已证。
+推翻观察：要mock App/业务命令/保存核心、操作私有state、缺字段强转或改变答案才能绿，
+停止该组。先读READ-FIRST、L/M独立验收、GLM自检；N的Canvas反例同样适用于本卡。
+深链#0和Esc通知两张产品draft卡只读，不夹修复、不另判新的用户可见行为。
+
+## 十里程碑（每域七轴，共70工作组）
+
+| 批 | 范围 |
+|---|---|
+| P01 | 项目打开/恢复/只读作者检查/保存preflight与真实受控IO；不写真实用户工程 |
+| P02 | MapMode选区/图层/资产/变换/SceneCanvas残余，排除L既有断言 |
+| P03 | ScriptEditor及canonical脚本引用/嵌套命令/诊断定位、当前作者正文保存 |
+| P04 | actor/角色/敌人/team/装备/属性编辑与引用维护 |
+| P05 | battle field/战斗配置/预览/trial编辑入口残余，排除M及旧battle-host证明 |
+| P06 | world/battle sprite、帧/动作/图片库与上传/预览取消、迟到成果释放 |
+| P07 | item/use/throw/alchemy/shop/奖励编辑及删除引用，排除M已证合同 |
+| P08 | skill/enemyAI/poison/condition/lifecycle作者控件与合法guard |
+| P09 | locale/rich-text/variable/sprite/stamp/tileset数据编辑与UI残余 |
+| P10 | App生命周期、导航/弹层/键盘焦点、设计控件和资源依赖真实组合及整账 |
+
+每域七轴：创建；编辑/替换；删除/引用阻断；undo/redo；取消/失败恢复；边界键盘/焦点；
+迟到与资源归属。没有该轴就登记N/A，不能虚构生命周期接口。
+每批约70用例/至少4反控，十批连续做。20条浏览器流程在自有小工程，真实操作前后
+各有可见证据、截图hash、console分类；含宽/窄窗、键盘、错误恢复与undo，不追求凑截图。
+不能接管Codex当前窗口、E2E002、真实PAL项目或存档；不走剧情。
+
+## 写入与验收
+
+仅Editor `src/**/*.glm-p.test.ts(x)`、`src/__tests__/glm-p/**`及
+`docs/testing/glm-tenfold-triple/wave-P/**`。产品/旧测/公共fixture/依赖/配置/baseline、
+O/Q包、共享导航/任务卡/看板只读。外部fetch/Canvas/目录边界可typed替身；业务核心不可mock。
+真实2D可用时保留其行为；不以透明像素skip断言冒充像素路径。保存tests只用临时工程。
+
+共同协议的contracts去重账、700最终fullName/status、40枚三态反控证据、实际浏览器20流程、
+同源同分母私有coverage、receipt/未证/缺陷必须准确一致。最后格式化后重核所有源/反控hash。
+末批串行Editor全包test/typecheck、根lint完整0/0/0、docs、区间diff、verifier；
+GLM不跑正式ratchet、不合main、不标done，Codex独立核并集后收口。
+
+## 当前模式推进记录
+
+- Codex：源池/消费者/目录独占与L/M排重基点已核，**build allowed仅本卡新测试**。
+- GLM P独占Editor新增后缀与fixture；O/Q只读依赖，不共享可写Owner。
+- 新产品行为/保存格式/样式选择：未开放；产品counter先交最短红证据停该组。
+- 交付/独立验收pending；done blocked；700合法新合同不足则请Codex据排重账调整，不灌水。
+- 用户产品验收N/A（纯测试、不改UI）；浏览器证据由Codex复核，不恢复固定三签。
+
+## 下一位GLM P提示词
+
+```text
+你是 TEST-GLM-WAVE-P-1 唯一测试Owner。先读AGENTS、READ-FIRST、本卡、GLM自检、glm-tenfold-triple协议/targets及L/M旧断言。
+从本轮已推送派发40位SHA新建 codex/glm-wave-p-editor-residual-r1 与独立worktree，运行verify-targets。
+连续十批P01–P10：700合法未重复合同/70组/40有效反控/20条自有小工程真实功能流程。不得mock业务核心或私有state凑数。
+仅本卡Editor新测试、专属glm-p fixture和wave-P证据可写，交最终fullName JSON/去重账/反控三态日志hash/截图与console/私有同分母覆盖。
+串行Editor全包test/typecheck、根lint0/0/0、docs/diff/verifier后推送完整候选SHA；不合main、不标done。
+产品/旧测/配置/官方baseline/O/Q/共享文档及E2E002/真实项目只读。深链#0、Esc通知不夹修复；缺合法缺口或真缺陷交证据停该组。
+```

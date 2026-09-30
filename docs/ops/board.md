@@ -2,15 +2,20 @@
 
 这张看板只记录当前进行中和阻塞任务。候选任务看 `docs/phase2/capability-map.md`（任务卡 `Capability` 字段对应地图格号；议题型卡 D6/D12/D13/D14/D15 落点见地图 §3.1「议题→格映射」），完成记录看 git log 和任务卡。
 
-2026-09-30 GLM 三条可并行测试大包已准入；各自独立分支/工作树、只写新测试与专属证据，
-[62 源冻结与 A–K 去重](../testing/glm-next-triple/README.md)。Codex 负责独立验收及正式并集结算，
-三包不接进行中的 E2E-R4-1；1155/1301/1473 未覆盖臂仅是候选缺口，并非增量承诺。
+2026-09-30 L/M/N代码accept，统一ratchet因migrate退役后的比率门阻塞，仍review、未done。
+用户要求每卡十倍后，新增[O/P/Q三条独立测试大包](../testing/glm-tenfold-triple/README.md)：
+各700合法未重复用例目标/40有效反控，716源冻结、包目录独占；O优先补migrate门。
+从含L/M/N的同一派发提交各建新分支/worktree；不改产品/官方门，不接E2E-R4/002。
+Codex独立验收并统一check→ratchet→protected fast；2100例不等于分支净增或85%承诺。
 
 | ID | 任务 | 状态 | 负责人/下一步 | 一句话备注 |
 |---|---|---|---|---|
 | TEST-GLM-WAVE-L-1 | [地图/场景/精灵/印章补测](tasks/TEST-GLM-WAVE-L-1-editor-map-scene.md) | review | Codex / migrate 覆盖率门 | r3 代码 accept；并集 check 绿、ratchet 回退阻塞，未合 main |
 | TEST-GLM-WAVE-M-1 | [数据页/资源/设计控件补测](tasks/TEST-GLM-WAVE-M-1-editor-data-assets.md) | review | Codex / migrate 覆盖率门 | r2 代码 accept；并集 check 绿、ratchet 回退阻塞，未合 main |
 | TEST-GLM-WAVE-N-1 | [Reforge 非剧情宿主补测](tasks/TEST-GLM-WAVE-N-1-reforge-runtime-host.md) | review | Codex / migrate 覆盖率门 | r4 代码 accept；并集10768例全绿，ratchet回退阻塞，未合 main |
+| TEST-GLM-WAVE-O-1 | [供应/内容守卫十倍补测](tasks/TEST-GLM-WAVE-O-1-supply-validation-tenfold.md) | build | GLM O / 独立会话 | 700例/60组/40反控；migrate门优先，content/shared包独占 |
+| TEST-GLM-WAVE-P-1 | [Editor残余工作流十倍补测](tasks/TEST-GLM-WAVE-P-1-editor-residual-tenfold.md) | build | GLM P / 独立会话 | 700例/70组/40反控/20功能流程；Editor独占且排重L/M |
+| TEST-GLM-WAVE-Q-1 | [runtime/解码十倍补测](tasks/TEST-GLM-WAVE-Q-1-runtime-residual-tenfold.md) | build | GLM Q / 独立会话 | 700例/50组/40反控/10非剧情流程；两阶段分段，新机制待核 |
 | EDITOR-SPRITE-DEEP-PREVIEW-1 | [深链预览伪报帧 #0](tasks/EDITOR-SPRITE-DEEP-PREVIEW-1.md) | draft | Codex / 待窄准入 | 17 层合法链独立复现；不随 L 测试包修产品 |
 | EDITOR-MAP-SELECTION-NOTICE-1 | [Esc 清选后的通知语义](tasks/EDITOR-MAP-SELECTION-NOTICE-1.md) | draft | 用户 / 选择状态或事件语义 | O1 截图与源码相符，暂不定为产品 bug |
 
