@@ -82,14 +82,11 @@ export const fullRequiredDirectories = Object.freeze([
 
 export const migrateCoverageFastTestExcludes = Object.freeze([
   'src/dialogue-project.test.ts',
-  'src/migrate-content.test.ts',
-  'src/migrate-enemies.test.ts',
   'src/pal-assets.test.ts',
   'src/pal-casualty-scripts.test.ts',
   'src/pal-project.test.ts',
   'src/pal-world-sprite-identity-boundary.test.ts',
   'src/scene-entry-product.test.ts',
-  'src/script-library-audit.test.ts',
 ])
 
 const standardSource = Object.freeze({

@@ -407,7 +407,9 @@ Codex：premise verified / design agree / **r6 build allowed**。同一Owner `pa
 - 新纯leaf：`packages/migrate/src/migration-files.ts`（JSON/两字段file-set合同）、
   `pal-source-types.ts`（仍消费的外部PAL role/item/scene形状）；可新增同名测试及
   `pal-role-mapping.test.ts`、`pal-role-mapping.pal.test.ts`、`pal-sound-assets.test.ts`、
-  `script-conversion-retirement.test.ts`。类型迁移不复制全核report/profile，不保留旧compat。
+  `script-conversion-retirement.test.ts`。Owner将五个已准入窄loader守卫单列为
+  `pal-source-io.guards.test.ts`，Codex确认此测试文件名追加，case与产品范围不扩。
+  类型迁移不复制全核report/profile，不保留旧compat。
 - 保留实现改动白名单（均src）：`migration-baseline.ts`、`migration-merge.ts`、
   `migration-plan.ts`、`migration-project-io.ts`、`pal-current-publication.ts`、
   `pal-content-supply.ts`、`pal-role-mapping.ts`、`pal-item-message-source.ts`、
