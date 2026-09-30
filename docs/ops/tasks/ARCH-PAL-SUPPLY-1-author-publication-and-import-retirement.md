@@ -132,7 +132,7 @@ recoverMigrationTransaction；有待恢复journal时可能写盘。本轮没调�
 - build准入：未开放；取消固定三签不取消事实/单Owner/独立验收门。
 - done准入：未开放；不得把方向获批或开卡称为退役完成。
 
-### r2首批build准入（2026-09-30）
+### r2首批准入与r3 Node边界修订（2026-09-30）
 
 Codex：premise verified / design agree / **build allowed，仅下述首批**。直接读取
 `project-io.ts:163/358/651`、`project-diagnostics.ts:823`、`project-save-state.ts:76`和
@@ -165,6 +165,27 @@ Codex：premise verified / design agree / **build allowed，仅下述首批**。
   全仓check与零诊断门。主工程只读，写盘测试限临时合成目录。不启动剧情/改UI，视觉N/A。
 - 首批accept与母卡最终done分开记录：资源供应拆分和转换核退役尚未完成，不将首批通过标母卡done。
 
+#### r3 counter闭合与追加白名单
+
+Root在真实Node中加载`project-io.ts`，直接失败于`engine-chrome/registry.ts:52`的
+`import.meta.glob`。独立只读审查追到`reforge/package.json:9`→`index.ts:224` eager bootGame
+导入→`main.ts:74`→registry；PAL独立并不等于Node可加载。r2“直接使用现有宽barrel”设计
+在此反证后停止，不以Vitest/Vite变换通过代替实际Node。r2校验合同及无写盘产品边界不变。
+
+Codex与独立审查已读纯叶`assets.ts`、`project-loader.ts`、`project-save-state.ts`、
+`fsa-source.ts`、`battle-trial-config.ts`、`runtime-project-view.ts`及可达编辑器导入；
+Owner提议合法headless子路径，Codex核定 **r3 build allowed**：
+
+- 追加独占白名单：`packages/reforge/package.json`、新`packages/reforge/src/author-io.ts`；
+  `packages/editor/src/core/author-save-journal.ts`、`author-save-store.ts`、
+  `author-disk-baseline.ts`、`battle-simulator-library.ts`、`script-editor-projection.ts`。
+- 只新增`@type-pal/reforge/author-io`纯叶出口，保持已有函数/类型身份与行为；上述编辑器文件
+  只切换运行时导入入口，不调整保存/恢复/投影/模拟器算法。原宽barrel保持现有消费者合同。
+- 不加glob/browser polyfill、Node require hook、Vite专用CLI或复制validator；不改seed-assets、
+  main/registry、L/M/N冻结源或已有公共签名。合成种子由Vitest构建后交真实Node子进程校验。
+- 真实Node import及CLI子进程必须通过；浏览器editor build、现有author-save/preset/projection
+  回归由Codex独立验证。此修订只是拆除浏览器宿主耦合，不改变源字段维护权或脚本模型。
+
 ## 交接记录
 
 - 2026-09-30 Codex：用户批准职责方向；开draft卡，首批只读核资产/静态表与脚本推导依赖。
@@ -173,6 +194,8 @@ Codex：premise verified / design agree / **build allowed，仅下述首批**。
   发布、测试或提交。Codex逐项核核心锚点，将counter与CLI恢复写盘边界合并进r1正文。
 - 2026-09-30 Codex：用户要求推进；r2首批白名单与反控准入，隔离worktree就绪。原有E2E研究
   文档保留并单独落Git证据；本次不合入GLM L/M/N候选、不改其冻结源。
+- 2026-09-30 Codex / pal_supply_audit：实际Node加载反证和独立源码证据收敛；Owner暂停宽
+  barrel方案。r3改为现有纯叶author-io子路径，新增导入白名单后继续，不伪造浏览器接口。
 
 ## 下一位Agent提示词
 
