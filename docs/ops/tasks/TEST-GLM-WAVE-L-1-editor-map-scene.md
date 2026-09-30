@@ -94,7 +94,7 @@ Inspector 消失但底部仍写「已选择 1 个视觉槽、1 个格点」，�
 已立 `EDITOR-MAP-SELECTION-NOTICE-1` 草案供用户判断“最近事件”还是“当前状态”，
 不把产品取舍混入测试返工。
 
-### 下一位 GLM 返工提示词
+### 历史 r1 返工提示词（已执行）
 
 ```text
 你是 TEST-GLM-WAVE-L-1 测试 Coding Owner，请在原隔离工作树/分支
@@ -123,4 +123,34 @@ docs/testing/glm-next-triple/README.md 与 targets.json，运行 verify-targets.
 typecheck、根 lint 0/0/0、docs/diff 必须交原始结果。真 bug/真值争议停对应组报告。
 产品/旧测/公共 fixture/配置/基线/任务卡/看板/E2E 只读；不改朝向产品行为，
 不合 main、不标 done。提交推送 40 位 SHA，Codex 独立审核及官方覆盖结算。
+```
+
+## Codex 二审（2026-09-30，r2 候选 4547c8c3）
+
+GLM 已逐项修复首轮实质问题：`vitest-directed.json` 为 67/67 且 67 个唯一
+fullName；五枚恢复后产品源 hash 均匹配，替换的 CC5b 是目标业务
+`AssertionError`，旧无效日志保留；禁用双强转已去除，单文件 `act(...)` 警告归零；
+两条功能视觉补了操作窗口 console error/warn/未捕获异常 0 条，初始加载期明确未证。
+Codex 独立复跑 Editor **496 文件/3720 测试**、typecheck 与根 lint
+**0 error/0 warning/0 info** 全过，冻结核验、截图 SHA256 均通过。
+
+但候选仍**不能接收**：执行 `git diff --check 784fb098...4547c8c3`，
+10 份 CC1–CC5 正反控日志、2 份 CC5b 正反控日志及
+`logs/stamp-dialog-act-clean.txt` 共 **13 处 `new blank line at EOF`**。
+回执所称 `git diff --check` 只检查了干净工作树，没有检查已提交候选区间；
+卡面要求 diff 零诊断，故维持 `counter / rework`。候选 docs 门仍只因共享
+README 缺 wave-L 导航行失败，此项仍由 Codex 在集成时补，不让 GLM 越界。
+本轮不合 main、不运行正式覆盖结算、不清理隔离树。
+
+### 下一位 GLM L 返工提示词
+
+```text
+你是 TEST-GLM-WAVE-L-1 唯一测试 Coding Owner。先读 AGENTS.md、
+docs/phase2/READ-FIRST.md、本卡二审和 wave-L 原证据。在原隔离分支
+codex/glm-wave-l-editor-map-r1 基于 4547c8c3 只修本卡白名单内 13 份日志
+文件尾空行（保留日志内容与旧反控历史），用
+git diff --check 784fb098...HEAD 核整个已提交候选区间零诊断，勿只查工作树。
+复跑根 lint、Editor 全包/typecheck、docs（共享导航缺行如实报告），交完整
+40 位新候选 SHA。产品、旧测、共享 README、官方基线/任务卡只读；
+不合 main、不标 done。共享导航仍由 Codex 集成时修。
 ```

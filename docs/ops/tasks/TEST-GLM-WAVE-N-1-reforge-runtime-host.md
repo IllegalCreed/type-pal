@@ -1,6 +1,6 @@
 # TEST-GLM-WAVE-N-1 — Reforge 非剧情运行时宿主与资源生命周期大包
 
-Status: build
+Status: rework
 Phase: phase2
 Capability: runtime-host / test-coverage
 Coding Owner: GLM N（仅新增测试、专属 fixture/证据）
@@ -57,9 +57,46 @@ ratchet、不标 done；纯测试用户验收 N/A，Codex 独立核定。
 ## 推进记录与交接
 
 - Codex 前提/范围：公开宿主入口、A–K 去重、E2E 占用和冻结校验已核；限定测试 `build allowed`。
-- GLM 交付/自验：pending。Codex accept/counter：pending。done：blocked 待独立验收。
+- GLM 交付：候选 `61dc0de19e85429740c218cfa0e1d29d89ee2dfd` 已推送，13 个新测试文件、
+  55 例与 wave-N 证据。Codex 独立审核：**counter / rework**，未合 main、未计正式覆盖。
 
-### 下一位 GLM 提示词
+## Codex 独立审核（2026-09-30，候选 61dc0de1）
+
+- 冻结表在候选与 main 均通过；定向 JSON 为 55/55 且 55 个不同 fullName。
+  独立复跑 `env -u NODE_COMPILE_CACHE pnpm --filter @type-pal/reforge test` 为
+  **259 文件/2054 测试通过**，typecheck、根 lint 0/0/0、docs、候选区间
+  `git diff --check 784fb098...HEAD` 通过。这些绿门不替代合同合法性。
+- `menu-box.glm-n.test.ts:45,68,147-158,181` 与
+  `battle-ui.glm-n.test.ts:77,118,146,201-203,236,345,355` 等多处
+  `as unknown as`，其中还用 `undefined` 强作 `ImageBitmap`/调色值。
+  共同协议明禁双强转；合法 typed fixture 必须重建，不能靠强转掩盖缺字段。
+- 四枚反控的 `counter-controls.json` 仅给结论布尔值/失败名称，无原始 Vitest
+  正反控输出、执行数及恢复后 SHA256 值，无法独立核“恰一个业务断言红”。
+  RC4 的高度 `-1 → -2` 两端都是非法输入，不符合“合法输入单轴变异”；
+  因此当前**不足四枚有效反控**。换成合法输入轴，交可复核的原始结果和哈希。
+- 候选越过写入白名单，改了共享 `docs/testing/glm-next-triple/README.md`
+  添加 N 导航。该行应从贡献者候选退出，由 Codex 集成时统一登记。
+- 真实浏览器取证的 `drive-n.mjs` 在标题菜单按 Enter 后等待 `__rfWorld`，
+  `world-after-entry.png` 实际已是开场剧情画面；这越过卡面“非剧情菜单或 battle
+  trial 错误恢复”的视觉范围。请改为停留菜单内的可见键盘选择/关闭，或用小型
+  battle trial 错误恢复，不再进入 PAL 001/002 叙事路线。两张截图 SHA256
+  与记录相符，404 存档探测已如实披露，但不能把越界路径算本卡视觉完成。
+
+### 下一位 GLM N 返工提示词
+
+```text
+你是 TEST-GLM-WAVE-N-1 唯一测试 Coding Owner。先读 AGENTS.md、
+docs/phase2/READ-FIRST.md、本卡独立审核段、共同协议和 wave-N 原证据；
+在原隔离分支基于 61dc0de1 返工。只改 *.glm-n.test.ts(x)、专属 typed fixture 与
+wave-N 证据：去除全部双强转并证明合法输入；以合法单轴输入替换 RC4，给四枚
+反控可核的正反控 Vitest 输出、目标 fullName/执行数及恢复 SHA256；重做非剧情
+菜单或 battle trial 的浏览器功能证据。撤回共享 README 导航改动，留 Codex
+集成时统一补。复跑 Reforge 全包、typecheck、根 lint 0/0/0、docs（导航缺行
+按白名单如实报告）、git diff --check 784fb098...HEAD。产品、旧测、共享配置、
+官方基线和 E2E-R4-1 路线只读；不合 main、不标 done，推送完整候选 SHA。
+```
+
+### 历史首轮派发提示词（已执行，非本次返工指令）
 
 ```text
 你是 TEST-GLM-WAVE-N-1 的唯一测试 Coding Owner。请在独立工作树、分支

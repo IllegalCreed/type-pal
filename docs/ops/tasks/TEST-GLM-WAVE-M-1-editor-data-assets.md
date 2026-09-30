@@ -1,6 +1,6 @@
 # TEST-GLM-WAVE-M-1 — 编辑器数据页、资源库和设计控件大包
 
-Status: build
+Status: rework
 Phase: phase2
 Capability: editor-data / test-coverage
 Coding Owner: GLM M（仅新增测试、专属 fixture/证据）
@@ -55,9 +55,49 @@ Editor 定向/相邻及全包 `env -u NODE_COMPILE_CACHE pnpm --filter @type-pal
 ## 推进记录与交接
 
 - Codex 前提/范围：当前入口、A–K 去重和冻结校验已核；纯测试 `build allowed`。
-- GLM 交付/自验：pending。Codex accept/counter：pending。done：blocked 待独立验收。
+- GLM 交付：候选 `0b045c15e91e6b66929458dd430af15f58016b14` 已推送，
+  12 个新测试文件、31 例与 wave-M 证据。Codex 独立审核：**counter / rework**，
+  未合 main、未计正式覆盖。
 
-### 下一位 GLM 提示词
+## Codex 独立审核（2026-09-30，候选 0b045c15）
+
+- 冻结表在候选及 main 均通过；定向 JSON 为 31/31 且 31 个不同 fullName。
+  范围仅新增 12 个 `*.glm-m.test.ts(x)`、专属 fixture 与 wave-M 证据，
+  排重账逐组列现行 caller/旧合同，抽查未见直接重测。独立复跑 Editor
+  **493 文件/3684 测试通过**、typecheck 通过；候选区间
+  `git diff --check 784fb098...HEAD` 通过。五张功能视觉截图 SHA256 匹配。
+- 根 `pnpm lint` **失败**：新 `wave-M/vitest-directed.json` 有 1 个 Biome
+  格式诊断，非卡面要求的 0/0/0；回执的 lint 全绿不适用于最终候选。
+- `item-references.glm-m.test.ts:46,77,90,103,129` 多处 `as unknown as`；
+  `ItemTab`, `BattleFieldTab`, `EnemyTab`, `SkillTab` 新测多处 `as never`
+  伪造 `assetReader`/`assetBase` 等输入，`CasualtyEditor` 等也有双强转。
+  共同协议明禁两者；尤其当前合法项目/资源前提不能用强转掩盖。
+  请重建 typed fixture，并复核改后合同仍是现行可达输入。
+- 四枚反控的当前证据均为正控 exit0、注入后目标一例
+  `AssertionError` 红，runner `--self-test` 8/8；但可执行判据只检查存在
+  `failureMessages`，未检查红色确为业务断言，目标 `TypeError` 也会被误判 valid
+  （与 L 首轮 CC5 同类）。返工时增加非断言红拒绝及对应 self-test，再重跑四枚。
+- `node scripts/docs/check.mjs` 在**最终候选**因共享
+  `docs/testing/glm-next-triple/README.md` 缺 wave-M 导航行失败，非回执所写 PASS。
+  共享文件在 GLM 白名单外；仍由 Codex 集成时补行，不要求 GLM 越界修。
+  V2 的“Enter 不激活、Space 激活”仅作观察，尚无足够一手证据定产品缺陷，
+  不随本测试波改 UI。隔离覆盖未成功产出，不可主张本包覆盖增量。
+
+### 下一位 GLM M 返工提示词
+
+```text
+你是 TEST-GLM-WAVE-M-1 唯一测试 Coding Owner。先读 AGENTS.md、
+docs/phase2/READ-FIRST.md、本卡独立审核段、共同协议及 wave-M 证据；
+在原隔离分支基于 0b045c15 只改本卡白名单内新测/fixture/证据。
+格式化 vitest-directed.json；去掉全部 as never、as unknown as，用 typed 合法
+项目与资源夹具替代并复核公开 caller。反控 judge 要拒绝目标 TypeError 等
+非业务断言红，增加 self-test 后重跑四枚并留新鲜原始结果。完整复跑 Editor
+全包、typecheck、根 lint 0/0/0、docs、git diff --check 784fb098...HEAD；
+共享 README 导航缺行如实报告，留 Codex 集成时补。产品、旧测、公共配置、
+L/N 文件、官方基线只读；不合 main、不标 done，推送完整候选 SHA。
+```
+
+### 历史首轮派发提示词（已执行，非本次返工指令）
 
 ```text
 你是 TEST-GLM-WAVE-M-1 的唯一测试 Coding Owner。请在独立工作树、分支

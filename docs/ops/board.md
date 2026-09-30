@@ -8,9 +8,9 @@
 
 | ID | 任务 | 状态 | 负责人/下一步 | 一句话备注 |
 |---|---|---|---|---|
-| TEST-GLM-WAVE-L-1 | [地图/场景/精灵/印章补测](tasks/TEST-GLM-WAVE-L-1-editor-map-scene.md) | rework | GLM L / 隔离返工 | e2b3f437 独立审核：3720/typecheck 绿，lint 非零、双强转、CC5 非断言红 |
-| TEST-GLM-WAVE-M-1 | [数据页/资源/设计控件补测](tasks/TEST-GLM-WAVE-M-1-editor-data-assets.md) | build | GLM M / 隔离实施 | 7 组 27 源，编辑器功能视觉两条 |
-| TEST-GLM-WAVE-N-1 | [Reforge 非剧情宿主补测](tasks/TEST-GLM-WAVE-N-1-reforge-runtime-host.md) | build | GLM N / 隔离实施 | 5 组 11 源，`main.ts` 漂移停受影响组 |
+| TEST-GLM-WAVE-L-1 | [地图/场景/精灵/印章补测](tasks/TEST-GLM-WAVE-L-1-editor-map-scene.md) | rework | GLM L / 隔离返工 | r2 的 3720/typecheck/lint 已绿；候选区间 diff 检出 13 处尾空行 |
+| TEST-GLM-WAVE-M-1 | [数据页/资源/设计控件补测](tasks/TEST-GLM-WAVE-M-1-editor-data-assets.md) | rework | GLM M / 隔离返工 | 3684/typecheck 绿；新 JSON 格式红及禁用强转未闭合 |
+| TEST-GLM-WAVE-N-1 | [Reforge 非剧情宿主补测](tasks/TEST-GLM-WAVE-N-1-reforge-runtime-host.md) | rework | GLM N / 隔离返工 | 2054/静态门绿；双强转、反控不足四枚及视觉越界 |
 | EDITOR-SPRITE-DEEP-PREVIEW-1 | [深链预览伪报帧 #0](tasks/EDITOR-SPRITE-DEEP-PREVIEW-1.md) | draft | Codex / 待窄准入 | 17 层合法链独立复现；不随 L 测试包修产品 |
 | EDITOR-MAP-SELECTION-NOTICE-1 | [Esc 清选后的通知语义](tasks/EDITOR-MAP-SELECTION-NOTICE-1.md) | draft | 用户 / 选择状态或事件语义 | O1 截图与源码相符，暂不定为产品 bug |
 
