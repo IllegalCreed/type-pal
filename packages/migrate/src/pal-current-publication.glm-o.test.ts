@@ -175,18 +175,9 @@ describe('O01 buildPalCurrentPublication：分区替换与作者保留（合成�
     expect(publication.mapReport).toMatchObject({ mapCount: 1, semanticRoundTripMismatchCount: 0 })
   })
 
-  test('current baseline 含历史发布路径（content/migrations 等）时 fail-loud', () => {
+  test('current baseline 含历史发布路径（_transitions/content/migrations/scripts）时 fail-loud', () => {
     const { sources } = fresh()
-    const entries = syntheticBaselineFiles()
-    entries.set('content/migrations/old.json', { stale: true })
-    expect(() => rebuild(baselineFromEntries(entries), sources)).toThrow(
-      'current baseline 含历史发布路径: content/migrations/old.json',
-    )
-  })
-
-  test('_transitions 与 content/scripts 同属禁发路径前缀', () => {
-    const { sources } = fresh()
-    for (const path of ['_transitions/t.json', 'content/scripts/s.json']) {
+    for (const path of ['content/migrations/old.json', '_transitions/t.json', 'content/scripts/s.json']) {
       const entries = syntheticBaselineFiles()
       entries.set(path, { stale: true })
       expect(() => rebuild(baselineFromEntries(entries), sources)).toThrow(
