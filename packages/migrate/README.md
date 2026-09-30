@@ -61,7 +61,7 @@ journal 前停止。`--write`前还会做baseline / project TOCTOU复核；中�
 
 完整原版剧情/战斗脚本转换核及原版动作审计按用户裁决退役，历史实现和审计证据保存在Git。
 当前删除批次及验收状态跟随
-[ARCH-PAL-SUPPLY-1](../../docs/ops/tasks/ARCH-PAL-SUPPLY-1-author-publication-and-import-retirement.md)，
+[ARCH-PAL-SUPPLY-1](../../docs/ops/archive/tasks/done/ARCH-PAL-SUPPLY-1-author-publication-and-import-retirement.md)，
 资源供应、安全重导、地图审计与UI资产bake继续维护，migrate包本身不退休。
 `baselines/script-control-flow/pal-v1.json`仅为已完成N3审计的冻结历史证据，不是当前输入或门禁；
 当前PAL发布baseline仍在`baselines/pal/`，不能手改或用历史脚本审计数据替代。

@@ -8,7 +8,6 @@
 
 | 任务 | 顶部状态 | 说明 |
 |---|---|---|
-| [ARCH-PAL-SUPPLY-1 — 作者发布与PAL导入职责拆分、脚本转换退役](ARCH-PAL-SUPPLY-1-author-publication-and-import-retirement.md) | review | 以任务卡当前准入与看板分工为准。 |
 | [ARCH-SUPPORT-GLM-1 — 八组并行准备取证](ARCH-SUPPORT-GLM-1-eight-audit-packages.md) | draft | 以任务卡当前准入与看板分工为准。 |
 | [E2E-R4-1 — 路线驱动与合法检查点薄基线](E2E-R4-1-route-and-checkpoint-foundation.md) | build | 以任务卡当前准入与看板分工为准。 |
 | [EDITOR-MAP-SELECTION-NOTICE-1 — Esc 清选后的状态通知语义](EDITOR-MAP-SELECTION-NOTICE-1.md) | draft | 以任务卡当前准入与看板分工为准。 |
@@ -42,6 +41,7 @@
 | [ARCH-F2-DS-LABELS-1 — DsTag / DsReadonlyValue 窄拆](../archive/tasks/done/ARCH-F2-DS-LABELS-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [ARCH-F2-DS-OVERFLOW-1 — DsOverflowText 独立模块](../archive/tasks/done/ARCH-F2-DS-OVERFLOW-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [ARCH-F2-EDITOR-BATTLE-FIELD-COMMANDS-1 — 战场命令族独立模块](../archive/tasks/done/ARCH-F2-EDITOR-BATTLE-FIELD-COMMANDS-1.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [ARCH-PAL-SUPPLY-1 — 作者发布与PAL导入职责拆分、脚本转换退役](../archive/tasks/done/ARCH-PAL-SUPPLY-1-author-publication-and-import-retirement.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [ARCH-REFORGE-BATTLE-1 — 战斗宿主生命周期拆分（A2）](../archive/tasks/done/ARCH-REFORGE-BATTLE-1-host-lifecycle.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [ARCH-REFORGE-FRAME-1 — A3 首段：帧调度、时钟与输入仲裁](../archive/tasks/done/ARCH-REFORGE-FRAME-1-clock-and-input.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [ARCH-REFORGE-MENU-1 — Reforge菜单与物品会话控制器](../archive/tasks/done/ARCH-REFORGE-MENU-1-session-controller.md) | done | 完成证据、历史签字与交接见原卡。 |
