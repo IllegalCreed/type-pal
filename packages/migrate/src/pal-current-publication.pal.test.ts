@@ -1,22 +1,30 @@
 import { dirname, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
-import { type ActorDef, type ItemData, type ShopDef, validateSceneIndex } from '@type-pal/content'
+import {
+  type ActorDef,
+  type AuthorSceneDef,
+  type AuthorScriptLibrary,
+  type ItemData,
+  type ShopDef,
+  type SpriteDef,
+  validateSceneIndex,
+} from '@type-pal/content'
 import { describe, expect, it } from 'vitest'
 import { loadPalBaseline } from './migration-baseline.js'
 import { createMigrationPlan, snapshotOf } from './migration-plan.js'
+import { loadPalContentSupplySources } from './pal-content-supply-io.js'
 import {
   buildPalCurrentPublication,
   validatePalCurrentPublication,
 } from './pal-current-publication.js'
 import { buildPalCurrentManifest } from './pal-manifest.js'
-import { loadPalMigrationSources } from './pal-migration-io.js'
 
 const repo = resolve(dirname(fileURLToPath(import.meta.url)), '../../..')
 
 describe('PAL current-only publication', () => {
   it('accepts merged author shop lifecycle and command changes, retaining the pure generated baseline', () => {
     const baseline = loadPalBaseline(repo)!
-    const sources = loadPalMigrationSources(repo)
+    const sources = loadPalContentSupplySources(repo)
     const publication = buildPalCurrentPublication(baseline, sources)
     const manifest = buildPalCurrentManifest(sources.assetCatalog)
     const authored = structuredClone(baseline)
@@ -80,7 +88,7 @@ describe('PAL current-only publication', () => {
   it('publishes the current baseline and raw-owned partitions directly as content20/SAVE8', () => {
     const baseline = loadPalBaseline(repo)
     expect(baseline).toBeDefined()
-    const sources = loadPalMigrationSources(repo)
+    const sources = loadPalContentSupplySources(repo)
     const staleItems = structuredClone(
       baseline!.files.get('content/items.json'),
     ) as unknown as ItemData[]
@@ -111,6 +119,41 @@ describe('PAL current-only publication', () => {
     staleBaseline.files.delete(previousScenePath)
     staleBaseline.managedFiles.delete(previousScenePath)
     staleBaseline.managedFiles.add(authoredScenePath)
+    const sceneBody = structuredClone(
+      staleBaseline.files.get(authoredScenePath),
+    ) as unknown as AuthorSceneDef
+    const firstFlow = sceneBody.hooks!.onEnter!.variants.default!.flow
+    if (firstFlow.kind !== 'stages') throw new Error('expected stage flow')
+    firstFlow.stages[0]!.body.unshift({ kind: 'wait', ms: 27 })
+    staleBaseline.files.set(authoredScenePath, sceneBody as never)
+    const shared: AuthorScriptLibrary = {
+      'shared/user/author-proof': {
+        name: '作者共享正文',
+        self: 'none',
+        body: [{ kind: 'wait', ms: 19 }],
+      },
+    }
+    staleBaseline.files.set('content/shared-scripts.json', shared as never)
+    const customSprites = structuredClone(
+      staleBaseline.files.get('content/sprites.json'),
+    ) as unknown as SpriteDef[]
+    const customSprite = {
+      ...customSprites[0]!,
+      id: 'author-proof-sprite',
+      label: '作者自定义精灵',
+    }
+    customSprites.push(customSprite)
+    staleBaseline.files.set('content/sprites.json', customSprites as never)
+    const customActors = structuredClone(
+      staleBaseline.files.get('content/actors.json'),
+    ) as unknown as ActorDef[]
+    const customActor = {
+      ...customActors.at(-1)!,
+      id: 'author-proof-actor',
+      spriteId: customSprite.id,
+    }
+    customActors.push(customActor)
+    staleBaseline.files.set('content/actors.json', customActors as never)
     const publication = buildPalCurrentPublication(staleBaseline, sources)
     const manifest = buildPalCurrentManifest(sources.assetCatalog)
     const report = validatePalCurrentPublication({ publication, manifest, sources })
@@ -126,6 +169,13 @@ describe('PAL current-only publication', () => {
     })
     expect(publication.files.has(authoredScenePath)).toBe(true)
     expect(publication.files.has(previousScenePath)).toBe(false)
+    expect(publication.files.get(authoredScenePath)).toEqual(sceneBody)
+    expect(publication.files.get('content/shared-scripts.json')).toEqual(shared)
+    expect(
+      (publication.files.get('content/sprites.json') as unknown as SpriteDef[]).find(
+        ({ id }) => id === customSprite.id,
+      ),
+    ).toEqual(customSprite)
     const actors = publication.files.get('content/actors.json') as unknown as ActorDef[]
     expect(actors.map(({ id }) => id)).toEqual([
       'li-xiaoyao',
@@ -136,7 +186,9 @@ describe('PAL current-only publication', () => {
       'gai-luojiao',
       'jiu-jianxian',
       'li-daniang',
+      'author-proof-actor',
     ])
+    expect(actors.find(({ id }) => id === customActor.id)).toEqual(customActor)
     const gai = actors.find(({ id }) => id === 'gai-luojiao')!
     expect(gai.portraits).toEqual({ default: 'portrait.pal.044' })
     expect(gai).not.toHaveProperty('face')
@@ -179,7 +231,7 @@ describe('PAL current-only publication', () => {
   it('rejects invalid poison definitions before publishing a current project', () => {
     const baseline = loadPalBaseline(repo)
     expect(baseline).toBeDefined()
-    const sources = loadPalMigrationSources(repo)
+    const sources = loadPalContentSupplySources(repo)
     const publication = buildPalCurrentPublication(baseline!, sources)
     const manifest = buildPalCurrentManifest(sources.assetCatalog)
     const poisonsPath = manifest.content.poisons!

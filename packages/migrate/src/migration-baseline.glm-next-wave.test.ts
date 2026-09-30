@@ -19,7 +19,7 @@ import {
   sha256,
   snapshotFilePresent,
 } from './migration-baseline.js'
-import type { MigrationJson } from './pal-migration.js'
+import type { MigrationJson } from './migration-files.js'
 
 const roots: string[] = []
 

@@ -9,9 +9,9 @@ import {
 import { afterEach, describe, expect, test } from 'vitest'
 import { plannedChanges } from './__tests__/planned-changes-fixture.js'
 import { baselineWrites, type MigrationSnapshot, sha256 } from './migration-baseline.js'
+import type { MigrationJson } from './migration-files.js'
 import { commitMigrationTransaction } from './migration-transaction.js'
 import { planPalAssetRetirements } from './pal-assets.js'
-import type { MigrationJson } from './pal-migration.js'
 
 const roots: string[] = []
 const tempRepo = (): string => {

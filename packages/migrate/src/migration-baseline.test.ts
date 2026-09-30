@@ -12,7 +12,7 @@ import {
   serializeMigrationJson,
   sha256,
 } from './migration-baseline.js'
-import type { MigrationJson } from './pal-migration.js'
+import type { MigrationJson } from './migration-files.js'
 
 const roots: string[] = []
 

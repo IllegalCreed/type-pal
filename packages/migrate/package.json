@@ -11,7 +11,6 @@
     "check": "pnpm typecheck && pnpm test",
     "check:fast": "pnpm typecheck && pnpm test:fast",
     "audit:maps": "tsx scripts/audit-project-maps.mts",
-    "audit:sprite-actions": "tsx scripts/audit-pal-sprite-actions.mts",
     "bake": "tsx scripts/bake-assets.mts",
     "migrate:content": "tsx scripts/migrate-content.mts"
   },

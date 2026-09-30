@@ -4,8 +4,8 @@
  * 作者修改保留语义：value 冲突结果=ours；不把 ours/theirs 颠倒。
  */
 import { describe, expect, test } from 'vitest'
+import type { MigrationJson } from './migration-files.js'
 import { jsonAbsent, jsonPresent, mergeManagedFile } from './migration-merge.js'
-import type { MigrationJson } from './pal-migration.js'
 
 type V = Record<string, MigrationJson>
 

@@ -5,7 +5,7 @@ import type {
   CasualtyLine,
   CasualtyScript,
 } from '@type-pal/content'
-import type { SourceCmd } from './migrate-content.js'
+import type { SourceCmd } from './source-facts.js'
 
 /**
  * B11-1: 原版 OBJECT_PLAYER.scriptOnFriendDeath / scriptOnDying 的结构化翻译。

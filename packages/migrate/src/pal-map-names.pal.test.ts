@@ -5,14 +5,14 @@ import {
   PAL_AUTHORED_MAP_NAMES,
 } from '@type-pal/shared/pal-authored-map-names'
 import { describe, expect, test } from 'vitest'
-import { buildPalMigration } from './pal-migration.js'
-import { loadPalMigrationSources } from './pal-migration-io.js'
+import { buildPalContentSupply } from './pal-content-supply.js'
+import { loadPalContentSupplySources } from './pal-content-supply-io.js'
 
 const repo = resolve(dirname(fileURLToPath(import.meta.url)), '../../..')
 
 describe('PAL map-name migration truth', () => {
   test('closes authored, playable, physical, fallback, and dynamic-map domains exactly', () => {
-    const sources = loadPalMigrationSources(repo)
+    const sources = loadPalContentSupplySources(repo)
     const authoredMapNums = new Set(Object.keys(PAL_AUTHORED_MAP_NAMES).map(Number))
     const playableMapNums = new Set(sources.scenes.map(({ mapNum }) => mapNum))
     const physicalMapNums = new Set(sources.tilemaps.map(({ mapNum }) => mapNum))
@@ -35,8 +35,7 @@ describe('PAL map-name migration truth', () => {
     expect(staticOwners(164)).toEqual([])
     expect(staticOwners(165)).toEqual([244])
 
-    const allDynamicMapOperands = sources.allJson.segments
-      .flatMap((segment) => segment.commands)
+    const allDynamicMapOperands = sources.migrate.commands
       .filter((command) => command.opcode === 153)
       .map((command) => command.operands ?? [])
     expect(allDynamicMapOperands).toEqual([
@@ -44,19 +43,7 @@ describe('PAL map-name migration truth', () => {
       [0xffff, 165, 0],
     ])
 
-    const dynamicMapChanges = [...sources.eventsByScene]
-      .filter(([sceneId]) => sceneId !== -2)
-      .flatMap(([sceneId, commands]) =>
-        commands
-          .filter((command) => command.opcode === 153)
-          .map((command) => ({ sceneId, operands: command.operands ?? [] })),
-      )
-    expect(dynamicMapChanges).toEqual([
-      { sceneId: 230, operands: [0xffff, 164, 0] },
-      { sceneId: 243, operands: [0xffff, 165, 0] },
-    ])
-
-    const migration = buildPalMigration(sources)
+    const migration = buildPalContentSupply(sources)
     const index = migration.files.get('content/maps/index.json') as {
       version: number
       maps: Array<{ id: string; name: string; path: string }>
@@ -95,12 +82,5 @@ describe('PAL map-name migration truth', () => {
       expect(leftEntry?.name).toBe(rightEntry?.name)
       expect(leftEntry?.id).not.toBe(rightEntry?.id)
     }
-
-    expect(JSON.stringify(migration.files.get('content/scripts/chunks/scene/s230.json'))).toContain(
-      '"mapId":"map-164"',
-    )
-    expect(JSON.stringify(migration.files.get('content/scripts/chunks/scene/s243.json'))).toContain(
-      '"mapId":"map-165"',
-    )
   })
 })

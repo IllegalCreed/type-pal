@@ -6,8 +6,8 @@
 import { isDeepStrictEqual } from 'node:util'
 import { describe, expect, test } from 'vitest'
 import { serializeMigrationJson, sha256 } from './migration-baseline.js'
+import type { MigrationJson } from './migration-files.js'
 import { createMigrationPlan, snapshotOf } from './migration-plan.js'
-import type { MigrationJson } from './pal-migration.js'
 
 const snap = (files: Record<string, MigrationJson>, managed: string[]) =>
   snapshotOf({

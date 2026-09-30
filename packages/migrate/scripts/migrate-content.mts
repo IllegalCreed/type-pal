@@ -23,13 +23,13 @@ import {
 } from '../src/migration-transaction.js'
 import { buildMigrationTransactionChanges } from '../src/migration-write-plan.js'
 import { materializePalAssets, planPalAssetRetirements } from '../src/pal-assets.js'
+import { loadPalContentSupplySources } from '../src/pal-content-supply-io.js'
 import {
   buildPalCurrentPublication,
   palAssetPreconditions,
   validatePalCurrentPublication,
 } from '../src/pal-current-publication.js'
 import { buildPalCurrentManifest } from '../src/pal-manifest.js'
-import { loadPalMigrationSources } from '../src/pal-migration-io.js'
 
 const repo = resolve(dirname(fileURLToPath(import.meta.url)), '../../..')
 
@@ -58,7 +58,7 @@ if (!baseline)
   )
 
 console.log('读取 PAL 原始源并构建 current publication…')
-const sources = loadPalMigrationSources(repo)
+const sources = loadPalContentSupplySources(repo)
 const publication = buildPalCurrentPublication(baseline, sources)
 const manifest = buildPalCurrentManifest(sources.assetCatalog)
 

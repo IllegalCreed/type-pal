@@ -7,7 +7,7 @@ import {
   type ProjectMap,
   type StampTemplate,
 } from '@type-pal/content'
-import type { MigrationJson } from './pal-migration.js'
+import type { MigrationJson } from './migration-files.js'
 
 export const PAL_BASELINE_REL = 'packages/migrate/baselines/pal'
 

@@ -1,7 +1,7 @@
 import { describe, expect, test } from 'vitest'
 import type { MigrationSnapshot } from './migration-baseline.js'
+import type { MigrationFileSet, MigrationJson } from './migration-files.js'
 import { createMigrationPlan, snapshotOf } from './migration-plan.js'
-import type { MigrationFileSet, MigrationJson } from './pal-migration.js'
 
 const snapshot = (files: Record<string, MigrationJson>): MigrationSnapshot => ({
   files: new Map(Object.entries(files)),

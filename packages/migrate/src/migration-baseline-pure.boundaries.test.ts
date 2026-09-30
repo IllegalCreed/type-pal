@@ -13,8 +13,8 @@ import {
   snapshotFileHash,
   snapshotFilePresent,
 } from './migration-baseline.js'
+import type { MigrationJson } from './migration-files.js'
 import { snapshotOf } from './migration-plan.js'
-import type { MigrationJson } from './pal-migration.js'
 
 describe('isAtomicProjectMapPath', () => {
   test('只认 content/maps/ 下非 index 的 .json', () => {
