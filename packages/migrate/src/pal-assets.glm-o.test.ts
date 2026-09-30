@@ -387,7 +387,8 @@ function buildSoundCorpus(repo: string, options: SoundCorpusOptions = {}): void 
     if (chunk.isEmpty) continue
     if (chunk.index === options.dropWav) continue
     let bytes = wavBytes(chunk.index)
-    if (chunk.index === options.corruptWav) Buffer.from('JUNK').copy(bytes, 0)
+    // 只破坏 offset 8 的 WAVE 标签（保留 RIFF 魔数），使断言钉在 WAVE 轴上。
+    if (chunk.index === options.corruptWav) Buffer.from('WAVX').copy(bytes, 8)
     if (chunk.index === options.sizeDrift) bytes = Buffer.concat([bytes, Buffer.from('x')])
     writeFileSync(resolve(repo, 'data/extracted/sounds', `${chunk.index}.wav`), bytes)
     manifestFiles.push({ path: `sounds/${chunk.index}.wav`, size: bytes.byteLength })
