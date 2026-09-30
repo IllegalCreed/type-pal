@@ -1,10 +1,10 @@
 import type { ItemData } from '@type-pal/content'
-import type { SourceItem } from './migrate-content.js'
 import {
   applyPalGeneratedCraftMessages,
   applyPalGeneratedResourcePoolMessages,
 } from './pal-authored-overlays.js'
 import type { SourceStore } from './pal-derived-content.js'
+import type { SourceItem } from './pal-source-types.js'
 import type { SourceCmd } from './source-facts.js'
 
 export function buildLabelIndex(commands: readonly SourceCmd[]): Map<string, number> {

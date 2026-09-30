@@ -7,9 +7,9 @@ import {
   snapshotFileHash,
   snapshotFilePresent,
 } from './migration-baseline.js'
+import type { MigrationFileSet, MigrationJson } from './migration-files.js'
 import type { MergeConflict } from './migration-merge.js'
 import { jsonAbsent, jsonPresent, mergeManagedFile } from './migration-merge.js'
-import type { MigrationFileSet, MigrationJson } from './pal-migration.js'
 
 export interface MigrationPlan {
   target: Map<string, MigrationJson>

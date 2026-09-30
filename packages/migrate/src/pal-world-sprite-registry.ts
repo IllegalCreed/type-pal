@@ -1,11 +1,11 @@
 import type { SpriteDef } from '@type-pal/content'
 import { palSpriteAssetId } from '@type-pal/content'
+import type { SourceEventObject, SourceScene } from './pal-source-types.js'
 import {
   assertPalWorldSpriteLayoutOverlaySources,
   PAL_WORLD_SPRITE_LAYOUT_OVERLAYS,
   type PalWorldSpriteLayoutOverlay,
 } from './pal-world-sprite-layouts.js'
-import type { SourceEventObject, SourceScene } from './scene-migration-source-plan.js'
 import { sceneSlug } from './source-facts.js'
 
 /** PAL 迁移器保留的中性 SpriteDef id；玩法职责不得编码进资源身份。 */
@@ -35,11 +35,9 @@ export function createPalWorldSpriteRegistry(
   if (options.worldSpriteFrameCounts)
     assertPalWorldSpriteLayoutOverlaySources(options.worldSpriteFrameCounts)
   // ── 精灵布局注册表(预扫描 + 只读解析)──
-  // 0x65/0x1A 只携带资源号，没有布局信息。先扫描全部 scene 声明，再叠加逐项 PAL
-  // 证据；翻译脚本时只查表，绝不在引用路径上创建 directional/3 默认值。
+  // 先扫描全部 scene 声明，再叠加逐项 PAL 布局证据；引用路径不猜默认布局。
   type LayoutRegistration = {
     spriteNum: number
-    nSpriteFrames?: number
     id: string
     layout: SpriteDef['layout']
     source: 'scene' | 'pal-overlay'
@@ -56,15 +54,10 @@ export function createPalWorldSpriteRegistry(
         : 'static'
   const sceneLayout = (nSpriteFrames: number): SpriteDef['layout'] =>
     nSpriteFrames > 0 ? { kind: 'directional', framesPerDir: nSpriteFrames } : { kind: 'static' }
-  const roleSpriteAliasFor = (
-    spriteNum: number,
-    layout: SpriteDef['layout'] | undefined,
-    usage: 'script' | 'scene',
-  ): SpriteDef | undefined => {
+  const roleSpriteAliasFor = (spriteNum: number): SpriteDef | undefined => {
     const roleSprite = roleSpritesByNum.get(spriteNum)
     if (!roleSprite || roleSprite.asset !== palSpriteAssetId(spriteNum)) return undefined
-    if (layout && layoutKey(roleSprite.layout) !== layoutKey(layout)) return undefined
-    if (usage === 'scene' && !options.sceneSemanticSpriteIds?.has(roleSprite.id)) return undefined
+    if (!options.sceneSemanticSpriteIds?.has(roleSprite.id)) return undefined
     return roleSprite
   }
   type SceneLayoutEvidence = {
@@ -99,7 +92,6 @@ export function createPalWorldSpriteRegistry(
   if (overlaysBySprite.size !== PAL_WORLD_SPRITE_LAYOUT_OVERLAYS.length)
     throw new Error('PAL 大世界精灵布局 overlay 含重复 spriteNum')
 
-  const registrationsBySprite = new Map<number, Map<string, LayoutRegistration>>()
   const sceneRegistrationByKey = new Map<string, LayoutRegistration>()
   const allSpriteNums = new Set([...sceneEvidenceBySprite.keys(), ...overlaysBySprite.keys()])
   for (const spriteNum of [...allSpriteNums].sort((left, right) => left - right)) {
@@ -110,7 +102,7 @@ export function createPalWorldSpriteRegistry(
         left.nSpriteFrames - right.nSpriteFrames,
     )
     const overlay = overlaysBySprite.get(spriteNum)
-    const semanticRoleSprite = roleSpriteAliasFor(spriteNum, undefined, 'scene')
+    const semanticRoleSprite = roleSpriteAliasFor(spriteNum)
     const primaryLayout =
       semanticRoleSprite?.layout ??
       overlay?.layout ??
@@ -150,7 +142,6 @@ export function createPalWorldSpriteRegistry(
         ? layouts.get(key)!
         : {
             spriteNum,
-            nSpriteFrames: evidence.nSpriteFrames,
             id: matchesPrimary
               ? migratedSpriteId(spriteNum)
               : migratedSpriteId(spriteNum, evidence.nSpriteFrames),
@@ -162,7 +153,6 @@ export function createPalWorldSpriteRegistry(
       layouts.set(key, registration)
       sceneRegistrationByKey.set(`${spriteNum}:${evidence.nSpriteFrames}`, registration)
     }
-    registrationsBySprite.set(spriteNum, layouts)
     for (const registration of layouts.values())
       if (!registration.externalDefinition && registration.id !== migratedSpriteId(spriteNum))
         report.layoutConflicts.push(registration.id)
@@ -171,35 +161,27 @@ export function createPalWorldSpriteRegistry(
 
   const spriteDefs = new Map<string, SpriteDef>()
   const recordedLayoutEvidence = new Set<string>()
-  const ensureSpriteDefinitionIn = (
-    definitions: Map<string, SpriteDef>,
-    registration: LayoutRegistration,
-    recordEvidence: boolean,
-  ): string => {
+  const ensureSpriteDefinition = (registration: LayoutRegistration): string => {
     if (registration.externalDefinition) return registration.id
-    if (!definitions.has(registration.id))
-      definitions.set(registration.id, {
+    if (!spriteDefs.has(registration.id))
+      spriteDefs.set(registration.id, {
         id: registration.id,
         asset: palSpriteAssetId(registration.spriteNum),
         label: registration.label,
         layout: registration.layout,
       })
-    if (recordEvidence) {
-      const evidenceKey = `${registration.spriteNum}:${registration.id}:${registration.source}`
-      if (!recordedLayoutEvidence.has(evidenceKey)) {
-        recordedLayoutEvidence.add(evidenceKey)
-        report.layoutEvidence.push({
-          spriteNum: registration.spriteNum,
-          definitionId: registration.id,
-          source: registration.source,
-          evidence: registration.evidence,
-        })
-      }
+    const evidenceKey = `${registration.spriteNum}:${registration.id}:${registration.source}`
+    if (!recordedLayoutEvidence.has(evidenceKey)) {
+      recordedLayoutEvidence.add(evidenceKey)
+      report.layoutEvidence.push({
+        spriteNum: registration.spriteNum,
+        definitionId: registration.id,
+        source: registration.source,
+        evidence: registration.evidence,
+      })
     }
     return registration.id
   }
-  const ensureSpriteDefinition = (registration: LayoutRegistration): string =>
-    ensureSpriteDefinitionIn(spriteDefs, registration, true)
   const spriteRef = (entity: SourceEventObject): string => {
     const nSpriteFrames = entity.nSpriteFrames ?? 0
     const registration = sceneRegistrationByKey.get(`${entity.spriteNum}:${nSpriteFrames}`)
@@ -208,27 +190,5 @@ export function createPalWorldSpriteRegistry(
     return ensureSpriteDefinition(registration)
   }
 
-  /** 0x65 / 0x1A field=2 / 0x98 共用的只读旧号解析器。 */
-  const resolveSpriteIdForNum = (
-    num: number,
-    ensure: (registration: LayoutRegistration) => string,
-  ): string => {
-    const roleSprite = roleSpriteAliasFor(num, undefined, 'script')
-    if (roleSprite) return roleSprite.id
-    const layouts = registrationsBySprite.get(num)
-    if (!layouts?.size) throw new Error(`sprite ${num} 缺布局证据；禁止从脚本资源号猜布局`)
-    const overlay = overlaysBySprite.get(num)
-    if (overlay) {
-      const registration = layouts.get(layoutKey(overlay.layout))
-      if (!registration) throw new Error(`sprite ${num} 的 PAL overlay 未进入布局注册表`)
-      return ensure(registration)
-    }
-    if (layouts.size !== 1)
-      throw new Error(
-        `sprite ${num} 有 ${layouts.size} 种场景布局，脚本资源号无法消歧；需要逐项 PAL overlay`,
-      )
-    return ensure([...layouts.values()][0]!)
-  }
-
-  return { spriteDefs, spriteRef, resolveSpriteIdForNum, ensureSpriteDefinitionIn, report }
+  return { spriteDefs, spriteRef, report }
 }

@@ -1,11 +1,6 @@
 import { expect } from 'vitest'
-import type {
-  SourceCmd,
-  SourceItem,
-  SourceMagic,
-  SourceRole,
-  SourceSpell,
-} from '../migrate-content.js'
+import type { SourceItem, SourceRole } from '../pal-source-types.js'
+import type { SourceCmd } from '../source-facts.js'
 
 export type SourceInstruction = SourceCmd & { to?: string; itemId?: number; count?: number }
 
@@ -49,28 +44,6 @@ export function role(overrides: Partial<SourceRole> = {}): SourceRole {
     coverSound: 0,
     dyingSound: 0,
     deathSound: 0,
-    ...overrides,
-  }
-}
-
-export function magic(overrides: Partial<SourceMagic> = {}): SourceMagic {
-  return { id: 1, type: 'normal', costMP: 3, baseDamage: 12, elemental: 0, effect: 7, ...overrides }
-}
-
-export function spell(overrides: Partial<SourceSpell> = {}): SourceSpell {
-  return {
-    id: 400,
-    _name: '测试法术',
-    magicNumber: 1,
-    scriptOnSuccess: 0,
-    scriptOnUse: 0,
-    scriptDesc: 0,
-    flags: {
-      usableOutsideBattle: false,
-      usableInBattle: true,
-      usableToEnemy: true,
-      applyToAll: false,
-    },
     ...overrides,
   }
 }

@@ -12,7 +12,7 @@ import {
 } from '@type-pal/content'
 import { describe, expect, it } from 'vitest'
 import { loadPalBaseline } from './migration-baseline.js'
-import { loadPalMigrationSources } from './pal-migration-io.js'
+import { loadPalContentSupplySources } from './pal-content-supply-io.js'
 import {
   assertPalAlchemyBoundaryInvariant,
   assertPalStoreBoundaryInvariant,
@@ -56,7 +56,7 @@ function projectContent() {
 
 describe('PAL Store0 publication boundary', () => {
   it('protects the fixed generated seed while current author shops are not required to mirror it', () => {
-    const sources = loadPalMigrationSources(repo)
+    const sources = loadPalContentSupplySources(repo)
     const expected = {
       sourceStores: sources.stores,
       expectedBuyCalls: 29,

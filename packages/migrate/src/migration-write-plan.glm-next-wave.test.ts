@@ -9,9 +9,9 @@ import { tmpdir } from 'node:os'
 import { resolve } from 'node:path'
 import { afterEach, describe, expect, test } from 'vitest'
 import { serializeMigrationJson, sha256 } from './migration-baseline.js'
+import type { MigrationJson } from './migration-files.js'
 import type { ProjectMigrationSnapshot } from './migration-project-io.js'
 import { buildMigrationTransactionChanges } from './migration-write-plan.js'
-import type { MigrationJson } from './pal-migration.js'
 
 const roots: string[] = []
 

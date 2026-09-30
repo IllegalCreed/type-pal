@@ -43,13 +43,13 @@ import {
   validateWorldVariableRegistryV1,
 } from '@type-pal/content'
 import type { MigrationSnapshot } from './migration-baseline.js'
+import type { MigrationJson } from './migration-files.js'
 import type { TransactionPrecondition } from './migration-transaction.js'
 import { applyPalItemOverlays } from './pal-authored-overlays.js'
 import { buildPalContentSupply, type PalContentSupplySources } from './pal-content-supply.js'
 import { assertPalInPartyActorIdInvariant } from './pal-inparty-actor-id-invariant.js'
 import { applyPalItemMessageSources } from './pal-item-message-source.js'
 import { assertPalItemSchemeLabelInvariant } from './pal-item-scheme-labels.js'
-import type { MigrationJson } from './pal-migration.js'
 import { assertPalSceneIndexOwnership } from './pal-scene-index.js'
 import {
   assertPalAlchemyBoundaryInvariant,

@@ -1,15 +1,6 @@
-/** TEST-GLM-NEW-J-1 J01：pal-migration 纯声音身份解析。
- * 旧证：pal-assets 系列与 pal-assets.test.ts 只盖资源物化/退役/真源加载；
- * `palSoundAssetForSources` 在任何旧测试中零直接断言，且它有生产调用者
- * （buildPalMigration pal-migration.ts:392 唯一解析口径）。
- * `migrationScenes` 经 Codex r1 审核判 unreachable/未证（仓内无本新测之外的调用者，
- * 且正文缺失臂只是 `as unknown as SceneDef` 的现状而非合同），按停止线移除，不钉现状。
- * 本文件只测纯函数（synthetic catalog），不执行真实迁移。
- */
-
 import type { AssetCatalogV1, AssetRecordV1 } from '@type-pal/content'
 import { describe, expect, test } from 'vitest'
-import { palSoundAssetForSources } from './pal-migration.js'
+import { palSoundAssetForSources } from './pal-sound-assets.js'
 
 const HEX_64 = `${'a'.repeat(63)}b`
 

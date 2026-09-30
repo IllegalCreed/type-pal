@@ -1,35 +1,36 @@
-import type { MapIndexV1, SpriteDef, TilesetDef } from '@type-pal/content'
+import type { AssetCatalogV1, MapIndexV1, SpriteDef, TilesetDef } from '@type-pal/content'
 import { palTilesetAssetId } from '@type-pal/content'
+import type { MigrationJson } from './migration-files.js'
+import type { PalAssetMigrationReport, PalBinaryAssetSource } from './pal-assets.js'
 import { applyPalCasualtyOverlays } from './pal-casualty-scripts.js'
+import type { SourceStore } from './pal-derived-content.js'
 import { migratePalShops } from './pal-derived-content.js'
 import { buildPalItemMessageSources } from './pal-item-message-source.js'
 import { mapNameFromSourceNumber } from './pal-map-names.js'
-import type { MigrationJson, PalMigrationSources } from './pal-migration.js'
 import { mapActor, mapRoleSpritesByNumber, mapSprites } from './pal-role-mapping.js'
 import { buildPalSceneIndex } from './pal-scene-index.js'
 import { palSoundAssetForSources } from './pal-sound-assets.js'
+import type { SourceItem, SourceRole, SourceScene } from './pal-source-types.js'
 import { PAL_WORLD_SCENE_SEMANTIC_SPRITE_ALIAS_IDS } from './pal-world-sprite-layouts.js'
 import { createPalWorldSpriteRegistry } from './pal-world-sprite-registry.js'
+import type { SourceMapAuditEntry } from './project-map-audit.js'
 import { auditAndConvertSourceMaps } from './project-map-audit.js'
 import { mapIdFromSourceNumber, tilesetIdFromSourceNumber } from './project-map-converter.js'
+import type { SourceCmd } from './source-facts.js'
 import { sceneSlug } from './source-facts.js'
 
 /** current 供应只需资源、静态布局及两个窄脚本消费者；完整转换域不在合同中。 */
-export type PalContentSupplySources = Pick<
-  PalMigrationSources,
-  | 'scenes'
-  | 'tilemaps'
-  | 'objectPlayers'
-  | 'musicMidi'
-  | 'assetCatalog'
-  | 'binaryAssets'
-  | 'worldSpriteFrameCounts'
-  | 'assetReport'
-  | 'stores'
-  | 'allJson'
-  | 'allJsonPrettyBytes'
-> & {
-  migrate: Pick<PalMigrationSources['migrate'], 'roles' | 'levelUpExp' | 'items' | 'commands'>
+export interface PalContentSupplySources {
+  migrate: { roles: SourceRole[]; levelUpExp: number[]; items: SourceItem[]; commands: SourceCmd[] }
+  scenes: SourceScene[]
+  tilemaps: SourceMapAuditEntry[]
+  objectPlayers: Array<{ scriptOnFriendDeath: number; scriptOnDying: number }>
+  musicMidi: number[]
+  assetCatalog: AssetCatalogV1
+  binaryAssets: PalBinaryAssetSource[]
+  worldSpriteFrameCounts: number[]
+  assetReport: PalAssetMigrationReport
+  stores: SourceStore[]
 }
 
 /** 纯供应分区，场景仅给出真实静态引用证据，不产生作者正文或环境动作。 */

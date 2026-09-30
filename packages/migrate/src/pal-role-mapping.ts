@@ -1,7 +1,7 @@
 import type { ActorDef, SpriteDef } from '@type-pal/content'
 import { palFaceAssetId, palPortraitAssetId, palSpriteAssetId } from '@type-pal/content'
-import type { SourceRole } from './migrate-content.js'
 import { palPlayerBattleSpriteDefinitionId } from './pal-battle-sprites.js'
+import type { SourceRole } from './pal-source-types.js'
 import { resolveSoundAsset, type SoundAssetForNum } from './sound-migration.js'
 import { PAL_PLAYER_FACE_FRAME_BY_ROLE_ID, ROLE_SLUGS } from './source-facts.js'
 

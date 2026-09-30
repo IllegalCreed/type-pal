@@ -12,21 +12,11 @@ import {
 import { tmpdir } from 'node:os'
 import { dirname, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
-import { afterEach, describe, expect, it, vi } from 'vitest'
+import { afterEach, describe, expect, it } from 'vitest'
 import { loadPalBaseline } from './migration-baseline.js'
 import { buildPalContentSupply } from './pal-content-supply.js'
 import { loadPalContentSupplySources } from './pal-content-supply-io.js'
 import { buildPalCurrentPublication } from './pal-current-publication.js'
-
-vi.mock('./pal-migration.js', () => {
-  throw new Error('full migration loaded')
-})
-vi.mock('./migrate-content.js', () => {
-  throw new Error('full translator loaded')
-})
-vi.mock('./pal-migration-io.js', () => {
-  throw new Error('full source loader loaded')
-})
 
 const repo = resolve(dirname(fileURLToPath(import.meta.url)), '../../..')
 const roots: string[] = []
@@ -122,12 +112,17 @@ describe('PAL supply input boundary', () => {
       const forbidden = new Set(['migrate-content.ts', 'pal-migration.ts', 'pal-migration-io.ts', 'translate-events.ts', 'migrate-enemies.ts', 'script-graph.ts']);
       const loaded = [];
       registerHooks({ resolve(specifier, context, nextResolve) {
+        const requested = specifier.split('/').at(-1).replace(/\\.js$/, '.ts');
+        if (forbidden.has(requested)) throw new Error('forbidden runtime dependency: ' + specifier);
         const result = nextResolve(specifier, context);
         const name = result.url.split('/').at(-1);
         if (forbidden.has(name)) throw new Error('forbidden runtime dependency: ' + result.url);
         if (result.url.includes('/packages/migrate/')) loaded.push(name);
         return result;
       }});
+      let rejected = false;
+      try { await import('./packages/migrate/src/migrate-content.ts'); } catch (error) { rejected = error.message.includes('forbidden runtime dependency'); }
+      if (!rejected) throw new Error('native forbidden-module counter did not reject');
       const { loadPalContentSupplySources } = await import('./packages/migrate/src/pal-content-supply-io.ts');
       const { buildPalCurrentPublication } = await import('./packages/migrate/src/pal-current-publication.ts');
       const { loadPalBaseline } = await import('./packages/migrate/src/migration-baseline.ts');

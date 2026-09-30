@@ -1,16 +1,8 @@
-// @vitest-environment node
-/**
- * TEST-GLM-LARGE-WAVE-4 D06（pal-migration-io 对）：loadPalMigrationSources 源树守卫。
- * 去重：本文件此前零覆盖。loadPalMigrationSources 是真实 data/extracted 树的显式读取器，
- * 带四道 fail-loud 守卫（场景总数、s294 空 stub、非正 mapNum、地图总数）。本文件在
- * mkdtemp 合成树上逐轴触发守卫，并证明守卫先于资产装载执行。不读真实 PAL 工程，
- * 合成树不冒充原版提取源。
- */
 import { mkdirSync, mkdtempSync, rmSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { afterEach, beforeEach, describe, expect, test } from 'vitest'
-import { loadPalMigrationSources } from './pal-migration-io.js'
+import { loadPalContentSupplySources } from './pal-content-supply-io.js'
 
 let repo = ''
 
@@ -46,18 +38,8 @@ function buildTree(
   write('data/extracted/data/player-roles.json', { roles: [] })
   for (const rel of [
     'data/extracted/data/level-up-exp.json',
-    'data/extracted/data/level-up-magic.json',
-    'data/extracted/data/spells.json',
-    'data/extracted/data/magic.json',
-    'data/extracted/data/object-magics.json',
     'data/extracted/data/items.json',
-    'data/extracted/data/enemies.json',
-    'data/extracted/data/enemy-objects.json',
-    'data/extracted/data/enemy-teams.json',
     'data/extracted/data/object-players.json',
-    'data/extracted/data/battle-effect-index.json',
-    'data/extracted/data/battle-fields.json',
-    'data/extracted/data/object-poisons.json',
     'data/extracted/data/stores.json',
   ])
     write(rel, [])
@@ -81,14 +63,14 @@ function buildTree(
 
 function loadError(): Error {
   try {
-    loadPalMigrationSources(repo)
+    loadPalContentSupplySources(repo)
   } catch (error) {
     return error instanceof Error ? error : new Error(String(error))
   }
-  throw new Error('loadPalMigrationSources unexpectedly succeeded')
+  throw new Error('loadPalContentSupplySources unexpectedly succeeded')
 }
 
-describe('loadPalMigrationSources source-tree guards', () => {
+describe('loadPalContentSupplySources source-tree guards', () => {
   test('场景源数量偏离 295 时停止迁移并给出精确计数', () => {
     buildTree({ scenes: SCENES - 1 })
     expect(loadError().message).toBe('PAL 场景源期望 295 个，收到 294')

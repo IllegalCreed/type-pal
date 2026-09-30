@@ -1,53 +1,9 @@
-import { validateActors, validateItems, validateSprites } from '@type-pal/content'
+import { validateActors, validateSprites } from '@type-pal/content'
 import { describe, expect, it } from 'vitest'
-import {
-  item,
-  raw,
-  role,
-  type SourceInstruction,
-  unchanged,
-} from './__tests__/pure-migration-fixtures.js'
-import {
-  buildLabelIndex,
-  mapActor,
-  mapEquipableBy,
-  mapItemsTable,
-  mapLevelUp,
-  mapRoleSpritesByNumber,
-  mapSprites,
-  walkDesc,
-} from './migrate-content.js'
+import { role, unchanged } from './__tests__/pure-migration-fixtures.js'
+import { mapActor, mapRoleSpritesByNumber, mapSprites } from './pal-role-mapping.js'
 
-describe('self-contained migration records', () => {
-  it('description markers skip without skipping text; blocked suffix preserves only the preceding lines', () => {
-    const commands: SourceInstruction[] = [
-      raw(167, [], 'L_10'),
-      { label: 'L_11' },
-      { op: 'showDialog', text: '' },
-      { op: 'showDialog', text: ' first ' },
-      raw(99),
-      { op: 'showDialog', text: 'not consumed' },
-      { op: 'end' },
-    ]
-    const result = unchanged(commands, (c) => walkDesc(c, buildLabelIndex(c), 10))
-    expect(result).toEqual({ lines: [' first '], blockedAt: { op: 'raw', opcode: 99 } })
-  })
-
-  it('description distinguishes zero/missing entry, explicit end and exhausted final text', () => {
-    const commands = [
-      { op: 'showDialog', label: 'L_10', text: 'hello' },
-      { op: 'end' },
-      { op: 'showDialog', label: 'L_20', text: 'tail' },
-    ]
-    unchanged(commands, (c) => {
-      const labels = buildLabelIndex(c)
-      expect(walkDesc(c, labels, 0)).toEqual({ lines: [] })
-      expect(walkDesc(c, labels, 99)).toEqual({ lines: [] })
-      expect(walkDesc(c, labels, 10)).toEqual({ lines: ['hello'] })
-      expect(walkDesc(c, labels, 20)).toEqual({ lines: ['tail'] })
-    })
-  })
-
+describe('self-contained PAL role records', () => {
   it('actor copies experience/equipment/magic; absence and resolver omissions do not synthesize resources', () => {
     const source = role({
       avatar: 0,
@@ -155,56 +111,5 @@ describe('self-contained migration records', () => {
     expect(() => mapRoleSpritesByNumber(sharedRoles, mapSprites(sharedRoles))).toThrow(
       '旧精灵号 2 同时对应 li-xiaoyao 与 wu-hou',
     )
-  })
-
-  it('level-up ragged cells preserve role columns and empty/unknown columns do not become actors', () => {
-    const rows = [
-      [
-        { level: 0, magic: 5 },
-        { level: 1, magic: 0 },
-        { level: 2, magic: 8 },
-        { level: 3, magic: 9 },
-        { level: 0, magic: 0 },
-        { level: 0, magic: 0 },
-        { level: 1, magic: 50 },
-      ],
-      [{ level: 4, magic: 10 }],
-    ]
-    expect(unchanged(rows, mapLevelUp)).toEqual({
-      'li-xiaoyao': [{ level: 4, skillId: '10' }],
-      'lin-yueru': [{ level: 2, skillId: '8' }],
-      'wu-hou': [{ level: 3, skillId: '9' }],
-    })
-    expect(mapLevelUp([])).toEqual({})
-    expect(mapEquipableBy([true, false, false, true, true, false, true])).toEqual([
-      'li-xiaoyao',
-      'wu-hou',
-      'anu',
-    ])
-  })
-
-  it('item records preserve zero icon omission, odd-price flooring, false sellability and descriptor identity', () => {
-    const sources = [item(), item({ id: 21, bitmap: 3, price: 0, scriptDesc: 11 })]
-    const calls: number[] = []
-    const result = unchanged(sources, (v) =>
-      mapItemsTable(v, (ip) => {
-        calls.push(ip)
-        return [`desc:${ip}`]
-      }),
-    )
-    expect(calls).toEqual([10, 11])
-    expect(result).toEqual([
-      { id: '20', name: '测试物品', desc: ['desc:10'], buyPrice: 9, sellPrice: 4, sellable: false },
-      {
-        id: '21',
-        name: '测试物品',
-        desc: ['desc:11'],
-        buyPrice: 0,
-        sellPrice: 0,
-        sellable: false,
-        icon: 'item-icon.pal.003',
-      },
-    ])
-    expect(() => validateItems(result)).not.toThrow()
   })
 })

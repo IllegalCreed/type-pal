@@ -4,7 +4,13 @@ import { dirname, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import type { ActorDef, ItemData, SpriteDef } from '@type-pal/content'
 import { beforeAll, describe, expect, it } from 'vitest'
-import { baselineWrites, loadPalBaseline, serializeMigrationJson } from './migration-baseline.js'
+import {
+  baselineWrites,
+  loadPalBaseline,
+  serializeMigrationJson,
+  sha256,
+  snapshotFileHash,
+} from './migration-baseline.js'
 import { createMigrationPlan, snapshotOf } from './migration-plan.js'
 import { loadProjectMigrationSnapshot } from './migration-project-io.js'
 import { commitMigrationTransaction, recoverMigrationTransaction } from './migration-transaction.js'
@@ -12,41 +18,79 @@ import { buildMigrationTransactionChanges } from './migration-write-plan.js'
 import { buildPalContentSupply } from './pal-content-supply.js'
 import { loadPalContentSupplySources } from './pal-content-supply-io.js'
 import { buildPalCurrentPublication } from './pal-current-publication.js'
-import { buildPalMigration } from './pal-migration.js'
-import { loadPalMigrationSources } from './pal-migration-io.js'
+import { PAL_WORLD_SCENE_SEMANTIC_SPRITE_ALIASES } from './pal-world-sprite-layouts.js'
 
 const repo = resolve(dirname(fileURLToPath(import.meta.url)), '../../..')
 let sources: ReturnType<typeof loadPalContentSupplySources>
 let supply: ReturnType<typeof buildPalContentSupply>
-let full: ReturnType<typeof buildPalMigration>
 
 beforeAll(() => {
   sources = loadPalContentSupplySources(repo)
-  full = buildPalMigration(loadPalMigrationSources(repo))
   supply = buildPalContentSupply(sources)
 })
 
 describe('PAL narrow resource supply', () => {
-  it('matches every old required file, map report, raw scene id and role-domain definition', () => {
+  it('matches the current required resource contract, raw scene ids and role-domain definitions', () => {
+    const baseline = loadPalBaseline(repo)!
     expect(supply.files.size).toBe(228)
-    expect(supply.mapReport).toEqual(full.report.maps)
-    for (const [path, value] of supply.files) expect(value, path).toEqual(full.files.get(path))
-    expect(supply.sceneIndex).toEqual(full.files.get('content/scenes/index.json'))
-    const fullSprites = full.files.get('content/sprites.json') as unknown as SpriteDef[]
+    expect(supply.mapReport).toMatchObject({
+      mapCount: 223,
+      rawRoundTripMismatchCount: 6,
+      semanticRoundTripMismatchCount: 0,
+    })
+    const roleIds = ['li-xiaoyao', 'zhao-linger', 'lin-yueru', 'wu-hou', 'anu', 'gai-luojiao']
+    for (const [path, value] of supply.files) {
+      // Atomic maps stay hash-only in baseline; canonical serialization omits default source grids.
+      if (/^content\/maps\/map-\d+\.json$/.test(path)) {
+        expect(sha256(serializeMigrationJson(value, path)), path).toBe(
+          snapshotFileHash(baseline, path),
+        )
+        continue
+      }
+      const expected =
+        path === 'content/actors.json'
+          ? (baseline.files.get(path) as unknown as ActorDef[]).filter(({ id }) =>
+              roleIds.includes(id),
+            )
+          : baseline.files.get(path)
+      expect(value, path).toEqual(expected)
+    }
+    expect(supply.sceneIndex).toEqual(baseline.files.get('content/scenes/index.json'))
+    const fullSprites = baseline.files.get('content/sprites.json') as unknown as SpriteDef[]
     const assets = new Set(supply.roleDefinitions.map(({ asset }) => asset))
     expect(supply.roleDefinitions).toEqual(fullSprites.filter(({ asset }) => assets.has(asset)))
     expect(supply.roleDefinitions).toHaveLength(6)
+    expect(supply.scenes).toHaveLength(294)
+    expect(supply.scenes.map(({ id }) => id)).toEqual(
+      Array.from({ length: 294 }, (_, id) => `s${String(id).padStart(3, '0')}`),
+    )
+    const sourceScenes = new Map(sources.scenes.map((scene) => [scene.sceneId, scene]))
     for (const scene of supply.scenes) {
-      const generated = full.files.get(`content/scenes/${scene.id}.json`) as unknown as {
-        entities: { id: string; sprite?: string }[]
+      const raw = sourceScenes.get(Number(scene.id.slice(1)))!
+      const rawEntities = raw.eventObjects.filter(({ spriteNum }) => spriteNum > 0)
+      expect(
+        scene.entities.map(({ id }) => id),
+        scene.id,
+      ).toEqual(rawEntities.map(({ id }) => `e${id}`))
+      for (const [index, entity] of scene.entities.entries()) {
+        expect(entity).not.toHaveProperty('actor')
+        if (!roleIds.includes(entity.sprite)) {
+          const source = rawEntities[index]!
+          expect(entity.sprite, `${scene.id}/${entity.id}`).toMatch(
+            new RegExp(`^sprite-${source.spriteNum}(-f${source.nSpriteFrames ?? 0})?$`),
+          )
+        }
       }
-      expect(scene.entities).toEqual(
-        generated.entities
-          .filter(({ sprite }) => sprite !== undefined)
-          .map(({ id, sprite }) => ({ id, sprite })),
-      )
     }
-    const items = full.files.get('content/items.json') as unknown as ItemData[]
+    for (const alias of PAL_WORLD_SCENE_SEMANTIC_SPRITE_ALIASES) {
+      const actual = supply.scenes.flatMap((scene) =>
+        scene.entities
+          .filter((entity) => entity.sprite === alias.semanticId)
+          .map((entity) => ({ sceneId: scene.id, entityId: entity.id })),
+      )
+      expect(actual, alias.semanticId).toEqual(alias.references)
+    }
+    const items = baseline.files.get('content/items.json') as unknown as ItemData[]
     for (const source of supply.itemMessages)
       expect(source.effect).toEqual(items.find(({ id }) => id === source.id)!.use!.effects[0])
     expect(supply.files.has('content/skills.json')).toBe(false)

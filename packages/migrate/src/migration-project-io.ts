@@ -3,7 +3,7 @@ import { isAbsolute, relative, resolve, sep } from 'node:path'
 import { validateSceneIndex } from '@type-pal/content'
 import type { MigrationSnapshot } from './migration-baseline.js'
 import { sha256 } from './migration-baseline.js'
-import type { MigrationJson } from './pal-migration.js'
+import type { MigrationJson } from './migration-files.js'
 
 export const PAL_PROJECT_REL = 'projects/pal'
 

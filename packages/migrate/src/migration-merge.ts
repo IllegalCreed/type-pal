@@ -1,6 +1,6 @@
 import { isDeepStrictEqual } from 'node:util'
 import { validateAssetCatalog } from '@type-pal/content'
-import type { MigrationJson } from './pal-migration.js'
+import type { MigrationJson } from './migration-files.js'
 
 export interface VersionedJson {
   present: boolean

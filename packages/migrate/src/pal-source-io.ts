@@ -3,9 +3,10 @@ import { resolve } from 'node:path'
 import type { Tilemap } from '@type-pal/shared'
 import { loadPalAssets } from './pal-assets.js'
 import type { PalContentSupplySources } from './pal-content-supply.js'
-import type { SourceScene } from './scene-migration-source-plan.js'
+import type { SourceScene } from './pal-source-types.js'
+import type { SourceCmd } from './source-facts.js'
 
-export function readPalSourceJson<T>(repo: string, rel: string): T {
+function readPalSourceJson<T>(repo: string, rel: string): T {
   return JSON.parse(readFileSync(resolve(repo, rel), 'utf8')) as T
 }
 
@@ -13,7 +14,7 @@ export function readPalSourceJson<T>(repo: string, rel: string): T {
 export function loadPalSourcePartitions(repo: string): PalContentSupplySources {
   const allPath = resolve(repo, 'data/extracted/events/all.json')
   const allText = readFileSync(allPath, 'utf8')
-  const allJson = JSON.parse(allText) as PalContentSupplySources['allJson']
+  const allJson = JSON.parse(allText) as { segments: { commands: SourceCmd[] }[] }
   const migrate: PalContentSupplySources['migrate'] = {
     roles: readPalSourceJson<{ roles: PalContentSupplySources['migrate']['roles'] }>(
       repo,
@@ -66,8 +67,6 @@ export function loadPalSourcePartitions(repo: string): PalContentSupplySources {
   )
   return {
     migrate,
-    allJson,
-    allJsonPrettyBytes: Buffer.byteLength(allText),
     scenes: scenes.slice(0, 294),
     tilemaps,
     objectPlayers: readPalSourceJson(repo, 'data/extracted/data/object-players.json'),

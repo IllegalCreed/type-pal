@@ -1,6 +1,6 @@
 import { describe, expect, test } from 'vitest'
+import type { MigrationJson } from './migration-files.js'
 import { jsonAbsent, jsonPresent, mergeManagedFile } from './migration-merge.js'
-import type { MigrationJson } from './pal-migration.js'
 
 describe('mergeManagedFile', () => {
   test('执行 primitive 与对象递归三方真值表', () => {
