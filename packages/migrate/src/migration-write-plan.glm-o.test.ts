@@ -64,6 +64,8 @@ describe('O03 buildMigrationTransactionChanges：工程写入与规划快照门'
         ['content/actors.json', [{ id: 'a' }]],
         ['content/scenes/index.json', { version: 1, scenes: [] }],
         [MAP, REAL_MAP],
+        // 字母序在 scenes/index 之后：排序必须由显式 order 权重而非字典序决定。
+        ['content/zz-sidecar.json', { z: 1 }],
       ]),
       deletes: [],
     }
@@ -74,6 +76,7 @@ describe('O03 buildMigrationTransactionChanges：工程写入与规划快照门'
         'content/actors.json': [{ id: 'a' }],
         'content/scenes/index.json': { version: 1, scenes: [] },
         [MAP]: REAL_MAP,
+        'content/zz-sidecar.json': { z: 1 },
       }),
     }
     const changes = buildMigrationTransactionChanges(args)
@@ -81,6 +84,7 @@ describe('O03 buildMigrationTransactionChanges：工程写入与规划快照门'
       .filter(({ scope }) => scope === 'project')
       .map(({ target }) => target)
     expect(projectPaths.at(-1)).toBe('projects/pal/content/scenes/index.json')
+    expect(projectPaths.at(-2)).toBe('projects/pal/content/zz-sidecar.json')
     const mapChange = changes.find(({ target }) => target === `projects/pal/${MAP}`)!
     expect(mapChange.content).toBe(serializeMigrationJson(REAL_MAP, MAP))
   })
@@ -280,7 +284,7 @@ describe('O03 事务与 journal：symlink/绝对路径/恢复次序（mkdtemp）
     symlinkSync(outside, resolve(repo, 'projects/pal/content/link.json'))
     expect(() =>
       commitMigrationTransaction(repo, [writeOp('projects/pal/content/link.json', 'x')]),
-    ).toThrow(/link\.json/)
+    ).toThrow('不得经过符号链接: projects/pal/content/link.json')
     expect(readFileSync(outside, 'utf8')).toBe('victim')
   })
 
