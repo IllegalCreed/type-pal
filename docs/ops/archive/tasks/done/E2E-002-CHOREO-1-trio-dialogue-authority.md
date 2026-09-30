@@ -1,6 +1,6 @@
 # E2E-002-CHOREO-1 — 三苗人对白期间的显式接管
 
-Status: review
+Status: done
 Phase: phase2
 Capability: E2E-R4 / 002
 Coding Owner: Codex Root
@@ -60,10 +60,10 @@ Branch: codex/e2e-002-r1
 
 ## 上下文锚点
 
-- [AGENTS](../../../AGENTS.md)、[CLAUDE](../../../CLAUDE.md)、[二阶段铁律](../../phase2/READ-FIRST.md)
+- [AGENTS](../../../../../AGENTS.md)、[CLAUDE](../../../../../CLAUDE.md)、[二阶段铁律](../../../../phase2/READ-FIRST.md)
   6/8/10：一阶段是演出参考，显式编排；canonical作者正文不回同步退役转换核。
-- [脚本系统](../../phase2/specs/script-system.md)、[一阶段知识测绘](../../phase2/reference/phase1-knowledge-harvest.md) E6/E7。
-- [002回执](../../testing/e2e-002.md)、[母卡](E2E-R4-1-route-and-checkpoint-foundation.md)、[工具卡](E2E-002-1-inn-route-and-trio.md)。
+- [脚本系统](../../../../phase2/specs/script-system.md)、[一阶段知识测绘](../../../../phase2/reference/phase1-knowledge-harvest.md) E6/E7。
+- [002回执](../../../../testing/e2e-002.md)、[母卡](../../../tasks/E2E-R4-1-route-and-checkpoint-foundation.md)、[工具卡](E2E-002-1-inn-route-and-trio.md)。
 - `packages/content/src/author-script-core.ts:192–193`既有take/release；`main.ts:2296/2299`宿主；
   `motion-runtime-coordinator.ts:64–77`局部权威；`main.ts:4206/4251`正常与取消归还。
 - 不得引入：全局对白冻结NPC、原始opcode依赖、估时等待、旧版本兼容、内容生成器复活。
@@ -95,8 +95,8 @@ Branch: codex/e2e-002-r1
   与Root核读一致；贡献者不写作者文件，交付后另只读复核新增命令。
 - Root design agree / build allowed（2026-09-30）：现有targeted authority足够表达，
   单一Owner/窄白名单明确；贡献者确认无active浏览器，内容冻结后重新运行。
-- 实现/单测：pending。
-- 非作者复核、冻结E2E、全仓门：pending；done blocked。
+- 实现/单测与非作者复核：已通过，冻结及历史记录见后文。
+- 最终冻结E2E与完整全仓门：已通过，Root accept / done allowed。
 - 产品验收：已定UX修复，不要求用户补做Agent测试；无新形态取舍。
 - 2026-10-01实现冻结`4e340602`；非作者独立核12个命令仅局部take/release三人，真实作者链回归通过。
   `b83faa50`当前SAVE9/content21真001→002实跑：28步正常路线，20行/0→500及起步/两段停读/短续走/入房
@@ -106,6 +106,14 @@ Branch: codex/e2e-002-r1
   第二轮真实001→002路线/20正文/500文/局部停读与续走再次通过；实际恢复提交点全World严格一致。
   002整体仍failed，独立门frame1→0画面问题见[E2E-002-DOOR-1](E2E-002-DOOR-1-persistent-open-presentation.md)。
   局部编排修复accept；最终画面条件未闭合，保留review，不把源码/剧情局部通过等同002通过。
+- 2026-10-01最终RF002 `16-31-19-969Z` passed：真实当前001正常28步，20正文/500文、
+  32/53停读3045/3024ms三人可见且同位置，赏银后短等待续走、末句关闭后实际进房隐藏全部通过。
+  原始起步/路线/速度不变，三人auto cursor completed；新上下文实际提交点全量World与Canvas均严格同原档。
+  Root直接核49源hash/轨迹并看首领、奖励、末句及恢复两图。无全局NPC冻结/parallel/join；
+  第一阶段已核UX与最终RF偏序一致。最后完整全仓门随后通过。
+- 2026-10-01完整`pnpm check`冻结3feb5a77 exit0，10655包测试全绿、E2E工具57项；
+  lint2704文件0 error/warning/info，日志`build/e2e/door-20261001/check-final-v2.log`。
+  Root最终accept并done；原counter/failed轮保留。无新产品取舍、无追加用户技术复验。
 
 ## 交接日志
 
@@ -114,4 +122,4 @@ Branch: codex/e2e-002-r1
 
 ## 下一位Agent提示词
 
-无下一位Agent提示词。作者接管实现已复核并集成；等待独立门画面问题闭合后的002最终验收。
+无下一位Agent提示词。局部编排修复与最终002已收口，不追加编排能力；母卡继续后续片段。

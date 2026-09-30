@@ -9,10 +9,6 @@
 | 任务 | 顶部状态 | 说明 |
 |---|---|---|
 | [ARCH-SUPPORT-GLM-1 — 八组并行准备取证](ARCH-SUPPORT-GLM-1-eight-audit-packages.md) | draft | 以任务卡当前准入与看板分工为准。 |
-| [E2E-002-1 — 正常出房路线、e56 演出与脚本编排审查](E2E-002-1-inn-route-and-trio.md) | review | 以任务卡当前准入与看板分工为准。 |
-| [E2E-002-CHOREO-1 — 三苗人对白期间的显式接管](E2E-002-CHOREO-1-trio-dialogue-authority.md) | review | 以任务卡当前准入与看板分工为准。 |
-| [E2E-002-DOOR-1 — 开门呈现的持久语义](E2E-002-DOOR-1-persistent-open-presentation.md) | build | 以任务卡当前准入与看板分工为准。 |
-| [E2E-002-SAVE-1 — 已完成 auto 的保存安全点](E2E-002-SAVE-1-completed-auto-safe-point.md) | review | 以任务卡当前准入与看板分工为准。 |
 | [E2E-R4-1 — 路线驱动与合法检查点薄基线](E2E-R4-1-route-and-checkpoint-foundation.md) | build | 以任务卡当前准入与看板分工为准。 |
 | [EDITOR-MAP-SELECTION-NOTICE-1 — Esc 清选后的状态通知语义](EDITOR-MAP-SELECTION-NOTICE-1.md) | draft | 以任务卡当前准入与看板分工为准。 |
 | [EDITOR-SCENE-FACING-1 — 切场景指令无法清除显式朝向](EDITOR-SCENE-FACING-1-clear-override.md) | draft | 以任务卡当前准入与看板分工为准。 |
@@ -84,6 +80,10 @@
 | [E18-1 - 编辑器角色战斗字段（coveredBy / casualty / cooperativeMagic）](../archive/tasks/done/E18-1-editor-actor-battle-fields.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [E2 - 巡逻模板(轻量卡)](../archive/tasks/done/E2-patrol-templates.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [E2E-001-CLOSE-1 — 开场完整对白与演出角色验证](../archive/tasks/done/E2E-001-CLOSE-1-dialogue-and-actors.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [E2E-002-1 — 正常出房路线、e56 演出与脚本编排审查](../archive/tasks/done/E2E-002-1-inn-route-and-trio.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [E2E-002-CHOREO-1 — 三苗人对白期间的显式接管](../archive/tasks/done/E2E-002-CHOREO-1-trio-dialogue-authority.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [E2E-002-DOOR-1 — 开门呈现的持久语义](../archive/tasks/done/E2E-002-DOOR-1-persistent-open-presentation.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [E2E-002-SAVE-1 — 已完成 auto 的保存安全点](../archive/tasks/done/E2E-002-SAVE-1-completed-auto-safe-point.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [E2E-1 - 空白工程可玩性:烟测缝隙全清](../archive/tasks/done/E2E-1-blank-project-playable.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [E6-1 - 实体位置控制权运行态检视与调试面板重开](../archive/tasks/done/E6-1-runtime-authority-inspector.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [E9 - 商店/当铺(openShop 全链:UI + 数据 + 结算)](../archive/tasks/done/E9-shop-pawnshop.md) | done | 完成证据、历史签字与交接见原卡。 |

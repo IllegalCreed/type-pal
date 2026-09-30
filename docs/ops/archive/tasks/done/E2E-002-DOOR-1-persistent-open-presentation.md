@@ -1,13 +1,13 @@
 # E2E-002-DOOR-1 — 开门呈现的持久语义
 
-Status: build
+Status: done
 Phase: phase2
 Capability: E2E-R4 / 002 / X1
 Coding Owner: Codex Root
 Generation Owner: N/A
-Reviewer: Codex（独立验收）
+Reviewer: e2e_002_runner（非作者只读复核） / Codex（冻结E2E独立验收）
 Visual Verification Owner: Codex
-Visual Verification Timing: e2e-deferred
+Visual Verification Timing: e2e-consolidated
 Contributor: e2e_002_runner（只读独立前提/压力审）
 Branch: codex/e2e-002-r1
 
@@ -61,10 +61,10 @@ Branch: codex/e2e-002-r1
 - 代表s003/e73/e74；002既定结束画面恢复要求，不新增产品能力取舍。
 - 如果需要新增通用schema/save能力或改变其它frame调用语义，另核风险/范围及用户裁决。
 
-## 上下文锚点与待核设计
+## 上下文锚点与已核设计
 
-- [二阶段铁律](../../phase2/READ-FIRST.md)、[脚本系统](../../phase2/specs/script-system.md)、
-  [存档系统](../../phase2/specs/save-system.md)、[002回执](../../testing/e2e-002.md)、
+- [二阶段铁律](../../../../phase2/READ-FIRST.md)、[脚本系统](../../../../phase2/specs/script-system.md)、
+  [存档系统](../../../../phase2/specs/save-system.md)、[002回执](../../../../testing/e2e-002.md)、
   [工具卡](E2E-002-1-inn-route-and-trio.md)。
 - `author-script-core.ts:370` page animation与`sprite.ts:51` SpriteActionBinding；
   `projects/pal/content/sprites.json` sprite53/54为static、尚无open pose。
@@ -109,7 +109,7 @@ Branch: codex/e2e-002-r1
 
 ## 下一位Agent提示词
 
-无下一位Agent提示词。只读前提审查已交付，Root继续质量门与冻结后的正式002验收；不需要用户转发。
+无下一位Agent提示词。非作者复核、冻结正式002与完整质量门通过并收口，不需要用户转发。
 
 ## 实现与开发期验证
 
@@ -141,3 +141,10 @@ Branch: codex/e2e-002-r1
 - 窄同步`editor-reference-green-v1.log` 1/1通过；`editor-typecheck.log`零诊断，
   `lint-v2.log`2704文件零诊断、`docs-v2.log`零问题。正文/runtime/观测工具未再改动，
   正式002仍锚定4fc15826；完整质量门另重跑，不用窄门替代。
+- 3feb5a77非作者独立只读accept：两门新页直接核收集器，每页1 action＋1 trigger binding，
+  两action各加1父sprite alias，精确+4 rows/+6 targetEdgeIds；删除阻挡4374/旧collector全量parity、
+  worker 2500000字节上限与完整snapshot相等均未放宽。未改文件/服务/浏览器，无counter。
+- 完整`pnpm check`冻结3feb5a77 exit0：10655包测试全绿（Reforge2031含新增7项）、E2E工具57项，
+  docs/coverage/quality工具门通过；lint2704文件0 error/warning/info。
+  日志`build/e2e/door-20261001/check-final-v2.log`，历史红例/首次census失败原样保留。
+  Root最终accept / done allowed；作者意图修复、正式World/Canvas恢复闭合，不改schema/SAVE9或普通瞬态Map。

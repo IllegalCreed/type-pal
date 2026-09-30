@@ -102,14 +102,15 @@ G/I 的功能视觉与 console 后续补验也已闭合，不把这些卡的完�
 
 | ID | 任务 | 状态 | 负责人/下一步 | 一句话备注 |
 |---|---|---|---|---|
-| E2E-R4-1 | [路线驱动与检查点薄基线](tasks/E2E-R4-1-route-and-checkpoint-foundation.md) | build | Codex / 002流程与脚本编排审查 | 001 verify已收口；002继承真档，同步核编排合理性与改进方案，录制音轨另排 |
-| E2E-002-1 | [客栈正常路线与e56核心](tasks/E2E-002-1-inn-route-and-trio.md) | review | Codex / 门画面修复后最终验收 | 工具56项与严格提交点已验；route/core绿，读回门画面failed，002不收口 |
-| E2E-002-CHOREO-1 | [三苗人对白局部接管](tasks/E2E-002-CHOREO-1-trio-dialogue-authority.md) | review | Codex / 002最终画面验收 | 局部接管已集成、真实停读/续走绿；不恢复全局对白冻结 |
-| E2E-002-SAVE-1 | [完成auto的保存安全点](tasks/E2E-002-SAVE-1-completed-auto-safe-point.md) | review | Codex / 002最终恢复验收 | v2已集成；真实13ms保存及全量提交World一致，独立门画面问题未闭合 |
-| E2E-002-DOOR-1 | [开门呈现的持久语义](tasks/E2E-002-DOOR-1-persistent-open-presentation.md) | build | Codex / 冻结后正式002验收 | 前提独立核齐，现有open页/单帧动作；主壳与邻接53项绿，不改SAVE9/瞬态Map |
+| E2E-R4-1 | [路线驱动与检查点薄基线](tasks/E2E-R4-1-route-and-checkpoint-foundation.md) | build | Codex / 核003边界与正常路线 | 001/002 verify已收口；双引擎真实001→002链与编排回执通过，后续/录制音轨另排 |
 | SCRIPT-COMPLETE-1 | [完成语义与空结束步骤](tasks/SCRIPT-COMPLETE-1-explicit-flow-completion.md) | review | 用户检视 / Codex收口 | 443纯结束fold已集成；完整10648项与静态零诊断，6012更新且保持运行 |
 | EDITOR-SCENE-FACING-1 | [切场景朝向清除](tasks/EDITOR-SCENE-FACING-1-clear-override.md) | draft | Codex / 后续窄修 | 保持选项仍提交旧方向；真实红诊断+单点oracle已证 |
 | ARCH-SUPPORT-GLM-1 | [八组并行架构/视觉准备](tasks/ARCH-SUPPORT-GLM-1-eight-audit-packages.md) | draft | Codex / 后续归属与收口 | 58cdf938材料accept，counter清零；文档已合入，按用户要求未标done/未开产品门 |
+
+2026-10-01 [002最终回执](../testing/e2e-002.md)已独立accept，四张002子卡done归档：
+正常出房至e56、20正文/500文/三人实际进房、真实002新上下文全量World与Canvas恢复均通过。
+落实局部对白接管与持久open页，保留目标＋速度/独立auto，不新增parallel/join；
+check10655项、E2E工具57项与2704文件静态零诊断。母任务继续003以后/capture，不关闭完整Q1/Q2。
 
 2026-09-27 [GLM八组同步守卫](../testing/guard-wave3-integration.md)6a114727独立accept/done：
 最后R2实际输入保真反控闭合，110新增；check9712/ratchet/受保护单次strict9220通过。

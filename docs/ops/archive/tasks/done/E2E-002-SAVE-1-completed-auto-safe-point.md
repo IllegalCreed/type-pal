@@ -1,6 +1,6 @@
 # E2E-002-SAVE-1 — 已完成 auto 的保存安全点
 
-Status: review
+Status: done
 Phase: phase2
 Capability: E2E-R4 / X1
 Coding Owner: Codex Root
@@ -60,9 +60,9 @@ abort和epoch/CAS检查，但不该被该body最后写入的entityState0永久�
 
 ## 上下文锚点
 
-- [二阶段铁律](../../phase2/READ-FIRST.md)、[CLAUDE](../../../CLAUDE.md)、[AGENTS](../../../AGENTS.md)。
-- [脚本系统](../../phase2/specs/script-system.md)游标/安全点；[002卡](E2E-002-1-inn-route-and-trio.md)。
-- [一阶段知识测绘](../../phase2/reference/phase1-knowledge-harvest.md)E6/E7：真tick、调用域与死锁反控。
+- [二阶段铁律](../../../../phase2/READ-FIRST.md)、[CLAUDE](../../../../../CLAUDE.md)、[AGENTS](../../../../../AGENTS.md)。
+- [脚本系统](../../../../phase2/specs/script-system.md)游标/安全点；[002卡](E2E-002-1-inn-route-and-trio.md)。
+- [一阶段知识测绘](../../../../phase2/reference/phase1-knowledge-harvest.md)E6/E7：真tick、调用域与死锁反控。
 - `entity-lifecycle.ts:33–56`：state、lifecycle各自派生，不把state0变成despawned。
 - `runtime-script-project.ts:467–494`：屏障等lease、同步snapshot、原10000ms timeout不得改变。
 - `main.ts:4061`：纯state0→可见保留activation；不能通过abort并重跑奖励“修复”。
@@ -96,14 +96,14 @@ machine下一state误执行。用核心门测试、真实正式主壳自动机/�
 - 非实现贡献者独立证据：e2e_002_runner定位三人hidden active lease与setEntityState非lifecycle分支；
   设计压力审、实现只读复核pending。
 - Root design agree / build allowed：唯一Owner/白名单确定，原保存门保留；先红正式主壳用例再修。
-- 实现/定向测试/冻结E2E/全仓门pending；done blocked。
+- 实现/定向测试/非实现复核：已完成，历史v1 counter及v2闭合见后文；最终E2E与全仓门通过，Root accept。
 - 2026-09-30 非实现counter：v1只分末尾safePointGate不能处理machine to已经提交target、
   在下一state执行门挂起后才请求保存；lease仍active。当前不得集成v1；先补真实主壳反例，
   设计v2复核通过后重新准入，未完成body不能借修复放行。
 - 2026-09-30 v2独立design agree：贡献者直接核真实lease/CAS与主壳门；to:hidden/suspended晚5tick
   F5反例已红。Root重新核定build allowed；产品修改仍由Root独占，v1未被集成。
 - 2026-10-01 v2实现冻结`43092cc0`：核心/真实主壳55项通过，已独立核nested与旧epoch边界。
-  completion增量见[SCRIPT-COMPLETE-1](SCRIPT-COMPLETE-1-explicit-flow-completion.md)，不抹掉旧to反控。
+  completion增量见[SCRIPT-COMPLETE-1](../../../tasks/SCRIPT-COMPLETE-1-explicit-flow-completion.md)，不抹掉旧to反控。
   冻结`b83faa50`真实002正常20行/500/进房后生产保存仅15ms，三人的lease不再挂住屏障；
   fresh-context已loaded，整体报告仍failed（正常e62循环在晚到二次dump期间推进），归工具取证域。
   F5/F9证据为6项真实主壳回归，RF浏览器正式链是dumpSave，不混称。
@@ -113,6 +113,14 @@ machine下一state误执行。用核心门测试、真实正式主壳自动机/�
   与原档严格一致，含各completed cursor；6项真实F5/F9主壳反控保持通过。
   002整体仍failed：门瞬态frame1→0的独立画面问题另见[E2E-002-DOOR-1](E2E-002-DOOR-1-persistent-open-presentation.md)。
   本卡保存门实现accept；最终002画面条件尚未闭合，顶部保留review，不冒称全恢复验收通过。
+- 2026-10-01最终RF002 `16-31-19-969Z` passed：三人实际终点/隐藏/completed后生产保存195ms，
+  原始SAVE9/content21档SHA `42ac15aff0719f8f11b3f59d6001266c59e2075c715d616f5c75985bcfb0136f`。
+  fresh-context loaded；真实成功restore提交点全量持久域严格相同，晚到完整背景World另存，
+  Canvas亦同SHA。Root核原始字节/49源hash/提交点及两图，6项真实主壳F5/F9保持通过。
+  没有改timeout、lease门或保存格式；完整演出/恢复门闭合，最后全仓质量门随后通过。
+- 2026-10-01完整`pnpm check`冻结3feb5a77 exit0，10655包测试全绿、E2E工具57项；
+  lint2704文件0 error/warning/info，日志`build/e2e/door-20261001/check-final-v2.log`。
+  Root最终accept / done allowed；v1反例/返工保留，不扩张中途随时保存或兼容能力。
 
 ## 交接日志
 
@@ -122,4 +130,4 @@ machine下一state误执行。用核心门测试、真实正式主壳自动机/�
 
 ## 下一位Agent提示词
 
-无下一位Agent提示词。v2实现已复核并集成；等待独立门画面修复后的002最终恢复验收，不追加保存能力。
+无下一位Agent提示词。v2与最终002恢复已收口；母卡继续后续片段，不追加中途随时保存能力。

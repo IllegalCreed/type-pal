@@ -1,6 +1,6 @@
 # E2E-002-1 — 正常出房路线、e56 演出与脚本编排审查
 
-Status: review
+Status: done
 Phase: ops
 Capability: E2E-R4 / 002
 Coding Owner: Codex 受委派执行器贡献者 e2e_002_runner
@@ -66,11 +66,11 @@ Codex 已复核现行原始场景/视频和 game 插桩源码 hash 一致；锁�
 
 ## 上下文锚点
 
-- [AGENTS](../../../AGENTS.md)、[CLAUDE](../../../CLAUDE.md)、[二阶段铁律](../../phase2/READ-FIRST.md)。
-- [母卡](E2E-R4-1-route-and-checkpoint-foundation.md)、[E2E 合同](../../testing/e2e.md)、
-  [001 回执](../../testing/e2e-001.md)、[检查点边界](../../../projects/pal/e2e-checkpoints/README.md)。
-- [002 执行与编排回执](../../testing/e2e-002.md) 当前只登记源码结论和待证项，不代表实际验收通过。
-- [一阶段知识测绘](../../phase2/reference/phase1-knowledge-harvest.md) E6/E7：auto/trigger 双解释器，
+- [AGENTS](../../../../../AGENTS.md)、[CLAUDE](../../../../../CLAUDE.md)、[二阶段铁律](../../../../phase2/READ-FIRST.md)。
+- [母卡](../../../tasks/E2E-R4-1-route-and-checkpoint-foundation.md)、[E2E 合同](../../../../testing/e2e.md)、
+  [001 回执](../../../../testing/e2e-001.md)、[检查点边界](../../../../../projects/pal/e2e-checkpoints/README.md)。
+- [002 执行与编排回执](../../../../testing/e2e-002.md)维护源码审查、历史失败与最终真实双引擎证据。
+- [一阶段知识测绘](../../../../phase2/reference/phase1-knowledge-harvest.md) E6/E7：auto/trigger 双解释器，
   真 tick 证据优先于手工模拟；touch 重入不可造成死锁。
 - `packages/content/src/author-script-core.ts:188` target/to/speed；
   `packages/reforge/src/main.ts:2416/2431/2678/2716/4233` 完成等待、像素增量、前台接管、独立 auto、取消收尾。
@@ -98,9 +98,9 @@ Codex 已复核现行原始场景/视频和 game 插桩源码 hash 一致；锁�
 - 范围/设计 agree：独立 002 采集，保留 001 默认和 AST 锚 census；路线与核心分开断言。
 - Codex build allowed（2026-09-30）：唯一执行器 Owner `e2e_002_runner`，
   工作树 `/Users/zhangxu/.codex/worktrees/e2e-002/type-pal`，仅上述实现白名单。
-- 贡献者交付/自验：pending。
-- Codex 独立验收：pending；done blocked。
-- 用户体验/产品裁决：执行范围已批准，未引入新产品取舍；实际演出/编排结果待交付。
+- 贡献者交付/自验：已交付并冻结，独立复核见后文。
+- Codex 独立验收：accept；最终正常路线、剧情、恢复与完整质量门全部通过，证据见后文。
+- 用户体验/产品裁决：执行范围已批准；按第一阶段已核UX修复，无新产品取舍；编排回执已交付。
 
 ## 交接日志
 
@@ -138,8 +138,24 @@ Codex 已复核现行原始场景/视频和 game 插桩源码 hash 一致；锁�
   另登记[E2E-002-DOOR-1](E2E-002-DOOR-1-persistent-open-presentation.md)。不得增加忽略区域/阈值。
 - 最终冻结产品完整check10648项、2703静态零诊断通过，工具后续窄改56项另验。
   `fc1d5804`集成主树；执行器交付已复核，顶部转review但002整体验收未通过，母卡不关闭。
+- 2026-10-01 Root最终独立验收冻结`4fc15826`：RF002 `16-31-19-969Z` passed，真实当前001→
+  28步正常路线、20正文/说话人、0→500、32/53停读3045/3024ms及先起步/短续走/终点隐藏通过。
+  生产保存195ms；原始002档SHA `42ac15aff0719f8f11b3f59d6001266c59e2075c715d616f5c75985bcfb0136f`；
+  fresh-context loaded，实际成功restore提交点全量持久域严格相等，晚到背景World另存不删游标。
+  两门持久open页/frame1，结束/恢复Canvas同SHA `90e49d7cc22b1a454d250a54ca7447fde8cefc3452c239e2b5320bcd72612400`。
+  49源hash逐一核当前字节相同，Root看首领/奖励/最后句/结束/读回图；原失败轮不改写。
+  第一阶段09-06正式通过回执原样接收；Root核原档/trace、结束与恢复两图、七game源码hash不变，
+  不重复已绿视觉、不冒称其旧RF/工具hash全部与当前相同。
+  编排审查已交付：保留目标＋速度/独立auto/必要节拍，落实局部接管与持久门意图；
+  大娘24次nudge实际轨迹已采集但中间动画/节拍等价未证，留后续路径表达候选，不新增parallel/join。
+  工具新增页动作反控后57项；编辑器精确引用同步`3feb5a77`非作者accept，完整质量门随后通过。
+- 2026-10-01最终质量门冻结`3feb5a77`：完整`pnpm check` exit0，包测试10655项（1224/128/2773/
+  357/2031/3692/450）全绿、E2E工具57项、docs工具37项与其余工具门通过；lint2704文件0 error/warning/info。
+  日志`build/e2e/door-20261001/check-final-v2.log`；首次editor census失败原日志保留。
+  产品/作者/工具冻结源字节无后续改动，回执/归档另核docs/lint；Root `accept / done allowed`。
+  正式证据复制主树同名build/e2e，不让worktree清理丢档；本卡done仅002 verify，母卡继续。
 
 ## 下一位 Agent 提示词
 
-无下一位Agent提示词。执行器冻结；待独立门卡核定修复、冻结产品后，再执行一次正式002恢复验收。
-当前不得重跑至过、改采样合同或标记002/母卡done。
+无下一位Agent提示词。002 verify已收口；母卡继续003/后续与capture。
+不得为收口放宽采样合同、重写历史失败或关闭全局Q1/Q2。

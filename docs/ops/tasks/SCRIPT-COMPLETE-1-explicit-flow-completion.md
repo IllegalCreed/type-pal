@@ -24,7 +24,7 @@ Branch: codex/e2e-002-r1
 - 不改一阶段语义、地图/资产/提取/退役转换核，不引入parallel/join、全局对白冻结或自动折叠未知空节点。
 - 6012服务保持运行；用户2026-10-01确认无草稿并批准更新后才集成、刷新。测试使用独立实例。
   002工具Owner不写产品，恢复提交点的后续工具窄改另见002卡。
-- 依赖[保存门修复](E2E-002-SAVE-1-completed-auto-safe-point.md)的v2窄改；不以新完成节点掩盖to晚保存反例。
+- 依赖[保存门修复](../archive/tasks/done/E2E-002-SAVE-1-completed-auto-safe-point.md)的v2窄改；不以新完成节点掩盖to晚保存反例。
 
 ## 前提真值门
 
@@ -157,9 +157,14 @@ Branch: codex/e2e-002-r1
   全量World（包含completed及所有背景游标）与原始档严格相同；路线/20正文/500文/实际续走仍通过。
   整体仍failed：e73/e74的瞬态定帧在读档时清除，已开门画面变为关门。
   Root直接核trace、保存字节、渲染宿主并看两图；该命令/渲染路径未由本卡改变，门trigger不是fold目标。
-  独立问题见[E2E-002-DOOR-1](E2E-002-DOOR-1-persistent-open-presentation.md)，不以放宽画面断言收口。
+  独立问题见[E2E-002-DOOR-1](../archive/tasks/done/E2E-002-DOOR-1-persistent-open-presentation.md)，不以放宽画面断言收口。
 - Root完成功能代码/数据/质量/最小UIaccept；顶部仍review等待用户检视新结束表达。
   002及母任务不宣布通过，本卡不负责修门或创建新的通用持久化frame字段。
+- 2026-10-01后续002最终冻结`4fc15826` passed：真实当前001正常路线、20行/500文与三人进房完成，
+  新上下文实际restore全量持久域（含completed）及Canvas严格同结束档；门意图由独立作者卡修复，
+  不改变本卡完成语义/SAVE9。见[002最终回执](../../testing/e2e-002.md)，原失败轮保留。
+  6012仍打开、保存按钮禁用/工程已保存，Root只读核没有刷新或关闭；本卡仍review等待用户检视，
+  002技术验收通过不自动代替完成表达的用户体验验收，母任务亦不关闭。
 
 ## 交接日志
 
