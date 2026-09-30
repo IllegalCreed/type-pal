@@ -1,0 +1,971 @@
+
+> type-pal@ check /Users/zhangxu/.codex/worktrees/glm-lmn-acceptance/type-pal
+> pnpm check:docs && pnpm test:coverage-tools && pnpm test:quality-tools && pnpm test:e2e-tools && pnpm -r --workspace-concurrency=1 run check && pnpm lint
+
+
+> type-pal@ check:docs /Users/zhangxu/.codex/worktrees/glm-lmn-acceptance/type-pal
+> pnpm test:docs-tools && node scripts/docs/check.mjs
+
+
+> type-pal@ test:docs-tools /Users/zhangxu/.codex/worktrees/glm-lmn-acceptance/type-pal
+> node --test scripts/docs/*.test.mjs
+
+TAP version 13
+# Subtest: links handle nested labels, code labels, spaces, balanced paths, titles and references
+ok 1 - links handle nested labels, code labels, spaces, balanced paths, titles and references
+  ---
+  duration_ms: 1.862625
+  type: 'test'
+  ...
+# Subtest: fenced, quoted-fenced, inline code and escaped examples do not become live links
+ok 2 - fenced, quoted-fenced, inline code and escaped examples do not become live links
+  ---
+  duration_ms: 0.224875
+  type: 'test'
+  ...
+# Subtest: prose after array brackets and incomplete destinations are not parsed as valid links
+ok 3 - prose after array brackets and incomplete destinations are not parsed as valid links
+  ---
+  duration_ms: 0.256625
+  type: 'test'
+  ...
+# Subtest: local links decode paths and reject external URLs from file checks
+ok 4 - local links decode paths and reject external URLs from file checks
+  ---
+  duration_ms: 0.365833
+  type: 'test'
+  ...
+# Subtest: task status comes only from the top, preserving historical alternate spelling for known closed cards
+ok 5 - task status comes only from the top, preserving historical alternate spelling for known closed cards
+  ---
+  duration_ms: 0.305042
+  type: 'test'
+  ...
+# Subtest: current versions are checked in a bounded contract, leaving historical formats intact
+ok 6 - current versions are checked in a bounded contract, leaving historical formats intact
+  ---
+  duration_ms: 0.446959
+  type: 'test'
+  ...
+# Subtest: clean document tree and task index pass without generated assets or node_modules
+ok 7 - clean document tree and task index pass without generated assets or node_modules
+  ---
+  duration_ms: 1.971541
+  type: 'test'
+  ...
+# Subtest: missing files, unindexed documents and active task absent from board fail independently
+ok 8 - missing files, unindexed documents and active task absent from board fail independently
+  ---
+  duration_ms: 0.591
+  type: 'test'
+  ...
+# Subtest: closed card left on board and stale generated index fail
+ok 9 - closed card left on board and stale generated index fail
+  ---
+  duration_ms: 0.540333
+  type: 'test'
+  ...
+# Subtest: board row and top-level card state must agree
+ok 10 - board row and top-level card state must agree
+  ---
+  duration_ms: 0.934792
+  type: 'test'
+  ...
+# Subtest: exceptions are exact and require reasons; stale exceptions fail
+ok 11 - exceptions are exact and require reasons; stale exceptions fail
+  ---
+  duration_ms: 1.375917
+  type: 'test'
+  ...
+# Subtest: archived task remains indexed and cannot silently disappear from the census
+ok 12 - archived task remains indexed and cannot silently disappear from the census
+  ---
+  duration_ms: 0.95025
+  type: 'test'
+  ...
+# Subtest: phase2 mixed folders and top-level topic drift are rejected
+ok 13 - phase2 mixed folders and top-level topic drift are rejected
+  ---
+  duration_ms: 0.215917
+  type: 'test'
+  ...
+# Subtest: rejecting an old content version is not a declaration of the current version
+ok 14 - rejecting an old content version is not a declaration of the current version
+  ---
+  duration_ms: 0.104417
+  type: 'test'
+  ...
+# Subtest: a local OS metadata file cannot make a non-checkout document link pass
+ok 15 - a local OS metadata file cannot make a non-checkout document link pass
+  ---
+  duration_ms: 0.251125
+  type: 'test'
+  ...
+# Subtest: a bounded current section accepts content and SAVE while ignoring map and catalog axes
+ok 16 - a bounded current section accepts content and SAVE while ignoring map and catalog axes
+  ---
+  duration_ms: 1.529292
+  type: 'test'
+  ...
+# Subtest: a missing start marker is reported once and does not scan the rest of the document
+ok 17 - a missing start marker is reported once and does not scan the rest of the document
+  ---
+  duration_ms: 0.132
+  type: 'test'
+  ...
+# Subtest: repeated current-section version mismatches are reported once per distinct message
+ok 18 - repeated current-section version mismatches are reported once per distinct message
+  ---
+  duration_ms: 0.110792
+  type: 'test'
+  ...
+# Subtest: Chinese multiline fences and comments keep real link lines and positions on the original input
+ok 19 - Chinese multiline fences and comments keep real link lines and positions on the original input
+  ---
+  duration_ms: 1.643916
+  type: 'test'
+  ...
+# Subtest: an inapplicable deeper mapping must not hide the still-valid parent rewrite
+ok 20 - an inapplicable deeper mapping must not hide the still-valid parent rewrite
+  ---
+  duration_ms: 0.765375
+  type: 'test'
+  ...
+# Subtest: suffix-distinct document paths validate and the entries array stays intact
+ok 21 - suffix-distinct document paths validate and the entries array stays intact
+  ---
+  duration_ms: 1.0385
+  type: 'test'
+  ...
+# Subtest: a parent directory mapping rewrites a hyphenated child that is not under a deeper key
+ok 22 - a parent directory mapping rewrites a hyphenated child that is not under a deeper key
+  ---
+  duration_ms: 0.226583
+  type: 'test'
+  ...
+# Subtest: repository path rewrite prefers the longest valid key and preserves SHA and unmatched suffixes
+ok 23 - repository path rewrite prefers the longest valid key and preserves SHA and unmatched suffixes
+  ---
+  duration_ms: 0.249917
+  type: 'test'
+  ...
+# Subtest: link rewrite changes destinations only, encoding bare spaces and keeping angle-bracket spaces
+ok 24 - link rewrite changes destinations only, encoding bare spaces and keeping angle-bracket spaces
+  ---
+  duration_ms: 0.795917
+  type: 'test'
+  ...
+# Subtest: absolute, backslash, empty, and .git path segments fail before any write
+ok 25 - absolute, backslash, empty, and .git path segments fail before any write
+  ---
+  duration_ms: 0.611708
+  type: 'test'
+  ...
+# Subtest: existing destination and overlapping swaps fail on an isolated tree with zero writes
+ok 26 - existing destination and overlapping swaps fail on an isolated tree with zero writes
+  ---
+  duration_ms: 2.58975
+  type: 'test'
+  ...
+# Subtest: scheme and protocol-relative destinations stay out of local file checks
+ok 27 - scheme and protocol-relative destinations stay out of local file checks
+  ---
+  duration_ms: 0.181333
+  type: 'test'
+  ...
+# Subtest: local targets keep repo-root, encoded, query and directory forms and leave inputs unchanged
+ok 28 - local targets keep repo-root, encoded, query and directory forms and leave inputs unchanged
+  ---
+  duration_ms: 1.298667
+  type: 'test'
+  ...
+# Subtest: checkout ancestor sets include the repo root and do not mutate the file list
+ok 29 - checkout ancestor sets include the repo root and do not mutate the file list
+  ---
+  duration_ms: 0.1115
+  type: 'test'
+  ...
+# Subtest: task documents are only cards in the active, done, and cancelled directories
+ok 30 - task documents are only cards in the active, done, and cancelled directories
+  ---
+  duration_ms: 1.330583
+  type: 'test'
+  ...
+# Subtest: a missing top title falls back to the file name and later status text does not replace Status
+ok 31 - a missing top title falls back to the file name and later status text does not replace Status
+  ---
+  duration_ms: 1.314416
+  type: 'test'
+  ...
+# Subtest: a mixed task index sorts, escapes title pipes, and does not mutate the input array
+ok 32 - a mixed task index sorts, escapes title pipes, and does not mutate the input array
+  ---
+  duration_ms: 6.841084
+  type: 'test'
+  ...
+# Subtest: relocation edits only destinations, preserving formula text, labels, titles and code
+ok 33 - relocation edits only destinations, preserving formula text, labels, titles and code
+  ---
+  duration_ms: 1.155291
+  type: 'test'
+  ...
+# Subtest: reference definitions are rewritten once and keep explanation and all usages
+ok 34 - reference definitions are rewritten once and keep explanation and all usages
+  ---
+  duration_ms: 0.319834
+  type: 'test'
+  ...
+# Subtest: repository paths update once and preserve Git historical object identities
+ok 35 - repository paths update once and preserve Git historical object identities
+  ---
+  duration_ms: 0.195209
+  type: 'test'
+  ...
+# Subtest: unsafe, colliding and overlapping paths fail before writes
+ok 36 - unsafe, colliding and overlapping paths fail before writes
+  ---
+  duration_ms: 1.289709
+  type: 'test'
+  ...
+# Subtest: dry-run preserves files and write keeps every payload while rebasing links
+ok 37 - dry-run preserves files and write keeps every payload while rebasing links
+  ---
+  duration_ms: 2.207083
+  type: 'test'
+  ...
+1..37
+# tests 37
+# suites 0
+# pass 37
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 92.06325
+docs: 807 Markdown / 4234 local links / 242 tasks / content20 SAVE8
+docs: PASS (0 issues)
+
+> type-pal@ test:coverage-tools /Users/zhangxu/.codex/worktrees/glm-lmn-acceptance/type-pal
+> node --test scripts/coverage/*.test.mjs
+
+TAP version 13
+# Subtest: Reforge runner bounds concurrent cold host loads without widening timeouts or excluding tests
+ok 1 - Reforge runner bounds concurrent cold host loads without widening timeouts or excluding tests
+  ---
+  duration_ms: 0.665459
+  type: 'test'
+  ...
+# Subtest: fast 排除所有 PAL test 扩展，full 保留
+ok 2 - fast 排除所有 PAL test 扩展，full 保留
+  ---
+  duration_ms: 0.09225
+  type: 'test'
+  ...
+# Subtest: coverage 测试进程不重复拾取 dist/build 产物
+ok 3 - coverage 测试进程不重复拾取 dist/build 产物
+  ---
+  duration_ms: 0.097542
+  type: 'test'
+  ...
+# Subtest: 重型编辑器静态门禁仅从 coverage 进程排除，生产源码 include 不缩窄
+ok 4 - 重型编辑器静态门禁仅从 coverage 进程排除，生产源码 include 不缩窄
+  ---
+  duration_ms: 0.056208
+  type: 'test'
+  ...
+# Subtest: precise coverage rejects inherited and override cache activation without mutating inputs
+ok 5 - precise coverage rejects inherited and override cache activation without mutating inputs
+  ---
+  duration_ms: 0.647708
+  type: 'test'
+  ...
+# Subtest: fresh coverage subprocess starts with compile cache disabled and unrelated environment intact
+ok 6 - fresh coverage subprocess starts with compile cache disabled and unrelated environment intact
+  ---
+  duration_ms: 26.279625
+  type: 'test'
+  ...
+# Subtest: full file guard 区分缺失、目录与空文件
+ok 7 - full file guard 区分缺失、目录与空文件
+  ---
+  duration_ms: 7.228541
+  type: 'test'
+  ...
+# Subtest: full JSON guard 在运行测试前拒绝坏 JSON
+ok 8 - full JSON guard 在运行测试前拒绝坏 JSON
+  ---
+  duration_ms: 3.607583
+  type: 'test'
+  ...
+# Subtest: full directory guard 要求真实目录和最低文件数
+ok 9 - full directory guard 要求真实目录和最低文件数
+  ---
+  duration_ms: 1.984042
+  type: 'test'
+  ...
+# Subtest: full JSON contract 拒绝错版本 current 工程与错误 scene identity
+ok 10 - full JSON contract 拒绝错版本 current 工程与错误 scene identity
+  ---
+  duration_ms: 0.263833
+  type: 'test'
+  ...
+# Subtest: full test inventory 必须包含 fast 的每个 identity
+ok 11 - full test inventory 必须包含 fast 的每个 identity
+  ---
+  duration_ms: 0.641333
+  type: 'test'
+  ...
+# Subtest: scope audit 分别报告源码、测试和执行配置变化
+ok 12 - scope audit 分别报告源码、测试和执行配置变化
+  ---
+  duration_ms: 0.208167
+  type: 'test'
+  ...
+# Subtest: 同一测试文件减少 case 会形成显式 removal
+ok 13 - 同一测试文件减少 case 会形成显式 removal
+  ---
+  duration_ms: 0.150084
+  type: 'test'
+  ...
+# Subtest: installed merger is the version-locked patch recorded in manifest and lockfile
+ok 14 - installed merger is the version-locked patch recorded in manifest and lockfile
+  ---
+  duration_ms: 1.614291
+  type: 'test'
+  ...
+# Subtest: native import: class/anonymous/nested/plain actual calls survive two/three-way merges and order
+ok 15 - native import: class/anonymous/nested/plain actual calls survive two/three-way merges and order
+  ---
+  duration_ms: 102.656833
+  type: 'test'
+  ...
+# Subtest: native construct: class/anonymous/nested/plain actual calls survive two/three-way merges and order
+ok 16 - native construct: class/anonymous/nested/plain actual calls survive two/three-way merges and order
+  ---
+  duration_ms: 94.76625
+  type: 'test'
+  ...
+# Subtest: native valid: class/anonymous/nested/plain actual calls survive two/three-way merges and order
+ok 17 - native valid: class/anonymous/nested/plain actual calls survive two/three-way merges and order
+  ---
+  duration_ms: 93.571
+  type: 'test'
+  ...
+# Subtest: native reject: class/anonymous/nested/plain actual calls survive two/three-way merges and order
+ok 18 - native reject: class/anonymous/nested/plain actual calls survive two/three-way merges and order
+  ---
+  duration_ms: 91.284583
+  type: 'test'
+  ...
+# Subtest: mixed import and genuine call preserve zero branches and actual method counts in both orders
+ok 19 - mixed import and genuine call preserve zero branches and actual method counts in both orders
+  ---
+  duration_ms: 1.332708
+  type: 'test'
+  ...
+# Subtest: same-range static and instance initialization identities and counts stay separate
+ok 20 - same-range static and instance initialization identities and counts stay separate
+  ---
+  duration_ms: 0.894958
+  type: 'test'
+  ...
+# Subtest: ordinary functions still merge by range, not arbitrary names; empty/single input stay valid
+ok 21 - ordinary functions still merge by range, not arbitrary names; empty/single input stay valid
+  ---
+  duration_ms: 1.044417
+  type: 'test'
+  ...
+# Subtest: real Vitest ssr/client import-only: actual report method count
+ok 22 - real Vitest ssr/client import-only: actual report method count
+  ---
+  duration_ms: 1318.3935
+  type: 'test'
+  ...
+# Subtest: real Vitest ssr/client genuine calls: actual report method count
+ok 23 - real Vitest ssr/client genuine calls: actual report method count
+  ---
+  duration_ms: 1333.482708
+  type: 'test'
+  ...
+# Subtest: normalizeMetrics 只接受完整的整数计数
+ok 24 - normalizeMetrics 只接受完整的整数计数
+  ---
+  duration_ms: 1.264042
+  type: 'test'
+  ...
+# Subtest: aggregateMetrics 按 covered/total 汇总，不平均百分比
+ok 25 - aggregateMetrics 按 covered/total 汇总，不平均百分比
+  ---
+  duration_ms: 0.219708
+  type: 'test'
+  ...
+# Subtest: compareRatio 用精确分数识别两位小数看不出的回退
+ok 26 - compareRatio 用精确分数识别两位小数看不出的回退
+  ---
+  duration_ms: 0.097334
+  type: 'test'
+  ...
+# Subtest: compareCoverage 同时守住每包与全仓，不能用别包提升掩盖回退
+ok 27 - compareCoverage 同时守住每包与全仓，不能用别包提升掩盖回退
+  ---
+  duration_ms: 0.655333
+  type: 'test'
+  ...
+# Subtest: ratchet 可在全仓比例不下降时接纳新 package，普通比较仍拒绝
+ok 28 - ratchet 可在全仓比例不下降时接纳新 package，普通比较仍拒绝
+  ---
+  duration_ms: 0.266
+  type: 'test'
+  ...
+# Subtest: 目标分支尚无 coverage 设施时允许唯一一次 bootstrap
+ok 29 - 目标分支尚无 coverage 设施时允许唯一一次 bootstrap
+  ---
+  duration_ms: 0.41175
+  type: 'test'
+  ...
+# Subtest: 目标分支有 baseline 时必须比较，只有配置没有 baseline 时 fail-closed
+ok 30 - 目标分支有 baseline 时必须比较，只有配置没有 baseline 时 fail-closed
+  ---
+  duration_ms: 0.184125
+  type: 'test'
+  ...
+1..30
+# tests 30
+# suites 0
+# pass 30
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 3461.681875
+
+> type-pal@ test:quality-tools /Users/zhangxu/.codex/worktrees/glm-lmn-acceptance/type-pal
+> node --test scripts/quality/*.test.mjs
+
+TAP version 13
+# Subtest: accepts a complete, zero-diagnostic report
+ok 1 - accepts a complete, zero-diagnostic report
+  ---
+  duration_ms: 0.511417
+  type: 'test'
+  ...
+# Subtest: rejects nonzero errors even when CLI exits zero
+ok 2 - rejects nonzero errors even when CLI exits zero
+  ---
+  duration_ms: 0.111125
+  type: 'test'
+  ...
+# Subtest: rejects missing errors
+ok 3 - rejects missing errors
+  ---
+  duration_ms: 0.05075
+  type: 'test'
+  ...
+# Subtest: rejects nonzero warnings even when CLI exits zero
+ok 4 - rejects nonzero warnings even when CLI exits zero
+  ---
+  duration_ms: 0.103083
+  type: 'test'
+  ...
+# Subtest: rejects missing warnings
+ok 5 - rejects missing warnings
+  ---
+  duration_ms: 0.047375
+  type: 'test'
+  ...
+# Subtest: rejects nonzero infos even when CLI exits zero
+ok 6 - rejects nonzero infos even when CLI exits zero
+  ---
+  duration_ms: 0.034
+  type: 'test'
+  ...
+# Subtest: rejects missing infos
+ok 7 - rejects missing infos
+  ---
+  duration_ms: 0.086209
+  type: 'test'
+  ...
+# Subtest: rejects nonzero skipped even when CLI exits zero
+ok 8 - rejects nonzero skipped even when CLI exits zero
+  ---
+  duration_ms: 0.032625
+  type: 'test'
+  ...
+# Subtest: rejects missing skipped
+ok 9 - rejects missing skipped
+  ---
+  duration_ms: 0.245375
+  type: 'test'
+  ...
+# Subtest: rejects nonzero diagnosticsNotPrinted even when CLI exits zero
+ok 10 - rejects nonzero diagnosticsNotPrinted even when CLI exits zero
+  ---
+  duration_ms: 0.256334
+  type: 'test'
+  ...
+# Subtest: rejects missing diagnosticsNotPrinted
+ok 11 - rejects missing diagnosticsNotPrinted
+  ---
+  duration_ms: 0.101333
+  type: 'test'
+  ...
+# Subtest: rejects nonzero changed even when CLI exits zero
+ok 12 - rejects nonzero changed even when CLI exits zero
+  ---
+  duration_ms: 0.376291
+  type: 'test'
+  ...
+# Subtest: rejects missing changed
+ok 13 - rejects missing changed
+  ---
+  duration_ms: 0.028708
+  type: 'test'
+  ...
+# Subtest: rejects invalid count -1
+ok 14 - rejects invalid count -1
+  ---
+  duration_ms: 0.03125
+  type: 'test'
+  ...
+# Subtest: rejects invalid count NaN
+ok 15 - rejects invalid count NaN
+  ---
+  duration_ms: 0.025875
+  type: 'test'
+  ...
+# Subtest: rejects invalid count Infinity
+ok 16 - rejects invalid count Infinity
+  ---
+  duration_ms: 0.021791
+  type: 'test'
+  ...
+# Subtest: rejects invalid count 1.5
+ok 17 - rejects invalid count 1.5
+  ---
+  duration_ms: 0.021917
+  type: 'test'
+  ...
+# Subtest: rejects invalid count 0
+ok 18 - rejects invalid count 0
+  ---
+  duration_ms: 0.020458
+  type: 'test'
+  ...
+# Subtest: rejects invalid count null
+ok 19 - rejects invalid count null
+  ---
+  duration_ms: 0.020208
+  type: 'test'
+  ...
+# Subtest: rejects diagnostics even if summary hides them
+ok 20 - rejects diagnostics even if summary hides them
+  ---
+  duration_ms: 0.032917
+  type: 'test'
+  ...
+# Subtest: rejects empty scan
+ok 21 - rejects empty scan
+  ---
+  duration_ms: 0.027916
+  type: 'test'
+  ...
+# Subtest: rejects unknown or malformed report shapes
+ok 22 - rejects unknown or malformed report shapes
+  ---
+  duration_ms: 0.063916
+  type: 'test'
+  ...
+# Subtest: rejects process errors regardless of a clean report
+ok 23 - rejects process errors regardless of a clean report
+  ---
+  duration_ms: 0.051084
+  type: 'test'
+  ...
+# Subtest: real Biome process: clean
+ok 24 - real Biome process: clean
+  ---
+  duration_ms: 469.537
+  type: 'test'
+  ...
+# Subtest: real Biome process: warning
+ok 25 - real Biome process: warning
+  ---
+  duration_ms: 65.092333
+  type: 'test'
+  ...
+# Subtest: real Biome process: info
+ok 26 - real Biome process: info
+  ---
+  duration_ms: 61.677959
+  type: 'test'
+  ...
+# Subtest: real Biome process: syntax
+ok 27 - real Biome process: syntax
+  ---
+  duration_ms: 62.73175
+  type: 'test'
+  ...
+1..27
+# tests 27
+# suites 0
+# pass 27
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 703.736958
+
+> type-pal@ test:e2e-tools /Users/zhangxu/.codex/worktrees/glm-lmn-acceptance/type-pal
+> node --test scripts/e2e/*.test.mjs
+
+TAP version 13
+# Subtest: read-only adapter includes real persistent fields, fails on missing fields and ignores animation counters
+ok 1 - read-only adapter includes real persistent fields, fails on missing fields and ignores animation counters
+  ---
+  duration_ms: 0.966125
+  type: 'test'
+  ...
+# Subtest: pending auto fade counts as non-controllable even before paletteFadeState is installed
+ok 2 - pending auto fade counts as non-controllable even before paletteFadeState is installed
+  ---
+  duration_ms: 0.525333
+  type: 'test'
+  ...
+# Subtest: loaded state is not enough: black/partial frame and wrong room hash fail
+ok 3 - loaded state is not enough: black/partial frame and wrong room hash fail
+  ---
+  duration_ms: 0.62025
+  type: 'test'
+  ...
+# Subtest: pixel reader hashes actual RGBA and does not mutate the supplied pixels
+ok 4 - pixel reader hashes actual RGBA and does not mutate the supplied pixels
+  ---
+  duration_ms: 4.526417
+  type: 'test'
+  ...
+# Subtest: game: full rows, speakers, atomic replacement and out/back movement pass
+ok 5 - game: full rows, speakers, atomic replacement and out/back movement pass
+  ---
+  duration_ms: 4.656125
+  type: 'test'
+  ...
+# Subtest: game: missing body text fails even if requested IDs remain
+ok 6 - game: missing body text fails even if requested IDs remain
+  ---
+  duration_ms: 1.659833
+  type: 'test'
+  ...
+# Subtest: game: wrong speaker, dropped actor event and later stand-in hide fail
+ok 7 - game: wrong speaker, dropped actor event and later stand-in hide fail
+  ---
+  duration_ms: 1.479875
+  type: 'test'
+  ...
+# Subtest: reforge: full rows, speakers, atomic replacement and out/back movement pass
+ok 8 - reforge: full rows, speakers, atomic replacement and out/back movement pass
+  ---
+  duration_ms: 0.912917
+  type: 'test'
+  ...
+# Subtest: reforge: missing body text fails even if requested IDs remain
+ok 9 - reforge: missing body text fails even if requested IDs remain
+  ---
+  duration_ms: 0.470958
+  type: 'test'
+  ...
+# Subtest: reforge: wrong speaker, dropped actor event and later stand-in hide fail
+ok 10 - reforge: wrong speaker, dropped actor event and later stand-in hide fail
+  ---
+  duration_ms: 1.088083
+  type: 'test'
+  ...
+# Subtest: collector is sparse, detached, bounded, and flags unobserved movement
+ok 11 - collector is sparse, detached, bounded, and flags unobserved movement
+  ---
+  duration_ms: 2.692083
+  type: 'test'
+  ...
+# Subtest: only genuinely idle room qualifies; scene alone is not enough
+ok 12 - only genuinely idle room qualifies; scene alone is not enough
+  ---
+  duration_ms: 0.442333
+  type: 'test'
+  ...
+# Subtest: only real dialogue wait states produce Confirm; typing and tail waits run normally
+ok 13 - only real dialogue wait states produce Confirm; typing and tail waits run normally
+  ---
+  duration_ms: 0.460917
+  type: 'test'
+  ...
+# Subtest: unknown scene, battle, menu and video fail closed
+ok 14 - unknown scene, battle, menu and video fail closed
+  ---
+  duration_ms: 1.198041
+  type: 'test'
+  ...
+# Subtest: scene transition cannot fake the opening: video ended and three scene-bound anchors required
+ok 15 - scene transition cannot fake the opening: video ended and three scene-bound anchors required
+  ---
+  duration_ms: 1.058458
+  type: 'test'
+  ...
+# Subtest: bounded log fails at overflow; no frame or glyph progress in state keys
+ok 16 - bounded log fails at overflow; no frame or glyph progress in state keys
+  ---
+  duration_ms: 0.513416
+  type: 'test'
+  ...
+# Subtest: semantic two-engine comparison ignores unlike coordinates/clocks while proving ordered intervals
+ok 17 - semantic two-engine comparison ignores unlike coordinates/clocks while proving ordered intervals
+  ---
+  duration_ms: 3.000667
+  type: 'test'
+  ...
+# Subtest: out-and-back during dialogue is a semantic difference even though endpoints are identical
+ok 18 - out-and-back during dialogue is a semantic difference even though endpoints are identical
+  ---
+  duration_ms: 0.233709
+  type: 'test'
+  ...
+# Subtest: incomplete, wrong identity, plan-only, missing wait, missing commit and fake control fail closed
+ok 19 - incomplete, wrong identity, plan-only, missing wait, missing commit and fake control fail closed
+  ---
+  duration_ms: 2.232042
+  type: 'test'
+  ...
+# Subtest: all four real source modules match exact trace anchors, source drift fails closed
+ok 20 - all four real source modules match exact trace anchors, source drift fails closed
+  ---
+  duration_ms: 147.745208
+  type: 'test'
+  ...
+# Subtest: real npcWalkTo outward/return commits in one sample window cannot disappear; return and state equal uninstrumented implementation
+ok 21 - real npcWalkTo outward/return commits in one sample window cannot disappear; return and state equal uninstrumented implementation
+  ---
+  duration_ms: 74.875541
+  type: 'test'
+  ...
+# Subtest: noncommitted plans produce no move; changed position first seen at render is evidence loss
+ok 22 - noncommitted plans produce no move; changed position first seen at render is evidence loss
+  ---
+  duration_ms: 0.324084
+  type: 'test'
+  ...
+# Subtest: dialogue context is captured at commit and own DTOs survive caller mutation
+ok 23 - dialogue context is captured at commit and own DTOs survive caller mutation
+  ---
+  duration_ms: 0.114792
+  type: 'test'
+  ...
+# Subtest: bounded collector flags overflow and malformed points without throwing into gameplay
+ok 24 - bounded collector flags overflow and malformed points without throwing into gameplay
+  ---
+  duration_ms: 8.244875
+  type: 'test'
+  ...
+# Subtest: instrumented real function preserves original thrown error identity
+ok 25 - instrumented real function preserves original thrown error identity
+  ---
+  duration_ms: 30.233042
+  type: 'test'
+  ...
+# Subtest: removing real npcWalkTo commit hook is detected by next boundary, not accepted as stationary
+ok 26 - removing real npcWalkTo commit hook is detected by next boundary, not accepted as stationary
+  ---
+  duration_ms: 27.705625
+  type: 'test'
+  ...
+# Subtest: Reforge driver only confirms a rendered input wait, never a typing page or auto tail
+ok 27 - Reforge driver only confirms a rendered input wait, never a typing page or auto tail
+  ---
+  duration_ms: 2.288792
+  type: 'test'
+  ...
+# Subtest: room is not accepted during presentation, transition, dialogue or script execution
+ok 28 - room is not accepted during presentation, transition, dialogue or script execution
+  ---
+  duration_ms: 0.105542
+  type: 'test'
+  ...
+# Subtest: player position and fade progress do not acknowledge a dialogue key or create frame logs
+ok 29 - player position and fade progress do not acknowledge a dialogue key or create frame logs
+  ---
+  duration_ms: 0.58175
+  type: 'test'
+  ...
+# Subtest: future declared rows and typing pages cannot fake a displayed story anchor
+ok 30 - future declared rows and typing pages cannot fake a displayed story anchor
+  ---
+  duration_ms: 0.402375
+  type: 'test'
+  ...
+# Subtest: checkpoint comparison is read-only and only normalizes explicitly optional/transient fields
+ok 31 - checkpoint comparison is read-only and only normalizes explicitly optional/transient fields
+  ---
+  duration_ms: 1.035042
+  type: 'test'
+  ...
+1..31
+# tests 31
+# suites 0
+# pass 31
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 525.137542
+Scope: 7 of 8 workspace projects
+
+> @type-pal/content@0.0.0 check /Users/zhangxu/.codex/worktrees/glm-lmn-acceptance/type-pal/packages/content
+> pnpm typecheck && pnpm test
+
+
+> @type-pal/content@0.0.0 typecheck /Users/zhangxu/.codex/worktrees/glm-lmn-acceptance/type-pal/packages/content
+> tsc --noEmit
+
+
+> @type-pal/content@0.0.0 test /Users/zhangxu/.codex/worktrees/glm-lmn-acceptance/type-pal/packages/content
+> vitest run --passWithNoTests
+
+
+ RUN  v4.1.7 /Users/zhangxu/.codex/worktrees/glm-lmn-acceptance/type-pal/packages/content
+
+
+ Test Files  123 passed (123)
+      Tests  1222 passed (1222)
+   Start at  22:12:03
+   Duration  2.13s (transform 2.85s, setup 0ms, import 6.72s, tests 952ms, environment 7ms)
+
+
+> @type-pal/shared@0.0.0 check /Users/zhangxu/.codex/worktrees/glm-lmn-acceptance/type-pal/packages/shared
+> pnpm typecheck && pnpm test
+
+
+> @type-pal/shared@0.0.0 typecheck /Users/zhangxu/.codex/worktrees/glm-lmn-acceptance/type-pal/packages/shared
+> tsc --noEmit
+
+
+> @type-pal/shared@0.0.0 test /Users/zhangxu/.codex/worktrees/glm-lmn-acceptance/type-pal/packages/shared
+> vitest run --passWithNoTests --exclude 'dist/**' --exclude 'build/**'
+
+
+ RUN  v4.1.7 /Users/zhangxu/.codex/worktrees/glm-lmn-acceptance/type-pal/packages/shared
+
+
+ Test Files  16 passed (16)
+      Tests  128 passed (128)
+   Start at  22:12:06
+   Duration  285ms (transform 480ms, setup 0ms, import 648ms, tests 100ms, environment 1ms)
+
+
+> @type-pal/game@1.0.0 check /Users/zhangxu/.codex/worktrees/glm-lmn-acceptance/type-pal/packages/game
+> pnpm typecheck && pnpm test
+
+
+> @type-pal/game@1.0.0 typecheck /Users/zhangxu/.codex/worktrees/glm-lmn-acceptance/type-pal/packages/game
+> tsc --noEmit
+
+
+> @type-pal/game@1.0.0 test /Users/zhangxu/.codex/worktrees/glm-lmn-acceptance/type-pal/packages/game
+> vitest run --passWithNoTests
+
+
+ RUN  v4.1.7 /Users/zhangxu/.codex/worktrees/glm-lmn-acceptance/type-pal/packages/game
+
+
+ Test Files  243 passed (243)
+      Tests  2773 passed (2773)
+   Start at  22:12:09
+   Duration  30.38s (transform 6.97s, setup 6.06s, import 22.67s, tests 41.94s, environment 195.57s)
+
+
+> @type-pal/pal-extract@0.0.0 check /Users/zhangxu/.codex/worktrees/glm-lmn-acceptance/type-pal/packages/pal-extract
+> pnpm typecheck && pnpm test
+
+
+> @type-pal/pal-extract@0.0.0 typecheck /Users/zhangxu/.codex/worktrees/glm-lmn-acceptance/type-pal/packages/pal-extract
+> tsc --noEmit
+
+
+> @type-pal/pal-extract@0.0.0 test /Users/zhangxu/.codex/worktrees/glm-lmn-acceptance/type-pal/packages/pal-extract
+> vitest run --passWithNoTests
+
+
+ RUN  v4.1.7 /Users/zhangxu/.codex/worktrees/glm-lmn-acceptance/type-pal/packages/pal-extract
+
+
+ Test Files  59 passed (59)
+      Tests  357 passed (357)
+   Start at  22:12:41
+   Duration  7.05s (transform 1.42s, setup 0ms, import 2.77s, tests 7.49s, environment 4ms)
+
+
+> @type-pal/reforge@0.0.0 check /Users/zhangxu/.codex/worktrees/glm-lmn-acceptance/type-pal/packages/reforge
+> pnpm typecheck && pnpm test
+
+
+> @type-pal/reforge@0.0.0 typecheck /Users/zhangxu/.codex/worktrees/glm-lmn-acceptance/type-pal/packages/reforge
+> tsc --noEmit
+
+
+> @type-pal/reforge@0.0.0 test /Users/zhangxu/.codex/worktrees/glm-lmn-acceptance/type-pal/packages/reforge
+> vitest run --passWithNoTests
+
+
+ RUN  v4.1.7 /Users/zhangxu/.codex/worktrees/glm-lmn-acceptance/type-pal/packages/reforge
+
+Not implemented: HTMLMediaElement's pause() method
+
+ Test Files  259 passed (259)
+      Tests  2052 passed (2052)
+   Start at  22:12:52
+   Duration  29.66s (transform 3.95s, setup 0ms, import 13.86s, tests 16.12s, environment 11.59s)
+
+
+> @type-pal/editor@0.0.0 check /Users/zhangxu/.codex/worktrees/glm-lmn-acceptance/type-pal/packages/editor
+> pnpm typecheck && pnpm test
+
+
+> @type-pal/editor@0.0.0 typecheck /Users/zhangxu/.codex/worktrees/glm-lmn-acceptance/type-pal/packages/editor
+> tsc --noEmit && tsc --noEmit -p scripts/tsconfig.author-check.json
+
+
+> @type-pal/editor@0.0.0 test /Users/zhangxu/.codex/worktrees/glm-lmn-acceptance/type-pal/packages/editor
+> vitest run --passWithNoTests --maxWorkers=1
+
+
+ RUN  v4.1.7 /Users/zhangxu/.codex/worktrees/glm-lmn-acceptance/type-pal/packages/editor
+
+Not implemented: navigation to another Document
+
+ Test Files  510 passed (510)
+      Tests  3786 passed (3786)
+   Start at  22:13:36
+   Duration  345.92s (transform 9.43s, setup 0ms, import 74.53s, tests 172.52s, environment 66.62s)
+
+
+> @type-pal/migrate@0.0.0 check /Users/zhangxu/.codex/worktrees/glm-lmn-acceptance/type-pal/packages/migrate
+> pnpm typecheck && pnpm test
+
+
+> @type-pal/migrate@0.0.0 typecheck /Users/zhangxu/.codex/worktrees/glm-lmn-acceptance/type-pal/packages/migrate
+> tsc --noEmit
+
+
+> @type-pal/migrate@0.0.0 test /Users/zhangxu/.codex/worktrees/glm-lmn-acceptance/type-pal/packages/migrate
+> vitest run --config vitest.config.ts
+
+
+ RUN  v4.1.7 /Users/zhangxu/.codex/worktrees/glm-lmn-acceptance/type-pal/packages/migrate
+
+
+ Test Files  77 passed (77)
+      Tests  450 passed (450)
+   Start at  22:19:24
+   Duration  200.65s (transform 970ms, setup 0ms, import 3.49s, tests 206.65s, environment 3ms)
+
+
+> type-pal@ lint /Users/zhangxu/.codex/worktrees/glm-lmn-acceptance/type-pal
+> node scripts/quality/lint-zero.mjs
+
+lint: PASS — 2742 files; 0 errors / 0 warnings / 0 infos; complete report

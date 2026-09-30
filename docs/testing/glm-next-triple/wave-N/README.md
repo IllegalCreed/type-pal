@@ -137,6 +137,14 @@ Escape 退回菜单。脚本硬断言 `__rfWorld` 未挂载（未进任何开局
 - `git diff --check 784fb098...HEAD`：干净；`node scripts/docs/check.mjs`：
   候选仅 1 项已知白名单导航问题，Codex 在隔离接收树补 wave-N 登记；统一门另记任务卡。
 
+Codex r4 隔离并集：`pnpm check` exit0、10768 例、lint 完整 0/0/0；
+官方 ratchet exit1，仍是 migrate 三项比率回退，protected fast 未执行。
+候选总分支 46386/58773（78.92%）不是正式结算，基线未改，三波未合 main。
+原始日志：[check](codex-r4-check.txt)、[ratchet](codex-r4-ratchet.txt)。
+两日志 SHA256 分别为
+`2f2180c08117ee690526ad4500a297335bbc39882de684344f7fc4bf7b6b4f2c`、
+`87faea61a5501c44a63f61581caace5c269a8d2011377732d91d2e738f8b4335`。
+
 ## 未证项
 
 - main.ts 剧情侧缺口（E2E-R4-1 占用）未测，收益不结算。

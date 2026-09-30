@@ -1,7 +1,7 @@
 # Codex L/M 接收与 N 复核（2026-09-30）
 
 当前结论：L r3、M r2、N r4 独立代码验收 accept，保持 review；
-本轮统一门待完成。三波测试尚未合 main，均未 done 或清树。
+本轮 check 通过、官方 ratchet 被 migrate 比率回退阻塞。三波尚未合 main，均未 done 或清树。
 下方“独立执行证据”为前一轮 L/M 并集历史结果，不冒称本轮 N r4 门禁。
 
 - L：`69b56cc388bbd0c0b7632d7ed59154461dd0410b`，15 文件/67 例。
@@ -85,3 +85,18 @@ Reforge 259 文件/2052 例、typecheck、根 lint 2780 文件完整 0/0/0、区
 通过。隔离 +95/battle-ui +12 算术一致，不认作 main 正式收益。
 Codex 补 N 导航并清理 README 当前/历史口径残留，保留历史测量数值。
 接收树同步 main 已提交状态 `6c39f36a`，不消费主树未提交 E2E 工作。
+
+### 本轮 L/M/N 统一门
+
+测量提交 `4a6208406b4d75aa4c2e7fd822aeeb55f66c672b`：check exit0，
+10768 例（Reforge 2052、Editor 3786），所有包 typecheck 零诊断；docs 807 Markdown/
+4234 链接/242 卡零问题；根 lint 2742 文件完整 0/0/0；区间 diff 零诊断。
+完整原始日志：[check](wave-N/codex-r4-check.txt)、[ratchet](wave-N/codex-r4-ratchet.txt)。
+
+官方 ratchet 用 protected base `6c39f36a` 与已批准退役范围删除开关，exit1；
+10356 例/716 生产源，候选总分支 **46386/58773（78.92%）**。
+失败仍是上表 migrate 三项比率，实测值与上轮相同；不归为 N 返工。
+baseline SHA256 前后同为
+`d775d23bffa016010036bfb88b70eb3b84a2defbe178569764c50e932097dac3`；
+protected strict-fast 未执行，正式结算仍未生效，不能宣称 85% 或三波 done。
+保持隔离树与候选分支，待用户确认另卡补 migrate 覆盖率范围后收口。

@@ -1,0 +1,359 @@
+
+> type-pal@ coverage:ratchet /Users/zhangxu/.codex/worktrees/glm-lmn-acceptance/type-pal
+> pnpm test:coverage-tools && node scripts/coverage/run.mjs fast --ratchet --allow-scope-removal
+
+
+> type-pal@ test:coverage-tools /Users/zhangxu/.codex/worktrees/glm-lmn-acceptance/type-pal
+> node --test scripts/coverage/*.test.mjs
+
+TAP version 13
+# Subtest: Reforge runner bounds concurrent cold host loads without widening timeouts or excluding tests
+ok 1 - Reforge runner bounds concurrent cold host loads without widening timeouts or excluding tests
+  ---
+  duration_ms: 0.635
+  type: 'test'
+  ...
+# Subtest: fast 排除所有 PAL test 扩展，full 保留
+ok 2 - fast 排除所有 PAL test 扩展，full 保留
+  ---
+  duration_ms: 0.090417
+  type: 'test'
+  ...
+# Subtest: coverage 测试进程不重复拾取 dist/build 产物
+ok 3 - coverage 测试进程不重复拾取 dist/build 产物
+  ---
+  duration_ms: 0.098625
+  type: 'test'
+  ...
+# Subtest: 重型编辑器静态门禁仅从 coverage 进程排除，生产源码 include 不缩窄
+ok 4 - 重型编辑器静态门禁仅从 coverage 进程排除，生产源码 include 不缩窄
+  ---
+  duration_ms: 0.0555
+  type: 'test'
+  ...
+# Subtest: precise coverage rejects inherited and override cache activation without mutating inputs
+ok 5 - precise coverage rejects inherited and override cache activation without mutating inputs
+  ---
+  duration_ms: 0.64275
+  type: 'test'
+  ...
+# Subtest: fresh coverage subprocess starts with compile cache disabled and unrelated environment intact
+ok 6 - fresh coverage subprocess starts with compile cache disabled and unrelated environment intact
+  ---
+  duration_ms: 26.202292
+  type: 'test'
+  ...
+# Subtest: full file guard 区分缺失、目录与空文件
+ok 7 - full file guard 区分缺失、目录与空文件
+  ---
+  duration_ms: 6.573791
+  type: 'test'
+  ...
+# Subtest: full JSON guard 在运行测试前拒绝坏 JSON
+ok 8 - full JSON guard 在运行测试前拒绝坏 JSON
+  ---
+  duration_ms: 6.313958
+  type: 'test'
+  ...
+# Subtest: full directory guard 要求真实目录和最低文件数
+ok 9 - full directory guard 要求真实目录和最低文件数
+  ---
+  duration_ms: 2.119166
+  type: 'test'
+  ...
+# Subtest: full JSON contract 拒绝错版本 current 工程与错误 scene identity
+ok 10 - full JSON contract 拒绝错版本 current 工程与错误 scene identity
+  ---
+  duration_ms: 0.258792
+  type: 'test'
+  ...
+# Subtest: full test inventory 必须包含 fast 的每个 identity
+ok 11 - full test inventory 必须包含 fast 的每个 identity
+  ---
+  duration_ms: 0.988291
+  type: 'test'
+  ...
+# Subtest: scope audit 分别报告源码、测试和执行配置变化
+ok 12 - scope audit 分别报告源码、测试和执行配置变化
+  ---
+  duration_ms: 0.309791
+  type: 'test'
+  ...
+# Subtest: 同一测试文件减少 case 会形成显式 removal
+ok 13 - 同一测试文件减少 case 会形成显式 removal
+  ---
+  duration_ms: 0.166625
+  type: 'test'
+  ...
+# Subtest: installed merger is the version-locked patch recorded in manifest and lockfile
+ok 14 - installed merger is the version-locked patch recorded in manifest and lockfile
+  ---
+  duration_ms: 1.489875
+  type: 'test'
+  ...
+# Subtest: native import: class/anonymous/nested/plain actual calls survive two/three-way merges and order
+ok 15 - native import: class/anonymous/nested/plain actual calls survive two/three-way merges and order
+  ---
+  duration_ms: 92.13875
+  type: 'test'
+  ...
+# Subtest: native construct: class/anonymous/nested/plain actual calls survive two/three-way merges and order
+ok 16 - native construct: class/anonymous/nested/plain actual calls survive two/three-way merges and order
+  ---
+  duration_ms: 87.684416
+  type: 'test'
+  ...
+# Subtest: native valid: class/anonymous/nested/plain actual calls survive two/three-way merges and order
+ok 17 - native valid: class/anonymous/nested/plain actual calls survive two/three-way merges and order
+  ---
+  duration_ms: 83.531625
+  type: 'test'
+  ...
+# Subtest: native reject: class/anonymous/nested/plain actual calls survive two/three-way merges and order
+ok 18 - native reject: class/anonymous/nested/plain actual calls survive two/three-way merges and order
+  ---
+  duration_ms: 84.364916
+  type: 'test'
+  ...
+# Subtest: mixed import and genuine call preserve zero branches and actual method counts in both orders
+ok 19 - mixed import and genuine call preserve zero branches and actual method counts in both orders
+  ---
+  duration_ms: 1.3005
+  type: 'test'
+  ...
+# Subtest: same-range static and instance initialization identities and counts stay separate
+ok 20 - same-range static and instance initialization identities and counts stay separate
+  ---
+  duration_ms: 0.87275
+  type: 'test'
+  ...
+# Subtest: ordinary functions still merge by range, not arbitrary names; empty/single input stay valid
+ok 21 - ordinary functions still merge by range, not arbitrary names; empty/single input stay valid
+  ---
+  duration_ms: 0.780459
+  type: 'test'
+  ...
+# Subtest: real Vitest ssr/client import-only: actual report method count
+ok 22 - real Vitest ssr/client import-only: actual report method count
+  ---
+  duration_ms: 1100.392291
+  type: 'test'
+  ...
+# Subtest: real Vitest ssr/client genuine calls: actual report method count
+ok 23 - real Vitest ssr/client genuine calls: actual report method count
+  ---
+  duration_ms: 1312.188708
+  type: 'test'
+  ...
+# Subtest: normalizeMetrics 只接受完整的整数计数
+ok 24 - normalizeMetrics 只接受完整的整数计数
+  ---
+  duration_ms: 0.761166
+  type: 'test'
+  ...
+# Subtest: aggregateMetrics 按 covered/total 汇总，不平均百分比
+ok 25 - aggregateMetrics 按 covered/total 汇总，不平均百分比
+  ---
+  duration_ms: 0.19575
+  type: 'test'
+  ...
+# Subtest: compareRatio 用精确分数识别两位小数看不出的回退
+ok 26 - compareRatio 用精确分数识别两位小数看不出的回退
+  ---
+  duration_ms: 0.091292
+  type: 'test'
+  ...
+# Subtest: compareCoverage 同时守住每包与全仓，不能用别包提升掩盖回退
+ok 27 - compareCoverage 同时守住每包与全仓，不能用别包提升掩盖回退
+  ---
+  duration_ms: 0.870958
+  type: 'test'
+  ...
+# Subtest: ratchet 可在全仓比例不下降时接纳新 package，普通比较仍拒绝
+ok 28 - ratchet 可在全仓比例不下降时接纳新 package，普通比较仍拒绝
+  ---
+  duration_ms: 0.516042
+  type: 'test'
+  ...
+# Subtest: 目标分支尚无 coverage 设施时允许唯一一次 bootstrap
+ok 29 - 目标分支尚无 coverage 设施时允许唯一一次 bootstrap
+  ---
+  duration_ms: 0.406792
+  type: 'test'
+  ...
+# Subtest: 目标分支有 baseline 时必须比较，只有配置没有 baseline 时 fail-closed
+ok 30 - 目标分支有 baseline 时必须比较，只有配置没有 baseline 时 fail-closed
+  ---
+  duration_ms: 0.189209
+  type: 'test'
+  ...
+1..30
+# tests 30
+# suites 0
+# pass 30
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 2982.774083
+
+[coverage:fast] @type-pal/shared
+
+ RUN  v4.1.7 /Users/zhangxu/.codex/worktrees/glm-lmn-acceptance/type-pal/packages/shared
+      Coverage enabled with v8
+
+
+ Test Files  16 passed (16)
+      Tests  128 passed (128)
+   Start at  22:23:56
+   Duration  361ms (transform 479ms, setup 0ms, import 672ms, tests 121ms, environment 1ms)
+
+ % Coverage report from v8
+
+=============================== Coverage summary ===============================
+Statements   : 94.58% ( 384/406 )
+Branches     : 89.83% ( 159/177 )
+Functions    : 100% ( 21/21 )
+Lines        : 96.62% ( 344/356 )
+================================================================================
+
+[coverage:fast] @type-pal/content
+
+ RUN  v4.1.7 /Users/zhangxu/.codex/worktrees/glm-lmn-acceptance/type-pal/packages/content
+      Coverage enabled with v8
+
+
+ Test Files  123 passed (123)
+      Tests  1222 passed (1222)
+   Start at  22:23:59
+   Duration  2.57s (transform 2.75s, setup 0ms, import 6.60s, tests 982ms, environment 7ms)
+
+ % Coverage report from v8
+
+=============================== Coverage summary ===============================
+Statements   : 95.45% ( 5590/5856 )
+Branches     : 92.8% ( 4655/5016 )
+Functions    : 97.23% ( 808/831 )
+Lines        : 96.5% ( 5001/5182 )
+================================================================================
+
+[coverage:fast] @type-pal/pal-extract
+
+ RUN  v4.1.7 /Users/zhangxu/.codex/worktrees/glm-lmn-acceptance/type-pal/packages/pal-extract
+      Coverage enabled with v8
+
+
+ Test Files  48 passed (48)
+      Tests  202 passed (202)
+   Start at  22:24:03
+   Duration  955ms (transform 1.12s, setup 0ms, import 2.04s, tests 380ms, environment 3ms)
+
+ % Coverage report from v8
+
+=============================== Coverage summary ===============================
+Statements   : 64.14% ( 957/1492 )
+Branches     : 68.83% ( 371/539 )
+Functions    : 75.71% ( 106/140 )
+Lines        : 64.58% ( 850/1316 )
+================================================================================
+
+[coverage:fast] @type-pal/migrate
+
+ RUN  v4.1.7 /Users/zhangxu/.codex/worktrees/glm-lmn-acceptance/type-pal/packages/migrate
+      Coverage enabled with v8
+
+
+ Test Files  60 passed (60)
+      Tests  383 passed (383)
+   Start at  22:24:08
+   Duration  7.46s (transform 656ms, setup 0ms, import 2.65s, tests 7.21s, environment 3ms)
+
+ % Coverage report from v8
+
+=============================== Coverage summary ===============================
+Statements   : 71.85% ( 1879/2615 )
+Branches     : 75.41% ( 1368/1814 )
+Functions    : 77.66% ( 320/412 )
+Lines        : 71.87% ( 1643/2286 )
+================================================================================
+
+[coverage:fast] @type-pal/reforge
+
+ RUN  v4.1.7 /Users/zhangxu/.codex/worktrees/glm-lmn-acceptance/type-pal/packages/reforge
+      Coverage enabled with v8
+
+Not implemented: HTMLMediaElement's pause() method
+
+ Test Files  259 passed (259)
+      Tests  2052 passed (2052)
+   Start at  22:24:37
+   Duration  33.41s (transform 3.26s, setup 0ms, import 14.37s, tests 17.08s, environment 11.01s)
+
+ % Coverage report from v8
+
+=============================== Coverage summary ===============================
+Statements   : 83.63% ( 14302/17101 )
+Branches     : 74.25% ( 8510/11460 )
+Functions    : 82.99% ( 2308/2781 )
+Lines        : 86.13% ( 12856/14926 )
+================================================================================
+
+[coverage:fast] @type-pal/game
+
+ RUN  v4.1.7 /Users/zhangxu/.codex/worktrees/glm-lmn-acceptance/type-pal/packages/game
+      Coverage enabled with v8
+
+
+ Test Files  238 passed (238)
+      Tests  2745 passed (2745)
+   Start at  22:25:34
+   Duration  27.00s (transform 6.52s, setup 4.24s, import 19.26s, tests 44.34s, environment 146.08s)
+
+ % Coverage report from v8
+
+=============================== Coverage summary ===============================
+Statements   : 83.32% ( 12926/15513 )
+Branches     : 73.23% ( 8260/11278 )
+Functions    : 79.42% ( 1471/1852 )
+Lines        : 85.37% ( 11627/13619 )
+================================================================================
+
+[coverage:fast] @type-pal/editor
+
+ RUN  v4.1.7 /Users/zhangxu/.codex/worktrees/glm-lmn-acceptance/type-pal/packages/editor
+      Coverage enabled with v8
+
+Not implemented: navigation to another Document
+
+ Test Files  491 passed (491)
+      Tests  3624 passed (3624)
+   Start at  22:27:29
+   Duration  146.09s (transform 8.78s, setup 0ms, import 80.67s, tests 80.41s, environment 70.50s)
+
+ % Coverage report from v8
+
+=============================== Coverage summary ===============================
+Statements   : 88.35% ( 29157/33001 )
+Branches     : 80.95% ( 23063/28489 )
+Functions    : 87.56% ( 7406/8458 )
+Lines        : 90.59% ( 26125/28836 )
+================================================================================
+
+[coverage:fast] consolidated
+package      statements            branches              functions             lines                 files  tests
+-----------  --------------------  --------------------  --------------------  --------------------  -----  -----
+shared       94.58% (384/406)      89.83% (159/177)      100.00% (21/21)       96.63% (344/356)      11     128  
+content      95.46% (5590/5856)    92.80% (4655/5016)    97.23% (808/831)      96.51% (5001/5182)    56     1222 
+pal-extract  64.14% (957/1492)     68.83% (371/539)      75.71% (106/140)      64.59% (850/1316)     38     202  
+migrate      71.85% (1879/2615)    75.41% (1368/1814)    77.67% (320/412)      71.87% (1643/2286)    38     383  
+reforge      83.63% (14302/17101)  74.26% (8510/11460)   82.99% (2308/2781)    86.13% (12856/14926)  149    2052 
+game         83.32% (12926/15513)  73.24% (8260/11278)   79.43% (1471/1852)    85.37% (11627/13619)  136    2745 
+editor       88.35% (29157/33001)  80.95% (23063/28489)  87.56% (7406/8458)    90.60% (26125/28836)  288    3624 
+TOTAL        85.80% (65195/75984)  78.92% (46386/58773)  85.82% (12440/14495)  87.86% (58446/66521)  716    10356
+
+[coverage:fast] FAIL
+覆盖率不得下降:
+- migrate.statements: 71.85% (1879/2615) < 77.25% (5965/7722)
+- migrate.branches: 75.41% (1368/1814) < 75.67% (4876/6444)
+- migrate.lines: 71.87% (1643/2286) < 78.66% (5294/6730)
+ ELIFECYCLE  Command failed with exit code 1.

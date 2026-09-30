@@ -241,12 +241,36 @@ jsdom 2D，用 typed spy 控制外部 IO，删除 getContext 函数强转，不�
 旧版本兼容审查：pass，仅测试外部宿主，不新增产品旧版本兼容层。
 菜单视觉沿用已独立通过且本轮未改的 r2 三图/非剧情相位差分，不重复走剧情。
 接收树 `codex/glm-lmn-acceptance-r1` 纳入 main 已提交状态 `6c39f36a` 与 L/M/N；
-主树未提交 E2E 工作未碰。统一 check→官方 ratchet→受保护 fast 结果另行落本段；
+主树未提交 E2E 工作未碰。统一 check→官方 ratchet→受保护 fast 结果如下；
 正式净增只认并集实测，不相加孤立 +95。
+
+### r4 接收树统一门结果
+
+测量树 `4a6208406b4d75aa4c2e7fd822aeeb55f66c672b`，已包含当前 main 已提交
+状态 `6c39f36a` 和 L/M/N 151 个不同 fullName。
+
+- `pnpm check` **exit0**：content 1222、shared 128、game 2773、pal-extract 357、
+  Reforge 2052、Editor 3786、migrate 450，合计 **10768** 例；各包 typecheck
+  零诊断，docs 807 Markdown/4234 链接/242 卡零问题，根 lint 2742 文件完整 0/0/0。
+  [完整 check 原始输出](../../testing/glm-next-triple/wave-N/codex-r4-check.txt)。
+- 官方原命令
+  `env -u NODE_COMPILE_CACHE TYPE_PAL_COVERAGE_BASE_REF=6c39f36a72897a3ad2491c59b03eb374f6526ae8 pnpm coverage:ratchet --allow-scope-removal`
+  **exit1**。允许范围删除只沿用已批准 PAL 转换退役，不放宽比率或排除现存源。
+  本次 10356 例/716 生产源，候选总分支 **46386/58773（78.92%）**；
+  [完整 ratchet 原始输出](../../testing/glm-next-triple/wave-N/codex-r4-ratchet.txt)。
+- 唯一失败仍为 migrate 比率回退：statements 1879/2615（71.85%）对旧
+  5965/7722（77.25%）；branches 1368/1814（75.41%）对旧 4876/6444（75.67%）；
+  lines 1643/2286（71.87%）对旧 5294/6730（78.66%）。不是 N 的返工项。
+- baseline SHA256 前后均为
+  `d775d23bffa016010036bfb88b70eb3b84a2defbe178569764c50e932097dac3`。
+  正式基线仍为 49584/63398（78.21%）；本次候选测量不算已生效结算，也未达 85%。
+  protected strict-fast 按串行门**未执行**。区间 diff 零诊断；不合 main、不标 done、
+  不清理候选分支/工作树。保留隔离成果，等待另卡解决 migrate 覆盖率门。
 
 ### 下一位 Agent
 
-无下一位 GLM 返工提示词；Codex 继续统一门与收口，不等待用户运行技术门禁。
+无下一位 GLM 返工提示词；N 的代码验收已通过。等待用户确认另卡补 migrate
+覆盖率范围后由 Codex 推进统一收口，不要求用户代跑技术门禁。
 
 ### 历史首轮派发提示词（已执行，非本次返工指令）
 
