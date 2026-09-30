@@ -98,7 +98,7 @@ G/I 的功能视觉与 console 后续补验也已闭合，不把这些卡的完�
 | ID | 任务 | 状态 | 负责人/下一步 | 一句话备注 |
 |---|---|---|---|---|
 | E2E-R4-1 | [路线驱动与检查点薄基线](tasks/E2E-R4-1-route-and-checkpoint-foundation.md) | build | Codex / 002流程与脚本编排审查 | 001 verify已收口；002继承真档，同步核编排合理性与改进方案，录制音轨另排 |
-| ARCH-PAL-SUPPLY-1 | [作者发布与PAL导入职责拆分](tasks/ARCH-PAL-SUPPLY-1-author-publication-and-import-retirement.md) | build | pal_resource_supply实现 / Codex独立验收 | r5窄资源供应准入；保留作者内容、四伤亡/两提示，完整核退役另核 |
+| ARCH-PAL-SUPPLY-1 | [作者发布与PAL导入职责拆分](tasks/ARCH-PAL-SUPPLY-1-author-publication-and-import-retirement.md) | build | pal_resource_supply实现 / Codex独立验收 | r5冻结独立保真通过；用户取消原版动作审计，r6完整核退役准入 |
 | EDITOR-SCENE-FACING-1 | [切场景朝向清除](tasks/EDITOR-SCENE-FACING-1-clear-override.md) | draft | Codex / 后续窄修 | 保持选项仍提交旧方向；真实红诊断+单点oracle已证 |
 | ARCH-SUPPORT-GLM-1 | [八组并行架构/视觉准备](tasks/ARCH-SUPPORT-GLM-1-eight-audit-packages.md) | draft | Codex / 后续归属与收口 | 58cdf938材料accept，counter清零；文档已合入，按用户要求未标done/未开产品门 |
 

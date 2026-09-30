@@ -358,6 +358,8 @@ Codex逐文件核静态提取、窄loader/supply、current调用以及CLI仅两�
 独立脚本在`/tmp/type-pal-supply-proof-nLdnEI`，只生成临时证据，不跑主工程重导CLI。
 复跑启动曾漏传候选路径、误用strip-types而未启用tsx解析，均在产品加载前失败；改正启动参数
 后完整复核通过，无产品修订。全仓统一质量门留到r6最终候选，r5技术拆分可接收但母卡未done。
+冻结oracle文件SHA256为`41561cc871fe127798bb0ade82adb101949a5bfc778dfc7e6a8eb9c6d2aa0e7f`，
+规范化publication摘要为`07cf552e3ddb2e0a5a5cb7606bf8441fa6a8f143ea703384d8c2b01545eee6e6`。
 
 ## r6用户裁决与退役准入（2026-09-30）
 
@@ -458,6 +460,8 @@ Codex：premise verified / design agree / **r6 build allowed**。同一Owner `pa
   Codex再独立核diff/反控/真实PAL/check:content/全仓check。视觉N/A，不改剧情/UI。
 - Root仅清理`scripts/coverage/config.mjs`中已删除测试的旧exclude路径；不新增exclude、
   改include/门限/真实资源前提或重写`baseline.fast.json`。历史审计卡/签字/计数原样保留。
+  `baselines/script-control-flow/pal-v1.json`是N3已完成审计的冻结数据证明，不是当前可执行门
+  或兼容输入；保留其原始字节，删除审计代码不重写历史测量。
 
 ## 交接记录
 
@@ -486,9 +490,10 @@ Codex：premise verified / design agree / **r6 build allowed**。同一Owner `pa
 
 ## 下一位Agent提示词
 
-接手任务：ARCH-PAL-SUPPLY-1，当前build，r5仅第二批准入；贡献者pal_resource_supply在上述
-隔离工作树/分支内执行。先完整读AGENTS.md、CLAUDE.md、READ-FIRST、本卡及r5源码锚点。
-按白名单拆单一静态leaf与窄source loader、supply producer，切断current完整转换依赖；保留
-作者字段和全部发布安全边界，不改真实工程或运行重导CLI。新增测试须证完整输出保真、断开
-转换消费者和失败反控；交回干净候选提交、diff、测试日志、remaining risks。不得合main、
-不得标done或擅自退役整核；Codex直接接收复核，不要求用户转发或代跑技术门。
+接手任务：ARCH-PAL-SUPPLY-1，当前build，r6已准入；同贡献者pal_resource_supply在上述
+隔离工作树/分支从冻结63aafb81续接。先完整读AGENTS.md、CLAUDE.md、READ-FIRST、本卡
+r5冻结证据与r6精确白名单。用户已明确取消原版动作审计，按真实消费者删除完整核、死API及
+专属测试，迁出实际静态类型/helper与mixed有效case；current项目/作者/地图/资产/事务测试全保留。
+不改真实工程/baseline/覆盖率/配置/依赖或运行重导CLI；patch使用隔离绝对路径。交回干净
+候选提交、删除/迁留case映射与自验日志。不得合main或标done；Codex独立比旧537文件oracle、
+做只读作者门及全仓零诊断验收，不要求用户转发或代跑技术门。
