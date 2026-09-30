@@ -332,7 +332,27 @@ describe('ED-3 PAL project reference index', () => {
     const battleSpriteEdges = edges.filter((edge) => edge.relation.kind === 'battle-sprite-use')
     const assetEdges = edges.filter((edge) => edge.relation.kind === 'asset-use')
     expect(worldSpriteEdges).toHaveLength(3_824)
-    expect(worldSpriteActionEdges).toHaveLength(385)
+    // E2E-002 declares one persistent open-page action on each inn door. Keep exact census and
+    // owner/locator identities, not just the +2 count; all collector/index parity gates below stay.
+    expect(worldSpriteActionEdges).toHaveLength(387)
+    expect(
+      worldSpriteActionEdges
+        .filter(
+          (edge) => edge.target.kind === 'world-sprite-action' && edge.target.actionId === 'open',
+        )
+        .map((edge) => ({ target: edge.target, owner: edge.source.owner, locator: edge.locator })),
+    ).toEqual([
+      {
+        target: { kind: 'world-sprite-action', spriteId: 'sprite-54', actionId: 'open' },
+        owner: { kind: 'scene-page', sceneId: 's003', entityId: 'e73', pageId: 'open' },
+        locator: { kind: 'scene-page', sceneId: 's003', entityId: 'e73', pageId: 'open' },
+      },
+      {
+        target: { kind: 'world-sprite-action', spriteId: 'sprite-53', actionId: 'open' },
+        owner: { kind: 'scene-page', sceneId: 's003', entityId: 'e74', pageId: 'open' },
+        locator: { kind: 'scene-page', sceneId: 's003', entityId: 'e74', pageId: 'open' },
+      },
+    ])
     expect(battleSpriteEdges).toHaveLength(180)
     expect(assetEdges).toHaveLength(6_002)
     const baselineAssetReferences = collectEditorAssetReferences(state, canonical)
@@ -480,7 +500,7 @@ describe('ED-3 PAL project reference index', () => {
         (sum, id) => sum + index.referencesTo({ kind: 'world-sprite', id }).length,
         0,
       ),
-    ).toBe(4_209)
+    ).toBe(4_211)
     expect(new Set(oldBattleSpriteReferences.map((reference) => reference.battleSprite)).size).toBe(
       171,
     )
@@ -492,7 +512,7 @@ describe('ED-3 PAL project reference index', () => {
             : '',
         ),
       ).size,
-    ).toBe(31)
+    ).toBe(33)
     expect(
       index.referencesTo({
         kind: 'world-sprite-action',
@@ -536,7 +556,36 @@ describe('ED-3 PAL project reference index', () => {
       },
     ])
 
-    expect(edges.filter((edge) => edge.relation.kind === 'behavior-reference')).toHaveLength(4_459)
+    expect(edges.filter((edge) => edge.relation.kind === 'behavior-reference')).toHaveLength(4_461)
+    expect(
+      edges
+        .filter(
+          (edge) =>
+            edge.relation.kind === 'behavior-reference' &&
+            edge.locator.kind === 'scene-page' &&
+            edge.locator.sceneId === 's003' &&
+            edge.locator.pageId === 'open',
+        )
+        .map((edge) => ({ target: edge.target, relation: edge.relation, locator: edge.locator })),
+    ).toEqual(
+      ['e73', 'e74'].map((entityId) => ({
+        target: {
+          kind: 'entity-behavior',
+          sceneId: 's003',
+          entityId,
+          channel: 'trigger',
+          behaviorId: 'default',
+        },
+        relation: { kind: 'behavior-reference', use: 'page-binding' },
+        locator: {
+          kind: 'scene-page',
+          sceneId: 's003',
+          entityId,
+          pageId: 'open',
+          channel: 'trigger',
+        },
+      })),
+    )
     expect(edges.filter((edge) => edge.relation.kind === 'scene-hook-reference')).toHaveLength(293)
     // D-02: s172 disables both s182 hook slots without selecting a concrete hook. This is one
     // parent-scene dependency, formerly omitted; existing hook/behavior counts above stay unchanged.
@@ -577,8 +626,10 @@ describe('ED-3 PAL project reference index', () => {
         deletePolicy: 'replace-suggest',
       },
     ])
-    expect(diagnostics.projectReferences.rows).toHaveLength(25_201)
-    expect(diagnostics.projectReferences.targetEdgeIds).toHaveLength(28_102)
+    // Two action edges + two trigger bindings add four rows; action parent-sprite buckets add
+    // two additional target aliases. Compact worker byte limit and full snapshot equality remain.
+    expect(diagnostics.projectReferences.rows).toHaveLength(25_205)
+    expect(diagnostics.projectReferences.targetEdgeIds).toHaveLength(28_108)
     expect('targetKeys' in diagnostics.projectReferences).toBe(false)
     expect(diagnostics.projectReferences.sources.every((source) => !('key' in source))).toBe(true)
     expect(

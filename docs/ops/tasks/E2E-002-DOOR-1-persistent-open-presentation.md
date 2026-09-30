@@ -19,6 +19,8 @@ Branch: codex/e2e-002-r1
 
 - 唯一实现Owner为Root。产品白名单：`projects/pal/content/scenes/s003.json`的两门页面及三处开门链、
   `projects/pal/content/sprites.json`的sprite53/54动作；回归白名单为`packages/reforge/src/pal-inn-door-save.test.ts`。
+  全仓门发现PAL引用索引精确census随两个新页增长，Root准入`packages/editor/src/core/project-reference.pal.test.ts`
+  的窄fixture同步：保留全部parity/删除阻挡与payload上限，精确核两条open动作和两条page行为引用。
 - 工具白名单：`scripts/e2e/inn-trace-plugin.mjs`及`inn-contract.test.mjs`窄只读门动作观测、
   `inn-contract.mjs`补实际动作来源hash；不改成功条件、像素区域、恢复采样时刻或生产调度。
 - 不恢复转换器、不重生成作者正文、不改一阶段、资产字节、NPC速度/路线或剧情奖励。
@@ -116,10 +118,26 @@ Branch: codex/e2e-002-r1
   开门正文经真实主壳F5/F9均实际render输入frame1→0失败，作者合同项失败（4红/1绿）。
   早先harness调试红例另保留，不冒充产品反控。
 - 绿例`regression-green-v2.log`：门7项＋邻接46项共53通过；实际frame选择spy不替换实现，
-  legal小地图仅适配几何/scene地址，e60只抽其完整六条开门段（全离场链另由正式002验）。
+  legal小地图适配几何/scene地址，并把两个sprite asset重接11帧合成RLE（保留真实action/layout）；
+  e60只抽其完整六条开门段、由fixture trigger调用，不覆盖原auto前后移动/时拍/隐藏或PAL像素。
+  全离场链、实际资源与Canvas另由正式002验，不冒称fixture只是地址/几何改动。
   验未开/开/隐藏/回default、两门再次交互、完整script树恢复、一次性setup奖励不重放、
   普通临时定帧仍清除；hidden/closed回归是现有模型测试，不新增作者关门剧情。
 - 工具反控`observer-red.log`原Map-only对page base1报0失败；修后`observer-green.log`26项绿，
   override0仍优先于base1。补sprites/实际帧选择/动作播放器hash，Canvas/全World断言未松动。
 - `lint.log`2704文件0 error/warning/info、`typecheck.log`零诊断；`author-check.log`当前pal
   294场景/223地图/1934资源闭包通过。完整质量门、正式002和独立代码复核仍待执行，不提前done。
+- 独立只读代码复核e2e_002_runner：4fc15826 `accept`，门7/7和工具26/26独立通过；未改文件/
+  服务/浏览器。直接核同有效行为page/CAS保留、单帧base完成留帧、恢复清Map后重建与静态门帧优先级。
+  指出并已补正上述asset/invocation adapter口径，完整正式World/Canvas门保持。
+- Root在冻结4fc15826运行正式RF002 `16-31-19-969Z` passed；49源hash与当前字节逐一相同，
+  002原档SHA `42ac15aff0719f8f11b3f59d6001266c59e2075c715d616f5c75985bcfb0136f`，真实restore提交
+  全量openingSaveView严格相同；结束/恢复1280×800 Canvas SHA均
+  `90e49d7cc22b1a454d250a54ca7447fde8cefc3452c239e2b5320bcd72612400`（723264非黑像素）。
+  Root实际看两图，两门frame1/page open，三人completed、500文保持；正式门未放宽。
+  实际解码053/054各2帧、无跳尾、资产hash与catalog同；原结束画面SHA与先前失败轮结束SHA亦同。
+- 第一次完整`check-final.log` exit1：editor 3691绿/1红，仅旧open-action引用385→387；
+  在完整parity前更新精确census并加两门引用身份断言，不能把本轮宣布完整门通过。重新冻结后重跑。
+- 窄同步`editor-reference-green-v1.log` 1/1通过；`editor-typecheck.log`零诊断，
+  `lint-v2.log`2704文件零诊断、`docs-v2.log`零问题。正文/runtime/观测工具未再改动，
+  正式002仍锚定4fc15826；完整质量门另重跑，不用窄门替代。
