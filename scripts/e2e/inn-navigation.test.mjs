@@ -315,8 +315,8 @@ test('route-start and ready-scene legs exclude restore and even one-cell scene p
   const moves = committedInnMoves(trace, 0)
   assert.deepEqual(moves, events.slice(1))
   const { steps, placements } = partitionInnMoves(moves, [
-    { scene: 's001', startOrder: 0, endOrder: 2 },
-    { scene: 's003', startOrder: 2, endOrder: 3 },
+    { scene: 's001', startOrder: 0, endOrder: 2, moveSources: ['commit:input'] },
+    { scene: 's003', startOrder: 2, endOrder: 3, moveSources: ['commit:input'] },
   ])
   assert.deepEqual(steps, [events[1], events[3]])
   assert.deepEqual(placements, [events[2]], 'one-cell delta is not proof of ordinary walking')
@@ -325,4 +325,25 @@ test('route-start and ready-scene legs exclude restore and even one-cell scene p
     () => committedInnMoves({ ...trace, events: [{ ...events[1], order: null }] }, 0),
     /order/,
   )
+})
+
+test('legacy placement before the scene event is not walking even in the old-scene leg', () => {
+  const h = harness()
+  h.commit([3, 0])
+  h.commit([4, 0])
+  const events = h.commits.map((move, i) => ({
+    ...move,
+    scene: 's001',
+    source: i ? 'commit:applyRawOpcode' : 'commit:tickSceneInput',
+  }))
+  const { steps, placements } = partitionInnMoves(events, [
+    {
+      scene: 's001',
+      startOrder: -1,
+      endOrder: 1,
+      moveSources: ['commit:tickSceneInput'],
+    },
+  ])
+  assert.deepEqual(steps, [events[0]])
+  assert.deepEqual(placements, [events[1]])
 })

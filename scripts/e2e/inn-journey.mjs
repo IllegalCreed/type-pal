@@ -225,7 +225,16 @@ export async function runInnJourney(engine) {
           onProgress: (step) =>
             appendBounded(report.route.steps, { scene: sid, atMs: Date.now(), ...step }, 240),
         })
-        report.route.legs.push({ scene: sid, startOrder, endOrder: await evidenceOrder() })
+        report.route.legs.push({
+          scene: sid,
+          startOrder,
+          endOrder: await evidenceOrder(),
+          // game 0x46 relocates before its scene event; RF spawn commits after the scene event.
+          moveSources:
+            engine === 'game'
+              ? ['commit:tickSceneInput', 'commit:pushPartyAwayFromBlockingNpcs']
+              : ['commit:player.pos'],
+        })
       }
       const radius = (col, row, targetCol, targetRow) =>
         engine === 'game'

@@ -102,14 +102,17 @@ export function committedInnMoves(trace, afterOrder) {
   })
 }
 
-/** Use observed ready-scene leg boundaries, not coordinate distance, to exclude scene placements. */
+/** Ready-scene legs plus verified motion commit sources; a one-cell delta is not proof of walking. */
 export function partitionInnMoves(moves, legs) {
   const steps = [],
     placements = []
   for (const move of moves) {
     const walking = legs.some(
       (leg) =>
-        move.scene === leg.scene && move.order > leg.startOrder && move.order <= leg.endOrder,
+        move.scene === leg.scene &&
+        move.order > leg.startOrder &&
+        move.order <= leg.endOrder &&
+        leg.moveSources.includes(move.source),
     )
     if (walking) steps.push(move)
     else placements.push(move)
