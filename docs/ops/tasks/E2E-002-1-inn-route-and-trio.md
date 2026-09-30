@@ -1,6 +1,6 @@
 # E2E-002-1 — 正常出房路线、e56 演出与脚本编排审查
 
-Status: build
+Status: review
 Phase: ops
 Capability: E2E-R4 / 002
 Coding Owner: Codex 受委派执行器贡献者 e2e_002_runner
@@ -125,15 +125,21 @@ Codex 已复核现行原始场景/视频和 game 插桩源码 hash 一致；锁�
   晚到post-resume完整快照另存，不删背景游标、不暂停世界、不取p/candidate/原档冒充观测，
   不改产品/作者/版本或质量配置。独立premise verified/design agree，Root build allowed。
   增工具反控并零诊断后冻结，再用本次真001重跑002；旧failed原样保留，母卡不关闭。
+- 2026-10-01 Root独立验收`9d15218b`：直接读五文件diff、实际restore成功tail与纯snapshot链，
+  错实际提交钱499但原档/晚World500必须拒绝；缺/重复/前移/插await锚均失败。
+  单独重跑工具56项全绿，严格lint/Biome零诊断。未改产品源码，运行前后3181文件聚合
+  `8a553b199b4c8c944946406c336e9ac7ba3e1fa8bd38b36009ceb9ea6c53660c`一致。
+  其中只有五工具文件及Root批准的inParty回归相对上一冻结点变化，余3175文件不变。
+- 正式第二轮`build/e2e/reforge-002-2026-09-30T15-29-25-294Z`：28步正常路线、20正文、
+  0→500、三人真实进房/隐藏与房内替身、生产barrier13ms均通过；fresh-context加载成功。
+  原始002档SHA `3b444c4856fdde4e8491ce3c66d5debb76f8c9b406a3228d86aec333f4f0beef`；
+  成功restore提交点全量World严格一致，晚到完整World另存、e62正常推进未被过滤。
+  整体仍failed：结束/恢复Canvas hash不一致，门e73/e74 frame1→0；Root实际看结束图和失败图，
+  另登记[E2E-002-DOOR-1](E2E-002-DOOR-1-persistent-open-presentation.md)。不得增加忽略区域/阈值。
+- 最终冻结产品完整check10648项、2703静态零诊断通过，工具后续窄改56项另验。
+  `fc1d5804`集成主树；执行器交付已复核，顶部转review但002整体验收未通过，母卡不关闭。
 
 ## 下一位 Agent 提示词
 
-```text
-接手 E2E-002-1，状态 build；你是隔离执行器唯一 Coding Owner。
-先读本卡及其上下文锚点/相关 pnpm、Vite、Vitest 技能。
-build allowed 范围仅 scripts/e2e/** 和根 package.json 新命令；Root 维护文档。
-继承真实 passed 001 档，正常输入走至 s003/e56，再验证 20 行/500 文/三人进房消失。
-不改产品、作者内容、schema/save/依赖/锁/质量规则；不操作 6010/6012，不造档或 debug 跳场景。
-保留 001 观测与 31 现有工具测试；002 用独立合同与只读实际提交采集，未知/超限失败关闭。
-交付 SHA、文件清单、工具/实际双引擎结果、反例及未完成项；不得自行合 main 或标 done。
-```
+无下一位Agent提示词。执行器冻结；待独立门卡核定修复、冻结产品后，再执行一次正式002恢复验收。
+当前不得重跑至过、改采样合同或标记002/母卡done。

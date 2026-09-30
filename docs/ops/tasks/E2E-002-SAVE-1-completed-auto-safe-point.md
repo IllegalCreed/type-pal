@@ -108,6 +108,11 @@ machine下一state误执行。用核心门测试、真实正式主壳自动机/�
   fresh-context已loaded，整体报告仍failed（正常e62循环在晚到二次dump期间推进），归工具取证域。
   F5/F9证据为6项真实主壳回归，RF浏览器正式链是dumpSave，不混称。
   最终全仓门与集成pending，不据单独barrier成功关闭002。
+- 2026-10-01最终门：冻结完整check10648项通过、严格lint2703文件零诊断；`fc1d5804`已集成，
+  主树全包typecheck/严格lint/作者检查绿。正式002第二轮生产保存13ms，实际恢复提交点全量World
+  与原档严格一致，含各completed cursor；6项真实F5/F9主壳反控保持通过。
+  002整体仍failed：门瞬态frame1→0的独立画面问题另见[E2E-002-DOOR-1](E2E-002-DOOR-1-persistent-open-presentation.md)。
+  本卡保存门实现accept；最终002画面条件尚未闭合，顶部保留review，不冒称全恢复验收通过。
 
 ## 交接日志
 
@@ -117,10 +122,4 @@ machine下一state误执行。用核心门测试、真实正式主壳自动机/�
 
 ## 下一位Agent提示词
 
-```text
-接手E2E-002-SAVE-1 v2，状态build；Root是唯一产品实现Owner。
-你只读压力审/复核，先读本卡、002实际保存诊断、main1066/2900与core183/257、FlowActivationLease。
-重点推翻safe-point只提交已完成body、不让下一leaf越gate的前提；state0不是lifecycle hide。
-不得改产品/作者/质量规则、不得忽略lease或加长timeout、不得标done。
-交付直接证据accept/counter。002执行器冻结后由Root独立跑正式路线/保存/恢复。
-```
+无下一位Agent提示词。v2实现已复核并集成；等待独立门画面修复后的002最终恢复验收，不追加保存能力。
