@@ -12,8 +12,8 @@ import {
   readInnContract,
   readPredecessor,
 } from './inn-contract.mjs'
+import { committedInnMoves, navigateInnRoute } from './inn-navigation.mjs'
 import { installInnObserver, readInnGame, readInnReforge } from './inn-observer.mjs'
-import { planInnRoute } from './inn-route.mjs'
 import { waitForOpeningFrame } from './opening-frame.mjs'
 import { appendBounded } from './opening-policy.mjs'
 import { openingSaveView } from './reforge-opening-policy.mjs'
@@ -196,60 +196,30 @@ export async function runInnJourney(engine) {
       report.route = {
         status: 'running',
         steps: [],
+        inputs: [],
+        stepKind: 'observed progress; exact cells are in committedMoves',
         start: { scene: s.scene, position: s.position },
       }
       const navigate = async (sid, destination, finished) => {
-        for (let n = 0; n < 120; n++) {
-          health()
-          s = await snapshot()
-          if (finished(s)) return
-          assert(
-            sid === 's001' ? room(s, engine) : hall(s, engine),
-            'route entered unexpected scene',
-          )
-          assert(ready(s, engine), 'unexpected script/dialogue while navigating')
-          const p = grid(s, engine)
-          if (destination(...p)) {
-            await until(snapshot, finished, 'actual touch/scene transition')
-            return
-          }
-          const path = planInnRoute(maps[sid], p, destination, s.routeActors)
-          assert(path.length > 0)
-          const before = s.position,
-            key = path[0]
-          appendBounded(
-            report.actions,
-            { key, reason: `normal route ${sid}`, position: before },
-            240,
-          )
-          await page.keyboard.down(key)
-          try {
-            await until(
-              snapshot,
-              (next) => JSON.stringify(next.position) !== JSON.stringify(before) || finished(next),
-              'normal input committed step',
-              5000,
-            )
-          } finally {
-            await page.keyboard.up(key)
-          }
-          const next = await snapshot()
-          appendBounded(
-            report.route.steps,
-            { scene: sid, key, from: before, to: next.position },
-            240,
-          )
-          if (finished(next)) return
-          if (!ready(next, engine)) {
-            await until(
-              snapshot,
-              (next) => finished(next) || ready(next, engine),
-              'route effect settles',
-            )
-            if (finished(await snapshot())) return
-          }
-        }
-        throw new Error('normal route action budget exhausted')
+        await navigateInnRoute({
+          keyboard: page.keyboard,
+          map: maps[sid],
+          read: snapshot,
+          until,
+          health,
+          grid: (state) => grid(state, engine),
+          inScene: (state) => (sid === 's001' ? room(state, engine) : hall(state, engine)),
+          ready: (state) => ready(state, engine),
+          destination,
+          finished,
+          onInput: (input) => {
+            const action = { scene: sid, atMs: Date.now(), ...input }
+            appendBounded(report.route.inputs, action, 240)
+            appendBounded(report.actions, action, 240)
+          },
+          onProgress: (step) =>
+            appendBounded(report.route.steps, { scene: sid, atMs: Date.now(), ...step }, 240),
+        })
       }
       const radius = (col, row, targetCol, targetRow) =>
         engine === 'game'
@@ -273,6 +243,9 @@ export async function runInnJourney(engine) {
       )
       report.route.status = 'passed'
       report.route.coreEntry = (await snapshot()).position
+      report.route.committedMoves = committedInnMoves(
+        await page.evaluate(() => window.__readInnEvidence()),
+      )
       report.core = { status: 'running' }
       report.milestones = {}
       report.dialogueHolds = []

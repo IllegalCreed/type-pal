@@ -99,6 +99,83 @@ const directional: SpriteDef = {
 }
 
 describe('当前大世界呈现的实体与队伍帧选择', () => {
+  test('只有受控队长主动触发前景透明，NPC/静物/队友/编外跟随者仍保留普通遮挡与不透明本体', () => {
+    const frames = loaded(1)
+    const sprites = presentation().sprites(
+      input({
+        entities: [
+          { id: 'hero-npc', actor: 'hero', pos: pos(1) },
+          { id: 'prop', sprite: staticDef.id, pos: pos(2) },
+        ],
+        entitySprite: () => staticDef,
+        loadedSprite: () => frames,
+        party: [member('hero'), member('friend')],
+        partyVisual: () => ({ def: staticDef, frames }),
+        followers: [undefined, { pos: pos(3), facing: 'up' }],
+        extraFollowerSpriteIds: [staticDef.id],
+        spriteById: () => staticDef,
+      }),
+    )
+    expect(sprites.map((sprite) => sprite.occlusionTrigger)).toEqual([
+      false,
+      false,
+      true,
+      false,
+      false,
+    ])
+    expect(sprites.map((sprite) => sprite.coverSortOffset)).toEqual([9, 9, 26, 26, 26])
+    expect(sprites.every((sprite) => sprite.alpha === undefined)).toBe(true)
+  })
+
+  test('空队伍的首个编外跟随者不因深度序号为0而成为受控主角', () => {
+    const frames = loaded(1)
+    const sprites = presentation().sprites(
+      input({
+        loadedSprite: () => frames,
+        extraFollowerSpriteIds: [staticDef.id],
+        spriteById: () => staticDef,
+      }),
+    )
+    expect(sprites).toHaveLength(1)
+    expect(sprites[0]?.baseYBias).toBe(2)
+    expect(sprites[0]?.occlusionTrigger).toBe(false)
+  })
+
+  test('队长换人按当前受控绘制点触发，不绑定旧Actor；队长无可绘帧时队友不接替触发', () => {
+    const hero = member('hero')
+    const friend = member('friend')
+    const heroFrames = loaded(1)
+    const friendFrames = loaded(2)
+    const presenter = presentation()
+    const state = input({
+      party: [hero, friend],
+      partyVisual: (entry) => ({
+        def: staticDef,
+        frames: entry === hero ? heroFrames : friendFrames,
+      }),
+      followers: [undefined, { pos: pos(3), facing: 'down' }],
+    })
+    const original = presenter.sprites(state)
+    const swapped = presenter.sprites({ ...state, party: [friend, hero] })
+    expect(original.map((sprite) => sprite.frame)).toEqual([
+      heroFrames.frames[0],
+      friendFrames.frames[0],
+    ])
+    expect(swapped.map((sprite) => sprite.frame)).toEqual([
+      friendFrames.frames[0],
+      heroFrames.frames[0],
+    ])
+    expect(original.map((sprite) => sprite.occlusionTrigger)).toEqual([true, false])
+    expect(swapped.map((sprite) => sprite.occlusionTrigger)).toEqual([true, false])
+    const missingLeader = presenter.sprites({
+      ...state,
+      partyVisual: (entry) =>
+        entry === hero ? undefined : { def: staticDef, frames: friendFrames },
+    })
+    expect(missingLeader).toHaveLength(1)
+    expect(missingLeader[0]?.occlusionTrigger).toBe(false)
+  })
+
   test('隐藏、缺定义和空解码帧不进入绘制队列，只有合法可见精灵留下实际帧锚', () => {
     const entity = (id: string): EntityDef => ({ id, sprite: 'static', pos: pos(2) })
     const frames = loaded(1)

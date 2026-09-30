@@ -9,6 +9,7 @@
 | 任务 | 顶部状态 | 说明 |
 |---|---|---|
 | [ARCH-SUPPORT-GLM-1 — 八组并行准备取证](ARCH-SUPPORT-GLM-1-eight-audit-packages.md) | draft | 以任务卡当前准入与看板分工为准。 |
+| [E2E-002-FEEDBACK-1 - 主角遮挡反馈与连续方向输入](E2E-002-FEEDBACK-1-player-occlusion-and-held-input.md) | build | 以任务卡当前准入与看板分工为准。 |
 | [E2E-R4-1 — 路线驱动与合法检查点薄基线](E2E-R4-1-route-and-checkpoint-foundation.md) | build | 以任务卡当前准入与看板分工为准。 |
 | [EDITOR-MAP-SELECTION-NOTICE-1 — Esc 清选后的状态通知语义](EDITOR-MAP-SELECTION-NOTICE-1.md) | draft | 以任务卡当前准入与看板分工为准。 |
 | [EDITOR-SCENE-FACING-1 — 切场景指令无法清除显式朝向](EDITOR-SCENE-FACING-1-clear-override.md) | draft | 以任务卡当前准入与看板分工为准。 |

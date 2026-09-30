@@ -135,7 +135,7 @@ describe('WorldScenePresentation sprite ownership', () => {
         coverILayer: 18,
         coverSortOffset: 25,
         baseYBias: 2,
-        occlusionTrigger: true,
+        occlusionTrigger: false,
       }),
     ])
   })
@@ -182,6 +182,7 @@ describe('WorldScenePresentation sprite ownership', () => {
     expect(sprites.map((sprite) => sprite.coverILayer)).toEqual([30, 30, 30])
     expect(sprites.map((sprite) => sprite.anchorX)).toEqual([4, 4, 4])
     expect(sprites.map((sprite) => sprite.anchorY)).toEqual([10, 10, 10])
+    expect(sprites.map((sprite) => sprite.occlusionTrigger)).toEqual([true, false, false])
   })
 
   test('gait outranks explicit animation/action while semantic action outranks loop time', () => {

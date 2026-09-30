@@ -165,7 +165,7 @@ export class WorldScenePresentation {
         coverILayer: effectiveLayer * 8 + 2,
         coverSortOffset: effectiveLayer * 8 + 9,
         baseYBias: effectiveLayer,
-        occlusionTrigger: 'actor' in entity,
+        occlusionTrigger: false,
       })
     }
 
@@ -199,7 +199,7 @@ export class WorldScenePresentation {
     const leaderFrame = leaderFrames?.frames[leaderFrameIndex]
     if (leaderDefinition && leaderFrame) {
       const pixel = gridToPixel(input.player.pos)
-      sprites.push(partySprite(leaderFrame, input.player.pos, pixel, input.player.layer, 0))
+      sprites.push(partySprite(leaderFrame, input.player.pos, pixel, input.player.layer, 0, true))
     }
 
     for (let partyIndex = 1; partyIndex < input.party.length; partyIndex++) {
@@ -218,7 +218,14 @@ export class WorldScenePresentation {
       const frame = visual.frames.frames[frameIndex]
       if (!frame) continue
       sprites.push(
-        partySprite(frame, follower.pos, gridToPixel(follower.pos), input.player.layer, partyIndex),
+        partySprite(
+          frame,
+          follower.pos,
+          gridToPixel(follower.pos),
+          input.player.layer,
+          partyIndex,
+          false,
+        ),
       )
     }
 
@@ -240,7 +247,14 @@ export class WorldScenePresentation {
       const frame = loaded.frames[frameIndex]
       if (!frame) continue
       sprites.push(
-        partySprite(frame, follower.pos, gridToPixel(follower.pos), input.player.layer, partyIndex),
+        partySprite(
+          frame,
+          follower.pos,
+          gridToPixel(follower.pos),
+          input.player.layer,
+          partyIndex,
+          false,
+        ),
       )
     }
     return sprites
@@ -323,6 +337,7 @@ function partySprite(
   pixel: Readonly<{ x: number; y: number }>,
   layer: number,
   partyIndex: number,
+  controlled: boolean,
 ): SpriteDraw {
   return {
     frame,
@@ -335,6 +350,7 @@ function partySprite(
     coverSortOffset: layer * 8 + 10,
     // Leader wins equal-Y ties over every follower; this tiny bias never changes ordinary depth.
     baseYBias: layer - 0.01 * partyIndex,
-    occlusionTrigger: true,
+    // Only the currently controlled player reveals foreground. Depth slots are not control identity.
+    occlusionTrigger: controlled,
   }
 }

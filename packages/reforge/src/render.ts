@@ -89,7 +89,7 @@ export interface SpriteDraw {
   coverSortOffset?: number
   /** 不透明度(编辑器幽灵渲染等;缺省 1)。 */
   alpha?: number
-  /** D6-1(K1):是否触发遮挡半透明——角色类(玩家/队员/跟随者/actor 实体)true;prop false。 */
+  /** 是否主动触发前景半透明：大世界仅当前受控主角 true；普通遮挡/深度排序与此标记无关。 */
   occlusionTrigger?: boolean
 }
 
