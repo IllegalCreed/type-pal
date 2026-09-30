@@ -38,9 +38,9 @@ const actor = {
 }
 
 const validPayload = (): CurrentSavePayload => ({
-  version: 8,
+  version: 9,
   projectId: 'proj',
-  contentVersion: 20,
+  contentVersion: 21,
   world: buildWorld({ party: ['hero'], money: 100, inventory: [] }, { hero: actor }),
   position: { sceneId: 's001', pos: { col: 1.5, row: -2.25, height: 0 }, facing: 'down' },
 })

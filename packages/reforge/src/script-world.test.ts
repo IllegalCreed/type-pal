@@ -8,6 +8,7 @@ import {
 } from '@type-pal/content'
 import { describe, expect, test, vi } from 'vitest'
 import {
+  assertFlowCursor,
   evalAuthorCondition,
   FlowRuntimeCoordinator,
   resolveBaseEntityPage,
@@ -20,6 +21,66 @@ import {
 } from './script-world.js'
 
 const target: EntityAddress = { scene: 'scene', entity: 'entity' }
+
+test('completed identity remains resolvable but cannot acquire a lease; real selection changes reset it', async () => {
+  const definition = entity()
+  const once = definition.behaviors?.trigger?.talk
+  if (!once || once.flow.kind !== 'stages') throw new Error('fixture')
+  once.flow.stages[0]!.next = { kind: 'complete' }
+  definition.pages!.push({ id: 'same', label: 'Same', trigger: 'talk', auto: 'idle' })
+  const world = emptyWorldScriptState()
+  const completed = vi.fn()
+  const coordinator = new FlowRuntimeCoordinator(completed)
+  const active = coordinator.beginEntityBehavior(world, definition, target, 'trigger')!
+  await active.lease.reachSafePoint({ kind: 'completed' })
+  active.lease.close()
+  expect(completed).toHaveBeenCalledExactlyOnceWith({
+    kind: 'entity-behavior',
+    target,
+    channel: 'trigger',
+  })
+  expect(resolveEntityBehavior(definition, world, target, 'trigger')).toMatchObject({
+    behaviorId: 'talk',
+    cursor: { kind: 'completed' },
+  })
+  expect(coordinator.beginEntityBehavior(world, definition, target, 'trigger')).toBeUndefined()
+  selectBaseEntityPage(world, definition, target, { kind: 'use', value: 'same' }, coordinator)
+  expect(resolveEntityBehavior(definition, world, target, 'trigger')?.cursor).toEqual({
+    kind: 'completed',
+  })
+  selectEntityBehavior(world, definition, target, 'trigger', { kind: 'disabled' }, coordinator)
+  selectEntityBehavior(
+    world,
+    definition,
+    target,
+    'trigger',
+    { kind: 'use', value: 'talk' },
+    coordinator,
+  )
+  expect(resolveEntityBehavior(definition, world, target, 'trigger')?.cursor).toEqual({
+    kind: 'stage',
+    stage: 'initial',
+  })
+  const stale = coordinator.beginEntityBehavior(world, definition, target, 'trigger')!
+  selectEntityBehavior(
+    world,
+    definition,
+    target,
+    'trigger',
+    { kind: 'use', value: 'inspect' },
+    coordinator,
+  )
+  await stale.lease.reachSafePoint({ kind: 'completed' })
+  stale.lease.close()
+  expect(completed).toHaveBeenCalledTimes(1)
+  expect(resolveEntityBehavior(definition, world, target, 'trigger')?.behaviorId).toBe('inspect')
+  expect(() =>
+    assertFlowCursor(
+      { kind: 'stages', initial: 'repeat', stages: [{ id: 'repeat', body: [] }] },
+      { kind: 'completed' },
+    ),
+  ).toThrow(/未声明 complete/)
+})
 
 function entity(): BaseSceneEntity {
   return {

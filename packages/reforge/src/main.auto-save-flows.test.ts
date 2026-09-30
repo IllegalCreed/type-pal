@@ -143,7 +143,7 @@ test.each([
 const target = { scene: 'a', entity: 'npc' }
 const endpoint = { col: 5, row: 4, height: 0 }
 
-function departure(kind: 'stages' | 'stateMachine'): AuthorScriptFlow {
+function departure(kind: 'stages' | 'stateMachine', explicitCompletion = false): AuthorScriptFlow {
   const body: AuthorCommand[] = [
     { kind: 'moveEntity', target, to: endpoint, speed: 'slow' },
     { kind: 'giveMoney', delta: 7 },
@@ -153,10 +153,12 @@ function departure(kind: 'stages' | 'stateMachine'): AuthorScriptFlow {
     ? {
         kind,
         initial: 'depart',
-        stages: [
-          { id: 'depart', body, next: 'completed' },
-          { id: 'completed', body: [] },
-        ],
+        stages: explicitCompletion
+          ? [{ id: 'depart', body, next: { kind: 'complete' } }]
+          : [
+              { id: 'depart', body, next: 'completed' },
+              { id: 'completed', body: [] },
+            ],
       }
     : {
         kind,
@@ -164,18 +166,22 @@ function departure(kind: 'stages' | 'stateMachine'): AuthorScriptFlow {
           id: 'departure',
           label: 'Departure',
           initial: 'depart',
-          states: {
-            depart: { label: 'Depart', body, next: { kind: 'advance', state: 'completed' } },
-            completed: { label: 'Complete', body: [], next: { kind: 'stay' } },
-          },
+          states: explicitCompletion
+            ? { depart: { label: 'Depart', body, next: { kind: 'complete' } } }
+            : {
+                depart: { label: 'Depart', body, next: { kind: 'advance', state: 'completed' } },
+                completed: { label: 'Complete', body: [], next: { kind: 'stay' } },
+              },
         },
       }
 }
 
 test.each([
-  'stages',
-  'stateMachine',
-] as const)('completed %s auto commits its cursor after self state0, permitting real F5/F9 without replay', async (kind) => {
+  ['stages', false],
+  ['stateMachine', false],
+  ['stages', true],
+  ['stateMachine', true],
+] as const)('completed %s auto (explicit completion %s) commits after self state0, permitting real F5/F9 without replay', async (kind, explicitCompletion) => {
   host = await installShellHost()
   const first = shellScene('a')
   first.entities = [
@@ -185,7 +191,9 @@ test.each([
       pos: { col: 4, row: 4, height: 0 },
       pages: [{ id: 'normal', label: 'Normal', auto: 'leave' }],
       initialPage: 'normal',
-      behaviors: { auto: { leave: { label: 'Leave', order: 0, flow: departure(kind) } } },
+      behaviors: {
+        auto: { leave: { label: 'Leave', order: 0, flow: departure(kind, explicitCompletion) } },
+      },
     },
   ]
   const booted = await bootScenario(host, { first })
@@ -193,8 +201,9 @@ test.each([
   expect(state().world.money).toBe(57)
   expect(state().entities[0]?.pos).toEqual(endpoint)
   expect(state().entities[0]?.hidden).toBe(true)
-  const cursor =
-    kind === 'stages'
+  const cursor = explicitCompletion
+    ? { kind: 'completed' }
+    : kind === 'stages'
       ? { kind: 'stage', stage: 'completed' }
       : { kind: 'state', machine: 'departure', state: 'completed' }
   await advance(

@@ -99,8 +99,8 @@ function shellState(): EditorState {
     manifest: {
       id: 'test',
       name: 'Test',
-      contentVersion: 20,
-      minimumSaveVersion: 8,
+      contentVersion: 21,
+      minimumSaveVersion: 9,
       defaultEntryId: 'main',
       content: {},
       assets: { catalog: 'assets/index.json', roles: {} },
@@ -387,8 +387,8 @@ describe('App item reference navigation', () => {
   ): Promise<EditSession> => {
     shell.manifest = {
       ...shell.manifest,
-      contentVersion: 20,
-      minimumSaveVersion: 8,
+      contentVersion: 21,
+      minimumSaveVersion: 9,
     } as EditorState['manifest']
     const source = {
       readText: vi.fn(async () => ''),
@@ -2051,7 +2051,7 @@ describe('App item reference navigation', () => {
     expect(host.querySelector('[role="status"]')?.textContent).not.toContain('已删除')
   })
 
-  test('content20 场景脚本进入 canonical 工作区而不是 legacy stages 抽屉', async () => {
+  test('content21 场景脚本进入 canonical 工作区而不是 legacy stages 抽屉', async () => {
     window.history.replaceState({}, '', '/?module=scene&page=workspace&object=s047')
     const canonical = canonicalState()
     canonical.scenes[0]!.entities[0]!.behaviors!.trigger!.default!.flow = {
@@ -2075,8 +2075,8 @@ describe('App item reference navigation', () => {
     const shell = shellState()
     shell.manifest = {
       ...shell.manifest,
-      contentVersion: 20,
-      minimumSaveVersion: 8,
+      contentVersion: 21,
+      minimumSaveVersion: 9,
       content: { ...shell.manifest.content, sharedScripts: 'content/shared-scripts.json' },
     } as EditorState['manifest']
     shell.scenes = structuredClone(canonical.scenes) as unknown as EditorState['scenes']
@@ -2130,7 +2130,7 @@ describe('App item reference navigation', () => {
     )
   })
 
-  test('content20 保存合并保留 shell 空间改动与 canonical 身份对话', () => {
+  test('content21 保存合并保留 shell 空间改动与 canonical 身份对话', () => {
     const canonical = canonicalState()
     canonical.scenes[0]!.entities[0]!.behaviors!.trigger!.default!.flow = {
       kind: 'stages',
@@ -2153,8 +2153,8 @@ describe('App item reference navigation', () => {
     const shell = shellState()
     shell.manifest = {
       ...shell.manifest,
-      contentVersion: 20,
-      minimumSaveVersion: 8,
+      contentVersion: 21,
+      minimumSaveVersion: 9,
     } as EditorState['manifest']
     shell.scenes = structuredClone(canonical.scenes) as unknown as EditorState['scenes']
     shell.scenes[0]!.entry.pos = { col: 9, row: 8, height: 0 }
@@ -2167,7 +2167,7 @@ describe('App item reference navigation', () => {
     }
 
     const merged = mergeEditorProjectionWithCurrentAuthorState(canonical, shell)
-    expect(merged.manifest.contentVersion).toBe(20)
+    expect(merged.manifest.contentVersion).toBe(21)
     expect(merged.scenes[0]!.entry.pos).toEqual({ col: 9, row: 8, height: 0 })
     expect(
       (merged.scenes[0] as unknown as ScriptEditorState['scenes'][number]).entities[0]!.behaviors!

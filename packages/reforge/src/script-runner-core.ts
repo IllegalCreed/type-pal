@@ -5,6 +5,7 @@ import type {
   FlowCursor,
   SceneReveal,
 } from '@type-pal/content'
+import { flowCanComplete } from '@type-pal/content'
 import type { BattleResult } from './battle/battle-result.js'
 import {
   type BaseRuntimeLeafCommand,
@@ -136,6 +137,12 @@ export class ScriptRunnerCore<RuntimeLeafCommand = BaseRuntimeLeafCommand> {
       throw new Error(
         `ScriptRunnerCore: boundaryPolicy ${String(executable.boundaryPolicy)} 不受支持`,
       )
+    throwIfAborted(this.signal)
+    if (options.cursor?.kind === 'completed') {
+      if (!flowCanComplete(executable.flow))
+        throw new Error('ScriptRunnerCore: flow 未声明 complete，不能使用 completed cursor')
+      return
+    }
     const previousSelf = this.self
     const previousTiming = this.runningTiming
     const previousBoundaryPolicy = this.runningBoundaryPolicy
@@ -188,10 +195,11 @@ export class ScriptRunnerCore<RuntimeLeafCommand = BaseRuntimeLeafCommand> {
       await this.runCommands(stage.body, [stage.id])
       throwIfAborted(this.signal)
       await this.awaitGate({ kind: 'settlement' })
-      await options.cursorController.reachSafePoint({
-        kind: 'stage',
-        stage: stage.next ?? stage.id,
-      })
+      await options.cursorController.reachSafePoint(
+        typeof stage.next === 'object'
+          ? { kind: 'completed' }
+          : { kind: 'stage', stage: stage.next ?? stage.id },
+      )
     } catch (error) {
       if (!(error instanceof ScriptStopped)) throw error
     }
@@ -245,6 +253,11 @@ export class ScriptRunnerCore<RuntimeLeafCommand = BaseRuntimeLeafCommand> {
         await this.runCommands(state.body, [machine.id, stateId], outcomes, true)
         throwIfAborted(this.signal)
         const transition = this.resolveTransition(state.next, outcomes)
+        if (transition.kind === 'complete') {
+          await this.awaitGate({ kind: 'settlement' })
+          await options.cursorController.reachSafePoint({ kind: 'completed' })
+          return
+        }
         if (transition.kind === 'continue') {
           assertState(machine.states, transition.state, `${machine.id}.${stateId}.next`)
           synchronousTransitions++

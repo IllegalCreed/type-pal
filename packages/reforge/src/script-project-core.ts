@@ -24,6 +24,7 @@ import { ScriptRunnerCore } from './script-runner-core.js'
 import {
   evalAuthorCondition,
   FlowRuntimeCoordinator,
+  type PersistentFlowOwner,
   resolveEntityBehavior,
   resolveSceneHook,
   selectBaseEntityPage,
@@ -53,6 +54,8 @@ export interface SceneMapCommitControl {
 export type ScriptEffectCommitControl = MoveEntityCommitControl | SceneMapCommitControl
 
 export interface BaseProjectScriptHostOptions extends RuntimeHostServices {
+  /** Synchronous projection notification after a successful completion cursor CAS. */
+  flowCompleted?(owner: PersistentFlowOwner): void
   /** 画面/音频/战斗等宿主副作用；需预载的原子操作通过commitControl在准备完成后提交。 */
   executeEffect(
     command: BaseRuntimeLeafCommand,
@@ -366,7 +369,7 @@ export interface RunBaseProjectCommandsOptions {
 type SynchronousSnapshot<T> = T extends PromiseLike<unknown> ? never : T
 
 export class BaseScriptProjectRuntime {
-  readonly coordinator = new FlowRuntimeCoordinator()
+  readonly coordinator: FlowRuntimeCoordinator
   readonly host: BaseProjectScriptRuntimeHost
   private readonly shared: BaseSharedScriptResolver
 
@@ -378,6 +381,7 @@ export class BaseScriptProjectRuntime {
   ) {
     if (!/^[a-f0-9]{64}$/.test(canonicalContentDigest))
       throw new Error('BaseScriptProjectRuntime: canonicalContentDigest 非法')
+    this.coordinator = new FlowRuntimeCoordinator(host.flowCompleted)
     this.host = new BaseProjectScriptRuntimeHost(world, this.coordinator, host)
     this.shared = new BaseSharedScriptResolver(project.sharedScripts, canonicalContentDigest)
   }
@@ -393,7 +397,8 @@ export class BaseScriptProjectRuntime {
     const entity = entityAt(scene, target)
     const sceneSessionId = this.host.currentSceneSessionId()
     if (this.host.currentSceneId() !== scene.id) return false
-    if (!resolveEntityBehavior(entity, this.world, target, channel)) return false
+    const resolved = resolveEntityBehavior(entity, this.world, target, channel)
+    if (!resolved || resolved.cursor.kind === 'completed') return false
     const parent = registeredScriptActivityLease(this.host, this.coordinator, options.signal)
     let active = this.coordinator.beginEntityBehavior(this.world, entity, target, channel, parent)
     while (!active && !parent && this.coordinator.gateClosed()) {
@@ -441,7 +446,8 @@ export class BaseScriptProjectRuntime {
     options.signal.throwIfAborted()
     const sceneSessionId = this.host.currentSceneSessionId()
     if (this.host.currentSceneId() !== scene.id) return false
-    if (!resolveSceneHook(scene, this.world, slot)) return false
+    const resolved = resolveSceneHook(scene, this.world, slot)
+    if (!resolved || resolved.cursor.kind === 'completed') return false
     const parent = registeredScriptActivityLease(this.host, this.coordinator, options.signal)
     let active = this.coordinator.beginSceneHook(this.world, scene, slot, parent)
     while (!active && !parent && this.coordinator.gateClosed()) {

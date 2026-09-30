@@ -240,6 +240,112 @@ function states(
 }
 
 describe('ScriptRunnerCore flow semantics', () => {
+  test('a completed stage executes once, commits only after settlement, and becomes inert', async () => {
+    const host = fakeHost()
+    const cursors = controller()
+    const settlement = deferred<void>()
+    host.gate = async (_signal, boundary) => {
+      if (boundary?.kind === 'settlement') await settlement.promise
+    }
+    const flow = compile({
+      kind: 'stages',
+      initial: 'one',
+      stages: [{ id: 'one', body: [{ kind: 'giveMoney', delta: 7 }], next: { kind: 'complete' } }],
+    })
+    const runner = new ScriptRunnerCore(host, new AbortController().signal)
+    const pending = runner.runFlow(flow, { cursorController: cursors })
+    await new Promise<void>((resolve) => setTimeout(resolve, 0))
+    expect(host.calls).toContain('execute:giveMoney:-:-')
+    expect(cursors.cursors).toEqual([])
+    settlement.resolve()
+    await pending
+    expect(cursors.cursors).toEqual([{ kind: 'completed' }])
+    const before = [...host.calls]
+    await runner.runFlow(flow, { cursor: { kind: 'completed' }, cursorController: cursors })
+    expect(host.calls).toEqual(before)
+    expect(cursors.cursors).toHaveLength(1)
+    await expect(
+      runner.runFlow(
+        compile({ kind: 'stages', initial: 'repeat', stages: [{ id: 'repeat', body: [] }] }),
+        { cursor: { kind: 'completed' }, cursorController: cursors },
+      ),
+    ).rejects.toThrow(/未声明 complete/)
+  })
+
+  test.each([
+    'complete',
+    'branch',
+    'commandOutcome',
+  ] as const)('machine %s completion is final without an extra tick', async (kind) => {
+    const host = fakeHost()
+    host.conditions.set('finish', true)
+    const next: Extract<
+      BaseScriptFlow,
+      { kind: 'stateMachine' }
+    >['machine']['states'][string]['next'] =
+      kind === 'complete'
+        ? { kind: 'complete' }
+        : kind === 'branch'
+          ? {
+              kind: 'branch',
+              cond: { kind: 'flag', flag: 'finish', is: true },
+              then: { kind: 'complete' },
+              else: { kind: 'stay' },
+            }
+          : {
+              kind: 'commandOutcome',
+              commandId: 'answer',
+              command: 'confirm',
+              outcome: 'no',
+              then: { kind: 'stay' },
+              else: { kind: 'complete' },
+            }
+    const cursors = controller()
+    const flow = compile(
+      states({
+        initial: {
+          label: 'One',
+          body:
+            kind === 'commandOutcome'
+              ? [{ kind: 'confirm', id: 'answer', onNo: [] }]
+              : [{ kind: 'giveMoney', delta: 7 }],
+          next,
+        },
+      }),
+    )
+    const runner = new ScriptRunnerCore(host, new AbortController().signal)
+    await runner.runFlow(flow, { cursorController: cursors })
+    expect(cursors.cursors).toEqual([{ kind: 'completed' }])
+    expect(host.waitWorldTick).not.toHaveBeenCalled()
+    expect(host.yieldMacroTask).not.toHaveBeenCalled()
+    const before = [...host.calls]
+    await runner.runFlow(flow, { cursor: { kind: 'completed' }, cursorController: cursors })
+    expect(host.calls).toEqual(before)
+  })
+
+  test('abort and stopScript never manufacture completion', async () => {
+    for (const stop of [true, false]) {
+      const host = fakeHost()
+      const cursors = controller()
+      const ac = new AbortController()
+      host.gate = (_signal, boundary) => {
+        if (boundary?.kind === 'settlement') ac.abort()
+      }
+      const flow = compile({
+        kind: 'stages',
+        initial: 'one',
+        stages: [
+          { id: 'one', body: stop ? [{ kind: 'stopScript' }] : [], next: { kind: 'complete' } },
+        ],
+      })
+      const pending = new ScriptRunnerCore(host, ac.signal).runFlow(flow, {
+        cursorController: cursors,
+      })
+      if (stop) await pending
+      else await expect(pending).rejects.toMatchObject({ name: 'AbortError' })
+      expect(cursors.cursors).toEqual([])
+    }
+  })
   test('stage next commits its stable cursor and ends the activation', async () => {
     const host = fakeHost()
     const cursors = controller()

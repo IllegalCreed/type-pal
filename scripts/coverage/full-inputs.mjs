@@ -74,10 +74,10 @@ export function assertFullJsonContracts(json) {
   if (
     !manifest ||
     manifest.id !== 'pal' ||
-    manifest.contentVersion !== 20 ||
-    manifest.minimumSaveVersion !== 8
+    manifest.contentVersion !== 21 ||
+    manifest.minimumSaveVersion !== 9
   )
-    throw new Error('projects/pal/manifest.json: 不是当前 pal/content20/SAVE8 工程')
+    throw new Error('projects/pal/manifest.json: 不是当前 pal/content21/SAVE9 工程')
   const baseline = json.get('packages/migrate/baselines/pal/_state.json')
   if (
     !baseline ||

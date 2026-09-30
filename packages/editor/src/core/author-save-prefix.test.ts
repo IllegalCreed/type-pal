@@ -8,7 +8,7 @@ const empty = 'bin:0:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b785
 const plan: AuthorSavePlan = {
   kind: 'type-pal-author-save-plan',
   version: 1,
-  contentVersion: 20,
+  contentVersion: 21,
   operationId: 'cf448da8-601d-4c9c-bbdc-235b7d61d483',
   identity: {
     workspaceId: 'cf448da8-601d-4c9c-bbdc-235b7d61d483',

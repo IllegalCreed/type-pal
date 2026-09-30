@@ -12,7 +12,7 @@ import type {
   ScriptStage,
   SpriteDef,
 } from '@type-pal/content'
-import { resolveEntitySpriteId } from '@type-pal/content'
+import { flowCanComplete, resolveEntitySpriteId } from '@type-pal/content'
 import { actualFrameIndex } from '@type-pal/reforge'
 import type { EditorState } from './edit-session.js'
 import type { ProjectReferenceEdge } from './project-reference.js'
@@ -33,6 +33,7 @@ export interface SpriteAutomaticScriptPreviewVariant {
 }
 
 export type SpriteAutomaticScriptPreview =
+  | { kind: 'once'; steps: readonly SpriteTimedFrame[] }
   | {
       kind: 'cycle'
       mode: 'explicit' | 'implicit'
@@ -385,7 +386,13 @@ function projectPreviewFlow(
     return ids.flatMap((id, index) => {
       const stage = byId.get(id)
       if (!stage) return []
-      const target = stage.next === undefined ? index : ids.indexOf(stage.next)
+      // In this read-only lowering only, index == length is an explicit terminal edge.
+      const target =
+        typeof stage.next === 'object'
+          ? ids.length
+          : stage.next === undefined
+            ? index
+            : ids.indexOf(stage.next)
       return [
         {
           ...(stage.entry
@@ -414,7 +421,7 @@ function projectPreviewFlow(
         : next.kind === 'restart'
           ? machine.initial
           : id
-    const target = ids.indexOf(targetId)
+    const target = next.kind === 'complete' ? ids.length : ids.indexOf(targetId)
     return [
       {
         ...(state.entry
@@ -426,6 +433,9 @@ function projectPreviewFlow(
             }
           : {}),
         body: projectPreviewCommands(state.body, self, sharedScripts),
+        ...((next.kind === 'branch' || next.kind === 'commandOutcome') && flowCanComplete(flow)
+          ? { previewUncertainTransition: true }
+          : {}),
         ...(target >= 0 && target !== index ? { next: target } : {}),
       },
     ]
@@ -689,6 +699,7 @@ function finalizeSteps(steps: readonly { frame: number; holdMs: number }[]): Spr
 
 function stageTarget(stage: ScriptStage, current: number, count: number): number {
   const next = stage.next
+  if (next === count) return count
   const raw = next === undefined ? current : next === 'advance' ? current + 1 : next
   return Math.max(0, Math.min(raw, count - 1))
 }
@@ -710,6 +721,7 @@ function collectDeterministicStagePreview(
   }
   const stageStarts = new Map<number, number>()
   let currentStage = 0
+  let completed = false
   for (let transitions = 0; transitions <= stages.length; transitions++) {
     const repeatedAt = stageStarts.get(currentStage)
     if (repeatedAt !== undefined) {
@@ -719,6 +731,7 @@ function collectDeterministicStagePreview(
     stageStarts.set(currentStage, context.steps.length)
     const stage = stages[currentStage]
     if (!stage) return undefined
+    if ('previewUncertainTransition' in stage && stage.previewUncertainTransition) return undefined
     const result = collectDeterministicAutoFrames(
       state,
       stage.body,
@@ -729,6 +742,14 @@ function collectDeterministicStagePreview(
     if (result === 'uncertain') return undefined
     if (result === 'loop') break
     currentStage = stageTarget(stage, currentStage, stages.length)
+    if (currentStage === stages.length) {
+      completed = true
+      break
+    }
+  }
+  if (completed) {
+    const steps = finalizeSteps(collapseAdjacentSteps(context.steps))
+    return steps.length ? { kind: 'once', steps } : undefined
   }
   if (context.frameMode === 'implicit')
     return {
@@ -1000,6 +1021,15 @@ function collectSafeScriptProjection(
 ): SpriteAutomaticScriptPreview | undefined {
   const stages = entity.pages?.[0]?.auto?.stages
   if (!stages?.length) return undefined
+  // Branch samples cannot claim a unique loop when any path can finish.
+  if (
+    stages.some(
+      (stage) =>
+        stage.next === stages.length ||
+        ('previewUncertainTransition' in stage && stage.previewUncertainTransition),
+    )
+  )
+    return undefined
   if (
     !validateVisualCommandGraph(
       state,
@@ -1052,6 +1082,13 @@ function describeAutomaticEntityBehavior(
     ? (collectDeterministicStagePreview(state, entity, definition, actualFrameCount) ??
       collectSafeScriptProjection(state, entity, actualFrameCount))
     : undefined
+  if (preview?.kind === 'once')
+    return {
+      kind: 'script',
+      label: '自动脚本一次执行',
+      detail: `执行 ${preview.steps.map((step) => `#${step.frame}`).join(' → ')} 后完成，不循环`,
+      preview,
+    }
   if (preview?.kind === 'cycle') {
     const cycle = preview.cycle.map((step) => step.frame)
     const intro = preview.intro.map((step) => step.frame)

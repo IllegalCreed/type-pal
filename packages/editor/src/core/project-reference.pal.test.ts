@@ -93,7 +93,8 @@ describe('ED-3 PAL project reference index', () => {
     const index = createProjectReferenceIndex(diagnostics.projectReferences)
     const edges = index.allReferences()
 
-    expect(diagnostics.entityAddressReferences).toHaveLength(38_126)
+    // E2E-002 adds six local take/release pairs; completion folding changes no commands.
+    expect(diagnostics.entityAddressReferences).toHaveLength(38_138)
     const expectedEntityBlockers = diagnostics.entityAddressReferences
       .filter((reference) =>
         entityAddressReferenceBlocksDeletion(reference, {
@@ -116,7 +117,7 @@ describe('ED-3 PAL project reference index', () => {
       })
       .sort()
     expect(actualEntityBlockers).toEqual(expectedEntityBlockers)
-    expect(actualEntityBlockers).toHaveLength(4_362)
+    expect(actualEntityBlockers).toHaveLength(4_374)
 
     expect(
       edges.filter(
@@ -576,8 +577,8 @@ describe('ED-3 PAL project reference index', () => {
         deletePolicy: 'replace-suggest',
       },
     ])
-    expect(diagnostics.projectReferences.rows).toHaveLength(25_189)
-    expect(diagnostics.projectReferences.targetEdgeIds).toHaveLength(28_090)
+    expect(diagnostics.projectReferences.rows).toHaveLength(25_201)
+    expect(diagnostics.projectReferences.targetEdgeIds).toHaveLength(28_102)
     expect('targetKeys' in diagnostics.projectReferences).toBe(false)
     expect(diagnostics.projectReferences.sources.every((source) => !('key' in source))).toBe(true)
     expect(

@@ -79,7 +79,7 @@ export function checkpointHarness(overrides: Partial<ProjectScriptHostOptions> =
   const world = worldFixture(),
     definition = sceneFixture()
   const project = {
-    manifest: { id: 'checkpoint', name: 'checkpoint', contentVersion: 20, minimumSaveVersion: 8 },
+    manifest: { id: 'checkpoint', name: 'checkpoint', contentVersion: 21, minimumSaveVersion: 9 },
     locale: {},
   }
   const store = new MemorySaveStore({ kind: 'project', projectId: 'checkpoint' })

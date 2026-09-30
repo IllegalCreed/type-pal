@@ -93,8 +93,8 @@ function manifest(over: Partial<CurrentManifest> = {}): CurrentManifest {
   return {
     id: 'demo',
     name: 'Demo',
-    contentVersion: 20,
-    minimumSaveVersion: 8,
+    contentVersion: 21,
+    minimumSaveVersion: 9,
     defaultEntryId: 'new-game',
     entryPoints: [
       {
@@ -213,7 +213,7 @@ describe('current project loader', () => {
   })
   test('retains author identity and creates the runtime dialogue projection directly', () => {
     const project = assembleCurrentProject(manifest(), baseJsons)
-    expect(project.manifest.contentVersion).toBe(20)
+    expect(project.manifest.contentVersion).toBe(21)
     expect(project.authorContent.sharedScripts.hello?.body[0]).toHaveProperty(
       'cue.identity.actor',
       'actor.li',
@@ -265,7 +265,7 @@ describe('current project loader', () => {
 
   test('loads only current content without reading a migration sidecar', async () => {
     const loaded = await loadCurrentProjectFrom(memorySource(files()))
-    expect(loaded.manifest.contentVersion).toBe(20)
+    expect(loaded.manifest.contentVersion).toBe(21)
     expect(loaded.sharedScripts.hello?.body[0]).toHaveProperty('cue.speaker', 'name.li')
   })
 
@@ -386,6 +386,6 @@ describe('current project loader', () => {
     const oldManifest = { ...manifest(), contentVersion: 19 }
     await expect(
       loadCurrentProjectFrom(memorySource(files(oldManifest as CurrentManifest))),
-    ).rejects.toThrow(/contentVersion: 期望 20/)
+    ).rejects.toThrow(/contentVersion: 期望 21/)
   })
 })

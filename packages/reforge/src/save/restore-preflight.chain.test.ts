@@ -77,6 +77,7 @@ function extractApiFactory(source: string): (env: Record<string, unknown>) => Ch
     'quickLoad',
     'syncAmbience',
     'refreshCurrentCanonicalBindings',
+    'refreshCurrentScriptBindings',
     'applyWorldEntityGatesToScene',
     'applyWorldEntityPositionToScene',
     'applyWorldToScene',
@@ -155,8 +156,8 @@ const makeWorld = () =>
   content.buildWorld({ party: ['hero'], money: 100, inventory: [] }, { hero: actor })
 type Payload = ReturnType<typeof makePayload>
 const makePayload = () => ({
-  version: 8 as const,
-  contentVersion: 20 as const,
+  version: 9 as const,
+  contentVersion: 21 as const,
   projectId: 'audit',
   world: makeWorld(),
   position: { sceneId: 'saved-scene', pos: { col: 2, row: 3, height: 0 }, facing: 'down' as const },
@@ -180,7 +181,7 @@ function harness(
   ;(world.script as { flags: Record<string, unknown> }).flags.live = true
   const canonicalScript = world.script
   const project = {
-    manifest: { id: 'audit', name: 'audit', contentVersion: 20, minimumSaveVersion: 8 },
+    manifest: { id: 'audit', name: 'audit', contentVersion: 21, minimumSaveVersion: 9 },
     actorsById: { hero: actor },
     spritesById: { 'sprite.hero': { id: 'sprite.hero', asset: 'sprite.asset' } },
     items: {},

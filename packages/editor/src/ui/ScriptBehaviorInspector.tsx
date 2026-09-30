@@ -157,7 +157,7 @@ export function ScriptBehaviorInspector(props: {
   const description =
     props.channel === 'trigger'
       ? '玩家与当前实体交互或接触时执行。'
-      : '当前实体在场景中自行巡逻、转向或播放动作时循环执行。'
+      : '当前实体在场景中自行巡逻、转向或播放动作。是否重复执行由方案的结束方式决定。'
 
   const dispatch = (command: ScriptEditorCommand): boolean => {
     try {

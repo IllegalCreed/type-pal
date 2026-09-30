@@ -104,7 +104,7 @@ function projectRuntimeHookBinding(
   slot: 'onEnter' | 'onTeleport',
 ): ScriptStage[] | undefined {
   const resolved = resolveSceneHook(scene, world, slot)
-  if (!resolved) return
+  if (!resolved || resolved.cursor.kind === 'completed') return
   const entry = entryAtCursor(resolved.hook.flow, resolved.cursor)
   return [
     {
@@ -126,7 +126,7 @@ function projectRuntimePage(
   const activation = resolveEntityTriggerActivation(entity, world, target)
   if (!page && !trigger && !auto) return
   return {
-    ...(trigger && activation
+    ...(trigger && trigger.cursor.kind !== 'completed' && activation
       ? {
           trigger: {
             ...structuredClone(activation),
@@ -134,7 +134,9 @@ function projectRuntimePage(
           },
         }
       : {}),
-    ...(auto ? { auto: { stages: emptyProjectedStages() } } : {}),
+    ...(auto && auto.cursor.kind !== 'completed'
+      ? { auto: { stages: emptyProjectedStages() } }
+      : {}),
     ...(page?.animation ? { animation: structuredClone(page.animation) } : {}),
   }
 }
@@ -217,7 +219,11 @@ export function captureRuntimeSceneBehaviorDependencies(
     return {
       hookId: resolved.hookId,
       cursor:
-        cursor.kind === 'stage' ? ['stage', cursor.stage] : ['state', cursor.machine, cursor.state],
+        cursor.kind === 'completed'
+          ? ['completed']
+          : cursor.kind === 'stage'
+            ? ['stage', cursor.stage]
+            : ['state', cursor.machine, cursor.state],
     }
   }
   return {
@@ -238,6 +244,8 @@ export function captureRuntimeSceneBehaviorDependencies(
           page: page?.id ?? null,
           trigger: trigger?.behaviorId ?? null,
           auto: auto?.behaviorId ?? null,
+          triggerCompleted: trigger?.cursor.kind === 'completed',
+          autoCompleted: auto?.cursor.kind === 'completed',
           activation: activation ? { on: activation.on, range: activation.range ?? null } : null,
           animation: animation
             ? {

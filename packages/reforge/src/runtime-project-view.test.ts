@@ -93,6 +93,30 @@ function scene(): BaseSceneDef {
 }
 
 describe('current runtime projection', () => {
+  test('completed owners lose executable bindings while their page animation and live fields survive', () => {
+    const definition = scene()
+    const entity = definition.entities[0]!
+    entity.pages![0]!.animation = { sprite: 'sprite-1', action: 'idle', loop: true }
+    const talk = entity.behaviors!.trigger!.talk!.flow
+    const hook = definition.hooks!.onEnter!.variants.default!.flow
+    if (talk.kind !== 'stages' || hook.kind !== 'stages') throw new Error('flow fixture')
+    talk.stages[0]!.next = { kind: 'complete' }
+    hook.stages[0]!.next = { kind: 'complete' }
+    const world = emptyWorldScriptState()
+    const view = baseSceneView(definition, world)
+    view.entities[0]!.pos = { col: 9, row: 9, height: 0 }
+    world.behaviors.entities = {
+      s001: { e001: { trigger: { cursor: { behavior: 'talk', at: { kind: 'completed' } } } } },
+    }
+    world.behaviors.scenes = {
+      s001: { onEnter: { cursor: { hook: 'default', at: { kind: 'completed' } } } },
+    }
+    refreshSceneViewBindings(view, definition, world)
+    expect(view.entities[0]!.pages?.[0]?.trigger).toBeUndefined()
+    expect(view.entities[0]!.pages?.[0]?.animation).toEqual(entity.pages![0]!.animation)
+    expect(view.entities[0]!.pos).toEqual({ col: 9, row: 9, height: 0 })
+    expect(view.onEnter).toBeUndefined()
+  })
   test('projects canonical page/behavior/hook selection without copying script bodies', () => {
     const world = emptyWorldScriptState()
     const legacy = baseSceneView(scene(), world)
@@ -181,8 +205,8 @@ describe('current runtime projection', () => {
     const manifest: CurrentManifest = {
       id: 'test',
       name: 'Test',
-      contentVersion: 20,
-      minimumSaveVersion: 8,
+      contentVersion: 21,
+      minimumSaveVersion: 9,
       defaultEntryId: 'second',
       entryPoints: [
         {

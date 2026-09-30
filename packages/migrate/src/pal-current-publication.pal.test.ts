@@ -85,7 +85,7 @@ describe('PAL current-only publication', () => {
       validatePalCurrentPublication({ publication: empty, manifest, sources }),
     ).not.toThrow()
   })
-  it('publishes the current baseline and raw-owned partitions directly as content20/SAVE8', () => {
+  it('publishes the current baseline and raw-owned partitions directly as content21/SAVE9', () => {
     const baseline = loadPalBaseline(repo)
     expect(baseline).toBeDefined()
     const sources = loadPalContentSupplySources(repo)

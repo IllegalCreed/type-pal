@@ -107,8 +107,8 @@ export function catalogControlsEditorState(
     manifest: {
       id: 'catalog-controls-test',
       name: '目录控件测试',
-      contentVersion: 20,
-      minimumSaveVersion: 8,
+      contentVersion: 21,
+      minimumSaveVersion: 9,
       defaultEntryId: 'main',
       entryPoints: [{ id: 'main', label: '主要入口', scene: 's001', startWorld }],
       content: {},

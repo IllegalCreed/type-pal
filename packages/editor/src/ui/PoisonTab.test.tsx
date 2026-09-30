@@ -43,8 +43,8 @@ function state(): EditorState {
     manifest: {
       id: 'test',
       name: '测试项目',
-      contentVersion: 20,
-      minimumSaveVersion: 8,
+      contentVersion: 21,
+      minimumSaveVersion: 9,
       defaultEntryId: 'main',
       content: {},
       entryPoints: [

@@ -183,7 +183,7 @@ export function assembleCurrentProject(
     )
   if (manifest.minimumSaveVersion !== CURRENT_PROJECT_MINIMUM_SAVE_VERSION)
     throw new Error(
-      `工程 "${manifest.id}": contentVersion ${CONTENT_VERSION} 期望 minimumSaveVersion 8`,
+      `工程 "${manifest.id}": contentVersion ${CONTENT_VERSION} 期望 minimumSaveVersion ${CURRENT_PROJECT_MINIMUM_SAVE_VERSION}`,
     )
   if (manifest.content.scripts !== undefined)
     throw new Error(`工程 "${manifest.id}": 当前 manifest 禁止 content.scripts`)

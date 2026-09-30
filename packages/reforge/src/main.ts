@@ -2781,7 +2781,7 @@ export async function bootGame(
     command.kind === 'restoreEntity' ||
     command.kind === 'removeEntity'
 
-  const refreshCurrentCanonicalBindings = (): void => {
+  const refreshCurrentScriptBindings = (): void => {
     const canonical = sceneResources.peek(activeScene.scene.id)
     if (!canonical) throw new Error(`script 当前场景未缓存: ${activeScene.scene.id}`)
     refreshSceneViewBindings(
@@ -2789,6 +2789,10 @@ export async function bootGame(
       canonical as unknown as import('@type-pal/content').BaseSceneDef,
       canonicalScript,
     )
+  }
+
+  const refreshCurrentCanonicalBindings = (): void => {
+    refreshCurrentScriptBindings()
     const pageActions: EntityActionSeed[] = []
     for (const entity of activeScene.scene.entities) {
       const binding = entity.pages?.[0]?.animation
@@ -2991,6 +2995,14 @@ export async function bootGame(
         )
       },
       worldChanged: (command, _context, commit) => refreshRuntimeProjection(command, commit),
+      flowCompleted: (owner) => {
+        const sceneId = owner.kind === 'entity-behavior' ? owner.target.scene : owner.scene
+        if (sceneId !== activeScene.scene.id) return
+        if (owner.kind === 'entity-behavior' && owner.channel === 'trigger')
+          bumpEntityTriggerRevision(owner.target.entity)
+        // Completion changes executability, not page identity or animation state.
+        refreshCurrentScriptBindings()
+      },
       scene: getCanonicalScene,
       currentSceneId: () => activeScene.scene.id,
       currentSceneSessionId: currentMotionSceneSessionId,
@@ -3821,6 +3833,7 @@ export async function bootGame(
           const ran = await runtime.runEntityBehavior(canonical, e.id, 'auto', {
             signal: ac.signal,
           })
+          if (!e.pages?.[0]?.auto) return
           if (!ran) {
             await host.wait(120, ac.signal)
             continue

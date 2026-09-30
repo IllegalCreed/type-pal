@@ -1,5 +1,5 @@
 // Only these bounded sections declare the current product version. Historical
-// versions elsewhere remain evidence, and planned content21 is not current.
+// versions elsewhere remain evidence; planned versions do not become current by mention.
 export const currentSections = [
   { file: 'packages/content/README.md' },
   { file: 'packages/migrate/README.md', end: /^## 当前发布模型/m },

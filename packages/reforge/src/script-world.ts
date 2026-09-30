@@ -19,6 +19,7 @@ import type {
   WorldSceneHookSlot,
   WorldScriptState,
 } from '@type-pal/content'
+import { flowCanComplete } from '@type-pal/content'
 import type { FlowCursorController, SafePointDecision } from './script-runner-core.js'
 
 export type PersistentFlowOwner =
@@ -68,6 +69,7 @@ function sameValue(left: unknown, right: unknown): boolean {
 }
 
 function flowCursorKey(cursor: FlowCursor): string {
+  if (cursor.kind === 'completed') return JSON.stringify(['completed'])
   return cursor.kind === 'stage'
     ? JSON.stringify(['stage', cursor.stage])
     : JSON.stringify(['state', cursor.machine, cursor.state])
@@ -175,6 +177,10 @@ export function initialFlowCursor(flow: BaseScriptFlow): FlowCursor {
 }
 
 export function assertFlowCursor(flow: BaseScriptFlow, cursor: FlowCursor): void {
+  if (cursor.kind === 'completed') {
+    if (!flowCanComplete(flow)) throw new Error('flow 未声明 complete，不能使用 completed cursor')
+    return
+  }
   if (flow.kind === 'stages') {
     if (cursor.kind !== 'stage') throw new Error('stages flow 不能使用 state cursor')
     if (!flow.stages.some((stage) => stage.id === cursor.stage))
@@ -519,6 +525,8 @@ export class FlowRuntimeCoordinator {
   private nextActivityId = 1
   private pending?: PendingBarrier
 
+  constructor(private readonly flowCompleted?: (owner: PersistentFlowOwner) => void) {}
+
   epoch(owner: PersistentFlowOwner): number {
     return this.epochForKey(ownerKey(owner))
   }
@@ -540,7 +548,16 @@ export class FlowRuntimeCoordinator {
     if (this.pending && (!parent || this.pending.ready)) return
     const key = ownerKey(owner)
     if (this.active.has(key)) return
-    const lease = new FlowActivationLease(this, key, this.epochForKey(key), commit, !!parent)
+    const lease = new FlowActivationLease(
+      this,
+      key,
+      this.epochForKey(key),
+      (cursor) => {
+        commit(cursor)
+        if (cursor.kind === 'completed') this.flowCompleted?.(clone(owner))
+      },
+      !!parent,
+    )
     this.leaseKeys.set(lease, key)
     this.active.set(key, lease)
     return lease
@@ -628,10 +645,11 @@ export class FlowRuntimeCoordinator {
     parent?: FlowLease,
   ): ActiveEntityBehavior | undefined {
     const resolved = resolveEntityBehavior(entity, world, target, channel)
-    if (!resolved) return
+    if (!resolved || resolved.cursor.kind === 'completed') return
     const lease = this.begin(
       entityOwner(target, channel),
       (cursor) => {
+        assertFlowCursor(resolved.behavior.flow, cursor)
         const state = clone(entityWorldState(world, target) ?? {})
         const slot: ActiveBehaviorSlot = clone(state[channel] ?? {})
         slot.cursor = {
@@ -654,10 +672,11 @@ export class FlowRuntimeCoordinator {
     parent?: FlowLease,
   ): ActiveSceneHook | undefined {
     const resolved = resolveSceneHook(scene, world, slot)
-    if (!resolved) return
+    if (!resolved || resolved.cursor.kind === 'completed') return
     const lease = this.begin(
       hookOwner(scene.id, slot),
       (cursor) => {
+        assertFlowCursor(resolved.hook.flow, cursor)
         const state = clone(sceneWorldState(world, scene.id) ?? {})
         const slotState = clone(state[slot] ?? {})
         slotState.cursor = { hook: resolved.hookId, at: clone(cursor) }

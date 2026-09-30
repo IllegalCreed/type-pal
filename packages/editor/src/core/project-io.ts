@@ -286,7 +286,7 @@ export function serializeProject(
   if (!content.stamps && state.stamps.length > 0)
     throw new Error('serializeProject: 项目有图章模板但 manifest.content.stamps 未登记')
 
-  // content20:SceneIndex 是唯一发现/名称/路径真值；正文必须先于 index 写出。
+  // content21:SceneIndex 是唯一发现/名称/路径真值；正文必须先于 index 写出。
   const dir = (content.scenes ?? 'content/scenes/').replace(/\/?$/, '/')
   const sceneIndexPath = `${dir}index.json`
   const sceneIndex: SceneIndexV1 = validateSceneIndex(state.sceneIndex, sceneIndexPath)

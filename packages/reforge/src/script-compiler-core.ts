@@ -10,6 +10,7 @@ import {
   checkBaseScriptFlow,
   checkBaseScriptLibrary,
   type EntityAddress,
+  type StageNext,
 } from '@type-pal/content'
 
 export const SCRIPT_COMPILER_VERSION = 2 as const
@@ -93,7 +94,7 @@ export interface ExecutableStageLike<RuntimeLeafCommand> {
   id: string
   entry?: ExecutableSceneEntryLike<RuntimeLeafCommand>
   body: readonly ExecutableCommandLike<RuntimeLeafCommand>[]
-  next?: string
+  next?: StageNext
 }
 
 export type ExecutableBaseStage = ExecutableStageLike<BaseRuntimeLeafCommand>
@@ -320,7 +321,7 @@ export function compileBaseScriptFlowUncheckedAfterValidation(
               options.timing,
               boundaryPolicy,
             ),
-            ...(stage.next === undefined ? {} : { next: stage.next }),
+            ...(stage.next === undefined ? {} : { next: structuredClone(stage.next) }),
           })),
         }
       : {

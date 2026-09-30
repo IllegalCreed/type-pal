@@ -34,12 +34,12 @@ describe('openLocalProject current canonical boundary', () => {
     vi.resetAllMocks()
     reforge.readJson.mockImplementation(async (path: string) => {
       if (path === 'editor/battle-simulator.json') throw new DOMException(path, 'NotFoundError')
-      return { contentVersion: 20 }
+      return { contentVersion: 21 }
     })
     reforge.loadCurrentProjectFrom.mockResolvedValue({
       manifest: {
         id: 'test',
-        contentVersion: 20,
+        contentVersion: 21,
         content: {},
         assets: { catalog: 'assets/index.json' },
       },
@@ -71,7 +71,7 @@ describe('openLocalProject current canonical boundary', () => {
     reforge.readJson.mockResolvedValue({ contentVersion: version })
 
     await expect(openLocalProject(directory(`future-v${version}`))).rejects.toThrow(
-      `contentVersion ${version}；开发期编辑器只接受当前 contentVersion 20`,
+      `contentVersion ${version}；开发期编辑器只接受当前 contentVersion 21`,
     )
     expect(reforge.loadCurrentProjectFrom).not.toHaveBeenCalled()
     expect(reforge.dispose).toHaveBeenCalledOnce()
@@ -90,7 +90,7 @@ describe('openLocalProject current canonical boundary', () => {
     reforge.loadCurrentProjectFrom.mockRejectedValue(new Error('bad current schema'))
 
     await expect(openLocalProject(directory('bad-current'))).rejects.toThrow(
-      'canonical v20 内容无效(bad current schema)',
+      'canonical v21 内容无效(bad current schema)',
     )
     expect(reforge.dispose).toHaveBeenCalledOnce()
   })
