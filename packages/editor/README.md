@@ -25,6 +25,13 @@ pnpm --filter @type-pal/editor dev          # 编辑器 dev server（端口 6010
 pnpm --filter @type-pal/editor test         # 全量测试（脚本已固定 maxWorkers=2）
 pnpm --filter @type-pal/editor typecheck
 pnpm --filter @type-pal/editor audit:design-system   # 设计系统采用门禁
+pnpm --filter @type-pal/editor check:project         # 只读检查仓库PAL作者工程
 ```
+
+从仓库根运行`pnpm check:content`或`pnpm check:content /绝对路径/作者工程`，复用编辑器
+作者保存校验核，检查所有登记场景、地图及catalog资源的字节/hash/RLE。只接受当前canonical
+工程，不需要PAL原始输入；不保存、迁移或恢复中断事务。发现未完成的作者保存时回原编辑器
+处理；检查期间应停止保存，协议内保存换代会失败，但这不是OS级文件快照。
+作者保存仍通过编辑器原有授权和可恢复事务，不另建一套CLI写盘路径。
 
 见 [decisions D18（包架构）](../../docs/phase2/decisions.md)、[editor 设计](../../docs/phase2/specs/editor-architecture.md)。

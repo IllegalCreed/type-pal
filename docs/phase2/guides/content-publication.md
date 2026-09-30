@@ -1,13 +1,19 @@
 # PAL 内容导入与发布
 
-类型：使用指南。PAL 原始素材先由 pal-extract 提取，再由 migrate 转换成当前内容工程。
-产品格式和操作细节以 [迁移包说明](../../../packages/migrate/README.md) 为唯一维护入口。
+类型：使用指南。日常作者维护与PAL原始源重导分开：作者内容以当前工程为真源，通过编辑器
+保存；PAL原始素材由pal-extract提取，migrate只负责明确原始源分区的重建和安全重导。
+作者入口见[编辑器说明](../../../packages/editor/README.md)，重导细节见
+[迁移包说明](../../../packages/migrate/README.md)。
 
 常用入口：
 
 - 提取原始数据：[pal-extract](../../../packages/pal-extract/README.md)。生成的提取目录可重建。
-- 检查发布计划：从仓库根运行 `pnpm --filter @type-pal/migrate migrate:content`。
-- 发布当前工程：确认计划后运行 `pnpm --filter @type-pal/migrate migrate:content --write`；
+- 检查作者工程：从仓库根运行`pnpm check:content [工程目录]`，默认检查仓库PAL工程；
+  不需要原版源，不写盘或恢复事务。坏引用、地图或资源字节会失败。
+- 保存作者修改：使用编辑器现有保存入口；检查命令不会代为保存。
+- 检查PAL重导计划：从仓库根运行`pnpm --filter @type-pal/migrate migrate:content`。
+  该命令会先恢复中断事务，即使不带`--write`也不能视为绝对只读检查。
+- 重导原始源分区：确认计划后运行`pnpm --filter @type-pal/migrate migrate:content --write`；
   执行前让编辑器停止保存，发布后重载已打开的工程。
 - 校验输入格式：[当前内容规范](../specs/content-schema.md) 与 [工作区边界](../specs/project-lifecycle.md)。
 

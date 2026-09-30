@@ -1,7 +1,7 @@
 # @type-pal/migrate — PAL current 内容供应链
 
 本包是第二阶段唯一允许读取第一阶段提取数据的桥：离线读取 `data/extracted`，向
-`projects/pal` 发布当前 `contentVersion 20 / SAVE8` 工程。运行时和编辑器不依赖本包。
+`projects/pal` 重导当前 `contentVersion 20 / SAVE8` 工程的原始源分区。运行时和编辑器不依赖本包。
 （content20 于 2026-09-05 由 ED-SCENE-LIFECYCLE-1 引入 SceneIndex；当前版本常量以
 `packages/content/src/character.ts` 为准。）
 
@@ -22,8 +22,12 @@ content epoch、rewind、transition seal、旧存档 sidecar 或 bootstrap 升�
 
 ## 命令
 
+日常作者工程校验从仓库根运行`pnpm check:content [工程目录]`，不读取原版输入，不生成内容，
+不恢复事务或写盘。作者修改继续通过编辑器现有安全保存入口提交，不需要先跑PAL重导。
+以下迁移命令仅用于需要从PAL原始源重建资源、地图或其它明确源分区的维护任务：
+
 ```bash
-# 只读生成、三方合并和 current 闭包校验
+# 生成、三方合并和 current 闭包校验；见下方事务恢复边界
 pnpm --filter @type-pal/migrate migrate:content
 
 # 发布；提交后在同一进程内复核零差异，不再重复跑一遍完整生成器
@@ -34,17 +38,22 @@ pnpm --filter @type-pal/migrate test:fast
 pnpm --filter @type-pal/migrate check
 ```
 
-默认命令永远是 dry-run。冲突、当前 schema 错误、未知跨引用或资源闭包失败都会在创建事务
-journal 前停止。`--write` 前还会做 baseline / project TOCTOU 复核；中断后下一次命令先恢复
-同一事务。
+不带`--write`时不发起新的发布事务，但命令首先恢复已存在的中断事务，因此**不能作为
+绝对只读检查**。冲突、当前 schema 错误、未知跨引用或资源闭包失败都会在创建新事务
+journal 前停止。`--write`前还会做baseline / project TOCTOU复核；中断后下一次命令先恢复
+同一事务。仅需检查作者工程时使用上方`check:content`。
 
 ## 目录职责
 
 - `src/pal-migration.ts`：原始 PAL 数据的隔离转换实现；其内部局部 V1 文件结构不是产品 epoch。
-- `src/pal-current-publication.ts`：唯一 current publication 组装与闭包门。
+- `src/pal-current-publication.ts`：PAL原始源重导的current publication组装与专用闭包门。
 - `src/migration-{baseline,merge,plan,transaction,write-plan}.ts`：通用三方合并和事务基础设施。
 - `baselines/pal/`：上一次纯 current publication；进入 Git，禁止手工拼接。
-- `scripts/migrate-content.mts`：唯一产品内容发布命令。
+- `scripts/migrate-content.mts`：PAL原始源重导命令；不是通用作者工程保存或校验入口。
+
+完整原版剧情转换核目前仍被重导及原版动作审计消费，尚未删除。职责拆分和逐项退役跟随
+[ARCH-PAL-SUPPLY-1](../../docs/ops/tasks/ARCH-PAL-SUPPLY-1-author-publication-and-import-retirement.md)，
+不能因作者检查已独立就宣称整个migrate包已退休。
 
 ## 操作纪律
 

@@ -157,7 +157,8 @@ Codex：premise verified / design agree / **build allowed，仅下述首批**。
   MapIndex地图及瓦片集引用，不把地图copy-through视为已校验。整个读取以现有save-state门
   包住，pending保存或读取中换代拒绝，不授予恢复/写权限；无OS级快照或CAS承诺。
 - 静态门：新增Node脚本也进入专用tsconfig并由editor typecheck运行；不调整公共lint规则、
-  根tsconfig、依赖/lock、现有测试配置、覆盖率分母或版本。
+  根tsconfig、依赖/lock、现有测试配置、官方覆盖率清单/基线或版本。新增生产代码可能改变自动
+  统计分母，留给正常覆盖流程测量，不承诺分母不变或本卡带来覆盖率增长。
 - 验收反控：零原版字节合成工程通过；非入口场景/嵌套共享引用、地图/瓦片引用、缺资源、
   等长错hash、坏RLE、pending/变代save-state、路径逃逸失败；内存目录无create/close/remove，
   CLI实际子进程成功/失败退出码与前后文件hash一致；不访问extracted且不触发PAL转换。
