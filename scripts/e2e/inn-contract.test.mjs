@@ -10,6 +10,7 @@ import {
   assertInnRestoreCommitted,
   INN_ROWS,
   innArguments,
+  innEndPresented,
   innSpeaker,
   TRIO,
   validatePredecessor,
@@ -32,6 +33,34 @@ const state = (position = [0, 0, 0]) => ({
   money: 0,
   control: false,
   roomActors: [],
+})
+test('restored control alone cannot end capture before the last participant hide is observed', () => {
+  const final = {
+    scene: 's003',
+    control: true,
+    money: 500,
+    actors: Object.fromEntries(TRIO.map((id) => [id, { visible: false }])),
+    roomActors: ['e24', 'e25', 'e26'].map((id) => ({ id, visible: true })),
+  }
+  assert.equal(innEndPresented({ final }), true)
+  assert.equal(
+    innEndPresented({
+      final: {
+        ...final,
+        actors: {
+          ...final.actors,
+          e61: { visible: true },
+        },
+      },
+    }),
+    false,
+  )
+  assert.equal(innEndPresented({ final: { ...final, control: false } }), false)
+  assert.equal(innEndPresented({ final: { ...final, money: 499 } }), false)
+  assert.equal(innEndPresented({ final: { ...final, scene: 's001' } }), false)
+  assert.equal(innEndPresented({ final: { ...final, actors: {} } }), false)
+  assert.equal(innEndPresented({ final: { ...final, roomActors: [] } }), false)
+  assert.equal(innEndPresented({}), false)
 })
 test('actor identity resolves actual actor name/locale or explicit speaker override, never hardcodes an aunt', () => {
   const actors = [

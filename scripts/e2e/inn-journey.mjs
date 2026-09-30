@@ -9,6 +9,7 @@ import {
   assertInnEvidence,
   assertInnRestoreCommitted,
   innArguments,
+  innEndPresented,
   readInnContract,
   readPredecessor,
 } from './inn-contract.mjs'
@@ -201,7 +202,8 @@ export async function runInnJourney(engine) {
         inputs: [],
         legs: [],
         startOrder: await evidenceOrder(),
-        stepKind: 'observed progress; actual walking commits are in committedSteps',
+        stepKind:
+          'observed progress; committedSteps are actual input/passive route motion; inspect source',
         start: { scene: s.scene, position: s.position },
       }
       const navigate = async (sid, destination, finished) => {
@@ -376,8 +378,8 @@ export async function runInnJourney(engine) {
       }
       const trace = await until(
         () => page.evaluate(() => window.__readInnEvidence()),
-        (t) => t.final?.control,
-        'actual final render control',
+        innEndPresented,
+        'actual final render control and all three participants hidden',
       )
       await writeFile(resolve(out, 'inn-trace.json'), JSON.stringify(trace, null, 2))
       assert.deepEqual(

@@ -20,6 +20,20 @@ export const INN_ACTORS = Object.freeze([
 ])
 export const TRIO = Object.freeze(['e59', 'e60', 'e61'])
 
+/** Control can return before the next render observes the last participant becoming hidden. */
+export function innEndPresented(trace) {
+  const final = trace.final
+  return (
+    final?.scene === 's003' &&
+    final.control === true &&
+    final.money === 500 &&
+    TRIO.every((id) => final.actors?.[id]?.visible === false) &&
+    ['e24', 'e25', 'e26'].every((id) =>
+      final.roomActors?.some((actor) => actor.id === id && actor.visible === true),
+    )
+  )
+}
+
 export function innArguments(args, both = false) {
   const options = { headless: false }
   for (let i = 0; i < args.length; i++) {
