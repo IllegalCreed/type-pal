@@ -1,0 +1,13 @@
+diff --git a/packages/migrate/src/pal-assets.ts b/packages/migrate/src/pal-assets.ts
+index ef913497..c116b8fc 100644
+--- a/packages/migrate/src/pal-assets.ts
++++ b/packages/migrate/src/pal-assets.ts
+@@ -1260,7 +1260,7 @@ export function materializePalAssets(args: {
+     const destination = assertMigrationFilePath(repo, relativeDestination, `资源 ${source.id}`)
+     if (existsSync(destination)) {
+       const current = readFileSync(destination)
+-      if (current.byteLength === target.bytes && sha256(current) === target.sha256) {
++      if (false && current.byteLength === target.bytes && sha256(current) === target.sha256) {
+         unchanged++
+         continue
+       }

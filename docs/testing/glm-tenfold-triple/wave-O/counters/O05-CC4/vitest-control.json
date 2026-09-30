@@ -1,0 +1,250 @@
+{
+  "numTotalTestSuites": 4,
+  "numPassedTestSuites": 4,
+  "numFailedTestSuites": 0,
+  "numPendingTestSuites": 0,
+  "numTotalTests": 21,
+  "numPassedTests": 21,
+  "numFailedTests": 0,
+  "numPendingTests": 0,
+  "numTodoTests": 0,
+  "snapshot": {
+    "added": 0,
+    "failure": false,
+    "filesAdded": 0,
+    "filesRemoved": 0,
+    "filesRemovedList": [],
+    "filesUnmatched": 0,
+    "filesUpdated": 0,
+    "matched": 0,
+    "total": 0,
+    "unchecked": 0,
+    "uncheckedKeysByFile": [],
+    "unmatched": 0,
+    "updated": 0,
+    "didUpdate": false
+  },
+  "startTime": 1790784436777,
+  "success": true,
+  "testResults": [
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["O05 createPalWorldSpriteRegistry：布局证据与变体"],
+          "fullName": "O05 createPalWorldSpriteRegistry：布局证据与变体 spriteRef 未注册（无场景证据直接取）→ fail-loud",
+          "status": "passed",
+          "title": "spriteRef 未注册（无场景证据直接取）→ fail-loud",
+          "duration": 1.278250000000014,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O05 createPalWorldSpriteRegistry：布局证据与变体"],
+          "fullName": "O05 createPalWorldSpriteRegistry：布局证据与变体 同一精灵两种 nSpriteFrames → stable base + -f<frames> 变体并报 layoutConflicts",
+          "status": "passed",
+          "title": "同一精灵两种 nSpriteFrames → stable base + -f<frames> 变体并报 layoutConflicts",
+          "duration": 0.7591659999999933,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O05 createPalWorldSpriteRegistry：布局证据与变体"],
+          "fullName": "O05 createPalWorldSpriteRegistry：布局证据与变体 角色精灵别名：asset 匹配且在语义集内 → externalDefinition（不重复生成）",
+          "status": "passed",
+          "title": "角色精灵别名：asset 匹配且在语义集内 → externalDefinition（不重复生成）",
+          "duration": 0.1403750000000059,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O05 createPalWorldSpriteRegistry：布局证据与变体"],
+          "fullName": "O05 createPalWorldSpriteRegistry：布局证据与变体 角色精灵 asset 不匹配（旧号漂移）→ 不作别名，按场景证据注册",
+          "status": "passed",
+          "title": "角色精灵 asset 不匹配（旧号漂移）→ 不作别名，按场景证据注册",
+          "duration": 0.1382080000000201,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O05 applyPalWorldSpriteSemanticAliases：清单校验与改写失败轴"],
+          "fullName": "O05 applyPalWorldSpriteSemanticAliases：清单校验与改写失败轴 别名清单重复 semanticId → fail-loud",
+          "status": "passed",
+          "title": "别名清单重复 semanticId → fail-loud",
+          "duration": 0.24158299999999144,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O05 applyPalWorldSpriteSemanticAliases：清单校验与改写失败轴"],
+          "fullName": "O05 applyPalWorldSpriteSemanticAliases：清单校验与改写失败轴 别名不属于角色精灵域 / 缺逐引用证据 逐轴拒绝",
+          "status": "passed",
+          "title": "别名不属于角色精灵域 / 缺逐引用证据 逐轴拒绝",
+          "duration": 0.14841700000005176,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O05 applyPalWorldSpriteSemanticAliases：清单校验与改写失败轴"],
+          "fullName": "O05 applyPalWorldSpriteSemanticAliases：清单校验与改写失败轴 current/generated 缺语义 SpriteDef → fail-loud",
+          "status": "passed",
+          "title": "current/generated 缺语义 SpriteDef → fail-loud",
+          "duration": 0.1403750000000059,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O05 applyPalWorldSpriteSemanticAliases：清单校验与改写失败轴"],
+          "fullName": "O05 applyPalWorldSpriteSemanticAliases：清单校验与改写失败轴 纯迁移核仍生成 legacy 重复定义 → fail-loud",
+          "status": "passed",
+          "title": "纯迁移核仍生成 legacy 重复定义 → fail-loud",
+          "duration": 0.1862080000000219,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O05 applyPalWorldSpriteSemanticAliases：清单校验与改写失败轴"],
+          "fullName": "O05 applyPalWorldSpriteSemanticAliases：清单校验与改写失败轴 生成场景引用集合与别名清单漂移 → fail-loud",
+          "status": "passed",
+          "title": "生成场景引用集合与别名清单漂移 → fail-loud",
+          "duration": 0.3979580000000169,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O05 applyPalWorldSpriteSemanticAliases：清单校验与改写失败轴"],
+          "fullName": "O05 applyPalWorldSpriteSemanticAliases：清单校验与改写失败轴 清单外场景引用 legacy id → fail-loud",
+          "status": "passed",
+          "title": "清单外场景引用 legacy id → fail-loud",
+          "duration": 0.20283299999999826,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O05 applyPalWorldSpriteSemanticAliases：清单校验与改写失败轴"],
+          "fullName": "O05 applyPalWorldSpriteSemanticAliases：清单校验与改写失败轴 改写轴：current 缺场景 / 实体非 SpriteDef / sprite 意外 / 缺实体 逐轴拒绝",
+          "status": "passed",
+          "title": "改写轴：current 缺场景 / 实体非 SpriteDef / sprite 意外 / 缺实体 逐轴拒绝",
+          "duration": 0.46974999999997635,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O05 applyPalWorldSpriteSemanticAliases：清单校验与改写失败轴"],
+          "fullName": "O05 applyPalWorldSpriteSemanticAliases：清单校验与改写失败轴 合法改写：legacy 等价定义退休、引用改写计数与 roleClosure 记录",
+          "status": "passed",
+          "title": "合法改写：legacy 等价定义退休、引用改写计数与 roleClosure 记录",
+          "duration": 0.4673750000000041,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O05 applyPalWorldSpriteSemanticAliases：清单校验与改写失败轴"],
+          "fullName": "O05 applyPalWorldSpriteSemanticAliases：清单校验与改写失败轴 非 object 实体（原始值）在引用扫描时 fail-loud",
+          "status": "passed",
+          "title": "非 object 实体（原始值）在引用扫描时 fail-loud",
+          "duration": 0.0855420000000322,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O05 assertPalItemSchemeLabelInvariant：canonical label 与选择边"],
+          "fullName": "O05 assertPalItemSchemeLabelInvariant：canonical label 与选择边 item 私有脚本可达 + canonical label → 报告确定性 label 与 path",
+          "status": "passed",
+          "title": "item 私有脚本可达 + canonical label → 报告确定性 label 与 path",
+          "duration": 0.5605419999999981,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O05 assertPalItemSchemeLabelInvariant：canonical label 与选择边"],
+          "fullName": "O05 assertPalItemSchemeLabelInvariant：canonical label 与选择边 canonical 但不可达（无 item 选择边）→ 零 item root 拒绝",
+          "status": "passed",
+          "title": "canonical 但不可达（无 item 选择边）→ 零 item root 拒绝",
+          "duration": 0.09154200000000401,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O05 assertPalItemSchemeLabelInvariant：canonical label 与选择边"],
+          "fullName": "O05 assertPalItemSchemeLabelInvariant：canonical label 与选择边 非 canonical 后缀「0」不满足顶层 label 规则（可达后按名称漂移拒绝）",
+          "status": "passed",
+          "title": "非 canonical 后缀「0」不满足顶层 label 规则（可达后按名称漂移拒绝）",
+          "duration": 0.21983299999999417,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O05 assertPalItemSchemeLabelInvariant：canonical label 与选择边"],
+          "fullName": "O05 assertPalItemSchemeLabelInvariant：canonical label 与选择边 机器 flow：label 同步为「方案名连续流程」→ machine-inner 计数与报告",
+          "status": "passed",
+          "title": "机器 flow：label 同步为「方案名连续流程」→ machine-inner 计数与报告",
+          "duration": 0.1079159999999888,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O05 assertPalItemSchemeLabelInvariant：canonical label 与选择边"],
+          "fullName": "O05 assertPalItemSchemeLabelInvariant：canonical label 与选择边 opaque 摘要名节点可达但仍存活 → 永久门禁拒绝",
+          "status": "passed",
+          "title": "opaque 摘要名节点可达但仍存活 → 永久门禁拒绝",
+          "duration": 0.07845800000001191,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O05 assertPalItemSchemeLabelInvariant：canonical label 与选择边"],
+          "fullName": "O05 assertPalItemSchemeLabelInvariant：canonical label 与选择边 同一地址重复注册（同场景重复出现）→ 节点重复拒绝",
+          "status": "passed",
+          "title": "同一地址重复注册（同场景重复出现）→ 节点重复拒绝",
+          "duration": 0.07399999999995543,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O05 assertPalItemSchemeLabelInvariant：canonical label 与选择边"],
+          "fullName": "O05 assertPalItemSchemeLabelInvariant：canonical label 与选择边 selectSceneHooks 的 use 选择边同样建立可达性（hook 方案节点）",
+          "status": "passed",
+          "title": "selectSceneHooks 的 use 选择边同样建立可达性（hook 方案节点）",
+          "duration": 0.242999999999995,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O05 assertPalItemSchemeLabelInvariant：canonical label 与选择边"],
+          "fullName": "O05 assertPalItemSchemeLabelInvariant：canonical label 与选择边 选择图成环 → fail-loud",
+          "status": "passed",
+          "title": "选择图成环 → fail-loud",
+          "duration": 0.12083300000000463,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790784437087,
+      "endTime": 1790784437093.243,
+      "status": "passed",
+      "message": "",
+      "name": "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-o-cc-control-pVHLBC/packages/migrate/src/pal-world-sprites.glm-o.test.ts"
+    }
+  ]
+}

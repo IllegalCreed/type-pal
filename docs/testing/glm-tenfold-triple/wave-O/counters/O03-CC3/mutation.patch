@@ -1,0 +1,13 @@
+diff --git a/packages/migrate/src/migration-path.ts b/packages/migrate/src/migration-path.ts
+index 2f178764..8b8fe3a5 100644
+--- a/packages/migrate/src/migration-path.ts
++++ b/packages/migrate/src/migration-path.ts
+@@ -16,7 +16,7 @@ export function assertMigrationFilePath(repo: string, path: string, label: strin
+     // lstat sees dangling links. existsSync deliberately must not precede it.
+     const stat = lstatSync(current, { throwIfNoEntry: false })
+     if (!stat) continue
+-    if (stat.isSymbolicLink()) throw new Error(`${label} 不得经过符号链接: ${path}`)
++    if (false && stat.isSymbolicLink()) throw new Error(`${label} 不得经过符号链接: ${path}`)
+     if (index < parts.length - 1 ? !stat.isDirectory() : !stat.isFile())
+       throw new Error(`${label} 路径类型无效: ${path}`)
+   }

@@ -1,0 +1,18 @@
+{
+  "id": "O04-CC3",
+  "control": {
+    "exitCode": 0,
+    "tests": 37
+  },
+  "injected": {
+    "exitCode": 1,
+    "failedFullName": "O04 loadPalSoundAssets：合成 505 段三向闭包 metadata/manifest/磁盘 size 三向不一致 → 拒绝；非 RIFF 字节 → 拒绝",
+    "failureMessageHead": "AssertionError: expected [Function] to throw an error",
+    "executed": 37
+  },
+  "hashes": {
+    "original": "131b101ef065d32bd6b0c76a04ac082eb6b9e56965de211541a198eb7219d5b8",
+    "mutated": "bff721dff44e09c5fe6352262c83d07e1746c7151e53b1258012460f5fedc3f3",
+    "restored": "131b101ef065d32bd6b0c76a04ac082eb6b9e56965de211541a198eb7219d5b8"
+  }
+}

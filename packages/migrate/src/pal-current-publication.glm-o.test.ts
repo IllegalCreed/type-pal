@@ -4,23 +4,23 @@
  *  走真实 build/validate 入口，覆盖三方合并输入、Census 门与资源闭包拒绝合同。不写盘。
  */
 import { describe, expect, test } from 'vitest'
+import {
+  syntheticBaselineFiles,
+  syntheticCatalog,
+  syntheticSupply,
+} from './__tests__/glm-o/supply-fixture.js'
 import type { MigrationSnapshot } from './migration-baseline.js'
 import type { MigrationJson } from './migration-files.js'
-import { buildPalCurrentManifest } from './pal-manifest.js'
+import type { PalContentSupplySources } from './pal-content-supply.js'
 import {
   buildPalCurrentPublication,
   type PalCurrentPublication,
   palAssetPreconditions,
   validatePalCurrentPublication,
 } from './pal-current-publication.js'
-import {
-  syntheticBaselineFiles,
-  syntheticCatalog,
-  syntheticSupply,
-} from './__tests__/glm-o/supply-fixture.js'
-import type { PalContentSupplySources } from './pal-content-supply.js'
+import { buildPalCurrentManifest } from './pal-manifest.js'
 
-function baselineFromEntries(entries: readonly (readonly [string, unknown])[]): MigrationSnapshot {
+function baselineFromEntries(entries: Iterable<readonly [string, unknown]>): MigrationSnapshot {
   const files = new Map<string, MigrationJson>()
   for (const [path, value] of entries)
     files.set(path, JSON.parse(JSON.stringify(value)) as MigrationJson)
@@ -37,7 +37,11 @@ function fresh(): {
   manifest: ReturnType<typeof buildPalCurrentManifest>
 } {
   const { sources } = syntheticSupply()
-  return { baseline: syntheticBaseline(), sources, manifest: buildPalCurrentManifest(sources.assetCatalog) }
+  return {
+    baseline: syntheticBaseline(),
+    sources,
+    manifest: buildPalCurrentManifest(sources.assetCatalog),
+  }
 }
 
 function rebuild(
@@ -57,7 +61,7 @@ describe('O01 buildPalCurrentPublication：分区替换与作者保留（合成�
   })
 
   test('角色分区 = 生成六角色在前、baseline 非生成作者角色按原序保留在后', () => {
-    const { baseline, sources } = fresh()
+    const { sources } = fresh()
     const authored = {
       id: 'author-npc',
       name: 'name.author-npc',
@@ -65,7 +69,10 @@ describe('O01 buildPalCurrentPublication：分区替换与作者保留（合成�
     }
     const withAuthor = baselineFromEntries([
       ...syntheticBaselineFiles(),
-      ['content/actors.json', [...syntheticBaselineFiles().get('content/actors.json') as object[], authored]],
+      [
+        'content/actors.json',
+        [...(syntheticBaselineFiles().get('content/actors.json') as object[]), authored],
+      ],
     ])
     const publication = rebuild(withAuthor, sources)
     const actors = publication.files.get('content/actors.json') as Array<{ id: string }>
@@ -115,7 +122,10 @@ describe('O01 buildPalCurrentPublication：分区替换与作者保留（合成�
   test('商店分区 = 源 1..20 顺序货单，且不发布 ShopDef0', () => {
     const { baseline, sources } = fresh()
     const publication = rebuild(baseline, sources)
-    const shops = publication.files.get('content/shops.json') as Array<{ id: number; items: string[] }>
+    const shops = publication.files.get('content/shops.json') as Array<{
+      id: number
+      items: string[]
+    }>
     expect(shops.map(({ id }) => id)).toEqual(Array.from({ length: 20 }, (_unused, i) => i + 1))
     expect(shops.every((shop) => shop.items.join(',') === '141')).toBe(true)
   })
@@ -177,7 +187,11 @@ describe('O01 buildPalCurrentPublication：分区替换与作者保留（合成�
 
   test('current baseline 含历史发布路径（_transitions/content/migrations/scripts）时 fail-loud', () => {
     const { sources } = fresh()
-    for (const path of ['content/migrations/old.json', '_transitions/t.json', 'content/scripts/s.json']) {
+    for (const path of [
+      'content/migrations/old.json',
+      '_transitions/t.json',
+      'content/scripts/s.json',
+    ]) {
       const entries = syntheticBaselineFiles()
       entries.set(path, { stale: true })
       expect(() => rebuild(baselineFromEntries(entries), sources)).toThrow(
@@ -276,7 +290,8 @@ describe('O01 validatePalCurrentPublication：发布门与 census 拒绝合同�
   })
 
   test('manifest contentVersion / minimumSaveVersion 漂移被拒绝', () => {
-    const { publication, sources, manifest } = validPublication()
+    const { publication, sources, manifest: manifestBase } = validPublication()
+    const manifest = manifestBase
     expect(() =>
       validatePalCurrentPublication({
         publication,
@@ -428,13 +443,15 @@ describe('O01 validatePalCurrentPublication：发布门与 census 拒绝合同�
     const { publication, sources, manifest } = validPublication()
     const files = new Map(publication.files)
     const scene = structuredClone(files.get('content/scenes/s000.json')) as {
-      entities: Array<{ behaviors?: { trigger?: Record<string, { flow: { machine?: { label: string } } }> } }>
+      entities: Array<{
+        behaviors?: { trigger?: Record<string, { flow: { machine?: { label: string } } }> }
+      }>
     }
     const trigger = scene.entities[0]?.behaviors?.trigger
     const machineId = Object.keys(trigger ?? {}).find((id) => trigger![id]?.flow?.machine)
-    const machine = trigger![machineId!].flow as { machine: { label: string } }
+    const machine = trigger![machineId!]!.flow as { machine: { label: string } }
     machine.machine.label = '不同步的连续流程'
-    files.set('content/scenes/s000.json', scene)
+    files.set('content/scenes/s000.json', scene as MigrationJson)
     expect(() =>
       validatePalCurrentPublication({ publication: { ...publication, files }, manifest, sources }),
     ).toThrow(/PAL 物品剧情方案 machine-inner 未与父名同步/)
@@ -448,17 +465,22 @@ describe('O01 validatePalCurrentPublication：发布门与 census 拒绝合同�
     }
     const trigger = scene.entities[0]?.behaviors?.trigger
     delete trigger?.['scheme-00']
-    files.set('content/scenes/s000.json', scene)
+    files.set('content/scenes/s000.json', scene as MigrationJson)
     const items = structuredClone(files.get('content/items.json')) as Array<{
       id: string
-      use?: { effects: Array<{ kind: string; script?: { body: Array<{ selection?: { value?: string } }> } }> }
+      use?: {
+        effects: Array<{
+          kind: string
+          script?: { body: Array<{ selection?: { value?: string } }> }
+        }>
+      }
     }>
     const vessel = items.find((item) => item.id === '268')!
     const script = vessel.use!.effects.find((effect) => effect.kind === 'itemPrivateScript')!
     script.script!.body = script.script!.body.filter(
       (command) => command.selection?.value !== 'scheme-00',
     )
-    files.set('content/items.json', items)
+    files.set('content/items.json', items as MigrationJson)
     expect(() =>
       validatePalCurrentPublication({ publication: { ...publication, files }, manifest, sources }),
     ).toThrow('PAL 物品剧情方案数量漂移: 48 != 49')
@@ -504,11 +526,13 @@ describe('O01 validatePalCurrentPublication：发布门与 census 拒绝合同�
       use?: { effects: Array<Record<string, unknown>> }
     }>
     const vessel = items.find((item) => item.id === '268')!
-    const craft = vessel.use!.effects.find((effect) => effect.kind === 'craftRecipe') as unknown as {
+    const craft = vessel.use!.effects.find(
+      (effect) => effect.kind === 'craftRecipe',
+    ) as unknown as {
       recipes: Array<{ ingredients: Array<{ itemId: string }> }>
     }
     craft.recipes[0]!.ingredients[0]!.itemId = '999'
-    files.set('content/items.json', items)
+    files.set('content/items.json', items as MigrationJson)
     expect(() =>
       validatePalCurrentPublication({ publication: { ...publication, files }, manifest, sources }),
     ).toThrow('PAL Store0 invariant: item268 recipes drift')
@@ -526,7 +550,7 @@ describe('O01 validatePalCurrentPublication：发布门与 census 拒绝合同�
       (effect) => effect.kind === 'drawFromResourcePool',
     ) as unknown as { rewards: Array<{ count: number }> }
     pool.rewards[0]!.count = 2
-    files.set('content/items.json', items)
+    files.set('content/items.json', items as MigrationJson)
     expect(() =>
       validatePalCurrentPublication({ publication: { ...publication, files }, manifest, sources }),
     ).toThrow('PAL Store0 invariant: item270 奖励档位漂移')
@@ -555,9 +579,9 @@ describe('O01 validatePalCurrentPublication：发布门与 census 拒绝合同�
     // introVideo 只经 entryPoints 进入资源闭包，不在 validate 前置表校验域内。
     delete sources.assetCatalog.assets['video.pal.003']
     const publication = rebuild(baseline, sources)
-    expect(() =>
-      validatePalCurrentPublication({ publication, manifest, sources }),
-    ).toThrow(/PAL current 资源闭包失败:\n.*video\.pal\.003/)
+    expect(() => validatePalCurrentPublication({ publication, manifest, sources })).toThrow(
+      /PAL current 资源闭包失败:\n.*video\.pal\.003/,
+    )
   })
 
   test('入口场景缺失时 manifest startup 拒绝', () => {

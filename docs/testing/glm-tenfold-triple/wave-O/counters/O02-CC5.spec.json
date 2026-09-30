@@ -1,0 +1,13 @@
+{
+  "id": "O02-CC5",
+  "contract": "maps index path 非字符串 fail-loud",
+  "test": {
+    "file": "src/migration-project-io.glm-o.test.ts",
+    "title": "maps index path 非字符串 / maps 非数组分别 fail-loud"
+  },
+  "mutation": {
+    "file": "src/migration-project-io.ts",
+    "find": "      if (typeof asset?.path !== 'string') throw new Error('content/maps/index.json: map path 无效')",
+    "replace": "      if (false && typeof asset?.path !== 'string') throw new Error('content/maps/index.json: map path 无效')"
+  }
+}

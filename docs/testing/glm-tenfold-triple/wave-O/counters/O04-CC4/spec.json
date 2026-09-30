@@ -1,0 +1,13 @@
+{
+  "id": "O04-CC4",
+  "contract": "战场背景像素 R=G=B 且 alpha=255",
+  "test": {
+    "file": "src/pal-assets.glm-o.test.ts",
+    "title": "战场背景尺寸漂移与 R=G=B 违约逐轴拒绝"
+  },
+  "mutation": {
+    "file": "src/pal-assets.ts",
+    "find": "      red !== png.data[offset + 1] ||",
+    "replace": "      false && red !== png.data[offset + 1] ||"
+  }
+}

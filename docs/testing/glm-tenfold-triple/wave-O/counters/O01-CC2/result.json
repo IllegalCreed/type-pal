@@ -1,0 +1,18 @@
+{
+  "id": "O01-CC2",
+  "control": {
+    "exitCode": 0,
+    "tests": 43
+  },
+  "injected": {
+    "exitCode": 1,
+    "failedFullName": "O01 validatePalCurrentPublication：发布门与 census 拒绝合同（合成工程） 作者改动 buy openShop 至 28 时生成侧 census 拒绝发布",
+    "failureMessageHead": "AssertionError: expected [Function] to throw an error",
+    "executed": 43
+  },
+  "hashes": {
+    "original": "ed7a219b1504e67adde82793e892d45946a87d83f5c103e15b0c74be9ebdf2b3",
+    "mutated": "a4b169d33a6d579ede077123db69aa1bdd8ee363251706e259eca056cadfc770",
+    "restored": "ed7a219b1504e67adde82793e892d45946a87d83f5c103e15b0c74be9ebdf2b3"
+  }
+}

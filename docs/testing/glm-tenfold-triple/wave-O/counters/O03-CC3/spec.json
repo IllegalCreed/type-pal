@@ -1,0 +1,13 @@
+{
+  "id": "O03-CC3",
+  "contract": "事务目标经过符号链接时拒绝",
+  "test": {
+    "file": "src/migration-write-plan.glm-o.test.ts",
+    "title": "目标为 symlink 时提交被拒绝（assertMigrationFilePath）"
+  },
+  "mutation": {
+    "file": "src/migration-path.ts",
+    "find": "    if (stat.isSymbolicLink()) throw new Error(`${label} 不得经过符号链接: ${path}`)",
+    "replace": "    if (false && stat.isSymbolicLink()) throw new Error(`${label} 不得经过符号链接: ${path}`)"
+  }
+}

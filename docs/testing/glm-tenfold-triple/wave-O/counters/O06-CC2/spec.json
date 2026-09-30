@@ -1,0 +1,14 @@
+{
+  "id": "O06-CC2",
+  "contract": "入口 id 重复拒绝",
+  "test": {
+    "file": "src/validate.glm-o.test.ts",
+    "title": "入口 id 重复 / 首尾空格 / scene 不在场景索引 逐轴拒绝"
+  },
+  "mutation": {
+    "file": "src/validate.ts",
+    "find": "    if (seen.has(id)) throw new Error(`${indexCtx}.id: 入口 id \"${id}\" 重复`)",
+    "replace": "    if (false && seen.has(id)) throw new Error(`${indexCtx}.id: 入口 id \"${id}\" 重复`)"
+  },
+  "package": "content"
+}

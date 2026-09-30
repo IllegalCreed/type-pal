@@ -1,0 +1,18 @@
+{
+  "id": "O01-CC3",
+  "control": {
+    "exitCode": 0,
+    "tests": 43
+  },
+  "injected": {
+    "exitCode": 1,
+    "failedFullName": "O01 buildPalCurrentPublication：分区替换与作者保留（合成工程） current baseline 含历史发布路径（_transitions/content/migrations/scripts）时 fail-loud",
+    "failureMessageHead": "AssertionError: expected [Function] to throw an error",
+    "executed": 43
+  },
+  "hashes": {
+    "original": "58c53e17e8d37030d323584e37f412d195410a05aebd22d06e54e2001ac91c16",
+    "mutated": "266dbb02bd807e63d257073892b5e22ac507fd2efd8999b22837e068e6cc055a",
+    "restored": "58c53e17e8d37030d323584e37f412d195410a05aebd22d06e54e2001ac91c16"
+  }
+}

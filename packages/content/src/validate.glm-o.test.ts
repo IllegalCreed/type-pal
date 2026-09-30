@@ -4,6 +4,10 @@
  *  精灵 layout/poses、locale 软换行。全部纯内存。
  */
 import { describe, expect, test } from 'vitest'
+import { CONTENT_VERSION, CURRENT_PROJECT_MINIMUM_SAVE_VERSION } from './character.js'
+import { validateMapIndex } from './map-index.js'
+import { validateMigrationDiagnostics } from './migration-diagnostic.js'
+import { validateStampTemplates } from './stamp.js'
 import {
   validateCurrentManifestStartup,
   validateLocale,
@@ -12,10 +16,6 @@ import {
   validateStartWorld,
   validateStartWorldResources,
 } from './validate.js'
-import { CONTENT_VERSION, CURRENT_PROJECT_MINIMUM_SAVE_VERSION } from './character.js'
-import { validateStampTemplates } from './stamp.js'
-import { validateMapIndex } from './map-index.js'
-import { validateMigrationDiagnostics } from './migration-diagnostic.js'
 import { validateWorldVariableRegistryV1 } from './world-variable.js'
 
 const legalStartWorld = () => ({
@@ -71,9 +71,9 @@ describe('O06 validateStartWorld：当前入口世界形状', () => {
   })
 
   test('seedStats：空角色 id/未知字段/hp/mp 非负整数 逐轴拒绝', () => {
-    expect(() =>
-      validateStartWorld({ ...legalStartWorld(), seedStats: { ' ': {} } }),
-    ).toThrow('startWorld.seedStats: 角色 id 不能为空')
+    expect(() => validateStartWorld({ ...legalStartWorld(), seedStats: { ' ': {} } })).toThrow(
+      'startWorld.seedStats: 角色 id 不能为空',
+    )
     expect(() =>
       validateStartWorld({ ...legalStartWorld(), seedStats: { a: { atk: 1 } } }),
     ).toThrow(/startWorld\.seedStats\.a\.atk: 未知字段|未知字段/)
@@ -93,11 +93,9 @@ describe('O06 validateCurrentManifestStartup：manifest 字段轴', () => {
     contentVersion: CONTENT_VERSION,
     minimumSaveVersion: CURRENT_PROJECT_MINIMUM_SAVE_VERSION,
     defaultEntryId: 'main',
-    content: { scenes: 'content/scenes/' },
+    content: { scenes: 'content/scenes/' } as Record<string, string>,
     assets: { catalog: 'assets/index.json', roles: {} },
-    entryPoints: [
-      { id: 'main', label: '开始', scene: 's000', startWorld: legalStartWorld() },
-    ],
+    entryPoints: [{ id: 'main', label: '开始', scene: 's000', startWorld: legalStartWorld() }],
   })
 
   test('缺键/内容版本漂移/保存版本漂移 逐轴拒绝', () => {
@@ -141,9 +139,9 @@ describe('O06 validateCurrentManifestStartup：manifest 字段轴', () => {
         entryPoints: [{ ...manifest().entryPoints[0]!, id: ' main' }],
       }),
     ).toThrow(/不得包含首尾空格/)
-    expect(() =>
-      validateCurrentManifestStartup(manifest(), ['s999']),
-    ).toThrow('manifest.entryPoints[main].scene: 场景 "s000" 不在 scenes/index.json')
+    expect(() => validateCurrentManifestStartup(manifest(), ['s999'])).toThrow(
+      'manifest.entryPoints[main].scene: 场景 "s000" 不在 scenes/index.json',
+    )
     expect(() => validateCurrentManifestStartup(manifest(), ['s000'])).not.toThrow()
   })
 })
@@ -158,9 +156,9 @@ describe('O06 validateScenes：运行态场景形状残臂', () => {
   })
 
   test('命名落点：空 id/label 非字符串/缺 pos/facing 非法 逐轴拒绝', () => {
-    expect(() => validateScenes([scene({ entries: { '': { pos: { col: 0, row: 0, height: 0 } } } })])).toThrow(
-      'scenes[0].entries: 命名落点 id 不能为空',
-    )
+    expect(() =>
+      validateScenes([scene({ entries: { '': { pos: { col: 0, row: 0, height: 0 } } } })]),
+    ).toThrow('scenes[0].entries: 命名落点 id 不能为空')
     expect(() =>
       validateScenes([
         scene({ entries: { n1: { label: 3, pos: { col: 0, row: 0, height: 0 } } } }),
@@ -177,15 +175,13 @@ describe('O06 validateScenes：运行态场景形状残臂', () => {
   })
 
   test('实体引用恰一（0 或 2 个）与 zone 无朝向 逐轴拒绝', () => {
-    expect(() => validateScenes([scene({ entities: [{ id: 'e', pos: { col: 0, row: 0, height: 0 } }] })])).toThrow(
-      /须恰有 actor\/sprite\/zone 之一\(现 0 个\)/,
-    )
+    expect(() =>
+      validateScenes([scene({ entities: [{ id: 'e', pos: { col: 0, row: 0, height: 0 } }] })]),
+    ).toThrow(/须恰有 actor\/sprite\/zone 之一\(现 0 个\)/)
     expect(() =>
       validateScenes([
         scene({
-          entities: [
-            { id: 'e', pos: { col: 0, row: 0, height: 0 }, actor: 'a', sprite: 's' },
-          ],
+          entities: [{ id: 'e', pos: { col: 0, row: 0, height: 0 }, actor: 'a', sprite: 's' }],
         }),
       ]),
     ).toThrow(/现 2 个/)
@@ -199,9 +195,9 @@ describe('O06 validateScenes：运行态场景形状残臂', () => {
   })
 
   test('entry.pos 缺 height / facing 非法 逐轴拒绝', () => {
-    expect(() => validateScenes([scene({ entry: { pos: { col: 0, row: 0 }, facing: 'down' } })])).toThrow(
-      /scenes\[0\]\.entry\.pos: 缺键 "height"/,
-    )
+    expect(() =>
+      validateScenes([scene({ entry: { pos: { col: 0, row: 0 }, facing: 'down' } })]),
+    ).toThrow(/scenes\[0\]\.entry\.pos: 缺键 "height"/)
     expect(() =>
       validateScenes([scene({ entry: { pos: { col: 0, row: 0, height: 0 }, facing: 'x' } })]),
     ).toThrow('scenes[0].entry.facing: 期望 up/down/left/right')
@@ -220,15 +216,15 @@ describe('O06 validateSprites：layout/poses 残臂', () => {
     version: 1 as const,
     assets: {
       'sprite.pal.001': {
-        kind: 'sprite',
+        kind: 'sprite' as const,
         path: 'assets/generated/sprite-pal-001.png',
         mediaType: 'image/png',
         bytes: 3,
         sha256: 'a'.repeat(64),
-        origin: { kind: 'generated' },
+        origin: { kind: 'generated' as const },
       },
     },
-  }
+  } satisfies import('./asset.js').AssetCatalogV1
 
   test('directional 缺 framesPerDir / 非正整数 拒绝；static 通过', () => {
     expect(() => validateSprites([sprite({ layout: { kind: 'directional' } })])).toThrow(
@@ -248,7 +244,7 @@ describe('O06 validateSprites：layout/poses 残臂', () => {
     const wrongKindCatalog = {
       version: 1 as const,
       assets: {
-        'sprite.pal.001': { ...catalog.assets['sprite.pal.001']!, kind: 'music' },
+        'sprite.pal.001': { ...catalog.assets['sprite.pal.001']!, kind: 'music' as const },
       },
     }
     expect(() => validateSprites([sprite()], wrongKindCatalog)).toThrow(/期望 sprite，实际 music/)
@@ -259,20 +255,27 @@ describe('O06 validateSprites：layout/poses 残臂', () => {
     const poses = (action: Record<string, unknown>) => sprite({ poses: { wave: action } })
     expect(() => validateSprites([poses({ label: 'w', steps: [] })])).toThrow(/期望非空数组/)
     expect(() =>
-      validateSprites([poses({ label: 'w', steps: [{ frame: 0, durationMs: 100, cues: [{ kind: 'fade', asset: 'x' }] }] })]),
+      validateSprites([
+        poses({
+          label: 'w',
+          steps: [{ frame: 0, durationMs: 100, cues: [{ kind: 'fade', asset: 'x' }] }],
+        }),
+      ]),
     ).toThrow(/首期只允许 sound/)
     expect(() =>
       validateSprites([poses({ label: 'w', steps: [{ frame: 0, durationMs: 100 }], loopFrom: 5 })]),
     ).toThrow(/loopFrom: 期望小于 steps\.length 的非负整数/)
-    expect(() => validateSprites([poses({ label: ' ', steps: [{ frame: 0, durationMs: 100 }] })])).toThrow(
-      /label: 期望非空 string/,
-    )
+    expect(() =>
+      validateSprites([poses({ label: ' ', steps: [{ frame: 0, durationMs: 100 }] })]),
+    ).toThrow(/label: 期望非空 string/)
     expect(() =>
       validateSprites(
         [
           poses({
             label: 'w',
-            steps: [{ frame: 0, durationMs: 100, cues: [{ kind: 'sound', asset: 'sound.pal.028' }] }],
+            steps: [
+              { frame: 0, durationMs: 100, cues: [{ kind: 'sound', asset: 'sound.pal.028' }] },
+            ],
           }),
         ],
         catalog,
@@ -299,27 +302,18 @@ describe('O06 validateLocale / stamp / mapIndex / diagnostics / worldVariables �
         {
           id: 'layer-0',
           name: 'l',
-          tiles: [
-            [null],
-            [null],
-          ],
-          sources: [
-            [null],
-            [null],
-          ],
+          tiles: [[null], [null]],
+          sources: [[null], [null]],
         },
       ],
-      collision: [
-        [0],
-        [0],
-      ],
+      collision: [[0], [0]],
     }
-    expect(() => validateStampTemplates([{ ...stampBase, id: 'a/b', anchor: { row: 0, col: 0 } }])).toThrow(
-      /id 不得含 '\/'|id 不得含 "\/"|id 不得含/,
-    )
-    expect(() => validateStampTemplates([{ ...stampBase, id: 'a', anchor: { row: 2, col: 0 } }])).toThrow(
-      /锚点超出局部 surface/,
-    )
+    expect(() =>
+      validateStampTemplates([{ ...stampBase, id: 'a/b', anchor: { row: 0, col: 0 } }]),
+    ).toThrow(/id 不得含 '\/'|id 不得含 "\/"|id 不得含/)
+    expect(() =>
+      validateStampTemplates([{ ...stampBase, id: 'a', anchor: { row: 2, col: 0 } }]),
+    ).toThrow(/锚点超出局部 surface/)
     expect(() =>
       validateStampTemplates([
         {
@@ -330,14 +324,8 @@ describe('O06 validateLocale / stamp / mapIndex / diagnostics / worldVariables �
             {
               id: 'layer-0',
               name: 'l',
-              tiles: [
-                [null],
-                [null],
-              ],
-              sources: [
-                [null],
-                [null],
-              ],
+              tiles: [[null], [null]],
+              sources: [[null], [null]],
             },
           ],
         },
@@ -371,13 +359,19 @@ describe('O06 validateLocale / stamp / mapIndex / diagnostics / worldVariables �
 
   test('worldVariables：flag/number 初始值类型与 kind 白名单 逐轴校验', () => {
     expect(() =>
-      validateWorldVariableRegistryV1({ f: { kind: 'flag', name: 'n', description: '', initial: 1 } }),
+      validateWorldVariableRegistryV1({
+        f: { kind: 'flag', name: 'n', description: '', initial: 1 },
+      }),
     ).toThrow(/flag 期望 boolean/)
     expect(() =>
-      validateWorldVariableRegistryV1({ n: { kind: 'number', name: 'n', description: '', initial: 'x' } }),
+      validateWorldVariableRegistryV1({
+        n: { kind: 'number', name: 'n', description: '', initial: 'x' },
+      }),
     ).toThrow(/number 期望有限数值/)
     expect(() =>
-      validateWorldVariableRegistryV1({ b: { kind: 'bool', name: 'n', description: '', initial: 1 } }),
+      validateWorldVariableRegistryV1({
+        b: { kind: 'bool', name: 'n', description: '', initial: 1 },
+      }),
     ).toThrow(/只允许 flag \/ number/)
     expect(() =>
       validateWorldVariableRegistryV1({

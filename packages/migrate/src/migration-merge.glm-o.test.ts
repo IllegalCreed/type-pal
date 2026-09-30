@@ -4,12 +4,7 @@
  *  pages/stages 回退、authored 接管（stamps/sprites/assets）、catalog 目标校验。
  */
 import { describe, expect, test } from 'vitest'
-import {
-  jsonAbsent,
-  jsonPresent,
-  mergeManagedFile,
-  type VersionedJson,
-} from './migration-merge.js'
+import { jsonAbsent, jsonPresent, mergeManagedFile, type VersionedJson } from './migration-merge.js'
 
 const sceneFile = 'content/scenes/s000.json'
 
@@ -23,11 +18,11 @@ describe('O02 mergeManagedFile：身份数组与失效身份（合成文件）',
     const theirs = entitiesWith('e1', 'e3')
     const result = mergeManagedFile(sceneFile, base, ours, theirs)
     expect(result.conflicts).toEqual([])
-    expect((result.value.value as { entities: Array<{ id: string }> }).entities.map((entity) => entity.id)).toEqual([
-      'e1',
-      'e3',
-      'e2',
-    ])
+    expect(
+      (result.value.value as { entities: Array<{ id: string }> }).entities.map(
+        (entity) => entity.id,
+      ),
+    ).toEqual(['e1', 'e3', 'e2'])
   })
 
   test('场景 entities：同一新增 id 双方正文不同 → add-add 冲突（无 base 身份）', () => {
@@ -60,13 +55,25 @@ describe('O02 mergeManagedFile：身份数组与失效身份（合成文件）',
 
   test('scenes/index.json 严格顺序：双方不同重排 → array-order 冲突', () => {
     const base = jsonPresent({
-      scenes: [{ id: 'a', path: 'p/a' }, { id: 'b', path: 'p/b' }, { id: 'c', path: 'p/c' }],
+      scenes: [
+        { id: 'a', path: 'p/a' },
+        { id: 'b', path: 'p/b' },
+        { id: 'c', path: 'p/c' },
+      ],
     })
     const ours = jsonPresent({
-      scenes: [{ id: 'b', path: 'p/b' }, { id: 'a', path: 'p/a' }, { id: 'c', path: 'p/c' }],
+      scenes: [
+        { id: 'b', path: 'p/b' },
+        { id: 'a', path: 'p/a' },
+        { id: 'c', path: 'p/c' },
+      ],
     })
     const theirs = jsonPresent({
-      scenes: [{ id: 'c', path: 'p/c' }, { id: 'a', path: 'p/a' }, { id: 'b', path: 'p/b' }],
+      scenes: [
+        { id: 'c', path: 'p/c' },
+        { id: 'a', path: 'p/a' },
+        { id: 'b', path: 'p/b' },
+      ],
     })
     const result = mergeManagedFile('content/scenes/index.json', base, ours, theirs)
     expect(result.conflicts.map(({ type }) => type)).toEqual(['array-order'])
@@ -75,7 +82,10 @@ describe('O02 mergeManagedFile：身份数组与失效身份（合成文件）',
   test('scenes/index.json：一方新增、一方重排可共存（公共序一致）', () => {
     const base = jsonPresent({ scenes: [{ id: 'a', path: 'p/a' }] })
     const ours = jsonPresent({
-      scenes: [{ id: 'a', path: 'p/a' }, { id: 'b', path: 'p/b' }],
+      scenes: [
+        { id: 'a', path: 'p/a' },
+        { id: 'b', path: 'p/b' },
+      ],
     })
     const theirs = jsonPresent({ scenes: [{ id: 'a', path: 'p/a-rev' }] })
     const result = mergeManagedFile('content/scenes/index.json', base, ours, theirs)
@@ -102,11 +112,9 @@ describe('O02 mergeManagedFile：身份数组与失效身份（合成文件）',
     })
     const result = mergeManagedFile('content/maps/index.json', base, ours, theirs)
     expect(result.conflicts).toEqual([])
-    expect((result.value.value as { maps: Array<{ id: string }> }).maps.map(({ id }) => id)).toEqual([
-      'map-1',
-      'map-3',
-      'map-2',
-    ])
+    expect(
+      (result.value.value as { maps: Array<{ id: string }> }).maps.map(({ id }) => id),
+    ).toEqual(['map-1', 'map-3', 'map-2'])
   })
 
   test('已有场景文件缺 entities 键：双方同时建立 entities 仍按身份合并', () => {
@@ -135,8 +143,20 @@ describe('O02 mergeManagedFile：身份数组与失效身份（合成文件）',
 
   test('skills.json /skills 身份模式合并双方新增仙术', () => {
     const base = jsonPresent({ skills: [{ id: '1', name: 'a' }], levelUp: {} })
-    const ours = jsonPresent({ skills: [{ id: '1', name: 'a' }, { id: '2', name: 'b' }], levelUp: {} })
-    const theirs = jsonPresent({ skills: [{ id: '1', name: 'a' }, { id: '3', name: 'c' }], levelUp: {} })
+    const ours = jsonPresent({
+      skills: [
+        { id: '1', name: 'a' },
+        { id: '2', name: 'b' },
+      ],
+      levelUp: {},
+    })
+    const theirs = jsonPresent({
+      skills: [
+        { id: '1', name: 'a' },
+        { id: '3', name: 'c' },
+      ],
+      levelUp: {},
+    })
     const result = mergeManagedFile('content/skills.json', base, ours, theirs)
     expect(result.conflicts).toEqual([])
     expect(
@@ -147,8 +167,7 @@ describe('O02 mergeManagedFile：身份数组与失效身份（合成文件）',
 
 describe('O02 mergeManagedFile：pages 非身份条目的元素级合并与数组洞', () => {
   const sceneFile = 'content/scenes/s007.json'
-  const page = (marker: string): VersionedJson =>
-    jsonPresent({ pages: [{ cue: marker }] })
+  const page = (marker: string): VersionedJson => jsonPresent({ pages: [{ cue: marker }] })
 
   test('无 id 页条目：一方尾部追加、一方不变 → 追加保留', () => {
     const base = page('p1')
@@ -263,16 +282,35 @@ describe('O02 mergeManagedFile：authored 接管与 catalog 目标校验', () =>
     const base = jsonPresent({ version: 1, assets: {} })
     const ours = jsonPresent({
       version: 1,
-      assets: { 'a.x': { kind: 'portrait', path: 'assets/authored/a.png', mediaType: 'image/png', bytes: 1, sha256: 'a'.repeat(64), origin: { kind: 'authored' } } },
+      assets: {
+        'a.x': {
+          kind: 'portrait',
+          path: 'assets/authored/a.png',
+          mediaType: 'image/png',
+          bytes: 1,
+          sha256: 'a'.repeat(64),
+          origin: { kind: 'authored' },
+        },
+      },
     })
     const theirs = jsonPresent({
       version: 1,
-      assets: { 'a.x': { kind: 'sprite', path: 'assets/generated/a.png', mediaType: 'image/png', bytes: 2, sha256: 'b'.repeat(64), origin: { kind: 'generated' } } },
+      assets: {
+        'a.x': {
+          kind: 'sprite',
+          path: 'assets/generated/a.png',
+          mediaType: 'image/png',
+          bytes: 2,
+          sha256: 'b'.repeat(64),
+          origin: { kind: 'generated' },
+        },
+      },
     })
     const result = mergeManagedFile('assets/index.json', base, ours, theirs)
     expect(result.conflicts).toEqual([])
-    const record = (result.value.value as { assets: Record<string, { path: string; bytes: number }> })
-      .assets['a.x']!
+    const record = (
+      result.value.value as { assets: Record<string, { path: string; bytes: number }> }
+    ).assets['a.x']!
     expect(record).toMatchObject({ path: 'assets/authored/a.png', bytes: 1 })
   })
 
@@ -280,7 +318,16 @@ describe('O02 mergeManagedFile：authored 接管与 catalog 目标校验', () =>
     const base = jsonPresent({ version: 1, assets: {} })
     const ours = jsonPresent({
       version: 1,
-      assets: { 'a.x': { kind: 'portrait', path: 'assets/authored/a.png', mediaType: 'image/png', bytes: 1, sha256: 'a'.repeat(64), origin: { kind: 'authored' } } },
+      assets: {
+        'a.x': {
+          kind: 'portrait',
+          path: 'assets/authored/a.png',
+          mediaType: 'image/png',
+          bytes: 1,
+          sha256: 'a'.repeat(64),
+          origin: { kind: 'authored' },
+        },
+      },
     })
     // theirs 删除 version → 删除胜；合并结果不再是合法 catalog，发布目标被拒。
     const theirs = jsonPresent({ assets: {} })
@@ -301,7 +348,9 @@ describe('O02 mergeManagedFile：冲突快照保真与输入不可变', () => {
     expect(conflict.base).toEqual({ present: true, value: 1 })
     expect(conflict.ours).toEqual({ present: true, value: 2 })
     expect(conflict.theirs).toEqual({ present: true, value: 3 })
-    if (typeof conflict.ours.value === 'object') conflict.ours.value.v = 999
+    const oursSnapshot = conflict.ours.value
+    if (typeof oursSnapshot === 'object' && oursSnapshot !== null && !Array.isArray(oursSnapshot))
+      oursSnapshot.v = 999
     expect(ours.value).toEqual({ v: 2 })
   })
 
@@ -315,7 +364,12 @@ describe('O02 mergeManagedFile：冲突快照保真与输入不可变', () => {
   })
 
   test('equal-but-invalid：三方相同的 scenes/index 重复 id 仍 fail-closed（快速路径不豁免）', () => {
-    const broken = jsonPresent({ scenes: [{ id: 'a', path: 'p/a' }, { id: 'a', path: 'p/a2' }] })
+    const broken = jsonPresent({
+      scenes: [
+        { id: 'a', path: 'p/a' },
+        { id: 'a', path: 'p/a2' },
+      ],
+    })
     const result = mergeManagedFile('content/scenes/index.json', broken, broken, broken)
     expect(result.conflicts.map(({ type }) => type)).toEqual(['invalid-identity'])
   })
@@ -340,12 +394,7 @@ describe('O02 mergeManagedFile：根级 id 数组文件与键转义', () => {
 
   test('enemy-teams.json 根级数组按 id 合并；双方同 id 异文 → add-add', () => {
     const team = (n: number): VersionedJson => jsonPresent([{ id: 't1', members: [n] }])
-    const result = mergeManagedFile(
-      'content/enemy-teams.json',
-      jsonPresent([]),
-      team(1),
-      team(2),
-    )
+    const result = mergeManagedFile('content/enemy-teams.json', jsonPresent([]), team(1), team(2))
     expect(result.conflicts.map(({ type, path }) => ({ type, path }))).toContainEqual({
       type: 'add-add',
       path: '/@string:t1',
@@ -385,7 +434,12 @@ describe('O02 mergeManagedFile：根级 id 数组文件与键转义', () => {
           ...(extra === 'p0' ? [] : [{ id: extra, label: extra, trigger: extra }]),
         ],
       })
-    const result = mergeManagedFile('content/scenes/s009.json', pages('p0'), pages('p1'), pages('p2'))
+    const result = mergeManagedFile(
+      'content/scenes/s009.json',
+      pages('p0'),
+      pages('p1'),
+      pages('p2'),
+    )
     expect(result.conflicts).toEqual([])
     expect(
       (result.value.value as { pages: Array<{ id: string }> }).pages.map(({ id }) => id),
@@ -394,8 +448,15 @@ describe('O02 mergeManagedFile：根级 id 数组文件与键转义', () => {
 
   test('scenes stages：带 id 阶段走身份合并（stage 库新增并存）', () => {
     const stages = (extra: string): VersionedJson =>
-      jsonPresent({ stages: [{ id: 's0', body: [] }, ...(extra === 's0' ? [] : [{ id: extra, body: [] }])] })
-    const result = mergeManagedFile('content/scenes/s010.json', stages('s0'), stages('s1'), stages('s2'))
+      jsonPresent({
+        stages: [{ id: 's0', body: [] }, ...(extra === 's0' ? [] : [{ id: extra, body: [] }])],
+      })
+    const result = mergeManagedFile(
+      'content/scenes/s010.json',
+      stages('s0'),
+      stages('s1'),
+      stages('s2'),
+    )
     expect(result.conflicts).toEqual([])
     expect(
       (result.value.value as { stages: Array<{ id: string }> }).stages.map(({ id }) => id),

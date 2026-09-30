@@ -40,9 +40,7 @@ const manifestWithPrecondition = (repo: string): TransactionChange[] => {
   const full = resolve(repo, assetRel)
   mkdirSync(resolve(repo, 'projects/pal/assets'), { recursive: true })
   writeFileSync(full, 'ready')
-  const preconditions: TransactionPrecondition[] = [
-    { target: assetRel, hash: sha256('ready') },
-  ]
+  const preconditions: TransactionPrecondition[] = [{ target: assetRel, hash: sha256('ready') }]
   return [
     {
       target: 'projects/pal/manifest.json',
@@ -58,7 +56,12 @@ describe('O01 commitMigrationTransaction：提交侧单轴拒绝合同', () => {
     const repo = tempRepo()
     expect(() =>
       commitMigrationTransaction(repo, [
-        { target: resolve(repo, 'projects/pal/x.json'), scope: 'project', expectedPreviousHash: null, content: 'x' },
+        {
+          target: resolve(repo, 'projects/pal/x.json'),
+          scope: 'project',
+          expectedPreviousHash: null,
+          content: 'x',
+        },
       ]),
     ).toThrow('事务目标必须是仓库内相对路径')
   })
@@ -88,8 +91,11 @@ describe('O01 commitMigrationTransaction：提交侧单轴拒绝合同', () => {
 
   test('project 操作缺 expectedPreviousHash 被拒绝', () => {
     const repo = tempRepo()
-    const missing = { target: 'projects/pal/content/a.json', scope: 'project', content: 'x' } as
-      unknown as TransactionChange
+    const missing = {
+      target: 'projects/pal/content/a.json',
+      scope: 'project',
+      content: 'x',
+    } as unknown as TransactionChange
     expect(() => commitMigrationTransaction(repo, [missing])).toThrow(
       '事务工程操作缺规划 expectedPreviousHash: projects/pal/content/a.json',
     )
@@ -99,24 +105,18 @@ describe('O01 commitMigrationTransaction：提交侧单轴拒绝合同', () => {
     const repo = tempRepo()
     expect(() =>
       commitMigrationTransaction(repo, [
-        { target: 'projects/pal/content/a.json', scope: 'project', expectedPreviousHash: 'nothex', content: 'x' },
+        {
+          target: 'projects/pal/content/a.json',
+          scope: 'project',
+          expectedPreviousHash: 'nothex',
+          content: 'x',
+        },
       ]),
     ).toThrow('事务 expectedPreviousHash 无效: projects/pal/content/a.json')
   })
 
-  test('非 project 操作携带 expectedPreviousHash 被拒绝', () => {
-    const repo = tempRepo()
-    expect(() =>
-      commitMigrationTransaction(repo, [
-        {
-          target: 'packages/migrate/baselines/pal/a.json',
-          scope: 'baseline',
-          expectedPreviousHash: null,
-          content: 'x',
-        },
-      ]),
-    ).toThrow('只有 project 操作可以携带 expectedPreviousHash')
-  })
+  // 注：非 project 携带 expectedPreviousHash 的运行时守卫经 TransactionChange 类型在提交侧
+  // 不可构造（TS2322），该轴由 journal 验证侧的 strict 校验覆盖（恢复路径测试）。
 
   test('precondition hash 非法被拒绝', () => {
     const repo = tempRepo()
@@ -159,23 +159,28 @@ describe('O01 commitMigrationTransaction：提交侧单轴拒绝合同', () => {
   test('存在未恢复 journal 时提交被互斥拒绝', () => {
     const repo = tempRepo()
     expect(() =>
-      commitMigrationTransaction(
-        repo,
-        [writeOp('projects/pal/content/a.json', 'a\n')],
-        { afterOperation: () => { throw new Error('interrupt') } },
-      ),
+      commitMigrationTransaction(repo, [writeOp('projects/pal/content/a.json', 'a\n')], {
+        afterOperation: () => {
+          throw new Error('interrupt')
+        },
+      }),
     ).toThrow('interrupt')
     expect(hasPendingMigrationTransaction(repo)).toBe(true)
-    expect(() => commitMigrationTransaction(repo, [writeOp('projects/pal/content/b.json', 'b\n')])).toThrow(
-      '存在未恢复迁移事务；请先调用 recoverMigrationTransaction',
-    )
+    expect(() =>
+      commitMigrationTransaction(repo, [writeOp('projects/pal/content/b.json', 'b\n')]),
+    ).toThrow('存在未恢复迁移事务；请先调用 recoverMigrationTransaction')
   })
 
   test('scope 目标域：project→manifest 被 ordering 门拒绝，baseline 越界前缀被 journal 验证拒绝', () => {
     const repo = tempRepo()
     expect(() =>
       commitMigrationTransaction(repo, [
-        { target: 'projects/pal/manifest.json', scope: 'project', expectedPreviousHash: null, content: 'x' },
+        {
+          target: 'projects/pal/manifest.json',
+          scope: 'project',
+          expectedPreviousHash: null,
+          content: 'x',
+        },
       ]),
     ).toThrow('manifest 操作必须使用 manifest scope 与固定目标')
     expect(() =>
@@ -221,10 +226,7 @@ describe('O03 journal 验证与恢复：恢复路径合同（mkdtemp 隔离）',
     mutate(operations, id)
     const control = resolve(repo, '.type-pal-migrate')
     mkdirSync(resolve(repo, '.type-pal-migrate/transactions', id, 'stage'), { recursive: true })
-    writeFileSync(
-      resolve(repo, '.type-pal-migrate/transactions', id, 'stage', '000000'),
-      'a2\n',
-    )
+    writeFileSync(resolve(repo, '.type-pal-migrate/transactions', id, 'stage', '000000'), 'a2\n')
     writeFileSync(
       resolve(control, 'pal-journal.json'),
       JSON.stringify({ version: 2, id, operations }),

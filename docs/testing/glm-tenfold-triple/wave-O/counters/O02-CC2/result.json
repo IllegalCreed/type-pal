@@ -1,0 +1,18 @@
+{
+  "id": "O02-CC2",
+  "control": {
+    "exitCode": 0,
+    "tests": 30
+  },
+  "injected": {
+    "exitCode": 1,
+    "failedFullName": "O02 mergeManagedFile：身份数组与失效身份（合成文件） scenes/index.json 严格顺序：双方不同重排 → array-order 冲突",
+    "failureMessageHead": "AssertionError: expected [] to deeply equal [ 'array-order' ]",
+    "executed": 30
+  },
+  "hashes": {
+    "original": "e1d3a877f72e876fd64191555aadbd61bbc11fde1db3f9e7cf9fe71c494b777e",
+    "mutated": "4a8bc2be3ca3bc83b85a4517184580a2380b67c4eb7f5ba285aa8eb5e544998e",
+    "restored": "e1d3a877f72e876fd64191555aadbd61bbc11fde1db3f9e7cf9fe71c494b777e"
+  }
+}

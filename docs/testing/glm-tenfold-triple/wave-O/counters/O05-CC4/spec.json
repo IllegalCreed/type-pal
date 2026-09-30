@@ -1,0 +1,13 @@
+{
+  "id": "O05-CC4",
+  "contract": "场景布局变体生成 -f<frames> 稳定 id",
+  "test": {
+    "file": "src/pal-world-sprites.glm-o.test.ts",
+    "title": "同一精灵两种 nSpriteFrames → stable base + -f<frames> 变体并报 layoutConflicts"
+  },
+  "mutation": {
+    "file": "src/pal-world-sprite-registry.ts",
+    "find": "              : migratedSpriteId(spriteNum, evidence.nSpriteFrames),",
+    "replace": "              : migratedSpriteId(spriteNum),"
+  }
+}

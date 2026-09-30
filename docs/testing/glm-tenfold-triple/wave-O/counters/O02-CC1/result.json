@@ -1,0 +1,18 @@
+{
+  "id": "O02-CC1",
+  "control": {
+    "exitCode": 0,
+    "tests": 30
+  },
+  "injected": {
+    "exitCode": 1,
+    "failedFullName": "O02 mergeManagedFile：身份数组与失效身份（合成文件） 场景 entities：非对象条目（无身份）→ invalid-identity 冲突",
+    "failureMessageHead": "AssertionError: expected [] to deeply equal [ 'invalid-identity' ]",
+    "executed": 30
+  },
+  "hashes": {
+    "original": "e1d3a877f72e876fd64191555aadbd61bbc11fde1db3f9e7cf9fe71c494b777e",
+    "mutated": "653cd4226fbe8a947f36331ca189336d223202da46f247d666204eb1a4ea33e8",
+    "restored": "e1d3a877f72e876fd64191555aadbd61bbc11fde1db3f9e7cf9fe71c494b777e"
+  }
+}

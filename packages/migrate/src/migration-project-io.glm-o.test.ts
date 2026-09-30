@@ -37,10 +37,14 @@ const writeProject = (repo: string, rel: string, content: string): void => {
 describe('O02 discoverProjectManagedFiles：索引发现与坏索引拒绝', () => {
   test('scene index 登记的正文路径并入托管集', () => {
     const repo = tempRepo()
-    writeProject(repo, 'content/scenes/index.json', JSON.stringify({
-      version: 1,
-      scenes: [{ id: 's000', name: 'x', path: 'content/scenes/s000.json' }],
-    }))
+    writeProject(
+      repo,
+      'content/scenes/index.json',
+      JSON.stringify({
+        version: 1,
+        scenes: [{ id: 's000', name: 'x', path: 'content/scenes/s000.json' }],
+      }),
+    )
     const managed = discoverProjectManagedFiles(repo, new Set(['content/actors.json']))
     expect(managed.has('content/actors.json')).toBe(true)
     expect(managed.has('content/scenes/s000.json')).toBe(true)
@@ -56,15 +60,23 @@ describe('O02 discoverProjectManagedFiles：索引发现与坏索引拒绝', () 
 
   test('scripts index chunks 路径并入托管集；path 非字符串 fail-loud', () => {
     const repo = tempRepo()
-    writeProject(repo, 'content/scripts/index.json', JSON.stringify({
-      chunks: { a: { path: 'chunk-a.json' } },
-    }))
+    writeProject(
+      repo,
+      'content/scripts/index.json',
+      JSON.stringify({
+        chunks: { a: { path: 'chunk-a.json' } },
+      }),
+    )
     const managed = discoverProjectManagedFiles(repo, new Set())
     expect(managed.has('content/scripts/chunk-a.json')).toBe(true)
 
-    writeProject(repo, 'content/scripts/index.json', JSON.stringify({
-      chunks: { a: { path: 42 } },
-    }))
+    writeProject(
+      repo,
+      'content/scripts/index.json',
+      JSON.stringify({
+        chunks: { a: { path: 42 } },
+      }),
+    )
     expect(() => discoverProjectManagedFiles(repo, new Set())).toThrow(
       'content/scripts/index.json: chunk path 无效',
     )
@@ -84,9 +96,13 @@ describe('O02 discoverProjectManagedFiles：索引发现与坏索引拒绝', () 
 
   test('合法 maps index 并入地图正文路径', () => {
     const repo = tempRepo()
-    writeProject(repo, 'content/maps/index.json', JSON.stringify({
-      maps: [{ id: 'map-001', name: 'm', path: 'content/maps/map-001.json' }],
-    }))
+    writeProject(
+      repo,
+      'content/maps/index.json',
+      JSON.stringify({
+        maps: [{ id: 'map-001', name: 'm', path: 'content/maps/map-001.json' }],
+      }),
+    )
     expect(discoverProjectManagedFiles(repo, new Set()).has('content/maps/map-001.json')).toBe(true)
   })
 })
@@ -98,7 +114,9 @@ describe('O02 loadProjectMigrationSnapshot / assertProjectSnapshotCurrent', () =
     const managed = new Set(['content/actors.json', 'content/missing.json'])
     const snapshot = loadProjectMigrationSnapshot(repo, managed)
     expect(snapshot.files.get('content/actors.json')).toEqual([{ id: 'a' }])
-    expect(snapshot.hashes.get('content/actors.json')).toBe(sha256(readFileSync(resolve(repo, PAL_PROJECT_REL, 'content/actors.json'))))
+    expect(snapshot.hashes.get('content/actors.json')).toBe(
+      sha256(readFileSync(resolve(repo, PAL_PROJECT_REL, 'content/actors.json'))),
+    )
     expect(snapshot.hashes.has('content/missing.json')).toBe(false)
     expect(snapshot.managedFiles.has('content/missing.json')).toBe(true)
   })
@@ -136,7 +154,11 @@ describe('O02 loadProjectMigrationSnapshot / assertProjectSnapshotCurrent', () =
     writeProject(repo, 'content/actors.json', '[]')
     const snapshot = loadProjectMigrationSnapshot(repo, new Set(['content/actors.json']))
     expect(() =>
-      assertProjectSnapshotCurrent(repo, snapshot, new Set(['content/actors.json', 'content/new.json'])),
+      assertProjectSnapshotCurrent(
+        repo,
+        snapshot,
+        new Set(['content/actors.json', 'content/new.json']),
+      ),
     ).not.toThrow()
   })
 })
@@ -165,7 +187,10 @@ describe('O02 hashUnmanagedProjectFiles / assertHashMapsEqual', () => {
     assertHashMapsEqual(new Map([['a', '1']]), new Map([['a', '1']]), 'X')
     expect(() =>
       assertHashMapsEqual(
-        new Map([['b.txt', '2'], ['a.txt', '1']]),
+        new Map([
+          ['b.txt', '2'],
+          ['a.txt', '1'],
+        ]),
         new Map([['a.txt', '9']]),
         '迁移前后',
       ),
@@ -197,9 +222,9 @@ describe('O02 project-io 补充：递归遍历与断言容忍', () => {
   })
 
   test('assertHashMapsEqual：actual 多出的键也被报告', () => {
-    expect(() =>
-      assertHashMapsEqual(new Map(), new Map([['surprise.txt', 'zz']]), '审计'),
-    ).toThrow('审计字节发生变化: surprise.txt')
+    expect(() => assertHashMapsEqual(new Map(), new Map([['surprise.txt', 'zz']]), '审计')).toThrow(
+      '审计字节发生变化: surprise.txt',
+    )
   })
 
   test('loadProjectMigrationSnapshot 保留传入托管集原序语义（Set 复制）', () => {

@@ -1,0 +1,13 @@
+{
+  "id": "O03-CC1",
+  "contract": "工程写排序：scenes/index 排在最后",
+  "test": {
+    "file": "src/migration-write-plan.glm-o.test.ts",
+    "title": "工程写按 scenes/index 最后排序；map 内容走专用序列化"
+  },
+  "mutation": {
+    "file": "src/migration-write-plan.ts",
+    "find": "const projectWriteOrder = (path: string): number => (path === 'content/scenes/index.json' ? 1 : 0)",
+    "replace": "const projectWriteOrder = (path: string): number => (path === 'content/scenes/index.json' ? 0 : 0)"
+  }
+}

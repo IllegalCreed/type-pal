@@ -4,17 +4,17 @@
  *  本卡按 gap-map 直击未覆盖臂：隐蛊/puppet overlay、伤亡 opcode 轴、
  *  窄消息形状漂移、Store0 货单与 census 轴。全部纯内存，typed 输入。
  */
-import { describe, expect, test } from 'vitest'
+
 import type { ItemData } from '@type-pal/content'
+import { describe, expect, test } from 'vitest'
 import {
   applyPalGeneratedCraftMessages,
   applyPalGeneratedResourcePoolMessages,
   applyPalItemOverlays,
 } from './pal-authored-overlays.js'
-import {
-  applyPalCasualtyOverlays,
-  translateCasualtyScript,
-} from './pal-casualty-scripts.js'
+import { applyPalCasualtyOverlays, translateCasualtyScript } from './pal-casualty-scripts.js'
+import type { SourceStore } from './pal-derived-content.js'
+import type { PalItemMessageSource } from './pal-item-message-source.js'
 import {
   applyPalItemMessageSources,
   buildPalItemMessageSources,
@@ -22,17 +22,24 @@ import {
   translateCraftRecipeScript,
   translateResourcePoolScript,
 } from './pal-item-message-source.js'
+import type { SourceItem } from './pal-source-types.js'
 import {
   assertPalAlchemyBoundaryInvariant,
   assertPalStoreBoundaryInvariant,
 } from './pal-store-boundary.js'
-import type { SourceStore } from './pal-derived-content.js'
 import type { SourceCmd } from './source-facts.js'
-import type { SourceItem } from './pal-source-types.js'
 
-const line = (messageIndex: number): SourceCmd => ({ op: 'showDialog', messageIndex, text: 't' })
-const gate = (target: number): SourceCmd => ({ op: 'raw', opcode: 0x06, operands: [100, target] })
-const end: SourceCmd = { op: 'end' }
+/** 伤亡/窄消息解析器经窄化读取的专有字段；fixture 扩展承载，消费处放宽为 SourceCmd。 */
+type FixtureCmd = SourceCmd & {
+  messageIndex?: number
+  to?: string
+  itemId?: number
+  count?: number
+}
+
+const line = (messageIndex: number): FixtureCmd => ({ op: 'showDialog', messageIndex, text: 't' })
+const gate = (target: number): FixtureCmd => ({ op: 'raw', opcode: 0x06, operands: [100, target] })
+const end: FixtureCmd = { op: 'end' }
 
 const item = (id: string, over: Partial<ItemData> = {}): ItemData => ({
   id,
@@ -65,7 +72,7 @@ describe('O05 applyPalItemOverlays：隐蛊与 puppet 轴', () => {
   test('puppet 状态效果被强制 battleOnly（无论原值）', () => {
     const puppet = item('50', {
       use: {
-        target: 'oneEnemy',
+        target: 'oneAlly',
         consuming: true,
         effects: [{ kind: 'applyStatus', status: 'puppet', turns: 2 } as never],
       },
@@ -76,7 +83,11 @@ describe('O05 applyPalItemOverlays：隐蛊与 puppet 轴', () => {
 
   test('非 puppet 效果不注入 battleOnly', () => {
     const plain = item('60', {
-      use: { target: 'oneAlly', consuming: true, effects: [{ kind: 'increaseHpMp', delta: 50 } as never] },
+      use: {
+        target: 'oneAlly',
+        consuming: true,
+        effects: [{ kind: 'increaseHpMp', delta: 50 } as never],
+      },
     })
     const [out] = applyPalItemOverlays([plain])
     expect(out!.use!.battleOnly).toBeUndefined()
@@ -86,7 +97,9 @@ describe('O05 applyPalItemOverlays：隐蛊与 puppet 轴', () => {
 describe('O05 applyPalGeneratedCraftMessages / ResourcePool：同轮消息同步', () => {
   const craft = (message?: string) => ({
     kind: 'craftRecipe' as const,
-    recipes: [{ ingredients: [{ itemId: '117', count: 1 }], products: [{ itemId: '148', count: 1 }] }],
+    recipes: [
+      { ingredients: [{ itemId: '117', count: 1 }], products: [{ itemId: '148', count: 1 }] },
+    ],
     ...(message === undefined ? {} : { unavailableMessage: message }),
   })
   const pool = (message?: string) => ({
@@ -99,12 +112,16 @@ describe('O05 applyPalGeneratedCraftMessages / ResourcePool：同轮消息同步
 
   test('无消息的 generated 物品整批跳过（不触碰 current）', () => {
     const current = [item('268', { use: { target: 'scene', consuming: true, effects: [craft()] } })]
-    const out = applyPalGeneratedCraftMessages(current, [item('300', { use: { target: 'scene', consuming: true, effects: [craft()] } })])
+    const out = applyPalGeneratedCraftMessages(current, [
+      item('300', { use: { target: 'scene', consuming: true, effects: [craft()] } }),
+    ])
     expect(out).toEqual(current)
   })
 
   test('current 缺同 id 物品 → fail-loud', () => {
-    const generated = [item('268', { use: { target: 'scene', consuming: true, effects: [craft('缺材料')] } })]
+    const generated = [
+      item('268', { use: { target: 'scene', consuming: true, effects: [craft('缺材料')] } }),
+    ]
     expect(() => applyPalGeneratedCraftMessages([], generated)).toThrow(
       'PAL generated craft message: current 缺物品 268',
     )
@@ -113,7 +130,9 @@ describe('O05 applyPalGeneratedCraftMessages / ResourcePool：同轮消息同步
   test('craft 数量漂移与 recipes 漂移分别 fail-loud', () => {
     const current = [item('268', { use: { target: 'scene', consuming: true, effects: [craft()] } })]
     const generatedDrift = [
-      item('268', { use: { target: 'scene', consuming: true, effects: [craft('缺材料'), craft()] } }),
+      item('268', {
+        use: { target: 'scene', consuming: true, effects: [craft('缺材料'), craft()] },
+      }),
     ]
     expect(() => applyPalGeneratedCraftMessages(current, generatedDrift)).toThrow(
       'PAL generated craft message: item268 craft 数量漂移',
@@ -127,7 +146,10 @@ describe('O05 applyPalGeneratedCraftMessages / ResourcePool：同轮消息同步
             {
               kind: 'craftRecipe',
               recipes: [
-                { ingredients: [{ itemId: '118', count: 1 }], products: [{ itemId: '148', count: 1 }] },
+                {
+                  ingredients: [{ itemId: '118', count: 1 }],
+                  products: [{ itemId: '148', count: 1 }],
+                },
               ],
               unavailableMessage: '缺材料',
             },
@@ -142,7 +164,9 @@ describe('O05 applyPalGeneratedCraftMessages / ResourcePool：同轮消息同步
 
   test('非法消息（空白/未修剪）→ fail-loud', () => {
     const current = [item('268', { use: { target: 'scene', consuming: true, effects: [craft()] } })]
-    const generated = [item('268', { use: { target: 'scene', consuming: true, effects: [craft(' 缺材料 ')] } })]
+    const generated = [
+      item('268', { use: { target: 'scene', consuming: true, effects: [craft(' 缺材料 ')] } }),
+    ]
     expect(() => applyPalGeneratedCraftMessages(current, generated)).toThrow(
       'PAL generated craft message: item268 message 非法',
     )
@@ -152,7 +176,9 @@ describe('O05 applyPalGeneratedCraftMessages / ResourcePool：同轮消息同步
     const current = [item('270', { use: { target: 'scene', consuming: true, effects: [pool()] } })]
     expect(() =>
       applyPalGeneratedResourcePoolMessages(current, [
-        item('270', { use: { target: 'scene', consuming: true, effects: [pool('无'), pool('无')] } }),
+        item('270', {
+          use: { target: 'scene', consuming: true, effects: [pool('无'), pool('无')] },
+        }),
       ]),
     ).toThrow('PAL generated resource message: item270 pool 数量漂移')
     expect(() =>
@@ -201,9 +227,13 @@ describe('O05 translateCasualtyScript / applyPalCasualtyOverlays：opcode 轴', 
       'B11-1 casualty: branch @99 未以 end 结束',
     )
     const noEnd: SourceCmd[] = [gate(1), line(1)]
-    expect(() => translateCasualtyScript(noEnd, 0, {})).toThrow('B11-1 casualty: branch @1 未以 end 结束')
+    expect(() => translateCasualtyScript(noEnd, 0, {})).toThrow(
+      'B11-1 casualty: branch @1 未以 end 结束',
+    )
     const unknown: SourceCmd[] = [gate(1), { op: 'loadScene' } as SourceCmd, end]
-    expect(() => translateCasualtyScript(unknown, 0, {})).toThrow('B11-1 casualty: branch @1 不支持的指令 loadScene')
+    expect(() => translateCasualtyScript(unknown, 0, {})).toThrow(
+      'B11-1 casualty: branch @1 不支持的指令 loadScene',
+    )
   })
 
   test('0x30 参数非法 / 0x05 非零参数 / 未知 opcode 逐轴拒绝', () => {
@@ -247,9 +277,13 @@ describe('O05 translateCasualtyScript / applyPalCasualtyOverlays：opcode 轴', 
       'B11-1 casualty: 期望角色 0 friendDeath 入口缺失',
     )
     const npc = { id: 'npc', name: 'n', spriteId: 's' }
-    expect(() => applyPalCasualtyOverlays([npc], [{ op: 'end' }], [{ scriptOnFriendDeath: 0, scriptOnDying: 0 }])).toThrow(
-      'B11-1 casualty: 期望角色 0 friendDeath 入口缺失',
-    )
+    expect(() =>
+      applyPalCasualtyOverlays(
+        [npc],
+        [{ op: 'end' }],
+        [{ scriptOnFriendDeath: 0, scriptOnDying: 0 }],
+      ),
+    ).toThrow('B11-1 casualty: 期望角色 0 friendDeath 入口缺失')
   })
 })
 
@@ -291,10 +325,13 @@ describe('O05 buildPalItemMessageSources / translate*：窄消息形状漂移', 
         { id: 0, items: [100] },
       ]),
     ).toThrow('PAL 窄物品提示源: Store0 数量 2 != 1')
-    expect(() =>
-      buildPalItemMessageSources([], commands, [{ id: 0, items: [100] }]),
-    ).toThrow('PAL 窄物品提示源: item268 缺唯一可用定义')
-    const unusable = { ...usableItem(268, 0), flags: { ...usableItem(268, 0).flags, usable: false } }
+    expect(() => buildPalItemMessageSources([], commands, [{ id: 0, items: [100] }])).toThrow(
+      'PAL 窄物品提示源: item268 缺唯一可用定义',
+    )
+    const unusable = {
+      ...usableItem(268, 0),
+      flags: { ...usableItem(268, 0).flags, usable: false },
+    }
     expect(() =>
       buildPalItemMessageSources([unusable], commands, [{ id: 0, items: [100] }]),
     ).toThrow('PAL 窄物品提示源: item268 缺唯一可用定义')
@@ -316,26 +353,31 @@ describe('O05 buildPalItemMessageSources / translate*：窄消息形状漂移', 
       end,
       { label: 'L_4', op: 'giveItem', itemId: 1, count: 1 },
     ]
-    expect(translateCraftRecipeScript(badItem, buildSourceAddressLabelIndex(badItem), 0)).toBeUndefined()
+    expect(
+      translateCraftRecipeScript(badItem, buildSourceAddressLabelIndex(badItem), 0),
+    ).toBeUndefined()
     const noProduct: SourceCmd[] = [
       { op: 'raw', opcode: 0x20, operands: [117, 1, 2] },
       { op: 'setDialogStyleNarration' },
       narration('x'),
       end,
     ]
-    expect(translateCraftRecipeScript(noProduct, buildSourceAddressLabelIndex(noProduct), 0)).toBeUndefined()
+    expect(
+      translateCraftRecipeScript(noProduct, buildSourceAddressLabelIndex(noProduct), 0),
+    ).toBeUndefined()
   })
 
   test('pool 形状漂移：0x34 缺 end / 失败地址非法 / 失败块非旁白 逐轴返回 undefined', () => {
     const labelIndex = buildSourceAddressLabelIndex([])
     expect(translateResourcePoolScript([], labelIndex, 0, [100])).toBeUndefined()
     const noEnd: SourceCmd[] = [{ op: 'raw', opcode: 0x34, operands: [2] }]
-    expect(translateResourcePoolScript(noEnd, buildSourceAddressLabelIndex(noEnd), 0, [100])).toBeUndefined()
-    const badFail: SourceCmd[] = [
-      { op: 'raw', opcode: 0x34, operands: [0] },
-      end,
-    ]
-    expect(translateResourcePoolScript(badFail, buildSourceAddressLabelIndex(badFail), 0, [100])).toBeUndefined()
+    expect(
+      translateResourcePoolScript(noEnd, buildSourceAddressLabelIndex(noEnd), 0, [100]),
+    ).toBeUndefined()
+    const badFail: SourceCmd[] = [{ op: 'raw', opcode: 0x34, operands: [0] }, end]
+    expect(
+      translateResourcePoolScript(badFail, buildSourceAddressLabelIndex(badFail), 0, [100]),
+    ).toBeUndefined()
     const badBlock: SourceCmd[] = [
       { op: 'raw', opcode: 0x34, operands: [2] },
       end,
@@ -343,15 +385,24 @@ describe('O05 buildPalItemMessageSources / translate*：窄消息形状漂移', 
       narration('x'),
       end,
     ]
-    expect(translateResourcePoolScript(badBlock, buildSourceAddressLabelIndex(badBlock), 0, [100])).toBeUndefined()
+    expect(
+      translateResourcePoolScript(badBlock, buildSourceAddressLabelIndex(badBlock), 0, [100]),
+    ).toBeUndefined()
   })
 
   test('applyPalItemMessageSources：current 缺用途 → fail-loud', () => {
-    const sources = [{ id: '268', effect: {
-      kind: 'craftRecipe',
-      recipes: [{ ingredients: [{ itemId: '117', count: 1 }], products: [{ itemId: '148', count: 1 }] }],
-      unavailableMessage: '缺材料',
-    } as const }]
+    const sources: PalItemMessageSource[] = [
+      {
+        id: '268',
+        effect: {
+          kind: 'craftRecipe',
+          recipes: [
+            { ingredients: [{ itemId: '117', count: 1 }], products: [{ itemId: '148', count: 1 }] },
+          ],
+          unavailableMessage: '缺材料',
+        },
+      },
+    ]
     expect(() => applyPalItemMessageSources([item('268')], sources)).toThrow(
       'PAL 窄物品提示源: current 缺物品 268 用途',
     )
@@ -372,7 +423,10 @@ describe('O05 assertPalStoreBoundaryInvariant / Alchemy：边界轴', () => {
           kind: 'drawFromResourcePool',
           resource: 'collectValue',
           maxRoll: 9,
-          rewards: [100, 105, 95, 112, 72, 131, 97, 102, 111].map((id) => ({ itemId: String(id), count: 1 })),
+          rewards: [100, 105, 95, 112, 72, 131, 97, 102, 111].map((id) => ({
+            itemId: String(id),
+            count: 1,
+          })),
           unavailableMessage: '无任何效果',
         },
       ],
@@ -421,7 +475,10 @@ describe('O05 assertPalStoreBoundaryInvariant / Alchemy：边界轴', () => {
 
   test('源 Store0 数量/零奖励 轴拒绝', () => {
     expect(() =>
-      assertPalAlchemyBoundaryInvariant({ sourceStores: sourceStores.filter(({ id }) => id !== 0), items: legalItems() }),
+      assertPalAlchemyBoundaryInvariant({
+        sourceStores: sourceStores.filter(({ id }) => id !== 0),
+        items: legalItems(),
+      }),
     ).toThrow('PAL Store0 invariant: 源 Store0 数量 0 != 1')
     expect(() =>
       assertPalAlchemyBoundaryInvariant({
@@ -434,29 +491,39 @@ describe('O05 assertPalStoreBoundaryInvariant / Alchemy：边界轴', () => {
   test('item268/270 结构漂移轴（recipes 桶、消息、资源池数量）逐轴拒绝', () => {
     const items = legalItems()
     expect(() =>
-      assertPalAlchemyBoundaryInvariant({ sourceStores, items: items.filter(({ id }) => id !== '268') }),
+      assertPalAlchemyBoundaryInvariant({
+        sourceStores,
+        items: items.filter(({ id }) => id !== '268'),
+      }),
     ).toThrow('PAL Store0 invariant: 缺物品 268')
     const brokenGourd = items.map((entry) =>
       entry.id === '270'
         ? { ...entry, use: { ...entry.use!, effects: [{ ...entry.use!.effects[0]!, maxRoll: 8 }] } }
         : entry,
     )
-    expect(() =>
-      assertPalAlchemyBoundaryInvariant({ sourceStores, items: brokenGourd }),
-    ).toThrow('PAL Store0 invariant: item270 奖励档位漂移')
+    expect(() => assertPalAlchemyBoundaryInvariant({ sourceStores, items: brokenGourd })).toThrow(
+      'PAL Store0 invariant: item270 奖励档位漂移',
+    )
     const brokenVessel = items.map((entry) =>
       entry.id === '268'
-        ? { ...entry, use: { ...entry.use!, effects: [{ ...entry.use!.effects[0]!, unavailableMessage: '错' }] } }
+        ? {
+            ...entry,
+            use: {
+              ...entry.use!,
+              effects: [{ ...entry.use!.effects[0]!, unavailableMessage: '错' }],
+            },
+          }
         : entry,
     )
-    expect(() =>
-      assertPalAlchemyBoundaryInvariant({ sourceStores, items: brokenVessel }),
-    ).toThrow('PAL Store0 invariant: item268 unavailableMessage=错')
+    expect(() => assertPalAlchemyBoundaryInvariant({ sourceStores, items: brokenVessel })).toThrow(
+      'PAL Store0 invariant: item268 unavailableMessage=错',
+    )
   })
 
   test('发布商店：ShopDef0 / 源 id 顺序 / 货单一致性 逐轴拒绝', () => {
-    const shops = (fn: (list: Array<{ id: number; items: string[] }>) => Array<{ id: number; items: string[] }>) =>
-      fn(Array.from({ length: 20 }, (_v, i) => ({ id: i + 1, items: ['141'] })))
+    const shops = (
+      fn: (list: Array<{ id: number; items: string[] }>) => Array<{ id: number; items: string[] }>,
+    ) => fn(Array.from({ length: 20 }, (_v, i) => ({ id: i + 1, items: ['141'] })))
     const census = { expectedBuyCalls: 0 }
     expect(() =>
       assertPalStoreBoundaryInvariant({
@@ -477,7 +544,9 @@ describe('O05 assertPalStoreBoundaryInvariant / Alchemy：边界轴', () => {
     expect(() =>
       assertPalStoreBoundaryInvariant({
         sourceStores,
-        shops: shops((list) => list.map((shop) => (shop.id === 1 ? { ...shop, items: ['999'] } : shop))),
+        shops: shops((list) =>
+          list.map((shop) => (shop.id === 1 ? { ...shop, items: ['999'] } : shop)),
+        ),
         items: legalItems(),
         commandRoots: [],
       }),
@@ -486,15 +555,29 @@ describe('O05 assertPalStoreBoundaryInvariant / Alchemy：边界轴', () => {
   })
 
   test('openShop census：shop 非整数 / mode 非法 / buy 未知商店 / sell 商店非 0 逐轴拒绝', () => {
-    const base = { sourceStores, shops: Array.from({ length: 20 }, (_v, i) => ({ id: i + 1, items: ['141'] })), items: legalItems() }
+    const base = {
+      sourceStores,
+      shops: Array.from({ length: 20 }, (_v, i) => ({ id: i + 1, items: ['141'] })),
+      items: legalItems(),
+    }
     expect(() =>
-      assertPalStoreBoundaryInvariant({ ...base, commandRoots: [[{ kind: 'openShop', shop: 1.5, mode: 'buy' }]] }),
+      assertPalStoreBoundaryInvariant({
+        ...base,
+        commandRoots: [[{ kind: 'openShop', shop: 1.5, mode: 'buy' }]],
+      }),
     ).toThrow('PAL Store0 invariant: openShop.shop 非整数 1.5')
     expect(() =>
-      assertPalStoreBoundaryInvariant({ ...base, commandRoots: [[{ kind: 'openShop', shop: 1, mode: 'steal' }]] }),
+      assertPalStoreBoundaryInvariant({
+        ...base,
+        commandRoots: [[{ kind: 'openShop', shop: 1, mode: 'steal' }]],
+      }),
     ).toThrow('PAL Store0 invariant: openShop.mode 非法 steal')
     expect(() =>
-      assertPalStoreBoundaryInvariant({ ...base, commandRoots: [[openShop(99, 'buy')]], expectedBuyCalls: 1 }),
+      assertPalStoreBoundaryInvariant({
+        ...base,
+        commandRoots: [[openShop(99, 'buy')]],
+        expectedBuyCalls: 1,
+      }),
     ).toThrow('PAL Store0 invariant: buy openShop 引用未知商店 99')
     expect(() =>
       assertPalStoreBoundaryInvariant({
@@ -508,7 +591,11 @@ describe('O05 assertPalStoreBoundaryInvariant / Alchemy：边界轴', () => {
   })
 
   test('buy/sell 数量期望不符 → 精确数量诊断（嵌套数组递归）', () => {
-    const base = { sourceStores, shops: Array.from({ length: 20 }, (_v, i) => ({ id: i + 1, items: ['141'] })), items: legalItems() }
+    const base = {
+      sourceStores,
+      shops: Array.from({ length: 20 }, (_v, i) => ({ id: i + 1, items: ['141'] })),
+      items: legalItems(),
+    }
     expect(() =>
       assertPalStoreBoundaryInvariant({
         ...base,

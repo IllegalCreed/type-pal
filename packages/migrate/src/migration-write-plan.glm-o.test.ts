@@ -3,11 +3,21 @@
  *  顺序与中断；本卡补齐规划快照 hash 门、退役资源校验、baseline 差异化写、
  *  manifest 最后提交条件、symlink/绝对路径拒绝与多操作恢复次序。全部 mkdtemp 隔离。
  */
-import { existsSync, mkdirSync, mkdtempSync, readdirSync, readFileSync, rmSync, symlinkSync, writeFileSync } from 'node:fs'
+import {
+  existsSync,
+  mkdirSync,
+  mkdtempSync,
+  readdirSync,
+  readFileSync,
+  rmSync,
+  symlinkSync,
+  writeFileSync,
+} from 'node:fs'
 import { tmpdir } from 'node:os'
 import { resolve } from 'node:path'
 import { afterEach, describe, expect, test } from 'vitest'
-import { sha256, serializeMigrationJson, type MigrationSnapshot } from './migration-baseline.js'
+import { type MigrationSnapshot, serializeMigrationJson, sha256 } from './migration-baseline.js'
+import type { MigrationJson } from './migration-files.js'
 import {
   commitMigrationTransaction,
   recoverMigrationTransaction,
@@ -38,34 +48,33 @@ const REAL_MAP = (() => {
 })()
 
 function projectSnapshot(files: Record<string, unknown>): {
-  files: Map<string, unknown>
+  files: Map<string, MigrationJson>
   managedFiles: Set<string>
   hashes: Map<string, string>
 } {
-  const entries = new Map(Object.entries(files))
+  const entries = new Map(Object.entries(files)) as Map<string, MigrationJson>
   const hashes = new Map<string, string>()
-  for (const [path, value] of entries)
-    hashes.set(path, sha256(serializeMigrationJson(value, path)))
+  for (const [path, value] of entries) hashes.set(path, sha256(serializeMigrationJson(value, path)))
   return { files: entries, managedFiles: new Set(entries.keys()), hashes }
 }
 
 const baseArgs = (repo: string) => ({
   repo,
-  plan: { writes: new Map<string, unknown>(), deletes: [] as string[] },
+  plan: { writes: new Map<string, MigrationJson>(), deletes: [] as string[] },
   projectSnapshot: projectSnapshot({}),
-  nextBaseline: { files: new Map(), managedFiles: new Set() },
+  nextBaseline: { files: new Map<string, MigrationJson>(), managedFiles: new Set<string>() },
 })
 
 describe('O03 buildMigrationTransactionChanges：工程写入与规划快照门', () => {
   test('工程写按 scenes/index 最后排序；map 内容走专用序列化', () => {
     const repo = tempRepo()
     const plan = {
-      writes: new Map<string, unknown>([
-        ['content/actors.json', [{ id: 'a' }]],
-        ['content/scenes/index.json', { version: 1, scenes: [] }],
-        [MAP, REAL_MAP],
+      writes: new Map<string, MigrationJson>([
+        ['content/actors.json', [{ id: 'a' }] as MigrationJson],
+        ['content/scenes/index.json', { version: 1, scenes: [] } as MigrationJson],
+        [MAP, REAL_MAP as MigrationJson],
         // 字母序在 scenes/index 之后：排序必须由显式 order 权重而非字典序决定。
-        ['content/zz-sidecar.json', { z: 1 }],
+        ['content/zz-sidecar.json', { z: 1 } as MigrationJson],
       ]),
       deletes: [],
     }
@@ -86,12 +95,15 @@ describe('O03 buildMigrationTransactionChanges：工程写入与规划快照门'
     expect(projectPaths.at(-1)).toBe('projects/pal/content/scenes/index.json')
     expect(projectPaths.at(-2)).toBe('projects/pal/content/zz-sidecar.json')
     const mapChange = changes.find(({ target }) => target === `projects/pal/${MAP}`)!
-    expect(mapChange.content).toBe(serializeMigrationJson(REAL_MAP, MAP))
+    expect(mapChange.content).toBe(serializeMigrationJson(REAL_MAP as MigrationJson, MAP))
   })
 
   test('写入目标未纳入规划快照 → fail-loud', () => {
     const repo = tempRepo()
-    const plan = { writes: new Map([['content/ghost.json', {}] as const]), deletes: [] as string[] }
+    const plan = {
+      writes: new Map<string, MigrationJson>([['content/ghost.json', {}]]),
+      deletes: [] as string[],
+    }
     expect(() => buildMigrationTransactionChanges({ ...baseArgs(repo), plan })).toThrow(
       '工程目标未纳入规划快照: content/ghost.json',
     )
@@ -99,7 +111,10 @@ describe('O03 buildMigrationTransactionChanges：工程写入与规划快照门'
 
   test('托管文件缺原始字节 hash（hash/files 不一致）→ fail-loud', () => {
     const repo = tempRepo()
-    const plan = { writes: new Map([['content/a.json', {}] as const]), deletes: [] as string[] }
+    const plan = {
+      writes: new Map<string, MigrationJson>([['content/a.json', {}]]),
+      deletes: [] as string[],
+    }
     const projectSnapshot = {
       files: new Map([['content/a.json', {}]]),
       managedFiles: new Set(['content/a.json']),
@@ -112,7 +127,7 @@ describe('O03 buildMigrationTransactionChanges：工程写入与规划快照门'
 
   test('删除计划带规划 hash；删除目标不存在于快照正文 → expectedPreviousHash=null', () => {
     const repo = tempRepo()
-    const plan = { writes: new Map(), deletes: ['content/gone.json'] }
+    const plan = { writes: new Map<string, MigrationJson>(), deletes: ['content/gone.json'] }
     const projectSnapshot = {
       files: new Map(),
       managedFiles: new Set(['content/gone.json']),
@@ -127,7 +142,11 @@ describe('O03 buildMigrationTransactionChanges：工程写入与规划快照门'
 })
 
 describe('O03 buildMigrationTransactionChanges：退役资源与重复目标', () => {
-  const retirement = (path: string, sha = 'a'.repeat(64)) => ({ id: 'ret-1', path, expectedSha256: sha })
+  const retirement = (path: string, sha = 'a'.repeat(64)) => ({
+    id: 'ret-1',
+    path,
+    expectedSha256: sha,
+  })
 
   test('退役迁移资源按 path 排序生成删除改动并带 expectedSha256', () => {
     const repo = tempRepo()
@@ -174,7 +193,7 @@ describe('O03 buildMigrationTransactionChanges：退役资源与重复目标', (
     const repo = tempRepo()
     const path = 'assets/migrated/dup.png'
     const plan = {
-      writes: new Map([[path, {}] as const]),
+      writes: new Map<string, MigrationJson>([[path, {}]]),
       deletes: [] as string[],
     }
     expect(() =>
@@ -214,7 +233,12 @@ describe('O03 buildMigrationTransactionChanges：baseline 差异化与 manifest 
       ...baseArgs(repo),
       nextBaseline: baseline,
     })
-    expect(drifting.some(({ scope, target }) => scope === 'baseline' && target === 'packages/migrate/baselines/pal/content/shops.json')).toBe(true)
+    expect(
+      drifting.some(
+        ({ scope, target }) =>
+          scope === 'baseline' && target === 'packages/migrate/baselines/pal/content/shops.json',
+      ),
+    ).toBe(true)
   })
 
   test('previousBaseline 独有且磁盘仍存在的 baseline 文件产生删除改动', () => {
@@ -224,7 +248,10 @@ describe('O03 buildMigrationTransactionChanges：baseline 差异化与 manifest 
     writeFileSync(resolve(repo, stale), 'stale\n')
     const changes = buildMigrationTransactionChanges({
       ...baseArgs(repo),
-      previousBaseline: { files: new Map([['content/old.json', 'stale']]), managedFiles: new Set(['content/old.json']) },
+      previousBaseline: {
+        files: new Map([['content/old.json', 'stale']]),
+        managedFiles: new Set(['content/old.json']),
+      },
       nextBaseline: { files: new Map(), managedFiles: new Set() },
     })
     expect(changes).toContainEqual({ target: stale, scope: 'baseline' })
@@ -240,7 +267,10 @@ describe('O03 buildMigrationTransactionChanges：baseline 差异化与 manifest 
     ).toThrow('manifest 变更缺资源闭包前置条件')
     const manifest = { id: 'pal' } as never
     mkdirSync(resolve(repo, 'projects/pal'), { recursive: true })
-    writeFileSync(resolve(repo, 'projects/pal/manifest.json'), `${JSON.stringify(manifest, null, 2)}\n`)
+    writeFileSync(
+      resolve(repo, 'projects/pal/manifest.json'),
+      `${JSON.stringify(manifest, null, 2)}\n`,
+    )
     const changes = buildMigrationTransactionChanges({
       ...baseArgs(repo),
       nextManifest: manifest,
@@ -255,7 +285,7 @@ describe('O03 buildMigrationTransactionChanges：baseline 差异化与 manifest 
     writeFileSync(resolve(repo, 'projects/pal/manifest.json'), 'old')
     const changes = buildMigrationTransactionChanges({
       ...baseArgs(repo),
-      plan: { writes: new Map([['content/a.json', {}] as const]), deletes: [] },
+      plan: { writes: new Map<string, MigrationJson>([['content/a.json', {}]]), deletes: [] },
       projectSnapshot: projectSnapshot({ 'content/a.json': {} }),
       nextBaseline: {
         files: new Map([['content/b.json', 'b']]),
@@ -264,7 +294,10 @@ describe('O03 buildMigrationTransactionChanges：baseline 差异化与 manifest 
       nextManifest: { id: 'pal' } as never,
       manifestPreconditions: [{ target: 'projects/pal/assets/a.bin', hash: sha256('a') }],
     })
-    expect(changes.at(-1)).toMatchObject({ scope: 'manifest', target: 'projects/pal/manifest.json' })
+    expect(changes.at(-1)).toMatchObject({
+      scope: 'manifest',
+      target: 'projects/pal/manifest.json',
+    })
   })
 })
 
@@ -350,11 +383,21 @@ describe('O03 事务与 journal：symlink/绝对路径/恢复次序（mkdtemp）
     }
     expect(() => recoverMigrationTransaction(setup('null'))).toThrow('迁移事务 journal 格式无效')
     expect(() =>
-      recoverMigrationTransaction(setup(journal([{ kind: 'write', target: 'projects/pal/a', scope: 'weird', previousHash: null }]))),
+      recoverMigrationTransaction(
+        setup(
+          journal([
+            { kind: 'write', target: 'projects/pal/a', scope: 'weird', previousHash: null },
+          ]),
+        ),
+      ),
     ).toThrow('迁移事务 journal scope 无效: weird')
     expect(() =>
       recoverMigrationTransaction(
-        setup(journal([{ kind: 'delete', target: 'baselines/x.json', scope: 'project', previousHash: null }])),
+        setup(
+          journal([
+            { kind: 'delete', target: 'baselines/x.json', scope: 'project', previousHash: null },
+          ]),
+        ),
       ),
     ).toThrow('project scope 目标越界: baselines/x.json')
     expect(() =>
@@ -450,7 +493,10 @@ describe('O03 事务与 journal：symlink/绝对路径/恢复次序（mkdtemp）
     expect(() =>
       commitMigrationTransaction(
         repo,
-        [writeOp('projects/pal/content/a.json', 'a\n'), writeOp('projects/pal/content/b.json', 'b\n')],
+        [
+          writeOp('projects/pal/content/a.json', 'a\n'),
+          writeOp('projects/pal/content/b.json', 'b\n'),
+        ],
         {
           afterOperation: (_operation, index) => {
             if (index === 0) throw new Error('halt')
@@ -506,7 +552,9 @@ describe('O03 事务与 journal：symlink/绝对路径/恢复次序（mkdtemp）
   test('相同改动集合产出相同事务 id（staging 目录可复算）；不同内容 id 不同', () => {
     const repoA = tempRepo()
     const repoB = tempRepo()
-    const changesOf = (content: string): TransactionChange[] => [writeOp('projects/pal/content/a.json', content)]
+    const changesOf = (content: string): TransactionChange[] => [
+      writeOp('projects/pal/content/a.json', content),
+    ]
     const commit = (repo: string, changes: TransactionChange[]): void => {
       let id: string | undefined
       commitMigrationTransaction(repo, changes, {
@@ -519,7 +567,11 @@ describe('O03 事务与 journal：symlink/绝对路径/恢复次序（mkdtemp）
     }
     // 通过 journal 的 staging 路径观察 id（中断保留 journal）。
     const journalId = (repo: string): string =>
-      (JSON.parse(readFileSync(resolve(repo, '.type-pal-migrate/pal-journal.json'), 'utf8')) as { id: string }).id
+      (
+        JSON.parse(readFileSync(resolve(repo, '.type-pal-migrate/pal-journal.json'), 'utf8')) as {
+          id: string
+        }
+      ).id
     try {
       commit(repoA, changesOf('same'))
     } catch {

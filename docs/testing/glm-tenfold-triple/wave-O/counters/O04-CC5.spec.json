@@ -1,0 +1,13 @@
+{
+  "id": "O04-CC5",
+  "contract": "isEmpty 与 size 一致性校验",
+  "test": {
+    "file": "src/pal-assets.glm-o.test.ts",
+    "title": "段号不连续 / size 非法 / isEmpty 不一致逐轴拒绝"
+  },
+  "mutation": {
+    "file": "src/pal-assets.ts",
+    "find": "    if (typeof chunk.isEmpty !== 'boolean' || chunk.isEmpty !== (chunk.size === 0))",
+    "replace": "    if (false && (typeof chunk.isEmpty !== 'boolean' || chunk.isEmpty !== (chunk.size === 0)))"
+  }
+}

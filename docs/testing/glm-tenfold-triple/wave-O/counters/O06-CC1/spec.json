@@ -1,0 +1,14 @@
+{
+  "id": "O06-CC1",
+  "contract": "collectValue 保留键拒绝",
+  "test": {
+    "file": "src/validate.glm-o.test.ts",
+    "title": "空键/首尾空格键/collectValue 保留键/负值或非整数 逐轴拒绝"
+  },
+  "mutation": {
+    "file": "src/validate.ts",
+    "find": "    if (key === 'collectValue')",
+    "replace": "    if (false && key === 'collectValue')"
+  },
+  "package": "content"
+}

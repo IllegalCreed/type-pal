@@ -1,0 +1,18 @@
+{
+  "id": "O02-CC3",
+  "control": {
+    "exitCode": 0,
+    "tests": 30
+  },
+  "injected": {
+    "exitCode": 1,
+    "failedFullName": "O02 mergeManagedFile：authored 接管与 catalog 目标校验 assets/index.json：ours authored 接管后迁移字段不再拼入",
+    "failureMessageHead": "AssertionError: expected [ { file: 'assets/index.json', …(5) } ] to deeply equal []",
+    "executed": 30
+  },
+  "hashes": {
+    "original": "e1d3a877f72e876fd64191555aadbd61bbc11fde1db3f9e7cf9fe71c494b777e",
+    "mutated": "27a127626cc19d2167388d1d06f873d617c8420a85b33d64b2de509a9fd54d6f",
+    "restored": "e1d3a877f72e876fd64191555aadbd61bbc11fde1db3f9e7cf9fe71c494b777e"
+  }
+}

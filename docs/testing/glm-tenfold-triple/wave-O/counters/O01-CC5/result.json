@@ -1,0 +1,18 @@
+{
+  "id": "O01-CC5",
+  "control": {
+    "exitCode": 0,
+    "tests": 43
+  },
+  "injected": {
+    "exitCode": 1,
+    "failedFullName": "O01 buildPalCurrentPublication：分区替换与作者保留（合成工程） 别名闭包：legacy 定义布局漂移（variant）时拒绝发布",
+    "failureMessageHead": "AssertionError: expected [Function] to throw an error",
+    "executed": 43
+  },
+  "hashes": {
+    "original": "f26f0f6bf3df74a327fcb9d1b002c7f788aa985f1fac53c59f8ff9ded472d3f6",
+    "mutated": "e46d69fb7db245505790a89afd889973f51c65709a17dd38f1e0a812675728e6",
+    "restored": "f26f0f6bf3df74a327fcb9d1b002c7f788aa985f1fac53c59f8ff9ded472d3f6"
+  }
+}

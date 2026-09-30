@@ -1,0 +1,13 @@
+{
+  "id": "O04-CC1",
+  "contract": "重复物化：内容一致 → unchanged，不重写",
+  "test": {
+    "file": "src/pal-assets.glm-o.test.ts",
+    "title": "重复物化：内容一致 → unchanged，不重写"
+  },
+  "mutation": {
+    "file": "src/pal-assets.ts",
+    "find": "      if (current.byteLength === target.bytes && sha256(current) === target.sha256) {",
+    "replace": "      if (false && current.byteLength === target.bytes && sha256(current) === target.sha256) {"
+  }
+}

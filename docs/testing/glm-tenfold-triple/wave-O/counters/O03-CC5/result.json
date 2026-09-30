@@ -1,0 +1,18 @@
+{
+  "id": "O03-CC5",
+  "control": {
+    "exitCode": 0,
+    "tests": 10
+  },
+  "injected": {
+    "exitCode": 1,
+    "failedFullName": "O03 validatePalCurrentPublication：装备战斗精灵引用门 覆写引用未知角色 → 发布门以 where: message 拒绝",
+    "failureMessageHead": "AssertionError: expected [Function] to throw error matching /items\\[\\d+\\]\\(166\\)\\.equip\\.effects\\[…/ but got 'Cannot read properties of undefined (…'",
+    "executed": 10
+  },
+  "hashes": {
+    "original": "56e68d78a1fbb643053321877af41a7721775ca5fdd5a7ac62b4fa5d2d4dfa0a",
+    "mutated": "b2173c0dead85006c7d744b618454207f0af1ec7546895506b9cad3bdb0b1683",
+    "restored": "56e68d78a1fbb643053321877af41a7721775ca5fdd5a7ac62b4fa5d2d4dfa0a"
+  }
+}

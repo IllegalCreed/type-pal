@@ -1,0 +1,13 @@
+{
+  "id": "O01-CC2",
+  "contract": "Store0 buy openShop census 不足 29 时拒绝发布",
+  "test": {
+    "file": "src/pal-current-publication.glm-o.test.ts",
+    "title": "作者改动 buy openShop 至 28 时生成侧 census 拒绝发布"
+  },
+  "mutation": {
+    "file": "src/pal-store-boundary.ts",
+    "find": "  if (args.expectedBuyCalls !== undefined && report.buyCalls !== args.expectedBuyCalls)",
+    "replace": "  if (false && args.expectedBuyCalls !== undefined && report.buyCalls !== args.expectedBuyCalls)"
+  }
+}

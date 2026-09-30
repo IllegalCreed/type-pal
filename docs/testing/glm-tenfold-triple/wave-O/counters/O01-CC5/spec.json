@@ -1,0 +1,13 @@
+{
+  "id": "O01-CC5",
+  "contract": "别名闭包：legacy 定义布局漂移（variant）拒绝发布",
+  "test": {
+    "file": "src/pal-current-publication.glm-o.test.ts",
+    "title": "别名闭包：legacy 定义布局漂移（variant）时拒绝发布"
+  },
+  "mutation": {
+    "file": "src/pal-world-sprite-semantic-alias.ts",
+    "find": "  if (!definitionsEquivalent(left, right))",
+    "replace": "  if (false && !definitionsEquivalent(left, right))"
+  }
+}

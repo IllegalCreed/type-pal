@@ -1,0 +1,13 @@
+{
+  "id": "O04-CC3",
+  "contract": "非 RIFF/WAVE 字节被拒绝",
+  "test": {
+    "file": "src/pal-assets.glm-o.test.ts",
+    "title": "metadata/manifest/磁盘 size 三向不一致 → 拒绝；非 RIFF 字节 → 拒绝"
+  },
+  "mutation": {
+    "file": "src/pal-assets.ts",
+    "find": "  if (bytes.byteLength < 12 || tag(0) !== 'RIFF' || tag(8) !== 'WAVE')",
+    "replace": "  if (bytes.byteLength < 12 || tag(0) !== 'RIFF' || (false && tag(8) !== 'WAVE'))"
+  }
+}

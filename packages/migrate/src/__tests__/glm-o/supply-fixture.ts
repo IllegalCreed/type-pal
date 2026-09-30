@@ -12,7 +12,6 @@ import type {
   ActorDef,
   AssetCatalogV1,
   AssetRecordV1,
-  AuthorSceneDef,
   BattleSpriteDef,
   ItemData,
   SceneIndexV1,
@@ -26,23 +25,22 @@ import {
   validateSceneIndex,
   validateSprites,
 } from '@type-pal/content'
-import { migratePalShops, type SourceStore } from '../../pal-derived-content.js'
-import {
-  applyPalCasualtyOverlays,
-  PAL_CASUALTY_LOCALE_KEYS,
-} from '../../pal-casualty-scripts.js'
 import type { PalAssetMigrationReport } from '../../pal-assets.js'
-import { mapActor, mapSprites } from '../../pal-role-mapping.js'
+import { applyPalCasualtyOverlays, PAL_CASUALTY_LOCALE_KEYS } from '../../pal-casualty-scripts.js'
+import type { PalContentSupplySources } from '../../pal-content-supply.js'
+import { migratePalShops, type SourceStore } from '../../pal-derived-content.js'
 import {
   buildPalItemMessageSources,
   type PalItemMessageSource,
 } from '../../pal-item-message-source.js'
-import type { PalContentSupplySources } from '../../pal-content-supply.js'
+import { mapActor } from '../../pal-role-mapping.js'
+import type { SourceItem, SourceRole, SourceScene } from '../../pal-source-types.js'
+import {
+  PAL_WORLD_SCENE_SEMANTIC_SPRITE_ALIASES,
+  PAL_WORLD_SPRITE_LAYOUT_OVERLAYS,
+} from '../../pal-world-sprite-layouts.js'
 import type { SourceCmd } from '../../source-facts.js'
 import { ROLE_SLUGS } from '../../source-facts.js'
-import type { SourceItem, SourceRole, SourceScene } from '../../pal-source-types.js'
-import { PAL_WORLD_SPRITE_LAYOUT_OVERLAYS } from '../../pal-world-sprite-layouts.js'
-import { PAL_WORLD_SCENE_SEMANTIC_SPRITE_ALIASES } from '../../pal-world-sprite-layouts.js'
 
 const FAKE_SHA = 'a1'.padEnd(64, '0')
 const FAKE_SHA_B = 'b2'.padEnd(64, '1')
@@ -103,11 +101,21 @@ export function syntheticCatalog(): AssetCatalogV1 {
     'tileset.pal.001': assetRecord('tileset.pal.001', 'tileset'),
     'battle-sprite.pal.player.000': assetRecord('battle-sprite.pal.player.000', 'battle-sprite'),
   }
-  for (const track of [2, 3, 4, 37]) assets[`music.pal.0${String(track).padStart(2, '0')}`] = assetRecord(`music.pal.${track}`, 'music')
-  for (const track of [28, 29, 45, 47]) assets[`sound.pal.0${String(track).padStart(2, '0')}`] = assetRecord(`sound.pal.${track}`, 'sound')
-  for (const slug of ROLE_SLUGS) assets[spriteIdForSlug(slug)] = assetRecord(spriteIdForSlug(slug), 'sprite')
+  for (const track of [2, 3, 4, 37])
+    assets[`music.pal.0${String(track).padStart(2, '0')}`] = assetRecord(
+      `music.pal.${track}`,
+      'music',
+    )
+  for (const track of [28, 29, 45, 47])
+    assets[`sound.pal.0${String(track).padStart(2, '0')}`] = assetRecord(
+      `sound.pal.${track}`,
+      'sound',
+    )
+  for (const slug of ROLE_SLUGS)
+    assets[spriteIdForSlug(slug)] = assetRecord(spriteIdForSlug(slug), 'sprite')
   // 角色 0..4 的小头像（PAL_PLAYER_FACE_FRAME_BY_ROLE_ID；角色 5 刻意无 face）。
-  for (const slug of ROLE_SLUGS.slice(0, 5)) assets[palFaceAssetId(slug)] = assetRecord(palFaceAssetId(slug), 'face')
+  for (const slug of ROLE_SLUGS.slice(0, 5))
+    assets[palFaceAssetId(slug)] = assetRecord(palFaceAssetId(slug), 'face')
   return { version: 1, assets }
 }
 
@@ -115,7 +123,7 @@ export function syntheticCatalog(): AssetCatalogV1 {
 export function syntheticRoles(): SourceRole[] {
   return ROLE_SLUGS.map((_slug, id) => ({
     id,
-    _name: ROLE_SLUGS[id],
+    _name: ROLE_SLUGS[id]!,
     avatar: 0,
     spriteNum: ROLE_SPRITE_NUM_BY_SLUG[ROLE_SLUGS[id] as RoleSlugKey],
     spriteNumInBattle: id,
@@ -158,6 +166,14 @@ export function syntheticBaseActors(levelUpExp: readonly number[]): ActorDef[] {
   return syntheticRoles().map((role) => mapActor(role, levelUpExp))
 }
 
+/** 伤亡/寻址解析器经窄化读取的专有字段；fixture 以扩展类型承载，传入处放宽为 SourceCmd。 */
+type FixtureCmd = SourceCmd & {
+  messageIndex?: number
+  to?: string
+  itemId?: number
+  count?: number
+}
+
 interface ScriptPlan {
   commands: SourceCmd[]
   /** 物品 268 炼蛊脚本入口（= scriptOnUse）。 */
@@ -177,7 +193,7 @@ interface BranchSpec {
  * 全部隐式 L_<index> 寻址，无显式 label（buildSourceAddressLabelIndex 合同）。
  */
 function buildCommands(): ScriptPlan {
-  const commands: SourceCmd[] = []
+  const commands: FixtureCmd[] = []
   // 入口地址必须 >0（真实 all.json 地址域从 1 起）；占位一条不可达指令。
   commands.push({ op: 'end' })
 
@@ -188,7 +204,7 @@ function buildCommands(): ScriptPlan {
       commands.push({ op: 'raw', opcode: 0x06, operands: [0, 0] })
     // 兜底分支复用本脚本首个台词键（locale 键集合不变，仍为冻结 36 键）。
     commands.push({ op: 'setDialogStyleNarration' })
-    commands.push({ op: 'showDialog', messageIndex: branches[0].lines[0], text: '台词 兜底' })
+    commands.push({ op: 'showDialog', messageIndex: branches[0]!.lines[0]!, text: '台词 兜底' })
     commands.push({ op: 'end' })
     for (const [index, branch] of branches.entries()) {
       const branchStart = commands.length
@@ -231,7 +247,12 @@ function buildCommands(): ScriptPlan {
     // 首条带显式 label：物品 270 失败臂的“下一块”合同要求 label 与地址一致。
     commands.push(
       index === 0
-        ? { label: `L_${item268Script}`, op: 'raw', opcode: 0x20, operands: [ingredient, 1, failureAddress] }
+        ? {
+            label: `L_${item268Script}`,
+            op: 'raw',
+            opcode: 0x20,
+            operands: [ingredient, 1, failureAddress],
+          }
         : { op: 'raw', opcode: 0x20, operands: [ingredient, 1, failureAddress] },
     )
     commands.push({ op: 'goto', to: `L_${productStart}` })
@@ -266,8 +287,28 @@ export function syntheticSourceItems(plan: ScriptPlan): SourceItem[] {
     equipableBy: [false, false, false, false, false, false],
   })
   return [
-    { id: 268, _name: '炼蛊皿', bitmap: 1, price: 0, scriptOnUse: plan.item268Script, scriptOnEquip: 0, scriptOnThrow: 0, scriptDesc: 0, flags: flags() },
-    { id: 270, _name: '紫金葫芦', bitmap: 2, price: 0, scriptOnUse: plan.item270Script, scriptOnEquip: 0, scriptOnThrow: 0, scriptDesc: 0, flags: flags() },
+    {
+      id: 268,
+      _name: '炼蛊皿',
+      bitmap: 1,
+      price: 0,
+      scriptOnUse: plan.item268Script,
+      scriptOnEquip: 0,
+      scriptOnThrow: 0,
+      scriptDesc: 0,
+      flags: flags(),
+    },
+    {
+      id: 270,
+      _name: '紫金葫芦',
+      bitmap: 2,
+      price: 0,
+      scriptOnUse: plan.item270Script,
+      scriptOnEquip: 0,
+      scriptOnThrow: 0,
+      scriptDesc: 0,
+      flags: flags(),
+    },
   ]
 }
 
@@ -358,13 +399,14 @@ export function syntheticSupply(): SyntheticSupply {
   const baseActors = syntheticBaseActors(levelUpExp)
   const { actors, locale } = applyPalCasualtyOverlays(baseActors, plan.commands, plan.objectPlayers)
   const stores = syntheticStores()
-  const itemMessages = buildPalItemMessageSources(
-    syntheticSourceItems(plan),
-    plan.commands,
-    stores,
-  )
+  const itemMessages = buildPalItemMessageSources(syntheticSourceItems(plan), plan.commands, stores)
   const sources: PalContentSupplySources = {
-    migrate: { roles, levelUpExp: [...levelUpExp], items: syntheticSourceItems(plan), commands: plan.commands },
+    migrate: {
+      roles,
+      levelUpExp: [...levelUpExp],
+      items: syntheticSourceItems(plan),
+      commands: plan.commands,
+    },
     scenes: syntheticScenes(),
     tilemaps: [
       {
@@ -374,8 +416,14 @@ export function syntheticSupply(): SyntheticSupply {
           height: 2,
           tileset: 'tileset/1.rle',
           cells: [
-            [{ lower: 0, upper: 0 }, { lower: 0, upper: 0 }],
-            [{ lower: 0, upper: 0 }, { lower: 0, upper: 0 }],
+            [
+              { lower: 0, upper: 0 },
+              { lower: 0, upper: 0 },
+            ],
+            [
+              { lower: 0, upper: 0 },
+              { lower: 0, upper: 0 },
+            ],
           ],
         },
         sourceJsonBytes: 64,
@@ -391,7 +439,7 @@ export function syntheticSupply(): SyntheticSupply {
   }
   return {
     sources,
-    commands: plan.commands,
+    commands: plan.commands as SourceCmd[],
     itemMessages,
     actorsWithCasualty: actors,
     casualtyLocale: locale,
@@ -414,7 +462,13 @@ interface SchemeDesign {
 
 /** 49 个方案节点：268→9、270→4、九档奖励物品各 4；machine-inner 取前 4 个全局序号。 */
 function schemeDesign(): SchemeDesign {
-  const rootIds = ['268', '270', ...STORE0_REWARD_IDS.filter((id) => id !== 112 && id !== 72).map(String), '112', '72']
+  const rootIds = [
+    '268',
+    '270',
+    ...STORE0_REWARD_IDS.filter((id) => id !== 112 && id !== 72).map(String),
+    '112',
+    '72',
+  ]
   const perRoot = new Map<string, number>()
   let allocated = 0
   for (const [index, id] of rootIds.entries()) {
@@ -467,7 +521,7 @@ export function schemeAssignment(): SchemeAssignmentEntry[] {
   const assignment: SchemeAssignmentEntry[] = []
   let globalIndex = 0
   for (const [itemId, count] of design.perRoot) {
-    const name = itemNames[itemId]
+    const name = itemNames[itemId]!
     const behaviorIds: string[] = []
     const labels: string[] = []
     const machineIds = new Set<string>()
@@ -485,15 +539,19 @@ export function schemeAssignment(): SchemeAssignmentEntry[] {
 }
 
 /** s000：49 个方案 behavior + 29 buy / 6 sell openShop census。 */
-export function syntheticEntryScene(): AuthorSceneDef {
+export function syntheticEntryScene(): Record<string, unknown> {
   const assignment = schemeAssignment()
   const behaviors: Record<
     string,
-    { label: string; order: number; flow: ReturnType<typeof buildStagesFlow> | ReturnType<typeof machineFlow> }
+    {
+      label: string
+      order: number
+      flow: ReturnType<typeof buildStagesFlow> | ReturnType<typeof machineFlow>
+    }
   > = {}
   for (const entry of assignment) {
     for (const [ordinal, behaviorId] of entry.behaviorIds.entries()) {
-      const label = entry.labels[ordinal]
+      const label = entry.labels[ordinal]!
       behaviors[behaviorId] = {
         label,
         order: ordinal,
@@ -509,7 +567,11 @@ export function syntheticEntryScene(): AuthorSceneDef {
       shop: (index % 20) + 1,
       mode: 'buy' as const,
     })),
-    ...Array.from({ length: 6 }, () => ({ kind: 'openShop' as const, shop: 0, mode: 'sell' as const })),
+    ...Array.from({ length: 6 }, () => ({
+      kind: 'openShop' as const,
+      shop: 0,
+      mode: 'sell' as const,
+    })),
   ]
   return {
     id: 's000',
@@ -533,12 +595,14 @@ export function syntheticEntryScene(): AuthorSceneDef {
         },
       },
     ],
-  } as AuthorSceneDef
+  }
 }
 
 /** 合成场景正文（39 个生成场景的最小 baseline 体；实体 sprite 引用旧 sprite-N 等价定义）。 */
-export function syntheticGeneratedSceneBodies(scenes: readonly SourceScene[]): Map<string, AuthorSceneDef> {
-  const bodies = new Map<string, AuthorSceneDef>()
+export function syntheticGeneratedSceneBodies(
+  scenes: readonly SourceScene[],
+): Map<string, unknown> {
+  const bodies = new Map<string, unknown>()
   for (const scene of scenes) {
     const id = `s${String(scene.sceneId).padStart(3, '0')}`
     bodies.set(id, {
@@ -551,7 +615,7 @@ export function syntheticGeneratedSceneBodies(scenes: readonly SourceScene[]): M
         sprite: `sprite-${entity.spriteNum}`,
         facing: 'down',
       })),
-    }) as AuthorSceneDef
+    })
   }
   return bodies
 }
@@ -578,14 +642,17 @@ export function syntheticBaselineSprites(): SpriteDef[] {
   return [...semantic, ...legacy]
 }
 
-export function syntheticSceneIndex(bodies: Iterable<{ id: string }>): SceneIndexV1 {
+export function syntheticSceneIndex(bodies: Iterable<unknown>): SceneIndexV1 {
   return validateSceneIndex({
     version: 1,
-    scenes: [...bodies].map((scene) => ({
-      id: scene.id,
-      name: `场景 ${scene.id}`,
-      path: `content/scenes/${scene.id}.json`,
-    })),
+    scenes: [...bodies].map((raw) => {
+      const scene = raw as { id: string }
+      return {
+        id: scene.id,
+        name: `场景 ${scene.id}`,
+        path: `content/scenes/${scene.id}.json`,
+      }
+    }),
   })
 }
 
@@ -603,9 +670,7 @@ export function syntheticItemNames(): Record<string, string> {
 }
 
 /** 11 个 item root 的 baseline 物品：268/270 带生成用途结构，全部 root 带方案 select 边。 */
-export function syntheticBaselineItems(
-  itemMessages: readonly PalItemMessageSource[],
-): ItemData[] {
+export function syntheticBaselineItems(itemMessages: readonly PalItemMessageSource[]): unknown[] {
   const names = syntheticItemNames()
   const assignment = schemeAssignment()
   const items: ItemData[] = [
@@ -624,7 +689,7 @@ export function syntheticBaselineItems(
   for (const id of Object.keys(names)) {
     items.push({
       id,
-      name: names[id],
+      name: names[id]!,
       desc: [],
       buyPrice: id === '112' || id === '72' ? 0 : 10,
       sellPrice: 0,
@@ -649,10 +714,10 @@ export function syntheticBaselineItems(
       consuming: true,
       effects: [privateScript],
     }
-    if (item.id !== '268' && item.id !== '270') return { ...item, use } as ItemData
+    if (item.id !== '268' && item.id !== '270') return { ...item, use }
     const source = itemMessages.find((message) => message.id === item.id)
     if (!source) throw new Error(`fixture 缺物品 ${item.id} 的窄消息源`)
-    return { ...item, use: { ...use, effects: [source.effect, privateScript] } } as ItemData
+    return { ...item, use: { ...use, effects: [source.effect, privateScript] } }
   })
 }
 
@@ -746,4 +811,4 @@ export function assertFixtureActorsLegal(actors: readonly ActorDef[]): void {
   validateActors(actors)
 }
 
-export { FAKE_SHA, FAKE_SHA_B, stagesFlow }
+export { FAKE_SHA, FAKE_SHA_B }

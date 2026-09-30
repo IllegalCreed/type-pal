@@ -1,0 +1,13 @@
+{
+  "id": "O03-CC2",
+  "contract": "退役迁移资源路径越界 fail-loud",
+  "test": {
+    "file": "src/migration-write-plan.glm-o.test.ts",
+    "title": "退役资源路径越界或 sha 非法 → fail-loud"
+  },
+  "mutation": {
+    "file": "src/migration-write-plan.ts",
+    "find": "      !retirement.path.startsWith('assets/migrated/') ||",
+    "replace": "      false ||"
+  }
+}

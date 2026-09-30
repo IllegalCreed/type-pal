@@ -1,0 +1,13 @@
+{
+  "id": "O05-CC1",
+  "contract": "puppet 状态效果强制 battleOnly",
+  "test": {
+    "file": "src/pal-supply-guards.glm-o.test.ts",
+    "title": "puppet 状态效果被强制 battleOnly（无论原值）"
+  },
+  "mutation": {
+    "file": "src/pal-authored-overlays.ts",
+    "find": "      overlaid.use.battleOnly = true",
+    "replace": "      overlaid.use.battleOnly = false"
+  }
+}

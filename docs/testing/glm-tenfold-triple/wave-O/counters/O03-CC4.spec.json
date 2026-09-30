@@ -1,0 +1,13 @@
+{
+  "id": "O03-CC4",
+  "contract": "EventObject 跨场景重复 fail-loud",
+  "test": {
+    "file": "src/pal-content-supply.glm-o.test.ts",
+    "title": "同一 EventObject 出现在多个场景时 fail-loud（全局实体唯一）"
+  },
+  "mutation": {
+    "file": "src/pal-content-supply.ts",
+    "find": "        if (seenEntities.has(entity.id))",
+    "replace": "        if (false && seenEntities.has(entity.id))"
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "id": "O06-CC3",
+  "contract": "实体引用恰一",
+  "test": {
+    "file": "src/validate.glm-o.test.ts",
+    "title": "实体引用恰一（0 或 2 个）与 zone 无朝向 逐轴拒绝"
+  },
+  "mutation": {
+    "file": "src/validate.ts",
+    "find": "      if (refs !== 1)",
+    "replace": "      if (false && refs !== 1)"
+  },
+  "package": "content"
+}

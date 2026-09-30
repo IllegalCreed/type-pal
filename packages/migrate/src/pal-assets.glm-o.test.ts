@@ -4,12 +4,20 @@
  *  materializePalAssets、planPalAssetRetirements、bakeIndexedRgba、loadPalSoundAssets、
  *  loadPalStaticImages。不写真实工程、不跑 bake CLI。
  */
-import { existsSync, mkdirSync, mkdtempSync, readFileSync, readdirSync, rmSync, writeFileSync } from 'node:fs'
+import {
+  existsSync,
+  mkdirSync,
+  mkdtempSync,
+  readdirSync,
+  readFileSync,
+  rmSync,
+  writeFileSync,
+} from 'node:fs'
 import { tmpdir } from 'node:os'
 import { dirname, resolve } from 'node:path'
-import { afterEach, describe, expect, test } from 'vitest'
-import { PNG } from 'pngjs'
 import type { AssetCatalogV1, AssetRecordV1 } from '@type-pal/content'
+import { PNG } from 'pngjs'
+import { afterEach, describe, expect, test } from 'vitest'
 import { bakeIndexedRgba } from './bake-indexed-rgba.js'
 import { sha256 } from './migration-baseline.js'
 import {
@@ -29,8 +37,6 @@ afterEach(() => {
   for (const root of roots.splice(0)) rmSync(root, { recursive: true, force: true })
 })
 
-const sha = (n: number): string => sha256(`blob-${n}`)
-
 function record(
   id: string,
   kind: AssetRecordV1['kind'],
@@ -38,7 +44,12 @@ function record(
   sha256Hex: string,
   origin: AssetRecordV1['origin'] = { kind: 'generated' },
 ): AssetRecordV1 {
-  const prefix = origin.kind === 'legacy-migrated' ? 'assets/migrated' : origin.kind === 'authored' ? 'assets/authored' : 'assets/generated'
+  const prefix =
+    origin.kind === 'legacy-migrated'
+      ? 'assets/migrated'
+      : origin.kind === 'authored'
+        ? 'assets/authored'
+        : 'assets/generated'
   return {
     kind,
     path: `${prefix}/${id.replaceAll('.', '-')}.bin`,
@@ -124,9 +135,9 @@ describe('O04 materializePalAssets：合成 catalog 的确定性物化', () => {
   test('catalog 缺迁移资源条目 → fail-loud', () => {
     const repo = tempRepo()
     const a = sourceOf('a.x', 'aaa')
-    expect(() => materializePalAssets({ repo, catalog: { version: 1, assets: {} }, binaries: [a] })).toThrow(
-      'PAL catalog 缺迁移资源 a.x',
-    )
+    expect(() =>
+      materializePalAssets({ repo, catalog: { version: 1, assets: {} }, binaries: [a] }),
+    ).toThrow('PAL catalog 缺迁移资源 a.x')
   })
 
   test('binaries 重复 AssetId → fail-loud', () => {
@@ -204,9 +215,7 @@ describe('O04 materializePalAssets：合成 catalog 的确定性物化', () => {
     const dir = resolve(repo, 'projects/pal', dirname(authoredRecord.path))
     mkdirSync(dir, { recursive: true })
     writeFileSync(resolve(repo, 'projects/pal', authoredRecord.path), 'toolong')
-    expect(() => materializePalAssets({ repo, catalog, binaries: [] })).toThrow(
-      /资源 bytes 不符/,
-    )
+    expect(() => materializePalAssets({ repo, catalog, binaries: [] })).toThrow(/资源 bytes 不符/)
     writeFileSync(resolve(repo, 'projects/pal', authoredRecord.path), 'xyx')
     expect(() => materializePalAssets({ repo, catalog, binaries: [] })).toThrow(/资源 sha256 不符/)
   })
@@ -258,7 +267,11 @@ describe('O04 planPalAssetRetirements：退役推导合同', () => {
     writeFileSync(resolve(repo, 'projects/pal', dropB.path), 'bbbb')
     writeFileSync(resolve(repo, 'projects/pal', dropA.path), 'aaaa')
     writeFileSync(resolve(repo, 'projects/pal', keep.path), 'keep')
-    const retirements = planPalAssetRetirements({ repo, previousCatalog: previous, targetCatalog: target })
+    const retirements = planPalAssetRetirements({
+      repo,
+      previousCatalog: previous,
+      targetCatalog: target,
+    })
     expect(retirements.map(({ path }) => path)).toEqual([dropA.path, dropB.path])
     expect(retirements[0]).toMatchObject({ expectedSha256: sha256('aaaa') })
   })
@@ -330,10 +343,18 @@ describe('O04 bakeIndexedRgba：indexed RGBA → 真彩合同', () => {
 // ── 合成 extracted corpus（声音/静态图像）────────────────────────────────
 
 const PALETTE_256 = {
-  colors: Array.from({ length: 256 }, (_v, i) => [i, (i * 2) % 256, 255 - i] as [number, number, number]),
+  colors: Array.from(
+    { length: 256 },
+    (_v, i) => [i, (i * 2) % 256, 255 - i] as [number, number, number],
+  ),
 }
 
-function writePng(path: string, width: number, height: number, fill: (x: number, y: number) => [number, number, number, number]): void {
+function writePng(
+  path: string,
+  width: number,
+  height: number,
+  fill: (x: number, y: number) => [number, number, number, number],
+): void {
   const png = new PNG({ width, height })
   for (let y = 0; y < height; y++)
     for (let x = 0; x < width; x++) {
@@ -358,7 +379,13 @@ const wavBytes = (seed: number): Buffer => {
   const fmt = Buffer.alloc(8)
   fmt.write('fmt ', 0)
   fmt.writeUInt32LE(16, 4)
-  return Buffer.concat([header, fmt, Buffer.from('data'), Buffer.from([data.byteLength, 0, 0, 0]), data])
+  return Buffer.concat([
+    header,
+    fmt,
+    Buffer.from('data'),
+    Buffer.from([data.byteLength, 0, 0, 0]),
+    data,
+  ])
 }
 
 interface SoundCorpusOptions {
@@ -367,7 +394,7 @@ interface SoundCorpusOptions {
   corruptWav?: number
   sizeDrift?: number
   emptyMismatch?: boolean
-  manifestDup?: boolean
+  manifestDup?: number
   dirExtra?: string
 }
 
@@ -392,7 +419,7 @@ function buildSoundCorpus(repo: string, options: SoundCorpusOptions = {}): void 
     if (chunk.index === options.sizeDrift) bytes = Buffer.concat([bytes, Buffer.from('x')])
     writeFileSync(resolve(repo, 'data/extracted/sounds', `${chunk.index}.wav`), bytes)
     manifestFiles.push({ path: `sounds/${chunk.index}.wav`, size: bytes.byteLength })
-    if (chunk.index === options.manifestDup)
+    if (options.manifestDup !== undefined && chunk.index === options.manifestDup)
       manifestFiles.push({ path: `sounds/${chunk.index}.wav`, size: bytes.byteLength })
   }
   if (options.dirExtra) {
@@ -411,7 +438,10 @@ describe('O04 loadPalSoundAssets：合成 505 段三向闭包', () => {
     const { binaries, report } = loadPalSoundAssets(repo)
     expect(report).toMatchObject({ sounds: 3, emptySounds: 502 })
     expect(binaries).toHaveLength(3)
-    expect(binaries[0]).toMatchObject({ id: 'sound.pal.001', record: { kind: 'sound', mediaType: 'audio/wav' } })
+    expect(binaries[0]).toMatchObject({
+      id: 'sound.pal.001',
+      record: { kind: 'sound', mediaType: 'audio/wav' },
+    })
   })
 
   test('chunkCount 非 505 → 精确诊断', () => {
@@ -475,7 +505,9 @@ describe('O04 loadPalSoundAssets：合成 505 段三向闭包', () => {
   test('metadata/manifest/磁盘 size 三向不一致 → 拒绝；非 RIFF 字节 → 拒绝', () => {
     const repo = tempRepo()
     buildSoundCorpus(repo, { sizeDrift: 1 })
-    expect(() => loadPalSoundAssets(repo)).toThrow('PAL sound 1: metadata/manifest/文件 size 不一致')
+    expect(() => loadPalSoundAssets(repo)).toThrow(
+      'PAL sound 1: metadata/manifest/文件 size 不一致',
+    )
 
     const repo2 = tempRepo()
     buildSoundCorpus(repo2, { corruptWav: 2 })
@@ -483,36 +515,62 @@ describe('O04 loadPalSoundAssets：合成 505 段三向闭包', () => {
   })
 })
 
-function buildImageCorpus(repo: string, options: { portraits?: number; bgWidth?: number; bgBadColor?: boolean; dropIcon?: boolean; badPalette?: boolean } = {}): void {
-    const palette = options.badPalette
-      ? { colors: PALETTE_256.colors.slice(0, 255) }
-      : PALETTE_256
-    mkdirSync(resolve(repo, 'data/extracted/data/palette'), { recursive: true })
-    writeFileSync(resolve(repo, 'data/extracted/data/palette/0.json'), JSON.stringify(palette))
-    writeFileSync(
-      resolve(repo, 'data/extracted/data/portraits.json'),
-      JSON.stringify({ count: options.portraits ?? 88 }),
+function buildImageCorpus(
+  repo: string,
+  options: {
+    portraits?: number
+    bgWidth?: number
+    bgBadColor?: boolean
+    dropIcon?: boolean
+    badPalette?: boolean
+  } = {},
+): void {
+  const palette = options.badPalette ? { colors: PALETTE_256.colors.slice(0, 255) } : PALETTE_256
+  mkdirSync(resolve(repo, 'data/extracted/data/palette'), { recursive: true })
+  writeFileSync(resolve(repo, 'data/extracted/data/palette/0.json'), JSON.stringify(palette))
+  writeFileSync(
+    resolve(repo, 'data/extracted/data/portraits.json'),
+    JSON.stringify({ count: options.portraits ?? 88 }),
+  )
+  const portraits = options.portraits ?? 88
+  for (let chunk = 1; chunk <= portraits; chunk++)
+    writePng(
+      resolve(repo, 'data/extracted/images/portraits', `${String(chunk).padStart(2, '0')}.png`),
+      2,
+      2,
+      () => [1, 1, 1, 255],
     )
-    const portraits = options.portraits ?? 88
-    for (let chunk = 1; chunk <= portraits; chunk++)
-      writePng(resolve(repo, 'data/extracted/images/portraits', `${String(chunk).padStart(2, '0')}.png`), 2, 2, () => [1, 1, 1, 255])
-    for (const frame of [48, 49, 50, 51, 52])
-      writePng(resolve(repo, 'data/extracted/images/ui', `frame-${frame}.png`), 2, 2, () => [1, 1, 1, 255])
-    const items = Array.from({ length: 233 }, (_v, i) => ({ id: i + 1, bitmap: i + 1 }))
-    items.push({ id: 277, bitmap: 0 })
-    mkdirSync(resolve(repo, 'data/extracted/data'), { recursive: true })
-    writeFileSync(resolve(repo, 'data/extracted/data/items.json'), JSON.stringify(items))
-    for (let chunk = 1; chunk <= 233; chunk++) {
-      if (options.dropIcon && chunk === 1) continue
-      writePng(resolve(repo, 'data/extracted/images/items', `${String(chunk).padStart(3, '0')}.png`), 2, 2, () => [2, 2, 2, 255])
-    }
-    for (let chunk = 6; chunk <= 57; chunk++) {
-      const width = options.bgWidth ?? 320
-      writePng(resolve(repo, 'data/extracted/images/battle/bg', `${String(chunk).padStart(3, '0')}.png`), width, 200, (x, y) => {
+  for (const frame of [48, 49, 50, 51, 52])
+    writePng(resolve(repo, 'data/extracted/images/ui', `frame-${frame}.png`), 2, 2, () => [
+      1, 1, 1, 255,
+    ])
+  const items = Array.from({ length: 233 }, (_v, i) => ({ id: i + 1, bitmap: i + 1 }))
+  items.push({ id: 277, bitmap: 0 })
+  mkdirSync(resolve(repo, 'data/extracted/data'), { recursive: true })
+  writeFileSync(resolve(repo, 'data/extracted/data/items.json'), JSON.stringify(items))
+  for (let chunk = 1; chunk <= 233; chunk++) {
+    if (options.dropIcon && chunk === 1) continue
+    writePng(
+      resolve(repo, 'data/extracted/images/items', `${String(chunk).padStart(3, '0')}.png`),
+      2,
+      2,
+      () => [2, 2, 2, 255],
+    )
+  }
+  for (let chunk = 6; chunk <= 57; chunk++) {
+    const width = options.bgWidth ?? 320
+    writePng(
+      resolve(repo, 'data/extracted/images/battle/bg', `${String(chunk).padStart(3, '0')}.png`),
+      width,
+      200,
+      (x, y) => {
         const index = (x + y) % 256
-        return options.bgBadColor ? [index, (index + 1) % 256, index, 255] : [index, index, index, 255]
-      })
-    }
+        return options.bgBadColor
+          ? [index, (index + 1) % 256, index, 255]
+          : [index, index, index, 255]
+      },
+    )
+  }
 }
 
 describe('O04 loadPalStaticImages：合成 88 立绘/5 头像/233 图标/52 背景', () => {
@@ -547,7 +605,9 @@ describe('O04 loadPalStaticImages：合成 88 立绘/5 头像/233 图标/52 背�
   test('战场背景尺寸漂移与 R=G=B 违约逐轴拒绝', () => {
     const repo = tempRepo()
     buildImageCorpus(repo, { bgWidth: 319 })
-    expect(() => loadPalStaticImages(repo)).toThrow('PAL 战场背景 006: 战场背景期望 320×200，实际 319×200')
+    expect(() => loadPalStaticImages(repo)).toThrow(
+      'PAL 战场背景 006: 战场背景期望 320×200，实际 319×200',
+    )
 
     const repo2 = tempRepo()
     buildImageCorpus(repo2, { bgBadColor: true })
@@ -560,13 +620,17 @@ describe('O04 loadPalSoundAssets：metadata/manifest 形状边界', () => {
     const repo = tempRepo()
     mkdirSync(resolve(repo, 'data/extracted/data'), { recursive: true })
     writeFileSync(resolve(repo, 'data/extracted/data/sounds-metadata.json'), JSON.stringify([1, 2]))
-    expect(() => loadPalSoundAssets(repo)).toThrow('PAL sounds metadata 期望 {chunkCount,chunks} 对象')
+    expect(() => loadPalSoundAssets(repo)).toThrow(
+      'PAL sounds metadata 期望 {chunkCount,chunks} 对象',
+    )
 
     const repo2 = tempRepo()
     buildSoundCorpus(repo2)
     const path = resolve(repo2, 'data/extracted/data/sounds-metadata.json')
     writeFileSync(path, JSON.stringify({ chunkCount: '505', chunks: [] }))
-    expect(() => loadPalSoundAssets(repo2)).toThrow('PAL sounds metadata 期望 {chunkCount,chunks} 对象')
+    expect(() => loadPalSoundAssets(repo2)).toThrow(
+      'PAL sounds metadata 期望 {chunkCount,chunks} 对象',
+    )
   })
 
   test('asset-manifest.files 非数组 → 精确诊断', () => {
@@ -592,9 +656,15 @@ describe('O04 loadPalSoundAssets：metadata/manifest 形状边界', () => {
     const repo = tempRepo()
     const chunks = Array.from({ length: 505 }, (_v, index) => ({ index, size: 0, isEmpty: true }))
     mkdirSync(resolve(repo, 'data/extracted/data'), { recursive: true })
-    writeFileSync(resolve(repo, 'data/extracted/data/sounds-metadata.json'), JSON.stringify({ chunkCount: 505, chunks }))
+    writeFileSync(
+      resolve(repo, 'data/extracted/data/sounds-metadata.json'),
+      JSON.stringify({ chunkCount: 505, chunks }),
+    )
     mkdirSync(resolve(repo, 'data/extracted/sounds'), { recursive: true })
-    writeFileSync(resolve(repo, 'data/extracted/asset-manifest.json'), JSON.stringify({ files: [] }))
+    writeFileSync(
+      resolve(repo, 'data/extracted/asset-manifest.json'),
+      JSON.stringify({ files: [] }),
+    )
     const { binaries, report } = loadPalSoundAssets(repo)
     expect(binaries).toEqual([])
     expect(report).toMatchObject({ sounds: 0, emptySounds: 505, soundBytes: 0 })
@@ -615,7 +685,10 @@ describe('O04 loadPalStaticImages：物品哨兵与立绘 manifest 边界', () =
     buildBase(repo)
     writeFileSync(resolve(repo, 'data/extracted/data/portraits.json'), JSON.stringify({ count: 0 }))
     expect(() => loadPalStaticImages(repo)).toThrow('PAL portraits manifest 期望正整数 count')
-    writeFileSync(resolve(repo, 'data/extracted/data/portraits.json'), JSON.stringify({ count: 'x' }))
+    writeFileSync(
+      resolve(repo, 'data/extracted/data/portraits.json'),
+      JSON.stringify({ count: 'x' }),
+    )
     expect(() => loadPalStaticImages(repo)).toThrow('PAL portraits manifest 期望正整数 count')
   })
 
@@ -624,18 +697,17 @@ describe('O04 loadPalStaticImages：物品哨兵与立绘 manifest 边界', () =
     buildBase(repo)
     const items = Array.from({ length: 233 }, (_v, i) => ({ id: i + 1, bitmap: i + 1 }))
     rewriteItems(repo, items)
-    expect(() => loadPalStaticImages(repo)).toThrow(
-      'PAL 物品图标 0 哨兵漂移: items=233 zero=',
-    )
+    expect(() => loadPalStaticImages(repo)).toThrow('PAL 物品图标 0 哨兵漂移: items=233 zero=')
 
     const repo2 = tempRepo()
     buildBase(repo2)
-    const drifted = Array.from({ length: 234 }, (_v, i) => ({ id: i + 1, bitmap: i === 233 ? 0 : i + 1 }))
+    const drifted = Array.from({ length: 234 }, (_v, i) => ({
+      id: i + 1,
+      bitmap: i === 233 ? 0 : i + 1,
+    }))
     rewriteItems(repo2, drifted)
     // 唯一零哨兵存在但 id 是 234 而非 277 → 数量计数成立后仍按哨兵漂移拒绝。
-    expect(() => loadPalStaticImages(repo2)).toThrow(
-      'PAL 物品图标 0 哨兵漂移: items=234 zero=234',
-    )
+    expect(() => loadPalStaticImages(repo2)).toThrow('PAL 物品图标 0 哨兵漂移: items=234 zero=234')
 
     const repo3 = tempRepo()
     buildBase(repo3)
@@ -646,15 +718,17 @@ describe('O04 loadPalStaticImages：物品哨兵与立绘 manifest 边界', () =
     ]
     rewriteItems(repo3, dupBitmap)
     expect(() => loadPalStaticImages(repo3)).toThrow('PAL 非零物品图标期望 233 个，收到 232')
-  })
+  }, 30_000)
 
   test('零哨兵 id 恰为 277 的正控在语料中成立（防回归锚）', () => {
     const repo = tempRepo()
     buildBase(repo)
-    const items = JSON.parse(readFileSync(resolve(repo, 'data/extracted/data/items.json'), 'utf8')) as Array<{ id: number; bitmap: number }>
+    const items = JSON.parse(
+      readFileSync(resolve(repo, 'data/extracted/data/items.json'), 'utf8'),
+    ) as Array<{ id: number; bitmap: number }>
     const zero = items.filter((item) => item.bitmap === 0).map((item) => item.id)
     expect(zero).toEqual([277])
-  })
+  }, 30_000)
 })
 
 describe('O04 materializePalAssets：混合所有权与嵌套目录', () => {
@@ -680,10 +754,7 @@ describe('O04 materializePalAssets：混合所有权与嵌套目录', () => {
     const report = materializePalAssets({
       repo,
       catalog,
-      binaries: [
-        { id: 'c.x', bytes: content, record: authoredRecord },
-        gen,
-      ],
+      binaries: [{ id: 'c.x', bytes: content, record: authoredRecord }, gen],
     })
     expect(report).toMatchObject({ authored: 1, written: 1, files: 2 })
     expect(existsSync(resolve(repo, 'projects/pal/assets/authored/deep/c-x.bin'))).toBe(true)

@@ -1,0 +1,13 @@
+diff --git a/packages/migrate/src/migration-write-plan.ts b/packages/migrate/src/migration-write-plan.ts
+index 642c92ee..16428732 100644
+--- a/packages/migrate/src/migration-write-plan.ts
++++ b/packages/migrate/src/migration-write-plan.ts
+@@ -64,7 +64,7 @@ export function buildMigrationTransactionChanges(args: {
+     if (
+       retirement.path.includes('\\') ||
+       retirement.path.split('/').some((part) => part === '' || part === '.' || part === '..') ||
+-      !retirement.path.startsWith('assets/migrated/') ||
++      false ||
+       !/^[a-f0-9]{64}$/.test(retirement.expectedSha256)
+     )
+       throw new Error(`退役迁移资源计划无效: ${retirement.id} -> ${retirement.path}`)

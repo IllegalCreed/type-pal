@@ -1,0 +1,13 @@
+{
+  "id": "O02-CC4",
+  "contract": "theirs 删除的托管文件进入 deletes",
+  "test": {
+    "file": "src/migration-plan.glm-o.test.ts",
+    "title": "theirs 新增文件进入 writes；theirs 删除的托管文件进入 deletes"
+  },
+  "mutation": {
+    "file": "src/migration-plan.ts",
+    "find": "      if (ours.files.has(file) && !normalized.has(file)) deletes.push(file)",
+    "replace": "      if (theirs.files.has(file) && !normalized.has(file)) deletes.push(file)"
+  }
+}

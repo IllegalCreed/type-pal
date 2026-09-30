@@ -1,0 +1,18 @@
+{
+  "id": "O01-CC1",
+  "control": {
+    "exitCode": 0,
+    "tests": 43
+  },
+  "injected": {
+    "exitCode": 1,
+    "failedFullName": "O01 validatePalCurrentPublication：发布门与 census 拒绝合同（合成工程） 方案 label 漂移被永久门禁拒绝（名称漂移）",
+    "failureMessageHead": "AssertionError: expected [Function] to throw an error",
+    "executed": 43
+  },
+  "hashes": {
+    "original": "2ed904b1e73e8fabc10d20ff3b7846615324af6ea5be2b7d28f6629d8fc0dda9",
+    "mutated": "88b11bf640c70fcca322265258d077d8cb3544a6de86c095643f10d5254a0501",
+    "restored": "2ed904b1e73e8fabc10d20ff3b7846615324af6ea5be2b7d28f6629d8fc0dda9"
+  }
+}

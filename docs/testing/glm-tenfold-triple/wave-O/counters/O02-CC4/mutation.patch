@@ -1,0 +1,13 @@
+diff --git a/packages/migrate/src/migration-plan.ts b/packages/migrate/src/migration-plan.ts
+index fd4044b2..85881339 100644
+--- a/packages/migrate/src/migration-plan.ts
++++ b/packages/migrate/src/migration-plan.ts
+@@ -197,7 +197,7 @@ export function createMigrationPlan(
+         writes.set(file, value)
+     }
+     for (const file of physicalManaged)
+-      if (ours.files.has(file) && !normalized.has(file)) deletes.push(file)
++      if (theirs.files.has(file) && !normalized.has(file)) deletes.push(file)
+   }
+   return {
+     target: normalized,

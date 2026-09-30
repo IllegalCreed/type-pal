@@ -3,13 +3,13 @@
  *  pal-item-scheme-labels.test.ts 覆盖常规布局与别名闭包；本卡按 gap-map 直击未覆盖臂：
  *  场景布局变体、别名清单校验、改写失败轴、canonical label 后缀与 hook 选择边。
  */
+
+import type { AuthorItemData, AuthorSceneDef, SpriteDef } from '@type-pal/content'
 import { describe, expect, test } from 'vitest'
-import type { AuthorSceneDef, SpriteDef } from '@type-pal/content'
+import { assertPalItemSchemeLabelInvariant } from './pal-item-scheme-labels.js'
+import type { SourceScene } from './pal-source-types.js'
 import { createPalWorldSpriteRegistry, migratedSpriteId } from './pal-world-sprite-registry.js'
 import { applyPalWorldSpriteSemanticAliases } from './pal-world-sprite-semantic-alias.js'
-import { assertPalItemSchemeLabelInvariant } from './pal-item-scheme-labels.js'
-import type { SourceEventObject, SourceScene } from './pal-source-types.js'
-import type { AuthorItemData } from '@type-pal/content'
 
 const roleSprite = (num: number, id: string): SpriteDef => ({
   id,
@@ -19,12 +19,6 @@ const roleSprite = (num: number, id: string): SpriteDef => ({
 })
 
 describe('O05 createPalWorldSpriteRegistry：布局证据与变体', () => {
-  const sceneWith = (spriteNum: number, nSpriteFrames: number, entityId = 1): SourceScene => ({
-    sceneId: 1,
-    mapNum: 1,
-    eventObjects: [{ id: entityId, x: 0, y: 0, spriteNum, nSpriteFrames } as SourceEventObject],
-  })
-
   test('spriteRef 未注册（无场景证据直接取）→ fail-loud', () => {
     const registry = createPalWorldSpriteRegistry([], new Map())
     expect(() => registry.spriteRef({ id: 5, x: 0, y: 0, spriteNum: 9 })).toThrow(
@@ -34,8 +28,16 @@ describe('O05 createPalWorldSpriteRegistry：布局证据与变体', () => {
 
   test('同一精灵两种 nSpriteFrames → stable base + -f<frames> 变体并报 layoutConflicts', () => {
     const scenes: SourceScene[] = [
-      { sceneId: 1, mapNum: 1, eventObjects: [{ id: 1, x: 0, y: 0, spriteNum: 9, nSpriteFrames: 0 }] },
-      { sceneId: 2, mapNum: 1, eventObjects: [{ id: 2, x: 0, y: 0, spriteNum: 9, nSpriteFrames: 3 }] },
+      {
+        sceneId: 1,
+        mapNum: 1,
+        eventObjects: [{ id: 1, x: 0, y: 0, spriteNum: 9, nSpriteFrames: 0 }],
+      },
+      {
+        sceneId: 2,
+        mapNum: 1,
+        eventObjects: [{ id: 2, x: 0, y: 0, spriteNum: 9, nSpriteFrames: 3 }],
+      },
     ]
     const registry = createPalWorldSpriteRegistry(scenes, new Map())
     // spriteDefs 懒生成：必须经 spriteRef 消费后才登记。
@@ -43,14 +45,20 @@ describe('O05 createPalWorldSpriteRegistry：布局证据与变体', () => {
     const variantRef = registry.spriteRef({ id: 2, x: 0, y: 0, spriteNum: 9, nSpriteFrames: 3 })
     expect(staticRef).toBe(migratedSpriteId(9))
     expect(variantRef).toBe(migratedSpriteId(9, 3))
-    expect([...registry.spriteDefs.keys()].sort()).toEqual([migratedSpriteId(9), migratedSpriteId(9, 3)].sort())
+    expect([...registry.spriteDefs.keys()].sort()).toEqual(
+      [migratedSpriteId(9), migratedSpriteId(9, 3)].sort(),
+    )
     expect(registry.report.layoutConflicts).toContain(migratedSpriteId(9, 3))
   })
 
   test('角色精灵别名：asset 匹配且在语义集内 → externalDefinition（不重复生成）', () => {
     const li = roleSprite(2, 'li-xiaoyao')
     const scenes = [
-      { sceneId: 20, mapNum: 1, eventObjects: [{ id: 344, x: 0, y: 0, spriteNum: 2, nSpriteFrames: 3 }] },
+      {
+        sceneId: 20,
+        mapNum: 1,
+        eventObjects: [{ id: 344, x: 0, y: 0, spriteNum: 2, nSpriteFrames: 3 }],
+      },
     ]
     const registry = createPalWorldSpriteRegistry(scenes, new Map([[2, li]]), {
       sceneSemanticSpriteIds: new Set(['li-xiaoyao']),
@@ -64,7 +72,11 @@ describe('O05 createPalWorldSpriteRegistry：布局证据与变体', () => {
   test('角色精灵 asset 不匹配（旧号漂移）→ 不作别名，按场景证据注册', () => {
     const wrong = { ...roleSprite(2, 'li-xiaoyao'), asset: 'sprite.pal.999' }
     const scenes = [
-      { sceneId: 20, mapNum: 1, eventObjects: [{ id: 344, x: 0, y: 0, spriteNum: 2, nSpriteFrames: 3 }] },
+      {
+        sceneId: 20,
+        mapNum: 1,
+        eventObjects: [{ id: 344, x: 0, y: 0, spriteNum: 2, nSpriteFrames: 3 }],
+      },
     ]
     const registry = createPalWorldSpriteRegistry(scenes, new Map([[2, wrong]]), {
       sceneSemanticSpriteIds: new Set(['li-xiaoyao']),
@@ -160,7 +172,9 @@ describe('O05 applyPalWorldSpriteSemanticAliases：清单校验与改写失败�
         currentSprites: [semantic],
         generatedSprites: [semantic],
         currentScenes: new Map(),
-        generatedScenes: new Map([['s001', { id: 's001', entities: [{ id: 'e1', sprite: 'li-xiaoyao' }] }]]),
+        generatedScenes: new Map([
+          ['s001', { id: 's001', entities: [{ id: 'e1', sprite: 'li-xiaoyao' }] }],
+        ]),
         roleSpritesByNumber: new Map([[2, semantic]]),
         aliases: [
           {
@@ -183,7 +197,16 @@ describe('O05 applyPalWorldSpriteSemanticAliases：清单校验与改写失败�
         generatedSprites: [semantic],
         currentScenes: new Map([['s002', scenes('sprite-2')[0]!]]),
         generatedScenes: new Map([
-          ['s001', { id: 's001', entities: [{ id: 'e1', sprite: 'li-xiaoyao' }, { id: 'e2', sprite: 'li-xiaoyao' }] }],
+          [
+            's001',
+            {
+              id: 's001',
+              entities: [
+                { id: 'e1', sprite: 'li-xiaoyao' },
+                { id: 'e2', sprite: 'li-xiaoyao' },
+              ],
+            },
+          ],
         ]),
         roleSpritesByNumber: new Map([[2, semantic]]),
         aliases: [
@@ -204,18 +227,23 @@ describe('O05 applyPalWorldSpriteSemanticAliases：清单校验与改写失败�
     const base = {
       currentSprites: [semantic],
       generatedSprites: [semantic],
-      generatedScenes: new Map([['s001', { id: 's001', entities: [{ id: 'e1', sprite: 'li-xiaoyao' }] }]]),
+      generatedScenes: new Map([
+        ['s001', { id: 's001', entities: [{ id: 'e1', sprite: 'li-xiaoyao' }] }],
+      ]),
       roleSpritesByNumber: new Map([[2, semantic]]),
       aliases,
     }
-    expect(() =>
-      applyPalWorldSpriteSemanticAliases({ ...base, currentScenes: new Map() }),
-    ).toThrow('li-xiaoyao: current 缺场景 s001')
+    expect(() => applyPalWorldSpriteSemanticAliases({ ...base, currentScenes: new Map() })).toThrow(
+      'li-xiaoyao: current 缺场景 s001',
+    )
     expect(() =>
       applyPalWorldSpriteSemanticAliases({
         ...base,
         currentScenes: new Map([
-          ['s001', { ...scenes('sprite-2')[0]!, entities: [{ id: 'e1', zone: true }] } as AuthorSceneDef],
+          [
+            's001',
+            { ...scenes('sprite-2')[0]!, entities: [{ id: 'e1', zone: true }] } as AuthorSceneDef,
+          ],
         ]),
       }),
     ).toThrow('s001/e1: 不是 SpriteDef 场景实体')
@@ -238,7 +266,9 @@ describe('O05 applyPalWorldSpriteSemanticAliases：清单校验与改写失败�
       currentSprites: [semantic, legacy],
       generatedSprites: [semantic],
       currentScenes: new Map([['s001', scenes('sprite-2')[0]!]]),
-      generatedScenes: new Map([['s001', { id: 's001', entities: [{ id: 'e1', sprite: 'li-xiaoyao' }] }]]),
+      generatedScenes: new Map([
+        ['s001', { id: 's001', entities: [{ id: 'e1', sprite: 'li-xiaoyao' }] }],
+      ]),
       roleSpritesByNumber: new Map([[2, semantic]]),
       aliases,
     })
@@ -268,11 +298,15 @@ describe('O05 applyPalWorldSpriteSemanticAliases：清单校验与改写失败�
 })
 
 describe('O05 assertPalItemSchemeLabelInvariant：canonical label 与选择边', () => {
-  const behavior = (label: string, flow?: object) => ({ label, order: 0, flow: flow ?? {
-    kind: 'stages',
-    initial: 'main',
-    stages: [{ id: 'main', body: [] }],
-  } })
+  const behavior = (label: string, flow?: object) => ({
+    label,
+    order: 0,
+    flow: flow ?? {
+      kind: 'stages',
+      initial: 'main',
+      stages: [{ id: 'main', body: [] }],
+    },
+  })
   const sceneWithBehavior = (label: string, flow?: object): AuthorSceneDef =>
     ({
       id: 's001',
@@ -325,7 +359,12 @@ describe('O05 assertPalItemSchemeLabelInvariant：canonical label 与选择边',
       expectedMachineInners: 0,
     })
     expect(report.labels).toEqual([
-      { id: 'b1', itemId: '268', path: 'scenes.s001.entities.e1.behaviors.trigger.b1', label: '炼蛊皿剧情方案' },
+      {
+        id: 'b1',
+        itemId: '268',
+        path: 'scenes.s001.entities.e1.behaviors.trigger.b1',
+        label: '炼蛊皿剧情方案',
+      },
     ])
   })
 

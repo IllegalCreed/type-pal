@@ -1,0 +1,13 @@
+{
+  "id": "O05-CC2",
+  "contract": "0x05 非零参数拒绝",
+  "test": {
+    "file": "src/pal-supply-guards.glm-o.test.ts",
+    "title": "0x30 参数非法 / 0x05 非零参数 / 未知 opcode 逐轴拒绝"
+  },
+  "mutation": {
+    "file": "src/pal-casualty-scripts.ts",
+    "find": "      if ((operands[1] ?? 0) !== 0 || (operands[2] ?? 0) !== 0)",
+    "replace": "      if (false && (operands[1] ?? 0) !== 0 || (operands[2] ?? 0) !== 0)"
+  }
+}

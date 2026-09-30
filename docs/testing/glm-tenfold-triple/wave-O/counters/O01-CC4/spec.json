@@ -1,0 +1,13 @@
+{
+  "id": "O01-CC4",
+  "contract": "迁移事务重复目标在提交侧被拒绝",
+  "test": {
+    "file": "src/migration-transaction.glm-o.test.ts",
+    "title": "重复目标在提交侧被拒绝"
+  },
+  "mutation": {
+    "file": "src/migration-transaction.ts",
+    "find": "  if (new Set(normalized.map((change) => change.target)).size !== normalized.length)",
+    "replace": "  if (false && new Set(normalized.map((change) => change.target)).size !== normalized.length)"
+  }
+}

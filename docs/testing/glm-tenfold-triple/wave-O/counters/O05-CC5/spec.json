@@ -1,0 +1,13 @@
+{
+  "id": "O05-CC5",
+  "contract": "物品方案选择图成环拒绝",
+  "test": {
+    "file": "src/pal-world-sprites.glm-o.test.ts",
+    "title": "选择图成环 → fail-loud"
+  },
+  "mutation": {
+    "file": "src/pal-item-scheme-labels.ts",
+    "find": "    if (visiting.has(node.key))",
+    "replace": "    if (false && visiting.has(node.key))"
+  }
+}

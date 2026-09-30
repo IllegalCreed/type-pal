@@ -1,0 +1,13 @@
+diff --git a/packages/content/src/validate.ts b/packages/content/src/validate.ts
+index 2ee7d4c6..37c3d712 100644
+--- a/packages/content/src/validate.ts
++++ b/packages/content/src/validate.ts
+@@ -217,7 +217,7 @@ export function validateCurrentManifestStartup(
+       throw new Error(`${indexCtx}.id: 期望非空 string`)
+     if (entry.id !== entry.id.trim()) throw new Error(`${indexCtx}.id: 不得包含首尾空格`)
+     const id = entry.id
+-    if (seen.has(id)) throw new Error(`${indexCtx}.id: 入口 id "${id}" 重复`)
++    if (false && seen.has(id)) throw new Error(`${indexCtx}.id: 入口 id "${id}" 重复`)
+     seen.add(id)
+     const entryCtx = `${ctx}.entryPoints[${id}]`
+     requireOnlyKeys(entry, ['id', 'label', 'scene', 'introVideo', 'startWorld'], entryCtx)

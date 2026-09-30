@@ -1,0 +1,14 @@
+{
+  "id": "O06-CC5",
+  "contract": "zone 无朝向拒绝",
+  "test": {
+    "file": "src/validate.glm-o.test.ts",
+    "title": "实体引用恰一（0 或 2 个）与 zone 无朝向 逐轴拒绝"
+  },
+  "mutation": {
+    "file": "src/validate.ts",
+    "find": "      if ('zone' in eo && 'facing' in eo)",
+    "replace": "      if (false && 'zone' in eo && 'facing' in eo)"
+  },
+  "package": "content"
+}

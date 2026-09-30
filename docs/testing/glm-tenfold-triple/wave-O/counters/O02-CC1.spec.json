@@ -1,0 +1,13 @@
+{
+  "id": "O02-CC1",
+  "contract": "身份数组内非对象条目 → invalid-identity 冲突",
+  "test": {
+    "file": "src/migration-merge.glm-o.test.ts",
+    "title": "场景 entities：非对象条目（无身份）→ invalid-identity 冲突"
+  },
+  "mutation": {
+    "file": "src/migration-merge.ts",
+    "find": "  if (!value || typeof value !== 'object' || Array.isArray(value)) return undefined",
+    "replace": "  if (!value || typeof value !== 'object' || Array.isArray(value)) return 'x'"
+  }
+}

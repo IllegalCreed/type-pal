@@ -4,7 +4,7 @@
  *  hash-only 正文回填与“只有 hash 缺正文”fail-loud。
  */
 import { describe, expect, test } from 'vitest'
-import { sha256, serializeMigrationJson, type MigrationSnapshot } from './migration-baseline.js'
+import { type MigrationSnapshot, serializeMigrationJson, sha256 } from './migration-baseline.js'
 import { createMigrationPlan, snapshotOf } from './migration-plan.js'
 import { convertSourceTilemap } from './project-map-converter.js'
 
@@ -16,7 +16,7 @@ const SOURCE_TILEMAP = {
   height: 1,
   tileset: 'tileset/1.rle',
   cells: [[{ lower: 0, upper: 0 }]],
-} as const
+}
 
 /** 真实合法 ProjectMap（经 convertSourceTilemap 构造，n 只进入 collision 以制造版本差）。 */
 const mapV = (n: number): Record<string, unknown> => {
@@ -129,9 +129,18 @@ describe('O02 createMigrationPlan：普通文件、写入/删除与输入不可�
   })
 
   test('theirs 新增文件进入 writes；theirs 删除的托管文件进入 deletes', () => {
-    const base = snap([[DOC, { v: 1 }], ['content/extra.json', { old: true }]])
-    const ours = snap([[DOC, { v: 1 }], ['content/extra.json', { old: true }]])
-    const theirs = snap([[DOC, { v: 2 }], ['content/new.json', { added: true }]])
+    const base = snap([
+      [DOC, { v: 1 }],
+      ['content/extra.json', { old: true }],
+    ])
+    const ours = snap([
+      [DOC, { v: 1 }],
+      ['content/extra.json', { old: true }],
+    ])
+    const theirs = snap([
+      [DOC, { v: 2 }],
+      ['content/new.json', { added: true }],
+    ])
     const plan = createMigrationPlan(base, ours, theirs)
     expect(plan.writes.has('content/new.json')).toBe(true)
     expect(plan.deletes).toEqual(['content/extra.json'])
@@ -140,7 +149,10 @@ describe('O02 createMigrationPlan：普通文件、写入/删除与输入不可�
 
   test('ours 独有的新增文件（base/theirs 均无）保留在 target 且不进 deletes', () => {
     const base = snap([[DOC, { v: 1 }]])
-    const ours = snap([[DOC, { v: 1 }], ['content/extra.json', { keep: true }]])
+    const ours = snap([
+      [DOC, { v: 1 }],
+      ['content/extra.json', { keep: true }],
+    ])
     const theirs = snap([[DOC, { v: 2 }]])
     const plan = createMigrationPlan(base, ours, theirs)
     expect(plan.deletes).toEqual([])
@@ -158,7 +170,10 @@ describe('O02 createMigrationPlan：普通文件、写入/删除与输入不可�
   })
 
   test('snapshotOf 为每个文件产出序列化 hash 且原子地图走专用格式化', () => {
-    const snapshot = snap([[MAP, mapV(1)], [DOC, { v: 1 }]])
+    const snapshot = snap([
+      [MAP, mapV(1)],
+      [DOC, { v: 1 }],
+    ])
     const withHashes = snapshotOf({ files: snapshot.files, managedFiles: snapshot.managedFiles })
     expect(withHashes.hashes!.get(DOC)).toBe(sha256(`${JSON.stringify({ v: 1 }, null, 2)}\n`))
     expect(withHashes.hashes!.has(MAP)).toBe(true)
@@ -169,13 +184,21 @@ describe('O02 createMigrationPlan：普通文件、写入/删除与输入不可�
     const ours = snap([[DOC, { v: 1 }]])
     const theirs = snap([[DOC, { v: 2 }]])
     const before = JSON.stringify([
-      [...base.files], [...ours.files], [...theirs.files],
-      [...base.managedFiles], [...ours.managedFiles], [...theirs.managedFiles],
+      [...base.files],
+      [...ours.files],
+      [...theirs.files],
+      [...base.managedFiles],
+      [...ours.managedFiles],
+      [...theirs.managedFiles],
     ])
     createMigrationPlan(base, ours, theirs)
     const after = JSON.stringify([
-      [...base.files], [...ours.files], [...theirs.files],
-      [...base.managedFiles], [...ours.managedFiles], [...theirs.managedFiles],
+      [...base.files],
+      [...ours.files],
+      [...theirs.files],
+      [...base.managedFiles],
+      [...ours.managedFiles],
+      [...theirs.managedFiles],
     ])
     expect(after).toBe(before)
   })
@@ -231,8 +254,14 @@ describe('O02 createMigrationPlan：summary 计数与冲突停线', () => {
 
   test('summary.managed = 三方托管并集（含仅存在于单方的文件）', () => {
     const base = snap([['a.json', {}]])
-    const ours = snap([['a.json', {}], ['b.json', {}]])
-    const theirs = snap([['a.json', {}], ['c.json', {}]])
+    const ours = snap([
+      ['a.json', {}],
+      ['b.json', {}],
+    ])
+    const theirs = snap([
+      ['a.json', {}],
+      ['c.json', {}],
+    ])
     const plan = createMigrationPlan(base, ours, theirs)
     expect(plan.summary.managed).toBe(3)
   })

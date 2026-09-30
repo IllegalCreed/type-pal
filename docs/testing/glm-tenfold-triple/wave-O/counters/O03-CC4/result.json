@@ -1,0 +1,18 @@
+{
+  "id": "O03-CC4",
+  "control": {
+    "exitCode": 0,
+    "tests": 10
+  },
+  "injected": {
+    "exitCode": 1,
+    "failedFullName": "O03 buildPalContentSupply：供应输入守卫残余 同一 EventObject 出现在多个场景时 fail-loud（全局实体唯一）",
+    "failureMessageHead": "AssertionError: expected [Function] to throw an error",
+    "executed": 10
+  },
+  "hashes": {
+    "original": "0a0f7bc729c75ae496d55b86283f670e1b4b745c4383f9d02f2b0c16a7dfff6b",
+    "mutated": "7e78a4d10cf49826c45b616c9f462f802c140d6466954186f6b6353cd934fe5f",
+    "restored": "0a0f7bc729c75ae496d55b86283f670e1b4b745c4383f9d02f2b0c16a7dfff6b"
+  }
+}

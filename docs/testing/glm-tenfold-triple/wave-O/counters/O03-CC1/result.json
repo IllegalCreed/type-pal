@@ -1,0 +1,18 @@
+{
+  "id": "O03-CC1",
+  "control": {
+    "exitCode": 0,
+    "tests": 21
+  },
+  "injected": {
+    "exitCode": 1,
+    "failedFullName": "O03 buildMigrationTransactionChanges：工程写入与规划快照门 工程写按 scenes/index 最后排序；map 内容走专用序列化",
+    "failureMessageHead": "AssertionError: expected 'projects/pal/content/zz-sidecar.json' to be 'projects/pal/content/scenes/index.json' // Object.is equality",
+    "executed": 21
+  },
+  "hashes": {
+    "original": "4fd28ecd4c767cc0eeb9cf897f15bc731e0b31e8826c2515cc7772e58d2c09b3",
+    "mutated": "7a59f62f3675344d7c4f191e52bace90e1270e3c71d39887f76f1329ab6aba0d",
+    "restored": "4fd28ecd4c767cc0eeb9cf897f15bc731e0b31e8826c2515cc7772e58d2c09b3"
+  }
+}

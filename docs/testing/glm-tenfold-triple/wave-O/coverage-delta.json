@@ -1,0 +1,46 @@
+{
+  "denominatorNote": "同一冻结分母：packages/migrate include src/**/*.ts + scripts/migrate-content.mts + scripts/bake-assets.mts；新增仅 *.glm-o.test.ts，不改分母",
+  "profile": "fast（与官方候选测量同口径；pal/*.pal.test.ts 排除）",
+  "officialBaselineUntouched": true,
+  "migrate": {
+    "statements": {
+      "before": {
+        "covered": 1879,
+        "total": 2615
+      },
+      "after": {
+        "covered": 2164,
+        "total": 2615
+      },
+      "deltaCovered": 285,
+      "afterPct": 82.753,
+      "beforePct": 71.855
+    },
+    "branches": {
+      "before": {
+        "covered": 1368,
+        "total": 1814
+      },
+      "after": {
+        "covered": 1530,
+        "total": 1814
+      },
+      "deltaCovered": 162,
+      "afterPct": 84.344,
+      "beforePct": 75.413
+    },
+    "lines": {
+      "before": {
+        "covered": 1643,
+        "total": 2286
+      },
+      "after": {
+        "covered": 1885,
+        "total": 2286
+      },
+      "deltaCovered": 242,
+      "afterPct": 82.458,
+      "beforePct": 71.872
+    }
+  }
+}

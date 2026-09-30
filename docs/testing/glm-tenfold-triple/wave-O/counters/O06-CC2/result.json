@@ -1,0 +1,18 @@
+{
+  "id": "O06-CC2",
+  "control": {
+    "exitCode": 0,
+    "tests": 19
+  },
+  "injected": {
+    "exitCode": 1,
+    "failedFullName": "O06 validateCurrentManifestStartup：manifest 字段轴 入口 id 重复 / 首尾空格 / scene 不在场景索引 逐轴拒绝",
+    "failureMessageHead": "AssertionError: expected [Function] to throw an error",
+    "executed": 19
+  },
+  "hashes": {
+    "original": "b71778d0ed1fc2f8195cb653f34b6d51a4c37fad9c63c496baa5fcf7d83c30fa",
+    "mutated": "d41c001c0eaeafc2e7b3e59813744a6c60a9b7629269d5de7bf927fde523d97c",
+    "restored": "b71778d0ed1fc2f8195cb653f34b6d51a4c37fad9c63c496baa5fcf7d83c30fa"
+  }
+}

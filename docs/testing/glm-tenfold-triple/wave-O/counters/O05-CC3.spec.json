@@ -1,0 +1,13 @@
+{
+  "id": "O05-CC3",
+  "contract": "试炼果/舍利子 buyPrice=0 合同",
+  "test": {
+    "file": "src/pal-supply-guards.glm-o.test.ts",
+    "title": "alchemy 正控通过并校验 112/72 buyPrice=0 合同"
+  },
+  "mutation": {
+    "file": "src/pal-store-boundary.ts",
+    "find": "  if (itemById(items, '112').buyPrice !== 0 || itemById(items, '72').buyPrice !== 0)",
+    "replace": "  if (false && itemById(items, '112').buyPrice !== 0 || itemById(items, '72').buyPrice !== 0)"
+  }
+}

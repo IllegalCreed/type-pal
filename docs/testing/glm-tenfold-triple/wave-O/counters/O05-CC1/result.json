@@ -1,0 +1,18 @@
+{
+  "id": "O05-CC1",
+  "control": {
+    "exitCode": 0,
+    "tests": 27
+  },
+  "injected": {
+    "exitCode": 1,
+    "failedFullName": "O05 applyPalItemOverlays：隐蛊与 puppet 轴 puppet 状态效果被强制 battleOnly（无论原值）",
+    "failureMessageHead": "AssertionError: expected false to be true // Object.is equality",
+    "executed": 27
+  },
+  "hashes": {
+    "original": "93bfb3a4ff7bb89112578ba9044e62e357f654b9a1836056dda370b243145d8a",
+    "mutated": "4477174f504131f7cc4ab70acf4c6729cab587747f9efec0312ee97e2e665d80",
+    "restored": "93bfb3a4ff7bb89112578ba9044e62e357f654b9a1836056dda370b243145d8a"
+  }
+}

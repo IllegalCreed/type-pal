@@ -1,0 +1,18 @@
+{
+  "id": "O01-CC4",
+  "control": {
+    "exitCode": 0,
+    "tests": 31
+  },
+  "injected": {
+    "exitCode": 1,
+    "failedFullName": "O01 commitMigrationTransaction：提交侧单轴拒绝合同 重复目标在提交侧被拒绝",
+    "failureMessageHead": "AssertionError: expected [Function] to throw error including '迁移事务包含重复目标' but got '迁移事务 journal 包含重复目标: projects/pal/con…'",
+    "executed": 31
+  },
+  "hashes": {
+    "original": "f22787611d1e0ae9b2b0ee8f03cf863a6ef48dafe4abed8ec8a841fd1561b78f",
+    "mutated": "cf574a456f97c0faeccf0804563dbcc9adf64428651298365f47de0395b1d939",
+    "restored": "f22787611d1e0ae9b2b0ee8f03cf863a6ef48dafe4abed8ec8a841fd1561b78f"
+  }
+}

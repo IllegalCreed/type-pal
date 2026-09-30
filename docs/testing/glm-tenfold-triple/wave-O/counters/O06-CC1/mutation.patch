@@ -1,0 +1,13 @@
+diff --git a/packages/content/src/validate.ts b/packages/content/src/validate.ts
+index 2ee7d4c6..bc75706c 100644
+--- a/packages/content/src/validate.ts
++++ b/packages/content/src/validate.ts
+@@ -84,7 +84,7 @@ export function validateStartWorldResources(startWorld: unknown, ctx = 'startWor
+   for (const [key, value] of Object.entries(resources)) {
+     if (key.trim().length === 0) throw new Error(`${ctx}.resources: 资源键不能为空`)
+     if (key !== key.trim()) throw new Error(`${ctx}.resources.${key}: 资源键不得包含首尾空格`)
+-    if (key === 'collectValue')
++    if (false && key === 'collectValue')
+       throw new Error(`${ctx}.resources.collectValue: 保留资源必须使用专用世界字段`)
+     if (!Number.isSafeInteger(value) || Number(value) < 0)
+       throw new Error(`${ctx}.resources.${key}: 必须是非负安全整数`)

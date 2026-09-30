@@ -1,0 +1,13 @@
+diff --git a/packages/migrate/src/migration-merge.ts b/packages/migrate/src/migration-merge.ts
+index fa5a2ed5..c110b0d4 100644
+--- a/packages/migrate/src/migration-merge.ts
++++ b/packages/migrate/src/migration-merge.ts
+@@ -263,7 +263,7 @@ function mergeIdentityArray(
+     return cloneNode(ours)
+   }
+   if (
+-    strictOrder &&
++    false && strictOrder &&
+     changedOrder(baseState.order, oursState.order) &&
+     changedOrder(baseState.order, theirsState.order) &&
+     !isDeepStrictEqual(oursState.order, theirsState.order)

@@ -1,0 +1,13 @@
+diff --git a/packages/migrate/src/pal-authored-overlays.ts b/packages/migrate/src/pal-authored-overlays.ts
+index 472b5d03..81a942a8 100644
+--- a/packages/migrate/src/pal-authored-overlays.ts
++++ b/packages/migrate/src/pal-authored-overlays.ts
+@@ -20,7 +20,7 @@ export function applyPalItemOverlays(input: readonly ItemData[]): ItemData[] {
+         (effect) => effect.kind === 'applyStatus' && effect.status === 'puppet',
+       )
+     )
+-      overlaid.use.battleOnly = true
++      overlaid.use.battleOnly = false
+     return overlaid
+   })
+ }

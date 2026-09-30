@@ -1,0 +1,18 @@
+{
+  "id": "O06-CC1",
+  "control": {
+    "exitCode": 0,
+    "tests": 19
+  },
+  "injected": {
+    "exitCode": 1,
+    "failedFullName": "O06 validateStartWorldResources：资源池边界 空键/首尾空格键/collectValue 保留键/负值或非整数 逐轴拒绝",
+    "failureMessageHead": "AssertionError: expected [Function] to throw an error",
+    "executed": 19
+  },
+  "hashes": {
+    "original": "b71778d0ed1fc2f8195cb653f34b6d51a4c37fad9c63c496baa5fcf7d83c30fa",
+    "mutated": "eaa3adb85204bdd67e1daedef996bd23a0a467977f7d79e4ba0199044e4eea48",
+    "restored": "b71778d0ed1fc2f8195cb653f34b6d51a4c37fad9c63c496baa5fcf7d83c30fa"
+  }
+}

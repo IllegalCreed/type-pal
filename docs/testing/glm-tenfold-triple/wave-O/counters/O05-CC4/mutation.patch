@@ -1,0 +1,13 @@
+diff --git a/packages/migrate/src/pal-world-sprite-registry.ts b/packages/migrate/src/pal-world-sprite-registry.ts
+index 6774e884..f9174c7a 100644
+--- a/packages/migrate/src/pal-world-sprite-registry.ts
++++ b/packages/migrate/src/pal-world-sprite-registry.ts
+@@ -144,7 +144,7 @@ export function createPalWorldSpriteRegistry(
+             spriteNum,
+             id: matchesPrimary
+               ? migratedSpriteId(spriteNum)
+-              : migratedSpriteId(spriteNum, evidence.nSpriteFrames),
++              : migratedSpriteId(spriteNum),
+             layout,
+             source: 'scene',
+             evidence: `scene ${sceneSlug(evidence.sceneId)}/e${evidence.entityId} nSpriteFrames=${evidence.nSpriteFrames}`,

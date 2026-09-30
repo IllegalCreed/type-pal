@@ -1,0 +1,14 @@
+{
+  "id": "O06-CC4",
+  "contract": "directional 缺 framesPerDir 拒绝",
+  "test": {
+    "file": "src/validate.glm-o.test.ts",
+    "title": "directional 缺 framesPerDir / 非正整数 拒绝；static 通过"
+  },
+  "mutation": {
+    "file": "src/validate.ts",
+    "find": "      if (framesPerDir === undefined)",
+    "replace": "      if (false && framesPerDir === undefined)"
+  },
+  "package": "content"
+}

@@ -1,0 +1,13 @@
+{
+  "id": "O01-CC3",
+  "contract": "current baseline 含历史发布路径时构建 fail-loud",
+  "test": {
+    "file": "src/pal-current-publication.glm-o.test.ts",
+    "title": "current baseline 含历史发布路径（_transitions/content/migrations/scripts）时 fail-loud"
+  },
+  "mutation": {
+    "file": "src/pal-current-publication.ts",
+    "find": "  const forbidden = [...baseline.managedFiles].filter((path) => FORBIDDEN_CURRENT_PATH.test(path))",
+    "replace": "  const forbidden = [...baseline.managedFiles].filter((path) => false && FORBIDDEN_CURRENT_PATH.test(path))"
+  }
+}

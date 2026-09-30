@@ -1,0 +1,13 @@
+{
+  "id": "O04-CC2",
+  "contract": "退役清单只含 target 缺失的 legacy-migrated",
+  "test": {
+    "file": "src/pal-assets.glm-o.test.ts",
+    "title": "legacy-migrated 且目标缺失且磁盘一致 → 入退役清单并排序"
+  },
+  "mutation": {
+    "file": "src/pal-assets.ts",
+    "find": "    if (record.origin.kind !== 'legacy-migrated' || targetPaths.has(record.path)) continue",
+    "replace": "    if (record.origin.kind !== 'legacy-migrated' || false) continue"
+  }
+}

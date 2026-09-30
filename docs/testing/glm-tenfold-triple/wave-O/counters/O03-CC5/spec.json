@@ -1,0 +1,13 @@
+{
+  "id": "O03-CC5",
+  "contract": "战斗形象覆写未知角色 → 发布门拒绝",
+  "test": {
+    "file": "src/pal-content-supply.glm-o.test.ts",
+    "title": "覆写引用未知角色 → 发布门以 where: message 拒绝"
+  },
+  "mutation": {
+    "file": "../../packages/content/src/validate-refs.ts",
+    "find": "        const actor = actorsById.get(actorId)\n        if (!actor)",
+    "replace": "        const actor = actorsById.get(actorId)\n        if (false && !actor)"
+  }
+}

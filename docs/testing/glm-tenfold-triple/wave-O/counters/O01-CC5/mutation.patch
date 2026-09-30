@@ -1,0 +1,13 @@
+diff --git a/packages/migrate/src/pal-world-sprite-semantic-alias.ts b/packages/migrate/src/pal-world-sprite-semantic-alias.ts
+index e923d90a..59c03618 100644
+--- a/packages/migrate/src/pal-world-sprite-semantic-alias.ts
++++ b/packages/migrate/src/pal-world-sprite-semantic-alias.ts
+@@ -35,7 +35,7 @@ function definitionsEquivalent(left: SpriteDef, right: SpriteDef): boolean {
+ }
+ 
+ function assertEquivalentDefinition(label: string, left: SpriteDef, right: SpriteDef): void {
+-  if (!definitionsEquivalent(left, right))
++  if (false && !definitionsEquivalent(left, right))
+     throw new Error(`${label}: 资源、布局或动作容器不严格等价`)
+ }
+ 

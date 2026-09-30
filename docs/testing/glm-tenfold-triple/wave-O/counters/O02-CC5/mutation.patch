@@ -1,0 +1,13 @@
+diff --git a/packages/migrate/src/migration-project-io.ts b/packages/migrate/src/migration-project-io.ts
+index 5e76bdd4..97317411 100644
+--- a/packages/migrate/src/migration-project-io.ts
++++ b/packages/migrate/src/migration-project-io.ts
+@@ -47,7 +47,7 @@ export function discoverProjectManagedFiles(repo: string, seed: ReadonlySet<stri
+   if (mapIndex?.maps) {
+     if (!Array.isArray(mapIndex.maps)) throw new Error('content/maps/index.json: maps 期望数组')
+     for (const asset of mapIndex.maps) {
+-      if (typeof asset?.path !== 'string') throw new Error('content/maps/index.json: map path 无效')
++      if (false && typeof asset?.path !== 'string') throw new Error('content/maps/index.json: map path 无效')
+       managed.add(asset.path)
+     }
+   }
