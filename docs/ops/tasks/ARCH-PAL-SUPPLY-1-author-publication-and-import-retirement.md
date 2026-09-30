@@ -3,13 +3,13 @@
 Status: build
 Phase: phase2
 Capability: A7（现有内容供应链治理，不新增能力格）
-Coding Owner: Codex（首批已接收；核下批资源供应准入）
+Coding Owner: pal_resource_supply（r5第二批隔离实现；Codex独立验收）
 Generation Owner: N/A
 Reviewer: Codex（独立验收）
 Visual Verification Owner: Codex（r4.1最小入口冷启动；首批CLI N/A）
 Visual Verification Timing: build期最小功能验证；剧情E2E不在范围
-Contributor: pal_supply_audit（r1只读准备）、pal_author_check（r2首批实现）
-Branch: main（首批候选705d07ec已接收集成；母卡未done）
+Contributor: pal_supply_audit（r1只读准备）、pal_author_check（r2首批实现）、pal_supply_boundary（r5独立前提审查）、pal_resource_supply（r5实现）
+Branch: codex/pal-resource-supply-r1（基点07c8b4d7；首批已入main，母卡未done）
 
 ## 用户裁决与目标（2026-09-30）
 
@@ -290,6 +290,59 @@ save版本、PAL资源/作者正文、官方覆盖率和GLM候选包均未改。
 输出保真及作者数据保留。完整转换核仍有PAL重导/专用审计消费者，未删除；不得将首批accept
 写作整个migrate包退休或母卡done。临时贡献者worktree/分支按接收后流程清理，代码由Git保留。
 
+## r5资源供应准入（2026-09-30）
+
+用户再次批准继续第二批。Codex独立读`pal-current-publication.ts:110/147/172`、
+`pal-migration.ts:390-668`、`migrate-content.ts:276-383/962-1087/2232-2420`、
+`pal-sprite-action-materialize.ts:175-229`、`pal-migration-io.ts:14-115`及实际消费者：
+current只消费资源/地图/商店、六角色（含伤亡）、两类物品提示及精灵别名静态证据。
+实体sprite引用由源场景布局预注册决定，动作物化不改该引用。不是根据文件名猜职责。
+
+独立审查者`pal_supply_boundary`另做真实Node纯内存生成：六语义SpriteDef与mapSprites逐对象
+相等且无poses，六旧base定义均absent，角色域没有accepted物化site；五配置角色的源引用
+7/6/18/11/9，共51处。巫后spriteNum=525、walkFrames=0且没有场景声明，旧base absent。
+窄mapActor+casualty与完整六角色相等，268/270窄effect与完整输出相等。未执行重导CLI。
+反例仍为未知动作/布局、别名新增或漂移、角色回调缺失、提示/配方不匹配、作者数据被替换。
+这里的role无poses是当前输入实证，不是对任意未来原始脚本的证明：current不再运行环境
+动作census，只维护静态别名证据；该原始脚本漂移审计继续由专用入口承担。重新提取若出现
+角色动作或全角色重复域改变，须先复核本边界，不得把静态定义当成全部脚本推导的替代真源。
+注册表证据仍按源实体实际使用懒取，不能把未使用的所有注册项伪装成旧generated定义。
+
+四向前提沿用母卡：primary输入仍为提取的资源/地图/静态表与真实四伤亡/两提示；第一阶段
+不改；当前二阶段为上述完整转换耦合；目标只切断current对世界/技能/敌AI转换的依赖，
+不改变当前字段维护权。before→after为“PAL重导需完整剧情翻译→只运行明确源分区供应”。
+已获用户批准；原版环境动作审计另保留真实消费者，本批不删除它或宣称整核退休。
+
+Codex：**premise verified / design agree / build allowed，仅下列第二批**。
+
+- 单Owner：`pal_resource_supply`；隔离工作树
+  `/Users/zhangxu/.codex/worktrees/pal-resource-supply/type-pal`，分支`codex/pal-resource-supply-r1`。
+  Codex只写主树任务卡/看板与验收材料，不与Owner重叠写实现。
+- 现有实现白名单：`packages/migrate/src/migrate-content.ts`、`pal-migration.ts`、
+  `pal-migration-io.ts`、`pal-current-publication.ts`、`pal-world-sprite-semantic-alias.ts`、
+  `pal-casualty-scripts.ts`、`packages/migrate/scripts/migrate-content.mts`。
+- 新文件白名单（均在`packages/migrate/src/`）：`pal-content-supply.ts`、
+  `pal-content-supply-io.ts`、`pal-role-mapping.ts`、`pal-item-message-source.ts`、
+  `pal-world-sprite-registry.ts`、`pal-source-io.ts`、`pal-sound-assets.ts`及这些模块同名
+  `.test.ts`/`.pal.test.ts`测试；可修改现有`pal-current-publication.pal.test.ts`补保留反控。
+  非必要模块不新建；必要越界先报告Codex追加准入。
+- 静态helper和布局预注册从现有核提成单一纯leaf，旧转换核复用/重导出，不复制算法。
+  新supply只生产实际消费分区与角色别名证据；不生产作者场景正文、共享库、技能或敌AI。
+  新source loader不读scene事件文件/技能/敌AI表；all.json仅供四伤亡/两提示窄消费者。
+  catalog字节/RLE与地图审计仍复用原算法，角色音效仍按catalog过滤，SceneIndex原始id
+  保护与全角色严格重复定义闭包保留；不得用配置清单伪造实际引用集。
+- current组装改调用新supply，重导CLI改用新loader，其规划/三方合并/事务/恢复/TOCTOU/
+  资源物化/manifest-last代码不改。source loader仍隔离PAL输入，不成为通用作者校验前提。
+- 验收：真实新/旧分区逐对象相等（全部223地图、catalog、shops、六角色、两effect、
+  SceneIndex id域、角色定义/legacy状态/51引用与maps报告）；抛错模块mock与运行时导入图
+  同证无完整converter加载/调用；loader实际缺技能/敌AI/scene事件仍成功，必需输入缺失失败。
+  别名清单外引用/错布局、回调/消息形状漂移、Store0错误与map错误仍fail-loud。
+  作者场景自定义路径/正文、共享脚本、物品价格/说明、自定义角色/sprites保持，三方冲突
+  不覆盖且临时工程事务重放零差异；源与baseline入参不可被修改。
+- Owner自验与Codex独立复核分别记录；静态零诊断、全仓check均须通过。只读真实工程，
+  发布写测试限临时目录，不跑主项目重导CLI（含dry-run）。不改配置/依赖/lock/官方覆盖率/
+  projects/pal/baseline/存档/第一阶段/GLM L/M/N源；无UI或剧情变化，视觉N/A。
+
 ## 交接记录
 
 - 2026-09-30 Codex：用户批准职责方向；开draft卡，首批只读核资产/静态表与脚本推导依赖。
@@ -308,9 +361,14 @@ save版本、PAL资源/作者正文、官方覆盖率和GLM候选包均未改。
 - 2026-09-30 Codex：首批与质量收口已推送main `2db997df`；贡献者临时worktree已由管理工具
   归档为可恢复附件，已合本地分支`codex/pal-author-check-r1`删除，代码/历史保留在Git。
   保留既有E2E与GLM L/M/N工作树；主树干净，未删除任何产品/迁移代码。
+- 2026-09-30 Codex / pal_supply_boundary：r5直接证据与真实纯内存反证支持窄供应；单Owner
+  隔离白名单核定，依赖离线安装不改lock。第二批实现准入，不授权删除专用动作审计或完整转换核。
 
 ## 下一位Agent提示词
 
-无下一位Agent提示词：首批Owner已交回，Codex负责独立质量与集成收口。母卡仍build；后续
-资源供应拆分须先核具体文件白名单与旧/新内存输出保真，不以首批通过授权删除真实源解码、
-扩大字段维护权或修改作者剧情。当前不要求用户转发、重跑技术门或进行剧情验收。
+接手任务：ARCH-PAL-SUPPLY-1，当前build，r5仅第二批准入；贡献者pal_resource_supply在上述
+隔离工作树/分支内执行。先完整读AGENTS.md、CLAUDE.md、READ-FIRST、本卡及r5源码锚点。
+按白名单拆单一静态leaf与窄source loader、supply producer，切断current完整转换依赖；保留
+作者字段和全部发布安全边界，不改真实工程或运行重导CLI。新增测试须证完整输出保真、断开
+转换消费者和失败反控；交回干净候选提交、diff、测试日志、remaining risks。不得合main、
+不得标done或擅自退役整核；Codex直接接收复核，不要求用户转发或代跑技术门。
