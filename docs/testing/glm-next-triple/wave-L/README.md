@@ -1,8 +1,31 @@
-# TEST-GLM-WAVE-L-1 交付证据（GLM L，2026-09-30）
+# TEST-GLM-WAVE-L-1 交付证据（GLM L，2026-09-30；r2 返工响应 Codex counter）
 
 分支 `codex/glm-wave-l-editor-map-r1`（自派发提交 `784fb098789a64b21c45e6c942d87abfa9efac2f` 建独立工作树），
 生产冻结 `f70db72236d9cac794d40a625a89fef8c29459ae`，`verify-targets.mjs` 通过
 （L 波 6 组 24 源，与 A–K/M/N 零交集）。
+
+## r2 返工（响应 Codex 对 e2b3f437 的 counter，2026-09-30）
+
+1. `vitest-directed.json` 已 Biome 格式化并随根 `pnpm lint` 复检：**2780 文件
+   0 error / 0 warning / 0 info**（lint-zero.mjs 原始输出 PASS 行见下「门禁结果」）。
+2. `StampTemplateDialog.glm-l.test.tsx`：删除 `as unknown as [string]` 双强转
+   （`onSaved` 改类型化 `vi.fn<(templateId: string, mode: string) => void>`，
+   取参 `mock.calls[0]?.[0]`）；beforeEach 设 `IS_REACT_ACT_ENVIRONMENT = true`，
+   复跑该文件 stderr 中 act 环境警告 **0 条**（`/tmp` 运行已核，2/2 绿）。
+3. CC5 更换：原「删 selectionForStampPlacementGridPoints 空 placement 早退」注入后
+   目标用例红但为 `TypeError`（崩溃型，非业务断言），按判据无效。已更换为
+   hitTestMapContent 的 imageBounds 生成单轴变异（`frame ?` → `false ?`），
+   注入后仅目标 fullName 的 **AssertionError（业务断言）红**、exit1，恢复后源
+   SHA256 不变 → 5 枚反控重新全部有效。原 CC5 正控/注入日志按审核要求保留于
+   `counters/L-CC5-control.txt` / `L-CC5-injected.txt`，新证据为
+   `L-CC5b-control.txt` / `L-CC5b-injected.txt`；counters.json 的 CC5 条目记录
+   superseded 说明。
+4. 功能视觉补可核 console 证据：IAB evaluate 内包装 console.error/warn +
+   window.error/unhandledrejection，两条流程的**操作窗口 console 均为 0 条**且
+   无 vite-error-overlay；初始加载期（hook 注入前）无法回溯，如实标未证。
+   见 [functional-visual.md](functional-visual.md)「Console 证据」节。
+5. 复跑 Editor 全包 3720/3720、typecheck 0、docs 仍仅共享 README 导航 1 项
+   （白名单外，留 Codex 集成登记）、`git diff --check` 通过。
 
 ## 交付物
 
@@ -16,15 +39,16 @@
 - 疑似产品缺陷 1 项（停组上报，不写伪测）：[defect-report.md](defect-report.md)。
 - 定向覆盖率对照（隔离、同分母、未接官方基线）：[coverage-delta.md](coverage-delta.md)。
 
-## 门禁结果（最终代码，2026-09-30）
+## 门禁结果（r2 最终代码，2026-09-30）
 
 - Editor 全包：`env -u NODE_COMPILE_CACHE pnpm --filter @type-pal/editor test`
   → **496 文件 / 3720 测试全绿，exit 0**（基线 3653 + 新增 67）。
   摘要 [logs/editor-full-summary.txt](logs/editor-full-summary.txt)，完整输出 [logs/editor-full-vitest.txt](logs/editor-full-vitest.txt)。
 - Editor typecheck：`tsc --noEmit` **0 error**。
-- 新测定向集：15 文件 **67/67 通过**，新鲜 Vitest JSON（file/fullName/status）
+- 新测定向集：15 文件 **67/67 通过**，新鲜 Vitest JSON（file/fullName/status，已 Biome 格式化）
   [vitest-directed.json](vitest-directed.json)；定向覆盖运行 1870/1870（[logs/coverage-targeted-summary.txt](logs/coverage-targeted-summary.txt)）。
-- 根 `pnpm lint`：**2779 文件，0 error / 0 warning / 0 info**（含 docs JSON 与本卡全部新文件）。
+- 根 `pnpm lint`：**PASS — 2780 files; 0 errors / 0 warnings / 0 infos; complete report**
+  （含已格式化的 vitest-directed.json、counters.json 与本卡全部新文件）。
 - `git diff --check`：通过（无空白错误）。
 - `node scripts/docs/check.mjs`：**1 项失败，如实上报**——
   `docs/testing/glm-next-triple/README.md: 子目录未进入导航：docs/testing/glm-next-triple/wave-L`。

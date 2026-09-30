@@ -113,6 +113,7 @@ let legalState: Awaited<ReturnType<typeof loadLegalUiProject>>['state']
 
 describe('TEST-GLM-WAVE-L-1 L05 stamp template dialog validation gates', () => {
   beforeEach(async () => {
+    ;(globalThis as { IS_REACT_ACT_ENVIRONMENT?: boolean }).IS_REACT_ACT_ENVIRONMENT = true
     legalState = (await loadLegalUiProject('glm-l-stamp-dialog')).state
   })
 
@@ -150,13 +151,14 @@ describe('TEST-GLM-WAVE-L-1 L05 stamp template dialog validation gates', () => {
   })
 
   test('不勾选碰撞快照时模板仅保留视觉成员', async () => {
-    const onSaved = vi.fn()
+    const onSaved = vi.fn<(templateId: string, mode: string) => void>()
     const session = new EditSession(legalState)
     renderDialog({ session, initialMode: 'create', onSaved })
     await input(document.querySelector<HTMLInputElement>('input[name="stamp-name"]')!, '无碰撞')
     await act(async () => button('创建组合')!.click())
     expect(onSaved).toHaveBeenCalledTimes(1)
-    const [savedId] = onSaved.mock.calls[0] as unknown as [string]
+    const savedId = onSaved.mock.calls[0]?.[0]
+    expect(savedId).toBeTypeOf('string')
     const stored = session.getState().stamps.find((template) => template.id === savedId)
     expect(stored?.collision.flatMap((row) => row.filter((value) => value !== null))).toHaveLength(
       0,

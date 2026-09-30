@@ -81,20 +81,25 @@
     {
       "id": "L-CC5",
       "group": "L01",
+      "valid": true,
       "source": "packages/editor/src/core/map-selection.ts",
-      "mutation": "删除 selectionForStampPlacementGridPoints 的空 placement 早退 `if (!placement) return { visualSlots: [], gridPoints: [], hitScope: 'active-layer' }`（单轴删除）",
+      "mutation": "hitTestMapContent 的实例绘制边界生成由 `frame ? projectMapTileBlitRect({ row, col }, frame) : undefined` 单轴改为恒 `false ?`（等价恒 undefined）",
       "sourceSha256Restored": "65644e11a1c6fca4f5ebd1d4429cdacdf253e10ee2f8e590ada073413cd73713",
       "control": {
         "file": "src/core/map-selection.glm-l.test.ts",
         "exitCode": 0,
-        "log": "wave-L/counters/L-CC5-control.txt"
+        "log": "wave-L/counters/L-CC5b-control.txt"
       },
       "injected": {
         "exitCode": 1,
-        "log": "wave-L/counters/L-CC5-injected.txt",
-        "redFullName": "TEST-GLM-WAVE-L-1 L01 map selection gaps > 组内派生与全成员选区对已删除的 placement 都安全回退",
+        "log": "wave-L/counters/L-CC5b-injected.txt",
+        "redFullName": "TEST-GLM-WAVE-L-1 L01 map selection gaps > 命中候选携带非空实例的真实绘制边界，空槽候选没有 imageBounds",
+        "redType": "AssertionError: expected undefined to match object { width: 64, height: 16 }（业务断言红）",
         "redCount": 1,
         "passedCount": 4
+      },
+      "superseded": {
+        "note": "首轮 CC5（删除 selectionForStampPlacementGridPoints 空 placement 早退）注入后目标用例红，但红色为 TypeError: Cannot read properties of undefined (reading 'visualSlots')（崩溃型，非业务断言），按 Codex 审核判据判无效并更换；原始正控/注入日志保留于 wave-L/counters/L-CC5-control.txt 与 L-CC5-injected.txt。"
       }
     }
   ]

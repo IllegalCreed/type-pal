@@ -1,1 +1,836 @@
-{"numTotalTestSuites":30,"numPassedTestSuites":30,"numFailedTestSuites":0,"numPendingTestSuites":0,"numTotalTests":67,"numPassedTests":67,"numFailedTests":0,"numPendingTests":0,"numTodoTests":0,"snapshot":{"added":0,"failure":false,"filesAdded":0,"filesRemoved":0,"filesRemovedList":[],"filesUnmatched":0,"filesUpdated":0,"matched":0,"total":0,"unchecked":0,"uncheckedKeysByFile":[],"unmatched":0,"updated":0,"didUpdate":false},"startTime":1790736412269,"success":true,"testResults":[{"assertionResults":[{"ancestorTitles":["TEST-GLM-WAVE-L-1 L03 map asset command gaps"],"fullName":"TEST-GLM-WAVE-L-1 L03 map asset command gaps 首个地图资产登记时补写 manifest 的 maps 目录，undo 恢复原 manifest 引用","status":"passed","title":"首个地图资产登记时补写 manifest 的 maps 目录，undo 恢复原 manifest 引用","duration":1.5298329999999964,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["TEST-GLM-WAVE-L-1 L03 map asset command gaps"],"fullName":"TEST-GLM-WAVE-L-1 L03 map asset command gaps maps 记录已存在（目录未登记）时创建同样拒绝","status":"passed","title":"maps 记录已存在（目录未登记）时创建同样拒绝","duration":0.4727919999999699,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["TEST-GLM-WAVE-L-1 L03 map asset command gaps"],"fullName":"TEST-GLM-WAVE-L-1 L03 map asset command gaps 复制命令缺源地图零写；未 apply 的 invert 零写","status":"passed","title":"复制命令缺源地图零写；未 apply 的 invert 零写","duration":0.1316250000000423,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["TEST-GLM-WAVE-L-1 L03 map asset command gaps"],"fullName":"TEST-GLM-WAVE-L-1 L03 map asset command gaps 改名先 trim 再比较：带空白名写入裁剪值，裁剪后同名零写","status":"passed","title":"改名先 trim 再比较：带空白名写入裁剪值，裁剪后同名零写","duration":0.198332999999991,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["TEST-GLM-WAVE-L-1 L03 map asset command gaps"],"fullName":"TEST-GLM-WAVE-L-1 L03 map asset command gaps 绑定与删除命令未 apply 的 invert 都是零写","status":"passed","title":"绑定与删除命令未 apply 的 invert 都是零写","duration":0.21491600000001654,"failureMessages":[],"meta":{},"tags":[]}],"startTime":1790736414305,"endTime":1790736414307.2148,"status":"passed","message":"","name":"/Users/zhangxu/illegal/type-pal-wave-l/packages/editor/src/core/map-asset-commands.glm-l.test.ts"},{"assertionResults":[{"ancestorTitles":["TEST-GLM-WAVE-L-1 L03 map edit command guards"],"fullName":"TEST-GLM-WAVE-L-1 L03 map edit command guards 普通画笔在命令层拒绝写入图章归属槽，且失败零写","status":"passed","title":"普通画笔在命令层拒绝写入图章归属槽，且失败零写","duration":2.3409169999999904,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["TEST-GLM-WAVE-L-1 L03 map edit command guards"],"fullName":"TEST-GLM-WAVE-L-1 L03 map edit command guards 碰撞画笔同样被 ownership 门拦截；未 apply 的 invert 是零写早退","status":"passed","title":"碰撞画笔同样被 ownership 门拦截；未 apply 的 invert 是零写早退","duration":0.43383300000004965,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["TEST-GLM-WAVE-L-1 L03 map edit command guards"],"fullName":"TEST-GLM-WAVE-L-1 L03 map edit command guards 画笔未 apply 时 invert 原样返回；状态里缺图也是零写","status":"passed","title":"画笔未 apply 时 invert 原样返回；状态里缺图也是零写","duration":0.19533300000011877,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["TEST-GLM-WAVE-L-1 L03 map edit command guards"],"fullName":"TEST-GLM-WAVE-L-1 L03 map edit command guards 删除最后一个图层是无操作；resize/patch 命令未 apply 的 invert 零写","status":"passed","title":"删除最后一个图层是无操作；resize/patch 命令未 apply 的 invert 零写","duration":0.5347079999999096,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["TEST-GLM-WAVE-L-1 L03 map edit command guards"],"fullName":"TEST-GLM-WAVE-L-1 L03 map edit command guards 移动命令对缺失层 apply/invert 双零写；新增层索引越界被夹回","status":"passed","title":"移动命令对缺失层 apply/invert 双零写；新增层索引越界被夹回","duration":0.5008750000001783,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["TEST-GLM-WAVE-L-1 L03 map edit command guards"],"fullName":"TEST-GLM-WAVE-L-1 L03 map edit command guards 更新与改尺寸命令对缺失目标零写","status":"passed","title":"更新与改尺寸命令对缺失目标零写","duration":0.16441599999984646,"failureMessages":[],"meta":{},"tags":[]}],"startTime":1790736413962,"endTime":1790736413966.1643,"status":"passed","message":"","name":"/Users/zhangxu/illegal/type-pal-wave-l/packages/editor/src/core/map-edit-commands.glm-l.test.ts"},{"assertionResults":[{"ancestorTitles":["TEST-GLM-WAVE-L-1 L03 map patch narrow entries & value guards"],"fullName":"TEST-GLM-WAVE-L-1 L03 map patch narrow entries & value guards 组内窄入口对已删除的 placement 报 stamp-placement-missing","status":"passed","title":"组内窄入口对已删除的 placement 报 stamp-placement-missing","duration":2.1958750000001146,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["TEST-GLM-WAVE-L-1 L03 map patch narrow entries & value guards"],"fullName":"TEST-GLM-WAVE-L-1 L03 map patch narrow entries & value guards 整组窄入口撞他组成员时逐通道报归属冲突；未归属槽位可写","status":"passed","title":"整组窄入口撞他组成员时逐通道报归属冲突；未归属槽位可写","duration":1.650666000000001,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["TEST-GLM-WAVE-L-1 L03 map patch narrow entries & value guards"],"fullName":"TEST-GLM-WAVE-L-1 L03 map patch narrow entries & value guards tilesetId 空串与负高度是非法值；碰撞非整数坐标与越界各自拒绝","status":"passed","title":"tilesetId 空串与负高度是非法值；碰撞非整数坐标与越界各自拒绝","duration":1.033083999999917,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["TEST-GLM-WAVE-L-1 L03 map patch narrow entries & value guards"],"fullName":"TEST-GLM-WAVE-L-1 L03 map patch narrow entries & value guards 空槽写非空瓦片但缺 tilesetId 通道：missing-source 拒绝","status":"passed","title":"空槽写非空瓦片但缺 tilesetId 通道：missing-source 拒绝","duration":0.3023329999998623,"failureMessages":[],"meta":{},"tags":[]}],"startTime":1790736413944,"endTime":1790736413949.3022,"status":"passed","message":"","name":"/Users/zhangxu/illegal/type-pal-wave-l/packages/editor/src/core/map-patch.glm-l.test.ts"},{"assertionResults":[{"ancestorTitles":["TEST-GLM-WAVE-L-1 L01 map selection gaps"],"fullName":"TEST-GLM-WAVE-L-1 L01 map selection gaps 组内派生与全成员选区对已删除的 placement 都安全回退","status":"passed","title":"组内派生与全成员选区对已删除的 placement 都安全回退","duration":1.8789590000001226,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["TEST-GLM-WAVE-L-1 L01 map selection gaps"],"fullName":"TEST-GLM-WAVE-L-1 L01 map selection gaps 空 incoming 的 toggle 按 subtract 处理：内容与 hitScope 原样保留","status":"passed","title":"空 incoming 的 toggle 按 subtract 处理：内容与 hitScope 原样保留","duration":0.3970000000001619,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["TEST-GLM-WAVE-L-1 L01 map selection gaps"],"fullName":"TEST-GLM-WAVE-L-1 L01 map selection gaps clipMapSelection 在无需裁剪时返回原选区身份","status":"passed","title":"clipMapSelection 在无需裁剪时返回原选区身份","duration":0.21649999999999636,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["TEST-GLM-WAVE-L-1 L01 map selection gaps"],"fullName":"TEST-GLM-WAVE-L-1 L01 map selection gaps bounds 只对 cells 选区存在；非空 reset 返回全新空工作区","status":"passed","title":"bounds 只对 cells 选区存在；非空 reset 返回全新空工作区","duration":0.28883300000006784,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["TEST-GLM-WAVE-L-1 L01 map selection gaps"],"fullName":"TEST-GLM-WAVE-L-1 L01 map selection gaps 命中候选携带非空实例的真实绘制边界，空槽候选没有 imageBounds","status":"passed","title":"命中候选携带非空实例的真实绘制边界，空槽候选没有 imageBounds","duration":0.691124999999829,"failureMessages":[],"meta":{},"tags":[]}],"startTime":1790736413924,"endTime":1790736413927.6912,"status":"passed","message":"","name":"/Users/zhangxu/illegal/type-pal-wave-l/packages/editor/src/core/map-selection.glm-l.test.ts"},{"assertionResults":[{"ancestorTitles":["TEST-GLM-WAVE-L-1 L03 map transform gaps"],"fullName":"TEST-GLM-WAVE-L-1 L03 map transform gaps 粘贴撞图章归属槽是 plan 级硬错误，overwrite 也不能绕过","status":"passed","title":"粘贴撞图章归属槽是 plan 级硬错误，overwrite 也不能绕过","duration":3.694291999999905,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["TEST-GLM-WAVE-L-1 L03 map transform gaps"],"fullName":"TEST-GLM-WAVE-L-1 L03 map transform gaps 无可搬内容（空槽不含碰撞）的 move 回退为 empty-selection 删除计划","status":"passed","title":"无可搬内容（空槽不含碰撞）的 move 回退为 empty-selection 删除计划","duration":0.7899589999999534,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["TEST-GLM-WAVE-L-1 L03 map transform gaps"],"fullName":"TEST-GLM-WAVE-L-1 L03 map transform gaps capture 丢弃悬空层与空槽，重复格点只保留一份","status":"passed","title":"capture 丢弃悬空层与空槽，重复格点只保留一份","duration":0.863207999999986,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["TEST-GLM-WAVE-L-1 L03 map transform gaps"],"fullName":"TEST-GLM-WAVE-L-1 L03 map transform gaps 无映射的粘贴按来源层身份落笔（identity fallback）","status":"passed","title":"无映射的粘贴按来源层身份落笔（identity fallback）","duration":0.3204160000000229,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["TEST-GLM-WAVE-L-1 L03 map transform gaps"],"fullName":"TEST-GLM-WAVE-L-1 L03 map transform gaps includeCollision 的 move 撞不同非零碰撞时按通道报冲突，overwrite 可提交","status":"passed","title":"includeCollision 的 move 撞不同非零碰撞时按通道报冲突，overwrite 可提交","duration":0.5100410000000011,"failureMessages":[],"meta":{},"tags":[]}],"startTime":1790736413945,"endTime":1790736413951.51,"status":"passed","message":"","name":"/Users/zhangxu/illegal/type-pal-wave-l/packages/editor/src/core/map-transform.glm-l.test.ts"},{"assertionResults":[{"ancestorTitles":["TEST-GLM-WAVE-L-1 L02 scene command no-op & guard branches"],"fullName":"TEST-GLM-WAVE-L-1 L02 scene command no-op & guard branches UpdateScene 对缺场景 apply/invert 均零写；重复 apply 只捕获一次旧值","status":"passed","title":"UpdateScene 对缺场景 apply/invert 均零写；重复 apply 只捕获一次旧值","duration":0.920332999999971,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["TEST-GLM-WAVE-L-1 L02 scene command no-op & guard branches"],"fullName":"TEST-GLM-WAVE-L-1 L02 scene command no-op & guard branches UpsertSceneEntry 拒绝空 id；缺场景 apply/invert 零写","status":"passed","title":"UpsertSceneEntry 拒绝空 id；缺场景 apply/invert 零写","duration":0.5374170000000049,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["TEST-GLM-WAVE-L-1 L02 scene command no-op & guard branches"],"fullName":"TEST-GLM-WAVE-L-1 L02 scene command no-op & guard branches DeleteSceneEntry 缺场景或缺落点时先于引用索引早退","status":"passed","title":"DeleteSceneEntry 缺场景或缺落点时先于引用索引早退","duration":0.1650420000000281,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["TEST-GLM-WAVE-L-1 L02 scene command no-op & guard branches"],"fullName":"TEST-GLM-WAVE-L-1 L02 scene command no-op & guard branches AddScene 双重身份门：id 重复与 index/id 不符都在 apply 期抛错","status":"passed","title":"AddScene 双重身份门：id 重复与 index/id 不符都在 apply 期抛错","duration":0.2932910000000106,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["TEST-GLM-WAVE-L-1 L02 scene command no-op & guard branches"],"fullName":"TEST-GLM-WAVE-L-1 L02 scene command no-op & guard branches DuplicateScene 缺源与目标 id 冲突都在 apply 期抛错","status":"passed","title":"DuplicateScene 缺源与目标 id 冲突都在 apply 期抛错","duration":0.17275000000000773,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["TEST-GLM-WAVE-L-1 L02 scene command no-op & guard branches"],"fullName":"TEST-GLM-WAVE-L-1 L02 scene command no-op & guard branches UpdateSceneName 三个守卫：缺场景抛错、空白名抛错、同名零写","status":"passed","title":"UpdateSceneName 三个守卫：缺场景抛错、空白名抛错、同名零写","duration":0.17270899999999756,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["TEST-GLM-WAVE-L-1 L02 scene command no-op & guard branches"],"fullName":"TEST-GLM-WAVE-L-1 L02 scene command no-op & guard branches DeleteScene 守卫：缺正文、缺登记与未 apply 的 invert 都显式失败","status":"passed","title":"DeleteScene 守卫：缺正文、缺登记与未 apply 的 invert 都显式失败","duration":0.3807909999999879,"failureMessages":[],"meta":{},"tags":[]}],"startTime":1790736414315,"endTime":1790736414317.3809,"status":"passed","message":"","name":"/Users/zhangxu/illegal/type-pal-wave-l/packages/editor/src/core/scene-commands.glm-l.test.ts"},{"assertionResults":[{"ancestorTitles":["TEST-GLM-WAVE-L-1 L05 stamp draft sources & heights lifecycle"],"fullName":"TEST-GLM-WAVE-L-1 L05 stamp draft sources & heights lifecycle 后画字母序更小的瓦片集时，既有 cells 的来源索引被整体重映射","status":"passed","title":"后画字母序更小的瓦片集时，既有 cells 的来源索引被整体重映射","duration":1.4907499999999914,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["TEST-GLM-WAVE-L-1 L05 stamp draft sources & heights lifecycle"],"fullName":"TEST-GLM-WAVE-L-1 L05 stamp draft sources & heights lifecycle 高度键随内容生灭：全零后整键移除，非零时保留","status":"passed","title":"高度键随内容生灭：全零后整键移除，非零时保留","duration":0.5609580000000278,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["TEST-GLM-WAVE-L-1 L05 stamp draft sources & heights lifecycle"],"fullName":"TEST-GLM-WAVE-L-1 L05 stamp draft sources & heights lifecycle 零高度落笔不引入 heights 键","status":"passed","title":"零高度落笔不引入 heights 键","duration":0.11633299999999736,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["TEST-GLM-WAVE-L-1 L05 stamp draft sources & heights lifecycle"],"fullName":"TEST-GLM-WAVE-L-1 L05 stamp draft sources & heights lifecycle 碰撞擦除幂等：已空格返回同一引用","status":"passed","title":"碰撞擦除幂等：已空格返回同一引用","duration":0.08904100000000881,"failureMessages":[],"meta":{},"tags":[]}],"startTime":1790736414261,"endTime":1790736414263.561,"status":"passed","message":"","name":"/Users/zhangxu/illegal/type-pal-wave-l/packages/editor/src/core/stamp-draft.glm-l.test.ts"},{"assertionResults":[{"ancestorTitles":["TEST-GLM-WAVE-L-1 L06 stamp group command guards"],"fullName":"TEST-GLM-WAVE-L-1 L06 stamp group command guards 解组空选区与含未知 id 的选区都在构造期精确拒绝","status":"passed","title":"解组空选区与含未知 id 的选区都在构造期精确拒绝","duration":3.7280410000000757,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["TEST-GLM-WAVE-L-1 L06 stamp group command guards"],"fullName":"TEST-GLM-WAVE-L-1 L06 stamp group command guards EditStampPlacementCommand.apply 对缺图与过期地图零写并显式失败","status":"passed","title":"EditStampPlacementCommand.apply 对缺图与过期地图零写并显式失败","duration":3.572208000000046,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["TEST-GLM-WAVE-L-1 L06 stamp group command guards"],"fullName":"TEST-GLM-WAVE-L-1 L06 stamp group command guards no-op 组内编辑的 apply 与 invert 都是零写早退","status":"passed","title":"no-op 组内编辑的 apply 与 invert 都是零写早退","duration":0.7999999999999545,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["TEST-GLM-WAVE-L-1 L06 stamp group command guards"],"fullName":"TEST-GLM-WAVE-L-1 L06 stamp group command guards 解组 invert 在地图缺失时抛错；label 走单/复数分支","status":"passed","title":"解组 invert 在地图缺失时抛错；label 走单/复数分支","duration":1.2833329999998568,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["TEST-GLM-WAVE-L-1 L06 stamp group command guards"],"fullName":"TEST-GLM-WAVE-L-1 L06 stamp group command guards reject 组合移动计划直接构造 Command 时以冲突数回退文案","status":"passed","title":"reject 组合移动计划直接构造 Command 时以冲突数回退文案","duration":1.4755420000001322,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["TEST-GLM-WAVE-L-1 L06 stamp group command guards"],"fullName":"TEST-GLM-WAVE-L-1 L06 stamp group command guards 组内编辑构造器：未知组、未知活动层与非成员输入都精确拒绝","status":"passed","title":"组内编辑构造器：未知组、未知活动层与非成员输入都精确拒绝","duration":0.5239579999999933,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["TEST-GLM-WAVE-L-1 L06 stamp group command guards"],"fullName":"TEST-GLM-WAVE-L-1 L06 stamp group command guards 解组 apply 对缺图与过期地图零写并显式失败","status":"passed","title":"解组 apply 对缺图与过期地图零写并显式失败","duration":0.4015420000000631,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["TEST-GLM-WAVE-L-1 L06 stamp group command guards"],"fullName":"TEST-GLM-WAVE-L-1 L06 stamp group command guards 整组变换 apply/invert 对缺图与过期地图都显式失败","status":"passed","title":"整组变换 apply/invert 对缺图与过期地图都显式失败","duration":0.7632920000000922,"failureMessages":[],"meta":{},"tags":[]}],"startTime":1790736413965,"endTime":1790736413977.7632,"status":"passed","message":"","name":"/Users/zhangxu/illegal/type-pal-wave-l/packages/editor/src/core/stamp-group-command.glm-l.test.ts"},{"assertionResults":[{"ancestorTitles":["TEST-GLM-WAVE-L-1 L06 stamp group transform plans"],"fullName":"TEST-GLM-WAVE-L-1 L06 stamp group transform plans preserve 身份粘贴撞上仍存活的原始 id：整笔拒绝且 patch 双通道为空","status":"passed","title":"preserve 身份粘贴撞上仍存活的原始 id：整笔拒绝且 patch 双通道为空","duration":3.0041250000001583,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["TEST-GLM-WAVE-L-1 L06 stamp group transform plans"],"fullName":"TEST-GLM-WAVE-L-1 L06 stamp group transform plans move 快照与当前组选区不一致时 fail-loud 且零写","status":"passed","title":"move 快照与当前组选区不一致时 fail-loud 且零写","duration":0.4487500000000182,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["TEST-GLM-WAVE-L-1 L06 stamp group transform plans"],"fullName":"TEST-GLM-WAVE-L-1 L06 stamp group transform plans 组合粘贴目标层缺失：layer-missing 整笔失败，不产出 preparedPatch","status":"passed","title":"组合粘贴目标层缺失：layer-missing 整笔失败，不产出 preparedPatch","duration":0.44266700000002857,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["TEST-GLM-WAVE-L-1 L06 stamp group transform plans"],"fullName":"TEST-GLM-WAVE-L-1 L06 stamp group transform plans 未知 placementIds 的 move 走空快照回退计划并精确报缺失","status":"passed","title":"未知 placementIds 的 move 走空快照回退计划并精确报缺失","duration":0.27337499999998727,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["TEST-GLM-WAVE-L-1 L06 stamp group transform plans"],"fullName":"TEST-GLM-WAVE-L-1 L06 stamp group transform plans 可提交 move/delete 计划的 nextSelection 与 placementSelection 形状","status":"passed","title":"可提交 move/delete 计划的 nextSelection 与 placementSelection 形状","duration":1.1646249999998872,"failureMessages":[],"meta":{},"tags":[]}],"startTime":1790736413946,"endTime":1790736413951.1646,"status":"passed","message":"","name":"/Users/zhangxu/illegal/type-pal-wave-l/packages/editor/src/core/stamp-group-transform.glm-l.test.ts"},{"assertionResults":[{"ancestorTitles":["TEST-GLM-WAVE-L-1 L06 stamp ownership guards"],"fullName":"TEST-GLM-WAVE-L-1 L06 stamp ownership guards 组内 fill 对未知组、未知层与出界起点都返回空编辑","status":"passed","title":"组内 fill 对未知组、未知层与出界起点都返回空编辑","duration":2.241917000000001,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["TEST-GLM-WAVE-L-1 L06 stamp ownership guards"],"fullName":"TEST-GLM-WAVE-L-1 L06 stamp ownership guards 差分登记对同一 afterMap 幂等返回同一索引","status":"passed","title":"差分登记对同一 afterMap 幂等返回同一索引","duration":0.4888339999999971,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["TEST-GLM-WAVE-L-1 L06 stamp ownership guards"],"fullName":"TEST-GLM-WAVE-L-1 L06 stamp ownership guards 移除登记里的未知 id 被安全跳过，不改变既有归属","status":"passed","title":"移除登记里的未知 id 被安全跳过，不改变既有归属","duration":0.2840840000000071,"failureMessages":[],"meta":{},"tags":[]}],"startTime":1790736414259,"endTime":1790736414262.4888,"status":"passed","message":"","name":"/Users/zhangxu/illegal/type-pal-wave-l/packages/editor/src/core/stamp-ownership.glm-l.test.ts"},{"assertionResults":[{"ancestorTitles":["TEST-GLM-WAVE-L-1 L06 stamp placement planning gaps"],"fullName":"TEST-GLM-WAVE-L-1 L06 stamp placement planning gaps 两个模板图层映射到同一目标层且同格落笔：ambiguous-destination 整笔拒绝","status":"passed","title":"两个模板图层映射到同一目标层且同格落笔：ambiguous-destination 整笔拒绝","duration":2.852000000000089,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["TEST-GLM-WAVE-L-1 L06 stamp placement planning gaps"],"fullName":"TEST-GLM-WAVE-L-1 L06 stamp placement planning gaps 模板瓦片缺来源实例：patch-invalid 指名实例且整笔不可提交","status":"passed","title":"模板瓦片缺来源实例：patch-invalid 指名实例且整笔不可提交","duration":0.6837500000001455,"failureMessages":[],"meta":{},"tags":[]}],"startTime":1790736413945,"endTime":1790736413948.6838,"status":"passed","message":"","name":"/Users/zhangxu/illegal/type-pal-wave-l/packages/editor/src/core/stamp-placement.glm-l.test.ts"},{"assertionResults":[{"ancestorTitles":["TEST-GLM-WAVE-L-1 L01 selection inspector gaps"],"fullName":"TEST-GLM-WAVE-L-1 L01 selection inspector gaps 清空视觉实例提交 tileId/tilesetId/height 三通道完整 patch","status":"passed","title":"清空视觉实例提交 tileId/tilesetId/height 三通道完整 patch","duration":29.755458999999973,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["TEST-GLM-WAVE-L-1 L01 selection inspector gaps"],"fullName":"TEST-GLM-WAVE-L-1 L01 selection inspector gaps 高度字段的非整数输入走 alert 校验，空输入只清错误不提交","status":"passed","title":"高度字段的非整数输入走 alert 校验，空输入只清错误不提交","duration":19.276166000000103,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["TEST-GLM-WAVE-L-1 L01 selection inspector gaps"],"fullName":"TEST-GLM-WAVE-L-1 L01 selection inspector gaps tileId 与 collision 的空输入提交都是零 patch 的静默早退","status":"passed","title":"tileId 与 collision 的空输入提交都是零 patch 的静默早退","duration":8.39345800000001,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["TEST-GLM-WAVE-L-1 L01 selection inspector gaps"],"fullName":"TEST-GLM-WAVE-L-1 L01 selection inspector gaps 零高度实例点“高度减 1”被夹到 0 而不是负数","status":"passed","title":"零高度实例点“高度减 1”被夹到 0 而不是负数","duration":6.048416999999972,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["TEST-GLM-WAVE-L-1 L01 selection inspector gaps"],"fullName":"TEST-GLM-WAVE-L-1 L01 selection inspector gaps 目标图层在新地图中已不存在时回退活动层并禁用移动按钮","status":"passed","title":"目标图层在新地图中已不存在时回退活动层并禁用移动按钮","duration":8.924916999999823,"failureMessages":[],"meta":{},"tags":[]}],"startTime":1790736414570,"endTime":1790736414642.9248,"status":"passed","message":"","name":"/Users/zhangxu/illegal/type-pal-wave-l/packages/editor/src/ui/MapSelectionInspector.glm-l.test.tsx"},{"assertionResults":[{"ancestorTitles":["TEST-GLM-WAVE-L-1 L04 sprite action dialog scope & save guards"],"fullName":"TEST-GLM-WAVE-L-1 L04 sprite action dialog scope & save guards edit 模式下打开范围漂移（源资产变化）自动关窗且零命令","status":"passed","title":"edit 模式下打开范围漂移（源资产变化）自动关窗且零命令","duration":161.89016599999968,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["TEST-GLM-WAVE-L-1 L04 sprite action dialog scope & save guards"],"fullName":"TEST-GLM-WAVE-L-1 L04 sprite action dialog scope & save guards create 模式的 Cmd+S 被阻断并聚焦名称输入，不触发项目保存","status":"passed","title":"create 模式的 Cmd+S 被阻断并聚焦名称输入，不触发项目保存","duration":20.954291000000012,"failureMessages":[],"meta":{},"tags":[]}],"startTime":1790736414587,"endTime":1790736414769.9543,"status":"passed","message":"","name":"/Users/zhangxu/illegal/type-pal-wave-l/packages/editor/src/ui/SpriteActionEditorDialog.glm-l.test.tsx"},{"assertionResults":[{"ancestorTitles":["TEST-GLM-WAVE-L-1 L05 stamp template dialog validation gates"],"fullName":"TEST-GLM-WAVE-L-1 L05 stamp template dialog validation gates create 重复 ID 与空名称都精确报错且不落任何模板","status":"passed","title":"create 重复 ID 与空名称都精确报错且不落任何模板","duration":72.11691700000029,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["TEST-GLM-WAVE-L-1 L05 stamp template dialog validation gates"],"fullName":"TEST-GLM-WAVE-L-1 L05 stamp template dialog validation gates 不勾选碰撞快照时模板仅保留视觉成员","status":"passed","title":"不勾选碰撞快照时模板仅保留视觉成员","duration":15.79300000000012,"failureMessages":[],"meta":{},"tags":[]}],"startTime":1790736414665,"endTime":1790736414752.793,"status":"passed","message":"","name":"/Users/zhangxu/illegal/type-pal-wave-l/packages/editor/src/ui/StampTemplateDialog.glm-l.test.tsx"},{"assertionResults":[{"ancestorTitles":["TEST-GLM-WAVE-L-1 L02 scene stage pure helpers"],"fullName":"TEST-GLM-WAVE-L-1 L02 scene stage pure helpers 静态作者态精灵资源收集跳过隐藏、区域实体并按 asset 去重","status":"passed","title":"静态作者态精灵资源收集跳过隐藏、区域实体并按 asset 去重","duration":1.1433749999999918,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["TEST-GLM-WAVE-L-1 L02 scene stage pure helpers"],"fullName":"TEST-GLM-WAVE-L-1 L02 scene stage pure helpers 作者态 SpriteDraw：leader 常量层与实体 zBias 映射各就各位","status":"passed","title":"作者态 SpriteDraw：leader 常量层与实体 zBias 映射各就各位","duration":1.0207920000000286,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["TEST-GLM-WAVE-L-1 L02 scene stage pure helpers"],"fullName":"TEST-GLM-WAVE-L-1 L02 scene stage pure helpers 未知精灵与缺失帧安全跳过，不产出空 draw","status":"passed","title":"未知精灵与缺失帧安全跳过，不产出空 draw","duration":0.09424999999998818,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["TEST-GLM-WAVE-L-1 L02 scene stage pure helpers"],"fullName":"TEST-GLM-WAVE-L-1 L02 scene stage pure helpers fitStageView 把极端纵横比夹进 [0.04,16]；mapBoxOf 支持房间偏移","status":"passed","title":"fitStageView 把极端纵横比夹进 [0.04,16]；mapBoxOf 支持房间偏移","duration":0.2628750000000082,"failureMessages":[],"meta":{},"tags":[]}],"startTime":1790736414271,"endTime":1790736414273.263,"status":"passed","message":"","name":"/Users/zhangxu/illegal/type-pal-wave-l/packages/editor/src/ui/scene-stage.glm-l.test.tsx"}]}
+{
+  "numTotalTestSuites": 30,
+  "numPassedTestSuites": 30,
+  "numFailedTestSuites": 0,
+  "numPendingTestSuites": 0,
+  "numTotalTests": 67,
+  "numPassedTests": 67,
+  "numFailedTests": 0,
+  "numPendingTests": 0,
+  "numTodoTests": 0,
+  "snapshot": {
+    "added": 0,
+    "failure": false,
+    "filesAdded": 0,
+    "filesRemoved": 0,
+    "filesRemovedList": [],
+    "filesUnmatched": 0,
+    "filesUpdated": 0,
+    "matched": 0,
+    "total": 0,
+    "unchecked": 0,
+    "uncheckedKeysByFile": [],
+    "unmatched": 0,
+    "updated": 0,
+    "didUpdate": false
+  },
+  "startTime": 1790738914770,
+  "success": true,
+  "testResults": [
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["TEST-GLM-WAVE-L-1 L01 selection inspector gaps"],
+          "fullName": "TEST-GLM-WAVE-L-1 L01 selection inspector gaps 清空视觉实例提交 tileId/tilesetId/height 三通道完整 patch",
+          "status": "passed",
+          "title": "清空视觉实例提交 tileId/tilesetId/height 三通道完整 patch",
+          "duration": 29.95983299999989,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["TEST-GLM-WAVE-L-1 L01 selection inspector gaps"],
+          "fullName": "TEST-GLM-WAVE-L-1 L01 selection inspector gaps 高度字段的非整数输入走 alert 校验，空输入只清错误不提交",
+          "status": "passed",
+          "title": "高度字段的非整数输入走 alert 校验，空输入只清错误不提交",
+          "duration": 18.849166999999852,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["TEST-GLM-WAVE-L-1 L01 selection inspector gaps"],
+          "fullName": "TEST-GLM-WAVE-L-1 L01 selection inspector gaps tileId 与 collision 的空输入提交都是零 patch 的静默早退",
+          "status": "passed",
+          "title": "tileId 与 collision 的空输入提交都是零 patch 的静默早退",
+          "duration": 7.4225830000000315,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["TEST-GLM-WAVE-L-1 L01 selection inspector gaps"],
+          "fullName": "TEST-GLM-WAVE-L-1 L01 selection inspector gaps 零高度实例点“高度减 1”被夹到 0 而不是负数",
+          "status": "passed",
+          "title": "零高度实例点“高度减 1”被夹到 0 而不是负数",
+          "duration": 6.4029169999998885,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["TEST-GLM-WAVE-L-1 L01 selection inspector gaps"],
+          "fullName": "TEST-GLM-WAVE-L-1 L01 selection inspector gaps 目标图层在新地图中已不存在时回退活动层并禁用移动按钮",
+          "status": "passed",
+          "title": "目标图层在新地图中已不存在时回退活动层并禁用移动按钮",
+          "duration": 8.867917000000034,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790738917444,
+      "endTime": 1790738917515.868,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/illegal/type-pal-wave-l/packages/editor/src/ui/MapSelectionInspector.glm-l.test.tsx"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["TEST-GLM-WAVE-L-1 L04 sprite action dialog scope & save guards"],
+          "fullName": "TEST-GLM-WAVE-L-1 L04 sprite action dialog scope & save guards edit 模式下打开范围漂移（源资产变化）自动关窗且零命令",
+          "status": "passed",
+          "title": "edit 模式下打开范围漂移（源资产变化）自动关窗且零命令",
+          "duration": 150.94500000000016,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["TEST-GLM-WAVE-L-1 L04 sprite action dialog scope & save guards"],
+          "fullName": "TEST-GLM-WAVE-L-1 L04 sprite action dialog scope & save guards create 模式的 Cmd+S 被阻断并聚焦名称输入，不触发项目保存",
+          "status": "passed",
+          "title": "create 模式的 Cmd+S 被阻断并聚焦名称输入，不触发项目保存",
+          "duration": 19.133542000000034,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790738917470,
+      "endTime": 1790738917640.1335,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/illegal/type-pal-wave-l/packages/editor/src/ui/SpriteActionEditorDialog.glm-l.test.tsx"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["TEST-GLM-WAVE-L-1 L05 stamp template dialog validation gates"],
+          "fullName": "TEST-GLM-WAVE-L-1 L05 stamp template dialog validation gates create 重复 ID 与空名称都精确报错且不落任何模板",
+          "status": "passed",
+          "title": "create 重复 ID 与空名称都精确报错且不落任何模板",
+          "duration": 71.55941699999994,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["TEST-GLM-WAVE-L-1 L05 stamp template dialog validation gates"],
+          "fullName": "TEST-GLM-WAVE-L-1 L05 stamp template dialog validation gates 不勾选碰撞快照时模板仅保留视觉成员",
+          "status": "passed",
+          "title": "不勾选碰撞快照时模板仅保留视觉成员",
+          "duration": 13.544624999999996,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790738917546,
+      "endTime": 1790738917630.5447,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/illegal/type-pal-wave-l/packages/editor/src/ui/StampTemplateDialog.glm-l.test.tsx"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["TEST-GLM-WAVE-L-1 L02 scene stage pure helpers"],
+          "fullName": "TEST-GLM-WAVE-L-1 L02 scene stage pure helpers 静态作者态精灵资源收集跳过隐藏、区域实体并按 asset 去重",
+          "status": "passed",
+          "title": "静态作者态精灵资源收集跳过隐藏、区域实体并按 asset 去重",
+          "duration": 1.1299579999999878,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["TEST-GLM-WAVE-L-1 L02 scene stage pure helpers"],
+          "fullName": "TEST-GLM-WAVE-L-1 L02 scene stage pure helpers 作者态 SpriteDraw：leader 常量层与实体 zBias 映射各就各位",
+          "status": "passed",
+          "title": "作者态 SpriteDraw：leader 常量层与实体 zBias 映射各就各位",
+          "duration": 0.984958000000006,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["TEST-GLM-WAVE-L-1 L02 scene stage pure helpers"],
+          "fullName": "TEST-GLM-WAVE-L-1 L02 scene stage pure helpers 未知精灵与缺失帧安全跳过，不产出空 draw",
+          "status": "passed",
+          "title": "未知精灵与缺失帧安全跳过，不产出空 draw",
+          "duration": 0.08825000000001637,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["TEST-GLM-WAVE-L-1 L02 scene stage pure helpers"],
+          "fullName": "TEST-GLM-WAVE-L-1 L02 scene stage pure helpers fitStageView 把极端纵横比夹进 [0.04,16]；mapBoxOf 支持房间偏移",
+          "status": "passed",
+          "title": "fitStageView 把极端纵横比夹进 [0.04,16]；mapBoxOf 支持房间偏移",
+          "duration": 0.2597499999999968,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790738917118,
+      "endTime": 1790738917121.2598,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/illegal/type-pal-wave-l/packages/editor/src/ui/scene-stage.glm-l.test.tsx"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["TEST-GLM-WAVE-L-1 L03 map asset command gaps"],
+          "fullName": "TEST-GLM-WAVE-L-1 L03 map asset command gaps 首个地图资产登记时补写 manifest 的 maps 目录，undo 恢复原 manifest 引用",
+          "status": "passed",
+          "title": "首个地图资产登记时补写 manifest 的 maps 目录，undo 恢复原 manifest 引用",
+          "duration": 3.0133330000000456,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["TEST-GLM-WAVE-L-1 L03 map asset command gaps"],
+          "fullName": "TEST-GLM-WAVE-L-1 L03 map asset command gaps maps 记录已存在（目录未登记）时创建同样拒绝",
+          "status": "passed",
+          "title": "maps 记录已存在（目录未登记）时创建同样拒绝",
+          "duration": 0.940208000000041,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["TEST-GLM-WAVE-L-1 L03 map asset command gaps"],
+          "fullName": "TEST-GLM-WAVE-L-1 L03 map asset command gaps 复制命令缺源地图零写；未 apply 的 invert 零写",
+          "status": "passed",
+          "title": "复制命令缺源地图零写；未 apply 的 invert 零写",
+          "duration": 0.16291599999999562,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["TEST-GLM-WAVE-L-1 L03 map asset command gaps"],
+          "fullName": "TEST-GLM-WAVE-L-1 L03 map asset command gaps 改名先 trim 再比较：带空白名写入裁剪值，裁剪后同名零写",
+          "status": "passed",
+          "title": "改名先 trim 再比较：带空白名写入裁剪值，裁剪后同名零写",
+          "duration": 0.21958300000000008,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["TEST-GLM-WAVE-L-1 L03 map asset command gaps"],
+          "fullName": "TEST-GLM-WAVE-L-1 L03 map asset command gaps 绑定与删除命令未 apply 的 invert 都是零写",
+          "status": "passed",
+          "title": "绑定与删除命令未 apply 的 invert 都是零写",
+          "duration": 0.2301249999999868,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790738917164,
+      "endTime": 1790738917169.2302,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/illegal/type-pal-wave-l/packages/editor/src/core/map-asset-commands.glm-l.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["TEST-GLM-WAVE-L-1 L03 map edit command guards"],
+          "fullName": "TEST-GLM-WAVE-L-1 L03 map edit command guards 普通画笔在命令层拒绝写入图章归属槽，且失败零写",
+          "status": "passed",
+          "title": "普通画笔在命令层拒绝写入图章归属槽，且失败零写",
+          "duration": 2.3431250000001,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["TEST-GLM-WAVE-L-1 L03 map edit command guards"],
+          "fullName": "TEST-GLM-WAVE-L-1 L03 map edit command guards 碰撞画笔同样被 ownership 门拦截；未 apply 的 invert 是零写早退",
+          "status": "passed",
+          "title": "碰撞画笔同样被 ownership 门拦截；未 apply 的 invert 是零写早退",
+          "duration": 2.064999999999827,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["TEST-GLM-WAVE-L-1 L03 map edit command guards"],
+          "fullName": "TEST-GLM-WAVE-L-1 L03 map edit command guards 画笔未 apply 时 invert 原样返回；状态里缺图也是零写",
+          "status": "passed",
+          "title": "画笔未 apply 时 invert 原样返回；状态里缺图也是零写",
+          "duration": 0.8887919999999667,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["TEST-GLM-WAVE-L-1 L03 map edit command guards"],
+          "fullName": "TEST-GLM-WAVE-L-1 L03 map edit command guards 删除最后一个图层是无操作；resize/patch 命令未 apply 的 invert 零写",
+          "status": "passed",
+          "title": "删除最后一个图层是无操作；resize/patch 命令未 apply 的 invert 零写",
+          "duration": 1.6543330000001788,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["TEST-GLM-WAVE-L-1 L03 map edit command guards"],
+          "fullName": "TEST-GLM-WAVE-L-1 L03 map edit command guards 移动命令对缺失层 apply/invert 双零写；新增层索引越界被夹回",
+          "status": "passed",
+          "title": "移动命令对缺失层 apply/invert 双零写；新增层索引越界被夹回",
+          "duration": 1.807457999999997,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["TEST-GLM-WAVE-L-1 L03 map edit command guards"],
+          "fullName": "TEST-GLM-WAVE-L-1 L03 map edit command guards 更新与改尺寸命令对缺失目标零写",
+          "status": "passed",
+          "title": "更新与改尺寸命令对缺失目标零写",
+          "duration": 0.6436670000000504,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790738916786,
+      "endTime": 1790738916795.8074,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/illegal/type-pal-wave-l/packages/editor/src/core/map-edit-commands.glm-l.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["TEST-GLM-WAVE-L-1 L03 map patch narrow entries & value guards"],
+          "fullName": "TEST-GLM-WAVE-L-1 L03 map patch narrow entries & value guards 组内窄入口对已删除的 placement 报 stamp-placement-missing",
+          "status": "passed",
+          "title": "组内窄入口对已删除的 placement 报 stamp-placement-missing",
+          "duration": 2.8118329999999787,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["TEST-GLM-WAVE-L-1 L03 map patch narrow entries & value guards"],
+          "fullName": "TEST-GLM-WAVE-L-1 L03 map patch narrow entries & value guards 整组窄入口撞他组成员时逐通道报归属冲突；未归属槽位可写",
+          "status": "passed",
+          "title": "整组窄入口撞他组成员时逐通道报归属冲突；未归属槽位可写",
+          "duration": 1.0873750000000655,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["TEST-GLM-WAVE-L-1 L03 map patch narrow entries & value guards"],
+          "fullName": "TEST-GLM-WAVE-L-1 L03 map patch narrow entries & value guards tilesetId 空串与负高度是非法值；碰撞非整数坐标与越界各自拒绝",
+          "status": "passed",
+          "title": "tilesetId 空串与负高度是非法值；碰撞非整数坐标与越界各自拒绝",
+          "duration": 0.8825829999998405,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["TEST-GLM-WAVE-L-1 L03 map patch narrow entries & value guards"],
+          "fullName": "TEST-GLM-WAVE-L-1 L03 map patch narrow entries & value guards 空槽写非空瓦片但缺 tilesetId 通道：missing-source 拒绝",
+          "status": "passed",
+          "title": "空槽写非空瓦片但缺 tilesetId 通道：missing-source 拒绝",
+          "duration": 0.32270900000003166,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790738916777,
+      "endTime": 1790738916782.3228,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/illegal/type-pal-wave-l/packages/editor/src/core/map-patch.glm-l.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["TEST-GLM-WAVE-L-1 L01 map selection gaps"],
+          "fullName": "TEST-GLM-WAVE-L-1 L01 map selection gaps 组内派生与全成员选区对已删除的 placement 都安全回退",
+          "status": "passed",
+          "title": "组内派生与全成员选区对已删除的 placement 都安全回退",
+          "duration": 1.9126249999999345,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["TEST-GLM-WAVE-L-1 L01 map selection gaps"],
+          "fullName": "TEST-GLM-WAVE-L-1 L01 map selection gaps 空 incoming 的 toggle 按 subtract 处理：内容与 hitScope 原样保留",
+          "status": "passed",
+          "title": "空 incoming 的 toggle 按 subtract 处理：内容与 hitScope 原样保留",
+          "duration": 0.41458399999987705,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["TEST-GLM-WAVE-L-1 L01 map selection gaps"],
+          "fullName": "TEST-GLM-WAVE-L-1 L01 map selection gaps clipMapSelection 在无需裁剪时返回原选区身份",
+          "status": "passed",
+          "title": "clipMapSelection 在无需裁剪时返回原选区身份",
+          "duration": 0.2186659999999847,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["TEST-GLM-WAVE-L-1 L01 map selection gaps"],
+          "fullName": "TEST-GLM-WAVE-L-1 L01 map selection gaps bounds 只对 cells 选区存在；非空 reset 返回全新空工作区",
+          "status": "passed",
+          "title": "bounds 只对 cells 选区存在；非空 reset 返回全新空工作区",
+          "duration": 0.2870419999999285,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["TEST-GLM-WAVE-L-1 L01 map selection gaps"],
+          "fullName": "TEST-GLM-WAVE-L-1 L01 map selection gaps 命中候选携带非空实例的真实绘制边界，空槽候选没有 imageBounds",
+          "status": "passed",
+          "title": "命中候选携带非空实例的真实绘制边界，空槽候选没有 imageBounds",
+          "duration": 0.6629590000000007,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790738916759,
+      "endTime": 1790738916762.6628,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/illegal/type-pal-wave-l/packages/editor/src/core/map-selection.glm-l.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["TEST-GLM-WAVE-L-1 L03 map transform gaps"],
+          "fullName": "TEST-GLM-WAVE-L-1 L03 map transform gaps 粘贴撞图章归属槽是 plan 级硬错误，overwrite 也不能绕过",
+          "status": "passed",
+          "title": "粘贴撞图章归属槽是 plan 级硬错误，overwrite 也不能绕过",
+          "duration": 2.3321249999999054,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["TEST-GLM-WAVE-L-1 L03 map transform gaps"],
+          "fullName": "TEST-GLM-WAVE-L-1 L03 map transform gaps 无可搬内容（空槽不含碰撞）的 move 回退为 empty-selection 删除计划",
+          "status": "passed",
+          "title": "无可搬内容（空槽不含碰撞）的 move 回退为 empty-selection 删除计划",
+          "duration": 0.5109580000000733,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["TEST-GLM-WAVE-L-1 L03 map transform gaps"],
+          "fullName": "TEST-GLM-WAVE-L-1 L03 map transform gaps capture 丢弃悬空层与空槽，重复格点只保留一份",
+          "status": "passed",
+          "title": "capture 丢弃悬空层与空槽，重复格点只保留一份",
+          "duration": 0.8276670000000195,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["TEST-GLM-WAVE-L-1 L03 map transform gaps"],
+          "fullName": "TEST-GLM-WAVE-L-1 L03 map transform gaps 无映射的粘贴按来源层身份落笔（identity fallback）",
+          "status": "passed",
+          "title": "无映射的粘贴按来源层身份落笔（identity fallback）",
+          "duration": 0.3183329999999387,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["TEST-GLM-WAVE-L-1 L03 map transform gaps"],
+          "fullName": "TEST-GLM-WAVE-L-1 L03 map transform gaps includeCollision 的 move 撞不同非零碰撞时按通道报冲突，overwrite 可提交",
+          "status": "passed",
+          "title": "includeCollision 的 move 撞不同非零碰撞时按通道报冲突，overwrite 可提交",
+          "duration": 0.5694589999998243,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790738916777,
+      "endTime": 1790738916781.5696,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/illegal/type-pal-wave-l/packages/editor/src/core/map-transform.glm-l.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["TEST-GLM-WAVE-L-1 L02 scene command no-op & guard branches"],
+          "fullName": "TEST-GLM-WAVE-L-1 L02 scene command no-op & guard branches UpdateScene 对缺场景 apply/invert 均零写；重复 apply 只捕获一次旧值",
+          "status": "passed",
+          "title": "UpdateScene 对缺场景 apply/invert 均零写；重复 apply 只捕获一次旧值",
+          "duration": 1.026958000000036,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["TEST-GLM-WAVE-L-1 L02 scene command no-op & guard branches"],
+          "fullName": "TEST-GLM-WAVE-L-1 L02 scene command no-op & guard branches UpsertSceneEntry 拒绝空 id；缺场景 apply/invert 零写",
+          "status": "passed",
+          "title": "UpsertSceneEntry 拒绝空 id；缺场景 apply/invert 零写",
+          "duration": 1.4047919999999863,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["TEST-GLM-WAVE-L-1 L02 scene command no-op & guard branches"],
+          "fullName": "TEST-GLM-WAVE-L-1 L02 scene command no-op & guard branches DeleteSceneEntry 缺场景或缺落点时先于引用索引早退",
+          "status": "passed",
+          "title": "DeleteSceneEntry 缺场景或缺落点时先于引用索引早退",
+          "duration": 0.4308330000000069,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["TEST-GLM-WAVE-L-1 L02 scene command no-op & guard branches"],
+          "fullName": "TEST-GLM-WAVE-L-1 L02 scene command no-op & guard branches AddScene 双重身份门：id 重复与 index/id 不符都在 apply 期抛错",
+          "status": "passed",
+          "title": "AddScene 双重身份门：id 重复与 index/id 不符都在 apply 期抛错",
+          "duration": 0.9554999999999723,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["TEST-GLM-WAVE-L-1 L02 scene command no-op & guard branches"],
+          "fullName": "TEST-GLM-WAVE-L-1 L02 scene command no-op & guard branches DuplicateScene 缺源与目标 id 冲突都在 apply 期抛错",
+          "status": "passed",
+          "title": "DuplicateScene 缺源与目标 id 冲突都在 apply 期抛错",
+          "duration": 0.24933400000003303,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["TEST-GLM-WAVE-L-1 L02 scene command no-op & guard branches"],
+          "fullName": "TEST-GLM-WAVE-L-1 L02 scene command no-op & guard branches UpdateSceneName 三个守卫：缺场景抛错、空白名抛错、同名零写",
+          "status": "passed",
+          "title": "UpdateSceneName 三个守卫：缺场景抛错、空白名抛错、同名零写",
+          "duration": 0.26087499999999864,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["TEST-GLM-WAVE-L-1 L02 scene command no-op & guard branches"],
+          "fullName": "TEST-GLM-WAVE-L-1 L02 scene command no-op & guard branches DeleteScene 守卫：缺正文、缺登记与未 apply 的 invert 都显式失败",
+          "status": "passed",
+          "title": "DeleteScene 守卫：缺正文、缺登记与未 apply 的 invert 都显式失败",
+          "duration": 0.4084169999999858,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790738917164,
+      "endTime": 1790738917169.4084,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/illegal/type-pal-wave-l/packages/editor/src/core/scene-commands.glm-l.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["TEST-GLM-WAVE-L-1 L05 stamp draft sources & heights lifecycle"],
+          "fullName": "TEST-GLM-WAVE-L-1 L05 stamp draft sources & heights lifecycle 后画字母序更小的瓦片集时，既有 cells 的来源索引被整体重映射",
+          "status": "passed",
+          "title": "后画字母序更小的瓦片集时，既有 cells 的来源索引被整体重映射",
+          "duration": 1.7379169999999817,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["TEST-GLM-WAVE-L-1 L05 stamp draft sources & heights lifecycle"],
+          "fullName": "TEST-GLM-WAVE-L-1 L05 stamp draft sources & heights lifecycle 高度键随内容生灭：全零后整键移除，非零时保留",
+          "status": "passed",
+          "title": "高度键随内容生灭：全零后整键移除，非零时保留",
+          "duration": 0.4571669999999699,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["TEST-GLM-WAVE-L-1 L05 stamp draft sources & heights lifecycle"],
+          "fullName": "TEST-GLM-WAVE-L-1 L05 stamp draft sources & heights lifecycle 零高度落笔不引入 heights 键",
+          "status": "passed",
+          "title": "零高度落笔不引入 heights 键",
+          "duration": 0.09904099999999971,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["TEST-GLM-WAVE-L-1 L05 stamp draft sources & heights lifecycle"],
+          "fullName": "TEST-GLM-WAVE-L-1 L05 stamp draft sources & heights lifecycle 碰撞擦除幂等：已空格返回同一引用",
+          "status": "passed",
+          "title": "碰撞擦除幂等：已空格返回同一引用",
+          "duration": 0.08195800000004283,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790738917106,
+      "endTime": 1790738917108.4573,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/illegal/type-pal-wave-l/packages/editor/src/core/stamp-draft.glm-l.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["TEST-GLM-WAVE-L-1 L06 stamp group command guards"],
+          "fullName": "TEST-GLM-WAVE-L-1 L06 stamp group command guards 解组空选区与含未知 id 的选区都在构造期精确拒绝",
+          "status": "passed",
+          "title": "解组空选区与含未知 id 的选区都在构造期精确拒绝",
+          "duration": 4.98804199999995,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["TEST-GLM-WAVE-L-1 L06 stamp group command guards"],
+          "fullName": "TEST-GLM-WAVE-L-1 L06 stamp group command guards EditStampPlacementCommand.apply 对缺图与过期地图零写并显式失败",
+          "status": "passed",
+          "title": "EditStampPlacementCommand.apply 对缺图与过期地图零写并显式失败",
+          "duration": 1.994374999999991,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["TEST-GLM-WAVE-L-1 L06 stamp group command guards"],
+          "fullName": "TEST-GLM-WAVE-L-1 L06 stamp group command guards no-op 组内编辑的 apply 与 invert 都是零写早退",
+          "status": "passed",
+          "title": "no-op 组内编辑的 apply 与 invert 都是零写早退",
+          "duration": 0.36875000000009095,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["TEST-GLM-WAVE-L-1 L06 stamp group command guards"],
+          "fullName": "TEST-GLM-WAVE-L-1 L06 stamp group command guards 解组 invert 在地图缺失时抛错；label 走单/复数分支",
+          "status": "passed",
+          "title": "解组 invert 在地图缺失时抛错；label 走单/复数分支",
+          "duration": 0.5709159999998974,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["TEST-GLM-WAVE-L-1 L06 stamp group command guards"],
+          "fullName": "TEST-GLM-WAVE-L-1 L06 stamp group command guards reject 组合移动计划直接构造 Command 时以冲突数回退文案",
+          "status": "passed",
+          "title": "reject 组合移动计划直接构造 Command 时以冲突数回退文案",
+          "duration": 1.3699169999999867,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["TEST-GLM-WAVE-L-1 L06 stamp group command guards"],
+          "fullName": "TEST-GLM-WAVE-L-1 L06 stamp group command guards 组内编辑构造器：未知组、未知活动层与非成员输入都精确拒绝",
+          "status": "passed",
+          "title": "组内编辑构造器：未知组、未知活动层与非成员输入都精确拒绝",
+          "duration": 0.5070409999998446,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["TEST-GLM-WAVE-L-1 L06 stamp group command guards"],
+          "fullName": "TEST-GLM-WAVE-L-1 L06 stamp group command guards 解组 apply 对缺图与过期地图零写并显式失败",
+          "status": "passed",
+          "title": "解组 apply 对缺图与过期地图零写并显式失败",
+          "duration": 0.3982499999999618,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["TEST-GLM-WAVE-L-1 L06 stamp group command guards"],
+          "fullName": "TEST-GLM-WAVE-L-1 L06 stamp group command guards 整组变换 apply/invert 对缺图与过期地图都显式失败",
+          "status": "passed",
+          "title": "整组变换 apply/invert 对缺图与过期地图都显式失败",
+          "duration": 1.2635830000001533,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790738916795,
+      "endTime": 1790738916806.2637,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/illegal/type-pal-wave-l/packages/editor/src/core/stamp-group-command.glm-l.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["TEST-GLM-WAVE-L-1 L06 stamp group transform plans"],
+          "fullName": "TEST-GLM-WAVE-L-1 L06 stamp group transform plans preserve 身份粘贴撞上仍存活的原始 id：整笔拒绝且 patch 双通道为空",
+          "status": "passed",
+          "title": "preserve 身份粘贴撞上仍存活的原始 id：整笔拒绝且 patch 双通道为空",
+          "duration": 3.6787500000000364,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["TEST-GLM-WAVE-L-1 L06 stamp group transform plans"],
+          "fullName": "TEST-GLM-WAVE-L-1 L06 stamp group transform plans move 快照与当前组选区不一致时 fail-loud 且零写",
+          "status": "passed",
+          "title": "move 快照与当前组选区不一致时 fail-loud 且零写",
+          "duration": 0.47554200000013225,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["TEST-GLM-WAVE-L-1 L06 stamp group transform plans"],
+          "fullName": "TEST-GLM-WAVE-L-1 L06 stamp group transform plans 组合粘贴目标层缺失：layer-missing 整笔失败，不产出 preparedPatch",
+          "status": "passed",
+          "title": "组合粘贴目标层缺失：layer-missing 整笔失败，不产出 preparedPatch",
+          "duration": 0.45479199999999764,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["TEST-GLM-WAVE-L-1 L06 stamp group transform plans"],
+          "fullName": "TEST-GLM-WAVE-L-1 L06 stamp group transform plans 未知 placementIds 的 move 走空快照回退计划并精确报缺失",
+          "status": "passed",
+          "title": "未知 placementIds 的 move 走空快照回退计划并精确报缺失",
+          "duration": 0.27758300000004965,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["TEST-GLM-WAVE-L-1 L06 stamp group transform plans"],
+          "fullName": "TEST-GLM-WAVE-L-1 L06 stamp group transform plans 可提交 move/delete 计划的 nextSelection 与 placementSelection 形状",
+          "status": "passed",
+          "title": "可提交 move/delete 计划的 nextSelection 与 placementSelection 形状",
+          "duration": 1.187208000000055,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790738916778,
+      "endTime": 1790738916784.1873,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/illegal/type-pal-wave-l/packages/editor/src/core/stamp-group-transform.glm-l.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["TEST-GLM-WAVE-L-1 L06 stamp ownership guards"],
+          "fullName": "TEST-GLM-WAVE-L-1 L06 stamp ownership guards 组内 fill 对未知组、未知层与出界起点都返回空编辑",
+          "status": "passed",
+          "title": "组内 fill 对未知组、未知层与出界起点都返回空编辑",
+          "duration": 2.0505829999999605,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["TEST-GLM-WAVE-L-1 L06 stamp ownership guards"],
+          "fullName": "TEST-GLM-WAVE-L-1 L06 stamp ownership guards 差分登记对同一 afterMap 幂等返回同一索引",
+          "status": "passed",
+          "title": "差分登记对同一 afterMap 幂等返回同一索引",
+          "duration": 0.44845900000001393,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["TEST-GLM-WAVE-L-1 L06 stamp ownership guards"],
+          "fullName": "TEST-GLM-WAVE-L-1 L06 stamp ownership guards 移除登记里的未知 id 被安全跳过，不改变既有归属",
+          "status": "passed",
+          "title": "移除登记里的未知 id 被安全跳过，不改变既有归属",
+          "duration": 0.46458300000000463,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790738917091,
+      "endTime": 1790738917094.4646,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/illegal/type-pal-wave-l/packages/editor/src/core/stamp-ownership.glm-l.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["TEST-GLM-WAVE-L-1 L06 stamp placement planning gaps"],
+          "fullName": "TEST-GLM-WAVE-L-1 L06 stamp placement planning gaps 两个模板图层映射到同一目标层且同格落笔：ambiguous-destination 整笔拒绝",
+          "status": "passed",
+          "title": "两个模板图层映射到同一目标层且同格落笔：ambiguous-destination 整笔拒绝",
+          "duration": 2.7422090000000026,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["TEST-GLM-WAVE-L-1 L06 stamp placement planning gaps"],
+          "fullName": "TEST-GLM-WAVE-L-1 L06 stamp placement planning gaps 模板瓦片缺来源实例：patch-invalid 指名实例且整笔不可提交",
+          "status": "passed",
+          "title": "模板瓦片缺来源实例：patch-invalid 指名实例且整笔不可提交",
+          "duration": 0.6574590000000171,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790738916778,
+      "endTime": 1790738916780.7422,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/illegal/type-pal-wave-l/packages/editor/src/core/stamp-placement.glm-l.test.ts"
+    }
+  ]
+}

@@ -51,9 +51,30 @@ Esc 清空选区后，底部状态条仍滞留上一条通知「已选择 1 个�
 - 结论：源帧切换的四处回显（工具条计数、预览图、页码、缩略图选中态）全部同步，
   与 L04 面合同一致。首张「帧 #2」截图因合成器时序滞后被重拍（见 05），作废帧未纳入证据。
 
+## Console 证据（2026-09-30 返工补采，Codex 审核第 4 条）
+
+采集方式：IAB `evaluate` 在页面内包装 `console.error` / `console.warn` 并监听
+`window.error` / `unhandledrejection`，收集进 `window.__waveLConsole`；覆盖「装 hook
+之后的全部操作窗口」，同时核查 `vite-error-overlay` 不存在。IAB 无 console 历史
+API，**装 hook 之前的初始加载期无法回溯，该段如实标未证**，不伪称全程归零。
+
+流程二（精灵页，`?module=asset&page=sprite&object=li-xiaoyao&domain=world&view=definition`）：
+
+- hook 就绪后执行「下一帧」×2；操作窗口结束读回：
+  `consoleEntries: 0`（error/warn/window.error/unhandledrejection 全零）、
+  `errorOverlay: false`、伴随验证当前帧 `帧 #2`、status「已选择源帧 2，共 12 帧」。
+
+流程一（地图页，`?module=map&subpage=workspace&object=map-004`）：
+
+- hook 就绪后执行「⛶ 选择」工具点击 → 画布 CUA 单击 → Esc；操作窗口结束读回：
+  `consoleEntries: 0`、`errorOverlay: false`、伴随验证 Esc 后选区 Inspector 已卸载
+  （页面内不再存在「地图内容选区」标题）。
+
+两条流程的**操作窗口 console 记录为零条 error/warn/未捕获异常**；初始加载期未证。
+
 ## 未证项
 
-- 未验证：印章绘制/放置画布回显、地图笔刷实际写格后的 undo（避免污染共享开发基线工作副本；
+- 初始加载期（页面导航到 hook 注入之间）的 console 输出无法回溯采集（IAB 无历史
+  API），此段未证；已有证据仅覆盖上述操作窗口。
+- 印章绘制/放置画布回显、地图笔刷实际写格后的 undo（避免污染共享开发基线工作副本；
   本轮视觉均为无写盘只读操作，未触发保存）。
-- console 逐条文本未采集（IAB 未暴露 console 历史）；以「无 vite-error-overlay、
-  无错误浮层、交互全部生效」为环境健康证据。
