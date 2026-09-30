@@ -19,7 +19,7 @@
       "id": "O",
       "packages": ["migrate", "content", "shared"],
       "targetNewCases": 700,
-      "minimumCounters": 40,
+      "minimumCounters": 50,
       "workGroups": 60,
       "sources": [
         {
@@ -1813,7 +1813,7 @@
       "id": "P",
       "packages": ["editor"],
       "targetNewCases": 700,
-      "minimumCounters": 40,
+      "minimumCounters": 50,
       "workGroups": 70,
       "sources": [
         {
@@ -6718,7 +6718,7 @@
       "id": "Q",
       "packages": ["reforge", "game", "pal-extract"],
       "targetNewCases": 700,
-      "minimumCounters": 40,
+      "minimumCounters": 50,
       "workGroups": 50,
       "sources": [
         {

@@ -11,12 +11,13 @@
 
 | 卡 | 包独占 | 冻结源池 | 工作组 | 新用例目标 | 有效反控 |
 |---|---|---:|---:|---:|---:|
-| [O](../../ops/tasks/TEST-GLM-WAVE-O-1-supply-validation-tenfold.md) | migrate/content/shared | 105 | 60 | 700 | 40 |
-| [P](../../ops/tasks/TEST-GLM-WAVE-P-1-editor-residual-tenfold.md) | editor | 288 | 70 | 700 | 40 |
-| [Q](../../ops/tasks/TEST-GLM-WAVE-Q-1-runtime-residual-tenfold.md) | reforge/game/pal-extract | 323 | 50 | 700 | 40 |
+| [O](../../ops/tasks/TEST-GLM-WAVE-O-1-supply-validation-tenfold.md) | migrate/content/shared | 105 | 60 | 700 | 50 |
+| [P](../../ops/tasks/TEST-GLM-WAVE-P-1-editor-residual-tenfold.md) | editor | 288 | 70 | 700 | 50 |
+| [Q](../../ops/tasks/TEST-GLM-WAVE-Q-1-runtime-residual-tenfold.md) | reforge/game/pal-extract | 323 | 50 | 700 | 50 |
 
 上一轮 L/M/N 为 67/31/53 例；700 分别约 10.4/22.6/13.2 倍。总目标 2100 个
-**合法未重复的合同用例**，不是 2100 行代码、参数行或断言。40 枚反控为旧门 4 枚的十倍。
+**合法未重复的合同用例**，不是2100行代码、参数行或断言。旧L/M/N有效反控5/4/4枚，
+本轮统一50枚，分别至少10/12.5/12.5倍。
 每卡按十个连续里程碑推进，不逐小组回来等待用户。独立会话可同时工作，包目录不抢写。
 
 [冻结清单](targets.json)列716个生产源的 SHA256、同轮逐文件缺口；O/P/Q 的
@@ -67,8 +68,8 @@
 
 ## 十个里程碑的证据与门禁
 
-- 首批先核旧测与可达性，不大批制造未经验证fixture。每批约70例目标；每批至少4枚
-  不同合同的代表反控，共40枚不同目标，不重用同一断言凑反控数。连续推进十批；
+- 首批先核旧测与可达性，不大批制造未经验证fixture。每批约70例目标；每批至少5枚
+  不同合同的代表反控，共50枚不同目标，不重用同一断言凑反控数。连续推进十批；
   批间跑定向/相邻及本包 typecheck，末批全包。
 - 反控只在mkdtemp复制树打补丁，不临时改候选/主树产品源。使用合法单轴输入；
   正控、变异、恢复各有完整定向 Vitest JSON/raw输出、exitCode、
@@ -77,7 +78,7 @@
   最后格式化后重核hash；不能拿中途JSON和摘要布尔值冒充最终证据。
 - `contracts.json`逐合同含 batch/id/source/caller/oldAssertion/axis/oracle/classification；
   `directed-vitest.json`以最终代码实跑含全部file/fullName/status，数量从树生成。
-  `counters.json`索引40枚原始正反控与hash；`coverage-delta.json`同源/同分母before/after。
+  `counters.json`索引50枚原始正反控与hash；`coverage-delta.json`同源/同分母before/after。
   只跑私有隔离覆盖，不写官方baseline；若分母不同明确不可比，不相加孤立百分比。
 - `README.md`给准确当前候选与累计数量、未证项/缺陷；阶段日志保留历史计数并明确历史。
   `receipt.json`列 dispatchBase/HEAD/productionFreeze/源hash/命令结果。浏览器证据须实际操作、
@@ -94,10 +95,13 @@
 
 本轮仅新增任务、冻结清单与只读复核工具，不修改产品/旧测试/官方baseline。
 源核验716/716，三Owner源交集为0；写入判据自测30/30，docs工具37/37。
-首轮格式预检在新targets/verifier有2项诊断，经正常格式化后根lint完整2745文件
-0 error/0 warning/0 info；docs 814 Markdown/4276本地链接/245任务，零问题。
+首轮格式预检在新targets/verifier有2项诊断，反控统一50枚时verifier另有1项格式诊断，
+均经正常格式化修正。最终根lint完整2745文件0 error/0 warning/0 info；
+docs 814 Markdown/4276本地链接/245任务，零问题。
 本轮派发不重跑或冒称通过全仓ratchet；L/M/N统一门证据仍以上方链接为准。
 GLM开工/交付均须再次运行冻结与白名单复核，派发后生产漂移不能拿旧数值替代。
+派发基点须使用本轮最后一次Codex `targets.json`登记提交；不能用后来的候选HEAD
+替代基点绕过白名单。最终转发提示词钉完整40位SHA。
 
 ## 三个会话
 

@@ -106,6 +106,6 @@ protected strict-fast 未执行，正式结算仍未生效，不能宣称 85% �
 ### 用户十倍新包续派（2026-09-30）
 
 用户询问比率变化并要求再开三张每卡至少十倍的测试卡；Codex据当前统计
-建立[O/P/Q隔离包](../glm-tenfold-triple/README.md)，每卡700合法新例/40枚不同合同反控。
+建立[O/P/Q隔离包](../glm-tenfold-triple/README.md)，每卡700合法新例/50枚不同合同反控。
 O优先补当前migrate门，P/Q独占其它包；不改变上面的三卡review状态、历史测量或
 官方baseline。三个新Owner从含L/M/N的同一派发提交分叉，完成后独立复核和正式并集结算。

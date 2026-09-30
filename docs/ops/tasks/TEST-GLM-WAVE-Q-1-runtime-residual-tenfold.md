@@ -10,7 +10,7 @@ Branch: `codex/glm-wave-q-runtime-residual-r1`（新独立worktree）
 
 ## 目标、冻结与停线
 
-目标 **700合法未重复用例、50合同工作组、40有效反控、10条实际非剧情功能流程**。
+目标 **700合法未重复用例、50合同工作组、50有效反控、10条实际非剧情功能流程**。
 [共同协议](../../testing/glm-tenfold-triple/README.md)及
 [冻结表](../../testing/glm-tenfold-triple/targets.json)为准：Reforge149+game136+pal-extract38=
 323源/SHA256，6136未命中臂仅是池。冻结 `3ac9a2e2f6aba8a5cc97640c18fef8549d199380`。
@@ -54,7 +54,7 @@ GLM对机制新真值无决策权；需要新增原版公式/opcode/碰撞解释
 | Q10 | pal-extract当前解码/recompile/slice/CLI小输入、确定性/故障/资源释放；整账门禁 |
 
 每域五轴：正常有限流程；边界守卫；失败恢复；乱序/取消/资源归属；最终状态/重放不变。
-非异步函数没有取消轴就记N/A，不假造能力。每批约70例/至少4有效反控，十批连续推进。
+非异步函数没有取消轴就记N/A，不假造能力。每批约70例/至少5有效反控，十批连续推进。
 十条浏览器流程严格非剧情：菜单选中/取消、空档返回、合法小trial配置失败恢复/退出资源、
 媒体autoplay/取消等公开功能；真实相位差分与前后截图hash/console，不能挂__rfWorld跳开局。
 
@@ -65,7 +65,7 @@ GLM对机制新真值无决策权；需要新增原版公式/opcode/碰撞解释
 共享配置/依赖/官方baseline/原版资产/PAL工程/存档/E2E文档/任务卡只读。
 所有CLI/extract只用mkdtemp小输入，不写根data/raw/extracted或运行主工程生成。
 
-按共同协议交700最终fullName JSON、逐合同排重、40枚原变恢复完整反控/业务AssertionError/
+按共同协议交700最终fullName JSON、逐合同排重、50枚原变恢复完整反控/业务AssertionError/
 执行数/三态hash/patch、十条实际非剧情浏览器证据、同源同分母私有覆盖、receipt/未证/缺陷。
 三个Owner包末批串行test/typecheck、根lint完整0/0/0、docs、区间diff、verifier；
 官方ratchet/protected fast与main集成仅Codex。若无真实2D/资产宿主，诚实blocked，
@@ -83,7 +83,7 @@ GLM对机制新真值无决策权；需要新增原版公式/opcode/碰撞解释
 ```text
 你是 TEST-GLM-WAVE-Q-1 唯一测试Owner。从本轮派发40位SHA新建 codex/glm-wave-q-runtime-residual-r1 与独立worktree。
 先读AGENTS、CLAUDE、READ-FIRST、本卡、相关mechanics/engineering/harvest、GLM自检、glm-tenfold-triple协议/targets和N及旧断言，跑verifier。
-连续十批Q01–Q10：700合法未重复合同/50组/40有效反控/10条真实非剧情菜单或有限trial功能流程。
+连续十批Q01–Q10：700合法未重复合同/50组/50有效反控/10条真实非剧情菜单或有限trial功能流程。
 Reforge与game/pal-extract阶段分开；新原版机制/移动碰撞真值先停线交primary证据，不固化产品bug或启动PAL001/002。
 仅本卡Q新测试/专属fixture/证据可写，交最终fullName JSON、排重账、原变恢复日志/hash/patch、浏览器相位/截图/console和私有同分母覆盖。
 三个Owner包串行全包test/typecheck、根lint0/0/0、docs/diff/verifier后推送完整候选SHA；产品/旧测/配置/baseline/O/P/真实工程/E2E只读，不合main、不标done。

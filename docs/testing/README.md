@@ -8,7 +8,7 @@
 
 ## 文档与附件
 
-- [GLM 十倍三条独立大包 O–Q](glm-tenfold-triple/README.md)（2026-09-30；每卡700合法新例/40反控，716源按包独占；O优先补migrate门，正式收益待并集实测）。
+- [GLM 十倍三条独立大包 O–Q](glm-tenfold-triple/README.md)（2026-09-30；每卡700合法新例/50反控，716源按包独占；O优先补migrate门，正式收益待并集实测）。
 - [GLM 三条独立大包 L–N](glm-next-triple/README.md)（2026-09-30 代码accept；18组/62源与A–K零交集；全仓ratchet阻塞，尚未done/正式结算）。
 - [GLM Wave K 一阶段事件系统六组当前脚本合同](glm-event-wave-k/README.md)（Codex 独立接收并 done；正式基线净增 55 分支，全仓 78.21%，85% 未达）。
 - [2026-09-29 GLM A–J 并集集成与覆盖率回执](glm-wave-union-20260929.md)（全仓 check、官方 ratchet/受保护 fast 通过；分支 78.12%，距 85% 仍差 4,360 臂）。

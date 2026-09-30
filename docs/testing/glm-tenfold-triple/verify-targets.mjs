@@ -55,7 +55,7 @@ function verifySources(targets, failures) {
     waves.add(wave.id)
     if (JSON.stringify(wave.packages) !== JSON.stringify(ownerPackages[wave.id]))
       failures.push(`package ownership mismatch: ${wave.id}`)
-    if (wave.targetNewCases !== 700 || wave.minimumCounters !== 40)
+    if (wave.targetNewCases !== 700 || wave.minimumCounters !== 50)
       failures.push(`workload target mismatch: ${wave.id}`)
     let missingBranches = 0
     for (const source of wave.sources) {
@@ -113,18 +113,16 @@ function verifyScope(wave, base, targets, failures) {
     throw new Error('--wave requires O/P/Q and --base requires a full 40-character dispatch SHA')
   git(['merge-base', '--is-ancestor', targets.productionFreeze, base])
   git(['merge-base', '--is-ancestor', base, 'HEAD'])
-  const dispatches = git([
+  const dispatch = git([
     'log',
+    '-1',
     '--format=%H',
-    '--diff-filter=A',
     base,
     '--',
-    `${campaignPath}/README.md`,
-  ])
-    .trim()
-    .split('\n')
-  if (dispatches.length !== 1 || dispatches[0] !== base)
-    throw new Error('--base must be the campaign creation commit, not a later candidate')
+    `${campaignPath}/targets.json`,
+  ]).trim()
+  if (dispatch !== base)
+    throw new Error('--base must be the campaign target registration commit, not a later candidate')
   const changes = []
   const tracked = git(['diff', '--name-status', '--no-renames', '-z', base, '--']).split('\0')
   for (let index = 0; index + 1 < tracked.length; index += 2)

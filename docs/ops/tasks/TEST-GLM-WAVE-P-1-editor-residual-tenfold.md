@@ -10,7 +10,7 @@ Branch: `codex/glm-wave-p-editor-residual-r1`（新独立worktree）
 
 ## 目标与冻结
 
-本卡目标 **700合法未重复用例、70合同工作组、40有效反控、20条实际功能流程**。
+本卡目标 **700合法未重复用例、70合同工作组、50有效反控、20条实际功能流程**。
 [共同协议](../../testing/glm-tenfold-triple/README.md)为硬验收，
 [冻结表](../../testing/glm-tenfold-triple/targets.json)给Editor288源/SHA256/5426未命中臂池。
 冻结 `3ac9a2e2f6aba8a5cc97640c18fef8549d199380`；派发含L/M，必须读其67/31例及
@@ -50,7 +50,7 @@ Branch: `codex/glm-wave-p-editor-residual-r1`（新独立worktree）
 
 每域七轴：创建；编辑/替换；删除/引用阻断；undo/redo；取消/失败恢复；边界键盘/焦点；
 迟到与资源归属。没有该轴就登记N/A，不能虚构生命周期接口。
-每批约70用例/至少4反控，十批连续做。20条浏览器流程在自有小工程，真实操作前后
+每批约70用例/至少5反控，十批连续做。20条浏览器流程在自有小工程，真实操作前后
 各有可见证据、截图hash、console分类；含宽/窄窗、键盘、错误恢复与undo，不追求凑截图。
 不能接管Codex当前窗口、E2E002、真实PAL项目或存档；不走剧情。
 
@@ -61,7 +61,7 @@ Branch: `codex/glm-wave-p-editor-residual-r1`（新独立worktree）
 O/Q包、共享导航/任务卡/看板只读。外部fetch/Canvas/目录边界可typed替身；业务核心不可mock。
 真实2D可用时保留其行为；不以透明像素skip断言冒充像素路径。保存tests只用临时工程。
 
-共同协议的contracts去重账、700最终fullName/status、40枚三态反控证据、实际浏览器20流程、
+共同协议的contracts去重账、700最终fullName/status、50枚三态反控证据、实际浏览器20流程、
 同源同分母私有coverage、receipt/未证/缺陷必须准确一致。最后格式化后重核所有源/反控hash。
 末批串行Editor全包test/typecheck、根lint完整0/0/0、docs、区间diff、verifier；
 GLM不跑正式ratchet、不合main、不标done，Codex独立核并集后收口。
@@ -79,7 +79,7 @@ GLM不跑正式ratchet、不合main、不标done，Codex独立核并集后收口
 ```text
 你是 TEST-GLM-WAVE-P-1 唯一测试Owner。先读AGENTS、READ-FIRST、本卡、GLM自检、glm-tenfold-triple协议/targets及L/M旧断言。
 从本轮已推送派发40位SHA新建 codex/glm-wave-p-editor-residual-r1 与独立worktree，运行verify-targets。
-连续十批P01–P10：700合法未重复合同/70组/40有效反控/20条自有小工程真实功能流程。不得mock业务核心或私有state凑数。
+连续十批P01–P10：700合法未重复合同/70组/50有效反控/20条自有小工程真实功能流程。不得mock业务核心或私有state凑数。
 仅本卡Editor新测试、专属glm-p fixture和wave-P证据可写，交最终fullName JSON/去重账/反控三态日志hash/截图与console/私有同分母覆盖。
 串行Editor全包test/typecheck、根lint0/0/0、docs/diff/verifier后推送完整候选SHA；不合main、不标done。
 产品/旧测/配置/官方baseline/O/Q/共享文档及E2E002/真实项目只读。深链#0、Esc通知不夹修复；缺合法缺口或真缺陷交证据停该组。

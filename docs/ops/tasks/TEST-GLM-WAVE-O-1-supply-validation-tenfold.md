@@ -11,7 +11,7 @@ Branch: `codex/glm-wave-o-supply-validation-r1`（新独立worktree）
 ## 目标、冻结与排重
 
 用户2026-09-30要求三张至少十倍规模的独立卡。O目标 **700合法未重复用例、60合同
-工作组、40有效反控**；十里程碑连续做，先解migrate比率门，再做内容/共享守卫残余。
+工作组、50有效反控**；十里程碑连续做，先解migrate比率门，再做内容/共享守卫残余。
 [共同协议](../../testing/glm-tenfold-triple/README.md)为本卡硬验收条件，
 [冻结表](../../testing/glm-tenfold-triple/targets.json)给105个源、SHA256与825候选未命中臂。
 生产冻结 `3ac9a2e2f6aba8a5cc97640c18fef8549d199380`，派发树已有L/M/N，禁止重造旧断言。
@@ -50,7 +50,7 @@ before→after仅测试证据增强，产品/格式/发布行为保持冻结；�
 
 每域六轴：正常输入/结果；边界拒绝与精确诊断；字段维护权/引用不丢；失败资源释放；
 重放幂等与输入不变；caller组合/先后顺序。没有相应异步/释放合同就记N/A，不造假能力。
-每批约70用例目标与至少4枚有效反控。O01先交可复核门缺口证据，但不等待用户才继续后九批。
+每批约70用例目标与至少5枚有效反控。O01先交可复核门缺口证据，但不等待用户才继续后九批。
 旧比率同分母下至少需142 statements、5 branches、156 lines；不是官方放行承诺。
 
 ## 写入、证据与验收
@@ -60,7 +60,7 @@ before→after仅测试证据增强，产品/格式/发布行为保持冻结；�
 脚本源测试置src，用公开入口/独立临时cwd；不跑主项目migrate CLI（含dry-run）。
 P/Q包、旧测试、产品、配置、锁、真实PAL/存档、官方baseline、共享导航/任务卡/看板只读。
 
-按共同协议交十批contracts账、最终定向JSON全fullName/status、40枚正/变/恢复完整日志/
+按共同协议交十批contracts账、最终定向JSON全fullName/status、50枚正/变/恢复完整日志/
 执行数/退出码/业务AssertionError/三态hash/可重建patch、同源同分母覆盖对照、准确receipt。
 末批串行三个Owner包全量test/typecheck、根lint完整0/0/0、docs、区间diff、verifier。
 合法坏数据只进入公开unknown/IO校验拒绝合同，不强作合法运行时值。
@@ -80,7 +80,7 @@ P/Q包、旧测试、产品、配置、锁、真实PAL/存档、官方baseline�
 你是 TEST-GLM-WAVE-O-1 唯一测试Owner。任务卡 docs/ops/tasks/TEST-GLM-WAVE-O-1-supply-validation-tenfold.md，当前build allowed仅新测试。
 从本轮已推送派发提交（转发消息给40位SHA）新建 codex/glm-wave-o-supply-validation-r1 与独立worktree；基点包含L/M/N。
 先读AGENTS、READ-FIRST、退役卡r6、GLM自检、glm-tenfold-triple共同协议/targets/本卡，跑verify-targets。
-连续十批做O01–O10，700合法未重复合同/60组/40有效反控；先补当前migrate比率门，禁止恢复旧translator。
+连续十批做O01–O10，700合法未重复合同/60组/50有效反控；先补当前migrate比率门，禁止恢复旧translator。
 仅写本卡O白名单，公开真实入口+typed临时工程；按协议交最终JSON、逐合同去重、正变恢复日志/hash/patch与同分母私有覆盖。
 串行migrate/content/shared全包test/typecheck、根lint0/0/0、docs/diff/verifier，提交推送完整候选SHA。
 产品/旧测/配置/官方baseline/真实项目/P/Q/共享文档只读；不合main、不标done。缺合法新合同或真缺陷时交证据停该组，不凑数。
