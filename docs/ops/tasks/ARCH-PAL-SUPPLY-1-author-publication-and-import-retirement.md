@@ -1,6 +1,6 @@
 # ARCH-PAL-SUPPLY-1 — 作者发布与PAL导入职责拆分、脚本转换退役
 
-Status: build
+Status: review
 Phase: phase2
 Capability: A7（现有内容供应链治理，不新增能力格）
 Coding Owner: pal_resource_supply（r5第二批隔离实现；Codex独立验收）
@@ -467,6 +467,57 @@ Codex：premise verified / design agree / **r6 build allowed**。同一Owner `pa
   或兼容输入；保留其原始字节，删除审计代码不重写历史测量。
   Root另更新README/发布指南及READ-FIRST铁律10的字段归属说明：已有作者正文不再要求同步
   退役规则，明确源分区的已证上游缺陷仍必须修源。这是用户裁决的文档接线，不扩schema/UI。
+
+### r6冻结候选与独立复核（2026-09-30）
+
+Owner交回`903f833da`（父`63aafb81`），隔离树干净；141 diff条目含3自动rename，按no-renames
+为144物理路径：39改/97删/8新。97删为24旧核+1命令+7fixture+65旧测试文件，其中65包括
+59纯旧（58转换+1毒）和6已迁有效case的mixed文件。不修改PAL工程/current baseline、历史
+script-control-flow证明、官方覆盖基线、第一阶段/编辑器/运行时或GLM L/M/N源。
+
+实际测试库存从r5的136文件1031项到77文件450项：纯58转换退休490（首次报492为抄数错误，
+translate-event-motion 7误抄9，实际collection纠正）、毒退休9、mixed退休85、新增退役负门3，
+即`1031−490−9−85＋3=450`。保留/迁移447，不把减少584项说成覆盖率或质量提高。
+
+| mixed文件 | 保留/迁移case | 退休case |
+|---|---|---|
+| migrate-records.pure（8） | role4 | 4 |
+| migrate-content（59） | role4、craft/resource7 | 48 |
+| migrate-content.glm（5） | registry id1 | 4 |
+| migrate-item-use.pure（20） | 窄message3 | 17 |
+| pal-migration声音（2） | sound2 | 0 |
+| pal-migration-io（5） | narrow guards5 | 0 |
+| world registry（12） | 当前静态布局11 | 1 |
+| battle sprites（8） | 当前player id1 | 7 |
+| source facts（3） | sceneSlug1 | 2 |
+| authored overlays（9） | 当前item/messages7 | 2 |
+
+Owner完整migrate check 77文件450项通过（282.96秒），typecheck零诊断；47变更live文件
+Biome零诊断、diff-check为空。原始过程：首轮目标9文件出现1 suite漏it/test、2 case失败
+（541 overlay label、错误假设raw map mismatch为0）；次轮PAL5文件1 case误比全部8个baseline
+角色与源6角色。修正测试事实后重跑，未改production/断言宽度/timeout；首静态39error+2info
+机械格式/导入与模板信息清零，不增ignore/强转或降低规则。原始失败计数不追溯删除。
+后续该合同单例还曾因原子地图仅hash/default-grid序列化、作者NPC绑定不等于raw sprite的
+观察域混淆失败，均改为各自准确域后通过；这些局部重跑失败保留，不与全包450通过混报。
+
+Codex逐项核通用baseline/merge/plan/project-io/current仅迁type，CLI的r5两处接线之外无
+算法变化；读取新pure types、registry收窄和混合测试。冻结候选独立原生Node禁全核后再次与
+实现前d3df4bbb旧oracle对照：原始与作者fixture各537文件全等、223地图/294场景/1934资产
+及六角色/两effect全等，输入不变，8坏回调/消息/地图/alias反控全失败。不是新旧两个修改中
+实现互相作oracle。源码实际旧runtime/type消费者检索零；物理absence/API/源码specifier负门
+与Node故意禁载counter保留，不把正则源码扫描冒称完整AST证明。
+
+独立只读pal_supply_boundary对`63aafb81..903f833da`签源码accept：实际TS AST扫描771个
+生产/root文件、3575条静态/字面量dynamic边（含type/re-export/side-effect），退役24核边=0；
+四种源类型与r5声明AST逐项等同，无profile/compat夹带，mixed case逐体读完，无阻塞counter。
+含basename的36源文件+package字节聚合hash独立等于Owner的
+`de8b2582d779629ea0f325f7b1e19e24e9757d5507da4852a6eadbe209f0d4be`；首次纯内容算法
+所得8f9f不同属明确计量算法差异，不是候选变更。Reviewer不执行测试/CLI或改文件，不能
+代替Root实际质量门。Codex源码/冻结输出可接收，统一质量通过前不标done。
+
+Root中央只清理coverage config三条已删测试的dead exclude，30覆盖工具测试通过、单文件
+Biome零诊断；source include/资源前提/门限/基线不改。统一全仓质量、最终独立只读审查结论、
+集成推送与清理仍pending，母卡review不是done；不宣布NPC/parallel或002已验证。
 
 ## 交接记录
 
