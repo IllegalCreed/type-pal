@@ -2,6 +2,16 @@
 
 这张看板只记录当前进行中和阻塞任务。候选任务看 `docs/phase2/capability-map.md`（任务卡 `Capability` 字段对应地图格号；议题型卡 D6/D12/D13/D14/D15 落点见地图 §3.1「议题→格映射」），完成记录看 git log 和任务卡。
 
+2026-09-30 GLM 三条可并行测试大包已准入；各自独立分支/工作树、只写新测试与专属证据，
+[62 源冻结与 A–K 去重](../testing/glm-next-triple/README.md)。Codex 负责独立验收及正式并集结算，
+三包不接进行中的 E2E-R4-1；1155/1301/1473 未覆盖臂仅是候选缺口，并非增量承诺。
+
+| ID | 任务 | 状态 | 负责人/下一步 | 一句话备注 |
+|---|---|---|---|---|
+| TEST-GLM-WAVE-L-1 | [地图/场景/精灵/印章补测](tasks/TEST-GLM-WAVE-L-1-editor-map-scene.md) | build | GLM L / 隔离实施 | 6 组 24 源，编辑器功能视觉两条 |
+| TEST-GLM-WAVE-M-1 | [数据页/资源/设计控件补测](tasks/TEST-GLM-WAVE-M-1-editor-data-assets.md) | build | GLM M / 隔离实施 | 7 组 27 源，编辑器功能视觉两条 |
+| TEST-GLM-WAVE-N-1 | [Reforge 非剧情宿主补测](tasks/TEST-GLM-WAVE-N-1-reforge-runtime-host.md) | build | GLM N / 隔离实施 | 5 组 11 源，`main.ts` 漂移停受影响组 |
+
 **当前协作模式（用户 2026-09-25）**：三贤人固定签字暂休。Codex 分派、贡献者实施、Codex 独立验收并负责集成/清理；旧签字和历史批次照原记录保留，活动任务不再因 Kimi/GLM 缺签自动停线。高风险产品取舍仍由用户裁决，见 [`AGENTS.md`](../../AGENTS.md)。
 
 额度按接手时实际状态确认；历史额度快照不作为当前准入依据。

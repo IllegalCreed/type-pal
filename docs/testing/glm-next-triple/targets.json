@@ -1,0 +1,177 @@
+{
+  "schemaVersion": 1,
+  "campaign": "TEST-GLM-LMN-20260930",
+  "productionFreeze": "f70db72236d9cac794d40a625a89fef8c29459ae",
+  "officialBaselineSha256": "d775d23bffa016010036bfb88b70eb3b84a2defbe178569764c50e932097dac3",
+  "officialBranches": { "covered": 49584, "total": 63398 },
+  "selectionCaveat": "A-K historical target sources excluded. Gaps in the 2026-09-29 local fast report are leads, not promises or proof of reachability. All tests must deduplicate exact existing assertions.",
+  "waves": [
+    {
+      "id": "L",
+      "title": "Editor map, scene and sprite authoring",
+      "groups": [
+        {
+          "id": "L01",
+          "sources": [
+            "packages/editor/src/ui/MapMode.tsx",
+            "packages/editor/src/ui/MapSelectionInspector.tsx",
+            "packages/editor/src/core/map-selection.ts"
+          ]
+        },
+        {
+          "id": "L02",
+          "sources": [
+            "packages/editor/src/ui/SceneCanvas.tsx",
+            "packages/editor/src/ui/scene-stage.ts",
+            "packages/editor/src/core/scene-commands.ts"
+          ]
+        },
+        {
+          "id": "L03",
+          "sources": [
+            "packages/editor/src/ui/TilesetTab.tsx",
+            "packages/editor/src/core/map-edit-commands.ts",
+            "packages/editor/src/core/map-asset-commands.ts",
+            "packages/editor/src/core/map-transform.ts",
+            "packages/editor/src/core/map-patch.ts"
+          ]
+        },
+        {
+          "id": "L04",
+          "sources": [
+            "packages/editor/src/ui/WorldSpriteLibrary.tsx",
+            "packages/editor/src/core/world-sprite-behavior.ts",
+            "packages/editor/src/ui/SpriteActionEditor.tsx",
+            "packages/editor/src/ui/SpriteActionEditorDialog.tsx"
+          ]
+        },
+        {
+          "id": "L05",
+          "sources": [
+            "packages/editor/src/ui/StampContentEditor.tsx",
+            "packages/editor/src/core/stamp-draft.ts",
+            "packages/editor/src/ui/StampTemplateDialog.tsx",
+            "packages/editor/src/ui/StampPlacementInspector.tsx",
+            "packages/editor/src/ui/StampPlacementSelectionInspector.tsx"
+          ]
+        },
+        {
+          "id": "L06",
+          "sources": [
+            "packages/editor/src/core/stamp-group-command.ts",
+            "packages/editor/src/core/stamp-group-transform.ts",
+            "packages/editor/src/core/stamp-placement.ts",
+            "packages/editor/src/core/stamp-ownership.ts"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "M",
+      "title": "Editor authored data, assets and design controls",
+      "groups": [
+        {
+          "id": "M01",
+          "sources": [
+            "packages/editor/src/ui/SkillTab.tsx",
+            "packages/editor/src/ui/LevelCurveEditor.tsx",
+            "packages/editor/src/ui/BattleFieldTab.tsx"
+          ]
+        },
+        {
+          "id": "M02",
+          "sources": [
+            "packages/editor/src/ui/ItemTab.tsx",
+            "packages/editor/src/ui/ItemUseEffectEditor.tsx",
+            "packages/editor/src/ui/ItemAlchemyTab.tsx",
+            "packages/editor/src/ui/ShopTab.tsx"
+          ]
+        },
+        {
+          "id": "M03",
+          "sources": [
+            "packages/editor/src/ui/EnemyTab.tsx",
+            "packages/editor/src/ui/enemy-defeated-events.ts",
+            "packages/editor/src/ui/EnemyTeamTab.tsx",
+            "packages/editor/src/ui/CasualtyEditor.tsx"
+          ]
+        },
+        {
+          "id": "M04",
+          "sources": [
+            "packages/editor/src/ui/PoisonTab.tsx",
+            "packages/editor/src/ui/VarsTab.tsx",
+            "packages/editor/src/core/item-references.ts",
+            "packages/editor/src/core/battle-data-references.ts"
+          ]
+        },
+        {
+          "id": "M05",
+          "sources": [
+            "packages/editor/src/ui/BattleSpriteLibrary.tsx",
+            "packages/editor/src/ui/BattleSpriteInlinePreview.tsx",
+            "packages/editor/src/ui/SpriteResourceViewer.tsx"
+          ]
+        },
+        {
+          "id": "M06",
+          "sources": [
+            "packages/editor/src/ui/ProjectWorkbenchTab.tsx",
+            "packages/editor/src/ui/AudioAssetWorkbench.tsx",
+            "packages/editor/src/ui/ImageTab.tsx",
+            "packages/editor/src/core/audio-preview.ts"
+          ]
+        },
+        {
+          "id": "M07",
+          "sources": [
+            "packages/editor/src/ui/design-system/reorder.tsx",
+            "packages/editor/src/ui/design-system/select.tsx",
+            "packages/editor/src/ui/design-system/navigation.tsx",
+            "packages/editor/src/ui/design-system/virtual-list.tsx",
+            "packages/editor/src/ui/ModuleNav.tsx"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "N",
+      "title": "Reforge non-story runtime host and resource lifecycle",
+      "groups": [
+        {
+          "id": "N01",
+          "sources": ["packages/reforge/src/main.ts", "packages/reforge/src/project-map.ts"]
+        },
+        {
+          "id": "N02",
+          "sources": [
+            "packages/reforge/src/audio/bgm.ts",
+            "packages/reforge/src/audio/midi-preview.ts",
+            "packages/reforge/src/audio/sfx-readiness.ts"
+          ]
+        },
+        {
+          "id": "N03",
+          "sources": [
+            "packages/reforge/src/menu/menu-box.ts",
+            "packages/reforge/src/video-player.ts"
+          ]
+        },
+        {
+          "id": "N04",
+          "sources": [
+            "packages/reforge/src/battle/battle-ui.ts",
+            "packages/reforge/src/battle/battle-anim.ts"
+          ]
+        },
+        {
+          "id": "N05",
+          "sources": [
+            "packages/reforge/src/battle-trial-assets.ts",
+            "packages/reforge/src/battle/battle-launch-preparation.ts"
+          ]
+        }
+      ]
+    }
+  ]
+}

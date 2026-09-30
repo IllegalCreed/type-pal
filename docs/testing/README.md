@@ -8,6 +8,7 @@
 
 ## 文档与附件
 
+- [GLM 三条独立大包 L–N](glm-next-triple/README.md)（2026-09-30 准入；18 组/62 源与 A–K 零交集，纯测试候选；Codex 独立验收和并集结算）。
 - [GLM Wave K 一阶段事件系统六组当前脚本合同](glm-event-wave-k/README.md)（Codex 独立接收并 done；正式基线净增 55 分支，全仓 78.21%，85% 未达）。
 - [2026-09-29 GLM A–J 并集集成与覆盖率回执](glm-wave-union-20260929.md)（全仓 check、官方 ratchet/受保护 fast 通过；分支 78.12%，距 85% 仍差 4,360 臂）。
 - [GLM五批大型当前合同补测](glm-large-wave/README.md)（9c35748a冻结，A–E每批6组/12源码、总60目标；单一Owner隔离实施，Codex独立验收）。
