@@ -1,0 +1,116 @@
+{
+ "wave": "O",
+ "card": "TEST-GLM-WAVE-O-1",
+ "dispatchBase": "8b3ca062953b17a12178f8d1a9e36657971234b1",
+ "productionFreeze": "3ac9a2e2f6aba8a5cc97640c18fef8549d199380",
+ "deliveryStatus": "PARTIAL — 274/700 legal cases; scope-adjustment request attached (see README 未完成范围节)",
+ "batches": {
+  "O01": {
+   "tests": 74,
+   "counters": 5,
+   "status": "done",
+   "files": [
+    "src/pal-current-publication.glm-o.test.ts",
+    "src/migration-transaction.glm-o.test.ts",
+    "src/__tests__/glm-o/supply-fixture.ts"
+   ]
+  },
+  "O02": {
+   "tests": 65,
+   "counters": 5,
+   "status": "done",
+   "files": [
+    "src/migration-merge.glm-o.test.ts",
+    "src/migration-plan.glm-o.test.ts",
+    "src/migration-project-io.glm-o.test.ts"
+   ],
+   "defect": "DEFECT-O-1 mergePages sparse-hole guard (docs/.../defect-report.md)"
+  },
+  "O03": {
+   "tests": 31,
+   "counters": 5,
+   "status": "done",
+   "files": [
+    "src/migration-write-plan.glm-o.test.ts",
+    "src/pal-content-supply.glm-o.test.ts"
+   ]
+  },
+  "O04": {
+   "tests": 37,
+   "counters": 5,
+   "status": "done",
+   "files": [
+    "src/pal-assets.glm-o.test.ts"
+   ]
+  },
+  "O05": {
+   "tests": 48,
+   "counters": 5,
+   "status": "done",
+   "files": [
+    "src/pal-supply-guards.glm-o.test.ts",
+    "src/pal-world-sprites.glm-o.test.ts"
+   ]
+  },
+  "O06": {
+   "tests": 19,
+   "counters": 5,
+   "status": "partial — remaining arms (validate-refs inventory/condition/enemy-team clusters, author-script-core, script.ts, item.ts, frame-sequence 等) 未建模",
+   "files": [
+    "../content/src/validate.glm-o.test.ts"
+   ]
+  },
+  "O07": {
+   "tests": 0,
+   "counters": 0,
+   "status": "not started"
+  },
+  "O08": {
+   "tests": 0,
+   "counters": 0,
+   "status": "not started"
+  },
+  "O09": {
+   "tests": 0,
+   "counters": 0,
+   "status": "not started"
+  },
+  "O10": {
+   "tests": 0,
+   "counters": 0,
+   "status": "not started"
+  }
+ },
+ "totals": {
+  "newCases": 274,
+  "workGroups": "O01-O06（O06 部分）",
+  "validCounters": 30
+ },
+ "gates": {
+  "migrateFullTest": "pnpm --filter @type-pal/migrate test → exit 0，87 files / 706 tests（含既有 pal 项目真实语料）",
+  "contentFullTest": "pnpm --filter @type-pal/content test → exit 0，124 files / 1241 tests",
+  "migrateTypecheck": "exit 0（0 诊断）",
+  "contentTypecheck": "exit 0（0 诊断）",
+  "rootLint": "pnpm lint → PASS 2908 files; 0 errors / 0 warnings / 0 infos",
+  "docsCheck": "pnpm check:docs → 见 README 修复后复验",
+  "gitDiffCheck": "git diff --check 8b3ca062...HEAD → exit 0",
+  "verifier": "node verify-targets.mjs --wave O --base 8b3ca062… → exit 0（frozenHashesValid, ownerOverlap 0, 194 changed paths）",
+  "migrateCoverageGate": {
+   "statements": "1879→2164/2615（71.855%→82.753%，旧比率 77.246% 已反超）",
+   "branches": "1368→1530/1814（75.413%→84.344%，旧 75.667% 已反超）",
+   "lines": "1643→1885/2286（71.872%→82.458%，旧 78.663% 已反超）",
+   "note": "同分母（fast 口径），delta 见 coverage-delta.json；官方 baseline 未触碰"
+  }
+ },
+ "environmentNotes": [
+  "worktree 通过 symlink 引入主仓 gitignored data/extracted 真实语料（只读）；projects/pal/assets 未改动"
+ ],
+ "evidence": [
+  "directed-vitest.json",
+  "coverage-delta.json",
+  "counters.json",
+  "counters/（30 组 spec/正控/注入 JSON+patch+三态 hash）",
+  "defect-report.md"
+ ],
+ "candidateHead": "4adf64d37a092d729ab1c83c3e130e082c995061"
+}
