@@ -1,6 +1,6 @@
 # TEST-GLM-WAVE-O-1 — 当前供应链、内容守卫与migrate门十倍测试包
 
-Status: build
+Status: rework
 Phase: phase2
 Capability: supply-validation / test-coverage
 Coding Owner: GLM O（仅新测试与专属证据）
@@ -84,4 +84,30 @@ P/Q包、旧测试、产品、配置、锁、真实PAL/存档、官方baseline�
 仅写本卡O白名单，公开真实入口+typed临时工程；按协议交最终JSON、逐合同去重、正变恢复日志/hash/patch与同分母私有覆盖。
 串行migrate/content/shared全包test/typecheck、根lint0/0/0、docs/diff/verifier，提交推送完整候选SHA。
 产品/旧测/配置/官方baseline/真实项目/P/Q/共享文档只读；不合main、不标done。缺合法新合同或真缺陷时交证据停该组，不凑数。
+```
+
+## Codex 独立审核返工项（2026-10-01）
+
+候选 `214643a2379c263f86a74ee0b78f5473af5354f7`，远端与本地相符。
+Codex **counter → rework**；这是274/700例、30/50枚反控的部分交付，未完成O06–O10。
+[独立审查与返工项](../../testing/glm-tenfold-triple/codex-review-20261001.md)、
+[457例实跑及门禁机器证据](../../testing/glm-tenfold-triple/codex-review-20261001.json)
+覆盖上方旧派发提示词，历史数字不追溯改写。
+
+- 冻结716/716及白名单通过；新例255+19全绿、三个Owner包typecheck零、docs零。
+- O-01：最终lint四个格式诊断；区间diff六个mutation.patch尾随空白/EOF诊断，必须清零，不能损坏patch。
+- O-02：新测试的as unknown as/as never等禁止桥需清零；合法typed fixture与真实unknown/IO拒绝入口分开。
+- O-03：缺contracts.json；30枚没有恢复后执行，工具哈希未变候选不能代替恢复跑绿。
+- COMMON-01：原700例/60组/50有效反控目标保留，继续O06–O10；缺合法合同须逐项举证后申请调整。
+- 稀疏pages缺陷暂未证明canonical caller合法，不授权修产品；全包/正式覆盖/统一门本轮未复跑，未accept。
+
+### 下一位 GLM O 提示词（返工，取代旧派发提示词）
+
+```text
+你继续 TEST-GLM-WAVE-O-1，原分支 codex/glm-wave-o-supply-validation-r1，起点候选 214643a2379c263f86a74ee0b78f5473af5354f7。当前 rework，仅原白名单测试/fixture/专属证据可写。
+先读 /Users/zhangxu/.codex/worktrees/glm-lmn-acceptance/type-pal/docs/ops/tasks/TEST-GLM-WAVE-O-1-supply-validation-tenfold.md 的2026-10-01返工段与所链Codex审查/机器证据，再读共同协议和GLM自检。
+先闭合 O-01/02/03：lint四格式与diff六patch零诊断；禁止桥改为typed合法fixture/真实IO拒绝；补逐合同账和30枚实际恢复执行的完整三态JSON/raw/退出码/执行数/目标AssertionError/hash，可重建patch不能trim坏。
+保留已交成果，连续补O06–O10，原目标700合法未重复例/60组/50有效反控不缩；不足交逐合同existing-proof/unreachable/blocked证据，不用超时或数字换值灌水。稀疏pages疑似缺陷交canonical guard/caller，不夹修产品。
+仍钉派发基点8b3ca062953b17a12178f8d1a9e36657971234b1、冻结3ac9a2e2f6aba8a5cc97640c18fef8549d199380；不得cherry-pick Codex共享审查提交或改基点绕过白名单，源漂移先交Codex。
+最终实跑JSON与源hash重核；串行migrate/content/shared全包test/typecheck、根lint完整0/0/0、docs、区间diff、verifier，再提交推送完整候选SHA。产品/旧测/配置/官方baseline/真实工程/P/Q/共享卡看板只读，不合main、不标done、不清树。
 ```

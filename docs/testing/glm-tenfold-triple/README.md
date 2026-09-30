@@ -3,6 +3,11 @@
 2026-09-30 用户要求再派三卡，每卡工作量至少上一轮十倍。L/M/N **代码 accept**，
 但统一 ratchet 未通过，因此仍 review、未合 main、未 done。本轮不冒称已正式结算。
 
+2026-10-01 [O/P/Q首次独立审查](codex-review-20261001.md)判三卡 **rework**：
+新测试274/70/113例全绿，但均部分交付，另有类型/反控/视觉与O静态门counter。
+[实跑与门禁机器证据](codex-review-20261001.json)保留457例file/fullName/status；
+原700例/50有效反控目标不自动缩减，未合main、未正式覆盖结算，下一步见各卡返工提示词。
+
 派发分支 `codex/glm-lmn-acceptance-r1` 包含 L/M/N 151 例，避免从缺少它们的 main
 重复造测试。生产冻结 `3ac9a2e2f6aba8a5cc97640c18fef8549d199380`；
 从本轮已推送派发提交各建全新的分支/worktree，不能继续写 L/M/N 退休候选。

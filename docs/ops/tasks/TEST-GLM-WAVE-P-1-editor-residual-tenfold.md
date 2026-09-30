@@ -1,6 +1,6 @@
 # TEST-GLM-WAVE-P-1 — Editor全域残余工作流十倍测试包
 
-Status: build
+Status: rework
 Phase: phase2
 Capability: editor-workflows / test-coverage
 Coding Owner: GLM P（仅新测试与专属证据）
@@ -83,4 +83,30 @@ GLM不跑正式ratchet、不合main、不标done，Codex独立核并集后收口
 仅本卡Editor新测试、专属glm-p fixture和wave-P证据可写，交最终fullName JSON/去重账/反控三态日志hash/截图与console/私有同分母覆盖。
 串行Editor全包test/typecheck、根lint0/0/0、docs/diff/verifier后推送完整候选SHA；不合main、不标done。
 产品/旧测/配置/官方baseline/O/Q/共享文档及E2E002/真实项目只读。深链#0、Esc通知不夹修复；缺合法缺口或真缺陷交证据停该组。
+```
+
+## Codex 独立审核返工项（2026-10-01）
+
+候选 `8fb38fcc3b3f4f2d277260148c66488c979caa49`，远端与本地相符。
+Codex **counter → rework**；70/700例、10/50枚反控、0/20浏览器流程，只有P01和P02部分。
+[独立审查与返工项](../../testing/glm-tenfold-triple/codex-review-20261001.md)、
+[457例实跑及门禁机器证据](../../testing/glm-tenfold-triple/codex-review-20261001.json)
+覆盖上方旧派发提示词，历史数字保留。
+
+- 冻结716/716及白名单通过；70例实跑全绿、Editor typecheck、lint2799文件0/0/0、docs/diff零。
+- P-01：project-diagnostics新测:57/73/87的as never/双桥违反硬边界，tsc绿不豁免。
+- P-02：P01-C03与P02-C10原始mutated.json各红2例，均不能记有效；不得过滤额外红骗过判据。
+- P-03：receipt的0c1a1b8c后仅docs-only说法与实际e4467740测试/证据改动不符，需真实锚点/区间。
+- P-04/COMMON-01：补P02剩余与P03–P10、20条真实浏览器流程；原700例/70组/50有效反控目标不缩。
+- 本轮未accept全部合同/反控/视觉，未复跑全包或正式覆盖/统一门，不合main、不done。
+
+### 下一位 GLM P 提示词（返工，取代旧派发提示词）
+
+```text
+你继续 TEST-GLM-WAVE-P-1，原分支 codex/glm-wave-p-editor-residual-r1，起点候选 8fb38fcc3b3f4f2d277260148c66488c979caa49。当前 rework，仅原Editor新测试/专属fixture/wave-P证据可写。
+先读 /Users/zhangxu/.codex/worktrees/glm-lmn-acceptance/type-pal/docs/ops/tasks/TEST-GLM-WAVE-P-1-editor-residual-tenfold.md 的2026-10-01返工段与所链审查/机器证据，再读共同协议与GLM自检。
+闭合P-01/02/03：project-diagnostics的as never/双桥改为合法typed fixture或真实unknown/IO拒绝；P01-C03和P02-C10各两红都要替换为单合同业务反控，代表组相邻例不得过滤藏红，完整三态JSON/raw/退出码/执行数/AssertionError/hash；回执准确钉最终测试/证据提交与docs-only区间。
+连续补P02剩余、P03–P10，原700合法未重复例/70组/50有效反控、20条自有小工程实际浏览器流程均保留，交截图hash/相位/console；不接E2E002或真实PAL/他人窗口。逐合同去重，缺合法轴举证申请调整，不自行缩围凑数。
+仍钉派发基点8b3ca062953b17a12178f8d1a9e36657971234b1、冻结3ac9a2e2f6aba8a5cc97640c18fef8549d199380；不要cherry-pick Codex共享审查提交或改基点绕白名单，源漂移先交Codex。
+最后实跑最终JSON与源hash，串行Editor全包test/typecheck、根lint完整0/0/0、docs/diff/verifier，推送完整候选SHA。产品/旧测/配置/官方baseline/O/Q/共享文档只读，不合main、不标done、不清树。
 ```

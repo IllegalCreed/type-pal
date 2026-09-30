@@ -1,6 +1,6 @@
 # TEST-GLM-WAVE-Q-1 — 两阶段runtime与解码残余合同十倍测试包
 
-Status: build
+Status: rework
 Phase: mixed（Reforge phase2；game/pal-extract phase1，严格分段）
 Capability: runtime-residual / test-coverage
 Coding Owner: GLM Q（仅新测试与专属证据）
@@ -87,4 +87,31 @@ GLM对机制新真值无决策权；需要新增原版公式/opcode/碰撞解释
 Reforge与game/pal-extract阶段分开；新原版机制/移动碰撞真值先停线交primary证据，不固化产品bug或启动PAL001/002。
 仅本卡Q新测试/专属fixture/证据可写，交最终fullName JSON、排重账、原变恢复日志/hash/patch、浏览器相位/截图/console和私有同分母覆盖。
 三个Owner包串行全包test/typecheck、根lint0/0/0、docs/diff/verifier后推送完整候选SHA；产品/旧测/配置/baseline/O/P/真实工程/E2E只读，不合main、不标done。
+```
+
+## Codex 独立审核返工项（2026-10-01）
+
+候选 `626ddffe41cca4e3755dfafea1645c695c158b0f`，远端与本地相符。
+Codex **counter → rework**；113/700例、34/50枚反控，Q07/Q08/Q10未开展，其它批未达到整包目标。
+[独立审查与返工项](../../testing/glm-tenfold-triple/codex-review-20261001.md)、
+[457例实跑及门禁机器证据](../../testing/glm-tenfold-triple/codex-review-20261001.json)
+覆盖上方旧派发提示词，不追溯改历史。
+
+- 冻结716/716及白名单通过；98+15例全绿、三个Owner包typecheck、lint2802文件0/0/0、docs/diff零。
+- Q-01：audio-spessa-runtime新测:162/239的unknown双桥需删除，用typed外部port/probe。
+- Q-02：directed JSON为list枚举，无status；34处嵌套名分隔差异不是缺例，需最终实跑JSON。
+- Q-03：34枚缺恢复后执行与三态完整JSON/raw，hash重建通过不等于有效反控accept。
+- Q-04：实际15新测试+1fixture，回执/README数量不一致；11截图hash相符，但F1恢复表述与autoplayOverlayClicked=false矛盾，视觉尚未accept。
+- COMMON-01：原700例/50组/50有效反控/10实际流程保留；函数名搜索不替代逐合同existing-proof。CLI模块相对根本身不证明不能mkdtemp复制树隔离。
+- 疑似enterLoad缺陷只登记待核，不授权改产品；全包/正式覆盖/统一门本轮未复跑，不合main、不done。
+
+### 下一位 GLM Q 提示词（返工，取代旧派发提示词）
+
+```text
+你继续 TEST-GLM-WAVE-Q-1，原分支 codex/glm-wave-q-runtime-residual-r1，起点候选 626ddffe41cca4e3755dfafea1645c695c158b0f。当前 rework，只写原Q新测试/专属fixture/wave-Q证据。
+先读 /Users/zhangxu/.codex/worktrees/glm-lmn-acceptance/type-pal/docs/ops/tasks/TEST-GLM-WAVE-Q-1-runtime-residual-tenfold.md 的2026-10-01返工段与所链审查/机器证据，再读共同协议、GLM自检和两阶段纪律。
+闭合Q-01至04：Spessa unknown双桥改typed port/probe；list JSON换最终实跑113例及后续全部file/fullName/status；34枚补实际恢复后三态JSON/raw/执行数/退出码/目标AssertionError/hash；统一15测试+1fixture数量并修F1未点overlay却称恢复的证据矛盾。
+继续未完Q07/Q08/Q10及其它残余组，原700合法未重复例/50组/50有效反控/10实际非剧情流程保留；逐合同旧断言与caller举证申请缩围，不拿grep数量代替。评估mkdtemp复制模块树+合法小输入的CLI路径，不写真实raw/extracted或运行主工程；新原版机制/剧情/碰撞轴仍停线交primary证据。
+仍钉派发基点8b3ca062953b17a12178f8d1a9e36657971234b1、冻结3ac9a2e2f6aba8a5cc97640c18fef8549d199380；不得cherry-pick Codex共享审查提交或改基点绕过白名单，源漂移先交Codex。
+最终实跑JSON/截图/源hash一致，串行reforge/game/pal-extract全包test/typecheck、根lint完整0/0/0、docs/diff/verifier后推送完整候选SHA。产品/旧测/配置/官方baseline/O/P/共享文档/真实工程/E2E只读，不合main、不标done、不清树。
 ```
