@@ -1,0 +1,114 @@
+[
+  {
+    "id": "RC1",
+    "file": "src/battle/battle-ui.glm-n.test.ts",
+    "targetFullName": "N04 战斗菜单盒禁用/确认配色与右值数字色 > 禁用行选中暗红选中色、确认父项金黄、禁用右值走蓝数字",
+    "axis": "输入轴单变异：rows[0] { label: '杂项', disabled: true } → { label: '杂项' }（合法输入；断言不动）",
+    "sha256": {
+      "original": "3b72d7cbfd61b97a7023a5e185b89f64fb32c7ef110030475f4ce0c5a2a3454b",
+      "mutated": "fd5780e35fb5891703f0cfa8b7bea16859b931a0f4a09c0f5d5e4a1c36062f70",
+      "restored": "3b72d7cbfd61b97a7023a5e185b89f64fb32c7ef110030475f4ce0c5a2a3454b"
+    },
+    "restoredHashUnchanged": true,
+    "positiveControl": {
+      "command": "env -u NODE_COMPILE_CACHE pnpm exec vitest run src/battle/battle-ui.glm-n.test.ts",
+      "exit": 0,
+      "summary": ["Test Files  1 passed (1)", "Tests  6 passed (6)"]
+    },
+    "mutantRun": {
+      "exit": 1,
+      "summary": [
+        "Test Files  1 failed (1)",
+        "Tests  1 failed | 5 passed (6)",
+        "⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯"
+      ],
+      "targetAssertionError": "AssertionError: expected [ 255, 203, 113 ] to deeply equal [ 215, 109, 93 ]",
+      "failedTestsBlock": "Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯\n\n FAIL  src/battle/battle-ui.glm-n.test.ts > N04 战斗菜单盒禁用/确认配色与右值数字色 > 禁用行选中暗红选中色、确认父项金黄、禁用右值走蓝数字\nAssertionError: expected [ 255, 203, 113 ] to deeply equal [ 215, 109, 93 ]\n\n- Expected\n+ Received\n\n  [\n-   215,\n-   109,\n-   93,\n+   255,\n+   203,\n+   113,\n  ]\n\n ❯ src/battle/battle-ui.glm-n.test.ts:290:28\n    288|     )\n    289|     const rows = texts()\n    290|     expect(rows[0]?.color).toEqual([215, 109, 93]) // COLOR_DISABLED_S…\n       |                            ^\n    291|     expect(rows[1]?.color).toEqual([166, 40, 32]) // COLOR_DISABLED\n    292|     expect(rows[2]?.color).toEqual([199, 186, 174]) // COLOR_NORMAL（co…\n\n⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯"
+    },
+    "criteria": "判据：正控 exit0 全绿；r4 最终候选文件上单轴合法输入变异后 exit1 且仅目标 fullName 红（无 skip/timeout/收集错误/额外用例红/零执行）；断言未改；三态 SHA256 与最终候选文件一致（original === restored === 最终提交内容）"
+  },
+  {
+    "id": "RC2",
+    "file": "src/battle/battle-launch-preparation.glm-n.test.ts",
+    "targetFullName": "N05 指定战场号读取常驻波、索引背景与投掷特效精灵",
+    "axis": "输入轴单变异：BattleLaunchOptions.fieldId 7 → 9（合法输入；断言不动）",
+    "sha256": {
+      "original": "9e7be5963331dfcdddec3ce83dff49b8c56c2a65464f99a075f190ecc8374b80",
+      "mutated": "b3e23dea72ab8c4ae98cf91d80baaa2f6bb815aec4fa34aed652e213db57866a",
+      "restored": "9e7be5963331dfcdddec3ce83dff49b8c56c2a65464f99a075f190ecc8374b80"
+    },
+    "restoredHashUnchanged": true,
+    "positiveControl": {
+      "command": "env -u NODE_COMPILE_CACHE pnpm exec vitest run src/battle/battle-launch-preparation.glm-n.test.ts",
+      "exit": 0,
+      "summary": ["Test Files  1 passed (1)", "Tests  3 passed (3)"]
+    },
+    "mutantRun": {
+      "exit": 1,
+      "summary": [
+        "Test Files  1 failed (1)",
+        "Tests  1 failed | 2 passed (3)",
+        "⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯"
+      ],
+      "targetAssertionError": "AssertionError: expected +0 to be 128 // Object.is equality",
+      "failedTestsBlock": "Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯\n\n FAIL  src/battle/battle-launch-preparation.glm-n.test.ts > N05 指定战场号读取常驻波、索引背景与投掷特效精灵\nAssertionError: expected +0 to be 128 // Object.is equality\n\n- Expected\n+ Received\n\n- 128\n+ 0\n\n ❯ src/battle/battle-launch-preparation.glm-n.test.ts:144:45\n    142|     .prepare('encounter', options, new AbortController().signal, () =>…\n    143|     .then((result) => ({ ...result, ...result.commit() }))\n    144|   expect(prepared.sessionOptions.fieldWave).toBe(128)\n       |                                             ^\n    145|   expect(prepared.sessionAssets.bg).toBeTruthy()\n    146|   const indexed = prepared.sessionAssets.bgIndexed\n\n⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯"
+    },
+    "criteria": "判据：正控 exit0 全绿；r4 最终候选文件上单轴合法输入变异后 exit1 且仅目标 fullName 红（无 skip/timeout/收集错误/额外用例红/零执行）；断言未改；三态 SHA256 与最终候选文件一致（original === restored === 最终提交内容）"
+  },
+  {
+    "id": "RC3",
+    "file": "src/video-player.glm-n.test.ts",
+    "targetFullName": "N03 视频覆盖层生命周期 > 加载失败：仅 warn 不抛出，Promise resolve 且视频层移除",
+    "axis": "输入轴单变异：src 'videos/broken.mp4' → 'videos/other.mp4'（合法输入；warn 断言不动）",
+    "sha256": {
+      "original": "0caf0b903ac98f5da13aac634abededf2b172ec7d1f92b2f845922850e83e41b",
+      "mutated": "ed66a7e350b357ba97276a25df940fcf4f21140cf540fd31ed9874ecda05ce3d",
+      "restored": "0caf0b903ac98f5da13aac634abededf2b172ec7d1f92b2f845922850e83e41b"
+    },
+    "restoredHashUnchanged": true,
+    "positiveControl": {
+      "command": "env -u NODE_COMPILE_CACHE pnpm exec vitest run src/video-player.glm-n.test.ts",
+      "exit": 0,
+      "summary": ["Test Files  1 passed (1)", "Tests  7 passed (7)"]
+    },
+    "mutantRun": {
+      "exit": 1,
+      "summary": [
+        "Test Files  1 failed (1)",
+        "Tests  1 failed | 6 passed (7)",
+        "⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯"
+      ],
+      "targetAssertionError": "AssertionError: expected \"warn\" to be called with arguments: [ Array(1) ]",
+      "failedTestsBlock": "Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯\n\n FAIL  src/video-player.glm-n.test.ts > N03 视频覆盖层生命周期 > 加载失败：仅 warn 不抛出，Promise resolve 且视频层移除\nAssertionError: expected \"warn\" to be called with arguments: [ Array(1) ]\n\nReceived:\n\n  1st warn call:\n\n  [\n-   \"[video-player] load/decode failed: videos/broken.mp4\",\n+   \"[video-player] load/decode failed: videos/other.mp4\",\n  ]\n\n\nNumber of calls: 1\n\n ❯ src/video-player.glm-n.test.ts:77:18\n     75|     video.dispatchEvent(new Event('error'))\n     76|     await expect(pending).resolves.toBeUndefined()\n     77|     expect(warn).toHaveBeenCalledWith('[video-player] load/decode fail…\n       |                  ^\n     78|     expect(document.body.contains(video)).toBe(false)"
+    },
+    "criteria": "判据：正控 exit0 全绿；r4 最终候选文件上单轴合法输入变异后 exit1 且仅目标 fullName 红（无 skip/timeout/收集错误/额外用例红/零执行）；断言未改；三态 SHA256 与最终候选文件一致（original === restored === 最终提交内容）"
+  },
+  {
+    "id": "RC4",
+    "file": "src/project-map.glm-n.test.ts",
+    "targetFullName": "N01 填充/视图的退化输入 > tilesInView 缺行缺列与隐藏层都不产出；null 瓦片跳过",
+    "axis": "输入轴单变异：paintProjectMapTiles 编辑 height 2 → 5（合法非负整数；draws[0].height 断言不动）",
+    "sha256": {
+      "original": "fac447cebe2f78c45f62ae80225efc21da2cb9601da10068374cadd680989aa5",
+      "mutated": "31cd89442f08ac91a09a87c0cf6ffadc1190ff2d7151a4eb0cfb1149dd617b26",
+      "restored": "fac447cebe2f78c45f62ae80225efc21da2cb9601da10068374cadd680989aa5"
+    },
+    "restoredHashUnchanged": true,
+    "positiveControl": {
+      "command": "env -u NODE_COMPILE_CACHE pnpm exec vitest run src/project-map.glm-n.test.ts",
+      "exit": 0,
+      "summary": ["Test Files  1 passed (1)", "Tests  9 passed (9)"]
+    },
+    "mutantRun": {
+      "exit": 1,
+      "summary": [
+        "Test Files  1 failed (1)",
+        "Tests  1 failed | 8 passed (9)",
+        "⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯"
+      ],
+      "targetAssertionError": "AssertionError: expected { layerId: 'floor', …(8) } to match object { col: +0, row: +0, tileId: 1, …(4) }",
+      "failedTestsBlock": "Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯\n\n FAIL  src/project-map.glm-n.test.ts > N01 填充/视图的退化输入 > tilesInView 缺行缺列与隐藏层都不产出；null 瓦片跳过\nAssertionError: expected { layerId: 'floor', …(8) } to match object { col: +0, row: +0, tileId: 1, …(4) }\n(2 matching properties omitted from actual)\n\n- Expected\n+ Received\n\n  {\n    \"centerX\": 0,\n    \"centerY\": 0,\n    \"col\": 0,\n-   \"height\": 2,\n+   \"height\": 5,\n    \"row\": 0,\n    \"tileId\": 1,\n    \"tilesetId\": \"tileset-001\",\n  }\n\n ❯ src/project-map.glm-n.test.ts:116:22\n    114|     const draws = projectMapTilesInView(map, { col: 0, row: 0, cols: 2…\n    115|     expect(draws).toHaveLength(1)\n    116|     expect(draws[0]).toMatchObject({\n       |                      ^\n    117|"
+    },
+    "criteria": "判据：正控 exit0 全绿；r4 最终候选文件上单轴合法输入变异后 exit1 且仅目标 fullName 红（无 skip/timeout/收集错误/额外用例红/零执行）；断言未改；三态 SHA256 与最终候选文件一致（original === restored === 最终提交内容）"
+  }
+]

@@ -1,0 +1,66 @@
+{
+  "method": "同一工作树 f70db722 冻结源，v8 coverage --coverage.include 11 源逐文件；before=本分支新测写入前整包运行，after=r3 最终代码（53 条 glm-n 定向）整包运行。两次分母均为 3001（可比）。",
+  "beforeTotal": "1528/3001",
+  "afterTotal": "1623/3001",
+  "deltaBranches": 95,
+  "perFile": {
+    "battle-trial-assets.ts": {
+      "before": "55/75",
+      "after": "60/75",
+      "delta": 5
+    },
+    "main.ts": {
+      "before": "544/1761",
+      "after": "570/1761",
+      "delta": 26
+    },
+    "project-map.ts": {
+      "before": "118/151",
+      "after": "129/151",
+      "delta": 11
+    },
+    "video-player.ts": {
+      "before": "0/18",
+      "after": "15/18",
+      "delta": 15
+    },
+    "audio/bgm.ts": {
+      "before": "75/101",
+      "after": "76/101",
+      "delta": 1
+    },
+    "audio/midi-preview.ts": {
+      "before": "95/123",
+      "after": "105/123",
+      "delta": 10
+    },
+    "audio/sfx-readiness.ts": {
+      "before": "110/132",
+      "after": "110/132",
+      "delta": 0
+    },
+    "battle/battle-anim.ts": {
+      "before": "293/318",
+      "after": "298/318",
+      "delta": 5
+    },
+    "battle/battle-launch-preparation.ts": {
+      "before": "39/59",
+      "after": "46/59",
+      "delta": 7
+    },
+    "battle/battle-ui.ts": {
+      "before": "85/122",
+      "after": "97/122",
+      "delta": 12
+    },
+    "menu/menu-box.ts": {
+      "before": "114/141",
+      "after": "117/141",
+      "delta": 3
+    }
+  },
+  "r3Note": "r2 报 +96；r3 按二审删除 15 色非法 Palette 轴（状态字缺色防御臂按现行 256 色 loader 记 unreachable）并把 mono 断言改为类型化真实宿主观测，delta 如实降为 +94。",
+  "note": "main.ts 大量缺口属剧情/E2E（E2E-R4-1 占用）；官方 ratchet 由 Codex 串行结算。",
+  "r4Note": "r3 报 +94；r4 按三审恢复 mono 合法像素断言（drawImage 宿主写不透明白像素、真调制真读回），battle-ui +12，最终账 +95（1528→1623/3001）。15 色短色板轴仍为已否决非法输入，不计覆盖。"
+}
