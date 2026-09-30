@@ -104,6 +104,9 @@ G/I 的功能视觉与 console 后续补验也已闭合，不把这些卡的完�
 |---|---|---|---|---|
 | E2E-R4-1 | [路线驱动与检查点薄基线](tasks/E2E-R4-1-route-and-checkpoint-foundation.md) | build | Codex / 002流程与脚本编排审查 | 001 verify已收口；002继承真档，同步核编排合理性与改进方案，录制音轨另排 |
 | E2E-002-1 | [客栈正常路线与e56核心](tasks/E2E-002-1-inn-route-and-trio.md) | build | 隔离贡献者实现 / Codex独立验收 | 真001档正常出房间；20正文、实际500文、三人进房消失，编排审查同步交付 |
+| E2E-002-CHOREO-1 | [三苗人对白局部接管](tasks/E2E-002-CHOREO-1-trio-dialogue-authority.md) | review | Codex / 最终门与集成 | 真实两段停读/起步/续走passed；仅三人接管，不恢复全局对白冻结 |
+| E2E-002-SAVE-1 | [完成auto的保存安全点](tasks/E2E-002-SAVE-1-completed-auto-safe-point.md) | review | Codex / 最终门与集成 | 43092cc0与晚保存主壳反控绿；当前真002生产barrier15ms成功 |
+| SCRIPT-COMPLETE-1 | [完成语义与空结束步骤](tasks/SCRIPT-COMPLETE-1-explicit-flow-completion.md) | review | Codex / 最终门、当前001→002与集成 | b83faa50冻结443纯结束fold；6013界面已核，用户确认6012可更新 |
 | EDITOR-SCENE-FACING-1 | [切场景朝向清除](tasks/EDITOR-SCENE-FACING-1-clear-override.md) | draft | Codex / 后续窄修 | 保持选项仍提交旧方向；真实红诊断+单点oracle已证 |
 | ARCH-SUPPORT-GLM-1 | [八组并行架构/视觉准备](tasks/ARCH-SUPPORT-GLM-1-eight-audit-packages.md) | draft | Codex / 后续归属与收口 | 58cdf938材料accept，counter清零；文档已合入，按用户要求未标done/未开产品门 |
 

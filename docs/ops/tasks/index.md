@@ -10,10 +10,13 @@
 |---|---|---|
 | [ARCH-SUPPORT-GLM-1 — 八组并行准备取证](ARCH-SUPPORT-GLM-1-eight-audit-packages.md) | draft | 以任务卡当前准入与看板分工为准。 |
 | [E2E-002-1 — 正常出房路线、e56 演出与脚本编排审查](E2E-002-1-inn-route-and-trio.md) | build | 以任务卡当前准入与看板分工为准。 |
+| [E2E-002-CHOREO-1 — 三苗人对白期间的显式接管](E2E-002-CHOREO-1-trio-dialogue-authority.md) | review | 以任务卡当前准入与看板分工为准。 |
+| [E2E-002-SAVE-1 — 已完成 auto 的保存安全点](E2E-002-SAVE-1-completed-auto-safe-point.md) | review | 以任务卡当前准入与看板分工为准。 |
 | [E2E-R4-1 — 路线驱动与合法检查点薄基线](E2E-R4-1-route-and-checkpoint-foundation.md) | build | 以任务卡当前准入与看板分工为准。 |
 | [EDITOR-MAP-SELECTION-NOTICE-1 — Esc 清选后的状态通知语义](EDITOR-MAP-SELECTION-NOTICE-1.md) | draft | 以任务卡当前准入与看板分工为准。 |
 | [EDITOR-SCENE-FACING-1 — 切场景指令无法清除显式朝向](EDITOR-SCENE-FACING-1-clear-override.md) | draft | 以任务卡当前准入与看板分工为准。 |
 | [EDITOR-SPRITE-DEEP-PREVIEW-1 — 深链自动脚本预览伪报帧 #0](EDITOR-SPRITE-DEEP-PREVIEW-1.md) | draft | 以任务卡当前准入与看板分工为准。 |
+| [SCRIPT-COMPLETE-1 — 脚本完成语义与空结束步骤清理](SCRIPT-COMPLETE-1-explicit-flow-completion.md) | review | 以任务卡当前准入与看板分工为准。 |
 | [TEST-GLM-WAVE-L-1 — 地图、场景、精灵与印章创作大包](TEST-GLM-WAVE-L-1-editor-map-scene.md) | review | 以任务卡当前准入与看板分工为准。 |
 | [TEST-GLM-WAVE-M-1 — 编辑器数据页、资源库和设计控件大包](TEST-GLM-WAVE-M-1-editor-data-assets.md) | review | 以任务卡当前准入与看板分工为准。 |
 | [TEST-GLM-WAVE-N-1 — Reforge 非剧情运行时宿主与资源生命周期大包](TEST-GLM-WAVE-N-1-reforge-runtime-host.md) | rework | 以任务卡当前准入与看板分工为准。 |

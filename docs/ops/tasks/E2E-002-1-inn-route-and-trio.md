@@ -82,6 +82,8 @@ Codex 已复核现行原始场景/视频和 game 插桩源码 hash 一致；锁�
 - 正式恢复成功后 normal input：房间 → 正常门 → s003 默认入口 → e56 靠近触发；路线步进有界、
   障碍/无进展失败，采样不能冒充实际位置写入；路线与核心分别报告。
 - 首次 20 行正文及说话人全部实际呈现；奖励前后 cash 0→500、cue51、cue53 顺序正确。
+- 在 `dlg.32`、`dlg.53` 正常等待输入各驻留 3 秒，三个参与者可见且位置不变；
+  原起步及赏银后短等待仍可移动，正文关闭后各自续走，不能为过断言缩短读对白时间。
 - e59/e60/e61 各自实际走位至进房终点后隐藏；s001/e24/e25/e26 出现；保存阶段和控制权闭合。
 - 真实 002 快存导出 → 新页/新 IndexedDB → 正式导入/读回；持久世界、场景位置与同引擎结束画面核对。
 - 采集有界、有序、溢出/丢失/无来源移动 fail closed；增加反控工具测试，保留 001 原合同。
@@ -104,6 +106,25 @@ Codex 已复核现行原始场景/视频和 game 插桩源码 hash 一致；锁�
 
 - 2026-09-30 Codex：建立隔离分支，核定真实前驱和 e56 主链，批准工具实现；当前 main 产品/作者内容不变。
   下一步贡献者实现，Codex 独立脚本审查与验收；不等待固定 AI 席位签字。
+- 2026-09-30 Codex：独立读取首轮双引擎失败产物并看 RF 首领/奖励截图；头领在谢赏/钱到帐时已入房，
+  game 则在对白结束后入房。工具须补 locale key、blocker push 提交与 narration 实绘采集，
+  不改产品来迁就观测。
+- 2026-09-30 Codex：用户指出应先参考一阶段；撤回离场顺序产品选择。
+  双方各自直接核第一阶段 trace：起步已发生，32→45 交谈停步，53 前短等待又有位移且全可见，
+  hide 均在53之后。以[独立作者卡](E2E-002-CHOREO-1-trio-dialogue-authority.md)修三人显式接管，
+  本卡工具 Owner/白名单不变；第二轮 game 自验通过、RF 正式保存屏障超时待定位，未冒称通过。
+- 2026-10-01 Codex：completion内容21/SAVE9切换后，执行器当前版本合同冻结9d60efff，
+  正常重跑RF001产生真实SHA4104d7c3…；RF002 `15-07-24-839Z`route/core/choreography通过、
+  checkpoint15ms成功且fresh-context loaded，但报告整体failed。唯一差异是背景e62自动循环游标。
+  Root/贡献者各自直接核`main.ts:4629–4709`成功restore提交无await、auto启前，
+  `captureCurrentSavePayload:4521–4528`→`currentWorldSnapshot:842`→`save/ops:34–39`为纯读真实World；
+  e62实际读回后第二barrier前legacy-003，553ms后initial，符合wait400循环。
+  新准入：工具Owner仅改inn-trace-plugin/observer/journey/contract及其test，
+  在成功restorePayload唯一startAutoRunners前只读捕获提交payload，有界深克隆；核提交语句顺序/无await。
+  该实际持久态全量严格openingSaveView比原始结束档；错钱/游标/completed、缺/重复/前移锚均失败。
+  晚到post-resume完整快照另存，不删背景游标、不暂停世界、不取p/candidate/原档冒充观测，
+  不改产品/作者/版本或质量配置。独立premise verified/design agree，Root build allowed。
+  增工具反控并零诊断后冻结，再用本次真001重跑002；旧failed原样保留，母卡不关闭。
 
 ## 下一位 Agent 提示词
 
