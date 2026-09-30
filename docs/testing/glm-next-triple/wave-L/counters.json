@@ -1,0 +1,106 @@
+{
+  "protocol": "合法输入单轴变异；未注入正控 exit0；注入后目标新增 file/fullName 实际执行且仅目标业务断言红、exit1；恢复后源 sha256 不变。判据拒绝 skip、timeout、收集/环境错误、额外用例红、零执行与仅改期望值。",
+  "runner": "env -u NODE_COMPILE_CACHE pnpm exec vitest run <target-file>（worktree packages/editor）",
+  "counters": [
+    {
+      "id": "L-CC1",
+      "group": "L06",
+      "source": "packages/editor/src/core/stamp-group-command.ts",
+      "mutation": "删除 UngroupStampPlacementsCommand 构造器的空选区守卫 `if (ids.length === 0) throw new StampGroupCommandError('请先选择至少一个图章放置组。')`（单轴删除）",
+      "sourceSha256Restored": "01a0f74b4524f621284aeebef4927a0225279d9d85f1846bca0aa1c110098850",
+      "control": {
+        "file": "src/core/stamp-group-command.glm-l.test.ts",
+        "exitCode": 0,
+        "log": "wave-L/counters/L-CC1-control.txt"
+      },
+      "injected": {
+        "exitCode": 1,
+        "log": "wave-L/counters/L-CC1-injected.txt",
+        "redFullName": "TEST-GLM-WAVE-L-1 L06 stamp group command guards > 解组空选区与含未知 id 的选区都在构造期精确拒绝",
+        "redCount": 1,
+        "passedCount": 7
+      }
+    },
+    {
+      "id": "L-CC2",
+      "group": "L02",
+      "source": "packages/editor/src/core/scene-commands.ts",
+      "mutation": "删除 UpdateSceneNameCommand.apply 的空白名守卫 `if (!name) throw new Error('场景显示名不能为空')`（单轴删除）",
+      "sourceSha256Restored": "ea0e58b7fd7a78ddef80f85f3b4e265da6b781ed22a18100b994d98e3a5759f1",
+      "control": {
+        "file": "src/core/scene-commands.glm-l.test.ts",
+        "exitCode": 0,
+        "log": "wave-L/counters/L-CC2-control.txt"
+      },
+      "injected": {
+        "exitCode": 1,
+        "log": "wave-L/counters/L-CC2-injected.txt",
+        "redFullName": "TEST-GLM-WAVE-L-1 L02 scene command no-op & guard branches > UpdateSceneName 三个守卫：缺场景抛错、空白名抛错、同名零写",
+        "redCount": 1,
+        "passedCount": 6
+      }
+    },
+    {
+      "id": "L-CC3",
+      "group": "L03",
+      "source": "packages/editor/src/core/map-patch.ts",
+      "mutation": "删除 prepareProjectMapPatchWithOwnership 的组缺失早退 `if (scope.kind === 'stamp-group-members' && !index.byId.has(scope.placementId)) return [stamp-placement-missing]`（单轴删除）",
+      "sourceSha256Restored": "9624d18ea567d78f1865d270ba526efd635284f3455de8ffd0c112df28a9dbc1",
+      "control": {
+        "file": "src/core/map-patch.glm-l.test.ts",
+        "exitCode": 0,
+        "log": "wave-L/counters/L-CC3-control.txt"
+      },
+      "injected": {
+        "exitCode": 1,
+        "log": "wave-L/counters/L-CC3-injected.txt",
+        "redFullName": "TEST-GLM-WAVE-L-1 L03 map patch narrow entries & value guards > 组内窄入口对已删除的 placement 报 stamp-placement-missing",
+        "redCount": 1,
+        "passedCount": 3
+      }
+    },
+    {
+      "id": "L-CC4",
+      "group": "L05",
+      "source": "packages/editor/src/ui/StampTemplateDialog.tsx",
+      "mutation": "删除 submit() 的 create 重复 ID 守卫 `if (mode === 'create' && stamps.some(...)) { reportError('ID …已存在。') }`（单轴删除）",
+      "sourceSha256Restored": "7de587fe897af3ab8ffccf032507b531ff8f4845221037f66d95c15ce78428dc",
+      "control": {
+        "file": "src/ui/StampTemplateDialog.glm-l.test.tsx",
+        "exitCode": 0,
+        "log": "wave-L/counters/L-CC4-control.txt"
+      },
+      "injected": {
+        "exitCode": 1,
+        "log": "wave-L/counters/L-CC4-injected.txt",
+        "redFullName": "TEST-GLM-WAVE-L-1 L05 stamp template dialog validation gates > create 重复 ID 与空名称都精确报错且不落任何模板",
+        "redCount": 1,
+        "passedCount": 1
+      }
+    },
+    {
+      "id": "L-CC5",
+      "group": "L01",
+      "valid": true,
+      "source": "packages/editor/src/core/map-selection.ts",
+      "mutation": "hitTestMapContent 的实例绘制边界生成由 `frame ? projectMapTileBlitRect({ row, col }, frame) : undefined` 单轴改为恒 `false ?`（等价恒 undefined）",
+      "sourceSha256Restored": "65644e11a1c6fca4f5ebd1d4429cdacdf253e10ee2f8e590ada073413cd73713",
+      "control": {
+        "file": "src/core/map-selection.glm-l.test.ts",
+        "exitCode": 0,
+        "log": "wave-L/counters/L-CC5b-control.txt"
+      },
+      "injected": {
+        "exitCode": 1,
+        "log": "wave-L/counters/L-CC5b-injected.txt",
+        "redFullName": "TEST-GLM-WAVE-L-1 L01 map selection gaps > 命中候选携带非空实例的真实绘制边界，空槽候选没有 imageBounds",
+        "redType": "AssertionError: expected undefined to match object { width: 64, height: 16 }（业务断言红）",
+        "redCount": 1,
+        "passedCount": 4
+      },
+      "superseded": {
+        "note": "首轮 CC5（删除 selectionForStampPlacementGridPoints 空 placement 早退）注入后目标用例红，但红色为 TypeError: Cannot read properties of undefined (reading 'visualSlots')（崩溃型，非业务断言），按 Codex 审核判据判无效并更换；原始正控/注入日志保留于 wave-L/counters/L-CC5-control.txt 与 L-CC5-injected.txt。"
+      }
+    }
+  ]
+}

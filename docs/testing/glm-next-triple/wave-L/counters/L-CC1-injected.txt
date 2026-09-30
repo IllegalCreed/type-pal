@@ -1,0 +1,32 @@
+
+ RUN  v4.1.7 /Users/zhangxu/illegal/type-pal-wave-l/packages/editor
+
+ ❯ src/core/stamp-group-command.glm-l.test.ts (8 tests | 1 failed) 20ms
+     × 解组空选区与含未知 id 的选区都在构造期精确拒绝 6ms
+     ✓ EditStampPlacementCommand.apply 对缺图与过期地图零写并显式失败 4ms
+     ✓ no-op 组内编辑的 apply 与 invert 都是零写早退 0ms
+     ✓ 解组 invert 在地图缺失时抛错；label 走单/复数分支 1ms
+     ✓ reject 组合移动计划直接构造 Command 时以冲突数回退文案 4ms
+     ✓ 组内编辑构造器：未知组、未知活动层与非成员输入都精确拒绝 1ms
+     ✓ 解组 apply 对缺图与过期地图零写并显式失败 1ms
+     ✓ 整组变换 apply/invert 对缺图与过期地图都显式失败 2ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/core/stamp-group-command.glm-l.test.ts > TEST-GLM-WAVE-L-1 L06 stamp group command guards > 解组空选区与含未知 id 的选区都在构造期精确拒绝
+AssertionError: expected function to throw an error, but it didn't
+ ❯ src/core/stamp-group-command.glm-l.test.ts:79:7
+     77|           permission: writable,
+     78|         }),
+     79|     ).toThrow(StampGroupCommandError)
+       |       ^
+     80|     expect(
+     81|       () =>
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 7 passed (8)
+   Start at  11:15:55
+   Duration  2.16s (transform 1.71s, setup 0ms, import 2.01s, tests 20ms, environment 0ms)
