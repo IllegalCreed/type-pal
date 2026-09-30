@@ -462,10 +462,14 @@ export async function runInnJourney(engine) {
           throw error
         }
       }
-      report.endWorld =
-        engine === 'game'
-          ? await page.evaluate(readWorld)
-          : openingSaveView(await formalReforgeSnapshot('end-world'))
+      let reforgeCheckpoint
+      if (engine === 'game') report.endWorld = await page.evaluate(readWorld)
+      else {
+        // One real barrier supplies both the persisted reference and the checkpoint bytes.
+        // A second capture after screenshots could legally advance background cursors.
+        reforgeCheckpoint = await formalReforgeSnapshot('checkpoint')
+        report.endWorld = openingSaveView(reforgeCheckpoint)
+      }
       report.endWorldHash = sha256(JSON.stringify(report.endWorld))
       report.endFrame = await waitForOpeningFrame(page, until)
       await page.screenshot({ path: resolve(out, '002-end.png') })
@@ -483,7 +487,7 @@ export async function runInnJourney(engine) {
           (v) => !!v && JSON.parse(v).gs.dwCash === 500,
           'formal 002 save committed',
         )
-      } else bytes = JSON.stringify(await formalReforgeSnapshot('checkpoint'))
+      } else bytes = JSON.stringify(reforgeCheckpoint)
       await writeFile(resolve(out, '002.end.save.json'), bytes)
       report.checkpoint = {
         path: '002.end.save.json',
