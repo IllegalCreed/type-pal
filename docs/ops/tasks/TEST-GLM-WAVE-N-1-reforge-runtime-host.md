@@ -131,7 +131,7 @@ driver 不进入剧情并硬核 __rfWorld 未挂载，scope 合格。404 存档�
 本次未重做 N 源注入，哈希核对与原始日志审查已足以否定 RC1；未合 main、
 未运行官方结算、未清理隔离树。
 
-### 下一位 GLM N 窄返工提示词
+### 历史 r2 返工提示词（已执行）
 
 ```text
 你是 TEST-GLM-WAVE-N-1 唯一测试 Coding Owner，当前 rework，基于原隔离分支
@@ -145,6 +145,71 @@ driver 不进入剧情并硬核 __rfWorld 未挂载，scope 合格。404 存档�
 typecheck、根 lint 0/0/0、docs、git diff --check 784fb098...HEAD；共享导航仍
 留 Codex 集成修。产品/旧测/共享配置/官方基线/任务卡只读，不合 main、不标 done，
 推送完整 40 位新候选 SHA。
+```
+
+## Codex 三审（2026-09-30，r3 候选 eb684211）
+
+候选 `eb6842111583b1d5e6111e357edf13f3f29791bd`：**counter / rework**。
+独立串行执行 Reforge 全包 **259 文件/2052 例通过**、typecheck 零诊断、根
+lint 完整 **2780 文件、0 error/0 warning/0 info**、
+`git diff --check 784fb098...HEAD` 零诊断。docs 仅剩共享 README 缺 wave-N
+导航这一条已知白名单项（796 Markdown/4163 链接/238 卡），由 Codex 接收时补。
+62 个冻结源、写入白名单、共享 README 未修改均通过；候选工作树保持干净。
+包测中的 jsdom HTMLMediaElement.pause 提示保留，不冒称运行输出全静默。
+
+### 已闭合
+
+- 两个测试文件的 Canvas 双强转已删除，直接测试使用真实 jsdom 2D 与 spyOn；
+  15 色非法 Palette 用例已删除。固定状态色缺色臂在现行 256 色 loader 下
+  不可合法构造，登记 unreachable 正确。
+- `directed-vitest.json` 为最终 11 个测试文件、53/53，fullName 全部唯一；
+  不再包含已删除的 r1 用例。
+- 四枚反控原始正反控日志包含目标 AssertionError、执行数与退出码；正控
+  分别 6/3/7/9 例通过，反控各恰 1 例失败。逐一独立核对候选文件与
+  original/restored SHA256，并在内存重建单轴变异核 mutant SHA256，全部匹配。
+  RC4 输入高度 2→5 合法，未改预期断言。本次未重复运行源注入。
+- 覆盖 JSON 11 行算术核对为 1528→1622/3001，隔离净 +94；battle-ui 为
+  +11，删除短色板轴较 r2 少 2。此数不是 main 正式覆盖收益。
+- 二审已通过的菜单视觉/删重保持有效，不要求重复进入浏览器或剧情。
+
+### 尚未闭合的三项
+
+1. 专属 `packages/reforge/src/__tests__/glm-n/canvas-host.ts:25-50` 仍构造
+   `Partial<CanvasRenderingContext2D>` 的普通对象，`:52-65` 用
+   `as HTMLCanvasElement['getContext']` 强作完整返回函数。只是把上下文强转
+   移到函数，不能证明真实类型化宿主。`battle-launch-preparation.glm-n.test.ts:5,24`
+   实际调用此 fixture，不是闲置代码；README 的“三处均真实 jsdom 2D”不成立。
+   必须返回真实上下文，用类型化 spy 控制外部 IO，不能以函数断言掩盖 Partial。
+2. README 将 mono 色值调制臂记为 unreachable，理由却是 drawImage 替身不写
+   像素、alpha 恒为 0。这是测试宿主限制，不是产品不可达。
+   `battle-ui.ts:118-145,277-304` 对合法不透明像素可执行调制。独立临时探针
+   经公开 `drawMainIcons`、真实 ctx/createImageData、外部 drawImage/getImageData
+   spy 输入 `[255,255,255,255]`，观察 putImageData 一次、RGB 改变且 alpha 255，
+   通过。可补合法类型化像素断言，也可如实记 blocked/未证；不得继续称产品 unreachable。
+3. README 当前主体仍写“13 文件/53 例”及 1528→1624/3001、+96、battle-ui +13，
+   与顶部及最终 JSON 不符。统一为 **11 测试文件+2 fixture、53 例、+94、battle-ui +11**；
+   历史 r2 +96 只能明确标历史，15 色轴须标已被否决，不再称合法输入。
+
+独立探针 2/2 通过后已撤销，无产品或贡献者代码改动；撤销后重新执行根 lint。
+未合 N、未运行本次官方结算或 protected strict-fast、未清理树。
+L/M 历史 ratchet 阻塞另案处理，不因本次绿包测自动闭合。
+
+### 下一位 GLM N r4 窄返工提示词
+
+```text
+你是 TEST-GLM-WAVE-N-1 唯一测试 Coding Owner，当前 rework。在原隔离分支
+codex/glm-wave-n-reforge-host-r1 基于 eb6842111583b1d5e6111e357edf13f3f29791bd
+返工。先读 AGENTS.md、docs/phase2/READ-FIRST.md、本卡三审、共同协议和 wave-N
+README。只改本卡新测试/专属 fixture/wave-N 证据：canvas-host 必须返回真实
+jsdom 2D，用 typed spy 控制外部 IO，删除 getContext 函数强转，不以 Partial
+伪装完整宿主；mono 调制可补合法不透明像素断言，或如实记 blocked/未证，不能
+称产品 unreachable；统一 README 当前数量、+94 覆盖账和历史非法短色板说明。
+保持已通过菜单证据与删重，不进入剧情。最终格式化后刷新 directed JSON；若
+测试文件变化，重跑受影响反控并核四枚最终 original/mutant/restored SHA256，
+保留目标 AssertionError、执行数及退出码。串行跑 Reforge 全包 test/typecheck、
+根 lint 0/0/0、docs、git diff --check 784fb098...HEAD。共享导航仍留 Codex 集成补。
+产品、旧测、共享配置、官方基线、任务卡/看板只读；不合 main、不标 done，
+提交推送完整 40 位新候选 SHA，等待 Codex 独立验收。
 ```
 
 ### 历史首轮派发提示词（已执行，非本次返工指令）

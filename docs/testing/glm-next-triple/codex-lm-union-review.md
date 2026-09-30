@@ -1,7 +1,7 @@
-# Codex L/M 接收与 N r2 复核（2026-09-30）
+# Codex L/M 接收与 N 复核（2026-09-30）
 
 结论：L r3、M r2 独立代码验收 accept，统一覆盖率门阻塞，保持 review；
-N r2 counter，保持 rework。L/M 测试尚未合 main，三波均未 done 或清树。
+N r3 counter，保持 rework。L/M 测试尚未合 main，三波均未 done 或清树。
 
 - L：`69b56cc388bbd0c0b7632d7ed59154461dd0410b`，15 文件/67 例。
 - M：`b59f1738f56f153a3c6d80b5f7dee1bcf27f7fae`，12 文件/31 例。
@@ -62,3 +62,15 @@ Editor 实测 23063/28489 对旧 22848/28484，净 +215 命中/+5 分母；同�
 完整日志在 `/tmp/type-pal-lm-acceptance.BarHmt/`，失败测量摘要在接收树
 `coverage/fast/summary.json`。保留隔离分支和工作树，未降低规则或重写旧基线。
 下一步需要单列剩余 migrate 覆盖率补测范围；不是让 L/M 越界返工。
+
+## N 三审补记
+
+候选 `eb6842111583b1d5e6111e357edf13f3f29791bd` 未纳入本接收树。
+53/53 定向 JSON、四枚最终三态 hash/原始反控日志、62 源冻结通过；串行
+Reforge 259 文件/2052 例、typecheck、根 lint 2780 文件完整 0/0/0、区间 diff
+通过。docs 仅缺贡献者不得修改的共享导航项。
+仍 counter：专属 Canvas fixture 用 getContext 函数断言掩盖 Partial 宿主；
+mono 调制被宿主透明像素限制误记产品 unreachable；README 主体混有 r2 +96
+和 13 文件口径。独立临时探针 2/2 通过证明普通对象宿主及合法不透明像素调制
+可达，已撤销。最终 JSON 覆盖算术为 +94，未作 main 正式结算。
+详见 N 卡三审及 r4 窄返工提示词。本补记不改变上面的历史并集门禁结果。
