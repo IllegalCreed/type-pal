@@ -40,6 +40,9 @@ pnpm --filter @type-pal/migrate migrate:content --write
 # 快速单测 / 含真实 PAL source 的完整相关门禁
 pnpm --filter @type-pal/migrate test:fast
 pnpm --filter @type-pal/migrate check
+
+# 保留的只读原始地图审计（不翻译剧情脚本）
+pnpm --filter @type-pal/migrate audit:maps
 ```
 
 不带`--write`时不发起新的发布事务，但命令首先恢复已存在的中断事务，因此**不能作为
@@ -60,6 +63,8 @@ journal 前停止。`--write`前还会做baseline / project TOCTOU复核；中�
 当前删除批次及验收状态跟随
 [ARCH-PAL-SUPPLY-1](../../docs/ops/tasks/ARCH-PAL-SUPPLY-1-author-publication-and-import-retirement.md)，
 资源供应、安全重导、地图审计与UI资产bake继续维护，migrate包本身不退休。
+`baselines/script-control-flow/pal-v1.json`仅为已完成N3审计的冻结历史证据，不是当前输入或门禁；
+当前PAL发布baseline仍在`baselines/pal/`，不能手改或用历史脚本审计数据替代。
 
 ## 操作纪律
 

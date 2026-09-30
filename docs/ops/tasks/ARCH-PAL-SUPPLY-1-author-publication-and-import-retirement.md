@@ -428,7 +428,8 @@ Codex：premise verified / design agree / **r6 build allowed**。同一Owner `pa
   layout注册；source-facts撤translator-only facing/word/坐标/符号/旧实体地址helper；
   authored-overlays撤技能overlay/profile/纯full-use状态表，保留current item及两提示严格同步器；
   derived-content撤毒生成器但保留shops；battle-sprites撤enemy/summon/full builders，保留
-  当前角色playerId和资产字节测试消费的两组framecounts，不为死builder迁SourceEnemy。
+  当前角色playerId和资产字节测试消费的两组framecounts；两组可原样迁入`pal-assets.test.ts`
+  作为真实字节冻结expected，避免production只为测试导出，不为死builder迁SourceEnemy。
 
 ### r6测试与fixture白名单、保留合同
 
@@ -462,6 +463,8 @@ Codex：premise verified / design agree / **r6 build allowed**。同一Owner `pa
   改include/门限/真实资源前提或重写`baseline.fast.json`。历史审计卡/签字/计数原样保留。
   `baselines/script-control-flow/pal-v1.json`是N3已完成审计的冻结数据证明，不是当前可执行门
   或兼容输入；保留其原始字节，删除审计代码不重写历史测量。
+  Root另更新README/发布指南及READ-FIRST铁律10的字段归属说明：已有作者正文不再要求同步
+  退役规则，明确源分区的已证上游缺陷仍必须修源。这是用户裁决的文档接线，不扩schema/UI。
 
 ## 交接记录
 
