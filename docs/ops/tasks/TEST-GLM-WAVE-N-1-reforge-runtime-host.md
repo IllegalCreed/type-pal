@@ -82,7 +82,7 @@ ratchet、不标 done；纯测试用户验收 N/A，Codex 独立核定。
   battle trial 错误恢复，不再进入 PAL 001/002 叙事路线。两张截图 SHA256
   与记录相符，404 存档探测已如实披露，但不能把越界路径算本卡视觉完成。
 
-### 下一位 GLM N 返工提示词
+### 历史 r1 返工提示词（已执行）
 
 ```text
 你是 TEST-GLM-WAVE-N-1 唯一测试 Coding Owner。先读 AGENTS.md、
@@ -94,6 +94,57 @@ wave-N 证据：去除全部双强转并证明合法输入；以合法单轴输�
 集成时统一补。复跑 Reforge 全包、typecheck、根 lint 0/0/0、docs（导航缺行
 按白名单如实报告）、git diff --check 784fb098...HEAD。产品、旧测、共享配置、
 官方基线和 E2E-R4-1 路线只读；不合 main、不标 done，推送完整候选 SHA。
+```
+
+## Codex 二审（2026-09-30，r2 候选 7bcd0fcd）
+
+候选 `7bcd0fcdc2c600b2c1ba74ce41d4d4b789b3b826`：**counter / rework**。
+独立串行复跑 Reforge 259 文件/2052 测试通过、typecheck 零诊断、根 lint
+2780 文件完整 0 error/0 warning/0 info、区间 diff 零诊断。docs 仅共享
+README 缺 wave-N 导航；62 源冻结通过、白名单和共享 README 还原通过。
+绿门不替代下列四项验收事实：
+
+1. `menu-box.glm-n.test.ts:68`、`battle-ui.glm-n.test.ts:94`、专属
+   `canvas-host.ts:72` 仍有三处 `as unknown as CanvasRenderingContext2D`。
+   旧测有相同写法不构成本卡禁令豁免；必须换合法类型化外部宿主边界。
+2. `battle-ui.glm-n.test.ts:249-256` 的 15 色 Palette 非现行合法输入。
+   `packages/shared/src/resources.ts:31-33` 明定 256 RGB，
+   `packages/reforge/src/assets.ts:67` 拒绝非 256 色，现行 battle-session
+   使用验证后的 assets.palette。固定状态色索引的缺色防御臂只能登记
+   unreachable，不可把短色板称为合法作者输入或覆盖收益。
+3. `directed-vitest.json` 仍是 r1 的 55/55，包含 r2 已删除的 portrait pending
+   与 MP 缺 slash/cursor 用例；r2 实际为 11 个测试文件、2 个 fixture、53 例。
+   必须在最终代码上重生成 file/fullName/status 并统一 README 数量。
+4. RC1 original/restored 哈希不是最终候选测试文件：实际
+   `e2c3ebbf5f1c944e2c63d796fdad34cabfa6b9b62c00522080374e0d52418359`，
+   记录却为 `bce56b5e8c7e2ba19096487d37e18ddb6d4709ff01438c69c95bfc5f6ce061e4`。
+   在内存重建相同输入变异后 mutant 哈希也不符，不能认证四枚最终候选反控。
+   RC2–RC4 三态哈希及正反控摘录可核，RC4 2→5 已是合法轴；最后格式化后
+   重新生成四枚原始结果、执行数和三态 hash，不能复用中间文件证据。
+
+已通过且不要求重复返工：portrait 异步 fallback/ready 在
+`menu-box.status-residual.test.ts:202-229` 已证，删重正确；slash/cursor 为
+必需 ImageBitmap，缺字段路径不可合法构造，删除正确。菜单新证据三张截图
+SHA256 均匹配并已实际看图，读取进度空列表→Escape 返回标题相位成立；
+driver 不进入剧情并硬核 __rfWorld 未挂载，scope 合格。404 存档探测与取消请求
+已披露，不改写为全程 console 零错误。旧版本兼容审查 pass（未新增产品兼容层）。
+本次未重做 N 源注入，哈希核对与原始日志审查已足以否定 RC1；未合 main、
+未运行官方结算、未清理隔离树。
+
+### 下一位 GLM N 窄返工提示词
+
+```text
+你是 TEST-GLM-WAVE-N-1 唯一测试 Coding Owner，当前 rework，基于原隔离分支
+7bcd0fcdc2c600b2c1ba74ce41d4d4b789b3b826。先读 AGENTS.md、READ-FIRST、
+本卡二审与共同协议。仅改卡面新测试/专属 fixture/wave-N 证据：去掉三处双强转，
+用 typed 外部 Canvas 宿主；删除 15 色非法 Palette 覆盖轴，正常状态臂保留，
+缺色防御臂按现行 256 色 loader 记 unreachable；最终代码重生成定向 Vitest JSON
+和准确文件/例数；最后格式化后重跑四枚反控，交目标业务 AssertionError、正反控
+退出码/执行数及与最终文件匹配的 original/mutant/restored SHA256。
+已通过菜单截图/删重/README 还原保持，不重进剧情。串行复跑 Reforge 全包、
+typecheck、根 lint 0/0/0、docs、git diff --check 784fb098...HEAD；共享导航仍
+留 Codex 集成修。产品/旧测/共享配置/官方基线/任务卡只读，不合 main、不标 done，
+推送完整 40 位新候选 SHA。
 ```
 
 ### 历史首轮派发提示词（已执行，非本次返工指令）

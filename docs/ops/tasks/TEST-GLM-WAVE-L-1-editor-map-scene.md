@@ -1,6 +1,6 @@
 # TEST-GLM-WAVE-L-1 — 地图、场景、精灵与印章创作大包
 
-Status: rework
+Status: review
 Phase: phase2
 Capability: editor-authoring / test-coverage
 Coding Owner: GLM L（仅新增测试、专属 fixture/证据）
@@ -142,7 +142,7 @@ Codex 独立复跑 Editor **496 文件/3720 测试**、typecheck 与根 lint
 README 缺 wave-L 导航行失败，此项仍由 Codex 在集成时补，不让 GLM 越界。
 本轮不合 main、不运行正式覆盖结算、不清理隔离树。
 
-### 下一位 GLM L 返工提示词
+### 历史 r2 返工提示词（已执行）
 
 ```text
 你是 TEST-GLM-WAVE-L-1 唯一测试 Coding Owner。先读 AGENTS.md、
@@ -154,3 +154,18 @@ git diff --check 784fb098...HEAD 核整个已提交候选区间零诊断，勿�
 40 位新候选 SHA。产品、旧测、共享 README、官方基线/任务卡只读；
 不合 main、不标 done。共享导航仍由 Codex 集成时修。
 ```
+
+## Codex 三审（2026-09-30，r3 候选 69b56cc3）
+
+候选 `69b56cc388bbd0c0b7632d7ed59154461dd0410b`：**独立代码验收 accept**。
+相对 r2 的 packages 树零改动，复用二审相同测试代码的独立 Editor
+496 文件/3720 测试与 typecheck 通过证据；r3 只维护日志/回执。
+本次独立 `git diff --check 784fb098...HEAD` 零诊断，13 处尾空行全部闭合；
+根 lint 完整报告 2780 文件、0 error/0 warning/0 info；62 源冻结校验通过。
+候选 docs 只剩共享 README 的 wave-L 导航项，Codex 已在隔离接收树补行。
+五枚业务反控、截图与操作窗口 console 的二审结论保持，初始加载期未证不改写。
+旧版本兼容审查 pass：测试/证据范围未新增产品兼容路径。
+
+先接收至 `codex/glm-lmn-acceptance-r1`，不抢写正在验证的主树；尚未完成
+统一 `check → 官方 ratchet → protected fast`，故保持 review，未记正式收益、未清树。
+GLM 无需继续返工；下一位为 Codex，完成并集门后才能 done。
