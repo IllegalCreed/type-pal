@@ -34,6 +34,7 @@ export interface TriggerActivation {
 export type FlowCursor =
   | { kind: 'stage'; stage: StageId }
   | { kind: 'state'; machine: MachineId; state: StateId }
+  | { kind: 'completed' }
 
 export interface CursorHandoff {
   kind: 'stateMap'
@@ -275,14 +276,17 @@ export interface BaseSceneEntryPresentation {
   reveal: SceneReveal
 }
 
+export type StageNext = StageId | { kind: 'complete' }
+
 export interface BaseAuthorStage {
   id: StageId
   entry?: BaseSceneEntryPresentation
   body: BaseAuthorCommand[]
-  next?: StageId
+  next?: StageNext
 }
 
 export type BaseStateTransition =
+  | { kind: 'complete' }
   | { kind: 'stay' }
   | { kind: 'restart' }
   | { kind: 'continue'; state: StateId }
@@ -327,6 +331,24 @@ export interface BaseScriptStateMachine {
 export type BaseScriptFlow =
   | { kind: 'stages'; initial: StageId; stages: BaseAuthorStage[] }
   | { kind: 'stateMachine'; machine: BaseScriptStateMachine }
+
+/** Completion is valid only for a flow that explicitly declares a completion edge. */
+export function flowCanComplete(
+  flow:
+    | { kind: 'stages'; stages: readonly { next?: StageNext }[] }
+    | {
+        kind: 'stateMachine'
+        machine: { states: Readonly<Record<string, { next: BaseStateTransition }>> }
+      },
+): boolean {
+  const completes = (next: BaseStateTransition): boolean =>
+    next.kind === 'complete' ||
+    ((next.kind === 'branch' || next.kind === 'commandOutcome') &&
+      (completes(next.then) || completes(next.else)))
+  return flow.kind === 'stages'
+    ? flow.stages.some((stage) => typeof stage.next === 'object' && stage.next.kind === 'complete')
+    : Object.values(flow.machine.states).some((state) => completes(state.next))
+}
 
 export interface BaseEntityBehavior {
   label: string
@@ -850,7 +872,11 @@ function checkStateTransition(
   commands: StateCommandIds,
 ): void {
   const transition = record(value, path)
-  if (transition.kind === 'stay' || transition.kind === 'restart') {
+  if (
+    transition.kind === 'stay' ||
+    transition.kind === 'restart' ||
+    transition.kind === 'complete'
+  ) {
     exactKeys(transition, ['kind'], path)
     return
   }
@@ -887,7 +913,9 @@ function checkStateTransition(
     checkStateTransition(transition.else, `${path}.else`, stateIds, commands)
     return
   }
-  throw new Error(`${path}.kind: 期望 stay|restart|continue|advance|to|branch|commandOutcome`)
+  throw new Error(
+    `${path}.kind: 期望 complete|stay|restart|continue|advance|to|branch|commandOutcome`,
+  )
 }
 
 function collectContinueTargets(value: unknown, targets: Set<string>): void {
@@ -957,6 +985,13 @@ export function checkBaseScriptFlow(
     if (!ids.has(initial)) throw new Error(`${path}.initial: 未命中 stage ${initial}`)
     flow.stages.forEach((raw, index) => {
       const next = (raw as { next?: unknown }).next
+      if (typeof next === 'object' && next !== null) {
+        const completion = record(next, `${path}.stages[${index}].next`)
+        exactKeys(completion, ['kind'], `${path}.stages[${index}].next`)
+        if (completion.kind !== 'complete')
+          throw new Error(`${path}.stages[${index}].next.kind: 期望 complete`)
+        return
+      }
       if (next !== undefined && (typeof next !== 'string' || !ids.has(next)))
         throw new Error(`${path}.stages[${index}].next: 未命中 stage ${String(next)}`)
     })
@@ -1128,6 +1163,10 @@ export function checkBaseScriptLibrary(
 
 function checkFlowCursor(value: unknown, path: string): void {
   const cursor = record(value, path)
+  if (cursor.kind === 'completed') {
+    exactKeys(cursor, ['kind'], path)
+    return
+  }
   if (cursor.kind === 'stage') {
     exactKeys(cursor, ['kind', 'stage'], path)
     nonEmptyString(cursor.stage, `${path}.stage`)
@@ -1139,10 +1178,11 @@ function checkFlowCursor(value: unknown, path: string): void {
     nonEmptyString(cursor.state, `${path}.state`)
     return
   }
-  throw new Error(`${path}.kind: 期望 stage|state`)
+  throw new Error(`${path}.kind: 期望 stage|state|completed`)
 }
 
 function flowCursorKey(cursor: FlowCursor): string {
+  if (cursor.kind === 'completed') return JSON.stringify(['completed'])
   return cursor.kind === 'stage'
     ? JSON.stringify(['stage', cursor.stage])
     : JSON.stringify(['state', cursor.machine, cursor.state])
@@ -1210,7 +1250,7 @@ function checkNestedNumberRecord(
 }
 
 /**
- * SAVE8 的脚本世界态严格 guard。静态 inherit 不落盘；持久层只记录显式 disabled/use，
+ * SAVE9 的脚本世界态严格 guard。静态 inherit 不落盘；持久层只记录显式 disabled/use，
  * cursor 始终携带所属 behavior/hook，避免换槽后把旧位置串到新 flow。
  */
 export function checkWorldScriptState(

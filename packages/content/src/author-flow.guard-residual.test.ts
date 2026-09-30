@@ -151,7 +151,7 @@ describe('G1 author/runtime script flow 残差', () => {
     const flowBefore = deepSnapshot(flow)
     expectExactError(
       () => checkAuthorScriptFlow(flow, 'flow'),
-      'flow.machine.states.initial.next.then.kind: 期望 stay|restart|continue|advance|to|branch|commandOutcome',
+      'flow.machine.states.initial.next.then.kind: 期望 complete|stay|restart|continue|advance|to|branch|commandOutcome',
     )
     expect(flow).toEqual(flowBefore)
   })

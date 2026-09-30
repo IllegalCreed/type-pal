@@ -3491,6 +3491,7 @@ function defaultTransition(
 ): AuthorStateTransition {
   const state = states[0] ?? 'state'
   switch (kind) {
+    case 'complete':
     case 'stay':
       return { kind }
     case 'restart':
@@ -3535,6 +3536,7 @@ function TransitionEditor(props: {
           size="compact"
           value={transition.kind}
           options={[
+            { value: 'complete', label: '本方案完成，不再执行' },
             { value: 'stay', label: '下次激活保持当前状态' },
             { value: 'restart', label: '下次激活回初始状态' },
             { value: 'continue', label: '同步继续到状态' },
@@ -3863,7 +3865,12 @@ export function CanonicalScriptFlowEditor(props: {
       return index >= 0 ? `步骤 ${index + 1}` : id
     }
     const stageNextLabel = (candidate: (typeof flow.stages)[number]): string =>
-      candidate.next ? `下次进入${stageLabel(candidate.next)}` : '下次仍执行当前步骤'
+      typeof candidate.next === 'object'
+        ? '本方案完成，不再执行'
+        : candidate.next
+          ? `下次进入${stageLabel(candidate.next)}`
+          : '下次仍执行当前步骤'
+    const stageChoice = (id: string): string => JSON.stringify(['stage', id])
     const replacement =
       stage && hasMultipleStages
         ? (flow.stages[stageIndex + 1] ?? flow.stages[stageIndex - 1])
@@ -3953,6 +3960,13 @@ export function CanonicalScriptFlowEditor(props: {
               </div>
             ))}
           </nav>
+        ) : stage ? (
+          <div className="canonical-stage-single-summary">
+            <span>{stageNextLabel(stage)}</span>
+            <DsButton size="compact" variant="quiet" onClick={() => setDetailsOpen(true)}>
+              步骤详情
+            </DsButton>
+          </div>
         ) : null}
         {stage ? (
           <CanonicalFlowBodyTabs
@@ -4061,19 +4075,26 @@ export function CanonicalScriptFlowEditor(props: {
                 <header className="canonical-dialog-field-heading">
                   <label htmlFor={stageNextSelectId}>下次运行</label>
                   <DsHelpTip label="下次运行">
-                    当前步骤完成后，下一次运行这套方案时从哪个步骤开始。
+                    当前步骤跑完后，可以重复、进入下一步骤，或完成本方案并不再执行。真正切换到另一方案再回来时，才会从起始步骤重新运行。
                   </DsHelpTip>
                 </header>
                 <DsSelect
                   size="compact"
                   id={stageNextSelectId}
-                  value={stage.next ?? ''}
+                  value={
+                    typeof stage.next === 'object'
+                      ? 'complete'
+                      : stage.next
+                        ? stageChoice(stage.next)
+                        : ''
+                  }
                   options={[
                     { value: '', label: '仍执行当前步骤' },
+                    { value: 'complete', label: '本方案完成，不再执行' },
                     ...flow.stages
                       .filter((candidate) => candidate.id !== stage.id)
                       .map((candidate) => ({
-                        value: candidate.id,
+                        value: stageChoice(candidate.id),
                         label: `进入${stageLabel(candidate.id)}`,
                       })),
                   ]}
@@ -4082,7 +4103,12 @@ export function CanonicalScriptFlowEditor(props: {
                       candidate.id === stage.id
                         ? {
                             ...candidate,
-                            next: nextStageId || undefined,
+                            next:
+                              nextStageId === 'complete'
+                                ? { kind: 'complete' as const }
+                                : flow.stages.find(
+                                    (target) => stageChoice(target.id) === nextStageId,
+                                  )?.id,
                           }
                         : candidate,
                     )

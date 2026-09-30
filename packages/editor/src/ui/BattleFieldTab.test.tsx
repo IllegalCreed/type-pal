@@ -29,8 +29,8 @@ function state(fields: BattleFieldDef[], declared = true): EditorState {
     manifest: {
       id: 'test',
       name: '测试',
-      contentVersion: 20,
-      minimumSaveVersion: 8,
+      contentVersion: 21,
+      minimumSaveVersion: 9,
       defaultEntryId: 'main',
       content: {
         scenes: 'content/scenes/index.json',

@@ -86,10 +86,10 @@ test('future declared rows and typing pages cannot fake a displayed story anchor
   assert.throws(() => assertReforgeOpening({ ...proof, videos: [] }, '/intro'), /video/)
 })
 test('checkpoint comparison is read-only and only normalizes explicitly optional/transient fields', () => {
-  // This is the comparison DTO, not a fixture claiming to pass the production SAVE8 structural guard.
+  // This is the comparison DTO, not a fixture claiming to pass the production SAVE9 structural guard.
   const save = {
-    version: 8,
-    contentVersion: 20,
+    version: 9,
+    contentVersion: 21,
     projectId: 'pal',
     position: { sceneId: 's001' },
     world: { party: [{ id: 'p', hp: 100, poisons: [] }], inventory: [], money: 7 },
@@ -103,5 +103,7 @@ test('checkpoint comparison is read-only and only normalizes explicitly optional
   poisoned.world.party[0].poisons = [{ poisonId: 1 }]
   assert.throws(() => openingSaveView(poisoned), /unexpectedly carries/)
   assert.throws(() => openingSaveView({ ...save, version: 7 }))
+  assert.throws(() => openingSaveView({ ...save, version: 8 }))
+  assert.throws(() => openingSaveView({ ...save, contentVersion: 20 }))
   assert.throws(() => openingSaveView({ ...save, projectId: 'other' }))
 })

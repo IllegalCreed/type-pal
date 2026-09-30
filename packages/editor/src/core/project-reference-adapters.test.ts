@@ -70,7 +70,7 @@ const commandVisit = (
 const manifest = {
   id: 'test',
   name: 'Test',
-  contentVersion: 20,
+  contentVersion: 21,
   defaultEntryId: 'main',
   entryPoints: [
     {
@@ -82,7 +82,7 @@ const manifest = {
   ],
   content: {},
   assets: { catalog: 'assets/index.json', roles: {} },
-  minimumSaveVersion: 8,
+  minimumSaveVersion: 9,
 } as unknown as CurrentManifest
 const noEntryManifest = { ...manifest, entryPoints: [] } as unknown as CurrentManifest
 

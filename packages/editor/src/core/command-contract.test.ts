@@ -16,7 +16,7 @@ function enemyState(): EditorState {
     manifest: {
       id: 'test',
       name: 'Test',
-      contentVersion: 20,
+      contentVersion: 21,
       defaultEntryId: 'main',
       content: {},
       assets: { catalog: 'assets/index.json', roles: {} },

@@ -108,7 +108,7 @@ describe('G2 world script state 残差', () => {
     const before = deepSnapshot(bad)
     expectExactError(
       () => checkWorldScriptState(bad),
-      'world.script.behaviors.entities.s001.e1.trigger.cursor.at.kind: 期望 stage|state',
+      'world.script.behaviors.entities.s001.e1.trigger.cursor.at.kind: 期望 stage|state|completed',
     )
     expect(bad).toEqual(before)
   })

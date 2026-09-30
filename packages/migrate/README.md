@@ -1,8 +1,8 @@
 # @type-pal/migrate — PAL current 内容供应链
 
 本包是第二阶段唯一允许读取第一阶段提取数据的桥：离线读取 `data/extracted`，向
-`projects/pal` 重导当前 `contentVersion 20 / SAVE8` 工程的原始源分区。运行时和编辑器不依赖本包。
-（content20 于 2026-09-05 由 ED-SCENE-LIFECYCLE-1 引入 SceneIndex；当前版本常量以
+`projects/pal` 重导当前 `contentVersion 21 / SAVE9` 工程的原始源分区。运行时和编辑器不依赖本包。
+（content21 于 2026-09-30 引入显式脚本完成状态；当前版本常量以
 `packages/content/src/character.ts` 为准。）
 
 ## 当前发布模型

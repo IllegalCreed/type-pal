@@ -7,13 +7,13 @@ import {
   normalizeEntityLifecycleTable,
 } from '@type-pal/content'
 import { assertCurrentSaveStructure } from './current-structure.js'
-import type { CurrentSavePayload } from './types.js'
+import { type CurrentSavePayload, SAVE_VERSION } from './types.js'
 
 export interface CurrentSaveResolver {
   kind: 'current'
   projectId: string
   contentVersion: typeof CONTENT_VERSION
-  saveVersion: 8
+  saveVersion: typeof SAVE_VERSION
 }
 
 export interface SavePayloadHeader {
@@ -66,18 +66,20 @@ export async function preflightCurrentSave(args: {
       `工程 "${args.manifest.id}": current loader 只接受 contentVersion ${CONTENT_VERSION}`,
     )
   if (args.manifest.minimumSaveVersion !== CURRENT_PROJECT_MINIMUM_SAVE_VERSION)
-    throw new Error(`contentVersion ${CONTENT_VERSION} 的 minimumSaveVersion 必须为 8`)
+    throw new Error(
+      `contentVersion ${CONTENT_VERSION} 的 minimumSaveVersion 必须为 ${SAVE_VERSION}`,
+    )
   if (args.payload.projectId !== args.manifest.id)
     throw new Error(`存档工程 "${args.payload.projectId}" 与当前工程 "${args.manifest.id}" 不匹配`)
-  if (args.payload.version !== 8 || args.payload.contentVersion !== CONTENT_VERSION)
+  if (args.payload.version !== SAVE_VERSION || args.payload.contentVersion !== CONTENT_VERSION)
     throw new Error(
-      `开发期只接受 SAVE8/content${CONTENT_VERSION}，收到 SAVE${String(args.payload.version)}/content${String(args.payload.contentVersion)}`,
+      `开发期只接受 SAVE${SAVE_VERSION}/content${CONTENT_VERSION}，收到 SAVE${String(args.payload.version)}/content${String(args.payload.contentVersion)}`,
     )
   return {
     kind: 'current',
     projectId: args.manifest.id,
     contentVersion: CONTENT_VERSION,
-    saveVersion: 8,
+    saveVersion: SAVE_VERSION,
   }
 }
 

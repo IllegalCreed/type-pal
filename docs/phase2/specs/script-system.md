@@ -1,10 +1,10 @@
 # 作者脚本与运行时合同
 
-类型：现行规范（current）。当前产品为 contentVersion 20 / SAVE8；格式与实现以源码常量和校验器为准。
+类型：现行规范（current）。当前产品为 contentVersion 21 / SAVE9；格式与实现以源码常量和校验器为准。
 本页维护已确认合同，已知实现缺陷继续由 [代码审计](../../ops/audits/pre-e2e/summary.md) 跟踪。
 原设计、旧版本与当时审查完整保留在 [历史快照](../archive/designs/script-system-design.md)，不作为当前执行入口。
 
-## canonical script 契约（contentVersion 20）
+## canonical script 契约（contentVersion 21）
 
 ### 作者身份与存储
 
@@ -37,7 +37,7 @@ type AuthorScriptFlow =
         id: StageId
         entry?: BaseSceneEntryPresentation
         body: AuthorCommand[]
-        next?: StageId
+        next?: StageId | { kind: 'complete' }
       }>
     }
   | {
@@ -60,6 +60,7 @@ type AuthorScriptFlow =
     }
 
 type BaseStateTransition =
+  | { kind: 'complete' }
   | { kind: 'stay' }
   | { kind: 'restart' }
   | { kind: 'continue'; state: StateId }
@@ -78,6 +79,12 @@ type BaseStateTransition =
 
 `continue` 表示同一次 invocation 内同步进入下一 state；`advance` 在 safe-point 提交 cursor；
 `to` 还显式声明宏任务或世界拍让步；`commandOutcome` 绑定稳定 `CommandId`，承接命令结果分支。
+stage省略next表示下次仍运行当前步骤，指定StageId表示下一次激活转到该步骤；
+stage与machine都可显式`{kind:'complete'}`，正文成功结束后在安全点提交`{kind:'completed'}`游标。
+完成的owner保留方案身份但不再获取lease、触发前台或自动轮询；保存/读回保持完成状态。
+同有效方案选择保留游标；真正切换方案（含禁用后重新启用）仍从初始节点复位。
+取消、stopScript、未结束的共享调用、未通过modal安全门或过期epoch不得制造完成；
+完成绑定刷新不重置无关实体动画。不用作者空结束节点表达一次性结束。
 `jumpScript`、匿名 binding 和作者可见 generated block 均不是 v5 作者命令。
 
 `cadence:'transition'` 是显式节拍模式：compiler 不在 state 正文及其嵌套分支、循环、战斗结果、
@@ -147,9 +154,9 @@ compiler 将 canonical flow 降成只存在于内存或可删缓存的 `Executab
 
 ### 当前加载与发布边界
 
-- HTTP/runtime/editor loader 只接受 contentVersion 20；存档只接受 SAVE 8 / content20。
-- 迁移器从真实提取输入与当前作者 baseline 直接构建 current publication，三方 merge、完整闭包预检后
-  最后提交 manifest；不发布脚本分片、版本 transition 或 migration sidecar。
+- HTTP/runtime/editor loader 只接受 contentVersion 21；存档只接受 SAVE9 / content21。
+- 作者正文直接维护；已退役的原版完整脚本转换核不再参与发布。保留的窄资源/地图供应分区
+  经三方merge与完整闭包预检后提交manifest；不发布脚本分片、版本transition或migration sidecar。
 - 旧工程和旧开发期存档可由 Git 取回对应历史代码重建，但不进入当前产品路径。发现版本不匹配时
   fail-loud，不猜字段、不读取旧 sidecar，也不保留“以后可能用到”的兼容 fallback。
 

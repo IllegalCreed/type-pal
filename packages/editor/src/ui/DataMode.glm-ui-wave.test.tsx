@@ -107,8 +107,8 @@ async function baseProps(): Promise<
     manifest: {
       id: 'test',
       name: 'test',
-      contentVersion: 20,
-      minimumSaveVersion: 8,
+      contentVersion: 21,
+      minimumSaveVersion: 9,
       defaultEntryId: 'main',
       content: {},
       assets: { catalog: 'assets/index.json', roles: {} },

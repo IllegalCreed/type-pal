@@ -11,6 +11,7 @@ import type {
 } from '@type-pal/content'
 import {
   checkAuthorScriptLibrary,
+  flowCanComplete,
   rewriteExplicitSceneReferences,
   validateAuthorItems,
   validateAuthorScenes,
@@ -676,6 +677,7 @@ export function collectScriptReferenceIssues(state: ScriptEditorState): ScriptRe
 }
 
 function flowContainsCursor(flow: AuthorScriptFlow, cursor: FlowCursor): boolean {
+  if (cursor.kind === 'completed') return flowCanComplete(flow)
   if (flow.kind === 'stages')
     return cursor.kind === 'stage' && flow.stages.some((stage) => stage.id === cursor.stage)
   return (
@@ -2340,7 +2342,8 @@ export function presentSelection<T>(
 
 export function stateTransitionExecutionLabel(
   transition: AuthorStateTransition,
-): '同步继续' | '下次激活' | '让步后同次继续' | '条件分派' {
+): '同步继续' | '下次激活' | '让步后同次继续' | '条件分派' | '本方案完成' {
+  if (transition.kind === 'complete') return '本方案完成'
   if (transition.kind === 'branch' || transition.kind === 'commandOutcome') return '条件分派'
   if (transition.kind === 'continue') return '同步继续'
   if (transition.kind === 'to') return '让步后同次继续'

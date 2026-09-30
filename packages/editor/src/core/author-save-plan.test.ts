@@ -21,7 +21,7 @@ function plan(): AuthorSavePlan {
   return {
     kind: 'type-pal-author-save-plan',
     version: 1,
-    contentVersion: 20,
+    contentVersion: 21,
     operationId: identity.workspaceId,
     identity,
     before: { 'content/actor.json': old, 'content/new.json': null, 'content/removed.json': old },

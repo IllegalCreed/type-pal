@@ -240,6 +240,112 @@ function states(
 }
 
 describe('ScriptRunnerCore flow semantics', () => {
+  test('a completed stage executes once, commits only after settlement, and becomes inert', async () => {
+    const host = fakeHost()
+    const cursors = controller()
+    const settlement = deferred<void>()
+    host.gate = async (_signal, boundary) => {
+      if (boundary?.kind === 'settlement') await settlement.promise
+    }
+    const flow = compile({
+      kind: 'stages',
+      initial: 'one',
+      stages: [{ id: 'one', body: [{ kind: 'giveMoney', delta: 7 }], next: { kind: 'complete' } }],
+    })
+    const runner = new ScriptRunnerCore(host, new AbortController().signal)
+    const pending = runner.runFlow(flow, { cursorController: cursors })
+    await new Promise<void>((resolve) => setTimeout(resolve, 0))
+    expect(host.calls).toContain('execute:giveMoney:-:-')
+    expect(cursors.cursors).toEqual([])
+    settlement.resolve()
+    await pending
+    expect(cursors.cursors).toEqual([{ kind: 'completed' }])
+    const before = [...host.calls]
+    await runner.runFlow(flow, { cursor: { kind: 'completed' }, cursorController: cursors })
+    expect(host.calls).toEqual(before)
+    expect(cursors.cursors).toHaveLength(1)
+    await expect(
+      runner.runFlow(
+        compile({ kind: 'stages', initial: 'repeat', stages: [{ id: 'repeat', body: [] }] }),
+        { cursor: { kind: 'completed' }, cursorController: cursors },
+      ),
+    ).rejects.toThrow(/未声明 complete/)
+  })
+
+  test.each([
+    'complete',
+    'branch',
+    'commandOutcome',
+  ] as const)('machine %s completion is final without an extra tick', async (kind) => {
+    const host = fakeHost()
+    host.conditions.set('finish', true)
+    const next: Extract<
+      BaseScriptFlow,
+      { kind: 'stateMachine' }
+    >['machine']['states'][string]['next'] =
+      kind === 'complete'
+        ? { kind: 'complete' }
+        : kind === 'branch'
+          ? {
+              kind: 'branch',
+              cond: { kind: 'flag', flag: 'finish', is: true },
+              then: { kind: 'complete' },
+              else: { kind: 'stay' },
+            }
+          : {
+              kind: 'commandOutcome',
+              commandId: 'answer',
+              command: 'confirm',
+              outcome: 'no',
+              then: { kind: 'stay' },
+              else: { kind: 'complete' },
+            }
+    const cursors = controller()
+    const flow = compile(
+      states({
+        initial: {
+          label: 'One',
+          body:
+            kind === 'commandOutcome'
+              ? [{ kind: 'confirm', id: 'answer', onNo: [] }]
+              : [{ kind: 'giveMoney', delta: 7 }],
+          next,
+        },
+      }),
+    )
+    const runner = new ScriptRunnerCore(host, new AbortController().signal)
+    await runner.runFlow(flow, { cursorController: cursors })
+    expect(cursors.cursors).toEqual([{ kind: 'completed' }])
+    expect(host.waitWorldTick).not.toHaveBeenCalled()
+    expect(host.yieldMacroTask).not.toHaveBeenCalled()
+    const before = [...host.calls]
+    await runner.runFlow(flow, { cursor: { kind: 'completed' }, cursorController: cursors })
+    expect(host.calls).toEqual(before)
+  })
+
+  test('abort and stopScript never manufacture completion', async () => {
+    for (const stop of [true, false]) {
+      const host = fakeHost()
+      const cursors = controller()
+      const ac = new AbortController()
+      host.gate = (_signal, boundary) => {
+        if (boundary?.kind === 'settlement') ac.abort()
+      }
+      const flow = compile({
+        kind: 'stages',
+        initial: 'one',
+        stages: [
+          { id: 'one', body: stop ? [{ kind: 'stopScript' }] : [], next: { kind: 'complete' } },
+        ],
+      })
+      const pending = new ScriptRunnerCore(host, ac.signal).runFlow(flow, {
+        cursorController: cursors,
+      })
+      if (stop) await pending
+      else await expect(pending).rejects.toMatchObject({ name: 'AbortError' })
+      expect(cursors.cursors).toEqual([])
+    }
+  })
   test('stage next commits its stable cursor and ends the activation', async () => {
     const host = fakeHost()
     const cursors = controller()
@@ -513,6 +619,107 @@ describe('ScriptRunnerCore flow semantics', () => {
     await running
     expect(cursors.cursors).toEqual([{ kind: 'stage', stage: 'initial' }])
     expect(host.gate).toHaveBeenCalledTimes(2)
+  })
+
+  test('a completed body settles through its modal safe-point gate, not its closed gameplay gate', async () => {
+    const host = fakeHost()
+    const modal = deferred<void>()
+    let closed = false
+    host.gate = (_signal, boundary) => {
+      if (boundary?.kind === 'settlement') return modal.promise
+      if (closed) throw new Error('completed body incorrectly re-entered gameplay gate')
+    }
+    host.execute = async () => {
+      closed = true
+    }
+    const cursors = controller()
+    const running = new ScriptRunnerCore(host, new AbortController().signal).runFlow(
+      compile({
+        kind: 'stages',
+        initial: 'one',
+        stages: [
+          { id: 'one', body: [{ kind: 'setFlag', flag: 'hide', value: true }], next: 'two' },
+          { id: 'two', body: [] },
+        ],
+      }),
+      { cursorController: cursors },
+    )
+    try {
+      await new Promise<void>((resolve) => setTimeout(resolve, 0))
+      expect(closed).toBe(true)
+      expect(cursors.cursors).toEqual([])
+      modal.resolve()
+      await running
+      expect(cursors.cursors).toEqual([{ kind: 'stage', stage: 'two' }])
+    } finally {
+      modal.resolve()
+      await running
+    }
+  })
+
+  test('machine to commits a completed body but the next state remains behind the gameplay gate', async () => {
+    const host = fakeHost()
+    const paused = deferred<void>()
+    let closed = false
+    const execute = host.execute
+    host.execute = async (command, context, signal) => {
+      await execute(command, context, signal)
+      if (command.kind === 'setFlag' && command.flag === 'hide') closed = true
+    }
+    host.gate = (_signal, boundary) =>
+      boundary?.kind === 'settlement' ? undefined : closed ? paused.promise : undefined
+    const cursors = controller()
+    const running = new ScriptRunnerCore(host, new AbortController().signal).runFlow(
+      compile(
+        states({
+          initial: {
+            label: 'Hide',
+            body: [{ kind: 'setFlag', flag: 'hide', value: true }],
+            next: { kind: 'to', state: 'next', yield: 'worldTick' },
+          },
+          next: {
+            label: 'Next',
+            body: [{ kind: 'setFlag', flag: 'later', value: true }],
+            next: { kind: 'stay' },
+          },
+        }),
+      ),
+      { cursorController: cursors },
+    )
+    try {
+      await new Promise<void>((resolve) => setTimeout(resolve, 0))
+      expect(cursors.cursors).toEqual([{ kind: 'state', machine: 'machine', state: 'next' }])
+      expect(host.calls).toEqual(['execute:setFlag:-:-', 'yield:worldTick'])
+      closed = false
+      paused.resolve()
+      await running
+      expect(host.calls).toEqual(['execute:setFlag:-:-', 'yield:worldTick', 'execute:setFlag:-:-'])
+      expect(cursors.cursors).toHaveLength(2)
+    } finally {
+      closed = false
+      paused.resolve()
+      await running
+    }
+  })
+
+  test('abort during a suspended safe-point gate never commits the cursor', async () => {
+    const host = fakeHost()
+    const paused = deferred<void>()
+    host.gate = (_signal, boundary) =>
+      boundary?.kind === 'settlement' ? paused.promise : undefined
+    const cursors = controller()
+    const ac = new AbortController()
+    const running = new ScriptRunnerCore(host, ac.signal)
+      .runFlow(compile({ kind: 'stages', initial: 'one', stages: [{ id: 'one', body: [] }] }), {
+        cursorController: cursors,
+      })
+      .catch((error: unknown) => error)
+    await new Promise<void>((resolve) => setTimeout(resolve, 0))
+    expect(cursors.cursors).toEqual([])
+    ac.abort()
+    paused.resolve()
+    expect(await running).toMatchObject({ name: 'AbortError' })
+    expect(cursors.cursors).toEqual([])
   })
 
   test.each([

@@ -33,7 +33,7 @@ import {
   BaseProjectScriptRuntimeHost,
   type ScriptEffectCommitControl,
 } from './script-project-core.js'
-import type { ScriptRuntimeContext } from './script-runner-core.js'
+import type { ScriptGateBoundary, ScriptRuntimeContext } from './script-runner-core.js'
 import { FlowRuntimeCoordinator, resolveEntityBehavior, resolveSceneHook } from './script-world.js'
 
 export interface ProjectScriptHostOptions
@@ -121,8 +121,11 @@ export class ProjectScriptRuntimeHost implements ScriptRuntimeHost {
     return this.retainedHost.currentSceneSessionId()
   }
 
-  gate(signal: AbortSignal): void | Promise<void> {
-    return this.retainedHost.gate(signal)
+  gate(
+    signal: AbortSignal,
+    boundary?: ScriptGateBoundary,
+  ): ReturnType<NonNullable<ScriptRuntimeHost['gate']>> {
+    return this.retainedHost.gate(signal, boundary)
   }
 
   async execute(
@@ -260,7 +263,7 @@ type SynchronousSnapshot<T> = T extends PromiseLike<unknown> ? never : T
 
 /** 当前 project runtime；只在 current validator/loader 已通过后可构造。 */
 export class ScriptProjectRuntime {
-  readonly coordinator = new FlowRuntimeCoordinator()
+  readonly coordinator: FlowRuntimeCoordinator
   readonly host: ProjectScriptRuntimeHost
   private readonly shared: RuntimeSharedScriptResolver
   private readonly script: WorldScriptState
@@ -273,6 +276,7 @@ export class ScriptProjectRuntime {
   ) {
     if (!/^[a-f0-9]{64}$/.test(canonicalContentDigest))
       throw new Error('ScriptProjectRuntime: canonicalContentDigest 非法')
+    this.coordinator = new FlowRuntimeCoordinator(host.flowCompleted)
     if (!world.script) world.script = emptyWorldScriptState()
     this.script = world.script
     this.host = new ProjectScriptRuntimeHost(world, this.coordinator, host)
@@ -290,7 +294,8 @@ export class ScriptProjectRuntime {
     const entity = entityAt(scene, target)
     const sceneSessionId = this.host.currentSceneSessionId()
     if (this.host.currentSceneId() !== scene.id) return false
-    if (!resolveRuntimeEntityBehavior(entity, this.script, target, channel)) return false
+    const beforeActivation = resolveRuntimeEntityBehavior(entity, this.script, target, channel)
+    if (!beforeActivation || beforeActivation.cursor.kind === 'completed') return false
     const parent = registeredScriptActivityLease(this.host, this.coordinator, options.signal)
     let active = this.coordinator.beginEntityBehavior(
       this.script,
@@ -354,7 +359,8 @@ export class ScriptProjectRuntime {
     options.signal.throwIfAborted()
     const sceneSessionId = this.host.currentSceneSessionId()
     if (this.host.currentSceneId() !== scene.id) return false
-    if (!resolveRuntimeSceneHook(scene, this.script, slot)) return false
+    const beforeActivation = resolveRuntimeSceneHook(scene, this.script, slot)
+    if (!beforeActivation || beforeActivation.cursor.kind === 'completed') return false
     const parent = registeredScriptActivityLease(this.host, this.coordinator, options.signal)
     let active = this.coordinator.beginSceneHook(
       this.script,

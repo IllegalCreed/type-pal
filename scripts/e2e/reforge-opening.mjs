@@ -190,7 +190,7 @@ await runBrowserJourney({
         )
         return s.boot?.checkpointLoad === 'loaded' && reforgeRoomReady(s.runtime)
       },
-      'formal SAVE8 checkpoint restored',
+      'formal SAVE9 checkpoint restored',
       60_000,
     )
     const restored = await page.evaluate(() => window.__tpE2e.dumpSave())

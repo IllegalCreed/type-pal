@@ -47,6 +47,7 @@ import {
   SetSceneHookInitialCommand,
   sceneHookReferences,
   stateTransitionExecutionLabel,
+  UpdateEntityBehaviorCommand,
   UpdateSceneHookCommand,
   UpdateSharedScriptCommand,
   UpdateSharedScriptMetadataCommand,
@@ -65,6 +66,34 @@ const currentSharedScriptReferences = (state: ScriptEditorState) => {
 }
 
 const target = { scene: 's001', entity: 'e1' }
+
+test('completion survives validated author export/reopen and editor undo/redo without a sink step', () => {
+  const session = new ScriptEditSession(editorState())
+  const original = session.getState().scenes[0]!.entities[0]!.behaviors!.trigger!.talk!
+  const completed: AuthorScriptFlow = {
+    kind: 'stages',
+    initial: 'start',
+    stages: [{ id: 'start', body: [{ kind: 'giveMoney', delta: 7 }], next: { kind: 'complete' } }],
+  }
+  session.dispatch(
+    new UpdateEntityBehaviorCommand(target, 'trigger', 'talk', { ...original, flow: completed }),
+  )
+  const persisted = JSON.stringify(session.getState())
+  expect(session.getState().scenes[0]!.entities[0]!.behaviors!.trigger!.talk!.flow).toEqual(
+    completed,
+  )
+  expect(session.undo()).toBe(true)
+  expect(session.getState().scenes[0]!.entities[0]!.behaviors!.trigger!.talk!.flow).toEqual(
+    original.flow,
+  )
+  expect(session.redo()).toBe(true)
+  const reopened = new ScriptEditSession(JSON.parse(persisted))
+  expect(reopened.getState().scenes[0]!.entities[0]!.behaviors!.trigger!.talk!.flow).toEqual(
+    completed,
+  )
+  expect(collectScriptReferenceIssues(reopened.getState())).toEqual([])
+  expect(stateTransitionExecutionLabel({ kind: 'complete' })).toBe('本方案完成')
+})
 type AuthorEntityBehavior = NonNullable<AuthorEntityBehaviors['trigger']>[string]
 type AuthorSceneHook = NonNullable<AuthorSceneHooks['onEnter']>['variants'][string]
 

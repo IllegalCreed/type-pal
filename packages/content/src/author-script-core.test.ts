@@ -12,6 +12,62 @@ import {
 const target = { scene: 's001', entity: 'e1' }
 
 describe('canonical author script schema', () => {
+  test('completion edges and owner-bound completed cursors have exact shapes', () => {
+    const flow = {
+      kind: 'stages',
+      initial: 'one',
+      stages: [{ id: 'one', body: [], next: { kind: 'complete' } }],
+    }
+    expect(() => checkBaseScriptFlow(flow, 'flow')).not.toThrow()
+    for (const next of [{ kind: 'completed' }, { kind: 'complete', stage: 'one' }, null])
+      expect(() =>
+        checkBaseScriptFlow({ ...flow, stages: [{ id: 'one', body: [], next }] }, 'flow'),
+      ).toThrow()
+    const world = emptyWorldScriptState()
+    world.behaviors.entities = {
+      s001: { e1: { auto: { cursor: { behavior: 'once', at: { kind: 'completed' } } } } },
+    }
+    expect(() => checkWorldScriptState(world)).not.toThrow()
+    expect(() =>
+      checkWorldScriptState({
+        ...world,
+        behaviors: {
+          scenes: {
+            s001: {
+              onEnter: { cursor: { hook: 'once', at: { kind: 'completed', stage: 'one' } } },
+            },
+          },
+        },
+      }),
+    ).toThrow(/未知字段/)
+  })
+
+  test('machine completion cannot smuggle a target or yield boundary', () => {
+    const machine = {
+      kind: 'stateMachine',
+      machine: {
+        id: 'once',
+        label: 'Once',
+        initial: 'one',
+        states: { one: { label: 'One', body: [], next: { kind: 'complete' } } },
+      },
+    }
+    expect(() => checkBaseScriptFlow(machine, 'flow')).not.toThrow()
+    expect(() =>
+      checkBaseScriptFlow(
+        {
+          ...machine,
+          machine: {
+            ...machine.machine,
+            states: {
+              one: { label: 'One', body: [], next: { kind: 'complete', yield: 'worldTick' } },
+            },
+          },
+        },
+        'flow',
+      ),
+    ).toThrow(/未知字段/)
+  })
   test('world state uses composite entity maps and has no flat stage/binding authority', () => {
     expect(emptyWorldScriptState()).toEqual({
       flags: {},

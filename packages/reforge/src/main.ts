@@ -179,7 +179,11 @@ import { ScriptConfirmModalQueue } from './script-confirm-modal.js'
 import { executeScriptHostEffect } from './script-host-adapter.js'
 import type { MoveEntityCommitControl, ScriptEffectCommitControl } from './script-project-core.js'
 import type { ScriptHost, ScriptRunner } from './script-runner.js'
-import type { ScriptRuntimeContext } from './script-runner-core.js'
+import type {
+  SafePointDecision,
+  ScriptGateBoundary,
+  ScriptRuntimeContext,
+} from './script-runner-core.js'
 import { parseShopTrialParameters, runShopTrial } from './shop-trial.js'
 import { settleWalkAnimation } from './sprite-anim.js'
 import {
@@ -1063,7 +1067,10 @@ export async function bootGame(
       if (signal.aborted) waiter.abort()
     })
   }
-  const waitForScriptGameplay = async (signal: AbortSignal): Promise<void> => {
+  const waitForScriptGameplay = async (
+    signal: AbortSignal,
+    boundary?: ScriptGateBoundary,
+  ): Promise<SafePointDecision | undefined> => {
     await waitForScriptModal(signal)
     const activation = autoActivationBySignal.get(signal)
     if (!activation) return
@@ -1071,6 +1078,7 @@ export async function bootGame(
     // W9 suspend pauses an activation at every command/safe-point without aborting its cursor or
     // pending move. hide/remove abort the owner elsewhere, so this loop cannot resurrect it.
     while (true) {
+      await waitForScriptModal(signal)
       signal.throwIfAborted()
       if (autoActivations.get(ownerId) !== activation)
         throw asyncIntentAbortError(`auto 实体 ${ownerId} activation 已被替换`)
@@ -1083,6 +1091,11 @@ export async function bootGame(
         )
       )
         return
+      if (boundary?.kind === 'continuation' && scriptRuntime?.coordinator.gateClosed()) {
+        const decision = await boundary.reachSafePoint()
+        signal.throwIfAborted()
+        if (decision === 'stop') return decision
+      }
       await presentation.waitPassive(120, signal)
     }
   }
@@ -2768,7 +2781,7 @@ export async function bootGame(
     command.kind === 'restoreEntity' ||
     command.kind === 'removeEntity'
 
-  const refreshCurrentCanonicalBindings = (): void => {
+  const refreshCurrentScriptBindings = (): void => {
     const canonical = sceneResources.peek(activeScene.scene.id)
     if (!canonical) throw new Error(`script 当前场景未缓存: ${activeScene.scene.id}`)
     refreshSceneViewBindings(
@@ -2776,6 +2789,10 @@ export async function bootGame(
       canonical as unknown as import('@type-pal/content').BaseSceneDef,
       canonicalScript,
     )
+  }
+
+  const refreshCurrentCanonicalBindings = (): void => {
+    refreshCurrentScriptBindings()
     const pageActions: EntityActionSeed[] = []
     for (const entity of activeScene.scene.entities) {
       const binding = entity.pages?.[0]?.animation
@@ -2978,10 +2995,23 @@ export async function bootGame(
         )
       },
       worldChanged: (command, _context, commit) => refreshRuntimeProjection(command, commit),
+      flowCompleted: (owner) => {
+        const sceneId = owner.kind === 'entity-behavior' ? owner.target.scene : owner.scene
+        if (sceneId !== activeScene.scene.id) return
+        if (owner.kind === 'entity-behavior' && owner.channel === 'trigger')
+          bumpEntityTriggerRevision(owner.target.entity)
+        // Completion changes executability, not page identity or animation state.
+        refreshCurrentScriptBindings()
+      },
       scene: getCanonicalScene,
       currentSceneId: () => activeScene.scene.id,
       currentSceneSessionId: currentMotionSceneSessionId,
-      gate: (signal) => waitForScriptGameplay(signal),
+      gate: (signal, boundary) =>
+        boundary?.kind === 'settlement'
+          ? waitForScriptModal(signal)
+          : waitForScriptGameplay(signal, boundary),
+      // Completed bodies may have hidden their own auto owner. Cursor settlement is not another
+      // gameplay mutation: keep modal/abort/CAS checks, then gate the next body independently.
       entityPosRelativeToParty: (target, dcol, drow) => {
         if (target.scene !== activeScene.scene.id)
           throw new Error(`setEntityPosRelParty 只能操作当前场景: ${target.scene}/${target.entity}`)
@@ -3803,6 +3833,7 @@ export async function bootGame(
           const ran = await runtime.runEntityBehavior(canonical, e.id, 'auto', {
             signal: ac.signal,
           })
+          if (!e.pages?.[0]?.auto) return
           if (!ran) {
             await host.wait(120, ac.signal)
             continue

@@ -1,11 +1,11 @@
 import type {
-  AuthorCondition,
   BaseAuthorCommand,
   BaseAuthorStage,
   BaseEntityBehavior,
   BaseEntityPage,
   BaseSceneHook,
   BaseScriptStateMachine,
+  BaseStateTransition,
   CommandValidationOptions,
   EntityAddress,
 } from './author-script-core.js'
@@ -55,26 +55,7 @@ export interface RuntimeStage {
   next?: BaseAuthorStage['next']
 }
 
-export type RuntimeStateTransition =
-  | { kind: 'stay' }
-  | { kind: 'restart' }
-  | { kind: 'continue'; state: string }
-  | { kind: 'advance'; state: string }
-  | { kind: 'to'; state: string; yield: 'macroTask' | 'worldTick' }
-  | {
-      kind: 'branch'
-      cond: AuthorCondition
-      then: RuntimeStateTransition
-      else: RuntimeStateTransition
-    }
-  | {
-      kind: 'commandOutcome'
-      commandId: string
-      command: 'confirm'
-      outcome: 'no'
-      then: RuntimeStateTransition
-      else: RuntimeStateTransition
-    }
+export type RuntimeStateTransition = BaseStateTransition
 
 export interface RuntimeScriptStateMachine {
   id: BaseScriptStateMachine['id']

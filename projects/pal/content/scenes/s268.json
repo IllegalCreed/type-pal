@@ -609,11 +609,9 @@
                       "ms": 600
                     }
                   ],
-                  "next": "stage-2"
-                },
-                {
-                  "id": "stage-2",
-                  "body": []
+                  "next": {
+                    "kind": "complete"
+                  }
                 }
               ]
             }
@@ -1280,11 +1278,9 @@
                     "kind": "dialog"
                   }
                 ],
-                "next": "legacy-002"
-              },
-              {
-                "id": "legacy-002",
-                "body": []
+                "next": {
+                  "kind": "complete"
+                }
               }
             ]
           }
@@ -1630,11 +1626,9 @@
                     "scene": "s273"
                   }
                 ],
-                "next": "stage-2"
-              },
-              {
-                "id": "stage-2",
-                "body": []
+                "next": {
+                  "kind": "complete"
+                }
               }
             ]
           }

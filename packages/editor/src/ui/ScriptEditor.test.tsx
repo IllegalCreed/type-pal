@@ -68,6 +68,52 @@ describe('CanonicalScriptEditor author presentation', () => {
     host.remove()
   })
 
+  test('single-step details choose completion or repetition without manufacturing another step', async () => {
+    let saved: AuthorScriptFlow | undefined
+    function Harness() {
+      const [flow, setFlow] = useState<AuthorScriptFlow>({
+        kind: 'stages',
+        initial: 'complete',
+        stages: [{ id: 'complete', body: [{ kind: 'giveMoney', delta: 7 }] }],
+      })
+      return (
+        <CanonicalScriptFlowEditor
+          flow={flow}
+          onChange={(next) => {
+            saved = next
+            setFlow(next)
+            return true
+          }}
+        />
+      )
+    }
+    await act(async () => root.render(<Harness />))
+    expect(host.querySelector('.canonical-stage-tabs')).toBeNull()
+    const details = host.querySelector<HTMLButtonElement>('.canonical-stage-single-summary button')!
+    await act(async () => details.click())
+    const choose = async (label: string) => {
+      const nextLabel = [
+        ...document.querySelectorAll<HTMLLabelElement>('[role="dialog"] label'),
+      ].find((candidate) => candidate.textContent === '下次运行')!
+      const control = document.getElementById(nextLabel.htmlFor)!
+      await act(async () => control.click())
+      const option = [...document.querySelectorAll<HTMLElement>('[role="option"]')].find(
+        (candidate) => candidate.textContent === label,
+      )!
+      expect(option).toBeDefined()
+      await act(async () => option.click())
+    }
+    await choose('本方案完成，不再执行')
+    expect(saved).toMatchObject({ stages: [{ id: 'complete', next: { kind: 'complete' } }] })
+    if (saved?.kind !== 'stages') throw new Error('flow fixture')
+    expect(saved.stages).toHaveLength(1)
+    expect(host.querySelector('.canonical-stage-single-summary')?.textContent).toContain(
+      '本方案完成，不再执行',
+    )
+    await choose('仍执行当前步骤')
+    expect(saved.stages[0]?.next).toBeUndefined()
+  })
+
   test('has an author-facing Chinese name for every enabled canonical command kind', () => {
     const enabled = Object.entries(RUNTIME_COMMAND_KINDS)
       .filter(([, value]) => value)

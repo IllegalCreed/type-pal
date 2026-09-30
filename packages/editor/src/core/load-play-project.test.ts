@@ -24,8 +24,8 @@ describe('loadPlayProject current canonical boundary', () => {
   beforeEach(() => {
     vi.resetAllMocks()
     reforge.fsaSource.mockReturnValue(reforge.source)
-    reforge.loadCurrentProject.mockResolvedValue({ manifest: { contentVersion: 20 } })
-    reforge.loadCurrentProjectFrom.mockResolvedValue({ manifest: { contentVersion: 20 } })
+    reforge.loadCurrentProject.mockResolvedValue({ manifest: { contentVersion: 21 } })
+    reforge.loadCurrentProjectFrom.mockResolvedValue({ manifest: { contentVersion: 21 } })
   })
 
   test('loads repository projects through the current canonical loader', async () => {

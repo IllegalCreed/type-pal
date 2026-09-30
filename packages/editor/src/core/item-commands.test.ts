@@ -39,7 +39,7 @@ function state(items: ItemData[] = []): EditorState {
     manifest: {
       id: 'items',
       name: 'items',
-      contentVersion: 20,
+      contentVersion: 21,
       defaultEntryId: 'main',
       content: {},
       assets: { catalog: 'assets/index.json', roles: {} },

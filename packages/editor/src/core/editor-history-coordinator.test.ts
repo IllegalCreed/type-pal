@@ -32,8 +32,8 @@ const legacyState = (): EditorState =>
     stamps: [],
     manifest: {
       id: 'test',
-      contentVersion: 20,
-      minimumSaveVersion: 8,
+      contentVersion: 21,
+      minimumSaveVersion: 9,
       defaultEntryId: 'main',
       content: {},
       assets: { catalog: 'assets/index.json', roles: {} },

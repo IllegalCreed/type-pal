@@ -73,6 +73,68 @@ function behavior(
 }
 
 describe('describeSpriteReferenceBehavior', () => {
+  test('a conditional edge indirectly reaching completion cannot be advertised as a proven loop', () => {
+    const stages = projectCanonicalScriptFlowPreview(
+      {
+        kind: 'stateMachine',
+        machine: {
+          id: 'maybe-once',
+          label: 'Maybe once',
+          initial: 'one',
+          states: {
+            one: {
+              label: 'One',
+              body: [
+                { kind: 'setEntityFrame', target: { scene: 's001', entity: 'e001' }, frame: 1 },
+              ],
+              next: {
+                kind: 'branch',
+                cond: { kind: 'flag', flag: 'finish', is: true },
+                then: { kind: 'to', state: 'finish', yield: 'worldTick' },
+                else: { kind: 'stay' },
+              },
+            },
+            finish: {
+              label: 'Finish',
+              body: [
+                { kind: 'setEntityFrame', target: { scene: 's001', entity: 'e001' }, frame: 2 },
+              ],
+              next: { kind: 'complete' },
+            },
+          },
+        },
+      },
+      { scene: 's001', entity: 'e001' },
+      {},
+    )
+    expect(behavior(stages).preview?.kind).toBe('unavailable')
+  })
+  test('a canonical completion edge previews once, never as a loop or extra empty stage', () => {
+    const stages = projectCanonicalScriptFlowPreview(
+      {
+        kind: 'stages',
+        initial: 'one',
+        stages: [
+          {
+            id: 'one',
+            body: [
+              { kind: 'setEntityFrame', target: { scene: 's001', entity: 'e001' }, frame: 1 },
+              { kind: 'setEntityFrame', target: { scene: 's001', entity: 'e001' }, frame: 2 },
+            ],
+            next: { kind: 'complete' },
+          },
+        ],
+      },
+      { scene: 's001', entity: 'e001' },
+      {},
+    )
+    expect(stages).toHaveLength(1)
+    expect(stages[0]?.next).toBe(1)
+    expect(behavior(stages).preview).toMatchObject({
+      kind: 'once',
+      steps: [{ frame: 1 }, { frame: 2 }],
+    })
+  })
   test('只为单阶段、线性且闭合的脚本显示可证明帧序', () => {
     const ref = { chunk: 'scene/s001', id: 'candle-loop' }
     const result = behavior([{ body: [{ kind: 'callScript', ref }] }], {

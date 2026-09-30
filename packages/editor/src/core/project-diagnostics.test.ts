@@ -75,8 +75,8 @@ function state(overrides: Partial<EditorState> = {}): EditorState & { manifest: 
   const manifest: CurrentManifest = {
     id: 'test',
     name: 'Test',
-    contentVersion: 20,
-    minimumSaveVersion: 8,
+    contentVersion: 21,
+    minimumSaveVersion: 9,
     defaultEntryId: 'new-game',
     content: {
       maps: 'content/maps/index.json',
@@ -1214,14 +1214,14 @@ describe('X7 项目诊断与保存门', () => {
     )
   })
 
-  test('content20 保存门要求 registry 路径，并阻断未登记与错型变量引用', () => {
+  test('content21 保存门要求 registry 路径，并阻断未登记与错型变量引用', () => {
     const legacy = state()
     const current: EditorState = {
       ...legacy,
       manifest: {
         ...legacy.manifest,
-        contentVersion: 20,
-        minimumSaveVersion: 8,
+        contentVersion: 21,
+        minimumSaveVersion: 9,
         content: {
           ...legacy.manifest.content,
           worldVariables: 'content/world-variables.json',
