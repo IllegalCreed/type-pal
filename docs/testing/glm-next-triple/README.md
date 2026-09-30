@@ -8,6 +8,7 @@ Codex 当前 E2E-R4-1 的主树改动不可拿走或改写；三包都不占剧�
 
 已接收候选：[Wave L](wave-L/README.md)（独立复核通过，统一门与正式结算待完成）。
 已接收候选：[Wave M](wave-M/README.md)（独立复核通过，统一门与正式结算待完成）。
+[Codex 接收/统一门记录](codex-lm-union-review.md)：L/M 代码 accept，migrate 比率回退阻塞；N r2 counter。
 
 官方 fast 基线 `49584/63398`（78.21%），距 85% 还需 **4305** 个净命中臂，
 前提是分母不变。2026-09-29 本地 fast 逐文件报告对 L/M/N 冻结目标分别列

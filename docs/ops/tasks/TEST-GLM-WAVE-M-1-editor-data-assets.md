@@ -120,6 +120,11 @@ L/N 文件、官方基线只读；不合 main、不标 done，推送完整候选
 check/官方 ratchet/protected fast；当前 review，未计正式收益、未清树。
 无下一位 GLM 返工提示词；下一位 Codex 完成统一门和正式结算后才能 done。
 
+并集最终门：完整 check 10715 例及硬性静态门通过，但官方 ratchet exit1，
+migrate statements/branches/lines 比率回退；baseline 未改，protected fast 未执行。
+详见[统一记录](../../testing/glm-next-triple/codex-lm-union-review.md)。
+保持 review，测试未合 main、未正式结算、未清树；不把存量 migrate 问题转给 GLM M。
+
 ### 历史首轮派发提示词（已执行，非本次返工指令）
 
 ```text

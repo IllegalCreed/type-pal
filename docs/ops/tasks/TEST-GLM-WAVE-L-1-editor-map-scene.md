@@ -169,3 +169,8 @@ git diff --check 784fb098...HEAD 核整个已提交候选区间零诊断，勿�
 先接收至 `codex/glm-lmn-acceptance-r1`，不抢写正在验证的主树；尚未完成
 统一 `check → 官方 ratchet → protected fast`，故保持 review，未记正式收益、未清树。
 GLM 无需继续返工；下一位为 Codex，完成并集门后才能 done。
+
+并集最终门：完整 check 10715 例及硬性静态门通过，但官方 ratchet exit1，
+migrate statements/branches/lines 比率回退；baseline 未改，protected fast 未执行。
+详见[统一记录](../../testing/glm-next-triple/codex-lm-union-review.md)。
+保持 review，测试未合 main、未正式结算、未清树；不把存量 migrate 问题转给 GLM L。
