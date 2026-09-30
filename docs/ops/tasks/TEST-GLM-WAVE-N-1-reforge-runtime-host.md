@@ -1,6 +1,6 @@
 # TEST-GLM-WAVE-N-1 — Reforge 非剧情运行时宿主与资源生命周期大包
 
-Status: rework
+Status: review
 Phase: phase2
 Capability: runtime-host / test-coverage
 Coding Owner: GLM N（仅新增测试、专属 fixture/证据）
@@ -194,7 +194,7 @@ lint 完整 **2780 文件、0 error/0 warning/0 info**、
 未合 N、未运行本次官方结算或 protected strict-fast、未清理树。
 L/M 历史 ratchet 阻塞另案处理，不因本次绿包测自动闭合。
 
-### 下一位 GLM N r4 窄返工提示词
+### 历史 r3 返工提示词（r4 已执行）
 
 ```text
 你是 TEST-GLM-WAVE-N-1 唯一测试 Coding Owner，当前 rework。在原隔离分支
@@ -211,6 +211,42 @@ jsdom 2D，用 typed spy 控制外部 IO，删除 getContext 函数强转，不�
 产品、旧测、共享配置、官方基线、任务卡/看板只读；不合 main、不标 done，
 提交推送完整 40 位新候选 SHA，等待 Codex 独立验收。
 ```
+
+## Codex 四审（2026-09-30，r4 候选 dbbdc956）
+
+候选 `dbbdc9569e22249411dc680b3a50c5826edd0345`：**独立代码验收 accept**。
+三审 counter 在本轮逐项闭合，任务进入 review；统一门与正式结算未完成前不标 done。
+
+1. `canvas-host.ts` 捕获原生 getContext，2D 实参分支返回原生上下文，
+   Partial/Fake2dContext 和 getContext 函数断言已删。仅 Canvas 返回值按 `'2d'`
+   实参作 RenderingContext 联合成员收窄，可接受：并未把缺字段对象强作上下文。
+   独立临时探针安装另一 getContext spy 后再安装本 fixture，原型与原生 ctx
+   相同、clip 存在、重复取回同一 ctx，撤销 getImageData spy 后 fillRect 真写
+   `#123456` 并读回 `[18,52,86,255]`。1/1 通过后探针删除，候选树干净。
+2. mono 经公开 drawPlayerInfoBox/drawMainIcons，在真实画布写不透明白像素，
+   执行真实调制并从真实 getImageData 读回毒色/灰带/暗红带，断言不以透明底跳过
+   冒充完成。隔离 JSON 11 行相加 1528→1623/3001、+95，battle-ui +12，算术一致。
+   README 当前数量已为 11 测试文件+2 fixture/53 例，r2 +96 已标历史。
+   末尾 mono 未证、开头 r3 候选和历史短色板“合法”等残留属于文档遗漏；Codex
+   在隔离接收树清理为准确当前口径，保留历史数值，不再要求贡献者第五轮返工。
+3. 新鲜独立定向运行 11 文件/53 例 passed，逐 file/fullName/status 与候选 JSON
+   完全相同。四枚反控候选原/恢复 hash 及内存重建变异 hash 全相同；日志执行数
+   6/3/7/9、负控各恰一个 AssertionError、exit1 与合法单轴保持成立。
+   本轮未重复执行变异文件，未将日志摘录冒称新运行。
+4. 串行原候选 Reforge 全包 259 文件/2052 例 passed（36.89s）、typecheck 零诊断、
+   根 lint 2780 文件完整 0/0/0、`git diff --check 784fb098...HEAD` 零诊断。
+   docs 唯一共享导航缺行由 Codex 接收树补；62 冻结源/22 文件白名单/共享 README
+   原候选未动均通过。jsdom pause 提示原样披露。
+
+旧版本兼容审查：pass，仅测试外部宿主，不新增产品旧版本兼容层。
+菜单视觉沿用已独立通过且本轮未改的 r2 三图/非剧情相位差分，不重复走剧情。
+接收树 `codex/glm-lmn-acceptance-r1` 纳入 main 已提交状态 `6c39f36a` 与 L/M/N；
+主树未提交 E2E 工作未碰。统一 check→官方 ratchet→受保护 fast 结果另行落本段；
+正式净增只认并集实测，不相加孤立 +95。
+
+### 下一位 Agent
+
+无下一位 GLM 返工提示词；Codex 继续统一门与收口，不等待用户运行技术门禁。
 
 ### 历史首轮派发提示词（已执行，非本次返工指令）
 

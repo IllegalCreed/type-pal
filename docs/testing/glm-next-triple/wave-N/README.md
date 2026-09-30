@@ -2,7 +2,7 @@
 
 Coding Owner: GLM N。分支 `codex/glm-wave-n-reforge-host-r1`，独立工作树，
 派发提交 `784fb098789a64b21c45e6c942d87abfa9efac2f`，生产冻结 `f70db722`。
-r1 `61dc0de1`、r2 `7bcd0fcd` 先后被 Codex counter（审核段见任务卡）；本文件描述 **r3 返工候选**。
+r1 `61dc0de1`、r2 `7bcd0fcd`、r3 `eb684211` 先后被 Codex counter（审核段见任务卡）；本文件描述 **r4 返工候选**。
 不合 main、不标 done，待 Codex 复核与正式覆盖结算。
 
 ## r4 相对 r3 的改动（对应三审三项）
@@ -20,18 +20,18 @@ r1 `61dc0de1`、r2 `7bcd0fcd` 先后被 Codex counter（审核段见任务卡）
    三审指出的“宿主限制误记产品 unreachable”已改正；该臂并入覆盖账（battle-ui +12）。
 3. **数量/覆盖账统一**：本文件主体统一为 **11 个测试文件 + 2 个专属 fixture、53 用例、
    隔离 1528→1623/3001（+95）、battle-ui +12**；r2 的 +96 为历史记录，
-   15 色短色板轴已被三审否决（非现行合法输入），不再计作覆盖。
+   15 色短色板轴已被二审否决（非现行合法输入），不再计作覆盖。
 
 ## r3 相对 r2 的改动（二审四项，历史记录）
 
 1. **三处 `as unknown as CanvasRenderingContext2D` 清零**（menu-box/battle-ui/canvas-host）：
    探针证实本仓 jsdom 29 + canvas 3.2.3 提供**真实 2D 上下文**（fillRect/getImageData 真执行）。
-   三个文件全部改为**类型化外部宿主边界**：`hostCtx()` 取真实画布 ctx，仅以
+   两个测试文件改为**类型化外部宿主边界**：`hostCtx()` 取真实画布 ctx，仅以
    `vi.spyOn(ctx, 'drawImage')` 实例层拦截假位图绘制、原型层兜底离屏路径，其余成员
    （save/clip/fillRect/putImageData/getImageData）保持真实行为；`canvas-host.ts` 的替身
-   改为显式 `Partial<CanvasRenderingContext2D>` 标注 + 单次收窄（无 unknown 跳板）。
-   mono 调制色值断言依赖真实位图解码（现宿主画布为透明底、调制循环对 alpha=0 逐像素跳过），
-   （r3 曾把调制色值断言改为“宿主限制 unreachable”，r4 经 Codex 探针路线改回合法断言，见顶部。）
+   改为显式 `Partial<CanvasRenderingContext2D>` 标注 + 函数断言，三审否决；r4 已换真 ctx。
+   r3 宿主画布透明底使调制循环跳过，曾误记产品 unreachable；这是宿主限制，
+   r4 已经合法不透明像素路径改回调制色值断言，见顶部。
 2. **删除 15 色非法 Palette 轴**：现行 loader 强制 256 色（`resources.ts:31-33`、
    `assets.ts:67`），短色板不是合法作者输入；状态字正常臂（256 全色）保留，
    固定索引缺色防御臂登记 unreachable。
@@ -49,7 +49,7 @@ r1 `61dc0de1`、r2 `7bcd0fcd` 先后被 Codex counter（审核段见任务卡）
    （调色洞）、`{...} as unknown as MenuAssets/WorldState/MenuState/ProjectImageCache`
    全部移除。替代：完整合法 `MenuAssets` fixture（全部字段真实 ImageBitmap）、
    完整合法 `CharacterInstance/WorldState` 字面量、`openMenu()` 官方构造、
-   **合法短色板**（15 色数组越界色号 0x5f/0xbf/0x3c 自然无色）替代 undefined 强作调色值；
+   当时误称合法的短色板（15 色数组越界色号 0x5f/0xbf/0x3c，自二审起否决并删除）替代 undefined 强作调色值；
    mock 经 `Parameters<typeof actual.drawNumber>` 全型委托；画布替身同形实现对象只在
    每文件一处收敛 `as unknown as CanvasRenderingContext2D`（与 residual 同款单点转型）。
 2. **排重修正**：删除与 status-residual 重复的 portraitFor 懒加载回落/就绪替换用例
@@ -80,7 +80,7 @@ r1 `61dc0de1`、r2 `7bcd0fcd` 先后被 Codex counter（审核段见任务卡）
 | N05 | `src/battle/battle-launch-preparation.glm-n.test.ts` | 3 | 显式 options.music 直达 battleTrack；指定战场 fieldWave/索引背景/投掷 fire chunk；未知战场缺省黑底零 IO |
 
 专属 fixture：`src/__tests__/glm-n/png.ts`（手构 stored-deflate PNG）、
-`src/__tests__/glm-n/canvas-host.ts`（可控 getImageData 画布替身）。
+`src/__tests__/glm-n/canvas-host.ts`（真实 jsdom 2D 上下文，可控外部像素 IO）。
 复用只读共享 fixture：runtime-shell、battle-host-fixture、coverage-wave2/b-trial-catalog
 （只调用其构建器，不改其文件）。
 
@@ -101,10 +101,10 @@ r1 `61dc0de1`、r2 `7bcd0fcd` 先后被 Codex counter（审核段见任务卡）
 见 `coverage-delta.json`：11 源合计 **1528/3001 → 1623/3001（+95 臂）**。
 video-player 0→15/18、main +26、project-map +11、midi-preview +10、battle-ui +12、
 launch-prep +7、trial-assets +5、battle-anim +5、bgm +1、menu-box +3、sfx-readiness ±0。
-历史：r1 曾报 +116；r2 去强转放弃非法 fixture 用例后报 +96；r3 删除被三审否决的
+历史：r1 曾报 +116；r2 去强转放弃非法 fixture 用例后报 +96；r3 删除被二审否决的
 15 色非法短色板轴（非现行合法输入，不计覆盖）后报 +94；r4 恢复 mono 合法像素断言后为 +95，为本候选最终账。
 
-## 业务反控（4 枚，r3 最终代码重采：原始正反控输出/执行数/AssertionError 原文/三态 SHA256 见 `counter-controls.json`）
+## 业务反控（4 枚，最终 r4 文件哈希已复核：原始正反控输出/执行数/AssertionError 原文/三态 SHA256 见 `counter-controls.json`）
 
 | id | 文件 | 合法输入单轴 | 正控 | 变异 |
 |---|---|---|---|---|
@@ -129,19 +129,18 @@ Escape 退回菜单。脚本硬断言 `__rfWorld` 未挂载（未进任何开局
 `/projects/pal/.type-pal/save-state.json` 404/ABORT（无存档档位合法探测）。
 工作树运行取证需从主仓补拷 gitignored `projects/pal/assets/{migrated,runtime}`（不进提交）。
 
-## 门禁（r2 全部新鲜实跑）
+## 门禁（r4 Codex 独立复跑）
 
-- Reforge 全包 `env -u NODE_COMPILE_CACHE pnpm --filter @type-pal/reforge test`：全绿（见提交信息）。
+- Reforge 全包 `env -u NODE_COMPILE_CACHE pnpm --filter @type-pal/reforge test`：259 文件/2052 例全绿。
 - `typecheck`：0 error。根 `pnpm lint`：**0 error / 0 warning / 0 info**。
-- 定向 Vitest JSON：`directed-vitest.json`（**53/53**、11 文件，r3 最终代码重生成）。
+- 定向 Vitest JSON：`directed-vitest.json`（**53/53**、11 文件，与 Codex 新鲜 JSON 逐 file/fullName/status 相同）。
 - `git diff --check 784fb098...HEAD`：干净；`node scripts/docs/check.mjs`：
-  **仅 1 项已知白名单问题**——`wave-N` 子目录导航行按审核指令从共享 README 撤回，
-  待 Codex 集成时统一登记。
+  候选仅 1 项已知白名单导航问题，Codex 在隔离接收树补 wave-N 登记；统一门另记任务卡。
 
 ## 未证项
 
 - main.ts 剧情侧缺口（E2E-R4-1 占用）未测，收益不结算。
-- 状态字固定索引缺色防御臂（现行 256 色 loader 下不可达）、mono 调制色值
-  （需真实位图解码宿主）、非可选字段缺图防御臂、`loadMenuAssets` engine-chrome 资产臂、
-  bgm 真实 AudioContext 路径未覆盖，登记 unreachable/blocked。
+- 状态字固定索引缺色与非可选字段缺图防御臂：现行合法输入下 unreachable。
+- `loadMenuAssets` engine-chrome 资产臂、bgm 真实 AudioContext 路径：blocked/未证。
+- mono 调制色值已由合法不透明像素断言证明，不属于未证或产品 unreachable。
 - 隔离覆盖按同分母 3001 对照；官方 ratchet 由 Codex 串行结算，本包不宣称合并后净增。
