@@ -5,7 +5,7 @@
   "branch": "codex/glm-wave-q-runtime-residual-r1",
   "dispatchBase": "8b3ca062953b17a12178f8d1a9e36657971234b1",
   "productionFreeze": "3ac9a2e2f6aba8a5cc97640c18fef8549d199380",
-  "candidateHead": "77e78595ccd9e7f7f0017436cad9d57112156e5b",
+  "candidateHead": "9cabf9445fcd28a33d0e40c0f9897be0a370ffab",
   "verifier": {
     "command": "node docs/testing/glm-tenfold-triple/verify-targets.mjs --wave Q --base 8b3ca062953b17a12178f8d1a9e36657971234b1",
     "frozenHashesValid": true,
@@ -50,6 +50,7 @@
   "notes": [
     "反控在 mkdtemp 隔离副本树上执行，候选树产品源零改动。",
     "官方 ratchet / protected fast / main 集成仅 Codex；本包不宣称合并后净增。",
-    "工作树取证所需的 gitignored 资产（data/raw、data/extracted、projects/pal/assets/{migrated,runtime}）从主仓拷贝，不进提交。"
+    "工作树取证所需的 gitignored 资产（data/raw、data/extracted、projects/pal/assets/{migrated,runtime}）从主仓拷贝，不进提交。",
+    "candidateHead 指向测试候选树 tip；其后的 docs-only pin 提交仅回填本字段，不改任何测试/产品文件。"
   ]
 }
