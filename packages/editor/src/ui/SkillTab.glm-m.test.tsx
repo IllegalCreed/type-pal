@@ -23,6 +23,7 @@ import {
 import { collectBattleDataReferences } from '../core/battle-data-references.js'
 import type { EditorState } from '../core/edit-session.js'
 import { EditSession } from '../core/edit-session.js'
+import { createEditorAssetReader } from '../core/editor-asset-reader.js'
 import { AddPoisonCommand } from '../core/poison-commands.js'
 import { assertProjectSaveValid } from '../core/project-diagnostics.js'
 import { collectCurrentProjectReferenceIndex } from '../core/project-reference-adapters.js'
@@ -59,7 +60,11 @@ async function poisonedSkillSession(effects: SkillData['effects']): Promise<Edit
   return session
 }
 
-function Harness(props: { session: EditSession }) {
+function Harness(props: {
+  session: EditSession
+  assetBase: import('@type-pal/reforge').AssetBase
+  reader: ReturnType<typeof createEditorAssetReader>
+}) {
   useSyncExternalStore(
     (callback) => props.session.subscribe(callback),
     () => props.session.getVersion(),
@@ -70,9 +75,9 @@ function Harness(props: { session: EditSession }) {
       skills={current.skills}
       items={current.items}
       session={props.session}
-      assetBase={undefined as never}
+      assetBase={props.assetBase}
       assetCatalog={current.assetCatalog}
-      assetReader={{} as never}
+      assetReader={props.reader}
       battleSprites={current.battleSprites ?? []}
       referenceIndex={collectCurrentProjectReferenceIndex(current)}
       referenceStatus="current"
@@ -112,8 +117,10 @@ async function mountSession(
   const session = withPoison
     ? await poisonedSkillSession(effects)
     : new EditSession(await legalSkillState(effects))
+  const { source, assetBase } = await loadLegalProject('glm-wave-m-skill')
+  const reader = createEditorAssetReader(source, () => session.getState())
   await act(async () => {
-    root.render(<Harness session={session} />)
+    root.render(<Harness session={session} assetBase={assetBase} reader={reader} />)
     await Promise.resolve()
   })
   return session

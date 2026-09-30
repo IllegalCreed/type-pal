@@ -5,16 +5,17 @@
  * BattleFieldTab.test.tsx 已证目录/搜索/深链、首次创建登记 manifest、引用面板与跳转、
  * fail-closed、live oracle 阻断与失败；BattleFieldTab.glm-leaf-wave.test.tsx 已证 background
  * pick/clear、五灵逐键 patch、名称清空删键。本文件只补：复制战场单命令与无关记录保全、
- * 创建表单取消零提交、非法编号零提交、常驻波动强度提交、预览资源失败面（加载失败可编辑恢复）。
+ * 创建表单取消零提交、非法编号零提交、常驻波动强度提交、预览资源失败面（catalog 缺失的
+ * 背景 AssetId → 加载失败仍可编辑；无背景黑底空态）。
+ * 底座为真实 blank 项目（loader→toEditorState 自证），assetBase/assetReader 走真实公开边界。
  */
 import type { BattleFieldDef } from '@type-pal/content'
 import { act, useSyncExternalStore } from 'react'
 import { createRoot, type Root } from 'react-dom/client'
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
-import type { EditorState } from '../core/edit-session.js'
+import { loadLegalProject, stubNodeTestHost } from '../__tests__/glm-m/kit.js'
 import { EditSession } from '../core/edit-session.js'
-import type { EditorDerivedStatus } from '../core/editor-derived-contract.js'
-import type { ProjectReferenceIndex } from '../core/project-reference.js'
+import { createEditorAssetReader } from '../core/editor-asset-reader.js'
 import { collectCurrentProjectReferenceIndex } from '../core/project-reference-adapters.js'
 import { BattleFieldTab } from './BattleFieldTab.js'
 
@@ -25,69 +26,10 @@ const field = (id: number, name = `战场 ${id}`): BattleFieldDef => ({
   magicEffect: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 },
 })
 
-/** 与 BattleFieldTab.test.tsx 同构的最小合法 state（引用索引按此收集）。 */
-function state(fields: BattleFieldDef[]): EditorState {
-  return {
-    manifest: {
-      id: 'test',
-      name: '测试',
-      contentVersion: 20,
-      minimumSaveVersion: 8,
-      defaultEntryId: 'main',
-      content: {
-        scenes: 'content/scenes/index.json',
-        items: 'content/items.json',
-        skills: 'content/skills.json',
-        actors: 'content/actors.json',
-        locale: 'content/locale.json',
-        sprites: 'content/sprites.json',
-        maps: 'content/maps/index.json',
-        sharedScripts: 'content/shared-scripts.json',
-        battleFields: 'content/battle-fields.json',
-      },
-      entryPoints: [
-        {
-          id: 'main',
-          label: '主要入口',
-          scene: 's001',
-          startWorld: { party: [], money: 0, inventory: [] },
-        },
-      ],
-      assets: { catalog: 'assets/index.json', roles: {} },
-    },
-    scenes: [
-      {
-        id: 's001',
-        mapId: 'map-001',
-        battleFieldId: fields[0]?.id,
-        entry: { pos: { col: 0, row: 0, height: 0 }, facing: 'down' },
-        entities: [],
-      },
-    ],
-    actors: [],
-    skills: [],
-    levelUp: {},
-    items: [],
-    locale: {},
-    sprites: [],
-    battleSprites: [],
-    battleFields: fields,
-    maps: {},
-    sceneIndex: { version: 1, scenes: [] },
-    mapIndex: { version: 1, maps: [] },
-    stamps: [],
-    tilesetBlobs: {},
-    assetCatalog: { version: 1, assets: {} },
-    assetBlobs: {},
-    scriptChunks: {},
-  } as unknown as EditorState
-}
-
 function Harness(props: {
   session: EditSession
-  focusObjectId?: string
-  referenceStatus?: EditorDerivedStatus
-  referenceIndex?: ProjectReferenceIndex
+  assetBase: import('@type-pal/reforge').AssetBase
+  reader: ReturnType<typeof createEditorAssetReader>
 }) {
   useSyncExternalStore(
     (callback) => props.session.subscribe(callback),
@@ -97,16 +39,13 @@ function Harness(props: {
   return (
     <BattleFieldTab
       battleFields={current.battleFields ?? []}
-      assetBase={{} as never}
+      assetBase={props.assetBase}
       session={props.session}
       assetCatalog={current.assetCatalog}
-      assetReader={{} as never}
-      referenceIndex={
-        props.referenceIndex ?? collectCurrentProjectReferenceIndex(props.session.getState())
-      }
-      referenceStatus={props.referenceStatus ?? 'current'}
+      assetReader={props.reader}
+      referenceIndex={collectCurrentProjectReferenceIndex(props.session.getState())}
+      referenceStatus="current"
       getCurrentReferenceIndex={(next) => collectCurrentProjectReferenceIndex(next)}
-      focusObjectId={props.focusObjectId}
     />
   )
 }
@@ -115,13 +54,7 @@ let root: Root
 let host: HTMLDivElement
 
 beforeEach(async () => {
-  const nodeBufferModule = 'node:buffer'
-  const nodeCryptoModule = 'node:crypto'
-  const buffer = (await import(nodeBufferModule)) as { Blob: typeof Blob }
-  const webcrypto = (await import(nodeCryptoModule)) as { webcrypto: typeof crypto }
-  vi.stubGlobal('Blob', buffer.Blob)
-  vi.stubGlobal('crypto', webcrypto.webcrypto)
-  ;(globalThis as { IS_REACT_ACT_ENVIRONMENT?: boolean }).IS_REACT_ACT_ENVIRONMENT = true
+  await stubNodeTestHost()
   host = document.createElement('div')
   document.body.append(host)
   root = createRoot(host)
@@ -153,10 +86,13 @@ async function setInput(input: HTMLInputElement, value: string): Promise<void> {
   })
 }
 
-async function mount(fields: BattleFieldDef[], focus?: string): Promise<EditSession> {
-  const session = new EditSession(state(fields))
+/** 真实 blank 项目 + 作者编排战场域；assetBase/assetReader 为真实公开边界。 */
+async function mount(fields: BattleFieldDef[]): Promise<EditSession> {
+  const legal = await loadLegalProject('glm-wave-m-battlefield')
+  const session = new EditSession({ ...legal.state, battleFields: fields })
+  const reader = createEditorAssetReader(legal.source, () => session.getState())
   await act(async () => {
-    root.render(<Harness session={session} focusObjectId={focus} />)
+    root.render(<Harness session={session} assetBase={legal.assetBase} reader={reader} />)
     await Promise.resolve()
   })
   return session
@@ -203,7 +139,7 @@ describe('M01 BattleFieldTab 提交/取消/资源失败边界', () => {
   })
 
   test('常驻波动强度 blur 一次提交精确值，undo 还原；兄弟战场键保持不变', async () => {
-    const session = await mount([field(6), field(24)], '6')
+    const session = await mount([field(6), field(24)])
     const before = session.getHistoryVersion()
     const labels = [...host.querySelectorAll<HTMLLabelElement>('label')].filter(
       (candidate) => candidate.textContent?.trim() === '强度',
@@ -226,11 +162,10 @@ describe('M01 BattleFieldTab 提交/取消/资源失败边界', () => {
     expect((session.getState().battleFields ?? [])[0]).toEqual(field(6))
   })
 
-  test('预览资源失败面：加载失败显示错误但工作台仍可编辑；无背景显示黑底空态', async () => {
-    const session = new EditSession(state([{ ...field(6), background: 'bg-asset' }]))
+  test('预览资源失败面：catalog 缺失的背景 AssetId 加载失败仍可编辑；无背景显示黑底空态', async () => {
+    // 背景指向 catalog 中不存在的 AssetId：合法作者输入下的真实资源缺失路径。
+    const session = await mount([{ ...field(6), background: 'battle-background.missing' }])
     await act(async () => {
-      root.render(<Harness session={session} focusObjectId="6" />)
-      // assetBase 为空壳 → loadStandardPalette 的 readRoleText 拒绝 → 预览进入失败面。
       await new Promise((resolve) => setTimeout(resolve, 0))
     })
     expect(host.querySelector('.bf-preview-error')?.textContent).toContain('背景加载失败')
@@ -250,9 +185,8 @@ describe('M01 BattleFieldTab 提交/取消/资源失败边界', () => {
     expect(host.querySelector('.bf-preview-error')).not.toBeNull()
 
     // 换成无背景对象：零 I/O 分支显示「黑底战场」空态且无错误面。
-    const clean = new EditSession(state([field(9)]))
+    await mount([field(9)])
     await act(async () => {
-      root.render(<Harness session={clean} focusObjectId="9" />)
       await new Promise((resolve) => setTimeout(resolve, 0))
     })
     expect(host.querySelector('.bf-preview-empty')?.textContent).toBe('黑底战场')

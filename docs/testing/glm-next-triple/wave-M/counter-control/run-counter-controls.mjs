@@ -67,6 +67,11 @@ const controls = [
 ]
 
 const TIMEOUT_RE = /timed?\s*out/i
+/** 业务断言红的特征（vitest expect 失败统一是 AssertionError）。 */
+const ASSERTION_ERROR_RE = /AssertionError/
+/** 非业务红（组件抛错/收集错等）——目标测试红必须是业务断言，出现这些即判 invalid。 */
+const NON_BUSINESS_ERROR_RE =
+  /\b(TypeError|ReferenceError|SyntaxError|RangeError|EvalError|URIError)\b/
 
 function summarize(jsonPath) {
   const j = JSON.parse(readFileSync(jsonPath, 'utf8'))
@@ -106,6 +111,15 @@ function summarize(jsonPath) {
 function judgeControl(control, injectedAbsPath, positive, negative) {
   const failing = negative.assertion.filter((a) => a.status === 'failed')
   const target = failing.filter((a) => a.fullName.includes(control.itTitle))
+  // 恰红断言必须是业务断言红：message 带 AssertionError 且不含任何非业务错误类型。
+  const redIsBusinessAssertion =
+    failing.length > 0 &&
+    failing.every(
+      (a) =>
+        a.failureMessages.length > 0 &&
+        a.failureMessages.some((m) => ASSERTION_ERROR_RE.test(m)) &&
+        a.failureMessages.every((m) => !NON_BUSINESS_ERROR_RE.test(m)),
+    )
   const verdict = {
     positiveGreen:
       positive.exitCode === 0 && positive.numFailedTests === 0 && positive.numTotalTests > 0,
@@ -117,6 +131,7 @@ function judgeControl(control, injectedAbsPath, positive, negative) {
       negative.fileLevelMessages.length === 0 &&
       failing.length > 0 &&
       failing.every((a) => a.failureMessages.length > 0),
+    redIsBusinessAssertion,
     exactlyOneTargetBusinessFailure:
       failing.length === 1 &&
       target.length === 1 &&
@@ -135,7 +150,7 @@ function selfTest() {
     file,
     fullName,
     status: 'failed',
-    failureMessages: [msg ?? 'expected -52 to be -25'],
+    failureMessages: [msg ?? 'AssertionError: expected -52 to be -25'],
   })
   const green = {
     exitCode: 0,
@@ -208,6 +223,43 @@ function selfTest() {
       },
     ],
     [
+      'typeerror-red-rejected',
+      {
+        pos: green,
+        neg: {
+          ...negBase,
+          assertion: [
+            failAt(
+              injected,
+              `M04 ${control.itTitle} …`,
+              'TypeError: Cannot read properties of undefined (reading kind)',
+            ),
+          ],
+        },
+        expectValid: false,
+      },
+    ],
+    [
+      'mixed-assertion-and-typeerror-rejected',
+      {
+        pos: green,
+        neg: {
+          ...negBase,
+          assertion: [
+            failAt(
+              injected,
+              `M04 ${control.itTitle} …`,
+              [
+                'AssertionError: expected -52 to be -25',
+                'TypeError: undefined is not a function',
+              ].join('\n'),
+            ),
+          ],
+        },
+        expectValid: false,
+      },
+    ],
+    [
       'positive-red-rejected',
       { pos: { ...green, exitCode: 1, numFailedTests: 1 }, neg: negBase, expectValid: false },
     ],
@@ -223,7 +275,7 @@ function selfTest() {
   }
   console.log(
     ok
-      ? 'SELF-TEST PASS:8/8 判据反例全覆盖(timeout/非目标文件/混错/skip/零执行/收集错/正控红)'
+      ? 'SELF-TEST PASS:10/10 判据反例全覆盖(timeout/非目标文件/混错/skip/零执行/收集错/TypeError红/混合错误红/正控红)'
       : 'SELF-TEST FAIL',
   )
   return ok
@@ -314,7 +366,7 @@ try {
   }
   allValid = evidence.controls.every((c) => c.negative.verdict.valid)
   evidence.judge = allValid
-    ? 'PASS:4/4 反控有效(合法输入单轴变异;正控 exit0;注入后恰一个指定业务断言红且来自注入副本绝对路径;exit1;执行数非零;无 skip/timeout/收集错;临时副本已删)'
+    ? 'PASS:4/4 反控有效(合法输入单轴变异;正控 exit0;注入后恰一个指定业务断言红且来自注入副本绝对路径;红色为 AssertionError 业务断言而非 TypeError 等非业务错;exit1;执行数非零;无 skip/timeout/收集错;临时副本已删)'
     : 'FAIL:存在 invalid 反控,见 controls[].negative.verdict'
   console.log(evidence.judge)
   for (const c of evidence.controls) {

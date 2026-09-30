@@ -21,6 +21,7 @@ import {
 import { withSharedEnemyBattleSprite } from '../core/__tests__/cursor-command-boundary-fixtures.js'
 import type { EditorState } from '../core/edit-session.js'
 import { EditSession } from '../core/edit-session.js'
+import { createEditorAssetReader } from '../core/editor-asset-reader.js'
 import { assertProjectSaveValid } from '../core/project-diagnostics.js'
 import { collectCurrentProjectReferenceIndex } from '../core/project-reference-adapters.js'
 import { EnemyTab } from './EnemyTab.js'
@@ -56,8 +57,11 @@ const items: ItemData[] = [
   { id: 'item-m', name: 'name.item-m', desc: [], buyPrice: 10, sellPrice: 5, sellable: true },
 ]
 
-async function legalEnemyState(enemies: EnemyDef[]): Promise<EditorState> {
-  const { source, state } = await loadLegalProject('glm-wave-m-enemy')
+async function legalEnemyState(
+  enemies: EnemyDef[],
+  legal: Awaited<ReturnType<typeof loadLegalProject>>,
+): Promise<EditorState> {
+  const { source, state } = legal
   const withSprite = await withSharedEnemyBattleSprite(
     source,
     structuredClone(state),
@@ -73,7 +77,10 @@ async function legalEnemyState(enemies: EnemyDef[]): Promise<EditorState> {
   return next
 }
 
-function Harness(props: { session: EditSession }) {
+function Harness(props: {
+  session: EditSession
+  reader: ReturnType<typeof createEditorAssetReader>
+}) {
   useSyncExternalStore(
     (callback) => props.session.subscribe(callback),
     () => props.session.getVersion(),
@@ -88,7 +95,7 @@ function Harness(props: { session: EditSession }) {
       locale={current.locale ?? {}}
       session={props.session}
       assetCatalog={current.assetCatalog}
-      assetReader={{} as never}
+      assetReader={props.reader}
       battleSprites={current.battleSprites ?? []}
       referenceIndex={collectCurrentProjectReferenceIndex(current)}
       referenceStatus="current"
@@ -116,9 +123,11 @@ afterEach(async () => {
 })
 
 async function mountWithRule(): Promise<EditSession> {
-  const session = new EditSession(await legalEnemyState([enemy('enemy-m')]))
+  const legal = await loadLegalProject('glm-wave-m-enemy')
+  const session = new EditSession(await legalEnemyState([enemy('enemy-m')], legal))
+  const reader = createEditorAssetReader(legal.source, () => session.getState())
   await act(async () => {
-    root.render(<Harness session={session} />)
+    root.render(<Harness session={session} reader={reader} />)
     await Promise.resolve()
   })
   await act(async () => buttonByText(host, '加规则').click())

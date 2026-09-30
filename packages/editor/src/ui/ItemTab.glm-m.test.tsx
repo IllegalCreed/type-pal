@@ -16,8 +16,8 @@ import {
   loadLegalProject,
   stubNodeTestHost,
 } from '../__tests__/glm-m/kit.js'
-import type { EditorState } from '../core/edit-session.js'
 import { EditSession } from '../core/edit-session.js'
+import { createEditorAssetReader } from '../core/editor-asset-reader.js'
 import { assertProjectSaveValid } from '../core/project-diagnostics.js'
 import { collectCurrentProjectReferenceIndex } from '../core/project-reference-adapters.js'
 import { ItemTab } from './ItemTab.js'
@@ -26,14 +26,11 @@ function item(id: string, name: string): ItemData {
   return { id, name, desc: [], buyPrice: 0, sellPrice: 0, sellable: false }
 }
 
-async function legalItemState(items: ItemData[]): Promise<EditorState> {
-  const { state } = await loadLegalProject('glm-wave-m-item')
-  const next = { ...state, items }
-  assertProjectSaveValid(next)
-  return next
-}
-
-function Harness(props: { session: EditSession; focusObjectId?: string }) {
+function Harness(props: {
+  session: EditSession
+  focusObjectId?: string
+  reader: ReturnType<typeof createEditorAssetReader>
+}) {
   useSyncExternalStore(
     (callback) => props.session.subscribe(callback),
     () => props.session.getVersion(),
@@ -48,7 +45,7 @@ function Harness(props: { session: EditSession; focusObjectId?: string }) {
       locale={current.locale}
       session={props.session}
       assetCatalog={current.assetCatalog}
-      assetReader={{} as never}
+      assetReader={props.reader}
       battleSprites={current.battleSprites ?? []}
       referenceIndex={collectCurrentProjectReferenceIndex(current)}
       referenceStatus="current"
@@ -76,9 +73,13 @@ afterEach(async () => {
 })
 
 async function mount(items: ItemData[], focus?: string): Promise<EditSession> {
-  const session = new EditSession(await legalItemState(items))
+  const legal = await loadLegalProject('glm-wave-m-item')
+  const next = { ...legal.state, items }
+  assertProjectSaveValid(next)
+  const session = new EditSession(next)
+  const reader = createEditorAssetReader(legal.source, () => session.getState())
   await act(async () => {
-    root.render(<Harness session={session} focusObjectId={focus ?? items[0]!.id} />)
+    root.render(<Harness session={session} focusObjectId={focus ?? items[0]!.id} reader={reader} />)
     await Promise.resolve()
   })
   return session

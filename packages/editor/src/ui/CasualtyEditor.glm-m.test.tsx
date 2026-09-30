@@ -15,6 +15,7 @@ import {
   blurField,
   buttonByText,
   fillAndBlur,
+  loadLegalProject,
   pickCombobox,
   stubNodeTestHost,
   typeDraft,
@@ -23,74 +24,22 @@ import type { EditorState } from '../core/edit-session.js'
 import { EditSession } from '../core/edit-session.js'
 import { CasualtyEditor } from './CasualtyEditor.js'
 
-function battlerActor(casualty?: {
-  friendDeath?: CasualtyScript
-  dying?: CasualtyScript
-}): ActorDef {
-  return {
-    id: 'hero',
-    name: 'name.hero',
-    spriteId: 'hero-sprite',
-    battler: {
-      battleSprite: 'hero-battle-sprite',
-      baseStats: {
-        level: 1,
-        hp: 100,
-        maxHP: 100,
-        mp: 10,
-        maxMP: 10,
-        attack: 5,
-        defense: 5,
-        magicAttack: 5,
-        speed: 5,
-        luck: 5,
-      },
-      initialEquipment: {},
-      initialMagic: [],
-      casualty,
-    },
-  }
+type BattlerActor = ActorDef & { battler: NonNullable<ActorDef['battler']> }
+
+/** 真实 blank 项目的占位主角 + 作者编排的伤亡脚本（合法 ActorDef，无强转）。 */
+function withCasualty(
+  hero: BattlerActor,
+  casualty?: { friendDeath?: CasualtyScript; dying?: CasualtyScript },
+): BattlerActor {
+  return { ...hero, battler: { ...hero.battler, casualty } }
 }
 
-function state(actor: ActorDef): EditorState {
-  return {
-    manifest: {
-      id: 'test',
-      name: '测试项目',
-      contentVersion: 20,
-      minimumSaveVersion: 8,
-      defaultEntryId: 'main',
-      content: {},
-      entryPoints: [
-        {
-          id: 'main',
-          label: '主要入口',
-          scene: 'scene-a',
-          startWorld: { party: [], money: 0, inventory: [] },
-        },
-      ],
-      assets: { catalog: 'assets/index.json', roles: {} },
-    },
-    scenes: [],
-    actors: [actor],
-    skills: [],
-    levelUp: {},
-    items: [],
-    locale: { 'dlg.talk.0': '你好', 'name.hero': '主角' },
-    sprites: [],
-    battleSprites: [],
-    maps: {},
-    sceneIndex: { version: 1, scenes: [] },
-    mapIndex: { version: 1, maps: [] },
-    tilesets: [],
-    tilesetBlobs: {},
-    assetCatalog: { version: 1, assets: {} },
-    assetBlobs: {},
-    scriptChunks: {},
-    stamps: [],
-    shops: [],
-    poisons: [],
-  } as unknown as EditorState
+/** 真实项目的占位主角自带战斗档；运行时校验收窄，不做类型断言。 */
+function currentHero(state: EditorState): BattlerActor {
+  const hero = state.actors[0]
+  const battler = hero?.battler
+  if (!hero || !battler) throw new Error('真实项目缺少带战斗档的主角')
+  return { ...hero, battler }
 }
 
 function Harness(props: { session: EditSession }) {
@@ -99,10 +48,11 @@ function Harness(props: { session: EditSession }) {
     () => props.session.getVersion(),
   )
   const current = props.session.getState()
-  const actor = current.actors[0]!
+  const hero = currentHero(props.session.getState())
+  const actor: BattlerActor = hero
   return (
     <CasualtyEditor
-      actor={actor as ActorDef & { battler: NonNullable<ActorDef['battler']> }}
+      actor={actor}
       session={props.session}
       locale={current.locale}
       onClose={() => undefined}
@@ -138,7 +88,9 @@ function actorCasualty(session: EditSession): CasualtyScript | undefined {
 
 describe('M03 CasualtyEditor 效果链当前合同', () => {
   test('添加效果默认 heal hp；恢复对象切真气；改类 tempStatBuff 默认 attack+10；undo 逐步还原', async () => {
-    const session = new EditSession(state(battlerActor({ friendDeath })))
+    const { state } = await loadLegalProject('glm-wave-m-casualty')
+    const hero = currentHero(state)
+    const session = new EditSession({ ...state, actors: [withCasualty(hero, { friendDeath })] })
     await act(async () => {
       root.render(<Harness session={session} />)
       await Promise.resolve()
@@ -173,19 +125,22 @@ describe('M03 CasualtyEditor 效果链当前合同', () => {
   })
 
   test('tempStatBuff 提升比例 blur 提交并下钳 1；台词样式切换为旁白', async () => {
-    const session = new EditSession(
-      state(
-        battlerActor({
-          friendDeath: {
-            gates: [],
-            fallback: {
-              lines: [{ text: 'dlg.talk.0', style: 'bottom' }],
-              effects: [{ kind: 'tempStatBuff', stat: 'attack', percent: 10 }],
-            },
-          },
-        }),
-      ),
-    )
+    const { state } = await loadLegalProject('glm-wave-m-casualty')
+    const hero = currentHero(state)
+    const scripted: BattlerActor = withCasualty(hero, {
+      friendDeath: {
+        gates: [],
+        fallback: {
+          lines: [{ text: 'dlg.talk.0', style: 'bottom' }],
+          effects: [{ kind: 'tempStatBuff', stat: 'attack', percent: 10 }],
+        },
+      },
+    })
+    const session = new EditSession({
+      ...state,
+      actors: [scripted],
+      locale: { ...state.locale, 'dlg.talk.0': '你好' },
+    })
     await act(async () => {
       root.render(<Harness session={session} />)
       await Promise.resolve()

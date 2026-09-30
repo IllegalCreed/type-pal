@@ -7,6 +7,7 @@
 （自派发提交 `784fb098789a64b21c45e6c942d87abfa9efac2f` 建独立工作树）。
 只写 `*.glm-m.test.ts(x)` 新文件、专属 fixture `packages/editor/src/__tests__/glm-m/kit.ts`
 与本目录证据；产品、旧测、L/N 文件、真实项目资产、共享配置与官方基线零改动。
+当前为 **r2 返工候选**（响应 Codex 对 0b045c15 的独立审核，见文末「r2 返工记录」）。
 
 ## 结果总览
 
@@ -165,3 +166,45 @@ console 错误：0。
 
 分支 `codex/glm-wave-m-editor-data-r1`，候选 SHA 见任务卡推进记录与提交推送回执；
 不合 main、不标 done，待 Codex 独立验收与正式覆盖结算。
+
+## r2 返工记录（2026-09-30，响应 Codex 对 0b045c15 的 counter）
+
+逐项对应任务卡「Codex 独立审核」：
+
+1. **vitest-directed.json 格式诊断**：定向重跑后重新生成，并经 Biome 格式化
+   （`biome check --write`，复验 0 诊断、JSON 可解析、31/31）。
+2. **去除全部 `as never` / `as unknown as`**（`grep -rn "as never|as unknown as" src/**/*glm-m*`
+   = 0 命中）：
+   - `item-references.glm-m.test.ts`：chunk/命令/条件全部按 content 当前 schema typed
+     （`Command[]`、`ScriptChunkV1`、`ScriptIndexV1`、`AuthorCondition`、`AuthorStateTransition`）；
+     「排除开关」用例改以真实 blank 项目（loader→toEditorState）为底座 spread `scriptChunks`。
+   - `BattleFieldTab.glm-m`：删除合成 state（原 `as unknown as EditorState`），改为真实 blank
+     项目 + `battleFields` spread；`assetBase`/`assetReader` 传真实 `AssetBase` 与
+     `createEditorAssetReader`。「预览资源失败」改走真实可达的资源缺失路径：背景指向
+     catalog 中不存在的 AssetId（合法作者输入）→ `背景加载失败` 错误面 + 字段仍可编辑 +
+     无背景黑底空态，业务合同与 r1 等价。
+   - `SkillTab.glm-m` / `ItemTab.glm-m` / `EnemyTab.glm-m`：`assetReader`/`assetBase` 全部
+     换成真实公开边界（`loadLegalProject().assetBase` + `createEditorAssetReader(source)`）。
+   - `CasualtyEditor.glm-m`：删除合成 state，改真实项目占位主角 + `withCasualty` spread
+     （`currentHero` 运行时校验收窄，无类型断言）；locale 以合法条目补 `dlg.talk.0`。
+   - 全部 31 例重跑绿；typecheck 0 诊断。
+3. **反控判据拒绝非业务断言红**：judge 新增 `redIsBusinessAssertion`——恰红断言的
+   failureMessages 必须含 `AssertionError` 且不含 `TypeError/ReferenceError/SyntaxError/
+   RangeError/EvalError/URIError`；self-test 扩到 **10/10**（新增 TypeError 红与
+   AssertionError+TypeError 混合红两个反例）。四枚反控按新判据重跑 **4/4 valid**，
+   新鲜结果见 [counter-control/evidence.json](counter-control/evidence.json)。
+4. **质量门复跑（最终树口径）**：Editor 全包、typecheck、根 `pnpm lint`、docs、
+   `git diff --check 784fb098...HEAD` 结果见下方质量门节（如实记录）。
+5. **共享 `docs/testing/glm-next-triple/README.md` 缺 wave-M 导航行**：文件在本卡白名单外，
+   按 Codex 裁定留集成时补行；docs check 结果如实报告，不越界修改。
+
+## 质量门（r2 最终树口径）
+
+- `pnpm --filter @type-pal/editor typecheck`：0 诊断。
+- `env -u NODE_COMPILE_CACHE pnpm --filter @type-pal/editor test`：493 文件 / 3684 测试全绿。
+- 根 `pnpm lint`：**2778 文件 0 error / 0 warning / 0 info**（含 wave-M/vitest-directed.json）。
+- `node scripts/docs/check.mjs`：**FAIL (1 issue)**——
+  `docs/testing/glm-next-triple/README.md:1 子目录未进入导航：wave-M`。该共享文件在本卡
+  白名单外，按 Codex 审核裁定由集成时补行，本波不越界修改；此项与 r1 审核所见一致。
+- `git diff --check 784fb098...HEAD`：干净。
+- 定向 JSON：[vitest-directed.json](vitest-directed.json)（31/31，Biome 格式化）。
