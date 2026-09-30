@@ -20,6 +20,10 @@ import {
 
 type BattleRequest = Extract<ExecutableBaseCommand, { kind: 'startBattle' }>['request']
 
+export type ScriptGateBoundary =
+  | { kind: 'settlement' }
+  | { kind: 'continuation'; reachSafePoint(): SafePointDecision | Promise<SafePointDecision> }
+
 export interface ScriptRuntimeContext {
   self?: EntityAddress
   timing?: ScriptTiming
@@ -30,7 +34,10 @@ export interface ScriptRuntimeHostLike<RuntimeLeafCommand> {
    * 宿主级执行门。中央 modal 可用它冻结所有 runner（包括 auto、shared、
    * item-private），而不只暂停 main tick 的物理推进。
    */
-  gate?(signal: AbortSignal): void | Promise<void>
+  gate?(
+    signal: AbortSignal,
+    boundary?: ScriptGateBoundary,
+  ): void | SafePointDecision | Promise<void> | Promise<SafePointDecision | undefined>
   execute(
     command: RuntimeLeafCommand,
     context: Readonly<ScriptRuntimeContext>,
@@ -180,7 +187,7 @@ export class ScriptRunnerCore<RuntimeLeafCommand = BaseRuntimeLeafCommand> {
       }
       await this.runCommands(stage.body, [stage.id])
       throwIfAborted(this.signal)
-      await this.awaitGate()
+      await this.awaitGate({ kind: 'settlement' })
       await options.cursorController.reachSafePoint({
         kind: 'stage',
         stage: stage.next ?? stage.id,
@@ -214,10 +221,12 @@ export class ScriptRunnerCore<RuntimeLeafCommand = BaseRuntimeLeafCommand> {
     assertState(machine.states, stateId, `machine ${machine.id}`)
     let firstState = true
     let synchronousTransitions = 0
+    let continuation: ScriptGateBoundary | undefined
     try {
       while (true) {
         throwIfAborted(this.signal)
-        await this.awaitGate()
+        await this.awaitGate(continuation)
+        continuation = undefined
         const state = machine.states[stateId]
         if (!state) throw new Error(`ScriptRunnerCore: state 不存在 ${stateId}`)
         if (firstState && options.runSceneEntry && state.entry) {
@@ -254,13 +263,18 @@ export class ScriptRunnerCore<RuntimeLeafCommand = BaseRuntimeLeafCommand> {
               ? machine.initial
               : transition.state
         assertState(machine.states, target, `${machine.id}.${stateId}.next`)
-        await this.awaitGate()
-        const decision = await options.cursorController.reachSafePoint({
+        await this.awaitGate({ kind: 'settlement' })
+        const cursor: FlowCursor = {
           kind: 'state',
           machine: machine.id,
           state: target,
-        })
+        }
+        const decision = await options.cursorController.reachSafePoint(cursor)
         if (transition.kind !== 'to' || decision === 'stop') return
+        continuation = {
+          kind: 'continuation',
+          reachSafePoint: () => options.cursorController.reachSafePoint(cursor),
+        }
         if (transition.yield === 'macroTask') await this.host.yieldMacroTask(this.signal)
         else await this.host.waitWorldTick(this.signal)
         throwIfAborted(this.signal)
@@ -463,9 +477,10 @@ export class ScriptRunnerCore<RuntimeLeafCommand = BaseRuntimeLeafCommand> {
   private runningBoundaryPolicy: ScriptBoundaryPolicy = 'perCommand'
   private runningDigest = ''
 
-  private async awaitGate(): Promise<void> {
-    await this.host.gate?.(this.signal)
+  private async awaitGate(boundary?: ScriptGateBoundary): Promise<void> {
+    const decision = await this.host.gate?.(this.signal, boundary)
     throwIfAborted(this.signal)
+    if (decision === 'stop') throw new ScriptStopped()
   }
 
   private async runBoundaries(boundaries: readonly ExecutableCommandBoundary[]): Promise<void> {

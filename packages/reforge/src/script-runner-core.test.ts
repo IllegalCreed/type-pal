@@ -515,6 +515,107 @@ describe('ScriptRunnerCore flow semantics', () => {
     expect(host.gate).toHaveBeenCalledTimes(2)
   })
 
+  test('a completed body settles through its modal safe-point gate, not its closed gameplay gate', async () => {
+    const host = fakeHost()
+    const modal = deferred<void>()
+    let closed = false
+    host.gate = (_signal, boundary) => {
+      if (boundary?.kind === 'settlement') return modal.promise
+      if (closed) throw new Error('completed body incorrectly re-entered gameplay gate')
+    }
+    host.execute = async () => {
+      closed = true
+    }
+    const cursors = controller()
+    const running = new ScriptRunnerCore(host, new AbortController().signal).runFlow(
+      compile({
+        kind: 'stages',
+        initial: 'one',
+        stages: [
+          { id: 'one', body: [{ kind: 'setFlag', flag: 'hide', value: true }], next: 'two' },
+          { id: 'two', body: [] },
+        ],
+      }),
+      { cursorController: cursors },
+    )
+    try {
+      await new Promise<void>((resolve) => setTimeout(resolve, 0))
+      expect(closed).toBe(true)
+      expect(cursors.cursors).toEqual([])
+      modal.resolve()
+      await running
+      expect(cursors.cursors).toEqual([{ kind: 'stage', stage: 'two' }])
+    } finally {
+      modal.resolve()
+      await running
+    }
+  })
+
+  test('machine to commits a completed body but the next state remains behind the gameplay gate', async () => {
+    const host = fakeHost()
+    const paused = deferred<void>()
+    let closed = false
+    const execute = host.execute
+    host.execute = async (command, context, signal) => {
+      await execute(command, context, signal)
+      if (command.kind === 'setFlag' && command.flag === 'hide') closed = true
+    }
+    host.gate = (_signal, boundary) =>
+      boundary?.kind === 'settlement' ? undefined : closed ? paused.promise : undefined
+    const cursors = controller()
+    const running = new ScriptRunnerCore(host, new AbortController().signal).runFlow(
+      compile(
+        states({
+          initial: {
+            label: 'Hide',
+            body: [{ kind: 'setFlag', flag: 'hide', value: true }],
+            next: { kind: 'to', state: 'next', yield: 'worldTick' },
+          },
+          next: {
+            label: 'Next',
+            body: [{ kind: 'setFlag', flag: 'later', value: true }],
+            next: { kind: 'stay' },
+          },
+        }),
+      ),
+      { cursorController: cursors },
+    )
+    try {
+      await new Promise<void>((resolve) => setTimeout(resolve, 0))
+      expect(cursors.cursors).toEqual([{ kind: 'state', machine: 'machine', state: 'next' }])
+      expect(host.calls).toEqual(['execute:setFlag:-:-', 'yield:worldTick'])
+      closed = false
+      paused.resolve()
+      await running
+      expect(host.calls).toEqual(['execute:setFlag:-:-', 'yield:worldTick', 'execute:setFlag:-:-'])
+      expect(cursors.cursors).toHaveLength(2)
+    } finally {
+      closed = false
+      paused.resolve()
+      await running
+    }
+  })
+
+  test('abort during a suspended safe-point gate never commits the cursor', async () => {
+    const host = fakeHost()
+    const paused = deferred<void>()
+    host.gate = (_signal, boundary) =>
+      boundary?.kind === 'settlement' ? paused.promise : undefined
+    const cursors = controller()
+    const ac = new AbortController()
+    const running = new ScriptRunnerCore(host, ac.signal)
+      .runFlow(compile({ kind: 'stages', initial: 'one', stages: [{ id: 'one', body: [] }] }), {
+        cursorController: cursors,
+      })
+      .catch((error: unknown) => error)
+    await new Promise<void>((resolve) => setTimeout(resolve, 0))
+    expect(cursors.cursors).toEqual([])
+    ac.abort()
+    paused.resolve()
+    expect(await running).toMatchObject({ name: 'AbortError' })
+    expect(cursors.cursors).toEqual([])
+  })
+
   test.each([
     {
       accepted: false,

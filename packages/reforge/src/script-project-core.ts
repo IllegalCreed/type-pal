@@ -15,7 +15,11 @@ import {
 } from './script-activity-lineage.js'
 import type { BaseRuntimeLeafCommand } from './script-compiler-core.js'
 import { BaseSharedScriptResolver, compileBaseScriptFlow } from './script-compiler-core.js'
-import type { BaseScriptRuntimeHost, ScriptRuntimeContext } from './script-runner-core.js'
+import type {
+  BaseScriptRuntimeHost,
+  ScriptGateBoundary,
+  ScriptRuntimeContext,
+} from './script-runner-core.js'
 import { ScriptRunnerCore } from './script-runner-core.js'
 import {
   evalAuthorCondition,
@@ -120,8 +124,11 @@ export class BaseProjectScriptRuntimeHost implements BaseScriptRuntimeHost {
     return this.options.currentSceneSessionId?.() ?? this.options.currentSceneId()
   }
 
-  gate(signal: AbortSignal): void | Promise<void> {
-    return this.options.gate?.(signal)
+  gate(
+    signal: AbortSignal,
+    boundary?: ScriptGateBoundary,
+  ): ReturnType<NonNullable<BaseScriptRuntimeHost['gate']>> {
+    return this.options.gate?.(signal, boundary)
   }
 
   async execute(

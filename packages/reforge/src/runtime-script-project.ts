@@ -33,7 +33,7 @@ import {
   BaseProjectScriptRuntimeHost,
   type ScriptEffectCommitControl,
 } from './script-project-core.js'
-import type { ScriptRuntimeContext } from './script-runner-core.js'
+import type { ScriptGateBoundary, ScriptRuntimeContext } from './script-runner-core.js'
 import { FlowRuntimeCoordinator, resolveEntityBehavior, resolveSceneHook } from './script-world.js'
 
 export interface ProjectScriptHostOptions
@@ -121,8 +121,11 @@ export class ProjectScriptRuntimeHost implements ScriptRuntimeHost {
     return this.retainedHost.currentSceneSessionId()
   }
 
-  gate(signal: AbortSignal): void | Promise<void> {
-    return this.retainedHost.gate(signal)
+  gate(
+    signal: AbortSignal,
+    boundary?: ScriptGateBoundary,
+  ): ReturnType<NonNullable<ScriptRuntimeHost['gate']>> {
+    return this.retainedHost.gate(signal, boundary)
   }
 
   async execute(
