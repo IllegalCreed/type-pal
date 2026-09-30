@@ -257,7 +257,7 @@ jsdom 2D，用 typed spy 控制外部 IO，删除 getContext 函数强转，不�
   `env -u NODE_COMPILE_CACHE TYPE_PAL_COVERAGE_BASE_REF=6c39f36a72897a3ad2491c59b03eb374f6526ae8 pnpm coverage:ratchet --allow-scope-removal`
   **exit1**。允许范围删除只沿用已批准 PAL 转换退役，不放宽比率或排除现存源。
   本次 10356 例/716 生产源，候选总分支 **46386/58773（78.92%）**；
-  [完整 ratchet 原始输出](../../testing/glm-next-triple/wave-N/codex-r4-ratchet.txt)。
+  [完整 ratchet 输出](../../testing/glm-next-triple/wave-N/codex-r4-ratchet.txt)。
 - 唯一失败仍为 migrate 比率回退：statements 1879/2615（71.85%）对旧
   5965/7722（77.25%）；branches 1368/1814（75.41%）对旧 4876/6444（75.67%）；
   lines 1643/2286（71.87%）对旧 5294/6730（78.66%）。不是 N 的返工项。
@@ -266,6 +266,8 @@ jsdom 2D，用 typed spy 控制外部 IO，删除 getContext 函数强转，不�
   正式基线仍为 49584/63398（78.21%）；本次候选测量不算已生效结算，也未达 85%。
   protected strict-fast 按串行门**未执行**。区间 diff 零诊断；不合 main、不标 done、
   不清理候选分支/工作树。保留隔离成果，等待另卡解决 migrate 覆盖率门。
+  输出入库后最终 diff 曾诊断 ratchet 表格 7 行尾空白，仅清理这些格式空白；
+  输出数值/失败诊断未改，原始与存档 hash 分列 wave-N README，最终 diff 复核归零。
 
 ### 下一位 Agent
 

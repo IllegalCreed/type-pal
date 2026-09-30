@@ -140,10 +140,13 @@ Escape 退回菜单。脚本硬断言 `__rfWorld` 未挂载（未进任何开局
 Codex r4 隔离并集：`pnpm check` exit0、10768 例、lint 完整 0/0/0；
 官方 ratchet exit1，仍是 migrate 三项比率回退，protected fast 未执行。
 候选总分支 46386/58773（78.92%）不是正式结算，基线未改，三波未合 main。
-原始日志：[check](codex-r4-check.txt)、[ratchet](codex-r4-ratchet.txt)。
+完整执行输出：[check](codex-r4-check.txt)、[ratchet](codex-r4-ratchet.txt)。
 两日志 SHA256 分别为
 `2f2180c08117ee690526ad4500a297335bbc39882de684344f7fc4bf7b6b4f2c`、
-`87faea61a5501c44a63f61581caace5c269a8d2011377732d91d2e738f8b4335`。
+`8bcdc8454bd987a64968938aea193731ef5acc90081b9d2627acefe557896191`。
+ratchet 原始文件 SHA256 为
+`87faea61a5501c44a63f61581caace5c269a8d2011377732d91d2e738f8b4335`；
+入库最终 diff 复核发现表格 7 行尾空白，存档仅删除这些空白，输出数值/诊断原样保留。
 
 ## 未证项
 

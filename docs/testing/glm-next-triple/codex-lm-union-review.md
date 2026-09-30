@@ -91,7 +91,9 @@ Codex 补 N 导航并清理 README 当前/历史口径残留，保留历史测�
 测量提交 `4a6208406b4d75aa4c2e7fd822aeeb55f66c672b`：check exit0，
 10768 例（Reforge 2052、Editor 3786），所有包 typecheck 零诊断；docs 807 Markdown/
 4234 链接/242 卡零问题；根 lint 2742 文件完整 0/0/0；区间 diff 零诊断。
-完整原始日志：[check](wave-N/codex-r4-check.txt)、[ratchet](wave-N/codex-r4-ratchet.txt)。
+完整执行输出：[check](wave-N/codex-r4-check.txt)、[ratchet](wave-N/codex-r4-ratchet.txt)。
+入库后最终 diff 发现 ratchet 表格 7 行尾空白，仅去空白、保留全部数值/诊断；
+原始/存档 hash 分列 wave-N README，最终 diff 复核归零。
 
 官方 ratchet 用 protected base `6c39f36a` 与已批准退役范围删除开关，exit1；
 10356 例/716 生产源，候选总分支 **46386/58773（78.92%）**。
