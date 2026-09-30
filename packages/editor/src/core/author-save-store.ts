@@ -1,6 +1,6 @@
 /** Origin-private author-save receipts; separate from recent projects and player saves. */
 import { CONTENT_VERSION } from '@type-pal/content'
-import { parseProjectSaveState } from '@type-pal/reforge'
+import { parseProjectSaveState } from '@type-pal/reforge/author-io'
 import {
   assertSaveOperationId,
   parseSaveIdentity,

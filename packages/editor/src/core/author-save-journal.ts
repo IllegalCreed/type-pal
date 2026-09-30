@@ -10,7 +10,7 @@ import {
   parseProjectSaveState,
   projectSaveStateToken,
   readProjectSaveState,
-} from '@type-pal/reforge'
+} from '@type-pal/reforge/author-io'
 import type { AuthorDiskBaseline } from './author-disk-baseline.js'
 import {
   type AuthorSavePlan,

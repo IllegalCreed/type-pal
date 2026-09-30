@@ -7,6 +7,7 @@
   "types": "./src/index.ts",
   "exports": {
     ".": "./src/index.ts",
+    "./author-io": "./src/author-io.ts",
     "./entity-action-player": "./src/entity-action-player.ts",
     "./script-compiler-core": "./src/script-compiler-core.ts"
   },

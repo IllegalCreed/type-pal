@@ -4,7 +4,7 @@ import {
   isRuntimeScriptRef,
   type LoadedCurrentProjectCore,
   projectItemsView,
-} from '@type-pal/reforge'
+} from '@type-pal/reforge/author-io'
 import type { EditorState } from './edit-session.js'
 import type { ScriptEditorState } from './script-editor.js'
 

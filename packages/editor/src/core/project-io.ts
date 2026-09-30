@@ -40,9 +40,11 @@ import {
   type LoadedCurrentProjectCore,
   loadAllAuthorScenes,
   loadCurrentProjectFrom,
+  loadProjectMapById,
   loadStampTemplates,
   parseSpriteChunkStrict,
-} from '@type-pal/reforge'
+  withStableProjectRead,
+} from '@type-pal/reforge/author-io'
 import type { AuthorDiskBaseline } from './author-disk-baseline.js'
 import {
   type AuthorSaveInput,
@@ -164,6 +166,27 @@ async function validatePreparedProject(
   source: FileSource,
   previousCatalog?: AssetCatalogV1,
 ): Promise<void> {
+  await validateAuthorProjectContents(source, previousCatalog)
+}
+
+export interface AuthorProjectCheckReport {
+  projectId: string
+  scenes: number
+  maps: number
+  assets: number
+}
+
+/** Read-only admission covers the complete audit, not just the initial current-project load. */
+export async function checkAuthorProject(source: FileSource): Promise<AuthorProjectCheckReport> {
+  return withStableProjectRead(source, () => validateAuthorProjectContents(source, undefined, true))
+}
+
+/** One validation kernel for author-save staging and the standalone author audit. */
+async function validateAuthorProjectContents(
+  source: FileSource,
+  previousCatalog?: AssetCatalogV1,
+  auditMaps = false,
+): Promise<AuthorProjectCheckReport> {
   const project = await loadCurrentProjectFrom(source)
   assertBattleSimulatorPathAvailable(project)
   const [scenes, stamps, battleSimulator] = await Promise.all([
@@ -175,6 +198,16 @@ async function validatePreparedProject(
     toEditorState(project, scenes, {}, {}, stamps, battleSimulator),
     source,
   )
+  if (auditMaps) {
+    const tilesets = new Set(project.tilesets.map((tileset) => tileset.id))
+    // Save copy-through deliberately does not parse maps. Audit each indexed map with the
+    // current loader sequentially, without retaining the complete map set in editor state.
+    for (const asset of project.mapIndex.maps) {
+      const map = await loadProjectMapById(project, asset.id)
+      for (const id of map.tilesetRefs)
+        if (!tilesets.has(id)) throw new Error(`地图 ${asset.id} 引用不存在的瓦片集：${id}`)
+    }
+  }
   const checked = new Set<string>()
   for (const [id, record] of Object.entries(project.assetCatalog.assets)) {
     if (
@@ -195,6 +228,12 @@ async function validatePreparedProject(
       [project.manifest.assets.catalog]: project.assetCatalog,
       [record.path]: bytes,
     })
+  }
+  return {
+    projectId: project.manifest.id,
+    scenes: scenes.length,
+    maps: project.mapIndex.maps.length,
+    assets: Object.keys(project.assetCatalog.assets).length,
   }
 }
 
