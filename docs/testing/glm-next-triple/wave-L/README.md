@@ -39,6 +39,25 @@
 - 疑似产品缺陷 1 项（停组上报，不写伪测）：[defect-report.md](defect-report.md)。
 - 定向覆盖率对照（隔离、同分母、未接官方基线）：[coverage-delta.md](coverage-delta.md)。
 
+## 门禁结果（r3 最终代码，2026-09-30；仅修 13 份日志 EOF 空行）
+
+- `git diff --check 784fb098...HEAD`（整个已提交候选区间）：**exit 0 零诊断**。
+  r2 的 13 处 `new blank line at EOF`（CC1–CC5 十份、CC5b 两份、
+  logs/stamp-dialog-act-clean.txt）已逐文件剥离尾部空行——13 文件各删 1 行，
+  日志正文与旧反控历史字节不动（提交 05d4eaa7）。
+- Editor 全包：`env -u NODE_COMPILE_CACHE pnpm --filter @type-pal/editor test`
+  → **496 文件 / 3720 测试全绿，exit 0**
+  （[logs/editor-full-summary.txt](logs/editor-full-summary.txt)）。
+  备注：同一提交在系统 load 7–10 时两次复跑出现 4–6 个 design-system 静态扫描门
+  **超时**且失败集合随机漂移（负载记录 [logs/editor-full-load-timeouts.txt](logs/editor-full-load-timeouts.txt)）；
+  负载回落后同命令空载复跑即如上全绿，代码无回归。
+- Editor typecheck：`tsc --noEmit` **0 error**。
+- 根 `pnpm lint`：**PASS — 2780 files; 0 errors / 0 warnings / 0 infos**。
+- `git diff --check`（工作树）：通过。
+- `node scripts/docs/check.mjs`：**1 项失败，如实上报**——
+  `docs/testing/glm-next-triple/README.md: 子目录未进入导航：docs/testing/glm-next-triple/wave-L`。
+  共享 README 在白名单外，仍由 Codex 集成时登记。
+
 ## 门禁结果（r2 最终代码，2026-09-30）
 
 - Editor 全包：`env -u NODE_COMPILE_CACHE pnpm --filter @type-pal/editor test`
