@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict'
 import test from 'node:test'
-import { committedInnMoves, navigateInnRoute } from './inn-navigation.mjs'
+import { committedInnMoves, navigateInnRoute, partitionInnMoves } from './inn-navigation.mjs'
 import { INN_DIRECTIONS } from './inn-route.mjs'
 
 function harness({ destination = (c) => c >= 5, batch = 1, blocked = [] } = {}) {
@@ -34,6 +34,7 @@ function harness({ destination = (c) => c >= 5, batch = 1, blocked = [] } = {}) 
     const before = structuredClone(state.position)
     state.position = position
     commits.push({
+      order: commits.length,
       kind: 'actor',
       id: 'party',
       source: 'commit:input',
@@ -128,7 +129,10 @@ test('slow observations may aggregate moves but actual commit evidence retains e
   const h = harness({ destination: (c) => c >= 6, batch: 2 })
   await navigateInnRoute(h.options)
   assert.equal(h.progress.length, 2)
-  assert.deepEqual(committedInnMoves({ events: h.commits, overflow: false, errors: [] }), h.commits)
+  assert.deepEqual(
+    committedInnMoves({ events: h.commits, overflow: false, errors: [] }, -1),
+    h.commits,
+  )
   assert.equal(h.commits.length, 4)
   assert.deepEqual(h.inputs, [
     ['down', 'ArrowRight'],
@@ -214,25 +218,111 @@ test('overflow/error/non-commit movement cannot become a normal route census', (
   const h = harness()
   h.commit([3, 0])
   const trace = { events: h.commits, overflow: false, errors: [] }
-  assert.throws(() => committedInnMoves({ ...trace, overflow: true }), /overflow/)
-  assert.throws(() => committedInnMoves({ ...trace, errors: ['missing commit'] }), /error/)
+  assert.throws(() => committedInnMoves({ ...trace, overflow: true }, -1), /overflow/)
+  assert.throws(() => committedInnMoves({ ...trace, errors: ['missing commit'] }, -1), /error/)
   assert.throws(
     () =>
-      committedInnMoves({
-        ...trace,
-        events: [{ ...h.commits[0], source: 'render' }],
-      }),
+      committedInnMoves(
+        {
+          ...trace,
+          events: [{ ...h.commits[0], source: 'render' }],
+        },
+        -1,
+      ),
     /unobserved/,
   )
   assert.deepEqual(
-    committedInnMoves({
-      ...trace,
-      events: [
-        { ...h.commits[0], before: null },
-        { ...h.commits[0], id: 'npc' },
-        { ...h.commits[0], state: h.commits[0].before },
-      ],
-    }),
+    committedInnMoves(
+      {
+        ...trace,
+        events: [
+          { ...h.commits[0], before: null },
+          { ...h.commits[0], id: 'npc' },
+          { ...h.commits[0], state: h.commits[0].before },
+        ],
+      },
+      -1,
+    ),
     [],
+  )
+})
+
+test('same-coordinate unexpected ready scene releases at its first observation and fails', async () => {
+  const h = harness()
+  let polls = 0
+  h.options.until = async (read, accept) => {
+    polls++
+    h.state.scene = 's999'
+    const next = await read()
+    assert(accept(next), 'scene boundary must count as progress even without coordinate change')
+    return next
+  }
+  await assert.rejects(navigateInnRoute(h.options), /unexpected scene/)
+  assert.equal(polls, 1)
+  assert.equal(h.held(), undefined)
+  assert.deepEqual(h.inputs, [
+    ['down', 'ArrowRight'],
+    ['up', 'ArrowRight'],
+  ])
+})
+
+test('a failed key-up before dispatch retains the held key for bounded finally cleanup', async () => {
+  for (const releaseAt of ['effect', 'finally']) {
+    const h = harness()
+    const up = h.options.keyboard.up
+    let attempts = 0
+    h.options.keyboard.up = async (key) => {
+      attempts++
+      if (attempts === 1) throw new Error('up failed before dispatch')
+      await up(key)
+    }
+    if (releaseAt === 'finally')
+      h.options.until = async () => {
+        throw new Error('observe failed')
+      }
+    await assert.rejects(navigateInnRoute(h.options), /up failed before dispatch/)
+    assert.equal(attempts, 2)
+    assert.equal(h.held(), undefined)
+    assert.deepEqual(h.inputs, [
+      ['down', 'ArrowRight'],
+      ['up', 'ArrowRight'],
+    ])
+  }
+})
+
+test('permanent key-up failure is bounded and never converted into a passing route', async () => {
+  const h = harness()
+  let attempts = 0
+  h.options.keyboard.up = async () => {
+    attempts++
+    throw new Error('permanent up failure')
+  }
+  await assert.rejects(navigateInnRoute(h.options), /permanent up failure/)
+  assert.equal(attempts, 3, 'one effect dispatch plus two bounded finally attempts')
+})
+
+test('route-start and ready-scene legs exclude restore and even one-cell scene placements', () => {
+  const h = harness()
+  for (const position of [
+    [3, 0],
+    [4, 0],
+    [5, 0],
+    [6, 0],
+  ])
+    h.commit(position)
+  const events = h.commits.map((move, i) => ({ ...move, scene: i < 2 ? 's001' : 's003' }))
+  const trace = { events, overflow: false, errors: [] }
+  const moves = committedInnMoves(trace, 0)
+  assert.deepEqual(moves, events.slice(1))
+  const { steps, placements } = partitionInnMoves(moves, [
+    { scene: 's001', startOrder: 0, endOrder: 2 },
+    { scene: 's003', startOrder: 2, endOrder: 3 },
+  ])
+  assert.deepEqual(steps, [events[1], events[3]])
+  assert.deepEqual(placements, [events[2]], 'one-cell delta is not proof of ordinary walking')
+  assert.throws(() => committedInnMoves(trace), /start order/)
+  assert.throws(
+    () => committedInnMoves({ ...trace, events: [{ ...events[1], order: null }] }, 0),
+    /order/,
   )
 })

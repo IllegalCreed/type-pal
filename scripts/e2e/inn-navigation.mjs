@@ -20,9 +20,18 @@ export async function navigateInnRoute({
   const release = async (reason) => {
     if (heldKey === undefined) return
     const key = heldKey
-    heldKey = undefined
     await keyboard.up(key)
+    heldKey = undefined
     onInput({ kind: 'up', key, reason })
+  }
+  const cleanupInput = async () => {
+    // One bounded cleanup retry. A failed dispatch still fails the run, even if cleanup succeeds.
+    try {
+      await release('route end or failure')
+    } catch (error) {
+      await release('retry failed release')
+      throw error
+    }
   }
   try {
     for (let n = 0; n < 120; n++) {
@@ -51,6 +60,7 @@ export async function navigateInnRoute({
         read,
         (next) =>
           JSON.stringify(next.position) !== JSON.stringify(before) ||
+          !inScene(next) ||
           !ready(next) ||
           finished(next),
         'normal input committed progress',
@@ -62,24 +72,47 @@ export async function navigateInnRoute({
       onProgress({ key, from: before, to: observed.position })
       if (finished(observed)) return
       if (!ready(observed)) {
-        await until(read, (next) => finished(next) || ready(next), 'route effect settles')
-        if (finished(await read())) return
-      }
+        const settled = await until(
+          read,
+          (next) => finished(next) || ready(next),
+          'route effect settles',
+        )
+        if (finished(settled)) return
+        assert(inScene(settled), 'route entered unexpected scene')
+      } else assert(inScene(observed), 'route entered unexpected scene')
     }
     throw new Error('normal route action budget exhausted')
   } finally {
-    await release('route end or failure')
+    await cleanupInput()
   }
 }
 
 /** Actual observer commits, never interpolate missing cells from progress samples. */
-export function committedInnMoves(trace) {
+export function committedInnMoves(trace, afterOrder) {
+  assert(Number.isInteger(afterOrder) && afterOrder >= -1, 'invalid route start order')
   assert.equal(trace.overflow, false, 'inn movement collector overflow')
   assert.deepEqual(trace.errors, [], 'inn movement collector error')
   return trace.events.filter((event) => {
+    assert(Number.isInteger(event.order), 'invalid movement evidence order')
+    if (event.order <= afterOrder) return false
     if (event.kind !== 'actor' || event.id !== 'party' || !event.before) return false
     if (JSON.stringify(event.before.position) === JSON.stringify(event.state.position)) return false
     assert(event.source.startsWith('commit:'), 'unobserved normal route move')
     return true
   })
+}
+
+/** Use observed ready-scene leg boundaries, not coordinate distance, to exclude scene placements. */
+export function partitionInnMoves(moves, legs) {
+  const steps = [],
+    placements = []
+  for (const move of moves) {
+    const walking = legs.some(
+      (leg) =>
+        move.scene === leg.scene && move.order > leg.startOrder && move.order <= leg.endOrder,
+    )
+    if (walking) steps.push(move)
+    else placements.push(move)
+  }
+  return { steps, placements }
 }

@@ -12,7 +12,7 @@ import {
   readInnContract,
   readPredecessor,
 } from './inn-contract.mjs'
-import { committedInnMoves, navigateInnRoute } from './inn-navigation.mjs'
+import { committedInnMoves, navigateInnRoute, partitionInnMoves } from './inn-navigation.mjs'
 import { installInnObserver, readInnGame, readInnReforge } from './inn-observer.mjs'
 import { waitForOpeningFrame } from './opening-frame.mjs'
 import { appendBounded } from './opening-policy.mjs'
@@ -193,14 +193,19 @@ export async function runInnJourney(engine) {
       assert(room(s, engine))
       assert.deepEqual(grid(s, engine), [60, -24])
       assert.equal(s.cash, 0)
+      const evidenceOrder = async () =>
+        (await page.evaluate(() => window.__readInnEvidence())).events.at(-1)?.order ?? -1
       report.route = {
         status: 'running',
         steps: [],
         inputs: [],
-        stepKind: 'observed progress; exact cells are in committedMoves',
+        legs: [],
+        startOrder: await evidenceOrder(),
+        stepKind: 'observed progress; actual walking commits are in committedSteps',
         start: { scene: s.scene, position: s.position },
       }
       const navigate = async (sid, destination, finished) => {
+        const startOrder = await evidenceOrder()
         await navigateInnRoute({
           keyboard: page.keyboard,
           map: maps[sid],
@@ -220,6 +225,7 @@ export async function runInnJourney(engine) {
           onProgress: (step) =>
             appendBounded(report.route.steps, { scene: sid, atMs: Date.now(), ...step }, 240),
         })
+        report.route.legs.push({ scene: sid, startOrder, endOrder: await evidenceOrder() })
       }
       const radius = (col, row, targetCol, targetRow) =>
         engine === 'game'
@@ -245,7 +251,11 @@ export async function runInnJourney(engine) {
       report.route.coreEntry = (await snapshot()).position
       report.route.committedMoves = committedInnMoves(
         await page.evaluate(() => window.__readInnEvidence()),
+        report.route.startOrder,
       )
+      const routeMoves = partitionInnMoves(report.route.committedMoves, report.route.legs)
+      report.route.committedSteps = routeMoves.steps
+      report.route.placements = routeMoves.placements
       report.core = { status: 'running' }
       report.milestones = {}
       report.dialogueHolds = []
