@@ -1,0 +1,64 @@
+{
+  "method": "同一工作树 f70db722 冻结源，v8 coverage --coverage.include 11 源逐文件；before=新测写入前整包运行，after=含 55 条 glm-n 定向整包运行。v8 分母在两次整包运行间可能有 ±个位数漂移，本账分母两次均为 3001（可比）。",
+  "beforeTotal": "1528/3001",
+  "afterTotal": "1644/3001",
+  "deltaBranches": 116,
+  "perFile": {
+    "battle-trial-assets.ts": {
+      "before": "55/75",
+      "after": "60/75",
+      "delta": 5
+    },
+    "main.ts": {
+      "before": "544/1761",
+      "after": "570/1761",
+      "delta": 26
+    },
+    "project-map.ts": {
+      "before": "118/151",
+      "after": "129/151",
+      "delta": 11
+    },
+    "video-player.ts": {
+      "before": "0/18",
+      "after": "15/18",
+      "delta": 15
+    },
+    "audio/bgm.ts": {
+      "before": "75/101",
+      "after": "76/101",
+      "delta": 1
+    },
+    "audio/midi-preview.ts": {
+      "before": "95/123",
+      "after": "105/123",
+      "delta": 10
+    },
+    "audio/sfx-readiness.ts": {
+      "before": "110/132",
+      "after": "110/132",
+      "delta": 0
+    },
+    "battle/battle-anim.ts": {
+      "before": "293/318",
+      "after": "298/318",
+      "delta": 5
+    },
+    "battle/battle-launch-preparation.ts": {
+      "before": "39/59",
+      "after": "46/59",
+      "delta": 7
+    },
+    "battle/battle-ui.ts": {
+      "before": "85/122",
+      "after": "100/122",
+      "delta": 15
+    },
+    "menu/menu-box.ts": {
+      "before": "114/141",
+      "after": "135/141",
+      "delta": 21
+    }
+  },
+  "note": "sfx-readiness.ts 本包未新增（既有 110/132 已覆盖本包目标轴）；未证：main.ts 32.36% 的大量缺口属剧情/E2E 路线（E2E-R4-1 占用），本卡不越界。"
+}

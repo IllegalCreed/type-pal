@@ -1,0 +1,680 @@
+{
+  "numTotalTestSuites": 34,
+  "numPassedTestSuites": 34,
+  "numFailedTestSuites": 0,
+  "numPendingTestSuites": 0,
+  "numTotalTests": 55,
+  "numPassedTests": 55,
+  "numFailedTests": 0,
+  "numPendingTests": 0,
+  "numTodoTests": 0,
+  "snapshot": {
+    "added": 0,
+    "failure": false,
+    "filesAdded": 0,
+    "filesRemoved": 0,
+    "filesRemovedList": [],
+    "filesUnmatched": 0,
+    "filesUpdated": 0,
+    "matched": 0,
+    "total": 0,
+    "unchecked": 0,
+    "uncheckedKeysByFile": [],
+    "unmatched": 0,
+    "updated": 0,
+    "didUpdate": false
+  },
+  "startTime": 1790740020416,
+  "success": true,
+  "testResults": [
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": [],
+          "fullName": "N05 snapshot 按 catalog 登记校验字节；urlFor 一律拒绝",
+          "status": "passed",
+          "title": "N05 snapshot 按 catalog 登记校验字节；urlFor 一律拒绝",
+          "duration": 1.493750000000091,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "N05 预取消的试打准备在任何 IO 前拒绝",
+          "status": "passed",
+          "title": "N05 预取消的试打准备在任何 IO 前拒绝",
+          "duration": 20.127416999999923,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "N05 asset 音乐与实体特效精灵进入冻结准备；soundfont 只在真有音乐时读取",
+          "status": "passed",
+          "title": "N05 asset 音乐与实体特效精灵进入冻结准备；soundfont 只在真有音乐时读取",
+          "duration": 16.905124999999998,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "N05 silent 配置不读取任何音乐角色字节",
+          "status": "passed",
+          "title": "N05 silent 配置不读取任何音乐角色字节",
+          "duration": 4.956417000000101,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "N05 缓存路径 seal 后可复读；dispose 后同路径拒绝",
+          "status": "passed",
+          "title": "N05 缓存路径 seal 后可复读；dispose 后同路径拒绝",
+          "duration": 0.2347499999999627,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790740022752,
+      "endTime": 1790740022796.2349,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/illegal/type-pal-wave-n/packages/reforge/src/battle-trial-assets.glm-n.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": [],
+          "fullName": "N01 ?gallery 渲染精灵速查表后直接返回，不进主循环、不发帧",
+          "status": "passed",
+          "title": "N01 ?gallery 渲染精灵速查表后直接返回，不进主循环、不发帧",
+          "duration": 122.67020899999994,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "N01 ?battle-preview 静态摆位渲染一帧即返回，不进战斗与主循环",
+          "status": "passed",
+          "title": "N01 ?battle-preview 静态摆位渲染一帧即返回，不进战斗与主循环",
+          "duration": 30.44591600000001,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "N01 ?battle-preview 引用缺失战斗精灵定义时精确拒绝且零帧",
+          "status": "passed",
+          "title": "N01 ?battle-preview 引用缺失战斗精灵定义时精确拒绝且零帧",
+          "duration": 25.244291999999973,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "N01 ?party 覆写开局队伍并满血满蓝，不改变工程输入",
+          "status": "passed",
+          "title": "N01 ?party 覆写开局队伍并满血满蓝，不改变工程输入",
+          "duration": 34.32675000000006,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "N01 空开局队伍在进入世界前精确拒绝，无帧、无 debug 面",
+          "status": "passed",
+          "title": "N01 空开局队伍在进入世界前精确拒绝，无帧、无 debug 面",
+          "duration": 26.149792000000048,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790740021842,
+      "endTime": 1790740022081.15,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/illegal/type-pal-wave-n/packages/reforge/src/main.glm-n.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["N01 lattice 边界与界外裁剪"],
+          "fullName": "N01 lattice 边界与界外裁剪 isLatticeInside 四边精确拒绝；界外像素命中最近格",
+          "status": "passed",
+          "title": "isLatticeInside 四边精确拒绝；界外像素命中最近格",
+          "duration": 1.201750000000004,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["N01 lattice 边界与界外裁剪"],
+          "fullName": "N01 lattice 边界与界外裁剪 latticeInRect 全图外矩形与 -0 规范化",
+          "status": "passed",
+          "title": "latticeInRect 全图外矩形与 -0 规范化",
+          "duration": 0.3203330000000051,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["N01 lattice 边界与界外裁剪"],
+          "fullName": "N01 lattice 边界与界外裁剪 latticeInMapRect 先裁到图内再枚举，不产出界外格",
+          "status": "passed",
+          "title": "latticeInMapRect 先裁到图内再枚举，不产出界外格",
+          "duration": 0.2150829999999928,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["N01 瓦片/碰撞编辑非法输入 fail-loud"],
+          "fullName": "N01 瓦片/碰撞编辑非法输入 fail-loud 负高度、空瓦片带来源、非整数 tileId、缺来源分别精确拒绝",
+          "status": "passed",
+          "title": "负高度、空瓦片带来源、非整数 tileId、缺来源分别精确拒绝",
+          "duration": 0.6423750000000155,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["N01 瓦片/碰撞编辑非法输入 fail-loud"],
+          "fullName": "N01 瓦片/碰撞编辑非法输入 fail-loud 高度归零时 heights 层整体退役；非零时随行写入",
+          "status": "passed",
+          "title": "高度归零时 heights 层整体退役；非零时随行写入",
+          "duration": 0.2540829999999801,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["N01 填充/视图的退化输入"],
+          "fullName": "N01 填充/视图的退化输入 floodFill：目标层缺席、起点图外、起点已是目标态均返回空",
+          "status": "passed",
+          "title": "floodFill：目标层缺席、起点图外、起点已是目标态均返回空",
+          "duration": 0.2030409999999847,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["N01 填充/视图的退化输入"],
+          "fullName": "N01 填充/视图的退化输入 tilesInView 缺行缺列与隐藏层都不产出；null 瓦片跳过",
+          "status": "passed",
+          "title": "tilesInView 缺行缺列与隐藏层都不产出；null 瓦片跳过",
+          "duration": 0.8342920000000049,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["N01 图层操作幂等与保护"],
+          "fullName": "N01 图层操作幂等与保护 插入重名 id 幂等、移动未知层/原位移动幂等、更新未知层返回原图",
+          "status": "passed",
+          "title": "插入重名 id 幂等、移动未知层/原位移动幂等、更新未知层返回原图",
+          "duration": 0.19408300000003464,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["N01 缩放保护与作者态"],
+          "fullName": "N01 缩放保护与作者态 同尺寸缩放返回原引用；空作者态不物化 authoring 字段",
+          "status": "passed",
+          "title": "同尺寸缩放返回原引用；空作者态不物化 authoring 字段",
+          "duration": 0.40091599999999517,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790740021381,
+      "endTime": 1790740021385.401,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/illegal/type-pal-wave-n/packages/reforge/src/project-map.glm-n.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["N03 视频覆盖层生命周期"],
+          "fullName": "N03 视频覆盖层生命周期 自然播完：全屏样式、清理视频层、按键监听移除、Promise 兑现",
+          "status": "passed",
+          "title": "自然播完：全屏样式、清理视频层、按键监听移除、Promise 兑现",
+          "duration": 16.41645799999992,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["N03 视频覆盖层生命周期"],
+          "fullName": "N03 视频覆盖层生命周期 加载失败：仅 warn 不抛出，Promise resolve 且视频层移除",
+          "status": "passed",
+          "title": "加载失败：仅 warn 不抛出，Promise resolve 且视频层移除",
+          "duration": 2.0249169999999594,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["N03 视频覆盖层生命周期"],
+          "fullName": "N03 视频覆盖层生命周期 跳过键消费键事件并延迟 500ms 清理；非跳过键不消费",
+          "status": "passed",
+          "title": "跳过键消费键事件并延迟 500ms 清理；非跳过键不消费",
+          "duration": 1.6480000000000246,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["N03 视频覆盖层生命周期"],
+          "fullName": "N03 视频覆盖层生命周期 自定义 skipKeys 与 container：仅自定义键生效，video 挂在给定容器",
+          "status": "passed",
+          "title": "自定义 skipKeys 与 container：仅自定义键生效，video 挂在给定容器",
+          "duration": 1.0851249999999482,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["N03 视频覆盖层生命周期"],
+          "fullName": "N03 视频覆盖层生命周期 autoplay 被拒：点击 overlay 后重试成功并移除 overlay",
+          "status": "passed",
+          "title": "autoplay 被拒：点击 overlay 后重试成功并移除 overlay",
+          "duration": 13.96954100000005,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["N03 视频覆盖层生命周期"],
+          "fullName": "N03 视频覆盖层生命周期 runner 取消：信号已 abort 时立即清理；播放中 abort 同样即时兑现",
+          "status": "passed",
+          "title": "runner 取消：信号已 abort 时立即清理；播放中 abort 同样即时兑现",
+          "duration": 1.610541000000012,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["N03 视频覆盖层生命周期"],
+          "fullName": "N03 视频覆盖层生命周期 结束后的迟到 error 事件不产生第二次清理或告警副作用",
+          "status": "passed",
+          "title": "结束后的迟到 error 事件不产生第二次清理或告警副作用",
+          "duration": 0.7105000000000246,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790740020969,
+      "endTime": 1790740021006.7104,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/illegal/type-pal-wave-n/packages/reforge/src/video-player.glm-n.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["N02 BGM 生产工厂在缺失音源环境下的精确形态"],
+          "fullName": "N02 BGM 生产工厂在缺失音源环境下的精确形态 无 AudioContext 的浏览器环境：createBgmPlayer 返回可安全调用的静音播放器",
+          "status": "passed",
+          "title": "无 AudioContext 的浏览器环境：createBgmPlayer 返回可安全调用的静音播放器",
+          "duration": 1.8164580000000115,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["N02 BGM 后端初始化失败降级"],
+          "fullName": "N02 BGM 后端初始化失败降级 initialize 拒绝 → 静默告警、不抛出、init 不重试，播放器仍可关闭",
+          "status": "passed",
+          "title": "initialize 拒绝 → 静默告警、不抛出、init 不重试，播放器仍可关闭",
+          "duration": 73.732459,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["N02 BGM dispose 与迟到初始化的释放次序"],
+          "fullName": "N02 BGM dispose 与迟到初始化的释放次序 初始化悬置期间 dispose：迟到后端只被 pause，不读取、不播放任何曲",
+          "status": "passed",
+          "title": "初始化悬置期间 dispose：迟到后端只被 pause，不读取、不播放任何曲",
+          "duration": 42.43591700000002,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790740022458,
+      "endTime": 1790740022575.436,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/illegal/type-pal-wave-n/packages/reforge/src/audio/bgm.glm-n.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["N02 MIDI 试听浏览器运行时探测"],
+          "fullName": "N02 MIDI 试听浏览器运行时探测 无窗口环境：createBrowserMidiPreviewRuntime 返回 undefined，不分配任何资源",
+          "status": "passed",
+          "title": "无窗口环境：createBrowserMidiPreviewRuntime 返回 undefined，不分配任何资源",
+          "duration": 1.0792909999999978,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["N02 MIDI 试听传输守卫"],
+          "fullName": "N02 MIDI 试听传输守卫 空传输快照：无资产、时长 0、暂停态",
+          "status": "passed",
+          "title": "空传输快照：无资产、时长 0、暂停态",
+          "duration": 0.49524999999999864,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["N02 MIDI 试听传输守卫"],
+          "fullName": "N02 MIDI 试听传输守卫 seek 负值/NaN/超界全部钳制到 [0, duration] 并反映在快照",
+          "status": "passed",
+          "title": "seek 负值/NaN/超界全部钳制到 [0, duration] 并反映在快照",
+          "duration": 0.1891250000000042,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790740023379,
+      "endTime": 1790740023381.1892,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/illegal/type-pal-wave-n/packages/reforge/src/audio/midi-preview.glm-n.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["N02 MIDI 试听 play 守卫与取消"],
+          "fullName": "N02 MIDI 试听 play 守卫与取消 未完成读取前 play → 精确拒绝；jsdom 无 AudioContext → 不支持试听",
+          "status": "passed",
+          "title": "未完成读取前 play → 精确拒绝；jsdom 无 AudioContext → 不支持试听",
+          "duration": 37.624041000000034,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["N02 MIDI 试听 play 守卫与取消"],
+          "fullName": "N02 MIDI 试听 play 守卫与取消 dispose 后的 load 仍以 AbortError 收场，且成果永不入账",
+          "status": "passed",
+          "title": "dispose 后的 load 仍以 AbortError 收场，且成果永不入账",
+          "duration": 0.8377500000000282,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790740022951,
+      "endTime": 1790740022989.8376,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/illegal/type-pal-wave-n/packages/reforge/src/audio/midi-preview.play-guards.glm-n.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["N04 投掷物品时间线目标分布"],
+          "fullName": "N04 投掷物品时间线目标分布 无任何目标直接 fail-loud，不产出时间线",
+          "status": "passed",
+          "title": "无任何目标直接 fail-loud，不产出时间线",
+          "duration": 0.9805839999999932,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["N04 投掷物品时间线目标分布"],
+          "fullName": "N04 投掷物品时间线目标分布 两敌同时受击：各自独立伤害数字挂同一命中帧，零伤目标不产数字",
+          "status": "passed",
+          "title": "两敌同时受击：各自独立伤害数字挂同一命中帧，零伤目标不产数字",
+          "duration": 0.7726669999999984,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["N04 投掷物品时间线目标分布"],
+          "fullName": "N04 投掷物品时间线目标分布 单目标正伤保持单数字形态（damageNum 而非 damageNums）",
+          "status": "passed",
+          "title": "单目标正伤保持单数字形态（damageNum 而非 damageNums）",
+          "duration": 0.16987500000000466,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["N04 队友受击阵亡帧"],
+          "fullName": "N04 队友受击阵亡帧 mateDied 后队友帧取 dead/dying 姿而非 idle 姿",
+          "status": "passed",
+          "title": "mateDied 后队友帧取 dead/dying 姿而非 idle 姿",
+          "duration": 0.25637500000000557,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["N04 全体物攻可选音臂"],
+          "fullName": "N04 全体物攻可选音臂 缺攻音与兵器音时不产出任何 sound 字段，时间线其余不变",
+          "status": "passed",
+          "title": "缺攻音与兵器音时不产出任何 sound 字段，时间线其余不变",
+          "duration": 0.29945800000000133,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790740023303,
+      "endTime": 1790740023306.2996,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/illegal/type-pal-wave-n/packages/reforge/src/battle/battle-anim.glm-n.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": [],
+          "fullName": "N05 显式 options.music 直接成为战斗曲目，不经角色解析",
+          "status": "passed",
+          "title": "N05 显式 options.music 直接成为战斗曲目，不经角色解析",
+          "duration": 61.44637499999999,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "N05 指定战场号读取常驻波、索引背景与投掷特效精灵",
+          "status": "passed",
+          "title": "N05 指定战场号读取常驻波、索引背景与投掷特效精灵",
+          "duration": 36.48037499999987,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "N05 未知战场号缺省 24 号且黑底（无背景资产 IO）",
+          "status": "passed",
+          "title": "N05 未知战场号缺省 24 号且黑底（无背景资产 IO）",
+          "duration": 28.78945900000008,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790740021944,
+      "endTime": 1790740022070.7896,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/illegal/type-pal-wave-n/packages/reforge/src/battle/battle-launch-preparation.glm-n.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["N04 信息框头像形态与状态字调色门"],
+          "fullName": "N04 信息框头像形态与状态字调色门 死亡头像走灰化滤镜直绘位图；中毒头像单色化并按 roleId+rgb 缓存",
+          "status": "passed",
+          "title": "死亡头像走灰化滤镜直绘位图；中毒头像单色化并按 roleId+rgb 缓存",
+          "duration": 3.6556659999999965,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["N04 信息框头像形态与状态字调色门"],
+          "fullName": "N04 信息框头像形态与状态字调色门 状态字只在活人、有字模且有调色板色时绘制；缺色条目跳过",
+          "status": "passed",
+          "title": "状态字只在活人、有字模且有调色板色时绘制；缺色条目跳过",
+          "duration": 0.5661670000000072,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["N04 战斗菜单盒禁用/确认配色与右值数字色"],
+          "fullName": "N04 战斗菜单盒禁用/确认配色与右值数字色 禁用行选中暗红选中色、确认父项金黄、禁用右值走蓝数字",
+          "status": "passed",
+          "title": "禁用行选中暗红选中色、确认父项金黄、禁用右值走蓝数字",
+          "duration": 0.3861249999999927,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["N04 物品网格分页钳制与数量门"],
+          "fullName": "N04 物品网格分页钳制与数量门 光标在首页时 pageStart 钳零不越界；right≤1 不画数量数字",
+          "status": "passed",
+          "title": "光标在首页时 pageStart 钳零不越界；right≤1 不画数量数字",
+          "duration": 0.45695800000004283,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["N04 物品网格分页钳制与数量门"],
+          "fullName": "N04 物品网格分页钳制与数量门 空行集只画红框不画任何条目",
+          "status": "passed",
+          "title": "空行集只画红框不画任何条目",
+          "duration": 0.12683300000003328,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["N04 主图标单色化缓存与缺图跳过"],
+          "fullName": "N04 主图标单色化缓存与缺图跳过 缺位图标跳过绘制；可用/不可用走灰/暗红两带且同图缓存",
+          "status": "passed",
+          "title": "缺位图标跳过绘制；可用/不可用走灰/暗红两带且同图缓存",
+          "duration": 0.5185829999999783,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["N04 MP 框斜杠与手指缺图"],
+          "fullName": "N04 MP 框斜杠与手指缺图 无斜杠 sprite 时不绘制斜杠；手指/箭头缺图零绘制不崩",
+          "status": "passed",
+          "title": "无斜杠 sprite 时不绘制斜杠；手指/箭头缺图零绘制不崩",
+          "duration": 0.6034170000000358,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790740023416,
+      "endTime": 1790740023422.6035,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/illegal/type-pal-wave-n/packages/reforge/src/battle/battle-ui.glm-n.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["N03 九宫格缺块与零尺寸早退"],
+          "fullName": "N03 九宫格缺块与零尺寸早退 仅中块：只铺中心 tile；tileFill 尺寸非正零铺贴",
+          "status": "passed",
+          "title": "仅中块：只铺中心 tile；tileFill 尺寸非正零铺贴",
+          "duration": 3.548749999999984,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["N03 九宫格缺块与零尺寸早退"],
+          "fullName": "N03 九宫格缺块与零尺寸早退 drawScroll 空 tiles 零绘制；显式 shadow:false 不创建阴影画布",
+          "status": "passed",
+          "title": "drawScroll 空 tiles 零绘制；显式 shadow:false 不创建阴影画布",
+          "duration": 0.4242500000000291,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["N03 九宫格缺块与零尺寸早退"],
+          "fullName": "N03 九宫格缺块与零尺寸早退 阴影离屏画布缺 2d 上下文：静默跳过阴影且不阻止本体绘制",
+          "status": "passed",
+          "title": "阴影离屏画布缺 2d 上下文：静默跳过阴影且不阻止本体绘制",
+          "duration": 0.636291999999969,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["N03 数字绘制的缺字形臂"],
+          "fullName": "N03 数字绘制的缺字形臂 部分字形缺失：存在的数字照排、缺失位跳过但右缘推进",
+          "status": "passed",
+          "title": "部分字形缺失：存在的数字照排、缺失位跳过但右缘推进",
+          "duration": 0.7429590000000417,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["N03 MenuBox portraitFor 无缓存与加载中回落"],
+          "fullName": "N03 MenuBox portraitFor 无缓存与加载中回落 无 imageCache：appearance.portrait 存在也不崩、不读",
+          "status": "passed",
+          "title": "无 imageCache：appearance.portrait 存在也不崩、不读",
+          "duration": 0.5956249999999841,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["N03 MenuBox portraitFor 无缓存与加载中回落"],
+          "fullName": "N03 MenuBox portraitFor 无缓存与加载中回落 加载未就绪回落缺省头像且单次读取；就绪后换真图",
+          "status": "passed",
+          "title": "加载未就绪回落缺省头像且单次读取；就绪后换真图",
+          "duration": 0.4950410000000147,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790740023218,
+      "endTime": 1790740023224.5957,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/illegal/type-pal-wave-n/packages/reforge/src/menu/menu-box.glm-n.test.ts"
+    }
+  ]
+}

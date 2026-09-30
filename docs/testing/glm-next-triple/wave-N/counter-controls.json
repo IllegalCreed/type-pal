@@ -1,0 +1,46 @@
+[
+  {
+    "id": "RC1",
+    "file": "src/battle/battle-ui.glm-n.test.ts",
+    "targetFullName": "N04 战斗菜单盒禁用/确认配色与右值数字色 > 禁用行选中暗红选中色、确认父项金黄、禁用右值走蓝数字",
+    "axis": "输入轴：rows[0] {label:'杂项',disabled:true} → {label:'杂项'}（合法输入单轴）",
+    "positiveExit": 0,
+    "mutantExit": 1,
+    "failedTests": ["禁用行选中暗红选中色、确认父项金黄、禁用右值走蓝数字 3ms"],
+    "restoredHashUnchanged": true,
+    "criteria": "拒绝 skip/timeout/收集错误/额外用例红/零执行/仅改期望值：正控 exit0；变异后 exit1 且仅目标 fullName 红；恢复后文件 sha256 不变"
+  },
+  {
+    "id": "RC2",
+    "file": "src/battle/battle-launch-preparation.glm-n.test.ts",
+    "targetFullName": "N05 指定战场号读取常驻波、索引背景与投掷特效精灵",
+    "axis": "输入轴：options.fieldId 7 → 9",
+    "positiveExit": 0,
+    "mutantExit": 1,
+    "failedTests": ["N05 指定战场号读取常驻波、索引背景与投掷特效精灵 36ms"],
+    "restoredHashUnchanged": true,
+    "criteria": "拒绝 skip/timeout/收集错误/额外用例红/零执行/仅改期望值：正控 exit0；变异后 exit1 且仅目标 fullName 红；恢复后文件 sha256 不变"
+  },
+  {
+    "id": "RC3",
+    "file": "src/video-player.glm-n.test.ts",
+    "targetFullName": "N03 视频覆盖层生命周期 > 加载失败：仅 warn 不抛出，Promise resolve 且视频层移除",
+    "axis": "输入轴：src 'videos/broken.mp4' → 'videos/other.mp4'（warn 消息断言红）",
+    "positiveExit": 0,
+    "mutantExit": 1,
+    "failedTests": ["加载失败：仅 warn 不抛出，Promise resolve 且视频层移除 23ms"],
+    "restoredHashUnchanged": true,
+    "criteria": "拒绝 skip/timeout/收集错误/额外用例红/零执行/仅改期望值：正控 exit0；变异后 exit1 且仅目标 fullName 红；恢复后文件 sha256 不变"
+  },
+  {
+    "id": "RC4",
+    "file": "src/project-map.glm-n.test.ts",
+    "targetFullName": "N01 瓦片/碰撞编辑非法输入 fail-loud > 负高度、空瓦片带来源、非整数 tileId、缺来源分别精确拒绝",
+    "axis": "输入轴：height -1 → -2（精确诊断断言红）",
+    "positiveExit": 0,
+    "mutantExit": 1,
+    "failedTests": ["负高度、空瓦片带来源、非整数 tileId、缺来源分别精确拒绝 4ms"],
+    "restoredHashUnchanged": true,
+    "criteria": "拒绝 skip/timeout/收集错误/额外用例红/零执行/仅改期望值：正控 exit0；变异后 exit1 且仅目标 fullName 红；恢复后文件 sha256 不变"
+  }
+]

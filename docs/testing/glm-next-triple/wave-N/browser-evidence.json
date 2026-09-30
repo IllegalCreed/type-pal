@@ -1,0 +1,77 @@
+{
+  "capturedAt": "2026-09-30T03:39:42.775Z",
+  "url": "http://localhost:6051/?menu&skip-startup=1",
+  "viewport": {
+    "width": 1440,
+    "height": 900
+  },
+  "browser": "chrome headless (playwright channel:chrome)",
+  "operations": [
+    "goto ?menu&skip-startup=1",
+    "wait for boot observation bridge",
+    "ArrowDown → ArrowUp → Enter（标题菜单选择第一入口）",
+    "wait for __rfWorld party mount"
+  ],
+  "titleCanvas": {
+    "w": 1280,
+    "h": 800
+  },
+  "worldState": {
+    "partyTemplates": ["li-xiaoyao"],
+    "money": 0,
+    "sceneId": "s000",
+    "playerPos": {
+      "col": 96,
+      "height": 0,
+      "row": 32
+    },
+    "menuActive": false
+  },
+  "screenshots": {
+    "menu-title.png": "7002fa4892c1b603f589c15c5854b8a86215b3b4b5ae8e3ddc7dada1ffdc1c08",
+    "world-after-entry.png": "ccc171ff4c3137c295016b43d4ee1abe2658ecb02a9f9c482fc1175d734392bf"
+  },
+  "console": [
+    {
+      "type": "debug",
+      "text": "[vite] connecting..."
+    },
+    {
+      "type": "debug",
+      "text": "[vite] connected."
+    },
+    {
+      "type": "error",
+      "text": "Failed to load resource: the server responded with a status of 404 (Not Found)"
+    },
+    {
+      "type": "error",
+      "text": "Failed to load resource: the server responded with a status of 404 (Not Found)"
+    },
+    {
+      "type": "log",
+      "text": "[reforge] room#0 可玩：方向键走（10fps 步进 + 朝向 + 走帧）/ 撞墙，靠近老者按空格搭话"
+    }
+  ],
+  "failedRequests": [
+    {
+      "url": "/projects/pal/.type-pal/save-state.json",
+      "status": 404
+    },
+    {
+      "url": "/projects/pal/.type-pal/save-state.json",
+      "status": null,
+      "failure": "net::ERR_ABORTED"
+    },
+    {
+      "url": "/projects/pal/.type-pal/save-state.json",
+      "status": 404
+    },
+    {
+      "url": "/projects/pal/.type-pal/save-state.json",
+      "status": null,
+      "failure": "net::ERR_ABORTED"
+    }
+  ],
+  "attributionNote": "≥400 响应/失败请求须逐条归因（提取器/资产缺席等）；无法归因的失败请求 → console 标未证。"
+}
