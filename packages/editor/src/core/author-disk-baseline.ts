@@ -1,5 +1,9 @@
 import { type AssetCatalogV1, validateProjectRelativePath } from '@type-pal/content'
-import { type FileSource, fsaSource, type LoadedCurrentProjectCore } from '@type-pal/reforge'
+import {
+  type FileSource,
+  fsaSource,
+  type LoadedCurrentProjectCore,
+} from '@type-pal/reforge/author-io'
 import { binarySnapshotSignature } from './binary-signature.js'
 import { isWorkspaceIdentityPath, type WorkspaceContext } from './workspace-context.js'
 

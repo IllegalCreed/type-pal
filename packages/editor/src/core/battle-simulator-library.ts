@@ -13,7 +13,7 @@ import {
   trialArray,
   trialId,
   trialObject,
-} from '@type-pal/reforge'
+} from '@type-pal/reforge/author-io'
 
 export const BATTLE_SIMULATOR_PATH = 'editor/battle-simulator.json'
 /** The sidecar must not alias any declared author file or catalog resource, even before first use. */

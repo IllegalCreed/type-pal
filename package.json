@@ -15,6 +15,7 @@
     "test:docs-tools": "node --test scripts/docs/*.test.mjs",
     "test:quality-tools": "node --test scripts/quality/*.test.mjs",
     "check:docs": "pnpm test:docs-tools && node scripts/docs/check.mjs",
+    "check:content": "tsx packages/editor/scripts/check-project.mts",
     "coverage:fast": "pnpm test:coverage-tools && node scripts/coverage/run.mjs fast",
     "coverage:full": "pnpm test:coverage-tools && node scripts/coverage/run.mjs full",
     "coverage:ratchet": "pnpm test:coverage-tools && node scripts/coverage/run.mjs fast --ratchet",

@@ -9,7 +9,8 @@
     "dev:lan": "EDITOR_LAN_HTTPS=1 VITE_PROJECT_ID=pal vite --host 0.0.0.0 --port 6010 --strictPort",
     "build": "vite build",
     "benchmark:references": "tsx scripts/benchmark-derived-reference-index.mts",
-    "typecheck": "tsc --noEmit",
+    "typecheck": "tsc --noEmit && tsc --noEmit -p scripts/tsconfig.author-check.json",
+    "check:project": "tsx scripts/check-project.mts",
     "test": "vitest run --passWithNoTests --maxWorkers=2",
     "check": "pnpm typecheck && pnpm test",
     "dev:demo": "vite --port 6011 --strictPort"
@@ -22,6 +23,7 @@
   },
   "devDependencies": {
     "@bramus/specificity": "2.4.2",
+    "@types/node": "^25.9.1",
     "@types/react": "^19.2.0",
     "@types/react-dom": "^19.2.0",
     "@vitejs/plugin-basic-ssl": "2.3.0",

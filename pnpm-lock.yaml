@@ -52,6 +52,9 @@ importers:
       '@bramus/specificity':
         specifier: 2.4.2
         version: 2.4.2
+      '@types/node':
+        specifier: ^25.9.1
+        version: 25.9.1
       '@types/react':
         specifier: ^19.2.0
         version: 19.2.17
