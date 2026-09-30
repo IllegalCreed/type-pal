@@ -23,8 +23,10 @@ export async function runBrowserJourney({
   sources,
   journey,
   traceConfig,
+  arguments: journeyArguments = process.argv.slice(2),
+  initScripts = [],
 }) {
-  const args = new Set(process.argv.slice(2))
+  const args = new Set(journeyArguments)
   for (const arg of args)
     assert(['--headless', '--headed'].includes(arg), `unknown argument ${arg}`)
   assert(!(args.has('--headed') && args.has('--headless')), 'choose one browser mode')
@@ -137,6 +139,7 @@ export async function runBrowserJourney({
         await context.addInitScript(installOpeningTrace)
         await context.addInitScript(installOpeningMatrix)
       }
+      for (const script of initScripts) await context.addInitScript(script)
       page = await context.newPage()
       page.on('pageerror', (e) => error(e.message))
       page.on('console', (m) => {
