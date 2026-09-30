@@ -9,7 +9,7 @@ Reviewer: Codex（独立验收）
 Visual Verification Owner: Codex（r4.1最小入口冷启动；首批CLI N/A）
 Visual Verification Timing: build期最小功能验证；剧情E2E不在范围
 Contributor: pal_supply_audit（r1只读准备）、pal_author_check（r2首批实现）、pal_supply_boundary（r5独立前提审查）、pal_resource_supply（r5实现）
-Branch: codex/pal-resource-supply-r1（基点07c8b4d7；首批已入main，母卡未done）
+Branch: codex/pal-resource-supply-r1（基点d3df4bbb；首批已入main，母卡未done）
 
 ## 用户裁决与目标（2026-09-30）
 
@@ -343,6 +343,122 @@ Codex：**premise verified / design agree / build allowed，仅下列第二批**
   发布写测试限临时目录，不跑主项目重导CLI（含dry-run）。不改配置/依赖/lock/官方覆盖率/
   projects/pal/baseline/存档/第一阶段/GLM L/M/N源；无UI或剧情变化，视觉N/A。
 
+### r5冻结候选与独立输出复核
+
+Owner交回`63aafb81`：18文件1384增/622删；包级自验136文件1031项通过，typecheck与
+18文件Biome零诊断，diff-check为空。初轮新增测试20通过/2失败均为fixture（缺真实soundfont、
+误把walkFrames0当零帧），首次22条格式诊断、一次共享脚本fixture的TS2353均原样保留过程，
+修复后重跑通过；不降低规则/断言/timeout。本卡不把作者自验当独立验收。
+
+Codex逐文件核静态提取、窄loader/supply、current调用以及CLI仅两处import/call切换；
+冻结候选在真实Node内禁载完整转换模块，独立与实现前`d3df4bbb`冻结oracle逐对象比较全部
+537发布文件、223地图/报告、294场景引用、1934资产、六角色与两effect：全部相等。
+另一份包含自定义场景路径/正文、共享脚本、角色/sprite及物品价格/描述的537文件作者fixture
+也全相等；源JSON/binary hash与baseline不变。另8个坏回调、用途、地图和alias反控全部失败。
+独立脚本在`/tmp/type-pal-supply-proof-nLdnEI`，只生成临时证据，不跑主工程重导CLI。
+复跑启动曾漏传候选路径、误用strip-types而未启用tsx解析，均在产品加载前失败；改正启动参数
+后完整复核通过，无产品修订。全仓统一质量门留到r6最终候选，r5技术拆分可接收但母卡未done。
+
+## r6用户裁决与退役准入（2026-09-30）
+
+Codex向用户明确区分“原版环境动作自动转换审计”与“canonical作者内容/E2E脚本合理化”。
+用户直接选择**退役原版动作审计，继续删除完整脚本转换核**。本裁决替代r5“本批保留”的
+后续维护要求，不重写C2-ACT等已完成任务的历史签字、数据和差分证据。
+
+- before→after：保留可执行原版自动转换/census → 历史证明由Git/归档保存，日常仅运行
+  窄资源供应、当前作者检查与作者内容E2E；不再以重新生成的原版脚本评判新编排。
+- 最后实际命令消费者`audit-pal-sprite-actions.mts:3-9`被用户批准取消；此前完整核只剩此
+  原始参考审计和专属测试。删除前仍要核bake/audit:maps/root工具的传递闭包与barrel导出。
+- r5 Owner先冻结候选、交回包级自验；Codex独立原/新完整publication与作者保留对照已通过，
+  native Node禁止完整核已通过，8独立失败反控通过；WIP不代替冻结验收，统一质量门pending。
+- r6须迁出仍用的JSON/file-set类型与PAL外部源形状、战斗sprite id小函数，再按精确消费者
+  清单退役实现/命令/专属测试。只引用静态leaf的测试应改引用或迁移，不为删旧核丢掉现行
+  资源/角色/物品/别名/地图/事务反控。真实四伤亡/两提示是窄输入消费者，仍保留。
+- Codex已核下述准入；静态零诊断、全仓门与最终独立验收仍pending。不得自行删除所有migrate
+  文件、改变当前schema/save或放宽覆盖率门/基线。本轮不改NPC或parallel/join。
+
+### r6前提与独立反证
+
+一句话前提：用户取消完整原版转换的最后动作审计命令后，其核仅有退休能力的测试消费者；
+当前资源供应/地图审计/bake/事务与作者检查仍有用途，不能被名字或旧测试关系一并删掉。
+
+| 维度 | 已核真值 | 一手证据（冻结r5 `63aafb81`） |
+|---|---|---|
+| 原版/primary | 原始源仍供应静态资源及四伤亡/两提示；不再重新翻译环境或战斗脚本 | `pal-source-io.ts:13`、`pal-casualty-scripts.ts:149`、`pal-item-message-source.ts:41`；原始事件/提取器本身不删除 |
+| 第一阶段 | game/pal-extract消费原始数据，不导入migrate全核；原版解释器和机制真值不变 | `CLAUDE.md` Asset pipeline/Event bytecode；跨packages消费者检索未发现第一阶段调用，机制变更N/A |
+| 当前二阶段 | migrate:content已只调窄loader/current；唯一全核命令为用户批准取消的audit:sprite-actions | `scripts/migrate-content.mts:26/61`、`scripts/audit-pal-sprite-actions.mts:3-9`、`src/index.ts:13-14` |
+| 目标 | 撤掉原版转换/审计入口、全核和专属测试，迁出实际静态类型/helper；不重生成作者数据 | 用户本轮直接裁决；`scripts/bake-assets.mts`与`scripts/audit-project-maps.mts`直接读资源/地图，无全核链 |
+
+独立只读贡献者pal_supply_boundary逐项核命令传递闭包：动作命令取消后，下列24个src模块
+无剩余生产runtime消费者；12条保留模块的type-only边须迁出。Codex另直接读取命令、barrel、
+事务类型、源形状以及mixed tests，核同一结论。所有引用只读，不执行有恢复/写盘的CLI。
+最强替代解释是静态角色/声音/布局或写盘测试仍借大核；所以不以“测试也引用旧核”直接删测。
+推翻观察：剩余生产导入任何退役模块/旧profile、保留反控丢失、冻结537文件oracle漂移、作者
+fixture或事务重放失败，均停止并返工；真实原版输入缺失与错误仍必须失败。
+
+### r6单Owner和实现白名单
+
+Codex：premise verified / design agree / **r6 build allowed**。同一Owner `pal_resource_supply`，
+同一隔离worktree/分支，从冻结`63aafb81`续接。Root维护文档及覆盖工具死路径清理，不与Owner
+重叠写实现；Owner不得合main、推官方覆盖率基线或标done。
+
+- 新纯leaf：`packages/migrate/src/migration-files.ts`（JSON/两字段file-set合同）、
+  `pal-source-types.ts`（仍消费的外部PAL role/item/scene形状）；可新增同名测试及
+  `pal-role-mapping.test.ts`、`pal-role-mapping.pal.test.ts`、`pal-sound-assets.test.ts`、
+  `script-conversion-retirement.test.ts`。类型迁移不复制全核report/profile，不保留旧compat。
+- 保留实现改动白名单（均src）：`migration-baseline.ts`、`migration-merge.ts`、
+  `migration-plan.ts`、`migration-project-io.ts`、`pal-current-publication.ts`、
+  `pal-content-supply.ts`、`pal-role-mapping.ts`、`pal-item-message-source.ts`、
+  `pal-casualty-scripts.ts`、`pal-source-io.ts`、`pal-world-sprite-registry.ts`、`source-facts.ts`、
+  `pal-battle-sprites.ts`、`pal-authored-overlays.ts`、`pal-derived-content.ts`、`index.ts`；
+  通用事务/三方合并仅迁type import/合同，不改算法。
+- 只删除已核旧实现（均src）：`item-script-roots.ts`、`legacy-dialog.ts`、`migrate-content.ts`、
+  `migrate-enemies.ts`、`music-reference-audit.ts`、`pal-boss-overlay.ts`、`pal-migration-io.ts`、
+  `pal-migration.ts`、`pal-palette-sites.ts`、`pal-sprite-action-census.ts`、
+  `pal-sprite-action-materialize.ts`、`scene-entry-normalize.ts`、`scene-entry.ts`、
+  `scene-migration-source-plan.ts`、`script-control-flow-audit.ts`、`script-graph.ts`、
+  `script-library-audit.ts`、`script-library-normalize.ts`、`script-overlays.ts`、
+  `sound-reference-audit.ts`、`translate-enemy-hook-flow.ts`、`translate-enemy-scripts.ts`、
+  `translate-event-motion.ts`、`translate-events.ts`。
+- 删除`scripts/audit-pal-sprite-actions.mts`，修改`packages/migrate/package.json`只撤该audit命令；
+  index撤两个动作星导出并纠正职责注释。不改其它入口、依赖/lock/tsconfig/Vitest或规则。
+- 保留模块中的死路径收紧：registry撤数字脚本resolver/对外ensure接口，保留内部scene懒取/
+  layout注册；source-facts撤translator-only facing/word/坐标/符号/旧实体地址helper；
+  authored-overlays撤技能overlay/profile/纯full-use状态表，保留current item及两提示严格同步器；
+  derived-content撤毒生成器但保留shops；battle-sprites撤enemy/summon/full builders，保留
+  当前角色playerId和资产字节测试消费的两组framecounts，不为死builder迁SourceEnemy。
+
+### r6测试与fixture白名单、保留合同
+
+只在`packages/migrate/src`现有测试/fixture中，允许修改引用上述退休模块或其死API的文件，
+以及r5新测试和已有`pal-current-publication.pal.test.ts`；范围以冻结r5的静态import/调用为准。
+纯转换测试随能力退役删除；mixed必须拆出仍用case后再删，不以减测试计数宣称质量/覆盖提高。
+
+- `migrate-records.pure.test.ts:51-159`四个actor/identity case；`migrate-content.test.ts:113-211`
+  角色/装备槽种子、6sprites、role映射；`:436-618`七个craft/resource真链/严格尾/地址/环反控；
+  `migrate-item-use.pure.test.ts:179-264`三个craft/resource case，迁到对应静态leaf测试。
+  其desc/level-up/完整use/place/shared/技能/throw/场景翻译case才退休。
+- `migrate-content.glm-next-wave.test.ts:133-145`中性sprite id case迁registry；
+  `pal-migration.glm-next-wave.test.ts`声音resolver两项全保留改leaf；
+  `pal-migration-io.glm-large-wave.test.ts`五个场景stub/数量/地图guard迁窄loader，fixture
+  缩为真实窄输入，不能删source guard覆盖。
+- `world-sprite-layout-registry.test.ts`改直接registry：保留资源/布局不等不alias、scene顺序、
+  懒取、193 overlay真变体与scene多布局稳定id；只撤数字脚本/未知脚本目标case。
+  r5 registry测试同期撤旧数字resolver断言，未注册scene fail-loud继续保留。
+- 现行PAL地图名/商店/角色/别名/作者发布/事务相关测试改窄入口，保留所有仍有效反控；
+  r5旧新比较测试改为当前合同/源事实断言，不留oldconverter以养oracle。
+  Codex独立最终仍与实现前冻结旧oracle逐537文件对照，避免“两边一起改错”。
+- 可删fixture：`__tests__/migration-assembly-fixtures.ts`、`scene-migration-fixtures.ts`、
+  `translation-fixtures.ts`、`enemy-hook-fixtures.ts`、`glm-large-wave/sound-audit-fixture.ts`、
+  `coverage-wave2/f-enemies-source.ts`、`coverage-wave2/f-script-library.ts`；
+  `pure-migration-fixtures.ts`保留raw/unchanged/role和窄item需求，迁leaf types，撤magic/spell。
+  通用guard/planned-changes、pal-asset与casualty fixtures保留。
+- 添加文件/入口不存在＋源码import/export/profile负门，保证runtime及type无旧全核边；
+  原生Node供给/作者保留/11缺源失败/事务重放继续跑。完整migrate check、静态零诊断须交回；
+  Codex再独立核diff/反控/真实PAL/check:content/全仓check。视觉N/A，不改剧情/UI。
+- Root仅清理`scripts/coverage/config.mjs`中已删除测试的旧exclude路径；不新增exclude、
+  改include/门限/真实资源前提或重写`baseline.fast.json`。历史审计卡/签字/计数原样保留。
+
 ## 交接记录
 
 - 2026-09-30 Codex：用户批准职责方向；开draft卡，首批只读核资产/静态表与脚本推导依赖。
@@ -363,6 +479,10 @@ Codex：**premise verified / design agree / build allowed，仅下列第二批**
   保留既有E2E与GLM L/M/N工作树；主树干净，未删除任何产品/迁移代码。
 - 2026-09-30 Codex / pal_supply_boundary：r5直接证据与真实纯内存反证支持窄供应；单Owner
   隔离白名单核定，依赖离线安装不改lock。第二批实现准入，不授权删除专用动作审计或完整转换核。
+- 2026-09-30 pal_resource_supply / Codex：首个apply_patch误以为跟随shell工作目录，机械提取
+  落在主树migrate-content及两新leaf。Owner立即暂停，将本次精确diff转入隔离绝对路径，
+  用apply_patch逆本次diff恢复主树并撤出本次新建文件；未用reset/checkout，不触碰其它内容。
+  Codex另核主树status干净/diff-check为空、隔离仅这三文件后允许继续；旧oracle此前已冻结。
 
 ## 下一位Agent提示词
 
