@@ -42,7 +42,16 @@ function snap(
 }
 
 describe('O02 createMigrationPlan：原子地图 hash-only 与冲突分类', () => {
-  test('base 以 hash-only 存图、ours 有同 hash 正文、theirs 更新 → 采纳 theirs', () => {
+  test('base/theirs 均以 hash-only 存图、ours 有同 hash 正文 → 选中版本从 ours 回填正文', () => {
+    const base = snap([[MAP, mapV(1)]], [MAP])
+    const ours = snap([[MAP, mapV(1)]])
+    const theirs = snap([[MAP, mapV(1)]], [MAP])
+    const plan = createMigrationPlan(base, ours, theirs)
+    expect(plan.conflicts).toEqual([])
+    expect(plan.target.get(MAP)).toEqual(mapV(1))
+  })
+
+  test('base hash-only、ours 同 hash 正文、theirs 更新 → 采纳 theirs 更新', () => {
     const base = snap([[MAP, mapV(1)]], [MAP])
     const ours = snap([[MAP, mapV(1)]])
     const theirs = snap([[MAP, mapV(2)]])
