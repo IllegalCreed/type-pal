@@ -1,35 +1,28 @@
 {
-  "capturedAt": "2026-09-30T03:39:42.775Z",
+  "capturedAt": "2026-09-30T05:32:56.648Z",
   "url": "http://localhost:6051/?menu&skip-startup=1",
   "viewport": {
     "width": 1440,
     "height": 900
   },
   "browser": "chrome headless (playwright channel:chrome)",
+  "scope": "标题菜单内可见键盘操作；未选择开局项、未进入 PAL 001/002 叙事路线（无 __rfWorld）",
   "operations": [
-    "goto ?menu&skip-startup=1",
-    "wait for boot observation bridge",
-    "ArrowDown → ArrowUp → Enter（标题菜单选择第一入口）",
-    "wait for __rfWorld party mount"
+    "goto ?menu&skip-startup=1，等待 boot 观察口",
+    "ArrowDown →（可见选中移动，差分 0.0177）",
+    "ArrowDown×6 至「读取进度」→ Enter → 存档浏览相位（与菜单差分 0.7299）",
+    "Escape → 退回菜单相位（与浏览相位差分 0.7303）"
   ],
-  "titleCanvas": {
-    "w": 1280,
-    "h": 800
+  "phaseDiffs": {
+    "menuMove": 0.0176875,
+    "menuToLoad": 0.7299375,
+    "loadBackToMenu": 0.7303125
   },
-  "worldState": {
-    "partyTemplates": ["li-xiaoyao"],
-    "money": 0,
-    "sceneId": "s000",
-    "playerPos": {
-      "col": 96,
-      "height": 0,
-      "row": 32
-    },
-    "menuActive": false
-  },
+  "worldMounted": false,
   "screenshots": {
-    "menu-title.png": "7002fa4892c1b603f589c15c5854b8a86215b3b4b5ae8e3ddc7dada1ffdc1c08",
-    "world-after-entry.png": "ccc171ff4c3137c295016b43d4ee1abe2658ecb02a9f9c482fc1175d734392bf"
+    "menu-title.png": "ec6d551648ff7b914d1af898a246331c194738ccc9fb58274860956bf22201c5",
+    "menu-load-browser.png": "206d08a6fc4814ee6c0966960f501bbcddb5ab35f6955b41c5fb8e5dd8d7bfa6",
+    "menu-after-escape.png": "123227817ed88b12b5e2b85c19ac3570a4a172041f6950cb01635aa00ffd38a2"
   },
   "console": [
     {
@@ -47,10 +40,6 @@
     {
       "type": "error",
       "text": "Failed to load resource: the server responded with a status of 404 (Not Found)"
-    },
-    {
-      "type": "log",
-      "text": "[reforge] room#0 可玩：方向键走（10fps 步进 + 朝向 + 走帧）/ 撞墙，靠近老者按空格搭话"
     }
   ],
   "failedRequests": [
@@ -73,5 +62,5 @@
       "failure": "net::ERR_ABORTED"
     }
   ],
-  "attributionNote": "≥400 响应/失败请求须逐条归因（提取器/资产缺席等）；无法归因的失败请求 → console 标未证。"
+  "attributionNote": "≥400 响应/失败请求逐条归因；save-state.json 404 = readProjectSaveState 无存档档位合法探测。"
 }

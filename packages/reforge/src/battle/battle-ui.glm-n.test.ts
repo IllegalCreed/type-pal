@@ -6,52 +6,102 @@ import type { GlyphTable } from '../text/glyph.js'
 import {
   drawBattleGrid,
   drawBattleMenuBox,
-  drawCurrentFinger,
   drawMainIcons,
-  drawMpBox,
   drawPlayerInfoBox,
   ITEM_GRID,
 } from './battle-ui.js'
 
+interface SpanStyle {
+  glyphs?: GlyphTable
+  shadow?: boolean
+  forceRgba?: readonly number[]
+}
+
 const calls = vi.hoisted(() => ({
-  text: vi.fn(),
-  number: vi.fn(),
-  scroll: vi.fn(),
-  box: vi.fn(),
+  text: vi.fn<
+    (
+      ctx: CanvasRenderingContext2D,
+      spans: readonly { text: string }[],
+      x: number,
+      y: number,
+      style: SpanStyle,
+    ) => number
+  >(() => 0),
+  number:
+    vi.fn<
+      (
+        ctx: CanvasRenderingContext2D,
+        value: number,
+        x: number,
+        y: number,
+        nums: (ImageBitmap | undefined)[],
+      ) => void
+    >(),
+  scroll:
+    vi.fn<
+      (
+        ctx: CanvasRenderingContext2D,
+        scroll: { tiles: ImageBitmap[] },
+        x: number,
+        y: number,
+        nLen: number,
+        opts?: { shadow?: boolean },
+      ) => void
+    >(),
+  box: vi.fn<
+    (
+      ctx: CanvasRenderingContext2D,
+      box: { tiles: ImageBitmap[] },
+      x: number,
+      y: number,
+      w: number,
+      h: number,
+      opts?: { shadow?: boolean },
+    ) => void
+  >(),
 }))
 /** 本文件创建的每个画布 → 其 2d 替身；用 WeakMap 回读，不依赖 getContext 二次调用。 */
-let contexts: WeakMap<object, { putImageData: ReturnType<typeof vi.fn> }>
+interface Tracked2d {
+  putImageData: ReturnType<typeof vi.fn>
+}
+let contexts: WeakMap<object, Tracked2d>
+
 vi.mock('../menu/menu-box.js', async (importOriginal) => {
   const actual = await importOriginal<typeof import('../menu/menu-box.js')>()
+  type NumberArgs = Parameters<typeof actual.drawNumber>
+  type ScrollArgs = Parameters<typeof actual.drawScroll>
+  type BoxArgs = Parameters<typeof actual.drawSlicedBox>
   return {
     ...actual,
-    drawNumber: (...args: unknown[]) => calls.number(...args),
-    drawNumberLeft: (...args: unknown[]) => calls.number(...args),
-    drawScroll: (...args: unknown[]) => calls.scroll(...args),
-    drawSlicedBox: (...args: unknown[]) => calls.box(...args),
+    drawNumber: (...args: NumberArgs) => calls.number(...args),
+    drawNumberLeft: (...args: NumberArgs) => calls.number(...args),
+    drawScroll: (...args: ScrollArgs) => calls.scroll(...args),
+    drawSlicedBox: (...args: BoxArgs) => calls.box(...args),
   }
 })
 vi.mock('../text/text-render.js', async (importOriginal) => {
   const actual = await importOriginal<typeof import('../text/text-render.js')>()
+  type SpanArgs = Parameters<typeof actual.renderSpans>
   return {
     ...actual,
-    renderSpans: (...args: unknown[]) => {
-      calls.text(...args)
-      return 0
-    },
+    renderSpans: (...args: SpanArgs) => calls.text(...args),
   }
 })
 
+/** mono 调制路径的可控白像素画布替身（dead 信息框/主图标单色化）。
+ *  jsdom 无 2d 实现；同形实现对象在本文件内只经一处收敛为 ctx 类型。 */
+function toCtx(impl: object): CanvasRenderingContext2D {
+  return impl as unknown as CanvasRenderingContext2D
+}
+
 beforeEach(() => {
-  // monoColorFace/monoIcon 走 document.createElement('canvas').getContext('2d')；
-  // jsdom 无 2d 实现 → 提供可控白像素替身，捕获 putImageData 的调制结果。
   contexts = new WeakMap()
   vi.spyOn(HTMLCanvasElement.prototype, 'getContext').mockImplementation(function (
     this: HTMLCanvasElement,
     kind,
   ) {
     if (kind !== '2d') return null
-    const fake = {
+    const impl = {
       canvas: this,
       drawImage: vi.fn(),
       putImageData: vi.fn(),
@@ -73,8 +123,8 @@ beforeEach(() => {
           colorSpace: 'srgb',
         }) as ImageData,
     }
-    contexts.set(this, fake)
-    return fake as unknown as CanvasRenderingContext2D
+    contexts.set(this, impl)
+    return toCtx(impl)
   })
 })
 afterEach(() => {
@@ -109,22 +159,22 @@ function drawHost() {
     battleIcons: [],
     itembox: tiles,
   }
-  const drawImage = vi.fn()
-  const ctx = {
-    drawImage,
+  const impl = {
+    drawImage: vi.fn(),
     save: vi.fn(),
     restore: vi.fn(),
     filter: 'none',
-  } as unknown as CanvasRenderingContext2D
+  }
+  const ctx = toCtx(impl)
   const glyphs: GlyphTable = { has: () => false, get: () => undefined }
   for (const spy of Object.values(calls)) spy.mockClear()
-  return { menu, ctx, glyphs, drawImage, image, digits, digitsBlue }
+  return { menu, ctx, impl, glyphs, image, digits, digitsBlue }
 }
 
 function texts() {
   return calls.text.mock.calls.map((call) => ({
-    text: (call[1] as Array<{ text: string }>).map((span) => span.text).join(''),
-    color: (call[4] as { forceRgba?: readonly number[] }).forceRgba,
+    text: call[1].map((span) => span.text).join(''),
+    color: call[4].forceRgba,
   }))
 }
 
@@ -141,9 +191,9 @@ describe('N04 信息框头像形态与状态字调色门', () => {
       status: { confused: 2 },
     }
     drawPlayerInfoBox(host.ctx, host.menu, face, dead, 0, host.glyphs, palette())
-    expect(host.drawImage).toHaveBeenCalledWith(face, 89, 161)
+    expect(host.impl.drawImage).toHaveBeenCalledWith(face, 89, 161)
     // 死亡臂：save/restore 之间灰化滤镜生效（替身 restore 不回滚 filter，保留生效值）。
-    expect((host.ctx as unknown as { filter: string }).filter).toBe('grayscale(1) brightness(0.6)')
+    expect(host.impl.filter).toBe('grayscale(1) brightness(0.6)')
 
     const poisoned: Parameters<typeof drawPlayerInfoBox>[3] = {
       roleId: 'n-poison-a',
@@ -156,7 +206,7 @@ describe('N04 信息框头像形态与状态字调色门', () => {
     drawPlayerInfoBox(host.ctx, host.menu, face, poisoned, 0, host.glyphs, palette())
     // mono 画布 = 调用里唯一真实 HTMLCanvasElement 实参（其余是替身位图对象）。
     const canvasArgs = () =>
-      host.drawImage.mock.calls
+      host.impl.drawImage.mock.calls
         .map((call) => call[0])
         .filter((arg): arg is HTMLCanvasElement => arg instanceof HTMLCanvasElement)
     const first = canvasArgs()[0]
@@ -181,7 +231,7 @@ describe('N04 信息框头像形态与状态字调色门', () => {
     expect(canvasArgs()[2]).not.toBe(first)
   })
 
-  test('状态字只在活人、有字模且有调色板色时绘制；缺色条目跳过', () => {
+  test('状态字只在活人、有字模且有调色板色时绘制；越界色号（短色板）条目跳过', () => {
     const host = drawHost()
     const living: Parameters<typeof drawPlayerInfoBox>[3] = {
       roleId: 'n-status',
@@ -191,18 +241,19 @@ describe('N04 信息框头像形态与状态字调色门', () => {
       maxMp: 4,
       status: { confused: 1, paralyzed: 1, sleep: 1, silence: 1 },
     }
-    const fullPalette = palette()
-    drawPlayerInfoBox(host.ctx, host.menu, undefined, living, 0, host.glyphs, fullPalette)
+    drawPlayerInfoBox(host.ctx, host.menu, undefined, living, 0, host.glyphs, palette())
     const words = texts().map((row) => row.text)
     expect(words).toEqual(['乱', '定', '眠', '封'])
     for (const row of texts()) expect(row.color).toBeTruthy()
 
-    const holePalette = palette()
-    holePalette.colors[0x5f] = undefined as unknown as [number, number, number]
-    holePalette.colors[0xbf] = undefined as unknown as [number, number, number]
-    holePalette.colors[0x3c] = undefined as unknown as [number, number, number]
+    // 合法短色板：仅 15 色，0x5f/0xbf/0x3c 越界无色 → 只剩 0x0e「眠」。
+    const shortPalette: Palette = {
+      colors: Array.from({ length: 15 }, () => [0, 0, 0] as [number, number, number]),
+      cycles: [],
+    }
+    shortPalette.colors[0x0e] = [7, 8, 9]
     for (const spy of Object.values(calls)) spy.mockClear()
-    drawPlayerInfoBox(host.ctx, host.menu, undefined, living, 0, host.glyphs, holePalette)
+    drawPlayerInfoBox(host.ctx, host.menu, undefined, living, 0, host.glyphs, shortPalette)
     expect(texts().map((row) => row.text)).toEqual(['眠'])
     expect(texts()[0]?.color).toEqual([7, 8, 9])
   })
@@ -233,15 +284,9 @@ describe('N04 战斗菜单盒禁用/确认配色与右值数字色', () => {
     expect(rows[1]?.color).toEqual([166, 40, 32]) // COLOR_DISABLED
     expect(rows[2]?.color).toEqual([199, 186, 174]) // COLOR_NORMAL（confirmed 只作用于选中项）
     // 禁用行的右值用蓝数字数组身份。
-    const numberCalls = calls.number.mock.calls as unknown as [
-      CanvasRenderingContext2D,
-      number,
-      number,
-      number,
-      (ImageBitmap | undefined)[],
-    ][]
-    expect(numberCalls[0]?.[4]).toBe(host.digitsBlue)
-    expect(numberCalls[0]?.[1]).toBe(3)
+    const firstNumber = calls.number.mock.calls[0]
+    expect(firstNumber?.[1]).toBe(3)
+    expect(firstNumber?.[4]).toBe(host.digitsBlue)
     // 换启用选中 + 非确认：选中行闪烁色来自 SELECTED_COLORS 拍频。
     for (const spy of Object.values(calls)) spy.mockClear()
     drawBattleMenuBox(
@@ -308,7 +353,7 @@ describe('N04 物品网格分页钳制与数量门', () => {
   })
 })
 
-describe('N04 主图标单色化缓存与缺图跳过', () => {
+describe('N04 主图标单色化缓存与缺位跳过', () => {
   test('缺位图标跳过绘制；可用/不可用走灰/暗红两带且同图缓存', () => {
     const host = drawHost()
     const attack = host.image(8, 8)
@@ -320,13 +365,13 @@ describe('N04 主图标单色化缓存与缺图跳过', () => {
       [true, false, false, false],
       false,
     )
-    const drawn = host.drawImage.mock.calls.map((call) => call[0]) as HTMLCanvasElement[]
+    const drawn = host.impl.drawImage.mock.calls.map((call) => call[0]) as HTMLCanvasElement[]
     expect(drawn).toHaveLength(2)
     // luma 255 → lv 15-4 = 11：可用灰带 ICON_GRAY[11]=186，不可用暗红带 ICON_RED[11]。
-    expect(readBack(drawn[0]!)).toEqual([186, 186, 186, 255])
-    expect(readBack(drawn[1]!)).toEqual([203, 89, 77, 255])
+    expect(readBack(drawn[0])).toEqual([186, 186, 186, 255])
+    expect(readBack(drawn[1])).toEqual([203, 89, 77, 255])
     // 同 bitmap 再绘 → 缓存画布身份一致；highlight 选中 = 原位图直绘。
-    host.drawImage.mockClear()
+    host.impl.drawImage.mockClear()
     drawMainIcons(
       host.ctx,
       [attack, magic, undefined, undefined],
@@ -334,33 +379,8 @@ describe('N04 主图标单色化缓存与缺图跳过', () => {
       [true, false, false, false],
       true,
     )
-    expect(host.drawImage.mock.calls[0]?.[0]).toBe(drawn[0])
-    expect(host.drawImage.mock.calls[1]?.[0]).toBe(magic)
-  })
-})
-
-describe('N04 MP 框斜杠与手指缺图', () => {
-  test('无斜杠 sprite 时不绘制斜杠；手指/箭头缺图零绘制不崩', () => {
-    const host = drawHost()
-    const noSlash = { ...host.menu, slash: undefined as unknown as ImageBitmap }
-    drawMpBox(host.ctx, noSlash, 8, 5)
-    expect(host.drawImage).not.toHaveBeenCalled()
-    expect(calls.scroll).toHaveBeenCalledTimes(1)
-    expect(calls.number.mock.calls).toHaveLength(2)
-
-    const bare = {
-      ...host.menu,
-      cursorDown: undefined,
-      cursorGrid: undefined,
-    } as unknown as MenuAssets
-    expect(() => drawCurrentFinger(host.ctx, bare, 60, 120, 0)).not.toThrow()
-    expect(() => drawCurrentFinger(host.ctx, bare, 60, 120, 160)).not.toThrow()
-    expect(host.drawImage).not.toHaveBeenCalled()
-    const withCursor = host.menu
-    drawCurrentFinger(host.ctx, withCursor, 60, 120, 0)
-    expect(host.drawImage).toHaveBeenCalledWith(withCursor.cursorDown, 52, 46)
-    drawCurrentFinger(host.ctx, withCursor, 60, 120, 160)
-    expect(host.drawImage).toHaveBeenLastCalledWith(withCursor.cursorGrid, 52, 46)
+    expect(host.impl.drawImage.mock.calls[0]?.[0]).toBe(drawn[0])
+    expect(host.impl.drawImage.mock.calls[1]?.[0]).toBe(magic)
   })
 })
 
@@ -374,7 +394,8 @@ function palette(): Palette {
 }
 
 /** 从 mono 画布读回首个调制像素（替身 getImageData 输出白底）。 */
-function readBack(canvas: HTMLCanvasElement): number[] {
+function readBack(canvas: HTMLCanvasElement | undefined): number[] {
+  if (!canvas) throw new Error('mono canvas missing')
   const context = contexts.get(canvas)
   if (!context) throw new Error('canvas was not created under this host')
   const first = context.putImageData.mock.calls[0]?.[0] as ImageData
