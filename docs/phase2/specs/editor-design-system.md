@@ -291,6 +291,9 @@ Header 替代旧 `136px/52px` 左侧一级导航列，业务工作区不得再�
 - tab 文字不逐字换行。空间不足时依次采用横向滚动、`更多` 菜单或切换到 drawer，不得把中文压成两行。
 - 当前 tab 同时使用文字强调、底边/背景和 `aria-selected=true`；禁止只靠颜色。
 - tablist 支持左右方向键、Home/End；Tab 键只进入当前激活 tab panel。
+- 面板内的内容切换（包括 Inspector 和场景脚本抽屉）统一复用 `DsTabs variant="inspector"` 的分段样式：
+  选中项使用圆角边框、背景与文字强调，不使用 `compact`。`line` 变体用于独立的工作区导航。
+- Tab 嵌入已有底部分隔线的标题栏时，移除 Tab 条自身的底边，只保留标题栏分隔线；不得叠加重复边界。
 
 ### DS-L.6 单行 Header 菜单栏与固定常用操作（v2.2 draft）
 
