@@ -117,7 +117,7 @@
     "O-R7-03": "回执按最终树实数：469 例/254/189/26、缺口 231（与 README 一致）、690→691 路径（本轮实测）、65 存档 63 不同目标（两组共享目标如实分列）、上一轮工具/证据锚 41ce5430 与报告锚 0926ec0e 分开登记"
   },
   "headNote": "candidateHead=本轮最后测试/工具/证据提交（非 docs-only）；其后仅 receipt/README 维护，区间以 git log 区分；remoteFinalCandidate=实际推送终候选值（非自引用）",
-  "remoteFinalCandidate": "TO-BE-PINNED",
+  "remoteFinalCandidate": "ed381455293d32e84c9a5eb1813ce807a4cb2f47",
   "anchors": {
     "previousToolEvidenceAnchor": "41ce5430390be3b05e87ff5aba5789e382e64829（r7 测试+工具提交；0926ec0e 仅其后的报告文档锚）",
     "note": "本轮锚点见 candidateHead；历史数字一律标历史"
