@@ -5,7 +5,7 @@
   "branch": "codex/glm-wave-q-runtime-residual-r1",
   "dispatchBase": "8b3ca062953b17a12178f8d1a9e36657971234b1",
   "productionFreeze": "3ac9a2e2f6aba8a5cc97640c18fef8549d199380",
-  "candidateHead": "042dd8bbb3243e3a0d8a33add322631f93337855",
+  "candidateHead": "ada23d3e (r3 测试候选树完整 SHA；其后仅 docs-only pin 提交回填本字段)",
   "verifier": {
     "command": "node docs/testing/glm-tenfold-triple/verify-targets.mjs --wave Q --base 8b3ca062953b17a12178f8d1a9e36657971234b1",
     "frozenHashesValid": true,
