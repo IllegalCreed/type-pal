@@ -1,6 +1,6 @@
 # SCRIPT-AUTHOR-2 — 客栈脚本语义命名与坐标走位
 
-Status: rework
+Status: build
 Phase: phase2
 Capability: W7 / P3
 Coding Owner: Codex Root
@@ -200,3 +200,13 @@ Branch: codex/e2e-003
 - 当前目标底线：后台巡逻/走位不能阻塞保存，作者不为存档切分路线步骤。纯走位可从步骤开头重执行的用户取舍
   不自动授权奖励/物品等副作用步骤重放；新保存实现与必要字段范围尚未完成前提核定，不在本次问答中开始实现。
 - 6012 服务和页面继续保持运行，未应用被否定的候选。
+
+### 单步骤保存问题技术闭合（2026-10-01）
+
+- [SAVE-AUTO-CHECKPOINT-1](SAVE-AUTO-CHECKPOINT-1-background-script-snapshots.md)冻结`f1d1ffb53`已通过独立只读accept、
+  完整reforge2178测试及全仓硬性静态零诊断；重新生成当前SAVE10的RF001→002→003全部passed。
+- e56路线现在为一个普通步骤，原10条指令及六目标坐标/速度、交谈开放与最后选择时序保留；
+  自动走位途中可保存，不等待作者整步结束，也没有隐藏作者状态或新parallel/join结构。
+  原保存counter已闭合，总卡恢复build；仍有4587模板方案名/其它复杂machine/后台剧情职责债未治理，不标done。
+- 用户指出开场视频撤层后露出旧标题帧，已登记在SAVE子卡最终收据为独立未修视觉缺陷，
+  不以现有RF001 passed掩盖该像素交接漏检。

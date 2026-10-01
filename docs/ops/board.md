@@ -107,8 +107,8 @@ G/I 的功能视觉与 console 后续补验也已闭合，不把这些卡的完�
 | E2E-003-1 | [下楼、道士交谈与厨房交代](tasks/E2E-003-1-inn-stairs-and-kitchen.md) | review | User / 003体验验收 | 真实双引擎003及静态零诊断已核；止于交代不取菜，004 counter另留 |
 | SCRIPT-COMPLETE-1 | [完成语义与空结束步骤](tasks/SCRIPT-COMPLETE-1-explicit-flow-completion.md) | review | 用户检视 / Codex收口 | 443纯结束fold已集成；完整10648项与静态零诊断，6012更新且保持运行 |
 | SCRIPT-STEPS-1 | [首次对话与复读回归步骤](tasks/SCRIPT-STEPS-1-redundant-machine-cleanup.md) | review | User / 步骤列表体验验收 | 单卡与标题组已修、6012实检；e56后台剧情切换债已审计，正文未改 |
-| SCRIPT-AUTHOR-2 | [客栈语义命名与坐标走位](tasks/SCRIPT-AUTHOR-2-readable-inn-choreography.md) | rework | Codex / 核保存前提与单步骤续修 | 已交付批次保留；用户否定保存等待全部自动脚本，watchdog候选撤回，单步骤未发布；剩4587模板名 |
-| SAVE-AUTO-CHECKPOINT-1 | [后台自动脚本不阻塞保存](tasks/SAVE-AUTO-CHECKPOINT-1-background-script-snapshots.md) | build | Codex / 执行续跑与保存反控 | 自动走位途中保存，不等待整步；SAVE10唯一当前合同，旧档不升级 |
+| SCRIPT-AUTHOR-2 | [客栈语义命名与坐标走位](tasks/SCRIPT-AUTHOR-2-readable-inn-choreography.md) | build | Codex / 后续语义命名治理 | 保存counter闭合；e56单步骤技术验收通过；剩4587模板名，不标done |
+| SAVE-AUTO-CHECKPOINT-1 | [后台自动脚本不阻塞保存](tasks/SAVE-AUTO-CHECKPOINT-1-background-script-snapshots.md) | review | Codex / 发布已验收候选，用户体验 | 独立accept、reforge2178/静态零诊断/001→003通过；SAVE10；开场旧菜单帧另记未修 |
 | EDITOR-SCENE-FACING-1 | [切场景朝向清除](tasks/EDITOR-SCENE-FACING-1-clear-override.md) | draft | Codex / 后续窄修 | 保持选项仍提交旧方向；真实红诊断+单点oracle已证 |
 | ARCH-SUPPORT-GLM-1 | [八组并行架构/视觉准备](tasks/ARCH-SUPPORT-GLM-1-eight-audit-packages.md) | draft | Codex / 后续归属与收口 | 58cdf938材料accept，counter清零；文档已合入，按用户要求未标done/未开产品门 |
 

@@ -15,8 +15,8 @@
 | [EDITOR-MAP-SELECTION-NOTICE-1 — Esc 清选后的状态通知语义](EDITOR-MAP-SELECTION-NOTICE-1.md) | draft | 以任务卡当前准入与看板分工为准。 |
 | [EDITOR-SCENE-FACING-1 — 切场景指令无法清除显式朝向](EDITOR-SCENE-FACING-1-clear-override.md) | draft | 以任务卡当前准入与看板分工为准。 |
 | [EDITOR-SPRITE-DEEP-PREVIEW-1 — 深链自动脚本预览伪报帧 #0](EDITOR-SPRITE-DEEP-PREVIEW-1.md) | draft | 以任务卡当前准入与看板分工为准。 |
-| [SAVE-AUTO-CHECKPOINT-1 — 后台自动脚本不阻塞保存](SAVE-AUTO-CHECKPOINT-1-background-script-snapshots.md) | build | 以任务卡当前准入与看板分工为准。 |
-| [SCRIPT-AUTHOR-2 — 客栈脚本语义命名与坐标走位](SCRIPT-AUTHOR-2-readable-inn-choreography.md) | rework | 以任务卡当前准入与看板分工为准。 |
+| [SAVE-AUTO-CHECKPOINT-1 — 后台自动脚本不阻塞保存](SAVE-AUTO-CHECKPOINT-1-background-script-snapshots.md) | review | 以任务卡当前准入与看板分工为准。 |
+| [SCRIPT-AUTHOR-2 — 客栈脚本语义命名与坐标走位](SCRIPT-AUTHOR-2-readable-inn-choreography.md) | build | 以任务卡当前准入与看板分工为准。 |
 | [SCRIPT-COMPLETE-1 — 脚本完成语义与空结束步骤清理](SCRIPT-COMPLETE-1-explicit-flow-completion.md) | review | 以任务卡当前准入与看板分工为准。 |
 | [SCRIPT-STEPS-1 — 首次对话与复读回归普通步骤](SCRIPT-STEPS-1-redundant-machine-cleanup.md) | review | 以任务卡当前准入与看板分工为准。 |
 | [TEST-GLM-WAVE-L-1 — 地图、场景、精灵与印章创作大包](TEST-GLM-WAVE-L-1-editor-map-scene.md) | review | 以任务卡当前准入与看板分工为准。 |

@@ -1,6 +1,6 @@
 # SAVE-AUTO-CHECKPOINT-1 — 后台自动脚本不阻塞保存
 
-Status: build
+Status: review
 Phase: phase2
 Capability: X1 / W7
 Coding Owner: Codex Root
@@ -177,6 +177,28 @@ Branch: codex/e2e-003
   隐藏owner/target的续行地址保留但没有活认领，悬停owner仍重建认领且不提前遇敌。
   尚待窄修独立复核和冻结后的正式旅程，不将本局部绿例记为最终验收。
 
+## 最终技术验收（2026-10-01）
+
+- 冻结实现`f1d1ffb536f12770ebdb3c97b564adce26cab4d7`。独立只读席`auto_snapshot_review`最终accept：
+  仅三种离场态豁免活追逐认领，owner及有效self均核；suspended不豁免，digest/地址/帧预检未削弱。
+  Root直接复核相同源码及事务提交路径，所有本卡counter闭合。
+- 冻结后完整reforge门：257文件/2178测试通过，日志`auto-checkpoint-offstage-final-reforge.log`；
+  全7包typecheck通过，严格lint2725文件0error/0warning/0info；E2E工具92、docs工具37、作者工程294场景/223地图/1934资源通过。
+  日志均为`build/e2e/auto-checkpoint-offstage-final-*.log`；coverage工具30/quality工具27的已通过收据保留，二者实现未变。
+  未变包测试使用本卡前述ac21已通过全包收据，不声称再次执行并通过整条`pnpm check`。
+- 当前RF001正常新故事：`build/e2e/reforge-001-2026-10-01T14-25-36-376Z/report.json`；
+  RF002消费其实际端档：`build/e2e/reforge-002-2026-10-01T14-27-23-673Z/report.json`；
+  RF003消费该002端档：`build/e2e/reforge-003-2026-10-01T14-28-19-969Z/report.json`。
+  三份revision均为上述冻结实现，status passed/errors空；003前驱源码差异空、sourceHashesStable为true。
+  浏览器原始404/Canvas readback warning仍保留，不计作硬性静态诊断，也不宣称浏览器零warning。
+- 003端档SAVE10，s001(89,46)，money500/inventory空，厨房e19仍有内部resume index1；跨页面真实恢复通过。
+  Root实看003-end.png，厨房交代已结束、菜仍在桌上；未进入004取菜。e56一普通步骤含原10指令/六目标路段，不为存档拆步骤。
+- 用户当场指出视频结束后旧标题菜单短暂露出：本卡未修，作为独立开场呈现缺陷保留。
+  一手路径`opening-menu.ts:107-110`停菜单但不清画布；`video-player.ts:70-72`撤视频层；
+  `main.ts:530-536`菜单逻辑已结束、视频之后才继续场景启动。RF001记录没有重新进入opening menu，
+  但既有断言不覆盖视频撤层与首场景呈现之间的像素交接；本次passed不构成该交接视觉验收。
+- 技术验收已完成，状态review等待用户体验；main/6012发布记录在同步完成后补写。旧开发SAVE9不兼容，当前仅SAVE10。
+
 ## 下一位 Agent 提示词
 
-无下一位 Agent 提示词，Root继续实现与验证，完成后等待用户体验验收。
+无下一位 Agent 提示词，Root负责同步已验收候选；等待用户体验验收，不扩展本卡设计。
