@@ -1,12 +1,20 @@
 import {
+  type AutoCommandControl,
   type AutoScriptContinuation,
   checkAutoScriptContinuation,
+  type EntityAddress,
   type FlowCursor,
 } from '@type-pal/content'
 import type { ExecutableBaseScriptFlowLike, ExecutableCommandLike } from './script-compiler-core.js'
 import type { SharedScriptResolverLike } from './script-runner-core.js'
 
 export const SCRIPT_MAX_CALL_DEPTH = 128
+
+export interface ScriptContinuationLocation<T> {
+  leaf?: T
+  self?: EntityAddress
+  control?: AutoCommandControl
+}
 
 /** Validates execution addresses against exact frozen code, without evaluating conditions or effects. */
 export async function validateScriptContinuation<T>(
@@ -15,7 +23,8 @@ export async function validateScriptContinuation<T>(
   resume: AutoScriptContinuation,
   resolver: SharedScriptResolverLike<T> | undefined,
   signal: AbortSignal,
-): Promise<void> {
+  initialSelf?: EntityAddress,
+): Promise<ScriptContinuationLocation<T>> {
   checkAutoScriptContinuation(resume)
   if (resume.digest !== executable.canonicalContentDigest)
     throw new Error('auto resume: 内容digest不匹配')
@@ -52,6 +61,8 @@ export async function validateScriptContinuation<T>(
       throw new Error(`auto resume: confirm结果与控制帧不一致 ${id}`)
   }
   let callDepth = 0
+  let self = initialSelf
+  let location: ScriptContinuationLocation<T> = {}
   for (const [depth, frame] of resume.frames.entries()) {
     signal.throwIfAborted()
     if (frame.index > commands.length) throw new Error(`auto resume: 帧${depth}指令越界`)
@@ -76,7 +87,14 @@ export async function validateScriptContinuation<T>(
       if (frame.control.phase !== 'body' && hasChild)
         throw new Error('auto resume: loop非body不能有子帧')
     }
-    if (!hasChild) continue
+    if (!hasChild) {
+      location = {
+        ...(command?.kind === 'leaf' ? { leaf: command.command } : {}),
+        ...(self ? { self: structuredClone(self) } : {}),
+        ...(frame.control ? { control: structuredClone(frame.control) } : {}),
+      }
+      continue
+    }
     if (!command) throw new Error('auto resume: 已结束帧不能有子帧')
     const control = frame.control
     switch (command.kind) {
@@ -115,6 +133,11 @@ export async function validateScriptContinuation<T>(
         )
         if (script.id !== command.script || script.canonicalContentDigest !== resume.digest)
           throw new Error('auto resume: shared内容不匹配')
+        const inherited = command.self ?? self
+        if (script.self === 'none' && command.self)
+          throw new Error('auto resume: shared self=none禁止显式self')
+        if (script.self === 'required' && !inherited) throw new Error('auto resume: shared需要self')
+        self = script.self === 'none' ? undefined : inherited
         commands = script.body
         break
       }
@@ -122,4 +145,5 @@ export async function validateScriptContinuation<T>(
         throw new Error('auto resume: 叶指令不能有子帧')
     }
   }
+  return location
 }

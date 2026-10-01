@@ -258,6 +258,8 @@ export async function readInnContract(root = repoRoot) {
     'packages/reforge/src/script-runner-core.ts',
     'packages/reforge/src/script-continuation.ts',
     'packages/reforge/src/save/types.ts',
+    'packages/reforge/src/save/current-structure.ts',
+    'packages/reforge/src/save/current-codec.ts',
     'packages/content/src/author-script-core.ts',
     'packages/content/src/character.ts',
     'packages/reforge/src/script-project-core.ts',

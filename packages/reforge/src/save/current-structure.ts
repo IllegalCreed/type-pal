@@ -253,6 +253,30 @@ function assertPosition(value: unknown, path: string): void {
     fail(`${path}.facing`, '必须为 up/down/left/right 四方向枚举')
 }
 
+function assertAutomaticChaseClaims(value: unknown, path: string): void {
+  const claims = requireArray(value, path)
+  const targets = new Set<string>()
+  eachIndex(claims, path, (entry, p) => {
+    const claim = requireRecord(entry, p)
+    for (const key of Object.keys(claim))
+      if (key !== 'owner' && key !== 'target' && key !== 'behavior')
+        fail(`${p}.${key}`, '不是追逐认领字段')
+    requireNonEmptyString(claim.behavior, `${p}.behavior`)
+    for (const key of ['owner', 'target']) {
+      const address = requireRecord(claim[key], `${p}.${key}`)
+      for (const field of Object.keys(address))
+        if (field !== 'scene' && field !== 'entity')
+          fail(`${p}.${key}.${field}`, '不是实体地址字段')
+      requireNonEmptyString(address.scene, `${p}.${key}.scene`)
+      requireNonEmptyString(address.entity, `${p}.${key}.entity`)
+    }
+    const target = requireRecord(claim.target, `${p}.target`)
+    const id = JSON.stringify([target.scene, target.entity])
+    if (targets.has(id)) fail(`${p}.target`, '追逐目标不得重复')
+    targets.add(id)
+  })
+}
+
 export function assertCurrentSaveStructure(value: unknown): asserts value is CurrentSavePayload {
   const payload = requireRecord(value, '载荷')
   if (payload.version !== SAVE_VERSION) fail('载荷.version', `必须为 ${SAVE_VERSION}`)
@@ -261,6 +285,7 @@ export function assertCurrentSaveStructure(value: unknown): asserts value is Cur
     fail('载荷.contentVersion', '必须为数字（等值校验由 preflight 负责）')
   assertWorld(payload.world, '载荷.world')
   assertPosition(payload.position, '载荷.position')
+  optional(payload.automaticChaseClaims, '载荷.automaticChaseClaims', assertAutomaticChaseClaims)
 }
 
 export type { CharacterInstance }

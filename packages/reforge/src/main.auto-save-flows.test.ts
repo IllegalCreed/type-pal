@@ -16,9 +16,24 @@ import {
   installShellHost,
   state,
 } from './__tests__/runtime-shell/scenarios.js'
+import type { DebugMotionSnapshot } from './debug-tools.js'
 import { IndexedDbSaveStore } from './save/store.js'
 
 let host: ShellHost | undefined
+
+function motionState(): DebugMotionSnapshot {
+  const hooks: unknown = Reflect.get(window, '__tpE2e')
+  if (
+    !hooks ||
+    typeof hooks !== 'object' ||
+    !('dumpMotionState' in hooks) ||
+    typeof hooks.dumpMotionState !== 'function'
+  )
+    throw new Error('normal runtime motion observer missing')
+  // Read-only product diagnostic, never a fabricated world or an alternate execution path.
+  return hooks.dumpMotionState() as DebugMotionSnapshot
+}
+
 afterEach(() => {
   host?.close()
   host = undefined
@@ -275,6 +290,203 @@ test.each([
   )
   expect(state().entities[0]!.pos).toEqual(committed)
   expect(state().world.money).toBe(57)
+  booted.assertInputUnchanged()
+})
+
+test.each([
+  'self',
+  'shared-suspended-owner',
+  'between-chase-leaves',
+] as const)('F9 restores a %s chase contact claim before hostile scanning can steal its pacing window', async (mode) => {
+  host = await installShellHost()
+  const first = shellScene('a')
+  const shared = mode === 'shared-suspended-owner'
+  const between = mode === 'between-chase-leaves'
+  const owner = { scene: 'a', entity: shared ? 'owner' : 'npc' }
+  const flow: AuthorScriptFlow = {
+    kind: 'stages',
+    initial: 'first',
+    stages: [
+      {
+        id: 'first',
+        body: [
+          shared
+            ? { kind: 'callScript', script: 'chase-target', self: target }
+            : { kind: 'chasePlayer', range: 8, speed: 1 },
+          ...(between
+            ? ([{ kind: 'wait', ms: 1000 }, { kind: 'chasePlayer' }] satisfies AuthorCommand[])
+            : []),
+          { kind: 'giveMoney', delta: 7 },
+        ],
+        next: { kind: 'complete' },
+      },
+    ],
+  }
+  const behavior = {
+    pages: [
+      {
+        id: 'normal',
+        label: 'Normal',
+        auto: 'chase',
+        ...(between
+          ? { trigger: 'greet', triggerActivation: { on: 'interact' as const, range: 1 } }
+          : {}),
+      },
+    ],
+    initialPage: 'normal',
+    behaviors: {
+      auto: { chase: { label: 'Authored chase', order: 0, flow } },
+      ...(between
+        ? {
+            trigger: {
+              greet: {
+                label: 'Authored contact',
+                order: 0,
+                flow: {
+                  kind: 'stages' as const,
+                  initial: 'first',
+                  stages: [
+                    {
+                      id: 'first',
+                      body: [
+                        { kind: 'giveMoney', delta: 5 },
+                        { kind: 'setEntityPos', target, pos: { col: 7, row: 7, height: 0 } },
+                      ] satisfies AuthorCommand[],
+                    },
+                  ],
+                },
+              },
+            },
+          }
+        : {}),
+    },
+  }
+  first.entities = [
+    {
+      id: 'npc',
+      sprite: 'walker',
+      pos: { col: 3.25, row: 2, height: 0 },
+      hostile: {
+        enemyTeamId: 'encounter',
+        onVictory: { kind: 'remain' },
+        onPlayerFlee: { kind: 'remain' },
+      },
+      ...(!shared ? behavior : {}),
+    },
+  ]
+  if (shared)
+    first.entities.push(
+      {
+        id: 'owner',
+        sprite: 'walker',
+        pos: { col: 8, row: 8, height: 0 },
+        ...behavior,
+      },
+      {
+        id: 'switch',
+        sprite: 'walker',
+        pos: { col: 2, row: 3, height: 0 },
+        pages: [
+          {
+            id: 'normal',
+            label: 'Normal',
+            trigger: 'pause',
+            triggerActivation: { on: 'interact', range: 2 },
+          },
+        ],
+        initialPage: 'normal',
+        behaviors: {
+          trigger: {
+            pause: {
+              label: 'Pause / restore owner',
+              order: 0,
+              flow: {
+                kind: 'stages',
+                initial: 'pause',
+                stages: [
+                  {
+                    id: 'pause',
+                    body: [{ kind: 'suspendEntity', target: owner, ticks: 1_000_000 }],
+                    next: 'resume',
+                  },
+                  {
+                    id: 'resume',
+                    body: [{ kind: 'restoreEntity', target: owner }],
+                    next: { kind: 'complete' },
+                  },
+                ],
+              },
+            },
+          },
+        },
+      },
+    )
+  const booted = await bootScenario(host, {
+    first,
+    sharedScripts: {
+      'chase-target': {
+        name: 'Chase target',
+        description: '',
+        self: 'required',
+        body: [{ kind: 'chasePlayer', range: 8, speed: 1 }],
+      },
+    },
+  })
+  for (let turn = 0; turn < 10 && !motionState().pendingChase.includes('npc'); turn++) await drain()
+  expect(motionState().pendingChase).toEqual(['npc'])
+  host.frame(100)
+  expect(state().entities[0]!.pos).toEqual({ col: 2.25, row: 2, height: 0 })
+  if (between)
+    await advance(
+      host,
+      () =>
+        state().world.script?.behaviors.entities?.a?.npc?.auto?.cursor?.resume?.frames[0]?.index ===
+        1,
+    )
+  if (shared) {
+    await key(host, 'Enter', 1)
+    for (let turn = 0; turn < 10; turn++) {
+      await drain()
+      await host.settleIO()
+    }
+    expect(state().world.entityLifecycles?.a?.owner?.phase).toBe('suspended')
+    expect(state().script.running).toBe(false)
+  }
+  await key(host, 'F5', 1)
+  const store = new IndexedDbSaveStore({ kind: 'project', projectId: 'shell-project' })
+  for (let turn = 0; turn < 20 && !(await store.getPayload('quick')); turn++) {
+    await drain()
+    await host.settleIO()
+  }
+  const saved = await store.getPayload('quick')
+  expect(
+    saved?.world.script?.behaviors.entities?.a?.[owner.entity]?.auto?.cursor?.resume?.frames,
+  ).toEqual(
+    between
+      ? [{ index: 1 }]
+      : [
+          ...(shared ? [{ index: 0 }] : []),
+          { index: 0, control: { kind: 'leaf', command: 'chasePlayer', phase: 'continuation' } },
+        ],
+  )
+  expect(motionState().pendingChase).toEqual(['npc'])
+  expect(state().renderDebug.inBattle).toBe(false)
+  expect(saved?.automaticChaseClaims).toEqual([{ owner, target, behavior: 'chase' }])
+  await key(host, 'F9', 1)
+  for (let turn = 0; turn < 10; turn++) {
+    await drain()
+    await host.settleIO()
+  }
+  expect(motionState().pendingChase).toEqual(['npc'])
+  host.frame(100)
+  await drain()
+  await host.settleIO()
+  expect(state().world.money).toBe(50)
+  expect(motionState().hostileBusy).toBe(false)
+  expect(state().renderDebug.inBattle).toBe(false)
+  if (shared) await key(host, 'Enter', 1)
+  await advance(host, () => state().world.money === (between ? 62 : 57))
+  if (between) expect(motionState().pendingChase).toEqual([])
   booted.assertInputUnchanged()
 })
 

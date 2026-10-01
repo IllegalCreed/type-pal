@@ -3,6 +3,7 @@ import type {
   AuthorEnemyDef,
   AuthorItemCore,
   AuthorSceneDef,
+  AuthorScriptLibrary,
   WorldState,
 } from '@type-pal/content'
 import { collectAssetReferences, validateAssetFileClosure } from '@type-pal/content'
@@ -82,6 +83,7 @@ export interface ScenarioOptions {
   inventory?: WorldState['inventory']
   items?: AuthorItemCore[]
   enemies?: AuthorEnemyDef[]
+  sharedScripts?: AuthorScriptLibrary
   seedStats?: Record<string, { hp?: number; mp?: number }>
 }
 
@@ -110,6 +112,7 @@ export async function scenarioProject(options: ScenarioOptions = {}) {
   }
   fixture.files['content/actors.json'] = options.actors ?? [combatActor(), shellActor('friend')]
   fixture.files['content/items.json'] = options.items ?? []
+  fixture.files['content/shared-scripts.json'] = options.sharedScripts ?? {}
   fixture.files['content/enemies.json'] = options.enemies ?? [opponent()]
   fixture.files['content/enemy-teams.json'] = [
     { id: 'encounter', slots: ['foe', null, null, null, null] },

@@ -22,6 +22,7 @@ import type { LoadedCurrentProjectCore } from './project-loader.js'
 import type { RuntimeLeafCommand } from './runtime-script-compiler.js'
 import { compileRuntimeScriptFlow, RuntimeSharedScriptResolver } from './runtime-script-compiler.js'
 import { RuntimeScriptRunner, type ScriptRuntimeHost } from './runtime-script-runner.js'
+import type { StoredAutomaticChaseClaim } from './save/types.js'
 import {
   registeredScriptActivityLease,
   withRegisteredScriptActivityLineage,
@@ -474,7 +475,12 @@ export class ScriptProjectRuntime {
   }
 
   /** Restore preflight: validate every saved auto address before replacing the live world. */
-  async validateAutomaticContinuations(world: WorldState, signal: AbortSignal): Promise<void> {
+  async validateAutomaticContinuations(
+    world: WorldState,
+    signal: AbortSignal,
+    claims: readonly StoredAutomaticChaseClaim[] = [],
+    restoredScene = this.host.currentSceneId(),
+  ): Promise<void> {
     for (const [sceneId, entities] of Object.entries(world.script?.behaviors.entities ?? {})) {
       for (const [entityId, state] of Object.entries(entities)) {
         const saved = state.auto?.cursor
@@ -488,15 +494,55 @@ export class ScriptProjectRuntime {
         // not the currently active page; normal activation only resumes matching behavior IDs.
         const behavior = entity.behaviors?.auto?.[saved.behavior]
         if (!behavior) throw new Error('auto resume: 所属behavior不存在')
-        await new RuntimeScriptRunner(this.host, signal, this.shared).validateContinuation(
+        const owner = { scene: sceneId, entity: entityId }
+        const location = await new RuntimeScriptRunner(
+          this.host,
+          signal,
+          this.shared,
+        ).validateContinuation(
           compileRuntimeScriptFlow(behavior.flow, {
             canonicalContentDigest: this.canonicalContentDigest,
             timing: 'auto',
           }),
           saved.at,
           saved.resume,
+          owner,
         )
+        const active = resolveRuntimeEntityBehavior(entity, world.script, owner, 'auto')
+        if (
+          owner.scene === restoredScene &&
+          active?.behaviorId === saved.behavior &&
+          location.leaf?.kind === 'chasePlayer' &&
+          location.self &&
+          location.control?.kind === 'leaf' &&
+          location.control.phase === 'continuation' &&
+          !claims.some(
+            (claim) =>
+              claim.owner.scene === owner.scene &&
+              claim.owner.entity === owner.entity &&
+              claim.behavior === saved.behavior &&
+              claim.target.scene === location.self?.scene &&
+              claim.target.entity === location.self?.entity,
+          )
+        )
+          throw new Error('auto resume: 缺少已提交追逐认领')
       }
+    }
+    for (const claim of claims) {
+      signal.throwIfAborted()
+      if (claim.owner.scene !== restoredScene || claim.target.scene !== restoredScene)
+        throw new Error('auto chase claim: 不属于保存场景')
+      const scene = await this.hostScene(restoredScene)
+      const owner = entityAt(scene, claim.owner)
+      entityAt(scene, claim.target)
+      const active = world.script
+        ? resolveRuntimeEntityBehavior(owner, world.script, claim.owner, 'auto')
+        : undefined
+      if (active?.behaviorId !== claim.behavior)
+        throw new Error('auto chase claim: owner方案未选中')
+      const phase = world.entityLifecycles?.[restoredScene]?.[claim.owner.entity]?.phase
+      if (phase === 'despawned' || phase === 'awaitingExit' || phase === 'removed')
+        throw new Error('auto chase claim: owner已离场')
     }
   }
 

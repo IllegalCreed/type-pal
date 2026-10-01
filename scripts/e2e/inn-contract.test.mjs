@@ -296,7 +296,8 @@ test('restore observation is uniquely after the synchronous real commit and befo
     1,
   )
   const before = '    replaceWorld(candidate)'
-  const resume = '    startAutoRunners()\n    return true'
+  const resume = '    startAutoRunners(payload.automaticChaseClaims)\n    return true'
+  assert(raw.includes(resume), 'negative restore control must match the actual resume call')
   for (const changed of [
     raw.replace(resume, '    return true'),
     raw.replace(resume, '    startAutoRunners()\n    startAutoRunners()\n    return true'),
@@ -486,6 +487,8 @@ test('actual transformed restore reads committed World before real auto call, no
     inputProject: { manifest: { id: 'pal' } },
     SAVE_VERSION: 10,
     CONTENT_VERSION: 21,
+    pendingChaseTerminal: new Map(),
+    hasLivePendingChaseTerminal: () => false,
     assertRunnerActive: () => {},
     payloadBelongsToProject: () => true,
     clearRestoredWorldActorConditions: () => {},

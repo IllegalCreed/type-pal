@@ -16,6 +16,7 @@ interface CurrentSavePayload {
   contentVersion: 21
   world: WorldState
   position: { sceneId: string; pos: GridPos; facing: Facing }
+  automaticChaseClaims?: { owner: EntityAddress; target: EntityAddress; behavior: string }[]
 }
 ```
 
@@ -32,6 +33,9 @@ ordinal只定位同一digest的编译正文，不充当实体/方案身份；恢
 恢复后只等target/owner续行门，不重复相对位移。追逐尚未发出的触发仍待发；交互开始后不可拍，结束才记done，避免奖励重放。
 非可重入指令的提交期必须先结算该指令，避免半提交或重复奖励；不等待整个自动flow。
 主壳同步快照覆盖当前场景所有NPC实际位置，不将终点或初始位置冒充在途位置。
+作者chase保留的接触认领可跨wait/shared后继指令，不能只从当前叶逆推；快照另存当前活auto认领的
+owner/target/behavior稳定地址，恢复前校验实体、场景、方案绑定，随新activation同步重建。
+不持久化motion slot、commandEpoch、AbortSignal或Promise，不改变下一matching chase才触发self的既有语义。
 
 同一runtime、同一个AbortSignal的内联子调用只在父lease仍属于当前coordinator的active登记时复用活动身份。
 嵌套交互flow仍有自己的lease/owner/cursor，不因保存请求在`to`链中途返回；独立交互根flow仍在安全点结算。
@@ -48,7 +52,7 @@ DEV检查点导出使用`await window.__tpE2e.dumpSave()`，与普通槽保存�
 不读写槽/缩略图、不增加保存次数。错误直接reject，调用者必须await并处理失败；失败不阻断后续请求。
 存储和缩略图I/O继续在barrier外。该接口只保存自动flow内部执行帧，不保存临时交互调用栈或中途战斗态，
 不替代R4的业务结束断言。
-实现验证见[检查点导出](../../testing/checkpoint-export.md)，完整跨页面E2E尚待集中执行。
+实现验证见[检查点导出](../../testing/checkpoint-export.md)，当前冻结旅程收据与剩余状态见本修复任务卡。
 
 ### 当前读档边界
 

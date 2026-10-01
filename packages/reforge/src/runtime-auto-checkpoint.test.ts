@@ -2,6 +2,88 @@ import type { RuntimeCommand, RuntimeScriptLibrary, WorldState } from '@type-pal
 import { expect, test, vi } from 'vitest'
 import { deferred, fixture, stage } from './__tests__/save-lineage-fixture.js'
 import { ScriptProjectRuntime } from './runtime-script-project.js'
+import type { StoredAutomaticChaseClaim } from './save/types.js'
+
+function retainedChaseFixture(index = 1) {
+  const effect = vi.fn()
+  const f = fixture({ executeEffect: effect })
+  const entity = f.scene.entities[0]!
+  entity.pages![0]!.auto = 'chase'
+  entity.behaviors!.auto = {
+    chase: {
+      label: 'Chase',
+      order: 0,
+      flow: stage([{ kind: 'chasePlayer' }, { kind: 'wait', ms: 1000 }]),
+    },
+  }
+  const world = structuredClone(f.world)
+  world.script!.behaviors.entities = {
+    s: {
+      e: {
+        auto: {
+          selection: { kind: 'use', value: 'chase' },
+          cursor: {
+            behavior: 'chase',
+            at: { kind: 'stage', stage: 'first' },
+            resume: {
+              digest: 'c'.repeat(64),
+              frames: [
+                index === 0
+                  ? {
+                      index,
+                      control: { kind: 'leaf', command: 'chasePlayer', phase: 'continuation' },
+                    }
+                  : { index },
+              ],
+              outcomes: {},
+            },
+          },
+        },
+      },
+    },
+  }
+  const claim: StoredAutomaticChaseClaim = {
+    owner: { scene: 's', entity: 'e' },
+    target: { scene: 's', entity: 'e' },
+    behavior: 'chase',
+  }
+  return { ...f, effect, saved: world, claim }
+}
+
+test.each([
+  0, 1,
+])('restore preflight accepts a contact claim at chase or later wait index %i without executing gameplay', async (index) => {
+  const f = retainedChaseFixture(index)
+  const before = structuredClone(f.saved)
+  await f.runtime.validateAutomaticContinuations(f.saved, f.signal, [f.claim], 's')
+  expect(f.saved).toEqual(before)
+  expect(f.effect).not.toHaveBeenCalled()
+})
+
+test('a committed chase cannot be restored without its contact ownership', async () => {
+  const f = retainedChaseFixture(0)
+  await expect(
+    f.runtime.validateAutomaticContinuations(f.saved, f.signal, [], 's'),
+  ).rejects.toThrow('缺少已提交追逐认领')
+  expect(f.effect).not.toHaveBeenCalled()
+})
+
+test.each([
+  'scene',
+  'owner',
+  'target',
+  'behavior',
+] as const)('a retained cross-leaf chase claim with invalid %s rejects before effects', async (field) => {
+  const f = retainedChaseFixture()
+  if (field === 'scene') f.claim.target.scene = 'other'
+  else if (field === 'owner') f.claim.owner.entity = 'missing'
+  else if (field === 'target') f.claim.target.entity = 'missing'
+  else f.claim.behavior = 'missing'
+  await expect(
+    f.runtime.validateAutomaticContinuations(f.saved, f.signal, [f.claim], 's'),
+  ).rejects.toThrow()
+  expect(f.effect).not.toHaveBeenCalled()
+})
 
 test('an unfinished auto move is snapshot-ready and resumes without repeating earlier rewards', async () => {
   const moving = deferred(),

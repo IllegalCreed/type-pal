@@ -166,7 +166,12 @@ import {
 } from './save/ops.js'
 import { assertSaveScopeProject, type SaveScope } from './save/scope.js'
 import { IndexedDbSaveStore, MemorySaveStore, type SaveStore } from './save/store.js'
-import type { SaveMeta, SlotId, StoredSavePayload } from './save/types.js'
+import type {
+  SaveMeta,
+  SlotId,
+  StoredAutomaticChaseClaim,
+  StoredSavePayload,
+} from './save/types.js'
 import { SceneEntrySession } from './scene-entry-session.js'
 import type { SceneMapAssets } from './scene-map.js'
 import { loadSceneMap } from './scene-map.js'
@@ -1663,6 +1668,23 @@ export async function bootGame(
     const activation = source === 'auto' ? autoActivationBySignal.get(signal) : undefined
     if (checkpoint?.phase === 'done') return
     if (checkpoint?.phase === 'continuation') {
+      if (source === 'auto') {
+        if (!activation || autoActivations.get(activation.entityId) !== activation)
+          throw asyncIntentAbortError(`追逐 ${entityId} 的 auto activation 已失效`)
+        const pending = pendingChaseTerminal.get(entityId)
+        if (
+          pending?.sceneSessionId !== continuationSceneToken ||
+          pending.activationOwnerId !== activation.entityId ||
+          pending.activationEpoch !== activation.epoch
+        )
+          pendingChaseTerminal.set(entityId, {
+            sceneSessionId: continuationSceneToken,
+            source: 'auto',
+            commandEpoch: motion.nextCommandEpoch(),
+            activationOwnerId: activation.entityId,
+            activationEpoch: activation.epoch,
+          })
+      }
       await waitForAutoMotionContinuation(entityId, continuationSceneToken, signal)
       await host.wait(Math.max(80, 480 / Math.max(1, speed)), signal)
       return
@@ -3926,8 +3948,29 @@ export async function bootGame(
       }
     })()
   }
-  function startAutoRunners(): void {
+  function startAutoRunners(restoredClaims: readonly StoredAutomaticChaseClaim[] = []): void {
     for (const e of activeScene.scene.entities) startAutoRunner(e)
+    // Rebuild derived contact ownership in the same synchronous restore commit as the new
+    // activations. A suspended owner may not enter its runner before the first hostile scan.
+    for (const { owner, target } of restoredClaims) {
+      const activation = autoActivations.get(owner.entity)
+      if (
+        owner.scene !== activeScene.scene.id ||
+        target.scene !== activeScene.scene.id ||
+        !activation ||
+        !activeScene.scene.entities.some((entity) => entity.id === target.entity) ||
+        autoMotionTargetHidden(target.entity) ||
+        entityMotionPermanentlyRemoved(target.entity)
+      )
+        continue
+      pendingChaseTerminal.set(target.entity, {
+        sceneSessionId: activation.sceneSessionId,
+        source: 'auto',
+        commandEpoch: motion.nextCommandEpoch(),
+        activationOwnerId: owner.entity,
+        activationEpoch: activation.epoch,
+      })
+    }
   }
 
   // ── B9 敌对行为引擎驱动器(数据化遇敌:零脚本;hostile 字段 = 野怪)──
@@ -4613,7 +4656,24 @@ export async function bootGame(
       for (const entity of activeScene.scene.entities)
         positions[entity.id] = structuredClone(entity.pos)
     }
-    return buildCurrentSavePayload(captured, position, inputProject.manifest.id)
+    const payload = buildCurrentSavePayload(captured, position, inputProject.manifest.id)
+    const claims: StoredAutomaticChaseClaim[] = []
+    for (const [entityId, pending] of pendingChaseTerminal) {
+      if (pending.source !== 'auto' || !hasLivePendingChaseTerminal(entityId)) continue
+      const ownerId = pending.activationOwnerId
+      if (!ownerId) continue
+      const behavior =
+        captured.script?.behaviors.entities?.[activeScene.scene.id]?.[ownerId]?.auto?.cursor
+          ?.behavior
+      if (!behavior) continue
+      claims.push({
+        owner: { scene: activeScene.scene.id, entity: ownerId },
+        target: { scene: activeScene.scene.id, entity: entityId },
+        behavior,
+      })
+    }
+    if (claims.length) payload.automaticChaseClaims = claims
+    return payload
   }
 
   /** 槽保存与DEV检查点共用同一安全快照队列；存储/缩略图I/O不持有barrier。 */
@@ -4715,6 +4775,8 @@ export async function bootGame(
     await expectDefined(scriptRuntime).validateAutomaticContinuations(
       normalized.world,
       _signal ?? new AbortController().signal,
+      normalized.automaticChaseClaims,
+      normalized.position.sceneId,
     )
     return normalized
   }
@@ -4787,7 +4849,7 @@ export async function bootGame(
     else world.audio.currentMusic = music.currentMusic
     if (music.action === 'stop') bgm.stop()
     else bgm.play(expectDefined(music.currentMusic))
-    startAutoRunners()
+    startAutoRunners(payload.automaticChaseClaims)
     return true
   }
 

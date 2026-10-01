@@ -1,4 +1,4 @@
-import type { CONTENT_VERSION, Facing, GridPos, WorldState } from '@type-pal/content'
+import type { CONTENT_VERSION, EntityAddress, Facing, GridPos, WorldState } from '@type-pal/content'
 
 export type SlotKind = 'auto' | 'quick' | 'manual'
 export type SlotId = string // 'auto' | 'quick' | 'm01'..'m28'
@@ -31,6 +31,13 @@ export interface SaveMeta {
   savedTimes?: number
 }
 
+/** Authored chase retains contact ownership across later leaves; runtime epochs are rebuilt. */
+export interface StoredAutomaticChaseClaim {
+  owner: EntityAddress
+  target: EntityAddress
+  behavior: string
+}
+
 /** 当前唯一可持久化/读取的存档合同。 */
 export interface CurrentSavePayload {
   version: typeof SAVE_VERSION
@@ -40,6 +47,7 @@ export interface CurrentSavePayload {
   contentVersion: typeof CONTENT_VERSION
   world: WorldState
   position: { sceneId: string; pos: GridPos; facing: Facing }
+  automaticChaseClaims?: StoredAutomaticChaseClaim[]
 }
 
 export type StoredSavePayload = CurrentSavePayload

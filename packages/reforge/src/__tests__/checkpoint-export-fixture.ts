@@ -126,6 +126,8 @@ export function checkpointHarness(overrides: Partial<ProjectScriptHostOptions> =
     saveMetas: [] as SaveMeta[],
     saveThumbs: new Map(),
     saveStore: store,
+    pendingChaseTerminal: new Map(),
+    hasLivePendingChaseTerminal: () => false,
     MAP_NAME: 'checkpoint',
     lookupText: (key: string) => key,
     buildMeta,

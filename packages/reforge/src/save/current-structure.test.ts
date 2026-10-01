@@ -174,6 +174,75 @@ describe('current-structure · 合法载荷（正边界）', () => {
 })
 
 describe('current-structure · Envelope / world / position（负边界）', () => {
+  test('automatic chase claims retain only stable addresses and behavior IDs', () => {
+    const payload = {
+      ...validPayload(),
+      automaticChaseClaims: [
+        {
+          owner: { scene: 's001', entity: 'owner' },
+          target: { scene: 's001', entity: 'npc' },
+          behavior: 'chase',
+        },
+      ],
+    }
+    const before = structuredClone(payload)
+    expect(() => assertCurrentSaveStructure(payload)).not.toThrow()
+    expect(payload).toEqual(before)
+  })
+
+  test.each([
+    null,
+    {},
+    [null],
+    Array.from({ length: 1 }),
+    [{ owner: null, target: { scene: 's001', entity: 'npc' }, behavior: 'chase' }],
+    [
+      {
+        owner: { scene: '', entity: 'owner' },
+        target: { scene: 's001', entity: 'npc' },
+        behavior: 'chase',
+      },
+    ],
+    [
+      {
+        owner: { scene: 's001', entity: 'owner' },
+        target: { scene: 's001', entity: 'npc' },
+        behavior: '',
+      },
+    ],
+    [
+      {
+        owner: { scene: 's001', entity: 'owner', epoch: 1 },
+        target: { scene: 's001', entity: 'npc' },
+        behavior: 'chase',
+      },
+    ],
+    [
+      {
+        owner: { scene: 's001', entity: 'owner' },
+        target: { scene: 's001', entity: 'npc' },
+        behavior: 'chase',
+        commandEpoch: 1,
+      },
+    ],
+    [
+      {
+        owner: { scene: 's001', entity: 'owner' },
+        target: { scene: 's001', entity: 'npc' },
+        behavior: 'chase',
+      },
+      {
+        owner: { scene: 's001', entity: 'other' },
+        target: { scene: 's001', entity: 'npc' },
+        behavior: 'chase',
+      },
+    ],
+  ])('malformed automatic chase claims are rejected before cloning: %j', (automaticChaseClaims) => {
+    expect(() => assertCurrentSaveStructure({ ...validPayload(), automaticChaseClaims })).toThrow(
+      /automaticChaseClaims/,
+    )
+  })
+
   test('null / 数组 / 缺 world / 缺 position 拒绝', () => {
     expect(() => assertCurrentSaveStructure(null)).toThrow(/载荷/)
     expect(() => assertCurrentSaveStructure([validPayload()])).toThrow(/载荷/)

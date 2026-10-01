@@ -20,7 +20,11 @@ import {
   type ScriptBoundaryPolicy,
   type ScriptTiming,
 } from './script-compiler-core.js'
-import { SCRIPT_MAX_CALL_DEPTH, validateScriptContinuation } from './script-continuation.js'
+import {
+  SCRIPT_MAX_CALL_DEPTH,
+  type ScriptContinuationLocation,
+  validateScriptContinuation,
+} from './script-continuation.js'
 
 type BattleRequest = Extract<ExecutableBaseCommand, { kind: 'startBattle' }>['request']
 
@@ -168,7 +172,7 @@ export class ScriptRunnerCore<RuntimeLeafCommand = BaseRuntimeLeafCommand> {
     if (options.resume) {
       if (!options.cursor || !options.cursorController.checkpointEnabled)
         throw new Error('auto resume: 缺少自动flow执行游标')
-      await this.validateContinuation(executable, options.cursor, options.resume)
+      await this.validateContinuation(executable, options.cursor, options.resume, options.self)
     }
     if (options.cursor?.kind === 'completed') {
       if (!flowCanComplete(executable.flow))
@@ -209,8 +213,9 @@ export class ScriptRunnerCore<RuntimeLeafCommand = BaseRuntimeLeafCommand> {
     executable: ExecutableBaseScriptFlowLike<RuntimeLeafCommand>,
     cursor: FlowCursor,
     resume: AutoScriptContinuation,
-  ): Promise<void> {
-    await validateScriptContinuation(executable, cursor, resume, this.resolver, this.signal)
+    self?: EntityAddress,
+  ): Promise<ScriptContinuationLocation<RuntimeLeafCommand>> {
+    return validateScriptContinuation(executable, cursor, resume, this.resolver, this.signal, self)
   }
 
   private checkpoint(ready: boolean): boolean {

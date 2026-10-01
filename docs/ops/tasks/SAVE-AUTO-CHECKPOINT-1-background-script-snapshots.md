@@ -138,6 +138,30 @@ Branch: codex/e2e-003
   guard新增合法step/chase相位与伪相位反控21例通过；类型检查通过，`auto-checkpoint-motion-final-lint.log`2725文件零诊断。
   正式全仓/E2E和独立新候选accept待最终冻结后记实收据，候选仍未发布。
 
+### 追逐认领恢复补审准入（ac21aba93 counter）
+
+- 独立席直接核main1618/1665/4000：正常auto chase注册`pendingChaseTerminal`，读档清除旧认领，
+  continuation恢复却跳过注册；合法hostile+auto实体在pacing结束前可能被引擎抢先遇敌。
+- 可证伪反控：玩家(2,2)，实体(3.25,2)，chasePlayer(speed1)后giveMoney7；真实主壳落步到(2.25,2)后F5/F9，
+  推进100ms应仍在原作者叶等待，不得在奖励前启动引擎战斗。
+- 首轮仅由当前叶派生认领的设想已撤回：Root和独立席直接读取归档D15卡503–505及冻结18ebeb4454注释，
+  认领必须跨wait/已退栈shared直到下一matching chase才消费；不得在pacing finally清理或逆推最近chase。
+- build allowed增量：仍未发布的SAVE10载荷可带`automaticChaseClaims`，仅存真实活auto认领的owner/target/behavior稳定地址。
+  预检核场景/实体/选中方案；已提交chase相位必须有相符认领；恢复同步提交时随新activation重建。
+  不序列化临时motion slot/epoch/Promise，不新增作者字段/步骤、存档版本、升级器或战斗中途保存。
+  completed后既有认领清理语义不在本次更改；不以其泄漏为由改变跨叶接触触发。
+- ac21aba93的RF001/002/003均passed，作者工程294场景检查passed，但整体独立验收仍counter；
+  上述旅程不冒充返工后的冻结证据，当前候选尚未发布main/6012。
+- 初始反控对落点误写(3,2)，真实为(2.25,2)，原失败日志保留；修正落点后只看battleActive的旧例未抓住异步遇敌准备，
+  因此增加实际`pendingChase`和`hostileBusy`只读观测，不把第一份passed误记为抓住反例。
+  `auto-checkpoint-chase-claim-reconstruction-red.log`明确在暂时移除同步重建的控制候选中抓到读档丢失认领。
+- 当前`auto-checkpoint-chase-preflight-final.log`3文件114例全绿：真实主壳22例包含self、shared显式self且owner百万拍暂停、
+  chase完成后的wait快照→下一matching chase实际self奖励；坏认领形状/重复目标/瞬时epoch、实体/场景/方案语义预检反控。
+- ac21aba93全仓轮所有包测试已通过（content1245/shared128/game2773/extract357/reforge2151/editor3699/migrate452），
+  末尾lint读取Root返工中的4个格式/排序诊断而失败，日志`auto-checkpoint-full-check-motion-final.log`保留，不能宣称该命令成功。
+  本次之后实现仅reforge及E2E源码hash清单变化；最终验收重跑受影响包完整测试、全部硬性静态门及docs/tools，
+  不把未变包的已通过测试说成最终候选重跑，也不降低任何质量规则。
+
 ## 下一位 Agent 提示词
 
 无下一位 Agent 提示词，Root继续实现与验证，完成后等待用户体验验收。
