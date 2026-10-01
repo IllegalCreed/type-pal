@@ -3,7 +3,7 @@
   "card": "TEST-GLM-WAVE-O-1",
   "dispatchBase": "8b3ca062953b17a12178f8d1a9e36657971234b1",
   "productionFreeze": "3ac9a2e2f6aba8a5cc97640c18fef8549d199380",
-  "deliveryStatus": "PARTIAL — 468/700 deduped cases, 62/50 counters; O-R4-01/02/03 closed; residual 232 registered",
+  "deliveryStatus": "PARTIAL — 466/700 deduped cases (r6 审查扣除 2 条重复/伪证轴), 62/50 counters; O-R6-01/02/03 closed, O-R6-04 counts from final tree; residual 234 registered",
   "batches": {
     "O01": {
       "tests": 72
@@ -27,7 +27,7 @@
       "tests": 35
     },
     "O08": {
-      "tests": 67
+      "tests": 65
     },
     "O09": {
       "tests": 44
@@ -37,7 +37,7 @@
     }
   },
   "totals": {
-    "newCases": 468,
+    "newCases": 466,
     "uniqueBatchMapping": {
       "O01": 72,
       "O02": 66,
@@ -46,24 +46,24 @@
       "O05": 48,
       "O06": 42,
       "O07": 35,
-      "O08": 67,
+      "O08": 65,
       "O09": 44,
       "O10": 26
     },
-    "multiBatchNote": "multi-batch 合同记入首个批次（O01/O03→O01、O03/O05→O03、O06/O08→O06、O08/O09→O08）；重叠轴不双计",
+    "multiBatchNote": "multi-batch 合同记入首个批次；重叠轴不双计",
     "byPackage": {
       "migrate": 254,
-      "content": 194,
+      "content": 186,
       "shared": 26
     },
     "validCounters": 62
   },
   "gates": {
-    "migrateFullTest": "pnpm --filter @type-pal/migrate test → exit 0，704 tests",
-    "contentFullTest": "pnpm --filter @type-pal/content test → exit 0，1410 tests",
+    "migrateFullTest": "pnpm --filter @type-pal/migrate test → exit 0",
+    "contentFullTest": "pnpm --filter @type-pal/content test → exit 0（r7 去重后最终计数以最终跑为准）",
     "migrateTypecheck": "exit 0（0 诊断）",
     "contentTypecheck": "exit 0（0 诊断）",
-    "rootLint": "pnpm lint → PASS 3153 files; 0 errors / 0 warnings / 0 infos",
+    "rootLint": "pnpm lint → 最终树完整 0/0/0（文件数以最终跑为准）",
     "docsCheck": "pnpm check:docs → 见 README 修复后复验",
     "gitDiffCheck": "git diff --check 8b3ca062...HEAD → exit 0",
     "verifier": "node verify-targets.mjs --wave O --base 8b3ca062… → exit 0（frozenHashesValid, ownerOverlap 0, 194 changed paths）",
@@ -73,8 +73,8 @@
       "lines": "1643→1885/2286（71.872%→82.458%，旧 78.663% 已反超）",
       "note": "同分母（fast 口径），delta 见 coverage-delta.json；官方 baseline 未触碰"
     },
-    "sharedFullTest": "pnpm --filter @type-pal/shared test → exit 0，154 tests",
-    "whitelist": "verify-targets --wave O → changedPaths=595（最终树口径；历史 194/469 为当时树快照，保留历史不作最终验收）"
+    "sharedFullTest": "pnpm --filter @type-pal/shared test → exit 0",
+    "whitelist": "verify-targets --wave O → changedPaths=659（最终树实测；历史 194/469/595/658 为当时树快照，保留为历史）"
   },
   "environmentNotes": [
     "worktree 通过 symlink 引入主仓 gitignored data/extracted 真实语料（只读）；projects/pal/assets 未改动"
@@ -86,7 +86,7 @@
     "counters/（30 组 spec/正控/注入 JSON+patch+三态 hash）",
     "defect-report.md"
   ],
-  "candidateHead": "066308e36db3a5eee6897abe6888c3446a684a6d",
+  "candidateHead": "TO-BE-PINNED",
   "reworkFixes": {
     "O-01": "lint 四 JSON 与六 mutation.patch 已清零：JSON 全部过 Biome；patch 重生为 --unidiff-zero 零上下文并做 apply 重建自校验；git diff --check 0",
     "O-02": "17 处 as never/as unknown as 桥清零：plan/write-plan/transaction/publication/sprites/guards 全部改 typed 合法 fixture（validateAuthorItems/validateAuthorScenes 守卫返回、convertSourceTilemap 真形、legalManifest、PoisonDef/EnemyStats 全字段）；不可构造轴（缺 expectedPreviousHash、journal preconditions 非数组等）改经真实 unknown/JSON 域或登记 unreachable",
@@ -100,8 +100,12 @@
     "O-R4-01": "contracts.json 442 条全部去模板：source/caller 取自各测试文件真实 import 域与导出符号；oldAssertion 为最近相邻旧 fullName（对 25 个旧测文件提取全部 test 标题后按 token 重叠匹配；低重叠→gap-map 未命中臂如实登记）；oracle 用括号平衡扫描从测试体提取首条 expect/fails/ok 断言形状（0 条模板残留）",
     "O-R4-02": "六枚漂移反控（O08-CC1/CC2、O10-CC2/3/4/5）已在最终测试源重采三态（执行集 15/15/17/17/17/17 例与最终文件一致，patch 重建校验通过）；其余 50 枚控制证据未动、原样保留",
     "O-R4-03": "receipt 以最终树实际数据重建：唯一 case→batch 主映射合计 442（不再用批次表相加的 593 口径）；595 路径为最终 verify-targets 实测；JSON 经 Biome 格式化；headNote 撤销 docs-only 尾巴误记",
-    "r6-continued": "O-R4 三项闭合后继续合法残余：item 执行器效果分支（healHp/healMp/scaleCurrentHp/gate 显式阈值/menu 透传/applyPoison 统一入口）+ 敌脚本 guard（fallback chance 域/hook 状态结构/AI 聚合）+ 世界变量 fresh-record + YJ2 长流确定性 + RLE 编码器分段/pad（+26 例）；新增 6 枚三态反控（O08-CC6/7、O09-CC11/12、O10-CC7/10），计 62 枚"
+    "r6-continued": "O-R4 三项闭合后继续合法残余：item 执行器效果分支（healHp/healMp/scaleCurrentHp/gate 显式阈值/menu 透传/applyPoison 统一入口）+ 敌脚本 guard（fallback chance 域/hook 状态结构/AI 聚合）+ 世界变量 fresh-record + YJ2 长流确定性 + RLE 编码器分段/pad（+26 例）；新增 6 枚三态反控（O08-CC6/7、O09-CC11/12、O10-CC7/10），计 62 枚",
+    "O-R6-01": "item-effects gate 失败轴（rng0.9/chance50/不消耗/HP 不变）与旧 item.test.ts:898-928 同入口同阈值重复，整例删除登记 existing-proof；item-use allAllies 伪证轴（传现存 hero 只验 reason 不等）删除；\"死亡队员跳过/0钳位\"两处标题改为实际验证的轴（HP 差额+消耗 / trunc 99→49+100→50）；合同账 note 明示字段提取方法与局限",
+    "O-R6-02": "item-use 全 typed 重写：完整 CharacterInstance（必填 exp）+ WorldState + ItemData/UseSpec 直构，删除 as never/Record 扩展/inventory:unknown 三桥；missing-target 轴改 typed 缺键直证（ghost 不在 party）",
+    "O-R6-03": "run-counter 判据收紧：叶状态白名单（pending/todo/skip 拒收）、零执行拒收、单文件校验、红例精确 file 后缀+fullName 匹配、未处理异常/崩溃栈非 AssertionError 拒收；stdout+stderr+signal+spawn error 全保留进 raw；清理仅局部 rm（移除全局 prune）；13 用例自测（10 拒收+2 正控+1 目标返回）全过",
+    "O-R6-04": "最终树实数：466 例/包分布 254/186/26、659 白名单路径、62 反控；receipt 锚=最后测试/证据提交，docs-only 区间以 git log 说明；remoteFinalCandidate 不自引循环（记录实际推送值）"
   },
-  "headNote": "candidateHead=测试/证据锚（最后非 docs 提交）；其后仅 receipt 格式化/pin 维护（docs-only），远端最终候选见 remoteFinalCandidate",
-  "remoteFinalCandidate": "5ea8a5d23e245bab448294b4e03e928e6a46f7e7"
+  "headNote": "candidateHead=最后测试/证据提交；其后仅 receipt/README 维护（docs-only），区间以 git log 区分；remoteFinalCandidate=实际推送终候选",
+  "remoteFinalCandidate": "TO-BE-PINNED"
 }
