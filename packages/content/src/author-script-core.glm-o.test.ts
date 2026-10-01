@@ -13,7 +13,7 @@ import {
 } from './author-script-core.js'
 
 const ok = (run: () => unknown): void => expect(run).not.toThrow()
-const fails = (run: () => unknown, message: string): void => expect(run).toThrow(message)
+const fails = (run: () => unknown, message: string | RegExp): void => expect(run).toThrow(message)
 
 const flow = (body: unknown[]): object => ({
   kind: 'stages',
@@ -40,14 +40,17 @@ describe('O07 checkBaseAuthorCommands：kind 域与结构轴', () => {
       /p\[0\]\.then/,
     )
     ok(() =>
-      checkBaseAuthorCommands([
-        {
-          kind: 'branch',
-          cond: { kind: 'flag', flag: 'f', is: true },
-          then: [{ kind: 'gameOver' }],
-          else: [],
-        },
-      ]),
+      checkBaseAuthorCommands(
+        [
+          {
+            kind: 'branch',
+            cond: { kind: 'flag', flag: 'f', is: true },
+            then: [{ kind: 'gameOver' }],
+            else: [],
+          },
+        ],
+        'p',
+      ),
     )
   })
 
@@ -71,21 +74,18 @@ describe('O07 checkBaseAuthorCommands：kind 域与结构轴', () => {
       () =>
         checkBaseAuthorCommands(
           [
-            { kind: 'loop', mode: 'when', cond: { kind: 'allFullHp' }, body: [], yield: 'worldTick', maxIterations: 1 },
+            {
+              kind: 'loop',
+              mode: 'while',
+              cond: { kind: 'allFullHp' },
+              body: [],
+              yield: 'macroTask',
+              maxIterations: 1,
+            },
           ],
           'p',
         ),
-      /loop\.mode|mode/,
-    )
-    fails(
-      () =>
-        checkBaseAuthorCommands(
-          [
-            { kind: 'loop', mode: 'while', cond: { kind: 'allFullHp' }, body: [], yield: 'macroTask', maxIterations: 1 },
-          ],
-          'p',
-        ),
-      /yield/,
+      'p[0].yield: canonical loop 必须 worldTick',
     )
   })
 
@@ -110,10 +110,13 @@ describe('O07 checkBaseAuthorCommands：kind 域与结构轴', () => {
   test('confirm：onNo 必填且递归；teleportOut onFail 递归', () => {
     fails(() => checkBaseAuthorCommands([{ kind: 'confirm' }], 'p'), /onNo/)
     ok(() =>
-      checkBaseAuthorCommands([
-        { kind: 'confirm', onNo: [{ kind: 'fade', dir: 'out' }] },
-        { kind: 'teleportOut', onFail: [] },
-      ]),
+      checkBaseAuthorCommands(
+        [
+          { kind: 'confirm', onNo: [{ kind: 'fade', dir: 'out' }] },
+          { kind: 'teleportOut', onFail: [] },
+        ],
+        'p',
+      ),
     )
   })
 
@@ -153,17 +156,20 @@ describe('O07 checkBaseAuthorCommands：kind 域与结构轴', () => {
   })
 
   test('openShop：shop 非整数与 mode 非法 逐轴拒绝', () => {
-    fails(() => checkBaseAuthorCommands([{ kind: 'openShop', shop: 1.5, mode: 'buy' }], 'p'), /shop/)
+    fails(() => checkBaseAuthorCommands([{ kind: 'openShop', shop: 1.5, mode: 'buy' }], 'p'), /openShop\.shop|shop/)
     fails(() => checkBaseAuthorCommands([{ kind: 'openShop', shop: 1, mode: 'rob' }], 'p'), /mode/)
     ok(() => checkBaseAuthorCommands([{ kind: 'openShop', shop: 1, mode: 'sell' }], 'p'))
   })
 
   test('setMultiEntityState / setEntityPosRelParty 形状轴', () => {
     ok(() =>
-      checkBaseAuthorCommands([
-        { kind: 'setMultiEntityState', targets: [{ scene: 's', entity: 'e' }], state: 2 },
-        { kind: 'setEntityPosRelParty', target: { scene: 's', entity: 'e' }, dcol: 1, drow: -1 },
-      ]),
+      checkBaseAuthorCommands(
+        [
+          { kind: 'setMultiEntityState', targets: [{ scene: 's', entity: 'e' }], state: 2 },
+          { kind: 'setEntityPosRelParty', target: { scene: 's', entity: 'e' }, dcol: 1, drow: -1 },
+        ],
+        'p',
+      ),
     )
     fails(
       () => checkBaseAuthorCommands([{ kind: 'setMultiEntityState', targets: 'x', state: 2 }], 'p'),

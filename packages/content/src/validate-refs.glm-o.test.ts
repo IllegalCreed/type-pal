@@ -13,6 +13,8 @@ import type {
   SkillData,
   SpriteDef,
 } from '@type-pal/content'
+import type { SceneDef } from '@type-pal/content'
+import { validateAuthorScenes } from './validate-author.js'
 import { validateReferences, type ContentBundle } from './validate-refs.js'
 
 const battleSprite = (id: string, kind: 'player-fighter' | 'enemy'): BattleSpriteDef =>
@@ -98,8 +100,8 @@ const poison = (id: number): PoisonDef =>
     id,
     name: `poison.${id}`,
     curability: 'normal',
-    color: 'poison',
-  }) as PoisonDef
+    color: 0,
+  }) as unknown as PoisonDef
 
 const enemy = (id: string, over: Partial<EnemyDef> = {}): EnemyDef => ({
   id,
@@ -115,6 +117,12 @@ const enemy = (id: string, over: Partial<EnemyDef> = {}): EnemyDef => ({
     magicStrength: 10,
     defense: 10,
     dexterity: 10,
+    fleeRate: 10,
+    physicalResistance: 0,
+    poisonResistance: 0,
+    elemResistance: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 },
+    dualMove: false,
+    collectValue: 0,
   },
   sounds: {},
   ai: { resistanceToSorcery: 0, rules: [] },
@@ -149,7 +157,7 @@ function bundle(): ContentBundle {
     ],
     skills: [skill('1')],
     levelUp: {},
-    items: [{ id: 'i1' }],
+    items: [{ id: 'i1', name: '物品', desc: [], buyPrice: 0, sellPrice: 0, sellable: false }],
     locale: { 'name.hero': '主角', 'name.villager': '村民', 'enemy.name.a': '敌A' },
     sprites: [
       spriteWithPoses('ghost'),
@@ -335,24 +343,68 @@ describe('O06 敌 AI 与敌队：走访与引用闭包', () => {
     expect(issuesFor(b3).filter((issue) => issue.message.includes('不受 runtime 支持'))).toEqual([])
   })
 
-  test('transform/summon 未知变身与召唤目标 → 拒绝', () => {
+  test('transform/summon 未知目标经敌 hook effect 通道 → 拒绝', () => {
     const b = bundle()
     b.enemies = [
       enemy('a', {
         battleSprite: 'enemy-a-battle',
-        ai: { resistanceToSorcery: 0, fallback: { action: { kind: 'transform', enemyId: 'ghost' }, chancePercent: 10 } },
+        ai: {
+          resistanceToSorcery: 0,
+          hooks: {
+            ready: {
+              initial: 'ready',
+              states: {
+                ready: {
+                  body: [
+                    {
+                      kind: 'effect',
+                      id: 'transform',
+                      effect: { kind: 'transform', enemyId: 'ghost' },
+                    },
+                  ],
+                  next: { kind: 'stay' },
+                },
+              },
+            },
+          },
+        },
       }),
     ]
-    expect(hasIssue(b, 'enemies[0](a).ai.fallback.action.enemyId', '变身目标 "ghost" 不在 enemies')).toBe(true)
+    expect(
+      hasIssue(
+        b,
+        'enemies[0](a).ai.hooks.ready.states["ready"].body[0].effect.enemyId',
+        '变身目标 "ghost" 不在 enemies',
+      ),
+    ).toBe(true)
 
     const b2 = bundle()
     b2.enemies = [
       enemy('a', {
         battleSprite: 'enemy-a-battle',
-        ai: { resistanceToSorcery: 0, fallback: { action: { kind: 'summon', enemyId: 'ghost' }, chancePercent: 10 } },
+        ai: {
+          resistanceToSorcery: 0,
+          hooks: {
+            ready: {
+              initial: 'ready',
+              states: {
+                ready: {
+                  body: [{ kind: 'effect', id: 'summon', effect: { kind: 'summon', enemyId: 'ghost', count: 1 } }],
+                  next: { kind: 'stay' },
+                },
+              },
+            },
+          },
+        },
       }),
     ]
-    expect(hasIssue(b2, 'enemies[0](a).ai.fallback.action.enemyId', '召唤目标 "ghost" 不在 enemies')).toBe(true)
+    expect(
+      hasIssue(
+        b2,
+        'enemies[0](a).ai.hooks.ready.states["ready"].body[0].effect.enemyId',
+        '召唤目标 "ghost" 不在 enemies',
+      ),
+    ).toBe(true)
   })
 
   test('敌队：重复 id / 槽位超上限 / 槽位未知敌人 逐轴拒绝；null 槽合法', () => {
@@ -412,11 +464,7 @@ describe('O06 场景命令与页动画：精灵动作/实体地址/收集轴', (
           {
             ...b.scenes[0]!.entities[0]!,
             pages: [
-              {
-                id: 'p1',
-                label: 'p',
-                animation: { sprite: 'ghost', action: 'dance', loop: false },
-              },
+              { animation: { sprite: 'ghost', action: 'dance', loop: false } },
             ],
           },
         ],
@@ -433,7 +481,9 @@ describe('O06 场景命令与页动画：精灵动作/实体地址/收集轴', (
         entities: [
           {
             ...b2.scenes[0]!.entities[0]!,
-            pages: [{ id: 'p1', label: 'p', animation: { sprite: 'ghost-x', action: 'idle' } }],
+            pages: [
+              { animation: { sprite: 'ghost-x', action: 'idle', loop: false } },
+            ],
           },
         ],
       },
@@ -445,12 +495,16 @@ describe('O06 场景命令与页动画：精灵动作/实体地址/收集轴', (
 
   test('teleportOut.onFail 内 giveItem 未知物品 → onFail 子树被收集并拒绝', () => {
     const b = bundle()
-    b.scenes = [
+    const scene = validateAuthorScenes([
       {
-        ...b.scenes[0]!,
+        id: 's',
+        mapId: 'map-001',
+        entry: { pos: { col: 0, row: 0, height: 0 }, facing: 'down' },
         entities: [
           {
-            ...b.scenes[0]!.entities[0]!,
+            id: 'e',
+            pos: { col: 0, row: 0, height: 0 },
+            sprite: 'ghost',
             behaviors: {
               trigger: {
                 b1: {
@@ -485,7 +539,9 @@ describe('O06 场景命令与页动画：精灵动作/实体地址/收集轴', (
           },
         ],
       },
-    ]
+    ])[0]!
+    // 作者场景经磁盘 JSON 边界进入 bundle（ContentBundle.scenes 声明域）。
+    b.scenes = [JSON.parse(JSON.stringify(scene)) as SceneDef]
     expect(
       issuesFor(b).some((issue) => issue.message.includes('不存在动作 "dance"')),
     ).toBe(true)
@@ -493,12 +549,16 @@ describe('O06 场景命令与页动画：精灵动作/实体地址/收集轴', (
 
   test('setEntityTriggerActivation/selectEntityBehavior 指向未知场景与实体 → 实体地址轴', () => {
     const b = bundle()
-    b.scenes = [
+    const scene = validateAuthorScenes([
       {
-        ...b.scenes[0]!,
+        id: 's',
+        mapId: 'map-001',
+        entry: { pos: { col: 0, row: 0, height: 0 }, facing: 'down' },
         entities: [
           {
-            ...b.scenes[0]!.entities[0]!,
+            id: 'e',
+            pos: { col: 0, row: 0, height: 0 },
+            sprite: 'ghost',
             behaviors: {
               trigger: {
                 b1: {
@@ -527,18 +587,29 @@ describe('O06 场景命令与页动画：精灵动作/实体地址/收集轴', (
           },
         ],
       },
-    ]
-    expect(hasIssue(b, 'scenes[0](s).entities[0].behaviors.trigger.b1.flow.stages[0].body[0].target.scene', '场景 "s999" 不在 scenes')).toBe(true)
+    ])[0]!
+    b.scenes = [JSON.parse(JSON.stringify(scene)) as SceneDef]
+    expect(
+      hasIssue(
+        b,
+        'scenes[0](s).entities[0].behaviors.trigger.b1.flow.stages[0].body[0].target.scene',
+        '场景 "s999" 不在 scenes',
+      ),
+    ).toBe(true)
   })
 
   test('selectEntityBehavior 指向存在场景的未知实体 → 实体轴拒绝', () => {
     const b = bundle()
-    b.scenes = [
+    const scene = validateAuthorScenes([
       {
-        ...b.scenes[0]!,
+        id: 's',
+        mapId: 'map-001',
+        entry: { pos: { col: 0, row: 0, height: 0 }, facing: 'down' },
         entities: [
           {
-            ...b.scenes[0]!.entities[0]!,
+            id: 'e',
+            pos: { col: 0, row: 0, height: 0 },
+            sprite: 'ghost',
             behaviors: {
               trigger: {
                 b1: {
@@ -567,7 +638,8 @@ describe('O06 场景命令与页动画：精灵动作/实体地址/收集轴', (
           },
         ],
       },
-    ]
+    ])[0]!
+    b.scenes = [JSON.parse(JSON.stringify(scene)) as SceneDef]
     expect(
       issuesFor(b).some((issue) => issue.message === '实体 "s/ghost-e" 不在 scenes'),
     ).toBe(true)
@@ -584,11 +656,7 @@ describe('O06 场景命令与页动画：精灵动作/实体地址/收集轴', (
             id: 'e2',
             pos: { col: 0, row: 0, height: 0 },
             sprite: 'ghost',
-            hostile: {
-              enemyTeamId: 't9',
-              onVictory: { kind: 'remove' },
-              onPlayerFlee: { kind: 'remain' },
-            },
+            hostile: { enemyTeamId: 't9' },
           },
         ],
       },
@@ -608,11 +676,7 @@ describe('O06 场景命令与页动画：精灵动作/实体地址/收集轴', (
             id: 'e2',
             pos: { col: 0, row: 0, height: 0 },
             sprite: 'ghost',
-            hostile: {
-              enemyTeamId: 't1',
-              onVictory: { kind: 'remove' },
-              onPlayerFlee: { kind: 'remain' },
-            },
+            hostile: { enemyTeamId: 't1' },
           },
         ],
       },
