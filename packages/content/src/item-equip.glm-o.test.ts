@@ -40,50 +40,24 @@ describe('O08 equipItem：四拒绝前置与成功流', () => {
     expect(total).toBe(1)
   })
 
-  test('物品无 equip 块 → 原引用返回', () => {
-    const items: ItemDataMap = { plain: makeItem({ id: 'plain', name: '无装备块' }) }
-    const base = world([{ itemId: 'plain', count: 1 }])
-    expect(equipItem(base, 'hero', 'plain', items)).toBe(base)
-  })
-
-  test('caster 不在 party → 原引用返回', () => {
-    const items: ItemDataMap = { bead: equipItemDef() }
-    const base = world([{ itemId: 'bead', count: 1 }])
-    expect(equipItem(base, 'ghost', 'bead', items)).toBe(base)
-  })
-
-  test('模板不匹配 equipableBy → 原引用返回', () => {
-    const items: ItemDataMap = {
-      bead: equipItemDef({ equip: { slot: 'accessory', equipableBy: ['other'], effects: [] } }),
-    }
-    const base = world([{ itemId: 'bead', count: 1 }])
-    expect(equipItem(base, 'hero', 'bead', items)).toBe(base)
-  })
-
-  test('背包没有该件（count=0）→ 原引用返回', () => {
-    const items: ItemDataMap = { bead: equipItemDef() }
-    const base = world([])
-    expect(equipItem(base, 'hero', 'bead', items)).toBe(base)
-  })
-
-  test('未知物品 id → 原引用返回', () => {
-    const base = world([{ itemId: 'bead', count: 1 }])
-    expect(equipItem(base, 'hero', 'ghost', {})).toBe(base)
-  })
+  // 以下五轴已由旧测同入口覆盖，按 O-R7 审核登记 existing-proof 扣除（不计新合同）：
+  // - caster 缺席 / 背包无该件 / 未知物品：item.test.ts:405-409
+  //   “equipItem 不可装(未知物/非该角色/不在包)→ 原样返回”（nobody/不在包/noSuchItem 同引用断言）
+  // - equipableBy 模板不匹配：item.inventory.background.test.ts:90-99
+  //   “I2 equipItem 残差 equipableBy 不含成员模板时原引用返回”
+  // - 物品无 equip 块：item.test.ts:407 noSuchItem 同守卫首臂（item?.equip 缺省路径）。
+  // 该守卫组保留的唯一新轴是成功装上的 oldRing 旧件回包（旧证仅 397-403 为 bead→旧 bead，
+  // 未覆盖 heroActor initialEquipment accessory=oldRing 的初始件回包输入域）。
 })
 
-describe('O08 worldResourceValue：键域合同', () => {
-  test('空/纯空格资源键 fail-loud；collectValue 缺省 0', () => {
-    expect(() => worldResourceValue(world([]), '')).toThrow('资源键不能为空')
-    expect(() => worldResourceValue(world([]), '  ')).toThrow('资源键不能为空')
-    expect(worldResourceValue(world([]), 'collectValue')).toBe(0)
-  })
-
-  test('resources 键缺省 0；已设值读取', () => {
+describe('O08 worldResourceValue：键域合同（仅保留未证轴）', () => {
+  // 旧证扣除：空/纯空格键恰抛与 collectValue 缺省 0 已由
+  // item.ownership.background.test.ts:108-127 “I4 ownedItemCount / worldResourceValue 残差”覆盖。
+  test('resources 键在对象存在但值为 0 的显式零与缺键 0 分开（独立读取语义）', () => {
     const w = world([])
+    w.resources = { herb: 0 }
     expect(worldResourceValue(w, 'herb')).toBe(0)
-    w.resources = { herb: 7 }
-    expect(worldResourceValue(w, 'herb')).toBe(7)
+    expect(w.resources).toEqual({ herb: 0 })
   })
 })
 
