@@ -7,6 +7,7 @@
 import type { AuthorItemData, AuthorSceneDef, SpriteDef } from '@type-pal/content'
 import { describe, expect, test } from 'vitest'
 import { assertPalItemSchemeLabelInvariant } from './pal-item-scheme-labels.js'
+import { validateAuthorItems, validateAuthorScenes } from '@type-pal/content'
 import type { SourceScene } from './pal-source-types.js'
 import { createPalWorldSpriteRegistry, migratedSpriteId } from './pal-world-sprite-registry.js'
 import { applyPalWorldSpriteSemanticAliases } from './pal-world-sprite-semantic-alias.js'
@@ -321,35 +322,38 @@ describe('O05 assertPalItemSchemeLabelInvariant：canonical label 与选择边',
         },
       ],
     }) as AuthorSceneDef
+  /** 先过现行 validateAuthorItems 守卫再返回（fixture 合法性门，非强转桥）。 */
   const itemSelecting = (id: string, name: string): AuthorItemData =>
-    ({
-      id,
-      name,
-      desc: [],
-      buyPrice: 0,
-      sellPrice: 0,
-      sellable: false,
-      use: {
-        target: 'scene',
-        consuming: true,
-        effects: [
-          {
-            kind: 'itemPrivateScript',
-            script: {
-              id: 'use',
-              body: [
-                {
-                  kind: 'selectEntityBehavior',
-                  target: { scene: 's001', entity: 'e1' },
-                  channel: 'trigger',
-                  selection: { kind: 'use', value: 'b1' },
-                },
-              ],
+    validateAuthorItems([
+      {
+        id,
+        name,
+        desc: [],
+        buyPrice: 0,
+        sellPrice: 0,
+        sellable: false,
+        use: {
+          target: 'scene',
+          consuming: true,
+          effects: [
+            {
+              kind: 'itemPrivateScript',
+              script: {
+                id: 'use',
+                body: [
+                  {
+                    kind: 'selectEntityBehavior',
+                    target: { scene: 's001', entity: 'e1' },
+                    channel: 'trigger',
+                    selection: { kind: 'use', value: 'b1' },
+                  },
+                ],
+              },
             },
-          },
-        ],
+          ],
+        },
       },
-    }) as unknown as AuthorItemData
+    ])[0]!
 
   test('item 私有脚本可达 + canonical label → 报告确定性 label 与 path', () => {
     const report = assertPalItemSchemeLabelInvariant({
@@ -369,14 +373,9 @@ describe('O05 assertPalItemSchemeLabelInvariant：canonical label 与选择边',
   })
 
   test('canonical 但不可达（无 item 选择边）→ 零 item root 拒绝', () => {
-    const plainItem = {
-      id: '268',
-      name: '炼蛊皿',
-      desc: [],
-      buyPrice: 0,
-      sellPrice: 0,
-      sellable: false,
-    } as unknown as AuthorItemData
+    const plainItem = validateAuthorItems([
+      { id: '268', name: '炼蛊皿', desc: [], buyPrice: 0, sellPrice: 0, sellable: false },
+    ])[0]!
     expect(() =>
       assertPalItemSchemeLabelInvariant({
         items: [plainItem],
@@ -446,46 +445,50 @@ describe('O05 assertPalItemSchemeLabelInvariant：canonical label 与选择边',
   })
 
   test('selectSceneHooks 的 use 选择边同样建立可达性（hook 方案节点）', () => {
-    const hookScene = {
-      id: 's001',
-      mapId: 'map-001',
-      entry: { pos: { col: 0, row: 0, height: 0 }, facing: 'down' },
-      entities: [],
-      hooks: {
-        onEnter: {
-          variants: {
-            h1: behavior('炼蛊皿剧情方案'),
+    const hookScene = validateAuthorScenes([
+      {
+        id: 's001',
+        mapId: 'map-001',
+        entry: { pos: { col: 0, row: 0, height: 0 }, facing: 'down' },
+        entities: [],
+        hooks: {
+          onEnter: {
+            variants: {
+              h1: behavior('炼蛊皿剧情方案'),
+            },
           },
         },
       },
-    } as unknown as AuthorSceneDef
-    const itemWithHookSelect = {
-      id: '268',
-      name: '炼蛊皿',
-      desc: [],
-      buyPrice: 0,
-      sellPrice: 0,
-      sellable: false,
-      use: {
-        target: 'scene',
-        consuming: true,
-        effects: [
-          {
-            kind: 'itemPrivateScript',
-            script: {
-              id: 'use',
-              body: [
-                {
-                  kind: 'selectSceneHooks',
-                  scene: 's001',
-                  selection: { onEnter: { kind: 'use', value: 'h1' } },
-                },
-              ],
+    ])[0]!
+    const itemWithHookSelect = validateAuthorItems([
+      {
+        id: '268',
+        name: '炼蛊皿',
+        desc: [],
+        buyPrice: 0,
+        sellPrice: 0,
+        sellable: false,
+        use: {
+          target: 'scene',
+          consuming: true,
+          effects: [
+            {
+              kind: 'itemPrivateScript',
+              script: {
+                id: 'use',
+                body: [
+                  {
+                    kind: 'selectSceneHooks',
+                    scene: 's001',
+                    selection: { onEnter: { kind: 'use', value: 'h1' } },
+                  },
+                ],
+              },
             },
-          },
-        ],
+          ],
+        },
       },
-    } as unknown as AuthorItemData
+    ])[0]!
     const report = assertPalItemSchemeLabelInvariant({
       items: [itemWithHookSelect],
       scenes: [hookScene],
@@ -500,39 +503,41 @@ describe('O05 assertPalItemSchemeLabelInvariant：canonical label 与选择边',
   })
 
   test('选择图成环 → fail-loud', () => {
-    const scene = {
-      id: 's001',
-      mapId: 'map-001',
-      entry: { pos: { col: 0, row: 0, height: 0 }, facing: 'down' },
-      entities: [
-        {
-          id: 'e1',
-          pos: { col: 0, row: 0, height: 0 },
-          sprite: 'li-xiaoyao',
-          behaviors: {
-            trigger: {
-              b1: behavior('炼蛊皿剧情方案', {
-                kind: 'stages',
-                initial: 'main',
-                stages: [
-                  {
-                    id: 'main',
-                    body: [
-                      {
-                        kind: 'selectEntityBehavior',
-                        target: { scene: 's001', entity: 'e1' },
-                        channel: 'trigger',
-                        selection: { kind: 'use', value: 'b1' },
-                      },
-                    ],
-                  },
-                ],
-              }),
+    const scene = validateAuthorScenes([
+      {
+        id: 's001',
+        mapId: 'map-001',
+        entry: { pos: { col: 0, row: 0, height: 0 }, facing: 'down' },
+        entities: [
+          {
+            id: 'e1',
+            pos: { col: 0, row: 0, height: 0 },
+            sprite: 'li-xiaoyao',
+            behaviors: {
+              trigger: {
+                b1: behavior('炼蛊皿剧情方案', {
+                  kind: 'stages',
+                  initial: 'main',
+                  stages: [
+                    {
+                      id: 'main',
+                      body: [
+                        {
+                          kind: 'selectEntityBehavior',
+                          target: { scene: 's001', entity: 'e1' },
+                          channel: 'trigger',
+                          selection: { kind: 'use', value: 'b1' },
+                        },
+                      ],
+                    },
+                  ],
+                }),
+              },
             },
           },
-        },
-      ],
-    } as unknown as AuthorSceneDef
+        ],
+      },
+    ])[0]!
     expect(() =>
       assertPalItemSchemeLabelInvariant({
         items: [itemSelecting('268', '炼蛊皿')],

@@ -3,6 +3,8 @@
  *  顺序与中断；本卡补齐规划快照 hash 门、退役资源校验、baseline 差异化写、
  *  manifest 最后提交条件、symlink/绝对路径拒绝与多操作恢复次序。全部 mkdtemp 隔离。
  */
+import { buildPalCurrentManifest } from './pal-manifest.js'
+import { syntheticCatalog } from './__tests__/glm-o/supply-fixture.js'
 import {
   existsSync,
   mkdirSync,
@@ -37,15 +39,19 @@ afterEach(() => {
 })
 
 const MAP = 'content/maps/map-001.json'
-const REAL_MAP = (() => {
+/** 真实合法 ProjectMap（convertSourceTilemap 构造），JSON 往返克隆为 MigrationJson。 */
+const REAL_MAP: MigrationJson = (() => {
   const map = convertSourceTilemap(1, {
     width: 1,
     height: 1,
     tileset: 'tileset/1.rle',
     cells: [[{ lower: 0, upper: 0 }]],
   })
-  return map as unknown as Record<string, unknown>
+  return JSON.parse(JSON.stringify(map)) as MigrationJson
 })()
+
+/** typed 合法 CurrentManifest（现行生成口 + 合成 catalog），不经强转。 */
+const legalManifest = buildPalCurrentManifest(syntheticCatalog())
 
 function projectSnapshot(files: Record<string, unknown>): {
   files: Map<string, MigrationJson>
@@ -262,10 +268,10 @@ describe('O03 buildMigrationTransactionChanges：baseline 差异化与 manifest 
     expect(() =>
       buildMigrationTransactionChanges({
         ...baseArgs(repo),
-        nextManifest: { id: 'pal' } as never,
+        nextManifest: legalManifest,
       }),
     ).toThrow('manifest 变更缺资源闭包前置条件')
-    const manifest = { id: 'pal' } as never
+    const manifest = legalManifest
     mkdirSync(resolve(repo, 'projects/pal'), { recursive: true })
     writeFileSync(
       resolve(repo, 'projects/pal/manifest.json'),
@@ -291,7 +297,7 @@ describe('O03 buildMigrationTransactionChanges：baseline 差异化与 manifest 
         files: new Map([['content/b.json', 'b']]),
         managedFiles: new Set(['content/b.json']),
       },
-      nextManifest: { id: 'pal' } as never,
+      nextManifest: legalManifest,
       manifestPreconditions: [{ target: 'projects/pal/assets/a.bin', hash: sha256('a') }],
     })
     expect(changes.at(-1)).toMatchObject({

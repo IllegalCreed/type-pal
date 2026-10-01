@@ -4,7 +4,12 @@
  *  hash-only 正文回填与“只有 hash 缺正文”fail-loud。
  */
 import { describe, expect, test } from 'vitest'
-import { type MigrationSnapshot, serializeMigrationJson, sha256 } from './migration-baseline.js'
+import type { MigrationJson } from './migration-files.js'
+import {
+  type MigrationSnapshot,
+  serializeMigrationJson,
+  sha256,
+} from './migration-baseline.js'
 import { createMigrationPlan, snapshotOf } from './migration-plan.js'
 import { convertSourceTilemap } from './project-map-converter.js'
 
@@ -18,25 +23,26 @@ const SOURCE_TILEMAP = {
   cells: [[{ lower: 0, upper: 0 }]],
 }
 
-/** 真实合法 ProjectMap（经 convertSourceTilemap 构造，n 只进入 collision 以制造版本差）。 */
-const mapV = (n: number): Record<string, unknown> => {
+/** 真实合法 ProjectMap（经 convertSourceTilemap 构造，n 只进入 collision 以制造版本差）；
+ *  经 JSON 往返深克隆为 MigrationJson（与产品 asJson 同一克隆边界）。 */
+const mapV = (n: number): MigrationJson => {
   const map = convertSourceTilemap(1, SOURCE_TILEMAP)
   map.collision[0]![0] = n
-  return map as unknown as Record<string, unknown>
+  return JSON.parse(JSON.stringify(map)) as MigrationJson
 }
 
 function snap(
-  entries: readonly (readonly [string, unknown])[],
+  entries: readonly (readonly [string, MigrationJson])[],
   hashOnly: readonly string[] = [],
 ): MigrationSnapshot {
-  const files = new Map()
+  const files = new Map<string, MigrationJson>()
   const hashes = new Map<string, string>()
   for (const [path, value] of entries) {
     if (hashOnly.includes(path)) {
-      hashes.set(path, sha256(serializeMigrationJson(value as never, path)))
+      hashes.set(path, sha256(serializeMigrationJson(value, path)))
       continue
     }
-    files.set(path, JSON.parse(JSON.stringify(value)))
+    files.set(path, JSON.parse(JSON.stringify(value)) as MigrationJson)
   }
   return { files, managedFiles: new Set([...files.keys(), ...hashes.keys()]), hashes }
 }

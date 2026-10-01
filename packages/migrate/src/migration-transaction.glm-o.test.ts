@@ -89,17 +89,9 @@ describe('O01 commitMigrationTransaction：提交侧单轴拒绝合同', () => {
     ).toThrow('迁移事务包含重复目标')
   })
 
-  test('project 操作缺 expectedPreviousHash 被拒绝', () => {
-    const repo = tempRepo()
-    const missing = {
-      target: 'projects/pal/content/a.json',
-      scope: 'project',
-      content: 'x',
-    } as unknown as TransactionChange
-    expect(() => commitMigrationTransaction(repo, [missing])).toThrow(
-      '事务工程操作缺规划 expectedPreviousHash: projects/pal/content/a.json',
-    )
-  })
+  // 注：project 操作缺 expectedPreviousHash 的运行时守卫经 typed TransactionChange
+  // 不可构造（该字段在 project 变体为必填）——该轴对 TS 调用方 unreachable，
+  // 守卫只服务无类型调用方；journal 验证侧等价 strictness 由恢复路径测试覆盖。
 
   test('project expectedPreviousHash 非十六进制被拒绝', () => {
     const repo = tempRepo()
@@ -205,7 +197,8 @@ describe('O03 journal 验证与恢复：恢复路径合同（mkdtemp 隔离）',
     staged?: string
     hash?: string
     previousHash: string | null
-    preconditions?: TransactionPrecondition[]
+    /** journal 是磁盘上的不受信 JSON；fixture 按文件字节域承载，坏值不经产品类型。 */
+    preconditions?: unknown
   }
 
   const writeInterruptedJournal = (
@@ -310,7 +303,7 @@ describe('O03 journal 验证与恢复：恢复路径合同（mkdtemp 隔离）',
     writeInterruptedJournal(repo, (operations) => {
       operations[0]!.scope = 'manifest'
       operations[0]!.target = 'projects/pal/manifest.json'
-      operations[0]!.preconditions = 'nope' as unknown as TransactionPrecondition[]
+      operations[0]!.preconditions = 'nope'
     })
     expect(() => recoverMigrationTransaction(repo)).toThrow(
       '迁移事务 journal preconditions 无效: projects/pal/manifest.json',

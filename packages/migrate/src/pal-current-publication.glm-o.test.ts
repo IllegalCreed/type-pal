@@ -521,18 +521,16 @@ describe('O01 validatePalCurrentPublication：发布门与 census 拒绝合同�
   test('item268 配方漂移（材料表被改）触发 Store0 recipes 拒绝', () => {
     const { publication, sources, manifest } = validPublication()
     const files = new Map(publication.files)
-    const items = structuredClone(files.get('content/items.json')) as Array<{
+    const items = JSON.parse(JSON.stringify(files.get('content/items.json'))) as Array<{
       id: string
       use?: { effects: Array<Record<string, unknown>> }
     }>
     const vessel = items.find((item) => item.id === '268')!
-    const craft = vessel.use!.effects.find(
-      (effect) => effect.kind === 'craftRecipe',
-    ) as unknown as {
+    const craft = vessel.use!.effects.find((effect) => effect.kind === 'craftRecipe') as {
       recipes: Array<{ ingredients: Array<{ itemId: string }> }>
     }
     craft.recipes[0]!.ingredients[0]!.itemId = '999'
-    files.set('content/items.json', items as MigrationJson)
+    files.set('content/items.json', JSON.parse(JSON.stringify(items)))
     expect(() =>
       validatePalCurrentPublication({ publication: { ...publication, files }, manifest, sources }),
     ).toThrow('PAL Store0 invariant: item268 recipes drift')
@@ -541,16 +539,16 @@ describe('O01 validatePalCurrentPublication：发布门与 census 拒绝合同�
   test('item270 资源池档位漂移触发 Store0 奖励拒绝', () => {
     const { publication, sources, manifest } = validPublication()
     const files = new Map(publication.files)
-    const items = structuredClone(files.get('content/items.json')) as Array<{
+    const items = JSON.parse(JSON.stringify(files.get('content/items.json'))) as Array<{
       id: string
       use?: { effects: Array<Record<string, unknown>> }
     }>
     const gourd = items.find((item) => item.id === '270')!
     const pool = gourd.use!.effects.find(
       (effect) => effect.kind === 'drawFromResourcePool',
-    ) as unknown as { rewards: Array<{ count: number }> }
+    ) as { rewards: Array<{ count: number }> }
     pool.rewards[0]!.count = 2
-    files.set('content/items.json', items as MigrationJson)
+    files.set('content/items.json', JSON.parse(JSON.stringify(items)))
     expect(() =>
       validatePalCurrentPublication({ publication: { ...publication, files }, manifest, sources }),
     ).toThrow('PAL Store0 invariant: item270 奖励档位漂移')
