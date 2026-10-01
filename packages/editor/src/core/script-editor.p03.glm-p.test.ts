@@ -26,29 +26,23 @@ import type {
 import { describe, expect, test } from 'vitest'
 import {
   behaviorReferences,
-  sceneHookReferences,
   canonicalScriptReferenceDestinationExists,
   describeCanonicalScriptReference,
   describeScriptCommandOwner,
   resolveCanonicalScriptCommand,
   type ScriptEditorState,
+  sceneHookReferences,
 } from './script-editor.js'
 
 const target = { scene: 's001', entity: 'e1' }
 type AuthorEntityBehavior = NonNullable<AuthorEntityBehaviors['trigger']>[string]
 type AuthorSceneHook = NonNullable<AuthorSceneHooks['onEnter']>['variants'][string]
 
-function stageFlow(
-  stageId = 'start',
-  body: AuthorCommand[] = [],
-): AuthorScriptFlow {
+function stageFlow(stageId = 'start', body: AuthorCommand[] = []): AuthorScriptFlow {
   return { kind: 'stages', initial: stageId, stages: [{ id: stageId, body }] }
 }
 
-function machineFlow(
-  body: AuthorCommand[],
-  prepare: AuthorCommand[] = [],
-): AuthorScriptFlow {
+function machineFlow(body: AuthorCommand[], prepare: AuthorCommand[] = []): AuthorScriptFlow {
   return {
     kind: 'stateMachine',
     machine: {
@@ -58,9 +52,7 @@ function machineFlow(
       states: {
         idle: {
           label: '待机',
-          ...(prepare.length
-            ? { entry: { prepare, reveal: { kind: 'cut' as const } } }
-            : {}),
+          ...(prepare.length ? { entry: { prepare, reveal: { kind: 'cut' as const } } } : {}),
           body,
           next: { kind: 'stay' as const },
         },
@@ -95,9 +87,7 @@ function handoffCommand(from: string, to: string): AuthorCommand {
     cursorHandoff: {
       kind: 'stateMap',
       fromBehavior: from,
-      cases: [
-        { from: { kind: 'stage', stage: 'start' }, to: { kind: 'stage', stage: 'start' } },
-      ],
+      cases: [{ from: { kind: 'stage', stage: 'start' }, to: { kind: 'stage', stage: 'start' } }],
       onUnmapped: 'error',
     },
   }
@@ -125,7 +115,10 @@ function scene(extra?: Partial<AuthorSceneDef>): AuthorSceneDef {
         behaviors: {
           trigger: {
             talk: behavior('talk', stageFlow('start', [selectionCommand('talk')])),
-            auto2: behavior('auto2', machineFlow([selectionCommand('auto2')], [handoffCommand('talk', 'auto2')])),
+            auto2: behavior(
+              'auto2',
+              machineFlow([selectionCommand('auto2')], [handoffCommand('talk', 'auto2')]),
+            ),
           },
         },
       },
@@ -189,9 +182,7 @@ describe('P03-G12 behaviorReferences 只读引用收集', () => {
   test('页槽命中产出 entity-page locator 引用；路径携带页 id 与通道', () => {
     const refs = behaviorReferences(editorState(), target, 'trigger', 'talk')
     const pageRef = refs.find((ref) => ref.kind === 'page')
-    expect(pageRef?.path).toBe(
-      'scenes.s001.entities.e1.pages.default.trigger',
-    )
+    expect(pageRef?.path).toBe('scenes.s001.entities.e1.pages.default.trigger')
     expect(pageRef?.locator).toEqual({
       kind: 'entity-page',
       sceneId: 's001',
@@ -206,8 +197,12 @@ describe('P03-G12 behaviorReferences 只读引用收集', () => {
     const refs = behaviorReferences(state, target, 'trigger', 'talk')
     const commandRefs = refs.filter((ref) => ref.kind === 'command').map((ref) => ref.path)
     // 触发器 body / onEnter hook body / 共享库 branch.then 三处 selection 命中。
-    expect(commandRefs).toContain('scenes.s001.entities.e1.behaviors.trigger.talk.flow.stages.start.body[0]')
-    expect(commandRefs).toContain('scenes.s001.hooks.onEnter.variants.enter-a.flow.stages.start.body[0]')
+    expect(commandRefs).toContain(
+      'scenes.s001.entities.e1.behaviors.trigger.talk.flow.stages.start.body[0]',
+    )
+    expect(commandRefs).toContain(
+      'scenes.s001.hooks.onEnter.variants.enter-a.flow.stages.start.body[0]',
+    )
     expect(commandRefs).toContain('sharedScripts.shared/user/lib.body[0].then[0]')
   })
 
@@ -278,7 +273,12 @@ describe('P03-G13 sceneHookReferences 与目标存在性', () => {
       canonicalScriptReferenceDestinationExists(state, {
         kind: 'initial',
         path: 'x',
-        locator: { kind: 'scene-hook-initial', sceneId: 's001', slot: 'onEnter', hookId: 'enter-a' },
+        locator: {
+          kind: 'scene-hook-initial',
+          sceneId: 's001',
+          slot: 'onEnter',
+          hookId: 'enter-a',
+        },
       }),
     ).toBe(true)
     expect(
@@ -305,29 +305,73 @@ describe('P03-G13 sceneHookReferences 与目标存在性', () => {
 describe('P03-G14 中文标签合同（describeScriptCommandOwner / describeCanonicalScriptReference）', () => {
   test('五种 owner 标签：实体行为/场景 hook/战败/物品私有/共享脚本', () => {
     const state = editorState()
-    expect(describeScriptCommandOwner(state, { kind: 'entity-behavior', sceneId: 's001', entityId: 'e1', channel: 'trigger', behaviorId: 'talk' })).toBe(
-      '场景 s001 / 实体 e1 / 交互脚本“标签-talk”',
-    )
-    expect(describeScriptCommandOwner(state, { kind: 'scene-hook', sceneId: 's001', slot: 'onEnter', hookId: 'enter-a' })).toBe(
-      '场景 s001 / 进场脚本“进场A”',
-    )
-    expect(describeScriptCommandOwner(state, { kind: 'entity-hostile-on-lose', sceneId: 's001', entityId: 'e1' })).toBe(
-      '场景 s001 / 实体 e1 / 战败后脚本',
-    )
-    expect(describeScriptCommandOwner(state, { kind: 'item-private-script', itemId: 'private', ability: 'use', scriptId: 'use' })).toBe(
-      '物品“私有脚本物品”（private） / 使用脚本',
-    )
-    expect(describeScriptCommandOwner(state, { kind: 'shared-script', scriptId: 'shared/user/lib' })).toBe(
-      '可复用脚本“共享库”',
-    )
+    expect(
+      describeScriptCommandOwner(state, {
+        kind: 'entity-behavior',
+        sceneId: 's001',
+        entityId: 'e1',
+        channel: 'trigger',
+        behaviorId: 'talk',
+      }),
+    ).toBe('场景 s001 / 实体 e1 / 交互脚本“标签-talk”')
+    expect(
+      describeScriptCommandOwner(state, {
+        kind: 'scene-hook',
+        sceneId: 's001',
+        slot: 'onEnter',
+        hookId: 'enter-a',
+      }),
+    ).toBe('场景 s001 / 进场脚本“进场A”')
+    expect(
+      describeScriptCommandOwner(state, {
+        kind: 'entity-hostile-on-lose',
+        sceneId: 's001',
+        entityId: 'e1',
+      }),
+    ).toBe('场景 s001 / 实体 e1 / 战败后脚本')
+    expect(
+      describeScriptCommandOwner(state, {
+        kind: 'item-private-script',
+        itemId: 'private',
+        ability: 'use',
+        scriptId: 'use',
+      }),
+    ).toBe('物品“私有脚本物品”（private） / 使用脚本')
+    expect(
+      describeScriptCommandOwner(state, { kind: 'shared-script', scriptId: 'shared/user/lib' }),
+    ).toBe('可复用脚本“共享库”')
   })
 
   test('悬空 id 回退到 id 本身（behavior/hook/item/script 四臂）', () => {
     const state = editorState()
-    expect(describeScriptCommandOwner(state, { kind: 'entity-behavior', sceneId: 's001', entityId: 'e1', channel: 'auto', behaviorId: 'ghost' })).toContain('ghost')
-    expect(describeScriptCommandOwner(state, { kind: 'scene-hook', sceneId: 's001', slot: 'onTeleport', hookId: 'ghost' })).toContain('ghost')
-    expect(describeScriptCommandOwner(state, { kind: 'item-private-script', itemId: 'ghost', ability: 'throw', scriptId: 'throw' })).toContain('ghost')
-    expect(describeScriptCommandOwner(state, { kind: 'shared-script', scriptId: 'shared/ghost' })).toContain('shared/ghost')
+    expect(
+      describeScriptCommandOwner(state, {
+        kind: 'entity-behavior',
+        sceneId: 's001',
+        entityId: 'e1',
+        channel: 'auto',
+        behaviorId: 'ghost',
+      }),
+    ).toContain('ghost')
+    expect(
+      describeScriptCommandOwner(state, {
+        kind: 'scene-hook',
+        sceneId: 's001',
+        slot: 'onTeleport',
+        hookId: 'ghost',
+      }),
+    ).toContain('ghost')
+    expect(
+      describeScriptCommandOwner(state, {
+        kind: 'item-private-script',
+        itemId: 'ghost',
+        ability: 'throw',
+        scriptId: 'throw',
+      }),
+    ).toContain('ghost')
+    expect(
+      describeScriptCommandOwner(state, { kind: 'shared-script', scriptId: 'shared/ghost' }),
+    ).toContain('shared/ghost')
   })
 
   test('describeCanonicalScriptReference：entity-page 与 scene-hook-initial 两臂文案', () => {
@@ -336,14 +380,25 @@ describe('P03-G14 中文标签合同（describeScriptCommandOwner / describeCano
       describeCanonicalScriptReference(state, {
         kind: 'page',
         path: 'p',
-        locator: { kind: 'entity-page', sceneId: 's001', entityId: 'e1', pageId: 'default', channel: 'trigger' },
+        locator: {
+          kind: 'entity-page',
+          sceneId: 's001',
+          entityId: 'e1',
+          pageId: 'default',
+          channel: 'trigger',
+        },
       }),
     ).toBe('场景 s001 / 实体 e1 / 页面“默认页” / 使用交互脚本')
     expect(
       describeCanonicalScriptReference(state, {
         kind: 'initial',
         path: 'p',
-        locator: { kind: 'scene-hook-initial', sceneId: 's001', slot: 'onEnter', hookId: 'enter-a' },
+        locator: {
+          kind: 'scene-hook-initial',
+          sceneId: 's001',
+          slot: 'onEnter',
+          hookId: 'enter-a',
+        },
       }),
     ).toBe('场景 s001 / 进入场景时默认使用“进场A”')
   })

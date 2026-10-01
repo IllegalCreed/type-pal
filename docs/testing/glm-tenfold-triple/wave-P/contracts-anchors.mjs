@@ -262,4 +262,40 @@ export const anchors = {
     old: 'MapMode.test.tsx 701 已证绘制高度托盘挂载',
     axis: '绘制高度按 maxPaintHeight 枚举与提交为新轴',
   },
+  'P03-G12-01': {
+    old: 'script-editor.test.ts › canonical script editor commands › renames a behavior immutably and rewrites page plus nested project references（已证重写链；只读 page 引用收集无旧直测）',
+    axis: 'behaviorReferences 页槽 entity-page locator/路径',
+  },
+  'P03-G12-02': {
+    old: 'script-editor.test.ts › canonical script editor commands › tracks and rewrites cursor-handoff source behaviors without duplicate references（已证 cursorHandoff 重写）',
+    axis: '只读 selection 命中的完整命令路径集合',
+  },
+  'P03-G12-03': {
+    old: '同上（重写链已证）',
+    axis: 'cursorHandoff.fromBehavior 只读引用（后缀路径）',
+  },
+  'P03-G12-04': {
+    old: 'script-references.test.ts › 覆盖场景入口、共享体互调、动态绑定与嵌套分支（已证 callScript 边）',
+    axis: '未知 behaviorId 空引用（只读不抛错）',
+  },
+  'P03-G13-01': {
+    old: 'script-editor.test.ts › edits scene Hook variants through stable ids and rewrites selections（已证 hook 重写）',
+    axis: 'sceneHookReferences initial+command 两类 locator',
+  },
+  'P03-G13-02': { old: '同上', axis: '非 initial hook 的引用形态约束' },
+  'P03-G13-03': {
+    old: 'script-references.test.ts › 缺场景、缺落点…（已证保存门阻断）',
+    axis: 'canonicalScriptReferenceDestinationExists 三臂真值',
+  },
+  'P03-G13-04': {
+    old: 'script-editor.test.ts › locates state-machine commands and rejects an invalid command path（已证命令定位）',
+    axis: 'resolveCanonicalScriptCommand 坏路径 undefined 不抛',
+  },
+  'P03-G14-01': {
+    old: 'UI 展示经 ScriptBehaviorInspector 等间接消费；无旧直测 fullName',
+    axis: '五种 owner 中文标签精确值',
+  },
+  'P03-G14-02': { old: '同上（间接消费）', axis: '悬空 id 回退 id 本身四臂' },
+  'P03-G14-03': { old: '同上（间接消费）', axis: 'entity-page 与 scene-hook-initial 两臂文案' },
+  'P03-G14-04': { old: '同上（间接消费）', axis: '命令引用容器标签（连续流程/状态/正文段）' },
 }

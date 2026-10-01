@@ -10,10 +10,10 @@
   "head": "(见下方 headNote：回执不引用自身提交)",
   "headNote": "r3.5-review 闭合提交 = 52dd21198e752243ebf4820122eedc68b7376448（工具收紧+10针重采+docs/contracts 补账同提交）；其后仅 receipt pin docs-only；最终远端候选以推送 tip 为准",
   "counts": {
-    "contracts": 67,
-    "workGroups": 14,
-    "countersValidSubmitted": 10,
-    "countersExactlyOneRed": 10,
+    "contracts": 79,
+    "workGroups": 17,
+    "countersValidSubmitted": 15,
+    "countersExactlyOneRed": 15,
     "browserFlowsRecorded": 20,
     "browserFlowsFullyProven": 18,
     "browserScreenshots": 66,
@@ -28,11 +28,13 @@
     "P-R35-03": "新增 browser/README.md 目录索引与父 README 导航；630→633；自测 10→14→19；截图 55→66；三态重采来源登记 receipt.threeStateProvenance；测试/工具/docs-only 锚独立登记 anchors 字段",
     "P-R35-04": "contracts.json oracle=每合同测试源第一条真实断言行（含 file:line，fallback 0 条）；同上锚全部替换为真实旧文件+fullName/断言描述；condition 字段补合法 typed 输入来源",
     "P-R36-01": "G03 三条 oracle 指向实际业务结果行（开盘+尺寸提交 :83-87 / Escape 关闭回焦 :96-97 / Home/End/Arrow 移焦 :117-121）；标题未测空格主张撤回（测试标题与 fullName 同步，P02-C08 因执行集变化重采）；其余 64 条 oracle 为每合同首条真实断言行",
-    "P-R36-02": "judgeClean 增 rawOutput 形参，三相共用同一 raw harness 检查（Vitest caught unhandled/UNHANDLED_REJECTION）；mutant 有效业务退出收紧为恰 exit 1（0/负值/≥2 区分拒收），政策探针 exit2 自测拒收；自测 22/22；receipt 同步 judgeSelfTest=22、工具证据锚 52dd21198（本轮再更新至最新提交）、9 针更新+P02-C08 未变的口径修正为“9 更新+C08 因标题撤回重采”"
+    "P-R36-02": "judgeClean 增 rawOutput 形参，三相共用同一 raw harness 检查（Vitest caught unhandled/UNHANDLED_REJECTION）；mutant 有效业务退出收紧为恰 exit 1（0/负值/≥2 区分拒收），政策探针 exit2 自测拒收；自测 22/22；receipt 同步 judgeSelfTest=22、工具证据锚 52dd21198（本轮再更新至最新提交）、9 针更新+P02-C08 未变的口径修正为“9 更新+C08 因标题撤回重采”",
+    "P-R8-receipt-sync": "receipt.sourceSha256 自最终字节重算（editor-asset-io/Toolbar/counter.mjs 三个旧摘要已同步）",
+    "P03-batch": "script-editor.p03.glm-p.test.ts 12 例（G12 behaviorReferences 页槽/命令路径/cursorHandoff/未知 id；G13 sceneHookReferences initial+command/destinationExists 三臂/坏路径 undefined；G14 五 owner 标签+悬空回退+两臂文案+容器标签）；P03 反控 C11–C15 五枚恰一红；contracts 79 条全 oracle=真实断言行"
   },
   "commands": {
     "directedVitest": "67/67 passed（directed-vitest.json 树内实跑）",
-    "fullEditorSuite": "516 files / 3853 tests 全绿 exit 0（机器空闲复跑；高负载下 IsometricEditorToolbar.glm-p Home/End 与旧 SceneCanvas.glm-ui-wave 曾各现一次计时漂移，单独运行与空闲复跑均绿——已在 README 登记）",
+    "fullEditorSuite": "517 files / 3865 tests 全绿 exit 0（含 P03 12 例；首跑高负载下旧 adoption.test.ts 一例 15s 超时漂移，单独与空闲复跑均绿——已两次登记该已知负载漂移）",
     "typecheck": "exit 0",
     "rootLint": "PASS 2804 files; 0/0/0",
     "diffCheck": "git diff --check 8b3ca062...HEAD = clean",
@@ -41,19 +43,20 @@
   },
   "notDone": [
     "P02 剩余暗区",
-    "P03–P10 八批（633 例缺口）",
-    "40 枚反控缺口",
+    "P04–P10 七批（621 例缺口）",
+    "35 枚反控缺口",
     "F14/F18 完整流程证明"
   ],
   "sourceSha256": {
     "packages/editor/src/core/project-io.glm-p.test.ts": "28267c1938f90e7241534ef6c6a5a2e6d5c224d3b169f60993e8ffc332dcfd04",
     "packages/editor/src/core/project-diagnostics.glm-p.test.ts": "eb3f2d04455093d906e0a13ad33a4e424ff7acb949d001c558955cd703cd20e6",
-    "packages/editor/src/core/editor-asset-io.glm-p.test.ts": "acd6853fba279975d231404984fe3fa46363f9ed026e0e37c5143be7f7373acd",
+    "packages/editor/src/core/editor-asset-io.glm-p.test.ts": "c333f92de0cc84bff36aca4a6aa70bdb12ace8e00f1bc54e36046a737e738e83",
+    "packages/editor/src/core/script-editor.p03.glm-p.test.ts": "417c725499d79e5dfdaa41ff046a89674c902199a12c7291ed785b5a88099283",
     "packages/editor/src/ui/MapSelectionInspector.glm-p.test.tsx": "a456ac671a8a8ed82a1f6c7b9a63aab926c997c1a6ed5cbe0d4d3d2661c8b849",
     "packages/editor/src/ui/LayerStackControls.glm-p.test.tsx": "792d930e33718e3b964142566dcf8f53524fdba756b5fae45c2eadde200f6bcf",
-    "packages/editor/src/ui/IsometricEditorToolbar.glm-p.test.tsx": "06be4437064add541fed08b62250ccf7c771dc8a925e4e13378fb09c9fdc6d18",
+    "packages/editor/src/ui/IsometricEditorToolbar.glm-p.test.tsx": "40ed1d50a14fa81ee6c8cd08880c2d9dd3c4e268fdd115d6cb932089e69cc041",
     "packages/editor/src/__tests__/glm-p/kit.ts": "2d6a0ecffd02d95bde4daad7a1a3c6c90a01236ebdf36402ff10d72fa437dca7",
-    "docs/testing/glm-tenfold-triple/wave-P/tools/counter.mjs": "c4a16c06f857eeef6573f6681ab544aa2bdb62bb3461922df87ebc83730a6478"
+    "docs/testing/glm-tenfold-triple/wave-P/tools/counter.mjs": "ae62f15652dbd1b8a2869758914a1c551a8040c06123ed619c1b6991ba5ae5be"
   },
   "anchors": {
     "dispatchBase": "8b3ca062953b17a12178f8d1a9e36657971234b1",
@@ -63,5 +66,6 @@
     "finalRemoteCandidate": "推送 tip（receipt 不自引用，见分支远端 HEAD）"
   },
   "threeStateProvenance": "r3.6 判据收紧后 10 针重采；相对 bb2ffcb6：9 针在 r3.5-review 更新、P02-C08 因 G03 标题撤回（执行集 fullName 变化）于 r3.6 重采",
-  "finalRemoteCandidate": "推送 tip（功能性提交 dc8fd75ce；其后仅本 receipt pin）"
+  "finalRemoteCandidate": "推送 tip（功能性提交 dc8fd75ce；其后仅本 receipt pin）",
+  "sourceSha256Note": "r8 复核指出三个旧摘要（editor-asset-io/Toolbar/counter.mjs）未同步；本轮自最终字节重算全部八个"
 }
