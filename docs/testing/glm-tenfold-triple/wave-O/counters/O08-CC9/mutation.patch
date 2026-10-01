@@ -1,0 +1,7 @@
+diff --git a/packages/content/src/item.ts b/packages/content/src/item.ts
+index 02b349aaa..7e56ec19b 100644
+--- a/packages/content/src/item.ts
++++ b/packages/content/src/item.ts
+@@ -541 +541 @@ export function equipItem(
+-  if (!item.equip.equipableBy.includes(member.template)) return world
++  if (false && !item.equip.equipableBy.includes(member.template)) return world

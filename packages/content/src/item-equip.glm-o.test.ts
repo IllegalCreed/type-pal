@@ -3,13 +3,11 @@
  *  未覆盖臂：equipItem 四拒绝前置（无 equip 块/无队员/模板不匹配/不在包）、
  *  旧件回包、worldResourceValue 键域、curePoison 显式 id 装备侧轴。
  */
-import { describe, expect, test } from 'vitest'
+
 import type { ItemData, ItemDataMap } from '@type-pal/content'
+import { describe, expect, test } from 'vitest'
+import { item as makeItem, world } from './__tests__/glm-item-logic-fixtures.js'
 import { equipItem, resolveWorldItemUse, worldResourceValue } from './item.js'
-import {
-  item as makeItem,
-  world,
-} from './__tests__/glm-item-logic-fixtures.js'
 
 const equipItemDef = (over: Partial<ItemData> = {}): ItemData =>
   makeItem({
@@ -36,7 +34,9 @@ describe('O08 equipItem：四拒绝前置与成功流', () => {
     ])
     // 再装一件：扣新 1 后回旧 1 → 聚合为单条 count=1（addToInventory 合并语义）。
     const second = equipItem(first, 'hero', 'bead', items)
-    const total = second.inventory.filter((e) => e.itemId === 'bead').reduce((n, e) => n + e.count, 0)
+    const total = second.inventory
+      .filter((e) => e.itemId === 'bead')
+      .reduce((n, e) => n + e.count, 0)
     expect(total).toBe(1)
   })
 

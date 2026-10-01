@@ -33,12 +33,14 @@ function runVitest(worktree, testFile, outputFile, rawFile) {
     ],
     { cwd: worktree, encoding: 'utf8', env: { ...process.env, NODE_COMPILE_CACHE: '' } },
   )
-  if (rawFile)
+  if (rawFile) {
+    const stdoutText = (result.stdout ?? '').replace(/\n$/, '')
     writeFileSync(
       rawFile,
       `# exit=${result.status} signal=${result.signal ?? 'null'} errored=${result.error ? String(result.error) : 'null'}\n` +
-        `# === stdout ===\n${result.stdout ?? ''}\n# === stderr ===\n${result.stderr ?? ''}\n`,
+        `# === stdout ===\n${stdoutText}\n# === stderr ===\n${result.stderr ?? ''}\n`,
     )
+  }
   let json
   try {
     json = JSON.parse(readFileSync(outputFile, 'utf8'))
@@ -110,7 +112,10 @@ function assertPhase(run, spec, phase) {
   const targetFile = run.json.testResults.find((f) =>
     (f.assertionResults ?? []).some((a) => a.fullName === target.fullName),
   )?.name
-  const wantedSuffix = resolve(`packages/${ownerPackage}`, spec.test.file).split('/').slice(-2).join('/')
+  const wantedSuffix = resolve(`packages/${ownerPackage}`, spec.test.file)
+    .split('/')
+    .slice(-2)
+    .join('/')
   const targetSuffix = targetFile ? targetFile.split('/').slice(-2).join('/') : ''
   if (targetSuffix !== wantedSuffix)
     throw new Error(`红例文件不符: ${targetSuffix} 期望 ${wantedSuffix}`)

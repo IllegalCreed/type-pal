@@ -1,0 +1,132 @@
+{
+  "numTotalTestSuites": 4,
+  "numPassedTestSuites": 2,
+  "numFailedTestSuites": 2,
+  "numPendingTestSuites": 0,
+  "numTotalTests": 9,
+  "numPassedTests": 8,
+  "numFailedTests": 1,
+  "numPendingTests": 0,
+  "numTodoTests": 0,
+  "snapshot": {
+    "added": 0,
+    "failure": false,
+    "filesAdded": 0,
+    "filesRemoved": 0,
+    "filesRemovedList": [],
+    "filesUnmatched": 0,
+    "filesUpdated": 0,
+    "matched": 0,
+    "total": 0,
+    "unchecked": 0,
+    "uncheckedKeysByFile": [],
+    "unmatched": 0,
+    "updated": 0,
+    "didUpdate": false
+  },
+  "startTime": 1790861469343,
+  "success": false,
+  "testResults": [
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["O08 equipItem：四拒绝前置与成功流"],
+          "fullName": "O08 equipItem：四拒绝前置与成功流 成功装上：入槽、扣包 1、旧件回包 1",
+          "status": "passed",
+          "title": "成功装上：入槽、扣包 1、旧件回包 1",
+          "duration": 1.5809999999999889,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O08 equipItem：四拒绝前置与成功流"],
+          "fullName": "O08 equipItem：四拒绝前置与成功流 物品无 equip 块 → 原引用返回",
+          "status": "passed",
+          "title": "物品无 equip 块 → 原引用返回",
+          "duration": 0.1839999999999975,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O08 equipItem：四拒绝前置与成功流"],
+          "fullName": "O08 equipItem：四拒绝前置与成功流 caster 不在 party → 原引用返回",
+          "status": "passed",
+          "title": "caster 不在 party → 原引用返回",
+          "duration": 0.08558399999998301,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O08 equipItem：四拒绝前置与成功流"],
+          "fullName": "O08 equipItem：四拒绝前置与成功流 模板不匹配 equipableBy → 原引用返回",
+          "status": "passed",
+          "title": "模板不匹配 equipableBy → 原引用返回",
+          "duration": 0.11604200000002152,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O08 equipItem：四拒绝前置与成功流"],
+          "fullName": "O08 equipItem：四拒绝前置与成功流 背包没有该件（count=0）→ 原引用返回",
+          "status": "passed",
+          "title": "背包没有该件（count=0）→ 原引用返回",
+          "duration": 0.07054099999999153,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O08 equipItem：四拒绝前置与成功流"],
+          "fullName": "O08 equipItem：四拒绝前置与成功流 未知物品 id → 原引用返回",
+          "status": "passed",
+          "title": "未知物品 id → 原引用返回",
+          "duration": 0.05912499999999454,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O08 worldResourceValue：键域合同"],
+          "fullName": "O08 worldResourceValue：键域合同 空/纯空格资源键 fail-loud；collectValue 缺省 0",
+          "status": "failed",
+          "title": "空/纯空格资源键 fail-loud；collectValue 缺省 0",
+          "duration": 2.609874999999988,
+          "failureMessages": [
+            "AssertionError: expected [Function] to throw an error\n    at Proxy.<anonymous> (file:///private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-o-cc-injected-3ozsbW/node_modules/.pnpm/@vitest+expect@4.1.7/node_modules/@vitest/expect/dist/index.js:1552:16)\n    at Proxy.<anonymous> (file:///private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-o-cc-injected-3ozsbW/node_modules/.pnpm/@vitest+expect@4.1.7/node_modules/@vitest/expect/dist/index.js:1156:15)\n    at Proxy.methodWrapper (file:///private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-o-cc-injected-3ozsbW/node_modules/.pnpm/chai@6.2.2/node_modules/chai/index.js:1700:25)\n    at /private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-o-cc-injected-3ozsbW/packages/content/src/item-equip.glm-o.test.ts:77:53\n    at file:///private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-o-cc-injected-3ozsbW/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-o-cc-injected-3ozsbW/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-o-cc-injected-3ozsbW/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-o-cc-injected-3ozsbW/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-o-cc-injected-3ozsbW/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20"
+          ],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O08 worldResourceValue：键域合同"],
+          "fullName": "O08 worldResourceValue：键域合同 resources 键缺省 0；已设值读取",
+          "status": "passed",
+          "title": "resources 键缺省 0；已设值读取",
+          "duration": 0.14495900000000006,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O08 curePoison 显式 id 轴（世界执行器）"],
+          "fullName": "O08 curePoison 显式 id 轴（世界执行器） 显式 poisonId 只解指定毒、其它保留",
+          "status": "passed",
+          "title": "显式 poisonId 只解指定毒、其它保留",
+          "duration": 1.024708000000004,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790861469580,
+      "endTime": 1790861469586.0247,
+      "status": "failed",
+      "message": "",
+      "name": "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-o-cc-injected-3ozsbW/packages/content/src/item-equip.glm-o.test.ts"
+    }
+  ]
+}

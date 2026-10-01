@@ -1,0 +1,7 @@
+diff --git a/packages/content/src/item.ts b/packages/content/src/item.ts
+index 02b349aaa..c35b04dc7 100644
+--- a/packages/content/src/item.ts
++++ b/packages/content/src/item.ts
+@@ -542 +542 @@ export function equipItem(
+-  if (!world.inventory.some((e) => e.itemId === itemId && e.count > 0)) return world
++  if (false && !world.inventory.some((e) => e.itemId === itemId && e.count > 0)) return world

@@ -1,7 +1,7 @@
 {
-  "total": 62,
-  "uniqueIds": 62,
-  "rule": "三态（收紧判据：叶状态白名单/零执行拒收/单文件/精确 file 后缀+fullName/未处理异常拒收；stdout+stderr+signal 保留；局部清理）",
+  "total": 65,
+  "uniqueIds": 65,
+  "rule": "三态（收紧判据）",
   "counters": [
     {
       "id": "O01-CC1",
@@ -1152,6 +1152,62 @@
       "patchRebuiltAndVerified": true
     },
     {
+      "id": "O08-CC8",
+      "control": {
+        "exitCode": 0,
+        "executed": 9,
+        "passed": 9,
+        "failed": 0
+      },
+      "injected": {
+        "exitCode": 1,
+        "failedFullName": "O08 equipItem：四拒绝前置与成功流 背包没有该件（count=0）→ 原引用返回",
+        "failureMessageHead": "AssertionError: expected { script: { flags: {}, …(3) }, …(5) } to be { script: { flags: {}, …(3) }, …(5) } // Object.is equality",
+        "executed": 9
+      },
+      "restored": {
+        "exitCode": 0,
+        "executed": 9,
+        "passed": 9,
+        "failed": 0
+      },
+      "hashes": {
+        "original": "1a2ff2c2ef96070cf1609bd26c1f2756e851c9aec525749131582f6fd696963b",
+        "mutated": "6e63cc47f211c1c1eb5ff7c499465e1ba14053877e327c67be73394daff407dc",
+        "restored": "1a2ff2c2ef96070cf1609bd26c1f2756e851c9aec525749131582f6fd696963b",
+        "rebuilt": "6e63cc47f211c1c1eb5ff7c499465e1ba14053877e327c67be73394daff407dc"
+      },
+      "patchRebuiltAndVerified": true
+    },
+    {
+      "id": "O08-CC9",
+      "control": {
+        "exitCode": 0,
+        "executed": 9,
+        "passed": 9,
+        "failed": 0
+      },
+      "injected": {
+        "exitCode": 1,
+        "failedFullName": "O08 equipItem：四拒绝前置与成功流 模板不匹配 equipableBy → 原引用返回",
+        "failureMessageHead": "AssertionError: expected { script: { flags: {}, …(3) }, …(5) } to be { script: { flags: {}, …(3) }, …(5) } // Object.is equality",
+        "executed": 9
+      },
+      "restored": {
+        "exitCode": 0,
+        "executed": 9,
+        "passed": 9,
+        "failed": 0
+      },
+      "hashes": {
+        "original": "1a2ff2c2ef96070cf1609bd26c1f2756e851c9aec525749131582f6fd696963b",
+        "mutated": "e24ce1fcc893626454aedb2ca4714b322d483330334e279044c7de1db6fd27ec",
+        "restored": "1a2ff2c2ef96070cf1609bd26c1f2756e851c9aec525749131582f6fd696963b",
+        "rebuilt": "e24ce1fcc893626454aedb2ca4714b322d483330334e279044c7de1db6fd27ec"
+      },
+      "patchRebuiltAndVerified": true
+    },
+    {
       "id": "O09-CC1",
       "control": {
         "exitCode": 0,
@@ -1260,6 +1316,34 @@
         "mutated": "da07d486de243d2202e88c11c3aee514c07bc11cc4babb87e544cc59f76c06d9",
         "restored": "1a2ff2c2ef96070cf1609bd26c1f2756e851c9aec525749131582f6fd696963b",
         "rebuilt": "da07d486de243d2202e88c11c3aee514c07bc11cc4babb87e544cc59f76c06d9"
+      },
+      "patchRebuiltAndVerified": true
+    },
+    {
+      "id": "O09-CC13",
+      "control": {
+        "exitCode": 0,
+        "executed": 9,
+        "passed": 9,
+        "failed": 0
+      },
+      "injected": {
+        "exitCode": 1,
+        "failedFullName": "O08 worldResourceValue：键域合同 空/纯空格资源键 fail-loud；collectValue 缺省 0",
+        "failureMessageHead": "AssertionError: expected [Function] to throw an error",
+        "executed": 9
+      },
+      "restored": {
+        "exitCode": 0,
+        "executed": 9,
+        "passed": 9,
+        "failed": 0
+      },
+      "hashes": {
+        "original": "1a2ff2c2ef96070cf1609bd26c1f2756e851c9aec525749131582f6fd696963b",
+        "mutated": "caad7fd86618c1ef44896809f2823c993aa15fa73e52545b562a7284434c7aec",
+        "restored": "1a2ff2c2ef96070cf1609bd26c1f2756e851c9aec525749131582f6fd696963b",
+        "rebuilt": "caad7fd86618c1ef44896809f2823c993aa15fa73e52545b562a7284434c7aec"
       },
       "patchRebuiltAndVerified": true
     },

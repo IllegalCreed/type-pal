@@ -1,0 +1,7 @@
+diff --git a/packages/content/src/item.ts b/packages/content/src/item.ts
+index 02b349aaa..f8b6de81b 100644
+--- a/packages/content/src/item.ts
++++ b/packages/content/src/item.ts
+@@ -795 +795 @@ export function worldResourceValue(world: WorldState, key: string): number {
+-  if (key.trim().length === 0) throw new Error('worldResourceValue: 资源键不能为空')
++  if (false && key.trim().length === 0) throw new Error('worldResourceValue: 资源键不能为空')

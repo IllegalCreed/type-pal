@@ -1,0 +1,35 @@
+{
+  "id": "O09-CC13",
+  "contract": "worldResourceValue 空键 fail-loud",
+  "target": {
+    "file": "src/item-equip.glm-o.test.ts",
+    "title": "空/纯空格资源键 fail-loud；collectValue 缺省 0"
+  },
+  "control": {
+    "exitCode": 0,
+    "executed": 9,
+    "passed": 9,
+    "failed": 0
+  },
+  "injected": {
+    "exitCode": 1,
+    "executed": 9,
+    "passed": 8,
+    "failed": 1,
+    "failedFullName": "O08 worldResourceValue：键域合同 空/纯空格资源键 fail-loud；collectValue 缺省 0",
+    "failureMessageHead": "AssertionError: expected [Function] to throw an error"
+  },
+  "restored": {
+    "exitCode": 0,
+    "executed": 9,
+    "passed": 9,
+    "failed": 0
+  },
+  "hashes": {
+    "original": "1a2ff2c2ef96070cf1609bd26c1f2756e851c9aec525749131582f6fd696963b",
+    "mutated": "caad7fd86618c1ef44896809f2823c993aa15fa73e52545b562a7284434c7aec",
+    "restored": "1a2ff2c2ef96070cf1609bd26c1f2756e851c9aec525749131582f6fd696963b",
+    "rebuilt": "caad7fd86618c1ef44896809f2823c993aa15fa73e52545b562a7284434c7aec"
+  },
+  "patchRebuiltAndVerified": true
+}

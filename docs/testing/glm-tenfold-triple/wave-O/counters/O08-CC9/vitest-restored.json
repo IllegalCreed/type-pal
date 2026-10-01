@@ -1,0 +1,130 @@
+{
+  "numTotalTestSuites": 4,
+  "numPassedTestSuites": 4,
+  "numFailedTestSuites": 0,
+  "numPendingTestSuites": 0,
+  "numTotalTests": 9,
+  "numPassedTests": 9,
+  "numFailedTests": 0,
+  "numPendingTests": 0,
+  "numTodoTests": 0,
+  "snapshot": {
+    "added": 0,
+    "failure": false,
+    "filesAdded": 0,
+    "filesRemoved": 0,
+    "filesRemovedList": [],
+    "filesUnmatched": 0,
+    "filesUpdated": 0,
+    "matched": 0,
+    "total": 0,
+    "unchecked": 0,
+    "uncheckedKeysByFile": [],
+    "unmatched": 0,
+    "updated": 0,
+    "didUpdate": false
+  },
+  "startTime": 1790861457386,
+  "success": true,
+  "testResults": [
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["O08 equipItem：四拒绝前置与成功流"],
+          "fullName": "O08 equipItem：四拒绝前置与成功流 成功装上：入槽、扣包 1、旧件回包 1",
+          "status": "passed",
+          "title": "成功装上：入槽、扣包 1、旧件回包 1",
+          "duration": 1.7059999999999604,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O08 equipItem：四拒绝前置与成功流"],
+          "fullName": "O08 equipItem：四拒绝前置与成功流 物品无 equip 块 → 原引用返回",
+          "status": "passed",
+          "title": "物品无 equip 块 → 原引用返回",
+          "duration": 0.20108399999998028,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O08 equipItem：四拒绝前置与成功流"],
+          "fullName": "O08 equipItem：四拒绝前置与成功流 caster 不在 party → 原引用返回",
+          "status": "passed",
+          "title": "caster 不在 party → 原引用返回",
+          "duration": 0.08825000000001637,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O08 equipItem：四拒绝前置与成功流"],
+          "fullName": "O08 equipItem：四拒绝前置与成功流 模板不匹配 equipableBy → 原引用返回",
+          "status": "passed",
+          "title": "模板不匹配 equipableBy → 原引用返回",
+          "duration": 0.1205410000000029,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O08 equipItem：四拒绝前置与成功流"],
+          "fullName": "O08 equipItem：四拒绝前置与成功流 背包没有该件（count=0）→ 原引用返回",
+          "status": "passed",
+          "title": "背包没有该件（count=0）→ 原引用返回",
+          "duration": 0.07320800000002237,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O08 equipItem：四拒绝前置与成功流"],
+          "fullName": "O08 equipItem：四拒绝前置与成功流 未知物品 id → 原引用返回",
+          "status": "passed",
+          "title": "未知物品 id → 原引用返回",
+          "duration": 0.060875000000010004,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O08 worldResourceValue：键域合同"],
+          "fullName": "O08 worldResourceValue：键域合同 空/纯空格资源键 fail-loud；collectValue 缺省 0",
+          "status": "passed",
+          "title": "空/纯空格资源键 fail-loud；collectValue 缺省 0",
+          "duration": 0.6963749999999891,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O08 worldResourceValue：键域合同"],
+          "fullName": "O08 worldResourceValue：键域合同 resources 键缺省 0；已设值读取",
+          "status": "passed",
+          "title": "resources 键缺省 0；已设值读取",
+          "duration": 0.13912499999997863,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O08 curePoison 显式 id 轴（世界执行器）"],
+          "fullName": "O08 curePoison 显式 id 轴（世界执行器） 显式 poisonId 只解指定毒、其它保留",
+          "status": "passed",
+          "title": "显式 poisonId 只解指定毒、其它保留",
+          "duration": 0.9904589999999871,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790861457676,
+      "endTime": 1790861457679.9905,
+      "status": "passed",
+      "message": "",
+      "name": "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-o-cc-injected-o6tdMh/packages/content/src/item-equip.glm-o.test.ts"
+    }
+  ]
+}

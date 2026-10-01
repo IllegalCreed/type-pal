@@ -1,0 +1,35 @@
+{
+  "id": "O08-CC8",
+  "contract": "equipItem 背包无该件拒绝",
+  "target": {
+    "file": "src/item-equip.glm-o.test.ts",
+    "title": "背包没有该件（count=0）→ 原引用返回"
+  },
+  "control": {
+    "exitCode": 0,
+    "executed": 9,
+    "passed": 9,
+    "failed": 0
+  },
+  "injected": {
+    "exitCode": 1,
+    "executed": 9,
+    "passed": 8,
+    "failed": 1,
+    "failedFullName": "O08 equipItem：四拒绝前置与成功流 背包没有该件（count=0）→ 原引用返回",
+    "failureMessageHead": "AssertionError: expected { script: { flags: {}, …(3) }, …(5) } to be { script: { flags: {}, …(3) }, …(5) } // Object.is equality"
+  },
+  "restored": {
+    "exitCode": 0,
+    "executed": 9,
+    "passed": 9,
+    "failed": 0
+  },
+  "hashes": {
+    "original": "1a2ff2c2ef96070cf1609bd26c1f2756e851c9aec525749131582f6fd696963b",
+    "mutated": "6e63cc47f211c1c1eb5ff7c499465e1ba14053877e327c67be73394daff407dc",
+    "restored": "1a2ff2c2ef96070cf1609bd26c1f2756e851c9aec525749131582f6fd696963b",
+    "rebuilt": "6e63cc47f211c1c1eb5ff7c499465e1ba14053877e327c67be73394daff407dc"
+  },
+  "patchRebuiltAndVerified": true
+}
