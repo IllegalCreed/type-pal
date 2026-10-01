@@ -2,8 +2,8 @@
   "source": "final-run (vitest run glm-q --reporter=json，三包实跑)",
   "counts": {
     "files": 18,
-    "total": 134,
-    "passed": 134,
+    "total": 135,
+    "passed": 135,
     "failed": 0
   },
   "cases": [
@@ -13,7 +13,7 @@
       "title": "Q02 battle-sprite 解码核：kind / mediaType / bytes / sha256 逐门精确拒绝",
       "ancestorTitles": [],
       "status": "passed",
-      "duration": 25.24837500000001
+      "duration": 71.73579199999995
     },
     {
       "file": "reforge/src/assets-decode-gates.glm-q.test.ts",
@@ -21,7 +21,7 @@
       "title": "Q02 battle-sprite 解码核：非 gzip 字节拒收；合法字节解出锚点与 canonical profile",
       "ancestorTitles": [],
       "status": "passed",
-      "duration": 4.933249999999987
+      "duration": 15.991625000000113
     },
     {
       "file": "reforge/src/assets-decode-gates.glm-q.test.ts",
@@ -29,7 +29,7 @@
       "title": "Q02 battle-sprite 解码核：legacy-migrated origin 选择 legacy profile",
       "ancestorTitles": [],
       "status": "passed",
-      "duration": 1.1572499999999764
+      "duration": 5.45579100000009
     },
     {
       "file": "reforge/src/assets-decode-gates.glm-q.test.ts",
@@ -37,7 +37,7 @@
       "title": "Q02 battle 缓存以完整 record（含 label/origin.ref）为失效签名",
       "ancestorTitles": [],
       "status": "passed",
-      "duration": 1.431250000000034
+      "duration": 7.387459000000035
     },
     {
       "file": "reforge/src/assets-decode-gates.glm-q.test.ts",
@@ -45,7 +45,7 @@
       "title": "Q02 battle 缓存保护裁剪：受保护项存活、非保护项逐出后重读",
       "ancestorTitles": [],
       "status": "passed",
-      "duration": 1.2361659999999688
+      "duration": 1.2813750000000255
     },
     {
       "file": "reforge/src/assets-decode-gates.glm-q.test.ts",
@@ -53,7 +53,7 @@
       "title": "Q02 effect-sprite record 门：mediaType / bytes 登记 / sha256 逐臂拒绝 + 合法对照",
       "ancestorTitles": [],
       "status": "passed",
-      "duration": 2.131167000000005
+      "duration": 2.085832999999866
     },
     {
       "file": "reforge/src/assets-decode-gates.glm-q.test.ts",
@@ -61,7 +61,7 @@
       "title": "Q02 loadFireSprite 按 chunk 派生 catalog 身份读取法术特效",
       "ancestorTitles": [],
       "status": "passed",
-      "duration": 1.8487910000000056
+      "duration": 5.439875000000029
     },
     {
       "file": "reforge/src/assets-decode-gates.glm-q.test.ts",
@@ -69,7 +69,7 @@
       "title": "Q02 tilesFromChunkBytes：非 gzip 拒收带默认与显式标签；合法字节解出帧表",
       "ancestorTitles": [],
       "status": "passed",
-      "duration": 1.1665830000000597
+      "duration": 5.46508300000005
     },
     {
       "file": "reforge/src/assets-decode-gates.glm-q.test.ts",
@@ -77,7 +77,7 @@
       "title": "Q02 decompressGzip 对无 gzip 魔数的字节原样透传",
       "ancestorTitles": [],
       "status": "passed",
-      "duration": 0.438666000000012
+      "duration": 1.154540999999881
     },
     {
       "file": "reforge/src/assets-decode-gates.glm-q.test.ts",
@@ -85,7 +85,7 @@
       "title": "Q02 compressGzip 接受带偏移的字节视图并只压缩可见区间",
       "ancestorTitles": [],
       "status": "passed",
-      "duration": 0.558084000000008
+      "duration": 1.9878329999999096
     },
     {
       "file": "reforge/src/assets-decode-gates.glm-q.test.ts",
@@ -93,7 +93,7 @@
       "title": "Q02 compressGzip 缺 CompressionStream 端口时 fail-loud",
       "ancestorTitles": [],
       "status": "passed",
-      "duration": 0.22633399999995163
+      "duration": 0.8600839999999152
     },
     {
       "file": "reforge/src/audio-spessa-runtime.glm-q.test.ts",
@@ -101,7 +101,7 @@
       "title": "Q03 spessa 初始化：无 audioWorklet 按 secure context 指路拒绝",
       "ancestorTitles": [],
       "status": "passed",
-      "duration": 3.0060829999999896
+      "duration": 7.118417000000136
     },
     {
       "file": "reforge/src/audio-spessa-runtime.glm-q.test.ts",
@@ -109,7 +109,7 @@
       "title": "Q03 spessa 初始化成功链：模块 URL、RIFF 音色库、16 通道混响 91 锁定",
       "ancestorTitles": [],
       "status": "passed",
-      "duration": 1.5600420000000668
+      "duration": 1.0972919999999249
     },
     {
       "file": "reforge/src/audio-spessa-runtime.glm-q.test.ts",
@@ -117,7 +117,7 @@
       "title": "Q03 spessa 初始化：非 RIFF 音色库拒绝并销毁合成器，可重试",
       "ancestorTitles": [],
       "status": "passed",
-      "duration": 0.7279580000000578
+      "duration": 2.663084000000026
     },
     {
       "file": "reforge/src/audio-spessa-runtime.glm-q.test.ts",
@@ -125,7 +125,7 @@
       "title": "Q03 spessa 初始化：音色库读取失败销毁合成器并原样抛出",
       "ancestorTitles": [],
       "status": "passed",
-      "duration": 0.32712500000002365
+      "duration": 1.6567499999998745
     },
     {
       "file": "reforge/src/audio-spessa-runtime.glm-q.test.ts",
@@ -133,7 +133,7 @@
       "title": "Q03 spessa 初始化：isReady 拒绝销毁合成器并原样抛出",
       "ancestorTitles": [],
       "status": "passed",
-      "duration": 0.8694999999999027
+      "duration": 1.2583340000001044
     },
     {
       "file": "reforge/src/audio-spessa-runtime.glm-q.test.ts",
@@ -141,7 +141,7 @@
       "title": "Q03 试听 runtime：无任何 AudioContext 构造器返回 undefined",
       "ancestorTitles": [],
       "status": "passed",
-      "duration": 0.1170839999999771
+      "duration": 0.20575000000008004
     },
     {
       "file": "reforge/src/audio-spessa-runtime.glm-q.test.ts",
@@ -149,7 +149,7 @@
       "title": "Q03 试听 runtime：webkitAudioContext 回退可用",
       "ancestorTitles": [],
       "status": "passed",
-      "duration": 0.1705419999999549
+      "duration": 0.20124999999984539
     },
     {
       "file": "reforge/src/audio-spessa-runtime.glm-q.test.ts",
@@ -157,7 +157,7 @@
       "title": "Q03 试听 runtime：适配器透传 sequencer 传输操作与快照字段，二次 initialize 复用",
       "ancestorTitles": [],
       "status": "passed",
-      "duration": 0.7279999999999518
+      "duration": 2.4082919999998467
     },
     {
       "file": "reforge/src/audio-spessa-runtime.glm-q.test.ts",
@@ -165,7 +165,7 @@
       "title": "Q03 试听 runtime：dispose 暂停并销毁合成器、关闭 context；之后 initialize AbortError",
       "ancestorTitles": [],
       "status": "passed",
-      "duration": 0.6611669999999776
+      "duration": 2.49412499999994
     },
     {
       "file": "reforge/src/audio-spessa-runtime.glm-q.test.ts",
@@ -173,7 +173,7 @@
       "title": "Q03 试听 runtime：初始化中途 dispose 销毁迟到合成器并以 AbortError 收尾",
       "ancestorTitles": [],
       "status": "passed",
-      "duration": 52.195291999999995
+      "duration": 54.681084000000055
     },
     {
       "file": "reforge/src/audio-spessa-runtime.glm-q.test.ts",
@@ -181,7 +181,7 @@
       "title": "Q03 analyzeMidiBytes 解析真实 MIDI 字节并产出 note-activity",
       "ancestorTitles": [],
       "status": "passed",
-      "duration": 46.17637500000001
+      "duration": 86.60379199999988
     },
     {
       "file": "reforge/src/audio-spessa-runtime.glm-q.test.ts",
@@ -189,7 +189,7 @@
       "title": "Q03 analyzeMidiBytes 对非 MIDI 字节 fail-loud",
       "ancestorTitles": [],
       "status": "passed",
-      "duration": 1.0237500000000637
+      "duration": 2.68754100000001
     },
     {
       "file": "reforge/src/boot-page-shell.glm-q.test.ts",
@@ -197,7 +197,7 @@
       "title": "Q01 页壳默认加载 demo 工程：真实 bootGame 进入主循环并设置标题",
       "ancestorTitles": [],
       "status": "passed",
-      "duration": 196.98037499999998
+      "duration": 3698.6843750000003
     },
     {
       "file": "reforge/src/boot-page-shell.glm-q.test.ts",
@@ -205,7 +205,7 @@
       "title": "Q01 VITE_PROJECT_ID 覆写工程 id 并透传给加载器",
       "ancestorTitles": [],
       "status": "passed",
-      "duration": 26.992417000000046
+      "duration": 169.3664579999995
     },
     {
       "file": "reforge/src/boot-page-shell.glm-q.test.ts",
@@ -213,7 +213,7 @@
       "title": "Q01 加载失败：错误画屏绘制 reforge ERR 文本并 console.error，模块导入不 reject",
       "ancestorTitles": [],
       "status": "passed",
-      "duration": 50.16504199999997
+      "duration": 205.8877910000001
     },
     {
       "file": "reforge/src/boot-page-shell.glm-q.test.ts",
@@ -221,7 +221,7 @@
       "title": "Q01 加载失败且页面无画布：不绘制任何内容，仅 console.error",
       "ancestorTitles": [],
       "status": "passed",
-      "duration": 44.7120000000001
+      "duration": 112.56037500000002
     },
     {
       "file": "reforge/src/boot-page-shell.glm-q.test.ts",
@@ -229,7 +229,7 @@
       "title": "Q01 加载失败且画布无 2d 上下文：跳过画屏，仅 console.error",
       "ancestorTitles": [],
       "status": "passed",
-      "duration": 35.887249999999995
+      "duration": 175.01529200000004
     },
     {
       "file": "reforge/src/boot-page-shell.glm-q.test.ts",
@@ -237,7 +237,7 @@
       "title": "Q01 非 Error 拒绝值按 String 序列化进错误画屏",
       "ancestorTitles": [],
       "status": "passed",
-      "duration": 49.06704100000002
+      "duration": 215.77266700000018
     },
     {
       "file": "reforge/src/enemy-closure.glm-q.test.ts",
@@ -245,7 +245,7 @@
       "title": "无 transform/summon 时闭包只含初始敌人且按序去重",
       "ancestorTitles": ["Q05 collectReachableEnemyDefs"],
       "status": "passed",
-      "duration": 1.007125000000002
+      "duration": 2.207125000000019
     },
     {
       "file": "reforge/src/enemy-closure.glm-q.test.ts",
@@ -253,7 +253,7 @@
       "title": "transform 与 summon 都把目标敌入队；未知目标精确报错",
       "ancestorTitles": ["Q05 collectReachableEnemyDefs"],
       "status": "passed",
-      "duration": 0.604959000000008
+      "duration": 1.5513329999999996
     },
     {
       "file": "reforge/src/enemy-closure.glm-q.test.ts",
@@ -261,7 +261,7 @@
       "title": "enemyId 缺省的 summon 不入队；hooks 内 effect summon 参与闭包",
       "ancestorTitles": ["Q05 collectReachableEnemyDefs"],
       "status": "passed",
-      "duration": 0.15858400000001893
+      "duration": 0.6220419999999649
     },
     {
       "file": "reforge/src/enemy-closure.glm-q.test.ts",
@@ -269,7 +269,7 @@
       "title": "循环 transform 引用不发散（seen 去重终止）",
       "ancestorTitles": ["Q05 collectReachableEnemyDefs"],
       "status": "passed",
-      "duration": 0.13566699999998377
+      "duration": 0.5840829999999642
     },
     {
       "file": "reforge/src/enemy-closure.glm-q.test.ts",
@@ -277,7 +277,7 @@
       "title": "仅收集 cast 技能、跨敌人去重且顺序稳定",
       "ancestorTitles": ["Q05 collectReachableEnemySkillIds"],
       "status": "passed",
-      "duration": 0.19283400000000483
+      "duration": 0.293042000000014
     },
     {
       "file": "reforge/src/enemy-closure.glm-q.test.ts",
@@ -285,7 +285,7 @@
       "title": "fallback cast 计入技能闭包；hook effect summon/divide 不产生技能",
       "ancestorTitles": ["Q05 collectReachableEnemySkillIds"],
       "status": "passed",
-      "duration": 0.1478749999999991
+      "duration": 0.9124580000000151
     },
     {
       "file": "reforge/src/main.battle-preview.glm-q.test.ts",
@@ -293,7 +293,7 @@
       "title": "Q01 非正/非数 field ?battle-preview=0&enemies=foe 回退默认战场 24",
       "ancestorTitles": [],
       "status": "passed",
-      "duration": 817.4334999999999
+      "duration": 478.5055
     },
     {
       "file": "reforge/src/main.battle-preview.glm-q.test.ts",
@@ -301,7 +301,7 @@
       "title": "Q01 非正/非数 field ?battle-preview=abc&enemies=foe 回退默认战场 24",
       "ancestorTitles": [],
       "status": "passed",
-      "duration": 46.0173749999999
+      "duration": 131.1469579999998
     },
     {
       "file": "reforge/src/main.battle-preview.glm-q.test.ts",
@@ -309,7 +309,7 @@
       "title": "Q01 非正/非数 field ?battle-preview=-5&enemies=foe 回退默认战场 24",
       "ancestorTitles": [],
       "status": "passed",
-      "duration": 31.155791000000136
+      "duration": 91.38991600000008
     },
     {
       "file": "reforge/src/main.battle-preview.glm-q.test.ts",
@@ -317,7 +317,7 @@
       "title": "Q01 缺 enemies 参数：默认取工程敌表前 3 项",
       "ancestorTitles": [],
       "status": "passed",
-      "duration": 29.563292000000047
+      "duration": 76.21354199999996
     },
     {
       "file": "reforge/src/main.battle-preview.glm-q.test.ts",
@@ -325,7 +325,7 @@
       "title": "Q01 空 enemies 参数：零敌人仍渲染摆位一帧即返回",
       "ancestorTitles": [],
       "status": "passed",
-      "duration": 40.88300000000004
+      "duration": 55.337332999999944
     },
     {
       "file": "reforge/src/main.boot-shell.glm-q.test.ts",
@@ -333,7 +333,7 @@
       "title": "Q01 旧试放/独立试打参数在 bootGame 入口精确拒绝 ?battle-trial=0&money=0",
       "ancestorTitles": [],
       "status": "passed",
-      "duration": 811.3585409999998
+      "duration": 3458.7033330000004
     },
     {
       "file": "reforge/src/main.boot-shell.glm-q.test.ts",
@@ -341,7 +341,7 @@
       "title": "Q01 旧试放/独立试打参数在 bootGame 入口精确拒绝 ?skill=heal",
       "ancestorTitles": [],
       "status": "passed",
-      "duration": 42.415500000000065
+      "duration": 128.08129199999985
     },
     {
       "file": "reforge/src/main.boot-shell.glm-q.test.ts",
@@ -349,7 +349,7 @@
       "title": "Q01 无偏好存储：音乐/音效默认全开，标题带工程名",
       "ancestorTitles": [],
       "status": "passed",
-      "duration": 45.851541
+      "duration": 245.5438750000003
     },
     {
       "file": "reforge/src/main.boot-shell.glm-q.test.ts",
@@ -357,7 +357,7 @@
       "title": "Q01 显式双关偏好落盘：setEnabled(false) 各一次",
       "ancestorTitles": [],
       "status": "passed",
-      "duration": 40.482083999999986
+      "duration": 175.40799999999945
     },
     {
       "file": "reforge/src/main.boot-shell.glm-q.test.ts",
@@ -365,7 +365,7 @@
       "title": "Q01 半开关偏好只关音乐：缺省 sound 键按开启解析",
       "ancestorTitles": [],
       "status": "passed",
-      "duration": 33.670208999999886
+      "duration": 134.4434169999995
     },
     {
       "file": "reforge/src/main.boot-shell.glm-q.test.ts",
@@ -373,7 +373,7 @@
       "title": "Q01 坏偏好 JSON 静默回退全开，不抛出",
       "ancestorTitles": [],
       "status": "passed",
-      "duration": 38.13945799999988
+      "duration": 249.4551249999995
     },
     {
       "file": "reforge/src/main.boot-shell.glm-q.test.ts",
@@ -381,7 +381,7 @@
       "title": "Q01 手势解锁接线：pointerdown/keydown 捕获相各自触发 bgm.resume",
       "ancestorTitles": [],
       "status": "passed",
-      "duration": 64.01291700000002
+      "duration": 255.02049999999963
     },
     {
       "file": "reforge/src/main.boot-shell.glm-q.test.ts",
@@ -389,7 +389,7 @@
       "title": "Q01 gallery 精灵解码失败静默占位并照常收尾；零 sprite 资产照常返回",
       "ancestorTitles": [],
       "status": "passed",
-      "duration": 49.595374999999876
+      "duration": 225.24145899999985
     },
     {
       "file": "reforge/src/opening-menu.glm-q.test.ts",
@@ -397,7 +397,7 @@
       "title": "Q01 菜单相位未处理键不拦截：不 preventDefault、光标不动、不选定",
       "ancestorTitles": [],
       "status": "passed",
-      "duration": 105.33191600000009
+      "duration": 201.52079200000003
     },
     {
       "file": "reforge/src/opening-menu.glm-q.test.ts",
@@ -405,7 +405,7 @@
       "title": "Q01 末项 ArrowDown 环绕回首项并选定第一入口",
       "ancestorTitles": [],
       "status": "passed",
-      "duration": 41.441167000000064
+      "duration": 112.21075000000019
     },
     {
       "file": "reforge/src/opening-menu.glm-q.test.ts",
@@ -413,7 +413,7 @@
       "title": "Q01 菜单相位 Enter/Space 之外的中排键不触发选定；Escape 不拦截",
       "ancestorTitles": [],
       "status": "passed",
-      "duration": 31.881875000000036
+      "duration": 112.26850000000013
     },
     {
       "file": "reforge/src/opening-menu.glm-q.test.ts",
@@ -421,7 +421,7 @@
       "title": "Q01 读档相位未处理键早退且不 preventDefault；← 在首页钳制不 wrap",
       "ancestorTitles": [],
       "status": "passed",
-      "duration": 51.85512499999993
+      "duration": 109.419083
     },
     {
       "file": "reforge/src/opening-menu.glm-q.test.ts",
@@ -429,7 +429,7 @@
       "title": "Q01 读档相位缩略图逐槽恰读一次：多帧渲染不重读 store",
       "ancestorTitles": [],
       "status": "passed",
-      "duration": 35.3526250000001
+      "duration": 117.08829100000003
     },
     {
       "file": "reforge/src/project-map-stamp-resize.glm-q.test.ts",
@@ -437,7 +437,7 @@
       "title": "Q02 空 placements 不物化 authoring；非空 placements 过守卫后可读回",
       "ancestorTitles": [],
       "status": "passed",
-      "duration": 2.015749999999997
+      "duration": 4.363458000000037
     },
     {
       "file": "reforge/src/project-map-stamp-resize.glm-q.test.ts",
@@ -445,7 +445,7 @@
       "title": "Q02 placements 非法轴被地图守卫拒绝：负 row anchor / 空 visualSlots",
       "ancestorTitles": [],
       "status": "passed",
-      "duration": 0.7193749999999994
+      "duration": 3.2545840000000226
     },
     {
       "file": "reforge/src/project-map-stamp-resize.glm-q.test.ts",
@@ -453,7 +453,7 @@
       "title": "Q02 resize 放大：内容保留、新区为空且 heights 存在时重建",
       "ancestorTitles": [],
       "status": "passed",
-      "duration": 0.32312499999999034
+      "duration": 0.8926670000000172
     },
     {
       "file": "reforge/src/project-map-stamp-resize.glm-q.test.ts",
@@ -461,7 +461,7 @@
       "title": "Q02 resize 缩小：行列截断且 collision 一并重建",
       "ancestorTitles": [],
       "status": "passed",
-      "duration": 0.49075000000000557
+      "duration": 1.9465829999999755
     },
     {
       "file": "reforge/src/project-map-stamp-resize.glm-q.test.ts",
@@ -469,7 +469,7 @@
       "title": "Q02 resize 会破坏组合时精确拒绝并点名组合 id",
       "ancestorTitles": [],
       "status": "passed",
-      "duration": 0.19633400000000734
+      "duration": 2.213041999999973
     },
     {
       "file": "reforge/src/project-map-stamp-resize.glm-q.test.ts",
@@ -477,7 +477,7 @@
       "title": "Q02 removeProjectMapLayer 会破坏组合时精确拒绝；无关图层可删",
       "ancestorTitles": [],
       "status": "passed",
-      "duration": 0.24908299999999883
+      "duration": 1.0779169999999567
     },
     {
       "file": "reforge/src/project-map-stamp-resize.glm-q.test.ts",
@@ -485,7 +485,7 @@
       "title": "Q02 insertProjectMapLayer 重复 id 原引用返回；越界 index 钳制",
       "ancestorTitles": [],
       "status": "passed",
-      "duration": 0.16670799999999986
+      "duration": 0.40149999999999864
     },
     {
       "file": "reforge/src/project-map-stamp-resize.glm-q.test.ts",
@@ -493,7 +493,7 @@
       "title": "Q02 moveProjectMapLayer 未知 id 与同位不动；越界钳制后落位",
       "ancestorTitles": [],
       "status": "passed",
-      "duration": 0.1998750000000058
+      "duration": 0.5950419999999781
     },
     {
       "file": "reforge/src/project-map-stamp-resize.glm-q.test.ts",
@@ -501,7 +501,7 @@
       "title": "Q02 updateProjectMapLayer 未知 id 原引用返回；命名 patch 生效且不改图层序",
       "ancestorTitles": [],
       "status": "passed",
-      "duration": 0.4177079999999904
+      "duration": 1.4395420000000172
     },
     {
       "file": "reforge/src/runnable-project-loader.glm-q.test.ts",
@@ -509,7 +509,7 @@
       "title": "Q02 版本门：过期 contentVersion 带工程名精确拒绝",
       "ancestorTitles": [],
       "status": "passed",
-      "duration": 60.24150000000009
+      "duration": 168.2260419999999
     },
     {
       "file": "reforge/src/runnable-project-loader.glm-q.test.ts",
@@ -517,7 +517,7 @@
       "title": "Q02 版本门：manifest.id 非字符串时回退匿名校验消息",
       "ancestorTitles": [],
       "status": "passed",
-      "duration": 34.090625000000045
+      "duration": 50.91754100000003
     },
     {
       "file": "reforge/src/runnable-project-loader.glm-q.test.ts",
@@ -525,7 +525,7 @@
       "title": "Q02 版本匹配：透传正式 loader 装出完整当前工程",
       "ancestorTitles": [],
       "status": "passed",
-      "duration": 38.891000000000076
+      "duration": 94.98454199999992
     },
     {
       "file": "reforge/src/runnable-project-loader.glm-q.test.ts",
@@ -533,7 +533,7 @@
       "title": "Q02 loadRunnableProject 经 httpSource 请求 projects/<id>/manifest.json",
       "ancestorTitles": [],
       "status": "passed",
-      "duration": 42.006917000000044
+      "duration": 92.41045899999995
     },
     {
       "file": "reforge/src/script-confirm-modal.glm-q.test.ts",
@@ -541,7 +541,7 @@
       "title": "Q01 token 在多次请求间严格单调递增，激活顺序为 FIFO",
       "ancestorTitles": [],
       "status": "passed",
-      "duration": 1.2952499999999958
+      "duration": 10.808666999999957
     },
     {
       "file": "reforge/src/script-confirm-modal.glm-q.test.ts",
@@ -549,7 +549,7 @@
       "title": "Q01 空闲视图为 undefined；激活后视图逐字段反映 prompt 状态",
       "ancestorTitles": [],
       "status": "passed",
-      "duration": 0.7322500000000076
+      "duration": 2.2970829999999864
     },
     {
       "file": "reforge/src/script-confirm-modal.glm-q.test.ts",
@@ -557,7 +557,7 @@
       "title": "Q01 预取消信号入队同步拒绝：不入队、不占 pending、无请求可激活",
       "ancestorTitles": [],
       "status": "passed",
-      "duration": 0.5716249999999974
+      "duration": 1.7943330000000515
     },
     {
       "file": "reforge/src/script-confirm-modal.glm-q.test.ts",
@@ -565,7 +565,7 @@
       "title": "Q01 无活动请求时 toggle/submit/submitNo/presented 全部 no-op",
       "ancestorTitles": [],
       "status": "passed",
-      "duration": 0.41558299999999804
+      "duration": 1.6954579999999737
     },
     {
       "file": "reforge/src/script-confirm-modal.glm-q.test.ts",
@@ -573,7 +573,7 @@
       "title": "Q01 canActivate=false 或已有活动请求时 activate 不动队列",
       "ancestorTitles": [],
       "status": "passed",
-      "duration": 0.22554100000000687
+      "duration": 0.9661669999999845
     },
     {
       "file": "reforge/src/script-confirm-modal.glm-q.test.ts",
@@ -581,7 +581,7 @@
       "title": "Q01 队头取消即离队：pendingCount 同步收缩，激活命中下一个；captureFrame 只替换被激活项",
       "ancestorTitles": [],
       "status": "passed",
-      "duration": 0.2936249999999916
+      "duration": 1.0044170000000463
     },
     {
       "file": "reforge/src/script-confirm-modal.glm-q.test.ts",
@@ -589,7 +589,7 @@
       "title": "Q01 captureFrame 缺席时保留入队时的原始 frame",
       "ancestorTitles": [],
       "status": "passed",
-      "duration": 0.16550000000000864
+      "duration": 0.7340829999999983
     },
     {
       "file": "reforge/src/script-confirm-modal.glm-q.test.ts",
@@ -597,7 +597,7 @@
       "title": "Q01 会话替换拒绝排队未激活请求，默认与自定义文案都可观测",
       "ancestorTitles": [],
       "status": "passed",
-      "duration": 0.22870799999999747
+      "duration": 1.0342500000000427
     },
     {
       "file": "reforge/src/script-confirm-modal.glm-q.test.ts",
@@ -605,7 +605,7 @@
       "title": "Q01 结算后移除 abort 监听：迟到的信号取消不再改变已 resolve 的结果",
       "ancestorTitles": [],
       "status": "passed",
-      "duration": 0.4001670000000104
+      "duration": 1.036042000000009
     },
     {
       "file": "reforge/src/script-confirm-modal.glm-q.test.ts",
@@ -613,7 +613,7 @@
       "title": "Q01 提交后、两帧门满足前 toggle/再次提交/提交否不得改写答案",
       "ancestorTitles": [],
       "status": "passed",
-      "duration": 0.10012500000000557
+      "duration": 0.7480840000000057
     },
     {
       "file": "reforge/src/script-confirm-modal.glm-q.test.ts",
@@ -621,7 +621,7 @@
       "title": "Q01 中止活动请求后宿主须显式再激活；队列其余项不受牵连",
       "ancestorTitles": [],
       "status": "passed",
-      "duration": 0.43908400000000825
+      "duration": 1.4289160000000152
     },
     {
       "file": "reforge/src/script-confirm-modal.glm-q.test.ts",
@@ -629,7 +629,7 @@
       "title": "Q01 已提交答案但帧门未满足时被取消：拒绝而非兑现，且无视图残留",
       "ancestorTitles": [],
       "status": "passed",
-      "duration": 0.5328750000000042
+      "duration": 0.9801669999999945
     },
     {
       "file": "reforge/src/script-runner-core.gates.glm-q.test.ts",
@@ -637,7 +637,7 @@
       "title": "machine id 不匹配的 state cursor 精确拒绝",
       "ancestorTitles": ["Q04 非法光标组合"],
       "status": "passed",
-      "duration": 2.7171669999999892
+      "duration": 8.299874999999929
     },
     {
       "file": "reforge/src/script-runner-core.gates.glm-q.test.ts",
@@ -645,7 +645,7 @@
       "title": "stage cursor 不能运行 stateMachine flow；state cursor 不能运行 stages flow",
       "ancestorTitles": ["Q04 非法光标组合"],
       "status": "passed",
-      "duration": 0.7120000000000175
+      "duration": 0.7863330000000133
     },
     {
       "file": "reforge/src/script-runner-core.gates.glm-q.test.ts",
@@ -653,7 +653,7 @@
       "title": "stage cursor 指向不存在 stage 时精确报错",
       "ancestorTitles": ["Q04 非法光标组合"],
       "status": "passed",
-      "duration": 0.19366600000000744
+      "duration": 0.1974999999999909
     },
     {
       "file": "reforge/src/script-runner-core.gates.glm-q.test.ts",
@@ -661,7 +661,7 @@
       "title": "state cursor 指向不存在 state 时按 machine.path 精确报错",
       "ancestorTitles": ["Q04 非法光标组合"],
       "status": "passed",
-      "duration": 0.24225000000001273
+      "duration": 0.2419999999999618
     },
     {
       "file": "reforge/src/script-runner-core.gates.glm-q.test.ts",
@@ -669,7 +669,7 @@
       "title": "无 resolver 时 callScript 前置拒绝",
       "ancestorTitles": ["Q04 commandOutcome 与 callScript 门"],
       "status": "passed",
-      "duration": 0.3168330000000026
+      "duration": 1.1481670000000577
     },
     {
       "file": "reforge/src/script-runner-core.gates.glm-q.test.ts",
@@ -677,7 +677,7 @@
       "title": "callScript 自递归在深度 128 处精确熔断",
       "ancestorTitles": ["Q04 commandOutcome 与 callScript 门"],
       "status": "passed",
-      "duration": 2.4080419999999947
+      "duration": 5.8231250000000045
     },
     {
       "file": "reforge/src/script-runner-core.gates.glm-q.test.ts",
@@ -685,7 +685,7 @@
       "title": "resolver 返回错误 script id 时拒绝",
       "ancestorTitles": ["Q04 commandOutcome 与 callScript 门"],
       "status": "passed",
-      "duration": 0.7212499999999977
+      "duration": 1.69500000000005
     },
     {
       "file": "reforge/src/script-runner-core.gates.glm-q.test.ts",
@@ -693,7 +693,7 @@
       "title": "shared executable digest/timing/boundary 任一过期都拒绝",
       "ancestorTitles": ["Q04 commandOutcome 与 callScript 门"],
       "status": "passed",
-      "duration": 0.48862499999998477
+      "duration": 2.8216659999999365
     },
     {
       "file": "reforge/src/script-runner-core.gates.glm-q.test.ts",
@@ -701,7 +701,7 @@
       "title": "self=none 禁显式 self；self=required 缺 self 拒绝",
       "ancestorTitles": ["Q04 commandOutcome 与 callScript 门"],
       "status": "passed",
-      "duration": 0.9439579999999808
+      "duration": 1.9728750000000446
     },
     {
       "file": "reforge/src/script-runner-core.gates.glm-q.test.ts",
@@ -709,7 +709,7 @@
       "title": "host 未实现 revealSceneEntry 时 scene entry fail-loud",
       "ancestorTitles": ["Q04 其它公开守卫"],
       "status": "passed",
-      "duration": 0.3276250000000118
+      "duration": 0.8849169999999731
     },
     {
       "file": "reforge/src/script-runner-core.gates.glm-q.test.ts",
@@ -717,7 +717,7 @@
       "title": "while 循环先判条件再执行体：条件即假时体零执行",
       "ancestorTitles": ["Q04 其它公开守卫"],
       "status": "passed",
-      "duration": 0.7273339999999848
+      "duration": 3.9467919999999594
     },
     {
       "file": "reforge/src/script-runner-core.gates.glm-q.test.ts",
@@ -725,7 +725,7 @@
       "title": "合法 shared 调用在同 digest/timing 下放行并执行体",
       "ancestorTitles": ["Q04 其它公开守卫"],
       "status": "passed",
-      "duration": 0.181541999999979
+      "duration": 0.2559999999999718
     },
     {
       "file": "reforge/src/script-runner-core.gates.glm-q.test.ts",
@@ -733,7 +733,7 @@
       "title": "当前编译器版本标识为常量且被 executable 记录",
       "ancestorTitles": ["Q04 其它公开守卫"],
       "status": "passed",
-      "duration": 0.08224999999998772
+      "duration": 0.09733400000004622
     },
     {
       "file": "reforge/src/shop-trial.glm-q.test.ts",
@@ -741,7 +741,7 @@
       "title": "Q01 白名单伴随参数（project/workspace/save-workspace）接受并精确解析",
       "ancestorTitles": [],
       "status": "passed",
-      "duration": 36.96799999999996
+      "duration": 125.7099589999998
     },
     {
       "file": "reforge/src/shop-trial.glm-q.test.ts",
@@ -749,7 +749,7 @@
       "title": "Q01 初始 fit 按 320×200 逻辑分辨率取 1..4 整数倍；resize 后重新钳制",
       "ancestorTitles": [],
       "status": "passed",
-      "duration": 150.979958
+      "duration": 197.18775000000005
     },
     {
       "file": "reforge/src/shop-trial.glm-q.test.ts",
@@ -757,7 +757,7 @@
       "title": "Q01 blur 清空未释放按键：blur 后同帧不产生二次输入",
       "ancestorTitles": [],
       "status": "passed",
-      "duration": 57.84695899999997
+      "duration": 82.95637499999998
     },
     {
       "file": "reforge/src/shop-trial.glm-q.test.ts",
@@ -765,7 +765,7 @@
       "title": "Q01 Escape 结束试买：终态 role=status 文本、画布隐藏、帧循环与键盘监听全部移除",
       "ancestorTitles": [],
       "status": "passed",
-      "duration": 44.51658299999997
+      "duration": 48.222291999999925
     },
     {
       "file": "reforge/src/video-sfx-ports.glm-q.test.ts",
@@ -773,7 +773,7 @@
       "title": "Q03 视频静音播放：video.muted 置真、ended 后清理兑现",
       "ancestorTitles": [],
       "status": "passed",
-      "duration": 15.788707999999986
+      "duration": 42.414167000000134
     },
     {
       "file": "reforge/src/video-sfx-ports.glm-q.test.ts",
@@ -781,7 +781,7 @@
       "title": "Q03 cleanup 中 video.pause 抛错被容忍：层移除且 Promise 照常兑现",
       "ancestorTitles": [],
       "status": "passed",
-      "duration": 1.613375000000019
+      "duration": 6.087750000000142
     },
     {
       "file": "reforge/src/video-sfx-ports.glm-q.test.ts",
@@ -789,7 +789,7 @@
       "title": "Q03 SfxPlayer maxDecoded 非正整数逐臂精确拒绝；无适配器给出降级告警",
       "ancestorTitles": [],
       "status": "passed",
-      "duration": 1.9684589999999957
+      "duration": 5.70958399999995
     },
     {
       "file": "game/src/battle-action-error-arms.glm-q.test.ts",
@@ -797,7 +797,7 @@
       "title": "caster 索引越界：warn + 不扣 MP + 不 emit + 不跑脚本",
       "ancestorTitles": ["Q08-8b performMagic caster 缺失臂"],
       "status": "passed",
-      "duration": 5.715458000000126
+      "duration": 7.676875000000109
     },
     {
       "file": "game/src/battle-action-error-arms.glm-q.test.ts",
@@ -805,7 +805,7 @@
       "title": "caster role 不在 playerRoles：warn + 不扣 MP + 不 emit + 不跑脚本",
       "ancestorTitles": ["Q08-8b performMagic caster 缺失臂"],
       "status": "passed",
-      "duration": 0.5695000000000618
+      "duration": 1.8356669999993755
     },
     {
       "file": "game/src/battle-action-error-arms.glm-q.test.ts",
@@ -815,7 +815,7 @@
         "Q08-8b 无 inventory 资源臂（throw-item；performItem 同族由 actions.test.ts:2317-2371 已证，Q-R5-02 删重）"
       ],
       "status": "passed",
-      "duration": 0.6606249999999818
+      "duration": 1.6708340000004682
     },
     {
       "file": "game/src/battle-action-error-arms.glm-q.test.ts",
@@ -823,7 +823,7 @@
       "title": "begin<0 规范化为从 0 起扫首个活敌",
       "ancestorTitles": ["Q08-8b selectAutoTargetFrom 未覆盖条件臂"],
       "status": "passed",
-      "duration": 0.2209579999998823
+      "duration": 0.6043749999998909
     },
     {
       "file": "game/src/battle-action-error-arms.glm-q.test.ts",
@@ -831,7 +831,7 @@
       "title": "prevTarget 越界(≥n)时回 begin 起扫，不读越界槽",
       "ancestorTitles": ["Q08-8b selectAutoTargetFrom 未覆盖条件臂"],
       "status": "passed",
-      "duration": 0.18908299999998235
+      "duration": 0.21500000000014552
     },
     {
       "file": "game/src/battle-action-error-arms.glm-q.test.ts",
@@ -841,7 +841,7 @@
         "Q08-8b pickAutoMagic 展开批（typed rgwMagic 投影链；Q-R5-03 撤回 blocked-input）"
       ],
       "status": "passed",
-      "duration": 0.7822920000000977
+      "duration": 2.4868329999999332
     },
     {
       "file": "game/src/battle-action-error-arms.glm-q.test.ts",
@@ -851,7 +851,7 @@
         "Q08-8b pickAutoMagic 展开批（typed rgwMagic 投影链；Q-R5-03 撤回 blocked-input）"
       ],
       "status": "passed",
-      "duration": 0.9355000000000473
+      "duration": 1.462666000000354
     },
     {
       "file": "game/src/battle-action-error-arms.glm-q.test.ts",
@@ -861,7 +861,7 @@
         "Q08-8b pickAutoMagic 展开批（typed rgwMagic 投影链；Q-R5-03 撤回 blocked-input）"
       ],
       "status": "passed",
-      "duration": 0.4149999999999636
+      "duration": 0.7309580000001006
     },
     {
       "file": "game/src/battle-action-error-arms.glm-q.test.ts",
@@ -871,7 +871,7 @@
         "Q08-8b pickAutoMagic 展开批（typed rgwMagic 投影链；Q-R5-03 撤回 blocked-input）"
       ],
       "status": "passed",
-      "duration": 0.5588330000000497
+      "duration": 1.587624999999207
     },
     {
       "file": "game/src/battle-action-error-arms.glm-q.test.ts",
@@ -881,7 +881,7 @@
         "Q08-8b pickAutoMagic 展开批（typed rgwMagic 投影链；Q-R5-03 撤回 blocked-input）"
       ],
       "status": "passed",
-      "duration": 0.19604200000003402
+      "duration": 0.5643329999993512
     },
     {
       "file": "game/src/battle-action-error-arms.glm-q.test.ts",
@@ -891,7 +891,7 @@
         "Q08-8b pickAutoMagic 展开批（typed rgwMagic 投影链；Q-R5-03 撤回 blocked-input）"
       ],
       "status": "passed",
-      "duration": 0.19899999999984175
+      "duration": 0.5169580000001588
     },
     {
       "file": "game/src/battle-action-error-arms.glm-q.test.ts",
@@ -901,7 +901,7 @@
         "Q08-8b pickAutoMagic 展开批（typed rgwMagic 投影链；Q-R5-03 撤回 blocked-input）"
       ],
       "status": "passed",
-      "duration": 0.15562500000010004
+      "duration": 0.7172080000000278
     },
     {
       "file": "game/src/battle-action-error-arms.glm-q.test.ts",
@@ -911,7 +911,7 @@
         "Q08-8b pickAutoMagic 展开批（typed rgwMagic 投影链；Q-R5-03 撤回 blocked-input）"
       ],
       "status": "passed",
-      "duration": 0.16825000000017099
+      "duration": 0.6660830000000715
     },
     {
       "file": "game/src/battle-summon-slot-reuse.glm-q.test.ts",
@@ -919,7 +919,7 @@
       "title": "复用槽非空毒残留被清零、对象身份替换（旧证之外的独立轴）",
       "ancestorTitles": ["Q08 0x9E 正向死亡空槽复用（战中击败槽，非初始 0 占位）"],
       "status": "passed",
-      "duration": 2.634916999999973
+      "duration": 5.26891599999999
     },
     {
       "file": "game/src/battle-summon-slot-reuse.glm-q.test.ts",
@@ -927,7 +927,7 @@
       "title": "同席两死亡槽只复用一间：另一间保持 defeated 与残留身份",
       "ancestorTitles": ["Q08 0x9E 正向死亡空槽复用（战中击败槽，非初始 0 占位）"],
       "status": "passed",
-      "duration": 0.7213749999999663
+      "duration": 1.7917919999999867
     },
     {
       "file": "game/src/battle-summon-slot-reuse.glm-q.test.ts",
@@ -935,7 +935,7 @@
       "title": "活敌槽绝不复用：满员 3 活 0 死 → room=0 走 fail 跳转",
       "ancestorTitles": ["Q08 0x9E 正向死亡空槽复用（战中击败槽，非初始 0 占位）"],
       "status": "passed",
-      "duration": 0.22787499999992633
+      "duration": 0.8103339999997843
     },
     {
       "file": "game/src/battle-summon-slot-reuse.glm-q.test.ts",
@@ -943,7 +943,7 @@
       "title": "复用后全体敌人底锚按新阵容重算（PAL_BattleMakeScene 等价）",
       "ancestorTitles": ["Q08 0x9E 正向死亡空槽复用（战中击败槽，非初始 0 占位）"],
       "status": "passed",
-      "duration": 0.2627499999999827
+      "duration": 1.2619159999999283
     },
     {
       "file": "game/src/framebuffer-ports.glm-q.test.ts",
@@ -951,7 +951,7 @@
       "title": "默认 320×200；自定义尺寸按参数建",
       "ancestorTitles": ["Q09 createFramebuffer"],
       "status": "passed",
-      "duration": 1.672458000000006
+      "duration": 3.8737499999997453
     },
     {
       "file": "game/src/framebuffer-ports.glm-q.test.ts",
@@ -959,7 +959,7 @@
       "title": "writePixel 四边界外全部忽略；界内按 y*width+x 落位",
       "ancestorTitles": ["Q09 createFramebuffer"],
       "status": "passed",
-      "duration": 0.22550000000001091
+      "duration": 0.5946670000002996
     },
     {
       "file": "game/src/framebuffer-ports.glm-q.test.ts",
@@ -967,7 +967,7 @@
       "title": "clear 归零全部索引",
       "ancestorTitles": ["Q09 createFramebuffer"],
       "status": "passed",
-      "duration": 0.07629199999996672
+      "duration": 0.309458999999606
     },
     {
       "file": "game/src/framebuffer-ports.glm-q.test.ts",
@@ -975,7 +975,7 @@
       "title": "toImageData 按 palette 展开 RGBA、alpha 恒 255、缺色回退黑",
       "ancestorTitles": ["Q09 createFramebuffer"],
       "status": "passed",
-      "duration": 0.6812079999999696
+      "duration": 2.3809580000001915
     },
     {
       "file": "game/src/status-poison-equip.glm-q.test.ts",
@@ -983,7 +983,7 @@
       "title": "ByKind 只查指定毒 id，不看等级与其它毒",
       "ancestorTitles": ["Q06 isPlayerPoisoned"],
       "status": "passed",
-      "duration": 3.1549580000000788
+      "duration": 4.876334000000043
     },
     {
       "file": "game/src/status-poison-equip.glm-q.test.ts",
@@ -991,7 +991,7 @@
       "title": "ByLevel(role,0)：level>=99 装备伪毒不算中毒",
       "ancestorTitles": ["Q06 isPlayerPoisoned"],
       "status": "passed",
-      "duration": 0.30587500000001455
+      "duration": 1.231083000000126
     },
     {
       "file": "game/src/status-poison-equip.glm-q.test.ts",
@@ -999,7 +999,7 @@
       "title": "毒表未注入时伪毒按 level 0 退化处理（旧 caller 兼容臂）",
       "ancestorTitles": ["Q06 isPlayerPoisoned"],
       "status": "passed",
-      "duration": 0.11562500000002274
+      "duration": 0.40441599999985556
     },
     {
       "file": "game/src/status-poison-equip.glm-q.test.ts",
@@ -1007,7 +1007,7 @@
       "title": "curePlayerPoisonByKind 只清该毒全部槽位",
       "ancestorTitles": ["Q06 cure / remove"],
       "status": "passed",
-      "duration": 0.8622910000000275
+      "duration": 3.1577079999997295
     },
     {
       "file": "game/src/status-poison-equip.glm-q.test.ts",
@@ -1015,7 +1015,7 @@
       "title": "removePoisonLevel99 清 level>=99、留 level<99",
       "ancestorTitles": ["Q06 cure / remove"],
       "status": "passed",
-      "duration": 0.24812499999995907
+      "duration": 1.2506659999999101
     },
     {
       "file": "game/src/status-poison-equip.glm-q.test.ts",
@@ -1023,7 +1023,7 @@
       "title": "curePlayerPoisonByLevel 无 99 例外：maxLevel 内连装备毒一并清",
       "ancestorTitles": ["Q06 cure / remove"],
       "status": "passed",
-      "duration": 0.1342499999999518
+      "duration": 4.186707999999726
     },
     {
       "file": "game/src/status-poison-equip.glm-q.test.ts",
@@ -1031,7 +1031,7 @@
       "title": "去重：已有同毒不落第二槽",
       "ancestorTitles": ["Q06 addPoisonForPlayer"],
       "status": "passed",
-      "duration": 0.5158750000000509
+      "duration": 4.808708000000024
     },
     {
       "file": "game/src/status-poison-equip.glm-q.test.ts",
@@ -1039,7 +1039,7 @@
       "title": "runner 注入：施毒当下跑入口脚本并存返回的 next entry；无 runner 存原始 ip",
       "ancestorTitles": ["Q06 addPoisonForPlayer"],
       "status": "passed",
-      "duration": 0.7419170000000577
+      "duration": 2.3216670000001614
     },
     {
       "file": "game/src/status-poison-equip.glm-q.test.ts",
@@ -1047,7 +1047,7 @@
       "title": "playerScript=0 时不调 runner；16 槽全满时静默丢弃",
       "ancestorTitles": ["Q06 addPoisonForPlayer"],
       "status": "passed",
-      "duration": 0.5301249999999982
+      "duration": 2.2480000000000473
     },
     {
       "file": "game/src/status-poison-equip.glm-q.test.ts",
@@ -1055,7 +1055,7 @@
       "title": "fleeRate = runtime base + 各装备槽之和",
       "ancestorTitles": ["Q06 装备派生值读取器"],
       "status": "passed",
-      "duration": 0.13591699999994944
+      "duration": 0.6170420000003105
     },
     {
       "file": "game/src/status-poison-equip.glm-q.test.ts",
@@ -1063,7 +1063,7 @@
       "title": "poisonResistance 钳制 [0,100]：负值归零、超百封顶",
       "ancestorTitles": ["Q06 装备派生值读取器"],
       "status": "passed",
-      "duration": 0.14608299999997598
+      "duration": 0.6514159999996991
     },
     {
       "file": "pal-extract/src/cli-isolated.glm-q.test.ts",
@@ -1071,7 +1071,7 @@
       "title": "Q10 CLI 隔离实跑：合成小输入走完事件管线（round-trip 门 + 切片落盘 + 词表注记）",
       "ancestorTitles": [],
       "status": "passed",
-      "duration": 324.42883400000005
+      "duration": 2007.7266249999998
     },
     {
       "file": "pal-extract/src/cli-isolated.glm-q.test.ts",
@@ -1079,7 +1079,7 @@
       "title": "Q10 CLI 隔离实跑：合成 DATA.MKF 走完数据表段（逐表落盘 + SPRITEUI/effect blob）",
       "ancestorTitles": [],
       "status": "passed",
-      "duration": 289.1575000000001
+      "duration": 1158.7663329999996
     },
     {
       "file": "pal-extract/src/cli-isolated.glm-q.test.ts",
@@ -1087,7 +1087,15 @@
       "title": "Q10 CLI 隔离实跑：合成图像/音频段（RNG 空 chunk/RGM/BALL 合成 RLE/FIRE 空/SOUNDS/Musics），缺 FBP 边界拒绝",
       "ancestorTitles": [],
       "status": "passed",
-      "duration": 260.81162499999994
+      "duration": 2222.0299160000004
+    },
+    {
+      "file": "pal-extract/src/cli-isolated.glm-q.test.ts",
+      "fullName": "Q10 CLI 隔离实跑：全管线合成输入走到底（MAP/GOP tileset + PAT 调色板 + 空 MGO/F/ABC + asset-manifest + done）",
+      "title": "Q10 CLI 隔离实跑：全管线合成输入走到底（MAP/GOP tileset + PAT 调色板 + 空 MGO/F/ABC + asset-manifest + done）",
+      "ancestorTitles": [],
+      "status": "passed",
+      "duration": 1054.9246660000008
     },
     {
       "file": "pal-extract/src/cli-isolated.glm-q.test.ts",
@@ -1095,7 +1103,7 @@
       "title": "Q10 CLI 隔离实跑：截断 SSS chunk0 在解析边界精确拒绝且不产出事件文件",
       "ancestorTitles": [],
       "status": "passed",
-      "duration": 268.9495830000001
+      "duration": 463.87424999999894
     }
   ]
 }

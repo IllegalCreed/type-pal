@@ -1,14 +1,36 @@
-# Wave Q：两阶段runtime与解码残余合同十倍包 — GLM Q 交付总账（r8 窄修）
+# Wave Q：两阶段runtime与解码残余合同十倍包 — GLM Q 交付总账（r9 窄修 + 增量批）
 
 Coding Owner: GLM Q；[任务卡](../../../ops/tasks/TEST-GLM-WAVE-Q-1-runtime-residual-tenfold.md)、
 [共同协议](../README.md)、[冻结表](../targets.json)、Codex 2026-10-01 独立审查 `docs/testing/glm-tenfold-triple/codex-review-20261001.md`（落盘于审查树 codex/glm-lmn-acceptance-r1；按不 cherry-pick 纪律未拷入本分支，机器证据 codex-review-20261001.json 同）。
 分支 `codex/glm-wave-q-runtime-residual-r1`（独立 worktree），派发提交
 `8b3ca062953b17a12178f8d1a9e36657971234b1`，生产冻结 `3ac9a2e2f6aba8a5cc97640c18fef8549d199380`，
 起点候选 `626ddffe41cca4e3755dfafea1645c695c158b0f`（r1，被 counter → rework）。
-本文件描述 **r8 候选**（O/P/Q 联合复核 Q-R7-01～04 窄修；r5/r6/r7 已关闭项不重开；
-r7 候选 bea4cb24/pin fddc88a6 保留供独立复核）。不合 main、不标 done。
+本文件描述 **r9 候选**（O/P/Q r8 复核 Q-R8-01 窄修 + 增量批；已关闭项不重开；
+r8 候选 333332bd/pin 7e115b4d 保留供独立复核）。不合 main、不标 done。
 
-## r8 当前结论
+## r9 当前结论（Q-R8-01 账务 + 增量批）
+
+- **135 执行 / 净新上限 134 / 缺口至少 566**（C114 旧 room0 cross-check 不计净新；
+  r9 新增全管线 1 例为净新）。
+- 反控：**61 存档满足业务单断言红 / 55 个不同执行目标 / 净新合同目标上限 54**
+  （C114/S1-RC4 旧合同不计新）。r9 新增 Q-FP1～5 五枚**全管线新合同目标**针
+  （PAT 去夜间板/GOP chunk0 置空/ABC 加可解 chunk/FBP 截短越界/palette 色值轴），
+  直接回应「余族至少补 1 真新目标」——已补 5。
+- NT8 退役（Q-NT8.retired.meta.json 保留历史）；三态来源：45 旧针未变 + 5 Q10 更新
+  + 5 S1 更新 + 6 NT + 5 FP（+1 NT8 退役）。
+- C115 分类已按已修源码更新；game 2805 / lint 以本轮最终复跑为准。
+
+## r9 增量批：Q10 全管线合成（走到底）
+
+`cli-isolated` 新增 `buildFullPipelineInputs`：MAP.MKF 用 **YJ2 零流合成**
+（header=uncompLen + 64B 零位流 → 实测解出任意长度全初始符号输出；65536B 全零
+map 经 parseMap 走通，cell lower=130/upper=0），GOP 用 encodeSpriteChunk（chunk
+需与 scene mapNum 对齐——parseMap 在 YJ2 try 外，短 chunk 未捕获抛出），PAT 768/
+1536B 调色板（6bit→8bit 扩展断言 [4,8,255]），MGO/F/ABC 空 MKF、FBP 5 chunk
+（splash 需 chunk3/4 存在）、无 BDF（warn 跳过）——CLI **完整走到底**：
+exit 0 + tilesets 2/2 + palette 2 chunks + asset-manifest + done。
+
+## r8 相对 r7 的改动（历史）
 
 - **当前规模：134 执行 / 57 针存档（50 个不同 file×fullName 目标）/ 18 文件 + 1 fixture /
   10 流程**；game 全包 **2805**（Codex 独立实跑数，作者上轮报 2804 系 1 例口径差，

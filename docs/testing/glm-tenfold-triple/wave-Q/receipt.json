@@ -15,17 +15,22 @@
   "deliverables": {
     "newTestFiles": 18,
     "newFixtureDirs": 1,
-    "newCases": 134,
-    "counterControls": 57,
+    "newCases": 135,
+    "netNewCasesCap": 134,
+    "counterControls": 61,
+    "distinctTargets": 55,
+    "netNewContractTargetsCap": 54,
     "browserFlows": 10,
     "defectReports": 1
   },
   "shortfall": {
     "targetCases": 700,
-    "deliveredCases": 134,
+    "deliveredCases": 135,
+    "netNewCap": 134,
+    "remainingAtLeast": 566,
     "targetCounters": 50,
-    "deliveredCounters": 57,
-    "account": "docs/testing/glm-tenfold-triple/wave-Q/README.md「700/50 缺口申报（r3 续）」+ q07-q08-contract-ledger.md（逐条件锚点版）"
+    "deliveredCounters": 61,
+    "account": "135 执行/净新上限 134（C114 旧合同不计新）/缺口至少 566；61 存档 55 执行目标/净新合同目标上限 54；Q-FP1~5 为 r9 新合同目标；见 README r9 段"
   },
   "commands": {
     "serialFullTests": "env -u NODE_COMPILE_CACHE pnpm --filter @type-pal/<pkg> test （reforge → game → pal-extract 串行）",
@@ -35,13 +40,13 @@
     "diffCheck": "git diff --check 8b3ca062953b17a12178f8d1a9e36657971234b1...HEAD"
   },
   "results": {
-    "reforgeTest": "2150 passed（r7 最终串行复跑）",
-    "gameTest": "待 r8 最终门禁回填（以 Codex 独立实跑 2805 为基准口径）",
-    "palExtractTest": "361 passed（r7 最终串行复跑：基线 357 + glm-q 4）",
-    "typechecks": "reforge/game/pal-extract 均 0 error（r7 复跑）",
-    "rootLint": "pnpm lint PASS — 2971 files; 0 errors / 0 warnings / 0 infos（r7 最终树复跑）",
-    "docsCheck": "PASS（r7 复跑）",
-    "diffCheck": "git diff --check 8b3ca062...HEAD 干净（r7 提交后复核）"
+    "reforgeTest": "2150 passed（r9 最终串行复跑）",
+    "gameTest": "2805 passed（r9 最终串行复跑）",
+    "palExtractTest": "362 passed（r9 最终串行复跑：基线 357 + glm-q 5）",
+    "typechecks": "reforge/game/pal-extract 均 0 error（r9 复跑）",
+    "rootLint": "pnpm lint PASS — 3019 files; 0 errors / 0 warnings / 0 infos（r9 最终树复跑）",
+    "docsCheck": "PASS（r9 复跑）",
+    "diffCheck": "git diff --check 8b3ca062...HEAD 干净（r9 提交后复核）"
   },
   "counterEvidence": "counters.json（57 存档全 VALID，50 个不同 file×fullName 目标；重复目标 7 组如实列于 duplicatedTargets）+ counters/",
   "browserEvidence": "docs/testing/glm-tenfold-triple/wave-Q/browser-evidence/browser-evidence.json",
@@ -52,6 +57,6 @@
     "工作树取证所需的 gitignored 资产（data/raw、data/extracted、projects/pal/assets/{migrated,runtime}）从主仓拷贝，不进提交。",
     "candidateHead 指向测试候选树 tip；其后的 docs-only pin 提交仅回填本字段，不改任何测试/产品文件。"
   ],
-  "reworkRound": 8,
+  "reworkRound": 9,
   "candidateHeadNote": "r8 口径：本字段为 r8 测试候选树的完整 40 位 SHA；其后仅本 docs-only pin 提交回填本字段与 Note，不改任何测试/产品文件（r2~r7 同口径）。"
 }

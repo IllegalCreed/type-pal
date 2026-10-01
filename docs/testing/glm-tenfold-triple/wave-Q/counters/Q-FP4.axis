@@ -1,0 +1,1 @@
+输入轴单轴变异：FBP 5→3 chunk（合法 MKF；splash 段读 chunk3 越界 → 未捕获 throw → exitCode!==0 → toBe(0) 恰一红）；断言不动。

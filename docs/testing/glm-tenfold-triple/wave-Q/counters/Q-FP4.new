@@ -1,0 +1,1 @@
+    'FBP.MKF': mkf([new Uint8Array(0), yj2Zeros(0), new Uint8Array(0)]), // 变异轴：5→3 chunk（splash 读 chunk3 越界 → throw → exit 1）

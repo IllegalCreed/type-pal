@@ -1,0 +1,57 @@
+{
+  "id": "Q-FP4",
+  "file": "packages/pal-extract/src/cli-isolated.glm-q.test.ts",
+  "targetFullName": "Q10 CLI 隔离实跑：全管线合成输入走到底（MAP/GOP tileset + PAT 调色板 + 空 MGO/F/ABC + asset-manifest + done）",
+  "targetNameSubstring": "全管线合成输入走到底",
+  "axis": "输入轴单轴变异：FBP 5→3 chunk（合法 MKF；splash 段读 chunk3 越界 → 未捕获 throw → exitCode!==0 → toBe(0) 恰一红）；断言不动。",
+  "sha256": {
+    "original": "9ac0d9a8325a480bbf033c1459056250cb20b11c4cdc990857c87392d0586bef",
+    "mutated": "5701b191e65c32607d5ad550c67af87156e547edc3a3b7050220b5cc6b7c3d49",
+    "restored": "9ac0d9a8325a480bbf033c1459056250cb20b11c4cdc990857c87392d0586bef"
+  },
+  "restoredHashUnchanged": true,
+  "criteria": {
+    "positiveGreen": true,
+    "mutantExactlyOneTargetRed": true,
+    "targetAssertionError": "AssertionError: expected 1 to be +0 // Object.is equality",
+    "restoredGreen": true,
+    "restoredSameExecutionCount": true,
+    "hashesMatchFinalCandidate": true
+  },
+  "runs": {
+    "positive": {
+      "exitCode": 0,
+      "summary": {
+        "numTotalTests": 5,
+        "numPassedTests": 5,
+        "numFailedTests": 0,
+        "success": true
+      },
+      "json": "Q-FP4.positive.json",
+      "raw": "Q-FP4.positive.txt"
+    },
+    "mutant": {
+      "exitCode": 1,
+      "summary": {
+        "numTotalTests": 5,
+        "numPassedTests": 4,
+        "numFailedTests": 1,
+        "success": false
+      },
+      "json": "Q-FP4.mutant.json",
+      "raw": "Q-FP4.mutant.txt"
+    },
+    "restored": {
+      "exitCode": 0,
+      "summary": {
+        "numTotalTests": 5,
+        "numPassedTests": 5,
+        "numFailedTests": 0,
+        "success": true
+      },
+      "json": "Q-FP4.restored.json",
+      "raw": "Q-FP4.restored.txt"
+    }
+  },
+  "verdict": "VALID"
+}

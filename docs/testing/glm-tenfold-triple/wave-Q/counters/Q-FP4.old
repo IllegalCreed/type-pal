@@ -1,0 +1,7 @@
+    'FBP.MKF': mkf([
+      new Uint8Array(0),
+      yj2Zeros(0),
+      new Uint8Array(0),
+      new Uint8Array(0),
+      new Uint8Array(0),
+    ]), // chunk3/4 空 → splash skip

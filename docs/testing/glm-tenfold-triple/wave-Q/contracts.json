@@ -1,7 +1,7 @@
 {
   "source": "final-run directed-vitest.json 逐条展开；锚点为真实文件/断言族，非模板",
   "counts": {
-    "total": 134
+    "total": 135
   },
   "contracts": [
     {
@@ -1868,6 +1868,20 @@
     },
     {
       "id": "C134",
+      "batch": "Q10",
+      "package": "pal-extract",
+      "file": "pal-extract/src/cli-isolated.glm-q.test.ts",
+      "fullName": "Q10 CLI 隔离实跑：全管线合成输入走到底（MAP/GOP tileset + PAT 调色板 + 空 MGO/F/ABC + asset-manifest + done）",
+      "status": "passed",
+      "source": "pal-extract src/cli.ts main() 全管线尾段：MAP/GOP tileset（YJ2 零流合成 65536B map + encodeSpriteChunk GOP）、PAT 调色板（768/1536B 6bit→8bit）、MGO/F/ABC dump-all 循环、FBP battle-bg+splash、lookup、asset-manifest（cli.ts:631-891）",
+      "caller": "mkdtemp 复制模块树 + tsx 子进程（同前批）；合成输入经 buildFullPipelineInputs（YJ2 零流 = header(uncompLen)+64B 零位流，实测解出任意长度全初始符号输出）",
+      "oldAssertion": "corpus 0 命中（CLI 尾段此前零直测；map.test/palette 旧测覆盖单元解析器不覆盖总装）",
+      "axis": "MAP chunk1 需与 scene mapNum=1 对齐（parseMap 在 YJ2 try 外，短 chunk 抛未捕获）；FBP 需 ≥5 chunk（splash 读 3/4）",
+      "oracle": "exit 0 + done 日志；tilemap 64×128 cell lower=130/upper=0（零流首符号）；palette[1]=[4,8,255]（6→8bit 扩展）；nightColors 1536B 独有；tileset/{0,1}.rle blob；manifest fileCount>10",
+      "classification": "new full-pipeline contracts（r9；Q-FP1~5 五针新合同目标）"
+    },
+    {
+      "id": "C135",
       "batch": "Q10",
       "package": "pal-extract",
       "file": "pal-extract/src/cli-isolated.glm-q.test.ts",

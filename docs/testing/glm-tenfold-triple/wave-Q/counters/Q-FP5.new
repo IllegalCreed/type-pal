@@ -1,0 +1,6 @@
+  const palette768 = new Uint8Array(768)
+  for (let i = 0; i < 256; i++) {
+    palette768[i * 3] = i === 1 ? 2 : i // 变异轴：色1 R 输入 1→2（合法 6bit 值）
+    palette768[i * 3 + 1] = (i * 2) % 256
+    palette768[i * 3 + 2] = 255 - i
+  }

@@ -1,0 +1,57 @@
+{
+  "id": "Q-FP5",
+  "file": "packages/pal-extract/src/cli-isolated.glm-q.test.ts",
+  "targetFullName": "Q10 CLI 隔离实跑：全管线合成输入走到底（MAP/GOP tileset + PAT 调色板 + 空 MGO/F/ABC + asset-manifest + done）",
+  "targetNameSubstring": "全管线合成输入走到底",
+  "axis": "输入轴单轴变异：palette768 色1 R 输入 1→2（合法 6bit 值；6→8bit 扩展后 [4,8,255]→[8,8,255] → toEqual 恰一红）；断言不动。",
+  "sha256": {
+    "original": "9ac0d9a8325a480bbf033c1459056250cb20b11c4cdc990857c87392d0586bef",
+    "mutated": "c85586d82c8608514cdcb0d648f8a74e582f03ef0961f219987a1de1a4d1cf80",
+    "restored": "9ac0d9a8325a480bbf033c1459056250cb20b11c4cdc990857c87392d0586bef"
+  },
+  "restoredHashUnchanged": true,
+  "criteria": {
+    "positiveGreen": true,
+    "mutantExactlyOneTargetRed": true,
+    "targetAssertionError": "AssertionError: expected [ 8, 8, 255 ] to deeply equal [ 4, 8, 255 ]",
+    "restoredGreen": true,
+    "restoredSameExecutionCount": true,
+    "hashesMatchFinalCandidate": true
+  },
+  "runs": {
+    "positive": {
+      "exitCode": 0,
+      "summary": {
+        "numTotalTests": 5,
+        "numPassedTests": 5,
+        "numFailedTests": 0,
+        "success": true
+      },
+      "json": "Q-FP5.positive.json",
+      "raw": "Q-FP5.positive.txt"
+    },
+    "mutant": {
+      "exitCode": 1,
+      "summary": {
+        "numTotalTests": 5,
+        "numPassedTests": 4,
+        "numFailedTests": 1,
+        "success": false
+      },
+      "json": "Q-FP5.mutant.json",
+      "raw": "Q-FP5.mutant.txt"
+    },
+    "restored": {
+      "exitCode": 0,
+      "summary": {
+        "numTotalTests": 5,
+        "numPassedTests": 5,
+        "numFailedTests": 0,
+        "success": true
+      },
+      "json": "Q-FP5.restored.json",
+      "raw": "Q-FP5.restored.txt"
+    }
+  },
+  "verdict": "VALID"
+}

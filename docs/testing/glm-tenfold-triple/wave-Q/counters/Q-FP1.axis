@@ -1,0 +1,2 @@
+输入轴单轴变异：PAT.MKF 2 chunk→1 chunk（去掉 1536B 日夜调色板；palette written 应 2→1 → toContain('2 chunks') 恰一红，nightColors 断言同红——恰一 fullName 内两断言同例）
+；断言不动。

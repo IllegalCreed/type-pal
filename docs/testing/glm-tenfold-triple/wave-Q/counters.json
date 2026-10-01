@@ -1,7 +1,7 @@
 {
-  "count": 57,
+  "count": 61,
   "allValid": true,
-  "distinctTargets": 50,
+  "distinctTargets": 51,
   "duplicatedTargets": [
     "packages/reforge/src/audio-spessa-runtime.glm-q.test.ts :: Q03 试听 runtime：适配器透传 sequencer 传输操作与快照字段，二次 initialize 复用",
     "packages/game/src/framebuffer-ports.glm-q.test.ts :: Q09 createFramebuffer toImageData 按 palette 展开 RGBA、alpha 恒 255、缺色回退黑",
@@ -9,8 +9,19 @@
     "packages/pal-extract/src/cli-isolated.glm-q.test.ts :: Q10 CLI 隔离实跑：合成小输入走完事件管线（round-trip 门 + 切片落盘 + 词表注记）",
     "packages/pal-extract/src/cli-isolated.glm-q.test.ts :: Q10 CLI 隔离实跑：合成 DATA.MKF 走完数据表段（逐表落盘 + SPRITEUI/effect blob）",
     "packages/game/src/battle-summon-slot-reuse.glm-q.test.ts :: Q08 0x9E 正向死亡空槽复用（战中击败槽，非初始 0 占位） 同席两死亡槽只复用一间：另一间保持 defeated 与残留身份",
-    "packages/reforge/src/enemy-closure.glm-q.test.ts :: Q05 collectReachableEnemyDefs enemyId 缺省的 summon 不入队；hooks 内 effect summon 参与闭包"
+    "packages/pal-extract/src/cli-isolated.glm-q.test.ts :: Q10 CLI 隔离实跑：全管线合成输入走到底（MAP/GOP tileset + PAT 调色板 + 空 MGO/F/ABC + asset-manifest + done）",
+    "packages/pal-extract/src/cli-isolated.glm-q.test.ts :: Q10 CLI 隔离实跑：全管线合成输入走到底（MAP/GOP tileset + PAT 调色板 + 空 MGO/F/ABC + asset-manifest + done）",
+    "packages/pal-extract/src/cli-isolated.glm-q.test.ts :: Q10 CLI 隔离实跑：全管线合成输入走到底（MAP/GOP tileset + PAT 调色板 + 空 MGO/F/ABC + asset-manifest + done）",
+    "packages/pal-extract/src/cli-isolated.glm-q.test.ts :: Q10 CLI 隔离实跑：全管线合成输入走到底（MAP/GOP tileset + PAT 调色板 + 空 MGO/F/ABC + asset-manifest + done）"
   ],
+  "retired": [
+    {
+      "id": "Q-NT8",
+      "reason": "mutant 抛普通产品 Error（非 AssertionError），按卡拒收；证据保留于 Q-NT8.retired.meta.json",
+      "alsoSameTargetAs": "Q05-RC3"
+    }
+  ],
+  "quotaNotes": "61 存档满足业务单断言红 / 55 个不同执行目标；净新合同目标上限 54（C114/S1-RC4 旧合同 cross-check 不计新）。r9 增 Q-FP1~5 五枚全管线新合同目标针。",
   "hashVerification": "index 条目由最终 per-counter meta 生成；original/restored 与候选树实际文件 SHA256 逐枚断言相等（构建时校验，mismatch 即失败）",
   "perCounter": [
     {
@@ -1958,9 +1969,9 @@
       "targetNameSubstring": "合成 DATA.MKF 走完数据表段",
       "axis": "输入轴单轴变异：合成 STORE 表首格物品 61→62（合法 wObjectID，词表 62 为空）；断言不动。",
       "sha256": {
-        "original": "429cfe36fbc3d93dadad32fdfd451354cda169f3343e1f3d55974d5358338e9c",
-        "mutated": "53456aa6baebfd623d1f371189f1f86a0f6fed820816735762e1c14334fd12bc",
-        "restored": "429cfe36fbc3d93dadad32fdfd451354cda169f3343e1f3d55974d5358338e9c"
+        "original": "9ac0d9a8325a480bbf033c1459056250cb20b11c4cdc990857c87392d0586bef",
+        "mutated": "00323836c9e311615145cad4153ebea190716738213404758dab6dc3adfee9bd",
+        "restored": "9ac0d9a8325a480bbf033c1459056250cb20b11c4cdc990857c87392d0586bef"
       },
       "restoredHashUnchanged": true,
       "criteria": {
@@ -1975,8 +1986,8 @@
         "positive": {
           "exitCode": 0,
           "summary": {
-            "numTotalTests": 4,
-            "numPassedTests": 4,
+            "numTotalTests": 5,
+            "numPassedTests": 5,
             "numFailedTests": 0,
             "success": true
           },
@@ -1986,8 +1997,8 @@
         "mutant": {
           "exitCode": 1,
           "summary": {
-            "numTotalTests": 4,
-            "numPassedTests": 3,
+            "numTotalTests": 5,
+            "numPassedTests": 4,
             "numFailedTests": 1,
             "success": false
           },
@@ -1997,8 +2008,8 @@
         "restored": {
           "exitCode": 0,
           "summary": {
-            "numTotalTests": 4,
-            "numPassedTests": 4,
+            "numTotalTests": 5,
+            "numPassedTests": 5,
             "numFailedTests": 0,
             "success": true
           },
@@ -2015,9 +2026,9 @@
       "targetNameSubstring": "合成 DATA.MKF 走完数据表段",
       "axis": "输入轴单轴变异：PLAYERROLES 合成表 spriteNum[0] 2→3（合法精灵号）；断言不动。",
       "sha256": {
-        "original": "429cfe36fbc3d93dadad32fdfd451354cda169f3343e1f3d55974d5358338e9c",
-        "mutated": "3299c1786624e5ff7b5c3d701856d0d96ae13fc951866b35aa7884716ed6c7e7",
-        "restored": "429cfe36fbc3d93dadad32fdfd451354cda169f3343e1f3d55974d5358338e9c"
+        "original": "9ac0d9a8325a480bbf033c1459056250cb20b11c4cdc990857c87392d0586bef",
+        "mutated": "6fea25cf654fc7f63ec02e381aea7c5732ce44e3895f093648e0450cfdefb296",
+        "restored": "9ac0d9a8325a480bbf033c1459056250cb20b11c4cdc990857c87392d0586bef"
       },
       "restoredHashUnchanged": true,
       "criteria": {
@@ -2032,8 +2043,8 @@
         "positive": {
           "exitCode": 0,
           "summary": {
-            "numTotalTests": 4,
-            "numPassedTests": 4,
+            "numTotalTests": 5,
+            "numPassedTests": 5,
             "numFailedTests": 0,
             "success": true
           },
@@ -2043,8 +2054,8 @@
         "mutant": {
           "exitCode": 1,
           "summary": {
-            "numTotalTests": 4,
-            "numPassedTests": 3,
+            "numTotalTests": 5,
+            "numPassedTests": 4,
             "numFailedTests": 1,
             "success": false
           },
@@ -2054,8 +2065,8 @@
         "restored": {
           "exitCode": 0,
           "summary": {
-            "numTotalTests": 4,
-            "numPassedTests": 4,
+            "numTotalTests": 5,
+            "numPassedTests": 5,
             "numFailedTests": 0,
             "success": true
           },
@@ -2072,9 +2083,9 @@
       "targetNameSubstring": "合成小输入走完事件管线",
       "axis": "输入轴单轴变异：bytecode giveItem 操作数 61→62（合法 wObjectID，词表 62 为空）；断言不动。",
       "sha256": {
-        "original": "429cfe36fbc3d93dadad32fdfd451354cda169f3343e1f3d55974d5358338e9c",
-        "mutated": "4caecad0f9f87ff552a0f9f74634cc7dcf05b59454396be00252e032da23a0d7",
-        "restored": "429cfe36fbc3d93dadad32fdfd451354cda169f3343e1f3d55974d5358338e9c"
+        "original": "9ac0d9a8325a480bbf033c1459056250cb20b11c4cdc990857c87392d0586bef",
+        "mutated": "20839693d73ca6c1854d96c823a7bbeea360cd284b8c859cf4d70b7d3d88efab",
+        "restored": "9ac0d9a8325a480bbf033c1459056250cb20b11c4cdc990857c87392d0586bef"
       },
       "restoredHashUnchanged": true,
       "criteria": {
@@ -2089,8 +2100,8 @@
         "positive": {
           "exitCode": 0,
           "summary": {
-            "numTotalTests": 4,
-            "numPassedTests": 4,
+            "numTotalTests": 5,
+            "numPassedTests": 5,
             "numFailedTests": 0,
             "success": true
           },
@@ -2100,8 +2111,8 @@
         "mutant": {
           "exitCode": 1,
           "summary": {
-            "numTotalTests": 4,
-            "numPassedTests": 3,
+            "numTotalTests": 5,
+            "numPassedTests": 4,
             "numFailedTests": 1,
             "success": false
           },
@@ -2111,8 +2122,8 @@
         "restored": {
           "exitCode": 0,
           "summary": {
-            "numTotalTests": 4,
-            "numPassedTests": 4,
+            "numTotalTests": 5,
+            "numPassedTests": 5,
             "numFailedTests": 0,
             "success": true
           },
@@ -2129,9 +2140,9 @@
       "targetNameSubstring": "合成小输入走完事件管线",
       "axis": "输入轴单轴变异：M.MSG 被引用窗口内末字节换为另一合法 GBK 字符；断言不动（按常量精确比对）。",
       "sha256": {
-        "original": "429cfe36fbc3d93dadad32fdfd451354cda169f3343e1f3d55974d5358338e9c",
-        "mutated": "eab7f05805cf85699140a14c6d4b655289f69529d56b06a1b9ce425cae002f31",
-        "restored": "429cfe36fbc3d93dadad32fdfd451354cda169f3343e1f3d55974d5358338e9c"
+        "original": "9ac0d9a8325a480bbf033c1459056250cb20b11c4cdc990857c87392d0586bef",
+        "mutated": "5b410e3a12432df6ffdbb3cae6cf73f6c058a2e1a0e1489cbf572ceb343f98dd",
+        "restored": "9ac0d9a8325a480bbf033c1459056250cb20b11c4cdc990857c87392d0586bef"
       },
       "restoredHashUnchanged": true,
       "criteria": {
@@ -2146,8 +2157,8 @@
         "positive": {
           "exitCode": 0,
           "summary": {
-            "numTotalTests": 4,
-            "numPassedTests": 4,
+            "numTotalTests": 5,
+            "numPassedTests": 5,
             "numFailedTests": 0,
             "success": true
           },
@@ -2157,8 +2168,8 @@
         "mutant": {
           "exitCode": 1,
           "summary": {
-            "numTotalTests": 4,
-            "numPassedTests": 3,
+            "numTotalTests": 5,
+            "numPassedTests": 4,
             "numFailedTests": 1,
             "success": false
           },
@@ -2168,8 +2179,8 @@
         "restored": {
           "exitCode": 0,
           "summary": {
-            "numTotalTests": 4,
-            "numPassedTests": 4,
+            "numTotalTests": 5,
+            "numPassedTests": 5,
             "numFailedTests": 0,
             "success": true
           },
@@ -2186,9 +2197,9 @@
       "targetNameSubstring": "合成 DATA.MKF 走完数据表段",
       "axis": "输入轴单轴变异：LEVELEXP chunk 200→198 字节（合法 99 条截断，parseLevelUpExp min(100, 99)）；断言不动。",
       "sha256": {
-        "original": "429cfe36fbc3d93dadad32fdfd451354cda169f3343e1f3d55974d5358338e9c",
-        "mutated": "62be75869adc94e8c54f9aa4e78803e12169f4bad75cbd2175a6be3eebc8d19a",
-        "restored": "429cfe36fbc3d93dadad32fdfd451354cda169f3343e1f3d55974d5358338e9c"
+        "original": "9ac0d9a8325a480bbf033c1459056250cb20b11c4cdc990857c87392d0586bef",
+        "mutated": "e5c55fc6ecd0de384982b7af941408113c7e5291b74dcb2d2b6f3fc6ac7bab38",
+        "restored": "9ac0d9a8325a480bbf033c1459056250cb20b11c4cdc990857c87392d0586bef"
       },
       "restoredHashUnchanged": true,
       "criteria": {
@@ -2203,8 +2214,8 @@
         "positive": {
           "exitCode": 0,
           "summary": {
-            "numTotalTests": 4,
-            "numPassedTests": 4,
+            "numTotalTests": 5,
+            "numPassedTests": 5,
             "numFailedTests": 0,
             "success": true
           },
@@ -2214,8 +2225,8 @@
         "mutant": {
           "exitCode": 1,
           "summary": {
-            "numTotalTests": 4,
-            "numPassedTests": 3,
+            "numTotalTests": 5,
+            "numPassedTests": 4,
             "numFailedTests": 1,
             "success": false
           },
@@ -2225,8 +2236,8 @@
         "restored": {
           "exitCode": 0,
           "summary": {
-            "numTotalTests": 4,
-            "numPassedTests": 4,
+            "numTotalTests": 5,
+            "numPassedTests": 5,
             "numFailedTests": 0,
             "success": true
           },
@@ -2804,7 +2815,8 @@
           "raw": "Q08-S1-RC4.restored.txt"
         }
       },
-      "verdict": "VALID"
+      "verdict": "VALID",
+      "note": "r9（Q-R8-01）：对应 C114 旧 room0 合同（existing-proof cross-check）——历史反控证据保留，不作为净新合同目标配额。"
     },
     {
       "id": "Q08-S1-RC5",
@@ -3206,21 +3218,21 @@
       "verdict": "VALID"
     },
     {
-      "id": "Q-NT8",
-      "file": "packages/reforge/src/enemy-closure.glm-q.test.ts",
-      "targetFullName": "Q05 collectReachableEnemyDefs enemyId 缺省的 summon 不入队；hooks 内 effect summon 参与闭包",
-      "targetNameSubstring": "enemyId 缺省的 summon 不入队",
-      "axis": "输入轴单轴变异：hook effect summon 目标 support→ghost（未登记敌 id；应精确抛「root summon 目标 ghost 不存在」→ rejects 恰一红）；断言不动。",
+      "id": "Q-FP1",
+      "file": "packages/pal-extract/src/cli-isolated.glm-q.test.ts",
+      "targetFullName": "Q10 CLI 隔离实跑：全管线合成输入走到底（MAP/GOP tileset + PAT 调色板 + 空 MGO/F/ABC + asset-manifest + done）",
+      "targetNameSubstring": "全管线合成输入走到底",
+      "axis": "输入轴单轴变异：PAT.MKF 2 chunk→1 chunk（去掉 1536B 日夜调色板；palette written 应 2→1 → toContain('2 chunks') 恰一红，nightColors 断言同红——恰一 fullName 内两断言同例）\n；断言不动。",
       "sha256": {
-        "original": "4c9d2efa7df5b13d3296b4b09c3134f23167880c0ccea1cabb2e36fc28606323",
-        "mutated": "f311a7c777e866751d2a5a023cdaa9ef18a2a3f3697766a3e27ace4fa87a1841",
-        "restored": "4c9d2efa7df5b13d3296b4b09c3134f23167880c0ccea1cabb2e36fc28606323"
+        "original": "9ac0d9a8325a480bbf033c1459056250cb20b11c4cdc990857c87392d0586bef",
+        "mutated": "4e203e809ffed5508cef7cb28f3b03a2c02ed6431027654f5afe7099afee9620",
+        "restored": "9ac0d9a8325a480bbf033c1459056250cb20b11c4cdc990857c87392d0586bef"
       },
       "restoredHashUnchanged": true,
       "criteria": {
         "positiveGreen": true,
         "mutantExactlyOneTargetRed": true,
-        "targetAssertionError": "Error: 敌人 \"root\" summon 目标 \"ghost\" 不存在",
+        "targetAssertionError": "AssertionError: expected '[pal-extract] start\\n[pal-extract] sc…' to contain 'palette written (2 chunks)'",
         "restoredGreen": true,
         "restoredSameExecutionCount": true,
         "hashesMatchFinalCandidate": true
@@ -3229,35 +3241,263 @@
         "positive": {
           "exitCode": 0,
           "summary": {
-            "numTotalTests": 6,
-            "numPassedTests": 6,
+            "numTotalTests": 5,
+            "numPassedTests": 5,
             "numFailedTests": 0,
             "success": true
           },
-          "json": "Q-NT8.positive.json",
-          "raw": "Q-NT8.positive.txt"
+          "json": "Q-FP1.positive.json",
+          "raw": "Q-FP1.positive.txt"
         },
         "mutant": {
           "exitCode": 1,
           "summary": {
-            "numTotalTests": 6,
-            "numPassedTests": 5,
+            "numTotalTests": 5,
+            "numPassedTests": 4,
             "numFailedTests": 1,
             "success": false
           },
-          "json": "Q-NT8.mutant.json",
-          "raw": "Q-NT8.mutant.txt"
+          "json": "Q-FP1.mutant.json",
+          "raw": "Q-FP1.mutant.txt"
         },
         "restored": {
           "exitCode": 0,
           "summary": {
-            "numTotalTests": 6,
-            "numPassedTests": 6,
+            "numTotalTests": 5,
+            "numPassedTests": 5,
             "numFailedTests": 0,
             "success": true
           },
-          "json": "Q-NT8.restored.json",
-          "raw": "Q-NT8.restored.txt"
+          "json": "Q-FP1.restored.json",
+          "raw": "Q-FP1.restored.txt"
+        }
+      },
+      "verdict": "VALID"
+    },
+    {
+      "id": "Q-FP2",
+      "file": "packages/pal-extract/src/cli-isolated.glm-q.test.ts",
+      "targetFullName": "Q10 CLI 隔离实跑：全管线合成输入走到底（MAP/GOP tileset + PAT 调色板 + 空 MGO/F/ABC + asset-manifest + done）",
+      "targetNameSubstring": "全管线合成输入走到底",
+      "axis": "输入轴单轴变异：GOP chunk0 合法 sprite→空 chunk（合法 MKF；mapNum0 被非空扫描略过 → tilesets written 2/2→1/1 → toContain('2 / 2') 恰一红；tileset/0.rle exists 断言同例同红）；断言不动。",
+      "sha256": {
+        "original": "9ac0d9a8325a480bbf033c1459056250cb20b11c4cdc990857c87392d0586bef",
+        "mutated": "d52bffe1a0c4f20c965cf3dde9f8c13c9e7b8516da294ace94bc3a0fc32ccc1e",
+        "restored": "9ac0d9a8325a480bbf033c1459056250cb20b11c4cdc990857c87392d0586bef"
+      },
+      "restoredHashUnchanged": true,
+      "criteria": {
+        "positiveGreen": true,
+        "mutantExactlyOneTargetRed": true,
+        "targetAssertionError": "AssertionError: expected 1 to be +0 // Object.is equality",
+        "restoredGreen": true,
+        "restoredSameExecutionCount": true,
+        "hashesMatchFinalCandidate": true
+      },
+      "runs": {
+        "positive": {
+          "exitCode": 0,
+          "summary": {
+            "numTotalTests": 5,
+            "numPassedTests": 5,
+            "numFailedTests": 0,
+            "success": true
+          },
+          "json": "Q-FP2.positive.json",
+          "raw": "Q-FP2.positive.txt"
+        },
+        "mutant": {
+          "exitCode": 1,
+          "summary": {
+            "numTotalTests": 5,
+            "numPassedTests": 4,
+            "numFailedTests": 1,
+            "success": false
+          },
+          "json": "Q-FP2.mutant.json",
+          "raw": "Q-FP2.mutant.txt"
+        },
+        "restored": {
+          "exitCode": 0,
+          "summary": {
+            "numTotalTests": 5,
+            "numPassedTests": 5,
+            "numFailedTests": 0,
+            "success": true
+          },
+          "json": "Q-FP2.restored.json",
+          "raw": "Q-FP2.restored.txt"
+        }
+      },
+      "verdict": "VALID"
+    },
+    {
+      "id": "Q-FP3",
+      "file": "packages/pal-extract/src/cli-isolated.glm-q.test.ts",
+      "targetFullName": "Q10 CLI 隔离实跑：全管线合成输入走到底（MAP/GOP tileset + PAT 调色板 + 空 MGO/F/ABC + asset-manifest + done）",
+      "targetNameSubstring": "全管线合成输入走到底",
+      "axis": "输入轴单轴变异：ABC 空 MKF→1 个 YJ2 零流 chunk（合法；battle sprite blobs written 0→1 → 恰一红）；断言不动。",
+      "sha256": {
+        "original": "9ac0d9a8325a480bbf033c1459056250cb20b11c4cdc990857c87392d0586bef",
+        "mutated": "658443ebbd5d936836121e1a115dff0868a283fddcc817d1da54bc7753531ed5",
+        "restored": "9ac0d9a8325a480bbf033c1459056250cb20b11c4cdc990857c87392d0586bef"
+      },
+      "restoredHashUnchanged": true,
+      "criteria": {
+        "positiveGreen": true,
+        "mutantExactlyOneTargetRed": true,
+        "targetAssertionError": "AssertionError: expected 1 to be +0 // Object.is equality",
+        "restoredGreen": true,
+        "restoredSameExecutionCount": true,
+        "hashesMatchFinalCandidate": true
+      },
+      "runs": {
+        "positive": {
+          "exitCode": 0,
+          "summary": {
+            "numTotalTests": 5,
+            "numPassedTests": 5,
+            "numFailedTests": 0,
+            "success": true
+          },
+          "json": "Q-FP3.positive.json",
+          "raw": "Q-FP3.positive.txt"
+        },
+        "mutant": {
+          "exitCode": 1,
+          "summary": {
+            "numTotalTests": 5,
+            "numPassedTests": 4,
+            "numFailedTests": 1,
+            "success": false
+          },
+          "json": "Q-FP3.mutant.json",
+          "raw": "Q-FP3.mutant.txt"
+        },
+        "restored": {
+          "exitCode": 0,
+          "summary": {
+            "numTotalTests": 5,
+            "numPassedTests": 5,
+            "numFailedTests": 0,
+            "success": true
+          },
+          "json": "Q-FP3.restored.json",
+          "raw": "Q-FP3.restored.txt"
+        }
+      },
+      "verdict": "VALID"
+    },
+    {
+      "id": "Q-FP4",
+      "file": "packages/pal-extract/src/cli-isolated.glm-q.test.ts",
+      "targetFullName": "Q10 CLI 隔离实跑：全管线合成输入走到底（MAP/GOP tileset + PAT 调色板 + 空 MGO/F/ABC + asset-manifest + done）",
+      "targetNameSubstring": "全管线合成输入走到底",
+      "axis": "输入轴单轴变异：FBP 5→3 chunk（合法 MKF；splash 段读 chunk3 越界 → 未捕获 throw → exitCode!==0 → toBe(0) 恰一红）；断言不动。",
+      "sha256": {
+        "original": "9ac0d9a8325a480bbf033c1459056250cb20b11c4cdc990857c87392d0586bef",
+        "mutated": "5701b191e65c32607d5ad550c67af87156e547edc3a3b7050220b5cc6b7c3d49",
+        "restored": "9ac0d9a8325a480bbf033c1459056250cb20b11c4cdc990857c87392d0586bef"
+      },
+      "restoredHashUnchanged": true,
+      "criteria": {
+        "positiveGreen": true,
+        "mutantExactlyOneTargetRed": true,
+        "targetAssertionError": "AssertionError: expected 1 to be +0 // Object.is equality",
+        "restoredGreen": true,
+        "restoredSameExecutionCount": true,
+        "hashesMatchFinalCandidate": true
+      },
+      "runs": {
+        "positive": {
+          "exitCode": 0,
+          "summary": {
+            "numTotalTests": 5,
+            "numPassedTests": 5,
+            "numFailedTests": 0,
+            "success": true
+          },
+          "json": "Q-FP4.positive.json",
+          "raw": "Q-FP4.positive.txt"
+        },
+        "mutant": {
+          "exitCode": 1,
+          "summary": {
+            "numTotalTests": 5,
+            "numPassedTests": 4,
+            "numFailedTests": 1,
+            "success": false
+          },
+          "json": "Q-FP4.mutant.json",
+          "raw": "Q-FP4.mutant.txt"
+        },
+        "restored": {
+          "exitCode": 0,
+          "summary": {
+            "numTotalTests": 5,
+            "numPassedTests": 5,
+            "numFailedTests": 0,
+            "success": true
+          },
+          "json": "Q-FP4.restored.json",
+          "raw": "Q-FP4.restored.txt"
+        }
+      },
+      "verdict": "VALID"
+    },
+    {
+      "id": "Q-FP5",
+      "file": "packages/pal-extract/src/cli-isolated.glm-q.test.ts",
+      "targetFullName": "Q10 CLI 隔离实跑：全管线合成输入走到底（MAP/GOP tileset + PAT 调色板 + 空 MGO/F/ABC + asset-manifest + done）",
+      "targetNameSubstring": "全管线合成输入走到底",
+      "axis": "输入轴单轴变异：palette768 色1 R 输入 1→2（合法 6bit 值；6→8bit 扩展后 [4,8,255]→[8,8,255] → toEqual 恰一红）；断言不动。",
+      "sha256": {
+        "original": "9ac0d9a8325a480bbf033c1459056250cb20b11c4cdc990857c87392d0586bef",
+        "mutated": "c85586d82c8608514cdcb0d648f8a74e582f03ef0961f219987a1de1a4d1cf80",
+        "restored": "9ac0d9a8325a480bbf033c1459056250cb20b11c4cdc990857c87392d0586bef"
+      },
+      "restoredHashUnchanged": true,
+      "criteria": {
+        "positiveGreen": true,
+        "mutantExactlyOneTargetRed": true,
+        "targetAssertionError": "AssertionError: expected [ 8, 8, 255 ] to deeply equal [ 4, 8, 255 ]",
+        "restoredGreen": true,
+        "restoredSameExecutionCount": true,
+        "hashesMatchFinalCandidate": true
+      },
+      "runs": {
+        "positive": {
+          "exitCode": 0,
+          "summary": {
+            "numTotalTests": 5,
+            "numPassedTests": 5,
+            "numFailedTests": 0,
+            "success": true
+          },
+          "json": "Q-FP5.positive.json",
+          "raw": "Q-FP5.positive.txt"
+        },
+        "mutant": {
+          "exitCode": 1,
+          "summary": {
+            "numTotalTests": 5,
+            "numPassedTests": 4,
+            "numFailedTests": 1,
+            "success": false
+          },
+          "json": "Q-FP5.mutant.json",
+          "raw": "Q-FP5.mutant.txt"
+        },
+        "restored": {
+          "exitCode": 0,
+          "summary": {
+            "numTotalTests": 5,
+            "numPassedTests": 5,
+            "numFailedTests": 0,
+            "success": true
+          },
+          "json": "Q-FP5.restored.json",
+          "raw": "Q-FP5.restored.txt"
         }
       },
       "verdict": "VALID"

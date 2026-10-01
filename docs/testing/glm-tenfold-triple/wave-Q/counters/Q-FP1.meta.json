@@ -1,0 +1,57 @@
+{
+  "id": "Q-FP1",
+  "file": "packages/pal-extract/src/cli-isolated.glm-q.test.ts",
+  "targetFullName": "Q10 CLI 隔离实跑：全管线合成输入走到底（MAP/GOP tileset + PAT 调色板 + 空 MGO/F/ABC + asset-manifest + done）",
+  "targetNameSubstring": "全管线合成输入走到底",
+  "axis": "输入轴单轴变异：PAT.MKF 2 chunk→1 chunk（去掉 1536B 日夜调色板；palette written 应 2→1 → toContain('2 chunks') 恰一红，nightColors 断言同红——恰一 fullName 内两断言同例）\n；断言不动。",
+  "sha256": {
+    "original": "9ac0d9a8325a480bbf033c1459056250cb20b11c4cdc990857c87392d0586bef",
+    "mutated": "4e203e809ffed5508cef7cb28f3b03a2c02ed6431027654f5afe7099afee9620",
+    "restored": "9ac0d9a8325a480bbf033c1459056250cb20b11c4cdc990857c87392d0586bef"
+  },
+  "restoredHashUnchanged": true,
+  "criteria": {
+    "positiveGreen": true,
+    "mutantExactlyOneTargetRed": true,
+    "targetAssertionError": "AssertionError: expected '[pal-extract] start\\n[pal-extract] sc…' to contain 'palette written (2 chunks)'",
+    "restoredGreen": true,
+    "restoredSameExecutionCount": true,
+    "hashesMatchFinalCandidate": true
+  },
+  "runs": {
+    "positive": {
+      "exitCode": 0,
+      "summary": {
+        "numTotalTests": 5,
+        "numPassedTests": 5,
+        "numFailedTests": 0,
+        "success": true
+      },
+      "json": "Q-FP1.positive.json",
+      "raw": "Q-FP1.positive.txt"
+    },
+    "mutant": {
+      "exitCode": 1,
+      "summary": {
+        "numTotalTests": 5,
+        "numPassedTests": 4,
+        "numFailedTests": 1,
+        "success": false
+      },
+      "json": "Q-FP1.mutant.json",
+      "raw": "Q-FP1.mutant.txt"
+    },
+    "restored": {
+      "exitCode": 0,
+      "summary": {
+        "numTotalTests": 5,
+        "numPassedTests": 5,
+        "numFailedTests": 0,
+        "success": true
+      },
+      "json": "Q-FP1.restored.json",
+      "raw": "Q-FP1.restored.txt"
+    }
+  },
+  "verdict": "VALID"
+}

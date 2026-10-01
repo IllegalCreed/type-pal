@@ -1,0 +1,1 @@
+    'ABC.MKF': mkf([yj2Zeros(8)]), // 变异轴：ABC 加 1 个可解 chunk（合法；battle sprite 0→1 → toContain('0 sprites') 恰一红）

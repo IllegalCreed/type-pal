@@ -215,6 +215,67 @@ function buildImageStageInputs(): Record<string, Uint8Array> {
   }
 }
 
+/**
+ * 全管线合成输入（增量批，r9）：使 CLI 完整走到底（asset-manifest + done）。
+ *   FBP.MKF = 5 chunk：0 空(skip)、1 {0,0,0,0} 零流(解出 0B≠64000 warn skip)、
+ *     2 坏流(decompress throw warn skip)、3/4 不提供(YJ2 数据难精确合成 64000，全走 skip 路径)；
+ *   MAP.MKF = 2 chunk：0 = {65536 零流}（YJ2 解出 65536B 全零 → parseMap 走通，全 cell lower/upper=0）、
+ *     1 短 chunk（YJ2 头 2B 解出 2B ≠ 65536 → parseMap throw → warn skip）；
+ *   GOP.MKF = 1 chunk = encodeSpriteChunk 合成 1 帧（tileset gzip blob）；
+ *   PAT.MKF = 2 chunk：0 = 768B 调色板（日间）、1 = 1536B（日+夜）；<768 chunk 不加；
+ *   MGO/F/ABC.MKF = 0 chunk 空 MKF（dump-all 循环零次）；unifont-cn.bdf 不提供（warn 跳过）。
+ */
+function yj2Zeros(uncompressedLen: number): Uint8Array {
+  const src = new Uint8Array(4 + 64)
+  new DataView(src.buffer).setUint32(0, uncompressedLen, true)
+  return src
+}
+
+function buildFullPipelineInputs(): Record<string, Uint8Array> {
+  const palette768 = new Uint8Array(768)
+  for (let i = 0; i < 256; i++) {
+    palette768[i * 3] = i
+    palette768[i * 3 + 1] = (i * 2) % 256
+    palette768[i * 3 + 2] = 255 - i
+  }
+  const palette1536 = new Uint8Array(1536)
+  palette1536.set(palette768, 0)
+  palette1536.set(palette768, 768)
+  return {
+    ...buildImageStageInputs(),
+    'FBP.MKF': mkf([
+      new Uint8Array(0),
+      yj2Zeros(0),
+      new Uint8Array(0),
+      new Uint8Array(0),
+      new Uint8Array(0),
+    ]), // chunk3/4 空 → splash skip
+    'MAP.MKF': mkf([yj2Zeros(65536), yj2Zeros(65536)]), // chunk1 = scene(mapNum=1) 引用；两 chunk 均解出 65536B 全零
+    'GOP.MKF': mkf([
+      encodeSpriteChunk([
+        {
+          width: 4,
+          height: 4,
+          pixels: new Uint8Array(16).fill(3),
+          opaque: new Uint8Array(16).fill(1),
+        },
+      ]),
+      encodeSpriteChunk([
+        {
+          width: 4,
+          height: 4,
+          pixels: new Uint8Array(16).fill(5),
+          opaque: new Uint8Array(16).fill(1),
+        },
+      ]),
+    ]),
+    'PAT.MKF': mkf([palette768, palette1536]),
+    'MGO.MKF': mkf([]),
+    'F.MKF': mkf([]),
+    'ABC.MKF': mkf([]),
+  }
+}
+
 const trees: string[] = []
 afterAll(() => {
   for (const tree of trees) rmSync(tree, { recursive: true, force: true })
@@ -354,6 +415,53 @@ test('Q10 CLI 隔离实跑：合成图像/音频段（RNG 空 chunk/RGM/BALL 合
   expect(existsSync(out('music/TRACK02.ogg'))).toBe(true)
   const music = JSON.parse(readFileSync(out('data/music-manifest.json'), 'utf8'))
   expect(music).toEqual({ midi: [7], cdTracks: ['TRACK02.ogg'] })
+})
+
+test('Q10 CLI 隔离实跑：全管线合成输入走到底（MAP/GOP tileset + PAT 调色板 + 空 MGO/F/ABC + asset-manifest + done）', async () => {
+  const tree = makeTree({
+    'SSS.MKF': buildSss(),
+    'M.MSG': new TextEncoder().encode(MSG_TEXT),
+    'WORD.DAT': buildWordDat(),
+    'DATA.MKF': buildDataMkf(),
+    ...buildFullPipelineInputs(),
+  })
+  const musics = join(tree, 'data', 'raw', 'Musics')
+  mkdirSync(musics, { recursive: true })
+  trees.push(tree)
+  const result = await runCli(tree)
+  expect(result.exitCode).toBe(0)
+  // 全管线完成 → exit 0 + done 日志
+  expect(result.stdout).toContain('tilesets written: 2 / 2 unique mapNums')
+  expect(result.stdout).toContain('palette written (2 chunks)')
+  expect(result.stdout).toContain('sprite blobs written: 0 sprites, 0 frames total')
+  expect(result.stdout).toContain('battle sprite blobs written: 0 sprites, 0 frames total')
+  expect(result.stdout).toContain('battle backgrounds written: 0 / 5 chunks')
+  expect(result.stderr).toContain('unifont-cn.bdf 缺,跳过 font') // console.warn → stderr
+  expect(result.stdout).toContain('[extract] asset-manifest.json:')
+  expect(result.stdout).toContain('[pal-extract] done. output →')
+
+  const out = (rel: string) => join(tree, 'data', 'extracted', rel)
+  // MAP chunk0（零流 65536B 全零）：tilemap 走通、cell 全 0
+  const tilemap = JSON.parse(readFileSync(out('data/tilemap/0.json'), 'utf8'))
+  expect(tilemap.width).toBe(64)
+  expect(tilemap.height).toBe(128)
+  expect(tilemap.cells).toHaveLength(128)
+  expect(tilemap.cells[0]).toHaveLength(64)
+  expect(tilemap.cells[0][0]).toEqual({ lower: 130, upper: 0 }) // 零流 YJ2 首符号 130（Huffman 初始字面量），后续全 0
+  expect(existsSync(out('data/tileset/0.rle'))).toBe(true)
+  // PAT：768B 日间 + 1536B 日夜
+  const pal0 = JSON.parse(readFileSync(out('data/palette/0.json'), 'utf8'))
+  expect(pal0.colors).toHaveLength(256)
+  expect(pal0.colors[1]).toEqual([4, 8, 255]) // 6bit→8bit 扩展 ((v<<2)|(v>>4))&0xff：1→4, 2→8, 254 输入实际是 (255-1)=254→255
+  expect(pal0.nightColors).toBeUndefined()
+  const pal1 = JSON.parse(readFileSync(out('data/palette/1.json'), 'utf8'))
+  expect(pal1.nightColors).toHaveLength(256)
+  // MAP chunk1 同为合法 65536B → tilemap/1.json 也写出
+  const tilemap1 = JSON.parse(readFileSync(out('data/tilemap/1.json'), 'utf8'))
+  expect(tilemap1.cells[0][0]).toEqual({ lower: 130, upper: 0 })
+  // asset-manifest 自洽
+  const manifest = JSON.parse(readFileSync(out('asset-manifest.json'), 'utf8'))
+  expect(manifest.fileCount).toBeGreaterThan(10)
 })
 
 test('Q10 CLI 隔离实跑：截断 SSS chunk0 在解析边界精确拒绝且不产出事件文件', async () => {
