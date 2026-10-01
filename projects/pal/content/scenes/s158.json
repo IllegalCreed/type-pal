@@ -142,73 +142,63 @@
             "label": "触发行为 1",
             "order": 1,
             "flow": {
-              "kind": "stateMachine",
-              "machine": {
-                "id": "machine",
-                "label": "触发行为 1",
-                "initial": "initial",
-                "states": {
-                  "initial": {
-                    "label": "首次执行",
-                    "body": [
-                      {
-                        "kind": "dialog",
-                        "cue": {
-                          "rows": [
-                            {
-                              "text": "dlg.8275"
-                            },
-                            {
-                              "text": "dlg.8276"
-                            }
-                          ],
-                          "identity": {
-                            "kind": "unbound",
-                            "speaker": "spk.青衣弟子"
+              "kind": "stages",
+              "initial": "initial",
+              "stages": [
+                {
+                  "id": "initial",
+                  "body": [
+                    {
+                      "kind": "dialog",
+                      "cue": {
+                        "rows": [
+                          {
+                            "text": "dlg.8275"
+                          },
+                          {
+                            "text": "dlg.8276"
                           }
+                        ],
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.青衣弟子"
                         }
+                      }
+                    },
+                    {
+                      "kind": "loadScene",
+                      "scene": "s161",
+                      "pos": {
+                        "col": 123,
+                        "row": 94,
+                        "height": 0
                       },
-                      {
-                        "kind": "loadScene",
-                        "scene": "s161",
-                        "pos": {
-                          "col": 123,
-                          "row": 94,
-                          "height": 0
-                        },
-                        "transition": {
-                          "kind": "source",
-                          "outMs": 600,
-                          "inMs": 600,
-                          "color": "black",
-                          "evidenceId": "pal-load-scene-22651"
-                        }
+                      "transition": {
+                        "kind": "source",
+                        "outMs": 600,
+                        "inMs": 600,
+                        "color": "black",
+                        "evidenceId": "pal-load-scene-22651"
                       }
-                    ],
-                    "next": {
-                      "kind": "advance",
-                      "state": "after-checkpoint"
                     }
-                  },
-                  "after-checkpoint": {
-                    "label": "检查点后的执行",
-                    "body": [
-                      {
-                        "kind": "loadScene",
-                        "scene": "s161",
-                        "pos": {
-                          "col": 123,
-                          "row": 94,
-                          "height": 0
-                        }
+                  ],
+                  "next": "after-checkpoint"
+                },
+                {
+                  "id": "after-checkpoint",
+                  "body": [
+                    {
+                      "kind": "loadScene",
+                      "scene": "s161",
+                      "pos": {
+                        "col": 123,
+                        "row": 94,
+                        "height": 0
                       }
-                    ],
-                    "next": {
-                      "kind": "stay"
                     }
-                  }
+                  ]
                 }
-              }
+              ]
             }
           }
         }

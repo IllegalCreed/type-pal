@@ -730,121 +730,111 @@
             "label": "默认触发行为",
             "order": 0,
             "flow": {
-              "kind": "stateMachine",
-              "machine": {
-                "id": "machine",
-                "label": "默认触发行为",
-                "initial": "initial",
-                "states": {
-                  "initial": {
-                    "label": "首次执行",
-                    "body": [
-                      {
-                        "kind": "dialog",
-                        "cue": {
-                          "rows": [
-                            {
-                              "text": "dlg.2289"
-                            },
-                            {
-                              "text": "dlg.2290"
-                            },
-                            {
-                              "text": "dlg.2291"
-                            },
-                            {
-                              "text": "dlg.2292"
-                            },
-                            {
-                              "text": "dlg.2293"
-                            },
-                            {
-                              "text": "dlg.2294"
-                            },
-                            {
-                              "text": "dlg.2295"
-                            },
-                            {
-                              "text": "dlg.2296"
-                            }
-                          ],
-                          "identity": {
-                            "kind": "unbound",
-                            "speaker": "spk.卖吃小贩"
+              "kind": "stages",
+              "initial": "initial",
+              "stages": [
+                {
+                  "id": "initial",
+                  "body": [
+                    {
+                      "kind": "dialog",
+                      "cue": {
+                        "rows": [
+                          {
+                            "text": "dlg.2289"
+                          },
+                          {
+                            "text": "dlg.2290"
+                          },
+                          {
+                            "text": "dlg.2291"
+                          },
+                          {
+                            "text": "dlg.2292"
+                          },
+                          {
+                            "text": "dlg.2293"
+                          },
+                          {
+                            "text": "dlg.2294"
+                          },
+                          {
+                            "text": "dlg.2295"
+                          },
+                          {
+                            "text": "dlg.2296"
                           }
+                        ],
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.卖吃小贩"
                         }
-                      },
-                      {
-                        "kind": "clearDialog"
-                      },
-                      {
-                        "kind": "dialog",
-                        "cue": {
-                          "rows": [
-                            {
-                              "text": "dlg.2297"
-                            }
-                          ],
-                          "identity": {
-                            "kind": "unbound",
-                            "speaker": "spk.卖吃小贩"
-                          }
-                        }
-                      },
-                      {
-                        "kind": "dialog",
-                        "cue": {
-                          "rows": [
-                            {
-                              "text": "dlg.2298"
-                            }
-                          ],
-                          "identity": {
-                            "kind": "unbound",
-                            "speaker": "spk.卖吃小贩"
-                          }
-                        }
-                      },
-                      {
-                        "kind": "openShop",
-                        "shop": 4,
-                        "mode": "buy"
                       }
-                    ],
-                    "next": {
-                      "kind": "advance",
-                      "state": "after-checkpoint"
-                    }
-                  },
-                  "after-checkpoint": {
-                    "label": "检查点后的执行",
-                    "body": [
-                      {
-                        "kind": "dialog",
-                        "cue": {
-                          "rows": [
-                            {
-                              "text": "dlg.2298"
-                            }
-                          ],
-                          "identity": {
-                            "kind": "unbound",
-                            "speaker": "spk.卖吃小贩"
+                    },
+                    {
+                      "kind": "clearDialog"
+                    },
+                    {
+                      "kind": "dialog",
+                      "cue": {
+                        "rows": [
+                          {
+                            "text": "dlg.2297"
                           }
+                        ],
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.卖吃小贩"
                         }
-                      },
-                      {
-                        "kind": "openShop",
-                        "shop": 4,
-                        "mode": "buy"
                       }
-                    ],
-                    "next": {
-                      "kind": "stay"
+                    },
+                    {
+                      "kind": "dialog",
+                      "cue": {
+                        "rows": [
+                          {
+                            "text": "dlg.2298"
+                          }
+                        ],
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.卖吃小贩"
+                        }
+                      }
+                    },
+                    {
+                      "kind": "openShop",
+                      "shop": 4,
+                      "mode": "buy"
                     }
-                  }
+                  ],
+                  "next": "after-checkpoint"
+                },
+                {
+                  "id": "after-checkpoint",
+                  "body": [
+                    {
+                      "kind": "dialog",
+                      "cue": {
+                        "rows": [
+                          {
+                            "text": "dlg.2298"
+                          }
+                        ],
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.卖吃小贩"
+                        }
+                      }
+                    },
+                    {
+                      "kind": "openShop",
+                      "shop": 4,
+                      "mode": "buy"
+                    }
+                  ]
                 }
-              }
+              ]
             }
           }
         },

@@ -68,6 +68,93 @@ describe('CanonicalScriptEditor author presentation', () => {
     host.remove()
   })
 
+  test('explicitly organizes first conversation and repetition into real author steps', async () => {
+    const original: AuthorScriptFlow = {
+      kind: 'stateMachine',
+      machine: {
+        id: 'talk',
+        label: '交谈',
+        initial: 'first',
+        states: {
+          first: {
+            label: '首次',
+            body: [{ kind: 'giveMoney', delta: 7 }],
+            next: { kind: 'advance', state: 'repeat' },
+          },
+          repeat: {
+            label: '复读',
+            body: [{ kind: 'setFlag', flag: 'repeat', value: true }],
+            next: { kind: 'stay' },
+          },
+        },
+      },
+    }
+    let saved: AuthorScriptFlow = original
+    const changes = vi.fn()
+    function Harness() {
+      const [flow, setFlow] = useState<AuthorScriptFlow>(original)
+      return (
+        <CanonicalScriptFlowEditor
+          flow={flow}
+          onChange={(next) => {
+            saved = next
+            changes(next)
+            setFlow(next)
+            return true
+          }}
+        />
+      )
+    }
+    await act(async () => root.render(<Harness />))
+    expect(changes).not.toHaveBeenCalled()
+    const organize = [...host.querySelectorAll<HTMLButtonElement>('button')].find(
+      (candidate) => candidate.textContent === '整理为步骤',
+    )
+    expect(organize).toBeDefined()
+    await act(async () => organize!.click())
+    expect(changes).toHaveBeenCalledOnce()
+    expect(saved).toEqual({
+      kind: 'stages',
+      initial: 'first',
+      stages: [
+        { id: 'first', body: [{ kind: 'giveMoney', delta: 7 }], next: 'repeat' },
+        { id: 'repeat', body: [{ kind: 'setFlag', flag: 'repeat', value: true }] },
+      ],
+    })
+    expect(host.querySelectorAll('.canonical-stage-card')).toHaveLength(2)
+    expect(host.textContent).toContain('下次进入步骤 2')
+    expect(host.textContent).toContain('下次仍执行当前步骤')
+    expect(host.textContent).not.toContain('新建状态')
+  })
+
+  test('failed author-step organization keeps the old flow visible and does not invent a success', async () => {
+    const onChange = vi.fn(() => false)
+    await act(async () =>
+      root.render(
+        <CanonicalScriptFlowEditor
+          flow={{
+            kind: 'stateMachine',
+            machine: {
+              id: 'talk',
+              label: '交谈',
+              initial: 'first',
+              states: { first: { label: '首次', body: [], next: { kind: 'stay' } } },
+            },
+          }}
+          onChange={onChange}
+        />,
+      ),
+    )
+    const organize = [...host.querySelectorAll<HTMLButtonElement>('button')].find(
+      (candidate) => candidate.textContent === '整理为步骤',
+    )
+    expect(organize).toBeDefined()
+    await act(async () => organize!.click())
+    expect(onChange).toHaveBeenCalledOnce()
+    expect(host.querySelector('.canonical-stage-card')).toBeNull()
+    expect(host.textContent).toContain('首次')
+  })
+
   test('single-step details choose completion or repetition without manufacturing another step', async () => {
     let saved: AuthorScriptFlow | undefined
     function Harness() {

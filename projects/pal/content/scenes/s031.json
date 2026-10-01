@@ -91,64 +91,54 @@
             "label": "默认触发行为",
             "order": 0,
             "flow": {
-              "kind": "stateMachine",
-              "machine": {
-                "id": "machine",
-                "label": "默认触发行为",
-                "initial": "initial",
-                "states": {
-                  "initial": {
-                    "label": "首次执行",
-                    "body": [
-                      {
-                        "kind": "dialog",
-                        "cue": {
-                          "rows": [
-                            {
-                              "text": "dlg.2426"
-                            },
-                            {
-                              "text": "dlg.2427"
-                            },
-                            {
-                              "text": "dlg.2428"
-                            }
-                          ],
-                          "identity": {
-                            "kind": "unbound",
-                            "speaker": "spk.铁铺老板"
+              "kind": "stages",
+              "initial": "initial",
+              "stages": [
+                {
+                  "id": "initial",
+                  "body": [
+                    {
+                      "kind": "dialog",
+                      "cue": {
+                        "rows": [
+                          {
+                            "text": "dlg.2426"
+                          },
+                          {
+                            "text": "dlg.2427"
+                          },
+                          {
+                            "text": "dlg.2428"
                           }
+                        ],
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.铁铺老板"
                         }
-                      },
-                      {
-                        "kind": "clearDialog"
-                      },
-                      {
-                        "kind": "openShop",
-                        "shop": 6,
-                        "mode": "buy"
                       }
-                    ],
-                    "next": {
-                      "kind": "advance",
-                      "state": "after-checkpoint"
+                    },
+                    {
+                      "kind": "clearDialog"
+                    },
+                    {
+                      "kind": "openShop",
+                      "shop": 6,
+                      "mode": "buy"
                     }
-                  },
-                  "after-checkpoint": {
-                    "label": "检查点后的执行",
-                    "body": [
-                      {
-                        "kind": "openShop",
-                        "shop": 6,
-                        "mode": "buy"
-                      }
-                    ],
-                    "next": {
-                      "kind": "stay"
+                  ],
+                  "next": "after-checkpoint"
+                },
+                {
+                  "id": "after-checkpoint",
+                  "body": [
+                    {
+                      "kind": "openShop",
+                      "shop": 6,
+                      "mode": "buy"
                     }
-                  }
+                  ]
                 }
-              }
+              ]
             }
           }
         },

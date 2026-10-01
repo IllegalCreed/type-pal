@@ -942,72 +942,62 @@
           "label": "默认进场行为",
           "order": 0,
           "flow": {
-            "kind": "stateMachine",
-            "machine": {
-              "id": "machine",
-              "label": "默认进场行为",
-              "initial": "initial",
-              "states": {
-                "initial": {
-                  "label": "首次执行",
-                  "entry": {
-                    "prepare": [
-                      {
-                        "kind": "stopMusic"
-                      },
-                      {
-                        "kind": "playSound",
-                        "asset": "sound.pal.103"
-                      }
-                    ],
-                    "reveal": {
-                      "kind": "dither",
-                      "ms": 2160,
-                      "source": "previousPresentedFrame"
-                    }
-                  },
-                  "body": [
+            "kind": "stages",
+            "initial": "initial",
+            "stages": [
+              {
+                "id": "initial",
+                "entry": {
+                  "prepare": [
                     {
-                      "kind": "dialog",
-                      "cue": {
-                        "identity": {
-                          "kind": "narration"
-                        },
-                        "rows": [
-                          {
-                            "text": "dlg.9775"
-                          },
-                          {
-                            "text": "dlg.9776"
-                          }
-                        ],
-                        "slot": "center"
-                      }
+                      "kind": "stopMusic"
                     },
                     {
-                      "kind": "playMusic",
-                      "asset": "music.pal.035"
+                      "kind": "playSound",
+                      "asset": "sound.pal.103"
                     }
                   ],
-                  "next": {
-                    "kind": "advance",
-                    "state": "after-checkpoint"
+                  "reveal": {
+                    "kind": "dither",
+                    "ms": 2160,
+                    "source": "previousPresentedFrame"
                   }
                 },
-                "after-checkpoint": {
-                  "label": "检查点后的执行",
-                  "body": [
-                    {
-                      "kind": "playMusic",
-                      "asset": "music.pal.035"
+                "body": [
+                  {
+                    "kind": "dialog",
+                    "cue": {
+                      "identity": {
+                        "kind": "narration"
+                      },
+                      "rows": [
+                        {
+                          "text": "dlg.9775"
+                        },
+                        {
+                          "text": "dlg.9776"
+                        }
+                      ],
+                      "slot": "center"
                     }
-                  ],
-                  "next": {
-                    "kind": "stay"
+                  },
+                  {
+                    "kind": "playMusic",
+                    "asset": "music.pal.035"
                   }
-                }
+                ],
+                "next": "after-checkpoint"
+              },
+              {
+                "id": "after-checkpoint",
+                "body": [
+                  {
+                    "kind": "playMusic",
+                    "asset": "music.pal.035"
+                  }
+                ]
               }
-            }
+            ]
           }
         }
       }

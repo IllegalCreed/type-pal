@@ -153,7 +153,7 @@ const expectedNonEarlyOnEnterScenes = [
   's251',
 ]
 
-describe('X3-1 · PAL 生成产物的显式入场分类', () => {
+describe('X3-1 · PAL 作者工程的显式入场分类', () => {
   test('11 个早期 dither 站点全部提升，含 s182 dynamic hook', () => {
     const sites = collectEntrySites()
     expect(sites.map((site) => site.targetScene).sort()).toEqual(expectedEntryScenes)
@@ -205,10 +205,15 @@ describe('X3-1 · PAL 生成产物的显式入场分类', () => {
     for (const { sceneId, prepareKinds, bodyKinds } of expected) {
       const scene = scenes.find((candidate) => candidate.id === sceneId)
       const flow = scene?.hooks?.onEnter?.variants.default?.flow
-      expect(flow?.kind, sceneId).toBe('stateMachine')
-      if (flow?.kind !== 'stateMachine') continue
-      const initial = flow.machine.states.initial
-      const afterCheckpoint = flow.machine.states['after-checkpoint']
+      expect(flow?.kind, sceneId).toBe('stages')
+      if (flow?.kind !== 'stages') throw new Error(`${sceneId}: expected ordinary author steps`)
+      expect(flow.initial, sceneId).toBe('initial')
+      expect(
+        flow.stages.map((stage) => stage.id),
+        sceneId,
+      ).toEqual(['initial', 'after-checkpoint'])
+      const initial = flow.stages.find((stage) => stage.id === 'initial')
+      const afterCheckpoint = flow.stages.find((stage) => stage.id === 'after-checkpoint')
       expect(initial?.entry, sceneId).toMatchObject({
         reveal: { kind: 'dither', ms: 2160, source: 'previousPresentedFrame' },
       })
@@ -220,17 +225,13 @@ describe('X3-1 · PAL 生成产物的显式入场分类', () => {
         initial?.body.map((command) => command.kind),
         `${sceneId}/initial.body`,
       ).toEqual(bodyKinds)
-      expect(initial?.next, `${sceneId}/initial.next`).toEqual({
-        kind: 'advance',
-        state: 'after-checkpoint',
-      })
+      expect(initial?.next, `${sceneId}/initial.next`).toBe('after-checkpoint')
       expect(
         afterCheckpoint?.body.map((command) => command.kind),
         `${sceneId}/after-checkpoint.body`,
       ).toEqual(['playMusic'])
-      expect(afterCheckpoint?.next, `${sceneId}/after-checkpoint.next`).toEqual({
-        kind: 'stay',
-      })
+      expect(afterCheckpoint?.entry, `${sceneId}/after-checkpoint.entry`).toBeUndefined()
+      expect(afterCheckpoint?.next, `${sceneId}/after-checkpoint.next`).toBeUndefined()
     }
   })
 

@@ -91,312 +91,302 @@
             "label": "默认触发行为",
             "order": 0,
             "flow": {
-              "kind": "stateMachine",
-              "machine": {
-                "id": "machine",
-                "label": "默认触发行为",
-                "initial": "initial",
-                "states": {
-                  "initial": {
-                    "label": "首次执行",
-                    "body": [
-                      {
-                        "kind": "dialog",
-                        "cue": {
-                          "rows": [
-                            {
-                              "text": "dlg.3954"
-                            }
-                          ],
-                          "identity": {
-                            "kind": "unbound",
-                            "speaker": "spk.骆员外",
-                            "portrait": {
-                              "asset": "portrait.pal.066",
-                              "side": "left"
-                            }
-                          },
-                          "slot": "top"
-                        }
-                      },
-                      {
-                        "kind": "clearDialog"
-                      },
-                      {
-                        "kind": "dialog",
-                        "cue": {
-                          "rows": [
-                            {
-                              "text": "dlg.3956"
-                            },
-                            {
-                              "text": "dlg.3957"
-                            },
-                            {
-                              "text": "dlg.3958"
-                            }
-                          ],
-                          "identity": {
-                            "kind": "unbound",
-                            "speaker": "spk.李逍遥",
-                            "portrait": {
-                              "asset": "portrait.pal.001",
-                              "side": "right"
-                            }
+              "kind": "stages",
+              "initial": "initial",
+              "stages": [
+                {
+                  "id": "initial",
+                  "body": [
+                    {
+                      "kind": "dialog",
+                      "cue": {
+                        "rows": [
+                          {
+                            "text": "dlg.3954"
                           }
-                        }
-                      },
-                      {
-                        "kind": "clearDialog"
-                      },
-                      {
-                        "kind": "dialog",
-                        "cue": {
-                          "rows": [
-                            {
-                              "text": "dlg.3959"
-                            },
-                            {
-                              "text": "dlg.3960"
-                            },
-                            {
-                              "text": "dlg.3961"
-                            }
-                          ],
-                          "identity": {
-                            "kind": "unbound",
-                            "speaker": "spk.李逍遥",
-                            "portrait": {
-                              "asset": "portrait.pal.001",
-                              "side": "right"
-                            }
+                        ],
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.骆员外",
+                          "portrait": {
+                            "asset": "portrait.pal.066",
+                            "side": "left"
                           }
-                        }
-                      },
-                      {
-                        "kind": "clearDialog"
-                      },
-                      {
-                        "kind": "dialog",
-                        "cue": {
-                          "rows": [
-                            {
-                              "text": "dlg.3963"
-                            },
-                            {
-                              "text": "dlg.3964"
-                            }
-                          ],
-                          "identity": {
-                            "kind": "unbound",
-                            "speaker": "spk.骆员外",
-                            "portrait": {
-                              "asset": "portrait.pal.066",
-                              "side": "left"
-                            }
-                          },
-                          "slot": "top"
-                        }
-                      },
-                      {
-                        "kind": "clearDialog"
-                      },
-                      {
-                        "kind": "dialog",
-                        "cue": {
-                          "rows": [
-                            {
-                              "text": "dlg.3966"
-                            },
-                            {
-                              "text": "dlg.3967"
-                            }
-                          ],
-                          "identity": {
-                            "kind": "unbound",
-                            "speaker": "spk.李逍遥",
-                            "portrait": {
-                              "asset": "portrait.pal.001",
-                              "side": "right"
-                            }
-                          }
-                        }
-                      },
-                      {
-                        "kind": "clearDialog"
-                      },
-                      {
-                        "kind": "dialog",
-                        "cue": {
-                          "rows": [
-                            {
-                              "text": "dlg.3969"
-                            },
-                            {
-                              "text": "dlg.3970"
-                            },
-                            {
-                              "text": "dlg.3971"
-                            },
-                            {
-                              "text": "dlg.3972"
-                            },
-                            {
-                              "text": "dlg.3973"
-                            },
-                            {
-                              "text": "dlg.3974"
-                            },
-                            {
-                              "text": "dlg.3975"
-                            }
-                          ],
-                          "identity": {
-                            "kind": "unbound",
-                            "speaker": "spk.骆员外",
-                            "portrait": {
-                              "asset": "portrait.pal.066",
-                              "side": "left"
-                            }
-                          },
-                          "slot": "top"
-                        }
-                      },
-                      {
-                        "kind": "clearDialog"
-                      },
-                      {
-                        "kind": "dialog",
-                        "cue": {
-                          "rows": [
-                            {
-                              "text": "dlg.3977"
-                            },
-                            {
-                              "text": "dlg.3978"
-                            }
-                          ],
-                          "identity": {
-                            "kind": "unbound",
-                            "speaker": "spk.骆员外",
-                            "portrait": {
-                              "asset": "portrait.pal.066",
-                              "side": "left"
-                            }
-                          },
-                          "slot": "top"
-                        }
-                      },
-                      {
-                        "kind": "clearDialog"
-                      },
-                      {
-                        "kind": "dialog",
-                        "cue": {
-                          "rows": [
-                            {
-                              "text": "dlg.3979"
-                            },
-                            {
-                              "text": "dlg.3980"
-                            },
-                            {
-                              "text": "dlg.3981"
-                            }
-                          ],
-                          "identity": {
-                            "kind": "unbound",
-                            "speaker": "spk.骆员外",
-                            "portrait": {
-                              "asset": "portrait.pal.066",
-                              "side": "left"
-                            }
-                          },
-                          "slot": "top"
-                        }
-                      },
-                      {
-                        "kind": "clearDialog"
-                      },
-                      {
-                        "kind": "openShop",
-                        "shop": 9,
-                        "mode": "buy"
+                        },
+                        "slot": "top"
                       }
-                    ],
-                    "next": {
-                      "kind": "advance",
-                      "state": "after-checkpoint"
-                    }
-                  },
-                  "after-checkpoint": {
-                    "label": "检查点后的执行",
-                    "body": [
-                      {
-                        "kind": "dialog",
-                        "cue": {
-                          "rows": [
-                            {
-                              "text": "dlg.3977"
-                            },
-                            {
-                              "text": "dlg.3978"
-                            }
-                          ],
-                          "identity": {
-                            "kind": "unbound",
-                            "speaker": "spk.骆员外",
-                            "portrait": {
-                              "asset": "portrait.pal.066",
-                              "side": "left"
-                            }
+                    },
+                    {
+                      "kind": "clearDialog"
+                    },
+                    {
+                      "kind": "dialog",
+                      "cue": {
+                        "rows": [
+                          {
+                            "text": "dlg.3956"
                           },
-                          "slot": "top"
-                        }
-                      },
-                      {
-                        "kind": "clearDialog"
-                      },
-                      {
-                        "kind": "dialog",
-                        "cue": {
-                          "rows": [
-                            {
-                              "text": "dlg.3979"
-                            },
-                            {
-                              "text": "dlg.3980"
-                            },
-                            {
-                              "text": "dlg.3981"
-                            }
-                          ],
-                          "identity": {
-                            "kind": "unbound",
-                            "speaker": "spk.骆员外",
-                            "portrait": {
-                              "asset": "portrait.pal.066",
-                              "side": "left"
-                            }
+                          {
+                            "text": "dlg.3957"
                           },
-                          "slot": "top"
+                          {
+                            "text": "dlg.3958"
+                          }
+                        ],
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.李逍遥",
+                          "portrait": {
+                            "asset": "portrait.pal.001",
+                            "side": "right"
+                          }
                         }
-                      },
-                      {
-                        "kind": "clearDialog"
-                      },
-                      {
-                        "kind": "openShop",
-                        "shop": 9,
-                        "mode": "buy"
                       }
-                    ],
-                    "next": {
-                      "kind": "stay"
+                    },
+                    {
+                      "kind": "clearDialog"
+                    },
+                    {
+                      "kind": "dialog",
+                      "cue": {
+                        "rows": [
+                          {
+                            "text": "dlg.3959"
+                          },
+                          {
+                            "text": "dlg.3960"
+                          },
+                          {
+                            "text": "dlg.3961"
+                          }
+                        ],
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.李逍遥",
+                          "portrait": {
+                            "asset": "portrait.pal.001",
+                            "side": "right"
+                          }
+                        }
+                      }
+                    },
+                    {
+                      "kind": "clearDialog"
+                    },
+                    {
+                      "kind": "dialog",
+                      "cue": {
+                        "rows": [
+                          {
+                            "text": "dlg.3963"
+                          },
+                          {
+                            "text": "dlg.3964"
+                          }
+                        ],
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.骆员外",
+                          "portrait": {
+                            "asset": "portrait.pal.066",
+                            "side": "left"
+                          }
+                        },
+                        "slot": "top"
+                      }
+                    },
+                    {
+                      "kind": "clearDialog"
+                    },
+                    {
+                      "kind": "dialog",
+                      "cue": {
+                        "rows": [
+                          {
+                            "text": "dlg.3966"
+                          },
+                          {
+                            "text": "dlg.3967"
+                          }
+                        ],
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.李逍遥",
+                          "portrait": {
+                            "asset": "portrait.pal.001",
+                            "side": "right"
+                          }
+                        }
+                      }
+                    },
+                    {
+                      "kind": "clearDialog"
+                    },
+                    {
+                      "kind": "dialog",
+                      "cue": {
+                        "rows": [
+                          {
+                            "text": "dlg.3969"
+                          },
+                          {
+                            "text": "dlg.3970"
+                          },
+                          {
+                            "text": "dlg.3971"
+                          },
+                          {
+                            "text": "dlg.3972"
+                          },
+                          {
+                            "text": "dlg.3973"
+                          },
+                          {
+                            "text": "dlg.3974"
+                          },
+                          {
+                            "text": "dlg.3975"
+                          }
+                        ],
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.骆员外",
+                          "portrait": {
+                            "asset": "portrait.pal.066",
+                            "side": "left"
+                          }
+                        },
+                        "slot": "top"
+                      }
+                    },
+                    {
+                      "kind": "clearDialog"
+                    },
+                    {
+                      "kind": "dialog",
+                      "cue": {
+                        "rows": [
+                          {
+                            "text": "dlg.3977"
+                          },
+                          {
+                            "text": "dlg.3978"
+                          }
+                        ],
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.骆员外",
+                          "portrait": {
+                            "asset": "portrait.pal.066",
+                            "side": "left"
+                          }
+                        },
+                        "slot": "top"
+                      }
+                    },
+                    {
+                      "kind": "clearDialog"
+                    },
+                    {
+                      "kind": "dialog",
+                      "cue": {
+                        "rows": [
+                          {
+                            "text": "dlg.3979"
+                          },
+                          {
+                            "text": "dlg.3980"
+                          },
+                          {
+                            "text": "dlg.3981"
+                          }
+                        ],
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.骆员外",
+                          "portrait": {
+                            "asset": "portrait.pal.066",
+                            "side": "left"
+                          }
+                        },
+                        "slot": "top"
+                      }
+                    },
+                    {
+                      "kind": "clearDialog"
+                    },
+                    {
+                      "kind": "openShop",
+                      "shop": 9,
+                      "mode": "buy"
                     }
-                  }
+                  ],
+                  "next": "after-checkpoint"
+                },
+                {
+                  "id": "after-checkpoint",
+                  "body": [
+                    {
+                      "kind": "dialog",
+                      "cue": {
+                        "rows": [
+                          {
+                            "text": "dlg.3977"
+                          },
+                          {
+                            "text": "dlg.3978"
+                          }
+                        ],
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.骆员外",
+                          "portrait": {
+                            "asset": "portrait.pal.066",
+                            "side": "left"
+                          }
+                        },
+                        "slot": "top"
+                      }
+                    },
+                    {
+                      "kind": "clearDialog"
+                    },
+                    {
+                      "kind": "dialog",
+                      "cue": {
+                        "rows": [
+                          {
+                            "text": "dlg.3979"
+                          },
+                          {
+                            "text": "dlg.3980"
+                          },
+                          {
+                            "text": "dlg.3981"
+                          }
+                        ],
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.骆员外",
+                          "portrait": {
+                            "asset": "portrait.pal.066",
+                            "side": "left"
+                          }
+                        },
+                        "slot": "top"
+                      }
+                    },
+                    {
+                      "kind": "clearDialog"
+                    },
+                    {
+                      "kind": "openShop",
+                      "shop": 9,
+                      "mode": "buy"
+                    }
+                  ]
                 }
-              }
+              ]
             }
           },
           "legacy-001": {

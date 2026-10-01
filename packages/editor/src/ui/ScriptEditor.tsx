@@ -19,6 +19,7 @@ import type {
   SpriteDef,
   WorldVariableRegistryV1,
 } from '@type-pal/content'
+import { organizeFlowAsStages } from '@type-pal/content'
 import type { AssetBase, AudioAssetReader } from '@type-pal/reforge'
 import type { ReactElement, ReactNode } from 'react'
 import { cloneElement, useEffect, useId, useMemo, useRef, useState } from 'react'
@@ -4189,6 +4190,7 @@ export function CanonicalScriptFlowEditor(props: {
   }
 
   const flow = props.flow
+  const organized = organizeFlowAsStages(flow)
   const state = flow.machine.states[selectedId] ?? Object.values(flow.machine.states)[0]
   const stateId = flow.machine.states[selectedId] ? selectedId : Object.keys(flow.machine.states)[0]
   return (
@@ -4220,6 +4222,26 @@ export function CanonicalScriptFlowEditor(props: {
           />
         </CanonicalField>
       </header>
+      {organized ? (
+        <div className="canonical-flow-actions">
+          <p>
+            这套流程只控制下次运行的内容，可以整理为普通步骤。整理后显示为步骤编号，原连续流程及状态名称不保留；
+            指令、出现前准备、步骤稳定编号和运行去向保持，操作可撤销。
+          </p>
+          <DsButton
+            size="compact"
+            variant="secondary"
+            onClick={() => {
+              if (props.onChange(organized) === false) return
+              setDetailsOpen(false)
+              setCreateOpen(false)
+              setDeleteOpen(false)
+            }}
+          >
+            整理为步骤
+          </DsButton>
+        </div>
+      ) : null}
       <nav aria-label="连续流程状态">
         {Object.entries(flow.machine.states).map(([id, candidate]) => (
           <DsButton

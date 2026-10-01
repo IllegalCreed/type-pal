@@ -102,10 +102,11 @@ G/I 的功能视觉与 console 后续补验也已闭合，不把这些卡的完�
 
 | ID | 任务 | 状态 | 负责人/下一步 | 一句话备注 |
 |---|---|---|---|---|
-| E2E-R4-1 | [路线驱动与检查点薄基线](tasks/E2E-R4-1-route-and-checkpoint-foundation.md) | build | Codex / 核003边界与正常路线 | 001/002 verify已收口；双引擎真实001→002链与编排回执通过，后续/录制音轨另排 |
-| E2E-002-FEEDBACK-1 | [主角遮挡反馈与连续方向输入](tasks/E2E-002-FEEDBACK-1-player-occlusion-and-held-input.md) | rework | Codex / 队伍局部透视 | 用户见NPC仍透出，整瓦片方案返工；连续held已通过保持 |
-| E2E-003-1 | [下楼、道士交谈与厨房交代](tasks/E2E-003-1-inn-stairs-and-kitchen.md) | build | Codex / 修复与真实路线验证 | 已核楼梯呈现、初次大娘/道士缺链；止于厨房交代，绝不拿菜 |
+| E2E-R4-1 | [路线驱动与检查点薄基线](tasks/E2E-R4-1-route-and-checkpoint-foundation.md) | build | Codex / 004前提及capture | 双引擎各自真实001→002→003链已核，非同revision汇总；母卡未收口 |
+| E2E-002-FEEDBACK-1 | [主角遮挡反馈与连续方向输入](tasks/E2E-002-FEEDBACK-1-player-occlusion-and-held-input.md) | review | User / 观感验收 | 队伍局部透视、NPC正常遮挡与连续held独立技术接收；旧6051未更新 |
+| E2E-003-1 | [下楼、道士交谈与厨房交代](tasks/E2E-003-1-inn-stairs-and-kitchen.md) | review | User / 003体验验收 | 真实双引擎003及静态零诊断已核；止于交代不取菜，004 counter另留 |
 | SCRIPT-COMPLETE-1 | [完成语义与空结束步骤](tasks/SCRIPT-COMPLETE-1-explicit-flow-completion.md) | review | 用户检视 / Codex收口 | 443纯结束fold已集成；完整10648项与静态零诊断，6012更新且保持运行 |
+| SCRIPT-STEPS-1 | [首次对话与复读回归步骤](tasks/SCRIPT-STEPS-1-redundant-machine-cleanup.md) | review | User / 编辑体验验收 | 29简单machine回步骤、独立核验与静态零诊断通过；166复杂流程后续E2E |
 | EDITOR-SCENE-FACING-1 | [切场景朝向清除](tasks/EDITOR-SCENE-FACING-1-clear-override.md) | draft | Codex / 后续窄修 | 保持选项仍提交旧方向；真实红诊断+单点oracle已证 |
 | ARCH-SUPPORT-GLM-1 | [八组并行架构/视觉准备](tasks/ARCH-SUPPORT-GLM-1-eight-audit-packages.md) | draft | Codex / 后续归属与收口 | 58cdf938材料accept，counter清零；文档已合入，按用户要求未标done/未开产品门 |
 

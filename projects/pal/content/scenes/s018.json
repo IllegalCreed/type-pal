@@ -88,89 +88,79 @@
             "label": "默认触发行为",
             "order": 0,
             "flow": {
-              "kind": "stateMachine",
-              "machine": {
-                "id": "machine",
-                "label": "默认触发行为",
-                "initial": "initial",
-                "states": {
-                  "initial": {
-                    "label": "首次执行",
-                    "body": [
-                      {
-                        "kind": "setPartyFacing",
-                        "facing": "right"
-                      },
-                      {
-                        "kind": "clearDialog"
-                      },
-                      {
-                        "kind": "dialog",
-                        "cue": {
-                          "rows": [
-                            {
-                              "text": "dlg.1897"
-                            }
-                          ],
-                          "identity": {
-                            "kind": "unbound",
-                            "speaker": "spk.李逍遥",
-                            "portrait": {
-                              "asset": "portrait.pal.001",
-                              "side": "left"
-                            }
-                          },
-                          "slot": "top"
-                        }
-                      },
-                      {
-                        "kind": "setPartyFacing",
-                        "facing": "up"
-                      },
-                      {
-                        "kind": "clearDialog"
-                      },
-                      {
-                        "kind": "loadScene",
-                        "scene": "s016",
-                        "pos": {
-                          "col": 61,
-                          "row": 42,
-                          "height": 0
+              "kind": "stages",
+              "initial": "initial",
+              "stages": [
+                {
+                  "id": "initial",
+                  "body": [
+                    {
+                      "kind": "setPartyFacing",
+                      "facing": "right"
+                    },
+                    {
+                      "kind": "clearDialog"
+                    },
+                    {
+                      "kind": "dialog",
+                      "cue": {
+                        "rows": [
+                          {
+                            "text": "dlg.1897"
+                          }
+                        ],
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.李逍遥",
+                          "portrait": {
+                            "asset": "portrait.pal.001",
+                            "side": "left"
+                          }
                         },
-                        "transition": {
-                          "kind": "source",
-                          "outMs": 600,
-                          "inMs": 600,
-                          "color": "black",
-                          "evidenceId": "pal-load-scene-5190"
-                        }
+                        "slot": "top"
                       }
-                    ],
-                    "next": {
-                      "kind": "advance",
-                      "state": "after-checkpoint"
-                    }
-                  },
-                  "after-checkpoint": {
-                    "label": "检查点后的执行",
-                    "body": [
-                      {
-                        "kind": "loadScene",
-                        "scene": "s016",
-                        "pos": {
-                          "col": 61,
-                          "row": 42,
-                          "height": 0
-                        }
+                    },
+                    {
+                      "kind": "setPartyFacing",
+                      "facing": "up"
+                    },
+                    {
+                      "kind": "clearDialog"
+                    },
+                    {
+                      "kind": "loadScene",
+                      "scene": "s016",
+                      "pos": {
+                        "col": 61,
+                        "row": 42,
+                        "height": 0
+                      },
+                      "transition": {
+                        "kind": "source",
+                        "outMs": 600,
+                        "inMs": 600,
+                        "color": "black",
+                        "evidenceId": "pal-load-scene-5190"
                       }
-                    ],
-                    "next": {
-                      "kind": "stay"
                     }
-                  }
+                  ],
+                  "next": "after-checkpoint"
+                },
+                {
+                  "id": "after-checkpoint",
+                  "body": [
+                    {
+                      "kind": "loadScene",
+                      "scene": "s016",
+                      "pos": {
+                        "col": 61,
+                        "row": 42,
+                        "height": 0
+                      }
+                    }
+                  ]
                 }
-              }
+              ]
             }
           }
         }

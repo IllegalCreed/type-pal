@@ -205,38 +205,26 @@
           "label": "默认进场行为",
           "order": 0,
           "flow": {
-            "kind": "stateMachine",
-            "machine": {
-              "id": "machine",
-              "label": "默认进场行为",
-              "initial": "initial",
-              "states": {
-                "initial": {
-                  "label": "首次执行",
-                  "body": [
-                    {
-                      "kind": "teleportParty",
-                      "pos": {
-                        "col": 122,
-                        "row": 69,
-                        "height": 0
-                      }
+            "kind": "stages",
+            "initial": "initial",
+            "stages": [
+              {
+                "id": "initial",
+                "body": [
+                  {
+                    "kind": "teleportParty",
+                    "pos": {
+                      "col": 122,
+                      "row": 69,
+                      "height": 0
                     }
-                  ],
-                  "next": {
-                    "kind": "advance",
-                    "state": "after-checkpoint"
                   }
-                },
-                "after-checkpoint": {
-                  "label": "检查点后的执行",
-                  "body": [],
-                  "next": {
-                    "kind": "stay"
-                  }
+                ],
+                "next": {
+                  "kind": "complete"
                 }
               }
-            }
+            ]
           }
         }
       }

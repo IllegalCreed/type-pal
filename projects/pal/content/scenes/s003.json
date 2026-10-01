@@ -1522,389 +1522,379 @@
             "label": "触发行为 1",
             "order": 1,
             "flow": {
-              "kind": "stateMachine",
-              "machine": {
-                "id": "machine",
-                "label": "触发行为 1",
-                "initial": "initial",
-                "states": {
-                  "initial": {
-                    "label": "首次执行",
-                    "body": [
-                      {
-                        "kind": "clearDialog"
+              "kind": "stages",
+              "initial": "initial",
+              "stages": [
+                {
+                  "id": "initial",
+                  "body": [
+                    {
+                      "kind": "clearDialog"
+                    },
+                    {
+                      "kind": "setEntityTriggerActivation",
+                      "target": {
+                        "scene": "s003",
+                        "entity": "e56"
                       },
-                      {
-                        "kind": "setEntityTriggerActivation",
-                        "target": {
-                          "scene": "s003",
-                          "entity": "e56"
+                      "selection": {
+                        "kind": "use",
+                        "value": {
+                          "on": "interact",
+                          "range": 2
+                        }
+                      }
+                    },
+                    {
+                      "kind": "dialog",
+                      "cue": {
+                        "rows": [
+                          {
+                            "text": "dlg.824"
+                          },
+                          {
+                            "text": "dlg.825"
+                          },
+                          {
+                            "text": "dlg.826"
+                          }
+                        ],
+                        "identity": {
+                          "kind": "actor",
+                          "actor": "li-daniang",
+                          "portrait": {
+                            "kind": "default",
+                            "side": "left"
+                          }
                         },
-                        "selection": {
-                          "kind": "use",
-                          "value": {
-                            "on": "interact",
-                            "range": 2
+                        "slot": "top"
+                      }
+                    },
+                    {
+                      "kind": "clearDialog"
+                    },
+                    {
+                      "kind": "dialog",
+                      "cue": {
+                        "rows": [
+                          {
+                            "text": "dlg.828"
+                          },
+                          {
+                            "text": "dlg.829"
+                          },
+                          {
+                            "text": "dlg.830"
+                          },
+                          {
+                            "text": "dlg.831"
+                          }
+                        ],
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.李逍遥",
+                          "portrait": {
+                            "asset": "portrait.pal.009",
+                            "side": "right"
                           }
                         }
-                      },
-                      {
-                        "kind": "dialog",
-                        "cue": {
-                          "rows": [
-                            {
-                              "text": "dlg.824"
-                            },
-                            {
-                              "text": "dlg.825"
-                            },
-                            {
-                              "text": "dlg.826"
-                            }
-                          ],
-                          "identity": {
-                            "kind": "actor",
-                            "actor": "li-daniang",
-                            "portrait": {
-                              "kind": "default",
-                              "side": "left"
-                            }
+                      }
+                    },
+                    {
+                      "kind": "clearDialog"
+                    },
+                    {
+                      "kind": "dialog",
+                      "cue": {
+                        "rows": [
+                          {
+                            "text": "dlg.833"
                           },
-                          "slot": "top"
-                        }
-                      },
-                      {
-                        "kind": "clearDialog"
-                      },
-                      {
-                        "kind": "dialog",
-                        "cue": {
-                          "rows": [
-                            {
-                              "text": "dlg.828"
-                            },
-                            {
-                              "text": "dlg.829"
-                            },
-                            {
-                              "text": "dlg.830"
-                            },
-                            {
-                              "text": "dlg.831"
-                            }
-                          ],
-                          "identity": {
-                            "kind": "unbound",
-                            "speaker": "spk.李逍遥",
-                            "portrait": {
-                              "asset": "portrait.pal.009",
-                              "side": "right"
-                            }
+                          {
+                            "text": "dlg.834"
+                          },
+                          {
+                            "text": "dlg.835"
                           }
-                        }
-                      },
-                      {
-                        "kind": "clearDialog"
-                      },
-                      {
-                        "kind": "dialog",
-                        "cue": {
-                          "rows": [
-                            {
-                              "text": "dlg.833"
-                            },
-                            {
-                              "text": "dlg.834"
-                            },
-                            {
-                              "text": "dlg.835"
-                            }
-                          ],
-                          "identity": {
-                            "kind": "actor",
-                            "actor": "li-daniang",
-                            "portrait": {
-                              "kind": "default",
-                              "side": "left"
-                            }
-                          },
-                          "slot": "top"
-                        }
-                      },
-                      {
-                        "kind": "dialog",
-                        "cue": {
-                          "rows": [
-                            {
-                              "text": "dlg.837"
-                            },
-                            {
-                              "text": "dlg.838"
-                            }
-                          ],
-                          "identity": {
-                            "kind": "unbound",
-                            "speaker": "spk.李逍遥",
-                            "portrait": {
-                              "asset": "portrait.pal.001",
-                              "side": "right"
-                            }
+                        ],
+                        "identity": {
+                          "kind": "actor",
+                          "actor": "li-daniang",
+                          "portrait": {
+                            "kind": "default",
+                            "side": "left"
                           }
-                        }
-                      },
-                      {
-                        "kind": "clearDialog"
-                      },
-                      {
-                        "kind": "dialog",
-                        "cue": {
-                          "rows": [
-                            {
-                              "text": "dlg.840"
-                            },
-                            {
-                              "text": "dlg.841"
-                            }
-                          ],
-                          "identity": {
-                            "kind": "actor",
-                            "actor": "li-daniang",
-                            "portrait": {
-                              "kind": "default",
-                              "side": "left"
-                            }
-                          },
-                          "slot": "top"
-                        }
-                      },
-                      {
-                        "kind": "clearDialog"
-                      },
-                      {
-                        "kind": "dialog",
-                        "cue": {
-                          "rows": [
-                            {
-                              "text": "dlg.843"
-                            }
-                          ],
-                          "identity": {
-                            "kind": "unbound",
-                            "speaker": "spk.李逍遥",
-                            "portrait": {
-                              "asset": "portrait.pal.002",
-                              "side": "right"
-                            }
-                          }
-                        }
-                      },
-                      {
-                        "kind": "clearDialog"
-                      },
-                      {
-                        "kind": "dialog",
-                        "cue": {
-                          "rows": [
-                            {
-                              "text": "dlg.845"
-                            },
-                            {
-                              "text": "dlg.846"
-                            }
-                          ],
-                          "identity": {
-                            "kind": "actor",
-                            "actor": "li-daniang",
-                            "portrait": {
-                              "kind": "default",
-                              "side": "left"
-                            }
-                          },
-                          "slot": "top"
-                        }
-                      },
-                      {
-                        "kind": "clearDialog"
-                      },
-                      {
-                        "kind": "dialog",
-                        "cue": {
-                          "rows": [
-                            {
-                              "text": "dlg.848"
-                            }
-                          ],
-                          "identity": {
-                            "kind": "unbound",
-                            "speaker": "spk.李逍遥",
-                            "portrait": {
-                              "asset": "portrait.pal.001",
-                              "side": "right"
-                            }
-                          }
-                        }
-                      },
-                      {
-                        "kind": "clearDialog"
-                      },
-                      {
-                        "kind": "dialog",
-                        "cue": {
-                          "rows": [
-                            {
-                              "text": "dlg.850"
-                            },
-                            {
-                              "text": "dlg.851"
-                            },
-                            {
-                              "text": "dlg.852"
-                            }
-                          ],
-                          "identity": {
-                            "kind": "actor",
-                            "actor": "li-daniang",
-                            "portrait": {
-                              "kind": "default",
-                              "side": "left"
-                            }
-                          },
-                          "slot": "top"
-                        }
-                      },
-                      {
-                        "kind": "clearDialog"
-                      },
-                      {
-                        "kind": "dialog",
-                        "cue": {
-                          "rows": [
-                            {
-                              "text": "dlg.854"
-                            },
-                            {
-                              "text": "dlg.855"
-                            }
-                          ],
-                          "identity": {
-                            "kind": "unbound",
-                            "speaker": "spk.李逍遥",
-                            "portrait": {
-                              "asset": "portrait.pal.009",
-                              "side": "right"
-                            }
-                          }
-                        }
-                      },
-                      {
-                        "kind": "clearDialog"
-                      },
-                      {
-                        "kind": "dialog",
-                        "cue": {
-                          "rows": [
-                            {
-                              "text": "dlg.857"
-                            },
-                            {
-                              "text": "dlg.858"
-                            }
-                          ],
-                          "identity": {
-                            "kind": "actor",
-                            "actor": "li-daniang",
-                            "portrait": {
-                              "kind": "default",
-                              "side": "left"
-                            }
-                          },
-                          "slot": "top"
-                        }
-                      },
-                      {
-                        "kind": "selectEntityBehavior",
-                        "target": {
-                          "scene": "s003",
-                          "entity": "e56"
                         },
-                        "channel": "auto",
-                        "selection": {
-                          "kind": "disabled"
+                        "slot": "top"
+                      }
+                    },
+                    {
+                      "kind": "dialog",
+                      "cue": {
+                        "rows": [
+                          {
+                            "text": "dlg.837"
+                          },
+                          {
+                            "text": "dlg.838"
+                          }
+                        ],
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.李逍遥",
+                          "portrait": {
+                            "asset": "portrait.pal.001",
+                            "side": "right"
+                          }
                         }
+                      }
+                    },
+                    {
+                      "kind": "clearDialog"
+                    },
+                    {
+                      "kind": "dialog",
+                      "cue": {
+                        "rows": [
+                          {
+                            "text": "dlg.840"
+                          },
+                          {
+                            "text": "dlg.841"
+                          }
+                        ],
+                        "identity": {
+                          "kind": "actor",
+                          "actor": "li-daniang",
+                          "portrait": {
+                            "kind": "default",
+                            "side": "left"
+                          }
+                        },
+                        "slot": "top"
+                      }
+                    },
+                    {
+                      "kind": "clearDialog"
+                    },
+                    {
+                      "kind": "dialog",
+                      "cue": {
+                        "rows": [
+                          {
+                            "text": "dlg.843"
+                          }
+                        ],
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.李逍遥",
+                          "portrait": {
+                            "asset": "portrait.pal.002",
+                            "side": "right"
+                          }
+                        }
+                      }
+                    },
+                    {
+                      "kind": "clearDialog"
+                    },
+                    {
+                      "kind": "dialog",
+                      "cue": {
+                        "rows": [
+                          {
+                            "text": "dlg.845"
+                          },
+                          {
+                            "text": "dlg.846"
+                          }
+                        ],
+                        "identity": {
+                          "kind": "actor",
+                          "actor": "li-daniang",
+                          "portrait": {
+                            "kind": "default",
+                            "side": "left"
+                          }
+                        },
+                        "slot": "top"
+                      }
+                    },
+                    {
+                      "kind": "clearDialog"
+                    },
+                    {
+                      "kind": "dialog",
+                      "cue": {
+                        "rows": [
+                          {
+                            "text": "dlg.848"
+                          }
+                        ],
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.李逍遥",
+                          "portrait": {
+                            "asset": "portrait.pal.001",
+                            "side": "right"
+                          }
+                        }
+                      }
+                    },
+                    {
+                      "kind": "clearDialog"
+                    },
+                    {
+                      "kind": "dialog",
+                      "cue": {
+                        "rows": [
+                          {
+                            "text": "dlg.850"
+                          },
+                          {
+                            "text": "dlg.851"
+                          },
+                          {
+                            "text": "dlg.852"
+                          }
+                        ],
+                        "identity": {
+                          "kind": "actor",
+                          "actor": "li-daniang",
+                          "portrait": {
+                            "kind": "default",
+                            "side": "left"
+                          }
+                        },
+                        "slot": "top"
+                      }
+                    },
+                    {
+                      "kind": "clearDialog"
+                    },
+                    {
+                      "kind": "dialog",
+                      "cue": {
+                        "rows": [
+                          {
+                            "text": "dlg.854"
+                          },
+                          {
+                            "text": "dlg.855"
+                          }
+                        ],
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.李逍遥",
+                          "portrait": {
+                            "asset": "portrait.pal.009",
+                            "side": "right"
+                          }
+                        }
+                      }
+                    },
+                    {
+                      "kind": "clearDialog"
+                    },
+                    {
+                      "kind": "dialog",
+                      "cue": {
+                        "rows": [
+                          {
+                            "text": "dlg.857"
+                          },
+                          {
+                            "text": "dlg.858"
+                          }
+                        ],
+                        "identity": {
+                          "kind": "actor",
+                          "actor": "li-daniang",
+                          "portrait": {
+                            "kind": "default",
+                            "side": "left"
+                          }
+                        },
+                        "slot": "top"
+                      }
+                    },
+                    {
+                      "kind": "selectEntityBehavior",
+                      "target": {
+                        "scene": "s003",
+                        "entity": "e56"
                       },
-                      {
-                        "kind": "selectEntityBehavior",
+                      "channel": "auto",
+                      "selection": {
+                        "kind": "disabled"
+                      }
+                    },
+                    {
+                      "kind": "selectEntityBehavior",
                       "target": {
                         "scene": "s001",
                         "entity": "e3"
-                        },
-                        "channel": "trigger",
-                        "selection": {
-                          "kind": "use",
-                          "value": "legacy-001"
-                        }
+                      },
+                      "channel": "trigger",
+                      "selection": {
+                        "kind": "use",
+                        "value": "legacy-001"
                       }
-                    ],
-                    "next": {
-                      "kind": "advance",
-                      "state": "after-checkpoint"
                     }
-                  },
-                  "after-checkpoint": {
-                    "label": "检查点后的执行",
-                    "body": [
-                      {
-                        "kind": "dialog",
-                        "cue": {
-                          "rows": [
-                            {
-                              "text": "dlg.857"
-                            },
-                            {
-                              "text": "dlg.858"
-                            }
-                          ],
-                          "identity": {
-                            "kind": "actor",
-                            "actor": "li-daniang",
-                            "portrait": {
-                              "kind": "default",
-                              "side": "left"
-                            }
+                  ],
+                  "next": "after-checkpoint"
+                },
+                {
+                  "id": "after-checkpoint",
+                  "body": [
+                    {
+                      "kind": "dialog",
+                      "cue": {
+                        "rows": [
+                          {
+                            "text": "dlg.857"
                           },
-                          "slot": "top"
-                        }
-                      },
-                      {
-                        "kind": "selectEntityBehavior",
-                        "target": {
-                          "scene": "s003",
-                          "entity": "e56"
+                          {
+                            "text": "dlg.858"
+                          }
+                        ],
+                        "identity": {
+                          "kind": "actor",
+                          "actor": "li-daniang",
+                          "portrait": {
+                            "kind": "default",
+                            "side": "left"
+                          }
                         },
-                        "channel": "auto",
-                        "selection": {
-                          "kind": "disabled"
-                        }
-                      },
-                      {
-                        "kind": "selectEntityBehavior",
-                        "target": {
-                          "scene": "s001",
-                          "entity": "e3"
-                        },
-                        "channel": "trigger",
-                        "selection": {
-                          "kind": "use",
-                          "value": "legacy-001"
-                        }
+                        "slot": "top"
                       }
-                    ],
-                    "next": {
-                      "kind": "stay"
+                    },
+                    {
+                      "kind": "selectEntityBehavior",
+                      "target": {
+                        "scene": "s003",
+                        "entity": "e56"
+                      },
+                      "channel": "auto",
+                      "selection": {
+                        "kind": "disabled"
+                      }
+                    },
+                    {
+                      "kind": "selectEntityBehavior",
+                      "target": {
+                        "scene": "s001",
+                        "entity": "e3"
+                      },
+                      "channel": "trigger",
+                      "selection": {
+                        "kind": "use",
+                        "value": "legacy-001"
+                      }
                     }
-                  }
+                  ]
                 }
-              }
+              ]
             }
           },
           "legacy-002": {

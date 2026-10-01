@@ -5621,97 +5621,87 @@
             "label": "默认触发行为",
             "order": 0,
             "flow": {
-              "kind": "stateMachine",
-              "machine": {
-                "id": "machine",
-                "label": "默认触发行为",
-                "initial": "initial",
-                "states": {
-                  "initial": {
-                    "label": "首次执行",
-                    "body": [
-                      {
-                        "kind": "dialog",
-                        "cue": {
-                          "identity": {
-                            "kind": "narration"
-                          },
-                          "rows": [
-                            {
-                              "text": "dlg.1576"
-                            }
-                          ]
-                        }
-                      },
-                      {
-                        "kind": "clearDialog"
-                      },
-                      {
-                        "kind": "playSound",
-                        "asset": "sound.pal.263"
-                      },
-                      {
-                        "kind": "increaseHpMp",
-                        "delta": 999
-                      },
-                      {
-                        "kind": "dialog",
-                        "cue": {
-                          "identity": {
-                            "kind": "narration"
-                          },
-                          "rows": [
-                            {
-                              "text": "dlg.1577"
-                            },
-                            {
-                              "text": "dlg.1578.v-717e1675"
-                            }
-                          ],
-                          "slot": "center"
-                        }
+              "kind": "stages",
+              "initial": "initial",
+              "stages": [
+                {
+                  "id": "initial",
+                  "body": [
+                    {
+                      "kind": "dialog",
+                      "cue": {
+                        "identity": {
+                          "kind": "narration"
+                        },
+                        "rows": [
+                          {
+                            "text": "dlg.1576"
+                          }
+                        ]
                       }
-                    ],
-                    "next": {
-                      "kind": "advance",
-                      "state": "after-checkpoint"
-                    }
-                  },
-                  "after-checkpoint": {
-                    "label": "检查点后的执行",
-                    "body": [
-                      {
-                        "kind": "playSound",
-                        "asset": "sound.pal.263"
-                      },
-                      {
-                        "kind": "increaseHpMp",
-                        "delta": 999
-                      },
-                      {
-                        "kind": "dialog",
-                        "cue": {
-                          "identity": {
-                            "kind": "narration"
+                    },
+                    {
+                      "kind": "clearDialog"
+                    },
+                    {
+                      "kind": "playSound",
+                      "asset": "sound.pal.263"
+                    },
+                    {
+                      "kind": "increaseHpMp",
+                      "delta": 999
+                    },
+                    {
+                      "kind": "dialog",
+                      "cue": {
+                        "identity": {
+                          "kind": "narration"
+                        },
+                        "rows": [
+                          {
+                            "text": "dlg.1577"
                           },
-                          "rows": [
-                            {
-                              "text": "dlg.1577"
-                            },
-                            {
-                              "text": "dlg.1578.v-717e1675"
-                            }
-                          ],
-                          "slot": "center"
-                        }
+                          {
+                            "text": "dlg.1578.v-717e1675"
+                          }
+                        ],
+                        "slot": "center"
                       }
-                    ],
-                    "next": {
-                      "kind": "stay"
                     }
-                  }
+                  ],
+                  "next": "after-checkpoint"
+                },
+                {
+                  "id": "after-checkpoint",
+                  "body": [
+                    {
+                      "kind": "playSound",
+                      "asset": "sound.pal.263"
+                    },
+                    {
+                      "kind": "increaseHpMp",
+                      "delta": 999
+                    },
+                    {
+                      "kind": "dialog",
+                      "cue": {
+                        "identity": {
+                          "kind": "narration"
+                        },
+                        "rows": [
+                          {
+                            "text": "dlg.1577"
+                          },
+                          {
+                            "text": "dlg.1578.v-717e1675"
+                          }
+                        ],
+                        "slot": "center"
+                      }
+                    }
+                  ]
                 }
-              }
+              ]
             }
           }
         }

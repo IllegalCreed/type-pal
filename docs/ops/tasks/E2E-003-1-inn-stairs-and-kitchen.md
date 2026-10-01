@@ -1,6 +1,6 @@
 # E2E-003-1 - 下楼、道士交谈与厨房交代
 
-Status: build
+Status: review
 Phase: phase2
 Capability: E2E-R4-1 / W1
 Coding Owner: Codex
@@ -21,12 +21,13 @@ Branch: codex/e2e-003
 
 - 必读 `docs/phase2/READ-FIRST.md`、`docs/phase2/reference/phase1-knowledge-harvest.md` W/E段、
   `docs/testing/e2e-002.md`、`docs/ops/tasks/E2E-R4-1-route-and-checkpoint-foundation.md`。
-- 真正前驱：冻结10e65063 RF002 `build/e2e/reforge-002-2026-09-30T23-09-35-990Z`，
+- 原前驱：冻结10e65063 RF002 `build/e2e/reforge-002-2026-09-30T23-09-35-990Z`，
   actual ended SAVE9/content21，SHA `42ac15aff0719f8f11b3f59d6001266c59e2075c715d616f5c75985bcfb0136f`。
+  此档后来核实选错次日方案，保留历史、不用于新003；当前正常重跑前驱见下方05-09-59-537Z。
   game002 `23-09-37-718Z`另用本引擎真实档，不互相转换。
 - 第一阶段/原版内容脚本为演出顺序参考；新引擎靠显式作者脚本，不移植对白全局冻结等隐式耦合。
 - 楼梯script/动画调用域、NPC身份、初次对白矩阵及厨房交接已核，见下方四向真值矩阵。
-  仍待实际003正常路线/中间帧和正式结束存读档，不以开发期回归代替E2E或标done。
+  双引擎003正常路线/中间帧和正式结束存读档已通过，见末尾回执；当前统一质量及用户体验仍单列。
 - 禁止跳场景/坐标瞬移、手造world/替代真实存档、恢复原版转换核、兼容旧版本、放宽采集/超时/像素合同。
 
 ## 验收预登记
@@ -72,7 +73,7 @@ render/world-scene-presentation由独立贡献者拥有，Root不与其同时写
 不执行取菜，不重写既有e15端菜长链。L386 half位必须同时+16/+8px，三个grid目标
 为(129,66)→(129,61)→(124,61)，不可丢half偏移成128/123。
 
-## 开发期验证与前驱更新
+## 开发期验证与前驱更新（历史过程）
 
 - 78a5b1d5：初次行为采用可读ID/标签和分次步骤，晚剧情legacy-001保留；楼梯非零位移持有步频、
   零位移保留姿态、显式队长姿态覆盖。宿主回归先2红后2绿，PAL5项及相邻回归43项通过；
@@ -87,7 +88,7 @@ render/world-scene-presentation由独立贡献者拥有，Root不与其同时写
 - 003执行器与一阶段实际路线尚在独立树实现，003视觉、精确交接档和全仓统一门尚未通过。
   6012原PID88523持续HTTP200，不刷新用户页面。
 
-## 独立候选复核与未闭合项
+## 独立候选复核与未闭合项（历史过程及004反例）
 
 - party_occlusion_rework只读逐IP复核L355/386/560/583/604/638/441/185/188及楼梯：
   限定003的正文、半位坐标、副作用位置和不取菜边界可accept；这不是实际003或用户验收。
@@ -110,3 +111,33 @@ render/world-scene-presentation由独立贡献者拥有，Root不与其同时写
 - 该game003报告在厨房入口失败：大娘刚到(124,61)尚未完成auto末尾换身，短暂仍占唯一入口，
   路径规划无合法通路；不是跳坐标理由。执行器应明确等待真实e19=2/e56=0交接再走厨房，
   保留失败，不吞规划异常或延長总deadline。
+
+## 正式003与002交接门接收（2026-10-01）
+
+- game独立正式实跑 `game-003-2026-10-01T05-41-47-466Z`（贡献者tree，0defc136）、
+  Root RF `reforge-003-2026-10-01T06-54-19-263Z`（edca85df）各passed；并非同revision的both汇总。
+  14正文/说话人、实际12楼梯commit/draw脚步、合法held路线、不取菜、生产保存及fresh-context恢复通过。
+  Root独立重算两实际档字节hash、核完整World/Canvas相等，目视RF厨房交代画面，桌上菜仍可见。
+  详见[003回执](../../testing/e2e-003.md)，原失败目录/内容保持，不重复已证视觉路线。
+- RF首轮failed实为collector把正式start之前的读档placement当成故事移动。
+  edca85df只收窄剧情移动/隐藏到正式phase，全局continuity/gap仍保留；90工具回归包含真实过早移动反控。
+- Root独立读取贡献者ef562134五文件补充，独立92工具测试绿后集成75e35a45：
+  002实际ended存档与实际restoreCommit处均核first-day大娘/道士/厨房未激活，003 donor复用准入。
+  Root另离线核新RF002 ended原字节/实际restoredWorld、game002 ended原字节；拒绝旧RF错误绑定。
+  不把离线核验称新调用点浏览器重跑，不修改历史002passed。
+- [SCRIPT-STEPS-1](SCRIPT-STEPS-1-redundant-machine-cleanup.md)整理29简单machine，其中s003/e56仅晚剧情
+  legacy-001改为普通步骤；正式003实际初次链、楼梯、locale/宿主不变，由独立数据及runner等价回归核实。
+- 004仍有厨房大娘朝向被auto覆盖的已核counter；本卡不执行拿菜，capture音轨未做。
+  当前全仓check与6012更新归Root执行，用户体验pending，不提前done。
+
+## Root技术接收（2026-10-01）
+
+Root已独立核正式game/RF003的存档原字节、完整World/Canvas等值、中间步频与RF厨房画面，
+两引擎各自passed，不称同revision的both汇总。脚本/宿主与002交接工具候选已独立接收。
+统一质量：7包10,706项测试及docs/coverage/quality/E2E工具全绿；末端R13格式诊断修正后，
+全仓typecheck/严格lint/docs重跑exit0、静态error/warning/info为零，专项4项再绿。
+全量测试后仅测试文件机械格式变化，AST不变，未重复整轮测试；详见
+[步骤整理卡的原始失败及接收记录](SCRIPT-STEPS-1-redundant-machine-cleanup.md)。
+Root技术accept，转review等待用户003体验验收；004 counter及capture仍留母卡，绝不借003收口。
+
+无下一位 Agent 提示词，等待用户验收；6012按已确认无草稿的授权更新并保持运行。

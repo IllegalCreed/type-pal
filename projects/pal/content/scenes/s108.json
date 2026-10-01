@@ -59469,49 +59469,39 @@
           "label": "默认进场行为",
           "order": 0,
           "flow": {
-            "kind": "stateMachine",
-            "machine": {
-              "id": "machine",
-              "label": "默认进场行为",
-              "initial": "initial",
-              "states": {
-                "initial": {
-                  "label": "首次执行",
-                  "body": [
-                    {
-                      "kind": "selectSceneHooks",
-                      "scene": "s114",
-                      "selection": {
-                        "onEnter": {
-                          "kind": "use",
-                          "value": "legacy-001"
-                        }
+            "kind": "stages",
+            "initial": "initial",
+            "stages": [
+              {
+                "id": "initial",
+                "body": [
+                  {
+                    "kind": "selectSceneHooks",
+                    "scene": "s114",
+                    "selection": {
+                      "onEnter": {
+                        "kind": "use",
+                        "value": "legacy-001"
                       }
-                    },
-                    {
-                      "kind": "playMusic",
-                      "asset": "music.pal.052"
                     }
-                  ],
-                  "next": {
-                    "kind": "advance",
-                    "state": "after-checkpoint"
+                  },
+                  {
+                    "kind": "playMusic",
+                    "asset": "music.pal.052"
                   }
-                },
-                "after-checkpoint": {
-                  "label": "检查点后的执行",
-                  "body": [
-                    {
-                      "kind": "playMusic",
-                      "asset": "music.pal.052"
-                    }
-                  ],
-                  "next": {
-                    "kind": "stay"
+                ],
+                "next": "after-checkpoint"
+              },
+              {
+                "id": "after-checkpoint",
+                "body": [
+                  {
+                    "kind": "playMusic",
+                    "asset": "music.pal.052"
                   }
-                }
+                ]
               }
-            }
+            ]
           }
         },
         "legacy-001": {

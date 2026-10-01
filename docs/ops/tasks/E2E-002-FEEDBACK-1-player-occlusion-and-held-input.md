@@ -1,6 +1,6 @@
 # E2E-002-FEEDBACK-1 - 主角遮挡反馈与连续方向输入
 
-Status: rework
+Status: review
 Phase: phase2
 Capability: W1 / E2E-R4-1
 Coding Owner: Codex
@@ -9,7 +9,7 @@ Reviewer: Codex（验收）/ e2e_002_runner（独立专项复核）
 Visual Verification Owner: Codex / User
 Visual Verification Timing: mixed
 Contributor: Codex
-Branch: codex/002-feedback
+Branch: codex/e2e-003（当前集成）；codex/002-feedback（历史）
 
 ## 目标与范围
 
@@ -174,3 +174,18 @@ Root请先读本卡返工分派/准入与 `render.ts`、`world-scene-presentatio
 独立核前后NPC、multiple cover、latch-only及foot/transform反例，复跑邻接与统一质量门并做最小
 PAL002视觉检查；根据证据accept或列counter。贡献者自验不是独立验收。6012/6051未触碰，
 不得借此提交把旧卡标done或关闭用户服务。
+
+## Root独立返工接收（2026-10-01）
+
+Root独立直接读取身份调用域、局部合成及迟滞、21项真实RGBA反控；独立邻接43项通过，
+并在正常重跑RF002 `reforge-002-2026-10-01T05-09-59-537Z`最后一句画面确认NPC正常被前景遮挡。
+当前队长及正式队伍局部透视，NPC/编外保持正常不透明遮挡；整瓦片共享alpha旧方案不再授权。
+真实002仍使用连续held方向输入、28正常路线提交，生产存读World/Canvas严格相同；不改移动速度。
+
+候选fd2cd083通过04eb9331接收；本次统一7包10,706项测试及工具全绿，末端纯测试格式修正后
+全仓typecheck/严格lint/docs exit0，静态零诊断，AST不变，未重复全量测试。
+详见[SCRIPT-STEPS-1质量记录](SCRIPT-STEPS-1-redundant-machine-cleanup.md)，历史红/旧passed不改写。
+Root技术accept，当前转review等待用户观感；旧6051演示仍保留旧版本，不声称已包含返工。
+6012按用户后续明确无草稿更新授权保持服务运行；不关闭旧演示或正在供试玩的工作树。
+
+无下一位 Agent 提示词，等待用户体验验收；004与capture不归本卡。

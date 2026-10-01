@@ -5,6 +5,7 @@ import type {
   AuthorSceneHooks,
   AuthorScriptFlow,
 } from '@type-pal/content'
+import { organizeFlowAsStages } from '@type-pal/content'
 import { describe, expect, test, vi } from 'vitest'
 import {
   buildProjectReferenceSnapshot,
@@ -66,6 +67,80 @@ const currentSharedScriptReferences = (state: ScriptEditorState) => {
 }
 
 const target = { scene: 's001', entity: 'e1' }
+
+function firstRepeatMachine(): AuthorScriptFlow {
+  return {
+    kind: 'stateMachine',
+    machine: {
+      id: 'talk',
+      label: '交谈',
+      initial: 'first',
+      states: {
+        first: {
+          label: '首次',
+          body: [{ kind: 'giveMoney', delta: 7 }],
+          next: { kind: 'advance', state: 'repeat' },
+        },
+        repeat: { label: '复读', body: [{ kind: 'giveMoney', delta: 0 }], next: { kind: 'stay' } },
+      },
+    },
+  }
+}
+
+test('explicit step organization is one validated edit with undo, redo and canonical reopening', () => {
+  const state = editorState()
+  const behavior = triggerRegistry(state).talk!
+  behavior.flow = firstRepeatMachine()
+  const session = new ScriptEditSession(state)
+  const organized = organizeFlowAsStages(behavior.flow)!
+  session.dispatch(new UpdateEntityBehaviorCommand(target, 'trigger', 'talk', { flow: organized }))
+  const persisted = JSON.stringify(session.getState())
+  expect(triggerRegistry(session.getState()).talk!.flow).toEqual(organized)
+  expect(session.undo()).toBe(true)
+  expect(triggerRegistry(session.getState()).talk!.flow).toEqual(behavior.flow)
+  expect(session.redo()).toBe(true)
+  const reopened = new ScriptEditSession(JSON.parse(persisted))
+  expect(triggerRegistry(reopened.getState()).talk!.flow).toEqual(organized)
+  expect(collectScriptReferenceIssues(reopened.getState())).toEqual([])
+})
+
+test('step organization with external state-cursor references is rejected without half-edit or history pollution', () => {
+  const state = editorState()
+  triggerRegistry(state).talk!.flow = firstRepeatMachine()
+  state.sharedScripts['shared/cursor'] = {
+    name: '游标调用',
+    self: 'none',
+    body: [
+      {
+        kind: 'selectEntityBehavior',
+        target,
+        channel: 'trigger',
+        selection: { kind: 'use', value: 'talk' },
+        cursorHandoff: {
+          kind: 'stateMap',
+          fromBehavior: 'talk',
+          onUnmapped: 'error',
+          cases: [
+            {
+              from: { kind: 'state', machine: 'talk', state: 'repeat' },
+              to: { kind: 'state', machine: 'talk', state: 'repeat' },
+            },
+          ],
+        },
+      },
+    ],
+  }
+  const session = new ScriptEditSession(state)
+  const organized = organizeFlowAsStages(triggerRegistry(state).talk!.flow)!
+  expect(() =>
+    session.dispatch(
+      new UpdateEntityBehaviorCommand(target, 'trigger', 'talk', { flow: organized }),
+    ),
+  ).toThrow('游标不属于')
+  expect(session.getState()).toEqual(state)
+  expect(session.canUndo()).toBe(false)
+  expect(session.isDirty()).toBe(false)
+})
 
 test('completion survives validated author export/reopen and editor undo/redo without a sink step', () => {
   const session = new ScriptEditSession(editorState())
