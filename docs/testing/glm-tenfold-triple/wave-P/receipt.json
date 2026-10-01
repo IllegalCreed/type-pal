@@ -8,7 +8,7 @@
   "productionFreeze": "3ac9a2e2f6aba8a5cc97640c18fef8549d199380",
   "branch": "codex/glm-wave-p-editor-residual-r1",
   "head": "(见下方 headNote：回执不引用自身提交)",
-  "headNote": "工具/判据收紧与索引重建提交为本 tip 前一处（r3.5 docs-only，测试文件零改动）；最终远端候选 = 5e492fbeaacd2717ad70681f67d1cd150668d479",
+  "headNote": "r3.5-review 闭合提交 = 52dd21198e752243ebf4820122eedc68b7376448（工具收紧+10针重采+docs/contracts 补账同提交）；其后仅 receipt pin docs-only；最终远端候选以推送 tip 为准",
   "counts": {
     "contracts": 67,
     "workGroups": 14,
@@ -30,7 +30,7 @@
   },
   "commands": {
     "directedVitest": "67/67 passed（directed-vitest.json 树内实跑）",
-    "fullEditorSuite": "516 files / 3853 tests 全绿, exit 0（G09 删三条后 3856→3853）",
+    "fullEditorSuite": "516 files / 3853 tests 全绿 exit 0（机器空闲复跑；高负载下 IsometricEditorToolbar.glm-p Home/End 与旧 SceneCanvas.glm-ui-wave 曾各现一次计时漂移，单独运行与空闲复跑均绿——已在 README 登记）",
     "typecheck": "exit 0",
     "rootLint": "PASS 2804 files; 0/0/0",
     "diffCheck": "git diff --check 8b3ca062...HEAD = clean",
