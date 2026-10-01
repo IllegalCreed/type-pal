@@ -1,5 +1,5 @@
 diff --git a/packages/content/src/stamp.ts b/packages/content/src/stamp.ts
-index eb563329..4b69aef2 100644
+index eb563329d..4b69aef23 100644
 --- a/packages/content/src/stamp.ts
 +++ b/packages/content/src/stamp.ts
 @@ -44 +44 @@ export function validateStampTemplates(value: unknown): StampTemplate[] {
