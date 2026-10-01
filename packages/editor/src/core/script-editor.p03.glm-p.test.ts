@@ -138,10 +138,8 @@ function scene(extra?: Partial<AuthorSceneDef>): AuthorSceneDef {
         behaviors: {
           trigger: {
             talk: behavior('talk', stageFlow('start', [selectionCommand('talk')])),
-            auto2: behavior(
-              'auto2',
-              machineFlow([selectionCommand('auto2')], [handoffCommand('talk', 'auto2')]),
-            ),
+            auto2: behavior('auto2', machineFlow([selectionCommand('auto2')])),
+
           },
         },
       },
@@ -246,7 +244,8 @@ describe('P03-G12 behaviorReferences 只读引用收集', () => {
   })
 
   test('合法 onEnter entry.prepare 中的 cursorHandoff.fromBehavior 引用：完整路径与 locator（合法 entry 容器新轴）', () => {
-    const refs = behaviorReferences(editorState(), target, 'trigger', 'talk')
+    const state = editorState()
+    const refs = behaviorReferences(state, target, 'trigger', 'talk')
     const handoff = refs.find(
       (ref): ref is Extract<typeof ref, { kind: 'command' }> =>
         ref.kind === 'command' && ref.path.endsWith('.cursorHandoff.fromBehavior'),
@@ -262,6 +261,19 @@ describe('P03-G12 behaviorReferences 只读引用收集', () => {
       owner: { kind: 'scene-hook', sceneId: 's001', slot: 'onEnter', hookId: 'enter-a' },
       container: { kind: 'state', machineId: 'machine-1', stateId: 'idle', section: 'prepare' },
       commandPath: '0',
+    })
+    // 完整 handoff 源/目标 cursor：经 locator 解析出的命令携带 stateMap 全体 cases。
+    const resolved = resolveCanonicalScriptCommand(state, handoff!.locator)
+    expect(resolved).toMatchObject({
+      kind: 'selectEntityBehavior',
+      cursorHandoff: {
+        kind: 'stateMap',
+        fromBehavior: 'talk',
+        cases: [
+          { from: { kind: 'stage', stage: 'start' }, to: { kind: 'stage', stage: 'start' } },
+        ],
+        onUnmapped: 'error',
+      },
     })
   })
 
