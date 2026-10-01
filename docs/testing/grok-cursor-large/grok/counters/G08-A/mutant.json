@@ -30,9 +30,7 @@
     {
       "assertionResults": [
         {
-          "ancestorTitles": [
-            "G08-A 战斗精灵像素"
-          ],
+          "ancestorTitles": ["G08-A 战斗精灵像素"],
           "fullName": "G08-A 战斗精灵像素 G08-A01 染色精灵被后排盖住后，第二遍仍把重叠点染回低半字节",
           "status": "failed",
           "title": "G08-A01 染色精灵被后排盖住后，第二遍仍把重叠点染回低半字节",
@@ -44,9 +42,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "G08-A 战斗精灵像素"
-          ],
+          "ancestorTitles": ["G08-A 战斗精灵像素"],
           "fullName": "G08-A 战斗精灵像素 G08-A02 召唤隐藏队员时敌方像素仍在，队员锚点保持哨兵",
           "status": "passed",
           "title": "G08-A02 召唤隐藏队员时敌方像素仍在，队员锚点保持哨兵",
@@ -56,9 +52,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "G08-A 战斗精灵像素"
-          ],
+          "ancestorTitles": ["G08-A 战斗精灵像素"],
           "fullName": "G08-A 战斗精灵像素 G08-A03 隐身计时大于 0 且无染色时不画队员，计时本身不被消耗",
           "status": "passed",
           "title": "G08-A03 隐身计时大于 0 且无染色时不画队员，计时本身不被消耗",
@@ -68,9 +62,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "G08-A 战斗精灵像素"
-          ],
+          "ancestorTitles": ["G08-A 战斗精灵像素"],
           "fullName": "G08-A 战斗精灵像素 G08-A04 隐身期间染色不为 0 仍画出偏移后的低半字节",
           "status": "passed",
           "title": "G08-A04 隐身期间染色不为 0 仍画出偏移后的低半字节",
@@ -80,9 +72,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "G08-A 战斗精灵像素"
-          ],
+          "ancestorTitles": ["G08-A 战斗精灵像素"],
           "fullName": "G08-A 战斗精灵像素 G08-A05 负的隐身计时是待激活标记，队员照常画出",
           "status": "passed",
           "title": "G08-A05 负的隐身计时是待激活标记，队员照常画出",
@@ -92,9 +82,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "G08-A 战斗精灵像素"
-          ],
+          "ancestorTitles": ["G08-A 战斗精灵像素"],
           "fullName": "G08-A 战斗精灵像素 G08-A06 spriteNumOverride 取 player-覆盖号，不用角色战斗图号",
           "status": "passed",
           "title": "G08-A06 spriteNumOverride 取 player-覆盖号，不用角色战斗图号",
@@ -104,9 +92,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "G08-A 战斗精灵像素"
-          ],
+          "ancestorTitles": ["G08-A 战斗精灵像素"],
           "fullName": "G08-A 战斗精灵像素 G08-A07 覆盖号 0 不是空值，仍查 player-0",
           "status": "passed",
           "title": "G08-A07 覆盖号 0 不是空值，仍查 player-0",
@@ -116,9 +102,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "G08-A 战斗精灵像素"
-          ],
+          "ancestorTitles": ["G08-A 战斗精灵像素"],
           "fullName": "G08-A 战斗精灵像素 G08-A08 已击败且淡出未开始的空槽不画，旁边活敌照画",
           "status": "passed",
           "title": "G08-A08 已击败且淡出未开始的空槽不画，旁边活敌照画",
@@ -128,9 +112,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "G08-A 战斗精灵像素"
-          ],
+          "ancestorTitles": ["G08-A 战斗精灵像素"],
           "fullName": "G08-A 战斗精灵像素 G08-A09 战斗动画进行时用 currentFrame，不用倒下帧 2",
           "status": "passed",
           "title": "G08-A09 战斗动画进行时用 currentFrame，不用倒下帧 2",
@@ -140,9 +122,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "G08-A 战斗精灵像素"
-          ],
+          "ancestorTitles": ["G08-A 战斗精灵像素"],
           "fullName": "G08-A 战斗精灵像素 G08-A10 动画帧号越界时退回第 0 帧，不退回倒下帧",
           "status": "passed",
           "title": "G08-A10 动画帧号越界时退回第 0 帧，不退回倒下帧",
@@ -152,9 +132,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "G08-A 战斗精灵像素"
-          ],
+          "ancestorTitles": ["G08-A 战斗精灵像素"],
           "fullName": "G08-A 战斗精灵像素 G08-A11 只有逃跑动画时也读 currentFrame",
           "status": "passed",
           "title": "G08-A11 只有逃跑动画时也读 currentFrame",
@@ -164,9 +142,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "G08-A 战斗精灵像素"
-          ],
+          "ancestorTitles": ["G08-A 战斗精灵像素"],
           "fullName": "G08-A 战斗精灵像素 G08-A12 角色资料缺失时跳过该队员，敌方像素保留",
           "status": "passed",
           "title": "G08-A12 角色资料缺失时跳过该队员，敌方像素保留",
@@ -176,9 +152,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "G08-A 战斗精灵像素"
-          ],
+          "ancestorTitles": ["G08-A 战斗精灵像素"],
           "fullName": "G08-A 战斗精灵像素 G08-A13 排序更靠前的法术回调盖住未染色敌方像素",
           "status": "passed",
           "title": "G08-A13 排序更靠前的法术回调盖住未染色敌方像素",
@@ -188,9 +162,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "G08-A 战斗精灵像素"
-          ],
+          "ancestorTitles": ["G08-A 战斗精灵像素"],
           "fullName": "G08-A 战斗精灵像素 G08-A14 排序更靠后的法术回调被敌方盖住，框外那一点留下",
           "status": "passed",
           "title": "G08-A14 排序更靠后的法术回调被敌方盖住，框外那一点留下",
@@ -200,9 +172,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "G08-A 战斗精灵像素"
-          ],
+          "ancestorTitles": ["G08-A 战斗精灵像素"],
           "fullName": "G08-A 战斗精灵像素 G08-A15 绘制不改角色体力，也不改精灵帧里的索引",
           "status": "passed",
           "title": "G08-A15 绘制不改角色体力，也不改精灵帧里的索引",

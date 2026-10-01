@@ -30,9 +30,7 @@
     {
       "assertionResults": [
         {
-          "ancestorTitles": [
-            "G04-D present 冻屏归属与调色板"
-          ],
+          "ancestorTitles": ["G04-D present 冻屏归属与调色板"],
           "fullName": "G04-D present 冻屏归属与调色板 G04-D01 suspendRaf 先于 blackScreenHold 返回，哨兵像素不被清掉",
           "status": "failed",
           "title": "G04-D01 suspendRaf 先于 blackScreenHold 返回，哨兵像素不被清掉",
@@ -44,9 +42,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "G04-D present 冻屏归属与调色板"
-          ],
+          "ancestorTitles": ["G04-D present 冻屏归属与调色板"],
           "fullName": "G04-D present 冻屏归属与调色板 G04-D02 sceneLoading 保留哨兵，且不把波幅 40 加上 progression",
           "status": "passed",
           "title": "G04-D02 sceneLoading 保留哨兵，且不把波幅 40 加上 progression",
@@ -56,9 +52,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "G04-D present 冻屏归属与调色板"
-          ],
+          "ancestorTitles": ["G04-D present 冻屏归属与调色板"],
           "fullName": "G04-D present 冻屏归属与调色板 G04-D03 paletteFade freeze 保留哨兵，且不递减 shakeTime",
           "status": "passed",
           "title": "G04-D03 paletteFade freeze 保留哨兵，且不递减 shakeTime",
@@ -68,9 +62,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "G04-D present 冻屏归属与调色板"
-          ],
+          "ancestorTitles": ["G04-D present 冻屏归属与调色板"],
           "fullName": "G04-D present 冻屏归属与调色板 G04-D04 非战斗模式 presentBattleFrame 返回 false 且不清除哨兵",
           "status": "passed",
           "title": "G04-D04 非战斗模式 presentBattleFrame 返回 false 且不清除哨兵",
@@ -80,9 +72,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "G04-D present 冻屏归属与调色板"
-          ],
+          "ancestorTitles": ["G04-D present 冻屏归属与调色板"],
           "fullName": "G04-D present 冻屏归属与调色板 G04-D05 mode=battle 但没有 battleState 时返回 false 且不清除哨兵",
           "status": "passed",
           "title": "G04-D05 mode=battle 但没有 battleState 时返回 false 且不清除哨兵",
@@ -92,9 +82,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "G04-D present 冻屏归属与调色板"
-          ],
+          "ancestorTitles": ["G04-D present 冻屏归属与调色板"],
           "fullName": "G04-D present 冻屏归属与调色板 G04-D06 center 等键在 step 1 仍返回同一调色板引用",
           "status": "passed",
           "title": "G04-D06 center 等键在 step 1 仍返回同一调色板引用",
@@ -104,9 +92,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "G04-D present 冻屏归属与调色板"
-          ],
+          "ancestorTitles": ["G04-D present 冻屏归属与调色板"],
           "fullName": "G04-D present 冻屏归属与调色板 G04-D07 黑屏 center 等键恢复文字色，但不轮转 0xF9",
           "status": "passed",
           "title": "G04-D07 黑屏 center 等键恢复文字色，但不轮转 0xF9",
@@ -116,9 +102,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "G04-D present 冻屏归属与调色板"
-          ],
+          "ancestorTitles": ["G04-D present 冻屏归属与调色板"],
           "fullName": "G04-D present 冻屏归属与调色板 G04-D08 flushToCanvas 把索引 9 写成画布上的 RGBA，索引缓冲仍保留 9",
           "status": "passed",
           "title": "G04-D08 flushToCanvas 把索引 9 写成画布上的 RGBA，索引缓冲仍保留 9",
@@ -128,9 +112,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "G04-D present 冻屏归属与调色板"
-          ],
+          "ancestorTitles": ["G04-D present 冻屏归属与调色板"],
           "fullName": "G04-D present 冻屏归属与调色板 G04-D09 writePixel(300) 截成 44，toImageData 读的是 44 号色",
           "status": "passed",
           "title": "G04-D09 writePixel(300) 截成 44，toImageData 读的是 44 号色",

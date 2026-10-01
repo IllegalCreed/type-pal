@@ -11,9 +11,9 @@ Coding Owner: Grok。作者交付进行中，**不是 review / accept / done**�
 
 | 项 | 已计入 | 目标 | 剩余 |
 |---|---:|---:|---:|
-| 合法新合同 | 375 | 400 | 25 |
-| 组 | 36 | 40 | 4 |
-| 有效反控 | 36 | 40 | 4 |
+| 合法新合同 | 400 | 400 | 0 |
+| 组 | 40 | 40 | 0 |
+| 有效反控 | 40 | 40 | 0 |
 
 G01 四组都是 `packages/game/src/assets/loader.ts`：G01-A 合法装配、G01-B 边界、G01-C 失败恢复、G01-D 缓存归属与迟到。G01 新合同 40。
 
@@ -33,12 +33,14 @@ G08 四组：G08-A `draw-battle-sprites.ts` 染色第二遍、隐身和空槽，
 
 G09 四组：G09-A `input.ts` 键序、回放游标和录制数组，G09-B `main-loop.ts` 淡入门、余量等于间隔和 rAF 取消，G09-C `boot-loading.ts` 默认分母 810、缺节点和还原回调，G09-D `precache-ui.ts` 零字节、自定义虚线和进入后的错误门。本批新合同 55。键位表、repeat、单源 detach、间隔 40/100、巨大 dt、paletteFade、battleFade、3/4、99 封顶、默认 12% 单调和 precache-client 早到消息另记 57 条 existing-proof，`document === undefined` 的空 widget 另记 1 条 unreachable，不计入 375。目标仍是 400/40/40。
 
+G10 四组：G10-A `rng-player.ts` 默认跳过键、负帧号、等窗和零时长淡入，G10-B `trademark-fallback.ts` 淡出钳位与 `splash-fallback.ts` 窄图停点，G10-C `fbp-player.ts` DOS 块 49、speed 0 与上滚，G10-D `ending-player.ts` 省略跳过键和女孩落点、`avi-player.ts` 的 500ms、`fetch-retry.ts` 的 Request 以及 `bootstrap-resources.ts` 的场景拒绝。本批新合同 25。默认 Space 跳过、endFrame -1、窗口 [1,2]、耗尽震动、WIN95 块 68、下滑、上图过短、AVI 按下即移除、字符串 init 的 POST 和字形降级另记 64 条 existing-proof，`avi-player.ts:184` 在 document 不存在时的空返回另记 1 条 unreachable，不计入 400。累计 400/40/40。
+
 ## 本批证据
 
-- [contracts.json](contracts.json)：累计 375 条新合同；G02 到 G09 的 existingProof 不计入
-- [directed-vitest.json](directed-vitest.json)：375 条 file × fullName × passed；相邻记在 `adjacent`（G01 的 `loader.test.ts` 7 条，G02 的 png/tileset/dialog/rle 26 条，G03 的 tilemap/sprite/follower 31 条，G04 的 wave/shake/dither/framebuffer/present/P12 85 条，G05 的 dialog/font/draw-number/opening/settlement/P16 108 条，G06 的 inventory/equip/status 23 条，G07 的 magic/shop/box/opening/confirm 39 条，G08 的 battle sprite/ui/settlement/effect/num/bg/present/P15/P08/P09 143 条，G09 的 input/main-loop/boot/precache 57 条）
-- [counters.json](counters.json) 与 [反控说明](counters/README.md)：拒收探针加 G01 到 G09 各四枚三态原日志
-- [defects.md](defects.md)：没有停组的产品缺陷；G02 有一条宿主 blocked
+- [contracts.json](contracts.json)：累计 400 条新合同；G02 到 G10 的 existingProof 不计入
+- [directed-vitest.json](directed-vitest.json)：400 条 file × fullName × passed；相邻记在 `adjacent`（G01 的 `loader.test.ts` 7 条，G02 的 png/tileset/dialog/rle 26 条，G03 的 tilemap/sprite/follower 31 条，G04 的 wave/shake/dither/framebuffer/present/P12 85 条，G05 的 dialog/font/draw-number/opening/settlement/P16 108 条，G06 的 inventory/equip/status 23 条，G07 的 magic/shop/box/opening/confirm 39 条，G08 的 battle sprite/ui/settlement/effect/num/bg/present/P15/P08/P09 143 条，G09 的 input/main-loop/boot/precache 57 条，G10 的 rng/splash/trademark/fbp/ending/avi/bootstrap/fetch 68 条）
+- [counters.json](counters.json) 与 [反控说明](counters/README.md)：拒收探针加 G01 到 G10 各四枚三态原日志
+- [defects.md](defects.md)：没有停组的产品缺陷；G02 有一条宿主 blocked；全包有一条 PAL 资产环境 ENOENT，单列给 Codex
 - 专属宿主 `packages/game/src/__tests__/grok-render-r1/legal-host.ts`
 
 ## G01 已跑命令
@@ -158,4 +160,22 @@ G09 四组：G09-A `input.ts` 键序、回放游标和录制数组，G09-B `main
 
 反控：`node docs/testing/grok-cursor-large/grok/run-counters.mjs --only=G09-A,G09-B,G09-C,G09-D --skip-probe`。G09-C 在默认参数针上重采了一次。四枚 mutant 退出码 1，各只有一条指定 AssertionError。历史 G01 到 G08 与探针日志未重写。
 
-私有 coverage、全包 test、根 lint、docs check、diff check、verifier 留到末批。不合 main，不跑正式 ratchet。
+## G10 已跑命令
+
+定向与相邻：
+
+`pnpm --filter @type-pal/game exec vitest run src/shell/rng-window.grok-r1.test.ts src/shell/trademark-splash.grok-r1.test.ts src/shell/fbp-scroll.grok-r1.test.ts src/shell/ending-avi-host.grok-r1.test.ts src/shell/rng-player.test.ts src/shell/rng-player.glm-next-wave.test.ts src/shell/splash-fallback.test.ts src/shell/splash-fallback.glm-next-wave.test.ts src/shell/trademark-fallback.test.ts src/shell/fbp-player.test.ts src/shell/ending-player.test.ts src/shell/ending-player.glm-next-wave.test.ts src/shell/avi-player.test.ts src/shell/avi-player.glm-next-wave.test.ts src/shell/bootstrap-resources.test.ts src/shell/fetch-retry.test.ts src/shell/fetch-retry.boundaries.test.ts src/shell/fetch-retry.glm-phase1-leaves.test.ts --reporter=verbose --reporter=json --outputFile=/tmp/g10-directed.json`
+
+结果：新合同 25 passed，相邻 68 passed，pending 0。18 个文件合计 93 passed。G10-B01 用真实 2D canvas 抄下淡出中途 RGBA `[100, 40, 10, 255]`，最终画布是 `[0, 0, 0, 255]`。G10-B02 最终像素同样是黑，缓冲索引仍是 200。这是第六组离线真实像素。前五组是 G04-D08、G05-A11、G06-A12、G07-B13、G08-D07。
+
+六条功能宿主实操在 G09 一节。G10 的播放宿主还有：不传 skipKeys 时 Space 之后 RNG 末帧索引是 2；商标淡出中途仍是满色；卷轴停在 `iImgPos` 为 1 时顶行 11、底行 22；DOS 块 49 保持 99；省略结局跳过键时顶行是 60；AVI 在 499ms 仍有 1 个 video，500ms 为 0。
+
+剧情和演出观感只登记、不跑 PAL001/002。入口是 `bootstrap.ts` 的 `playDosOpening`，以及 `playAvi`、`playEndingAnimation`。预期是上述离线索引和像素。时序是商标帧 40ms、淡出前默认 1000ms、卷轴 85ms、FBP `speed` 0 的第一步 800ms、AVI 清理 500ms、结局默认帧间隔 50ms。证据文件是 `rng-window.grok-r1.test.ts`、`trademark-splash.grok-r1.test.ts`、`fbp-scroll.grok-r1.test.ts`、`ending-avi-host.grok-r1.test.ts`。
+
+`pnpm --filter @type-pal/game run typecheck` 退出码 0。
+
+反控：`node docs/testing/grok-cursor-large/grok/run-counters.mjs --only=G10-A,G10-B,G10-C,G10-D --skip-probe`。四枚 mutant 退出码 1，各只有一条指定 AssertionError。G10-A、G10-B、G10-D 的 patch 收成三行 hunk，变异后的源 SHA256 与重采前相同。历史 G01 到 G09 与探针日志未重写。
+
+全包 `pnpm --filter @type-pal/game exec vitest run` 退出码 1。278 个文件通过，4 个文件跳过，1 个文件失败。测试 3145 passed、13 skipped。失败套件是 `src/dev/dev-panel.test.ts`：工作树没有 gitignore 的 `data/extracted/data/enemy-teams.json`，收集阶段 `readFileSync` 抛出 ENOENT。主检出 `/Users/zhangxu/illegal/type-pal/data/extracted/data/enemy-teams.json` 存在。未复制真实数据，未改旧测。本卡 grok-r1 文件都在通过列表里。这条环境异常单列给 Codex，全包不算绿。
+
+根 `pnpm lint`：2967 files，0 errors / 0 warnings / 0 infos。`node scripts/docs/check.mjs`：PASS，0 issues。`verify-targets.mjs --owner grok --base 0704d3de6d3d2a2099475a42f601b654bba08579` 在工作树里会看到 8 个未跟踪的 `node_modules` 符号链接（`.gitignore` 的 `node_modules/` 不匹配符号链接）。把这 8 个链接临时移开后退出码 0：`globalFrozenSources` 716，`allocatedSources` 120，`frozenHashesValid` true，`changedPaths` 494。链接已放回，不进入提交。G02 到 G09 的三态 vitest JSON 只做了 Biome 排版，解析后的值与排版前相同。`git diff --check` 与私有 coverage 的原文记在随后的 `receipt.json`。完整候选 SHA 也在那份回执的 `candidateHead`，本文不回填当前 HEAD。不合 main，不跑正式 ratchet，不标 done。

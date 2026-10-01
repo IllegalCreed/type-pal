@@ -30,9 +30,7 @@
     {
       "assertionResults": [
         {
-          "ancestorTitles": [
-            "G02-A decodePngToIndices 通道与上下文"
-          ],
+          "ancestorTitles": ["G02-A decodePngToIndices 通道与上下文"],
           "fullName": "G02-A decodePngToIndices 通道与上下文 G02-A01 不透明像素的 G 与 B 非零时，索引仍只取 R",
           "status": "passed",
           "title": "G02-A01 不透明像素的 G 与 B 非零时，索引仍只取 R",
@@ -42,9 +40,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "G02-A decodePngToIndices 通道与上下文"
-          ],
+          "ancestorTitles": ["G02-A decodePngToIndices 通道与上下文"],
           "fullName": "G02-A decodePngToIndices 通道与上下文 G02-A02 3×2 图的末像素落在下标 5，宽高不是写死的 2×1",
           "status": "passed",
           "title": "G02-A02 3×2 图的末像素落在下标 5，宽高不是写死的 2×1",
@@ -54,9 +50,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "G02-A decodePngToIndices 通道与上下文"
-          ],
+          "ancestorTitles": ["G02-A decodePngToIndices 通道与上下文"],
           "fullName": "G02-A decodePngToIndices 通道与上下文 G02-A03 2d 上下文缺失时抛固定错误，并关闭已经创建的 bitmap",
           "status": "passed",
           "title": "G02-A03 2d 上下文缺失时抛固定错误，并关闭已经创建的 bitmap",
@@ -66,9 +60,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "G02-A decodePngToIndices 通道与上下文"
-          ],
+          "ancestorTitles": ["G02-A decodePngToIndices 通道与上下文"],
           "fullName": "G02-A decodePngToIndices 通道与上下文 G02-A04 4 字节坏 blob 的错误同时带上字节数和 MIME 类型",
           "status": "passed",
           "title": "G02-A04 4 字节坏 blob 的错误同时带上字节数和 MIME 类型",
@@ -78,9 +70,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "G02-A decodePngToIndices 通道与上下文"
-          ],
+          "ancestorTitles": ["G02-A decodePngToIndices 通道与上下文"],
           "fullName": "G02-A decodePngToIndices 通道与上下文 G02-A05 解码失败时把原始异常放在 Error.cause 上",
           "status": "passed",
           "title": "G02-A05 解码失败时把原始异常放在 Error.cause 上",

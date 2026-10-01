@@ -30,9 +30,7 @@
     {
       "assertionResults": [
         {
-          "ancestorTitles": [
-            "G08-D 特效与飘字像素"
-          ],
+          "ancestorTitles": ["G08-D 特效与飘字像素"],
           "fullName": "G08-D 特效与飘字像素 G08-D01 宽 3 的特效锚点只减 1，左缘和多出来的右缘都写入",
           "status": "failed",
           "title": "G08-D01 宽 3 的特效锚点只减 1，左缘和多出来的右缘都写入",
@@ -44,9 +42,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "G08-D 特效与飘字像素"
-          ],
+          "ancestorTitles": ["G08-D 特效与飘字像素"],
           "fullName": "G08-D 特效与飘字像素 G08-D02 宽 1 时右移半宽为 0，像素落在锚点列而不是左边一列",
           "status": "passed",
           "title": "G08-D02 宽 1 时右移半宽为 0，像素落在锚点列而不是左边一列",
@@ -56,9 +52,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "G08-D 特效与飘字像素"
-          ],
+          "ancestorTitles": ["G08-D 特效与飘字像素"],
           "fullName": "G08-D 特效与飘字像素 G08-D03 五位右对齐的个位在 x+24，十位不补零",
           "status": "passed",
           "title": "G08-D03 五位右对齐的个位在 x+24，十位不补零",
@@ -68,9 +62,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "G08-D 特效与飘字像素"
-          ],
+          "ancestorTitles": ["G08-D 特效与飘字像素"],
           "fullName": "G08-D 特效与飘字像素 G08-D04 六位数只留低五位，最高位不画到个位左边第六格",
           "status": "passed",
           "title": "G08-D04 六位数只留低五位，最高位不画到个位左边第六格",
@@ -80,9 +72,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "G08-D 特效与飘字像素"
-          ],
+          "ancestorTitles": ["G08-D 特效与飘字像素"],
           "fullName": "G08-D 特效与飘字像素 G08-D05 两条飘字各写自己的个位，黄 7 和蓝 3 不互相覆盖",
           "status": "passed",
           "title": "G08-D05 两条飘字各写自己的个位，黄 7 和蓝 3 不互相覆盖",
@@ -92,9 +82,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "G08-D 特效与飘字像素"
-          ],
+          "ancestorTitles": ["G08-D 特效与飘字像素"],
           "fullName": "G08-D 特效与飘字像素 G08-D06 数值 0 仍画一位黄 0，左边不补位",
           "status": "passed",
           "title": "G08-D06 数值 0 仍画一位黄 0，左边不补位",
@@ -104,9 +92,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "G08-D 特效与飘字像素"
-          ],
+          "ancestorTitles": ["G08-D 特效与飘字像素"],
           "fullName": "G08-D 特效与飘字像素 G08-D07 奇数宽右缘索引 0x2D 经 flushToCanvas 写成调色板 RGB，缓冲仍是 0x2D",
           "status": "passed",
           "title": "G08-D07 奇数宽右缘索引 0x2D 经 flushToCanvas 写成调色板 RGB，缓冲仍是 0x2D",

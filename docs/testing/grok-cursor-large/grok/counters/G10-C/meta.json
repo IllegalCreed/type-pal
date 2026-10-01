@@ -1,0 +1,33 @@
+{
+  "id": "G10-C",
+  "batch": "G10",
+  "axis": "speed 0 被当成 2，步进从 800ms 变成 400ms",
+  "source": "packages/game/src/shell/fbp-player.ts",
+  "testFile": "src/shell/fbp-scroll.grok-r1.test.ts",
+  "target": "G10-C03",
+  "accepted": true,
+  "reasons": [],
+  "sha256": {
+    "original": "ba1446541c29346fd98d84ecf97db75d36ec6070bddbfdce64f8e52904bba81a",
+    "mutant": "f8603e1e32d2326305bd537662e730772800906e013ec64526daab1d4645c102",
+    "restored": "ba1446541c29346fd98d84ecf97db75d36ec6070bddbfdce64f8e52904bba81a"
+  },
+  "exitCode": {
+    "original": 0,
+    "mutant": 1,
+    "restored": 0
+  },
+  "signal": {
+    "original": null,
+    "mutant": null,
+    "restored": null
+  },
+  "counts": {
+    "original": 6,
+    "mutantFailed": 1,
+    "restored": 6
+  },
+  "assertionError": "AssertionError: expected 400 to be 800 // Object.is equality\n    at /private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/grok-r1-G10-C-OPnX3r/packages/game/src/shell/fbp-scroll.grok-r1.test.ts:77:24\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:20",
+  "fullName": "G10-C FBP 块号滚动与步进 G10-C03 speed 0 的步进等待是 800 毫秒",
+  "names": 6
+}

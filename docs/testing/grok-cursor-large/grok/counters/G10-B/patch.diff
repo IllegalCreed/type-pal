@@ -1,0 +1,7 @@
+--- a/packages/game/src/shell/trademark-fallback.ts
++++ b/packages/game/src/shell/trademark-fallback.ts
+@@ -55,3 +55,3 @@
+ function scalePalette(base: Palette, factor: number): Palette {
+-  const f = Math.max(0, Math.min(1, factor))
++  const f = Math.max(0, Math.min(2, factor))
+   return {

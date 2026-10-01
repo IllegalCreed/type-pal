@@ -30,9 +30,7 @@
     {
       "assertionResults": [
         {
-          "ancestorTitles": [
-            "G09-B 主循环门控"
-          ],
+          "ancestorTitles": ["G09-B 主循环门控"],
           "fullName": "G09-B 主循环门控 G09-B01 dither fadeState 在未到逻辑间隔时仍 present，且 ticked 为 false",
           "status": "passed",
           "title": "G09-B01 dither fadeState 在未到逻辑间隔时仍 present，且 ticked 为 false",
@@ -42,9 +40,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "G09-B 主循环门控"
-          ],
+          "ancestorTitles": ["G09-B 主循环门控"],
           "fullName": "G09-B 主循环门控 G09-B02 battleAnim 在未到逻辑间隔时仍 present",
           "status": "passed",
           "title": "G09-B02 battleAnim 在未到逻辑间隔时仍 present",
@@ -54,9 +50,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "G09-B 主循环门控"
-          ],
+          "ancestorTitles": ["G09-B 主循环门控"],
           "fullName": "G09-B 主循环门控 G09-B03 dt 150 只 tick 一次，并把 50ms 余量留在累加器",
           "status": "passed",
           "title": "G09-B03 dt 150 只 tick 一次，并把 50ms 余量留在累加器",
@@ -66,9 +60,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "G09-B 主循环门控"
-          ],
+          "ancestorTitles": ["G09-B 主循环门控"],
           "fullName": "G09-B 主循环门控 G09-B04 dt 200 结转后余量正好等于间隔，不丢弃",
           "status": "failed",
           "title": "G09-B04 dt 200 结转后余量正好等于间隔，不丢弃",
@@ -80,9 +72,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "G09-B 主循环门控"
-          ],
+          "ancestorTitles": ["G09-B 主循环门控"],
           "fullName": "G09-B 主循环门控 G09-B05 冻结时不足一个间隔的余量保留，且不 present",
           "status": "passed",
           "title": "G09-B05 冻结时不足一个间隔的余量保留，且不 present",
@@ -92,9 +82,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "G09-B 主循环门控"
-          ],
+          "ancestorTitles": ["G09-B 主循环门控"],
           "fullName": "G09-B 主循环门控 G09-B06 逻辑 tick 把 bus.drain 的那一条命令交给 onPresent",
           "status": "passed",
           "title": "G09-B06 逻辑 tick 把 bus.drain 的那一条命令交给 onPresent",
@@ -104,9 +92,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "G09-B 主循环门控"
-          ],
+          "ancestorTitles": ["G09-B 主循环门控"],
           "fullName": "G09-B 主循环门控 G09-B07 发生逻辑 tick 时 nowMs 写成这一帧的时间戳",
           "status": "passed",
           "title": "G09-B07 发生逻辑 tick 时 nowMs 写成这一帧的时间戳",
@@ -116,9 +102,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "G09-B 主循环门控"
-          ],
+          "ancestorTitles": ["G09-B 主循环门控"],
           "fullName": "G09-B 主循环门控 G09-B08 dump 使用调用方给出的 partyWalkFrames 4",
           "status": "passed",
           "title": "G09-B08 dump 使用调用方给出的 partyWalkFrames 4",
@@ -128,9 +112,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "G09-B 主循环门控"
-          ],
+          "ancestorTitles": ["G09-B 主循环门控"],
           "fullName": "G09-B 主循环门控 G09-B09 未给 partyWalkFrames 时 dump 使用 3",
           "status": "passed",
           "title": "G09-B09 未给 partyWalkFrames 时 dump 使用 3",
@@ -140,9 +122,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "G09-B 主循环门控"
-          ],
+          "ancestorTitles": ["G09-B 主循环门控"],
           "fullName": "G09-B 主循环门控 G09-B10 没有 suppressHeldForFade 的输入源在 scene-fade 里仍按 fadeState present",
           "status": "passed",
           "title": "G09-B10 没有 suppressHeldForFade 的输入源在 scene-fade 里仍按 fadeState present",
@@ -152,9 +132,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "G09-B 主循环门控"
-          ],
+          "ancestorTitles": ["G09-B 主循环门控"],
           "fullName": "G09-B 主循环门控 G09-B11 探索累到 90 后切战斗，同一时间戳用 40ms 间隔 tick 一次并清掉超额余量",
           "status": "passed",
           "title": "G09-B11 探索累到 90 后切战斗，同一时间戳用 40ms 间隔 tick 一次并清掉超额余量",
@@ -164,9 +142,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "G09-B 主循环门控"
-          ],
+          "ancestorTitles": ["G09-B 主循环门控"],
           "fullName": "G09-B 主循环门控 G09-B12 tickN(0) 不 present，帧号保持 0",
           "status": "passed",
           "title": "G09-B12 tickN(0) 不 present，帧号保持 0",
@@ -176,9 +152,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "G09-B 主循环门控"
-          ],
+          "ancestorTitles": ["G09-B 主循环门控"],
           "fullName": "G09-B 主循环门控 G09-B13 startRafLoop 的取消函数取消的是刚刚排上的那一帧",
           "status": "passed",
           "title": "G09-B13 startRafLoop 的取消函数取消的是刚刚排上的那一帧",

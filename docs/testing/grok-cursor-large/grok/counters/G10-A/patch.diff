@@ -1,0 +1,7 @@
+--- a/packages/game/src/shell/rng-player.ts
++++ b/packages/game/src/shell/rng-player.ts
+@@ -213,3 +213,3 @@
+     const endFrameRaw = options.endFrame ?? -1
+-    const endFrame = endFrameRaw < 0 ? chunk.frameCount - 1 : endFrameRaw
++    const endFrame = endFrameRaw === -1 ? chunk.frameCount - 1 : endFrameRaw
+     if (startFrame > endFrame) return

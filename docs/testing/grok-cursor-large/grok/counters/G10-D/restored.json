@@ -1,0 +1,100 @@
+{
+  "numTotalTestSuites": 2,
+  "numPassedTestSuites": 2,
+  "numFailedTestSuites": 0,
+  "numPendingTestSuites": 0,
+  "numTotalTests": 6,
+  "numPassedTests": 6,
+  "numFailedTests": 0,
+  "numPendingTests": 0,
+  "numTodoTests": 0,
+  "snapshot": {
+    "added": 0,
+    "failure": false,
+    "filesAdded": 0,
+    "filesRemoved": 0,
+    "filesRemovedList": [],
+    "filesUnmatched": 0,
+    "filesUpdated": 0,
+    "matched": 0,
+    "total": 0,
+    "unchecked": 0,
+    "uncheckedKeysByFile": [],
+    "unmatched": 0,
+    "updated": 0,
+    "didUpdate": false
+  },
+  "startTime": 1790882825792,
+  "success": true,
+  "testResults": [
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["G10-D 结局截断与请求归属"],
+          "fullName": "G10-D 结局截断与请求归属 G10-D01 省略跳过键时 Space 不截断结局",
+          "status": "passed",
+          "title": "G10-D01 省略跳过键时 Space 不截断结局",
+          "duration": 116.61470799999995,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G10-D 结局截断与请求归属"],
+          "fullName": "G10-D 结局截断与请求归属 G10-D02 女孩纵坐标停在 80",
+          "status": "passed",
+          "title": "G10-D02 女孩纵坐标停在 80",
+          "duration": 99.79012499999999,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G10-D 结局截断与请求归属"],
+          "fullName": "G10-D 结局截断与请求归属 G10-D03 下半背景长度不足时整屏为 0",
+          "status": "passed",
+          "title": "G10-D03 下半背景长度不足时整屏为 0",
+          "duration": 1.0381250000000364,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G10-D 结局截断与请求归属"],
+          "fullName": "G10-D 结局截断与请求归属 G10-D04 跳过 AVI 后 499 毫秒仍在，500 毫秒移除",
+          "status": "passed",
+          "title": "G10-D04 跳过 AVI 后 499 毫秒仍在，500 毫秒移除",
+          "duration": 9.335874999999987,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G10-D 结局截断与请求归属"],
+          "fullName": "G10-D 结局截断与请求归属 G10-D05 POST Request 不重试",
+          "status": "passed",
+          "title": "G10-D05 POST Request 不重试",
+          "duration": 1.4493330000000242,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G10-D 结局截断与请求归属"],
+          "fullName": "G10-D 结局截断与请求归属 G10-D06 场景资源拒绝不会升级成字形警告",
+          "status": "passed",
+          "title": "G10-D06 场景资源拒绝不会升级成字形警告",
+          "duration": 0.875583000000006,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790882826449,
+      "endTime": 1790882826677.8755,
+      "status": "passed",
+      "message": "",
+      "name": "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/grok-r1-G10-D-fLAvQG/packages/game/src/shell/ending-avi-host.grok-r1.test.ts"
+    }
+  ]
+}

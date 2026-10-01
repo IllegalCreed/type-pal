@@ -30,9 +30,7 @@
     {
       "assertionResults": [
         {
-          "ancestorTitles": [
-            "G07-A 仙术菜单像素"
-          ],
+          "ancestorTitles": ["G07-A 仙术菜单像素"],
           "fullName": "G07-A 仙术菜单像素 G07-A01 选人阶段只有一人时仍画出一行内容框，底边在 y=78",
           "status": "failed",
           "title": "G07-A01 选人阶段只有一人时仍画出一行内容框，底边在 y=78",
@@ -44,9 +42,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "G07-A 仙术菜单像素"
-          ],
+          "ancestorTitles": ["G07-A 仙术菜单像素"],
           "fullName": "G07-A 仙术菜单像素 G07-A02 第二条仙术说明在 y=19，第一条仍在 y=3",
           "status": "passed",
           "title": "G07-A02 第二条仙术说明在 y=19，第一条仍在 y=3",
@@ -56,9 +52,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "G07-A 仙术菜单像素"
-          ],
+          "ancestorTitles": ["G07-A 仙术菜单像素"],
           "fullName": "G07-A 仙术菜单像素 G07-A03 缺少头像帧时头像位保持底色，体力个位仍画出",
           "status": "passed",
           "title": "G07-A03 缺少头像帧时头像位保持底色，体力个位仍画出",
@@ -68,9 +62,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "G07-A 仙术菜单像素"
-          ],
+          "ancestorTitles": ["G07-A 仙术菜单像素"],
           "fullName": "G07-A 仙术菜单像素 G07-A04 缺少斜杠帧时斜杠位保持底色，体力个位仍画出",
           "status": "passed",
           "title": "G07-A04 缺少斜杠帧时斜杠位保持底色，体力个位仍画出",
@@ -80,9 +72,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "G07-A 仙术菜单像素"
-          ],
+          "ancestorTitles": ["G07-A 仙术菜单像素"],
           "fullName": "G07-A 仙术菜单像素 G07-A05 缺少上箭头帧时目标光标位保持底色，仙术名仍画出",
           "status": "passed",
           "title": "G07-A05 缺少上箭头帧时目标光标位保持底色，仙术名仍画出",
@@ -92,9 +82,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "G07-A 仙术菜单像素"
-          ],
+          "ancestorTitles": ["G07-A 仙术菜单像素"],
           "fullName": "G07-A 仙术菜单像素 G07-A06 未选定施法人时不画顶部真气，仙术名仍画出",
           "status": "passed",
           "title": "G07-A06 未选定施法人时不画顶部真气，仙术名仍画出",
@@ -104,9 +92,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "G07-A 仙术菜单像素"
-          ],
+          "ancestorTitles": ["G07-A 仙术菜单像素"],
           "fullName": "G07-A 仙术菜单像素 G07-A07 法术目录没有对应 magic 时需要真气画成黄 0，现行真气仍是青 6",
           "status": "passed",
           "title": "G07-A07 法术目录没有对应 magic 时需要真气画成黄 0，现行真气仍是青 6",
@@ -116,9 +102,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "G07-A 仙术菜单像素"
-          ],
+          "ancestorTitles": ["G07-A 仙术菜单像素"],
           "fullName": "G07-A 仙术菜单像素 G07-A08 第三列仙术在 x=209，颜色是未选中色",
           "status": "passed",
           "title": "G07-A08 第三列仙术在 x=209，颜色是未选中色",
@@ -128,9 +112,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "G07-A 仙术菜单像素"
-          ],
+          "ancestorTitles": ["G07-A 仙术菜单像素"],
           "fullName": "G07-A 仙术菜单像素 G07-A09 第二行仙术在 y=72，颜色是未选中色",
           "status": "passed",
           "title": "G07-A09 第二行仙术在 y=72，颜色是未选中色",
@@ -140,9 +122,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "G07-A 仙术菜单像素"
-          ],
+          "ancestorTitles": ["G07-A 仙术菜单像素"],
           "fullName": "G07-A 仙术菜单像素 G07-A10 信息框真气读运行时 12，不读角色静态真气 99",
           "status": "passed",
           "title": "G07-A10 信息框真气读运行时 12，不读角色静态真气 99",
@@ -152,9 +132,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "G07-A 仙术菜单像素"
-          ],
+          "ancestorTitles": ["G07-A 仙术菜单像素"],
           "fullName": "G07-A 仙术菜单像素 G07-A11 体力上限 80 画在 y=173，当前体力 12 仍在 y=170",
           "status": "passed",
           "title": "G07-A11 体力上限 80 画在 y=173，当前体力 12 仍在 y=170",
@@ -164,9 +142,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "G07-A 仙术菜单像素"
-          ],
+          "ancestorTitles": ["G07-A 仙术菜单像素"],
           "fullName": "G07-A 仙术菜单像素 G07-A12 缺少光标帧 69 时名字照画，光标位留着格子框色",
           "status": "passed",
           "title": "G07-A12 缺少光标帧 69 时名字照画，光标位留着格子框色",
@@ -176,9 +152,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "G07-A 仙术菜单像素"
-          ],
+          "ancestorTitles": ["G07-A 仙术菜单像素"],
           "fullName": "G07-A 仙术菜单像素 G07-A13 头像落在信息框左上外侧，信息框本体仍在 (45,165)",
           "status": "passed",
           "title": "G07-A13 头像落在信息框左上外侧，信息框本体仍在 (45,165)",
@@ -188,9 +162,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "G07-A 仙术菜单像素"
-          ],
+          "ancestorTitles": ["G07-A 仙术菜单像素"],
           "fullName": "G07-A 仙术菜单像素 G07-A14 选人阶段不画仙术格子，体力个位仍画出",
           "status": "passed",
           "title": "G07-A14 选人阶段不画仙术格子，体力个位仍画出",
@@ -200,9 +172,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "G07-A 仙术菜单像素"
-          ],
+          "ancestorTitles": ["G07-A 仙术菜单像素"],
           "fullName": "G07-A 仙术菜单像素 G07-A15 格子光标的实点是 0x69，中间透明孔留着格子框色",
           "status": "passed",
           "title": "G07-A15 格子光标的实点是 0x69，中间透明孔留着格子框色",

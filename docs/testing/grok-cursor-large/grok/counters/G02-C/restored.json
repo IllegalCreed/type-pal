@@ -30,9 +30,7 @@
     {
       "assertionResults": [
         {
-          "ancestorTitles": [
-            "G02-C sprite 与 tileset 加载边界"
-          ],
+          "ancestorTitles": ["G02-C sprite 与 tileset 加载边界"],
           "fullName": "G02-C sprite 与 tileset 加载边界 G02-C01 裸 RLE 经过 loadSpriteFramesBlob 得到两帧 AA 与 BB",
           "status": "passed",
           "title": "G02-C01 裸 RLE 经过 loadSpriteFramesBlob 得到两帧 AA 与 BB",
@@ -42,9 +40,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "G02-C sprite 与 tileset 加载边界"
-          ],
+          "ancestorTitles": ["G02-C sprite 与 tileset 加载边界"],
           "fullName": "G02-C sprite 与 tileset 加载边界 G02-C02 裸 RLE 经过 loadTilesetBlob 得到键 0 与键 1",
           "status": "passed",
           "title": "G02-C02 裸 RLE 经过 loadTilesetBlob 得到键 0 与键 1",
@@ -54,9 +50,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "G02-C sprite 与 tileset 加载边界"
-          ],
+          "ancestorTitles": ["G02-C sprite 与 tileset 加载边界"],
           "fullName": "G02-C sprite 与 tileset 加载边界 G02-C03 裸 RLE 经过 loadCharacterSpriteBlob 时锚点为 0,1，第二帧为 BB",
           "status": "passed",
           "title": "G02-C03 裸 RLE 经过 loadCharacterSpriteBlob 时锚点为 0,1，第二帧为 BB",
@@ -66,9 +60,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "G02-C sprite 与 tileset 加载边界"
-          ],
+          "ancestorTitles": ["G02-C sprite 与 tileset 加载边界"],
           "fullName": "G02-C sprite 与 tileset 加载边界 G02-C04 sprite blob 503 的错误带 URL 与状态码",
           "status": "passed",
           "title": "G02-C04 sprite blob 503 的错误带 URL 与状态码",
@@ -78,9 +70,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "G02-C sprite 与 tileset 加载边界"
-          ],
+          "ancestorTitles": ["G02-C sprite 与 tileset 加载边界"],
           "fullName": "G02-C sprite 与 tileset 加载边界 G02-C05 tileset blob 503 的错误带 URL 与状态码",
           "status": "passed",
           "title": "G02-C05 tileset blob 503 的错误带 URL 与状态码",
@@ -90,9 +80,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "G02-C sprite 与 tileset 加载边界"
-          ],
+          "ancestorTitles": ["G02-C sprite 与 tileset 加载边界"],
           "fullName": "G02-C sprite 与 tileset 加载边界 G02-C06 角色 blob 404 的错误来自 sprite-blob，并带上角色 URL",
           "status": "passed",
           "title": "G02-C06 角色 blob 404 的错误来自 sprite-blob，并带上角色 URL",
@@ -102,9 +90,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "G02-C sprite 与 tileset 加载边界"
-          ],
+          "ancestorTitles": ["G02-C sprite 与 tileset 加载边界"],
           "fullName": "G02-C sprite 与 tileset 加载边界 G02-C07 tileset 200 但 gzip 主体损坏时，错误不是 fetch 失败串",
           "status": "passed",
           "title": "G02-C07 tileset 200 但 gzip 主体损坏时，错误不是 fetch 失败串",
@@ -114,9 +100,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "G02-C sprite 与 tileset 加载边界"
-          ],
+          "ancestorTitles": ["G02-C sprite 与 tileset 加载边界"],
           "fullName": "G02-C sprite 与 tileset 加载边界 G02-C08 sprite blob 返回损坏 gzip 时错误不是 fetch 失败串",
           "status": "passed",
           "title": "G02-C08 sprite blob 返回损坏 gzip 时错误不是 fetch 失败串",

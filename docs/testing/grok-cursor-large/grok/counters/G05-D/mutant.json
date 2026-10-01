@@ -30,9 +30,7 @@
     {
       "assertionResults": [
         {
-          "ancestorTitles": [
-            "G05-D dialog 图标物品框与旁白"
-          ],
+          "ancestorTitles": ["G05-D dialog 图标物品框与旁白"],
           "fullName": "G05-D dialog 图标物品框与旁白 G05-D01 右括号把等键图标切到第 1 帧，而不是默认第 0 帧",
           "status": "failed",
           "title": "G05-D01 右括号把等键图标切到第 1 帧，而不是默认第 0 帧",
@@ -44,9 +42,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "G05-D dialog 图标物品框与旁白"
-          ],
+          "ancestorTitles": ["G05-D dialog 图标物品框与旁白"],
           "fullName": "G05-D dialog 图标物品框与旁白 G05-D02 半角字宽 8 时，箭头落在文字末尾 x=52",
           "status": "passed",
           "title": "G05-D02 半角字宽 8 时，箭头落在文字末尾 x=52",
@@ -56,9 +52,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "G05-D dialog 图标物品框与旁白"
-          ],
+          "ancestorTitles": ["G05-D dialog 图标物品框与旁白"],
           "fullName": "G05-D dialog 图标物品框与旁白 G05-D03 当前行为空时，箭头画在最后一条已显示行上",
           "status": "passed",
           "title": "G05-D03 当前行为空时，箭头画在最后一条已显示行上",
@@ -68,9 +62,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "G05-D dialog 图标物品框与旁白"
-          ],
+          "ancestorTitles": ["G05-D dialog 图标物品框与旁白"],
           "fullName": "G05-D dialog 图标物品框与旁白 G05-D04 两个半角单位的旁白框从 (152,40) 起，文字在 (160,50)",
           "status": "passed",
           "title": "G05-D04 两个半角单位的旁白框从 (152,40) 起，文字在 (160,50)",
@@ -80,9 +72,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "G05-D dialog 图标物品框与旁白"
-          ],
+          "ancestorTitles": ["G05-D dialog 图标物品框与旁白"],
           "fullName": "G05-D dialog 图标物品框与旁白 G05-D05 旁白连续数字按 8 像素步进，第二位不落在 +6",
           "status": "passed",
           "title": "G05-D05 旁白连续数字按 8 像素步进，第二位不落在 +6",
@@ -92,9 +82,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "G05-D dialog 图标物品框与旁白"
-          ],
+          "ancestorTitles": ["G05-D dialog 图标物品框与旁白"],
           "fullName": "G05-D dialog 图标物品框与旁白 G05-D06 旁白样式不画头像，正文仍写在 (160,50)",
           "status": "passed",
           "title": "G05-D06 旁白样式不画头像，正文仍写在 (160,50)",
@@ -104,9 +92,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "G05-D dialog 图标物品框与旁白"
-          ],
+          "ancestorTitles": ["G05-D dialog 图标物品框与旁白"],
           "fullName": "G05-D dialog 图标物品框与旁白 G05-D07 物品框没有 itemBox 时，画面保持调用前的底色",
           "status": "passed",
           "title": "G05-D07 物品框没有 itemBox 时，画面保持调用前的底色",
@@ -116,9 +102,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "G05-D dialog 图标物品框与旁白"
-          ],
+          "ancestorTitles": ["G05-D dialog 图标物品框与旁白"],
           "fullName": "G05-D dialog 图标物品框与旁白 G05-D08 物品框两行文字分别落在 y=40 和 y=58，右侧一点不是阴影",
           "status": "passed",
           "title": "G05-D08 物品框两行文字分别落在 y=40 和 y=58，右侧一点不是阴影",
@@ -128,9 +112,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "G05-D dialog 图标物品框与旁白"
-          ],
+          "ancestorTitles": ["G05-D dialog 图标物品框与旁白"],
           "fullName": "G05-D dialog 图标物品框与旁白 G05-D09 物品目录里没有该 id 时，框仍居中，图标像素不出现",
           "status": "passed",
           "title": "G05-D09 物品目录里没有该 id 时，框仍居中，图标像素不出现",
@@ -140,9 +122,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "G05-D dialog 图标物品框与旁白"
-          ],
+          "ancestorTitles": ["G05-D dialog 图标物品框与旁白"],
           "fullName": "G05-D dialog 图标物品框与旁白 G05-D10 头像 opaque 必须等于 1 才写入，2 的孔保留底色",
           "status": "passed",
           "title": "G05-D10 头像 opaque 必须等于 1 才写入，2 的孔保留底色",
@@ -152,9 +132,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "G05-D dialog 图标物品框与旁白"
-          ],
+          "ancestorTitles": ["G05-D dialog 图标物品框与旁白"],
           "fullName": "G05-D dialog 图标物品框与旁白 G05-D11 物品框正文坐标是 (160,30)，有无头像都一样",
           "status": "passed",
           "title": "G05-D11 物品框正文坐标是 (160,30)，有无头像都一样",
@@ -164,9 +142,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "G05-D dialog 图标物品框与旁白"
-          ],
+          "ancestorTitles": ["G05-D dialog 图标物品框与旁白"],
           "fullName": "G05-D dialog 图标物品框与旁白 G05-D12 物品框姓名坐标也是占位 (160,30)",
           "status": "passed",
           "title": "G05-D12 物品框姓名坐标也是占位 (160,30)",
@@ -176,9 +152,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "G05-D dialog 图标物品框与旁白"
-          ],
+          "ancestorTitles": ["G05-D dialog 图标物品框与旁白"],
           "fullName": "G05-D dialog 图标物品框与旁白 G05-D13 物品框占位矩形是 (8,80,304,48)",
           "status": "passed",
           "title": "G05-D13 物品框占位矩形是 (8,80,304,48)",

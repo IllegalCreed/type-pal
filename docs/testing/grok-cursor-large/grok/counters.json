@@ -1,6 +1,6 @@
 {
-  "batch": "G09",
-  "acceptedCounters": 36,
+  "batch": "G10",
+  "acceptedCounters": 40,
   "probeRejected": true,
   "counters": [
     {
@@ -4632,6 +4632,335 @@
         "docs/testing/grok-cursor-large/grok/counters/G09-D/restored.json",
         "docs/testing/grok-cursor-large/grok/counters/G09-D/restored.stdout",
         "docs/testing/grok-cursor-large/grok/counters/G09-D/restored.stderr"
+      ]
+    },
+    {
+      "id": "G10-A",
+      "batch": "G10",
+      "accepted": true,
+      "reasons": [],
+      "axis": "只有 endFrame 恰好为 -1 才播到末帧，-2 被当成真实帧号",
+      "source": "packages/game/src/shell/rng-player.ts",
+      "testFile": "src/shell/rng-window.grok-r1.test.ts",
+      "target": "G10-A02",
+      "targetFullName": "G10-A RNG 默认跳过与帧窗 G10-A02 endFrame -2 播到 frameCount-1",
+      "assertionError": "AssertionError: expected +0 to be 2 // Object.is equality",
+      "sha256": {
+        "original": "551dde0f5f3e8d90d8c3f260dad37e50239b81fc12185ac81944a3f833b039ae",
+        "mutant": "4575ae594239eb972f1a68a7d2c946acb9d2ebd7a611695ef9d739dc4b637dad",
+        "restored": "551dde0f5f3e8d90d8c3f260dad37e50239b81fc12185ac81944a3f833b039ae"
+      },
+      "exitCode": {
+        "original": 0,
+        "mutant": 1,
+        "restored": 0
+      },
+      "signal": {
+        "original": null,
+        "mutant": null,
+        "restored": null
+      },
+      "counts": {
+        "original": 7,
+        "mutantFailed": 1,
+        "restored": 7
+      },
+      "executionCount": 7,
+      "executions": [
+        {
+          "file": "src/shell/rng-window.grok-r1.test.ts",
+          "fullName": "G10-A RNG 默认跳过与帧窗 G10-A01 省略跳过键时 Space 仍播到末帧",
+          "status": "passed"
+        },
+        {
+          "file": "src/shell/rng-window.grok-r1.test.ts",
+          "fullName": "G10-A RNG 默认跳过与帧窗 G10-A02 endFrame -2 播到 frameCount-1",
+          "status": "passed"
+        },
+        {
+          "file": "src/shell/rng-window.grok-r1.test.ts",
+          "fullName": "G10-A RNG 默认跳过与帧窗 G10-A03 startFrame 等于 endFrame 只取该帧",
+          "status": "passed"
+        },
+        {
+          "file": "src/shell/rng-window.grok-r1.test.ts",
+          "fullName": "G10-A RNG 默认跳过与帧窗 G10-A04 淡入时长 0 把索引 3 写成调色板 RGB",
+          "status": "passed"
+        },
+        {
+          "file": "src/shell/rng-window.grok-r1.test.ts",
+          "fullName": "G10-A RNG 默认跳过与帧窗 G10-A05 shakeTime 为 0 时首帧不填黑且计数保持 0",
+          "status": "passed"
+        },
+        {
+          "file": "src/shell/rng-window.grok-r1.test.ts",
+          "fullName": "G10-A RNG 默认跳过与帧窗 G10-A06 manifest 418 的错误文本带状态码",
+          "status": "passed"
+        },
+        {
+          "file": "src/shell/rng-window.grok-r1.test.ts",
+          "fullName": "G10-A RNG 默认跳过与帧窗 G10-A07 默认块地址是 rng-07.rle",
+          "status": "passed"
+        }
+      ],
+      "patch": {
+        "path": "docs/testing/grok-cursor-large/grok/counters/G10-A/patch.diff",
+        "sha256": "d1367ba75b7196686195b435dd7c3fe9d98967ac9a123abc0f4d9c82f604beb3",
+        "bytes": 348
+      },
+      "logs": [
+        "docs/testing/grok-cursor-large/grok/counters/G10-A/original.json",
+        "docs/testing/grok-cursor-large/grok/counters/G10-A/original.stdout",
+        "docs/testing/grok-cursor-large/grok/counters/G10-A/original.stderr",
+        "docs/testing/grok-cursor-large/grok/counters/G10-A/mutant.json",
+        "docs/testing/grok-cursor-large/grok/counters/G10-A/mutant.stdout",
+        "docs/testing/grok-cursor-large/grok/counters/G10-A/mutant.stderr",
+        "docs/testing/grok-cursor-large/grok/counters/G10-A/restored.json",
+        "docs/testing/grok-cursor-large/grok/counters/G10-A/restored.stdout",
+        "docs/testing/grok-cursor-large/grok/counters/G10-A/restored.stderr"
+      ]
+    },
+    {
+      "id": "G10-B",
+      "batch": "G10",
+      "accepted": true,
+      "reasons": [],
+      "axis": "淡出系数上界从 1 放宽到 2，时间回退时颜色翻倍",
+      "source": "packages/game/src/shell/trademark-fallback.ts",
+      "testFile": "src/shell/trademark-splash.grok-r1.test.ts",
+      "target": "G10-B01",
+      "targetFullName": "G10-B 商标淡出与卷轴停点 G10-B01 时间回退时淡出系数夹在 1，画布仍是调色板 RGB",
+      "assertionError": "AssertionError: expected [ 200, 80, 20, 255 ] to deeply equal [ 100, 40, 10, 255 ]",
+      "sha256": {
+        "original": "794b21b9872e5e309fa93497dfbe9c952f41d74d3330f99c1c2ba2b50d83800f",
+        "mutant": "b3af694d2aec5a69b5b6a2056bce3ee4bbfd17db0527bac5a787420c0b3e271a",
+        "restored": "794b21b9872e5e309fa93497dfbe9c952f41d74d3330f99c1c2ba2b50d83800f"
+      },
+      "exitCode": {
+        "original": 0,
+        "mutant": 1,
+        "restored": 0
+      },
+      "signal": {
+        "original": null,
+        "mutant": null,
+        "restored": null
+      },
+      "counts": {
+        "original": 6,
+        "mutantFailed": 1,
+        "restored": 6
+      },
+      "executionCount": 6,
+      "executions": [
+        {
+          "file": "src/shell/trademark-splash.grok-r1.test.ts",
+          "fullName": "G10-B 商标淡出与卷轴停点 G10-B01 时间回退时淡出系数夹在 1，画布仍是调色板 RGB",
+          "status": "passed"
+        },
+        {
+          "file": "src/shell/trademark-splash.grok-r1.test.ts",
+          "fullName": "G10-B 商标淡出与卷轴停点 G10-B02 淡出时长 0 的最终像素是黑，索引仍是 200",
+          "status": "passed"
+        },
+        {
+          "file": "src/shell/trademark-splash.grok-r1.test.ts",
+          "fullName": "G10-B 商标淡出与卷轴停点 G10-B03 默认淡出前等待 1000 毫秒",
+          "status": "passed"
+        },
+        {
+          "file": "src/shell/trademark-splash.grok-r1.test.ts",
+          "fullName": "G10-B 商标淡出与卷轴停点 G10-B04 playRng 固定 chunk 6",
+          "status": "passed"
+        },
+        {
+          "file": "src/shell/trademark-splash.grok-r1.test.ts",
+          "fullName": "G10-B 商标淡出与卷轴停点 G10-B05 窄图只拷贝自身宽度",
+          "status": "passed"
+        },
+        {
+          "file": "src/shell/trademark-splash.grok-r1.test.ts",
+          "fullName": "G10-B 商标淡出与卷轴停点 G10-B06 卷轴停在 iImgPos 1，底行仍是下图",
+          "status": "passed"
+        }
+      ],
+      "patch": {
+        "path": "docs/testing/grok-cursor-large/grok/counters/G10-B/patch.diff",
+        "sha256": "eeff8bb423ee31784e6e5b00b6848e3430aad1a7795300512612316c480c5a55",
+        "bytes": 291
+      },
+      "logs": [
+        "docs/testing/grok-cursor-large/grok/counters/G10-B/original.json",
+        "docs/testing/grok-cursor-large/grok/counters/G10-B/original.stdout",
+        "docs/testing/grok-cursor-large/grok/counters/G10-B/original.stderr",
+        "docs/testing/grok-cursor-large/grok/counters/G10-B/mutant.json",
+        "docs/testing/grok-cursor-large/grok/counters/G10-B/mutant.stdout",
+        "docs/testing/grok-cursor-large/grok/counters/G10-B/mutant.stderr",
+        "docs/testing/grok-cursor-large/grok/counters/G10-B/restored.json",
+        "docs/testing/grok-cursor-large/grok/counters/G10-B/restored.stdout",
+        "docs/testing/grok-cursor-large/grok/counters/G10-B/restored.stderr"
+      ]
+    },
+    {
+      "id": "G10-C",
+      "batch": "G10",
+      "accepted": true,
+      "reasons": [],
+      "axis": "speed 0 被当成 2，步进从 800ms 变成 400ms",
+      "source": "packages/game/src/shell/fbp-player.ts",
+      "testFile": "src/shell/fbp-scroll.grok-r1.test.ts",
+      "target": "G10-C03",
+      "targetFullName": "G10-C FBP 块号滚动与步进 G10-C03 speed 0 的步进等待是 800 毫秒",
+      "assertionError": "AssertionError: expected 400 to be 800 // Object.is equality",
+      "sha256": {
+        "original": "ba1446541c29346fd98d84ecf97db75d36ec6070bddbfdce64f8e52904bba81a",
+        "mutant": "f8603e1e32d2326305bd537662e730772800906e013ec64526daab1d4645c102",
+        "restored": "ba1446541c29346fd98d84ecf97db75d36ec6070bddbfdce64f8e52904bba81a"
+      },
+      "exitCode": {
+        "original": 0,
+        "mutant": 1,
+        "restored": 0
+      },
+      "signal": {
+        "original": null,
+        "mutant": null,
+        "restored": null
+      },
+      "counts": {
+        "original": 6,
+        "mutantFailed": 1,
+        "restored": 6
+      },
+      "executionCount": 6,
+      "executions": [
+        {
+          "file": "src/shell/fbp-scroll.grok-r1.test.ts",
+          "fullName": "G10-C FBP 块号滚动与步进 G10-C01 DOS 块 49 跳过最终 blit",
+          "status": "passed"
+        },
+        {
+          "file": "src/shell/fbp-scroll.grok-r1.test.ts",
+          "fullName": "G10-C FBP 块号滚动与步进 G10-C02 WIN95 下块 49 仍整屏写入",
+          "status": "passed"
+        },
+        {
+          "file": "src/shell/fbp-scroll.grok-r1.test.ts",
+          "fullName": "G10-C FBP 块号滚动与步进 G10-C03 speed 0 的步进等待是 800 毫秒",
+          "status": "passed"
+        },
+        {
+          "file": "src/shell/fbp-scroll.grok-r1.test.ts",
+          "fullName": "G10-C FBP 块号滚动与步进 G10-C04 上滚中途顶行是旧屏底行是新图",
+          "status": "passed"
+        },
+        {
+          "file": "src/shell/fbp-scroll.grok-r1.test.ts",
+          "fullName": "G10-C FBP 块号滚动与步进 G10-C05 长度不足的滚动不改 framebuffer",
+          "status": "passed"
+        },
+        {
+          "file": "src/shell/fbp-scroll.grok-r1.test.ts",
+          "fullName": "G10-C FBP 块号滚动与步进 G10-C06 fade 1 的每步等待是 20 毫秒",
+          "status": "passed"
+        }
+      ],
+      "patch": {
+        "path": "docs/testing/grok-cursor-large/grok/counters/G10-C/patch.diff",
+        "sha256": "e8206e615053cb4f4b8ec588bdf2e2a78803852f3258450e08769a415e9aa92b",
+        "bytes": 510
+      },
+      "logs": [
+        "docs/testing/grok-cursor-large/grok/counters/G10-C/original.json",
+        "docs/testing/grok-cursor-large/grok/counters/G10-C/original.stdout",
+        "docs/testing/grok-cursor-large/grok/counters/G10-C/original.stderr",
+        "docs/testing/grok-cursor-large/grok/counters/G10-C/mutant.json",
+        "docs/testing/grok-cursor-large/grok/counters/G10-C/mutant.stdout",
+        "docs/testing/grok-cursor-large/grok/counters/G10-C/mutant.stderr",
+        "docs/testing/grok-cursor-large/grok/counters/G10-C/restored.json",
+        "docs/testing/grok-cursor-large/grok/counters/G10-C/restored.stdout",
+        "docs/testing/grok-cursor-large/grok/counters/G10-C/restored.stderr"
+      ]
+    },
+    {
+      "id": "G10-D",
+      "batch": "G10",
+      "accepted": true,
+      "reasons": [],
+      "axis": "省略跳过键时默认吃掉 Space",
+      "source": "packages/game/src/shell/ending-player.ts",
+      "testFile": "src/shell/ending-avi-host.grok-r1.test.ts",
+      "target": "G10-D01",
+      "targetFullName": "G10-D 结局截断与请求归属 G10-D01 省略跳过键时 Space 不截断结局",
+      "assertionError": "AssertionError: expected 50 to be 60 // Object.is equality",
+      "sha256": {
+        "original": "f3eeccf75b87494ddeb02c9278d785942f3826060cbf4412ce0ac009a6cf70c4",
+        "mutant": "9d7f5bc627241d33b6d319aad76ab0c69078e0ebb578a43930ccdef29daa0cb2",
+        "restored": "f3eeccf75b87494ddeb02c9278d785942f3826060cbf4412ce0ac009a6cf70c4"
+      },
+      "exitCode": {
+        "original": 0,
+        "mutant": 1,
+        "restored": 0
+      },
+      "signal": {
+        "original": null,
+        "mutant": null,
+        "restored": null
+      },
+      "counts": {
+        "original": 6,
+        "mutantFailed": 1,
+        "restored": 6
+      },
+      "executionCount": 6,
+      "executions": [
+        {
+          "file": "src/shell/ending-avi-host.grok-r1.test.ts",
+          "fullName": "G10-D 结局截断与请求归属 G10-D01 省略跳过键时 Space 不截断结局",
+          "status": "passed"
+        },
+        {
+          "file": "src/shell/ending-avi-host.grok-r1.test.ts",
+          "fullName": "G10-D 结局截断与请求归属 G10-D02 女孩纵坐标停在 80",
+          "status": "passed"
+        },
+        {
+          "file": "src/shell/ending-avi-host.grok-r1.test.ts",
+          "fullName": "G10-D 结局截断与请求归属 G10-D03 下半背景长度不足时整屏为 0",
+          "status": "passed"
+        },
+        {
+          "file": "src/shell/ending-avi-host.grok-r1.test.ts",
+          "fullName": "G10-D 结局截断与请求归属 G10-D04 跳过 AVI 后 499 毫秒仍在，500 毫秒移除",
+          "status": "passed"
+        },
+        {
+          "file": "src/shell/ending-avi-host.grok-r1.test.ts",
+          "fullName": "G10-D 结局截断与请求归属 G10-D05 POST Request 不重试",
+          "status": "passed"
+        },
+        {
+          "file": "src/shell/ending-avi-host.grok-r1.test.ts",
+          "fullName": "G10-D 结局截断与请求归属 G10-D06 场景资源拒绝不会升级成字形警告",
+          "status": "passed"
+        }
+      ],
+      "patch": {
+        "path": "docs/testing/grok-cursor-large/grok/counters/G10-D/patch.diff",
+        "sha256": "8d72d0d155a1d69a6206b55ebe7b1c5b2743a6f65593c13cc36f3ef5358ec99b",
+        "bytes": 283
+      },
+      "logs": [
+        "docs/testing/grok-cursor-large/grok/counters/G10-D/original.json",
+        "docs/testing/grok-cursor-large/grok/counters/G10-D/original.stdout",
+        "docs/testing/grok-cursor-large/grok/counters/G10-D/original.stderr",
+        "docs/testing/grok-cursor-large/grok/counters/G10-D/mutant.json",
+        "docs/testing/grok-cursor-large/grok/counters/G10-D/mutant.stdout",
+        "docs/testing/grok-cursor-large/grok/counters/G10-D/mutant.stderr",
+        "docs/testing/grok-cursor-large/grok/counters/G10-D/restored.json",
+        "docs/testing/grok-cursor-large/grok/counters/G10-D/restored.stdout",
+        "docs/testing/grok-cursor-large/grok/counters/G10-D/restored.stderr"
       ]
     }
   ]

@@ -30,9 +30,7 @@
     {
       "assertionResults": [
         {
-          "ancestorTitles": [
-            "G04-A screen-wave 镜像与关断"
-          ],
+          "ancestorTitles": ["G04-A screen-wave 镜像与关断"],
           "fullName": "G04-A screen-wave 镜像与关断 G04-A01 相位 0 波幅 128 时第 16 行是 320 减 wave[0] 的镜像左移 290",
           "status": "failed",
           "title": "G04-A01 相位 0 波幅 128 时第 16 行是 320 减 wave[0] 的镜像左移 290",
@@ -44,9 +42,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "G04-A screen-wave 镜像与关断"
-          ],
+          "ancestorTitles": ["G04-A screen-wave 镜像与关断"],
           "fullName": "G04-A screen-wave 镜像与关断 G04-A02 波幅 255 仍卷动，行 0 左移 trunc(60*255/256)=59",
           "status": "passed",
           "title": "G04-A02 波幅 255 仍卷动，行 0 左移 trunc(60*255/256)=59",
@@ -56,9 +52,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "G04-A screen-wave 镜像与关断"
-          ],
+          "ancestorTitles": ["G04-A screen-wave 镜像与关断"],
           "fullName": "G04-A screen-wave 镜像与关断 G04-A03 波幅 4 时行 0 的偏移表为 0 故不卷，行 7 左移 4",
           "status": "passed",
           "title": "G04-A03 波幅 4 时行 0 的偏移表为 0 故不卷，行 7 左移 4",
@@ -68,9 +62,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "G04-A screen-wave 镜像与关断"
-          ],
+          "ancestorTitles": ["G04-A screen-wave 镜像与关断"],
           "fullName": "G04-A screen-wave 镜像与关断 G04-A04 advance=false 且波幅已经是 256 时不卷动也不清零",
           "status": "passed",
           "title": "G04-A04 advance=false 且波幅已经是 256 时不卷动也不清零",
@@ -80,9 +72,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "G04-A screen-wave 镜像与关断"
-          ],
+          "ancestorTitles": ["G04-A screen-wave 镜像与关断"],
           "fullName": "G04-A screen-wave 镜像与关断 G04-A05 波幅恰好 256 且 advance=true 时波幅和 progression 都归 0，像素不动",
           "status": "passed",
           "title": "G04-A05 波幅恰好 256 且 advance=true 时波幅和 progression 都归 0，像素不动",
@@ -92,9 +82,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "G04-A screen-wave 镜像与关断"
-          ],
+          "ancestorTitles": ["G04-A screen-wave 镜像与关断"],
           "fullName": "G04-A screen-wave 镜像与关断 G04-A06 推进一次后 advance=false 停在 wave[1]，连卷两次是 56 再 112",
           "status": "passed",
           "title": "G04-A06 推进一次后 advance=false 停在 wave[1]，连卷两次是 56 再 112",
@@ -104,9 +92,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "G04-A screen-wave 镜像与关断"
-          ],
+          "ancestorTitles": ["G04-A screen-wave 镜像与关断"],
           "fullName": "G04-A screen-wave 镜像与关断 G04-A07 先累加再判断，250+10 越过 256 则清零且本帧不卷",
           "status": "passed",
           "title": "G04-A07 先累加再判断，250+10 越过 256 则清零且本帧不卷",
@@ -116,9 +102,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "G04-A screen-wave 镜像与关断"
-          ],
+          "ancestorTitles": ["G04-A screen-wave 镜像与关断"],
           "fullName": "G04-A screen-wave 镜像与关断 G04-A08 advance=false 的活跃波幅 200 行 0 精确左移 46，计数不累加",
           "status": "passed",
           "title": "G04-A08 advance=false 的活跃波幅 200 行 0 精确左移 46，计数不累加",

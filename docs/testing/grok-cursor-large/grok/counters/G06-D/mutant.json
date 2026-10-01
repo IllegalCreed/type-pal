@@ -30,9 +30,7 @@
     {
       "assertionResults": [
         {
-          "ancestorTitles": [
-            "G06-D 状态数值与毒"
-          ],
+          "ancestorTitles": ["G06-D 状态数值与毒"],
           "fullName": "G06-D 状态数值与毒 G06-D01 当前真气 12 为黄，真气上限 80 为蓝",
           "status": "passed",
           "title": "G06-D01 当前真气 12 为黄，真气上限 80 为蓝",
@@ -42,9 +40,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "G06-D 状态数值与毒"
-          ],
+          "ancestorTitles": ["G06-D 状态数值与毒"],
           "fullName": "G06-D 状态数值与毒 G06-D02 武术是基础 20 加装备效果 3",
           "status": "passed",
           "title": "G06-D02 武术是基础 20 加装备效果 3",
@@ -54,9 +50,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "G06-D 状态数值与毒"
-          ],
+          "ancestorTitles": ["G06-D 状态数值与毒"],
           "fullName": "G06-D 状态数值与毒 G06-D03 灵力是基础 4 加装备效果 10",
           "status": "passed",
           "title": "G06-D03 灵力是基础 4 加装备效果 10",
@@ -66,9 +60,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "G06-D 状态数值与毒"
-          ],
+          "ancestorTitles": ["G06-D 状态数值与毒"],
           "fullName": "G06-D 状态数值与毒 G06-D04 防御数字在 y=142",
           "status": "passed",
           "title": "G06-D04 防御数字在 y=142",
@@ -78,9 +70,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "G06-D 状态数值与毒"
-          ],
+          "ancestorTitles": ["G06-D 状态数值与毒"],
           "fullName": "G06-D 状态数值与毒 G06-D05 身法数字在 y=162",
           "status": "passed",
           "title": "G06-D05 身法数字在 y=162",
@@ -90,9 +80,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "G06-D 状态数值与毒"
-          ],
+          "ancestorTitles": ["G06-D 状态数值与毒"],
           "fullName": "G06-D 状态数值与毒 G06-D06 吉运数字在 y=182",
           "status": "passed",
           "title": "G06-D06 吉运数字在 y=182",
@@ -102,9 +90,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "G06-D 状态数值与毒"
-          ],
+          "ancestorTitles": ["G06-D 状态数值与毒"],
           "fullName": "G06-D 状态数值与毒 G06-D07 经验斜杠坐标 (0,0) 不画，体力与真气斜杠照画",
           "status": "passed",
           "title": "G06-D07 经验斜杠坐标 (0,0) 不画，体力与真气斜杠照画",
@@ -114,9 +100,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "G06-D 状态数值与毒"
-          ],
+          "ancestorTitles": ["G06-D 状态数值与毒"],
           "fullName": "G06-D 状态数值与毒 G06-D08 缺少斜杠帧时体力数字仍在，斜杠位保持底色",
           "status": "passed",
           "title": "G06-D08 缺少斜杠帧时体力数字仍在，斜杠位保持底色",
@@ -126,9 +110,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "G06-D 状态数值与毒"
-          ],
+          "ancestorTitles": ["G06-D 状态数值与毒"],
           "fullName": "G06-D 状态数值与毒 G06-D09 未提供升级经验表时下一级只画一位青色 0，当前经验仍是 12",
           "status": "passed",
           "title": "G06-D09 未提供升级经验表时下一级只画一位青色 0，当前经验仍是 12",
@@ -138,9 +120,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "G06-D 状态数值与毒"
-          ],
+          "ancestorTitles": ["G06-D 状态数值与毒"],
           "fullName": "G06-D 状态数值与毒 G06-D10 毒等级等于 3 仍画出，颜色是 wColor 加 10",
           "status": "failed",
           "title": "G06-D10 毒等级等于 3 仍画出，颜色是 wColor 加 10",
@@ -152,9 +132,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "G06-D 状态数值与毒"
-          ],
+          "ancestorTitles": ["G06-D 状态数值与毒"],
           "fullName": "G06-D 状态数值与毒 G06-D11 空槽和等级大于 3 的毒不占显示行，下一毒上移到 y=76",
           "status": "passed",
           "title": "G06-D11 空槽和等级大于 3 的毒不占显示行，下一毒上移到 y=76",
@@ -164,9 +142,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "G06-D 状态数值与毒"
-          ],
+          "ancestorTitles": ["G06-D 状态数值与毒"],
           "fullName": "G06-D 状态数值与毒 G06-D12 第 11 条毒不再覆盖第 10 条的颜色",
           "status": "passed",
           "title": "G06-D12 第 11 条毒不再覆盖第 10 条的颜色",
@@ -176,9 +152,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "G06-D 状态数值与毒"
-          ],
+          "ancestorTitles": ["G06-D 状态数值与毒"],
           "fullName": "G06-D 状态数值与毒 G06-D13 第一槽 id 为 0 时跳过，第二槽画出装备名",
           "status": "passed",
           "title": "G06-D13 第一槽 id 为 0 时跳过，第二槽画出装备名",
@@ -188,9 +162,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "G06-D 状态数值与毒"
-          ],
+          "ancestorTitles": ["G06-D 状态数值与毒"],
           "fullName": "G06-D 状态数值与毒 G06-D14 物品在目录里但没有名字时，名字位画出 0xBE 的缺字框",
           "status": "passed",
           "title": "G06-D14 物品在目录里但没有名字时，名字位画出 0xBE 的缺字框",
@@ -200,9 +172,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "G06-D 状态数值与毒"
-          ],
+          "ancestorTitles": ["G06-D 状态数值与毒"],
           "fullName": "G06-D 状态数值与毒 G06-D15 没有立绘表时头像位保持底色，角色名仍是确认色",
           "status": "passed",
           "title": "G06-D15 没有立绘表时头像位保持底色，角色名仍是确认色",

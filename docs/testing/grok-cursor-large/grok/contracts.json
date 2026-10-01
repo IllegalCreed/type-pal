@@ -1,8 +1,8 @@
 {
-  "batch": "G09",
-  "count": 375,
-  "batchCount": 55,
-  "cumulativeNewContracts": 375,
+  "batch": "G10",
+  "count": 400,
+  "batchCount": 25,
+  "cumulativeNewContracts": 400,
   "target": 400,
   "contracts": [
     {
@@ -20179,6 +20179,1256 @@
         "fullName": "G09-D 预缓存宿主 G09-D20 done 立刻把透明度设为 0，599ms 仍在，600ms 移除",
         "status": "passed"
       }
+    },
+    {
+      "id": "G10-A01",
+      "batch": "G10",
+      "group": "G10-A",
+      "primarySource": {
+        "file": "packages/game/src/shell/rng-player.ts",
+        "conditionLine": 184,
+        "condition": "options.skipKeys ?? []"
+      },
+      "caller": {
+        "file": "packages/game/src/shell/bootstrap.ts",
+        "line": 1266,
+        "expr": "void playRng({"
+      },
+      "legalInput": "两帧 manifest，不传 skipKeys。playRng 返回后立刻派发 Space，frameDelayMs 为 0。",
+      "oldTest": {
+        "sha": "d3c6260946d21a1d78e15e6a6fdf9f1584b4360b",
+        "file": "packages/game/src/shell/rng-player.test.ts",
+        "fullName": "playRng — sdlpal PAL_RNGPlay 等价 (M5.6 T18 Step 4) Space 按键跳过 → 不到末帧停",
+        "assertionLine": 69,
+        "matcher": "toBeGreaterThanOrEqual",
+        "checked": "显式传入 Space 后索引至少为 1",
+        "distinct": "本例不传跳过键，Space 之后末帧索引仍是 2"
+      },
+      "file": "packages/game/src/shell/rng-window.grok-r1.test.ts",
+      "fullName": "G10-A RNG 默认跳过与帧窗 G10-A01 省略跳过键时 Space 仍播到末帧",
+      "assertions": [
+        {
+          "line": 63,
+          "endLine": 63,
+          "matchers": ["toBe"]
+        }
+      ],
+      "axis": "boundary",
+      "oracle": {
+        "operands": "末帧索引",
+        "matcher": "toBe",
+        "exact": "2"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/shell/rng-window.grok-r1.test.ts",
+        "fullName": "G10-A RNG 默认跳过与帧窗 G10-A01 省略跳过键时 Space 仍播到末帧",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G10-A02",
+      "batch": "G10",
+      "group": "G10-A",
+      "primarySource": {
+        "file": "packages/game/src/shell/rng-player.ts",
+        "conditionLine": 214,
+        "condition": "endFrameRaw < 0"
+      },
+      "caller": {
+        "file": "packages/game/src/shell/bootstrap.ts",
+        "line": 1269,
+        "expr": "endFrame,"
+      },
+      "legalInput": "frameCount 为 2，endFrame 传 -2。帧填充值是帧号加 1。",
+      "oldTest": {
+        "sha": "d3c6260946d21a1d78e15e6a6fdf9f1584b4360b",
+        "file": "packages/game/src/shell/rng-player.test.ts",
+        "fullName": "playRng — sdlpal PAL_RNGPlay 等价 (M5.6 T18 Step 4) endFrame=-1 → 默认播到 frameCount-1",
+        "assertionLine": 117,
+        "matcher": "toBe",
+        "checked": "endFrame 为 -1 时末帧索引是 3",
+        "distinct": "本例 endFrame 是 -2，末帧索引是 2"
+      },
+      "file": "packages/game/src/shell/rng-window.grok-r1.test.ts",
+      "fullName": "G10-A RNG 默认跳过与帧窗 G10-A02 endFrame -2 播到 frameCount-1",
+      "assertions": [
+        {
+          "line": 78,
+          "endLine": 78,
+          "matchers": ["toBe"]
+        }
+      ],
+      "axis": "boundary",
+      "oracle": {
+        "operands": "末帧索引",
+        "matcher": "toBe",
+        "exact": "2"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/shell/rng-window.grok-r1.test.ts",
+        "fullName": "G10-A RNG 默认跳过与帧窗 G10-A02 endFrame -2 播到 frameCount-1",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G10-A03",
+      "batch": "G10",
+      "group": "G10-A",
+      "primarySource": {
+        "file": "packages/game/src/shell/rng-player.ts",
+        "conditionLine": 215,
+        "condition": "startFrame > endFrame"
+      },
+      "caller": {
+        "file": "packages/game/src/shell/bootstrap.ts",
+        "line": 1268,
+        "expr": "startFrame,"
+      },
+      "legalInput": "manifest 有帧 0、1、2。startFrame 与 endFrame 都是 1。帧填充值是帧号加 4。",
+      "oldTest": {
+        "sha": "48532f1a07bd586a477ba01d9d8a01444833c0f8",
+        "file": "packages/game/src/shell/rng-player.glm-next-wave.test.ts",
+        "fullName": "playRng 帧窗口(startFrame/endFrame 决定实际请求与显示集合) 窗口 [1,2]:fetchFrame 恰被调 2 次(frame 1、2),窗外帧 0/3 零请求,末屏 = frame 2",
+        "assertionLine": 75,
+        "matcher": "toHaveBeenCalledTimes",
+        "checked": "窗口 [1,2] 先核对 manifest 调用 1 次",
+        "distinct": "本例起止相等，只请求帧 1，索引是 5"
+      },
+      "file": "packages/game/src/shell/rng-window.grok-r1.test.ts",
+      "fullName": "G10-A RNG 默认跳过与帧窗 G10-A03 startFrame 等于 endFrame 只取该帧",
+      "assertions": [
+        {
+          "line": 98,
+          "endLine": 98,
+          "matchers": ["toEqual"]
+        },
+        {
+          "line": 99,
+          "endLine": 99,
+          "matchers": ["toBe"]
+        }
+      ],
+      "axis": "boundary",
+      "oracle": {
+        "operands": "请求的帧号、缓冲索引",
+        "matcher": "toEqual / toBe",
+        "exact": "[1]，索引 5"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/shell/rng-window.grok-r1.test.ts",
+        "fullName": "G10-A RNG 默认跳过与帧窗 G10-A03 startFrame 等于 endFrame 只取该帧",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G10-A04",
+      "batch": "G10",
+      "group": "G10-A",
+      "primarySource": {
+        "file": "packages/game/src/shell/rng-player.ts",
+        "conditionLine": 162,
+        "condition": "durationMs <= 0"
+      },
+      "caller": {
+        "file": "packages/game/src/shell/bootstrap.ts",
+        "line": 1271,
+        "expr": "initialFadeInMs: fadeIn ? 600 : undefined,"
+      },
+      "legalInput": "单帧索引 3，initialFadeInMs 为 0。调色板走 legalPalette，索引 3 是 [3, 20, 40]。真实 2D canvas。",
+      "oldTest": {
+        "sha": "d3c6260946d21a1d78e15e6a6fdf9f1584b4360b",
+        "file": "packages/game/src/shell/rng-player.test.ts",
+        "fullName": "playRng — sdlpal PAL_RNGPlay 等价 (M5.6 T18 Step 4) initialFadeInMs:第一帧先按黑 palette 显示,再恢复目标 palette",
+        "assertionLine": 290,
+        "matcher": "toEqual",
+        "checked": "20ms 淡入的第一笔像素是 [0, 0, 0]",
+        "distinct": "时长 0 不走黑场，画布 (0,0) 是 [3, 20, 40, 255]，缓冲仍是 3"
+      },
+      "file": "packages/game/src/shell/rng-window.grok-r1.test.ts",
+      "fullName": "G10-A RNG 默认跳过与帧窗 G10-A04 淡入时长 0 把索引 3 写成调色板 RGB",
+      "assertions": [
+        {
+          "line": 115,
+          "endLine": 115,
+          "matchers": ["toEqual"]
+        },
+        {
+          "line": 116,
+          "endLine": 116,
+          "matchers": ["toBe"]
+        }
+      ],
+      "axis": "pixel",
+      "oracle": {
+        "operands": "画布 RGBA、缓冲索引",
+        "matcher": "toEqual / toBe",
+        "exact": "[3, 20, 40, 255]，索引 3"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/shell/rng-window.grok-r1.test.ts",
+        "fullName": "G10-A RNG 默认跳过与帧窗 G10-A04 淡入时长 0 把索引 3 写成调色板 RGB",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G10-A05",
+      "batch": "G10",
+      "group": "G10-A",
+      "primarySource": {
+        "file": "packages/game/src/shell/rng-player.ts",
+        "conditionLine": 244,
+        "condition": "shakeTime !== 0"
+      },
+      "caller": {
+        "file": "packages/game/src/shell/bootstrap.ts",
+        "line": 1277,
+        "expr": "shakeState: gs,"
+      },
+      "legalInput": "一帧全填 5。shakeState 一开始就是 {shakeTime: 0, shakeLevel: 4}。",
+      "oldTest": {
+        "sha": "d3c6260946d21a1d78e15e6a6fdf9f1584b4360b",
+        "file": "packages/game/src/shell/rng-player.test.ts",
+        "fullName": "playRng — sdlpal PAL_RNGPlay 等价 (M5.6 T18 Step 4) shakeState 透传(VIDEO_UpdateScreen shake 分支) shakeTime 中途耗尽 → 剩余帧不震不再递减(不下穿 0)",
+        "assertionLine": 224,
+        "matcher": "toBe",
+        "checked": "从 1 耗到 0 后末帧索引是 3",
+        "distinct": "开始就是 0 时首行仍是 5，计数保持 0"
+      },
+      "file": "packages/game/src/shell/rng-window.grok-r1.test.ts",
+      "fullName": "G10-A RNG 默认跳过与帧窗 G10-A05 shakeTime 为 0 时首帧不填黑且计数保持 0",
+      "assertions": [
+        {
+          "line": 132,
+          "endLine": 132,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 133,
+          "endLine": 133,
+          "matchers": ["toBe"]
+        }
+      ],
+      "axis": "boundary",
+      "oracle": {
+        "operands": "首行索引、shakeTime",
+        "matcher": "toBe",
+        "exact": "5，计数 0"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/shell/rng-window.grok-r1.test.ts",
+        "fullName": "G10-A RNG 默认跳过与帧窗 G10-A05 shakeTime 为 0 时首帧不填黑且计数保持 0",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G10-A06",
+      "batch": "G10",
+      "group": "G10-A",
+      "primarySource": {
+        "file": "packages/game/src/shell/rng-player.ts",
+        "conditionLine": 82,
+        "condition": "manifest fetch failed"
+      },
+      "caller": {
+        "file": "packages/game/src/shell/bootstrap.ts",
+        "line": 1266,
+        "expr": "void playRng({"
+      },
+      "legalInput": "不传 fetchManifest。global fetch 返回状态 418。缓冲预先写 9。",
+      "oldTest": {
+        "sha": "d3c6260946d21a1d78e15e6a6fdf9f1584b4360b",
+        "file": "packages/game/src/shell/rng-player.test.ts",
+        "fullName": "playRng — sdlpal PAL_RNGPlay 等价 (M5.6 T18 Step 4) manifest fetch throw → 警告 + return,不抛",
+        "assertionLine": 134,
+        "matcher": "toHaveBeenCalledWith",
+        "checked": "注入的 fetchManifest 自己抛错时会 warn",
+        "distinct": "默认加载器把状态码写进 Error：rng-player: manifest fetch failed (418)，缓冲保持 9"
+      },
+      "file": "packages/game/src/shell/rng-window.grok-r1.test.ts",
+      "fullName": "G10-A RNG 默认跳过与帧窗 G10-A06 manifest 418 的错误文本带状态码",
+      "assertions": [
+        {
+          "line": 151,
+          "endLine": 151,
+          "matchers": ["toBeInstanceOf"]
+        },
+        {
+          "line": 153,
+          "endLine": 153,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 154,
+          "endLine": 154,
+          "matchers": ["toBe"]
+        }
+      ],
+      "axis": "failure",
+      "oracle": {
+        "operands": "Error 消息、缓冲索引",
+        "matcher": "toBeInstanceOf / toBe",
+        "exact": "rng-player: manifest fetch failed (418)，索引 9"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/shell/rng-window.grok-r1.test.ts",
+        "fullName": "G10-A RNG 默认跳过与帧窗 G10-A06 manifest 418 的错误文本带状态码",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G10-A07",
+      "batch": "G10",
+      "group": "G10-A",
+      "primarySource": {
+        "file": "packages/game/src/shell/rng-player.ts",
+        "conditionLine": 98,
+        "condition": "padStart(2, '0')"
+      },
+      "caller": {
+        "file": "packages/game/src/shell/bootstrap.ts",
+        "line": 1266,
+        "expr": "void playRng({"
+      },
+      "legalInput": "chunkIdx 7，自带 manifest。不传 fetchFrame，让默认加载器发请求。fetch 记录 URL 后返回 404。",
+      "oldTest": {
+        "sha": "48532f1a07bd586a477ba01d9d8a01444833c0f8",
+        "file": "packages/game/src/shell/rng-player.glm-next-wave.test.ts",
+        "fullName": "playRng chunk 加载失败不长期缓存失败 Promise(允许重试) 首次加载失败 → 0 帧静默 resolve;再次播放重新加载成功并显帧(加载器恰 2 次调用)",
+        "assertionLine": 105,
+        "matcher": "toHaveBeenCalledWith",
+        "checked": "替换的加载器失败后允许第二次再加载",
+        "distinct": "默认地址是 /extracted/data/animation/rng-07.rle"
+      },
+      "file": "packages/game/src/shell/rng-window.grok-r1.test.ts",
+      "fullName": "G10-A RNG 默认跳过与帧窗 G10-A07 默认块地址是 rng-07.rle",
+      "assertions": [
+        {
+          "line": 176,
+          "endLine": 176,
+          "matchers": ["toEqual"]
+        }
+      ],
+      "axis": "failure",
+      "oracle": {
+        "operands": "fetch 收到的 URL",
+        "matcher": "toEqual",
+        "exact": "/extracted/data/animation/rng-07.rle"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/shell/rng-window.grok-r1.test.ts",
+        "fullName": "G10-A RNG 默认跳过与帧窗 G10-A07 默认块地址是 rng-07.rle",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G10-B01",
+      "batch": "G10",
+      "group": "G10-B",
+      "primarySource": {
+        "file": "packages/game/src/shell/trademark-fallback.ts",
+        "conditionLine": 56,
+        "condition": "Math.min(1, factor)"
+      },
+      "caller": {
+        "file": "packages/game/src/shell/bootstrap.ts",
+        "line": 1800,
+        "expr": "await playTrademarkFallback({"
+      },
+      "legalInput": "一帧索引 200，调色板 [100, 40, 10]。delayBeforeFadeMs 为 0，fadeOutMs 为 600。nowFn 依次返回 0、-600、600。真实 2D canvas，抄下每次 putImageData 的字节。",
+      "oldTest": {
+        "sha": "3329dda7b2928d489441e088715b4702aed4786d",
+        "file": "packages/game/src/shell/trademark-fallback.test.ts",
+        "fullName": "playTrademarkFallback — sdlpal main.c:197-203 PAL_TrademarkScreen DOS path 完整流程:playRng → delay → fadeOut → resolve",
+        "assertionLine": 41,
+        "matcher": "toBe",
+        "checked": "mock 画布上索引有非 0 即可",
+        "distinct": "第二笔 ImageData 的 (0,0) 仍是 [100, 40, 10, 255]，最终画布是黑，缓冲仍是 200"
+      },
+      "file": "packages/game/src/shell/trademark-splash.grok-r1.test.ts",
+      "fullName": "G10-B 商标淡出与卷轴停点 G10-B01 时间回退时淡出系数夹在 1，画布仍是调色板 RGB",
+      "assertions": [
+        {
+          "line": 79,
+          "endLine": 79,
+          "matchers": ["toEqual"]
+        },
+        {
+          "line": 80,
+          "endLine": 80,
+          "matchers": ["toEqual"]
+        },
+        {
+          "line": 81,
+          "endLine": 81,
+          "matchers": ["toBe"]
+        }
+      ],
+      "axis": "pixel",
+      "oracle": {
+        "operands": "淡出中途 RGBA",
+        "matcher": "toEqual / toBe",
+        "exact": "[100, 40, 10, 255]"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/shell/trademark-splash.grok-r1.test.ts",
+        "fullName": "G10-B 商标淡出与卷轴停点 G10-B01 时间回退时淡出系数夹在 1，画布仍是调色板 RGB",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G10-B02",
+      "batch": "G10",
+      "group": "G10-B",
+      "primarySource": {
+        "file": "packages/game/src/shell/trademark-fallback.ts",
+        "conditionLine": 89,
+        "condition": "scalePalette(palette, 0)"
+      },
+      "caller": {
+        "file": "packages/game/src/shell/bootstrap.ts",
+        "line": 1800,
+        "expr": "await playTrademarkFallback({"
+      },
+      "legalInput": "一帧索引 200。delayBeforeFadeMs 与 fadeOutMs 都是 0，nowFn 恒为 0。真实 2D canvas。",
+      "oldTest": {
+        "sha": "3329dda7b2928d489441e088715b4702aed4786d",
+        "file": "packages/game/src/shell/trademark-fallback.test.ts",
+        "fullName": "playTrademarkFallback — sdlpal main.c:197-203 PAL_TrademarkScreen DOS path 完整流程:playRng → delay → fadeOut → resolve",
+        "assertionLine": 41,
+        "matcher": "toBe",
+        "checked": "只要求索引里有非 0",
+        "distinct": "最终像素是 [0, 0, 0, 255]，索引仍是 200"
+      },
+      "file": "packages/game/src/shell/trademark-splash.grok-r1.test.ts",
+      "fullName": "G10-B 商标淡出与卷轴停点 G10-B02 淡出时长 0 的最终像素是黑，索引仍是 200",
+      "assertions": [
+        {
+          "line": 97,
+          "endLine": 97,
+          "matchers": ["toEqual"]
+        },
+        {
+          "line": 98,
+          "endLine": 98,
+          "matchers": ["toBe"]
+        }
+      ],
+      "axis": "pixel",
+      "oracle": {
+        "operands": "最终 RGBA、缓冲索引",
+        "matcher": "toEqual / toBe",
+        "exact": "[0, 0, 0, 255]，索引 200"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/shell/trademark-splash.grok-r1.test.ts",
+        "fullName": "G10-B 商标淡出与卷轴停点 G10-B02 淡出时长 0 的最终像素是黑，索引仍是 200",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G10-B03",
+      "batch": "G10",
+      "group": "G10-B",
+      "primarySource": {
+        "file": "packages/game/src/shell/trademark-fallback.ts",
+        "conditionLine": 108,
+        "condition": "?? 1000"
+      },
+      "caller": {
+        "file": "packages/game/src/shell/bootstrap.ts",
+        "line": 1800,
+        "expr": "await playTrademarkFallback({"
+      },
+      "legalInput": "不传 delayBeforeFadeMs。一帧，fadeOutMs 为 0，nowFn 恒为 0。假计时器记录 setTimeout 的毫秒数。",
+      "oldTest": {
+        "sha": "3329dda7b2928d489441e088715b4702aed4786d",
+        "file": "packages/game/src/shell/trademark-fallback.test.ts",
+        "fullName": "playTrademarkFallback — sdlpal main.c:197-203 PAL_TrademarkScreen DOS path 完整流程:playRng → delay → fadeOut → resolve",
+        "assertionLine": 41,
+        "matcher": "toBe",
+        "checked": "旧测把 delayBeforeFadeMs 设成 0",
+        "distinct": "默认等待序列是 40 然后 1000"
+      },
+      "file": "packages/game/src/shell/trademark-splash.grok-r1.test.ts",
+      "fullName": "G10-B 商标淡出与卷轴停点 G10-B03 默认淡出前等待 1000 毫秒",
+      "assertions": [
+        {
+          "line": 115,
+          "endLine": 115,
+          "matchers": ["toEqual"]
+        }
+      ],
+      "axis": "boundary",
+      "oracle": {
+        "operands": "setTimeout 毫秒",
+        "matcher": "toEqual",
+        "exact": "[40, 1000]"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/shell/trademark-splash.grok-r1.test.ts",
+        "fullName": "G10-B 商标淡出与卷轴停点 G10-B03 默认淡出前等待 1000 毫秒",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G10-B04",
+      "batch": "G10",
+      "group": "G10-B",
+      "primarySource": {
+        "file": "packages/game/src/shell/trademark-fallback.ts",
+        "conditionLine": 97,
+        "condition": "chunkIdx: 6"
+      },
+      "caller": {
+        "file": "packages/game/src/shell/bootstrap.ts",
+        "line": 1800,
+        "expr": "await playTrademarkFallback({"
+      },
+      "legalInput": "一帧 manifest。fetchFrame 记下 chunkIdx。delay 与 fade 都是 0。",
+      "oldTest": {
+        "sha": "3329dda7b2928d489441e088715b4702aed4786d",
+        "file": "packages/game/src/shell/trademark-fallback.test.ts",
+        "fullName": "playTrademarkFallback — sdlpal main.c:197-203 PAL_TrademarkScreen DOS path 完整流程:playRng → delay → fadeOut → resolve",
+        "assertionLine": 41,
+        "matcher": "toBe",
+        "checked": "不核对 chunk 号",
+        "distinct": "传给 playRng 的 chunkIdx 只有 6"
+      },
+      "file": "packages/game/src/shell/trademark-splash.grok-r1.test.ts",
+      "fullName": "G10-B 商标淡出与卷轴停点 G10-B04 playRng 固定 chunk 6",
+      "assertions": [
+        {
+          "line": 133,
+          "endLine": 133,
+          "matchers": ["toEqual"]
+        }
+      ],
+      "axis": "ownership",
+      "oracle": {
+        "operands": "fetchFrame 的 chunkIdx",
+        "matcher": "toEqual",
+        "exact": "[6]"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/shell/trademark-splash.grok-r1.test.ts",
+        "fullName": "G10-B 商标淡出与卷轴停点 G10-B04 playRng 固定 chunk 6",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G10-B05",
+      "batch": "G10",
+      "group": "G10-B",
+      "primarySource": {
+        "file": "packages/game/src/shell/splash-fallback.ts",
+        "conditionLine": 125,
+        "condition": "Math.min(bitmap.width, SCREEN_W)"
+      },
+      "caller": {
+        "file": "packages/game/src/shell/bootstrap.ts",
+        "line": 1816,
+        "expr": "await playSplashFallback({"
+      },
+      "legalInput": "上图宽 10、高 200、填 77，下图 320×200。仙鹤 1×1。Math.random 固定返回 1。第一帧画完后派发 Space。",
+      "oldTest": {
+        "sha": "c2c835cf3b5e46c74cc8d407da6d123265bb7d11",
+        "file": "packages/game/src/shell/splash-fallback.test.ts",
+        "fullName": "playSplashFallback — sdlpal main.c:206-456 PAL_SplashScreen 1:1 port 画屏后 fb 含 bitmapUp 或 bitmapDown 像素(滚动 bitmap blit 真的运行)",
+        "assertionLine": 113,
+        "matcher": "toBe",
+        "checked": "320 宽的图只要缓冲里出现过内容",
+        "distinct": "第 0 列是 77，第 10 列仍是 0"
+      },
+      "file": "packages/game/src/shell/trademark-splash.grok-r1.test.ts",
+      "fullName": "G10-B 商标淡出与卷轴停点 G10-B05 窄图只拷贝自身宽度",
+      "assertions": [
+        {
+          "line": 152,
+          "endLine": 152,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 153,
+          "endLine": 153,
+          "matchers": ["toBe"]
+        }
+      ],
+      "axis": "boundary",
+      "oracle": {
+        "operands": "第 0 列与第 10 列索引",
+        "matcher": "toBe",
+        "exact": "77 与 0"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/shell/trademark-splash.grok-r1.test.ts",
+        "fullName": "G10-B 商标淡出与卷轴停点 G10-B05 窄图只拷贝自身宽度",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G10-B06",
+      "batch": "G10",
+      "group": "G10-B",
+      "primarySource": {
+        "file": "packages/game/src/shell/splash-fallback.ts",
+        "conditionLine": 244,
+        "condition": "iImgPos > 1"
+      },
+      "caller": {
+        "file": "packages/game/src/shell/bootstrap.ts",
+        "line": 1816,
+        "expr": "await playSplashFallback({"
+      },
+      "legalInput": "上图全 11，下图全 22，都是 320×200。Math.random 固定返回 1。推进 198 个 85ms 后再派发 Space。",
+      "oldTest": {
+        "sha": "2549f5088649749a416f750c34651162162f7ab4",
+        "file": "packages/game/src/shell/splash-fallback.glm-next-wave.test.ts",
+        "fullName": "playSplashFallback 标题渐显(sdlpal main.c:378-389 每帧 +1 行) 未跳过的前 3 帧:title 只画 dy=0..2;dy=5 仍未画(fake timers 逐帧停点)",
+        "assertionLine": 67,
+        "matcher": "toBe",
+        "checked": "前 3 帧只核对标题第 0 行",
+        "distinct": "停住后顶行是 11，底行是 22"
+      },
+      "file": "packages/game/src/shell/trademark-splash.grok-r1.test.ts",
+      "fullName": "G10-B 商标淡出与卷轴停点 G10-B06 卷轴停在 iImgPos 1，底行仍是下图",
+      "assertions": [
+        {
+          "line": 173,
+          "endLine": 173,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 174,
+          "endLine": 174,
+          "matchers": ["toBe"]
+        }
+      ],
+      "axis": "boundary",
+      "oracle": {
+        "operands": "顶行与底行索引",
+        "matcher": "toBe",
+        "exact": "11 与 22"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/shell/trademark-splash.grok-r1.test.ts",
+        "fullName": "G10-B 商标淡出与卷轴停点 G10-B06 卷轴停在 iImgPos 1，底行仍是下图",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G10-C01",
+      "batch": "G10",
+      "group": "G10-C",
+      "primarySource": {
+        "file": "packages/game/src/shell/fbp-player.ts",
+        "conditionLine": 68,
+        "condition": "68 : 49"
+      },
+      "caller": {
+        "file": "packages/game/src/shell/bootstrap.ts",
+        "line": 1303,
+        "expr": "isWin95: buildFlag === 'win95',"
+      },
+      "legalInput": "isWin95 为 false，chunkNum 为 49，fade 为 0。缓冲预先填 99，目标图填 0x3c。",
+      "oldTest": {
+        "sha": "7d3a99b3a2ed6daaad1c6c73e0fea6ed55dbb787",
+        "file": "packages/game/src/shell/fbp-player.test.ts",
+        "fullName": "特效 B fbp-player showFbp(PAL_ShowFBP port) HACKHACK chunk(win95=68)fade=0 → 跳过最终 blit,fb 保持原样",
+        "assertionLine": 61,
+        "matcher": "toBe",
+        "checked": "WIN95 块 68 保持 99",
+        "distinct": "DOS 块 49 同样保持 99"
+      },
+      "file": "packages/game/src/shell/fbp-scroll.grok-r1.test.ts",
+      "fullName": "G10-C FBP 块号滚动与步进 G10-C01 DOS 块 49 跳过最终 blit",
+      "assertions": [
+        {
+          "line": 43,
+          "endLine": 43,
+          "matchers": ["toBe"]
+        }
+      ],
+      "axis": "boundary",
+      "oracle": {
+        "operands": "缓冲首索引",
+        "matcher": "toBe",
+        "exact": "99"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/shell/fbp-scroll.grok-r1.test.ts",
+        "fullName": "G10-C FBP 块号滚动与步进 G10-C01 DOS 块 49 跳过最终 blit",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G10-C02",
+      "batch": "G10",
+      "group": "G10-C",
+      "primarySource": {
+        "file": "packages/game/src/shell/fbp-player.ts",
+        "conditionLine": 108,
+        "condition": "chunkNum !== hackChunk"
+      },
+      "caller": {
+        "file": "packages/game/src/shell/bootstrap.ts",
+        "line": 1299,
+        "expr": "void showFbp({"
+      },
+      "legalInput": "isWin95 为 true，chunkNum 为 49，fade 为 0。缓冲预先填 99，目标图填 0x3c。",
+      "oldTest": {
+        "sha": "7d3a99b3a2ed6daaad1c6c73e0fea6ed55dbb787",
+        "file": "packages/game/src/shell/fbp-player.test.ts",
+        "fullName": "特效 B fbp-player showFbp(PAL_ShowFBP port) fade=0 → 整屏 = target FBP indices(瞬时 blit)",
+        "assertionLine": 30,
+        "matcher": "toBe",
+        "checked": "块 10 整屏写成 0x3c",
+        "distinct": "WIN95 下块 49 不是 HACKHACK，首尾都是 0x3c"
+      },
+      "file": "packages/game/src/shell/fbp-scroll.grok-r1.test.ts",
+      "fullName": "G10-C FBP 块号滚动与步进 G10-C02 WIN95 下块 49 仍整屏写入",
+      "assertions": [
+        {
+          "line": 58,
+          "endLine": 58,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 59,
+          "endLine": 59,
+          "matchers": ["toBe"]
+        }
+      ],
+      "axis": "boundary",
+      "oracle": {
+        "operands": "首尾索引",
+        "matcher": "toBe",
+        "exact": "0x3c 与 0x3c"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/shell/fbp-scroll.grok-r1.test.ts",
+        "fullName": "G10-C FBP 块号滚动与步进 G10-C02 WIN95 下块 49 仍整屏写入",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G10-C03",
+      "batch": "G10",
+      "group": "G10-C",
+      "primarySource": {
+        "file": "packages/game/src/shell/fbp-player.ts",
+        "conditionLine": 139,
+        "condition": "speed === 0"
+      },
+      "caller": {
+        "file": "packages/game/src/shell/bootstrap.ts",
+        "line": 1323,
+        "expr": "speed,"
+      },
+      "legalInput": "speed 为 0，向下滚一整屏。假计时器记下第一次 setTimeout 的毫秒数，再把滚动跑完。",
+      "oldTest": {
+        "sha": "7d3a99b3a2ed6daaad1c6c73e0fea6ed55dbb787",
+        "file": "packages/game/src/shell/fbp-player.test.ts",
+        "fullName": "特效 B fbp-player scrollFbp(PAL_ScrollFBP port) 下滑卷入完成 → 整屏 = 新图(末帧 CopyEntireSurface)",
+        "assertionLine": 100,
+        "matcher": "toBe",
+        "checked": "speed 100 时最终全是 0x22",
+        "distinct": "speed 0 的第一步等待是 800"
+      },
+      "file": "packages/game/src/shell/fbp-scroll.grok-r1.test.ts",
+      "fullName": "G10-C FBP 块号滚动与步进 G10-C03 speed 0 的步进等待是 800 毫秒",
+      "assertions": [
+        {
+          "line": 77,
+          "endLine": 77,
+          "matchers": ["toBe"]
+        }
+      ],
+      "axis": "boundary",
+      "oracle": {
+        "operands": "第一次等待毫秒",
+        "matcher": "toBe",
+        "exact": "800"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/shell/fbp-scroll.grok-r1.test.ts",
+        "fullName": "G10-C FBP 块号滚动与步进 G10-C03 speed 0 的步进等待是 800 毫秒",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G10-C04",
+      "batch": "G10",
+      "group": "G10-C",
+      "primarySource": {
+        "file": "packages/game/src/shell/fbp-player.ts",
+        "conditionLine": 161,
+        "condition": "(200 - i) * SCREEN_W"
+      },
+      "caller": {
+        "file": "packages/game/src/shell/bootstrap.ts",
+        "line": 1324,
+        "expr": "fScrollDown: true,"
+      },
+      "legalInput": "旧屏全 100，新图全 200，fScrollDown 为 false，speed 为 100。推进 110 个 8ms 后读缓冲。",
+      "oldTest": {
+        "sha": "7d3a99b3a2ed6daaad1c6c73e0fea6ed55dbb787",
+        "file": "packages/game/src/shell/fbp-player.test.ts",
+        "fullName": "特效 B fbp-player scrollFbp(PAL_ScrollFBP port) 滚动中间帧 = 旧屏下移 + 新图自顶推入(下滑方向)",
+        "assertionLine": 126,
+        "matcher": "toBe",
+        "checked": "下滑中途顶行是 200、底行是 100",
+        "distinct": "上滚中途顶行是 100、底行是 200"
+      },
+      "file": "packages/game/src/shell/fbp-scroll.grok-r1.test.ts",
+      "fullName": "G10-C FBP 块号滚动与步进 G10-C04 上滚中途顶行是旧屏底行是新图",
+      "assertions": [
+        {
+          "line": 93,
+          "endLine": 93,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 94,
+          "endLine": 94,
+          "matchers": ["toBe"]
+        }
+      ],
+      "axis": "boundary",
+      "oracle": {
+        "operands": "顶行与底行索引",
+        "matcher": "toBe",
+        "exact": "100 与 200"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/shell/fbp-scroll.grok-r1.test.ts",
+        "fullName": "G10-C FBP 块号滚动与步进 G10-C04 上滚中途顶行是旧屏底行是新图",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G10-C05",
+      "batch": "G10",
+      "group": "G10-C",
+      "primarySource": {
+        "file": "packages/game/src/shell/fbp-player.ts",
+        "conditionLine": 136,
+        "condition": "length !== N"
+      },
+      "caller": {
+        "file": "packages/game/src/shell/bootstrap.ts",
+        "line": 1321,
+        "expr": "void scrollFbp({"
+      },
+      "legalInput": "fbpIndices 长度 10。缓冲预先全填 77。",
+      "oldTest": {
+        "sha": "7d3a99b3a2ed6daaad1c6c73e0fea6ed55dbb787",
+        "file": "packages/game/src/shell/fbp-player.test.ts",
+        "fullName": "特效 B fbp-player showFbp(PAL_ShowFBP port) 无图(indices 长度不符)→ 全黑(sdlpal memset 0 / WIN95 SDL_FillRect)",
+        "assertionLine": 46,
+        "matcher": "toBe",
+        "checked": "showFbp 长度不足时整屏变成 0",
+        "distinct": "scrollFbp 长度不足时直接返回，首尾仍是 77"
+      },
+      "file": "packages/game/src/shell/fbp-scroll.grok-r1.test.ts",
+      "fullName": "G10-C FBP 块号滚动与步进 G10-C05 长度不足的滚动不改 framebuffer",
+      "assertions": [
+        {
+          "line": 110,
+          "endLine": 110,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 111,
+          "endLine": 111,
+          "matchers": ["toBe"]
+        }
+      ],
+      "axis": "failure",
+      "oracle": {
+        "operands": "首尾索引",
+        "matcher": "toBe",
+        "exact": "77 与 77"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/shell/fbp-scroll.grok-r1.test.ts",
+        "fullName": "G10-C FBP 块号滚动与步进 G10-C05 长度不足的滚动不改 framebuffer",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G10-C06",
+      "batch": "G10",
+      "group": "G10-C",
+      "primarySource": {
+        "file": "packages/game/src/shell/fbp-player.ts",
+        "conditionLine": 71,
+        "condition": "(o.fade + 1) * 10"
+      },
+      "caller": {
+        "file": "packages/game/src/shell/bootstrap.ts",
+        "line": 1301,
+        "expr": "fade,"
+      },
+      "legalInput": "fade 为 1，WIN95 块 68。假计时器记下第一次 setTimeout，再把渐变跑完。",
+      "oldTest": {
+        "sha": "7d3a99b3a2ed6daaad1c6c73e0fea6ed55dbb787",
+        "file": "packages/game/src/shell/fbp-player.test.ts",
+        "fullName": "特效 B fbp-player showFbp(PAL_ShowFBP port) fade>0 + HACKHACK chunk → dither 自身收敛到 target(高 nibble 跳 + 低 nibble migrate 满)",
+        "assertionLine": 81,
+        "matcher": "toBe",
+        "checked": "渐变结束后索引是 0x3c",
+        "distinct": "fade 1 的每步等待是 20"
+      },
+      "file": "packages/game/src/shell/fbp-scroll.grok-r1.test.ts",
+      "fullName": "G10-C FBP 块号滚动与步进 G10-C06 fade 1 的每步等待是 20 毫秒",
+      "assertions": [
+        {
+          "line": 131,
+          "endLine": 131,
+          "matchers": ["toBe"]
+        }
+      ],
+      "axis": "boundary",
+      "oracle": {
+        "operands": "第一次等待毫秒",
+        "matcher": "toBe",
+        "exact": "20"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/shell/fbp-scroll.grok-r1.test.ts",
+        "fullName": "G10-C FBP 块号滚动与步进 G10-C06 fade 1 的每步等待是 20 毫秒",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G10-D01",
+      "batch": "G10",
+      "group": "G10-D",
+      "primarySource": {
+        "file": "packages/game/src/shell/ending-player.ts",
+        "conditionLine": 165,
+        "condition": "o.skipKeys ?? []"
+      },
+      "caller": {
+        "file": "packages/game/src/shell/bootstrap.ts",
+        "line": 1446,
+        "expr": "await playEndingAnimation({"
+      },
+      "legalInput": "不传 skipKeys。上图全 60，下图全 50，没有妖兽和女孩。frameCount 3，frameDelayMs 10。调用返回后派发 Space。",
+      "oldTest": {
+        "sha": "78abb6b82ebdd87d209eec6b6378ce790cc64917",
+        "file": "packages/game/src/shell/ending-player.glm-next-wave.test.ts",
+        "fullName": "playEndingAnimation 取消释放与背景回退 skipKeys:播中 Space 被拦截并提前退出(刷帧数远小于 frameCount),finally 释放监听",
+        "assertionLine": 100,
+        "matcher": "toHaveBeenCalledTimes",
+        "checked": "显式传入 Space 时只刷 2 帧",
+        "distinct": "省略跳过键时 Space 不截断，顶行是 60"
+      },
+      "file": "packages/game/src/shell/ending-avi-host.grok-r1.test.ts",
+      "fullName": "G10-D 结局截断与请求归属 G10-D01 省略跳过键时 Space 不截断结局",
+      "assertions": [
+        {
+          "line": 85,
+          "endLine": 85,
+          "matchers": ["toBe"]
+        }
+      ],
+      "axis": "cancel",
+      "oracle": {
+        "operands": "顶行索引",
+        "matcher": "toBe",
+        "exact": "60"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/shell/ending-avi-host.grok-r1.test.ts",
+        "fullName": "G10-D 结局截断与请求归属 G10-D01 省略跳过键时 Space 不截断结局",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G10-D02",
+      "batch": "G10",
+      "group": "G10-D",
+      "primarySource": {
+        "file": "packages/game/src/shell/ending-player.ts",
+        "conditionLine": 191,
+        "condition": "yPosGirl < 80"
+      },
+      "caller": {
+        "file": "packages/game/src/shell/bootstrap.ts",
+        "line": 1450,
+        "expr": "girlFrames: girl,"
+      },
+      "legalInput": "女孩是 1×1 索引 99 的一帧。上图 60，下图 50。frameCount 202，frameDelayMs 0。",
+      "oldTest": {
+        "sha": "3e22aa86bf5649744e2d5086c1a30d4f18b32d6c",
+        "file": "packages/game/src/shell/ending-player.test.ts",
+        "fullName": "结局 ending-player playEndingAnimation(PAL_EndingAnimation port) 跑完 N 帧不崩;背景(lower)+ 女孩精灵写入 fb",
+        "assertionLine": 45,
+        "matcher": "toBe",
+        "checked": "4 帧后缓冲里出现过 50 和 99",
+        "distinct": "(220, 80) 是 99，(220, 79) 是 60"
+      },
+      "file": "packages/game/src/shell/ending-avi-host.grok-r1.test.ts",
+      "fullName": "G10-D 结局截断与请求归属 G10-D02 女孩纵坐标停在 80",
+      "assertions": [
+        {
+          "line": 104,
+          "endLine": 104,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 105,
+          "endLine": 105,
+          "matchers": ["toBe"]
+        }
+      ],
+      "axis": "boundary",
+      "oracle": {
+        "operands": "女孩落点与上一行",
+        "matcher": "toBe",
+        "exact": "99 与 60"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/shell/ending-avi-host.grok-r1.test.ts",
+        "fullName": "G10-D 结局截断与请求归属 G10-D02 女孩纵坐标停在 80",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G10-D03",
+      "batch": "G10",
+      "group": "G10-D",
+      "primarySource": {
+        "file": "packages/game/src/shell/ending-player.ts",
+        "conditionLine": 155,
+        "condition": "lowerIndices.length === N"
+      },
+      "caller": {
+        "file": "packages/game/src/shell/bootstrap.ts",
+        "line": 1448,
+        "expr": "lowerIndices: bg(62),"
+      },
+      "legalInput": "上图长度 64000 全 60。下图长度 4。缓冲预先全填 7。frameCount 1。",
+      "oldTest": {
+        "sha": "78abb6b82ebdd87d209eec6b6378ce790cc64917",
+        "file": "packages/game/src/shell/ending-player.glm-next-wave.test.ts",
+        "fullName": "playEndingAnimation 取消释放与背景回退 upperIndices 长度非 64000 → 回退全黑背景(帧值集合 = {黑, lower});合法 upper 对照组无黑",
+        "assertionLine": 132,
+        "matcher": "toBe",
+        "checked": "上图长度不对时画面里出现 0",
+        "distinct": "下图长度不对时首尾都是 0"
+      },
+      "file": "packages/game/src/shell/ending-avi-host.grok-r1.test.ts",
+      "fullName": "G10-D 结局截断与请求归属 G10-D03 下半背景长度不足时整屏为 0",
+      "assertions": [
+        {
+          "line": 125,
+          "endLine": 125,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 126,
+          "endLine": 126,
+          "matchers": ["toBe"]
+        }
+      ],
+      "axis": "failure",
+      "oracle": {
+        "operands": "首尾索引",
+        "matcher": "toBe",
+        "exact": "0 与 0"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/shell/ending-avi-host.grok-r1.test.ts",
+        "fullName": "G10-D 结局截断与请求归属 G10-D03 下半背景长度不足时整屏为 0",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G10-D04",
+      "batch": "G10",
+      "group": "G10-D",
+      "primarySource": {
+        "file": "packages/game/src/shell/avi-player.ts",
+        "conditionLine": 118,
+        "condition": "setTimeout(cleanup, 500)"
+      },
+      "caller": {
+        "file": "packages/game/src/shell/bootstrap.ts",
+        "line": 1607,
+        "expr": "await playAvi({ src: '/extracted/videos/3.mp4' })"
+      },
+      "legalInput": "src 为 /extracted/videos/3.mp4。play 与 pause 换成立刻完成的函数。假计时器。派发 Space 后先走 499ms，再走 1ms。",
+      "oldTest": {
+        "sha": "cbe36644bc605cc3b62db91728c8ae82009b013c",
+        "file": "packages/game/src/shell/avi-player.test.ts",
+        "fullName": "playAvi — sdlpal PAL_PlayAVI 等价 (M5.6 T18 Step 3) Space 键跳过 → Promise resolve + element 移除",
+        "assertionLine": 39,
+        "matcher": "not.toBeNull",
+        "checked": "按下 Space 后最终 video 被移除，不核对 500ms 边界",
+        "distinct": "499ms 时 video 仍是 1 个，500ms 时是 0 个"
+      },
+      "file": "packages/game/src/shell/ending-avi-host.grok-r1.test.ts",
+      "fullName": "G10-D 结局截断与请求归属 G10-D04 跳过 AVI 后 499 毫秒仍在，500 毫秒移除",
+      "assertions": [
+        {
+          "line": 133,
+          "endLine": 133,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 136,
+          "endLine": 136,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 138,
+          "endLine": 138,
+          "matchers": ["toBe"]
+        }
+      ],
+      "axis": "cancel",
+      "oracle": {
+        "operands": "video 个数",
+        "matcher": "toBe",
+        "exact": "1，然后 0"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/shell/ending-avi-host.grok-r1.test.ts",
+        "fullName": "G10-D 结局截断与请求归属 G10-D04 跳过 AVI 后 499 毫秒仍在，500 毫秒移除",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G10-D05",
+      "batch": "G10",
+      "group": "G10-D",
+      "primarySource": {
+        "file": "packages/game/src/shell/fetch-retry.ts",
+        "conditionLine": 30,
+        "condition": "input instanceof Request"
+      },
+      "caller": {
+        "file": "packages/game/src/main.ts",
+        "line": 20,
+        "expr": "installFetchRetry()"
+      },
+      "legalInput": "installFetchRetry({retries: 1, backoffMs: [1]})。fetch(new Request('https://x.test/post', {method: 'POST'}))，不传 init。底层始终返回同一个 503。",
+      "oldTest": {
+        "sha": "053413e4ee83b649a2590f178e546e80df4bb44d",
+        "file": "packages/game/src/shell/fetch-retry.boundaries.test.ts",
+        "fullName": "H01 installFetchRetry 边界 init.method 优先于 Request.method：非幂等覆盖不重试（503 也只调一次）；GET 对照重试",
+        "assertionLine": 38,
+        "matcher": "toBe",
+        "checked": "Request 是 GET 但 init.method 是 POST 时只调用 1 次",
+        "distinct": "只有 Request、没有 init 时 POST 也只调用 1 次，状态 503"
+      },
+      "file": "packages/game/src/shell/ending-avi-host.grok-r1.test.ts",
+      "fullName": "G10-D 结局截断与请求归属 G10-D05 POST Request 不重试",
+      "assertions": [
+        {
+          "line": 154,
+          "endLine": 154,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 155,
+          "endLine": 155,
+          "matchers": ["toBe"]
+        }
+      ],
+      "axis": "boundary",
+      "oracle": {
+        "operands": "调用次数、状态码",
+        "matcher": "toBe",
+        "exact": "1，503"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/shell/ending-avi-host.grok-r1.test.ts",
+        "fullName": "G10-D 结局截断与请求归属 G10-D05 POST Request 不重试",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G10-D06",
+      "batch": "G10",
+      "group": "G10-D",
+      "primarySource": {
+        "file": "packages/game/src/shell/bootstrap-resources.ts",
+        "conditionLine": 55,
+        "condition": "ports.loadAssets(sceneId)"
+      },
+      "caller": {
+        "file": "packages/game/src/shell/bootstrap.ts",
+        "line": 238,
+        "expr": "startBootstrapResourceLoad(SCENE_ID)"
+      },
+      "legalInput": "sceneId 4。loadAssets 拒绝 Error('scene 4 missing')。warn 是空的 vi.fn。soundfont 正常解决。",
+      "oldTest": {
+        "sha": "dd84dff34533e4e84ef4f53164dbfeb5a5c67ef3",
+        "file": "packages/game/src/shell/bootstrap-resources.test.ts",
+        "fullName": "bootstrap resource lifecycle degrades a glyph failure without blocking the other initial resources",
+        "assertionLine": 80,
+        "matcher": "toEqual",
+        "checked": "字形失败时 resourcesReady 仍解决，glyphs 为 undefined",
+        "distinct": "场景资源拒绝时 resourcesReady 的错误就是原来的 Error，warn 调用 0 次，soundfontSettled 仍解决"
+      },
+      "file": "packages/game/src/shell/ending-avi-host.grok-r1.test.ts",
+      "fullName": "G10-D 结局截断与请求归属 G10-D06 场景资源拒绝不会升级成字形警告",
+      "assertions": [
+        {
+          "line": 174,
+          "endLine": 174,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 175,
+          "endLine": 175,
+          "matchers": ["toHaveBeenCalledTimes"]
+        },
+        {
+          "line": 176,
+          "endLine": 176,
+          "matchers": ["resolves.toBeUndefined"]
+        }
+      ],
+      "axis": "failure",
+      "oracle": {
+        "operands": "拒绝身份、warn 次数",
+        "matcher": "toBe / toHaveBeenCalledTimes / resolves.toBeUndefined",
+        "exact": "同一个 Error，0 次"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/shell/ending-avi-host.grok-r1.test.ts",
+        "fullName": "G10-D 结局截断与请求归属 G10-D06 场景资源拒绝不会升级成字形警告",
+        "status": "passed"
+      }
     }
   ],
   "existingProof": [
@@ -23613,6 +24863,845 @@
       "reason": "precache-ui.ts:30 在 document 不存在时返回空 widget。本 jsdom 始终有 document，这条没有可观察宿主。",
       "file": "packages/game/src/shell/precache-ui.ts",
       "line": 30
+    },
+    {
+      "id": "G10-EP-rng-player-01",
+      "classification": "existing-proof",
+      "reason": "全部帧播完 → fb.indices = 末帧填充",
+      "oldTest": {
+        "sha": "d3c6260946d21a1d78e15e6a6fdf9f1584b4360b",
+        "file": "packages/game/src/shell/rng-player.test.ts",
+        "assertionLine": 50,
+        "matcher": "toBe",
+        "checked": "expect(fb.indices[0]).toBe(3)",
+        "fullName": "playRng — sdlpal PAL_RNGPlay 等价 (M5.6 T18 Step 4) 全部帧播完 → fb.indices = 末帧填充"
+      }
+    },
+    {
+      "id": "G10-EP-rng-player-02",
+      "classification": "existing-proof",
+      "reason": "Space 按键跳过 → 不到末帧停",
+      "oldTest": {
+        "sha": "d3c6260946d21a1d78e15e6a6fdf9f1584b4360b",
+        "file": "packages/game/src/shell/rng-player.test.ts",
+        "assertionLine": 69,
+        "matcher": "toBeGreaterThanOrEqual",
+        "checked": "expect(fb.indices[0]).toBeGreaterThanOrEqual(1)",
+        "fullName": "playRng — sdlpal PAL_RNGPlay 等价 (M5.6 T18 Step 4) Space 按键跳过 → 不到末帧停"
+      }
+    },
+    {
+      "id": "G10-EP-rng-player-03",
+      "classification": "existing-proof",
+      "reason": "manifest 缺该 chunk → 警告 + return,不抛",
+      "oldTest": {
+        "sha": "d3c6260946d21a1d78e15e6a6fdf9f1584b4360b",
+        "file": "packages/game/src/shell/rng-player.test.ts",
+        "assertionLine": 85,
+        "matcher": "toHaveBeenCalledWith",
+        "checked": "expect(warn).toHaveBeenCalledWith(expect.stringContaining('999 不在 manifest'))",
+        "fullName": "playRng — sdlpal PAL_RNGPlay 等价 (M5.6 T18 Step 4) manifest 缺该 chunk → 警告 + return,不抛"
+      }
+    },
+    {
+      "id": "G10-EP-rng-player-04",
+      "classification": "existing-proof",
+      "reason": "startFrame > endFrame → 立即 return 不播",
+      "oldTest": {
+        "sha": "d3c6260946d21a1d78e15e6a6fdf9f1584b4360b",
+        "file": "packages/game/src/shell/rng-player.test.ts",
+        "assertionLine": 102,
+        "matcher": "toBe",
+        "checked": "expect(fb.indices.every((v) => v === 0)).toBe(true)",
+        "fullName": "playRng — sdlpal PAL_RNGPlay 等价 (M5.6 T18 Step 4) startFrame > endFrame → 立即 return 不播"
+      }
+    },
+    {
+      "id": "G10-EP-rng-player-05",
+      "classification": "existing-proof",
+      "reason": "endFrame=-1 → 默认播到 frameCount-1",
+      "oldTest": {
+        "sha": "d3c6260946d21a1d78e15e6a6fdf9f1584b4360b",
+        "file": "packages/game/src/shell/rng-player.test.ts",
+        "assertionLine": 117,
+        "matcher": "toBe",
+        "checked": "expect(fb.indices[0]).toBe(3)",
+        "fullName": "playRng — sdlpal PAL_RNGPlay 等价 (M5.6 T18 Step 4) endFrame=-1 → 默认播到 frameCount-1"
+      }
+    },
+    {
+      "id": "G10-EP-rng-player-06",
+      "classification": "existing-proof",
+      "reason": "manifest fetch throw → 警告 + return,不抛",
+      "oldTest": {
+        "sha": "d3c6260946d21a1d78e15e6a6fdf9f1584b4360b",
+        "file": "packages/game/src/shell/rng-player.test.ts",
+        "assertionLine": 134,
+        "matcher": "toHaveBeenCalledWith",
+        "checked": "expect(warn).toHaveBeenCalledWith(",
+        "fullName": "playRng — sdlpal PAL_RNGPlay 等价 (M5.6 T18 Step 4) manifest fetch throw → 警告 + return,不抛"
+      }
+    },
+    {
+      "id": "G10-EP-rng-player-07",
+      "classification": "existing-proof",
+      "reason": "单帧 fetch throw → warn + skip 该帧 + 继续",
+      "oldTest": {
+        "sha": "d3c6260946d21a1d78e15e6a6fdf9f1584b4360b",
+        "file": "packages/game/src/shell/rng-player.test.ts",
+        "assertionLine": 161,
+        "matcher": "toHaveBeenCalledWith",
+        "checked": "expect(warn).toHaveBeenCalledWith(",
+        "fullName": "playRng — sdlpal PAL_RNGPlay 等价 (M5.6 T18 Step 4) 单帧 fetch throw → warn + skip 该帧 + 继续"
+      }
+    },
+    {
+      "id": "G10-EP-rng-player-08",
+      "classification": "existing-proof",
+      "reason": "shakeTime 随每显示帧递减(3 帧视频:65→62)",
+      "oldTest": {
+        "sha": "d3c6260946d21a1d78e15e6a6fdf9f1584b4360b",
+        "file": "packages/game/src/shell/rng-player.test.ts",
+        "assertionLine": 186,
+        "matcher": "toBe",
+        "checked": "expect(shakeState.shakeTime).toBe(62)",
+        "fullName": "playRng — sdlpal PAL_RNGPlay 等价 (M5.6 T18 Step 4) shakeState 透传(VIDEO_UpdateScreen shake 分支) shakeTime 随每显示帧递减(3 帧视频:65→62)"
+      }
+    },
+    {
+      "id": "G10-EP-rng-player-09",
+      "classification": "existing-proof",
+      "reason": "视频帧本身被震:偶 shakeTime 帧整幅下移 shakeLevel 行,顶部填黑",
+      "oldTest": {
+        "sha": "d3c6260946d21a1d78e15e6a6fdf9f1584b4360b",
+        "file": "packages/game/src/shell/rng-player.test.ts",
+        "assertionLine": 205,
+        "matcher": "toBe",
+        "checked": "expect(fb.indices[0]).toBe(0)",
+        "fullName": "playRng — sdlpal PAL_RNGPlay 等价 (M5.6 T18 Step 4) shakeState 透传(VIDEO_UpdateScreen shake 分支) 视频帧本身被震:偶 shakeTime 帧整幅下移 shakeLevel 行,顶部填黑"
+      }
+    },
+    {
+      "id": "G10-EP-rng-player-10",
+      "classification": "existing-proof",
+      "reason": "shakeTime 中途耗尽 → 剩余帧不震不再递减(不下穿 0)",
+      "oldTest": {
+        "sha": "d3c6260946d21a1d78e15e6a6fdf9f1584b4360b",
+        "file": "packages/game/src/shell/rng-player.test.ts",
+        "assertionLine": 224,
+        "matcher": "toBe",
+        "checked": "expect(shakeState.shakeTime).toBe(0)",
+        "fullName": "playRng — sdlpal PAL_RNGPlay 等价 (M5.6 T18 Step 4) shakeState 透传(VIDEO_UpdateScreen shake 分支) shakeTime 中途耗尽 → 剩余帧不震不再递减(不下穿 0)"
+      }
+    },
+    {
+      "id": "G10-EP-rng-player-11",
+      "classification": "existing-proof",
+      "reason": "跳过键提前结束 → 未显示帧的递减一次性结清(与完整播完一致)",
+      "oldTest": {
+        "sha": "d3c6260946d21a1d78e15e6a6fdf9f1584b4360b",
+        "file": "packages/game/src/shell/rng-player.test.ts",
+        "assertionLine": 246,
+        "matcher": "toBe",
+        "checked": "expect(shakeState.shakeTime).toBe(97)",
+        "fullName": "playRng — sdlpal PAL_RNGPlay 等价 (M5.6 T18 Step 4) shakeState 透传(VIDEO_UpdateScreen shake 分支) 跳过键提前结束 → 未显示帧的递减一次性结清(与完整播完一致)"
+      }
+    },
+    {
+      "id": "G10-EP-rng-player-12",
+      "classification": "existing-proof",
+      "reason": "不传 shakeState → 行为不变",
+      "oldTest": {
+        "sha": "d3c6260946d21a1d78e15e6a6fdf9f1584b4360b",
+        "file": "packages/game/src/shell/rng-player.test.ts",
+        "assertionLine": 260,
+        "matcher": "toBe",
+        "checked": "expect(fb.indices[0]).toBe(3)",
+        "fullName": "playRng — sdlpal PAL_RNGPlay 等价 (M5.6 T18 Step 4) shakeState 透传(VIDEO_UpdateScreen shake 分支) 不传 shakeState → 行为不变"
+      }
+    },
+    {
+      "id": "G10-EP-rng-player-13",
+      "classification": "existing-proof",
+      "reason": "initialFadeInMs:第一帧先按黑 palette 显示,再恢复目标 palette",
+      "oldTest": {
+        "sha": "d3c6260946d21a1d78e15e6a6fdf9f1584b4360b",
+        "file": "packages/game/src/shell/rng-player.test.ts",
+        "assertionLine": 290,
+        "matcher": "toEqual",
+        "checked": "expect(Array.from(first.data.slice(0, 3))).toEqual([0, 0, 0])",
+        "fullName": "playRng — sdlpal PAL_RNGPlay 等价 (M5.6 T18 Step 4) initialFadeInMs:第一帧先按黑 palette 显示,再恢复目标 palette"
+      }
+    },
+    {
+      "id": "G10-EP-rng-player-14",
+      "classification": "existing-proof",
+      "reason": "单次 playRng:同一 chunk 的 N 帧并发只触发一次底层加载(防 O(N²) stampede)",
+      "oldTest": {
+        "sha": "d3c6260946d21a1d78e15e6a6fdf9f1584b4360b",
+        "file": "packages/game/src/shell/rng-player.test.ts",
+        "assertionLine": 324,
+        "matcher": "toBe",
+        "checked": "expect(loadCount).toBe(1) // 修复前:3(每帧 cache-miss);修复后:1",
+        "fullName": "playRng — sdlpal PAL_RNGPlay 等价 (M5.6 T18 Step 4) 单次 playRng:同一 chunk 的 N 帧并发只触发一次底层加载(防 O(N²) stampede)"
+      }
+    },
+    {
+      "id": "G10-EP-rng-player.glm-next-wave-01",
+      "classification": "existing-proof",
+      "reason": "窗口 [1,2]:fetchFrame 恰被调 2 次(frame 1、2),窗外帧 0/3 零请求,末屏 = frame 2",
+      "oldTest": {
+        "sha": "48532f1a07bd586a477ba01d9d8a01444833c0f8",
+        "file": "packages/game/src/shell/rng-player.glm-next-wave.test.ts",
+        "assertionLine": 75,
+        "matcher": "toHaveBeenCalledTimes",
+        "checked": "expect(fetchManifest).toHaveBeenCalledTimes(1)",
+        "fullName": "playRng 帧窗口(startFrame/endFrame 决定实际请求与显示集合) 窗口 [1,2]:fetchFrame 恰被调 2 次(frame 1、2),窗外帧 0/3 零请求,末屏 = frame 2"
+      }
+    },
+    {
+      "id": "G10-EP-rng-player.glm-next-wave-02",
+      "classification": "existing-proof",
+      "reason": "首次加载失败 → 0 帧静默 resolve;再次播放重新加载成功并显帧(加载器恰 2 次调用)",
+      "oldTest": {
+        "sha": "48532f1a07bd586a477ba01d9d8a01444833c0f8",
+        "file": "packages/game/src/shell/rng-player.glm-next-wave.test.ts",
+        "assertionLine": 105,
+        "matcher": "toHaveBeenCalledWith",
+        "checked": "expect(warn).toHaveBeenCalledWith(",
+        "fullName": "playRng chunk 加载失败不长期缓存失败 Promise(允许重试) 首次加载失败 → 0 帧静默 resolve;再次播放重新加载成功并显帧(加载器恰 2 次调用)"
+      }
+    },
+    {
+      "id": "G10-EP-splash-fallback-01",
+      "classification": "existing-proof",
+      "reason": "Space 跳过 → 补完渐变 + 0.5s delay + resolve",
+      "oldTest": {
+        "sha": "c2c835cf3b5e46c74cc8d407da6d123265bb7d11",
+        "file": "packages/game/src/shell/splash-fallback.test.ts",
+        "assertionLine": 56,
+        "matcher": "toBe",
+        "checked": "expect(fb.indices.some((v) => v !== 0)).toBe(true)",
+        "fullName": "playSplashFallback — sdlpal main.c:206-456 PAL_SplashScreen 1:1 port Space 跳过 → 补完渐变 + 0.5s delay + resolve"
+      }
+    },
+    {
+      "id": "G10-EP-splash-fallback-02",
+      "classification": "existing-proof",
+      "reason": "画屏后 fb 含 bitmapUp 或 bitmapDown 像素(滚动 bitmap blit 真的运行)",
+      "oldTest": {
+        "sha": "c2c835cf3b5e46c74cc8d407da6d123265bb7d11",
+        "file": "packages/game/src/shell/splash-fallback.test.ts",
+        "assertionLine": 113,
+        "matcher": "toBe",
+        "checked": "expect(hasContent).toBe(true)",
+        "fullName": "playSplashFallback — sdlpal main.c:206-456 PAL_SplashScreen 1:1 port 画屏后 fb 含 bitmapUp 或 bitmapDown 像素(滚动 bitmap blit 真的运行)"
+      }
+    },
+    {
+      "id": "G10-EP-splash-fallback-03",
+      "classification": "existing-proof",
+      "reason": "L44:早跳过时标题补满完整高度(底部行也被画上)",
+      "oldTest": {
+        "sha": "c2c835cf3b5e46c74cc8d407da6d123265bb7d11",
+        "file": "packages/game/src/shell/splash-fallback.test.ts",
+        "assertionLine": 137,
+        "matcher": "toBe",
+        "checked": "expect(fb.indices[40 * 320 + 260]).toBe(0x44)",
+        "fullName": "playSplashFallback — sdlpal main.c:206-456 PAL_SplashScreen 1:1 port L44:早跳过时标题补满完整高度(底部行也被画上)"
+      }
+    },
+    {
+      "id": "G10-EP-splash-fallback-04",
+      "classification": "existing-proof",
+      "reason": "L42:splash 结束做 PAL_FadeOut(1) 淡黑(最终帧全黑)",
+      "oldTest": {
+        "sha": "c2c835cf3b5e46c74cc8d407da6d123265bb7d11",
+        "file": "packages/game/src/shell/splash-fallback.test.ts",
+        "assertionLine": 166,
+        "matcher": "toBe",
+        "checked": "expect(allBlack).toBe(true)",
+        "fullName": "playSplashFallback — sdlpal main.c:206-456 PAL_SplashScreen 1:1 port L42:splash 结束做 PAL_FadeOut(1) 淡黑(最终帧全黑)"
+      }
+    },
+    {
+      "id": "G10-EP-splash-fallback.glm-next-wave-01",
+      "classification": "existing-proof",
+      "reason": "未跳过的前 3 帧:title 只画 dy=0..2;dy=5 仍未画(fake timers 逐帧停点)",
+      "oldTest": {
+        "sha": "2549f5088649749a416f750c34651162162f7ab4",
+        "file": "packages/game/src/shell/splash-fallback.glm-next-wave.test.ts",
+        "assertionLine": 67,
+        "matcher": "toBe",
+        "checked": "expect(at(10, 255)).toBe(0x44) // dy=0(第 1 帧起)",
+        "fullName": "playSplashFallback 标题渐显(sdlpal main.c:378-389 每帧 +1 行) 未跳过的前 3 帧:title 只画 dy=0..2;dy=5 仍未画(fake timers 逐帧停点)"
+      }
+    },
+    {
+      "id": "G10-EP-trademark-fallback-01",
+      "classification": "existing-proof",
+      "reason": "完整流程:playRng → delay → fadeOut → resolve",
+      "oldTest": {
+        "sha": "3329dda7b2928d489441e088715b4702aed4786d",
+        "file": "packages/game/src/shell/trademark-fallback.test.ts",
+        "assertionLine": 41,
+        "matcher": "toBe",
+        "checked": "expect(fb.indices.some((v) => v !== 0)).toBe(true)",
+        "fullName": "playTrademarkFallback — sdlpal main.c:197-203 PAL_TrademarkScreen DOS path 完整流程:playRng → delay → fadeOut → resolve"
+      }
+    },
+    {
+      "id": "G10-EP-fbp-player-01",
+      "classification": "existing-proof",
+      "reason": "fade=0 → 整屏 = target FBP indices(瞬时 blit)",
+      "oldTest": {
+        "sha": "7d3a99b3a2ed6daaad1c6c73e0fea6ed55dbb787",
+        "file": "packages/game/src/shell/fbp-player.test.ts",
+        "assertionLine": 30,
+        "matcher": "toBe",
+        "checked": "expect(fb.indices[0]).toBe(0x3c)",
+        "fullName": "特效 B fbp-player showFbp(PAL_ShowFBP port) fade=0 → 整屏 = target FBP indices(瞬时 blit)"
+      }
+    },
+    {
+      "id": "G10-EP-fbp-player-02",
+      "classification": "existing-proof",
+      "reason": "无图(indices 长度不符)→ 全黑(sdlpal memset 0 / WIN95 SDL_FillRect)",
+      "oldTest": {
+        "sha": "7d3a99b3a2ed6daaad1c6c73e0fea6ed55dbb787",
+        "file": "packages/game/src/shell/fbp-player.test.ts",
+        "assertionLine": 46,
+        "matcher": "toBe",
+        "checked": "expect(fb.indices.every((v) => v === 0)).toBe(true)",
+        "fullName": "特效 B fbp-player showFbp(PAL_ShowFBP port) 无图(indices 长度不符)→ 全黑(sdlpal memset 0 / WIN95 SDL_FillRect)"
+      }
+    },
+    {
+      "id": "G10-EP-fbp-player-03",
+      "classification": "existing-proof",
+      "reason": "HACKHACK chunk(win95=68)fade=0 → 跳过最终 blit,fb 保持原样",
+      "oldTest": {
+        "sha": "7d3a99b3a2ed6daaad1c6c73e0fea6ed55dbb787",
+        "file": "packages/game/src/shell/fbp-player.test.ts",
+        "assertionLine": 61,
+        "matcher": "toBe",
+        "checked": "expect(fb.indices[0]).toBe(99) // HACKHACK:不被 target 覆盖",
+        "fullName": "特效 B fbp-player showFbp(PAL_ShowFBP port) HACKHACK chunk(win95=68)fade=0 → 跳过最终 blit,fb 保持原样"
+      }
+    },
+    {
+      "id": "G10-EP-fbp-player-04",
+      "classification": "existing-proof",
+      "reason": "fade>0 + HACKHACK chunk → dither 自身收敛到 target(高 nibble 跳 + 低 nibble migrate 满)",
+      "oldTest": {
+        "sha": "7d3a99b3a2ed6daaad1c6c73e0fea6ed55dbb787",
+        "file": "packages/game/src/shell/fbp-player.test.ts",
+        "assertionLine": 81,
+        "matcher": "toBe",
+        "checked": "expect(fb.indices[0]).toBe(0x3c)",
+        "fullName": "特效 B fbp-player showFbp(PAL_ShowFBP port) fade>0 + HACKHACK chunk → dither 自身收敛到 target(高 nibble 跳 + 低 nibble migrate 满)"
+      }
+    },
+    {
+      "id": "G10-EP-fbp-player-05",
+      "classification": "existing-proof",
+      "reason": "下滑卷入完成 → 整屏 = 新图(末帧 CopyEntireSurface)",
+      "oldTest": {
+        "sha": "7d3a99b3a2ed6daaad1c6c73e0fea6ed55dbb787",
+        "file": "packages/game/src/shell/fbp-player.test.ts",
+        "assertionLine": 100,
+        "matcher": "toBe",
+        "checked": "expect(fb.indices.every((v) => v === 0x22)).toBe(true) // 全是新图",
+        "fullName": "特效 B fbp-player scrollFbp(PAL_ScrollFBP port) 下滑卷入完成 → 整屏 = 新图(末帧 CopyEntireSurface)"
+      }
+    },
+    {
+      "id": "G10-EP-fbp-player-06",
+      "classification": "existing-proof",
+      "reason": "滚动中间帧 = 旧屏下移 + 新图自顶推入(下滑方向)",
+      "oldTest": {
+        "sha": "7d3a99b3a2ed6daaad1c6c73e0fea6ed55dbb787",
+        "file": "packages/game/src/shell/fbp-player.test.ts",
+        "assertionLine": 126,
+        "matcher": "toBe",
+        "checked": "expect(topAfterFirstStep).toBe(200) // 顶部 = 新图(自顶推入)",
+        "fullName": "特效 B fbp-player scrollFbp(PAL_ScrollFBP port) 滚动中间帧 = 旧屏下移 + 新图自顶推入(下滑方向)"
+      }
+    },
+    {
+      "id": "G10-EP-fbp-player-07",
+      "classification": "existing-proof",
+      "reason": "fade>0 + HACKHACK chunk + effectSprite → 渐变期叠 MGO 精灵帧(末帧无 final blit 故精灵保留)",
+      "oldTest": {
+        "sha": "7d3a99b3a2ed6daaad1c6c73e0fea6ed55dbb787",
+        "file": "packages/game/src/shell/fbp-player.test.ts",
+        "assertionLine": 156,
+        "matcher": "toBe",
+        "checked": "expect(fb.indices[0]).toBe(0xab) // (0,0) 被精灵覆盖(渐变末帧叠加 + 无 final blit)",
+        "fullName": "特效 B FBP effectSprite 叠加(g_wCurEffectSprite) fade>0 + HACKHACK chunk + effectSprite → 渐变期叠 MGO 精灵帧(末帧无 final blit 故精灵保留)"
+      }
+    },
+    {
+      "id": "G10-EP-ending-player-01",
+      "classification": "existing-proof",
+      "reason": "跑完 N 帧不崩;背景(lower)+ 女孩精灵写入 fb",
+      "oldTest": {
+        "sha": "3e22aa86bf5649744e2d5086c1a30d4f18b32d6c",
+        "file": "packages/game/src/shell/ending-player.test.ts",
+        "assertionLine": 45,
+        "matcher": "toBe",
+        "checked": "expect(fb.indices.includes(50)).toBe(true) // 背景下半 lower 铺到屏上",
+        "fullName": "结局 ending-player playEndingAnimation(PAL_EndingAnimation port) 跑完 N 帧不崩;背景(lower)+ 女孩精灵写入 fb"
+      }
+    },
+    {
+      "id": "G10-EP-ending-player-02",
+      "classification": "existing-proof",
+      "reason": "beastFrames 不足 2 帧 → 跳过妖兽不崩",
+      "oldTest": {
+        "sha": "3e22aa86bf5649744e2d5086c1a30d4f18b32d6c",
+        "file": "packages/game/src/shell/ending-player.test.ts",
+        "assertionLine": 65,
+        "matcher": "toBe",
+        "checked": "expect(fb.indices.includes(50)).toBe(true) // 背景仍画",
+        "fullName": "结局 ending-player playEndingAnimation(PAL_EndingAnimation port) beastFrames 不足 2 帧 → 跳过妖兽不崩"
+      }
+    },
+    {
+      "id": "G10-EP-ending-player.glm-next-wave-01",
+      "classification": "existing-proof",
+      "reason": "默认键表:非命中键不拦截不 resolve;Enter 命中 resolve 并释放监听(再次 Enter 不再拦截)",
+      "oldTest": {
+        "sha": "78abb6b82ebdd87d209eec6b6378ce790cc64917",
+        "file": "packages/game/src/shell/ending-player.glm-next-wave.test.ts",
+        "assertionLine": 44,
+        "matcher": "toBe",
+        "checked": "expect(window.dispatchEvent(stray)).toBe(true) // 未拦截",
+        "fullName": "waitForKey(PAL_WaitForKey(0) port — bootstrap 结局演职员表前等键) 默认键表:非命中键不拦截不 resolve;Enter 命中 resolve 并释放监听(再次 Enter 不再拦截)"
+      }
+    },
+    {
+      "id": "G10-EP-ending-player.glm-next-wave-02",
+      "classification": "existing-proof",
+      "reason": "自定义键表覆盖默认:Space 不再命中,KeyQ 命中",
+      "oldTest": {
+        "sha": "78abb6b82ebdd87d209eec6b6378ce790cc64917",
+        "file": "packages/game/src/shell/ending-player.glm-next-wave.test.ts",
+        "assertionLine": 67,
+        "matcher": "toBe",
+        "checked": "expect(window.dispatchEvent(space)).toBe(true)",
+        "fullName": "waitForKey(PAL_WaitForKey(0) port — bootstrap 结局演职员表前等键) 自定义键表覆盖默认:Space 不再命中,KeyQ 命中"
+      }
+    },
+    {
+      "id": "G10-EP-ending-player.glm-next-wave-03",
+      "classification": "existing-proof",
+      "reason": "skipKeys:播中 Space 被拦截并提前退出(刷帧数远小于 frameCount),finally 释放监听",
+      "oldTest": {
+        "sha": "78abb6b82ebdd87d209eec6b6378ce790cc64917",
+        "file": "packages/game/src/shell/ending-player.glm-next-wave.test.ts",
+        "assertionLine": 100,
+        "matcher": "toHaveBeenCalledTimes",
+        "checked": "expect(ctx.putImageData).toHaveBeenCalledTimes(2) // 第 1、2 帧各 flush 一次",
+        "fullName": "playEndingAnimation 取消释放与背景回退 skipKeys:播中 Space 被拦截并提前退出(刷帧数远小于 frameCount),finally 释放监听"
+      }
+    },
+    {
+      "id": "G10-EP-ending-player.glm-next-wave-04",
+      "classification": "existing-proof",
+      "reason": "upperIndices 长度非 64000 → 回退全黑背景(帧值集合 = {黑, lower});合法 upper 对照组无黑",
+      "oldTest": {
+        "sha": "78abb6b82ebdd87d209eec6b6378ce790cc64917",
+        "file": "packages/game/src/shell/ending-player.glm-next-wave.test.ts",
+        "assertionLine": 132,
+        "matcher": "toBe",
+        "checked": "expect(values.has(0)).toBe(true) // 回退黑进屏",
+        "fullName": "playEndingAnimation 取消释放与背景回退 upperIndices 长度非 64000 → 回退全黑背景(帧值集合 = {黑, lower});合法 upper 对照组无黑"
+      }
+    },
+    {
+      "id": "G10-EP-avi-player-01",
+      "classification": "existing-proof",
+      "reason": "返回 Promise + 创 <video> 元素 + src 正确",
+      "oldTest": {
+        "sha": "cbe36644bc605cc3b62db91728c8ae82009b013c",
+        "file": "packages/game/src/shell/avi-player.test.ts",
+        "assertionLine": 25,
+        "matcher": "not.toBeNull",
+        "checked": "expect(video).not.toBeNull()",
+        "fullName": "playAvi — sdlpal PAL_PlayAVI 等价 (M5.6 T18 Step 3) 返回 Promise + 创 <video> 元素 + src 正确"
+      }
+    },
+    {
+      "id": "G10-EP-avi-player-02",
+      "classification": "existing-proof",
+      "reason": "Space 键跳过 → Promise resolve + element 移除",
+      "oldTest": {
+        "sha": "cbe36644bc605cc3b62db91728c8ae82009b013c",
+        "file": "packages/game/src/shell/avi-player.test.ts",
+        "assertionLine": 39,
+        "matcher": "not.toBeNull",
+        "checked": "expect(document.body.querySelector('video')).not.toBeNull()",
+        "fullName": "playAvi — sdlpal PAL_PlayAVI 等价 (M5.6 T18 Step 3) Space 键跳过 → Promise resolve + element 移除"
+      }
+    },
+    {
+      "id": "G10-EP-avi-player-03",
+      "classification": "existing-proof",
+      "reason": "Enter 键跳过",
+      "oldTest": {
+        "sha": "cbe36644bc605cc3b62db91728c8ae82009b013c",
+        "file": "packages/game/src/shell/avi-player.test.ts",
+        "assertionLine": 49,
+        "matcher": "toBeNull",
+        "checked": "expect(document.body.querySelector('video')).toBeNull()",
+        "fullName": "playAvi — sdlpal PAL_PlayAVI 等价 (M5.6 T18 Step 3) Enter 键跳过"
+      }
+    },
+    {
+      "id": "G10-EP-avi-player-04",
+      "classification": "existing-proof",
+      "reason": "Escape 键跳过",
+      "oldTest": {
+        "sha": "cbe36644bc605cc3b62db91728c8ae82009b013c",
+        "file": "packages/game/src/shell/avi-player.test.ts",
+        "assertionLine": 56,
+        "matcher": "toBeNull",
+        "checked": "expect(document.body.querySelector('video')).toBeNull()",
+        "fullName": "playAvi — sdlpal PAL_PlayAVI 等价 (M5.6 T18 Step 3) Escape 键跳过"
+      }
+    },
+    {
+      "id": "G10-EP-avi-player-05",
+      "classification": "existing-proof",
+      "reason": "非跳过键不触发(其他键 keydown 忽略)",
+      "oldTest": {
+        "sha": "cbe36644bc605cc3b62db91728c8ae82009b013c",
+        "file": "packages/game/src/shell/avi-player.test.ts",
+        "assertionLine": 68,
+        "matcher": "toBe",
+        "checked": "expect(resolved).toBe(false)",
+        "fullName": "playAvi — sdlpal PAL_PlayAVI 等价 (M5.6 T18 Step 3) 非跳过键不触发(其他键 keydown 忽略)"
+      }
+    },
+    {
+      "id": "G10-EP-avi-player-06",
+      "classification": "existing-proof",
+      "reason": "自定义 skipKeys 覆盖默认",
+      "oldTest": {
+        "sha": "cbe36644bc605cc3b62db91728c8ae82009b013c",
+        "file": "packages/game/src/shell/avi-player.test.ts",
+        "assertionLine": 79,
+        "matcher": "not.toBeNull",
+        "checked": "expect(document.body.querySelector('video')).not.toBeNull()",
+        "fullName": "playAvi — sdlpal PAL_PlayAVI 等价 (M5.6 T18 Step 3) 自定义 skipKeys 覆盖默认"
+      }
+    },
+    {
+      "id": "G10-EP-avi-player-07",
+      "classification": "existing-proof",
+      "reason": "video error 事件触发 → Promise 仍 resolve(不抛)",
+      "oldTest": {
+        "sha": "cbe36644bc605cc3b62db91728c8ae82009b013c",
+        "file": "packages/game/src/shell/avi-player.test.ts",
+        "assertionLine": 91,
+        "matcher": "toBeNull",
+        "checked": "expect(document.body.querySelector('video')).toBeNull()",
+        "fullName": "playAvi — sdlpal PAL_PlayAVI 等价 (M5.6 T18 Step 3) video error 事件触发 → Promise 仍 resolve(不抛)"
+      }
+    },
+    {
+      "id": "G10-EP-avi-player-08",
+      "classification": "existing-proof",
+      "reason": "多次 cleanup 调用 idempotent(settled flag 防双重 resolve)",
+      "oldTest": {
+        "sha": "cbe36644bc605cc3b62db91728c8ae82009b013c",
+        "file": "packages/game/src/shell/avi-player.test.ts",
+        "assertionLine": 100,
+        "matcher": "toBe",
+        "checked": "expect(document.body.querySelectorAll('video').length).toBe(0)",
+        "fullName": "playAvi — sdlpal PAL_PlayAVI 等价 (M5.6 T18 Step 3) 多次 cleanup 调用 idempotent(settled flag 防双重 resolve)"
+      }
+    },
+    {
+      "id": "G10-EP-avi-player-09",
+      "classification": "existing-proof",
+      "reason": "playAvi 建 <video> 时套用当前 videoVolume",
+      "oldTest": {
+        "sha": "cbe36644bc605cc3b62db91728c8ae82009b013c",
+        "file": "packages/game/src/shell/avi-player.test.ts",
+        "assertionLine": 119,
+        "matcher": "toBe",
+        "checked": "expect(video.volume).toBe(0.5)",
+        "fullName": "playAvi — 视频音量(工具面板「视频」滑块 / 主静音) playAvi 建 <video> 时套用当前 videoVolume"
+      }
+    },
+    {
+      "id": "G10-EP-avi-player-10",
+      "classification": "existing-proof",
+      "reason": "setVideoVolume 实时刷新正在播放的 video.volume",
+      "oldTest": {
+        "sha": "cbe36644bc605cc3b62db91728c8ae82009b013c",
+        "file": "packages/game/src/shell/avi-player.test.ts",
+        "assertionLine": 128,
+        "matcher": "toBe",
+        "checked": "expect(video.volume).toBe(0.2)",
+        "fullName": "playAvi — 视频音量(工具面板「视频」滑块 / 主静音) setVideoVolume 实时刷新正在播放的 video.volume"
+      }
+    },
+    {
+      "id": "G10-EP-avi-player-11",
+      "classification": "existing-proof",
+      "reason": "setVideoVolume 钳制到 0..1",
+      "oldTest": {
+        "sha": "cbe36644bc605cc3b62db91728c8ae82009b013c",
+        "file": "packages/game/src/shell/avi-player.test.ts",
+        "assertionLine": 137,
+        "matcher": "toBe",
+        "checked": "expect(video.volume).toBe(1)",
+        "fullName": "playAvi — 视频音量(工具面板「视频」滑块 / 主静音) setVideoVolume 钳制到 0..1"
+      }
+    },
+    {
+      "id": "G10-EP-avi-player-12",
+      "classification": "existing-proof",
+      "reason": "cleanup 后解除 curVideoEl 跟踪:后续 setVideoVolume 不再改已移除元素",
+      "oldTest": {
+        "sha": "cbe36644bc605cc3b62db91728c8ae82009b013c",
+        "file": "packages/game/src/shell/avi-player.test.ts",
+        "assertionLine": 150,
+        "matcher": "toBe",
+        "checked": "expect(video.volume).toBe(1) // 仍是创建时的值(beforeEach 复位 1)",
+        "fullName": "playAvi — 视频音量(工具面板「视频」滑块 / 主静音) cleanup 后解除 curVideoEl 跟踪:后续 setVideoVolume 不再改已移除元素"
+      }
+    },
+    {
+      "id": "G10-EP-avi-player.glm-next-wave-01",
+      "classification": "existing-proof",
+      "reason": "play() 拒绝(显式 settle)→ overlay 出现;点击 overlay 重试成功 → overlay 摘除、视频保留;ended → 清理",
+      "oldTest": {
+        "sha": "0d5069f24956546d5c2842671f7c222004364c2b",
+        "file": "packages/game/src/shell/avi-player.glm-next-wave.test.ts",
+        "assertionLine": 91,
+        "matcher": "toBe",
+        "checked": "expect(",
+        "fullName": "playAvi autoplay 拒绝 → click-to-start 降级边界 play() 拒绝(显式 settle)→ overlay 出现;点击 overlay 重试成功 → overlay 摘除、视频保留;ended → 清理"
+      }
+    },
+    {
+      "id": "G10-EP-avi-player.glm-next-wave-02",
+      "classification": "existing-proof",
+      "reason": "play() 成功 → 同一 muted 元素被 pause(解锁后丢弃),全程不抛错",
+      "oldTest": {
+        "sha": "0d5069f24956546d5c2842671f7c222004364c2b",
+        "file": "packages/game/src/shell/avi-player.glm-next-wave.test.ts",
+        "assertionLine": 124,
+        "matcher": "toThrow",
+        "checked": "expect(() => warmUpVideoAutoplay('/extracted/videos/1.mp4')).not.toThrow()",
+        "fullName": "warmUpVideoAutoplay(main.ts onEnter click 同步栈调用) play() 成功 → 同一 muted 元素被 pause(解锁后丢弃),全程不抛错"
+      }
+    },
+    {
+      "id": "G10-EP-avi-player.glm-next-wave-03",
+      "classification": "existing-proof",
+      "reason": "play() 拒绝 → 静默不抛、不 pause(最坏退回 playAvi overlay 兜底)",
+      "oldTest": {
+        "sha": "0d5069f24956546d5c2842671f7c222004364c2b",
+        "file": "packages/game/src/shell/avi-player.glm-next-wave.test.ts",
+        "assertionLine": 148,
+        "matcher": "toThrow",
+        "checked": "expect(() => warmUpVideoAutoplay('/extracted/videos/1.mp4')).not.toThrow()",
+        "fullName": "warmUpVideoAutoplay(main.ts onEnter click 同步栈调用) play() 拒绝 → 静默不抛、不 pause(最坏退回 playAvi overlay 兜底)"
+      }
+    },
+    {
+      "id": "G10-EP-bootstrap-resources-01",
+      "classification": "existing-proof",
+      "reason": "starts soundfont first and all resource loaders before awaiting any result",
+      "oldTest": {
+        "sha": "dd84dff34533e4e84ef4f53164dbfeb5a5c67ef3",
+        "file": "packages/game/src/shell/bootstrap-resources.test.ts",
+        "assertionLine": 58,
+        "matcher": "toEqual",
+        "checked": "expect(order).toEqual(['soundfont', 'assets:7', 'glyphs', 'dialog'])",
+        "fullName": "bootstrap resource lifecycle starts soundfont first and all resource loaders before awaiting any result"
+      }
+    },
+    {
+      "id": "G10-EP-bootstrap-resources-02",
+      "classification": "existing-proof",
+      "reason": "degrades a glyph failure without blocking the other initial resources",
+      "oldTest": {
+        "sha": "dd84dff34533e4e84ef4f53164dbfeb5a5c67ef3",
+        "file": "packages/game/src/shell/bootstrap-resources.test.ts",
+        "assertionLine": 80,
+        "matcher": "toEqual",
+        "checked": "expect(loaded).toEqual({",
+        "fullName": "bootstrap resource lifecycle degrades a glyph failure without blocking the other initial resources"
+      }
+    },
+    {
+      "id": "G10-EP-bootstrap-resources-03",
+      "classification": "existing-proof",
+      "reason": "keeps the original soundfont rejection while its settle barrier still resolves",
+      "oldTest": {
+        "sha": "dd84dff34533e4e84ef4f53164dbfeb5a5c67ef3",
+        "file": "packages/game/src/shell/bootstrap-resources.test.ts",
+        "assertionLine": 103,
+        "matcher": "toBeInstanceOf",
+        "checked": "expect(rejection).toBeInstanceOf(Error)",
+        "fullName": "bootstrap resource lifecycle keeps the original soundfont rejection while its settle barrier still resolves"
+      }
+    },
+    {
+      "id": "G10-EP-fetch-retry-01",
+      "classification": "existing-proof",
+      "reason": "GET 网络错误(reject)→ 重试后成功(nginx GOAWAY 竞态 net::ERR_FAILED 场景)",
+      "oldTest": {
+        "sha": "a2343bac09e00c74c5cf52af56635b932d5477a2",
+        "file": "packages/game/src/shell/fetch-retry.test.ts",
+        "assertionLine": 24,
+        "matcher": "toBe",
+        "checked": "expect(res.status).toBe(200)",
+        "fullName": "fetch-retry(GET 网络层重试兜底) GET 网络错误(reject)→ 重试后成功(nginx GOAWAY 竞态 net::ERR_FAILED 场景)"
+      }
+    },
+    {
+      "id": "G10-EP-fetch-retry-02",
+      "classification": "existing-proof",
+      "reason": "重试耗尽(默认 2 次重试 = 共 3 attempt)→ 抛最后一次错误",
+      "oldTest": {
+        "sha": "a2343bac09e00c74c5cf52af56635b932d5477a2",
+        "file": "packages/game/src/shell/fetch-retry.test.ts",
+        "assertionLine": 33,
+        "matcher": "rejects.toThrow",
+        "checked": "await expect(fetch('/x.png')).rejects.toThrow('Failed to fetch')",
+        "fullName": "fetch-retry(GET 网络层重试兜底) 重试耗尽(默认 2 次重试 = 共 3 attempt)→ 抛最后一次错误"
+      }
+    },
+    {
+      "id": "G10-EP-fetch-retry-03",
+      "classification": "existing-proof",
+      "reason": "503 → 重试;404 → 原样返回不重试(资源性错误)",
+      "oldTest": {
+        "sha": "a2343bac09e00c74c5cf52af56635b932d5477a2",
+        "file": "packages/game/src/shell/fetch-retry.test.ts",
+        "assertionLine": 44,
+        "matcher": "toBe",
+        "checked": "expect((await fetch('/a')).status).toBe(200)",
+        "fullName": "fetch-retry(GET 网络层重试兜底) 503 → 重试;404 → 原样返回不重试(资源性错误)"
+      }
+    },
+    {
+      "id": "G10-EP-fetch-retry-04",
+      "classification": "existing-proof",
+      "reason": "非 GET(POST)不重试(非幂等)",
+      "oldTest": {
+        "sha": "a2343bac09e00c74c5cf52af56635b932d5477a2",
+        "file": "packages/game/src/shell/fetch-retry.test.ts",
+        "assertionLine": 58,
+        "matcher": "rejects.toThrow",
+        "checked": "await expect(fetch('/api', { method: 'POST' })).rejects.toThrow()",
+        "fullName": "fetch-retry(GET 网络层重试兜底) 非 GET(POST)不重试(非幂等)"
+      }
+    },
+    {
+      "id": "G10-EP-fetch-retry-05",
+      "classification": "existing-proof",
+      "reason": "重复 install 幂等(不双层包)",
+      "oldTest": {
+        "sha": "a2343bac09e00c74c5cf52af56635b932d5477a2",
+        "file": "packages/game/src/shell/fetch-retry.test.ts",
+        "assertionLine": 68,
+        "matcher": "toBe",
+        "checked": "expect(globalThis.fetch).toBe(wrapped)",
+        "fullName": "fetch-retry(GET 网络层重试兜底) 重复 install 幂等(不双层包)"
+      }
+    },
+    {
+      "id": "G10-EP-fetch-retry.boundaries-01",
+      "classification": "existing-proof",
+      "reason": "init.method 优先于 Request.method：非幂等覆盖不重试（503 也只调一次）；GET 对照重试",
+      "oldTest": {
+        "sha": "053413e4ee83b649a2590f178e546e80df4bb44d",
+        "file": "packages/game/src/shell/fetch-retry.boundaries.test.ts",
+        "assertionLine": 38,
+        "matcher": "toBe",
+        "checked": "expect(calls).toBe(1) // init.method=POST 优先：一次即返回（误判 GET 会变 2）",
+        "fullName": "H01 installFetchRetry 边界 init.method 优先于 Request.method：非幂等覆盖不重试（503 也只调一次）；GET 对照重试"
+      }
+    },
+    {
+      "id": "G10-EP-fetch-retry.boundaries-02",
+      "classification": "existing-proof",
+      "reason": "502/504 与 503 同样重试；耗尽抛最后一次 Error 身份",
+      "oldTest": {
+        "sha": "053413e4ee83b649a2590f178e546e80df4bb44d",
+        "file": "packages/game/src/shell/fetch-retry.boundaries.test.ts",
+        "assertionLine": 88,
+        "matcher": "toBeUndefined",
+        "checked": "expect(outcome.res).toBeUndefined()",
+        "fullName": "H01 installFetchRetry 边界 502/504 与 503 同样重试；耗尽抛最后一次 Error 身份"
+      }
+    },
+    {
+      "id": "G10-EP-fetch-retry.boundaries-03",
+      "classification": "existing-proof",
+      "reason": "重试后成功：返回最终那次 Response 身份（502→504→200）",
+      "oldTest": {
+        "sha": "053413e4ee83b649a2590f178e546e80df4bb44d",
+        "file": "packages/game/src/shell/fetch-retry.boundaries.test.ts",
+        "assertionLine": 106,
+        "matcher": "toBe",
+        "checked": "expect(await resolved).toBe(last)",
+        "fullName": "H01 installFetchRetry 边界 重试后成功：返回最终那次 Response 身份（502→504→200）"
+      }
+    },
+    {
+      "id": "G10-EP-fetch-retry.boundaries-04",
+      "classification": "existing-proof",
+      "reason": "backoff 末值复用与空数组 fallback（1000ms）",
+      "oldTest": {
+        "sha": "053413e4ee83b649a2590f178e546e80df4bb44d",
+        "file": "packages/game/src/shell/fetch-retry.boundaries.test.ts",
+        "assertionLine": 121,
+        "matcher": "toBe",
+        "checked": "expect((await resolved).status).toBe(200)",
+        "fullName": "H01 installFetchRetry 边界 backoff 末值复用与空数组 fallback（1000ms）"
+      }
+    },
+    {
+      "id": "G10-EP-fetch-retry.glm-phase1-leaves-01",
+      "classification": "existing-proof",
+      "reason": "安装后网络错误重试 3 次；还原后同一错误直接抛（不再经过重试包装）",
+      "oldTest": {
+        "sha": "a251bb031f584fcf345ef5c8b116793fd606941e",
+        "file": "packages/game/src/shell/fetch-retry.glm-phase1-leaves.test.ts",
+        "assertionLine": 24,
+        "matcher": "rejects.toThrow",
+        "checked": "await expect(fetch('https://localhost/x')).rejects.toThrow('fetch failed')",
+        "fullName": "L23 uninstallFetchRetryForTest 还原合同 安装后网络错误重试 3 次；还原后同一错误直接抛（不再经过重试包装）"
+      }
+    },
+    {
+      "id": "G10-EP-fetch-retry.glm-phase1-leaves-02",
+      "classification": "existing-proof",
+      "reason": "还原后 install 可重新装载（installed 复位合同）",
+      "oldTest": {
+        "sha": "a251bb031f584fcf345ef5c8b116793fd606941e",
+        "file": "packages/game/src/shell/fetch-retry.glm-phase1-leaves.test.ts",
+        "assertionLine": 43,
+        "matcher": "toHaveBeenCalledTimes",
+        "checked": "expect(ok).toHaveBeenCalledTimes(1)",
+        "fullName": "L23 uninstallFetchRetryForTest 还原合同 还原后 install 可重新装载（installed 复位合同）"
+      }
+    },
+    {
+      "id": "G10-UN-avi-document",
+      "classification": "unreachable",
+      "reason": "avi-player.ts:184 在 document 不存在时直接返回。本 jsdom 始终有 document，预热的空返回没有可观察宿主。",
+      "file": "packages/game/src/shell/avi-player.ts",
+      "line": 184
     }
   ]
 }

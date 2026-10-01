@@ -30,9 +30,7 @@
     {
       "assertionResults": [
         {
-          "ancestorTitles": [
-            "G06-B 物品描述与过滤"
-          ],
+          "ancestorTitles": ["G06-B 物品描述与过滤"],
           "fullName": "G06-B 物品描述与过滤 G06-B01 第二条描述在 y=167，第一条仍在 y=151",
           "status": "failed",
           "title": "G06-B01 第二条描述在 y=167，第一条仍在 y=151",
@@ -44,9 +42,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "G06-B 物品描述与过滤"
-          ],
+          "ancestorTitles": ["G06-B 物品描述与过滤"],
           "fullName": "G06-B 物品描述与过滤 G06-B02 scriptDesc 为 0 时不画 L_0 上的描述，物品名照画",
           "status": "passed",
           "title": "G06-B02 scriptDesc 为 0 时不画 L_0 上的描述，物品名照画",
@@ -56,9 +52,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "G06-B 物品描述与过滤"
-          ],
+          "ancestorTitles": ["G06-B 物品描述与过滤"],
           "fullName": "G06-B 物品描述与过滤 G06-B03 列表相 noDesc 为真时省略描述，选中名仍在",
           "status": "passed",
           "title": "G06-B03 列表相 noDesc 为真时省略描述，选中名仍在",
@@ -68,9 +62,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "G06-B 物品描述与过滤"
-          ],
+          "ancestorTitles": ["G06-B 物品描述与过滤"],
           "fullName": "G06-B 物品描述与过滤 G06-B04 描述跟光标上的物品走，不画另一件的脚本",
           "status": "passed",
           "title": "G06-B04 描述跟光标上的物品走，不画另一件的脚本",
@@ -80,9 +72,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "G06-B 物品描述与过滤"
-          ],
+          "ancestorTitles": ["G06-B 物品描述与过滤"],
           "fullName": "G06-B 物品描述与过滤 G06-B05 sellable 过滤把可卖项画成可选色，不可卖项画成暗色",
           "status": "passed",
           "title": "G06-B05 sellable 过滤把可卖项画成可选色，不可卖项画成暗色",
@@ -92,9 +82,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "G06-B 物品描述与过滤"
-          ],
+          "ancestorTitles": ["G06-B 物品描述与过滤"],
           "fullName": "G06-B 物品描述与过滤 G06-B06 第三列数量起点含两格 100 像素，个位落在 x=302",
           "status": "passed",
           "title": "G06-B06 第三列数量起点含两格 100 像素，个位落在 x=302",
@@ -104,9 +92,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "G06-B 物品描述与过滤"
-          ],
+          "ancestorTitles": ["G06-B 物品描述与过滤"],
           "fullName": "G06-B 物品描述与过滤 G06-B07 potion 过滤只把可用且非投掷的物品画成可选色",
           "status": "passed",
           "title": "G06-B07 potion 过滤只把可用且非投掷的物品画成可选色",
@@ -116,9 +102,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "G06-B 物品描述与过滤"
-          ],
+          "ancestorTitles": ["G06-B 物品描述与过滤"],
           "fullName": "G06-B 物品描述与过滤 G06-B08 important 过滤把可卖物品画成暗色，不可卖且不可装备的画成可选色",
           "status": "passed",
           "title": "G06-B08 important 过滤把可卖物品画成暗色，不可卖且不可装备的画成可选色",
@@ -128,9 +112,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "G06-B 物品描述与过滤"
-          ],
+          "ancestorTitles": ["G06-B 物品描述与过滤"],
           "fullName": "G06-B 物品描述与过滤 G06-B09 件数等于占用且不为 0 时选中项是暗选色，不是已装备色",
           "status": "passed",
           "title": "G06-B09 件数等于占用且不为 0 时选中项是暗选色，不是已装备色",
@@ -140,9 +122,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "G06-B 物品描述与过滤"
-          ],
+          "ancestorTitles": ["G06-B 物品描述与过滤"],
           "fullName": "G06-B 物品描述与过滤 G06-B10 差额 10 在第一列同时画出青色十位和个位",
           "status": "passed",
           "title": "G06-B10 差额 10 在第一列同时画出青色十位和个位",

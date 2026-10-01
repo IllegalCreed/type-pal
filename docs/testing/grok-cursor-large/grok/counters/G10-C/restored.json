@@ -1,0 +1,100 @@
+{
+  "numTotalTestSuites": 2,
+  "numPassedTestSuites": 2,
+  "numFailedTestSuites": 0,
+  "numPendingTestSuites": 0,
+  "numTotalTests": 6,
+  "numPassedTests": 6,
+  "numFailedTests": 0,
+  "numPendingTests": 0,
+  "numTodoTests": 0,
+  "snapshot": {
+    "added": 0,
+    "failure": false,
+    "filesAdded": 0,
+    "filesRemoved": 0,
+    "filesRemovedList": [],
+    "filesUnmatched": 0,
+    "filesUpdated": 0,
+    "matched": 0,
+    "total": 0,
+    "unchecked": 0,
+    "uncheckedKeysByFile": [],
+    "unmatched": 0,
+    "updated": 0,
+    "didUpdate": false
+  },
+  "startTime": 1790882822418,
+  "success": true,
+  "testResults": [
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["G10-C FBP 块号滚动与步进"],
+          "fullName": "G10-C FBP 块号滚动与步进 G10-C01 DOS 块 49 跳过最终 blit",
+          "status": "passed",
+          "title": "G10-C01 DOS 块 49 跳过最终 blit",
+          "duration": 97.51245800000004,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G10-C FBP 块号滚动与步进"],
+          "fullName": "G10-C FBP 块号滚动与步进 G10-C02 WIN95 下块 49 仍整屏写入",
+          "status": "passed",
+          "title": "G10-C02 WIN95 下块 49 仍整屏写入",
+          "duration": 0.8886660000000575,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G10-C FBP 块号滚动与步进"],
+          "fullName": "G10-C FBP 块号滚动与步进 G10-C03 speed 0 的步进等待是 800 毫秒",
+          "status": "passed",
+          "title": "G10-C03 speed 0 的步进等待是 800 毫秒",
+          "duration": 103.741084,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G10-C FBP 块号滚动与步进"],
+          "fullName": "G10-C FBP 块号滚动与步进 G10-C04 上滚中途顶行是旧屏底行是新图",
+          "status": "passed",
+          "title": "G10-C04 上滚中途顶行是旧屏底行是新图",
+          "duration": 101.81229199999996,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G10-C FBP 块号滚动与步进"],
+          "fullName": "G10-C FBP 块号滚动与步进 G10-C05 长度不足的滚动不改 framebuffer",
+          "status": "passed",
+          "title": "G10-C05 长度不足的滚动不改 framebuffer",
+          "duration": 0.5023750000000291,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G10-C FBP 块号滚动与步进"],
+          "fullName": "G10-C FBP 块号滚动与步进 G10-C06 fade 1 的每步等待是 20 毫秒",
+          "status": "passed",
+          "title": "G10-C06 fade 1 的每步等待是 20 毫秒",
+          "duration": 51.87258399999996,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790882823071,
+      "endTime": 1790882823426.8726,
+      "status": "passed",
+      "message": "",
+      "name": "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/grok-r1-G10-C-OPnX3r/packages/game/src/shell/fbp-scroll.grok-r1.test.ts"
+    }
+  ]
+}

@@ -30,9 +30,7 @@
     {
       "assertionResults": [
         {
-          "ancestorTitles": [
-            "G04-B screen-shake 边界与补帧"
-          ],
+          "ancestorTitles": ["G04-B screen-shake 边界与补帧"],
           "fullName": "G04-B screen-shake 边界与补帧 G04-B01 shakeLevel=200 不搬移像素，shakeTime 仍减 1",
           "status": "passed",
           "title": "G04-B01 shakeLevel=200 不搬移像素，shakeTime 仍减 1",
@@ -42,9 +40,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "G04-B screen-shake 边界与补帧"
-          ],
+          "ancestorTitles": ["G04-B screen-shake 边界与补帧"],
           "fullName": "G04-B screen-shake 边界与补帧 G04-B02 奇数帧 level=199 只把最后一行抬到顶，其余行填黑",
           "status": "passed",
           "title": "G04-B02 奇数帧 level=199 只把最后一行抬到顶，其余行填黑",
@@ -54,9 +50,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "G04-B screen-shake 边界与补帧"
-          ],
+          "ancestorTitles": ["G04-B screen-shake 边界与补帧"],
           "fullName": "G04-B screen-shake 边界与补帧 G04-B03 advance=false 的奇数帧仍上移，shakeTime 保持原值",
           "status": "passed",
           "title": "G04-B03 advance=false 的奇数帧仍上移，shakeTime 保持原值",
@@ -66,9 +60,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "G04-B screen-shake 边界与补帧"
-          ],
+          "ancestorTitles": ["G04-B screen-shake 边界与补帧"],
           "fullName": "G04-B screen-shake 边界与补帧 G04-B04 偶数帧 level=199 顶上 199 行填黑，底行等于改写后的第 0 行",
           "status": "passed",
           "title": "G04-B04 偶数帧 level=199 顶上 199 行填黑，底行等于改写后的第 0 行",
@@ -78,9 +70,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "G04-B screen-shake 边界与补帧"
-          ],
+          "ancestorTitles": ["G04-B screen-shake 边界与补帧"],
           "fullName": "G04-B screen-shake 边界与补帧 G04-B05 level=1 的奇数帧上移一行，底行填黑",
           "status": "passed",
           "title": "G04-B05 level=1 的奇数帧上移一行，底行填黑",
@@ -90,9 +80,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "G04-B screen-shake 边界与补帧"
-          ],
+          "ancestorTitles": ["G04-B screen-shake 边界与补帧"],
           "fullName": "G04-B screen-shake 边界与补帧 G04-B06 level=256 且 advance=false 时像素和 shakeTime 都不变",
           "status": "passed",
           "title": "G04-B06 level=256 且 advance=false 时像素和 shakeTime 都不变",

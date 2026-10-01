@@ -30,9 +30,7 @@
     {
       "assertionResults": [
         {
-          "ancestorTitles": [
-            "G03-B drawSprite 锚点与裁剪"
-          ],
+          "ancestorTitles": ["G03-B drawSprite 锚点与裁剪"],
           "fullName": "G03-B drawSprite 锚点与裁剪 G03-B01 宽 7 高 4 的帧 anchorX 为 3，anchorY 为自身高度 4",
           "status": "passed",
           "title": "G03-B01 宽 7 高 4 的帧 anchorX 为 3，anchorY 为自身高度 4",
@@ -42,9 +40,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "G03-B drawSprite 锚点与裁剪"
-          ],
+          "ancestorTitles": ["G03-B drawSprite 锚点与裁剪"],
           "fullName": "G03-B drawSprite 锚点与裁剪 G03-B02 宽 1 的帧 anchorX 为 0，不跟相邻更宽的帧",
           "status": "passed",
           "title": "G03-B02 宽 1 的帧 anchorX 为 0，不跟相邻更宽的帧",
@@ -54,9 +50,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "G03-B drawSprite 锚点与裁剪"
-          ],
+          "ancestorTitles": ["G03-B drawSprite 锚点与裁剪"],
           "fullName": "G03-B drawSprite 锚点与裁剪 G03-B03 toSpriteImages 复用调用方的 indices 与 opaque",
           "status": "passed",
           "title": "G03-B03 toSpriteImages 复用调用方的 indices 与 opaque",
@@ -66,9 +60,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "G03-B drawSprite 锚点与裁剪"
-          ],
+          "ancestorTitles": ["G03-B drawSprite 锚点与裁剪"],
           "fullName": "G03-B drawSprite 锚点与裁剪 G03-B04 左缘外的像素不写，紧挨着的屏内像素写入 9",
           "status": "passed",
           "title": "G03-B04 左缘外的像素不写，紧挨着的屏内像素写入 9",
@@ -78,9 +70,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "G03-B drawSprite 锚点与裁剪"
-          ],
+          "ancestorTitles": ["G03-B drawSprite 锚点与裁剪"],
           "fullName": "G03-B drawSprite 锚点与裁剪 G03-B05 顶缘外的像素不写，下一行屏内像素写入 9",
           "status": "passed",
           "title": "G03-B05 顶缘外的像素不写，下一行屏内像素写入 9",
@@ -90,9 +80,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "G03-B drawSprite 锚点与裁剪"
-          ],
+          "ancestorTitles": ["G03-B drawSprite 锚点与裁剪"],
           "fullName": "G03-B drawSprite 锚点与裁剪 G03-B06 右缘只写下 x=319 的像素，调用不抛错",
           "status": "passed",
           "title": "G03-B06 右缘只写下 x=319 的像素，调用不抛错",
@@ -102,9 +90,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "G03-B drawSprite 锚点与裁剪"
-          ],
+          "ancestorTitles": ["G03-B drawSprite 锚点与裁剪"],
           "fullName": "G03-B drawSprite 锚点与裁剪 G03-B07 3×1 按行序写入 11、12、13",
           "status": "passed",
           "title": "G03-B07 3×1 按行序写入 11、12、13",
@@ -114,9 +100,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "G03-B drawSprite 锚点与裁剪"
-          ],
+          "ancestorTitles": ["G03-B drawSprite 锚点与裁剪"],
           "fullName": "G03-B drawSprite 锚点与裁剪 G03-B08 中间透明孔不挡住右侧不透明像素",
           "status": "passed",
           "title": "G03-B08 中间透明孔不挡住右侧不透明像素",

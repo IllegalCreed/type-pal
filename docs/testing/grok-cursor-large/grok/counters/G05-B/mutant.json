@@ -30,9 +30,7 @@
     {
       "assertionResults": [
         {
-          "ancestorTitles": [
-            "G05-B font 宽度与字形装载"
-          ],
+          "ancestorTitles": ["G05-B font 宽度与字形装载"],
           "fullName": "G05-B font 宽度与字形装载 G05-B01 palCharWidth 在 0x7F 仍是 8，0x80 起是 16",
           "status": "passed",
           "title": "G05-B01 palCharWidth 在 0x7F 仍是 8，0x80 起是 16",
@@ -42,9 +40,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "G05-B font 宽度与字形装载"
-          ],
+          "ancestorTitles": ["G05-B font 宽度与字形装载"],
           "fullName": "G05-B font 宽度与字形装载 G05-B02 空串的 palWordWidth 是 0",
           "status": "passed",
           "title": "G05-B02 空串的 palWordWidth 是 0",
@@ -54,9 +50,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "G05-B font 宽度与字形装载"
-          ],
+          "ancestorTitles": ["G05-B font 宽度与字形装载"],
           "fullName": "G05-B font 宽度与字形装载 G05-B03 四个 ASCII 的 palWordWidth 是 2，不是字符串长度 4",
           "status": "passed",
           "title": "G05-B03 四个 ASCII 的 palWordWidth 是 2，不是字符串长度 4",
@@ -66,9 +60,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "G05-B font 宽度与字形装载"
-          ],
+          "ancestorTitles": ["G05-B font 宽度与字形装载"],
           "fullName": "G05-B font 宽度与字形装载 G05-B04 两个全角字的 palWordWidth 等于 2",
           "status": "passed",
           "title": "G05-B04 两个全角字的 palWordWidth 等于 2",
@@ -78,9 +70,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "G05-B font 宽度与字形装载"
-          ],
+          "ancestorTitles": ["G05-B font 宽度与字形装载"],
           "fullName": "G05-B font 宽度与字形装载 G05-B05 两个 ASCII 加一个全角的 palWordWidth 是 2，不是 3",
           "status": "passed",
           "title": "G05-B05 两个 ASCII 加一个全角的 palWordWidth 是 2，不是 3",
@@ -90,9 +80,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "G05-B font 宽度与字形装载"
-          ],
+          "ancestorTitles": ["G05-B font 宽度与字形装载"],
           "fullName": "G05-B font 宽度与字形装载 G05-B06 loadGlyphs 把 bitmapBase64 解成字节，并能按码位取回",
           "status": "passed",
           "title": "G05-B06 loadGlyphs 把 bitmapBase64 解成字节，并能按码位取回",
@@ -102,9 +90,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "G05-B font 宽度与字形装载"
-          ],
+          "ancestorTitles": ["G05-B font 宽度与字形装载"],
           "fullName": "G05-B font 宽度与字形装载 G05-B07 loadGlyphs 把调用方给的 baseUrl 接到 /data/font/glyphs.json",
           "status": "passed",
           "title": "G05-B07 loadGlyphs 把调用方给的 baseUrl 接到 /data/font/glyphs.json",
@@ -114,9 +100,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "G05-B font 宽度与字形装载"
-          ],
+          "ancestorTitles": ["G05-B font 宽度与字形装载"],
           "fullName": "G05-B font 宽度与字形装载 G05-B08 字形清单 HTTP 失败时，错误文本带上状态码",
           "status": "failed",
           "title": "G05-B08 字形清单 HTTP 失败时，错误文本带上状态码",
@@ -128,9 +112,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "G05-B font 宽度与字形装载"
-          ],
+          "ancestorTitles": ["G05-B font 宽度与字形装载"],
           "fullName": "G05-B font 宽度与字形装载 G05-B09 字形清单为空时，has 为假且 get 为 undefined",
           "status": "passed",
           "title": "G05-B09 字形清单为空时，has 为假且 get 为 undefined",
@@ -140,9 +122,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "G05-B font 宽度与字形装载"
-          ],
+          "ancestorTitles": ["G05-B font 宽度与字形装载"],
           "fullName": "G05-B font 宽度与字形装载 G05-B10 表里有宽 8 的字形时，measureText 返回 8",
           "status": "passed",
           "title": "G05-B10 表里有宽 8 的字形时，measureText 返回 8",
@@ -152,9 +132,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "G05-B font 宽度与字形装载"
-          ],
+          "ancestorTitles": ["G05-B font 宽度与字形装载"],
           "fullName": "G05-B font 宽度与字形装载 G05-B11 renderText 半角加全角返回 24，第二字落在 x+8",
           "status": "passed",
           "title": "G05-B11 renderText 半角加全角返回 24，第二字落在 x+8",
@@ -164,9 +142,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "G05-B font 宽度与字形装载"
-          ],
+          "ancestorTitles": ["G05-B font 宽度与字形装载"],
           "fullName": "G05-B font 宽度与字形装载 G05-B12 renderText 打开阴影时，右、下、右下三点是 0，原点仍是前景",
           "status": "passed",
           "title": "G05-B12 renderText 打开阴影时，右、下、右下三点是 0，原点仍是前景",
@@ -176,9 +152,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "G05-B font 宽度与字形装载"
-          ],
+          "ancestorTitles": ["G05-B font 宽度与字形装载"],
           "fullName": "G05-B font 宽度与字形装载 G05-B13 renderText 关闭阴影时，右、下、右下保持底色",
           "status": "passed",
           "title": "G05-B13 renderText 关闭阴影时，右、下、右下保持底色",
@@ -188,9 +162,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "G05-B font 宽度与字形装载"
-          ],
+          "ancestorTitles": ["G05-B font 宽度与字形装载"],
           "fullName": "G05-B font 宽度与字形装载 G05-B14 空字符串 renderText 返回 0，并且不改像素",
           "status": "passed",
           "title": "G05-B14 空字符串 renderText 返回 0，并且不改像素",

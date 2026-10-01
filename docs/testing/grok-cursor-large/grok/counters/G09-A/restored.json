@@ -30,9 +30,7 @@
     {
       "assertionResults": [
         {
-          "ancestorTitles": [
-            "G09-A 输入回放与按键归属"
-          ],
+          "ancestorTitles": ["G09-A 输入回放与按键归属"],
           "fullName": "G09-A 输入回放与按键归属 G09-A01 未松开的 Up 再次 keydown 会把 Up 挪到 held 末位",
           "status": "passed",
           "title": "G09-A01 未松开的 Up 再次 keydown 会把 Up 挪到 held 末位",
@@ -42,9 +40,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "G09-A 输入回放与按键归属"
-          ],
+          "ancestorTitles": ["G09-A 输入回放与按键归属"],
           "fullName": "G09-A 输入回放与按键归属 G09-A02 已经按住的 Up 再次 keydown 不再写入 pressed",
           "status": "passed",
           "title": "G09-A02 已经按住的 Up 再次 keydown 不再写入 pressed",
@@ -54,9 +50,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "G09-A 输入回放与按键归属"
-          ],
+          "ancestorTitles": ["G09-A 输入回放与按键归属"],
           "fullName": "G09-A 输入回放与按键归属 G09-A03 未知键的 keydown 不改已按住的 Right",
           "status": "passed",
           "title": "G09-A03 未知键的 keydown 不改已按住的 Right",
@@ -66,9 +60,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "G09-A 输入回放与按键归属"
-          ],
+          "ancestorTitles": ["G09-A 输入回放与按键归属"],
           "fullName": "G09-A 输入回放与按键归属 G09-A04 ControlRight 不是确认键",
           "status": "passed",
           "title": "G09-A04 ControlRight 不是确认键",
@@ -78,9 +70,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "G09-A 输入回放与按键归属"
-          ],
+          "ancestorTitles": ["G09-A 输入回放与按键归属"],
           "fullName": "G09-A 输入回放与按键归属 G09-A05 拆掉一个键盘源后，另一个源仍接收后续按键",
           "status": "passed",
           "title": "G09-A05 拆掉一个键盘源后，另一个源仍接收后续按键",
@@ -90,9 +80,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "G09-A 输入回放与按键归属"
-          ],
+          "ancestorTitles": ["G09-A 输入回放与按键归属"],
           "fullName": "G09-A 输入回放与按键归属 G09-A06 clearPressed 不解除方向键的 fade 抑制",
           "status": "passed",
           "title": "G09-A06 clearPressed 不解除方向键的 fade 抑制",
@@ -102,9 +90,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "G09-A 输入回放与按键归属"
-          ],
+          "ancestorTitles": ["G09-A 输入回放与按键归属"],
           "fullName": "G09-A 输入回放与按键归属 G09-A07 回放耗尽时，空快照的帧号等于本次入参",
           "status": "passed",
           "title": "G09-A07 回放耗尽时，空快照的帧号等于本次入参",
@@ -114,9 +100,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "G09-A 输入回放与按键归属"
-          ],
+          "ancestorTitles": ["G09-A 输入回放与按键归属"],
           "fullName": "G09-A 输入回放与按键归属 G09-A08 回放游标越过末帧后，调用方再追加的快照不会被读到",
           "status": "passed",
           "title": "G09-A08 回放游标越过末帧后，调用方再追加的快照不会被读到",
@@ -126,9 +110,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "G09-A 输入回放与按键归属"
-          ],
+          "ancestorTitles": ["G09-A 输入回放与按键归属"],
           "fullName": "G09-A 输入回放与按键归属 G09-A09 录制源返回的就是内层那一个快照对象",
           "status": "passed",
           "title": "G09-A09 录制源返回的就是内层那一个快照对象",
@@ -138,9 +120,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "G09-A 输入回放与按键归属"
-          ],
+          "ancestorTitles": ["G09-A 输入回放与按键归属"],
           "fullName": "G09-A 输入回放与按键归属 G09-A10 getRecording 一直是同一个数组，第二次快照追加在后面",
           "status": "passed",
           "title": "G09-A10 getRecording 一直是同一个数组，第二次快照追加在后面",
@@ -150,9 +130,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "G09-A 输入回放与按键归属"
-          ],
+          "ancestorTitles": ["G09-A 输入回放与按键归属"],
           "fullName": "G09-A 输入回放与按键归属 G09-A11 键盘快照的帧号原样使用主循环传入的帧号",
           "status": "passed",
           "title": "G09-A11 键盘快照的帧号原样使用主循环传入的帧号",

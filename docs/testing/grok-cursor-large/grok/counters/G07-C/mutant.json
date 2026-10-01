@@ -30,9 +30,7 @@
     {
       "assertionResults": [
         {
-          "ancestorTitles": [
-            "G07-C 菜单框像素"
-          ],
+          "ancestorTitles": ["G07-C 菜单框像素"],
           "fullName": "G07-C 菜单框像素 G07-C01 角块透明孔不写像素，旁边的不透明点仍是框色",
           "status": "failed",
           "title": "G07-C01 角块透明孔不写像素，旁边的不透明点仍是框色",
@@ -44,9 +42,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "G07-C 菜单框像素"
-          ],
+          "ancestorTitles": ["G07-C 菜单框像素"],
           "fullName": "G07-C 菜单框像素 G07-C02 单行框 len 为 2 时中段重复两次，右帽在 x=24",
           "status": "passed",
           "title": "G07-C02 单行框 len 为 2 时中段重复两次，右帽在 x=24",
@@ -56,9 +52,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "G07-C 菜单框像素"
-          ],
+          "ancestorTitles": ["G07-C 菜单框像素"],
           "fullName": "G07-C 菜单框像素 G07-C03 单行框 shadowOffset 为 0 时 (6,8) 保持底色",
           "status": "passed",
           "title": "G07-C03 单行框 shadowOffset 为 0 时 (6,8) 保持底色",
@@ -68,9 +62,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "G07-C 菜单框像素"
-          ],
+          "ancestorTitles": ["G07-C 菜单框像素"],
           "fullName": "G07-C 菜单框像素 G07-C04 单行框默认阴影落在框身下方，低四位右移一位",
           "status": "passed",
           "title": "G07-C04 单行框默认阴影落在框身下方，低四位右移一位",
@@ -80,9 +72,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "G07-C 菜单框像素"
-          ],
+          "ancestorTitles": ["G07-C 菜单框像素"],
           "fullName": "G07-C 菜单框像素 G07-C05 右下角透明孔不投下阴影，旁边实点的阴影仍把底色变暗",
           "status": "passed",
           "title": "G07-C05 右下角透明孔不投下阴影，旁边实点的阴影仍把底色变暗",
@@ -92,9 +82,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "G07-C 菜单框像素"
-          ],
+          "ancestorTitles": ["G07-C 菜单框像素"],
           "fullName": "G07-C 菜单框像素 G07-C06 style 1 缺少 frame 9 时抛错并指名该帧",
           "status": "passed",
           "title": "G07-C06 style 1 缺少 frame 9 时抛错并指名该帧",
@@ -104,9 +92,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "G07-C 菜单框像素"
-          ],
+          "ancestorTitles": ["G07-C 菜单框像素"],
           "fullName": "G07-C 菜单框像素 G07-C07 八个半角 E 的列数是 3，不按缺字 16 像素计成 7",
           "status": "passed",
           "title": "G07-C07 八个半角 E 的列数是 3，不按缺字 16 像素计成 7",
@@ -116,9 +102,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "G07-C 菜单框像素"
-          ],
+          "ancestorTitles": ["G07-C 菜单框像素"],
           "fullName": "G07-C 菜单框像素 G07-C08 内容行数为 0 时只留上下两边，y=16 保持底色",
           "status": "passed",
           "title": "G07-C08 内容行数为 0 时只留上下两边，y=16 保持底色",
@@ -128,9 +112,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "G07-C 菜单框像素"
-          ],
+          "ancestorTitles": ["G07-C 菜单框像素"],
           "fullName": "G07-C 菜单框像素 G07-C09 内容列数为 0 时只留左右两边，x=16 保持底色",
           "status": "passed",
           "title": "G07-C09 内容列数为 0 时只留左右两边，x=16 保持底色",
@@ -140,9 +122,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "G07-C 菜单框像素"
-          ],
+          "ancestorTitles": ["G07-C 菜单框像素"],
           "fullName": "G07-C 菜单框像素 G07-C10 不透明且索引为 0 的块仍覆盖底色",
           "status": "passed",
           "title": "G07-C10 不透明且索引为 0 的块仍覆盖底色",
@@ -152,9 +132,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "G07-C 菜单框像素"
-          ],
+          "ancestorTitles": ["G07-C 菜单框像素"],
           "fullName": "G07-C 菜单框像素 G07-C11 列数取最长的一项，短项不把列数抬高",
           "status": "passed",
           "title": "G07-C11 列数取最长的一项，短项不把列数抬高",
@@ -164,9 +142,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "G07-C 菜单框像素"
-          ],
+          "ancestorTitles": ["G07-C 菜单框像素"],
           "fullName": "G07-C 菜单框像素 G07-C12 单行框 len 为 0 时没有中段，右帽紧跟左帽",
           "status": "passed",
           "title": "G07-C12 单行框 len 为 0 时没有中段，右帽紧跟左帽",

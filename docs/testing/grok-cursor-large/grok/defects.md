@@ -70,6 +70,14 @@
 
 本批新合同 55。目标 400/40/40 没有改小。
 
-## 未跑
+## G10
 
-G10 尚未交付。coverage-delta、receipt 的完整候选 SHA、全包 test、根 lint、docs check、diff check、verifier 留在末批。
+没有停组的产品缺陷。
+
+默认 Space 跳过、endFrame -1、窗口 [1,2]、震动耗尽、WIN95 块 68、下滑中途、上图长度不足、AVI 按下后移除、字符串 init 的 POST 和字形降级已经有旧断言，记在 existing-proof。`avi-player.ts:184` 在 `typeof document === 'undefined'` 时直接返回。本 jsdom 始终有 document，记为 unreachable `G10-UN-avi-document`。
+
+本批新合同 25。累计 400/40/40。
+
+## 全包资产环境
+
+全包 `vitest run` 退出码 1。唯一失败套件是 `packages/game/src/dev/dev-panel.test.ts`。工作树没有 gitignore 的 `data/extracted/data/enemy-teams.json`，套件回调在收集阶段 `readFileSync` 抛出 ENOENT。主检出 `/Users/zhangxu/illegal/type-pal/data/extracted/data/enemy-teams.json` 存在。未复制真实数据，未改这条旧测。3145 条测试通过，13 条跳过。本卡新增测试均通过。这条环境异常单列给 Codex，全包不算绿。

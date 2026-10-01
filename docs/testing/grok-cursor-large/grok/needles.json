@@ -358,5 +358,45 @@
     "testFile": "src/shell/precache-ui-host.grok-r1.test.ts",
     "target": "G09-D01",
     "axis": "总字节为 0 时小组件百分比从 0 变成 1"
+  },
+  {
+    "id": "G10-A",
+    "batch": "G10",
+    "source": "packages/game/src/shell/rng-player.ts",
+    "from": "    const endFrame = endFrameRaw < 0 ? chunk.frameCount - 1 : endFrameRaw",
+    "to": "    const endFrame = endFrameRaw === -1 ? chunk.frameCount - 1 : endFrameRaw",
+    "testFile": "src/shell/rng-window.grok-r1.test.ts",
+    "target": "G10-A02",
+    "axis": "只有 endFrame 恰好为 -1 才播到末帧，-2 被当成真实帧号"
+  },
+  {
+    "id": "G10-B",
+    "batch": "G10",
+    "source": "packages/game/src/shell/trademark-fallback.ts",
+    "from": "  const f = Math.max(0, Math.min(1, factor))",
+    "to": "  const f = Math.max(0, Math.min(2, factor))",
+    "testFile": "src/shell/trademark-splash.grok-r1.test.ts",
+    "target": "G10-B01",
+    "axis": "淡出系数上界从 1 放宽到 2，时间回退时颜色翻倍"
+  },
+  {
+    "id": "G10-C",
+    "batch": "G10",
+    "source": "packages/game/src/shell/fbp-player.ts",
+    "from": "  const speed = o.speed === 0 ? 1 : o.speed",
+    "to": "  const speed = o.speed === 0 ? 2 : o.speed",
+    "testFile": "src/shell/fbp-scroll.grok-r1.test.ts",
+    "target": "G10-C03",
+    "axis": "speed 0 被当成 2，步进从 800ms 变成 400ms"
+  },
+  {
+    "id": "G10-D",
+    "batch": "G10",
+    "source": "packages/game/src/shell/ending-player.ts",
+    "from": "  const skipKeys = new Set(o.skipKeys ?? [])",
+    "to": "  const skipKeys = new Set(o.skipKeys ?? ['Space'])",
+    "testFile": "src/shell/ending-avi-host.grok-r1.test.ts",
+    "target": "G10-D01",
+    "axis": "省略跳过键时默认吃掉 Space"
   }
 ]

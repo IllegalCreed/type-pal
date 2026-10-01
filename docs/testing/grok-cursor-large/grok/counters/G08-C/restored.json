@@ -30,9 +30,7 @@
     {
       "assertionResults": [
         {
-          "ancestorTitles": [
-            "G08-C 战斗结算像素"
-          ],
+          "ancestorTitles": ["G08-C 战斗结算像素"],
           "fullName": "G08-C 战斗结算像素 G08-C01 没有界面帧时经验屏不写像素，屏数据保持原样",
           "status": "passed",
           "title": "G08-C01 没有界面帧时经验屏不写像素，屏数据保持原样",
@@ -42,9 +40,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "G08-C 战斗结算像素"
-          ],
+          "ancestorTitles": ["G08-C 战斗结算像素"],
           "fullName": "G08-C 战斗结算像素 G08-C02 缺少箭头帧时标签仍是 0xBB，箭头锚点保持哨兵",
           "status": "passed",
           "title": "G08-C02 缺少箭头帧时标签仍是 0xBB，箭头锚点保持哨兵",
@@ -54,9 +50,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "G08-C 战斗结算像素"
-          ],
+          "ancestorTitles": ["G08-C 战斗结算像素"],
           "fullName": "G08-C 战斗结算像素 G08-C03 缺少斜杠帧时体力个位仍画出，斜杠点保持哨兵",
           "status": "passed",
           "title": "G08-C03 缺少斜杠帧时体力个位仍画出，斜杠点保持哨兵",
@@ -66,9 +60,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "G08-C 战斗结算像素"
-          ],
+          "ancestorTitles": ["G08-C 战斗结算像素"],
           "fullName": "G08-C 战斗结算像素 G08-C04 二字名的文字按实际字宽贴上，框右缘仍按钳到 3 的长度",
           "status": "passed",
           "title": "G08-C04 二字名的文字按实际字宽贴上，框右缘仍按钳到 3 的长度",
@@ -78,9 +70,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "G08-C 战斗结算像素"
-          ],
+          "ancestorTitles": ["G08-C 战斗结算像素"],
           "fullName": "G08-C 战斗结算像素 G08-C05 名字四字、法术六字时 ww=16，单行框和名字一起左移",
           "status": "passed",
           "title": "G08-C05 名字四字、法术六字时 ww=16，单行框和名字一起左移",

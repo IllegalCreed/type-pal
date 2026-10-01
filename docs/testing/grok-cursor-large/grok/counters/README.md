@@ -1,4 +1,4 @@
-# G01–G09 反控原始证据
+# G01–G10 反控原始证据
 
 [返回交付入口](../README.md)。索引在 [counters.json](../counters.json)。
 
@@ -46,8 +46,12 @@ JSON 里只有一条 AssertionError，退出码为 1；stderr 同时有 Unhandle
 | G09-B | G09-B04 | `expected +0 to be 100 // Object.is equality` |
 | G09-C | G09-C01 | `expected '正在加载资源 0 / 811' to be '正在加载资源 0 / 810' // Object.is equality` |
 | G09-D | G09-D01 | `expected '1%' to be '0%' // Object.is equality` |
+| G10-A | G10-A02 | `expected +0 to be 2 // Object.is equality` |
+| G10-B | G10-B01 | `expected [ 200, 80, 20, 255 ] to deeply equal [ 100, 40, 10, 255 ]` |
+| G10-C | G10-C03 | `expected 400 to be 800 // Object.is equality` |
+| G10-D | G10-D01 | `expected 50 to be 60 // Object.is equality` |
 
 每枚目录含 `patch.diff`、`meta.json`，以及 `original|mutant|restored` 的 `.json`、`.stdout`、`.stderr`。
-G01 每枚目录的三态 file × fullName 多重集合相同，各 10 条。G02-A 5 条，G02-B 9 条，G02-C 8 条，G02-D 14 条。G03-A 11 条，G03-B 8 条，G03-C 10 条，G03-D 4 条。G04-A 8 条，G04-B 6 条，G04-C 6 条，G04-D 9 条。G05-A 11 条，G05-B 14 条，G05-C 5 条，G05-D 13 条。G06-A 12 条，G06-B 10 条，G06-C 11 条，G06-D 15 条。G07-A 15 条，G07-B 13 条，G07-C 12 条，G07-D 7 条。G08-A 15 条，G08-B 17 条，G08-C 5 条，G08-D 7 条。G09-A 11 条，G09-B 13 条，G09-C 11 条，G09-D 20 条。clean 与 restored 退出码 0，mutant 退出码 1，signal 都是 null。
+G01 每枚目录的三态 file × fullName 多重集合相同，各 10 条。G02-A 5 条，G02-B 9 条，G02-C 8 条，G02-D 14 条。G03-A 11 条，G03-B 8 条，G03-C 10 条，G03-D 4 条。G04-A 8 条，G04-B 6 条，G04-C 6 条，G04-D 9 条。G05-A 11 条，G05-B 14 条，G05-C 5 条，G05-D 13 条。G06-A 12 条，G06-B 10 条，G06-C 11 条，G06-D 15 条。G07-A 15 条，G07-B 13 条，G07-C 12 条，G07-D 7 条。G08-A 15 条，G08-B 17 条，G08-C 5 条，G08-D 7 条。G09-A 11 条，G09-B 13 条，G09-C 11 条，G09-D 20 条。G10-A 7 条，G10-B 6 条，G10-C 6 条，G10-D 6 条。clean 与 restored 退出码 0，mutant 退出码 1，signal 都是 null。
 
 `rejects.toThrow` 的失败文本以 `Error:` 开头，judge 不把它当成业务 AssertionError。G02-A、G02-C 因此改针后只重采了这两枚；G02-B、G02-D 与 G01 的原日志保留。

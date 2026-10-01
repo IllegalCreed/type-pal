@@ -1,0 +1,21 @@
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/shell/fbp-scroll.grok-r1.test.ts > G10-C FBP 块号滚动与步进 > G10-C03 speed 0 的步进等待是 800 毫秒
+AssertionError: expected 400 to be 800 // Object.is equality
+
+- Expected
++ Received
+
+- 800
++ 400
+
+ ❯ src/shell/fbp-scroll.grok-r1.test.ts:77:24
+     75|     await vi.runAllTimersAsync()
+     76|     await pending
+     77|     expect(firstDelay).toBe(800)
+       |                        ^
+     78|   })
+     79|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯

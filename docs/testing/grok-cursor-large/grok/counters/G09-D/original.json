@@ -30,9 +30,7 @@
     {
       "assertionResults": [
         {
-          "ancestorTitles": [
-            "G09-D 预缓存宿主"
-          ],
+          "ancestorTitles": ["G09-D 预缓存宿主"],
           "fullName": "G09-D 预缓存宿主 G09-D01 总字节为 0 时小组件百分比和条宽都是 0",
           "status": "passed",
           "title": "G09-D01 总字节为 0 时小组件百分比和条宽都是 0",
@@ -42,9 +40,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "G09-D 预缓存宿主"
-          ],
+          "ancestorTitles": ["G09-D 预缓存宿主"],
           "fullName": "G09-D 预缓存宿主 G09-D02 半兆字节按四舍五入写成 1MB，百分比取 floor",
           "status": "passed",
           "title": "G09-D02 半兆字节按四舍五入写成 1MB，百分比取 floor",
@@ -54,9 +50,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "G09-D 预缓存宿主"
-          ],
+          "ancestorTitles": ["G09-D 预缓存宿主"],
           "fullName": "G09-D 预缓存宿主 G09-D03 playableFraction 0.25 把虚线放在 25%，必要资源满格也停在 25%",
           "status": "passed",
           "title": "G09-D03 playableFraction 0.25 把虚线放在 25%，必要资源满格也停在 25%",
@@ -66,9 +60,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "G09-D 预缓存宿主"
-          ],
+          "ancestorTitles": ["G09-D 预缓存宿主"],
           "fullName": "G09-D 预缓存宿主 G09-D04 负数的必要进度钳到 0%",
           "status": "passed",
           "title": "G09-D04 负数的必要进度钳到 0%",
@@ -78,9 +70,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "G09-D 预缓存宿主"
-          ],
+          "ancestorTitles": ["G09-D 预缓存宿主"],
           "fullName": "G09-D 预缓存宿主 G09-D05 大于 1 的必要进度钳到虚线 12%",
           "status": "passed",
           "title": "G09-D05 大于 1 的必要进度钳到虚线 12%",
@@ -90,9 +80,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "G09-D 预缓存宿主"
-          ],
+          "ancestorTitles": ["G09-D 预缓存宿主"],
           "fullName": "G09-D 预缓存宿主 G09-D06 过了虚线之后 setNecessaryProgress 不再改文案",
           "status": "passed",
           "title": "G09-D06 过了虚线之后 setNecessaryProgress 不再改文案",
@@ -102,9 +90,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "G09-D 预缓存宿主"
-          ],
+          "ancestorTitles": ["G09-D 预缓存宿主"],
           "fullName": "G09-D 预缓存宿主 G09-D07 第二次 markPlayable 不调用 onEnter",
           "status": "passed",
           "title": "G09-D07 第二次 markPlayable 不调用 onEnter",
@@ -114,9 +100,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "G09-D 预缓存宿主"
-          ],
+          "ancestorTitles": ["G09-D 预缓存宿主"],
           "fullName": "G09-D 预缓存宿主 G09-D08 没有进入按钮容器时 markPlayable 立刻放行",
           "status": "passed",
           "title": "G09-D08 没有进入按钮容器时 markPlayable 立刻放行",
@@ -126,9 +110,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "G09-D 预缓存宿主"
-          ],
+          "ancestorTitles": ["G09-D 预缓存宿主"],
           "fullName": "G09-D 预缓存宿主 G09-D09 有容器但没有按钮时立刻放行，容器保持 hidden",
           "status": "passed",
           "title": "G09-D09 有容器但没有按钮时立刻放行，容器保持 hidden",
@@ -138,9 +120,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "G09-D 预缓存宿主"
-          ],
+          "ancestorTitles": ["G09-D 预缓存宿主"],
           "fullName": "G09-D 预缓存宿主 G09-D10 全量阶段总字节为 0 时条宽停在虚线，文案是 0/0MB",
           "status": "passed",
           "title": "G09-D10 全量阶段总字节为 0 时条宽停在虚线，文案是 0/0MB",
@@ -150,9 +130,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "G09-D 预缓存宿主"
-          ],
+          "ancestorTitles": ["G09-D 预缓存宿主"],
           "fullName": "G09-D 预缓存宿主 G09-D11 第二次 enterGame 不再多挂一个小组件",
           "status": "passed",
           "title": "G09-D11 第二次 enterGame 不再多挂一个小组件",
@@ -162,9 +140,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "G09-D 预缓存宿主"
-          ],
+          "ancestorTitles": ["G09-D 预缓存宿主"],
           "fullName": "G09-D 预缓存宿主 G09-D12 没有记过总字节时，小组件保持占位文案",
           "status": "passed",
           "title": "G09-D12 没有记过总字节时，小组件保持占位文案",
@@ -174,9 +150,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "G09-D 预缓存宿主"
-          ],
+          "ancestorTitles": ["G09-D 预缓存宿主"],
           "fullName": "G09-D 预缓存宿主 G09-D13 进入之后 fail 不再给覆盖层加错误类",
           "status": "passed",
           "title": "G09-D13 进入之后 fail 不再给覆盖层加错误类",
@@ -186,9 +160,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "G09-D 预缓存宿主"
-          ],
+          "ancestorTitles": ["G09-D 预缓存宿主"],
           "fullName": "G09-D 预缓存宿主 G09-D14 没有状态节点时 fail 仍加上错误类",
           "status": "passed",
           "title": "G09-D14 没有状态节点时 fail 仍加上错误类",
@@ -198,9 +170,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "G09-D 预缓存宿主"
-          ],
+          "ancestorTitles": ["G09-D 预缓存宿主"],
           "fullName": "G09-D 预缓存宿主 G09-D15 必要阶段收到的全量字节在 enterGame 时写进小组件",
           "status": "passed",
           "title": "G09-D15 必要阶段收到的全量字节在 enterGame 时写进小组件",
@@ -210,9 +180,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "G09-D 预缓存宿主"
-          ],
+          "ancestorTitles": ["G09-D 预缓存宿主"],
           "fullName": "G09-D 预缓存宿主 G09-D16 没有进度条时必要进度仍写状态文案",
           "status": "passed",
           "title": "G09-D16 没有进度条时必要进度仍写状态文案",
@@ -222,9 +190,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "G09-D 预缓存宿主"
-          ],
+          "ancestorTitles": ["G09-D 预缓存宿主"],
           "fullName": "G09-D 预缓存宿主 G09-D17 没有状态节点时必要进度仍写 6% 条宽",
           "status": "passed",
           "title": "G09-D17 没有状态节点时必要进度仍写 6% 条宽",
@@ -234,9 +200,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "G09-D 预缓存宿主"
-          ],
+          "ancestorTitles": ["G09-D 预缓存宿主"],
           "fullName": "G09-D 预缓存宿主 G09-D18 进入按钮的 click 只触发一次 onEnter",
           "status": "passed",
           "title": "G09-D18 进入按钮的 click 只触发一次 onEnter",
@@ -246,9 +210,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "G09-D 预缓存宿主"
-          ],
+          "ancestorTitles": ["G09-D 预缓存宿主"],
           "fullName": "G09-D 预缓存宿主 G09-D19 没有覆盖层时 enterGame 仍挂上占位小组件",
           "status": "passed",
           "title": "G09-D19 没有覆盖层时 enterGame 仍挂上占位小组件",
@@ -258,9 +220,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "G09-D 预缓存宿主"
-          ],
+          "ancestorTitles": ["G09-D 预缓存宿主"],
           "fullName": "G09-D 预缓存宿主 G09-D20 done 立刻把透明度设为 0，599ms 仍在，600ms 移除",
           "status": "passed",
           "title": "G09-D20 done 立刻把透明度设为 0，599ms 仍在，600ms 移除",

@@ -30,9 +30,7 @@
     {
       "assertionResults": [
         {
-          "ancestorTitles": [
-            "G08-B 战斗界面像素"
-          ],
+          "ancestorTitles": ["G08-B 战斗界面像素"],
           "fullName": "G08-B 战斗界面像素 G08-B01 体力正好等于 min(100, maxHP/5) 时合击图标仍是可用灰",
           "status": "passed",
           "title": "G08-B01 体力正好等于 min(100, maxHP/5) 时合击图标仍是可用灰",
@@ -42,9 +40,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "G08-B 战斗界面像素"
-          ],
+          "ancestorTitles": ["G08-B 战斗界面像素"],
           "fullName": "G08-B 战斗界面像素 G08-B02 体力比该门槛少 1 时合击图标更暗",
           "status": "passed",
           "title": "G08-B02 体力比该门槛少 1 时合击图标更暗",
@@ -54,9 +50,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "G08-B 战斗界面像素"
-          ],
+          "ancestorTitles": ["G08-B 战斗界面像素"],
           "fullName": "G08-B 战斗界面像素 G08-B03 maxHP/5 超过 100 时门槛停在 100，体力 150 的合击仍可用",
           "status": "passed",
           "title": "G08-B03 maxHP/5 超过 100 时门槛停在 100，体力 150 的合击仍可用",
@@ -66,9 +60,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "G08-B 战斗界面像素"
-          ],
+          "ancestorTitles": ["G08-B 战斗界面像素"],
           "fullName": "G08-B 战斗界面像素 G08-B04 沉默使法术和合击更暗，杂项保持可用灰，选中的攻击仍是原色",
           "status": "passed",
           "title": "G08-B04 沉默使法术和合击更暗，杂项保持可用灰，选中的攻击仍是原色",
@@ -78,9 +70,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "G08-B 战斗界面像素"
-          ],
+          "ancestorTitles": ["G08-B 战斗界面像素"],
           "fullName": "G08-B 战斗界面像素 G08-B05 傀儡不封锁法术，但合击因不健康而更暗",
           "status": "passed",
           "title": "G08-B05 傀儡不封锁法术，但合击因不健康而更暗",
@@ -90,9 +80,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "G08-B 战斗界面像素"
-          ],
+          "ancestorTitles": ["G08-B 战斗界面像素"],
           "fullName": "G08-B 战斗界面像素 G08-B06 同伴睡眠使健康人数不够，合击更暗而法术仍可用",
           "status": "passed",
           "title": "G08-B06 同伴睡眠使健康人数不够，合击更暗而法术仍可用",
@@ -102,9 +90,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "G08-B 战斗界面像素"
-          ],
+          "ancestorTitles": ["G08-B 战斗界面像素"],
           "fullName": "G08-B 战斗界面像素 G08-B07 没有行动队员时未选图标更暗，选中的攻击仍保持原色",
           "status": "passed",
           "title": "G08-B07 没有行动队员时未选图标更暗，选中的攻击仍保持原色",
@@ -114,9 +100,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "G08-B 战斗界面像素"
-          ],
+          "ancestorTitles": ["G08-B 战斗界面像素"],
           "fullName": "G08-B 战斗界面像素 G08-B08 dialogBoxKept 让攻击图标和底部姓名都保持哨兵",
           "status": "passed",
           "title": "G08-B08 dialogBoxKept 让攻击图标和底部姓名都保持哨兵",
@@ -126,9 +110,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "G08-B 战斗界面像素"
-          ],
+          "ancestorTitles": ["G08-B 战斗界面像素"],
           "fullName": "G08-B 战斗界面像素 G08-B09 进入物品二级后，父项道具用确认绿 0x2C，邻项仍是 0x4F",
           "status": "passed",
           "title": "G08-B09 进入物品二级后，父项道具用确认绿 0x2C，邻项仍是 0x4F",
@@ -138,9 +120,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "G08-B 战斗界面像素"
-          ],
+          "ancestorTitles": ["G08-B 战斗界面像素"],
           "fullName": "G08-B 战斗界面像素 G08-B10 杂项菜单未进入二级时，当前项是闪烁色 0xF9 而不是确认绿",
           "status": "passed",
           "title": "G08-B10 杂项菜单未进入二级时，当前项是闪烁色 0xF9 而不是确认绿",
@@ -150,9 +130,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "G08-B 战斗界面像素"
-          ],
+          "ancestorTitles": ["G08-B 战斗界面像素"],
           "fullName": "G08-B 战斗界面像素 G08-B11 选友方目标时攻击图标改灰，目标箭头在锚点上移 67",
           "status": "passed",
           "title": "G08-B11 选友方目标时攻击图标改灰，目标箭头在锚点上移 67",
@@ -162,9 +140,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "G08-B 战斗界面像素"
-          ],
+          "ancestorTitles": ["G08-B 战斗界面像素"],
           "fullName": "G08-B 战斗界面像素 G08-B12 活人的乱和封落在信息框偏移上",
           "status": "passed",
           "title": "G08-B12 活人的乱和封落在信息框偏移上",
@@ -174,9 +150,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "G08-B 战斗界面像素"
-          ],
+          "ancestorTitles": ["G08-B 战斗界面像素"],
           "fullName": "G08-B 战斗界面像素 G08-B13 中毒头像按毒色高半字节重染，不再写出原索引",
           "status": "passed",
           "title": "G08-B13 中毒头像按毒色高半字节重染，不再写出原索引",
@@ -186,9 +160,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "G08-B 战斗界面像素"
-          ],
+          "ancestorTitles": ["G08-B 战斗界面像素"],
           "fullName": "G08-B 战斗界面像素 G08-B14 物品框阴影把背景 0x13 收成 0x11，本体和小球图标分开",
           "status": "passed",
           "title": "G08-B14 物品框阴影把背景 0x13 收成 0x11，本体和小球图标分开",
@@ -198,9 +170,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "G08-B 战斗界面像素"
-          ],
+          "ancestorTitles": ["G08-B 战斗界面像素"],
           "fullName": "G08-B 战斗界面像素 G08-B15 法术网格不画物品数量，假设的个位保持哨兵",
           "status": "passed",
           "title": "G08-B15 法术网格不画物品数量，假设的个位保持哨兵",
@@ -210,9 +180,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "G08-B 战斗界面像素"
-          ],
+          "ancestorTitles": ["G08-B 战斗界面像素"],
           "fullName": "G08-B 战斗界面像素 G08-B16 界面帧数不超过 48 时改画文字姓名，不画头像",
           "status": "passed",
           "title": "G08-B16 界面帧数不超过 48 时改画文字姓名，不画头像",
@@ -222,9 +190,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "G08-B 战斗界面像素"
-          ],
+          "ancestorTitles": ["G08-B 战斗界面像素"],
           "fullName": "G08-B 战斗界面像素 G08-B17 帧数刚到 49 时画头像，底部文字姓名保持哨兵",
           "status": "passed",
           "title": "G08-B17 帧数刚到 49 时画头像，底部文字姓名保持哨兵",

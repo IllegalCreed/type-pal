@@ -30,9 +30,7 @@
     {
       "assertionResults": [
         {
-          "ancestorTitles": [
-            "G03-D computeFollowerRenderItems 缺槽与越界步"
-          ],
+          "ancestorTitles": ["G03-D computeFollowerRenderItems 缺槽与越界步"],
           "fullName": "G03-D computeFollowerRenderItems 缺槽与越界步 G03-D01 行走且 stepFrame 为 4 时步帧回落到 0，朝右的帧是 9",
           "status": "passed",
           "title": "G03-D01 行走且 stepFrame 为 4 时步帧回落到 0，朝右的帧是 9",
@@ -42,9 +40,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "G03-D computeFollowerRenderItems 缺槽与越界步"
-          ],
+          "ancestorTitles": ["G03-D computeFollowerRenderItems 缺槽与越界步"],
           "fullName": "G03-D computeFollowerRenderItems 缺槽与越界步 G03-D02 第一个跟随者缺 trail[3]、第二个有 trail[4] 时只留下 index 1",
           "status": "passed",
           "title": "G03-D02 第一个跟随者缺 trail[3]、第二个有 trail[4] 时只留下 index 1",
@@ -54,9 +50,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "G03-D computeFollowerRenderItems 缺槽与越界步"
-          ],
+          "ancestorTitles": ["G03-D computeFollowerRenderItems 缺槽与越界步"],
           "fullName": "G03-D computeFollowerRenderItems 缺槽与越界步 G03-D03 朝左行走且 stepFrame 为 1 时帧是 5",
           "status": "passed",
           "title": "G03-D03 朝左行走且 stepFrame 为 1 时帧是 5",
@@ -66,9 +60,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "G03-D computeFollowerRenderItems 缺槽与越界步"
-          ],
+          "ancestorTitles": ["G03-D computeFollowerRenderItems 缺槽与越界步"],
           "fullName": "G03-D computeFollowerRenderItems 缺槽与越界步 G03-D04 第二个跟随者没有 trail[4] 时，第一个仍然留下",
           "status": "passed",
           "title": "G03-D04 第二个跟随者没有 trail[4] 时，第一个仍然留下",

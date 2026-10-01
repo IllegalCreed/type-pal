@@ -1,0 +1,11 @@
+--- a/packages/game/src/shell/fbp-player.ts
++++ b/packages/game/src/shell/fbp-player.ts
+@@ -136,7 +136,7 @@
+   if (o.fbpIndices.length !== N) return // 无图 → 不滚(sdlpal decompress<=0 return)
+   const target = o.fbpIndices
+   const back = new Uint8Array(o.fb.indices) // VIDEO_BackupScreen
+-  const speed = o.speed === 0 ? 1 : o.speed
++  const speed = o.speed === 0 ? 2 : o.speed
+   const delay = Math.max(1, Math.floor(800 / speed))
+   let skipped = false
+   const skipKeys = new Set(o.skipKeys ?? [])
