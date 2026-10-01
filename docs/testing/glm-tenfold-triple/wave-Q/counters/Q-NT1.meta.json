@@ -1,0 +1,57 @@
+{
+  "id": "Q-NT1",
+  "file": "packages/reforge/src/script-confirm-modal.glm-q.test.ts",
+  "targetFullName": "Q01 token 在多次请求间严格单调递增，激活顺序为 FIFO",
+  "targetNameSubstring": "token 在多次请求间严格单调递增",
+  "axis": "输入轴单轴变异：FIFO 例第三枚 submitNo→toggle+submit Yes（合法选择路径；settied 断言 [false,false,false] 第三项应变 true → 恰一红）；断言不动。",
+  "sha256": {
+    "original": "06784dcb2ab7acdee02a59fbeaa2b1f76ee3939bf58589c063714a490e329d9a",
+    "mutated": "774f91a366959cb3ff1493953cd506435f06c204e2b88679b3d79d512096226f",
+    "restored": "06784dcb2ab7acdee02a59fbeaa2b1f76ee3939bf58589c063714a490e329d9a"
+  },
+  "restoredHashUnchanged": true,
+  "criteria": {
+    "positiveGreen": true,
+    "mutantExactlyOneTargetRed": true,
+    "targetAssertionError": "AssertionError: expected [ false, false, true ] to deeply equal [ false, false, false ]",
+    "restoredGreen": true,
+    "restoredSameExecutionCount": true,
+    "hashesMatchFinalCandidate": true
+  },
+  "runs": {
+    "positive": {
+      "exitCode": 0,
+      "summary": {
+        "numTotalTests": 12,
+        "numPassedTests": 12,
+        "numFailedTests": 0,
+        "success": true
+      },
+      "json": "Q-NT1.positive.json",
+      "raw": "Q-NT1.positive.txt"
+    },
+    "mutant": {
+      "exitCode": 1,
+      "summary": {
+        "numTotalTests": 12,
+        "numPassedTests": 11,
+        "numFailedTests": 1,
+        "success": false
+      },
+      "json": "Q-NT1.mutant.json",
+      "raw": "Q-NT1.mutant.txt"
+    },
+    "restored": {
+      "exitCode": 0,
+      "summary": {
+        "numTotalTests": 12,
+        "numPassedTests": 12,
+        "numFailedTests": 0,
+        "success": true
+      },
+      "json": "Q-NT1.restored.json",
+      "raw": "Q-NT1.restored.txt"
+    }
+  },
+  "verdict": "VALID"
+}

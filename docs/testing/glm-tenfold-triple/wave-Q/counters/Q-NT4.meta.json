@@ -1,0 +1,57 @@
+{
+  "id": "Q-NT4",
+  "file": "packages/reforge/src/assets-decode-gates.glm-q.test.ts",
+  "targetFullName": "Q02 battle 缓存保护裁剪：受保护项存活、非保护项逐出后重读",
+  "targetNameSubstring": "battle 缓存保护裁剪",
+  "axis": "输入轴单轴变异：prune 保护集 {'keep'}→{'keep','a'}（合法集合；a 应存活 → cache.get(reader,'a') undefined 断言恰一红）；断言不动。",
+  "sha256": {
+    "original": "52c84b6e5b5d6d497f4aeed4e62e689505dc598e24227702176f3c0290c9a70e",
+    "mutated": "77badb0c8fc1e2a24a6a236c5cfde799c402570f01be6986b85b039a64c5ae76",
+    "restored": "52c84b6e5b5d6d497f4aeed4e62e689505dc598e24227702176f3c0290c9a70e"
+  },
+  "restoredHashUnchanged": true,
+  "criteria": {
+    "positiveGreen": true,
+    "mutantExactlyOneTargetRed": true,
+    "targetAssertionError": "AssertionError: expected { frames: [ …(3) ], anchorX: 1, …(3) } to be undefined",
+    "restoredGreen": true,
+    "restoredSameExecutionCount": true,
+    "hashesMatchFinalCandidate": true
+  },
+  "runs": {
+    "positive": {
+      "exitCode": 0,
+      "summary": {
+        "numTotalTests": 11,
+        "numPassedTests": 11,
+        "numFailedTests": 0,
+        "success": true
+      },
+      "json": "Q-NT4.positive.json",
+      "raw": "Q-NT4.positive.txt"
+    },
+    "mutant": {
+      "exitCode": 1,
+      "summary": {
+        "numTotalTests": 11,
+        "numPassedTests": 10,
+        "numFailedTests": 1,
+        "success": false
+      },
+      "json": "Q-NT4.mutant.json",
+      "raw": "Q-NT4.mutant.txt"
+    },
+    "restored": {
+      "exitCode": 0,
+      "summary": {
+        "numTotalTests": 11,
+        "numPassedTests": 11,
+        "numFailedTests": 0,
+        "success": true
+      },
+      "json": "Q-NT4.restored.json",
+      "raw": "Q-NT4.restored.txt"
+    }
+  },
+  "verdict": "VALID"
+}

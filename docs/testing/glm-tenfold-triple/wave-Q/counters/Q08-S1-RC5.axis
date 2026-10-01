@@ -1,1 +1,1 @@
-输入轴单轴变异：caster yPosOffset 0→4（合法锚偏移；其 posOriginal/pos 应较固定基准 layoutBase(1) 上移 4 → toEqual 红）；断言不动。
+输入轴单轴变异：refresh 前 caster.yPosOffset 0→4（合法锚偏移；battle.c:939 底锚 y+4 → caster 常量 oracle toEqual({x:100,y:60}) 恰一红，dead 断言仍绿）；断言不动。

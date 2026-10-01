@@ -24,30 +24,30 @@
     "updated": 0,
     "didUpdate": false
   },
-  "startTime": 1790861287886,
+  "startTime": 1790866499410,
   "success": false,
   "testResults": [
     {
       "assertionResults": [
         {
           "ancestorTitles": ["Q08 0x9E 正向死亡空槽复用（战中击败槽，非初始 0 占位）"],
-          "fullName": "Q08 0x9E 正向死亡空槽复用（战中击败槽，非初始 0 占位） 战中被击败槽被复用：满血重置、毒清零、对象身份与脚本替换",
-          "status": "failed",
-          "title": "战中被击败槽被复用：满血重置、毒清零、对象身份与脚本替换",
-          "duration": 6.060624999999959,
-          "failureMessages": [
-            "AssertionError: expected 120 to be 80 // Object.is equality\n    at /private/tmp/glmq/counter-copy/type-pal/packages/game/src/battle-summon-slot-reuse.glm-q.test.ts:157:27\n    at file:///private/tmp/glmq/counter-copy/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///private/tmp/glmq/counter-copy/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///private/tmp/glmq/counter-copy/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///private/tmp/glmq/counter-copy/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///private/tmp/glmq/counter-copy/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///private/tmp/glmq/counter-copy/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///private/tmp/glmq/counter-copy/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64"
-          ],
+          "fullName": "Q08 0x9E 正向死亡空槽复用（战中击败槽，非初始 0 占位） 复用槽非空毒残留被清零、对象身份替换（旧证之外的独立轴）",
+          "status": "passed",
+          "title": "复用槽非空毒残留被清零、对象身份替换（旧证之外的独立轴）",
+          "duration": 2.035624999999982,
+          "failureMessages": [],
           "meta": {},
           "tags": []
         },
         {
           "ancestorTitles": ["Q08 0x9E 正向死亡空槽复用（战中击败槽，非初始 0 占位）"],
           "fullName": "Q08 0x9E 正向死亡空槽复用（战中击败槽，非初始 0 占位） 同席两死亡槽只复用一间：另一间保持 defeated 与残留身份",
-          "status": "passed",
+          "status": "failed",
           "title": "同席两死亡槽只复用一间：另一间保持 defeated 与残留身份",
-          "duration": 0.6975410000000011,
-          "failureMessages": [],
+          "duration": 3.365333000000078,
+          "failureMessages": [
+            "AssertionError: expected 23 to be 22 // Object.is equality\n    at /private/tmp/glmq/counter-copy/type-pal/packages/game/src/battle-summon-slot-reuse.glm-q.test.ts:170:30\n    at file:///private/tmp/glmq/counter-copy/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///private/tmp/glmq/counter-copy/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///private/tmp/glmq/counter-copy/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///private/tmp/glmq/counter-copy/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///private/tmp/glmq/counter-copy/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///private/tmp/glmq/counter-copy/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///private/tmp/glmq/counter-copy/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64"
+          ],
           "meta": {},
           "tags": []
         },
@@ -56,7 +56,7 @@
           "fullName": "Q08 0x9E 正向死亡空槽复用（战中击败槽，非初始 0 占位） 活敌槽绝不复用：满员 3 活 0 死 → room=0 走 fail 跳转",
           "status": "passed",
           "title": "活敌槽绝不复用：满员 3 活 0 死 → room=0 走 fail 跳转",
-          "duration": 0.19787499999995362,
+          "duration": 0.22629200000005767,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -66,14 +66,14 @@
           "fullName": "Q08 0x9E 正向死亡空槽复用（战中击败槽，非初始 0 占位） 复用后全体敌人底锚按新阵容重算（PAL_BattleMakeScene 等价）",
           "status": "passed",
           "title": "复用后全体敌人底锚按新阵容重算（PAL_BattleMakeScene 等价）",
-          "duration": 0.41104200000006585,
+          "duration": 0.40783299999998235,
           "failureMessages": [],
           "meta": {},
           "tags": []
         }
       ],
-      "startTime": 1790861288524,
-      "endTime": 1790861288531.4111,
+      "startTime": 1790866499960,
+      "endTime": 1790866499965.4077,
       "status": "failed",
       "message": "",
       "name": "/private/tmp/glmq/counter-copy/type-pal/packages/game/src/battle-summon-slot-reuse.glm-q.test.ts"

@@ -1,0 +1,5 @@
+  const cache = new BattleSpriteAssetCache(1)
+  await cache.load(reader, 'a')
+  await cache.load(reader, 'b')
+  await cache.load(reader, 'keep')
+  cache.prune(new Set(['keep']))

@@ -1,0 +1,4 @@
+      support: withRules('support', [cast('aid')]),
+    }
+    const result = collectReachableEnemyDefs([table.root!], table)
+    expect(result.map((enemy) => enemy.id)).toEqual(['root', 'support'])

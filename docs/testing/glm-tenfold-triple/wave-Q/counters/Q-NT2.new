@@ -1,0 +1,3 @@
+    const table = { a: withRules('a', [cast('s1')]), b: withRules('b', [{ kind: 'flee' }]) }
+    const result = collectReachableEnemyDefs([table.b!, table.b!], table) // 变异轴：初始集改为两个 b（合法输入）
+    expect(result.map((enemy) => enemy.id)).toEqual(['a', 'b'])

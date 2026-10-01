@@ -1,0 +1,24 @@
+      support: withRules('support', [cast('aid')]),
+    }
+    // 变异轴：root 的 hook effect 目标 support 表键改 ghost（未登记 → 精确报错）
+    table.root = opponent({
+      id: 'root',
+      ai: {
+        resistanceToSorcery: 0,
+        fallback: { action: cast('hex'), chancePercent: 50 },
+        hooks: {
+          ready: {
+            initial: 'main',
+            states: {
+              main: {
+                body: [{ id: 'h1', kind: 'effect', effect: summon('ghost') }],
+                next: { kind: 'stay' },
+              },
+            },
+          },
+        },
+        rules: [],
+      },
+    })
+    const result = collectReachableEnemyDefs([table.root!], table)
+    expect(result.map((enemy) => enemy.id)).toEqual(['root', 'support'])

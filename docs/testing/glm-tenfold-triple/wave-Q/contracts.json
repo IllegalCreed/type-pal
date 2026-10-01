@@ -1453,12 +1453,12 @@
       "file": "game/src/battle-action-error-arms.glm-q.test.ts",
       "fullName": "Q08-8b pickAutoMagic 展开批（typed rgwMagic 投影链；Q-R5-03 撤回 blocked-input） 公开投影链把 rgwMagic 槽位真实投影为 role.magic（caller 同路）",
       "status": "passed",
-      "source": "game src/core/battle/actions/magic.ts performMagic（caster 缺失臂）+ actions/item.ts performItem 与 actions/throw-item.ts performThrowItem（无 inventory 臂）+ battle-system.ts selectAutoTargetFrom（begin<0/prevTarget 越界臂）",
-      "caller": "typed BattleState/PlayerRoles/GameState 直构（镜像旧 makeState 形态，零强转）+ createCommandBus + runScript spy",
-      "oldAssertion": "actions.test.ts 已证「MP 不足不扣/spell id not found/magic id 不在表/item id not found」；本文件不重复，只打 caster/role 缺失与无 inventory 三族及 selectAutoTargetFrom 两条件臂",
-      "axis": "输入轴/公开入口直驱（逐用例轴见测试体；反控轴见 counters/<id>.axis）",
-      "oracle": "对真实公开入口最终结果断言（精确消息/状态字段/字节数/落盘产物），rejects 原文保留",
-      "classification": "error/resource-ownership arms（warn 原文+不扣 MP+不 emit+不跑脚本+inventory 原样；扫描规范化与越界回扫）"
+      "source": "game core/game-state.ts hydratePlayerRolesRuntime（:1394-1432 rgwMagic 32 槽写入）+ projectRuntimeToBattleRoles（:1577-1670 槽→role.magic 投影）",
+      "caller": "生产 caller = shell/bootstrap.ts:1197-1201（startBattle 前投影）；测试走同一公开双函数",
+      "oldAssertion": "game-state/dev-panel 投影旧测覆盖 rgwMagic 投影主链（r6 复核已对照）；本例是 pickAutoMagic 批的链路直证锚",
+      "axis": "合法 typed 槽位输入 → 数组逐位相等",
+      "oracle": "projectRuntimeToBattleRoles 输出 role.magic 逐槽等于手填 rgwMagic（32 槽保序、零槽补 0）",
+      "classification": "typed-projection chain anchor（Q-R5-03 撤回后按公开链展开）"
     },
     {
       "id": "C105",
@@ -1467,12 +1467,12 @@
       "file": "game/src/battle-action-error-arms.glm-q.test.ts",
       "fullName": "Q08-8b pickAutoMagic 展开批（typed rgwMagic 投影链；Q-R5-03 撤回 blocked-input） silence>0 → 直接返回 0（物理攻击），不查法术表",
       "status": "passed",
-      "source": "game src/core/battle/actions/magic.ts performMagic（caster 缺失臂）+ actions/item.ts performItem 与 actions/throw-item.ts performThrowItem（无 inventory 臂）+ battle-system.ts selectAutoTargetFrom（begin<0/prevTarget 越界臂）",
-      "caller": "typed BattleState/PlayerRoles/GameState 直构（镜像旧 makeState 形态，零强转）+ createCommandBus + runScript spy",
-      "oldAssertion": "actions.test.ts 已证「MP 不足不扣/spell id not found/magic id 不在表/item id not found」；本文件不重复，只打 caster/role 缺失与无 inventory 三族及 selectAutoTargetFrom 两条件臂",
-      "axis": "输入轴/公开入口直驱（逐用例轴见测试体；反控轴见 counters/<id>.axis）",
-      "oracle": "对真实公开入口最终结果断言（精确消息/状态字段/字节数/落盘产物），rejects 原文保留",
-      "classification": "error/resource-ownership arms（warn 原文+不扣 MP+不 emit+不跑脚本+inventory 原样；扫描规范化与越界回扫）"
+      "source": "game core/battle/battle-system.ts pickAutoMagic（:1054-1056 silence 门）",
+      "caller": "生产 caller = battle-system.ts:1372 Force 键自动战斗；测试直驱 pickAutoMagic + typed BattleState（status.silence 经投影链后直设）",
+      "oldAssertion": "battle-system.test.ts:1089-1119 仅两条 signed-negative（负 baseDamage），无 silence 臂",
+      "axis": "status.silence=3（合法正数）",
+      "oracle": "silence>0 恒返 0（物理攻击），不查法术表",
+      "classification": "new condition arm（silence gate）"
     },
     {
       "id": "C106",
@@ -1481,12 +1481,12 @@
       "file": "game/src/battle-action-error-arms.glm-q.test.ts",
       "fullName": "Q08-8b pickAutoMagic 展开批（typed rgwMagic 投影链；Q-R5-03 撤回 blocked-input） selectingPlayerIdx 缺席（undefined）→ 返回 0",
       "status": "passed",
-      "source": "game src/core/battle/actions/magic.ts performMagic（caster 缺失臂）+ actions/item.ts performItem 与 actions/throw-item.ts performThrowItem（无 inventory 臂）+ battle-system.ts selectAutoTargetFrom（begin<0/prevTarget 越界臂）",
-      "caller": "typed BattleState/PlayerRoles/GameState 直构（镜像旧 makeState 形态，零强转）+ createCommandBus + runScript spy",
-      "oldAssertion": "actions.test.ts 已证「MP 不足不扣/spell id not found/magic id 不在表/item id not found」；本文件不重复，只打 caster/role 缺失与无 inventory 三族及 selectAutoTargetFrom 两条件臂",
-      "axis": "输入轴/公开入口直驱（逐用例轴见测试体；反控轴见 counters/<id>.axis）",
-      "oracle": "对真实公开入口最终结果断言（精确消息/状态字段/字节数/落盘产物），rejects 原文保留",
-      "classification": "error/resource-ownership arms（warn 原文+不扣 MP+不 emit+不跑脚本+inventory 原样；扫描规范化与越界回扫）"
+      "source": "game core/battle/battle-system.ts pickAutoMagic（:1050-1052 selectingPlayerIdx 门）",
+      "caller": "同上；测试 BattleState 不设 selectingPlayerIdx（合法缺省）",
+      "oldAssertion": "battle-system.test.ts pickAutoMagic 旧例固定 selectingPlayerIdx:0，无缺席臂",
+      "axis": "BattleState 缺省字段",
+      "oracle": "selectingPlayerIdx===undefined → 返 0",
+      "classification": "new condition arm (absent selector)"
     },
     {
       "id": "C107",
@@ -1495,12 +1495,12 @@
       "file": "game/src/battle-action-error-arms.glm-q.test.ts",
       "fullName": "Q08-8b pickAutoMagic 展开批（typed rgwMagic 投影链；Q-R5-03 撤回 blocked-input） 已学槽法术 resolve 失败（spell 不在表）→ 该槽跳过，返回 0",
       "status": "passed",
-      "source": "game src/core/battle/actions/magic.ts performMagic（caster 缺失臂）+ actions/item.ts performItem 与 actions/throw-item.ts performThrowItem（无 inventory 臂）+ battle-system.ts selectAutoTargetFrom（begin<0/prevTarget 越界臂）",
-      "caller": "typed BattleState/PlayerRoles/GameState 直构（镜像旧 makeState 形态，零强转）+ createCommandBus + runScript spy",
-      "oldAssertion": "actions.test.ts 已证「MP 不足不扣/spell id not found/magic id 不在表/item id not found」；本文件不重复，只打 caster/role 缺失与无 inventory 三族及 selectAutoTargetFrom 两条件臂",
-      "axis": "输入轴/公开入口直驱（逐用例轴见测试体；反控轴见 counters/<id>.axis）",
-      "oracle": "对真实公开入口最终结果断言（精确消息/状态字段/字节数/落盘产物），rejects 原文保留",
-      "classification": "error/resource-ownership arms（warn 原文+不扣 MP+不 emit+不跑脚本+inventory 原样；扫描规范化与越界回扫）"
+      "source": "game core/battle/battle-system.ts pickAutoMagic（:1064-1066 resolveMagicObject 失败 continue）",
+      "caller": "同上；学习槽 400 而 spells 表只含 297",
+      "oldAssertion": "旧测无 resolve 失败臂（学习表内 id 都可解析）",
+      "axis": "合法 id 域错位（400 ∉ spells）",
+      "oracle": "已学槽 spell 不在表 → 跳过，best 保持 0",
+      "classification": "new condition arm (resolve miss)"
     },
     {
       "id": "C108",
@@ -1509,12 +1509,12 @@
       "file": "game/src/battle-action-error-arms.glm-q.test.ts",
       "fullName": "Q08-8b pickAutoMagic 展开批（typed rgwMagic 投影链；Q-R5-03 撤回 blocked-input） costMP=1 极限技门（sdlpal uibattle.c:763-766 筛除极限技）→ 跳过不选；合法耗魔法术正常入选",
       "status": "passed",
-      "source": "game src/core/battle/actions/magic.ts performMagic（caster 缺失臂）+ actions/item.ts performItem 与 actions/throw-item.ts performThrowItem（无 inventory 臂）+ battle-system.ts selectAutoTargetFrom（begin<0/prevTarget 越界臂）",
-      "caller": "typed BattleState/PlayerRoles/GameState 直构（镜像旧 makeState 形态，零强转）+ createCommandBus + runScript spy",
-      "oldAssertion": "actions.test.ts 已证「MP 不足不扣/spell id not found/magic id 不在表/item id not found」；本文件不重复，只打 caster/role 缺失与无 inventory 三族及 selectAutoTargetFrom 两条件臂",
-      "axis": "输入轴/公开入口直驱（逐用例轴见测试体；反控轴见 counters/<id>.axis）",
-      "oracle": "对真实公开入口最终结果断言（精确消息/状态字段/字节数/落盘产物），rejects 原文保留",
-      "classification": "error/resource-ownership arms（warn 原文+不扣 MP+不 emit+不跑脚本+inventory 原样；扫描规范化与越界回扫）"
+      "source": "game core/battle/battle-system.ts pickAutoMagic（:1072 costMP===1 筛除；sdlpal uibattle.c:763-766 极限技门）",
+      "caller": "同上；296 costMP=1 / 297 costMP=2",
+      "oldAssertion": "battle-system.test.ts:1089-1119 无 costMP 门臂",
+      "axis": "合法耗魔值域（1 vs 2）",
+      "oracle": "costMP===1（极限技）跳过不选，costMP=2 正常入选",
+      "classification": "new condition arm (ultimate-move gate)"
     },
     {
       "id": "C109",
@@ -1523,12 +1523,12 @@
       "file": "game/src/battle-action-error-arms.glm-q.test.ts",
       "fullName": "Q08-8b pickAutoMagic 展开批（typed rgwMagic 投影链；Q-R5-03 撤回 blocked-input） 唯一已学法术 MP 不足（costMP>role.mp）→ 跳过返回 0",
       "status": "passed",
-      "source": "game src/core/battle/actions/magic.ts performMagic（caster 缺失臂）+ actions/item.ts performItem 与 actions/throw-item.ts performThrowItem（无 inventory 臂）+ battle-system.ts selectAutoTargetFrom（begin<0/prevTarget 越界臂）",
-      "caller": "typed BattleState/PlayerRoles/GameState 直构（镜像旧 makeState 形态，零强转）+ createCommandBus + runScript spy",
-      "oldAssertion": "actions.test.ts 已证「MP 不足不扣/spell id not found/magic id 不在表/item id not found」；本文件不重复，只打 caster/role 缺失与无 inventory 三族及 selectAutoTargetFrom 两条件臂",
-      "axis": "输入轴/公开入口直驱（逐用例轴见测试体；反控轴见 counters/<id>.axis）",
-      "oracle": "对真实公开入口最终结果断言（精确消息/状态字段/字节数/落盘产物），rejects 原文保留",
-      "classification": "error/resource-ownership arms（warn 原文+不扣 MP+不 emit+不跑脚本+inventory 原样；扫描规范化与越界回扫）"
+      "source": "game core/battle/battle-system.ts pickAutoMagic（:1072 costMP>role.mp 筛除）",
+      "caller": "同上；投影后 role.mp=30 vs costMP=31",
+      "oldAssertion": "旧测无 MP 门臂（rolesWith mp=99 恒足额）",
+      "axis": "costMP=31 vs mp=30（合法边界）",
+      "oracle": "唯一已学法术 costMP>role.mp → 跳过返 0，不选不扣",
+      "classification": "new condition arm (MP gate)"
     },
     {
       "id": "C110",
@@ -1537,12 +1537,12 @@
       "file": "game/src/battle-action-error-arms.glm-q.test.ts",
       "fullName": "Q08-8b pickAutoMagic 展开批（typed rgwMagic 投影链；Q-R5-03 撤回 blocked-input） 威力择优（range=0 消随机项）：更高 baseDamage 者替换先遇者",
       "status": "passed",
-      "source": "game src/core/battle/actions/magic.ts performMagic（caster 缺失臂）+ actions/item.ts performItem 与 actions/throw-item.ts performThrowItem（无 inventory 臂）+ battle-system.ts selectAutoTargetFrom（begin<0/prevTarget 越界臂）",
-      "caller": "typed BattleState/PlayerRoles/GameState 直构（镜像旧 makeState 形态，零强转）+ createCommandBus + runScript spy",
-      "oldAssertion": "actions.test.ts 已证「MP 不足不扣/spell id not found/magic id 不在表/item id not found」；本文件不重复，只打 caster/role 缺失与无 inventory 三族及 selectAutoTargetFrom 两条件臂",
-      "axis": "输入轴/公开入口直驱（逐用例轴见测试体；反控轴见 counters/<id>.axis）",
-      "oracle": "对真实公开入口最终结果断言（精确消息/状态字段/字节数/落盘产物），rejects 原文保留",
-      "classification": "error/resource-ownership arms（warn 原文+不扣 MP+不 emit+不跑脚本+inventory 原样；扫描规范化与越界回扫）"
+      "source": "game core/battle/battle-system.ts pickAutoMagic（:1074-1078 power 择优）",
+      "caller": "同上；296 baseDamage=10 / 297 baseDamage=30、range=0",
+      "oldAssertion": "battle-system.test.ts 回归例用 range=9999 随机项，无确定性择优臂",
+      "axis": "baseDamage 10 vs 30（合法威力域）",
+      "oracle": "range=0 消随机项后 strict power>maxPower：更高 baseDamage 替换先遇者 → 297",
+      "classification": "new condition arm (strict power replace)"
     },
     {
       "id": "C111",
@@ -1551,19 +1551,19 @@
       "file": "game/src/battle-action-error-arms.glm-q.test.ts",
       "fullName": "Q08-8b pickAutoMagic 展开批（typed rgwMagic 投影链；Q-R5-03 撤回 blocked-input） 同威力保留先遇（strict power>maxPower）：range=0 下两法术 baseDamage 相同 → 返回先遇到的 296",
       "status": "passed",
-      "source": "game src/core/battle/actions/magic.ts performMagic（caster 缺失臂）+ actions/item.ts performItem 与 actions/throw-item.ts performThrowItem（无 inventory 臂）+ battle-system.ts selectAutoTargetFrom（begin<0/prevTarget 越界臂）",
-      "caller": "typed BattleState/PlayerRoles/GameState 直构（镜像旧 makeState 形态，零强转）+ createCommandBus + runScript spy",
-      "oldAssertion": "actions.test.ts 已证「MP 不足不扣/spell id not found/magic id 不在表/item id not found」；本文件不重复，只打 caster/role 缺失与无 inventory 三族及 selectAutoTargetFrom 两条件臂",
-      "axis": "输入轴/公开入口直驱（逐用例轴见测试体；反控轴见 counters/<id>.axis）",
-      "oracle": "对真实公开入口最终结果断言（精确消息/状态字段/字节数/落盘产物），rejects 原文保留",
-      "classification": "error/resource-ownership arms（warn 原文+不扣 MP+不 emit+不跑脚本+inventory 原样；扫描规范化与越界回扫）"
+      "source": "game core/battle/battle-system.ts pickAutoMagic（:1077 strict power>maxPower 不等不替换）",
+      "caller": "同上；两法术 baseDamage 同 30、costMP 同 2、range=0",
+      "oldAssertion": "无旧例（r7 新增，RC7 变异真实因果的正向锚）",
+      "axis": "baseDamage 30 vs 30（同威力）",
+      "oracle": "同威力后来者不替换 → 返回先遇到的 296",
+      "classification": "new condition arm (tie keeps first)"
     },
     {
       "id": "C112",
       "batch": "Q08",
       "package": "game",
       "file": "game/src/battle-summon-slot-reuse.glm-q.test.ts",
-      "fullName": "Q08 0x9E 正向死亡空槽复用（战中击败槽，非初始 0 占位） 战中被击败槽被复用：满血重置、毒清零、对象身份与脚本替换",
+      "fullName": "Q08 0x9E 正向死亡空槽复用（战中击败槽，非初始 0 占位） 复用槽非空毒残留被清零、对象身份替换（旧证之外的独立轴）",
       "status": "passed",
       "source": "game core/battle/battle-opcodes.ts OP_ENEMY_SUMMON(0x9E) 死亡空槽复用分支（battle-opcodes.ts:1311-1400：room 统计/resetEnemySlot 满血重置/毒清零/对象身份与脚本替换/refreshEnemyBattlePositions）",
       "caller": "dispatchBattleOpcode 直驱 + typed BattleCtx（summonTables/enemyPos 注入，镜像生产 runScript 注入形态）",
@@ -1593,12 +1593,12 @@
       "file": "game/src/battle-summon-slot-reuse.glm-q.test.ts",
       "fullName": "Q08 0x9E 正向死亡空槽复用（战中击败槽，非初始 0 占位） 活敌槽绝不复用：满员 3 活 0 死 → room=0 走 fail 跳转",
       "status": "passed",
-      "source": "game core/battle/battle-opcodes.ts OP_ENEMY_SUMMON(0x9E) 死亡空槽复用分支（battle-opcodes.ts:1311-1400：room 统计/resetEnemySlot 满血重置/毒清零/对象身份与脚本替换/refreshEnemyBattlePositions）",
-      "caller": "dispatchBattleOpcode 直驱 + typed BattleCtx（summonTables/enemyPos 注入，镜像生产 runScript 注入形态）",
-      "oldAssertion": "battle-opcodes.test.ts 已证「没有空槽→失败不扩容」「赤鬼王[0,76,0] 初始 0 占位槽 2 间召唤 2 只」「w!=0 指定召唤满血+脚本/抗性」「count=2」「w=0 自身同种」等主臂；本文件只打战中死亡槽正向复用族",
-      "axis": "输入轴/公开入口直驱（逐用例轴见测试体；反控轴见 counters/<id>.axis）",
-      "oracle": "对真实公开入口最终结果断言（精确消息/状态字段/字节数/落盘产物），rejects 原文保留",
-      "classification": "death-slot reuse arms（满血重置/毒清零/身份脚本替换/部分复用保序/满员 fail jump/复用后底锚重算）"
+      "source": "game core/battle/battle-opcodes.ts OP_ENEMY_SUMMON room 门（:1330 room<count fail）",
+      "caller": "dispatchBattleOpcode 直驱（同 summonCtx 形态）",
+      "oldAssertion": "battle-opcodes.test.ts:1503-1511 已证 room0→failJump 且不扩容（本例为活敌数量 1→3 的同 guard，**不计新**——按 Q-R7-02 判定改记 existing-proof 复核例）",
+      "axis": "3 活敌 0 死槽（合法阵容）",
+      "oracle": "room=0 < count=1 → newIp=300，全槽不被改写",
+      "classification": "existing-proof cross-check（不计新；Q-R7-02 收窄）"
     },
     {
       "id": "C115",
@@ -1607,12 +1607,12 @@
       "file": "game/src/battle-summon-slot-reuse.glm-q.test.ts",
       "fullName": "Q08 0x9E 正向死亡空槽复用（战中击败槽，非初始 0 占位） 复用后全体敌人底锚按新阵容重算（PAL_BattleMakeScene 等价）",
       "status": "passed",
-      "source": "game core/battle/battle-opcodes.ts OP_ENEMY_SUMMON(0x9E) 死亡空槽复用分支（battle-opcodes.ts:1311-1400：room 统计/resetEnemySlot 满血重置/毒清零/对象身份与脚本替换/refreshEnemyBattlePositions）",
-      "caller": "dispatchBattleOpcode 直驱 + typed BattleCtx（summonTables/enemyPos 注入，镜像生产 runScript 注入形态）",
-      "oldAssertion": "battle-opcodes.test.ts 已证「没有空槽→失败不扩容」「赤鬼王[0,76,0] 初始 0 占位槽 2 间召唤 2 只」「w!=0 指定召唤满血+脚本/抗性」「count=2」「w=0 自身同种」等主臂；本文件只打战中死亡槽正向复用族",
-      "axis": "输入轴/公开入口直驱（逐用例轴见测试体；反控轴见 counters/<id>.axis）",
-      "oracle": "对真实公开入口最终结果断言（精确消息/状态字段/字节数/落盘产物），rejects 原文保留",
-      "classification": "death-slot reuse arms（满血重置/毒清零/身份脚本替换/部分复用保序/满员 fail jump/复用后底锚重算）"
+      "source": "game core/battle/battle-opcodes.ts refreshEnemyBattlePositions（:78-95，PAL_BattleMakeScene 等价）+ battle-positions.ts getEnemyBasePos（:86-92 含 yPosOffset）",
+      "caller": "dispatchBattleOpcode 直驱；断言用固定基准 layoutBase(idx)=getEnemyBasePos(undefined,count,idx,0)（无 enemyPos 注入 → 产品 fallback 布局；r8 改为一手坐标常量 oracle）",
+      "oldAssertion": "battle-opcodes.test.ts:1459-1479 已断言全队 posOriginal/pos（DH1 0 槽批）",
+      "axis": "yPosOffset 变化可证伪（Q08-S1-RC5 以 0→4 验证判别力）",
+      "oracle": "复用槽与施法者 posOriginal/pos 逐坐标等于一手 fallback 布局常量（见 r8 改写）",
+      "classification": "needs independent oracle（r8 待改：getEnemyBasePos 计算 expected 非独立——见 Q-R7-02）"
     },
     {
       "id": "C116",

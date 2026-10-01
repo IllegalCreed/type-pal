@@ -1,0 +1,3 @@
+  const gz = await compressGzip(padded.subarray(3)) // 变异轴：偏移 4→3（合法视图起点，含 1 字节前导）
+  const round = await decompressGzip(new Blob([gz.slice().buffer as ArrayBuffer]))
+  expect([...round]).toEqual([...payload])

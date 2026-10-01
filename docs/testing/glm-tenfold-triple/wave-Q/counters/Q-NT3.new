@@ -1,0 +1,4 @@
+    seed(g, 0, 0, 7, 11)
+    seed(g, 0, 3, 7, 22)
+    seed(g, 0, 5, 9, 43) // 变异轴：slot5 毒 9 的 script 33→43（合法 script 值）
+    curePlayerPoisonByKind(g, 0, 7)

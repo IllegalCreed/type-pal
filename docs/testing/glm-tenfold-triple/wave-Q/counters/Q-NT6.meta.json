@@ -1,0 +1,57 @@
+{
+  "id": "Q-NT6",
+  "file": "packages/reforge/src/script-runner-core.gates.glm-q.test.ts",
+  "targetFullName": "Q04 commandOutcome 与 callScript 门 无 resolver 时 callScript 前置拒绝",
+  "targetNameSubstring": "无 resolver 时 callScript 前置拒绝",
+  "axis": "输入轴单轴变异：callScript id 'probe'→'other'（合法脚本 id；错误消息含 probe 的断言恰一红）；断言不动。",
+  "sha256": {
+    "original": "896fab49346937562f8aa66e780b9fdf24c85e73a1a8f4d1833e8387a20208a7",
+    "mutated": "f050159acd97847be96e93c5606d72d36e04afb0d05f629516bb59fefb5f9692",
+    "restored": "896fab49346937562f8aa66e780b9fdf24c85e73a1a8f4d1833e8387a20208a7"
+  },
+  "restoredHashUnchanged": true,
+  "criteria": {
+    "positiveGreen": true,
+    "mutantExactlyOneTargetRed": true,
+    "targetAssertionError": "Error: expected [Function] to throw error including 'ScriptRunnerCore: 无 resolver，无法解析 pro…' but got 'ScriptRunnerCore: 无 resolver，无法解析 oth…'",
+    "restoredGreen": true,
+    "restoredSameExecutionCount": true,
+    "hashesMatchFinalCandidate": true
+  },
+  "runs": {
+    "positive": {
+      "exitCode": 0,
+      "summary": {
+        "numTotalTests": 13,
+        "numPassedTests": 13,
+        "numFailedTests": 0,
+        "success": true
+      },
+      "json": "Q-NT6.positive.json",
+      "raw": "Q-NT6.positive.txt"
+    },
+    "mutant": {
+      "exitCode": 1,
+      "summary": {
+        "numTotalTests": 13,
+        "numPassedTests": 12,
+        "numFailedTests": 1,
+        "success": false
+      },
+      "json": "Q-NT6.mutant.json",
+      "raw": "Q-NT6.mutant.txt"
+    },
+    "restored": {
+      "exitCode": 0,
+      "summary": {
+        "numTotalTests": 13,
+        "numPassedTests": 13,
+        "numFailedTests": 0,
+        "success": true
+      },
+      "json": "Q-NT6.restored.json",
+      "raw": "Q-NT6.restored.txt"
+    }
+  },
+  "verdict": "VALID"
+}

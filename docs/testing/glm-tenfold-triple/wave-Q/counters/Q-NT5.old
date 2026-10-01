@@ -1,0 +1,3 @@
+  const gz = await compressGzip(padded.subarray(4))
+  const round = await decompressGzip(new Blob([gz.slice().buffer as ArrayBuffer]))
+  expect([...round]).toEqual([...payload])

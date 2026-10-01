@@ -1,19 +1,19 @@
 {
   "id": "Q08-S1-RC2",
   "file": "packages/game/src/battle-summon-slot-reuse.glm-q.test.ts",
-  "targetFullName": "Q08 0x9E 正向死亡空槽复用（战中击败槽，非初始 0 占位） 战中被击败槽被复用：满血重置、毒清零、对象身份与脚本替换",
-  "targetNameSubstring": "战中被击败槽被复用",
-  "axis": "输入轴单轴变异：召唤兽 base 满血 80→120（合法生命值；复用应重置为新 base 满血 120，toBe(80) 断言应红）；断言不动。",
+  "targetFullName": "Q08 0x9E 正向死亡空槽复用（战中击败槽，非初始 0 占位） 同席两死亡槽只复用一间：另一间保持 defeated 与残留身份",
+  "targetNameSubstring": "同席两死亡槽只复用一间",
+  "axis": "输入轴单轴变异：召唤兽 enemyId 22→23（合法表内 id；复用槽 e.id 应为 23 → toBe(22) 恰一红）；断言不动。",
   "sha256": {
-    "original": "a28e4d2dba15330481aa83b7937a0b567a1610c535c32773e483d501d7e4ee5b",
-    "mutated": "c475e1ad6be9b99221e2ce46b9296c11380e1b9acc5e7c1460390e210e35d96f",
-    "restored": "a28e4d2dba15330481aa83b7937a0b567a1610c535c32773e483d501d7e4ee5b"
+    "original": "d6d4c4ca29b8a3174491e8b98597b04e9696ac44fb564db5f6c1881c6da1f069",
+    "mutated": "5a7044db76ae191eaa6b88f9685242ac65ff3283a86d1325a8054d82279c730f",
+    "restored": "d6d4c4ca29b8a3174491e8b98597b04e9696ac44fb564db5f6c1881c6da1f069"
   },
   "restoredHashUnchanged": true,
   "criteria": {
     "positiveGreen": true,
     "mutantExactlyOneTargetRed": true,
-    "targetAssertionError": "AssertionError: expected 120 to be 80 // Object.is equality",
+    "targetAssertionError": "AssertionError: expected 23 to be 22 // Object.is equality",
     "restoredGreen": true,
     "restoredSameExecutionCount": true,
     "hashesMatchFinalCandidate": true

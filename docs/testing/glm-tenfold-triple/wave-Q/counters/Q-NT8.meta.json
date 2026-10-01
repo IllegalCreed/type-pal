@@ -1,0 +1,57 @@
+{
+  "id": "Q-NT8",
+  "file": "packages/reforge/src/enemy-closure.glm-q.test.ts",
+  "targetFullName": "Q05 collectReachableEnemyDefs enemyId 缺省的 summon 不入队；hooks 内 effect summon 参与闭包",
+  "targetNameSubstring": "enemyId 缺省的 summon 不入队",
+  "axis": "输入轴单轴变异：hook effect summon 目标 support→ghost（未登记敌 id；应精确抛「root summon 目标 ghost 不存在」→ rejects 恰一红）；断言不动。",
+  "sha256": {
+    "original": "4c9d2efa7df5b13d3296b4b09c3134f23167880c0ccea1cabb2e36fc28606323",
+    "mutated": "f311a7c777e866751d2a5a023cdaa9ef18a2a3f3697766a3e27ace4fa87a1841",
+    "restored": "4c9d2efa7df5b13d3296b4b09c3134f23167880c0ccea1cabb2e36fc28606323"
+  },
+  "restoredHashUnchanged": true,
+  "criteria": {
+    "positiveGreen": true,
+    "mutantExactlyOneTargetRed": true,
+    "targetAssertionError": "Error: 敌人 \"root\" summon 目标 \"ghost\" 不存在",
+    "restoredGreen": true,
+    "restoredSameExecutionCount": true,
+    "hashesMatchFinalCandidate": true
+  },
+  "runs": {
+    "positive": {
+      "exitCode": 0,
+      "summary": {
+        "numTotalTests": 6,
+        "numPassedTests": 6,
+        "numFailedTests": 0,
+        "success": true
+      },
+      "json": "Q-NT8.positive.json",
+      "raw": "Q-NT8.positive.txt"
+    },
+    "mutant": {
+      "exitCode": 1,
+      "summary": {
+        "numTotalTests": 6,
+        "numPassedTests": 5,
+        "numFailedTests": 1,
+        "success": false
+      },
+      "json": "Q-NT8.mutant.json",
+      "raw": "Q-NT8.mutant.txt"
+    },
+    "restored": {
+      "exitCode": 0,
+      "summary": {
+        "numTotalTests": 6,
+        "numPassedTests": 6,
+        "numFailedTests": 0,
+        "success": true
+      },
+      "json": "Q-NT8.restored.json",
+      "raw": "Q-NT8.restored.txt"
+    }
+  },
+  "verdict": "VALID"
+}

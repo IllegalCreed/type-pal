@@ -1,0 +1,8 @@
+        compile({
+          kind: 'stages',
+          initial: 'one',
+          stages: [{ id: 'one', body: [{ kind: 'callScript', script: 'probe' }] }],
+        }),
+        { cursorController: controller() },
+      ),
+    ).rejects.toThrow('ScriptRunnerCore: 无 resolver，无法解析 probe')

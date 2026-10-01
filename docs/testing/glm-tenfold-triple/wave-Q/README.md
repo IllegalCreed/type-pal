@@ -1,17 +1,44 @@
-# Wave Q：两阶段runtime与解码残余合同十倍包 — GLM Q 交付总账（r7 窄修 + 续批1/2）
+# Wave Q：两阶段runtime与解码残余合同十倍包 — GLM Q 交付总账（r8 窄修）
 
 Coding Owner: GLM Q；[任务卡](../../../ops/tasks/TEST-GLM-WAVE-Q-1-runtime-residual-tenfold.md)、
 [共同协议](../README.md)、[冻结表](../targets.json)、Codex 2026-10-01 独立审查 `docs/testing/glm-tenfold-triple/codex-review-20261001.md`（落盘于审查树 codex/glm-lmn-acceptance-r1；按不 cherry-pick 纪律未拷入本分支，机器证据 codex-review-20261001.json 同）。
 分支 `codex/glm-wave-q-runtime-residual-r1`（独立 worktree），派发提交
 `8b3ca062953b17a12178f8d1a9e36657971234b1`，生产冻结 `3ac9a2e2f6aba8a5cc97640c18fef8549d199380`，
 起点候选 `626ddffe41cca4e3755dfafea1645c695c158b0f`（r1，被 counter → rework）。
-本文件描述 **r7 候选**（r6 复核 Q-R6-01～03 窄修 + 续批；r5 的 Q-R5-01～04 与 r6 门禁
-复核已关闭不重开；r6 候选 c4e554361/pin 2ebf42b8 保留供独立复核）。不合 main、不标 done。
+本文件描述 **r8 候选**（O/P/Q 联合复核 Q-R7-01～04 窄修；r5/r6/r7 已关闭项不重开；
+r7 候选 bea4cb24/pin fddc88a6 保留供独立复核）。不合 main、不标 done。
 
-## r6 复核后当前结论（Q-R6-02 分列；r7 续批后更新）
+## r8 当前结论
 
-- **当前规模：134 执行 / 50 针 / 18 文件 + 1 fixture / 10 流程**（r7 窄修 129 例 +
-  0x9E 死亡槽复用 4 例 + Q10 图像/音频段 1 例；50 针含 Q08-S1-RC1～5）。
+- **当前规模：134 执行 / 57 针存档（50 个不同 file×fullName 目标）/ 18 文件 + 1 fixture /
+  10 流程**；game 全包 **2805**（Codex 独立实跑数，作者上轮报 2804 系 1 例口径差，
+  本轮以 2805 为准）。
+- **50 不同目标已达成**（Q-R7-04）：新增 Q-NT1～NT6/NT8 七枚不同目标针；剩余 7 组
+  同目标存档（Q03-RC2/3、Q09-RC3/4、Q10-RC1/2/5、Q10-RC3/4、Q08-S1-RC2/3、
+  NT8-与-Q05-RC3 同例）如实保留为同目标多轴证据，不计不同目标。
+- **剩余缺口：至少 566 例 / 完整 50 组账未闭合**；不整族缩围，逐项举证继续。
+
+## r8 相对 r7 的改动（Q-R7-01～04）
+
+1. **Q-R7-01 根治**：contracts 生成器加**例级 override**（按 fullName 匹配优先于文件
+   模板）——C104～C111 八例（投影链/silence/selectingPlayerIdx/resolve/极限技/MP 门/
+   择优替换/同威力先遇）真账实落 blob，已实查验证不再被模板覆盖；C114（活敌例）与
+   C115（底锚例）也落例级真账。
+2. **Q-R7-02 收窄**：0x9E 首例收窄为两个旧证未覆盖的独立轴（非空毒残留清零 +
+   objectId 身份替换），旧证锚（battle-opcodes.test.ts:1459-1479）在用例注释中引用；
+   「活敌槽绝不复用」整例在 contracts 改记 existing-proof cross-check（不计新）；
+   「底锚重算」改**一手固定坐标 oracle**（sdlpal g_rgEnemyPos fallback 常量，
+   不再用产品 getEnemyBasePos 计算 expected）；Q08-S1 五针随源变动全部重采
+   （RC5 改 refresh 前偏移轴恰一红）。
+3. **Q-R7-03 账目**：三态来源分列——34 旧针（r6 前）未动 + 6 Q08 针 + 5 Q10 针随源
+   更新 + 5 S1 针重采 + **7 NT 新针**；不再称「旧 39 全部未动」。
+4. **Q-R7-04 补目标**：Q-NT1（FIFO 第三枚改 Yes）/NT2（初始集改 [b,b]）/NT3（毒
+   script 值）/NT4（prune 保护集加 a）/NT5（gzip 视图起点 4→3）/NT6（callScript id
+   probe→other）/NT8（hook summon 目标→ghost 精确报错）七枚不同目标，全部恰一业务红。
+
+## r7 历史段（保留）
+
+## r6 复核后当前结论（历史）
 - 已删的 performItem 两例不再计入；capture 误设行（10b）已按 N/A 关闭、**不再续派**。
 - **剩余缺口：至少 566 例 / 0 针 / 完整 50 组账未闭合**（50 有效反控目标已达成数量，
   组账与用例缺口继续逐项举证）；不整族缩围。

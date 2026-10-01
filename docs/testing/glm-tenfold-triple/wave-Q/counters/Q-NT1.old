@@ -1,0 +1,8 @@
+  for (const pending of [first, second, third]) {
+    expect(queue.activateIfPossible(true)).toBe(true)
+    tokens.push(queue.view?.token)
+    queue.submitNo()
+    queue.presented()
+    queue.presented()
+    settled.push(await pending)
+  }

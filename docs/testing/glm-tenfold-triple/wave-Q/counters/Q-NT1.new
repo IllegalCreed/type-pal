@@ -1,0 +1,9 @@
+  for (const [pending, useYes] of [first, second, third].map((p, i) => [p, i === 2] as const)) {
+    expect(queue.activateIfPossible(true)).toBe(true)
+    tokens.push(queue.view?.token)
+    if (useYes) queue.toggle() // 变异轴：第三枚改选 Yes（合法选择）
+    queue.submit()
+    queue.presented()
+    queue.presented()
+    settled.push(await pending)
+  }

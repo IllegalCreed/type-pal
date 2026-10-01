@@ -24,17 +24,17 @@
     "updated": 0,
     "didUpdate": false
   },
-  "startTime": 1790861290417,
+  "startTime": 1790866501457,
   "success": true,
   "testResults": [
     {
       "assertionResults": [
         {
           "ancestorTitles": ["Q08 0x9E 正向死亡空槽复用（战中击败槽，非初始 0 占位）"],
-          "fullName": "Q08 0x9E 正向死亡空槽复用（战中击败槽，非初始 0 占位） 战中被击败槽被复用：满血重置、毒清零、对象身份与脚本替换",
+          "fullName": "Q08 0x9E 正向死亡空槽复用（战中击败槽，非初始 0 占位） 复用槽非空毒残留被清零、对象身份替换（旧证之外的独立轴）",
           "status": "passed",
-          "title": "战中被击败槽被复用：满血重置、毒清零、对象身份与脚本替换",
-          "duration": 2.762875000000008,
+          "title": "复用槽非空毒残留被清零、对象身份替换（旧证之外的独立轴）",
+          "duration": 2.0594580000000065,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -44,7 +44,7 @@
           "fullName": "Q08 0x9E 正向死亡空槽复用（战中击败槽，非初始 0 占位） 同席两死亡槽只复用一间：另一间保持 defeated 与残留身份",
           "status": "passed",
           "title": "同席两死亡槽只复用一间：另一间保持 defeated 与残留身份",
-          "duration": 0.654790999999932,
+          "duration": 0.6332919999999831,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -54,7 +54,7 @@
           "fullName": "Q08 0x9E 正向死亡空槽复用（战中击败槽，非初始 0 占位） 活敌槽绝不复用：满员 3 活 0 死 → room=0 走 fail 跳转",
           "status": "passed",
           "title": "活敌槽绝不复用：满员 3 活 0 死 → room=0 走 fail 跳转",
-          "duration": 0.16895799999997507,
+          "duration": 0.2201249999999959,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -64,14 +64,14 @@
           "fullName": "Q08 0x9E 正向死亡空槽复用（战中击败槽，非初始 0 占位） 复用后全体敌人底锚按新阵容重算（PAL_BattleMakeScene 等价）",
           "status": "passed",
           "title": "复用后全体敌人底锚按新阵容重算（PAL_BattleMakeScene 等价）",
-          "duration": 0.2756249999999909,
+          "duration": 0.24699999999995725,
           "failureMessages": [],
           "meta": {},
           "tags": []
         }
       ],
-      "startTime": 1790861291320,
-      "endTime": 1790861291324.2756,
+      "startTime": 1790866501984,
+      "endTime": 1790866501987.247,
       "status": "passed",
       "message": "",
       "name": "/private/tmp/glmq/counter-copy/type-pal/packages/game/src/battle-summon-slot-reuse.glm-q.test.ts"

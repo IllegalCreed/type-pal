@@ -1,0 +1,57 @@
+{
+  "id": "Q-NT2",
+  "file": "packages/reforge/src/enemy-closure.glm-q.test.ts",
+  "targetFullName": "Q05 collectReachableEnemyDefs 无 transform/summon 时闭包只含初始敌人且按序去重",
+  "targetNameSubstring": "无 transform/summon 时闭包只含初始敌人且按序去重",
+  "axis": "输入轴单轴变异：初始集 [a,a,b]→[b,b]（合法初始敌；闭包应只 ['b'] → toEqual(['a','b']) 恰一红）；断言不动。",
+  "sha256": {
+    "original": "4c9d2efa7df5b13d3296b4b09c3134f23167880c0ccea1cabb2e36fc28606323",
+    "mutated": "96a712d6804eccf5c9291c872cf0c480e188eec61b219a8e526771590d90ccad",
+    "restored": "4c9d2efa7df5b13d3296b4b09c3134f23167880c0ccea1cabb2e36fc28606323"
+  },
+  "restoredHashUnchanged": true,
+  "criteria": {
+    "positiveGreen": true,
+    "mutantExactlyOneTargetRed": true,
+    "targetAssertionError": "AssertionError: expected [ 'b' ] to deeply equal [ 'a', 'b' ]",
+    "restoredGreen": true,
+    "restoredSameExecutionCount": true,
+    "hashesMatchFinalCandidate": true
+  },
+  "runs": {
+    "positive": {
+      "exitCode": 0,
+      "summary": {
+        "numTotalTests": 6,
+        "numPassedTests": 6,
+        "numFailedTests": 0,
+        "success": true
+      },
+      "json": "Q-NT2.positive.json",
+      "raw": "Q-NT2.positive.txt"
+    },
+    "mutant": {
+      "exitCode": 1,
+      "summary": {
+        "numTotalTests": 6,
+        "numPassedTests": 5,
+        "numFailedTests": 1,
+        "success": false
+      },
+      "json": "Q-NT2.mutant.json",
+      "raw": "Q-NT2.mutant.txt"
+    },
+    "restored": {
+      "exitCode": 0,
+      "summary": {
+        "numTotalTests": 6,
+        "numPassedTests": 6,
+        "numFailedTests": 0,
+        "success": true
+      },
+      "json": "Q-NT2.restored.json",
+      "raw": "Q-NT2.restored.txt"
+    }
+  },
+  "verdict": "VALID"
+}

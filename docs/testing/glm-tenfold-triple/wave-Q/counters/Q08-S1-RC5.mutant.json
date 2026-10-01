@@ -24,17 +24,17 @@
     "updated": 0,
     "didUpdate": false
   },
-  "startTime": 1790861300046,
+  "startTime": 1790866508337,
   "success": false,
   "testResults": [
     {
       "assertionResults": [
         {
           "ancestorTitles": ["Q08 0x9E 正向死亡空槽复用（战中击败槽，非初始 0 占位）"],
-          "fullName": "Q08 0x9E 正向死亡空槽复用（战中击败槽，非初始 0 占位） 战中被击败槽被复用：满血重置、毒清零、对象身份与脚本替换",
+          "fullName": "Q08 0x9E 正向死亡空槽复用（战中击败槽，非初始 0 占位） 复用槽非空毒残留被清零、对象身份替换（旧证之外的独立轴）",
           "status": "passed",
-          "title": "战中被击败槽被复用：满血重置、毒清零、对象身份与脚本替换",
-          "duration": 2.2589169999999967,
+          "title": "复用槽非空毒残留被清零、对象身份替换（旧证之外的独立轴）",
+          "duration": 1.9848340000000348,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -44,7 +44,7 @@
           "fullName": "Q08 0x9E 正向死亡空槽复用（战中击败槽，非初始 0 占位） 同席两死亡槽只复用一间：另一间保持 defeated 与残留身份",
           "status": "passed",
           "title": "同席两死亡槽只复用一间：另一间保持 defeated 与残留身份",
-          "duration": 0.6038340000000062,
+          "duration": 0.6410420000000272,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -54,7 +54,7 @@
           "fullName": "Q08 0x9E 正向死亡空槽复用（战中击败槽，非初始 0 占位） 活敌槽绝不复用：满员 3 活 0 死 → room=0 走 fail 跳转",
           "status": "passed",
           "title": "活敌槽绝不复用：满员 3 活 0 死 → room=0 走 fail 跳转",
-          "duration": 0.16020799999989777,
+          "duration": 0.22374999999999545,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -64,16 +64,16 @@
           "fullName": "Q08 0x9E 正向死亡空槽复用（战中击败槽，非初始 0 占位） 复用后全体敌人底锚按新阵容重算（PAL_BattleMakeScene 等价）",
           "status": "failed",
           "title": "复用后全体敌人底锚按新阵容重算（PAL_BattleMakeScene 等价）",
-          "duration": 5.471749999999929,
+          "duration": 3.4623339999999985,
           "failureMessages": [
-            "AssertionError: expected { x: 100, y: 64 } to deeply equal { x: 100, y: 60 }\n    at /private/tmp/glmq/counter-copy/type-pal/packages/game/src/battle-summon-slot-reuse.glm-q.test.ts:209:32\n    at file:///private/tmp/glmq/counter-copy/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///private/tmp/glmq/counter-copy/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///private/tmp/glmq/counter-copy/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///private/tmp/glmq/counter-copy/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///private/tmp/glmq/counter-copy/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///private/tmp/glmq/counter-copy/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///private/tmp/glmq/counter-copy/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64"
+            "AssertionError: expected { x: 100, y: 64 } to deeply equal { x: 100, y: 60 }\n    at /private/tmp/glmq/counter-copy/type-pal/packages/game/src/battle-summon-slot-reuse.glm-q.test.ts:201:32\n    at file:///private/tmp/glmq/counter-copy/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///private/tmp/glmq/counter-copy/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///private/tmp/glmq/counter-copy/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///private/tmp/glmq/counter-copy/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///private/tmp/glmq/counter-copy/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///private/tmp/glmq/counter-copy/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///private/tmp/glmq/counter-copy/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64"
           ],
           "meta": {},
           "tags": []
         }
       ],
-      "startTime": 1790861300696,
-      "endTime": 1790861300704.4717,
+      "startTime": 1790866508840,
+      "endTime": 1790866508846.4624,
       "status": "failed",
       "message": "",
       "name": "/private/tmp/glmq/counter-copy/type-pal/packages/game/src/battle-summon-slot-reuse.glm-q.test.ts"

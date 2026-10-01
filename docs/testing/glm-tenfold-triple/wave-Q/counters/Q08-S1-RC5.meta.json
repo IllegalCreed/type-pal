@@ -3,11 +3,11 @@
   "file": "packages/game/src/battle-summon-slot-reuse.glm-q.test.ts",
   "targetFullName": "Q08 0x9E 正向死亡空槽复用（战中击败槽，非初始 0 占位） 复用后全体敌人底锚按新阵容重算（PAL_BattleMakeScene 等价）",
   "targetNameSubstring": "复用后全体敌人底锚按新阵容重算",
-  "axis": "输入轴单轴变异：caster yPosOffset 0→4（合法锚偏移；其 posOriginal/pos 应较固定基准 layoutBase(1) 上移 4 → toEqual 红）；断言不动。",
+  "axis": "输入轴单轴变异：refresh 前 caster.yPosOffset 0→4（合法锚偏移；battle.c:939 底锚 y+4 → caster 常量 oracle toEqual({x:100,y:60}) 恰一红，dead 断言仍绿）；断言不动。",
   "sha256": {
-    "original": "a28e4d2dba15330481aa83b7937a0b567a1610c535c32773e483d501d7e4ee5b",
-    "mutated": "f9524e08fb2e1333aa07852de3998701987362242246205ea1d8f95eedbe0933",
-    "restored": "a28e4d2dba15330481aa83b7937a0b567a1610c535c32773e483d501d7e4ee5b"
+    "original": "d6d4c4ca29b8a3174491e8b98597b04e9696ac44fb564db5f6c1881c6da1f069",
+    "mutated": "107ba9d24dfdc8bb6d72822c51e8999e5b937abf5dd4b1a475cdb4129b458054",
+    "restored": "d6d4c4ca29b8a3174491e8b98597b04e9696ac44fb564db5f6c1881c6da1f069"
   },
   "restoredHashUnchanged": true,
   "criteria": {

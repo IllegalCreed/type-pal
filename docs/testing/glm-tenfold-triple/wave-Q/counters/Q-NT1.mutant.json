@@ -1,0 +1,162 @@
+{
+  "numTotalTestSuites": 1,
+  "numPassedTestSuites": 0,
+  "numFailedTestSuites": 1,
+  "numPendingTestSuites": 0,
+  "numTotalTests": 12,
+  "numPassedTests": 11,
+  "numFailedTests": 1,
+  "numPendingTests": 0,
+  "numTodoTests": 0,
+  "snapshot": {
+    "added": 0,
+    "failure": false,
+    "filesAdded": 0,
+    "filesRemoved": 0,
+    "filesRemovedList": [],
+    "filesUnmatched": 0,
+    "filesUpdated": 0,
+    "matched": 0,
+    "total": 0,
+    "unchecked": 0,
+    "uncheckedKeysByFile": [],
+    "unmatched": 0,
+    "updated": 0,
+    "didUpdate": false
+  },
+  "startTime": 1790866018099,
+  "success": false,
+  "testResults": [
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": [],
+          "fullName": "Q01 token 在多次请求间严格单调递增，激活顺序为 FIFO",
+          "status": "failed",
+          "title": "Q01 token 在多次请求间严格单调递增，激活顺序为 FIFO",
+          "duration": 4.538791999999987,
+          "failureMessages": [
+            "AssertionError: expected [ false, false, true ] to deeply equal [ false, false, false ]\n    at /private/tmp/glmq/counter-copy/type-pal/packages/reforge/src/script-confirm-modal.glm-q.test.ts:30:19\n    at processTicksAndRejections (node:internal/process/task_queues:103:5)\n    at file:///private/tmp/glmq/counter-copy/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:20"
+          ],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "Q01 空闲视图为 undefined；激活后视图逐字段反映 prompt 状态",
+          "status": "passed",
+          "title": "Q01 空闲视图为 undefined；激活后视图逐字段反映 prompt 状态",
+          "duration": 0.7339580000000012,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "Q01 预取消信号入队同步拒绝：不入队、不占 pending、无请求可激活",
+          "status": "passed",
+          "title": "Q01 预取消信号入队同步拒绝：不入队、不占 pending、无请求可激活",
+          "duration": 0.5549999999999926,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "Q01 无活动请求时 toggle/submit/submitNo/presented 全部 no-op",
+          "status": "passed",
+          "title": "Q01 无活动请求时 toggle/submit/submitNo/presented 全部 no-op",
+          "duration": 0.4347920000000016,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "Q01 canActivate=false 或已有活动请求时 activate 不动队列",
+          "status": "passed",
+          "title": "Q01 canActivate=false 或已有活动请求时 activate 不动队列",
+          "duration": 0.21766599999999414,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "Q01 队头取消即离队：pendingCount 同步收缩，激活命中下一个；captureFrame 只替换被激活项",
+          "status": "passed",
+          "title": "Q01 队头取消即离队：pendingCount 同步收缩，激活命中下一个；captureFrame 只替换被激活项",
+          "duration": 0.28308400000000233,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "Q01 captureFrame 缺席时保留入队时的原始 frame",
+          "status": "passed",
+          "title": "Q01 captureFrame 缺席时保留入队时的原始 frame",
+          "duration": 0.15970799999999485,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "Q01 会话替换拒绝排队未激活请求，默认与自定义文案都可观测",
+          "status": "passed",
+          "title": "Q01 会话替换拒绝排队未激活请求，默认与自定义文案都可观测",
+          "duration": 0.21833300000000122,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "Q01 结算后移除 abort 监听：迟到的信号取消不再改变已 resolve 的结果",
+          "status": "passed",
+          "title": "Q01 结算后移除 abort 监听：迟到的信号取消不再改变已 resolve 的结果",
+          "duration": 0.3903750000000059,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "Q01 提交后、两帧门满足前 toggle/再次提交/提交否不得改写答案",
+          "status": "passed",
+          "title": "Q01 提交后、两帧门满足前 toggle/再次提交/提交否不得改写答案",
+          "duration": 0.0965839999999929,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "Q01 中止活动请求后宿主须显式再激活；队列其余项不受牵连",
+          "status": "passed",
+          "title": "Q01 中止活动请求后宿主须显式再激活；队列其余项不受牵连",
+          "duration": 0.2793750000000017,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "Q01 已提交答案但帧门未满足时被取消：拒绝而非兑现，且无视图残留",
+          "status": "passed",
+          "title": "Q01 已提交答案但帧门未满足时被取消：拒绝而非兑现，且无视图残留",
+          "duration": 0.10733299999999701,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790866018218,
+      "endTime": 1790866018226.2793,
+      "status": "failed",
+      "message": "",
+      "name": "/private/tmp/glmq/counter-copy/type-pal/packages/reforge/src/script-confirm-modal.glm-q.test.ts"
+    }
+  ]
+}

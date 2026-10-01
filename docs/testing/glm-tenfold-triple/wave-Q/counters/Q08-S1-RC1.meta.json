@@ -1,19 +1,19 @@
 {
   "id": "Q08-S1-RC1",
   "file": "packages/game/src/battle-summon-slot-reuse.glm-q.test.ts",
-  "targetFullName": "Q08 0x9E 正向死亡空槽复用（战中击败槽，非初始 0 占位） 战中被击败槽被复用：满血重置、毒清零、对象身份与脚本替换",
-  "targetNameSubstring": "战中被击败槽被复用",
-  "axis": "输入轴单轴变异：召唤数量 1→2（合法值，roster 仅 1 间死亡房 → room<count 应走 fail jump 300）；断言不动。",
+  "targetFullName": "Q08 0x9E 正向死亡空槽复用（战中击败槽，非初始 0 占位） 复用槽非空毒残留被清零、对象身份替换（旧证之外的独立轴）",
+  "targetNameSubstring": "复用槽非空毒残留被清零、对象身份替换",
+  "axis": "输入轴单轴变异：召唤对象 419→420（合法对象号；复用槽 objectId 应为 420 → toBe(419) 恰一红，poisons 断言仍绿）；断言不动。",
   "sha256": {
-    "original": "a28e4d2dba15330481aa83b7937a0b567a1610c535c32773e483d501d7e4ee5b",
-    "mutated": "a850ea59bfa0e515142bd7af2eaf39cdfe7574c3689d23a0221efe7d505e79c4",
-    "restored": "a28e4d2dba15330481aa83b7937a0b567a1610c535c32773e483d501d7e4ee5b"
+    "original": "d6d4c4ca29b8a3174491e8b98597b04e9696ac44fb564db5f6c1881c6da1f069",
+    "mutated": "3a741ebb5e23c42b41a1965579a63d479cd0172903bb2da7def277b33aa0e66e",
+    "restored": "d6d4c4ca29b8a3174491e8b98597b04e9696ac44fb564db5f6c1881c6da1f069"
   },
   "restoredHashUnchanged": true,
   "criteria": {
     "positiveGreen": true,
     "mutantExactlyOneTargetRed": true,
-    "targetAssertionError": "AssertionError: expected 300 to be undefined",
+    "targetAssertionError": "AssertionError: expected 420 to be 419 // Object.is equality",
     "restoredGreen": true,
     "restoredSameExecutionCount": true,
     "hashesMatchFinalCandidate": true

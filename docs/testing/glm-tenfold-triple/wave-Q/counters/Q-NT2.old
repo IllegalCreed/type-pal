@@ -1,0 +1,3 @@
+    const table = { a: withRules('a', [cast('s1')]), b: withRules('b', [{ kind: 'flee' }]) }
+    const result = collectReachableEnemyDefs([table.a!, table.a!, table.b!], table)
+    expect(result.map((enemy) => enemy.id)).toEqual(['a', 'b'])

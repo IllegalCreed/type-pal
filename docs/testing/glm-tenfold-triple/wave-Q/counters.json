@@ -1,6 +1,16 @@
 {
-  "count": 50,
+  "count": 57,
   "allValid": true,
+  "distinctTargets": 50,
+  "duplicatedTargets": [
+    "packages/reforge/src/audio-spessa-runtime.glm-q.test.ts :: Q03 试听 runtime：适配器透传 sequencer 传输操作与快照字段，二次 initialize 复用",
+    "packages/game/src/framebuffer-ports.glm-q.test.ts :: Q09 createFramebuffer toImageData 按 palette 展开 RGBA、alpha 恒 255、缺色回退黑",
+    "packages/pal-extract/src/cli-isolated.glm-q.test.ts :: Q10 CLI 隔离实跑：合成 DATA.MKF 走完数据表段（逐表落盘 + SPRITEUI/effect blob）",
+    "packages/pal-extract/src/cli-isolated.glm-q.test.ts :: Q10 CLI 隔离实跑：合成小输入走完事件管线（round-trip 门 + 切片落盘 + 词表注记）",
+    "packages/pal-extract/src/cli-isolated.glm-q.test.ts :: Q10 CLI 隔离实跑：合成 DATA.MKF 走完数据表段（逐表落盘 + SPRITEUI/effect blob）",
+    "packages/game/src/battle-summon-slot-reuse.glm-q.test.ts :: Q08 0x9E 正向死亡空槽复用（战中击败槽，非初始 0 占位） 同席两死亡槽只复用一间：另一间保持 defeated 与残留身份",
+    "packages/reforge/src/enemy-closure.glm-q.test.ts :: Q05 collectReachableEnemyDefs enemyId 缺省的 summon 不入队；hooks 内 effect summon 参与闭包"
+  ],
   "hashVerification": "index 条目由最终 per-counter meta 生成；original/restored 与候选树实际文件 SHA256 逐枚断言相等（构建时校验，mismatch 即失败）",
   "perCounter": [
     {
@@ -2571,19 +2581,19 @@
     {
       "id": "Q08-S1-RC1",
       "file": "packages/game/src/battle-summon-slot-reuse.glm-q.test.ts",
-      "targetFullName": "Q08 0x9E 正向死亡空槽复用（战中击败槽，非初始 0 占位） 战中被击败槽被复用：满血重置、毒清零、对象身份与脚本替换",
-      "targetNameSubstring": "战中被击败槽被复用",
-      "axis": "输入轴单轴变异：召唤数量 1→2（合法值，roster 仅 1 间死亡房 → room<count 应走 fail jump 300）；断言不动。",
+      "targetFullName": "Q08 0x9E 正向死亡空槽复用（战中击败槽，非初始 0 占位） 复用槽非空毒残留被清零、对象身份替换（旧证之外的独立轴）",
+      "targetNameSubstring": "复用槽非空毒残留被清零、对象身份替换",
+      "axis": "输入轴单轴变异：召唤对象 419→420（合法对象号；复用槽 objectId 应为 420 → toBe(419) 恰一红，poisons 断言仍绿）；断言不动。",
       "sha256": {
-        "original": "a28e4d2dba15330481aa83b7937a0b567a1610c535c32773e483d501d7e4ee5b",
-        "mutated": "a850ea59bfa0e515142bd7af2eaf39cdfe7574c3689d23a0221efe7d505e79c4",
-        "restored": "a28e4d2dba15330481aa83b7937a0b567a1610c535c32773e483d501d7e4ee5b"
+        "original": "d6d4c4ca29b8a3174491e8b98597b04e9696ac44fb564db5f6c1881c6da1f069",
+        "mutated": "3a741ebb5e23c42b41a1965579a63d479cd0172903bb2da7def277b33aa0e66e",
+        "restored": "d6d4c4ca29b8a3174491e8b98597b04e9696ac44fb564db5f6c1881c6da1f069"
       },
       "restoredHashUnchanged": true,
       "criteria": {
         "positiveGreen": true,
         "mutantExactlyOneTargetRed": true,
-        "targetAssertionError": "AssertionError: expected 300 to be undefined",
+        "targetAssertionError": "AssertionError: expected 420 to be 419 // Object.is equality",
         "restoredGreen": true,
         "restoredSameExecutionCount": true,
         "hashesMatchFinalCandidate": true
@@ -2628,19 +2638,19 @@
     {
       "id": "Q08-S1-RC2",
       "file": "packages/game/src/battle-summon-slot-reuse.glm-q.test.ts",
-      "targetFullName": "Q08 0x9E 正向死亡空槽复用（战中击败槽，非初始 0 占位） 战中被击败槽被复用：满血重置、毒清零、对象身份与脚本替换",
-      "targetNameSubstring": "战中被击败槽被复用",
-      "axis": "输入轴单轴变异：召唤兽 base 满血 80→120（合法生命值；复用应重置为新 base 满血 120，toBe(80) 断言应红）；断言不动。",
+      "targetFullName": "Q08 0x9E 正向死亡空槽复用（战中击败槽，非初始 0 占位） 同席两死亡槽只复用一间：另一间保持 defeated 与残留身份",
+      "targetNameSubstring": "同席两死亡槽只复用一间",
+      "axis": "输入轴单轴变异：召唤兽 enemyId 22→23（合法表内 id；复用槽 e.id 应为 23 → toBe(22) 恰一红）；断言不动。",
       "sha256": {
-        "original": "a28e4d2dba15330481aa83b7937a0b567a1610c535c32773e483d501d7e4ee5b",
-        "mutated": "c475e1ad6be9b99221e2ce46b9296c11380e1b9acc5e7c1460390e210e35d96f",
-        "restored": "a28e4d2dba15330481aa83b7937a0b567a1610c535c32773e483d501d7e4ee5b"
+        "original": "d6d4c4ca29b8a3174491e8b98597b04e9696ac44fb564db5f6c1881c6da1f069",
+        "mutated": "5a7044db76ae191eaa6b88f9685242ac65ff3283a86d1325a8054d82279c730f",
+        "restored": "d6d4c4ca29b8a3174491e8b98597b04e9696ac44fb564db5f6c1881c6da1f069"
       },
       "restoredHashUnchanged": true,
       "criteria": {
         "positiveGreen": true,
         "mutantExactlyOneTargetRed": true,
-        "targetAssertionError": "AssertionError: expected 120 to be 80 // Object.is equality",
+        "targetAssertionError": "AssertionError: expected 23 to be 22 // Object.is equality",
         "restoredGreen": true,
         "restoredSameExecutionCount": true,
         "hashesMatchFinalCandidate": true
@@ -2689,9 +2699,9 @@
       "targetNameSubstring": "同席两死亡槽只复用一间",
       "axis": "输入轴单轴变异：count 1→2（两间死亡房都应复用，toHaveLength(1) 应红）；断言不动。",
       "sha256": {
-        "original": "a28e4d2dba15330481aa83b7937a0b567a1610c535c32773e483d501d7e4ee5b",
-        "mutated": "5a417155638d8efe633b99bcd7de4f9ca7e4083ffe5ec2f4628651a3111aa1fd",
-        "restored": "a28e4d2dba15330481aa83b7937a0b567a1610c535c32773e483d501d7e4ee5b"
+        "original": "d6d4c4ca29b8a3174491e8b98597b04e9696ac44fb564db5f6c1881c6da1f069",
+        "mutated": "6ca50336e539a5968072feca641af843b7e9138ff9ce0f39c7c1dc2a2e78366e",
+        "restored": "d6d4c4ca29b8a3174491e8b98597b04e9696ac44fb564db5f6c1881c6da1f069"
       },
       "restoredHashUnchanged": true,
       "criteria": {
@@ -2746,9 +2756,9 @@
       "targetNameSubstring": "活敌槽绝不复用",
       "axis": "输入轴不变（断言语义自检：满员 fail 应走 newIp=300；本枚改断言期望制造目标红验证该断言判别力——变异的是断言期望值而非输入，用于验证 newIp 合同的判别力；正控恢复后全绿。轴说明如实登记。注：此枚为断言判别力自检针，非输入轴。",
       "sha256": {
-        "original": "a28e4d2dba15330481aa83b7937a0b567a1610c535c32773e483d501d7e4ee5b",
-        "mutated": "c7e4f177f2495cb10576a1a555eb70e6f141f5f2b62a2b2ad8b673a865285116",
-        "restored": "a28e4d2dba15330481aa83b7937a0b567a1610c535c32773e483d501d7e4ee5b"
+        "original": "d6d4c4ca29b8a3174491e8b98597b04e9696ac44fb564db5f6c1881c6da1f069",
+        "mutated": "082f4e12eb2ff648320f9a0639a7f5c93b1401a19f5fd5631d29ab09d39ba66e",
+        "restored": "d6d4c4ca29b8a3174491e8b98597b04e9696ac44fb564db5f6c1881c6da1f069"
       },
       "restoredHashUnchanged": true,
       "criteria": {
@@ -2801,11 +2811,11 @@
       "file": "packages/game/src/battle-summon-slot-reuse.glm-q.test.ts",
       "targetFullName": "Q08 0x9E 正向死亡空槽复用（战中击败槽，非初始 0 占位） 复用后全体敌人底锚按新阵容重算（PAL_BattleMakeScene 等价）",
       "targetNameSubstring": "复用后全体敌人底锚按新阵容重算",
-      "axis": "输入轴单轴变异：caster yPosOffset 0→4（合法锚偏移；其 posOriginal/pos 应较固定基准 layoutBase(1) 上移 4 → toEqual 红）；断言不动。",
+      "axis": "输入轴单轴变异：refresh 前 caster.yPosOffset 0→4（合法锚偏移；battle.c:939 底锚 y+4 → caster 常量 oracle toEqual({x:100,y:60}) 恰一红，dead 断言仍绿）；断言不动。",
       "sha256": {
-        "original": "a28e4d2dba15330481aa83b7937a0b567a1610c535c32773e483d501d7e4ee5b",
-        "mutated": "f9524e08fb2e1333aa07852de3998701987362242246205ea1d8f95eedbe0933",
-        "restored": "a28e4d2dba15330481aa83b7937a0b567a1610c535c32773e483d501d7e4ee5b"
+        "original": "d6d4c4ca29b8a3174491e8b98597b04e9696ac44fb564db5f6c1881c6da1f069",
+        "mutated": "107ba9d24dfdc8bb6d72822c51e8999e5b937abf5dd4b1a475cdb4129b458054",
+        "restored": "d6d4c4ca29b8a3174491e8b98597b04e9696ac44fb564db5f6c1881c6da1f069"
       },
       "restoredHashUnchanged": true,
       "criteria": {
@@ -2849,6 +2859,405 @@
           },
           "json": "Q08-S1-RC5.restored.json",
           "raw": "Q08-S1-RC5.restored.txt"
+        }
+      },
+      "verdict": "VALID"
+    },
+    {
+      "id": "Q-NT1",
+      "file": "packages/reforge/src/script-confirm-modal.glm-q.test.ts",
+      "targetFullName": "Q01 token 在多次请求间严格单调递增，激活顺序为 FIFO",
+      "targetNameSubstring": "token 在多次请求间严格单调递增",
+      "axis": "输入轴单轴变异：FIFO 例第三枚 submitNo→toggle+submit Yes（合法选择路径；settied 断言 [false,false,false] 第三项应变 true → 恰一红）；断言不动。",
+      "sha256": {
+        "original": "06784dcb2ab7acdee02a59fbeaa2b1f76ee3939bf58589c063714a490e329d9a",
+        "mutated": "774f91a366959cb3ff1493953cd506435f06c204e2b88679b3d79d512096226f",
+        "restored": "06784dcb2ab7acdee02a59fbeaa2b1f76ee3939bf58589c063714a490e329d9a"
+      },
+      "restoredHashUnchanged": true,
+      "criteria": {
+        "positiveGreen": true,
+        "mutantExactlyOneTargetRed": true,
+        "targetAssertionError": "AssertionError: expected [ false, false, true ] to deeply equal [ false, false, false ]",
+        "restoredGreen": true,
+        "restoredSameExecutionCount": true,
+        "hashesMatchFinalCandidate": true
+      },
+      "runs": {
+        "positive": {
+          "exitCode": 0,
+          "summary": {
+            "numTotalTests": 12,
+            "numPassedTests": 12,
+            "numFailedTests": 0,
+            "success": true
+          },
+          "json": "Q-NT1.positive.json",
+          "raw": "Q-NT1.positive.txt"
+        },
+        "mutant": {
+          "exitCode": 1,
+          "summary": {
+            "numTotalTests": 12,
+            "numPassedTests": 11,
+            "numFailedTests": 1,
+            "success": false
+          },
+          "json": "Q-NT1.mutant.json",
+          "raw": "Q-NT1.mutant.txt"
+        },
+        "restored": {
+          "exitCode": 0,
+          "summary": {
+            "numTotalTests": 12,
+            "numPassedTests": 12,
+            "numFailedTests": 0,
+            "success": true
+          },
+          "json": "Q-NT1.restored.json",
+          "raw": "Q-NT1.restored.txt"
+        }
+      },
+      "verdict": "VALID"
+    },
+    {
+      "id": "Q-NT2",
+      "file": "packages/reforge/src/enemy-closure.glm-q.test.ts",
+      "targetFullName": "Q05 collectReachableEnemyDefs 无 transform/summon 时闭包只含初始敌人且按序去重",
+      "targetNameSubstring": "无 transform/summon 时闭包只含初始敌人且按序去重",
+      "axis": "输入轴单轴变异：初始集 [a,a,b]→[b,b]（合法初始敌；闭包应只 ['b'] → toEqual(['a','b']) 恰一红）；断言不动。",
+      "sha256": {
+        "original": "4c9d2efa7df5b13d3296b4b09c3134f23167880c0ccea1cabb2e36fc28606323",
+        "mutated": "96a712d6804eccf5c9291c872cf0c480e188eec61b219a8e526771590d90ccad",
+        "restored": "4c9d2efa7df5b13d3296b4b09c3134f23167880c0ccea1cabb2e36fc28606323"
+      },
+      "restoredHashUnchanged": true,
+      "criteria": {
+        "positiveGreen": true,
+        "mutantExactlyOneTargetRed": true,
+        "targetAssertionError": "AssertionError: expected [ 'b' ] to deeply equal [ 'a', 'b' ]",
+        "restoredGreen": true,
+        "restoredSameExecutionCount": true,
+        "hashesMatchFinalCandidate": true
+      },
+      "runs": {
+        "positive": {
+          "exitCode": 0,
+          "summary": {
+            "numTotalTests": 6,
+            "numPassedTests": 6,
+            "numFailedTests": 0,
+            "success": true
+          },
+          "json": "Q-NT2.positive.json",
+          "raw": "Q-NT2.positive.txt"
+        },
+        "mutant": {
+          "exitCode": 1,
+          "summary": {
+            "numTotalTests": 6,
+            "numPassedTests": 5,
+            "numFailedTests": 1,
+            "success": false
+          },
+          "json": "Q-NT2.mutant.json",
+          "raw": "Q-NT2.mutant.txt"
+        },
+        "restored": {
+          "exitCode": 0,
+          "summary": {
+            "numTotalTests": 6,
+            "numPassedTests": 6,
+            "numFailedTests": 0,
+            "success": true
+          },
+          "json": "Q-NT2.restored.json",
+          "raw": "Q-NT2.restored.txt"
+        }
+      },
+      "verdict": "VALID"
+    },
+    {
+      "id": "Q-NT3",
+      "file": "packages/game/src/status-poison-equip.glm-q.test.ts",
+      "targetFullName": "Q06 cure / remove curePlayerPoisonByKind 只清该毒全部槽位",
+      "targetNameSubstring": "curePlayerPoisonByKind 只清该毒全部槽位",
+      "axis": "输入轴单轴变异：slot5 毒 9 的 wPoisonScript 33→43（合法 script 值；断言 wPoisonScript===33 恰一红，cure 两断言仍绿）；断言不动。",
+      "sha256": {
+        "original": "f19d45cd5f90cc728a6d9118f5c80ad1595ca425e47ba9161e01484d33f21e4e",
+        "mutated": "09e0e05fe198cb70d5190162acf7a465e69fe9ee14bd519f9a357a324b2e2afd",
+        "restored": "f19d45cd5f90cc728a6d9118f5c80ad1595ca425e47ba9161e01484d33f21e4e"
+      },
+      "restoredHashUnchanged": true,
+      "criteria": {
+        "positiveGreen": true,
+        "mutantExactlyOneTargetRed": true,
+        "targetAssertionError": "AssertionError: expected { wPoisonID: 9, wPoisonScript: 43 } to deeply equal { wPoisonID: 9, wPoisonScript: 33 }",
+        "restoredGreen": true,
+        "restoredSameExecutionCount": true,
+        "hashesMatchFinalCandidate": true
+      },
+      "runs": {
+        "positive": {
+          "exitCode": 0,
+          "summary": {
+            "numTotalTests": 11,
+            "numPassedTests": 11,
+            "numFailedTests": 0,
+            "success": true
+          },
+          "json": "Q-NT3.positive.json",
+          "raw": "Q-NT3.positive.txt"
+        },
+        "mutant": {
+          "exitCode": 1,
+          "summary": {
+            "numTotalTests": 11,
+            "numPassedTests": 10,
+            "numFailedTests": 1,
+            "success": false
+          },
+          "json": "Q-NT3.mutant.json",
+          "raw": "Q-NT3.mutant.txt"
+        },
+        "restored": {
+          "exitCode": 0,
+          "summary": {
+            "numTotalTests": 11,
+            "numPassedTests": 11,
+            "numFailedTests": 0,
+            "success": true
+          },
+          "json": "Q-NT3.restored.json",
+          "raw": "Q-NT3.restored.txt"
+        }
+      },
+      "verdict": "VALID"
+    },
+    {
+      "id": "Q-NT4",
+      "file": "packages/reforge/src/assets-decode-gates.glm-q.test.ts",
+      "targetFullName": "Q02 battle 缓存保护裁剪：受保护项存活、非保护项逐出后重读",
+      "targetNameSubstring": "battle 缓存保护裁剪",
+      "axis": "输入轴单轴变异：prune 保护集 {'keep'}→{'keep','a'}（合法集合；a 应存活 → cache.get(reader,'a') undefined 断言恰一红）；断言不动。",
+      "sha256": {
+        "original": "52c84b6e5b5d6d497f4aeed4e62e689505dc598e24227702176f3c0290c9a70e",
+        "mutated": "77badb0c8fc1e2a24a6a236c5cfde799c402570f01be6986b85b039a64c5ae76",
+        "restored": "52c84b6e5b5d6d497f4aeed4e62e689505dc598e24227702176f3c0290c9a70e"
+      },
+      "restoredHashUnchanged": true,
+      "criteria": {
+        "positiveGreen": true,
+        "mutantExactlyOneTargetRed": true,
+        "targetAssertionError": "AssertionError: expected { frames: [ …(3) ], anchorX: 1, …(3) } to be undefined",
+        "restoredGreen": true,
+        "restoredSameExecutionCount": true,
+        "hashesMatchFinalCandidate": true
+      },
+      "runs": {
+        "positive": {
+          "exitCode": 0,
+          "summary": {
+            "numTotalTests": 11,
+            "numPassedTests": 11,
+            "numFailedTests": 0,
+            "success": true
+          },
+          "json": "Q-NT4.positive.json",
+          "raw": "Q-NT4.positive.txt"
+        },
+        "mutant": {
+          "exitCode": 1,
+          "summary": {
+            "numTotalTests": 11,
+            "numPassedTests": 10,
+            "numFailedTests": 1,
+            "success": false
+          },
+          "json": "Q-NT4.mutant.json",
+          "raw": "Q-NT4.mutant.txt"
+        },
+        "restored": {
+          "exitCode": 0,
+          "summary": {
+            "numTotalTests": 11,
+            "numPassedTests": 11,
+            "numFailedTests": 0,
+            "success": true
+          },
+          "json": "Q-NT4.restored.json",
+          "raw": "Q-NT4.restored.txt"
+        }
+      },
+      "verdict": "VALID"
+    },
+    {
+      "id": "Q-NT5",
+      "file": "packages/reforge/src/assets-decode-gates.glm-q.test.ts",
+      "targetFullName": "Q02 compressGzip 接受带偏移的字节视图并只压缩可见区间",
+      "targetNameSubstring": "带偏移的字节视图并只压缩可见区间",
+      "axis": "输入轴单轴变异：带偏移视图起点 4→3（含 1 字节前导的合法视图；round-trip 应等于前导+payload → toEqual([...payload]) 恰一红）；断言不动。",
+      "sha256": {
+        "original": "52c84b6e5b5d6d497f4aeed4e62e689505dc598e24227702176f3c0290c9a70e",
+        "mutated": "b2daf9fe8d79e3172cd89f8a62fa8bc77de267e1493fded245c12d225db0d4ae",
+        "restored": "52c84b6e5b5d6d497f4aeed4e62e689505dc598e24227702176f3c0290c9a70e"
+      },
+      "restoredHashUnchanged": true,
+      "criteria": {
+        "positiveGreen": true,
+        "mutantExactlyOneTargetRed": true,
+        "targetAssertionError": "AssertionError: expected [ +0, 1, +0, 2, +0, 2, +0, 4, 1, …(4) ] to deeply equal [ 1, +0, 2, +0, 2, +0, 4, 1, 2, …(3) ]",
+        "restoredGreen": true,
+        "restoredSameExecutionCount": true,
+        "hashesMatchFinalCandidate": true
+      },
+      "runs": {
+        "positive": {
+          "exitCode": 0,
+          "summary": {
+            "numTotalTests": 11,
+            "numPassedTests": 11,
+            "numFailedTests": 0,
+            "success": true
+          },
+          "json": "Q-NT5.positive.json",
+          "raw": "Q-NT5.positive.txt"
+        },
+        "mutant": {
+          "exitCode": 1,
+          "summary": {
+            "numTotalTests": 11,
+            "numPassedTests": 10,
+            "numFailedTests": 1,
+            "success": false
+          },
+          "json": "Q-NT5.mutant.json",
+          "raw": "Q-NT5.mutant.txt"
+        },
+        "restored": {
+          "exitCode": 0,
+          "summary": {
+            "numTotalTests": 11,
+            "numPassedTests": 11,
+            "numFailedTests": 0,
+            "success": true
+          },
+          "json": "Q-NT5.restored.json",
+          "raw": "Q-NT5.restored.txt"
+        }
+      },
+      "verdict": "VALID"
+    },
+    {
+      "id": "Q-NT6",
+      "file": "packages/reforge/src/script-runner-core.gates.glm-q.test.ts",
+      "targetFullName": "Q04 commandOutcome 与 callScript 门 无 resolver 时 callScript 前置拒绝",
+      "targetNameSubstring": "无 resolver 时 callScript 前置拒绝",
+      "axis": "输入轴单轴变异：callScript id 'probe'→'other'（合法脚本 id；错误消息含 probe 的断言恰一红）；断言不动。",
+      "sha256": {
+        "original": "896fab49346937562f8aa66e780b9fdf24c85e73a1a8f4d1833e8387a20208a7",
+        "mutated": "f050159acd97847be96e93c5606d72d36e04afb0d05f629516bb59fefb5f9692",
+        "restored": "896fab49346937562f8aa66e780b9fdf24c85e73a1a8f4d1833e8387a20208a7"
+      },
+      "restoredHashUnchanged": true,
+      "criteria": {
+        "positiveGreen": true,
+        "mutantExactlyOneTargetRed": true,
+        "targetAssertionError": "Error: expected [Function] to throw error including 'ScriptRunnerCore: 无 resolver，无法解析 pro…' but got 'ScriptRunnerCore: 无 resolver，无法解析 oth…'",
+        "restoredGreen": true,
+        "restoredSameExecutionCount": true,
+        "hashesMatchFinalCandidate": true
+      },
+      "runs": {
+        "positive": {
+          "exitCode": 0,
+          "summary": {
+            "numTotalTests": 13,
+            "numPassedTests": 13,
+            "numFailedTests": 0,
+            "success": true
+          },
+          "json": "Q-NT6.positive.json",
+          "raw": "Q-NT6.positive.txt"
+        },
+        "mutant": {
+          "exitCode": 1,
+          "summary": {
+            "numTotalTests": 13,
+            "numPassedTests": 12,
+            "numFailedTests": 1,
+            "success": false
+          },
+          "json": "Q-NT6.mutant.json",
+          "raw": "Q-NT6.mutant.txt"
+        },
+        "restored": {
+          "exitCode": 0,
+          "summary": {
+            "numTotalTests": 13,
+            "numPassedTests": 13,
+            "numFailedTests": 0,
+            "success": true
+          },
+          "json": "Q-NT6.restored.json",
+          "raw": "Q-NT6.restored.txt"
+        }
+      },
+      "verdict": "VALID"
+    },
+    {
+      "id": "Q-NT8",
+      "file": "packages/reforge/src/enemy-closure.glm-q.test.ts",
+      "targetFullName": "Q05 collectReachableEnemyDefs enemyId 缺省的 summon 不入队；hooks 内 effect summon 参与闭包",
+      "targetNameSubstring": "enemyId 缺省的 summon 不入队",
+      "axis": "输入轴单轴变异：hook effect summon 目标 support→ghost（未登记敌 id；应精确抛「root summon 目标 ghost 不存在」→ rejects 恰一红）；断言不动。",
+      "sha256": {
+        "original": "4c9d2efa7df5b13d3296b4b09c3134f23167880c0ccea1cabb2e36fc28606323",
+        "mutated": "f311a7c777e866751d2a5a023cdaa9ef18a2a3f3697766a3e27ace4fa87a1841",
+        "restored": "4c9d2efa7df5b13d3296b4b09c3134f23167880c0ccea1cabb2e36fc28606323"
+      },
+      "restoredHashUnchanged": true,
+      "criteria": {
+        "positiveGreen": true,
+        "mutantExactlyOneTargetRed": true,
+        "targetAssertionError": "Error: 敌人 \"root\" summon 目标 \"ghost\" 不存在",
+        "restoredGreen": true,
+        "restoredSameExecutionCount": true,
+        "hashesMatchFinalCandidate": true
+      },
+      "runs": {
+        "positive": {
+          "exitCode": 0,
+          "summary": {
+            "numTotalTests": 6,
+            "numPassedTests": 6,
+            "numFailedTests": 0,
+            "success": true
+          },
+          "json": "Q-NT8.positive.json",
+          "raw": "Q-NT8.positive.txt"
+        },
+        "mutant": {
+          "exitCode": 1,
+          "summary": {
+            "numTotalTests": 6,
+            "numPassedTests": 5,
+            "numFailedTests": 1,
+            "success": false
+          },
+          "json": "Q-NT8.mutant.json",
+          "raw": "Q-NT8.mutant.txt"
+        },
+        "restored": {
+          "exitCode": 0,
+          "summary": {
+            "numTotalTests": 6,
+            "numPassedTests": 6,
+            "numFailedTests": 0,
+            "success": true
+          },
+          "json": "Q-NT8.restored.json",
+          "raw": "Q-NT8.restored.txt"
         }
       },
       "verdict": "VALID"

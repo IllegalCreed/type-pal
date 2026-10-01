@@ -5,9 +5,9 @@
   "targetNameSubstring": "同席两死亡槽只复用一间",
   "axis": "输入轴单轴变异：count 1→2（两间死亡房都应复用，toHaveLength(1) 应红）；断言不动。",
   "sha256": {
-    "original": "a28e4d2dba15330481aa83b7937a0b567a1610c535c32773e483d501d7e4ee5b",
-    "mutated": "5a417155638d8efe633b99bcd7de4f9ca7e4083ffe5ec2f4628651a3111aa1fd",
-    "restored": "a28e4d2dba15330481aa83b7937a0b567a1610c535c32773e483d501d7e4ee5b"
+    "original": "d6d4c4ca29b8a3174491e8b98597b04e9696ac44fb564db5f6c1881c6da1f069",
+    "mutated": "6ca50336e539a5968072feca641af843b7e9138ff9ce0f39c7c1dc2a2e78366e",
+    "restored": "d6d4c4ca29b8a3174491e8b98597b04e9696ac44fb564db5f6c1881c6da1f069"
   },
   "restoredHashUnchanged": true,
   "criteria": {

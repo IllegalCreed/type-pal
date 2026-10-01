@@ -1,4 +1,6 @@
-    const ctx = summonCtx(state, 1, [baseEnemy({ id: 22, health: 120 })], [ENEMY_OBJ(419, 22)]) // 变异轴：召唤兽 base 满血 80→120（合法值）
-    const r = dispatchBattleOpcode(0x9e, [419, 1, 300], ctx)
+    const ctx = summonCtx(state, 2, [baseEnemy({ id: 23, health: 80 })], [ENEMY_OBJ(419, 23)]) // 变异轴：召唤兽 enemyId 22→23（合法表内 id）
+    const r = dispatchBattleOpcode(0x9e, [419, 1, 0], ctx)
     expect(r.consumed).toBe(true)
-    expect(r.newIp).toBeUndefined() // 有房间，不走 fail 跳转
+    const revived = [deadA, deadB].filter((s) => !s.defeated)
+    expect(revived).toHaveLength(1) // count=1 只复用一间
+    expect(revived[0]!.e.id).toBe(22)

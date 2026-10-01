@@ -1,3 +1,4 @@
-    const r = dispatchBattleOpcode(0x9e, [419, 2, 300], ctx) // 变异轴：count 1→2（合法数量，但仅 1 间死亡房）
+    const ctx = summonCtx(state, 1, [baseEnemy({ id: 22, health: 80 })], [ENEMY_OBJ(420, 22)]) // 变异轴：召唤对象 419→420（合法对象号）
+    const r = dispatchBattleOpcode(0x9e, [420, 1, 300], ctx)
     expect(r.consumed).toBe(true)
-    expect(r.newIp).toBeUndefined() // 有房间，不走 fail 跳转
+    expect(dead.poisons).toEqual([]) // 非空毒残留 → 复用时清零（旧例未证：旧 poisons 本来为空）

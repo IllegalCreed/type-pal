@@ -1,0 +1,1 @@
+输入轴单轴变异：prune 保护集 {'keep'}→{'keep','a'}（合法集合；a 应存活 → cache.get(reader,'a') undefined 断言恰一红）；断言不动。

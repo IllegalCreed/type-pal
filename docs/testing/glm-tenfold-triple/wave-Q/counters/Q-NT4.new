@@ -1,0 +1,5 @@
+  const cache = new BattleSpriteAssetCache(1)
+  await cache.load(reader, 'a')
+  await cache.load(reader, 'b')
+  await cache.load(reader, 'keep')
+  cache.prune(new Set(['keep', 'a'])) // 变异轴：保护集加 'a'（合法 AssetId 集）

@@ -1,0 +1,57 @@
+{
+  "id": "Q-NT3",
+  "file": "packages/game/src/status-poison-equip.glm-q.test.ts",
+  "targetFullName": "Q06 cure / remove curePlayerPoisonByKind 只清该毒全部槽位",
+  "targetNameSubstring": "curePlayerPoisonByKind 只清该毒全部槽位",
+  "axis": "输入轴单轴变异：slot5 毒 9 的 wPoisonScript 33→43（合法 script 值；断言 wPoisonScript===33 恰一红，cure 两断言仍绿）；断言不动。",
+  "sha256": {
+    "original": "f19d45cd5f90cc728a6d9118f5c80ad1595ca425e47ba9161e01484d33f21e4e",
+    "mutated": "09e0e05fe198cb70d5190162acf7a465e69fe9ee14bd519f9a357a324b2e2afd",
+    "restored": "f19d45cd5f90cc728a6d9118f5c80ad1595ca425e47ba9161e01484d33f21e4e"
+  },
+  "restoredHashUnchanged": true,
+  "criteria": {
+    "positiveGreen": true,
+    "mutantExactlyOneTargetRed": true,
+    "targetAssertionError": "AssertionError: expected { wPoisonID: 9, wPoisonScript: 43 } to deeply equal { wPoisonID: 9, wPoisonScript: 33 }",
+    "restoredGreen": true,
+    "restoredSameExecutionCount": true,
+    "hashesMatchFinalCandidate": true
+  },
+  "runs": {
+    "positive": {
+      "exitCode": 0,
+      "summary": {
+        "numTotalTests": 11,
+        "numPassedTests": 11,
+        "numFailedTests": 0,
+        "success": true
+      },
+      "json": "Q-NT3.positive.json",
+      "raw": "Q-NT3.positive.txt"
+    },
+    "mutant": {
+      "exitCode": 1,
+      "summary": {
+        "numTotalTests": 11,
+        "numPassedTests": 10,
+        "numFailedTests": 1,
+        "success": false
+      },
+      "json": "Q-NT3.mutant.json",
+      "raw": "Q-NT3.mutant.txt"
+    },
+    "restored": {
+      "exitCode": 0,
+      "summary": {
+        "numTotalTests": 11,
+        "numPassedTests": 11,
+        "numFailedTests": 0,
+        "success": true
+      },
+      "json": "Q-NT3.restored.json",
+      "raw": "Q-NT3.restored.txt"
+    }
+  },
+  "verdict": "VALID"
+}

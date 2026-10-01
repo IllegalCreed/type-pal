@@ -1,0 +1,4 @@
+    seed(g, 0, 0, 7, 11)
+    seed(g, 0, 3, 7, 22)
+    seed(g, 0, 5, 9, 33)
+    curePlayerPoisonByKind(g, 0, 7)

@@ -10,7 +10,6 @@
 import type { Enemy, EnemyObject } from '@type-pal/shared'
 import { describe, expect, test } from 'vitest'
 import { dispatchBattleOpcode } from './core/battle/battle-opcodes.js'
-import { getEnemyBasePos } from './core/battle/battle-positions.js'
 import type { BattleEnemy, BattleState } from './core/battle/battle-state.js'
 import type { BattleCtx } from './core/event-system.js'
 import { createInitialGameState } from './core/game-state.js'
@@ -143,25 +142,19 @@ const ENEMY_OBJ = (objectIndex: number, enemyId: number): EnemyObject => ({
 })
 
 describe('Q08 0x9E 正向死亡空槽复用（战中击败槽，非初始 0 占位）', () => {
-  test('战中被击败槽被复用：满血重置、毒清零、对象身份与脚本替换', () => {
+  test('复用槽非空毒残留被清零、对象身份替换（旧证之外的独立轴）', () => {
+    // 排重：battle-opcodes.test.ts:1459-1479 已证 reset 满血/maxHealth/defeated=false/
+    // 空毒 poisons=[]/scriptOnReady/抗性/全队位置——本例只断言两个旧证未覆盖的精确轴：
+    // ①战中毒残留（非空 poisons）复用时清零；②objectId 由死亡时身份 440 替换为召唤对象 419。
     const dead = slot({ id: 40, health: 0, objectId: 440, defeated: true })
-    dead.poisons = [{ poisonId: 7, scriptEntry: 2 }] // 死前中毒残留
+    dead.poisons = [{ poisonId: 7, scriptEntry: 2 }] // 死前中毒残留（旧例 poisons 本来为空）
     const caster = slot({ id: 76, health: 200, objectId: 473 })
     const state = battleState([dead, caster])
     const ctx = summonCtx(state, 1, [baseEnemy({ id: 22, health: 80 })], [ENEMY_OBJ(419, 22)])
     const r = dispatchBattleOpcode(0x9e, [419, 1, 300], ctx)
     expect(r.consumed).toBe(true)
-    expect(r.newIp).toBeUndefined() // 有房间，不走 fail 跳转
-    expect(dead.defeated).toBe(false)
-    expect(dead.e.id).toBe(22)
-    expect(dead.e.health).toBe(80) // 满血 base 重置
-    expect(dead.maxHealth).toBe(80)
-    expect(dead.prevHp).toBe(80)
-    expect(dead.poisons).toEqual([]) // 毒残留清零
-    expect(dead.objectId).toBe(419) // 对象身份替换为召唤对象
-    expect(dead.scriptOnReady).toBe(22) // 脚本取对象表入口
-    expect(dead.scriptOnTurnStart).toBe(11)
-    expect(dead.resistanceToSorcery).toBe(3)
+    expect(dead.poisons).toEqual([]) // 非空毒残留 → 复用时清零（旧例未证：旧 poisons 本来为空）
+    expect(dead.objectId).toBe(419) // 对象身份 440 → 419 替换（旧例未断言 objectId）
   })
 
   test('同席两死亡槽只复用一间：另一间保持 defeated 与残留身份', () => {
@@ -199,13 +192,12 @@ describe('Q08 0x9E 正向死亡空槽复用（战中击败槽，非初始 0 占�
     const state = battleState([dead, caster])
     const ctx = summonCtx(state, 1, [baseEnemy({ id: 22, health: 80 })], [ENEMY_OBJ(419, 22)])
     dispatchBattleOpcode(0x9e, [419, 1, 0], ctx)
-    const count = state.enemies.length
-    // 复用槽（id 22, yPosOffset=0）与施法者（id 76, yPosOffset=0）的底锚都来自
-    // 同一 count 列布局；此处用固定基准断言（防断言自适应吞掉偏移轴）。
-    const layoutBase = (idx: number) => getEnemyBasePos(undefined, count, idx, 0)
-    expect(dead.posOriginal).toEqual(layoutBase(0))
-    expect(dead.pos).toEqual(layoutBase(0))
-    expect(caster.posOriginal).toEqual(layoutBase(1))
-    expect(caster.pos).toEqual(layoutBase(1))
+    // 一手固定坐标 oracle（sdlpal g_rgEnemyPos fallback 布局前两位 + battle.c:939
+    // yPosOffset 平移；不用产品 getEnemyBasePos 计算 expected，防断言自适应）。
+    // 阵容 2 敌 → layout[0]={160,80}、layout[1]={100,60}；两敌 yPosOffset 均 0。
+    expect(dead.posOriginal).toEqual({ x: 160, y: 80 })
+    expect(dead.pos).toEqual({ x: 160, y: 80 })
+    expect(caster.posOriginal).toEqual({ x: 100, y: 60 })
+    expect(caster.pos).toEqual({ x: 100, y: 60 })
   })
 })
