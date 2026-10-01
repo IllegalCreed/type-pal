@@ -267,6 +267,7 @@ export class ScriptProjectRuntime {
   readonly host: ProjectScriptRuntimeHost
   private readonly shared: RuntimeSharedScriptResolver
   private readonly script: WorldScriptState
+  private readonly hostScene: ProjectScriptHostOptions['scene']
 
   constructor(
     readonly project: Pick<LoadedCurrentProjectCore, 'sharedScripts'>,
@@ -281,6 +282,7 @@ export class ScriptProjectRuntime {
     this.script = world.script
     this.host = new ProjectScriptRuntimeHost(world, this.coordinator, host)
     this.shared = new RuntimeSharedScriptResolver(project.sharedScripts, canonicalContentDigest)
+    this.hostScene = (id) => host.scene(id)
   }
 
   async runEntityBehavior(
@@ -340,11 +342,13 @@ export class ScriptProjectRuntime {
             }),
             {
               cursor: active.cursor,
+              ...(active.resume ? { resume: active.resume } : {}),
               cursorController: active.lease,
               self: target,
             },
           ),
       )
+      active.lease.discardContinuation()
       return true
     } finally {
       active.lease.close()
@@ -467,6 +471,33 @@ export class ScriptProjectRuntime {
       .find((effect) => effect.script.id === scriptId)?.script
     if (!script) throw new Error(`item private script 不存在: ${itemId}/${scriptId}`)
     await this.runCommands(script.body, options)
+  }
+
+  /** Restore preflight: validate every saved auto address before replacing the live world. */
+  async validateAutomaticContinuations(world: WorldState, signal: AbortSignal): Promise<void> {
+    for (const [sceneId, entities] of Object.entries(world.script?.behaviors.entities ?? {})) {
+      for (const [entityId, state] of Object.entries(entities)) {
+        const saved = state.auto?.cursor
+        if (!saved?.resume) continue
+        const scene = await this.hostScene(sceneId)
+        if (scene.id !== sceneId) throw new Error('auto resume: scene地址不匹配')
+        const entity = scene.entities.find((value) => value.id === entityId)
+        if (!entity || !world.script)
+          throw new Error(`auto resume: 实体不存在 ${sceneId}/${entityId}`)
+        // A dormant cursor can belong to a previous page/selection. Validate its owning code,
+        // not the currently active page; normal activation only resumes matching behavior IDs.
+        const behavior = entity.behaviors?.auto?.[saved.behavior]
+        if (!behavior) throw new Error('auto resume: 所属behavior不存在')
+        await new RuntimeScriptRunner(this.host, signal, this.shared).validateContinuation(
+          compileRuntimeScriptFlow(behavior.flow, {
+            canonicalContentDigest: this.canonicalContentDigest,
+            timing: 'auto',
+          }),
+          saved.at,
+          saved.resume,
+        )
+      }
+    }
   }
 
   async withSaveBarrier<T>(snapshot: () => SynchronousSnapshot<T>, timeoutMs = 10_000): Promise<T> {

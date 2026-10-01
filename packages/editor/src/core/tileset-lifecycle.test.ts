@@ -39,7 +39,7 @@ function state(
       id: 'tileset-test',
       name: 'Tileset Test',
       contentVersion: 21,
-      minimumSaveVersion: 9,
+      minimumSaveVersion: 10,
       defaultEntryId: 'main',
       content: { maps: 'content/maps/index.json', tilesets: 'content/tilesets.json' },
       assets: { catalog: 'assets/index.json', roles: {} },

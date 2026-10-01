@@ -1,6 +1,6 @@
 # SCRIPT-AUTHOR-2 — 客栈脚本语义命名与坐标走位
 
-Status: build
+Status: rework
 Phase: phase2
 Capability: W7 / P3
 Coding Owner: Codex Root
@@ -154,3 +154,49 @@ Branch: codex/e2e-003
 ## 下一位 Agent 提示词
 
 无用户转交提示词；Root推进与独立复核，命名/前提专项只读结果由Root接收。等待本批技术交付及用户体验。
+
+## 单步骤续修（用户2026-10-01裁决）
+
+用户指出六个路段可以放在一个步骤，并明确要求推进。之前“每个转折点必须成为步骤”的作者设计撤回；
+六步批次及其验收作为历史证据保留，不再授权当前作者结构。路线转折是指令顺序，不是再次激活阶段。
+
+| 维度 | 本次前提及锚点 |
+| --- | --- |
+| 原版/primary source | 原始路线内容沿用本卡已核all.json:2635–2743；不改路线/剧情，不继承逐拍控制方式。 |
+| 第一阶段 | 原走位顺序沿用既有trace；第一阶段没有方案→步骤作者界面，不决定分步形式。 |
+| 当前二阶段 | s003.json:2582–2755六步合计10条指令；script-runner-core.ts:195/327逐条await同一步正文，198仅步末提交游标。script-project-core.ts:532保存等待安全点，10秒超时。 |
+| 目标 | 一个步骤包含原10条指令，所有目标/速度/激活及最终方案选择顺序不变，末尾显式complete；不新增命令索引存档或隐藏步骤。 |
+
+- 最强替代解释：多次move必须分步骤。实际runCommands逐条await执行，已推翻；真正限制是保存等待步末，
+  不能把此运行时限制当成作者必须拆步骤的理由。
+- 可证伪：若一次激活未按六终点依次完成、途中保存形成半途位置/未完成游标、读档污染后续位置或重复收尾，
+  本方案不成立。最长整步是否碰到10秒屏障先用实际主壳计时反控，不提高超时或删门掩盖失败。
+- Codex premise verified / build allowed：Root单一Owner，先合并作者正文并补真实保存/取消反控；
+  白名单s003作者flow、pal-inn-stairs-target.test、main.auto-save-flows.test、相关规范/卡/看板。
+  暂不授权schema/save版本、compiler节拍、移动算法、其它NPC或迁移供应改动。
+- 用户确认6012无草稿可更新；先验证候选，服务/页面保持打开。
+- 实测反控：合并前结构1红/17绿、主壳保存2红/1绿；正文合并后真实首段F5仍1红/35绿，
+  真实runtime-script-project.ts:480报10秒超时。楼梯中段F5及F9取消通过，不能用后者掩盖首段失败。
+- 补核实际生产runtime与基础runtime均重复绝对10秒保存期限；已有runner.onStep在通过执行gate后报告真实命令启动，
+  coordinator知道所有独立lease及显式parent，可以在内存追踪真实进展而不改变cursor/schema。
+- Codex补充premise verified / build allowed：保存watchdog改为每条活动10秒无命令进展的停滞检测；
+  同族子调用进展可以通知祖先，无关活动不得掩盖卡死活动，结束/取消清理timer，快照仍只在全部safe-point后采集。
+  白名单补充script-world.ts、script-activity-lineage.ts、script-project-core.ts、runtime-script-project.ts、
+  runtime-save-lineage.test.ts及对应coordinator/lineage测试；不提高10秒数值、不存command index、不改移动/节拍。
+  验收必须保留原真实挂起10秒拒绝反控，新增长正文正常进展、无关活动不掩盖卡死、父子链超过10秒与取消/重试反控。
+
+### 保存前提 counter 与候选撤回（2026-10-01）
+
+- 用户否定“保存等待所有 NPC 自动脚本到达步末”的机制，并明确纯走位读档从步骤开头重新执行也可接受。
+  本节以上进展 watchdog 的 build allowed 撤回；它仍等待全部活动安全点，没有解决用户指出的保存耦合。
+- Root 已精确撤回 watchdog 五个实现/测试文件的自身改动；曾有99项绿仅作被否定候选的历史测试记录，
+  不构成当前保存目标的验收。单步骤内容及诊断测试仍在隔离候选中，未更新 main 或6012。
+  当前 F5 诊断仍按旧等待语义编写，不能声称证明即时保存策略。任务转 rework，先核保存前提。
+- 直接运行流程证据：reference/sdlpal/global.h:95–113 的 EVENTOBJECT 含当前位置、自动脚本地址及等待计数；
+  global.c:863–871 直接复制整张事件对象表保存，707–716 加载恢复；play.c:172–184 每次更新写回自动脚本返回地址，
+  script.c:3515–3518 明确自动脚本逐指令推进并保留地址。第一阶段 save/api.ts:63–71 克隆当前 GameState，
+  event-system.ts:1244–1255 保留 autoCursor 并执行单条自动指令，没有等待所有自动脚本结束的保存屏障。
+  以上是 SDLPal 参考实现与第一阶段代码证据，不冒充原版 EXE 实测；原版 RPG 存储布局本身不证明运行时保存流程。
+- 当前目标底线：后台巡逻/走位不能阻塞保存，作者不为存档切分路线步骤。纯走位可从步骤开头重执行的用户取舍
+  不自动授权奖励/物品等副作用步骤重放；新保存实现与必要字段范围尚未完成前提核定，不在本次问答中开始实现。
+- 6012 服务和页面继续保持运行，未应用被否定的候选。

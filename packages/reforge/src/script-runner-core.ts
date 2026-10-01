@@ -1,5 +1,7 @@
 import type {
   AuthorCondition,
+  AutoCommandFrame,
+  AutoScriptContinuation,
   BaseStateTransition,
   EntityAddress,
   FlowCursor,
@@ -18,6 +20,7 @@ import {
   type ScriptBoundaryPolicy,
   type ScriptTiming,
 } from './script-compiler-core.js'
+import { SCRIPT_MAX_CALL_DEPTH, validateScriptContinuation } from './script-continuation.js'
 
 type BattleRequest = Extract<ExecutableBaseCommand, { kind: 'startBattle' }>['request']
 
@@ -70,8 +73,17 @@ export interface SharedScriptResolverLike<RuntimeLeafCommand> {
 export type BaseSharedScriptResolverInterface = SharedScriptResolverLike<BaseRuntimeLeafCommand>
 
 export type SafePointDecision = 'continue' | 'stop'
+export type FlowCheckpointDecision = SafePointDecision | 'wait'
 
 export interface FlowCursorController {
+  readonly checkpointEnabled?: boolean
+  checkpoint?(
+    cursor: FlowCursor,
+    resume: AutoScriptContinuation,
+    ready: boolean,
+  ): FlowCheckpointDecision
+  setCheckpointReady?(ready: boolean): FlowCheckpointDecision
+  waitForCheckpointGate?(signal: AbortSignal): Promise<void>
   /**
    * Atomically CAS-commits the persistent cursor for the activation lease and enters the
    * save barrier. `stop` means the cursor was committed (or the lease became stale) but
@@ -89,6 +101,7 @@ export type BaseScriptStepEvent = ScriptStepEventLike<BaseRuntimeLeafCommand>
 
 export interface RunBaseScriptFlowOptions {
   cursor?: FlowCursor
+  resume?: AutoScriptContinuation
   cursorController: FlowCursorController
   allowSceneEntry?: boolean
   runSceneEntry?: boolean
@@ -110,10 +123,15 @@ function assertState(states: Readonly<Record<string, unknown>>, state: string, p
 }
 
 export class ScriptRunnerCore<RuntimeLeafCommand = BaseRuntimeLeafCommand> {
-  private static readonly MAX_CALL_DEPTH = 128
+  private static readonly MAX_CALL_DEPTH = SCRIPT_MAX_CALL_DEPTH
   private static readonly MAX_SYNCHRONOUS_STATE_TRANSITIONS = 4096
   private callDepth = 0
   private self?: EntityAddress
+  private checkpointController?: FlowCursorController
+  private checkpointCursor?: FlowCursor
+  private resumeFrames: AutoCommandFrame[] = []
+  private readonly frames: AutoCommandFrame[] = []
+  private checkpointOutcomes = new Map<string, { command: 'confirm'; no: boolean }>()
   running = false
   onStep?: (event: ScriptStepEventLike<RuntimeLeafCommand>) => void
   /** Optional debugger pause at an authored command, never at an internal safe point.
@@ -138,6 +156,11 @@ export class ScriptRunnerCore<RuntimeLeafCommand = BaseRuntimeLeafCommand> {
         `ScriptRunnerCore: boundaryPolicy ${String(executable.boundaryPolicy)} 不受支持`,
       )
     throwIfAborted(this.signal)
+    if (options.resume) {
+      if (!options.cursor || !options.cursorController.checkpointEnabled)
+        throw new Error('auto resume: 缺少自动flow执行游标')
+      await this.validateContinuation(executable, options.cursor, options.resume)
+    }
     if (options.cursor?.kind === 'completed') {
       if (!flowCanComplete(executable.flow))
         throw new Error('ScriptRunnerCore: flow 未声明 complete，不能使用 completed cursor')
@@ -151,6 +174,11 @@ export class ScriptRunnerCore<RuntimeLeafCommand = BaseRuntimeLeafCommand> {
     this.runningTiming = executable.timing
     this.runningBoundaryPolicy = executable.boundaryPolicy
     this.runningDigest = executable.canonicalContentDigest
+    this.checkpointController = options.cursorController.checkpointEnabled
+      ? options.cursorController
+      : undefined
+    this.resumeFrames = structuredClone(options.resume?.frames ?? [])
+    this.checkpointOutcomes = new Map(Object.entries(options.resume?.outcomes ?? {}))
     this.running = true
     try {
       if (executable.flow.kind === 'stages') await this.runStages(executable, options)
@@ -161,7 +189,52 @@ export class ScriptRunnerCore<RuntimeLeafCommand = BaseRuntimeLeafCommand> {
       this.runningBoundaryPolicy = previousBoundaryPolicy
       this.runningDigest = previousDigest
       this.running = false
+      this.checkpointController = undefined
+      this.checkpointCursor = undefined
+      this.frames.length = 0
+      this.resumeFrames = []
     }
+  }
+
+  async validateContinuation(
+    executable: ExecutableBaseScriptFlowLike<RuntimeLeafCommand>,
+    cursor: FlowCursor,
+    resume: AutoScriptContinuation,
+  ): Promise<void> {
+    await validateScriptContinuation(executable, cursor, resume, this.resolver, this.signal)
+  }
+
+  private checkpoint(ready: boolean): boolean {
+    if (!this.checkpointController || !this.checkpointCursor) return true
+    if (this.frames.length === 0) {
+      const decision = this.checkpointController.setCheckpointReady?.(ready)
+      if (decision === 'stop') throw new ScriptStopped()
+      return decision !== 'wait'
+    }
+    const decision = this.checkpointController.checkpoint?.(
+      this.checkpointCursor,
+      {
+        digest: this.runningDigest,
+        frames: structuredClone(this.frames),
+        outcomes: Object.fromEntries(this.checkpointOutcomes),
+      },
+      ready,
+    )
+    if (decision === 'stop') throw new ScriptStopped()
+    return decision !== 'wait'
+  }
+
+  private async checkpointGate(): Promise<void> {
+    await this.checkpointController?.waitForCheckpointGate?.(this.signal)
+    throwIfAborted(this.signal)
+  }
+
+  private async beginCheckpointMutation(): Promise<void> {
+    // The async gate can open before this continuation runs. Acquire readiness atomically
+    // against a newly requested snapshot rather than beginning an effect inside its window.
+    do {
+      await this.checkpointGate()
+    } while (!this.checkpoint(false))
   }
 
   private async runStages(
@@ -180,6 +253,7 @@ export class ScriptRunnerCore<RuntimeLeafCommand = BaseRuntimeLeafCommand> {
     const stage = executable.flow.stages.find((candidate) => candidate.id === stageId)
     if (!stage) throw new Error(`ScriptRunnerCore: stage cursor 不存在 ${stageId}`)
     try {
+      this.checkpointCursor = { kind: 'stage', stage: stageId }
       await this.awaitGate()
       if (options.runSceneEntry && stage.entry) {
         if (!options.allowSceneEntry)
@@ -233,6 +307,8 @@ export class ScriptRunnerCore<RuntimeLeafCommand = BaseRuntimeLeafCommand> {
     try {
       while (true) {
         throwIfAborted(this.signal)
+        await this.checkpointGate()
+        this.checkpointCursor = { kind: 'state', machine: machine.id, state: stateId }
         await this.awaitGate(continuation)
         continuation = undefined
         const state = machine.states[stateId]
@@ -248,10 +324,17 @@ export class ScriptRunnerCore<RuntimeLeafCommand = BaseRuntimeLeafCommand> {
           await this.host.revealSceneEntry(state.entry.reveal, this.signal)
           throwIfAborted(this.signal)
         }
+        const outcomes = firstState
+          ? this.checkpointOutcomes
+          : new Map<string, { command: 'confirm'; no: boolean }>()
         firstState = false
-        const outcomes = new Map<string, { command: 'confirm'; no: boolean }>()
+        this.checkpointOutcomes = outcomes
         await this.runCommands(state.body, [machine.id, stateId], outcomes, true)
         throwIfAborted(this.signal)
+        await this.checkpointGate()
+        // Once a transition condition has been evaluated, commit its selected target before
+        // allowing a snapshot. Loading the old state's end must not redraw an already-made choice.
+        await this.beginCheckpointMutation()
         const transition = this.resolveTransition(state.next, outcomes)
         if (transition.kind === 'complete') {
           await this.awaitGate({ kind: 'settlement' })
@@ -267,6 +350,12 @@ export class ScriptRunnerCore<RuntimeLeafCommand = BaseRuntimeLeafCommand> {
                 `${ScriptRunnerCore.MAX_SYNCHRONOUS_STATE_TRANSITIONS}（state ${stateId}）`,
             )
           stateId = transition.state
+          if (this.checkpointController)
+            await options.cursorController.reachSafePoint({
+              kind: 'state',
+              machine: machine.id,
+              state: stateId,
+            })
           continue
         }
         const target =
@@ -330,15 +419,30 @@ export class ScriptRunnerCore<RuntimeLeafCommand = BaseRuntimeLeafCommand> {
     outcomes?: Map<string, { command: 'confirm'; no: boolean }>,
     recordTopLevelOutcomes = false,
   ): Promise<void> {
-    for (const [index, command] of commands.entries()) {
-      throwIfAborted(this.signal)
-      const commandPath = [...path, index]
-      if (this.beforeStep) await this.beforeStep({ path: commandPath, command })
-      await this.awaitGate()
-      this.onStep?.({ path: commandPath, command })
-      await this.runCommand(command, commandPath, outcomes, recordTopLevelOutcomes)
-      throwIfAborted(this.signal)
-      await this.runBoundaries(command.after)
+    if (this.frames.length >= 256) throw new Error('ScriptRunnerCore: 执行帧深度超过256')
+    const frame = this.resumeFrames.shift() ?? { index: 0 }
+    this.frames.push(frame)
+    try {
+      this.checkpoint(true)
+      for (let index = frame.index; index < commands.length; index++) {
+        const command = commands[index]
+        if (!command) throw new Error('ScriptRunnerCore: 指令不存在')
+        throwIfAborted(this.signal)
+        await this.checkpointGate()
+        const commandPath = [...path, index]
+        if (this.beforeStep) await this.beforeStep({ path: commandPath, command })
+        await this.awaitGate()
+        await this.beginCheckpointMutation()
+        this.onStep?.({ path: commandPath, command })
+        await this.runCommand(command, commandPath, outcomes, recordTopLevelOutcomes)
+        throwIfAborted(this.signal)
+        frame.index = index + 1
+        delete frame.control
+        this.checkpoint(true)
+        await this.runBoundaries(command.after)
+      }
+    } finally {
+      this.frames.pop()
     }
   }
 
@@ -348,8 +452,19 @@ export class ScriptRunnerCore<RuntimeLeafCommand = BaseRuntimeLeafCommand> {
     outcomes: Map<string, { command: 'confirm'; no: boolean }> | undefined,
     recordOutcome: boolean,
   ): Promise<void> {
+    const frame = this.frames.at(-1)
+    if (!frame) throw new Error('ScriptRunnerCore: 缺少执行帧')
     switch (command.kind) {
       case 'leaf':
+        // Absolute target movement can re-enter from the captured live position. A wait may
+        // restart its duration; neither repeats a committed reward or relative displacement.
+        if (
+          typeof command.command === 'object' &&
+          command.command !== null &&
+          'kind' in command.command &&
+          (command.command.kind === 'moveEntity' || command.command.kind === 'wait')
+        )
+          this.checkpoint(true)
         await this.host.execute(
           command.command,
           { self: this.self, timing: this.runningTiming },
@@ -358,40 +473,52 @@ export class ScriptRunnerCore<RuntimeLeafCommand = BaseRuntimeLeafCommand> {
         return
       case 'stop':
         throw new ScriptStopped()
-      case 'branch':
-        await this.runCommands(
-          this.host.evalCondition(command.cond, {
-            self: this.self,
-            timing: this.runningTiming,
-          })
-            ? command.then
-            : command.else,
-          [...path, 'branch'],
-          outcomes,
-        )
+      case 'branch': {
+        const arm =
+          frame.control?.kind === 'branch'
+            ? frame.control.arm
+            : this.host.evalCondition(command.cond, { self: this.self, timing: this.runningTiming })
+              ? 'then'
+              : 'else'
+        frame.control = { kind: 'branch', arm }
+        await this.runCommands(command[arm], [...path, 'branch'], outcomes)
         return
+      }
       case 'loop':
         await this.runLoopCommand(command, path, outcomes)
         return
       case 'confirm': {
-        const accepted = await this.host.confirm(this.signal)
-        if (!accepted) await this.runCommands(command.onNo, [...path, 'onNo'], outcomes)
-        if (recordOutcome && command.id)
-          outcomes?.set(command.id, { command: 'confirm', no: !accepted })
+        const no =
+          frame.control?.kind === 'confirm'
+            ? frame.control.no
+            : !(await this.host.confirm(this.signal))
+        frame.control = { kind: 'confirm', no }
+        if (recordOutcome && command.id) outcomes?.set(command.id, { command: 'confirm', no })
+        if (no) await this.runCommands(command.onNo, [...path, 'onNo'], outcomes)
         return
       }
       case 'startBattle': {
-        const result = await this.host.startBattle(command.request, this.signal)
-        if (result === 'defeat' && command.onLose)
-          await this.runCommands(command.onLose, [...path, 'onLose'], outcomes)
-        if (result === 'playerFled' && command.onFlee)
-          await this.runCommands(command.onFlee, [...path, 'onFlee'], outcomes)
+        let arm: 'onLose' | 'onFlee' | 'none'
+        if (frame.control?.kind === 'startBattle') arm = frame.control.arm
+        else {
+          const result = await this.host.startBattle(command.request, this.signal)
+          arm = result === 'defeat' ? 'onLose' : result === 'playerFled' ? 'onFlee' : 'none'
+        }
+        frame.control = { kind: 'startBattle', arm }
+        const body = arm === 'none' ? undefined : command[arm]
+        if (body) await this.runCommands(body, [...path, arm], outcomes)
         return
       }
-      case 'teleportOut':
-        if (!(await this.host.teleportOut(this.signal)) && command.onFail)
+      case 'teleportOut': {
+        const failed =
+          frame.control?.kind === 'teleportOut'
+            ? frame.control.failed
+            : !(await this.host.teleportOut(this.signal))
+        frame.control = { kind: 'teleportOut', failed }
+        if (failed && command.onFail)
           await this.runCommands(command.onFail, [...path, 'onFail'], outcomes)
         return
+      }
       case 'callScript':
         await this.callScript(command, path, outcomes)
         return
@@ -403,37 +530,34 @@ export class ScriptRunnerCore<RuntimeLeafCommand = BaseRuntimeLeafCommand> {
     path: readonly (number | string)[],
     outcomes: Map<string, { command: 'confirm'; no: boolean }> | undefined,
   ): Promise<void> {
-    let iterations = 0
-    if (command.mode === 'while') {
-      while (
-        this.host.evalCondition(command.cond, {
-          self: this.self,
-          timing: this.runningTiming,
-        })
-      ) {
-        if (iterations >= command.maxIterations)
-          throw new Error(`ScriptRunnerCore: loop 超过 maxIterations=${command.maxIterations}`)
-        iterations++
-        await this.runCommands(command.body, [...path, `iteration:${iterations}`], outcomes)
-        await this.host.waitWorldTick(this.signal)
-        throwIfAborted(this.signal)
-      }
-      return
+    const frame = this.frames.at(-1)
+    if (!frame) throw new Error('ScriptRunnerCore: 缺少loop执行帧')
+    const condition = () =>
+      this.host.evalCondition(command.cond, { self: this.self, timing: this.runningTiming })
+    let control = frame.control?.kind === 'loop' ? frame.control : undefined
+    if (!control) {
+      if (command.mode === 'while' && !condition()) return
+      control = { kind: 'loop', iteration: 1, phase: 'body' }
+      frame.control = control
     }
     while (true) {
-      if (iterations >= command.maxIterations)
-        throw new Error(`ScriptRunnerCore: loop 超过 maxIterations=${command.maxIterations}`)
-      iterations++
-      await this.runCommands(command.body, [...path, `iteration:${iterations}`], outcomes)
-      if (
-        this.host.evalCondition(command.cond, {
-          self: this.self,
-          timing: this.runningTiming,
-        })
-      )
-        return
+      if (control.phase === 'body') {
+        await this.runCommands(command.body, [...path, `iteration:${control.iteration}`], outcomes)
+        control.phase = 'test'
+      }
+      if (control.phase === 'test') {
+        if (command.mode === 'until' && condition()) return
+        control.phase = 'next'
+      }
+      this.checkpoint(true)
       await this.host.waitWorldTick(this.signal)
       throwIfAborted(this.signal)
+      await this.checkpointGate()
+      if (command.mode === 'while' && !condition()) return
+      if (control.iteration >= command.maxIterations)
+        throw new Error(`ScriptRunnerCore: loop 超过 maxIterations=${command.maxIterations}`)
+      control.iteration++
+      control.phase = 'body'
     }
   }
 

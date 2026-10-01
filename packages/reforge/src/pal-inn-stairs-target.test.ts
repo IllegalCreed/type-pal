@@ -42,13 +42,13 @@ test.each([
   expect(entity.behaviors?.[channel]?.[behavior]?.label).toBe(label)
 })
 
-test('the actual aunt route uses six physical target legs, safe points and explicit completion', async () => {
+test('one activation runs the actual aunt route as one step with six target commands and explicit completion', async () => {
   const scene = validateAuthorScenes([structuredClone(inn)])[0]!
   const aunt = scene.entities.find((entity) => entity.id === target.entity)!
   const source = aunt.behaviors!.auto!['legacy-006']!.flow
   expect(source.kind).toBe('stages')
   if (source.kind !== 'stages') throw new Error('expected authored target route')
-  expect(source.stages).toHaveLength(6)
+  expect(source.stages).toHaveLength(1)
   expect(source.stages.every((stage) => stage.body.length > 0)).toBe(true)
   expect(
     source.stages
@@ -115,28 +115,20 @@ test('the actual aunt route uses six physical target legs, safe points and expli
     canonicalContentDigest: 'a'.repeat(64),
     timing: 'auto',
   })
-  for (let activation = 0; activation < 6; activation++) {
-    const stage = source.stages[activation]!
-    expect(cursor).toEqual({ kind: 'stage', stage: stage.id })
-    await new RuntimeScriptRunner(host, new AbortController().signal).runFlow(executable, {
-      self: target,
-      cursor,
-      cursorController: {
-        reachSafePoint(next) {
-          cursor = next
-          safePoints.push(structuredClone(next))
-          return 'continue'
-        },
+  await new RuntimeScriptRunner(host, new AbortController().signal).runFlow(executable, {
+    self: target,
+    cursor,
+    cursorController: {
+      reachSafePoint(next) {
+        cursor = next
+        safePoints.push(structuredClone(next))
+        return 'continue'
       },
-    })
-    expect(position).toEqual({
-      col: endpoints[activation]![0],
-      row: endpoints[activation]![1],
-      height: 0,
-    })
-  }
+    },
+  })
+  expect(position).toEqual({ col: 137, row: 66, height: 0 })
   expect(committed).toEqual(endpoints)
-  expect(safePoints).toHaveLength(6)
+  expect(safePoints).toEqual([{ kind: 'completed' }])
   expect(cursor).toEqual({ kind: 'completed' })
   expect(events).toEqual([
     'disabled',

@@ -82,7 +82,7 @@ const manifest = {
   ],
   content: {},
   assets: { catalog: 'assets/index.json', roles: {} },
-  minimumSaveVersion: 9,
+  minimumSaveVersion: 10,
 } as unknown as CurrentManifest
 const noEntryManifest = { ...manifest, entryPoints: [] } as unknown as CurrentManifest
 

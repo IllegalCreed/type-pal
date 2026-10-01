@@ -176,7 +176,7 @@ export function validateKitchenPredecessor(report, payload, engine, bytes) {
     assert.equal(gs.allEventObjects.find((e) => e.id === 20)?.sState, 0, 'food prematurely active')
     assert.equal(gs.PlayerRolesRuntime.rgwSpriteNum[0], 2)
   } else {
-    assert.equal(payload.version, 9)
+    assert.equal(payload.version, 10)
     assert.equal(payload.contentVersion, 21)
     assert.equal(payload.projectId, 'pal')
     assert.equal(payload.position.sceneId, 's003')
@@ -394,7 +394,7 @@ export function assertKitchenEndPayload(payload, engine, predecessor, contract) 
     for (const id of [59, 60, 61]) assert.equal(get(id).sState, 0)
     for (const id of [24, 25, 26]) assert.equal(get(id).sState, 2)
   } else {
-    assert.equal(payload.version, 9)
+    assert.equal(payload.version, 10)
     assert.equal(payload.contentVersion, 21)
     assert.equal(payload.position.sceneId, 's001')
     const world = payload.world

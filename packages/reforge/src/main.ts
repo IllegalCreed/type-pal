@@ -4532,7 +4532,18 @@ export async function bootGame(
       pos: structuredClone(player.pos),
       facing,
     }
-    return buildCurrentSavePayload(currentWorldSnapshot(), position, inputProject.manifest.id)
+    const captured = currentWorldSnapshot()
+    // Canonical movement endpoints do not represent an in-flight pose. Capture the actual
+    // scene at this synchronous boundary, without mutating live world or waiting for arrival.
+    if (activeScene.scene.entities.length > 0) {
+      captured.script ??= emptyWorldScriptState()
+      captured.script.entityPos ??= {}
+      const positions = captured.script.entityPos[activeScene.scene.id] ?? {}
+      captured.script.entityPos[activeScene.scene.id] = positions
+      for (const entity of activeScene.scene.entities)
+        positions[entity.id] = structuredClone(entity.pos)
+    }
+    return buildCurrentSavePayload(captured, position, inputProject.manifest.id)
   }
 
   /** 槽保存与DEV检查点共用同一安全快照队列；存储/缩略图I/O不持有barrier。 */
@@ -4630,7 +4641,12 @@ export async function bootGame(
       manifest: inputProject.manifest,
       payload: raw,
     })
-    return normalizeCurrentSave(raw, resolver, await getLifecycleReferences())
+    const normalized = normalizeCurrentSave(raw, resolver, await getLifecycleReferences())
+    await expectDefined(scriptRuntime).validateAutomaticContinuations(
+      normalized.world,
+      _signal ?? new AbortController().signal,
+    )
+    return normalized
   }
 
   /** 已归一化 payload 的统一恢复事务；槽读档与 E2E 文件恢复必须共路。 */

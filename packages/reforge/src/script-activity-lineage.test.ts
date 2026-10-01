@@ -217,7 +217,7 @@ describe('nested persistent leases preserve save and owner boundaries', () => {
     })
     parent.close()
     expect(await child.reachSafePoint(cursor)).toBe('continue')
-    expect(commit).toHaveBeenCalledWith(cursor)
+    expect(commit).toHaveBeenCalledWith(cursor, undefined)
     child.close()
     expect(await grandchild.reachSafePoint(cursor)).toBe('continue')
     expect(ready).toBe(false)

@@ -15,6 +15,7 @@ import ts from 'typescript'
 import { describe, expect, test } from 'vitest'
 // 生产 BDF 字形源（与 ENGINE_CHROME.fontBdf 同一文件），?raw 在 vitest/Vite 下同步可用。
 import bdfSource from '../../../../data/raw/unifont-cn.bdf?raw'
+import { digest, hostOptions } from '../__tests__/world-async-fixture.js'
 import { ActiveScene } from '../active-scene.js'
 import { clearRestoredWorldActorConditions } from '../actor-condition-lifecycle.js'
 import { AsyncIntentController, asyncIntentAbortError } from '../async-intent.js'
@@ -31,6 +32,7 @@ import {
   refreshSceneViewBindings,
   runtimeSceneView,
 } from '../runtime-project-view.js'
+import { ScriptProjectRuntime } from '../runtime-script-project.js'
 import { ScenePreparer } from '../scene-preparer.js'
 import {
   assertSceneSwitchDependenciesCurrent,
@@ -156,7 +158,7 @@ const makeWorld = () =>
   content.buildWorld({ party: ['hero'], money: 100, inventory: [] }, { hero: actor })
 type Payload = ReturnType<typeof makePayload>
 const makePayload = () => ({
-  version: 9 as const,
+  version: 10 as const,
   contentVersion: 21 as const,
   projectId: 'audit',
   world: makeWorld(),
@@ -181,7 +183,7 @@ function harness(
   ;(world.script as { flags: Record<string, unknown> }).flags.live = true
   const canonicalScript = world.script
   const project = {
-    manifest: { id: 'audit', name: 'audit', contentVersion: 21, minimumSaveVersion: 9 },
+    manifest: { id: 'audit', name: 'audit', contentVersion: 21, minimumSaveVersion: 10 },
     actorsById: { hero: actor },
     spritesById: { 'sprite.hero': { id: 'sprite.hero', asset: 'sprite.asset' } },
     items: {},
@@ -224,6 +226,12 @@ function harness(
     canonicalProject: project,
     world,
     canonicalScript,
+    scriptRuntime: new ScriptProjectRuntime(
+      { sharedScripts: {} },
+      world,
+      digest,
+      hostOptions(sceneDef('live-scene')),
+    ),
     activeScene,
     get scene() {
       return activeScene.scene

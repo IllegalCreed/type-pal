@@ -85,7 +85,7 @@ export function validatePredecessor(report, payload, engine, bytes) {
     assert.equal(payload.gs.dwCash, 0)
     assert.deepEqual(payload.gs.partyMembers, [0])
   } else {
-    assert.equal(payload.version, 9)
+    assert.equal(payload.version, 10)
     assert.equal(payload.contentVersion, 21)
     assert.equal(payload.projectId, 'pal')
     assert.deepEqual(payload.position, {
@@ -145,7 +145,7 @@ export function assertInnHandoffPayload(payload, engine) {
       assert.equal(e.triggerResume, undefined, `kitchen actor e${id} already executed`)
     }
   } else {
-    assert.equal(payload.version, 9)
+    assert.equal(payload.version, 10)
     assert.equal(payload.contentVersion, 21)
     assert.equal(payload.projectId, 'pal')
     assert.equal(payload.position.sceneId, 's003', '002 handoff is not in the inn hall')
@@ -256,6 +256,10 @@ export async function readInnContract(root = repoRoot) {
     'packages/reforge/src/runtime-script-project.ts',
     'packages/reforge/src/script-world.ts',
     'packages/reforge/src/script-runner-core.ts',
+    'packages/reforge/src/script-continuation.ts',
+    'packages/reforge/src/save/types.ts',
+    'packages/content/src/author-script-core.ts',
+    'packages/content/src/character.ts',
     'packages/reforge/src/script-project-core.ts',
     'packages/reforge/src/motion-runtime-wiring.ts',
     'packages/reforge/src/motion-runtime-coordinator.ts',

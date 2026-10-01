@@ -19,7 +19,7 @@ function state(): EditorState {
       id: 'refs',
       name: 'refs',
       contentVersion: 21,
-      minimumSaveVersion: 9,
+      minimumSaveVersion: 10,
       defaultEntryId: 'main',
       content: {},
       assets: { catalog: 'assets/index.json', roles: {} },

@@ -32,7 +32,7 @@ test('actual DEV zero-argument export survives JSON and the current codec/restor
   expect(exported).toBeInstanceOf(Promise)
   const result = JSON.parse(JSON.stringify(await exported))
   expect(result).toMatchObject({
-    version: 9,
+    version: 10,
     contentVersion: 21,
     projectId: 'checkpoint',
     world: { money: 10, party: [{ template: 'hero' }], audio: { currentMusic: null } },
@@ -42,7 +42,10 @@ test('actual DEV zero-argument export survives JSON and the current codec/restor
   expect(h.capture).toHaveBeenCalledTimes(1)
   const normalized = await h.api.normalizeStoredPayload(result, 'checkpoint')
   expect(normalized.world.money).toBe(10)
-  expect(normalized.world.script).toEqual(before.script)
+  expect(normalized.world.script).toEqual({
+    ...before.script,
+    entityPos: { target: { entity: { col: 1, row: 1, height: 0 } } },
+  })
   h.world.money = 99
   h.world.script!.flags.saved = false
   h.env.player.pos.col = 99

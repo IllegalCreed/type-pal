@@ -1,6 +1,6 @@
 # 编辑器架构与工作台合同
 
-类型：现行规范（current）。当前产品为 contentVersion 21 / SAVE9；格式与实现以源码常量和校验器为准。
+类型：现行规范（current）。当前产品为 contentVersion 21 / SAVE10；格式与实现以源码常量和校验器为准。
 本页维护已确认合同，已知实现缺陷继续由 [代码审计](../../ops/audits/pre-e2e/summary.md) 跟踪。
 原设计、旧版本与当时审查完整保留在 [历史快照](../archive/designs/editor-design.md)，不作为当前执行入口。
 
@@ -220,7 +220,7 @@ URL 使用 `domain=battle&view=definition|asset&object=<id>`，诊断和消费�
 - 地图正文保持懒加载，不塞回 Worker。session 级 map/stamp facts 生成带 path/revision/generation/coverage 的
   edge batch；partial、failure、迟到读取和在途 hydrate 均不能授权删除。Tileset/Stamp 的领域 proof 继续
   额外约束 bytes/SHA/definition/frame/placement，并在 apply/redo 同步复核。
-- 引用索引是当前 revision 的非持久化派生物，不写 graph 文件、不改 content21/SAVE9，也不保留旧版本 fallback。
+- 引用索引是当前 revision 的非持久化派生物，不写 graph 文件、不改 content21/SAVE10，也不保留旧版本 fallback。
   场景生命周期已由 ED-SCENE-LIFECYCLE-1 收口，商店 ED-SHOP-LIFECYCLE-1 三方终审、720宽补验与用户验收通过并收口；页面继续共用
   collector/locator/policy。
 - 场景生命周期使用 `SceneIndexV1`：目录和所有场景选择器显示 `name + SceneId`，Scene Inspector 复用
@@ -238,7 +238,7 @@ URL 使用 `domain=battle&view=definition|asset&object=<id>`，诊断和消费�
   冷复核current main+script作者态。sell的历史shop值不形成引用；不级联修改脚本或物品。
 - PAL重迁沿用原有按id三方合并和纯theirs baseline。固定1..20/29buy/6sell/源Store0边界校验只约束生成种子；
   作者target按当前ShopDef结构和真实buy/货单物品引用校验，合法id0、增删店/指令与空表不再被固定census拒绝。
-  item268/270原保护保持独立；content21/SAVE9不变。
+  item268/270原保护保持独立；content21/SAVE10不变。
 - 独立试买沿同源play页加载已保存项目；有任何未保存作者改动时禁止开始并显示原因。公共弹窗用
   `DsFieldGroup + DsReadoutList + DsNumberField` 配置一次性金钱；正式`openShopUi/shopInput/shopBuy/drawShop`
   处理菜单、确认与结算，启动早分支不建立世界/SaveStore、不跑剧情。320×200菜单按可用窗口取1..4整数倍率；

@@ -44,7 +44,7 @@ function state(): EditorState {
       id: 'test',
       name: '测试项目',
       contentVersion: 21,
-      minimumSaveVersion: 9,
+      minimumSaveVersion: 10,
       defaultEntryId: 'main',
       content: {},
       entryPoints: [

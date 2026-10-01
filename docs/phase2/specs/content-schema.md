@@ -1,6 +1,6 @@
 # 内容工程当前格式
 
-类型：现行规范（current）。当前产品为 contentVersion 21 / SAVE9；格式与实现以源码常量和校验器为准。
+类型：现行规范（current）。当前产品为 contentVersion 21 / SAVE10；格式与实现以源码常量和校验器为准。
 本页维护已确认合同，已知实现缺陷继续由 [代码审计](../../ops/audits/pre-e2e/summary.md) 跟踪。
 原设计、旧版本与当时审查完整保留在 [历史快照](../archive/designs/content-schema.md)，不作为当前执行入口。
 

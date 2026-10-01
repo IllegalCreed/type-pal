@@ -76,7 +76,7 @@ function editorState(): EditorState {
       id: 'scene-lifecycle',
       name: '场景生命周期',
       contentVersion: 21,
-      minimumSaveVersion: 9,
+      minimumSaveVersion: 10,
       defaultEntryId: 'main',
       entryPoints: [
         {

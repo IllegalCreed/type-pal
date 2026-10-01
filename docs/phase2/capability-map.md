@@ -1,8 +1,9 @@
 # 能力地图（Capability Map）— 第二阶段的进度真值表
 
 > **这是一份活文档。** 每做完一格、发现一格、改一格判据,都要更新它。它取代旧的 roadmap §8「复刻覆盖矩阵」当「第二阶段做到哪了」的真值。
-> **最近对账：2026-09-05。** 当前唯一格式为 content20 / SAVE8；入口、角色当前状态与 current-only
-> 架构均已完成三方审查和用户验收。旧类型、upgrader、sidecar、产品版本分支与 extracted runtime
+> **最近全表对账：2026-09-05；存档合同更新：2026-10-01。** 当前候选唯一格式为 content21 / SAVE10；
+> 后台自动续跑快照正在 [SAVE-AUTO-CHECKPOINT-1](../ops/tasks/SAVE-AUTO-CHECKPOINT-1-background-script-snapshots.md) 验证，未宣布验收。
+> 入口、角色当前状态与 current-only 架构此前已完成三方审查和用户验收。旧类型、upgrader、sidecar、产品版本分支与 extracted runtime
 > fallback 保持删除；PAL catalog 为 1,934 条，含 56 个 effect sprite。X4/A7 已随
 > `ARCH-CURRENT-ONLY-1` 收口为 ✅。本轮对账见
 > [OPS-MAP-3](../ops/archive/tasks/done/OPS-MAP-3-current-truth-reconciliation.md)；历史批次见各任务卡和资源闭包审计。
@@ -129,7 +130,7 @@
 | 格 | 名字 | 引擎 | 编辑器 | 原版考题 | 备注 |
 |---|---|---|---|---|---|
 | X0 | 主菜单四项 | ✅ | — | 状态/装备/术/系统 | done;引擎 UI |
-| X1 | **存档/读档+状态快照** | ✅ | — | 存档 | 完整流程实测(quick/manual 30 槽/位置+world 快照/同场景实体复位/跨刷新持久)。当前唯一格式为 **SAVE 8 / contentVersion 20 / minimumSaveVersion 8**；loader 与 codec 直接验证 canonical current。角色临时毒/状态/毒抗在 restore 时对 party+reserve 全清且不重播入口 seed，战后则只解到 severe，两条边界独立。正式上线前不保留 SAVE1..7/content1..19 的 upgrader、sidecar、fixture 或产品入口，历史由 Git 保存。 |
+| X1 | **存档/读档+状态快照** | ✅ | — | 存档 | 已验收基础流程(quick/manual 30 槽/位置+world 快照/同场景实体复位/跨刷新持久)。当前候选唯一合同为 **SAVE 10 / contentVersion 21 / minimumSaveVersion 10**；后台自动指令续跑的新增验证见 SAVE-AUTO-CHECKPOINT-1，不以基础格状态冒充本轮验收。loader 与 codec 直接验证 canonical current。角色临时毒/状态/毒抗在 restore 时对 party+reserve 全清且不重播入口 seed，战后则只解到 severe，两条边界独立。旧格式不留 upgrader、sidecar 或产品版本分支，历史由 Git 保存。 |
 | X2 | 音频(BGM/SFX) | ✅ | ✅ | 场景音乐 | **done（A7-0/A7-0A + A7-1，2026-07-18）**：MIDI、soundfont 与 SFX 均为稳定 AssetId 和工程资产，运行与编辑试听只经 AssetResolver/FileSource；标题菜单曲、战斗提示音、角色/敌人/技能/召唤音效全部数据化。编辑器支持音乐/音效导入、替换、改名、试听、选择、引用保护删除、保存重开与旧工程一次性升级；数字文件名、应用根 soundfont、`legacy.sounds` 和运行时音效字面量已退役。边界:X2=音频基建与资源生命周期，W5=场景侧引用与切换；未实现的战斗表现事件继续记 B5，不反向降级 X2 |
 | X3 | 标题/流程/结局 | ✅ | — | 新游戏/通关 | 主菜单标题屏(FBP2 底图 + entryPoints 竖排)+「新的故事」新游戏流 +「旧的回忆」读档(→存档浏览→doLoad 跳开场)；**X3-1 done(2026-07-15)**：场景入场呈现事务(Prepare→Reveal→Body 显式元数据、SceneEntrySession 生命周期、编辑器三区编辑)；**结局流 done（R2，2026-07-14）**：原版 0xA0 迁为作者可编辑的 `quitToTitle(videos[])`，PAL s281 播 `video.pal.004/005/006` 后回 `?menu`，双路径 E2E、三方审查与用户验收完成。持续通关回归归 Q1 全流程 E2E，不另开 X3 产品卡。开局数据侧见 X7 |
 | X4 | 资源管线(RGBA 化) | ✅ | — | — | **done（ARCH-CURRENT-ONLY-1）**：当前实现为 catalog-only；PAL 1,934 条资产记录，56 个 effect sprite（652,870 B / 922 帧）由 migrate 确定性物化；editor/reforge 不读取 extracted、`assets.legacy` 或目录 fallback，旧版本兼容层已删除。 |

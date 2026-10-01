@@ -86,9 +86,9 @@ test('future declared rows and typing pages cannot fake a displayed story anchor
   assert.throws(() => assertReforgeOpening({ ...proof, videos: [] }, '/intro'), /video/)
 })
 test('checkpoint comparison is read-only and only normalizes explicitly optional/transient fields', () => {
-  // This is the comparison DTO, not a fixture claiming to pass the production SAVE9 structural guard.
+  // This is the comparison DTO, not a fixture claiming to pass the production SAVE10 structural guard.
   const save = {
-    version: 9,
+    version: 10,
     contentVersion: 21,
     projectId: 'pal',
     position: { sceneId: 's001' },

@@ -33,7 +33,7 @@ const legacyState = (): EditorState =>
     manifest: {
       id: 'test',
       contentVersion: 21,
-      minimumSaveVersion: 9,
+      minimumSaveVersion: 10,
       defaultEntryId: 'main',
       content: {},
       assets: { catalog: 'assets/index.json', roles: {} },

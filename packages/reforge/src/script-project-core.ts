@@ -427,11 +427,13 @@ export class BaseScriptProjectRuntime {
             }),
             {
               cursor: active.cursor,
+              ...(active.resume ? { resume: active.resume } : {}),
               cursorController: active.lease,
               self: target,
             },
           ),
       )
+      active.lease.discardContinuation()
       return true
     } finally {
       active.lease.close()

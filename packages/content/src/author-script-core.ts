@@ -49,6 +49,27 @@ export interface CursorHandoff {
 export interface BehaviorCursor {
   behavior: BehaviorId
   at: FlowCursor
+  /** Engine-only continuation within an automatic flow; not an authored step/state. */
+  resume?: AutoScriptContinuation
+}
+
+export type AutoCommandControl =
+  | { kind: 'branch'; arm: 'then' | 'else' }
+  | { kind: 'loop'; iteration: number; phase: 'body' | 'test' | 'next' }
+  | { kind: 'confirm'; no: boolean }
+  | { kind: 'startBattle'; arm: 'onLose' | 'onFlee' | 'none' }
+  | { kind: 'teleportOut'; failed: boolean }
+
+export interface AutoCommandFrame {
+  /** Execution ordinal in the exact content digest, never an entity/behavior identity. */
+  index: number
+  control?: AutoCommandControl
+}
+
+export interface AutoScriptContinuation {
+  digest: string
+  frames: AutoCommandFrame[]
+  outcomes: Record<string, { command: 'confirm'; no: boolean }>
 }
 
 export interface ActiveBehaviorSlot {
@@ -1203,7 +1224,62 @@ function checkPersistedSelection(
   checkValue(selection.value, `${path}.value`)
 }
 
-function checkWorldEntityBehaviorSlot(value: unknown, path: string): void {
+export function checkAutoScriptContinuation(value: unknown, path = 'resume'): void {
+  const resume = record(value, path)
+  exactKeys(resume, ['digest', 'frames', 'outcomes'], path)
+  if (typeof resume.digest !== 'string' || !/^[a-f0-9]{64}$/.test(resume.digest))
+    throw new Error(`${path}.digest: 期望小写 SHA-256`)
+  if (!Array.isArray(resume.frames) || resume.frames.length === 0 || resume.frames.length > 256)
+    throw new Error(`${path}.frames: 期望1..256个执行帧`)
+  for (let i = 0; i < resume.frames.length; i++) {
+    const p = `${path}.frames[${i}]`
+    const frame = record(resume.frames[i], p)
+    exactKeys(frame, ['index', 'control'], p)
+    if (!Number.isSafeInteger(frame.index) || Number(frame.index) < 0)
+      throw new Error(`${p}.index: 期望非负安全整数`)
+    if (frame.control === undefined) continue
+    const control = record(frame.control, `${p}.control`)
+    const cp = `${p}.control`
+    switch (control.kind) {
+      case 'branch':
+        exactKeys(control, ['kind', 'arm'], cp)
+        if (control.arm !== 'then' && control.arm !== 'else') throw new Error(`${cp}.arm: 非法分支`)
+        break
+      case 'loop':
+        exactKeys(control, ['kind', 'iteration', 'phase'], cp)
+        if (!Number.isSafeInteger(control.iteration) || Number(control.iteration) < 1)
+          throw new Error(`${cp}.iteration: 期望正安全整数`)
+        if (control.phase !== 'body' && control.phase !== 'test' && control.phase !== 'next')
+          throw new Error(`${cp}.phase: 非法循环相位`)
+        break
+      case 'confirm':
+        exactKeys(control, ['kind', 'no'], cp)
+        if (typeof control.no !== 'boolean') throw new Error(`${cp}.no: 期望boolean`)
+        break
+      case 'startBattle':
+        exactKeys(control, ['kind', 'arm'], cp)
+        if (control.arm !== 'onLose' && control.arm !== 'onFlee' && control.arm !== 'none')
+          throw new Error(`${cp}.arm: 非法战斗结果分支`)
+        break
+      case 'teleportOut':
+        exactKeys(control, ['kind', 'failed'], cp)
+        if (typeof control.failed !== 'boolean') throw new Error(`${cp}.failed: 期望boolean`)
+        break
+      default:
+        throw new Error(`${cp}.kind: 非法控制帧`)
+    }
+  }
+  const outcomes = record(resume.outcomes, `${path}.outcomes`)
+  for (const [id, raw] of Object.entries(outcomes)) {
+    nonEmptyString(id, `${path}.outcomes id`)
+    const outcome = record(raw, `${path}.outcomes.${id}`)
+    exactKeys(outcome, ['command', 'no'], `${path}.outcomes.${id}`)
+    if (outcome.command !== 'confirm' || typeof outcome.no !== 'boolean')
+      throw new Error(`${path}.outcomes.${id}: 期望confirm结果`)
+  }
+}
+
+function checkWorldEntityBehaviorSlot(value: unknown, path: string, allowResume: boolean): void {
   const slot = record(value, path)
   exactKeys(slot, ['selection', 'cursor'], path)
   if (slot.selection !== undefined)
@@ -1212,9 +1288,14 @@ function checkWorldEntityBehaviorSlot(value: unknown, path: string): void {
     })
   if (slot.cursor !== undefined) {
     const cursor = record(slot.cursor, `${path}.cursor`)
-    exactKeys(cursor, ['behavior', 'at'], `${path}.cursor`)
+    exactKeys(cursor, ['behavior', 'at', ...(allowResume ? ['resume'] : [])], `${path}.cursor`)
     nonEmptyString(cursor.behavior, `${path}.cursor.behavior`)
     checkFlowCursor(cursor.at, `${path}.cursor.at`)
+    if (cursor.resume !== undefined) {
+      if (record(cursor.at, `${path}.cursor.at`).kind === 'completed')
+        throw new Error(`${path}.cursor.resume: completed不能有续跑帧`)
+      checkAutoScriptContinuation(cursor.resume, `${path}.cursor.resume`)
+    }
   }
 }
 
@@ -1250,7 +1331,7 @@ function checkNestedNumberRecord(
 }
 
 /**
- * SAVE9 的脚本世界态严格 guard。静态 inherit 不落盘；持久层只记录显式 disabled/use，
+ * SAVE10 的脚本世界态严格 guard。静态 inherit 不落盘；持久层只记录显式 disabled/use，
  * cursor 始终携带所属 behavior/hook，避免换槽后把旧位置串到新 flow。
  */
 export function checkWorldScriptState(
@@ -1314,7 +1395,11 @@ export function checkWorldScriptState(
         if (entity.page !== undefined) nonEmptyString(entity.page, `${entityPath}.page`)
         for (const channel of ['trigger', 'auto'] as const)
           if (entity[channel] !== undefined)
-            checkWorldEntityBehaviorSlot(entity[channel], `${entityPath}.${channel}`)
+            checkWorldEntityBehaviorSlot(
+              entity[channel],
+              `${entityPath}.${channel}`,
+              channel === 'auto',
+            )
         if (entity.triggerActivation !== undefined)
           checkPersistedSelection(
             entity.triggerActivation,

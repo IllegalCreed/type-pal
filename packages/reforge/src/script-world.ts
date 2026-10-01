@@ -1,6 +1,7 @@
 import type {
   ActiveBehaviorSlot,
   AuthorCondition,
+  AutoScriptContinuation,
   BaseEntityBehavior,
   BaseEntityPage,
   BaseSceneDef,
@@ -20,7 +21,11 @@ import type {
   WorldScriptState,
 } from '@type-pal/content'
 import { flowCanComplete } from '@type-pal/content'
-import type { FlowCursorController, SafePointDecision } from './script-runner-core.js'
+import type {
+  FlowCheckpointDecision,
+  FlowCursorController,
+  SafePointDecision,
+} from './script-runner-core.js'
 
 export type PersistentFlowOwner =
   | {
@@ -38,6 +43,7 @@ export interface ResolvedEntityBehavior {
   behaviorId: BehaviorId
   behavior: BaseEntityBehavior
   cursor: FlowCursor
+  resume?: AutoScriptContinuation
 }
 
 export interface ResolvedSceneHook {
@@ -209,7 +215,12 @@ export function resolveEntityBehavior(
   const saved = state?.[channel]?.cursor
   const cursor = saved?.behavior === behaviorId ? clone(saved.at) : initialFlowCursor(behavior.flow)
   assertFlowCursor(behavior.flow, cursor)
-  return { behaviorId, behavior, cursor }
+  return {
+    behaviorId,
+    behavior,
+    cursor,
+    ...(saved?.behavior === behaviorId && saved.resume ? { resume: clone(saved.resume) } : {}),
+  }
 }
 
 export function resolveEntityTriggerActivation(
@@ -446,13 +457,15 @@ export function selectBaseSceneHooks(
 
 export class FlowActivationLease implements FlowCursorController {
   private active = true
+  private lastCursor?: FlowCursor
 
   constructor(
     private readonly coordinator: FlowRuntimeCoordinator,
     private readonly key: string,
     private readonly epoch: number,
-    private readonly commit: (cursor: FlowCursor) => void,
+    private readonly commit: (cursor: FlowCursor, resume?: AutoScriptContinuation) => void,
     private readonly nested = false,
+    readonly checkpointEnabled = false,
   ) {}
 
   async reachSafePoint(cursor: FlowCursor): Promise<SafePointDecision> {
@@ -463,6 +476,11 @@ export class FlowActivationLease implements FlowCursorController {
       return 'stop'
     }
     this.commit(clone(cursor))
+    this.lastCursor = clone(cursor)
+    if (this.checkpointEnabled) {
+      this.coordinator.markSnapshotReady(this, true)
+      return 'continue'
+    }
     // Nested invocations finish the caller's command rather than return an intermediate
     // save stop as success. Their own lease remains active until normal return.
     if (this.coordinator.gateClosed() && !this.nested) {
@@ -471,6 +489,44 @@ export class FlowActivationLease implements FlowCursorController {
       return 'stop'
     }
     return 'continue'
+  }
+
+  checkpoint(
+    cursor: FlowCursor,
+    resume: AutoScriptContinuation,
+    ready: boolean,
+  ): FlowCheckpointDecision {
+    if (!this.active || this.coordinator.epochForKey(this.key) !== this.epoch) return 'stop'
+    if (!ready && this.coordinator.gateClosed()) return 'wait'
+    this.commit(clone(cursor), clone(resume))
+    this.lastCursor = clone(cursor)
+    this.coordinator.markSnapshotReady(this, ready)
+    return 'continue'
+  }
+
+  async waitForCheckpointGate(signal: AbortSignal): Promise<void> {
+    await this.coordinator.waitForActivationGate(signal)
+  }
+
+  setCheckpointReady(ready: boolean): FlowCheckpointDecision {
+    if (!this.active || this.coordinator.epochForKey(this.key) !== this.epoch) return 'stop'
+    if (!ready && this.coordinator.gateClosed()) return 'wait'
+    this.coordinator.markSnapshotReady(this, ready)
+    return 'continue'
+  }
+
+  /** Normal activation return (including stopScript) starts the next activation normally.
+   * Cancellation retains a continuation; a superseded epoch must never overwrite the new slot.
+   */
+  discardContinuation(): void {
+    if (
+      this.checkpointEnabled &&
+      this.active &&
+      this.lastCursor &&
+      this.lastCursor.kind !== 'completed' &&
+      this.coordinator.epochForKey(this.key) === this.epoch
+    )
+      this.commit(clone(this.lastCursor))
   }
 
   close(): void {
@@ -522,6 +578,7 @@ export class FlowRuntimeCoordinator {
   private readonly epochs = new Map<string, number>()
   private readonly active = new Map<string, FlowLease>()
   private readonly leaseKeys = new WeakMap<FlowLease, string>()
+  private readonly snapshotReady = new WeakSet<FlowLease>()
   private nextActivityId = 1
   private pending?: PendingBarrier
 
@@ -540,7 +597,7 @@ export class FlowRuntimeCoordinator {
 
   begin(
     owner: PersistentFlowOwner,
-    commit: (cursor: FlowCursor) => void,
+    commit: (cursor: FlowCursor, resume?: AutoScriptContinuation) => void,
     parent?: FlowLease,
   ): FlowActivationLease | undefined {
     if (parent && !this.hasActiveLease(parent))
@@ -552,14 +609,18 @@ export class FlowRuntimeCoordinator {
       this,
       key,
       this.epochForKey(key),
-      (cursor) => {
-        commit(cursor)
+      (cursor, resume) => {
+        commit(cursor, resume)
         if (cursor.kind === 'completed') this.flowCompleted?.(clone(owner))
       },
       !!parent,
+      !parent && owner.kind === 'entity-behavior' && owner.channel === 'auto',
     )
     this.leaseKeys.set(lease, key)
     this.active.set(key, lease)
+    // No command has begun yet: a gameplay/modal gate may suspend this activation indefinitely.
+    // The existing saved cursor (or canonical initial cursor) is already a valid snapshot.
+    if (lease.checkpointEnabled) this.snapshotReady.add(lease)
     return lease
   }
 
@@ -648,13 +709,14 @@ export class FlowRuntimeCoordinator {
     if (!resolved || resolved.cursor.kind === 'completed') return
     const lease = this.begin(
       entityOwner(target, channel),
-      (cursor) => {
+      (cursor, resume) => {
         assertFlowCursor(resolved.behavior.flow, cursor)
         const state = clone(entityWorldState(world, target) ?? {})
         const slot: ActiveBehaviorSlot = clone(state[channel] ?? {})
         slot.cursor = {
           behavior: resolved.behaviorId,
           at: clone(cursor),
+          ...(resume ? { resume: clone(resume) } : {}),
         }
         state[channel] = slot
         writeEntityWorldState(world, target, state)
@@ -708,8 +770,15 @@ export class FlowRuntimeCoordinator {
     this.resolveBarrierIfReady()
   }
 
+  markSnapshotReady(lease: FlowLease, ready: boolean): void {
+    if (ready) this.snapshotReady.add(lease)
+    else this.snapshotReady.delete(lease)
+    this.resolveBarrierIfReady()
+  }
+
   private resolveBarrierIfReady(): void {
-    if (!this.pending || this.pending.ready || this.active.size > 0) return
+    if (!this.pending || this.pending.ready) return
+    for (const lease of this.active.values()) if (!this.snapshotReady.has(lease)) return
     this.pending.ready = true
     this.pending.resolve()
   }

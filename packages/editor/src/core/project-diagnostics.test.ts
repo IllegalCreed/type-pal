@@ -76,7 +76,7 @@ function state(overrides: Partial<EditorState> = {}): EditorState & { manifest: 
     id: 'test',
     name: 'Test',
     contentVersion: 21,
-    minimumSaveVersion: 9,
+    minimumSaveVersion: 10,
     defaultEntryId: 'new-game',
     content: {
       maps: 'content/maps/index.json',
@@ -1221,7 +1221,7 @@ describe('X7 项目诊断与保存门', () => {
       manifest: {
         ...legacy.manifest,
         contentVersion: 21,
-        minimumSaveVersion: 9,
+        minimumSaveVersion: 10,
         content: {
           ...legacy.manifest.content,
           worldVariables: 'content/world-variables.json',

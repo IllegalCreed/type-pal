@@ -1,12 +1,12 @@
 # 工程与工作区生命周期
 
-类型：现行规范（current）。当前产品为 contentVersion 21 / SAVE9；格式与实现以源码常量和校验器为准。
+类型：现行规范（current）。当前产品为 contentVersion 21 / SAVE10；格式与实现以源码常量和校验器为准。
 本页维护已确认合同，已知实现缺陷继续由 [代码审计](../../ops/audits/pre-e2e/summary.md) 跟踪。
 原设计、旧版本与当时审查完整保留在 [历史快照](../archive/designs/project-lifecycle-design.md)，不作为当前执行入口。
 
 ## 开发期 current-only 边界
 
-- 当前唯一产品格式为 `contentVersion: 21` / SAVE9 / `minimumSaveVersion: 9`（2026-09-05 起含
+- 当前唯一产品格式为 `contentVersion: 21` / SAVE10 / `minimumSaveVersion: 10`（2026-09-05 起含
   SceneIndex；版本号以 `packages/content/src/character.ts` 为准）。loader、editor、runtime
   和 save codec 只消费这一组 canonical 类型，不按版本选择实现。
 - 本项目尚未正式上线；旧 content/save upgrader、旧类型、fixture、sidecar、产品升级入口和兼容 fallback

@@ -51,7 +51,7 @@ const handoffPayload = (engine) =>
         },
       }
     : {
-        version: 9,
+        version: 10,
         contentVersion: 21,
         projectId: 'pal',
         position: { sceneId: 's003' },
@@ -230,9 +230,9 @@ test('failed predecessor, changed bytes and other fragment cannot become 002 adm
   )
   assert.throws(() => validatePredecessor(r, { ...p, gs: { ...p.gs, dwCash: 500 } }, 'game', bytes))
 })
-test('002 Reforge admission strictly requires the current SAVE9/content21 predecessor', () => {
+test('002 Reforge admission strictly requires the current SAVE10/content21 predecessor', () => {
   const payload = {
-    version: 9,
+    version: 10,
     contentVersion: 21,
     projectId: 'pal',
     position: { sceneId: 's001', pos: { col: 60, height: 0, row: -24 }, facing: 'down' },
@@ -326,7 +326,7 @@ test('committed restore DTO is separately bounded and detached without changing 
 })
 
 const restorePayloadFixture = () => ({
-  version: 9,
+  version: 10,
   contentVersion: 21,
   projectId: 'pal',
   position: { sceneId: 's003', pos: { col: 126, row: 45, height: 0 }, facing: 'down' },
@@ -472,7 +472,7 @@ test('actual transformed restore reads committed World before real auto call, no
       'utf8',
     ),
     world = { money: 0 },
-    activeScene = { scene: { id: 's000' } },
+    activeScene = { scene: { id: 's000', entities: [] } },
     player = { pos: { col: 0, row: 0, height: 0 } },
     h = observer(),
     calls = [],
@@ -484,7 +484,7 @@ test('actual transformed restore reads committed World before real auto call, no
     player,
     facing: 'down',
     inputProject: { manifest: { id: 'pal' } },
-    SAVE_VERSION: 9,
+    SAVE_VERSION: 10,
     CONTENT_VERSION: 21,
     assertRunnerActive: () => {},
     payloadBelongsToProject: () => true,

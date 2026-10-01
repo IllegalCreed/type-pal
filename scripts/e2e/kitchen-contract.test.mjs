@@ -177,7 +177,7 @@ test('003 CLI requires a real 002 report and rejects scene/position controls', (
 })
 test('002 predecessor admission rejects fake bytes, wrong story, missing restore and old versions; 001 admission stays strict', () => {
   const payload = {
-    version: 9,
+    version: 10,
     contentVersion: 21,
     projectId: 'pal',
     position: { sceneId: 's003' },
@@ -649,7 +649,7 @@ test('003 actual save contract refuses fake ready placeholder, any pickup, inven
     },
   }
   const payload = {
-    version: 9,
+    version: 10,
     contentVersion: 21,
     position: { sceneId: 's001' },
     world: {

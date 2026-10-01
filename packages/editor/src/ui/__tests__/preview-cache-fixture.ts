@@ -115,7 +115,7 @@ export async function previewCacheFixture(
     id: projectId,
     name: projectId,
     contentVersion: 21,
-    minimumSaveVersion: 9,
+    minimumSaveVersion: 10,
     defaultEntryId: 'start',
     entryPoints: [
       {

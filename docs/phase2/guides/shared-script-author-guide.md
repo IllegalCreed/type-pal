@@ -1,6 +1,6 @@
 # 脚本库与可复用脚本作者手册
 
-> 适用版本：contentVersion 21 / SAVE9（2026-09-30 复核）。脚本模型不带产品版本后缀；作者内容直接使用
+> 适用版本：contentVersion 21 / SAVE10（2026-10-01）。脚本模型不带产品版本后缀；作者内容直接使用
 > `AuthorCommand`、`AuthorScriptFlow`、`AuthorScriptLibrary` 与 `WorldScriptState`。正式上线前只支持
 > 当前 canonical 工程；脚本分片、旧地址 sidecar、旧 upgrader 和“迁移内部实现”均已删除。
 >

@@ -39,7 +39,7 @@ test('menu storage ports write the selected real slot, retain rejected load UI, 
   expect(reads).not.toHaveBeenCalled()
   const good = await store.getPayload('m01')
   expect(good).toEqual({
-    version: 9,
+    version: 10,
     contentVersion: 21,
     projectId: 'shell-project',
     world: before,

@@ -2610,13 +2610,7 @@
                         "height": 0
                       },
                       "speed": "normal"
-                    }
-                  ],
-                  "next": "approach-stairs"
-                },
-                {
-                  "id": "approach-stairs",
-                  "body": [
+                    },
                     {
                       "kind": "moveEntity",
                       "target": {
@@ -2629,13 +2623,7 @@
                         "height": 0
                       },
                       "speed": "normal"
-                    }
-                  ],
-                  "next": "enter-stairs"
-                },
-                {
-                  "id": "enter-stairs",
-                  "body": [
+                    },
                     {
                       "kind": "moveEntity",
                       "target": {
@@ -2648,13 +2636,7 @@
                         "height": 0
                       },
                       "speed": "normal"
-                    }
-                  ],
-                  "next": "descend-stairs"
-                },
-                {
-                  "id": "descend-stairs",
-                  "body": [
+                    },
                     {
                       "kind": "moveEntity",
                       "target": {
@@ -2681,13 +2663,7 @@
                           "range": 2
                         }
                       }
-                    }
-                  ],
-                  "next": "cross-hall"
-                },
-                {
-                  "id": "cross-hall",
-                  "body": [
+                    },
                     {
                       "kind": "moveEntity",
                       "target": {
@@ -2700,13 +2676,7 @@
                         "height": 0
                       },
                       "speed": "normal"
-                    }
-                  ],
-                  "next": "wait-in-hall"
-                },
-                {
-                  "id": "wait-in-hall",
-                  "body": [
+                    },
                     {
                       "kind": "moveEntity",
                       "target": {

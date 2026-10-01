@@ -1,6 +1,6 @@
 # 作者脚本与运行时合同
 
-类型：现行规范（current）。当前产品为 contentVersion 21 / SAVE9；格式与实现以源码常量和校验器为准。
+类型：现行规范（current）。当前产品为 contentVersion 21 / SAVE10；格式与实现以源码常量和校验器为准。
 本页维护已确认合同，已知实现缺陷继续由 [代码审计](../../ops/audits/pre-e2e/summary.md) 跟踪。
 原设计、旧版本与当时审查完整保留在 [历史快照](../archive/designs/script-system-design.md)，不作为当前执行入口。
 
@@ -41,8 +41,9 @@
 剩余165套涉及同次继续、跨拍或分派的历史machine仍保留原逻辑，随E2E逐项合理化，不代表
 推荐作者理解第二套状态机，也不宣称本轮已退役其schema或兼容旧machine游标存档。
 
-2026-10-01客栈李大娘下楼的46个逐拍状态重写为六个真实转折路段的普通步骤；
-每段使用目标坐标和速度，保留到点安全点，最后明确完成，不再用空结束状态持续轮询。
+2026-10-01客栈李大娘下楼的46个逐拍状态重写为一个普通步骤，包含六段目标坐标与速度指令；
+转折路段不是再次激活的步骤，最后明确完成，不再用空结束状态持续轮询。
+自动脚本保存位置由SAVE10的引擎内部continuation承载，作者不为存档拆步骤。
 目标移动沿投影平面直线推进，四档速度保持原菱形轴步距对应的平面距离；
 只有完整剩余距离不超过当前一步才到点，不能因单轴已接近而吸附另一条远距离轴。
 脚本方案显示名按「剧情时期/触发背景：实际用途」命名，稳定ID与显示名分离；
@@ -120,7 +121,8 @@ transition 决定是否进入下一世界拍。它主要用于忠实承载迁移
 
 compiler 将 canonical flow 降成只存在于内存或可删缓存的 `ExecutableFlow`。生成块可以有内部
 地址和调度节点，但必须带 compiler/content digest，且绝不能回写 canonical 内容、存档、引用索引
-或 MG2 冲突键。
+或 MG2 冲突键。SAVE10只存带同一content digest的自动执行帧，不存生成块或可执行代码；
+内部指令ordinal属于执行定位，不作为任何内容对象身份。
 
 ### 角色当前状态命令
 
@@ -178,7 +180,7 @@ compiler 将 canonical flow 降成只存在于内存或可删缓存的 `Executab
 
 ### 当前加载与发布边界
 
-- HTTP/runtime/editor loader 只接受 contentVersion 21；存档只接受 SAVE9 / content21。
+- HTTP/runtime/editor loader 只接受 contentVersion 21；存档只接受 SAVE10 / content21。
 - 作者正文直接维护；已退役的原版完整脚本转换核不再参与发布。保留的窄资源/地图供应分区
   经三方merge与完整闭包预检后提交manifest；不发布脚本分片、版本transition或migration sidecar。
 - 旧工程和旧开发期存档可由 Git 取回对应历史代码重建，但不进入当前产品路径。发现版本不匹配时

@@ -45,7 +45,7 @@ function state(
       id: 'map-reference-test',
       name: 'Map Reference Test',
       contentVersion: 21,
-      minimumSaveVersion: 9,
+      minimumSaveVersion: 10,
       defaultEntryId: 'main',
       content: { maps: 'content/maps.json' },
       assets: { catalog: 'assets/index.json', roles: {} },

@@ -2,7 +2,7 @@ import { type CharacterInstance, HIDDEN_STAT_KEYS, isCarryableStatusId } from '@
 import { type CurrentSavePayload, SAVE_VERSION } from './types.js'
 
 /**
- * SAVE-PREFLIGHT-1：当前 SAVE9 载荷的确定性结构 guard。
+ * SAVE-PREFLIGHT-1：当前 SAVE10 载荷的确定性结构 guard。
  *
  * 从 unknown 开始先校验再当作类型使用；字段清单以 `save/types.ts` 的 `CurrentSavePayload` 与
  * `content/character.ts` 的 `WorldState`/`CharacterInstance` 现行类型为唯一真源：
