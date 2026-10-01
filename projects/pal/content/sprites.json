@@ -6223,5 +6223,14 @@
     "layout": {
       "kind": "static"
     }
+  },
+  {
+    "id": "sprite-208",
+    "asset": "sprite.pal.208",
+    "label": "李逍遥端酒菜",
+    "layout": {
+      "kind": "directional",
+      "framesPerDir": 3
+    }
   }
 ]

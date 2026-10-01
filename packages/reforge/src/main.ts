@@ -2065,7 +2065,10 @@ export async function bootGame(
       // 原版 0x15:wPartyDirection=o[0] + rgParty[o[2]].wFrame=dir*3+o[1] —— 每次都写帧;
       // gesture 缺省(=0 站立帧)即清脚本姿势。member>0 = 跟随者(渲染落地后生效,先忽略)。
       facing = fc
-      if (!member) worldPresentation.setPartyGesture(gesture ?? null)
+      if (!member) {
+        walking = false
+        worldPresentation.setPartyGesture(gesture ?? null)
+      }
     },
     setActorSprite: async (actorId, spriteId, signal) => {
       assertRunnerActive(signal, `0x65 换装 ${actorId} 的 runner 已取消`)
@@ -2467,8 +2470,11 @@ export async function bootGame(
       const from = { ...player.pos }
       player.pos = { ...player.pos, col: player.pos.col + d.dcol, row: player.pos.row + d.drow }
       pushTrail(trail, player.pos, displacementFacing(from, player.pos, facing))
-      worldPresentation.setPartyGesture(null) // 原版走位重算 wFrame
-      stepFrame = (stepFrame + 1) % 4 // 原版 0x6E 带走姿推进
+      if (dx !== 0 || dy !== 0) {
+        walking = true
+        worldPresentation.setPartyGesture(null)
+        stepFrame = (stepFrame + 1) % 4
+      }
       updateCamera()
     },
     cameraPan: (dx, dy, frames, signal) =>
@@ -3225,7 +3231,9 @@ export async function bootGame(
       !playerInputBlockedByEdge
     const inputDirection = playerInputAllowed ? heldDir() : null
     if (inputDirection && inputDirection !== facing) facing = inputDirection
-    if (!motion.partyMove && !inputDirection && walking) {
+    // A scripted nudge owns its pose across the following wait. Exploration settling must not
+    // erase that pose every render frame; explicit setPartyFacing or script completion ends it.
+    if (!runner && !motion.partyMove && !inputDirection && walking) {
       const settled = settleWalkAnimation({ walking, stepFrame })
       walking = settled.walking
       stepFrame = settled.stepFrame

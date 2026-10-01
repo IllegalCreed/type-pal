@@ -1393,6 +1393,131 @@
               ]
             }
           },
+          "greet-after-guests": {
+            "label": "客人进房后：请逍遥打发门口道士",
+            "order": 10,
+            "flow": {
+              "kind": "stages",
+              "initial": "initial",
+              "stages": [
+                {
+                  "id": "initial",
+                  "body": [
+                    {
+                      "kind": "setEntityTriggerActivation",
+                      "target": {
+                        "scene": "s003",
+                        "entity": "e56"
+                      },
+                      "selection": {
+                        "kind": "use",
+                        "value": {
+                          "on": "interact",
+                          "range": 2
+                        }
+                      }
+                    },
+                    {
+                      "kind": "clearDialog"
+                    },
+                    {
+                      "kind": "dialog",
+                      "cue": {
+                        "identity": {
+                          "kind": "actor",
+                          "actor": "li-daniang",
+                          "portrait": {
+                            "kind": "default",
+                            "side": "left"
+                          }
+                        },
+                        "rows": [
+                          {
+                            "text": "dlg.56"
+                          },
+                          {
+                            "text": "dlg.57"
+                          },
+                          {
+                            "text": "dlg.58"
+                          }
+                        ],
+                        "slot": "top"
+                      }
+                    },
+                    {
+                      "kind": "selectEntityBehavior",
+                      "target": {
+                        "scene": "s003",
+                        "entity": "e56"
+                      },
+                      "channel": "auto",
+                      "selection": {
+                        "kind": "use",
+                        "value": "go-to-kitchen"
+                      }
+                    },
+                    {
+                      "kind": "selectEntityBehavior",
+                      "target": {
+                        "scene": "s003",
+                        "entity": "e62"
+                      },
+                      "channel": "trigger",
+                      "selection": {
+                        "kind": "use",
+                        "value": "beggar-first-talk"
+                      }
+                    },
+                    {
+                      "kind": "wait",
+                      "ms": 240
+                    },
+                    {
+                      "kind": "setPartyFacing",
+                      "facing": "left"
+                    },
+                    {
+                      "kind": "wait",
+                      "ms": 160
+                    },
+                    {
+                      "kind": "setPartyFacing",
+                      "facing": "down"
+                    },
+                    {
+                      "kind": "wait",
+                      "ms": 80
+                    }
+                  ],
+                  "next": "remind-kitchen"
+                },
+                {
+                  "id": "remind-kitchen",
+                  "body": [
+                    {
+                      "kind": "dialog",
+                      "cue": {
+                        "identity": {
+                          "kind": "actor",
+                          "actor": "li-daniang"
+                        },
+                        "rows": [
+                          {
+                            "text": "dlg.59"
+                          },
+                          {
+                            "text": "dlg.60"
+                          }
+                        ],
+                        "slot": "top"
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          },
           "legacy-001": {
             "label": "触发行为 1",
             "order": 1,
@@ -1709,9 +1834,9 @@
                       },
                       {
                         "kind": "selectEntityBehavior",
-                        "target": {
-                          "scene": "s001",
-                          "entity": "e3"
+                      "target": {
+                        "scene": "s001",
+                        "entity": "e3"
                         },
                         "channel": "trigger",
                         "selection": {
@@ -2232,6 +2357,79 @@
                         "height": 0,
                         "row": 70
                       },
+                      "target": {
+                        "scene": "s003",
+                        "entity": "e56"
+                      }
+                    }
+                  ],
+                  "next": {
+                    "kind": "complete"
+                  }
+                }
+              ]
+            }
+          },
+          "go-to-kitchen": {
+            "label": "去厨房备菜",
+            "order": 10,
+            "flow": {
+              "kind": "stages",
+              "initial": "initial",
+              "stages": [
+                {
+                  "id": "initial",
+                  "body": [
+                    {
+                      "kind": "moveEntity",
+                      "target": {
+                        "scene": "s003",
+                        "entity": "e56"
+                      },
+                      "to": {
+                        "col": 129,
+                        "row": 66,
+                        "height": 0
+                      },
+                      "speed": "normal"
+                    },
+                    {
+                      "kind": "moveEntity",
+                      "target": {
+                        "scene": "s003",
+                        "entity": "e56"
+                      },
+                      "to": {
+                        "col": 129,
+                        "row": 61,
+                        "height": 0
+                      },
+                      "speed": "normal"
+                    },
+                    {
+                      "kind": "moveEntity",
+                      "target": {
+                        "scene": "s003",
+                        "entity": "e56"
+                      },
+                      "to": {
+                        "col": 124,
+                        "row": 61,
+                        "height": 0
+                      },
+                      "speed": "normal"
+                    },
+                    {
+                      "kind": "setEntityState",
+                      "state": 2,
+                      "target": {
+                        "scene": "s001",
+                        "entity": "e19"
+                      }
+                    },
+                    {
+                      "kind": "setEntityState",
+                      "state": 0,
                       "target": {
                         "scene": "s003",
                         "entity": "e56"
@@ -3323,7 +3521,7 @@
                         "channel": "trigger",
                         "selection": {
                           "kind": "use",
-                          "value": "legacy-001"
+                          "value": "greet-after-guests"
                         }
                       }
                     ],
@@ -9451,6 +9649,264 @@
                         "slot": "center"
                       },
                       "kind": "dialog"
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          "beg-for-guest-wine": {
+            "label": "端菜时：道士讨客人的酒",
+            "order": 11,
+            "flow": {
+              "kind": "stages",
+              "initial": "initial",
+              "stages": [
+                {
+                  "id": "initial",
+                  "body": [
+                    {
+                      "kind": "dialog",
+                      "cue": {
+                        "identity": {
+                          "kind": "actor",
+                          "actor": "jiu-jianxian",
+                          "speakerOverride": "spk.醉道士",
+                          "portrait": {
+                            "kind": "default",
+                            "side": "left"
+                          }
+                        },
+                        "rows": [
+                          {
+                            "text": "dlg.165"
+                          }
+                        ],
+                        "slot": "top"
+                      }
+                    },
+                    {
+                      "kind": "dialog",
+                      "cue": {
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.李逍遥",
+                          "portrait": {
+                            "asset": "portrait.pal.001",
+                            "side": "right"
+                          }
+                        },
+                        "rows": [
+                          {
+                            "text": "dlg.167"
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          "beggar-first-talk": {
+            "label": "初次讨酒：赶不走的道士",
+            "order": 10,
+            "flow": {
+              "kind": "stages",
+              "initial": "initial",
+              "stages": [
+                {
+                  "id": "initial",
+                  "body": [
+                    {
+                      "kind": "dialog",
+                      "cue": {
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.李逍遥",
+                          "portrait": {
+                            "asset": "portrait.pal.001",
+                            "side": "right"
+                          }
+                        },
+                        "rows": [
+                          {
+                            "text": "dlg.145"
+                          },
+                          {
+                            "text": "dlg.146"
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "kind": "clearDialog"
+                    },
+                    {
+                      "kind": "dialog",
+                      "cue": {
+                        "identity": {
+                          "kind": "actor",
+                          "actor": "jiu-jianxian",
+                          "speakerOverride": "spk.醉道士",
+                          "portrait": {
+                            "kind": "default",
+                            "side": "left"
+                          }
+                        },
+                        "rows": [
+                          {
+                            "text": "dlg.148"
+                          },
+                          {
+                            "text": "dlg.149"
+                          },
+                          {
+                            "text": "dlg.150"
+                          }
+                        ],
+                        "slot": "top"
+                      }
+                    },
+                    {
+                      "kind": "dialog",
+                      "cue": {
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.李逍遥",
+                          "portrait": {
+                            "asset": "portrait.pal.007",
+                            "side": "right"
+                          }
+                        },
+                        "rows": [
+                          {
+                            "text": "dlg.152"
+                          },
+                          {
+                            "text": "dlg.153"
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "kind": "clearDialog"
+                    },
+                    {
+                      "kind": "selectEntityBehavior",
+                      "target": {
+                        "scene": "s001",
+                        "entity": "e19"
+                      },
+                      "channel": "trigger",
+                      "selection": {
+                        "kind": "use",
+                        "value": "serve-guests"
+                      }
+                    },
+                    {
+                      "kind": "setEntityState",
+                      "state": 1,
+                      "target": {
+                        "scene": "s001",
+                        "entity": "e20"
+                      }
+                    },
+                    {
+                      "kind": "dialog",
+                      "cue": {
+                        "identity": {
+                          "kind": "actor",
+                          "actor": "jiu-jianxian",
+                          "speakerOverride": "spk.醉道士",
+                          "portrait": {
+                            "kind": "default",
+                            "side": "left"
+                          }
+                        },
+                        "rows": [
+                          {
+                            "text": "dlg.155"
+                          },
+                          {
+                            "text": "dlg.156"
+                          }
+                        ],
+                        "slot": "top"
+                      }
+                    }
+                  ],
+                  "next": "ask-again"
+                },
+                {
+                  "id": "ask-again",
+                  "body": [
+                    {
+                      "kind": "dialog",
+                      "cue": {
+                        "identity": {
+                          "kind": "actor",
+                          "actor": "jiu-jianxian",
+                          "speakerOverride": "spk.醉道士",
+                          "portrait": {
+                            "kind": "default",
+                            "side": "left"
+                          }
+                        },
+                        "rows": [
+                          {
+                            "text": "dlg.158"
+                          },
+                          {
+                            "text": "dlg.159"
+                          }
+                        ],
+                        "slot": "top"
+                      }
+                    }
+                  ],
+                  "next": "persistent-begging"
+                },
+                {
+                  "id": "persistent-begging",
+                  "body": [
+                    {
+                      "kind": "dialog",
+                      "cue": {
+                        "identity": {
+                          "kind": "actor",
+                          "actor": "jiu-jianxian",
+                          "speakerOverride": "spk.醉道士",
+                          "portrait": {
+                            "kind": "default",
+                            "side": "left"
+                          }
+                        },
+                        "rows": [
+                          {
+                            "text": "dlg.161"
+                          }
+                        ],
+                        "slot": "top"
+                      }
+                    },
+                    {
+                      "kind": "dialog",
+                      "cue": {
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.李逍遥",
+                          "portrait": {
+                            "asset": "portrait.pal.008",
+                            "side": "right"
+                          }
+                        },
+                        "rows": [
+                          {
+                            "text": "dlg.163"
+                          }
+                        ]
+                      }
                     }
                   ]
                 }

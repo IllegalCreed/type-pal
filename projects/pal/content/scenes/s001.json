@@ -974,6 +974,35 @@
               ]
             }
           },
+          "carrying-dishes-blocked": {
+            "label": "端着酒菜不能爬密道",
+            "order": 10,
+            "flow": {
+              "kind": "stages",
+              "initial": "initial",
+              "stages": [
+                {
+                  "id": "initial",
+                  "body": [
+                    {
+                      "kind": "dialog",
+                      "cue": {
+                        "identity": {
+                          "kind": "narration"
+                        },
+                        "rows": [
+                          {
+                            "text": "dlg.12"
+                          }
+                        ],
+                        "slot": "center"
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          },
           "legacy-001": {
             "label": "触发行为 1",
             "order": 1,
@@ -1721,6 +1750,35 @@
                         }
                       },
                       "kind": "dialog"
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          "carrying-dishes-blocked": {
+            "label": "端着酒菜不能爬密道",
+            "order": 10,
+            "flow": {
+              "kind": "stages",
+              "initial": "initial",
+              "stages": [
+                {
+                  "id": "initial",
+                  "body": [
+                    {
+                      "kind": "dialog",
+                      "cue": {
+                        "identity": {
+                          "kind": "narration"
+                        },
+                        "rows": [
+                          {
+                            "text": "dlg.11"
+                          }
+                        ],
+                        "slot": "center"
+                      }
                     }
                   ]
                 }
@@ -3057,6 +3115,84 @@
               ]
             }
           },
+          "busy-in-kitchen": {
+            "label": "厨房忙碌提醒",
+            "order": 11,
+            "flow": {
+              "kind": "stages",
+              "initial": "initial",
+              "stages": [
+                {
+                  "id": "initial",
+                  "body": [
+                    {
+                      "kind": "dialog",
+                      "cue": {
+                        "identity": {
+                          "kind": "actor",
+                          "actor": "li-daniang"
+                        },
+                        "rows": [
+                          {
+                            "text": "dlg.129"
+                          },
+                          {
+                            "text": "dlg.130"
+                          }
+                        ],
+                        "slot": "top"
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          "serve-guests": {
+            "label": "交代把酒菜端给楼上客人",
+            "order": 10,
+            "flow": {
+              "kind": "stages",
+              "initial": "initial",
+              "stages": [
+                {
+                  "id": "initial",
+                  "body": [
+                    {
+                      "kind": "dialog",
+                      "cue": {
+                        "identity": {
+                          "kind": "actor",
+                          "actor": "li-daniang"
+                        },
+                        "rows": [
+                          {
+                            "text": "dlg.126"
+                          },
+                          {
+                            "text": "dlg.127"
+                          }
+                        ],
+                        "slot": "top"
+                      }
+                    },
+                    {
+                      "kind": "selectEntityBehavior",
+                      "target": {
+                        "scene": "s001",
+                        "entity": "e20"
+                      },
+                      "channel": "trigger",
+                      "selection": {
+                        "kind": "use",
+                        "value": "take-dishes"
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          },
           "c8-74bc98f07f8e": {
             "label": "桂花酒剧情方案",
             "order": 1006,
@@ -3301,6 +3437,139 @@
                         "slot": "center"
                       },
                       "kind": "dialog"
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          "take-dishes": {
+            "label": "拿起待送的酒菜",
+            "order": 10,
+            "flow": {
+              "kind": "stages",
+              "initial": "initial",
+              "stages": [
+                {
+                  "id": "initial",
+                  "body": [
+                    {
+                      "kind": "setEntityFacing",
+                      "target": {
+                        "scene": "s001",
+                        "entity": "e19"
+                      },
+                      "facing": "down"
+                    },
+                    {
+                      "kind": "setEntityFrame",
+                      "target": {
+                        "scene": "s001",
+                        "entity": "e19"
+                      },
+                      "frame": 0
+                    },
+                    {
+                      "kind": "clearDialog"
+                    },
+                    {
+                      "kind": "dialog",
+                      "cue": {
+                        "identity": {
+                          "kind": "actor",
+                          "actor": "li-daniang"
+                        },
+                        "rows": [
+                          {
+                            "text": "dlg.141"
+                          },
+                          {
+                            "text": "dlg.142"
+                          }
+                        ],
+                        "slot": "top"
+                      }
+                    },
+                    {
+                      "kind": "setActorSprite",
+                      "actor": "li-xiaoyao",
+                      "sprite": "sprite-208"
+                    },
+                    {
+                      "kind": "setEntityState",
+                      "state": 0,
+                      "target": {
+                        "scene": "s001",
+                        "entity": "e20"
+                      }
+                    },
+                    {
+                      "kind": "selectEntityBehavior",
+                      "target": {
+                        "scene": "s001",
+                        "entity": "e19"
+                      },
+                      "channel": "trigger",
+                      "selection": {
+                        "kind": "use",
+                        "value": "busy-in-kitchen"
+                      }
+                    },
+                    {
+                      "kind": "selectEntityBehavior",
+                      "target": {
+                        "scene": "s001",
+                        "entity": "e24"
+                      },
+                      "channel": "trigger",
+                      "selection": {
+                        "kind": "use",
+                        "value": "decline-meal"
+                      }
+                    },
+                    {
+                      "kind": "selectEntityBehavior",
+                      "target": {
+                        "scene": "s003",
+                        "entity": "e62"
+                      },
+                      "channel": "trigger",
+                      "selection": {
+                        "kind": "use",
+                        "value": "beg-for-guest-wine"
+                      }
+                    },
+                    {
+                      "kind": "setEntityState",
+                      "state": 1,
+                      "target": {
+                        "scene": "s001",
+                        "entity": "e15"
+                      }
+                    },
+                    {
+                      "kind": "selectEntityBehavior",
+                      "target": {
+                        "scene": "s001",
+                        "entity": "e9"
+                      },
+                      "channel": "trigger",
+                      "selection": {
+                        "kind": "use",
+                        "value": "carrying-dishes-blocked"
+                      }
+                    },
+                    {
+                      "kind": "selectEntityBehavior",
+                      "target": {
+                        "scene": "s001",
+                        "entity": "e7"
+                      },
+                      "channel": "trigger",
+                      "selection": {
+                        "kind": "use",
+                        "value": "carrying-dishes-blocked"
+                      }
                     }
                   ]
                 }
@@ -3567,6 +3836,91 @@
                         }
                       },
                       "kind": "dialog"
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          "decline-meal": {
+            "label": "头领不饿：先送给隔壁",
+            "order": 10,
+            "flow": {
+              "kind": "stages",
+              "initial": "initial",
+              "stages": [
+                {
+                  "id": "initial",
+                  "body": [
+                    {
+                      "kind": "dialog",
+                      "cue": {
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.苗人头领",
+                          "portrait": {
+                            "asset": "portrait.pal.059",
+                            "side": "left"
+                          }
+                        },
+                        "rows": [
+                          {
+                            "text": "dlg.78"
+                          },
+                          {
+                            "text": "dlg.79"
+                          }
+                        ],
+                        "slot": "top"
+                      }
+                    }
+                  ],
+                  "next": "insist"
+                },
+                {
+                  "id": "insist",
+                  "body": [
+                    {
+                      "kind": "dialog",
+                      "cue": {
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.苗人头领"
+                        },
+                        "rows": [
+                          {
+                            "text": "dlg.81"
+                          },
+                          {
+                            "text": "dlg.82"
+                          }
+                        ],
+                        "slot": "top"
+                      }
+                    }
+                  ],
+                  "next": "dismiss"
+                },
+                {
+                  "id": "dismiss",
+                  "body": [
+                    {
+                      "kind": "dialog",
+                      "cue": {
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.苗人头领"
+                        },
+                        "rows": [
+                          {
+                            "text": "dlg.84"
+                          },
+                          {
+                            "text": "dlg.85"
+                          }
+                        ],
+                        "slot": "top"
+                      }
                     }
                   ]
                 }
