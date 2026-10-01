@@ -6,6 +6,7 @@
       "status": "adopted",
       "productionFiles": [
         "App.tsx",
+        "EntityNameField.tsx",
         "EntityPageAnimationEditor.tsx",
         "ScriptEditor.tsx",
         "CommandForm.tsx",
@@ -18,6 +19,12 @@
         "ScriptBehaviorInspector.tsx"
       ],
       "transactions": [
+        {
+          "id": "scene-entity-name",
+          "kind": "field-draft",
+          "fields": ["scene.entities.*.label"],
+          "verification": "EntityNameField.test.tsx"
+        },
         {
           "id": "scene-entity-and-entry-fields",
           "kind": "field-draft",

@@ -45,7 +45,7 @@ export function scriptTreeText(id: string | undefined, locale: Locale): string {
     .join('')
 }
 
-function describeCondition(
+export function describeScriptCondition(
   c: ScriptCondition,
   locale: Locale,
   references: ScriptReferenceCatalog,
@@ -79,11 +79,15 @@ function describeCondition(
     case 'inParty':
       return `队伍含 ${references.label('actor', c.actorId)}`
     case 'all':
-      return c.of.map((x) => describeCondition(x, locale, references, entityLabel)).join(' 且 ')
+      return c.of
+        .map((x) => describeScriptCondition(x, locale, references, entityLabel))
+        .join(' 且 ')
     case 'any':
-      return c.of.map((x) => describeCondition(x, locale, references, entityLabel)).join(' 或 ')
+      return c.of
+        .map((x) => describeScriptCondition(x, locale, references, entityLabel))
+        .join(' 或 ')
     case 'not':
-      return `非(${describeCondition(c.cond, locale, references, entityLabel)})`
+      return `非(${describeScriptCondition(c.cond, locale, references, entityLabel)})`
   }
 }
 
@@ -443,7 +447,7 @@ export function describeScriptCommand(
     case 'branch':
       return {
         icon: '🔀',
-        label: `如果 ${describeCondition(cmd.cond, locale, references, namedEntity)}`,
+        label: `如果 ${describeScriptCondition(cmd.cond, locale, references, namedEntity)}`,
         blocks: [
           { title: '则', seg: 'then', body: cmd.then },
           ...(cmd.else ? [{ title: '否则', seg: 'else', body: cmd.else }] : []),

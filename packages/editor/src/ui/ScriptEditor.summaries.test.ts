@@ -1,4 +1,4 @@
-import type { AuthorCommand, AuthorSceneDef } from '@type-pal/content'
+import type { AuthorCommand, AuthorCondition, AuthorSceneDef } from '@type-pal/content'
 import { expect, test } from 'vitest'
 import type { EditorAssetReader } from '../core/editor-asset-reader.js'
 import { type CanonicalScriptEditorContext, describeCanonicalCommand } from './ScriptEditor.js'
@@ -59,6 +59,103 @@ const context: CanonicalScriptEditorContext = {
   battleSprites: [],
 }
 const target = { scene: 's003', entity: 'e56' }
+
+const conditionContext: CanonicalScriptEditorContext = {
+  ...context,
+  shellScenes: [
+    {
+      ...scene,
+      entities: [
+        { id: 'e56', label: '大厅李大娘', sprite: 'aunt', pos: { col: 1, row: 2, height: 0 } },
+      ],
+    },
+    {
+      ...scene,
+      id: 's001',
+      entities: [
+        { id: 'e56', label: '厨房李大娘', sprite: 'aunt', pos: { col: 1, row: 2, height: 0 } },
+      ],
+    },
+  ],
+  references: {
+    ...context.references,
+    label: (kind, id) =>
+      kind === 'item' && id === 'wine'
+        ? '酒葫芦'
+        : kind === 'actor' && id === 'hero'
+          ? '李逍遥'
+          : id,
+  },
+}
+
+test.each([
+  { condition: { kind: 'hasItem', itemId: 'wine', atLeast: 2 }, expected: '持有物品 酒葫芦≥2' },
+  {
+    condition: { kind: 'ownsItem', itemId: 'wine', atLeast: 3 },
+    expected: '拥有物品 酒葫芦≥3（背包与装备合计）',
+  },
+  {
+    condition: { kind: 'itemEquipped', itemId: 'wine', atLeast: 2 },
+    expected: '装备物品 酒葫芦≥2',
+  },
+  { condition: { kind: 'inParty', actorId: 'hero' }, expected: '队伍含 李逍遥' },
+  {
+    condition: { kind: 'facingEntity', target, range: 3 },
+    expected: '面向实体 大厅李大娘 · e56（3 格内）',
+  },
+] satisfies Array<{
+  condition: AuthorCondition
+  expected: string
+}>)('branch and loop preserve readable condition requirements: $condition.kind', ({
+  condition,
+  expected,
+}) => {
+  expect(
+    describeCanonicalCommand({ kind: 'branch', cond: condition, then: [] }, conditionContext).label,
+  ).toBe(`如果 ${expected}`)
+  expect(
+    describeCanonicalCommand(
+      {
+        kind: 'loop',
+        mode: 'while',
+        cond: condition,
+        yield: 'worldTick',
+        maxIterations: 2,
+        body: [],
+      },
+      conditionContext,
+    ).label,
+  ).toBe(`当 ${expected}`)
+})
+
+test('mixed nested conditions keep named references, thresholds and full entity addresses together', () => {
+  const command: AuthorCommand = {
+    kind: 'branch',
+    cond: {
+      kind: 'all',
+      of: [
+        { kind: 'hasItem', itemId: 'wine', atLeast: 2 },
+        {
+          kind: 'any',
+          of: [
+            { kind: 'inParty', actorId: 'hero' },
+            {
+              kind: 'not',
+              cond: { kind: 'facingEntity', target: { scene: 's001', entity: 'e56' }, range: 4 },
+            },
+          ],
+        },
+        { kind: 'facingEntity', target, range: 1 },
+      ],
+    },
+    then: [],
+  }
+  const label = describeCanonicalCommand(command, conditionContext).label
+  expect(label).toContain('持有物品 酒葫芦≥2')
+  expect(label).toContain('队伍含 李逍遥')
+  expect(label).toContain('s001 / 厨房李大娘 · e56（4 格内）')
+  expect(label).toContain('大厅李大娘 · e56（1 格内）')
+})
 
 test('canonical movement summary reads unsaved instance labels from the property session', () => {
   const namedContext = {

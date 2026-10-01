@@ -70,7 +70,7 @@ import {
 import { ENTITY_FACING_OPTIONS } from './EntityFacingHelp.js'
 import { EntityStateSelect } from './EntityStateSelect.js'
 import { musicAssets } from './MusicPicker.js'
-import { describeScriptCommand } from './ScriptTree.js'
+import { describeScriptCommand, describeScriptCondition } from './ScriptTree.js'
 import { soundAssets } from './SoundPicker.js'
 
 type AuthorHostileBehavior = NonNullable<AuthorSceneDef['entities'][number]['hostile']>
@@ -642,36 +642,29 @@ function conditionLabel(
   context?: CanonicalScriptEditorContext,
 ): string {
   switch (condition.kind) {
-    case 'flag':
-      return `${condition.flag} ${condition.is ? '为真' : '为假'}`
-    case 'var':
-      return `${condition.var} ${condition.op} ${condition.value}`
-    case 'currentScene':
-      return `当前场景是 ${condition.scene}`
     case 'entityState':
       return `${addressLabel(condition.target, context)} 状态 = ${condition.is}`
     case 'entityInScene':
       return `${addressLabel(condition.target, context)} 在场`
     case 'facingEntity':
-      return `面向 ${addressLabel(condition.target, context)}`
-    case 'chance':
-      return `${condition.percent}% 概率`
-    case 'hasItem':
-    case 'ownsItem':
-    case 'itemEquipped':
-      return `${condition.kind} ${condition.itemId}`
-    case 'allFullHp':
-      return '全队满血'
-    case 'hasMoney':
-      return `金钱 ≥ ${condition.atLeast}`
-    case 'inParty':
-      return `队伍包含 ${condition.actorId}`
+      return `面向实体 ${addressLabel(condition.target, context)}${condition.range !== undefined ? `（${condition.range} 格内）` : ''}`
     case 'all':
       return condition.of.map((child) => conditionLabel(child, context)).join(' 且 ')
     case 'any':
       return condition.of.map((child) => conditionLabel(child, context)).join(' 或 ')
     case 'not':
       return `非（${conditionLabel(condition.cond, context)}）`
+    default:
+      // 实体复合地址留在作者层；其它条件复用同一中文引用/门槛摘要，不另造简化展示。
+      return describeScriptCondition(
+        condition,
+        context?.locale ?? {},
+        context?.references ?? {
+          choices: () => [],
+          has: () => false,
+          label: (_kind, id) => id,
+        },
+      )
   }
 }
 
