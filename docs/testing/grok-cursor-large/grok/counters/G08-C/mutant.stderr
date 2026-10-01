@@ -1,0 +1,21 @@
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/present/battle/battle-settlement-pixels.grok-r1.test.ts > G08-C 战斗结算像素 > G08-C04 二字名的文字按实际字宽贴上，框右缘仍按钳到 3 的长度
+AssertionError: expected 90 to be 70 // Object.is equality
+
+- Expected
++ Received
+
+- 70
++ 90
+
+ ❯ src/present/battle/battle-settlement-pixels.grok-r1.test.ts:115:33
+    113|       })
+    114|       // w1=max(2,3)=3，w2=2，w3=2，len=9 → 右缘在 78+1+9=88。属性文字在 90+16*2=1…
+    115|       expect(pixel(fb, 88, 60)).toBe(0x46)
+       |                                 ^
+    116|       expect(pixel(fb, 122, 70)).toBe(0)
+    117|       expect(pixel(fb, 123, 70)).toBe(SENTINEL)
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯

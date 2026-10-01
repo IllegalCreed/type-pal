@@ -1,0 +1,124 @@
+{
+  "numTotalTestSuites": 2,
+  "numPassedTestSuites": 2,
+  "numFailedTestSuites": 0,
+  "numPendingTestSuites": 0,
+  "numTotalTests": 7,
+  "numPassedTests": 7,
+  "numFailedTests": 0,
+  "numPendingTests": 0,
+  "numTodoTests": 0,
+  "snapshot": {
+    "added": 0,
+    "failure": false,
+    "filesAdded": 0,
+    "filesRemoved": 0,
+    "filesRemovedList": [],
+    "filesUnmatched": 0,
+    "filesUpdated": 0,
+    "matched": 0,
+    "total": 0,
+    "unchecked": 0,
+    "uncheckedKeysByFile": [],
+    "unmatched": 0,
+    "updated": 0,
+    "didUpdate": false
+  },
+  "startTime": 1790878627175,
+  "success": true,
+  "testResults": [
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": [
+            "G08-D 特效与飘字像素"
+          ],
+          "fullName": "G08-D 特效与飘字像素 G08-D01 宽 3 的特效锚点只减 1，左缘和多出来的右缘都写入",
+          "status": "passed",
+          "title": "G08-D01 宽 3 的特效锚点只减 1，左缘和多出来的右缘都写入",
+          "duration": 0.8450420000000349,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "G08-D 特效与飘字像素"
+          ],
+          "fullName": "G08-D 特效与飘字像素 G08-D02 宽 1 时右移半宽为 0，像素落在锚点列而不是左边一列",
+          "status": "passed",
+          "title": "G08-D02 宽 1 时右移半宽为 0，像素落在锚点列而不是左边一列",
+          "duration": 0.15020800000002055,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "G08-D 特效与飘字像素"
+          ],
+          "fullName": "G08-D 特效与飘字像素 G08-D03 五位右对齐的个位在 x+24，十位不补零",
+          "status": "passed",
+          "title": "G08-D03 五位右对齐的个位在 x+24，十位不补零",
+          "duration": 0.23274999999989632,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "G08-D 特效与飘字像素"
+          ],
+          "fullName": "G08-D 特效与飘字像素 G08-D04 六位数只留低五位，最高位不画到个位左边第六格",
+          "status": "passed",
+          "title": "G08-D04 六位数只留低五位，最高位不画到个位左边第六格",
+          "duration": 0.19941700000003948,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "G08-D 特效与飘字像素"
+          ],
+          "fullName": "G08-D 特效与飘字像素 G08-D05 两条飘字各写自己的个位，黄 7 和蓝 3 不互相覆盖",
+          "status": "passed",
+          "title": "G08-D05 两条飘字各写自己的个位，黄 7 和蓝 3 不互相覆盖",
+          "duration": 0.12324999999998454,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "G08-D 特效与飘字像素"
+          ],
+          "fullName": "G08-D 特效与飘字像素 G08-D06 数值 0 仍画一位黄 0，左边不补位",
+          "status": "passed",
+          "title": "G08-D06 数值 0 仍画一位黄 0，左边不补位",
+          "duration": 0.14133300000003146,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "G08-D 特效与飘字像素"
+          ],
+          "fullName": "G08-D 特效与飘字像素 G08-D07 奇数宽右缘索引 0x2D 经 flushToCanvas 写成调色板 RGB，缓冲仍是 0x2D",
+          "status": "passed",
+          "title": "G08-D07 奇数宽右缘索引 0x2D 经 flushToCanvas 写成调色板 RGB，缓冲仍是 0x2D",
+          "duration": 96.322,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790878627820,
+      "endTime": 1790878627918.322,
+      "status": "passed",
+      "message": "",
+      "name": "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/grok-r1-G08-D-cEK9rn/packages/game/src/present/battle/battle-effect-num-pixels.grok-r1.test.ts"
+    }
+  ]
+}

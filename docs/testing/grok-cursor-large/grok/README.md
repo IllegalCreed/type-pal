@@ -11,9 +11,9 @@ Coding Owner: Grok。作者交付进行中，**不是 review / accept / done**�
 
 | 项 | 已计入 | 目标 | 剩余 |
 |---|---:|---:|---:|
-| 合法新合同 | 276 | 400 | 124 |
-| 组 | 28 | 40 | 12 |
-| 有效反控 | 28 | 40 | 12 |
+| 合法新合同 | 320 | 400 | 80 |
+| 组 | 32 | 40 | 8 |
+| 有效反控 | 32 | 40 | 8 |
 
 G01 四组都是 `packages/game/src/assets/loader.ts`：G01-A 合法装配、G01-B 边界、G01-C 失败恢复、G01-D 缓存归属与迟到。G01 新合同 40。
 
@@ -29,11 +29,13 @@ G06 四组：G06-A `draw-inventory.ts` 物品框阴影、差额与用物层早�
 
 G07 四组：G07-A `draw-magic.ts` 一人选人框、说明第二行和信息框真气，G07-B `draw-shop.ts` 列表价读 rightText、预览阴影和售价取整到 0，G07-C `draw-box.ts` 透明孔、单行框节数和列数取最长项，G07-D 开场背景索引 0 与确认框两字标签。本批新合同 47。两人体力、价 123、现有 3、半价 40、九宫格和四字横坐标另记 36 条 existing-proof，开场 `y === undefined` 另记 1 条 unreachable，不计入 276。目标仍是 400/40/40。
 
+G08 四组：G08-A `draw-battle-sprites.ts` 染色第二遍、隐身和空槽，G08-B `draw-battle-ui.ts` 合击门槛、确认绿和中毒头像，G08-C `draw-battle-settlement.ts` 缺帧与二字名框长，G08-D `draw-battle-effect.ts` 奇数宽锚点与 `draw-battle-num.ts` 五位右对齐。本批新合同 44。单次染色、Y 序、升级斜杠、偶数宽特效、飘字寿命和背景色阶另记 34 条 existing-proof，不计入 320。目标仍是 400/40/40。
+
 ## 本批证据
 
-- [contracts.json](contracts.json)：累计 276 条新合同；G02 到 G07 的 existingProof 不计入
-- [directed-vitest.json](directed-vitest.json)：276 条 file × fullName × passed；相邻记在 `adjacent`（G01 的 `loader.test.ts` 7 条，G02 的 png/tileset/dialog/rle 26 条，G03 的 tilemap/sprite/follower 31 条，G04 的 wave/shake/dither/framebuffer/present/P12 85 条，G05 的 dialog/font/draw-number/opening/settlement/P16 108 条，G06 的 inventory/equip/status 23 条，G07 的 magic/shop/box/opening/confirm 39 条）
-- [counters.json](counters.json) 与 [反控说明](counters/README.md)：拒收探针加 G01 到 G07 各四枚三态原日志
+- [contracts.json](contracts.json)：累计 320 条新合同；G02 到 G08 的 existingProof 不计入
+- [directed-vitest.json](directed-vitest.json)：320 条 file × fullName × passed；相邻记在 `adjacent`（G01 的 `loader.test.ts` 7 条，G02 的 png/tileset/dialog/rle 26 条，G03 的 tilemap/sprite/follower 31 条，G04 的 wave/shake/dither/framebuffer/present/P12 85 条，G05 的 dialog/font/draw-number/opening/settlement/P16 108 条，G06 的 inventory/equip/status 23 条，G07 的 magic/shop/box/opening/confirm 39 条，G08 的 battle sprite/ui/settlement/effect/num/bg/present/P15/P08/P09 143 条）
+- [counters.json](counters.json) 与 [反控说明](counters/README.md)：拒收探针加 G01 到 G08 各四枚三态原日志
 - [defects.md](defects.md)：没有停组的产品缺陷；G02 有一条宿主 blocked
 - 专属宿主 `packages/game/src/__tests__/grok-render-r1/legal-host.ts`
 
@@ -120,5 +122,17 @@ G07 四组：G07-A `draw-magic.ts` 一人选人框、说明第二行和信息框
 `pnpm --filter @type-pal/game run typecheck` 退出码 0。
 
 反控：`node docs/testing/grok-cursor-large/grok/run-counters.mjs --only=G07-A,G07-B,G07-C,G07-D --skip-probe`。四枚 mutant 退出码 1，各只有一条指定 AssertionError。历史 G01 到 G06 与探针日志未重写。
+
+## G08 已跑命令
+
+定向与相邻：
+
+`pnpm --filter @type-pal/game exec vitest run src/present/battle/battle-sprite-pixels.grok-r1.test.ts src/present/battle/battle-ui-pixels.grok-r1.test.ts src/present/battle/battle-settlement-pixels.grok-r1.test.ts src/present/battle/battle-effect-num-pixels.grok-r1.test.ts src/present/battle/__tests__/draw-battle-sprites.test.ts src/present/battle/draw-battle-sprites.glm-phase1-leaves.test.ts src/present/battle/__tests__/draw-battle-ui.test.ts src/present/battle/draw-battle-ui.glm-phase1-leaves.test.ts src/present/__tests__/grok-composition/p15-battle-ui.test.ts src/present/battle/__tests__/draw-battle-settlement.test.ts src/present/battle/draw-battle-settlement.glm-phase1-leaves.test.ts src/present/__tests__/grok-present/p08-settlement.test.ts src/present/battle/__tests__/draw-battle-effect.test.ts src/present/battle/__tests__/draw-battle-num.test.ts src/present/battle/__tests__/draw-battle-bg.test.ts src/present/__tests__/grok-present/p09-background.test.ts src/present/battle/__tests__/present-battle.test.ts --reporter=verbose --reporter=json --outputFile=/tmp/g08-directed.json`
+
+结果：新合同 44 passed，相邻 143 passed，pending 0。17 个文件合计 187 passed。G08-D07 从真实 2D canvas 读回 (161,89) 的 RGBA `[45,9,18,255]`，缓冲仍是 45。
+
+`pnpm --filter @type-pal/game run typecheck` 退出码 0。
+
+反控：`node docs/testing/grok-cursor-large/grok/run-counters.mjs --only=G08-A,G08-B,G08-C,G08-D --skip-probe`。四枚 mutant 退出码 1，各只有一条指定 AssertionError。历史 G01 到 G07 与探针日志未重写。
 
 私有 coverage、全包 test、根 lint、docs check、diff check、verifier 留到末批。不合 main，不跑正式 ratchet。

@@ -1,0 +1,10 @@
+--- a/packages/game/src/present/battle/draw-battle-sprites.ts
++++ b/packages/game/src/present/battle/draw-battle-sprites.ts
+@@ -408,6 +408,6 @@
+   //   sprites")→ 受击闪白/物品辉光精灵恒浮于其它精灵(含遮挡它的前排单位)之上。
+   for (const it of items) {
+     if (it.drawFn || !it.frame) continue
+-    if (it.fadeStep < 0 && it.iColorShift !== 0) blitFrame(fb, it.frame, it.x, it.y, it.iColorShift)
++    if (it.fadeStep < 0 && false && it.iColorShift !== 0) blitFrame(fb, it.frame, it.x, it.y, it.iColorShift)
+   }
+ }

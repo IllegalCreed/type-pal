@@ -1,6 +1,6 @@
 {
-  "batch": "G07",
-  "acceptedCounters": 28,
+  "batch": "G08",
+  "acceptedCounters": 32,
   "probeRejected": true,
   "counters": [
     {
@@ -3729,6 +3729,430 @@
         "docs/testing/grok-cursor-large/grok/counters/G07-D/restored.json",
         "docs/testing/grok-cursor-large/grok/counters/G07-D/restored.stdout",
         "docs/testing/grok-cursor-large/grok/counters/G07-D/restored.stderr"
+      ]
+    },
+    {
+      "id": "G08-A",
+      "batch": "G08",
+      "accepted": true,
+      "reasons": [],
+      "axis": "染色第二遍被关掉后重叠点不再被染回",
+      "source": "packages/game/src/present/battle/draw-battle-sprites.ts",
+      "testFile": "src/present/battle/battle-sprite-pixels.grok-r1.test.ts",
+      "target": "G08-A01",
+      "targetFullName": "G08-A 战斗精灵像素 G08-A01 染色精灵被后排盖住后，第二遍仍把重叠点染回低半字节",
+      "assertionError": "AssertionError: expected 33 to be 20 // Object.is equality",
+      "sha256": {
+        "original": "bf9d33201028c448361549c2c8d1971ba8193d7cd41b99abd6dd97348ca44d58",
+        "mutant": "6fb7c442a089b2ec0f7b32e279cc06fb8b764242144989c40223d1917a987d51",
+        "restored": "bf9d33201028c448361549c2c8d1971ba8193d7cd41b99abd6dd97348ca44d58"
+      },
+      "exitCode": {
+        "original": 0,
+        "mutant": 1,
+        "restored": 0
+      },
+      "signal": {
+        "original": null,
+        "mutant": null,
+        "restored": null
+      },
+      "counts": {
+        "original": 15,
+        "mutantFailed": 1,
+        "restored": 15
+      },
+      "executionCount": 15,
+      "executions": [
+        {
+          "file": "src/present/battle/battle-sprite-pixels.grok-r1.test.ts",
+          "fullName": "G08-A 战斗精灵像素 G08-A01 染色精灵被后排盖住后，第二遍仍把重叠点染回低半字节",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/battle/battle-sprite-pixels.grok-r1.test.ts",
+          "fullName": "G08-A 战斗精灵像素 G08-A02 召唤隐藏队员时敌方像素仍在，队员锚点保持哨兵",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/battle/battle-sprite-pixels.grok-r1.test.ts",
+          "fullName": "G08-A 战斗精灵像素 G08-A03 隐身计时大于 0 且无染色时不画队员，计时本身不被消耗",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/battle/battle-sprite-pixels.grok-r1.test.ts",
+          "fullName": "G08-A 战斗精灵像素 G08-A04 隐身期间染色不为 0 仍画出偏移后的低半字节",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/battle/battle-sprite-pixels.grok-r1.test.ts",
+          "fullName": "G08-A 战斗精灵像素 G08-A05 负的隐身计时是待激活标记，队员照常画出",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/battle/battle-sprite-pixels.grok-r1.test.ts",
+          "fullName": "G08-A 战斗精灵像素 G08-A06 spriteNumOverride 取 player-覆盖号，不用角色战斗图号",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/battle/battle-sprite-pixels.grok-r1.test.ts",
+          "fullName": "G08-A 战斗精灵像素 G08-A07 覆盖号 0 不是空值，仍查 player-0",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/battle/battle-sprite-pixels.grok-r1.test.ts",
+          "fullName": "G08-A 战斗精灵像素 G08-A08 已击败且淡出未开始的空槽不画，旁边活敌照画",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/battle/battle-sprite-pixels.grok-r1.test.ts",
+          "fullName": "G08-A 战斗精灵像素 G08-A09 战斗动画进行时用 currentFrame，不用倒下帧 2",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/battle/battle-sprite-pixels.grok-r1.test.ts",
+          "fullName": "G08-A 战斗精灵像素 G08-A10 动画帧号越界时退回第 0 帧，不退回倒下帧",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/battle/battle-sprite-pixels.grok-r1.test.ts",
+          "fullName": "G08-A 战斗精灵像素 G08-A11 只有逃跑动画时也读 currentFrame",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/battle/battle-sprite-pixels.grok-r1.test.ts",
+          "fullName": "G08-A 战斗精灵像素 G08-A12 角色资料缺失时跳过该队员，敌方像素保留",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/battle/battle-sprite-pixels.grok-r1.test.ts",
+          "fullName": "G08-A 战斗精灵像素 G08-A13 排序更靠前的法术回调盖住未染色敌方像素",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/battle/battle-sprite-pixels.grok-r1.test.ts",
+          "fullName": "G08-A 战斗精灵像素 G08-A14 排序更靠后的法术回调被敌方盖住，框外那一点留下",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/battle/battle-sprite-pixels.grok-r1.test.ts",
+          "fullName": "G08-A 战斗精灵像素 G08-A15 绘制不改角色体力，也不改精灵帧里的索引",
+          "status": "passed"
+        }
+      ],
+      "patch": {
+        "path": "docs/testing/grok-cursor-large/grok/counters/G08-A/patch.diff",
+        "sha256": "090f1a77d886580a5df10e23a5ff3a62109f3557efe38f75edf7c19e7360883b",
+        "bytes": 548
+      },
+      "logs": [
+        "docs/testing/grok-cursor-large/grok/counters/G08-A/original.json",
+        "docs/testing/grok-cursor-large/grok/counters/G08-A/original.stdout",
+        "docs/testing/grok-cursor-large/grok/counters/G08-A/original.stderr",
+        "docs/testing/grok-cursor-large/grok/counters/G08-A/mutant.json",
+        "docs/testing/grok-cursor-large/grok/counters/G08-A/mutant.stdout",
+        "docs/testing/grok-cursor-large/grok/counters/G08-A/mutant.stderr",
+        "docs/testing/grok-cursor-large/grok/counters/G08-A/restored.json",
+        "docs/testing/grok-cursor-large/grok/counters/G08-A/restored.stdout",
+        "docs/testing/grok-cursor-large/grok/counters/G08-A/restored.stderr"
+      ]
+    },
+    {
+      "id": "G08-B",
+      "batch": "G08",
+      "accepted": true,
+      "reasons": [],
+      "axis": "体力正好等于门槛时合击被判成不健康",
+      "source": "packages/game/src/present/battle/draw-battle-ui.ts",
+      "testFile": "src/present/battle/battle-ui-pixels.grok-r1.test.ts",
+      "target": "G08-B01",
+      "targetFullName": "G08-B 战斗界面像素 G08-B01 体力正好等于 min(100, maxHP/5) 时合击图标仍是可用灰",
+      "assertionError": "AssertionError: expected 18 to be 2 // Object.is equality",
+      "sha256": {
+        "original": "fee830027b4d8428e4f4bff98a2f4f4a905c3b98d163642ab088710962aa868f",
+        "mutant": "d95a8ed2d9bd550d01a368371bb391dfe4363e14ff0eb626401ba72368a77c2c",
+        "restored": "fee830027b4d8428e4f4bff98a2f4f4a905c3b98d163642ab088710962aa868f"
+      },
+      "exitCode": {
+        "original": 0,
+        "mutant": 1,
+        "restored": 0
+      },
+      "signal": {
+        "original": null,
+        "mutant": null,
+        "restored": null
+      },
+      "counts": {
+        "original": 17,
+        "mutantFailed": 1,
+        "restored": 17
+      },
+      "executionCount": 17,
+      "executions": [
+        {
+          "file": "src/present/battle/battle-ui-pixels.grok-r1.test.ts",
+          "fullName": "G08-B 战斗界面像素 G08-B01 体力正好等于 min(100, maxHP/5) 时合击图标仍是可用灰",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/battle/battle-ui-pixels.grok-r1.test.ts",
+          "fullName": "G08-B 战斗界面像素 G08-B02 体力比该门槛少 1 时合击图标更暗",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/battle/battle-ui-pixels.grok-r1.test.ts",
+          "fullName": "G08-B 战斗界面像素 G08-B03 maxHP/5 超过 100 时门槛停在 100，体力 150 的合击仍可用",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/battle/battle-ui-pixels.grok-r1.test.ts",
+          "fullName": "G08-B 战斗界面像素 G08-B04 沉默使法术和合击更暗，杂项保持可用灰，选中的攻击仍是原色",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/battle/battle-ui-pixels.grok-r1.test.ts",
+          "fullName": "G08-B 战斗界面像素 G08-B05 傀儡不封锁法术，但合击因不健康而更暗",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/battle/battle-ui-pixels.grok-r1.test.ts",
+          "fullName": "G08-B 战斗界面像素 G08-B06 同伴睡眠使健康人数不够，合击更暗而法术仍可用",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/battle/battle-ui-pixels.grok-r1.test.ts",
+          "fullName": "G08-B 战斗界面像素 G08-B07 没有行动队员时未选图标更暗，选中的攻击仍保持原色",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/battle/battle-ui-pixels.grok-r1.test.ts",
+          "fullName": "G08-B 战斗界面像素 G08-B08 dialogBoxKept 让攻击图标和底部姓名都保持哨兵",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/battle/battle-ui-pixels.grok-r1.test.ts",
+          "fullName": "G08-B 战斗界面像素 G08-B09 进入物品二级后，父项道具用确认绿 0x2C，邻项仍是 0x4F",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/battle/battle-ui-pixels.grok-r1.test.ts",
+          "fullName": "G08-B 战斗界面像素 G08-B10 杂项菜单未进入二级时，当前项是闪烁色 0xF9 而不是确认绿",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/battle/battle-ui-pixels.grok-r1.test.ts",
+          "fullName": "G08-B 战斗界面像素 G08-B11 选友方目标时攻击图标改灰，目标箭头在锚点上移 67",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/battle/battle-ui-pixels.grok-r1.test.ts",
+          "fullName": "G08-B 战斗界面像素 G08-B12 活人的乱和封落在信息框偏移上",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/battle/battle-ui-pixels.grok-r1.test.ts",
+          "fullName": "G08-B 战斗界面像素 G08-B13 中毒头像按毒色高半字节重染，不再写出原索引",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/battle/battle-ui-pixels.grok-r1.test.ts",
+          "fullName": "G08-B 战斗界面像素 G08-B14 物品框阴影把背景 0x13 收成 0x11，本体和小球图标分开",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/battle/battle-ui-pixels.grok-r1.test.ts",
+          "fullName": "G08-B 战斗界面像素 G08-B15 法术网格不画物品数量，假设的个位保持哨兵",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/battle/battle-ui-pixels.grok-r1.test.ts",
+          "fullName": "G08-B 战斗界面像素 G08-B16 界面帧数不超过 48 时改画文字姓名，不画头像",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/battle/battle-ui-pixels.grok-r1.test.ts",
+          "fullName": "G08-B 战斗界面像素 G08-B17 帧数刚到 49 时画头像，底部文字姓名保持哨兵",
+          "status": "passed"
+        }
+      ],
+      "patch": {
+        "path": "docs/testing/grok-cursor-large/grok/counters/G08-B/patch.diff",
+        "sha256": "a509622326b39cc19be49f070191e8d9a5ea068a17f48ed65183fd924b0d4f4c",
+        "bytes": 574
+      },
+      "logs": [
+        "docs/testing/grok-cursor-large/grok/counters/G08-B/original.json",
+        "docs/testing/grok-cursor-large/grok/counters/G08-B/original.stdout",
+        "docs/testing/grok-cursor-large/grok/counters/G08-B/original.stderr",
+        "docs/testing/grok-cursor-large/grok/counters/G08-B/mutant.json",
+        "docs/testing/grok-cursor-large/grok/counters/G08-B/mutant.stdout",
+        "docs/testing/grok-cursor-large/grok/counters/G08-B/mutant.stderr",
+        "docs/testing/grok-cursor-large/grok/counters/G08-B/restored.json",
+        "docs/testing/grok-cursor-large/grok/counters/G08-B/restored.stdout",
+        "docs/testing/grok-cursor-large/grok/counters/G08-B/restored.stderr"
+      ]
+    },
+    {
+      "id": "G08-C",
+      "batch": "G08",
+      "accepted": true,
+      "reasons": [],
+      "axis": "二字名的隐藏涨点框不再钳到 3",
+      "source": "packages/game/src/present/battle/draw-battle-settlement.ts",
+      "testFile": "src/present/battle/battle-settlement-pixels.grok-r1.test.ts",
+      "target": "G08-C04",
+      "targetFullName": "G08-C 战斗结算像素 G08-C04 二字名的文字按实际字宽贴上，框右缘仍按钳到 3 的长度",
+      "assertionError": "AssertionError: expected 90 to be 70 // Object.is equality",
+      "sha256": {
+        "original": "ae7c4a1930d7e49afb68809f90e5902ac7bf5aa40f84b2bd6258c6db6af8d7b4",
+        "mutant": "0d6765a71b3539890f091cc9dbd71fb03114ee93cad847543e3f4c0b208711d9",
+        "restored": "ae7c4a1930d7e49afb68809f90e5902ac7bf5aa40f84b2bd6258c6db6af8d7b4"
+      },
+      "exitCode": {
+        "original": 0,
+        "mutant": 1,
+        "restored": 0
+      },
+      "signal": {
+        "original": null,
+        "mutant": null,
+        "restored": null
+      },
+      "counts": {
+        "original": 5,
+        "mutantFailed": 1,
+        "restored": 5
+      },
+      "executionCount": 5,
+      "executions": [
+        {
+          "file": "src/present/battle/battle-settlement-pixels.grok-r1.test.ts",
+          "fullName": "G08-C 战斗结算像素 G08-C01 没有界面帧时经验屏不写像素，屏数据保持原样",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/battle/battle-settlement-pixels.grok-r1.test.ts",
+          "fullName": "G08-C 战斗结算像素 G08-C02 缺少箭头帧时标签仍是 0xBB，箭头锚点保持哨兵",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/battle/battle-settlement-pixels.grok-r1.test.ts",
+          "fullName": "G08-C 战斗结算像素 G08-C03 缺少斜杠帧时体力个位仍画出，斜杠点保持哨兵",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/battle/battle-settlement-pixels.grok-r1.test.ts",
+          "fullName": "G08-C 战斗结算像素 G08-C04 二字名的文字按实际字宽贴上，框右缘仍按钳到 3 的长度",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/battle/battle-settlement-pixels.grok-r1.test.ts",
+          "fullName": "G08-C 战斗结算像素 G08-C05 名字四字、法术六字时 ww=16，单行框和名字一起左移",
+          "status": "passed"
+        }
+      ],
+      "patch": {
+        "path": "docs/testing/grok-cursor-large/grok/counters/G08-C/patch.diff",
+        "sha256": "493fee09e6f5faacea7adebd64e6efd7c756beed8f8ec205daf0722bb668f499",
+        "bytes": 656
+      },
+      "logs": [
+        "docs/testing/grok-cursor-large/grok/counters/G08-C/original.json",
+        "docs/testing/grok-cursor-large/grok/counters/G08-C/original.stdout",
+        "docs/testing/grok-cursor-large/grok/counters/G08-C/original.stderr",
+        "docs/testing/grok-cursor-large/grok/counters/G08-C/mutant.json",
+        "docs/testing/grok-cursor-large/grok/counters/G08-C/mutant.stdout",
+        "docs/testing/grok-cursor-large/grok/counters/G08-C/mutant.stderr",
+        "docs/testing/grok-cursor-large/grok/counters/G08-C/restored.json",
+        "docs/testing/grok-cursor-large/grok/counters/G08-C/restored.stdout",
+        "docs/testing/grok-cursor-large/grok/counters/G08-C/restored.stderr"
+      ]
+    },
+    {
+      "id": "G08-D",
+      "batch": "G08",
+      "accepted": true,
+      "reasons": [],
+      "axis": "奇数宽特效锚点改成右移两位",
+      "source": "packages/game/src/present/battle/draw-battle-effect.ts",
+      "testFile": "src/present/battle/battle-effect-num-pixels.grok-r1.test.ts",
+      "target": "G08-D01",
+      "targetFullName": "G08-D 特效与飘字像素 G08-D01 宽 3 的特效锚点只减 1，左缘和多出来的右缘都写入",
+      "assertionError": "AssertionError: expected 90 to be 45 // Object.is equality",
+      "sha256": {
+        "original": "d95ea64da7fc96fb29ea6af66e72148c05be8732d6cc6860c7c4ba7c5463a842",
+        "mutant": "2487bd4f6da973cd27a4a21971a0d1a9a0dbda743fe9bd391a4342de76389828",
+        "restored": "d95ea64da7fc96fb29ea6af66e72148c05be8732d6cc6860c7c4ba7c5463a842"
+      },
+      "exitCode": {
+        "original": 0,
+        "mutant": 1,
+        "restored": 0
+      },
+      "signal": {
+        "original": null,
+        "mutant": null,
+        "restored": null
+      },
+      "counts": {
+        "original": 7,
+        "mutantFailed": 1,
+        "restored": 7
+      },
+      "executionCount": 7,
+      "executions": [
+        {
+          "file": "src/present/battle/battle-effect-num-pixels.grok-r1.test.ts",
+          "fullName": "G08-D 特效与飘字像素 G08-D01 宽 3 的特效锚点只减 1，左缘和多出来的右缘都写入",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/battle/battle-effect-num-pixels.grok-r1.test.ts",
+          "fullName": "G08-D 特效与飘字像素 G08-D02 宽 1 时右移半宽为 0，像素落在锚点列而不是左边一列",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/battle/battle-effect-num-pixels.grok-r1.test.ts",
+          "fullName": "G08-D 特效与飘字像素 G08-D03 五位右对齐的个位在 x+24，十位不补零",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/battle/battle-effect-num-pixels.grok-r1.test.ts",
+          "fullName": "G08-D 特效与飘字像素 G08-D04 六位数只留低五位，最高位不画到个位左边第六格",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/battle/battle-effect-num-pixels.grok-r1.test.ts",
+          "fullName": "G08-D 特效与飘字像素 G08-D05 两条飘字各写自己的个位，黄 7 和蓝 3 不互相覆盖",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/battle/battle-effect-num-pixels.grok-r1.test.ts",
+          "fullName": "G08-D 特效与飘字像素 G08-D06 数值 0 仍画一位黄 0，左边不补位",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/battle/battle-effect-num-pixels.grok-r1.test.ts",
+          "fullName": "G08-D 特效与飘字像素 G08-D07 奇数宽右缘索引 0x2D 经 flushToCanvas 写成调色板 RGB，缓冲仍是 0x2D",
+          "status": "passed"
+        }
+      ],
+      "patch": {
+        "path": "docs/testing/grok-cursor-large/grok/counters/G08-D/patch.diff",
+        "sha256": "6fabc1704a55defb9158f8b7522a72f4f528a69219f243c46c3adf9d27208b74",
+        "bytes": 489
+      },
+      "logs": [
+        "docs/testing/grok-cursor-large/grok/counters/G08-D/original.json",
+        "docs/testing/grok-cursor-large/grok/counters/G08-D/original.stdout",
+        "docs/testing/grok-cursor-large/grok/counters/G08-D/original.stderr",
+        "docs/testing/grok-cursor-large/grok/counters/G08-D/mutant.json",
+        "docs/testing/grok-cursor-large/grok/counters/G08-D/mutant.stdout",
+        "docs/testing/grok-cursor-large/grok/counters/G08-D/mutant.stderr",
+        "docs/testing/grok-cursor-large/grok/counters/G08-D/restored.json",
+        "docs/testing/grok-cursor-large/grok/counters/G08-D/restored.stdout",
+        "docs/testing/grok-cursor-large/grok/counters/G08-D/restored.stderr"
       ]
     }
   ]

@@ -1,0 +1,15 @@
+
+ RUN  v4.1.7 /private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/grok-r1-G08-C-rUQaVj/packages/game
+
+ ✓ src/present/battle/battle-settlement-pixels.grok-r1.test.ts > G08-C 战斗结算像素 > G08-C01 没有界面帧时经验屏不写像素，屏数据保持原样 1ms
+ ✓ src/present/battle/battle-settlement-pixels.grok-r1.test.ts > G08-C 战斗结算像素 > G08-C02 缺少箭头帧时标签仍是 0xBB，箭头锚点保持哨兵 1ms
+ ✓ src/present/battle/battle-settlement-pixels.grok-r1.test.ts > G08-C 战斗结算像素 > G08-C03 缺少斜杠帧时体力个位仍画出，斜杠点保持哨兵 1ms
+ ✓ src/present/battle/battle-settlement-pixels.grok-r1.test.ts > G08-C 战斗结算像素 > G08-C04 二字名的文字按实际字宽贴上，框右缘仍按钳到 3 的长度 0ms
+ ✓ src/present/battle/battle-settlement-pixels.grok-r1.test.ts > G08-C 战斗结算像素 > G08-C05 名字四字、法术六字时 ww=16，单行框和名字一起左移 0ms
+
+ Test Files  1 passed (1)
+      Tests  5 passed (5)
+   Start at  03:17:04
+   Duration  374ms (transform 34ms, setup 15ms, import 31ms, tests 4ms, environment 265ms)
+
+JSON report written to /var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/grok-r1-G08-C-rUQaVj/restored.json

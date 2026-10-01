@@ -278,5 +278,45 @@
     "testFile": "src/present/menu/opening-confirm-pixels.grok-r1.test.ts",
     "target": "G07-D01",
     "axis": "背景索引 0 被跳过，不再覆盖底色"
+  },
+  {
+    "id": "G08-A",
+    "batch": "G08",
+    "source": "packages/game/src/present/battle/draw-battle-sprites.ts",
+    "from": "if (it.fadeStep < 0 && it.iColorShift !== 0) blitFrame(fb, it.frame, it.x, it.y, it.iColorShift)",
+    "to": "if (it.fadeStep < 0 && false && it.iColorShift !== 0) blitFrame(fb, it.frame, it.x, it.y, it.iColorShift)",
+    "testFile": "src/present/battle/battle-sprite-pixels.grok-r1.test.ts",
+    "target": "G08-A01",
+    "axis": "染色第二遍被关掉后重叠点不再被染回"
+  },
+  {
+    "id": "G08-B",
+    "batch": "G08",
+    "source": "packages/game/src/present/battle/draw-battle-ui.ts",
+    "from": "r.hp < Math.min(100, Math.floor(r.maxHP / 5))",
+    "to": "r.hp <= Math.min(100, Math.floor(r.maxHP / 5))",
+    "testFile": "src/present/battle/battle-ui-pixels.grok-r1.test.ts",
+    "target": "G08-B01",
+    "axis": "体力正好等于门槛时合击被判成不健康"
+  },
+  {
+    "id": "G08-C",
+    "batch": "G08",
+    "source": "packages/game/src/present/battle/draw-battle-settlement.ts",
+    "from": "const w1 = Math.max(wordWidthCols(data.name), 3)",
+    "to": "const w1 = Math.max(wordWidthCols(data.name), 2)",
+    "testFile": "src/present/battle/battle-settlement-pixels.grok-r1.test.ts",
+    "target": "G08-C04",
+    "axis": "二字名的隐藏涨点框不再钳到 3"
+  },
+  {
+    "id": "G08-D",
+    "batch": "G08",
+    "source": "packages/game/src/present/battle/draw-battle-effect.ts",
+    "from": "const baseX = x - (frame.width >> 1)",
+    "to": "const baseX = x - (frame.width >> 2)",
+    "testFile": "src/present/battle/battle-effect-num-pixels.grok-r1.test.ts",
+    "target": "G08-D01",
+    "axis": "奇数宽特效锚点改成右移两位"
   }
 ]

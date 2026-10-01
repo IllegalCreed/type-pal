@@ -1,8 +1,8 @@
 {
-  "batch": "G07",
-  "count": 276,
-  "batchCount": 47,
-  "cumulativeNewContracts": 276,
+  "batch": "G08",
+  "count": 320,
+  "batchCount": 44,
+  "cumulativeNewContracts": 320,
   "target": 400,
   "contracts": [
     {
@@ -15080,6 +15080,2280 @@
         "fullName": "G07-D 开场与确认像素 G07-D07 背景索引 0x55 上的字影是 0，字本体仍是闪烁色",
         "status": "passed"
       }
+    },
+    {
+      "id": "G08-A01",
+      "batch": "G08",
+      "group": "G08-A",
+      "primarySource": {
+        "file": "packages/game/src/present/battle/draw-battle-sprites.ts",
+        "conditionLine": 411,
+        "condition": "第二遍只重画 fadeStep < 0 且 iColorShift !== 0 的精灵（draw-battle-sprites.ts:411）"
+      },
+      "caller": {
+        "file": "packages/game/src/present/battle/present-battle.ts",
+        "line": 254,
+        "expr": "drawBattleSprites("
+      },
+      "legalInput": "敌方在 (80,40)，填充 0x13，染色 1。队员在 (80,41)，填充 0x21。uiState 为 selectMove。",
+      "oldTest": {
+        "sha": "b7f1bbdce40e4fcd5d605082f3fedaa9ba314bec",
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-sprites.test.ts",
+        "fullName": "drawBattleSprites — iColorShift 染色 blit(D17a,palcommon.c:397-411) low-nibble 0x03 + 6 = 0x09",
+        "assertionLine": 252,
+        "matcher": "toBe",
+        "checked": "单次染色把 0x03 加 6 写成 9",
+        "distinct": "重叠点被后排写成 33 后，第二遍染回 20"
+      },
+      "file": "packages/game/src/present/battle/battle-sprite-pixels.grok-r1.test.ts",
+      "fullName": "G08-A 战斗精灵像素 G08-A01 染色精灵被后排盖住后，第二遍仍把重叠点染回低半字节",
+      "assertions": [
+        {
+          "line": 169,
+          "endLine": 169,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 170,
+          "endLine": 170,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 171,
+          "endLine": 171,
+          "matchers": ["toBe"]
+        }
+      ],
+      "axis": "positive",
+      "oracle": {
+        "operands": "重叠点、染色独占点、未染色点",
+        "matcher": "toBe",
+        "exact": "重叠点为 20；染色独占点为 20；未染色点为 33"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/present/battle/battle-sprite-pixels.grok-r1.test.ts",
+        "fullName": "G08-A 战斗精灵像素 G08-A01 染色精灵被后排盖住后，第二遍仍把重叠点染回低半字节",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G08-A02",
+      "batch": "G08",
+      "group": "G08-A",
+      "primarySource": {
+        "file": "packages/game/src/present/battle/draw-battle-sprites.ts",
+        "conditionLine": 352,
+        "condition": "hidePlayers 为真时整段队员循环不进入（draw-battle-sprites.ts:352）"
+      },
+      "caller": {
+        "file": "packages/game/src/present/battle/present-battle.ts",
+        "line": 254,
+        "expr": "drawBattleSprites("
+      },
+      "legalInput": "hidePlayers 为 true。队员锚点 (100,80)，敌方 (40,40)。",
+      "oldTest": {
+        "sha": "b7f1bbdce40e4fcd5d605082f3fedaa9ba314bec",
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-sprites.test.ts",
+        "fullName": "drawBattleSprites 画一个队员 + 一个敌方,落在预期位置(底中 anchor)",
+        "assertionLine": 156,
+        "matcher": "toBe",
+        "checked": "队员和敌方都画在底中锚点",
+        "distinct": "队员锚点保持哨兵 90，敌方为 9，体力仍是 180"
+      },
+      "file": "packages/game/src/present/battle/battle-sprite-pixels.grok-r1.test.ts",
+      "fullName": "G08-A 战斗精灵像素 G08-A02 召唤隐藏队员时敌方像素仍在，队员锚点保持哨兵",
+      "assertions": [
+        {
+          "line": 186,
+          "endLine": 186,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 187,
+          "endLine": 187,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 188,
+          "endLine": 188,
+          "matchers": ["toBe"]
+        }
+      ],
+      "axis": "exception",
+      "oracle": {
+        "operands": "队员锚点、敌方像素、体力",
+        "matcher": "toBe",
+        "exact": "队员锚点为 90；敌方为 9；体力为 180"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/present/battle/battle-sprite-pixels.grok-r1.test.ts",
+        "fullName": "G08-A 战斗精灵像素 G08-A02 召唤隐藏队员时敌方像素仍在，队员锚点保持哨兵",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G08-A03",
+      "batch": "G08",
+      "group": "G08-A",
+      "primarySource": {
+        "file": "packages/game/src/present/battle/draw-battle-sprites.ts",
+        "conditionLine": 361,
+        "condition": "隐身计时大于 0 且染色为 0 时不画队员（draw-battle-sprites.ts:361）"
+      },
+      "caller": {
+        "file": "packages/game/src/present/battle/present-battle.ts",
+        "line": 254,
+        "expr": "drawBattleSprites("
+      },
+      "legalInput": "iHidingTime 为 6，队员染色为 0。敌方仍在场。",
+      "oldTest": {
+        "sha": "b7f1bbdce40e4fcd5d605082f3fedaa9ba314bec",
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-sprites.test.ts",
+        "fullName": "drawBattleSprites 画一个队员 + 一个敌方,落在预期位置(底中 anchor)",
+        "assertionLine": 156,
+        "matcher": "toBe",
+        "checked": "双方都画出",
+        "distinct": "队员锚点为 90，敌方为 9，iHidingTime 仍是 6"
+      },
+      "file": "packages/game/src/present/battle/battle-sprite-pixels.grok-r1.test.ts",
+      "fullName": "G08-A 战斗精灵像素 G08-A03 隐身计时大于 0 且无染色时不画队员，计时本身不被消耗",
+      "assertions": [
+        {
+          "line": 205,
+          "endLine": 205,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 206,
+          "endLine": 206,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 207,
+          "endLine": 207,
+          "matchers": ["toBe"]
+        }
+      ],
+      "axis": "boundary",
+      "oracle": {
+        "operands": "队员锚点、敌方像素、隐身计时",
+        "matcher": "toBe",
+        "exact": "队员锚点为 90；敌方为 9；计时为 6"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/present/battle/battle-sprite-pixels.grok-r1.test.ts",
+        "fullName": "G08-A 战斗精灵像素 G08-A03 隐身计时大于 0 且无染色时不画队员，计时本身不被消耗",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G08-A04",
+      "batch": "G08",
+      "group": "G08-A",
+      "primarySource": {
+        "file": "packages/game/src/present/battle/draw-battle-sprites.ts",
+        "conditionLine": 361,
+        "condition": "隐身期间染色不为 0 时仍画出队员（draw-battle-sprites.ts:361）"
+      },
+      "caller": {
+        "file": "packages/game/src/present/battle/present-battle.ts",
+        "line": 254,
+        "expr": "drawBattleSprites("
+      },
+      "legalInput": "iHidingTime 为 6，队员填充 0x13，染色 2。",
+      "oldTest": {
+        "sha": "b7f1bbdce40e4fcd5d605082f3fedaa9ba314bec",
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-sprites.test.ts",
+        "fullName": "drawBattleSprites — iColorShift 染色 blit(D17a,palcommon.c:397-411) low-nibble 0x03 + 6 = 0x09",
+        "assertionLine": 252,
+        "matcher": "toBe",
+        "checked": "单次染色写成 9",
+        "distinct": "隐身中的 0x13 加 2 写成 21，旁点保持 90"
+      },
+      "file": "packages/game/src/present/battle/battle-sprite-pixels.grok-r1.test.ts",
+      "fullName": "G08-A 战斗精灵像素 G08-A04 隐身期间染色不为 0 仍画出偏移后的低半字节",
+      "assertions": [
+        {
+          "line": 219,
+          "endLine": 219,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 220,
+          "endLine": 220,
+          "matchers": ["toBe"]
+        }
+      ],
+      "axis": "positive",
+      "oracle": {
+        "operands": "队员像素、旁点",
+        "matcher": "toBe",
+        "exact": "队员像素为 21；旁点为 90"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/present/battle/battle-sprite-pixels.grok-r1.test.ts",
+        "fullName": "G08-A 战斗精灵像素 G08-A04 隐身期间染色不为 0 仍画出偏移后的低半字节",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G08-A05",
+      "batch": "G08",
+      "group": "G08-A",
+      "primarySource": {
+        "file": "packages/game/src/present/battle/draw-battle-sprites.ts",
+        "conditionLine": 361,
+        "condition": "负的隐身计时不大于 0，队员照常画出（draw-battle-sprites.ts:361）"
+      },
+      "caller": {
+        "file": "packages/game/src/present/battle/present-battle.ts",
+        "line": 254,
+        "expr": "drawBattleSprites("
+      },
+      "legalInput": "iHidingTime 为 -5，队员填充 8。",
+      "oldTest": {
+        "sha": "b7f1bbdce40e4fcd5d605082f3fedaa9ba314bec",
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-sprites.test.ts",
+        "fullName": "computePlayerBattleIdleFrame(玩家状态空闲帧,sdlpal fight.c:948-984) 正常(非眠/非濒死/非防御)→ 帧0",
+        "assertionLine": 724,
+        "matcher": "toBe",
+        "checked": "正常状态空闲帧是 0",
+        "distinct": "负计时不跳过绘制，像素为 8，计时仍是 -5"
+      },
+      "file": "packages/game/src/present/battle/battle-sprite-pixels.grok-r1.test.ts",
+      "fullName": "G08-A 战斗精灵像素 G08-A05 负的隐身计时是待激活标记，队员照常画出",
+      "assertions": [
+        {
+          "line": 231,
+          "endLine": 231,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 232,
+          "endLine": 232,
+          "matchers": ["toBe"]
+        }
+      ],
+      "axis": "boundary",
+      "oracle": {
+        "operands": "队员像素、隐身计时",
+        "matcher": "toBe",
+        "exact": "队员像素为 8；计时为 -5"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/present/battle/battle-sprite-pixels.grok-r1.test.ts",
+        "fullName": "G08-A 战斗精灵像素 G08-A05 负的隐身计时是待激活标记，队员照常画出",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G08-A06",
+      "batch": "G08",
+      "group": "G08-A",
+      "primarySource": {
+        "file": "packages/game/src/present/battle/draw-battle-sprites.ts",
+        "conditionLine": 365,
+        "condition": "spriteNumOverride 优先于角色战斗图号（draw-battle-sprites.ts:365）"
+      },
+      "caller": {
+        "file": "packages/game/src/present/battle/present-battle.ts",
+        "line": 254,
+        "expr": "drawBattleSprites("
+      },
+      "legalInput": "覆盖号 4，角色战斗图号 1。两套精灵都注册。",
+      "oldTest": {
+        "sha": "b7f1bbdce40e4fcd5d605082f3fedaa9ba314bec",
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-sprites.test.ts",
+        "fullName": "drawBattleSprites 画一个队员 + 一个敌方,落在预期位置(底中 anchor)",
+        "assertionLine": 156,
+        "matcher": "toBe",
+        "checked": "按角色图号画出 8",
+        "distinct": "覆盖号 4 的像素是 22"
+      },
+      "file": "packages/game/src/present/battle/battle-sprite-pixels.grok-r1.test.ts",
+      "fullName": "G08-A 战斗精灵像素 G08-A06 spriteNumOverride 取 player-覆盖号，不用角色战斗图号",
+      "assertions": [
+        {
+          "line": 245,
+          "endLine": 245,
+          "matchers": ["toBe"]
+        }
+      ],
+      "axis": "positive",
+      "oracle": {
+        "operands": "队员像素",
+        "matcher": "toBe",
+        "exact": "队员像素为 22"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/present/battle/battle-sprite-pixels.grok-r1.test.ts",
+        "fullName": "G08-A 战斗精灵像素 G08-A06 spriteNumOverride 取 player-覆盖号，不用角色战斗图号",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G08-A07",
+      "batch": "G08",
+      "group": "G08-A",
+      "primarySource": {
+        "file": "packages/game/src/present/battle/draw-battle-sprites.ts",
+        "conditionLine": 365,
+        "condition": "覆盖号 0 不是空值，仍查 player-0（draw-battle-sprites.ts:365）"
+      },
+      "caller": {
+        "file": "packages/game/src/present/battle/present-battle.ts",
+        "line": 254,
+        "expr": "drawBattleSprites("
+      },
+      "legalInput": "覆盖号 0，角色战斗图号另有图。player-0 填充 30。",
+      "oldTest": {
+        "sha": "b7f1bbdce40e4fcd5d605082f3fedaa9ba314bec",
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-sprites.test.ts",
+        "fullName": "drawBattleSprites 画一个队员 + 一个敌方,落在预期位置(底中 anchor)",
+        "assertionLine": 156,
+        "matcher": "toBe",
+        "checked": "按角色图号画",
+        "distinct": "覆盖号 0 的像素是 30"
+      },
+      "file": "packages/game/src/present/battle/battle-sprite-pixels.grok-r1.test.ts",
+      "fullName": "G08-A 战斗精灵像素 G08-A07 覆盖号 0 不是空值，仍查 player-0",
+      "assertions": [
+        {
+          "line": 258,
+          "endLine": 258,
+          "matchers": ["toBe"]
+        }
+      ],
+      "axis": "boundary",
+      "oracle": {
+        "operands": "队员像素",
+        "matcher": "toBe",
+        "exact": "队员像素为 30"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/present/battle/battle-sprite-pixels.grok-r1.test.ts",
+        "fullName": "G08-A 战斗精灵像素 G08-A07 覆盖号 0 不是空值，仍查 player-0",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G08-A08",
+      "batch": "G08",
+      "group": "G08-A",
+      "primarySource": {
+        "file": "packages/game/src/present/battle/draw-battle-sprites.ts",
+        "conditionLine": 312,
+        "condition": "defeated 且淡出从未开始的空槽不画（draw-battle-sprites.ts:312）"
+      },
+      "caller": {
+        "file": "packages/game/src/present/battle/present-battle.ts",
+        "line": 254,
+        "expr": "drawBattleSprites("
+      },
+      "legalInput": "空槽 defeated 为 true，deathFadeStep 不设置。旁边活敌照常。",
+      "oldTest": {
+        "sha": "b7f1bbdce40e4fcd5d605082f3fedaa9ba314bec",
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-sprites.test.ts",
+        "fullName": "drawBattleSprites — 敌人死亡淡出集成(D17) health<=0 + deathFadeStep undefined:照常画(刚被打死、淡出未开始 → 受击帧仍可见,不瞬隐)",
+        "assertionLine": 548,
+        "matcher": "toBe",
+        "checked": "刚死且未设 defeated 时仍画出 9",
+        "distinct": "空槽像素保持 90，活敌为 8"
+      },
+      "file": "packages/game/src/present/battle/battle-sprite-pixels.grok-r1.test.ts",
+      "fullName": "G08-A 战斗精灵像素 G08-A08 已击败且淡出未开始的空槽不画，旁边活敌照画",
+      "assertions": [
+        {
+          "line": 272,
+          "endLine": 272,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 273,
+          "endLine": 273,
+          "matchers": ["toBe"]
+        }
+      ],
+      "axis": "exception",
+      "oracle": {
+        "operands": "空槽像素、活敌像素",
+        "matcher": "toBe",
+        "exact": "空槽为 90；活敌为 8"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/present/battle/battle-sprite-pixels.grok-r1.test.ts",
+        "fullName": "G08-A 战斗精灵像素 G08-A08 已击败且淡出未开始的空槽不画，旁边活敌照画",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G08-A09",
+      "batch": "G08",
+      "group": "G08-A",
+      "primarySource": {
+        "file": "packages/game/src/present/battle/draw-battle-sprites.ts",
+        "conditionLine": 371,
+        "condition": "battleAnim 存在时队员帧号改读 currentFrame（draw-battle-sprites.ts:371）"
+      },
+      "caller": {
+        "file": "packages/game/src/present/battle/present-battle.ts",
+        "line": 254,
+        "expr": "drawBattleSprites("
+      },
+      "legalInput": "battleAnim 进行中，currentFrame 为 0，体力 0，帧序列 8、9、10。",
+      "oldTest": {
+        "sha": "b7f1bbdce40e4fcd5d605082f3fedaa9ba314bec",
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-sprites.test.ts",
+        "fullName": "drawBattleSprites — render-state pos/currentFrame(D17a) enemy.currentFrame 覆盖 idle 时钟:固定取该帧(动画攻击帧)",
+        "assertionLine": 357,
+        "matcher": "toBe",
+        "checked": "敌方 currentFrame 固定取攻击帧",
+        "distinct": "队员像素是 8，不是倒下帧 10"
+      },
+      "file": "packages/game/src/present/battle/battle-sprite-pixels.grok-r1.test.ts",
+      "fullName": "G08-A 战斗精灵像素 G08-A09 战斗动画进行时用 currentFrame，不用倒下帧 2",
+      "assertions": [
+        {
+          "line": 285,
+          "endLine": 285,
+          "matchers": ["toBe"]
+        }
+      ],
+      "axis": "positive",
+      "oracle": {
+        "operands": "队员像素",
+        "matcher": "toBe",
+        "exact": "队员像素为 8"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/present/battle/battle-sprite-pixels.grok-r1.test.ts",
+        "fullName": "G08-A 战斗精灵像素 G08-A09 战斗动画进行时用 currentFrame，不用倒下帧 2",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G08-A10",
+      "batch": "G08",
+      "group": "G08-A",
+      "primarySource": {
+        "file": "packages/game/src/present/battle/draw-battle-sprites.ts",
+        "conditionLine": 374,
+        "condition": "队员动画帧号越界时退回第 0 帧（draw-battle-sprites.ts:374）"
+      },
+      "caller": {
+        "file": "packages/game/src/present/battle/present-battle.ts",
+        "line": 254,
+        "expr": "drawBattleSprites("
+      },
+      "legalInput": "currentFrame 为 7，帧序列只有 8、9、10，体力 0，battleAnim 进行中。",
+      "oldTest": {
+        "sha": "b7f1bbdce40e4fcd5d605082f3fedaa9ba314bec",
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-sprites.test.ts",
+        "fullName": "drawBattleSprites — 敌人 idle 帧轮播(D17c) 越界兜底:frames 仅 1 帧但 idleFrames=2 时不越界(fallback frames[0])",
+        "assertionLine": 657,
+        "matcher": "not.toThrow",
+        "checked": "敌方越界只验证不抛",
+        "distinct": "队员像素退回 8，不是倒下帧"
+      },
+      "file": "packages/game/src/present/battle/battle-sprite-pixels.grok-r1.test.ts",
+      "fullName": "G08-A 战斗精灵像素 G08-A10 动画帧号越界时退回第 0 帧，不退回倒下帧",
+      "assertions": [
+        {
+          "line": 297,
+          "endLine": 297,
+          "matchers": ["toBe"]
+        }
+      ],
+      "axis": "boundary",
+      "oracle": {
+        "operands": "队员像素",
+        "matcher": "toBe",
+        "exact": "队员像素为 8"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/present/battle/battle-sprite-pixels.grok-r1.test.ts",
+        "fullName": "G08-A 战斗精灵像素 G08-A10 动画帧号越界时退回第 0 帧，不退回倒下帧",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G08-A11",
+      "batch": "G08",
+      "group": "G08-A",
+      "primarySource": {
+        "file": "packages/game/src/present/battle/draw-battle-sprites.ts",
+        "conditionLine": 371,
+        "condition": "只有 fleeAnim 时队员也读 currentFrame（draw-battle-sprites.ts:371）"
+      },
+      "caller": {
+        "file": "packages/game/src/present/battle/present-battle.ts",
+        "line": 254,
+        "expr": "drawBattleSprites("
+      },
+      "legalInput": "fleeAnim 的 step 为 0，没有 battleAnim。currentFrame 为 1，体力 0。",
+      "oldTest": {
+        "sha": "b7f1bbdce40e4fcd5d605082f3fedaa9ba314bec",
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-sprites.test.ts",
+        "fullName": "computePlayerBattleIdleFrame(玩家状态空闲帧,sdlpal fight.c:948-984) 正常(非眠/非濒死/非防御)→ 帧0",
+        "assertionLine": 724,
+        "matcher": "toBe",
+        "checked": "空闲时正常帧是 0",
+        "distinct": "逃跑动画中的像素是帧 1 的 9"
+      },
+      "file": "packages/game/src/present/battle/battle-sprite-pixels.grok-r1.test.ts",
+      "fullName": "G08-A 战斗精灵像素 G08-A11 只有逃跑动画时也读 currentFrame",
+      "assertions": [
+        {
+          "line": 309,
+          "endLine": 309,
+          "matchers": ["toBe"]
+        }
+      ],
+      "axis": "boundary",
+      "oracle": {
+        "operands": "队员像素",
+        "matcher": "toBe",
+        "exact": "队员像素为 9"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/present/battle/battle-sprite-pixels.grok-r1.test.ts",
+        "fullName": "G08-A 战斗精灵像素 G08-A11 只有逃跑动画时也读 currentFrame",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G08-A12",
+      "batch": "G08",
+      "group": "G08-A",
+      "primarySource": {
+        "file": "packages/game/src/present/battle/draw-battle-sprites.ts",
+        "conditionLine": 358,
+        "condition": "角色资料缺失时跳过该队员（draw-battle-sprites.ts:358）"
+      },
+      "caller": {
+        "file": "packages/game/src/present/battle/present-battle.ts",
+        "line": 254,
+        "expr": "drawBattleSprites("
+      },
+      "legalInput": "队员 roleId 为 4，roles 数组里没有这一位。敌方仍在。",
+      "oldTest": {
+        "sha": "b7f1bbdce40e4fcd5d605082f3fedaa9ba314bec",
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-sprites.test.ts",
+        "fullName": "drawBattleSprites sprite Map 缺资源时跳过,不抛错",
+        "assertionLine": 187,
+        "matcher": "not.toThrow",
+        "checked": "缺精灵资源时不抛",
+        "distinct": "队员锚点保持 90，敌方为 9"
+      },
+      "file": "packages/game/src/present/battle/battle-sprite-pixels.grok-r1.test.ts",
+      "fullName": "G08-A 战斗精灵像素 G08-A12 角色资料缺失时跳过该队员，敌方像素保留",
+      "assertions": [
+        {
+          "line": 322,
+          "endLine": 322,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 323,
+          "endLine": 323,
+          "matchers": ["toBe"]
+        }
+      ],
+      "axis": "exception",
+      "oracle": {
+        "operands": "队员锚点、敌方像素",
+        "matcher": "toBe",
+        "exact": "队员锚点为 90；敌方为 9"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/present/battle/battle-sprite-pixels.grok-r1.test.ts",
+        "fullName": "G08-A 战斗精灵像素 G08-A12 角色资料缺失时跳过该队员，敌方像素保留",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G08-A13",
+      "batch": "G08",
+      "group": "G08-A",
+      "primarySource": {
+        "file": "packages/game/src/present/battle/draw-battle-sprites.ts",
+        "conditionLine": 393,
+        "condition": "Y 更大的法术回调后画，盖住未染色敌方（draw-battle-sprites.ts:393）"
+      },
+      "caller": {
+        "file": "packages/game/src/present/battle/present-battle.ts",
+        "line": 254,
+        "expr": "drawBattleSprites("
+      },
+      "legalInput": "敌方未染色。回调 sortY 为 90，大于敌方 y，写入 77。",
+      "oldTest": {
+        "sha": "b7f1bbdce40e4fcd5d605082f3fedaa9ba314bec",
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-sprites.test.ts",
+        "fullName": "DM9:法术精灵参与 Y+sLayerOffset 统一 z 排序(battle.c:441-442) 负 layerOffset(地面型)排在精灵前(被精灵覆盖);大 offset 排后(盖精灵)",
+        "assertionLine": 754,
+        "matcher": "toEqual",
+        "checked": "回调顺序是 ground 然后 top",
+        "distinct": "敌方像素被写成 77 并留下"
+      },
+      "file": "packages/game/src/present/battle/battle-sprite-pixels.grok-r1.test.ts",
+      "fullName": "G08-A 战斗精灵像素 G08-A13 排序更靠前的法术回调盖住未染色敌方像素",
+      "assertions": [
+        {
+          "line": 339,
+          "endLine": 339,
+          "matchers": ["toBe"]
+        }
+      ],
+      "axis": "positive",
+      "oracle": {
+        "operands": "敌方像素",
+        "matcher": "toBe",
+        "exact": "敌方像素为 77"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/present/battle/battle-sprite-pixels.grok-r1.test.ts",
+        "fullName": "G08-A 战斗精灵像素 G08-A13 排序更靠前的法术回调盖住未染色敌方像素",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G08-A14",
+      "batch": "G08",
+      "group": "G08-A",
+      "primarySource": {
+        "file": "packages/game/src/present/battle/draw-battle-sprites.ts",
+        "conditionLine": 393,
+        "condition": "Y 更小的法术回调先画，随后被敌方盖住（draw-battle-sprites.ts:393）"
+      },
+      "caller": {
+        "file": "packages/game/src/present/battle/present-battle.ts",
+        "line": 254,
+        "expr": "drawBattleSprites("
+      },
+      "legalInput": "回调 sortY 为 10，先写入 77。敌方未染色，颜色 11。",
+      "oldTest": {
+        "sha": "b7f1bbdce40e4fcd5d605082f3fedaa9ba314bec",
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-sprites.test.ts",
+        "fullName": "drawBattleSprites — render-state pos/currentFrame(D17a) Y-then-X 排序:Y 大的(屏幕下方)后画盖前",
+        "assertionLine": 403,
+        "matcher": "toBe",
+        "checked": "Y 更大的精灵后画盖住前一个",
+        "distinct": "敌方像素为 11，框外旁点留下 77"
+      },
+      "file": "packages/game/src/present/battle/battle-sprite-pixels.grok-r1.test.ts",
+      "fullName": "G08-A 战斗精灵像素 G08-A14 排序更靠后的法术回调被敌方盖住，框外那一点留下",
+      "assertions": [
+        {
+          "line": 356,
+          "endLine": 356,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 357,
+          "endLine": 357,
+          "matchers": ["toBe"]
+        }
+      ],
+      "axis": "positive",
+      "oracle": {
+        "operands": "敌方像素、框外旁点",
+        "matcher": "toBe",
+        "exact": "敌方像素为 11；旁点为 77"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/present/battle/battle-sprite-pixels.grok-r1.test.ts",
+        "fullName": "G08-A 战斗精灵像素 G08-A14 排序更靠后的法术回调被敌方盖住，框外那一点留下",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G08-A15",
+      "batch": "G08",
+      "group": "G08-A",
+      "primarySource": {
+        "file": "packages/game/src/present/battle/draw-battle-sprites.ts",
+        "conditionLine": 354,
+        "condition": "绘制只读角色与精灵帧，不写回体力、索引和隐身计时（draw-battle-sprites.ts:354）"
+      },
+      "caller": {
+        "file": "packages/game/src/present/battle/present-battle.ts",
+        "line": 254,
+        "expr": "drawBattleSprites("
+      },
+      "legalInput": "体力 144，精灵索引有原值，iHidingTime 为 0。",
+      "oldTest": {
+        "sha": "b7f1bbdce40e4fcd5d605082f3fedaa9ba314bec",
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-sprites.test.ts",
+        "fullName": "drawBattleSprites 画一个队员 + 一个敌方,落在预期位置(底中 anchor)",
+        "assertionLine": 156,
+        "matcher": "toBe",
+        "checked": "只核对落点像素",
+        "distinct": "绘制后体力仍是 144，帧索引与计时不变"
+      },
+      "file": "packages/game/src/present/battle/battle-sprite-pixels.grok-r1.test.ts",
+      "fullName": "G08-A 战斗精灵像素 G08-A15 绘制不改角色体力，也不改精灵帧里的索引",
+      "assertions": [
+        {
+          "line": 369,
+          "endLine": 369,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 370,
+          "endLine": 370,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 371,
+          "endLine": 371,
+          "matchers": ["toBe"]
+        }
+      ],
+      "axis": "ownership",
+      "oracle": {
+        "operands": "体力、帧索引、隐身计时",
+        "matcher": "toBe",
+        "exact": "体力为 144；帧索引与进入时相同；计时为 0"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/present/battle/battle-sprite-pixels.grok-r1.test.ts",
+        "fullName": "G08-A 战斗精灵像素 G08-A15 绘制不改角色体力，也不改精灵帧里的索引",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G08-B01",
+      "batch": "G08",
+      "group": "G08-B",
+      "primarySource": {
+        "file": "packages/game/src/present/battle/draw-battle-ui.ts",
+        "conditionLine": 478,
+        "condition": "合击健康门槛用小于号，体力正好等于 min(100, maxHP/5) 仍算健康（draw-battle-ui.ts:478）"
+      },
+      "caller": {
+        "file": "packages/game/src/present/battle/present-battle.ts",
+        "line": 312,
+        "expr": "drawBattleUI("
+      },
+      "legalInput": "两人 maxHP 200、hp 40。门槛是 40。选中攻击。Date.now 为 0。",
+      "oldTest": {
+        "sha": "70227d54316b7adb2eca52896d8c45db32dbe8f0",
+        "file": "packages/game/src/present/__tests__/grok-composition/p15-battle-ui.test.ts",
+        "fullName": "P15 战斗 UI 多态 P15 单人合击图标更暗，两人健康时合击图标较亮",
+        "assertionLine": 190,
+        "matcher": "toBe",
+        "checked": "一人合击是 18，两人健康是 2",
+        "distinct": "两人 hp 正好等于 40 时合击仍是 2，攻击是 6"
+      },
+      "file": "packages/game/src/present/battle/battle-ui-pixels.grok-r1.test.ts",
+      "fullName": "G08-B 战斗界面像素 G08-B01 体力正好等于 min(100, maxHP/5) 时合击图标仍是可用灰",
+      "assertions": [
+        {
+          "line": 255,
+          "endLine": 255,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 256,
+          "endLine": 256,
+          "matchers": ["toBe"]
+        }
+      ],
+      "axis": "boundary",
+      "oracle": {
+        "operands": "合击图标、攻击图标",
+        "matcher": "toBe",
+        "exact": "合击为 2；攻击为 6"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/present/battle/battle-ui-pixels.grok-r1.test.ts",
+        "fullName": "G08-B 战斗界面像素 G08-B01 体力正好等于 min(100, maxHP/5) 时合击图标仍是可用灰",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G08-B02",
+      "batch": "G08",
+      "group": "G08-B",
+      "primarySource": {
+        "file": "packages/game/src/present/battle/draw-battle-ui.ts",
+        "conditionLine": 478,
+        "condition": "体力比门槛少 1 时合击不健康（draw-battle-ui.ts:478）"
+      },
+      "caller": {
+        "file": "packages/game/src/present/battle/present-battle.ts",
+        "line": 312,
+        "expr": "drawBattleUI("
+      },
+      "legalInput": "两人 maxHP 200、hp 39。门槛是 40。",
+      "oldTest": {
+        "sha": "70227d54316b7adb2eca52896d8c45db32dbe8f0",
+        "file": "packages/game/src/present/__tests__/grok-composition/p15-battle-ui.test.ts",
+        "fullName": "P15 战斗 UI 多态 P15 单人合击图标更暗，两人健康时合击图标较亮",
+        "assertionLine": 190,
+        "matcher": "toBe",
+        "checked": "健康两人合击是 2",
+        "distinct": "hp 39 时合击是 18"
+      },
+      "file": "packages/game/src/present/battle/battle-ui-pixels.grok-r1.test.ts",
+      "fullName": "G08-B 战斗界面像素 G08-B02 体力比该门槛少 1 时合击图标更暗",
+      "assertions": [
+        {
+          "line": 262,
+          "endLine": 262,
+          "matchers": ["toBe"]
+        }
+      ],
+      "axis": "boundary",
+      "oracle": {
+        "operands": "合击图标",
+        "matcher": "toBe",
+        "exact": "合击为 18"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/present/battle/battle-ui-pixels.grok-r1.test.ts",
+        "fullName": "G08-B 战斗界面像素 G08-B02 体力比该门槛少 1 时合击图标更暗",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G08-B03",
+      "batch": "G08",
+      "group": "G08-B",
+      "primarySource": {
+        "file": "packages/game/src/present/battle/draw-battle-ui.ts",
+        "conditionLine": 478,
+        "condition": "maxHP/5 超过 100 时门槛停在 100（draw-battle-ui.ts:478）"
+      },
+      "caller": {
+        "file": "packages/game/src/present/battle/present-battle.ts",
+        "line": 312,
+        "expr": "drawBattleUI("
+      },
+      "legalInput": "两人 maxHP 1000、hp 150。floor(1000/5) 为 200，门槛钳到 100。",
+      "oldTest": {
+        "sha": "70227d54316b7adb2eca52896d8c45db32dbe8f0",
+        "file": "packages/game/src/present/__tests__/grok-composition/p15-battle-ui.test.ts",
+        "fullName": "P15 战斗 UI 多态 P15 单人合击图标更暗，两人健康时合击图标较亮",
+        "assertionLine": 190,
+        "matcher": "toBe",
+        "checked": "健康两人合击是 2",
+        "distinct": "hp 150 不超过 100 的反面，合击仍是 2"
+      },
+      "file": "packages/game/src/present/battle/battle-ui-pixels.grok-r1.test.ts",
+      "fullName": "G08-B 战斗界面像素 G08-B03 maxHP/5 超过 100 时门槛停在 100，体力 150 的合击仍可用",
+      "assertions": [
+        {
+          "line": 268,
+          "endLine": 268,
+          "matchers": ["toBe"]
+        }
+      ],
+      "axis": "boundary",
+      "oracle": {
+        "operands": "合击图标",
+        "matcher": "toBe",
+        "exact": "合击为 2"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/present/battle/battle-ui-pixels.grok-r1.test.ts",
+        "fullName": "G08-B 战斗界面像素 G08-B03 maxHP/5 超过 100 时门槛停在 100，体力 150 的合击仍可用",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G08-B04",
+      "batch": "G08",
+      "group": "G08-B",
+      "primarySource": {
+        "file": "packages/game/src/present/battle/draw-battle-ui.ts",
+        "conditionLine": 490,
+        "condition": "法术是否可用只看沉默是否为 0（draw-battle-ui.ts:490）"
+      },
+      "caller": {
+        "file": "packages/game/src/present/battle/present-battle.ts",
+        "line": 312,
+        "expr": "drawBattleUI("
+      },
+      "legalInput": "本人沉默 2，体力 200，两人队。选中攻击。",
+      "oldTest": {
+        "sha": "d4c0bfad71770a034c1748888414b4661ffef750",
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-ui.test.ts",
+        "fullName": "drawBattleUI(新模型 1:1) selectMove + main —— 画状态栏 + 4 图标(framebuffer 有写入,不抛)",
+        "assertionLine": 277,
+        "matcher": "not.toThrow",
+        "checked": "主菜单绘制不抛",
+        "distinct": "法术和合击为 18，杂项为 2，攻击为 6"
+      },
+      "file": "packages/game/src/present/battle/battle-ui-pixels.grok-r1.test.ts",
+      "fullName": "G08-B 战斗界面像素 G08-B04 沉默使法术和合击更暗，杂项保持可用灰，选中的攻击仍是原色",
+      "assertions": [
+        {
+          "line": 277,
+          "endLine": 277,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 278,
+          "endLine": 278,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 279,
+          "endLine": 279,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 280,
+          "endLine": 280,
+          "matchers": ["toBe"]
+        }
+      ],
+      "axis": "exception",
+      "oracle": {
+        "operands": "法术、合击、杂项、攻击",
+        "matcher": "toBe",
+        "exact": "法术为 18；合击为 18；杂项为 2；攻击为 6"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/present/battle/battle-ui-pixels.grok-r1.test.ts",
+        "fullName": "G08-B 战斗界面像素 G08-B04 沉默使法术和合击更暗，杂项保持可用灰，选中的攻击仍是原色",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G08-B05",
+      "batch": "G08",
+      "group": "G08-B",
+      "primarySource": {
+        "file": "packages/game/src/present/battle/draw-battle-ui.ts",
+        "conditionLine": 485,
+        "condition": "傀儡算不健康，但不进入法术的沉默判断（draw-battle-ui.ts:485）"
+      },
+      "caller": {
+        "file": "packages/game/src/present/battle/present-battle.ts",
+        "line": 312,
+        "expr": "drawBattleUI("
+      },
+      "legalInput": "本人傀儡 1，沉默 0，体力 200，两人队。",
+      "oldTest": {
+        "sha": "b7f1bbdce40e4fcd5d605082f3fedaa9ba314bec",
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-sprites.test.ts",
+        "fullName": "computePlayerBattleIdleFrame(玩家状态空闲帧,sdlpal fight.c:948-984) hp==0 + 傀儡 → 帧0(站立)",
+        "assertionLine": 707,
+        "matcher": "toBe",
+        "checked": "死亡傀儡的空闲帧是 0",
+        "distinct": "活傀儡的法术仍是 2，合击是 18"
+      },
+      "file": "packages/game/src/present/battle/battle-ui-pixels.grok-r1.test.ts",
+      "fullName": "G08-B 战斗界面像素 G08-B05 傀儡不封锁法术，但合击因不健康而更暗",
+      "assertions": [
+        {
+          "line": 289,
+          "endLine": 289,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 290,
+          "endLine": 290,
+          "matchers": ["toBe"]
+        }
+      ],
+      "axis": "exception",
+      "oracle": {
+        "operands": "法术图标、合击图标",
+        "matcher": "toBe",
+        "exact": "法术为 2；合击为 18"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/present/battle/battle-ui-pixels.grok-r1.test.ts",
+        "fullName": "G08-B 战斗界面像素 G08-B05 傀儡不封锁法术，但合击因不健康而更暗",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G08-B06",
+      "batch": "G08",
+      "group": "G08-B",
+      "primarySource": {
+        "file": "packages/game/src/present/battle/draw-battle-ui.ts",
+        "conditionLine": 481,
+        "condition": "同伴睡眠使健康人数不够，合击不可用（draw-battle-ui.ts:481）"
+      },
+      "caller": {
+        "file": "packages/game/src/present/battle/present-battle.ts",
+        "line": 312,
+        "expr": "drawBattleUI("
+      },
+      "legalInput": "同伴睡眠，本人健康，两人队。",
+      "oldTest": {
+        "sha": "b7f1bbdce40e4fcd5d605082f3fedaa9ba314bec",
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-sprites.test.ts",
+        "fullName": "computePlayerBattleIdleFrame(玩家状态空闲帧,sdlpal fight.c:948-984) sleep>0 → 帧1(濒死姿)",
+        "assertionLine": 715,
+        "matcher": "toBe",
+        "checked": "睡眠队员的空闲帧是 1",
+        "distinct": "合击为 18，本人法术为 2"
+      },
+      "file": "packages/game/src/present/battle/battle-ui-pixels.grok-r1.test.ts",
+      "fullName": "G08-B 战斗界面像素 G08-B06 同伴睡眠使健康人数不够，合击更暗而法术仍可用",
+      "assertions": [
+        {
+          "line": 299,
+          "endLine": 299,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 300,
+          "endLine": 300,
+          "matchers": ["toBe"]
+        }
+      ],
+      "axis": "exception",
+      "oracle": {
+        "operands": "合击图标、法术图标",
+        "matcher": "toBe",
+        "exact": "合击为 18；法术为 2"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/present/battle/battle-ui-pixels.grok-r1.test.ts",
+        "fullName": "G08-B 战斗界面像素 G08-B06 同伴睡眠使健康人数不够，合击更暗而法术仍可用",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G08-B07",
+      "batch": "G08",
+      "group": "G08-B",
+      "primarySource": {
+        "file": "packages/game/src/present/battle/draw-battle-ui.ts",
+        "conditionLine": 473,
+        "condition": "没有行动队员时四个动作都不可用（draw-battle-ui.ts:473）"
+      },
+      "caller": {
+        "file": "packages/game/src/present/battle/present-battle.ts",
+        "line": 312,
+        "expr": "drawBattleUI("
+      },
+      "legalInput": "selectingPlayerIdx 为 undefined，一人队，选中攻击。",
+      "oldTest": {
+        "sha": "9c7ee2806e3321d3b7c5092f5ee3568a7d212a53",
+        "file": "packages/game/src/present/battle/draw-battle-ui.glm-phase1-leaves.test.ts",
+        "fullName": "L13 drawBattleUI 剩余分支 uiState='wait' 或 selectingPlayerIdx 缺省 → 无当前行动箭头",
+        "assertionLine": 106,
+        "matcher": "not.toBe",
+        "checked": "缺省队员时当前箭头不在锚点",
+        "distinct": "未选法术为 18，选中攻击仍是 6"
+      },
+      "file": "packages/game/src/present/battle/battle-ui-pixels.grok-r1.test.ts",
+      "fullName": "G08-B 战斗界面像素 G08-B07 没有行动队员时未选图标更暗，选中的攻击仍保持原色",
+      "assertions": [
+        {
+          "line": 310,
+          "endLine": 310,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 311,
+          "endLine": 311,
+          "matchers": ["toBe"]
+        }
+      ],
+      "axis": "exception",
+      "oracle": {
+        "operands": "法术图标、攻击图标",
+        "matcher": "toBe",
+        "exact": "法术为 18；攻击为 6"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/present/battle/battle-ui-pixels.grok-r1.test.ts",
+        "fullName": "G08-B 战斗界面像素 G08-B07 没有行动队员时未选图标更暗，选中的攻击仍保持原色",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G08-B08",
+      "batch": "G08",
+      "group": "G08-B",
+      "primarySource": {
+        "file": "packages/game/src/present/battle/draw-battle-ui.ts",
+        "conditionLine": 252,
+        "condition": "dialogBoxKept 单独成立时整个战斗界面不画（draw-battle-ui.ts:252）"
+      },
+      "caller": {
+        "file": "packages/game/src/present/battle/present-battle.ts",
+        "line": 312,
+        "expr": "drawBattleUI("
+      },
+      "legalInput": "只设置 dialogBoxKept，不设置 dialogBox。",
+      "oldTest": {
+        "sha": "d4c0bfad71770a034c1748888414b4661ffef750",
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-ui.test.ts",
+        "fullName": "drawBattleUI(新模型 1:1) gs.dialogBox 非空 —— 战斗 UI 全不画",
+        "assertionLine": 631,
+        "matcher": "toBe",
+        "checked": "dialogBox 时整屏无写入",
+        "distinct": "攻击图标和底部姓名都保持 90"
+      },
+      "file": "packages/game/src/present/battle/battle-ui-pixels.grok-r1.test.ts",
+      "fullName": "G08-B 战斗界面像素 G08-B08 dialogBoxKept 让攻击图标和底部姓名都保持哨兵",
+      "assertions": [
+        {
+          "line": 324,
+          "endLine": 324,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 325,
+          "endLine": 325,
+          "matchers": ["toBe"]
+        }
+      ],
+      "axis": "exception",
+      "oracle": {
+        "operands": "攻击图标、底部姓名",
+        "matcher": "toBe",
+        "exact": "攻击图标为 90；姓名为 90"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/present/battle/battle-ui-pixels.grok-r1.test.ts",
+        "fullName": "G08-B 战斗界面像素 G08-B08 dialogBoxKept 让攻击图标和底部姓名都保持哨兵",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G08-B09",
+      "batch": "G08",
+      "group": "G08-B",
+      "primarySource": {
+        "file": "packages/game/src/present/battle/draw-battle-ui.ts",
+        "conditionLine": 526,
+        "condition": "进入物品二级后父项用确认绿 0x2C（draw-battle-ui.ts:526）"
+      },
+      "caller": {
+        "file": "packages/game/src/present/battle/present-battle.ts",
+        "line": 312,
+        "expr": "drawBattleUI("
+      },
+      "legalInput": "menuState 为 miscItemSubMenu，miscMenuCursor 为 1。词表含围攻与道具。",
+      "oldTest": {
+        "sha": "d4c0bfad71770a034c1748888414b4661ffef750",
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-ui.test.ts",
+        "fullName": "drawBattleUI(新模型 1:1) selectMove + miscItemSubMenu —— 画杂项盒 + 物品二级(不抛)",
+        "assertionLine": 534,
+        "matcher": "not.toThrow",
+        "checked": "进入物品二级不抛",
+        "distinct": "道具为 44，围攻为 79"
+      },
+      "file": "packages/game/src/present/battle/battle-ui-pixels.grok-r1.test.ts",
+      "fullName": "G08-B 战斗界面像素 G08-B09 进入物品二级后，父项道具用确认绿 0x2C，邻项仍是 0x4F",
+      "assertions": [
+        {
+          "line": 350,
+          "endLine": 350,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 351,
+          "endLine": 351,
+          "matchers": ["toBe"]
+        }
+      ],
+      "axis": "positive",
+      "oracle": {
+        "operands": "道具字、围攻字",
+        "matcher": "toBe",
+        "exact": "道具为 44；围攻为 79"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/present/battle/battle-ui-pixels.grok-r1.test.ts",
+        "fullName": "G08-B 战斗界面像素 G08-B09 进入物品二级后，父项道具用确认绿 0x2C，邻项仍是 0x4F",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G08-B10",
+      "batch": "G08",
+      "group": "G08-B",
+      "primarySource": {
+        "file": "packages/game/src/present/battle/draw-battle-ui.ts",
+        "conditionLine": 164,
+        "condition": "未进二级时当前项走 selectedColor，Date 为 0 时是 0xF9（draw-battle-ui.ts:164）"
+      },
+      "caller": {
+        "file": "packages/game/src/present/battle/present-battle.ts",
+        "line": 312,
+        "expr": "drawBattleUI("
+      },
+      "legalInput": "menuState 为 misc，光标 0。Date.now 为 0。",
+      "oldTest": {
+        "sha": "d4c0bfad71770a034c1748888414b4661ffef750",
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-ui.test.ts",
+        "fullName": "drawBattleUI(新模型 1:1) selectMove + misc —— 画杂项盒(不抛)",
+        "assertionLine": 522,
+        "matcher": "not.toThrow",
+        "checked": "杂项盒绘制不抛",
+        "distinct": "当前项为 249，邻项为 79"
+      },
+      "file": "packages/game/src/present/battle/battle-ui-pixels.grok-r1.test.ts",
+      "fullName": "G08-B 战斗界面像素 G08-B10 杂项菜单未进入二级时，当前项是闪烁色 0xF9 而不是确认绿",
+      "assertions": [
+        {
+          "line": 361,
+          "endLine": 361,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 362,
+          "endLine": 362,
+          "matchers": ["toBe"]
+        }
+      ],
+      "axis": "positive",
+      "oracle": {
+        "operands": "当前项、邻项",
+        "matcher": "toBe",
+        "exact": "当前项为 249；邻项为 79"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/present/battle/battle-ui-pixels.grok-r1.test.ts",
+        "fullName": "G08-B 战斗界面像素 G08-B10 杂项菜单未进入二级时，当前项是闪烁色 0xF9 而不是确认绿",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G08-B11",
+      "batch": "G08",
+      "group": "G08-B",
+      "primarySource": {
+        "file": "packages/game/src/present/battle/draw-battle-ui.ts",
+        "conditionLine": 316,
+        "condition": "选友方目标时主图标不高亮，目标箭头用上移 67（draw-battle-ui.ts:316）"
+      },
+      "caller": {
+        "file": "packages/game/src/present/battle/present-battle.ts",
+        "line": 312,
+        "expr": "drawBattleUI("
+      },
+      "legalInput": "uiState 为 selectTargetPlayer。一人锚点 (240,170)。Date.now 为 0。",
+      "oldTest": {
+        "sha": "70227d54316b7adb2eca52896d8c45db32dbe8f0",
+        "file": "packages/game/src/present/__tests__/grok-composition/p15-battle-ui.test.ts",
+        "fullName": "P15 战斗 UI 多态 P15 一人二人三人的当前行动箭头和HP个位落在各自锚点",
+        "assertionLine": 71,
+        "matcher": "toBe",
+        "checked": "selectMove 的当前箭头在上移 74 处",
+        "distinct": "攻击图标为 2，目标箭头为 103，当前箭头为 104"
+      },
+      "file": "packages/game/src/present/battle/battle-ui-pixels.grok-r1.test.ts",
+      "fullName": "G08-B 战斗界面像素 G08-B11 选友方目标时攻击图标改灰，目标箭头在锚点上移 67",
+      "assertions": [
+        {
+          "line": 374,
+          "endLine": 374,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 375,
+          "endLine": 375,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 376,
+          "endLine": 376,
+          "matchers": ["toBe"]
+        }
+      ],
+      "axis": "positive",
+      "oracle": {
+        "operands": "攻击图标、目标箭头、当前箭头",
+        "matcher": "toBe",
+        "exact": "攻击为 2；目标箭头为 103；当前箭头为 104"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/present/battle/battle-ui-pixels.grok-r1.test.ts",
+        "fullName": "G08-B 战斗界面像素 G08-B11 选友方目标时攻击图标改灰，目标箭头在锚点上移 67",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G08-B12",
+      "batch": "G08",
+      "group": "G08-B",
+      "primarySource": {
+        "file": "packages/game/src/present/battle/draw-battle-ui.ts",
+        "conditionLine": 155,
+        "condition": "活人的乱字用信息框偏移和颜色 0x5F（draw-battle-ui.ts:155）"
+      },
+      "caller": {
+        "file": "packages/game/src/present/battle/present-battle.ts",
+        "line": 312,
+        "expr": "drawBattleUI("
+      },
+      "legalInput": "体力 100，混乱和沉默都大于 0。信息框原点 (91,165)。",
+      "oldTest": {
+        "sha": "d4c0bfad71770a034c1748888414b4661ffef750",
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-ui.test.ts",
+        "fullName": "drawBattleUI(新模型 1:1) PAL_PlayerInfoBox —— 活人画乱/定/眠/封状态字,死亡时不画",
+        "assertionLine": 679,
+        "matcher": "toBeGreaterThan",
+        "checked": "状态字有写入，不核对落点",
+        "distinct": "乱为 95，封为 60"
+      },
+      "file": "packages/game/src/present/battle/battle-ui-pixels.grok-r1.test.ts",
+      "fullName": "G08-B 战斗界面像素 G08-B12 活人的乱和封落在信息框偏移上",
+      "assertions": [
+        {
+          "line": 388,
+          "endLine": 388,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 389,
+          "endLine": 389,
+          "matchers": ["toBe"]
+        }
+      ],
+      "axis": "positive",
+      "oracle": {
+        "operands": "乱字、封字",
+        "matcher": "toBe",
+        "exact": "乱为 95；封为 60"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/present/battle/battle-ui-pixels.grok-r1.test.ts",
+        "fullName": "G08-B 战斗界面像素 G08-B12 活人的乱和封落在信息框偏移上",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G08-B13",
+      "batch": "G08",
+      "group": "G08-B",
+      "primarySource": {
+        "file": "packages/game/src/present/battle/draw-battle-ui.ts",
+        "conditionLine": 413,
+        "condition": "中毒头像按毒色单色重绘，不再走满色 blit（draw-battle-ui.ts:413）"
+      },
+      "caller": {
+        "file": "packages/game/src/present/battle/present-battle.ts",
+        "line": 312,
+        "expr": "drawBattleUI("
+      },
+      "legalInput": "毒 552 等级 1 颜色 64。头像帧索引 0x30。体力不为 0。",
+      "oldTest": {
+        "sha": "d4c0bfad71770a034c1748888414b4661ffef750",
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-ui.test.ts",
+        "fullName": "computePlayerFaceColor(头像染色 uibattle.c:114-162) 单毒 level1 → 该毒 wColor(64)",
+        "assertionLine": 31,
+        "matcher": "toBe",
+        "checked": "函数返回 64",
+        "distinct": "头像像素为 64"
+      },
+      "file": "packages/game/src/present/battle/battle-ui-pixels.grok-r1.test.ts",
+      "fullName": "G08-B 战斗界面像素 G08-B13 中毒头像按毒色高半字节重染，不再写出原索引",
+      "assertions": [
+        {
+          "line": 404,
+          "endLine": 404,
+          "matchers": ["toBe"]
+        }
+      ],
+      "axis": "positive",
+      "oracle": {
+        "operands": "头像像素",
+        "matcher": "toBe",
+        "exact": "头像像素为 64"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/present/battle/battle-ui-pixels.grok-r1.test.ts",
+        "fullName": "G08-B 战斗界面像素 G08-B13 中毒头像按毒色高半字节重染，不再写出原索引",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G08-B14",
+      "batch": "G08",
+      "group": "G08-B",
+      "primarySource": {
+        "file": "packages/game/src/present/battle/draw-battle-ui.ts",
+        "conditionLine": 688,
+        "condition": "物品框先在右下 5 像素画阴影，再画本体（draw-battle-ui.ts:688）"
+      },
+      "caller": {
+        "file": "packages/game/src/present/battle/present-battle.ts",
+        "line": 312,
+        "expr": "drawBattleUI("
+      },
+      "legalInput": "背景 0x13。框帧索引 0x6E。图标 bitmap 4 索引 0x21。menuState 为 useItemSelect。",
+      "oldTest": {
+        "sha": "d4c0bfad71770a034c1748888414b4661ffef750",
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-ui.test.ts",
+        "fullName": "drawBattleUI(新模型 1:1) selectMove + useItemSelect —— 画 ITEMBOX、BALL 图标和 scriptDesc 说明",
+        "assertionLine": 504,
+        "matcher": "toBe",
+        "checked": "小球图标是 123",
+        "distinct": "阴影为 17，框为 110，图标为 33"
+      },
+      "file": "packages/game/src/present/battle/battle-ui-pixels.grok-r1.test.ts",
+      "fullName": "G08-B 战斗界面像素 G08-B14 物品框阴影把背景 0x13 收成 0x11，本体和小球图标分开",
+      "assertions": [
+        {
+          "line": 428,
+          "endLine": 428,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 429,
+          "endLine": 429,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 430,
+          "endLine": 430,
+          "matchers": ["toBe"]
+        }
+      ],
+      "axis": "positive",
+      "oracle": {
+        "operands": "阴影、框本体、图标",
+        "matcher": "toBe",
+        "exact": "阴影为 17；框为 110；图标为 33"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/present/battle/battle-ui-pixels.grok-r1.test.ts",
+        "fullName": "G08-B 战斗界面像素 G08-B14 物品框阴影把背景 0x13 收成 0x11，本体和小球图标分开",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G08-B15",
+      "batch": "G08",
+      "group": "G08-B",
+      "primarySource": {
+        "file": "packages/game/src/present/battle/draw-battle-ui.ts",
+        "conditionLine": 740,
+        "condition": "法术网格不传数量偏移，因此不画右侧数量（draw-battle-ui.ts:740）"
+      },
+      "caller": {
+        "file": "packages/game/src/present/battle/present-battle.ts",
+        "line": 312,
+        "expr": "drawBattleUI("
+      },
+      "legalInput": "法术 rightText 为 ×2。帧 44 到 46 存在且透明。",
+      "oldTest": {
+        "sha": "70227d54316b7adb2eca52896d8c45db32dbe8f0",
+        "file": "packages/game/src/present/__tests__/grok-composition/p15-battle-ui.test.ts",
+        "fullName": "P15 战斗 UI 多态 P15 正常单人队的物品数量2画青字，数量1不画",
+        "assertionLine": 150,
+        "matcher": "toEqual",
+        "checked": "物品数量 2 画青字、数量 1 不画",
+        "distinct": "选中法术名为 249，假设的个位保持 90"
+      },
+      "file": "packages/game/src/present/battle/battle-ui-pixels.grok-r1.test.ts",
+      "fullName": "G08-B 战斗界面像素 G08-B15 法术网格不画物品数量，假设的个位保持哨兵",
+      "assertions": [
+        {
+          "line": 448,
+          "endLine": 448,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 449,
+          "endLine": 449,
+          "matchers": ["toBe"]
+        }
+      ],
+      "axis": "exception",
+      "oracle": {
+        "operands": "法术名、假设个位",
+        "matcher": "toBe",
+        "exact": "法术名为 249；个位为 90"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/present/battle/battle-ui-pixels.grok-r1.test.ts",
+        "fullName": "G08-B 战斗界面像素 G08-B15 法术网格不画物品数量，假设的个位保持哨兵",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G08-B16",
+      "batch": "G08",
+      "group": "G08-B",
+      "primarySource": {
+        "file": "packages/game/src/present/battle/draw-battle-ui.ts",
+        "conditionLine": 396,
+        "condition": "界面帧数不超过 48 时改画文字姓名（draw-battle-ui.ts:396）"
+      },
+      "caller": {
+        "file": "packages/game/src/present/battle/present-battle.ts",
+        "line": 312,
+        "expr": "drawBattleUI("
+      },
+      "legalInput": "帧数组长度正好 48。姓名为甲。",
+      "oldTest": {
+        "sha": "d4c0bfad71770a034c1748888414b4661ffef750",
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-ui.test.ts",
+        "fullName": "drawBattleUI(新模型 1:1) 无 uiSpriteFrames —— 优雅跳过 sprite(只画底部状态栏,不抛)",
+        "assertionLine": 288,
+        "matcher": "not.toThrow",
+        "checked": "完全没有帧时不抛",
+        "distinct": "姓名为 1，头像位为 90"
+      },
+      "file": "packages/game/src/present/battle/battle-ui-pixels.grok-r1.test.ts",
+      "fullName": "G08-B 战斗界面像素 G08-B16 界面帧数不超过 48 时改画文字姓名，不画头像",
+      "assertions": [
+        {
+          "line": 460,
+          "endLine": 460,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 461,
+          "endLine": 461,
+          "matchers": ["toBe"]
+        }
+      ],
+      "axis": "boundary",
+      "oracle": {
+        "operands": "姓名、头像位",
+        "matcher": "toBe",
+        "exact": "姓名为 1；头像位为 90"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/present/battle/battle-ui-pixels.grok-r1.test.ts",
+        "fullName": "G08-B 战斗界面像素 G08-B16 界面帧数不超过 48 时改画文字姓名，不画头像",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G08-B17",
+      "batch": "G08",
+      "group": "G08-B",
+      "primarySource": {
+        "file": "packages/game/src/present/battle/draw-battle-ui.ts",
+        "conditionLine": 412,
+        "condition": "帧数刚过 48 且无毒时按满色把头像贴在框外（draw-battle-ui.ts:412）"
+      },
+      "caller": {
+        "file": "packages/game/src/present/battle/present-battle.ts",
+        "line": 312,
+        "expr": "drawBattleUI("
+      },
+      "legalInput": "帧数 49。头像帧索引 0x30。无毒。",
+      "oldTest": {
+        "sha": "d4c0bfad71770a034c1748888414b4661ffef750",
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-ui.test.ts",
+        "fullName": "computePlayerFaceColor(头像染色 uibattle.c:114-162) 无毒 + 活着 → 0xFF(满色,正常 blit)",
+        "assertionLine": 27,
+        "matcher": "toBe",
+        "checked": "无毒时函数返回 255",
+        "distinct": "头像像素为 48，底部姓名为 90"
+      },
+      "file": "packages/game/src/present/battle/battle-ui-pixels.grok-r1.test.ts",
+      "fullName": "G08-B 战斗界面像素 G08-B17 帧数刚到 49 时画头像，底部文字姓名保持哨兵",
+      "assertions": [
+        {
+          "line": 473,
+          "endLine": 473,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 474,
+          "endLine": 474,
+          "matchers": ["toBe"]
+        }
+      ],
+      "axis": "boundary",
+      "oracle": {
+        "operands": "头像像素、底部姓名",
+        "matcher": "toBe",
+        "exact": "头像为 48；姓名为 90"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/present/battle/battle-ui-pixels.grok-r1.test.ts",
+        "fullName": "G08-B 战斗界面像素 G08-B17 帧数刚到 49 时画头像，底部文字姓名保持哨兵",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G08-C01",
+      "batch": "G08",
+      "group": "G08-C",
+      "primarySource": {
+        "file": "packages/game/src/present/battle/draw-battle-settlement.ts",
+        "conditionLine": 83,
+        "condition": "没有界面帧时结算直接返回（draw-battle-settlement.ts:83）"
+      },
+      "caller": {
+        "file": "packages/game/src/present/battle/present-battle.ts",
+        "line": 363,
+        "expr": "drawBattleSettlement({"
+      },
+      "legalInput": "不传 uiSpriteFrames。经验屏对象先做快照。",
+      "oldTest": {
+        "sha": "d865db2e980b0b88a9f7ac31378956eeb6347f49",
+        "file": "packages/game/src/present/battle/__tests__/present-battle.test.ts",
+        "fullName": "drawBattleSettlement —— D11b 胜利结算演出渲染 无 uiSpriteFrames → 安全 no-op(不抛)",
+        "assertionLine": 666,
+        "matcher": "toBe",
+        "checked": "没有帧时 framebuffer 无写入",
+        "distinct": "(83,60) 为 90，屏对象前后相等"
+      },
+      "file": "packages/game/src/present/battle/battle-settlement-pixels.grok-r1.test.ts",
+      "fullName": "G08-C 战斗结算像素 G08-C01 没有界面帧时经验屏不写像素，屏数据保持原样",
+      "assertions": [
+        {
+          "line": 65,
+          "endLine": 65,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 66,
+          "endLine": 66,
+          "matchers": ["toEqual"]
+        }
+      ],
+      "axis": "exception",
+      "oracle": {
+        "operands": "经验框落点、屏对象",
+        "matcher": "toBe / toEqual",
+        "exact": "落点为 90；屏对象与绘制前相等"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/present/battle/battle-settlement-pixels.grok-r1.test.ts",
+        "fullName": "G08-C 战斗结算像素 G08-C01 没有界面帧时经验屏不写像素，屏数据保持原样",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G08-C02",
+      "batch": "G08",
+      "group": "G08-C",
+      "primarySource": {
+        "file": "packages/game/src/present/battle/draw-battle-settlement.ts",
+        "conditionLine": 186,
+        "condition": "箭头帧缺失时跳过箭头，标签仍画（draw-battle-settlement.ts:186）"
+      },
+      "caller": {
+        "file": "packages/game/src/present/battle/present-battle.ts",
+        "line": 363,
+        "expr": "drawBattleSettlement({"
+      },
+      "legalInput": "界面帧长度 47，没有帧 47。标签字为修。",
+      "oldTest": {
+        "sha": "c18468591636358ccf8936210082ab426549e777",
+        "file": "packages/game/src/present/battle/draw-battle-settlement.glm-phase1-leaves.test.ts",
+        "fullName": "L15 drawBattleSettlement 精确像素 level-up：8 行 old→cur + slash + 箭头 + 0xBB 标签 + 标题",
+        "assertionLine": 97,
+        "matcher": "toBe",
+        "checked": "箭头在时标签 (100,44) 是 187",
+        "distinct": "标签仍是 187，箭头锚点为 90"
+      },
+      "file": "packages/game/src/present/battle/battle-settlement-pixels.grok-r1.test.ts",
+      "fullName": "G08-C 战斗结算像素 G08-C02 缺少箭头帧时标签仍是 0xBB，箭头锚点保持哨兵",
+      "assertions": [
+        {
+          "line": 78,
+          "endLine": 78,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 79,
+          "endLine": 79,
+          "matchers": ["toBe"]
+        }
+      ],
+      "axis": "exception",
+      "oracle": {
+        "operands": "标签、箭头锚点",
+        "matcher": "toBe",
+        "exact": "标签为 187；箭头锚点为 90"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/present/battle/battle-settlement-pixels.grok-r1.test.ts",
+        "fullName": "G08-C 战斗结算像素 G08-C02 缺少箭头帧时标签仍是 0xBB，箭头锚点保持哨兵",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G08-C03",
+      "batch": "G08",
+      "group": "G08-C",
+      "primarySource": {
+        "file": "packages/game/src/present/battle/draw-battle-settlement.ts",
+        "conditionLine": 205,
+        "condition": "斜杠帧缺失时不画斜杠，体力个位照画（draw-battle-settlement.ts:205）"
+      },
+      "caller": {
+        "file": "packages/game/src/present/battle/present-battle.ts",
+        "line": 363,
+        "expr": "drawBattleSettlement({"
+      },
+      "legalInput": "删掉帧 39。体力旧值 41。个位 x 为 151，y 为 64。",
+      "oldTest": {
+        "sha": "c18468591636358ccf8936210082ab426549e777",
+        "file": "packages/game/src/present/battle/draw-battle-settlement.glm-phase1-leaves.test.ts",
+        "fullName": "L15 drawBattleSettlement 精确像素 level-up：8 行 old→cur + slash + 箭头 + 0xBB 标签 + 标题",
+        "assertionLine": 89,
+        "matcher": "toBe",
+        "checked": "斜杠点 (156,66) 是 57",
+        "distinct": "个位为 177，斜杠点为 90"
+      },
+      "file": "packages/game/src/present/battle/battle-settlement-pixels.grok-r1.test.ts",
+      "fullName": "G08-C 战斗结算像素 G08-C03 缺少斜杠帧时体力个位仍画出，斜杠点保持哨兵",
+      "assertions": [
+        {
+          "line": 94,
+          "endLine": 94,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 95,
+          "endLine": 95,
+          "matchers": ["toBe"]
+        }
+      ],
+      "axis": "exception",
+      "oracle": {
+        "operands": "体力个位、斜杠点",
+        "matcher": "toBe",
+        "exact": "个位为 177；斜杠点为 90"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/present/battle/battle-settlement-pixels.grok-r1.test.ts",
+        "fullName": "G08-C 战斗结算像素 G08-C03 缺少斜杠帧时体力个位仍画出，斜杠点保持哨兵",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G08-C04",
+      "batch": "G08",
+      "group": "G08-C",
+      "primarySource": {
+        "file": "packages/game/src/present/battle/draw-battle-settlement.ts",
+        "conditionLine": 129,
+        "condition": "二字名的框长把名字钳到 3，文字仍用实际字宽（draw-battle-settlement.ts:129）"
+      },
+      "caller": {
+        "file": "packages/game/src/present/battle/present-battle.ts",
+        "line": 363,
+        "expr": "drawBattleSettlement({"
+      },
+      "legalInput": "名字甲乙。属性词 49 为体。提升为两字。哨兵底。",
+      "oldTest": {
+        "sha": "c18468591636358ccf8936210082ab426549e777",
+        "file": "packages/game/src/present/battle/draw-battle-settlement.glm-phase1-leaves.test.ts",
+        "fullName": "L15 drawBattleSettlement 精确像素 hidden-exp-up：词表拼 名字+属性+提升，涨点数 x=191（仙剑 maxName=3/maxProp=1）",
+        "assertionLine": 130,
+        "matcher": "toBe",
+        "checked": "一字名的属性字紧贴实际字宽",
+        "distinct": "框右缘为 70，体为 0，旁边为 90"
+      },
+      "file": "packages/game/src/present/battle/battle-settlement-pixels.grok-r1.test.ts",
+      "fullName": "G08-C 战斗结算像素 G08-C04 二字名的文字按实际字宽贴上，框右缘仍按钳到 3 的长度",
+      "assertions": [
+        {
+          "line": 115,
+          "endLine": 115,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 116,
+          "endLine": 116,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 117,
+          "endLine": 117,
+          "matchers": ["toBe"]
+        }
+      ],
+      "axis": "boundary",
+      "oracle": {
+        "operands": "框右缘、属性字、旁点",
+        "matcher": "toBe",
+        "exact": "右缘为 70；体为 0；旁点为 90"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/present/battle/battle-settlement-pixels.grok-r1.test.ts",
+        "fullName": "G08-C 战斗结算像素 G08-C04 二字名的文字按实际字宽贴上，框右缘仍按钳到 3 的长度",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G08-C05",
+      "batch": "G08",
+      "group": "G08-C",
+      "primarySource": {
+        "file": "packages/game/src/present/battle/draw-battle-settlement.ts",
+        "conditionLine": 241,
+        "condition": "名字四字、法术六字时 ww 为 16，框和名字一起左移（draw-battle-settlement.ts:241）"
+      },
+      "caller": {
+        "file": "packages/game/src/present/battle/present-battle.ts",
+        "line": 363,
+        "expr": "drawBattleSettlement({"
+      },
+      "legalInput": "名字甲乙丙丁，法术甲乙丙丁戊己。练成两字。",
+      "oldTest": {
+        "sha": "c18468591636358ccf8936210082ab426549e777",
+        "file": "packages/game/src/present/battle/draw-battle-settlement.glm-phase1-leaves.test.ts",
+        "fullName": "L15 drawBattleSettlement 精确像素 learn-magic：ww 偏移随字宽收窄框，magicName 色 0x1B",
+        "assertionLine": 151,
+        "matcher": "toBe",
+        "checked": "一字名加两字法术时 ww 为 0，名字在 75",
+        "distinct": "框左缘为 68，名字为 0，未移动的 65 列保持 90"
+      },
+      "file": "packages/game/src/present/battle/battle-settlement-pixels.grok-r1.test.ts",
+      "fullName": "G08-C 战斗结算像素 G08-C05 名字四字、法术六字时 ww=16，单行框和名字一起左移",
+      "assertions": [
+        {
+          "line": 135,
+          "endLine": 135,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 136,
+          "endLine": 136,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 137,
+          "endLine": 137,
+          "matchers": ["toBe"]
+        }
+      ],
+      "axis": "positive",
+      "oracle": {
+        "operands": "框左缘、名字、未移动列",
+        "matcher": "toBe",
+        "exact": "左缘为 68；名字为 0；65 列为 90"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/present/battle/battle-settlement-pixels.grok-r1.test.ts",
+        "fullName": "G08-C 战斗结算像素 G08-C05 名字四字、法术六字时 ww=16，单行框和名字一起左移",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G08-D01",
+      "batch": "G08",
+      "group": "G08-D",
+      "primarySource": {
+        "file": "packages/game/src/present/battle/draw-battle-effect.ts",
+        "conditionLine": 31,
+        "condition": "奇数宽特效的底中锚点只减 width>>1（draw-battle-effect.ts:31）"
+      },
+      "caller": {
+        "file": "packages/game/src/present/battle/present-battle.ts",
+        "line": 277,
+        "expr": "drawBattleEffectOverlay(fb, state.battleAnim.overlay, assets.effectSprite)"
+      },
+      "legalInput": "宽 3 高 1，填充 0x2D。落点 (160,90)。",
+      "oldTest": {
+        "sha": "635ac4b785f3fcac0d8c24c0d1b70c45ffab5991",
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-effect.test.ts",
+        "fullName": "drawBattleEffectOverlay 画 overlay.frameIdx 帧到落点(底中 anchor:x - w/2, y - h)",
+        "assertionLine": 40,
+        "matcher": "toBe",
+        "checked": "偶数 2×2 的左缘在 159、索引 22",
+        "distinct": "左缘和锚点列为 45，158 与 162 为 90"
+      },
+      "file": "packages/game/src/present/battle/battle-effect-num-pixels.grok-r1.test.ts",
+      "fullName": "G08-D 特效与飘字像素 G08-D01 宽 3 的特效锚点只减 1，左缘和多出来的右缘都写入",
+      "assertions": [
+        {
+          "line": 61,
+          "endLine": 61,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 62,
+          "endLine": 62,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 63,
+          "endLine": 63,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 64,
+          "endLine": 64,
+          "matchers": ["toBe"]
+        }
+      ],
+      "axis": "boundary",
+      "oracle": {
+        "operands": "左缘、锚点列、左右外侧",
+        "matcher": "toBe",
+        "exact": "159 与 161 为 45；158 与 162 为 90"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/present/battle/battle-effect-num-pixels.grok-r1.test.ts",
+        "fullName": "G08-D 特效与飘字像素 G08-D01 宽 3 的特效锚点只减 1，左缘和多出来的右缘都写入",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G08-D02",
+      "batch": "G08",
+      "group": "G08-D",
+      "primarySource": {
+        "file": "packages/game/src/present/battle/draw-battle-effect.ts",
+        "conditionLine": 31,
+        "condition": "宽 1 时 width>>1 为 0，像素落在锚点列（draw-battle-effect.ts:31）"
+      },
+      "caller": {
+        "file": "packages/game/src/present/battle/present-battle.ts",
+        "line": 277,
+        "expr": "drawBattleEffectOverlay(fb, state.battleAnim.overlay, assets.effectSprite)"
+      },
+      "legalInput": "宽 1 高 1，填充 0x2D。落点 (160,90)。",
+      "oldTest": {
+        "sha": "635ac4b785f3fcac0d8c24c0d1b70c45ffab5991",
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-effect.test.ts",
+        "fullName": "drawBattleEffectOverlay 画 overlay.frameIdx 帧到落点(底中 anchor:x - w/2, y - h)",
+        "assertionLine": 40,
+        "matcher": "toBe",
+        "checked": "宽 2 的左缘在锚点左边一列",
+        "distinct": "锚点列为 45，左边一列为 90"
+      },
+      "file": "packages/game/src/present/battle/battle-effect-num-pixels.grok-r1.test.ts",
+      "fullName": "G08-D 特效与飘字像素 G08-D02 宽 1 时右移半宽为 0，像素落在锚点列而不是左边一列",
+      "assertions": [
+        {
+          "line": 71,
+          "endLine": 71,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 72,
+          "endLine": 72,
+          "matchers": ["toBe"]
+        }
+      ],
+      "axis": "boundary",
+      "oracle": {
+        "operands": "锚点列、左边一列",
+        "matcher": "toBe",
+        "exact": "160 为 45；159 为 90"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/present/battle/battle-effect-num-pixels.grok-r1.test.ts",
+        "fullName": "G08-D 特效与飘字像素 G08-D02 宽 1 时右移半宽为 0，像素落在锚点列而不是左边一列",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G08-D03",
+      "batch": "G08",
+      "group": "G08-D",
+      "primarySource": {
+        "file": "packages/game/src/present/battle/draw-battle-num.ts",
+        "conditionLine": 58,
+        "condition": "飘字以 5 位右对齐画在 x 上，个位位于 x-6+6*5（draw-battle-num.ts:58）"
+      },
+      "caller": {
+        "file": "packages/game/src/present/battle/present-battle.ts",
+        "line": 309,
+        "expr": "this.floatingNums.draw(fb, currentFrame, assets.uiSpriteFrames)"
+      },
+      "legalInput": "黄 7，x 为 100，y 为 50，age 为 0。",
+      "oldTest": {
+        "sha": "0d59de00c00035ed6ff3e2e98a35329a57c55cbb",
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-num.test.ts",
+        "fullName": "FloatingNumsLayer 数字每帧上移 1px(dy = -age,sdlpal uibattle.c:1760)",
+        "assertionLine": 73,
+        "matcher": "toBe",
+        "checked": "相邻两帧的 y 差是 1",
+        "distinct": "个位为 183，左边空位为 90"
+      },
+      "file": "packages/game/src/present/battle/battle-effect-num-pixels.grok-r1.test.ts",
+      "fullName": "G08-D 特效与飘字像素 G08-D03 五位右对齐的个位在 x+24，十位不补零",
+      "assertions": [
+        {
+          "line": 81,
+          "endLine": 81,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 82,
+          "endLine": 82,
+          "matchers": ["toBe"]
+        }
+      ],
+      "axis": "positive",
+      "oracle": {
+        "operands": "个位、左边空位",
+        "matcher": "toBe",
+        "exact": "个位为 183；空位为 90"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/present/battle/battle-effect-num-pixels.grok-r1.test.ts",
+        "fullName": "G08-D 特效与飘字像素 G08-D03 五位右对齐的个位在 x+24，十位不补零",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G08-D04",
+      "batch": "G08",
+      "group": "G08-D",
+      "primarySource": {
+        "file": "packages/game/src/present/battle/draw-battle-num.ts",
+        "conditionLine": 29,
+        "condition": "五位右对齐只保留低五位（draw-battle-num.ts:29）"
+      },
+      "caller": {
+        "file": "packages/game/src/present/battle/present-battle.ts",
+        "line": 309,
+        "expr": "this.floatingNums.draw(fb, currentFrame, assets.uiSpriteFrames)"
+      },
+      "legalInput": "数值 123456，黄，x 为 100，y 为 50。",
+      "oldTest": {
+        "sha": "0d59de00c00035ed6ff3e2e98a35329a57c55cbb",
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-num.test.ts",
+        "fullName": "FloatingNumsLayer emit + draw 写入像素(UI sprite 数字帧)",
+        "assertionLine": 49,
+        "matcher": "toBeGreaterThan",
+        "checked": "有写入，不核对是哪一位",
+        "distinct": "个位 6 为 182，留下的最高位 2 为 178，丢掉的 1 所在列保持 90"
+      },
+      "file": "packages/game/src/present/battle/battle-effect-num-pixels.grok-r1.test.ts",
+      "fullName": "G08-D 特效与飘字像素 G08-D04 六位数只留低五位，最高位不画到个位左边第六格",
+      "assertions": [
+        {
+          "line": 91,
+          "endLine": 91,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 92,
+          "endLine": 92,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 93,
+          "endLine": 93,
+          "matchers": ["toBe"]
+        }
+      ],
+      "axis": "boundary",
+      "oracle": {
+        "operands": "个位、留下的最高位、丢掉的一位",
+        "matcher": "toBe",
+        "exact": "个位为 182；最高位为 178；丢掉的列为 90"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/present/battle/battle-effect-num-pixels.grok-r1.test.ts",
+        "fullName": "G08-D 特效与飘字像素 G08-D04 六位数只留低五位，最高位不画到个位左边第六格",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G08-D05",
+      "batch": "G08",
+      "group": "G08-D",
+      "primarySource": {
+        "file": "packages/game/src/present/battle/draw-battle-num.ts",
+        "conditionLine": 35,
+        "condition": "两次 emit 各画自己的个位，颜色基帧不同（draw-battle-num.ts:35）"
+      },
+      "caller": {
+        "file": "packages/game/src/present/battle/present-battle.ts",
+        "line": 309,
+        "expr": "this.floatingNums.draw(fb, currentFrame, assets.uiSpriteFrames)"
+      },
+      "legalInput": "先黄 7 在 (100,50)，再蓝 3 在个位 x 224、y 80。",
+      "oldTest": {
+        "sha": "0d59de00c00035ed6ff3e2e98a35329a57c55cbb",
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-num.test.ts",
+        "fullName": "FloatingNumsLayer yellow / blue / cyan 选不同 base frame(sprite index 区分)",
+        "assertionLine": 110,
+        "matcher": "toEqual",
+        "checked": "三种颜色的帧号集合不同",
+        "distinct": "黄个位为 183，蓝个位为 211，条数为 2"
+      },
+      "file": "packages/game/src/present/battle/battle-effect-num-pixels.grok-r1.test.ts",
+      "fullName": "G08-D 特效与飘字像素 G08-D05 两条飘字各写自己的个位，黄 7 和蓝 3 不互相覆盖",
+      "assertions": [
+        {
+          "line": 103,
+          "endLine": 103,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 104,
+          "endLine": 104,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 105,
+          "endLine": 105,
+          "matchers": ["toBe"]
+        }
+      ],
+      "axis": "positive",
+      "oracle": {
+        "operands": "黄个位、蓝个位、条数",
+        "matcher": "toBe",
+        "exact": "黄个位为 183；蓝个位为 211；条数为 2"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/present/battle/battle-effect-num-pixels.grok-r1.test.ts",
+        "fullName": "G08-D 特效与飘字像素 G08-D05 两条飘字各写自己的个位，黄 7 和蓝 3 不互相覆盖",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G08-D06",
+      "batch": "G08",
+      "group": "G08-D",
+      "primarySource": {
+        "file": "packages/game/src/present/battle/draw-battle-num.ts",
+        "conditionLine": 58,
+        "condition": "数值 0 仍按一位右对齐画出数字 0（draw-battle-num.ts:58）"
+      },
+      "caller": {
+        "file": "packages/game/src/present/battle/present-battle.ts",
+        "line": 309,
+        "expr": "this.floatingNums.draw(fb, currentFrame, assets.uiSpriteFrames)"
+      },
+      "legalInput": "数值 0，黄，x 为 100，y 为 50。",
+      "oldTest": {
+        "sha": "0d59de00c00035ed6ff3e2e98a35329a57c55cbb",
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-num.test.ts",
+        "fullName": "FloatingNumsLayer 寿命 11 帧:age 0..10 显示,age=11 清除(sdlpal uibattle.c:1753)",
+        "assertionLine": 80,
+        "matcher": "toBe",
+        "checked": "age 0 到 10 仍计数，age 11 清除",
+        "distinct": "个位 0 为 176，左边空位为 90，条数为 1"
+      },
+      "file": "packages/game/src/present/battle/battle-effect-num-pixels.grok-r1.test.ts",
+      "fullName": "G08-D 特效与飘字像素 G08-D06 数值 0 仍画一位黄 0，左边不补位",
+      "assertions": [
+        {
+          "line": 114,
+          "endLine": 114,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 115,
+          "endLine": 115,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 116,
+          "endLine": 116,
+          "matchers": ["toBe"]
+        }
+      ],
+      "axis": "boundary",
+      "oracle": {
+        "operands": "个位、左边空位、条数",
+        "matcher": "toBe",
+        "exact": "个位为 176；空位为 90；条数为 1"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/present/battle/battle-effect-num-pixels.grok-r1.test.ts",
+        "fullName": "G08-D 特效与飘字像素 G08-D06 数值 0 仍画一位黄 0，左边不补位",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G08-D07",
+      "batch": "G08",
+      "group": "G08-D",
+      "primarySource": {
+        "file": "packages/game/src/present/battle/draw-battle-effect.ts",
+        "conditionLine": 31,
+        "condition": "奇数宽右缘索引经 flushToCanvas 写成调色板 RGB（draw-battle-effect.ts:31）"
+      },
+      "caller": {
+        "file": "packages/game/src/present/battle/present-battle.ts",
+        "line": 277,
+        "expr": "drawBattleEffectOverlay(fb, state.battleAnim.overlay, assets.effectSprite)"
+      },
+      "legalInput": "宽 3 填充 0x2D。只读 (161,89)。调色板回调为 legalPalette。",
+      "oldTest": {
+        "sha": "635ac4b785f3fcac0d8c24c0d1b70c45ffab5991",
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-effect.test.ts",
+        "fullName": "drawBattleEffectOverlay 透明像素(opaque=0)不覆盖背景",
+        "assertionLine": 84,
+        "matcher": "toBe",
+        "checked": "透明点保持背景 77",
+        "distinct": "画布 (161,89) 为 [45,9,18,255]，缓冲仍是 45"
+      },
+      "file": "packages/game/src/present/battle/battle-effect-num-pixels.grok-r1.test.ts",
+      "fullName": "G08-D 特效与飘字像素 G08-D07 奇数宽右缘索引 0x2D 经 flushToCanvas 写成调色板 RGB，缓冲仍是 0x2D",
+      "assertions": [
+        {
+          "line": 132,
+          "endLine": 132,
+          "matchers": ["toEqual"]
+        },
+        {
+          "line": 133,
+          "endLine": 133,
+          "matchers": ["toBe"]
+        }
+      ],
+      "axis": "positive",
+      "oracle": {
+        "operands": "画布 RGBA、缓冲索引",
+        "matcher": "toEqual / toBe",
+        "exact": "RGBA 为 [45, 9, 18, 255]；缓冲为 45"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/present/battle/battle-effect-num-pixels.grok-r1.test.ts",
+        "fullName": "G08-D 特效与飘字像素 G08-D07 奇数宽右缘索引 0x2D 经 flushToCanvas 写成调色板 RGB，缓冲仍是 0x2D",
+        "status": "passed"
+      }
     }
   ],
   "existingProof": [
@@ -17324,6 +19598,448 @@
       "reason": "draw-opening-menu.ts:65 的 y === undefined 到不了：ITEM_Y 只有 95 与 112，openingMenuLabels 固定返回两项",
       "file": "packages/game/src/present/menu/draw-opening-menu.ts",
       "line": 65
+    },
+    {
+      "id": "G08-EP-shift",
+      "classification": "existing-proof",
+      "reason": "单次染色 0x03+6=9 已由精灵测试证明，A01 只补第二遍把重叠点染回",
+      "oldTest": {
+        "sha": "b7f1bbdce40e4fcd5d605082f3fedaa9ba314bec",
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-sprites.test.ts",
+        "assertionLine": 252,
+        "matcher": "toBe",
+        "checked": "0x03 加 6 写成 9",
+        "fullName": "drawBattleSprites — iColorShift 染色 blit(D17a,palcommon.c:397-411) low-nibble 0x03 + 6 = 0x09"
+      }
+    },
+    {
+      "id": "G08-EP-ysort",
+      "classification": "existing-proof",
+      "reason": "Y 大的后画盖前已证明，A14 只补回调被敌方盖住后框外留下的点",
+      "oldTest": {
+        "sha": "b7f1bbdce40e4fcd5d605082f3fedaa9ba314bec",
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-sprites.test.ts",
+        "assertionLine": 403,
+        "matcher": "toBe",
+        "checked": "Y 更大的精灵后画盖住重叠点",
+        "fullName": "drawBattleSprites — render-state pos/currentFrame(D17a) Y-then-X 排序:Y 大的(屏幕下方)后画盖前"
+      }
+    },
+    {
+      "id": "G08-EP-dm9",
+      "classification": "existing-proof",
+      "reason": "法术回调的绘制顺序已由 ground/top 证明，A13 只补像素被写成 77",
+      "oldTest": {
+        "sha": "b7f1bbdce40e4fcd5d605082f3fedaa9ba314bec",
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-sprites.test.ts",
+        "assertionLine": 754,
+        "matcher": "toEqual",
+        "checked": "顺序为 ground 然后 top",
+        "fullName": "DM9:法术精灵参与 Y+sLayerOffset 统一 z 排序(battle.c:441-442) 负 layerOffset(地面型)排在精灵前(被精灵覆盖);大 offset 排后(盖精灵)"
+      }
+    },
+    {
+      "id": "G08-EP-fresh-death",
+      "classification": "existing-proof",
+      "reason": "health<=0 且淡出未开始仍画出已证明；A08 的空槽还要求 defeated",
+      "oldTest": {
+        "sha": "b7f1bbdce40e4fcd5d605082f3fedaa9ba314bec",
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-sprites.test.ts",
+        "assertionLine": 548,
+        "matcher": "toBe",
+        "checked": "未设 defeated 时像素仍是 9",
+        "fullName": "drawBattleSprites — 敌人死亡淡出集成(D17) health<=0 + deathFadeStep undefined:照常画(刚被打死、淡出未开始 → 受击帧仍可见,不瞬隐)"
+      }
+    },
+    {
+      "id": "G08-EP-idle-dead",
+      "classification": "existing-proof",
+      "reason": "体力 0 的空闲帧是 2 已证明，A09 改看动画中的 currentFrame",
+      "oldTest": {
+        "sha": "b7f1bbdce40e4fcd5d605082f3fedaa9ba314bec",
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-sprites.test.ts",
+        "assertionLine": 704,
+        "matcher": "toBe",
+        "checked": "非傀儡死亡空闲帧是 2",
+        "fullName": "computePlayerBattleIdleFrame(玩家状态空闲帧,sdlpal fight.c:948-984) hp==0 非傀儡 → 帧2(倒下死姿)"
+      }
+    },
+    {
+      "id": "G08-EP-highlight",
+      "classification": "existing-proof",
+      "reason": "选中活敌的染色高亮返回 7 已证明，本批不重写该返回值",
+      "oldTest": {
+        "sha": "b7f1bbdce40e4fcd5d605082f3fedaa9ba314bec",
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-sprites.test.ts",
+        "assertionLine": 675,
+        "matcher": "toBe",
+        "checked": "选中活敌返回 7",
+        "fullName": "enemyTargetHighlightShift(敌方目标 ColorShift 高亮,sdlpal uibattle.c:1495-1510) selectTargetEnemy:选中敌人(idx===uiCursor)+ 活 + blinkOn → 7,非选中 → 0"
+      }
+    },
+    {
+      "id": "G08-EP-clip",
+      "classification": "existing-proof",
+      "reason": "精灵右缘裁剪已由 glm 证明",
+      "oldTest": {
+        "sha": "de33fe852ec000e2b28042cb1555cd77df789f71",
+        "file": "packages/game/src/present/battle/draw-battle-sprites.glm-phase1-leaves.test.ts",
+        "assertionLine": 35,
+        "matcher": "toBe",
+        "checked": "界内列照写",
+        "fullName": "L14 blitFrame 边缘裁剪 8×8 精灵 anchor 右缘（baseX=316）：右侧 4 列被裁，界内 4 列照写、不抛错"
+      }
+    },
+    {
+      "id": "G08-EP-face-full",
+      "classification": "existing-proof",
+      "reason": "无毒活着时头像色函数返回 255 已证明，B17 只补满色像素",
+      "oldTest": {
+        "sha": "d4c0bfad71770a034c1748888414b4661ffef750",
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-ui.test.ts",
+        "assertionLine": 27,
+        "matcher": "toBe",
+        "checked": "返回 255",
+        "fullName": "computePlayerFaceColor(头像染色 uibattle.c:114-162) 无毒 + 活着 → 0xFF(满色,正常 blit)"
+      }
+    },
+    {
+      "id": "G08-EP-face-poison",
+      "classification": "existing-proof",
+      "reason": "单毒 level1 时函数返回 64 已证明，B13 只补重绘后的像素",
+      "oldTest": {
+        "sha": "d4c0bfad71770a034c1748888414b4661ffef750",
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-ui.test.ts",
+        "assertionLine": 31,
+        "matcher": "toBe",
+        "checked": "返回 64",
+        "fullName": "computePlayerFaceColor(头像染色 uibattle.c:114-162) 单毒 level1 → 该毒 wColor(64)"
+      }
+    },
+    {
+      "id": "G08-EP-dialog",
+      "classification": "existing-proof",
+      "reason": "dialogBox 非空时战斗界面无写入已证明，B08 只补 dialogBoxKept",
+      "oldTest": {
+        "sha": "d4c0bfad71770a034c1748888414b4661ffef750",
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-ui.test.ts",
+        "assertionLine": 631,
+        "matcher": "toBe",
+        "checked": "整屏无写入",
+        "fullName": "drawBattleUI(新模型 1:1) gs.dialogBox 非空 —— 战斗 UI 全不画"
+      }
+    },
+    {
+      "id": "G08-EP-escape",
+      "classification": "existing-proof",
+      "reason": "敌人逃跑动画期整个界面不画已证明",
+      "oldTest": {
+        "sha": "d4c0bfad71770a034c1748888414b4661ffef750",
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-ui.test.ts",
+        "assertionLine": 320,
+        "matcher": "toBe",
+        "checked": "整屏无写入",
+        "fullName": "drawBattleUI(新模型 1:1) 敌人逃跑动画期(enemyEscapeAnim)整个战斗 UI 不画"
+      }
+    },
+    {
+      "id": "G08-EP-autobattle",
+      "classification": "existing-proof",
+      "reason": "整场自动战斗期间界面不画已证明",
+      "oldTest": {
+        "sha": "d4c0bfad71770a034c1748888414b4661ffef750",
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-ui.test.ts",
+        "assertionLine": 334,
+        "matcher": "toBe",
+        "checked": "整屏无写入",
+        "fullName": "drawBattleUI(新模型 1:1) fAutoBattle(整场自动)期间整个战斗 UI 不画(对齐 sdlpal goto end)"
+      }
+    },
+    {
+      "id": "G08-EP-selection",
+      "classification": "existing-proof",
+      "reason": "selectionStartedForTurn 不等于 turn 时不画信息框已证明",
+      "oldTest": {
+        "sha": "d4c0bfad71770a034c1748888414b4661ffef750",
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-ui.test.ts",
+        "assertionLine": 308,
+        "matcher": "toBe",
+        "checked": "整屏无写入",
+        "fullName": "drawBattleUI(新模型 1:1) 玩家回合未真正开始(selectionStartedForTurn≠turn)不画底部 InfoBox(草妖回归)"
+      }
+    },
+    {
+      "id": "G08-EP-autoattack",
+      "classification": "existing-proof",
+      "reason": "fAutoAttack 时信息框隐藏已证明",
+      "oldTest": {
+        "sha": "d4c0bfad71770a034c1748888414b4661ffef750",
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-ui.test.ts",
+        "assertionLine": 707,
+        "matcher": "toBe",
+        "checked": "底部写入数为 0",
+        "fullName": "drawBattleUI(新模型 1:1) fAutoAttack —— 信息框隐藏(sdlpal !fAutoAttack)"
+      }
+    },
+    {
+      "id": "G08-EP-no-icons",
+      "classification": "existing-proof",
+      "reason": "selectTargetEnemy 不画主菜单图标已由 glm 证明",
+      "oldTest": {
+        "sha": "9c7ee2806e3321d3b7c5092f5ee3568a7d212a53",
+        "file": "packages/game/src/present/battle/draw-battle-ui.glm-phase1-leaves.test.ts",
+        "assertionLine": 128,
+        "matcher": "not.toBe",
+        "checked": "选敌时图标点不是全彩色",
+        "fullName": "L13 drawBattleUI 剩余分支 DL30：selectTargetEnemy 不画主菜单图标；selectMove 选中图标全彩"
+      }
+    },
+    {
+      "id": "G08-EP-p15-coop",
+      "classification": "existing-proof",
+      "reason": "一人合击更暗、两人健康更亮已由 P15 证明，B01 只补正好等于门槛",
+      "oldTest": {
+        "sha": "70227d54316b7adb2eca52896d8c45db32dbe8f0",
+        "file": "packages/game/src/present/__tests__/grok-composition/p15-battle-ui.test.ts",
+        "assertionLine": 190,
+        "matcher": "toBe",
+        "checked": "一人为 18",
+        "fullName": "P15 战斗 UI 多态 P15 单人合击图标更暗，两人健康时合击图标较亮"
+      }
+    },
+    {
+      "id": "G08-EP-p15-arrow",
+      "classification": "existing-proof",
+      "reason": "当前行动箭头和体力个位的锚点已由 P15 证明",
+      "oldTest": {
+        "sha": "70227d54316b7adb2eca52896d8c45db32dbe8f0",
+        "file": "packages/game/src/present/__tests__/grok-composition/p15-battle-ui.test.ts",
+        "assertionLine": 71,
+        "matcher": "toBe",
+        "checked": "个位落在 y=170",
+        "fullName": "P15 战斗 UI 多态 P15 一人二人三人的当前行动箭头和HP个位落在各自锚点"
+      }
+    },
+    {
+      "id": "G08-EP-status-writes",
+      "classification": "existing-proof",
+      "reason": "活人状态字有写入、死亡不画已证明，B12 只补乱和封的坐标",
+      "oldTest": {
+        "sha": "d4c0bfad71770a034c1748888414b4661ffef750",
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-ui.test.ts",
+        "assertionLine": 679,
+        "matcher": "toBeGreaterThan",
+        "checked": "写入数大于 0",
+        "fullName": "drawBattleUI(新模型 1:1) PAL_PlayerInfoBox —— 活人画乱/定/眠/封状态字,死亡时不画"
+      }
+    },
+    {
+      "id": "G08-EP-exp",
+      "classification": "existing-proof",
+      "reason": "经验右对齐和文钱中对齐已由 glm 证明",
+      "oldTest": {
+        "sha": "c18468591636358ccf8936210082ab426549e777",
+        "file": "packages/game/src/present/battle/draw-battle-settlement.glm-phase1-leaves.test.ts",
+        "assertionLine": 57,
+        "matcher": "toBe",
+        "checked": "经验个位按 182 右对齐",
+        "fullName": "L15 drawBattleSettlement 精确像素 exp-cash：exp 右对齐 5 位 at (182,74)、cash 中对齐 at y=119、两单行框"
+      }
+    },
+    {
+      "id": "G08-EP-slash",
+      "classification": "existing-proof",
+      "reason": "升级斜杠 (156,66) 为 57 已证明，C03 只补缺帧时该点保持哨兵",
+      "oldTest": {
+        "sha": "c18468591636358ccf8936210082ab426549e777",
+        "file": "packages/game/src/present/battle/draw-battle-settlement.glm-phase1-leaves.test.ts",
+        "assertionLine": 89,
+        "matcher": "toBe",
+        "checked": "斜杠点是 57",
+        "fullName": "L15 drawBattleSettlement 精确像素 level-up：8 行 old→cur + slash + 箭头 + 0xBB 标签 + 标题"
+      }
+    },
+    {
+      "id": "G08-EP-arrow",
+      "classification": "existing-proof",
+      "reason": "升级箭头 (180,48) 为 71 已证明，C02 只补缺帧时锚点保持哨兵",
+      "oldTest": {
+        "sha": "c18468591636358ccf8936210082ab426549e777",
+        "file": "packages/game/src/present/battle/draw-battle-settlement.glm-phase1-leaves.test.ts",
+        "assertionLine": 94,
+        "matcher": "toBe",
+        "checked": "箭头点是 71",
+        "fullName": "L15 drawBattleSettlement 精确像素 level-up：8 行 old→cur + slash + 箭头 + 0xBB 标签 + 标题"
+      }
+    },
+    {
+      "id": "G08-EP-label",
+      "classification": "existing-proof",
+      "reason": "升级标签 (100,44) 为 187 已证明，C02 在缺箭头时仍核对这个点",
+      "oldTest": {
+        "sha": "c18468591636358ccf8936210082ab426549e777",
+        "file": "packages/game/src/present/battle/draw-battle-settlement.glm-phase1-leaves.test.ts",
+        "assertionLine": 97,
+        "matcher": "toBe",
+        "checked": "标签是 187",
+        "fullName": "L15 drawBattleSettlement 精确像素 level-up：8 行 old→cur + slash + 箭头 + 0xBB 标签 + 标题"
+      }
+    },
+    {
+      "id": "G08-EP-hidden-text",
+      "classification": "existing-proof",
+      "reason": "一字名的文字按实际字宽贴上已证明，C04 只补钳到 3 的框右缘",
+      "oldTest": {
+        "sha": "c18468591636358ccf8936210082ab426549e777",
+        "file": "packages/game/src/present/battle/draw-battle-settlement.glm-phase1-leaves.test.ts",
+        "assertionLine": 130,
+        "matcher": "toBe",
+        "checked": "属性字紧贴实际名字宽度",
+        "fullName": "L15 drawBattleSettlement 精确像素 hidden-exp-up：词表拼 名字+属性+提升，涨点数 x=191（仙剑 maxName=3/maxProp=1）"
+      }
+    },
+    {
+      "id": "G08-EP-learn0",
+      "classification": "existing-proof",
+      "reason": "一字名加两字法术时 ww 为 0、法术名色 27 已证明",
+      "oldTest": {
+        "sha": "c18468591636358ccf8936210082ab426549e777",
+        "file": "packages/game/src/present/battle/draw-battle-settlement.glm-phase1-leaves.test.ts",
+        "assertionLine": 151,
+        "matcher": "toBe",
+        "checked": "名字点是 0",
+        "fullName": "L15 drawBattleSettlement 精确像素 learn-magic：ww 偏移随字宽收窄框，magicName 色 0x1B"
+      }
+    },
+    {
+      "id": "G08-EP-numberx",
+      "classification": "existing-proof",
+      "reason": "隐藏涨点数字 x=191 的公式已证明",
+      "oldTest": {
+        "sha": "9ba30eba497c8e225698f327a9e253caa23591c9",
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-settlement.test.ts",
+        "assertionLine": 8,
+        "matcher": "toBe",
+        "checked": "返回 191",
+        "fullName": "hiddenExpUpNumberX (D11:hidden-exp 涨点数字右对齐 x) 仙剑常量 maxName=3 / maxProp=1 → 191(此前误用单行公式 ≈206,差 15px)"
+      }
+    },
+    {
+      "id": "G08-EP-effect-even",
+      "classification": "existing-proof",
+      "reason": "偶数宽特效左缘索引 22 已证明，D01 只补宽 3",
+      "oldTest": {
+        "sha": "635ac4b785f3fcac0d8c24c0d1b70c45ffab5991",
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-effect.test.ts",
+        "assertionLine": 40,
+        "matcher": "toBe",
+        "checked": "(159,88) 一带为 22",
+        "fullName": "drawBattleEffectOverlay 画 overlay.frameIdx 帧到落点(底中 anchor:x - w/2, y - h)"
+      }
+    },
+    {
+      "id": "G08-EP-effect-miss",
+      "classification": "existing-proof",
+      "reason": "特效精灵缺失时不抛已证明",
+      "oldTest": {
+        "sha": "635ac4b785f3fcac0d8c24c0d1b70c45ffab5991",
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-effect.test.ts",
+        "assertionLine": 53,
+        "matcher": "not.toThrow",
+        "checked": "缺精灵不抛",
+        "fullName": "drawBattleEffectOverlay sprite 缺(loader 未注入)→ no-op,不抛"
+      }
+    },
+    {
+      "id": "G08-EP-effect-oob",
+      "classification": "existing-proof",
+      "reason": "特效帧号越界时不抛已证明",
+      "oldTest": {
+        "sha": "635ac4b785f3fcac0d8c24c0d1b70c45ffab5991",
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-effect.test.ts",
+        "assertionLine": 67,
+        "matcher": "not.toThrow",
+        "checked": "越界不抛",
+        "fullName": "drawBattleEffectOverlay frameIdx 越界 → no-op,不抛"
+      }
+    },
+    {
+      "id": "G08-EP-effect-hole",
+      "classification": "existing-proof",
+      "reason": "特效透明点不覆盖背景已证明",
+      "oldTest": {
+        "sha": "635ac4b785f3fcac0d8c24c0d1b70c45ffab5991",
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-effect.test.ts",
+        "assertionLine": 84,
+        "matcher": "toBe",
+        "checked": "背景保持 77",
+        "fullName": "drawBattleEffectOverlay 透明像素(opaque=0)不覆盖背景"
+      }
+    },
+    {
+      "id": "G08-EP-num-age",
+      "classification": "existing-proof",
+      "reason": "飘字每帧上移 1 像素已证明，D03 只补个位横坐标",
+      "oldTest": {
+        "sha": "0d59de00c00035ed6ff3e2e98a35329a57c55cbb",
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-num.test.ts",
+        "assertionLine": 73,
+        "matcher": "toBe",
+        "checked": "y 差为 1",
+        "fullName": "FloatingNumsLayer 数字每帧上移 1px(dy = -age,sdlpal uibattle.c:1760)"
+      }
+    },
+    {
+      "id": "G08-EP-num-life",
+      "classification": "existing-proof",
+      "reason": "寿命 11 帧已证明，D06 只补数值 0 的个位",
+      "oldTest": {
+        "sha": "0d59de00c00035ed6ff3e2e98a35329a57c55cbb",
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-num.test.ts",
+        "assertionLine": 80,
+        "matcher": "toBe",
+        "checked": "age 0 时条数为 1",
+        "fullName": "FloatingNumsLayer 寿命 11 帧:age 0..10 显示,age=11 清除(sdlpal uibattle.c:1753)"
+      }
+    },
+    {
+      "id": "G08-EP-num-color",
+      "classification": "existing-proof",
+      "reason": "黄蓝青选用不同基帧已证明，D05 只补两条个位的索引",
+      "oldTest": {
+        "sha": "0d59de00c00035ed6ff3e2e98a35329a57c55cbb",
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-num.test.ts",
+        "assertionLine": 110,
+        "matcher": "toEqual",
+        "checked": "黄帧集合是 170",
+        "fullName": "FloatingNumsLayer yellow / blue / cyan 选不同 base frame(sprite index 区分)"
+      }
+    },
+    {
+      "id": "G08-EP-bg-zero",
+      "classification": "existing-proof",
+      "reason": "背景索引 0 也照画已证明",
+      "oldTest": {
+        "sha": "f1f2f00e2d40f70dbd56d88f307caf04288cbc99",
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-bg.test.ts",
+        "assertionLine": 21,
+        "matcher": "toBe",
+        "checked": "(5,5) 为 0",
+        "fullName": "drawBattleBg 索引 0 也照画(背景不透明)"
+      }
+    },
+    {
+      "id": "G08-EP-p09",
+      "classification": "existing-proof",
+      "reason": "背景正负色阶钳制已由 P09 证明，本批不再参数化加减 1",
+      "oldTest": {
+        "sha": "c63b978a1b096a7cdc55ca9e43b40d71a3cdba51",
+        "file": "packages/game/src/present/__tests__/grok-present/p09-background.test.ts",
+        "assertionLine": 42,
+        "matcher": "toEqual",
+        "checked": "升色输入前后相等",
+        "fullName": "P09 背景索引链 P09 正负色阶在低半字节边界钳制并保留高半字节"
+      }
     }
   ]
 }

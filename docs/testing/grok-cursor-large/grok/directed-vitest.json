@@ -1,6 +1,6 @@
 {
-  "batch": "G07",
-  "cumulativeNewContracts": 276,
+  "batch": "G08",
+  "cumulativeNewContracts": 320,
   "target": 400,
   "success": true,
   "numFailedTests": 0,
@@ -12,7 +12,8 @@
     "pnpm --filter @type-pal/game exec vitest run src/present/screen-wave-mirror.grok-r1.test.ts src/present/screen-shake-bounds.grok-r1.test.ts src/present/dither-fade-nibble.grok-r1.test.ts src/present/present-hold.grok-r1.test.ts src/present/screen-wave.test.ts src/present/screen-wave.glm-phase1-leaves.test.ts src/present/screen-shake.test.ts src/present/dither-fade.test.ts src/present/framebuffer.test.ts src/present/framebuffer.glm-phase1-leaves.test.ts src/present/present.test.ts src/present/__tests__/grok-composition/p12-overlays.test.ts --reporter=verbose --reporter=json --outputFile=/tmp/g04-directed.json",
     "pnpm --filter @type-pal/game exec vitest run src/present/dialog-box-pixels.grok-r1.test.ts src/present/font-width.grok-r1.test.ts src/present/draw-number-slots.grok-r1.test.ts src/present/dialog-box-chrome.grok-r1.test.ts src/present/dialog-box.test.ts src/present/dialog-box.glm-next-wave.test.ts src/present/font.glm-phase1-leaves.test.ts src/present/draw-number.test.ts src/present/__tests__/grok-composition/p16-dialog.test.ts src/present/menu/draw-opening-menu.test.ts src/present/battle/draw-battle-settlement.glm-phase1-leaves.test.ts --reporter=verbose --reporter=json --outputFile=/tmp/g05-directed.json",
     "pnpm --filter @type-pal/game exec vitest run src/present/menu/inventory-list-pixels.grok-r1.test.ts src/present/menu/inventory-desc-filter.grok-r1.test.ts src/present/menu/equip-role-pixels.grok-r1.test.ts src/present/menu/status-vitals-pixels.grok-r1.test.ts src/present/__tests__/grok-present/p01-inventory-list.test.ts src/present/__tests__/grok-present/p02-inventory-target.test.ts src/present/__tests__/grok-present/p03-equip.test.ts src/present/__tests__/grok-present/p07-status.test.ts src/present/menu/draw-inventory.glm-phase1-leaves.test.ts src/present/menu/draw-equip.glm-phase1-leaves.test.ts src/present/menu/draw-player-status.test.ts src/present/menu/draw-player-status.glm-phase1-leaves.test.ts --reporter=verbose --reporter=json --outputFile=/tmp/g06-directed.json",
-    "pnpm --filter @type-pal/game exec vitest run src/present/menu/magic-menu-pixels.grok-r1.test.ts src/present/menu/shop-preview-pixels.grok-r1.test.ts src/present/menu/box-shadow-pixels.grok-r1.test.ts src/present/menu/opening-confirm-pixels.grok-r1.test.ts src/present/menu/draw-magic.test.ts src/present/menu/draw-magic.glm-phase1-leaves.test.ts src/present/__tests__/grok-present/p06-magic.test.ts src/present/menu/draw-shop.glm-phase1-leaves.test.ts src/present/__tests__/grok-present/p04-shop.test.ts src/present/menu/draw-box.test.ts src/present/menu/draw-box.glm-phase1-leaves.test.ts src/present/menu/draw-opening-menu.test.ts src/present/menu/draw-opening-menu.glm-phase1-leaves.test.ts src/present/menu/draw-confirm.glm-phase1-leaves.test.ts --reporter=verbose --reporter=json --outputFile=/tmp/g07-directed.json"
+    "pnpm --filter @type-pal/game exec vitest run src/present/menu/magic-menu-pixels.grok-r1.test.ts src/present/menu/shop-preview-pixels.grok-r1.test.ts src/present/menu/box-shadow-pixels.grok-r1.test.ts src/present/menu/opening-confirm-pixels.grok-r1.test.ts src/present/menu/draw-magic.test.ts src/present/menu/draw-magic.glm-phase1-leaves.test.ts src/present/__tests__/grok-present/p06-magic.test.ts src/present/menu/draw-shop.glm-phase1-leaves.test.ts src/present/__tests__/grok-present/p04-shop.test.ts src/present/menu/draw-box.test.ts src/present/menu/draw-box.glm-phase1-leaves.test.ts src/present/menu/draw-opening-menu.test.ts src/present/menu/draw-opening-menu.glm-phase1-leaves.test.ts src/present/menu/draw-confirm.glm-phase1-leaves.test.ts --reporter=verbose --reporter=json --outputFile=/tmp/g07-directed.json",
+    "pnpm --filter @type-pal/game exec vitest run src/present/battle/battle-sprite-pixels.grok-r1.test.ts src/present/battle/battle-ui-pixels.grok-r1.test.ts src/present/battle/battle-settlement-pixels.grok-r1.test.ts src/present/battle/battle-effect-num-pixels.grok-r1.test.ts src/present/battle/__tests__/draw-battle-sprites.test.ts src/present/battle/draw-battle-sprites.glm-phase1-leaves.test.ts src/present/battle/__tests__/draw-battle-ui.test.ts src/present/battle/draw-battle-ui.glm-phase1-leaves.test.ts src/present/__tests__/grok-composition/p15-battle-ui.test.ts src/present/battle/__tests__/draw-battle-settlement.test.ts src/present/battle/draw-battle-settlement.glm-phase1-leaves.test.ts src/present/__tests__/grok-present/p08-settlement.test.ts src/present/battle/__tests__/draw-battle-effect.test.ts src/present/battle/__tests__/draw-battle-num.test.ts src/present/battle/__tests__/draw-battle-bg.test.ts src/present/__tests__/grok-present/p09-background.test.ts src/present/battle/__tests__/present-battle.test.ts --reporter=verbose --reporter=json --outputFile=/tmp/g08-directed.json"
   ],
   "tests": [
     {
@@ -1393,6 +1394,226 @@
     {
       "file": "src/present/menu/opening-confirm-pixels.grok-r1.test.ts",
       "fullName": "G07-D 开场与确认像素 G07-D07 背景索引 0x55 上的字影是 0，字本体仍是闪烁色",
+      "status": "passed"
+    },
+    {
+      "file": "src/present/battle/battle-sprite-pixels.grok-r1.test.ts",
+      "fullName": "G08-A 战斗精灵像素 G08-A01 染色精灵被后排盖住后，第二遍仍把重叠点染回低半字节",
+      "status": "passed"
+    },
+    {
+      "file": "src/present/battle/battle-sprite-pixels.grok-r1.test.ts",
+      "fullName": "G08-A 战斗精灵像素 G08-A02 召唤隐藏队员时敌方像素仍在，队员锚点保持哨兵",
+      "status": "passed"
+    },
+    {
+      "file": "src/present/battle/battle-sprite-pixels.grok-r1.test.ts",
+      "fullName": "G08-A 战斗精灵像素 G08-A03 隐身计时大于 0 且无染色时不画队员，计时本身不被消耗",
+      "status": "passed"
+    },
+    {
+      "file": "src/present/battle/battle-sprite-pixels.grok-r1.test.ts",
+      "fullName": "G08-A 战斗精灵像素 G08-A04 隐身期间染色不为 0 仍画出偏移后的低半字节",
+      "status": "passed"
+    },
+    {
+      "file": "src/present/battle/battle-sprite-pixels.grok-r1.test.ts",
+      "fullName": "G08-A 战斗精灵像素 G08-A05 负的隐身计时是待激活标记，队员照常画出",
+      "status": "passed"
+    },
+    {
+      "file": "src/present/battle/battle-sprite-pixels.grok-r1.test.ts",
+      "fullName": "G08-A 战斗精灵像素 G08-A06 spriteNumOverride 取 player-覆盖号，不用角色战斗图号",
+      "status": "passed"
+    },
+    {
+      "file": "src/present/battle/battle-sprite-pixels.grok-r1.test.ts",
+      "fullName": "G08-A 战斗精灵像素 G08-A07 覆盖号 0 不是空值，仍查 player-0",
+      "status": "passed"
+    },
+    {
+      "file": "src/present/battle/battle-sprite-pixels.grok-r1.test.ts",
+      "fullName": "G08-A 战斗精灵像素 G08-A08 已击败且淡出未开始的空槽不画，旁边活敌照画",
+      "status": "passed"
+    },
+    {
+      "file": "src/present/battle/battle-sprite-pixels.grok-r1.test.ts",
+      "fullName": "G08-A 战斗精灵像素 G08-A09 战斗动画进行时用 currentFrame，不用倒下帧 2",
+      "status": "passed"
+    },
+    {
+      "file": "src/present/battle/battle-sprite-pixels.grok-r1.test.ts",
+      "fullName": "G08-A 战斗精灵像素 G08-A10 动画帧号越界时退回第 0 帧，不退回倒下帧",
+      "status": "passed"
+    },
+    {
+      "file": "src/present/battle/battle-sprite-pixels.grok-r1.test.ts",
+      "fullName": "G08-A 战斗精灵像素 G08-A11 只有逃跑动画时也读 currentFrame",
+      "status": "passed"
+    },
+    {
+      "file": "src/present/battle/battle-sprite-pixels.grok-r1.test.ts",
+      "fullName": "G08-A 战斗精灵像素 G08-A12 角色资料缺失时跳过该队员，敌方像素保留",
+      "status": "passed"
+    },
+    {
+      "file": "src/present/battle/battle-sprite-pixels.grok-r1.test.ts",
+      "fullName": "G08-A 战斗精灵像素 G08-A13 排序更靠前的法术回调盖住未染色敌方像素",
+      "status": "passed"
+    },
+    {
+      "file": "src/present/battle/battle-sprite-pixels.grok-r1.test.ts",
+      "fullName": "G08-A 战斗精灵像素 G08-A14 排序更靠后的法术回调被敌方盖住，框外那一点留下",
+      "status": "passed"
+    },
+    {
+      "file": "src/present/battle/battle-sprite-pixels.grok-r1.test.ts",
+      "fullName": "G08-A 战斗精灵像素 G08-A15 绘制不改角色体力，也不改精灵帧里的索引",
+      "status": "passed"
+    },
+    {
+      "file": "src/present/battle/battle-ui-pixels.grok-r1.test.ts",
+      "fullName": "G08-B 战斗界面像素 G08-B01 体力正好等于 min(100, maxHP/5) 时合击图标仍是可用灰",
+      "status": "passed"
+    },
+    {
+      "file": "src/present/battle/battle-ui-pixels.grok-r1.test.ts",
+      "fullName": "G08-B 战斗界面像素 G08-B02 体力比该门槛少 1 时合击图标更暗",
+      "status": "passed"
+    },
+    {
+      "file": "src/present/battle/battle-ui-pixels.grok-r1.test.ts",
+      "fullName": "G08-B 战斗界面像素 G08-B03 maxHP/5 超过 100 时门槛停在 100，体力 150 的合击仍可用",
+      "status": "passed"
+    },
+    {
+      "file": "src/present/battle/battle-ui-pixels.grok-r1.test.ts",
+      "fullName": "G08-B 战斗界面像素 G08-B04 沉默使法术和合击更暗，杂项保持可用灰，选中的攻击仍是原色",
+      "status": "passed"
+    },
+    {
+      "file": "src/present/battle/battle-ui-pixels.grok-r1.test.ts",
+      "fullName": "G08-B 战斗界面像素 G08-B05 傀儡不封锁法术，但合击因不健康而更暗",
+      "status": "passed"
+    },
+    {
+      "file": "src/present/battle/battle-ui-pixels.grok-r1.test.ts",
+      "fullName": "G08-B 战斗界面像素 G08-B06 同伴睡眠使健康人数不够，合击更暗而法术仍可用",
+      "status": "passed"
+    },
+    {
+      "file": "src/present/battle/battle-ui-pixels.grok-r1.test.ts",
+      "fullName": "G08-B 战斗界面像素 G08-B07 没有行动队员时未选图标更暗，选中的攻击仍保持原色",
+      "status": "passed"
+    },
+    {
+      "file": "src/present/battle/battle-ui-pixels.grok-r1.test.ts",
+      "fullName": "G08-B 战斗界面像素 G08-B08 dialogBoxKept 让攻击图标和底部姓名都保持哨兵",
+      "status": "passed"
+    },
+    {
+      "file": "src/present/battle/battle-ui-pixels.grok-r1.test.ts",
+      "fullName": "G08-B 战斗界面像素 G08-B09 进入物品二级后，父项道具用确认绿 0x2C，邻项仍是 0x4F",
+      "status": "passed"
+    },
+    {
+      "file": "src/present/battle/battle-ui-pixels.grok-r1.test.ts",
+      "fullName": "G08-B 战斗界面像素 G08-B10 杂项菜单未进入二级时，当前项是闪烁色 0xF9 而不是确认绿",
+      "status": "passed"
+    },
+    {
+      "file": "src/present/battle/battle-ui-pixels.grok-r1.test.ts",
+      "fullName": "G08-B 战斗界面像素 G08-B11 选友方目标时攻击图标改灰，目标箭头在锚点上移 67",
+      "status": "passed"
+    },
+    {
+      "file": "src/present/battle/battle-ui-pixels.grok-r1.test.ts",
+      "fullName": "G08-B 战斗界面像素 G08-B12 活人的乱和封落在信息框偏移上",
+      "status": "passed"
+    },
+    {
+      "file": "src/present/battle/battle-ui-pixels.grok-r1.test.ts",
+      "fullName": "G08-B 战斗界面像素 G08-B13 中毒头像按毒色高半字节重染，不再写出原索引",
+      "status": "passed"
+    },
+    {
+      "file": "src/present/battle/battle-ui-pixels.grok-r1.test.ts",
+      "fullName": "G08-B 战斗界面像素 G08-B14 物品框阴影把背景 0x13 收成 0x11，本体和小球图标分开",
+      "status": "passed"
+    },
+    {
+      "file": "src/present/battle/battle-ui-pixels.grok-r1.test.ts",
+      "fullName": "G08-B 战斗界面像素 G08-B15 法术网格不画物品数量，假设的个位保持哨兵",
+      "status": "passed"
+    },
+    {
+      "file": "src/present/battle/battle-ui-pixels.grok-r1.test.ts",
+      "fullName": "G08-B 战斗界面像素 G08-B16 界面帧数不超过 48 时改画文字姓名，不画头像",
+      "status": "passed"
+    },
+    {
+      "file": "src/present/battle/battle-ui-pixels.grok-r1.test.ts",
+      "fullName": "G08-B 战斗界面像素 G08-B17 帧数刚到 49 时画头像，底部文字姓名保持哨兵",
+      "status": "passed"
+    },
+    {
+      "file": "src/present/battle/battle-settlement-pixels.grok-r1.test.ts",
+      "fullName": "G08-C 战斗结算像素 G08-C01 没有界面帧时经验屏不写像素，屏数据保持原样",
+      "status": "passed"
+    },
+    {
+      "file": "src/present/battle/battle-settlement-pixels.grok-r1.test.ts",
+      "fullName": "G08-C 战斗结算像素 G08-C02 缺少箭头帧时标签仍是 0xBB，箭头锚点保持哨兵",
+      "status": "passed"
+    },
+    {
+      "file": "src/present/battle/battle-settlement-pixels.grok-r1.test.ts",
+      "fullName": "G08-C 战斗结算像素 G08-C03 缺少斜杠帧时体力个位仍画出，斜杠点保持哨兵",
+      "status": "passed"
+    },
+    {
+      "file": "src/present/battle/battle-settlement-pixels.grok-r1.test.ts",
+      "fullName": "G08-C 战斗结算像素 G08-C04 二字名的文字按实际字宽贴上，框右缘仍按钳到 3 的长度",
+      "status": "passed"
+    },
+    {
+      "file": "src/present/battle/battle-settlement-pixels.grok-r1.test.ts",
+      "fullName": "G08-C 战斗结算像素 G08-C05 名字四字、法术六字时 ww=16，单行框和名字一起左移",
+      "status": "passed"
+    },
+    {
+      "file": "src/present/battle/battle-effect-num-pixels.grok-r1.test.ts",
+      "fullName": "G08-D 特效与飘字像素 G08-D01 宽 3 的特效锚点只减 1，左缘和多出来的右缘都写入",
+      "status": "passed"
+    },
+    {
+      "file": "src/present/battle/battle-effect-num-pixels.grok-r1.test.ts",
+      "fullName": "G08-D 特效与飘字像素 G08-D02 宽 1 时右移半宽为 0，像素落在锚点列而不是左边一列",
+      "status": "passed"
+    },
+    {
+      "file": "src/present/battle/battle-effect-num-pixels.grok-r1.test.ts",
+      "fullName": "G08-D 特效与飘字像素 G08-D03 五位右对齐的个位在 x+24，十位不补零",
+      "status": "passed"
+    },
+    {
+      "file": "src/present/battle/battle-effect-num-pixels.grok-r1.test.ts",
+      "fullName": "G08-D 特效与飘字像素 G08-D04 六位数只留低五位，最高位不画到个位左边第六格",
+      "status": "passed"
+    },
+    {
+      "file": "src/present/battle/battle-effect-num-pixels.grok-r1.test.ts",
+      "fullName": "G08-D 特效与飘字像素 G08-D05 两条飘字各写自己的个位，黄 7 和蓝 3 不互相覆盖",
+      "status": "passed"
+    },
+    {
+      "file": "src/present/battle/battle-effect-num-pixels.grok-r1.test.ts",
+      "fullName": "G08-D 特效与飘字像素 G08-D06 数值 0 仍画一位黄 0，左边不补位",
+      "status": "passed"
+    },
+    {
+      "file": "src/present/battle/battle-effect-num-pixels.grok-r1.test.ts",
+      "fullName": "G08-D 特效与飘字像素 G08-D07 奇数宽右缘索引 0x2D 经 flushToCanvas 写成调色板 RGB，缓冲仍是 0x2D",
       "status": "passed"
     }
   ],
@@ -3017,6 +3238,729 @@
         {
           "file": "src/present/__tests__/grok-present/p06-magic.test.ts",
           "fullName": "P06 仙术页 P06 输入快照能发现位图宽度、法术名、背景、毒和升级表变化",
+          "status": "passed"
+        }
+      ]
+    },
+    {
+      "batch": "G08",
+      "status": "passed",
+      "numPassedTests": 143,
+      "numFailedTests": 0,
+      "tests": [
+        {
+          "file": "src/present/battle/draw-battle-settlement.glm-phase1-leaves.test.ts",
+          "fullName": "L15 drawBattleSettlement 精确像素 exp-cash：exp 右对齐 5 位 at (182,74)、cash 中对齐 at y=119、两单行框",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/battle/draw-battle-settlement.glm-phase1-leaves.test.ts",
+          "fullName": "L15 drawBattleSettlement 精确像素 level-up：8 行 old→cur + slash + 箭头 + 0xBB 标签 + 标题",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/battle/draw-battle-settlement.glm-phase1-leaves.test.ts",
+          "fullName": "L15 drawBattleSettlement 精确像素 hidden-exp-up：词表拼 名字+属性+提升，涨点数 x=191（仙剑 maxName=3/maxProp=1）",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/battle/draw-battle-settlement.glm-phase1-leaves.test.ts",
+          "fullName": "L15 drawBattleSettlement 精确像素 learn-magic：ww 偏移随字宽收窄框，magicName 色 0x1B",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/battle/draw-battle-sprites.glm-phase1-leaves.test.ts",
+          "fullName": "L14 blitFrame 边缘裁剪 8×8 精灵 anchor 右缘（baseX=316）：右侧 4 列被裁，界内 4 列照写、不抛错",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/battle/draw-battle-sprites.glm-phase1-leaves.test.ts",
+          "fullName": "L14 blitFrame 边缘裁剪 anchor 完全出右界（baseX=320）：全裁剪无写入",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/battle/draw-battle-sprites.glm-phase1-leaves.test.ts",
+          "fullName": "L14 blitFrame 边缘裁剪 anchorY 在顶缘（baseY<0）：顶部裁剪，底部行照写；iColorShift 仍应用",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/battle/draw-battle-ui.glm-phase1-leaves.test.ts",
+          "fullName": "L13 drawBattleUI 剩余分支 selectMove：当前行动队员头顶箭头 frame69 at anchor+(-8,-74)",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/battle/draw-battle-ui.glm-phase1-leaves.test.ts",
+          "fullName": "L13 drawBattleUI 剩余分支 uiState='wait' 或 selectingPlayerIdx 缺省 → 无当前行动箭头",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/battle/draw-battle-ui.glm-phase1-leaves.test.ts",
+          "fullName": "L13 drawBattleUI 剩余分支 DL30：selectTargetEnemy 不画主菜单图标；selectMove 选中图标全彩",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/__tests__/grok-composition/p15-battle-ui.test.ts",
+          "fullName": "P15 战斗 UI 多态 P15 一人二人三人的当前行动箭头和HP个位落在各自锚点",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/__tests__/grok-composition/p15-battle-ui.test.ts",
+          "fullName": "P15 战斗 UI 多态 P15 预填禁用菜单按需求9与8着色，运行时MP数字是8不是静态10",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/__tests__/grok-composition/p15-battle-ui.test.ts",
+          "fullName": "P15 战斗 UI 多态 P15 正常单人队的物品数量2画青字，数量1不画",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/__tests__/grok-composition/p15-battle-ui.test.ts",
+          "fullName": "P15 战斗 UI 多态 P15 防御输入:未定义的roleId不画HP，已定义角色仍画",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/__tests__/grok-composition/p15-battle-ui.test.ts",
+          "fullName": "P15 战斗 UI 多态 P15 单人合击图标更暗，两人健康时合击图标较亮",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/__tests__/grok-present/p08-settlement.test.ts",
+          "fullName": "P08 结算呈现 P08 经验金钱、升级旧新值、隐藏涨点和练成名称可区分",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/__tests__/grok-present/p09-background.test.ts",
+          "fullName": "P09 背景索引链 P09 正负色阶在低半字节边界钳制并保留高半字节",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/__tests__/grok-present/p09-background.test.ts",
+          "fullName": "P09 背景索引链 P09 小图裁剪保留未覆盖像素，移位索引经toImageData变成RGBA",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/battle/__tests__/draw-battle-bg.test.ts",
+          "fullName": "drawBattleBg 整面 320×200 写入 framebuffer",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/battle/__tests__/draw-battle-bg.test.ts",
+          "fullName": "drawBattleBg 索引 0 也照画(背景不透明)",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/battle/__tests__/draw-battle-bg.test.ts",
+          "fullName": "drawBattleBg 小于屏的素材不越界 / 不抛错",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/battle/__tests__/draw-battle-effect.test.ts",
+          "fullName": "drawBattleEffectOverlay 画 overlay.frameIdx 帧到落点(底中 anchor:x - w/2, y - h)",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/battle/__tests__/draw-battle-effect.test.ts",
+          "fullName": "drawBattleEffectOverlay sprite 缺(loader 未注入)→ no-op,不抛",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/battle/__tests__/draw-battle-effect.test.ts",
+          "fullName": "drawBattleEffectOverlay frameIdx 越界 → no-op,不抛",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/battle/__tests__/draw-battle-effect.test.ts",
+          "fullName": "drawBattleEffectOverlay 透明像素(opaque=0)不覆盖背景",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/battle/__tests__/draw-battle-effect.test.ts",
+          "fullName": "drawBattleMagicOverlay (D17 法术 FIRE.MKF overlay) 从 magicSprites.get(spriteChunk) 取帧 blit 到落点(底中 anchor)",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/battle/__tests__/draw-battle-effect.test.ts",
+          "fullName": "drawBattleMagicOverlay (D17 法术 FIRE.MKF overlay) chunk 缺(magicSprites 无该 key)→ no-op,不抛",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/battle/__tests__/draw-battle-effect.test.ts",
+          "fullName": "drawBattleMagicOverlay (D17 法术 FIRE.MKF overlay) magicSprites 整个 undefined → no-op,不抛",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/battle/__tests__/draw-battle-num.test.ts",
+          "fullName": "FloatingNumsLayer emit + draw 写入像素(UI sprite 数字帧)",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/battle/__tests__/draw-battle-num.test.ts",
+          "fullName": "FloatingNumsLayer 缺 uiSpriteFrames → 不写像素(防御)",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/battle/__tests__/draw-battle-num.test.ts",
+          "fullName": "FloatingNumsLayer 数字每帧上移 1px(dy = -age,sdlpal uibattle.c:1760)",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/battle/__tests__/draw-battle-num.test.ts",
+          "fullName": "FloatingNumsLayer 寿命 11 帧:age 0..10 显示,age=11 清除(sdlpal uibattle.c:1753)",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/battle/__tests__/draw-battle-num.test.ts",
+          "fullName": "FloatingNumsLayer clear() 清空",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/battle/__tests__/draw-battle-num.test.ts",
+          "fullName": "FloatingNumsLayer yellow / blue / cyan 选不同 base frame(sprite index 区分)",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/battle/__tests__/draw-battle-settlement.test.ts",
+          "fullName": "hiddenExpUpNumberX (D11:hidden-exp 涨点数字右对齐 x) 仙剑常量 maxName=3 / maxProp=1 → 191(此前误用单行公式 ≈206,差 15px)",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/battle/__tests__/draw-battle-settlement.test.ts",
+          "fullName": "hiddenExpUpNumberX (D11:hidden-exp 涨点数字右对齐 x) 公式 = 183 + (maxName + maxProp - 3) * 8",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/battle/__tests__/draw-battle-sprites.test.ts",
+          "fullName": "drawBattleSprites 画一个队员 + 一个敌方,落在预期位置(底中 anchor)",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/battle/__tests__/draw-battle-sprites.test.ts",
+          "fullName": "drawBattleSprites 死亡队员画倒下帧(sdlpal fight.c:948-952,不再消失);死亡敌方 deathFadeStep undefined(刚死未淡)→ 照常画",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/battle/__tests__/draw-battle-sprites.test.ts",
+          "fullName": "drawBattleSprites sprite Map 缺资源时跳过,不抛错",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/battle/__tests__/draw-battle-sprites.test.ts",
+          "fullName": "drawBattleSprites sprite opaque=0 透明,不覆盖背景(M3.5 fix:透明判定走 opaque,不再 idx===0)",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/battle/__tests__/draw-battle-sprites.test.ts",
+          "fullName": "drawBattleSprites 超过 5 个队员/敌方:多出来的不画(POSITIONS 数组限制)",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/battle/__tests__/draw-battle-sprites.test.ts",
+          "fullName": "drawBattleSprites — iColorShift 染色 blit(D17a,palcommon.c:397-411) low-nibble 0x03 + 6 = 0x09",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/battle/__tests__/draw-battle-sprites.test.ts",
+          "fullName": "drawBattleSprites — iColorShift 染色 blit(D17a,palcommon.c:397-411) low-nibble 0x0C + 6 = 0x12 → clamp 0x0F(高 nibble 0)",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/battle/__tests__/draw-battle-sprites.test.ts",
+          "fullName": "drawBattleSprites — iColorShift 染色 blit(D17a,palcommon.c:397-411) high-nibble 0xF0 保留:0xF3 + 6 → 低 nibble clamp 0x0F → 0xFF",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/battle/__tests__/draw-battle-sprites.test.ts",
+          "fullName": "drawBattleSprites — iColorShift 染色 blit(D17a,palcommon.c:397-411) high-nibble 不变示例:0x53 + 6 → 0x59(高 nibble 5 保留)",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/battle/__tests__/draw-battle-sprites.test.ts",
+          "fullName": "drawBattleSprites — iColorShift 染色 blit(D17a,palcommon.c:397-411) opaque 像素 idx 值 0 → 也偏移(0+6=6)(sdlpal direct run 不豁免 0)",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/battle/__tests__/draw-battle-sprites.test.ts",
+          "fullName": "drawBattleSprites — iColorShift 染色 blit(D17a,palcommon.c:397-411) iColorShift=0:退化为原值(等价旧 blit,不染色)",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/battle/__tests__/draw-battle-sprites.test.ts",
+          "fullName": "drawBattleSprites — iColorShift 染色 blit(D17a,palcommon.c:397-411) 透明像素(opaque=0)无视 shift,背景不变",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/battle/__tests__/draw-battle-sprites.test.ts",
+          "fullName": "drawBattleSprites — render-state pos/currentFrame(D17a) enemy.pos 覆盖 anchor:画在 render-state pos 而非 EnemyPos 表",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/battle/__tests__/draw-battle-sprites.test.ts",
+          "fullName": "drawBattleSprites — render-state pos/currentFrame(D17a) enemy.currentFrame 覆盖 idle 时钟:固定取该帧(动画攻击帧)",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/battle/__tests__/draw-battle-sprites.test.ts",
+          "fullName": "drawBattleSprites — render-state pos/currentFrame(D17a) Y-then-X 排序:Y 大的(屏幕下方)后画盖前",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/battle/__tests__/draw-battle-sprites.test.ts",
+          "fullName": "computeIdleFrameIndex idleFrames=2 speed=5:每 5 帧推进 1 格,frame 0/1 交替(fight.c:1008-1018)",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/battle/__tests__/draw-battle-sprites.test.ts",
+          "fullName": "computeIdleFrameIndex idleFrames=4 speed=1(蜜蜂 id6):每帧推进,t → t%4",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/battle/__tests__/draw-battle-sprites.test.ts",
+          "fullName": "computeIdleFrameIndex idleFrames=1(烂香菇 speed=99):任意帧恒 0(永远定格 frame 0)",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/battle/__tests__/draw-battle-sprites.test.ts",
+          "fullName": "computeIdleFrameIndex isSleepOrParalyzed=true:任意帧恒 0(fight.c:1001-1006 定格)",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/battle/__tests__/draw-battle-sprites.test.ts",
+          "fullName": "computeIdleFrameIndex idleAnimSpeed=0(id0 占位):任意帧恒 0 且不抛(防除 0)",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/battle/__tests__/draw-battle-sprites.test.ts",
+          "fullName": "computeIdleFrameIndex idleFrames=0(退化):恒 0,不产生负 / NaN 索引",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/battle/__tests__/draw-battle-sprites.test.ts",
+          "fullName": "blitFrameDeathFade — 死亡淡出 crossfade(D17,battle.c:650-662) residue 0 像素:step=0 高 nibble 立即换背景,低 nibble 未移(仍 bLow)",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/battle/__tests__/draw-battle-sprites.test.ts",
+          "fullName": "blitFrameDeathFade — 死亡淡出 crossfade(D17,battle.c:650-662) residue 0 像素 step 中途:低 nibble 朝 aLow 逼近 floor((step-jr)/6) 格",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/battle/__tests__/draw-battle-sprites.test.ts",
+          "fullName": "blitFrameDeathFade — 死亡淡出 crossfade(D17,battle.c:650-662) 6 帧节奏:同一外层 i 内(jr..jr+5)低 nibble 不动,+6 才推进 1 格(battle.c:634-650)",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/battle/__tests__/draw-battle-sprites.test.ts",
+          "fullName": "blitFrameDeathFade — 死亡淡出 crossfade(D17,battle.c:650-662) rgIndex 抖动错峰:residue!=0 的像素淡出起点 jr 滞后(step<jr 仍显原敌像素)",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/battle/__tests__/draw-battle-sprites.test.ts",
+          "fullName": "blitFrameDeathFade — 死亡淡出 crossfade(D17,battle.c:650-662) aLow < bLow:低 nibble 朝下逼近(diff<0)",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/battle/__tests__/draw-battle-sprites.test.ts",
+          "fullName": "blitFrameDeathFade — 死亡淡出 crossfade(D17,battle.c:650-662) step 足够大:低 nibble 完全收敛到 aLow → 像素 == 背景",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/battle/__tests__/draw-battle-sprites.test.ts",
+          "fullName": "blitFrameDeathFade — 死亡淡出 crossfade(D17,battle.c:650-662) 透明像素(opaque=0)跳过:背景不变",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/battle/__tests__/draw-battle-sprites.test.ts",
+          "fullName": "blitFrameDeathFade — 死亡淡出 crossfade(D17,battle.c:650-662) DEATH_FADE_TOTAL_STEPS = 72(battle.c:634-636 外12×内6)",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/battle/__tests__/draw-battle-sprites.test.ts",
+          "fullName": "drawBattleSprites — 敌人死亡淡出集成(D17) health<=0 + deathFadeStep undefined:照常画(刚被打死、淡出未开始 → 受击帧仍可见,不瞬隐)",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/battle/__tests__/draw-battle-sprites.test.ts",
+          "fullName": "drawBattleSprites — 敌人死亡淡出集成(D17) health<=0 + deathFadeStep 已开始:crossfade 画(高 nibble 换背景)",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/battle/__tests__/draw-battle-sprites.test.ts",
+          "fullName": "drawBattleSprites — 敌人死亡淡出集成(D17) health<=0 + deathFadeStep>=72:不画(淡完消失)",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/battle/__tests__/draw-battle-sprites.test.ts",
+          "fullName": "drawBattleSprites — 敌人死亡淡出集成(D17) health>0 + deathFadeStep undefined:照常普通 blit(不受淡出影响)",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/battle/__tests__/draw-battle-sprites.test.ts",
+          "fullName": "drawBattleSprites — 敌人 idle 帧轮播(D17c) DM11:idle 帧读 per-enemy idleFrame(battle-system 推进,渲染不再走全局时钟)",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/battle/__tests__/draw-battle-sprites.test.ts",
+          "fullName": "drawBattleSprites — 敌人 idle 帧轮播(D17c) sleep>0:不轮播,任意帧恒画 frames[0]",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/battle/__tests__/draw-battle-sprites.test.ts",
+          "fullName": "drawBattleSprites — 敌人 idle 帧轮播(D17c) 越界兜底:frames 仅 1 帧但 idleFrames=2 时不越界(fallback frames[0])",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/battle/__tests__/draw-battle-sprites.test.ts",
+          "fullName": "enemyTargetHighlightShift(敌方目标 ColorShift 高亮,sdlpal uibattle.c:1495-1510) blinkOn=false → 恒 0(blink off 帧不高亮,sprite 正常)",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/battle/__tests__/draw-battle-sprites.test.ts",
+          "fullName": "enemyTargetHighlightShift(敌方目标 ColorShift 高亮,sdlpal uibattle.c:1495-1510) selectTargetEnemy:选中敌人(idx===uiCursor)+ 活 + blinkOn → 7,非选中 → 0",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/battle/__tests__/draw-battle-sprites.test.ts",
+          "fullName": "enemyTargetHighlightShift(敌方目标 ColorShift 高亮,sdlpal uibattle.c:1495-1510) selectTargetEnemyAll(CLASSIC):无高亮 → 恒 0(立即提交,uibattle.c:1611-1617)",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/battle/__tests__/draw-battle-sprites.test.ts",
+          "fullName": "enemyTargetHighlightShift(敌方目标 ColorShift 高亮,sdlpal uibattle.c:1495-1510) 死敌(health<=0)→ 0(不高亮;单体选择 health guard)",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/battle/__tests__/draw-battle-sprites.test.ts",
+          "fullName": "enemyTargetHighlightShift(敌方目标 ColorShift 高亮,sdlpal uibattle.c:1495-1510) 非 target 选择阶段(selectMove)→ 0",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/battle/__tests__/draw-battle-sprites.test.ts",
+          "fullName": "computePlayerBattleIdleFrame(玩家状态空闲帧,sdlpal fight.c:948-984) hp==0 非傀儡 → 帧2(倒下死姿)",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/battle/__tests__/draw-battle-sprites.test.ts",
+          "fullName": "computePlayerBattleIdleFrame(玩家状态空闲帧,sdlpal fight.c:948-984) hp==0 + 傀儡 → 帧0(站立)",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/battle/__tests__/draw-battle-sprites.test.ts",
+          "fullName": "computePlayerBattleIdleFrame(玩家状态空闲帧,sdlpal fight.c:948-984) hp==0 即使 sleep/defend 也优先死帧2(死帧最高优先,fight.c:948 先判)",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/battle/__tests__/draw-battle-sprites.test.ts",
+          "fullName": "computePlayerBattleIdleFrame(玩家状态空闲帧,sdlpal fight.c:948-984) sleep>0 → 帧1(濒死姿)",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/battle/__tests__/draw-battle-sprites.test.ts",
+          "fullName": "computePlayerBattleIdleFrame(玩家状态空闲帧,sdlpal fight.c:948-984) 濒死(hp<min(100,maxHP/5))→ 帧1",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/battle/__tests__/draw-battle-sprites.test.ts",
+          "fullName": "computePlayerBattleIdleFrame(玩家状态空闲帧,sdlpal fight.c:948-984) 防御 → 帧3",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/battle/__tests__/draw-battle-sprites.test.ts",
+          "fullName": "computePlayerBattleIdleFrame(玩家状态空闲帧,sdlpal fight.c:948-984) 正常(非眠/非濒死/非防御)→ 帧0",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/battle/__tests__/draw-battle-sprites.test.ts",
+          "fullName": "computePlayerBattleIdleFrame(玩家状态空闲帧,sdlpal fight.c:948-984) 混乱无特殊帧 → 帧0(confused 抖动是 pos 特效,非帧;见 confusedShakeDelta)",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/battle/__tests__/draw-battle-sprites.test.ts",
+          "fullName": "confusedShakeDelta(混乱 ±1px 抖动,sdlpal battle.c:121/196) rand01 → {-1,0,1}(RandomLong(-1,1) 等价)",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/battle/__tests__/draw-battle-sprites.test.ts",
+          "fullName": "DM9:法术精灵参与 Y+sLayerOffset 统一 z 排序(battle.c:441-442) 负 layerOffset(地面型)排在精灵前(被精灵覆盖);大 offset 排后(盖精灵)",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/battle/__tests__/draw-battle-ui.test.ts",
+          "fullName": "computePlayerFaceColor(头像染色 uibattle.c:114-162) 无毒 + 活着 → 0xFF(满色,正常 blit)",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/battle/__tests__/draw-battle-ui.test.ts",
+          "fullName": "computePlayerFaceColor(头像染色 uibattle.c:114-162) 单毒 level1 → 该毒 wColor(64)",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/battle/__tests__/draw-battle-ui.test.ts",
+          "fullName": "computePlayerFaceColor(头像染色 uibattle.c:114-162) 多毒取最高 level 的色(level1=64 + level3=128 → 128)",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/battle/__tests__/draw-battle-ui.test.ts",
+          "fullName": "computePlayerFaceColor(头像染色 uibattle.c:114-162) level>3 毒(561 L4)不影响头像色 → 仍 0xFF",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/battle/__tests__/draw-battle-ui.test.ts",
+          "fullName": "computePlayerFaceColor(头像染色 uibattle.c:114-162) 死亡 hp==0 → 0(黑白 mono),覆盖中毒色",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/battle/__tests__/draw-battle-ui.test.ts",
+          "fullName": "computePlayerFaceColor(头像染色 uibattle.c:114-162) 另一队员(role 1)的毒不影响 role 0",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/battle/__tests__/draw-battle-ui.test.ts",
+          "fullName": "drawBattleUI(新模型 1:1) selectMove + main —— 画状态栏 + 4 图标(framebuffer 有写入,不抛)",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/battle/__tests__/draw-battle-ui.test.ts",
+          "fullName": "drawBattleUI(新模型 1:1) 无 uiSpriteFrames —— 优雅跳过 sprite(只画底部状态栏,不抛)",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/battle/__tests__/draw-battle-ui.test.ts",
+          "fullName": "drawBattleUI(新模型 1:1) 玩家回合未真正开始(selectionStartedForTurn≠turn)不画底部 InfoBox(草妖回归)",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/battle/__tests__/draw-battle-ui.test.ts",
+          "fullName": "drawBattleUI(新模型 1:1) 敌人逃跑动画期(enemyEscapeAnim)整个战斗 UI 不画",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/battle/__tests__/draw-battle-ui.test.ts",
+          "fullName": "drawBattleUI(新模型 1:1) fAutoBattle(整场自动)期间整个战斗 UI 不画(对齐 sdlpal goto end)",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/battle/__tests__/draw-battle-ui.test.ts",
+          "fullName": "drawBattleUI(新模型 1:1) selectMove + magicSelect —— 画法术网格(不抛,顶部有写入)",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/battle/__tests__/draw-battle-ui.test.ts",
+          "fullName": "drawBattleUI(新模型 1:1) selectMove + magicSelect —— 画选中仙术 scriptDesc 说明",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/battle/__tests__/draw-battle-ui.test.ts",
+          "fullName": "drawBattleUI(新模型 1:1) L8:法术菜单用 WIN95 布局 —— MP 在左侧,右侧 MP 区(215~265)无 slash/MP sprite",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/battle/__tests__/draw-battle-ui.test.ts",
+          "fullName": "drawBattleUI(新模型 1:1) selectMove + magicSelect(长列表 cursor=50)—— 分页不越界不抛",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/battle/__tests__/draw-battle-ui.test.ts",
+          "fullName": "drawBattleUI(新模型 1:1) selectMove + useItemSelect —— 画物品网格(不抛)",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/battle/__tests__/draw-battle-ui.test.ts",
+          "fullName": "drawBattleUI(新模型 1:1) selectMove + useItemSelect —— 画 ITEMBOX、BALL 图标和 scriptDesc 说明",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/battle/__tests__/draw-battle-ui.test.ts",
+          "fullName": "drawBattleUI(新模型 1:1) selectMove + misc —— 画杂项盒(不抛)",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/battle/__tests__/draw-battle-ui.test.ts",
+          "fullName": "drawBattleUI(新模型 1:1) selectMove + miscItemSubMenu —— 画杂项盒 + 物品二级(不抛)",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/battle/__tests__/draw-battle-ui.test.ts",
+          "fullName": "drawBattleUI(新模型 1:1) selectTargetEnemy —— 无箭头(选中敌人由 sprite 层 ColorShift 高亮),只画主菜单图标(不抛,有写入)",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/battle/__tests__/draw-battle-ui.test.ts",
+          "fullName": "drawBattleUI(新模型 1:1) selectTargetPlayer —— 队员上方画箭头(不抛)",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/battle/__tests__/draw-battle-ui.test.ts",
+          "fullName": "drawBattleUI(新模型 1:1) selectTargetEnemyAll —— 无箭头(全体敌人 sprite 层 ColorShift 高亮),只画主菜单图标(不抛)",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/battle/__tests__/draw-battle-ui.test.ts",
+          "fullName": "drawBattleUI(新模型 1:1) selectTargetPlayerAll —— 即时提交过渡态,不画友方全体箭头(不抛)",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/battle/__tests__/draw-battle-ui.test.ts",
+          "fullName": "drawBattleUI(新模型 1:1) selectTargetEnemy —— 无敌人时 no-op 不抛",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/battle/__tests__/draw-battle-ui.test.ts",
+          "fullName": "drawBattleUI(新模型 1:1) 对话队列非空 —— 战斗 UI 全不画(菜单 + 信息框)",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/battle/__tests__/draw-battle-ui.test.ts",
+          "fullName": "drawBattleUI(新模型 1:1) gs.dialogBox 非空 —— 战斗 UI 全不画",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/battle/__tests__/draw-battle-ui.test.ts",
+          "fullName": "drawBattleUI(新模型 1:1) hidden(perform 阶段)—— 啥都不画(信息框仅选择阶段;sdlpal Phase!=PerformAction)",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/battle/__tests__/draw-battle-ui.test.ts",
+          "fullName": "drawBattleUI(新模型 1:1) selectMove —— 画底部队员信息框(PAL_PlayerInfoBox:框+头像+HP/MP,y≈165)",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/battle/__tests__/draw-battle-ui.test.ts",
+          "fullName": "drawBattleUI(新模型 1:1) PAL_PlayerInfoBox —— 活人画乱/定/眠/封状态字,死亡时不画",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/battle/__tests__/draw-battle-ui.test.ts",
+          "fullName": "drawBattleUI(新模型 1:1) fAutoAttack —— 信息框隐藏(sdlpal !fAutoAttack)",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/battle/__tests__/draw-battle-ui.test.ts",
+          "fullName": "drawBattleUI(新模型 1:1) 状态栏 —— role 找不到时跳过该位,不抛",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/battle/__tests__/present-battle.test.ts",
+          "fullName": "BattlePresent draw —— 战斗 palette ramp fade 逐帧染色 gs.palette.colors(此前漏调 stepPaletteFade → 战斗 fade 只 snap 不动画)",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/battle/__tests__/present-battle.test.ts",
+          "fullName": "BattlePresent draw —— 空 assets + 空 commands 不抛错",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/battle/__tests__/present-battle.test.ts",
+          "fullName": "BattlePresent frame.shake → draw 末尾施加屏幕摇晃(偶帧下移 + 顶部填黑)",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/battle/__tests__/present-battle.test.ts",
+          "fullName": "BattlePresent 无 frame.shake → 不施加摇晃(顶部仍是 bg)",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/battle/__tests__/present-battle.test.ts",
+          "fullName": "BattlePresent draw —— bg + sprite + UI 联合落在 framebuffer",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/battle/__tests__/present-battle.test.ts",
+          "fullName": "BattlePresent 战场屏波只波动背景,不卷入精灵/特效(sdlpal PAL_BattleDrawBackground 在 sprite 前 ApplyWave)",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/battle/__tests__/present-battle.test.ts",
+          "fullName": "BattlePresent showDamageNum 命令(enemy target)→ floating nums 写入 framebuffer",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/battle/__tests__/present-battle.test.ts",
+          "fullName": "BattlePresent showDamageNum 坐标解析(enemy):x=anchor.x-24, y=clamp(anchor.y-115, 10)",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/battle/__tests__/present-battle.test.ts",
+          "fullName": "BattlePresent 多 showDamageNum + 跨帧 —— 数字飘上去,旧数字过期",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/battle/__tests__/present-battle.test.ts",
+          "fullName": "BattlePresent 非 showDamageNum 命令(如 playEnemyAttack)被静默跳过",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/battle/__tests__/present-battle.test.ts",
+          "fullName": "BattlePresent clearFloatingNums —— 清空残留数字",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/battle/__tests__/present-battle.test.ts",
+          "fullName": "BattlePresent 无对应 BattleField bg —— 跳过 bg 绘制,不抛",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/battle/__tests__/present-battle.test.ts",
+          "fullName": "BattlePresent uiState=hidden + 空 players/enemies —— 几乎无写入(只有可能的 bg)",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/battle/__tests__/present-battle.test.ts",
+          "fullName": "BattlePresent —— PresentCommand 不影响 state showDamageNum 多帧累积,合并到一个 floating layer",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/battle/__tests__/present-battle.test.ts",
+          "fullName": "BattlePresent —— D17a 动画 overlay state.battleAnim.overlay 存在 + effectSprite 注入 → 画 effect 帧到落点",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/battle/__tests__/present-battle.test.ts",
+          "fullName": "BattlePresent —— D17a 动画 overlay 无 battleAnim → 不画 overlay(不抛)",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/battle/__tests__/present-battle.test.ts",
+          "fullName": "BattlePresent —— D17a 动画 overlay battleAnim 有 overlay 但 effectSprite 缺 → no-op(loader 未注入,overlay 不画)",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/battle/__tests__/present-battle.test.ts",
+          "fullName": "BattlePresent —— D17 法术 magic overlays state.battleAnim.overlays(kind=magic)+ magicSprites 注入 → 逐个 blit",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/battle/__tests__/present-battle.test.ts",
+          "fullName": "BattlePresent —— D17 法术 magic overlays magicSprites 缺 → magic overlays no-op,不抛",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/battle/__tests__/present-battle.test.ts",
+          "fullName": "BattlePresent —— D17 法术 magic overlays 战斗内对话:gs.dialogBox 存在 → 对话覆于战斗场景渲染(framebuffer 差异)",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/battle/__tests__/present-battle.test.ts",
+          "fullName": "drawBattleSettlement —— D11b 胜利结算演出渲染 exp-cash 屏:画 box + 经验/文钱数字 → framebuffer 有写入",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/battle/__tests__/present-battle.test.ts",
+          "fullName": "drawBattleSettlement —— D11b 胜利结算演出渲染 level-up 屏:画主 box + 8 属性 old→cur 数字 + 箭头/斜杠 → framebuffer 有写入",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/battle/__tests__/present-battle.test.ts",
+          "fullName": "drawBattleSettlement —— D11b 胜利结算演出渲染 learn-magic 屏:画 box + name/练成/magicName → framebuffer 有写入",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/battle/__tests__/present-battle.test.ts",
+          "fullName": "drawBattleSettlement —— D11b 胜利结算演出渲染 无 uiSpriteFrames → 安全 no-op(不抛)",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/battle/__tests__/present-battle.test.ts",
+          "fullName": "drawBattleSettlement —— D11b 胜利结算演出渲染 BattlePresent.draw:state.settlement active → 结算屏叠加渲染(端到端经 present-battle)",
           "status": "passed"
         }
       ]

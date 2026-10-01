@@ -1,0 +1,17 @@
+
+ RUN  v4.1.7 /private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/grok-r1-G08-D-cEK9rn/packages/game
+
+ ✓ src/present/battle/battle-effect-num-pixels.grok-r1.test.ts > G08-D 特效与飘字像素 > G08-D01 宽 3 的特效锚点只减 1，左缘和多出来的右缘都写入 1ms
+ ✓ src/present/battle/battle-effect-num-pixels.grok-r1.test.ts > G08-D 特效与飘字像素 > G08-D02 宽 1 时右移半宽为 0，像素落在锚点列而不是左边一列 0ms
+ ✓ src/present/battle/battle-effect-num-pixels.grok-r1.test.ts > G08-D 特效与飘字像素 > G08-D03 五位右对齐的个位在 x+24，十位不补零 0ms
+ ✓ src/present/battle/battle-effect-num-pixels.grok-r1.test.ts > G08-D 特效与飘字像素 > G08-D04 六位数只留低五位，最高位不画到个位左边第六格 0ms
+ ✓ src/present/battle/battle-effect-num-pixels.grok-r1.test.ts > G08-D 特效与飘字像素 > G08-D05 两条飘字各写自己的个位，黄 7 和蓝 3 不互相覆盖 0ms
+ ✓ src/present/battle/battle-effect-num-pixels.grok-r1.test.ts > G08-D 特效与飘字像素 > G08-D06 数值 0 仍画一位黄 0，左边不补位 0ms
+ ✓ src/present/battle/battle-effect-num-pixels.grok-r1.test.ts > G08-D 特效与飘字像素 > G08-D07 奇数宽右缘索引 0x2D 经 flushToCanvas 写成调色板 RGB，缓冲仍是 0x2D 96ms
+
+ Test Files  1 passed (1)
+      Tests  7 passed (7)
+   Start at  03:17:07
+   Duration  737ms (transform 238ms, setup 16ms, import 271ms, tests 99ms, environment 286ms)
+
+JSON report written to /var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/grok-r1-G08-D-cEK9rn/restored.json

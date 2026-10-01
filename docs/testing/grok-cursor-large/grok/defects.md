@@ -54,6 +54,14 @@
 
 本批新合同 47。两人体力、需要真气 8、价 123、现有 3、半价 40、九宫格和四字横坐标已经有旧断言，记在 existing-proof。目标 400/40/40 没有改小。
 
+## G08
+
+没有停组的产品缺陷。
+
+单次染色、Y 序、死亡淡出未开始仍画、头像色函数返回值、dialogBox 整屏不画、升级斜杠与箭头、一字名实际字宽、偶数宽特效、飘字上移和寿命、背景索引 0 与色阶已经有旧断言，记在 existing-proof。
+
+本批新合同 44。目标 400/40/40 没有改小。
+
 ## 未跑
 
-G08–G10 尚未交付。coverage-delta、receipt 的完整候选 SHA、全包 test、根 lint、docs check、diff check、verifier 留在末批。
+G09–G10 尚未交付。coverage-delta、receipt 的完整候选 SHA、全包 test、根 lint、docs check、diff check、verifier 留在末批。
