@@ -4,7 +4,8 @@
   "package": "content",
   "test": {
     "file": "src/enemy-ai.glm-o.test.ts",
-    "title": "once 已触发规则被跳过，后续首条命中"
+    "title": "once 已触发规则被跳过，后续首条命中",
+    "target": "O08 decideByRules：act 首命中与跳过序 once 已触发规则被跳过，后续首条命中"
   },
   "mutation": {
     "file": "src/enemy-ai.ts",

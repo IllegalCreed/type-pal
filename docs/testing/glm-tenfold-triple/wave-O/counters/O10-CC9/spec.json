@@ -4,7 +4,8 @@
   "package": "content",
   "test": {
     "file": "src/script-library.glm-o.test.ts",
-    "title": "stableScriptHash 稳定且区分输入"
+    "title": "stableScriptHash 稳定且区分输入",
+    "target": "O07 deriveScriptChunk / stableScriptHash：分桶与哈希 stableScriptHash 稳定且区分输入"
   },
   "mutation": {
     "file": "src/script-library.ts",

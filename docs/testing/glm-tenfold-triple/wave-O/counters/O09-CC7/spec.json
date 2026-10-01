@@ -4,7 +4,8 @@
   "package": "content",
   "test": {
     "file": "src/item-use.glm-o.test.ts",
-    "title": "wrong-context：battleOnly 用途不进世界执行器"
+    "title": "wrong-context：battleOnly 用途不进世界执行器",
+    "target": "O08 preflightWorldItemUse（经 resolveWorldItemUse 透传）：reason 轴 wrong-context：battleOnly 用途不进世界执行器"
   },
   "mutation": {
     "file": "src/item.ts",

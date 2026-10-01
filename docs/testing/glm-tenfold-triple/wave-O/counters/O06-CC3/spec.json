@@ -3,7 +3,8 @@
   "contract": "实体引用恰一",
   "test": {
     "file": "src/validate.glm-o.test.ts",
-    "title": "实体引用恰一（0 或 2 个）与 zone 无朝向 逐轴拒绝"
+    "title": "实体引用恰一（0 或 2 个）与 zone 无朝向 逐轴拒绝",
+    "target": "O06 validateScenes：运行态场景形状残臂 实体引用恰一（0 或 2 个）与 zone 无朝向 逐轴拒绝"
   },
   "mutation": {
     "file": "src/validate.ts",

@@ -4,7 +4,8 @@
   "package": "content",
   "test": {
     "file": "src/data-guards.glm-o.test.ts",
-    "title": "首尾空格 name / 非字符串 description 拒绝"
+    "title": "首尾空格 name / 非字符串 description 拒绝",
+    "target": "O09 validateWorldVariableRegistryV1：id/name 边界 首尾空格 name / 非字符串 description 拒绝"
   },
   "mutation": {
     "file": "src/world-variable.ts",

@@ -3,7 +3,8 @@
   "contract": "迁移事务重复目标在提交侧被拒绝",
   "test": {
     "file": "src/migration-transaction.glm-o.test.ts",
-    "title": "重复目标在提交侧被拒绝"
+    "title": "重复目标在提交侧被拒绝",
+    "target": "O01 commitMigrationTransaction：提交侧单轴拒绝合同 重复目标在提交侧被拒绝"
   },
   "mutation": {
     "file": "src/migration-transaction.ts",

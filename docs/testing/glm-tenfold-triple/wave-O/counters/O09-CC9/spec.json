@@ -4,7 +4,8 @@
   "package": "content",
   "test": {
     "file": "src/small-guards.glm-o.test.ts",
-    "title": "非数组 / 非对象条目 / 负 id / 重复 id / 非法 items 逐轴拒绝"
+    "title": "非数组 / 非对象条目 / 负 id / 重复 id / 非法 items 逐轴拒绝",
+    "target": "O09 validateShops / shopBuy / shopSell / sellableItems 非数组 / 非对象条目 / 负 id / 重复 id / 非法 items 逐轴拒绝"
   },
   "mutation": {
     "file": "src/shop.ts",

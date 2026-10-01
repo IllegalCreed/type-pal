@@ -4,7 +4,8 @@
   "package": "content",
   "test": {
     "file": "src/item-effects.glm-o.test.ts",
-    "title": "gate 显式 chance=50：rng 命中（roll<50）放行后续 healHp"
+    "title": "gate 显式 chance=50：rng 命中（roll<50）放行后续 healHp",
+    "target": "O08 复合链顺序与 gate 显式阈值 gate 显式 chance=50：rng 命中（roll<50）放行后续 healHp"
   },
   "mutation": {
     "file": "src/item.ts",

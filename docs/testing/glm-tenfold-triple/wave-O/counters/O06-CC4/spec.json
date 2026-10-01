@@ -3,7 +3,8 @@
   "contract": "directional 缺 framesPerDir 拒绝",
   "test": {
     "file": "src/validate.glm-o.test.ts",
-    "title": "directional 缺 framesPerDir / 非正整数 拒绝；static 通过"
+    "title": "directional 缺 framesPerDir / 非正整数 拒绝；static 通过",
+    "target": "O06 validateSprites：layout/poses 残臂 directional 缺 framesPerDir / 非正整数 拒绝；static 通过"
   },
   "mutation": {
     "file": "src/validate.ts",

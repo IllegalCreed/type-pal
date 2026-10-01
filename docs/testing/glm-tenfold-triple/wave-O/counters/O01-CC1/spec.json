@@ -3,7 +3,8 @@
   "contract": "物品剧情方案 label 漂移被永久门禁拒绝",
   "test": {
     "file": "src/pal-current-publication.glm-o.test.ts",
-    "title": "方案 label 漂移被永久门禁拒绝"
+    "title": "方案 label 漂移被永久门禁拒绝",
+    "target": "O01 validatePalCurrentPublication：发布门与 census 拒绝合同（合成工程） 方案 label 漂移被永久门禁拒绝（名称漂移）"
   },
   "mutation": {
     "file": "src/pal-item-scheme-labels.ts",

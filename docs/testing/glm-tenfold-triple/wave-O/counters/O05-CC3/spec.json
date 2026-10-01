@@ -3,7 +3,8 @@
   "contract": "试炼果/舍利子 buyPrice=0 合同",
   "test": {
     "file": "src/pal-supply-guards.glm-o.test.ts",
-    "title": "alchemy 正控通过并校验 112/72 buyPrice=0 合同"
+    "title": "alchemy 正控通过并校验 112/72 buyPrice=0 合同",
+    "target": "O05 assertPalStoreBoundaryInvariant / Alchemy：边界轴 alchemy 正控通过并校验 112/72 buyPrice=0 合同"
   },
   "mutation": {
     "file": "src/pal-store-boundary.ts",

@@ -3,7 +3,8 @@
   "contract": "非 RIFF/WAVE 字节被拒绝",
   "test": {
     "file": "src/pal-assets.glm-o.test.ts",
-    "title": "metadata/manifest/磁盘 size 三向不一致 → 拒绝；非 RIFF 字节 → 拒绝"
+    "title": "metadata/manifest/磁盘 size 三向不一致 → 拒绝；非 RIFF 字节 → 拒绝",
+    "target": "O04 loadPalSoundAssets：合成 505 段三向闭包 metadata/manifest/磁盘 size 三向不一致 → 拒绝；非 RIFF 字节 → 拒绝"
   },
   "mutation": {
     "file": "src/pal-assets.ts",

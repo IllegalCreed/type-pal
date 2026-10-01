@@ -3,7 +3,8 @@
   "contract": "退役迁移资源路径越界 fail-loud",
   "test": {
     "file": "src/migration-write-plan.glm-o.test.ts",
-    "title": "退役资源路径越界或 sha 非法 → fail-loud"
+    "title": "退役资源路径越界或 sha 非法 → fail-loud",
+    "target": "O03 buildMigrationTransactionChanges：退役资源与重复目标 退役资源路径越界或 sha 非法 → fail-loud"
   },
   "mutation": {
     "file": "src/migration-write-plan.ts",

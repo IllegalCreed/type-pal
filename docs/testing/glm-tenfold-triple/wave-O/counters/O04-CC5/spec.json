@@ -3,7 +3,8 @@
   "contract": "isEmpty 与 size 一致性校验",
   "test": {
     "file": "src/pal-assets.glm-o.test.ts",
-    "title": "段号不连续 / size 非法 / isEmpty 不一致逐轴拒绝"
+    "title": "段号不连续 / size 非法 / isEmpty 不一致逐轴拒绝",
+    "target": "O04 loadPalSoundAssets：合成 505 段三向闭包 段号不连续 / size 非法 / isEmpty 不一致逐轴拒绝"
   },
   "mutation": {
     "file": "src/pal-assets.ts",

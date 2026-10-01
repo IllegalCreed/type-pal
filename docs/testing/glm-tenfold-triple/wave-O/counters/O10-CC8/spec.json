@@ -4,7 +4,8 @@
   "package": "shared",
   "test": {
     "file": "src/mkf.glm-o.test.ts",
-    "title": "截断头拒绝 / 首偏移非 4 倍数拒绝"
+    "title": "截断头拒绝 / 首偏移非 4 倍数拒绝",
+    "target": "O10 MKF：容器合同 截断头拒绝 / 首偏移非 4 倍数拒绝"
   },
   "mutation": {
     "file": "src/mkf.ts",

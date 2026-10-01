@@ -4,7 +4,8 @@
   "package": "content",
   "test": {
     "file": "src/enemy-ai.glm-o.test.ts",
-    "title": "applyPlayerStatus：坏状态已有不刷新；好状态仅活人取较长；傀儡仅死者"
+    "title": "applyPlayerStatus：坏状态已有不刷新；好状态仅活人取较长；傀儡仅死者",
+    "target": "O08 战斗状态：tick/apply/canAct/canCastMagic applyPlayerStatus：坏状态已有不刷新；好状态仅活人取较长；傀儡仅死者"
   },
   "mutation": {
     "file": "src/battle-formulas.ts",

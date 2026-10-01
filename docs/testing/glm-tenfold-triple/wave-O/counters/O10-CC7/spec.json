@@ -4,7 +4,8 @@
   "package": "shared",
   "test": {
     "file": "src/yj2-encode.glm-o.test.ts",
-    "title": "0x7F 上限分段：129 连续 opaque → 两段（127+2）指令"
+    "title": "0x7F 上限分段：129 连续 opaque → 两段（127+2）指令",
+    "target": "O10 encodeRleFrame：游程分段与尾透明 0x7F 上限分段：129 连续 opaque → 两段（127+2）指令"
   },
   "mutation": {
     "file": "src/rle-encode.ts",

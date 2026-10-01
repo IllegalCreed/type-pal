@@ -3,7 +3,8 @@
   "contract": "Store0 buy openShop census 不足 29 时拒绝发布",
   "test": {
     "file": "src/pal-current-publication.glm-o.test.ts",
-    "title": "作者改动 buy openShop 至 28 时生成侧 census 拒绝发布"
+    "title": "作者改动 buy openShop 至 28 时生成侧 census 拒绝发布",
+    "target": "O01 validatePalCurrentPublication：发布门与 census 拒绝合同（合成工程） 作者改动 buy openShop 至 28 时生成侧 census 拒绝发布"
   },
   "mutation": {
     "file": "src/pal-store-boundary.ts",

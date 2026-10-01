@@ -4,7 +4,8 @@
   "package": "content",
   "test": {
     "file": "src/item-equip.glm-o.test.ts",
-    "title": "模板不匹配 equipableBy → 原引用返回"
+    "title": "模板不匹配 equipableBy → 原引用返回",
+    "target": "O08 equipItem：四拒绝前置与成功流 模板不匹配 equipableBy → 原引用返回"
   },
   "mutation": {
     "file": "src/item.ts",

@@ -4,7 +4,8 @@
   "package": "shared",
   "test": {
     "file": "src/mkf.glm-o.test.ts",
-    "title": "chunk 越界读 fail-loud（负数）"
+    "title": "chunk 越界读 fail-loud（负数）",
+    "target": "O10 MKF：容器合同 chunk 越界读 fail-loud（负数）"
   },
   "mutation": {
     "file": "src/mkf.ts",

@@ -4,7 +4,8 @@
   "package": "content",
   "test": {
     "file": "src/actor-condition.glm-o.test.ts",
-    "title": "毒 id 非正整数 fail-loud（形状轴）"
+    "title": "毒 id 非正整数 fail-loud（形状轴）",
+    "target": "O08 applyActorConditionSeed：新建世界物化 毒 id 非正整数 fail-loud（形状轴）"
   },
   "mutation": {
     "file": "src/actor-condition.ts",

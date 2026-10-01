@@ -4,7 +4,8 @@
   "package": "content",
   "test": {
     "file": "src/data-guards.glm-o.test.ts",
-    "title": "诊断项缺 id / 重复 id 逐轴拒绝；合法空表通过"
+    "title": "诊断项缺 id / 重复 id 逐轴拒绝；合法空表通过",
+    "target": "O09 validateMigrationDiagnostics：诊断表结构 诊断项缺 id / 重复 id 逐轴拒绝；合法空表通过"
   },
   "mutation": {
     "file": "src/migration-diagnostic.ts",

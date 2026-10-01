@@ -4,7 +4,8 @@
   "package": "content",
   "test": {
     "file": "src/item-equip.glm-o.test.ts",
-    "title": "背包没有该件（count=0）→ 原引用返回"
+    "title": "背包没有该件（count=0）→ 原引用返回",
+    "target": "O08 equipItem：四拒绝前置与成功流 背包没有该件（count=0）→ 原引用返回"
   },
   "mutation": {
     "file": "src/item.ts",

@@ -3,7 +3,8 @@
   "contract": "入口 id 重复拒绝",
   "test": {
     "file": "src/validate.glm-o.test.ts",
-    "title": "入口 id 重复 / 首尾空格 / scene 不在场景索引 逐轴拒绝"
+    "title": "入口 id 重复 / 首尾空格 / scene 不在场景索引 逐轴拒绝",
+    "target": "O06 validateCurrentManifestStartup：manifest 字段轴 入口 id 重复 / 首尾空格 / scene 不在场景索引 逐轴拒绝"
   },
   "mutation": {
     "file": "src/validate.ts",

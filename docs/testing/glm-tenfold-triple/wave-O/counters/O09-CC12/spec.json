@@ -4,7 +4,8 @@
   "package": "content",
   "test": {
     "file": "src/item-effects.glm-o.test.ts",
-    "title": "healMp：加 MP 钳 maxMP（30+40 → maxMP 50）"
+    "title": "healMp：加 MP 钳 maxMP（30+40 → maxMP 50）",
+    "target": "O08 healHp/healMp：钳位与死亡跳过 healMp：加 MP 钳 maxMP（30+40 → maxMP 50）"
   },
   "mutation": {
     "file": "src/item.ts",

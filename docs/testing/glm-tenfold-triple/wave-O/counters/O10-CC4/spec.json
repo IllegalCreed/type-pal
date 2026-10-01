@@ -4,7 +4,8 @@
   "package": "shared",
   "test": {
     "file": "src/rle.glm-o.test.ts",
-    "title": "超 u16 word 偏移上限 → 拆分图集错误"
+    "title": "超 u16 word 偏移上限 → 拆分图集错误",
+    "target": "O10 encodeSpriteChunk：上限与空容器 超 u16 word 偏移上限 → 拆分图集错误"
   },
   "mutation": {
     "file": "src/rle-encode.ts",

@@ -4,7 +4,8 @@
   "package": "shared",
   "test": {
     "file": "src/rle.glm-o.test.ts",
-    "title": "过短源 → 拒绝"
+    "title": "过短源 → 拒绝",
+    "target": "O10 decompressYj2：头部与位流轴（真实解码入口） 过短源 → 拒绝"
   },
   "mutation": {
     "file": "src/yj2.ts",

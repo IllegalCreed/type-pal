@@ -3,7 +3,8 @@
   "contract": "工程写排序：scenes/index 排在最后",
   "test": {
     "file": "src/migration-write-plan.glm-o.test.ts",
-    "title": "工程写按 scenes/index 最后排序；map 内容走专用序列化"
+    "title": "工程写按 scenes/index 最后排序；map 内容走专用序列化",
+    "target": "O03 buildMigrationTransactionChanges：工程写入与规划快照门 工程写按 scenes/index 最后排序；map 内容走专用序列化"
   },
   "mutation": {
     "file": "src/migration-write-plan.ts",

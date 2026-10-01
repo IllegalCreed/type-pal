@@ -4,7 +4,8 @@
   "package": "content",
   "test": {
     "file": "src/data-guards.glm-o.test.ts",
-    "title": "id 含 '/' / 重复 id / 退役 path / 退役 tiles 逐轴拒绝"
+    "title": "id 含 '/' / 重复 id / 退役 path / 退役 tiles 逐轴拒绝",
+    "target": "O09 validateTilesets：退役字段与唯一 id id 含 '/' / 重复 id / 退役 path / 退役 tiles 逐轴拒绝"
   },
   "mutation": {
     "file": "src/tileset.ts",
