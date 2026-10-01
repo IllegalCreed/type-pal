@@ -1,0 +1,57 @@
+{
+  "id": "Q08-8b-RC1",
+  "file": "packages/game/src/battle-action-error-arms.glm-q.test.ts",
+  "targetFullName": "Q08-8b performMagic caster 缺失臂 caster 索引越界：warn + 不扣 MP + 不 emit + 不跑脚本",
+  "targetNameSubstring": "caster 索引越界",
+  "axis": "输入轴单轴变异：performMagic caster 索引 9→0（合法界内 caster，MP 足额）；断言不动。",
+  "sha256": {
+    "original": "7e48e9e4332d99c35882b049528e92f6b02e653d2b7ad90dca1e934a74ab77af",
+    "mutated": "511b8110bab981fa66a73d481c88df87559c9f36488b13b803d69684b7dfe6e5",
+    "restored": "7e48e9e4332d99c35882b049528e92f6b02e653d2b7ad90dca1e934a74ab77af"
+  },
+  "restoredHashUnchanged": true,
+  "criteria": {
+    "positiveGreen": true,
+    "mutantExactlyOneTargetRed": true,
+    "targetAssertionError": "AssertionError: expected \"warn\" to be called with arguments: [ StringContaining{…} ]",
+    "restoredGreen": true,
+    "restoredSameExecutionCount": true,
+    "hashesMatchFinalCandidate": true
+  },
+  "runs": {
+    "positive": {
+      "exitCode": 0,
+      "summary": {
+        "numTotalTests": 7,
+        "numPassedTests": 7,
+        "numFailedTests": 0,
+        "success": true
+      },
+      "json": "Q08-8b-RC1.positive.json",
+      "raw": "Q08-8b-RC1.positive.txt"
+    },
+    "mutant": {
+      "exitCode": 1,
+      "summary": {
+        "numTotalTests": 7,
+        "numPassedTests": 6,
+        "numFailedTests": 1,
+        "success": false
+      },
+      "json": "Q08-8b-RC1.mutant.json",
+      "raw": "Q08-8b-RC1.mutant.txt"
+    },
+    "restored": {
+      "exitCode": 0,
+      "summary": {
+        "numTotalTests": 7,
+        "numPassedTests": 7,
+        "numFailedTests": 0,
+        "success": true
+      },
+      "json": "Q08-8b-RC1.restored.json",
+      "raw": "Q08-8b-RC1.restored.txt"
+    }
+  },
+  "verdict": "VALID"
+}

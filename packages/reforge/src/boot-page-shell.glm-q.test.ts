@@ -40,8 +40,9 @@ test('Q01 页壳默认加载 demo 工程：真实 bootGame 进入主循环并设
   await vi.waitFor(() => expect(document.title).toBe('Shell Project · reforge'))
   expect(calls).toEqual(['demo'])
   expect(error).not.toHaveBeenCalled()
-  host.frame()
-  expect(host.frames.size).toBeGreaterThan(0) // 主循环持续排帧
+  await vi.waitFor(() => expect(host!.frames.size).toBeGreaterThan(0)) // 主循环已排帧
+  host!.frame()
+  expect(host!.frames.size).toBeGreaterThan(0) // 主循环持续排帧
 })
 
 test('Q01 VITE_PROJECT_ID 覆写工程 id 并透传给加载器', async () => {

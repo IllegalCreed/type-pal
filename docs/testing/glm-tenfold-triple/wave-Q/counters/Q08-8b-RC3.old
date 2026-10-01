@@ -1,0 +1,9 @@
+      items: [item({ id: 117, scriptOnUse: 1 })],
+      playerRoles: roles(),
+      bus,
+      commands: [{ op: 'end' }],
+      runScript,
+    })
+    expect(warn).toHaveBeenCalledWith(expect.stringContaining('[item] no inventory for item 117'))
+    expect(runScript).not.toHaveBeenCalled()
+    expect(game.inventory).toEqual([])

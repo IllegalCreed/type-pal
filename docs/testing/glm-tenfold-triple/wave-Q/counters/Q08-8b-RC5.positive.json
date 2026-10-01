@@ -1,0 +1,110 @@
+{
+  "numTotalTestSuites": 4,
+  "numPassedTestSuites": 4,
+  "numFailedTestSuites": 0,
+  "numPendingTestSuites": 0,
+  "numTotalTests": 7,
+  "numPassedTests": 7,
+  "numFailedTests": 0,
+  "numPendingTests": 0,
+  "numTodoTests": 0,
+  "snapshot": {
+    "added": 0,
+    "failure": false,
+    "filesAdded": 0,
+    "filesRemoved": 0,
+    "filesRemovedList": [],
+    "filesUnmatched": 0,
+    "filesUpdated": 0,
+    "matched": 0,
+    "total": 0,
+    "unchecked": 0,
+    "uncheckedKeysByFile": [],
+    "unmatched": 0,
+    "updated": 0,
+    "didUpdate": false
+  },
+  "startTime": 1790850529229,
+  "success": true,
+  "testResults": [
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["Q08-8b performMagic caster 缺失臂"],
+          "fullName": "Q08-8b performMagic caster 缺失臂 caster 索引越界：warn + 不扣 MP + 不 emit + 不跑脚本",
+          "status": "passed",
+          "title": "caster 索引越界：warn + 不扣 MP + 不 emit + 不跑脚本",
+          "duration": 2.51987500000007,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Q08-8b performMagic caster 缺失臂"],
+          "fullName": "Q08-8b performMagic caster 缺失臂 caster role 不在 playerRoles：warn + 不扣 MP + 不 emit + 不跑脚本",
+          "status": "passed",
+          "title": "caster role 不在 playerRoles：warn + 不扣 MP + 不 emit + 不跑脚本",
+          "duration": 0.3462920000000622,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Q08-8b 无 inventory 资源臂（item / throw-item）"],
+          "fullName": "Q08-8b 无 inventory 资源臂（item / throw-item） performItem 队员库存缺 entry：warn + 不跑 scriptOnUse",
+          "status": "passed",
+          "title": "performItem 队员库存缺 entry：warn + 不跑 scriptOnUse",
+          "duration": 0.5220420000000559,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Q08-8b 无 inventory 资源臂（item / throw-item）"],
+          "fullName": "Q08-8b 无 inventory 资源臂（item / throw-item） performItem count=0 保留 entry：同 warn 早退（不剔除、不跑脚本）",
+          "status": "passed",
+          "title": "performItem count=0 保留 entry：同 warn 早退（不剔除、不跑脚本）",
+          "duration": 0.4206249999999727,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Q08-8b 无 inventory 资源臂（item / throw-item）"],
+          "fullName": "Q08-8b 无 inventory 资源臂（item / throw-item） performThrowItem 队员无 inventory：warn + 不跑 scriptOnThrow + 不 emit",
+          "status": "passed",
+          "title": "performThrowItem 队员无 inventory：warn + 不跑 scriptOnThrow + 不 emit",
+          "duration": 0.5234580000000051,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Q08-8b selectAutoTargetFrom 未覆盖条件臂"],
+          "fullName": "Q08-8b selectAutoTargetFrom 未覆盖条件臂 begin<0 规范化为从 0 起扫首个活敌",
+          "status": "passed",
+          "title": "begin<0 规范化为从 0 起扫首个活敌",
+          "duration": 0.13274999999998727,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Q08-8b selectAutoTargetFrom 未覆盖条件臂"],
+          "fullName": "Q08-8b selectAutoTargetFrom 未覆盖条件臂 prevTarget 越界(≥n)时回 begin 起扫，不读越界槽",
+          "status": "passed",
+          "title": "prevTarget 越界(≥n)时回 begin 起扫，不读越界槽",
+          "duration": 0.08000000000004093,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790850529958,
+      "endTime": 1790850529963.1328,
+      "status": "passed",
+      "message": "",
+      "name": "/private/tmp/glmq/counter-copy/type-pal/packages/game/src/battle-action-error-arms.glm-q.test.ts"
+    }
+  ]
+}

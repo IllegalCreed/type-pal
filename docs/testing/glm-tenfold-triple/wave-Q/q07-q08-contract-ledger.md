@@ -32,12 +32,27 @@
 | 6 | 召唤/变身（summon 槽位 / transform 属性转移） | `core/battle/__tests__/battle-opcodes.test.ts :: 0x9E enemy summon (script.c:009E) > w!=0 召唤指定敌人(obj→enemyId→enemies)+ 满血 + 脚本/抗性`；`> 有 bus 时召唤建敌施法/高亮动画`；`:: 0x9F enemy transform (script.c:009F) > 变身成 op0 对象(保留当前 health + 保留原形态脚本)+ M6 变身音 47`；`> 变身后按新 enemy.yPosOffset 刷新自身底锚`；`core/battle/__tests__/battle-system.test.ts :: throw-item action 派发(E2) > 0x9E summon:敌人 scriptOnReady 只复用 wMaxEnemyIndex 内死亡空槽,不扩容单敌队伍` | existing-proof（**范围注记（二审）：该末例构造单敌无空槽并断言不扩容，不扩为「正向死亡空槽复用」全轴证明**；正向复用轴列继续展开项） |
 | 7 | 开战重建装备效果（PAL_UpdateEquipments 等价） | `core/battle/__tests__/battle-system.test.ts :: 开战重建装备效果… > 复活的装双攻武器队员开战重获双攻状态`；`> 未装双攻武器的队员开战不会凭空获得双攻` | existing-proof |
 | 8 | 行动队列 buildActionQueue（performAction/selectAction 不在本行范围） | `core/battle/__tests__/turn-queue.test.ts :: buildActionQueue (PAL_CLASSIC) > 按 dexterity 降序`；`> dualMove enemy 进队列两次(第二次 fIsSecond=true)`；`> 同 dex 排序稳定(敌人先于队员,fight.c 先填敌人且只在严格小于时交换)`；`> 空队伍`；`> 空敌方` | existing-proof（**范围注记（二审）：仅证 buildActionQueue**；performAction/selectAction 两入口拆出为独立行，见第 8b 行） |
-| 8b | performAction / selectAction（行动执行与玩家指令选择） | r2 行仅以群名列出（performAction 11 例/selectAction 13 例），未落逐条件锚 → **不作为已证**，列继续展开项：逐条件补 `core/battle/__tests__/`（actions/battle-opcodes 群）完整 old fullName/断言行 | 展开中（下一批首项） |
+| 8b | performAction / selectAction（行动执行与玩家指令选择） | selectAutoTargetFrom 六臂已证（`turn-queue.test.ts`/`battle-system.test.ts` 六例，r3 已核）；**r5 新证**：`battle-action-error-arms.glm-q.test.ts` 七例（performMagic caster 索引越界/role 缺失两臂、performItem+performThrowItem 无 inventory 三臂、selectAutoTargetFrom begin<0 与 prevTarget 越界两臂），39→44 反控含其中五轴。performMagic 主链（MP 扣减/起手音/脚本）与 pickAutoMagic 学习法术系仍见下「展开中」 | **部分已证 + 展开** |
 | 9 | 战后成长（CHECK_HIDDEN_EXP / battleWonLevelUp） | `core/battle/battle-progression.glm-next-wave.test.ts :: applyHiddenExpGrowth —— CHECK_HIDDEN_EXP 宏边角(battle.c:1238-1293) > wLevel=120 先钳 99` 等 6 例 | existing-proof |
 | 10 | 逃跑推进（enemyEscapeAnim 相位）/ 玩家逃跑判定（performFlee）/ 捕获（capture） | 逃跑推进：`core/battle/__tests__/battle-system.test.ts :: applyHiddenExpGrowth… > D13:enemyEscapeAnim → 全活敌往左挪到出屏 → phase=fleed;health 不变(fled 无 exp)`；`> L11:敌逃出屏后进入 ~13 帧停顿阶段再 fleed(battle.c:1433 UTIL_Delay(500))`；`:: tickBattle finalize > flee 成功 → fleed → finalize 切 explore(无 hp 改动)`。玩家逃跑判定：`core/battle/__tests__/actions.test.ts :: performFlee > fleeRate 远大于 rng 上限(roll 必小)→ 触发逃跑动画(fleeAnim)`；`> fleeRate=0 + 多个高吉运敌人(roll 必大)→ phase 不变`；`> 修复版:逃跑抵抗 def 用敌吉运 fleeRate,身法 dexterity 不参与`；`> isBoss=true → 无论 fleeRate 多高都不可逃`；`> 无 enemy 时 def=0 → roll∈[0,0]=0,fleeRate>=0 → 命中` | existing-proof（**范围注记（二审）：上锚证逃跑推进与玩家逃跑判定**；敌逃停顿终态/HP 不变由 battle-system 行覆盖；captureEnemy 全族 r2 未落锚 → 拆出第 10b 行） |
-| 10b | 捕获（captureEnemy 全族） | r2 行仅名「captureEnemy 锚 1+」未落锚 → **不作为已证**，列继续展开项：逐条件补 game 捕获入口旧锚（actions/battle-system 群）或以合法 typed 输入新建合同 | 展开中（下一批首项） |
+| 10b | 捕获（captureEnemy 全族） | **r5 源条件核实（展开前置要求）**：`grep -ri capture packages/game/src`（排除测试）零公开符号命中——本引擎战斗公开面**不存在捕获机制入口**，r2 建行时未核源条件 | **N/A（误设行关闭）**——非停线轴；若 Codex 另有捕获机制出处（如 sdlpal reference 对应表），请给 primary 锚点再行开组 |
 | 11 | reforge battle-session 集成相位（**reforge 域**，非 game 证明） | `reforge src/battle/battle-session.glm-next-wave.test.ts` / `round-flows.test.ts` 使用 typed session-driver + 公开按键/tick（三审确认并非必须 `__rfBattle`/剧情长路线） | reforge 域既有锚；game 域无此文件。后续按 typed session-driver 同思路对 game 战斗集成相位逐合同展开（不作为不可达依据） |
 | 12 | 新原版数值/公式轴（伤害/五灵/身法未核分支） | — | stop-line（新机制真值先交 primary 证据，不冻疑似 bug） |
+
+## r5 补充（Codex 直接派发批）
+
+`packages/game/src/battle-action-error-arms.glm-q.test.ts`（7 例，typed driver 零强转）：
+performMagic caster 索引越界与 role 缺失两臂（warn+不扣 MP+不 emit+不跑脚本——资源所有权
+负面合同）、performItem/performThrowItem 无 inventory 三臂（count 缺失与 count=0 保留
+entry 两形态——不跑脚本、inventory 原样）、selectAutoTargetFrom begin<0 规范化与
+prevTarget 越界回扫两臂。反控五轴（Q08-8b-RC1～RC5）三态全 VALID。
+
+**blocked-input 登记（逐项举证）**：`pickAutoMagic` 的学习法术系臂（MP 不足门/costMP=1
+哨兵/resolve 失败跳过/ rng 选择）——`getLearnedSpells`（battle-system.ts:1033-1037）经
+内部 unknown 反射读 `role.magic`/`role.learnedSpells`，而共享 `PlayerRole` 接口
+（shared/src/tables.ts:482）未声明该字段：typed 公开输入无法合法设置学习法术表
+（旧测同位置用了双强转，本卡禁用）。需产品侧补 typed 字段或公开 seed 路径后方可开测，
+不夹产品修改。
 
 ## r4 补充（2026-10-01 三审后）
 

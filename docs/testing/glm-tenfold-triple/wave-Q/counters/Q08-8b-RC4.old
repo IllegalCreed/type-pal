@@ -1,0 +1,4 @@
+    const game = gs()
+    const bus: CommandBus = createCommandBus()
+    const runScript = vi.fn()
+    performThrowItem({

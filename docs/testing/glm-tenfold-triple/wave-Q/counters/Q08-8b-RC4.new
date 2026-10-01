@@ -1,0 +1,5 @@
+    const game = gs()
+    game.inventory = [{ itemId: 117, count: 2 }] // 变异轴：合法库存（count=2）
+    const bus: CommandBus = createCommandBus()
+    const runScript = vi.fn()
+    performThrowItem({

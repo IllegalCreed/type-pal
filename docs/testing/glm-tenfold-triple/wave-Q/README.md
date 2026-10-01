@@ -1,14 +1,29 @@
-# Wave Q：两阶段runtime与解码残余合同十倍包 — GLM Q 交付总账（r4 返工）
+# Wave Q：两阶段runtime与解码残余合同十倍包 — GLM Q 交付总账（r5 追加批）
 
 Coding Owner: GLM Q；[任务卡](../../../ops/tasks/TEST-GLM-WAVE-Q-1-runtime-residual-tenfold.md)、
 [共同协议](../README.md)、[冻结表](../targets.json)、Codex 2026-10-01 独立审查 `docs/testing/glm-tenfold-triple/codex-review-20261001.md`（落盘于审查树 codex/glm-lmn-acceptance-r1；按不 cherry-pick 纪律未拷入本分支，机器证据 codex-review-20261001.json 同）。
 分支 `codex/glm-wave-q-runtime-residual-r1`（独立 worktree），派发提交
 `8b3ca062953b17a12178f8d1a9e36657971234b1`，生产冻结 `3ac9a2e2f6aba8a5cc97640c18fef8549d199380`，
 起点候选 `626ddffe41cca4e3755dfafea1645c695c158b0f`（r1，被 counter → rework）。
-本文件描述 **r4 返工候选**（r2 二审 Q-R2-01~04 与 r3 三审 Q-R3-01~03 已闭合项不重开；
-Q-R2-03 缩围未获批，按逐条件展开继续）。不合 main、不标 done。
+本文件描述 **r5 追加批候选**（r2 二审 Q-R2-01~04、r3 三审 Q-R3-01~03、r4 Q-R3 追认均
+闭合项不重开；Q-R2-03/R2-03 缩围未获批，按逐条件展开继续）。不合 main、不标 done。
 
-## r4 相对 r3 的改动（对应三审 Q-R3-01～04）
+## r5 追加批（Codex 直接派发：typed driver 展开 8b/10b + Q10 评估）
+
+- **8b 展开**：`packages/game/src/battle-action-error-arms.glm-q.test.ts`（typed driver
+  零强转，7 例）——performMagic caster 索引越界/role 缺失两臂（warn 原文+不扣 MP+不
+  emit+不跑脚本）、performItem/performThrowItem 无 inventory 三臂（count 缺失与 count=0
+  保留 entry 两形态；不跑脚本、inventory 原样）、selectAutoTargetFrom begin<0 规范化与
+  prevTarget 越界回扫两臂。反控五轴 Q08-8b-RC1～RC5 三态全 VALID。
+- **10b 收敛为 N/A**：`grep -ri capture packages/game/src`（排除测试）零公开符号——
+  本引擎战斗公开面无捕获机制入口，r2 建行未核源条件，改记误设行关闭（非停线轴）。
+- **blocked-input 登记**：pickAutoMagic 学习法术系臂（MP 门/costMP=1/resolve 失败）——
+  `getLearnedSpells`（battle-system.ts:1033-1037）内部反射读 `role.magic`，共享
+  `PlayerRole`（tables.ts:482）未声明字段 → typed 输入无法合法设表，需产品侧补 typed
+  字段后开测，不夹产品修改。`selectAutoTargetFrom` 六臂旧测已证（existing-proof）。
+- 证据：`counters.json` 44 条全 VALID；`q07-q08-contract-ledger.md` r5 段。
+
+## r4 相对 r3 的改动（对应三审 Q-R3-01～04，历史）
 
 1. **Q-R3-01 总索引同步**：`counters.json` 由最终 per-counter meta 重建——五枚 Q10
    条目 original/restored 现为 `e46949e5…`（与候选树实际文件一致），构建脚本内建
@@ -89,10 +104,10 @@ Q-R2-03 缩围未获批，按逐条件展开继续）。不合 main、不标 don
      blocked-story / integration-heavy / stop-line 判定，申请 Codex 裁决缩围；
      700 总目标不自行缩减。
 
-## 交付规模（r4 候选；测试源与 r3 相同，本轮为证据/元数据/账目修正）
+## 交付规模（r5 候选）
 
-**116 例 / 16 新测试文件 + 1 fixture / 39 枚三态有效反控（索引已同步最终哈希）/
-10 条非剧情浏览器流程 / 1 个缺陷红诊断（Codex 已独立确认，另列产品 draft）。**
+**123 例 / 17 新测试文件 + 1 fixture / 44 枚三态有效反控 / 10 条非剧情浏览器流程 /
+1 个缺陷红诊断（Codex 已独立确认，另列产品 draft）。**
 
 | 批 | 域 | 测试文件 | 用例 | 反控 |
 |---|---|---|---:|---:|
@@ -103,10 +118,10 @@ Q-R2-03 缩围未获批，按逐条件展开继续）。不合 main、不标 don
 | Q05 | battle 敌方可达闭包 | 1 | 6 | 5 |
 | Q06 | game status 毒槽/装备派生值 | 1 | 11 | 5 |
 | Q07 | game 事件/opcode | （见逐合同账） | 0 | — |
-| Q08 | game 战斗 | （见逐合同账） | 0 | — |
+| Q08 | game 战斗（8b/10b 展开） | 1 | 7 | 5 |
 | Q09 | game framebuffer 呈现端口 | 1 | 4 | 4 |
 | Q10 | pal-extract CLI 隔离实跑（事件段 + DATA 段） | 1 | 3 | 5 |
-| 合计 | | **16 + 1 fixture** | **116** | **39** |
+| 合计 | | **17 + 1 fixture** | **123** | **44** |
 
 ## 700/50 缺口申报（r4 续）
 
@@ -115,7 +130,7 @@ Q-R2-03 缩围未获批，按逐条件展开继续）。不合 main、不标 don
 - Q07/Q08 逐条件展开继续：下一批首项为 8b（performAction/selectAction 逐条件锚）、
   10b（captureEnemy 全族）、11（game 战斗集成相位 typed driver 逐合同）及
   dialog/walkNPC 演出族；缺合法输入逐项举证，不整体缩围。
-- 反控 39/50：新增反控随新合同批次继续补足。
+- 反控 44/50：新增反控随新合同批次继续补足。
 
 ## 排重与不可达登记
 
@@ -161,5 +176,5 @@ F9 开店退出资源、F10 resize 重钳制——判据与截图 SHA256 见
   Owner 交集 0（`receipt/verifier-final.txt`）。
 - 覆盖对照（隔离 v8，同分母）：见 `coverage-delta.json`（pal-extract 为 glm-q 定向
   覆盖口径，已在文件内注明与全测口径差异）。
-- **39 枚**反控三态实跑全 VALID（`counters.json` 总索引由最终 meta 重建并逐枚断言
-  index==meta==实际三态哈希；15 个 Q10 三态 JSON 已正常格式化）。
+- **44 枚**反控三态实跑全 VALID（`counters.json` 总索引由最终 meta 重建并逐枚断言
+  index==meta==实际三态哈希；Q10 三态 JSON 已正常格式化）。

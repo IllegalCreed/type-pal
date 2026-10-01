@@ -24,7 +24,7 @@
     "updated": 0,
     "didUpdate": false
   },
-  "startTime": 1790828708057,
+  "startTime": 1790850510062,
   "success": true,
   "testResults": [
     {
@@ -34,7 +34,7 @@
           "fullName": "Q01 页壳默认加载 demo 工程：真实 bootGame 进入主循环并设置标题",
           "status": "passed",
           "title": "Q01 页壳默认加载 demo 工程：真实 bootGame 进入主循环并设置标题",
-          "duration": 622.6135419999999,
+          "duration": 639.530084,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -44,7 +44,7 @@
           "fullName": "Q01 VITE_PROJECT_ID 覆写工程 id 并透传给加载器",
           "status": "passed",
           "title": "Q01 VITE_PROJECT_ID 覆写工程 id 并透传给加载器",
-          "duration": 22.89666699999998,
+          "duration": 23.527166999999963,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -54,7 +54,7 @@
           "fullName": "Q01 加载失败：错误画屏绘制 reforge ERR 文本并 console.error，模块导入不 reject",
           "status": "passed",
           "title": "Q01 加载失败：错误画屏绘制 reforge ERR 文本并 console.error，模块导入不 reject",
-          "duration": 22.944083999999975,
+          "duration": 24.755542000000105,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -64,7 +64,7 @@
           "fullName": "Q01 加载失败且页面无画布：不绘制任何内容，仅 console.error",
           "status": "passed",
           "title": "Q01 加载失败且页面无画布：不绘制任何内容，仅 console.error",
-          "duration": 21.36287500000003,
+          "duration": 20.88062500000001,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -74,7 +74,7 @@
           "fullName": "Q01 加载失败且画布无 2d 上下文：跳过画屏，仅 console.error",
           "status": "passed",
           "title": "Q01 加载失败且画布无 2d 上下文：跳过画屏，仅 console.error",
-          "duration": 19.60112499999991,
+          "duration": 19.775249999999915,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -84,14 +84,14 @@
           "fullName": "Q01 非 Error 拒绝值按 String 序列化进错误画屏",
           "status": "passed",
           "title": "Q01 非 Error 拒绝值按 String 序列化进错误画屏",
-          "duration": 20.074249999999893,
+          "duration": 19.76820900000007,
           "failureMessages": [],
           "meta": {},
           "tags": []
         }
       ],
-      "startTime": 1790828708749,
-      "endTime": 1790828709478.0742,
+      "startTime": 1790850511062,
+      "endTime": 1790850511810.7683,
       "status": "passed",
       "message": "",
       "name": "/private/tmp/glmq/counter-copy/type-pal/packages/reforge/src/boot-page-shell.glm-q.test.ts"

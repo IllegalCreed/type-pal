@@ -1,0 +1,57 @@
+{
+  "id": "Q08-8b-RC4",
+  "file": "packages/game/src/battle-action-error-arms.glm-q.test.ts",
+  "targetFullName": "Q08-8b 无 inventory 资源臂（item / throw-item） performThrowItem 队员无 inventory：warn + 不跑 scriptOnThrow + 不 emit",
+  "targetNameSubstring": "队员无 inventory",
+  "axis": "输入轴单轴变异：performThrowItem 用例补合法库存（count=2）；断言不动。",
+  "sha256": {
+    "original": "7e48e9e4332d99c35882b049528e92f6b02e653d2b7ad90dca1e934a74ab77af",
+    "mutated": "e081510d87c2d3c4eb91795988f3de9b20e7dca4ad67e42c37c3819cce78543d",
+    "restored": "7e48e9e4332d99c35882b049528e92f6b02e653d2b7ad90dca1e934a74ab77af"
+  },
+  "restoredHashUnchanged": true,
+  "criteria": {
+    "positiveGreen": true,
+    "mutantExactlyOneTargetRed": true,
+    "targetAssertionError": "AssertionError: expected \"warn\" to be called with arguments: [ StringContaining{…} ]",
+    "restoredGreen": true,
+    "restoredSameExecutionCount": true,
+    "hashesMatchFinalCandidate": true
+  },
+  "runs": {
+    "positive": {
+      "exitCode": 0,
+      "summary": {
+        "numTotalTests": 7,
+        "numPassedTests": 7,
+        "numFailedTests": 0,
+        "success": true
+      },
+      "json": "Q08-8b-RC4.positive.json",
+      "raw": "Q08-8b-RC4.positive.txt"
+    },
+    "mutant": {
+      "exitCode": 1,
+      "summary": {
+        "numTotalTests": 7,
+        "numPassedTests": 6,
+        "numFailedTests": 1,
+        "success": false
+      },
+      "json": "Q08-8b-RC4.mutant.json",
+      "raw": "Q08-8b-RC4.mutant.txt"
+    },
+    "restored": {
+      "exitCode": 0,
+      "summary": {
+        "numTotalTests": 7,
+        "numPassedTests": 7,
+        "numFailedTests": 0,
+        "success": true
+      },
+      "json": "Q08-8b-RC4.restored.json",
+      "raw": "Q08-8b-RC4.restored.txt"
+    }
+  },
+  "verdict": "VALID"
+}

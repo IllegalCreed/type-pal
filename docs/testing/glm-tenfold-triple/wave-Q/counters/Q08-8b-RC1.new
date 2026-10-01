@@ -1,0 +1,7 @@
+      casterIdx: 0, // 变异轴：合法界内 caster
+      spellId: 297,
+      targetIsEnemy: true,
+      targetIdx: 0,
+      spells: [spell(297)],
+      magics: [magic(297)],
+      playerRoles,

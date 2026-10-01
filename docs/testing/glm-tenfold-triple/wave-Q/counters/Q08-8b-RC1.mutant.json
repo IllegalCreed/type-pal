@@ -1,0 +1,112 @@
+{
+  "numTotalTestSuites": 4,
+  "numPassedTestSuites": 2,
+  "numFailedTestSuites": 2,
+  "numPendingTestSuites": 0,
+  "numTotalTests": 7,
+  "numPassedTests": 6,
+  "numFailedTests": 1,
+  "numPendingTests": 0,
+  "numTodoTests": 0,
+  "snapshot": {
+    "added": 0,
+    "failure": false,
+    "filesAdded": 0,
+    "filesRemoved": 0,
+    "filesRemovedList": [],
+    "filesUnmatched": 0,
+    "filesUpdated": 0,
+    "matched": 0,
+    "total": 0,
+    "unchecked": 0,
+    "uncheckedKeysByFile": [],
+    "unmatched": 0,
+    "updated": 0,
+    "didUpdate": false
+  },
+  "startTime": 1790850516963,
+  "success": false,
+  "testResults": [
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["Q08-8b performMagic caster 缺失臂"],
+          "fullName": "Q08-8b performMagic caster 缺失臂 caster 索引越界：warn + 不扣 MP + 不 emit + 不跑脚本",
+          "status": "failed",
+          "title": "caster 索引越界：warn + 不扣 MP + 不 emit + 不跑脚本",
+          "duration": 4.067791000000057,
+          "failureMessages": [
+            "AssertionError: expected \"warn\" to be called with arguments: [ StringContaining{…} ]\n\nNumber of calls: 0\n\n    at Proxy.<anonymous> (file:///private/tmp/glmq/counter-copy/type-pal/node_modules/.pnpm/@vitest+expect@4.1.7/node_modules/@vitest/expect/dist/index.js:1487:10)\n    at Proxy.<anonymous> (file:///private/tmp/glmq/counter-copy/type-pal/node_modules/.pnpm/@vitest+expect@4.1.7/node_modules/@vitest/expect/dist/index.js:1156:15)\n    at Proxy.methodWrapper (file:///private/tmp/glmq/counter-copy/type-pal/node_modules/.pnpm/chai@6.2.2/node_modules/chai/index.js:1700:25)\n    at /private/tmp/glmq/counter-copy/type-pal/packages/game/src/battle-action-error-arms.glm-q.test.ts:233:18\n    at file:///private/tmp/glmq/counter-copy/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///private/tmp/glmq/counter-copy/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///private/tmp/glmq/counter-copy/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///private/tmp/glmq/counter-copy/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///private/tmp/glmq/counter-copy/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20"
+          ],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Q08-8b performMagic caster 缺失臂"],
+          "fullName": "Q08-8b performMagic caster 缺失臂 caster role 不在 playerRoles：warn + 不扣 MP + 不 emit + 不跑脚本",
+          "status": "passed",
+          "title": "caster role 不在 playerRoles：warn + 不扣 MP + 不 emit + 不跑脚本",
+          "duration": 0.776540999999952,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Q08-8b 无 inventory 资源臂（item / throw-item）"],
+          "fullName": "Q08-8b 无 inventory 资源臂（item / throw-item） performItem 队员库存缺 entry：warn + 不跑 scriptOnUse",
+          "status": "passed",
+          "title": "performItem 队员库存缺 entry：warn + 不跑 scriptOnUse",
+          "duration": 0.4850409999999101,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Q08-8b 无 inventory 资源臂（item / throw-item）"],
+          "fullName": "Q08-8b 无 inventory 资源臂（item / throw-item） performItem count=0 保留 entry：同 warn 早退（不剔除、不跑脚本）",
+          "status": "passed",
+          "title": "performItem count=0 保留 entry：同 warn 早退（不剔除、不跑脚本）",
+          "duration": 0.5742089999999962,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Q08-8b 无 inventory 资源臂（item / throw-item）"],
+          "fullName": "Q08-8b 无 inventory 资源臂（item / throw-item） performThrowItem 队员无 inventory：warn + 不跑 scriptOnThrow + 不 emit",
+          "status": "passed",
+          "title": "performThrowItem 队员无 inventory：warn + 不跑 scriptOnThrow + 不 emit",
+          "duration": 0.5257500000000164,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Q08-8b selectAutoTargetFrom 未覆盖条件臂"],
+          "fullName": "Q08-8b selectAutoTargetFrom 未覆盖条件臂 begin<0 规范化为从 0 起扫首个活敌",
+          "status": "passed",
+          "title": "begin<0 规范化为从 0 起扫首个活敌",
+          "duration": 0.1699580000000651,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Q08-8b selectAutoTargetFrom 未覆盖条件臂"],
+          "fullName": "Q08-8b selectAutoTargetFrom 未覆盖条件臂 prevTarget 越界(≥n)时回 begin 起扫，不读越界槽",
+          "status": "passed",
+          "title": "prevTarget 越界(≥n)时回 begin 起扫，不读越界槽",
+          "duration": 0.06941699999993034,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790850517661,
+      "endTime": 1790850517667.5256,
+      "status": "failed",
+      "message": "",
+      "name": "/private/tmp/glmq/counter-copy/type-pal/packages/game/src/battle-action-error-arms.glm-q.test.ts"
+    }
+  ]
+}

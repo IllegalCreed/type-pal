@@ -1,0 +1,57 @@
+{
+  "id": "Q08-8b-RC5",
+  "file": "packages/game/src/battle-action-error-arms.glm-q.test.ts",
+  "targetFullName": "Q08-8b selectAutoTargetFrom 未覆盖条件臂 begin<0 规范化为从 0 起扫首个活敌",
+  "targetNameSubstring": "begin<0 规范化为从 0 起扫首个活敌",
+  "axis": "输入轴单轴变异：begin<0 用例首敌改存活（合法生命值，扫描应命中 0 而非 1）；断言不动。",
+  "sha256": {
+    "original": "7e48e9e4332d99c35882b049528e92f6b02e653d2b7ad90dca1e934a74ab77af",
+    "mutated": "7027674111b14818c9642f6cfef06c0c0e0b84130292817496b32d4cac4cf9f8",
+    "restored": "7e48e9e4332d99c35882b049528e92f6b02e653d2b7ad90dca1e934a74ab77af"
+  },
+  "restoredHashUnchanged": true,
+  "criteria": {
+    "positiveGreen": true,
+    "mutantExactlyOneTargetRed": true,
+    "targetAssertionError": "AssertionError: expected -1 to be +0 // Object.is equality",
+    "restoredGreen": true,
+    "restoredSameExecutionCount": true,
+    "hashesMatchFinalCandidate": true
+  },
+  "runs": {
+    "positive": {
+      "exitCode": 0,
+      "summary": {
+        "numTotalTests": 7,
+        "numPassedTests": 7,
+        "numFailedTests": 0,
+        "success": true
+      },
+      "json": "Q08-8b-RC5.positive.json",
+      "raw": "Q08-8b-RC5.positive.txt"
+    },
+    "mutant": {
+      "exitCode": 1,
+      "summary": {
+        "numTotalTests": 7,
+        "numPassedTests": 6,
+        "numFailedTests": 1,
+        "success": false
+      },
+      "json": "Q08-8b-RC5.mutant.json",
+      "raw": "Q08-8b-RC5.mutant.txt"
+    },
+    "restored": {
+      "exitCode": 0,
+      "summary": {
+        "numTotalTests": 7,
+        "numPassedTests": 7,
+        "numFailedTests": 0,
+        "success": true
+      },
+      "json": "Q08-8b-RC5.restored.json",
+      "raw": "Q08-8b-RC5.restored.txt"
+    }
+  },
+  "verdict": "VALID"
+}

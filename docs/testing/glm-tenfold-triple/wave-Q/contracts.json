@@ -1,7 +1,7 @@
 {
   "source": "final-run directed-vitest.json 逐条展开；锚点为真实文件/断言族，非模板",
   "counts": {
-    "total": 116
+    "total": 123
   },
   "contracts": [
     {
@@ -1378,6 +1378,104 @@
     },
     {
       "id": "C099",
+      "batch": "Q08",
+      "package": "game",
+      "file": "game/src/battle-action-error-arms.glm-q.test.ts",
+      "fullName": "Q08-8b performMagic caster 缺失臂 caster 索引越界：warn + 不扣 MP + 不 emit + 不跑脚本",
+      "status": "passed",
+      "source": "game src/core/battle/actions/magic.ts performMagic（caster 缺失臂）+ actions/item.ts performItem 与 actions/throw-item.ts performThrowItem（无 inventory 臂）+ battle-system.ts selectAutoTargetFrom（begin<0/prevTarget 越界臂）",
+      "caller": "typed BattleState/PlayerRoles/GameState 直构（镜像旧 makeState 形态，零强转）+ createCommandBus + runScript spy",
+      "oldAssertion": "actions.test.ts 已证「MP 不足不扣/spell id not found/magic id 不在表/item id not found」；本文件不重复，只打 caster/role 缺失与无 inventory 三族及 selectAutoTargetFrom 两条件臂",
+      "axis": "输入轴/公开入口直驱（逐用例轴见测试体；反控轴见 counters/<id>.axis）",
+      "oracle": "对真实公开入口最终结果断言（精确消息/状态字段/字节数/落盘产物），rejects 原文保留",
+      "classification": "error/resource-ownership arms（warn 原文+不扣 MP+不 emit+不跑脚本+inventory 原样；扫描规范化与越界回扫）"
+    },
+    {
+      "id": "C100",
+      "batch": "Q08",
+      "package": "game",
+      "file": "game/src/battle-action-error-arms.glm-q.test.ts",
+      "fullName": "Q08-8b performMagic caster 缺失臂 caster role 不在 playerRoles：warn + 不扣 MP + 不 emit + 不跑脚本",
+      "status": "passed",
+      "source": "game src/core/battle/actions/magic.ts performMagic（caster 缺失臂）+ actions/item.ts performItem 与 actions/throw-item.ts performThrowItem（无 inventory 臂）+ battle-system.ts selectAutoTargetFrom（begin<0/prevTarget 越界臂）",
+      "caller": "typed BattleState/PlayerRoles/GameState 直构（镜像旧 makeState 形态，零强转）+ createCommandBus + runScript spy",
+      "oldAssertion": "actions.test.ts 已证「MP 不足不扣/spell id not found/magic id 不在表/item id not found」；本文件不重复，只打 caster/role 缺失与无 inventory 三族及 selectAutoTargetFrom 两条件臂",
+      "axis": "输入轴/公开入口直驱（逐用例轴见测试体；反控轴见 counters/<id>.axis）",
+      "oracle": "对真实公开入口最终结果断言（精确消息/状态字段/字节数/落盘产物），rejects 原文保留",
+      "classification": "error/resource-ownership arms（warn 原文+不扣 MP+不 emit+不跑脚本+inventory 原样；扫描规范化与越界回扫）"
+    },
+    {
+      "id": "C101",
+      "batch": "Q08",
+      "package": "game",
+      "file": "game/src/battle-action-error-arms.glm-q.test.ts",
+      "fullName": "Q08-8b 无 inventory 资源臂（item / throw-item） performItem 队员库存缺 entry：warn + 不跑 scriptOnUse",
+      "status": "passed",
+      "source": "game src/core/battle/actions/magic.ts performMagic（caster 缺失臂）+ actions/item.ts performItem 与 actions/throw-item.ts performThrowItem（无 inventory 臂）+ battle-system.ts selectAutoTargetFrom（begin<0/prevTarget 越界臂）",
+      "caller": "typed BattleState/PlayerRoles/GameState 直构（镜像旧 makeState 形态，零强转）+ createCommandBus + runScript spy",
+      "oldAssertion": "actions.test.ts 已证「MP 不足不扣/spell id not found/magic id 不在表/item id not found」；本文件不重复，只打 caster/role 缺失与无 inventory 三族及 selectAutoTargetFrom 两条件臂",
+      "axis": "输入轴/公开入口直驱（逐用例轴见测试体；反控轴见 counters/<id>.axis）",
+      "oracle": "对真实公开入口最终结果断言（精确消息/状态字段/字节数/落盘产物），rejects 原文保留",
+      "classification": "error/resource-ownership arms（warn 原文+不扣 MP+不 emit+不跑脚本+inventory 原样；扫描规范化与越界回扫）"
+    },
+    {
+      "id": "C102",
+      "batch": "Q08",
+      "package": "game",
+      "file": "game/src/battle-action-error-arms.glm-q.test.ts",
+      "fullName": "Q08-8b 无 inventory 资源臂（item / throw-item） performItem count=0 保留 entry：同 warn 早退（不剔除、不跑脚本）",
+      "status": "passed",
+      "source": "game src/core/battle/actions/magic.ts performMagic（caster 缺失臂）+ actions/item.ts performItem 与 actions/throw-item.ts performThrowItem（无 inventory 臂）+ battle-system.ts selectAutoTargetFrom（begin<0/prevTarget 越界臂）",
+      "caller": "typed BattleState/PlayerRoles/GameState 直构（镜像旧 makeState 形态，零强转）+ createCommandBus + runScript spy",
+      "oldAssertion": "actions.test.ts 已证「MP 不足不扣/spell id not found/magic id 不在表/item id not found」；本文件不重复，只打 caster/role 缺失与无 inventory 三族及 selectAutoTargetFrom 两条件臂",
+      "axis": "输入轴/公开入口直驱（逐用例轴见测试体；反控轴见 counters/<id>.axis）",
+      "oracle": "对真实公开入口最终结果断言（精确消息/状态字段/字节数/落盘产物），rejects 原文保留",
+      "classification": "error/resource-ownership arms（warn 原文+不扣 MP+不 emit+不跑脚本+inventory 原样；扫描规范化与越界回扫）"
+    },
+    {
+      "id": "C103",
+      "batch": "Q08",
+      "package": "game",
+      "file": "game/src/battle-action-error-arms.glm-q.test.ts",
+      "fullName": "Q08-8b 无 inventory 资源臂（item / throw-item） performThrowItem 队员无 inventory：warn + 不跑 scriptOnThrow + 不 emit",
+      "status": "passed",
+      "source": "game src/core/battle/actions/magic.ts performMagic（caster 缺失臂）+ actions/item.ts performItem 与 actions/throw-item.ts performThrowItem（无 inventory 臂）+ battle-system.ts selectAutoTargetFrom（begin<0/prevTarget 越界臂）",
+      "caller": "typed BattleState/PlayerRoles/GameState 直构（镜像旧 makeState 形态，零强转）+ createCommandBus + runScript spy",
+      "oldAssertion": "actions.test.ts 已证「MP 不足不扣/spell id not found/magic id 不在表/item id not found」；本文件不重复，只打 caster/role 缺失与无 inventory 三族及 selectAutoTargetFrom 两条件臂",
+      "axis": "输入轴/公开入口直驱（逐用例轴见测试体；反控轴见 counters/<id>.axis）",
+      "oracle": "对真实公开入口最终结果断言（精确消息/状态字段/字节数/落盘产物），rejects 原文保留",
+      "classification": "error/resource-ownership arms（warn 原文+不扣 MP+不 emit+不跑脚本+inventory 原样；扫描规范化与越界回扫）"
+    },
+    {
+      "id": "C104",
+      "batch": "Q08",
+      "package": "game",
+      "file": "game/src/battle-action-error-arms.glm-q.test.ts",
+      "fullName": "Q08-8b selectAutoTargetFrom 未覆盖条件臂 begin<0 规范化为从 0 起扫首个活敌",
+      "status": "passed",
+      "source": "game src/core/battle/actions/magic.ts performMagic（caster 缺失臂）+ actions/item.ts performItem 与 actions/throw-item.ts performThrowItem（无 inventory 臂）+ battle-system.ts selectAutoTargetFrom（begin<0/prevTarget 越界臂）",
+      "caller": "typed BattleState/PlayerRoles/GameState 直构（镜像旧 makeState 形态，零强转）+ createCommandBus + runScript spy",
+      "oldAssertion": "actions.test.ts 已证「MP 不足不扣/spell id not found/magic id 不在表/item id not found」；本文件不重复，只打 caster/role 缺失与无 inventory 三族及 selectAutoTargetFrom 两条件臂",
+      "axis": "输入轴/公开入口直驱（逐用例轴见测试体；反控轴见 counters/<id>.axis）",
+      "oracle": "对真实公开入口最终结果断言（精确消息/状态字段/字节数/落盘产物），rejects 原文保留",
+      "classification": "error/resource-ownership arms（warn 原文+不扣 MP+不 emit+不跑脚本+inventory 原样；扫描规范化与越界回扫）"
+    },
+    {
+      "id": "C105",
+      "batch": "Q08",
+      "package": "game",
+      "file": "game/src/battle-action-error-arms.glm-q.test.ts",
+      "fullName": "Q08-8b selectAutoTargetFrom 未覆盖条件臂 prevTarget 越界(≥n)时回 begin 起扫，不读越界槽",
+      "status": "passed",
+      "source": "game src/core/battle/actions/magic.ts performMagic（caster 缺失臂）+ actions/item.ts performItem 与 actions/throw-item.ts performThrowItem（无 inventory 臂）+ battle-system.ts selectAutoTargetFrom（begin<0/prevTarget 越界臂）",
+      "caller": "typed BattleState/PlayerRoles/GameState 直构（镜像旧 makeState 形态，零强转）+ createCommandBus + runScript spy",
+      "oldAssertion": "actions.test.ts 已证「MP 不足不扣/spell id not found/magic id 不在表/item id not found」；本文件不重复，只打 caster/role 缺失与无 inventory 三族及 selectAutoTargetFrom 两条件臂",
+      "axis": "输入轴/公开入口直驱（逐用例轴见测试体；反控轴见 counters/<id>.axis）",
+      "oracle": "对真实公开入口最终结果断言（精确消息/状态字段/字节数/落盘产物），rejects 原文保留",
+      "classification": "error/resource-ownership arms（warn 原文+不扣 MP+不 emit+不跑脚本+inventory 原样；扫描规范化与越界回扫）"
+    },
+    {
+      "id": "C106",
       "batch": "Q09",
       "package": "game",
       "file": "game/src/framebuffer-ports.glm-q.test.ts",
@@ -1391,7 +1489,7 @@
       "classification": "new contracts（默认/自定义尺寸/四边界外忽略/界内落位/clear/调色板成像+alpha 恒 255/缺色回退黑）"
     },
     {
-      "id": "C100",
+      "id": "C107",
       "batch": "Q09",
       "package": "game",
       "file": "game/src/framebuffer-ports.glm-q.test.ts",
@@ -1405,7 +1503,7 @@
       "classification": "new contracts（默认/自定义尺寸/四边界外忽略/界内落位/clear/调色板成像+alpha 恒 255/缺色回退黑）"
     },
     {
-      "id": "C101",
+      "id": "C108",
       "batch": "Q09",
       "package": "game",
       "file": "game/src/framebuffer-ports.glm-q.test.ts",
@@ -1419,7 +1517,7 @@
       "classification": "new contracts（默认/自定义尺寸/四边界外忽略/界内落位/clear/调色板成像+alpha 恒 255/缺色回退黑）"
     },
     {
-      "id": "C102",
+      "id": "C109",
       "batch": "Q09",
       "package": "game",
       "file": "game/src/framebuffer-ports.glm-q.test.ts",
@@ -1433,7 +1531,7 @@
       "classification": "new contracts（默认/自定义尺寸/四边界外忽略/界内落位/clear/调色板成像+alpha 恒 255/缺色回退黑）"
     },
     {
-      "id": "C103",
+      "id": "C110",
       "batch": "Q06",
       "package": "game",
       "file": "game/src/status-poison-equip.glm-q.test.ts",
@@ -1447,7 +1545,7 @@
       "classification": "residual direct-function arms（ByKind/伪毒/表未注入退化/逐槽 cure/99 清除/runner 契约/满表丢弃/flee 求和/抗性钳制）"
     },
     {
-      "id": "C104",
+      "id": "C111",
       "batch": "Q06",
       "package": "game",
       "file": "game/src/status-poison-equip.glm-q.test.ts",
@@ -1461,7 +1559,7 @@
       "classification": "residual direct-function arms（ByKind/伪毒/表未注入退化/逐槽 cure/99 清除/runner 契约/满表丢弃/flee 求和/抗性钳制）"
     },
     {
-      "id": "C105",
+      "id": "C112",
       "batch": "Q06",
       "package": "game",
       "file": "game/src/status-poison-equip.glm-q.test.ts",
@@ -1475,7 +1573,7 @@
       "classification": "residual direct-function arms（ByKind/伪毒/表未注入退化/逐槽 cure/99 清除/runner 契约/满表丢弃/flee 求和/抗性钳制）"
     },
     {
-      "id": "C106",
+      "id": "C113",
       "batch": "Q06",
       "package": "game",
       "file": "game/src/status-poison-equip.glm-q.test.ts",
@@ -1489,7 +1587,7 @@
       "classification": "residual direct-function arms（ByKind/伪毒/表未注入退化/逐槽 cure/99 清除/runner 契约/满表丢弃/flee 求和/抗性钳制）"
     },
     {
-      "id": "C107",
+      "id": "C114",
       "batch": "Q06",
       "package": "game",
       "file": "game/src/status-poison-equip.glm-q.test.ts",
@@ -1503,7 +1601,7 @@
       "classification": "residual direct-function arms（ByKind/伪毒/表未注入退化/逐槽 cure/99 清除/runner 契约/满表丢弃/flee 求和/抗性钳制）"
     },
     {
-      "id": "C108",
+      "id": "C115",
       "batch": "Q06",
       "package": "game",
       "file": "game/src/status-poison-equip.glm-q.test.ts",
@@ -1517,7 +1615,7 @@
       "classification": "residual direct-function arms（ByKind/伪毒/表未注入退化/逐槽 cure/99 清除/runner 契约/满表丢弃/flee 求和/抗性钳制）"
     },
     {
-      "id": "C109",
+      "id": "C116",
       "batch": "Q06",
       "package": "game",
       "file": "game/src/status-poison-equip.glm-q.test.ts",
@@ -1531,7 +1629,7 @@
       "classification": "residual direct-function arms（ByKind/伪毒/表未注入退化/逐槽 cure/99 清除/runner 契约/满表丢弃/flee 求和/抗性钳制）"
     },
     {
-      "id": "C110",
+      "id": "C117",
       "batch": "Q06",
       "package": "game",
       "file": "game/src/status-poison-equip.glm-q.test.ts",
@@ -1545,7 +1643,7 @@
       "classification": "residual direct-function arms（ByKind/伪毒/表未注入退化/逐槽 cure/99 清除/runner 契约/满表丢弃/flee 求和/抗性钳制）"
     },
     {
-      "id": "C111",
+      "id": "C118",
       "batch": "Q06",
       "package": "game",
       "file": "game/src/status-poison-equip.glm-q.test.ts",
@@ -1559,7 +1657,7 @@
       "classification": "residual direct-function arms（ByKind/伪毒/表未注入退化/逐槽 cure/99 清除/runner 契约/满表丢弃/flee 求和/抗性钳制）"
     },
     {
-      "id": "C112",
+      "id": "C119",
       "batch": "Q06",
       "package": "game",
       "file": "game/src/status-poison-equip.glm-q.test.ts",
@@ -1573,7 +1671,7 @@
       "classification": "residual direct-function arms（ByKind/伪毒/表未注入退化/逐槽 cure/99 清除/runner 契约/满表丢弃/flee 求和/抗性钳制）"
     },
     {
-      "id": "C113",
+      "id": "C120",
       "batch": "Q06",
       "package": "game",
       "file": "game/src/status-poison-equip.glm-q.test.ts",
@@ -1587,7 +1685,7 @@
       "classification": "residual direct-function arms（ByKind/伪毒/表未注入退化/逐槽 cure/99 清除/runner 契约/满表丢弃/flee 求和/抗性钳制）"
     },
     {
-      "id": "C114",
+      "id": "C121",
       "batch": "Q10",
       "package": "pal-extract",
       "file": "pal-extract/src/cli-isolated.glm-q.test.ts",
@@ -1601,7 +1699,7 @@
       "classification": "new contracts（事件管线成功含 round-trip 门+切片+词表注记/截断 SSS 解析边界拒绝/DATA 段逐表落盘+图像段 RNG.MKF 边界拒绝）"
     },
     {
-      "id": "C115",
+      "id": "C122",
       "batch": "Q10",
       "package": "pal-extract",
       "file": "pal-extract/src/cli-isolated.glm-q.test.ts",
@@ -1615,7 +1713,7 @@
       "classification": "new contracts（事件管线成功含 round-trip 门+切片+词表注记/截断 SSS 解析边界拒绝/DATA 段逐表落盘+图像段 RNG.MKF 边界拒绝）"
     },
     {
-      "id": "C116",
+      "id": "C123",
       "batch": "Q10",
       "package": "pal-extract",
       "file": "pal-extract/src/cli-isolated.glm-q.test.ts",

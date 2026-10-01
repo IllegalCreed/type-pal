@@ -5,9 +5,9 @@
   "targetNameSubstring": "加载失败：错误画屏绘制",
   "axis": "输入轴单轴变异：boot 页壳用例的 loader 拒绝消息文本换为另一合法错误串；断言不动。",
   "sha256": {
-    "original": "96b30fa1b9e9c9b5c77f8e07fad39bae331bedabce556a5f2c5f9dcc9bd248ce",
-    "mutated": "540b13f27cfdc9e68214d28c3fb24171d0347bd401327eee04b1e3346092f335",
-    "restored": "96b30fa1b9e9c9b5c77f8e07fad39bae331bedabce556a5f2c5f9dcc9bd248ce"
+    "original": "d96a4278ea0e344f14c99afb4f189acc9508f8acb40e25a24c0dc09d3c46ee3b",
+    "mutated": "198e5e86b5162ddbbe596840b5cdffe3baef44f2b21ca39264d8a73bd31f12a2",
+    "restored": "d96a4278ea0e344f14c99afb4f189acc9508f8acb40e25a24c0dc09d3c46ee3b"
   },
   "restoredHashUnchanged": true,
   "criteria": {
