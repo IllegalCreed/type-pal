@@ -102,6 +102,6 @@
     "O-R4-03": "receipt 以最终树实际数据重建：唯一 case→batch 主映射合计 442（不再用批次表相加的 593 口径）；595 路径为最终 verify-targets 实测；JSON 经 Biome 格式化；headNote 撤销 docs-only 尾巴误记",
     "r6-continued": "O-R4 三项闭合后继续合法残余：item 执行器效果分支（healHp/healMp/scaleCurrentHp/gate 显式阈值/menu 透传/applyPoison 统一入口）+ 敌脚本 guard（fallback chance 域/hook 状态结构/AI 聚合）+ 世界变量 fresh-record + YJ2 长流确定性 + RLE 编码器分段/pad（+26 例）；新增 6 枚三态反控（O08-CC6/7、O09-CC11/12、O10-CC7/10），计 62 枚"
   },
-  "headNote": "r6：测试/证据/回执同一最终树",
-  "remoteFinalCandidate": "066308e36db3a5eee6897abe6888c3446a684a6d"
+  "headNote": "candidateHead=测试/证据锚（最后非 docs 提交）；其后仅 receipt 格式化/pin 维护（docs-only），远端最终候选见 remoteFinalCandidate",
+  "remoteFinalCandidate": "PENDING-PUSH"
 }
