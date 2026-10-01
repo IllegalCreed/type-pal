@@ -38,5 +38,45 @@
     "testFile": "src/assets/scene-cache.grok-r1.test.ts",
     "target": "G01-D02",
     "axis": "fetcher 拒绝后仍把 sceneId -1 写入缓存"
+  },
+  {
+    "id": "G02-A",
+    "batch": "G02",
+    "source": "packages/game/src/assets/png.ts",
+    "from": "      { cause },",
+    "to": "      {},",
+    "testFile": "src/assets/png-decode.grok-r1.test.ts",
+    "target": "G02-A05",
+    "axis": "PNG 解码失败不再把原始异常放进 Error.cause"
+  },
+  {
+    "id": "G02-B",
+    "batch": "G02",
+    "source": "packages/game/src/assets/tileset-blob.ts",
+    "from": "    out.set(c, offset)",
+    "to": "    out.set(c, 0)",
+    "testFile": "src/assets/tileset-gzip.grok-r1.test.ts",
+    "target": "G02-B05",
+    "axis": "gzip 分块拼接从累计偏移改成每段都从 0 覆盖"
+  },
+  {
+    "id": "G02-C",
+    "batch": "G02",
+    "source": "packages/game/src/assets/tileset-blob.ts",
+    "from": "anchorY: first ? first.height : 0",
+    "to": "anchorY: first ? first.height + 1 : 0",
+    "testFile": "src/assets/tileset-load.grok-r1.test.ts",
+    "target": "G02-C03",
+    "axis": "角色锚点 Y 在首帧高度上再加 1"
+  },
+  {
+    "id": "G02-D",
+    "batch": "G02",
+    "source": "packages/game/src/assets/dialog-assets.ts",
+    "from": "console.warn(`dialog-assets: portrait ${entry.chunkIndex} load failed, skip:`, err)",
+    "to": "console.warn(`dialog-assets: portrait load failed, skip:`, err)",
+    "testFile": "src/assets/dialog-icons.grok-r1.test.ts",
+    "target": "G02-D07",
+    "axis": "单张头像失败的 warn 不再带 chunkIndex"
   }
 ]

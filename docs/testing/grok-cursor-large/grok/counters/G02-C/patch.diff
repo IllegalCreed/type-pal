@@ -1,0 +1,10 @@
+--- a/packages/game/src/assets/tileset-blob.ts
++++ b/packages/game/src/assets/tileset-blob.ts
+@@ -77,7 +77,7 @@
+   return {
+     frames,
+     anchorX: first ? Math.floor(first.width / 2) : 0,
+-    anchorY: first ? first.height : 0,
++    anchorY: first ? first.height + 1 : 0,
+   }
+ }

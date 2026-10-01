@@ -1,10 +1,14 @@
 {
-  "batch": "G01",
-  "command": "pnpm --filter @type-pal/game exec vitest run src/assets/load-all-assemble.grok-r1.test.ts src/assets/load-all-bounds.grok-r1.test.ts src/assets/load-all-recover.grok-r1.test.ts src/assets/scene-cache.grok-r1.test.ts src/assets/loader.test.ts --reporter=json --outputFile=/tmp/g01-directed.json",
+  "batch": "G02",
+  "cumulativeNewContracts": 76,
+  "target": 400,
   "success": true,
-  "newContracts": 40,
   "numFailedTests": 0,
   "numPendingTests": 0,
+  "commands": [
+    "pnpm --filter @type-pal/game exec vitest run src/assets/load-all-assemble.grok-r1.test.ts src/assets/load-all-bounds.grok-r1.test.ts src/assets/load-all-recover.grok-r1.test.ts src/assets/scene-cache.grok-r1.test.ts src/assets/loader.test.ts --reporter=json --outputFile=/tmp/g01-directed.json",
+    "pnpm --filter @type-pal/game exec vitest run src/assets/png-decode.grok-r1.test.ts src/assets/tileset-gzip.grok-r1.test.ts src/assets/tileset-load.grok-r1.test.ts src/assets/dialog-icons.grok-r1.test.ts src/assets/png.test.ts src/assets/png.glm-phase1-leaves.test.ts src/assets/tileset-blob.test.ts src/assets/dialog-assets.glm-phase1-leaves.test.ts src/assets/rle-decode.test.ts --reporter=verbose --reporter=json --outputFile=/tmp/g02-directed.json"
+  ],
   "tests": [
     {
       "file": "src/assets/load-all-assemble.grok-r1.test.ts",
@@ -205,21 +209,342 @@
       "file": "src/assets/scene-cache.grok-r1.test.ts",
       "fullName": "G01-D SceneAssetsCache 归属与迟到 G01-D10 maxEntries 为 1 时后完成的 id 1 留下，先完成的 id 2 下次要重取",
       "status": "passed"
+    },
+    {
+      "file": "src/assets/png-decode.grok-r1.test.ts",
+      "fullName": "G02-A decodePngToIndices 通道与上下文 G02-A01 不透明像素的 G 与 B 非零时，索引仍只取 R",
+      "status": "passed"
+    },
+    {
+      "file": "src/assets/png-decode.grok-r1.test.ts",
+      "fullName": "G02-A decodePngToIndices 通道与上下文 G02-A02 3×2 图的末像素落在下标 5，宽高不是写死的 2×1",
+      "status": "passed"
+    },
+    {
+      "file": "src/assets/png-decode.grok-r1.test.ts",
+      "fullName": "G02-A decodePngToIndices 通道与上下文 G02-A03 2d 上下文缺失时抛固定错误，并关闭已经创建的 bitmap",
+      "status": "passed"
+    },
+    {
+      "file": "src/assets/png-decode.grok-r1.test.ts",
+      "fullName": "G02-A decodePngToIndices 通道与上下文 G02-A04 4 字节坏 blob 的错误同时带上字节数和 MIME 类型",
+      "status": "passed"
+    },
+    {
+      "file": "src/assets/png-decode.grok-r1.test.ts",
+      "fullName": "G02-A decodePngToIndices 通道与上下文 G02-A05 解码失败时把原始异常放在 Error.cause 上",
+      "status": "passed"
+    },
+    {
+      "file": "src/assets/tileset-gzip.grok-r1.test.ts",
+      "fullName": "G02-B gzip 魔数与帧锚点 G02-B01 只有一个 0x1f 字节时原样返回，不进入解压",
+      "status": "passed"
+    },
+    {
+      "file": "src/assets/tileset-gzip.grok-r1.test.ts",
+      "fullName": "G02-B gzip 魔数与帧锚点 G02-B02 第二字节不是 0x8b 时，即使首字节是 0x1f 也原样返回",
+      "status": "passed"
+    },
+    {
+      "file": "src/assets/tileset-gzip.grok-r1.test.ts",
+      "fullName": "G02-B gzip 魔数与帧锚点 G02-B03 环境没有 DecompressionStream 时抛出固定兜底错误",
+      "status": "passed"
+    },
+    {
+      "file": "src/assets/tileset-gzip.grok-r1.test.ts",
+      "fullName": "G02-B gzip 魔数与帧锚点 G02-B04 带魔数但主体损坏时拒绝为 TypeError，不走缺流兜底文案",
+      "status": "passed"
+    },
+    {
+      "file": "src/assets/tileset-gzip.grok-r1.test.ts",
+      "fullName": "G02-B gzip 魔数与帧锚点 G02-B05 解压流分成两段时按偏移拼回 [9, 8, 7]",
+      "status": "passed"
+    },
+    {
+      "file": "src/assets/tileset-gzip.grok-r1.test.ts",
+      "fullName": "G02-B gzip 魔数与帧锚点 G02-B06 rleFrameToIndexedImage 复用同一份 opaque 数组",
+      "status": "passed"
+    },
+    {
+      "file": "src/assets/tileset-gzip.grok-r1.test.ts",
+      "fullName": "G02-B gzip 魔数与帧锚点 G02-B07 首帧宽 7 时 anchorX 为 3，更高的后续帧不改锚点",
+      "status": "passed"
+    },
+    {
+      "file": "src/assets/tileset-gzip.grok-r1.test.ts",
+      "fullName": "G02-B gzip 魔数与帧锚点 G02-B08 framesToCharacterSprite 保留调用方传入的帧数组引用",
+      "status": "passed"
+    },
+    {
+      "file": "src/assets/tileset-gzip.grok-r1.test.ts",
+      "fullName": "G02-B gzip 魔数与帧锚点 G02-B09 imagecount 为 0 的 chunk 得到空 Map",
+      "status": "passed"
+    },
+    {
+      "file": "src/assets/tileset-load.grok-r1.test.ts",
+      "fullName": "G02-C sprite 与 tileset 加载边界 G02-C01 裸 RLE 经过 loadSpriteFramesBlob 得到两帧 AA 与 BB",
+      "status": "passed"
+    },
+    {
+      "file": "src/assets/tileset-load.grok-r1.test.ts",
+      "fullName": "G02-C sprite 与 tileset 加载边界 G02-C02 裸 RLE 经过 loadTilesetBlob 得到键 0 与键 1",
+      "status": "passed"
+    },
+    {
+      "file": "src/assets/tileset-load.grok-r1.test.ts",
+      "fullName": "G02-C sprite 与 tileset 加载边界 G02-C03 裸 RLE 经过 loadCharacterSpriteBlob 时锚点为 0,1，第二帧为 BB",
+      "status": "passed"
+    },
+    {
+      "file": "src/assets/tileset-load.grok-r1.test.ts",
+      "fullName": "G02-C sprite 与 tileset 加载边界 G02-C04 sprite blob 503 的错误带 URL 与状态码",
+      "status": "passed"
+    },
+    {
+      "file": "src/assets/tileset-load.grok-r1.test.ts",
+      "fullName": "G02-C sprite 与 tileset 加载边界 G02-C05 tileset blob 503 的错误带 URL 与状态码",
+      "status": "passed"
+    },
+    {
+      "file": "src/assets/tileset-load.grok-r1.test.ts",
+      "fullName": "G02-C sprite 与 tileset 加载边界 G02-C06 角色 blob 404 的错误来自 sprite-blob，并带上角色 URL",
+      "status": "passed"
+    },
+    {
+      "file": "src/assets/tileset-load.grok-r1.test.ts",
+      "fullName": "G02-C sprite 与 tileset 加载边界 G02-C07 tileset 200 但 gzip 主体损坏时，错误不是 fetch 失败串",
+      "status": "passed"
+    },
+    {
+      "file": "src/assets/tileset-load.grok-r1.test.ts",
+      "fullName": "G02-C sprite 与 tileset 加载边界 G02-C08 sprite blob 返回损坏 gzip 时错误不是 fetch 失败串",
+      "status": "passed"
+    },
+    {
+      "file": "src/assets/dialog-icons.grok-r1.test.ts",
+      "fullName": "G02-D 对话图标与 base64 G02-D01 portraits.json 500 时头像为空，两帧图标仍按 0 与 1 入 map",
+      "status": "passed"
+    },
+    {
+      "file": "src/assets/dialog-icons.grok-r1.test.ts",
+      "fullName": "G02-D 对话图标与 base64 G02-D02 manifest 写 99×99 时，头像宽高和遮罩以 PNG 为准",
+      "status": "passed"
+    },
+    {
+      "file": "src/assets/dialog-icons.grok-r1.test.ts",
+      "fullName": "G02-D 对话图标与 base64 G02-D03 chunk 0 的头像 URL 补成 portraits/00.png",
+      "status": "passed"
+    },
+    {
+      "file": "src/assets/dialog-icons.grok-r1.test.ts",
+      "fullName": "G02-D 对话图标与 base64 G02-D04 头像清单为空数组时不请求 PNG，图标照常解码",
+      "status": "passed"
+    },
+    {
+      "file": "src/assets/dialog-icons.grok-r1.test.ts",
+      "fullName": "G02-D 对话图标与 base64 G02-D05 图标 base64 非法时图标 map 为空，已成功的头像保留",
+      "status": "passed"
+    },
+    {
+      "file": "src/assets/dialog-icons.grok-r1.test.ts",
+      "fullName": "G02-D 对话图标与 base64 G02-D06 两张头像分别以 chunk 8 和 12 为键",
+      "status": "passed"
+    },
+    {
+      "file": "src/assets/dialog-icons.grok-r1.test.ts",
+      "fullName": "G02-D 对话图标与 base64 G02-D07 单张头像失败的 warn 带上 chunk 4，成功的 chunk 8 仍在",
+      "status": "passed"
+    },
+    {
+      "file": "src/assets/dialog-icons.grok-r1.test.ts",
+      "fullName": "G02-D 对话图标与 base64 G02-D08 size 字段与字节数不一致时，仍按 base64 解出两帧",
+      "status": "passed"
+    },
+    {
+      "file": "src/assets/dialog-icons.grok-r1.test.ts",
+      "fullName": "G02-D 对话图标与 base64 G02-D12 图标清单 404 的 warn 写 icons failed，头像像素仍在",
+      "status": "passed"
+    },
+    {
+      "file": "src/assets/dialog-icons.grok-r1.test.ts",
+      "fullName": "G02-D 对话图标与 base64 G02-D13 图标帧的透明孔写入 opaque 0，宽高来自 RLE",
+      "status": "passed"
+    },
+    {
+      "file": "src/assets/dialog-icons.grok-r1.test.ts",
+      "fullName": "G02-D 对话图标与 base64 G02-D14 单张头像 404 不会清掉已经解码的图标",
+      "status": "passed"
+    },
+    {
+      "file": "src/assets/dialog-icons.grok-r1.test.ts",
+      "fullName": "G02-D 对话图标与 base64 G02-D09 base64 /wCA 解出 [255, 0, 128]",
+      "status": "passed"
+    },
+    {
+      "file": "src/assets/dialog-icons.grok-r1.test.ts",
+      "fullName": "G02-D 对话图标与 base64 G02-D10 base64 /w== 解出单字节 255",
+      "status": "passed"
+    },
+    {
+      "file": "src/assets/dialog-icons.grok-r1.test.ts",
+      "fullName": "G02-D 对话图标与 base64 G02-D11 game 的 decodeRle 与 parseSpriteChunk 就是 shared 的同一函数",
+      "status": "passed"
     }
   ],
-  "adjacent": {
-    "file": "src/assets/loader.test.ts",
-    "status": "passed",
-    "numPassedTests": 7,
-    "numFailedTests": 0,
-    "fullNames": [
-      "loadAll fetch 失败 → 抛错",
-      "SceneAssetsCache(M3.5) 第一次 loadScene 调 fetcher,第二次 cache hit 不调",
-      "SceneAssetsCache(M3.5) SceneAssets 字段透传",
-      "SceneAssetsCache LRU 淘汰(内存泄露修复:全场景常驻 → 有界) 超过 maxEntries → 淘汰最旧条目(重访需重 fetch)+ 触发 onEvict",
-      "SceneAssetsCache LRU 淘汰(内存泄露修复:全场景常驻 → 有界) cache hit 刷新 recency:最近命中的不被淘汰",
-      "SceneAssetsCache LRU 淘汰(内存泄露修复:全场景常驻 → 有界) protect 返回的 sceneId 永不被淘汰(保护当前渲染场景,防黑屏)",
-      "SceneAssetsCache LRU 淘汰(内存泄露修复:全场景常驻 → 有界) 不传 opts → 无限缓存(向后兼容,永不淘汰)"
-    ]
-  }
+  "adjacent": [
+    {
+      "batch": "G01",
+      "file": "src/assets/loader.test.ts",
+      "status": "passed",
+      "numPassedTests": 7,
+      "numFailedTests": 0,
+      "fullNames": [
+        "loadAll fetch 失败 → 抛错",
+        "SceneAssetsCache(M3.5) 第一次 loadScene 调 fetcher,第二次 cache hit 不调",
+        "SceneAssetsCache(M3.5) SceneAssets 字段透传",
+        "SceneAssetsCache LRU 淘汰(内存泄露修复:全场景常驻 → 有界) 超过 maxEntries → 淘汰最旧条目(重访需重 fetch)+ 触发 onEvict",
+        "SceneAssetsCache LRU 淘汰(内存泄露修复:全场景常驻 → 有界) cache hit 刷新 recency:最近命中的不被淘汰",
+        "SceneAssetsCache LRU 淘汰(内存泄露修复:全场景常驻 → 有界) protect 返回的 sceneId 永不被淘汰(保护当前渲染场景,防黑屏)",
+        "SceneAssetsCache LRU 淘汰(内存泄露修复:全场景常驻 → 有界) 不传 opts → 无限缓存(向后兼容,永不淘汰)"
+      ]
+    },
+    {
+      "batch": "G02",
+      "status": "passed",
+      "numPassedTests": 26,
+      "numFailedTests": 0,
+      "tests": [
+        {
+          "file": "src/assets/dialog-assets.glm-phase1-leaves.test.ts",
+          "fullName": "L23 loadDialogAssets 全链路（fetch 全隔离） manifest+PNG 成功就位；单张 404 skip；icons !ok 降级空 map；整体不抛",
+          "status": "passed"
+        },
+        {
+          "file": "src/assets/dialog-assets.glm-phase1-leaves.test.ts",
+          "fullName": "L23 loadDialogAssets 全链路（fetch 全隔离） portraits.json 本身失败 → portraits 空 map，icons 正常路径不受阻",
+          "status": "passed"
+        },
+        {
+          "file": "src/assets/png.glm-phase1-leaves.test.ts",
+          "fullName": "L23 decodePngToIndices 剩余合同 alpha=0 → opaque 0（RLE-skip 透明），alpha>0 → opaque 1（palette-0 也保）",
+          "status": "passed"
+        },
+        {
+          "file": "src/assets/png.glm-phase1-leaves.test.ts",
+          "fullName": "L23 decodePngToIndices 剩余合同 坏 blob → 失败上下文带尺寸/类型，不裸抛",
+          "status": "passed"
+        },
+        {
+          "file": "src/assets/png.test.ts",
+          "fullName": "decodePngToIndices 从 Blob 解出索引数组(取 R 通道)",
+          "status": "passed"
+        },
+        {
+          "file": "src/assets/rle-decode.test.ts",
+          "fullName": "decodeRle 单帧 RLE 无 0x00000002 前缀(普通 sprite frame)— 直接读 width/height",
+          "status": "passed"
+        },
+        {
+          "file": "src/assets/rle-decode.test.ts",
+          "fullName": "decodeRle Sync.2 fix3:单帧 RLE 带 0x00000002 前缀(RGM 头像)— skip 前 4 字节后再读",
+          "status": "passed"
+        },
+        {
+          "file": "src/assets/rle-decode.test.ts",
+          "fullName": "decodeRle skip-pixels 指令(b >= 0x80)",
+          "status": "passed"
+        },
+        {
+          "file": "src/assets/rle-decode.test.ts",
+          "fullName": "parseSpriteChunk 解 sprite group 多帧(DATA chunk 12 dialog icons 同样结构)",
+          "status": "passed"
+        },
+        {
+          "file": "src/assets/rle-decode.test.ts",
+          "fullName": "base64ToBytes 空 string → 空 Uint8Array",
+          "status": "passed"
+        },
+        {
+          "file": "src/assets/rle-decode.test.ts",
+          "fullName": "base64ToBytes 解码 round-trip(简单 ASCII)",
+          "status": "passed"
+        },
+        {
+          "file": "src/assets/tileset-blob.test.ts",
+          "fullName": "rleFrameToIndexedImage RleFrame → IndexedImage 字段重命名(pixels→indices),数组复用不拷贝",
+          "status": "passed"
+        },
+        {
+          "file": "src/assets/tileset-blob.test.ts",
+          "fullName": "decodeTilesetBlob GOP chunk → Map<tileIndex, IndexedImage>,下标连续 0,1,...",
+          "status": "passed"
+        },
+        {
+          "file": "src/assets/tileset-blob.test.ts",
+          "fullName": "decodeTilesetBlob 键一致性:Map key == parseSpriteChunk 返回数组下标 == 旧 framesToOut index",
+          "status": "passed"
+        },
+        {
+          "file": "src/assets/tileset-blob.test.ts",
+          "fullName": "decodeTilesetBlob 透明像素 + opaque palette-0 都正确表达",
+          "status": "passed"
+        },
+        {
+          "file": "src/assets/tileset-blob.test.ts",
+          "fullName": "decodeSpriteFrames / loadSpriteFramesBlob (npc/battle/magic 共用) decodeSpriteFrames:chunk → IndexedImage[],序与 parseSpriteChunk 一致",
+          "status": "passed"
+        },
+        {
+          "file": "src/assets/tileset-blob.test.ts",
+          "fullName": "decodeSpriteFrames / loadSpriteFramesBlob (npc/battle/magic 共用) loadSpriteFramesBlob:fetch mock → 解压 → IndexedImage[]",
+          "status": "passed"
+        },
+        {
+          "file": "src/assets/tileset-blob.test.ts",
+          "fullName": "decodeSpriteFrames / loadSpriteFramesBlob (npc/battle/magic 共用) loadSpriteFramesBlob:404 抛错",
+          "status": "passed"
+        },
+        {
+          "file": "src/assets/tileset-blob.test.ts",
+          "fullName": "framesToCharacterSprite (锚点派生) 锚点 = 首帧 floor(width/2) / height(与旧 loader 同源)",
+          "status": "passed"
+        },
+        {
+          "file": "src/assets/tileset-blob.test.ts",
+          "fullName": "framesToCharacterSprite (锚点派生) 空帧 → 锚点 0",
+          "status": "passed"
+        },
+        {
+          "file": "src/assets/tileset-blob.test.ts",
+          "fullName": "framesToCharacterSprite (锚点派生) loadCharacterSpriteBlob:fetch mock → 帧 + 锚点",
+          "status": "passed"
+        },
+        {
+          "file": "src/assets/tileset-blob.test.ts",
+          "fullName": "decompressGzip gzip roundtrip:解压后 == 原始字节",
+          "status": "passed"
+        },
+        {
+          "file": "src/assets/tileset-blob.test.ts",
+          "fullName": "decompressGzip 空 blob 也支持(边界)",
+          "status": "passed"
+        },
+        {
+          "file": "src/assets/tileset-blob.test.ts",
+          "fullName": "decompressGzip Content-Encoding 已解压(无 gzip 魔数)→ 原样返回,不二次解压",
+          "status": "passed"
+        },
+        {
+          "file": "src/assets/tileset-blob.test.ts",
+          "fullName": "loadTilesetBlob 完整链路:fetch mock → 解压 → 解析 → Map(键一致性 + 像素)",
+          "status": "passed"
+        },
+        {
+          "file": "src/assets/tileset-blob.test.ts",
+          "fullName": "loadTilesetBlob fetch 失败抛错",
+          "status": "passed"
+        }
+      ]
+    }
+  ]
 }

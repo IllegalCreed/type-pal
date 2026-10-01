@@ -11,19 +11,20 @@ Coding Owner: Grok。作者交付进行中，**不是 review / accept / done**�
 
 | 项 | 已计入 | 目标 | 剩余 |
 |---|---:|---:|---:|
-| 合法新合同 | 40 | 400 | 360 |
-| 组 | 4 | 40 | 36 |
-| 有效反控 | 4 | 40 | 36 |
+| 合法新合同 | 76 | 400 | 324 |
+| 组 | 8 | 40 | 32 |
+| 有效反控 | 8 | 40 | 32 |
 
-G01 四组都是 `packages/game/src/assets/loader.ts`：G01-A 合法装配、G01-B 边界、G01-C 失败恢复、G01-D 缓存归属与迟到。
-existing-proof / unreachable / blocked 另账，本批为 0。未把 400/40/40 改小。
+G01 四组都是 `packages/game/src/assets/loader.ts`：G01-A 合法装配、G01-B 边界、G01-C 失败恢复、G01-D 缓存归属与迟到。G01 新合同 40。
+
+G02 四组：G02-A `png.ts` 通道与上下文，G02-B `tileset-blob.ts` 魔数、分块与锚点，G02-C 裸 RLE 与精确状态，G02-D `dialog-assets.ts` 与 `rle-decode.ts` 的图标、头像和 base64。本批新合同 36。诚实新 oracle 用尽后，其余分支记在 `contracts.json` 的 `existingProof`（15 条，含 1 条不可达、1 条宿主 blocked），不计入 76。目标仍是 400/40/40。
 
 ## 本批证据
 
-- [contracts.json](contracts.json)：40 条，含条件行、caller、输入、旧断言、断言行与 matcher、oracle、执行 fullName
-- [directed-vitest.json](directed-vitest.json)：40 条 file × fullName × passed；相邻 `loader.test.ts` 7 条 passed 记在 `adjacent`
-- [counters.json](counters.json) 与 [反控说明](counters/README.md)：拒收探针加 G01-A/B/C/D 三态原日志
-- [defects.md](defects.md)：本批没有停组的产品缺陷
+- [contracts.json](contracts.json)：累计 76 条新合同；G02 另有 existingProof，不计入
+- [directed-vitest.json](directed-vitest.json)：76 条 file × fullName × passed；相邻记在 `adjacent`（G01 的 `loader.test.ts` 7 条，G02 的 png/tileset/dialog/rle 26 条）
+- [counters.json](counters.json) 与 [反控说明](counters/README.md)：拒收探针加 G01 四枚、G02 四枚三态原日志
+- [defects.md](defects.md)：没有停组的产品缺陷；G02 有一条宿主 blocked
 - 专属宿主 `packages/game/src/__tests__/grok-render-r1/legal-host.ts`
 
 ## G01 已跑命令
@@ -36,6 +37,18 @@ existing-proof / unreachable / blocked 另账，本批为 0。未把 400/40/40 �
 
 `pnpm --filter @type-pal/game run typecheck` 退出码 0。
 
-反控：`node docs/testing/grok-cursor-large/grok/run-counters.mjs`。探针因 stderr 中的 Unhandled Errors 被拒收。四枚 mutant 退出码 1，各只有一条指定 AssertionError。
+反控：`node docs/testing/grok-cursor-large/grok/run-counters.mjs`。探针因 stderr 中的 Unhandled Errors 被拒收。G01 四枚 mutant 退出码 1，各只有一条指定 AssertionError。
+
+## G02 已跑命令
+
+定向与相邻：
+
+`pnpm --filter @type-pal/game exec vitest run src/assets/png-decode.grok-r1.test.ts src/assets/tileset-gzip.grok-r1.test.ts src/assets/tileset-load.grok-r1.test.ts src/assets/dialog-icons.grok-r1.test.ts src/assets/png.test.ts src/assets/png.glm-phase1-leaves.test.ts src/assets/tileset-blob.test.ts src/assets/dialog-assets.glm-phase1-leaves.test.ts src/assets/rle-decode.test.ts --reporter=verbose --reporter=json --outputFile=/tmp/g02-directed.json`
+
+结果：新合同 36 passed，相邻 26 passed，pending 0。
+
+`pnpm --filter @type-pal/game run typecheck` 退出码 0。
+
+反控：`node docs/testing/grok-cursor-large/grok/run-counters.mjs --only=G02-A,G02-B,G02-C,G02-D --skip-probe`。G02-A 与 G02-C 因 `rejects.toThrow` 的失败文本不是 AssertionError 被拒过一次，针改到 `toBeInstanceOf` / `toBe` 后重采。四枚 mutant 退出码 1，各只有一条指定 AssertionError。历史 G01 与探针日志未重写。
 
 私有 coverage、全包 test、根 lint、docs check、diff check、verifier 留到末批。不合 main，不跑正式 ratchet。

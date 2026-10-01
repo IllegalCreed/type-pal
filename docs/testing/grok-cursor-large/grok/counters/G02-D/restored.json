@@ -1,0 +1,208 @@
+{
+  "numTotalTestSuites": 2,
+  "numPassedTestSuites": 2,
+  "numFailedTestSuites": 0,
+  "numPendingTestSuites": 0,
+  "numTotalTests": 14,
+  "numPassedTests": 14,
+  "numFailedTests": 0,
+  "numPendingTests": 0,
+  "numTodoTests": 0,
+  "snapshot": {
+    "added": 0,
+    "failure": false,
+    "filesAdded": 0,
+    "filesRemoved": 0,
+    "filesRemovedList": [],
+    "filesUnmatched": 0,
+    "filesUpdated": 0,
+    "matched": 0,
+    "total": 0,
+    "unchecked": 0,
+    "uncheckedKeysByFile": [],
+    "unmatched": 0,
+    "updated": 0,
+    "didUpdate": false
+  },
+  "startTime": 1790865861316,
+  "success": true,
+  "testResults": [
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": [
+            "G02-D 对话图标与 base64"
+          ],
+          "fullName": "G02-D 对话图标与 base64 G02-D01 portraits.json 500 时头像为空，两帧图标仍按 0 与 1 入 map",
+          "status": "passed",
+          "title": "G02-D01 portraits.json 500 时头像为空，两帧图标仍按 0 与 1 入 map",
+          "duration": 2.9464159999999993,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "G02-D 对话图标与 base64"
+          ],
+          "fullName": "G02-D 对话图标与 base64 G02-D02 manifest 写 99×99 时，头像宽高和遮罩以 PNG 为准",
+          "status": "passed",
+          "title": "G02-D02 manifest 写 99×99 时，头像宽高和遮罩以 PNG 为准",
+          "duration": 133.000542,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "G02-D 对话图标与 base64"
+          ],
+          "fullName": "G02-D 对话图标与 base64 G02-D03 chunk 0 的头像 URL 补成 portraits/00.png",
+          "status": "passed",
+          "title": "G02-D03 chunk 0 的头像 URL 补成 portraits/00.png",
+          "duration": 1.0319580000000315,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "G02-D 对话图标与 base64"
+          ],
+          "fullName": "G02-D 对话图标与 base64 G02-D04 头像清单为空数组时不请求 PNG，图标照常解码",
+          "status": "passed",
+          "title": "G02-D04 头像清单为空数组时不请求 PNG，图标照常解码",
+          "duration": 0.6849580000000515,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "G02-D 对话图标与 base64"
+          ],
+          "fullName": "G02-D 对话图标与 base64 G02-D05 图标 base64 非法时图标 map 为空，已成功的头像保留",
+          "status": "passed",
+          "title": "G02-D05 图标 base64 非法时图标 map 为空，已成功的头像保留",
+          "duration": 1.93425000000002,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "G02-D 对话图标与 base64"
+          ],
+          "fullName": "G02-D 对话图标与 base64 G02-D06 两张头像分别以 chunk 8 和 12 为键",
+          "status": "passed",
+          "title": "G02-D06 两张头像分别以 chunk 8 和 12 为键",
+          "duration": 1.1811250000000655,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "G02-D 对话图标与 base64"
+          ],
+          "fullName": "G02-D 对话图标与 base64 G02-D07 单张头像失败的 warn 带上 chunk 4，成功的 chunk 8 仍在",
+          "status": "passed",
+          "title": "G02-D07 单张头像失败的 warn 带上 chunk 4，成功的 chunk 8 仍在",
+          "duration": 0.6226249999999709,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "G02-D 对话图标与 base64"
+          ],
+          "fullName": "G02-D 对话图标与 base64 G02-D08 size 字段与字节数不一致时，仍按 base64 解出两帧",
+          "status": "passed",
+          "title": "G02-D08 size 字段与字节数不一致时，仍按 base64 解出两帧",
+          "duration": 0.5059590000000753,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "G02-D 对话图标与 base64"
+          ],
+          "fullName": "G02-D 对话图标与 base64 G02-D12 图标清单 404 的 warn 写 icons failed，头像像素仍在",
+          "status": "passed",
+          "title": "G02-D12 图标清单 404 的 warn 写 icons failed，头像像素仍在",
+          "duration": 1.0158329999999296,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "G02-D 对话图标与 base64"
+          ],
+          "fullName": "G02-D 对话图标与 base64 G02-D13 图标帧的透明孔写入 opaque 0，宽高来自 RLE",
+          "status": "passed",
+          "title": "G02-D13 图标帧的透明孔写入 opaque 0，宽高来自 RLE",
+          "duration": 0.351207999999815,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "G02-D 对话图标与 base64"
+          ],
+          "fullName": "G02-D 对话图标与 base64 G02-D14 单张头像 404 不会清掉已经解码的图标",
+          "status": "passed",
+          "title": "G02-D14 单张头像 404 不会清掉已经解码的图标",
+          "duration": 0.3272500000000491,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "G02-D 对话图标与 base64"
+          ],
+          "fullName": "G02-D 对话图标与 base64 G02-D09 base64 /wCA 解出 [255, 0, 128]",
+          "status": "passed",
+          "title": "G02-D09 base64 /wCA 解出 [255, 0, 128]",
+          "duration": 0.0565839999999298,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "G02-D 对话图标与 base64"
+          ],
+          "fullName": "G02-D 对话图标与 base64 G02-D10 base64 /w== 解出单字节 255",
+          "status": "passed",
+          "title": "G02-D10 base64 /w== 解出单字节 255",
+          "duration": 0.044417000000066764,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "G02-D 对话图标与 base64"
+          ],
+          "fullName": "G02-D 对话图标与 base64 G02-D11 game 的 decodeRle 与 parseSpriteChunk 就是 shared 的同一函数",
+          "status": "passed",
+          "title": "G02-D11 game 的 decodeRle 与 parseSpriteChunk 就是 shared 的同一函数",
+          "duration": 0.05741599999987557,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790865862393,
+      "endTime": 1790865862537.0574,
+      "status": "passed",
+      "message": "",
+      "name": "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/grok-r1-G02-D-DVJiwf/packages/game/src/assets/dialog-icons.grok-r1.test.ts"
+    }
+  ]
+}

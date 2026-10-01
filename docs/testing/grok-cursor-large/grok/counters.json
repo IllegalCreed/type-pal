@@ -1,6 +1,6 @@
 {
-  "batch": "G01",
-  "acceptedCounters": 4,
+  "batch": "G02",
+  "acceptedCounters": 8,
   "probeRejected": true,
   "counters": [
     {
@@ -28,11 +28,11 @@
       "batch": "G01",
       "accepted": true,
       "reasons": [],
-      "axis": "战斗精灵键归属从 kind-id 被改成 kind:id",
+      "axis": "\u6218\u6597\u7cbe\u7075\u952e\u5f52\u5c5e\u4ece kind-id \u88ab\u6539\u6210 kind:id",
       "source": "packages/game/src/assets/loader.ts",
       "testFile": "src/assets/load-all-assemble.grok-r1.test.ts",
       "target": "G01-A07",
-      "targetFullName": "G01-A loadAll 合法装配 G01-A07 战斗精灵键为 kind-id，背景 8 的像素来自对应 PNG",
+      "targetFullName": "G01-A loadAll \u5408\u6cd5\u88c5\u914d G01-A07 \u6218\u6597\u7cbe\u7075\u952e\u4e3a kind-id\uff0c\u80cc\u666f 8 \u7684\u50cf\u7d20\u6765\u81ea\u5bf9\u5e94 PNG",
       "assertionError": "AssertionError: expected [ 'enemy:4', 'player:2' ] to deeply equal [ 'enemy-4', 'player-2' ]",
       "sha256": {
         "original": "0b85511a72be93396cc7c7776c78513a57fb176292e70da12e7f776b0910a842",
@@ -58,169 +58,169 @@
       "executions": [
         {
           "file": "src/assets/load-all-assemble.grok-r1.test.ts",
-          "fullName": "G01-A loadAll 合法装配 G01-A01 scene 7 用 mapNum 12 取 tilemap 与 tileset，不按 sceneId 取图"
+          "fullName": "G01-A loadAll \u5408\u6cd5\u88c5\u914d G01-A01 scene 7 \u7528 mapNum 12 \u53d6 tilemap \u4e0e tileset\uff0c\u4e0d\u6309 sceneId \u53d6\u56fe"
         },
         {
           "file": "src/assets/load-all-assemble.grok-r1.test.ts",
-          "fullName": "G01-A loadAll 合法装配 G01-A02 scene 7 的事件脚本 URL 补零为 scene-007，段名原样返回"
+          "fullName": "G01-A loadAll \u5408\u6cd5\u88c5\u914d G01-A02 scene 7 \u7684\u4e8b\u4ef6\u811a\u672c URL \u8865\u96f6\u4e3a scene-007\uff0c\u6bb5\u540d\u539f\u6837\u8fd4\u56de"
         },
         {
           "file": "src/assets/load-all-assemble.grok-r1.test.ts",
-          "fullName": "G01-A loadAll 合法装配 G01-A03 首屏调色板固定取 palette/0，256 色与循环段原样进入结果"
+          "fullName": "G01-A loadAll \u5408\u6cd5\u88c5\u914d G01-A03 \u9996\u5c4f\u8c03\u8272\u677f\u56fa\u5b9a\u53d6 palette/0\uff0c256 \u8272\u4e0e\u5faa\u73af\u6bb5\u539f\u6837\u8fdb\u5165\u7ed3\u679c"
         },
         {
           "file": "src/assets/load-all-assemble.grok-r1.test.ts",
-          "fullName": "G01-A loadAll 合法装配 G01-A04 tileset RLE 经真实解码进入 tileImages，键 0/1 像素为 AA/BB"
+          "fullName": "G01-A loadAll \u5408\u6cd5\u88c5\u914d G01-A04 tileset RLE \u7ecf\u771f\u5b9e\u89e3\u7801\u8fdb\u5165 tileImages\uff0c\u952e 0/1 \u50cf\u7d20\u4e3a AA/BB"
         },
         {
           "file": "src/assets/load-all-assemble.grok-r1.test.ts",
-          "fullName": "G01-A loadAll 合法装配 G01-A05 角色精灵键为队长、事件对象、71 与 73，5×3 帧锚点为 2,3"
+          "fullName": "G01-A loadAll \u5408\u6cd5\u88c5\u914d G01-A05 \u89d2\u8272\u7cbe\u7075\u952e\u4e3a\u961f\u957f\u3001\u4e8b\u4ef6\u5bf9\u8c61\u300171 \u4e0e 73\uff0c5\u00d73 \u5e27\u951a\u70b9\u4e3a 2,3"
         },
         {
           "file": "src/assets/load-all-assemble.grok-r1.test.ts",
-          "fullName": "G01-A loadAll 合法装配 G01-A06 队长与两个事件对象共用 sprite 9 时只 fetch 一次"
+          "fullName": "G01-A loadAll \u5408\u6cd5\u88c5\u914d G01-A06 \u961f\u957f\u4e0e\u4e24\u4e2a\u4e8b\u4ef6\u5bf9\u8c61\u5171\u7528 sprite 9 \u65f6\u53ea fetch \u4e00\u6b21"
         },
         {
           "file": "src/assets/load-all-assemble.grok-r1.test.ts",
-          "fullName": "G01-A loadAll 合法装配 G01-A07 战斗精灵键为 kind-id，背景 8 的像素来自对应 PNG"
+          "fullName": "G01-A loadAll \u5408\u6cd5\u88c5\u914d G01-A07 \u6218\u6597\u7cbe\u7075\u952e\u4e3a kind-id\uff0c\u80cc\u666f 8 \u7684\u50cf\u7d20\u6765\u81ea\u5bf9\u5e94 PNG"
         },
         {
           "file": "src/assets/load-all-assemble.grok-r1.test.ts",
-          "fullName": "G01-A loadAll 合法装配 G01-A08 法术精灵只加载被引用且 frameCount>0 的 chunk，含 effect 0"
+          "fullName": "G01-A loadAll \u5408\u6cd5\u88c5\u914d G01-A08 \u6cd5\u672f\u7cbe\u7075\u53ea\u52a0\u8f7d\u88ab\u5f15\u7528\u4e14 frameCount>0 \u7684 chunk\uff0c\u542b effect 0"
         },
         {
           "file": "src/assets/load-all-assemble.grok-r1.test.ts",
-          "fullName": "G01-A loadAll 合法装配 G01-A09 物品图标按 chunkIndex 入 map，UI 帧按 manifest 顺序保留"
+          "fullName": "G01-A loadAll \u5408\u6cd5\u88c5\u914d G01-A09 \u7269\u54c1\u56fe\u6807\u6309 chunkIndex \u5165 map\uff0cUI \u5e27\u6309 manifest \u987a\u5e8f\u4fdd\u7559"
         },
         {
           "file": "src/assets/load-all-assemble.grok-r1.test.ts",
-          "fullName": "G01-A loadAll 合法装配 G01-A10 词表、商店、升级表、敌人 id 与敌位布局原样透传"
+          "fullName": "G01-A loadAll \u5408\u6cd5\u88c5\u914d G01-A10 \u8bcd\u8868\u3001\u5546\u5e97\u3001\u5347\u7ea7\u8868\u3001\u654c\u4eba id \u4e0e\u654c\u4f4d\u5e03\u5c40\u539f\u6837\u900f\u4f20"
         }
       ],
       "statuses": {
         "original": [
           {
-            "fullName": "G01-A loadAll 合法装配 G01-A01 scene 7 用 mapNum 12 取 tilemap 与 tileset，不按 sceneId 取图",
+            "fullName": "G01-A loadAll \u5408\u6cd5\u88c5\u914d G01-A01 scene 7 \u7528 mapNum 12 \u53d6 tilemap \u4e0e tileset\uff0c\u4e0d\u6309 sceneId \u53d6\u56fe",
             "status": "passed"
           },
           {
-            "fullName": "G01-A loadAll 合法装配 G01-A02 scene 7 的事件脚本 URL 补零为 scene-007，段名原样返回",
+            "fullName": "G01-A loadAll \u5408\u6cd5\u88c5\u914d G01-A02 scene 7 \u7684\u4e8b\u4ef6\u811a\u672c URL \u8865\u96f6\u4e3a scene-007\uff0c\u6bb5\u540d\u539f\u6837\u8fd4\u56de",
             "status": "passed"
           },
           {
-            "fullName": "G01-A loadAll 合法装配 G01-A03 首屏调色板固定取 palette/0，256 色与循环段原样进入结果",
+            "fullName": "G01-A loadAll \u5408\u6cd5\u88c5\u914d G01-A03 \u9996\u5c4f\u8c03\u8272\u677f\u56fa\u5b9a\u53d6 palette/0\uff0c256 \u8272\u4e0e\u5faa\u73af\u6bb5\u539f\u6837\u8fdb\u5165\u7ed3\u679c",
             "status": "passed"
           },
           {
-            "fullName": "G01-A loadAll 合法装配 G01-A04 tileset RLE 经真实解码进入 tileImages，键 0/1 像素为 AA/BB",
+            "fullName": "G01-A loadAll \u5408\u6cd5\u88c5\u914d G01-A04 tileset RLE \u7ecf\u771f\u5b9e\u89e3\u7801\u8fdb\u5165 tileImages\uff0c\u952e 0/1 \u50cf\u7d20\u4e3a AA/BB",
             "status": "passed"
           },
           {
-            "fullName": "G01-A loadAll 合法装配 G01-A05 角色精灵键为队长、事件对象、71 与 73，5×3 帧锚点为 2,3",
+            "fullName": "G01-A loadAll \u5408\u6cd5\u88c5\u914d G01-A05 \u89d2\u8272\u7cbe\u7075\u952e\u4e3a\u961f\u957f\u3001\u4e8b\u4ef6\u5bf9\u8c61\u300171 \u4e0e 73\uff0c5\u00d73 \u5e27\u951a\u70b9\u4e3a 2,3",
             "status": "passed"
           },
           {
-            "fullName": "G01-A loadAll 合法装配 G01-A06 队长与两个事件对象共用 sprite 9 时只 fetch 一次",
+            "fullName": "G01-A loadAll \u5408\u6cd5\u88c5\u914d G01-A06 \u961f\u957f\u4e0e\u4e24\u4e2a\u4e8b\u4ef6\u5bf9\u8c61\u5171\u7528 sprite 9 \u65f6\u53ea fetch \u4e00\u6b21",
             "status": "passed"
           },
           {
-            "fullName": "G01-A loadAll 合法装配 G01-A07 战斗精灵键为 kind-id，背景 8 的像素来自对应 PNG",
+            "fullName": "G01-A loadAll \u5408\u6cd5\u88c5\u914d G01-A07 \u6218\u6597\u7cbe\u7075\u952e\u4e3a kind-id\uff0c\u80cc\u666f 8 \u7684\u50cf\u7d20\u6765\u81ea\u5bf9\u5e94 PNG",
             "status": "passed"
           },
           {
-            "fullName": "G01-A loadAll 合法装配 G01-A08 法术精灵只加载被引用且 frameCount>0 的 chunk，含 effect 0",
+            "fullName": "G01-A loadAll \u5408\u6cd5\u88c5\u914d G01-A08 \u6cd5\u672f\u7cbe\u7075\u53ea\u52a0\u8f7d\u88ab\u5f15\u7528\u4e14 frameCount>0 \u7684 chunk\uff0c\u542b effect 0",
             "status": "passed"
           },
           {
-            "fullName": "G01-A loadAll 合法装配 G01-A09 物品图标按 chunkIndex 入 map，UI 帧按 manifest 顺序保留",
+            "fullName": "G01-A loadAll \u5408\u6cd5\u88c5\u914d G01-A09 \u7269\u54c1\u56fe\u6807\u6309 chunkIndex \u5165 map\uff0cUI \u5e27\u6309 manifest \u987a\u5e8f\u4fdd\u7559",
             "status": "passed"
           },
           {
-            "fullName": "G01-A loadAll 合法装配 G01-A10 词表、商店、升级表、敌人 id 与敌位布局原样透传",
+            "fullName": "G01-A loadAll \u5408\u6cd5\u88c5\u914d G01-A10 \u8bcd\u8868\u3001\u5546\u5e97\u3001\u5347\u7ea7\u8868\u3001\u654c\u4eba id \u4e0e\u654c\u4f4d\u5e03\u5c40\u539f\u6837\u900f\u4f20",
             "status": "passed"
           }
         ],
         "mutant": [
           {
-            "fullName": "G01-A loadAll 合法装配 G01-A01 scene 7 用 mapNum 12 取 tilemap 与 tileset，不按 sceneId 取图",
+            "fullName": "G01-A loadAll \u5408\u6cd5\u88c5\u914d G01-A01 scene 7 \u7528 mapNum 12 \u53d6 tilemap \u4e0e tileset\uff0c\u4e0d\u6309 sceneId \u53d6\u56fe",
             "status": "passed"
           },
           {
-            "fullName": "G01-A loadAll 合法装配 G01-A02 scene 7 的事件脚本 URL 补零为 scene-007，段名原样返回",
+            "fullName": "G01-A loadAll \u5408\u6cd5\u88c5\u914d G01-A02 scene 7 \u7684\u4e8b\u4ef6\u811a\u672c URL \u8865\u96f6\u4e3a scene-007\uff0c\u6bb5\u540d\u539f\u6837\u8fd4\u56de",
             "status": "passed"
           },
           {
-            "fullName": "G01-A loadAll 合法装配 G01-A03 首屏调色板固定取 palette/0，256 色与循环段原样进入结果",
+            "fullName": "G01-A loadAll \u5408\u6cd5\u88c5\u914d G01-A03 \u9996\u5c4f\u8c03\u8272\u677f\u56fa\u5b9a\u53d6 palette/0\uff0c256 \u8272\u4e0e\u5faa\u73af\u6bb5\u539f\u6837\u8fdb\u5165\u7ed3\u679c",
             "status": "passed"
           },
           {
-            "fullName": "G01-A loadAll 合法装配 G01-A04 tileset RLE 经真实解码进入 tileImages，键 0/1 像素为 AA/BB",
+            "fullName": "G01-A loadAll \u5408\u6cd5\u88c5\u914d G01-A04 tileset RLE \u7ecf\u771f\u5b9e\u89e3\u7801\u8fdb\u5165 tileImages\uff0c\u952e 0/1 \u50cf\u7d20\u4e3a AA/BB",
             "status": "passed"
           },
           {
-            "fullName": "G01-A loadAll 合法装配 G01-A05 角色精灵键为队长、事件对象、71 与 73，5×3 帧锚点为 2,3",
+            "fullName": "G01-A loadAll \u5408\u6cd5\u88c5\u914d G01-A05 \u89d2\u8272\u7cbe\u7075\u952e\u4e3a\u961f\u957f\u3001\u4e8b\u4ef6\u5bf9\u8c61\u300171 \u4e0e 73\uff0c5\u00d73 \u5e27\u951a\u70b9\u4e3a 2,3",
             "status": "passed"
           },
           {
-            "fullName": "G01-A loadAll 合法装配 G01-A06 队长与两个事件对象共用 sprite 9 时只 fetch 一次",
+            "fullName": "G01-A loadAll \u5408\u6cd5\u88c5\u914d G01-A06 \u961f\u957f\u4e0e\u4e24\u4e2a\u4e8b\u4ef6\u5bf9\u8c61\u5171\u7528 sprite 9 \u65f6\u53ea fetch \u4e00\u6b21",
             "status": "passed"
           },
           {
-            "fullName": "G01-A loadAll 合法装配 G01-A07 战斗精灵键为 kind-id，背景 8 的像素来自对应 PNG",
+            "fullName": "G01-A loadAll \u5408\u6cd5\u88c5\u914d G01-A07 \u6218\u6597\u7cbe\u7075\u952e\u4e3a kind-id\uff0c\u80cc\u666f 8 \u7684\u50cf\u7d20\u6765\u81ea\u5bf9\u5e94 PNG",
             "status": "failed"
           },
           {
-            "fullName": "G01-A loadAll 合法装配 G01-A08 法术精灵只加载被引用且 frameCount>0 的 chunk，含 effect 0",
+            "fullName": "G01-A loadAll \u5408\u6cd5\u88c5\u914d G01-A08 \u6cd5\u672f\u7cbe\u7075\u53ea\u52a0\u8f7d\u88ab\u5f15\u7528\u4e14 frameCount>0 \u7684 chunk\uff0c\u542b effect 0",
             "status": "passed"
           },
           {
-            "fullName": "G01-A loadAll 合法装配 G01-A09 物品图标按 chunkIndex 入 map，UI 帧按 manifest 顺序保留",
+            "fullName": "G01-A loadAll \u5408\u6cd5\u88c5\u914d G01-A09 \u7269\u54c1\u56fe\u6807\u6309 chunkIndex \u5165 map\uff0cUI \u5e27\u6309 manifest \u987a\u5e8f\u4fdd\u7559",
             "status": "passed"
           },
           {
-            "fullName": "G01-A loadAll 合法装配 G01-A10 词表、商店、升级表、敌人 id 与敌位布局原样透传",
+            "fullName": "G01-A loadAll \u5408\u6cd5\u88c5\u914d G01-A10 \u8bcd\u8868\u3001\u5546\u5e97\u3001\u5347\u7ea7\u8868\u3001\u654c\u4eba id \u4e0e\u654c\u4f4d\u5e03\u5c40\u539f\u6837\u900f\u4f20",
             "status": "passed"
           }
         ],
         "restored": [
           {
-            "fullName": "G01-A loadAll 合法装配 G01-A01 scene 7 用 mapNum 12 取 tilemap 与 tileset，不按 sceneId 取图",
+            "fullName": "G01-A loadAll \u5408\u6cd5\u88c5\u914d G01-A01 scene 7 \u7528 mapNum 12 \u53d6 tilemap \u4e0e tileset\uff0c\u4e0d\u6309 sceneId \u53d6\u56fe",
             "status": "passed"
           },
           {
-            "fullName": "G01-A loadAll 合法装配 G01-A02 scene 7 的事件脚本 URL 补零为 scene-007，段名原样返回",
+            "fullName": "G01-A loadAll \u5408\u6cd5\u88c5\u914d G01-A02 scene 7 \u7684\u4e8b\u4ef6\u811a\u672c URL \u8865\u96f6\u4e3a scene-007\uff0c\u6bb5\u540d\u539f\u6837\u8fd4\u56de",
             "status": "passed"
           },
           {
-            "fullName": "G01-A loadAll 合法装配 G01-A03 首屏调色板固定取 palette/0，256 色与循环段原样进入结果",
+            "fullName": "G01-A loadAll \u5408\u6cd5\u88c5\u914d G01-A03 \u9996\u5c4f\u8c03\u8272\u677f\u56fa\u5b9a\u53d6 palette/0\uff0c256 \u8272\u4e0e\u5faa\u73af\u6bb5\u539f\u6837\u8fdb\u5165\u7ed3\u679c",
             "status": "passed"
           },
           {
-            "fullName": "G01-A loadAll 合法装配 G01-A04 tileset RLE 经真实解码进入 tileImages，键 0/1 像素为 AA/BB",
+            "fullName": "G01-A loadAll \u5408\u6cd5\u88c5\u914d G01-A04 tileset RLE \u7ecf\u771f\u5b9e\u89e3\u7801\u8fdb\u5165 tileImages\uff0c\u952e 0/1 \u50cf\u7d20\u4e3a AA/BB",
             "status": "passed"
           },
           {
-            "fullName": "G01-A loadAll 合法装配 G01-A05 角色精灵键为队长、事件对象、71 与 73，5×3 帧锚点为 2,3",
+            "fullName": "G01-A loadAll \u5408\u6cd5\u88c5\u914d G01-A05 \u89d2\u8272\u7cbe\u7075\u952e\u4e3a\u961f\u957f\u3001\u4e8b\u4ef6\u5bf9\u8c61\u300171 \u4e0e 73\uff0c5\u00d73 \u5e27\u951a\u70b9\u4e3a 2,3",
             "status": "passed"
           },
           {
-            "fullName": "G01-A loadAll 合法装配 G01-A06 队长与两个事件对象共用 sprite 9 时只 fetch 一次",
+            "fullName": "G01-A loadAll \u5408\u6cd5\u88c5\u914d G01-A06 \u961f\u957f\u4e0e\u4e24\u4e2a\u4e8b\u4ef6\u5bf9\u8c61\u5171\u7528 sprite 9 \u65f6\u53ea fetch \u4e00\u6b21",
             "status": "passed"
           },
           {
-            "fullName": "G01-A loadAll 合法装配 G01-A07 战斗精灵键为 kind-id，背景 8 的像素来自对应 PNG",
+            "fullName": "G01-A loadAll \u5408\u6cd5\u88c5\u914d G01-A07 \u6218\u6597\u7cbe\u7075\u952e\u4e3a kind-id\uff0c\u80cc\u666f 8 \u7684\u50cf\u7d20\u6765\u81ea\u5bf9\u5e94 PNG",
             "status": "passed"
           },
           {
-            "fullName": "G01-A loadAll 合法装配 G01-A08 法术精灵只加载被引用且 frameCount>0 的 chunk，含 effect 0",
+            "fullName": "G01-A loadAll \u5408\u6cd5\u88c5\u914d G01-A08 \u6cd5\u672f\u7cbe\u7075\u53ea\u52a0\u8f7d\u88ab\u5f15\u7528\u4e14 frameCount>0 \u7684 chunk\uff0c\u542b effect 0",
             "status": "passed"
           },
           {
-            "fullName": "G01-A loadAll 合法装配 G01-A09 物品图标按 chunkIndex 入 map，UI 帧按 manifest 顺序保留",
+            "fullName": "G01-A loadAll \u5408\u6cd5\u88c5\u914d G01-A09 \u7269\u54c1\u56fe\u6807\u6309 chunkIndex \u5165 map\uff0cUI \u5e27\u6309 manifest \u987a\u5e8f\u4fdd\u7559",
             "status": "passed"
           },
           {
-            "fullName": "G01-A loadAll 合法装配 G01-A10 词表、商店、升级表、敌人 id 与敌位布局原样透传",
+            "fullName": "G01-A loadAll \u5408\u6cd5\u88c5\u914d G01-A10 \u8bcd\u8868\u3001\u5546\u5e97\u3001\u5347\u7ea7\u8868\u3001\u654c\u4eba id \u4e0e\u654c\u4f4d\u5e03\u5c40\u539f\u6837\u900f\u4f20",
             "status": "passed"
           }
         ]
@@ -247,11 +247,11 @@
       "batch": "G01",
       "accepted": true,
       "reasons": [],
-      "axis": "缺 flat 时词表从空数组变成带 MUT 的数组",
+      "axis": "\u7f3a flat \u65f6\u8bcd\u8868\u4ece\u7a7a\u6570\u7ec4\u53d8\u6210\u5e26 MUT \u7684\u6570\u7ec4",
       "source": "packages/game/src/assets/loader.ts",
       "testFile": "src/assets/load-all-bounds.grok-r1.test.ts",
       "target": "G01-B06",
-      "targetFullName": "G01-B loadAll 边界守卫 G01-B06 words.json 没有 flat 字段时词表为空数组",
+      "targetFullName": "G01-B loadAll \u8fb9\u754c\u5b88\u536b G01-B06 words.json \u6ca1\u6709 flat \u5b57\u6bb5\u65f6\u8bcd\u8868\u4e3a\u7a7a\u6570\u7ec4",
       "assertionError": "AssertionError: expected [ 'MUT' ] to deeply equal []",
       "sha256": {
         "original": "0b85511a72be93396cc7c7776c78513a57fb176292e70da12e7f776b0910a842",
@@ -277,169 +277,169 @@
       "executions": [
         {
           "file": "src/assets/load-all-bounds.grok-r1.test.ts",
-          "fullName": "G01-B loadAll 边界守卫 G01-B01 sceneId 0 使用 scene/0.json 与 events/scene-000.json"
+          "fullName": "G01-B loadAll \u8fb9\u754c\u5b88\u536b G01-B01 sceneId 0 \u4f7f\u7528 scene/0.json \u4e0e events/scene-000.json"
         },
         {
           "file": "src/assets/load-all-bounds.grok-r1.test.ts",
-          "fullName": "G01-B loadAll 边界守卫 G01-B02 roles 为空时在精灵请求前抛 roles[0] missing，且已取过 tileset"
+          "fullName": "G01-B loadAll \u8fb9\u754c\u5b88\u536b G01-B02 roles \u4e3a\u7a7a\u65f6\u5728\u7cbe\u7075\u8bf7\u6c42\u524d\u629b roles[0] missing\uff0c\u4e14\u5df2\u53d6\u8fc7 tileset"
         },
         {
           "file": "src/assets/load-all-bounds.grok-r1.test.ts",
-          "fullName": "G01-B loadAll 边界守卫 G01-B03 spriteNum 0 的队长和事件对象都不进集合，只剩固定 71 与 73"
+          "fullName": "G01-B loadAll \u8fb9\u754c\u5b88\u536b G01-B03 spriteNum 0 \u7684\u961f\u957f\u548c\u4e8b\u4ef6\u5bf9\u8c61\u90fd\u4e0d\u8fdb\u96c6\u5408\uff0c\u53ea\u5269\u56fa\u5b9a 71 \u4e0e 73"
         },
         {
           "file": "src/assets/load-all-bounds.grok-r1.test.ts",
-          "fullName": "G01-B loadAll 边界守卫 G01-B04 frameCount 为 0 的被引用 chunk 不取 fire RLE，未引用 chunk 也不取"
+          "fullName": "G01-B loadAll \u8fb9\u754c\u5b88\u536b G01-B04 frameCount \u4e3a 0 \u7684\u88ab\u5f15\u7528 chunk \u4e0d\u53d6 fire RLE\uff0c\u672a\u5f15\u7528 chunk \u4e5f\u4e0d\u53d6"
         },
         {
           "file": "src/assets/load-all-bounds.grok-r1.test.ts",
-          "fullName": "G01-B loadAll 边界守卫 G01-B05 空战斗 manifest 仍读取清单文件，但不请求任何精灵或背景成员"
+          "fullName": "G01-B loadAll \u8fb9\u754c\u5b88\u536b G01-B05 \u7a7a\u6218\u6597 manifest \u4ecd\u8bfb\u53d6\u6e05\u5355\u6587\u4ef6\uff0c\u4f46\u4e0d\u8bf7\u6c42\u4efb\u4f55\u7cbe\u7075\u6216\u80cc\u666f\u6210\u5458"
         },
         {
           "file": "src/assets/load-all-bounds.grok-r1.test.ts",
-          "fullName": "G01-B loadAll 边界守卫 G01-B06 words.json 没有 flat 字段时词表为空数组"
+          "fullName": "G01-B loadAll \u8fb9\u754c\u5b88\u536b G01-B06 words.json \u6ca1\u6709 flat \u5b57\u6bb5\u65f6\u8bcd\u8868\u4e3a\u7a7a\u6570\u7ec4"
         },
         {
           "file": "src/assets/load-all-bounds.grok-r1.test.ts",
-          "fullName": "G01-B loadAll 边界守卫 G01-B07 scene JSON 404 时错误带 scene URL，且不会再请求 tilemap"
+          "fullName": "G01-B loadAll \u8fb9\u754c\u5b88\u536b G01-B07 scene JSON 404 \u65f6\u9519\u8bef\u5e26 scene URL\uff0c\u4e14\u4e0d\u4f1a\u518d\u8bf7\u6c42 tilemap"
         },
         {
           "file": "src/assets/load-all-bounds.grok-r1.test.ts",
-          "fullName": "G01-B loadAll 边界守卫 G01-B08 tilemap 404 时错误带 mapNum URL，且 tileset 尚未请求"
+          "fullName": "G01-B loadAll \u8fb9\u754c\u5b88\u536b G01-B08 tilemap 404 \u65f6\u9519\u8bef\u5e26 mapNum URL\uff0c\u4e14 tileset \u5c1a\u672a\u8bf7\u6c42"
         },
         {
           "file": "src/assets/load-all-bounds.grok-r1.test.ts",
-          "fullName": "G01-B loadAll 边界守卫 G01-B09 fetchPalette(5) 读取 palette/5.json 并返回完整 256 色"
+          "fullName": "G01-B loadAll \u8fb9\u754c\u5b88\u536b G01-B09 fetchPalette(5) \u8bfb\u53d6 palette/5.json \u5e76\u8fd4\u56de\u5b8c\u6574 256 \u8272"
         },
         {
           "file": "src/assets/load-all-bounds.grok-r1.test.ts",
-          "fullName": "G01-B loadAll 边界守卫 G01-B10 fetchPalette(12) 503 的错误同时包含 URL 与状态码"
+          "fullName": "G01-B loadAll \u8fb9\u754c\u5b88\u536b G01-B10 fetchPalette(12) 503 \u7684\u9519\u8bef\u540c\u65f6\u5305\u542b URL \u4e0e\u72b6\u6001\u7801"
         }
       ],
       "statuses": {
         "original": [
           {
-            "fullName": "G01-B loadAll 边界守卫 G01-B01 sceneId 0 使用 scene/0.json 与 events/scene-000.json",
+            "fullName": "G01-B loadAll \u8fb9\u754c\u5b88\u536b G01-B01 sceneId 0 \u4f7f\u7528 scene/0.json \u4e0e events/scene-000.json",
             "status": "passed"
           },
           {
-            "fullName": "G01-B loadAll 边界守卫 G01-B02 roles 为空时在精灵请求前抛 roles[0] missing，且已取过 tileset",
+            "fullName": "G01-B loadAll \u8fb9\u754c\u5b88\u536b G01-B02 roles \u4e3a\u7a7a\u65f6\u5728\u7cbe\u7075\u8bf7\u6c42\u524d\u629b roles[0] missing\uff0c\u4e14\u5df2\u53d6\u8fc7 tileset",
             "status": "passed"
           },
           {
-            "fullName": "G01-B loadAll 边界守卫 G01-B03 spriteNum 0 的队长和事件对象都不进集合，只剩固定 71 与 73",
+            "fullName": "G01-B loadAll \u8fb9\u754c\u5b88\u536b G01-B03 spriteNum 0 \u7684\u961f\u957f\u548c\u4e8b\u4ef6\u5bf9\u8c61\u90fd\u4e0d\u8fdb\u96c6\u5408\uff0c\u53ea\u5269\u56fa\u5b9a 71 \u4e0e 73",
             "status": "passed"
           },
           {
-            "fullName": "G01-B loadAll 边界守卫 G01-B04 frameCount 为 0 的被引用 chunk 不取 fire RLE，未引用 chunk 也不取",
+            "fullName": "G01-B loadAll \u8fb9\u754c\u5b88\u536b G01-B04 frameCount \u4e3a 0 \u7684\u88ab\u5f15\u7528 chunk \u4e0d\u53d6 fire RLE\uff0c\u672a\u5f15\u7528 chunk \u4e5f\u4e0d\u53d6",
             "status": "passed"
           },
           {
-            "fullName": "G01-B loadAll 边界守卫 G01-B05 空战斗 manifest 仍读取清单文件，但不请求任何精灵或背景成员",
+            "fullName": "G01-B loadAll \u8fb9\u754c\u5b88\u536b G01-B05 \u7a7a\u6218\u6597 manifest \u4ecd\u8bfb\u53d6\u6e05\u5355\u6587\u4ef6\uff0c\u4f46\u4e0d\u8bf7\u6c42\u4efb\u4f55\u7cbe\u7075\u6216\u80cc\u666f\u6210\u5458",
             "status": "passed"
           },
           {
-            "fullName": "G01-B loadAll 边界守卫 G01-B06 words.json 没有 flat 字段时词表为空数组",
+            "fullName": "G01-B loadAll \u8fb9\u754c\u5b88\u536b G01-B06 words.json \u6ca1\u6709 flat \u5b57\u6bb5\u65f6\u8bcd\u8868\u4e3a\u7a7a\u6570\u7ec4",
             "status": "passed"
           },
           {
-            "fullName": "G01-B loadAll 边界守卫 G01-B07 scene JSON 404 时错误带 scene URL，且不会再请求 tilemap",
+            "fullName": "G01-B loadAll \u8fb9\u754c\u5b88\u536b G01-B07 scene JSON 404 \u65f6\u9519\u8bef\u5e26 scene URL\uff0c\u4e14\u4e0d\u4f1a\u518d\u8bf7\u6c42 tilemap",
             "status": "passed"
           },
           {
-            "fullName": "G01-B loadAll 边界守卫 G01-B08 tilemap 404 时错误带 mapNum URL，且 tileset 尚未请求",
+            "fullName": "G01-B loadAll \u8fb9\u754c\u5b88\u536b G01-B08 tilemap 404 \u65f6\u9519\u8bef\u5e26 mapNum URL\uff0c\u4e14 tileset \u5c1a\u672a\u8bf7\u6c42",
             "status": "passed"
           },
           {
-            "fullName": "G01-B loadAll 边界守卫 G01-B09 fetchPalette(5) 读取 palette/5.json 并返回完整 256 色",
+            "fullName": "G01-B loadAll \u8fb9\u754c\u5b88\u536b G01-B09 fetchPalette(5) \u8bfb\u53d6 palette/5.json \u5e76\u8fd4\u56de\u5b8c\u6574 256 \u8272",
             "status": "passed"
           },
           {
-            "fullName": "G01-B loadAll 边界守卫 G01-B10 fetchPalette(12) 503 的错误同时包含 URL 与状态码",
+            "fullName": "G01-B loadAll \u8fb9\u754c\u5b88\u536b G01-B10 fetchPalette(12) 503 \u7684\u9519\u8bef\u540c\u65f6\u5305\u542b URL \u4e0e\u72b6\u6001\u7801",
             "status": "passed"
           }
         ],
         "mutant": [
           {
-            "fullName": "G01-B loadAll 边界守卫 G01-B01 sceneId 0 使用 scene/0.json 与 events/scene-000.json",
+            "fullName": "G01-B loadAll \u8fb9\u754c\u5b88\u536b G01-B01 sceneId 0 \u4f7f\u7528 scene/0.json \u4e0e events/scene-000.json",
             "status": "passed"
           },
           {
-            "fullName": "G01-B loadAll 边界守卫 G01-B02 roles 为空时在精灵请求前抛 roles[0] missing，且已取过 tileset",
+            "fullName": "G01-B loadAll \u8fb9\u754c\u5b88\u536b G01-B02 roles \u4e3a\u7a7a\u65f6\u5728\u7cbe\u7075\u8bf7\u6c42\u524d\u629b roles[0] missing\uff0c\u4e14\u5df2\u53d6\u8fc7 tileset",
             "status": "passed"
           },
           {
-            "fullName": "G01-B loadAll 边界守卫 G01-B03 spriteNum 0 的队长和事件对象都不进集合，只剩固定 71 与 73",
+            "fullName": "G01-B loadAll \u8fb9\u754c\u5b88\u536b G01-B03 spriteNum 0 \u7684\u961f\u957f\u548c\u4e8b\u4ef6\u5bf9\u8c61\u90fd\u4e0d\u8fdb\u96c6\u5408\uff0c\u53ea\u5269\u56fa\u5b9a 71 \u4e0e 73",
             "status": "passed"
           },
           {
-            "fullName": "G01-B loadAll 边界守卫 G01-B04 frameCount 为 0 的被引用 chunk 不取 fire RLE，未引用 chunk 也不取",
+            "fullName": "G01-B loadAll \u8fb9\u754c\u5b88\u536b G01-B04 frameCount \u4e3a 0 \u7684\u88ab\u5f15\u7528 chunk \u4e0d\u53d6 fire RLE\uff0c\u672a\u5f15\u7528 chunk \u4e5f\u4e0d\u53d6",
             "status": "passed"
           },
           {
-            "fullName": "G01-B loadAll 边界守卫 G01-B05 空战斗 manifest 仍读取清单文件，但不请求任何精灵或背景成员",
+            "fullName": "G01-B loadAll \u8fb9\u754c\u5b88\u536b G01-B05 \u7a7a\u6218\u6597 manifest \u4ecd\u8bfb\u53d6\u6e05\u5355\u6587\u4ef6\uff0c\u4f46\u4e0d\u8bf7\u6c42\u4efb\u4f55\u7cbe\u7075\u6216\u80cc\u666f\u6210\u5458",
             "status": "passed"
           },
           {
-            "fullName": "G01-B loadAll 边界守卫 G01-B06 words.json 没有 flat 字段时词表为空数组",
+            "fullName": "G01-B loadAll \u8fb9\u754c\u5b88\u536b G01-B06 words.json \u6ca1\u6709 flat \u5b57\u6bb5\u65f6\u8bcd\u8868\u4e3a\u7a7a\u6570\u7ec4",
             "status": "failed"
           },
           {
-            "fullName": "G01-B loadAll 边界守卫 G01-B07 scene JSON 404 时错误带 scene URL，且不会再请求 tilemap",
+            "fullName": "G01-B loadAll \u8fb9\u754c\u5b88\u536b G01-B07 scene JSON 404 \u65f6\u9519\u8bef\u5e26 scene URL\uff0c\u4e14\u4e0d\u4f1a\u518d\u8bf7\u6c42 tilemap",
             "status": "passed"
           },
           {
-            "fullName": "G01-B loadAll 边界守卫 G01-B08 tilemap 404 时错误带 mapNum URL，且 tileset 尚未请求",
+            "fullName": "G01-B loadAll \u8fb9\u754c\u5b88\u536b G01-B08 tilemap 404 \u65f6\u9519\u8bef\u5e26 mapNum URL\uff0c\u4e14 tileset \u5c1a\u672a\u8bf7\u6c42",
             "status": "passed"
           },
           {
-            "fullName": "G01-B loadAll 边界守卫 G01-B09 fetchPalette(5) 读取 palette/5.json 并返回完整 256 色",
+            "fullName": "G01-B loadAll \u8fb9\u754c\u5b88\u536b G01-B09 fetchPalette(5) \u8bfb\u53d6 palette/5.json \u5e76\u8fd4\u56de\u5b8c\u6574 256 \u8272",
             "status": "passed"
           },
           {
-            "fullName": "G01-B loadAll 边界守卫 G01-B10 fetchPalette(12) 503 的错误同时包含 URL 与状态码",
+            "fullName": "G01-B loadAll \u8fb9\u754c\u5b88\u536b G01-B10 fetchPalette(12) 503 \u7684\u9519\u8bef\u540c\u65f6\u5305\u542b URL \u4e0e\u72b6\u6001\u7801",
             "status": "passed"
           }
         ],
         "restored": [
           {
-            "fullName": "G01-B loadAll 边界守卫 G01-B01 sceneId 0 使用 scene/0.json 与 events/scene-000.json",
+            "fullName": "G01-B loadAll \u8fb9\u754c\u5b88\u536b G01-B01 sceneId 0 \u4f7f\u7528 scene/0.json \u4e0e events/scene-000.json",
             "status": "passed"
           },
           {
-            "fullName": "G01-B loadAll 边界守卫 G01-B02 roles 为空时在精灵请求前抛 roles[0] missing，且已取过 tileset",
+            "fullName": "G01-B loadAll \u8fb9\u754c\u5b88\u536b G01-B02 roles \u4e3a\u7a7a\u65f6\u5728\u7cbe\u7075\u8bf7\u6c42\u524d\u629b roles[0] missing\uff0c\u4e14\u5df2\u53d6\u8fc7 tileset",
             "status": "passed"
           },
           {
-            "fullName": "G01-B loadAll 边界守卫 G01-B03 spriteNum 0 的队长和事件对象都不进集合，只剩固定 71 与 73",
+            "fullName": "G01-B loadAll \u8fb9\u754c\u5b88\u536b G01-B03 spriteNum 0 \u7684\u961f\u957f\u548c\u4e8b\u4ef6\u5bf9\u8c61\u90fd\u4e0d\u8fdb\u96c6\u5408\uff0c\u53ea\u5269\u56fa\u5b9a 71 \u4e0e 73",
             "status": "passed"
           },
           {
-            "fullName": "G01-B loadAll 边界守卫 G01-B04 frameCount 为 0 的被引用 chunk 不取 fire RLE，未引用 chunk 也不取",
+            "fullName": "G01-B loadAll \u8fb9\u754c\u5b88\u536b G01-B04 frameCount \u4e3a 0 \u7684\u88ab\u5f15\u7528 chunk \u4e0d\u53d6 fire RLE\uff0c\u672a\u5f15\u7528 chunk \u4e5f\u4e0d\u53d6",
             "status": "passed"
           },
           {
-            "fullName": "G01-B loadAll 边界守卫 G01-B05 空战斗 manifest 仍读取清单文件，但不请求任何精灵或背景成员",
+            "fullName": "G01-B loadAll \u8fb9\u754c\u5b88\u536b G01-B05 \u7a7a\u6218\u6597 manifest \u4ecd\u8bfb\u53d6\u6e05\u5355\u6587\u4ef6\uff0c\u4f46\u4e0d\u8bf7\u6c42\u4efb\u4f55\u7cbe\u7075\u6216\u80cc\u666f\u6210\u5458",
             "status": "passed"
           },
           {
-            "fullName": "G01-B loadAll 边界守卫 G01-B06 words.json 没有 flat 字段时词表为空数组",
+            "fullName": "G01-B loadAll \u8fb9\u754c\u5b88\u536b G01-B06 words.json \u6ca1\u6709 flat \u5b57\u6bb5\u65f6\u8bcd\u8868\u4e3a\u7a7a\u6570\u7ec4",
             "status": "passed"
           },
           {
-            "fullName": "G01-B loadAll 边界守卫 G01-B07 scene JSON 404 时错误带 scene URL，且不会再请求 tilemap",
+            "fullName": "G01-B loadAll \u8fb9\u754c\u5b88\u536b G01-B07 scene JSON 404 \u65f6\u9519\u8bef\u5e26 scene URL\uff0c\u4e14\u4e0d\u4f1a\u518d\u8bf7\u6c42 tilemap",
             "status": "passed"
           },
           {
-            "fullName": "G01-B loadAll 边界守卫 G01-B08 tilemap 404 时错误带 mapNum URL，且 tileset 尚未请求",
+            "fullName": "G01-B loadAll \u8fb9\u754c\u5b88\u536b G01-B08 tilemap 404 \u65f6\u9519\u8bef\u5e26 mapNum URL\uff0c\u4e14 tileset \u5c1a\u672a\u8bf7\u6c42",
             "status": "passed"
           },
           {
-            "fullName": "G01-B loadAll 边界守卫 G01-B09 fetchPalette(5) 读取 palette/5.json 并返回完整 256 色",
+            "fullName": "G01-B loadAll \u8fb9\u754c\u5b88\u536b G01-B09 fetchPalette(5) \u8bfb\u53d6 palette/5.json \u5e76\u8fd4\u56de\u5b8c\u6574 256 \u8272",
             "status": "passed"
           },
           {
-            "fullName": "G01-B loadAll 边界守卫 G01-B10 fetchPalette(12) 503 的错误同时包含 URL 与状态码",
+            "fullName": "G01-B loadAll \u8fb9\u754c\u5b88\u536b G01-B10 fetchPalette(12) 503 \u7684\u9519\u8bef\u540c\u65f6\u5305\u542b URL \u4e0e\u72b6\u6001\u7801",
             "status": "passed"
           }
         ]
@@ -466,11 +466,11 @@
       "batch": "G01",
       "accepted": true,
       "reasons": [],
-      "axis": "object-players 失败恢复从空数组变成占位 id -1",
+      "axis": "object-players \u5931\u8d25\u6062\u590d\u4ece\u7a7a\u6570\u7ec4\u53d8\u6210\u5360\u4f4d id -1",
       "source": "packages/game/src/assets/loader.ts",
       "testFile": "src/assets/load-all-recover.grok-r1.test.ts",
       "target": "G01-C01",
-      "targetFullName": "G01-C loadAll 失败恢复 G01-C01 object-players 404 时结果为空数组，敌人表仍在",
+      "targetFullName": "G01-C loadAll \u5931\u8d25\u6062\u590d G01-C01 object-players 404 \u65f6\u7ed3\u679c\u4e3a\u7a7a\u6570\u7ec4\uff0c\u654c\u4eba\u8868\u4ecd\u5728",
       "assertionError": "AssertionError: expected [ { id: -1 } ] to deeply equal []",
       "sha256": {
         "original": "0b85511a72be93396cc7c7776c78513a57fb176292e70da12e7f776b0910a842",
@@ -496,169 +496,169 @@
       "executions": [
         {
           "file": "src/assets/load-all-recover.grok-r1.test.ts",
-          "fullName": "G01-C loadAll 失败恢复 G01-C01 object-players 404 时结果为空数组，敌人表仍在"
+          "fullName": "G01-C loadAll \u5931\u8d25\u6062\u590d G01-C01 object-players 404 \u65f6\u7ed3\u679c\u4e3a\u7a7a\u6570\u7ec4\uff0c\u654c\u4eba\u8868\u4ecd\u5728"
         },
         {
           "file": "src/assets/load-all-recover.grok-r1.test.ts",
-          "fullName": "G01-C loadAll 失败恢复 G01-C02 words.json 500 时词表为空，商店表仍透传"
+          "fullName": "G01-C loadAll \u5931\u8d25\u6062\u590d G01-C02 words.json 500 \u65f6\u8bcd\u8868\u4e3a\u7a7a\uff0c\u5546\u5e97\u8868\u4ecd\u900f\u4f20"
         },
         {
           "file": "src/assets/load-all-recover.grok-r1.test.ts",
-          "fullName": "G01-C loadAll 失败恢复 G01-C03 battle-sprites.json 404 时精灵 map 为空，背景 8 仍解码"
+          "fullName": "G01-C loadAll \u5931\u8d25\u6062\u590d G01-C03 battle-sprites.json 404 \u65f6\u7cbe\u7075 map \u4e3a\u7a7a\uff0c\u80cc\u666f 8 \u4ecd\u89e3\u7801"
         },
         {
           "file": "src/assets/load-all-recover.grok-r1.test.ts",
-          "fullName": "G01-C loadAll 失败恢复 G01-C04 battle-bgs.json 404 时背景 map 为空，player-2 精灵仍在"
+          "fullName": "G01-C loadAll \u5931\u8d25\u6062\u590d G01-C04 battle-bgs.json 404 \u65f6\u80cc\u666f map \u4e3a\u7a7a\uff0cplayer-2 \u7cbe\u7075\u4ecd\u5728"
         },
         {
           "file": "src/assets/load-all-recover.grok-r1.test.ts",
-          "fullName": "G01-C loadAll 失败恢复 G01-C05 事件精灵 9 的 RLE 404 被跳过，71 与 73 仍在"
+          "fullName": "G01-C loadAll \u5931\u8d25\u6062\u590d G01-C05 \u4e8b\u4ef6\u7cbe\u7075 9 \u7684 RLE 404 \u88ab\u8df3\u8fc7\uff0c71 \u4e0e 73 \u4ecd\u5728"
         },
         {
           "file": "src/assets/load-all-recover.grok-r1.test.ts",
-          "fullName": "G01-C loadAll 失败恢复 G01-C06 enemy-4 RLE 404 被跳过，player-2 的第二帧像素仍是 0x22"
+          "fullName": "G01-C loadAll \u5931\u8d25\u6062\u590d G01-C06 enemy-4 RLE 404 \u88ab\u8df3\u8fc7\uff0cplayer-2 \u7684\u7b2c\u4e8c\u5e27\u50cf\u7d20\u4ecd\u662f 0x22"
         },
         {
           "file": "src/assets/load-all-recover.grok-r1.test.ts",
-          "fullName": "G01-C loadAll 失败恢复 G01-C07 背景 8 的 PNG 404 被跳过，背景 9 的像素保留"
+          "fullName": "G01-C loadAll \u5931\u8d25\u6062\u590d G01-C07 \u80cc\u666f 8 \u7684 PNG 404 \u88ab\u8df3\u8fc7\uff0c\u80cc\u666f 9 \u7684\u50cf\u7d20\u4fdd\u7559"
         },
         {
           "file": "src/assets/load-all-recover.grok-r1.test.ts",
-          "fullName": "G01-C loadAll 失败恢复 G01-C08 effect.rle 404 时 effectSprite 缺席，法术 chunk 0 仍在"
+          "fullName": "G01-C loadAll \u5931\u8d25\u6062\u590d G01-C08 effect.rle 404 \u65f6 effectSprite \u7f3a\u5e2d\uff0c\u6cd5\u672f chunk 0 \u4ecd\u5728"
         },
         {
           "file": "src/assets/load-all-recover.grok-r1.test.ts",
-          "fullName": "G01-C loadAll 失败恢复 G01-C09 fire-sprites.json 404 时法术 map 为空，命中特效帧仍加载"
+          "fullName": "G01-C loadAll \u5931\u8d25\u6062\u590d G01-C09 fire-sprites.json 404 \u65f6\u6cd5\u672f map \u4e3a\u7a7a\uff0c\u547d\u4e2d\u7279\u6548\u5e27\u4ecd\u52a0\u8f7d"
         },
         {
           "file": "src/assets/load-all-recover.grok-r1.test.ts",
-          "fullName": "G01-C loadAll 失败恢复 G01-C10 UI 帧 1 与物品 12 失败时，其余成员按原顺序和原键保留"
+          "fullName": "G01-C loadAll \u5931\u8d25\u6062\u590d G01-C10 UI \u5e27 1 \u4e0e\u7269\u54c1 12 \u5931\u8d25\u65f6\uff0c\u5176\u4f59\u6210\u5458\u6309\u539f\u987a\u5e8f\u548c\u539f\u952e\u4fdd\u7559"
         }
       ],
       "statuses": {
         "original": [
           {
-            "fullName": "G01-C loadAll 失败恢复 G01-C01 object-players 404 时结果为空数组，敌人表仍在",
+            "fullName": "G01-C loadAll \u5931\u8d25\u6062\u590d G01-C01 object-players 404 \u65f6\u7ed3\u679c\u4e3a\u7a7a\u6570\u7ec4\uff0c\u654c\u4eba\u8868\u4ecd\u5728",
             "status": "passed"
           },
           {
-            "fullName": "G01-C loadAll 失败恢复 G01-C02 words.json 500 时词表为空，商店表仍透传",
+            "fullName": "G01-C loadAll \u5931\u8d25\u6062\u590d G01-C02 words.json 500 \u65f6\u8bcd\u8868\u4e3a\u7a7a\uff0c\u5546\u5e97\u8868\u4ecd\u900f\u4f20",
             "status": "passed"
           },
           {
-            "fullName": "G01-C loadAll 失败恢复 G01-C03 battle-sprites.json 404 时精灵 map 为空，背景 8 仍解码",
+            "fullName": "G01-C loadAll \u5931\u8d25\u6062\u590d G01-C03 battle-sprites.json 404 \u65f6\u7cbe\u7075 map \u4e3a\u7a7a\uff0c\u80cc\u666f 8 \u4ecd\u89e3\u7801",
             "status": "passed"
           },
           {
-            "fullName": "G01-C loadAll 失败恢复 G01-C04 battle-bgs.json 404 时背景 map 为空，player-2 精灵仍在",
+            "fullName": "G01-C loadAll \u5931\u8d25\u6062\u590d G01-C04 battle-bgs.json 404 \u65f6\u80cc\u666f map \u4e3a\u7a7a\uff0cplayer-2 \u7cbe\u7075\u4ecd\u5728",
             "status": "passed"
           },
           {
-            "fullName": "G01-C loadAll 失败恢复 G01-C05 事件精灵 9 的 RLE 404 被跳过，71 与 73 仍在",
+            "fullName": "G01-C loadAll \u5931\u8d25\u6062\u590d G01-C05 \u4e8b\u4ef6\u7cbe\u7075 9 \u7684 RLE 404 \u88ab\u8df3\u8fc7\uff0c71 \u4e0e 73 \u4ecd\u5728",
             "status": "passed"
           },
           {
-            "fullName": "G01-C loadAll 失败恢复 G01-C06 enemy-4 RLE 404 被跳过，player-2 的第二帧像素仍是 0x22",
+            "fullName": "G01-C loadAll \u5931\u8d25\u6062\u590d G01-C06 enemy-4 RLE 404 \u88ab\u8df3\u8fc7\uff0cplayer-2 \u7684\u7b2c\u4e8c\u5e27\u50cf\u7d20\u4ecd\u662f 0x22",
             "status": "passed"
           },
           {
-            "fullName": "G01-C loadAll 失败恢复 G01-C07 背景 8 的 PNG 404 被跳过，背景 9 的像素保留",
+            "fullName": "G01-C loadAll \u5931\u8d25\u6062\u590d G01-C07 \u80cc\u666f 8 \u7684 PNG 404 \u88ab\u8df3\u8fc7\uff0c\u80cc\u666f 9 \u7684\u50cf\u7d20\u4fdd\u7559",
             "status": "passed"
           },
           {
-            "fullName": "G01-C loadAll 失败恢复 G01-C08 effect.rle 404 时 effectSprite 缺席，法术 chunk 0 仍在",
+            "fullName": "G01-C loadAll \u5931\u8d25\u6062\u590d G01-C08 effect.rle 404 \u65f6 effectSprite \u7f3a\u5e2d\uff0c\u6cd5\u672f chunk 0 \u4ecd\u5728",
             "status": "passed"
           },
           {
-            "fullName": "G01-C loadAll 失败恢复 G01-C09 fire-sprites.json 404 时法术 map 为空，命中特效帧仍加载",
+            "fullName": "G01-C loadAll \u5931\u8d25\u6062\u590d G01-C09 fire-sprites.json 404 \u65f6\u6cd5\u672f map \u4e3a\u7a7a\uff0c\u547d\u4e2d\u7279\u6548\u5e27\u4ecd\u52a0\u8f7d",
             "status": "passed"
           },
           {
-            "fullName": "G01-C loadAll 失败恢复 G01-C10 UI 帧 1 与物品 12 失败时，其余成员按原顺序和原键保留",
+            "fullName": "G01-C loadAll \u5931\u8d25\u6062\u590d G01-C10 UI \u5e27 1 \u4e0e\u7269\u54c1 12 \u5931\u8d25\u65f6\uff0c\u5176\u4f59\u6210\u5458\u6309\u539f\u987a\u5e8f\u548c\u539f\u952e\u4fdd\u7559",
             "status": "passed"
           }
         ],
         "mutant": [
           {
-            "fullName": "G01-C loadAll 失败恢复 G01-C01 object-players 404 时结果为空数组，敌人表仍在",
+            "fullName": "G01-C loadAll \u5931\u8d25\u6062\u590d G01-C01 object-players 404 \u65f6\u7ed3\u679c\u4e3a\u7a7a\u6570\u7ec4\uff0c\u654c\u4eba\u8868\u4ecd\u5728",
             "status": "failed"
           },
           {
-            "fullName": "G01-C loadAll 失败恢复 G01-C02 words.json 500 时词表为空，商店表仍透传",
+            "fullName": "G01-C loadAll \u5931\u8d25\u6062\u590d G01-C02 words.json 500 \u65f6\u8bcd\u8868\u4e3a\u7a7a\uff0c\u5546\u5e97\u8868\u4ecd\u900f\u4f20",
             "status": "passed"
           },
           {
-            "fullName": "G01-C loadAll 失败恢复 G01-C03 battle-sprites.json 404 时精灵 map 为空，背景 8 仍解码",
+            "fullName": "G01-C loadAll \u5931\u8d25\u6062\u590d G01-C03 battle-sprites.json 404 \u65f6\u7cbe\u7075 map \u4e3a\u7a7a\uff0c\u80cc\u666f 8 \u4ecd\u89e3\u7801",
             "status": "passed"
           },
           {
-            "fullName": "G01-C loadAll 失败恢复 G01-C04 battle-bgs.json 404 时背景 map 为空，player-2 精灵仍在",
+            "fullName": "G01-C loadAll \u5931\u8d25\u6062\u590d G01-C04 battle-bgs.json 404 \u65f6\u80cc\u666f map \u4e3a\u7a7a\uff0cplayer-2 \u7cbe\u7075\u4ecd\u5728",
             "status": "passed"
           },
           {
-            "fullName": "G01-C loadAll 失败恢复 G01-C05 事件精灵 9 的 RLE 404 被跳过，71 与 73 仍在",
+            "fullName": "G01-C loadAll \u5931\u8d25\u6062\u590d G01-C05 \u4e8b\u4ef6\u7cbe\u7075 9 \u7684 RLE 404 \u88ab\u8df3\u8fc7\uff0c71 \u4e0e 73 \u4ecd\u5728",
             "status": "passed"
           },
           {
-            "fullName": "G01-C loadAll 失败恢复 G01-C06 enemy-4 RLE 404 被跳过，player-2 的第二帧像素仍是 0x22",
+            "fullName": "G01-C loadAll \u5931\u8d25\u6062\u590d G01-C06 enemy-4 RLE 404 \u88ab\u8df3\u8fc7\uff0cplayer-2 \u7684\u7b2c\u4e8c\u5e27\u50cf\u7d20\u4ecd\u662f 0x22",
             "status": "passed"
           },
           {
-            "fullName": "G01-C loadAll 失败恢复 G01-C07 背景 8 的 PNG 404 被跳过，背景 9 的像素保留",
+            "fullName": "G01-C loadAll \u5931\u8d25\u6062\u590d G01-C07 \u80cc\u666f 8 \u7684 PNG 404 \u88ab\u8df3\u8fc7\uff0c\u80cc\u666f 9 \u7684\u50cf\u7d20\u4fdd\u7559",
             "status": "passed"
           },
           {
-            "fullName": "G01-C loadAll 失败恢复 G01-C08 effect.rle 404 时 effectSprite 缺席，法术 chunk 0 仍在",
+            "fullName": "G01-C loadAll \u5931\u8d25\u6062\u590d G01-C08 effect.rle 404 \u65f6 effectSprite \u7f3a\u5e2d\uff0c\u6cd5\u672f chunk 0 \u4ecd\u5728",
             "status": "passed"
           },
           {
-            "fullName": "G01-C loadAll 失败恢复 G01-C09 fire-sprites.json 404 时法术 map 为空，命中特效帧仍加载",
+            "fullName": "G01-C loadAll \u5931\u8d25\u6062\u590d G01-C09 fire-sprites.json 404 \u65f6\u6cd5\u672f map \u4e3a\u7a7a\uff0c\u547d\u4e2d\u7279\u6548\u5e27\u4ecd\u52a0\u8f7d",
             "status": "passed"
           },
           {
-            "fullName": "G01-C loadAll 失败恢复 G01-C10 UI 帧 1 与物品 12 失败时，其余成员按原顺序和原键保留",
+            "fullName": "G01-C loadAll \u5931\u8d25\u6062\u590d G01-C10 UI \u5e27 1 \u4e0e\u7269\u54c1 12 \u5931\u8d25\u65f6\uff0c\u5176\u4f59\u6210\u5458\u6309\u539f\u987a\u5e8f\u548c\u539f\u952e\u4fdd\u7559",
             "status": "passed"
           }
         ],
         "restored": [
           {
-            "fullName": "G01-C loadAll 失败恢复 G01-C01 object-players 404 时结果为空数组，敌人表仍在",
+            "fullName": "G01-C loadAll \u5931\u8d25\u6062\u590d G01-C01 object-players 404 \u65f6\u7ed3\u679c\u4e3a\u7a7a\u6570\u7ec4\uff0c\u654c\u4eba\u8868\u4ecd\u5728",
             "status": "passed"
           },
           {
-            "fullName": "G01-C loadAll 失败恢复 G01-C02 words.json 500 时词表为空，商店表仍透传",
+            "fullName": "G01-C loadAll \u5931\u8d25\u6062\u590d G01-C02 words.json 500 \u65f6\u8bcd\u8868\u4e3a\u7a7a\uff0c\u5546\u5e97\u8868\u4ecd\u900f\u4f20",
             "status": "passed"
           },
           {
-            "fullName": "G01-C loadAll 失败恢复 G01-C03 battle-sprites.json 404 时精灵 map 为空，背景 8 仍解码",
+            "fullName": "G01-C loadAll \u5931\u8d25\u6062\u590d G01-C03 battle-sprites.json 404 \u65f6\u7cbe\u7075 map \u4e3a\u7a7a\uff0c\u80cc\u666f 8 \u4ecd\u89e3\u7801",
             "status": "passed"
           },
           {
-            "fullName": "G01-C loadAll 失败恢复 G01-C04 battle-bgs.json 404 时背景 map 为空，player-2 精灵仍在",
+            "fullName": "G01-C loadAll \u5931\u8d25\u6062\u590d G01-C04 battle-bgs.json 404 \u65f6\u80cc\u666f map \u4e3a\u7a7a\uff0cplayer-2 \u7cbe\u7075\u4ecd\u5728",
             "status": "passed"
           },
           {
-            "fullName": "G01-C loadAll 失败恢复 G01-C05 事件精灵 9 的 RLE 404 被跳过，71 与 73 仍在",
+            "fullName": "G01-C loadAll \u5931\u8d25\u6062\u590d G01-C05 \u4e8b\u4ef6\u7cbe\u7075 9 \u7684 RLE 404 \u88ab\u8df3\u8fc7\uff0c71 \u4e0e 73 \u4ecd\u5728",
             "status": "passed"
           },
           {
-            "fullName": "G01-C loadAll 失败恢复 G01-C06 enemy-4 RLE 404 被跳过，player-2 的第二帧像素仍是 0x22",
+            "fullName": "G01-C loadAll \u5931\u8d25\u6062\u590d G01-C06 enemy-4 RLE 404 \u88ab\u8df3\u8fc7\uff0cplayer-2 \u7684\u7b2c\u4e8c\u5e27\u50cf\u7d20\u4ecd\u662f 0x22",
             "status": "passed"
           },
           {
-            "fullName": "G01-C loadAll 失败恢复 G01-C07 背景 8 的 PNG 404 被跳过，背景 9 的像素保留",
+            "fullName": "G01-C loadAll \u5931\u8d25\u6062\u590d G01-C07 \u80cc\u666f 8 \u7684 PNG 404 \u88ab\u8df3\u8fc7\uff0c\u80cc\u666f 9 \u7684\u50cf\u7d20\u4fdd\u7559",
             "status": "passed"
           },
           {
-            "fullName": "G01-C loadAll 失败恢复 G01-C08 effect.rle 404 时 effectSprite 缺席，法术 chunk 0 仍在",
+            "fullName": "G01-C loadAll \u5931\u8d25\u6062\u590d G01-C08 effect.rle 404 \u65f6 effectSprite \u7f3a\u5e2d\uff0c\u6cd5\u672f chunk 0 \u4ecd\u5728",
             "status": "passed"
           },
           {
-            "fullName": "G01-C loadAll 失败恢复 G01-C09 fire-sprites.json 404 时法术 map 为空，命中特效帧仍加载",
+            "fullName": "G01-C loadAll \u5931\u8d25\u6062\u590d G01-C09 fire-sprites.json 404 \u65f6\u6cd5\u672f map \u4e3a\u7a7a\uff0c\u547d\u4e2d\u7279\u6548\u5e27\u4ecd\u52a0\u8f7d",
             "status": "passed"
           },
           {
-            "fullName": "G01-C loadAll 失败恢复 G01-C10 UI 帧 1 与物品 12 失败时，其余成员按原顺序和原键保留",
+            "fullName": "G01-C loadAll \u5931\u8d25\u6062\u590d G01-C10 UI \u5e27 1 \u4e0e\u7269\u54c1 12 \u5931\u8d25\u65f6\uff0c\u5176\u4f59\u6210\u5458\u6309\u539f\u987a\u5e8f\u548c\u539f\u952e\u4fdd\u7559",
             "status": "passed"
           }
         ]
@@ -685,11 +685,11 @@
       "batch": "G01",
       "accepted": true,
       "reasons": [],
-      "axis": "fetcher 拒绝后仍把 sceneId -1 写入缓存",
+      "axis": "fetcher \u62d2\u7edd\u540e\u4ecd\u628a sceneId -1 \u5199\u5165\u7f13\u5b58",
       "source": "packages/game/src/assets/loader.ts",
       "testFile": "src/assets/scene-cache.grok-r1.test.ts",
       "target": "G01-D02",
-      "targetFullName": "G01-D SceneAssetsCache 归属与迟到 G01-D02 fetcher 拒绝后该 id 不入缓存，下次重新 fetch 并成功",
+      "targetFullName": "G01-D SceneAssetsCache \u5f52\u5c5e\u4e0e\u8fdf\u5230 G01-D02 fetcher \u62d2\u7edd\u540e\u8be5 id \u4e0d\u5165\u7f13\u5b58\uff0c\u4e0b\u6b21\u91cd\u65b0 fetch \u5e76\u6210\u529f",
       "assertionError": "AssertionError: expected -1 to be 3 // Object.is equality",
       "sha256": {
         "original": "0b85511a72be93396cc7c7776c78513a57fb176292e70da12e7f776b0910a842",
@@ -715,169 +715,169 @@
       "executions": [
         {
           "file": "src/assets/scene-cache.grok-r1.test.ts",
-          "fullName": "G01-D SceneAssetsCache 归属与迟到 G01-D01 命中返回 fetcher 交出的同一对象引用"
+          "fullName": "G01-D SceneAssetsCache \u5f52\u5c5e\u4e0e\u8fdf\u5230 G01-D01 \u547d\u4e2d\u8fd4\u56de fetcher \u4ea4\u51fa\u7684\u540c\u4e00\u5bf9\u8c61\u5f15\u7528"
         },
         {
           "file": "src/assets/scene-cache.grok-r1.test.ts",
-          "fullName": "G01-D SceneAssetsCache 归属与迟到 G01-D02 fetcher 拒绝后该 id 不入缓存，下次重新 fetch 并成功"
+          "fullName": "G01-D SceneAssetsCache \u5f52\u5c5e\u4e0e\u8fdf\u5230 G01-D02 fetcher \u62d2\u7edd\u540e\u8be5 id \u4e0d\u5165\u7f13\u5b58\uff0c\u4e0b\u6b21\u91cd\u65b0 fetch \u5e76\u6210\u529f"
         },
         {
           "file": "src/assets/scene-cache.grok-r1.test.ts",
-          "fullName": "G01-D SceneAssetsCache 归属与迟到 G01-D03 同一 id 的两次并发 load 各调一次 fetcher，缓存留下后写入的对象"
+          "fullName": "G01-D SceneAssetsCache \u5f52\u5c5e\u4e0e\u8fdf\u5230 G01-D03 \u540c\u4e00 id \u7684\u4e24\u6b21\u5e76\u53d1 load \u5404\u8c03\u4e00\u6b21 fetcher\uff0c\u7f13\u5b58\u7559\u4e0b\u540e\u5199\u5165\u7684\u5bf9\u8c61"
         },
         {
           "file": "src/assets/scene-cache.grok-r1.test.ts",
-          "fullName": "G01-D SceneAssetsCache 归属与迟到 G01-D04 protect 返回缓存中不存在的 id 时，仍淘汰最旧条目"
+          "fullName": "G01-D SceneAssetsCache \u5f52\u5c5e\u4e0e\u8fdf\u5230 G01-D04 protect \u8fd4\u56de\u7f13\u5b58\u4e2d\u4e0d\u5b58\u5728\u7684 id \u65f6\uff0c\u4ecd\u6dd8\u6c70\u6700\u65e7\u6761\u76ee"
         },
         {
           "file": "src/assets/scene-cache.grok-r1.test.ts",
-          "fullName": "G01-D SceneAssetsCache 归属与迟到 G01-D05 maxEntries 为 1 且保护旧条目时，新 fetch 的结果被淘汰但调用方仍拿到它"
+          "fullName": "G01-D SceneAssetsCache \u5f52\u5c5e\u4e0e\u8fdf\u5230 G01-D05 maxEntries \u4e3a 1 \u4e14\u4fdd\u62a4\u65e7\u6761\u76ee\u65f6\uff0c\u65b0 fetch \u7684\u7ed3\u679c\u88ab\u6dd8\u6c70\u4f46\u8c03\u7528\u65b9\u4ecd\u62ff\u5230\u5b83"
         },
         {
           "file": "src/assets/scene-cache.grok-r1.test.ts",
-          "fullName": "G01-D SceneAssetsCache 归属与迟到 G01-D06 protect 返回 undefined 时 scene 0 可以被淘汰"
+          "fullName": "G01-D SceneAssetsCache \u5f52\u5c5e\u4e0e\u8fdf\u5230 G01-D06 protect \u8fd4\u56de undefined \u65f6 scene 0 \u53ef\u4ee5\u88ab\u6dd8\u6c70"
         },
         {
           "file": "src/assets/scene-cache.grok-r1.test.ts",
-          "fullName": "G01-D SceneAssetsCache 归属与迟到 G01-D07 条目数刚好等于 maxEntries 时不调用 onEvict"
+          "fullName": "G01-D SceneAssetsCache \u5f52\u5c5e\u4e0e\u8fdf\u5230 G01-D07 \u6761\u76ee\u6570\u521a\u597d\u7b49\u4e8e maxEntries \u65f6\u4e0d\u8c03\u7528 onEvict"
         },
         {
           "file": "src/assets/scene-cache.grok-r1.test.ts",
-          "fullName": "G01-D SceneAssetsCache 归属与迟到 G01-D08 被淘汰对象之后的字段改写不会污染重新 fetch 的结果"
+          "fullName": "G01-D SceneAssetsCache \u5f52\u5c5e\u4e0e\u8fdf\u5230 G01-D08 \u88ab\u6dd8\u6c70\u5bf9\u8c61\u4e4b\u540e\u7684\u5b57\u6bb5\u6539\u5199\u4e0d\u4f1a\u6c61\u67d3\u91cd\u65b0 fetch \u7684\u7ed3\u679c"
         },
         {
           "file": "src/assets/scene-cache.grok-r1.test.ts",
-          "fullName": "G01-D SceneAssetsCache 归属与迟到 G01-D09 连续两次超限淘汰的受害者顺序是 1 然后 2，3 与 4 仍命中"
+          "fullName": "G01-D SceneAssetsCache \u5f52\u5c5e\u4e0e\u8fdf\u5230 G01-D09 \u8fde\u7eed\u4e24\u6b21\u8d85\u9650\u6dd8\u6c70\u7684\u53d7\u5bb3\u8005\u987a\u5e8f\u662f 1 \u7136\u540e 2\uff0c3 \u4e0e 4 \u4ecd\u547d\u4e2d"
         },
         {
           "file": "src/assets/scene-cache.grok-r1.test.ts",
-          "fullName": "G01-D SceneAssetsCache 归属与迟到 G01-D10 maxEntries 为 1 时后完成的 id 1 留下，先完成的 id 2 下次要重取"
+          "fullName": "G01-D SceneAssetsCache \u5f52\u5c5e\u4e0e\u8fdf\u5230 G01-D10 maxEntries \u4e3a 1 \u65f6\u540e\u5b8c\u6210\u7684 id 1 \u7559\u4e0b\uff0c\u5148\u5b8c\u6210\u7684 id 2 \u4e0b\u6b21\u8981\u91cd\u53d6"
         }
       ],
       "statuses": {
         "original": [
           {
-            "fullName": "G01-D SceneAssetsCache 归属与迟到 G01-D01 命中返回 fetcher 交出的同一对象引用",
+            "fullName": "G01-D SceneAssetsCache \u5f52\u5c5e\u4e0e\u8fdf\u5230 G01-D01 \u547d\u4e2d\u8fd4\u56de fetcher \u4ea4\u51fa\u7684\u540c\u4e00\u5bf9\u8c61\u5f15\u7528",
             "status": "passed"
           },
           {
-            "fullName": "G01-D SceneAssetsCache 归属与迟到 G01-D02 fetcher 拒绝后该 id 不入缓存，下次重新 fetch 并成功",
+            "fullName": "G01-D SceneAssetsCache \u5f52\u5c5e\u4e0e\u8fdf\u5230 G01-D02 fetcher \u62d2\u7edd\u540e\u8be5 id \u4e0d\u5165\u7f13\u5b58\uff0c\u4e0b\u6b21\u91cd\u65b0 fetch \u5e76\u6210\u529f",
             "status": "passed"
           },
           {
-            "fullName": "G01-D SceneAssetsCache 归属与迟到 G01-D03 同一 id 的两次并发 load 各调一次 fetcher，缓存留下后写入的对象",
+            "fullName": "G01-D SceneAssetsCache \u5f52\u5c5e\u4e0e\u8fdf\u5230 G01-D03 \u540c\u4e00 id \u7684\u4e24\u6b21\u5e76\u53d1 load \u5404\u8c03\u4e00\u6b21 fetcher\uff0c\u7f13\u5b58\u7559\u4e0b\u540e\u5199\u5165\u7684\u5bf9\u8c61",
             "status": "passed"
           },
           {
-            "fullName": "G01-D SceneAssetsCache 归属与迟到 G01-D04 protect 返回缓存中不存在的 id 时，仍淘汰最旧条目",
+            "fullName": "G01-D SceneAssetsCache \u5f52\u5c5e\u4e0e\u8fdf\u5230 G01-D04 protect \u8fd4\u56de\u7f13\u5b58\u4e2d\u4e0d\u5b58\u5728\u7684 id \u65f6\uff0c\u4ecd\u6dd8\u6c70\u6700\u65e7\u6761\u76ee",
             "status": "passed"
           },
           {
-            "fullName": "G01-D SceneAssetsCache 归属与迟到 G01-D05 maxEntries 为 1 且保护旧条目时，新 fetch 的结果被淘汰但调用方仍拿到它",
+            "fullName": "G01-D SceneAssetsCache \u5f52\u5c5e\u4e0e\u8fdf\u5230 G01-D05 maxEntries \u4e3a 1 \u4e14\u4fdd\u62a4\u65e7\u6761\u76ee\u65f6\uff0c\u65b0 fetch \u7684\u7ed3\u679c\u88ab\u6dd8\u6c70\u4f46\u8c03\u7528\u65b9\u4ecd\u62ff\u5230\u5b83",
             "status": "passed"
           },
           {
-            "fullName": "G01-D SceneAssetsCache 归属与迟到 G01-D06 protect 返回 undefined 时 scene 0 可以被淘汰",
+            "fullName": "G01-D SceneAssetsCache \u5f52\u5c5e\u4e0e\u8fdf\u5230 G01-D06 protect \u8fd4\u56de undefined \u65f6 scene 0 \u53ef\u4ee5\u88ab\u6dd8\u6c70",
             "status": "passed"
           },
           {
-            "fullName": "G01-D SceneAssetsCache 归属与迟到 G01-D07 条目数刚好等于 maxEntries 时不调用 onEvict",
+            "fullName": "G01-D SceneAssetsCache \u5f52\u5c5e\u4e0e\u8fdf\u5230 G01-D07 \u6761\u76ee\u6570\u521a\u597d\u7b49\u4e8e maxEntries \u65f6\u4e0d\u8c03\u7528 onEvict",
             "status": "passed"
           },
           {
-            "fullName": "G01-D SceneAssetsCache 归属与迟到 G01-D08 被淘汰对象之后的字段改写不会污染重新 fetch 的结果",
+            "fullName": "G01-D SceneAssetsCache \u5f52\u5c5e\u4e0e\u8fdf\u5230 G01-D08 \u88ab\u6dd8\u6c70\u5bf9\u8c61\u4e4b\u540e\u7684\u5b57\u6bb5\u6539\u5199\u4e0d\u4f1a\u6c61\u67d3\u91cd\u65b0 fetch \u7684\u7ed3\u679c",
             "status": "passed"
           },
           {
-            "fullName": "G01-D SceneAssetsCache 归属与迟到 G01-D09 连续两次超限淘汰的受害者顺序是 1 然后 2，3 与 4 仍命中",
+            "fullName": "G01-D SceneAssetsCache \u5f52\u5c5e\u4e0e\u8fdf\u5230 G01-D09 \u8fde\u7eed\u4e24\u6b21\u8d85\u9650\u6dd8\u6c70\u7684\u53d7\u5bb3\u8005\u987a\u5e8f\u662f 1 \u7136\u540e 2\uff0c3 \u4e0e 4 \u4ecd\u547d\u4e2d",
             "status": "passed"
           },
           {
-            "fullName": "G01-D SceneAssetsCache 归属与迟到 G01-D10 maxEntries 为 1 时后完成的 id 1 留下，先完成的 id 2 下次要重取",
+            "fullName": "G01-D SceneAssetsCache \u5f52\u5c5e\u4e0e\u8fdf\u5230 G01-D10 maxEntries \u4e3a 1 \u65f6\u540e\u5b8c\u6210\u7684 id 1 \u7559\u4e0b\uff0c\u5148\u5b8c\u6210\u7684 id 2 \u4e0b\u6b21\u8981\u91cd\u53d6",
             "status": "passed"
           }
         ],
         "mutant": [
           {
-            "fullName": "G01-D SceneAssetsCache 归属与迟到 G01-D01 命中返回 fetcher 交出的同一对象引用",
+            "fullName": "G01-D SceneAssetsCache \u5f52\u5c5e\u4e0e\u8fdf\u5230 G01-D01 \u547d\u4e2d\u8fd4\u56de fetcher \u4ea4\u51fa\u7684\u540c\u4e00\u5bf9\u8c61\u5f15\u7528",
             "status": "passed"
           },
           {
-            "fullName": "G01-D SceneAssetsCache 归属与迟到 G01-D02 fetcher 拒绝后该 id 不入缓存，下次重新 fetch 并成功",
+            "fullName": "G01-D SceneAssetsCache \u5f52\u5c5e\u4e0e\u8fdf\u5230 G01-D02 fetcher \u62d2\u7edd\u540e\u8be5 id \u4e0d\u5165\u7f13\u5b58\uff0c\u4e0b\u6b21\u91cd\u65b0 fetch \u5e76\u6210\u529f",
             "status": "failed"
           },
           {
-            "fullName": "G01-D SceneAssetsCache 归属与迟到 G01-D03 同一 id 的两次并发 load 各调一次 fetcher，缓存留下后写入的对象",
+            "fullName": "G01-D SceneAssetsCache \u5f52\u5c5e\u4e0e\u8fdf\u5230 G01-D03 \u540c\u4e00 id \u7684\u4e24\u6b21\u5e76\u53d1 load \u5404\u8c03\u4e00\u6b21 fetcher\uff0c\u7f13\u5b58\u7559\u4e0b\u540e\u5199\u5165\u7684\u5bf9\u8c61",
             "status": "passed"
           },
           {
-            "fullName": "G01-D SceneAssetsCache 归属与迟到 G01-D04 protect 返回缓存中不存在的 id 时，仍淘汰最旧条目",
+            "fullName": "G01-D SceneAssetsCache \u5f52\u5c5e\u4e0e\u8fdf\u5230 G01-D04 protect \u8fd4\u56de\u7f13\u5b58\u4e2d\u4e0d\u5b58\u5728\u7684 id \u65f6\uff0c\u4ecd\u6dd8\u6c70\u6700\u65e7\u6761\u76ee",
             "status": "passed"
           },
           {
-            "fullName": "G01-D SceneAssetsCache 归属与迟到 G01-D05 maxEntries 为 1 且保护旧条目时，新 fetch 的结果被淘汰但调用方仍拿到它",
+            "fullName": "G01-D SceneAssetsCache \u5f52\u5c5e\u4e0e\u8fdf\u5230 G01-D05 maxEntries \u4e3a 1 \u4e14\u4fdd\u62a4\u65e7\u6761\u76ee\u65f6\uff0c\u65b0 fetch \u7684\u7ed3\u679c\u88ab\u6dd8\u6c70\u4f46\u8c03\u7528\u65b9\u4ecd\u62ff\u5230\u5b83",
             "status": "passed"
           },
           {
-            "fullName": "G01-D SceneAssetsCache 归属与迟到 G01-D06 protect 返回 undefined 时 scene 0 可以被淘汰",
+            "fullName": "G01-D SceneAssetsCache \u5f52\u5c5e\u4e0e\u8fdf\u5230 G01-D06 protect \u8fd4\u56de undefined \u65f6 scene 0 \u53ef\u4ee5\u88ab\u6dd8\u6c70",
             "status": "passed"
           },
           {
-            "fullName": "G01-D SceneAssetsCache 归属与迟到 G01-D07 条目数刚好等于 maxEntries 时不调用 onEvict",
+            "fullName": "G01-D SceneAssetsCache \u5f52\u5c5e\u4e0e\u8fdf\u5230 G01-D07 \u6761\u76ee\u6570\u521a\u597d\u7b49\u4e8e maxEntries \u65f6\u4e0d\u8c03\u7528 onEvict",
             "status": "passed"
           },
           {
-            "fullName": "G01-D SceneAssetsCache 归属与迟到 G01-D08 被淘汰对象之后的字段改写不会污染重新 fetch 的结果",
+            "fullName": "G01-D SceneAssetsCache \u5f52\u5c5e\u4e0e\u8fdf\u5230 G01-D08 \u88ab\u6dd8\u6c70\u5bf9\u8c61\u4e4b\u540e\u7684\u5b57\u6bb5\u6539\u5199\u4e0d\u4f1a\u6c61\u67d3\u91cd\u65b0 fetch \u7684\u7ed3\u679c",
             "status": "passed"
           },
           {
-            "fullName": "G01-D SceneAssetsCache 归属与迟到 G01-D09 连续两次超限淘汰的受害者顺序是 1 然后 2，3 与 4 仍命中",
+            "fullName": "G01-D SceneAssetsCache \u5f52\u5c5e\u4e0e\u8fdf\u5230 G01-D09 \u8fde\u7eed\u4e24\u6b21\u8d85\u9650\u6dd8\u6c70\u7684\u53d7\u5bb3\u8005\u987a\u5e8f\u662f 1 \u7136\u540e 2\uff0c3 \u4e0e 4 \u4ecd\u547d\u4e2d",
             "status": "passed"
           },
           {
-            "fullName": "G01-D SceneAssetsCache 归属与迟到 G01-D10 maxEntries 为 1 时后完成的 id 1 留下，先完成的 id 2 下次要重取",
+            "fullName": "G01-D SceneAssetsCache \u5f52\u5c5e\u4e0e\u8fdf\u5230 G01-D10 maxEntries \u4e3a 1 \u65f6\u540e\u5b8c\u6210\u7684 id 1 \u7559\u4e0b\uff0c\u5148\u5b8c\u6210\u7684 id 2 \u4e0b\u6b21\u8981\u91cd\u53d6",
             "status": "passed"
           }
         ],
         "restored": [
           {
-            "fullName": "G01-D SceneAssetsCache 归属与迟到 G01-D01 命中返回 fetcher 交出的同一对象引用",
+            "fullName": "G01-D SceneAssetsCache \u5f52\u5c5e\u4e0e\u8fdf\u5230 G01-D01 \u547d\u4e2d\u8fd4\u56de fetcher \u4ea4\u51fa\u7684\u540c\u4e00\u5bf9\u8c61\u5f15\u7528",
             "status": "passed"
           },
           {
-            "fullName": "G01-D SceneAssetsCache 归属与迟到 G01-D02 fetcher 拒绝后该 id 不入缓存，下次重新 fetch 并成功",
+            "fullName": "G01-D SceneAssetsCache \u5f52\u5c5e\u4e0e\u8fdf\u5230 G01-D02 fetcher \u62d2\u7edd\u540e\u8be5 id \u4e0d\u5165\u7f13\u5b58\uff0c\u4e0b\u6b21\u91cd\u65b0 fetch \u5e76\u6210\u529f",
             "status": "passed"
           },
           {
-            "fullName": "G01-D SceneAssetsCache 归属与迟到 G01-D03 同一 id 的两次并发 load 各调一次 fetcher，缓存留下后写入的对象",
+            "fullName": "G01-D SceneAssetsCache \u5f52\u5c5e\u4e0e\u8fdf\u5230 G01-D03 \u540c\u4e00 id \u7684\u4e24\u6b21\u5e76\u53d1 load \u5404\u8c03\u4e00\u6b21 fetcher\uff0c\u7f13\u5b58\u7559\u4e0b\u540e\u5199\u5165\u7684\u5bf9\u8c61",
             "status": "passed"
           },
           {
-            "fullName": "G01-D SceneAssetsCache 归属与迟到 G01-D04 protect 返回缓存中不存在的 id 时，仍淘汰最旧条目",
+            "fullName": "G01-D SceneAssetsCache \u5f52\u5c5e\u4e0e\u8fdf\u5230 G01-D04 protect \u8fd4\u56de\u7f13\u5b58\u4e2d\u4e0d\u5b58\u5728\u7684 id \u65f6\uff0c\u4ecd\u6dd8\u6c70\u6700\u65e7\u6761\u76ee",
             "status": "passed"
           },
           {
-            "fullName": "G01-D SceneAssetsCache 归属与迟到 G01-D05 maxEntries 为 1 且保护旧条目时，新 fetch 的结果被淘汰但调用方仍拿到它",
+            "fullName": "G01-D SceneAssetsCache \u5f52\u5c5e\u4e0e\u8fdf\u5230 G01-D05 maxEntries \u4e3a 1 \u4e14\u4fdd\u62a4\u65e7\u6761\u76ee\u65f6\uff0c\u65b0 fetch \u7684\u7ed3\u679c\u88ab\u6dd8\u6c70\u4f46\u8c03\u7528\u65b9\u4ecd\u62ff\u5230\u5b83",
             "status": "passed"
           },
           {
-            "fullName": "G01-D SceneAssetsCache 归属与迟到 G01-D06 protect 返回 undefined 时 scene 0 可以被淘汰",
+            "fullName": "G01-D SceneAssetsCache \u5f52\u5c5e\u4e0e\u8fdf\u5230 G01-D06 protect \u8fd4\u56de undefined \u65f6 scene 0 \u53ef\u4ee5\u88ab\u6dd8\u6c70",
             "status": "passed"
           },
           {
-            "fullName": "G01-D SceneAssetsCache 归属与迟到 G01-D07 条目数刚好等于 maxEntries 时不调用 onEvict",
+            "fullName": "G01-D SceneAssetsCache \u5f52\u5c5e\u4e0e\u8fdf\u5230 G01-D07 \u6761\u76ee\u6570\u521a\u597d\u7b49\u4e8e maxEntries \u65f6\u4e0d\u8c03\u7528 onEvict",
             "status": "passed"
           },
           {
-            "fullName": "G01-D SceneAssetsCache 归属与迟到 G01-D08 被淘汰对象之后的字段改写不会污染重新 fetch 的结果",
+            "fullName": "G01-D SceneAssetsCache \u5f52\u5c5e\u4e0e\u8fdf\u5230 G01-D08 \u88ab\u6dd8\u6c70\u5bf9\u8c61\u4e4b\u540e\u7684\u5b57\u6bb5\u6539\u5199\u4e0d\u4f1a\u6c61\u67d3\u91cd\u65b0 fetch \u7684\u7ed3\u679c",
             "status": "passed"
           },
           {
-            "fullName": "G01-D SceneAssetsCache 归属与迟到 G01-D09 连续两次超限淘汰的受害者顺序是 1 然后 2，3 与 4 仍命中",
+            "fullName": "G01-D SceneAssetsCache \u5f52\u5c5e\u4e0e\u8fdf\u5230 G01-D09 \u8fde\u7eed\u4e24\u6b21\u8d85\u9650\u6dd8\u6c70\u7684\u53d7\u5bb3\u8005\u987a\u5e8f\u662f 1 \u7136\u540e 2\uff0c3 \u4e0e 4 \u4ecd\u547d\u4e2d",
             "status": "passed"
           },
           {
-            "fullName": "G01-D SceneAssetsCache 归属与迟到 G01-D10 maxEntries 为 1 时后完成的 id 1 留下，先完成的 id 2 下次要重取",
+            "fullName": "G01-D SceneAssetsCache \u5f52\u5c5e\u4e0e\u8fdf\u5230 G01-D10 maxEntries \u4e3a 1 \u65f6\u540e\u5b8c\u6210\u7684 id 1 \u7559\u4e0b\uff0c\u5148\u5b8c\u6210\u7684 id 2 \u4e0b\u6b21\u8981\u91cd\u53d6",
             "status": "passed"
           }
         ]
@@ -897,6 +897,818 @@
         "docs/testing/grok-cursor-large/grok/counters/G01-D/restored.json",
         "docs/testing/grok-cursor-large/grok/counters/G01-D/restored.stdout",
         "docs/testing/grok-cursor-large/grok/counters/G01-D/restored.stderr"
+      ]
+    },
+    {
+      "id": "G02-A",
+      "batch": "G02",
+      "accepted": true,
+      "reasons": [],
+      "axis": "PNG \u89e3\u7801\u5931\u8d25\u4e0d\u518d\u628a\u539f\u59cb\u5f02\u5e38\u653e\u8fdb Error.cause",
+      "source": "packages/game/src/assets/png.ts",
+      "testFile": "src/assets/png-decode.grok-r1.test.ts",
+      "target": "G02-A05",
+      "targetFullName": "G02-A decodePngToIndices \u901a\u9053\u4e0e\u4e0a\u4e0b\u6587 G02-A05 \u89e3\u7801\u5931\u8d25\u65f6\u628a\u539f\u59cb\u5f02\u5e38\u653e\u5728 Error.cause \u4e0a",
+      "assertionError": "AssertionError: expected undefined to be an instance of Error",
+      "sha256": {
+        "original": "4954c8f732085b29f94904caf21a0b43a40aba9437aedcd0ab34d34a1286c2d5",
+        "mutant": "cf6524cb1ad3ddfd28d945c8e8e1b991628b929d216fbaa24292be4960883a4b",
+        "restored": "4954c8f732085b29f94904caf21a0b43a40aba9437aedcd0ab34d34a1286c2d5"
+      },
+      "exitCode": {
+        "original": 0,
+        "mutant": 1,
+        "restored": 0
+      },
+      "signal": {
+        "original": null,
+        "mutant": null,
+        "restored": null
+      },
+      "counts": {
+        "original": 5,
+        "mutantFailed": 1,
+        "restored": 5
+      },
+      "executionCount": 5,
+      "executions": [
+        {
+          "file": "src/assets/png-decode.grok-r1.test.ts",
+          "fullName": "G02-A decodePngToIndices \u901a\u9053\u4e0e\u4e0a\u4e0b\u6587 G02-A01 \u4e0d\u900f\u660e\u50cf\u7d20\u7684 G \u4e0e B \u975e\u96f6\u65f6\uff0c\u7d22\u5f15\u4ecd\u53ea\u53d6 R"
+        },
+        {
+          "file": "src/assets/png-decode.grok-r1.test.ts",
+          "fullName": "G02-A decodePngToIndices \u901a\u9053\u4e0e\u4e0a\u4e0b\u6587 G02-A02 3\u00d72 \u56fe\u7684\u672b\u50cf\u7d20\u843d\u5728\u4e0b\u6807 5\uff0c\u5bbd\u9ad8\u4e0d\u662f\u5199\u6b7b\u7684 2\u00d71"
+        },
+        {
+          "file": "src/assets/png-decode.grok-r1.test.ts",
+          "fullName": "G02-A decodePngToIndices \u901a\u9053\u4e0e\u4e0a\u4e0b\u6587 G02-A03 2d \u4e0a\u4e0b\u6587\u7f3a\u5931\u65f6\u629b\u56fa\u5b9a\u9519\u8bef\uff0c\u5e76\u5173\u95ed\u5df2\u7ecf\u521b\u5efa\u7684 bitmap"
+        },
+        {
+          "file": "src/assets/png-decode.grok-r1.test.ts",
+          "fullName": "G02-A decodePngToIndices \u901a\u9053\u4e0e\u4e0a\u4e0b\u6587 G02-A04 4 \u5b57\u8282\u574f blob \u7684\u9519\u8bef\u540c\u65f6\u5e26\u4e0a\u5b57\u8282\u6570\u548c MIME \u7c7b\u578b"
+        },
+        {
+          "file": "src/assets/png-decode.grok-r1.test.ts",
+          "fullName": "G02-A decodePngToIndices \u901a\u9053\u4e0e\u4e0a\u4e0b\u6587 G02-A05 \u89e3\u7801\u5931\u8d25\u65f6\u628a\u539f\u59cb\u5f02\u5e38\u653e\u5728 Error.cause \u4e0a"
+        }
+      ],
+      "statuses": {
+        "original": [
+          {
+            "fullName": "G02-A decodePngToIndices \u901a\u9053\u4e0e\u4e0a\u4e0b\u6587 G02-A01 \u4e0d\u900f\u660e\u50cf\u7d20\u7684 G \u4e0e B \u975e\u96f6\u65f6\uff0c\u7d22\u5f15\u4ecd\u53ea\u53d6 R",
+            "status": "passed"
+          },
+          {
+            "fullName": "G02-A decodePngToIndices \u901a\u9053\u4e0e\u4e0a\u4e0b\u6587 G02-A02 3\u00d72 \u56fe\u7684\u672b\u50cf\u7d20\u843d\u5728\u4e0b\u6807 5\uff0c\u5bbd\u9ad8\u4e0d\u662f\u5199\u6b7b\u7684 2\u00d71",
+            "status": "passed"
+          },
+          {
+            "fullName": "G02-A decodePngToIndices \u901a\u9053\u4e0e\u4e0a\u4e0b\u6587 G02-A03 2d \u4e0a\u4e0b\u6587\u7f3a\u5931\u65f6\u629b\u56fa\u5b9a\u9519\u8bef\uff0c\u5e76\u5173\u95ed\u5df2\u7ecf\u521b\u5efa\u7684 bitmap",
+            "status": "passed"
+          },
+          {
+            "fullName": "G02-A decodePngToIndices \u901a\u9053\u4e0e\u4e0a\u4e0b\u6587 G02-A04 4 \u5b57\u8282\u574f blob \u7684\u9519\u8bef\u540c\u65f6\u5e26\u4e0a\u5b57\u8282\u6570\u548c MIME \u7c7b\u578b",
+            "status": "passed"
+          },
+          {
+            "fullName": "G02-A decodePngToIndices \u901a\u9053\u4e0e\u4e0a\u4e0b\u6587 G02-A05 \u89e3\u7801\u5931\u8d25\u65f6\u628a\u539f\u59cb\u5f02\u5e38\u653e\u5728 Error.cause \u4e0a",
+            "status": "passed"
+          }
+        ],
+        "mutant": [
+          {
+            "fullName": "G02-A decodePngToIndices \u901a\u9053\u4e0e\u4e0a\u4e0b\u6587 G02-A01 \u4e0d\u900f\u660e\u50cf\u7d20\u7684 G \u4e0e B \u975e\u96f6\u65f6\uff0c\u7d22\u5f15\u4ecd\u53ea\u53d6 R",
+            "status": "passed"
+          },
+          {
+            "fullName": "G02-A decodePngToIndices \u901a\u9053\u4e0e\u4e0a\u4e0b\u6587 G02-A02 3\u00d72 \u56fe\u7684\u672b\u50cf\u7d20\u843d\u5728\u4e0b\u6807 5\uff0c\u5bbd\u9ad8\u4e0d\u662f\u5199\u6b7b\u7684 2\u00d71",
+            "status": "passed"
+          },
+          {
+            "fullName": "G02-A decodePngToIndices \u901a\u9053\u4e0e\u4e0a\u4e0b\u6587 G02-A03 2d \u4e0a\u4e0b\u6587\u7f3a\u5931\u65f6\u629b\u56fa\u5b9a\u9519\u8bef\uff0c\u5e76\u5173\u95ed\u5df2\u7ecf\u521b\u5efa\u7684 bitmap",
+            "status": "passed"
+          },
+          {
+            "fullName": "G02-A decodePngToIndices \u901a\u9053\u4e0e\u4e0a\u4e0b\u6587 G02-A04 4 \u5b57\u8282\u574f blob \u7684\u9519\u8bef\u540c\u65f6\u5e26\u4e0a\u5b57\u8282\u6570\u548c MIME \u7c7b\u578b",
+            "status": "passed"
+          },
+          {
+            "fullName": "G02-A decodePngToIndices \u901a\u9053\u4e0e\u4e0a\u4e0b\u6587 G02-A05 \u89e3\u7801\u5931\u8d25\u65f6\u628a\u539f\u59cb\u5f02\u5e38\u653e\u5728 Error.cause \u4e0a",
+            "status": "failed"
+          }
+        ],
+        "restored": [
+          {
+            "fullName": "G02-A decodePngToIndices \u901a\u9053\u4e0e\u4e0a\u4e0b\u6587 G02-A01 \u4e0d\u900f\u660e\u50cf\u7d20\u7684 G \u4e0e B \u975e\u96f6\u65f6\uff0c\u7d22\u5f15\u4ecd\u53ea\u53d6 R",
+            "status": "passed"
+          },
+          {
+            "fullName": "G02-A decodePngToIndices \u901a\u9053\u4e0e\u4e0a\u4e0b\u6587 G02-A02 3\u00d72 \u56fe\u7684\u672b\u50cf\u7d20\u843d\u5728\u4e0b\u6807 5\uff0c\u5bbd\u9ad8\u4e0d\u662f\u5199\u6b7b\u7684 2\u00d71",
+            "status": "passed"
+          },
+          {
+            "fullName": "G02-A decodePngToIndices \u901a\u9053\u4e0e\u4e0a\u4e0b\u6587 G02-A03 2d \u4e0a\u4e0b\u6587\u7f3a\u5931\u65f6\u629b\u56fa\u5b9a\u9519\u8bef\uff0c\u5e76\u5173\u95ed\u5df2\u7ecf\u521b\u5efa\u7684 bitmap",
+            "status": "passed"
+          },
+          {
+            "fullName": "G02-A decodePngToIndices \u901a\u9053\u4e0e\u4e0a\u4e0b\u6587 G02-A04 4 \u5b57\u8282\u574f blob \u7684\u9519\u8bef\u540c\u65f6\u5e26\u4e0a\u5b57\u8282\u6570\u548c MIME \u7c7b\u578b",
+            "status": "passed"
+          },
+          {
+            "fullName": "G02-A decodePngToIndices \u901a\u9053\u4e0e\u4e0a\u4e0b\u6587 G02-A05 \u89e3\u7801\u5931\u8d25\u65f6\u628a\u539f\u59cb\u5f02\u5e38\u653e\u5728 Error.cause \u4e0a",
+            "status": "passed"
+          }
+        ]
+      },
+      "patch": {
+        "path": "docs/testing/grok-cursor-large/grok/counters/G02-A/patch.diff",
+        "sha256": "7f01fa4675035a849e5fb099141bd257c5379a4c0d7f71859b90e95146411df5",
+        "bytes": 340
+      },
+      "logs": [
+        "docs/testing/grok-cursor-large/grok/counters/G02-A/original.json",
+        "docs/testing/grok-cursor-large/grok/counters/G02-A/original.stdout",
+        "docs/testing/grok-cursor-large/grok/counters/G02-A/original.stderr",
+        "docs/testing/grok-cursor-large/grok/counters/G02-A/mutant.json",
+        "docs/testing/grok-cursor-large/grok/counters/G02-A/mutant.stdout",
+        "docs/testing/grok-cursor-large/grok/counters/G02-A/mutant.stderr",
+        "docs/testing/grok-cursor-large/grok/counters/G02-A/restored.json",
+        "docs/testing/grok-cursor-large/grok/counters/G02-A/restored.stdout",
+        "docs/testing/grok-cursor-large/grok/counters/G02-A/restored.stderr"
+      ]
+    },
+    {
+      "id": "G02-B",
+      "batch": "G02",
+      "accepted": true,
+      "reasons": [],
+      "axis": "gzip \u5206\u5757\u62fc\u63a5\u4ece\u7d2f\u8ba1\u504f\u79fb\u6539\u6210\u6bcf\u6bb5\u90fd\u4ece 0 \u8986\u76d6",
+      "source": "packages/game/src/assets/tileset-blob.ts",
+      "testFile": "src/assets/tileset-gzip.grok-r1.test.ts",
+      "target": "G02-B05",
+      "targetFullName": "G02-B gzip \u9b54\u6570\u4e0e\u5e27\u951a\u70b9 G02-B05 \u89e3\u538b\u6d41\u5206\u6210\u4e24\u6bb5\u65f6\u6309\u504f\u79fb\u62fc\u56de [9, 8, 7]",
+      "assertionError": "AssertionError: expected [ 7, 8, +0 ] to deeply equal [ 9, 8, 7 ]",
+      "sha256": {
+        "original": "dae6e19f7dcff0f731a73c90d669a35e7fba0846a24ddad947df51b14c2208ed",
+        "mutant": "50c51ba936a8cdad2f931f6d8590d4e7ffaf8ff5042cb1ffb21862f8545b7368",
+        "restored": "dae6e19f7dcff0f731a73c90d669a35e7fba0846a24ddad947df51b14c2208ed"
+      },
+      "exitCode": {
+        "original": 0,
+        "mutant": 1,
+        "restored": 0
+      },
+      "signal": {
+        "original": null,
+        "mutant": null,
+        "restored": null
+      },
+      "counts": {
+        "original": 9,
+        "mutantFailed": 1,
+        "restored": 9
+      },
+      "executionCount": 9,
+      "executions": [
+        {
+          "file": "src/assets/tileset-gzip.grok-r1.test.ts",
+          "fullName": "G02-B gzip \u9b54\u6570\u4e0e\u5e27\u951a\u70b9 G02-B01 \u53ea\u6709\u4e00\u4e2a 0x1f \u5b57\u8282\u65f6\u539f\u6837\u8fd4\u56de\uff0c\u4e0d\u8fdb\u5165\u89e3\u538b"
+        },
+        {
+          "file": "src/assets/tileset-gzip.grok-r1.test.ts",
+          "fullName": "G02-B gzip \u9b54\u6570\u4e0e\u5e27\u951a\u70b9 G02-B02 \u7b2c\u4e8c\u5b57\u8282\u4e0d\u662f 0x8b \u65f6\uff0c\u5373\u4f7f\u9996\u5b57\u8282\u662f 0x1f \u4e5f\u539f\u6837\u8fd4\u56de"
+        },
+        {
+          "file": "src/assets/tileset-gzip.grok-r1.test.ts",
+          "fullName": "G02-B gzip \u9b54\u6570\u4e0e\u5e27\u951a\u70b9 G02-B03 \u73af\u5883\u6ca1\u6709 DecompressionStream \u65f6\u629b\u51fa\u56fa\u5b9a\u515c\u5e95\u9519\u8bef"
+        },
+        {
+          "file": "src/assets/tileset-gzip.grok-r1.test.ts",
+          "fullName": "G02-B gzip \u9b54\u6570\u4e0e\u5e27\u951a\u70b9 G02-B04 \u5e26\u9b54\u6570\u4f46\u4e3b\u4f53\u635f\u574f\u65f6\u62d2\u7edd\u4e3a TypeError\uff0c\u4e0d\u8d70\u7f3a\u6d41\u515c\u5e95\u6587\u6848"
+        },
+        {
+          "file": "src/assets/tileset-gzip.grok-r1.test.ts",
+          "fullName": "G02-B gzip \u9b54\u6570\u4e0e\u5e27\u951a\u70b9 G02-B05 \u89e3\u538b\u6d41\u5206\u6210\u4e24\u6bb5\u65f6\u6309\u504f\u79fb\u62fc\u56de [9, 8, 7]"
+        },
+        {
+          "file": "src/assets/tileset-gzip.grok-r1.test.ts",
+          "fullName": "G02-B gzip \u9b54\u6570\u4e0e\u5e27\u951a\u70b9 G02-B06 rleFrameToIndexedImage \u590d\u7528\u540c\u4e00\u4efd opaque \u6570\u7ec4"
+        },
+        {
+          "file": "src/assets/tileset-gzip.grok-r1.test.ts",
+          "fullName": "G02-B gzip \u9b54\u6570\u4e0e\u5e27\u951a\u70b9 G02-B07 \u9996\u5e27\u5bbd 7 \u65f6 anchorX \u4e3a 3\uff0c\u66f4\u9ad8\u7684\u540e\u7eed\u5e27\u4e0d\u6539\u951a\u70b9"
+        },
+        {
+          "file": "src/assets/tileset-gzip.grok-r1.test.ts",
+          "fullName": "G02-B gzip \u9b54\u6570\u4e0e\u5e27\u951a\u70b9 G02-B08 framesToCharacterSprite \u4fdd\u7559\u8c03\u7528\u65b9\u4f20\u5165\u7684\u5e27\u6570\u7ec4\u5f15\u7528"
+        },
+        {
+          "file": "src/assets/tileset-gzip.grok-r1.test.ts",
+          "fullName": "G02-B gzip \u9b54\u6570\u4e0e\u5e27\u951a\u70b9 G02-B09 imagecount \u4e3a 0 \u7684 chunk \u5f97\u5230\u7a7a Map"
+        }
+      ],
+      "statuses": {
+        "original": [
+          {
+            "fullName": "G02-B gzip \u9b54\u6570\u4e0e\u5e27\u951a\u70b9 G02-B01 \u53ea\u6709\u4e00\u4e2a 0x1f \u5b57\u8282\u65f6\u539f\u6837\u8fd4\u56de\uff0c\u4e0d\u8fdb\u5165\u89e3\u538b",
+            "status": "passed"
+          },
+          {
+            "fullName": "G02-B gzip \u9b54\u6570\u4e0e\u5e27\u951a\u70b9 G02-B02 \u7b2c\u4e8c\u5b57\u8282\u4e0d\u662f 0x8b \u65f6\uff0c\u5373\u4f7f\u9996\u5b57\u8282\u662f 0x1f \u4e5f\u539f\u6837\u8fd4\u56de",
+            "status": "passed"
+          },
+          {
+            "fullName": "G02-B gzip \u9b54\u6570\u4e0e\u5e27\u951a\u70b9 G02-B03 \u73af\u5883\u6ca1\u6709 DecompressionStream \u65f6\u629b\u51fa\u56fa\u5b9a\u515c\u5e95\u9519\u8bef",
+            "status": "passed"
+          },
+          {
+            "fullName": "G02-B gzip \u9b54\u6570\u4e0e\u5e27\u951a\u70b9 G02-B04 \u5e26\u9b54\u6570\u4f46\u4e3b\u4f53\u635f\u574f\u65f6\u62d2\u7edd\u4e3a TypeError\uff0c\u4e0d\u8d70\u7f3a\u6d41\u515c\u5e95\u6587\u6848",
+            "status": "passed"
+          },
+          {
+            "fullName": "G02-B gzip \u9b54\u6570\u4e0e\u5e27\u951a\u70b9 G02-B05 \u89e3\u538b\u6d41\u5206\u6210\u4e24\u6bb5\u65f6\u6309\u504f\u79fb\u62fc\u56de [9, 8, 7]",
+            "status": "passed"
+          },
+          {
+            "fullName": "G02-B gzip \u9b54\u6570\u4e0e\u5e27\u951a\u70b9 G02-B06 rleFrameToIndexedImage \u590d\u7528\u540c\u4e00\u4efd opaque \u6570\u7ec4",
+            "status": "passed"
+          },
+          {
+            "fullName": "G02-B gzip \u9b54\u6570\u4e0e\u5e27\u951a\u70b9 G02-B07 \u9996\u5e27\u5bbd 7 \u65f6 anchorX \u4e3a 3\uff0c\u66f4\u9ad8\u7684\u540e\u7eed\u5e27\u4e0d\u6539\u951a\u70b9",
+            "status": "passed"
+          },
+          {
+            "fullName": "G02-B gzip \u9b54\u6570\u4e0e\u5e27\u951a\u70b9 G02-B08 framesToCharacterSprite \u4fdd\u7559\u8c03\u7528\u65b9\u4f20\u5165\u7684\u5e27\u6570\u7ec4\u5f15\u7528",
+            "status": "passed"
+          },
+          {
+            "fullName": "G02-B gzip \u9b54\u6570\u4e0e\u5e27\u951a\u70b9 G02-B09 imagecount \u4e3a 0 \u7684 chunk \u5f97\u5230\u7a7a Map",
+            "status": "passed"
+          }
+        ],
+        "mutant": [
+          {
+            "fullName": "G02-B gzip \u9b54\u6570\u4e0e\u5e27\u951a\u70b9 G02-B01 \u53ea\u6709\u4e00\u4e2a 0x1f \u5b57\u8282\u65f6\u539f\u6837\u8fd4\u56de\uff0c\u4e0d\u8fdb\u5165\u89e3\u538b",
+            "status": "passed"
+          },
+          {
+            "fullName": "G02-B gzip \u9b54\u6570\u4e0e\u5e27\u951a\u70b9 G02-B02 \u7b2c\u4e8c\u5b57\u8282\u4e0d\u662f 0x8b \u65f6\uff0c\u5373\u4f7f\u9996\u5b57\u8282\u662f 0x1f \u4e5f\u539f\u6837\u8fd4\u56de",
+            "status": "passed"
+          },
+          {
+            "fullName": "G02-B gzip \u9b54\u6570\u4e0e\u5e27\u951a\u70b9 G02-B03 \u73af\u5883\u6ca1\u6709 DecompressionStream \u65f6\u629b\u51fa\u56fa\u5b9a\u515c\u5e95\u9519\u8bef",
+            "status": "passed"
+          },
+          {
+            "fullName": "G02-B gzip \u9b54\u6570\u4e0e\u5e27\u951a\u70b9 G02-B04 \u5e26\u9b54\u6570\u4f46\u4e3b\u4f53\u635f\u574f\u65f6\u62d2\u7edd\u4e3a TypeError\uff0c\u4e0d\u8d70\u7f3a\u6d41\u515c\u5e95\u6587\u6848",
+            "status": "passed"
+          },
+          {
+            "fullName": "G02-B gzip \u9b54\u6570\u4e0e\u5e27\u951a\u70b9 G02-B05 \u89e3\u538b\u6d41\u5206\u6210\u4e24\u6bb5\u65f6\u6309\u504f\u79fb\u62fc\u56de [9, 8, 7]",
+            "status": "failed"
+          },
+          {
+            "fullName": "G02-B gzip \u9b54\u6570\u4e0e\u5e27\u951a\u70b9 G02-B06 rleFrameToIndexedImage \u590d\u7528\u540c\u4e00\u4efd opaque \u6570\u7ec4",
+            "status": "passed"
+          },
+          {
+            "fullName": "G02-B gzip \u9b54\u6570\u4e0e\u5e27\u951a\u70b9 G02-B07 \u9996\u5e27\u5bbd 7 \u65f6 anchorX \u4e3a 3\uff0c\u66f4\u9ad8\u7684\u540e\u7eed\u5e27\u4e0d\u6539\u951a\u70b9",
+            "status": "passed"
+          },
+          {
+            "fullName": "G02-B gzip \u9b54\u6570\u4e0e\u5e27\u951a\u70b9 G02-B08 framesToCharacterSprite \u4fdd\u7559\u8c03\u7528\u65b9\u4f20\u5165\u7684\u5e27\u6570\u7ec4\u5f15\u7528",
+            "status": "passed"
+          },
+          {
+            "fullName": "G02-B gzip \u9b54\u6570\u4e0e\u5e27\u951a\u70b9 G02-B09 imagecount \u4e3a 0 \u7684 chunk \u5f97\u5230\u7a7a Map",
+            "status": "passed"
+          }
+        ],
+        "restored": [
+          {
+            "fullName": "G02-B gzip \u9b54\u6570\u4e0e\u5e27\u951a\u70b9 G02-B01 \u53ea\u6709\u4e00\u4e2a 0x1f \u5b57\u8282\u65f6\u539f\u6837\u8fd4\u56de\uff0c\u4e0d\u8fdb\u5165\u89e3\u538b",
+            "status": "passed"
+          },
+          {
+            "fullName": "G02-B gzip \u9b54\u6570\u4e0e\u5e27\u951a\u70b9 G02-B02 \u7b2c\u4e8c\u5b57\u8282\u4e0d\u662f 0x8b \u65f6\uff0c\u5373\u4f7f\u9996\u5b57\u8282\u662f 0x1f \u4e5f\u539f\u6837\u8fd4\u56de",
+            "status": "passed"
+          },
+          {
+            "fullName": "G02-B gzip \u9b54\u6570\u4e0e\u5e27\u951a\u70b9 G02-B03 \u73af\u5883\u6ca1\u6709 DecompressionStream \u65f6\u629b\u51fa\u56fa\u5b9a\u515c\u5e95\u9519\u8bef",
+            "status": "passed"
+          },
+          {
+            "fullName": "G02-B gzip \u9b54\u6570\u4e0e\u5e27\u951a\u70b9 G02-B04 \u5e26\u9b54\u6570\u4f46\u4e3b\u4f53\u635f\u574f\u65f6\u62d2\u7edd\u4e3a TypeError\uff0c\u4e0d\u8d70\u7f3a\u6d41\u515c\u5e95\u6587\u6848",
+            "status": "passed"
+          },
+          {
+            "fullName": "G02-B gzip \u9b54\u6570\u4e0e\u5e27\u951a\u70b9 G02-B05 \u89e3\u538b\u6d41\u5206\u6210\u4e24\u6bb5\u65f6\u6309\u504f\u79fb\u62fc\u56de [9, 8, 7]",
+            "status": "passed"
+          },
+          {
+            "fullName": "G02-B gzip \u9b54\u6570\u4e0e\u5e27\u951a\u70b9 G02-B06 rleFrameToIndexedImage \u590d\u7528\u540c\u4e00\u4efd opaque \u6570\u7ec4",
+            "status": "passed"
+          },
+          {
+            "fullName": "G02-B gzip \u9b54\u6570\u4e0e\u5e27\u951a\u70b9 G02-B07 \u9996\u5e27\u5bbd 7 \u65f6 anchorX \u4e3a 3\uff0c\u66f4\u9ad8\u7684\u540e\u7eed\u5e27\u4e0d\u6539\u951a\u70b9",
+            "status": "passed"
+          },
+          {
+            "fullName": "G02-B gzip \u9b54\u6570\u4e0e\u5e27\u951a\u70b9 G02-B08 framesToCharacterSprite \u4fdd\u7559\u8c03\u7528\u65b9\u4f20\u5165\u7684\u5e27\u6570\u7ec4\u5f15\u7528",
+            "status": "passed"
+          },
+          {
+            "fullName": "G02-B gzip \u9b54\u6570\u4e0e\u5e27\u951a\u70b9 G02-B09 imagecount \u4e3a 0 \u7684 chunk \u5f97\u5230\u7a7a Map",
+            "status": "passed"
+          }
+        ]
+      },
+      "patch": {
+        "path": "docs/testing/grok-cursor-large/grok/counters/G02-B/patch.diff",
+        "sha256": "a53435c75d4af46efac998ccba47dd6424a573c50095bde472db2666ea87a5ff",
+        "bytes": 288
+      },
+      "logs": [
+        "docs/testing/grok-cursor-large/grok/counters/G02-B/original.json",
+        "docs/testing/grok-cursor-large/grok/counters/G02-B/original.stdout",
+        "docs/testing/grok-cursor-large/grok/counters/G02-B/original.stderr",
+        "docs/testing/grok-cursor-large/grok/counters/G02-B/mutant.json",
+        "docs/testing/grok-cursor-large/grok/counters/G02-B/mutant.stdout",
+        "docs/testing/grok-cursor-large/grok/counters/G02-B/mutant.stderr",
+        "docs/testing/grok-cursor-large/grok/counters/G02-B/restored.json",
+        "docs/testing/grok-cursor-large/grok/counters/G02-B/restored.stdout",
+        "docs/testing/grok-cursor-large/grok/counters/G02-B/restored.stderr"
+      ]
+    },
+    {
+      "id": "G02-C",
+      "batch": "G02",
+      "accepted": true,
+      "reasons": [],
+      "axis": "\u89d2\u8272\u951a\u70b9 Y \u5728\u9996\u5e27\u9ad8\u5ea6\u4e0a\u518d\u52a0 1",
+      "source": "packages/game/src/assets/tileset-blob.ts",
+      "testFile": "src/assets/tileset-load.grok-r1.test.ts",
+      "target": "G02-C03",
+      "targetFullName": "G02-C sprite \u4e0e tileset \u52a0\u8f7d\u8fb9\u754c G02-C03 \u88f8 RLE \u7ecf\u8fc7 loadCharacterSpriteBlob \u65f6\u951a\u70b9\u4e3a 0,1\uff0c\u7b2c\u4e8c\u5e27\u4e3a BB",
+      "assertionError": "AssertionError: expected 2 to be 1 // Object.is equality",
+      "sha256": {
+        "original": "dae6e19f7dcff0f731a73c90d669a35e7fba0846a24ddad947df51b14c2208ed",
+        "mutant": "635fc5f54e5afbee61e617967c3647068bdf98e9baa9f87b1ea04438c5fd33ae",
+        "restored": "dae6e19f7dcff0f731a73c90d669a35e7fba0846a24ddad947df51b14c2208ed"
+      },
+      "exitCode": {
+        "original": 0,
+        "mutant": 1,
+        "restored": 0
+      },
+      "signal": {
+        "original": null,
+        "mutant": null,
+        "restored": null
+      },
+      "counts": {
+        "original": 8,
+        "mutantFailed": 1,
+        "restored": 8
+      },
+      "executionCount": 8,
+      "executions": [
+        {
+          "file": "src/assets/tileset-load.grok-r1.test.ts",
+          "fullName": "G02-C sprite \u4e0e tileset \u52a0\u8f7d\u8fb9\u754c G02-C01 \u88f8 RLE \u7ecf\u8fc7 loadSpriteFramesBlob \u5f97\u5230\u4e24\u5e27 AA \u4e0e BB"
+        },
+        {
+          "file": "src/assets/tileset-load.grok-r1.test.ts",
+          "fullName": "G02-C sprite \u4e0e tileset \u52a0\u8f7d\u8fb9\u754c G02-C02 \u88f8 RLE \u7ecf\u8fc7 loadTilesetBlob \u5f97\u5230\u952e 0 \u4e0e\u952e 1"
+        },
+        {
+          "file": "src/assets/tileset-load.grok-r1.test.ts",
+          "fullName": "G02-C sprite \u4e0e tileset \u52a0\u8f7d\u8fb9\u754c G02-C03 \u88f8 RLE \u7ecf\u8fc7 loadCharacterSpriteBlob \u65f6\u951a\u70b9\u4e3a 0,1\uff0c\u7b2c\u4e8c\u5e27\u4e3a BB"
+        },
+        {
+          "file": "src/assets/tileset-load.grok-r1.test.ts",
+          "fullName": "G02-C sprite \u4e0e tileset \u52a0\u8f7d\u8fb9\u754c G02-C04 sprite blob 503 \u7684\u9519\u8bef\u5e26 URL \u4e0e\u72b6\u6001\u7801"
+        },
+        {
+          "file": "src/assets/tileset-load.grok-r1.test.ts",
+          "fullName": "G02-C sprite \u4e0e tileset \u52a0\u8f7d\u8fb9\u754c G02-C05 tileset blob 503 \u7684\u9519\u8bef\u5e26 URL \u4e0e\u72b6\u6001\u7801"
+        },
+        {
+          "file": "src/assets/tileset-load.grok-r1.test.ts",
+          "fullName": "G02-C sprite \u4e0e tileset \u52a0\u8f7d\u8fb9\u754c G02-C06 \u89d2\u8272 blob 404 \u7684\u9519\u8bef\u6765\u81ea sprite-blob\uff0c\u5e76\u5e26\u4e0a\u89d2\u8272 URL"
+        },
+        {
+          "file": "src/assets/tileset-load.grok-r1.test.ts",
+          "fullName": "G02-C sprite \u4e0e tileset \u52a0\u8f7d\u8fb9\u754c G02-C07 tileset 200 \u4f46 gzip \u4e3b\u4f53\u635f\u574f\u65f6\uff0c\u9519\u8bef\u4e0d\u662f fetch \u5931\u8d25\u4e32"
+        },
+        {
+          "file": "src/assets/tileset-load.grok-r1.test.ts",
+          "fullName": "G02-C sprite \u4e0e tileset \u52a0\u8f7d\u8fb9\u754c G02-C08 sprite blob \u8fd4\u56de\u635f\u574f gzip \u65f6\u9519\u8bef\u4e0d\u662f fetch \u5931\u8d25\u4e32"
+        }
+      ],
+      "statuses": {
+        "original": [
+          {
+            "fullName": "G02-C sprite \u4e0e tileset \u52a0\u8f7d\u8fb9\u754c G02-C01 \u88f8 RLE \u7ecf\u8fc7 loadSpriteFramesBlob \u5f97\u5230\u4e24\u5e27 AA \u4e0e BB",
+            "status": "passed"
+          },
+          {
+            "fullName": "G02-C sprite \u4e0e tileset \u52a0\u8f7d\u8fb9\u754c G02-C02 \u88f8 RLE \u7ecf\u8fc7 loadTilesetBlob \u5f97\u5230\u952e 0 \u4e0e\u952e 1",
+            "status": "passed"
+          },
+          {
+            "fullName": "G02-C sprite \u4e0e tileset \u52a0\u8f7d\u8fb9\u754c G02-C03 \u88f8 RLE \u7ecf\u8fc7 loadCharacterSpriteBlob \u65f6\u951a\u70b9\u4e3a 0,1\uff0c\u7b2c\u4e8c\u5e27\u4e3a BB",
+            "status": "passed"
+          },
+          {
+            "fullName": "G02-C sprite \u4e0e tileset \u52a0\u8f7d\u8fb9\u754c G02-C04 sprite blob 503 \u7684\u9519\u8bef\u5e26 URL \u4e0e\u72b6\u6001\u7801",
+            "status": "passed"
+          },
+          {
+            "fullName": "G02-C sprite \u4e0e tileset \u52a0\u8f7d\u8fb9\u754c G02-C05 tileset blob 503 \u7684\u9519\u8bef\u5e26 URL \u4e0e\u72b6\u6001\u7801",
+            "status": "passed"
+          },
+          {
+            "fullName": "G02-C sprite \u4e0e tileset \u52a0\u8f7d\u8fb9\u754c G02-C06 \u89d2\u8272 blob 404 \u7684\u9519\u8bef\u6765\u81ea sprite-blob\uff0c\u5e76\u5e26\u4e0a\u89d2\u8272 URL",
+            "status": "passed"
+          },
+          {
+            "fullName": "G02-C sprite \u4e0e tileset \u52a0\u8f7d\u8fb9\u754c G02-C07 tileset 200 \u4f46 gzip \u4e3b\u4f53\u635f\u574f\u65f6\uff0c\u9519\u8bef\u4e0d\u662f fetch \u5931\u8d25\u4e32",
+            "status": "passed"
+          },
+          {
+            "fullName": "G02-C sprite \u4e0e tileset \u52a0\u8f7d\u8fb9\u754c G02-C08 sprite blob \u8fd4\u56de\u635f\u574f gzip \u65f6\u9519\u8bef\u4e0d\u662f fetch \u5931\u8d25\u4e32",
+            "status": "passed"
+          }
+        ],
+        "mutant": [
+          {
+            "fullName": "G02-C sprite \u4e0e tileset \u52a0\u8f7d\u8fb9\u754c G02-C01 \u88f8 RLE \u7ecf\u8fc7 loadSpriteFramesBlob \u5f97\u5230\u4e24\u5e27 AA \u4e0e BB",
+            "status": "passed"
+          },
+          {
+            "fullName": "G02-C sprite \u4e0e tileset \u52a0\u8f7d\u8fb9\u754c G02-C02 \u88f8 RLE \u7ecf\u8fc7 loadTilesetBlob \u5f97\u5230\u952e 0 \u4e0e\u952e 1",
+            "status": "passed"
+          },
+          {
+            "fullName": "G02-C sprite \u4e0e tileset \u52a0\u8f7d\u8fb9\u754c G02-C03 \u88f8 RLE \u7ecf\u8fc7 loadCharacterSpriteBlob \u65f6\u951a\u70b9\u4e3a 0,1\uff0c\u7b2c\u4e8c\u5e27\u4e3a BB",
+            "status": "failed"
+          },
+          {
+            "fullName": "G02-C sprite \u4e0e tileset \u52a0\u8f7d\u8fb9\u754c G02-C04 sprite blob 503 \u7684\u9519\u8bef\u5e26 URL \u4e0e\u72b6\u6001\u7801",
+            "status": "passed"
+          },
+          {
+            "fullName": "G02-C sprite \u4e0e tileset \u52a0\u8f7d\u8fb9\u754c G02-C05 tileset blob 503 \u7684\u9519\u8bef\u5e26 URL \u4e0e\u72b6\u6001\u7801",
+            "status": "passed"
+          },
+          {
+            "fullName": "G02-C sprite \u4e0e tileset \u52a0\u8f7d\u8fb9\u754c G02-C06 \u89d2\u8272 blob 404 \u7684\u9519\u8bef\u6765\u81ea sprite-blob\uff0c\u5e76\u5e26\u4e0a\u89d2\u8272 URL",
+            "status": "passed"
+          },
+          {
+            "fullName": "G02-C sprite \u4e0e tileset \u52a0\u8f7d\u8fb9\u754c G02-C07 tileset 200 \u4f46 gzip \u4e3b\u4f53\u635f\u574f\u65f6\uff0c\u9519\u8bef\u4e0d\u662f fetch \u5931\u8d25\u4e32",
+            "status": "passed"
+          },
+          {
+            "fullName": "G02-C sprite \u4e0e tileset \u52a0\u8f7d\u8fb9\u754c G02-C08 sprite blob \u8fd4\u56de\u635f\u574f gzip \u65f6\u9519\u8bef\u4e0d\u662f fetch \u5931\u8d25\u4e32",
+            "status": "passed"
+          }
+        ],
+        "restored": [
+          {
+            "fullName": "G02-C sprite \u4e0e tileset \u52a0\u8f7d\u8fb9\u754c G02-C01 \u88f8 RLE \u7ecf\u8fc7 loadSpriteFramesBlob \u5f97\u5230\u4e24\u5e27 AA \u4e0e BB",
+            "status": "passed"
+          },
+          {
+            "fullName": "G02-C sprite \u4e0e tileset \u52a0\u8f7d\u8fb9\u754c G02-C02 \u88f8 RLE \u7ecf\u8fc7 loadTilesetBlob \u5f97\u5230\u952e 0 \u4e0e\u952e 1",
+            "status": "passed"
+          },
+          {
+            "fullName": "G02-C sprite \u4e0e tileset \u52a0\u8f7d\u8fb9\u754c G02-C03 \u88f8 RLE \u7ecf\u8fc7 loadCharacterSpriteBlob \u65f6\u951a\u70b9\u4e3a 0,1\uff0c\u7b2c\u4e8c\u5e27\u4e3a BB",
+            "status": "passed"
+          },
+          {
+            "fullName": "G02-C sprite \u4e0e tileset \u52a0\u8f7d\u8fb9\u754c G02-C04 sprite blob 503 \u7684\u9519\u8bef\u5e26 URL \u4e0e\u72b6\u6001\u7801",
+            "status": "passed"
+          },
+          {
+            "fullName": "G02-C sprite \u4e0e tileset \u52a0\u8f7d\u8fb9\u754c G02-C05 tileset blob 503 \u7684\u9519\u8bef\u5e26 URL \u4e0e\u72b6\u6001\u7801",
+            "status": "passed"
+          },
+          {
+            "fullName": "G02-C sprite \u4e0e tileset \u52a0\u8f7d\u8fb9\u754c G02-C06 \u89d2\u8272 blob 404 \u7684\u9519\u8bef\u6765\u81ea sprite-blob\uff0c\u5e76\u5e26\u4e0a\u89d2\u8272 URL",
+            "status": "passed"
+          },
+          {
+            "fullName": "G02-C sprite \u4e0e tileset \u52a0\u8f7d\u8fb9\u754c G02-C07 tileset 200 \u4f46 gzip \u4e3b\u4f53\u635f\u574f\u65f6\uff0c\u9519\u8bef\u4e0d\u662f fetch \u5931\u8d25\u4e32",
+            "status": "passed"
+          },
+          {
+            "fullName": "G02-C sprite \u4e0e tileset \u52a0\u8f7d\u8fb9\u754c G02-C08 sprite blob \u8fd4\u56de\u635f\u574f gzip \u65f6\u9519\u8bef\u4e0d\u662f fetch \u5931\u8d25\u4e32",
+            "status": "passed"
+          }
+        ]
+      },
+      "patch": {
+        "path": "docs/testing/grok-cursor-large/grok/counters/G02-C/patch.diff",
+        "sha256": "35c1ea2eb7646a47c160d477858c1063193fc0194390232bfc53450953fd5824",
+        "bytes": 284
+      },
+      "logs": [
+        "docs/testing/grok-cursor-large/grok/counters/G02-C/original.json",
+        "docs/testing/grok-cursor-large/grok/counters/G02-C/original.stdout",
+        "docs/testing/grok-cursor-large/grok/counters/G02-C/original.stderr",
+        "docs/testing/grok-cursor-large/grok/counters/G02-C/mutant.json",
+        "docs/testing/grok-cursor-large/grok/counters/G02-C/mutant.stdout",
+        "docs/testing/grok-cursor-large/grok/counters/G02-C/mutant.stderr",
+        "docs/testing/grok-cursor-large/grok/counters/G02-C/restored.json",
+        "docs/testing/grok-cursor-large/grok/counters/G02-C/restored.stdout",
+        "docs/testing/grok-cursor-large/grok/counters/G02-C/restored.stderr"
+      ]
+    },
+    {
+      "id": "G02-D",
+      "batch": "G02",
+      "accepted": true,
+      "reasons": [],
+      "axis": "\u5355\u5f20\u5934\u50cf\u5931\u8d25\u7684 warn \u4e0d\u518d\u5e26 chunkIndex",
+      "source": "packages/game/src/assets/dialog-assets.ts",
+      "testFile": "src/assets/dialog-icons.grok-r1.test.ts",
+      "target": "G02-D07",
+      "targetFullName": "G02-D \u5bf9\u8bdd\u56fe\u6807\u4e0e base64 G02-D07 \u5355\u5f20\u5934\u50cf\u5931\u8d25\u7684 warn \u5e26\u4e0a chunk 4\uff0c\u6210\u529f\u7684 chunk 8 \u4ecd\u5728",
+      "assertionError": "AssertionError: expected false to be true // Object.is equality",
+      "sha256": {
+        "original": "eecebbe3c11de70e361762ba4184cce17a61a19c30da306d36d426706d1e6fe5",
+        "mutant": "f8c36d8559055c92d2512517dabbc21432aba7ba606921ee30d4f2795fc740e3",
+        "restored": "eecebbe3c11de70e361762ba4184cce17a61a19c30da306d36d426706d1e6fe5"
+      },
+      "exitCode": {
+        "original": 0,
+        "mutant": 1,
+        "restored": 0
+      },
+      "signal": {
+        "original": null,
+        "mutant": null,
+        "restored": null
+      },
+      "counts": {
+        "original": 14,
+        "mutantFailed": 1,
+        "restored": 14
+      },
+      "executionCount": 14,
+      "executions": [
+        {
+          "file": "src/assets/dialog-icons.grok-r1.test.ts",
+          "fullName": "G02-D \u5bf9\u8bdd\u56fe\u6807\u4e0e base64 G02-D01 portraits.json 500 \u65f6\u5934\u50cf\u4e3a\u7a7a\uff0c\u4e24\u5e27\u56fe\u6807\u4ecd\u6309 0 \u4e0e 1 \u5165 map"
+        },
+        {
+          "file": "src/assets/dialog-icons.grok-r1.test.ts",
+          "fullName": "G02-D \u5bf9\u8bdd\u56fe\u6807\u4e0e base64 G02-D02 manifest \u5199 99\u00d799 \u65f6\uff0c\u5934\u50cf\u5bbd\u9ad8\u548c\u906e\u7f69\u4ee5 PNG \u4e3a\u51c6"
+        },
+        {
+          "file": "src/assets/dialog-icons.grok-r1.test.ts",
+          "fullName": "G02-D \u5bf9\u8bdd\u56fe\u6807\u4e0e base64 G02-D03 chunk 0 \u7684\u5934\u50cf URL \u8865\u6210 portraits/00.png"
+        },
+        {
+          "file": "src/assets/dialog-icons.grok-r1.test.ts",
+          "fullName": "G02-D \u5bf9\u8bdd\u56fe\u6807\u4e0e base64 G02-D04 \u5934\u50cf\u6e05\u5355\u4e3a\u7a7a\u6570\u7ec4\u65f6\u4e0d\u8bf7\u6c42 PNG\uff0c\u56fe\u6807\u7167\u5e38\u89e3\u7801"
+        },
+        {
+          "file": "src/assets/dialog-icons.grok-r1.test.ts",
+          "fullName": "G02-D \u5bf9\u8bdd\u56fe\u6807\u4e0e base64 G02-D05 \u56fe\u6807 base64 \u975e\u6cd5\u65f6\u56fe\u6807 map \u4e3a\u7a7a\uff0c\u5df2\u6210\u529f\u7684\u5934\u50cf\u4fdd\u7559"
+        },
+        {
+          "file": "src/assets/dialog-icons.grok-r1.test.ts",
+          "fullName": "G02-D \u5bf9\u8bdd\u56fe\u6807\u4e0e base64 G02-D06 \u4e24\u5f20\u5934\u50cf\u5206\u522b\u4ee5 chunk 8 \u548c 12 \u4e3a\u952e"
+        },
+        {
+          "file": "src/assets/dialog-icons.grok-r1.test.ts",
+          "fullName": "G02-D \u5bf9\u8bdd\u56fe\u6807\u4e0e base64 G02-D07 \u5355\u5f20\u5934\u50cf\u5931\u8d25\u7684 warn \u5e26\u4e0a chunk 4\uff0c\u6210\u529f\u7684 chunk 8 \u4ecd\u5728"
+        },
+        {
+          "file": "src/assets/dialog-icons.grok-r1.test.ts",
+          "fullName": "G02-D \u5bf9\u8bdd\u56fe\u6807\u4e0e base64 G02-D08 size \u5b57\u6bb5\u4e0e\u5b57\u8282\u6570\u4e0d\u4e00\u81f4\u65f6\uff0c\u4ecd\u6309 base64 \u89e3\u51fa\u4e24\u5e27"
+        },
+        {
+          "file": "src/assets/dialog-icons.grok-r1.test.ts",
+          "fullName": "G02-D \u5bf9\u8bdd\u56fe\u6807\u4e0e base64 G02-D12 \u56fe\u6807\u6e05\u5355 404 \u7684 warn \u5199 icons failed\uff0c\u5934\u50cf\u50cf\u7d20\u4ecd\u5728"
+        },
+        {
+          "file": "src/assets/dialog-icons.grok-r1.test.ts",
+          "fullName": "G02-D \u5bf9\u8bdd\u56fe\u6807\u4e0e base64 G02-D13 \u56fe\u6807\u5e27\u7684\u900f\u660e\u5b54\u5199\u5165 opaque 0\uff0c\u5bbd\u9ad8\u6765\u81ea RLE"
+        },
+        {
+          "file": "src/assets/dialog-icons.grok-r1.test.ts",
+          "fullName": "G02-D \u5bf9\u8bdd\u56fe\u6807\u4e0e base64 G02-D14 \u5355\u5f20\u5934\u50cf 404 \u4e0d\u4f1a\u6e05\u6389\u5df2\u7ecf\u89e3\u7801\u7684\u56fe\u6807"
+        },
+        {
+          "file": "src/assets/dialog-icons.grok-r1.test.ts",
+          "fullName": "G02-D \u5bf9\u8bdd\u56fe\u6807\u4e0e base64 G02-D09 base64 /wCA \u89e3\u51fa [255, 0, 128]"
+        },
+        {
+          "file": "src/assets/dialog-icons.grok-r1.test.ts",
+          "fullName": "G02-D \u5bf9\u8bdd\u56fe\u6807\u4e0e base64 G02-D10 base64 /w== \u89e3\u51fa\u5355\u5b57\u8282 255"
+        },
+        {
+          "file": "src/assets/dialog-icons.grok-r1.test.ts",
+          "fullName": "G02-D \u5bf9\u8bdd\u56fe\u6807\u4e0e base64 G02-D11 game \u7684 decodeRle \u4e0e parseSpriteChunk \u5c31\u662f shared \u7684\u540c\u4e00\u51fd\u6570"
+        }
+      ],
+      "statuses": {
+        "original": [
+          {
+            "fullName": "G02-D \u5bf9\u8bdd\u56fe\u6807\u4e0e base64 G02-D01 portraits.json 500 \u65f6\u5934\u50cf\u4e3a\u7a7a\uff0c\u4e24\u5e27\u56fe\u6807\u4ecd\u6309 0 \u4e0e 1 \u5165 map",
+            "status": "passed"
+          },
+          {
+            "fullName": "G02-D \u5bf9\u8bdd\u56fe\u6807\u4e0e base64 G02-D02 manifest \u5199 99\u00d799 \u65f6\uff0c\u5934\u50cf\u5bbd\u9ad8\u548c\u906e\u7f69\u4ee5 PNG \u4e3a\u51c6",
+            "status": "passed"
+          },
+          {
+            "fullName": "G02-D \u5bf9\u8bdd\u56fe\u6807\u4e0e base64 G02-D03 chunk 0 \u7684\u5934\u50cf URL \u8865\u6210 portraits/00.png",
+            "status": "passed"
+          },
+          {
+            "fullName": "G02-D \u5bf9\u8bdd\u56fe\u6807\u4e0e base64 G02-D04 \u5934\u50cf\u6e05\u5355\u4e3a\u7a7a\u6570\u7ec4\u65f6\u4e0d\u8bf7\u6c42 PNG\uff0c\u56fe\u6807\u7167\u5e38\u89e3\u7801",
+            "status": "passed"
+          },
+          {
+            "fullName": "G02-D \u5bf9\u8bdd\u56fe\u6807\u4e0e base64 G02-D05 \u56fe\u6807 base64 \u975e\u6cd5\u65f6\u56fe\u6807 map \u4e3a\u7a7a\uff0c\u5df2\u6210\u529f\u7684\u5934\u50cf\u4fdd\u7559",
+            "status": "passed"
+          },
+          {
+            "fullName": "G02-D \u5bf9\u8bdd\u56fe\u6807\u4e0e base64 G02-D06 \u4e24\u5f20\u5934\u50cf\u5206\u522b\u4ee5 chunk 8 \u548c 12 \u4e3a\u952e",
+            "status": "passed"
+          },
+          {
+            "fullName": "G02-D \u5bf9\u8bdd\u56fe\u6807\u4e0e base64 G02-D07 \u5355\u5f20\u5934\u50cf\u5931\u8d25\u7684 warn \u5e26\u4e0a chunk 4\uff0c\u6210\u529f\u7684 chunk 8 \u4ecd\u5728",
+            "status": "passed"
+          },
+          {
+            "fullName": "G02-D \u5bf9\u8bdd\u56fe\u6807\u4e0e base64 G02-D08 size \u5b57\u6bb5\u4e0e\u5b57\u8282\u6570\u4e0d\u4e00\u81f4\u65f6\uff0c\u4ecd\u6309 base64 \u89e3\u51fa\u4e24\u5e27",
+            "status": "passed"
+          },
+          {
+            "fullName": "G02-D \u5bf9\u8bdd\u56fe\u6807\u4e0e base64 G02-D12 \u56fe\u6807\u6e05\u5355 404 \u7684 warn \u5199 icons failed\uff0c\u5934\u50cf\u50cf\u7d20\u4ecd\u5728",
+            "status": "passed"
+          },
+          {
+            "fullName": "G02-D \u5bf9\u8bdd\u56fe\u6807\u4e0e base64 G02-D13 \u56fe\u6807\u5e27\u7684\u900f\u660e\u5b54\u5199\u5165 opaque 0\uff0c\u5bbd\u9ad8\u6765\u81ea RLE",
+            "status": "passed"
+          },
+          {
+            "fullName": "G02-D \u5bf9\u8bdd\u56fe\u6807\u4e0e base64 G02-D14 \u5355\u5f20\u5934\u50cf 404 \u4e0d\u4f1a\u6e05\u6389\u5df2\u7ecf\u89e3\u7801\u7684\u56fe\u6807",
+            "status": "passed"
+          },
+          {
+            "fullName": "G02-D \u5bf9\u8bdd\u56fe\u6807\u4e0e base64 G02-D09 base64 /wCA \u89e3\u51fa [255, 0, 128]",
+            "status": "passed"
+          },
+          {
+            "fullName": "G02-D \u5bf9\u8bdd\u56fe\u6807\u4e0e base64 G02-D10 base64 /w== \u89e3\u51fa\u5355\u5b57\u8282 255",
+            "status": "passed"
+          },
+          {
+            "fullName": "G02-D \u5bf9\u8bdd\u56fe\u6807\u4e0e base64 G02-D11 game \u7684 decodeRle \u4e0e parseSpriteChunk \u5c31\u662f shared \u7684\u540c\u4e00\u51fd\u6570",
+            "status": "passed"
+          }
+        ],
+        "mutant": [
+          {
+            "fullName": "G02-D \u5bf9\u8bdd\u56fe\u6807\u4e0e base64 G02-D01 portraits.json 500 \u65f6\u5934\u50cf\u4e3a\u7a7a\uff0c\u4e24\u5e27\u56fe\u6807\u4ecd\u6309 0 \u4e0e 1 \u5165 map",
+            "status": "passed"
+          },
+          {
+            "fullName": "G02-D \u5bf9\u8bdd\u56fe\u6807\u4e0e base64 G02-D02 manifest \u5199 99\u00d799 \u65f6\uff0c\u5934\u50cf\u5bbd\u9ad8\u548c\u906e\u7f69\u4ee5 PNG \u4e3a\u51c6",
+            "status": "passed"
+          },
+          {
+            "fullName": "G02-D \u5bf9\u8bdd\u56fe\u6807\u4e0e base64 G02-D03 chunk 0 \u7684\u5934\u50cf URL \u8865\u6210 portraits/00.png",
+            "status": "passed"
+          },
+          {
+            "fullName": "G02-D \u5bf9\u8bdd\u56fe\u6807\u4e0e base64 G02-D04 \u5934\u50cf\u6e05\u5355\u4e3a\u7a7a\u6570\u7ec4\u65f6\u4e0d\u8bf7\u6c42 PNG\uff0c\u56fe\u6807\u7167\u5e38\u89e3\u7801",
+            "status": "passed"
+          },
+          {
+            "fullName": "G02-D \u5bf9\u8bdd\u56fe\u6807\u4e0e base64 G02-D05 \u56fe\u6807 base64 \u975e\u6cd5\u65f6\u56fe\u6807 map \u4e3a\u7a7a\uff0c\u5df2\u6210\u529f\u7684\u5934\u50cf\u4fdd\u7559",
+            "status": "passed"
+          },
+          {
+            "fullName": "G02-D \u5bf9\u8bdd\u56fe\u6807\u4e0e base64 G02-D06 \u4e24\u5f20\u5934\u50cf\u5206\u522b\u4ee5 chunk 8 \u548c 12 \u4e3a\u952e",
+            "status": "passed"
+          },
+          {
+            "fullName": "G02-D \u5bf9\u8bdd\u56fe\u6807\u4e0e base64 G02-D07 \u5355\u5f20\u5934\u50cf\u5931\u8d25\u7684 warn \u5e26\u4e0a chunk 4\uff0c\u6210\u529f\u7684 chunk 8 \u4ecd\u5728",
+            "status": "failed"
+          },
+          {
+            "fullName": "G02-D \u5bf9\u8bdd\u56fe\u6807\u4e0e base64 G02-D08 size \u5b57\u6bb5\u4e0e\u5b57\u8282\u6570\u4e0d\u4e00\u81f4\u65f6\uff0c\u4ecd\u6309 base64 \u89e3\u51fa\u4e24\u5e27",
+            "status": "passed"
+          },
+          {
+            "fullName": "G02-D \u5bf9\u8bdd\u56fe\u6807\u4e0e base64 G02-D12 \u56fe\u6807\u6e05\u5355 404 \u7684 warn \u5199 icons failed\uff0c\u5934\u50cf\u50cf\u7d20\u4ecd\u5728",
+            "status": "passed"
+          },
+          {
+            "fullName": "G02-D \u5bf9\u8bdd\u56fe\u6807\u4e0e base64 G02-D13 \u56fe\u6807\u5e27\u7684\u900f\u660e\u5b54\u5199\u5165 opaque 0\uff0c\u5bbd\u9ad8\u6765\u81ea RLE",
+            "status": "passed"
+          },
+          {
+            "fullName": "G02-D \u5bf9\u8bdd\u56fe\u6807\u4e0e base64 G02-D14 \u5355\u5f20\u5934\u50cf 404 \u4e0d\u4f1a\u6e05\u6389\u5df2\u7ecf\u89e3\u7801\u7684\u56fe\u6807",
+            "status": "passed"
+          },
+          {
+            "fullName": "G02-D \u5bf9\u8bdd\u56fe\u6807\u4e0e base64 G02-D09 base64 /wCA \u89e3\u51fa [255, 0, 128]",
+            "status": "passed"
+          },
+          {
+            "fullName": "G02-D \u5bf9\u8bdd\u56fe\u6807\u4e0e base64 G02-D10 base64 /w== \u89e3\u51fa\u5355\u5b57\u8282 255",
+            "status": "passed"
+          },
+          {
+            "fullName": "G02-D \u5bf9\u8bdd\u56fe\u6807\u4e0e base64 G02-D11 game \u7684 decodeRle \u4e0e parseSpriteChunk \u5c31\u662f shared \u7684\u540c\u4e00\u51fd\u6570",
+            "status": "passed"
+          }
+        ],
+        "restored": [
+          {
+            "fullName": "G02-D \u5bf9\u8bdd\u56fe\u6807\u4e0e base64 G02-D01 portraits.json 500 \u65f6\u5934\u50cf\u4e3a\u7a7a\uff0c\u4e24\u5e27\u56fe\u6807\u4ecd\u6309 0 \u4e0e 1 \u5165 map",
+            "status": "passed"
+          },
+          {
+            "fullName": "G02-D \u5bf9\u8bdd\u56fe\u6807\u4e0e base64 G02-D02 manifest \u5199 99\u00d799 \u65f6\uff0c\u5934\u50cf\u5bbd\u9ad8\u548c\u906e\u7f69\u4ee5 PNG \u4e3a\u51c6",
+            "status": "passed"
+          },
+          {
+            "fullName": "G02-D \u5bf9\u8bdd\u56fe\u6807\u4e0e base64 G02-D03 chunk 0 \u7684\u5934\u50cf URL \u8865\u6210 portraits/00.png",
+            "status": "passed"
+          },
+          {
+            "fullName": "G02-D \u5bf9\u8bdd\u56fe\u6807\u4e0e base64 G02-D04 \u5934\u50cf\u6e05\u5355\u4e3a\u7a7a\u6570\u7ec4\u65f6\u4e0d\u8bf7\u6c42 PNG\uff0c\u56fe\u6807\u7167\u5e38\u89e3\u7801",
+            "status": "passed"
+          },
+          {
+            "fullName": "G02-D \u5bf9\u8bdd\u56fe\u6807\u4e0e base64 G02-D05 \u56fe\u6807 base64 \u975e\u6cd5\u65f6\u56fe\u6807 map \u4e3a\u7a7a\uff0c\u5df2\u6210\u529f\u7684\u5934\u50cf\u4fdd\u7559",
+            "status": "passed"
+          },
+          {
+            "fullName": "G02-D \u5bf9\u8bdd\u56fe\u6807\u4e0e base64 G02-D06 \u4e24\u5f20\u5934\u50cf\u5206\u522b\u4ee5 chunk 8 \u548c 12 \u4e3a\u952e",
+            "status": "passed"
+          },
+          {
+            "fullName": "G02-D \u5bf9\u8bdd\u56fe\u6807\u4e0e base64 G02-D07 \u5355\u5f20\u5934\u50cf\u5931\u8d25\u7684 warn \u5e26\u4e0a chunk 4\uff0c\u6210\u529f\u7684 chunk 8 \u4ecd\u5728",
+            "status": "passed"
+          },
+          {
+            "fullName": "G02-D \u5bf9\u8bdd\u56fe\u6807\u4e0e base64 G02-D08 size \u5b57\u6bb5\u4e0e\u5b57\u8282\u6570\u4e0d\u4e00\u81f4\u65f6\uff0c\u4ecd\u6309 base64 \u89e3\u51fa\u4e24\u5e27",
+            "status": "passed"
+          },
+          {
+            "fullName": "G02-D \u5bf9\u8bdd\u56fe\u6807\u4e0e base64 G02-D12 \u56fe\u6807\u6e05\u5355 404 \u7684 warn \u5199 icons failed\uff0c\u5934\u50cf\u50cf\u7d20\u4ecd\u5728",
+            "status": "passed"
+          },
+          {
+            "fullName": "G02-D \u5bf9\u8bdd\u56fe\u6807\u4e0e base64 G02-D13 \u56fe\u6807\u5e27\u7684\u900f\u660e\u5b54\u5199\u5165 opaque 0\uff0c\u5bbd\u9ad8\u6765\u81ea RLE",
+            "status": "passed"
+          },
+          {
+            "fullName": "G02-D \u5bf9\u8bdd\u56fe\u6807\u4e0e base64 G02-D14 \u5355\u5f20\u5934\u50cf 404 \u4e0d\u4f1a\u6e05\u6389\u5df2\u7ecf\u89e3\u7801\u7684\u56fe\u6807",
+            "status": "passed"
+          },
+          {
+            "fullName": "G02-D \u5bf9\u8bdd\u56fe\u6807\u4e0e base64 G02-D09 base64 /wCA \u89e3\u51fa [255, 0, 128]",
+            "status": "passed"
+          },
+          {
+            "fullName": "G02-D \u5bf9\u8bdd\u56fe\u6807\u4e0e base64 G02-D10 base64 /w== \u89e3\u51fa\u5355\u5b57\u8282 255",
+            "status": "passed"
+          },
+          {
+            "fullName": "G02-D \u5bf9\u8bdd\u56fe\u6807\u4e0e base64 G02-D11 game \u7684 decodeRle \u4e0e parseSpriteChunk \u5c31\u662f shared \u7684\u540c\u4e00\u51fd\u6570",
+            "status": "passed"
+          }
+        ]
+      },
+      "patch": {
+        "path": "docs/testing/grok-cursor-large/grok/counters/G02-D/patch.diff",
+        "sha256": "6628c97f5bca5b38f78a5e50669984b675d64ff1faf24c8355976c99123641db",
+        "bytes": 369
+      },
+      "logs": [
+        "docs/testing/grok-cursor-large/grok/counters/G02-D/original.json",
+        "docs/testing/grok-cursor-large/grok/counters/G02-D/original.stdout",
+        "docs/testing/grok-cursor-large/grok/counters/G02-D/original.stderr",
+        "docs/testing/grok-cursor-large/grok/counters/G02-D/mutant.json",
+        "docs/testing/grok-cursor-large/grok/counters/G02-D/mutant.stdout",
+        "docs/testing/grok-cursor-large/grok/counters/G02-D/mutant.stderr",
+        "docs/testing/grok-cursor-large/grok/counters/G02-D/restored.json",
+        "docs/testing/grok-cursor-large/grok/counters/G02-D/restored.stdout",
+        "docs/testing/grok-cursor-large/grok/counters/G02-D/restored.stderr"
       ]
     }
   ]

@@ -1,0 +1,18 @@
+
+ RUN  v4.1.7 /private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/grok-r1-G02-C-qMzPzT/packages/game
+
+ ✓ src/assets/tileset-load.grok-r1.test.ts > G02-C sprite 与 tileset 加载边界 > G02-C01 裸 RLE 经过 loadSpriteFramesBlob 得到两帧 AA 与 BB 3ms
+ ✓ src/assets/tileset-load.grok-r1.test.ts > G02-C sprite 与 tileset 加载边界 > G02-C02 裸 RLE 经过 loadTilesetBlob 得到键 0 与键 1 0ms
+ ✓ src/assets/tileset-load.grok-r1.test.ts > G02-C sprite 与 tileset 加载边界 > G02-C03 裸 RLE 经过 loadCharacterSpriteBlob 时锚点为 0,1，第二帧为 BB 0ms
+ ✓ src/assets/tileset-load.grok-r1.test.ts > G02-C sprite 与 tileset 加载边界 > G02-C04 sprite blob 503 的错误带 URL 与状态码 1ms
+ ✓ src/assets/tileset-load.grok-r1.test.ts > G02-C sprite 与 tileset 加载边界 > G02-C05 tileset blob 503 的错误带 URL 与状态码 0ms
+ ✓ src/assets/tileset-load.grok-r1.test.ts > G02-C sprite 与 tileset 加载边界 > G02-C06 角色 blob 404 的错误来自 sprite-blob，并带上角色 URL 0ms
+ ✓ src/assets/tileset-load.grok-r1.test.ts > G02-C sprite 与 tileset 加载边界 > G02-C07 tileset 200 但 gzip 主体损坏时，错误不是 fetch 失败串 6ms
+ ✓ src/assets/tileset-load.grok-r1.test.ts > G02-C sprite 与 tileset 加载边界 > G02-C08 sprite blob 返回损坏 gzip 时错误不是 fetch 失败串 1ms
+
+ Test Files  1 passed (1)
+      Tests  8 passed (8)
+   Start at  23:45:28
+   Duration  547ms (transform 72ms, setup 20ms, import 72ms, tests 12ms, environment 365ms)
+
+JSON report written to /var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/grok-r1-G02-C-qMzPzT/original.json
