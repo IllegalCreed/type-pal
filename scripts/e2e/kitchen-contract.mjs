@@ -3,6 +3,8 @@ import { readFile } from 'node:fs/promises'
 import { dirname, resolve } from 'node:path'
 import { repoRoot, sha256 } from './browser-journey.mjs'
 import { readInnContract } from './inn-contract.mjs'
+import { openingFrameMatches } from './opening-frame.mjs'
+import { openingSaveView } from './reforge-opening-policy.mjs'
 
 export const KITCHEN_ROWS = Object.freeze([
   56, 57, 58, 145, 146, 148, 149, 150, 152, 153, 155, 156, 126, 127,
@@ -24,6 +26,66 @@ export const kitchenReady = (s, engine) =>
       !s.runtime.ditherActive
 export const kitchenScene = (s, engine, scene) =>
   s.scene === (engine === 'game' ? (scene === 's001' ? 2 : 4) : scene)
+export const kitchenHandoffReady = (trace) =>
+  trace.final?.scene === 's003' &&
+  trace.final.control === true &&
+  trace.final.persistent.e19?.state === 2 &&
+  trace.final.persistent.e56?.state === 0
+
+/** Same persistent projection as the reviewed first-stage readWorld observer. */
+function predecessorView(payload, engine) {
+  if (engine === 'reforge') return openingSaveView(payload)
+  const gs = payload.gs
+  for (const key of [
+    'party',
+    'partyMembers',
+    'PlayerRolesRuntime',
+    'inventory',
+    'rgScene',
+    'rgObject',
+    'rgEventObject',
+    'allEventObjects',
+  ])
+    assert(gs[key] !== undefined, `missing predecessor world field: ${key}`)
+  return JSON.parse(
+    JSON.stringify({
+      scene: gs.wNumScene,
+      party: gs.party,
+      members: gs.partyMembers,
+      roles: gs.PlayerRolesRuntime,
+      cash: gs.dwCash,
+      inventory: gs.inventory,
+      scenes: gs.rgScene,
+      objects: gs.rgObject,
+      eventObjects: gs.rgEventObject,
+      actors: gs.allEventObjects.map(
+        ({
+          id,
+          x,
+          y,
+          sState,
+          facing,
+          triggerLabel,
+          triggerResume,
+          triggerMode,
+          spriteNum,
+          autoTriggerOnce,
+        }) => ({
+          id,
+          x,
+          y,
+          sState,
+          facing,
+          triggerLabel,
+          triggerResume,
+          triggerMode,
+          spriteNum,
+          autoTriggerOnce,
+        }),
+      ),
+    }),
+  )
+}
 
 export function kitchenArguments(args, both = false) {
   const options = { headless: false }
@@ -66,6 +128,36 @@ export function validateKitchenPredecessor(report, payload, engine, bytes) {
     'unexpected predecessor checkpoint path',
   )
   assert.equal(report.checkpoint.sha256, sha256(bytes), '002 predecessor bytes differ')
+  assert.deepEqual(payload, JSON.parse(bytes), '002 predecessor payload is not checkpoint bytes')
+  assert.equal(
+    report.endWorldHash,
+    sha256(JSON.stringify(report.endWorld)),
+    '002 end world hash differs',
+  )
+  assert.equal(
+    report.restoredWorldHash,
+    sha256(JSON.stringify(report.restoredWorld)),
+    '002 restored world hash differs',
+  )
+  assert.deepEqual(
+    predecessorView(payload, engine),
+    report.endWorld,
+    '002 checkpoint differs from actual end world',
+  )
+  assert.deepEqual(report.restoredWorld, report.endWorld, '002 actual restore differs')
+  for (const frame of [report.endFrame, report.restoredFrame]) {
+    assert(
+      frame && Number.isSafeInteger(frame.width) && Number.isSafeInteger(frame.height),
+      'missing 002 actual restore canvas evidence',
+    )
+    assert.match(frame.sha256, /^[a-f0-9]{64}$/)
+    assert(Number.isSafeInteger(frame.nonBlack) && frame.nonBlack <= frame.width * frame.height)
+    assert(openingFrameMatches(frame), '002 actual canvas was black or invalid')
+  }
+  assert(
+    openingFrameMatches(report.restoredFrame, report.endFrame),
+    '002 actual restored canvas differs',
+  )
   if (engine === 'game') {
     assert.equal(payload.format, 'type-pal-save')
     const gs = payload.gs
@@ -404,6 +496,7 @@ export function assertKitchenTrace(trace, engine, contract, stairs) {
       JSON.stringify(e.before.position) !== JSON.stringify(e.state.position),
   )
   assert.equal(movements.length, 12, 'stairs must commit all twelve authored fragments')
+  const drawnIndices = new Set()
   movements.forEach((e, i) => {
     assert(e.source.startsWith('commit:'), 'stairs movement lacks actual commit')
     const a = kitchenGrid(e.before.position, engine),
@@ -420,6 +513,18 @@ export function assertKitchenTrace(trace, engine, contract, stairs) {
     assert(frame, 'authored stair fragment never drawn')
     assert.equal(frame.frame.facing, 'right')
     assert.equal(frame.frame.walking, true, 'stairs slid in standing pose')
+    assert.equal(e.state.walking, true, 'committed stair fragment is not walking')
+    assert.equal(
+      frame.frame.stepFrame,
+      e.state.stepFrame,
+      'drawn stair phase differs from committed movement state',
+    )
+    if (i)
+      assert.equal(
+        e.state.stepFrame,
+        (movements[i - 1].state.stepFrame + 1) % 4,
+        'committed stair phases did not rotate modulo four',
+      )
     assert.equal(frame.frame.layer, 0)
     assert.equal(frame.frame.sprite, engine === 'game' ? 2 : 'li-xiaoyao', 'wrong stair sprite')
     assert(
@@ -432,11 +537,13 @@ export function assertKitchenTrace(trace, engine, contract, stairs) {
       9 + [0, 1, 0, 2][frame.frame.stepFrame],
       'actual drawn stair frame is not the walking cycle',
     )
+    drawnIndices.add(frame.frame.frameIndex)
     assert(
       frame.frame.frame.width > 0 && frame.frame.frame.height > 0,
       'actual stair frame missing',
     )
   })
+  assert(drawnIndices.size >= 3, 'stairs did not present all three walking frames')
   assert(
     trace.frames.every((f) => ![208, 'sprite-208'].includes(f.frame.sprite)),
     '004 food sprite entered 003',

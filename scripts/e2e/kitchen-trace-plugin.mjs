@@ -60,6 +60,27 @@ export function instrumentKitchenTrace(source, file) {
   const walk = (node) => {
     if (
       file.endsWith('/reforge/src/main.ts') &&
+      ts.isPropertyAssignment(node) &&
+      node.name.getText(ast) === 'nudgeParty'
+    ) {
+      assert(
+        ts.isArrowFunction(node.initializer) && ts.isBlock(node.initializer.body),
+        'kitchen nudge body shape changed',
+      )
+      const noAwait = (child) => {
+        assert(!ts.isAwaitExpression(child), 'kitchen nudge commit body became asynchronous')
+        ts.forEachChild(child, noAwait)
+      }
+      noAwait(node.initializer.body)
+      anchors.push('actualNudgeParty')
+      edits.push({ at: node.initializer.body.getStart(ast) + 1, text: '\ntry {\n' })
+      edits.push({
+        at: node.initializer.body.end - 1,
+        text: '\n} finally { __openingPoint("commit:nudgeParty"); }\n',
+      })
+    }
+    if (
+      file.endsWith('/reforge/src/main.ts') &&
       ts.isVariableDeclaration(node) &&
       node.name.getText(ast) === 'refreshRuntimeProjection'
     ) {
@@ -88,11 +109,19 @@ export function instrumentKitchenTrace(source, file) {
             ? 'beforeNudgeParty'
             : 'commitNudgeParty',
         )
-        edits.push({
-          at: node.arguments[0].getStart(ast),
-          end: node.arguments[0].end,
-          text: node.arguments[0].getText(ast).replace('player.pos', 'nudgeParty'),
-        })
+        if (node.arguments[0].getText(ast).includes('before:'))
+          edits.push({
+            at: node.arguments[0].getStart(ast),
+            end: node.arguments[0].end,
+            text: '"before:nudgeParty"',
+          })
+        else {
+          assert(
+            ts.isExpressionStatement(node.parent),
+            'kitchen nudge position commit shape changed',
+          )
+          edits.push({ at: node.parent.getStart(ast), end: node.parent.end, text: '' })
+        }
       }
     }
     if (
@@ -136,7 +165,7 @@ export function instrumentKitchenTrace(source, file) {
       : file.endsWith('/world-scene-presentation.ts')
         ? ['actualReforgePartyFrame']
         : file.endsWith('/reforge/src/main.ts')
-          ? ['beforeNudgeParty', 'commitNudgeParty', 'actualRuntimeProjection']
+          ? ['actualNudgeParty', 'beforeNudgeParty', 'commitNudgeParty', 'actualRuntimeProjection']
           : [],
     'kitchen actual drawn frame/fragment census changed',
   )

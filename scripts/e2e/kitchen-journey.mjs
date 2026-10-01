@@ -12,6 +12,7 @@ import {
   kitchenArguments,
   kitchenEndPresented,
   kitchenGrid,
+  kitchenHandoffReady,
   kitchenReady,
   kitchenScene,
   readKitchenContract,
@@ -328,6 +329,14 @@ export async function runKitchenJourney(engine) {
         phase = 'taoist'
         await interact('e62', 's003')
         await finishDialogue('s003', 156)
+        phase = 'aunt-handoff'
+        report.auntHandoff = (
+          await until(
+            evidence,
+            kitchenHandoffReady,
+            'actual kitchen aunt activation and hall aunt disappearance',
+          )
+        ).final
         phase = 'kitchen-entry'
         await navigate(
           's003',

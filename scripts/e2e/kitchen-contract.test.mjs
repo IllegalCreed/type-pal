@@ -11,10 +11,12 @@ import {
   KITCHEN_ROWS,
   kitchenArguments,
   kitchenEndPresented,
+  kitchenHandoffReady,
   validateKitchenPredecessor,
 } from './kitchen-contract.mjs'
 import { installKitchenObserver } from './kitchen-observer.mjs'
 import { instrumentKitchenTrace, KITCHEN_TRACE_TARGETS } from './kitchen-trace-plugin.mjs'
+import { openingSaveView } from './reforge-opening-policy.mjs'
 
 const observer = () => {
   const host = {}
@@ -37,7 +39,7 @@ const fixture = () => {
   const append = (list, value) =>
     list.push({ seq: list.length, order: order++, atMs: order, sample: order, ...value })
   let position = [1168, 1368],
-    before = { position, visible: true, facing: 'right' }
+    before = { position, visible: true, facing: 'right', walking: true, stepFrame: 3 }
   append(trace.events, {
     kind: 'actor',
     scene: 's003',
@@ -58,7 +60,7 @@ const fixture = () => {
   const stairs = { startOrder: order - 1 }
   for (let i = 0; i < 12; i++) {
     position = position.map((n) => n + (i % 2 ? 6 : 10))
-    const state = { position, visible: true, facing: 'right' }
+    const state = { position, visible: true, facing: 'right', walking: true, stepFrame: i % 4 }
     append(trace.events, {
       kind: 'actor',
       scene: 's003',
@@ -168,8 +170,12 @@ test('002 predecessor admission rejects fake bytes, wrong story, missing restore
       core: { status: 'passed' },
       route: { status: 'passed' },
       choreography: { status: 'passed' },
-      endWorldHash: 'b'.repeat(64),
-      restoredWorldHash: 'b'.repeat(64),
+      endWorld: openingSaveView(payload),
+      restoredWorld: openingSaveView(payload),
+      endWorldHash: sha256(JSON.stringify(openingSaveView(payload))),
+      restoredWorldHash: sha256(JSON.stringify(openingSaveView(payload))),
+      endFrame: { width: 320, height: 200, nonBlack: 50000, sha256: 'b'.repeat(64) },
+      restoredFrame: { width: 320, height: 200, nonBlack: 50000, sha256: 'b'.repeat(64) },
       checkpoint: { path: '002.end.save.json', sha256: sha256(bytes) },
     }
   assert.equal(validateKitchenPredecessor(report, payload, 'reforge', bytes).sha256, sha256(bytes))
@@ -191,6 +197,101 @@ test('002 predecessor admission rejects fake bytes, wrong story, missing restore
       validateKitchenPredecessor(report, { ...payload, ...change }, 'reforge', bytes),
     )
   assert.throws(() => validatePredecessor(report, payload, 'reforge', bytes), /wrong predecessor/)
+  const altered = structuredClone(payload)
+  altered.world.script.vars.extra = 1
+  const alteredBytes = JSON.stringify(altered)
+  assert.throws(
+    () =>
+      validateKitchenPredecessor(
+        {
+          ...report,
+          checkpoint: { ...report.checkpoint, sha256: sha256(alteredBytes) },
+        },
+        altered,
+        'reforge',
+        alteredBytes,
+      ),
+    /checkpoint differs from actual end world/,
+  )
+  for (const patch of [
+    { restoredFrame: undefined },
+    { restoredFrame: { ...report.restoredFrame, sha256: 'c'.repeat(64) } },
+    { endFrame: { ...report.endFrame, nonBlack: 0 } },
+    { endWorld: { ...report.endWorld, position: { sceneId: 's001' } } },
+  ])
+    assert.throws(() =>
+      validateKitchenPredecessor({ ...report, ...patch }, payload, 'reforge', bytes),
+    )
+})
+test('002 game admission binds the persistent save fields to actual end/restore, not only updated SHA', () => {
+  const gs = {
+    wNumScene: 4,
+    dwCash: 500,
+    party: { x: 1000, y: 1000, facing: 'down' },
+    partyMembers: [0],
+    PlayerRolesRuntime: { rgwSpriteNum: [2] },
+    inventory: [],
+    rgScene: [],
+    rgObject: [],
+    rgEventObject: [],
+    allEventObjects: [19, 20, 24, 25, 26, 59, 60, 61].map((id) => ({
+      id,
+      x: 1,
+      y: 1,
+      sState: [24, 25, 26].includes(id) ? 2 : 0,
+      triggerLabel: `L_${id}`,
+      triggerResume: { ip: id },
+    })),
+  }
+  const payload = { format: 'type-pal-save', gs },
+    bytes = JSON.stringify(payload)
+  const endWorld = {
+    scene: gs.wNumScene,
+    party: gs.party,
+    members: gs.partyMembers,
+    roles: gs.PlayerRolesRuntime,
+    cash: gs.dwCash,
+    inventory: gs.inventory,
+    scenes: gs.rgScene,
+    objects: gs.rgObject,
+    eventObjects: gs.rgEventObject,
+    actors: gs.allEventObjects,
+  }
+  const frame = { width: 320, height: 200, nonBlack: 50000, sha256: 'b'.repeat(64) }
+  const report = {
+    status: 'passed',
+    fragment: '002',
+    engine: 'game',
+    name: 'game-002',
+    revision: 'a'.repeat(40),
+    core: { status: 'passed' },
+    route: { status: 'passed' },
+    choreography: { status: 'passed' },
+    endWorld,
+    restoredWorld: structuredClone(endWorld),
+    endWorldHash: sha256(JSON.stringify(endWorld)),
+    restoredWorldHash: sha256(JSON.stringify(endWorld)),
+    endFrame: frame,
+    restoredFrame: frame,
+    checkpoint: { path: '002.end.save.json', sha256: sha256(bytes) },
+  }
+  validateKitchenPredecessor(report, payload, 'game', bytes)
+  const altered = structuredClone(payload)
+  altered.gs.allEventObjects[0].triggerResume.ip++
+  const alteredBytes = JSON.stringify(altered)
+  assert.throws(
+    () =>
+      validateKitchenPredecessor(
+        {
+          ...report,
+          checkpoint: { ...report.checkpoint, sha256: sha256(alteredBytes) },
+        },
+        altered,
+        'game',
+        alteredBytes,
+      ),
+    /checkpoint differs from actual end world/,
+  )
 })
 test('003 actual AST retains reviewed commit/save hooks and observes selected rendered frames', () => {
   for (const file of KITCHEN_TRACE_TARGETS) {
@@ -208,6 +309,48 @@ test('003 actual AST retains reviewed commit/save hooks and observes selected re
     if (file.endsWith('/present/present.ts')) assert.equal(result.anchors.actualGamePartyFrame, 1)
     if (file.endsWith('/world-scene-presentation.ts'))
       assert.equal(result.anchors.actualReforgePartyFrame, 1)
+  }
+})
+test('003 actual synchronous nudge commit observes post-body gait even on thrown camera update', () => {
+  const file = 'packages/reforge/src/main.ts'
+  const source = readFileSync(new URL(`../../${file}`, import.meta.url), 'utf8')
+  const code = instrumentKitchenTrace(source, file).code
+  const ast = ts.createSourceFile(file, code, ts.ScriptTarget.Latest, true)
+  const matches = []
+  const walk = (node) => {
+    if (ts.isPropertyAssignment(node) && node.name.getText(ast) === 'nudgeParty')
+      matches.push(node.initializer.getText(ast))
+    ts.forEachChild(node, walk)
+  }
+  walk(ast)
+  assert.equal(matches.length, 1)
+  for (const failCamera of [false, true]) {
+    const points = new Function(
+      'failCamera',
+      `
+      const points=[], player={pos:{col:0,row:0}}, trail=[], facing='right';
+      let partyLayer=8, walking=false, stepFrame=1;
+      const takeByScript=()=>{}, pixelDeltaToGridDelta=(dx,dy)=>({dcol:dx,drow:dy}),
+        pushTrail=()=>{}, displacementFacing=()=>facing, worldPresentation={setPartyGesture:()=>{}},
+        updateCamera=()=>{if(failCamera)throw new Error('camera failed')},
+        __openingPoint=(source)=>points.push({source,pos:{...player.pos},partyLayer,walking,stepFrame});
+      const nudge=${matches[0]};
+      try {nudge(10,10,0)} catch(error) {if(!failCamera)throw error}
+      return points;
+    `,
+    )(failCamera)
+    assert.deepEqual(
+      points.map((p) => p.source),
+      ['before:nudgeParty', 'commit:nudgeParty'],
+    )
+    assert.equal(points[0].stepFrame, 1)
+    assert.deepEqual(points[1], {
+      source: 'commit:nudgeParty',
+      pos: { col: 10, row: 10 },
+      partyLayer: 0,
+      walking: true,
+      stepFrame: 2,
+    })
   }
 })
 test('003 frame anchors fail closed when actual selected leader draw is removed', () => {
@@ -294,6 +437,50 @@ test('003 rejects idle sliding, fake walking flag with idle frame, missing frame
   const { trace, contract, stairs } = fixture()
   trace.frames.splice(1, 1)
   assert.throws(() => assertKitchenTrace(trace, 'game', contract, stairs))
+})
+test('003 rejects constant legal phase/idle index and drawn phase unrelated to committed gait', () => {
+  for (const allConstant of [true, false]) {
+    const { trace, contract, stairs } = fixture()
+    if (allConstant) {
+      for (const event of trace.events.filter((e) => e.id === 'party')) {
+        event.state.stepFrame = 0
+        if (event.before) event.before.stepFrame = 0
+      }
+      for (const event of trace.frames) Object.assign(event.frame, { stepFrame: 0, frameIndex: 9 })
+    } else {
+      Object.assign(trace.frames[0].frame, { stepFrame: 1, frameIndex: 10 })
+    }
+    assert.throws(
+      () => assertKitchenTrace(trace, 'game', contract, stairs),
+      /phases did not rotate|drawn stair phase differs/,
+    )
+  }
+})
+test('003 gait contract accepts actual modulo-four phase rotation without fixing its starting phase', () => {
+  const { trace, contract, stairs } = fixture()
+  for (const e of trace.events.filter((e) => e.id === 'party')) {
+    e.state.stepFrame = (e.state.stepFrame + 2) % 4
+  }
+  for (const e of trace.frames) {
+    e.frame.stepFrame = (e.frame.stepFrame + 2) % 4
+    e.frame.frameIndex = 9 + [0, 1, 0, 2][e.frame.stepFrame]
+  }
+  assertKitchenTrace(trace, 'game', contract, stairs)
+})
+test('003 waits for actual hall-to-kitchen handoff; arrival/control alone is insufficient', () => {
+  const state = {
+    scene: 's003',
+    control: true,
+    persistent: { e56: { state: 0 }, e19: { state: 2 } },
+  }
+  assert.equal(kitchenHandoffReady({ final: state }), true)
+  for (const s of [
+    { ...state, persistent: { e56: { state: 2 }, e19: { state: 0 } } },
+    { ...state, persistent: { e56: { state: 2 }, e19: { state: 2 } } },
+    { ...state, scene: 's001' },
+    { ...state, control: false },
+  ])
+    assert.equal(kitchenHandoffReady({ final: s }), false)
 })
 test('003 rejects replay, missing/reordered row, wrong speaker and premature late shout207', () => {
   for (const corrupt of [
