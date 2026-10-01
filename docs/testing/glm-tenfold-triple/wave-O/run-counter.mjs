@@ -33,14 +33,29 @@ function runVitest(worktree, testFile, outputFile, rawFile) {
     ],
     { cwd: worktree, encoding: 'utf8', env: { ...process.env, NODE_COMPILE_CACHE: '' } },
   )
-  if (rawFile) writeFileSync(rawFile, result.stdout ?? '')
+  if (rawFile)
+    writeFileSync(
+      rawFile,
+      `# exit=${result.status} signal=${result.signal ?? 'null'} errored=${result.error ? String(result.error) : 'null'}\n` +
+        `# === stdout ===\n${result.stdout ?? ''}\n# === stderr ===\n${result.stderr ?? ''}\n`,
+    )
   let json
   try {
     json = JSON.parse(readFileSync(outputFile, 'utf8'))
   } catch (error) {
-    throw new Error(`vitest JSON 不可读: ${String(error)}\nstdout:${result.stdout?.slice(0, 2000)}`)
+    throw new Error(
+      `vitest JSON 不可读: ${String(error)}\nstdout:${result.stdout?.slice(0, 2000)}\nstderr:${result.stderr?.slice(0, 2000)}`,
+    )
   }
-  return { exitCode: result.status, json, stdout: result.stdout ?? '' }
+  if (result.signal) throw new Error(`vitest 被 signal=${result.signal} 终止，拒收`)
+  if (result.error) throw new Error(`spawn 失败: ${String(result.error)}`)
+  return {
+    exitCode: result.status,
+    json,
+    stdout: result.stdout ?? '',
+    stderr: result.stderr ?? '',
+    signal: result.signal,
+  }
 }
 
 const flatten = (results) =>
@@ -62,9 +77,26 @@ const phaseSummary = (run) => {
   }
 }
 
-function assertPhase(run, expectedTitle, phase) {
+/** 叶状态白名单：pending/todo/skip/空收集等一律不是有效执行。 */
+const LEAF_OK = new Set(['passed', 'failed'])
+
+/** 真实业务断言红：AssertionError/expect 首帧；未处理异常/崩溃栈拒收。 */
+function isBusinessAssertion(message) {
+  return /^AssertionError|^expect\(/.test(message)
+}
+
+function assertPhase(run, spec, phase) {
   const tests = flatten(run.json.testResults)
+  if (tests.length === 0) throw new Error(`${phase} 零执行（collection/过滤后为空）拒收`)
+  for (const entry of tests) {
+    if (!LEAF_OK.has(entry.status))
+      throw new Error(
+        `${phase} 非叶状态 ${entry.status}（pending/todo/skip）拒收: ${entry.fullName}`,
+      )
+  }
   const failed = tests.filter((entry) => entry.status === 'failed')
+  const files = new Set(run.json.testResults.map((f) => f.name))
+  if (files.size !== 1) throw new Error(`${phase} 期望单文件执行，实际 ${files.size} 个文件`)
   if (phase !== 'injected') {
     if (run.exitCode !== 0 || failed.length !== 0)
       throw new Error(`${phase} 须全绿：exit=${run.exitCode} failed=${failed.length}`)
@@ -73,11 +105,17 @@ function assertPhase(run, expectedTitle, phase) {
   if (run.exitCode === 0 || failed.length !== 1)
     throw new Error(`injected 须恰一红：exit=${run.exitCode} failed=${failed.length}`)
   const target = failed[0]
-  if (!target.fullName.includes(expectedTitle))
+  if (!target.fullName.endsWith(spec.test.title) && !target.fullName.includes(spec.test.title))
     throw new Error(`红例 fullName 不符: ${target.fullName}`)
+  const targetFile = run.json.testResults.find((f) =>
+    (f.assertionResults ?? []).some((a) => a.fullName === target.fullName),
+  )?.name
+  const wanted = resolve(`packages/${ownerPackage}`, spec.test.file)
+  if (!targetFile || !resolve(targetFile).startsWith(wanted))
+    throw new Error(`红例文件不符: ${targetFile} 期望 ${wanted}`)
   const message = target.failureMessages[0] ?? ''
-  if (!/^AssertionError|^expect\(/.test(message))
-    throw new Error(`红例非业务 AssertionError: ${message.slice(0, 200)}`)
+  if (!isBusinessAssertion(message))
+    throw new Error(`红例非业务 AssertionError（未处理异常/崩溃拒收）: ${message.slice(0, 200)}`)
   return target
 }
 
@@ -111,7 +149,7 @@ function main() {
       resolve(controlDir, 'vitest-control.json'),
       resolve(controlDir, 'vitest-control.txt'),
     )
-    assertPhase(control, spec.test.title, 'control')
+    assertPhase(control, spec, 'control')
 
     // ── phase 2: injected（单轴变异 → 恰一业务红）──
     const source = readFileSync(resolve(injectedDir, productRel), 'utf8')
@@ -131,7 +169,7 @@ function main() {
       resolve(injectedDir, 'vitest-injected.json'),
       resolve(injectedDir, 'vitest-injected.txt'),
     )
-    const target = assertPhase(injected, spec.test.title, 'injected')
+    const target = assertPhase(injected, spec, 'injected')
 
     // ── 重建自校验：checkout 后应用零上下文 patch，必须重建出同一变异字节 ──
     git(['checkout', '--', productRel], injectedDir)
@@ -153,7 +191,7 @@ function main() {
       resolve(injectedDir, 'vitest-restored.json'),
       resolve(injectedDir, 'vitest-restored.txt'),
     )
-    assertPhase(restored, spec.test.title, 'restored')
+    assertPhase(restored, spec, 'restored')
 
     if (controlShaBefore !== sha256(readFileSync(candidateFile)))
       throw new Error('候选树测试文件被意外修改')
@@ -202,11 +240,7 @@ function main() {
         git(['worktree', 'remove', '--force', dir])
       } catch {
         rmSync(dir, { recursive: true, force: true })
-        try {
-          git(['worktree', 'prune'])
-        } catch {
-          // already pruned
-        }
+        // 仅清理本次自建临时目录；不执行全局 git worktree prune。
       }
     }
   }

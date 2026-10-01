@@ -21,7 +21,7 @@ const useItem = (effects: ItemUseEffect[], over: Record<string, unknown> = {}): 
   })
 
 describe('O08 healHp/healMp：钳位与死亡跳过', () => {
-  test('healHp：不足上限加满差额；恰好上限零变化仍成功；死亡队员跳过', () => {
+  test('healHp：不足上限加满差额；恰好上限 HP 零变化但消耗照扣', () => {
     const base = world([{ itemId: 'use-item', count: 1 }], 60)
     const items: ItemDataMap = {
       'use-item': useItem([{ kind: 'healHp', amount: 50 }]),
@@ -69,7 +69,7 @@ describe('O08 healHp/healMp：钳位与死亡跳过', () => {
 })
 
 describe('O08 scaleCurrentHp：分数缩放', () => {
-  test('分子/分母截断（trunc）与 0/上限钳位', () => {
+  test('scaleCurrentHp trunc 截断（99→49）与满血减半（100→50）', () => {
     const items: ItemDataMap = {
       'use-item': useItem([{ kind: 'scaleCurrentHp', numerator: 1, denominator: 2 }]),
     }
@@ -149,20 +149,8 @@ describe('O08 复合链顺序与 gate 显式阈值', () => {
     expect(outcome.world.party[0]!.hp).toBe(70)
   })
 
-  test('gate 失败后同链 healHp 不执行且不消耗', () => {
-    const items: ItemDataMap = {
-      'use-item': useItem([
-        { kind: 'gate', chance: 50 },
-        { kind: 'healHp', amount: 10 },
-      ]),
-    }
-    const base = world([{ itemId: 'use-item', count: 3 }], 60)
-    const outcome = resolveWorldItemUse(base, 'hero', 'use-item', items, undefined, () => 0.9)
-    expect(outcome.status).toBe('failure')
-    expect(outcome.reason).toBe('gate-failed')
-    expect(outcome.world.inventory).toEqual([{ itemId: 'use-item', count: 3 }])
-    expect(outcome.world.party[0]!.hp).toBe(60)
-  })
+  // 注：gate 失败/不消耗/原 world 不变已由旧 item.test.ts:898-928 同入口同阈值覆盖，
+  // 按 r6 审查登记 existing-proof，不重复建模。
 
   test('applyPoison 自毒经统一入口（毒 defs 缺失=纯加毒）', () => {
     const items: ItemDataMap = {

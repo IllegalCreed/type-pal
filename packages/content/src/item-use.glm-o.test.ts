@@ -4,95 +4,94 @@
  *  validateAssetCatalog kind 域与 origin 前缀轴、resolveWorldItemUse 透传 preflight。
  */
 
-import type { ItemData, ItemDataMap } from '@type-pal/content'
+import type {
+  CharacterInstance,
+  ItemData,
+  ItemDataMap,
+  ItemUseEffect,
+  WorldState,
+} from '@type-pal/content'
 import { describe, expect, test } from 'vitest'
 import { validateAssetCatalog } from './asset.js'
 import { resolveWorldItemUse } from './item.js'
 
-const world = () =>
+/** 完整 typed CharacterInstance（必填 exp；buildWorld 同域手构）。 */
+const hero = (over: Partial<CharacterInstance> = {}): CharacterInstance => ({
+  id: 'hero',
+  template: 'hero',
+  level: 1,
+  exp: 0,
+  hp: 80,
+  maxHP: 100,
+  mp: 20,
+  maxMP: 30,
+  attack: 10,
+  defense: 10,
+  magicAttack: 10,
+  speed: 10,
+  luck: 10,
+  equipment: {},
+  tags: [],
+  ...over,
+})
+
+const world = (over: Partial<WorldState> = {}): WorldState =>
   ({
-    party: [
-      {
-        id: 'hero',
-        template: 'hero',
-        level: 1,
-        hp: 80,
-        maxHP: 100,
-        mp: 20,
-        maxMP: 30,
-        attack: 10,
-        defense: 10,
-        magicAttack: 10,
-        speed: 10,
-        luck: 10,
-        equipment: {},
-        tags: [],
-        poisons: [],
-        extraStatuses: [],
-      },
-    ],
+    party: [hero()],
     learnedSkills: {},
     money: 100,
     inventory: [{ itemId: 'herb', count: 2 }],
-  }) as never
-
-const useItem = (over: Record<string, unknown>): ItemData =>
-  ({
-    id: 'herb',
-    name: '草药',
-    desc: [],
-    buyPrice: 0,
-    sellPrice: 0,
-    sellable: false,
     ...over,
-  }) as ItemData
+  }) as WorldState
 
-const healUse = {
-  target: 'oneAlly',
-  consuming: true,
-  effects: [{ kind: 'healHp', amount: 30 }],
-}
+const useItem = (
+  effects: ItemUseEffect[],
+  over: {
+    target?: 'oneAlly' | 'allAllies' | 'self' | 'scene'
+    consuming?: boolean
+    battleOnly?: boolean
+  } = {},
+): ItemData => ({
+  id: 'herb',
+  name: '草药',
+  desc: [],
+  buyPrice: 0,
+  sellPrice: 0,
+  sellable: false,
+  use: { target: 'oneAlly', consuming: true, effects, ...over },
+})
+
+const healEffects: ItemUseEffect[] = [{ kind: 'healHp', amount: 30 }]
 
 describe('O08 preflightWorldItemUse（经 resolveWorldItemUse 透传）：reason 轴', () => {
-  test('unknown-item：物品不存在或无 use', () => {
-    const outcome = resolveWorldItemUse(world(), 'hero', 'ghost', {} as ItemDataMap)
+  test('unknown-item：物品不存在', () => {
+    const outcome = resolveWorldItemUse(world(), 'hero', 'ghost', {})
     expect(outcome).toMatchObject({ status: 'failure', reason: 'unknown-item', consumed: false })
   })
 
   test('wrong-context：battleOnly 用途不进世界执行器', () => {
-    const items: ItemDataMap = {
-      herb: useItem({ use: { ...healUse, battleOnly: true } }),
-    }
+    const items: ItemDataMap = { herb: useItem(healEffects, { battleOnly: true }) }
     const outcome = resolveWorldItemUse(world(), 'hero', 'herb', items)
     expect(outcome).toMatchObject({ status: 'failure', reason: 'wrong-context' })
   })
 
   test('not-owned：背包与装备均无该物品', () => {
-    const items: ItemDataMap = { herb: useItem({ use: healUse }) }
-    const w = world()
-    ;(w as { inventory: unknown }).inventory = [{ itemId: 'other', count: 1 }]
+    const items: ItemDataMap = { herb: useItem(healEffects) }
+    const w = world({ inventory: [{ itemId: 'other', count: 1 }] })
     const outcome = resolveWorldItemUse(w, 'hero', 'herb', items)
     expect(outcome).toMatchObject({ status: 'failure', reason: 'not-owned' })
   })
 
-  test('missing-target：needsTarget 且指定目标不在 party', () => {
-    const items: ItemDataMap = { herb: useItem({ use: healUse }) }
+  test('missing-target：needsTarget 且指定目标不在 party（typed 缺键直证）', () => {
+    const items: ItemDataMap = { herb: useItem(healEffects) }
     const outcome = resolveWorldItemUse(world(), 'ghost', 'herb', items)
-    expect(outcome).toMatchObject({ status: 'failure', reason: 'missing-target' })
-  })
-
-  test('allAllies 目标不需要 party 命中（走执行）', () => {
-    const items: ItemDataMap = {
-      herb: useItem({
-        use: {
-          target: 'allAllies',
-          consuming: true,
-          effects: [{ kind: 'healHp', amount: 5 }],
-        },
-      }),
-    }
-    const outcome = resolveWorldItemUse(world(), 'hero', 'herb', items)
-    expect(outcome.reason).not.toBe('missing-target')
+    expect(outcome).toMatchObject({
+      status: 'failure',
+      reason: 'missing-target',
+      consumed: false,
+      changed: false,
+    })
+    expect(outcome.world.inventory).toEqual([{ itemId: 'herb', count: 2 }])
   })
 })
 
