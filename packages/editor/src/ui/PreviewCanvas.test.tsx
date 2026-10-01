@@ -1,12 +1,16 @@
 // @vitest-environment jsdom
 
-import type { SceneDef } from '@type-pal/content'
+import { gridToPixel, type SceneDef } from '@type-pal/content'
 import { act } from 'react'
 import { createRoot, type Root } from 'react-dom/client'
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
 import type { Playback } from '../core/playback.js'
 import { collectScriptMovementPreview } from '../core/script-movement-preview.js'
-import { drawScriptMovementPreview, PreviewCanvas } from './PreviewCanvas.js'
+import {
+  drawScriptMovementPreview,
+  fitScriptMovementPreview,
+  PreviewCanvas,
+} from './PreviewCanvas.js'
 
 vi.mock('./scene-stage.js', () => ({
   drawGridBlocked: vi.fn(),
@@ -30,6 +34,38 @@ const scene: SceneDef = {
   entry: { pos: { col: 0, row: 0, height: 0 }, facing: 'down' },
   entities: [],
 }
+
+test('fit frames every waypoint in a shallow viewport with room for legend and numbered dots', () => {
+  const movement = collectScriptMovementPreview({
+    scene,
+    flow: {
+      kind: 'stages',
+      initial: 'walk',
+      stages: [
+        {
+          id: 'walk',
+          body: [
+            { kind: 'moveParty', to: { col: 20, row: 40, height: 0 }, speed: 'normal' },
+            { kind: 'moveParty', to: { col: 60, row: 30, height: 0 }, speed: 'normal' },
+          ],
+        },
+      ],
+    },
+  })
+  const size = { w: 1000, h: 200 }
+  const fit = fitScriptMovementPreview(movement, size)!
+  expect(fit.zoom).toBeLessThan(2)
+  for (const node of movement.tracks.flatMap((track) => track.nodes)) {
+    const pixel = gridToPixel(node.pos)
+    const x = (pixel.x - fit.center.x) * fit.zoom + size.w / 2
+    const y = (pixel.y - fit.center.y) * fit.zoom + size.h / 2
+    expect(x).toBeGreaterThanOrEqual(24)
+    expect(x).toBeLessThanOrEqual(size.w - 24)
+    expect(y).toBeGreaterThanOrEqual(66)
+    expect(y).toBeLessThanOrEqual(size.h - 24)
+  }
+  expect(fitScriptMovementPreview({ tracks: [], notes: [] }, size)).toBeUndefined()
+})
 
 describe('PreviewCanvas confirm controls', () => {
   let host: HTMLDivElement
@@ -116,10 +152,15 @@ describe('PreviewCanvas confirm controls', () => {
     expect(toolbar?.querySelectorAll('.ds-toolbar__group')).toHaveLength(1)
     expect(toolbar?.querySelector('.preview-toolbar__trailing')).not.toBeNull()
     const legend = host.querySelector('[role="note"][aria-label="移动轨迹"]')
-    expect(legend?.textContent).toContain('移动轨迹 · 当前步骤 · 编排参考，非避障路径')
+    expect(legend?.textContent).toContain('移动轨迹 · 步骤 2 · 编排参考，非避障路径')
     expect(legend?.textContent).toContain('主角队伍')
     expect(legend?.textContent).toContain('虚线：条件 / 循环 / 动态')
     expect(legend?.textContent).toContain('◇ 瞬移 / 摆位')
+    const fitButton = [...host.querySelectorAll<HTMLButtonElement>('button')].find(
+      (button) => button.textContent === '显示完整轨迹',
+    )!
+    await act(async () => fitButton.click())
+    expect(host.querySelector('.preview-recenter')).not.toBeNull()
 
     await act(async () => {
       toolbar?.querySelector<HTMLButtonElement>('button[aria-label="播放"]')?.click()

@@ -9,6 +9,7 @@ import type {
   SceneDef,
 } from '@type-pal/content'
 import { pixelDeltaToGridDelta } from '@type-pal/content'
+import { previewFlowCursor } from './script-flow-preview.js'
 
 export type MovementPreviewTarget = { kind: 'party' } | { kind: 'entity'; address: EntityAddress }
 
@@ -62,20 +63,12 @@ const samePos = (a?: GridPos, b?: GridPos): boolean =>
   !!a && !!b && a.col === b.col && a.row === b.row && a.height === b.height
 
 function selectedBody(flow: AuthorScriptFlow, cursor?: FlowCursor) {
-  if (flow.kind === 'stages') {
-    const id =
-      cursor?.kind === 'stage' && flow.stages.some((stage) => stage.id === cursor.stage)
-        ? cursor.stage
-        : flow.initial
-    return flow.stages.find((stage) => stage.id === id)
-  }
-  const id =
-    cursor?.kind === 'state' &&
-    cursor.machine === flow.machine.id &&
-    Object.hasOwn(flow.machine.states, cursor.state)
-      ? cursor.state
-      : flow.machine.initial
-  return flow.machine.states[id]
+  const selected = previewFlowCursor(flow, cursor)
+  if (flow.kind === 'stages' && selected.kind === 'stage')
+    return flow.stages.find((stage) => stage.id === selected.stage)
+  if (flow.kind === 'stateMachine' && selected.kind === 'state')
+    return flow.machine.states[selected.state]
+  return undefined
 }
 
 function cloneState(state: RouteState): RouteState {

@@ -6,12 +6,12 @@ import { type CanonicalScriptEditorContext, describeCanonicalCommand } from './S
 const scene: AuthorSceneDef = {
   id: 's003',
   mapId: 'inn',
-  entry: { pos: { col: 0, row: 0 }, facing: 'down' },
+  entry: { pos: { col: 0, row: 0, height: 0 }, facing: 'down' },
   entities: [
     {
       id: 'e56',
       sprite: 'aunt',
-      pos: { col: 2, row: 3 },
+      pos: { col: 2, row: 3, height: 0 },
       pages: [{ id: 'default', label: '厨房阶段' }],
       initialPage: 'default',
       behaviors: {

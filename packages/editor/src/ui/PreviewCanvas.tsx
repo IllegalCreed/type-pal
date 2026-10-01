@@ -30,6 +30,7 @@ import {
 import { type KeyboardEvent, useEffect, useMemo, useRef, useState } from 'react'
 import { type EditorPlayIdentity, playProjectQuery } from '../core/play-url.js'
 import type { Playback } from '../core/playback.js'
+import { previewFlowCursor, previewStepLabel } from '../core/script-flow-preview.js'
 import {
   collectScriptMovementPreview,
   type ScriptMovementPreview,
@@ -45,6 +46,28 @@ import {
 
 const DEFAULT_ZOOM = 2
 const ROUTE_COLORS = ['#78d8ff', '#ffbf69', '#b2ef8e', '#d6a4ff', '#ff91bc', '#71e5cc']
+
+/** Keep numbered nodes clear of the legend and the viewport edge. */
+export function fitScriptMovementPreview(
+  preview: ScriptMovementPreview,
+  size: { w: number; h: number },
+): { center: { x: number; y: number }; zoom: number } | undefined {
+  const points = preview.tracks.flatMap((track) => track.nodes.map((node) => gridToPixel(node.pos)))
+  if (!points.length) return undefined
+  const minX = Math.min(...points.map((point) => point.x))
+  const maxX = Math.max(...points.map((point) => point.x))
+  const minY = Math.min(...points.map((point) => point.y))
+  const maxY = Math.max(...points.map((point) => point.y))
+  const zoom = Math.max(
+    0.04,
+    Math.min(
+      DEFAULT_ZOOM,
+      Math.max(1, size.w - 48) / Math.max(1, maxX - minX),
+      Math.max(1, size.h - 90) / Math.max(1, maxY - minY),
+    ),
+  )
+  return { center: { x: (minX + maxX) / 2, y: (minY + maxY) / 2 - 21 / zoom }, zoom }
+}
 
 /** Use the renderer's actual camera and scale; route dots mark logical map coordinates. */
 export function drawScriptMovementPreview(
@@ -297,6 +320,15 @@ export function PreviewCanvas(props: {
       focusEntityId,
     ],
   )
+  const [framedMovement, setFramedMovement] = useState<ScriptMovementPreview>()
+  const routeFramed = framedMovement === movementPreview
+  const routeFrame = useMemo(
+    () => fitScriptMovementPreview(movementPreview, size),
+    [movementPreview, size],
+  )
+  const movementStepLabel = canonicalFlow
+    ? previewStepLabel(canonicalFlow, previewFlowCursor(canonicalFlow, canonicalCursor))
+    : '当前步骤'
 
   const spriteById = useMemo(() => new Map(sprites.map((s) => [s.id, s])), [sprites])
   const entityDef = (e: SceneDef['entities'][number]): SpriteDef | undefined => {
@@ -352,6 +384,7 @@ export function PreviewCanvas(props: {
 
     /** 镜头目标:播放中 = Playback.poi(命令即导演);未播 = 选中源的触发实体(看得见主体)。 */
     const camTarget = (): { x: number; y: number } => {
+      if (routeFramed && routeFrame) return routeFrame.center
       const v = playback.view
       if (playback.poi) {
         const g = playback.poiPos()
@@ -513,6 +546,8 @@ export function PreviewCanvas(props: {
     sceneFraming,
     tilesets,
     movementPreview,
+    routeFramed,
+    routeFrame,
   ])
 
   const v = playback.view
@@ -697,7 +732,21 @@ export function PreviewCanvas(props: {
               lineHeight: 1.5,
             }}
           >
-            <div>移动轨迹 · 当前步骤 · 编排参考，非避障路径</div>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+              <span>移动轨迹 · {movementStepLabel} · 编排参考，非避障路径</span>
+              {routeFrame ? (
+                <DsButton
+                  size="compact"
+                  variant="secondary"
+                  onClick={() => {
+                    setFramedMovement(movementPreview)
+                    setView({ zoom: routeFrame.zoom, panX: 0, panY: 0 })
+                  }}
+                >
+                  显示完整轨迹
+                </DsButton>
+              ) : null}
+            </div>
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: '2px 12px' }}>
               {movementPreview.tracks.map((track, index) => {
                 const target = track.target
@@ -732,13 +781,16 @@ export function PreviewCanvas(props: {
             {movementPreview.notes[0] ? <div>{movementPreview.notes[0]}</div> : null}
           </div>
         ) : null}
-        {view.zoom !== DEFAULT_ZOOM || view.panX !== 0 || view.panY !== 0 ? (
+        {routeFramed || view.zoom !== DEFAULT_ZOOM || view.panX !== 0 || view.panY !== 0 ? (
           <DsButton
             size="compact"
             variant="secondary"
             className="preview-recenter"
             title="回正:恢复跟随镜头与默认缩放"
-            onClick={() => setView({ zoom: DEFAULT_ZOOM, panX: 0, panY: 0 })}
+            onClick={() => {
+              setFramedMovement(undefined)
+              setView({ zoom: DEFAULT_ZOOM, panX: 0, panY: 0 })
+            }}
           >
             ⌖ 回正 {Math.round((view.zoom / DEFAULT_ZOOM) * 100)}%
           </DsButton>
