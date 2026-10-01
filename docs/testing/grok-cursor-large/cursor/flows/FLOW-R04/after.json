@@ -1,0 +1,16 @@
+{
+  "flowId": "FLOW-R04",
+  "phase": "ready",
+  "label": "预览画布像素探针（资源 / Canvas2D）",
+  "oracle": {
+    "centerPixel": [51, 102, 153, 255],
+    "opaqueSampleOk": true,
+    "blocked": false,
+    "reason": "real Canvas2D readback"
+  },
+  "canvas2d": {
+    "ok": true,
+    "sample": [12, 34, 56, 255],
+    "note": "real Canvas2D readback"
+  }
+}

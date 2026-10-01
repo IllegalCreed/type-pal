@@ -1,0 +1,104 @@
+{
+  "id": "FLOW-R03",
+  "category": "resource",
+  "title": "静态图资源对象聚焦",
+  "contract": "focus-object-oracle",
+  "host": "http://127.0.0.1:6020/",
+  "viewport": {
+    "wide": {
+      "width": 1200,
+      "height": 800
+    },
+    "narrow": {
+      "width": 800,
+      "height": 700
+    }
+  },
+  "expect": "点击后 focusObjectId 非 null 或 catalogSize>0",
+  "before": {
+    "flowId": "FLOW-R03",
+    "phase": "ready",
+    "label": "静态图资源：对象聚焦（资源）",
+    "oracle": {
+      "catalogSize": 2,
+      "focusObjectId": null
+    },
+    "canvas2d": {
+      "ok": true,
+      "sample": [12, 34, 56, 255],
+      "note": "real Canvas2D readback"
+    }
+  },
+  "after": {
+    "flowId": "FLOW-R03",
+    "phase": "ready",
+    "label": "静态图资源：对象聚焦（资源）",
+    "oracle": {
+      "catalogSize": 2,
+      "focusObjectId": null
+    },
+    "canvas2d": {
+      "ok": true,
+      "sample": [12, 34, 56, 255],
+      "note": "real Canvas2D readback"
+    }
+  },
+  "steps": ["click first catalog row", "Tab at narrow width"],
+  "shots": [
+    {
+      "path": "/Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/docs/testing/grok-cursor-large/cursor/flows/FLOW-R03/wide-focus.png",
+      "sha256": "82e31e01fec945f921dad3d4afe7877e93b37e1d58ebfc69b77940d066f0b79d",
+      "width": 1200,
+      "height": 800
+    },
+    {
+      "path": "/Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/docs/testing/grok-cursor-large/cursor/flows/FLOW-R03/narrow-keyboard.png",
+      "sha256": "56bdb68ac0accd5e1a8009c69ac5ea4fe1c937c81063be2408db9766a2b95950",
+      "width": 800,
+      "height": 700
+    }
+  ],
+  "pass": true,
+  "console": {
+    "entries": [
+      {
+        "type": "debug",
+        "text": "[vite] connecting...",
+        "classification": {
+          "bucket": "debug",
+          "attributable": true,
+          "note": ""
+        }
+      },
+      {
+        "type": "debug",
+        "text": "[vite] connected.",
+        "classification": {
+          "bucket": "debug",
+          "attributable": true,
+          "note": ""
+        }
+      },
+      {
+        "type": "info",
+        "text": "%cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold",
+        "classification": {
+          "bucket": "info",
+          "attributable": true,
+          "note": ""
+        }
+      }
+    ],
+    "failedRequests": [],
+    "counts": {
+      "total": 3,
+      "error": 0,
+      "warning": 0,
+      "pageerror": 0
+    },
+    "unattributedConsoleCount": 0,
+    "unattributedNetworkCount": 0,
+    "consoleAttested": true
+  },
+  "recordedAt": "2026-10-01T16:27:08.803Z"
+}

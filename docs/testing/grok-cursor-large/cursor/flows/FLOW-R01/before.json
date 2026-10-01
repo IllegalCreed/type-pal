@@ -1,0 +1,14 @@
+{
+  "flowId": "FLOW-R01",
+  "phase": "ready",
+  "label": "世界精灵库：搜索过滤（资源）",
+  "oracle": {
+    "definitionCount": 3,
+    "filterText": ""
+  },
+  "canvas2d": {
+    "ok": true,
+    "sample": [12, 34, 56, 255],
+    "note": "real Canvas2D readback"
+  }
+}

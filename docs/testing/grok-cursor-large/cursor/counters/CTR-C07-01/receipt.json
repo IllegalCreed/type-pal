@@ -1,0 +1,110 @@
+{
+  "id": "CTR-C07-01",
+  "productFile": "packages/editor/src/core/static-image.ts",
+  "findText": "'battle-background',",
+  "replaceText": "'battle-bg',",
+  "testSpec": "src/core/static-image.c07-g01.cursor-r1.test.ts",
+  "expectFullname": "C07-G01 static-image 与 imageAssets C07-G01-01 STATIC_IMAGE_KINDS 恰为四种静态图像 kind",
+  "candidateHead": "0704d3de6d3d2a2099475a42f601b654bba08579",
+  "productSha256Candidate": "7c7754b8de643a6b1e711afe92089c3a476eaa27a241b82daead1784b73da865",
+  "patch": "--- a/packages/editor/src/core/static-image.ts\n+++ b/packages/editor/src/core/static-image.ts\n@@ -4,7 +4,7 @@\n   'portrait',\n   'face',\n   'item-icon',\n-  'battle-background',\n+  'battle-bg',\n ] as const satisfies readonly AssetKind[]\n \n export type StaticImageKind = (typeof STATIC_IMAGE_KINDS)[number]\n",
+  "positive": {
+    "exitCode": 0,
+    "executed": 10,
+    "executedFullNames": [
+      "C07-G01 static-image 与 imageAssets C07-G01-01 STATIC_IMAGE_KINDS 恰为四种静态图像 kind",
+      "C07-G01 static-image 与 imageAssets C07-G01-02 各 kind 唯一且满足 AssetKind",
+      "C07-G01 static-image 与 imageAssets C07-G01-03 imageAssets(portrait) 只保留 portrait 记录",
+      "C07-G01 static-image 与 imageAssets C07-G01-04 imageAssets 按 AssetId 字典序排序",
+      "C07-G01 static-image 与 imageAssets C07-G01-05 空 catalog 返回空列表",
+      "C07-G01 static-image 与 imageAssets C07-G01-06 imageAssetLabel 有 label 时带括号 id",
+      "C07-G01 static-image 与 imageAssets C07-G01-07 imageAssetLabel 无 label 时仅 id",
+      "C07-G01 static-image 与 imageAssets C07-G01-08 battle-background 过滤不含其它 kind",
+      "C07-G01 static-image 与 imageAssets C07-G01-09 item-icon 与 face 互不串 kind",
+      "C07-G01 static-image 与 imageAssets C07-G01-10 STATIC_IMAGE_KINDS 不含 frame-animation / video"
+    ],
+    "judge": {
+      "valid": true,
+      "reasons": [],
+      "executed": 10,
+      "identitySet": [
+        "src/core/static-image.c07-g01.cursor-r1.test.ts×C07-G01 static-image 与 imageAssets C07-G01-01 STATIC_IMAGE_KINDS 恰为四种静态图像 kind",
+        "src/core/static-image.c07-g01.cursor-r1.test.ts×C07-G01 static-image 与 imageAssets C07-G01-02 各 kind 唯一且满足 AssetKind",
+        "src/core/static-image.c07-g01.cursor-r1.test.ts×C07-G01 static-image 与 imageAssets C07-G01-03 imageAssets(portrait) 只保留 portrait 记录",
+        "src/core/static-image.c07-g01.cursor-r1.test.ts×C07-G01 static-image 与 imageAssets C07-G01-04 imageAssets 按 AssetId 字典序排序",
+        "src/core/static-image.c07-g01.cursor-r1.test.ts×C07-G01 static-image 与 imageAssets C07-G01-05 空 catalog 返回空列表",
+        "src/core/static-image.c07-g01.cursor-r1.test.ts×C07-G01 static-image 与 imageAssets C07-G01-06 imageAssetLabel 有 label 时带括号 id",
+        "src/core/static-image.c07-g01.cursor-r1.test.ts×C07-G01 static-image 与 imageAssets C07-G01-07 imageAssetLabel 无 label 时仅 id",
+        "src/core/static-image.c07-g01.cursor-r1.test.ts×C07-G01 static-image 与 imageAssets C07-G01-08 battle-background 过滤不含其它 kind",
+        "src/core/static-image.c07-g01.cursor-r1.test.ts×C07-G01 static-image 与 imageAssets C07-G01-09 item-icon 与 face 互不串 kind",
+        "src/core/static-image.c07-g01.cursor-r1.test.ts×C07-G01 static-image 与 imageAssets C07-G01-10 STATIC_IMAGE_KINDS 不含 frame-animation / video"
+      ]
+    }
+  },
+  "productSha256MutatedTree": "06e5bdffd74460c03c50e1b3c02e79ee25adeb0bd0aa6f301adc7485b939dd1a",
+  "mutated": {
+    "exitCode": 1,
+    "executed": 10,
+    "executedFullNames": [
+      "C07-G01 static-image 与 imageAssets C07-G01-01 STATIC_IMAGE_KINDS 恰为四种静态图像 kind",
+      "C07-G01 static-image 与 imageAssets C07-G01-02 各 kind 唯一且满足 AssetKind",
+      "C07-G01 static-image 与 imageAssets C07-G01-03 imageAssets(portrait) 只保留 portrait 记录",
+      "C07-G01 static-image 与 imageAssets C07-G01-04 imageAssets 按 AssetId 字典序排序",
+      "C07-G01 static-image 与 imageAssets C07-G01-05 空 catalog 返回空列表",
+      "C07-G01 static-image 与 imageAssets C07-G01-06 imageAssetLabel 有 label 时带括号 id",
+      "C07-G01 static-image 与 imageAssets C07-G01-07 imageAssetLabel 无 label 时仅 id",
+      "C07-G01 static-image 与 imageAssets C07-G01-08 battle-background 过滤不含其它 kind",
+      "C07-G01 static-image 与 imageAssets C07-G01-09 item-icon 与 face 互不串 kind",
+      "C07-G01 static-image 与 imageAssets C07-G01-10 STATIC_IMAGE_KINDS 不含 frame-animation / video"
+    ],
+    "failed": [
+      {
+        "fullName": "C07-G01 static-image 与 imageAssets C07-G01-01 STATIC_IMAGE_KINDS 恰为四种静态图像 kind",
+        "message": "AssertionError: expected [ 'portrait', 'face', …(2) ] to deeply equal [ 'portrait', 'face', …(2) ]",
+        "file": "src/core/static-image.c07-g01.cursor-r1.test.ts"
+      }
+    ],
+    "judge": {
+      "valid": true,
+      "reasons": []
+    },
+    "target": {
+      "fullName": "C07-G01 static-image 与 imageAssets C07-G01-01 STATIC_IMAGE_KINDS 恰为四种静态图像 kind",
+      "message": "AssertionError: expected [ 'portrait', 'face', …(2) ] to deeply equal [ 'portrait', 'face', …(2) ]",
+      "file": "src/core/static-image.c07-g01.cursor-r1.test.ts"
+    }
+  },
+  "restored": {
+    "exitCode": 0,
+    "executed": 10,
+    "executedFullNames": [
+      "C07-G01 static-image 与 imageAssets C07-G01-01 STATIC_IMAGE_KINDS 恰为四种静态图像 kind",
+      "C07-G01 static-image 与 imageAssets C07-G01-02 各 kind 唯一且满足 AssetKind",
+      "C07-G01 static-image 与 imageAssets C07-G01-03 imageAssets(portrait) 只保留 portrait 记录",
+      "C07-G01 static-image 与 imageAssets C07-G01-04 imageAssets 按 AssetId 字典序排序",
+      "C07-G01 static-image 与 imageAssets C07-G01-05 空 catalog 返回空列表",
+      "C07-G01 static-image 与 imageAssets C07-G01-06 imageAssetLabel 有 label 时带括号 id",
+      "C07-G01 static-image 与 imageAssets C07-G01-07 imageAssetLabel 无 label 时仅 id",
+      "C07-G01 static-image 与 imageAssets C07-G01-08 battle-background 过滤不含其它 kind",
+      "C07-G01 static-image 与 imageAssets C07-G01-09 item-icon 与 face 互不串 kind",
+      "C07-G01 static-image 与 imageAssets C07-G01-10 STATIC_IMAGE_KINDS 不含 frame-animation / video"
+    ],
+    "judge": {
+      "valid": true,
+      "reasons": [],
+      "executed": 10,
+      "identitySet": [
+        "src/core/static-image.c07-g01.cursor-r1.test.ts×C07-G01 static-image 与 imageAssets C07-G01-01 STATIC_IMAGE_KINDS 恰为四种静态图像 kind",
+        "src/core/static-image.c07-g01.cursor-r1.test.ts×C07-G01 static-image 与 imageAssets C07-G01-02 各 kind 唯一且满足 AssetKind",
+        "src/core/static-image.c07-g01.cursor-r1.test.ts×C07-G01 static-image 与 imageAssets C07-G01-03 imageAssets(portrait) 只保留 portrait 记录",
+        "src/core/static-image.c07-g01.cursor-r1.test.ts×C07-G01 static-image 与 imageAssets C07-G01-04 imageAssets 按 AssetId 字典序排序",
+        "src/core/static-image.c07-g01.cursor-r1.test.ts×C07-G01 static-image 与 imageAssets C07-G01-05 空 catalog 返回空列表",
+        "src/core/static-image.c07-g01.cursor-r1.test.ts×C07-G01 static-image 与 imageAssets C07-G01-06 imageAssetLabel 有 label 时带括号 id",
+        "src/core/static-image.c07-g01.cursor-r1.test.ts×C07-G01 static-image 与 imageAssets C07-G01-07 imageAssetLabel 无 label 时仅 id",
+        "src/core/static-image.c07-g01.cursor-r1.test.ts×C07-G01 static-image 与 imageAssets C07-G01-08 battle-background 过滤不含其它 kind",
+        "src/core/static-image.c07-g01.cursor-r1.test.ts×C07-G01 static-image 与 imageAssets C07-G01-09 item-icon 与 face 互不串 kind",
+        "src/core/static-image.c07-g01.cursor-r1.test.ts×C07-G01 static-image 与 imageAssets C07-G01-10 STATIC_IMAGE_KINDS 不含 frame-animation / video"
+      ]
+    }
+  }
+}

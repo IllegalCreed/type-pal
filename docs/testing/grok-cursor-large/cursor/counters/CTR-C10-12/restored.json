@@ -1,0 +1,190 @@
+{
+  "numTotalTestSuites": 4,
+  "numPassedTestSuites": 4,
+  "numFailedTestSuites": 0,
+  "numPendingTestSuites": 0,
+  "numTotalTests": 15,
+  "numPassedTests": 15,
+  "numFailedTests": 0,
+  "numPendingTests": 0,
+  "numTodoTests": 0,
+  "snapshot": {
+    "added": 0,
+    "failure": false,
+    "filesAdded": 0,
+    "filesRemoved": 0,
+    "filesRemovedList": [],
+    "filesUnmatched": 0,
+    "filesUpdated": 0,
+    "matched": 0,
+    "total": 0,
+    "unchecked": 0,
+    "uncheckedKeysByFile": [],
+    "unmatched": 0,
+    "updated": 0,
+    "didUpdate": false
+  },
+  "startTime": 1790868753070,
+  "success": true,
+  "testResults": [
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["C10-G07 collection-search 与 index"],
+          "fullName": "C10-G07 collection-search 与 index C10-G07-01 filterDsCollection 空 query 返回原引用",
+          "status": "passed",
+          "title": "C10-G07-01 filterDsCollection 空 query 返回原引用",
+          "duration": 7.600791999999956,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["C10-G07 collection-search 与 index"],
+          "fullName": "C10-G07 collection-search 与 index C10-G07-02 filterDsCollection 大小写不敏感子串",
+          "status": "passed",
+          "title": "C10-G07-02 filterDsCollection 大小写不敏感子串",
+          "duration": 2.214207999999985,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["C10-G07 collection-search 与 index"],
+          "fullName": "C10-G07 collection-search 与 index C10-G07-03 DS_OPTION_VIRTUALIZE_ABOVE 为 80",
+          "status": "passed",
+          "title": "C10-G07-03 DS_OPTION_VIRTUALIZE_ABOVE 为 80",
+          "duration": 1.1693750000000591,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["C10-G07 collection-search 与 index"],
+          "fullName": "C10-G07 collection-search 与 index C10-G07-04 EDITOR_DESIGN_SYSTEM_VERSION  semver 形态",
+          "status": "passed",
+          "title": "C10-G07-04 EDITOR_DESIGN_SYSTEM_VERSION  semver 形态",
+          "duration": 1.3893339999999625,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["C10-G07 collection-search 与 index"],
+          "fullName": "C10-G07 collection-search 与 index C10-G07-05 control-utils describedBy 合并多 id",
+          "status": "passed",
+          "title": "C10-G07-05 control-utils describedBy 合并多 id",
+          "duration": 1.674707999999896,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["C10-G07 展示与原生输入"],
+          "fullName": "C10-G07 展示与原生输入 C10-G07-06 DsTag tone 渲染 modifier class",
+          "status": "passed",
+          "title": "C10-G07-06 DsTag tone 渲染 modifier class",
+          "duration": 3.782333000000108,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["C10-G07 展示与原生输入"],
+          "fullName": "C10-G07 展示与原生输入 C10-G07-07 DsReadonlyValue monospace class",
+          "status": "passed",
+          "title": "C10-G07-07 DsReadonlyValue monospace class",
+          "duration": 1.0162500000000136,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["C10-G07 展示与原生输入"],
+          "fullName": "C10-G07 展示与原生输入 C10-G07-08 DsStatus 与 DsEmptyState 渲染角色文案",
+          "status": "passed",
+          "title": "C10-G07-08 DsStatus 与 DsEmptyState 渲染角色文案",
+          "duration": 7.617708999999991,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["C10-G07 展示与原生输入"],
+          "fullName": "C10-G07 展示与原生输入 C10-G07-09 DsButton busy 禁用并显示处理中",
+          "status": "passed",
+          "title": "C10-G07-09 DsButton busy 禁用并显示处理中",
+          "duration": 6.887584000000061,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["C10-G07 展示与原生输入"],
+          "fullName": "C10-G07 展示与原生输入 C10-G07-10 DsFilePicker disabled 加 is-disabled",
+          "status": "passed",
+          "title": "C10-G07-10 DsFilePicker disabled 加 is-disabled",
+          "duration": 1.40524999999991,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["C10-G07 recipes 与 icons"],
+          "fullName": "C10-G07 recipes 与 icons C10-G07-11 DsSequenceIndex 渲染 value 与可读标签",
+          "status": "passed",
+          "title": "C10-G07-11 DsSequenceIndex 渲染 value 与可读标签",
+          "duration": 1.7273329999999305,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["C10-G07 recipes 与 icons"],
+          "fullName": "C10-G07 recipes 与 icons C10-G07-12 DsInlineComposer 渲染 control 与 action 槽",
+          "status": "passed",
+          "title": "C10-G07-12 DsInlineComposer 渲染 control 与 action 槽",
+          "duration": 6.336832999999956,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["C10-G07 recipes 与 icons"],
+          "fullName": "C10-G07 recipes 与 icons C10-G07-13 DsIcon 渲染 svg 且 aria-hidden",
+          "status": "passed",
+          "title": "C10-G07-13 DsIcon 渲染 svg 且 aria-hidden",
+          "duration": 1.843458999999939,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["C10-G07 recipes 与 icons"],
+          "fullName": "C10-G07 recipes 与 icons C10-G07-14 DsPressable 默认 type=button",
+          "status": "passed",
+          "title": "C10-G07-14 DsPressable 默认 type=button",
+          "duration": 1.0104169999999613,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["C10-G07 recipes 与 icons"],
+          "fullName": "C10-G07 recipes 与 icons C10-G07-15 DsIconButton 点击触发 onClick",
+          "status": "passed",
+          "title": "C10-G07-15 DsIconButton 点击触发 onClick",
+          "duration": 4.32508299999995,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790868753985,
+      "endTime": 1790868754035.3252,
+      "status": "passed",
+      "message": "",
+      "name": "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/cursor-counter-CTR-C10-12-wmH8qz/packages/editor/src/ui/design-system/recipes-index.c10-g07.cursor-r1.test.tsx"
+    }
+  ]
+}

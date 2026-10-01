@@ -1,0 +1,144 @@
+{
+  "numTotalTestSuites": 2,
+  "numPassedTestSuites": 0,
+  "numFailedTestSuites": 2,
+  "numPendingTestSuites": 0,
+  "numTotalTests": 10,
+  "numPassedTests": 8,
+  "numFailedTests": 2,
+  "numPendingTests": 0,
+  "numTodoTests": 0,
+  "snapshot": {
+    "added": 0,
+    "failure": false,
+    "filesAdded": 0,
+    "filesRemoved": 0,
+    "filesRemovedList": [],
+    "filesUnmatched": 0,
+    "filesUpdated": 0,
+    "matched": 0,
+    "total": 0,
+    "unchecked": 0,
+    "uncheckedKeysByFile": [],
+    "unmatched": 0,
+    "updated": 0,
+    "didUpdate": false
+  },
+  "startTime": 1790868818475,
+  "success": false,
+  "testResults": [
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["C05-G01 sprite-actions 排序与默认目标"],
+          "fullName": "C05-G01 sprite-actions 排序与默认目标 C05-G01-01 index 是排序后的连续位置，与 order 数值大小无关",
+          "status": "failed",
+          "title": "C05-G01-01 index 是排序后的连续位置，与 order 数值大小无关",
+          "duration": 8.60029099999997,
+          "failureMessages": [
+            "AssertionError: expected [ [ 'near', 1 ], [ 'mid', 2 ], …(1) ] to deeply equal [ [ 'near', +0 ], [ 'mid', 1 ], …(1) ]\n    at /private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/cursor-counter-CTR-C05-01-cNl575/packages/editor/src/core/sprite-actions.c05-g01.cursor-r1.test.ts:52:56\n    at file:///Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64"
+          ],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["C05-G01 sprite-actions 排序与默认目标"],
+          "fullName": "C05-G01 sprite-actions 排序与默认目标 C05-G01-02 order=0 与缺省 order 不等价：显式 0 排在缺省之前，即使标签更靠后",
+          "status": "passed",
+          "title": "C05-G01-02 order=0 与缺省 order 不等价：显式 0 排在缺省之前，即使标签更靠后",
+          "duration": 0.605209000000059,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["C05-G01 sprite-actions 排序与默认目标"],
+          "fullName": "C05-G01 sprite-actions 排序与默认目标 C05-G01-03 返回的 action 与入参 poses 条目是同一引用（不复制、不改写）",
+          "status": "passed",
+          "title": "C05-G01-03 返回的 action 与入参 poses 条目是同一引用（不复制、不改写）",
+          "duration": 0.29366700000002766,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["C05-G01 sprite-actions 排序与默认目标"],
+          "fullName": "C05-G01 sprite-actions 排序与默认目标 C05-G01-04 标签比较使用 localeCompare：大小写与 id 数字串按字符序而非数值序",
+          "status": "passed",
+          "title": "C05-G01-04 标签比较使用 localeCompare：大小写与 id 数字串按字符序而非数值序",
+          "duration": 8.742083999999977,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["C05-G01 sprite-actions 排序与默认目标"],
+          "fullName": "C05-G01 sprite-actions 排序与默认目标 C05-G01-05 空 poses 容器与缺省 poses 同样得到空序列",
+          "status": "passed",
+          "title": "C05-G01-05 空 poses 容器与缺省 poses 同样得到空序列",
+          "duration": 0.16808300000002419,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["C05-G01 sprite-actions 排序与默认目标"],
+          "fullName": "C05-G01 sprite-actions 排序与默认目标 C05-G01-06 nextSpriteActionId：基础 id 空闲时不看后缀占用；后缀空洞取最小空位",
+          "status": "passed",
+          "title": "C05-G01-06 nextSpriteActionId：基础 id 空闲时不看后缀占用；后缀空洞取最小空位",
+          "duration": 0.28808300000002873,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["C05-G01 sprite-actions 排序与默认目标"],
+          "fullName": "C05-G01 sprite-actions 排序与默认目标 C05-G01-07 nextSpriteActionId 连续落盘 4 次得到互异的 action、action-2、action-3、action-4",
+          "status": "passed",
+          "title": "C05-G01-07 nextSpriteActionId 连续落盘 4 次得到互异的 action、action-2、action-3、action-4",
+          "duration": 0.19087500000000546,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["C05-G01 sprite-actions 排序与默认目标"],
+          "fullName": "C05-G01 sprite-actions 排序与默认目标 C05-G01-08 默认目标按实体的 sprite 身份取其自身首动作，而非列表第一个有动作的精灵",
+          "status": "failed",
+          "title": "C05-G01-08 默认目标按实体的 sprite 身份取其自身首动作，而非列表第一个有动作的精灵",
+          "duration": 1.8180419999999913,
+          "failureMessages": [
+            "AssertionError: expected { id: 'a', …(2) } to deeply equal { id: 'a', …(2) }\n    at /private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/cursor-counter-CTR-C05-01-cNl575/packages/editor/src/core/sprite-actions.c05-g01.cursor-r1.test.ts:139:28\n    at file:///Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64"
+          ],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["C05-G01 sprite-actions 排序与默认目标"],
+          "fullName": "C05-G01 sprite-actions 排序与默认目标 C05-G01-09 prop 指向不存在的精灵 id 或精灵无动作时返回 undefined",
+          "status": "passed",
+          "title": "C05-G01-09 prop 指向不存在的精灵 id 或精灵无动作时返回 undefined",
+          "duration": 0.5596660000001066,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["C05-G01 sprite-actions 排序与默认目标"],
+          "fullName": "C05-G01 sprite-actions 排序与默认目标 C05-G01-10 actor 实体经 actors 表换精灵：同一 actor id 指向不同精灵时各取各的首动作",
+          "status": "passed",
+          "title": "C05-G01-10 actor 实体经 actors 表换精灵：同一 actor id 指向不同精灵时各取各的首动作",
+          "duration": 0.29179199999998673,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790868819049,
+      "endTime": 1790868819071.2917,
+      "status": "failed",
+      "message": "",
+      "name": "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/cursor-counter-CTR-C05-01-cNl575/packages/editor/src/core/sprite-actions.c05-g01.cursor-r1.test.ts"
+    }
+  ]
+}

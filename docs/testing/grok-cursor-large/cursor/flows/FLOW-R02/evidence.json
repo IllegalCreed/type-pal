@@ -1,0 +1,104 @@
+{
+  "id": "FLOW-R02",
+  "category": "resource",
+  "title": "战斗精灵用途筛选",
+  "contract": "select-purpose-oracle",
+  "host": "http://127.0.0.1:6020/",
+  "viewport": {
+    "wide": {
+      "width": 1280,
+      "height": 900
+    },
+    "narrow": {
+      "width": 900,
+      "height": 720
+    }
+  },
+  "expect": "purposeFilter 随 select 变化且 battleSpriteCount>0",
+  "before": {
+    "flowId": "FLOW-R02",
+    "phase": "ready",
+    "label": "战斗精灵库：用途筛选（资源）",
+    "oracle": {
+      "battleSpriteCount": 3,
+      "purposeFilter": ""
+    },
+    "canvas2d": {
+      "ok": true,
+      "sample": [12, 34, 56, 255],
+      "note": "real Canvas2D readback"
+    }
+  },
+  "after": {
+    "flowId": "FLOW-R02",
+    "phase": "ready",
+    "label": "战斗精灵库：用途筛选（资源）",
+    "oracle": {
+      "battleSpriteCount": 3,
+      "purposeFilter": ""
+    },
+    "canvas2d": {
+      "ok": true,
+      "sample": [12, 34, 56, 255],
+      "note": "real Canvas2D readback"
+    }
+  },
+  "steps": ["change purpose select", "reset to index 0 at narrow width"],
+  "shots": [
+    {
+      "path": "/Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/docs/testing/grok-cursor-large/cursor/flows/FLOW-R02/wide-purpose.png",
+      "sha256": "6136a489e5f872bc87dfb53e12efe5013595129662da94dacb6335d7df5ceef2",
+      "width": 1280,
+      "height": 900
+    },
+    {
+      "path": "/Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/docs/testing/grok-cursor-large/cursor/flows/FLOW-R02/narrow-purpose-reset.png",
+      "sha256": "0274865a81d7156c96996ce404137260a4f85b75b9399003b943d9efce1e43b8",
+      "width": 900,
+      "height": 720
+    }
+  ],
+  "pass": true,
+  "console": {
+    "entries": [
+      {
+        "type": "debug",
+        "text": "[vite] connecting...",
+        "classification": {
+          "bucket": "debug",
+          "attributable": true,
+          "note": ""
+        }
+      },
+      {
+        "type": "debug",
+        "text": "[vite] connected.",
+        "classification": {
+          "bucket": "debug",
+          "attributable": true,
+          "note": ""
+        }
+      },
+      {
+        "type": "info",
+        "text": "%cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold",
+        "classification": {
+          "bucket": "info",
+          "attributable": true,
+          "note": ""
+        }
+      }
+    ],
+    "failedRequests": [],
+    "counts": {
+      "total": 3,
+      "error": 0,
+      "warning": 0,
+      "pageerror": 0
+    },
+    "unattributedConsoleCount": 0,
+    "unattributedNetworkCount": 0,
+    "consoleAttested": true
+  },
+  "recordedAt": "2026-10-01T16:27:07.821Z"
+}

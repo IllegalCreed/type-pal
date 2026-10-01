@@ -1,0 +1,102 @@
+{
+  "id": "FLOW-R04",
+  "category": "resource",
+  "title": "预览 Canvas2D 像素采样",
+  "contract": "canvas2d-pixel-oracle",
+  "host": "http://127.0.0.1:6020/",
+  "viewport": {
+    "wide": {
+      "width": 800,
+      "height": 600
+    },
+    "narrow": {
+      "width": 800,
+      "height": 600
+    }
+  },
+  "expect": "centerPixel alpha=255",
+  "before": {
+    "flowId": "FLOW-R04",
+    "phase": "ready",
+    "label": "预览画布像素探针（资源 / Canvas2D）",
+    "oracle": {
+      "centerPixel": [51, 102, 153, 255],
+      "opaqueSampleOk": true,
+      "blocked": false,
+      "reason": "real Canvas2D readback"
+    },
+    "canvas2d": {
+      "ok": true,
+      "sample": [12, 34, 56, 255],
+      "note": "real Canvas2D readback"
+    }
+  },
+  "after": {
+    "flowId": "FLOW-R04",
+    "phase": "ready",
+    "label": "预览画布像素探针（资源 / Canvas2D）",
+    "oracle": {
+      "centerPixel": [51, 102, 153, 255],
+      "opaqueSampleOk": true,
+      "blocked": false,
+      "reason": "real Canvas2D readback"
+    },
+    "canvas2d": {
+      "ok": true,
+      "sample": [12, 34, 56, 255],
+      "note": "real Canvas2D readback"
+    }
+  },
+  "steps": ["draw sample rect on canvas"],
+  "shots": [
+    {
+      "path": "/Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/docs/testing/grok-cursor-large/cursor/flows/FLOW-R04/pixel-sample.png",
+      "sha256": "fd86b3526942e5bd3d371db60ac74e1280fe934c75cc547f80a68a308d317ecd",
+      "width": 800,
+      "height": 600
+    }
+  ],
+  "pass": true,
+  "console": {
+    "entries": [
+      {
+        "type": "debug",
+        "text": "[vite] connecting...",
+        "classification": {
+          "bucket": "debug",
+          "attributable": true,
+          "note": ""
+        }
+      },
+      {
+        "type": "debug",
+        "text": "[vite] connected.",
+        "classification": {
+          "bucket": "debug",
+          "attributable": true,
+          "note": ""
+        }
+      },
+      {
+        "type": "info",
+        "text": "%cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold",
+        "classification": {
+          "bucket": "info",
+          "attributable": true,
+          "note": ""
+        }
+      }
+    ],
+    "failedRequests": [],
+    "counts": {
+      "total": 3,
+      "error": 0,
+      "warning": 0,
+      "pageerror": 0
+    },
+    "unattributedConsoleCount": 0,
+    "unattributedNetworkCount": 0,
+    "consoleAttested": true
+  },
+  "recordedAt": "2026-10-01T16:27:09.638Z"
+}

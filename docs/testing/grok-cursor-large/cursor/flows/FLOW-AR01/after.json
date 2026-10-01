@@ -1,0 +1,13 @@
+{
+  "flowId": "FLOW-AR01",
+  "phase": "ready",
+  "label": "战斗上传：非法文件失败与恢复（异步）",
+  "oracle": {
+    "status": "applied:1"
+  },
+  "canvas2d": {
+    "ok": true,
+    "sample": [12, 34, 56, 255],
+    "note": "real Canvas2D readback"
+  }
+}

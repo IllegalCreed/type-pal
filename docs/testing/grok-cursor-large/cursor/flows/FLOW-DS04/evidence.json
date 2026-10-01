@@ -1,0 +1,101 @@
+{
+  "id": "FLOW-DS04",
+  "category": "design-system",
+  "title": "DsVirtualList 滚动窗口",
+  "contract": "virtual-scroll-oracle",
+  "host": "http://127.0.0.1:6020/",
+  "viewport": {
+    "wide": {
+      "width": 900,
+      "height": 600
+    },
+    "narrow": {
+      "width": 480,
+      "height": 520
+    }
+  },
+  "expect": "firstVisibleIndex 随 scrollTop 增大",
+  "before": {
+    "flowId": "FLOW-DS04",
+    "phase": "ready",
+    "label": "DsVirtualList：滚动窗口（设计控件）",
+    "oracle": {},
+    "canvas2d": {
+      "ok": true,
+      "sample": [12, 34, 56, 255],
+      "note": "real Canvas2D readback"
+    }
+  },
+  "after": {
+    "flowId": "FLOW-DS04",
+    "phase": "ready",
+    "label": "DsVirtualList：滚动窗口（设计控件）",
+    "oracle": {
+      "scrollTop": 960,
+      "firstVisibleIndex": 30
+    },
+    "canvas2d": {
+      "ok": true,
+      "sample": [12, 34, 56, 255],
+      "note": "real Canvas2D readback"
+    }
+  },
+  "steps": ["scrollTop=640 wide", "scrollTop=960 narrow"],
+  "shots": [
+    {
+      "path": "/Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/docs/testing/grok-cursor-large/cursor/flows/FLOW-DS04/wide-scroll.png",
+      "sha256": "18c8ec53ef582b2f388eb6045d0242ef1634a4049aaa212dcf9d01660a74f1a5",
+      "width": 900,
+      "height": 600
+    },
+    {
+      "path": "/Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/docs/testing/grok-cursor-large/cursor/flows/FLOW-DS04/narrow-scroll.png",
+      "sha256": "d88760b2dcaf98c5b34613610f3366bd414aeb119de4a81b90291dac1abd5c03",
+      "width": 480,
+      "height": 520
+    }
+  ],
+  "pass": true,
+  "console": {
+    "entries": [
+      {
+        "type": "debug",
+        "text": "[vite] connecting...",
+        "classification": {
+          "bucket": "debug",
+          "attributable": true,
+          "note": ""
+        }
+      },
+      {
+        "type": "debug",
+        "text": "[vite] connected.",
+        "classification": {
+          "bucket": "debug",
+          "attributable": true,
+          "note": ""
+        }
+      },
+      {
+        "type": "info",
+        "text": "%cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold",
+        "classification": {
+          "bucket": "info",
+          "attributable": true,
+          "note": ""
+        }
+      }
+    ],
+    "failedRequests": [],
+    "counts": {
+      "total": 3,
+      "error": 0,
+      "warning": 0,
+      "pageerror": 0
+    },
+    "unattributedConsoleCount": 0,
+    "unattributedNetworkCount": 0,
+    "consoleAttested": true
+  },
+  "recordedAt": "2026-10-01T16:27:15.695Z"
+}

@@ -1,0 +1,110 @@
+{
+  "id": "CTR-C05-07",
+  "productFile": "packages/editor/src/core/sprite-actions.ts",
+  "findText": "leftId.localeCompare(rightId),",
+  "replaceText": "rightId.localeCompare(leftId),",
+  "testSpec": "src/core/sprite-actions.c05-g01.cursor-r1.test.ts",
+  "expectFullname": "C05-G01 sprite-actions 排序与默认目标 C05-G01-04 标签比较使用 localeCompare：大小写与 id 数字串按字符序而非数值序",
+  "candidateHead": "0704d3de6d3d2a2099475a42f601b654bba08579",
+  "productSha256Candidate": "3fe799e151654de3e34ad2182d0ad49fe335bd2766c594ac6dcd22d2a1a14463",
+  "patch": "--- a/packages/editor/src/core/sprite-actions.ts\n+++ b/packages/editor/src/core/sprite-actions.ts\n@@ -20,7 +20,7 @@\n       ([leftId, left], [rightId, right]) =>\n         (left.order ?? Number.MAX_SAFE_INTEGER) - (right.order ?? Number.MAX_SAFE_INTEGER) ||\n         left.label.localeCompare(right.label) ||\n-        leftId.localeCompare(rightId),\n+        rightId.localeCompare(leftId),\n     )\n     .map(([id, action], index) => ({ id, action, index }))\n }\n",
+  "positive": {
+    "exitCode": 0,
+    "executed": 10,
+    "executedFullNames": [
+      "C05-G01 sprite-actions 排序与默认目标 C05-G01-01 index 是排序后的连续位置，与 order 数值大小无关",
+      "C05-G01 sprite-actions 排序与默认目标 C05-G01-02 order=0 与缺省 order 不等价：显式 0 排在缺省之前，即使标签更靠后",
+      "C05-G01 sprite-actions 排序与默认目标 C05-G01-03 返回的 action 与入参 poses 条目是同一引用（不复制、不改写）",
+      "C05-G01 sprite-actions 排序与默认目标 C05-G01-04 标签比较使用 localeCompare：大小写与 id 数字串按字符序而非数值序",
+      "C05-G01 sprite-actions 排序与默认目标 C05-G01-05 空 poses 容器与缺省 poses 同样得到空序列",
+      "C05-G01 sprite-actions 排序与默认目标 C05-G01-06 nextSpriteActionId：基础 id 空闲时不看后缀占用；后缀空洞取最小空位",
+      "C05-G01 sprite-actions 排序与默认目标 C05-G01-07 nextSpriteActionId 连续落盘 4 次得到互异的 action、action-2、action-3、action-4",
+      "C05-G01 sprite-actions 排序与默认目标 C05-G01-08 默认目标按实体的 sprite 身份取其自身首动作，而非列表第一个有动作的精灵",
+      "C05-G01 sprite-actions 排序与默认目标 C05-G01-09 prop 指向不存在的精灵 id 或精灵无动作时返回 undefined",
+      "C05-G01 sprite-actions 排序与默认目标 C05-G01-10 actor 实体经 actors 表换精灵：同一 actor id 指向不同精灵时各取各的首动作"
+    ],
+    "judge": {
+      "valid": true,
+      "reasons": [],
+      "executed": 10,
+      "identitySet": [
+        "src/core/sprite-actions.c05-g01.cursor-r1.test.ts×C05-G01 sprite-actions 排序与默认目标 C05-G01-01 index 是排序后的连续位置，与 order 数值大小无关",
+        "src/core/sprite-actions.c05-g01.cursor-r1.test.ts×C05-G01 sprite-actions 排序与默认目标 C05-G01-02 order=0 与缺省 order 不等价：显式 0 排在缺省之前，即使标签更靠后",
+        "src/core/sprite-actions.c05-g01.cursor-r1.test.ts×C05-G01 sprite-actions 排序与默认目标 C05-G01-03 返回的 action 与入参 poses 条目是同一引用（不复制、不改写）",
+        "src/core/sprite-actions.c05-g01.cursor-r1.test.ts×C05-G01 sprite-actions 排序与默认目标 C05-G01-04 标签比较使用 localeCompare：大小写与 id 数字串按字符序而非数值序",
+        "src/core/sprite-actions.c05-g01.cursor-r1.test.ts×C05-G01 sprite-actions 排序与默认目标 C05-G01-05 空 poses 容器与缺省 poses 同样得到空序列",
+        "src/core/sprite-actions.c05-g01.cursor-r1.test.ts×C05-G01 sprite-actions 排序与默认目标 C05-G01-06 nextSpriteActionId：基础 id 空闲时不看后缀占用；后缀空洞取最小空位",
+        "src/core/sprite-actions.c05-g01.cursor-r1.test.ts×C05-G01 sprite-actions 排序与默认目标 C05-G01-07 nextSpriteActionId 连续落盘 4 次得到互异的 action、action-2、action-3、action-4",
+        "src/core/sprite-actions.c05-g01.cursor-r1.test.ts×C05-G01 sprite-actions 排序与默认目标 C05-G01-08 默认目标按实体的 sprite 身份取其自身首动作，而非列表第一个有动作的精灵",
+        "src/core/sprite-actions.c05-g01.cursor-r1.test.ts×C05-G01 sprite-actions 排序与默认目标 C05-G01-09 prop 指向不存在的精灵 id 或精灵无动作时返回 undefined",
+        "src/core/sprite-actions.c05-g01.cursor-r1.test.ts×C05-G01 sprite-actions 排序与默认目标 C05-G01-10 actor 实体经 actors 表换精灵：同一 actor id 指向不同精灵时各取各的首动作"
+      ]
+    }
+  },
+  "productSha256MutatedTree": "36e77f676125aba6b9c7ea24da0fa7b80d9d9c76caae16830d336bba1cc69a07",
+  "mutated": {
+    "exitCode": 1,
+    "executed": 10,
+    "executedFullNames": [
+      "C05-G01 sprite-actions 排序与默认目标 C05-G01-01 index 是排序后的连续位置，与 order 数值大小无关",
+      "C05-G01 sprite-actions 排序与默认目标 C05-G01-02 order=0 与缺省 order 不等价：显式 0 排在缺省之前，即使标签更靠后",
+      "C05-G01 sprite-actions 排序与默认目标 C05-G01-03 返回的 action 与入参 poses 条目是同一引用（不复制、不改写）",
+      "C05-G01 sprite-actions 排序与默认目标 C05-G01-04 标签比较使用 localeCompare：大小写与 id 数字串按字符序而非数值序",
+      "C05-G01 sprite-actions 排序与默认目标 C05-G01-05 空 poses 容器与缺省 poses 同样得到空序列",
+      "C05-G01 sprite-actions 排序与默认目标 C05-G01-06 nextSpriteActionId：基础 id 空闲时不看后缀占用；后缀空洞取最小空位",
+      "C05-G01 sprite-actions 排序与默认目标 C05-G01-07 nextSpriteActionId 连续落盘 4 次得到互异的 action、action-2、action-3、action-4",
+      "C05-G01 sprite-actions 排序与默认目标 C05-G01-08 默认目标按实体的 sprite 身份取其自身首动作，而非列表第一个有动作的精灵",
+      "C05-G01 sprite-actions 排序与默认目标 C05-G01-09 prop 指向不存在的精灵 id 或精灵无动作时返回 undefined",
+      "C05-G01 sprite-actions 排序与默认目标 C05-G01-10 actor 实体经 actors 表换精灵：同一 actor id 指向不同精灵时各取各的首动作"
+    ],
+    "failed": [
+      {
+        "fullName": "C05-G01 sprite-actions 排序与默认目标 C05-G01-04 标签比较使用 localeCompare：大小写与 id 数字串按字符序而非数值序",
+        "message": "AssertionError: expected [ 'a2', 'a10', 'a1' ] to deeply equal [ 'a1', 'a10', 'a2' ]",
+        "file": "src/core/sprite-actions.c05-g01.cursor-r1.test.ts"
+      }
+    ],
+    "judge": {
+      "valid": true,
+      "reasons": []
+    },
+    "target": {
+      "fullName": "C05-G01 sprite-actions 排序与默认目标 C05-G01-04 标签比较使用 localeCompare：大小写与 id 数字串按字符序而非数值序",
+      "message": "AssertionError: expected [ 'a2', 'a10', 'a1' ] to deeply equal [ 'a1', 'a10', 'a2' ]",
+      "file": "src/core/sprite-actions.c05-g01.cursor-r1.test.ts"
+    }
+  },
+  "restored": {
+    "exitCode": 0,
+    "executed": 10,
+    "executedFullNames": [
+      "C05-G01 sprite-actions 排序与默认目标 C05-G01-01 index 是排序后的连续位置，与 order 数值大小无关",
+      "C05-G01 sprite-actions 排序与默认目标 C05-G01-02 order=0 与缺省 order 不等价：显式 0 排在缺省之前，即使标签更靠后",
+      "C05-G01 sprite-actions 排序与默认目标 C05-G01-03 返回的 action 与入参 poses 条目是同一引用（不复制、不改写）",
+      "C05-G01 sprite-actions 排序与默认目标 C05-G01-04 标签比较使用 localeCompare：大小写与 id 数字串按字符序而非数值序",
+      "C05-G01 sprite-actions 排序与默认目标 C05-G01-05 空 poses 容器与缺省 poses 同样得到空序列",
+      "C05-G01 sprite-actions 排序与默认目标 C05-G01-06 nextSpriteActionId：基础 id 空闲时不看后缀占用；后缀空洞取最小空位",
+      "C05-G01 sprite-actions 排序与默认目标 C05-G01-07 nextSpriteActionId 连续落盘 4 次得到互异的 action、action-2、action-3、action-4",
+      "C05-G01 sprite-actions 排序与默认目标 C05-G01-08 默认目标按实体的 sprite 身份取其自身首动作，而非列表第一个有动作的精灵",
+      "C05-G01 sprite-actions 排序与默认目标 C05-G01-09 prop 指向不存在的精灵 id 或精灵无动作时返回 undefined",
+      "C05-G01 sprite-actions 排序与默认目标 C05-G01-10 actor 实体经 actors 表换精灵：同一 actor id 指向不同精灵时各取各的首动作"
+    ],
+    "judge": {
+      "valid": true,
+      "reasons": [],
+      "executed": 10,
+      "identitySet": [
+        "src/core/sprite-actions.c05-g01.cursor-r1.test.ts×C05-G01 sprite-actions 排序与默认目标 C05-G01-01 index 是排序后的连续位置，与 order 数值大小无关",
+        "src/core/sprite-actions.c05-g01.cursor-r1.test.ts×C05-G01 sprite-actions 排序与默认目标 C05-G01-02 order=0 与缺省 order 不等价：显式 0 排在缺省之前，即使标签更靠后",
+        "src/core/sprite-actions.c05-g01.cursor-r1.test.ts×C05-G01 sprite-actions 排序与默认目标 C05-G01-03 返回的 action 与入参 poses 条目是同一引用（不复制、不改写）",
+        "src/core/sprite-actions.c05-g01.cursor-r1.test.ts×C05-G01 sprite-actions 排序与默认目标 C05-G01-04 标签比较使用 localeCompare：大小写与 id 数字串按字符序而非数值序",
+        "src/core/sprite-actions.c05-g01.cursor-r1.test.ts×C05-G01 sprite-actions 排序与默认目标 C05-G01-05 空 poses 容器与缺省 poses 同样得到空序列",
+        "src/core/sprite-actions.c05-g01.cursor-r1.test.ts×C05-G01 sprite-actions 排序与默认目标 C05-G01-06 nextSpriteActionId：基础 id 空闲时不看后缀占用；后缀空洞取最小空位",
+        "src/core/sprite-actions.c05-g01.cursor-r1.test.ts×C05-G01 sprite-actions 排序与默认目标 C05-G01-07 nextSpriteActionId 连续落盘 4 次得到互异的 action、action-2、action-3、action-4",
+        "src/core/sprite-actions.c05-g01.cursor-r1.test.ts×C05-G01 sprite-actions 排序与默认目标 C05-G01-08 默认目标按实体的 sprite 身份取其自身首动作，而非列表第一个有动作的精灵",
+        "src/core/sprite-actions.c05-g01.cursor-r1.test.ts×C05-G01 sprite-actions 排序与默认目标 C05-G01-09 prop 指向不存在的精灵 id 或精灵无动作时返回 undefined",
+        "src/core/sprite-actions.c05-g01.cursor-r1.test.ts×C05-G01 sprite-actions 排序与默认目标 C05-G01-10 actor 实体经 actors 表换精灵：同一 actor id 指向不同精灵时各取各的首动作"
+      ]
+    }
+  }
+}

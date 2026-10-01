@@ -1,0 +1,110 @@
+{
+  "id": "CTR-C08-10",
+  "productFile": "packages/editor/src/core/stamp-template.ts",
+  "findText": "if (!used.has(stem)) return stem",
+  "replaceText": "if (!used.has(stem)) return `${stem}-0`",
+  "testSpec": "src/core/stamp-template.c08-g06.cursor-r1.test.ts",
+  "expectFullname": "C08-G06 stamp-template 锚点与拒绝路径 C08-G06-06 nextStampTemplateId 中文 preferred 归一后可用",
+  "candidateHead": "0704d3de6d3d2a2099475a42f601b654bba08579",
+  "productSha256Candidate": "6a1da2f3ae5633b245cf9d855d0b234d75016bb0af03bbeead2ae3eed0e1640f",
+  "patch": "--- a/packages/editor/src/core/stamp-template.ts\n+++ b/packages/editor/src/core/stamp-template.ts\n@@ -50,7 +50,7 @@\n export function nextStampTemplateId(preferred: string, existingIds: Iterable<string>): string {\n   const used = new Set(existingIds)\n   const stem = normalizedTemplateId(preferred) || 'stamp'\n-  if (!used.has(stem)) return stem\n+  if (!used.has(stem)) return `${stem}-0`\n   for (let index = 2; ; index++) {\n     const candidate = `${stem}-${index}`\n     if (!used.has(candidate)) return candidate\n",
+  "positive": {
+    "exitCode": 0,
+    "executed": 10,
+    "executedFullNames": [
+      "C08-G06 stamp-template 锚点与拒绝路径 C08-G06-01 defaultStampTemplateAnchor 取最小 row 再最小 latticeU",
+      "C08-G06 stamp-template 锚点与拒绝路径 C08-G06-02 defaultStampTemplateAnchor 空选区返回 undefined",
+      "C08-G06 stamp-template 锚点与拒绝路径 C08-G06-03 buildStampTemplateFromSelection 锚点出界精确拒绝",
+      "C08-G06 stamp-template 锚点与拒绝路径 C08-G06-04 buildStampTemplateFromSelection 引用缺失图层精确拒绝",
+      "C08-G06 stamp-template 锚点与拒绝路径 C08-G06-05 buildStampTemplateFromSelection 视觉槽缺 tileset 来源拒绝",
+      "C08-G06 stamp-template 锚点与拒绝路径 C08-G06-06 nextStampTemplateId 中文 preferred 归一后可用",
+      "C08-G06 stamp-template 锚点与拒绝路径 C08-G06-07 nextStampTemplateId stem 占用时返回 stem-2",
+      "C08-G06 stamp-template 锚点与拒绝路径 C08-G06-08 build 输出 origin 恒为 authored",
+      "C08-G06 stamp-template 锚点与拒绝路径 C08-G06-09 build 保留 height 矩阵于 objects 层",
+      "C08-G06 stamp-template 锚点与拒绝路径 C08-G06-10 build includeCollision=false 时 collision 全 null"
+    ],
+    "judge": {
+      "valid": true,
+      "reasons": [],
+      "executed": 10,
+      "identitySet": [
+        "src/core/stamp-template.c08-g06.cursor-r1.test.ts×C08-G06 stamp-template 锚点与拒绝路径 C08-G06-01 defaultStampTemplateAnchor 取最小 row 再最小 latticeU",
+        "src/core/stamp-template.c08-g06.cursor-r1.test.ts×C08-G06 stamp-template 锚点与拒绝路径 C08-G06-02 defaultStampTemplateAnchor 空选区返回 undefined",
+        "src/core/stamp-template.c08-g06.cursor-r1.test.ts×C08-G06 stamp-template 锚点与拒绝路径 C08-G06-03 buildStampTemplateFromSelection 锚点出界精确拒绝",
+        "src/core/stamp-template.c08-g06.cursor-r1.test.ts×C08-G06 stamp-template 锚点与拒绝路径 C08-G06-04 buildStampTemplateFromSelection 引用缺失图层精确拒绝",
+        "src/core/stamp-template.c08-g06.cursor-r1.test.ts×C08-G06 stamp-template 锚点与拒绝路径 C08-G06-05 buildStampTemplateFromSelection 视觉槽缺 tileset 来源拒绝",
+        "src/core/stamp-template.c08-g06.cursor-r1.test.ts×C08-G06 stamp-template 锚点与拒绝路径 C08-G06-06 nextStampTemplateId 中文 preferred 归一后可用",
+        "src/core/stamp-template.c08-g06.cursor-r1.test.ts×C08-G06 stamp-template 锚点与拒绝路径 C08-G06-07 nextStampTemplateId stem 占用时返回 stem-2",
+        "src/core/stamp-template.c08-g06.cursor-r1.test.ts×C08-G06 stamp-template 锚点与拒绝路径 C08-G06-08 build 输出 origin 恒为 authored",
+        "src/core/stamp-template.c08-g06.cursor-r1.test.ts×C08-G06 stamp-template 锚点与拒绝路径 C08-G06-09 build 保留 height 矩阵于 objects 层",
+        "src/core/stamp-template.c08-g06.cursor-r1.test.ts×C08-G06 stamp-template 锚点与拒绝路径 C08-G06-10 build includeCollision=false 时 collision 全 null"
+      ]
+    }
+  },
+  "productSha256MutatedTree": "3fa96dd49200685e43cd4ad2a5013c6ab3158eb58ee06eb4cf83da1fa8729b04",
+  "mutated": {
+    "exitCode": 1,
+    "executed": 10,
+    "executedFullNames": [
+      "C08-G06 stamp-template 锚点与拒绝路径 C08-G06-01 defaultStampTemplateAnchor 取最小 row 再最小 latticeU",
+      "C08-G06 stamp-template 锚点与拒绝路径 C08-G06-02 defaultStampTemplateAnchor 空选区返回 undefined",
+      "C08-G06 stamp-template 锚点与拒绝路径 C08-G06-03 buildStampTemplateFromSelection 锚点出界精确拒绝",
+      "C08-G06 stamp-template 锚点与拒绝路径 C08-G06-04 buildStampTemplateFromSelection 引用缺失图层精确拒绝",
+      "C08-G06 stamp-template 锚点与拒绝路径 C08-G06-05 buildStampTemplateFromSelection 视觉槽缺 tileset 来源拒绝",
+      "C08-G06 stamp-template 锚点与拒绝路径 C08-G06-06 nextStampTemplateId 中文 preferred 归一后可用",
+      "C08-G06 stamp-template 锚点与拒绝路径 C08-G06-07 nextStampTemplateId stem 占用时返回 stem-2",
+      "C08-G06 stamp-template 锚点与拒绝路径 C08-G06-08 build 输出 origin 恒为 authored",
+      "C08-G06 stamp-template 锚点与拒绝路径 C08-G06-09 build 保留 height 矩阵于 objects 层",
+      "C08-G06 stamp-template 锚点与拒绝路径 C08-G06-10 build includeCollision=false 时 collision 全 null"
+    ],
+    "failed": [
+      {
+        "fullName": "C08-G06 stamp-template 锚点与拒绝路径 C08-G06-06 nextStampTemplateId 中文 preferred 归一后可用",
+        "message": "AssertionError: expected '屋角-01-0' to be '屋角-01' // Object.is equality",
+        "file": "src/core/stamp-template.c08-g06.cursor-r1.test.ts"
+      }
+    ],
+    "judge": {
+      "valid": true,
+      "reasons": []
+    },
+    "target": {
+      "fullName": "C08-G06 stamp-template 锚点与拒绝路径 C08-G06-06 nextStampTemplateId 中文 preferred 归一后可用",
+      "message": "AssertionError: expected '屋角-01-0' to be '屋角-01' // Object.is equality",
+      "file": "src/core/stamp-template.c08-g06.cursor-r1.test.ts"
+    }
+  },
+  "restored": {
+    "exitCode": 0,
+    "executed": 10,
+    "executedFullNames": [
+      "C08-G06 stamp-template 锚点与拒绝路径 C08-G06-01 defaultStampTemplateAnchor 取最小 row 再最小 latticeU",
+      "C08-G06 stamp-template 锚点与拒绝路径 C08-G06-02 defaultStampTemplateAnchor 空选区返回 undefined",
+      "C08-G06 stamp-template 锚点与拒绝路径 C08-G06-03 buildStampTemplateFromSelection 锚点出界精确拒绝",
+      "C08-G06 stamp-template 锚点与拒绝路径 C08-G06-04 buildStampTemplateFromSelection 引用缺失图层精确拒绝",
+      "C08-G06 stamp-template 锚点与拒绝路径 C08-G06-05 buildStampTemplateFromSelection 视觉槽缺 tileset 来源拒绝",
+      "C08-G06 stamp-template 锚点与拒绝路径 C08-G06-06 nextStampTemplateId 中文 preferred 归一后可用",
+      "C08-G06 stamp-template 锚点与拒绝路径 C08-G06-07 nextStampTemplateId stem 占用时返回 stem-2",
+      "C08-G06 stamp-template 锚点与拒绝路径 C08-G06-08 build 输出 origin 恒为 authored",
+      "C08-G06 stamp-template 锚点与拒绝路径 C08-G06-09 build 保留 height 矩阵于 objects 层",
+      "C08-G06 stamp-template 锚点与拒绝路径 C08-G06-10 build includeCollision=false 时 collision 全 null"
+    ],
+    "judge": {
+      "valid": true,
+      "reasons": [],
+      "executed": 10,
+      "identitySet": [
+        "src/core/stamp-template.c08-g06.cursor-r1.test.ts×C08-G06 stamp-template 锚点与拒绝路径 C08-G06-01 defaultStampTemplateAnchor 取最小 row 再最小 latticeU",
+        "src/core/stamp-template.c08-g06.cursor-r1.test.ts×C08-G06 stamp-template 锚点与拒绝路径 C08-G06-02 defaultStampTemplateAnchor 空选区返回 undefined",
+        "src/core/stamp-template.c08-g06.cursor-r1.test.ts×C08-G06 stamp-template 锚点与拒绝路径 C08-G06-03 buildStampTemplateFromSelection 锚点出界精确拒绝",
+        "src/core/stamp-template.c08-g06.cursor-r1.test.ts×C08-G06 stamp-template 锚点与拒绝路径 C08-G06-04 buildStampTemplateFromSelection 引用缺失图层精确拒绝",
+        "src/core/stamp-template.c08-g06.cursor-r1.test.ts×C08-G06 stamp-template 锚点与拒绝路径 C08-G06-05 buildStampTemplateFromSelection 视觉槽缺 tileset 来源拒绝",
+        "src/core/stamp-template.c08-g06.cursor-r1.test.ts×C08-G06 stamp-template 锚点与拒绝路径 C08-G06-06 nextStampTemplateId 中文 preferred 归一后可用",
+        "src/core/stamp-template.c08-g06.cursor-r1.test.ts×C08-G06 stamp-template 锚点与拒绝路径 C08-G06-07 nextStampTemplateId stem 占用时返回 stem-2",
+        "src/core/stamp-template.c08-g06.cursor-r1.test.ts×C08-G06 stamp-template 锚点与拒绝路径 C08-G06-08 build 输出 origin 恒为 authored",
+        "src/core/stamp-template.c08-g06.cursor-r1.test.ts×C08-G06 stamp-template 锚点与拒绝路径 C08-G06-09 build 保留 height 矩阵于 objects 层",
+        "src/core/stamp-template.c08-g06.cursor-r1.test.ts×C08-G06 stamp-template 锚点与拒绝路径 C08-G06-10 build includeCollision=false 时 collision 全 null"
+      ]
+    }
+  }
+}

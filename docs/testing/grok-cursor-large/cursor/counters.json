@@ -1,0 +1,306 @@
+{
+  "generatedAt": "2026-10-01T15:46:54.722Z",
+  "valid": 50,
+  "counters": [
+    {
+      "id": "CTR-C03-02",
+      "productFile": "packages/editor/src/core/image-import.ts",
+      "expectFullname": "C03-G06 真实 PNG 导入与 AssetId C03-G06-07 base 占用递增 -2/-3 后缀",
+      "dir": "docs/testing/grok-cursor-large/cursor/counters/CTR-C03-02"
+    },
+    {
+      "id": "CTR-C04-11",
+      "productFile": "packages/editor/src/core/frame-animation-draft.ts",
+      "expectFullname": "C04-G07 draft 时长与结构编辑 C04-G07-06 duplicateDraftFrame 复制 override 与像素源",
+      "dir": "docs/testing/grok-cursor-large/cursor/counters/CTR-C04-11"
+    },
+    {
+      "id": "CTR-C05-05",
+      "productFile": "packages/editor/src/core/sprite-actions.ts",
+      "expectFullname": "C05-G01 sprite-actions 排序与默认目标 C05-G01-08 默认目标按实体的 sprite 身份取其自身首动作，而非列表第一个有动作的精灵",
+      "dir": "docs/testing/grok-cursor-large/cursor/counters/CTR-C05-05"
+    },
+    {
+      "id": "CTR-C05-06",
+      "productFile": "packages/editor/src/core/sprite-actions.ts",
+      "expectFullname": "C05-G01 sprite-actions 排序与默认目标 C05-G01-04 标签比较使用 localeCompare：大小写与 id 数字串按字符序而非数值序",
+      "dir": "docs/testing/grok-cursor-large/cursor/counters/CTR-C05-06"
+    },
+    {
+      "id": "CTR-C05-07",
+      "productFile": "packages/editor/src/core/sprite-actions.ts",
+      "expectFullname": "C05-G01 sprite-actions 排序与默认目标 C05-G01-04 标签比较使用 localeCompare：大小写与 id 数字串按字符序而非数值序",
+      "dir": "docs/testing/grok-cursor-large/cursor/counters/CTR-C05-07"
+    },
+    {
+      "id": "CTR-C07-01",
+      "productFile": "packages/editor/src/core/static-image.ts",
+      "expectFullname": "C07-G01 static-image 与 imageAssets C07-G01-01 STATIC_IMAGE_KINDS 恰为四种静态图像 kind",
+      "dir": "docs/testing/grok-cursor-large/cursor/counters/CTR-C07-01"
+    },
+    {
+      "id": "CTR-C07-06",
+      "productFile": "packages/editor/src/core/frame-animation-codec.ts",
+      "expectFullname": "C07-G03 合成 rgba 编码 C07-G03-01 三帧纯 rgba：帧数与 defaultFrameMs 写入 index",
+      "dir": "docs/testing/grok-cursor-large/cursor/counters/CTR-C07-06"
+    },
+    {
+      "id": "CTR-C07-07",
+      "productFile": "packages/editor/src/core/frame-animation-codec.ts",
+      "expectFullname": "C07-G03 合成 rgba 编码 C07-G03-02 colorTreatment project-standard 写入 index",
+      "dir": "docs/testing/grok-cursor-large/cursor/counters/CTR-C07-07"
+    },
+    {
+      "id": "CTR-C08-01",
+      "productFile": "packages/editor/src/core/stamp-template.ts",
+      "expectFullname": "C08-G06 stamp-template 锚点与拒绝路径 C08-G06-01 defaultStampTemplateAnchor 取最小 row 再最小 latticeU",
+      "dir": "docs/testing/grok-cursor-large/cursor/counters/CTR-C08-01"
+    },
+    {
+      "id": "CTR-C08-02",
+      "productFile": "packages/editor/src/core/stamp-template.ts",
+      "expectFullname": "C08-G06 stamp-template 锚点与拒绝路径 C08-G06-03 buildStampTemplateFromSelection 锚点出界精确拒绝",
+      "dir": "docs/testing/grok-cursor-large/cursor/counters/CTR-C08-02"
+    },
+    {
+      "id": "CTR-C08-05",
+      "productFile": "packages/editor/src/core/stamp-draft.ts",
+      "expectFullname": "C08-G05 stamp-draft 选择移动与层 slot C08-G05-01 nextStampLayerSlotId 基名可用时返回 base",
+      "dir": "docs/testing/grok-cursor-large/cursor/counters/CTR-C08-05"
+    },
+    {
+      "id": "CTR-C08-07",
+      "productFile": "packages/editor/src/core/stamp-commands.ts",
+      "expectFullname": "C08-G04 stamp-commands 模板身份与 mapReferenceStampIds C08-G04-01 AddStampTemplateCommand mapReferenceStampIds 与模板 id 一致",
+      "dir": "docs/testing/grok-cursor-large/cursor/counters/CTR-C08-07"
+    },
+    {
+      "id": "CTR-C08-10",
+      "productFile": "packages/editor/src/core/stamp-template.ts",
+      "expectFullname": "C08-G06 stamp-template 锚点与拒绝路径 C08-G06-06 nextStampTemplateId 中文 preferred 归一后可用",
+      "dir": "docs/testing/grok-cursor-large/cursor/counters/CTR-C08-10"
+    },
+    {
+      "id": "CTR-C08-12",
+      "productFile": "packages/editor/src/core/stamp-commands.ts",
+      "expectFullname": "C08-G04 stamp-commands 模板身份与 mapReferenceStampIds C08-G04-02 ReplaceStampTemplateCommand mapReferenceStampIds 指向目标 id",
+      "dir": "docs/testing/grok-cursor-large/cursor/counters/CTR-C08-12"
+    },
+    {
+      "id": "CTR-C08-14",
+      "productFile": "packages/editor/src/core/stamp-draft.ts",
+      "expectFullname": "C08-G05 stamp-draft 选择移动与层 slot C08-G05-04 stampDraftPointKey 稳定 row:col 文本",
+      "dir": "docs/testing/grok-cursor-large/cursor/counters/CTR-C08-14"
+    },
+    {
+      "id": "CTR-C08-15",
+      "productFile": "packages/editor/src/core/stamp-template.ts",
+      "expectFullname": "C08-G06 stamp-template 锚点与拒绝路径 C08-G06-03 buildStampTemplateFromSelection 锚点出界精确拒绝",
+      "dir": "docs/testing/grok-cursor-large/cursor/counters/CTR-C08-15"
+    },
+    {
+      "id": "CTR-C08-16",
+      "productFile": "packages/editor/src/core/stamp-commands.ts",
+      "expectFullname": "C08-G04 stamp-commands 模板身份与 mapReferenceStampIds C08-G04-03 DuplicateStampTemplateCommand mapReferenceStampIds 为副本 id",
+      "dir": "docs/testing/grok-cursor-large/cursor/counters/CTR-C08-16"
+    },
+    {
+      "id": "CTR-C08-19",
+      "productFile": "packages/editor/src/core/stamp-draft.ts",
+      "expectFullname": "C08-G05 stamp-draft 选择移动与层 slot C08-G05-02 nextStampLayerSlotId 冲突时递增 -2/-3 后缀",
+      "dir": "docs/testing/grok-cursor-large/cursor/counters/CTR-C08-19"
+    },
+    {
+      "id": "CTR-C08-24",
+      "productFile": "packages/editor/src/core/stamp-draft.ts",
+      "expectFullname": "C08-G05 stamp-draft 选择移动与层 slot C08-G05-05 moveStampDraftLayer 上移一层交换顺序",
+      "dir": "docs/testing/grok-cursor-large/cursor/counters/CTR-C08-24"
+    },
+    {
+      "id": "CTR-C08-25",
+      "productFile": "packages/editor/src/core/stamp-template.ts",
+      "expectFullname": "C08-G06 stamp-template 锚点与拒绝路径 C08-G06-07 nextStampTemplateId stem 占用时返回 stem-2",
+      "dir": "docs/testing/grok-cursor-large/cursor/counters/CTR-C08-25"
+    },
+    {
+      "id": "CTR-C08-27",
+      "productFile": "packages/editor/src/core/stamp-template.ts",
+      "expectFullname": "C08-G06 stamp-template 锚点与拒绝路径 C08-G06-08 build 输出 origin 恒为 authored",
+      "dir": "docs/testing/grok-cursor-large/cursor/counters/CTR-C08-27"
+    },
+    {
+      "id": "CTR-C08-31",
+      "productFile": "packages/editor/src/core/stamp-template.ts",
+      "expectFullname": "C08-G06 stamp-template 锚点与拒绝路径 C08-G06-10 build includeCollision=false 时 collision 全 null",
+      "dir": "docs/testing/grok-cursor-large/cursor/counters/CTR-C08-31"
+    },
+    {
+      "id": "CTR-C08-32",
+      "productFile": "packages/editor/src/core/stamp-template.ts",
+      "expectFullname": "C08-G06 stamp-template 锚点与拒绝路径 C08-G06-09 build 保留 height 矩阵于 objects 层",
+      "dir": "docs/testing/grok-cursor-large/cursor/counters/CTR-C08-32"
+    },
+    {
+      "id": "CTR-C08-33",
+      "productFile": "packages/editor/src/core/tileset-references.ts",
+      "expectFullname": "C08-G02 tileset-references 边与证明门 C08-G02-09 assertStampDeletionAllowed proof.stampId 不一致拒绝",
+      "dir": "docs/testing/grok-cursor-large/cursor/counters/CTR-C08-33"
+    },
+    {
+      "id": "CTR-C09-01",
+      "productFile": "packages/editor/src/core/audio-preview.ts",
+      "expectFullname": "C09-G01 audio-preview IO 与峰值 C09-G01-01 computePcmPeaks 零帧返回零 bucket",
+      "dir": "docs/testing/grok-cursor-large/cursor/counters/CTR-C09-01"
+    },
+    {
+      "id": "CTR-C09-04",
+      "productFile": "packages/editor/src/core/audio-preview-session.ts",
+      "expectFullname": "C09-G02 编辑器试听 owner C09-G02-02 重复 claim 同一 owner 幂等",
+      "dir": "docs/testing/grok-cursor-large/cursor/counters/CTR-C09-04"
+    },
+    {
+      "id": "CTR-C09-06",
+      "productFile": "packages/editor/src/core/audio-preview.ts",
+      "expectFullname": "C09-G01 audio-preview IO 与峰值 C09-G01-01 computePcmPeaks 零帧返回零 bucket",
+      "dir": "docs/testing/grok-cursor-large/cursor/counters/CTR-C09-06"
+    },
+    {
+      "id": "CTR-C09-10",
+      "productFile": "packages/editor/src/ui/MusicTab.tsx",
+      "expectFullname": "C09-G03 MusicTab 策略纯函数 C09-G03-05 nextMusicId 基 id 占用时分配 -2",
+      "dir": "docs/testing/grok-cursor-large/cursor/counters/CTR-C09-10"
+    },
+    {
+      "id": "CTR-C09-12",
+      "productFile": "packages/editor/src/ui/SoundTab.tsx",
+      "expectFullname": "C09-G04 SoundTab 策略纯函数 C09-G04-04 authoredSoundId 只取 hash 前 16 hex",
+      "dir": "docs/testing/grok-cursor-large/cursor/counters/CTR-C09-12"
+    },
+    {
+      "id": "CTR-C09-14",
+      "productFile": "packages/editor/src/ui/MusicTab.tsx",
+      "expectFullname": "C09-G03 MusicTab 策略纯函数 C09-G03-07 authoredMidiRecord 使用文件名去扩展名作 label",
+      "dir": "docs/testing/grok-cursor-large/cursor/counters/CTR-C09-14"
+    },
+    {
+      "id": "CTR-C09-15",
+      "productFile": "packages/editor/src/ui/MusicTab.tsx",
+      "expectFullname": "C09-G03 MusicTab 策略纯函数 C09-G03-08 authoredMidiRecord 显式 label 优先",
+      "dir": "docs/testing/grok-cursor-large/cursor/counters/CTR-C09-15"
+    },
+    {
+      "id": "CTR-C09-16",
+      "productFile": "packages/editor/src/ui/MusicTab.tsx",
+      "expectFullname": "C09-G03 MusicTab 策略纯函数 C09-G03-09 authoredMidiRecord sha256 与 bytes 长度一致",
+      "dir": "docs/testing/grok-cursor-large/cursor/counters/CTR-C09-16"
+    },
+    {
+      "id": "CTR-C09-17",
+      "productFile": "packages/editor/src/ui/MusicTab.tsx",
+      "expectFullname": "C09-G03 MusicTab 策略纯函数 C09-G03-10 authoredMidiRecord mediaType 为 audio/midi",
+      "dir": "docs/testing/grok-cursor-large/cursor/counters/CTR-C09-17"
+    },
+    {
+      "id": "CTR-C09-19",
+      "productFile": "packages/editor/src/ui/SoundTab.tsx",
+      "expectFullname": "C09-G04 SoundTab 策略纯函数 C09-G04-06 authoredWaveRecord kind 为 sound",
+      "dir": "docs/testing/grok-cursor-large/cursor/counters/CTR-C09-19"
+    },
+    {
+      "id": "CTR-C09-20",
+      "productFile": "packages/editor/src/ui/SoundTab.tsx",
+      "expectFullname": "C09-G04 SoundTab 策略纯函数 C09-G04-07 authoredWaveRecord path 含 sha256",
+      "dir": "docs/testing/grok-cursor-large/cursor/counters/CTR-C09-20"
+    },
+    {
+      "id": "CTR-C09-21",
+      "productFile": "packages/editor/src/ui/SoundTab.tsx",
+      "expectFullname": "C09-G04 SoundTab 策略纯函数 C09-G04-08 authoredWaveRecord 空 label 时用文件名",
+      "dir": "docs/testing/grok-cursor-large/cursor/counters/CTR-C09-21"
+    },
+    {
+      "id": "CTR-C09-22",
+      "productFile": "packages/editor/src/ui/SoundTab.tsx",
+      "expectFullname": "C09-G04 SoundTab 策略纯函数 C09-G04-09 authoredWaveRecord origin.ref 保留源文件名",
+      "dir": "docs/testing/grok-cursor-large/cursor/counters/CTR-C09-22"
+    },
+    {
+      "id": "CTR-C09-23",
+      "productFile": "packages/editor/src/ui/SoundTab.tsx",
+      "expectFullname": "C09-G04 SoundTab 策略纯函数 C09-G04-10 authoredWaveRecord bytes 字段等于 buffer 长度",
+      "dir": "docs/testing/grok-cursor-large/cursor/counters/CTR-C09-23"
+    },
+    {
+      "id": "CTR-C09-24",
+      "productFile": "packages/editor/src/core/audio-preview.ts",
+      "expectFullname": "C09-G01 audio-preview IO 与峰值 C09-G01-02 computePcmPeaks 单采样填满全部 bucket",
+      "dir": "docs/testing/grok-cursor-large/cursor/counters/CTR-C09-24"
+    },
+    {
+      "id": "CTR-C09-29",
+      "productFile": "packages/editor/src/core/audio-preview-session.ts",
+      "expectFullname": "C09-G02 编辑器试听 owner C09-G02-05 release 非活动 owner 不影响当前 owner",
+      "dir": "docs/testing/grok-cursor-large/cursor/counters/CTR-C09-29"
+    },
+    {
+      "id": "CTR-C09-37",
+      "productFile": "packages/editor/src/core/audio-preview.ts",
+      "expectFullname": "C09-G01 audio-preview IO 与峰值 C09-G01-02 computePcmPeaks 单采样填满全部 bucket",
+      "dir": "docs/testing/grok-cursor-large/cursor/counters/CTR-C09-37"
+    },
+    {
+      "id": "CTR-C10-01",
+      "productFile": "packages/editor/src/ui/design-system/collection-search.ts",
+      "expectFullname": "C10-G07 collection-search 与 index C10-G07-03 DS_OPTION_VIRTUALIZE_ABOVE 为 80",
+      "dir": "docs/testing/grok-cursor-large/cursor/counters/CTR-C10-01"
+    },
+    {
+      "id": "CTR-C10-02",
+      "productFile": "packages/editor/src/ui/design-system/collection-search.ts",
+      "expectFullname": "C10-G07 collection-search 与 index C10-G07-01 filterDsCollection 空 query 返回原引用",
+      "dir": "docs/testing/grok-cursor-large/cursor/counters/CTR-C10-02"
+    },
+    {
+      "id": "CTR-C10-03",
+      "productFile": "packages/editor/src/ui/design-system/collection-search.ts",
+      "expectFullname": "C10-G07 collection-search 与 index C10-G07-02 filterDsCollection 大小写不敏感子串",
+      "dir": "docs/testing/grok-cursor-large/cursor/counters/CTR-C10-03"
+    },
+    {
+      "id": "CTR-C10-05",
+      "productFile": "packages/editor/src/ui/design-system/control-utils.ts",
+      "expectFullname": "C10-G07 collection-search 与 index C10-G07-05 control-utils describedBy 合并多 id",
+      "dir": "docs/testing/grok-cursor-large/cursor/counters/CTR-C10-05"
+    },
+    {
+      "id": "CTR-C10-06",
+      "productFile": "packages/editor/src/ui/design-system/reorder.tsx",
+      "expectFullname": "C10-G01 reorder 剩余合同 C10-G01-01 insert：from=0 to=1 交换相邻两项",
+      "dir": "docs/testing/grok-cursor-large/cursor/counters/CTR-C10-06"
+    },
+    {
+      "id": "CTR-C10-07",
+      "productFile": "packages/editor/src/ui/design-system/reorder.tsx",
+      "expectFullname": "C10-G01 reorder 剩余合同 C10-G01-03 sameDsSerializableValue 数组顺序敏感",
+      "dir": "docs/testing/grok-cursor-large/cursor/counters/CTR-C10-07"
+    },
+    {
+      "id": "CTR-C10-11",
+      "productFile": "packages/editor/src/ui/design-system/reorder.tsx",
+      "expectFullname": "C10-G01 reorder 剩余合同 C10-G01-03 sameDsSerializableValue 数组顺序敏感",
+      "dir": "docs/testing/grok-cursor-large/cursor/counters/CTR-C10-11"
+    },
+    {
+      "id": "CTR-C10-12",
+      "productFile": "packages/editor/src/ui/design-system/control-utils.ts",
+      "expectFullname": "C10-G07 collection-search 与 index C10-G07-05 control-utils describedBy 合并多 id",
+      "dir": "docs/testing/grok-cursor-large/cursor/counters/CTR-C10-12"
+    },
+    {
+      "id": "CTR-C10-14",
+      "productFile": "packages/editor/src/ui/design-system/collection-search.ts",
+      "expectFullname": "C10-G07 collection-search 与 index C10-G07-03 DS_OPTION_VIRTUALIZE_ABOVE 为 80",
+      "dir": "docs/testing/grok-cursor-large/cursor/counters/CTR-C10-14"
+    }
+  ]
+}

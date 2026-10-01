@@ -1,0 +1,140 @@
+{
+  "numTotalTestSuites": 2,
+  "numPassedTestSuites": 2,
+  "numFailedTestSuites": 0,
+  "numPendingTestSuites": 0,
+  "numTotalTests": 10,
+  "numPassedTests": 10,
+  "numFailedTests": 0,
+  "numPendingTests": 0,
+  "numTodoTests": 0,
+  "snapshot": {
+    "added": 0,
+    "failure": false,
+    "filesAdded": 0,
+    "filesRemoved": 0,
+    "filesRemovedList": [],
+    "filesUnmatched": 0,
+    "filesUpdated": 0,
+    "matched": 0,
+    "total": 0,
+    "unchecked": 0,
+    "uncheckedKeysByFile": [],
+    "unmatched": 0,
+    "updated": 0,
+    "didUpdate": false
+  },
+  "startTime": 1790868696198,
+  "success": true,
+  "testResults": [
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["C10-G01 reorder 剩余合同"],
+          "fullName": "C10-G01 reorder 剩余合同 C10-G01-01 insert：from=0 to=1 交换相邻两项",
+          "status": "passed",
+          "title": "C10-G01-01 insert：from=0 to=1 交换相邻两项",
+          "duration": 6.854332999999997,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["C10-G01 reorder 剩余合同"],
+          "fullName": "C10-G01 reorder 剩余合同 C10-G01-02 swap 同索引保持原引用",
+          "status": "passed",
+          "title": "C10-G01-02 swap 同索引保持原引用",
+          "duration": 1.061458000000016,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["C10-G01 reorder 剩余合同"],
+          "fullName": "C10-G01 reorder 剩余合同 C10-G01-03 sameDsSerializableValue 数组顺序敏感",
+          "status": "passed",
+          "title": "C10-G01-03 sameDsSerializableValue 数组顺序敏感",
+          "duration": 0.9481250000000045,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["C10-G01 reorder 剩余合同"],
+          "fullName": "C10-G01 reorder 剩余合同 C10-G01-04 forward 按钮下移中间项",
+          "status": "passed",
+          "title": "C10-G01-04 forward 按钮下移中间项",
+          "duration": 29.888832999999977,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["C10-G01 reorder 剩余合同"],
+          "fullName": "C10-G01 reorder 剩余合同 C10-G01-05 first 按钮把末项移到最前",
+          "status": "passed",
+          "title": "C10-G01-05 first 按钮把末项移到最前",
+          "duration": 13.421707999999967,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["C10-G01 reorder 剩余合同"],
+          "fullName": "C10-G01 reorder 剩余合同 C10-G01-06 首项 backward 按钮 disabled",
+          "status": "passed",
+          "title": "C10-G01-06 首项 backward 按钮 disabled",
+          "duration": 6.166625000000067,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["C10-G01 reorder 剩余合同"],
+          "fullName": "C10-G01 reorder 剩余合同 C10-G01-07 水平取向 forward 使用 chevron-right 文案轴",
+          "status": "passed",
+          "title": "C10-G01-07 水平取向 forward 使用 chevron-right 文案轴",
+          "duration": 5.21712500000001,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["C10-G01 reorder 剩余合同"],
+          "fullName": "C10-G01 reorder 剩余合同 C10-G01-08 collection disabled 时 move 按钮全 disabled",
+          "status": "passed",
+          "title": "C10-G01-08 collection disabled 时 move 按钮全 disabled",
+          "duration": 5.065208999999982,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["C10-G01 reorder 剩余合同"],
+          "fullName": "C10-G01 reorder 剩余合同 C10-G01-09 onReorder 返回 false 时顺序不变",
+          "status": "passed",
+          "title": "C10-G01-09 onReorder 返回 false 时顺序不变",
+          "duration": 7.852125000000001,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["C10-G01 reorder 剩余合同"],
+          "fullName": "C10-G01 reorder 剩余合同 C10-G01-10 duplicate item key 抛错",
+          "status": "passed",
+          "title": "C10-G01-10 duplicate item key 抛错",
+          "duration": 3.4508329999999887,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790868696964,
+      "endTime": 1790868697044.451,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/packages/editor/src/ui/design-system/reorder.c10-g01.cursor-r1.test.tsx"
+    }
+  ]
+}

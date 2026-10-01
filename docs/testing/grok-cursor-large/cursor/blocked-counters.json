@@ -1,0 +1,31 @@
+{
+  "note": "Manifest 探测项中未通过 counter-judge 或未产出 receipt 的摘要；有效反控以 counters.json 为准。",
+  "sampleReasons": [
+    "multi-failed（单轴变异红了多个同文件用例）",
+    "wrong-fullName（首个失败非登记目标）",
+    "not-assertion-red / mutated-exit-0（非 AssertionError 或未失败）",
+    "--find must match exactly once（find 串不唯一或不在 product 源）",
+    "harness / worktree 零执行（早期未 sync cursor-r1 测例，已通过 syncCursorR1Tests 修复）"
+  ],
+  "blockedManifestIdsExamples": [
+    "CTR-C05-01",
+    "CTR-C05-02",
+    "CTR-C05-03",
+    "CTR-C05-04",
+    "CTR-C08-03",
+    "CTR-C08-08",
+    "CTR-C04-01",
+    "CTR-C03-01",
+    "CTR-C03-03",
+    "CTR-C03-04",
+    "CTR-C07-04",
+    "CTR-C07-05",
+    "CTR-C10-04",
+    "CTR-C10-08",
+    "CTR-C10-09",
+    "CTR-C08-17",
+    "CTR-C08-30",
+    "CTR-C07-14"
+  ],
+  "log": "docs/testing/grok-cursor-large/cursor/counters-run.log"
+}

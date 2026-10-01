@@ -1,0 +1,140 @@
+{
+  "numTotalTestSuites": 2,
+  "numPassedTestSuites": 2,
+  "numFailedTestSuites": 0,
+  "numPendingTestSuites": 0,
+  "numTotalTests": 10,
+  "numPassedTests": 10,
+  "numFailedTests": 0,
+  "numPendingTests": 0,
+  "numTodoTests": 0,
+  "snapshot": {
+    "added": 0,
+    "failure": false,
+    "filesAdded": 0,
+    "filesRemoved": 0,
+    "filesRemovedList": [],
+    "filesUnmatched": 0,
+    "filesUpdated": 0,
+    "matched": 0,
+    "total": 0,
+    "unchecked": 0,
+    "uncheckedKeysByFile": [],
+    "unmatched": 0,
+    "updated": 0,
+    "didUpdate": false
+  },
+  "startTime": 1790867587528,
+  "success": true,
+  "testResults": [
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["C03-G06 真实 PNG 导入与 AssetId"],
+          "fullName": "C03-G06 真实 PNG 导入与 AssetId C03-G06-01 portrait 直传：bytes/hash 等于源 PNG 且 record.kind=portrait",
+          "status": "passed",
+          "title": "C03-G06-01 portrait 直传：bytes/hash 等于源 PNG 且 record.kind=portrait",
+          "duration": 9.616750000000138,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["C03-G06 真实 PNG 导入与 AssetId"],
+          "fullName": "C03-G06 真实 PNG 导入与 AssetId C03-G06-02 face 直传不产生 effectPreviewBytes",
+          "status": "passed",
+          "title": "C03-G06-02 face 直传不产生 effectPreviewBytes",
+          "duration": 1.936666999999943,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["C03-G06 真实 PNG 导入与 AssetId"],
+          "fullName": "C03-G06 真实 PNG 导入与 AssetId C03-G06-03 item-icon label 缺省剥扩展名",
+          "status": "passed",
+          "title": "C03-G06-03 item-icon label 缺省剥扩展名",
+          "duration": 1.5072089999998752,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["C03-G06 真实 PNG 导入与 AssetId"],
+          "fullName": "C03-G06 真实 PNG 导入与 AssetId C03-G06-04 非 .png 扩展名拒绝",
+          "status": "passed",
+          "title": "C03-G06-04 非 .png 扩展名拒绝",
+          "duration": 0.8174999999996544,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["C03-G06 真实 PNG 导入与 AssetId"],
+          "fullName": "C03-G06 真实 PNG 导入与 AssetId C03-G06-05 坏 PNG 签名：错误带文件名",
+          "status": "passed",
+          "title": "C03-G06-05 坏 PNG 签名：错误带文件名",
+          "duration": 0.22383300000001327,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["C03-G06 真实 PNG 导入与 AssetId"],
+          "fullName": "C03-G06 真实 PNG 导入与 AssetId C03-G06-06 nextAuthoredImageId：base 空闲直接返回 hash 前 16",
+          "status": "passed",
+          "title": "C03-G06-06 nextAuthoredImageId：base 空闲直接返回 hash 前 16",
+          "duration": 0.19366700000000492,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["C03-G06 真实 PNG 导入与 AssetId"],
+          "fullName": "C03-G06 真实 PNG 导入与 AssetId C03-G06-07 base 占用递增 -2/-3 后缀",
+          "status": "passed",
+          "title": "C03-G06-07 base 占用递增 -2/-3 后缀",
+          "duration": 0.16649999999981446,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["C03-G06 真实 PNG 导入与 AssetId"],
+          "fullName": "C03-G06 真实 PNG 导入与 AssetId C03-G06-08 同 hash 不同 kind 的 base 互不占用",
+          "status": "passed",
+          "title": "C03-G06-08 同 hash 不同 kind 的 base 互不占用",
+          "duration": 0.17675000000008367,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["C03-G06 真实 PNG 导入与 AssetId"],
+          "fullName": "C03-G06 真实 PNG 导入与 AssetId C03-G06-09 sourceBytes 保留原始文件缓冲引用长度",
+          "status": "passed",
+          "title": "C03-G06-09 sourceBytes 保留原始文件缓冲引用长度",
+          "duration": 1.130457999999635,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["C03-G06 真实 PNG 导入与 AssetId"],
+          "fullName": "C03-G06 真实 PNG 导入与 AssetId C03-G06-10 portrait 与 face 同图 hash 相同但 path 前缀按 kind 区分",
+          "status": "passed",
+          "title": "C03-G06-10 portrait 与 face 同图 hash 相同但 path 前缀按 kind 区分",
+          "duration": 0.7230410000001939,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790867590806,
+      "endTime": 1790867590822.7231,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/packages/editor/src/core/image-import.c03-g06.cursor-r1.test.ts"
+    }
+  ]
+}

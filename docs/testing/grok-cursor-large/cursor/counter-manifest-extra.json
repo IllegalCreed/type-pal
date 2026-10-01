@@ -1,0 +1,178 @@
+[
+  {
+    "id": "CTR-C09-14",
+    "file": "packages/editor/src/ui/MusicTab.tsx",
+    "find": "label: label || file.name.replace(/\\.mid$/i, ''),",
+    "replace": "label: label || file.name,",
+    "test": "src/ui/MusicTab.c09-g03.cursor-r1.test.ts",
+    "expectFullname": "C09-G03 MusicTab 策略纯函数 C09-G03-07 authoredMidiRecord 使用文件名去扩展名作 label"
+  },
+  {
+    "id": "CTR-C09-15",
+    "file": "packages/editor/src/ui/MusicTab.tsx",
+    "find": "label: label || file.name.replace(/\\.mid$/i, ''),",
+    "replace": "label: file.name.replace(/\\.mid$/i, ''),",
+    "test": "src/ui/MusicTab.c09-g03.cursor-r1.test.ts",
+    "expectFullname": "C09-G03 MusicTab 策略纯函数 C09-G03-08 authoredMidiRecord 显式 label 优先"
+  },
+  {
+    "id": "CTR-C09-16",
+    "file": "packages/editor/src/ui/MusicTab.tsx",
+    "find": "      bytes: bytes.byteLength,\n      sha256: hash,\n      label: label || file.name.replace(/\\.mid$/i, ''),",
+    "replace": "      bytes: bytes.byteLength + 1,\n      sha256: hash,\n      label: label || file.name.replace(/\\.mid$/i, ''),",
+    "test": "src/ui/MusicTab.c09-g03.cursor-r1.test.ts",
+    "expectFullname": "C09-G03 MusicTab 策略纯函数 C09-G03-09 authoredMidiRecord sha256 与 bytes 长度一致"
+  },
+  {
+    "id": "CTR-C09-17",
+    "file": "packages/editor/src/ui/MusicTab.tsx",
+    "find": "      kind: 'music',\n      path: `assets/authored/${hash}.mid`,\n      mediaType: 'audio/midi',",
+    "replace": "      kind: 'music',\n      path: `assets/authored/${hash}.mid`,\n      mediaType: 'audio/wav',",
+    "test": "src/ui/MusicTab.c09-g03.cursor-r1.test.ts",
+    "expectFullname": "C09-G03 MusicTab 策略纯函数 C09-G03-10 authoredMidiRecord mediaType 为 audio/midi"
+  },
+  {
+    "id": "CTR-C09-19",
+    "file": "packages/editor/src/ui/SoundTab.tsx",
+    "find": "      kind: 'sound',",
+    "replace": "      kind: 'music',",
+    "test": "src/ui/SoundTab.c09-g04.cursor-r1.test.ts",
+    "expectFullname": "C09-G04 SoundTab 策略纯函数 C09-G04-06 authoredWaveRecord kind 为 sound"
+  },
+  {
+    "id": "CTR-C09-20",
+    "file": "packages/editor/src/ui/SoundTab.tsx",
+    "find": "      path: `assets/authored/${hash}.wav`,",
+    "replace": "      path: `assets/authored/${hash}.wave`,",
+    "test": "src/ui/SoundTab.c09-g04.cursor-r1.test.ts",
+    "expectFullname": "C09-G04 SoundTab 策略纯函数 C09-G04-07 authoredWaveRecord path 含 sha256"
+  },
+  {
+    "id": "CTR-C09-21",
+    "file": "packages/editor/src/ui/SoundTab.tsx",
+    "find": "      label: label || file.name.replace(/\\.wav$/i, ''),",
+    "replace": "      label: label || file.name,",
+    "test": "src/ui/SoundTab.c09-g04.cursor-r1.test.ts",
+    "expectFullname": "C09-G04 SoundTab 策略纯函数 C09-G04-08 authoredWaveRecord 空 label 时用文件名"
+  },
+  {
+    "id": "CTR-C09-22",
+    "file": "packages/editor/src/ui/SoundTab.tsx",
+    "find": "      origin: { kind: 'authored', ref: file.name },",
+    "replace": "      origin: { kind: 'authored', ref: file.name + '.bak' },",
+    "test": "src/ui/SoundTab.c09-g04.cursor-r1.test.ts",
+    "expectFullname": "C09-G04 SoundTab 策略纯函数 C09-G04-09 authoredWaveRecord origin.ref 保留源文件名"
+  },
+  {
+    "id": "CTR-C09-23",
+    "file": "packages/editor/src/ui/SoundTab.tsx",
+    "find": "      bytes: bytes.byteLength,\n      sha256: hash,\n      label: label || file.name.replace(/\\.wav$/i, ''),",
+    "replace": "      bytes: bytes.byteLength + 1,\n      sha256: hash,\n      label: label || file.name.replace(/\\.wav$/i, ''),",
+    "test": "src/ui/SoundTab.c09-g04.cursor-r1.test.ts",
+    "expectFullname": "C09-G04 SoundTab 策略纯函数 C09-G04-10 authoredWaveRecord bytes 字段等于 buffer 长度"
+  },
+  {
+    "id": "CTR-C07-09",
+    "file": "packages/editor/src/core/frame-animation-codec.ts",
+    "find": "frame.durationMs === undefined ? {} : { durationMs: frame.durationMs },",
+    "replace": "frame.durationMs === undefined ? { durationMs: 0 } : { durationMs: frame.durationMs },",
+    "test": "src/core/frame-animation-codec.c07-g03.cursor-r1.test.ts",
+    "expectFullname": "C07-G03 合成 rgba 编码 C07-G03-01 三帧纯 rgba：帧数与 defaultFrameMs 写入 index"
+  },
+  {
+    "id": "CTR-C08-21",
+    "file": "packages/editor/src/core/stamp-template.ts",
+    "find": "    .replace(/^-+|-+$/g, '')",
+    "replace": "    .replace(/^-+|-+$/g, 'x')",
+    "test": "src/core/stamp-template.c08-g06.cursor-r1.test.ts",
+    "expectFullname": "C08-G06 stamp-template 锚点与拒绝路径 C08-G06-06 nextStampTemplateId 中文 preferred 归一后可用"
+  },
+  {
+    "id": "CTR-C10-11",
+    "file": "packages/editor/src/ui/design-system/reorder.tsx",
+    "find": "export function sameDsSerializableValue<T>(left: T, right: T): boolean {\n  return JSON.stringify(left) === JSON.stringify(right)\n}",
+    "replace": "export function sameDsSerializableValue<T>(left: T, right: T): boolean {\n  return JSON.stringify(left) === JSON.stringify(right) && false\n}",
+    "test": "src/ui/design-system/reorder.c10-g01.cursor-r1.test.tsx",
+    "expectFullname": "C10-G01 reorder 剩余合同 C10-G01-03 sameDsSerializableValue 数组顺序敏感"
+  },
+  {
+    "id": "CTR-C09-24",
+    "file": "packages/editor/src/core/audio-preview.ts",
+    "find": "let minimum = Number.POSITIVE_INFINITY",
+    "replace": "let minimum = Number.NEGATIVE_INFINITY",
+    "test": "src/core/audio-preview.c09-g01.cursor-r1.test.ts",
+    "expectFullname": "C09-G01 audio-preview IO 与峰值 C09-G01-02 computePcmPeaks 单采样填满全部 bucket"
+  },
+  {
+    "id": "CTR-C09-25",
+    "file": "packages/editor/src/ui/MusicTab.tsx",
+    "find": "    if (!catalog.assets[id]) return id",
+    "replace": "    if (!catalog.assets[id]) return `${id}-0`",
+    "test": "src/ui/MusicTab.c09-g03.cursor-r1.test.ts",
+    "expectFullname": "C09-G03 MusicTab 策略纯函数 C09-G03-06 nextMusicId 跳过已占 -2 取 -3"
+  },
+  {
+    "id": "CTR-C09-26",
+    "file": "packages/editor/src/ui/SoundTab.tsx",
+    "find": "    throw new Error('不是有效 WAV 文件（必须同时包含 RIFF 与 WAVE 头）')",
+    "replace": "    throw new Error('不是有效 WAV 文件（必须同时包含 RIFF 与 WAVE 头!!!）')",
+    "test": "src/ui/SoundTab.c09-g04.cursor-r1.test.ts",
+    "expectFullname": "C09-G04 SoundTab 策略纯函数 C09-G04-02 assertWave 拒绝 RIFF 无 WAVE"
+  },
+  {
+    "id": "CTR-C09-27",
+    "file": "packages/editor/src/ui/SoundTab.tsx",
+    "find": "if (view.byteLength < 12 || tag(0) !== 'RIFF' || tag(8) !== 'WAVE')",
+    "replace": "if (view.byteLength < 8 || tag(0) !== 'RIFF' || tag(8) !== 'WAVE')",
+    "test": "src/ui/SoundTab.c09-g04.cursor-r1.test.ts",
+    "expectFullname": "C09-G04 SoundTab 策略纯函数 C09-G04-03 assertWave 拒绝过短文件"
+  },
+  {
+    "id": "CTR-C09-28",
+    "file": "packages/editor/src/ui/MusicTab.tsx",
+    "find": "    throw new Error('只允许导入 .mid 文件')",
+    "replace": "    throw new Error('只允许导入 .midi 文件')",
+    "test": "src/ui/MusicTab.c09-g03.cursor-r1.test.ts",
+    "expectFullname": "C09-G03 MusicTab 策略纯函数 C09-G03-02 assertMidi 拒绝非 mid 扩展名"
+  },
+  {
+    "id": "CTR-C07-11",
+    "file": "packages/editor/src/core/frame-animation-codec.ts",
+    "find": "if (!frame) throw new Error(`保存帧 ${index} 不存在`)",
+    "replace": "if (!frame) throw new Error(`保存帧 ${index} 不存在!!!`)",
+    "test": "src/core/frame-animation-codec.c07-g03.cursor-r1.test.ts",
+    "expectFullname": "C07-G03 合成 rgba 编码 C07-G03-04 缺旧源 sourceFrame 拒绝（合成边界）"
+  },
+  {
+    "id": "CTR-C08-23",
+    "file": "packages/editor/src/core/stamp-draft.ts",
+    "find": "  if (!id || !name) throw new Error('组合图层 ID 和名称不能为空。')",
+    "replace": "  if (!id || !name) throw new Error('组合图层 ID 和名称不能为空!!!')",
+    "test": "src/core/stamp-draft.c08-g05.cursor-r1.test.ts",
+    "expectFullname": "C08-G05 stamp-draft 选择移动与层 slot C08-G05-05 addStampDraftLayer 拒绝空白 id 或 name"
+  },
+  {
+    "id": "CTR-C10-12",
+    "file": "packages/editor/src/ui/design-system/control-utils.ts",
+    "find": "  const value = ids.filter(Boolean).join(' ')",
+    "replace": "  const value = ids.filter(Boolean).join(',')",
+    "test": "src/ui/design-system/recipes-index.c10-g07.cursor-r1.test.tsx",
+    "expectFullname": "C10-G07 collection-search 与 index C10-G07-05 control-utils describedBy 合并多 id"
+  },
+  {
+    "id": "CTR-C04-09",
+    "file": "packages/editor/src/core/frame-animation-draft.ts",
+    "find": "throw new Error(`插入位置 ${at} 越界`)",
+    "replace": "throw new Error(`插入位置 ${at} 越界!!!`)",
+    "test": "src/core/frame-animation-draft.c04.cursor-r1.test.ts",
+    "expectFullname": "C04-G07 draft 时长与结构编辑 C04-G07-02 头部 insert 带 override 帧：顺序与总时长同时更新"
+  },
+  {
+    "id": "CTR-C05-15",
+    "file": "packages/editor/src/core/sprite-actions.ts",
+    "find": "  if (!ids.has('action')) return 'action'",
+    "replace": "  if (!ids.has('action')) return 'actions'",
+    "test": "src/core/sprite-actions.c05-g01.cursor-r1.test.ts",
+    "expectFullname": "C05-G01 sprite-actions 排序与默认目标 C05-G01-07 nextSpriteActionId 连续落盘 4 次得到互异的 action、action-2、action-3、action-4"
+  }
+]

@@ -1,0 +1,142 @@
+{
+  "numTotalTestSuites": 2,
+  "numPassedTestSuites": 0,
+  "numFailedTestSuites": 2,
+  "numPendingTestSuites": 0,
+  "numTotalTests": 10,
+  "numPassedTests": 9,
+  "numFailedTests": 1,
+  "numPendingTests": 0,
+  "numTodoTests": 0,
+  "snapshot": {
+    "added": 0,
+    "failure": false,
+    "filesAdded": 0,
+    "filesRemoved": 0,
+    "filesRemovedList": [],
+    "filesUnmatched": 0,
+    "filesUpdated": 0,
+    "matched": 0,
+    "total": 0,
+    "unchecked": 0,
+    "uncheckedKeysByFile": [],
+    "unmatched": 0,
+    "updated": 0,
+    "didUpdate": false
+  },
+  "startTime": 1790868640438,
+  "success": false,
+  "testResults": [
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["C09-G04 SoundTab 策略纯函数"],
+          "fullName": "C09-G04 SoundTab 策略纯函数 C09-G04-01 assertWave 接受合法 RIFF/WAVE",
+          "status": "passed",
+          "title": "C09-G04-01 assertWave 接受合法 RIFF/WAVE",
+          "duration": 1.7748749999996107,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["C09-G04 SoundTab 策略纯函数"],
+          "fullName": "C09-G04 SoundTab 策略纯函数 C09-G04-02 assertWave 拒绝 RIFF 无 WAVE",
+          "status": "passed",
+          "title": "C09-G04-02 assertWave 拒绝 RIFF 无 WAVE",
+          "duration": 0.2345839999998134,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["C09-G04 SoundTab 策略纯函数"],
+          "fullName": "C09-G04 SoundTab 策略纯函数 C09-G04-03 assertWave 拒绝过短文件",
+          "status": "passed",
+          "title": "C09-G04-03 assertWave 拒绝过短文件",
+          "duration": 0.09887499999967986,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["C09-G04 SoundTab 策略纯函数"],
+          "fullName": "C09-G04 SoundTab 策略纯函数 C09-G04-04 authoredSoundId 只取 hash 前 16 hex",
+          "status": "passed",
+          "title": "C09-G04-04 authoredSoundId 只取 hash 前 16 hex",
+          "duration": 0.1143329999999878,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["C09-G04 SoundTab 策略纯函数"],
+          "fullName": "C09-G04 SoundTab 策略纯函数 C09-G04-05 同 hash 两次 authoredSoundId 相等",
+          "status": "passed",
+          "title": "C09-G04-05 同 hash 两次 authoredSoundId 相等",
+          "duration": 0.06512500000008004,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["C09-G04 SoundTab 策略纯函数"],
+          "fullName": "C09-G04 SoundTab 策略纯函数 C09-G04-06 authoredWaveRecord kind 为 sound",
+          "status": "passed",
+          "title": "C09-G04-06 authoredWaveRecord kind 为 sound",
+          "duration": 1.6632910000002994,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["C09-G04 SoundTab 策略纯函数"],
+          "fullName": "C09-G04 SoundTab 策略纯函数 C09-G04-07 authoredWaveRecord path 含 sha256",
+          "status": "failed",
+          "title": "C09-G04-07 authoredWaveRecord path 含 sha256",
+          "duration": 2.5834579999996095,
+          "failureMessages": [
+            "AssertionError: expected 'assets/authored/01e0f46404cf7dc73c3a6…' to be 'assets/authored/01e0f46404cf7dc73c3a6…' // Object.is equality\n    at /private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/cursor-counter-CTR-C09-20-Naxssk/packages/editor/src/ui/SoundTab.c09-g04.cursor-r1.test.ts:51:34\n    at file:///Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:20"
+          ],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["C09-G04 SoundTab 策略纯函数"],
+          "fullName": "C09-G04 SoundTab 策略纯函数 C09-G04-08 authoredWaveRecord 空 label 时用文件名",
+          "status": "passed",
+          "title": "C09-G04-08 authoredWaveRecord 空 label 时用文件名",
+          "duration": 0.14887499999986176,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["C09-G04 SoundTab 策略纯函数"],
+          "fullName": "C09-G04 SoundTab 策略纯函数 C09-G04-09 authoredWaveRecord origin.ref 保留源文件名",
+          "status": "passed",
+          "title": "C09-G04-09 authoredWaveRecord origin.ref 保留源文件名",
+          "duration": 0.49462499999981446,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["C09-G04 SoundTab 策略纯函数"],
+          "fullName": "C09-G04 SoundTab 策略纯函数 C09-G04-10 authoredWaveRecord bytes 字段等于 buffer 长度",
+          "status": "passed",
+          "title": "C09-G04-10 authoredWaveRecord bytes 字段等于 buffer 长度",
+          "duration": 0.22875000000021828,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790868642889,
+      "endTime": 1790868642896.4946,
+      "status": "failed",
+      "message": "",
+      "name": "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/cursor-counter-CTR-C09-20-Naxssk/packages/editor/src/ui/SoundTab.c09-g04.cursor-r1.test.ts"
+    }
+  ]
+}

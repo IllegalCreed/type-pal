@@ -1,0 +1,14 @@
+{
+  "flowId": "FLOW-DS03",
+  "phase": "ready",
+  "label": "DsNumberField：Escape 取消草稿（设计控件）",
+  "oracle": {
+    "value": 2,
+    "draftNote": "committed"
+  },
+  "canvas2d": {
+    "ok": true,
+    "sample": [12, 34, 56, 255],
+    "note": "real Canvas2D readback"
+  }
+}

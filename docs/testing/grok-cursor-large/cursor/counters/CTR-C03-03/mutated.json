@@ -1,0 +1,146 @@
+{
+  "numTotalTestSuites": 2,
+  "numPassedTestSuites": 0,
+  "numFailedTestSuites": 2,
+  "numPendingTestSuites": 0,
+  "numTotalTests": 10,
+  "numPassedTests": 7,
+  "numFailedTests": 3,
+  "numPendingTests": 0,
+  "numTodoTests": 0,
+  "snapshot": {
+    "added": 0,
+    "failure": false,
+    "filesAdded": 0,
+    "filesRemoved": 0,
+    "filesRemovedList": [],
+    "filesUnmatched": 0,
+    "filesUpdated": 0,
+    "matched": 0,
+    "total": 0,
+    "unchecked": 0,
+    "uncheckedKeysByFile": [],
+    "unmatched": 0,
+    "updated": 0,
+    "didUpdate": false
+  },
+  "startTime": 1790869035525,
+  "success": false,
+  "testResults": [
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["C03-G06 真实 PNG 导入与 AssetId"],
+          "fullName": "C03-G06 真实 PNG 导入与 AssetId C03-G06-01 portrait 直传：bytes/hash 等于源 PNG 且 record.kind=portrait",
+          "status": "passed",
+          "title": "C03-G06-01 portrait 直传：bytes/hash 等于源 PNG 且 record.kind=portrait",
+          "duration": 9969.848667,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["C03-G06 真实 PNG 导入与 AssetId"],
+          "fullName": "C03-G06 真实 PNG 导入与 AssetId C03-G06-02 face 直传不产生 effectPreviewBytes",
+          "status": "passed",
+          "title": "C03-G06-02 face 直传不产生 effectPreviewBytes",
+          "duration": 2.2872910000005504,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["C03-G06 真实 PNG 导入与 AssetId"],
+          "fullName": "C03-G06 真实 PNG 导入与 AssetId C03-G06-03 item-icon label 缺省剥扩展名",
+          "status": "passed",
+          "title": "C03-G06-03 item-icon label 缺省剥扩展名",
+          "duration": 0.7492079999992711,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["C03-G06 真实 PNG 导入与 AssetId"],
+          "fullName": "C03-G06 真实 PNG 导入与 AssetId C03-G06-04 非 .png 扩展名拒绝",
+          "status": "passed",
+          "title": "C03-G06-04 非 .png 扩展名拒绝",
+          "duration": 0.7893330000006245,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["C03-G06 真实 PNG 导入与 AssetId"],
+          "fullName": "C03-G06 真实 PNG 导入与 AssetId C03-G06-05 坏 PNG 签名：错误带文件名",
+          "status": "passed",
+          "title": "C03-G06-05 坏 PNG 签名：错误带文件名",
+          "duration": 0.22920800000065356,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["C03-G06 真实 PNG 导入与 AssetId"],
+          "fullName": "C03-G06 真实 PNG 导入与 AssetId C03-G06-06 nextAuthoredImageId：base 空闲直接返回 hash 前 16",
+          "status": "failed",
+          "title": "C03-G06-06 nextAuthoredImageId：base 空闲直接返回 hash 前 16",
+          "duration": 3.559917000000496,
+          "failureMessages": [
+            "AssertionError: expected 'portrait.authored.abcdef0123456789-0' to be 'portrait.authored.abcdef0123456789' // Object.is equality\n    at /private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/cursor-counter-CTR-C03-03-X3blxH/packages/editor/src/core/image-import.c03-g06.cursor-r1.test.ts:86:67\n    at file:///Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64"
+          ],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["C03-G06 真实 PNG 导入与 AssetId"],
+          "fullName": "C03-G06 真实 PNG 导入与 AssetId C03-G06-07 base 占用递增 -2/-3 后缀",
+          "status": "failed",
+          "title": "C03-G06-07 base 占用递增 -2/-3 后缀",
+          "duration": 0.7710000000006403,
+          "failureMessages": [
+            "AssertionError: expected 'face.authored.aaaaaaaaaaaaaaaa-0' to be 'face.authored.aaaaaaaaaaaaaaaa-0-2' // Object.is equality\n    at /private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/cursor-counter-CTR-C03-03-X3blxH/packages/editor/src/core/image-import.c03-g06.cursor-r1.test.ts:105:20\n    at file:///Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64"
+          ],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["C03-G06 真实 PNG 导入与 AssetId"],
+          "fullName": "C03-G06 真实 PNG 导入与 AssetId C03-G06-08 同 hash 不同 kind 的 base 互不占用",
+          "status": "failed",
+          "title": "C03-G06-08 同 hash 不同 kind 的 base 互不占用",
+          "duration": 1.2024579999997513,
+          "failureMessages": [
+            "AssertionError: expected 'face.authored.bbbbbbbbbbbbbbbb-0' to be 'face.authored.bbbbbbbbbbbbbbbb' // Object.is equality\n    at /private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/cursor-counter-CTR-C03-03-X3blxH/packages/editor/src/core/image-import.c03-g06.cursor-r1.test.ts:124:20\n    at file:///Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64"
+          ],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["C03-G06 真实 PNG 导入与 AssetId"],
+          "fullName": "C03-G06 真实 PNG 导入与 AssetId C03-G06-09 sourceBytes 保留原始文件缓冲引用长度",
+          "status": "passed",
+          "title": "C03-G06-09 sourceBytes 保留原始文件缓冲引用长度",
+          "duration": 6.696582999999009,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["C03-G06 真实 PNG 导入与 AssetId"],
+          "fullName": "C03-G06 真实 PNG 导入与 AssetId C03-G06-10 portrait 与 face 同图 hash 相同但 path 前缀按 kind 区分",
+          "status": "passed",
+          "title": "C03-G06-10 portrait 与 face 同图 hash 相同但 path 前缀按 kind 区分",
+          "duration": 1.502583000001323,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790869037276,
+      "endTime": 1790869047262.5027,
+      "status": "failed",
+      "message": "",
+      "name": "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/cursor-counter-CTR-C03-03-X3blxH/packages/editor/src/core/image-import.c03-g06.cursor-r1.test.ts"
+    }
+  ]
+}

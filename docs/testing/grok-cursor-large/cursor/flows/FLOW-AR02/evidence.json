@@ -1,0 +1,106 @@
+{
+  "id": "FLOW-AR02",
+  "category": "async-fail-recover",
+  "title": "SpriteResourceViewer 损坏解码与切换恢复",
+  "contract": "decode-fail-then-switch-asset",
+  "host": "http://127.0.0.1:6020/",
+  "viewport": {
+    "wide": {
+      "width": 1100,
+      "height": 800
+    },
+    "narrow": {
+      "width": 820,
+      "height": 680
+    }
+  },
+  "expect": "损坏资产 loadProof=error；切换 good 后 error=false",
+  "before": {
+    "flowId": "FLOW-AR02",
+    "phase": "ready",
+    "label": "资源查看器：损坏解码失败与切换恢复（异步）",
+    "oracle": {
+      "asset": "sprite.flow.bad",
+      "loadProof": "error",
+      "error": true
+    },
+    "canvas2d": {
+      "ok": true,
+      "sample": [12, 34, 56, 255],
+      "note": "real Canvas2D readback"
+    }
+  },
+  "after": {
+    "flowId": "FLOW-AR02",
+    "phase": "ready",
+    "label": "资源查看器：损坏解码失败与切换恢复（异步）",
+    "oracle": {
+      "asset": "sprite.flow.good",
+      "loadProof": "error",
+      "error": false
+    },
+    "canvas2d": {
+      "ok": true,
+      "sample": [12, 34, 56, 255],
+      "note": "real Canvas2D readback"
+    }
+  },
+  "steps": ["load corrupt asset", "click 正常"],
+  "shots": [
+    {
+      "path": "/Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/docs/testing/grok-cursor-large/cursor/flows/FLOW-AR02/wide-corrupt.png",
+      "sha256": "b5035a9db573cb1b16d39fb79c23f3456ad0fffa8efc9c80d8d0a70231519c44",
+      "width": 1100,
+      "height": 800
+    },
+    {
+      "path": "/Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/docs/testing/grok-cursor-large/cursor/flows/FLOW-AR02/narrow-recovered.png",
+      "sha256": "4f1448d7cde11d8feb209cadd3e1702da045aede14037e609d301441d019a6a2",
+      "width": 820,
+      "height": 680
+    }
+  ],
+  "pass": true,
+  "console": {
+    "entries": [
+      {
+        "type": "debug",
+        "text": "[vite] connecting...",
+        "classification": {
+          "bucket": "debug",
+          "attributable": true,
+          "note": ""
+        }
+      },
+      {
+        "type": "debug",
+        "text": "[vite] connected.",
+        "classification": {
+          "bucket": "debug",
+          "attributable": true,
+          "note": ""
+        }
+      },
+      {
+        "type": "info",
+        "text": "%cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold",
+        "classification": {
+          "bucket": "info",
+          "attributable": true,
+          "note": ""
+        }
+      }
+    ],
+    "failedRequests": [],
+    "counts": {
+      "total": 3,
+      "error": 0,
+      "warning": 0,
+      "pageerror": 0
+    },
+    "unattributedConsoleCount": 0,
+    "unattributedNetworkCount": 0,
+    "consoleAttested": true
+  },
+  "recordedAt": "2026-10-01T16:27:23.036Z"
+}

@@ -1,0 +1,158 @@
+
+ RUN  v4.1.7 /private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/cursor-counter-CTR-C07-09-72DyOQ/packages/editor
+
+ ❯ src/core/frame-animation-codec.c07-g03.cursor-r1.test.ts (10 tests | 8 failed) 13ms
+     × C07-G03-01 三帧纯 rgba：帧数与 defaultFrameMs 写入 index 4ms
+     × C07-G03-02 colorTreatment project-standard 写入 index 0ms
+     × C07-G03-03 单帧最小合成：TPFS 魔数与宽高 0ms
+     × C07-G03-04 缺旧源 sourceFrame 拒绝（合成边界） 4ms
+     × C07-G03-05 越界 sourceFrame 带小数索引拒绝 1ms
+     × C07-G03-06 混排 sourceFrame 与 rgba：逐帧字节还原 0ms
+     × C07-G03-07 两次 encode 同输入：sha256 级 bytes 一致 0ms
+     ✓ C07-G03-08 quantize 两帧输出互异且输入 buffer 不被改写 1ms
+     ✓ C07-G03-09 quantize 输出改色不影响下一帧结果 0ms
+     × C07-G03-10 DecompressionStream 构造计数：跨块 sourceFrame 引用触发解压 IO 0ms
+{"numTotalTestSuites":2,"numPassedTestSuites":0,"numFailedTestSuites":2,"numPendingTestSuites":0,"numTotalTests":10,"numPassedTests":2,"numFailedTests":8,"numPendingTests":0,"numTodoTests":0,"snapshot":{"added":0,"failure":false,"filesAdded":0,"filesRemoved":0,"filesRemovedList":[],"filesUnmatched":0,"filesUpdated":0,"matched":0,"total":0,"unchecked":0,"uncheckedKeysByFile":[],"unmatched":0,"updated":0,"didUpdate":false},"startTime":1790869130399,"success":false,"testResults":[{"assertionResults":[{"ancestorTitles":["C07-G03 合成 rgba 编码"],"fullName":"C07-G03 合成 rgba 编码 C07-G03-01 三帧纯 rgba：帧数与 defaultFrameMs 写入 index","status":"failed","title":"C07-G03-01 三帧纯 rgba：帧数与 defaultFrameMs 写入 index","duration":4.0292499999999905,"failureMessages":["Error: TPFS.encode.frames[0].durationMs: 期望正有限数\n    at positiveNumberAt (/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/cursor-counter-CTR-C07-09-72DyOQ/packages/content/src/frame-sequence.ts:88:11)\n    at /private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/cursor-counter-CTR-C07-09-72DyOQ/packages/content/src/frame-sequence.ts:423:7\n    at Array.map (<anonymous>)\n    at prepareFrameSequenceProviderInput (/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/cursor-counter-CTR-C07-09-72DyOQ/packages/content/src/frame-sequence.ts:421:31)\n    at encodeFrameSequenceFromProvider (/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/cursor-counter-CTR-C07-09-72DyOQ/packages/content/src/frame-sequence.ts:488:20)\n    at encodeFrameAnimationRequest (/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/cursor-counter-CTR-C07-09-72DyOQ/packages/editor/src/core/frame-animation-codec.ts:85:10)\n    at /private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/cursor-counter-CTR-C07-09-72DyOQ/packages/editor/src/core/frame-animation-codec.c07-g03.cursor-r1.test.ts:38:27\n    at file:///Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20"],"meta":{},"tags":[]},{"ancestorTitles":["C07-G03 合成 rgba 编码"],"fullName":"C07-G03 合成 rgba 编码 C07-G03-02 colorTreatment project-standard 写入 index","status":"failed","title":"C07-G03-02 colorTreatment project-standard 写入 index","duration":0.4947909999999638,"failureMessages":["Error: TPFS.encode.frames[0].durationMs: 期望正有限数\n    at positiveNumberAt (/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/cursor-counter-CTR-C07-09-72DyOQ/packages/content/src/frame-sequence.ts:88:11)\n    at /private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/cursor-counter-CTR-C07-09-72DyOQ/packages/content/src/frame-sequence.ts:423:7\n    at Array.map (<anonymous>)\n    at prepareFrameSequenceProviderInput (/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/cursor-counter-CTR-C07-09-72DyOQ/packages/content/src/frame-sequence.ts:421:31)\n    at encodeFrameSequenceFromProvider (/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/cursor-counter-CTR-C07-09-72DyOQ/packages/content/src/frame-sequence.ts:488:20)\n    at encodeFrameAnimationRequest (/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/cursor-counter-CTR-C07-09-72DyOQ/packages/editor/src/core/frame-animation-codec.ts:85:10)\n    at /private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/cursor-counter-CTR-C07-09-72DyOQ/packages/editor/src/core/frame-animation-codec.c07-g03.cursor-r1.test.ts:52:27\n    at file:///Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20"],"meta":{},"tags":[]},{"ancestorTitles":["C07-G03 合成 rgba 编码"],"fullName":"C07-G03 合成 rgba 编码 C07-G03-03 单帧最小合成：TPFS 魔数与宽高","status":"failed","title":"C07-G03-03 单帧最小合成：TPFS 魔数与宽高","duration":0.18337499999995543,"failureMessages":["Error: TPFS.encode.frames[0].durationMs: 期望正有限数\n    at positiveNumberAt (/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/cursor-counter-CTR-C07-09-72DyOQ/packages/content/src/frame-sequence.ts:88:11)\n    at /private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/cursor-counter-CTR-C07-09-72DyOQ/packages/content/src/frame-sequence.ts:423:7\n    at Array.map (<anonymous>)\n    at prepareFrameSequenceProviderInput (/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/cursor-counter-CTR-C07-09-72DyOQ/packages/content/src/frame-sequence.ts:421:31)\n    at encodeFrameSequenceFromProvider (/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/cursor-counter-CTR-C07-09-72DyOQ/packages/content/src/frame-sequence.ts:488:20)\n    at encodeFrameAnimationRequest (/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/cursor-counter-CTR-C07-09-72DyOQ/packages/editor/src/core/frame-animation-codec.ts:85:10)\n    at /private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/cursor-counter-CTR-C07-09-72DyOQ/packages/editor/src/core/frame-animation-codec.c07-g03.cursor-r1.test.ts:63:27\n    at file:///Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20"],"meta":{},"tags":[]},{"ancestorTitles":["C07-G03 合成 rgba 编码"],"fullName":"C07-G03 合成 rgba 编码 C07-G03-04 缺旧源 sourceFrame 拒绝（合成边界）","status":"failed","title":"C07-G03-04 缺旧源 sourceFrame 拒绝（合成边界）","duration":3.8886249999999905,"failureMessages":["Error: expected [Function] to throw error including '缺旧动画来源' but got 'TPFS.encode.frames[0].durationMs: 期望正…'\n    at _Assertion.__VITEST_REJECTS__ (file:///Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/node_modules/.pnpm/@vitest+expect@4.1.7/node_modules/@vitest/expect/dist/index.js:1747:17)\n    at _Assertion.propertyGetter (file:///Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/node_modules/.pnpm/chai@6.2.2/node_modules/chai/index.js:1570:27)\n    at Reflect.get (<anonymous>)\n    at Object.proxyGetter [as get] (file:///Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/node_modules/.pnpm/chai@6.2.2/node_modules/chai/index.js:1659:22)\n    at /private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/cursor-counter-CTR-C07-09-72DyOQ/packages/editor/src/core/frame-animation-codec.c07-g03.cursor-r1.test.ts:83:5\n    at file:///Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)"],"meta":{},"tags":[]},{"ancestorTitles":["C07-G03 合成 rgba 编码"],"fullName":"C07-G03 合成 rgba 编码 C07-G03-05 越界 sourceFrame 带小数索引拒绝","status":"failed","title":"C07-G03-05 越界 sourceFrame 带小数索引拒绝","duration":0.5890420000000063,"failureMessages":["Error: TPFS.encode.frames[0].durationMs: 期望正有限数\n    at positiveNumberAt (/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/cursor-counter-CTR-C07-09-72DyOQ/packages/content/src/frame-sequence.ts:88:11)\n    at /private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/cursor-counter-CTR-C07-09-72DyOQ/packages/content/src/frame-sequence.ts:423:7\n    at Array.map (<anonymous>)\n    at prepareFrameSequenceProviderInput (/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/cursor-counter-CTR-C07-09-72DyOQ/packages/content/src/frame-sequence.ts:421:31)\n    at encodeFrameSequenceFromProvider (/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/cursor-counter-CTR-C07-09-72DyOQ/packages/content/src/frame-sequence.ts:488:20)\n    at encodeFrameAnimationRequest (/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/cursor-counter-CTR-C07-09-72DyOQ/packages/editor/src/core/frame-animation-codec.ts:85:10)\n    at /private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/cursor-counter-CTR-C07-09-72DyOQ/packages/editor/src/core/frame-animation-codec.c07-g03.cursor-r1.test.ts:87:26\n    at file:///Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20"],"meta":{},"tags":[]},{"ancestorTitles":["C07-G03 合成 rgba 编码"],"fullName":"C07-G03 合成 rgba 编码 C07-G03-06 混排 sourceFrame 与 rgba：逐帧字节还原","status":"failed","title":"C07-G03-06 混排 sourceFrame 与 rgba：逐帧字节还原","duration":0.2699999999999818,"failureMessages":["Error: TPFS.encode.frames[0].durationMs: 期望正有限数\n    at positiveNumberAt (/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/cursor-counter-CTR-C07-09-72DyOQ/packages/content/src/frame-sequence.ts:88:11)\n    at /private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/cursor-counter-CTR-C07-09-72DyOQ/packages/content/src/frame-sequence.ts:423:7\n    at Array.map (<anonymous>)\n    at prepareFrameSequenceProviderInput (/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/cursor-counter-CTR-C07-09-72DyOQ/packages/content/src/frame-sequence.ts:421:31)\n    at encodeFrameSequenceFromProvider (/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/cursor-counter-CTR-C07-09-72DyOQ/packages/content/src/frame-sequence.ts:488:20)\n    at encodeFrameAnimationRequest (/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/cursor-counter-CTR-C07-09-72DyOQ/packages/editor/src/core/frame-animation-codec.ts:85:10)\n    at /private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/cursor-counter-CTR-C07-09-72DyOQ/packages/editor/src/core/frame-animation-codec.c07-g03.cursor-r1.test.ts:107:26\n    at file:///Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20"],"meta":{},"tags":[]},{"ancestorTitles":["C07-G03 合成 rgba 编码"],"fullName":"C07-G03 合成 rgba 编码 C07-G03-07 两次 encode 同输入：sha256 级 bytes 一致","status":"failed","title":"C07-G03-07 两次 encode 同输入：sha256 级 bytes 一致","duration":0.20704200000000128,"failureMessages":["Error: TPFS.encode.frames[0].durationMs: 期望正有限数\n    at positiveNumberAt (/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/cursor-counter-CTR-C07-09-72DyOQ/packages/content/src/frame-sequence.ts:88:11)\n    at /private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/cursor-counter-CTR-C07-09-72DyOQ/packages/content/src/frame-sequence.ts:423:7\n    at Array.map (<anonymous>)\n    at prepareFrameSequenceProviderInput (/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/cursor-counter-CTR-C07-09-72DyOQ/packages/content/src/frame-sequence.ts:421:31)\n    at encodeFrameSequenceFromProvider (/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/cursor-counter-CTR-C07-09-72DyOQ/packages/content/src/frame-sequence.ts:488:20)\n    at encodeFrameAnimationRequest (/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/cursor-counter-CTR-C07-09-72DyOQ/packages/editor/src/core/frame-animation-codec.ts:85:10)\n    at /private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/cursor-counter-CTR-C07-09-72DyOQ/packages/editor/src/core/frame-animation-codec.c07-g03.cursor-r1.test.ts:134:21\n    at file:///Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20"],"meta":{},"tags":[]},{"ancestorTitles":["C07-G03 合成 rgba 编码"],"fullName":"C07-G03 合成 rgba 编码 C07-G03-08 quantize 两帧输出互异且输入 buffer 不被改写","status":"passed","title":"C07-G03-08 quantize 两帧输出互异且输入 buffer 不被改写","duration":1.029375000000016,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["C07-G03 合成 rgba 编码"],"fullName":"C07-G03 合成 rgba 编码 C07-G03-09 quantize 输出改色不影响下一帧结果","status":"passed","title":"C07-G03-09 quantize 输出改色不影响下一帧结果","duration":0.38075000000003456,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["C07-G03 合成 rgba 编码"],"fullName":"C07-G03 合成 rgba 编码 C07-G03-10 DecompressionStream 构造计数：跨块 sourceFrame 引用触发解压 IO","status":"failed","title":"C07-G03-10 DecompressionStream 构造计数：跨块 sourceFrame 引用触发解压 IO","duration":0.22550000000001091,"failureMessages":["Error: TPFS.encode.frames[0].durationMs: 期望正有限数\n    at positiveNumberAt (/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/cursor-counter-CTR-C07-09-72DyOQ/packages/content/src/frame-sequence.ts:88:11)\n    at /private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/cursor-counter-CTR-C07-09-72DyOQ/packages/content/src/frame-sequence.ts:423:7\n    at Array.map (<anonymous>)\n    at prepareFrameSequenceProviderInput (/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/cursor-counter-CTR-C07-09-72DyOQ/packages/content/src/frame-sequence.ts:421:31)\n    at encodeFrameSequenceFromProvider (/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/cursor-counter-CTR-C07-09-72DyOQ/packages/content/src/frame-sequence.ts:488:20)\n    at encodeFrameAnimationRequest (/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/cursor-counter-CTR-C07-09-72DyOQ/packages/editor/src/core/frame-animation-codec.ts:85:10)\n    at /private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/cursor-counter-CTR-C07-09-72DyOQ/packages/editor/src/core/frame-animation-codec.c07-g03.cursor-r1.test.ts:175:26\n    at file:///Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20"],"meta":{},"tags":[]}],"startTime":1790869130836,"endTime":1790869130848.2256,"status":"failed","message":"","name":"/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/cursor-counter-CTR-C07-09-72DyOQ/packages/editor/src/core/frame-animation-codec.c07-g03.cursor-r1.test.ts"}]}
+
+ Test Files  1 failed (1)
+      Tests  8 failed | 2 passed (10)
+   Start at  00:38:50
+   Duration  448ms (transform 288ms, setup 0ms, import 346ms, tests 13ms, environment 0ms)
+
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 8 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/core/frame-animation-codec.c07-g03.cursor-r1.test.ts > C07-G03 合成 rgba 编码 > C07-G03-01 三帧纯 rgba：帧数与 defaultFrameMs 写入 index
+Error: TPFS.encode.frames[0].durationMs: 期望正有限数
+ ❯ positiveNumberAt ../content/src/frame-sequence.ts:88:11
+     86| function positiveNumberAt(value: unknown, path: string): number {
+     87|   if (typeof value !== 'number' || !Number.isFinite(value) || value <=…
+     88|     throw new Error(`${path}: 期望正有限数`)
+       |           ^
+     89|   return value
+     90| }
+ ❯ ../content/src/frame-sequence.ts:423:7
+ ❯ prepareFrameSequenceProviderInput ../content/src/frame-sequence.ts:421:31
+ ❯ encodeFrameSequenceFromProvider ../content/src/frame-sequence.ts:488:20
+ ❯ encodeFrameAnimationRequest src/core/frame-animation-codec.ts:85:10
+ ❯ src/core/frame-animation-codec.c07-g03.cursor-r1.test.ts:38:27
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/8]⎯
+
+ FAIL  src/core/frame-animation-codec.c07-g03.cursor-r1.test.ts > C07-G03 合成 rgba 编码 > C07-G03-02 colorTreatment project-standard 写入 index
+Error: TPFS.encode.frames[0].durationMs: 期望正有限数
+ ❯ positiveNumberAt ../content/src/frame-sequence.ts:88:11
+     86| function positiveNumberAt(value: unknown, path: string): number {
+     87|   if (typeof value !== 'number' || !Number.isFinite(value) || value <=…
+     88|     throw new Error(`${path}: 期望正有限数`)
+       |           ^
+     89|   return value
+     90| }
+ ❯ ../content/src/frame-sequence.ts:423:7
+ ❯ prepareFrameSequenceProviderInput ../content/src/frame-sequence.ts:421:31
+ ❯ encodeFrameSequenceFromProvider ../content/src/frame-sequence.ts:488:20
+ ❯ encodeFrameAnimationRequest src/core/frame-animation-codec.ts:85:10
+ ❯ src/core/frame-animation-codec.c07-g03.cursor-r1.test.ts:52:27
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/8]⎯
+
+ FAIL  src/core/frame-animation-codec.c07-g03.cursor-r1.test.ts > C07-G03 合成 rgba 编码 > C07-G03-03 单帧最小合成：TPFS 魔数与宽高
+Error: TPFS.encode.frames[0].durationMs: 期望正有限数
+ ❯ positiveNumberAt ../content/src/frame-sequence.ts:88:11
+     86| function positiveNumberAt(value: unknown, path: string): number {
+     87|   if (typeof value !== 'number' || !Number.isFinite(value) || value <=…
+     88|     throw new Error(`${path}: 期望正有限数`)
+       |           ^
+     89|   return value
+     90| }
+ ❯ ../content/src/frame-sequence.ts:423:7
+ ❯ prepareFrameSequenceProviderInput ../content/src/frame-sequence.ts:421:31
+ ❯ encodeFrameSequenceFromProvider ../content/src/frame-sequence.ts:488:20
+ ❯ encodeFrameAnimationRequest src/core/frame-animation-codec.ts:85:10
+ ❯ src/core/frame-animation-codec.c07-g03.cursor-r1.test.ts:63:27
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/8]⎯
+
+ FAIL  src/core/frame-animation-codec.c07-g03.cursor-r1.test.ts > C07-G03 合成 rgba 编码 > C07-G03-04 缺旧源 sourceFrame 拒绝（合成边界）
+AssertionError: expected [Function] to throw error including '缺旧动画来源' but got 'TPFS.encode.frames[0].durationMs: 期望正…'
+
+Expected: "缺旧动画来源"
+Received: "TPFS.encode.frames[0].durationMs: 期望正有限数"
+
+ ❯ src/core/frame-animation-codec.c07-g03.cursor-r1.test.ts:83:5
+     81|         frames: [{ sourceFrame: 0 }],
+     82|       }),
+     83|     ).rejects.toThrow('缺旧动画来源')
+       |     ^
+     84|   })
+     85|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/8]⎯
+
+ FAIL  src/core/frame-animation-codec.c07-g03.cursor-r1.test.ts > C07-G03 合成 rgba 编码 > C07-G03-05 越界 sourceFrame 带小数索引拒绝
+Error: TPFS.encode.frames[0].durationMs: 期望正有限数
+ ❯ positiveNumberAt ../content/src/frame-sequence.ts:88:11
+     86| function positiveNumberAt(value: unknown, path: string): number {
+     87|   if (typeof value !== 'number' || !Number.isFinite(value) || value <=…
+     88|     throw new Error(`${path}: 期望正有限数`)
+       |           ^
+     89|   return value
+     90| }
+ ❯ ../content/src/frame-sequence.ts:423:7
+ ❯ prepareFrameSequenceProviderInput ../content/src/frame-sequence.ts:421:31
+ ❯ encodeFrameSequenceFromProvider ../content/src/frame-sequence.ts:488:20
+ ❯ encodeFrameAnimationRequest src/core/frame-animation-codec.ts:85:10
+ ❯ src/core/frame-animation-codec.c07-g03.cursor-r1.test.ts:87:26
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/8]⎯
+
+ FAIL  src/core/frame-animation-codec.c07-g03.cursor-r1.test.ts > C07-G03 合成 rgba 编码 > C07-G03-06 混排 sourceFrame 与 rgba：逐帧字节还原
+Error: TPFS.encode.frames[0].durationMs: 期望正有限数
+ ❯ positiveNumberAt ../content/src/frame-sequence.ts:88:11
+     86| function positiveNumberAt(value: unknown, path: string): number {
+     87|   if (typeof value !== 'number' || !Number.isFinite(value) || value <=…
+     88|     throw new Error(`${path}: 期望正有限数`)
+       |           ^
+     89|   return value
+     90| }
+ ❯ ../content/src/frame-sequence.ts:423:7
+ ❯ prepareFrameSequenceProviderInput ../content/src/frame-sequence.ts:421:31
+ ❯ encodeFrameSequenceFromProvider ../content/src/frame-sequence.ts:488:20
+ ❯ encodeFrameAnimationRequest src/core/frame-animation-codec.ts:85:10
+ ❯ src/core/frame-animation-codec.c07-g03.cursor-r1.test.ts:107:26
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[6/8]⎯
+
+ FAIL  src/core/frame-animation-codec.c07-g03.cursor-r1.test.ts > C07-G03 合成 rgba 编码 > C07-G03-07 两次 encode 同输入：sha256 级 bytes 一致
+Error: TPFS.encode.frames[0].durationMs: 期望正有限数
+ ❯ positiveNumberAt ../content/src/frame-sequence.ts:88:11
+     86| function positiveNumberAt(value: unknown, path: string): number {
+     87|   if (typeof value !== 'number' || !Number.isFinite(value) || value <=…
+     88|     throw new Error(`${path}: 期望正有限数`)
+       |           ^
+     89|   return value
+     90| }
+ ❯ ../content/src/frame-sequence.ts:423:7
+ ❯ prepareFrameSequenceProviderInput ../content/src/frame-sequence.ts:421:31
+ ❯ encodeFrameSequenceFromProvider ../content/src/frame-sequence.ts:488:20
+ ❯ encodeFrameAnimationRequest src/core/frame-animation-codec.ts:85:10
+ ❯ src/core/frame-animation-codec.c07-g03.cursor-r1.test.ts:134:21
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[7/8]⎯
+
+ FAIL  src/core/frame-animation-codec.c07-g03.cursor-r1.test.ts > C07-G03 合成 rgba 编码 > C07-G03-10 DecompressionStream 构造计数：跨块 sourceFrame 引用触发解压 IO
+Error: TPFS.encode.frames[0].durationMs: 期望正有限数
+ ❯ positiveNumberAt ../content/src/frame-sequence.ts:88:11
+     86| function positiveNumberAt(value: unknown, path: string): number {
+     87|   if (typeof value !== 'number' || !Number.isFinite(value) || value <=…
+     88|     throw new Error(`${path}: 期望正有限数`)
+       |           ^
+     89|   return value
+     90| }
+ ❯ ../content/src/frame-sequence.ts:423:7
+ ❯ prepareFrameSequenceProviderInput ../content/src/frame-sequence.ts:421:31
+ ❯ encodeFrameSequenceFromProvider ../content/src/frame-sequence.ts:488:20
+ ❯ encodeFrameAnimationRequest src/core/frame-animation-codec.ts:85:10
+ ❯ src/core/frame-animation-codec.c07-g03.cursor-r1.test.ts:175:26
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[8/8]⎯

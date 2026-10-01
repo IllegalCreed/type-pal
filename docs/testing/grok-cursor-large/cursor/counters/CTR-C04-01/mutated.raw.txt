@@ -1,0 +1,213 @@
+
+ RUN  v4.1.7 /private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/cursor-counter-CTR-C04-01-kJoxKe/packages/editor
+
+ ❯ src/core/frame-animation-draft.c04.cursor-r1.test.ts (10 tests | 10 failed) 11ms
+     × C04-G07-01 初始 draftDurationMs 累加默认与 override：40+70+40=150 4ms
+     × C04-G07-02 头部 insert 带 override 帧：顺序与总时长同时更新 1ms
+     × C04-G07-03 尾部 insert 无 override 继承 defaultFrameMs 0ms
+     × C04-G07-04 删除中间 override 帧后总时长回落且 metadata 对齐 0ms
+     × C04-G07-05 moveDraftFrame 只换序不改各帧 duration 字段 1ms
+     × C04-G07-06 duplicateDraftFrame 复制 override 与像素源 1ms
+     × C04-G07-07 setDraftDefaultFrameMs 只影响无 override 帧的有效时长 0ms
+     × C04-G07-08 清除 override 后 draftFrameMetadata 该槽回到 {} 0ms
+     × C04-G07-09 一次 insert 多帧混合 override：metadata 逐槽精确 1ms
+     × C04-G07-10 连续 delete 非相邻帧保留剩余 override 1ms
+{"numTotalTestSuites":2,"numPassedTestSuites":0,"numFailedTestSuites":2,"numPendingTestSuites":0,"numTotalTests":10,"numPassedTests":0,"numFailedTests":10,"numPendingTests":0,"numTodoTests":0,"snapshot":{"added":0,"failure":false,"filesAdded":0,"filesRemoved":0,"filesRemovedList":[],"filesUnmatched":0,"filesUpdated":0,"matched":0,"total":0,"unchecked":0,"uncheckedKeysByFile":[],"unmatched":0,"updated":0,"didUpdate":false},"startTime":1790868893340,"success":false,"testResults":[{"assertionResults":[{"ancestorTitles":["C04-G07 draft 时长与结构编辑"],"fullName":"C04-G07 draft 时长与结构编辑 C04-G07-01 初始 draftDurationMs 累加默认与 override：40+70+40=150","status":"failed","title":"C04-G07-01 初始 draftDurationMs 累加默认与 override：40+70+40=150","duration":4.228250000000017,"failureMessages":["AssertionError: expected 153 to be 150 // Object.is equality\n    at /private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/cursor-counter-CTR-C04-01-kJoxKe/packages/editor/src/core/frame-animation-draft.c04.cursor-r1.test.ts:40:42\n    at file:///Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64"],"meta":{},"tags":[]},{"ancestorTitles":["C04-G07 draft 时长与结构编辑"],"fullName":"C04-G07 draft 时长与结构编辑 C04-G07-02 头部 insert 带 override 帧：顺序与总时长同时更新","status":"failed","title":"C04-G07-02 头部 insert 带 override 帧：顺序与总时长同时更新","duration":0.6291670000000238,"failureMessages":["AssertionError: expected 179 to be 175 // Object.is equality\n    at /private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/cursor-counter-CTR-C04-01-kJoxKe/packages/editor/src/core/frame-animation-draft.c04.cursor-r1.test.ts:50:35\n    at file:///Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64"],"meta":{},"tags":[]},{"ancestorTitles":["C04-G07 draft 时长与结构编辑"],"fullName":"C04-G07 draft 时长与结构编辑 C04-G07-03 尾部 insert 无 override 继承 defaultFrameMs","status":"failed","title":"C04-G07-03 尾部 insert 无 override 继承 defaultFrameMs","duration":0.3689579999999921,"failureMessages":["AssertionError: expected 194 to be 190 // Object.is equality\n    at /private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/cursor-counter-CTR-C04-01-kJoxKe/packages/editor/src/core/frame-animation-draft.c04.cursor-r1.test.ts:58:35\n    at file:///Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64"],"meta":{},"tags":[]},{"ancestorTitles":["C04-G07 draft 时长与结构编辑"],"fullName":"C04-G07 draft 时长与结构编辑 C04-G07-04 删除中间 override 帧后总时长回落且 metadata 对齐","status":"failed","title":"C04-G07-04 删除中间 override 帧后总时长回落且 metadata 对齐","duration":0.4098329999999919,"failureMessages":["AssertionError: expected 82 to be 80 // Object.is equality\n    at /private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/cursor-counter-CTR-C04-01-kJoxKe/packages/editor/src/core/frame-animation-draft.c04.cursor-r1.test.ts:65:38\n    at file:///Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64"],"meta":{},"tags":[]},{"ancestorTitles":["C04-G07 draft 时长与结构编辑"],"fullName":"C04-G07 draft 时长与结构编辑 C04-G07-05 moveDraftFrame 只换序不改各帧 duration 字段","status":"failed","title":"C04-G07-05 moveDraftFrame 只换序不改各帧 duration 字段","duration":1.3760000000000048,"failureMessages":["AssertionError: expected 153 to be 150 // Object.is equality\n    at /private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/cursor-counter-CTR-C04-01-kJoxKe/packages/editor/src/core/frame-animation-draft.c04.cursor-r1.test.ts:74:36\n    at file:///Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64"],"meta":{},"tags":[]},{"ancestorTitles":["C04-G07 draft 时长与结构编辑"],"fullName":"C04-G07 draft 时长与结构编辑 C04-G07-06 duplicateDraftFrame 复制 override 与像素源","status":"failed","title":"C04-G07-06 duplicateDraftFrame 复制 override 与像素源","duration":0.6969160000000159,"failureMessages":["AssertionError: expected 224 to be 220 // Object.is equality\n    at /private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/cursor-counter-CTR-C04-01-kJoxKe/packages/editor/src/core/frame-animation-draft.c04.cursor-r1.test.ts:81:34\n    at file:///Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64"],"meta":{},"tags":[]},{"ancestorTitles":["C04-G07 draft 时长与结构编辑"],"fullName":"C04-G07 draft 时长与结构编辑 C04-G07-07 setDraftDefaultFrameMs 只影响无 override 帧的有效时长","status":"failed","title":"C04-G07-07 setDraftDefaultFrameMs 只影响无 override 帧的有效时长","duration":0.39629200000001674,"failureMessages":["AssertionError: expected 56 to be 55 // Object.is equality\n    at /private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/cursor-counter-CTR-C04-01-kJoxKe/packages/editor/src/core/frame-animation-draft.c04.cursor-r1.test.ts:86:44\n    at file:///Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64"],"meta":{},"tags":[]},{"ancestorTitles":["C04-G07 draft 时长与结构编辑"],"fullName":"C04-G07 draft 时长与结构编辑 C04-G07-08 清除 override 后 draftFrameMetadata 该槽回到 {}","status":"failed","title":"C04-G07-08 清除 override 后 draftFrameMetadata 该槽回到 {}","duration":0.27241699999999014,"failureMessages":["AssertionError: expected 123 to be 120 // Object.is equality\n    at /private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/cursor-counter-CTR-C04-01-kJoxKe/packages/editor/src/core/frame-animation-draft.c04.cursor-r1.test.ts:94:38\n    at file:///Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64"],"meta":{},"tags":[]},{"ancestorTitles":["C04-G07 draft 时长与结构编辑"],"fullName":"C04-G07 draft 时长与结构编辑 C04-G07-09 一次 insert 多帧混合 override：metadata 逐槽精确","status":"failed","title":"C04-G07-09 一次 insert 多帧混合 override：metadata 逐槽精确","duration":0.8526669999999967,"failureMessages":["AssertionError: expected 206 to be 201 // Object.is equality\n    at /private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/cursor-counter-CTR-C04-01-kJoxKe/packages/editor/src/core/frame-animation-draft.c04.cursor-r1.test.ts:103:35\n    at file:///Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64"],"meta":{},"tags":[]},{"ancestorTitles":["C04-G07 draft 时长与结构编辑"],"fullName":"C04-G07 draft 时长与结构编辑 C04-G07-10 连续 delete 非相邻帧保留剩余 override","status":"failed","title":"C04-G07-10 连续 delete 非相邻帧保留剩余 override","duration":0.5032910000000186,"failureMessages":["AssertionError: expected 162 to be 160 // Object.is equality\n    at /private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/cursor-counter-CTR-C04-01-kJoxKe/packages/editor/src/core/frame-animation-draft.c04.cursor-r1.test.ts:113:38\n    at file:///Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64"],"meta":{},"tags":[]}],"startTime":1790868893495,"endTime":1790868893504.8528,"status":"failed","message":"","name":"/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/cursor-counter-CTR-C04-01-kJoxKe/packages/editor/src/core/frame-animation-draft.c04.cursor-r1.test.ts"}]}
+
+ Test Files  1 failed (1)
+      Tests  10 failed (10)
+   Start at  00:34:53
+   Duration  165ms (transform 37ms, setup 0ms, import 49ms, tests 11ms, environment 0ms)
+
+
+⎯⎯⎯⎯⎯⎯ Failed Tests 10 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/core/frame-animation-draft.c04.cursor-r1.test.ts > C04-G07 draft 时长与结构编辑 > C04-G07-01 初始 draftDurationMs 累加默认与 override：40+70+40=150
+AssertionError: expected 153 to be 150 // Object.is equality
+
+- Expected
++ Received
+
+- 150
++ 153
+
+ ❯ src/core/frame-animation-draft.c04.cursor-r1.test.ts:40:42
+     38| describe('C04-G07 draft 时长与结构编辑', () => {
+     39|   test('C04-G07-01 初始 draftDurationMs 累加默认与 override：40+70+40=150', ()…
+     40|     expect(draftDurationMs(baseDraft())).toBe(150)
+       |                                          ^
+     41|     expect(draftFrameDurationMs(baseDraft(), 0)).toBe(40)
+     42|     expect(draftFrameDurationMs(baseDraft(), 1)).toBe(70)
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/10]⎯
+
+ FAIL  src/core/frame-animation-draft.c04.cursor-r1.test.ts > C04-G07 draft 时长与结构编辑 > C04-G07-02 头部 insert 带 override 帧：顺序与总时长同时更新
+AssertionError: expected 179 to be 175 // Object.is equality
+
+- Expected
++ Received
+
+- 175
++ 179
+
+ ❯ src/core/frame-animation-draft.c04.cursor-r1.test.ts:50:35
+     48|     ])
+     49|     expect(next.frames.map((f) => f.id)).toEqual(['x', 'a', 'b', 'c'])
+     50|     expect(draftDurationMs(next)).toBe(175)
+       |                                   ^
+     51|     expect(draftFrameMetadata(next)).toEqual([{ durationMs: 25 }, {}, …
+     52|   })
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/10]⎯
+
+ FAIL  src/core/frame-animation-draft.c04.cursor-r1.test.ts > C04-G07 draft 时长与结构编辑 > C04-G07-03 尾部 insert 无 override 继承 defaultFrameMs
+AssertionError: expected 194 to be 190 // Object.is equality
+
+- Expected
++ Received
+
+- 190
++ 194
+
+ ❯ src/core/frame-animation-draft.c04.cursor-r1.test.ts:58:35
+     56|       { id: 'tail', source: { kind: 'pixels', rgba: px(2, 2, 2, 255) }…
+     57|     ])
+     58|     expect(draftDurationMs(next)).toBe(190)
+       |                                   ^
+     59|     expect(draftFrameDurationMs(next, 3)).toBe(40)
+     60|   })
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/10]⎯
+
+ FAIL  src/core/frame-animation-draft.c04.cursor-r1.test.ts > C04-G07 draft 时长与结构编辑 > C04-G07-04 删除中间 override 帧后总时长回落且 metadata 对齐
+AssertionError: expected 82 to be 80 // Object.is equality
+
+- Expected
++ Received
+
+- 80
++ 82
+
+ ❯ src/core/frame-animation-draft.c04.cursor-r1.test.ts:65:38
+     63|     const trimmed = deleteDraftFrames(baseDraft(), [1])
+     64|     expect(trimmed.frames.map((f) => f.id)).toEqual(['a', 'c'])
+     65|     expect(draftDurationMs(trimmed)).toBe(80)
+       |                                      ^
+     66|     expect(draftFrameMetadata(trimmed)).toEqual([{}, {}])
+     67|   })
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/10]⎯
+
+ FAIL  src/core/frame-animation-draft.c04.cursor-r1.test.ts > C04-G07 draft 时长与结构编辑 > C04-G07-05 moveDraftFrame 只换序不改各帧 duration 字段
+AssertionError: expected 153 to be 150 // Object.is equality
+
+- Expected
++ Received
+
+- 150
++ 153
+
+ ❯ src/core/frame-animation-draft.c04.cursor-r1.test.ts:74:36
+     72|     expect(moved.frames[0]?.durationMs).toBe(70)
+     73|     expect(moved.frames[2]?.durationMs).toBeUndefined()
+     74|     expect(draftDurationMs(moved)).toBe(150)
+       |                                    ^
+     75|   })
+     76|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/10]⎯
+
+ FAIL  src/core/frame-animation-draft.c04.cursor-r1.test.ts > C04-G07 draft 时长与结构编辑 > C04-G07-06 duplicateDraftFrame 复制 override 与像素源
+AssertionError: expected 224 to be 220 // Object.is equality
+
+- Expected
++ Received
+
+- 220
++ 224
+
+ ❯ src/core/frame-animation-draft.c04.cursor-r1.test.ts:81:34
+     79|     expect(dup.frames.map((f) => f.id)).toEqual(['a', 'b', 'b-copy', '…
+     80|     expect(dup.frames[2]?.durationMs).toBe(70)
+     81|     expect(draftDurationMs(dup)).toBe(220)
+       |                                  ^
+     82|   })
+     83|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[6/10]⎯
+
+ FAIL  src/core/frame-animation-draft.c04.cursor-r1.test.ts > C04-G07 draft 时长与结构编辑 > C04-G07-07 setDraftDefaultFrameMs 只影响无 override 帧的有效时长
+AssertionError: expected 56 to be 55 // Object.is equality
+
+- Expected
++ Received
+
+- 55
++ 56
+
+ ❯ src/core/frame-animation-draft.c04.cursor-r1.test.ts:86:44
+     84|   test('C04-G07-07 setDraftDefaultFrameMs 只影响无 override 帧的有效时长', () =>…
+     85|     const wider = setDraftDefaultFrameMs(baseDraft(), 55)
+     86|     expect(draftFrameDurationMs(wider, 0)).toBe(55)
+       |                                            ^
+     87|     expect(draftFrameDurationMs(wider, 1)).toBe(70)
+     88|     expect(draftDurationMs(wider)).toBe(180)
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[7/10]⎯
+
+ FAIL  src/core/frame-animation-draft.c04.cursor-r1.test.ts > C04-G07 draft 时长与结构编辑 > C04-G07-08 清除 override 后 draftFrameMetadata 该槽回到 {}
+AssertionError: expected 123 to be 120 // Object.is equality
+
+- Expected
++ Received
+
+- 120
++ 123
+
+ ❯ src/core/frame-animation-draft.c04.cursor-r1.test.ts:94:38
+     92|     const cleared = setDraftFrameDuration(baseDraft(), 1, undefined)
+     93|     expect(draftFrameMetadata(cleared)[1]).toEqual({})
+     94|     expect(draftDurationMs(cleared)).toBe(120)
+       |                                      ^
+     95|   })
+     96|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[8/10]⎯
+
+ FAIL  src/core/frame-animation-draft.c04.cursor-r1.test.ts > C04-G07 draft 时长与结构编辑 > C04-G07-09 一次 insert 多帧混合 override：metadata 逐槽精确
+AssertionError: expected 206 to be 201 // Object.is equality
+
+- Expected
++ Received
+
+- 201
++ 206
+
+ ❯ src/core/frame-animation-draft.c04.cursor-r1.test.ts:103:35
+    101|     ])
+    102|     expect(draftFrameMetadata(next)).toEqual([{}, { durationMs: 70 }, …
+    103|     expect(draftDurationMs(next)).toBe(201)
+       |                                   ^
+    104|   })
+    105|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[9/10]⎯
+
+ FAIL  src/core/frame-animation-draft.c04.cursor-r1.test.ts > C04-G07 draft 时长与结构编辑 > C04-G07-10 连续 delete 非相邻帧保留剩余 override
+AssertionError: expected 162 to be 160 // Object.is equality
+
+- Expected
++ Received
+
+- 160
++ 162
+
+ ❯ src/core/frame-animation-draft.c04.cursor-r1.test.ts:113:38
+    111|     expect(trimmed.frames.map((f) => f.id)).toEqual(['b', 'd'])
+    112|     expect(draftFrameMetadata(trimmed)).toEqual([{ durationMs: 70 }, {…
+    113|     expect(draftDurationMs(trimmed)).toBe(160)
+       |                                      ^
+    114|   })
+    115| })
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[10/10]⎯

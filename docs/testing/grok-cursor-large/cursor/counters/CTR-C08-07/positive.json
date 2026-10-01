@@ -1,0 +1,140 @@
+{
+  "numTotalTestSuites": 2,
+  "numPassedTestSuites": 2,
+  "numFailedTestSuites": 0,
+  "numPendingTestSuites": 0,
+  "numTotalTests": 10,
+  "numPassedTests": 10,
+  "numFailedTests": 0,
+  "numPendingTests": 0,
+  "numTodoTests": 0,
+  "snapshot": {
+    "added": 0,
+    "failure": false,
+    "filesAdded": 0,
+    "filesRemoved": 0,
+    "filesRemovedList": [],
+    "filesUnmatched": 0,
+    "filesUpdated": 0,
+    "matched": 0,
+    "total": 0,
+    "unchecked": 0,
+    "uncheckedKeysByFile": [],
+    "unmatched": 0,
+    "updated": 0,
+    "didUpdate": false
+  },
+  "startTime": 1790867461464,
+  "success": true,
+  "testResults": [
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["C08-G04 stamp-commands 模板身份与 mapReferenceStampIds"],
+          "fullName": "C08-G04 stamp-commands 模板身份与 mapReferenceStampIds C08-G04-01 AddStampTemplateCommand mapReferenceStampIds 与模板 id 一致",
+          "status": "passed",
+          "title": "C08-G04-01 AddStampTemplateCommand mapReferenceStampIds 与模板 id 一致",
+          "duration": 1.436083999999937,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["C08-G04 stamp-commands 模板身份与 mapReferenceStampIds"],
+          "fullName": "C08-G04 stamp-commands 模板身份与 mapReferenceStampIds C08-G04-02 ReplaceStampTemplateCommand mapReferenceStampIds 指向目标 id",
+          "status": "passed",
+          "title": "C08-G04-02 ReplaceStampTemplateCommand mapReferenceStampIds 指向目标 id",
+          "duration": 0.28133299999990413,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["C08-G04 stamp-commands 模板身份与 mapReferenceStampIds"],
+          "fullName": "C08-G04 stamp-commands 模板身份与 mapReferenceStampIds C08-G04-03 DuplicateStampTemplateCommand mapReferenceStampIds 为副本 id",
+          "status": "passed",
+          "title": "C08-G04-03 DuplicateStampTemplateCommand mapReferenceStampIds 为副本 id",
+          "duration": 0.1041250000000673,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["C08-G04 stamp-commands 模板身份与 mapReferenceStampIds"],
+          "fullName": "C08-G04 stamp-commands 模板身份与 mapReferenceStampIds C08-G04-04 DeleteStampTemplateCommand mapReferenceStampIds 为被删 id",
+          "status": "passed",
+          "title": "C08-G04-04 DeleteStampTemplateCommand mapReferenceStampIds 为被删 id",
+          "duration": 32.32983300000001,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["C08-G04 stamp-commands 模板身份与 mapReferenceStampIds"],
+          "fullName": "C08-G04 stamp-commands 模板身份与 mapReferenceStampIds C08-G04-05 Add 后 manifest.stamps 已存在时不重复改写路径",
+          "status": "passed",
+          "title": "C08-G04-05 Add 后 manifest.stamps 已存在时不重复改写路径",
+          "duration": 5.43425000000002,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["C08-G04 stamp-commands 模板身份与 mapReferenceStampIds"],
+          "fullName": "C08-G04 stamp-commands 模板身份与 mapReferenceStampIds C08-G04-06 Replace 同 JSON 内容 apply 返回同一 stamps 引用语义（no-op）",
+          "status": "passed",
+          "title": "C08-G04-06 Replace 同 JSON 内容 apply 返回同一 stamps 引用语义（no-op）",
+          "duration": 0.21691699999996672,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["C08-G04 stamp-commands 模板身份与 mapReferenceStampIds"],
+          "fullName": "C08-G04 stamp-commands 模板身份与 mapReferenceStampIds C08-G04-07 Duplicate 缺省 targetName 时使用「来源名 副本」",
+          "status": "passed",
+          "title": "C08-G04-07 Duplicate 缺省 targetName 时使用「来源名 副本」",
+          "duration": 0.2983329999999569,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["C08-G04 stamp-commands 模板身份与 mapReferenceStampIds"],
+          "fullName": "C08-G04 stamp-commands 模板身份与 mapReferenceStampIds C08-G04-08 Duplicate targetId 空白 trim 后仍走 Add 守卫",
+          "status": "passed",
+          "title": "C08-G04-08 Duplicate targetId 空白 trim 后仍走 Add 守卫",
+          "duration": 0.40183300000012423,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["C08-G04 stamp-commands 模板身份与 mapReferenceStampIds"],
+          "fullName": "C08-G04 stamp-commands 模板身份与 mapReferenceStampIds C08-G04-09 Delete 缺模板 apply 为 no-op（false dispatch）",
+          "status": "passed",
+          "title": "C08-G04-09 Delete 缺模板 apply 为 no-op（false dispatch）",
+          "duration": 6.509708000000046,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["C08-G04 stamp-commands 模板身份与 mapReferenceStampIds"],
+          "fullName": "C08-G04 stamp-commands 模板身份与 mapReferenceStampIds C08-G04-10 Add invert 后 stamps 为空且 manifest 不含 stamps 键",
+          "status": "passed",
+          "title": "C08-G04-10 Add invert 后 stamps 为空且 manifest 不含 stamps 键",
+          "duration": 0.6085409999998319,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790867463332,
+      "endTime": 1790867463379.6086,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/packages/editor/src/core/stamp-commands.c08-g04.cursor-r1.test.ts"
+    }
+  ]
+}

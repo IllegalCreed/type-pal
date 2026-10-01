@@ -1,0 +1,39 @@
+
+ RUN  v4.1.7 /private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/cursor-counter-CTR-C09-15-ejGXat/packages/editor
+
+ ❯ src/ui/MusicTab.c09-g03.cursor-r1.test.ts (10 tests | 1 failed) 8ms
+     ✓ C09-G03-01 assertMidi 接受 .MID 扩展名 1ms
+     ✓ C09-G03-02 assertMidi 拒绝非 mid 扩展名 0ms
+     ✓ C09-G03-03 assertMidi 拒绝错误魔数 0ms
+     ✓ C09-G03-04 nextMusicId 首次分配稳定前缀 0ms
+     ✓ C09-G03-05 nextMusicId 基 id 占用时分配 -2 0ms
+     ✓ C09-G03-06 nextMusicId 跳过已占 -2 取 -3 0ms
+     ✓ C09-G03-07 authoredMidiRecord 使用文件名去扩展名作 label 2ms
+     × C09-G03-08 authoredMidiRecord 显式 label 优先 3ms
+     ✓ C09-G03-09 authoredMidiRecord sha256 与 bytes 长度一致 1ms
+     ✓ C09-G03-10 authoredMidiRecord mediaType 为 audio/midi 0ms
+{"numTotalTestSuites":2,"numPassedTestSuites":0,"numFailedTestSuites":2,"numPendingTestSuites":0,"numTotalTests":10,"numPassedTests":9,"numFailedTests":1,"numPendingTests":0,"numTodoTests":0,"snapshot":{"added":0,"failure":false,"filesAdded":0,"filesRemoved":0,"filesRemovedList":[],"filesUnmatched":0,"filesUpdated":0,"matched":0,"total":0,"unchecked":0,"uncheckedKeysByFile":[],"unmatched":0,"updated":0,"didUpdate":false},"startTime":1790868600781,"success":false,"testResults":[{"assertionResults":[{"ancestorTitles":["C09-G03 MusicTab 策略纯函数"],"fullName":"C09-G03 MusicTab 策略纯函数 C09-G03-01 assertMidi 接受 .MID 扩展名","status":"passed","title":"C09-G03-01 assertMidi 接受 .MID 扩展名","duration":1.0564589999999043,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["C09-G03 MusicTab 策略纯函数"],"fullName":"C09-G03 MusicTab 策略纯函数 C09-G03-02 assertMidi 拒绝非 mid 扩展名","status":"passed","title":"C09-G03-02 assertMidi 拒绝非 mid 扩展名","duration":0.2007090000001881,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["C09-G03 MusicTab 策略纯函数"],"fullName":"C09-G03 MusicTab 策略纯函数 C09-G03-03 assertMidi 拒绝错误魔数","status":"passed","title":"C09-G03-03 assertMidi 拒绝错误魔数","duration":0.18325000000004366,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["C09-G03 MusicTab 策略纯函数"],"fullName":"C09-G03 MusicTab 策略纯函数 C09-G03-04 nextMusicId 首次分配稳定前缀","status":"passed","title":"C09-G03-04 nextMusicId 首次分配稳定前缀","duration":0.1747090000001208,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["C09-G03 MusicTab 策略纯函数"],"fullName":"C09-G03 MusicTab 策略纯函数 C09-G03-05 nextMusicId 基 id 占用时分配 -2","status":"passed","title":"C09-G03-05 nextMusicId 基 id 占用时分配 -2","duration":0.08237500000018372,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["C09-G03 MusicTab 策略纯函数"],"fullName":"C09-G03 MusicTab 策略纯函数 C09-G03-06 nextMusicId 跳过已占 -2 取 -3","status":"passed","title":"C09-G03-06 nextMusicId 跳过已占 -2 取 -3","duration":0.0757499999999709,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["C09-G03 MusicTab 策略纯函数"],"fullName":"C09-G03 MusicTab 策略纯函数 C09-G03-07 authoredMidiRecord 使用文件名去扩展名作 label","status":"passed","title":"C09-G03-07 authoredMidiRecord 使用文件名去扩展名作 label","duration":1.8777499999998781,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["C09-G03 MusicTab 策略纯函数"],"fullName":"C09-G03 MusicTab 策略纯函数 C09-G03-08 authoredMidiRecord 显式 label 优先","status":"failed","title":"C09-G03-08 authoredMidiRecord 显式 label 优先","duration":2.8169160000002194,"failureMessages":["AssertionError: expected 'x' to be '自定义标题' // Object.is equality\n    at /private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/cursor-counter-CTR-C09-15-ejGXat/packages/editor/src/ui/MusicTab.c09-g03.cursor-r1.test.ts:75:35\n    at file:///Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:20"],"meta":{},"tags":[]},{"ancestorTitles":["C09-G03 MusicTab 策略纯函数"],"fullName":"C09-G03 MusicTab 策略纯函数 C09-G03-09 authoredMidiRecord sha256 与 bytes 长度一致","status":"passed","title":"C09-G03-09 authoredMidiRecord sha256 与 bytes 长度一致","duration":0.5182910000000902,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["C09-G03 MusicTab 策略纯函数"],"fullName":"C09-G03 MusicTab 策略纯函数 C09-G03-10 authoredMidiRecord mediaType 为 audio/midi","status":"passed","title":"C09-G03-10 authoredMidiRecord mediaType 为 audio/midi","duration":0.1648330000000442,"failureMessages":[],"meta":{},"tags":[]}],"startTime":1790868602276,"endTime":1790868602283.5183,"status":"failed","message":"","name":"/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/cursor-counter-CTR-C09-15-ejGXat/packages/editor/src/ui/MusicTab.c09-g03.cursor-r1.test.ts"}]}
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 9 passed (10)
+   Start at  00:30:00
+   Duration  1.49s (transform 1.14s, setup 0ms, import 1.37s, tests 8ms, environment 0ms)
+
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/ui/MusicTab.c09-g03.cursor-r1.test.ts > C09-G03 MusicTab 策略纯函数 > C09-G03-08 authoredMidiRecord 显式 label 优先
+AssertionError: expected 'x' to be '自定义标题' // Object.is equality
+
+Expected: "自定义标题"
+Received: "x"
+
+ ❯ src/ui/MusicTab.c09-g03.cursor-r1.test.ts:75:35
+     73|     const file = fileOfBytes('x.mid', 'audio/midi', C09_THEME_MIDI)
+     74|     const prepared = await authoredMidiRecord(file, '自定义标题')
+     75|     expect(prepared.record.label).toBe('自定义标题')
+       |                                   ^
+     76|   })
+     77|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯

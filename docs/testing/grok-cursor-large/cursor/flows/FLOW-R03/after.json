@@ -1,0 +1,14 @@
+{
+  "flowId": "FLOW-R03",
+  "phase": "ready",
+  "label": "静态图资源：对象聚焦（资源）",
+  "oracle": {
+    "catalogSize": 2,
+    "focusObjectId": null
+  },
+  "canvas2d": {
+    "ok": true,
+    "sample": [12, 34, 56, 255],
+    "note": "real Canvas2D readback"
+  }
+}

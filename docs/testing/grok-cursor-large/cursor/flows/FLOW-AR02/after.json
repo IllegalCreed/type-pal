@@ -1,0 +1,15 @@
+{
+  "flowId": "FLOW-AR02",
+  "phase": "ready",
+  "label": "资源查看器：损坏解码失败与切换恢复（异步）",
+  "oracle": {
+    "asset": "sprite.flow.good",
+    "loadProof": "error",
+    "error": false
+  },
+  "canvas2d": {
+    "ok": true,
+    "sample": [12, 34, 56, 255],
+    "note": "real Canvas2D readback"
+  }
+}

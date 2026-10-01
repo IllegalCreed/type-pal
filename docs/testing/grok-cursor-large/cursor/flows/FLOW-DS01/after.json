@@ -1,0 +1,13 @@
+{
+  "flowId": "FLOW-DS01",
+  "phase": "ready",
+  "label": "DsReorder：键盘前移（设计控件）",
+  "oracle": {
+    "order": ["b", "a", "c"]
+  },
+  "canvas2d": {
+    "ok": true,
+    "sample": [12, 34, 56, 255],
+    "note": "real Canvas2D readback"
+  }
+}

@@ -1,0 +1,42 @@
+
+ RUN  v4.1.7 /private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/cursor-counter-CTR-C08-32-9fjACt/packages/editor
+
+ ❯ src/core/stamp-template.c08-g06.cursor-r1.test.ts (10 tests | 1 failed) 8ms
+     ✓ C08-G06-01 defaultStampTemplateAnchor 取最小 row 再最小 latticeU 1ms
+     ✓ C08-G06-02 defaultStampTemplateAnchor 空选区返回 undefined 0ms
+     ✓ C08-G06-03 buildStampTemplateFromSelection 锚点出界精确拒绝 1ms
+     ✓ C08-G06-04 buildStampTemplateFromSelection 引用缺失图层精确拒绝 0ms
+     ✓ C08-G06-05 buildStampTemplateFromSelection 视觉槽缺 tileset 来源拒绝 0ms
+     ✓ C08-G06-06 nextStampTemplateId 中文 preferred 归一后可用 1ms
+     ✓ C08-G06-07 nextStampTemplateId stem 占用时返回 stem-2 0ms
+     ✓ C08-G06-08 build 输出 origin 恒为 authored 1ms
+     × C08-G06-09 build 保留 height 矩阵于 objects 层 2ms
+     ✓ C08-G06-10 build includeCollision=false 时 collision 全 null 0ms
+{"numTotalTestSuites":2,"numPassedTestSuites":0,"numFailedTestSuites":2,"numPendingTestSuites":0,"numTotalTests":10,"numPassedTests":9,"numFailedTests":1,"numPendingTests":0,"numTodoTests":0,"snapshot":{"added":0,"failure":false,"filesAdded":0,"filesRemoved":0,"filesRemovedList":[],"filesUnmatched":0,"filesUpdated":0,"matched":0,"total":0,"unchecked":0,"uncheckedKeysByFile":[],"unmatched":0,"updated":0,"didUpdate":false},"startTime":1790869406025,"success":false,"testResults":[{"assertionResults":[{"ancestorTitles":["C08-G06 stamp-template 锚点与拒绝路径"],"fullName":"C08-G06 stamp-template 锚点与拒绝路径 C08-G06-01 defaultStampTemplateAnchor 取最小 row 再最小 latticeU","status":"passed","title":"C08-G06-01 defaultStampTemplateAnchor 取最小 row 再最小 latticeU","duration":0.8940420000000131,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["C08-G06 stamp-template 锚点与拒绝路径"],"fullName":"C08-G06 stamp-template 锚点与拒绝路径 C08-G06-02 defaultStampTemplateAnchor 空选区返回 undefined","status":"passed","title":"C08-G06-02 defaultStampTemplateAnchor 空选区返回 undefined","duration":0.20737499999995634,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["C08-G06 stamp-template 锚点与拒绝路径"],"fullName":"C08-G06 stamp-template 锚点与拒绝路径 C08-G06-03 buildStampTemplateFromSelection 锚点出界精确拒绝","status":"passed","title":"C08-G06-03 buildStampTemplateFromSelection 锚点出界精确拒绝","duration":0.8975000000000364,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["C08-G06 stamp-template 锚点与拒绝路径"],"fullName":"C08-G06 stamp-template 锚点与拒绝路径 C08-G06-04 buildStampTemplateFromSelection 引用缺失图层精确拒绝","status":"passed","title":"C08-G06-04 buildStampTemplateFromSelection 引用缺失图层精确拒绝","duration":0.2306669999999258,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["C08-G06 stamp-template 锚点与拒绝路径"],"fullName":"C08-G06 stamp-template 锚点与拒绝路径 C08-G06-05 buildStampTemplateFromSelection 视觉槽缺 tileset 来源拒绝","status":"passed","title":"C08-G06-05 buildStampTemplateFromSelection 视觉槽缺 tileset 来源拒绝","duration":0.2798329999999396,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["C08-G06 stamp-template 锚点与拒绝路径"],"fullName":"C08-G06 stamp-template 锚点与拒绝路径 C08-G06-06 nextStampTemplateId 中文 preferred 归一后可用","status":"passed","title":"C08-G06-06 nextStampTemplateId 中文 preferred 归一后可用","duration":1.0031249999999545,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["C08-G06 stamp-template 锚点与拒绝路径"],"fullName":"C08-G06 stamp-template 锚点与拒绝路径 C08-G06-07 nextStampTemplateId stem 占用时返回 stem-2","status":"passed","title":"C08-G06-07 nextStampTemplateId stem 占用时返回 stem-2","duration":0.20529199999998582,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["C08-G06 stamp-template 锚点与拒绝路径"],"fullName":"C08-G06 stamp-template 锚点与拒绝路径 C08-G06-08 build 输出 origin 恒为 authored","status":"passed","title":"C08-G06-08 build 输出 origin 恒为 authored","duration":0.529042000000004,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["C08-G06 stamp-template 锚点与拒绝路径"],"fullName":"C08-G06 stamp-template 锚点与拒绝路径 C08-G06-09 build 保留 height 矩阵于 objects 层","status":"failed","title":"C08-G06-09 build 保留 height 矩阵于 objects 层","duration":2.3975000000000364,"failureMessages":["AssertionError: expected undefined to be true // Object.is equality\n    at /private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/cursor-counter-CTR-C08-32-9fjACt/packages/editor/src/core/stamp-template.c08-g06.cursor-r1.test.ts:158:79\n    at file:///Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64"],"meta":{},"tags":[]},{"ancestorTitles":["C08-G06 stamp-template 锚点与拒绝路径"],"fullName":"C08-G06 stamp-template 锚点与拒绝路径 C08-G06-10 build includeCollision=false 时 collision 全 null","status":"passed","title":"C08-G06-10 build includeCollision=false 时 collision 全 null","duration":0.20412499999997635,"failureMessages":[],"meta":{},"tags":[]}],"startTime":1790869406976,"endTime":1790869406983.3975,"status":"failed","message":"","name":"/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/cursor-counter-CTR-C08-32-9fjACt/packages/editor/src/core/stamp-template.c08-g06.cursor-r1.test.ts"}]}
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 9 passed (10)
+   Start at  00:43:26
+   Duration  947ms (transform 721ms, setup 0ms, import 854ms, tests 8ms, environment 0ms)
+
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/core/stamp-template.c08-g06.cursor-r1.test.ts > C08-G06 stamp-template 锚点与拒绝路径 > C08-G06-09 build 保留 height 矩阵于 objects 层
+AssertionError: expected undefined to be true // Object.is equality
+
+- Expected:
+true
+
++ Received:
+undefined
+
+ ❯ src/core/stamp-template.c08-g06.cursor-r1.test.ts:158:79
+    156|     })
+    157|     const objects = template.layers.find((layer) => layer.id === 'obje…
+    158|     expect(objects?.heights?.some((row) => row.some((value) => value =…
+       |                                                                               ^
+    159|   })
+    160|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯

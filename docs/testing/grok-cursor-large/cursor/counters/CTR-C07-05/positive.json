@@ -1,0 +1,140 @@
+{
+  "numTotalTestSuites": 2,
+  "numPassedTestSuites": 2,
+  "numFailedTestSuites": 0,
+  "numPendingTestSuites": 0,
+  "numTotalTests": 10,
+  "numPassedTests": 10,
+  "numFailedTests": 0,
+  "numPendingTests": 0,
+  "numTodoTests": 0,
+  "snapshot": {
+    "added": 0,
+    "failure": false,
+    "filesAdded": 0,
+    "filesRemoved": 0,
+    "filesRemovedList": [],
+    "filesUnmatched": 0,
+    "filesUpdated": 0,
+    "matched": 0,
+    "total": 0,
+    "unchecked": 0,
+    "uncheckedKeysByFile": [],
+    "unmatched": 0,
+    "updated": 0,
+    "didUpdate": false
+  },
+  "startTime": 1790868981184,
+  "success": true,
+  "testResults": [
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["C07-G02 合成 PNG 解码与资源关闭"],
+          "fullName": "C07-G02 合成 PNG 解码与资源关闭 C07-G02-01 decodeFrameImage 真实像素与尺寸来自合成 PNG",
+          "status": "passed",
+          "title": "C07-G02-01 decodeFrameImage 真实像素与尺寸来自合成 PNG",
+          "duration": 227.55695800000012,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["C07-G02 合成 PNG 解码与资源关闭"],
+          "fullName": "C07-G02 合成 PNG 解码与资源关闭 C07-G02-02 rgba 为独立副本：改返回值不改画布源",
+          "status": "passed",
+          "title": "C07-G02-02 rgba 为独立副本：改返回值不改画布源",
+          "duration": 3.7567080000003443,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["C07-G02 合成 PNG 解码与资源关闭"],
+          "fullName": "C07-G02 合成 PNG 解码与资源关闭 C07-G02-03 decodeFrameImages 自然排序后批量解码",
+          "status": "passed",
+          "title": "C07-G02-03 decodeFrameImages 自然排序后批量解码",
+          "duration": 3.677708000000166,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["C07-G02 合成 PNG 解码与资源关闭"],
+          "fullName": "C07-G02 合成 PNG 解码与资源关闭 C07-G02-04 preserveOrder 保持输入顺序不排序",
+          "status": "passed",
+          "title": "C07-G02-04 preserveOrder 保持输入顺序不排序",
+          "duration": 1.0567080000000715,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["C07-G02 合成 PNG 解码与资源关闭"],
+          "fullName": "C07-G02 合成 PNG 解码与资源关闭 C07-G02-05 空列表拒绝",
+          "status": "passed",
+          "title": "C07-G02-05 空列表拒绝",
+          "duration": 0.8927499999999782,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["C07-G02 合成 PNG 解码与资源关闭"],
+          "fullName": "C07-G02 合成 PNG 解码与资源关闭 C07-G02-06 尺寸不一致：第二帧拒绝且首帧已 close",
+          "status": "passed",
+          "title": "C07-G02-06 尺寸不一致：第二帧拒绝且首帧已 close",
+          "duration": 1.7244160000000193,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["C07-G02 合成 PNG 解码与资源关闭"],
+          "fullName": "C07-G02 合成 PNG 解码与资源关闭 C07-G02-07 assertFrameImageFile：扩展名 .PNG 无 MIME 仍过门",
+          "status": "passed",
+          "title": "C07-G02-07 assertFrameImageFile：扩展名 .PNG 无 MIME 仍过门",
+          "duration": 0.32700000000022555,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["C07-G02 合成 PNG 解码与资源关闭"],
+          "fullName": "C07-G02 合成 PNG 解码与资源关闭 C07-G02-08 assertFrameImageFile：gif 拒绝且不解码",
+          "status": "passed",
+          "title": "C07-G02-08 assertFrameImageFile：gif 拒绝且不解码",
+          "duration": 1.0927919999999176,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["C07-G02 合成 PNG 解码与资源关闭"],
+          "fullName": "C07-G02 合成 PNG 解码与资源关闭 C07-G02-09 sortFrameImageFiles 不 mutate 原数组",
+          "status": "passed",
+          "title": "C07-G02-09 sortFrameImageFiles 不 mutate 原数组",
+          "duration": 0.7268340000000535,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["C07-G02 合成 PNG 解码与资源关闭"],
+          "fullName": "C07-G02 合成 PNG 解码与资源关闭 C07-G02-10 损坏 PNG：解码失败且 live bitmap 归零",
+          "status": "passed",
+          "title": "C07-G02-10 损坏 PNG：解码失败且 live bitmap 归零",
+          "duration": 0.3644169999997757,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790868983789,
+      "endTime": 1790868984030.3645,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/packages/editor/src/core/frame-animation-images.c07-g02.cursor-r1.test.ts"
+    }
+  ]
+}

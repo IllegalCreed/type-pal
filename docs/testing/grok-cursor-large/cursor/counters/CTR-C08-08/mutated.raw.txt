@@ -1,0 +1,64 @@
+
+ RUN  v4.1.7 /private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/cursor-counter-CTR-C08-08-v87a8M/packages/editor
+
+ ❯ src/core/tileset-references.c08-g02.cursor-r1.test.ts (10 tests | 2 failed) 14ms
+     × C08-G02-01 tilesetUsageReferences 只保留 tileset-use 关系 8ms
+     ✓ C08-G02-02 stampPlacementReferences 只保留 stamp-placement-source 1ms
+     × C08-G02-03 TilesetRemovalProof 有引用时构造期拒绝 1ms
+     ✓ C08-G02-04 TilesetReplacementProof frameCount 非正整数拒绝 1ms
+     ✓ C08-G02-05 TilesetReplacementProof 共享定义列表缺当前 id 拒绝 0ms
+     ✓ C08-G02-06 assertTilesetRemovalAllowed 缺 proof 实例拒绝 0ms
+     ✓ C08-G02-07 assertTilesetReplacementAllowed tilesetId 与 proof 不一致拒绝 1ms
+     ✓ C08-G02-08 StampDeletionProof 无 placement 时 referenceCount 为 0 1ms
+     ✓ C08-G02-09 assertStampDeletionAllowed proof.stampId 不一致拒绝 1ms
+     ✓ C08-G02-10 TilesetRemovalProof 零引用时构造成功且 generation 对齐 batch 0ms
+{"numTotalTestSuites":2,"numPassedTestSuites":0,"numFailedTestSuites":2,"numPendingTestSuites":0,"numTotalTests":10,"numPassedTests":8,"numFailedTests":2,"numPendingTests":0,"numTodoTests":0,"snapshot":{"added":0,"failure":false,"filesAdded":0,"filesRemoved":0,"filesRemovedList":[],"filesUnmatched":0,"filesUpdated":0,"matched":0,"total":0,"unchecked":0,"uncheckedKeysByFile":[],"unmatched":0,"updated":0,"didUpdate":false},"startTime":1790868876978,"success":false,"testResults":[{"assertionResults":[{"ancestorTitles":["C08-G02 tileset-references 边与证明门"],"fullName":"C08-G02 tileset-references 边与证明门 C08-G02-01 tilesetUsageReferences 只保留 tileset-use 关系","status":"failed","title":"C08-G02-01 tilesetUsageReferences 只保留 tileset-use 关系","duration":7.627166999999872,"failureMessages":["AssertionError: expected [] to deeply equal [ 'map', 'stamp' ]\n    at /private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/cursor-counter-CTR-C08-08-v87a8M/packages/editor/src/core/tileset-references.c08-g02.cursor-r1.test.ts:109:64\n    at processTicksAndRejections (node:internal/process/task_queues:103:5)\n    at file:///Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:20"],"meta":{},"tags":[]},{"ancestorTitles":["C08-G02 tileset-references 边与证明门"],"fullName":"C08-G02 tileset-references 边与证明门 C08-G02-02 stampPlacementReferences 只保留 stamp-placement-source","status":"passed","title":"C08-G02-02 stampPlacementReferences 只保留 stamp-placement-source","duration":0.5325829999999314,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["C08-G02 tileset-references 边与证明门"],"fullName":"C08-G02 tileset-references 边与证明门 C08-G02-03 TilesetRemovalProof 有引用时构造期拒绝","status":"failed","title":"C08-G02-03 TilesetRemovalProof 有引用时构造期拒绝","duration":1.1495840000000044,"failureMessages":["AssertionError: expected [Function] to throw an error\n    at Proxy.<anonymous> (file:///Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/node_modules/.pnpm/@vitest+expect@4.1.7/node_modules/@vitest/expect/dist/index.js:1552:16)\n    at Proxy.<anonymous> (file:///Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/node_modules/.pnpm/@vitest+expect@4.1.7/node_modules/@vitest/expect/dist/index.js:1156:15)\n    at Proxy.methodWrapper (file:///Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal/node_modules/.pnpm/chai@6.2.2/node_modules/chai/index.js:1700:25)\n    at /private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/cursor-counter-CTR-C08-08-v87a8M/packages/editor/src/core/tileset-references.c08-g02.cursor-r1.test.ts:126:87\n    at processTicksAndRejections (node:internal/process/task_queues:103:5)"],"meta":{},"tags":[]},{"ancestorTitles":["C08-G02 tileset-references 边与证明门"],"fullName":"C08-G02 tileset-references 边与证明门 C08-G02-04 TilesetReplacementProof frameCount 非正整数拒绝","status":"passed","title":"C08-G02-04 TilesetReplacementProof frameCount 非正整数拒绝","duration":0.5318749999999,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["C08-G02 tileset-references 边与证明门"],"fullName":"C08-G02 tileset-references 边与证明门 C08-G02-05 TilesetReplacementProof 共享定义列表缺当前 id 拒绝","status":"passed","title":"C08-G02-05 TilesetReplacementProof 共享定义列表缺当前 id 拒绝","duration":0.19583399999987705,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["C08-G02 tileset-references 边与证明门"],"fullName":"C08-G02 tileset-references 边与证明门 C08-G02-06 assertTilesetRemovalAllowed 缺 proof 实例拒绝","status":"passed","title":"C08-G02-06 assertTilesetRemovalAllowed 缺 proof 实例拒绝","duration":0.21299999999996544,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["C08-G02 tileset-references 边与证明门"],"fullName":"C08-G02 tileset-references 边与证明门 C08-G02-07 assertTilesetReplacementAllowed tilesetId 与 proof 不一致拒绝","status":"passed","title":"C08-G02-07 assertTilesetReplacementAllowed tilesetId 与 proof 不一致拒绝","duration":0.6782080000000406,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["C08-G02 tileset-references 边与证明门"],"fullName":"C08-G02 tileset-references 边与证明门 C08-G02-08 StampDeletionProof 无 placement 时 referenceCount 为 0","status":"passed","title":"C08-G02-08 StampDeletionProof 无 placement 时 referenceCount 为 0","duration":0.7556670000001304,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["C08-G02 tileset-references 边与证明门"],"fullName":"C08-G02 tileset-references 边与证明门 C08-G02-09 assertStampDeletionAllowed proof.stampId 不一致拒绝","status":"passed","title":"C08-G02-09 assertStampDeletionAllowed proof.stampId 不一致拒绝","duration":1.178957999999966,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["C08-G02 tileset-references 边与证明门"],"fullName":"C08-G02 tileset-references 边与证明门 C08-G02-10 TilesetRemovalProof 零引用时构造成功且 generation 对齐 batch","status":"passed","title":"C08-G02-10 TilesetRemovalProof 零引用时构造成功且 generation 对齐 batch","duration":0.3497500000000855,"failureMessages":[],"meta":{},"tags":[]}],"startTime":1790868878788,"endTime":1790868878801.3499,"status":"failed","message":"","name":"/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/cursor-counter-CTR-C08-08-v87a8M/packages/editor/src/core/tileset-references.c08-g02.cursor-r1.test.ts"}]}
+
+ Test Files  1 failed (1)
+      Tests  2 failed | 8 passed (10)
+   Start at  00:34:36
+   Duration  1.81s (transform 1.43s, setup 0ms, import 1.70s, tests 14ms, environment 0ms)
+
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/core/tileset-references.c08-g02.cursor-r1.test.ts > C08-G02 tileset-references 边与证明门 > C08-G02-01 tilesetUsageReferences 只保留 tileset-use 关系
+AssertionError: expected [] to deeply equal [ 'map', 'stamp' ]
+
+- Expected
++ Received
+
+- [
+-   "map",
+-   "stamp",
+- ]
++ []
+
+ ❯ src/core/tileset-references.c08-g02.cursor-r1.test.ts:109:64
+    107|     const edges = tilesetUsageReferences(batch, 'tiles-a')
+    108|     expect(edges.every((edge) => edge.relation.kind === 'tileset-use')…
+    109|     expect(edges.map((edge) => edge.source.owner.kind).sort()).toEqual…
+       |                                                                ^
+    110|   })
+    111|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+ FAIL  src/core/tileset-references.c08-g02.cursor-r1.test.ts > C08-G02 tileset-references 边与证明门 > C08-G02-03 TilesetRemovalProof 有引用时构造期拒绝
+AssertionError: expected [Function] to throw an error
+
+- Expected:
+null
+
++ Received:
+undefined
+
+ ❯ src/core/tileset-references.c08-g02.cursor-r1.test.ts:126:87
+    124|     const session = new EditSession(editorState(byId), { loadMap: asyn…
+    125|     const batch = await session.ensureMapReferencesIndexed()
+    126|     expect(() => TilesetRemovalProof.fromBatch(batch, session.getState…
+       |                                                                                       ^
+    127|       /不能移除/,
+    128|     )
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯

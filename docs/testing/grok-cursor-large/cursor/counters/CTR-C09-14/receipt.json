@@ -1,0 +1,110 @@
+{
+  "id": "CTR-C09-14",
+  "productFile": "packages/editor/src/ui/MusicTab.tsx",
+  "findText": "label: label || file.name.replace(/\\.mid$/i, ''),",
+  "replaceText": "label: label || file.name,",
+  "testSpec": "src/ui/MusicTab.c09-g03.cursor-r1.test.ts",
+  "expectFullname": "C09-G03 MusicTab 策略纯函数 C09-G03-07 authoredMidiRecord 使用文件名去扩展名作 label",
+  "candidateHead": "0704d3de6d3d2a2099475a42f601b654bba08579",
+  "productSha256Candidate": "817de8c9608cb62768d277edc20488d84297e87c2bd6e16dafd4243a10e117a4",
+  "patch": "--- a/packages/editor/src/ui/MusicTab.tsx\n+++ b/packages/editor/src/ui/MusicTab.tsx\n@@ -48,7 +48,7 @@\n       mediaType: 'audio/midi',\n       bytes: bytes.byteLength,\n       sha256: hash,\n-      label: label || file.name.replace(/\\.mid$/i, ''),\n+      label: label || file.name,\n       origin: { kind: 'authored', ref: file.name },\n     },\n   }\n",
+  "positive": {
+    "exitCode": 0,
+    "executed": 10,
+    "executedFullNames": [
+      "C09-G03 MusicTab 策略纯函数 C09-G03-01 assertMidi 接受 .MID 扩展名",
+      "C09-G03 MusicTab 策略纯函数 C09-G03-02 assertMidi 拒绝非 mid 扩展名",
+      "C09-G03 MusicTab 策略纯函数 C09-G03-03 assertMidi 拒绝错误魔数",
+      "C09-G03 MusicTab 策略纯函数 C09-G03-04 nextMusicId 首次分配稳定前缀",
+      "C09-G03 MusicTab 策略纯函数 C09-G03-05 nextMusicId 基 id 占用时分配 -2",
+      "C09-G03 MusicTab 策略纯函数 C09-G03-06 nextMusicId 跳过已占 -2 取 -3",
+      "C09-G03 MusicTab 策略纯函数 C09-G03-07 authoredMidiRecord 使用文件名去扩展名作 label",
+      "C09-G03 MusicTab 策略纯函数 C09-G03-08 authoredMidiRecord 显式 label 优先",
+      "C09-G03 MusicTab 策略纯函数 C09-G03-09 authoredMidiRecord sha256 与 bytes 长度一致",
+      "C09-G03 MusicTab 策略纯函数 C09-G03-10 authoredMidiRecord mediaType 为 audio/midi"
+    ],
+    "judge": {
+      "valid": true,
+      "reasons": [],
+      "executed": 10,
+      "identitySet": [
+        "src/ui/MusicTab.c09-g03.cursor-r1.test.ts×C09-G03 MusicTab 策略纯函数 C09-G03-01 assertMidi 接受 .MID 扩展名",
+        "src/ui/MusicTab.c09-g03.cursor-r1.test.ts×C09-G03 MusicTab 策略纯函数 C09-G03-02 assertMidi 拒绝非 mid 扩展名",
+        "src/ui/MusicTab.c09-g03.cursor-r1.test.ts×C09-G03 MusicTab 策略纯函数 C09-G03-03 assertMidi 拒绝错误魔数",
+        "src/ui/MusicTab.c09-g03.cursor-r1.test.ts×C09-G03 MusicTab 策略纯函数 C09-G03-04 nextMusicId 首次分配稳定前缀",
+        "src/ui/MusicTab.c09-g03.cursor-r1.test.ts×C09-G03 MusicTab 策略纯函数 C09-G03-05 nextMusicId 基 id 占用时分配 -2",
+        "src/ui/MusicTab.c09-g03.cursor-r1.test.ts×C09-G03 MusicTab 策略纯函数 C09-G03-06 nextMusicId 跳过已占 -2 取 -3",
+        "src/ui/MusicTab.c09-g03.cursor-r1.test.ts×C09-G03 MusicTab 策略纯函数 C09-G03-07 authoredMidiRecord 使用文件名去扩展名作 label",
+        "src/ui/MusicTab.c09-g03.cursor-r1.test.ts×C09-G03 MusicTab 策略纯函数 C09-G03-08 authoredMidiRecord 显式 label 优先",
+        "src/ui/MusicTab.c09-g03.cursor-r1.test.ts×C09-G03 MusicTab 策略纯函数 C09-G03-09 authoredMidiRecord sha256 与 bytes 长度一致",
+        "src/ui/MusicTab.c09-g03.cursor-r1.test.ts×C09-G03 MusicTab 策略纯函数 C09-G03-10 authoredMidiRecord mediaType 为 audio/midi"
+      ]
+    }
+  },
+  "productSha256MutatedTree": "daa3b6100628a65c8e6d1e19de17d3876fd0e8396d8a5e91fbf4bed637a58348",
+  "mutated": {
+    "exitCode": 1,
+    "executed": 10,
+    "executedFullNames": [
+      "C09-G03 MusicTab 策略纯函数 C09-G03-01 assertMidi 接受 .MID 扩展名",
+      "C09-G03 MusicTab 策略纯函数 C09-G03-02 assertMidi 拒绝非 mid 扩展名",
+      "C09-G03 MusicTab 策略纯函数 C09-G03-03 assertMidi 拒绝错误魔数",
+      "C09-G03 MusicTab 策略纯函数 C09-G03-04 nextMusicId 首次分配稳定前缀",
+      "C09-G03 MusicTab 策略纯函数 C09-G03-05 nextMusicId 基 id 占用时分配 -2",
+      "C09-G03 MusicTab 策略纯函数 C09-G03-06 nextMusicId 跳过已占 -2 取 -3",
+      "C09-G03 MusicTab 策略纯函数 C09-G03-07 authoredMidiRecord 使用文件名去扩展名作 label",
+      "C09-G03 MusicTab 策略纯函数 C09-G03-08 authoredMidiRecord 显式 label 优先",
+      "C09-G03 MusicTab 策略纯函数 C09-G03-09 authoredMidiRecord sha256 与 bytes 长度一致",
+      "C09-G03 MusicTab 策略纯函数 C09-G03-10 authoredMidiRecord mediaType 为 audio/midi"
+    ],
+    "failed": [
+      {
+        "fullName": "C09-G03 MusicTab 策略纯函数 C09-G03-07 authoredMidiRecord 使用文件名去扩展名作 label",
+        "message": "AssertionError: expected 'battle.mid' to be 'battle' // Object.is equality",
+        "file": "src/ui/MusicTab.c09-g03.cursor-r1.test.ts"
+      }
+    ],
+    "judge": {
+      "valid": true,
+      "reasons": []
+    },
+    "target": {
+      "fullName": "C09-G03 MusicTab 策略纯函数 C09-G03-07 authoredMidiRecord 使用文件名去扩展名作 label",
+      "message": "AssertionError: expected 'battle.mid' to be 'battle' // Object.is equality",
+      "file": "src/ui/MusicTab.c09-g03.cursor-r1.test.ts"
+    }
+  },
+  "restored": {
+    "exitCode": 0,
+    "executed": 10,
+    "executedFullNames": [
+      "C09-G03 MusicTab 策略纯函数 C09-G03-01 assertMidi 接受 .MID 扩展名",
+      "C09-G03 MusicTab 策略纯函数 C09-G03-02 assertMidi 拒绝非 mid 扩展名",
+      "C09-G03 MusicTab 策略纯函数 C09-G03-03 assertMidi 拒绝错误魔数",
+      "C09-G03 MusicTab 策略纯函数 C09-G03-04 nextMusicId 首次分配稳定前缀",
+      "C09-G03 MusicTab 策略纯函数 C09-G03-05 nextMusicId 基 id 占用时分配 -2",
+      "C09-G03 MusicTab 策略纯函数 C09-G03-06 nextMusicId 跳过已占 -2 取 -3",
+      "C09-G03 MusicTab 策略纯函数 C09-G03-07 authoredMidiRecord 使用文件名去扩展名作 label",
+      "C09-G03 MusicTab 策略纯函数 C09-G03-08 authoredMidiRecord 显式 label 优先",
+      "C09-G03 MusicTab 策略纯函数 C09-G03-09 authoredMidiRecord sha256 与 bytes 长度一致",
+      "C09-G03 MusicTab 策略纯函数 C09-G03-10 authoredMidiRecord mediaType 为 audio/midi"
+    ],
+    "judge": {
+      "valid": true,
+      "reasons": [],
+      "executed": 10,
+      "identitySet": [
+        "src/ui/MusicTab.c09-g03.cursor-r1.test.ts×C09-G03 MusicTab 策略纯函数 C09-G03-01 assertMidi 接受 .MID 扩展名",
+        "src/ui/MusicTab.c09-g03.cursor-r1.test.ts×C09-G03 MusicTab 策略纯函数 C09-G03-02 assertMidi 拒绝非 mid 扩展名",
+        "src/ui/MusicTab.c09-g03.cursor-r1.test.ts×C09-G03 MusicTab 策略纯函数 C09-G03-03 assertMidi 拒绝错误魔数",
+        "src/ui/MusicTab.c09-g03.cursor-r1.test.ts×C09-G03 MusicTab 策略纯函数 C09-G03-04 nextMusicId 首次分配稳定前缀",
+        "src/ui/MusicTab.c09-g03.cursor-r1.test.ts×C09-G03 MusicTab 策略纯函数 C09-G03-05 nextMusicId 基 id 占用时分配 -2",
+        "src/ui/MusicTab.c09-g03.cursor-r1.test.ts×C09-G03 MusicTab 策略纯函数 C09-G03-06 nextMusicId 跳过已占 -2 取 -3",
+        "src/ui/MusicTab.c09-g03.cursor-r1.test.ts×C09-G03 MusicTab 策略纯函数 C09-G03-07 authoredMidiRecord 使用文件名去扩展名作 label",
+        "src/ui/MusicTab.c09-g03.cursor-r1.test.ts×C09-G03 MusicTab 策略纯函数 C09-G03-08 authoredMidiRecord 显式 label 优先",
+        "src/ui/MusicTab.c09-g03.cursor-r1.test.ts×C09-G03 MusicTab 策略纯函数 C09-G03-09 authoredMidiRecord sha256 与 bytes 长度一致",
+        "src/ui/MusicTab.c09-g03.cursor-r1.test.ts×C09-G03 MusicTab 策略纯函数 C09-G03-10 authoredMidiRecord mediaType 为 audio/midi"
+      ]
+    }
+  }
+}

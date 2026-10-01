@@ -1,0 +1,110 @@
+{
+  "id": "CTR-C03-02",
+  "productFile": "packages/editor/src/core/image-import.ts",
+  "findText": "for (let suffix = 2; ; suffix++) {",
+  "replaceText": "for (let suffix = 3; ; suffix++) {",
+  "testSpec": "src/core/image-import.c03-g06.cursor-r1.test.ts",
+  "expectFullname": "C03-G06 真实 PNG 导入与 AssetId C03-G06-07 base 占用递增 -2/-3 后缀",
+  "candidateHead": "0704d3de6d3d2a2099475a42f601b654bba08579",
+  "productSha256Candidate": "28114b866998ad6e5e98e921d397c257dc2abdb413c62a0cf7db9743acec8274",
+  "patch": "--- a/packages/editor/src/core/image-import.ts\n+++ b/packages/editor/src/core/image-import.ts\n@@ -160,7 +160,7 @@\n ): AssetId {\n   const base = `${kind}.authored.${hash.slice(0, 16)}`\n   if (!catalog.assets[base]) return base\n-  for (let suffix = 2; ; suffix++) {\n+  for (let suffix = 3; ; suffix++) {\n     const id = `${base}-${suffix}`\n     if (!catalog.assets[id]) return id\n   }\n",
+  "positive": {
+    "exitCode": 0,
+    "executed": 10,
+    "executedFullNames": [
+      "C03-G06 真实 PNG 导入与 AssetId C03-G06-01 portrait 直传：bytes/hash 等于源 PNG 且 record.kind=portrait",
+      "C03-G06 真实 PNG 导入与 AssetId C03-G06-02 face 直传不产生 effectPreviewBytes",
+      "C03-G06 真实 PNG 导入与 AssetId C03-G06-03 item-icon label 缺省剥扩展名",
+      "C03-G06 真实 PNG 导入与 AssetId C03-G06-04 非 .png 扩展名拒绝",
+      "C03-G06 真实 PNG 导入与 AssetId C03-G06-05 坏 PNG 签名：错误带文件名",
+      "C03-G06 真实 PNG 导入与 AssetId C03-G06-06 nextAuthoredImageId：base 空闲直接返回 hash 前 16",
+      "C03-G06 真实 PNG 导入与 AssetId C03-G06-07 base 占用递增 -2/-3 后缀",
+      "C03-G06 真实 PNG 导入与 AssetId C03-G06-08 同 hash 不同 kind 的 base 互不占用",
+      "C03-G06 真实 PNG 导入与 AssetId C03-G06-09 sourceBytes 保留原始文件缓冲引用长度",
+      "C03-G06 真实 PNG 导入与 AssetId C03-G06-10 portrait 与 face 同图 hash 相同但 path 前缀按 kind 区分"
+    ],
+    "judge": {
+      "valid": true,
+      "reasons": [],
+      "executed": 10,
+      "identitySet": [
+        "src/core/image-import.c03-g06.cursor-r1.test.ts×C03-G06 真实 PNG 导入与 AssetId C03-G06-01 portrait 直传：bytes/hash 等于源 PNG 且 record.kind=portrait",
+        "src/core/image-import.c03-g06.cursor-r1.test.ts×C03-G06 真实 PNG 导入与 AssetId C03-G06-02 face 直传不产生 effectPreviewBytes",
+        "src/core/image-import.c03-g06.cursor-r1.test.ts×C03-G06 真实 PNG 导入与 AssetId C03-G06-03 item-icon label 缺省剥扩展名",
+        "src/core/image-import.c03-g06.cursor-r1.test.ts×C03-G06 真实 PNG 导入与 AssetId C03-G06-04 非 .png 扩展名拒绝",
+        "src/core/image-import.c03-g06.cursor-r1.test.ts×C03-G06 真实 PNG 导入与 AssetId C03-G06-05 坏 PNG 签名：错误带文件名",
+        "src/core/image-import.c03-g06.cursor-r1.test.ts×C03-G06 真实 PNG 导入与 AssetId C03-G06-06 nextAuthoredImageId：base 空闲直接返回 hash 前 16",
+        "src/core/image-import.c03-g06.cursor-r1.test.ts×C03-G06 真实 PNG 导入与 AssetId C03-G06-07 base 占用递增 -2/-3 后缀",
+        "src/core/image-import.c03-g06.cursor-r1.test.ts×C03-G06 真实 PNG 导入与 AssetId C03-G06-08 同 hash 不同 kind 的 base 互不占用",
+        "src/core/image-import.c03-g06.cursor-r1.test.ts×C03-G06 真实 PNG 导入与 AssetId C03-G06-09 sourceBytes 保留原始文件缓冲引用长度",
+        "src/core/image-import.c03-g06.cursor-r1.test.ts×C03-G06 真实 PNG 导入与 AssetId C03-G06-10 portrait 与 face 同图 hash 相同但 path 前缀按 kind 区分"
+      ]
+    }
+  },
+  "productSha256MutatedTree": "1545874ac38c28b83bcc4b4b302aca431b3ec12c3a77751a8498034690583f98",
+  "mutated": {
+    "exitCode": 1,
+    "executed": 10,
+    "executedFullNames": [
+      "C03-G06 真实 PNG 导入与 AssetId C03-G06-01 portrait 直传：bytes/hash 等于源 PNG 且 record.kind=portrait",
+      "C03-G06 真实 PNG 导入与 AssetId C03-G06-02 face 直传不产生 effectPreviewBytes",
+      "C03-G06 真实 PNG 导入与 AssetId C03-G06-03 item-icon label 缺省剥扩展名",
+      "C03-G06 真实 PNG 导入与 AssetId C03-G06-04 非 .png 扩展名拒绝",
+      "C03-G06 真实 PNG 导入与 AssetId C03-G06-05 坏 PNG 签名：错误带文件名",
+      "C03-G06 真实 PNG 导入与 AssetId C03-G06-06 nextAuthoredImageId：base 空闲直接返回 hash 前 16",
+      "C03-G06 真实 PNG 导入与 AssetId C03-G06-07 base 占用递增 -2/-3 后缀",
+      "C03-G06 真实 PNG 导入与 AssetId C03-G06-08 同 hash 不同 kind 的 base 互不占用",
+      "C03-G06 真实 PNG 导入与 AssetId C03-G06-09 sourceBytes 保留原始文件缓冲引用长度",
+      "C03-G06 真实 PNG 导入与 AssetId C03-G06-10 portrait 与 face 同图 hash 相同但 path 前缀按 kind 区分"
+    ],
+    "failed": [
+      {
+        "fullName": "C03-G06 真实 PNG 导入与 AssetId C03-G06-07 base 占用递增 -2/-3 后缀",
+        "message": "AssertionError: expected 'face.authored.aaaaaaaaaaaaaaaa-3' to be 'face.authored.aaaaaaaaaaaaaaaa-2' // Object.is equality",
+        "file": "src/core/image-import.c03-g06.cursor-r1.test.ts"
+      }
+    ],
+    "judge": {
+      "valid": true,
+      "reasons": []
+    },
+    "target": {
+      "fullName": "C03-G06 真实 PNG 导入与 AssetId C03-G06-07 base 占用递增 -2/-3 后缀",
+      "message": "AssertionError: expected 'face.authored.aaaaaaaaaaaaaaaa-3' to be 'face.authored.aaaaaaaaaaaaaaaa-2' // Object.is equality",
+      "file": "src/core/image-import.c03-g06.cursor-r1.test.ts"
+    }
+  },
+  "restored": {
+    "exitCode": 0,
+    "executed": 10,
+    "executedFullNames": [
+      "C03-G06 真实 PNG 导入与 AssetId C03-G06-01 portrait 直传：bytes/hash 等于源 PNG 且 record.kind=portrait",
+      "C03-G06 真实 PNG 导入与 AssetId C03-G06-02 face 直传不产生 effectPreviewBytes",
+      "C03-G06 真实 PNG 导入与 AssetId C03-G06-03 item-icon label 缺省剥扩展名",
+      "C03-G06 真实 PNG 导入与 AssetId C03-G06-04 非 .png 扩展名拒绝",
+      "C03-G06 真实 PNG 导入与 AssetId C03-G06-05 坏 PNG 签名：错误带文件名",
+      "C03-G06 真实 PNG 导入与 AssetId C03-G06-06 nextAuthoredImageId：base 空闲直接返回 hash 前 16",
+      "C03-G06 真实 PNG 导入与 AssetId C03-G06-07 base 占用递增 -2/-3 后缀",
+      "C03-G06 真实 PNG 导入与 AssetId C03-G06-08 同 hash 不同 kind 的 base 互不占用",
+      "C03-G06 真实 PNG 导入与 AssetId C03-G06-09 sourceBytes 保留原始文件缓冲引用长度",
+      "C03-G06 真实 PNG 导入与 AssetId C03-G06-10 portrait 与 face 同图 hash 相同但 path 前缀按 kind 区分"
+    ],
+    "judge": {
+      "valid": true,
+      "reasons": [],
+      "executed": 10,
+      "identitySet": [
+        "src/core/image-import.c03-g06.cursor-r1.test.ts×C03-G06 真实 PNG 导入与 AssetId C03-G06-01 portrait 直传：bytes/hash 等于源 PNG 且 record.kind=portrait",
+        "src/core/image-import.c03-g06.cursor-r1.test.ts×C03-G06 真实 PNG 导入与 AssetId C03-G06-02 face 直传不产生 effectPreviewBytes",
+        "src/core/image-import.c03-g06.cursor-r1.test.ts×C03-G06 真实 PNG 导入与 AssetId C03-G06-03 item-icon label 缺省剥扩展名",
+        "src/core/image-import.c03-g06.cursor-r1.test.ts×C03-G06 真实 PNG 导入与 AssetId C03-G06-04 非 .png 扩展名拒绝",
+        "src/core/image-import.c03-g06.cursor-r1.test.ts×C03-G06 真实 PNG 导入与 AssetId C03-G06-05 坏 PNG 签名：错误带文件名",
+        "src/core/image-import.c03-g06.cursor-r1.test.ts×C03-G06 真实 PNG 导入与 AssetId C03-G06-06 nextAuthoredImageId：base 空闲直接返回 hash 前 16",
+        "src/core/image-import.c03-g06.cursor-r1.test.ts×C03-G06 真实 PNG 导入与 AssetId C03-G06-07 base 占用递增 -2/-3 后缀",
+        "src/core/image-import.c03-g06.cursor-r1.test.ts×C03-G06 真实 PNG 导入与 AssetId C03-G06-08 同 hash 不同 kind 的 base 互不占用",
+        "src/core/image-import.c03-g06.cursor-r1.test.ts×C03-G06 真实 PNG 导入与 AssetId C03-G06-09 sourceBytes 保留原始文件缓冲引用长度",
+        "src/core/image-import.c03-g06.cursor-r1.test.ts×C03-G06 真实 PNG 导入与 AssetId C03-G06-10 portrait 与 face 同图 hash 相同但 path 前缀按 kind 区分"
+      ]
+    }
+  }
+}
