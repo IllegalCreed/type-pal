@@ -21,7 +21,6 @@
 | [TEST-GLM-WAVE-O-1 — 当前供应链、内容守卫与migrate门十倍测试包](TEST-GLM-WAVE-O-1-supply-validation-tenfold.md) | rework | 以任务卡当前准入与看板分工为准。 |
 | [TEST-GLM-WAVE-P-1 — Editor全域残余工作流十倍测试包](TEST-GLM-WAVE-P-1-editor-residual-tenfold.md) | rework | 以任务卡当前准入与看板分工为准。 |
 | [TEST-GLM-WAVE-Q-1 — 两阶段runtime与解码残余合同十倍测试包](TEST-GLM-WAVE-Q-1-runtime-residual-tenfold.md) | rework | 以任务卡当前准入与看板分工为准。 |
-| [TEST-GLM-ZCODE-DISPATCH-1 — ZCode 三路覆盖率补测持续调度](TEST-GLM-ZCODE-DISPATCH-1.md) | build | 以任务卡当前准入与看板分工为准。 |
 
 ## 已完成（historical）
 
@@ -264,4 +263,5 @@
 | [ED-FRAME-TIMELINE-VIRTUALIZATION-1 - 长帧动画时间线 DOM windowing](../archive/tasks/cancelled/ED-FRAME-TIMELINE-VIRTUALIZATION-1-frame-card-dom-windowing.md) | cancelled | 合并进 ED-FRAME-TIMELINE-UX-RESTORE-1，保留原始可见窗口合同。 |
 | [OPS-TST-PERF-C - P2/P3/P4 consolidated determinism proof](../archive/tasks/cancelled/OPS-TST-PERF-consolidated-determinism.md) | cancelled | current-only 已删除 P2/P3/P4 producer，证明对象已退役。 |
 | [OPS-TST-PERF-B - shared/fresh 隔离并行 release runner](../archive/tasks/cancelled/OPS-TST-PERF-parallel-gates.md) | cancelled | current-only 已删除 shared/fresh release 路由，不重建旧并行链。 |
+| [TEST-GLM-ZCODE-DISPATCH-1 — ZCode 三路覆盖率补测持续调度](../archive/tasks/cancelled/TEST-GLM-ZCODE-DISPATCH-1.md) | cancelled | 取消原因与替代项见卡内终态裁决。 |
 | [W7E - 独立地图库与场景地图绑定（已取消）](../archive/tasks/cancelled/W7E-map-library-scene-binding.md) | cancelled | 用户否决双地图模型，由 W7F 唯一新版地图管线承接。 |

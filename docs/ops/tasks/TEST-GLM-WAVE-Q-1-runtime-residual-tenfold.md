@@ -264,3 +264,32 @@ GLM-5.3、需要视觉再用GLM-5.3-Flash；仅空闲核实选择，不动账号
 ```text
 Resume the interrupted seventh user instruction for TEST-GLM-WAVE-Q-1. Continue that existing task ONLY in /Users/zhangxu/.codex/worktrees/glm-wave-q/type-pal on codex/glm-wave-q-runtime-residual-r1 as the only Q owner. Read the latest Q card in /Users/zhangxu/.codex/worktrees/glm-lmn-acceptance/type-pal and preserve its closed items. Do not restart completed batches or repeat unchanged controls. Original whitelist base freeze targets and safety limits remain unchanged. Main product old tests shared docs baselines and real data remain read-only. Continue the narrow repair then approved legal residual batches and push stages. Do not merge main or mark done.
 ```
+
+## Codex r6 独立复核（2026-10-01）
+
+固定测试 `c4e55436117970a66cecb339cfb61593d1874209`、本地/远端docs-only pin
+`2ebf42b84f6092947e1d35c6ac56901607eb1430`；**旧Q-R5-01～04关闭，整卡counter/rework**。
+[独立结论与逐项返工](../../testing/glm-tenfold-triple/codex-q-r6-review-20261001.md)、
+[机器证据](../../testing/glm-tenfold-triple/codex-q-r6-review-20261001.json)取代上方下一步，不追改历史。
+
+- 完整typed slot、两performItem重复删除、七例公开hydrate/rgwMagic/project链成立；不复制signed-negative、不放行learnedSpells。
+- 716/716冻结源、490白名单路径通过；directed17文件128/128与独立全包逐身份相符。
+- 独立串行2150/2800/360共5310全绿，typecheck×3零；lint2950文件完整0/0/0、docs/diff/verifier通过。
+- 45枚三态hash/执行集合/单目标红证据复算对应，旧39枚未动、RC3除名；独立实际重放六枚更新针，
+  每枚12执行/恰一指定AssertionError/恢复12绿，退出码0→1→0，恢复源hash一致。
+- Q-R6-01：contracts C104～110仍套旧动作/库存模板，未写真实pickAutoMagic/投影源条件/caller/旧断言/精确oracle。
+- Q-R6-02：当前缺口仍44/50、ledger8b仍计已删两例、capture误设行N/A后仍续派；receipt最终/历史门需明确分列。
+- Q-R6-03：costMP1一手是极限技门不是免耗位；RC7同威力保留先遇到296，axis却声称更高297。业务VALID保留，只纠正因果。
+  改测试标题/源后仅重采该文件六针，未变39保留，不要求整包旧针反复重做。
+- 128执行不是128条全部未重复的accept；700例/50组/50有效反控不缩，至少572例/5针与完整组账未完。
+  继续原合法余族；不合main、不done、不跑官方结算。D-Q01-1仍独立产品draft。
+- 用户已撤回ZCode直接操作授权；本轮零UI操作，后续只交用户可复制提示词，不自动恢复/发送/切模型/归档。
+
+### 下一位 GLM Q 提示词（r6窄修后持续原卡；用户手动转发）
+
+```text
+继续 TEST-GLM-WAVE-Q-1，原树 /Users/zhangxu/.codex/worktrees/glm-wave-q/type-pal、原分支 codex/glm-wave-q-runtime-residual-r1，唯一Q Owner。固定r6 c4e55436117970a66cecb339cfb61593d1874209、pin2ebf42b84f6092947e1d35c6ac56901607eb1430；派发8b3ca062953b17a12178f8d1a9e36657971234b1、冻结3ac9a2e2f6aba8a5cc97640c18fef8549d199380不变，当前counter/rework。
+先读本卡最新r6段及 codex-q-r6-review-20261001.md/json（均在 /Users/zhangxu/.codex/worktrees/glm-lmn-acceptance/type-pal），以该审查的完整「下一位GLM Q提示词」为准。Q-R5-01～04已关闭；不要重复返工完整slot/两库存删重/七例magic公开投影/未变旧39针。独立全包2150/2800/360及typecheck×3、lint2950完整0/0/0、docs/diff/verifier已过。
+先修Q-R6-01～03真实合同账、最终/历史数量报告、RC7真实因果与极限技标签；测试源/标题改变仅重采本文件六针，未变39枚保留，最终directed/contracts/fullName/hash对应。然后连续已批准Q07/Q08合法typed生命周期/行动相位/正向空槽余族及Q10 mkdtemp合成公共CLI，每批定向+相邻+typecheck、阶段提交推送后继续下一合法批，不等待搬运。不重开capture误设N/A行，不测试未批准learnedSpells，不夹D-Q01-1产品修复。
+700合法未重复例/50组/50有效反控/10实际非剧情流程不缩，现128执行/45有效针、至少572例/5针与完整组账未完；逐源条件/caller/合法输入/旧完整fullName与断言行/精确oracle排重，不凑数，缺合法合同逐项举证。只原白名单新测/专属fixture/wave-Q证据可写；产品/旧测/配置/baseline/共享文档/O/P/真实数据/E2E只读，禁止unsafe桥/ignore/扩timeout/业务核心mock/私有态/降规则/PAL剧情或世界后门。新真值/无合法输入/冻结漂移只停受影响组。最终串行三包全测/typecheck、lint完整0/0/0、docs/diff/verifier，推送完整真实SHA与单独docs-only说明；不合main、不标done、不跑official ratchet/protected fast、不清树。
+```

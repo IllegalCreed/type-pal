@@ -115,6 +115,8 @@ GLM开工/交付均须再次运行冻结与白名单复核，派发后生产漂�
 
 ## 三个会话
 
+- [Codex Q r6独立复核](codex-q-r6-review-20261001.md)与[机器证据](codex-q-r6-review-20261001.json)：
+  Q-R5四项关闭，三包5310绿、最终128身份匹配、六针独立重放/45针hash对应；合同账/RC7说明及原规模仍rework，未正式结算。
 - [ZCode O r4/Q r5固定候选预审](codex-zcode-oq-preflight-20261001.md)与
   [机器账](codex-zcode-oq-preflight-20261001.json)：旧P归档已核、第三槽未启动；
   O合同模板/六针执行集/末尾格式、Q缺字段强转/重复合同仍counter，未正式结算。

@@ -1,6 +1,6 @@
 # TEST-GLM-ZCODE-DISPATCH-1 — ZCode 三路覆盖率补测持续调度
 
-Status: build
+Status: cancelled
 Owner: Codex（调度、独立验收与正式结算）
 Reviewer: Codex（贡献者交付独立复核；本卡不代替测试卡验收）
 Phase: ops
@@ -8,6 +8,11 @@ Capability: ops / test-coverage
 Visual Verification Timing: dev-functional（ZCode 操作验证）
 
 ## 目标与授权
+
+**当前授权（2026-10-01后续撤回）**：用户明确「不用你来操作了，还是我来传话」。
+本卡直接UI巡检/续派/归档/模型切换停止；下文为历史授权及执行记录，不再授权新操作。
+Codex只按用户新交付固定候选独立审核并提供可复制提示词。尝试停用原automation时接口
+报告该任务不存在，本地automation文件也已不存在；不重建或恢复自动派发。
 
 用户于 2026-10-01 要求 Codex 直接查看 ZCode 执行情况，持续维持三个 type-pal 测试
 对话并补充覆盖率，不再由用户搬运回执或续做提示词。授权直接向这三个会话发送本卡范围内
@@ -27,13 +32,13 @@ Visual Verification Timing: dev-functional（ZCode 操作验证）
 
 | 通道 / ZCode 会话标题 | 唯一测试 Owner / 工作树 | 当前卡 |
 |---|---|---|
-| O / TEST-GLM-WAVE-O-1 供应验证十批测试 | GLM O；`/Users/zhangxu/.codex/worktrees/glm-wave-o/type-pal` | [O 卡](TEST-GLM-WAVE-O-1-supply-validation-tenfold.md) |
-| P / TEST-GLM-WAVE-P-1 编辑器残差十批用例 | GLM P；`/Users/zhangxu/.codex/worktrees/glm-wave-p-editor-residual/type-pal` | [P 卡](TEST-GLM-WAVE-P-1-editor-residual-tenfold.md) |
-| Q / TEST-GLM-WAVE-Q-1 runtime residual tenfold | GLM Q；`/Users/zhangxu/.codex/worktrees/glm-wave-q/type-pal` | [Q 卡](TEST-GLM-WAVE-Q-1-runtime-residual-tenfold.md) |
+| O / TEST-GLM-WAVE-O-1 供应验证十批测试 | GLM O；`/Users/zhangxu/.codex/worktrees/glm-wave-o/type-pal` | [O 卡](../../../tasks/TEST-GLM-WAVE-O-1-supply-validation-tenfold.md) |
+| P / TEST-GLM-WAVE-P-1 编辑器残差十批用例 | GLM P；`/Users/zhangxu/.codex/worktrees/glm-wave-p-editor-residual/type-pal` | [P 卡](../../../tasks/TEST-GLM-WAVE-P-1-editor-residual-tenfold.md) |
+| Q / TEST-GLM-WAVE-Q-1 runtime residual tenfold | GLM Q；`/Users/zhangxu/.codex/worktrees/glm-wave-q/type-pal` | [Q 卡](../../../tasks/TEST-GLM-WAVE-Q-1-runtime-residual-tenfold.md) |
 
 分支分别为 `codex/glm-wave-o-supply-validation-r1`、`codex/glm-wave-p-editor-residual-r1`、
 `codex/glm-wave-q-runtime-residual-r1`。包目录独占、白名单、派发与冻结仍按
-[共同协议](../../testing/glm-tenfold-triple/README.md)；本卡不批准贡献者修改共享文件。
+[共同协议](../../../../testing/glm-tenfold-triple/README.md)；本卡不批准贡献者修改共享文件。
 
 ## 前提与上下文
 
@@ -42,9 +47,9 @@ Visual Verification Timing: dev-functional（ZCode 操作验证）
 O/Q 英文续派消息实际送达并出现工作中/停止生成。反证是输入未出现、消息未送达或没有运行指示；
 遇此必须记录调度阻塞，不能从作者回执或窗口可见推断任务已启动。
 
-- [根协议](../../../AGENTS.md)、[当前工作流](../agent-workflow.md)。
-- O/P/Q 原卡及其中最新 Codex 审查、[共同协议](../../testing/glm-tenfold-triple/README.md)。
-- [二阶段纪律](../../phase2/READ-FIRST.md)；Q 的 game/pal-extract 独立遵守第一阶段纪律。
+- [根协议](../../../../../AGENTS.md)、[当前工作流](../../../agent-workflow.md)。
+- O/P/Q 原卡及其中最新 Codex 审查、[共同协议](../../../../testing/glm-tenfold-triple/README.md)。
+- [二阶段纪律](../../../../phase2/READ-FIRST.md)；Q 的 game/pal-extract 独立遵守第一阶段纪律。
 - 正式覆盖率只认接受后的 main 并集实测；三卡私有覆盖率不能相加。
 
 ## 每次巡检与续派
@@ -151,12 +156,14 @@ Codex direct dispatch authorized by the user: continue TEST-GLM-WAVE-P-1 as the 
 当前无用户转发提示词。由本对话 Codex heartbeat 按上方路由直接巡检与续派；
 先核 UI 输入通道和实际工作中状态，再核交付 SHA，不能将本卡历史快照当作最新状态。
 
+后续撤回覆盖本节：不再由heartbeat或Codex直接发送，最新各卡提示词由用户手动转发。
+
 ## 2026-10-01 19:25 JST 巡检与固定候选预审
 
 - P 归档确认框仍未解除，有限重试无变化；未归档/未新建/未派发第三槽，不重复请求相同用户动作。
 - O 新增4枚阶段提交，观测tip `d0bb58f95065f6d83ecbf9c21d33a0ba61863c45`；Q 新增
   `battle-action-error-arms.glm-q.test.ts`。只有Git活动证据，UI被模态挡住，不冒称新UI运行核验。
-- [P/Q固定工具与证据预审](../../testing/glm-tenfold-triple/codex-zcode-pq-preflight-20261001.md)
+- [P/Q固定工具与证据预审](../../../../testing/glm-tenfold-triple/codex-zcode-pq-preflight-20261001.md)
   已落各原卡：P10个作者自测绿但4个拒收反例误收，patch索引10/10旧值；旧业务三态/hash对应。
   Q39枚index/meta/三态hash复算对应，但receipt所写完整候选SHA不是有效提交。
 - 本卡历史快照及此前续派转录了Q错误值，当前必须使用真实测试候选
@@ -180,8 +187,8 @@ Codex direct dispatch authorized by the user: continue TEST-GLM-WAVE-P-1 as the 
   `894641a41be1d7099abda08c3b170b84007d39f5`；Q测试树
   `63129473574ac21a082d1c5902b1fddfe62b02d7`，docs pin
   `c05edb4e9fb4b32bf258848e2581a53137288650`。后续区间均仅receipt.json。
-- [O r4/Q r5预审](../../testing/glm-tenfold-triple/codex-zcode-oq-preflight-20261001.md)、
-  [机器账](../../testing/glm-tenfold-triple/codex-zcode-oq-preflight-20261001.json)已落原卡：
+- [O r4/Q r5预审](../../../../testing/glm-tenfold-triple/codex-zcode-oq-preflight-20261001.md)、
+  [机器账](../../../../testing/glm-tenfold-triple/codex-zcode-oq-preflight-20261001.json)已落原卡：
   O442账仍模板、六针执行集漂移、末尾格式；Q123有缺字段强转/两重复、44针证据对应，
   旧无效候选对象问题关闭，窄修后只重采受影响针。
 - 下一轮先核实际UI，补P原卡judge/恢复/mkdtemp/10索引最新窄项，再连续P02–P10；
@@ -198,8 +205,8 @@ Codex direct dispatch authorized by the user: continue TEST-GLM-WAVE-P-1 as the 
 - Q-R5-03已核一手：`shared/src/tables.ts:562` 已声明 `PlayerRole.magic?: number[]`；
   `game-state.ts:569/1577/1670` 公开 runtime 投影及 `shell/bootstrap.ts:1197` 真实 caller
   证明合法已学法术输入现成，不须补产品字段。候选/冻结五个blob逐字一致；
-  [补核详情](../../testing/glm-tenfold-triple/codex-zcode-oq-preflight-20261001.md)及
-  [机器记录](../../testing/glm-tenfold-triple/codex-zcode-oq-preflight-20261001.json)已补原卡。
+  [补核详情](../../../../testing/glm-tenfold-triple/codex-zcode-oq-preflight-20261001.md)及
+  [机器记录](../../../../testing/glm-tenfold-triple/codex-zcode-oq-preflight-20261001.json)已补原卡。
 - Q下次空闲无同任务排队时直接发原卡最新 ASCII 补充，撤回magic blocked-input误记，
   排重后续原合法余族；不放行learnedSpells fallback、不改产品/冻结/范围。
   其余O/P/Q窄项及700/组数/50目标原样保留，本轮未新增业务通过数/覆盖结算或accept。
