@@ -27,8 +27,12 @@ export function previewCursorKey(cursor: FlowCursor | undefined): string {
 }
 
 export function previewStepLabel(flow: AuthorScriptFlow, cursor: FlowCursor): string {
-  if (cursor.kind === 'stage' && flow.kind === 'stages')
-    return `步骤 ${flow.stages.findIndex((stage) => stage.id === cursor.stage) + 1}`
+  if (cursor.kind === 'stage' && flow.kind === 'stages') {
+    const index = flow.stages.findIndex((stage) => stage.id === cursor.stage)
+    const stage = flow.stages[index]
+    if (!stage) return `步骤 ${cursor.stage}`
+    return `步骤 ${index + 1}${stage.label ? ` · ${stage.label}` : ''}`
+  }
   if (cursor.kind === 'state' && flow.kind === 'stateMachine')
     return flow.machine.states[cursor.state]?.label ?? cursor.state
   return '已完成'

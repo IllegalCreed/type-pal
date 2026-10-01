@@ -49,3 +49,15 @@ test('machine identity and deleted states fall back synchronously', () => {
     state: 'first',
   })
 })
+
+test('step titles include purpose while equal names still select different stable IDs', () => {
+  const named: AuthorScriptFlow = {
+    ...flow,
+    stages: flow.stages.map((stage) => ({ ...stage, label: '进房' })),
+  }
+  const second = previewFlowCursor(named, { kind: 'stage', stage: 'second' })
+  expect(second).toEqual({ kind: 'stage', stage: 'second' })
+  expect(previewStepLabel(named, second)).toBe('步骤 2 · 进房')
+  expect(previewStepLabel(named, { kind: 'stage', stage: 'first' })).toBe('步骤 1 · 进房')
+  expect(previewStepLabel(named, { kind: 'stage', stage: 'deleted' })).toBe('步骤 deleted')
+})

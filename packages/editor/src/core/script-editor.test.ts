@@ -104,6 +104,28 @@ test('explicit step organization is one validated edit with undo, redo and canon
   expect(collectScriptReferenceIssues(reopened.getState())).toEqual([])
 })
 
+test('step-purpose editing, undo, redo and reopening preserve identity, next and commands', () => {
+  const state = editorState()
+  const behavior = triggerRegistry(state).talk!
+  behavior.flow = organizeFlowAsStages(firstRepeatMachine())!
+  const original = structuredClone(behavior.flow)
+  const session = new ScriptEditSession(state)
+  const renamed = {
+    ...original,
+    stages: original.stages.map((stage) => ({ ...stage, label: '交谈' })),
+  }
+  session.dispatch(new UpdateEntityBehaviorCommand(target, 'trigger', 'talk', { flow: renamed }))
+  expect(triggerRegistry(session.getState()).talk!.flow).toEqual(renamed)
+  expect(session.undo()).toBe(true)
+  expect(triggerRegistry(session.getState()).talk!.flow).toEqual(original)
+  expect(session.redo()).toBe(true)
+  const reopened = new ScriptEditSession(JSON.parse(JSON.stringify(session.getState())))
+  expect(triggerRegistry(reopened.getState()).talk!.flow).toEqual(renamed)
+  expect(renamed.stages.map(({ label: _label, ...stage }) => stage)).toEqual(
+    original.stages.map(({ label: _label, ...stage }) => stage),
+  )
+})
+
 test('step organization with external state-cursor references is rejected without half-edit or history pollution', () => {
   const state = editorState()
   triggerRegistry(state).talk!.flow = firstRepeatMachine()

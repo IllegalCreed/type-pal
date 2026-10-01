@@ -50,6 +50,7 @@ export interface RuntimeSceneEntryPresentation {
 
 export interface RuntimeStage {
   id: BaseAuthorStage['id']
+  label?: BaseAuthorStage['label']
   entry?: RuntimeSceneEntryPresentation
   body: RuntimeCommand[]
   next?: BaseAuthorStage['next']

@@ -25,6 +25,7 @@ import {
   type SessionHistoryRouter,
 } from './editor-history-participant.js'
 import type { ProjectReferenceIndex } from './project-reference.js'
+import { previewStepLabel } from './script-flow-preview.js'
 
 type AuthorSceneEntityDef = AuthorSceneDef['entities'][number]
 type AuthorHostileBehavior = NonNullable<AuthorSceneEntityDef['hostile']>
@@ -1084,10 +1085,10 @@ function commandContainerLabel(
   if (container.kind === 'body') return undefined
   const flow = commandOwnerFlow(state, locator.owner)
   if (container.kind === 'step') {
-    const index =
-      flow?.kind === 'stages' ? flow.stages.findIndex((step) => step.id === container.stepId) : -1
     return [
-      index >= 0 ? `步骤 ${index + 1}` : `步骤 ${container.stepId}`,
+      flow?.kind === 'stages'
+        ? previewStepLabel(flow, { kind: 'stage', stage: container.stepId })
+        : `步骤 ${container.stepId}`,
       container.section === 'prepare' ? '画面出现前' : '脚本正文',
     ].join(' / ')
   }

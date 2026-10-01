@@ -13513,6 +13513,11 @@ button.sprite-frame-cell[draggable="true"]:active {
   color: var(--ds-text-secondary);
   white-space: nowrap;
 }
+.canonical-stage-card-name {
+  color: var(--fg);
+  font-weight: 650;
+  overflow-wrap: anywhere;
+}
 .canonical-stage-card-select small {
   display: grid;
   gap: var(--ds-space-1);

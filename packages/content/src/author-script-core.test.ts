@@ -12,6 +12,31 @@ import {
 const target = { scene: 's001', entity: 'e1' }
 
 describe('canonical author script schema', () => {
+  test('step names are optional author metadata, but supplied names must be non-empty strings', () => {
+    const flow = {
+      kind: 'stages',
+      initial: 'first',
+      stages: [
+        { id: 'first', label: '首次接待', body: [], next: 'repeat' },
+        { id: 'repeat', label: '首次接待', body: [] },
+      ],
+    }
+    expect(() => checkBaseScriptFlow(flow, 'flow')).not.toThrow()
+    expect(() =>
+      checkBaseScriptFlow({ ...flow, stages: [{ id: 'first', body: [] }] }, 'flow'),
+    ).not.toThrow()
+    for (const label of ['', '  ', null, 3, {}, []])
+      expect(() =>
+        checkBaseScriptFlow({ ...flow, stages: [{ id: 'first', label, body: [] }] }, 'flow'),
+      ).toThrow(/flow\.stages\[0\]\.label: 期望非空字符串/)
+    expect(() =>
+      checkBaseScriptFlow(
+        { ...flow, stages: [{ id: 'first', label: '接待', name: '别名', body: [] }] },
+        'flow',
+      ),
+    ).toThrow(/name: 未知字段/)
+  })
+
   test('completion edges and owner-bound completed cursors have exact shapes', () => {
     const flow = {
       kind: 'stages',

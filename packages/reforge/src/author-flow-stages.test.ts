@@ -144,6 +144,7 @@ test.each([
   const old = source()
   const organized = organizeFlowAsStages(old)!
   expect(organized.stages.map((s) => s.id)).toEqual(['first', 'repeat'])
+  expect(organized.stages.map((s) => s.label)).toEqual(['首次', '复读'])
   let oldCursor: FlowCursor | undefined
   let newCursor: FlowCursor | undefined
   for (let invocation = 0; invocation < 3; invocation++) {
@@ -156,6 +157,28 @@ test.each([
     oldCursor = before.committed
     newCursor = after.committed
   }
+})
+
+test('step renaming is stripped from executable flow without changing commands or scheduling', () => {
+  const flow = organizeFlowAsStages(source())!
+  const compile = (input: AuthorScriptFlow) =>
+    compileRuntimeScriptFlow(resolveAuthorDialogueTree(input, {}), {
+      canonicalContentDigest: 'b'.repeat(64),
+      timing: 'auto',
+    })
+  const original = compile(flow)
+  const renamed = {
+    ...flow,
+    stages: flow.stages.map((stage) => ({ ...stage, label: '同名步骤' })),
+  }
+  expect(compile(renamed)).toEqual(original)
+  const unnamed = {
+    ...flow,
+    stages: flow.stages.map(({ label: _label, ...stage }) => stage),
+  }
+  expect(compile(unnamed)).toEqual(original)
+  if (original.flow.kind !== 'stages') throw new Error('expected executable stages')
+  expect(original.flow.stages.every((stage) => !Object.hasOwn(stage, 'label'))).toBe(true)
 })
 
 test('entry, nested confirmation and stable command IDs survive an explicit organization', async () => {

@@ -41,7 +41,7 @@ import { effectiveTriggerRange } from '../core/entity-placement.js'
 import type { ProjectReferenceEdge } from '../core/project-reference.js'
 import type { ScriptCommandLocator, ScriptEditorState } from '../core/script-editor.js'
 import { stateTransitionExecutionLabel } from '../core/script-editor.js'
-import { previewFlowCursor } from '../core/script-flow-preview.js'
+import { previewFlowCursor, previewStepLabel } from '../core/script-flow-preview.js'
 import type { ScriptReferenceCatalog } from '../core/script-reference-catalog.js'
 import { BattleFieldPicker } from './BattleFieldPicker.js'
 import { CommandForm, WorldVariablePicker } from './CommandForm.js'
@@ -3958,6 +3958,7 @@ export function CanonicalScriptFlowEditor(props: {
   const [deleteOpen, setDeleteOpen] = useState(false)
   const [linkNewStage, setLinkNewStage] = useState(true)
   const stageNextSelectId = useId()
+  const stageNameInputId = useId()
   const lastAppliedFlowFocusRevisionRef = useRef<number | undefined>(undefined)
   useEffect(() => {
     if (ids.includes(selectedId)) return
@@ -3988,8 +3989,7 @@ export function CanonicalScriptFlowEditor(props: {
     const hasMultipleStages = flow.stages.length > 1
     const stageIndex = stage ? flow.stages.findIndex((candidate) => candidate.id === stage.id) : -1
     const stageLabel = (id: string): string => {
-      const index = flow.stages.findIndex((candidate) => candidate.id === id)
-      return index >= 0 ? `步骤 ${index + 1}` : id
+      return previewStepLabel(flow, { kind: 'stage', stage: id })
     }
     const stageNextLabel = (candidate: (typeof flow.stages)[number]): string =>
       typeof candidate.next === 'object'
@@ -4066,6 +4066,9 @@ export function CanonicalScriptFlowEditor(props: {
                   <strong>步骤 {index + 1}</strong>
                   <span>{candidate.body.length} 条指令</span>
                 </span>
+                {candidate.label ? (
+                  <span className="canonical-stage-card-name">{candidate.label}</span>
+                ) : null}
                 <small>
                   {candidate.id === flow.initial ? <span>首次运行</span> : null}
                   <span>{stageNextLabel(candidate)}</span>
@@ -4167,6 +4170,37 @@ export function CanonicalScriptFlowEditor(props: {
             }
           >
             <div className="canonical-flow-settings-fields">
+              <section className="canonical-flow-setting">
+                <header className="canonical-dialog-field-heading">
+                  <label htmlFor={stageNameInputId}>步骤名称</label>
+                  <DsHelpTip label="步骤名称">
+                    说明这一轮执行什么，例如“首次交谈”或“提醒去厨房”。只修改显示名称，不改变步骤编号、运行去向或游戏行为；留空表示尚未命名。
+                  </DsHelpTip>
+                </header>
+                <DsDraftTextInput
+                  size="compact"
+                  id={stageNameInputId}
+                  aria-label="步骤名称"
+                  placeholder="例如：走到房门并进房"
+                  draftKey={`canonical-flow:${props.ownerLabel}:${stage.id}:label`}
+                  syncToken={props.focusRevision}
+                  value={stage.label ?? ''}
+                  onCommit={(value) => {
+                    const label = value.trim()
+                    if (label === (stage.label ?? '')) return true
+                    return props.onChange({
+                      ...flow,
+                      stages: flow.stages.map((candidate) => {
+                        if (candidate.id !== stage.id) return candidate
+                        const updated = { ...candidate }
+                        if (label) updated.label = label
+                        else delete updated.label
+                        return updated
+                      }),
+                    })
+                  }}
+                />
+              </section>
               <section className="canonical-flow-setting">
                 <header className="canonical-dialog-field-heading">
                   <strong>起始步骤</strong>
@@ -4342,7 +4376,7 @@ export function CanonicalScriptFlowEditor(props: {
       {organized ? (
         <div className="canonical-flow-actions">
           <p>
-            这套流程只控制下次运行的内容，可以整理为普通步骤。整理后显示为步骤编号，原连续流程及状态名称不保留；
+            这套流程只控制下次运行的内容，可以整理为普通步骤。整理后显示步骤编号并保留原状态名称；
             指令、出现前准备、步骤稳定编号和运行去向保持，操作可撤销。
           </p>
           <DsButton

@@ -302,6 +302,8 @@ export type StageNext = StageId | { kind: 'complete' }
 
 export interface BaseAuthorStage {
   id: StageId
+  /** Optional author-facing purpose; identity and execution always use id. */
+  label?: string
   entry?: BaseSceneEntryPresentation
   body: BaseAuthorCommand[]
   next?: StageNext
@@ -993,8 +995,9 @@ export function checkBaseScriptFlow(
     const ids = new Set<string>()
     flow.stages.forEach((raw, index) => {
       const stage = record(raw, `${path}.stages[${index}]`)
-      exactKeys(stage, ['id', 'entry', 'body', 'next'], `${path}.stages[${index}]`)
+      exactKeys(stage, ['id', 'label', 'entry', 'body', 'next'], `${path}.stages[${index}]`)
       const id = nonEmptyString(stage.id, `${path}.stages[${index}].id`)
+      if (stage.label !== undefined) nonEmptyString(stage.label, `${path}.stages[${index}].label`)
       if (ids.has(id)) throw new Error(`${path}.stages[${index}].id: 重复 ${id}`)
       ids.add(id)
       if (stage.entry !== undefined) {

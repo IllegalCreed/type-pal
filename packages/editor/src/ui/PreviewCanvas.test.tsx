@@ -128,6 +128,7 @@ describe('PreviewCanvas confirm controls', () => {
               { id: 'first', body: [] },
               {
                 id: 'second',
+                label: '走到房门',
                 body: [
                   {
                     kind: 'branch',
@@ -152,7 +153,7 @@ describe('PreviewCanvas confirm controls', () => {
     expect(toolbar?.querySelectorAll('.ds-toolbar__group')).toHaveLength(1)
     expect(toolbar?.querySelector('.preview-toolbar__trailing')).not.toBeNull()
     const legend = host.querySelector('[role="note"][aria-label="移动轨迹"]')
-    expect(legend?.textContent).toContain('轨迹 · 步骤 2')
+    expect(legend?.textContent).toContain('轨迹 · 步骤 2 · 走到房门')
     expect(legend?.textContent).not.toContain('编排参考')
     expect(legend?.textContent).not.toContain('菱形节点')
     expect(legend?.textContent).toContain('主角队伍')

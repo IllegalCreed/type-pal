@@ -46,6 +46,7 @@ export function organizeFlowAsStages(flow: AuthorScriptFlow): StageFlow | undefi
       const { next } = state
       return {
         id,
+        label: state.label,
         ...(state.entry === undefined ? {} : { entry: cloneAuthorValue(state.entry) }),
         body: cloneAuthorValue(state.body),
         ...(next.kind === 'advance'

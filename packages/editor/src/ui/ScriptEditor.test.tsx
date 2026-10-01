@@ -117,8 +117,8 @@ describe('CanonicalScriptEditor author presentation', () => {
       kind: 'stages',
       initial: 'first',
       stages: [
-        { id: 'first', body: [{ kind: 'giveMoney', delta: 7 }], next: 'repeat' },
-        { id: 'repeat', body: [{ kind: 'setFlag', flag: 'repeat', value: true }] },
+        { id: 'first', label: '首次', body: [{ kind: 'giveMoney', delta: 7 }], next: 'repeat' },
+        { id: 'repeat', label: '复读', body: [{ kind: 'setFlag', flag: 'repeat', value: true }] },
       ],
     })
     expect(host.querySelectorAll('.canonical-stage-card')).toHaveLength(2)
@@ -302,6 +302,84 @@ describe('CanonicalScriptEditor author presentation', () => {
     expect(saved.stages[0]?.next).toBeUndefined()
     expect(host.querySelectorAll('.canonical-stage-card')).toHaveLength(1)
     expect(host.querySelector('.canonical-stage-card')?.textContent).toContain('下次仍执行当前步骤')
+  })
+
+  test('names a selected step through a draft field without changing playback identity or commands', async () => {
+    const original: AuthorScriptFlow = {
+      kind: 'stages',
+      initial: 'first',
+      stages: [
+        { id: 'first', label: '接待', body: [{ kind: 'giveMoney', delta: 7 }], next: 'repeat' },
+        { id: 'repeat', label: '接待', body: [{ kind: 'wait', ms: 20 }] },
+      ],
+    }
+    let saved: AuthorScriptFlow = original
+    const changes = vi.fn()
+    const selected = vi.fn()
+    function Harness() {
+      const [flow, setFlow] = useState<AuthorScriptFlow>(original)
+      return (
+        <CanonicalScriptFlowEditor
+          ownerLabel="客栈接待"
+          flow={flow}
+          onSelectPreviewCursor={selected}
+          onChange={(next) => {
+            saved = next
+            changes(next)
+            setFlow(next)
+            return true
+          }}
+        />
+      )
+    }
+    await act(async () => root.render(<Harness />))
+    const cards = host.querySelectorAll<HTMLButtonElement>('.canonical-stage-card-select')
+    expect(cards[0]?.querySelector('.canonical-stage-card-name')?.textContent).toBe('接待')
+    expect(cards[1]?.getAttribute('aria-label')).toContain('步骤 2 · 接待')
+    await act(async () => cards[1]!.click())
+    expect(selected).toHaveBeenLastCalledWith({ kind: 'stage', stage: 'repeat' })
+    await act(async () =>
+      host
+        .querySelector<HTMLButtonElement>(
+          '.canonical-stage-card.active .canonical-stage-card-details',
+        )!
+        .click(),
+    )
+    const input = host.querySelector<HTMLInputElement>('input[aria-label="步骤名称"]')!
+    const setValue = Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, 'value')!.set!
+    const typeName = async (value: string) => {
+      await act(async () => {
+        setValue.call(input, value)
+        input.dispatchEvent(new Event('input', { bubbles: true }))
+      })
+    }
+    await typeName('  复读：提醒招呼客人  ')
+    expect(changes).not.toHaveBeenCalled()
+    await act(async () =>
+      input.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter', bubbles: true })),
+    )
+    expect(changes).toHaveBeenCalledOnce()
+    if (saved.kind !== 'stages') throw new Error('expected stages')
+    expect(saved.stages[1]?.label).toBe('复读：提醒招呼客人')
+    expect(saved.stages.map(({ label: _label, ...stage }) => stage)).toEqual(
+      original.stages.map(({ label: _label, ...stage }) => stage),
+    )
+    expect(host.querySelector('[role="dialog"]')?.getAttribute('aria-label')).toBe(
+      '步骤 2 · 复读：提醒招呼客人 · 详情',
+    )
+    await typeName('取消此名称')
+    await act(async () =>
+      input.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape', bubbles: true })),
+    )
+    expect(changes).toHaveBeenCalledOnce()
+    expect(input.value).toBe('复读：提醒招呼客人')
+    await typeName('  ')
+    await act(async () =>
+      input.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter', bubbles: true })),
+    )
+    expect(saved.stages[1]).not.toHaveProperty('label')
+    expect(host.querySelector('[role="dialog"]')?.getAttribute('aria-label')).toBe('步骤 2 · 详情')
+    expect(selected).toHaveBeenLastCalledWith({ kind: 'stage', stage: 'repeat' })
   })
 
   test('keeps a zero-command single step visible without creating or rewriting author data', async () => {
@@ -1669,7 +1747,7 @@ describe('CanonicalScriptEditor author presentation', () => {
       [...detailsBody.querySelectorAll('.canonical-dialog-field-heading')].map(
         (heading) => heading.querySelector(':scope > strong, :scope > label')?.textContent,
       ),
-    ).toEqual(['起始步骤', '下次运行'])
+    ).toEqual(['步骤名称', '起始步骤', '下次运行'])
     expect(detailsFooter.firstElementChild?.textContent).toContain('删除步骤')
     expect(detailsFooter.querySelector('.spacer')).not.toBeNull()
     expect(detailsFooter.textContent).toContain('关闭')

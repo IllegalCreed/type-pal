@@ -19,7 +19,7 @@ vi.mock('./handle-store.js', async (original) => ({
 }))
 beforeEach(() => authorSaveStorage.receipts.clear())
 
-import type { ScriptChunkV1, ScriptIndexV1 } from '@type-pal/content'
+import type { AuthorSceneDef, ScriptChunkV1, ScriptIndexV1 } from '@type-pal/content'
 import { fsaSource, loadAllAuthorScenes, loadCurrentProjectFrom } from '@type-pal/reforge'
 import { finishOpen } from './open-actions.js'
 import { serializeProject, serializeProjectWithMapCopies, toEditorState } from './project-io.js'
@@ -34,6 +34,41 @@ async function blankState(id: string) {
 }
 
 // ═══ S01：脚本索引/分片/共享脚本 ═══
+
+test('named steps survive canonical scene serialization and real current loader reopening', async () => {
+  const { state, disk } = await blankState('named-steps')
+  const scene: AuthorSceneDef = {
+    ...state.scenes[0]!,
+    hooks: {
+      onEnter: {
+        initial: 'opening',
+        variants: {
+          opening: {
+            label: '开场',
+            order: 0,
+            flow: {
+              kind: 'stages',
+              initial: 'first',
+              stages: [
+                { id: 'first', label: '首次交谈', body: [], next: 'repeat' },
+                { id: 'repeat', label: '首次交谈', body: [] },
+                { id: 'unnamed', body: [], next: { kind: 'complete' } },
+              ],
+            },
+          },
+        },
+      },
+    },
+  }
+  state.scenes[0] = scene
+  const files = await serializeProjectWithMapCopies(state, fsaSource(disk.dir))
+  const output = memoryAuthorDirectory(structuredClone(files))
+  const reopened = await loadCurrentProjectFrom(fsaSource(output.dir))
+  const scenes = await loadAllAuthorScenes(reopened)
+  expect(scenes[0]?.hooks).toEqual(scene.hooks)
+  expect(reopened.manifest.contentVersion).toBe(21)
+  expect(reopened.manifest.minimumSaveVersion).toBe(10)
+})
 
 test('S01(当前模型): sharedScripts 携带具体脚本体输出并可经正式 loader 重开核对', async () => {
   const { state, disk } = await blankState('ser-s01-current')
