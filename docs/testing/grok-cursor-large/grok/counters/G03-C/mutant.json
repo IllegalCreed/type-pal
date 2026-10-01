@@ -1,0 +1,162 @@
+{
+  "numTotalTestSuites": 2,
+  "numPassedTestSuites": 0,
+  "numFailedTestSuites": 2,
+  "numPendingTestSuites": 0,
+  "numTotalTests": 10,
+  "numPassedTests": 9,
+  "numFailedTests": 1,
+  "numPendingTests": 0,
+  "numTodoTests": 0,
+  "snapshot": {
+    "added": 0,
+    "failure": false,
+    "filesAdded": 0,
+    "filesRemoved": 0,
+    "filesRemovedList": [],
+    "filesUnmatched": 0,
+    "filesUpdated": 0,
+    "matched": 0,
+    "total": 0,
+    "unchecked": 0,
+    "uncheckedKeysByFile": [],
+    "unmatched": 0,
+    "updated": 0,
+    "didUpdate": false
+  },
+  "startTime": 1790866844836,
+  "success": false,
+  "testResults": [
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": [
+            "G03-C computeFollowerWorldPos 方向与冻结"
+          ],
+          "fullName": "G03-C computeFollowerWorldPos 方向与冻结 G03-C01 m=1 且 trail[1] 朝右时偏移为 -16,-8，返回朝向仍是 trail[2]",
+          "status": "passed",
+          "title": "G03-C01 m=1 且 trail[1] 朝右时偏移为 -16,-8，返回朝向仍是 trail[2]",
+          "duration": 1.0112500000000182,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "G03-C computeFollowerWorldPos 方向与冻结"
+          ],
+          "fullName": "G03-C computeFollowerWorldPos 方向与冻结 G03-C02 m=1 且 trail[1] 朝左时偏移为 +16,+8",
+          "status": "passed",
+          "title": "G03-C02 m=1 且 trail[1] 朝左时偏移为 +16,+8",
+          "duration": 0.140625,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "G03-C computeFollowerWorldPos 方向与冻结"
+          ],
+          "fullName": "G03-C computeFollowerWorldPos 方向与冻结 G03-C03 m=1 且 trail[1] 朝上时偏移为 -16,+8",
+          "status": "passed",
+          "title": "G03-C03 m=1 且 trail[1] 朝上时偏移为 -16,+8",
+          "duration": 0.07220800000004601,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "G03-C computeFollowerWorldPos 方向与冻结"
+          ],
+          "fullName": "G03-C computeFollowerWorldPos 方向与冻结 G03-C04 m=2 朝下时偏移是 +16,+8，不是 m=1 的 +16,-8",
+          "status": "passed",
+          "title": "G03-C04 m=2 朝下时偏移是 +16,+8，不是 m=1 的 +16,-8",
+          "duration": 0.15179200000000037,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "G03-C computeFollowerWorldPos 方向与冻结"
+          ],
+          "fullName": "G03-C computeFollowerWorldPos 方向与冻结 G03-C05 m=2 朝右时水平偏移为 -16，垂直仍是 +8",
+          "status": "failed",
+          "title": "G03-C05 m=2 朝右时水平偏移为 -16，垂直仍是 +8",
+          "duration": 3.164291999999989,
+          "failureMessages": [
+            "AssertionError: expected { x: 1000, y: 508, dir: 'down' } to deeply equal { x: 968, y: 508, dir: 'down' }\n    at /private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/grok-r1-G03-C-7s2rLh/packages/game/src/present/follower-pos-axis.grok-r1.test.ts:49:55\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64"
+          ],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "G03-C computeFollowerWorldPos 方向与冻结"
+          ],
+          "fullName": "G03-C computeFollowerWorldPos 方向与冻结 G03-C06 偏移落在障碍上时，冻结的是退回 trail[1] 之后的位移",
+          "status": "passed",
+          "title": "G03-C06 偏移落在障碍上时，冻结的是退回 trail[1] 之后的位移",
+          "duration": 0.09125000000000227,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "G03-C computeFollowerWorldPos 方向与冻结"
+          ],
+          "fullName": "G03-C computeFollowerWorldPos 方向与冻结 G03-C07 走路时不沿用旧冻结，并把它改写成这次的位移",
+          "status": "passed",
+          "title": "G03-C07 走路时不沿用旧冻结，并把它改写成这次的位移",
+          "duration": 0.15787499999999,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "G03-C computeFollowerWorldPos 方向与冻结"
+          ],
+          "fullName": "G03-C computeFollowerWorldPos 方向与冻结 G03-C08 trail 没有第 3 项时，朝向回退 trail[1].dir",
+          "status": "passed",
+          "title": "G03-C08 trail 没有第 3 项时，朝向回退 trail[1].dir",
+          "duration": 0.09500000000002728,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "G03-C computeFollowerWorldPos 方向与冻结"
+          ],
+          "fullName": "G03-C computeFollowerWorldPos 方向与冻结 G03-C09 静止且成员下标超出 trail 时，用最后一项的坐标",
+          "status": "passed",
+          "title": "G03-C09 静止且成员下标超出 trail 时，用最后一项的坐标",
+          "duration": 0.28116600000004155,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "G03-C computeFollowerWorldPos 方向与冻结"
+          ],
+          "fullName": "G03-C computeFollowerWorldPos 方向与冻结 G03-C10 静止摆位不调用 isWalkable",
+          "status": "passed",
+          "title": "G03-C10 静止摆位不调用 isWalkable",
+          "duration": 0.12916699999999537,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790866845217,
+      "endTime": 1790866845223.1292,
+      "status": "failed",
+      "message": "",
+      "name": "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/grok-r1-G03-C-7s2rLh/packages/game/src/present/follower-pos-axis.grok-r1.test.ts"
+    }
+  ]
+}

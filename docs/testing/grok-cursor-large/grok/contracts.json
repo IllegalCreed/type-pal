@@ -1,8 +1,8 @@
 {
-  "batch": "G02",
-  "count": 76,
-  "batchCount": 36,
-  "cumulativeNewContracts": 76,
+  "batch": "G03",
+  "count": 109,
+  "batchCount": 33,
+  "cumulativeNewContracts": 109,
   "target": 400,
   "contracts": [
     {
@@ -4420,6 +4420,1694 @@
         "fullName": "G02-D 对话图标与 base64 G02-D11 game 的 decodeRle 与 parseSpriteChunk 就是 shared 的同一函数",
         "status": "passed"
       }
+    },
+    {
+      "id": "G03-A01",
+      "batch": "G03",
+      "group": "G03-A",
+      "primarySource": {
+        "file": "packages/game/src/present/draw-tilemap.ts",
+        "conditionLine": 135,
+        "condition": "h=0 的图缺失时 tiles.get(lowerId) ?? tiles.get(0)；h=1 只取 tiles.get(upperId)（draw-tilemap.ts:135 与 draw-tilemap.ts:141）"
+      },
+      "caller": {
+        "file": "packages/game/src/present/present.ts",
+        "line": 303,
+        "expr": "drawTilemap(fb, ctx.tilemap, ctx.tileImages, gs.camera, 0, seamCoverage)"
+      },
+      "legalInput": "1×1 图，lower 5、upper 2，layer 0。get(0) 返回索引 9，get(2) 返回索引 3，get(5) 为 undefined。相机 {x:-26,y:-18}。",
+      "oldTest": {
+        "sha": "1b1ec05f182fb2a09eaf06f7d3e3974368f69034",
+        "file": "packages/game/src/present/draw-tilemap.test.ts",
+        "fullName": "drawTilemap lower (h=0) 画在 (-16,-8) 子行;upper (h=1) 画在 col/row baseline",
+        "assertionLine": 33,
+        "matcher": "toBe",
+        "checked": "lower 1 与 upper 2 都有图时，(144,104) 为 1、(160,112) 为 2",
+        "distinct": "旧测试两格都有图。本组 lower 5 缺失，(10,10) 为 tile 0 的 9，(26,18) 仍是 upper 自己的 3"
+      },
+      "file": "packages/game/src/present/draw-tilemap-pixels.grok-r1.test.ts",
+      "fullName": "G03-A drawTilemap 像素与接缝 G03-A01 layer 0 的 lower 图缺失时，画面用 tile 0，upper 仍用自己的图",
+      "assertions": [
+        {
+          "line": 41,
+          "endLine": 41,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 42,
+          "endLine": 42,
+          "matchers": ["toBe"]
+        }
+      ],
+      "axis": "positive",
+      "oracle": {
+        "operands": "indices[10*320+10]、indices[18*320+26]",
+        "matcher": "toBe",
+        "exact": "9 与 3"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/present/draw-tilemap-pixels.grok-r1.test.ts",
+        "fullName": "G03-A drawTilemap 像素与接缝 G03-A01 layer 0 的 lower 图缺失时，画面用 tile 0，upper 仍用自己的图",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G03-A02",
+      "batch": "G03",
+      "group": "G03-A",
+      "primarySource": {
+        "file": "packages/game/src/present/draw-tilemap.ts",
+        "conditionLine": 141,
+        "condition": "h=1 只调用 tiles.get(upperId)，没有 ?? tiles.get(0)（draw-tilemap.ts:141）"
+      },
+      "caller": {
+        "file": "packages/game/src/present/present.ts",
+        "line": 306,
+        "expr": "drawTilemap(fb, ctx.tilemap, ctx.tileImages, gs.camera, 1, seamCoverage)"
+      },
+      "legalInput": "单格 lower 0、upper 0x00050000，layer 1。预填 (20,20)=6。get 只在 idx===0 时返回索引 9。相机 {x:-20,y:-20}。",
+      "oldTest": {
+        "sha": "1b1ec05f182fb2a09eaf06f7d3e3974368f69034",
+        "file": "packages/game/src/present/draw-tilemap.test.ts",
+        "fullName": "drawTilemap layer 1:tile id 从高 16 bit 提取且 -1;高 16 bit = 0 → id < 0 → skip",
+        "assertionLine": 126,
+        "matcher": "toContain",
+        "checked": "layer 1 提取到 0x10f，并且 captured 不含 -1",
+        "distinct": "旧断言只看 id 有没有被 get。本组 id 4 被 get，id 0 不被 get，预填 6 保持 6"
+      },
+      "file": "packages/game/src/present/draw-tilemap-pixels.grok-r1.test.ts",
+      "fullName": "G03-A drawTilemap 像素与接缝 G03-A02 layer 1 的 upper 有 id 但没有图时，不回落 tile 0",
+      "assertions": [
+        {
+          "line": 57,
+          "endLine": 57,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 58,
+          "endLine": 58,
+          "matchers": ["not.toContain"]
+        },
+        {
+          "line": 59,
+          "endLine": 59,
+          "matchers": ["toContain"]
+        }
+      ],
+      "axis": "boundary",
+      "oracle": {
+        "operands": "indices[20*320+20]、seen",
+        "matcher": "toBe / not.toContain / toContain",
+        "exact": "6；seen 不含 0，含 4"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/present/draw-tilemap-pixels.grok-r1.test.ts",
+        "fullName": "G03-A drawTilemap 像素与接缝 G03-A02 layer 1 的 upper 有 id 但没有图时，不回落 tile 0",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G03-A03",
+      "batch": "G03",
+      "group": "G03-A",
+      "primarySource": {
+        "file": "packages/game/src/present/draw-tilemap.ts",
+        "conditionLine": 135,
+        "condition": "回落 tile 0 只挂在 h=0；upperId < 0 时整段跳过（draw-tilemap.ts:135 与 draw-tilemap.ts:140）"
+      },
+      "caller": {
+        "file": "packages/game/src/present/present.ts",
+        "line": 306,
+        "expr": "drawTilemap(fb, ctx.tilemap, ctx.tileImages, gs.camera, 1, seamCoverage)"
+      },
+      "legalInput": "单格 lower 0x00050000、upper 0，layer 1。预填 (24,16)=6。get(0) 返回索引 9。相机 {x:-24,y:-16}。",
+      "oldTest": {
+        "sha": "1b1ec05f182fb2a09eaf06f7d3e3974368f69034",
+        "file": "packages/game/src/present/draw-tilemap.test.ts",
+        "fullName": "drawTilemap ±1 fence:layer 1 fence 位置 fallback = -1,fence 不调 tiles.get",
+        "assertionLine": 84,
+        "matcher": "toEqual",
+        "checked": "layer 1 的 fence 只记录一次 get(-1) 之外的 calls，断言 calls 等于 [0xfe]",
+        "distinct": "旧测试证明 fence 不取 tile 0。本组屏内 lower 缺失时 (8,8) 写成 9，upper 位置保持预填 6"
+      },
+      "file": "packages/game/src/present/draw-tilemap-pixels.grok-r1.test.ts",
+      "fullName": "G03-A drawTilemap 像素与接缝 G03-A03 layer 1 的 lower 图缺失时仍回落 tile 0，upper 的 -1 不画",
+      "assertions": [
+        {
+          "line": 72,
+          "endLine": 72,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 73,
+          "endLine": 73,
+          "matchers": ["toBe"]
+        }
+      ],
+      "axis": "boundary",
+      "oracle": {
+        "operands": "indices[8*320+8]、indices[16*320+24]",
+        "matcher": "toBe",
+        "exact": "9 与 6"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/present/draw-tilemap-pixels.grok-r1.test.ts",
+        "fullName": "G03-A drawTilemap 像素与接缝 G03-A03 layer 1 的 lower 图缺失时仍回落 tile 0，upper 的 -1 不画",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G03-A04",
+      "batch": "G03",
+      "group": "G03-A",
+      "primarySource": {
+        "file": "packages/game/src/present/draw-tilemap.ts",
+        "conditionLine": 73,
+        "condition": "opaque[srcOff]===0 则 continue；否则 writePixel 后把 coverage[py*fbW+px] 置 1（draw-tilemap.ts:73 与 draw-tilemap.ts:77）"
+      },
+      "caller": {
+        "file": "packages/game/src/present/present.ts",
+        "line": 303,
+        "expr": "drawTilemap(fb, ctx.tilemap, ctx.tileImages, gs.camera, 0, seamCoverage)"
+      },
+      "legalInput": "id 1 的 2×1 图，indices [7,0]、opaque [0,1]。预填 (30,30)=4。upper 为 0 且 get(0) 为 undefined。相机 {x:-46,y:-38}，layer 0。",
+      "oldTest": {
+        "sha": "1b1ec05f182fb2a09eaf06f7d3e3974368f69034",
+        "file": "packages/game/src/present/draw-tilemap.test.ts",
+        "fullName": "drawTilemap 传入 coverage 时标记已画像素;远处未画处不标记",
+        "assertionLine": 155,
+        "matcher": "toBe",
+        "checked": "画过的像素 coverage 为 1，远处 coverage[0] 为 0",
+        "distinct": "旧 coverage 只区分画过与远处。本组同一行里透明孔保持 4 且 coverage 0，旁边不透明 index 0 写入 0 且 coverage 1"
+      },
+      "file": "packages/game/src/present/draw-tilemap-pixels.grok-r1.test.ts",
+      "fullName": "G03-A drawTilemap 像素与接缝 G03-A04 透明像素不记 coverage，不透明的 index 0 会写入并记 coverage",
+      "assertions": [
+        {
+          "line": 90,
+          "endLine": 90,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 91,
+          "endLine": 91,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 92,
+          "endLine": 92,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 93,
+          "endLine": 93,
+          "matchers": ["toBe"]
+        }
+      ],
+      "axis": "positive",
+      "oracle": {
+        "operands": "(30,30) 的 index 与 coverage、(31,30) 的 index 与 coverage",
+        "matcher": "toBe",
+        "exact": "4、0、0、1"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/present/draw-tilemap-pixels.grok-r1.test.ts",
+        "fullName": "G03-A drawTilemap 像素与接缝 G03-A04 透明像素不记 coverage，不透明的 index 0 会写入并记 coverage",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G03-A05",
+      "batch": "G03",
+      "group": "G03-A",
+      "primarySource": {
+        "file": "packages/game/src/present/draw-tilemap.ts",
+        "conditionLine": 75,
+        "condition": "px<0 时 continue，不调用 writePixel，也不写 coverage（draw-tilemap.ts:75）。writePixel 自己的越界返回不会拦住 coverage"
+      },
+      "caller": {
+        "file": "packages/game/src/present/present.ts",
+        "line": 303,
+        "expr": "drawTilemap(fb, ctx.tilemap, ctx.tileImages, gs.camera, 0, seamCoverage)"
+      },
+      "legalInput": "id 1 的 2×1 图，indices [8,9]。相机 {x:-15,y:-13}，layer 0。coverage 初始为 0。",
+      "oldTest": {
+        "sha": "1b1ec05f182fb2a09eaf06f7d3e3974368f69034",
+        "file": "packages/game/src/present/draw-tilemap.test.ts",
+        "fullName": "drawTilemap 传入 coverage 时标记已画像素;远处未画处不标记",
+        "assertionLine": 156,
+        "matcher": "toBe",
+        "checked": "远处未画的 coverage[0] 为 0",
+        "distinct": "旧断言的 0 在缓冲区起点。本组负列若被记上，会写到 coverage[5*320-1]；该槽保持 0，(0,5) 为 9 且 coverage 为 1"
+      },
+      "file": "packages/game/src/present/draw-tilemap-pixels.grok-r1.test.ts",
+      "fullName": "G03-A drawTilemap 像素与接缝 G03-A05 瓦片跨过 x=0 时，负列不记 coverage，屏内列写入 9",
+      "assertions": [
+        {
+          "line": 109,
+          "endLine": 109,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 110,
+          "endLine": 110,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 111,
+          "endLine": 111,
+          "matchers": ["toBe"]
+        }
+      ],
+      "axis": "boundary",
+      "oracle": {
+        "operands": "indices[5*320]、coverage[5*320]、coverage[5*320-1]",
+        "matcher": "toBe",
+        "exact": "9、1、0"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/present/draw-tilemap-pixels.grok-r1.test.ts",
+        "fullName": "G03-A drawTilemap 像素与接缝 G03-A05 瓦片跨过 x=0 时，负列不记 coverage，屏内列写入 9",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G03-A06",
+      "batch": "G03",
+      "group": "G03-A",
+      "primarySource": {
+        "file": "packages/game/src/present/draw-tilemap.ts",
+        "conditionLine": 68,
+        "condition": "py<0 的行被 blitTile 跳过（draw-tilemap.ts:68）。屏内下一行仍按 indices 写入"
+      },
+      "caller": {
+        "file": "packages/game/src/present/present.ts",
+        "line": 303,
+        "expr": "drawTilemap(fb, ctx.tilemap, ctx.tileImages, gs.camera, 0, seamCoverage)"
+      },
+      "legalInput": "id 1 的 1×2 图，indices [8,9]。相机 {x:-19,y:-7}，layer 0。目标像素是 (3,0) 与 (3,1)。",
+      "oldTest": {
+        "sha": "1b1ec05f182fb2a09eaf06f7d3e3974368f69034",
+        "file": "packages/game/src/present/draw-tilemap.test.ts",
+        "fullName": "drawTilemap lower (h=0) 画在 (-16,-8) 子行;upper (h=1) 画在 col/row baseline",
+        "assertionLine": 35,
+        "matcher": "toBe",
+        "checked": "upper 落在 (160,112)，值为 2",
+        "distinct": "旧测试的瓦片完全在屏内。本组第一行在 y=0 之上，(3,0) 为 9，(3,1) 保持 0"
+      },
+      "file": "packages/game/src/present/draw-tilemap-pixels.grok-r1.test.ts",
+      "fullName": "G03-A drawTilemap 像素与接缝 G03-A06 瓦片跨过 y=0 时，屏内那一行写入 9，再下一行保持空白",
+      "assertions": [
+        {
+          "line": 126,
+          "endLine": 126,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 127,
+          "endLine": 127,
+          "matchers": ["toBe"]
+        }
+      ],
+      "axis": "boundary",
+      "oracle": {
+        "operands": "indices[3]、indices[320+3]",
+        "matcher": "toBe",
+        "exact": "9 与 0"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/present/draw-tilemap-pixels.grok-r1.test.ts",
+        "fullName": "G03-A drawTilemap 像素与接缝 G03-A06 瓦片跨过 y=0 时，屏内那一行写入 9，再下一行保持空白",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G03-A07",
+      "batch": "G03",
+      "group": "G03-A",
+      "primarySource": {
+        "file": "packages/game/src/present/draw-tilemap.ts",
+        "conditionLine": 122,
+        "condition": "rowPxY - 8 >= fb.height 时整行 continue（draw-tilemap.ts:122）。fenceFill 固定取 cells[0][0].lower（draw-tilemap.ts:114），所以禁取 id 不能放在第 0 格"
+      },
+      "caller": {
+        "file": "packages/game/src/present/present.ts",
+        "line": 303,
+        "expr": "drawTilemap(fb, ctx.tilemap, ctx.tileImages, gs.camera, 0, seamCoverage)"
+      },
+      "legalInput": "14 行 1 列，相机 {x:0,y:0}，layer 0。第 0 行 lower 为 4，第 13 行 lower 为 3，其余 lower 为 0。第 13 行 rowPxY-8=200。",
+      "oldTest": {
+        "sha": "1b1ec05f182fb2a09eaf06f7d3e3974368f69034",
+        "file": "packages/game/src/present/draw-tilemap.test.ts",
+        "fullName": "drawTilemap ±1 fence(M3.5 T6 修):layer 0 fence 位置回落到 tile(cells[0][0].lower 的 h=0)",
+        "assertionLine": 59,
+        "matcher": "toBeGreaterThan",
+        "checked": "layer 0 fence 对 id 5 的 get 次数大于 1",
+        "distinct": "旧测试证明 fence 会取 cells[0][0]。本组出屏的是第 13 行的 id 3，seen 不含 3，含屏内的 4"
+      },
+      "file": "packages/game/src/present/draw-tilemap-pixels.grok-r1.test.ts",
+      "fullName": "G03-A drawTilemap 像素与接缝 G03-A07 整行落在屏幕下方时不取该行的 tile id",
+      "assertions": [
+        {
+          "line": 144,
+          "endLine": 144,
+          "matchers": ["not.toContain"]
+        },
+        {
+          "line": 145,
+          "endLine": 145,
+          "matchers": ["toContain"]
+        }
+      ],
+      "axis": "boundary",
+      "oracle": {
+        "operands": "tiles.get 收到的 id 列表",
+        "matcher": "not.toContain / toContain",
+        "exact": "不含 3，含 4"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/present/draw-tilemap-pixels.grok-r1.test.ts",
+        "fullName": "G03-A drawTilemap 像素与接缝 G03-A07 整行落在屏幕下方时不取该行的 tile id",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G03-A08",
+      "batch": "G03",
+      "group": "G03-A",
+      "primarySource": {
+        "file": "packages/game/src/present/draw-tilemap.ts",
+        "conditionLine": 128,
+        "condition": "cellPxX - 16 >= fb.width 时整列 continue（draw-tilemap.ts:128）"
+      },
+      "caller": {
+        "file": "packages/game/src/present/present.ts",
+        "line": 303,
+        "expr": "drawTilemap(fb, ctx.tilemap, ctx.tileImages, gs.camera, 0, seamCoverage)"
+      },
+      "legalInput": "14 行 12 列，相机 {x:0,y:0}，layer 0。c=0 的 lower 为 4，c=11 的 lower 为 3。c=11 的 cellPxX-16=336。底 fence 在第 14 行，同样出屏。",
+      "oldTest": {
+        "sha": "1b1ec05f182fb2a09eaf06f7d3e3974368f69034",
+        "file": "packages/game/src/present/draw-tilemap.test.ts",
+        "fullName": "drawTilemap ±1 fence(M3.5 T6 修):layer 0 fence 位置回落到 tile(cells[0][0].lower 的 h=0)",
+        "assertionLine": 59,
+        "matcher": "toBeGreaterThan",
+        "checked": "1×1 图的 fence 会反复 get cells[0][0] 的 id",
+        "distinct": "旧图只有一列，无法把一列推出右边界。本组 c=11 的 id 3 不被 get，c=0 的 id 4 被 get"
+      },
+      "file": "packages/game/src/present/draw-tilemap-pixels.grok-r1.test.ts",
+      "fullName": "G03-A drawTilemap 像素与接缝 G03-A08 整列落在屏幕右边界外时不取该列的 tile id",
+      "assertions": [
+        {
+          "line": 164,
+          "endLine": 164,
+          "matchers": ["not.toContain"]
+        },
+        {
+          "line": 165,
+          "endLine": 165,
+          "matchers": ["toContain"]
+        }
+      ],
+      "axis": "boundary",
+      "oracle": {
+        "operands": "tiles.get 收到的 id 列表",
+        "matcher": "not.toContain / toContain",
+        "exact": "不含 3，含 4"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/present/draw-tilemap-pixels.grok-r1.test.ts",
+        "fullName": "G03-A drawTilemap 像素与接缝 G03-A08 整列落在屏幕右边界外时不取该列的 tile id",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G03-A09",
+      "batch": "G03",
+      "group": "G03-A",
+      "primarySource": {
+        "file": "packages/game/src/present/draw-tilemap.ts",
+        "conditionLine": 175,
+        "condition": "8 邻居按 dy 从 -1 到 1、再按 dx 从 -1 到 1 取第一个已覆盖像素（draw-tilemap.ts:175）"
+      },
+      "caller": {
+        "file": "packages/game/src/present/present.ts",
+        "line": 311,
+        "expr": "repairTilemapSeams(fb, seamCoverage)"
+      },
+      "legalInput": "3×3 缓冲。coverage[0]=1 且像素 4，coverage[5]=1 且像素 9。maxPasses=1。中心下标 4 未覆盖。",
+      "oldTest": {
+        "sha": "1b1ec05f182fb2a09eaf06f7d3e3974368f69034",
+        "file": "packages/game/src/present/draw-tilemap.test.ts",
+        "fullName": "repairTilemapSeams(瓦片接缝漏黑修复——血池\"黑色三角\"根因:原版不清屏遮住,我们 clear 到 0 露黑) 未覆盖像素用最近的已覆盖邻居填充",
+        "assertionLine": 172,
+        "matcher": "toBe",
+        "checked": "唯一邻居为 5 时中心被填成 5",
+        "distinct": "旧测试只有一个已覆盖邻居。本组西北是 4、东边是 9，中心取 4"
+      },
+      "file": "packages/game/src/present/draw-tilemap-pixels.grok-r1.test.ts",
+      "fullName": "G03-A drawTilemap 像素与接缝 G03-A09 接缝先取扫描顺序里的西北邻居，不取东边更晚的邻居",
+      "assertions": [
+        {
+          "line": 176,
+          "endLine": 176,
+          "matchers": ["toBe"]
+        }
+      ],
+      "axis": "positive",
+      "oracle": {
+        "operands": "indices[4]",
+        "matcher": "toBe",
+        "exact": "4"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/present/draw-tilemap-pixels.grok-r1.test.ts",
+        "fullName": "G03-A drawTilemap 像素与接缝 G03-A09 接缝先取扫描顺序里的西北邻居，不取东边更晚的邻居",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G03-A10",
+      "batch": "G03",
+      "group": "G03-A",
+      "primarySource": {
+        "file": "packages/game/src/present/draw-tilemap.ts",
+        "conditionLine": 167,
+        "condition": "循环上界是参数 maxPasses，本趟填完才成为下一趟的邻居（draw-tilemap.ts:167 与 draw-tilemap.ts:196）"
+      },
+      "caller": {
+        "file": "packages/game/src/present/present.ts",
+        "line": 311,
+        "expr": "repairTilemapSeams(fb, seamCoverage)"
+      },
+      "legalInput": "5×1。两端 coverage 为 1、像素为 3，中间三格未覆盖。maxPasses=1。",
+      "oldTest": {
+        "sha": "1b1ec05f182fb2a09eaf06f7d3e3974368f69034",
+        "file": "packages/game/src/present/draw-tilemap.test.ts",
+        "fullName": "repairTilemapSeams(瓦片接缝漏黑修复——血池\"黑色三角\"根因:原版不清屏遮住,我们 clear 到 0 露黑) 填宽接缝:逐圈向内扩散直到填满",
+        "assertionLine": 196,
+        "matcher": "toEqual",
+        "checked": "默认多趟把 [3,0,0,0,3] 扩成 [3,3,3,3,3]",
+        "distinct": "旧测试把宽缝填满。本组只跑一趟，结果是 [3,3,0,3,3]"
+      },
+      "file": "packages/game/src/present/draw-tilemap-pixels.grok-r1.test.ts",
+      "fullName": "G03-A drawTilemap 像素与接缝 G03-A10 maxPasses 为 1 时只填到紧邻已覆盖像素的一圈",
+      "assertions": [
+        {
+          "line": 187,
+          "endLine": 187,
+          "matchers": ["toEqual"]
+        }
+      ],
+      "axis": "boundary",
+      "oracle": {
+        "operands": "indices 五个字节",
+        "matcher": "toEqual",
+        "exact": "[3, 3, 0, 3, 3]"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/present/draw-tilemap-pixels.grok-r1.test.ts",
+        "fullName": "G03-A drawTilemap 像素与接缝 G03-A10 maxPasses 为 1 时只填到紧邻已覆盖像素的一圈",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G03-A11",
+      "batch": "G03",
+      "group": "G03-A",
+      "primarySource": {
+        "file": "packages/game/src/present/draw-tilemap.ts",
+        "conditionLine": 83,
+        "condition": "blitTileAt 把参数原样交给 blitTile（draw-tilemap.ts:83）。生产代码没有调用点"
+      },
+      "caller": {
+        "file": "packages/game/src/present/draw-tilemap.ts",
+        "line": 83,
+        "expr": "export function blitTileAt；生产路径没有调用。addCoverTileEntries 的 draw 走未导出的 blitTile"
+      },
+      "legalInput": "索引 12 的 1×1 不透明图，画到 (4,6)。",
+      "oldTest": {
+        "sha": "1b1ec05f182fb2a09eaf06f7d3e3974368f69034",
+        "file": "packages/game/src/present/draw-tilemap.test.ts",
+        "fullName": "drawTilemap lower (h=0) 画在 (-16,-8) 子行;upper (h=1) 画在 col/row baseline",
+        "assertionLine": 33,
+        "matcher": "toBe",
+        "checked": "drawTilemap 把 lower 画进 framebuffer，不经过 blitTileAt",
+        "distinct": "旧测试不调用 blitTileAt。本组 (4,6) 为 12"
+      },
+      "file": "packages/game/src/present/draw-tilemap-pixels.grok-r1.test.ts",
+      "fullName": "G03-A drawTilemap 像素与接缝 G03-A11 blitTileAt 把屏内 1×1 写成给定索引",
+      "assertions": [
+        {
+          "line": 193,
+          "endLine": 193,
+          "matchers": ["toBe"]
+        }
+      ],
+      "axis": "positive",
+      "oracle": {
+        "operands": "indices[6*320+4]",
+        "matcher": "toBe",
+        "exact": "12"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/present/draw-tilemap-pixels.grok-r1.test.ts",
+        "fullName": "G03-A drawTilemap 像素与接缝 G03-A11 blitTileAt 把屏内 1×1 写成给定索引",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G03-B01",
+      "batch": "G03",
+      "group": "G03-B",
+      "primarySource": {
+        "file": "packages/game/src/present/draw-sprite.ts",
+        "conditionLine": 34,
+        "condition": "anchorX 为 Math.floor(本帧 width/2)，anchorY 为本帧 height（draw-sprite.ts:34）"
+      },
+      "caller": {
+        "file": "packages/game/src/shell/bootstrap.ts",
+        "line": 348,
+        "expr": "const partyFrames = toSpriteImages(partyData.frames)"
+      },
+      "legalInput": "一帧宽 7 高 4，28 个索引都是 1。",
+      "oldTest": {
+        "sha": "da68e352c9118e2c285b1cb9ff82cb80fdb780b5",
+        "file": "packages/game/src/present/draw-sprite.test.ts",
+        "fullName": "toSpriteImages 逐帧 anchor(密道攀爬偏下根因回归) 每帧 anchorY = 自身高度,anchorX = 自身宽度/2(非整组钉死 frame0)",
+        "assertionLine": 27,
+        "matcher": "toEqual",
+        "checked": "宽 45 的七帧 anchorX 都是 22，anchorY 为 31/73/65",
+        "distinct": "旧样本全是偶数宽。本组奇数宽 7 的 anchorX 为 3，anchorY 为 4"
+      },
+      "file": "packages/game/src/present/draw-sprite-clip.grok-r1.test.ts",
+      "fullName": "G03-B drawSprite 锚点与裁剪 G03-B01 宽 7 高 4 的帧 anchorX 为 3，anchorY 为自身高度 4",
+      "assertions": [
+        {
+          "line": 25,
+          "endLine": 25,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 26,
+          "endLine": 26,
+          "matchers": ["toBe"]
+        }
+      ],
+      "axis": "positive",
+      "oracle": {
+        "operands": "anchorX、anchorY",
+        "matcher": "toBe",
+        "exact": "3 与 4"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/present/draw-sprite-clip.grok-r1.test.ts",
+        "fullName": "G03-B drawSprite 锚点与裁剪 G03-B01 宽 7 高 4 的帧 anchorX 为 3，anchorY 为自身高度 4",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G03-B02",
+      "batch": "G03",
+      "group": "G03-B",
+      "primarySource": {
+        "file": "packages/game/src/present/draw-sprite.ts",
+        "conditionLine": 29,
+        "condition": "frames.map 按每一帧自己的 width 计算 anchorX（draw-sprite.ts:29）"
+      },
+      "caller": {
+        "file": "packages/game/src/shell/bootstrap.ts",
+        "line": 348,
+        "expr": "const partyFrames = toSpriteImages(partyData.frames)"
+      },
+      "legalInput": "第一帧 1×2 像素 [4,5]，第二帧 6×2。",
+      "oldTest": {
+        "sha": "da68e352c9118e2c285b1cb9ff82cb80fdb780b5",
+        "file": "packages/game/src/present/draw-sprite.test.ts",
+        "fullName": "toSpriteImages 逐帧 anchor(密道攀爬偏下根因回归) 每帧 anchorY = 自身高度,anchorX = 自身宽度/2(非整组钉死 frame0)",
+        "assertionLine": 24,
+        "matcher": "toBe",
+        "checked": "第一帧高 31 的 anchorY 为 31，不借用后面更高的帧",
+        "distinct": "旧帧等宽。本组第一帧 anchorX 为 0、anchorY 为 2，第二帧 anchorX 为 3"
+      },
+      "file": "packages/game/src/present/draw-sprite-clip.grok-r1.test.ts",
+      "fullName": "G03-B drawSprite 锚点与裁剪 G03-B02 宽 1 的帧 anchorX 为 0，不跟相邻更宽的帧",
+      "assertions": [
+        {
+          "line": 31,
+          "endLine": 31,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 32,
+          "endLine": 32,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 33,
+          "endLine": 33,
+          "matchers": ["toBe"]
+        }
+      ],
+      "axis": "ownership",
+      "oracle": {
+        "operands": "images[0].anchorX、images[1].anchorX、images[0].anchorY",
+        "matcher": "toBe",
+        "exact": "0、3、2"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/present/draw-sprite-clip.grok-r1.test.ts",
+        "fullName": "G03-B drawSprite 锚点与裁剪 G03-B02 宽 1 的帧 anchorX 为 0，不跟相邻更宽的帧",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G03-B03",
+      "batch": "G03",
+      "group": "G03-B",
+      "primarySource": {
+        "file": "packages/game/src/present/draw-sprite.ts",
+        "conditionLine": 32,
+        "condition": "返回对象的 indices 与 opaque 就是入参同一引用（draw-sprite.ts:32）"
+      },
+      "caller": {
+        "file": "packages/game/src/shell/bootstrap.ts",
+        "line": 348,
+        "expr": "const partyFrames = toSpriteImages(partyData.frames)"
+      },
+      "legalInput": "一帧 2×1，indices 为 [1,2]，opaque 全 1。",
+      "oldTest": {
+        "sha": "da68e352c9118e2c285b1cb9ff82cb80fdb780b5",
+        "file": "packages/game/src/present/draw-sprite.test.ts",
+        "fullName": "toSpriteImages 逐帧 anchor(密道攀爬偏下根因回归) 每帧 anchorY = 自身高度,anchorX = 自身宽度/2(非整组钉死 frame0)",
+        "assertionLine": 27,
+        "matcher": "toEqual",
+        "checked": "只比较 anchor 数值，不比较缓冲引用",
+        "distinct": "本组 image.indices 与 image.opaque 分别是入参的同一对象"
+      },
+      "file": "packages/game/src/present/draw-sprite-clip.grok-r1.test.ts",
+      "fullName": "G03-B drawSprite 锚点与裁剪 G03-B03 toSpriteImages 复用调用方的 indices 与 opaque",
+      "assertions": [
+        {
+          "line": 39,
+          "endLine": 39,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 40,
+          "endLine": 40,
+          "matchers": ["toBe"]
+        }
+      ],
+      "axis": "ownership",
+      "oracle": {
+        "operands": "image.indices、image.opaque",
+        "matcher": "toBe",
+        "exact": "都与入参同一引用"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/present/draw-sprite-clip.grok-r1.test.ts",
+        "fullName": "G03-B drawSprite 锚点与裁剪 G03-B03 toSpriteImages 复用调用方的 indices 与 opaque",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G03-B04",
+      "batch": "G03",
+      "group": "G03-B",
+      "primarySource": {
+        "file": "packages/game/src/present/draw-sprite.ts",
+        "conditionLine": 43,
+        "condition": "drawSprite 按 x 继续循环并调用 writePixel（draw-sprite.ts:43）。越界像素由 writePixel 丢弃，循环不因此返回"
+      },
+      "caller": {
+        "file": "packages/game/src/present/present.ts",
+        "line": 373,
+        "expr": "draw: (f) => drawSprite(f, capturedFrame, capturedSX, capturedSY + 4)"
+      },
+      "legalInput": "anchor 为 0 的 2×1 图 [8,9]，画在 cx=-1、cy=5。",
+      "oldTest": {
+        "sha": "da68e352c9118e2c285b1cb9ff82cb80fdb780b5",
+        "file": "packages/game/src/present/draw-sprite.test.ts",
+        "fullName": "drawSprite 屏幕外像素不抛错",
+        "assertionLine": 83,
+        "matcher": "not.toThrow",
+        "checked": "完全在屏外时只断言不抛",
+        "distinct": "本组左像素出屏，(0,5) 为 9，(1,5) 保持 0"
+      },
+      "file": "packages/game/src/present/draw-sprite-clip.grok-r1.test.ts",
+      "fullName": "G03-B drawSprite 锚点与裁剪 G03-B04 左缘外的像素不写，紧挨着的屏内像素写入 9",
+      "assertions": [
+        {
+          "line": 46,
+          "endLine": 46,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 47,
+          "endLine": 47,
+          "matchers": ["toBe"]
+        }
+      ],
+      "axis": "boundary",
+      "oracle": {
+        "operands": "indices[5*320]、indices[5*320+1]",
+        "matcher": "toBe",
+        "exact": "9 与 0"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/present/draw-sprite-clip.grok-r1.test.ts",
+        "fullName": "G03-B drawSprite 锚点与裁剪 G03-B04 左缘外的像素不写，紧挨着的屏内像素写入 9",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G03-B05",
+      "batch": "G03",
+      "group": "G03-B",
+      "primarySource": {
+        "file": "packages/game/src/present/draw-sprite.ts",
+        "conditionLine": 42,
+        "condition": "y 循环在首行越界后仍画下一行（draw-sprite.ts:42）"
+      },
+      "caller": {
+        "file": "packages/game/src/present/present.ts",
+        "line": 373,
+        "expr": "draw: (f) => drawSprite(f, capturedFrame, capturedSX, capturedSY + 4)"
+      },
+      "legalInput": "anchor 为 0 的 1×2 图 [8,9]，画在 (3,-1)。",
+      "oldTest": {
+        "sha": "da68e352c9118e2c285b1cb9ff82cb80fdb780b5",
+        "file": "packages/game/src/present/draw-sprite.test.ts",
+        "fullName": "toSpriteImages 逐帧 anchor(密道攀爬偏下根因回归) 脚底对齐:任意高度帧在 drawSprite(cy) 处底边都落在同一行(sdlpal PAL_RLEGetHeight 逐帧)",
+        "assertionLine": 40,
+        "matcher": "toBe",
+        "checked": "脚底对齐时底边像素为 7，底边下一行保持 0",
+        "distinct": "旧帧底边在 cy。本组顶行在 y=0 之上，(3,0) 为 9，(3,1) 保持 0"
+      },
+      "file": "packages/game/src/present/draw-sprite-clip.grok-r1.test.ts",
+      "fullName": "G03-B drawSprite 锚点与裁剪 G03-B05 顶缘外的像素不写，下一行屏内像素写入 9",
+      "assertions": [
+        {
+          "line": 53,
+          "endLine": 53,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 54,
+          "endLine": 54,
+          "matchers": ["toBe"]
+        }
+      ],
+      "axis": "boundary",
+      "oracle": {
+        "operands": "indices[3]、indices[320+3]",
+        "matcher": "toBe",
+        "exact": "9 与 0"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/present/draw-sprite-clip.grok-r1.test.ts",
+        "fullName": "G03-B drawSprite 锚点与裁剪 G03-B05 顶缘外的像素不写，下一行屏内像素写入 9",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G03-B06",
+      "batch": "G03",
+      "group": "G03-B",
+      "primarySource": {
+        "file": "packages/game/src/present/draw-sprite.ts",
+        "conditionLine": 46,
+        "condition": "dstX+x 到达 319 时 writePixel 写入，下一列越界被丢掉（draw-sprite.ts:46）"
+      },
+      "caller": {
+        "file": "packages/game/src/present/present.ts",
+        "line": 373,
+        "expr": "draw: (f) => drawSprite(f, capturedFrame, capturedSX, capturedSY + 4)"
+      },
+      "legalInput": "anchor 为 0 的 2×1 图 [8,9]，画在 (319,4)。",
+      "oldTest": {
+        "sha": "da68e352c9118e2c285b1cb9ff82cb80fdb780b5",
+        "file": "packages/game/src/present/draw-sprite.test.ts",
+        "fullName": "drawSprite 屏幕外像素不抛错",
+        "assertionLine": 83,
+        "matcher": "not.toThrow",
+        "checked": "屏外调用不抛，不读 319 列",
+        "distinct": "本组 (319,4) 为 8"
+      },
+      "file": "packages/game/src/present/draw-sprite-clip.grok-r1.test.ts",
+      "fullName": "G03-B drawSprite 锚点与裁剪 G03-B06 右缘只写下 x=319 的像素，调用不抛错",
+      "assertions": [
+        {
+          "line": 60,
+          "endLine": 60,
+          "matchers": ["toBe"]
+        }
+      ],
+      "axis": "boundary",
+      "oracle": {
+        "operands": "indices[4*320+319]",
+        "matcher": "toBe",
+        "exact": "8"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/present/draw-sprite-clip.grok-r1.test.ts",
+        "fullName": "G03-B drawSprite 锚点与裁剪 G03-B06 右缘只写下 x=319 的像素，调用不抛错",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G03-B07",
+      "batch": "G03",
+      "group": "G03-B",
+      "primarySource": {
+        "file": "packages/game/src/present/draw-sprite.ts",
+        "conditionLine": 44,
+        "condition": "srcOff = y * width + x，按行写入 dstX+x（draw-sprite.ts:44）"
+      },
+      "caller": {
+        "file": "packages/game/src/present/present.ts",
+        "line": 373,
+        "expr": "draw: (f) => drawSprite(f, capturedFrame, capturedSX, capturedSY + 4)"
+      },
+      "legalInput": "anchor 为 0 的 3×1 图 [11,12,13]，画在 (10,7)。",
+      "oldTest": {
+        "sha": "da68e352c9118e2c285b1cb9ff82cb80fdb780b5",
+        "file": "packages/game/src/present/draw-sprite.test.ts",
+        "fullName": "drawSprite 画一个 2×2 精灵,anchor 在底部中心 (1, 2)",
+        "assertionLine": 53,
+        "matcher": "toBe",
+        "checked": "2×2 的四角为 1、2、3、4，anchor 在底部中心",
+        "distinct": "本组无锚点偏移，(10,7)(11,7)(12,7) 为 11、12、13"
+      },
+      "file": "packages/game/src/present/draw-sprite-clip.grok-r1.test.ts",
+      "fullName": "G03-B drawSprite 锚点与裁剪 G03-B07 3×1 按行序写入 11、12、13",
+      "assertions": [
+        {
+          "line": 66,
+          "endLine": 66,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 67,
+          "endLine": 67,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 68,
+          "endLine": 68,
+          "matchers": ["toBe"]
+        }
+      ],
+      "axis": "positive",
+      "oracle": {
+        "operands": "第 7 行 x=10、11、12",
+        "matcher": "toBe",
+        "exact": "11、12、13"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/present/draw-sprite-clip.grok-r1.test.ts",
+        "fullName": "G03-B drawSprite 锚点与裁剪 G03-B07 3×1 按行序写入 11、12、13",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G03-B08",
+      "batch": "G03",
+      "group": "G03-B",
+      "primarySource": {
+        "file": "packages/game/src/present/draw-sprite.ts",
+        "conditionLine": 45,
+        "condition": "opaque===0 时 continue，不 return（draw-sprite.ts:45）"
+      },
+      "caller": {
+        "file": "packages/game/src/present/present.ts",
+        "line": 373,
+        "expr": "draw: (f) => drawSprite(f, capturedFrame, capturedSX, capturedSY + 4)"
+      },
+      "legalInput": "3×1 索引 [1,2,3]、opaque [1,0,1]，画在 (10,7)。事先把 (11,7) 写成 4。",
+      "oldTest": {
+        "sha": "da68e352c9118e2c285b1cb9ff82cb80fdb780b5",
+        "file": "packages/game/src/present/draw-sprite.test.ts",
+        "fullName": "drawSprite opaque=0 不覆盖底面(M3.5 fix:透明判定走 opaque mask,非 idx===0)",
+        "assertionLine": 65,
+        "matcher": "toBe",
+        "checked": "单像素 opaque 0 不覆盖底下的 99",
+        "distinct": "旧测试没有孔右侧的像素。本组孔保持 4，右侧写成 3，左侧写成 1"
+      },
+      "file": "packages/game/src/present/draw-sprite-clip.grok-r1.test.ts",
+      "fullName": "G03-B drawSprite 锚点与裁剪 G03-B08 中间透明孔不挡住右侧不透明像素",
+      "assertions": [
+        {
+          "line": 75,
+          "endLine": 75,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 76,
+          "endLine": 76,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 77,
+          "endLine": 77,
+          "matchers": ["toBe"]
+        }
+      ],
+      "axis": "boundary",
+      "oracle": {
+        "operands": "(10,7)、(11,7)、(12,7)",
+        "matcher": "toBe",
+        "exact": "1、4、3"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/present/draw-sprite-clip.grok-r1.test.ts",
+        "fullName": "G03-B drawSprite 锚点与裁剪 G03-B08 中间透明孔不挡住右侧不透明像素",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G03-C01",
+      "batch": "G03",
+      "group": "G03-C",
+      "primarySource": {
+        "file": "packages/game/src/present/follower-pos.ts",
+        "conditionLine": 71,
+        "condition": "m!==2 时 right 的 offX 为 -16、offY 为 -8；返回 dir 取 trail[2].dir（follower-pos.ts:71 与 follower-pos.ts:42）"
+      },
+      "caller": {
+        "file": "packages/game/src/present/present.ts",
+        "line": 415,
+        "expr": "const fpos = computeFollowerWorldPos(followerState, m, (x, y) =>"
+      },
+      "legalInput": "party (1000,500)，walking。trail[0] (1000,500,down)，trail[1] (984,500,right)，trail[2] (968,500,up)。m=1，isWalkable 恒 true。",
+      "oldTest": {
+        "sha": "70a1fb44a34d884390caded82f2bdc518ff9b3e6",
+        "file": "packages/game/src/present/follower-pos.test.ts",
+        "fullName": "computeFollowerWorldPos —— port PAL_UpdatePartyGestures 的 fWalking 闸门(scene.c:658 vs 745) walking:trail[1]+方向偏移(m=1 down → +16,-8)+ 朝向 trail[2].dir,并捕获 frozenOffset(含 dir)",
+        "assertionLine": 22,
+        "matcher": "toEqual",
+        "checked": "m=1 朝下得到 {1000,492,down}，frozen {dx:0,dy:-8,dir:down}",
+        "distinct": "旧样本偏移方向和返回朝向相同。本组位置 {968,492,up}，frozen {dx:-32,dy:-8,dir:up}"
+      },
+      "file": "packages/game/src/present/follower-pos-axis.grok-r1.test.ts",
+      "fullName": "G03-C computeFollowerWorldPos 方向与冻结 G03-C01 m=1 且 trail[1] 朝右时偏移为 -16,-8，返回朝向仍是 trail[2]",
+      "assertions": [
+        {
+          "line": 28,
+          "endLine": 28,
+          "matchers": ["toEqual"]
+        },
+        {
+          "line": 29,
+          "endLine": 29,
+          "matchers": ["toEqual"]
+        }
+      ],
+      "axis": "positive",
+      "oracle": {
+        "operands": "返回值、frozenOffset[1]",
+        "matcher": "toEqual",
+        "exact": "{968,492,up} 与 {dx:-32,dy:-8,dir:up}"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/present/follower-pos-axis.grok-r1.test.ts",
+        "fullName": "G03-C computeFollowerWorldPos 方向与冻结 G03-C01 m=1 且 trail[1] 朝右时偏移为 -16,-8，返回朝向仍是 trail[2]",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G03-C02",
+      "batch": "G03",
+      "group": "G03-C",
+      "primarySource": {
+        "file": "packages/game/src/present/follower-pos.ts",
+        "conditionLine": 71,
+        "condition": "left 同时命中 offX=+16 与 offY=+8（follower-pos.ts:71）"
+      },
+      "caller": {
+        "file": "packages/game/src/present/present.ts",
+        "line": 415,
+        "expr": "const fpos = computeFollowerWorldPos(followerState, m, (x, y) =>"
+      },
+      "legalInput": "party (1000,500)，walking。trail[0] (1000,500,down)，trail[1] (984,500,left)，trail[2] (968,500,right)。m=1，isWalkable 恒 true。",
+      "oldTest": {
+        "sha": "70a1fb44a34d884390caded82f2bdc518ff9b3e6",
+        "file": "packages/game/src/present/follower-pos.test.ts",
+        "fullName": "computeFollowerWorldPos —— port PAL_UpdatePartyGestures 的 fWalking 闸门(scene.c:658 vs 745) walking:trail[1]+方向偏移(m=1 down → +16,-8)+ 朝向 trail[2].dir,并捕获 frozenOffset(含 dir)",
+        "assertionLine": 22,
+        "matcher": "toEqual",
+        "checked": "只钉了朝下的 +16,-8",
+        "distinct": "本组朝左得到 {1000,508,right}"
+      },
+      "file": "packages/game/src/present/follower-pos-axis.grok-r1.test.ts",
+      "fullName": "G03-C computeFollowerWorldPos 方向与冻结 G03-C02 m=1 且 trail[1] 朝左时偏移为 +16,+8",
+      "assertions": [
+        {
+          "line": 34,
+          "endLine": 34,
+          "matchers": ["toEqual"]
+        }
+      ],
+      "axis": "positive",
+      "oracle": {
+        "operands": "返回的 x、y、dir",
+        "matcher": "toEqual",
+        "exact": "{1000,508,right}"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/present/follower-pos-axis.grok-r1.test.ts",
+        "fullName": "G03-C computeFollowerWorldPos 方向与冻结 G03-C02 m=1 且 trail[1] 朝左时偏移为 +16,+8",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G03-C03",
+      "batch": "G03",
+      "group": "G03-C",
+      "primarySource": {
+        "file": "packages/game/src/present/follower-pos.ts",
+        "conditionLine": 72,
+        "condition": "up 的 offX 为 -16，offY 为 +8（follower-pos.ts:72）"
+      },
+      "caller": {
+        "file": "packages/game/src/present/present.ts",
+        "line": 415,
+        "expr": "const fpos = computeFollowerWorldPos(followerState, m, (x, y) =>"
+      },
+      "legalInput": "party (1000,500)，walking。trail[0] (1000,500,down)，trail[1] (984,500,up)，trail[2] (968,500,left)。m=1，isWalkable 恒 true。",
+      "oldTest": {
+        "sha": "70a1fb44a34d884390caded82f2bdc518ff9b3e6",
+        "file": "packages/game/src/present/follower-pos.test.ts",
+        "fullName": "computeFollowerWorldPos —— port PAL_UpdatePartyGestures 的 fWalking 闸门(scene.c:658 vs 745) walking:trail[1]+方向偏移(m=1 down → +16,-8)+ 朝向 trail[2].dir,并捕获 frozenOffset(含 dir)",
+        "assertionLine": 22,
+        "matcher": "toEqual",
+        "checked": "朝下的 offY 是 -8",
+        "distinct": "本组朝上得到 {968,508,left}"
+      },
+      "file": "packages/game/src/present/follower-pos-axis.grok-r1.test.ts",
+      "fullName": "G03-C computeFollowerWorldPos 方向与冻结 G03-C03 m=1 且 trail[1] 朝上时偏移为 -16,+8",
+      "assertions": [
+        {
+          "line": 39,
+          "endLine": 39,
+          "matchers": ["toEqual"]
+        }
+      ],
+      "axis": "positive",
+      "oracle": {
+        "operands": "返回的 x、y、dir",
+        "matcher": "toEqual",
+        "exact": "{968,508,left}"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/present/follower-pos-axis.grok-r1.test.ts",
+        "fullName": "G03-C computeFollowerWorldPos 方向与冻结 G03-C03 m=1 且 trail[1] 朝上时偏移为 -16,+8",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G03-C04",
+      "batch": "G03",
+      "group": "G03-C",
+      "primarySource": {
+        "file": "packages/game/src/present/follower-pos.ts",
+        "conditionLine": 69,
+        "condition": "m===2 时 offY 固定为 8，down 的 offX 为 +16（follower-pos.ts:69）"
+      },
+      "caller": {
+        "file": "packages/game/src/present/present.ts",
+        "line": 415,
+        "expr": "const fpos = computeFollowerWorldPos(followerState, m, (x, y) =>"
+      },
+      "legalInput": "party (1000,500)，walking。trail[0] (1000,500,down)，trail[1] (984,500,down)，trail[2] (968,500,left)。m=2，isWalkable 恒 true。",
+      "oldTest": {
+        "sha": "70a1fb44a34d884390caded82f2bdc518ff9b3e6",
+        "file": "packages/game/src/present/follower-pos.test.ts",
+        "fullName": "computeFollowerWorldPos —— port PAL_UpdatePartyGestures 的 fWalking 闸门(scene.c:658 vs 745) walking:trail[1]+方向偏移(m=1 down → +16,-8)+ 朝向 trail[2].dir,并捕获 frozenOffset(含 dir)",
+        "assertionLine": 22,
+        "matcher": "toEqual",
+        "checked": "m=1 朝下是 y=492，即 offY=-8",
+        "distinct": "本组 m=2 朝下得到 {1000,508,left}"
+      },
+      "file": "packages/game/src/present/follower-pos-axis.grok-r1.test.ts",
+      "fullName": "G03-C computeFollowerWorldPos 方向与冻结 G03-C04 m=2 朝下时偏移是 +16,+8，不是 m=1 的 +16,-8",
+      "assertions": [
+        {
+          "line": 44,
+          "endLine": 44,
+          "matchers": ["toEqual"]
+        }
+      ],
+      "axis": "boundary",
+      "oracle": {
+        "operands": "返回的 x、y、dir",
+        "matcher": "toEqual",
+        "exact": "{1000,508,left}"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/present/follower-pos-axis.grok-r1.test.ts",
+        "fullName": "G03-C computeFollowerWorldPos 方向与冻结 G03-C04 m=2 朝下时偏移是 +16,+8，不是 m=1 的 +16,-8",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G03-C05",
+      "batch": "G03",
+      "group": "G03-C",
+      "primarySource": {
+        "file": "packages/game/src/present/follower-pos.ts",
+        "conditionLine": 68,
+        "condition": "m===2 且 right 或 left 时 offX 为 -16（follower-pos.ts:68）"
+      },
+      "caller": {
+        "file": "packages/game/src/present/present.ts",
+        "line": 415,
+        "expr": "const fpos = computeFollowerWorldPos(followerState, m, (x, y) =>"
+      },
+      "legalInput": "party (1000,500)，walking。trail[0] (1000,500,down)，trail[1] (984,500,right)，trail[2] (968,500,down)。m=2，isWalkable 恒 true。",
+      "oldTest": {
+        "sha": "70a1fb44a34d884390caded82f2bdc518ff9b3e6",
+        "file": "packages/game/src/present/follower-pos.test.ts",
+        "fullName": "computeFollowerWorldPos —— port PAL_UpdatePartyGestures 的 fWalking 闸门(scene.c:658 vs 745) walking:trail[1]+方向偏移(m=1 down → +16,-8)+ 朝向 trail[2].dir,并捕获 frozenOffset(含 dir)",
+        "assertionLine": 22,
+        "matcher": "toEqual",
+        "checked": "没有 m=2 的样本",
+        "distinct": "本组 m=2 朝右得到 {968,508,down}"
+      },
+      "file": "packages/game/src/present/follower-pos-axis.grok-r1.test.ts",
+      "fullName": "G03-C computeFollowerWorldPos 方向与冻结 G03-C05 m=2 朝右时水平偏移为 -16，垂直仍是 +8",
+      "assertions": [
+        {
+          "line": 49,
+          "endLine": 49,
+          "matchers": ["toEqual"]
+        }
+      ],
+      "axis": "positive",
+      "oracle": {
+        "operands": "返回的 x、y、dir",
+        "matcher": "toEqual",
+        "exact": "{968,508,down}"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/present/follower-pos-axis.grok-r1.test.ts",
+        "fullName": "G03-C computeFollowerWorldPos 方向与冻结 G03-C05 m=2 朝右时水平偏移为 -16，垂直仍是 +8",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G03-C06",
+      "batch": "G03",
+      "group": "G03-C",
+      "primarySource": {
+        "file": "packages/game/src/present/follower-pos.ts",
+        "conditionLine": 77,
+        "condition": "isWalkable 为假时先把坐标退回 trail[1]，再按退回后的坐标写 frozenOffset（follower-pos.ts:77 与 follower-pos.ts:82）"
+      },
+      "caller": {
+        "file": "packages/game/src/present/present.ts",
+        "line": 415,
+        "expr": "const fpos = computeFollowerWorldPos(followerState, m, (x, y) =>"
+      },
+      "legalInput": "与 C04 相同的 trail，但 m=1、朝下，isWalkable 恒 false。",
+      "oldTest": {
+        "sha": "70a1fb44a34d884390caded82f2bdc518ff9b3e6",
+        "file": "packages/game/src/present/follower-pos.test.ts",
+        "fullName": "computeFollowerWorldPos —— port PAL_UpdatePartyGestures 的 fWalking 闸门(scene.c:658 vs 745) walking + 偏移落水:回退 trail[1](scene.c:712 障碍回退,仅 fWalking 分支)",
+        "assertionLine": 29,
+        "matcher": "toEqual",
+        "checked": "回退后的位置等于 trail[1] {984,500,down}，不读 frozenOffset",
+        "distinct": "本组位置仍是 {984,500,down}，frozen 为 {dx:-16,dy:0,dir:down}"
+      },
+      "file": "packages/game/src/present/follower-pos-axis.grok-r1.test.ts",
+      "fullName": "G03-C computeFollowerWorldPos 方向与冻结 G03-C06 偏移落在障碍上时，冻结的是退回 trail[1] 之后的位移",
+      "assertions": [
+        {
+          "line": 55,
+          "endLine": 55,
+          "matchers": ["toEqual"]
+        },
+        {
+          "line": 56,
+          "endLine": 56,
+          "matchers": ["toEqual"]
+        }
+      ],
+      "axis": "exception",
+      "oracle": {
+        "operands": "返回值、frozenOffset[1]",
+        "matcher": "toEqual",
+        "exact": "{984,500,down} 与 {dx:-16,dy:0,dir:down}"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/present/follower-pos-axis.grok-r1.test.ts",
+        "fullName": "G03-C computeFollowerWorldPos 方向与冻结 G03-C06 偏移落在障碍上时，冻结的是退回 trail[1] 之后的位移",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G03-C07",
+      "batch": "G03",
+      "group": "G03-C",
+      "primarySource": {
+        "file": "packages/game/src/present/follower-pos.ts",
+        "conditionLine": 82,
+        "condition": "walking 分支不读已有 frozenOffset，算完后覆盖 frozenOffset[m]（follower-pos.ts:82）"
+      },
+      "caller": {
+        "file": "packages/game/src/present/present.ts",
+        "line": 415,
+        "expr": "const fpos = computeFollowerWorldPos(followerState, m, (x, y) =>"
+      },
+      "legalInput": "m=1 朝下，isWalkable 恒 true。事先 frozenOffset[1] 为 {dx:50,dy:50,dir:up}。",
+      "oldTest": {
+        "sha": "70a1fb44a34d884390caded82f2bdc518ff9b3e6",
+        "file": "packages/game/src/present/follower-pos.test.ts",
+        "fullName": "computeFollowerWorldPos —— port PAL_UpdatePartyGestures 的 fWalking 闸门(scene.c:658 vs 745) not walking + 有 frozenOffset:**位置冻结**、**朝向用当前 trail[2].dir**(sdlpal scene.c:761,不跟队长 0x15)",
+        "assertionLine": 44,
+        "matcher": "toEqual",
+        "checked": "not walking 时位置用旧冻结，朝向用当前 trail[2]",
+        "distinct": "本组 walking 得到 {1000,492,down}，冻结被改成 {dx:0,dy:-8,dir:down}"
+      },
+      "file": "packages/game/src/present/follower-pos-axis.grok-r1.test.ts",
+      "fullName": "G03-C computeFollowerWorldPos 方向与冻结 G03-C07 走路时不沿用旧冻结，并把它改写成这次的位移",
+      "assertions": [
+        {
+          "line": 63,
+          "endLine": 63,
+          "matchers": ["toEqual"]
+        },
+        {
+          "line": 64,
+          "endLine": 64,
+          "matchers": ["toEqual"]
+        }
+      ],
+      "axis": "repeat",
+      "oracle": {
+        "operands": "返回值、frozenOffset[1]",
+        "matcher": "toEqual",
+        "exact": "{1000,492,down} 与 {dx:0,dy:-8,dir:down}"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/present/follower-pos-axis.grok-r1.test.ts",
+        "fullName": "G03-C computeFollowerWorldPos 方向与冻结 G03-C07 走路时不沿用旧冻结，并把它改写成这次的位移",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G03-C08",
+      "batch": "G03",
+      "group": "G03-C",
+      "primarySource": {
+        "file": "packages/game/src/present/follower-pos.ts",
+        "conditionLine": 42,
+        "condition": "curDir = trail[2]?.dir ?? baseDir（follower-pos.ts:42）"
+      },
+      "caller": {
+        "file": "packages/game/src/present/present.ts",
+        "line": 415,
+        "expr": "const fpos = computeFollowerWorldPos(followerState, m, (x, y) =>"
+      },
+      "legalInput": "trail 只有两项。(1000,500,down) 与 (984,500,left)。m=1，isWalkable 恒 true。",
+      "oldTest": {
+        "sha": "70a1fb44a34d884390caded82f2bdc518ff9b3e6",
+        "file": "packages/game/src/present/follower-pos.test.ts",
+        "fullName": "computeFollowerWorldPos —— port PAL_UpdatePartyGestures 的 fWalking 闸门(scene.c:658 vs 745) walking:trail[1]+方向偏移(m=1 down → +16,-8)+ 朝向 trail[2].dir,并捕获 frozenOffset(含 dir)",
+        "assertionLine": 22,
+        "matcher": "toEqual",
+        "checked": "trail[2] 存在时朝向取 trail[2]",
+        "distinct": "本组没有 trail[2]，结果 {1000,508,left}"
+      },
+      "file": "packages/game/src/present/follower-pos-axis.grok-r1.test.ts",
+      "fullName": "G03-C computeFollowerWorldPos 方向与冻结 G03-C08 trail 没有第 3 项时，朝向回退 trail[1].dir",
+      "assertions": [
+        {
+          "line": 72,
+          "endLine": 72,
+          "matchers": ["toEqual"]
+        }
+      ],
+      "axis": "boundary",
+      "oracle": {
+        "operands": "返回的 x、y、dir",
+        "matcher": "toEqual",
+        "exact": "{1000,508,left}"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/present/follower-pos-axis.grok-r1.test.ts",
+        "fullName": "G03-C computeFollowerWorldPos 方向与冻结 G03-C08 trail 没有第 3 项时，朝向回退 trail[1].dir",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G03-C09",
+      "batch": "G03",
+      "group": "G03-C",
+      "primarySource": {
+        "file": "packages/game/src/present/follower-pos.ts",
+        "conditionLine": 60,
+        "condition": "not walking 且没有冻结快照时，坐标取 trail[m] ?? trail 最后一项（follower-pos.ts:60）"
+      },
+      "caller": {
+        "file": "packages/game/src/present/present.ts",
+        "line": 415,
+        "expr": "const fpos = computeFollowerWorldPos(followerState, m, (x, y) =>"
+      },
+      "legalInput": "walking false，无 frozenOffset。trail 三项，最后一项 (111,222,up)。m=5。",
+      "oldTest": {
+        "sha": "70a1fb44a34d884390caded82f2bdc518ff9b3e6",
+        "file": "packages/game/src/present/follower-pos.test.ts",
+        "fullName": "computeFollowerWorldPos —— port PAL_UpdatePartyGestures 的 fWalking 闸门(scene.c:658 vs 745) not walking + 无 frozenOffset(0x46 摆位):跟随者落 trail[m]=队长+m×offset(只退一格,sdlpal script.c:1690),非 trail[1] 再叠偏移",
+        "assertionLine": 75,
+        "matcher": "toEqual",
+        "checked": "m=1 与 m=2 都落在各自 trail[m] 上",
+        "distinct": "本组 m=5 超出 trail，结果是最后一项 {111,222,up}"
+      },
+      "file": "packages/game/src/present/follower-pos-axis.grok-r1.test.ts",
+      "fullName": "G03-C computeFollowerWorldPos 方向与冻结 G03-C09 静止且成员下标超出 trail 时，用最后一项的坐标",
+      "assertions": [
+        {
+          "line": 84,
+          "endLine": 84,
+          "matchers": ["toEqual"]
+        }
+      ],
+      "axis": "boundary",
+      "oracle": {
+        "operands": "返回的 x、y、dir",
+        "matcher": "toEqual",
+        "exact": "{111,222,up}"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/present/follower-pos-axis.grok-r1.test.ts",
+        "fullName": "G03-C computeFollowerWorldPos 方向与冻结 G03-C09 静止且成员下标超出 trail 时，用最后一项的坐标",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G03-C10",
+      "batch": "G03",
+      "group": "G03-C",
+      "primarySource": {
+        "file": "packages/game/src/present/follower-pos.ts",
+        "conditionLine": 51,
+        "condition": "not walking 在读取冻结或 trail 后直接返回，不调用 isWalkable（follower-pos.ts:51）"
+      },
+      "caller": {
+        "file": "packages/game/src/present/present.ts",
+        "line": 415,
+        "expr": "const fpos = computeFollowerWorldPos(followerState, m, (x, y) =>"
+      },
+      "legalInput": "walking false。trail[1] 为 (30,40,right)，trail[2] 为 (50,60,left)。m=1。回调即使被调用也会返回 false 并把计数加一。",
+      "oldTest": {
+        "sha": "70a1fb44a34d884390caded82f2bdc518ff9b3e6",
+        "file": "packages/game/src/present/follower-pos.test.ts",
+        "fullName": "computeFollowerWorldPos —— port PAL_UpdatePartyGestures 的 fWalking 闸门(scene.c:658 vs 745) not walking 不捕获 frozenOffset(只在 walking 捕获,避免冻结值漂移)",
+        "assertionLine": 98,
+        "matcher": "toBeUndefined",
+        "checked": "静止不写入 frozenOffset，不统计 isWalkable",
+        "distinct": "本组调用次数为 0，位置是 trail[1] {30,40,left}"
+      },
+      "file": "packages/game/src/present/follower-pos-axis.grok-r1.test.ts",
+      "fullName": "G03-C computeFollowerWorldPos 方向与冻结 G03-C10 静止摆位不调用 isWalkable",
+      "assertions": [
+        {
+          "line": 101,
+          "endLine": 101,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 102,
+          "endLine": 102,
+          "matchers": ["toEqual"]
+        }
+      ],
+      "axis": "cancel",
+      "oracle": {
+        "operands": "isWalkable 调用次数、返回值",
+        "matcher": "toBe / toEqual",
+        "exact": "0 与 {30,40,left}"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/present/follower-pos-axis.grok-r1.test.ts",
+        "fullName": "G03-C computeFollowerWorldPos 方向与冻结 G03-C10 静止摆位不调用 isWalkable",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G03-D01",
+      "batch": "G03",
+      "group": "G03-D",
+      "primarySource": {
+        "file": "packages/game/src/present/follower-render.ts",
+        "conditionLine": 54,
+        "condition": "FOLLOWER_STEP_FRAME[stepFrame] 越界时用 ?? 0（follower-render.ts:54）。朝右方向值是 3"
+      },
+      "caller": {
+        "file": "packages/game/src/present/present.ts",
+        "line": 482,
+        "expr": "for (const it of computeFollowerRenderItems("
+      },
+      "legalInput": "trail 四项，最后一项朝右，坐标 (100,200)。followers [82]，walking，stepFrame 4。",
+      "oldTest": {
+        "sha": "b8df64d7d9f8657a3911a8b9765ffc2d2695aae3",
+        "file": "packages/game/src/present/follower-render.test.ts",
+        "fullName": "computeFollowerRenderItems(0x98 跟随者,sdlpal scene.c:732-743/767-771) 行走帧 = dir*3 + iStepFrameFollower[step](序列 [0,2,0,1],区别于 leader [0,1,0,2])",
+        "assertionLine": 52,
+        "matcher": "toBe",
+        "checked": "step 0/1/2/3 的朝右帧是 9、11、9、10",
+        "distinct": "旧序列没有下标 4。本组长度 1，frameIdx 9，spriteNum 82"
+      },
+      "file": "packages/game/src/present/follower-render-gap.grok-r1.test.ts",
+      "fullName": "G03-D computeFollowerRenderItems 缺槽与越界步 G03-D01 行走且 stepFrame 为 4 时步帧回落到 0，朝右的帧是 9",
+      "assertions": [
+        {
+          "line": 30,
+          "endLine": 30,
+          "matchers": ["toHaveLength"]
+        },
+        {
+          "line": 31,
+          "endLine": 31,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 32,
+          "endLine": 32,
+          "matchers": ["toBe"]
+        }
+      ],
+      "axis": "boundary",
+      "oracle": {
+        "operands": "items.length、frameIdx、spriteNum",
+        "matcher": "toHaveLength / toBe",
+        "exact": "1、9、82"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/present/follower-render-gap.grok-r1.test.ts",
+        "fullName": "G03-D computeFollowerRenderItems 缺槽与越界步 G03-D01 行走且 stepFrame 为 4 时步帧回落到 0，朝右的帧是 9",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G03-D02",
+      "batch": "G03",
+      "group": "G03-D",
+      "primarySource": {
+        "file": "packages/game/src/present/follower-render.ts",
+        "conditionLine": 52,
+        "condition": "缺槽时 continue，后面的 k 继续（follower-render.ts:52）"
+      },
+      "caller": {
+        "file": "packages/game/src/present/present.ts",
+        "line": 482,
+        "expr": "for (const it of computeFollowerRenderItems("
+      },
+      "legalInput": "trail 长度 5，下标 3 是空槽，下标 4 为 (90,190,down)。followers [82,83]，站立，stepFrame 0。",
+      "oldTest": {
+        "sha": "b8df64d7d9f8657a3911a8b9765ffc2d2695aae3",
+        "file": "packages/game/src/present/follower-render.test.ts",
+        "fullName": "computeFollowerRenderItems(0x98 跟随者,sdlpal scene.c:732-743/767-771) trail 深度不足(< 4)→ 跳过(不报错)",
+        "assertionLine": 19,
+        "matcher": "toEqual",
+        "checked": "trail 只有 3 项时整个结果为 []",
+        "distinct": "旧测试后面没有更远的槽。本组只留下 followerIndex 1、sprite 83、帧 0、坐标 (90,190)"
+      },
+      "file": "packages/game/src/present/follower-render-gap.grok-r1.test.ts",
+      "fullName": "G03-D computeFollowerRenderItems 缺槽与越界步 G03-D02 第一个跟随者缺 trail[3]、第二个有 trail[4] 时只留下 index 1",
+      "assertions": [
+        {
+          "line": 43,
+          "endLine": 43,
+          "matchers": ["toHaveLength"]
+        },
+        {
+          "line": 44,
+          "endLine": 49,
+          "matchers": ["toEqual"]
+        }
+      ],
+      "axis": "exception",
+      "oracle": {
+        "operands": "items.length、唯一一项",
+        "matcher": "toHaveLength / toEqual",
+        "exact": "1，且为 {worldX:90,worldY:190,frameIdx:0,spriteNum:83,followerIndex:1}"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/present/follower-render-gap.grok-r1.test.ts",
+        "fullName": "G03-D computeFollowerRenderItems 缺槽与越界步 G03-D02 第一个跟随者缺 trail[3]、第二个有 trail[4] 时只留下 index 1",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G03-D03",
+      "batch": "G03",
+      "group": "G03-D",
+      "primarySource": {
+        "file": "packages/game/src/present/follower-render.ts",
+        "conditionLine": 58,
+        "condition": "frameIdx = 方向值 * 3 + 步帧。朝左是 1，FOLLOWER_STEP_FRAME[1] 是 2（follower-render.ts:58 与 follower-render.ts:24）"
+      },
+      "caller": {
+        "file": "packages/game/src/present/present.ts",
+        "line": 482,
+        "expr": "for (const it of computeFollowerRenderItems("
+      },
+      "legalInput": "trail 最后一项 (40,50,left)。followers [83]，walking，stepFrame 1。",
+      "oldTest": {
+        "sha": "b8df64d7d9f8657a3911a8b9765ffc2d2695aae3",
+        "file": "packages/game/src/present/follower-render.test.ts",
+        "fullName": "computeFollowerRenderItems(0x98 跟随者,sdlpal scene.c:732-743/767-771) 站立帧 = dir*3(无 step;left dir=1 → 3)",
+        "assertionLine": 40,
+        "matcher": "toBe",
+        "checked": "站立朝左的帧是 3，步帧被忽略",
+        "distinct": "本组行走，frameIdx 为 5，坐标 40 与 50"
+      },
+      "file": "packages/game/src/present/follower-render-gap.grok-r1.test.ts",
+      "fullName": "G03-D computeFollowerRenderItems 缺槽与越界步 G03-D03 朝左行走且 stepFrame 为 1 时帧是 5",
+      "assertions": [
+        {
+          "line": 55,
+          "endLine": 55,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 56,
+          "endLine": 56,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 57,
+          "endLine": 57,
+          "matchers": ["toBe"]
+        }
+      ],
+      "axis": "positive",
+      "oracle": {
+        "operands": "frameIdx、worldX、worldY",
+        "matcher": "toBe",
+        "exact": "5、40、50"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/present/follower-render-gap.grok-r1.test.ts",
+        "fullName": "G03-D computeFollowerRenderItems 缺槽与越界步 G03-D03 朝左行走且 stepFrame 为 1 时帧是 5",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G03-D04",
+      "batch": "G03",
+      "group": "G03-D",
+      "primarySource": {
+        "file": "packages/game/src/present/follower-render.ts",
+        "conditionLine": 52,
+        "condition": "某个 k 缺槽只跳过自己（follower-render.ts:52）。朝上行走 stepFrame 3 的步帧是 1，帧为 7"
+      },
+      "caller": {
+        "file": "packages/game/src/present/present.ts",
+        "line": 482,
+        "expr": "for (const it of computeFollowerRenderItems("
+      },
+      "legalInput": "trail 只有 4 项，最后一项朝上。followers [82,83]，walking，stepFrame 3。",
+      "oldTest": {
+        "sha": "b8df64d7d9f8657a3911a8b9765ffc2d2695aae3",
+        "file": "packages/game/src/present/follower-render.test.ts",
+        "fullName": "computeFollowerRenderItems(0x98 跟随者,sdlpal scene.c:732-743/767-771) 两 follower → trail[3]/[4],各自 dir/role/index",
+        "assertionLine": 67,
+        "matcher": "toHaveLength",
+        "checked": "两个槽都在时长度为 2",
+        "distinct": "本组长度 1，followerIndex 0，sprite 82，frameIdx 7"
+      },
+      "file": "packages/game/src/present/follower-render-gap.grok-r1.test.ts",
+      "fullName": "G03-D computeFollowerRenderItems 缺槽与越界步 G03-D04 第二个跟随者没有 trail[4] 时，第一个仍然留下",
+      "assertions": [
+        {
+          "line": 62,
+          "endLine": 62,
+          "matchers": ["toHaveLength"]
+        },
+        {
+          "line": 63,
+          "endLine": 63,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 64,
+          "endLine": 64,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 65,
+          "endLine": 65,
+          "matchers": ["toBe"]
+        }
+      ],
+      "axis": "exception",
+      "oracle": {
+        "operands": "length、followerIndex、spriteNum、frameIdx",
+        "matcher": "toHaveLength / toBe",
+        "exact": "1、0、82、7"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/present/follower-render-gap.grok-r1.test.ts",
+        "fullName": "G03-D computeFollowerRenderItems 缺槽与越界步 G03-D04 第二个跟随者没有 trail[4] 时，第一个仍然留下",
+        "status": "passed"
+      }
     }
   ],
   "existingProof": [
@@ -4603,6 +6291,422 @@
       "id": "G02-BLOCK-alpha1",
       "classification": "blocked",
       "reason": "本机 canvas toBlob 不保留 alpha=1，也不保留 alpha 0 下面的非零 R。png.ts:43 仍按 A>0 计算，但该宿主给不出可观察的 alpha=1 输入。这不是产品缺陷，A 组未停。"
+    },
+    {
+      "id": "G03-EP-subrow",
+      "classification": "existing-proof",
+      "reason": "lower/upper 的屏坐标已由旧 drawTilemap 证明",
+      "oldTest": {
+        "sha": "1b1ec05f182fb2a09eaf06f7d3e3974368f69034",
+        "file": "packages/game/src/present/draw-tilemap.test.ts",
+        "fullName": "drawTilemap lower (h=0) 画在 (-16,-8) 子行;upper (h=1) 画在 col/row baseline",
+        "assertionLine": 33,
+        "matcher": "toBe",
+        "checked": "(144,104) 为 1，(160,112) 为 2"
+      }
+    },
+    {
+      "id": "G03-EP-fence0",
+      "classification": "existing-proof",
+      "reason": "layer 0 fence 回落到 cells[0][0].lower 已证明",
+      "oldTest": {
+        "sha": "1b1ec05f182fb2a09eaf06f7d3e3974368f69034",
+        "file": "packages/game/src/present/draw-tilemap.test.ts",
+        "fullName": "drawTilemap ±1 fence(M3.5 T6 修):layer 0 fence 位置回落到 tile(cells[0][0].lower 的 h=0)",
+        "assertionLine": 59,
+        "matcher": "toBeGreaterThan",
+        "checked": "id 5 的 get 次数大于 1"
+      }
+    },
+    {
+      "id": "G03-EP-fence1",
+      "classification": "existing-proof",
+      "reason": "layer 1 fence 不取图已证明",
+      "oldTest": {
+        "sha": "1b1ec05f182fb2a09eaf06f7d3e3974368f69034",
+        "file": "packages/game/src/present/draw-tilemap.test.ts",
+        "fullName": "drawTilemap ±1 fence:layer 1 fence 位置 fallback = -1,fence 不调 tiles.get",
+        "assertionLine": 84,
+        "matcher": "toEqual",
+        "checked": "calls 为 [0xfe]"
+      }
+    },
+    {
+      "id": "G03-EP-id0",
+      "classification": "existing-proof",
+      "reason": "layer 0 的 9-bit id 已证明",
+      "oldTest": {
+        "sha": "1b1ec05f182fb2a09eaf06f7d3e3974368f69034",
+        "file": "packages/game/src/present/draw-tilemap.test.ts",
+        "fullName": "drawTilemap layer 0:9-bit tile id 从低 16 bit 提取 (d & 0xff) | ((d >> 4) & 0x100)",
+        "assertionLine": 104,
+        "matcher": "toContain",
+        "checked": "captured 含 0x110"
+      }
+    },
+    {
+      "id": "G03-EP-id1",
+      "classification": "existing-proof",
+      "reason": "layer 1 的 id 减 1 与跳过 -1 已证明",
+      "oldTest": {
+        "sha": "1b1ec05f182fb2a09eaf06f7d3e3974368f69034",
+        "file": "packages/game/src/present/draw-tilemap.test.ts",
+        "fullName": "drawTilemap layer 1:tile id 从高 16 bit 提取且 -1;高 16 bit = 0 → id < 0 → skip",
+        "assertionLine": 126,
+        "matcher": "toContain",
+        "checked": "captured 含 0x10f 且不含 -1"
+      }
+    },
+    {
+      "id": "G03-EP-coverage",
+      "classification": "existing-proof",
+      "reason": "画过的像素记 coverage、远处不记已证明",
+      "oldTest": {
+        "sha": "1b1ec05f182fb2a09eaf06f7d3e3974368f69034",
+        "file": "packages/game/src/present/draw-tilemap.test.ts",
+        "fullName": "drawTilemap 传入 coverage 时标记已画像素;远处未画处不标记",
+        "assertionLine": 155,
+        "matcher": "toBe",
+        "checked": "画过处为 1，coverage[0] 为 0"
+      }
+    },
+    {
+      "id": "G03-EP-seam",
+      "classification": "existing-proof",
+      "reason": "单一邻居填缝已证明",
+      "oldTest": {
+        "sha": "1b1ec05f182fb2a09eaf06f7d3e3974368f69034",
+        "file": "packages/game/src/present/draw-tilemap.test.ts",
+        "fullName": "repairTilemapSeams(瓦片接缝漏黑修复——血池\"黑色三角\"根因:原版不清屏遮住,我们 clear 到 0 露黑) 未覆盖像素用最近的已覆盖邻居填充",
+        "assertionLine": 172,
+        "matcher": "toBe",
+        "checked": "中心由 0 变成邻居 5"
+      }
+    },
+    {
+      "id": "G03-EP-seam0",
+      "classification": "existing-proof",
+      "reason": "已覆盖的 index 0 不被邻居改写已证明",
+      "oldTest": {
+        "sha": "1b1ec05f182fb2a09eaf06f7d3e3974368f69034",
+        "file": "packages/game/src/present/draw-tilemap.test.ts",
+        "fullName": "repairTilemapSeams(瓦片接缝漏黑修复——血池\"黑色三角\"根因:原版不清屏遮住,我们 clear 到 0 露黑) 已覆盖像素保持不变,即使其值为 0(合法的不透明 index-0,不能当漏黑)",
+        "assertionLine": 183,
+        "matcher": "toBe",
+        "checked": "indices[0] 保持 0，indices[1] 为 9"
+      }
+    },
+    {
+      "id": "G03-EP-seam-wide",
+      "classification": "existing-proof",
+      "reason": "默认趟数把宽缝填满已证明",
+      "oldTest": {
+        "sha": "1b1ec05f182fb2a09eaf06f7d3e3974368f69034",
+        "file": "packages/game/src/present/draw-tilemap.test.ts",
+        "fullName": "repairTilemapSeams(瓦片接缝漏黑修复——血池\"黑色三角\"根因:原版不清屏遮住,我们 clear 到 0 露黑) 填宽接缝:逐圈向内扩散直到填满",
+        "assertionLine": 196,
+        "matcher": "toEqual",
+        "checked": "五个像素都是 3"
+      }
+    },
+    {
+      "id": "G03-EP-even-anchor",
+      "classification": "existing-proof",
+      "reason": "偶数宽逐帧锚点已证明",
+      "oldTest": {
+        "sha": "da68e352c9118e2c285b1cb9ff82cb80fdb780b5",
+        "file": "packages/game/src/present/draw-sprite.test.ts",
+        "fullName": "toSpriteImages 逐帧 anchor(密道攀爬偏下根因回归) 每帧 anchorY = 自身高度,anchorX = 自身宽度/2(非整组钉死 frame0)",
+        "assertionLine": 27,
+        "matcher": "toEqual",
+        "checked": "宽 45 的 anchorX 为 [22,22,22,22,22,22,22]"
+      }
+    },
+    {
+      "id": "G03-EP-foot",
+      "classification": "existing-proof",
+      "reason": "不同高度的脚底对齐已证明",
+      "oldTest": {
+        "sha": "da68e352c9118e2c285b1cb9ff82cb80fdb780b5",
+        "file": "packages/game/src/present/draw-sprite.test.ts",
+        "fullName": "toSpriteImages 逐帧 anchor(密道攀爬偏下根因回归) 脚底对齐:任意高度帧在 drawSprite(cy) 处底边都落在同一行(sdlpal PAL_RLEGetHeight 逐帧)",
+        "assertionLine": 40,
+        "matcher": "toBe",
+        "checked": "底边为 7，底边下一行为 0"
+      }
+    },
+    {
+      "id": "G03-EP-blit2",
+      "classification": "existing-proof",
+      "reason": "2×2 四角像素已证明",
+      "oldTest": {
+        "sha": "da68e352c9118e2c285b1cb9ff82cb80fdb780b5",
+        "file": "packages/game/src/present/draw-sprite.test.ts",
+        "fullName": "drawSprite 画一个 2×2 精灵,anchor 在底部中心 (1, 2)",
+        "assertionLine": 53,
+        "matcher": "toBe",
+        "checked": "四角为 1、2、3、4"
+      }
+    },
+    {
+      "id": "G03-EP-opaque0",
+      "classification": "existing-proof",
+      "reason": "单像素 opaque 0 不覆盖已证明",
+      "oldTest": {
+        "sha": "da68e352c9118e2c285b1cb9ff82cb80fdb780b5",
+        "file": "packages/game/src/present/draw-sprite.test.ts",
+        "fullName": "drawSprite opaque=0 不覆盖底面(M3.5 fix:透明判定走 opaque mask,非 idx===0)",
+        "assertionLine": 65,
+        "matcher": "toBe",
+        "checked": "底下的 99 保持 99"
+      }
+    },
+    {
+      "id": "G03-EP-opaque-index0",
+      "classification": "existing-proof",
+      "reason": "opaque 的 index 0 仍画已证明",
+      "oldTest": {
+        "sha": "da68e352c9118e2c285b1cb9ff82cb80fdb780b5",
+        "file": "packages/game/src/present/draw-sprite.test.ts",
+        "fullName": "drawSprite opaque=1 且 idx=0 仍画(palette index 0 是合法 opaque 像素,M3.5 fix)",
+        "assertionLine": 74,
+        "matcher": "toBe",
+        "checked": "该像素为 0"
+      }
+    },
+    {
+      "id": "G03-EP-offscreen",
+      "classification": "existing-proof",
+      "reason": "完全出屏不抛已证明",
+      "oldTest": {
+        "sha": "da68e352c9118e2c285b1cb9ff82cb80fdb780b5",
+        "file": "packages/game/src/present/draw-sprite.test.ts",
+        "fullName": "drawSprite 屏幕外像素不抛错",
+        "assertionLine": 83,
+        "matcher": "not.toThrow",
+        "checked": "屏外 drawSprite 不抛"
+      }
+    },
+    {
+      "id": "G03-EP-empty",
+      "classification": "existing-proof",
+      "reason": "无跟随者返回空数组已证明",
+      "oldTest": {
+        "sha": "b8df64d7d9f8657a3911a8b9765ffc2d2695aae3",
+        "file": "packages/game/src/present/follower-render.test.ts",
+        "fullName": "computeFollowerRenderItems(0x98 跟随者,sdlpal scene.c:732-743/767-771) 无 follower → 空",
+        "assertionLine": 12,
+        "matcher": "toEqual",
+        "checked": "空数组与 undefined 都得到 []"
+      }
+    },
+    {
+      "id": "G03-EP-short",
+      "classification": "existing-proof",
+      "reason": "trail 短于 4 时跳过已证明",
+      "oldTest": {
+        "sha": "b8df64d7d9f8657a3911a8b9765ffc2d2695aae3",
+        "file": "packages/game/src/present/follower-render.test.ts",
+        "fullName": "computeFollowerRenderItems(0x98 跟随者,sdlpal scene.c:732-743/767-771) trail 深度不足(< 4)→ 跳过(不报错)",
+        "assertionLine": 19,
+        "matcher": "toEqual",
+        "checked": "结果为 []"
+      }
+    },
+    {
+      "id": "G03-EP-trail3",
+      "classification": "existing-proof",
+      "reason": "跟随者坐在 trail[3] 且 sprite 为 82 已证明",
+      "oldTest": {
+        "sha": "b8df64d7d9f8657a3911a8b9765ffc2d2695aae3",
+        "file": "packages/game/src/present/follower-render.test.ts",
+        "fullName": "computeFollowerRenderItems(0x98 跟随者,sdlpal scene.c:732-743/767-771) follower 0 → trail[3] 位置(world,无偏移)+ 角色 id",
+        "assertionLine": 31,
+        "matcher": "toBe",
+        "checked": "worldX 100、worldY 200、spriteNum 82"
+      }
+    },
+    {
+      "id": "G03-EP-stand-left",
+      "classification": "existing-proof",
+      "reason": "站立朝左帧 3 已证明",
+      "oldTest": {
+        "sha": "b8df64d7d9f8657a3911a8b9765ffc2d2695aae3",
+        "file": "packages/game/src/present/follower-render.test.ts",
+        "fullName": "computeFollowerRenderItems(0x98 跟随者,sdlpal scene.c:732-743/767-771) 站立帧 = dir*3(无 step;left dir=1 → 3)",
+        "assertionLine": 40,
+        "matcher": "toBe",
+        "checked": "frameIdx 为 3"
+      }
+    },
+    {
+      "id": "G03-EP-walk-right",
+      "classification": "existing-proof",
+      "reason": "朝右行走序列 [0,2,0,1] 已证明",
+      "oldTest": {
+        "sha": "b8df64d7d9f8657a3911a8b9765ffc2d2695aae3",
+        "file": "packages/game/src/present/follower-render.test.ts",
+        "fullName": "computeFollowerRenderItems(0x98 跟随者,sdlpal scene.c:732-743/767-771) 行走帧 = dir*3 + iStepFrameFollower[step](序列 [0,2,0,1],区别于 leader [0,1,0,2])",
+        "assertionLine": 52,
+        "matcher": "toBe",
+        "checked": "四步帧为 9、11、9、10"
+      }
+    },
+    {
+      "id": "G03-EP-two",
+      "classification": "existing-proof",
+      "reason": "两个槽都在时留下两项已证明",
+      "oldTest": {
+        "sha": "b8df64d7d9f8657a3911a8b9765ffc2d2695aae3",
+        "file": "packages/game/src/present/follower-render.test.ts",
+        "fullName": "computeFollowerRenderItems(0x98 跟随者,sdlpal scene.c:732-743/767-771) 两 follower → trail[3]/[4],各自 dir/role/index",
+        "assertionLine": 67,
+        "matcher": "toHaveLength",
+        "checked": "长度为 2"
+      }
+    },
+    {
+      "id": "G03-EP-down",
+      "classification": "existing-proof",
+      "reason": "m=1 朝下的 +16,-8 已证明",
+      "oldTest": {
+        "sha": "70a1fb44a34d884390caded82f2bdc518ff9b3e6",
+        "file": "packages/game/src/present/follower-pos.test.ts",
+        "fullName": "computeFollowerWorldPos —— port PAL_UpdatePartyGestures 的 fWalking 闸门(scene.c:658 vs 745) walking:trail[1]+方向偏移(m=1 down → +16,-8)+ 朝向 trail[2].dir,并捕获 frozenOffset(含 dir)",
+        "assertionLine": 22,
+        "matcher": "toEqual",
+        "checked": "{1000,492,down}，frozen {dx:0,dy:-8,dir:down}"
+      }
+    },
+    {
+      "id": "G03-EP-block-pos",
+      "classification": "existing-proof",
+      "reason": "障碍回退后的位置等于 trail[1] 已证明，旧断言不读冻结增量",
+      "oldTest": {
+        "sha": "70a1fb44a34d884390caded82f2bdc518ff9b3e6",
+        "file": "packages/game/src/present/follower-pos.test.ts",
+        "fullName": "computeFollowerWorldPos —— port PAL_UpdatePartyGestures 的 fWalking 闸门(scene.c:658 vs 745) walking + 偏移落水:回退 trail[1](scene.c:712 障碍回退,仅 fWalking 分支)",
+        "assertionLine": 29,
+        "matcher": "toEqual",
+        "checked": "位置 {984,500,down}"
+      }
+    },
+    {
+      "id": "G03-EP-frozen",
+      "classification": "existing-proof",
+      "reason": "静止时用冻结位置、朝向用 trail[2] 已证明",
+      "oldTest": {
+        "sha": "70a1fb44a34d884390caded82f2bdc518ff9b3e6",
+        "file": "packages/game/src/present/follower-pos.test.ts",
+        "fullName": "computeFollowerWorldPos —— port PAL_UpdatePartyGestures 的 fWalking 闸门(scene.c:658 vs 745) not walking + 有 frozenOffset:**位置冻结**、**朝向用当前 trail[2].dir**(sdlpal scene.c:761,不跟队长 0x15)",
+        "assertionLine": 44,
+        "matcher": "toEqual",
+        "checked": "{2016,292,down}"
+      }
+    },
+    {
+      "id": "G03-EP-place",
+      "classification": "existing-proof",
+      "reason": "0x46 摆位落在 trail[m] 已证明",
+      "oldTest": {
+        "sha": "70a1fb44a34d884390caded82f2bdc518ff9b3e6",
+        "file": "packages/game/src/present/follower-pos.test.ts",
+        "fullName": "computeFollowerWorldPos —— port PAL_UpdatePartyGestures 的 fWalking 闸门(scene.c:658 vs 745) not walking + 无 frozenOffset(0x46 摆位):跟随者落 trail[m]=队长+m×offset(只退一格,sdlpal script.c:1690),非 trail[1] 再叠偏移",
+        "assertionLine": 75,
+        "matcher": "toEqual",
+        "checked": "m=1 为 {1016,492,down}"
+      }
+    },
+    {
+      "id": "G03-EP-null",
+      "classification": "existing-proof",
+      "reason": "trail 长度不超过 1 时返回 null 已证明",
+      "oldTest": {
+        "sha": "70a1fb44a34d884390caded82f2bdc518ff9b3e6",
+        "file": "packages/game/src/present/follower-pos.test.ts",
+        "fullName": "computeFollowerWorldPos —— port PAL_UpdatePartyGestures 的 fWalking 闸门(scene.c:658 vs 745) trail 不足(length<=1)→ null(不画跟随者)",
+        "assertionLine": 103,
+        "matcher": "toBeNull",
+        "checked": "返回 null"
+      }
+    },
+    {
+      "id": "G03-EP-ride",
+      "classification": "existing-proof",
+      "reason": "船行时静止朝向跟 trail 已证明",
+      "oldTest": {
+        "sha": "70a1fb44a34d884390caded82f2bdc518ff9b3e6",
+        "file": "packages/game/src/present/follower-pos.test.ts",
+        "fullName": "computeFollowerWorldPos —— port PAL_UpdatePartyGestures 的 fWalking 闸门(scene.c:658 vs 745) 集成(船划行):划船(ride)每步把 trail 刷成船行方向 → 跟随者朝向跟 trail(=队长),静止位置仍冻结",
+        "assertionLine": 120,
+        "matcher": "toBe",
+        "checked": "dir 为 down"
+      }
+    },
+    {
+      "id": "G03-EP-talk",
+      "classification": "existing-proof",
+      "reason": "站立对话不跟队长回头已证明",
+      "oldTest": {
+        "sha": "70a1fb44a34d884390caded82f2bdc518ff9b3e6",
+        "file": "packages/game/src/present/follower-pos.test.ts",
+        "fullName": "computeFollowerWorldPos —— port PAL_UpdatePartyGestures 的 fWalking 闸门(scene.c:658 vs 745) 回归(隐龙窟):站立对话时队长 0x15 回头不动 trail → 跟随者保持走来方向(不跟队长转)",
+        "assertionLine": 137,
+        "matcher": "toBe",
+        "checked": "dir 为 left"
+      }
+    },
+    {
+      "id": "G03-EP-nocap",
+      "classification": "existing-proof",
+      "reason": "静止不写入 frozenOffset 已证明",
+      "oldTest": {
+        "sha": "70a1fb44a34d884390caded82f2bdc518ff9b3e6",
+        "file": "packages/game/src/present/follower-pos.test.ts",
+        "fullName": "computeFollowerWorldPos —— port PAL_UpdatePartyGestures 的 fWalking 闸门(scene.c:658 vs 745) not walking 不捕获 frozenOffset(只在 walking 捕获,避免冻结值漂移)",
+        "assertionLine": 98,
+        "matcher": "toBeUndefined",
+        "checked": "frozenOffset[1] 为 undefined"
+      }
+    },
+    {
+      "id": "G03-EP-cover",
+      "classification": "existing-proof",
+      "reason": "present 整帧里的 cover tile 像素已证明，本组不再单测 addCoverTileEntries",
+      "oldTest": {
+        "sha": "904add1ff4450de8c720c3f18c4452c292f28bae",
+        "file": "packages/game/src/present/present.test.ts",
+        "fullName": "P0.b Y-sort + cover-tile cover-tile:layer1 tile height>0 且满足条件 → tile 画在 fb 上(sprite 重叠)",
+        "assertionLine": 1298,
+        "matcher": "toBe",
+        "checked": "重叠像素为 7"
+      }
+    },
+    {
+      "id": "G03-EP-cover-y",
+      "classification": "existing-proof",
+      "reason": "cover tile 的 blit_y 已由 present 整帧证明",
+      "oldTest": {
+        "sha": "904add1ff4450de8c720c3f18c4452c292f28bae",
+        "file": "packages/game/src/present/present.test.ts",
+        "fullName": "P0.b Y-sort + cover-tile cover-tile blit_y 公式 = dy*16 + dh*8 + 7 - bitmap.height(sdlpal scene.c:358 相消化)",
+        "assertionLine": 1359,
+        "matcher": "toBe",
+        "checked": "(144,60) 为 9"
+      }
+    },
+    {
+      "id": "G03-EP-cover-far",
+      "classification": "existing-proof",
+      "reason": "远离角色时不画 cover tile 已由 present 整帧证明",
+      "oldTest": {
+        "sha": "904add1ff4450de8c720c3f18c4452c292f28bae",
+        "file": "packages/game/src/present/present.test.ts",
+        "fullName": "P0.b Y-sort + cover-tile cover-tile 不画超出范围的 tile(party 远离,height 条件不满足 → tile 不出现)",
+        "assertionLine": 1408,
+        "matcher": "toBe",
+        "checked": "画面上没有颜色 7"
+      }
     }
   ]
 }

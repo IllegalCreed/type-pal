@@ -1,0 +1,33 @@
+{
+  "id": "G03-A",
+  "batch": "G03",
+  "axis": "接缝邻居扫描从北向南改成从南向北",
+  "source": "packages/game/src/present/draw-tilemap.ts",
+  "testFile": "src/present/draw-tilemap-pixels.grok-r1.test.ts",
+  "target": "G03-A09",
+  "accepted": true,
+  "reasons": [],
+  "sha256": {
+    "original": "42b97e13874649122b736f29e639bc60339fcc7a6d7f2c50510f7e66edd82269",
+    "mutant": "db46007a7eb2a4acbf62c3d1cf445a2715832932225ca1abe796642a258d6dbe",
+    "restored": "42b97e13874649122b736f29e639bc60339fcc7a6d7f2c50510f7e66edd82269"
+  },
+  "exitCode": {
+    "original": 0,
+    "mutant": 1,
+    "restored": 0
+  },
+  "signal": {
+    "original": null,
+    "mutant": null,
+    "restored": null
+  },
+  "counts": {
+    "original": 11,
+    "mutantFailed": 1,
+    "restored": 11
+  },
+  "assertionError": "AssertionError: expected 9 to be 4 // Object.is equality\n    at /private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/grok-r1-G03-A-ufm9v3/packages/game/src/present/draw-tilemap-pixels.grok-r1.test.ts:176:27\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64",
+  "fullName": "G03-A drawTilemap 像素与接缝 G03-A09 接缝先取扫描顺序里的西北邻居，不取东边更晚的邻居",
+  "names": 11
+}

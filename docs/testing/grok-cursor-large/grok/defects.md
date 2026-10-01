@@ -16,6 +16,16 @@
 
 本批新合同 36，不是 40。多出来的分支已经由 png、P10、tileset-blob、dialog L23、rle-decode 的旧断言覆盖，记在 `contracts.json` 的 `existingProof`。目标 400/40/40 没有改小。
 
+## G03
+
+没有停组的产品缺陷。
+
+`blitTile` 的 y<0 分支和 `writePixel` 的越界返回给出同一屏内像素。G03-A06 只锁定可见结果：跨过 y=0 时 (3,0) 为 9、(3,1) 为 0。能单独打掉 blit 裁剪的是 G03-A05 的 coverage：负列会写到 `coverage[5*320-1]`。
+
+`addCoverTileEntries` 的负坐标用 `Math.trunc`。负的 dy/dx 在后面被 `dy < 0` / `dx < 0` 丢掉，trunc 与 floor 在能发出的瓦片上看不到差别。cover tile 的像素、blit_y 和远处不画已经在 `present.test.ts` 的 P0.b，记为 existing-proof，没有再写一条同像素合同。
+
+本批新合同 33，不是 40。目标 400/40/40 没有改小。
+
 ## 未跑
 
-G03–G10 尚未交付。coverage-delta、receipt 的完整候选 SHA、全包 test、根 lint、docs check、diff check、verifier 留在末批。
+G04–G10 尚未交付。coverage-delta、receipt 的完整候选 SHA、全包 test、根 lint、docs check、diff check、verifier 留在末批。

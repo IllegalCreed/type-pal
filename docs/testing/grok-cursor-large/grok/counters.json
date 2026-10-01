@@ -1,6 +1,6 @@
 {
-  "batch": "G02",
-  "acceptedCounters": 8,
+  "batch": "G03",
+  "acceptedCounters": 12,
   "probeRejected": true,
   "counters": [
     {
@@ -1709,6 +1709,375 @@
         "docs/testing/grok-cursor-large/grok/counters/G02-D/restored.json",
         "docs/testing/grok-cursor-large/grok/counters/G02-D/restored.stdout",
         "docs/testing/grok-cursor-large/grok/counters/G02-D/restored.stderr"
+      ]
+    },
+    {
+      "id": "G03-A",
+      "batch": "G03",
+      "accepted": true,
+      "reasons": [],
+      "axis": "接缝邻居扫描从北向南改成从南向北",
+      "source": "packages/game/src/present/draw-tilemap.ts",
+      "testFile": "src/present/draw-tilemap-pixels.grok-r1.test.ts",
+      "target": "G03-A09",
+      "targetFullName": "G03-A drawTilemap 像素与接缝 G03-A09 接缝先取扫描顺序里的西北邻居，不取东边更晚的邻居",
+      "assertionError": "AssertionError: expected 9 to be 4 // Object.is equality",
+      "sha256": {
+        "original": "42b97e13874649122b736f29e639bc60339fcc7a6d7f2c50510f7e66edd82269",
+        "mutant": "db46007a7eb2a4acbf62c3d1cf445a2715832932225ca1abe796642a258d6dbe",
+        "restored": "42b97e13874649122b736f29e639bc60339fcc7a6d7f2c50510f7e66edd82269"
+      },
+      "exitCode": {
+        "original": 0,
+        "mutant": 1,
+        "restored": 0
+      },
+      "signal": {
+        "original": null,
+        "mutant": null,
+        "restored": null
+      },
+      "counts": {
+        "original": 11,
+        "mutantFailed": 1,
+        "restored": 11
+      },
+      "executionCount": 11,
+      "executions": [
+        {
+          "file": "src/present/draw-tilemap-pixels.grok-r1.test.ts",
+          "fullName": "G03-A drawTilemap 像素与接缝 G03-A01 layer 0 的 lower 图缺失时，画面用 tile 0，upper 仍用自己的图",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/draw-tilemap-pixels.grok-r1.test.ts",
+          "fullName": "G03-A drawTilemap 像素与接缝 G03-A02 layer 1 的 upper 有 id 但没有图时，不回落 tile 0",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/draw-tilemap-pixels.grok-r1.test.ts",
+          "fullName": "G03-A drawTilemap 像素与接缝 G03-A03 layer 1 的 lower 图缺失时仍回落 tile 0，upper 的 -1 不画",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/draw-tilemap-pixels.grok-r1.test.ts",
+          "fullName": "G03-A drawTilemap 像素与接缝 G03-A04 透明像素不记 coverage，不透明的 index 0 会写入并记 coverage",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/draw-tilemap-pixels.grok-r1.test.ts",
+          "fullName": "G03-A drawTilemap 像素与接缝 G03-A05 瓦片跨过 x=0 时，负列不记 coverage，屏内列写入 9",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/draw-tilemap-pixels.grok-r1.test.ts",
+          "fullName": "G03-A drawTilemap 像素与接缝 G03-A06 瓦片跨过 y=0 时，屏内那一行写入 9，再下一行保持空白",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/draw-tilemap-pixels.grok-r1.test.ts",
+          "fullName": "G03-A drawTilemap 像素与接缝 G03-A07 整行落在屏幕下方时不取该行的 tile id",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/draw-tilemap-pixels.grok-r1.test.ts",
+          "fullName": "G03-A drawTilemap 像素与接缝 G03-A08 整列落在屏幕右边界外时不取该列的 tile id",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/draw-tilemap-pixels.grok-r1.test.ts",
+          "fullName": "G03-A drawTilemap 像素与接缝 G03-A09 接缝先取扫描顺序里的西北邻居，不取东边更晚的邻居",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/draw-tilemap-pixels.grok-r1.test.ts",
+          "fullName": "G03-A drawTilemap 像素与接缝 G03-A10 maxPasses 为 1 时只填到紧邻已覆盖像素的一圈",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/draw-tilemap-pixels.grok-r1.test.ts",
+          "fullName": "G03-A drawTilemap 像素与接缝 G03-A11 blitTileAt 把屏内 1×1 写成给定索引",
+          "status": "passed"
+        }
+      ],
+      "patch": {
+        "path": "docs/testing/grok-cursor-large/grok/counters/G03-A/patch.diff",
+        "sha256": "02daec5a2cc45f4ab5bfda71bdd204dba76fb0f1de97026e764811382208f447",
+        "bytes": 510
+      },
+      "logs": [
+        "docs/testing/grok-cursor-large/grok/counters/G03-A/original.json",
+        "docs/testing/grok-cursor-large/grok/counters/G03-A/original.stdout",
+        "docs/testing/grok-cursor-large/grok/counters/G03-A/original.stderr",
+        "docs/testing/grok-cursor-large/grok/counters/G03-A/mutant.json",
+        "docs/testing/grok-cursor-large/grok/counters/G03-A/mutant.stdout",
+        "docs/testing/grok-cursor-large/grok/counters/G03-A/mutant.stderr",
+        "docs/testing/grok-cursor-large/grok/counters/G03-A/restored.json",
+        "docs/testing/grok-cursor-large/grok/counters/G03-A/restored.stdout",
+        "docs/testing/grok-cursor-large/grok/counters/G03-A/restored.stderr"
+      ]
+    },
+    {
+      "id": "G03-B",
+      "batch": "G03",
+      "accepted": true,
+      "reasons": [],
+      "axis": "宽度大于 1 的奇数帧水平锚点再减 1",
+      "source": "packages/game/src/present/draw-sprite.ts",
+      "testFile": "src/present/draw-sprite-clip.grok-r1.test.ts",
+      "target": "G03-B01",
+      "targetFullName": "G03-B drawSprite 锚点与裁剪 G03-B01 宽 7 高 4 的帧 anchorX 为 3，anchorY 为自身高度 4",
+      "assertionError": "AssertionError: expected 2 to be 3 // Object.is equality",
+      "sha256": {
+        "original": "d17f04ccaf8a771b6832cd7e833c093140d52f9e990ff97023c748e17e4cf7dc",
+        "mutant": "85ae23535b6c6dc9408998c6ce361889ca7e5041c9d068d6e696815383326459",
+        "restored": "d17f04ccaf8a771b6832cd7e833c093140d52f9e990ff97023c748e17e4cf7dc"
+      },
+      "exitCode": {
+        "original": 0,
+        "mutant": 1,
+        "restored": 0
+      },
+      "signal": {
+        "original": null,
+        "mutant": null,
+        "restored": null
+      },
+      "counts": {
+        "original": 8,
+        "mutantFailed": 1,
+        "restored": 8
+      },
+      "executionCount": 8,
+      "executions": [
+        {
+          "file": "src/present/draw-sprite-clip.grok-r1.test.ts",
+          "fullName": "G03-B drawSprite 锚点与裁剪 G03-B01 宽 7 高 4 的帧 anchorX 为 3，anchorY 为自身高度 4",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/draw-sprite-clip.grok-r1.test.ts",
+          "fullName": "G03-B drawSprite 锚点与裁剪 G03-B02 宽 1 的帧 anchorX 为 0，不跟相邻更宽的帧",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/draw-sprite-clip.grok-r1.test.ts",
+          "fullName": "G03-B drawSprite 锚点与裁剪 G03-B03 toSpriteImages 复用调用方的 indices 与 opaque",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/draw-sprite-clip.grok-r1.test.ts",
+          "fullName": "G03-B drawSprite 锚点与裁剪 G03-B04 左缘外的像素不写，紧挨着的屏内像素写入 9",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/draw-sprite-clip.grok-r1.test.ts",
+          "fullName": "G03-B drawSprite 锚点与裁剪 G03-B05 顶缘外的像素不写，下一行屏内像素写入 9",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/draw-sprite-clip.grok-r1.test.ts",
+          "fullName": "G03-B drawSprite 锚点与裁剪 G03-B06 右缘只写下 x=319 的像素，调用不抛错",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/draw-sprite-clip.grok-r1.test.ts",
+          "fullName": "G03-B drawSprite 锚点与裁剪 G03-B07 3×1 按行序写入 11、12、13",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/draw-sprite-clip.grok-r1.test.ts",
+          "fullName": "G03-B drawSprite 锚点与裁剪 G03-B08 中间透明孔不挡住右侧不透明像素",
+          "status": "passed"
+        }
+      ],
+      "patch": {
+        "path": "docs/testing/grok-cursor-large/grok/counters/G03-B/patch.diff",
+        "sha256": "89ac5dfd725dcbe04a0fc64debf2d795f88b73eb64a60842790d067964d84d12",
+        "bytes": 340
+      },
+      "logs": [
+        "docs/testing/grok-cursor-large/grok/counters/G03-B/original.json",
+        "docs/testing/grok-cursor-large/grok/counters/G03-B/original.stdout",
+        "docs/testing/grok-cursor-large/grok/counters/G03-B/original.stderr",
+        "docs/testing/grok-cursor-large/grok/counters/G03-B/mutant.json",
+        "docs/testing/grok-cursor-large/grok/counters/G03-B/mutant.stdout",
+        "docs/testing/grok-cursor-large/grok/counters/G03-B/mutant.stderr",
+        "docs/testing/grok-cursor-large/grok/counters/G03-B/restored.json",
+        "docs/testing/grok-cursor-large/grok/counters/G03-B/restored.stdout",
+        "docs/testing/grok-cursor-large/grok/counters/G03-B/restored.stderr"
+      ]
+    },
+    {
+      "id": "G03-C",
+      "batch": "G03",
+      "accepted": true,
+      "reasons": [],
+      "axis": "第二名跟随者左右朝向的水平偏移被固定成 +16",
+      "source": "packages/game/src/present/follower-pos.ts",
+      "testFile": "src/present/follower-pos-axis.grok-r1.test.ts",
+      "target": "G03-C05",
+      "targetFullName": "G03-C computeFollowerWorldPos 方向与冻结 G03-C05 m=2 朝右时水平偏移为 -16，垂直仍是 +8",
+      "assertionError": "AssertionError: expected { x: 1000, y: 508, dir: 'down' } to deeply equal { x: 968, y: 508, dir: 'down' }",
+      "sha256": {
+        "original": "88886dfc55aeb11ab443dd68d9a31a7fd8f921a8222576ddc877797bc13ed5cf",
+        "mutant": "eb9ece26a240a903c481e81453197f0a8249925e15b1f7a99ca804ab82337cfb",
+        "restored": "88886dfc55aeb11ab443dd68d9a31a7fd8f921a8222576ddc877797bc13ed5cf"
+      },
+      "exitCode": {
+        "original": 0,
+        "mutant": 1,
+        "restored": 0
+      },
+      "signal": {
+        "original": null,
+        "mutant": null,
+        "restored": null
+      },
+      "counts": {
+        "original": 10,
+        "mutantFailed": 1,
+        "restored": 10
+      },
+      "executionCount": 10,
+      "executions": [
+        {
+          "file": "src/present/follower-pos-axis.grok-r1.test.ts",
+          "fullName": "G03-C computeFollowerWorldPos 方向与冻结 G03-C01 m=1 且 trail[1] 朝右时偏移为 -16,-8，返回朝向仍是 trail[2]",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/follower-pos-axis.grok-r1.test.ts",
+          "fullName": "G03-C computeFollowerWorldPos 方向与冻结 G03-C02 m=1 且 trail[1] 朝左时偏移为 +16,+8",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/follower-pos-axis.grok-r1.test.ts",
+          "fullName": "G03-C computeFollowerWorldPos 方向与冻结 G03-C03 m=1 且 trail[1] 朝上时偏移为 -16,+8",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/follower-pos-axis.grok-r1.test.ts",
+          "fullName": "G03-C computeFollowerWorldPos 方向与冻结 G03-C04 m=2 朝下时偏移是 +16,+8，不是 m=1 的 +16,-8",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/follower-pos-axis.grok-r1.test.ts",
+          "fullName": "G03-C computeFollowerWorldPos 方向与冻结 G03-C05 m=2 朝右时水平偏移为 -16，垂直仍是 +8",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/follower-pos-axis.grok-r1.test.ts",
+          "fullName": "G03-C computeFollowerWorldPos 方向与冻结 G03-C06 偏移落在障碍上时，冻结的是退回 trail[1] 之后的位移",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/follower-pos-axis.grok-r1.test.ts",
+          "fullName": "G03-C computeFollowerWorldPos 方向与冻结 G03-C07 走路时不沿用旧冻结，并把它改写成这次的位移",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/follower-pos-axis.grok-r1.test.ts",
+          "fullName": "G03-C computeFollowerWorldPos 方向与冻结 G03-C08 trail 没有第 3 项时，朝向回退 trail[1].dir",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/follower-pos-axis.grok-r1.test.ts",
+          "fullName": "G03-C computeFollowerWorldPos 方向与冻结 G03-C09 静止且成员下标超出 trail 时，用最后一项的坐标",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/follower-pos-axis.grok-r1.test.ts",
+          "fullName": "G03-C computeFollowerWorldPos 方向与冻结 G03-C10 静止摆位不调用 isWalkable",
+          "status": "passed"
+        }
+      ],
+      "patch": {
+        "path": "docs/testing/grok-cursor-large/grok/counters/G03-C/patch.diff",
+        "sha256": "b2be2f84da95e78dab96db961342ee383997cb9ba2f647280a95fe4859b85f8b",
+        "bytes": 421
+      },
+      "logs": [
+        "docs/testing/grok-cursor-large/grok/counters/G03-C/original.json",
+        "docs/testing/grok-cursor-large/grok/counters/G03-C/original.stdout",
+        "docs/testing/grok-cursor-large/grok/counters/G03-C/original.stderr",
+        "docs/testing/grok-cursor-large/grok/counters/G03-C/mutant.json",
+        "docs/testing/grok-cursor-large/grok/counters/G03-C/mutant.stdout",
+        "docs/testing/grok-cursor-large/grok/counters/G03-C/mutant.stderr",
+        "docs/testing/grok-cursor-large/grok/counters/G03-C/restored.json",
+        "docs/testing/grok-cursor-large/grok/counters/G03-C/restored.stdout",
+        "docs/testing/grok-cursor-large/grok/counters/G03-C/restored.stderr"
+      ]
+    },
+    {
+      "id": "G03-D",
+      "batch": "G03",
+      "accepted": true,
+      "reasons": [],
+      "axis": "跟随者缺 trail 槽时从跳过该槽改成终止后续槽",
+      "source": "packages/game/src/present/follower-render.ts",
+      "testFile": "src/present/follower-render-gap.grok-r1.test.ts",
+      "target": "G03-D02",
+      "targetFullName": "G03-D computeFollowerRenderItems 缺槽与越界步 G03-D02 第一个跟随者缺 trail[3]、第二个有 trail[4] 时只留下 index 1",
+      "assertionError": "AssertionError: expected [] to have a length of 1 but got +0",
+      "sha256": {
+        "original": "6f750c045df964d1782919c728e751fb46cc2d5faa4a796cc52ea17d58c4b1c2",
+        "mutant": "94ab16e865ee85c0e70ddddfa98ce48052f750648450e3f4bd3545f6908cf7fc",
+        "restored": "6f750c045df964d1782919c728e751fb46cc2d5faa4a796cc52ea17d58c4b1c2"
+      },
+      "exitCode": {
+        "original": 0,
+        "mutant": 1,
+        "restored": 0
+      },
+      "signal": {
+        "original": null,
+        "mutant": null,
+        "restored": null
+      },
+      "counts": {
+        "original": 4,
+        "mutantFailed": 1,
+        "restored": 4
+      },
+      "executionCount": 4,
+      "executions": [
+        {
+          "file": "src/present/follower-render-gap.grok-r1.test.ts",
+          "fullName": "G03-D computeFollowerRenderItems 缺槽与越界步 G03-D01 行走且 stepFrame 为 4 时步帧回落到 0，朝右的帧是 9",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/follower-render-gap.grok-r1.test.ts",
+          "fullName": "G03-D computeFollowerRenderItems 缺槽与越界步 G03-D02 第一个跟随者缺 trail[3]、第二个有 trail[4] 时只留下 index 1",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/follower-render-gap.grok-r1.test.ts",
+          "fullName": "G03-D computeFollowerRenderItems 缺槽与越界步 G03-D03 朝左行走且 stepFrame 为 1 时帧是 5",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/follower-render-gap.grok-r1.test.ts",
+          "fullName": "G03-D computeFollowerRenderItems 缺槽与越界步 G03-D04 第二个跟随者没有 trail[4] 时，第一个仍然留下",
+          "status": "passed"
+        }
+      ],
+      "patch": {
+        "path": "docs/testing/grok-cursor-large/grok/counters/G03-D/patch.diff",
+        "sha256": "1483671ff4ebb44ee98b24dff74e775f7ee49ac0b6dbc502f48a3cef09524a6a",
+        "bytes": 390
+      },
+      "logs": [
+        "docs/testing/grok-cursor-large/grok/counters/G03-D/original.json",
+        "docs/testing/grok-cursor-large/grok/counters/G03-D/original.stdout",
+        "docs/testing/grok-cursor-large/grok/counters/G03-D/original.stderr",
+        "docs/testing/grok-cursor-large/grok/counters/G03-D/mutant.json",
+        "docs/testing/grok-cursor-large/grok/counters/G03-D/mutant.stdout",
+        "docs/testing/grok-cursor-large/grok/counters/G03-D/mutant.stderr",
+        "docs/testing/grok-cursor-large/grok/counters/G03-D/restored.json",
+        "docs/testing/grok-cursor-large/grok/counters/G03-D/restored.stdout",
+        "docs/testing/grok-cursor-large/grok/counters/G03-D/restored.stderr"
       ]
     }
   ]

@@ -1,0 +1,21 @@
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/present/follower-render-gap.grok-r1.test.ts > G03-D computeFollowerRenderItems 缺槽与越界步 > G03-D02 第一个跟随者缺 trail[3]、第二个有 trail[4] 时只留下 index 1
+AssertionError: expected [] to have a length of 1 but got +0
+
+- Expected
++ Received
+
+- 1
++ 0
+
+ ❯ src/present/follower-render-gap.grok-r1.test.ts:43:19
+     41|     slots[4] = { x: 90, y: 190, dir: 'down' }
+     42|     const items = computeFollowerRenderItems(slots, [82, 83], false, 0)
+     43|     expect(items).toHaveLength(1)
+       |                   ^
+     44|     expect(items[0]).toEqual({
+     45|       worldX: 90,
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯

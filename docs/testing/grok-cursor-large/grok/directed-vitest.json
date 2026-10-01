@@ -1,13 +1,14 @@
 {
-  "batch": "G02",
-  "cumulativeNewContracts": 76,
+  "batch": "G03",
+  "cumulativeNewContracts": 109,
   "target": 400,
   "success": true,
   "numFailedTests": 0,
   "numPendingTests": 0,
   "commands": [
     "pnpm --filter @type-pal/game exec vitest run src/assets/load-all-assemble.grok-r1.test.ts src/assets/load-all-bounds.grok-r1.test.ts src/assets/load-all-recover.grok-r1.test.ts src/assets/scene-cache.grok-r1.test.ts src/assets/loader.test.ts --reporter=json --outputFile=/tmp/g01-directed.json",
-    "pnpm --filter @type-pal/game exec vitest run src/assets/png-decode.grok-r1.test.ts src/assets/tileset-gzip.grok-r1.test.ts src/assets/tileset-load.grok-r1.test.ts src/assets/dialog-icons.grok-r1.test.ts src/assets/png.test.ts src/assets/png.glm-phase1-leaves.test.ts src/assets/tileset-blob.test.ts src/assets/dialog-assets.glm-phase1-leaves.test.ts src/assets/rle-decode.test.ts --reporter=verbose --reporter=json --outputFile=/tmp/g02-directed.json"
+    "pnpm --filter @type-pal/game exec vitest run src/assets/png-decode.grok-r1.test.ts src/assets/tileset-gzip.grok-r1.test.ts src/assets/tileset-load.grok-r1.test.ts src/assets/dialog-icons.grok-r1.test.ts src/assets/png.test.ts src/assets/png.glm-phase1-leaves.test.ts src/assets/tileset-blob.test.ts src/assets/dialog-assets.glm-phase1-leaves.test.ts src/assets/rle-decode.test.ts --reporter=verbose --reporter=json --outputFile=/tmp/g02-directed.json",
+    "pnpm --filter @type-pal/game exec vitest run src/present/draw-tilemap-pixels.grok-r1.test.ts src/present/draw-sprite-clip.grok-r1.test.ts src/present/follower-pos-axis.grok-r1.test.ts src/present/follower-render-gap.grok-r1.test.ts src/present/draw-tilemap.test.ts src/present/draw-sprite.test.ts src/present/follower-pos.test.ts src/present/follower-render.test.ts --reporter=verbose --reporter=json --outputFile=/tmp/g03-directed.json"
   ],
   "tests": [
     {
@@ -389,6 +390,171 @@
       "file": "src/assets/dialog-icons.grok-r1.test.ts",
       "fullName": "G02-D 对话图标与 base64 G02-D11 game 的 decodeRle 与 parseSpriteChunk 就是 shared 的同一函数",
       "status": "passed"
+    },
+    {
+      "file": "src/present/draw-sprite-clip.grok-r1.test.ts",
+      "fullName": "G03-B drawSprite 锚点与裁剪 G03-B01 宽 7 高 4 的帧 anchorX 为 3，anchorY 为自身高度 4",
+      "status": "passed"
+    },
+    {
+      "file": "src/present/draw-sprite-clip.grok-r1.test.ts",
+      "fullName": "G03-B drawSprite 锚点与裁剪 G03-B02 宽 1 的帧 anchorX 为 0，不跟相邻更宽的帧",
+      "status": "passed"
+    },
+    {
+      "file": "src/present/draw-sprite-clip.grok-r1.test.ts",
+      "fullName": "G03-B drawSprite 锚点与裁剪 G03-B03 toSpriteImages 复用调用方的 indices 与 opaque",
+      "status": "passed"
+    },
+    {
+      "file": "src/present/draw-sprite-clip.grok-r1.test.ts",
+      "fullName": "G03-B drawSprite 锚点与裁剪 G03-B04 左缘外的像素不写，紧挨着的屏内像素写入 9",
+      "status": "passed"
+    },
+    {
+      "file": "src/present/draw-sprite-clip.grok-r1.test.ts",
+      "fullName": "G03-B drawSprite 锚点与裁剪 G03-B05 顶缘外的像素不写，下一行屏内像素写入 9",
+      "status": "passed"
+    },
+    {
+      "file": "src/present/draw-sprite-clip.grok-r1.test.ts",
+      "fullName": "G03-B drawSprite 锚点与裁剪 G03-B06 右缘只写下 x=319 的像素，调用不抛错",
+      "status": "passed"
+    },
+    {
+      "file": "src/present/draw-sprite-clip.grok-r1.test.ts",
+      "fullName": "G03-B drawSprite 锚点与裁剪 G03-B07 3×1 按行序写入 11、12、13",
+      "status": "passed"
+    },
+    {
+      "file": "src/present/draw-sprite-clip.grok-r1.test.ts",
+      "fullName": "G03-B drawSprite 锚点与裁剪 G03-B08 中间透明孔不挡住右侧不透明像素",
+      "status": "passed"
+    },
+    {
+      "file": "src/present/draw-tilemap-pixels.grok-r1.test.ts",
+      "fullName": "G03-A drawTilemap 像素与接缝 G03-A01 layer 0 的 lower 图缺失时，画面用 tile 0，upper 仍用自己的图",
+      "status": "passed"
+    },
+    {
+      "file": "src/present/draw-tilemap-pixels.grok-r1.test.ts",
+      "fullName": "G03-A drawTilemap 像素与接缝 G03-A02 layer 1 的 upper 有 id 但没有图时，不回落 tile 0",
+      "status": "passed"
+    },
+    {
+      "file": "src/present/draw-tilemap-pixels.grok-r1.test.ts",
+      "fullName": "G03-A drawTilemap 像素与接缝 G03-A03 layer 1 的 lower 图缺失时仍回落 tile 0，upper 的 -1 不画",
+      "status": "passed"
+    },
+    {
+      "file": "src/present/draw-tilemap-pixels.grok-r1.test.ts",
+      "fullName": "G03-A drawTilemap 像素与接缝 G03-A04 透明像素不记 coverage，不透明的 index 0 会写入并记 coverage",
+      "status": "passed"
+    },
+    {
+      "file": "src/present/draw-tilemap-pixels.grok-r1.test.ts",
+      "fullName": "G03-A drawTilemap 像素与接缝 G03-A05 瓦片跨过 x=0 时，负列不记 coverage，屏内列写入 9",
+      "status": "passed"
+    },
+    {
+      "file": "src/present/draw-tilemap-pixels.grok-r1.test.ts",
+      "fullName": "G03-A drawTilemap 像素与接缝 G03-A06 瓦片跨过 y=0 时，屏内那一行写入 9，再下一行保持空白",
+      "status": "passed"
+    },
+    {
+      "file": "src/present/draw-tilemap-pixels.grok-r1.test.ts",
+      "fullName": "G03-A drawTilemap 像素与接缝 G03-A07 整行落在屏幕下方时不取该行的 tile id",
+      "status": "passed"
+    },
+    {
+      "file": "src/present/draw-tilemap-pixels.grok-r1.test.ts",
+      "fullName": "G03-A drawTilemap 像素与接缝 G03-A08 整列落在屏幕右边界外时不取该列的 tile id",
+      "status": "passed"
+    },
+    {
+      "file": "src/present/draw-tilemap-pixels.grok-r1.test.ts",
+      "fullName": "G03-A drawTilemap 像素与接缝 G03-A09 接缝先取扫描顺序里的西北邻居，不取东边更晚的邻居",
+      "status": "passed"
+    },
+    {
+      "file": "src/present/draw-tilemap-pixels.grok-r1.test.ts",
+      "fullName": "G03-A drawTilemap 像素与接缝 G03-A10 maxPasses 为 1 时只填到紧邻已覆盖像素的一圈",
+      "status": "passed"
+    },
+    {
+      "file": "src/present/draw-tilemap-pixels.grok-r1.test.ts",
+      "fullName": "G03-A drawTilemap 像素与接缝 G03-A11 blitTileAt 把屏内 1×1 写成给定索引",
+      "status": "passed"
+    },
+    {
+      "file": "src/present/follower-pos-axis.grok-r1.test.ts",
+      "fullName": "G03-C computeFollowerWorldPos 方向与冻结 G03-C01 m=1 且 trail[1] 朝右时偏移为 -16,-8，返回朝向仍是 trail[2]",
+      "status": "passed"
+    },
+    {
+      "file": "src/present/follower-pos-axis.grok-r1.test.ts",
+      "fullName": "G03-C computeFollowerWorldPos 方向与冻结 G03-C02 m=1 且 trail[1] 朝左时偏移为 +16,+8",
+      "status": "passed"
+    },
+    {
+      "file": "src/present/follower-pos-axis.grok-r1.test.ts",
+      "fullName": "G03-C computeFollowerWorldPos 方向与冻结 G03-C03 m=1 且 trail[1] 朝上时偏移为 -16,+8",
+      "status": "passed"
+    },
+    {
+      "file": "src/present/follower-pos-axis.grok-r1.test.ts",
+      "fullName": "G03-C computeFollowerWorldPos 方向与冻结 G03-C04 m=2 朝下时偏移是 +16,+8，不是 m=1 的 +16,-8",
+      "status": "passed"
+    },
+    {
+      "file": "src/present/follower-pos-axis.grok-r1.test.ts",
+      "fullName": "G03-C computeFollowerWorldPos 方向与冻结 G03-C05 m=2 朝右时水平偏移为 -16，垂直仍是 +8",
+      "status": "passed"
+    },
+    {
+      "file": "src/present/follower-pos-axis.grok-r1.test.ts",
+      "fullName": "G03-C computeFollowerWorldPos 方向与冻结 G03-C06 偏移落在障碍上时，冻结的是退回 trail[1] 之后的位移",
+      "status": "passed"
+    },
+    {
+      "file": "src/present/follower-pos-axis.grok-r1.test.ts",
+      "fullName": "G03-C computeFollowerWorldPos 方向与冻结 G03-C07 走路时不沿用旧冻结，并把它改写成这次的位移",
+      "status": "passed"
+    },
+    {
+      "file": "src/present/follower-pos-axis.grok-r1.test.ts",
+      "fullName": "G03-C computeFollowerWorldPos 方向与冻结 G03-C08 trail 没有第 3 项时，朝向回退 trail[1].dir",
+      "status": "passed"
+    },
+    {
+      "file": "src/present/follower-pos-axis.grok-r1.test.ts",
+      "fullName": "G03-C computeFollowerWorldPos 方向与冻结 G03-C09 静止且成员下标超出 trail 时，用最后一项的坐标",
+      "status": "passed"
+    },
+    {
+      "file": "src/present/follower-pos-axis.grok-r1.test.ts",
+      "fullName": "G03-C computeFollowerWorldPos 方向与冻结 G03-C10 静止摆位不调用 isWalkable",
+      "status": "passed"
+    },
+    {
+      "file": "src/present/follower-render-gap.grok-r1.test.ts",
+      "fullName": "G03-D computeFollowerRenderItems 缺槽与越界步 G03-D01 行走且 stepFrame 为 4 时步帧回落到 0，朝右的帧是 9",
+      "status": "passed"
+    },
+    {
+      "file": "src/present/follower-render-gap.grok-r1.test.ts",
+      "fullName": "G03-D computeFollowerRenderItems 缺槽与越界步 G03-D02 第一个跟随者缺 trail[3]、第二个有 trail[4] 时只留下 index 1",
+      "status": "passed"
+    },
+    {
+      "file": "src/present/follower-render-gap.grok-r1.test.ts",
+      "fullName": "G03-D computeFollowerRenderItems 缺槽与越界步 G03-D03 朝左行走且 stepFrame 为 1 时帧是 5",
+      "status": "passed"
+    },
+    {
+      "file": "src/present/follower-render-gap.grok-r1.test.ts",
+      "fullName": "G03-D computeFollowerRenderItems 缺槽与越界步 G03-D04 第二个跟随者没有 trail[4] 时，第一个仍然留下",
+      "status": "passed"
     }
   ],
   "adjacent": [
@@ -542,6 +708,169 @@
         {
           "file": "src/assets/tileset-blob.test.ts",
           "fullName": "loadTilesetBlob fetch 失败抛错",
+          "status": "passed"
+        }
+      ]
+    },
+    {
+      "batch": "G03",
+      "status": "passed",
+      "numPassedTests": 31,
+      "numFailedTests": 0,
+      "tests": [
+        {
+          "file": "src/present/draw-sprite.test.ts",
+          "fullName": "toSpriteImages 逐帧 anchor(密道攀爬偏下根因回归) 每帧 anchorY = 自身高度,anchorX = 自身宽度/2(非整组钉死 frame0)",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/draw-sprite.test.ts",
+          "fullName": "toSpriteImages 逐帧 anchor(密道攀爬偏下根因回归) 脚底对齐:任意高度帧在 drawSprite(cy) 处底边都落在同一行(sdlpal PAL_RLEGetHeight 逐帧)",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/draw-sprite.test.ts",
+          "fullName": "drawSprite 画一个 2×2 精灵,anchor 在底部中心 (1, 2)",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/draw-sprite.test.ts",
+          "fullName": "drawSprite opaque=0 不覆盖底面(M3.5 fix:透明判定走 opaque mask,非 idx===0)",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/draw-sprite.test.ts",
+          "fullName": "drawSprite opaque=1 且 idx=0 仍画(palette index 0 是合法 opaque 像素,M3.5 fix)",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/draw-sprite.test.ts",
+          "fullName": "drawSprite 屏幕外像素不抛错",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/draw-tilemap.test.ts",
+          "fullName": "drawTilemap lower (h=0) 画在 (-16,-8) 子行;upper (h=1) 画在 col/row baseline",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/draw-tilemap.test.ts",
+          "fullName": "drawTilemap ±1 fence(M3.5 T6 修):layer 0 fence 位置回落到 tile(cells[0][0].lower 的 h=0)",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/draw-tilemap.test.ts",
+          "fullName": "drawTilemap ±1 fence:layer 1 fence 位置 fallback = -1,fence 不调 tiles.get",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/draw-tilemap.test.ts",
+          "fullName": "drawTilemap layer 0:9-bit tile id 从低 16 bit 提取 (d & 0xff) | ((d >> 4) & 0x100)",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/draw-tilemap.test.ts",
+          "fullName": "drawTilemap layer 1:tile id 从高 16 bit 提取且 -1;高 16 bit = 0 → id < 0 → skip",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/draw-tilemap.test.ts",
+          "fullName": "drawTilemap 传入 coverage 时标记已画像素;远处未画处不标记",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/draw-tilemap.test.ts",
+          "fullName": "repairTilemapSeams(瓦片接缝漏黑修复——血池\"黑色三角\"根因:原版不清屏遮住,我们 clear 到 0 露黑) 未覆盖像素用最近的已覆盖邻居填充",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/draw-tilemap.test.ts",
+          "fullName": "repairTilemapSeams(瓦片接缝漏黑修复——血池\"黑色三角\"根因:原版不清屏遮住,我们 clear 到 0 露黑) 已覆盖像素保持不变,即使其值为 0(合法的不透明 index-0,不能当漏黑)",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/draw-tilemap.test.ts",
+          "fullName": "repairTilemapSeams(瓦片接缝漏黑修复——血池\"黑色三角\"根因:原版不清屏遮住,我们 clear 到 0 露黑) 填宽接缝:逐圈向内扩散直到填满",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/follower-pos.test.ts",
+          "fullName": "computeFollowerWorldPos —— port PAL_UpdatePartyGestures 的 fWalking 闸门(scene.c:658 vs 745) walking:trail[1]+方向偏移(m=1 down → +16,-8)+ 朝向 trail[2].dir,并捕获 frozenOffset(含 dir)",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/follower-pos.test.ts",
+          "fullName": "computeFollowerWorldPos —— port PAL_UpdatePartyGestures 的 fWalking 闸门(scene.c:658 vs 745) walking + 偏移落水:回退 trail[1](scene.c:712 障碍回退,仅 fWalking 分支)",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/follower-pos.test.ts",
+          "fullName": "computeFollowerWorldPos —— port PAL_UpdatePartyGestures 的 fWalking 闸门(scene.c:658 vs 745) not walking + 有 frozenOffset:**位置冻结**、**朝向用当前 trail[2].dir**(sdlpal scene.c:761,不跟队长 0x15)",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/follower-pos.test.ts",
+          "fullName": "computeFollowerWorldPos —— port PAL_UpdatePartyGestures 的 fWalking 闸门(scene.c:658 vs 745) 回归:船上重叠场景(trail[1]==leader + 落水 + not walking)不再与李逍遥重叠",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/follower-pos.test.ts",
+          "fullName": "computeFollowerWorldPos —— port PAL_UpdatePartyGestures 的 fWalking 闸门(scene.c:658 vs 745) not walking + 无 frozenOffset(0x46 摆位):跟随者落 trail[m]=队长+m×offset(只退一格,sdlpal script.c:1690),非 trail[1] 再叠偏移",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/follower-pos.test.ts",
+          "fullName": "computeFollowerWorldPos —— port PAL_UpdatePartyGestures 的 fWalking 闸门(scene.c:658 vs 745) 回归(刘晋元叫醒后):0x46 黑屏摆位 dir=up,李逍遥(跟随)紧贴队长=trail[1]=队长+(-16,+8),非 2×偏移(user 2026-06-16)",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/follower-pos.test.ts",
+          "fullName": "computeFollowerWorldPos —— port PAL_UpdatePartyGestures 的 fWalking 闸门(scene.c:658 vs 745) not walking 不捕获 frozenOffset(只在 walking 捕获,避免冻结值漂移)",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/follower-pos.test.ts",
+          "fullName": "computeFollowerWorldPos —— port PAL_UpdatePartyGestures 的 fWalking 闸门(scene.c:658 vs 745) trail 不足(length<=1)→ null(不画跟随者)",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/follower-pos.test.ts",
+          "fullName": "computeFollowerWorldPos —— port PAL_UpdatePartyGestures 的 fWalking 闸门(scene.c:658 vs 745) 集成(船划行):划船(ride)每步把 trail 刷成船行方向 → 跟随者朝向跟 trail(=队长),静止位置仍冻结",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/follower-pos.test.ts",
+          "fullName": "computeFollowerWorldPos —— port PAL_UpdatePartyGestures 的 fWalking 闸门(scene.c:658 vs 745) 回归(隐龙窟):站立对话时队长 0x15 回头不动 trail → 跟随者保持走来方向(不跟队长转)",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/follower-render.test.ts",
+          "fullName": "computeFollowerRenderItems(0x98 跟随者,sdlpal scene.c:732-743/767-771) 无 follower → 空",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/follower-render.test.ts",
+          "fullName": "computeFollowerRenderItems(0x98 跟随者,sdlpal scene.c:732-743/767-771) trail 深度不足(< 4)→ 跳过(不报错)",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/follower-render.test.ts",
+          "fullName": "computeFollowerRenderItems(0x98 跟随者,sdlpal scene.c:732-743/767-771) follower 0 → trail[3] 位置(world,无偏移)+ 角色 id",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/follower-render.test.ts",
+          "fullName": "computeFollowerRenderItems(0x98 跟随者,sdlpal scene.c:732-743/767-771) 站立帧 = dir*3(无 step;left dir=1 → 3)",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/follower-render.test.ts",
+          "fullName": "computeFollowerRenderItems(0x98 跟随者,sdlpal scene.c:732-743/767-771) 行走帧 = dir*3 + iStepFrameFollower[step](序列 [0,2,0,1],区别于 leader [0,1,0,2])",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/follower-render.test.ts",
+          "fullName": "computeFollowerRenderItems(0x98 跟随者,sdlpal scene.c:732-743/767-771) 两 follower → trail[3]/[4],各自 dir/role/index",
           "status": "passed"
         }
       ]
