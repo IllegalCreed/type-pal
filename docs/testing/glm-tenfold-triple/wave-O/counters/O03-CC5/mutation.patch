@@ -2,12 +2,6 @@ diff --git a/packages/content/src/validate-refs.ts b/packages/content/src/valida
 index 81a07273..72d29dbe 100644
 --- a/packages/content/src/validate-refs.ts
 +++ b/packages/content/src/validate-refs.ts
-@@ -243,7 +243,7 @@ export function validateEquipBattleSpriteReferences(
-       for (const [actorId, battleSprite] of Object.entries(effect.byActor)) {
-         const where = `items[${itemIndex}](${item.id}).equip.effects[${effectIndex}].byActor.${actorId}`
-         const actor = actorsById.get(actorId)
+@@ -246 +246 @@ export function validateEquipBattleSpriteReferences(
 -        if (!actor)
 +        if (false && !actor)
-           issues.push({
-             severity: 'error',
-             where,

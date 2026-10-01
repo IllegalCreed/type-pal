@@ -2,12 +2,6 @@ diff --git a/packages/migrate/src/pal-casualty-scripts.ts b/packages/migrate/src
 index 6ca077f2..231614ef 100644
 --- a/packages/migrate/src/pal-casualty-scripts.ts
 +++ b/packages/migrate/src/pal-casualty-scripts.ts
-@@ -99,7 +99,7 @@ function parseBranch(
-           }
-           case 0x05:
-             // 原版重绘红点帧 [0,0,0]：纯演出 no-op，结构化数据不保留。
+@@ -102 +102 @@ function parseBranch(
 -            if ((operands[1] ?? 0) !== 0 || (operands[2] ?? 0) !== 0)
 +            if (false && (operands[1] ?? 0) !== 0 || (operands[2] ?? 0) !== 0)
-               throw new Error(
-                 `B11-1 casualty: branch @${from} 0x05 参数非空 ${JSON.stringify(operands)}`,
-               )

@@ -1,18 +1,35 @@
 {
   "id": "O03-CC3",
+  "contract": "事务目标经过符号链接时拒绝",
+  "target": {
+    "file": "src/migration-write-plan.glm-o.test.ts",
+    "title": "目标为 symlink 时提交被拒绝（assertMigrationFilePath）"
+  },
   "control": {
     "exitCode": 0,
-    "tests": 21
+    "executed": 21,
+    "passed": 21,
+    "failed": 0
   },
   "injected": {
     "exitCode": 1,
+    "executed": 21,
+    "passed": 20,
+    "failed": 1,
     "failedFullName": "O03 事务与 journal：symlink/绝对路径/恢复次序（mkdtemp） 目标为 symlink 时提交被拒绝（assertMigrationFilePath）",
-    "failureMessageHead": "AssertionError: expected [Function] to throw error including '不得经过符号链接: projects/pal/content/link.j…' but got '迁移事务 journal target 路径类型无效: projects/…'",
-    "executed": 21
+    "failureMessageHead": "AssertionError: expected [Function] to throw error including '不得经过符号链接: projects/pal/content/link.j…' but got '迁移事务 journal target 路径类型无效: projects/…'"
+  },
+  "restored": {
+    "exitCode": 0,
+    "executed": 21,
+    "passed": 21,
+    "failed": 0
   },
   "hashes": {
     "original": "eb5a5e6193b79314c0c6ae7289582c7bcdc496d079f7ebd9a0e34dc5817e7310",
     "mutated": "0f260aa7d7233956f67fc6cff47a8f39fceba58a11fbae9b65b0defa7069105a",
-    "restored": "eb5a5e6193b79314c0c6ae7289582c7bcdc496d079f7ebd9a0e34dc5817e7310"
-  }
+    "restored": "eb5a5e6193b79314c0c6ae7289582c7bcdc496d079f7ebd9a0e34dc5817e7310",
+    "rebuilt": "0f260aa7d7233956f67fc6cff47a8f39fceba58a11fbae9b65b0defa7069105a"
+  },
+  "patchRebuiltAndVerified": true
 }

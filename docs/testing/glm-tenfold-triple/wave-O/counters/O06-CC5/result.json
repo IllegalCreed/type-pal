@@ -1,18 +1,35 @@
 {
   "id": "O06-CC5",
+  "contract": "zone 无朝向拒绝",
+  "target": {
+    "file": "src/validate.glm-o.test.ts",
+    "title": "实体引用恰一（0 或 2 个）与 zone 无朝向 逐轴拒绝"
+  },
   "control": {
     "exitCode": 0,
-    "tests": 19
+    "executed": 19,
+    "passed": 19,
+    "failed": 0
   },
   "injected": {
     "exitCode": 1,
+    "executed": 19,
+    "passed": 18,
+    "failed": 1,
     "failedFullName": "O06 validateScenes：运行态场景形状残臂 实体引用恰一（0 或 2 个）与 zone 无朝向 逐轴拒绝",
-    "failureMessageHead": "AssertionError: expected [Function] to throw an error",
-    "executed": 19
+    "failureMessageHead": "AssertionError: expected [Function] to throw an error"
+  },
+  "restored": {
+    "exitCode": 0,
+    "executed": 19,
+    "passed": 19,
+    "failed": 0
   },
   "hashes": {
     "original": "b71778d0ed1fc2f8195cb653f34b6d51a4c37fad9c63c496baa5fcf7d83c30fa",
     "mutated": "eed84efe573c267240a98c131c2d544639b7cb46d9837938c941d8ad73630515",
-    "restored": "b71778d0ed1fc2f8195cb653f34b6d51a4c37fad9c63c496baa5fcf7d83c30fa"
-  }
+    "restored": "b71778d0ed1fc2f8195cb653f34b6d51a4c37fad9c63c496baa5fcf7d83c30fa",
+    "rebuilt": "eed84efe573c267240a98c131c2d544639b7cb46d9837938c941d8ad73630515"
+  },
+  "patchRebuiltAndVerified": true
 }

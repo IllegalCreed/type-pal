@@ -1,18 +1,35 @@
 {
   "id": "O04-CC1",
+  "contract": "重复物化：内容一致 → unchanged，不重写",
+  "target": {
+    "file": "src/pal-assets.glm-o.test.ts",
+    "title": "重复物化：内容一致 → unchanged，不重写"
+  },
   "control": {
     "exitCode": 0,
-    "tests": 37
+    "executed": 37,
+    "passed": 37,
+    "failed": 0
   },
   "injected": {
     "exitCode": 1,
+    "executed": 37,
+    "passed": 36,
+    "failed": 1,
     "failedFullName": "O04 materializePalAssets：合成 catalog 的确定性物化 重复物化：内容一致 → unchanged，不重写",
-    "failureMessageHead": "AssertionError: expected { written: 1, unchanged: +0, …(3) } to match object { written: +0, unchanged: 1 }",
-    "executed": 37
+    "failureMessageHead": "AssertionError: expected { written: 1, unchanged: +0, …(3) } to match object { written: +0, unchanged: 1 }"
+  },
+  "restored": {
+    "exitCode": 0,
+    "executed": 37,
+    "passed": 37,
+    "failed": 0
   },
   "hashes": {
     "original": "131b101ef065d32bd6b0c76a04ac082eb6b9e56965de211541a198eb7219d5b8",
     "mutated": "6496be4ed2383e2dba92f840443205a78fab414eaa45cb3f3379f7dc7edb37f0",
-    "restored": "131b101ef065d32bd6b0c76a04ac082eb6b9e56965de211541a198eb7219d5b8"
-  }
+    "restored": "131b101ef065d32bd6b0c76a04ac082eb6b9e56965de211541a198eb7219d5b8",
+    "rebuilt": "6496be4ed2383e2dba92f840443205a78fab414eaa45cb3f3379f7dc7edb37f0"
+  },
+  "patchRebuiltAndVerified": true
 }

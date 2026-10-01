@@ -1,18 +1,35 @@
 {
   "id": "O02-CC1",
+  "contract": "身份数组内非对象条目 → invalid-identity 冲突",
+  "target": {
+    "file": "src/migration-merge.glm-o.test.ts",
+    "title": "场景 entities：非对象条目（无身份）→ invalid-identity 冲突"
+  },
   "control": {
     "exitCode": 0,
-    "tests": 30
+    "executed": 30,
+    "passed": 30,
+    "failed": 0
   },
   "injected": {
     "exitCode": 1,
+    "executed": 30,
+    "passed": 29,
+    "failed": 1,
     "failedFullName": "O02 mergeManagedFile：身份数组与失效身份（合成文件） 场景 entities：非对象条目（无身份）→ invalid-identity 冲突",
-    "failureMessageHead": "AssertionError: expected [] to deeply equal [ 'invalid-identity' ]",
-    "executed": 30
+    "failureMessageHead": "AssertionError: expected [] to deeply equal [ 'invalid-identity' ]"
+  },
+  "restored": {
+    "exitCode": 0,
+    "executed": 30,
+    "passed": 30,
+    "failed": 0
   },
   "hashes": {
     "original": "e1d3a877f72e876fd64191555aadbd61bbc11fde1db3f9e7cf9fe71c494b777e",
     "mutated": "653cd4226fbe8a947f36331ca189336d223202da46f247d666204eb1a4ea33e8",
-    "restored": "e1d3a877f72e876fd64191555aadbd61bbc11fde1db3f9e7cf9fe71c494b777e"
-  }
+    "restored": "e1d3a877f72e876fd64191555aadbd61bbc11fde1db3f9e7cf9fe71c494b777e",
+    "rebuilt": "653cd4226fbe8a947f36331ca189336d223202da46f247d666204eb1a4ea33e8"
+  },
+  "patchRebuiltAndVerified": true
 }

@@ -2,12 +2,6 @@ diff --git a/packages/migrate/src/migration-merge.ts b/packages/migrate/src/migr
 index fa5a2ed5..43d7b5a1 100644
 --- a/packages/migrate/src/migration-merge.ts
 +++ b/packages/migrate/src/migration-merge.ts
-@@ -158,7 +158,7 @@ function mergeObject(base: Node, ours: Node, theirs: Node, path: string, ctx: Me
- }
- 
- function identity(value: MigrationJson): string | undefined {
+@@ -161 +161 @@ function identity(value: MigrationJson): string | undefined {
 -  if (!value || typeof value !== 'object' || Array.isArray(value)) return undefined
 +  if (!value || typeof value !== 'object' || Array.isArray(value)) return 'x'
-   const id = value.id
-   if (typeof id !== 'string' && typeof id !== 'number') return undefined
-   return `${typeof id}:${id}`

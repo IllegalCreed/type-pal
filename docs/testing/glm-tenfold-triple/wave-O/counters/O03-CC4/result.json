@@ -1,18 +1,35 @@
 {
   "id": "O03-CC4",
+  "contract": "EventObject 跨场景重复 fail-loud",
+  "target": {
+    "file": "src/pal-content-supply.glm-o.test.ts",
+    "title": "同一 EventObject 出现在多个场景时 fail-loud（全局实体唯一）"
+  },
   "control": {
     "exitCode": 0,
-    "tests": 10
+    "executed": 10,
+    "passed": 10,
+    "failed": 0
   },
   "injected": {
     "exitCode": 1,
+    "executed": 10,
+    "passed": 9,
+    "failed": 1,
     "failedFullName": "O03 buildPalContentSupply：供应输入守卫残余 同一 EventObject 出现在多个场景时 fail-loud（全局实体唯一）",
-    "failureMessageHead": "AssertionError: expected [Function] to throw an error",
-    "executed": 10
+    "failureMessageHead": "AssertionError: expected [Function] to throw an error"
+  },
+  "restored": {
+    "exitCode": 0,
+    "executed": 10,
+    "passed": 10,
+    "failed": 0
   },
   "hashes": {
     "original": "0a0f7bc729c75ae496d55b86283f670e1b4b745c4383f9d02f2b0c16a7dfff6b",
     "mutated": "7e78a4d10cf49826c45b616c9f462f802c140d6466954186f6b6353cd934fe5f",
-    "restored": "0a0f7bc729c75ae496d55b86283f670e1b4b745c4383f9d02f2b0c16a7dfff6b"
-  }
+    "restored": "0a0f7bc729c75ae496d55b86283f670e1b4b745c4383f9d02f2b0c16a7dfff6b",
+    "rebuilt": "7e78a4d10cf49826c45b616c9f462f802c140d6466954186f6b6353cd934fe5f"
+  },
+  "patchRebuiltAndVerified": true
 }

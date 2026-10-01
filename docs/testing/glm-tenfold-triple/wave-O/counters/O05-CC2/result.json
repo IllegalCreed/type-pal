@@ -1,18 +1,35 @@
 {
   "id": "O05-CC2",
+  "contract": "0x05 非零参数拒绝",
+  "target": {
+    "file": "src/pal-supply-guards.glm-o.test.ts",
+    "title": "0x30 参数非法 / 0x05 非零参数 / 未知 opcode 逐轴拒绝"
+  },
   "control": {
     "exitCode": 0,
-    "tests": 27
+    "executed": 27,
+    "passed": 27,
+    "failed": 0
   },
   "injected": {
     "exitCode": 1,
+    "executed": 27,
+    "passed": 26,
+    "failed": 1,
     "failedFullName": "O05 translateCasualtyScript / applyPalCasualtyOverlays：opcode 轴 0x30 参数非法 / 0x05 非零参数 / 未知 opcode 逐轴拒绝",
-    "failureMessageHead": "AssertionError: expected [Function] to throw an error",
-    "executed": 27
+    "failureMessageHead": "AssertionError: expected [Function] to throw an error"
+  },
+  "restored": {
+    "exitCode": 0,
+    "executed": 27,
+    "passed": 27,
+    "failed": 0
   },
   "hashes": {
     "original": "92a83f96eeae92dcd2f4f645ffb96c75b9add59edd3a1aeb6aff14343327d005",
     "mutated": "1891025af616d0427ed9036391ca1f780d8369cdf38250ed7e9124c96e8e8716",
-    "restored": "92a83f96eeae92dcd2f4f645ffb96c75b9add59edd3a1aeb6aff14343327d005"
-  }
+    "restored": "92a83f96eeae92dcd2f4f645ffb96c75b9add59edd3a1aeb6aff14343327d005",
+    "rebuilt": "1891025af616d0427ed9036391ca1f780d8369cdf38250ed7e9124c96e8e8716"
+  },
+  "patchRebuiltAndVerified": true
 }

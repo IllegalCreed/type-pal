@@ -2,12 +2,6 @@ diff --git a/packages/content/src/validate.ts b/packages/content/src/validate.ts
 index 2ee7d4c6..eab70bbc 100644
 --- a/packages/content/src/validate.ts
 +++ b/packages/content/src/validate.ts
-@@ -1506,7 +1506,7 @@ export function validateSprites(json: unknown, catalog?: AssetCatalogV1): Sprite
-     if (kind === 'directional') {
-       requireOnlyKeys(layout, ['kind', 'framesPerDir'], `sprites[${i}].layout`)
-       const framesPerDir = (layout as { framesPerDir?: unknown }).framesPerDir
+@@ -1509 +1509 @@ export function validateSprites(json: unknown, catalog?: AssetCatalogV1): Sprite
 -      if (framesPerDir === undefined)
 +      if (false && framesPerDir === undefined)
-         throw new Error(`sprites[${i}].layout: directional 缺 framesPerDir(number)`)
-       if (!Number.isInteger(framesPerDir) || (framesPerDir as number) <= 0)
-         throw new Error(`sprites[${i}].layout: directional framesPerDir 期望正整数`)

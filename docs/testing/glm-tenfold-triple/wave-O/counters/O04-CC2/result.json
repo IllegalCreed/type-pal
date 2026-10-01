@@ -1,18 +1,35 @@
 {
   "id": "O04-CC2",
+  "contract": "退役清单只含 target 缺失的 legacy-migrated",
+  "target": {
+    "file": "src/pal-assets.glm-o.test.ts",
+    "title": "legacy-migrated 且目标缺失且磁盘一致 → 入退役清单并排序"
+  },
   "control": {
     "exitCode": 0,
-    "tests": 37
+    "executed": 37,
+    "passed": 37,
+    "failed": 0
   },
   "injected": {
     "exitCode": 1,
+    "executed": 37,
+    "passed": 36,
+    "failed": 1,
     "failedFullName": "O04 planPalAssetRetirements：退役推导合同 legacy-migrated 且目标缺失且磁盘一致 → 入退役清单并排序",
-    "failureMessageHead": "AssertionError: expected [ Array(3) ] to deeply equal [ Array(2) ]",
-    "executed": 37
+    "failureMessageHead": "AssertionError: expected [ Array(3) ] to deeply equal [ Array(2) ]"
+  },
+  "restored": {
+    "exitCode": 0,
+    "executed": 37,
+    "passed": 37,
+    "failed": 0
   },
   "hashes": {
     "original": "131b101ef065d32bd6b0c76a04ac082eb6b9e56965de211541a198eb7219d5b8",
     "mutated": "73e5df9cfb6479e9c81b67d19df340a5164a4c07921d8654a7ccd9c409e31cf5",
-    "restored": "131b101ef065d32bd6b0c76a04ac082eb6b9e56965de211541a198eb7219d5b8"
-  }
+    "restored": "131b101ef065d32bd6b0c76a04ac082eb6b9e56965de211541a198eb7219d5b8",
+    "rebuilt": "73e5df9cfb6479e9c81b67d19df340a5164a4c07921d8654a7ccd9c409e31cf5"
+  },
+  "patchRebuiltAndVerified": true
 }

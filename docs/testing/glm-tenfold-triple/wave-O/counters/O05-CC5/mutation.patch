@@ -2,12 +2,6 @@ diff --git a/packages/migrate/src/pal-item-scheme-labels.ts b/packages/migrate/s
 index 3e7e8bfc2..ce7cf9c20 100644
 --- a/packages/migrate/src/pal-item-scheme-labels.ts
 +++ b/packages/migrate/src/pal-item-scheme-labels.ts
-@@ -282,7 +282,7 @@ function derivePalItemSchemeLabelPlan(args: PalItemSchemeLabelArgs): {
-     roots.add(itemId)
-     rootsByNode.set(node.key, roots)
-     reachable.add(node.key)
+@@ -285 +285 @@ function derivePalItemSchemeLabelPlan(args: PalItemSchemeLabelArgs): {
 -    if (visiting.has(node.key))
 +    if (false && visiting.has(node.key))
-       throw new Error(`PAL 物品剧情方案选择图成环: ${[...stack, node.path].join(' -> ')}`)
-     if (done.has(node.key)) return
-     visiting.add(node.key)

@@ -1,18 +1,35 @@
 {
   "id": "O05-CC5",
+  "contract": "物品方案选择图成环拒绝",
+  "target": {
+    "file": "src/pal-world-sprites.glm-o.test.ts",
+    "title": "选择图成环 → fail-loud"
+  },
   "control": {
     "exitCode": 0,
-    "tests": 21
+    "executed": 21,
+    "passed": 21,
+    "failed": 0
   },
   "injected": {
     "exitCode": 1,
+    "executed": 21,
+    "passed": 20,
+    "failed": 1,
     "failedFullName": "O05 assertPalItemSchemeLabelInvariant：canonical label 与选择边 选择图成环 → fail-loud",
-    "failureMessageHead": "AssertionError: expected [Function] to throw error matching /PAL 物品剧情方案选择图成环/ but got 'Maximum call stack size exceeded'",
-    "executed": 21
+    "failureMessageHead": "AssertionError: expected [Function] to throw error matching /PAL 物品剧情方案选择图成环/ but got 'Maximum call stack size exceeded'"
+  },
+  "restored": {
+    "exitCode": 0,
+    "executed": 21,
+    "passed": 21,
+    "failed": 0
   },
   "hashes": {
     "original": "2ed904b1e73e8fabc10d20ff3b7846615324af6ea5be2b7d28f6629d8fc0dda9",
     "mutated": "60b20360b897a59e8ec593005e959fb6e4e043e00af924ed73eb6827b58f0ede",
-    "restored": "2ed904b1e73e8fabc10d20ff3b7846615324af6ea5be2b7d28f6629d8fc0dda9"
-  }
+    "restored": "2ed904b1e73e8fabc10d20ff3b7846615324af6ea5be2b7d28f6629d8fc0dda9",
+    "rebuilt": "60b20360b897a59e8ec593005e959fb6e4e043e00af924ed73eb6827b58f0ede"
+  },
+  "patchRebuiltAndVerified": true
 }

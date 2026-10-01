@@ -1,18 +1,35 @@
 {
   "id": "O02-CC4",
+  "contract": "theirs 删除的托管文件进入 deletes",
+  "target": {
+    "file": "src/migration-plan.glm-o.test.ts",
+    "title": "theirs 新增文件进入 writes；theirs 删除的托管文件进入 deletes"
+  },
   "control": {
     "exitCode": 0,
-    "tests": 18
+    "executed": 18,
+    "passed": 18,
+    "failed": 0
   },
   "injected": {
     "exitCode": 1,
+    "executed": 18,
+    "passed": 17,
+    "failed": 1,
     "failedFullName": "O02 createMigrationPlan：普通文件、写入/删除与输入不可变 theirs 新增文件进入 writes；theirs 删除的托管文件进入 deletes",
-    "failureMessageHead": "AssertionError: expected [] to deeply equal [ 'content/extra.json' ]",
-    "executed": 18
+    "failureMessageHead": "AssertionError: expected [] to deeply equal [ 'content/extra.json' ]"
+  },
+  "restored": {
+    "exitCode": 0,
+    "executed": 18,
+    "passed": 18,
+    "failed": 0
   },
   "hashes": {
     "original": "642960ee8944b69eb8b9f40e785d3dc218826d69ad6bdc8b3b686abaa6b90750",
     "mutated": "1da947e4c16f33e7e74ab8d008f5bc86bf7a931bcef1dc358dcee280f7a55309",
-    "restored": "642960ee8944b69eb8b9f40e785d3dc218826d69ad6bdc8b3b686abaa6b90750"
-  }
+    "restored": "642960ee8944b69eb8b9f40e785d3dc218826d69ad6bdc8b3b686abaa6b90750",
+    "rebuilt": "1da947e4c16f33e7e74ab8d008f5bc86bf7a931bcef1dc358dcee280f7a55309"
+  },
+  "patchRebuiltAndVerified": true
 }

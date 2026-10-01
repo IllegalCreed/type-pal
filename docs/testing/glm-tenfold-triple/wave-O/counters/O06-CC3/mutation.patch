@@ -2,12 +2,6 @@ diff --git a/packages/content/src/validate.ts b/packages/content/src/validate.ts
 index 2ee7d4c6..d15d1f59 100644
 --- a/packages/content/src/validate.ts
 +++ b/packages/content/src/validate.ts
-@@ -319,7 +319,7 @@ function validateSceneArray(json: unknown): SceneDef[] {
-       const eo = assertObject(e, `scenes[${i}].entities[${j}]`)
-       requireKeys(eo, ['id', 'pos'], `scenes[${i}].entities[${j}]`)
-       const refs = ['actor', 'sprite', 'zone'].filter((k) => k in eo).length
+@@ -322 +322 @@ function validateSceneArray(json: unknown): SceneDef[] {
 -      if (refs !== 1)
 +      if (false && refs !== 1)
-         throw new Error(`scenes[${i}].entities[${j}]: 须恰有 actor/sprite/zone 之一(现 ${refs} 个)`)
-       if ('zone' in eo && 'facing' in eo)
-         throw new Error(`scenes[${i}].entities[${j}].facing: zone 无朝向`)

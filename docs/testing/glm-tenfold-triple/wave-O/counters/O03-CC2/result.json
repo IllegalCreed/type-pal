@@ -1,18 +1,35 @@
 {
   "id": "O03-CC2",
+  "contract": "退役迁移资源路径越界 fail-loud",
+  "target": {
+    "file": "src/migration-write-plan.glm-o.test.ts",
+    "title": "退役资源路径越界或 sha 非法 → fail-loud"
+  },
   "control": {
     "exitCode": 0,
-    "tests": 21
+    "executed": 21,
+    "passed": 21,
+    "failed": 0
   },
   "injected": {
     "exitCode": 1,
+    "executed": 21,
+    "passed": 20,
+    "failed": 1,
     "failedFullName": "O03 buildMigrationTransactionChanges：退役资源与重复目标 退役资源路径越界或 sha 非法 → fail-loud",
-    "failureMessageHead": "AssertionError: expected [Function] to throw an error",
-    "executed": 21
+    "failureMessageHead": "AssertionError: expected [Function] to throw an error"
+  },
+  "restored": {
+    "exitCode": 0,
+    "executed": 21,
+    "passed": 21,
+    "failed": 0
   },
   "hashes": {
     "original": "4fd28ecd4c767cc0eeb9cf897f15bc731e0b31e8826c2515cc7772e58d2c09b3",
     "mutated": "2d08cfb576b3f1b9d6b9e098b064aad562a3120489f6e724dab61f97e56fb8d3",
-    "restored": "4fd28ecd4c767cc0eeb9cf897f15bc731e0b31e8826c2515cc7772e58d2c09b3"
-  }
+    "restored": "4fd28ecd4c767cc0eeb9cf897f15bc731e0b31e8826c2515cc7772e58d2c09b3",
+    "rebuilt": "2d08cfb576b3f1b9d6b9e098b064aad562a3120489f6e724dab61f97e56fb8d3"
+  },
+  "patchRebuiltAndVerified": true
 }

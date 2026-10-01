@@ -1,18 +1,35 @@
 {
   "id": "O05-CC3",
+  "contract": "试炼果/舍利子 buyPrice=0 合同",
+  "target": {
+    "file": "src/pal-supply-guards.glm-o.test.ts",
+    "title": "alchemy 正控通过并校验 112/72 buyPrice=0 合同"
+  },
   "control": {
     "exitCode": 0,
-    "tests": 27
+    "executed": 27,
+    "passed": 27,
+    "failed": 0
   },
   "injected": {
     "exitCode": 1,
+    "executed": 27,
+    "passed": 26,
+    "failed": 1,
     "failedFullName": "O05 assertPalStoreBoundaryInvariant / Alchemy：边界轴 alchemy 正控通过并校验 112/72 buyPrice=0 合同",
-    "failureMessageHead": "AssertionError: expected [Function] to throw an error",
-    "executed": 27
+    "failureMessageHead": "AssertionError: expected [Function] to throw an error"
+  },
+  "restored": {
+    "exitCode": 0,
+    "executed": 27,
+    "passed": 27,
+    "failed": 0
   },
   "hashes": {
     "original": "ed7a219b1504e67adde82793e892d45946a87d83f5c103e15b0c74be9ebdf2b3",
     "mutated": "1ca8d8e2b42acba9449aa4dafb4aaf9d2cf5588041a0eed0db954c883d602be0",
-    "restored": "ed7a219b1504e67adde82793e892d45946a87d83f5c103e15b0c74be9ebdf2b3"
-  }
+    "restored": "ed7a219b1504e67adde82793e892d45946a87d83f5c103e15b0c74be9ebdf2b3",
+    "rebuilt": "1ca8d8e2b42acba9449aa4dafb4aaf9d2cf5588041a0eed0db954c883d602be0"
+  },
+  "patchRebuiltAndVerified": true
 }

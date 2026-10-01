@@ -2,12 +2,6 @@ diff --git a/packages/migrate/src/migration-write-plan.ts b/packages/migrate/src
 index 642c92ee..ce998bfc 100644
 --- a/packages/migrate/src/migration-write-plan.ts
 +++ b/packages/migrate/src/migration-write-plan.ts
-@@ -39,7 +39,7 @@ export function buildMigrationTransactionChanges(args: {
-       throw new Error(`工程规划快照缺原始字节 hash: ${path}`)
-     return hash ?? null
-   }
+@@ -42 +42 @@ export function buildMigrationTransactionChanges(args: {
 -  const projectWriteOrder = (path: string): number => (path === 'content/scenes/index.json' ? 1 : 0)
 +  const projectWriteOrder = (path: string): number => (path === 'content/scenes/index.json' ? 0 : 0)
-   for (const [path, value] of [...plan.writes].sort(
-     ([left], [right]) =>
-       projectWriteOrder(left) - projectWriteOrder(right) || left.localeCompare(right),

@@ -2,12 +2,6 @@ diff --git a/packages/migrate/src/pal-assets.ts b/packages/migrate/src/pal-asset
 index ef913497..8ae5c135 100644
 --- a/packages/migrate/src/pal-assets.ts
 +++ b/packages/migrate/src/pal-assets.ts
-@@ -350,7 +350,7 @@ function assertIndexedBattleBackground(bytes: Uint8Array, label: string): void {
-   for (let offset = 0; offset < png.data.byteLength; offset += 4) {
-     const red = png.data[offset]
-     if (
+@@ -353 +353 @@ function assertIndexedBattleBackground(bytes: Uint8Array, label: string): void {
 -      red !== png.data[offset + 1] ||
 +      false && red !== png.data[offset + 1] ||
-       red !== png.data[offset + 2] ||
-       png.data[offset + 3] !== 255
-     )

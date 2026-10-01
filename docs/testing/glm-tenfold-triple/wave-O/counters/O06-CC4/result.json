@@ -1,18 +1,35 @@
 {
   "id": "O06-CC4",
+  "contract": "directional 缺 framesPerDir 拒绝",
+  "target": {
+    "file": "src/validate.glm-o.test.ts",
+    "title": "directional 缺 framesPerDir / 非正整数 拒绝；static 通过"
+  },
   "control": {
     "exitCode": 0,
-    "tests": 19
+    "executed": 19,
+    "passed": 19,
+    "failed": 0
   },
   "injected": {
     "exitCode": 1,
+    "executed": 19,
+    "passed": 18,
+    "failed": 1,
     "failedFullName": "O06 validateSprites：layout/poses 残臂 directional 缺 framesPerDir / 非正整数 拒绝；static 通过",
-    "failureMessageHead": "AssertionError: expected [Function] to throw error matching /directional 缺 framesPerDir/ but got 'sprites[0].layout: directional frames…'",
-    "executed": 19
+    "failureMessageHead": "AssertionError: expected [Function] to throw error matching /directional 缺 framesPerDir/ but got 'sprites[0].layout: directional frames…'"
+  },
+  "restored": {
+    "exitCode": 0,
+    "executed": 19,
+    "passed": 19,
+    "failed": 0
   },
   "hashes": {
     "original": "b71778d0ed1fc2f8195cb653f34b6d51a4c37fad9c63c496baa5fcf7d83c30fa",
     "mutated": "33ec52b4759d0289e0c8af10b0d714f039101247e84e2c31566bc794a91b1fc3",
-    "restored": "b71778d0ed1fc2f8195cb653f34b6d51a4c37fad9c63c496baa5fcf7d83c30fa"
-  }
+    "restored": "b71778d0ed1fc2f8195cb653f34b6d51a4c37fad9c63c496baa5fcf7d83c30fa",
+    "rebuilt": "33ec52b4759d0289e0c8af10b0d714f039101247e84e2c31566bc794a91b1fc3"
+  },
+  "patchRebuiltAndVerified": true
 }

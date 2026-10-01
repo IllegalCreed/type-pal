@@ -1,18 +1,35 @@
 {
   "id": "O02-CC5",
+  "contract": "maps index path 非字符串 fail-loud",
+  "target": {
+    "file": "src/migration-project-io.glm-o.test.ts",
+    "title": "maps index path 非字符串 / maps 非数组分别 fail-loud"
+  },
   "control": {
     "exitCode": 0,
-    "tests": 18
+    "executed": 18,
+    "passed": 18,
+    "failed": 0
   },
   "injected": {
     "exitCode": 1,
+    "executed": 18,
+    "passed": 17,
+    "failed": 1,
     "failedFullName": "O02 discoverProjectManagedFiles：索引发现与坏索引拒绝 maps index path 非字符串 / maps 非数组分别 fail-loud",
-    "failureMessageHead": "AssertionError: expected [Function] to throw an error",
-    "executed": 18
+    "failureMessageHead": "AssertionError: expected [Function] to throw an error"
+  },
+  "restored": {
+    "exitCode": 0,
+    "executed": 18,
+    "passed": 18,
+    "failed": 0
   },
   "hashes": {
     "original": "13e4fffa9b47beb089eff15733574cccd8aa5ff21fd9f26294bf0cbdb9d83b0c",
     "mutated": "1bf3c8dc1559fa56ffe9fcfb0e6ebf4926a6ee25fa8c4b3d8ce33a6c2955322a",
-    "restored": "13e4fffa9b47beb089eff15733574cccd8aa5ff21fd9f26294bf0cbdb9d83b0c"
-  }
+    "restored": "13e4fffa9b47beb089eff15733574cccd8aa5ff21fd9f26294bf0cbdb9d83b0c",
+    "rebuilt": "1bf3c8dc1559fa56ffe9fcfb0e6ebf4926a6ee25fa8c4b3d8ce33a6c2955322a"
+  },
+  "patchRebuiltAndVerified": true
 }

@@ -2,12 +2,6 @@ diff --git a/packages/migrate/src/pal-assets.ts b/packages/migrate/src/pal-asset
 index ef913497..8fe15ea3 100644
 --- a/packages/migrate/src/pal-assets.ts
 +++ b/packages/migrate/src/pal-assets.ts
-@@ -1168,7 +1168,7 @@ export function planPalAssetRetirements(args: {
-   const targetPaths = new Set(Object.values(target.assets).map((record) => record.path))
-   const retirements: PalAssetRetirement[] = []
-   for (const [id, record] of Object.entries(previous.assets)) {
+@@ -1171 +1171 @@ export function planPalAssetRetirements(args: {
 -    if (record.origin.kind !== 'legacy-migrated' || targetPaths.has(record.path)) continue
 +    if (record.origin.kind !== 'legacy-migrated' || false) continue
-     assertRetirableMigratedPath(record.path)
-     const full = resolve(args.repo, 'projects/pal', record.path)
-     if (!existsSync(full)) continue

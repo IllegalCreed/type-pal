@@ -1,18 +1,35 @@
 {
   "id": "O04-CC4",
+  "contract": "战场背景像素 R=G=B 且 alpha=255",
+  "target": {
+    "file": "src/pal-assets.glm-o.test.ts",
+    "title": "战场背景尺寸漂移与 R=G=B 违约逐轴拒绝"
+  },
   "control": {
     "exitCode": 0,
-    "tests": 37
+    "executed": 37,
+    "passed": 37,
+    "failed": 0
   },
   "injected": {
     "exitCode": 1,
+    "executed": 37,
+    "passed": 36,
+    "failed": 1,
     "failedFullName": "O04 loadPalStaticImages：合成 88 立绘/5 头像/233 图标/52 背景 战场背景尺寸漂移与 R=G=B 违约逐轴拒绝",
-    "failureMessageHead": "AssertionError: expected [Function] to throw an error",
-    "executed": 37
+    "failureMessageHead": "AssertionError: expected [Function] to throw an error"
+  },
+  "restored": {
+    "exitCode": 0,
+    "executed": 37,
+    "passed": 37,
+    "failed": 0
   },
   "hashes": {
     "original": "131b101ef065d32bd6b0c76a04ac082eb6b9e56965de211541a198eb7219d5b8",
     "mutated": "7c93beb40bb414707b57fcadefdf6840bea3fd815a7d011e4f9e8f5c6a5ad6df",
-    "restored": "131b101ef065d32bd6b0c76a04ac082eb6b9e56965de211541a198eb7219d5b8"
-  }
+    "restored": "131b101ef065d32bd6b0c76a04ac082eb6b9e56965de211541a198eb7219d5b8",
+    "rebuilt": "7c93beb40bb414707b57fcadefdf6840bea3fd815a7d011e4f9e8f5c6a5ad6df"
+  },
+  "patchRebuiltAndVerified": true
 }

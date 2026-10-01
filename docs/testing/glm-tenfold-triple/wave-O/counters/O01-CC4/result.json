@@ -1,18 +1,35 @@
 {
   "id": "O01-CC4",
+  "contract": "迁移事务重复目标在提交侧被拒绝",
+  "target": {
+    "file": "src/migration-transaction.glm-o.test.ts",
+    "title": "重复目标在提交侧被拒绝"
+  },
   "control": {
     "exitCode": 0,
-    "tests": 31
+    "executed": 29,
+    "passed": 29,
+    "failed": 0
   },
   "injected": {
     "exitCode": 1,
+    "executed": 29,
+    "passed": 28,
+    "failed": 1,
     "failedFullName": "O01 commitMigrationTransaction：提交侧单轴拒绝合同 重复目标在提交侧被拒绝",
-    "failureMessageHead": "AssertionError: expected [Function] to throw error including '迁移事务包含重复目标' but got '迁移事务 journal 包含重复目标: projects/pal/con…'",
-    "executed": 31
+    "failureMessageHead": "AssertionError: expected [Function] to throw error including '迁移事务包含重复目标' but got '迁移事务 journal 包含重复目标: projects/pal/con…'"
+  },
+  "restored": {
+    "exitCode": 0,
+    "executed": 29,
+    "passed": 29,
+    "failed": 0
   },
   "hashes": {
     "original": "f22787611d1e0ae9b2b0ee8f03cf863a6ef48dafe4abed8ec8a841fd1561b78f",
     "mutated": "cf574a456f97c0faeccf0804563dbcc9adf64428651298365f47de0395b1d939",
-    "restored": "f22787611d1e0ae9b2b0ee8f03cf863a6ef48dafe4abed8ec8a841fd1561b78f"
-  }
+    "restored": "f22787611d1e0ae9b2b0ee8f03cf863a6ef48dafe4abed8ec8a841fd1561b78f",
+    "rebuilt": "cf574a456f97c0faeccf0804563dbcc9adf64428651298365f47de0395b1d939"
+  },
+  "patchRebuiltAndVerified": true
 }

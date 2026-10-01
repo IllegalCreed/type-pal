@@ -2,12 +2,6 @@ diff --git a/packages/migrate/src/pal-assets.ts b/packages/migrate/src/pal-asset
 index ef913497..991ef998 100644
 --- a/packages/migrate/src/pal-assets.ts
 +++ b/packages/migrate/src/pal-assets.ts
-@@ -593,7 +593,7 @@ interface ExtractedAssetManifest {
- 
- function assertWave(bytes: Uint8Array, label: string): void {
-   const tag = (offset: number): string => String.fromCharCode(...bytes.subarray(offset, offset + 4))
+@@ -596 +596 @@ function assertWave(bytes: Uint8Array, label: string): void {
 -  if (bytes.byteLength < 12 || tag(0) !== 'RIFF' || tag(8) !== 'WAVE')
 +  if (bytes.byteLength < 12 || tag(0) !== 'RIFF' || (false && tag(8) !== 'WAVE'))
-     throw new Error(`${label}: 不是 RIFF/WAVE 文件`)
- }
- 

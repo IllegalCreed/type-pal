@@ -1,0 +1,4 @@
+JSON report written to /var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-o-cc-injected-po5SFJ/vitest-injected.json
+undefined
+/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-o-cc-injected-po5SFJ/packages/migrate:
+ ERR_PNPM_RECURSIVE_EXEC_FIRST_FAIL  Command failed with exit code 1: vitest run src/pal-world-sprites.glm-o.test.ts --project unit --reporter=json --outputFile=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-o-cc-injected-po5SFJ/vitest-injected.json

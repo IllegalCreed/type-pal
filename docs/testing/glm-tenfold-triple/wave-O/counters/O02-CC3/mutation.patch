@@ -2,12 +2,6 @@ diff --git a/packages/migrate/src/migration-merge.ts b/packages/migrate/src/migr
 index fa5a2ed5..f0def13f 100644
 --- a/packages/migrate/src/migration-merge.ts
 +++ b/packages/migrate/src/migration-merge.ts
-@@ -354,7 +354,7 @@ function mergeNode(base: Node, ours: Node, theirs: Node, path: string, ctx: Merg
-     const oursOrigin = (ours.value.origin as { kind?: unknown } | undefined)?.kind
-     const theirsOrigin = (theirs.value.origin as { kind?: unknown } | undefined)?.kind
-     // 一旦作者接管 AssetId，整条记录成为作者所有；迁移侧字段不能再逐项拼入。
+@@ -357 +357 @@ function mergeNode(base: Node, ours: Node, theirs: Node, path: string, ctx: Merg
 -    if (oursOrigin === 'authored' && theirsOrigin !== 'authored') return cloneNode(ours)
 +    if (false && oursOrigin === 'authored' && theirsOrigin !== 'authored') return cloneNode(ours)
-   }
- 
-   // Equal whole subtrees have no merge work left. This is especially important for large

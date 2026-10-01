@@ -1,18 +1,35 @@
 {
   "id": "O06-CC2",
+  "contract": "入口 id 重复拒绝",
+  "target": {
+    "file": "src/validate.glm-o.test.ts",
+    "title": "入口 id 重复 / 首尾空格 / scene 不在场景索引 逐轴拒绝"
+  },
   "control": {
     "exitCode": 0,
-    "tests": 19
+    "executed": 19,
+    "passed": 19,
+    "failed": 0
   },
   "injected": {
     "exitCode": 1,
+    "executed": 19,
+    "passed": 18,
+    "failed": 1,
     "failedFullName": "O06 validateCurrentManifestStartup：manifest 字段轴 入口 id 重复 / 首尾空格 / scene 不在场景索引 逐轴拒绝",
-    "failureMessageHead": "AssertionError: expected [Function] to throw an error",
-    "executed": 19
+    "failureMessageHead": "AssertionError: expected [Function] to throw an error"
+  },
+  "restored": {
+    "exitCode": 0,
+    "executed": 19,
+    "passed": 19,
+    "failed": 0
   },
   "hashes": {
     "original": "b71778d0ed1fc2f8195cb653f34b6d51a4c37fad9c63c496baa5fcf7d83c30fa",
     "mutated": "d41c001c0eaeafc2e7b3e59813744a6c60a9b7629269d5de7bf927fde523d97c",
-    "restored": "b71778d0ed1fc2f8195cb653f34b6d51a4c37fad9c63c496baa5fcf7d83c30fa"
-  }
+    "restored": "b71778d0ed1fc2f8195cb653f34b6d51a4c37fad9c63c496baa5fcf7d83c30fa",
+    "rebuilt": "d41c001c0eaeafc2e7b3e59813744a6c60a9b7629269d5de7bf927fde523d97c"
+  },
+  "patchRebuiltAndVerified": true
 }

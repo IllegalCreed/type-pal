@@ -1,18 +1,35 @@
 {
   "id": "O01-CC1",
+  "contract": "物品剧情方案 label 漂移被永久门禁拒绝",
+  "target": {
+    "file": "src/pal-current-publication.glm-o.test.ts",
+    "title": "方案 label 漂移被永久门禁拒绝"
+  },
   "control": {
     "exitCode": 0,
-    "tests": 43
+    "executed": 43,
+    "passed": 43,
+    "failed": 0
   },
   "injected": {
     "exitCode": 1,
+    "executed": 43,
+    "passed": 42,
+    "failed": 1,
     "failedFullName": "O01 validatePalCurrentPublication：发布门与 census 拒绝合同（合成工程） 方案 label 漂移被永久门禁拒绝（名称漂移）",
-    "failureMessageHead": "AssertionError: expected [Function] to throw an error",
-    "executed": 43
+    "failureMessageHead": "AssertionError: expected [Function] to throw an error"
+  },
+  "restored": {
+    "exitCode": 0,
+    "executed": 43,
+    "passed": 43,
+    "failed": 0
   },
   "hashes": {
     "original": "2ed904b1e73e8fabc10d20ff3b7846615324af6ea5be2b7d28f6629d8fc0dda9",
     "mutated": "88b11bf640c70fcca322265258d077d8cb3544a6de86c095643f10d5254a0501",
-    "restored": "2ed904b1e73e8fabc10d20ff3b7846615324af6ea5be2b7d28f6629d8fc0dda9"
-  }
+    "restored": "2ed904b1e73e8fabc10d20ff3b7846615324af6ea5be2b7d28f6629d8fc0dda9",
+    "rebuilt": "88b11bf640c70fcca322265258d077d8cb3544a6de86c095643f10d5254a0501"
+  },
+  "patchRebuiltAndVerified": true
 }

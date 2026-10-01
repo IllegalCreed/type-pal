@@ -2,12 +2,6 @@ diff --git a/packages/migrate/src/migration-transaction.ts b/packages/migrate/sr
 index 1bce2d03..16c80142 100644
 --- a/packages/migrate/src/migration-transaction.ts
 +++ b/packages/migrate/src/migration-transaction.ts
-@@ -293,7 +293,7 @@ export function commitMigrationTransaction(
-         }
-       : {}),
-   }))
+@@ -296 +296 @@ export function commitMigrationTransaction(
 -  if (new Set(normalized.map((change) => change.target)).size !== normalized.length)
 +  if (false && new Set(normalized.map((change) => change.target)).size !== normalized.length)
-     throw new Error('迁移事务包含重复目标')
-   for (const change of normalized) {
-     assertNoSymlinkPath(repo, change.target, 'target')
