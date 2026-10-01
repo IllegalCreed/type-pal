@@ -92,7 +92,7 @@
     "counter-judge.mjs（唯一 judge）",
     "run-counter.selftest.mjs（22 用例经同一 judge）"
   ],
-  "candidateHead": "",
+  "candidateHead": "d88a4ef9e1bdd0b770f96ff94d584b522f6b3b84",
   "reworkFixes": {
     "O-01": "lint 四 JSON 与六 mutation.patch 已清零：JSON 全部过 Biome；patch 重生为 --unidiff-zero 零上下文并做 apply 重建自校验；git diff --check 0",
     "O-02": "17 处 as never/as unknown as 桥清零：plan/write-plan/transaction/publication/sprites/guards 全部改 typed 合法 fixture（validateAuthorItems/validateAuthorScenes 守卫返回、convertSourceTilemap 真形、legalManifest、PoisonDef/EnemyStats 全字段）；不可构造轴（缺 expectedPreviousHash、journal preconditions 非数组等）改经真实 unknown/JSON 域或登记 unreachable",
@@ -117,7 +117,7 @@
     "O-R7-03": "回执按最终树实数：469 例/254/189/26、缺口 231（与 README 一致）、690→691 路径（本轮实测）、65 存档 63 不同目标（两组共享目标如实分列）、上一轮工具/证据锚 41ce5430 与报告锚 0926ec0e 分开登记"
   },
   "headNote": "candidateHead=本轮最后测试/工具/证据提交（非 docs-only）；其后仅 receipt/README 维护，区间以 git log 区分；remoteFinalCandidate=实际推送终候选值（非自引用）",
-  "remoteFinalCandidate": "ed381455293d32e84c9a5eb1813ce807a4cb2f47",
+  "remoteFinalCandidate": "db8c10e07c38e3375c6a935db83980c44887a177",
   "anchors": {
     "previousToolEvidenceAnchor": "41ce5430390be3b05e87ff5aba5789e382e64829（r7 测试+工具提交；0926ec0e 仅其后的报告文档锚）",
     "note": "本轮锚点见 candidateHead；历史数字一律标历史"
