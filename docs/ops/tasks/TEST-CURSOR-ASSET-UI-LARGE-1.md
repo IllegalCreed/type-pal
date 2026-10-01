@@ -1,0 +1,106 @@
+# TEST-CURSOR-ASSET-UI-LARGE-1 — Editor资源编辑/叶组件/设计控件大包补测
+
+Status: build
+Phase: phase2
+Capability: editor-assets-leaf / test-coverage
+Coding Owner: Cursor（仅新测试/专属fixture/证据）
+Generation Owner: N/A（不生成美术）
+Reviewer: Codex（独立验收与正式结算）
+Visual Verification Owner: Cursor最小功能验证，Codex终审
+Visual Verification Timing: dev-functional（自有合成小工程，不走剧情）
+Contributor: Cursor
+Branch: `codex/cursor-asset-ui-large-r1`
+
+## 目标、隔离与范围
+
+十批连续交付：**700合法未重复新合同、70工作组、50有效反控、12真实功能流程**。
+[共同协议](../../testing/grok-cursor-large/README.md) GC-1及
+[精确74源/SHA256](../../testing/grok-cursor-large/targets.json)为硬边界；
+历史1431未命中臂不是现在覆盖、全部可达或收益承诺。
+
+Cursor拥有表内资源编辑叶组件、design-system与相关sprite/frame/tileset/audio/stamp草稿服务；
+App/MapMode/ScriptEditor/SceneCanvas/保存/诊断/Actor与一般数据表等不在源表的主合同仍GLM P。
+design-lab只读消费者；资源源的行为测试可调用公开只读EditSession/命令，不mock核心凑oracle。
+L/M、旧Cursor/Grok治理/资源/帧动画测试及P最新67例先逐断言排重，不以不同suffix当新合同。
+深链#0、Esc通知与所有E2E产品卡只读，不能顺手修产品或改变样式。
+
+工作树：`/Users/zhangxu/.codex/worktrees/cursor-asset-ui-large/type-pal`。
+从targets注册提交BASE开 `codex/cursor-asset-ui-large-r1`，生产冻结完整值见协议。
+只写editor新 `.cursor-r1.test.ts(x)`、`src/__tests__/cursor-asset-r1/**`、
+`docs/testing/grok-cursor-large/cursor/**`。不向reforge/content/shared写测试/fixture或产品。
+公共IO边界可typed spy、业务命令/资源编解码/会话必须真实调用，禁止照搬旧非法测试fixture。
+
+## 前提真值门与上下文
+
+前提：canonical作者资源编辑、选择、异步归属和键盘入口已存在，结果可经真实公开状态/DOM/资源读回；
+只补测试证据，不改变UI形态、保存版本、机制或兼容开发旧格式。before→after为合同覆盖增强。
+
+| 维度 | 已核直接证据/边界 |
+|---|---|
+| primary | `ui/SpriteUploadWizard.tsx:80–195`真实session/selection/revision/外部decode入口；`ui/design-system/reorder.tsx:48–125`公开insert/swap/no-op/目标排除 |
+| 第一阶段 | 仅现行菜单/显示形态参考，不改变布局；不把一阶段索引坐标或动态palette带回二阶段 |
+| 二阶段 | `core/frame-animation-draft.ts:51,112,163,216,256–293`草稿/帧/历史真实入口；`ui/AudioAssetWorkbench.tsx:371`策略/transport边界；表内stamp命令/草稿真实公开入口 |
+| 目标 | 合法完整typed EditorState/EditSession，公开操作→真实命令→状态/DOM/资源oracle；所有数据/资产合成且隔离 |
+
+最强替代解释：未命中只是旧测试已证或需要非法输入/私有闭包/新接口。
+推翻观察：只能mock业务核心、用as never/unknown双桥、改产品字段或偷私有state才覆盖，停该组举证。
+不可合法构造必须查真实caller/公开seed，不凭类型猜blocked；分类不得整体缩围。
+先读READ-FIRST、frame-editor历史回归和L/M旧断言，再读每个主源真实公开调用域。
+
+旧证明必须抽查实际matcher：
+`ui/SpriteUploadWizard.test.tsx:82,123`多帧源/锁重复提交；
+`ui/BattleSpriteLibrary.test.tsx:282–664`fail-closed/引用/用途/缩短帧；
+`ui/AudioAssetWorkbench.test.tsx:151,229`短音端点/异步删除重新核引用；
+`ui/design-system/reorder.test.tsx:251–1159`键盘/pointer/取消/token/no-op。
+它们只读；其中旧mock/强转不是本卡合法fixture许可，不重领已证生命周期合同。
+关联资料：[Codex帧动画编辑](../../testing/codex-frame-editor/README.md)、
+[L/M/N并集](../../testing/glm-next-triple/codex-lm-union-review.md)与共同协议P固定候选。
+
+## 十个连续批次（每批7组，约70新例/5有效反控）
+
+| 批 | 主范围 / 精确结果 |
+|---|---|
+| C01 | WorldSpriteLibrary静态资源；选择/过滤/引用/命令结果，排L/M与旧业务；自动脚本/完成流投影因main源漂移只读停线 |
+| C02 | BattleSpriteLibrary + battle-sprite-commands/import；用途/ABI/引用/共享帧迟到保护，不伪造引用索引 |
+| C03 | SpriteUploadWizard/ResourceViewer/上传叶与真实image-import；合法输入/重复/取消/迟到释放 |
+| C04 | FrameAnimationEditor + draft/history；真实时长/插删换排/undo-redo与选择归属 |
+| C05 | SpriteActionEditor/Dialog/FrameWorkbench与sprite-actions/commands；真实动作帧及资源身份 |
+| C06 | PreviewCanvas/EnemyAnim/Fire/BattleInline/Portrait/Entity动画叶；真实不透明像素、清理和选择恢复 |
+| C07 | ImageTab/static-image/frame-images/worker-client/codec；真实合成字节、边界IO与资源关闭 |
+| C08 | TilesetTab/commands/references + Stamp叶/draft/template；只测表内主合同，不抢MapMode/SceneCanvas |
+| C09 | AudioAssetWorkbench + audio-preview/session；合成音频策略IO/transport/引用重新核验，不改audio运行时 |
+| C10 | design-system select/reorder/virtual-list/navigation/number/overlays等；键盘焦点/取消/归属，排历史治理与adoption已证 |
+
+七轴扫描：创建；编辑/替换；删除/引用阻断；撤销重做；取消失败恢复；键盘焦点；迟到与资源归属。
+无对应轴则N/A，不虚构API。100%源旧证明充分则existing-proof，不硬造参数化测试。
+12条实际自有小工程功能流程覆盖至少资源6/设计控件4/异步失败恢复2；
+宽窄窗+键盘/真实前后状态，截图SHA256及完整console分类。流程必须不同合同，不拿截图数充数。
+不能接管其它会话浏览器/6010服务，先查端口/归属，复用只读可用服务或自有隔离宿主。
+新增browser/visual子目录须从自己的README链接。真实Canvas2D不可用诚实blocked，不fake像素。
+
+## 验收与当前推进
+
+协议要求700最终合法新例、70组/50枚有效counter全三态、真实拒收探针、12流程、
+file/fullName/status、逐合同条件/caller/旧断言matcher/新axis/精确oracle，
+私有同分母coverage与准确receipt、缺陷/未证账。不得在模板账后用总数宣称完成。
+每批定向相邻/editor typecheck；末批串行editor全包test/typecheck、根lint完整0/0/0、
+docs/diff/verifier。环境或存量异常单列给Codex、不越界修，不把exit0当全门通过。
+源或执行集变动仅重采受影响counter；不追溯改写历史原证据。
+
+Codex核74源hash、公开入口、旧证明与GC-1分配，**build allowed仅新测试白名单**。
+作者交付pending；Codex独立accept/done blocked。用户产品体验裁决N/A（纯补测，形态不变）。
+700不足只能逐条件举证交Codex裁决；不能把不可合法输入等同授权修接口。
+派发前与当前main逐源核hash：world-sprite-behavior不一致，已移出保留表，
+以未漂移stamp-commands替换；自动脚本预览与完成流相关轴不开放，不能对旧投影冒称当前合同。
+贡献者不合main、不标done、不跑官方ratchet/清树；正式收益只认Codex并集实测。
+
+## 下一位Cursor提示词
+
+```text
+你是TEST-CURSOR-ASSET-UI-LARGE-1唯一测试Owner Cursor。在本卡指定隔离工作树/分支，从grok-cursor-large/targets.json注册提交完整BASE开工。
+先读AGENTS、READ-FIRST、本卡、grok-cursor-large共同协议/targets、帧动画与L/M历史证明；用git show固定P候选读67例断言，核冻结与真实排重。
+连续C01-C10，700合法未重复新合同/70组/50有效反控/12自有小工程真实功能流程，不逐批等继续；首批真账和typed宿主小样，每批定向相邻/typecheck，阶段提交推送后继续。
+仅新.cursor-r1测试/专属cursor-asset-r1 fixture/cursor证据可写，主合同仅74源；App/MapMode/ScriptEditor等P剩余源只读。产品/旧测/共享文档/配置/官方baseline/真实数据/其它队列只读。
+禁止非法fixture、强转桥、核心mock、私有state/扩大timeout；新机制/真缺陷/源漂移仅停受影响组举证。交完整fullName JSON、实际旧断言和精确oracle、counter三态原证据及拒收自测、私有覆盖和真实视觉流程证据。
+末批串行editor全包test/typecheck、lint0/0/0、docs/diff/verifier，推完整真实候选SHA；不合main、不标done、不跑正式ratchet。
+```

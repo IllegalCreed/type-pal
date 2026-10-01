@@ -8,6 +8,8 @@
 
 ## 文档与附件
 
+- [Grok / Cursor 两条独立大包](grok-cursor-large/README.md)（2026-10-01；46/74源独占，400/700合法新例目标，40/50反控，十批连续；GLM P/Q新合同避让，未交付/未正式结算）。
+
 - [GLM 十倍三条独立大包 O–Q](glm-tenfold-triple/README.md)（2026-09-30；每卡700合法新例/50反控，716源按包独占；O优先补migrate门，正式收益待并集实测）。
 - [O/P/Q 独立复核与返工](glm-tenfold-triple/codex-review-20261001.md)（2026-10-01；457新例实跑绿，三卡部分交付及硬性counter，均rework，未合main/未结算）。
 - [Q r2独立复核](glm-tenfold-triple/codex-q-r2-review-20261001.md)（2026-10-01；三包5297绿、115逐例一致，四针hash/CLI超时/缩围仍counter；读档IO缺陷另列draft）。

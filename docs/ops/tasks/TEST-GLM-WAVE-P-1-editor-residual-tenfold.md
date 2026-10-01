@@ -8,6 +8,15 @@ Reviewer: Codex（独立验收、集成与正式结算）
 Visual Verification Timing: dev-functional（自有小工程；不改产品UI）
 Branch: `codex/glm-wave-p-editor-residual-r1`（新独立worktree）
 
+## 最新新增合同边界与模型（2026-10-01 GC-1）
+
+[Cursor保留74源](../../testing/grok-cursor-large/targets.json)的后续新主合同/反控归Cursor，
+取代下文“Editor全包新增合同独占”；P继续其余源和原审核窄返工，原67例/10针证据保留。
+不得删除历史交付、改Cursor树或顺手扩大旧合同；依赖允许只读调用。
+原派发/冻结/700例/70组/50针/20流程目标不变，原counter仍需闭合。
+模型明确：类型/反控/合同账与代码余族用GLM-5.3；实际截图读图阶段用GLM-5.3-Flash。
+用户手动转发，不冒称已收到边界，不恢复ZCode操作。
+
 ## 目标与冻结
 
 本卡目标 **700合法未重复用例、70合同工作组、50有效反控、20条实际功能流程**。

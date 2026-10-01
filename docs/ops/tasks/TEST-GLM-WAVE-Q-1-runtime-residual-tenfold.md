@@ -8,6 +8,15 @@ Reviewer: Codex（独立验收、集成和正式结算）
 Visual Verification Timing: dev-functional（仅非剧情菜单/有限trial）
 Branch: `codex/glm-wave-q-runtime-residual-r1`（新独立worktree）
 
+## 最新新增合同边界与模型（2026-10-01 GC-1）
+
+[Grok保留game46源](../../testing/grok-cursor-large/targets.json)的后续新主合同/反控归Grok，
+取代下文“game全包新增合同独占”；Q保留runtime/battle/event等其它源和原审核窄返工。
+已有framebuffer测试与有效证据原样保留作为排重基线，不重领、不代改Grok树；
+依赖可只读调用，原派发/冻结/700例/50组/50针/10流程及counter不变。
+模型明确：代码/类型/反控/合同账用GLM-5.3；实际宿主截图读图阶段用GLM-5.3-Flash。
+用户手动转发，不冒称已收到边界，不恢复ZCode操作。
+
 ## 目标、冻结与停线
 
 目标 **700合法未重复用例、50合同工作组、50有效反控、10条实际非剧情功能流程**。

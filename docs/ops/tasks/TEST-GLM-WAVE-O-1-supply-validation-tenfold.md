@@ -8,6 +8,8 @@ Reviewer: Codex（独立验收、集成和正式覆盖结算）
 Visual Verification Timing: N/A（CLI/纯校验；不改UI）
 Branch: `codex/glm-wave-o-supply-validation-r1`（新独立worktree）
 
+Execution Model: GLM-5.3（个人套餐文本模型；代码/类型/反控/账目，无视觉阶段）
+
 ## 目标、冻结与排重
 
 用户2026-09-30要求三张至少十倍规模的独立卡。O目标 **700合法未重复用例、60合同
