@@ -107,6 +107,15 @@ export function runOpeningMenu(deps: {
     const cleanup = (): void => {
       cancelAnimationFrame(raf)
       window.removeEventListener('keydown', onKey, true)
+      // Retire the title's pixels as well as its input/frame ownership. The entry video
+      // is a DOM overlay; when it closes, scene loading must not expose the old menu.
+      ctx.save()
+      ctx.resetTransform()
+      ctx.globalAlpha = 1
+      ctx.globalCompositeOperation = 'source-over'
+      ctx.fillStyle = '#000'
+      ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height)
+      ctx.restore()
     }
 
     // 进读档相位:载 metas + 解码缩略图(同系统菜单 refreshSaveMetas),开浏览器(load 模式)。

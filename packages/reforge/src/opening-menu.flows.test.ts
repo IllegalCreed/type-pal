@@ -72,6 +72,7 @@ async function opening(metas: SaveMeta[] = []) {
   host.frame()
   return {
     h: host,
+    canvas,
     state,
     done,
     consumed,
@@ -97,6 +98,13 @@ test.each([
     await key(o.h, direction)
     await key(o.h, 'Enter')
     expect(await o.done).toEqual({ kind: 'new', entryId: 'second' })
+    expect(o.h.draws.slice(-4).map((draw) => draw.method)).toEqual([
+      'save',
+      'resetTransform',
+      'fillRect',
+      'restore',
+    ])
+    expect(o.h.draws.at(-2)?.args).toEqual([0, 0, o.canvas.width, o.canvas.height])
     expect(o.h.frames.size).toBe(0)
     const draws = o.h.draws.length
     await key(o.h, 'ArrowDown')
@@ -146,6 +154,13 @@ test('H2 real load browser crosses pages and returns selected nonempty slot afte
     await key(o.h, 'ArrowRight')
     await key(o.h, 'Enter')
     expect(await o.done).toEqual({ kind: 'load', slotId: 'm02' })
+    expect(o.h.draws.slice(-4).map((draw) => draw.method)).toEqual([
+      'save',
+      'resetTransform',
+      'fillRect',
+      'restore',
+    ])
+    expect(o.h.draws.at(-2)?.args).toEqual([0, 0, o.canvas.width, o.canvas.height])
     expect(o.reads).toEqual(['meta', 'thumb:m02'])
     expect(o.h.frames.size).toBe(0)
   } finally {

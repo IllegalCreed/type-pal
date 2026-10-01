@@ -3,6 +3,7 @@ import { readFile, writeFile } from 'node:fs/promises'
 import { resolve } from 'node:path'
 import { repoRoot, runBrowserJourney, sha256 } from './browser-journey.mjs'
 import { waitForOpeningFrame } from './opening-frame.mjs'
+import { assertOpeningHandoff, installOpeningHandoffObserver } from './opening-handoff.mjs'
 import { assertOpeningMatrix, readOpeningContract } from './opening-matrix.mjs'
 import { appendBounded } from './opening-policy.mjs'
 import { openingTiming } from './opening-timing.mjs'
@@ -32,6 +33,7 @@ await runBrowserJourney({
   packageName: '@type-pal/reforge',
   environment: { VITE_PROJECT_ID: 'pal' },
   traceConfig: 'scripts/e2e/reforge-trace.config.mts',
+  initScripts: [installOpeningHandoffObserver],
   sources: [
     'projects/pal/manifest.json',
     'projects/pal/assets/index.json',
@@ -48,6 +50,7 @@ await runBrowserJourney({
     'scripts/e2e/opening-matrix-observer.mjs',
     'scripts/e2e/opening-matrix.mjs',
     'scripts/e2e/opening-frame.mjs',
+    'scripts/e2e/opening-handoff.mjs',
     'scripts/e2e/reforge-trace.config.mts',
   ],
   journey: async ({ newPage, baseURL, out, report, until, health }) => {
@@ -99,6 +102,8 @@ await runBrowserJourney({
       cursor: 0,
       selectedId: 'new-game',
     })
+    await page.screenshot({ path: resolve(out, '001-title.png') })
+    await page.evaluate((path) => window.__openingHandoff.arm(path), introPath)
     await press('Enter', '新的故事')
     await until(snapshot, (s) => s.video === introPath, 'native entry video starts')
     const videoEvidence = await until(
@@ -113,6 +118,21 @@ await runBrowserJourney({
     assert(!videoEvidence.overflow, 'video evidence overflow')
     assert(!videoEvidence.events.some((e) => e.kind === 'error'), 'video decode failure')
     report.videos = videoEvidence.events
+    const handoff = await page.evaluate(() => window.__openingHandoff.read())
+    for (const [name, frame] of [
+      ['001-title-canvas.png', handoff.title],
+      ['001-video-handoff.png', handoff.removals[0]?.frame],
+    ])
+      if (frame?.png)
+        await writeFile(resolve(out, name), Buffer.from(frame.png.split(',')[1], 'base64'))
+    report.handoff = {
+      title: handoff.title ? { ...handoff.title, png: undefined } : null,
+      removals: handoff.removals.map((removal) => ({
+        ...removal,
+        frame: { ...removal.frame, png: undefined },
+      })),
+    }
+    assertOpeningHandoff(handoff, introPath)
     await until(snapshot, (s) => !!s.runtime, 'runtime initialized', 60_000)
     report.milestones = {}
     for (;;) {

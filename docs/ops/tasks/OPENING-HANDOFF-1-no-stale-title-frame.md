@@ -37,6 +37,26 @@ Visual Verification Timing: mixed
 - 自验pending；Root须直接读diff/真实失败与成功收据、必要最小浏览器视觉证据后独立接收。
 - 用户体验pending；不把本卡与编辑器三项工作或存档版本改动合并实现。
 
+## 贡献者一手复核与窄修
+
+- 独立 premise verified：一阶段 `packages/game/src/shell/bootstrap.ts:1607-1618` 已记录同型残帧缺陷，
+  AVI 返回时清 framebuffer 并立即 flush 黑屏。二阶段 `opening-menu.ts:107-110` 只结束帧/输入 owner，
+  `main.ts:530-536` 随后先等入口视频，再建立世界与首帧；标题像素没有被其它 owner 覆盖。
+- 最强替代解释“菜单重新打开”已被实际撤层证据推翻：视频 native `ended` 后、runtime 尚未 ready 时，
+  真实 canvas 仍为原菜单像素；不是第二次菜单状态，也不是 E2E 后续读档新页面。
+- 2026-10-01红控：`build/e2e/reforge-001-2026-10-01T14-42-21-770Z/report.json` status failed，
+  标题和自然结束撤层窗口都是 1280×800、406480 非黑像素；`001-video-handoff.png` 实际显示旧标题菜单。
+  `/tmp/opening-handoff-red.log` 保留原始失败，未调整动画时延、驱动阈值或视频资源。
+- 相邻真实菜单回归先红：`/tmp/opening-handoff-unit-red.log` 3 failed / 1 passed；新故事与实际非空读档退出都缺清屏。
+- 修法：清理标题 owner 时同步填满其 canvas 为不透明黑（保存/恢复 context，重置变换）；
+  在 Promise 返回给 boot、视频 URL 解析与视频撤层之前完成。新故事、无 intro 的入口和读档都不再携带已退出的标题像素。
+  不改 `main.ts`、通用 `video-player.ts`、500ms 跳过规则、存档、正文或任何 6012 生命周期。
+- RF001 新增只读 DOM 撤层 observer：在 native 入口视频 removal 的 MutationObserver 回调读真实 RGBA，
+  同时要求自然结束、runtime 尚未 ready、标题非黑、撤层全黑且不透明，保存 title/handoff PNG；
+  继续原有 s000→s001 演出、菜单控制、SAVE10 跨页读档与最终真实首帧检查，不能靠永远黑屏过门。
+- 自验当前绿：相邻4文件16 tests；全仓 lint 2727 files、0 errors / 0 warnings / 0 infos。
+  冻结版本 RF001、完整 reforge check、工具回归与候选收据待补。
+
 ## 下一位 Agent 提示词
 
 opening_handoff在隔离工作树实现及自验，提交候选SHA、红绿日志与实际画面交接证据；Root独立验收，不得自行合main。
