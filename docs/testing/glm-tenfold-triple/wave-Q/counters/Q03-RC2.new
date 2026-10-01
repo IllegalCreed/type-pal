@@ -1,2 +1,2 @@
-  adapter.currentTime = 4 // 变异轴：换合法 seek 值
+  adapter.currentTime = 4 // 变异轴：合法 seek 值
   expect(adapter.currentTime).toBe(3)

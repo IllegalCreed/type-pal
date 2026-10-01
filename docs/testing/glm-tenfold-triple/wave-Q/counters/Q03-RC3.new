@@ -1,1 +1,2 @@
-  spessa.ready.fail = false // 变异轴：ready 正常（合法旗标值）
+  runtime.dispose() // 变异轴：复用断言前先关闭（合法宿主时序）
+  await expect(runtime.initialize()).resolves.toBe(adapter)

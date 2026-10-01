@@ -1,0 +1,1 @@
+  rolesView.setUint16(24, 2, true) // SoA: avatar/spriteNumInBattle 之后第 3 字段 spriteNum, role 0

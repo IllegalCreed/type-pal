@@ -24,7 +24,7 @@
     "updated": 0,
     "didUpdate": false
   },
-  "startTime": 1790828783518,
+  "startTime": 1790837435997,
   "success": false,
   "testResults": [
     {
@@ -34,7 +34,7 @@
           "fullName": "Q03 spessa 初始化：无 audioWorklet 按 secure context 指路拒绝",
           "status": "passed",
           "title": "Q03 spessa 初始化：无 audioWorklet 按 secure context 指路拒绝",
-          "duration": 2.244541999999967,
+          "duration": 1.8949579999999742,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -44,7 +44,7 @@
           "fullName": "Q03 spessa 初始化成功链：模块 URL、RIFF 音色库、16 通道混响 91 锁定",
           "status": "passed",
           "title": "Q03 spessa 初始化成功链：模块 URL、RIFF 音色库、16 通道混响 91 锁定",
-          "duration": 0.9850000000000136,
+          "duration": 0.8714170000000081,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -54,7 +54,7 @@
           "fullName": "Q03 spessa 初始化：非 RIFF 音色库拒绝并销毁合成器，可重试",
           "status": "passed",
           "title": "Q03 spessa 初始化：非 RIFF 音色库拒绝并销毁合成器，可重试",
-          "duration": 0.6865829999999846,
+          "duration": 0.6143329999999878,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -64,7 +64,7 @@
           "fullName": "Q03 spessa 初始化：音色库读取失败销毁合成器并原样抛出",
           "status": "passed",
           "title": "Q03 spessa 初始化：音色库读取失败销毁合成器并原样抛出",
-          "duration": 0.31041599999997516,
+          "duration": 0.3067079999999578,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -74,7 +74,7 @@
           "fullName": "Q03 spessa 初始化：isReady 拒绝销毁合成器并原样抛出",
           "status": "passed",
           "title": "Q03 spessa 初始化：isReady 拒绝销毁合成器并原样抛出",
-          "duration": 0.26716600000003154,
+          "duration": 0.24604199999998855,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -84,7 +84,7 @@
           "fullName": "Q03 试听 runtime：无任何 AudioContext 构造器返回 undefined",
           "status": "passed",
           "title": "Q03 试听 runtime：无任何 AudioContext 构造器返回 undefined",
-          "duration": 0.07754200000005085,
+          "duration": 0.07037500000001273,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -94,7 +94,7 @@
           "fullName": "Q03 试听 runtime：webkitAudioContext 回退可用",
           "status": "passed",
           "title": "Q03 试听 runtime：webkitAudioContext 回退可用",
-          "duration": 0.12874999999996817,
+          "duration": 0.11524999999994634,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -104,9 +104,9 @@
           "fullName": "Q03 试听 runtime：适配器透传 sequencer 传输操作与快照字段，二次 initialize 复用",
           "status": "failed",
           "title": "Q03 试听 runtime：适配器透传 sequencer 传输操作与快照字段，二次 initialize 复用",
-          "duration": 3.950458000000026,
+          "duration": 2.898584000000028,
           "failureMessages": [
-            "AssertionError: expected 4 to be 3 // Object.is equality\n    at /private/tmp/glmq/counter-copy/type-pal/packages/reforge/src/audio-spessa-runtime.glm-q.test.ts:255:31\n    at processTicksAndRejections (node:internal/process/task_queues:103:5)\n    at file:///private/tmp/glmq/counter-copy/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:20"
+            "AssertionError: expected 4 to be 3 // Object.is equality\n    at /private/tmp/glmq/counter-copy/type-pal/packages/reforge/src/audio-spessa-runtime.glm-q.test.ts:253:31\n    at processTicksAndRejections (node:internal/process/task_queues:103:5)\n    at file:///private/tmp/glmq/counter-copy/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:20"
           ],
           "meta": {},
           "tags": []
@@ -116,7 +116,7 @@
           "fullName": "Q03 试听 runtime：dispose 暂停并销毁合成器、关闭 context；之后 initialize AbortError",
           "status": "passed",
           "title": "Q03 试听 runtime：dispose 暂停并销毁合成器、关闭 context；之后 initialize AbortError",
-          "duration": 0.8444580000000315,
+          "duration": 0.6108329999999569,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -126,7 +126,7 @@
           "fullName": "Q03 试听 runtime：初始化中途 dispose 销毁迟到合成器并以 AbortError 收尾",
           "status": "passed",
           "title": "Q03 试听 runtime：初始化中途 dispose 销毁迟到合成器并以 AbortError 收尾",
-          "duration": 50.390874999999994,
+          "duration": 51.75224999999995,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -136,7 +136,7 @@
           "fullName": "Q03 analyzeMidiBytes 解析真实 MIDI 字节并产出 note-activity",
           "status": "passed",
           "title": "Q03 analyzeMidiBytes 解析真实 MIDI 字节并产出 note-activity",
-          "duration": 39.94383300000004,
+          "duration": 37.129707999999994,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -146,14 +146,14 @@
           "fullName": "Q03 analyzeMidiBytes 对非 MIDI 字节 fail-loud",
           "status": "passed",
           "title": "Q03 analyzeMidiBytes 对非 MIDI 字节 fail-loud",
-          "duration": 0.5660830000000487,
+          "duration": 0.4275830000000269,
           "failureMessages": [],
           "meta": {},
           "tags": []
         }
       ],
-      "startTime": 1790828784019,
-      "endTime": 1790828784119.5662,
+      "startTime": 1790837436387,
+      "endTime": 1790837436484.4275,
       "status": "failed",
       "message": "",
       "name": "/private/tmp/glmq/counter-copy/type-pal/packages/reforge/src/audio-spessa-runtime.glm-q.test.ts"

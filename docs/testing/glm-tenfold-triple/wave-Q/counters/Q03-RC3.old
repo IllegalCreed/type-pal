@@ -1,1 +1,1 @@
-  spessa.ready.fail = true // getter 求值时生效，初始化链内 isReady 拒绝
+  await expect(runtime.initialize()).resolves.toBe(adapter)

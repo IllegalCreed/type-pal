@@ -1,0 +1,57 @@
+{
+  "id": "Q10-RC1",
+  "file": "packages/pal-extract/src/cli-isolated.glm-q.test.ts",
+  "targetFullName": "Q10 CLI 隔离实跑：合成 DATA.MKF 走完数据表段（逐表落盘 + SPRITEUI/effect blob）",
+  "targetNameSubstring": "合成 DATA.MKF 走完数据表段",
+  "axis": "输入轴单轴变异：合成 STORE 表首格物品 61→62（合法 wObjectID，词表 62 为空）；断言不动。",
+  "sha256": {
+    "original": "e46949e5fe6b9fbf92b46b2cc326aaf68fc9d159c6427580d867912baa3d03bd",
+    "mutated": "0c73fe3bc263d74d55789ea0842d71b71fdb5f04b37d7df0fb78cd6c0dc80a55",
+    "restored": "e46949e5fe6b9fbf92b46b2cc326aaf68fc9d159c6427580d867912baa3d03bd"
+  },
+  "restoredHashUnchanged": true,
+  "criteria": {
+    "positiveGreen": true,
+    "mutantExactlyOneTargetRed": true,
+    "targetAssertionError": "AssertionError: expected [ { id: +0, items: [ 62 ] } ] to deeply equal [ { id: +0, items: [ 61 ] } ]",
+    "restoredGreen": true,
+    "restoredSameExecutionCount": true,
+    "hashesMatchFinalCandidate": true
+  },
+  "runs": {
+    "positive": {
+      "exitCode": 0,
+      "summary": {
+        "numTotalTests": 3,
+        "numPassedTests": 3,
+        "numFailedTests": 0,
+        "success": true
+      },
+      "json": "Q10-RC1.positive.json",
+      "raw": "Q10-RC1.positive.txt"
+    },
+    "mutant": {
+      "exitCode": 1,
+      "summary": {
+        "numTotalTests": 3,
+        "numPassedTests": 2,
+        "numFailedTests": 1,
+        "success": false
+      },
+      "json": "Q10-RC1.mutant.json",
+      "raw": "Q10-RC1.mutant.txt"
+    },
+    "restored": {
+      "exitCode": 0,
+      "summary": {
+        "numTotalTests": 3,
+        "numPassedTests": 3,
+        "numFailedTests": 0,
+        "success": true
+      },
+      "json": "Q10-RC1.restored.json",
+      "raw": "Q10-RC1.restored.txt"
+    }
+  },
+  "verdict": "VALID"
+}

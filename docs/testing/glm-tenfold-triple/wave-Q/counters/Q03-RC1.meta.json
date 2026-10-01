@@ -5,9 +5,9 @@
   "targetNameSubstring": "无任何 AudioContext 构造器返回 undefined",
   "axis": "输入轴单轴变异：无 AudioContext 用例补上 webkitAudioContext=undefined → 改为宿主存在 webkit 构造器（合法宿主形态）；断言不动。",
   "sha256": {
-    "original": "fcd5410400adf30adf0820fb58d9f7855a571f107550905ce9c1acb7d0c909ca",
-    "mutated": "38b89bfb86ffe93ed6440f1da9dd7a905cefbff27bf9ffc443ddc974fbc9279a",
-    "restored": "fcd5410400adf30adf0820fb58d9f7855a571f107550905ce9c1acb7d0c909ca"
+    "original": "5f1f78ff0eda105bb476df7d812dc943f639c2b009c1edef6148286a1f7feb5b",
+    "mutated": "2e659bb6a4fe06880a63204ebc58fca7ee907cb9a0e0c2fe67f778498f943d43",
+    "restored": "5f1f78ff0eda105bb476df7d812dc943f639c2b009c1edef6148286a1f7feb5b"
   },
   "restoredHashUnchanged": true,
   "criteria": {

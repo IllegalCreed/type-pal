@@ -1,13 +1,38 @@
-# Wave Q：两阶段runtime与解码残余合同十倍包 — GLM Q 交付总账（r2 返工）
+# Wave Q：两阶段runtime与解码残余合同十倍包 — GLM Q 交付总账（r3 返工）
 
 Coding Owner: GLM Q；[任务卡](../../../ops/tasks/TEST-GLM-WAVE-Q-1-runtime-residual-tenfold.md)、
 [共同协议](../README.md)、[冻结表](../targets.json)、Codex 2026-10-01 独立审查 `docs/testing/glm-tenfold-triple/codex-review-20261001.md`（落盘于审查树 codex/glm-lmn-acceptance-r1；按不 cherry-pick 纪律未拷入本分支，机器证据 codex-review-20261001.json 同）。
 分支 `codex/glm-wave-q-runtime-residual-r1`（独立 worktree），派发提交
 `8b3ca062953b17a12178f8d1a9e36657971234b1`，生产冻结 `3ac9a2e2f6aba8a5cc97640c18fef8549d199380`，
 起点候选 `626ddffe41cca4e3755dfafea1645c695c158b0f`（r1，被 counter → rework）。
-本文件描述 **r2 返工候选**。不合 main、不标 done。
+本文件描述 **r3 返工候选**（r2 二审 counter，Q-01/Q-02/F1 撤回三项已关闭不重开）。
+不合 main、不标 done。
 
-## r2 相对 r1 的改动（对应审查 Q-01～Q-04 / COMMON-01）
+## r3 相对 r2 的改动（对应二审 Q-R2-01～04）
+
+1. **Q-R2-01 反控重采**：Q03-RC1～RC4 在最终格式化 audio 文件（`5f1f78ff…`）上真实重采
+   三态（正/变/恢复各 JSON+raw+退出码+执行数，恰一目标 AssertionError）；**全部 39 枚**
+   （原 34 + Q10 新 5）的 original/restored SHA256 与最终候选文件逐一复核相等
+   （v2 执行器自动判据 verdict=VALID×39）。判据按二审纠正保留 `Error: promise resolved…`
+   原文（实为 rejects 业务断言，不判环境红）。
+2. **Q-R2-02 超时**：`cli-isolated` 两条 60000 超时删除（现存 0 处），默认门下子进程
+   失败/取消正常收尾；CLI 两例 + DATA 新例 + pal-extract 全包/typecheck 复跑绿。
+3. **Q-R2-04 元数据**：README Q01 行改「6（+fixture）」，各行合计 16；receipt
+   `shortfall.deliveredCases=115`（r3 增 1 后 116，随树再生成）；`candidateHead` 用完整
+   40 位测试候选 SHA，docs-only 说明放独立字段 `candidateHeadNote`。
+4. **Q-R2-03 继续合法残余**：
+   - **Q10 DATA 段解锁**：`buildDataMkf()` 合成 15 chunk 最小合法表（STORE 18B/
+     ENEMY 70B/TEAM 10B/PLAYERROLES 900B SoA/MAGIC 32B/FIELD 12B/LEVELUPMAGIC 20B/
+     SPRITEUI=encodeSpriteChunk 正向构造/effect 同构/BATTLEEFFECTINDEX 40B/dialog icons
+     282B/ENEMYPOS 100B/LEVELEXP 200B），CLI 走完**数据表段**：逐表落盘（stores 首零截断/
+     magic/enemies/roles spriteNum 真值回读/level-up-exp 100/fields/dialog-icons 282B/
+     ui frame PNG/effect blob）后于图像段边界缺 RNG.MKF exit 1 ENOENT 精确拒绝。
+   - Q07/Q08 账按二审意见收敛：`q07-q08-contract-ledger.md` 第 6/8/10 行替换为逐条件
+     完整 old fullName 锚；reforge 证据误引两行更正口径；battle-session 集成相位改列
+     「integration-heavy（待 typed session-driver 逐合同展开）」，不作为缩围依据。
+     后续批次按同口径继续展开余族。
+
+## r2 相对 r1 的改动（对应审查 Q-01～Q-04 / COMMON-01，历史）
 
 1. **Q-01 类型桥清零**：`audio-spessa-runtime.glm-q.test.ts` 重写——替身类提至
    `vi.hoisted`（`WorkletDouble`/`SequencerDouble` 真实类），实例直接进 typed 数组，
@@ -44,14 +69,14 @@ Coding Owner: GLM Q；[任务卡](../../../ops/tasks/TEST-GLM-WAVE-Q-1-runtime-r
      blocked-story / integration-heavy / stop-line 判定，申请 Codex 裁决缩围；
      700 总目标不自行缩减。
 
-## 交付规模（r2 候选）
+## 交付规模（r3 候选）
 
-**115 例 / 16 新测试文件 + 1 fixture / 34 枚三态有效反控 / 10 条非剧情浏览器流程 /
-1 个缺陷红诊断（待核）。**
+**116 例 / 16 新测试文件 + 1 fixture / 39 枚三态有效反控 / 10 条非剧情浏览器流程 /
+1 个缺陷红诊断（已由 Codex 独立确认并另列产品 draft）。**
 
 | 批 | 域 | 测试文件 | 用例 | 反控 |
 |---|---|---|---:|---:|
-| Q01 | reforge 非剧情 boot/menu/gallery/trial | 7 | 40 | 5 |
+| Q01 | reforge 非剧情 boot/menu/gallery/trial | 6（+fixture） | 40 | 5 |
 | Q02 | loader/manifest/catalog/map/缓存 | 3 | 24 | 5 |
 | Q03 | bgm/midi/sfx/video IO（spessa/midi-preview/video/sfx） | 2 | 15 | 5 |
 | Q04 | script-runner 光标/callScript 门族 | 1 | 13 | 5 |
@@ -60,16 +85,17 @@ Coding Owner: GLM Q；[任务卡](../../../ops/tasks/TEST-GLM-WAVE-Q-1-runtime-r
 | Q07 | game 事件/opcode | （见逐合同账） | 0 | — |
 | Q08 | game 战斗 | （见逐合同账） | 0 | — |
 | Q09 | game framebuffer 呈现端口 | 1 | 4 | 4 |
-| Q10 | pal-extract CLI 隔离实跑 | 1 | 2 | — |
-| 合计 | | **16 + 1 fixture** | **115** | **34** |
+| Q10 | pal-extract CLI 隔离实跑（事件段 + DATA 段） | 1 | 3 | 5 |
+| 合计 | | **16 + 1 fixture** | **116** | **39** |
 
-## 700/50 缺口申报（r2 续）
+## 700/50 缺口申报（r3 续）
 
-- Q10 已解锁事件段；DATA 表/图像管线的合成输入构造（15 个 DATA chunk / MAP/GOP/FIRE/
-  FBP/RNG 等图形格式）为后续分段，本轮未达。
-- Q07/Q08 按 [逐合同账](q07-q08-contract-ledger.md) 申请缩围裁决。
-- 50 反控缺口：34 枚对应 34 个不同合同目标（Q03-RC2/RC3 分属传输透传与 isReady 拒绝
-  两个合同）；新增反控随新合同批次补充。
+- Q10 已解锁事件段 + DATA 表段；图像段（RNG/RGM/BALL/FIRE/MAP/MGO/ABC/FBP 的图形
+  格式合成）为后续分段。
+- Q07/Q08 逐合同账已按二审口径收敛（第 6/8/10 行逐条件锚），余族（dialog/walkNPC 演出、
+  battle-session 集成相位等）后续批次按同口径逐条展开；缩围不作整体申请，仅对
+  blocked-story（禁启动 PAL001/002、E2E-002 占用）与 stop-line（新机制真值）维持停线。
+- 反控 39/50：新增反控随新合同批次继续补足。
 
 ## 排重与不可达登记
 

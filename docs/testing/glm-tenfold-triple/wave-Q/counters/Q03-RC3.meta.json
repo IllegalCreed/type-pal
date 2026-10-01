@@ -1,19 +1,19 @@
 {
   "id": "Q03-RC3",
   "file": "packages/reforge/src/audio-spessa-runtime.glm-q.test.ts",
-  "targetFullName": "Q03 spessa 初始化：isReady 拒绝销毁合成器并原样抛出",
-  "targetNameSubstring": "isReady 拒绝销毁合成器并原样抛出",
+  "targetFullName": "Q03 试听 runtime：适配器透传 sequencer 传输操作与快照字段，二次 initialize 复用",
+  "targetNameSubstring": "适配器透传 sequencer 传输操作与快照字段",
   "axis": "输入轴单轴变异：isReady 拒绝用例的 ready.fail 旗标保持 false（合法旗标值，合成器正常就绪）；断言不动。",
   "sha256": {
-    "original": "fcd5410400adf30adf0820fb58d9f7855a571f107550905ce9c1acb7d0c909ca",
-    "mutated": "ea1795608c304152886fa2ef94794e81a4ddc832ffc317a8ed5949b9fef10212",
-    "restored": "fcd5410400adf30adf0820fb58d9f7855a571f107550905ce9c1acb7d0c909ca"
+    "original": "5f1f78ff0eda105bb476df7d812dc943f639c2b009c1edef6148286a1f7feb5b",
+    "mutated": "81983a7471cd37ee3b3d94aea0fb63fbca17fc8d1c5d108d634029f4be90ade2",
+    "restored": "5f1f78ff0eda105bb476df7d812dc943f639c2b009c1edef6148286a1f7feb5b"
   },
   "restoredHashUnchanged": true,
   "criteria": {
     "positiveGreen": true,
     "mutantExactlyOneTargetRed": true,
-    "targetAssertionError": "Error: promise resolved \"{ load: [Function load], …(6) }\" instead of rejecting",
+    "targetAssertionError": "Error: promise rejected \"DOMException{ stack: 'AbortError: MI…', …(1) }\" instead of resolving",
     "restoredGreen": true,
     "restoredSameExecutionCount": true,
     "hashesMatchFinalCandidate": true

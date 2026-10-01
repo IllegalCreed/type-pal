@@ -19,6 +19,7 @@ import {
 import { tmpdir } from 'node:os'
 import { dirname, join, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
+import { encodeSpriteChunk } from '@type-pal/shared'
 import { afterAll, expect, test } from 'vitest'
 
 const HERE = dirname(fileURLToPath(import.meta.url))
@@ -141,6 +142,51 @@ function makeTree(rawFiles: Record<string, Uint8Array>): string {
   return tree
 }
 
+/**
+ * DATA.MKF 15 chunk（0..14）合成最小合法表：
+ *   0 STORE 18B×1（首格 61=物品、余 0 截断）；1 ENEMY 70B×1；2 ENEMYTEAM 10B×1；
+ *   3 PLAYERROLES 900B（spriteNum[0]=2，SoA 第 3 字段 offset 24）；4 MAGIC 32B×1；
+ *   5 BATTLEFIELD 12B×1；6 LEVELUPMAGIC 20B×1（roleCount 5）；7/8 空；
+ *   9 SPRITEUI = encodeSpriteChunk 正向构造的 sprite-group；10 同构 gzip blob；
+ *   11 BATTLEEFFECTINDEX 40B；12 dialog icons 282B；13 ENEMYPOS 100B；14 LEVELEXP 200B。
+ */
+function buildDataMkf(): Uint8Array {
+  const store = new Uint8Array([...u16(61), ...new Uint8Array(16)])
+  const enemy = new Uint8Array(70)
+  const team = new Uint8Array(10)
+  const roles = new Uint8Array(900)
+  const rolesView = new DataView(roles.buffer)
+  rolesView.setUint16(24, 2, true) // SoA: avatar/spriteNumInBattle 之后第 3 字段 spriteNum, role 0
+  const magic = new Uint8Array(32)
+  const field = new Uint8Array(12)
+  const levelUpMagic = new Uint8Array(20)
+  const spriteChunk = encodeSpriteChunk([
+    { width: 4, height: 4, pixels: new Uint8Array(16).fill(3), opaque: new Uint8Array(16).fill(1) },
+  ])
+  const effectIndex = new Uint8Array(40)
+  const dialogIcons = new Uint8Array(282).fill(7)
+  const enemyPos = new Uint8Array(100)
+  const levelUpExp = new Uint8Array(200)
+  const chunks = [
+    store,
+    enemy,
+    team,
+    roles,
+    magic,
+    field,
+    levelUpMagic,
+    new Uint8Array(0),
+    new Uint8Array(0),
+    spriteChunk,
+    spriteChunk,
+    effectIndex,
+    dialogIcons,
+    enemyPos,
+    levelUpExp, // chunk10=原始 group（CLI 自行 gzip blob）
+  ]
+  return mkf(chunks)
+}
+
 const trees: string[] = []
 afterAll(() => {
   for (const tree of trees) rmSync(tree, { recursive: true, force: true })
@@ -183,7 +229,43 @@ test('Q10 CLI 隔离实跑：合成小输入走完事件管线（round-trip 门 
   const give = allCommands.find((command: { op: string }) => command.op === 'giveItem')
   expect(give.itemId).toBe(61)
   expect(give._item).toBe('ITEMNAME') // WORD.DAT 记录 61 + 尾标记剥除
-}, 60000)
+})
+
+test('Q10 CLI 隔离实跑：合成 DATA.MKF 走完数据表段（逐表落盘 + SPRITEUI/effect blob）', async () => {
+  const tree = makeTree({
+    'SSS.MKF': buildSss(),
+    'M.MSG': new TextEncoder().encode(MSG_TEXT),
+    'WORD.DAT': buildWordDat(),
+    'DATA.MKF': buildDataMkf(),
+  })
+  trees.push(tree)
+  const result = await runCli(tree)
+  // 数据表段完成后，图像段缺 RNG.MKF → exit 1 ENOENT（合成输入只覆盖 DATA 表段）。
+  expect(result.exitCode).toBe(1)
+  expect(result.stdout).toContain('[pal-extract] events round-trip OK')
+  expect(result.stdout).toContain('[pal-extract] SPRITEUI (chunk 9) written: 1 frames')
+
+  const dataDir = join(tree, 'data', 'extracted', 'data')
+  const stores = JSON.parse(readFileSync(join(dataDir, 'stores.json'), 'utf8'))
+  expect(stores).toEqual([{ id: 0, items: [61] }]) // 首个 0 截断剩余 8 槽
+  const magic = JSON.parse(readFileSync(join(dataDir, 'magic.json'), 'utf8'))
+  expect(magic).toHaveLength(1)
+  expect(magic[0].id).toBe(0)
+  const enemies = JSON.parse(readFileSync(join(dataDir, 'enemies.json'), 'utf8'))
+  expect(enemies).toHaveLength(1)
+  const roles = JSON.parse(readFileSync(join(dataDir, 'player-roles.json'), 'utf8'))
+  expect(roles.roles[0].spriteNum).toBe(2) // SoA offset 24 的真值回读
+  const exp = JSON.parse(readFileSync(join(dataDir, 'level-up-exp.json'), 'utf8'))
+  expect(exp).toHaveLength(100)
+  const fields = JSON.parse(readFileSync(join(dataDir, 'battle-fields.json'), 'utf8'))
+  expect(fields).toHaveLength(1)
+  const icons = JSON.parse(readFileSync(join(dataDir, 'dialog-icons-raw.json'), 'utf8'))
+  expect(icons.size).toBe(282)
+  expect(existsSync(join(tree, 'data', 'extracted', 'images', 'ui', 'frame-00.png'))).toBe(true)
+  expect(existsSync(join(tree, 'data', 'extracted', 'data', 'magic', 'effect.rle'))).toBe(true)
+  // 图像段边界：缺 RNG.MKF 在数据表全部落盘后拒绝。
+  expect(result.stderr).toContain('RNG.MKF')
+})
 
 test('Q10 CLI 隔离实跑：截断 SSS chunk0 在解析边界精确拒绝且不产出事件文件', async () => {
   const tree = makeTree({
@@ -197,4 +279,4 @@ test('Q10 CLI 隔离实跑：截断 SSS chunk0 在解析边界精确拒绝且不
   expect(result.stdout).not.toContain('[pal-extract] events round-trip OK')
   expect(result.stderr).toContain('SSS chunk0: byte length 10 is not a multiple of 32')
   expect(existsSync(join(tree, 'data', 'extracted', 'events'))).toBe(false)
-}, 60000)
+})

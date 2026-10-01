@@ -1,0 +1,1 @@
+  const store = new Uint8Array([...u16(62), ...new Uint8Array(16)]) // 变异轴：合法物品 id 换值

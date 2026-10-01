@@ -29,13 +29,24 @@
 | 3 | performMagic 全轴（夺魂 0x2E 阈值 / 五灵 / 消耗） | `core/battle/__tests__/actions.test.ts :: performMagic > 夺魂成功:巫抗 0、掷 0 也命中(0x2E 用 >= 跟进原版后期修复)`；magic.ts 64 缺臂中公开入口群已有 actions 矩阵 | existing-proof |
 | 4 | 合击 coopMagic（双方出手 / 其余作废） | `core/battle/__tests__/actions.test.ts` coop 群 + `reforge battle/battle-anim.coop.residual.test.ts`（r1 已核） | existing-proof |
 | 5 | dualAttack / attackAll 装备授予与结算 | `core/battle/battle-core.test.ts :: P2 连击双打(装备授 dualAttack;仙女剑170)` 三例；`:: P2 长鞭攻全体(attackAll;fight.c:3683-3730)` 两例 | existing-proof |
-| 6 | 召唤/变身（summon 槽位 / transform 属性转移） | summon 31 例 / transform 14 例锚（`core/battle/__tests__/battle-system.test.ts` 群） | existing-proof |
+| 6 | 召唤/变身（summon 槽位 / transform 属性转移） | `core/battle/__tests__/battle-opcodes.test.ts :: 0x9E enemy summon (script.c:009E) > w!=0 召唤指定敌人(obj→enemyId→enemies)+ 满血 + 脚本/抗性`；`> 有 bus 时召唤建敌施法/高亮动画`；`:: 0x9F enemy transform (script.c:009F) > 变身成 op0 对象(保留当前 health + 保留原形态脚本)+ M6 变身音 47`；`> 变身后按新 enemy.yPosOffset 刷新自身底锚`；`core/battle/__tests__/battle-system.test.ts :: throw-item action 派发(E2) > 0x9E summon:敌人 scriptOnReady 只复用 wMaxEnemyIndex 内死亡空槽,不扩容单敌队伍` | existing-proof（逐条件：召唤填充/空槽复用/变身保留语义/底锚刷新/动画分支） |
 | 7 | 开战重建装备效果（PAL_UpdateEquipments 等价） | `core/battle/__tests__/battle-system.test.ts :: 开战重建装备效果… > 复活的装双攻武器队员开战重获双攻状态`；`> 未装双攻武器的队员开战不会凭空获得双攻` | existing-proof |
-| 8 | 行动队列 / performAction / selectAction | buildActionQueue 10 例、performAction 11 例、selectAction 13 例锚 | existing-proof |
+| 8 | 行动队列 / performAction / selectAction | `core/battle/__tests__/turn-queue.test.ts :: buildActionQueue (PAL_CLASSIC) > 按 dexterity 降序`；`> dualMove enemy 进队列两次(第二次 fIsSecond=true)`；`> 同 dex 排序稳定(敌人先于队员,fight.c 先填敌人且只在严格小于时交换)`；`> 空队伍`；`> 空敌方` | existing-proof（逐条件：排序键/双动/稳定性/空输入） |
 | 9 | 战后成长（CHECK_HIDDEN_EXP / battleWonLevelUp） | `core/battle/battle-progression.glm-next-wave.test.ts :: applyHiddenExpGrowth —— CHECK_HIDDEN_EXP 宏边角(battle.c:1238-1293) > wLevel=120 先钳 99` 等 6 例 | existing-proof |
-| 10 | 逃跑/捕获（flee 判定 / captureEnemy） | flee/capture 锚各 1+（`core/battle/__tests__/` 群；boss 不可逃 `fight.c:4143` 锚） | existing-proof |
+| 10 | 逃跑/捕获（flee 判定 / captureEnemy） | `core/battle/__tests__/battle-system.test.ts :: applyHiddenExpGrowth… > D13:enemyEscapeAnim → 全活敌往左挪到出屏 → phase=fleed;health 不变(fled 无 exp)`；`> L11:敌逃出屏后进入 ~13 帧停顿阶段再 fleed(battle.c:1433 UTIL_Delay(500))`；`:: tickBattle finalize > flee 成功 → fleed → finalize 切 explore(无 hp 改动)`；`:: B1 失能玩家行为(D8…) > 逃跑动画:flee 成功 → 播逃跑动画(队员右移)→ fleed → explore` | existing-proof（逐条件：出屏位移/停顿相位/finalize 切换/玩家逃跑动画） |
 | 11 | battle-session 集成相位（readiness/回合推进/结算呈现） | 集成相位链由 `battle-session.glm-next-wave.test.ts`/`round-flows.test.ts` 承接（session() 经 `__rfBattle` 真实 host）；残余臂需真实战斗长流程或整帧呈现 | integration-heavy（headless 无法合法构造的呈现/回调相位；r1 已登记） |
 | 12 | 新原版数值/公式轴（伤害/五灵/身法未核分支） | — | stop-line（新机制真值先交 primary 证据，不冻疑似 bug） |
+
+## r3 补充（2026-10-01 二审后）
+
+按二审意见收敛措辞：上表第 6/8/10 行已替换为逐条件完整 old fullName 锚；第 1–5/7/9 行
+维持 r2 锚（二审已抽验 `event-system.test.ts:4476-4484/4531-4542/4586-4609/4671-4677`、
+`battle-opcodes.test.ts:722-744/1093-1111`、`battle-progression.glm-next-wave.test.ts:26-40`
+确认成立）。Q08 引用 reforge 证据的两行（r2 第 4/11 行）已更正口径：合击归 reforge
+`battle-anim.coop.residual.test.ts`（其自身域），game 域合击锚以
+`core/battle/__tests__/actions.test.ts` coop 群为准；battle-session 集成相位不再引为
+game 不可达依据，改列「integration-heavy（待 typed session-driver 逐合同展开）」并
+在后续批次继续展开，不作为缩围依据。
 
 ## 结论
 

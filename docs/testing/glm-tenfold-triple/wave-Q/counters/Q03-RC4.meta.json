@@ -5,9 +5,9 @@
   "targetNameSubstring": "解析真实 MIDI 字节并产出 note-activity",
   "axis": "输入轴单轴变异：analyzeMidiBytes 桶数 32→16（合法分桶参数）；断言不动。",
   "sha256": {
-    "original": "fcd5410400adf30adf0820fb58d9f7855a571f107550905ce9c1acb7d0c909ca",
-    "mutated": "23fe9cd340ea7d110cb193afc1179511c3ebb7ac139d71873be48f1e063fac9b",
-    "restored": "fcd5410400adf30adf0820fb58d9f7855a571f107550905ce9c1acb7d0c909ca"
+    "original": "5f1f78ff0eda105bb476df7d812dc943f639c2b009c1edef6148286a1f7feb5b",
+    "mutated": "14751940d42e4bf36e54cc05f9558f26999572bba45fc435157a7199b974d4fc",
+    "restored": "5f1f78ff0eda105bb476df7d812dc943f639c2b009c1edef6148286a1f7feb5b"
   },
   "restoredHashUnchanged": true,
   "criteria": {

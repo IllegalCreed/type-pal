@@ -1,0 +1,6 @@
+    'M.MSG': new TextEncoder().encode(MSG_TEXT.slice(0, -1) + 'g'), // 变异轴：引用窗口内末字节换合法字符
+    'WORD.DAT': buildWordDat(),
+  })
+  trees.push(tree)
+  const result = await runCli(tree)
+  // 事件管线全绿后

@@ -1,0 +1,57 @@
+{
+  "id": "Q10-RC5",
+  "file": "packages/pal-extract/src/cli-isolated.glm-q.test.ts",
+  "targetFullName": "Q10 CLI 隔离实跑：合成 DATA.MKF 走完数据表段（逐表落盘 + SPRITEUI/effect blob）",
+  "targetNameSubstring": "合成 DATA.MKF 走完数据表段",
+  "axis": "输入轴单轴变异：LEVELEXP chunk 200→198 字节（合法 99 条截断，parseLevelUpExp min(100, 99)）；断言不动。",
+  "sha256": {
+    "original": "e46949e5fe6b9fbf92b46b2cc326aaf68fc9d159c6427580d867912baa3d03bd",
+    "mutated": "f68ea3a7d7f9b433ea670053fb59e8b38513b3262b0e0d9dc95aec0646ed39ed",
+    "restored": "e46949e5fe6b9fbf92b46b2cc326aaf68fc9d159c6427580d867912baa3d03bd"
+  },
+  "restoredHashUnchanged": true,
+  "criteria": {
+    "positiveGreen": true,
+    "mutantExactlyOneTargetRed": true,
+    "targetAssertionError": "AssertionError: expected [ +0, +0, +0, +0, +0, +0, +0, …(92) ] to have a length of 100 but got 99",
+    "restoredGreen": true,
+    "restoredSameExecutionCount": true,
+    "hashesMatchFinalCandidate": true
+  },
+  "runs": {
+    "positive": {
+      "exitCode": 0,
+      "summary": {
+        "numTotalTests": 3,
+        "numPassedTests": 3,
+        "numFailedTests": 0,
+        "success": true
+      },
+      "json": "Q10-RC5.positive.json",
+      "raw": "Q10-RC5.positive.txt"
+    },
+    "mutant": {
+      "exitCode": 1,
+      "summary": {
+        "numTotalTests": 3,
+        "numPassedTests": 2,
+        "numFailedTests": 1,
+        "success": false
+      },
+      "json": "Q10-RC5.mutant.json",
+      "raw": "Q10-RC5.mutant.txt"
+    },
+    "restored": {
+      "exitCode": 0,
+      "summary": {
+        "numTotalTests": 3,
+        "numPassedTests": 3,
+        "numFailedTests": 0,
+        "success": true
+      },
+      "json": "Q10-RC5.restored.json",
+      "raw": "Q10-RC5.restored.txt"
+    }
+  },
+  "verdict": "VALID"
+}

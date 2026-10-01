@@ -1,0 +1,6 @@
+    'M.MSG': new TextEncoder().encode(MSG_TEXT),
+    'WORD.DAT': buildWordDat(),
+  })
+  trees.push(tree)
+  const result = await runCli(tree)
+  // 事件管线全绿后

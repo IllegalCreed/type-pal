@@ -5,9 +5,9 @@
   "targetNameSubstring": "适配器透传 sequencer 传输操作与快照字段",
   "axis": "输入轴单轴变异：sequencer 透传用例合法 seek 值 3→4；断言不动。",
   "sha256": {
-    "original": "fcd5410400adf30adf0820fb58d9f7855a571f107550905ce9c1acb7d0c909ca",
-    "mutated": "8f5d4d586661a89c7100313915db395e1766725e5248736f570045941b8c3043",
-    "restored": "fcd5410400adf30adf0820fb58d9f7855a571f107550905ce9c1acb7d0c909ca"
+    "original": "5f1f78ff0eda105bb476df7d812dc943f639c2b009c1edef6148286a1f7feb5b",
+    "mutated": "d406aca5a56eeaa532ccc5f2c02312ff51c8da351da2c98d5d56d7a9d9530561",
+    "restored": "5f1f78ff0eda105bb476df7d812dc943f639c2b009c1edef6148286a1f7feb5b"
   },
   "restoredHashUnchanged": true,
   "criteria": {

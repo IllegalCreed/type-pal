@@ -1,0 +1,57 @@
+{
+  "id": "Q10-RC4",
+  "file": "packages/pal-extract/src/cli-isolated.glm-q.test.ts",
+  "targetFullName": "Q10 CLI 隔离实跑：合成小输入走完事件管线（round-trip 门 + 切片落盘 + 词表注记）",
+  "targetNameSubstring": "合成小输入走完事件管线",
+  "axis": "输入轴单轴变异：M.MSG 被引用窗口内末字节换为另一合法 GBK 字符；断言不动（按常量精确比对）。",
+  "sha256": {
+    "original": "e46949e5fe6b9fbf92b46b2cc326aaf68fc9d159c6427580d867912baa3d03bd",
+    "mutated": "5793683e186fe51c898a2966a4802a453a670459331bf46bc1c213c5f019ca3c",
+    "restored": "e46949e5fe6b9fbf92b46b2cc326aaf68fc9d159c6427580d867912baa3d03bd"
+  },
+  "restoredHashUnchanged": true,
+  "criteria": {
+    "positiveGreen": true,
+    "mutantExactlyOneTargetRed": true,
+    "targetAssertionError": "AssertionError: expected 'HELLO MSg' to be 'HELLO MSG' // Object.is equality",
+    "restoredGreen": true,
+    "restoredSameExecutionCount": true,
+    "hashesMatchFinalCandidate": true
+  },
+  "runs": {
+    "positive": {
+      "exitCode": 0,
+      "summary": {
+        "numTotalTests": 3,
+        "numPassedTests": 3,
+        "numFailedTests": 0,
+        "success": true
+      },
+      "json": "Q10-RC4.positive.json",
+      "raw": "Q10-RC4.positive.txt"
+    },
+    "mutant": {
+      "exitCode": 1,
+      "summary": {
+        "numTotalTests": 3,
+        "numPassedTests": 2,
+        "numFailedTests": 1,
+        "success": false
+      },
+      "json": "Q10-RC4.mutant.json",
+      "raw": "Q10-RC4.mutant.txt"
+    },
+    "restored": {
+      "exitCode": 0,
+      "summary": {
+        "numTotalTests": 3,
+        "numPassedTests": 3,
+        "numFailedTests": 0,
+        "success": true
+      },
+      "json": "Q10-RC4.restored.json",
+      "raw": "Q10-RC4.restored.txt"
+    }
+  },
+  "verdict": "VALID"
+}

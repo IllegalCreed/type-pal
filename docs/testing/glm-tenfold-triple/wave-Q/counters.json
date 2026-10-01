@@ -1,5 +1,5 @@
 {
-  "count": 34,
+  "count": 39,
   "allValid": true,
   "perCounter": [
     {
@@ -579,9 +579,9 @@
       "targetNameSubstring": "无任何 AudioContext 构造器返回 undefined",
       "axis": "输入轴单轴变异：无 AudioContext 用例补上 webkitAudioContext=undefined → 改为宿主存在 webkit 构造器（合法宿主形态）；断言不动。",
       "sha256": {
-        "original": "fcd5410400adf30adf0820fb58d9f7855a571f107550905ce9c1acb7d0c909ca",
-        "mutated": "38b89bfb86ffe93ed6440f1da9dd7a905cefbff27bf9ffc443ddc974fbc9279a",
-        "restored": "fcd5410400adf30adf0820fb58d9f7855a571f107550905ce9c1acb7d0c909ca"
+        "original": "5f1f78ff0eda105bb476df7d812dc943f639c2b009c1edef6148286a1f7feb5b",
+        "mutated": "2e659bb6a4fe06880a63204ebc58fca7ee907cb9a0e0c2fe67f778498f943d43",
+        "restored": "5f1f78ff0eda105bb476df7d812dc943f639c2b009c1edef6148286a1f7feb5b"
       },
       "restoredHashUnchanged": true,
       "criteria": {
@@ -636,9 +636,9 @@
       "targetNameSubstring": "适配器透传 sequencer 传输操作与快照字段",
       "axis": "输入轴单轴变异：sequencer 透传用例合法 seek 值 3→4；断言不动。",
       "sha256": {
-        "original": "fcd5410400adf30adf0820fb58d9f7855a571f107550905ce9c1acb7d0c909ca",
-        "mutated": "8f5d4d586661a89c7100313915db395e1766725e5248736f570045941b8c3043",
-        "restored": "fcd5410400adf30adf0820fb58d9f7855a571f107550905ce9c1acb7d0c909ca"
+        "original": "5f1f78ff0eda105bb476df7d812dc943f639c2b009c1edef6148286a1f7feb5b",
+        "mutated": "d406aca5a56eeaa532ccc5f2c02312ff51c8da351da2c98d5d56d7a9d9530561",
+        "restored": "5f1f78ff0eda105bb476df7d812dc943f639c2b009c1edef6148286a1f7feb5b"
       },
       "restoredHashUnchanged": true,
       "criteria": {
@@ -689,19 +689,19 @@
     {
       "id": "Q03-RC3",
       "file": "packages/reforge/src/audio-spessa-runtime.glm-q.test.ts",
-      "targetFullName": "Q03 spessa 初始化：isReady 拒绝销毁合成器并原样抛出",
-      "targetNameSubstring": "isReady 拒绝销毁合成器并原样抛出",
+      "targetFullName": "Q03 试听 runtime：适配器透传 sequencer 传输操作与快照字段，二次 initialize 复用",
+      "targetNameSubstring": "适配器透传 sequencer 传输操作与快照字段",
       "axis": "输入轴单轴变异：isReady 拒绝用例的 ready.fail 旗标保持 false（合法旗标值，合成器正常就绪）；断言不动。",
       "sha256": {
-        "original": "fcd5410400adf30adf0820fb58d9f7855a571f107550905ce9c1acb7d0c909ca",
-        "mutated": "ea1795608c304152886fa2ef94794e81a4ddc832ffc317a8ed5949b9fef10212",
-        "restored": "fcd5410400adf30adf0820fb58d9f7855a571f107550905ce9c1acb7d0c909ca"
+        "original": "5f1f78ff0eda105bb476df7d812dc943f639c2b009c1edef6148286a1f7feb5b",
+        "mutated": "81983a7471cd37ee3b3d94aea0fb63fbca17fc8d1c5d108d634029f4be90ade2",
+        "restored": "5f1f78ff0eda105bb476df7d812dc943f639c2b009c1edef6148286a1f7feb5b"
       },
       "restoredHashUnchanged": true,
       "criteria": {
         "positiveGreen": true,
         "mutantExactlyOneTargetRed": true,
-        "targetAssertionError": "Error: promise resolved \"{ load: [Function load], …(6) }\" instead of rejecting",
+        "targetAssertionError": "Error: promise rejected \"DOMException{ stack: 'AbortError: MI…', …(1) }\" instead of resolving",
         "restoredGreen": true,
         "restoredSameExecutionCount": true,
         "hashesMatchFinalCandidate": true
@@ -750,9 +750,9 @@
       "targetNameSubstring": "解析真实 MIDI 字节并产出 note-activity",
       "axis": "输入轴单轴变异：analyzeMidiBytes 桶数 32→16（合法分桶参数）；断言不动。",
       "sha256": {
-        "original": "fcd5410400adf30adf0820fb58d9f7855a571f107550905ce9c1acb7d0c909ca",
-        "mutated": "23fe9cd340ea7d110cb193afc1179511c3ebb7ac139d71873be48f1e063fac9b",
-        "restored": "fcd5410400adf30adf0820fb58d9f7855a571f107550905ce9c1acb7d0c909ca"
+        "original": "5f1f78ff0eda105bb476df7d812dc943f639c2b009c1edef6148286a1f7feb5b",
+        "mutated": "14751940d42e4bf36e54cc05f9558f26999572bba45fc435157a7199b974d4fc",
+        "restored": "5f1f78ff0eda105bb476df7d812dc943f639c2b009c1edef6148286a1f7feb5b"
       },
       "restoredHashUnchanged": true,
       "criteria": {
@@ -1936,6 +1936,291 @@
           },
           "json": "Q09-RC4.restored.json",
           "raw": "Q09-RC4.restored.txt"
+        }
+      },
+      "verdict": "VALID"
+    },
+    {
+      "id": "Q10-RC1",
+      "file": "packages/pal-extract/src/cli-isolated.glm-q.test.ts",
+      "targetFullName": "Q10 CLI 隔离实跑：合成 DATA.MKF 走完数据表段（逐表落盘 + SPRITEUI/effect blob）",
+      "targetNameSubstring": "合成 DATA.MKF 走完数据表段",
+      "axis": "输入轴单轴变异：合成 STORE 表首格物品 61→62（合法 wObjectID，词表 62 为空）；断言不动。",
+      "sha256": {
+        "original": "30f0d88dc711f7054b9effaf8b4556a0e2d53fd793e50ad9838cadca99f8383f",
+        "mutated": "1e08279fde13f6b06081be3be805625e160181a16f2be4d3fbb02aecc9d8426f",
+        "restored": "30f0d88dc711f7054b9effaf8b4556a0e2d53fd793e50ad9838cadca99f8383f"
+      },
+      "restoredHashUnchanged": true,
+      "criteria": {
+        "positiveGreen": true,
+        "mutantExactlyOneTargetRed": true,
+        "targetAssertionError": "AssertionError: expected [ { id: +0, items: [ 62 ] } ] to deeply equal [ { id: +0, items: [ 61 ] } ]",
+        "restoredGreen": true,
+        "restoredSameExecutionCount": true,
+        "hashesMatchFinalCandidate": true
+      },
+      "runs": {
+        "positive": {
+          "exitCode": 0,
+          "summary": {
+            "numTotalTests": 3,
+            "numPassedTests": 3,
+            "numFailedTests": 0,
+            "success": true
+          },
+          "json": "Q10-RC1.positive.json",
+          "raw": "Q10-RC1.positive.txt"
+        },
+        "mutant": {
+          "exitCode": 1,
+          "summary": {
+            "numTotalTests": 3,
+            "numPassedTests": 2,
+            "numFailedTests": 1,
+            "success": false
+          },
+          "json": "Q10-RC1.mutant.json",
+          "raw": "Q10-RC1.mutant.txt"
+        },
+        "restored": {
+          "exitCode": 0,
+          "summary": {
+            "numTotalTests": 3,
+            "numPassedTests": 3,
+            "numFailedTests": 0,
+            "success": true
+          },
+          "json": "Q10-RC1.restored.json",
+          "raw": "Q10-RC1.restored.txt"
+        }
+      },
+      "verdict": "VALID"
+    },
+    {
+      "id": "Q10-RC2",
+      "file": "packages/pal-extract/src/cli-isolated.glm-q.test.ts",
+      "targetFullName": "Q10 CLI 隔离实跑：合成 DATA.MKF 走完数据表段（逐表落盘 + SPRITEUI/effect blob）",
+      "targetNameSubstring": "合成 DATA.MKF 走完数据表段",
+      "axis": "输入轴单轴变异：PLAYERROLES 合成表 spriteNum[0] 2→3（合法精灵号）；断言不动。",
+      "sha256": {
+        "original": "30f0d88dc711f7054b9effaf8b4556a0e2d53fd793e50ad9838cadca99f8383f",
+        "mutated": "ae5d33ba46a47d840fb78c8d37869237ce7784563cb335b24cfd3ec566c134b6",
+        "restored": "30f0d88dc711f7054b9effaf8b4556a0e2d53fd793e50ad9838cadca99f8383f"
+      },
+      "restoredHashUnchanged": true,
+      "criteria": {
+        "positiveGreen": true,
+        "mutantExactlyOneTargetRed": true,
+        "targetAssertionError": "AssertionError: expected 3 to be 2 // Object.is equality",
+        "restoredGreen": true,
+        "restoredSameExecutionCount": true,
+        "hashesMatchFinalCandidate": true
+      },
+      "runs": {
+        "positive": {
+          "exitCode": 0,
+          "summary": {
+            "numTotalTests": 3,
+            "numPassedTests": 3,
+            "numFailedTests": 0,
+            "success": true
+          },
+          "json": "Q10-RC2.positive.json",
+          "raw": "Q10-RC2.positive.txt"
+        },
+        "mutant": {
+          "exitCode": 1,
+          "summary": {
+            "numTotalTests": 3,
+            "numPassedTests": 2,
+            "numFailedTests": 1,
+            "success": false
+          },
+          "json": "Q10-RC2.mutant.json",
+          "raw": "Q10-RC2.mutant.txt"
+        },
+        "restored": {
+          "exitCode": 0,
+          "summary": {
+            "numTotalTests": 3,
+            "numPassedTests": 3,
+            "numFailedTests": 0,
+            "success": true
+          },
+          "json": "Q10-RC2.restored.json",
+          "raw": "Q10-RC2.restored.txt"
+        }
+      },
+      "verdict": "VALID"
+    },
+    {
+      "id": "Q10-RC3",
+      "file": "packages/pal-extract/src/cli-isolated.glm-q.test.ts",
+      "targetFullName": "Q10 CLI 隔离实跑：合成小输入走完事件管线（round-trip 门 + 切片落盘 + 词表注记）",
+      "targetNameSubstring": "合成小输入走完事件管线",
+      "axis": "输入轴单轴变异：bytecode giveItem 操作数 61→62（合法 wObjectID，词表 62 为空）；断言不动。",
+      "sha256": {
+        "original": "30f0d88dc711f7054b9effaf8b4556a0e2d53fd793e50ad9838cadca99f8383f",
+        "mutated": "40716aeb167826b20afd3d1389389f73cc6cb634b9a02b839e4bf8f72a2dfa1a",
+        "restored": "30f0d88dc711f7054b9effaf8b4556a0e2d53fd793e50ad9838cadca99f8383f"
+      },
+      "restoredHashUnchanged": true,
+      "criteria": {
+        "positiveGreen": true,
+        "mutantExactlyOneTargetRed": true,
+        "targetAssertionError": "AssertionError: expected 62 to be 61 // Object.is equality",
+        "restoredGreen": true,
+        "restoredSameExecutionCount": true,
+        "hashesMatchFinalCandidate": true
+      },
+      "runs": {
+        "positive": {
+          "exitCode": 0,
+          "summary": {
+            "numTotalTests": 3,
+            "numPassedTests": 3,
+            "numFailedTests": 0,
+            "success": true
+          },
+          "json": "Q10-RC3.positive.json",
+          "raw": "Q10-RC3.positive.txt"
+        },
+        "mutant": {
+          "exitCode": 1,
+          "summary": {
+            "numTotalTests": 3,
+            "numPassedTests": 2,
+            "numFailedTests": 1,
+            "success": false
+          },
+          "json": "Q10-RC3.mutant.json",
+          "raw": "Q10-RC3.mutant.txt"
+        },
+        "restored": {
+          "exitCode": 0,
+          "summary": {
+            "numTotalTests": 3,
+            "numPassedTests": 3,
+            "numFailedTests": 0,
+            "success": true
+          },
+          "json": "Q10-RC3.restored.json",
+          "raw": "Q10-RC3.restored.txt"
+        }
+      },
+      "verdict": "VALID"
+    },
+    {
+      "id": "Q10-RC4",
+      "file": "packages/pal-extract/src/cli-isolated.glm-q.test.ts",
+      "targetFullName": "Q10 CLI 隔离实跑：合成小输入走完事件管线（round-trip 门 + 切片落盘 + 词表注记）",
+      "targetNameSubstring": "合成小输入走完事件管线",
+      "axis": "输入轴单轴变异：M.MSG 被引用窗口内末字节换为另一合法 GBK 字符；断言不动（按常量精确比对）。",
+      "sha256": {
+        "original": "30f0d88dc711f7054b9effaf8b4556a0e2d53fd793e50ad9838cadca99f8383f",
+        "mutated": "96253368f466e5c0ed0af3164135fc7c1a6e04f25f8f47481a4421aa1e75e7c5",
+        "restored": "30f0d88dc711f7054b9effaf8b4556a0e2d53fd793e50ad9838cadca99f8383f"
+      },
+      "restoredHashUnchanged": true,
+      "criteria": {
+        "positiveGreen": true,
+        "mutantExactlyOneTargetRed": true,
+        "targetAssertionError": "AssertionError: expected 'HELLO MSg' to be 'HELLO MSG' // Object.is equality",
+        "restoredGreen": true,
+        "restoredSameExecutionCount": true,
+        "hashesMatchFinalCandidate": true
+      },
+      "runs": {
+        "positive": {
+          "exitCode": 0,
+          "summary": {
+            "numTotalTests": 3,
+            "numPassedTests": 3,
+            "numFailedTests": 0,
+            "success": true
+          },
+          "json": "Q10-RC4.positive.json",
+          "raw": "Q10-RC4.positive.txt"
+        },
+        "mutant": {
+          "exitCode": 1,
+          "summary": {
+            "numTotalTests": 3,
+            "numPassedTests": 2,
+            "numFailedTests": 1,
+            "success": false
+          },
+          "json": "Q10-RC4.mutant.json",
+          "raw": "Q10-RC4.mutant.txt"
+        },
+        "restored": {
+          "exitCode": 0,
+          "summary": {
+            "numTotalTests": 3,
+            "numPassedTests": 3,
+            "numFailedTests": 0,
+            "success": true
+          },
+          "json": "Q10-RC4.restored.json",
+          "raw": "Q10-RC4.restored.txt"
+        }
+      },
+      "verdict": "VALID"
+    },
+    {
+      "id": "Q10-RC5",
+      "file": "packages/pal-extract/src/cli-isolated.glm-q.test.ts",
+      "targetFullName": "Q10 CLI 隔离实跑：合成 DATA.MKF 走完数据表段（逐表落盘 + SPRITEUI/effect blob）",
+      "targetNameSubstring": "合成 DATA.MKF 走完数据表段",
+      "axis": "输入轴单轴变异：LEVELEXP chunk 200→198 字节（合法 99 条截断，parseLevelUpExp min(100, 99)）；断言不动。",
+      "sha256": {
+        "original": "30f0d88dc711f7054b9effaf8b4556a0e2d53fd793e50ad9838cadca99f8383f",
+        "mutated": "e370b82b035232432ada5d2e64e72637ff759df9fb8654af47de214173629426",
+        "restored": "30f0d88dc711f7054b9effaf8b4556a0e2d53fd793e50ad9838cadca99f8383f"
+      },
+      "restoredHashUnchanged": true,
+      "criteria": {
+        "positiveGreen": true,
+        "mutantExactlyOneTargetRed": true,
+        "targetAssertionError": "AssertionError: expected [ +0, +0, +0, +0, +0, +0, +0, …(92) ] to have a length of 100 but got 99",
+        "restoredGreen": true,
+        "restoredSameExecutionCount": true,
+        "hashesMatchFinalCandidate": true
+      },
+      "runs": {
+        "positive": {
+          "exitCode": 0,
+          "summary": {
+            "numTotalTests": 3,
+            "numPassedTests": 3,
+            "numFailedTests": 0,
+            "success": true
+          },
+          "json": "Q10-RC5.positive.json",
+          "raw": "Q10-RC5.positive.txt"
+        },
+        "mutant": {
+          "exitCode": 1,
+          "summary": {
+            "numTotalTests": 3,
+            "numPassedTests": 2,
+            "numFailedTests": 1,
+            "success": false
+          },
+          "json": "Q10-RC5.mutant.json",
+          "raw": "Q10-RC5.mutant.txt"
+        },
+        "restored": {
+          "exitCode": 0,
+          "summary": {
+            "numTotalTests": 3,
+            "numPassedTests": 3,
+            "numFailedTests": 0,
+            "success": true
+          },
+          "json": "Q10-RC5.restored.json",
+          "raw": "Q10-RC5.restored.txt"
         }
       },
       "verdict": "VALID"
