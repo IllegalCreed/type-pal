@@ -1,0 +1,903 @@
+{
+  "batch": "G01",
+  "acceptedCounters": 4,
+  "probeRejected": true,
+  "counters": [
+    {
+      "id": "probe-reject",
+      "rejected": true,
+      "reasons": ["unhandled error stacked on assertion"],
+      "exitCode": 1,
+      "signal": null,
+      "executions": [
+        {
+          "file": "src/probe-unhandled.grok-r1.test.ts",
+          "fullName": "probe single red plus unhandled",
+          "status": "failed"
+        }
+      ],
+      "stderrHasUnhandled": true,
+      "logs": {
+        "json": "docs/testing/grok-cursor-large/grok/counters/probe-reject/probe.json",
+        "stdout": "docs/testing/grok-cursor-large/grok/counters/probe-reject/probe.stdout",
+        "stderr": "docs/testing/grok-cursor-large/grok/counters/probe-reject/probe.stderr"
+      }
+    },
+    {
+      "id": "G01-A",
+      "batch": "G01",
+      "accepted": true,
+      "reasons": [],
+      "axis": "战斗精灵键归属从 kind-id 被改成 kind:id",
+      "source": "packages/game/src/assets/loader.ts",
+      "testFile": "src/assets/load-all-assemble.grok-r1.test.ts",
+      "target": "G01-A07",
+      "targetFullName": "G01-A loadAll 合法装配 G01-A07 战斗精灵键为 kind-id，背景 8 的像素来自对应 PNG",
+      "assertionError": "AssertionError: expected [ 'enemy:4', 'player:2' ] to deeply equal [ 'enemy-4', 'player-2' ]",
+      "sha256": {
+        "original": "0b85511a72be93396cc7c7776c78513a57fb176292e70da12e7f776b0910a842",
+        "mutant": "980c800913ac8caf3cfe469d0d3ba2d1f99bb5ae88b5240696b4b4df1ea8ede0",
+        "restored": "0b85511a72be93396cc7c7776c78513a57fb176292e70da12e7f776b0910a842"
+      },
+      "exitCode": {
+        "original": 0,
+        "mutant": 1,
+        "restored": 0
+      },
+      "signal": {
+        "original": null,
+        "mutant": null,
+        "restored": null
+      },
+      "counts": {
+        "original": 10,
+        "mutantFailed": 1,
+        "restored": 10
+      },
+      "executionCount": 10,
+      "executions": [
+        {
+          "file": "src/assets/load-all-assemble.grok-r1.test.ts",
+          "fullName": "G01-A loadAll 合法装配 G01-A01 scene 7 用 mapNum 12 取 tilemap 与 tileset，不按 sceneId 取图"
+        },
+        {
+          "file": "src/assets/load-all-assemble.grok-r1.test.ts",
+          "fullName": "G01-A loadAll 合法装配 G01-A02 scene 7 的事件脚本 URL 补零为 scene-007，段名原样返回"
+        },
+        {
+          "file": "src/assets/load-all-assemble.grok-r1.test.ts",
+          "fullName": "G01-A loadAll 合法装配 G01-A03 首屏调色板固定取 palette/0，256 色与循环段原样进入结果"
+        },
+        {
+          "file": "src/assets/load-all-assemble.grok-r1.test.ts",
+          "fullName": "G01-A loadAll 合法装配 G01-A04 tileset RLE 经真实解码进入 tileImages，键 0/1 像素为 AA/BB"
+        },
+        {
+          "file": "src/assets/load-all-assemble.grok-r1.test.ts",
+          "fullName": "G01-A loadAll 合法装配 G01-A05 角色精灵键为队长、事件对象、71 与 73，5×3 帧锚点为 2,3"
+        },
+        {
+          "file": "src/assets/load-all-assemble.grok-r1.test.ts",
+          "fullName": "G01-A loadAll 合法装配 G01-A06 队长与两个事件对象共用 sprite 9 时只 fetch 一次"
+        },
+        {
+          "file": "src/assets/load-all-assemble.grok-r1.test.ts",
+          "fullName": "G01-A loadAll 合法装配 G01-A07 战斗精灵键为 kind-id，背景 8 的像素来自对应 PNG"
+        },
+        {
+          "file": "src/assets/load-all-assemble.grok-r1.test.ts",
+          "fullName": "G01-A loadAll 合法装配 G01-A08 法术精灵只加载被引用且 frameCount>0 的 chunk，含 effect 0"
+        },
+        {
+          "file": "src/assets/load-all-assemble.grok-r1.test.ts",
+          "fullName": "G01-A loadAll 合法装配 G01-A09 物品图标按 chunkIndex 入 map，UI 帧按 manifest 顺序保留"
+        },
+        {
+          "file": "src/assets/load-all-assemble.grok-r1.test.ts",
+          "fullName": "G01-A loadAll 合法装配 G01-A10 词表、商店、升级表、敌人 id 与敌位布局原样透传"
+        }
+      ],
+      "statuses": {
+        "original": [
+          {
+            "fullName": "G01-A loadAll 合法装配 G01-A01 scene 7 用 mapNum 12 取 tilemap 与 tileset，不按 sceneId 取图",
+            "status": "passed"
+          },
+          {
+            "fullName": "G01-A loadAll 合法装配 G01-A02 scene 7 的事件脚本 URL 补零为 scene-007，段名原样返回",
+            "status": "passed"
+          },
+          {
+            "fullName": "G01-A loadAll 合法装配 G01-A03 首屏调色板固定取 palette/0，256 色与循环段原样进入结果",
+            "status": "passed"
+          },
+          {
+            "fullName": "G01-A loadAll 合法装配 G01-A04 tileset RLE 经真实解码进入 tileImages，键 0/1 像素为 AA/BB",
+            "status": "passed"
+          },
+          {
+            "fullName": "G01-A loadAll 合法装配 G01-A05 角色精灵键为队长、事件对象、71 与 73，5×3 帧锚点为 2,3",
+            "status": "passed"
+          },
+          {
+            "fullName": "G01-A loadAll 合法装配 G01-A06 队长与两个事件对象共用 sprite 9 时只 fetch 一次",
+            "status": "passed"
+          },
+          {
+            "fullName": "G01-A loadAll 合法装配 G01-A07 战斗精灵键为 kind-id，背景 8 的像素来自对应 PNG",
+            "status": "passed"
+          },
+          {
+            "fullName": "G01-A loadAll 合法装配 G01-A08 法术精灵只加载被引用且 frameCount>0 的 chunk，含 effect 0",
+            "status": "passed"
+          },
+          {
+            "fullName": "G01-A loadAll 合法装配 G01-A09 物品图标按 chunkIndex 入 map，UI 帧按 manifest 顺序保留",
+            "status": "passed"
+          },
+          {
+            "fullName": "G01-A loadAll 合法装配 G01-A10 词表、商店、升级表、敌人 id 与敌位布局原样透传",
+            "status": "passed"
+          }
+        ],
+        "mutant": [
+          {
+            "fullName": "G01-A loadAll 合法装配 G01-A01 scene 7 用 mapNum 12 取 tilemap 与 tileset，不按 sceneId 取图",
+            "status": "passed"
+          },
+          {
+            "fullName": "G01-A loadAll 合法装配 G01-A02 scene 7 的事件脚本 URL 补零为 scene-007，段名原样返回",
+            "status": "passed"
+          },
+          {
+            "fullName": "G01-A loadAll 合法装配 G01-A03 首屏调色板固定取 palette/0，256 色与循环段原样进入结果",
+            "status": "passed"
+          },
+          {
+            "fullName": "G01-A loadAll 合法装配 G01-A04 tileset RLE 经真实解码进入 tileImages，键 0/1 像素为 AA/BB",
+            "status": "passed"
+          },
+          {
+            "fullName": "G01-A loadAll 合法装配 G01-A05 角色精灵键为队长、事件对象、71 与 73，5×3 帧锚点为 2,3",
+            "status": "passed"
+          },
+          {
+            "fullName": "G01-A loadAll 合法装配 G01-A06 队长与两个事件对象共用 sprite 9 时只 fetch 一次",
+            "status": "passed"
+          },
+          {
+            "fullName": "G01-A loadAll 合法装配 G01-A07 战斗精灵键为 kind-id，背景 8 的像素来自对应 PNG",
+            "status": "failed"
+          },
+          {
+            "fullName": "G01-A loadAll 合法装配 G01-A08 法术精灵只加载被引用且 frameCount>0 的 chunk，含 effect 0",
+            "status": "passed"
+          },
+          {
+            "fullName": "G01-A loadAll 合法装配 G01-A09 物品图标按 chunkIndex 入 map，UI 帧按 manifest 顺序保留",
+            "status": "passed"
+          },
+          {
+            "fullName": "G01-A loadAll 合法装配 G01-A10 词表、商店、升级表、敌人 id 与敌位布局原样透传",
+            "status": "passed"
+          }
+        ],
+        "restored": [
+          {
+            "fullName": "G01-A loadAll 合法装配 G01-A01 scene 7 用 mapNum 12 取 tilemap 与 tileset，不按 sceneId 取图",
+            "status": "passed"
+          },
+          {
+            "fullName": "G01-A loadAll 合法装配 G01-A02 scene 7 的事件脚本 URL 补零为 scene-007，段名原样返回",
+            "status": "passed"
+          },
+          {
+            "fullName": "G01-A loadAll 合法装配 G01-A03 首屏调色板固定取 palette/0，256 色与循环段原样进入结果",
+            "status": "passed"
+          },
+          {
+            "fullName": "G01-A loadAll 合法装配 G01-A04 tileset RLE 经真实解码进入 tileImages，键 0/1 像素为 AA/BB",
+            "status": "passed"
+          },
+          {
+            "fullName": "G01-A loadAll 合法装配 G01-A05 角色精灵键为队长、事件对象、71 与 73，5×3 帧锚点为 2,3",
+            "status": "passed"
+          },
+          {
+            "fullName": "G01-A loadAll 合法装配 G01-A06 队长与两个事件对象共用 sprite 9 时只 fetch 一次",
+            "status": "passed"
+          },
+          {
+            "fullName": "G01-A loadAll 合法装配 G01-A07 战斗精灵键为 kind-id，背景 8 的像素来自对应 PNG",
+            "status": "passed"
+          },
+          {
+            "fullName": "G01-A loadAll 合法装配 G01-A08 法术精灵只加载被引用且 frameCount>0 的 chunk，含 effect 0",
+            "status": "passed"
+          },
+          {
+            "fullName": "G01-A loadAll 合法装配 G01-A09 物品图标按 chunkIndex 入 map，UI 帧按 manifest 顺序保留",
+            "status": "passed"
+          },
+          {
+            "fullName": "G01-A loadAll 合法装配 G01-A10 词表、商店、升级表、敌人 id 与敌位布局原样透传",
+            "status": "passed"
+          }
+        ]
+      },
+      "patch": {
+        "path": "docs/testing/grok-cursor-large/grok/counters/G01-A/patch.diff",
+        "sha256": "782e8fd08bab68062506ec97a567aef2ee1c67bf33917f48fe5db25ead7bde96",
+        "bytes": 501
+      },
+      "logs": [
+        "docs/testing/grok-cursor-large/grok/counters/G01-A/original.json",
+        "docs/testing/grok-cursor-large/grok/counters/G01-A/original.stdout",
+        "docs/testing/grok-cursor-large/grok/counters/G01-A/original.stderr",
+        "docs/testing/grok-cursor-large/grok/counters/G01-A/mutant.json",
+        "docs/testing/grok-cursor-large/grok/counters/G01-A/mutant.stdout",
+        "docs/testing/grok-cursor-large/grok/counters/G01-A/mutant.stderr",
+        "docs/testing/grok-cursor-large/grok/counters/G01-A/restored.json",
+        "docs/testing/grok-cursor-large/grok/counters/G01-A/restored.stdout",
+        "docs/testing/grok-cursor-large/grok/counters/G01-A/restored.stderr"
+      ]
+    },
+    {
+      "id": "G01-B",
+      "batch": "G01",
+      "accepted": true,
+      "reasons": [],
+      "axis": "缺 flat 时词表从空数组变成带 MUT 的数组",
+      "source": "packages/game/src/assets/loader.ts",
+      "testFile": "src/assets/load-all-bounds.grok-r1.test.ts",
+      "target": "G01-B06",
+      "targetFullName": "G01-B loadAll 边界守卫 G01-B06 words.json 没有 flat 字段时词表为空数组",
+      "assertionError": "AssertionError: expected [ 'MUT' ] to deeply equal []",
+      "sha256": {
+        "original": "0b85511a72be93396cc7c7776c78513a57fb176292e70da12e7f776b0910a842",
+        "mutant": "eaeb8957c71d3985a44129fa0fc6646fc2ee3a35ffd9bcdfcbcf686e09ca49c3",
+        "restored": "0b85511a72be93396cc7c7776c78513a57fb176292e70da12e7f776b0910a842"
+      },
+      "exitCode": {
+        "original": 0,
+        "mutant": 1,
+        "restored": 0
+      },
+      "signal": {
+        "original": null,
+        "mutant": null,
+        "restored": null
+      },
+      "counts": {
+        "original": 10,
+        "mutantFailed": 1,
+        "restored": 10
+      },
+      "executionCount": 10,
+      "executions": [
+        {
+          "file": "src/assets/load-all-bounds.grok-r1.test.ts",
+          "fullName": "G01-B loadAll 边界守卫 G01-B01 sceneId 0 使用 scene/0.json 与 events/scene-000.json"
+        },
+        {
+          "file": "src/assets/load-all-bounds.grok-r1.test.ts",
+          "fullName": "G01-B loadAll 边界守卫 G01-B02 roles 为空时在精灵请求前抛 roles[0] missing，且已取过 tileset"
+        },
+        {
+          "file": "src/assets/load-all-bounds.grok-r1.test.ts",
+          "fullName": "G01-B loadAll 边界守卫 G01-B03 spriteNum 0 的队长和事件对象都不进集合，只剩固定 71 与 73"
+        },
+        {
+          "file": "src/assets/load-all-bounds.grok-r1.test.ts",
+          "fullName": "G01-B loadAll 边界守卫 G01-B04 frameCount 为 0 的被引用 chunk 不取 fire RLE，未引用 chunk 也不取"
+        },
+        {
+          "file": "src/assets/load-all-bounds.grok-r1.test.ts",
+          "fullName": "G01-B loadAll 边界守卫 G01-B05 空战斗 manifest 仍读取清单文件，但不请求任何精灵或背景成员"
+        },
+        {
+          "file": "src/assets/load-all-bounds.grok-r1.test.ts",
+          "fullName": "G01-B loadAll 边界守卫 G01-B06 words.json 没有 flat 字段时词表为空数组"
+        },
+        {
+          "file": "src/assets/load-all-bounds.grok-r1.test.ts",
+          "fullName": "G01-B loadAll 边界守卫 G01-B07 scene JSON 404 时错误带 scene URL，且不会再请求 tilemap"
+        },
+        {
+          "file": "src/assets/load-all-bounds.grok-r1.test.ts",
+          "fullName": "G01-B loadAll 边界守卫 G01-B08 tilemap 404 时错误带 mapNum URL，且 tileset 尚未请求"
+        },
+        {
+          "file": "src/assets/load-all-bounds.grok-r1.test.ts",
+          "fullName": "G01-B loadAll 边界守卫 G01-B09 fetchPalette(5) 读取 palette/5.json 并返回完整 256 色"
+        },
+        {
+          "file": "src/assets/load-all-bounds.grok-r1.test.ts",
+          "fullName": "G01-B loadAll 边界守卫 G01-B10 fetchPalette(12) 503 的错误同时包含 URL 与状态码"
+        }
+      ],
+      "statuses": {
+        "original": [
+          {
+            "fullName": "G01-B loadAll 边界守卫 G01-B01 sceneId 0 使用 scene/0.json 与 events/scene-000.json",
+            "status": "passed"
+          },
+          {
+            "fullName": "G01-B loadAll 边界守卫 G01-B02 roles 为空时在精灵请求前抛 roles[0] missing，且已取过 tileset",
+            "status": "passed"
+          },
+          {
+            "fullName": "G01-B loadAll 边界守卫 G01-B03 spriteNum 0 的队长和事件对象都不进集合，只剩固定 71 与 73",
+            "status": "passed"
+          },
+          {
+            "fullName": "G01-B loadAll 边界守卫 G01-B04 frameCount 为 0 的被引用 chunk 不取 fire RLE，未引用 chunk 也不取",
+            "status": "passed"
+          },
+          {
+            "fullName": "G01-B loadAll 边界守卫 G01-B05 空战斗 manifest 仍读取清单文件，但不请求任何精灵或背景成员",
+            "status": "passed"
+          },
+          {
+            "fullName": "G01-B loadAll 边界守卫 G01-B06 words.json 没有 flat 字段时词表为空数组",
+            "status": "passed"
+          },
+          {
+            "fullName": "G01-B loadAll 边界守卫 G01-B07 scene JSON 404 时错误带 scene URL，且不会再请求 tilemap",
+            "status": "passed"
+          },
+          {
+            "fullName": "G01-B loadAll 边界守卫 G01-B08 tilemap 404 时错误带 mapNum URL，且 tileset 尚未请求",
+            "status": "passed"
+          },
+          {
+            "fullName": "G01-B loadAll 边界守卫 G01-B09 fetchPalette(5) 读取 palette/5.json 并返回完整 256 色",
+            "status": "passed"
+          },
+          {
+            "fullName": "G01-B loadAll 边界守卫 G01-B10 fetchPalette(12) 503 的错误同时包含 URL 与状态码",
+            "status": "passed"
+          }
+        ],
+        "mutant": [
+          {
+            "fullName": "G01-B loadAll 边界守卫 G01-B01 sceneId 0 使用 scene/0.json 与 events/scene-000.json",
+            "status": "passed"
+          },
+          {
+            "fullName": "G01-B loadAll 边界守卫 G01-B02 roles 为空时在精灵请求前抛 roles[0] missing，且已取过 tileset",
+            "status": "passed"
+          },
+          {
+            "fullName": "G01-B loadAll 边界守卫 G01-B03 spriteNum 0 的队长和事件对象都不进集合，只剩固定 71 与 73",
+            "status": "passed"
+          },
+          {
+            "fullName": "G01-B loadAll 边界守卫 G01-B04 frameCount 为 0 的被引用 chunk 不取 fire RLE，未引用 chunk 也不取",
+            "status": "passed"
+          },
+          {
+            "fullName": "G01-B loadAll 边界守卫 G01-B05 空战斗 manifest 仍读取清单文件，但不请求任何精灵或背景成员",
+            "status": "passed"
+          },
+          {
+            "fullName": "G01-B loadAll 边界守卫 G01-B06 words.json 没有 flat 字段时词表为空数组",
+            "status": "failed"
+          },
+          {
+            "fullName": "G01-B loadAll 边界守卫 G01-B07 scene JSON 404 时错误带 scene URL，且不会再请求 tilemap",
+            "status": "passed"
+          },
+          {
+            "fullName": "G01-B loadAll 边界守卫 G01-B08 tilemap 404 时错误带 mapNum URL，且 tileset 尚未请求",
+            "status": "passed"
+          },
+          {
+            "fullName": "G01-B loadAll 边界守卫 G01-B09 fetchPalette(5) 读取 palette/5.json 并返回完整 256 色",
+            "status": "passed"
+          },
+          {
+            "fullName": "G01-B loadAll 边界守卫 G01-B10 fetchPalette(12) 503 的错误同时包含 URL 与状态码",
+            "status": "passed"
+          }
+        ],
+        "restored": [
+          {
+            "fullName": "G01-B loadAll 边界守卫 G01-B01 sceneId 0 使用 scene/0.json 与 events/scene-000.json",
+            "status": "passed"
+          },
+          {
+            "fullName": "G01-B loadAll 边界守卫 G01-B02 roles 为空时在精灵请求前抛 roles[0] missing，且已取过 tileset",
+            "status": "passed"
+          },
+          {
+            "fullName": "G01-B loadAll 边界守卫 G01-B03 spriteNum 0 的队长和事件对象都不进集合，只剩固定 71 与 73",
+            "status": "passed"
+          },
+          {
+            "fullName": "G01-B loadAll 边界守卫 G01-B04 frameCount 为 0 的被引用 chunk 不取 fire RLE，未引用 chunk 也不取",
+            "status": "passed"
+          },
+          {
+            "fullName": "G01-B loadAll 边界守卫 G01-B05 空战斗 manifest 仍读取清单文件，但不请求任何精灵或背景成员",
+            "status": "passed"
+          },
+          {
+            "fullName": "G01-B loadAll 边界守卫 G01-B06 words.json 没有 flat 字段时词表为空数组",
+            "status": "passed"
+          },
+          {
+            "fullName": "G01-B loadAll 边界守卫 G01-B07 scene JSON 404 时错误带 scene URL，且不会再请求 tilemap",
+            "status": "passed"
+          },
+          {
+            "fullName": "G01-B loadAll 边界守卫 G01-B08 tilemap 404 时错误带 mapNum URL，且 tileset 尚未请求",
+            "status": "passed"
+          },
+          {
+            "fullName": "G01-B loadAll 边界守卫 G01-B09 fetchPalette(5) 读取 palette/5.json 并返回完整 256 色",
+            "status": "passed"
+          },
+          {
+            "fullName": "G01-B loadAll 边界守卫 G01-B10 fetchPalette(12) 503 的错误同时包含 URL 与状态码",
+            "status": "passed"
+          }
+        ]
+      },
+      "patch": {
+        "path": "docs/testing/grok-cursor-large/grok/counters/G01-B/patch.diff",
+        "sha256": "c18bb07daf170ae22dcff9cfa008b075d7fbf483c7a92c82462c820cf44a4d01",
+        "bytes": 280
+      },
+      "logs": [
+        "docs/testing/grok-cursor-large/grok/counters/G01-B/original.json",
+        "docs/testing/grok-cursor-large/grok/counters/G01-B/original.stdout",
+        "docs/testing/grok-cursor-large/grok/counters/G01-B/original.stderr",
+        "docs/testing/grok-cursor-large/grok/counters/G01-B/mutant.json",
+        "docs/testing/grok-cursor-large/grok/counters/G01-B/mutant.stdout",
+        "docs/testing/grok-cursor-large/grok/counters/G01-B/mutant.stderr",
+        "docs/testing/grok-cursor-large/grok/counters/G01-B/restored.json",
+        "docs/testing/grok-cursor-large/grok/counters/G01-B/restored.stdout",
+        "docs/testing/grok-cursor-large/grok/counters/G01-B/restored.stderr"
+      ]
+    },
+    {
+      "id": "G01-C",
+      "batch": "G01",
+      "accepted": true,
+      "reasons": [],
+      "axis": "object-players 失败恢复从空数组变成占位 id -1",
+      "source": "packages/game/src/assets/loader.ts",
+      "testFile": "src/assets/load-all-recover.grok-r1.test.ts",
+      "target": "G01-C01",
+      "targetFullName": "G01-C loadAll 失败恢复 G01-C01 object-players 404 时结果为空数组，敌人表仍在",
+      "assertionError": "AssertionError: expected [ { id: -1 } ] to deeply equal []",
+      "sha256": {
+        "original": "0b85511a72be93396cc7c7776c78513a57fb176292e70da12e7f776b0910a842",
+        "mutant": "9f8779a0dccb8d66950b99131a5fe131da182ba8edd0f7ff650e755cb7bc33b6",
+        "restored": "0b85511a72be93396cc7c7776c78513a57fb176292e70da12e7f776b0910a842"
+      },
+      "exitCode": {
+        "original": 0,
+        "mutant": 1,
+        "restored": 0
+      },
+      "signal": {
+        "original": null,
+        "mutant": null,
+        "restored": null
+      },
+      "counts": {
+        "original": 10,
+        "mutantFailed": 1,
+        "restored": 10
+      },
+      "executionCount": 10,
+      "executions": [
+        {
+          "file": "src/assets/load-all-recover.grok-r1.test.ts",
+          "fullName": "G01-C loadAll 失败恢复 G01-C01 object-players 404 时结果为空数组，敌人表仍在"
+        },
+        {
+          "file": "src/assets/load-all-recover.grok-r1.test.ts",
+          "fullName": "G01-C loadAll 失败恢复 G01-C02 words.json 500 时词表为空，商店表仍透传"
+        },
+        {
+          "file": "src/assets/load-all-recover.grok-r1.test.ts",
+          "fullName": "G01-C loadAll 失败恢复 G01-C03 battle-sprites.json 404 时精灵 map 为空，背景 8 仍解码"
+        },
+        {
+          "file": "src/assets/load-all-recover.grok-r1.test.ts",
+          "fullName": "G01-C loadAll 失败恢复 G01-C04 battle-bgs.json 404 时背景 map 为空，player-2 精灵仍在"
+        },
+        {
+          "file": "src/assets/load-all-recover.grok-r1.test.ts",
+          "fullName": "G01-C loadAll 失败恢复 G01-C05 事件精灵 9 的 RLE 404 被跳过，71 与 73 仍在"
+        },
+        {
+          "file": "src/assets/load-all-recover.grok-r1.test.ts",
+          "fullName": "G01-C loadAll 失败恢复 G01-C06 enemy-4 RLE 404 被跳过，player-2 的第二帧像素仍是 0x22"
+        },
+        {
+          "file": "src/assets/load-all-recover.grok-r1.test.ts",
+          "fullName": "G01-C loadAll 失败恢复 G01-C07 背景 8 的 PNG 404 被跳过，背景 9 的像素保留"
+        },
+        {
+          "file": "src/assets/load-all-recover.grok-r1.test.ts",
+          "fullName": "G01-C loadAll 失败恢复 G01-C08 effect.rle 404 时 effectSprite 缺席，法术 chunk 0 仍在"
+        },
+        {
+          "file": "src/assets/load-all-recover.grok-r1.test.ts",
+          "fullName": "G01-C loadAll 失败恢复 G01-C09 fire-sprites.json 404 时法术 map 为空，命中特效帧仍加载"
+        },
+        {
+          "file": "src/assets/load-all-recover.grok-r1.test.ts",
+          "fullName": "G01-C loadAll 失败恢复 G01-C10 UI 帧 1 与物品 12 失败时，其余成员按原顺序和原键保留"
+        }
+      ],
+      "statuses": {
+        "original": [
+          {
+            "fullName": "G01-C loadAll 失败恢复 G01-C01 object-players 404 时结果为空数组，敌人表仍在",
+            "status": "passed"
+          },
+          {
+            "fullName": "G01-C loadAll 失败恢复 G01-C02 words.json 500 时词表为空，商店表仍透传",
+            "status": "passed"
+          },
+          {
+            "fullName": "G01-C loadAll 失败恢复 G01-C03 battle-sprites.json 404 时精灵 map 为空，背景 8 仍解码",
+            "status": "passed"
+          },
+          {
+            "fullName": "G01-C loadAll 失败恢复 G01-C04 battle-bgs.json 404 时背景 map 为空，player-2 精灵仍在",
+            "status": "passed"
+          },
+          {
+            "fullName": "G01-C loadAll 失败恢复 G01-C05 事件精灵 9 的 RLE 404 被跳过，71 与 73 仍在",
+            "status": "passed"
+          },
+          {
+            "fullName": "G01-C loadAll 失败恢复 G01-C06 enemy-4 RLE 404 被跳过，player-2 的第二帧像素仍是 0x22",
+            "status": "passed"
+          },
+          {
+            "fullName": "G01-C loadAll 失败恢复 G01-C07 背景 8 的 PNG 404 被跳过，背景 9 的像素保留",
+            "status": "passed"
+          },
+          {
+            "fullName": "G01-C loadAll 失败恢复 G01-C08 effect.rle 404 时 effectSprite 缺席，法术 chunk 0 仍在",
+            "status": "passed"
+          },
+          {
+            "fullName": "G01-C loadAll 失败恢复 G01-C09 fire-sprites.json 404 时法术 map 为空，命中特效帧仍加载",
+            "status": "passed"
+          },
+          {
+            "fullName": "G01-C loadAll 失败恢复 G01-C10 UI 帧 1 与物品 12 失败时，其余成员按原顺序和原键保留",
+            "status": "passed"
+          }
+        ],
+        "mutant": [
+          {
+            "fullName": "G01-C loadAll 失败恢复 G01-C01 object-players 404 时结果为空数组，敌人表仍在",
+            "status": "failed"
+          },
+          {
+            "fullName": "G01-C loadAll 失败恢复 G01-C02 words.json 500 时词表为空，商店表仍透传",
+            "status": "passed"
+          },
+          {
+            "fullName": "G01-C loadAll 失败恢复 G01-C03 battle-sprites.json 404 时精灵 map 为空，背景 8 仍解码",
+            "status": "passed"
+          },
+          {
+            "fullName": "G01-C loadAll 失败恢复 G01-C04 battle-bgs.json 404 时背景 map 为空，player-2 精灵仍在",
+            "status": "passed"
+          },
+          {
+            "fullName": "G01-C loadAll 失败恢复 G01-C05 事件精灵 9 的 RLE 404 被跳过，71 与 73 仍在",
+            "status": "passed"
+          },
+          {
+            "fullName": "G01-C loadAll 失败恢复 G01-C06 enemy-4 RLE 404 被跳过，player-2 的第二帧像素仍是 0x22",
+            "status": "passed"
+          },
+          {
+            "fullName": "G01-C loadAll 失败恢复 G01-C07 背景 8 的 PNG 404 被跳过，背景 9 的像素保留",
+            "status": "passed"
+          },
+          {
+            "fullName": "G01-C loadAll 失败恢复 G01-C08 effect.rle 404 时 effectSprite 缺席，法术 chunk 0 仍在",
+            "status": "passed"
+          },
+          {
+            "fullName": "G01-C loadAll 失败恢复 G01-C09 fire-sprites.json 404 时法术 map 为空，命中特效帧仍加载",
+            "status": "passed"
+          },
+          {
+            "fullName": "G01-C loadAll 失败恢复 G01-C10 UI 帧 1 与物品 12 失败时，其余成员按原顺序和原键保留",
+            "status": "passed"
+          }
+        ],
+        "restored": [
+          {
+            "fullName": "G01-C loadAll 失败恢复 G01-C01 object-players 404 时结果为空数组，敌人表仍在",
+            "status": "passed"
+          },
+          {
+            "fullName": "G01-C loadAll 失败恢复 G01-C02 words.json 500 时词表为空，商店表仍透传",
+            "status": "passed"
+          },
+          {
+            "fullName": "G01-C loadAll 失败恢复 G01-C03 battle-sprites.json 404 时精灵 map 为空，背景 8 仍解码",
+            "status": "passed"
+          },
+          {
+            "fullName": "G01-C loadAll 失败恢复 G01-C04 battle-bgs.json 404 时背景 map 为空，player-2 精灵仍在",
+            "status": "passed"
+          },
+          {
+            "fullName": "G01-C loadAll 失败恢复 G01-C05 事件精灵 9 的 RLE 404 被跳过，71 与 73 仍在",
+            "status": "passed"
+          },
+          {
+            "fullName": "G01-C loadAll 失败恢复 G01-C06 enemy-4 RLE 404 被跳过，player-2 的第二帧像素仍是 0x22",
+            "status": "passed"
+          },
+          {
+            "fullName": "G01-C loadAll 失败恢复 G01-C07 背景 8 的 PNG 404 被跳过，背景 9 的像素保留",
+            "status": "passed"
+          },
+          {
+            "fullName": "G01-C loadAll 失败恢复 G01-C08 effect.rle 404 时 effectSprite 缺席，法术 chunk 0 仍在",
+            "status": "passed"
+          },
+          {
+            "fullName": "G01-C loadAll 失败恢复 G01-C09 fire-sprites.json 404 时法术 map 为空，命中特效帧仍加载",
+            "status": "passed"
+          },
+          {
+            "fullName": "G01-C loadAll 失败恢复 G01-C10 UI 帧 1 与物品 12 失败时，其余成员按原顺序和原键保留",
+            "status": "passed"
+          }
+        ]
+      },
+      "patch": {
+        "path": "docs/testing/grok-cursor-large/grok/counters/G01-C/patch.diff",
+        "sha256": "eebaa6136e20639c271d2ab231583f95e1cd8b8e5f26990b60d7ed05111a74a5",
+        "bytes": 612
+      },
+      "logs": [
+        "docs/testing/grok-cursor-large/grok/counters/G01-C/original.json",
+        "docs/testing/grok-cursor-large/grok/counters/G01-C/original.stdout",
+        "docs/testing/grok-cursor-large/grok/counters/G01-C/original.stderr",
+        "docs/testing/grok-cursor-large/grok/counters/G01-C/mutant.json",
+        "docs/testing/grok-cursor-large/grok/counters/G01-C/mutant.stdout",
+        "docs/testing/grok-cursor-large/grok/counters/G01-C/mutant.stderr",
+        "docs/testing/grok-cursor-large/grok/counters/G01-C/restored.json",
+        "docs/testing/grok-cursor-large/grok/counters/G01-C/restored.stdout",
+        "docs/testing/grok-cursor-large/grok/counters/G01-C/restored.stderr"
+      ]
+    },
+    {
+      "id": "G01-D",
+      "batch": "G01",
+      "accepted": true,
+      "reasons": [],
+      "axis": "fetcher 拒绝后仍把 sceneId -1 写入缓存",
+      "source": "packages/game/src/assets/loader.ts",
+      "testFile": "src/assets/scene-cache.grok-r1.test.ts",
+      "target": "G01-D02",
+      "targetFullName": "G01-D SceneAssetsCache 归属与迟到 G01-D02 fetcher 拒绝后该 id 不入缓存，下次重新 fetch 并成功",
+      "assertionError": "AssertionError: expected -1 to be 3 // Object.is equality",
+      "sha256": {
+        "original": "0b85511a72be93396cc7c7776c78513a57fb176292e70da12e7f776b0910a842",
+        "mutant": "3e38e5992fe68014709514062d18ca5ef0d543f1ec403217a40d39157430b07a",
+        "restored": "0b85511a72be93396cc7c7776c78513a57fb176292e70da12e7f776b0910a842"
+      },
+      "exitCode": {
+        "original": 0,
+        "mutant": 1,
+        "restored": 0
+      },
+      "signal": {
+        "original": null,
+        "mutant": null,
+        "restored": null
+      },
+      "counts": {
+        "original": 10,
+        "mutantFailed": 1,
+        "restored": 10
+      },
+      "executionCount": 10,
+      "executions": [
+        {
+          "file": "src/assets/scene-cache.grok-r1.test.ts",
+          "fullName": "G01-D SceneAssetsCache 归属与迟到 G01-D01 命中返回 fetcher 交出的同一对象引用"
+        },
+        {
+          "file": "src/assets/scene-cache.grok-r1.test.ts",
+          "fullName": "G01-D SceneAssetsCache 归属与迟到 G01-D02 fetcher 拒绝后该 id 不入缓存，下次重新 fetch 并成功"
+        },
+        {
+          "file": "src/assets/scene-cache.grok-r1.test.ts",
+          "fullName": "G01-D SceneAssetsCache 归属与迟到 G01-D03 同一 id 的两次并发 load 各调一次 fetcher，缓存留下后写入的对象"
+        },
+        {
+          "file": "src/assets/scene-cache.grok-r1.test.ts",
+          "fullName": "G01-D SceneAssetsCache 归属与迟到 G01-D04 protect 返回缓存中不存在的 id 时，仍淘汰最旧条目"
+        },
+        {
+          "file": "src/assets/scene-cache.grok-r1.test.ts",
+          "fullName": "G01-D SceneAssetsCache 归属与迟到 G01-D05 maxEntries 为 1 且保护旧条目时，新 fetch 的结果被淘汰但调用方仍拿到它"
+        },
+        {
+          "file": "src/assets/scene-cache.grok-r1.test.ts",
+          "fullName": "G01-D SceneAssetsCache 归属与迟到 G01-D06 protect 返回 undefined 时 scene 0 可以被淘汰"
+        },
+        {
+          "file": "src/assets/scene-cache.grok-r1.test.ts",
+          "fullName": "G01-D SceneAssetsCache 归属与迟到 G01-D07 条目数刚好等于 maxEntries 时不调用 onEvict"
+        },
+        {
+          "file": "src/assets/scene-cache.grok-r1.test.ts",
+          "fullName": "G01-D SceneAssetsCache 归属与迟到 G01-D08 被淘汰对象之后的字段改写不会污染重新 fetch 的结果"
+        },
+        {
+          "file": "src/assets/scene-cache.grok-r1.test.ts",
+          "fullName": "G01-D SceneAssetsCache 归属与迟到 G01-D09 连续两次超限淘汰的受害者顺序是 1 然后 2，3 与 4 仍命中"
+        },
+        {
+          "file": "src/assets/scene-cache.grok-r1.test.ts",
+          "fullName": "G01-D SceneAssetsCache 归属与迟到 G01-D10 maxEntries 为 1 时后完成的 id 1 留下，先完成的 id 2 下次要重取"
+        }
+      ],
+      "statuses": {
+        "original": [
+          {
+            "fullName": "G01-D SceneAssetsCache 归属与迟到 G01-D01 命中返回 fetcher 交出的同一对象引用",
+            "status": "passed"
+          },
+          {
+            "fullName": "G01-D SceneAssetsCache 归属与迟到 G01-D02 fetcher 拒绝后该 id 不入缓存，下次重新 fetch 并成功",
+            "status": "passed"
+          },
+          {
+            "fullName": "G01-D SceneAssetsCache 归属与迟到 G01-D03 同一 id 的两次并发 load 各调一次 fetcher，缓存留下后写入的对象",
+            "status": "passed"
+          },
+          {
+            "fullName": "G01-D SceneAssetsCache 归属与迟到 G01-D04 protect 返回缓存中不存在的 id 时，仍淘汰最旧条目",
+            "status": "passed"
+          },
+          {
+            "fullName": "G01-D SceneAssetsCache 归属与迟到 G01-D05 maxEntries 为 1 且保护旧条目时，新 fetch 的结果被淘汰但调用方仍拿到它",
+            "status": "passed"
+          },
+          {
+            "fullName": "G01-D SceneAssetsCache 归属与迟到 G01-D06 protect 返回 undefined 时 scene 0 可以被淘汰",
+            "status": "passed"
+          },
+          {
+            "fullName": "G01-D SceneAssetsCache 归属与迟到 G01-D07 条目数刚好等于 maxEntries 时不调用 onEvict",
+            "status": "passed"
+          },
+          {
+            "fullName": "G01-D SceneAssetsCache 归属与迟到 G01-D08 被淘汰对象之后的字段改写不会污染重新 fetch 的结果",
+            "status": "passed"
+          },
+          {
+            "fullName": "G01-D SceneAssetsCache 归属与迟到 G01-D09 连续两次超限淘汰的受害者顺序是 1 然后 2，3 与 4 仍命中",
+            "status": "passed"
+          },
+          {
+            "fullName": "G01-D SceneAssetsCache 归属与迟到 G01-D10 maxEntries 为 1 时后完成的 id 1 留下，先完成的 id 2 下次要重取",
+            "status": "passed"
+          }
+        ],
+        "mutant": [
+          {
+            "fullName": "G01-D SceneAssetsCache 归属与迟到 G01-D01 命中返回 fetcher 交出的同一对象引用",
+            "status": "passed"
+          },
+          {
+            "fullName": "G01-D SceneAssetsCache 归属与迟到 G01-D02 fetcher 拒绝后该 id 不入缓存，下次重新 fetch 并成功",
+            "status": "failed"
+          },
+          {
+            "fullName": "G01-D SceneAssetsCache 归属与迟到 G01-D03 同一 id 的两次并发 load 各调一次 fetcher，缓存留下后写入的对象",
+            "status": "passed"
+          },
+          {
+            "fullName": "G01-D SceneAssetsCache 归属与迟到 G01-D04 protect 返回缓存中不存在的 id 时，仍淘汰最旧条目",
+            "status": "passed"
+          },
+          {
+            "fullName": "G01-D SceneAssetsCache 归属与迟到 G01-D05 maxEntries 为 1 且保护旧条目时，新 fetch 的结果被淘汰但调用方仍拿到它",
+            "status": "passed"
+          },
+          {
+            "fullName": "G01-D SceneAssetsCache 归属与迟到 G01-D06 protect 返回 undefined 时 scene 0 可以被淘汰",
+            "status": "passed"
+          },
+          {
+            "fullName": "G01-D SceneAssetsCache 归属与迟到 G01-D07 条目数刚好等于 maxEntries 时不调用 onEvict",
+            "status": "passed"
+          },
+          {
+            "fullName": "G01-D SceneAssetsCache 归属与迟到 G01-D08 被淘汰对象之后的字段改写不会污染重新 fetch 的结果",
+            "status": "passed"
+          },
+          {
+            "fullName": "G01-D SceneAssetsCache 归属与迟到 G01-D09 连续两次超限淘汰的受害者顺序是 1 然后 2，3 与 4 仍命中",
+            "status": "passed"
+          },
+          {
+            "fullName": "G01-D SceneAssetsCache 归属与迟到 G01-D10 maxEntries 为 1 时后完成的 id 1 留下，先完成的 id 2 下次要重取",
+            "status": "passed"
+          }
+        ],
+        "restored": [
+          {
+            "fullName": "G01-D SceneAssetsCache 归属与迟到 G01-D01 命中返回 fetcher 交出的同一对象引用",
+            "status": "passed"
+          },
+          {
+            "fullName": "G01-D SceneAssetsCache 归属与迟到 G01-D02 fetcher 拒绝后该 id 不入缓存，下次重新 fetch 并成功",
+            "status": "passed"
+          },
+          {
+            "fullName": "G01-D SceneAssetsCache 归属与迟到 G01-D03 同一 id 的两次并发 load 各调一次 fetcher，缓存留下后写入的对象",
+            "status": "passed"
+          },
+          {
+            "fullName": "G01-D SceneAssetsCache 归属与迟到 G01-D04 protect 返回缓存中不存在的 id 时，仍淘汰最旧条目",
+            "status": "passed"
+          },
+          {
+            "fullName": "G01-D SceneAssetsCache 归属与迟到 G01-D05 maxEntries 为 1 且保护旧条目时，新 fetch 的结果被淘汰但调用方仍拿到它",
+            "status": "passed"
+          },
+          {
+            "fullName": "G01-D SceneAssetsCache 归属与迟到 G01-D06 protect 返回 undefined 时 scene 0 可以被淘汰",
+            "status": "passed"
+          },
+          {
+            "fullName": "G01-D SceneAssetsCache 归属与迟到 G01-D07 条目数刚好等于 maxEntries 时不调用 onEvict",
+            "status": "passed"
+          },
+          {
+            "fullName": "G01-D SceneAssetsCache 归属与迟到 G01-D08 被淘汰对象之后的字段改写不会污染重新 fetch 的结果",
+            "status": "passed"
+          },
+          {
+            "fullName": "G01-D SceneAssetsCache 归属与迟到 G01-D09 连续两次超限淘汰的受害者顺序是 1 然后 2，3 与 4 仍命中",
+            "status": "passed"
+          },
+          {
+            "fullName": "G01-D SceneAssetsCache 归属与迟到 G01-D10 maxEntries 为 1 时后完成的 id 1 留下，先完成的 id 2 下次要重取",
+            "status": "passed"
+          }
+        ]
+      },
+      "patch": {
+        "path": "docs/testing/grok-cursor-large/grok/counters/G01-D/patch.diff",
+        "sha256": "8d78577ef48672b7d949e763cc94396ce5270387e6411a02be695acc16319438",
+        "bytes": 759
+      },
+      "logs": [
+        "docs/testing/grok-cursor-large/grok/counters/G01-D/original.json",
+        "docs/testing/grok-cursor-large/grok/counters/G01-D/original.stdout",
+        "docs/testing/grok-cursor-large/grok/counters/G01-D/original.stderr",
+        "docs/testing/grok-cursor-large/grok/counters/G01-D/mutant.json",
+        "docs/testing/grok-cursor-large/grok/counters/G01-D/mutant.stdout",
+        "docs/testing/grok-cursor-large/grok/counters/G01-D/mutant.stderr",
+        "docs/testing/grok-cursor-large/grok/counters/G01-D/restored.json",
+        "docs/testing/grok-cursor-large/grok/counters/G01-D/restored.stdout",
+        "docs/testing/grok-cursor-large/grok/counters/G01-D/restored.stderr"
+      ]
+    }
+  ]
+}

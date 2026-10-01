@@ -1,0 +1,25 @@
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/assets/load-all-assemble.grok-r1.test.ts > G01-A loadAll 合法装配 > G01-A07 战斗精灵键为 kind-id，背景 8 的像素来自对应 PNG
+AssertionError: expected [ 'enemy:4', 'player:2' ] to deeply equal [ 'enemy-4', 'player-2' ]
+
+- Expected
++ Received
+
+  [
+-   "enemy-4",
+-   "player-2",
++   "enemy:4",
++   "player:2",
+  ]
+
+ ❯ src/assets/load-all-assemble.grok-r1.test.ts:123:53
+    121|     const { calls } = installLoadAll(loadAllScript(), pngs)
+    122|     const assets = await loadAll(7)
+    123|     expect([...assets.battleSprites.keys()].sort()).toEqual(['enemy-4'…
+       |                                                     ^
+    124|     expect(assets.battleSprites.get('player-2')?.frames).toHaveLength(…
+    125|     expect(Array.from(assets.battleSprites.get('player-2')?.frames[1]?…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯

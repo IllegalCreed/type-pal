@@ -1,0 +1,140 @@
+{
+  "numTotalTestSuites": 2,
+  "numPassedTestSuites": 2,
+  "numFailedTestSuites": 0,
+  "numPendingTestSuites": 0,
+  "numTotalTests": 10,
+  "numPassedTests": 10,
+  "numFailedTests": 0,
+  "numPendingTests": 0,
+  "numTodoTests": 0,
+  "snapshot": {
+    "added": 0,
+    "failure": false,
+    "filesAdded": 0,
+    "filesRemoved": 0,
+    "filesRemovedList": [],
+    "filesUnmatched": 0,
+    "filesUpdated": 0,
+    "matched": 0,
+    "total": 0,
+    "unchecked": 0,
+    "uncheckedKeysByFile": [],
+    "unmatched": 0,
+    "updated": 0,
+    "didUpdate": false
+  },
+  "startTime": 1790864237086,
+  "success": true,
+  "testResults": [
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["G01-B loadAll 边界守卫"],
+          "fullName": "G01-B loadAll 边界守卫 G01-B01 sceneId 0 使用 scene/0.json 与 events/scene-000.json",
+          "status": "passed",
+          "title": "G01-B01 sceneId 0 使用 scene/0.json 与 events/scene-000.json",
+          "duration": 15.040499999999952,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G01-B loadAll 边界守卫"],
+          "fullName": "G01-B loadAll 边界守卫 G01-B02 roles 为空时在精灵请求前抛 roles[0] missing，且已取过 tileset",
+          "status": "passed",
+          "title": "G01-B02 roles 为空时在精灵请求前抛 roles[0] missing，且已取过 tileset",
+          "duration": 1.5797919999999976,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G01-B loadAll 边界守卫"],
+          "fullName": "G01-B loadAll 边界守卫 G01-B03 spriteNum 0 的队长和事件对象都不进集合，只剩固定 71 与 73",
+          "status": "passed",
+          "title": "G01-B03 spriteNum 0 的队长和事件对象都不进集合，只剩固定 71 与 73",
+          "duration": 3.514874999999961,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G01-B loadAll 边界守卫"],
+          "fullName": "G01-B loadAll 边界守卫 G01-B04 frameCount 为 0 的被引用 chunk 不取 fire RLE，未引用 chunk 也不取",
+          "status": "passed",
+          "title": "G01-B04 frameCount 为 0 的被引用 chunk 不取 fire RLE，未引用 chunk 也不取",
+          "duration": 3.1770420000000286,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G01-B loadAll 边界守卫"],
+          "fullName": "G01-B loadAll 边界守卫 G01-B05 空战斗 manifest 仍读取清单文件，但不请求任何精灵或背景成员",
+          "status": "passed",
+          "title": "G01-B05 空战斗 manifest 仍读取清单文件，但不请求任何精灵或背景成员",
+          "duration": 2.2055420000000368,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G01-B loadAll 边界守卫"],
+          "fullName": "G01-B loadAll 边界守卫 G01-B06 words.json 没有 flat 字段时词表为空数组",
+          "status": "passed",
+          "title": "G01-B06 words.json 没有 flat 字段时词表为空数组",
+          "duration": 2.7991670000000113,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G01-B loadAll 边界守卫"],
+          "fullName": "G01-B loadAll 边界守卫 G01-B07 scene JSON 404 时错误带 scene URL，且不会再请求 tilemap",
+          "status": "passed",
+          "title": "G01-B07 scene JSON 404 时错误带 scene URL，且不会再请求 tilemap",
+          "duration": 0.3650000000000091,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G01-B loadAll 边界守卫"],
+          "fullName": "G01-B loadAll 边界守卫 G01-B08 tilemap 404 时错误带 mapNum URL，且 tileset 尚未请求",
+          "status": "passed",
+          "title": "G01-B08 tilemap 404 时错误带 mapNum URL，且 tileset 尚未请求",
+          "duration": 0.8330419999999776,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G01-B loadAll 边界守卫"],
+          "fullName": "G01-B loadAll 边界守卫 G01-B09 fetchPalette(5) 读取 palette/5.json 并返回完整 256 色",
+          "status": "passed",
+          "title": "G01-B09 fetchPalette(5) 读取 palette/5.json 并返回完整 256 色",
+          "duration": 0.6859170000000177,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G01-B loadAll 边界守卫"],
+          "fullName": "G01-B loadAll 边界守卫 G01-B10 fetchPalette(12) 503 的错误同时包含 URL 与状态码",
+          "status": "passed",
+          "title": "G01-B10 fetchPalette(12) 503 的错误同时包含 URL 与状态码",
+          "duration": 0.23041699999998855,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790864237695,
+      "endTime": 1790864237725.2305,
+      "status": "passed",
+      "message": "",
+      "name": "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/grok-r1-G01-B-iggfJM/packages/game/src/assets/load-all-bounds.grok-r1.test.ts"
+    }
+  ]
+}

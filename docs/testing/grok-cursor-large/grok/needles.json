@@ -1,0 +1,42 @@
+[
+  {
+    "id": "G01-A",
+    "batch": "G01",
+    "source": "packages/game/src/assets/loader.ts",
+    "from": "battleSprites.set(`${entry.kind}-${entry.id}`, { frames })",
+    "to": "battleSprites.set(`${entry.kind}:${entry.id}`, { frames })",
+    "testFile": "src/assets/load-all-assemble.grok-r1.test.ts",
+    "target": "G01-A07",
+    "axis": "战斗精灵键归属从 kind-id 被改成 kind:id"
+  },
+  {
+    "id": "G01-B",
+    "batch": "G01",
+    "source": "packages/game/src/assets/loader.ts",
+    "from": "words: wordsRaw.flat ?? []",
+    "to": "words: wordsRaw.flat ?? ['MUT']",
+    "testFile": "src/assets/load-all-bounds.grok-r1.test.ts",
+    "target": "G01-B06",
+    "axis": "缺 flat 时词表从空数组变成带 MUT 的数组"
+  },
+  {
+    "id": "G01-C",
+    "batch": "G01",
+    "source": "packages/game/src/assets/loader.ts",
+    "from": "return [] as ObjectPlayerView[]",
+    "to": "return [{ id: -1 }] as ObjectPlayerView[]",
+    "testFile": "src/assets/load-all-recover.grok-r1.test.ts",
+    "target": "G01-C01",
+    "axis": "object-players 失败恢复从空数组变成占位 id -1"
+  },
+  {
+    "id": "G01-D",
+    "batch": "G01",
+    "source": "packages/game/src/assets/loader.ts",
+    "from": "    const fetched = await this.fetcher(sceneId)\n    this.cache.set(sceneId, fetched)",
+    "to": "    let fetched\n    try {\n      fetched = await this.fetcher(sceneId)\n    } catch (error) {\n      this.cache.set(sceneId, {\n        sceneId: -1,\n        mapNum: -1,\n        tilemap: { width: 1, height: 1, cells: [[{ lower: 0, upper: 0 }]], tileset: 'x' },\n        palette: { colors: [], cycles: [] },\n        eventObjects: [],\n        npcSprites: new Map(),\n        eventCommands: [],\n        labelMap: {},\n      })\n      throw error\n    }\n    this.cache.set(sceneId, fetched)",
+    "testFile": "src/assets/scene-cache.grok-r1.test.ts",
+    "target": "G01-D02",
+    "axis": "fetcher 拒绝后仍把 sceneId -1 写入缓存"
+  }
+]

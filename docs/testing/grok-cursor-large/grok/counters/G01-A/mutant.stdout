@@ -1,0 +1,21 @@
+
+ RUN  v4.1.7 /private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/grok-r1-G01-A-jItrbf/packages/game
+
+ ✓ src/assets/load-all-assemble.grok-r1.test.ts > G01-A loadAll 合法装配 > G01-A01 scene 7 用 mapNum 12 取 tilemap 与 tileset，不按 sceneId 取图 17ms
+ ✓ src/assets/load-all-assemble.grok-r1.test.ts > G01-A loadAll 合法装配 > G01-A02 scene 7 的事件脚本 URL 补零为 scene-007，段名原样返回 3ms
+ ✓ src/assets/load-all-assemble.grok-r1.test.ts > G01-A loadAll 合法装配 > G01-A03 首屏调色板固定取 palette/0，256 色与循环段原样进入结果 4ms
+ ✓ src/assets/load-all-assemble.grok-r1.test.ts > G01-A loadAll 合法装配 > G01-A04 tileset RLE 经真实解码进入 tileImages，键 0/1 像素为 AA/BB 3ms
+ ✓ src/assets/load-all-assemble.grok-r1.test.ts > G01-A loadAll 合法装配 > G01-A05 角色精灵键为队长、事件对象、71 与 73，5×3 帧锚点为 2,3 3ms
+ ✓ src/assets/load-all-assemble.grok-r1.test.ts > G01-A loadAll 合法装配 > G01-A06 队长与两个事件对象共用 sprite 9 时只 fetch 一次 4ms
+ × src/assets/load-all-assemble.grok-r1.test.ts > G01-A loadAll 合法装配 > G01-A07 战斗精灵键为 kind-id，背景 8 的像素来自对应 PNG 6ms
+   → expected [ 'enemy:4', 'player:2' ] to deeply equal [ 'enemy-4', 'player-2' ]
+ ✓ src/assets/load-all-assemble.grok-r1.test.ts > G01-A loadAll 合法装配 > G01-A08 法术精灵只加载被引用且 frameCount>0 的 chunk，含 effect 0 4ms
+ ✓ src/assets/load-all-assemble.grok-r1.test.ts > G01-A loadAll 合法装配 > G01-A09 物品图标按 chunkIndex 入 map，UI 帧按 manifest 顺序保留 3ms
+ ✓ src/assets/load-all-assemble.grok-r1.test.ts > G01-A loadAll 合法装配 > G01-A10 词表、商店、升级表、敌人 id 与敌位布局原样透传 4ms
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 9 passed (10)
+   Start at  23:17:15
+   Duration  727ms (transform 76ms, setup 20ms, import 80ms, tests 166ms, environment 380ms)
+
+JSON report written to /var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/grok-r1-G01-A-jItrbf/mutant.json

@@ -1,0 +1,21 @@
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/assets/scene-cache.grok-r1.test.ts > G01-D SceneAssetsCache 归属与迟到 > G01-D02 fetcher 拒绝后该 id 不入缓存，下次重新 fetch 并成功
+AssertionError: expected -1 to be 3 // Object.is equality
+
+- Expected
++ Received
+
+- 3
++ -1
+
+ ❯ src/assets/scene-cache.grok-r1.test.ts:29:28
+     27|     await expect(cache.loadScene(3)).rejects.toThrow('net down')
+     28|     const loaded = await cache.loadScene(3)
+     29|     expect(loaded.sceneId).toBe(3)
+       |                            ^
+     30|     expect(loaded.mapNum).toBe(30)
+     31|     expect(loaded.palette.colors).toHaveLength(256)
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯

@@ -1,0 +1,142 @@
+{
+  "numTotalTestSuites": 2,
+  "numPassedTestSuites": 0,
+  "numFailedTestSuites": 2,
+  "numPendingTestSuites": 0,
+  "numTotalTests": 10,
+  "numPassedTests": 9,
+  "numFailedTests": 1,
+  "numPendingTests": 0,
+  "numTodoTests": 0,
+  "snapshot": {
+    "added": 0,
+    "failure": false,
+    "filesAdded": 0,
+    "filesRemoved": 0,
+    "filesRemovedList": [],
+    "filesUnmatched": 0,
+    "filesUpdated": 0,
+    "matched": 0,
+    "total": 0,
+    "unchecked": 0,
+    "uncheckedKeysByFile": [],
+    "unmatched": 0,
+    "updated": 0,
+    "didUpdate": false
+  },
+  "startTime": 1790864243074,
+  "success": false,
+  "testResults": [
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["G01-D SceneAssetsCache 归属与迟到"],
+          "fullName": "G01-D SceneAssetsCache 归属与迟到 G01-D01 命中返回 fetcher 交出的同一对象引用",
+          "status": "passed",
+          "title": "G01-D01 命中返回 fetcher 交出的同一对象引用",
+          "duration": 1.1586659999999824,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G01-D SceneAssetsCache 归属与迟到"],
+          "fullName": "G01-D SceneAssetsCache 归属与迟到 G01-D02 fetcher 拒绝后该 id 不入缓存，下次重新 fetch 并成功",
+          "status": "failed",
+          "title": "G01-D02 fetcher 拒绝后该 id 不入缓存，下次重新 fetch 并成功",
+          "duration": 3.483292000000006,
+          "failureMessages": [
+            "AssertionError: expected -1 to be 3 // Object.is equality\n    at /private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/grok-r1-G01-D-NvR4EZ/packages/game/src/assets/scene-cache.grok-r1.test.ts:29:28\n    at processTicksAndRejections (node:internal/process/task_queues:103:5)\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:20"
+          ],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G01-D SceneAssetsCache 归属与迟到"],
+          "fullName": "G01-D SceneAssetsCache 归属与迟到 G01-D03 同一 id 的两次并发 load 各调一次 fetcher，缓存留下后写入的对象",
+          "status": "passed",
+          "title": "G01-D03 同一 id 的两次并发 load 各调一次 fetcher，缓存留下后写入的对象",
+          "duration": 0.27304199999997536,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G01-D SceneAssetsCache 归属与迟到"],
+          "fullName": "G01-D SceneAssetsCache 归属与迟到 G01-D04 protect 返回缓存中不存在的 id 时，仍淘汰最旧条目",
+          "status": "passed",
+          "title": "G01-D04 protect 返回缓存中不存在的 id 时，仍淘汰最旧条目",
+          "duration": 0.3554579999999987,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G01-D SceneAssetsCache 归属与迟到"],
+          "fullName": "G01-D SceneAssetsCache 归属与迟到 G01-D05 maxEntries 为 1 且保护旧条目时，新 fetch 的结果被淘汰但调用方仍拿到它",
+          "status": "passed",
+          "title": "G01-D05 maxEntries 为 1 且保护旧条目时，新 fetch 的结果被淘汰但调用方仍拿到它",
+          "duration": 0.3084159999999656,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G01-D SceneAssetsCache 归属与迟到"],
+          "fullName": "G01-D SceneAssetsCache 归属与迟到 G01-D06 protect 返回 undefined 时 scene 0 可以被淘汰",
+          "status": "passed",
+          "title": "G01-D06 protect 返回 undefined 时 scene 0 可以被淘汰",
+          "duration": 0.21670900000003712,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G01-D SceneAssetsCache 归属与迟到"],
+          "fullName": "G01-D SceneAssetsCache 归属与迟到 G01-D07 条目数刚好等于 maxEntries 时不调用 onEvict",
+          "status": "passed",
+          "title": "G01-D07 条目数刚好等于 maxEntries 时不调用 onEvict",
+          "duration": 0.1646669999999517,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G01-D SceneAssetsCache 归属与迟到"],
+          "fullName": "G01-D SceneAssetsCache 归属与迟到 G01-D08 被淘汰对象之后的字段改写不会污染重新 fetch 的结果",
+          "status": "passed",
+          "title": "G01-D08 被淘汰对象之后的字段改写不会污染重新 fetch 的结果",
+          "duration": 2.1112909999999943,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G01-D SceneAssetsCache 归属与迟到"],
+          "fullName": "G01-D SceneAssetsCache 归属与迟到 G01-D09 连续两次超限淘汰的受害者顺序是 1 然后 2，3 与 4 仍命中",
+          "status": "passed",
+          "title": "G01-D09 连续两次超限淘汰的受害者顺序是 1 然后 2，3 与 4 仍命中",
+          "duration": 0.5340830000000096,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G01-D SceneAssetsCache 归属与迟到"],
+          "fullName": "G01-D SceneAssetsCache 归属与迟到 G01-D10 maxEntries 为 1 时后完成的 id 1 留下，先完成的 id 2 下次要重取",
+          "status": "passed",
+          "title": "G01-D10 maxEntries 为 1 时后完成的 id 1 留下，先完成的 id 2 下次要重取",
+          "duration": 0.9544169999999781,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790864243533,
+      "endTime": 1790864243542.9543,
+      "status": "failed",
+      "message": "",
+      "name": "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/grok-r1-G01-D-NvR4EZ/packages/game/src/assets/scene-cache.grok-r1.test.ts"
+    }
+  ]
+}

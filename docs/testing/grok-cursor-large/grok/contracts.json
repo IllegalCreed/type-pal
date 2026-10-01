@@ -1,0 +1,2533 @@
+{
+  "batch": "G01",
+  "count": 40,
+  "cumulativeNewContracts": 40,
+  "target": 400,
+  "contracts": [
+    {
+      "id": "G01-A01",
+      "batch": "G01",
+      "group": "G01-A",
+      "primarySource": {
+        "file": "packages/game/src/assets/loader.ts",
+        "conditionLine": 139,
+        "condition": "scene URL 使用未补零的 sceneId；tilemap URL 使用 scene.mapNum（loader.ts:163），tileset 使用 tilemap.tileset（loader.ts:194）"
+      },
+      "caller": {
+        "file": "packages/game/src/shell/bootstrap-resources.ts",
+        "line": 34,
+        "expr": "loadAssets: loadAll"
+      },
+      "legalInput": "loadAll(7)。loadAllScript() 默认 sceneId 7、mapNum 12、eventObjects 一条 spriteNum 9、tileset 字符串 tileset/12.rle。installLoadAll 在调用前替换 global fetch，PNG 图集含索引 0、1、2、3、8、9、12。",
+      "oldTest": {
+        "sha": "e335353b88e7c21de9d59f5e54c2e336080b2139",
+        "file": "packages/game/src/assets/loader.test.ts",
+        "fullName": "loadAll fetch 失败 → 抛错",
+        "assertionLine": 16,
+        "matcher": "rejects.toThrow",
+        "checked": "任意 fetch 返回 404 时错误匹配 /failed (404)/，不核对 URL，也不核对后续请求是否停止",
+        "distinct": "旧断言不区分 scene URL 与 tilemap URL，也不要求 mapNum 12 的 tileset 被取到且 scene/7 的 tilemap 不被取到"
+      },
+      "file": "packages/game/src/assets/load-all-assemble.grok-r1.test.ts",
+      "fullName": "G01-A loadAll 合法装配 G01-A01 scene 7 用 mapNum 12 取 tilemap 与 tileset，不按 sceneId 取图",
+      "assertions": [
+        {
+          "line": 29,
+          "endLine": 29,
+          "matchers": ["toHaveLength"]
+        },
+        {
+          "line": 30,
+          "endLine": 30,
+          "matchers": ["toHaveLength"]
+        },
+        {
+          "line": 31,
+          "endLine": 31,
+          "matchers": ["toHaveLength"]
+        },
+        {
+          "line": 32,
+          "endLine": 32,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 33,
+          "endLine": 33,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 34,
+          "endLine": 34,
+          "matchers": ["toBe"]
+        }
+      ],
+      "axis": "positive",
+      "oracle": {
+        "operands": "fetch 记录中以 /data/scene/7.json、/data/tilemap/12.json、/data/tileset/12.rle 结尾的 URL；是否存在 /tilemap/7.json；assets.scene.mapNum；assets.tilemap.tileset",
+        "matcher": "toHaveLength / toBe / toEqual",
+        "exact": "三条 URL 各出现 1 次；没有 URL 包含 /tilemap/7.json；mapNum 为 12；tileset 为 tileset/12.rle"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/assets/load-all-assemble.grok-r1.test.ts",
+        "fullName": "G01-A loadAll 合法装配 G01-A01 scene 7 用 mapNum 12 取 tilemap 与 tileset，不按 sceneId 取图",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G01-A02",
+      "batch": "G01",
+      "group": "G01-A",
+      "primarySource": {
+        "file": "packages/game/src/assets/loader.ts",
+        "conditionLine": 165,
+        "condition": "事件 URL 使用 sceneId.padStart(3)（loader.ts:136）拼成 /events/scene-007.json，结果保留 EventFile.scene 与段名"
+      },
+      "caller": {
+        "file": "packages/game/src/shell/bootstrap-resources.ts",
+        "line": 34,
+        "expr": "loadAssets: loadAll"
+      },
+      "legalInput": "loadAll(7)。默认 eventsName 为 scene-007.onEnter，events 响应体 scene 字段等于 7，segments[0].commands 为 []。",
+      "oldTest": {
+        "sha": "e335353b88e7c21de9d59f5e54c2e336080b2139",
+        "file": "packages/game/src/assets/loader.test.ts",
+        "fullName": "loadAll fetch 失败 → 抛错",
+        "assertionLine": 16,
+        "matcher": "rejects.toThrow",
+        "checked": "任意 fetch 返回 404 时错误匹配 /failed (404)/，不核对 URL，也不核对后续请求是否停止",
+        "distinct": "旧断言没有事件 URL，也不核对补零后的段名"
+      },
+      "file": "packages/game/src/assets/load-all-assemble.grok-r1.test.ts",
+      "fullName": "G01-A loadAll 合法装配 G01-A02 scene 7 的事件脚本 URL 补零为 scene-007，段名原样返回",
+      "assertions": [
+        {
+          "line": 40,
+          "endLine": 40,
+          "matchers": ["toHaveLength"]
+        },
+        {
+          "line": 41,
+          "endLine": 41,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 42,
+          "endLine": 42,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 43,
+          "endLine": 43,
+          "matchers": ["toEqual"]
+        }
+      ],
+      "axis": "positive",
+      "oracle": {
+        "operands": "以 /events/scene-007.json 结尾的调用次数；assets.events.scene；segments[0].name；segments[0].commands",
+        "matcher": "toHaveLength / toBe / toEqual",
+        "exact": "事件 URL 出现 1 次；scene 为 7；段名为 scene-007.onEnter；commands 为 []"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/assets/load-all-assemble.grok-r1.test.ts",
+        "fullName": "G01-A loadAll 合法装配 G01-A02 scene 7 的事件脚本 URL 补零为 scene-007，段名原样返回",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G01-A03",
+      "batch": "G01",
+      "group": "G01-A",
+      "primarySource": {
+        "file": "packages/game/src/assets/loader.ts",
+        "conditionLine": 164,
+        "condition": "loadAll 固定请求 palette/0.json，并把返回的 256 色与 cycles 放进 LoadedAssets.palette"
+      },
+      "caller": {
+        "file": "packages/game/src/shell/bootstrap-resources.ts",
+        "line": 34,
+        "expr": "loadAssets: loadAll"
+      },
+      "legalInput": "loadAll(7)。默认调色板 256 色，colors[i] 为 [i, 20, 40]，唯一循环段 start 10、length 4、step 1、frameInterval 3。",
+      "oldTest": {
+        "sha": "e335353b88e7c21de9d59f5e54c2e336080b2139",
+        "file": "packages/game/src/assets/loader.test.ts",
+        "fullName": "SceneAssetsCache(M3.5) SceneAssets 字段透传",
+        "assertionLine": 59,
+        "matcher": "toBe",
+        "checked": "loadScene(5) 的 sceneId 为 5、tilemap.width 为 30；palette.colors 是空数组且 as any",
+        "distinct": "旧字段透传把 palette.colors 设成空数组，不经过 fetchPalette 路径，也不读 palette/0"
+      },
+      "file": "packages/game/src/assets/load-all-assemble.grok-r1.test.ts",
+      "fullName": "G01-A loadAll 合法装配 G01-A03 首屏调色板固定取 palette/0，256 色与循环段原样进入结果",
+      "assertions": [
+        {
+          "line": 49,
+          "endLine": 49,
+          "matchers": ["toHaveLength"]
+        },
+        {
+          "line": 50,
+          "endLine": 50,
+          "matchers": ["toHaveLength"]
+        },
+        {
+          "line": 51,
+          "endLine": 51,
+          "matchers": ["toEqual"]
+        },
+        {
+          "line": 52,
+          "endLine": 52,
+          "matchers": ["toEqual"]
+        }
+      ],
+      "axis": "positive",
+      "oracle": {
+        "operands": "以 /data/palette/0.json 结尾的调用；palette.colors.length；colors[4]；palette.cycles",
+        "matcher": "toHaveLength / toEqual",
+        "exact": "palette/0.json 出现 1 次；长度为 256；colors[4] 为 [4, 20, 40]；cycles 为 [{ start: 10, length: 4, step: 1, frameInterval: 3 }]"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/assets/load-all-assemble.grok-r1.test.ts",
+        "fullName": "G01-A loadAll 合法装配 G01-A03 首屏调色板固定取 palette/0，256 色与循环段原样进入结果",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G01-A04",
+      "batch": "G01",
+      "group": "G01-A",
+      "primarySource": {
+        "file": "packages/game/src/assets/loader.ts",
+        "conditionLine": 194,
+        "condition": "loadTilesetBlob 解码 tilemap.tileset 指向的 gzip RLE，Map 键为 chunk 下标"
+      },
+      "caller": {
+        "file": "packages/game/src/shell/bootstrap-resources.ts",
+        "line": 34,
+        "expr": "loadAssets: loadAll"
+      },
+      "legalInput": "loadAll(7)。tileset/12.rle 是两帧 1×1 gzip chunk，帧像素分别为 0xAA 与 0xBB，两帧都实心。",
+      "oldTest": {
+        "sha": "e335353b88e7c21de9d59f5e54c2e336080b2139",
+        "file": "packages/game/src/assets/loader.test.ts",
+        "fullName": "loadAll fetch 失败 → 抛错",
+        "assertionLine": 16,
+        "matcher": "rejects.toThrow",
+        "checked": "任意 fetch 返回 404 时错误匹配 /failed (404)/，不核对 URL，也不核对后续请求是否停止",
+        "distinct": "旧 loadAll 断言在 JSON 404 处即失败，没有解码后的 tileImages"
+      },
+      "file": "packages/game/src/assets/load-all-assemble.grok-r1.test.ts",
+      "fullName": "G01-A loadAll 合法装配 G01-A04 tileset RLE 经真实解码进入 tileImages，键 0/1 像素为 AA/BB",
+      "assertions": [
+        {
+          "line": 58,
+          "endLine": 58,
+          "matchers": ["toHaveLength"]
+        },
+        {
+          "line": 59,
+          "endLine": 59,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 60,
+          "endLine": 60,
+          "matchers": ["toEqual"]
+        },
+        {
+          "line": 61,
+          "endLine": 61,
+          "matchers": ["toEqual"]
+        },
+        {
+          "line": 62,
+          "endLine": 62,
+          "matchers": ["toEqual"]
+        }
+      ],
+      "axis": "positive",
+      "oracle": {
+        "operands": "tileset/12.rle 调用次数；tileImages.size；键 0 与键 1 的 indices；键 0 的 opaque",
+        "matcher": "toHaveLength / toBe / toEqual",
+        "exact": "tileset URL 出现 1 次；Map 大小为 2；键 0 像素 [0xaa] 且 opaque [1]；键 1 像素 [0xbb]"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/assets/load-all-assemble.grok-r1.test.ts",
+        "fullName": "G01-A loadAll 合法装配 G01-A04 tileset RLE 经真实解码进入 tileImages，键 0/1 像素为 AA/BB",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G01-A05",
+      "batch": "G01",
+      "group": "G01-A",
+      "primarySource": {
+        "file": "packages/game/src/assets/loader.ts",
+        "conditionLine": 218,
+        "condition": "spriteIds 收集 roles[].spriteNum>0（loader.ts:201）、事件 spriteNum>0（loader.ts:204），并固定加入 71 与 73（loader.ts:211-212）后逐个 loadCharacterSpriteBlob"
+      },
+      "caller": {
+        "file": "packages/game/src/shell/bootstrap-resources.ts",
+        "line": 34,
+        "expr": "loadAssets: loadAll"
+      },
+      "legalInput": "loadAll(7)。默认 roles 为 spriteNum 2 与 spriteNum 0，事件对象 spriteNum 9。角色 RLE 是 5×3 单帧，字面像素 0x3c，共 15 字节。",
+      "oldTest": {
+        "sha": "e335353b88e7c21de9d59f5e54c2e336080b2139",
+        "file": "packages/game/src/assets/loader.test.ts",
+        "fullName": "loadAll fetch 失败 → 抛错",
+        "assertionLine": 16,
+        "matcher": "rejects.toThrow",
+        "checked": "任意 fetch 返回 404 时错误匹配 /failed (404)/，不核对 URL，也不核对后续请求是否停止",
+        "distinct": "旧测试不构造角色表，也不读 characterSprites 的键或锚点"
+      },
+      "file": "packages/game/src/assets/load-all-assemble.grok-r1.test.ts",
+      "fullName": "G01-A loadAll 合法装配 G01-A05 角色精灵键为队长、事件对象、71 与 73，5×3 帧锚点为 2,3",
+      "assertions": [
+        {
+          "line": 68,
+          "endLine": 68,
+          "matchers": ["toEqual"]
+        },
+        {
+          "line": 69,
+          "endLine": 69,
+          "matchers": ["toHaveLength"]
+        },
+        {
+          "line": 70,
+          "endLine": 70,
+          "matchers": ["toHaveLength"]
+        },
+        {
+          "line": 72,
+          "endLine": 72,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 73,
+          "endLine": 73,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 74,
+          "endLine": 74,
+          "matchers": ["toHaveLength"]
+        },
+        {
+          "line": 75,
+          "endLine": 75,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 76,
+          "endLine": 76,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 77,
+          "endLine": 77,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 78,
+          "endLine": 78,
+          "matchers": ["toBe"]
+        }
+      ],
+      "axis": "positive",
+      "oracle": {
+        "operands": "characterSprites 的排序键；sprite/2.rle 与 sprite/0.rle 的调用次数；id 2 的 anchorX、anchorY、帧宽高、indices[0]、indices.length",
+        "matcher": "toEqual / toHaveLength / toBe",
+        "exact": "键为 [2, 9, 71, 73]；sprite/2.rle 出现 1 次；sprite/0.rle 出现 0 次；锚点为 2 与 3；帧数 1；宽 5 高 3；首像素 0x3c；长度 15"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/assets/load-all-assemble.grok-r1.test.ts",
+        "fullName": "G01-A loadAll 合法装配 G01-A05 角色精灵键为队长、事件对象、71 与 73，5×3 帧锚点为 2,3",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G01-A06",
+      "batch": "G01",
+      "group": "G01-A",
+      "primarySource": {
+        "file": "packages/game/src/assets/loader.ts",
+        "conditionLine": 200,
+        "condition": "spriteIds 是 Set，队长、第二名角色与两个事件对象的相同 spriteNum 只保留一个"
+      },
+      "caller": {
+        "file": "packages/game/src/shell/bootstrap-resources.ts",
+        "line": 34,
+        "expr": "loadAssets: loadAll"
+      },
+      "legalInput": "loadAll(7)。roles[0] 与 roles[1] 的其余字段来自 legalRole，spriteNum 都改为 9。sceneId 7、mapNum 12，两个事件对象 id 1 与 2 的 spriteNum 也是 9。",
+      "oldTest": {
+        "sha": "e335353b88e7c21de9d59f5e54c2e336080b2139",
+        "file": "packages/game/src/assets/loader.test.ts",
+        "fullName": "loadAll fetch 失败 → 抛错",
+        "assertionLine": 16,
+        "matcher": "rejects.toThrow",
+        "checked": "任意 fetch 返回 404 时错误匹配 /failed (404)/，不核对 URL，也不核对后续请求是否停止",
+        "distinct": "旧测试没有重复 spriteNum 的去重观察"
+      },
+      "file": "packages/game/src/assets/load-all-assemble.grok-r1.test.ts",
+      "fullName": "G01-A loadAll 合法装配 G01-A06 队长与两个事件对象共用 sprite 9 时只 fetch 一次",
+      "assertions": [
+        {
+          "line": 116,
+          "endLine": 116,
+          "matchers": ["toEqual"]
+        },
+        {
+          "line": 117,
+          "endLine": 117,
+          "matchers": ["toHaveLength"]
+        }
+      ],
+      "axis": "positive",
+      "oracle": {
+        "operands": "characterSprites 排序键；以 /data/sprite/9.rle 结尾的调用次数",
+        "matcher": "toEqual / toHaveLength",
+        "exact": "键为 [9, 71, 73]；sprite/9.rle 只出现 1 次"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/assets/load-all-assemble.grok-r1.test.ts",
+        "fullName": "G01-A loadAll 合法装配 G01-A06 队长与两个事件对象共用 sprite 9 时只 fetch 一次",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G01-A07",
+      "batch": "G01",
+      "group": "G01-A",
+      "primarySource": {
+        "file": "packages/game/src/assets/loader.ts",
+        "conditionLine": 249,
+        "condition": "战斗精灵键是 `${kind}-${id}`；背景 PNG URL 把 id 补成 3 位（loader.ts:260）"
+      },
+      "caller": {
+        "file": "packages/game/src/shell/bootstrap-resources.ts",
+        "line": 34,
+        "expr": "loadAssets: loadAll"
+      },
+      "legalInput": "loadAll(7)。默认战斗清单为 player/2 与 enemy/4，背景 id 只有 8。精灵 RLE 为两帧 1×1，像素 0x11 与 0x22。背景 PNG 宽 2 高 1，R 通道为 8 与 9。",
+      "oldTest": {
+        "sha": "e335353b88e7c21de9d59f5e54c2e336080b2139",
+        "file": "packages/game/src/assets/loader.test.ts",
+        "fullName": "loadAll fetch 失败 → 抛错",
+        "assertionLine": 16,
+        "matcher": "rejects.toThrow",
+        "checked": "任意 fetch 返回 404 时错误匹配 /failed (404)/，不核对 URL，也不核对后续请求是否停止",
+        "distinct": "旧测试不读取 battleSprites 的键，也不解码背景 PNG"
+      },
+      "file": "packages/game/src/assets/load-all-assemble.grok-r1.test.ts",
+      "fullName": "G01-A loadAll 合法装配 G01-A07 战斗精灵键为 kind-id，背景 8 的像素来自对应 PNG",
+      "assertions": [
+        {
+          "line": 123,
+          "endLine": 123,
+          "matchers": ["toEqual"]
+        },
+        {
+          "line": 124,
+          "endLine": 124,
+          "matchers": ["toHaveLength"]
+        },
+        {
+          "line": 125,
+          "endLine": 127,
+          "matchers": ["toEqual"]
+        },
+        {
+          "line": 128,
+          "endLine": 128,
+          "matchers": ["toHaveLength"]
+        },
+        {
+          "line": 129,
+          "endLine": 129,
+          "matchers": ["toHaveLength"]
+        },
+        {
+          "line": 131,
+          "endLine": 131,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 132,
+          "endLine": 132,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 133,
+          "endLine": 133,
+          "matchers": ["toEqual"]
+        }
+      ],
+      "axis": "positive",
+      "oracle": {
+        "operands": "battleSprites 排序键；player-2 的帧数与第二帧 indices；player/2.rle 与 bg/008.png 的调用次数；背景 8 的宽、高、indices",
+        "matcher": "toEqual / toHaveLength / toBe",
+        "exact": "键为 ['enemy-4', 'player-2']；帧数为 2；第二帧像素为 [0x22]；两条 URL 各 1 次；宽 2 高 1；像素 [8, 9]"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/assets/load-all-assemble.grok-r1.test.ts",
+        "fullName": "G01-A loadAll 合法装配 G01-A07 战斗精灵键为 kind-id，背景 8 的像素来自对应 PNG",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G01-A08",
+      "batch": "G01",
+      "group": "G01-A",
+      "primarySource": {
+        "file": "packages/game/src/assets/loader.ts",
+        "conditionLine": 298,
+        "condition": "fire chunk 必须同时满足 usedEffects（含 effect 0，loader.ts:296）与 frameCount > 0"
+      },
+      "caller": {
+        "file": "packages/game/src/shell/bootstrap-resources.ts",
+        "line": 34,
+        "expr": "loadAssets: loadAll"
+      },
+      "legalInput": "loadAll(7)。默认法术 effect 为 0、4、4。fire chunk 为 0 与 4（frameCount 2）、未被引用的 7（frameCount 2）、frameCount 0 的 9。",
+      "oldTest": {
+        "sha": "e335353b88e7c21de9d59f5e54c2e336080b2139",
+        "file": "packages/game/src/assets/loader.test.ts",
+        "fullName": "loadAll fetch 失败 → 抛错",
+        "assertionLine": 16,
+        "matcher": "rejects.toThrow",
+        "checked": "任意 fetch 返回 404 时错误匹配 /failed (404)/，不核对 URL，也不核对后续请求是否停止",
+        "distinct": "旧测试没有法术 effect 与 frameCount 的筛选"
+      },
+      "file": "packages/game/src/assets/load-all-assemble.grok-r1.test.ts",
+      "fullName": "G01-A loadAll 合法装配 G01-A08 法术精灵只加载被引用且 frameCount>0 的 chunk，含 effect 0",
+      "assertions": [
+        {
+          "line": 139,
+          "endLine": 139,
+          "matchers": ["toEqual"]
+        },
+        {
+          "line": 140,
+          "endLine": 140,
+          "matchers": ["toHaveLength"]
+        },
+        {
+          "line": 141,
+          "endLine": 141,
+          "matchers": ["toHaveLength"]
+        },
+        {
+          "line": 142,
+          "endLine": 142,
+          "matchers": ["toHaveLength"]
+        },
+        {
+          "line": 143,
+          "endLine": 143,
+          "matchers": ["toHaveLength"]
+        },
+        {
+          "line": 144,
+          "endLine": 144,
+          "matchers": ["toHaveLength"]
+        }
+      ],
+      "axis": "positive",
+      "oracle": {
+        "operands": "magicSprites 排序键；chunk 0 的帧数；fire-00、fire-04、fire-07、fire-09 的调用次数",
+        "matcher": "toEqual / toHaveLength",
+        "exact": "键为 [0, 4]；chunk 0 帧数为 2；fire-00 与 fire-04 各 1 次；fire-07 与 fire-09 为 0 次"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/assets/load-all-assemble.grok-r1.test.ts",
+        "fullName": "G01-A loadAll 合法装配 G01-A08 法术精灵只加载被引用且 frameCount>0 的 chunk，含 effect 0",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G01-A09",
+      "batch": "G01",
+      "group": "G01-A",
+      "primarySource": {
+        "file": "packages/game/src/assets/loader.ts",
+        "conditionLine": 351,
+        "condition": "物品图标以 chunkIndex 为键（URL 补 3 位，loader.ts:349）；UI 帧只保留成功解码的帧并保持 manifest 顺序（loader.ts:329-330）"
+      },
+      "caller": {
+        "file": "packages/game/src/shell/bootstrap-resources.ts",
+        "line": 34,
+        "expr": "loadAssets: loadAll"
+      },
+      "legalInput": "loadAll(7)。installLoadAll 发生在 loadAll 之前。默认物品 chunk 为 3 与 12，UI 帧索引为 0、1、2。每张 PNG 宽 2 高 1，R 为索引与索引+1。",
+      "oldTest": {
+        "sha": "e335353b88e7c21de9d59f5e54c2e336080b2139",
+        "file": "packages/game/src/assets/loader.test.ts",
+        "fullName": "loadAll fetch 失败 → 抛错",
+        "assertionLine": 16,
+        "matcher": "rejects.toThrow",
+        "checked": "任意 fetch 返回 404 时错误匹配 /failed (404)/，不核对 URL，也不核对后续请求是否停止",
+        "distinct": "旧测试不解码物品或 UI PNG，也不核对键与顺序"
+      },
+      "file": "packages/game/src/assets/load-all-assemble.grok-r1.test.ts",
+      "fullName": "G01-A loadAll 合法装配 G01-A09 物品图标按 chunkIndex 入 map，UI 帧按 manifest 顺序保留",
+      "assertions": [
+        {
+          "line": 150,
+          "endLine": 150,
+          "matchers": ["toHaveLength"]
+        },
+        {
+          "line": 151,
+          "endLine": 151,
+          "matchers": ["toHaveLength"]
+        },
+        {
+          "line": 152,
+          "endLine": 152,
+          "matchers": ["toEqual"]
+        },
+        {
+          "line": 153,
+          "endLine": 153,
+          "matchers": ["toEqual"]
+        },
+        {
+          "line": 154,
+          "endLine": 154,
+          "matchers": ["toHaveLength"]
+        },
+        {
+          "line": 155,
+          "endLine": 155,
+          "matchers": ["toEqual"]
+        },
+        {
+          "line": 156,
+          "endLine": 156,
+          "matchers": ["toEqual"]
+        },
+        {
+          "line": 157,
+          "endLine": 157,
+          "matchers": ["toEqual"]
+        }
+      ],
+      "axis": "positive",
+      "oracle": {
+        "operands": "items/003.png 与 items/012.png 的调用次数；itemIcons 键 3 与 12 的 indices；uiSpriteFrames.length 与三帧 indices",
+        "matcher": "toHaveLength / toEqual",
+        "exact": "两条物品 URL 各 1 次；键 3 为 [3, 4]，键 12 为 [12, 13]；UI 长度为 3，依次 [0, 1]、[1, 2]、[2, 3]"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/assets/load-all-assemble.grok-r1.test.ts",
+        "fullName": "G01-A loadAll 合法装配 G01-A09 物品图标按 chunkIndex 入 map，UI 帧按 manifest 顺序保留",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G01-A10",
+      "batch": "G01",
+      "group": "G01-A",
+      "primarySource": {
+        "file": "packages/game/src/assets/loader.ts",
+        "conditionLine": 386,
+        "condition": "返回对象取 wordsRaw.flat，并原样带上 stores、levelUpExp、levelUpMagic、enemies、battleEffectIndex、enemyPos、objectPlayers（loader.ts:167-184 与返回字面量）"
+      },
+      "caller": {
+        "file": "packages/game/src/shell/bootstrap-resources.ts",
+        "line": 34,
+        "expr": "loadAssets: loadAll"
+      },
+      "legalInput": "loadAll(7)。默认 words.flat 为 [甲, 乙]，stores 为 [{ id: 3, items: [61, 0] }]，levelUpExp 为 [10, 20]，levelUpMagic 为 [[{ level: 2, magic: 296 }]]，enemies 为 [{ id: 41 }]，battleEffectIndex 为 [3, 6]，enemyPos 为 { layouts: [[{ x: 40, y: 80 }]] }，objectPlayers 为 [{ id: 1 }]。",
+      "oldTest": {
+        "sha": "e335353b88e7c21de9d59f5e54c2e336080b2139",
+        "file": "packages/game/src/assets/loader.test.ts",
+        "fullName": "SceneAssetsCache(M3.5) SceneAssets 字段透传",
+        "assertionLine": 59,
+        "matcher": "toBe",
+        "checked": "loadScene(5) 的 sceneId 为 5、tilemap.width 为 30；palette.colors 是空数组且 as any",
+        "distinct": "旧透传只断言缓存对象的 sceneId 与 tilemap.width，不经过 loadAll 的硬表"
+      },
+      "file": "packages/game/src/assets/load-all-assemble.grok-r1.test.ts",
+      "fullName": "G01-A loadAll 合法装配 G01-A10 词表、商店、升级表、敌人 id 与敌位布局原样透传",
+      "assertions": [
+        {
+          "line": 163,
+          "endLine": 163,
+          "matchers": ["toHaveLength"]
+        },
+        {
+          "line": 164,
+          "endLine": 164,
+          "matchers": ["toEqual"]
+        },
+        {
+          "line": 165,
+          "endLine": 165,
+          "matchers": ["toEqual"]
+        },
+        {
+          "line": 166,
+          "endLine": 166,
+          "matchers": ["toEqual"]
+        },
+        {
+          "line": 167,
+          "endLine": 167,
+          "matchers": ["toEqual"]
+        },
+        {
+          "line": 168,
+          "endLine": 168,
+          "matchers": ["toEqual"]
+        },
+        {
+          "line": 169,
+          "endLine": 169,
+          "matchers": ["toEqual"]
+        },
+        {
+          "line": 170,
+          "endLine": 170,
+          "matchers": ["toEqual"]
+        },
+        {
+          "line": 171,
+          "endLine": 171,
+          "matchers": ["toEqual"]
+        }
+      ],
+      "axis": "positive",
+      "oracle": {
+        "operands": "words.json 调用次数；words、stores、levelUpExp、levelUpMagic、enemies.id、battleEffectIndex、enemyPos、objectPlayers.id",
+        "matcher": "toHaveLength / toEqual",
+        "exact": "words.json 出现 1 次；词表为 [甲, 乙]；商店、升级经验、升级法术、敌人 id [41]、特效索引 [3, 6]、敌位布局与队友 id [1] 与输入表相同"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/assets/load-all-assemble.grok-r1.test.ts",
+        "fullName": "G01-A loadAll 合法装配 G01-A10 词表、商店、升级表、敌人 id 与敌位布局原样透传",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G01-B01",
+      "batch": "G01",
+      "group": "G01-B",
+      "primarySource": {
+        "file": "packages/game/src/assets/loader.ts",
+        "conditionLine": 136,
+        "condition": "sceneId 0 的 padStart(3) 得到 000；scene URL 仍不补零（loader.ts:139）；tilemap 仍走 mapNum（loader.ts:163）"
+      },
+      "caller": {
+        "file": "packages/game/src/shell/bootstrap-resources.ts",
+        "line": 34,
+        "expr": "loadAssets: loadAll"
+      },
+      "legalInput": "loadAll(0)。scene 改为 sceneId 0、mapNum 4、eventObjects []。eventsName 为 scene-000.onEnter。roles 只有 legalRole(0, 2)。",
+      "oldTest": {
+        "sha": "e335353b88e7c21de9d59f5e54c2e336080b2139",
+        "file": "packages/game/src/assets/loader.test.ts",
+        "fullName": "loadAll fetch 失败 → 抛错",
+        "assertionLine": 16,
+        "matcher": "rejects.toThrow",
+        "checked": "任意 fetch 返回 404 时错误匹配 /failed (404)/，不核对 URL，也不核对后续请求是否停止",
+        "distinct": "旧 404 使用 scene id 1，不核对 0 的补零与未补零两条 URL"
+      },
+      "file": "packages/game/src/assets/load-all-bounds.grok-r1.test.ts",
+      "fullName": "G01-B loadAll 边界守卫 G01-B01 sceneId 0 使用 scene/0.json 与 events/scene-000.json",
+      "assertions": [
+        {
+          "line": 36,
+          "endLine": 36,
+          "matchers": ["toHaveLength"]
+        },
+        {
+          "line": 37,
+          "endLine": 37,
+          "matchers": ["toHaveLength"]
+        },
+        {
+          "line": 38,
+          "endLine": 38,
+          "matchers": ["toHaveLength"]
+        },
+        {
+          "line": 39,
+          "endLine": 39,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 40,
+          "endLine": 40,
+          "matchers": ["toBe"]
+        }
+      ],
+      "axis": "boundary",
+      "oracle": {
+        "operands": "scene/0.json、events/scene-000.json、tilemap/4.json 的调用次数；segments[0].name；scene.sceneId",
+        "matcher": "toHaveLength / toBe",
+        "exact": "三条 URL 各 1 次；段名为 scene-000.onEnter；sceneId 为 0"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/assets/load-all-bounds.grok-r1.test.ts",
+        "fullName": "G01-B loadAll 边界守卫 G01-B01 sceneId 0 使用 scene/0.json 与 events/scene-000.json",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G01-B02",
+      "batch": "G01",
+      "group": "G01-B",
+      "primarySource": {
+        "file": "packages/game/src/assets/loader.ts",
+        "conditionLine": 199,
+        "condition": "playerRoles.roles[0] 缺失时抛 assets: player-roles.json roles[0] missing，且该抛出发生在 tileset 加载之后、精灵循环之前"
+      },
+      "caller": {
+        "file": "packages/game/src/shell/bootstrap-resources.ts",
+        "line": 34,
+        "expr": "loadAssets: loadAll"
+      },
+      "legalInput": "loadAll(7)。roles 为 []。其余默认表仍由 installLoadAll 提供，包括 tileset/12.rle。",
+      "oldTest": {
+        "sha": "e335353b88e7c21de9d59f5e54c2e336080b2139",
+        "file": "packages/game/src/assets/loader.test.ts",
+        "fullName": "loadAll fetch 失败 → 抛错",
+        "assertionLine": 16,
+        "matcher": "rejects.toThrow",
+        "checked": "任意 fetch 返回 404 时错误匹配 /failed (404)/，不核对 URL，也不核对后续请求是否停止",
+        "distinct": "旧断言是 fetch 状态码正则，不是 roles[0] 的精确错误，也不观察抛出时哪些 URL 已经发生"
+      },
+      "file": "packages/game/src/assets/load-all-bounds.grok-r1.test.ts",
+      "fullName": "G01-B loadAll 边界守卫 G01-B02 roles 为空时在精灵请求前抛 roles[0] missing，且已取过 tileset",
+      "assertions": [
+        {
+          "line": 45,
+          "endLine": 45,
+          "matchers": ["rejects.toThrow"]
+        },
+        {
+          "line": 46,
+          "endLine": 46,
+          "matchers": ["toHaveLength"]
+        },
+        {
+          "line": 47,
+          "endLine": 47,
+          "matchers": ["toHaveLength"]
+        },
+        {
+          "line": 48,
+          "endLine": 48,
+          "matchers": ["toBe"]
+        }
+      ],
+      "axis": "boundary",
+      "oracle": {
+        "operands": "loadAll(7) 的拒绝信息；tileset/12.rle 调用次数；sprite/71.rle 调用次数；是否存在 /data/sprite/",
+        "matcher": "rejects.toThrow / toHaveLength / toBe",
+        "exact": "错误字符串恰好为 assets: player-roles.json roles[0] missing；tileset 已请求 1 次；sprite/71.rle 为 0 次；没有任何 /data/sprite/ URL"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/assets/load-all-bounds.grok-r1.test.ts",
+        "fullName": "G01-B loadAll 边界守卫 G01-B02 roles 为空时在精灵请求前抛 roles[0] missing，且已取过 tileset",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G01-B03",
+      "batch": "G01",
+      "group": "G01-B",
+      "primarySource": {
+        "file": "packages/game/src/assets/loader.ts",
+        "conditionLine": 201,
+        "condition": "spriteNum 0 被 filter (id > 0) 与事件分支一起排除，71 与 73 仍加入（loader.ts:204、211-212）"
+      },
+      "caller": {
+        "file": "packages/game/src/shell/bootstrap-resources.ts",
+        "line": 34,
+        "expr": "loadAssets: loadAll"
+      },
+      "legalInput": "loadAll(7)。roles 为 [legalRole(0, 0)]。事件对象 id 3、坐标 (1,1)、spriteNum 0、triggerMode 0。sceneId 7、mapNum 12。",
+      "oldTest": {
+        "sha": "e335353b88e7c21de9d59f5e54c2e336080b2139",
+        "file": "packages/game/src/assets/loader.test.ts",
+        "fullName": "loadAll fetch 失败 → 抛错",
+        "assertionLine": 16,
+        "matcher": "rejects.toThrow",
+        "checked": "任意 fetch 返回 404 时错误匹配 /failed (404)/，不核对 URL，也不核对后续请求是否停止",
+        "distinct": "旧测试没有 spriteNum 0 的过滤边界"
+      },
+      "file": "packages/game/src/assets/load-all-bounds.grok-r1.test.ts",
+      "fullName": "G01-B loadAll 边界守卫 G01-B03 spriteNum 0 的队长和事件对象都不进集合，只剩固定 71 与 73",
+      "assertions": [
+        {
+          "line": 62,
+          "endLine": 62,
+          "matchers": ["toEqual"]
+        },
+        {
+          "line": 63,
+          "endLine": 63,
+          "matchers": ["toHaveLength"]
+        },
+        {
+          "line": 64,
+          "endLine": 64,
+          "matchers": ["toHaveLength"]
+        },
+        {
+          "line": 65,
+          "endLine": 65,
+          "matchers": ["toHaveLength"]
+        }
+      ],
+      "axis": "boundary",
+      "oracle": {
+        "operands": "characterSprites 排序键；sprite/0.rle、sprite/71.rle、sprite/73.rle 的调用次数",
+        "matcher": "toEqual / toHaveLength",
+        "exact": "键为 [71, 73]；sprite/0.rle 为 0 次；71 与 73 各 1 次"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/assets/load-all-bounds.grok-r1.test.ts",
+        "fullName": "G01-B loadAll 边界守卫 G01-B03 spriteNum 0 的队长和事件对象都不进集合，只剩固定 71 与 73",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G01-B04",
+      "batch": "G01",
+      "group": "G01-B",
+      "primarySource": {
+        "file": "packages/game/src/assets/loader.ts",
+        "conditionLine": 298,
+        "condition": "被引用但 frameCount 为 0 的 chunk 不进入 chunksToLoad；未被引用的 chunk 即使 frameCount 为 2 也不进入"
+      },
+      "caller": {
+        "file": "packages/game/src/shell/bootstrap-resources.ts",
+        "line": 34,
+        "expr": "loadAssets: loadAll"
+      },
+      "legalInput": "loadAll(7)。magics 两条，id 0 effect 0 与 id 1 effect 4，其余字段来自默认 legalMagic。fireChunks 为 chunk 0 frameCount 2、chunk 4 frameCount 0、chunk 7 frameCount 2。",
+      "oldTest": {
+        "sha": "e335353b88e7c21de9d59f5e54c2e336080b2139",
+        "file": "packages/game/src/assets/loader.test.ts",
+        "fullName": "loadAll fetch 失败 → 抛错",
+        "assertionLine": 16,
+        "matcher": "rejects.toThrow",
+        "checked": "任意 fetch 返回 404 时错误匹配 /failed (404)/，不核对 URL，也不核对后续请求是否停止",
+        "distinct": "旧测试没有 frameCount 0 这一守卫"
+      },
+      "file": "packages/game/src/assets/load-all-bounds.grok-r1.test.ts",
+      "fullName": "G01-B loadAll 边界守卫 G01-B04 frameCount 为 0 的被引用 chunk 不取 fire RLE，未引用 chunk 也不取",
+      "assertions": [
+        {
+          "line": 90,
+          "endLine": 90,
+          "matchers": ["toEqual"]
+        },
+        {
+          "line": 91,
+          "endLine": 91,
+          "matchers": ["toHaveLength"]
+        },
+        {
+          "line": 92,
+          "endLine": 92,
+          "matchers": ["toHaveLength"]
+        },
+        {
+          "line": 93,
+          "endLine": 93,
+          "matchers": ["toHaveLength"]
+        }
+      ],
+      "axis": "boundary",
+      "oracle": {
+        "operands": "magicSprites 键；fire-00、fire-04、fire-07 的调用次数",
+        "matcher": "toEqual / toHaveLength",
+        "exact": "键为 [0]；只有 fire-00 出现 1 次；fire-04 与 fire-07 为 0 次"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/assets/load-all-bounds.grok-r1.test.ts",
+        "fullName": "G01-B loadAll 边界守卫 G01-B04 frameCount 为 0 的被引用 chunk 不取 fire RLE，未引用 chunk 也不取",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G01-B05",
+      "batch": "G01",
+      "group": "G01-B",
+      "primarySource": {
+        "file": "packages/game/src/assets/loader.ts",
+        "conditionLine": 243,
+        "condition": "战斗清单文件仍要读取；sprites 与 ids 为空时成员循环零次（loader.ts:258）"
+      },
+      "caller": {
+        "file": "packages/game/src/shell/bootstrap-resources.ts",
+        "line": 34,
+        "expr": "loadAssets: loadAll"
+      },
+      "legalInput": "loadAll(7)。battleSprites 为 []，battleBgIds 为 []。两个清单 JSON 仍由宿主返回空数组。",
+      "oldTest": {
+        "sha": "e335353b88e7c21de9d59f5e54c2e336080b2139",
+        "file": "packages/game/src/assets/loader.test.ts",
+        "fullName": "loadAll fetch 失败 → 抛错",
+        "assertionLine": 16,
+        "matcher": "rejects.toThrow",
+        "checked": "任意 fetch 返回 404 时错误匹配 /failed (404)/，不核对 URL，也不核对后续请求是否停止",
+        "distinct": "旧测试没有空 manifest 与成员 URL 的边界"
+      },
+      "file": "packages/game/src/assets/load-all-bounds.grok-r1.test.ts",
+      "fullName": "G01-B loadAll 边界守卫 G01-B05 空战斗 manifest 仍读取清单文件，但不请求任何精灵或背景成员",
+      "assertions": [
+        {
+          "line": 100,
+          "endLine": 100,
+          "matchers": ["toHaveLength"]
+        },
+        {
+          "line": 101,
+          "endLine": 101,
+          "matchers": ["toHaveLength"]
+        },
+        {
+          "line": 102,
+          "endLine": 102,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 103,
+          "endLine": 103,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 104,
+          "endLine": 104,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 105,
+          "endLine": 105,
+          "matchers": ["toBe"]
+        }
+      ],
+      "axis": "boundary",
+      "oracle": {
+        "operands": "battle-sprites.json 与 battle-bgs.json 的调用次数；是否存在 /battle-sprite/ 与 /images/battle/bg/；两个 Map 的 size",
+        "matcher": "toHaveLength / toBe",
+        "exact": "两份清单各请求 1 次；没有成员 URL；battleSprites.size 与 battleBgs.size 都为 0"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/assets/load-all-bounds.grok-r1.test.ts",
+        "fullName": "G01-B loadAll 边界守卫 G01-B05 空战斗 manifest 仍读取清单文件，但不请求任何精灵或背景成员",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G01-B06",
+      "batch": "G01",
+      "group": "G01-B",
+      "primarySource": {
+        "file": "packages/game/src/assets/loader.ts",
+        "conditionLine": 386,
+        "condition": "words.json 对象没有 flat 时使用 ?? []"
+      },
+      "caller": {
+        "file": "packages/game/src/shell/bootstrap-resources.ts",
+        "line": 34,
+        "expr": "loadAssets: loadAll"
+      },
+      "legalInput": "loadAll(7)。words 响应体为 {}，没有 flat 字段。words.json 本身返回 200。",
+      "oldTest": {
+        "sha": "e335353b88e7c21de9d59f5e54c2e336080b2139",
+        "file": "packages/game/src/assets/loader.test.ts",
+        "fullName": "loadAll fetch 失败 → 抛错",
+        "assertionLine": 16,
+        "matcher": "rejects.toThrow",
+        "checked": "任意 fetch 返回 404 时错误匹配 /failed (404)/，不核对 URL，也不核对后续请求是否停止",
+        "distinct": "旧测试不读取词表，也不覆盖缺字段与请求失败的差别"
+      },
+      "file": "packages/game/src/assets/load-all-bounds.grok-r1.test.ts",
+      "fullName": "G01-B loadAll 边界守卫 G01-B06 words.json 没有 flat 字段时词表为空数组",
+      "assertions": [
+        {
+          "line": 111,
+          "endLine": 111,
+          "matchers": ["toHaveLength"]
+        },
+        {
+          "line": 112,
+          "endLine": 112,
+          "matchers": ["toEqual"]
+        }
+      ],
+      "axis": "boundary",
+      "oracle": {
+        "operands": "words.json 调用次数；assets.words",
+        "matcher": "toHaveLength / toEqual",
+        "exact": "words.json 出现 1 次；词表为 []"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/assets/load-all-bounds.grok-r1.test.ts",
+        "fullName": "G01-B loadAll 边界守卫 G01-B06 words.json 没有 flat 字段时词表为空数组",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G01-B07",
+      "batch": "G01",
+      "group": "G01-B",
+      "primarySource": {
+        "file": "packages/game/src/assets/loader.ts",
+        "conditionLine": 138,
+        "condition": "scene JSON 先于 Promise.all 单独 await；失败信息由 fetchJson 带上 URL 与状态（loader.ts:38）"
+      },
+      "caller": {
+        "file": "packages/game/src/shell/bootstrap-resources.ts",
+        "line": 34,
+        "expr": "loadAssets: loadAll"
+      },
+      "legalInput": "loadAll(4)。默认脚本的 sceneId 是 7，因此 scene/4.json 不在宿主表内，返回 404。宿主在 loadAll 之前安装。",
+      "oldTest": {
+        "sha": "e335353b88e7c21de9d59f5e54c2e336080b2139",
+        "file": "packages/game/src/assets/loader.test.ts",
+        "fullName": "loadAll fetch 失败 → 抛错",
+        "assertionLine": 16,
+        "matcher": "rejects.toThrow",
+        "checked": "任意 fetch 返回 404 时错误匹配 /failed (404)/，不核对 URL，也不核对后续请求是否停止",
+        "distinct": "旧断言只匹配 /failed (404)/，使用的假 URL 是 /extracted/data/scene-1.json，且不断言调用列表只剩这一条"
+      },
+      "file": "packages/game/src/assets/load-all-bounds.grok-r1.test.ts",
+      "fullName": "G01-B loadAll 边界守卫 G01-B07 scene JSON 404 时错误带 scene URL，且不会再请求 tilemap",
+      "assertions": [
+        {
+          "line": 117,
+          "endLine": 119,
+          "matchers": ["rejects.toThrow"]
+        },
+        {
+          "line": 120,
+          "endLine": 120,
+          "matchers": ["toEqual"]
+        }
+      ],
+      "axis": "boundary",
+      "oracle": {
+        "operands": "loadAll(4) 的拒绝信息；全部 fetch URL",
+        "matcher": "rejects.toThrow / toEqual",
+        "exact": "错误恰好为 assets: fetch /extracted/data/scene/4.json failed (404)；calls 恰好为 [\"/extracted/data/scene/4.json\"]"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/assets/load-all-bounds.grok-r1.test.ts",
+        "fullName": "G01-B loadAll 边界守卫 G01-B07 scene JSON 404 时错误带 scene URL，且不会再请求 tilemap",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G01-B08",
+      "batch": "G01",
+      "group": "G01-B",
+      "primarySource": {
+        "file": "packages/game/src/assets/loader.ts",
+        "conditionLine": 163,
+        "condition": "tilemap 按 mapNum 请求，失败时还没执行 loadTilesetBlob（loader.ts:194）"
+      },
+      "caller": {
+        "file": "packages/game/src/shell/bootstrap-resources.ts",
+        "line": 34,
+        "expr": "loadAssets: loadAll"
+      },
+      "legalInput": "loadAll(7)。fail.tilemap 为 404。scene/7.json 仍成功，mapNum 为 12。",
+      "oldTest": {
+        "sha": "e335353b88e7c21de9d59f5e54c2e336080b2139",
+        "file": "packages/game/src/assets/loader.test.ts",
+        "fullName": "loadAll fetch 失败 → 抛错",
+        "assertionLine": 16,
+        "matcher": "rejects.toThrow",
+        "checked": "任意 fetch 返回 404 时错误匹配 /failed (404)/，不核对 URL，也不核对后续请求是否停止",
+        "distinct": "旧断言不区分 tilemap URL，也不观察 tileset 是否尚未开始"
+      },
+      "file": "packages/game/src/assets/load-all-bounds.grok-r1.test.ts",
+      "fullName": "G01-B loadAll 边界守卫 G01-B08 tilemap 404 时错误带 mapNum URL，且 tileset 尚未请求",
+      "assertions": [
+        {
+          "line": 125,
+          "endLine": 127,
+          "matchers": ["rejects.toThrow"]
+        },
+        {
+          "line": 128,
+          "endLine": 128,
+          "matchers": ["toHaveLength"]
+        },
+        {
+          "line": 129,
+          "endLine": 129,
+          "matchers": ["toHaveLength"]
+        },
+        {
+          "line": 130,
+          "endLine": 130,
+          "matchers": ["toBe"]
+        }
+      ],
+      "axis": "boundary",
+      "oracle": {
+        "operands": "拒绝信息；scene/7.json 与 tilemap/12.json 的调用次数；是否存在 /tileset/",
+        "matcher": "rejects.toThrow / toHaveLength / toBe",
+        "exact": "错误恰好为 assets: fetch /extracted/data/tilemap/12.json failed (404)；scene 与 tilemap 各 1 次；没有 tileset URL"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/assets/load-all-bounds.grok-r1.test.ts",
+        "fullName": "G01-B loadAll 边界守卫 G01-B08 tilemap 404 时错误带 mapNum URL，且 tileset 尚未请求",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G01-B09",
+      "batch": "G01",
+      "group": "G01-B",
+      "primarySource": {
+        "file": "packages/game/src/assets/loader.ts",
+        "conditionLine": 399,
+        "condition": "fetchPalette(id) 请求 /extracted/data/palette/${id}.json，id 不补零"
+      },
+      "caller": {
+        "file": "packages/game/src/shell/bootstrap.ts",
+        "line": 1148,
+        "expr": "fetchPalette(id)"
+      },
+      "legalInput": "fetchPalette(5)。extraPalettes[5] 以 legalPalette 为底，只把 colors[5] 改成 [9, 8, 7]。不调用 loadAll。",
+      "oldTest": {
+        "sha": "e335353b88e7c21de9d59f5e54c2e336080b2139",
+        "file": "packages/game/src/assets/loader.test.ts",
+        "fullName": "loadAll fetch 失败 → 抛错",
+        "assertionLine": 16,
+        "matcher": "rejects.toThrow",
+        "checked": "任意 fetch 返回 404 时错误匹配 /failed (404)/，不核对 URL，也不核对后续请求是否停止",
+        "distinct": "旧测试没有 fetchPalette，loadAll 的 404 也不覆盖编号 5"
+      },
+      "file": "packages/game/src/assets/load-all-bounds.grok-r1.test.ts",
+      "fullName": "G01-B loadAll 边界守卫 G01-B09 fetchPalette(5) 读取 palette/5.json 并返回完整 256 色",
+      "assertions": [
+        {
+          "line": 139,
+          "endLine": 139,
+          "matchers": ["toEqual"]
+        },
+        {
+          "line": 140,
+          "endLine": 140,
+          "matchers": ["toHaveLength"]
+        },
+        {
+          "line": 141,
+          "endLine": 141,
+          "matchers": ["toEqual"]
+        },
+        {
+          "line": 142,
+          "endLine": 142,
+          "matchers": ["toEqual"]
+        }
+      ],
+      "axis": "boundary",
+      "oracle": {
+        "operands": "全部 fetch URL；colors.length；colors[5]；cycles",
+        "matcher": "toEqual / toHaveLength",
+        "exact": "calls 恰好为 [\"/extracted/data/palette/5.json\"]；长度 256；colors[5] 为 [9, 8, 7]；循环段保持 start 10、length 4、step 1、frameInterval 3"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/assets/load-all-bounds.grok-r1.test.ts",
+        "fullName": "G01-B loadAll 边界守卫 G01-B09 fetchPalette(5) 读取 palette/5.json 并返回完整 256 色",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G01-B10",
+      "batch": "G01",
+      "group": "G01-B",
+      "primarySource": {
+        "file": "packages/game/src/assets/loader.ts",
+        "conditionLine": 38,
+        "condition": "fetchPalette 走 fetchJson，非 2xx 把 URL 与状态码写进 Error（调用点 loader.ts:399）"
+      },
+      "caller": {
+        "file": "packages/game/src/shell/bootstrap.ts",
+        "line": 1148,
+        "expr": "fetchPalette(id)"
+      },
+      "legalInput": "fetchPalette(12)。fail.palettes[12] 为 503。不调用 loadAll。",
+      "oldTest": {
+        "sha": "e335353b88e7c21de9d59f5e54c2e336080b2139",
+        "file": "packages/game/src/assets/loader.test.ts",
+        "fullName": "loadAll fetch 失败 → 抛错",
+        "assertionLine": 16,
+        "matcher": "rejects.toThrow",
+        "checked": "任意 fetch 返回 404 时错误匹配 /failed (404)/，不核对 URL，也不核对后续请求是否停止",
+        "distinct": "旧断言只覆盖 404 正则，不覆盖 503，也不锁定 palette/12.json"
+      },
+      "file": "packages/game/src/assets/load-all-bounds.grok-r1.test.ts",
+      "fullName": "G01-B loadAll 边界守卫 G01-B10 fetchPalette(12) 503 的错误同时包含 URL 与状态码",
+      "assertions": [
+        {
+          "line": 147,
+          "endLine": 149,
+          "matchers": ["rejects.toThrow"]
+        },
+        {
+          "line": 150,
+          "endLine": 150,
+          "matchers": ["toEqual"]
+        }
+      ],
+      "axis": "boundary",
+      "oracle": {
+        "operands": "fetchPalette(12) 的拒绝信息；全部 fetch URL",
+        "matcher": "rejects.toThrow / toEqual",
+        "exact": "错误恰好为 assets: fetch /extracted/data/palette/12.json failed (503)；calls 恰好为该 URL"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/assets/load-all-bounds.grok-r1.test.ts",
+        "fullName": "G01-B loadAll 边界守卫 G01-B10 fetchPalette(12) 503 的错误同时包含 URL 与状态码",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G01-C01",
+      "batch": "G01",
+      "group": "G01-C",
+      "primarySource": {
+        "file": "packages/game/src/assets/loader.ts",
+        "conditionLine": 180,
+        "condition": "object-players.json 失败时 catch 返回 []，并 console.warn；同批 enemies 仍返回"
+      },
+      "caller": {
+        "file": "packages/game/src/shell/bootstrap-resources.ts",
+        "line": 34,
+        "expr": "loadAssets: loadAll"
+      },
+      "legalInput": "loadAll(7)。fail.objectPlayers 为 404。enemies 仍为 [{ id: 41 }]。本例单独 spy console.warn 并吞掉输出。",
+      "oldTest": {
+        "sha": "e335353b88e7c21de9d59f5e54c2e336080b2139",
+        "file": "packages/game/src/assets/loader.test.ts",
+        "fullName": "loadAll fetch 失败 → 抛错",
+        "assertionLine": 16,
+        "matcher": "rejects.toThrow",
+        "checked": "任意 fetch 返回 404 时错误匹配 /failed (404)/，不核对 URL，也不核对后续请求是否停止",
+        "distinct": "旧测试把任意 404 当成 loadAll 整体失败，没有可选表恢复为空数组"
+      },
+      "file": "packages/game/src/assets/load-all-recover.grok-r1.test.ts",
+      "fullName": "G01-C loadAll 失败恢复 G01-C01 object-players 404 时结果为空数组，敌人表仍在",
+      "assertions": [
+        {
+          "line": 34,
+          "endLine": 34,
+          "matchers": ["toHaveLength"]
+        },
+        {
+          "line": 35,
+          "endLine": 35,
+          "matchers": ["toEqual"]
+        },
+        {
+          "line": 36,
+          "endLine": 36,
+          "matchers": ["toEqual"]
+        },
+        {
+          "line": 37,
+          "endLine": 37,
+          "matchers": ["toBe"]
+        }
+      ],
+      "axis": "cancel-exception",
+      "oracle": {
+        "operands": "object-players.json 调用次数；objectPlayers；enemies 的 id；warn 首参是否包含 object-players",
+        "matcher": "toHaveLength / toEqual / toBe",
+        "exact": "该 URL 出现 1 次；objectPlayers 为 []；敌人 id 为 [41]；至少一条 warn 首参包含 object-players"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/assets/load-all-recover.grok-r1.test.ts",
+        "fullName": "G01-C loadAll 失败恢复 G01-C01 object-players 404 时结果为空数组，敌人表仍在",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G01-C02",
+      "batch": "G01",
+      "group": "G01-C",
+      "primarySource": {
+        "file": "packages/game/src/assets/loader.ts",
+        "conditionLine": 188,
+        "condition": "words.json 失败时 catch 返回 { flat: [] }，随后返回字面量得到 []（loader.ts:386）；stores 不受影响"
+      },
+      "caller": {
+        "file": "packages/game/src/shell/bootstrap-resources.ts",
+        "line": 34,
+        "expr": "loadAssets: loadAll"
+      },
+      "legalInput": "loadAll(7)。fail.words 为 500。stores 仍为 [{ id: 3, items: [61, 0] }]。console.warn 被吞掉。",
+      "oldTest": {
+        "sha": "e335353b88e7c21de9d59f5e54c2e336080b2139",
+        "file": "packages/game/src/assets/loader.test.ts",
+        "fullName": "loadAll fetch 失败 → 抛错",
+        "assertionLine": 16,
+        "matcher": "rejects.toThrow",
+        "checked": "任意 fetch 返回 404 时错误匹配 /failed (404)/，不核对 URL，也不核对后续请求是否停止",
+        "distinct": "旧测试没有 words 500 与商店表同时成功的恢复"
+      },
+      "file": "packages/game/src/assets/load-all-recover.grok-r1.test.ts",
+      "fullName": "G01-C loadAll 失败恢复 G01-C02 words.json 500 时词表为空，商店表仍透传",
+      "assertions": [
+        {
+          "line": 44,
+          "endLine": 44,
+          "matchers": ["toHaveLength"]
+        },
+        {
+          "line": 45,
+          "endLine": 45,
+          "matchers": ["toEqual"]
+        },
+        {
+          "line": 46,
+          "endLine": 46,
+          "matchers": ["toEqual"]
+        }
+      ],
+      "axis": "cancel-exception",
+      "oracle": {
+        "operands": "words.json 调用次数；words；stores",
+        "matcher": "toHaveLength / toEqual",
+        "exact": "words.json 出现 1 次；词表为 []；商店仍为 [{ id: 3, items: [61, 0] }]"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/assets/load-all-recover.grok-r1.test.ts",
+        "fullName": "G01-C loadAll 失败恢复 G01-C02 words.json 500 时词表为空，商店表仍透传",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G01-C03",
+      "batch": "G01",
+      "group": "G01-C",
+      "primarySource": {
+        "file": "packages/game/src/assets/loader.ts",
+        "conditionLine": 233,
+        "condition": "battle-sprites.json 失败时清单变为 { sprites: [] }，成员 RLE 不请求；背景清单仍独立成功"
+      },
+      "caller": {
+        "file": "packages/game/src/shell/bootstrap-resources.ts",
+        "line": 34,
+        "expr": "loadAssets: loadAll"
+      },
+      "legalInput": "loadAll(7)。fail.battleSprites 为 404。背景 id 仍为 8，PNG 宽 2，像素 R 为 8 与 9。",
+      "oldTest": {
+        "sha": "e335353b88e7c21de9d59f5e54c2e336080b2139",
+        "file": "packages/game/src/assets/loader.test.ts",
+        "fullName": "loadAll fetch 失败 → 抛错",
+        "assertionLine": 16,
+        "matcher": "rejects.toThrow",
+        "checked": "任意 fetch 返回 404 时错误匹配 /failed (404)/，不核对 URL，也不核对后续请求是否停止",
+        "distinct": "旧测试没有清单失败后背景仍解码这一分支"
+      },
+      "file": "packages/game/src/assets/load-all-recover.grok-r1.test.ts",
+      "fullName": "G01-C loadAll 失败恢复 G01-C03 battle-sprites.json 404 时精灵 map 为空，背景 8 仍解码",
+      "assertions": [
+        {
+          "line": 53,
+          "endLine": 53,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 54,
+          "endLine": 54,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 55,
+          "endLine": 55,
+          "matchers": ["toEqual"]
+        }
+      ],
+      "axis": "cancel-exception",
+      "oracle": {
+        "operands": "battleSprites.size；是否存在 /battle-sprite/；背景 8 的 indices",
+        "matcher": "toBe / toEqual",
+        "exact": "size 为 0；没有战斗精灵 URL；背景 8 像素为 [8, 9]"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/assets/load-all-recover.grok-r1.test.ts",
+        "fullName": "G01-C loadAll 失败恢复 G01-C03 battle-sprites.json 404 时精灵 map 为空，背景 8 仍解码",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G01-C04",
+      "batch": "G01",
+      "group": "G01-C",
+      "primarySource": {
+        "file": "packages/game/src/assets/loader.ts",
+        "conditionLine": 237,
+        "condition": "battle-bgs.json 失败时 ids 为空；战斗精灵清单仍按 kind-id 装入"
+      },
+      "caller": {
+        "file": "packages/game/src/shell/bootstrap-resources.ts",
+        "line": 34,
+        "expr": "loadAssets: loadAll"
+      },
+      "legalInput": "loadAll(7)。fail.battleBgs 为 404。player/2 的两帧 RLE 仍可解码。",
+      "oldTest": {
+        "sha": "e335353b88e7c21de9d59f5e54c2e336080b2139",
+        "file": "packages/game/src/assets/loader.test.ts",
+        "fullName": "loadAll fetch 失败 → 抛错",
+        "assertionLine": 16,
+        "matcher": "rejects.toThrow",
+        "checked": "任意 fetch 返回 404 时错误匹配 /failed (404)/，不核对 URL，也不核对后续请求是否停止",
+        "distinct": "旧测试没有背景清单失败后 player-2 仍保留的分支"
+      },
+      "file": "packages/game/src/assets/load-all-recover.grok-r1.test.ts",
+      "fullName": "G01-C loadAll 失败恢复 G01-C04 battle-bgs.json 404 时背景 map 为空，player-2 精灵仍在",
+      "assertions": [
+        {
+          "line": 62,
+          "endLine": 62,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 63,
+          "endLine": 63,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 64,
+          "endLine": 64,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 65,
+          "endLine": 65,
+          "matchers": ["toHaveLength"]
+        }
+      ],
+      "axis": "cancel-exception",
+      "oracle": {
+        "operands": "battleBgs.size；是否存在 /images/battle/bg/；battleSprites 是否有 player-2；其帧数",
+        "matcher": "toBe / toHaveLength",
+        "exact": "背景 size 为 0；没有背景 URL；player-2 存在且帧数为 2"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/assets/load-all-recover.grok-r1.test.ts",
+        "fullName": "G01-C loadAll 失败恢复 G01-C04 battle-bgs.json 404 时背景 map 为空，player-2 精灵仍在",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G01-C05",
+      "batch": "G01",
+      "group": "G01-C",
+      "primarySource": {
+        "file": "packages/game/src/assets/loader.ts",
+        "conditionLine": 220,
+        "condition": "单个角色 RLE 失败只跳过该 id，其它 spriteIds 仍写入"
+      },
+      "caller": {
+        "file": "packages/game/src/shell/bootstrap-resources.ts",
+        "line": 34,
+        "expr": "loadAssets: loadAll"
+      },
+      "legalInput": "loadAll(7)。fail.sprites 为 [9]。默认集合含 2、9、71、73。",
+      "oldTest": {
+        "sha": "e335353b88e7c21de9d59f5e54c2e336080b2139",
+        "file": "packages/game/src/assets/loader.test.ts",
+        "fullName": "loadAll fetch 失败 → 抛错",
+        "assertionLine": 16,
+        "matcher": "rejects.toThrow",
+        "checked": "任意 fetch 返回 404 时错误匹配 /failed (404)/，不核对 URL，也不核对后续请求是否停止",
+        "distinct": "旧测试把资源 404 当成整次 loadAll 失败，没有单精灵跳过"
+      },
+      "file": "packages/game/src/assets/load-all-recover.grok-r1.test.ts",
+      "fullName": "G01-C loadAll 失败恢复 G01-C05 事件精灵 9 的 RLE 404 被跳过，71 与 73 仍在",
+      "assertions": [
+        {
+          "line": 72,
+          "endLine": 72,
+          "matchers": ["toHaveLength"]
+        },
+        {
+          "line": 73,
+          "endLine": 73,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 74,
+          "endLine": 74,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 75,
+          "endLine": 75,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 76,
+          "endLine": 76,
+          "matchers": ["toBe"]
+        }
+      ],
+      "axis": "cancel-exception",
+      "oracle": {
+        "operands": "sprite/9.rle 调用次数；characterSprites 是否含 9、2、71、73",
+        "matcher": "toHaveLength / toBe",
+        "exact": "sprite/9.rle 请求 1 次；9 不在 Map 中；2、71、73 都在"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/assets/load-all-recover.grok-r1.test.ts",
+        "fullName": "G01-C loadAll 失败恢复 G01-C05 事件精灵 9 的 RLE 404 被跳过，71 与 73 仍在",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G01-C06",
+      "batch": "G01",
+      "group": "G01-C",
+      "primarySource": {
+        "file": "packages/game/src/assets/loader.ts",
+        "conditionLine": 251,
+        "condition": "单条战斗精灵 RLE 失败时不写入该键，其它 kind-id 仍保留解码帧"
+      },
+      "caller": {
+        "file": "packages/game/src/shell/bootstrap-resources.ts",
+        "line": 34,
+        "expr": "loadAssets: loadAll"
+      },
+      "legalInput": "loadAll(7)。installLoadAll 在 loadAll 之前。fail.battleSpriteKeys 为 [\"enemy-4\"]。player/2 第二帧像素为 0x22。",
+      "oldTest": {
+        "sha": "e335353b88e7c21de9d59f5e54c2e336080b2139",
+        "file": "packages/game/src/assets/loader.test.ts",
+        "fullName": "loadAll fetch 失败 → 抛错",
+        "assertionLine": 16,
+        "matcher": "rejects.toThrow",
+        "checked": "任意 fetch 返回 404 时错误匹配 /failed (404)/，不核对 URL，也不核对后续请求是否停止",
+        "distinct": "旧测试没有按战斗精灵键跳过失败成员"
+      },
+      "file": "packages/game/src/assets/load-all-recover.grok-r1.test.ts",
+      "fullName": "G01-C loadAll 失败恢复 G01-C06 enemy-4 RLE 404 被跳过，player-2 的第二帧像素仍是 0x22",
+      "assertions": [
+        {
+          "line": 83,
+          "endLine": 83,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 84,
+          "endLine": 86,
+          "matchers": ["toEqual"]
+        }
+      ],
+      "axis": "cancel-exception",
+      "oracle": {
+        "operands": "battleSprites 是否有 enemy-4；player-2 第二帧 indices",
+        "matcher": "toBe / toEqual",
+        "exact": "enemy-4 不存在；player-2 第二帧像素为 [0x22]"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/assets/load-all-recover.grok-r1.test.ts",
+        "fullName": "G01-C loadAll 失败恢复 G01-C06 enemy-4 RLE 404 被跳过，player-2 的第二帧像素仍是 0x22",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G01-C07",
+      "batch": "G01",
+      "group": "G01-C",
+      "primarySource": {
+        "file": "packages/game/src/assets/loader.ts",
+        "conditionLine": 267,
+        "condition": "单张背景 PNG 失败只跳过该 id，其它 id 仍按补零 URL 解码"
+      },
+      "caller": {
+        "file": "packages/game/src/shell/bootstrap-resources.ts",
+        "line": 34,
+        "expr": "loadAssets: loadAll"
+      },
+      "legalInput": "loadAll(7)。battleBgIds 为 [8, 9]，fail.battleBgIds 为 [8]。背景 9 的 PNG 宽 2，像素 R 为 9 与 10。",
+      "oldTest": {
+        "sha": "e335353b88e7c21de9d59f5e54c2e336080b2139",
+        "file": "packages/game/src/assets/loader.test.ts",
+        "fullName": "loadAll fetch 失败 → 抛错",
+        "assertionLine": 16,
+        "matcher": "rejects.toThrow",
+        "checked": "任意 fetch 返回 404 时错误匹配 /failed (404)/，不核对 URL，也不核对后续请求是否停止",
+        "distinct": "旧测试没有部分背景失败后其余背景保留像素"
+      },
+      "file": "packages/game/src/assets/load-all-recover.grok-r1.test.ts",
+      "fullName": "G01-C loadAll 失败恢复 G01-C07 背景 8 的 PNG 404 被跳过，背景 9 的像素保留",
+      "assertions": [
+        {
+          "line": 97,
+          "endLine": 97,
+          "matchers": ["toHaveLength"]
+        },
+        {
+          "line": 98,
+          "endLine": 98,
+          "matchers": ["toHaveLength"]
+        },
+        {
+          "line": 99,
+          "endLine": 99,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 100,
+          "endLine": 100,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 101,
+          "endLine": 101,
+          "matchers": ["toEqual"]
+        }
+      ],
+      "axis": "cancel-exception",
+      "oracle": {
+        "operands": "bg/008.png 与 bg/009.png 的调用次数；是否有背景 8；背景 9 的 width 与 indices",
+        "matcher": "toHaveLength / toBe / toEqual",
+        "exact": "两张 PNG 都请求 1 次；背景 8 不在 Map；背景 9 宽为 2，像素为 [9, 10]"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/assets/load-all-recover.grok-r1.test.ts",
+        "fullName": "G01-C loadAll 失败恢复 G01-C07 背景 8 的 PNG 404 被跳过，背景 9 的像素保留",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G01-C08",
+      "batch": "G01",
+      "group": "G01-C",
+      "primarySource": {
+        "file": "packages/game/src/assets/loader.ts",
+        "conditionLine": 278,
+        "condition": "effect.rle 失败时 effectSprite 保持 undefined，magicSprites 的加载在另一个 try 中继续"
+      },
+      "caller": {
+        "file": "packages/game/src/shell/bootstrap-resources.ts",
+        "line": 34,
+        "expr": "loadAssets: loadAll"
+      },
+      "legalInput": "loadAll(7)。installLoadAll 在 loadAll 之前。fail.effect 为 404。默认法术仍引用 chunk 0。",
+      "oldTest": {
+        "sha": "e335353b88e7c21de9d59f5e54c2e336080b2139",
+        "file": "packages/game/src/assets/loader.test.ts",
+        "fullName": "loadAll fetch 失败 → 抛错",
+        "assertionLine": 16,
+        "matcher": "rejects.toThrow",
+        "checked": "任意 fetch 返回 404 时错误匹配 /failed (404)/，不核对 URL，也不核对后续请求是否停止",
+        "distinct": "旧测试没有可选命中特效失败后法术 chunk 仍在的分支"
+      },
+      "file": "packages/game/src/assets/load-all-recover.grok-r1.test.ts",
+      "fullName": "G01-C loadAll 失败恢复 G01-C08 effect.rle 404 时 effectSprite 缺席，法术 chunk 0 仍在",
+      "assertions": [
+        {
+          "line": 108,
+          "endLine": 108,
+          "matchers": ["toBeUndefined"]
+        },
+        {
+          "line": 109,
+          "endLine": 109,
+          "matchers": ["toBe"]
+        }
+      ],
+      "axis": "cancel-exception",
+      "oracle": {
+        "operands": "effectSprite；magicSprites 是否有键 0",
+        "matcher": "toBe / toBeUndefined",
+        "exact": "effectSprite 为 undefined；magicSprites 含 0"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/assets/load-all-recover.grok-r1.test.ts",
+        "fullName": "G01-C loadAll 失败恢复 G01-C08 effect.rle 404 时 effectSprite 缺席，法术 chunk 0 仍在",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G01-C09",
+      "batch": "G01",
+      "group": "G01-C",
+      "primarySource": {
+        "file": "packages/game/src/assets/loader.ts",
+        "conditionLine": 312,
+        "condition": "fire-sprites.json 失败时 magicSprites 保持空 Map；effect.rle 已在该 try 之外完成"
+      },
+      "caller": {
+        "file": "packages/game/src/shell/bootstrap-resources.ts",
+        "line": 34,
+        "expr": "loadAssets: loadAll"
+      },
+      "legalInput": "loadAll(7)。fail.fireMeta 为 404。effect.rle 为两帧，首帧像素 0x11。",
+      "oldTest": {
+        "sha": "e335353b88e7c21de9d59f5e54c2e336080b2139",
+        "file": "packages/game/src/assets/loader.test.ts",
+        "fullName": "loadAll fetch 失败 → 抛错",
+        "assertionLine": 16,
+        "matcher": "rejects.toThrow",
+        "checked": "任意 fetch 返回 404 时错误匹配 /failed (404)/，不核对 URL，也不核对后续请求是否停止",
+        "distinct": "旧测试没有法术清单失败后命中特效帧仍存在的分支"
+      },
+      "file": "packages/game/src/assets/load-all-recover.grok-r1.test.ts",
+      "fullName": "G01-C loadAll 失败恢复 G01-C09 fire-sprites.json 404 时法术 map 为空，命中特效帧仍加载",
+      "assertions": [
+        {
+          "line": 116,
+          "endLine": 116,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 117,
+          "endLine": 117,
+          "matchers": ["toHaveLength"]
+        },
+        {
+          "line": 118,
+          "endLine": 118,
+          "matchers": ["toEqual"]
+        }
+      ],
+      "axis": "cancel-exception",
+      "oracle": {
+        "operands": "magicSprites.size；effectSprite 帧数；首帧 indices",
+        "matcher": "toBe / toHaveLength / toEqual",
+        "exact": "法术 Map 大小为 0；命中特效帧数为 2；首帧像素为 [0x11]"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/assets/load-all-recover.grok-r1.test.ts",
+        "fullName": "G01-C loadAll 失败恢复 G01-C09 fire-sprites.json 404 时法术 map 为空，命中特效帧仍加载",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G01-C10",
+      "batch": "G01",
+      "group": "G01-C",
+      "primarySource": {
+        "file": "packages/game/src/assets/loader.ts",
+        "conditionLine": 330,
+        "condition": "UI 帧失败返回 undefined 后被跳过，成功帧保持 manifest 顺序；物品失败不写入该 chunkIndex（loader.ts:353）"
+      },
+      "caller": {
+        "file": "packages/game/src/shell/bootstrap-resources.ts",
+        "line": 34,
+        "expr": "loadAssets: loadAll"
+      },
+      "legalInput": "loadAll(7)。fail.uiFrames 为 [1]，fail.itemIcons 为 [12]。默认 UI 索引 0、1、2，物品 chunk 3 与 12。",
+      "oldTest": {
+        "sha": "e335353b88e7c21de9d59f5e54c2e336080b2139",
+        "file": "packages/game/src/assets/loader.test.ts",
+        "fullName": "loadAll fetch 失败 → 抛错",
+        "assertionLine": 16,
+        "matcher": "rejects.toThrow",
+        "checked": "任意 fetch 返回 404 时错误匹配 /failed (404)/，不核对 URL，也不核对后续请求是否停止",
+        "distinct": "旧测试没有部分 UI/物品失败后其余成员按原顺序保留"
+      },
+      "file": "packages/game/src/assets/load-all-recover.grok-r1.test.ts",
+      "fullName": "G01-C loadAll 失败恢复 G01-C10 UI 帧 1 与物品 12 失败时，其余成员按原顺序和原键保留",
+      "assertions": [
+        {
+          "line": 128,
+          "endLine": 128,
+          "matchers": ["toHaveLength"]
+        },
+        {
+          "line": 129,
+          "endLine": 129,
+          "matchers": ["toHaveLength"]
+        },
+        {
+          "line": 130,
+          "endLine": 130,
+          "matchers": ["toEqual"]
+        },
+        {
+          "line": 131,
+          "endLine": 131,
+          "matchers": ["toEqual"]
+        },
+        {
+          "line": 132,
+          "endLine": 132,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 133,
+          "endLine": 133,
+          "matchers": ["toEqual"]
+        }
+      ],
+      "axis": "cancel-exception",
+      "oracle": {
+        "operands": "frame-01.png 调用次数；uiSpriteFrames 长度与两帧 indices；itemIcons 是否有 12；键 3 的 indices",
+        "matcher": "toHaveLength / toEqual / toBe",
+        "exact": "frame-01.png 请求 1 次；UI 长度为 2，依次 [0, 1] 与 [2, 3]；物品 12 不存在；物品 3 像素为 [3, 4]"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/assets/load-all-recover.grok-r1.test.ts",
+        "fullName": "G01-C loadAll 失败恢复 G01-C10 UI 帧 1 与物品 12 失败时，其余成员按原顺序和原键保留",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G01-D01",
+      "batch": "G01",
+      "group": "G01-D",
+      "primarySource": {
+        "file": "packages/game/src/assets/loader.ts",
+        "conditionLine": 475,
+        "condition": "命中时 delete 再 set 同一对象后 return cached（loader.ts:473-475）"
+      },
+      "caller": {
+        "file": "packages/game/src/shell/bootstrap.ts",
+        "line": 630,
+        "expr": "new SceneAssetsCache(sceneFetcher, { maxEntries: 16, onEvict, protect })"
+      },
+      "legalInput": "不传 opts。fetcher 对任意 id 都返回同一个 legalSceneAssets(6, 20)：256 色、mapNum 20、1×1 tilemap。连续 loadScene(6) 两次。",
+      "oldTest": {
+        "sha": "e335353b88e7c21de9d59f5e54c2e336080b2139",
+        "file": "packages/game/src/assets/loader.test.ts",
+        "fullName": "SceneAssetsCache(M3.5) 第一次 loadScene 调 fetcher,第二次 cache hit 不调",
+        "assertionLine": 40,
+        "matcher": "toHaveBeenCalledTimes",
+        "checked": "scene 1 第二次调用次数仍为 1；夹具 tilemap/palette 使用 as any 与空 colors",
+        "distinct": "旧断言只看 fetcher 次数，不比较两次返回是否为 fetcher 交出的同一引用，且夹具不是 256 色"
+      },
+      "file": "packages/game/src/assets/scene-cache.grok-r1.test.ts",
+      "fullName": "G01-D SceneAssetsCache 归属与迟到 G01-D01 命中返回 fetcher 交出的同一对象引用",
+      "assertions": [
+        {
+          "line": 16,
+          "endLine": 16,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 17,
+          "endLine": 17,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 18,
+          "endLine": 18,
+          "matchers": ["toHaveBeenCalledTimes"]
+        }
+      ],
+      "axis": "ownership",
+      "oracle": {
+        "operands": "第一次与第二次 loadScene(6) 的返回值；fetcher 调用次数",
+        "matcher": "toBe / toHaveBeenCalledTimes",
+        "exact": "两次返回都是同一个 asset 引用；fetcher 次数为 1"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/assets/scene-cache.grok-r1.test.ts",
+        "fullName": "G01-D SceneAssetsCache 归属与迟到 G01-D01 命中返回 fetcher 交出的同一对象引用",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G01-D02",
+      "batch": "G01",
+      "group": "G01-D",
+      "primarySource": {
+        "file": "packages/game/src/assets/loader.ts",
+        "conditionLine": 477,
+        "condition": "cache.set 发生在 await this.fetcher 成功之后；拒绝时该 id 不在 Map 中"
+      },
+      "caller": {
+        "file": "packages/game/src/shell/bootstrap.ts",
+        "line": 630,
+        "expr": "new SceneAssetsCache(sceneFetcher, { maxEntries: 16, onEvict, protect })"
+      },
+      "legalInput": "不传 opts。fetcher 在 mock.calls.length 为 1 时抛 Error(\"net down\")，之后返回 legalSceneAssets(sceneId, 30)。先 loadScene(3)，再 loadScene(3)。",
+      "oldTest": {
+        "sha": "e335353b88e7c21de9d59f5e54c2e336080b2139",
+        "file": "packages/game/src/assets/loader.test.ts",
+        "fullName": "SceneAssetsCache(M3.5) 第一次 loadScene 调 fetcher,第二次 cache hit 不调",
+        "assertionLine": 40,
+        "matcher": "toHaveBeenCalledTimes",
+        "checked": "scene 1 第二次调用次数仍为 1；夹具 tilemap/palette 使用 as any 与空 colors",
+        "distinct": "旧测试的 fetcher 从不拒绝，没有失败后重取的所有权观察"
+      },
+      "file": "packages/game/src/assets/scene-cache.grok-r1.test.ts",
+      "fullName": "G01-D SceneAssetsCache 归属与迟到 G01-D02 fetcher 拒绝后该 id 不入缓存，下次重新 fetch 并成功",
+      "assertions": [
+        {
+          "line": 27,
+          "endLine": 27,
+          "matchers": ["rejects.toThrow"]
+        },
+        {
+          "line": 29,
+          "endLine": 29,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 30,
+          "endLine": 30,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 31,
+          "endLine": 31,
+          "matchers": ["toHaveLength"]
+        },
+        {
+          "line": 32,
+          "endLine": 32,
+          "matchers": ["toHaveBeenCalledTimes"]
+        }
+      ],
+      "axis": "ownership",
+      "oracle": {
+        "operands": "第一次 loadScene(3) 的错误；第二次的 sceneId、mapNum、palette.colors.length；fetcher 次数",
+        "matcher": "rejects.toThrow / toBe / toHaveLength / toHaveBeenCalledTimes",
+        "exact": "第一次抛 net down；第二次 sceneId 为 3、mapNum 为 30、调色板长度 256；fetcher 次数为 2"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/assets/scene-cache.grok-r1.test.ts",
+        "fullName": "G01-D SceneAssetsCache 归属与迟到 G01-D02 fetcher 拒绝后该 id 不入缓存，下次重新 fetch 并成功",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G01-D03",
+      "batch": "G01",
+      "group": "G01-D",
+      "primarySource": {
+        "file": "packages/game/src/assets/loader.ts",
+        "conditionLine": 478,
+        "condition": "命中检查在 await 之前，没有 in-flight 去重；后完成的 set 留在 Map 中"
+      },
+      "caller": {
+        "file": "packages/game/src/shell/bootstrap.ts",
+        "line": 630,
+        "expr": "new SceneAssetsCache(sceneFetcher, { maxEntries: 16, onEvict, protect })"
+      },
+      "legalInput": "不传 opts。两次 loadScene(4) 在 fetcher resolve 前发出。先 resolve mapNum 1 的对象，再 resolve mapNum 2 的对象。两次 resolve 后第三次 loadScene(4)。",
+      "oldTest": {
+        "sha": "e335353b88e7c21de9d59f5e54c2e336080b2139",
+        "file": "packages/game/src/assets/loader.test.ts",
+        "fullName": "SceneAssetsCache(M3.5) 第一次 loadScene 调 fetcher,第二次 cache hit 不调",
+        "assertionLine": 40,
+        "matcher": "toHaveBeenCalledTimes",
+        "checked": "scene 1 第二次调用次数仍为 1；夹具 tilemap/palette 使用 as any 与空 colors",
+        "distinct": "旧测试是串行命中，没有两次并发与后写者留在缓存的观察"
+      },
+      "file": "packages/game/src/assets/scene-cache.grok-r1.test.ts",
+      "fullName": "G01-D SceneAssetsCache 归属与迟到 G01-D03 同一 id 的两次并发 load 各调一次 fetcher，缓存留下后写入的对象",
+      "assertions": [
+        {
+          "line": 46,
+          "endLine": 46,
+          "matchers": ["toHaveBeenCalledTimes"]
+        },
+        {
+          "line": 51,
+          "endLine": 51,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 52,
+          "endLine": 52,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 53,
+          "endLine": 53,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 54,
+          "endLine": 54,
+          "matchers": ["toHaveBeenCalledTimes"]
+        }
+      ],
+      "axis": "ownership",
+      "oracle": {
+        "operands": "并发发出后的 fetcher 次数；两个调用方拿到的引用；之后命中的引用；最终 fetcher 次数",
+        "matcher": "toHaveBeenCalledTimes / toBe",
+        "exact": "并发期间 fetcher 为 2 次；第一调用方拿到先完成对象，第二调用方拿到后完成对象；第三次命中后完成对象；次数仍为 2"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/assets/scene-cache.grok-r1.test.ts",
+        "fullName": "G01-D SceneAssetsCache 归属与迟到 G01-D03 同一 id 的两次并发 load 各调一次 fetcher，缓存留下后写入的对象",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G01-D04",
+      "batch": "G01",
+      "group": "G01-D",
+      "primarySource": {
+        "file": "packages/game/src/assets/loader.ts",
+        "conditionLine": 491,
+        "condition": "protect() 返回的 id 不在缓存中时，从 Map 最旧端选第一个条目淘汰（loader.ts:485-498）"
+      },
+      "caller": {
+        "file": "packages/game/src/shell/bootstrap.ts",
+        "line": 630,
+        "expr": "new SceneAssetsCache(sceneFetcher, { maxEntries: 16, onEvict, protect })"
+      },
+      "legalInput": "maxEntries 2，protect 返回 99，onEvict 把 id 推入数组。依次 loadScene(1)、loadScene(2)、loadScene(3)，再 loadScene(1) 与 loadScene(3)。每个 id 的资源是 legalSceneAssets(sceneId)。",
+      "oldTest": {
+        "sha": "e335353b88e7c21de9d59f5e54c2e336080b2139",
+        "file": "packages/game/src/assets/loader.test.ts",
+        "fullName": "SceneAssetsCache LRU 淘汰(内存泄露修复:全场景常驻 → 有界) protect 返回的 sceneId 永不被淘汰(保护当前渲染场景,防黑屏)",
+        "assertionLine": 122,
+        "matcher": "toEqual",
+        "checked": "protect 返回已在缓存中的 1，maxEntries 2，装入 3 后 evicted 为 [2]",
+        "distinct": "旧 protect 返回已经在缓存里的 1，淘汰的是 2。本例保护的 99 根本不在缓存中"
+      },
+      "file": "packages/game/src/assets/scene-cache.grok-r1.test.ts",
+      "fullName": "G01-D SceneAssetsCache 归属与迟到 G01-D04 protect 返回缓存中不存在的 id 时，仍淘汰最旧条目",
+      "assertions": [
+        {
+          "line": 68,
+          "endLine": 68,
+          "matchers": ["toEqual"]
+        },
+        {
+          "line": 70,
+          "endLine": 70,
+          "matchers": ["toHaveBeenCalledTimes"]
+        },
+        {
+          "line": 72,
+          "endLine": 72,
+          "matchers": ["toHaveBeenCalledTimes"]
+        }
+      ],
+      "axis": "ownership",
+      "oracle": {
+        "operands": "evicted；装入 1 的重取之后与再读 3 时的 fetcher 次数",
+        "matcher": "toEqual / toHaveBeenCalledTimes",
+        "exact": "evicted 为 [1]；重取 1 后次数为 4；再读 3 次数仍为 4"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/assets/scene-cache.grok-r1.test.ts",
+        "fullName": "G01-D SceneAssetsCache 归属与迟到 G01-D04 protect 返回缓存中不存在的 id 时，仍淘汰最旧条目",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G01-D05",
+      "batch": "G01",
+      "group": "G01-D",
+      "primarySource": {
+        "file": "packages/game/src/assets/loader.ts",
+        "conditionLine": 497,
+        "condition": "maxEntries 为 1 且唯一旧条目受保护时，while 会淘汰刚写入的新 id；返回值仍是这次 fetch 的对象"
+      },
+      "caller": {
+        "file": "packages/game/src/shell/bootstrap.ts",
+        "line": 630,
+        "expr": "new SceneAssetsCache(sceneFetcher, { maxEntries: 16, onEvict, protect })"
+      },
+      "legalInput": "maxEntries 1，protect 返回 1。先 loadScene(1)，再 loadScene(2)。fetcher 返回 legalSceneAssets(sceneId, sceneId + 10)。之后再读 1 与 2。",
+      "oldTest": {
+        "sha": "e335353b88e7c21de9d59f5e54c2e336080b2139",
+        "file": "packages/game/src/assets/loader.test.ts",
+        "fullName": "SceneAssetsCache LRU 淘汰(内存泄露修复:全场景常驻 → 有界) protect 返回的 sceneId 永不被淘汰(保护当前渲染场景,防黑屏)",
+        "assertionLine": 122,
+        "matcher": "toEqual",
+        "checked": "protect 返回已在缓存中的 1，maxEntries 2，装入 3 后 evicted 为 [2]",
+        "distinct": "旧用例 maxEntries 为 2，受保护的旧条目留下，新条目 3 也留下，被淘汰的是中间的 2。本例 cap 为 1，调用方仍拿到被淘汰的新对象"
+      },
+      "file": "packages/game/src/assets/scene-cache.grok-r1.test.ts",
+      "fullName": "G01-D SceneAssetsCache 归属与迟到 G01-D05 maxEntries 为 1 且保护旧条目时，新 fetch 的结果被淘汰但调用方仍拿到它",
+      "assertions": [
+        {
+          "line": 85,
+          "endLine": 85,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 86,
+          "endLine": 86,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 87,
+          "endLine": 87,
+          "matchers": ["toEqual"]
+        },
+        {
+          "line": 89,
+          "endLine": 89,
+          "matchers": ["toHaveBeenCalledTimes"]
+        },
+        {
+          "line": 91,
+          "endLine": 91,
+          "matchers": ["toHaveBeenCalledTimes"]
+        }
+      ],
+      "axis": "ownership",
+      "oracle": {
+        "operands": "loadScene(2) 的 sceneId 与 mapNum；evicted；随后读 1 与读 2 的 fetcher 次数",
+        "matcher": "toBe / toEqual / toHaveBeenCalledTimes",
+        "exact": "调用方拿到 sceneId 2、mapNum 12；evicted 为 [2]；读 1 时次数为 2；再读 2 时次数为 3"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/assets/scene-cache.grok-r1.test.ts",
+        "fullName": "G01-D SceneAssetsCache 归属与迟到 G01-D05 maxEntries 为 1 且保护旧条目时，新 fetch 的结果被淘汰但调用方仍拿到它",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G01-D06",
+      "batch": "G01",
+      "group": "G01-D",
+      "primarySource": {
+        "file": "packages/game/src/assets/loader.ts",
+        "conditionLine": 485,
+        "condition": "protect() 返回 undefined 时，id !== protectedId 对 scene 0 仍成立，0 可以被淘汰"
+      },
+      "caller": {
+        "file": "packages/game/src/shell/bootstrap.ts",
+        "line": 630,
+        "expr": "new SceneAssetsCache(sceneFetcher, { maxEntries: 16, onEvict, protect })"
+      },
+      "legalInput": "maxEntries 1，protect 返回 undefined。依次 loadScene(0)、loadScene(5)、loadScene(0)、再 loadScene(0)。资源为 legalSceneAssets(sceneId)。",
+      "oldTest": {
+        "sha": "e335353b88e7c21de9d59f5e54c2e336080b2139",
+        "file": "packages/game/src/assets/loader.test.ts",
+        "fullName": "SceneAssetsCache LRU 淘汰(内存泄露修复:全场景常驻 → 有界) protect 返回的 sceneId 永不被淘汰(保护当前渲染场景,防黑屏)",
+        "assertionLine": 122,
+        "matcher": "toEqual",
+        "checked": "protect 返回已在缓存中的 1，maxEntries 2，装入 3 后 evicted 为 [2]",
+        "distinct": "旧 protect 返回数字 1。本例返回 undefined，观察的是 scene 0 能否被选为受害者，以及把 0 装回后 5 被挤出"
+      },
+      "file": "packages/game/src/assets/scene-cache.grok-r1.test.ts",
+      "fullName": "G01-D SceneAssetsCache 归属与迟到 G01-D06 protect 返回 undefined 时 scene 0 可以被淘汰",
+      "assertions": [
+        {
+          "line": 104,
+          "endLine": 104,
+          "matchers": ["toEqual"]
+        },
+        {
+          "line": 106,
+          "endLine": 106,
+          "matchers": ["toEqual"]
+        },
+        {
+          "line": 107,
+          "endLine": 107,
+          "matchers": ["toHaveBeenCalledTimes"]
+        },
+        {
+          "line": 109,
+          "endLine": 109,
+          "matchers": ["toHaveBeenCalledTimes"]
+        }
+      ],
+      "axis": "ownership",
+      "oracle": {
+        "operands": "装入 5 后的 evicted；把 0 装回后的 evicted 与 fetcher 次数；再次 loadScene(0) 的 fetcher 次数",
+        "matcher": "toEqual / toHaveBeenCalledTimes",
+        "exact": "先淘汰 [0]；装回 0 后 evicted 为 [0, 5] 且 fetcher 为 3；再次读取 0 次数仍为 3"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/assets/scene-cache.grok-r1.test.ts",
+        "fullName": "G01-D SceneAssetsCache 归属与迟到 G01-D06 protect 返回 undefined 时 scene 0 可以被淘汰",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G01-D07",
+      "batch": "G01",
+      "group": "G01-D",
+      "primarySource": {
+        "file": "packages/game/src/assets/loader.ts",
+        "conditionLine": 484,
+        "condition": "cache.size 未超过 maxEntries 时 evictIfNeeded 立即返回，不调用 onEvict"
+      },
+      "caller": {
+        "file": "packages/game/src/shell/bootstrap.ts",
+        "line": 630,
+        "expr": "new SceneAssetsCache(sceneFetcher, { maxEntries: 16, onEvict, protect })"
+      },
+      "legalInput": "maxEntries 2，带 onEvict。只 loadScene(1) 与 loadScene(2)，然后再各命中一次。",
+      "oldTest": {
+        "sha": "e335353b88e7c21de9d59f5e54c2e336080b2139",
+        "file": "packages/game/src/assets/loader.test.ts",
+        "fullName": "SceneAssetsCache LRU 淘汰(内存泄露修复:全场景常驻 → 有界) 不传 opts → 无限缓存(向后兼容,永不淘汰)",
+        "assertionLine": 132,
+        "matcher": "toHaveBeenCalledTimes",
+        "checked": "不传 opts 时 0..49 各装入再命中，fetcher 次数为 50",
+        "distinct": "旧无限缓存不传 maxEntries，循环 50 次。本例 cap 恰好等于条目数，断言 onEvict 没被调用"
+      },
+      "file": "packages/game/src/assets/scene-cache.grok-r1.test.ts",
+      "fullName": "G01-D SceneAssetsCache 归属与迟到 G01-D07 条目数刚好等于 maxEntries 时不调用 onEvict",
+      "assertions": [
+        {
+          "line": 121,
+          "endLine": 121,
+          "matchers": ["toEqual"]
+        },
+        {
+          "line": 122,
+          "endLine": 122,
+          "matchers": ["toHaveBeenCalledTimes"]
+        },
+        {
+          "line": 125,
+          "endLine": 125,
+          "matchers": ["toHaveBeenCalledTimes"]
+        }
+      ],
+      "axis": "boundary",
+      "oracle": {
+        "operands": "evicted；两次装入后的 fetcher 次数；两次命中后的 fetcher 次数",
+        "matcher": "toEqual / toHaveBeenCalledTimes",
+        "exact": "evicted 为 []；装入后次数为 2；两次命中后次数仍为 2"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/assets/scene-cache.grok-r1.test.ts",
+        "fullName": "G01-D SceneAssetsCache 归属与迟到 G01-D07 条目数刚好等于 maxEntries 时不调用 onEvict",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G01-D08",
+      "batch": "G01",
+      "group": "G01-D",
+      "primarySource": {
+        "file": "packages/game/src/assets/loader.ts",
+        "conditionLine": 477,
+        "condition": "缓存保存 fetcher 返回的对象引用；淘汰后再次 loadScene 必须拿到新的 fetch 结果"
+      },
+      "caller": {
+        "file": "packages/game/src/shell/bootstrap.ts",
+        "line": 630,
+        "expr": "new SceneAssetsCache(sceneFetcher, { maxEntries: 16, onEvict, protect })"
+      },
+      "legalInput": "maxEntries 2。fetcher 返回 legalSceneAssets(sceneId, 40 + sceneId)。顺序为 loadScene(1)、2、3，然后把第一次返回对象的 mapNum 改成 999，再 loadScene(1)。",
+      "oldTest": {
+        "sha": "e335353b88e7c21de9d59f5e54c2e336080b2139",
+        "file": "packages/game/src/assets/loader.test.ts",
+        "fullName": "SceneAssetsCache LRU 淘汰(内存泄露修复:全场景常驻 → 有界) 超过 maxEntries → 淘汰最旧条目(重访需重 fetch)+ 触发 onEvict",
+        "assertionLine": 89,
+        "matcher": "toEqual",
+        "checked": "maxEntries 2 时装入 1、2、3 后 evicted 为 [1]，再读 1 使调用次数到 4，读 3 仍为 4",
+        "distinct": "旧用例只数 fetcher 次数与 evicted id，不修改已淘汰对象，也不比较重新 fetch 的 mapNum"
+      },
+      "file": "packages/game/src/assets/scene-cache.grok-r1.test.ts",
+      "fullName": "G01-D SceneAssetsCache 归属与迟到 G01-D08 被淘汰对象之后的字段改写不会污染重新 fetch 的结果",
+      "assertions": [
+        {
+          "line": 136,
+          "endLine": 136,
+          "matchers": ["not.toBe"]
+        },
+        {
+          "line": 137,
+          "endLine": 137,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 138,
+          "endLine": 138,
+          "matchers": ["toHaveLength"]
+        },
+        {
+          "line": 139,
+          "endLine": 139,
+          "matchers": ["toHaveBeenCalledTimes"]
+        }
+      ],
+      "axis": "ownership",
+      "oracle": {
+        "operands": "再次取回的对象是否与第一次同一引用；mapNum；调色板长度；fetcher 次数",
+        "matcher": "not.toBe / toBe / toHaveLength / toHaveBeenCalledTimes",
+        "exact": "新对象不是第一次的引用；mapNum 为 41；调色板长度 256；fetcher 次数为 4"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/assets/scene-cache.grok-r1.test.ts",
+        "fullName": "G01-D SceneAssetsCache 归属与迟到 G01-D08 被淘汰对象之后的字段改写不会污染重新 fetch 的结果",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G01-D09",
+      "batch": "G01",
+      "group": "G01-D",
+      "primarySource": {
+        "file": "packages/game/src/assets/loader.ts",
+        "conditionLine": 490,
+        "condition": "连续超限时每次从当时最旧的非保护键淘汰，顺序由 Map 插入序决定"
+      },
+      "caller": {
+        "file": "packages/game/src/shell/bootstrap.ts",
+        "line": 630,
+        "expr": "new SceneAssetsCache(sceneFetcher, { maxEntries: 16, onEvict, protect })"
+      },
+      "legalInput": "maxEntries 2，无 protect。依次 loadScene(1)、2、3、4，然后命中 3 与 4，再 loadScene(2)。",
+      "oldTest": {
+        "sha": "e335353b88e7c21de9d59f5e54c2e336080b2139",
+        "file": "packages/game/src/assets/loader.test.ts",
+        "fullName": "SceneAssetsCache LRU 淘汰(内存泄露修复:全场景常驻 → 有界) 超过 maxEntries → 淘汰最旧条目(重访需重 fetch)+ 触发 onEvict",
+        "assertionLine": 89,
+        "matcher": "toEqual",
+        "checked": "maxEntries 2 时装入 1、2、3 后 evicted 为 [1]，再读 1 使调用次数到 4，读 3 仍为 4",
+        "distinct": "旧用例只超限一次，evicted 为 [1]。本例连续两次超限，受害者顺序是 1 然后 2，且 3 与 4 保持命中"
+      },
+      "file": "packages/game/src/assets/scene-cache.grok-r1.test.ts",
+      "fullName": "G01-D SceneAssetsCache 归属与迟到 G01-D09 连续两次超限淘汰的受害者顺序是 1 然后 2，3 与 4 仍命中",
+      "assertions": [
+        {
+          "line": 153,
+          "endLine": 153,
+          "matchers": ["toEqual"]
+        },
+        {
+          "line": 156,
+          "endLine": 156,
+          "matchers": ["toHaveBeenCalledTimes"]
+        },
+        {
+          "line": 158,
+          "endLine": 158,
+          "matchers": ["toHaveBeenCalledTimes"]
+        }
+      ],
+      "axis": "ownership",
+      "oracle": {
+        "operands": "evicted；命中 3 与 4 后的 fetcher 次数；再读 2 的 fetcher 次数",
+        "matcher": "toEqual / toHaveBeenCalledTimes",
+        "exact": "evicted 为 [1, 2]；命中 3 与 4 时次数仍为 4；读 2 时次数为 5"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/assets/scene-cache.grok-r1.test.ts",
+        "fullName": "G01-D SceneAssetsCache 归属与迟到 G01-D09 连续两次超限淘汰的受害者顺序是 1 然后 2，3 与 4 仍命中",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G01-D10",
+      "batch": "G01",
+      "group": "G01-D",
+      "primarySource": {
+        "file": "packages/game/src/assets/loader.ts",
+        "conditionLine": 478,
+        "condition": "maxEntries 为 1 时后完成的写入会先留下，随后先发但后完成的写入把前者淘汰"
+      },
+      "caller": {
+        "file": "packages/game/src/shell/bootstrap.ts",
+        "line": 630,
+        "expr": "new SceneAssetsCache(sceneFetcher, { maxEntries: 16, onEvict, protect })"
+      },
+      "legalInput": "maxEntries 1。loadScene(1) 与 loadScene(2) 都先挂起。先完成 id 2、mapNum 22 的对象，再完成 id 1、mapNum 11 的对象。第三次 loadScene(2) 时 fetcher 不再挂起，直接返回 legalSceneAssets(2, 22)。",
+      "oldTest": {
+        "sha": "e335353b88e7c21de9d59f5e54c2e336080b2139",
+        "file": "packages/game/src/assets/loader.test.ts",
+        "fullName": "SceneAssetsCache LRU 淘汰(内存泄露修复:全场景常驻 → 有界) cache hit 刷新 recency:最近命中的不被淘汰",
+        "assertionLine": 105,
+        "matcher": "toHaveBeenCalledTimes",
+        "checked": "命中 1 后再装入 3，调用次数停在 3，重读 2 才到 4。不断言受害者身份数组",
+        "distinct": "旧用例是串行命中刷新 recency。本例是 cap 1 下后完成的 id 1 留下，先完成的 id 2 下次必须重取"
+      },
+      "file": "packages/game/src/assets/scene-cache.grok-r1.test.ts",
+      "fullName": "G01-D SceneAssetsCache 归属与迟到 G01-D10 maxEntries 为 1 时后完成的 id 1 留下，先完成的 id 2 下次要重取",
+      "assertions": [
+        {
+          "line": 176,
+          "endLine": 176,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 178,
+          "endLine": 178,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 179,
+          "endLine": 179,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 182,
+          "endLine": 182,
+          "matchers": ["not.toBe"]
+        },
+        {
+          "line": 183,
+          "endLine": 183,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 184,
+          "endLine": 184,
+          "matchers": ["toHaveBeenCalledTimes"]
+        }
+      ],
+      "axis": "late",
+      "oracle": {
+        "operands": "两个挂起调用方拿到的引用；完成后 loadScene(1) 的引用；重取的 id 2 是否仍是先完成对象；其 mapNum；fetcher 次数",
+        "matcher": "toBe / not.toBe / toHaveBeenCalledTimes",
+        "exact": "id 2 的调用方拿到先完成对象，id 1 的调用方拿到后完成对象；再次 loadScene(1) 仍是后完成对象；重取的 id 2 不是先完成对象且 mapNum 为 22；fetcher 次数为 3"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/assets/scene-cache.grok-r1.test.ts",
+        "fullName": "G01-D SceneAssetsCache 归属与迟到 G01-D10 maxEntries 为 1 时后完成的 id 1 留下，先完成的 id 2 下次要重取",
+        "status": "passed"
+      }
+    }
+  ]
+}
