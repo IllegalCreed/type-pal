@@ -136,5 +136,7 @@
   "O-02": "17 处 as never/as unknown as 桥清零：plan/write-plan/transaction/publication/sprites/guards 全部改 typed 合法 fixture（validateAuthorItems/validateAuthorScenes 守卫返回、convertSourceTilemap 真形、legalManifest、PoisonDef/EnemyStats 全字段）；不可构造轴（缺 expectedPreviousHash、journal preconditions 非数组等）改经真实 unknown/JSON 域或登记 unreachable",
   "O-03": "contracts 账以 counters.json+directed-vitest.json+每 counter 三态 JSON/raw 落盘；run-counter.mjs 增加 restored 阶段真实恢复执行 + --unidiff-zero patch 重建自校验；44 枚全部 control 全绿/injected 恰一业务红/restored 全绿",
   "DEFECT-O-1": "降级为疑似 generic-JSON 问题（缺 canonical caller 证据），不修产品；停测轴保留"
- }
+ },
+ "headNote": "21cc359e 为最终测试/证据锚点；其后至远端候选 057b39b6 仅 receipt/README 文档维护（无测试或产品改动）",
+ "remoteFinalCandidate": "057b39b6d3c973a94f3172e1a9dd3957fd8f3767"
 }
