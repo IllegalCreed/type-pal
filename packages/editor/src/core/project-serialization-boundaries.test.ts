@@ -36,9 +36,9 @@ async function blankState(id: string) {
 // ═══ S01：脚本索引/分片/共享脚本 ═══
 
 test('named steps survive canonical scene serialization and real current loader reopening', async () => {
-  const { state, disk } = await blankState('named-steps')
+  const { opened, disk } = await blankState('named-steps')
   const scene: AuthorSceneDef = {
-    ...state.scenes[0]!,
+    ...opened.scenes[0]!,
     hooks: {
       onEnter: {
         initial: 'opening',
@@ -60,7 +60,7 @@ test('named steps survive canonical scene serialization and real current loader 
       },
     },
   }
-  state.scenes[0] = scene
+  const state = toEditorState(opened.project, [scene], {}, {}, [])
   const files = await serializeProjectWithMapCopies(state, fsaSource(disk.dir))
   const output = memoryAuthorDirectory(structuredClone(files))
   const reopened = await loadCurrentProjectFrom(fsaSource(output.dir))
