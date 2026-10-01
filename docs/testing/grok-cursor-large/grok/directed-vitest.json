@@ -1,6 +1,6 @@
 {
-  "batch": "G05",
-  "cumulativeNewContracts": 181,
+  "batch": "G06",
+  "cumulativeNewContracts": 229,
   "target": 400,
   "success": true,
   "numFailedTests": 0,
@@ -10,7 +10,8 @@
     "pnpm --filter @type-pal/game exec vitest run src/assets/png-decode.grok-r1.test.ts src/assets/tileset-gzip.grok-r1.test.ts src/assets/tileset-load.grok-r1.test.ts src/assets/dialog-icons.grok-r1.test.ts src/assets/png.test.ts src/assets/png.glm-phase1-leaves.test.ts src/assets/tileset-blob.test.ts src/assets/dialog-assets.glm-phase1-leaves.test.ts src/assets/rle-decode.test.ts --reporter=verbose --reporter=json --outputFile=/tmp/g02-directed.json",
     "pnpm --filter @type-pal/game exec vitest run src/present/draw-tilemap-pixels.grok-r1.test.ts src/present/draw-sprite-clip.grok-r1.test.ts src/present/follower-pos-axis.grok-r1.test.ts src/present/follower-render-gap.grok-r1.test.ts src/present/draw-tilemap.test.ts src/present/draw-sprite.test.ts src/present/follower-pos.test.ts src/present/follower-render.test.ts --reporter=verbose --reporter=json --outputFile=/tmp/g03-directed.json",
     "pnpm --filter @type-pal/game exec vitest run src/present/screen-wave-mirror.grok-r1.test.ts src/present/screen-shake-bounds.grok-r1.test.ts src/present/dither-fade-nibble.grok-r1.test.ts src/present/present-hold.grok-r1.test.ts src/present/screen-wave.test.ts src/present/screen-wave.glm-phase1-leaves.test.ts src/present/screen-shake.test.ts src/present/dither-fade.test.ts src/present/framebuffer.test.ts src/present/framebuffer.glm-phase1-leaves.test.ts src/present/present.test.ts src/present/__tests__/grok-composition/p12-overlays.test.ts --reporter=verbose --reporter=json --outputFile=/tmp/g04-directed.json",
-    "pnpm --filter @type-pal/game exec vitest run src/present/dialog-box-pixels.grok-r1.test.ts src/present/font-width.grok-r1.test.ts src/present/draw-number-slots.grok-r1.test.ts src/present/dialog-box-chrome.grok-r1.test.ts src/present/dialog-box.test.ts src/present/dialog-box.glm-next-wave.test.ts src/present/font.glm-phase1-leaves.test.ts src/present/draw-number.test.ts src/present/__tests__/grok-composition/p16-dialog.test.ts src/present/menu/draw-opening-menu.test.ts src/present/battle/draw-battle-settlement.glm-phase1-leaves.test.ts --reporter=verbose --reporter=json --outputFile=/tmp/g05-directed.json"
+    "pnpm --filter @type-pal/game exec vitest run src/present/dialog-box-pixels.grok-r1.test.ts src/present/font-width.grok-r1.test.ts src/present/draw-number-slots.grok-r1.test.ts src/present/dialog-box-chrome.grok-r1.test.ts src/present/dialog-box.test.ts src/present/dialog-box.glm-next-wave.test.ts src/present/font.glm-phase1-leaves.test.ts src/present/draw-number.test.ts src/present/__tests__/grok-composition/p16-dialog.test.ts src/present/menu/draw-opening-menu.test.ts src/present/battle/draw-battle-settlement.glm-phase1-leaves.test.ts --reporter=verbose --reporter=json --outputFile=/tmp/g05-directed.json",
+    "pnpm --filter @type-pal/game exec vitest run src/present/menu/inventory-list-pixels.grok-r1.test.ts src/present/menu/inventory-desc-filter.grok-r1.test.ts src/present/menu/equip-role-pixels.grok-r1.test.ts src/present/menu/status-vitals-pixels.grok-r1.test.ts src/present/__tests__/grok-present/p01-inventory-list.test.ts src/present/__tests__/grok-present/p02-inventory-target.test.ts src/present/__tests__/grok-present/p03-equip.test.ts src/present/__tests__/grok-present/p07-status.test.ts src/present/menu/draw-inventory.glm-phase1-leaves.test.ts src/present/menu/draw-equip.glm-phase1-leaves.test.ts src/present/menu/draw-player-status.test.ts src/present/menu/draw-player-status.glm-phase1-leaves.test.ts --reporter=verbose --reporter=json --outputFile=/tmp/g06-directed.json"
   ],
   "tests": [
     {
@@ -916,6 +917,246 @@
     {
       "file": "src/present/dialog-box-chrome.grok-r1.test.ts",
       "fullName": "G05-D dialog 图标物品框与旁白 G05-D13 物品框占位矩形是 (8,80,304,48)",
+      "status": "passed"
+    },
+    {
+      "file": "src/present/menu/inventory-list-pixels.grok-r1.test.ts",
+      "fullName": "G06-A 物品列表像素 G06-A01 物品框阴影把底色 0x5A 的低四位右移一位，正色框仍在 (0,140)",
+      "status": "passed"
+    },
+    {
+      "file": "src/present/menu/inventory-list-pixels.grok-r1.test.ts",
+      "fullName": "G06-A 物品列表像素 G06-A02 差额等于 1 时不画青色数量，选中名仍用闪烁色",
+      "status": "passed"
+    },
+    {
+      "file": "src/present/menu/inventory-list-pixels.grok-r1.test.ts",
+      "fullName": "G06-A 物品列表像素 G06-A03 列表数量用 count 减 inUse，4 件占用 2 件只画青色 2",
+      "status": "passed"
+    },
+    {
+      "file": "src/present/menu/inventory-list-pixels.grok-r1.test.ts",
+      "fullName": "G06-A 物品列表像素 G06-A04 图标表没有 bitmap 时图标位保持底色，物品框照画",
+      "status": "passed"
+    },
+    {
+      "file": "src/present/menu/inventory-list-pixels.grok-r1.test.ts",
+      "fullName": "G06-A 物品列表像素 G06-A05 缺少光标帧 69 时名字照画，光标位留着列表框色",
+      "status": "passed"
+    },
+    {
+      "file": "src/present/menu/inventory-list-pixels.grok-r1.test.ts",
+      "fullName": "G06-A 物品列表像素 G06-A06 用物层现行数量为 0 时不画青色数字，物品名仍是 0xBE",
+      "status": "passed"
+    },
+    {
+      "file": "src/present/menu/inventory-list-pixels.grok-r1.test.ts",
+      "fullName": "G06-A 物品列表像素 G06-A07 用物层选中 id 不在目录时不画属性标签，列表名仍在",
+      "status": "passed"
+    },
+    {
+      "file": "src/present/menu/inventory-list-pixels.grok-r1.test.ts",
+      "fullName": "G06-A 物品列表像素 G06-A08 用物层光标越过队伍时不画体力，队员名仍按未选中色画出",
+      "status": "passed"
+    },
+    {
+      "file": "src/present/menu/inventory-list-pixels.grok-r1.test.ts",
+      "fullName": "G06-A 物品列表像素 G06-A09 缺少斜杠帧 39 时体力数字仍在，斜杠位保持底色",
+      "status": "passed"
+    },
+    {
+      "file": "src/present/menu/inventory-list-pixels.grok-r1.test.ts",
+      "fullName": "G06-A 物品列表像素 G06-A10 过滤为 all 时 usable 为假的物品仍按可选色画，不进暗色",
+      "status": "passed"
+    },
+    {
+      "file": "src/present/menu/inventory-list-pixels.grok-r1.test.ts",
+      "fullName": "G06-A 物品列表像素 G06-A11 用物层灵力是基础加装备效果，武术行仍是武术值",
+      "status": "passed"
+    },
+    {
+      "file": "src/present/menu/inventory-list-pixels.grok-r1.test.ts",
+      "fullName": "G06-A 物品列表像素 G06-A12 物品框索引 0x6E 经 flushToCanvas 写成调色板 RGB，缓冲仍是 0x6E",
+      "status": "passed"
+    },
+    {
+      "file": "src/present/menu/inventory-desc-filter.grok-r1.test.ts",
+      "fullName": "G06-B 物品描述与过滤 G06-B01 第二条描述在 y=167，第一条仍在 y=151",
+      "status": "passed"
+    },
+    {
+      "file": "src/present/menu/inventory-desc-filter.grok-r1.test.ts",
+      "fullName": "G06-B 物品描述与过滤 G06-B02 scriptDesc 为 0 时不画 L_0 上的描述，物品名照画",
+      "status": "passed"
+    },
+    {
+      "file": "src/present/menu/inventory-desc-filter.grok-r1.test.ts",
+      "fullName": "G06-B 物品描述与过滤 G06-B03 列表相 noDesc 为真时省略描述，选中名仍在",
+      "status": "passed"
+    },
+    {
+      "file": "src/present/menu/inventory-desc-filter.grok-r1.test.ts",
+      "fullName": "G06-B 物品描述与过滤 G06-B04 描述跟光标上的物品走，不画另一件的脚本",
+      "status": "passed"
+    },
+    {
+      "file": "src/present/menu/inventory-desc-filter.grok-r1.test.ts",
+      "fullName": "G06-B 物品描述与过滤 G06-B05 sellable 过滤把可卖项画成可选色，不可卖项画成暗色",
+      "status": "passed"
+    },
+    {
+      "file": "src/present/menu/inventory-desc-filter.grok-r1.test.ts",
+      "fullName": "G06-B 物品描述与过滤 G06-B06 第三列数量起点含两格 100 像素，个位落在 x=302",
+      "status": "passed"
+    },
+    {
+      "file": "src/present/menu/inventory-desc-filter.grok-r1.test.ts",
+      "fullName": "G06-B 物品描述与过滤 G06-B07 potion 过滤只把可用且非投掷的物品画成可选色",
+      "status": "passed"
+    },
+    {
+      "file": "src/present/menu/inventory-desc-filter.grok-r1.test.ts",
+      "fullName": "G06-B 物品描述与过滤 G06-B08 important 过滤把可卖物品画成暗色，不可卖且不可装备的画成可选色",
+      "status": "passed"
+    },
+    {
+      "file": "src/present/menu/inventory-desc-filter.grok-r1.test.ts",
+      "fullName": "G06-B 物品描述与过滤 G06-B09 件数等于占用且不为 0 时选中项是暗选色，不是已装备色",
+      "status": "passed"
+    },
+    {
+      "file": "src/present/menu/inventory-desc-filter.grok-r1.test.ts",
+      "fullName": "G06-B 物品描述与过滤 G06-B10 差额 10 在第一列同时画出青色十位和个位",
+      "status": "passed"
+    },
+    {
+      "file": "src/present/menu/equip-role-pixels.grok-r1.test.ts",
+      "fullName": "G06-C 装备选人像素 G06-C01 一人队伍仍画出一行内容框，底边在 y=111",
+      "status": "passed"
+    },
+    {
+      "file": "src/present/menu/equip-role-pixels.grok-r1.test.ts",
+      "fullName": "G06-C 装备选人像素 G06-C02 phase 为 done 时整屏保持底色",
+      "status": "passed"
+    },
+    {
+      "file": "src/present/menu/equip-role-pixels.grok-r1.test.ts",
+      "fullName": "G06-C 装备选人像素 G06-C03 selectedItemId 未定义时不铺装备背景",
+      "status": "passed"
+    },
+    {
+      "file": "src/present/menu/equip-role-pixels.grok-r1.test.ts",
+      "fullName": "G06-C 装备选人像素 G06-C04 选中 id 不在目录时同样不铺背景也不画图标",
+      "status": "passed"
+    },
+    {
+      "file": "src/present/menu/equip-role-pixels.grok-r1.test.ts",
+      "fullName": "G06-C 装备选人像素 G06-C05 角色光标越过队伍时图标已画，攻击数字不画",
+      "status": "passed"
+    },
+    {
+      "file": "src/present/menu/equip-role-pixels.grok-r1.test.ts",
+      "fullName": "G06-C 装备选人像素 G06-C06 现行数量为 0 时不画青色数字，物品名仍是确认色",
+      "status": "passed"
+    },
+    {
+      "file": "src/present/menu/equip-role-pixels.grok-r1.test.ts",
+      "fullName": "G06-C 装备选人像素 G06-C07 灵力预览在 y=36，是基础加效果；武术行仍是武术值",
+      "status": "passed"
+    },
+    {
+      "file": "src/present/menu/equip-role-pixels.grok-r1.test.ts",
+      "fullName": "G06-C 装备选人像素 G06-C08 防御预览在 y=58，取防御基础值",
+      "status": "passed"
+    },
+    {
+      "file": "src/present/menu/equip-role-pixels.grok-r1.test.ts",
+      "fullName": "G06-C 装备选人像素 G06-C09 身法为一位数时只画个位，高位保持底色",
+      "status": "passed"
+    },
+    {
+      "file": "src/present/menu/equip-role-pixels.grok-r1.test.ts",
+      "fullName": "G06-C 装备选人像素 G06-C10 吉运预览在 y=102",
+      "status": "passed"
+    },
+    {
+      "file": "src/present/menu/equip-role-pixels.grok-r1.test.ts",
+      "fullName": "G06-C 装备选人像素 G06-C11 数量读 gs 现行库存 8，列表快照仍是确认时的 3",
+      "status": "passed"
+    },
+    {
+      "file": "src/present/menu/status-vitals-pixels.grok-r1.test.ts",
+      "fullName": "G06-D 状态数值与毒 G06-D01 当前真气 12 为黄，真气上限 80 为蓝",
+      "status": "passed"
+    },
+    {
+      "file": "src/present/menu/status-vitals-pixels.grok-r1.test.ts",
+      "fullName": "G06-D 状态数值与毒 G06-D02 武术是基础 20 加装备效果 3",
+      "status": "passed"
+    },
+    {
+      "file": "src/present/menu/status-vitals-pixels.grok-r1.test.ts",
+      "fullName": "G06-D 状态数值与毒 G06-D03 灵力是基础 4 加装备效果 10",
+      "status": "passed"
+    },
+    {
+      "file": "src/present/menu/status-vitals-pixels.grok-r1.test.ts",
+      "fullName": "G06-D 状态数值与毒 G06-D04 防御数字在 y=142",
+      "status": "passed"
+    },
+    {
+      "file": "src/present/menu/status-vitals-pixels.grok-r1.test.ts",
+      "fullName": "G06-D 状态数值与毒 G06-D05 身法数字在 y=162",
+      "status": "passed"
+    },
+    {
+      "file": "src/present/menu/status-vitals-pixels.grok-r1.test.ts",
+      "fullName": "G06-D 状态数值与毒 G06-D06 吉运数字在 y=182",
+      "status": "passed"
+    },
+    {
+      "file": "src/present/menu/status-vitals-pixels.grok-r1.test.ts",
+      "fullName": "G06-D 状态数值与毒 G06-D07 经验斜杠坐标 (0,0) 不画，体力与真气斜杠照画",
+      "status": "passed"
+    },
+    {
+      "file": "src/present/menu/status-vitals-pixels.grok-r1.test.ts",
+      "fullName": "G06-D 状态数值与毒 G06-D08 缺少斜杠帧时体力数字仍在，斜杠位保持底色",
+      "status": "passed"
+    },
+    {
+      "file": "src/present/menu/status-vitals-pixels.grok-r1.test.ts",
+      "fullName": "G06-D 状态数值与毒 G06-D09 未提供升级经验表时下一级只画一位青色 0，当前经验仍是 12",
+      "status": "passed"
+    },
+    {
+      "file": "src/present/menu/status-vitals-pixels.grok-r1.test.ts",
+      "fullName": "G06-D 状态数值与毒 G06-D10 毒等级等于 3 仍画出，颜色是 wColor 加 10",
+      "status": "passed"
+    },
+    {
+      "file": "src/present/menu/status-vitals-pixels.grok-r1.test.ts",
+      "fullName": "G06-D 状态数值与毒 G06-D11 空槽和等级大于 3 的毒不占显示行，下一毒上移到 y=76",
+      "status": "passed"
+    },
+    {
+      "file": "src/present/menu/status-vitals-pixels.grok-r1.test.ts",
+      "fullName": "G06-D 状态数值与毒 G06-D12 第 11 条毒不再覆盖第 10 条的颜色",
+      "status": "passed"
+    },
+    {
+      "file": "src/present/menu/status-vitals-pixels.grok-r1.test.ts",
+      "fullName": "G06-D 状态数值与毒 G06-D13 第一槽 id 为 0 时跳过，第二槽画出装备名",
+      "status": "passed"
+    },
+    {
+      "file": "src/present/menu/status-vitals-pixels.grok-r1.test.ts",
+      "fullName": "G06-D 状态数值与毒 G06-D14 物品在目录里但没有名字时，名字位画出 0xBE 的缺字框",
+      "status": "passed"
+    },
+    {
+      "file": "src/present/menu/status-vitals-pixels.grok-r1.test.ts",
+      "fullName": "G06-D 状态数值与毒 G06-D15 没有立绘表时头像位保持底色，角色名仍是确认色",
       "status": "passed"
     }
   ],
@@ -2214,6 +2455,129 @@
         {
           "file": "src/present/battle/draw-battle-settlement.glm-phase1-leaves.test.ts",
           "fullName": "L15 drawBattleSettlement 精确像素 learn-magic：ww 偏移随字宽收窄框，magicName 色 0x1B",
+          "status": "passed"
+        }
+      ]
+    },
+    {
+      "batch": "G06",
+      "status": "passed",
+      "numPassedTests": 23,
+      "numFailedTests": 0,
+      "tests": [
+        {
+          "file": "src/present/menu/draw-equip.glm-phase1-leaves.test.ts",
+          "fullName": "L11 drawEquipMenu 剩余分支 pick-role 非顺序 party [3,1]：equipableBy 按 roleId 位着色，选中高亮按 party 序",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/menu/draw-equip.glm-phase1-leaves.test.ts",
+          "fullName": "L11 drawEquipMenu 剩余分支 已装备槽 itemId 不在 catalog → `?id` tofu；空槽（0）不画",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/menu/draw-equip.glm-phase1-leaves.test.ts",
+          "fullName": "L11 drawEquipMenu 剩余分支 roles 缺 party 中某 roleId：该行跳过不崩，另一行正常",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/menu/draw-inventory.glm-phase1-leaves.test.ts",
+          "fullName": "L10 drawInventoryMenu 剩余分支 库存条目 itemId 不在 catalog 且被选中：label ?id（tofu 顶行）+ SELECTED_INACTIVE 0x1C",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/menu/draw-inventory.glm-phase1-leaves.test.ts",
+          "fullName": "L10 drawInventoryMenu 剩余分支 未知项与可用项混列：未知 0x18（未选中），可用项被选中 0xF9",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/menu/draw-inventory.glm-phase1-leaves.test.ts",
+          "fullName": "L10 drawInventoryMenu 剩余分支 use-target 相缺 gs/playerRoles：只画 list，不叠选人层（防御组合不崩）",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/menu/draw-player-status.glm-phase1-leaves.test.ts",
+          "fullName": "L11 drawPlayerStatus 剩余分支 runtimeOrBase：runtime 0 → 回退 base PlayerRoles 值（level/hp/maxHP/mp/maxMP）",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/menu/draw-player-status.glm-phase1-leaves.test.ts",
+          "fullName": "L11 drawPlayerStatus 剩余分支 runtime 有值优先于 base：hp 41 画 41 非 base 99",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/menu/draw-player-status.glm-phase1-leaves.test.ts",
+          "fullName": "L11 drawPlayerStatus 剩余分支 装备槽 itemId 不在 catalog：该槽图标与名字都跳过（不 `?id`，与 draw-equip 不同合同）",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/menu/draw-player-status.glm-phase1-leaves.test.ts",
+          "fullName": "L11 drawPlayerStatus 剩余分支 cursor 越界 / roles 缺 roleId：早退不画不崩",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/menu/draw-player-status.test.ts",
+          "fullName": "drawPlayerStatus 毒 row(uigame.c:1245-1253) level<=3 → 毒名画在 (185,58),色 = wColor+10",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/menu/draw-player-status.test.ts",
+          "fullName": "drawPlayerStatus 毒 row(uigame.c:1245-1253) level>3(高级/装备毒哨兵)→ 不画",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/menu/draw-player-status.test.ts",
+          "fullName": "drawPlayerStatus 毒 row(uigame.c:1245-1253) wPoisonID=0(无毒槽)→ 不画",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/__tests__/grok-present/p01-inventory-list.test.ts",
+          "fullName": "P01 物品列表 P01 非空列表把可用物品名、光标不透明0与透明孔画进真实Framebuffer",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/__tests__/grok-present/p01-inventory-list.test.ts",
+          "fullName": "P01 物品列表 P01 空列表不画物品名，光标仍停在默认格",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/__tests__/grok-present/p01-inventory-list.test.ts",
+          "fullName": "P01 物品列表 P01 多于一页后首页物品让出左上格，右移光标换到下一列",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/__tests__/grok-present/p01-inventory-list.test.ts",
+          "fullName": "P01 物品列表 P01 不可用、可用数量与已装备虚拟条目用不同色和数字",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/__tests__/grok-present/p02-inventory-target.test.ts",
+          "fullName": "P02 物品目标 P02 使用目标数量读gs现行库存而不是开菜单时的快照",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/__tests__/grok-present/p02-inventory-target.test.ts",
+          "fullName": "P02 物品目标 P02 两人队按队伍顺序显示姓名、当前HP与含装备的攻击",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/__tests__/grok-present/p02-inventory-target.test.ts",
+          "fullName": "P02 物品目标 P02 noDesc不关闭目标层，只省略物品描述",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/__tests__/grok-present/p03-equip.test.ts",
+          "fullName": "P03 装备绘制 P03 装备列表里不可装备项是暗色，可装备项保持可选色",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/__tests__/grok-present/p03-equip.test.ts",
+          "fullName": "P03 装备绘制 P03 选人页画出六槽名称、选中图标、数量、预览攻击和背景",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/__tests__/grok-present/p07-status.test.ts",
+          "fullName": "P07 角色状态 P07 非空装备、立绘、经验和HP按当前角色画出，绘制不改状态",
           "status": "passed"
         }
       ]

@@ -1,0 +1,220 @@
+{
+  "numTotalTestSuites": 2,
+  "numPassedTestSuites": 2,
+  "numFailedTestSuites": 0,
+  "numPendingTestSuites": 0,
+  "numTotalTests": 15,
+  "numPassedTests": 15,
+  "numFailedTests": 0,
+  "numPendingTests": 0,
+  "numTodoTests": 0,
+  "snapshot": {
+    "added": 0,
+    "failure": false,
+    "filesAdded": 0,
+    "filesRemoved": 0,
+    "filesRemovedList": [],
+    "filesUnmatched": 0,
+    "filesUpdated": 0,
+    "matched": 0,
+    "total": 0,
+    "unchecked": 0,
+    "uncheckedKeysByFile": [],
+    "unmatched": 0,
+    "updated": 0,
+    "didUpdate": false
+  },
+  "startTime": 1790872613874,
+  "success": true,
+  "testResults": [
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": [
+            "G06-D 状态数值与毒"
+          ],
+          "fullName": "G06-D 状态数值与毒 G06-D01 当前真气 12 为黄，真气上限 80 为蓝",
+          "status": "passed",
+          "title": "G06-D01 当前真气 12 为黄，真气上限 80 为蓝",
+          "duration": 11.005625000000009,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "G06-D 状态数值与毒"
+          ],
+          "fullName": "G06-D 状态数值与毒 G06-D02 武术是基础 20 加装备效果 3",
+          "status": "passed",
+          "title": "G06-D02 武术是基础 20 加装备效果 3",
+          "duration": 1.5266659999999774,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "G06-D 状态数值与毒"
+          ],
+          "fullName": "G06-D 状态数值与毒 G06-D03 灵力是基础 4 加装备效果 10",
+          "status": "passed",
+          "title": "G06-D03 灵力是基础 4 加装备效果 10",
+          "duration": 0.41250000000002274,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "G06-D 状态数值与毒"
+          ],
+          "fullName": "G06-D 状态数值与毒 G06-D04 防御数字在 y=142",
+          "status": "passed",
+          "title": "G06-D04 防御数字在 y=142",
+          "duration": 0.4500830000000633,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "G06-D 状态数值与毒"
+          ],
+          "fullName": "G06-D 状态数值与毒 G06-D05 身法数字在 y=162",
+          "status": "passed",
+          "title": "G06-D05 身法数字在 y=162",
+          "duration": 0.3526250000001028,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "G06-D 状态数值与毒"
+          ],
+          "fullName": "G06-D 状态数值与毒 G06-D06 吉运数字在 y=182",
+          "status": "passed",
+          "title": "G06-D06 吉运数字在 y=182",
+          "duration": 0.2491250000000491,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "G06-D 状态数值与毒"
+          ],
+          "fullName": "G06-D 状态数值与毒 G06-D07 经验斜杠坐标 (0,0) 不画，体力与真气斜杠照画",
+          "status": "passed",
+          "title": "G06-D07 经验斜杠坐标 (0,0) 不画，体力与真气斜杠照画",
+          "duration": 0.23683300000004692,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "G06-D 状态数值与毒"
+          ],
+          "fullName": "G06-D 状态数值与毒 G06-D08 缺少斜杠帧时体力数字仍在，斜杠位保持底色",
+          "status": "passed",
+          "title": "G06-D08 缺少斜杠帧时体力数字仍在，斜杠位保持底色",
+          "duration": 0.3267080000000533,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "G06-D 状态数值与毒"
+          ],
+          "fullName": "G06-D 状态数值与毒 G06-D09 未提供升级经验表时下一级只画一位青色 0，当前经验仍是 12",
+          "status": "passed",
+          "title": "G06-D09 未提供升级经验表时下一级只画一位青色 0，当前经验仍是 12",
+          "duration": 1.0797079999999823,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "G06-D 状态数值与毒"
+          ],
+          "fullName": "G06-D 状态数值与毒 G06-D10 毒等级等于 3 仍画出，颜色是 wColor 加 10",
+          "status": "passed",
+          "title": "G06-D10 毒等级等于 3 仍画出，颜色是 wColor 加 10",
+          "duration": 0.8721669999999904,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "G06-D 状态数值与毒"
+          ],
+          "fullName": "G06-D 状态数值与毒 G06-D11 空槽和等级大于 3 的毒不占显示行，下一毒上移到 y=76",
+          "status": "passed",
+          "title": "G06-D11 空槽和等级大于 3 的毒不占显示行，下一毒上移到 y=76",
+          "duration": 0.5049170000000913,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "G06-D 状态数值与毒"
+          ],
+          "fullName": "G06-D 状态数值与毒 G06-D12 第 11 条毒不再覆盖第 10 条的颜色",
+          "status": "passed",
+          "title": "G06-D12 第 11 条毒不再覆盖第 10 条的颜色",
+          "duration": 0.2839170000000877,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "G06-D 状态数值与毒"
+          ],
+          "fullName": "G06-D 状态数值与毒 G06-D13 第一槽 id 为 0 时跳过，第二槽画出装备名",
+          "status": "passed",
+          "title": "G06-D13 第一槽 id 为 0 时跳过，第二槽画出装备名",
+          "duration": 0.2412499999999227,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "G06-D 状态数值与毒"
+          ],
+          "fullName": "G06-D 状态数值与毒 G06-D14 物品在目录里但没有名字时，名字位画出 0xBE 的缺字框",
+          "status": "passed",
+          "title": "G06-D14 物品在目录里但没有名字时，名字位画出 0xBE 的缺字框",
+          "duration": 0.24404100000003837,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "G06-D 状态数值与毒"
+          ],
+          "fullName": "G06-D 状态数值与毒 G06-D15 没有立绘表时头像位保持底色，角色名仍是确认色",
+          "status": "passed",
+          "title": "G06-D15 没有立绘表时头像位保持底色，角色名仍是确认色",
+          "duration": 0.16837499999996908,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790872614764,
+      "endTime": 1790872614782.2441,
+      "status": "passed",
+      "message": "",
+      "name": "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/grok-r1-G06-D-JOwl1t/packages/game/src/present/menu/status-vitals-pixels.grok-r1.test.ts"
+    }
+  ]
+}

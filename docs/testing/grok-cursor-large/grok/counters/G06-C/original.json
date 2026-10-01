@@ -1,0 +1,172 @@
+{
+  "numTotalTestSuites": 2,
+  "numPassedTestSuites": 2,
+  "numFailedTestSuites": 0,
+  "numPendingTestSuites": 0,
+  "numTotalTests": 11,
+  "numPassedTests": 11,
+  "numFailedTests": 0,
+  "numPendingTests": 0,
+  "numTodoTests": 0,
+  "snapshot": {
+    "added": 0,
+    "failure": false,
+    "filesAdded": 0,
+    "filesRemoved": 0,
+    "filesRemovedList": [],
+    "filesUnmatched": 0,
+    "filesUpdated": 0,
+    "matched": 0,
+    "total": 0,
+    "unchecked": 0,
+    "uncheckedKeysByFile": [],
+    "unmatched": 0,
+    "updated": 0,
+    "didUpdate": false
+  },
+  "startTime": 1790872610243,
+  "success": true,
+  "testResults": [
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": [
+            "G06-C 装备选人像素"
+          ],
+          "fullName": "G06-C 装备选人像素 G06-C01 一人队伍仍画出一行内容框，底边在 y=111",
+          "status": "passed",
+          "title": "G06-C01 一人队伍仍画出一行内容框，底边在 y=111",
+          "duration": 2.5557500000001028,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "G06-C 装备选人像素"
+          ],
+          "fullName": "G06-C 装备选人像素 G06-C02 phase 为 done 时整屏保持底色",
+          "status": "passed",
+          "title": "G06-C02 phase 为 done 时整屏保持底色",
+          "duration": 5.340166999999951,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "G06-C 装备选人像素"
+          ],
+          "fullName": "G06-C 装备选人像素 G06-C03 selectedItemId 未定义时不铺装备背景",
+          "status": "passed",
+          "title": "G06-C03 selectedItemId 未定义时不铺装备背景",
+          "duration": 0.6161659999999074,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "G06-C 装备选人像素"
+          ],
+          "fullName": "G06-C 装备选人像素 G06-C04 选中 id 不在目录时同样不铺背景也不画图标",
+          "status": "passed",
+          "title": "G06-C04 选中 id 不在目录时同样不铺背景也不画图标",
+          "duration": 0.3284999999999627,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "G06-C 装备选人像素"
+          ],
+          "fullName": "G06-C 装备选人像素 G06-C05 角色光标越过队伍时图标已画，攻击数字不画",
+          "status": "passed",
+          "title": "G06-C05 角色光标越过队伍时图标已画，攻击数字不画",
+          "duration": 0.40625,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "G06-C 装备选人像素"
+          ],
+          "fullName": "G06-C 装备选人像素 G06-C06 现行数量为 0 时不画青色数字，物品名仍是确认色",
+          "status": "passed",
+          "title": "G06-C06 现行数量为 0 时不画青色数字，物品名仍是确认色",
+          "duration": 0.5807499999999663,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "G06-C 装备选人像素"
+          ],
+          "fullName": "G06-C 装备选人像素 G06-C07 灵力预览在 y=36，是基础加效果；武术行仍是武术值",
+          "status": "passed",
+          "title": "G06-C07 灵力预览在 y=36，是基础加效果；武术行仍是武术值",
+          "duration": 0.5165420000000722,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "G06-C 装备选人像素"
+          ],
+          "fullName": "G06-C 装备选人像素 G06-C08 防御预览在 y=58，取防御基础值",
+          "status": "passed",
+          "title": "G06-C08 防御预览在 y=58，取防御基础值",
+          "duration": 0.30670899999995527,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "G06-C 装备选人像素"
+          ],
+          "fullName": "G06-C 装备选人像素 G06-C09 身法为一位数时只画个位，高位保持底色",
+          "status": "passed",
+          "title": "G06-C09 身法为一位数时只画个位，高位保持底色",
+          "duration": 0.5715420000000222,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "G06-C 装备选人像素"
+          ],
+          "fullName": "G06-C 装备选人像素 G06-C10 吉运预览在 y=102",
+          "status": "passed",
+          "title": "G06-C10 吉运预览在 y=102",
+          "duration": 0.28137500000002547,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "G06-C 装备选人像素"
+          ],
+          "fullName": "G06-C 装备选人像素 G06-C11 数量读 gs 现行库存 8，列表快照仍是确认时的 3",
+          "status": "passed",
+          "title": "G06-C11 数量读 gs 现行库存 8，列表快照仍是确认时的 3",
+          "duration": 3.2140419999999494,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790872611267,
+      "endTime": 1790872611282.214,
+      "status": "passed",
+      "message": "",
+      "name": "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/grok-r1-G06-C-UrygaN/packages/game/src/present/menu/equip-role-pixels.grok-r1.test.ts"
+    }
+  ]
+}

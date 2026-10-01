@@ -1,0 +1,160 @@
+{
+  "numTotalTestSuites": 2,
+  "numPassedTestSuites": 2,
+  "numFailedTestSuites": 0,
+  "numPendingTestSuites": 0,
+  "numTotalTests": 10,
+  "numPassedTests": 10,
+  "numFailedTests": 0,
+  "numPendingTests": 0,
+  "numTodoTests": 0,
+  "snapshot": {
+    "added": 0,
+    "failure": false,
+    "filesAdded": 0,
+    "filesRemoved": 0,
+    "filesRemovedList": [],
+    "filesUnmatched": 0,
+    "filesUpdated": 0,
+    "matched": 0,
+    "total": 0,
+    "unchecked": 0,
+    "uncheckedKeysByFile": [],
+    "unmatched": 0,
+    "updated": 0,
+    "didUpdate": false
+  },
+  "startTime": 1790872606404,
+  "success": true,
+  "testResults": [
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": [
+            "G06-B 物品描述与过滤"
+          ],
+          "fullName": "G06-B 物品描述与过滤 G06-B01 第二条描述在 y=167，第一条仍在 y=151",
+          "status": "passed",
+          "title": "G06-B01 第二条描述在 y=167，第一条仍在 y=151",
+          "duration": 2.9942909999999756,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "G06-B 物品描述与过滤"
+          ],
+          "fullName": "G06-B 物品描述与过滤 G06-B02 scriptDesc 为 0 时不画 L_0 上的描述，物品名照画",
+          "status": "passed",
+          "title": "G06-B02 scriptDesc 为 0 时不画 L_0 上的描述，物品名照画",
+          "duration": 6.873499999999922,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "G06-B 物品描述与过滤"
+          ],
+          "fullName": "G06-B 物品描述与过滤 G06-B03 列表相 noDesc 为真时省略描述，选中名仍在",
+          "status": "passed",
+          "title": "G06-B03 列表相 noDesc 为真时省略描述，选中名仍在",
+          "duration": 0.8551249999998163,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "G06-B 物品描述与过滤"
+          ],
+          "fullName": "G06-B 物品描述与过滤 G06-B04 描述跟光标上的物品走，不画另一件的脚本",
+          "status": "passed",
+          "title": "G06-B04 描述跟光标上的物品走，不画另一件的脚本",
+          "duration": 1.3038329999999405,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "G06-B 物品描述与过滤"
+          ],
+          "fullName": "G06-B 物品描述与过滤 G06-B05 sellable 过滤把可卖项画成可选色，不可卖项画成暗色",
+          "status": "passed",
+          "title": "G06-B05 sellable 过滤把可卖项画成可选色，不可卖项画成暗色",
+          "duration": 0.9345410000000811,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "G06-B 物品描述与过滤"
+          ],
+          "fullName": "G06-B 物品描述与过滤 G06-B06 第三列数量起点含两格 100 像素，个位落在 x=302",
+          "status": "passed",
+          "title": "G06-B06 第三列数量起点含两格 100 像素，个位落在 x=302",
+          "duration": 1.099666999999954,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "G06-B 物品描述与过滤"
+          ],
+          "fullName": "G06-B 物品描述与过滤 G06-B07 potion 过滤只把可用且非投掷的物品画成可选色",
+          "status": "passed",
+          "title": "G06-B07 potion 过滤只把可用且非投掷的物品画成可选色",
+          "duration": 0.2850839999998698,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "G06-B 物品描述与过滤"
+          ],
+          "fullName": "G06-B 物品描述与过滤 G06-B08 important 过滤把可卖物品画成暗色，不可卖且不可装备的画成可选色",
+          "status": "passed",
+          "title": "G06-B08 important 过滤把可卖物品画成暗色，不可卖且不可装备的画成可选色",
+          "duration": 0.2259999999998854,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "G06-B 物品描述与过滤"
+          ],
+          "fullName": "G06-B 物品描述与过滤 G06-B09 件数等于占用且不为 0 时选中项是暗选色，不是已装备色",
+          "status": "passed",
+          "title": "G06-B09 件数等于占用且不为 0 时选中项是暗选色，不是已装备色",
+          "duration": 0.8285000000000764,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "G06-B 物品描述与过滤"
+          ],
+          "fullName": "G06-B 物品描述与过滤 G06-B10 差额 10 在第一列同时画出青色十位和个位",
+          "status": "passed",
+          "title": "G06-B10 差额 10 在第一列同时画出青色十位和个位",
+          "duration": 0.3385410000000775,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790872607588,
+      "endTime": 1790872607603.8286,
+      "status": "passed",
+      "message": "",
+      "name": "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/grok-r1-G06-B-0FtAzE/packages/game/src/present/menu/inventory-desc-filter.grok-r1.test.ts"
+    }
+  ]
+}

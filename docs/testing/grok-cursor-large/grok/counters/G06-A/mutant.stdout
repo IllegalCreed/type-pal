@@ -1,0 +1,23 @@
+
+ RUN  v4.1.7 /private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/grok-r1-G06-A-ymC8zH/packages/game
+
+ × src/present/menu/inventory-list-pixels.grok-r1.test.ts > G06-A 物品列表像素 > G06-A01 物品框阴影把底色 0x5A 的低四位右移一位，正色框仍在 (0,140) 17ms
+   → expected 82 to be 85 // Object.is equality
+ ✓ src/present/menu/inventory-list-pixels.grok-r1.test.ts > G06-A 物品列表像素 > G06-A02 差额等于 1 时不画青色数量，选中名仍用闪烁色 3ms
+ ✓ src/present/menu/inventory-list-pixels.grok-r1.test.ts > G06-A 物品列表像素 > G06-A03 列表数量用 count 减 inUse，4 件占用 2 件只画青色 2 5ms
+ ✓ src/present/menu/inventory-list-pixels.grok-r1.test.ts > G06-A 物品列表像素 > G06-A04 图标表没有 bitmap 时图标位保持底色，物品框照画 1ms
+ ✓ src/present/menu/inventory-list-pixels.grok-r1.test.ts > G06-A 物品列表像素 > G06-A05 缺少光标帧 69 时名字照画，光标位留着列表框色 1ms
+ ✓ src/present/menu/inventory-list-pixels.grok-r1.test.ts > G06-A 物品列表像素 > G06-A06 用物层现行数量为 0 时不画青色数字，物品名仍是 0xBE 3ms
+ ✓ src/present/menu/inventory-list-pixels.grok-r1.test.ts > G06-A 物品列表像素 > G06-A07 用物层选中 id 不在目录时不画属性标签，列表名仍在 2ms
+ ✓ src/present/menu/inventory-list-pixels.grok-r1.test.ts > G06-A 物品列表像素 > G06-A08 用物层光标越过队伍时不画体力，队员名仍按未选中色画出 1ms
+ ✓ src/present/menu/inventory-list-pixels.grok-r1.test.ts > G06-A 物品列表像素 > G06-A09 缺少斜杠帧 39 时体力数字仍在，斜杠位保持底色 1ms
+ ✓ src/present/menu/inventory-list-pixels.grok-r1.test.ts > G06-A 物品列表像素 > G06-A10 过滤为 all 时 usable 为假的物品仍按可选色画，不进暗色 0ms
+ ✓ src/present/menu/inventory-list-pixels.grok-r1.test.ts > G06-A 物品列表像素 > G06-A11 用物层灵力是基础加装备效果，武术行仍是武术值 0ms
+ ✓ src/present/menu/inventory-list-pixels.grok-r1.test.ts > G06-A 物品列表像素 > G06-A12 物品框索引 0x6E 经 flushToCanvas 写成调色板 RGB，缓冲仍是 0x6E 163ms
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 11 passed (12)
+   Start at  01:36:42
+   Duration  1.72s (transform 684ms, setup 43ms, import 782ms, tests 198ms, environment 589ms)
+
+JSON report written to /var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/grok-r1-G06-A-ymC8zH/mutant.json

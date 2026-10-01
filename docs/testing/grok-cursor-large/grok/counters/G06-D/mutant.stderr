@@ -1,0 +1,21 @@
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/present/menu/status-vitals-pixels.grok-r1.test.ts > G06-D 状态数值与毒 > G06-D10 毒等级等于 3 仍画出，颜色是 wColor 加 10
+AssertionError: expected 90 to be 25 // Object.is equality
+
+- Expected
++ Received
+
+- 25
++ 90
+
+ ❯ src/present/menu/status-vitals-pixels.grok-r1.test.ts:255:32
+    253|       objectPoisons: new Map([[7, { level: 3, color: 15 }]]),
+    254|     })
+    255|     expect(pixel(fb, 185, 58)).toBe(25)
+       |                                ^
+    256|     expect(pixel(fb, 185, 58)).not.toBe(SENTINEL)
+    257|   })
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯

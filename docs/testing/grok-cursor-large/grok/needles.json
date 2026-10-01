@@ -198,5 +198,45 @@
     "testFile": "src/present/dialog-box-chrome.grok-r1.test.ts",
     "target": "G05-D01",
     "axis": "等键图标忽略右括号和左括号选出的帧号"
+  },
+  {
+    "id": "G06-A",
+    "batch": "G06",
+    "source": "packages/game/src/present/menu/draw-inventory.ts",
+    "from": "        fb.writePixel(fbX, fbY, (cur & 0xf0) | ((cur & 0x0f) >> 1))",
+    "to": "        fb.writePixel(fbX, fbY, (cur & 0xf0) | ((cur & 0x0f) >> 2))",
+    "testFile": "src/present/menu/inventory-list-pixels.grok-r1.test.ts",
+    "target": "G06-A01",
+    "axis": "物品框阴影把底色低四位右移两位"
+  },
+  {
+    "id": "G06-B",
+    "batch": "G06",
+    "source": "packages/game/src/present/menu/draw-inventory.ts",
+    "from": "71, 151 + li * 16, DESCTEXT_COLOR",
+    "to": "71, 151 + li * 17, DESCTEXT_COLOR",
+    "testFile": "src/present/menu/inventory-desc-filter.grok-r1.test.ts",
+    "target": "G06-B01",
+    "axis": "第二条物品描述的行距从 16 像素改成 17 像素"
+  },
+  {
+    "id": "G06-C",
+    "batch": "G06",
+    "source": "packages/game/src/present/menu/draw-equip.ts",
+    "from": "    rows: Math.max(1, state.partyMembers.length - 1),",
+    "to": "    rows: state.partyMembers.length - 1,",
+    "testFile": "src/present/menu/equip-role-pixels.grok-r1.test.ts",
+    "target": "G06-C01",
+    "axis": "一人队伍不再保底画出一行选人框"
+  },
+  {
+    "id": "G06-D",
+    "batch": "G06",
+    "source": "packages/game/src/present/menu/draw-player-status.ts",
+    "from": "if (!pd || pd.level > 3) continue",
+    "to": "if (!pd || pd.level >= 3) continue",
+    "testFile": "src/present/menu/status-vitals-pixels.grok-r1.test.ts",
+    "target": "G06-D10",
+    "axis": "毒等级等于 3 时不再显示"
   }
 ]

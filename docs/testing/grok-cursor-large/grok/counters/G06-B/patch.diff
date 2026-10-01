@@ -1,0 +1,10 @@
+--- a/packages/game/src/present/menu/draw-inventory.ts
++++ b/packages/game/src/present/menu/draw-inventory.ts
+@@ -376,6 +376,6 @@
+     const sid = (curItem as { scriptDesc?: number } | undefined)?.scriptDesc ?? 0
+     const lines = getScriptDescLines(sid)
+     for (let li = 0; li < lines.length; li++) {
+-      renderText(fb, lines[li]!, 71, 151 + li * 16, DESCTEXT_COLOR, glyphs, true)
++      renderText(fb, lines[li]!, 71, 151 + li * 17, DESCTEXT_COLOR, glyphs, true)
+     }
+   }

@@ -1,6 +1,6 @@
 {
-  "batch": "G05",
-  "acceptedCounters": 20,
+  "batch": "G06",
+  "acceptedCounters": 24,
   "probeRejected": true,
   "counters": [
     {
@@ -2846,6 +2846,450 @@
         "docs/testing/grok-cursor-large/grok/counters/G05-D/restored.json",
         "docs/testing/grok-cursor-large/grok/counters/G05-D/restored.stdout",
         "docs/testing/grok-cursor-large/grok/counters/G05-D/restored.stderr"
+      ]
+    },
+    {
+      "id": "G06-A",
+      "batch": "G06",
+      "accepted": true,
+      "reasons": [],
+      "axis": "物品框阴影把底色低四位右移两位",
+      "source": "packages/game/src/present/menu/draw-inventory.ts",
+      "testFile": "src/present/menu/inventory-list-pixels.grok-r1.test.ts",
+      "target": "G06-A01",
+      "targetFullName": "G06-A 物品列表像素 G06-A01 物品框阴影把底色 0x5A 的低四位右移一位，正色框仍在 (0,140)",
+      "assertionError": "AssertionError: expected 82 to be 85 // Object.is equality",
+      "sha256": {
+        "original": "5eddb467417c86a6ad632f197a287ddc2995f613d7a0e0c8afe175af49668f03",
+        "mutant": "d74967c8c7c876126f443d6a9e132dd1b71151dc8bf8b3aa6fdc96e00a571757",
+        "restored": "5eddb467417c86a6ad632f197a287ddc2995f613d7a0e0c8afe175af49668f03"
+      },
+      "exitCode": {
+        "original": 0,
+        "mutant": 1,
+        "restored": 0
+      },
+      "signal": {
+        "original": null,
+        "mutant": null,
+        "restored": null
+      },
+      "counts": {
+        "original": 12,
+        "mutantFailed": 1,
+        "restored": 12
+      },
+      "executionCount": 12,
+      "executions": [
+        {
+          "file": "src/present/menu/inventory-list-pixels.grok-r1.test.ts",
+          "fullName": "G06-A 物品列表像素 G06-A01 物品框阴影把底色 0x5A 的低四位右移一位，正色框仍在 (0,140)",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/menu/inventory-list-pixels.grok-r1.test.ts",
+          "fullName": "G06-A 物品列表像素 G06-A02 差额等于 1 时不画青色数量，选中名仍用闪烁色",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/menu/inventory-list-pixels.grok-r1.test.ts",
+          "fullName": "G06-A 物品列表像素 G06-A03 列表数量用 count 减 inUse，4 件占用 2 件只画青色 2",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/menu/inventory-list-pixels.grok-r1.test.ts",
+          "fullName": "G06-A 物品列表像素 G06-A04 图标表没有 bitmap 时图标位保持底色，物品框照画",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/menu/inventory-list-pixels.grok-r1.test.ts",
+          "fullName": "G06-A 物品列表像素 G06-A05 缺少光标帧 69 时名字照画，光标位留着列表框色",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/menu/inventory-list-pixels.grok-r1.test.ts",
+          "fullName": "G06-A 物品列表像素 G06-A06 用物层现行数量为 0 时不画青色数字，物品名仍是 0xBE",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/menu/inventory-list-pixels.grok-r1.test.ts",
+          "fullName": "G06-A 物品列表像素 G06-A07 用物层选中 id 不在目录时不画属性标签，列表名仍在",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/menu/inventory-list-pixels.grok-r1.test.ts",
+          "fullName": "G06-A 物品列表像素 G06-A08 用物层光标越过队伍时不画体力，队员名仍按未选中色画出",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/menu/inventory-list-pixels.grok-r1.test.ts",
+          "fullName": "G06-A 物品列表像素 G06-A09 缺少斜杠帧 39 时体力数字仍在，斜杠位保持底色",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/menu/inventory-list-pixels.grok-r1.test.ts",
+          "fullName": "G06-A 物品列表像素 G06-A10 过滤为 all 时 usable 为假的物品仍按可选色画，不进暗色",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/menu/inventory-list-pixels.grok-r1.test.ts",
+          "fullName": "G06-A 物品列表像素 G06-A11 用物层灵力是基础加装备效果，武术行仍是武术值",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/menu/inventory-list-pixels.grok-r1.test.ts",
+          "fullName": "G06-A 物品列表像素 G06-A12 物品框索引 0x6E 经 flushToCanvas 写成调色板 RGB，缓冲仍是 0x6E",
+          "status": "passed"
+        }
+      ],
+      "patch": {
+        "path": "docs/testing/grok-cursor-large/grok/counters/G06-A/patch.diff",
+        "sha256": "b1a82ea6f3016ecf0423d3727064b8d19d7b94e31f65da5a8105b314fd6cbd48",
+        "bytes": 453
+      },
+      "logs": [
+        "docs/testing/grok-cursor-large/grok/counters/G06-A/original.json",
+        "docs/testing/grok-cursor-large/grok/counters/G06-A/original.stdout",
+        "docs/testing/grok-cursor-large/grok/counters/G06-A/original.stderr",
+        "docs/testing/grok-cursor-large/grok/counters/G06-A/mutant.json",
+        "docs/testing/grok-cursor-large/grok/counters/G06-A/mutant.stdout",
+        "docs/testing/grok-cursor-large/grok/counters/G06-A/mutant.stderr",
+        "docs/testing/grok-cursor-large/grok/counters/G06-A/restored.json",
+        "docs/testing/grok-cursor-large/grok/counters/G06-A/restored.stdout",
+        "docs/testing/grok-cursor-large/grok/counters/G06-A/restored.stderr"
+      ]
+    },
+    {
+      "id": "G06-B",
+      "batch": "G06",
+      "accepted": true,
+      "reasons": [],
+      "axis": "第二条物品描述的行距从 16 像素改成 17 像素",
+      "source": "packages/game/src/present/menu/draw-inventory.ts",
+      "testFile": "src/present/menu/inventory-desc-filter.grok-r1.test.ts",
+      "target": "G06-B01",
+      "targetFullName": "G06-B 物品描述与过滤 G06-B01 第二条描述在 y=167，第一条仍在 y=151",
+      "assertionError": "AssertionError: expected 90 to be 60 // Object.is equality",
+      "sha256": {
+        "original": "5eddb467417c86a6ad632f197a287ddc2995f613d7a0e0c8afe175af49668f03",
+        "mutant": "6a90336f0803f1ce66f6179181f6af97e60334c2d86a803ae927a4728f6f8450",
+        "restored": "5eddb467417c86a6ad632f197a287ddc2995f613d7a0e0c8afe175af49668f03"
+      },
+      "exitCode": {
+        "original": 0,
+        "mutant": 1,
+        "restored": 0
+      },
+      "signal": {
+        "original": null,
+        "mutant": null,
+        "restored": null
+      },
+      "counts": {
+        "original": 10,
+        "mutantFailed": 1,
+        "restored": 10
+      },
+      "executionCount": 10,
+      "executions": [
+        {
+          "file": "src/present/menu/inventory-desc-filter.grok-r1.test.ts",
+          "fullName": "G06-B 物品描述与过滤 G06-B01 第二条描述在 y=167，第一条仍在 y=151",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/menu/inventory-desc-filter.grok-r1.test.ts",
+          "fullName": "G06-B 物品描述与过滤 G06-B02 scriptDesc 为 0 时不画 L_0 上的描述，物品名照画",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/menu/inventory-desc-filter.grok-r1.test.ts",
+          "fullName": "G06-B 物品描述与过滤 G06-B03 列表相 noDesc 为真时省略描述，选中名仍在",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/menu/inventory-desc-filter.grok-r1.test.ts",
+          "fullName": "G06-B 物品描述与过滤 G06-B04 描述跟光标上的物品走，不画另一件的脚本",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/menu/inventory-desc-filter.grok-r1.test.ts",
+          "fullName": "G06-B 物品描述与过滤 G06-B05 sellable 过滤把可卖项画成可选色，不可卖项画成暗色",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/menu/inventory-desc-filter.grok-r1.test.ts",
+          "fullName": "G06-B 物品描述与过滤 G06-B06 第三列数量起点含两格 100 像素，个位落在 x=302",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/menu/inventory-desc-filter.grok-r1.test.ts",
+          "fullName": "G06-B 物品描述与过滤 G06-B07 potion 过滤只把可用且非投掷的物品画成可选色",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/menu/inventory-desc-filter.grok-r1.test.ts",
+          "fullName": "G06-B 物品描述与过滤 G06-B08 important 过滤把可卖物品画成暗色，不可卖且不可装备的画成可选色",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/menu/inventory-desc-filter.grok-r1.test.ts",
+          "fullName": "G06-B 物品描述与过滤 G06-B09 件数等于占用且不为 0 时选中项是暗选色，不是已装备色",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/menu/inventory-desc-filter.grok-r1.test.ts",
+          "fullName": "G06-B 物品描述与过滤 G06-B10 差额 10 在第一列同时画出青色十位和个位",
+          "status": "passed"
+        }
+      ],
+      "patch": {
+        "path": "docs/testing/grok-cursor-large/grok/counters/G06-B/patch.diff",
+        "sha256": "050bf4cca3aed522adecb5f1e67d6a2ae53eadb2e9f9a697225e8dbb9f3caa47",
+        "bytes": 483
+      },
+      "logs": [
+        "docs/testing/grok-cursor-large/grok/counters/G06-B/original.json",
+        "docs/testing/grok-cursor-large/grok/counters/G06-B/original.stdout",
+        "docs/testing/grok-cursor-large/grok/counters/G06-B/original.stderr",
+        "docs/testing/grok-cursor-large/grok/counters/G06-B/mutant.json",
+        "docs/testing/grok-cursor-large/grok/counters/G06-B/mutant.stdout",
+        "docs/testing/grok-cursor-large/grok/counters/G06-B/mutant.stderr",
+        "docs/testing/grok-cursor-large/grok/counters/G06-B/restored.json",
+        "docs/testing/grok-cursor-large/grok/counters/G06-B/restored.stdout",
+        "docs/testing/grok-cursor-large/grok/counters/G06-B/restored.stderr"
+      ]
+    },
+    {
+      "id": "G06-C",
+      "batch": "G06",
+      "accepted": true,
+      "reasons": [],
+      "axis": "一人队伍不再保底画出一行选人框",
+      "source": "packages/game/src/present/menu/draw-equip.ts",
+      "testFile": "src/present/menu/equip-role-pixels.grok-r1.test.ts",
+      "target": "G06-C01",
+      "targetFullName": "G06-C 装备选人像素 G06-C01 一人队伍仍画出一行内容框，底边在 y=111",
+      "assertionError": "AssertionError: expected 90 to be 17 // Object.is equality",
+      "sha256": {
+        "original": "1a848a399adc95b4be61a767e63c8e08ff4343851566fc21ec7355c66aeb55db",
+        "mutant": "9f6947d162e629fbcd96ce6b80c7fe97971e422aae2aab4f2d3022aa9d65441d",
+        "restored": "1a848a399adc95b4be61a767e63c8e08ff4343851566fc21ec7355c66aeb55db"
+      },
+      "exitCode": {
+        "original": 0,
+        "mutant": 1,
+        "restored": 0
+      },
+      "signal": {
+        "original": null,
+        "mutant": null,
+        "restored": null
+      },
+      "counts": {
+        "original": 11,
+        "mutantFailed": 1,
+        "restored": 11
+      },
+      "executionCount": 11,
+      "executions": [
+        {
+          "file": "src/present/menu/equip-role-pixels.grok-r1.test.ts",
+          "fullName": "G06-C 装备选人像素 G06-C01 一人队伍仍画出一行内容框，底边在 y=111",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/menu/equip-role-pixels.grok-r1.test.ts",
+          "fullName": "G06-C 装备选人像素 G06-C02 phase 为 done 时整屏保持底色",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/menu/equip-role-pixels.grok-r1.test.ts",
+          "fullName": "G06-C 装备选人像素 G06-C03 selectedItemId 未定义时不铺装备背景",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/menu/equip-role-pixels.grok-r1.test.ts",
+          "fullName": "G06-C 装备选人像素 G06-C04 选中 id 不在目录时同样不铺背景也不画图标",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/menu/equip-role-pixels.grok-r1.test.ts",
+          "fullName": "G06-C 装备选人像素 G06-C05 角色光标越过队伍时图标已画，攻击数字不画",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/menu/equip-role-pixels.grok-r1.test.ts",
+          "fullName": "G06-C 装备选人像素 G06-C06 现行数量为 0 时不画青色数字，物品名仍是确认色",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/menu/equip-role-pixels.grok-r1.test.ts",
+          "fullName": "G06-C 装备选人像素 G06-C07 灵力预览在 y=36，是基础加效果；武术行仍是武术值",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/menu/equip-role-pixels.grok-r1.test.ts",
+          "fullName": "G06-C 装备选人像素 G06-C08 防御预览在 y=58，取防御基础值",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/menu/equip-role-pixels.grok-r1.test.ts",
+          "fullName": "G06-C 装备选人像素 G06-C09 身法为一位数时只画个位，高位保持底色",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/menu/equip-role-pixels.grok-r1.test.ts",
+          "fullName": "G06-C 装备选人像素 G06-C10 吉运预览在 y=102",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/menu/equip-role-pixels.grok-r1.test.ts",
+          "fullName": "G06-C 装备选人像素 G06-C11 数量读 gs 现行库存 8，列表快照仍是确认时的 3",
+          "status": "passed"
+        }
+      ],
+      "patch": {
+        "path": "docs/testing/grok-cursor-large/grok/counters/G06-C/patch.diff",
+        "sha256": "66164efd314f1cd63b2575be52f954c0bf3abe5c8dd73a872012289f35026f0d",
+        "bytes": 557
+      },
+      "logs": [
+        "docs/testing/grok-cursor-large/grok/counters/G06-C/original.json",
+        "docs/testing/grok-cursor-large/grok/counters/G06-C/original.stdout",
+        "docs/testing/grok-cursor-large/grok/counters/G06-C/original.stderr",
+        "docs/testing/grok-cursor-large/grok/counters/G06-C/mutant.json",
+        "docs/testing/grok-cursor-large/grok/counters/G06-C/mutant.stdout",
+        "docs/testing/grok-cursor-large/grok/counters/G06-C/mutant.stderr",
+        "docs/testing/grok-cursor-large/grok/counters/G06-C/restored.json",
+        "docs/testing/grok-cursor-large/grok/counters/G06-C/restored.stdout",
+        "docs/testing/grok-cursor-large/grok/counters/G06-C/restored.stderr"
+      ]
+    },
+    {
+      "id": "G06-D",
+      "batch": "G06",
+      "accepted": true,
+      "reasons": [],
+      "axis": "毒等级等于 3 时不再显示",
+      "source": "packages/game/src/present/menu/draw-player-status.ts",
+      "testFile": "src/present/menu/status-vitals-pixels.grok-r1.test.ts",
+      "target": "G06-D10",
+      "targetFullName": "G06-D 状态数值与毒 G06-D10 毒等级等于 3 仍画出，颜色是 wColor 加 10",
+      "assertionError": "AssertionError: expected 90 to be 25 // Object.is equality",
+      "sha256": {
+        "original": "0318fcf76daa1ade0e7556cb946714603df5459f2e78300af3937ea0788278d0",
+        "mutant": "64bd6d4e0db9488693e60106ea4c3b07d3c8808382c253d11572709dbf7c27c3",
+        "restored": "0318fcf76daa1ade0e7556cb946714603df5459f2e78300af3937ea0788278d0"
+      },
+      "exitCode": {
+        "original": 0,
+        "mutant": 1,
+        "restored": 0
+      },
+      "signal": {
+        "original": null,
+        "mutant": null,
+        "restored": null
+      },
+      "counts": {
+        "original": 15,
+        "mutantFailed": 1,
+        "restored": 15
+      },
+      "executionCount": 15,
+      "executions": [
+        {
+          "file": "src/present/menu/status-vitals-pixels.grok-r1.test.ts",
+          "fullName": "G06-D 状态数值与毒 G06-D01 当前真气 12 为黄，真气上限 80 为蓝",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/menu/status-vitals-pixels.grok-r1.test.ts",
+          "fullName": "G06-D 状态数值与毒 G06-D02 武术是基础 20 加装备效果 3",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/menu/status-vitals-pixels.grok-r1.test.ts",
+          "fullName": "G06-D 状态数值与毒 G06-D03 灵力是基础 4 加装备效果 10",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/menu/status-vitals-pixels.grok-r1.test.ts",
+          "fullName": "G06-D 状态数值与毒 G06-D04 防御数字在 y=142",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/menu/status-vitals-pixels.grok-r1.test.ts",
+          "fullName": "G06-D 状态数值与毒 G06-D05 身法数字在 y=162",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/menu/status-vitals-pixels.grok-r1.test.ts",
+          "fullName": "G06-D 状态数值与毒 G06-D06 吉运数字在 y=182",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/menu/status-vitals-pixels.grok-r1.test.ts",
+          "fullName": "G06-D 状态数值与毒 G06-D07 经验斜杠坐标 (0,0) 不画，体力与真气斜杠照画",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/menu/status-vitals-pixels.grok-r1.test.ts",
+          "fullName": "G06-D 状态数值与毒 G06-D08 缺少斜杠帧时体力数字仍在，斜杠位保持底色",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/menu/status-vitals-pixels.grok-r1.test.ts",
+          "fullName": "G06-D 状态数值与毒 G06-D09 未提供升级经验表时下一级只画一位青色 0，当前经验仍是 12",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/menu/status-vitals-pixels.grok-r1.test.ts",
+          "fullName": "G06-D 状态数值与毒 G06-D10 毒等级等于 3 仍画出，颜色是 wColor 加 10",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/menu/status-vitals-pixels.grok-r1.test.ts",
+          "fullName": "G06-D 状态数值与毒 G06-D11 空槽和等级大于 3 的毒不占显示行，下一毒上移到 y=76",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/menu/status-vitals-pixels.grok-r1.test.ts",
+          "fullName": "G06-D 状态数值与毒 G06-D12 第 11 条毒不再覆盖第 10 条的颜色",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/menu/status-vitals-pixels.grok-r1.test.ts",
+          "fullName": "G06-D 状态数值与毒 G06-D13 第一槽 id 为 0 时跳过，第二槽画出装备名",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/menu/status-vitals-pixels.grok-r1.test.ts",
+          "fullName": "G06-D 状态数值与毒 G06-D14 物品在目录里但没有名字时，名字位画出 0xBE 的缺字框",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/menu/status-vitals-pixels.grok-r1.test.ts",
+          "fullName": "G06-D 状态数值与毒 G06-D15 没有立绘表时头像位保持底色，角色名仍是确认色",
+          "status": "passed"
+        }
+      ],
+      "patch": {
+        "path": "docs/testing/grok-cursor-large/grok/counters/G06-D/patch.diff",
+        "sha256": "419a4eff56951c231bb7453cfde2f27125f79cc48b8ea83827f9513116824d4d",
+        "bytes": 670
+      },
+      "logs": [
+        "docs/testing/grok-cursor-large/grok/counters/G06-D/original.json",
+        "docs/testing/grok-cursor-large/grok/counters/G06-D/original.stdout",
+        "docs/testing/grok-cursor-large/grok/counters/G06-D/original.stderr",
+        "docs/testing/grok-cursor-large/grok/counters/G06-D/mutant.json",
+        "docs/testing/grok-cursor-large/grok/counters/G06-D/mutant.stdout",
+        "docs/testing/grok-cursor-large/grok/counters/G06-D/mutant.stderr",
+        "docs/testing/grok-cursor-large/grok/counters/G06-D/restored.json",
+        "docs/testing/grok-cursor-large/grok/counters/G06-D/restored.stdout",
+        "docs/testing/grok-cursor-large/grok/counters/G06-D/restored.stderr"
       ]
     }
   ]

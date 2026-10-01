@@ -1,8 +1,8 @@
 {
-  "batch": "G05",
-  "count": 181,
-  "batchCount": 43,
-  "cumulativeNewContracts": 181,
+  "batch": "G06",
+  "count": 229,
+  "batchCount": 48,
+  "cumulativeNewContracts": 229,
   "target": 400,
   "contracts": [
     {
@@ -9875,6 +9875,2624 @@
         "fullName": "G05-D dialog 图标物品框与旁白 G05-D13 物品框占位矩形是 (8,80,304,48)",
         "status": "passed"
       }
+    },
+    {
+      "id": "G06-A01",
+      "batch": "G06",
+      "group": "G06-A",
+      "primarySource": {
+        "file": "packages/game/src/present/menu/draw-inventory.ts",
+        "conditionLine": 96,
+        "condition": "物品框阴影把当前位置低四位右移一位：(cur & 0xf0) | ((cur & 0x0f) >> 1)（draw-inventory.ts:96）"
+      },
+      "caller": {
+        "file": "packages/game/src/present/menu/draw-menu.ts",
+        "line": 147,
+        "expr": "drawInventoryMenu({ fb, state: entry.state as InventoryMenuState, items: extra?.items ?? [], uiSpriteFrames, itemIcons, glyphs, gs, playerRoles })"
+      },
+      "legalInput": "底色填 0x5A。一件可用物品甲，count 1，filter all。物品框帧在索引 70，阴影落在 (5,145)，正色框在 (0,140)。freezeNow(0)。",
+      "oldTest": {
+        "sha": "8904a1fa294ea8cb5cca55e7ad5ccf133ae87794",
+        "file": "packages/game/src/present/__tests__/grok-present/p01-inventory-list.test.ts",
+        "fullName": "P01 物品列表 P01 非空列表把可用物品名、光标不透明0与透明孔画进真实Framebuffer",
+        "assertionLine": 85,
+        "matcher": "toBe",
+        "checked": "(0,140) 是 ITEMBOX_ID，不读阴影像素",
+        "distinct": "旧断言锁正色框，不计算 0x5A 低四位右移后的 0x55"
+      },
+      "file": "packages/game/src/present/menu/inventory-list-pixels.grok-r1.test.ts",
+      "fullName": "G06-A 物品列表像素 G06-A01 物品框阴影把底色 0x5A 的低四位右移一位，正色框仍在 (0,140)",
+      "assertions": [
+        {
+          "line": 79,
+          "endLine": 79,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 80,
+          "endLine": 80,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 81,
+          "endLine": 81,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 82,
+          "endLine": 82,
+          "matchers": ["toEqual"]
+        }
+      ],
+      "axis": "positive",
+      "oracle": {
+        "operands": "(5,145)、(6,145)、(0,140)，以及绘制前后的输入快照",
+        "matcher": "toBe / toEqual",
+        "exact": "(5,145) 为 85；(6,145) 为 90；(0,140) 为 110；输入快照不变"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/present/menu/inventory-list-pixels.grok-r1.test.ts",
+        "fullName": "G06-A 物品列表像素 G06-A01 物品框阴影把底色 0x5A 的低四位右移一位，正色框仍在 (0,140)",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G06-A02",
+      "batch": "G06",
+      "group": "G06-A",
+      "primarySource": {
+        "file": "packages/game/src/present/menu/draw-inventory.ts",
+        "conditionLine": 345,
+        "condition": "列表数量只在 diff > 1 时绘制（draw-inventory.ts:345）"
+      },
+      "caller": {
+        "file": "packages/game/src/present/menu/draw-menu.ts",
+        "line": 147,
+        "expr": "drawInventoryMenu({ fb, state: entry.state as InventoryMenuState, items: extra?.items ?? [], uiSpriteFrames, itemIcons, glyphs, gs, playerRoles })"
+      },
+      "legalInput": "物品甲 usable，count 1，inUse 0，所以 diff 为 1。filter all。freezeNow(0)。数量个位坐标是 rightDigitX(96, 2, 0)=102，y=17。",
+      "oldTest": {
+        "sha": "8904a1fa294ea8cb5cca55e7ad5ccf133ae87794",
+        "file": "packages/game/src/present/__tests__/grok-present/p01-inventory-list.test.ts",
+        "fullName": "P01 物品列表 P01 不可用、可用数量与已装备虚拟条目用不同色和数字",
+        "assertionLine": 194,
+        "matcher": "toBe",
+        "checked": "第二列差额 5 的个位是青色 5，十位是底色",
+        "distinct": "旧断言的差额大于 1，不覆盖差额刚好等于 1 时不画数字"
+      },
+      "file": "packages/game/src/present/menu/inventory-list-pixels.grok-r1.test.ts",
+      "fullName": "G06-A 物品列表像素 G06-A02 差额等于 1 时不画青色数量，选中名仍用闪烁色",
+      "assertions": [
+        {
+          "line": 101,
+          "endLine": 101,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 102,
+          "endLine": 102,
+          "matchers": ["not.toBe"]
+        },
+        {
+          "line": 103,
+          "endLine": 103,
+          "matchers": ["toBe"]
+        }
+      ],
+      "axis": "boundary",
+      "oracle": {
+        "operands": "(102,17) 与名字「甲」在 (15,12) 的字形点",
+        "matcher": "toBe / not.toBe",
+        "exact": "(102,17) 为 34，不是青色 1（113）；名字点为 249"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/present/menu/inventory-list-pixels.grok-r1.test.ts",
+        "fullName": "G06-A 物品列表像素 G06-A02 差额等于 1 时不画青色数量，选中名仍用闪烁色",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G06-A03",
+      "batch": "G06",
+      "group": "G06-A",
+      "primarySource": {
+        "file": "packages/game/src/present/menu/draw-inventory.ts",
+        "conditionLine": 309,
+        "condition": "列表数量用槽上的 count 减 inUse，不读绘制期间的另一份库存（draw-inventory.ts:309）"
+      },
+      "caller": {
+        "file": "packages/game/src/present/menu/draw-menu.ts",
+        "line": 147,
+        "expr": "drawInventoryMenu({ fb, state: entry.state as InventoryMenuState, items: extra?.items ?? [], uiSpriteFrames, itemIcons, glyphs, gs, playerRoles })"
+      },
+      "legalInput": "物品甲 usable。菜单槽 count 4、inUse 2。filter all。freezeNow(0)。个位 x=102，十位 x=96，y=17。",
+      "oldTest": {
+        "sha": "8fded76f5725fb1ded51a657697022c07401713e",
+        "file": "packages/game/src/present/__tests__/grok-present/p02-inventory-target.test.ts",
+        "fullName": "P02 物品目标 P02 使用目标数量读gs现行库存而不是开菜单时的快照",
+        "assertionLine": 83,
+        "matcher": "toBe",
+        "checked": "用物层青色数字是 gs 现行 7，不是快照 4",
+        "distinct": "旧断言读的是用物层现行数量；列表层这里读的是槽差额 2"
+      },
+      "file": "packages/game/src/present/menu/inventory-list-pixels.grok-r1.test.ts",
+      "fullName": "G06-A 物品列表像素 G06-A03 列表数量用 count 减 inUse，4 件占用 2 件只画青色 2",
+      "assertions": [
+        {
+          "line": 125,
+          "endLine": 125,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 126,
+          "endLine": 126,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 127,
+          "endLine": 127,
+          "matchers": ["not.toBe"]
+        },
+        {
+          "line": 128,
+          "endLine": 128,
+          "matchers": ["toEqual"]
+        }
+      ],
+      "axis": "ownership",
+      "oracle": {
+        "operands": "(102,17)、(96,17)，以及绘制前后的输入快照",
+        "matcher": "toBe / not.toBe / toEqual",
+        "exact": "个位为青色 2（114），十位为 34，个位不是青色 4（116）；输入快照不变"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/present/menu/inventory-list-pixels.grok-r1.test.ts",
+        "fullName": "G06-A 物品列表像素 G06-A03 列表数量用 count 减 inUse，4 件占用 2 件只画青色 2",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G06-A04",
+      "batch": "G06",
+      "group": "G06-A",
+      "primarySource": {
+        "file": "packages/game/src/present/menu/draw-inventory.ts",
+        "conditionLine": 336,
+        "condition": "选中项只有 itemIcons 取到 bitmap 时才画图标（draw-inventory.ts:336）"
+      },
+      "caller": {
+        "file": "packages/game/src/present/menu/draw-menu.ts",
+        "line": 147,
+        "expr": "drawInventoryMenu({ fb, state: entry.state as InventoryMenuState, items: extra?.items ?? [], uiSpriteFrames, itemIcons, glyphs, gs, playerRoles })"
+      },
+      "legalInput": "物品甲 bitmap 9，count 1。itemIcons 是空 Map。filter all。freezeNow(0)。图标位是 (8,147)。",
+      "oldTest": {
+        "sha": "8904a1fa294ea8cb5cca55e7ad5ccf133ae87794",
+        "file": "packages/game/src/present/__tests__/grok-present/p01-inventory-list.test.ts",
+        "fullName": "P01 物品列表 P01 非空列表把可用物品名、光标不透明0与透明孔画进真实Framebuffer",
+        "assertionLine": 86,
+        "matcher": "toBe",
+        "checked": "(8,147) 在图标存在时为 0x83",
+        "distinct": "旧断言要求图标画出来；这里图标表没有该 bitmap"
+      },
+      "file": "packages/game/src/present/menu/inventory-list-pixels.grok-r1.test.ts",
+      "fullName": "G06-A 物品列表像素 G06-A04 图标表没有 bitmap 时图标位保持底色，物品框照画",
+      "assertions": [
+        {
+          "line": 153,
+          "endLine": 153,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 154,
+          "endLine": 154,
+          "matchers": ["toBe"]
+        }
+      ],
+      "axis": "exception",
+      "oracle": {
+        "operands": "(8,147) 与 (0,140)",
+        "matcher": "toBe",
+        "exact": "(8,147) 为 90；(0,140) 仍为 110"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/present/menu/inventory-list-pixels.grok-r1.test.ts",
+        "fullName": "G06-A 物品列表像素 G06-A04 图标表没有 bitmap 时图标位保持底色，物品框照画",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G06-A05",
+      "batch": "G06",
+      "group": "G06-A",
+      "primarySource": {
+        "file": "packages/game/src/present/menu/draw-inventory.ts",
+        "conditionLine": 363,
+        "condition": "光标帧 uiSpriteFrames[69] 缺失时跳过光标，名字仍按选中色绘制（draw-inventory.ts:363）"
+      },
+      "caller": {
+        "file": "packages/game/src/present/menu/draw-menu.ts",
+        "line": 147,
+        "expr": "drawInventoryMenu({ fb, state: entry.state as InventoryMenuState, items: extra?.items ?? [], uiSpriteFrames, itemIcons, glyphs, gs, playerRoles })"
+      },
+      "legalInput": "去掉帧 69，其余帧下标不挪。物品甲 usable，count 1，filter all。freezeNow(0)。光标位 (42,22)，名字「甲」在 (15,12)。",
+      "oldTest": {
+        "sha": "8904a1fa294ea8cb5cca55e7ad5ccf133ae87794",
+        "file": "packages/game/src/present/__tests__/grok-present/p01-inventory-list.test.ts",
+        "fullName": "P01 物品列表 P01 非空列表把可用物品名、光标不透明0与透明孔画进真实Framebuffer",
+        "assertionLine": 84,
+        "matcher": "toBe",
+        "checked": "(42,22) 在帧齐全时为 CURSOR_ID",
+        "distinct": "旧断言要求光标像素出现；这里帧数组在 69 处是空位"
+      },
+      "file": "packages/game/src/present/menu/inventory-list-pixels.grok-r1.test.ts",
+      "fullName": "G06-A 物品列表像素 G06-A05 缺少光标帧 69 时名字照画，光标位留着列表框色",
+      "assertions": [
+        {
+          "line": 173,
+          "endLine": 173,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 174,
+          "endLine": 174,
+          "matchers": ["toBe"]
+        }
+      ],
+      "axis": "exception",
+      "oracle": {
+        "operands": "(42,22) 与名字「甲」的字形点",
+        "matcher": "toBe",
+        "exact": "(42,22) 为 34；名字点为 249"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/present/menu/inventory-list-pixels.grok-r1.test.ts",
+        "fullName": "G06-A 物品列表像素 G06-A05 缺少光标帧 69 时名字照画，光标位留着列表框色",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G06-A06",
+      "batch": "G06",
+      "group": "G06-A",
+      "primarySource": {
+        "file": "packages/game/src/present/menu/draw-inventory.ts",
+        "conditionLine": 272,
+        "condition": "用物层数量读 gs.inventory 的现行 count，amount > 0 才画青色数字（draw-inventory.ts:272）"
+      },
+      "caller": {
+        "file": "packages/game/src/present/menu/draw-inventory.ts",
+        "line": 387,
+        "expr": "drawItemUseMenu(fb, state, items, uiSpriteFrames, glyphs, itemIcons, gs, playerRoles)"
+      },
+      "legalInput": "确认一件 usable 物品后进入 use-target，再把 gs.inventory 该条 count 改成 0。队伍只有角色 0。freezeNow(0)。数量个位 rightDigitX(170, 2, 0)=176，y=133。名字在 (116,143)。",
+      "oldTest": {
+        "sha": "8fded76f5725fb1ded51a657697022c07401713e",
+        "file": "packages/game/src/present/__tests__/grok-present/p02-inventory-target.test.ts",
+        "fullName": "P02 物品目标 P02 使用目标数量读gs现行库存而不是开菜单时的快照",
+        "assertionLine": 83,
+        "matcher": "toBe",
+        "checked": "现行 count 7 画出青色 7",
+        "distinct": "旧断言的现行数量大于 0；这里现行数量是 0"
+      },
+      "file": "packages/game/src/present/menu/inventory-list-pixels.grok-r1.test.ts",
+      "fullName": "G06-A 物品列表像素 G06-A06 用物层现行数量为 0 时不画青色数字，物品名仍是 0xBE",
+      "assertions": [
+        {
+          "line": 207,
+          "endLine": 207,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 208,
+          "endLine": 208,
+          "matchers": ["not.toBe"]
+        },
+        {
+          "line": 209,
+          "endLine": 209,
+          "matchers": ["toBe"]
+        }
+      ],
+      "axis": "boundary",
+      "oracle": {
+        "operands": "(176,133) 与物品名「甲」在 (116,143) 的字形点",
+        "matcher": "toBe / not.toBe",
+        "exact": "(176,133) 为 90，不是青色 0（112）；名字点为 190"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/present/menu/inventory-list-pixels.grok-r1.test.ts",
+        "fullName": "G06-A 物品列表像素 G06-A06 用物层现行数量为 0 时不画青色数字，物品名仍是 0xBE",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G06-A07",
+      "batch": "G06",
+      "group": "G06-A",
+      "primarySource": {
+        "file": "packages/game/src/present/menu/draw-inventory.ts",
+        "conditionLine": 160,
+        "condition": "用物层在目录里找不到 selectedItemId 时直接返回，不画属性标签（draw-inventory.ts:160）"
+      },
+      "caller": {
+        "file": "packages/game/src/present/menu/draw-inventory.ts",
+        "line": 387,
+        "expr": "drawItemUseMenu(fb, state, items, uiSpriteFrames, glyphs, itemIcons, gs, playerRoles)"
+      },
+      "legalInput": "确认物品 17 后把 selectedItemId 改成 999。目录里没有 999。队伍只有角色 0。freezeNow(0)。标签「修」取样 (200,16)，列表名「甲」取样 (15,12)。",
+      "oldTest": {
+        "sha": "4badd0f6a274aa07f3018eece49f5708608d28ce",
+        "file": "packages/game/src/present/menu/draw-inventory.glm-phase1-leaves.test.ts",
+        "fullName": "L10 drawInventoryMenu 剩余分支 use-target 相缺 gs/playerRoles：只画 list，不叠选人层（防御组合不崩）",
+        "assertionLine": 93,
+        "matcher": "not.toBe",
+        "checked": "缺 gs 时 (120,10) 不是 0x11",
+        "distinct": "旧断言缺的是 gs；这里 gs 在，缺的是目录项，列表框色仍盖住 (110,2)"
+      },
+      "file": "packages/game/src/present/menu/inventory-list-pixels.grok-r1.test.ts",
+      "fullName": "G06-A 物品列表像素 G06-A07 用物层选中 id 不在目录时不画属性标签，列表名仍在",
+      "assertions": [
+        {
+          "line": 241,
+          "endLine": 241,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 242,
+          "endLine": 242,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 243,
+          "endLine": 243,
+          "matchers": ["not.toBe"]
+        },
+        {
+          "line": 244,
+          "endLine": 244,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 245,
+          "endLine": 245,
+          "matchers": ["not.toBe"]
+        }
+      ],
+      "axis": "exception",
+      "oracle": {
+        "operands": "(200,16) 的「修」、(110,2)、(15,12) 的「甲」",
+        "matcher": "toBe / not.toBe",
+        "exact": "「修」为 90，不是 187；(110,2) 为 34，不是 17；「甲」为 249"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/present/menu/inventory-list-pixels.grok-r1.test.ts",
+        "fullName": "G06-A 物品列表像素 G06-A07 用物层选中 id 不在目录时不画属性标签，列表名仍在",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G06-A08",
+      "batch": "G06",
+      "group": "G06-A",
+      "primarySource": {
+        "file": "packages/game/src/present/menu/draw-inventory.ts",
+        "conditionLine": 191,
+        "condition": "用物层只在 targetMenu.items[cursor] 有队员时画体力（draw-inventory.ts:191）"
+      },
+      "caller": {
+        "file": "packages/game/src/present/menu/draw-inventory.ts",
+        "line": 387,
+        "expr": "drawItemUseMenu(fb, state, items, uiSpriteFrames, glyphs, itemIcons, gs, playerRoles)"
+      },
+      "legalInput": "一人队伍，角色 0 的 HP 为 12。确认后把 targetMenu.cursor 设为 9。freezeNow(0)。体力个位 rightDigitX(240, 4, 0)=258，y=37。队员名「甲」在 (125,16)。",
+      "oldTest": {
+        "sha": "8fded76f5725fb1ded51a657697022c07401713e",
+        "file": "packages/game/src/present/__tests__/grok-present/p02-inventory-target.test.ts",
+        "fullName": "P02 物品目标 P02 两人队按队伍顺序显示姓名、当前HP与含装备的攻击",
+        "assertionLine": 139,
+        "matcher": "toBe",
+        "checked": "光标落在队员上时 (258,37) 是黄色 2",
+        "distinct": "旧断言的光标指向存在的队员；这里光标下标 9 没有队员"
+      },
+      "file": "packages/game/src/present/menu/inventory-list-pixels.grok-r1.test.ts",
+      "fullName": "G06-A 物品列表像素 G06-A08 用物层光标越过队伍时不画体力，队员名仍按未选中色画出",
+      "assertions": [
+        {
+          "line": 279,
+          "endLine": 279,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 280,
+          "endLine": 280,
+          "matchers": ["not.toBe"]
+        },
+        {
+          "line": 281,
+          "endLine": 281,
+          "matchers": ["toBe"]
+        }
+      ],
+      "axis": "boundary",
+      "oracle": {
+        "operands": "(258,37) 与队员名「甲」在 (125,16) 的字形点",
+        "matcher": "toBe / not.toBe",
+        "exact": "(258,37) 为 90，不是黄色 2（178）；队员名点为 79"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/present/menu/inventory-list-pixels.grok-r1.test.ts",
+        "fullName": "G06-A 物品列表像素 G06-A08 用物层光标越过队伍时不画体力，队员名仍按未选中色画出",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G06-A09",
+      "batch": "G06",
+      "group": "G06-A",
+      "primarySource": {
+        "file": "packages/game/src/present/menu/draw-inventory.ts",
+        "conditionLine": 212,
+        "condition": "用物层斜杠只在 uiSpriteFrames[39] 存在时画，体力数字仍画（draw-inventory.ts:212）"
+      },
+      "caller": {
+        "file": "packages/game/src/present/menu/draw-inventory.ts",
+        "line": 387,
+        "expr": "drawItemUseMenu(fb, state, items, uiSpriteFrames, glyphs, itemIcons, gs, playerRoles)"
+      },
+      "legalInput": "去掉帧 39。一人队伍，角色 0 的 HP 为 12。确认进入 use-target。freezeNow(0)。斜杠位 (263,38)，体力个位 (258,37)。",
+      "oldTest": {
+        "sha": "8fded76f5725fb1ded51a657697022c07401713e",
+        "file": "packages/game/src/present/__tests__/grok-present/p02-inventory-target.test.ts",
+        "fullName": "P02 物品目标 P02 两人队按队伍顺序显示姓名、当前HP与含装备的攻击",
+        "assertionLine": 139,
+        "matcher": "toBe",
+        "checked": "帧齐全时体力个位是黄色 2，该测试不读斜杠坐标",
+        "distinct": "旧断言不删除斜杠帧，也不读 (263,38)"
+      },
+      "file": "packages/game/src/present/menu/inventory-list-pixels.grok-r1.test.ts",
+      "fullName": "G06-A 物品列表像素 G06-A09 缺少斜杠帧 39 时体力数字仍在，斜杠位保持底色",
+      "assertions": [
+        {
+          "line": 311,
+          "endLine": 311,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 312,
+          "endLine": 312,
+          "matchers": ["not.toBe"]
+        },
+        {
+          "line": 313,
+          "endLine": 313,
+          "matchers": ["toBe"]
+        }
+      ],
+      "axis": "exception",
+      "oracle": {
+        "operands": "(263,38) 与 (258,37)",
+        "matcher": "toBe / not.toBe",
+        "exact": "(263,38) 为 90，不是 57；(258,37) 为黄色 2（178）"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/present/menu/inventory-list-pixels.grok-r1.test.ts",
+        "fullName": "G06-A 物品列表像素 G06-A09 缺少斜杠帧 39 时体力数字仍在，斜杠位保持底色",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G06-A10",
+      "batch": "G06",
+      "group": "G06-A",
+      "primarySource": {
+        "file": "packages/game/src/present/menu/draw-inventory.ts",
+        "conditionLine": 314,
+        "condition": "filter 为 all 时 matchesFilter 为真，usable 为假的选中项仍走可选色（draw-inventory.ts:314）"
+      },
+      "caller": {
+        "file": "packages/game/src/present/menu/draw-menu.ts",
+        "line": 147,
+        "expr": "drawInventoryMenu({ fb, state: entry.state as InventoryMenuState, items: extra?.items ?? [], uiSpriteFrames, itemIcons, glyphs, gs, playerRoles })"
+      },
+      "legalInput": "物品丙 flags.usable 为 false，count 2，inUse 0。菜单 filter 是 all。freezeNow(0)。名字点在 (15,12)。",
+      "oldTest": {
+        "sha": "8904a1fa294ea8cb5cca55e7ad5ccf133ae87794",
+        "file": "packages/game/src/present/__tests__/grok-present/p01-inventory-list.test.ts",
+        "fullName": "P01 物品列表 P01 不可用、可用数量与已装备虚拟条目用不同色和数字",
+        "assertionLine": 185,
+        "matcher": "toBe",
+        "checked": "usable 过滤下不可用选中项是 SELECTED_INACTIVE",
+        "distinct": "旧断言的过滤器是 usable；这里过滤器是 all"
+      },
+      "file": "packages/game/src/present/menu/inventory-list-pixels.grok-r1.test.ts",
+      "fullName": "G06-A 物品列表像素 G06-A10 过滤为 all 时 usable 为假的物品仍按可选色画，不进暗色",
+      "assertions": [
+        {
+          "line": 332,
+          "endLine": 332,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 333,
+          "endLine": 333,
+          "matchers": ["not.toBe"]
+        }
+      ],
+      "axis": "positive",
+      "oracle": {
+        "operands": "名字「丙」在 (15,12) 的字形点",
+        "matcher": "toBe / not.toBe",
+        "exact": "该点为 249，不是 28"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/present/menu/inventory-list-pixels.grok-r1.test.ts",
+        "fullName": "G06-A 物品列表像素 G06-A10 过滤为 all 时 usable 为假的物品仍按可选色画，不进暗色",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G06-A11",
+      "batch": "G06",
+      "group": "G06-A",
+      "primarySource": {
+        "file": "packages/game/src/present/menu/draw-inventory.ts",
+        "conditionLine": 223,
+        "condition": "用物层灵力取 getPlayerMagicStrength，y=92；武术取 getPlayerAttackStrength，y=74（draw-inventory.ts:223）"
+      },
+      "caller": {
+        "file": "packages/game/src/present/menu/draw-inventory.ts",
+        "line": 387,
+        "expr": "drawItemUseMenu(fb, state, items, uiSpriteFrames, glyphs, itemIcons, gs, playerRoles)"
+      },
+      "legalInput": "角色 0 武术 4，灵力 11，rgEquipmentEffect[1].rgwMagicStrength[0] 为 6。确认进入 use-target。freezeNow(0)。个位 x=258，十位 x=252。",
+      "oldTest": {
+        "sha": "8fded76f5725fb1ded51a657697022c07401713e",
+        "file": "packages/game/src/present/__tests__/grok-present/p02-inventory-target.test.ts",
+        "fullName": "P02 物品目标 P02 两人队按队伍顺序显示姓名、当前HP与含装备的攻击",
+        "assertionLine": 143,
+        "matcher": "toBe",
+        "checked": "攻击行 y=74 的个位是黄色 3、十位是黄色 2",
+        "distinct": "旧断言锁的是攻击 23；这里灵力行是 17，攻击行是 4"
+      },
+      "file": "packages/game/src/present/menu/inventory-list-pixels.grok-r1.test.ts",
+      "fullName": "G06-A 物品列表像素 G06-A11 用物层灵力是基础加装备效果，武术行仍是武术值",
+      "assertions": [
+        {
+          "line": 365,
+          "endLine": 365,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 366,
+          "endLine": 366,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 367,
+          "endLine": 367,
+          "matchers": ["toBe"]
+        }
+      ],
+      "axis": "positive",
+      "oracle": {
+        "operands": "(258,92)、(252,92)、(258,74)",
+        "matcher": "toBe",
+        "exact": "灵力个位为黄色 7（183），十位为黄色 1（177）；武术个位为黄色 4（180）"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/present/menu/inventory-list-pixels.grok-r1.test.ts",
+        "fullName": "G06-A 物品列表像素 G06-A11 用物层灵力是基础加装备效果，武术行仍是武术值",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G06-A12",
+      "batch": "G06",
+      "group": "G06-A",
+      "primarySource": {
+        "file": "packages/game/src/present/present.ts",
+        "conditionLine": 723,
+        "condition": "flushToCanvas 用调色板把帧缓冲索引画进 2D canvas（present.ts:723）"
+      },
+      "caller": {
+        "file": "packages/game/src/shell/bootstrap.ts",
+        "line": 514,
+        "expr": "flushToCanvas(fb, canvasCtx, applyDialogIconPaletteShift(gs, gs.palette ?? palette))"
+      },
+      "legalInput": "列表画出物品框索引 110 于 (0,140)。legalPalette 把 110 号色设为 [110,7,14]。320×200 canvas 取真实 2d 上下文后 flushToCanvas。",
+      "oldTest": {
+        "sha": "8904a1fa294ea8cb5cca55e7ad5ccf133ae87794",
+        "file": "packages/game/src/present/__tests__/grok-present/p01-inventory-list.test.ts",
+        "fullName": "P01 物品列表 P01 非空列表把可用物品名、光标不透明0与透明孔画进真实Framebuffer",
+        "assertionLine": 85,
+        "matcher": "toBe",
+        "checked": "(0,140) 的索引是 ITEMBOX_ID",
+        "distinct": "旧断言只读索引缓冲，不读 canvas 的 RGBA"
+      },
+      "file": "packages/game/src/present/menu/inventory-list-pixels.grok-r1.test.ts",
+      "fullName": "G06-A 物品列表像素 G06-A12 物品框索引 0x6E 经 flushToCanvas 写成调色板 RGB，缓冲仍是 0x6E",
+      "assertions": [
+        {
+          "line": 394,
+          "endLine": 394,
+          "matchers": ["toEqual"]
+        },
+        {
+          "line": 395,
+          "endLine": 395,
+          "matchers": ["toBe"]
+        }
+      ],
+      "axis": "positive",
+      "oracle": {
+        "operands": "getImageData(0,140,1,1) 与缓冲 (0,140)",
+        "matcher": "toEqual / toBe",
+        "exact": "RGBA 为 [110, 7, 14, 255]；缓冲索引仍为 110"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/present/menu/inventory-list-pixels.grok-r1.test.ts",
+        "fullName": "G06-A 物品列表像素 G06-A12 物品框索引 0x6E 经 flushToCanvas 写成调色板 RGB，缓冲仍是 0x6E",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G06-B01",
+      "batch": "G06",
+      "group": "G06-B",
+      "primarySource": {
+        "file": "packages/game/src/present/menu/draw-inventory.ts",
+        "conditionLine": 379,
+        "condition": "描述第 li 行画在 y=151+li*16，颜色 0x3C（draw-inventory.ts:379）"
+      },
+      "caller": {
+        "file": "packages/game/src/present/menu/draw-menu.ts",
+        "line": 147,
+        "expr": "drawInventoryMenu({ fb, state: entry.state as InventoryMenuState, items: extra?.items ?? [], uiSpriteFrames, itemIcons, glyphs, gs, playerRoles })"
+      },
+      "legalInput": "脚本 52001：showDialog「甲」带标签 L_52001，接着 showDialog「乙」，然后 end。物品丙 scriptDesc 52001。freezeNow(0)。",
+      "oldTest": {
+        "sha": "8fded76f5725fb1ded51a657697022c07401713e",
+        "file": "packages/game/src/present/__tests__/grok-present/p02-inventory-target.test.ts",
+        "fullName": "P02 物品目标 P02 noDesc不关闭目标层，只省略物品描述",
+        "assertionLine": 185,
+        "matcher": "toBe",
+        "checked": "单行「诀」画在 (71,151)，颜色 0x3C",
+        "distinct": "旧断言只有一行；这里第二行「乙」的原点是 y=167"
+      },
+      "file": "packages/game/src/present/menu/inventory-desc-filter.grok-r1.test.ts",
+      "fullName": "G06-B 物品描述与过滤 G06-B01 第二条描述在 y=167，第一条仍在 y=151",
+      "assertions": [
+        {
+          "line": 71,
+          "endLine": 71,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 72,
+          "endLine": 72,
+          "matchers": ["toBe"]
+        }
+      ],
+      "axis": "positive",
+      "oracle": {
+        "operands": "「乙」在 (71,167) 的字形点，「甲」在 (71,151) 的字形点",
+        "matcher": "toBe",
+        "exact": "两点都是 60"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/present/menu/inventory-desc-filter.grok-r1.test.ts",
+        "fullName": "G06-B 物品描述与过滤 G06-B01 第二条描述在 y=167，第一条仍在 y=151",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G06-B02",
+      "batch": "G06",
+      "group": "G06-B",
+      "primarySource": {
+        "file": "packages/game/src/present/menu/draw-inventory.ts",
+        "conditionLine": 376,
+        "condition": "scriptDesc 缺省或为 0 时传给 getScriptDescLines 的值是 0，描述区不画字（draw-inventory.ts:376）"
+      },
+      "caller": {
+        "file": "packages/game/src/present/menu/draw-menu.ts",
+        "line": 147,
+        "expr": "drawInventoryMenu({ fb, state: entry.state as InventoryMenuState, items: extra?.items ?? [], uiSpriteFrames, itemIcons, glyphs, gs, playerRoles })"
+      },
+      "legalInput": "全局事件有标签 L_0 的 showDialog「甲」。物品乙 scriptDesc 为 0，count 1，filter all。freezeNow(0)。",
+      "oldTest": {
+        "sha": "8fded76f5725fb1ded51a657697022c07401713e",
+        "file": "packages/game/src/present/__tests__/grok-present/p02-inventory-target.test.ts",
+        "fullName": "P02 物品目标 P02 noDesc不关闭目标层，只省略物品描述",
+        "assertionLine": 185,
+        "matcher": "toBe",
+        "checked": "非 0 的 scriptDesc 会把「诀」画在 (71,151)",
+        "distinct": "旧断言的脚本号不是 0；L_0 上的「甲」不应出现"
+      },
+      "file": "packages/game/src/present/menu/inventory-desc-filter.grok-r1.test.ts",
+      "fullName": "G06-B 物品描述与过滤 G06-B02 scriptDesc 为 0 时不画 L_0 上的描述，物品名照画",
+      "assertions": [
+        {
+          "line": 98,
+          "endLine": 98,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 99,
+          "endLine": 99,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 100,
+          "endLine": 100,
+          "matchers": ["toEqual"]
+        }
+      ],
+      "axis": "ownership",
+      "oracle": {
+        "operands": "(71,151) 的「甲」、列表名「乙」，以及绘制前后的输入快照",
+        "matcher": "toBe / toEqual",
+        "exact": "描述点为 90；名字点为 249；输入快照不变"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/present/menu/inventory-desc-filter.grok-r1.test.ts",
+        "fullName": "G06-B 物品描述与过滤 G06-B02 scriptDesc 为 0 时不画 L_0 上的描述，物品名照画",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G06-B03",
+      "batch": "G06",
+      "group": "G06-B",
+      "primarySource": {
+        "file": "packages/game/src/present/menu/draw-inventory.ts",
+        "conditionLine": 374,
+        "condition": "noDesc 为真时跳过描述，列表相和选中名保留（draw-inventory.ts:374）"
+      },
+      "caller": {
+        "file": "packages/game/src/present/menu/draw-menu.ts",
+        "line": 237,
+        "expr": "noDesc: true"
+      },
+      "legalInput": "脚本 52003 只有一行 showDialog「诀」。物品甲 scriptDesc 52003。drawInventoryMenu 传入 noDesc true，phase 保持 list。freezeNow(0)。",
+      "oldTest": {
+        "sha": "8fded76f5725fb1ded51a657697022c07401713e",
+        "file": "packages/game/src/present/__tests__/grok-present/p02-inventory-target.test.ts",
+        "fullName": "P02 物品目标 P02 noDesc不关闭目标层，只省略物品描述",
+        "assertionLine": 204,
+        "matcher": "toBe",
+        "checked": "use-target 上 noDesc 让「诀」保持底色，队员名和体力仍在",
+        "distinct": "旧断言已经进入 use-target；这里 phase 仍是 list"
+      },
+      "file": "packages/game/src/present/menu/inventory-desc-filter.grok-r1.test.ts",
+      "fullName": "G06-B 物品描述与过滤 G06-B03 列表相 noDesc 为真时省略描述，选中名仍在",
+      "assertions": [
+        {
+          "line": 132,
+          "endLine": 132,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 133,
+          "endLine": 133,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 134,
+          "endLine": 134,
+          "matchers": ["toBe"]
+        }
+      ],
+      "axis": "exception",
+      "oracle": {
+        "operands": "(71,151) 的「诀」、名字「甲」、menu.phase",
+        "matcher": "toBe",
+        "exact": "「诀」为 90；名字点为 249；phase 为 list"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/present/menu/inventory-desc-filter.grok-r1.test.ts",
+        "fullName": "G06-B 物品描述与过滤 G06-B03 列表相 noDesc 为真时省略描述，选中名仍在",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G06-B04",
+      "batch": "G06",
+      "group": "G06-B",
+      "primarySource": {
+        "file": "packages/game/src/present/menu/draw-inventory.ts",
+        "conditionLine": 375,
+        "condition": "描述脚本取光标槽的物品，不取同页另一件（draw-inventory.ts:375）"
+      },
+      "caller": {
+        "file": "packages/game/src/present/menu/draw-menu.ts",
+        "line": 147,
+        "expr": "drawInventoryMenu({ fb, state: entry.state as InventoryMenuState, items: extra?.items ?? [], uiSpriteFrames, itemIcons, glyphs, gs, playerRoles })"
+      },
+      "legalInput": "甲 scriptDesc 52011 文本「丙」；乙 scriptDesc 52012 文本「丁」。光标设为 1。freezeNow(0)。两段文字都取样 (71,151)。",
+      "oldTest": {
+        "sha": "8fded76f5725fb1ded51a657697022c07401713e",
+        "file": "packages/game/src/present/__tests__/grok-present/p02-inventory-target.test.ts",
+        "fullName": "P02 物品目标 P02 noDesc不关闭目标层，只省略物品描述",
+        "assertionLine": 185,
+        "matcher": "toBe",
+        "checked": "光标在第一件时画出该件的「诀」",
+        "distinct": "旧断言只有一件物品；这里光标在第二件，第一件的「丙」不画"
+      },
+      "file": "packages/game/src/present/menu/inventory-desc-filter.grok-r1.test.ts",
+      "fullName": "G06-B 物品描述与过滤 G06-B04 描述跟光标上的物品走，不画另一件的脚本",
+      "assertions": [
+        {
+          "line": 166,
+          "endLine": 166,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 167,
+          "endLine": 167,
+          "matchers": ["toBe"]
+        }
+      ],
+      "axis": "positive",
+      "oracle": {
+        "operands": "(71,151) 上「丁」与「丙」的字形点",
+        "matcher": "toBe",
+        "exact": "「丁」为 60；「丙」为 90"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/present/menu/inventory-desc-filter.grok-r1.test.ts",
+        "fullName": "G06-B 物品描述与过滤 G06-B04 描述跟光标上的物品走，不画另一件的脚本",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G06-B05",
+      "batch": "G06",
+      "group": "G06-B",
+      "primarySource": {
+        "file": "packages/game/src/present/menu/draw-inventory.ts",
+        "conditionLine": 314,
+        "condition": "filter sellable 时只有 flags.sellable 的物品算可用（draw-inventory.ts:314）"
+      },
+      "caller": {
+        "file": "packages/game/src/present/menu/draw-menu.ts",
+        "line": 237,
+        "expr": "noDesc: true"
+      },
+      "legalInput": "甲 sellable true，乙 sellable false。菜单 filter 是 sellable，光标在甲。freezeNow(0)。甲在 (15,12)，乙在 (115,12)。",
+      "oldTest": {
+        "sha": "8904a1fa294ea8cb5cca55e7ad5ccf133ae87794",
+        "file": "packages/game/src/present/__tests__/grok-present/p01-inventory-list.test.ts",
+        "fullName": "P01 物品列表 P01 不可用、可用数量与已装备虚拟条目用不同色和数字",
+        "assertionLine": 188,
+        "matcher": "toBe",
+        "checked": "usable 过滤下可用未选中项是 MENUITEM_COLOR",
+        "distinct": "旧断言的过滤器是 usable，不区分 sellable"
+      },
+      "file": "packages/game/src/present/menu/inventory-desc-filter.grok-r1.test.ts",
+      "fullName": "G06-B 物品描述与过滤 G06-B05 sellable 过滤把可卖项画成可选色，不可卖项画成暗色",
+      "assertions": [
+        {
+          "line": 191,
+          "endLine": 191,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 192,
+          "endLine": 192,
+          "matchers": ["toBe"]
+        }
+      ],
+      "axis": "positive",
+      "oracle": {
+        "operands": "「甲」在 (15,12)、「乙」在 (115,12) 的字形点",
+        "matcher": "toBe",
+        "exact": "甲为 249；乙为 24"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/present/menu/inventory-desc-filter.grok-r1.test.ts",
+        "fullName": "G06-B 物品描述与过滤 G06-B05 sellable 过滤把可卖项画成可选色，不可卖项画成暗色",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G06-B06",
+      "batch": "G06",
+      "group": "G06-B",
+      "primarySource": {
+        "file": "packages/game/src/present/menu/draw-inventory.ts",
+        "conditionLine": 350,
+        "condition": "数量 x 为 15+81+k*100，第三列 k=2 的个位因此在 302（draw-inventory.ts:350）"
+      },
+      "caller": {
+        "file": "packages/game/src/present/menu/draw-menu.ts",
+        "line": 147,
+        "expr": "drawInventoryMenu({ fb, state: entry.state as InventoryMenuState, items: extra?.items ?? [], uiSpriteFrames, itemIcons, glyphs, gs, playerRoles })"
+      },
+      "legalInput": "三件可用物品，第三件 count 8，光标在第三件。第一件 count 1。freezeNow(0)。第三列个位 amountX(2,0)=302，y=17。第一列个位 x=102。",
+      "oldTest": {
+        "sha": "8904a1fa294ea8cb5cca55e7ad5ccf133ae87794",
+        "file": "packages/game/src/present/__tests__/grok-present/p01-inventory-list.test.ts",
+        "fullName": "P01 物品列表 P01 不可用、可用数量与已装备虚拟条目用不同色和数字",
+        "assertionLine": 194,
+        "matcher": "toBe",
+        "checked": "第二列差额 5 的个位是青色 5，且该位在框外底色旁",
+        "distinct": "旧断言不读第三列 x=302，也不比较第一列未画的差额 1"
+      },
+      "file": "packages/game/src/present/menu/inventory-desc-filter.grok-r1.test.ts",
+      "fullName": "G06-B 物品描述与过滤 G06-B06 第三列数量起点含两格 100 像素，个位落在 x=302",
+      "assertions": [
+        {
+          "line": 216,
+          "endLine": 216,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 217,
+          "endLine": 217,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 218,
+          "endLine": 219,
+          "matchers": ["toBe"]
+        }
+      ],
+      "axis": "boundary",
+      "oracle": {
+        "operands": "(302,17)、(102,17)、第三列名字「丙」在 (215,12)",
+        "matcher": "toBe",
+        "exact": "(302,17) 为青色 8（120）；(102,17) 为 34；「丙」为 249"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/present/menu/inventory-desc-filter.grok-r1.test.ts",
+        "fullName": "G06-B 物品描述与过滤 G06-B06 第三列数量起点含两格 100 像素，个位落在 x=302",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G06-B07",
+      "batch": "G06",
+      "group": "G06-B",
+      "primarySource": {
+        "file": "packages/game/src/present/menu/draw-inventory.ts",
+        "conditionLine": 314,
+        "condition": "filter potion 要求 usable 且非 equipable 且非 throwable（draw-inventory.ts:314）"
+      },
+      "caller": {
+        "file": "packages/game/src/present/menu/draw-menu.ts",
+        "line": 147,
+        "expr": "drawInventoryMenu({ fb, state: entry.state as InventoryMenuState, items: extra?.items ?? [], uiSpriteFrames, itemIcons, glyphs, gs, playerRoles })"
+      },
+      "legalInput": "甲 usable。乙 usable 且 throwable。filter potion，光标在甲。freezeNow(0)。",
+      "oldTest": {
+        "sha": "8904a1fa294ea8cb5cca55e7ad5ccf133ae87794",
+        "file": "packages/game/src/present/__tests__/grok-present/p01-inventory-list.test.ts",
+        "fullName": "P01 物品列表 P01 不可用、可用数量与已装备虚拟条目用不同色和数字",
+        "assertionLine": 188,
+        "matcher": "toBe",
+        "checked": "usable 过滤下乙类可用项是 MENUITEM_COLOR",
+        "distinct": "旧断言不看 throwable；potion 把可投掷项算成未命中"
+      },
+      "file": "packages/game/src/present/menu/inventory-desc-filter.grok-r1.test.ts",
+      "fullName": "G06-B 物品描述与过滤 G06-B07 potion 过滤只把可用且非投掷的物品画成可选色",
+      "assertions": [
+        {
+          "line": 244,
+          "endLine": 244,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 245,
+          "endLine": 245,
+          "matchers": ["toBe"]
+        }
+      ],
+      "axis": "positive",
+      "oracle": {
+        "operands": "「甲」在 (15,12)、「乙」在 (115,12)",
+        "matcher": "toBe",
+        "exact": "甲为 249；乙为 24"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/present/menu/inventory-desc-filter.grok-r1.test.ts",
+        "fullName": "G06-B 物品描述与过滤 G06-B07 potion 过滤只把可用且非投掷的物品画成可选色",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G06-B08",
+      "batch": "G06",
+      "group": "G06-B",
+      "primarySource": {
+        "file": "packages/game/src/present/menu/draw-inventory.ts",
+        "conditionLine": 314,
+        "condition": "filter important 要求非 sellable 且非 equipable（draw-inventory.ts:314）"
+      },
+      "caller": {
+        "file": "packages/game/src/present/menu/draw-menu.ts",
+        "line": 147,
+        "expr": "drawInventoryMenu({ fb, state: entry.state as InventoryMenuState, items: extra?.items ?? [], uiSpriteFrames, itemIcons, glyphs, gs, playerRoles })"
+      },
+      "legalInput": "甲没有 sellable 和 equipable。乙 sellable。filter important，光标在甲。freezeNow(0)。",
+      "oldTest": {
+        "sha": "b782f9ca28737f24201310baef18ee9c6e7d6668",
+        "file": "packages/game/src/present/__tests__/grok-present/p03-equip.test.ts",
+        "fullName": "P03 装备绘制 P03 装备列表里不可装备项是暗色，可装备项保持可选色",
+        "assertionLine": 79,
+        "matcher": "toBe",
+        "checked": "装备列表里不可装备项是 0x18",
+        "distinct": "旧断言的过滤器是 equip；important 把不可卖的甲画成可选色"
+      },
+      "file": "packages/game/src/present/menu/inventory-desc-filter.grok-r1.test.ts",
+      "fullName": "G06-B 物品描述与过滤 G06-B08 important 过滤把可卖物品画成暗色，不可卖且不可装备的画成可选色",
+      "assertions": [
+        {
+          "line": 269,
+          "endLine": 269,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 270,
+          "endLine": 270,
+          "matchers": ["toBe"]
+        }
+      ],
+      "axis": "positive",
+      "oracle": {
+        "operands": "「甲」在 (15,12)、「乙」在 (115,12)",
+        "matcher": "toBe",
+        "exact": "甲为 249；乙为 24"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/present/menu/inventory-desc-filter.grok-r1.test.ts",
+        "fullName": "G06-B 物品描述与过滤 G06-B08 important 过滤把可卖物品画成暗色，不可卖且不可装备的画成可选色",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G06-B09",
+      "batch": "G06",
+      "group": "G06-B",
+      "primarySource": {
+        "file": "packages/game/src/present/menu/draw-inventory.ts",
+        "conditionLine": 315,
+        "condition": "isEquipped 只在 count===0 时成立；count 等于 inUse 且大于 0 的选中项是暗选色（draw-inventory.ts:315）"
+      },
+      "caller": {
+        "file": "packages/game/src/present/menu/draw-menu.ts",
+        "line": 147,
+        "expr": "drawInventoryMenu({ fb, state: entry.state as InventoryMenuState, items: extra?.items ?? [], uiSpriteFrames, itemIcons, glyphs, gs, playerRoles })"
+      },
+      "legalInput": "物品甲 usable。槽 count 3，inUse 3，diff 为 0。filter usable。freezeNow(0)。名字点 (15,12)。",
+      "oldTest": {
+        "sha": "8904a1fa294ea8cb5cca55e7ad5ccf133ae87794",
+        "file": "packages/game/src/present/__tests__/grok-present/p01-inventory-list.test.ts",
+        "fullName": "P01 物品列表 P01 不可用、可用数量与已装备虚拟条目用不同色和数字",
+        "assertionLine": 189,
+        "matcher": "toBe",
+        "checked": "count 为 0 的虚拟装备条目是 EQUIPPEDITEM",
+        "distinct": "旧断言的 count 是 0；这里 count 与 inUse 都是 3"
+      },
+      "file": "packages/game/src/present/menu/inventory-desc-filter.grok-r1.test.ts",
+      "fullName": "G06-B 物品描述与过滤 G06-B09 件数等于占用且不为 0 时选中项是暗选色，不是已装备色",
+      "assertions": [
+        {
+          "line": 292,
+          "endLine": 292,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 293,
+          "endLine": 293,
+          "matchers": ["not.toBe"]
+        },
+        {
+          "line": 294,
+          "endLine": 294,
+          "matchers": ["not.toBe"]
+        }
+      ],
+      "axis": "boundary",
+      "oracle": {
+        "operands": "名字「甲」在 (15,12) 的字形点",
+        "matcher": "toBe / not.toBe",
+        "exact": "该点为 28，不是 200，也不是 249"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/present/menu/inventory-desc-filter.grok-r1.test.ts",
+        "fullName": "G06-B 物品描述与过滤 G06-B09 件数等于占用且不为 0 时选中项是暗选色，不是已装备色",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G06-B10",
+      "batch": "G06",
+      "group": "G06-B",
+      "primarySource": {
+        "file": "packages/game/src/present/menu/draw-inventory.ts",
+        "conditionLine": 345,
+        "condition": "diff > 1 时按两位青色右对齐画出十位和个位（draw-inventory.ts:345）"
+      },
+      "caller": {
+        "file": "packages/game/src/present/menu/draw-menu.ts",
+        "line": 147,
+        "expr": "drawInventoryMenu({ fb, state: entry.state as InventoryMenuState, items: extra?.items ?? [], uiSpriteFrames, itemIcons, glyphs, gs, playerRoles })"
+      },
+      "legalInput": "物品甲 usable，count 10，inUse 0。filter all。第一列个位 x=102，十位 x=96，y=17。",
+      "oldTest": {
+        "sha": "8904a1fa294ea8cb5cca55e7ad5ccf133ae87794",
+        "file": "packages/game/src/present/__tests__/grok-present/p01-inventory-list.test.ts",
+        "fullName": "P01 物品列表 P01 不可用、可用数量与已装备虚拟条目用不同色和数字",
+        "assertionLine": 195,
+        "matcher": "toBe",
+        "checked": "第二列差额 5 的十位保持底色",
+        "distinct": "旧断言的差额只有一位；差额 10 的十位是青色 1"
+      },
+      "file": "packages/game/src/present/menu/inventory-desc-filter.grok-r1.test.ts",
+      "fullName": "G06-B 物品描述与过滤 G06-B10 差额 10 在第一列同时画出青色十位和个位",
+      "assertions": [
+        {
+          "line": 312,
+          "endLine": 312,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 313,
+          "endLine": 313,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 314,
+          "endLine": 314,
+          "matchers": ["not.toBe"]
+        }
+      ],
+      "axis": "boundary",
+      "oracle": {
+        "operands": "(102,17) 与 (96,17)",
+        "matcher": "toBe / not.toBe",
+        "exact": "个位为青色 0（112）；十位为青色 1（113），不是 34"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/present/menu/inventory-desc-filter.grok-r1.test.ts",
+        "fullName": "G06-B 物品描述与过滤 G06-B10 差额 10 在第一列同时画出青色十位和个位",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G06-C01",
+      "batch": "G06",
+      "group": "G06-C",
+      "primarySource": {
+        "file": "packages/game/src/present/menu/draw-equip.ts",
+        "conditionLine": 226,
+        "condition": "选人框行数是 Math.max(1, partyMembers.length - 1)（draw-equip.ts:226）"
+      },
+      "caller": {
+        "file": "packages/game/src/present/menu/draw-menu.ts",
+        "line": 182,
+        "expr": "drawEquipMenu({ fb, state: entry.state as EquipMenuState, gs, playerRoles: extra.playerRoles, items: extra?.items ?? [], uiSpriteFrames, glyphs, equipBg, itemIcons })"
+      },
+      "legalInput": "队伍只有角色 0。确认可装备物品 60 进入 pick-role。freezeNow(0)。框在 (2,95)，style 0。底边取样 (2,111)，框外 (2,119)。名字「甲」在 (15,108)。",
+      "oldTest": {
+        "sha": "b782f9ca28737f24201310baef18ee9c6e7d6668",
+        "file": "packages/game/src/present/__tests__/grok-present/p03-equip.test.ts",
+        "fullName": "P03 装备绘制 P03 选人页画出六槽名称、选中图标、数量、预览攻击和背景",
+        "assertionLine": 178,
+        "matcher": "toBe",
+        "checked": "两人以上的队伍画出可选角色名",
+        "distinct": "旧断言的队伍长度不是 1，去掉保底行后两人队伍的行数不变"
+      },
+      "file": "packages/game/src/present/menu/equip-role-pixels.grok-r1.test.ts",
+      "fullName": "G06-C 装备选人像素 G06-C01 一人队伍仍画出一行内容框，底边在 y=111",
+      "assertions": [
+        {
+          "line": 91,
+          "endLine": 91,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 92,
+          "endLine": 92,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 93,
+          "endLine": 93,
+          "matchers": ["toBe"]
+        }
+      ],
+      "axis": "boundary",
+      "oracle": {
+        "operands": "(2,111)、(2,119)、名字「甲」在 (15,108)",
+        "matcher": "toBe",
+        "exact": "(2,111) 为 17；(2,119) 为 90；名字点为 249"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/present/menu/equip-role-pixels.grok-r1.test.ts",
+        "fullName": "G06-C 装备选人像素 G06-C01 一人队伍仍画出一行内容框，底边在 y=111",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G06-C02",
+      "batch": "G06",
+      "group": "G06-C",
+      "primarySource": {
+        "file": "packages/game/src/present/menu/draw-equip.ts",
+        "conditionLine": 276,
+        "condition": "phase 为 list 才画列表，为 pick-role 才画选人；done 两个分支都不进（draw-equip.ts:276）"
+      },
+      "caller": {
+        "file": "packages/game/src/present/menu/draw-menu.ts",
+        "line": 182,
+        "expr": "drawEquipMenu({ fb, state: entry.state as EquipMenuState, gs, playerRoles: extra.playerRoles, items: extra?.items ?? [], uiSpriteFrames, glyphs, equipBg, itemIcons })"
+      },
+      "legalInput": "创建装备菜单后把 phase 设为 done。目录有物品甲。不调用 freezeNow，因为这条路径不读选中色。",
+      "oldTest": {
+        "sha": "b782f9ca28737f24201310baef18ee9c6e7d6668",
+        "file": "packages/game/src/present/__tests__/grok-present/p03-equip.test.ts",
+        "fullName": "P03 装备绘制 P03 选人页画出六槽名称、选中图标、数量、预览攻击和背景",
+        "assertionLine": 112,
+        "matcher": "toBe",
+        "checked": "确认后 phase 是 pick-role，并继续画选人页",
+        "distinct": "旧断言停在 pick-role；done 不画名字、光标和装备图标"
+      },
+      "file": "packages/game/src/present/menu/equip-role-pixels.grok-r1.test.ts",
+      "fullName": "G06-C 装备选人像素 G06-C02 phase 为 done 时整屏保持底色",
+      "assertions": [
+        {
+          "line": 118,
+          "endLine": 118,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 119,
+          "endLine": 119,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 120,
+          "endLine": 120,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 121,
+          "endLine": 121,
+          "matchers": ["toEqual"]
+        }
+      ],
+      "axis": "exception",
+      "oracle": {
+        "operands": "名字位 (15,12)、(42,22)、(16,16)，以及输入快照",
+        "matcher": "toBe / toEqual",
+        "exact": "三点都是 90；输入快照不变"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/present/menu/equip-role-pixels.grok-r1.test.ts",
+        "fullName": "G06-C 装备选人像素 G06-C02 phase 为 done 时整屏保持底色",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G06-C03",
+      "batch": "G06",
+      "group": "G06-C",
+      "primarySource": {
+        "file": "packages/game/src/present/menu/draw-equip.ts",
+        "conditionLine": 132,
+        "condition": "selectedItemId 为 undefined 时在铺装备背景之前返回（draw-equip.ts:132）"
+      },
+      "caller": {
+        "file": "packages/game/src/present/menu/draw-menu.ts",
+        "line": 182,
+        "expr": "drawEquipMenu({ fb, state: entry.state as EquipMenuState, gs, playerRoles: extra.playerRoles, items: extra?.items ?? [], uiSpriteFrames, glyphs, equipBg, itemIcons })"
+      },
+      "legalInput": "phase 设为 pick-role，不写 selectedItemId。equipBg 是 4×4 全 0x55。队伍 [0,1]。",
+      "oldTest": {
+        "sha": "b782f9ca28737f24201310baef18ee9c6e7d6668",
+        "file": "packages/game/src/present/__tests__/grok-present/p03-equip.test.ts",
+        "fullName": "P03 装备绘制 P03 选人页画出六槽名称、选中图标、数量、预览攻击和背景",
+        "assertionLine": 165,
+        "matcher": "toBe",
+        "checked": "选中物品存在时 (1,1) 被背景画成 0x55",
+        "distinct": "旧断言有 selectedItemId；这里没有，背景函数不会被调用"
+      },
+      "file": "packages/game/src/present/menu/equip-role-pixels.grok-r1.test.ts",
+      "fullName": "G06-C 装备选人像素 G06-C03 selectedItemId 未定义时不铺装备背景",
+      "assertions": [
+        {
+          "line": 146,
+          "endLine": 146,
+          "matchers": ["toBeUndefined"]
+        },
+        {
+          "line": 147,
+          "endLine": 147,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 148,
+          "endLine": 148,
+          "matchers": ["not.toBe"]
+        }
+      ],
+      "axis": "exception",
+      "oracle": {
+        "operands": "menu.selectedItemId 与 (1,1)",
+        "matcher": "toBeUndefined / toBe / not.toBe",
+        "exact": "selectedItemId 为 undefined；(1,1) 为 90，不是 85"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/present/menu/equip-role-pixels.grok-r1.test.ts",
+        "fullName": "G06-C 装备选人像素 G06-C03 selectedItemId 未定义时不铺装备背景",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G06-C04",
+      "batch": "G06",
+      "group": "G06-C",
+      "primarySource": {
+        "file": "packages/game/src/present/menu/draw-equip.ts",
+        "conditionLine": 135,
+        "condition": "selectedItemId 不在目录时同样在铺背景之前返回（draw-equip.ts:135）"
+      },
+      "caller": {
+        "file": "packages/game/src/present/menu/draw-menu.ts",
+        "line": 182,
+        "expr": "drawEquipMenu({ fb, state: entry.state as EquipMenuState, gs, playerRoles: extra.playerRoles, items: extra?.items ?? [], uiSpriteFrames, glyphs, equipBg, itemIcons })"
+      },
+      "legalInput": "phase 为 pick-role，selectedItemId 为 404。目录只有物品 60。equipBg 全 0x55，图标表有 bitmap 6。",
+      "oldTest": {
+        "sha": "b80d91feef1709f8203454235d465f8638c5e7d4",
+        "file": "packages/game/src/present/menu/draw-equip.glm-phase1-leaves.test.ts",
+        "fullName": "L11 drawEquipMenu 剩余分支 已装备槽 itemId 不在 catalog → `?id` tofu；空槽（0）不画",
+        "assertionLine": 91,
+        "matcher": "not.toBe",
+        "checked": "已装备槽 id 不在目录时名字位不是底色",
+        "distinct": "旧断言已经进入选人页并画了未知槽名；这里选中的物品本身不在目录，背景和图标都不画"
+      },
+      "file": "packages/game/src/present/menu/equip-role-pixels.grok-r1.test.ts",
+      "fullName": "G06-C 装备选人像素 G06-C04 选中 id 不在目录时同样不铺背景也不画图标",
+      "assertions": [
+        {
+          "line": 176,
+          "endLine": 176,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 177,
+          "endLine": 177,
+          "matchers": ["toBe"]
+        }
+      ],
+      "axis": "exception",
+      "oracle": {
+        "operands": "(1,1) 与 (16,16)",
+        "matcher": "toBe",
+        "exact": "两点都是 90"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/present/menu/equip-role-pixels.grok-r1.test.ts",
+        "fullName": "G06-C 装备选人像素 G06-C04 选中 id 不在目录时同样不铺背景也不画图标",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G06-C05",
+      "batch": "G06",
+      "group": "G06-C",
+      "primarySource": {
+        "file": "packages/game/src/present/menu/draw-equip.ts",
+        "conditionLine": 151,
+        "condition": "playerCursor 取不到 roleId 时，图标已经画过，攻击数字在返回前不画（draw-equip.ts:151）"
+      },
+      "caller": {
+        "file": "packages/game/src/present/menu/draw-menu.ts",
+        "line": 182,
+        "expr": "drawEquipMenu({ fb, state: entry.state as EquipMenuState, gs, playerRoles: extra.playerRoles, items: extra?.items ?? [], uiSpriteFrames, glyphs, equipBg, itemIcons })"
+      },
+      "legalInput": "队伍 [0,1]，确认物品 60。playerCursor 设为 5。角色 0 武术 23。图标 bitmap 6 为 0x86。freezeNow(0)。",
+      "oldTest": {
+        "sha": "b782f9ca28737f24201310baef18ee9c6e7d6668",
+        "file": "packages/game/src/present/__tests__/grok-present/p03-equip.test.ts",
+        "fullName": "P03 装备绘制 P03 选人页画出六槽名称、选中图标、数量、预览攻击和背景",
+        "assertionLine": 174,
+        "matcher": "toBe",
+        "checked": "光标落在队员上时攻击个位是青色 3",
+        "distinct": "旧断言的光标指向队伍内角色；下标 5 没有角色"
+      },
+      "file": "packages/game/src/present/menu/equip-role-pixels.grok-r1.test.ts",
+      "fullName": "G06-C 装备选人像素 G06-C05 角色光标越过队伍时图标已画，攻击数字不画",
+      "assertions": [
+        {
+          "line": 206,
+          "endLine": 206,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 207,
+          "endLine": 207,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 208,
+          "endLine": 208,
+          "matchers": ["toBe"]
+        }
+      ],
+      "axis": "boundary",
+      "oracle": {
+        "operands": "(16,16)、攻击个位 rightDigitX(260, 4, 0)=278 的 y=14、(2,95)",
+        "matcher": "toBe",
+        "exact": "(16,16) 为 134；(278,14) 为 90；(2,95) 为 90"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/present/menu/equip-role-pixels.grok-r1.test.ts",
+        "fullName": "G06-C 装备选人像素 G06-C05 角色光标越过队伍时图标已画，攻击数字不画",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G06-C06",
+      "batch": "G06",
+      "group": "G06-C",
+      "primarySource": {
+        "file": "packages/game/src/present/menu/draw-equip.ts",
+        "conditionLine": 269,
+        "condition": "选人页数量读 gs.inventory 现行 count，amount > 0 才画（draw-equip.ts:269）"
+      },
+      "caller": {
+        "file": "packages/game/src/present/menu/draw-menu.ts",
+        "line": 182,
+        "expr": "drawEquipMenu({ fb, state: entry.state as EquipMenuState, gs, playerRoles: extra.playerRoles, items: extra?.items ?? [], uiSpriteFrames, glyphs, equipBg, itemIcons })"
+      },
+      "legalInput": "确认时库存 count 为 3，绘制前改成 0。队伍 [0,1]。freezeNow(0)。个位 rightDigitX(51, 2, 0)=57，y=57。名字在 (5,70)。",
+      "oldTest": {
+        "sha": "b782f9ca28737f24201310baef18ee9c6e7d6668",
+        "file": "packages/game/src/present/__tests__/grok-present/p03-equip.test.ts",
+        "fullName": "P03 装备绘制 P03 选人页画出六槽名称、选中图标、数量、预览攻击和背景",
+        "assertionLine": 168,
+        "matcher": "toBe",
+        "checked": "现行 count 3 画出青色 3",
+        "distinct": "旧断言的数量大于 0；数量 0 不画青色 0"
+      },
+      "file": "packages/game/src/present/menu/equip-role-pixels.grok-r1.test.ts",
+      "fullName": "G06-C 装备选人像素 G06-C06 现行数量为 0 时不画青色数字，物品名仍是确认色",
+      "assertions": [
+        {
+          "line": 237,
+          "endLine": 237,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 238,
+          "endLine": 238,
+          "matchers": ["not.toBe"]
+        },
+        {
+          "line": 239,
+          "endLine": 239,
+          "matchers": ["toBe"]
+        }
+      ],
+      "axis": "boundary",
+      "oracle": {
+        "operands": "(57,57) 与名字「甲」在 (5,70)",
+        "matcher": "toBe / not.toBe",
+        "exact": "(57,57) 为 90，不是青色 0（112）；名字点为 44"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/present/menu/equip-role-pixels.grok-r1.test.ts",
+        "fullName": "G06-C 装备选人像素 G06-C06 现行数量为 0 时不画青色数字，物品名仍是确认色",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G06-C07",
+      "batch": "G06",
+      "group": "G06-C",
+      "primarySource": {
+        "file": "packages/game/src/present/menu/draw-equip.ts",
+        "conditionLine": 181,
+        "condition": "灵力预览取 getPlayerMagicStrength，画在 (260,36)；武术仍取攻击值，画在 (260,14)（draw-equip.ts:181）"
+      },
+      "caller": {
+        "file": "packages/game/src/present/menu/draw-menu.ts",
+        "line": 182,
+        "expr": "drawEquipMenu({ fb, state: entry.state as EquipMenuState, gs, playerRoles: extra.playerRoles, items: extra?.items ?? [], uiSpriteFrames, glyphs, equipBg, itemIcons })"
+      },
+      "legalInput": "队伍 [0,1]。角色 0 武术 20，灵力 11，rgEquipmentEffect[1].rgwMagicStrength[0] 为 6。freezeNow(0)。个位 x=278，十位 x=272。",
+      "oldTest": {
+        "sha": "b782f9ca28737f24201310baef18ee9c6e7d6668",
+        "file": "packages/game/src/present/__tests__/grok-present/p03-equip.test.ts",
+        "fullName": "P03 装备绘制 P03 选人页画出六槽名称、选中图标、数量、预览攻击和背景",
+        "assertionLine": 174,
+        "matcher": "toBe",
+        "checked": "攻击预览个位是青色 3、十位是青色 2",
+        "distinct": "旧断言不读 y=36 的灵力；这里灵力是 17，武术是 20"
+      },
+      "file": "packages/game/src/present/menu/equip-role-pixels.grok-r1.test.ts",
+      "fullName": "G06-C 装备选人像素 G06-C07 灵力预览在 y=36，是基础加效果；武术行仍是武术值",
+      "assertions": [
+        {
+          "line": 267,
+          "endLine": 267,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 268,
+          "endLine": 268,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 269,
+          "endLine": 269,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 270,
+          "endLine": 270,
+          "matchers": ["toBe"]
+        }
+      ],
+      "axis": "positive",
+      "oracle": {
+        "operands": "(278,36)、(272,36)、(278,14)、(272,14)",
+        "matcher": "toBe",
+        "exact": "灵力个位 119、十位 113；武术个位 112、十位 114"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/present/menu/equip-role-pixels.grok-r1.test.ts",
+        "fullName": "G06-C 装备选人像素 G06-C07 灵力预览在 y=36，是基础加效果；武术行仍是武术值",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G06-C08",
+      "batch": "G06",
+      "group": "G06-C",
+      "primarySource": {
+        "file": "packages/game/src/present/menu/draw-equip.ts",
+        "conditionLine": 189,
+        "condition": "防御预览取 getPlayerDefense，画在 (260,58)（draw-equip.ts:189）"
+      },
+      "caller": {
+        "file": "packages/game/src/present/menu/draw-menu.ts",
+        "line": 182,
+        "expr": "drawEquipMenu({ fb, state: entry.state as EquipMenuState, gs, playerRoles: extra.playerRoles, items: extra?.items ?? [], uiSpriteFrames, glyphs, equipBg, itemIcons })"
+      },
+      "legalInput": "队伍 [0,1]。角色 0 防御 31。个位 x=278，十位 x=272，y=58。",
+      "oldTest": {
+        "sha": "b782f9ca28737f24201310baef18ee9c6e7d6668",
+        "file": "packages/game/src/present/__tests__/grok-present/p03-equip.test.ts",
+        "fullName": "P03 装备绘制 P03 选人页画出六槽名称、选中图标、数量、预览攻击和背景",
+        "assertionLine": 174,
+        "matcher": "toBe",
+        "checked": "攻击行 y=14 的青色数字是 23",
+        "distinct": "旧断言不读防御行；防御 31 的个位是青色 1、十位是青色 3"
+      },
+      "file": "packages/game/src/present/menu/equip-role-pixels.grok-r1.test.ts",
+      "fullName": "G06-C 装备选人像素 G06-C08 防御预览在 y=58，取防御基础值",
+      "assertions": [
+        {
+          "line": 291,
+          "endLine": 291,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 292,
+          "endLine": 292,
+          "matchers": ["toBe"]
+        }
+      ],
+      "axis": "positive",
+      "oracle": {
+        "operands": "(278,58) 与 (272,58)",
+        "matcher": "toBe",
+        "exact": "个位为 113；十位为 115"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/present/menu/equip-role-pixels.grok-r1.test.ts",
+        "fullName": "G06-C 装备选人像素 G06-C08 防御预览在 y=58，取防御基础值",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G06-C09",
+      "batch": "G06",
+      "group": "G06-C",
+      "primarySource": {
+        "file": "packages/game/src/present/menu/draw-equip.ts",
+        "conditionLine": 198,
+        "condition": "身法预览取 getPlayerDexterity，画在 (260,80)；不足的高位不画（draw-equip.ts:198）"
+      },
+      "caller": {
+        "file": "packages/game/src/present/menu/draw-menu.ts",
+        "line": 182,
+        "expr": "drawEquipMenu({ fb, state: entry.state as EquipMenuState, gs, playerRoles: extra.playerRoles, items: extra?.items ?? [], uiSpriteFrames, glyphs, equipBg, itemIcons })"
+      },
+      "legalInput": "队伍 [0,1]。角色 0 身法 8。个位 x=278，十位 x=272，y=80。",
+      "oldTest": {
+        "sha": "b782f9ca28737f24201310baef18ee9c6e7d6668",
+        "file": "packages/game/src/present/__tests__/grok-present/p03-equip.test.ts",
+        "fullName": "P03 装备绘制 P03 选人页画出六槽名称、选中图标、数量、预览攻击和背景",
+        "assertionLine": 175,
+        "matcher": "toBe",
+        "checked": "攻击 23 的十位被画成青色 2",
+        "distinct": "旧断言的攻击有十位；身法 8 的十位保持底色"
+      },
+      "file": "packages/game/src/present/menu/equip-role-pixels.grok-r1.test.ts",
+      "fullName": "G06-C 装备选人像素 G06-C09 身法为一位数时只画个位，高位保持底色",
+      "assertions": [
+        {
+          "line": 313,
+          "endLine": 313,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 314,
+          "endLine": 314,
+          "matchers": ["toBe"]
+        }
+      ],
+      "axis": "boundary",
+      "oracle": {
+        "operands": "(278,80) 与 (272,80)",
+        "matcher": "toBe",
+        "exact": "个位为青色 8（120）；十位为 90"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/present/menu/equip-role-pixels.grok-r1.test.ts",
+        "fullName": "G06-C 装备选人像素 G06-C09 身法为一位数时只画个位，高位保持底色",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G06-C10",
+      "batch": "G06",
+      "group": "G06-C",
+      "primarySource": {
+        "file": "packages/game/src/present/menu/draw-equip.ts",
+        "conditionLine": 208,
+        "condition": "吉运预览取 getPlayerFleeRate，画在 (260,102)（draw-equip.ts:208）"
+      },
+      "caller": {
+        "file": "packages/game/src/present/menu/draw-menu.ts",
+        "line": 182,
+        "expr": "drawEquipMenu({ fb, state: entry.state as EquipMenuState, gs, playerRoles: extra.playerRoles, items: extra?.items ?? [], uiSpriteFrames, glyphs, equipBg, itemIcons })"
+      },
+      "legalInput": "队伍 [0,1]。角色 0 吉运 46。个位 x=278，十位 x=272，y=102。",
+      "oldTest": {
+        "sha": "b782f9ca28737f24201310baef18ee9c6e7d6668",
+        "file": "packages/game/src/present/__tests__/grok-present/p03-equip.test.ts",
+        "fullName": "P03 装备绘制 P03 选人页画出六槽名称、选中图标、数量、预览攻击和背景",
+        "assertionLine": 174,
+        "matcher": "toBe",
+        "checked": "攻击行是青色 23",
+        "distinct": "旧断言不读 y=102；吉运 46 的个位是青色 6、十位是青色 4"
+      },
+      "file": "packages/game/src/present/menu/equip-role-pixels.grok-r1.test.ts",
+      "fullName": "G06-C 装备选人像素 G06-C10 吉运预览在 y=102",
+      "assertions": [
+        {
+          "line": 335,
+          "endLine": 335,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 336,
+          "endLine": 336,
+          "matchers": ["toBe"]
+        }
+      ],
+      "axis": "positive",
+      "oracle": {
+        "operands": "(278,102) 与 (272,102)",
+        "matcher": "toBe",
+        "exact": "个位为 118；十位为 116"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/present/menu/equip-role-pixels.grok-r1.test.ts",
+        "fullName": "G06-C 装备选人像素 G06-C10 吉运预览在 y=102",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G06-C11",
+      "batch": "G06",
+      "group": "G06-C",
+      "primarySource": {
+        "file": "packages/game/src/present/menu/draw-equip.ts",
+        "conditionLine": 267,
+        "condition": "选人页数量查找 gs.inventory 的现行 count，不读 list.inventory 快照（draw-equip.ts:267）"
+      },
+      "caller": {
+        "file": "packages/game/src/present/menu/draw-menu.ts",
+        "line": 182,
+        "expr": "drawEquipMenu({ fb, state: entry.state as EquipMenuState, gs, playerRoles: extra.playerRoles, items: extra?.items ?? [], uiSpriteFrames, glyphs, equipBg, itemIcons })"
+      },
+      "legalInput": "确认时快照 count 为 3。绘制前把 gs.inventory[0].count 改成 8。队伍 [0,1]。个位 (57,57)。",
+      "oldTest": {
+        "sha": "b782f9ca28737f24201310baef18ee9c6e7d6668",
+        "file": "packages/game/src/present/__tests__/grok-present/p03-equip.test.ts",
+        "fullName": "P03 装备绘制 P03 选人页画出六槽名称、选中图标、数量、预览攻击和背景",
+        "assertionLine": 168,
+        "matcher": "toBe",
+        "checked": "数量位是确认时的青色 3",
+        "distinct": "旧断言不在确认后改现行库存；这里青色数字是 8，快照仍是 3"
+      },
+      "file": "packages/game/src/present/menu/equip-role-pixels.grok-r1.test.ts",
+      "fullName": "G06-C 装备选人像素 G06-C11 数量读 gs 现行库存 8，列表快照仍是确认时的 3",
+      "assertions": [
+        {
+          "line": 361,
+          "endLine": 361,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 362,
+          "endLine": 362,
+          "matchers": ["not.toBe"]
+        },
+        {
+          "line": 363,
+          "endLine": 363,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 364,
+          "endLine": 364,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 365,
+          "endLine": 365,
+          "matchers": ["toEqual"]
+        }
+      ],
+      "axis": "ownership",
+      "oracle": {
+        "operands": "(57,57)、快照 count、现行 count、输入快照",
+        "matcher": "toBe / not.toBe / toEqual",
+        "exact": "(57,57) 为青色 8（120），不是青色 3（115）；快照 count 为 3；现行 count 为 8；输入快照不变"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/present/menu/equip-role-pixels.grok-r1.test.ts",
+        "fullName": "G06-C 装备选人像素 G06-C11 数量读 gs 现行库存 8，列表快照仍是确认时的 3",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G06-D01",
+      "batch": "G06",
+      "group": "G06-D",
+      "primarySource": {
+        "file": "packages/game/src/present/menu/draw-player-status.ts",
+        "conditionLine": 316,
+        "condition": "当前真气取 runtimeOrBase 的 mp，画在 (42,78)；上限取 maxMP，画在 (63,83)（draw-player-status.ts:316）"
+      },
+      "caller": {
+        "file": "packages/game/src/present/menu/draw-menu.ts",
+        "line": 161,
+        "expr": "drawPlayerStatus({ fb, state: entry.state as PlayerStatusState, gs, playerRoles: extra.playerRoles, items: extra.items ?? [], uiSpriteFrames, glyphs, statusBg, portraitIcons, itemIcons, levelUpExp, objectPoisons })"
+      },
+      "legalInput": "角色 0 的 rgwMP 为 12，rgwMaxMP 为 80。状态菜单 cursor 0。当前真气个位 x=60、十位 x=54，y=78。上限个位 x=81、十位 x=75，y=83。",
+      "oldTest": {
+        "sha": "b4b0dcf4784fe12de636ce0e3dc10ebd6a5aaed2",
+        "file": "packages/game/src/present/__tests__/grok-present/p07-status.test.ts",
+        "fullName": "P07 角色状态 P07 非空装备、立绘、经验和HP按当前角色画出，绘制不改状态",
+        "assertionLine": 90,
+        "matcher": "toBe",
+        "checked": "体力个位是黄色 2，上限十位是蓝色 8",
+        "distinct": "旧断言读的是 HP；这里当前真气是黄色 12，上限是蓝色 80"
+      },
+      "file": "packages/game/src/present/menu/status-vitals-pixels.grok-r1.test.ts",
+      "fullName": "G06-D 状态数值与毒 G06-D01 当前真气 12 为黄，真气上限 80 为蓝",
+      "assertions": [
+        {
+          "line": 72,
+          "endLine": 72,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 73,
+          "endLine": 73,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 74,
+          "endLine": 74,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 75,
+          "endLine": 75,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 76,
+          "endLine": 76,
+          "matchers": ["toEqual"]
+        }
+      ],
+      "axis": "ownership",
+      "oracle": {
+        "operands": "(60,78)、(54,78)、(81,83)、(75,83)，以及输入快照",
+        "matcher": "toBe / toEqual",
+        "exact": "当前真气个位 178、十位 177；上限个位 208、十位 216；输入快照不变"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/present/menu/status-vitals-pixels.grok-r1.test.ts",
+        "fullName": "G06-D 状态数值与毒 G06-D01 当前真气 12 为黄，真气上限 80 为蓝",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G06-D02",
+      "batch": "G06",
+      "group": "G06-D",
+      "primarySource": {
+        "file": "packages/game/src/present/menu/draw-player-status.ts",
+        "conditionLine": 336,
+        "condition": "武术取 getPlayerAttackStrength，画在 (42,102)（draw-player-status.ts:336）"
+      },
+      "caller": {
+        "file": "packages/game/src/present/menu/draw-menu.ts",
+        "line": 161,
+        "expr": "drawPlayerStatus({ fb, state: entry.state as PlayerStatusState, gs, playerRoles: extra.playerRoles, items: extra.items ?? [], uiSpriteFrames, glyphs, statusBg, portraitIcons, itemIcons, levelUpExp, objectPoisons })"
+      },
+      "legalInput": "角色 0 武术基础 20，rgEquipmentEffect[0].rgwAttackStrength[0] 为 3。个位 x=60，十位 x=54，y=102。",
+      "oldTest": {
+        "sha": "b4b0dcf4784fe12de636ce0e3dc10ebd6a5aaed2",
+        "file": "packages/game/src/present/__tests__/grok-present/p07-status.test.ts",
+        "fullName": "P07 角色状态 P07 非空装备、立绘、经验和HP按当前角色画出，绘制不改状态",
+        "assertionLine": 90,
+        "matcher": "toBe",
+        "checked": "体力行是黄色 12",
+        "distinct": "旧断言不读武术行；20 加 3 的个位是黄色 3、十位是黄色 2"
+      },
+      "file": "packages/game/src/present/menu/status-vitals-pixels.grok-r1.test.ts",
+      "fullName": "G06-D 状态数值与毒 G06-D02 武术是基础 20 加装备效果 3",
+      "assertions": [
+        {
+          "line": 97,
+          "endLine": 97,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 98,
+          "endLine": 98,
+          "matchers": ["toBe"]
+        }
+      ],
+      "axis": "positive",
+      "oracle": {
+        "operands": "(60,102) 与 (54,102)",
+        "matcher": "toBe",
+        "exact": "个位为 179；十位为 178"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/present/menu/status-vitals-pixels.grok-r1.test.ts",
+        "fullName": "G06-D 状态数值与毒 G06-D02 武术是基础 20 加装备效果 3",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G06-D03",
+      "batch": "G06",
+      "group": "G06-D",
+      "primarySource": {
+        "file": "packages/game/src/present/menu/draw-player-status.ts",
+        "conditionLine": 344,
+        "condition": "灵力取 getPlayerMagicStrength，画在 (42,122)（draw-player-status.ts:344）"
+      },
+      "caller": {
+        "file": "packages/game/src/present/menu/draw-menu.ts",
+        "line": 161,
+        "expr": "drawPlayerStatus({ fb, state: entry.state as PlayerStatusState, gs, playerRoles: extra.playerRoles, items: extra.items ?? [], uiSpriteFrames, glyphs, statusBg, portraitIcons, itemIcons, levelUpExp, objectPoisons })"
+      },
+      "legalInput": "角色 0 灵力基础 4，rgEquipmentEffect[2].rgwMagicStrength[0] 为 10。个位 x=60，十位 x=54，y=122。",
+      "oldTest": {
+        "sha": "b4b0dcf4784fe12de636ce0e3dc10ebd6a5aaed2",
+        "file": "packages/game/src/present/__tests__/grok-present/p07-status.test.ts",
+        "fullName": "P07 角色状态 P07 非空装备、立绘、经验和HP按当前角色画出，绘制不改状态",
+        "assertionLine": 90,
+        "matcher": "toBe",
+        "checked": "体力行是黄色 12",
+        "distinct": "旧断言不读灵力行；4 加 10 的个位是黄色 4、十位是黄色 1"
+      },
+      "file": "packages/game/src/present/menu/status-vitals-pixels.grok-r1.test.ts",
+      "fullName": "G06-D 状态数值与毒 G06-D03 灵力是基础 4 加装备效果 10",
+      "assertions": [
+        {
+          "line": 117,
+          "endLine": 117,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 118,
+          "endLine": 118,
+          "matchers": ["toBe"]
+        }
+      ],
+      "axis": "positive",
+      "oracle": {
+        "operands": "(60,122) 与 (54,122)",
+        "matcher": "toBe",
+        "exact": "个位为 180；十位为 177"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/present/menu/status-vitals-pixels.grok-r1.test.ts",
+        "fullName": "G06-D 状态数值与毒 G06-D03 灵力是基础 4 加装备效果 10",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G06-D04",
+      "batch": "G06",
+      "group": "G06-D",
+      "primarySource": {
+        "file": "packages/game/src/present/menu/draw-player-status.ts",
+        "conditionLine": 353,
+        "condition": "防御取 getPlayerDefense，画在 (42,142)（draw-player-status.ts:353）"
+      },
+      "caller": {
+        "file": "packages/game/src/present/menu/draw-menu.ts",
+        "line": 161,
+        "expr": "drawPlayerStatus({ fb, state: entry.state as PlayerStatusState, gs, playerRoles: extra.playerRoles, items: extra.items ?? [], uiSpriteFrames, glyphs, statusBg, portraitIcons, itemIcons, levelUpExp, objectPoisons })"
+      },
+      "legalInput": "角色 0 防御 7。个位 x=60，十位 x=54，y=142。",
+      "oldTest": {
+        "sha": "b4b0dcf4784fe12de636ce0e3dc10ebd6a5aaed2",
+        "file": "packages/game/src/present/__tests__/grok-present/p07-status.test.ts",
+        "fullName": "P07 角色状态 P07 非空装备、立绘、经验和HP按当前角色画出，绘制不改状态",
+        "assertionLine": 91,
+        "matcher": "toBe",
+        "checked": "体力上限十位是蓝色 8",
+        "distinct": "旧断言不读防御行；防御 7 只画黄色个位，十位保持底色"
+      },
+      "file": "packages/game/src/present/menu/status-vitals-pixels.grok-r1.test.ts",
+      "fullName": "G06-D 状态数值与毒 G06-D04 防御数字在 y=142",
+      "assertions": [
+        {
+          "line": 136,
+          "endLine": 136,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 137,
+          "endLine": 137,
+          "matchers": ["toBe"]
+        }
+      ],
+      "axis": "boundary",
+      "oracle": {
+        "operands": "(60,142) 与 (54,142)",
+        "matcher": "toBe",
+        "exact": "个位为黄色 7（183）；十位为 90"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/present/menu/status-vitals-pixels.grok-r1.test.ts",
+        "fullName": "G06-D 状态数值与毒 G06-D04 防御数字在 y=142",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G06-D05",
+      "batch": "G06",
+      "group": "G06-D",
+      "primarySource": {
+        "file": "packages/game/src/present/menu/draw-player-status.ts",
+        "conditionLine": 362,
+        "condition": "身法取 getPlayerDexterity，画在 (42,162)（draw-player-status.ts:362）"
+      },
+      "caller": {
+        "file": "packages/game/src/present/menu/draw-menu.ts",
+        "line": 161,
+        "expr": "drawPlayerStatus({ fb, state: entry.state as PlayerStatusState, gs, playerRoles: extra.playerRoles, items: extra.items ?? [], uiSpriteFrames, glyphs, statusBg, portraitIcons, itemIcons, levelUpExp, objectPoisons })"
+      },
+      "legalInput": "角色 0 身法 8。个位 x=60，y=162。",
+      "oldTest": {
+        "sha": "b4b0dcf4784fe12de636ce0e3dc10ebd6a5aaed2",
+        "file": "packages/game/src/present/__tests__/grok-present/p07-status.test.ts",
+        "fullName": "P07 角色状态 P07 非空装备、立绘、经验和HP按当前角色画出，绘制不改状态",
+        "assertionLine": 90,
+        "matcher": "toBe",
+        "checked": "体力个位是黄色 2",
+        "distinct": "旧断言不读身法行；身法 8 的个位是黄色 8"
+      },
+      "file": "packages/game/src/present/menu/status-vitals-pixels.grok-r1.test.ts",
+      "fullName": "G06-D 状态数值与毒 G06-D05 身法数字在 y=162",
+      "assertions": [
+        {
+          "line": 155,
+          "endLine": 155,
+          "matchers": ["toBe"]
+        }
+      ],
+      "axis": "positive",
+      "oracle": {
+        "operands": "(60,162)",
+        "matcher": "toBe",
+        "exact": "184"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/present/menu/status-vitals-pixels.grok-r1.test.ts",
+        "fullName": "G06-D 状态数值与毒 G06-D05 身法数字在 y=162",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G06-D06",
+      "batch": "G06",
+      "group": "G06-D",
+      "primarySource": {
+        "file": "packages/game/src/present/menu/draw-player-status.ts",
+        "conditionLine": 371,
+        "condition": "吉运取 getPlayerFleeRate，画在 (42,182)（draw-player-status.ts:371）"
+      },
+      "caller": {
+        "file": "packages/game/src/present/menu/draw-menu.ts",
+        "line": 161,
+        "expr": "drawPlayerStatus({ fb, state: entry.state as PlayerStatusState, gs, playerRoles: extra.playerRoles, items: extra.items ?? [], uiSpriteFrames, glyphs, statusBg, portraitIcons, itemIcons, levelUpExp, objectPoisons })"
+      },
+      "legalInput": "角色 0 吉运 9。个位 x=60，y=182。",
+      "oldTest": {
+        "sha": "b4b0dcf4784fe12de636ce0e3dc10ebd6a5aaed2",
+        "file": "packages/game/src/present/__tests__/grok-present/p07-status.test.ts",
+        "fullName": "P07 角色状态 P07 非空装备、立绘、经验和HP按当前角色画出，绘制不改状态",
+        "assertionLine": 90,
+        "matcher": "toBe",
+        "checked": "体力个位是黄色 2",
+        "distinct": "旧断言不读吉运行；吉运 9 的个位是黄色 9"
+      },
+      "file": "packages/game/src/present/menu/status-vitals-pixels.grok-r1.test.ts",
+      "fullName": "G06-D 状态数值与毒 G06-D06 吉运数字在 y=182",
+      "assertions": [
+        {
+          "line": 173,
+          "endLine": 173,
+          "matchers": ["toBe"]
+        }
+      ],
+      "axis": "positive",
+      "oracle": {
+        "operands": "(60,182)",
+        "matcher": "toBe",
+        "exact": "185"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/present/menu/status-vitals-pixels.grok-r1.test.ts",
+        "fullName": "G06-D 状态数值与毒 G06-D06 吉运数字在 y=182",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G06-D07",
+      "batch": "G06",
+      "group": "G06-D",
+      "primarySource": {
+        "file": "packages/game/src/present/menu/draw-player-status.ts",
+        "conditionLine": 280,
+        "condition": "经验斜杠坐标是 (0,0)，两个坐标都为 0 时不画；体力斜杠 (65,58) 和真气斜杠 (65,80) 照画（draw-player-status.ts:280）"
+      },
+      "caller": {
+        "file": "packages/game/src/present/menu/draw-menu.ts",
+        "line": 161,
+        "expr": "drawPlayerStatus({ fb, state: entry.state as PlayerStatusState, gs, playerRoles: extra.playerRoles, items: extra.items ?? [], uiSpriteFrames, glyphs, statusBg, portraitIcons, itemIcons, levelUpExp, objectPoisons })"
+      },
+      "legalInput": "默认状态菜单，帧 39 存在。不提供会改写斜杠坐标的参数。",
+      "oldTest": {
+        "sha": "b4b0dcf4784fe12de636ce0e3dc10ebd6a5aaed2",
+        "file": "packages/game/src/present/__tests__/grok-present/p07-status.test.ts",
+        "fullName": "P07 角色状态 P07 非空装备、立绘、经验和HP按当前角色画出，绘制不改状态",
+        "assertionLine": 86,
+        "matcher": "toBe",
+        "checked": "下一级经验的个位是青色 0，该测试不读斜杠像素",
+        "distinct": "旧断言不区分三条斜杠；经验斜杠位 (0,0) 保持底色"
+      },
+      "file": "packages/game/src/present/menu/status-vitals-pixels.grok-r1.test.ts",
+      "fullName": "G06-D 状态数值与毒 G06-D07 经验斜杠坐标 (0,0) 不画，体力与真气斜杠照画",
+      "assertions": [
+        {
+          "line": 190,
+          "endLine": 190,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 191,
+          "endLine": 191,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 192,
+          "endLine": 192,
+          "matchers": ["toBe"]
+        }
+      ],
+      "axis": "positive",
+      "oracle": {
+        "operands": "(0,0)、(65,58)、(65,80)",
+        "matcher": "toBe",
+        "exact": "(0,0) 为 90；(65,58) 为 57；(65,80) 为 57"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/present/menu/status-vitals-pixels.grok-r1.test.ts",
+        "fullName": "G06-D 状态数值与毒 G06-D07 经验斜杠坐标 (0,0) 不画，体力与真气斜杠照画",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G06-D08",
+      "batch": "G06",
+      "group": "G06-D",
+      "primarySource": {
+        "file": "packages/game/src/present/menu/draw-player-status.ts",
+        "conditionLine": 278,
+        "condition": "斜杠帧 uiSpriteFrames[39] 缺失时不画斜杠，体力数字仍画（draw-player-status.ts:278）"
+      },
+      "caller": {
+        "file": "packages/game/src/present/menu/draw-menu.ts",
+        "line": 161,
+        "expr": "drawPlayerStatus({ fb, state: entry.state as PlayerStatusState, gs, playerRoles: extra.playerRoles, items: extra.items ?? [], uiSpriteFrames, glyphs, statusBg, portraitIcons, itemIcons, levelUpExp, objectPoisons })"
+      },
+      "legalInput": "去掉帧 39。角色 0 的 HP 为 12。斜杠位 (65,58)。体力个位 rightDigitX(42, 4, 0)=60，y=56。",
+      "oldTest": {
+        "sha": "b4b0dcf4784fe12de636ce0e3dc10ebd6a5aaed2",
+        "file": "packages/game/src/present/__tests__/grok-present/p07-status.test.ts",
+        "fullName": "P07 角色状态 P07 非空装备、立绘、经验和HP按当前角色画出，绘制不改状态",
+        "assertionLine": 90,
+        "matcher": "toBe",
+        "checked": "帧齐全时体力个位是黄色 2",
+        "distinct": "旧断言不删除斜杠帧，也不读 (65,58)"
+      },
+      "file": "packages/game/src/present/menu/status-vitals-pixels.grok-r1.test.ts",
+      "fullName": "G06-D 状态数值与毒 G06-D08 缺少斜杠帧时体力数字仍在，斜杠位保持底色",
+      "assertions": [
+        {
+          "line": 210,
+          "endLine": 210,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 211,
+          "endLine": 211,
+          "matchers": ["toBe"]
+        }
+      ],
+      "axis": "exception",
+      "oracle": {
+        "operands": "(65,58) 与 (60,56)",
+        "matcher": "toBe",
+        "exact": "(65,58) 为 90；(60,56) 为黄色 2（178）"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/present/menu/status-vitals-pixels.grok-r1.test.ts",
+        "fullName": "G06-D 状态数值与毒 G06-D08 缺少斜杠帧时体力数字仍在，斜杠位保持底色",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G06-D09",
+      "batch": "G06",
+      "group": "G06-D",
+      "primarySource": {
+        "file": "packages/game/src/present/menu/draw-player-status.ts",
+        "conditionLine": 290,
+        "condition": "未提供 levelUpExp 时 nextExp 为 0，仍按至少一位画出青色 0（draw-player-status.ts:290）"
+      },
+      "caller": {
+        "file": "packages/game/src/present/menu/draw-menu.ts",
+        "line": 161,
+        "expr": "drawPlayerStatus({ fb, state: entry.state as PlayerStatusState, gs, playerRoles: extra.playerRoles, items: extra.items ?? [], uiSpriteFrames, glyphs, statusBg, portraitIcons, itemIcons, levelUpExp, objectPoisons })"
+      },
+      "legalInput": "角色 0 等级 6。rgPrimaryExp[0] 为 {wExp:12, wLevel:6}。不传 levelUpExp。下一级个位 rightDigitX(58, 5, 0)=82，十位 76，y=15。当前经验个位同样 x，y=6。",
+      "oldTest": {
+        "sha": "b4b0dcf4784fe12de636ce0e3dc10ebd6a5aaed2",
+        "file": "packages/game/src/present/__tests__/grok-present/p07-status.test.ts",
+        "fullName": "P07 角色状态 P07 非空装备、立绘、经验和HP按当前角色画出，绘制不改状态",
+        "assertionLine": 87,
+        "matcher": "toBe",
+        "checked": "升级表给出 40 时十位是青色 4",
+        "distinct": "旧断言的下一级是 40；省略升级表时十位保持底色，当前经验仍是黄色 12"
+      },
+      "file": "packages/game/src/present/menu/status-vitals-pixels.grok-r1.test.ts",
+      "fullName": "G06-D 状态数值与毒 G06-D09 未提供升级经验表时下一级只画一位青色 0，当前经验仍是 12",
+      "assertions": [
+        {
+          "line": 230,
+          "endLine": 230,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 231,
+          "endLine": 231,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 232,
+          "endLine": 232,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 233,
+          "endLine": 233,
+          "matchers": ["toBe"]
+        }
+      ],
+      "axis": "boundary",
+      "oracle": {
+        "operands": "(82,15)、(76,15)、(82,6)、(76,6)",
+        "matcher": "toBe",
+        "exact": "下一级个位为青色 0（112），十位为 90；当前经验个位为 178，十位为 177"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/present/menu/status-vitals-pixels.grok-r1.test.ts",
+        "fullName": "G06-D 状态数值与毒 G06-D09 未提供升级经验表时下一级只画一位青色 0，当前经验仍是 12",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G06-D10",
+      "batch": "G06",
+      "group": "G06-D",
+      "primarySource": {
+        "file": "packages/game/src/present/menu/draw-player-status.ts",
+        "conditionLine": 390,
+        "condition": "毒数据存在且 level > 3 才跳过，level 等于 3 仍画，颜色是 color+10（draw-player-status.ts:390）"
+      },
+      "caller": {
+        "file": "packages/game/src/present/menu/draw-menu.ts",
+        "line": 161,
+        "expr": "drawPlayerStatus({ fb, state: entry.state as PlayerStatusState, gs, playerRoles: extra.playerRoles, items: extra.items ?? [], uiSpriteFrames, glyphs, statusBg, portraitIcons, itemIcons, levelUpExp, objectPoisons })"
+      },
+      "legalInput": "槽 0 的 wPoisonID 为 7。objectPoisons 中 7 的 level 为 3、color 为 15。词表 7 是「甲」。显示行 y=58，取样 (185,58)。",
+      "oldTest": {
+        "sha": "277850d1b8e575432a97c506186dd1a1c6f933ff",
+        "file": "packages/game/src/present/menu/draw-player-status.test.ts",
+        "fullName": "drawPlayerStatus 毒 row(uigame.c:1245-1253) level<=3 → 毒名画在 (185,58),色 = wColor+10",
+        "assertionLine": 80,
+        "matcher": "toBe",
+        "checked": "level 2 时 renderText 间谍收到颜色 40",
+        "distinct": "旧断言用间谍锁 level 2 的调用参数；这里用像素锁 level 刚好等于 3 的颜色 25"
+      },
+      "file": "packages/game/src/present/menu/status-vitals-pixels.grok-r1.test.ts",
+      "fullName": "G06-D 状态数值与毒 G06-D10 毒等级等于 3 仍画出，颜色是 wColor 加 10",
+      "assertions": [
+        {
+          "line": 255,
+          "endLine": 255,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 256,
+          "endLine": 256,
+          "matchers": ["not.toBe"]
+        }
+      ],
+      "axis": "boundary",
+      "oracle": {
+        "operands": "(185,58)",
+        "matcher": "toBe / not.toBe",
+        "exact": "该点为 25，不是 90"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/present/menu/status-vitals-pixels.grok-r1.test.ts",
+        "fullName": "G06-D 状态数值与毒 G06-D10 毒等级等于 3 仍画出，颜色是 wColor 加 10",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G06-D11",
+      "batch": "G06",
+      "group": "G06-D",
+      "primarySource": {
+        "file": "packages/game/src/present/menu/draw-player-status.ts",
+        "conditionLine": 391,
+        "condition": "空槽和 level 大于 3 的毒不增加显示计数 j，下一毒的 y 是 58+j*18（draw-player-status.ts:391）"
+      },
+      "caller": {
+        "file": "packages/game/src/present/menu/draw-menu.ts",
+        "line": 161,
+        "expr": "drawPlayerStatus({ fb, state: entry.state as PlayerStatusState, gs, playerRoles: extra.playerRoles, items: extra.items ?? [], uiSpriteFrames, glyphs, statusBg, portraitIcons, itemIcons, levelUpExp, objectPoisons })"
+      },
+      "legalInput": "槽 0 空。槽 1 毒 7，level 2，color 20，词「甲」。槽 2 毒 8，level 99。槽 3 毒 9，level 1，color 22，词「乙」。",
+      "oldTest": {
+        "sha": "277850d1b8e575432a97c506186dd1a1c6f933ff",
+        "file": "packages/game/src/present/menu/draw-player-status.test.ts",
+        "fullName": "drawPlayerStatus 毒 row(uigame.c:1245-1253) level>3(高级/装备毒哨兵)→ 不画",
+        "assertionLine": 86,
+        "matcher": "toBeUndefined",
+        "checked": "level 99 不会对 (185,58) 调用 renderText",
+        "distinct": "旧断言只证明高等级毒不画在第一行；这里它还不占用显示行，下一毒上移到 y=76"
+      },
+      "file": "packages/game/src/present/menu/status-vitals-pixels.grok-r1.test.ts",
+      "fullName": "G06-D 状态数值与毒 G06-D11 空槽和等级大于 3 的毒不占显示行，下一毒上移到 y=76",
+      "assertions": [
+        {
+          "line": 288,
+          "endLine": 288,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 289,
+          "endLine": 289,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 290,
+          "endLine": 290,
+          "matchers": ["toBe"]
+        }
+      ],
+      "axis": "positive",
+      "oracle": {
+        "operands": "(185,58)、「乙」在 (185,76)、「乙」在 (185,94)",
+        "matcher": "toBe",
+        "exact": "(185,58) 为 30；(185,76) 的「乙」为 32；(185,94) 为 90"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/present/menu/status-vitals-pixels.grok-r1.test.ts",
+        "fullName": "G06-D 状态数值与毒 G06-D11 空槽和等级大于 3 的毒不占显示行，下一毒上移到 y=76",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G06-D12",
+      "batch": "G06",
+      "group": "G06-D",
+      "primarySource": {
+        "file": "packages/game/src/present/menu/draw-player-status.ts",
+        "conditionLine": 386,
+        "condition": "显示计数 j 到 10 停止，第 8 与第 9 个显示项共用 y=184，后写的颜色留下（draw-player-status.ts:386）"
+      },
+      "caller": {
+        "file": "packages/game/src/present/menu/draw-menu.ts",
+        "line": 161,
+        "expr": "drawPlayerStatus({ fb, state: entry.state as PlayerStatusState, gs, playerRoles: extra.playerRoles, items: extra.items ?? [], uiSpriteFrames, glyphs, statusBg, portraitIcons, itemIcons, levelUpExp, objectPoisons })"
+      },
+      "legalInput": "槽 0 到 10 各有一条 level 1 的毒。槽 9 的 color 为 20，槽 10 的 color 为 40，其余 color 为 1。取样 (185,184)。",
+      "oldTest": {
+        "sha": "277850d1b8e575432a97c506186dd1a1c6f933ff",
+        "file": "packages/game/src/present/menu/draw-player-status.test.ts",
+        "fullName": "drawPlayerStatus 毒 row(uigame.c:1245-1253) level<=3 → 毒名画在 (185,58),色 = wColor+10",
+        "assertionLine": 80,
+        "matcher": "toBe",
+        "checked": "一条 level 2 的毒画在 (185,58)",
+        "distinct": "旧断言只有一条毒；第 11 条不再把 y=184 改成 50"
+      },
+      "file": "packages/game/src/present/menu/status-vitals-pixels.grok-r1.test.ts",
+      "fullName": "G06-D 状态数值与毒 G06-D12 第 11 条毒不再覆盖第 10 条的颜色",
+      "assertions": [
+        {
+          "line": 317,
+          "endLine": 317,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 318,
+          "endLine": 318,
+          "matchers": ["not.toBe"]
+        }
+      ],
+      "axis": "boundary",
+      "oracle": {
+        "operands": "(185,184)",
+        "matcher": "toBe / not.toBe",
+        "exact": "该点为 30，不是 50"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/present/menu/status-vitals-pixels.grok-r1.test.ts",
+        "fullName": "G06-D 状态数值与毒 G06-D12 第 11 条毒不再覆盖第 10 条的颜色",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G06-D13",
+      "batch": "G06",
+      "group": "G06-D",
+      "primarySource": {
+        "file": "packages/game/src/present/menu/draw-player-status.ts",
+        "conditionLine": 217,
+        "condition": "装备槽 id 为 0 时跳过；下一槽 id 非 0 且在目录里时画名字和图标（draw-player-status.ts:217）"
+      },
+      "caller": {
+        "file": "packages/game/src/present/menu/draw-menu.ts",
+        "line": 161,
+        "expr": "drawPlayerStatus({ fb, state: entry.state as PlayerStatusState, gs, playerRoles: extra.playerRoles, items: extra.items ?? [], uiSpriteFrames, glyphs, statusBg, portraitIcons, itemIcons, levelUpExp, objectPoisons })"
+      },
+      "legalInput": "槽 0 保持 0。槽 1 装备物品 71，名字「丑」，bitmap 4，图标索引 0x44。名字位 (253,78)，图标 (248,40)。槽 0 的名字位是 (195,38)。",
+      "oldTest": {
+        "sha": "77218827f211e5e2d32c4455e46f7fec3b6931f2",
+        "file": "packages/game/src/present/menu/draw-player-status.glm-phase1-leaves.test.ts",
+        "fullName": "L11 drawPlayerStatus 剩余分支 装备槽 itemId 不在 catalog：该槽图标与名字都跳过（不 `?id`，与 draw-equip 不同合同）",
+        "assertionLine": 92,
+        "matcher": "toBe",
+        "checked": "目录里没有该装备时 (195,38) 保持 0x5A",
+        "distinct": "旧断言的 id 不在目录；这里第一槽 id 是 0，第二槽的「丑」和图标要画出来"
+      },
+      "file": "packages/game/src/present/menu/status-vitals-pixels.grok-r1.test.ts",
+      "fullName": "G06-D 状态数值与毒 G06-D13 第一槽 id 为 0 时跳过，第二槽画出装备名",
+      "assertions": [
+        {
+          "line": 342,
+          "endLine": 342,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 343,
+          "endLine": 343,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 344,
+          "endLine": 344,
+          "matchers": ["toBe"]
+        }
+      ],
+      "axis": "exception",
+      "oracle": {
+        "operands": "(195,38)、「丑」在 (253,78)、(248,40)",
+        "matcher": "toBe",
+        "exact": "(195,38) 为 90；「丑」为 190；(248,40) 为 68"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/present/menu/status-vitals-pixels.grok-r1.test.ts",
+        "fullName": "G06-D 状态数值与毒 G06-D13 第一槽 id 为 0 时跳过，第二槽画出装备名",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G06-D14",
+      "batch": "G06",
+      "group": "G06-D",
+      "primarySource": {
+        "file": "packages/game/src/present/menu/draw-player-status.ts",
+        "conditionLine": 232,
+        "condition": "目录里有该装备但 _name 为空时，名字用 ?id，缺字框的左上角点亮为 0xBE（draw-player-status.ts:232）"
+      },
+      "caller": {
+        "file": "packages/game/src/present/menu/draw-menu.ts",
+        "line": 161,
+        "expr": "drawPlayerStatus({ fb, state: entry.state as PlayerStatusState, gs, playerRoles: extra.playerRoles, items: extra.items ?? [], uiSpriteFrames, glyphs, statusBg, portraitIcons, itemIcons, levelUpExp, objectPoisons })"
+      },
+      "legalInput": "物品 72 传入 _name undefined，bitmap 3。槽 0 装备它。名字位 (195,38)。",
+      "oldTest": {
+        "sha": "b4b0dcf4784fe12de636ce0e3dc10ebd6a5aaed2",
+        "file": "packages/game/src/present/__tests__/grok-present/p07-status.test.ts",
+        "fullName": "P07 角色状态 P07 非空装备、立绘、经验和HP按当前角色画出，绘制不改状态",
+        "assertionLine": 82,
+        "matcher": "toBe",
+        "checked": "有名字「子」时 (195,38) 是 0xBE 的字形点",
+        "distinct": "旧断言的物品有名字；没有名字时同一点仍是 0xBE，因为缺字框左上角点亮"
+      },
+      "file": "packages/game/src/present/menu/status-vitals-pixels.grok-r1.test.ts",
+      "fullName": "G06-D 状态数值与毒 G06-D14 物品在目录里但没有名字时，名字位画出 0xBE 的缺字框",
+      "assertions": [
+        {
+          "line": 363,
+          "endLine": 363,
+          "matchers": ["toBeUndefined"]
+        },
+        {
+          "line": 364,
+          "endLine": 364,
+          "matchers": ["toBe"]
+        }
+      ],
+      "axis": "exception",
+      "oracle": {
+        "operands": "item._name 与 (195,38)",
+        "matcher": "toBeUndefined / toBe",
+        "exact": "_name 为 undefined；(195,38) 为 190"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/present/menu/status-vitals-pixels.grok-r1.test.ts",
+        "fullName": "G06-D 状态数值与毒 G06-D14 物品在目录里但没有名字时，名字位画出 0xBE 的缺字框",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G06-D15",
+      "batch": "G06",
+      "group": "G06-D",
+      "primarySource": {
+        "file": "packages/game/src/present/menu/draw-player-status.ts",
+        "conditionLine": 207,
+        "condition": "portraitIcons 没有该立绘时不画头像，角色名仍用确认色画在 (110,8)（draw-player-status.ts:207）"
+      },
+      "caller": {
+        "file": "packages/game/src/present/menu/draw-menu.ts",
+        "line": 161,
+        "expr": "drawPlayerStatus({ fb, state: entry.state as PlayerStatusState, gs, playerRoles: extra.playerRoles, items: extra.items ?? [], uiSpriteFrames, glyphs, statusBg, portraitIcons, itemIcons, levelUpExp, objectPoisons })"
+      },
+      "legalInput": "不传 portraitIcons。角色 0 的名字是「甲」。头像位 (110,30)，名字点 (110,8)。",
+      "oldTest": {
+        "sha": "b4b0dcf4784fe12de636ce0e3dc10ebd6a5aaed2",
+        "file": "packages/game/src/present/__tests__/grok-present/p07-status.test.ts",
+        "fullName": "P07 角色状态 P07 非空装备、立绘、经验和HP按当前角色画出，绘制不改状态",
+        "assertionLine": 80,
+        "matcher": "toBe",
+        "checked": "立绘存在时 (110,30) 是 0x95",
+        "distinct": "旧断言有立绘；没有立绘表时 (110,30) 保持底色，名字仍是 44"
+      },
+      "file": "packages/game/src/present/menu/status-vitals-pixels.grok-r1.test.ts",
+      "fullName": "G06-D 状态数值与毒 G06-D15 没有立绘表时头像位保持底色，角色名仍是确认色",
+      "assertions": [
+        {
+          "line": 382,
+          "endLine": 382,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 383,
+          "endLine": 383,
+          "matchers": ["toBe"]
+        }
+      ],
+      "axis": "exception",
+      "oracle": {
+        "operands": "(110,30) 与名字「甲」在 (110,8)",
+        "matcher": "toBe",
+        "exact": "(110,30) 为 90；名字点为 44"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/present/menu/status-vitals-pixels.grok-r1.test.ts",
+        "fullName": "G06-D 状态数值与毒 G06-D15 没有立绘表时头像位保持底色，角色名仍是确认色",
+        "status": "passed"
+      }
     }
   ],
   "existingProof": [
@@ -11253,6 +13871,396 @@
         "assertionLine": 22,
         "matcher": "toBe",
         "checked": "125"
+      }
+    },
+    {
+      "id": "G06-EP-p01-cursor",
+      "classification": "existing-proof",
+      "reason": "P01 已锁光标 (42,22) 为 CURSOR_ID、透明孔旁是框色，以及 (0,140) 物品框。G06 不再写同一光标像素。",
+      "oldTest": {
+        "sha": "8904a1fa294ea8cb5cca55e7ad5ccf133ae87794",
+        "file": "packages/game/src/present/__tests__/grok-present/p01-inventory-list.test.ts",
+        "assertionLine": 84,
+        "matcher": "toBe",
+        "checked": "帧齐全时 (42,22) 为 CURSOR_ID",
+        "fullName": "P01 物品列表 P01 非空列表把可用物品名、光标不透明0与透明孔画进真实Framebuffer"
+      }
+    },
+    {
+      "id": "G06-EP-p01-empty",
+      "classification": "existing-proof",
+      "reason": "空列表的名字位是列表框色，光标仍在默认格。",
+      "oldTest": {
+        "sha": "8904a1fa294ea8cb5cca55e7ad5ccf133ae87794",
+        "file": "packages/game/src/present/__tests__/grok-present/p01-inventory-list.test.ts",
+        "assertionLine": 103,
+        "matcher": "toBe",
+        "checked": "名字位为 BOX_STYLE1，(42,22) 为 CURSOR_ID，(8,147) 为底色",
+        "fullName": "P01 物品列表 P01 空列表不画物品名，光标仍停在默认格"
+      }
+    },
+    {
+      "id": "G06-EP-p01-page",
+      "classification": "existing-proof",
+      "reason": "翻页后光标移到下一列 (142,22)，首页物品让出左上格。",
+      "oldTest": {
+        "sha": "8904a1fa294ea8cb5cca55e7ad5ccf133ae87794",
+        "file": "packages/game/src/present/__tests__/grok-present/p01-inventory-list.test.ts",
+        "assertionLine": 138,
+        "matcher": "toBe",
+        "checked": "(142,22) 为 CURSOR_ID，(42,22) 不再是光标",
+        "fullName": "P01 物品列表 P01 多于一页后首页物品让出左上格，右移光标换到下一列"
+      }
+    },
+    {
+      "id": "G06-EP-p01-inactive",
+      "classification": "existing-proof",
+      "reason": "usable 过滤下不可用选中项的暗选色已证明。",
+      "oldTest": {
+        "sha": "8904a1fa294ea8cb5cca55e7ad5ccf133ae87794",
+        "file": "packages/game/src/present/__tests__/grok-present/p01-inventory-list.test.ts",
+        "assertionLine": 185,
+        "matcher": "toBe",
+        "checked": "选中不可用项为 SELECTED_INACTIVE",
+        "fullName": "P01 物品列表 P01 不可用、可用数量与已装备虚拟条目用不同色和数字"
+      }
+    },
+    {
+      "id": "G06-EP-p01-equipped",
+      "classification": "existing-proof",
+      "reason": "count 为 0 的虚拟装备条目颜色已证明。",
+      "oldTest": {
+        "sha": "8904a1fa294ea8cb5cca55e7ad5ccf133ae87794",
+        "file": "packages/game/src/present/__tests__/grok-present/p01-inventory-list.test.ts",
+        "assertionLine": 189,
+        "matcher": "toBe",
+        "checked": "该名字点为 EQUIPPEDITEM",
+        "fullName": "P01 物品列表 P01 不可用、可用数量与已装备虚拟条目用不同色和数字"
+      }
+    },
+    {
+      "id": "G06-EP-p01-cyan5",
+      "classification": "existing-proof",
+      "reason": "第二列差额 5 的青色个位和框外十位已证明。",
+      "oldTest": {
+        "sha": "8904a1fa294ea8cb5cca55e7ad5ccf133ae87794",
+        "file": "packages/game/src/present/__tests__/grok-present/p01-inventory-list.test.ts",
+        "assertionLine": 194,
+        "matcher": "toBe",
+        "checked": "个位为 cyanDigit(5)，十位为底色",
+        "fullName": "P01 物品列表 P01 不可用、可用数量与已装备虚拟条目用不同色和数字"
+      }
+    },
+    {
+      "id": "G06-EP-p02-live7",
+      "classification": "existing-proof",
+      "reason": "用物层现行数量 7 而不是快照 4 已证明。",
+      "oldTest": {
+        "sha": "8fded76f5725fb1ded51a657697022c07401713e",
+        "file": "packages/game/src/present/__tests__/grok-present/p02-inventory-target.test.ts",
+        "assertionLine": 83,
+        "matcher": "toBe",
+        "checked": "个位为 cyanDigit(7)，不是 cyanDigit(4)",
+        "fullName": "P02 物品目标 P02 使用目标数量读gs现行库存而不是开菜单时的快照"
+      }
+    },
+    {
+      "id": "G06-EP-p02-attack",
+      "classification": "existing-proof",
+      "reason": "两人队的攻击 23 已画在用物层 y=74。",
+      "oldTest": {
+        "sha": "8fded76f5725fb1ded51a657697022c07401713e",
+        "file": "packages/game/src/present/__tests__/grok-present/p02-inventory-target.test.ts",
+        "assertionLine": 143,
+        "matcher": "toBe",
+        "checked": "个位黄色 3，十位黄色 2",
+        "fullName": "P02 物品目标 P02 两人队按队伍顺序显示姓名、当前HP与含装备的攻击"
+      }
+    },
+    {
+      "id": "G06-EP-p02-desc",
+      "classification": "existing-proof",
+      "reason": "单行描述「诀」已画在 (71,151)。",
+      "oldTest": {
+        "sha": "8fded76f5725fb1ded51a657697022c07401713e",
+        "file": "packages/game/src/present/__tests__/grok-present/p02-inventory-target.test.ts",
+        "assertionLine": 185,
+        "matcher": "toBe",
+        "checked": "该点为 DESC_COLOR",
+        "fullName": "P02 物品目标 P02 noDesc不关闭目标层，只省略物品描述"
+      }
+    },
+    {
+      "id": "G06-EP-p02-nodesc-hp",
+      "classification": "existing-proof",
+      "reason": "use-target 上 noDesc 仍保留体力数字。",
+      "oldTest": {
+        "sha": "8fded76f5725fb1ded51a657697022c07401713e",
+        "file": "packages/game/src/present/__tests__/grok-present/p02-inventory-target.test.ts",
+        "assertionLine": 208,
+        "matcher": "toBe",
+        "checked": "(258,37) 为黄色 2",
+        "fullName": "P02 物品目标 P02 noDesc不关闭目标层，只省略物品描述"
+      }
+    },
+    {
+      "id": "G06-EP-p03-list",
+      "classification": "existing-proof",
+      "reason": "装备列表里可装备项的可选色已证明。",
+      "oldTest": {
+        "sha": "b782f9ca28737f24201310baef18ee9c6e7d6668",
+        "file": "packages/game/src/present/__tests__/grok-present/p03-equip.test.ts",
+        "assertionLine": 76,
+        "matcher": "toBe",
+        "checked": "「甲」为 SELECTED_FIRST",
+        "fullName": "P03 装备绘制 P03 装备列表里不可装备项是暗色，可装备项保持可选色"
+      }
+    },
+    {
+      "id": "G06-EP-p03-attack",
+      "classification": "existing-proof",
+      "reason": "选人页攻击预览 23 已证明。",
+      "oldTest": {
+        "sha": "b782f9ca28737f24201310baef18ee9c6e7d6668",
+        "file": "packages/game/src/present/__tests__/grok-present/p03-equip.test.ts",
+        "assertionLine": 174,
+        "matcher": "toBe",
+        "checked": "个位青色 3，十位青色 2",
+        "fullName": "P03 装备绘制 P03 选人页画出六槽名称、选中图标、数量、预览攻击和背景"
+      }
+    },
+    {
+      "id": "G06-EP-p03-moved",
+      "classification": "existing-proof",
+      "reason": "下移后不能装备的角色变成暗选色已证明。",
+      "oldTest": {
+        "sha": "b782f9ca28737f24201310baef18ee9c6e7d6668",
+        "file": "packages/game/src/present/__tests__/grok-present/p03-equip.test.ts",
+        "assertionLine": 202,
+        "matcher": "toBe",
+        "checked": "「乙」为 SELECTED_INACTIVE",
+        "fullName": "P03 装备绘制 P03 选人页画出六槽名称、选中图标、数量、预览攻击和背景"
+      }
+    },
+    {
+      "id": "G06-EP-p07-portrait",
+      "classification": "existing-proof",
+      "reason": "有立绘时 (110,30) 的头像索引已证明。",
+      "oldTest": {
+        "sha": "b4b0dcf4784fe12de636ce0e3dc10ebd6a5aaed2",
+        "file": "packages/game/src/present/__tests__/grok-present/p07-status.test.ts",
+        "assertionLine": 80,
+        "matcher": "toBe",
+        "checked": "(110,30) 为 0x95",
+        "fullName": "P07 角色状态 P07 非空装备、立绘、经验和HP按当前角色画出，绘制不改状态"
+      }
+    },
+    {
+      "id": "G06-EP-p07-next",
+      "classification": "existing-proof",
+      "reason": "升级表给出 40 时下一级十位已证明。",
+      "oldTest": {
+        "sha": "b4b0dcf4784fe12de636ce0e3dc10ebd6a5aaed2",
+        "file": "packages/game/src/present/__tests__/grok-present/p07-status.test.ts",
+        "assertionLine": 87,
+        "matcher": "toBe",
+        "checked": "十位为 cyanDigit(4)",
+        "fullName": "P07 角色状态 P07 非空装备、立绘、经验和HP按当前角色画出，绘制不改状态"
+      }
+    },
+    {
+      "id": "G06-EP-p07-hp",
+      "classification": "existing-proof",
+      "reason": "体力 12 的黄色个位已证明。",
+      "oldTest": {
+        "sha": "b4b0dcf4784fe12de636ce0e3dc10ebd6a5aaed2",
+        "file": "packages/game/src/present/__tests__/grok-present/p07-status.test.ts",
+        "assertionLine": 90,
+        "matcher": "toBe",
+        "checked": "体力个位为 yellowDigit(2)",
+        "fullName": "P07 角色状态 P07 非空装备、立绘、经验和HP按当前角色画出，绘制不改状态"
+      }
+    },
+    {
+      "id": "G06-EP-p07-level",
+      "classification": "existing-proof",
+      "reason": "等级画 runtime 6 而不是 base 1 已证明。",
+      "oldTest": {
+        "sha": "b4b0dcf4784fe12de636ce0e3dc10ebd6a5aaed2",
+        "file": "packages/game/src/present/__tests__/grok-present/p07-status.test.ts",
+        "assertionLine": 88,
+        "matcher": "toBe",
+        "checked": "等级个位为 yellowDigit(6)，不是 yellowDigit(1)",
+        "fullName": "P07 角色状态 P07 非空装备、立绘、经验和HP按当前角色画出，绘制不改状态"
+      }
+    },
+    {
+      "id": "G06-EP-ginv-unknown",
+      "classification": "existing-proof",
+      "reason": "选中的未知物品名是暗选色已证明。",
+      "oldTest": {
+        "sha": "4badd0f6a274aa07f3018eece49f5708608d28ce",
+        "file": "packages/game/src/present/menu/draw-inventory.glm-phase1-leaves.test.ts",
+        "assertionLine": 43,
+        "matcher": "toBe",
+        "checked": "(15,12) 为 0x1C",
+        "fullName": "L10 drawInventoryMenu 剩余分支 库存条目 itemId 不在 catalog 且被选中：label ?id（tofu 顶行）+ SELECTED_INACTIVE 0x1C"
+      }
+    },
+    {
+      "id": "G06-EP-ginv-mixed",
+      "classification": "existing-proof",
+      "reason": "未选中未知项是暗色、选中可用项是 0xF9 已证明。",
+      "oldTest": {
+        "sha": "4badd0f6a274aa07f3018eece49f5708608d28ce",
+        "file": "packages/game/src/present/menu/draw-inventory.glm-phase1-leaves.test.ts",
+        "assertionLine": 68,
+        "matcher": "toBe",
+        "checked": "(15,12) 为 0x18",
+        "fullName": "L10 drawInventoryMenu 剩余分支 未知项与可用项混列：未知 0x18（未选中），可用项被选中 0xF9"
+      }
+    },
+    {
+      "id": "G06-EP-ginv-nogs",
+      "classification": "existing-proof",
+      "reason": "use-target 缺 gs 时不叠选人框已证明。",
+      "oldTest": {
+        "sha": "4badd0f6a274aa07f3018eece49f5708608d28ce",
+        "file": "packages/game/src/present/menu/draw-inventory.glm-phase1-leaves.test.ts",
+        "assertionLine": 93,
+        "matcher": "not.toBe",
+        "checked": "(120,10) 不是 0x11",
+        "fullName": "L10 drawInventoryMenu 剩余分支 use-target 相缺 gs/playerRoles：只画 list，不叠选人层（防御组合不崩）"
+      }
+    },
+    {
+      "id": "G06-EP-geq-party",
+      "classification": "existing-proof",
+      "reason": "队伍顺序 [3,1] 的选中色已证明。",
+      "oldTest": {
+        "sha": "b80d91feef1709f8203454235d465f8638c5e7d4",
+        "file": "packages/game/src/present/menu/draw-equip.glm-phase1-leaves.test.ts",
+        "assertionLine": 63,
+        "matcher": "toBe",
+        "checked": "丁的名字点为 0xF9",
+        "fullName": "L11 drawEquipMenu 剩余分支 pick-role 非顺序 party [3,1]：equipableBy 按 roleId 位着色，选中高亮按 party 序"
+      }
+    },
+    {
+      "id": "G06-EP-geq-tofu",
+      "classification": "existing-proof",
+      "reason": "已装备未知 id 的名字位不是底色已证明。",
+      "oldTest": {
+        "sha": "b80d91feef1709f8203454235d465f8638c5e7d4",
+        "file": "packages/game/src/present/menu/draw-equip.glm-phase1-leaves.test.ts",
+        "assertionLine": 91,
+        "matcher": "not.toBe",
+        "checked": "(130,11) 不是 0x5A",
+        "fullName": "L11 drawEquipMenu 剩余分支 已装备槽 itemId 不在 catalog → `?id` tofu；空槽（0）不画"
+      }
+    },
+    {
+      "id": "G06-EP-geq-missing-role",
+      "classification": "existing-proof",
+      "reason": "目录里没有的角色行保持底色已证明。",
+      "oldTest": {
+        "sha": "b80d91feef1709f8203454235d465f8638c5e7d4",
+        "file": "packages/game/src/present/menu/draw-equip.glm-phase1-leaves.test.ts",
+        "assertionLine": 122,
+        "matcher": "toBe",
+        "checked": "(15,126) 为 0x5A",
+        "fullName": "L11 drawEquipMenu 剩余分支 roles 缺 party 中某 roleId：该行跳过不崩，另一行正常"
+      }
+    },
+    {
+      "id": "G06-EP-gst-runtime0",
+      "classification": "existing-proof",
+      "reason": "runtime 0 回退到 base 体力 99 已证明。",
+      "oldTest": {
+        "sha": "77218827f211e5e2d32c4455e46f7fec3b6931f2",
+        "file": "packages/game/src/present/menu/draw-player-status.glm-phase1-leaves.test.ts",
+        "assertionLine": 49,
+        "matcher": "toBe",
+        "checked": "体力个位和十位都是 yellowDigit(9)",
+        "fullName": "L11 drawPlayerStatus 剩余分支 runtimeOrBase：runtime 0 → 回退 base PlayerRoles 值（level/hp/maxHP/mp/maxMP）"
+      }
+    },
+    {
+      "id": "G06-EP-gst-hp41",
+      "classification": "existing-proof",
+      "reason": "runtime 体力 41 优先于 base 99 已证明。",
+      "oldTest": {
+        "sha": "77218827f211e5e2d32c4455e46f7fec3b6931f2",
+        "file": "packages/game/src/present/menu/draw-player-status.glm-phase1-leaves.test.ts",
+        "assertionLine": 72,
+        "matcher": "toBe",
+        "checked": "个位黄色 1，十位黄色 4",
+        "fullName": "L11 drawPlayerStatus 剩余分支 runtime 有值优先于 base：hp 41 画 41 非 base 99"
+      }
+    },
+    {
+      "id": "G06-EP-gst-missing-item",
+      "classification": "existing-proof",
+      "reason": "状态页装备不在目录时名字位保持底色已证明。",
+      "oldTest": {
+        "sha": "77218827f211e5e2d32c4455e46f7fec3b6931f2",
+        "file": "packages/game/src/present/menu/draw-player-status.glm-phase1-leaves.test.ts",
+        "assertionLine": 92,
+        "matcher": "toBe",
+        "checked": "(195,38) 为 0x5A",
+        "fullName": "L11 drawPlayerStatus 剩余分支 装备槽 itemId 不在 catalog：该槽图标与名字都跳过（不 `?id`，与 draw-equip 不同合同）"
+      }
+    },
+    {
+      "id": "G06-EP-gst-cursor",
+      "classification": "existing-proof",
+      "reason": "状态光标越界时整屏不画已证明。",
+      "oldTest": {
+        "sha": "77218827f211e5e2d32c4455e46f7fec3b6931f2",
+        "file": "packages/game/src/present/menu/draw-player-status.glm-phase1-leaves.test.ts",
+        "assertionLine": 109,
+        "matcher": "toBe",
+        "checked": "(195,38) 为 0x5A",
+        "fullName": "L11 drawPlayerStatus 剩余分支 cursor 越界 / roles 缺 roleId：早退不画不崩"
+      }
+    },
+    {
+      "id": "G06-EP-poison-level2",
+      "classification": "existing-proof",
+      "reason": "level 2 的毒通过 renderText 间谍锁了颜色 40。像素版不再重测这条 level 2。",
+      "oldTest": {
+        "sha": "277850d1b8e575432a97c506186dd1a1c6f933ff",
+        "file": "packages/game/src/present/menu/draw-player-status.test.ts",
+        "assertionLine": 80,
+        "matcher": "toBe",
+        "checked": "间谍的颜色参数为 40",
+        "fullName": "drawPlayerStatus 毒 row(uigame.c:1245-1253) level<=3 → 毒名画在 (185,58),色 = wColor+10"
+      }
+    },
+    {
+      "id": "G06-EP-poison-level99",
+      "classification": "existing-proof",
+      "reason": "level 大于 3 不画已由间谍证明。",
+      "oldTest": {
+        "sha": "277850d1b8e575432a97c506186dd1a1c6f933ff",
+        "file": "packages/game/src/present/menu/draw-player-status.test.ts",
+        "assertionLine": 86,
+        "matcher": "toBeUndefined",
+        "checked": "(185,58) 没有 renderText 调用",
+        "fullName": "drawPlayerStatus 毒 row(uigame.c:1245-1253) level>3(高级/装备毒哨兵)→ 不画"
+      }
+    },
+    {
+      "id": "G06-EP-poison-id0",
+      "classification": "existing-proof",
+      "reason": "毒 id 为 0 不画已由间谍证明。",
+      "oldTest": {
+        "sha": "277850d1b8e575432a97c506186dd1a1c6f933ff",
+        "file": "packages/game/src/present/menu/draw-player-status.test.ts",
+        "assertionLine": 101,
+        "matcher": "toBeUndefined",
+        "checked": "(185,58) 没有 renderText 调用",
+        "fullName": "drawPlayerStatus 毒 row(uigame.c:1245-1253) wPoisonID=0(无毒槽)→ 不画"
       }
     }
   ]

@@ -11,9 +11,9 @@ Coding Owner: Grok。作者交付进行中，**不是 review / accept / done**�
 
 | 项 | 已计入 | 目标 | 剩余 |
 |---|---:|---:|---:|
-| 合法新合同 | 181 | 400 | 219 |
-| 组 | 20 | 40 | 20 |
-| 有效反控 | 20 | 40 | 20 |
+| 合法新合同 | 229 | 400 | 171 |
+| 组 | 24 | 40 | 16 |
+| 有效反控 | 24 | 40 | 16 |
 
 G01 四组都是 `packages/game/src/assets/loader.ts`：G01-A 合法装配、G01-B 边界、G01-C 失败恢复、G01-D 缓存归属与迟到。G01 新合同 40。
 
@@ -25,11 +25,13 @@ G04 四组：G04-A `screen-wave.ts` 第 16 行镜像、波幅边界与相位归�
 
 G05 四组：G05-A `dialog-box.ts` 姓名色、行距与揭露像素，G05-B `font.ts` 字宽、字形装载与阴影，G05-C `draw-number.ts` 透明孔、缺帧步进与 nLength 0，G05-D 等键图标、旁白、物品框与头像掩码。本批新合同 43。时序、翻页、旧坐标、默认图标、奇数旁白、开场项 x 和结算中对齐另记 32 条 existing-proof，不计入 181。目标仍是 400/40/40。
 
+G06 四组：G06-A `draw-inventory.ts` 物品框阴影、差额与用物层早退，G06-B 描述行距和 sellable / potion / important 过滤色，G06-C `draw-equip.ts` 一人选人框、灵力预览与现行数量，G06-D `draw-player-status.ts` 真气、五项数值和毒等级 3。本批新合同 48。翻页、已装备色、现行数量 7、攻击预览 23、立绘和 runtime 0 另记 30 条 existing-proof，不计入 229。目标仍是 400/40/40。
+
 ## 本批证据
 
-- [contracts.json](contracts.json)：累计 181 条新合同；G02 到 G05 的 existingProof 不计入
-- [directed-vitest.json](directed-vitest.json)：181 条 file × fullName × passed；相邻记在 `adjacent`（G01 的 `loader.test.ts` 7 条，G02 的 png/tileset/dialog/rle 26 条，G03 的 tilemap/sprite/follower 31 条，G04 的 wave/shake/dither/framebuffer/present/P12 85 条，G05 的 dialog/font/draw-number/opening/settlement/P16 108 条）
-- [counters.json](counters.json) 与 [反控说明](counters/README.md)：拒收探针加 G01 到 G05 各四枚三态原日志
+- [contracts.json](contracts.json)：累计 229 条新合同；G02 到 G06 的 existingProof 不计入
+- [directed-vitest.json](directed-vitest.json)：229 条 file × fullName × passed；相邻记在 `adjacent`（G01 的 `loader.test.ts` 7 条，G02 的 png/tileset/dialog/rle 26 条，G03 的 tilemap/sprite/follower 31 条，G04 的 wave/shake/dither/framebuffer/present/P12 85 条，G05 的 dialog/font/draw-number/opening/settlement/P16 108 条，G06 的 inventory/equip/status 23 条）
+- [counters.json](counters.json) 与 [反控说明](counters/README.md)：拒收探针加 G01 到 G06 各四枚三态原日志
 - [defects.md](defects.md)：没有停组的产品缺陷；G02 有一条宿主 blocked
 - 专属宿主 `packages/game/src/__tests__/grok-render-r1/legal-host.ts`
 
@@ -92,5 +94,17 @@ G05 四组：G05-A `dialog-box.ts` 姓名色、行距与揭露像素，G05-B `fo
 `pnpm --filter @type-pal/game run typecheck` 退出码 0。
 
 反控：`node docs/testing/grok-cursor-large/grok/run-counters.mjs --only=G05-A,G05-B,G05-C,G05-D --skip-probe`。四枚 mutant 退出码 1，各只有一条指定 AssertionError。历史 G01 到 G04 与探针日志未重写。
+
+## G06 已跑命令
+
+定向与相邻：
+
+`pnpm --filter @type-pal/game exec vitest run src/present/menu/inventory-list-pixels.grok-r1.test.ts src/present/menu/inventory-desc-filter.grok-r1.test.ts src/present/menu/equip-role-pixels.grok-r1.test.ts src/present/menu/status-vitals-pixels.grok-r1.test.ts src/present/__tests__/grok-present/p01-inventory-list.test.ts src/present/__tests__/grok-present/p02-inventory-target.test.ts src/present/__tests__/grok-present/p03-equip.test.ts src/present/__tests__/grok-present/p07-status.test.ts src/present/menu/draw-inventory.glm-phase1-leaves.test.ts src/present/menu/draw-equip.glm-phase1-leaves.test.ts src/present/menu/draw-player-status.test.ts src/present/menu/draw-player-status.glm-phase1-leaves.test.ts --reporter=verbose --reporter=json --outputFile=/tmp/g06-directed.json`
+
+结果：新合同 48 passed，相邻 23 passed，pending 0。12 个文件合计 71 passed。G06-A12 从真实 2D canvas 读回 (0,140) 的 RGBA `[110,7,14,255]`。
+
+`pnpm --filter @type-pal/game run typecheck` 退出码 0。
+
+反控：`node docs/testing/grok-cursor-large/grok/run-counters.mjs --only=G06-A,G06-B,G06-C,G06-D --skip-probe`。四枚 mutant 退出码 1，各只有一条指定 AssertionError。历史 G01 到 G05 与探针日志未重写。
 
 私有 coverage、全包 test、根 lint、docs check、diff check、verifier 留到末批。不合 main，不跑正式 ratchet。

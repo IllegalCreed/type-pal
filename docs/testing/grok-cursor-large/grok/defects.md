@@ -40,6 +40,12 @@
 
 本批新合同 43。对话时序、翻页、旧坐标、默认等键图标位置、奇数旁白框、开场项 x 和结算中对齐已经有旧断言，记在 existing-proof，没有再写成同结果的新合同。目标 400/40/40 没有改小。
 
+## G06
+
+没有停组的产品缺陷。
+
+本批新合同 48。翻页、已装备色、用物层现行数量 7、攻击预览 23、立绘、runtime 0 和 level 2 的毒间谍已经有旧断言，记在 existing-proof。目标 400/40/40 没有改小。
+
 ## 未跑
 
-G06–G10 尚未交付。coverage-delta、receipt 的完整候选 SHA、全包 test、根 lint、docs check、diff check、verifier 留在末批。
+G07–G10 尚未交付。coverage-delta、receipt 的完整候选 SHA、全包 test、根 lint、docs check、diff check、verifier 留在末批。
