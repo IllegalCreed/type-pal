@@ -144,3 +144,19 @@ Codex **counter → rework**；这是274/700例、30/50枚反控的部分交付�
 派发8b3ca062953b17a12178f8d1a9e36657971234b1、冻结3ac9a2e2f6aba8a5cc97640c18fef8549d199380不变；不得cherry-pick Codex共享审查提交或改基点绕白名单，源漂移先报Codex。
 最后串行migrate/content/shared全包test/typecheck、根lint完整0/0/0、docs、区间diff、verifier；定向file×fullName×status与最终实跑一致，推送完整40位候选。产品/旧测/配置/官方baseline/真实工程/P/Q/共享卡看板只读；不合main、不标done、不清树。
 ```
+
+## Codex r4 固定候选预审（2026-10-01）
+
+测试树 `590dd57ab867519281065c7aadc998b263907ae3`，docs pin
+`894641a41be1d7099abda08c3b170b84007d39f5`；**counter，保持rework**。
+[最新窄项](../../testing/glm-tenfold-triple/codex-zcode-oq-preflight-20261001.md)、
+[机器复算](../../testing/glm-tenfold-triple/codex-zcode-oq-preflight-20261001.json)。
+
+- 七桥/两fixture-oracle旧项和canAct整例排重在代码层关闭，保留，不重复返工。
+- O-R4-01：442身份对应，但400 source/caller/batch占位，442旧锚/oracle模板；补真实逐合同账。
+- O-R4-02：56生产/变异hash与历史三态对应，仅六枚最终执行集漂移（O08-CC1/2、
+  O10-CC2/3/4/5）需重采，其它50枚保留。未独立执行56枚业务反控。
+- O-R4-03：最后receipt格式未过配置对照，数量/区间口径旧；按最终唯一合同重算。
+- 本轮716源/595白名单路径/diff复核通过；未新全包/官方门，442不当accept净增。
+- 再续原合法残余，700/60组/50不缩；只有原白名单可写，不合main/不done。
+  提示由Codex直接发，用户无需转交；发送成功前不得称新返工已执行。

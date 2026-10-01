@@ -115,6 +115,9 @@ GLM开工/交付均须再次运行冻结与白名单复核，派发后生产漂�
 
 ## 三个会话
 
+- [ZCode O r4/Q r5固定候选预审](codex-zcode-oq-preflight-20261001.md)与
+  [机器账](codex-zcode-oq-preflight-20261001.json)：旧P归档已核、第三槽未启动；
+  O合同模板/六针执行集/末尾格式、Q缺字段强转/重复合同仍counter，未正式结算。
 - [ZCode P r3/Q r4 工具与候选预审](codex-zcode-pq-preflight-20261001.md)与
   [机器记录](codex-zcode-pq-preflight-20261001.json)：P judge/patch索引仍counter；Q39枚hash复算对应，回执完整SHA却非有效对象，未整包验收。
 - [Codex Q r3三审](codex-q-r3-review-20261001.md)与[机器证据](codex-q-r3-review-20261001.json)：

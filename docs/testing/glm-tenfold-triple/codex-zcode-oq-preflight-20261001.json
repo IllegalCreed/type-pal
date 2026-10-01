@@ -1,0 +1,4627 @@
+{
+  "observedAt": "2026-10-01T10:48:29.111Z",
+  "mode": "fixed Git blob preflight; no business reruns or official coverage settlement",
+  "candidates": {
+    "O": {
+      "testTree": "590dd57ab867519281065c7aadc998b263907ae3",
+      "docsPin": "894641a41be1d7099abda08c3b170b84007d39f5",
+      "docsOnlyPaths": ["docs/testing/glm-tenfold-triple/wave-O/receipt.json"],
+      "frozenSources": {
+        "matched": 716,
+        "total": 716,
+        "failures": []
+      },
+      "scope": {
+        "changes": 595,
+        "problems": []
+      },
+      "directed": {
+        "count": 442,
+        "passed": 442,
+        "uniqueKeys": 442,
+        "sha256": "d7846061c09a6861e59f3f71a47d761f86658cde5784f911967ce96c929cdfae"
+      },
+      "contracts": {
+        "count": 442,
+        "placeholders": {
+          "source": 400,
+          "caller": 400,
+          "batch": 400
+        },
+        "genericOldAssertion": 442,
+        "genericOracle": 442,
+        "fileFullNameStatusMatchesDirected": true
+      },
+      "receiptCandidate": "c6e2da2622c9ad6432e23d7033dcb4ae2cc8b7a0",
+      "counters": [
+        {
+          "id": "O01-CC1",
+          "sourcePath": "packages/migrate/src/pal-item-scheme-labels.ts",
+          "actualHashes": true,
+          "indexMatches": true,
+          "sameSets": true,
+          "finalTestSetMatches": true,
+          "triGreen": true,
+          "singleTarget": true,
+          "phases": [
+            {
+              "phase": "control",
+              "total": 43,
+              "passed": 43,
+              "failed": 0,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 0,
+              "declaredMatches": true,
+              "rawNonempty": true
+            },
+            {
+              "phase": "injected",
+              "total": 43,
+              "passed": 42,
+              "failed": 1,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 1,
+              "declaredMatches": true,
+              "rawNonempty": true
+            },
+            {
+              "phase": "restored",
+              "total": 43,
+              "passed": 43,
+              "failed": 0,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 0,
+              "declaredMatches": true,
+              "rawNonempty": true
+            }
+          ]
+        },
+        {
+          "id": "O01-CC2",
+          "sourcePath": "packages/migrate/src/pal-store-boundary.ts",
+          "actualHashes": true,
+          "indexMatches": true,
+          "sameSets": true,
+          "finalTestSetMatches": true,
+          "triGreen": true,
+          "singleTarget": true,
+          "phases": [
+            {
+              "phase": "control",
+              "total": 43,
+              "passed": 43,
+              "failed": 0,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 0,
+              "declaredMatches": true,
+              "rawNonempty": true
+            },
+            {
+              "phase": "injected",
+              "total": 43,
+              "passed": 42,
+              "failed": 1,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 1,
+              "declaredMatches": true,
+              "rawNonempty": true
+            },
+            {
+              "phase": "restored",
+              "total": 43,
+              "passed": 43,
+              "failed": 0,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 0,
+              "declaredMatches": true,
+              "rawNonempty": true
+            }
+          ]
+        },
+        {
+          "id": "O01-CC3",
+          "sourcePath": "packages/migrate/src/pal-current-publication.ts",
+          "actualHashes": true,
+          "indexMatches": true,
+          "sameSets": true,
+          "finalTestSetMatches": true,
+          "triGreen": true,
+          "singleTarget": true,
+          "phases": [
+            {
+              "phase": "control",
+              "total": 43,
+              "passed": 43,
+              "failed": 0,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 0,
+              "declaredMatches": true,
+              "rawNonempty": true
+            },
+            {
+              "phase": "injected",
+              "total": 43,
+              "passed": 42,
+              "failed": 1,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 1,
+              "declaredMatches": true,
+              "rawNonempty": true
+            },
+            {
+              "phase": "restored",
+              "total": 43,
+              "passed": 43,
+              "failed": 0,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 0,
+              "declaredMatches": true,
+              "rawNonempty": true
+            }
+          ]
+        },
+        {
+          "id": "O01-CC4",
+          "sourcePath": "packages/migrate/src/migration-transaction.ts",
+          "actualHashes": true,
+          "indexMatches": true,
+          "sameSets": true,
+          "finalTestSetMatches": true,
+          "triGreen": true,
+          "singleTarget": true,
+          "phases": [
+            {
+              "phase": "control",
+              "total": 29,
+              "passed": 29,
+              "failed": 0,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 0,
+              "declaredMatches": true,
+              "rawNonempty": true
+            },
+            {
+              "phase": "injected",
+              "total": 29,
+              "passed": 28,
+              "failed": 1,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 1,
+              "declaredMatches": true,
+              "rawNonempty": true
+            },
+            {
+              "phase": "restored",
+              "total": 29,
+              "passed": 29,
+              "failed": 0,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 0,
+              "declaredMatches": true,
+              "rawNonempty": true
+            }
+          ]
+        },
+        {
+          "id": "O01-CC5",
+          "sourcePath": "packages/migrate/src/pal-world-sprite-semantic-alias.ts",
+          "actualHashes": true,
+          "indexMatches": true,
+          "sameSets": true,
+          "finalTestSetMatches": true,
+          "triGreen": true,
+          "singleTarget": true,
+          "phases": [
+            {
+              "phase": "control",
+              "total": 43,
+              "passed": 43,
+              "failed": 0,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 0,
+              "declaredMatches": true,
+              "rawNonempty": true
+            },
+            {
+              "phase": "injected",
+              "total": 43,
+              "passed": 42,
+              "failed": 1,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 1,
+              "declaredMatches": true,
+              "rawNonempty": true
+            },
+            {
+              "phase": "restored",
+              "total": 43,
+              "passed": 43,
+              "failed": 0,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 0,
+              "declaredMatches": true,
+              "rawNonempty": true
+            }
+          ]
+        },
+        {
+          "id": "O02-CC1",
+          "sourcePath": "packages/migrate/src/migration-merge.ts",
+          "actualHashes": true,
+          "indexMatches": true,
+          "sameSets": true,
+          "finalTestSetMatches": true,
+          "triGreen": true,
+          "singleTarget": true,
+          "phases": [
+            {
+              "phase": "control",
+              "total": 30,
+              "passed": 30,
+              "failed": 0,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 0,
+              "declaredMatches": true,
+              "rawNonempty": true
+            },
+            {
+              "phase": "injected",
+              "total": 30,
+              "passed": 29,
+              "failed": 1,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 1,
+              "declaredMatches": true,
+              "rawNonempty": true
+            },
+            {
+              "phase": "restored",
+              "total": 30,
+              "passed": 30,
+              "failed": 0,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 0,
+              "declaredMatches": true,
+              "rawNonempty": true
+            }
+          ]
+        },
+        {
+          "id": "O02-CC2",
+          "sourcePath": "packages/migrate/src/migration-merge.ts",
+          "actualHashes": true,
+          "indexMatches": true,
+          "sameSets": true,
+          "finalTestSetMatches": true,
+          "triGreen": true,
+          "singleTarget": true,
+          "phases": [
+            {
+              "phase": "control",
+              "total": 30,
+              "passed": 30,
+              "failed": 0,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 0,
+              "declaredMatches": true,
+              "rawNonempty": true
+            },
+            {
+              "phase": "injected",
+              "total": 30,
+              "passed": 29,
+              "failed": 1,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 1,
+              "declaredMatches": true,
+              "rawNonempty": true
+            },
+            {
+              "phase": "restored",
+              "total": 30,
+              "passed": 30,
+              "failed": 0,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 0,
+              "declaredMatches": true,
+              "rawNonempty": true
+            }
+          ]
+        },
+        {
+          "id": "O02-CC3",
+          "sourcePath": "packages/migrate/src/migration-merge.ts",
+          "actualHashes": true,
+          "indexMatches": true,
+          "sameSets": true,
+          "finalTestSetMatches": true,
+          "triGreen": true,
+          "singleTarget": true,
+          "phases": [
+            {
+              "phase": "control",
+              "total": 30,
+              "passed": 30,
+              "failed": 0,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 0,
+              "declaredMatches": true,
+              "rawNonempty": true
+            },
+            {
+              "phase": "injected",
+              "total": 30,
+              "passed": 29,
+              "failed": 1,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 1,
+              "declaredMatches": true,
+              "rawNonempty": true
+            },
+            {
+              "phase": "restored",
+              "total": 30,
+              "passed": 30,
+              "failed": 0,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 0,
+              "declaredMatches": true,
+              "rawNonempty": true
+            }
+          ]
+        },
+        {
+          "id": "O02-CC4",
+          "sourcePath": "packages/migrate/src/migration-plan.ts",
+          "actualHashes": true,
+          "indexMatches": true,
+          "sameSets": true,
+          "finalTestSetMatches": true,
+          "triGreen": true,
+          "singleTarget": true,
+          "phases": [
+            {
+              "phase": "control",
+              "total": 18,
+              "passed": 18,
+              "failed": 0,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 0,
+              "declaredMatches": true,
+              "rawNonempty": true
+            },
+            {
+              "phase": "injected",
+              "total": 18,
+              "passed": 17,
+              "failed": 1,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 1,
+              "declaredMatches": true,
+              "rawNonempty": true
+            },
+            {
+              "phase": "restored",
+              "total": 18,
+              "passed": 18,
+              "failed": 0,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 0,
+              "declaredMatches": true,
+              "rawNonempty": true
+            }
+          ]
+        },
+        {
+          "id": "O02-CC5",
+          "sourcePath": "packages/migrate/src/migration-project-io.ts",
+          "actualHashes": true,
+          "indexMatches": true,
+          "sameSets": true,
+          "finalTestSetMatches": true,
+          "triGreen": true,
+          "singleTarget": true,
+          "phases": [
+            {
+              "phase": "control",
+              "total": 18,
+              "passed": 18,
+              "failed": 0,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 0,
+              "declaredMatches": true,
+              "rawNonempty": true
+            },
+            {
+              "phase": "injected",
+              "total": 18,
+              "passed": 17,
+              "failed": 1,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 1,
+              "declaredMatches": true,
+              "rawNonempty": true
+            },
+            {
+              "phase": "restored",
+              "total": 18,
+              "passed": 18,
+              "failed": 0,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 0,
+              "declaredMatches": true,
+              "rawNonempty": true
+            }
+          ]
+        },
+        {
+          "id": "O03-CC1",
+          "sourcePath": "packages/migrate/src/migration-write-plan.ts",
+          "actualHashes": true,
+          "indexMatches": true,
+          "sameSets": true,
+          "finalTestSetMatches": true,
+          "triGreen": true,
+          "singleTarget": true,
+          "phases": [
+            {
+              "phase": "control",
+              "total": 21,
+              "passed": 21,
+              "failed": 0,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 0,
+              "declaredMatches": true,
+              "rawNonempty": true
+            },
+            {
+              "phase": "injected",
+              "total": 21,
+              "passed": 20,
+              "failed": 1,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 1,
+              "declaredMatches": true,
+              "rawNonempty": true
+            },
+            {
+              "phase": "restored",
+              "total": 21,
+              "passed": 21,
+              "failed": 0,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 0,
+              "declaredMatches": true,
+              "rawNonempty": true
+            }
+          ]
+        },
+        {
+          "id": "O03-CC2",
+          "sourcePath": "packages/migrate/src/migration-write-plan.ts",
+          "actualHashes": true,
+          "indexMatches": true,
+          "sameSets": true,
+          "finalTestSetMatches": true,
+          "triGreen": true,
+          "singleTarget": true,
+          "phases": [
+            {
+              "phase": "control",
+              "total": 21,
+              "passed": 21,
+              "failed": 0,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 0,
+              "declaredMatches": true,
+              "rawNonempty": true
+            },
+            {
+              "phase": "injected",
+              "total": 21,
+              "passed": 20,
+              "failed": 1,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 1,
+              "declaredMatches": true,
+              "rawNonempty": true
+            },
+            {
+              "phase": "restored",
+              "total": 21,
+              "passed": 21,
+              "failed": 0,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 0,
+              "declaredMatches": true,
+              "rawNonempty": true
+            }
+          ]
+        },
+        {
+          "id": "O03-CC3",
+          "sourcePath": "packages/migrate/src/migration-path.ts",
+          "actualHashes": true,
+          "indexMatches": true,
+          "sameSets": true,
+          "finalTestSetMatches": true,
+          "triGreen": true,
+          "singleTarget": true,
+          "phases": [
+            {
+              "phase": "control",
+              "total": 21,
+              "passed": 21,
+              "failed": 0,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 0,
+              "declaredMatches": true,
+              "rawNonempty": true
+            },
+            {
+              "phase": "injected",
+              "total": 21,
+              "passed": 20,
+              "failed": 1,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 1,
+              "declaredMatches": true,
+              "rawNonempty": true
+            },
+            {
+              "phase": "restored",
+              "total": 21,
+              "passed": 21,
+              "failed": 0,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 0,
+              "declaredMatches": true,
+              "rawNonempty": true
+            }
+          ]
+        },
+        {
+          "id": "O03-CC4",
+          "sourcePath": "packages/migrate/src/pal-content-supply.ts",
+          "actualHashes": true,
+          "indexMatches": true,
+          "sameSets": true,
+          "finalTestSetMatches": true,
+          "triGreen": true,
+          "singleTarget": true,
+          "phases": [
+            {
+              "phase": "control",
+              "total": 10,
+              "passed": 10,
+              "failed": 0,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 0,
+              "declaredMatches": true,
+              "rawNonempty": true
+            },
+            {
+              "phase": "injected",
+              "total": 10,
+              "passed": 9,
+              "failed": 1,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 1,
+              "declaredMatches": true,
+              "rawNonempty": true
+            },
+            {
+              "phase": "restored",
+              "total": 10,
+              "passed": 10,
+              "failed": 0,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 0,
+              "declaredMatches": true,
+              "rawNonempty": true
+            }
+          ]
+        },
+        {
+          "id": "O03-CC5",
+          "sourcePath": "packages/content/src/validate-refs.ts",
+          "actualHashes": true,
+          "indexMatches": true,
+          "sameSets": true,
+          "finalTestSetMatches": true,
+          "triGreen": true,
+          "singleTarget": true,
+          "phases": [
+            {
+              "phase": "control",
+              "total": 10,
+              "passed": 10,
+              "failed": 0,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 0,
+              "declaredMatches": true,
+              "rawNonempty": true
+            },
+            {
+              "phase": "injected",
+              "total": 10,
+              "passed": 9,
+              "failed": 1,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 1,
+              "declaredMatches": true,
+              "rawNonempty": true
+            },
+            {
+              "phase": "restored",
+              "total": 10,
+              "passed": 10,
+              "failed": 0,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 0,
+              "declaredMatches": true,
+              "rawNonempty": true
+            }
+          ]
+        },
+        {
+          "id": "O04-CC1",
+          "sourcePath": "packages/migrate/src/pal-assets.ts",
+          "actualHashes": true,
+          "indexMatches": true,
+          "sameSets": true,
+          "finalTestSetMatches": true,
+          "triGreen": true,
+          "singleTarget": true,
+          "phases": [
+            {
+              "phase": "control",
+              "total": 37,
+              "passed": 37,
+              "failed": 0,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 0,
+              "declaredMatches": true,
+              "rawNonempty": true
+            },
+            {
+              "phase": "injected",
+              "total": 37,
+              "passed": 36,
+              "failed": 1,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 1,
+              "declaredMatches": true,
+              "rawNonempty": true
+            },
+            {
+              "phase": "restored",
+              "total": 37,
+              "passed": 37,
+              "failed": 0,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 0,
+              "declaredMatches": true,
+              "rawNonempty": true
+            }
+          ]
+        },
+        {
+          "id": "O04-CC2",
+          "sourcePath": "packages/migrate/src/pal-assets.ts",
+          "actualHashes": true,
+          "indexMatches": true,
+          "sameSets": true,
+          "finalTestSetMatches": true,
+          "triGreen": true,
+          "singleTarget": true,
+          "phases": [
+            {
+              "phase": "control",
+              "total": 37,
+              "passed": 37,
+              "failed": 0,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 0,
+              "declaredMatches": true,
+              "rawNonempty": true
+            },
+            {
+              "phase": "injected",
+              "total": 37,
+              "passed": 36,
+              "failed": 1,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 1,
+              "declaredMatches": true,
+              "rawNonempty": true
+            },
+            {
+              "phase": "restored",
+              "total": 37,
+              "passed": 37,
+              "failed": 0,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 0,
+              "declaredMatches": true,
+              "rawNonempty": true
+            }
+          ]
+        },
+        {
+          "id": "O04-CC3",
+          "sourcePath": "packages/migrate/src/pal-assets.ts",
+          "actualHashes": true,
+          "indexMatches": true,
+          "sameSets": true,
+          "finalTestSetMatches": true,
+          "triGreen": true,
+          "singleTarget": true,
+          "phases": [
+            {
+              "phase": "control",
+              "total": 37,
+              "passed": 37,
+              "failed": 0,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 0,
+              "declaredMatches": true,
+              "rawNonempty": true
+            },
+            {
+              "phase": "injected",
+              "total": 37,
+              "passed": 36,
+              "failed": 1,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 1,
+              "declaredMatches": true,
+              "rawNonempty": true
+            },
+            {
+              "phase": "restored",
+              "total": 37,
+              "passed": 37,
+              "failed": 0,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 0,
+              "declaredMatches": true,
+              "rawNonempty": true
+            }
+          ]
+        },
+        {
+          "id": "O04-CC4",
+          "sourcePath": "packages/migrate/src/pal-assets.ts",
+          "actualHashes": true,
+          "indexMatches": true,
+          "sameSets": true,
+          "finalTestSetMatches": true,
+          "triGreen": true,
+          "singleTarget": true,
+          "phases": [
+            {
+              "phase": "control",
+              "total": 37,
+              "passed": 37,
+              "failed": 0,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 0,
+              "declaredMatches": true,
+              "rawNonempty": true
+            },
+            {
+              "phase": "injected",
+              "total": 37,
+              "passed": 36,
+              "failed": 1,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 1,
+              "declaredMatches": true,
+              "rawNonempty": true
+            },
+            {
+              "phase": "restored",
+              "total": 37,
+              "passed": 37,
+              "failed": 0,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 0,
+              "declaredMatches": true,
+              "rawNonempty": true
+            }
+          ]
+        },
+        {
+          "id": "O04-CC5",
+          "sourcePath": "packages/migrate/src/pal-assets.ts",
+          "actualHashes": true,
+          "indexMatches": true,
+          "sameSets": true,
+          "finalTestSetMatches": true,
+          "triGreen": true,
+          "singleTarget": true,
+          "phases": [
+            {
+              "phase": "control",
+              "total": 37,
+              "passed": 37,
+              "failed": 0,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 0,
+              "declaredMatches": true,
+              "rawNonempty": true
+            },
+            {
+              "phase": "injected",
+              "total": 37,
+              "passed": 36,
+              "failed": 1,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 1,
+              "declaredMatches": true,
+              "rawNonempty": true
+            },
+            {
+              "phase": "restored",
+              "total": 37,
+              "passed": 37,
+              "failed": 0,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 0,
+              "declaredMatches": true,
+              "rawNonempty": true
+            }
+          ]
+        },
+        {
+          "id": "O05-CC1",
+          "sourcePath": "packages/migrate/src/pal-authored-overlays.ts",
+          "actualHashes": true,
+          "indexMatches": true,
+          "sameSets": true,
+          "finalTestSetMatches": true,
+          "triGreen": true,
+          "singleTarget": true,
+          "phases": [
+            {
+              "phase": "control",
+              "total": 27,
+              "passed": 27,
+              "failed": 0,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 0,
+              "declaredMatches": true,
+              "rawNonempty": true
+            },
+            {
+              "phase": "injected",
+              "total": 27,
+              "passed": 26,
+              "failed": 1,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 1,
+              "declaredMatches": true,
+              "rawNonempty": true
+            },
+            {
+              "phase": "restored",
+              "total": 27,
+              "passed": 27,
+              "failed": 0,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 0,
+              "declaredMatches": true,
+              "rawNonempty": true
+            }
+          ]
+        },
+        {
+          "id": "O05-CC2",
+          "sourcePath": "packages/migrate/src/pal-casualty-scripts.ts",
+          "actualHashes": true,
+          "indexMatches": true,
+          "sameSets": true,
+          "finalTestSetMatches": true,
+          "triGreen": true,
+          "singleTarget": true,
+          "phases": [
+            {
+              "phase": "control",
+              "total": 27,
+              "passed": 27,
+              "failed": 0,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 0,
+              "declaredMatches": true,
+              "rawNonempty": true
+            },
+            {
+              "phase": "injected",
+              "total": 27,
+              "passed": 26,
+              "failed": 1,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 1,
+              "declaredMatches": true,
+              "rawNonempty": true
+            },
+            {
+              "phase": "restored",
+              "total": 27,
+              "passed": 27,
+              "failed": 0,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 0,
+              "declaredMatches": true,
+              "rawNonempty": true
+            }
+          ]
+        },
+        {
+          "id": "O05-CC3",
+          "sourcePath": "packages/migrate/src/pal-store-boundary.ts",
+          "actualHashes": true,
+          "indexMatches": true,
+          "sameSets": true,
+          "finalTestSetMatches": true,
+          "triGreen": true,
+          "singleTarget": true,
+          "phases": [
+            {
+              "phase": "control",
+              "total": 27,
+              "passed": 27,
+              "failed": 0,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 0,
+              "declaredMatches": true,
+              "rawNonempty": true
+            },
+            {
+              "phase": "injected",
+              "total": 27,
+              "passed": 26,
+              "failed": 1,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 1,
+              "declaredMatches": true,
+              "rawNonempty": true
+            },
+            {
+              "phase": "restored",
+              "total": 27,
+              "passed": 27,
+              "failed": 0,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 0,
+              "declaredMatches": true,
+              "rawNonempty": true
+            }
+          ]
+        },
+        {
+          "id": "O05-CC4",
+          "sourcePath": "packages/migrate/src/pal-world-sprite-registry.ts",
+          "actualHashes": true,
+          "indexMatches": true,
+          "sameSets": true,
+          "finalTestSetMatches": true,
+          "triGreen": true,
+          "singleTarget": true,
+          "phases": [
+            {
+              "phase": "control",
+              "total": 21,
+              "passed": 21,
+              "failed": 0,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 0,
+              "declaredMatches": true,
+              "rawNonempty": true
+            },
+            {
+              "phase": "injected",
+              "total": 21,
+              "passed": 20,
+              "failed": 1,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 1,
+              "declaredMatches": true,
+              "rawNonempty": true
+            },
+            {
+              "phase": "restored",
+              "total": 21,
+              "passed": 21,
+              "failed": 0,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 0,
+              "declaredMatches": true,
+              "rawNonempty": true
+            }
+          ]
+        },
+        {
+          "id": "O05-CC5",
+          "sourcePath": "packages/migrate/src/pal-item-scheme-labels.ts",
+          "actualHashes": true,
+          "indexMatches": true,
+          "sameSets": true,
+          "finalTestSetMatches": true,
+          "triGreen": true,
+          "singleTarget": true,
+          "phases": [
+            {
+              "phase": "control",
+              "total": 21,
+              "passed": 21,
+              "failed": 0,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 0,
+              "declaredMatches": true,
+              "rawNonempty": true
+            },
+            {
+              "phase": "injected",
+              "total": 21,
+              "passed": 20,
+              "failed": 1,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 1,
+              "declaredMatches": true,
+              "rawNonempty": true
+            },
+            {
+              "phase": "restored",
+              "total": 21,
+              "passed": 21,
+              "failed": 0,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 0,
+              "declaredMatches": true,
+              "rawNonempty": true
+            }
+          ]
+        },
+        {
+          "id": "O06-CC1",
+          "sourcePath": "packages/content/src/validate.ts",
+          "actualHashes": true,
+          "indexMatches": true,
+          "sameSets": true,
+          "finalTestSetMatches": true,
+          "triGreen": true,
+          "singleTarget": true,
+          "phases": [
+            {
+              "phase": "control",
+              "total": 19,
+              "passed": 19,
+              "failed": 0,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 0,
+              "declaredMatches": true,
+              "rawNonempty": true
+            },
+            {
+              "phase": "injected",
+              "total": 19,
+              "passed": 18,
+              "failed": 1,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 1,
+              "declaredMatches": true,
+              "rawNonempty": true
+            },
+            {
+              "phase": "restored",
+              "total": 19,
+              "passed": 19,
+              "failed": 0,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 0,
+              "declaredMatches": true,
+              "rawNonempty": true
+            }
+          ]
+        },
+        {
+          "id": "O06-CC2",
+          "sourcePath": "packages/content/src/validate.ts",
+          "actualHashes": true,
+          "indexMatches": true,
+          "sameSets": true,
+          "finalTestSetMatches": true,
+          "triGreen": true,
+          "singleTarget": true,
+          "phases": [
+            {
+              "phase": "control",
+              "total": 19,
+              "passed": 19,
+              "failed": 0,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 0,
+              "declaredMatches": true,
+              "rawNonempty": true
+            },
+            {
+              "phase": "injected",
+              "total": 19,
+              "passed": 18,
+              "failed": 1,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 1,
+              "declaredMatches": true,
+              "rawNonempty": true
+            },
+            {
+              "phase": "restored",
+              "total": 19,
+              "passed": 19,
+              "failed": 0,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 0,
+              "declaredMatches": true,
+              "rawNonempty": true
+            }
+          ]
+        },
+        {
+          "id": "O06-CC3",
+          "sourcePath": "packages/content/src/validate.ts",
+          "actualHashes": true,
+          "indexMatches": true,
+          "sameSets": true,
+          "finalTestSetMatches": true,
+          "triGreen": true,
+          "singleTarget": true,
+          "phases": [
+            {
+              "phase": "control",
+              "total": 19,
+              "passed": 19,
+              "failed": 0,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 0,
+              "declaredMatches": true,
+              "rawNonempty": true
+            },
+            {
+              "phase": "injected",
+              "total": 19,
+              "passed": 18,
+              "failed": 1,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 1,
+              "declaredMatches": true,
+              "rawNonempty": true
+            },
+            {
+              "phase": "restored",
+              "total": 19,
+              "passed": 19,
+              "failed": 0,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 0,
+              "declaredMatches": true,
+              "rawNonempty": true
+            }
+          ]
+        },
+        {
+          "id": "O06-CC4",
+          "sourcePath": "packages/content/src/validate.ts",
+          "actualHashes": true,
+          "indexMatches": true,
+          "sameSets": true,
+          "finalTestSetMatches": true,
+          "triGreen": true,
+          "singleTarget": true,
+          "phases": [
+            {
+              "phase": "control",
+              "total": 19,
+              "passed": 19,
+              "failed": 0,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 0,
+              "declaredMatches": true,
+              "rawNonempty": true
+            },
+            {
+              "phase": "injected",
+              "total": 19,
+              "passed": 18,
+              "failed": 1,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 1,
+              "declaredMatches": true,
+              "rawNonempty": true
+            },
+            {
+              "phase": "restored",
+              "total": 19,
+              "passed": 19,
+              "failed": 0,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 0,
+              "declaredMatches": true,
+              "rawNonempty": true
+            }
+          ]
+        },
+        {
+          "id": "O06-CC5",
+          "sourcePath": "packages/content/src/validate.ts",
+          "actualHashes": true,
+          "indexMatches": true,
+          "sameSets": true,
+          "finalTestSetMatches": true,
+          "triGreen": true,
+          "singleTarget": true,
+          "phases": [
+            {
+              "phase": "control",
+              "total": 19,
+              "passed": 19,
+              "failed": 0,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 0,
+              "declaredMatches": true,
+              "rawNonempty": true
+            },
+            {
+              "phase": "injected",
+              "total": 19,
+              "passed": 18,
+              "failed": 1,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 1,
+              "declaredMatches": true,
+              "rawNonempty": true
+            },
+            {
+              "phase": "restored",
+              "total": 19,
+              "passed": 19,
+              "failed": 0,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 0,
+              "declaredMatches": true,
+              "rawNonempty": true
+            }
+          ]
+        },
+        {
+          "id": "O06-CC6",
+          "sourcePath": "packages/content/src/validate-refs.ts",
+          "actualHashes": true,
+          "indexMatches": true,
+          "sameSets": true,
+          "finalTestSetMatches": true,
+          "triGreen": true,
+          "singleTarget": true,
+          "phases": [
+            {
+              "phase": "control",
+              "total": 23,
+              "passed": 23,
+              "failed": 0,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 0,
+              "declaredMatches": true,
+              "rawNonempty": true
+            },
+            {
+              "phase": "injected",
+              "total": 23,
+              "passed": 22,
+              "failed": 1,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 1,
+              "declaredMatches": true,
+              "rawNonempty": true
+            },
+            {
+              "phase": "restored",
+              "total": 23,
+              "passed": 23,
+              "failed": 0,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 0,
+              "declaredMatches": true,
+              "rawNonempty": true
+            }
+          ]
+        },
+        {
+          "id": "O06-CC7",
+          "sourcePath": "packages/content/src/validate.ts",
+          "actualHashes": true,
+          "indexMatches": true,
+          "sameSets": true,
+          "finalTestSetMatches": true,
+          "triGreen": true,
+          "singleTarget": true,
+          "phases": [
+            {
+              "phase": "control",
+              "total": 19,
+              "passed": 19,
+              "failed": 0,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 0,
+              "declaredMatches": true,
+              "rawNonempty": true
+            },
+            {
+              "phase": "injected",
+              "total": 19,
+              "passed": 18,
+              "failed": 1,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 1,
+              "declaredMatches": true,
+              "rawNonempty": true
+            },
+            {
+              "phase": "restored",
+              "total": 19,
+              "passed": 19,
+              "failed": 0,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 0,
+              "declaredMatches": true,
+              "rawNonempty": true
+            }
+          ]
+        },
+        {
+          "id": "O07-CC2",
+          "sourcePath": "packages/content/src/script-library.ts",
+          "actualHashes": true,
+          "indexMatches": true,
+          "sameSets": true,
+          "finalTestSetMatches": true,
+          "triGreen": true,
+          "singleTarget": true,
+          "phases": [
+            {
+              "phase": "control",
+              "total": 10,
+              "passed": 10,
+              "failed": 0,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 0,
+              "declaredMatches": true,
+              "rawNonempty": true
+            },
+            {
+              "phase": "injected",
+              "total": 10,
+              "passed": 9,
+              "failed": 1,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 1,
+              "declaredMatches": true,
+              "rawNonempty": true
+            },
+            {
+              "phase": "restored",
+              "total": 10,
+              "passed": 10,
+              "failed": 0,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 0,
+              "declaredMatches": true,
+              "rawNonempty": true
+            }
+          ]
+        },
+        {
+          "id": "O07-CC3",
+          "sourcePath": "packages/content/src/script.ts",
+          "actualHashes": true,
+          "indexMatches": true,
+          "sameSets": true,
+          "finalTestSetMatches": true,
+          "triGreen": true,
+          "singleTarget": true,
+          "phases": [
+            {
+              "phase": "control",
+              "total": 7,
+              "passed": 7,
+              "failed": 0,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 0,
+              "declaredMatches": true,
+              "rawNonempty": true
+            },
+            {
+              "phase": "injected",
+              "total": 7,
+              "passed": 6,
+              "failed": 1,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 1,
+              "declaredMatches": true,
+              "rawNonempty": true
+            },
+            {
+              "phase": "restored",
+              "total": 7,
+              "passed": 7,
+              "failed": 0,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 0,
+              "declaredMatches": true,
+              "rawNonempty": true
+            }
+          ]
+        },
+        {
+          "id": "O08-CC1",
+          "sourcePath": "packages/content/src/enemy-ai.ts",
+          "actualHashes": true,
+          "indexMatches": true,
+          "sameSets": true,
+          "finalTestSetMatches": false,
+          "triGreen": true,
+          "singleTarget": true,
+          "phases": [
+            {
+              "phase": "control",
+              "total": 16,
+              "passed": 16,
+              "failed": 0,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 0,
+              "declaredMatches": true,
+              "rawNonempty": true
+            },
+            {
+              "phase": "injected",
+              "total": 16,
+              "passed": 15,
+              "failed": 1,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 1,
+              "declaredMatches": true,
+              "rawNonempty": true
+            },
+            {
+              "phase": "restored",
+              "total": 16,
+              "passed": 16,
+              "failed": 0,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 0,
+              "declaredMatches": true,
+              "rawNonempty": true
+            }
+          ]
+        },
+        {
+          "id": "O08-CC2",
+          "sourcePath": "packages/content/src/battle-formulas.ts",
+          "actualHashes": true,
+          "indexMatches": true,
+          "sameSets": true,
+          "finalTestSetMatches": false,
+          "triGreen": true,
+          "singleTarget": true,
+          "phases": [
+            {
+              "phase": "control",
+              "total": 16,
+              "passed": 16,
+              "failed": 0,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 0,
+              "declaredMatches": true,
+              "rawNonempty": true
+            },
+            {
+              "phase": "injected",
+              "total": 16,
+              "passed": 15,
+              "failed": 1,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 1,
+              "declaredMatches": true,
+              "rawNonempty": true
+            },
+            {
+              "phase": "restored",
+              "total": 16,
+              "passed": 16,
+              "failed": 0,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 0,
+              "declaredMatches": true,
+              "rawNonempty": true
+            }
+          ]
+        },
+        {
+          "id": "O08-CC3",
+          "sourcePath": "packages/content/src/poison.ts",
+          "actualHashes": true,
+          "indexMatches": true,
+          "sameSets": true,
+          "finalTestSetMatches": true,
+          "triGreen": true,
+          "singleTarget": true,
+          "phases": [
+            {
+              "phase": "control",
+              "total": 12,
+              "passed": 12,
+              "failed": 0,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 0,
+              "declaredMatches": true,
+              "rawNonempty": true
+            },
+            {
+              "phase": "injected",
+              "total": 12,
+              "passed": 11,
+              "failed": 1,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 1,
+              "declaredMatches": true,
+              "rawNonempty": true
+            },
+            {
+              "phase": "restored",
+              "total": 12,
+              "passed": 12,
+              "failed": 0,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 0,
+              "declaredMatches": true,
+              "rawNonempty": true
+            }
+          ]
+        },
+        {
+          "id": "O08-CC4",
+          "sourcePath": "packages/content/src/poison.ts",
+          "actualHashes": true,
+          "indexMatches": true,
+          "sameSets": true,
+          "finalTestSetMatches": true,
+          "triGreen": true,
+          "singleTarget": true,
+          "phases": [
+            {
+              "phase": "control",
+              "total": 12,
+              "passed": 12,
+              "failed": 0,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 0,
+              "declaredMatches": true,
+              "rawNonempty": true
+            },
+            {
+              "phase": "injected",
+              "total": 12,
+              "passed": 11,
+              "failed": 1,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 1,
+              "declaredMatches": true,
+              "rawNonempty": true
+            },
+            {
+              "phase": "restored",
+              "total": 12,
+              "passed": 12,
+              "failed": 0,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 0,
+              "declaredMatches": true,
+              "rawNonempty": true
+            }
+          ]
+        },
+        {
+          "id": "O08-CC5",
+          "sourcePath": "packages/content/src/actor-condition.ts",
+          "actualHashes": true,
+          "indexMatches": true,
+          "sameSets": true,
+          "finalTestSetMatches": true,
+          "triGreen": true,
+          "singleTarget": true,
+          "phases": [
+            {
+              "phase": "control",
+              "total": 12,
+              "passed": 12,
+              "failed": 0,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 0,
+              "declaredMatches": true,
+              "rawNonempty": true
+            },
+            {
+              "phase": "injected",
+              "total": 12,
+              "passed": 11,
+              "failed": 1,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 1,
+              "declaredMatches": true,
+              "rawNonempty": true
+            },
+            {
+              "phase": "restored",
+              "total": 12,
+              "passed": 12,
+              "failed": 0,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 0,
+              "declaredMatches": true,
+              "rawNonempty": true
+            }
+          ]
+        },
+        {
+          "id": "O09-CC1",
+          "sourcePath": "packages/content/src/frame-sequence.ts",
+          "actualHashes": true,
+          "indexMatches": true,
+          "sameSets": true,
+          "finalTestSetMatches": true,
+          "triGreen": true,
+          "singleTarget": true,
+          "phases": [
+            {
+              "phase": "control",
+              "total": 11,
+              "passed": 11,
+              "failed": 0,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 0,
+              "declaredMatches": true,
+              "rawNonempty": true
+            },
+            {
+              "phase": "injected",
+              "total": 11,
+              "passed": 10,
+              "failed": 1,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 1,
+              "declaredMatches": true,
+              "rawNonempty": true
+            },
+            {
+              "phase": "restored",
+              "total": 11,
+              "passed": 11,
+              "failed": 0,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 0,
+              "declaredMatches": true,
+              "rawNonempty": true
+            }
+          ]
+        },
+        {
+          "id": "O09-CC10",
+          "sourcePath": "packages/content/src/world-variable.ts",
+          "actualHashes": true,
+          "indexMatches": true,
+          "sameSets": true,
+          "finalTestSetMatches": true,
+          "triGreen": true,
+          "singleTarget": true,
+          "phases": [
+            {
+              "phase": "control",
+              "total": 12,
+              "passed": 12,
+              "failed": 0,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 0,
+              "declaredMatches": true,
+              "rawNonempty": true
+            },
+            {
+              "phase": "injected",
+              "total": 12,
+              "passed": 11,
+              "failed": 1,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 1,
+              "declaredMatches": true,
+              "rawNonempty": true
+            },
+            {
+              "phase": "restored",
+              "total": 12,
+              "passed": 12,
+              "failed": 0,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 0,
+              "declaredMatches": true,
+              "rawNonempty": true
+            }
+          ]
+        },
+        {
+          "id": "O09-CC2",
+          "sourcePath": "packages/content/src/stamp.ts",
+          "actualHashes": true,
+          "indexMatches": true,
+          "sameSets": true,
+          "finalTestSetMatches": true,
+          "triGreen": true,
+          "singleTarget": true,
+          "phases": [
+            {
+              "phase": "control",
+              "total": 12,
+              "passed": 12,
+              "failed": 0,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 0,
+              "declaredMatches": true,
+              "rawNonempty": true
+            },
+            {
+              "phase": "injected",
+              "total": 12,
+              "passed": 11,
+              "failed": 1,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 1,
+              "declaredMatches": true,
+              "rawNonempty": true
+            },
+            {
+              "phase": "restored",
+              "total": 12,
+              "passed": 12,
+              "failed": 0,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 0,
+              "declaredMatches": true,
+              "rawNonempty": true
+            }
+          ]
+        },
+        {
+          "id": "O09-CC3",
+          "sourcePath": "packages/content/src/tileset.ts",
+          "actualHashes": true,
+          "indexMatches": true,
+          "sameSets": true,
+          "finalTestSetMatches": true,
+          "triGreen": true,
+          "singleTarget": true,
+          "phases": [
+            {
+              "phase": "control",
+              "total": 12,
+              "passed": 12,
+              "failed": 0,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 0,
+              "declaredMatches": true,
+              "rawNonempty": true
+            },
+            {
+              "phase": "injected",
+              "total": 12,
+              "passed": 11,
+              "failed": 1,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 1,
+              "declaredMatches": true,
+              "rawNonempty": true
+            },
+            {
+              "phase": "restored",
+              "total": 12,
+              "passed": 12,
+              "failed": 0,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 0,
+              "declaredMatches": true,
+              "rawNonempty": true
+            }
+          ]
+        },
+        {
+          "id": "O09-CC4",
+          "sourcePath": "packages/content/src/migration-diagnostic.ts",
+          "actualHashes": true,
+          "indexMatches": true,
+          "sameSets": true,
+          "finalTestSetMatches": true,
+          "triGreen": true,
+          "singleTarget": true,
+          "phases": [
+            {
+              "phase": "control",
+              "total": 12,
+              "passed": 12,
+              "failed": 0,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 0,
+              "declaredMatches": true,
+              "rawNonempty": true
+            },
+            {
+              "phase": "injected",
+              "total": 12,
+              "passed": 11,
+              "failed": 1,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 1,
+              "declaredMatches": true,
+              "rawNonempty": true
+            },
+            {
+              "phase": "restored",
+              "total": 12,
+              "passed": 12,
+              "failed": 0,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 0,
+              "declaredMatches": true,
+              "rawNonempty": true
+            }
+          ]
+        },
+        {
+          "id": "O09-CC5",
+          "sourcePath": "packages/content/src/rich-text.ts",
+          "actualHashes": true,
+          "indexMatches": true,
+          "sameSets": true,
+          "finalTestSetMatches": true,
+          "triGreen": true,
+          "singleTarget": true,
+          "phases": [
+            {
+              "phase": "control",
+              "total": 12,
+              "passed": 12,
+              "failed": 0,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 0,
+              "declaredMatches": true,
+              "rawNonempty": true
+            },
+            {
+              "phase": "injected",
+              "total": 12,
+              "passed": 11,
+              "failed": 1,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 1,
+              "declaredMatches": true,
+              "rawNonempty": true
+            },
+            {
+              "phase": "restored",
+              "total": 12,
+              "passed": 12,
+              "failed": 0,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 0,
+              "declaredMatches": true,
+              "rawNonempty": true
+            }
+          ]
+        },
+        {
+          "id": "O09-CC6",
+          "sourcePath": "packages/content/src/asset.ts",
+          "actualHashes": true,
+          "indexMatches": true,
+          "sameSets": true,
+          "finalTestSetMatches": true,
+          "triGreen": true,
+          "singleTarget": true,
+          "phases": [
+            {
+              "phase": "control",
+              "total": 8,
+              "passed": 8,
+              "failed": 0,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 0,
+              "declaredMatches": true,
+              "rawNonempty": true
+            },
+            {
+              "phase": "injected",
+              "total": 8,
+              "passed": 7,
+              "failed": 1,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 1,
+              "declaredMatches": true,
+              "rawNonempty": true
+            },
+            {
+              "phase": "restored",
+              "total": 8,
+              "passed": 8,
+              "failed": 0,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 0,
+              "declaredMatches": true,
+              "rawNonempty": true
+            }
+          ]
+        },
+        {
+          "id": "O09-CC7",
+          "sourcePath": "packages/content/src/item.ts",
+          "actualHashes": true,
+          "indexMatches": true,
+          "sameSets": true,
+          "finalTestSetMatches": true,
+          "triGreen": true,
+          "singleTarget": true,
+          "phases": [
+            {
+              "phase": "control",
+              "total": 8,
+              "passed": 8,
+              "failed": 0,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 0,
+              "declaredMatches": true,
+              "rawNonempty": true
+            },
+            {
+              "phase": "injected",
+              "total": 8,
+              "passed": 7,
+              "failed": 1,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 1,
+              "declaredMatches": true,
+              "rawNonempty": true
+            },
+            {
+              "phase": "restored",
+              "total": 8,
+              "passed": 8,
+              "failed": 0,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 0,
+              "declaredMatches": true,
+              "rawNonempty": true
+            }
+          ]
+        },
+        {
+          "id": "O09-CC8",
+          "sourcePath": "packages/content/src/runtime-scene.ts",
+          "actualHashes": true,
+          "indexMatches": true,
+          "sameSets": true,
+          "finalTestSetMatches": true,
+          "triGreen": true,
+          "singleTarget": true,
+          "phases": [
+            {
+              "phase": "control",
+              "total": 7,
+              "passed": 7,
+              "failed": 0,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 0,
+              "declaredMatches": true,
+              "rawNonempty": true
+            },
+            {
+              "phase": "injected",
+              "total": 7,
+              "passed": 6,
+              "failed": 1,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 1,
+              "declaredMatches": true,
+              "rawNonempty": true
+            },
+            {
+              "phase": "restored",
+              "total": 7,
+              "passed": 7,
+              "failed": 0,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 0,
+              "declaredMatches": true,
+              "rawNonempty": true
+            }
+          ]
+        },
+        {
+          "id": "O09-CC9",
+          "sourcePath": "packages/content/src/shop.ts",
+          "actualHashes": true,
+          "indexMatches": true,
+          "sameSets": true,
+          "finalTestSetMatches": true,
+          "triGreen": true,
+          "singleTarget": true,
+          "phases": [
+            {
+              "phase": "control",
+              "total": 14,
+              "passed": 14,
+              "failed": 0,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 0,
+              "declaredMatches": true,
+              "rawNonempty": true
+            },
+            {
+              "phase": "injected",
+              "total": 14,
+              "passed": 13,
+              "failed": 1,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 1,
+              "declaredMatches": true,
+              "rawNonempty": true
+            },
+            {
+              "phase": "restored",
+              "total": 14,
+              "passed": 14,
+              "failed": 0,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 0,
+              "declaredMatches": true,
+              "rawNonempty": true
+            }
+          ]
+        },
+        {
+          "id": "O10-CC2",
+          "sourcePath": "packages/shared/src/rle.ts",
+          "actualHashes": true,
+          "indexMatches": true,
+          "sameSets": true,
+          "finalTestSetMatches": false,
+          "triGreen": true,
+          "singleTarget": true,
+          "phases": [
+            {
+              "phase": "control",
+              "total": 17,
+              "passed": 17,
+              "failed": 0,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 0,
+              "declaredMatches": true,
+              "rawNonempty": true
+            },
+            {
+              "phase": "injected",
+              "total": 17,
+              "passed": 16,
+              "failed": 1,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 1,
+              "declaredMatches": true,
+              "rawNonempty": true
+            },
+            {
+              "phase": "restored",
+              "total": 17,
+              "passed": 17,
+              "failed": 0,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 0,
+              "declaredMatches": true,
+              "rawNonempty": true
+            }
+          ]
+        },
+        {
+          "id": "O10-CC3",
+          "sourcePath": "packages/shared/src/yj2.ts",
+          "actualHashes": true,
+          "indexMatches": true,
+          "sameSets": true,
+          "finalTestSetMatches": false,
+          "triGreen": true,
+          "singleTarget": true,
+          "phases": [
+            {
+              "phase": "control",
+              "total": 17,
+              "passed": 17,
+              "failed": 0,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 0,
+              "declaredMatches": true,
+              "rawNonempty": true
+            },
+            {
+              "phase": "injected",
+              "total": 17,
+              "passed": 16,
+              "failed": 1,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 1,
+              "declaredMatches": true,
+              "rawNonempty": true
+            },
+            {
+              "phase": "restored",
+              "total": 17,
+              "passed": 17,
+              "failed": 0,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 0,
+              "declaredMatches": true,
+              "rawNonempty": true
+            }
+          ]
+        },
+        {
+          "id": "O10-CC4",
+          "sourcePath": "packages/shared/src/rle-encode.ts",
+          "actualHashes": true,
+          "indexMatches": true,
+          "sameSets": true,
+          "finalTestSetMatches": false,
+          "triGreen": true,
+          "singleTarget": true,
+          "phases": [
+            {
+              "phase": "control",
+              "total": 17,
+              "passed": 17,
+              "failed": 0,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 0,
+              "declaredMatches": true,
+              "rawNonempty": true
+            },
+            {
+              "phase": "injected",
+              "total": 17,
+              "passed": 16,
+              "failed": 1,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 1,
+              "declaredMatches": true,
+              "rawNonempty": true
+            },
+            {
+              "phase": "restored",
+              "total": 17,
+              "passed": 17,
+              "failed": 0,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 0,
+              "declaredMatches": true,
+              "rawNonempty": true
+            }
+          ]
+        },
+        {
+          "id": "O10-CC5",
+          "sourcePath": "packages/shared/src/rle.ts",
+          "actualHashes": true,
+          "indexMatches": true,
+          "sameSets": true,
+          "finalTestSetMatches": false,
+          "triGreen": true,
+          "singleTarget": true,
+          "phases": [
+            {
+              "phase": "control",
+              "total": 17,
+              "passed": 17,
+              "failed": 0,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 0,
+              "declaredMatches": true,
+              "rawNonempty": true
+            },
+            {
+              "phase": "injected",
+              "total": 17,
+              "passed": 16,
+              "failed": 1,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 1,
+              "declaredMatches": true,
+              "rawNonempty": true
+            },
+            {
+              "phase": "restored",
+              "total": 17,
+              "passed": 17,
+              "failed": 0,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 0,
+              "declaredMatches": true,
+              "rawNonempty": true
+            }
+          ]
+        },
+        {
+          "id": "O10-CC6",
+          "sourcePath": "packages/shared/src/mkf.ts",
+          "actualHashes": true,
+          "indexMatches": true,
+          "sameSets": true,
+          "finalTestSetMatches": true,
+          "triGreen": true,
+          "singleTarget": true,
+          "phases": [
+            {
+              "phase": "control",
+              "total": 3,
+              "passed": 3,
+              "failed": 0,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 0,
+              "declaredMatches": true,
+              "rawNonempty": true
+            },
+            {
+              "phase": "injected",
+              "total": 3,
+              "passed": 2,
+              "failed": 1,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 1,
+              "declaredMatches": true,
+              "rawNonempty": true
+            },
+            {
+              "phase": "restored",
+              "total": 3,
+              "passed": 3,
+              "failed": 0,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 0,
+              "declaredMatches": true,
+              "rawNonempty": true
+            }
+          ]
+        },
+        {
+          "id": "O10-CC8",
+          "sourcePath": "packages/shared/src/mkf.ts",
+          "actualHashes": true,
+          "indexMatches": true,
+          "sameSets": true,
+          "finalTestSetMatches": true,
+          "triGreen": true,
+          "singleTarget": true,
+          "phases": [
+            {
+              "phase": "control",
+              "total": 3,
+              "passed": 3,
+              "failed": 0,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 0,
+              "declaredMatches": true,
+              "rawNonempty": true
+            },
+            {
+              "phase": "injected",
+              "total": 3,
+              "passed": 2,
+              "failed": 1,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 1,
+              "declaredMatches": true,
+              "rawNonempty": true
+            },
+            {
+              "phase": "restored",
+              "total": 3,
+              "passed": 3,
+              "failed": 0,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 0,
+              "declaredMatches": true,
+              "rawNonempty": true
+            }
+          ]
+        },
+        {
+          "id": "O10-CC9",
+          "sourcePath": "packages/content/src/script-library.ts",
+          "actualHashes": true,
+          "indexMatches": true,
+          "sameSets": true,
+          "finalTestSetMatches": true,
+          "triGreen": true,
+          "singleTarget": true,
+          "phases": [
+            {
+              "phase": "control",
+              "total": 10,
+              "passed": 10,
+              "failed": 0,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 0,
+              "declaredMatches": true,
+              "rawNonempty": true
+            },
+            {
+              "phase": "injected",
+              "total": 10,
+              "passed": 9,
+              "failed": 1,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 1,
+              "declaredMatches": true,
+              "rawNonempty": true
+            },
+            {
+              "phase": "restored",
+              "total": 10,
+              "passed": 10,
+              "failed": 0,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 0,
+              "declaredMatches": true,
+              "rawNonempty": true
+            }
+          ]
+        }
+      ],
+      "counterSummary": {
+        "total": 56,
+        "failures": ["O08-CC1", "O08-CC2", "O10-CC2", "O10-CC3", "O10-CC4", "O10-CC5"],
+        "checkCounts": {
+          "actualHashes": 56,
+          "indexMatches": 56,
+          "sameSets": 56,
+          "finalTestSetMatches": 50,
+          "triGreen": 56,
+          "singleTarget": 56
+        }
+      }
+    },
+    "Q": {
+      "testTree": "63129473574ac21a082d1c5902b1fddfe62b02d7",
+      "docsPin": "c05edb4e9fb4b32bf258848e2581a53137288650",
+      "docsOnlyPaths": ["docs/testing/glm-tenfold-triple/wave-Q/receipt.json"],
+      "frozenSources": {
+        "matched": 716,
+        "total": 716,
+        "failures": []
+      },
+      "scope": {
+        "changes": 480,
+        "problems": []
+      },
+      "directed": {
+        "count": 123,
+        "passed": 123,
+        "uniqueKeys": 123,
+        "sha256": "5bec6c69069023f8b8afa52d38fc723a9e4b6e4c41735baa47e98d6a14f297c1"
+      },
+      "contracts": {
+        "count": 123
+      },
+      "receiptCandidate": "63129473574ac21a082d1c5902b1fddfe62b02d7",
+      "counters": [
+        {
+          "id": "Q01-RC1",
+          "actualHashes": true,
+          "indexMatches": true,
+          "sameSets": true,
+          "finalTestSetMatches": true,
+          "triGreen": true,
+          "singleTarget": true,
+          "phases": [
+            {
+              "phase": "positive",
+              "total": 12,
+              "passed": 12,
+              "failed": 0,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 0,
+              "declaredMatches": true,
+              "rawNonempty": true
+            },
+            {
+              "phase": "mutant",
+              "total": 12,
+              "passed": 11,
+              "failed": 1,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 1,
+              "declaredMatches": true,
+              "rawNonempty": true
+            },
+            {
+              "phase": "restored",
+              "total": 12,
+              "passed": 12,
+              "failed": 0,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 0,
+              "declaredMatches": true,
+              "rawNonempty": true
+            }
+          ]
+        },
+        {
+          "id": "Q01-RC2",
+          "actualHashes": true,
+          "indexMatches": true,
+          "sameSets": true,
+          "finalTestSetMatches": true,
+          "triGreen": true,
+          "singleTarget": true,
+          "phases": [
+            {
+              "phase": "positive",
+              "total": 5,
+              "passed": 5,
+              "failed": 0,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 0,
+              "declaredMatches": true,
+              "rawNonempty": true
+            },
+            {
+              "phase": "mutant",
+              "total": 5,
+              "passed": 4,
+              "failed": 1,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 1,
+              "declaredMatches": true,
+              "rawNonempty": true
+            },
+            {
+              "phase": "restored",
+              "total": 5,
+              "passed": 5,
+              "failed": 0,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 0,
+              "declaredMatches": true,
+              "rawNonempty": true
+            }
+          ]
+        },
+        {
+          "id": "Q01-RC3",
+          "actualHashes": true,
+          "indexMatches": true,
+          "sameSets": true,
+          "finalTestSetMatches": true,
+          "triGreen": true,
+          "singleTarget": true,
+          "phases": [
+            {
+              "phase": "positive",
+              "total": 6,
+              "passed": 6,
+              "failed": 0,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 0,
+              "declaredMatches": true,
+              "rawNonempty": true
+            },
+            {
+              "phase": "mutant",
+              "total": 6,
+              "passed": 5,
+              "failed": 1,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 1,
+              "declaredMatches": true,
+              "rawNonempty": true
+            },
+            {
+              "phase": "restored",
+              "total": 6,
+              "passed": 6,
+              "failed": 0,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 0,
+              "declaredMatches": true,
+              "rawNonempty": true
+            }
+          ]
+        },
+        {
+          "id": "Q01-RC4",
+          "actualHashes": true,
+          "indexMatches": true,
+          "sameSets": true,
+          "finalTestSetMatches": true,
+          "triGreen": true,
+          "singleTarget": true,
+          "phases": [
+            {
+              "phase": "positive",
+              "total": 4,
+              "passed": 4,
+              "failed": 0,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 0,
+              "declaredMatches": true,
+              "rawNonempty": true
+            },
+            {
+              "phase": "mutant",
+              "total": 4,
+              "passed": 3,
+              "failed": 1,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 1,
+              "declaredMatches": true,
+              "rawNonempty": true
+            },
+            {
+              "phase": "restored",
+              "total": 4,
+              "passed": 4,
+              "failed": 0,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 0,
+              "declaredMatches": true,
+              "rawNonempty": true
+            }
+          ]
+        },
+        {
+          "id": "Q01-RC5",
+          "actualHashes": true,
+          "indexMatches": true,
+          "sameSets": true,
+          "finalTestSetMatches": true,
+          "triGreen": true,
+          "singleTarget": true,
+          "phases": [
+            {
+              "phase": "positive",
+              "total": 8,
+              "passed": 8,
+              "failed": 0,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 0,
+              "declaredMatches": true,
+              "rawNonempty": true
+            },
+            {
+              "phase": "mutant",
+              "total": 8,
+              "passed": 7,
+              "failed": 1,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 1,
+              "declaredMatches": true,
+              "rawNonempty": true
+            },
+            {
+              "phase": "restored",
+              "total": 8,
+              "passed": 8,
+              "failed": 0,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 0,
+              "declaredMatches": true,
+              "rawNonempty": true
+            }
+          ]
+        },
+        {
+          "id": "Q02-RC1",
+          "actualHashes": true,
+          "indexMatches": true,
+          "sameSets": true,
+          "finalTestSetMatches": true,
+          "triGreen": true,
+          "singleTarget": true,
+          "phases": [
+            {
+              "phase": "positive",
+              "total": 11,
+              "passed": 11,
+              "failed": 0,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 0,
+              "declaredMatches": true,
+              "rawNonempty": true
+            },
+            {
+              "phase": "mutant",
+              "total": 11,
+              "passed": 10,
+              "failed": 1,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 1,
+              "declaredMatches": true,
+              "rawNonempty": true
+            },
+            {
+              "phase": "restored",
+              "total": 11,
+              "passed": 11,
+              "failed": 0,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 0,
+              "declaredMatches": true,
+              "rawNonempty": true
+            }
+          ]
+        },
+        {
+          "id": "Q02-RC2",
+          "actualHashes": true,
+          "indexMatches": true,
+          "sameSets": true,
+          "finalTestSetMatches": true,
+          "triGreen": true,
+          "singleTarget": true,
+          "phases": [
+            {
+              "phase": "positive",
+              "total": 11,
+              "passed": 11,
+              "failed": 0,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 0,
+              "declaredMatches": true,
+              "rawNonempty": true
+            },
+            {
+              "phase": "mutant",
+              "total": 11,
+              "passed": 10,
+              "failed": 1,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 1,
+              "declaredMatches": true,
+              "rawNonempty": true
+            },
+            {
+              "phase": "restored",
+              "total": 11,
+              "passed": 11,
+              "failed": 0,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 0,
+              "declaredMatches": true,
+              "rawNonempty": true
+            }
+          ]
+        },
+        {
+          "id": "Q02-RC3",
+          "actualHashes": true,
+          "indexMatches": true,
+          "sameSets": true,
+          "finalTestSetMatches": true,
+          "triGreen": true,
+          "singleTarget": true,
+          "phases": [
+            {
+              "phase": "positive",
+              "total": 4,
+              "passed": 4,
+              "failed": 0,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 0,
+              "declaredMatches": true,
+              "rawNonempty": true
+            },
+            {
+              "phase": "mutant",
+              "total": 4,
+              "passed": 3,
+              "failed": 1,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 1,
+              "declaredMatches": true,
+              "rawNonempty": true
+            },
+            {
+              "phase": "restored",
+              "total": 4,
+              "passed": 4,
+              "failed": 0,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 0,
+              "declaredMatches": true,
+              "rawNonempty": true
+            }
+          ]
+        },
+        {
+          "id": "Q02-RC4",
+          "actualHashes": true,
+          "indexMatches": true,
+          "sameSets": true,
+          "finalTestSetMatches": true,
+          "triGreen": true,
+          "singleTarget": true,
+          "phases": [
+            {
+              "phase": "positive",
+              "total": 11,
+              "passed": 11,
+              "failed": 0,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 0,
+              "declaredMatches": true,
+              "rawNonempty": true
+            },
+            {
+              "phase": "mutant",
+              "total": 11,
+              "passed": 10,
+              "failed": 1,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 1,
+              "declaredMatches": true,
+              "rawNonempty": true
+            },
+            {
+              "phase": "restored",
+              "total": 11,
+              "passed": 11,
+              "failed": 0,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 0,
+              "declaredMatches": true,
+              "rawNonempty": true
+            }
+          ]
+        },
+        {
+          "id": "Q02-RC5",
+          "actualHashes": true,
+          "indexMatches": true,
+          "sameSets": true,
+          "finalTestSetMatches": true,
+          "triGreen": true,
+          "singleTarget": true,
+          "phases": [
+            {
+              "phase": "positive",
+              "total": 9,
+              "passed": 9,
+              "failed": 0,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 0,
+              "declaredMatches": true,
+              "rawNonempty": true
+            },
+            {
+              "phase": "mutant",
+              "total": 9,
+              "passed": 8,
+              "failed": 1,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 1,
+              "declaredMatches": true,
+              "rawNonempty": true
+            },
+            {
+              "phase": "restored",
+              "total": 9,
+              "passed": 9,
+              "failed": 0,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 0,
+              "declaredMatches": true,
+              "rawNonempty": true
+            }
+          ]
+        },
+        {
+          "id": "Q03-RC1",
+          "actualHashes": true,
+          "indexMatches": true,
+          "sameSets": true,
+          "finalTestSetMatches": true,
+          "triGreen": true,
+          "singleTarget": true,
+          "phases": [
+            {
+              "phase": "positive",
+              "total": 12,
+              "passed": 12,
+              "failed": 0,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 0,
+              "declaredMatches": true,
+              "rawNonempty": true
+            },
+            {
+              "phase": "mutant",
+              "total": 12,
+              "passed": 11,
+              "failed": 1,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 1,
+              "declaredMatches": true,
+              "rawNonempty": true
+            },
+            {
+              "phase": "restored",
+              "total": 12,
+              "passed": 12,
+              "failed": 0,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 0,
+              "declaredMatches": true,
+              "rawNonempty": true
+            }
+          ]
+        },
+        {
+          "id": "Q03-RC2",
+          "actualHashes": true,
+          "indexMatches": true,
+          "sameSets": true,
+          "finalTestSetMatches": true,
+          "triGreen": true,
+          "singleTarget": true,
+          "phases": [
+            {
+              "phase": "positive",
+              "total": 12,
+              "passed": 12,
+              "failed": 0,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 0,
+              "declaredMatches": true,
+              "rawNonempty": true
+            },
+            {
+              "phase": "mutant",
+              "total": 12,
+              "passed": 11,
+              "failed": 1,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 1,
+              "declaredMatches": true,
+              "rawNonempty": true
+            },
+            {
+              "phase": "restored",
+              "total": 12,
+              "passed": 12,
+              "failed": 0,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 0,
+              "declaredMatches": true,
+              "rawNonempty": true
+            }
+          ]
+        },
+        {
+          "id": "Q03-RC3",
+          "actualHashes": true,
+          "indexMatches": true,
+          "sameSets": true,
+          "finalTestSetMatches": true,
+          "triGreen": true,
+          "singleTarget": true,
+          "phases": [
+            {
+              "phase": "positive",
+              "total": 12,
+              "passed": 12,
+              "failed": 0,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 0,
+              "declaredMatches": true,
+              "rawNonempty": true
+            },
+            {
+              "phase": "mutant",
+              "total": 12,
+              "passed": 11,
+              "failed": 1,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 1,
+              "declaredMatches": true,
+              "rawNonempty": true
+            },
+            {
+              "phase": "restored",
+              "total": 12,
+              "passed": 12,
+              "failed": 0,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 0,
+              "declaredMatches": true,
+              "rawNonempty": true
+            }
+          ]
+        },
+        {
+          "id": "Q03-RC4",
+          "actualHashes": true,
+          "indexMatches": true,
+          "sameSets": true,
+          "finalTestSetMatches": true,
+          "triGreen": true,
+          "singleTarget": true,
+          "phases": [
+            {
+              "phase": "positive",
+              "total": 12,
+              "passed": 12,
+              "failed": 0,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 0,
+              "declaredMatches": true,
+              "rawNonempty": true
+            },
+            {
+              "phase": "mutant",
+              "total": 12,
+              "passed": 11,
+              "failed": 1,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 1,
+              "declaredMatches": true,
+              "rawNonempty": true
+            },
+            {
+              "phase": "restored",
+              "total": 12,
+              "passed": 12,
+              "failed": 0,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 0,
+              "declaredMatches": true,
+              "rawNonempty": true
+            }
+          ]
+        },
+        {
+          "id": "Q03-RC5",
+          "actualHashes": true,
+          "indexMatches": true,
+          "sameSets": true,
+          "finalTestSetMatches": true,
+          "triGreen": true,
+          "singleTarget": true,
+          "phases": [
+            {
+              "phase": "positive",
+              "total": 3,
+              "passed": 3,
+              "failed": 0,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 0,
+              "declaredMatches": true,
+              "rawNonempty": true
+            },
+            {
+              "phase": "mutant",
+              "total": 3,
+              "passed": 2,
+              "failed": 1,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 1,
+              "declaredMatches": true,
+              "rawNonempty": true
+            },
+            {
+              "phase": "restored",
+              "total": 3,
+              "passed": 3,
+              "failed": 0,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 0,
+              "declaredMatches": true,
+              "rawNonempty": true
+            }
+          ]
+        },
+        {
+          "id": "Q04-RC1",
+          "actualHashes": true,
+          "indexMatches": true,
+          "sameSets": true,
+          "finalTestSetMatches": true,
+          "triGreen": true,
+          "singleTarget": true,
+          "phases": [
+            {
+              "phase": "positive",
+              "total": 13,
+              "passed": 13,
+              "failed": 0,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 0,
+              "declaredMatches": true,
+              "rawNonempty": true
+            },
+            {
+              "phase": "mutant",
+              "total": 13,
+              "passed": 12,
+              "failed": 1,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 1,
+              "declaredMatches": true,
+              "rawNonempty": true
+            },
+            {
+              "phase": "restored",
+              "total": 13,
+              "passed": 13,
+              "failed": 0,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 0,
+              "declaredMatches": true,
+              "rawNonempty": true
+            }
+          ]
+        },
+        {
+          "id": "Q04-RC2",
+          "actualHashes": true,
+          "indexMatches": true,
+          "sameSets": true,
+          "finalTestSetMatches": true,
+          "triGreen": true,
+          "singleTarget": true,
+          "phases": [
+            {
+              "phase": "positive",
+              "total": 13,
+              "passed": 13,
+              "failed": 0,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 0,
+              "declaredMatches": true,
+              "rawNonempty": true
+            },
+            {
+              "phase": "mutant",
+              "total": 13,
+              "passed": 12,
+              "failed": 1,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 1,
+              "declaredMatches": true,
+              "rawNonempty": true
+            },
+            {
+              "phase": "restored",
+              "total": 13,
+              "passed": 13,
+              "failed": 0,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 0,
+              "declaredMatches": true,
+              "rawNonempty": true
+            }
+          ]
+        },
+        {
+          "id": "Q04-RC3",
+          "actualHashes": true,
+          "indexMatches": true,
+          "sameSets": true,
+          "finalTestSetMatches": true,
+          "triGreen": true,
+          "singleTarget": true,
+          "phases": [
+            {
+              "phase": "positive",
+              "total": 13,
+              "passed": 13,
+              "failed": 0,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 0,
+              "declaredMatches": true,
+              "rawNonempty": true
+            },
+            {
+              "phase": "mutant",
+              "total": 13,
+              "passed": 12,
+              "failed": 1,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 1,
+              "declaredMatches": true,
+              "rawNonempty": true
+            },
+            {
+              "phase": "restored",
+              "total": 13,
+              "passed": 13,
+              "failed": 0,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 0,
+              "declaredMatches": true,
+              "rawNonempty": true
+            }
+          ]
+        },
+        {
+          "id": "Q04-RC4",
+          "actualHashes": true,
+          "indexMatches": true,
+          "sameSets": true,
+          "finalTestSetMatches": true,
+          "triGreen": true,
+          "singleTarget": true,
+          "phases": [
+            {
+              "phase": "positive",
+              "total": 13,
+              "passed": 13,
+              "failed": 0,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 0,
+              "declaredMatches": true,
+              "rawNonempty": true
+            },
+            {
+              "phase": "mutant",
+              "total": 13,
+              "passed": 12,
+              "failed": 1,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 1,
+              "declaredMatches": true,
+              "rawNonempty": true
+            },
+            {
+              "phase": "restored",
+              "total": 13,
+              "passed": 13,
+              "failed": 0,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 0,
+              "declaredMatches": true,
+              "rawNonempty": true
+            }
+          ]
+        },
+        {
+          "id": "Q04-RC5",
+          "actualHashes": true,
+          "indexMatches": true,
+          "sameSets": true,
+          "finalTestSetMatches": true,
+          "triGreen": true,
+          "singleTarget": true,
+          "phases": [
+            {
+              "phase": "positive",
+              "total": 13,
+              "passed": 13,
+              "failed": 0,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 0,
+              "declaredMatches": true,
+              "rawNonempty": true
+            },
+            {
+              "phase": "mutant",
+              "total": 13,
+              "passed": 12,
+              "failed": 1,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 1,
+              "declaredMatches": true,
+              "rawNonempty": true
+            },
+            {
+              "phase": "restored",
+              "total": 13,
+              "passed": 13,
+              "failed": 0,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 0,
+              "declaredMatches": true,
+              "rawNonempty": true
+            }
+          ]
+        },
+        {
+          "id": "Q05-RC1",
+          "actualHashes": true,
+          "indexMatches": true,
+          "sameSets": true,
+          "finalTestSetMatches": true,
+          "triGreen": true,
+          "singleTarget": true,
+          "phases": [
+            {
+              "phase": "positive",
+              "total": 6,
+              "passed": 6,
+              "failed": 0,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 0,
+              "declaredMatches": true,
+              "rawNonempty": true
+            },
+            {
+              "phase": "mutant",
+              "total": 6,
+              "passed": 5,
+              "failed": 1,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 1,
+              "declaredMatches": true,
+              "rawNonempty": true
+            },
+            {
+              "phase": "restored",
+              "total": 6,
+              "passed": 6,
+              "failed": 0,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 0,
+              "declaredMatches": true,
+              "rawNonempty": true
+            }
+          ]
+        },
+        {
+          "id": "Q05-RC2",
+          "actualHashes": true,
+          "indexMatches": true,
+          "sameSets": true,
+          "finalTestSetMatches": true,
+          "triGreen": true,
+          "singleTarget": true,
+          "phases": [
+            {
+              "phase": "positive",
+              "total": 6,
+              "passed": 6,
+              "failed": 0,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 0,
+              "declaredMatches": true,
+              "rawNonempty": true
+            },
+            {
+              "phase": "mutant",
+              "total": 6,
+              "passed": 5,
+              "failed": 1,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 1,
+              "declaredMatches": true,
+              "rawNonempty": true
+            },
+            {
+              "phase": "restored",
+              "total": 6,
+              "passed": 6,
+              "failed": 0,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 0,
+              "declaredMatches": true,
+              "rawNonempty": true
+            }
+          ]
+        },
+        {
+          "id": "Q05-RC3",
+          "actualHashes": true,
+          "indexMatches": true,
+          "sameSets": true,
+          "finalTestSetMatches": true,
+          "triGreen": true,
+          "singleTarget": true,
+          "phases": [
+            {
+              "phase": "positive",
+              "total": 6,
+              "passed": 6,
+              "failed": 0,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 0,
+              "declaredMatches": true,
+              "rawNonempty": true
+            },
+            {
+              "phase": "mutant",
+              "total": 6,
+              "passed": 5,
+              "failed": 1,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 1,
+              "declaredMatches": true,
+              "rawNonempty": true
+            },
+            {
+              "phase": "restored",
+              "total": 6,
+              "passed": 6,
+              "failed": 0,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 0,
+              "declaredMatches": true,
+              "rawNonempty": true
+            }
+          ]
+        },
+        {
+          "id": "Q05-RC4",
+          "actualHashes": true,
+          "indexMatches": true,
+          "sameSets": true,
+          "finalTestSetMatches": true,
+          "triGreen": true,
+          "singleTarget": true,
+          "phases": [
+            {
+              "phase": "positive",
+              "total": 6,
+              "passed": 6,
+              "failed": 0,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 0,
+              "declaredMatches": true,
+              "rawNonempty": true
+            },
+            {
+              "phase": "mutant",
+              "total": 6,
+              "passed": 5,
+              "failed": 1,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 1,
+              "declaredMatches": true,
+              "rawNonempty": true
+            },
+            {
+              "phase": "restored",
+              "total": 6,
+              "passed": 6,
+              "failed": 0,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 0,
+              "declaredMatches": true,
+              "rawNonempty": true
+            }
+          ]
+        },
+        {
+          "id": "Q05-RC5",
+          "actualHashes": true,
+          "indexMatches": true,
+          "sameSets": true,
+          "finalTestSetMatches": true,
+          "triGreen": true,
+          "singleTarget": true,
+          "phases": [
+            {
+              "phase": "positive",
+              "total": 6,
+              "passed": 6,
+              "failed": 0,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 0,
+              "declaredMatches": true,
+              "rawNonempty": true
+            },
+            {
+              "phase": "mutant",
+              "total": 6,
+              "passed": 5,
+              "failed": 1,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 1,
+              "declaredMatches": true,
+              "rawNonempty": true
+            },
+            {
+              "phase": "restored",
+              "total": 6,
+              "passed": 6,
+              "failed": 0,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 0,
+              "declaredMatches": true,
+              "rawNonempty": true
+            }
+          ]
+        },
+        {
+          "id": "Q06-RC1",
+          "actualHashes": true,
+          "indexMatches": true,
+          "sameSets": true,
+          "finalTestSetMatches": true,
+          "triGreen": true,
+          "singleTarget": true,
+          "phases": [
+            {
+              "phase": "positive",
+              "total": 11,
+              "passed": 11,
+              "failed": 0,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 0,
+              "declaredMatches": true,
+              "rawNonempty": true
+            },
+            {
+              "phase": "mutant",
+              "total": 11,
+              "passed": 10,
+              "failed": 1,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 1,
+              "declaredMatches": true,
+              "rawNonempty": true
+            },
+            {
+              "phase": "restored",
+              "total": 11,
+              "passed": 11,
+              "failed": 0,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 0,
+              "declaredMatches": true,
+              "rawNonempty": true
+            }
+          ]
+        },
+        {
+          "id": "Q06-RC2",
+          "actualHashes": true,
+          "indexMatches": true,
+          "sameSets": true,
+          "finalTestSetMatches": true,
+          "triGreen": true,
+          "singleTarget": true,
+          "phases": [
+            {
+              "phase": "positive",
+              "total": 11,
+              "passed": 11,
+              "failed": 0,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 0,
+              "declaredMatches": true,
+              "rawNonempty": true
+            },
+            {
+              "phase": "mutant",
+              "total": 11,
+              "passed": 10,
+              "failed": 1,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 1,
+              "declaredMatches": true,
+              "rawNonempty": true
+            },
+            {
+              "phase": "restored",
+              "total": 11,
+              "passed": 11,
+              "failed": 0,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 0,
+              "declaredMatches": true,
+              "rawNonempty": true
+            }
+          ]
+        },
+        {
+          "id": "Q06-RC3",
+          "actualHashes": true,
+          "indexMatches": true,
+          "sameSets": true,
+          "finalTestSetMatches": true,
+          "triGreen": true,
+          "singleTarget": true,
+          "phases": [
+            {
+              "phase": "positive",
+              "total": 11,
+              "passed": 11,
+              "failed": 0,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 0,
+              "declaredMatches": true,
+              "rawNonempty": true
+            },
+            {
+              "phase": "mutant",
+              "total": 11,
+              "passed": 10,
+              "failed": 1,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 1,
+              "declaredMatches": true,
+              "rawNonempty": true
+            },
+            {
+              "phase": "restored",
+              "total": 11,
+              "passed": 11,
+              "failed": 0,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 0,
+              "declaredMatches": true,
+              "rawNonempty": true
+            }
+          ]
+        },
+        {
+          "id": "Q06-RC4",
+          "actualHashes": true,
+          "indexMatches": true,
+          "sameSets": true,
+          "finalTestSetMatches": true,
+          "triGreen": true,
+          "singleTarget": true,
+          "phases": [
+            {
+              "phase": "positive",
+              "total": 11,
+              "passed": 11,
+              "failed": 0,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 0,
+              "declaredMatches": true,
+              "rawNonempty": true
+            },
+            {
+              "phase": "mutant",
+              "total": 11,
+              "passed": 10,
+              "failed": 1,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 1,
+              "declaredMatches": true,
+              "rawNonempty": true
+            },
+            {
+              "phase": "restored",
+              "total": 11,
+              "passed": 11,
+              "failed": 0,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 0,
+              "declaredMatches": true,
+              "rawNonempty": true
+            }
+          ]
+        },
+        {
+          "id": "Q06-RC5",
+          "actualHashes": true,
+          "indexMatches": true,
+          "sameSets": true,
+          "finalTestSetMatches": true,
+          "triGreen": true,
+          "singleTarget": true,
+          "phases": [
+            {
+              "phase": "positive",
+              "total": 11,
+              "passed": 11,
+              "failed": 0,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 0,
+              "declaredMatches": true,
+              "rawNonempty": true
+            },
+            {
+              "phase": "mutant",
+              "total": 11,
+              "passed": 10,
+              "failed": 1,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 1,
+              "declaredMatches": true,
+              "rawNonempty": true
+            },
+            {
+              "phase": "restored",
+              "total": 11,
+              "passed": 11,
+              "failed": 0,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 0,
+              "declaredMatches": true,
+              "rawNonempty": true
+            }
+          ]
+        },
+        {
+          "id": "Q09-RC1",
+          "actualHashes": true,
+          "indexMatches": true,
+          "sameSets": true,
+          "finalTestSetMatches": true,
+          "triGreen": true,
+          "singleTarget": true,
+          "phases": [
+            {
+              "phase": "positive",
+              "total": 4,
+              "passed": 4,
+              "failed": 0,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 0,
+              "declaredMatches": true,
+              "rawNonempty": true
+            },
+            {
+              "phase": "mutant",
+              "total": 4,
+              "passed": 3,
+              "failed": 1,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 1,
+              "declaredMatches": true,
+              "rawNonempty": true
+            },
+            {
+              "phase": "restored",
+              "total": 4,
+              "passed": 4,
+              "failed": 0,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 0,
+              "declaredMatches": true,
+              "rawNonempty": true
+            }
+          ]
+        },
+        {
+          "id": "Q09-RC2",
+          "actualHashes": true,
+          "indexMatches": true,
+          "sameSets": true,
+          "finalTestSetMatches": true,
+          "triGreen": true,
+          "singleTarget": true,
+          "phases": [
+            {
+              "phase": "positive",
+              "total": 4,
+              "passed": 4,
+              "failed": 0,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 0,
+              "declaredMatches": true,
+              "rawNonempty": true
+            },
+            {
+              "phase": "mutant",
+              "total": 4,
+              "passed": 3,
+              "failed": 1,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 1,
+              "declaredMatches": true,
+              "rawNonempty": true
+            },
+            {
+              "phase": "restored",
+              "total": 4,
+              "passed": 4,
+              "failed": 0,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 0,
+              "declaredMatches": true,
+              "rawNonempty": true
+            }
+          ]
+        },
+        {
+          "id": "Q09-RC3",
+          "actualHashes": true,
+          "indexMatches": true,
+          "sameSets": true,
+          "finalTestSetMatches": true,
+          "triGreen": true,
+          "singleTarget": true,
+          "phases": [
+            {
+              "phase": "positive",
+              "total": 4,
+              "passed": 4,
+              "failed": 0,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 0,
+              "declaredMatches": true,
+              "rawNonempty": true
+            },
+            {
+              "phase": "mutant",
+              "total": 4,
+              "passed": 3,
+              "failed": 1,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 1,
+              "declaredMatches": true,
+              "rawNonempty": true
+            },
+            {
+              "phase": "restored",
+              "total": 4,
+              "passed": 4,
+              "failed": 0,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 0,
+              "declaredMatches": true,
+              "rawNonempty": true
+            }
+          ]
+        },
+        {
+          "id": "Q09-RC4",
+          "actualHashes": true,
+          "indexMatches": true,
+          "sameSets": true,
+          "finalTestSetMatches": true,
+          "triGreen": true,
+          "singleTarget": true,
+          "phases": [
+            {
+              "phase": "positive",
+              "total": 4,
+              "passed": 4,
+              "failed": 0,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 0,
+              "declaredMatches": true,
+              "rawNonempty": true
+            },
+            {
+              "phase": "mutant",
+              "total": 4,
+              "passed": 3,
+              "failed": 1,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 1,
+              "declaredMatches": true,
+              "rawNonempty": true
+            },
+            {
+              "phase": "restored",
+              "total": 4,
+              "passed": 4,
+              "failed": 0,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 0,
+              "declaredMatches": true,
+              "rawNonempty": true
+            }
+          ]
+        },
+        {
+          "id": "Q10-RC1",
+          "actualHashes": true,
+          "indexMatches": true,
+          "sameSets": true,
+          "finalTestSetMatches": true,
+          "triGreen": true,
+          "singleTarget": true,
+          "phases": [
+            {
+              "phase": "positive",
+              "total": 3,
+              "passed": 3,
+              "failed": 0,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 0,
+              "declaredMatches": true,
+              "rawNonempty": true
+            },
+            {
+              "phase": "mutant",
+              "total": 3,
+              "passed": 2,
+              "failed": 1,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 1,
+              "declaredMatches": true,
+              "rawNonempty": true
+            },
+            {
+              "phase": "restored",
+              "total": 3,
+              "passed": 3,
+              "failed": 0,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 0,
+              "declaredMatches": true,
+              "rawNonempty": true
+            }
+          ]
+        },
+        {
+          "id": "Q10-RC2",
+          "actualHashes": true,
+          "indexMatches": true,
+          "sameSets": true,
+          "finalTestSetMatches": true,
+          "triGreen": true,
+          "singleTarget": true,
+          "phases": [
+            {
+              "phase": "positive",
+              "total": 3,
+              "passed": 3,
+              "failed": 0,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 0,
+              "declaredMatches": true,
+              "rawNonempty": true
+            },
+            {
+              "phase": "mutant",
+              "total": 3,
+              "passed": 2,
+              "failed": 1,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 1,
+              "declaredMatches": true,
+              "rawNonempty": true
+            },
+            {
+              "phase": "restored",
+              "total": 3,
+              "passed": 3,
+              "failed": 0,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 0,
+              "declaredMatches": true,
+              "rawNonempty": true
+            }
+          ]
+        },
+        {
+          "id": "Q10-RC3",
+          "actualHashes": true,
+          "indexMatches": true,
+          "sameSets": true,
+          "finalTestSetMatches": true,
+          "triGreen": true,
+          "singleTarget": true,
+          "phases": [
+            {
+              "phase": "positive",
+              "total": 3,
+              "passed": 3,
+              "failed": 0,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 0,
+              "declaredMatches": true,
+              "rawNonempty": true
+            },
+            {
+              "phase": "mutant",
+              "total": 3,
+              "passed": 2,
+              "failed": 1,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 1,
+              "declaredMatches": true,
+              "rawNonempty": true
+            },
+            {
+              "phase": "restored",
+              "total": 3,
+              "passed": 3,
+              "failed": 0,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 0,
+              "declaredMatches": true,
+              "rawNonempty": true
+            }
+          ]
+        },
+        {
+          "id": "Q10-RC4",
+          "actualHashes": true,
+          "indexMatches": true,
+          "sameSets": true,
+          "finalTestSetMatches": true,
+          "triGreen": true,
+          "singleTarget": true,
+          "phases": [
+            {
+              "phase": "positive",
+              "total": 3,
+              "passed": 3,
+              "failed": 0,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 0,
+              "declaredMatches": true,
+              "rawNonempty": true
+            },
+            {
+              "phase": "mutant",
+              "total": 3,
+              "passed": 2,
+              "failed": 1,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 1,
+              "declaredMatches": true,
+              "rawNonempty": true
+            },
+            {
+              "phase": "restored",
+              "total": 3,
+              "passed": 3,
+              "failed": 0,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 0,
+              "declaredMatches": true,
+              "rawNonempty": true
+            }
+          ]
+        },
+        {
+          "id": "Q10-RC5",
+          "actualHashes": true,
+          "indexMatches": true,
+          "sameSets": true,
+          "finalTestSetMatches": true,
+          "triGreen": true,
+          "singleTarget": true,
+          "phases": [
+            {
+              "phase": "positive",
+              "total": 3,
+              "passed": 3,
+              "failed": 0,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 0,
+              "declaredMatches": true,
+              "rawNonempty": true
+            },
+            {
+              "phase": "mutant",
+              "total": 3,
+              "passed": 2,
+              "failed": 1,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 1,
+              "declaredMatches": true,
+              "rawNonempty": true
+            },
+            {
+              "phase": "restored",
+              "total": 3,
+              "passed": 3,
+              "failed": 0,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 0,
+              "declaredMatches": true,
+              "rawNonempty": true
+            }
+          ]
+        },
+        {
+          "id": "Q08-8b-RC1",
+          "actualHashes": true,
+          "indexMatches": true,
+          "sameSets": true,
+          "finalTestSetMatches": true,
+          "triGreen": true,
+          "singleTarget": true,
+          "phases": [
+            {
+              "phase": "positive",
+              "total": 7,
+              "passed": 7,
+              "failed": 0,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 0,
+              "declaredMatches": true,
+              "rawNonempty": true
+            },
+            {
+              "phase": "mutant",
+              "total": 7,
+              "passed": 6,
+              "failed": 1,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 1,
+              "declaredMatches": true,
+              "rawNonempty": true
+            },
+            {
+              "phase": "restored",
+              "total": 7,
+              "passed": 7,
+              "failed": 0,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 0,
+              "declaredMatches": true,
+              "rawNonempty": true
+            }
+          ]
+        },
+        {
+          "id": "Q08-8b-RC2",
+          "actualHashes": true,
+          "indexMatches": true,
+          "sameSets": true,
+          "finalTestSetMatches": true,
+          "triGreen": true,
+          "singleTarget": true,
+          "phases": [
+            {
+              "phase": "positive",
+              "total": 7,
+              "passed": 7,
+              "failed": 0,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 0,
+              "declaredMatches": true,
+              "rawNonempty": true
+            },
+            {
+              "phase": "mutant",
+              "total": 7,
+              "passed": 6,
+              "failed": 1,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 1,
+              "declaredMatches": true,
+              "rawNonempty": true
+            },
+            {
+              "phase": "restored",
+              "total": 7,
+              "passed": 7,
+              "failed": 0,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 0,
+              "declaredMatches": true,
+              "rawNonempty": true
+            }
+          ]
+        },
+        {
+          "id": "Q08-8b-RC3",
+          "actualHashes": true,
+          "indexMatches": true,
+          "sameSets": true,
+          "finalTestSetMatches": true,
+          "triGreen": true,
+          "singleTarget": true,
+          "phases": [
+            {
+              "phase": "positive",
+              "total": 7,
+              "passed": 7,
+              "failed": 0,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 0,
+              "declaredMatches": true,
+              "rawNonempty": true
+            },
+            {
+              "phase": "mutant",
+              "total": 7,
+              "passed": 6,
+              "failed": 1,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 1,
+              "declaredMatches": true,
+              "rawNonempty": true
+            },
+            {
+              "phase": "restored",
+              "total": 7,
+              "passed": 7,
+              "failed": 0,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 0,
+              "declaredMatches": true,
+              "rawNonempty": true
+            }
+          ]
+        },
+        {
+          "id": "Q08-8b-RC4",
+          "actualHashes": true,
+          "indexMatches": true,
+          "sameSets": true,
+          "finalTestSetMatches": true,
+          "triGreen": true,
+          "singleTarget": true,
+          "phases": [
+            {
+              "phase": "positive",
+              "total": 7,
+              "passed": 7,
+              "failed": 0,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 0,
+              "declaredMatches": true,
+              "rawNonempty": true
+            },
+            {
+              "phase": "mutant",
+              "total": 7,
+              "passed": 6,
+              "failed": 1,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 1,
+              "declaredMatches": true,
+              "rawNonempty": true
+            },
+            {
+              "phase": "restored",
+              "total": 7,
+              "passed": 7,
+              "failed": 0,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 0,
+              "declaredMatches": true,
+              "rawNonempty": true
+            }
+          ]
+        },
+        {
+          "id": "Q08-8b-RC5",
+          "actualHashes": true,
+          "indexMatches": true,
+          "sameSets": true,
+          "finalTestSetMatches": true,
+          "triGreen": true,
+          "singleTarget": true,
+          "phases": [
+            {
+              "phase": "positive",
+              "total": 7,
+              "passed": 7,
+              "failed": 0,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 0,
+              "declaredMatches": true,
+              "rawNonempty": true
+            },
+            {
+              "phase": "mutant",
+              "total": 7,
+              "passed": 6,
+              "failed": 1,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 1,
+              "declaredMatches": true,
+              "rawNonempty": true
+            },
+            {
+              "phase": "restored",
+              "total": 7,
+              "passed": 7,
+              "failed": 0,
+              "other": 0,
+              "runtimeErrors": 0,
+              "exit": 0,
+              "declaredMatches": true,
+              "rawNonempty": true
+            }
+          ]
+        }
+      ],
+      "counterSummary": {
+        "total": 44,
+        "failures": [],
+        "checkCounts": {
+          "actualHashes": 44,
+          "indexMatches": 44,
+          "sameSets": 44,
+          "finalTestSetMatches": 44,
+          "triGreen": 44,
+          "singleTarget": 44
+        }
+      }
+    }
+  },
+  "ui": {
+    "app": "dev.zcode.app",
+    "oldPTitle": "TEST-GLM-WAVE-P-1 编辑器残差十批用例",
+    "oldPArchiveVerified": true,
+    "archiveEvidence": "Archived list contains exact old P title, project type-pal, recoverable unarchive action; active list only O/Q.",
+    "thirdSlotStarted": false,
+    "messagesSentThisTurn": 0,
+    "attempts": "Bounded AX close/navigation, supported rebind/reset, keyboard and one coordinate focus attempt; no verified new chat/message.",
+    "blocker": "Coordinate input: Computer Use server error -10005: noWindowsAvailable; AX states unchanged after limited actions. Stop UI retry this turn.",
+    "oAndqCurrentRunningVerified": false
+  },
+  "static": {
+    "diffCheckO": {
+      "exitCode": 0
+    },
+    "diffCheckQ": {
+      "exitCode": 0
+    },
+    "receiptFormatting": [
+      {
+        "w": "O",
+        "status": 0,
+        "formatMatches": false,
+        "inputLength": 5776,
+        "outputLength": 6052,
+        "firstDiff": 3,
+        "inputAround": "{\n \"wave\": \"O\",\n \"card\": \"TEST-GLM-WAVE-O-1\",\n \"dispatchBase\": \"8b3ca062953b17a12178f8d1a9e36657971234b",
+        "outputAround": "{\n  \"wave\": \"O\",\n  \"card\": \"TEST-GLM-WAVE-O-1\",\n  \"dispatchBase\": \"8b3ca062953b17a12178f8d1a9e366579712",
+        "stderr": ""
+      },
+      {
+        "w": "Q",
+        "status": 0,
+        "formatMatches": true,
+        "inputLength": 2602,
+        "outputLength": 2602,
+        "firstDiff": 2602,
+        "inputAround": "Note，不改任何测试/产品文件（r2/r3/r4 同口径）。\"\n}\n",
+        "outputAround": "Note，不改任何测试/产品文件（r2/r3/r4 同口径）。\"\n}\n",
+        "stderr": ""
+      }
+    ],
+    "caveat": "Biome check stdin without --write returned contents aren't fixed for both, including unchanged Q; not used as diagnostics. Formatting comparison used format --write on stdin only, no filesystem writes."
+  },
+  "findings": [
+    {
+      "id": "O-R4-01",
+      "kind": "counter",
+      "detail": "442-row contract ledger matches directed identities but 400 source/caller/batch values are '?'; all 442 oldAssertion/oracle fields are generic. Prior dedup canAct/canCastMagic removal preserved."
+    },
+    {
+      "id": "O-R4-02",
+      "kind": "counter",
+      "detail": "56 hashes/index/tri-state report identities valid within recorded run; 6 recorded execution sets differ from final directed file sets (O08-CC1/CC2, O10-CC2/CC3/CC4/CC5). Recollect only affected controls on final test source."
+    },
+    {
+      "id": "O-R4-03",
+      "kind": "counter",
+      "detail": "Final docs pin O receipt indentation differs from configured formatter. Batch O07/O08/O09/O10 counts remain 35/16/58/17 unlike final README 45/42/72/23. receipt headNote docs-only claim inaccurate; candidate object itself exists."
+    },
+    {
+      "id": "Q-R5-01",
+      "kind": "counter",
+      "detail": "battle-action-error-arms.glm-q.test.ts:352-362 has four empty BattleStatus assertions and two incomplete BattleEnemy[] assertions. No bridges through unknown but these conceal required fields, not legal typed fixtures."
+    },
+    {
+      "id": "Q-R5-02",
+      "kind": "counter",
+      "detail": "performItem inventory count=0 and missing-entry tests repeat actions.test.ts:2317-2371 guard/oracles. Different item ids/empty-vs-unrelated inventory/target do not add a contract to the early-return branch."
+    },
+    {
+      "id": "Q-R5-03",
+      "kind": "counter",
+      "detail": "blocked-input claim from PlayerRole missing magic/learnedSpells alone is insufficient: typed structural extension can flow through PlayerRoles without an assertion. Verify canonical caller legality before blocked/unreachable; no product/interface fix authorized."
+    },
+    {
+      "id": "Q-R5-04",
+      "kind": "metadata",
+      "detail": "receipt candidate now resolves; old invalid SHA counter closed at object pin layer. 44 controls final hash/index/report sets correspond. receipt game 2788 unchanged vs seven added cases requires final raw result anchor, and counterEvidence still says39. README historical gap lines mix old/new, update current ledger; no full gate rerun claimed."
+    }
+  ]
+}

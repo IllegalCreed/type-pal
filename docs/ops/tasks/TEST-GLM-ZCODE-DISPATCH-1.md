@@ -156,3 +156,22 @@ Codex direct dispatch authorized by the user: continue TEST-GLM-WAVE-P-1 as the 
   立即停止桌面动作，不输入凭据/绕锁或更改安全设置；heartbeat保持启用，宿主未变时静默。
   锁屏后的三槽实时UI状态未知，不能沿用旧“工作中”快照；解锁后先重新核会话/队列，
   再按已有待办续派，不重复发送或假定P已经归档。
+
+## 2026-10-01 19:53 JST 新交付与归档核验
+
+- UI不再报锁屏；旧P实际在可恢复归档列表，标题/type-pal匹配，活动项目仅O/Q。
+  原P r3 SHA/证据保留、树干净；归档不等于卡done，不重复请求旧确认框处理。
+- 面板关闭/导航/快捷键有限重试无可验证变化，坐标仍noWindowsAvailable；
+  零新消息/零替换P启动，不无限重试、不增加第四槽。O/Q实时运行状态未新核定。
+- 新固定O测试树 `590dd57ab867519281065c7aadc998b263907ae3`，docs pin
+  `894641a41be1d7099abda08c3b170b84007d39f5`；Q测试树
+  `63129473574ac21a082d1c5902b1fddfe62b02d7`，docs pin
+  `c05edb4e9fb4b32bf258848e2581a53137288650`。后续区间均仅receipt.json。
+- [O r4/Q r5预审](../../testing/glm-tenfold-triple/codex-zcode-oq-preflight-20261001.md)、
+  [机器账](../../testing/glm-tenfold-triple/codex-zcode-oq-preflight-20261001.json)已落原卡：
+  O442账仍模板、六针执行集漂移、末尾格式；Q123有缺字段强转/两重复、44针证据对应，
+  旧无效候选对象问题关闭，窄修后只重采受影响针。
+- 下一轮先核实际UI，补P原卡judge/恢复/mkdtemp/10索引最新窄项，再连续P02–P10；
+  O/Q只在空闲无相同排队时直发最新原卡窄项再续余族，用户无需转交。
+  不将作者闭合当accept，700/组数/50及P20流程保留、原冻结/白名单不变。
+- 本轮仅固定blob/diff/格式对照/三态执行账，不写活动树、不新跑重门/合main/正式结算。

@@ -199,3 +199,21 @@ Q08第6/8/10的具体旧证据认可，不重造；第6无空槽测试不能扩�
 - 活动 Q07/Q08/Q10 合法余族可继续，仅修白名单receipt对象/Note，不重造未变hash/业务针；
   新最终报告/合同与全包/静态/视觉仍待独立核验，700/50不缩，未正式结算或done。
   待 UI 通道恢复由 Codex直接发此窄补充，用户无需搬运；不向运行会话重复投喂。
+
+## Codex r5 固定候选预审（2026-10-01）
+
+测试树 `63129473574ac21a082d1c5902b1fddfe62b02d7`，docs pin
+`c05edb4e9fb4b32bf258848e2581a53137288650`；**counter，保持rework**。
+[窄返工与逐源裁决](../../testing/glm-tenfold-triple/codex-zcode-oq-preflight-20261001.md)、
+[机器复算](../../testing/glm-tenfold-triple/codex-zcode-oq-preflight-20261001.json)。
+
+- 新receipt对象有效，旧Q-R4-PIN关闭；44枚index/meta/hash/三态身份与最终directed对应，
+  保留旧证据，不冒称本轮独立重跑44枚。716源/480白名单路径/diff通过。
+- Q-R5-01：battle-action-error-arms:352–362四空status强转、两缺字段数组强转需合法typed化。
+- Q-R5-02：performItem缺entry/count0两合同重复actions.test:2317–2371，不计新。
+- Q-R5-03：未声明magic/learnedSpells不足以证typed不可构造；先核caller/公开seed，
+  不准夹产品接口补字段；capture误设行收窄，不造新机制。
+- Q-R5-04：窄修后重采受影响Q08针、同步123/44账与真实全包数；未变旧39枚、
+  默认超时、D-Q01-1产品draft保留。不把两种统计相加冒称正式收益。
+- 未新整包/官方结算，123仍作者运行规模；700/50组/50有效反控不缩。
+  仅实际空闲无相同排队时由Codex直接发窄项后续余族；不打断、不合main、不done。
