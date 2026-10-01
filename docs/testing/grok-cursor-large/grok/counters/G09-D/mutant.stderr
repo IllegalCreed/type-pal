@@ -1,0 +1,18 @@
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/shell/precache-ui-host.grok-r1.test.ts > G09-D 预缓存宿主 > G09-D01 总字节为 0 时小组件百分比和条宽都是 0
+AssertionError: expected '1%' to be '0%' // Object.is equality
+
+Expected: "0%"
+Received: "1%"
+
+ ❯ src/shell/precache-ui-host.grok-r1.test.ts:44:65
+     42|     const bar = el?.children[1]
+     43|     const fill = bar?.children[0]
+     44|     expect(fill instanceof HTMLElement ? fill.style.width : '').toBe('…
+       |                                                                 ^
+     45|     expect(el?.textContent).toBe('后台缓存资源 0% (0/0MB)')
+     46|   })
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯

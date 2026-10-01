@@ -1,0 +1,196 @@
+{
+  "numTotalTestSuites": 2,
+  "numPassedTestSuites": 2,
+  "numFailedTestSuites": 0,
+  "numPendingTestSuites": 0,
+  "numTotalTests": 13,
+  "numPassedTests": 13,
+  "numFailedTests": 0,
+  "numPendingTests": 0,
+  "numTodoTests": 0,
+  "snapshot": {
+    "added": 0,
+    "failure": false,
+    "filesAdded": 0,
+    "filesRemoved": 0,
+    "filesRemovedList": [],
+    "filesUnmatched": 0,
+    "filesUpdated": 0,
+    "matched": 0,
+    "total": 0,
+    "unchecked": 0,
+    "uncheckedKeysByFile": [],
+    "unmatched": 0,
+    "updated": 0,
+    "didUpdate": false
+  },
+  "startTime": 1790880441191,
+  "success": true,
+  "testResults": [
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": [
+            "G09-B 主循环门控"
+          ],
+          "fullName": "G09-B 主循环门控 G09-B01 dither fadeState 在未到逻辑间隔时仍 present，且 ticked 为 false",
+          "status": "passed",
+          "title": "G09-B01 dither fadeState 在未到逻辑间隔时仍 present，且 ticked 为 false",
+          "duration": 1.0700840000000653,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "G09-B 主循环门控"
+          ],
+          "fullName": "G09-B 主循环门控 G09-B02 battleAnim 在未到逻辑间隔时仍 present",
+          "status": "passed",
+          "title": "G09-B02 battleAnim 在未到逻辑间隔时仍 present",
+          "duration": 0.300707999999986,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "G09-B 主循环门控"
+          ],
+          "fullName": "G09-B 主循环门控 G09-B03 dt 150 只 tick 一次，并把 50ms 余量留在累加器",
+          "status": "passed",
+          "title": "G09-B03 dt 150 只 tick 一次，并把 50ms 余量留在累加器",
+          "duration": 0.38837499999999636,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "G09-B 主循环门控"
+          ],
+          "fullName": "G09-B 主循环门控 G09-B04 dt 200 结转后余量正好等于间隔，不丢弃",
+          "status": "passed",
+          "title": "G09-B04 dt 200 结转后余量正好等于间隔，不丢弃",
+          "duration": 0.1834159999999656,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "G09-B 主循环门控"
+          ],
+          "fullName": "G09-B 主循环门控 G09-B05 冻结时不足一个间隔的余量保留，且不 present",
+          "status": "passed",
+          "title": "G09-B05 冻结时不足一个间隔的余量保留，且不 present",
+          "duration": 0.11958300000003419,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "G09-B 主循环门控"
+          ],
+          "fullName": "G09-B 主循环门控 G09-B06 逻辑 tick 把 bus.drain 的那一条命令交给 onPresent",
+          "status": "passed",
+          "title": "G09-B06 逻辑 tick 把 bus.drain 的那一条命令交给 onPresent",
+          "duration": 0.31358300000010786,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "G09-B 主循环门控"
+          ],
+          "fullName": "G09-B 主循环门控 G09-B07 发生逻辑 tick 时 nowMs 写成这一帧的时间戳",
+          "status": "passed",
+          "title": "G09-B07 发生逻辑 tick 时 nowMs 写成这一帧的时间戳",
+          "duration": 0.1251670000000331,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "G09-B 主循环门控"
+          ],
+          "fullName": "G09-B 主循环门控 G09-B08 dump 使用调用方给出的 partyWalkFrames 4",
+          "status": "passed",
+          "title": "G09-B08 dump 使用调用方给出的 partyWalkFrames 4",
+          "duration": 0.10691699999995308,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "G09-B 主循环门控"
+          ],
+          "fullName": "G09-B 主循环门控 G09-B09 未给 partyWalkFrames 时 dump 使用 3",
+          "status": "passed",
+          "title": "G09-B09 未给 partyWalkFrames 时 dump 使用 3",
+          "duration": 0.4134999999999991,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "G09-B 主循环门控"
+          ],
+          "fullName": "G09-B 主循环门控 G09-B10 没有 suppressHeldForFade 的输入源在 scene-fade 里仍按 fadeState present",
+          "status": "passed",
+          "title": "G09-B10 没有 suppressHeldForFade 的输入源在 scene-fade 里仍按 fadeState present",
+          "duration": 0.13495799999998326,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "G09-B 主循环门控"
+          ],
+          "fullName": "G09-B 主循环门控 G09-B11 探索累到 90 后切战斗，同一时间戳用 40ms 间隔 tick 一次并清掉超额余量",
+          "status": "passed",
+          "title": "G09-B11 探索累到 90 后切战斗，同一时间戳用 40ms 间隔 tick 一次并清掉超额余量",
+          "duration": 0.20841600000005656,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "G09-B 主循环门控"
+          ],
+          "fullName": "G09-B 主循环门控 G09-B12 tickN(0) 不 present，帧号保持 0",
+          "status": "passed",
+          "title": "G09-B12 tickN(0) 不 present，帧号保持 0",
+          "duration": 0.07595900000001166,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "G09-B 主循环门控"
+          ],
+          "fullName": "G09-B 主循环门控 G09-B13 startRafLoop 的取消函数取消的是刚刚排上的那一帧",
+          "status": "passed",
+          "title": "G09-B13 startRafLoop 的取消函数取消的是刚刚排上的那一帧",
+          "duration": 0.16112499999997,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790880441831,
+      "endTime": 1790880441835.2085,
+      "status": "passed",
+      "message": "",
+      "name": "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/grok-r1-G09-B-lv0I2I/packages/game/src/shell/main-loop-gates.grok-r1.test.ts"
+    }
+  ]
+}

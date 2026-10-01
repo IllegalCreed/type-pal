@@ -1,6 +1,6 @@
 {
-  "batch": "G08",
-  "cumulativeNewContracts": 320,
+  "batch": "G09",
+  "cumulativeNewContracts": 375,
   "target": 400,
   "success": true,
   "numFailedTests": 0,
@@ -13,7 +13,8 @@
     "pnpm --filter @type-pal/game exec vitest run src/present/dialog-box-pixels.grok-r1.test.ts src/present/font-width.grok-r1.test.ts src/present/draw-number-slots.grok-r1.test.ts src/present/dialog-box-chrome.grok-r1.test.ts src/present/dialog-box.test.ts src/present/dialog-box.glm-next-wave.test.ts src/present/font.glm-phase1-leaves.test.ts src/present/draw-number.test.ts src/present/__tests__/grok-composition/p16-dialog.test.ts src/present/menu/draw-opening-menu.test.ts src/present/battle/draw-battle-settlement.glm-phase1-leaves.test.ts --reporter=verbose --reporter=json --outputFile=/tmp/g05-directed.json",
     "pnpm --filter @type-pal/game exec vitest run src/present/menu/inventory-list-pixels.grok-r1.test.ts src/present/menu/inventory-desc-filter.grok-r1.test.ts src/present/menu/equip-role-pixels.grok-r1.test.ts src/present/menu/status-vitals-pixels.grok-r1.test.ts src/present/__tests__/grok-present/p01-inventory-list.test.ts src/present/__tests__/grok-present/p02-inventory-target.test.ts src/present/__tests__/grok-present/p03-equip.test.ts src/present/__tests__/grok-present/p07-status.test.ts src/present/menu/draw-inventory.glm-phase1-leaves.test.ts src/present/menu/draw-equip.glm-phase1-leaves.test.ts src/present/menu/draw-player-status.test.ts src/present/menu/draw-player-status.glm-phase1-leaves.test.ts --reporter=verbose --reporter=json --outputFile=/tmp/g06-directed.json",
     "pnpm --filter @type-pal/game exec vitest run src/present/menu/magic-menu-pixels.grok-r1.test.ts src/present/menu/shop-preview-pixels.grok-r1.test.ts src/present/menu/box-shadow-pixels.grok-r1.test.ts src/present/menu/opening-confirm-pixels.grok-r1.test.ts src/present/menu/draw-magic.test.ts src/present/menu/draw-magic.glm-phase1-leaves.test.ts src/present/__tests__/grok-present/p06-magic.test.ts src/present/menu/draw-shop.glm-phase1-leaves.test.ts src/present/__tests__/grok-present/p04-shop.test.ts src/present/menu/draw-box.test.ts src/present/menu/draw-box.glm-phase1-leaves.test.ts src/present/menu/draw-opening-menu.test.ts src/present/menu/draw-opening-menu.glm-phase1-leaves.test.ts src/present/menu/draw-confirm.glm-phase1-leaves.test.ts --reporter=verbose --reporter=json --outputFile=/tmp/g07-directed.json",
-    "pnpm --filter @type-pal/game exec vitest run src/present/battle/battle-sprite-pixels.grok-r1.test.ts src/present/battle/battle-ui-pixels.grok-r1.test.ts src/present/battle/battle-settlement-pixels.grok-r1.test.ts src/present/battle/battle-effect-num-pixels.grok-r1.test.ts src/present/battle/__tests__/draw-battle-sprites.test.ts src/present/battle/draw-battle-sprites.glm-phase1-leaves.test.ts src/present/battle/__tests__/draw-battle-ui.test.ts src/present/battle/draw-battle-ui.glm-phase1-leaves.test.ts src/present/__tests__/grok-composition/p15-battle-ui.test.ts src/present/battle/__tests__/draw-battle-settlement.test.ts src/present/battle/draw-battle-settlement.glm-phase1-leaves.test.ts src/present/__tests__/grok-present/p08-settlement.test.ts src/present/battle/__tests__/draw-battle-effect.test.ts src/present/battle/__tests__/draw-battle-num.test.ts src/present/battle/__tests__/draw-battle-bg.test.ts src/present/__tests__/grok-present/p09-background.test.ts src/present/battle/__tests__/present-battle.test.ts --reporter=verbose --reporter=json --outputFile=/tmp/g08-directed.json"
+    "pnpm --filter @type-pal/game exec vitest run src/present/battle/battle-sprite-pixels.grok-r1.test.ts src/present/battle/battle-ui-pixels.grok-r1.test.ts src/present/battle/battle-settlement-pixels.grok-r1.test.ts src/present/battle/battle-effect-num-pixels.grok-r1.test.ts src/present/battle/__tests__/draw-battle-sprites.test.ts src/present/battle/draw-battle-sprites.glm-phase1-leaves.test.ts src/present/battle/__tests__/draw-battle-ui.test.ts src/present/battle/draw-battle-ui.glm-phase1-leaves.test.ts src/present/__tests__/grok-composition/p15-battle-ui.test.ts src/present/battle/__tests__/draw-battle-settlement.test.ts src/present/battle/draw-battle-settlement.glm-phase1-leaves.test.ts src/present/__tests__/grok-present/p08-settlement.test.ts src/present/battle/__tests__/draw-battle-effect.test.ts src/present/battle/__tests__/draw-battle-num.test.ts src/present/battle/__tests__/draw-battle-bg.test.ts src/present/__tests__/grok-present/p09-background.test.ts src/present/battle/__tests__/present-battle.test.ts --reporter=verbose --reporter=json --outputFile=/tmp/g08-directed.json",
+    "pnpm --filter @type-pal/game exec vitest run src/shell/input-replay.grok-r1.test.ts src/shell/main-loop-gates.grok-r1.test.ts src/shell/boot-loading-host.grok-r1.test.ts src/shell/precache-ui-host.grok-r1.test.ts src/shell/input.test.ts src/shell/input.boundaries.test.ts src/shell/main-loop.test.ts src/shell/boot-loading.test.ts src/shell/precache-ui.test.ts src/shell/precache-client.test.ts src/shell/precache-client.glm-phase1-leaves.test.ts --reporter=verbose --reporter=json --outputFile=/tmp/g09-directed.json"
   ],
   "tests": [
     {
@@ -1614,6 +1615,281 @@
     {
       "file": "src/present/battle/battle-effect-num-pixels.grok-r1.test.ts",
       "fullName": "G08-D 特效与飘字像素 G08-D07 奇数宽右缘索引 0x2D 经 flushToCanvas 写成调色板 RGB，缓冲仍是 0x2D",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/input-replay.grok-r1.test.ts",
+      "fullName": "G09-A 输入回放与按键归属 G09-A01 未松开的 Up 再次 keydown 会把 Up 挪到 held 末位",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/input-replay.grok-r1.test.ts",
+      "fullName": "G09-A 输入回放与按键归属 G09-A02 已经按住的 Up 再次 keydown 不再写入 pressed",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/input-replay.grok-r1.test.ts",
+      "fullName": "G09-A 输入回放与按键归属 G09-A03 未知键的 keydown 不改已按住的 Right",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/input-replay.grok-r1.test.ts",
+      "fullName": "G09-A 输入回放与按键归属 G09-A04 ControlRight 不是确认键",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/input-replay.grok-r1.test.ts",
+      "fullName": "G09-A 输入回放与按键归属 G09-A05 拆掉一个键盘源后，另一个源仍接收后续按键",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/input-replay.grok-r1.test.ts",
+      "fullName": "G09-A 输入回放与按键归属 G09-A06 clearPressed 不解除方向键的 fade 抑制",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/input-replay.grok-r1.test.ts",
+      "fullName": "G09-A 输入回放与按键归属 G09-A07 回放耗尽时，空快照的帧号等于本次入参",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/input-replay.grok-r1.test.ts",
+      "fullName": "G09-A 输入回放与按键归属 G09-A08 回放游标越过末帧后，调用方再追加的快照不会被读到",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/input-replay.grok-r1.test.ts",
+      "fullName": "G09-A 输入回放与按键归属 G09-A09 录制源返回的就是内层那一个快照对象",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/input-replay.grok-r1.test.ts",
+      "fullName": "G09-A 输入回放与按键归属 G09-A10 getRecording 一直是同一个数组，第二次快照追加在后面",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/input-replay.grok-r1.test.ts",
+      "fullName": "G09-A 输入回放与按键归属 G09-A11 键盘快照的帧号原样使用主循环传入的帧号",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/main-loop-gates.grok-r1.test.ts",
+      "fullName": "G09-B 主循环门控 G09-B01 dither fadeState 在未到逻辑间隔时仍 present，且 ticked 为 false",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/main-loop-gates.grok-r1.test.ts",
+      "fullName": "G09-B 主循环门控 G09-B02 battleAnim 在未到逻辑间隔时仍 present",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/main-loop-gates.grok-r1.test.ts",
+      "fullName": "G09-B 主循环门控 G09-B03 dt 150 只 tick 一次，并把 50ms 余量留在累加器",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/main-loop-gates.grok-r1.test.ts",
+      "fullName": "G09-B 主循环门控 G09-B04 dt 200 结转后余量正好等于间隔，不丢弃",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/main-loop-gates.grok-r1.test.ts",
+      "fullName": "G09-B 主循环门控 G09-B05 冻结时不足一个间隔的余量保留，且不 present",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/main-loop-gates.grok-r1.test.ts",
+      "fullName": "G09-B 主循环门控 G09-B06 逻辑 tick 把 bus.drain 的那一条命令交给 onPresent",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/main-loop-gates.grok-r1.test.ts",
+      "fullName": "G09-B 主循环门控 G09-B07 发生逻辑 tick 时 nowMs 写成这一帧的时间戳",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/main-loop-gates.grok-r1.test.ts",
+      "fullName": "G09-B 主循环门控 G09-B08 dump 使用调用方给出的 partyWalkFrames 4",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/main-loop-gates.grok-r1.test.ts",
+      "fullName": "G09-B 主循环门控 G09-B09 未给 partyWalkFrames 时 dump 使用 3",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/main-loop-gates.grok-r1.test.ts",
+      "fullName": "G09-B 主循环门控 G09-B10 没有 suppressHeldForFade 的输入源在 scene-fade 里仍按 fadeState present",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/main-loop-gates.grok-r1.test.ts",
+      "fullName": "G09-B 主循环门控 G09-B11 探索累到 90 后切战斗，同一时间戳用 40ms 间隔 tick 一次并清掉超额余量",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/main-loop-gates.grok-r1.test.ts",
+      "fullName": "G09-B 主循环门控 G09-B12 tickN(0) 不 present，帧号保持 0",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/main-loop-gates.grok-r1.test.ts",
+      "fullName": "G09-B 主循环门控 G09-B13 startRafLoop 的取消函数取消的是刚刚排上的那一帧",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/boot-loading-host.grok-r1.test.ts",
+      "fullName": "G09-C 启动加载宿主 G09-C01 不传预估总量时，状态文本的分母是 810，进度条为 0%",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/boot-loading-host.grok-r1.test.ts",
+      "fullName": "G09-C 启动加载宿主 G09-C02 fetch 拒绝后完成数仍加一",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/boot-loading-host.grok-r1.test.ts",
+      "fullName": "G09-C 启动加载宿主 G09-C03 只有状态节点时写入 1 / 4",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/boot-loading-host.grok-r1.test.ts",
+      "fullName": "G09-C 启动加载宿主 G09-C04 只有进度条时宽度写成 25%",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/boot-loading-host.grok-r1.test.ts",
+      "fullName": "G09-C 启动加载宿主 G09-C05 没有状态节点时失败仍加上错误类，之后的说明不再改条宽",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/boot-loading-host.grok-r1.test.ts",
+      "fullName": "G09-C 启动加载宿主 G09-C06 没有进度条时完成仍淡出并在 600ms 后移除",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/boot-loading-host.grok-r1.test.ts",
+      "fullName": "G09-C 启动加载宿主 G09-C07 restoreBootFetch 还原 fetch，之后的请求不再回调进度",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/boot-loading-host.grok-r1.test.ts",
+      "fullName": "G09-C 启动加载宿主 G09-C08 同一帧里的两次说明只排一次 rAF，文本留下后一次",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/boot-loading-host.grok-r1.test.ts",
+      "fullName": "G09-C 启动加载宿主 G09-C09 requestAnimationFrame 不是函数时，改用 16ms 的 setTimeout 写出说明",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/boot-loading-host.grok-r1.test.ts",
+      "fullName": "G09-C 启动加载宿主 G09-C10 预估和已发起都是 0 时，进度回调得到 0 且不写 DOM",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/boot-loading-host.grok-r1.test.ts",
+      "fullName": "G09-C 启动加载宿主 G09-C11 失败文案是启动失败加原文，并带上错误类",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/precache-ui-host.grok-r1.test.ts",
+      "fullName": "G09-D 预缓存宿主 G09-D01 总字节为 0 时小组件百分比和条宽都是 0",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/precache-ui-host.grok-r1.test.ts",
+      "fullName": "G09-D 预缓存宿主 G09-D02 半兆字节按四舍五入写成 1MB，百分比取 floor",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/precache-ui-host.grok-r1.test.ts",
+      "fullName": "G09-D 预缓存宿主 G09-D03 playableFraction 0.25 把虚线放在 25%，必要资源满格也停在 25%",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/precache-ui-host.grok-r1.test.ts",
+      "fullName": "G09-D 预缓存宿主 G09-D04 负数的必要进度钳到 0%",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/precache-ui-host.grok-r1.test.ts",
+      "fullName": "G09-D 预缓存宿主 G09-D05 大于 1 的必要进度钳到虚线 12%",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/precache-ui-host.grok-r1.test.ts",
+      "fullName": "G09-D 预缓存宿主 G09-D06 过了虚线之后 setNecessaryProgress 不再改文案",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/precache-ui-host.grok-r1.test.ts",
+      "fullName": "G09-D 预缓存宿主 G09-D07 第二次 markPlayable 不调用 onEnter",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/precache-ui-host.grok-r1.test.ts",
+      "fullName": "G09-D 预缓存宿主 G09-D08 没有进入按钮容器时 markPlayable 立刻放行",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/precache-ui-host.grok-r1.test.ts",
+      "fullName": "G09-D 预缓存宿主 G09-D09 有容器但没有按钮时立刻放行，容器保持 hidden",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/precache-ui-host.grok-r1.test.ts",
+      "fullName": "G09-D 预缓存宿主 G09-D10 全量阶段总字节为 0 时条宽停在虚线，文案是 0/0MB",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/precache-ui-host.grok-r1.test.ts",
+      "fullName": "G09-D 预缓存宿主 G09-D11 第二次 enterGame 不再多挂一个小组件",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/precache-ui-host.grok-r1.test.ts",
+      "fullName": "G09-D 预缓存宿主 G09-D12 没有记过总字节时，小组件保持占位文案",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/precache-ui-host.grok-r1.test.ts",
+      "fullName": "G09-D 预缓存宿主 G09-D13 进入之后 fail 不再给覆盖层加错误类",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/precache-ui-host.grok-r1.test.ts",
+      "fullName": "G09-D 预缓存宿主 G09-D14 没有状态节点时 fail 仍加上错误类",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/precache-ui-host.grok-r1.test.ts",
+      "fullName": "G09-D 预缓存宿主 G09-D15 必要阶段收到的全量字节在 enterGame 时写进小组件",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/precache-ui-host.grok-r1.test.ts",
+      "fullName": "G09-D 预缓存宿主 G09-D16 没有进度条时必要进度仍写状态文案",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/precache-ui-host.grok-r1.test.ts",
+      "fullName": "G09-D 预缓存宿主 G09-D17 没有状态节点时必要进度仍写 6% 条宽",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/precache-ui-host.grok-r1.test.ts",
+      "fullName": "G09-D 预缓存宿主 G09-D18 进入按钮的 click 只触发一次 onEnter",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/precache-ui-host.grok-r1.test.ts",
+      "fullName": "G09-D 预缓存宿主 G09-D19 没有覆盖层时 enterGame 仍挂上占位小组件",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/precache-ui-host.grok-r1.test.ts",
+      "fullName": "G09-D 预缓存宿主 G09-D20 done 立刻把透明度设为 0，599ms 仍在，600ms 移除",
       "status": "passed"
     }
   ],
@@ -3961,6 +4237,299 @@
         {
           "file": "src/present/battle/__tests__/present-battle.test.ts",
           "fullName": "drawBattleSettlement —— D11b 胜利结算演出渲染 BattlePresent.draw:state.settlement active → 结算屏叠加渲染(端到端经 present-battle)",
+          "status": "passed"
+        }
+      ]
+    },
+    {
+      "batch": "G09",
+      "status": "passed",
+      "numPassedTests": 57,
+      "numFailedTests": 0,
+      "tests": [
+        {
+          "file": "src/shell/boot-loading.test.ts",
+          "fullName": "boot-loading(启动加载覆盖层) init 后 fetch 计数驱动状态文本与进度条(分母 = max(已发起, 预估总量))",
+          "status": "passed"
+        },
+        {
+          "file": "src/shell/boot-loading.test.ts",
+          "fullName": "boot-loading(启动加载覆盖层) 进度单调不回退:新一波请求发起(分母涨)时显示值保持(2026-06-12 用户反馈条回退)",
+          "status": "passed"
+        },
+        {
+          "file": "src/shell/boot-loading.test.ts",
+          "fullName": "boot-loading(启动加载覆盖层) finish 还原 fetch、补满格并移除 overlay(过渡后)",
+          "status": "passed"
+        },
+        {
+          "file": "src/shell/boot-loading.test.ts",
+          "fullName": "boot-loading(启动加载覆盖层) fail 显示错误文本、还原 fetch、overlay 保留",
+          "status": "passed"
+        },
+        {
+          "file": "src/shell/boot-loading.test.ts",
+          "fullName": "boot-loading(启动加载覆盖层) setBootLoadingNote 追加说明到计数文本,清空恢复(soundfont 尾段等待文案)",
+          "status": "passed"
+        },
+        {
+          "file": "src/shell/boot-loading.test.ts",
+          "fullName": "boot-loading(启动加载覆盖层) 无 overlay 节点(单测/SSR)时全部 no-op 不抛错",
+          "status": "passed"
+        },
+        {
+          "file": "src/shell/boot-loading.test.ts",
+          "fullName": "boot-loading(启动加载覆盖层) 重复 init 幂等(不双层包 fetch)",
+          "status": "passed"
+        },
+        {
+          "file": "src/shell/boot-loading.test.ts",
+          "fullName": "boot-loading(启动加载覆盖层) 未 init(PROD 走 SW 统一进度)时 render 不抢写 #boot-loading-status/fill",
+          "status": "passed"
+        },
+        {
+          "file": "src/shell/boot-loading.test.ts",
+          "fullName": "boot-loading(启动加载覆盖层) PROD 模式(传 onProgress)→ render 回调 fraction、不写 #boot-loading DOM",
+          "status": "passed"
+        },
+        {
+          "file": "src/shell/input.boundaries.test.ts",
+          "fullName": "H02 KeyboardInputSource 宿主边界 真实 Window 事件驱动；两个 snapshot Set 防别名（改返回集合不动内部）",
+          "status": "passed"
+        },
+        {
+          "file": "src/shell/input.boundaries.test.ts",
+          "fullName": "H02 KeyboardInputSource 宿主边界 未知 keyup 不清合法 held；fade 抑制只针对方向键且物理松开解除",
+          "status": "passed"
+        },
+        {
+          "file": "src/shell/input.boundaries.test.ts",
+          "fullName": "H02 KeyboardInputSource 宿主边界 detach 后真实事件不再进入",
+          "status": "passed"
+        },
+        {
+          "file": "src/shell/input.test.ts",
+          "fullName": "codeToAbstractKey 方向键映射",
+          "status": "passed"
+        },
+        {
+          "file": "src/shell/input.test.ts",
+          "fullName": "codeToAbstractKey WASD = sdlpal 原义(input.c:84-90),不是方向",
+          "status": "passed"
+        },
+        {
+          "file": "src/shell/input.test.ts",
+          "fullName": "codeToAbstractKey 确认 / 菜单(sdlpal input.c:66-74 真值)",
+          "status": "passed"
+        },
+        {
+          "file": "src/shell/input.test.ts",
+          "fullName": "codeToAbstractKey Numpad 方向键(sdlpal input.c:58-65)",
+          "status": "passed"
+        },
+        {
+          "file": "src/shell/input.test.ts",
+          "fullName": "codeToAbstractKey 翻页 / Home/End(sdlpal input.c:75-82)",
+          "status": "passed"
+        },
+        {
+          "file": "src/shell/input.test.ts",
+          "fullName": "codeToAbstractKey 战斗 / 大世界专用键(sdlpal input.c:83-90)",
+          "status": "passed"
+        },
+        {
+          "file": "src/shell/input.test.ts",
+          "fullName": "codeToAbstractKey 未知键 → null",
+          "status": "passed"
+        },
+        {
+          "file": "src/shell/input.test.ts",
+          "fullName": "KeyboardInputSource keydown/keyup 维护 held;snapshot 后 pressed 清空",
+          "status": "passed"
+        },
+        {
+          "file": "src/shell/input.test.ts",
+          "fullName": "KeyboardInputSource clearPressed 清掉未消费的 pressed(等价 sdlpal PAL_ClearKeyState),held 保留",
+          "status": "passed"
+        },
+        {
+          "file": "src/shell/input.test.ts",
+          "fullName": "KeyboardInputSource last-press priority (sdlpal input.c:180-189) Up 然后 Down → held Set 末位 = Down",
+          "status": "passed"
+        },
+        {
+          "file": "src/shell/input.test.ts",
+          "fullName": "KeyboardInputSource last-press priority (sdlpal input.c:180-189) Up,keyup Up,再按 Up → 末位还是 Up(delete-then-add 刷新顺序)",
+          "status": "passed"
+        },
+        {
+          "file": "src/shell/input.test.ts",
+          "fullName": "KeyboardInputSource last-press priority (sdlpal input.c:180-189) e.repeat=true 不刷新 held order(sdlpal input.c:213)",
+          "status": "passed"
+        },
+        {
+          "file": "src/shell/input.test.ts",
+          "fullName": "KeyboardInputSource last-press priority (sdlpal input.c:180-189) repeat 也不污染 pressed(只在初次按下时 add pressed)",
+          "status": "passed"
+        },
+        {
+          "file": "src/shell/input.test.ts",
+          "fullName": "ReplayInputSource 按帧顺序回放",
+          "status": "passed"
+        },
+        {
+          "file": "src/shell/input.test.ts",
+          "fullName": "ReplayInputSource 超出序列 → 空快照",
+          "status": "passed"
+        },
+        {
+          "file": "src/shell/input.test.ts",
+          "fullName": "RecordingInputSource 装饰任意 source,把每帧 snapshot 留档",
+          "status": "passed"
+        },
+        {
+          "file": "src/shell/input.test.ts",
+          "fullName": "DM30:fade 抑制按住的方向键(palette.c:313-316) suppressHeldForFade 后按住的方向键不进 held,keyup 重按恢复;pressed 被清",
+          "status": "passed"
+        },
+        {
+          "file": "src/shell/main-loop.test.ts",
+          "fullName": "tickN 跑 N tick,每 tick 调 onPresent",
+          "status": "passed"
+        },
+        {
+          "file": "src/shell/main-loop.test.ts",
+          "fullName": "tickN Replay 向右走 3 步 → party.x + 3*16, party.y + 3*8 (East 右下)",
+          "status": "passed"
+        },
+        {
+          "file": "src/shell/main-loop.test.ts",
+          "fullName": "advanceRafFrame / logicIntervalMs(M1 三不变量) ① logicIntervalMs:battle 40 / 否则 100",
+          "status": "passed"
+        },
+        {
+          "file": "src/shell/main-loop.test.ts",
+          "fullName": "advanceRafFrame / logicIntervalMs(M1 三不变量) ② accumulator clamp:dt 巨大(>3×interval)→ 单 tick(非 catch-up 多 tick)+ 修 while-后死代码",
+          "status": "passed"
+        },
+        {
+          "file": "src/shell/main-loop.test.ts",
+          "fullName": "advanceRafFrame / logicIntervalMs(M1 三不变量) ④ 稳态节奏:60Hz 显示器下 battle 应 25 tick/s(40ms/tick),不被累积器丢余量拖慢",
+          "status": "passed"
+        },
+        {
+          "file": "src/shell/main-loop.test.ts",
+          "fullName": "advanceRafFrame / logicIntervalMs(M1 三不变量) ③ present 门控:无 tick + 无 fade → 不 present;有 paletteFade → present",
+          "status": "passed"
+        },
+        {
+          "file": "src/shell/main-loop.test.ts",
+          "fullName": "advanceRafFrame / logicIntervalMs(M1 三不变量) ⑤ battleFade(D17 死亡淡出)门控:无 tick 也每 rAF present(wall-clock 细分平滑)",
+          "status": "passed"
+        },
+        {
+          "file": "src/shell/main-loop.test.ts",
+          "fullName": "advanceRafFrame / logicIntervalMs(M1 三不变量) ⑥ frozen=true:累积达 interval 也不 tick(速通手动暂停冻结世界)",
+          "status": "passed"
+        },
+        {
+          "file": "src/shell/main-loop.test.ts",
+          "fullName": "渐变吞键仅限 scene-fade(palette.c 真值边界) waiting='scene-fade'(0x93/0x80-update)→ 每 rAF 抑制按键(C 每步清键)",
+          "status": "passed"
+        },
+        {
+          "file": "src/shell/main-loop.test.ts",
+          "fullName": "渐变吞键仅限 scene-fade(palette.c 真值边界) waiting='palette-fade'(0x50/0x51/0x8C/0x4F)→ 不抑制(C 不清键,按键应累积)",
+          "status": "passed"
+        },
+        {
+          "file": "src/shell/main-loop.test.ts",
+          "fullName": "渐变吞键仅限 scene-fade(palette.c 真值边界) 无游标的自动渐入(战后/进场 PAL_FadeIn)→ 不抑制(战后卡键根因)",
+          "status": "passed"
+        },
+        {
+          "file": "src/shell/main-loop.test.ts",
+          "fullName": "渐变吞键仅限 scene-fade(palette.c 真值边界) 无渐变 → 不抑制",
+          "status": "passed"
+        },
+        {
+          "file": "src/shell/precache-client.glm-phase1-leaves.test.ts",
+          "fullName": "L22 precache-client 早到指令 pause/resume 早于 ready：静默丢弃（不缓冲不补发）；start 早到才缓冲补发",
+          "status": "passed"
+        },
+        {
+          "file": "src/shell/precache-client.glm-phase1-leaves.test.ts",
+          "fullName": "L22 precache-client 早到指令 ready 后 start/pause/resume 依次按协议载荷直达 worker",
+          "status": "passed"
+        },
+        {
+          "file": "src/shell/precache-client.test.ts",
+          "fullName": "registerPrecache PROD=false(dev/e2e)→ 不注册",
+          "status": "passed"
+        },
+        {
+          "file": "src/shell/precache-client.test.ts",
+          "fullName": "registerPrecache PROD=true → 以 updateViaCache:none 注册 /sw.js",
+          "status": "passed"
+        },
+        {
+          "file": "src/shell/precache-client.test.ts",
+          "fullName": "registerPrecache 无 serviceWorker 能力 → 安全 no-op",
+          "status": "passed"
+        },
+        {
+          "file": "src/shell/precache-client.test.ts",
+          "fullName": "registerPrecache PROD + SW → onReady 触发,但 registerPrecache 不自动触发预缓存;start/pause/resume 各发对应消息",
+          "status": "passed"
+        },
+        {
+          "file": "src/shell/precache-client.test.ts",
+          "fullName": "registerPrecache 无 SW 能力 → onUnavailable 触发(调用方据此自动放行门)",
+          "status": "passed"
+        },
+        {
+          "file": "src/shell/precache-client.test.ts",
+          "fullName": "registerPrecache register 抛错 → onUnavailable 触发,不向上抛",
+          "status": "passed"
+        },
+        {
+          "file": "src/shell/precache-client.test.ts",
+          "fullName": "registerPrecache startPrecache 早于 SW ready → 缓冲,registerPrecache 就绪后补发 precache",
+          "status": "passed"
+        },
+        {
+          "file": "src/shell/precache-ui.test.ts",
+          "fullName": "createPrecacheWidget 挂到 document.body,update 写百分比与 MB,done 后淡出移除",
+          "status": "passed"
+        },
+        {
+          "file": "src/shell/precache-ui.test.ts",
+          "fullName": "createUnifiedProgressUi 虚线前 setNecessaryProgress 映射到 0→虚线(12%),单调不回退",
+          "status": "passed"
+        },
+        {
+          "file": "src/shell/precache-ui.test.ts",
+          "fullName": "createUnifiedProgressUi markPlayable:进度到虚线(12%)+ 显示按钮,click 同步触发 onEnter",
+          "status": "passed"
+        },
+        {
+          "file": "src/shell/precache-ui.test.ts",
+          "fullName": "createUnifiedProgressUi 虚线后 setFullProgress = SW 真实进度 bytes/total,单调不回退;necessary 段不响应",
+          "status": "passed"
+        },
+        {
+          "file": "src/shell/precache-ui.test.ts",
+          "fullName": "createUnifiedProgressUi enterGame 移除覆盖层并建右上角 widget,之后 setFullProgress 走 widget",
+          "status": "passed"
+        },
+        {
+          "file": "src/shell/precache-ui.test.ts",
+          "fullName": "createUnifiedProgressUi 进入前 SW 已 done(竞速等满 100%)→ enterGame 不建右上角 widget",
+          "status": "passed"
+        },
+        {
+          "file": "src/shell/precache-ui.test.ts",
+          "fullName": "createUnifiedProgressUi enterGame 用最后进度初始化 widget,消除空白瞬间",
           "status": "passed"
         }
       ]

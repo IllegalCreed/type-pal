@@ -1,8 +1,8 @@
 {
-  "batch": "G08",
-  "count": 320,
-  "batchCount": 44,
-  "cumulativeNewContracts": 320,
+  "batch": "G09",
+  "count": 375,
+  "batchCount": 55,
+  "cumulativeNewContracts": 375,
   "target": 400,
   "contracts": [
     {
@@ -17354,6 +17354,2831 @@
         "fullName": "G08-D 特效与飘字像素 G08-D07 奇数宽右缘索引 0x2D 经 flushToCanvas 写成调色板 RGB，缓冲仍是 0x2D",
         "status": "passed"
       }
+    },
+    {
+      "id": "G09-A01",
+      "batch": "G09",
+      "group": "G09-A",
+      "primarySource": {
+        "file": "packages/game/src/shell/input.ts",
+        "conditionLine": 80,
+        "condition": "未松开的键再次 keydown 先删再加入，排到 held 末位（input.ts:80）"
+      },
+      "caller": {
+        "file": "packages/game/src/shell/bootstrap.ts",
+        "line": 456,
+        "expr": "new KeyboardInputSource(window)"
+      },
+      "legalInput": "先 ArrowUp 并取走快照，再 ArrowDown，然后再次 ArrowUp。",
+      "oldTest": {
+        "sha": "c9063d1cda5c910972fc300ed1d25ce3e70cf65e",
+        "file": "packages/game/src/shell/input.test.ts",
+        "fullName": "KeyboardInputSource last-press priority (sdlpal input.c:180-189) Up 然后 Down → held Set 末位 = Down",
+        "assertionLine": 118,
+        "matcher": "toBe",
+        "checked": "首次 Up 再 Down 时末位是 Down",
+        "distinct": "再次按下仍按住的 Up 后，held 顺序是 Down 然后 Up"
+      },
+      "file": "packages/game/src/shell/input-replay.grok-r1.test.ts",
+      "fullName": "G09-A 输入回放与按键归属 G09-A01 未松开的 Up 再次 keydown 会把 Up 挪到 held 末位",
+      "assertions": [
+        {
+          "line": 34,
+          "endLine": 34,
+          "matchers": ["toEqual"]
+        }
+      ],
+      "axis": "ownership",
+      "oracle": {
+        "operands": "held 顺序",
+        "matcher": "toEqual",
+        "exact": "['Down', 'Up']"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/shell/input-replay.grok-r1.test.ts",
+        "fullName": "G09-A 输入回放与按键归属 G09-A01 未松开的 Up 再次 keydown 会把 Up 挪到 held 末位",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G09-A02",
+      "batch": "G09",
+      "group": "G09-A",
+      "primarySource": {
+        "file": "packages/game/src/shell/input.ts",
+        "conditionLine": 78,
+        "condition": "已经在 held 里的键再次 keydown 不再写入 pressed（input.ts:78）"
+      },
+      "caller": {
+        "file": "packages/game/src/shell/bootstrap.ts",
+        "line": 456,
+        "expr": "new KeyboardInputSource(window)"
+      },
+      "legalInput": "先 ArrowUp 并取走快照，再 ArrowDown，然后再次 ArrowUp。",
+      "oldTest": {
+        "sha": "c9063d1cda5c910972fc300ed1d25ce3e70cf65e",
+        "file": "packages/game/src/shell/input.test.ts",
+        "fullName": "KeyboardInputSource keydown/keyup 维护 held;snapshot 后 pressed 清空",
+        "assertionLine": 83,
+        "matcher": "toBe",
+        "checked": "同一键快照之后 pressed 为 false",
+        "distinct": "再次按下仍按住的 Up 后，pressed 只有 Down"
+      },
+      "file": "packages/game/src/shell/input-replay.grok-r1.test.ts",
+      "fullName": "G09-A 输入回放与按键归属 G09-A02 已经按住的 Up 再次 keydown 不再写入 pressed",
+      "assertions": [
+        {
+          "line": 47,
+          "endLine": 47,
+          "matchers": ["toEqual"]
+        }
+      ],
+      "axis": "boundary",
+      "oracle": {
+        "operands": "pressed 顺序",
+        "matcher": "toEqual",
+        "exact": "['Down']"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/shell/input-replay.grok-r1.test.ts",
+        "fullName": "G09-A 输入回放与按键归属 G09-A02 已经按住的 Up 再次 keydown 不再写入 pressed",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G09-A03",
+      "batch": "G09",
+      "group": "G09-A",
+      "primarySource": {
+        "file": "packages/game/src/shell/input.ts",
+        "conditionLine": 72,
+        "condition": "未知键在映射为 null 时直接返回，不改已有 held（input.ts:72）"
+      },
+      "caller": {
+        "file": "packages/game/src/shell/bootstrap.ts",
+        "line": 456,
+        "expr": "new KeyboardInputSource(window)"
+      },
+      "legalInput": "先 ArrowRight，再 KeyZ。",
+      "oldTest": {
+        "sha": "c9063d1cda5c910972fc300ed1d25ce3e70cf65e",
+        "file": "packages/game/src/shell/input.test.ts",
+        "fullName": "codeToAbstractKey 未知键 → null",
+        "assertionLine": 68,
+        "matcher": "toBeNull",
+        "checked": "KeyZ 映射为 null",
+        "distinct": "KeyZ 的 keydown 之后 held 与 pressed 都仍是 Right"
+      },
+      "file": "packages/game/src/shell/input-replay.grok-r1.test.ts",
+      "fullName": "G09-A 输入回放与按键归属 G09-A03 未知键的 keydown 不改已按住的 Right",
+      "assertions": [
+        {
+          "line": 59,
+          "endLine": 59,
+          "matchers": ["toEqual"]
+        },
+        {
+          "line": 60,
+          "endLine": 60,
+          "matchers": ["toEqual"]
+        }
+      ],
+      "axis": "exception",
+      "oracle": {
+        "operands": "held、pressed",
+        "matcher": "toEqual",
+        "exact": "两者都是 ['Right']"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/shell/input-replay.grok-r1.test.ts",
+        "fullName": "G09-A 输入回放与按键归属 G09-A03 未知键的 keydown 不改已按住的 Right",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G09-A04",
+      "batch": "G09",
+      "group": "G09-A",
+      "primarySource": {
+        "file": "packages/game/src/shell/input.ts",
+        "conditionLine": 64,
+        "condition": "码表没有的键返回 null（input.ts:64）"
+      },
+      "caller": {
+        "file": "packages/game/src/shell/input.ts",
+        "line": 71,
+        "expr": "const k = codeToAbstractKey(e.code)"
+      },
+      "legalInput": "code 为 ControlRight。",
+      "oldTest": {
+        "sha": "c9063d1cda5c910972fc300ed1d25ce3e70cf65e",
+        "file": "packages/game/src/shell/input.test.ts",
+        "fullName": "codeToAbstractKey 确认 / 菜单(sdlpal input.c:66-74 真值)",
+        "assertionLine": 29,
+        "matcher": "toBe",
+        "checked": "ControlLeft 映射为 Confirm",
+        "distinct": "ControlRight 映射为 null"
+      },
+      "file": "packages/game/src/shell/input-replay.grok-r1.test.ts",
+      "fullName": "G09-A 输入回放与按键归属 G09-A04 ControlRight 不是确认键",
+      "assertions": [
+        {
+          "line": 67,
+          "endLine": 67,
+          "matchers": ["toBeNull"]
+        }
+      ],
+      "axis": "exception",
+      "oracle": {
+        "operands": "抽象键",
+        "matcher": "toBeNull",
+        "exact": "null"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/shell/input-replay.grok-r1.test.ts",
+        "fullName": "G09-A 输入回放与按键归属 G09-A04 ControlRight 不是确认键",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G09-A05",
+      "batch": "G09",
+      "group": "G09-A",
+      "primarySource": {
+        "file": "packages/game/src/shell/input.ts",
+        "conditionLine": 132,
+        "condition": "detach 卸掉该源自己的 keydown 监听（input.ts:132）"
+      },
+      "caller": {
+        "file": "packages/game/src/shell/bootstrap.ts",
+        "line": 456,
+        "expr": "new KeyboardInputSource(window)"
+      },
+      "legalInput": "两个键盘源。先 ArrowUp，拆掉第一个，再 ArrowDown。",
+      "oldTest": {
+        "sha": "ef39b7cf72ccfdecb5bf323f7844ed020c508062",
+        "file": "packages/game/src/shell/input.boundaries.test.ts",
+        "fullName": "H02 KeyboardInputSource 宿主边界 detach 后真实事件不再进入",
+        "assertionLine": 70,
+        "matcher": "toBe",
+        "checked": "单源 detach 后 Down 不进 held",
+        "distinct": "第一个源停在 Up，第二个源收到 Up 和 Down"
+      },
+      "file": "packages/game/src/shell/input-replay.grok-r1.test.ts",
+      "fullName": "G09-A 输入回放与按键归属 G09-A05 拆掉一个键盘源后，另一个源仍接收后续按键",
+      "assertions": [
+        {
+          "line": 77,
+          "endLine": 77,
+          "matchers": ["toEqual"]
+        },
+        {
+          "line": 78,
+          "endLine": 78,
+          "matchers": ["toEqual"]
+        }
+      ],
+      "axis": "ownership",
+      "oracle": {
+        "operands": "两个源的 held",
+        "matcher": "toEqual",
+        "exact": "第一个 ['Up']，第二个 ['Up', 'Down']"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/shell/input-replay.grok-r1.test.ts",
+        "fullName": "G09-A 输入回放与按键归属 G09-A05 拆掉一个键盘源后，另一个源仍接收后续按键",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G09-A06",
+      "batch": "G09",
+      "group": "G09-A",
+      "primarySource": {
+        "file": "packages/game/src/shell/input.ts",
+        "conditionLine": 128,
+        "condition": "clearPressed 只清 pressed，不碰 fade 抑制集（input.ts:128）"
+      },
+      "caller": {
+        "file": "packages/game/src/shell/bootstrap.ts",
+        "line": 456,
+        "expr": "new KeyboardInputSource(window)"
+      },
+      "legalInput": "ArrowLeft 与 Space 都按下，先 suppressHeldForFade 再 clearPressed。",
+      "oldTest": {
+        "sha": "c9063d1cda5c910972fc300ed1d25ce3e70cf65e",
+        "file": "packages/game/src/shell/input.test.ts",
+        "fullName": "KeyboardInputSource clearPressed 清掉未消费的 pressed(等价 sdlpal PAL_ClearKeyState),held 保留",
+        "assertionLine": 101,
+        "matcher": "toBe",
+        "checked": "只清 pressed 时 Confirm 仍留在 held",
+        "distinct": "方向键留在抑制集里，held 只剩 Confirm，pressed 大小为 0"
+      },
+      "file": "packages/game/src/shell/input-replay.grok-r1.test.ts",
+      "fullName": "G09-A 输入回放与按键归属 G09-A06 clearPressed 不解除方向键的 fade 抑制",
+      "assertions": [
+        {
+          "line": 93,
+          "endLine": 93,
+          "matchers": ["toEqual"]
+        },
+        {
+          "line": 94,
+          "endLine": 94,
+          "matchers": ["toBe"]
+        }
+      ],
+      "axis": "ownership",
+      "oracle": {
+        "operands": "held、pressed 大小",
+        "matcher": "toEqual / toBe",
+        "exact": "held 为 ['Confirm']，pressed 大小为 0"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/shell/input-replay.grok-r1.test.ts",
+        "fullName": "G09-A 输入回放与按键归属 G09-A06 clearPressed 不解除方向键的 fade 抑制",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G09-A07",
+      "batch": "G09",
+      "group": "G09-A",
+      "primarySource": {
+        "file": "packages/game/src/shell/input.ts",
+        "conditionLine": 145,
+        "condition": "回放读过末尾时，空快照使用本次传入的帧号（input.ts:145）"
+      },
+      "caller": {
+        "file": "packages/game/src/e2e.test.ts",
+        "line": 50,
+        "expr": "new ReplayInputSource(["
+      },
+      "legalInput": "空的回放序列，nextSnapshot(8)。",
+      "oldTest": {
+        "sha": "c9063d1cda5c910972fc300ed1d25ce3e70cf65e",
+        "file": "packages/game/src/shell/input.test.ts",
+        "fullName": "ReplayInputSource 超出序列 → 空快照",
+        "assertionLine": 186,
+        "matcher": "toBe",
+        "checked": "越界快照的 held 大小为 0",
+        "distinct": "空快照的 frameNum 是 8，held 与 pressed 大小都是 0"
+      },
+      "file": "packages/game/src/shell/input-replay.grok-r1.test.ts",
+      "fullName": "G09-A 输入回放与按键归属 G09-A07 回放耗尽时，空快照的帧号等于本次入参",
+      "assertions": [
+        {
+          "line": 105,
+          "endLine": 105,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 106,
+          "endLine": 106,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 107,
+          "endLine": 107,
+          "matchers": ["toBe"]
+        }
+      ],
+      "axis": "boundary",
+      "oracle": {
+        "operands": "frameNum、两个集合大小",
+        "matcher": "toBe",
+        "exact": "帧号 8，两个大小都是 0"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/shell/input-replay.grok-r1.test.ts",
+        "fullName": "G09-A 输入回放与按键归属 G09-A07 回放耗尽时，空快照的帧号等于本次入参",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G09-A08",
+      "batch": "G09",
+      "group": "G09-A",
+      "primarySource": {
+        "file": "packages/game/src/shell/input.ts",
+        "conditionLine": 143,
+        "condition": "每次 nextSnapshot 都把游标加一，越过末帧后不再回头（input.ts:143）"
+      },
+      "caller": {
+        "file": "packages/game/src/e2e.test.ts",
+        "line": 50,
+        "expr": "new ReplayInputSource(["
+      },
+      "legalInput": "两帧快照。读完两帧后再往原数组追加第三帧，然后 nextSnapshot(11)。",
+      "oldTest": {
+        "sha": "c9063d1cda5c910972fc300ed1d25ce3e70cf65e",
+        "file": "packages/game/src/shell/input.test.ts",
+        "fullName": "ReplayInputSource 按帧顺序回放",
+        "assertionLine": 180,
+        "matcher": "toBe",
+        "checked": "第二帧 held 含 Right",
+        "distinct": "追加发生在游标已越过末帧之后，读到的是空快照，帧号 11，held 大小 0"
+      },
+      "file": "packages/game/src/shell/input-replay.grok-r1.test.ts",
+      "fullName": "G09-A 输入回放与按键归属 G09-A08 回放游标越过末帧后，调用方再追加的快照不会被读到",
+      "assertions": [
+        {
+          "line": 115,
+          "endLine": 115,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 117,
+          "endLine": 117,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 118,
+          "endLine": 118,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 119,
+          "endLine": 119,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 122,
+          "endLine": 122,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 123,
+          "endLine": 123,
+          "matchers": ["toBe"]
+        }
+      ],
+      "axis": "ownership",
+      "oracle": {
+        "operands": "帧号、held 大小",
+        "matcher": "toBe",
+        "exact": "帧号 11，held 大小 0"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/shell/input-replay.grok-r1.test.ts",
+        "fullName": "G09-A 输入回放与按键归属 G09-A08 回放游标越过末帧后，调用方再追加的快照不会被读到",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G09-A09",
+      "batch": "G09",
+      "group": "G09-A",
+      "primarySource": {
+        "file": "packages/game/src/shell/input.ts",
+        "conditionLine": 156,
+        "condition": "录制源把内层返回的同一个快照对象再交回去（input.ts:156）"
+      },
+      "caller": {
+        "file": "packages/game/src/shell/input.ts",
+        "line": 157,
+        "expr": "this.recording.push(snap)"
+      },
+      "legalInput": "内层固定返回帧号 4、held 含 Menu 的那一个对象。",
+      "oldTest": {
+        "sha": "c9063d1cda5c910972fc300ed1d25ce3e70cf65e",
+        "file": "packages/game/src/shell/input.test.ts",
+        "fullName": "RecordingInputSource 装饰任意 source,把每帧 snapshot 留档",
+        "assertionLine": 198,
+        "matcher": "toHaveLength",
+        "checked": "录到的数组长度为 1",
+        "distinct": "返回值与内层对象是同一个引用"
+      },
+      "file": "packages/game/src/shell/input-replay.grok-r1.test.ts",
+      "fullName": "G09-A 输入回放与按键归属 G09-A09 录制源返回的就是内层那一个快照对象",
+      "assertions": [
+        {
+          "line": 129,
+          "endLine": 129,
+          "matchers": ["toBe"]
+        }
+      ],
+      "axis": "ownership",
+      "oracle": {
+        "operands": "快照引用",
+        "matcher": "toBe",
+        "exact": "同一个 shot"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/shell/input-replay.grok-r1.test.ts",
+        "fullName": "G09-A 输入回放与按键归属 G09-A09 录制源返回的就是内层那一个快照对象",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G09-A10",
+      "batch": "G09",
+      "group": "G09-A",
+      "primarySource": {
+        "file": "packages/game/src/shell/input.ts",
+        "conditionLine": 162,
+        "condition": "getRecording 每次返回同一个数组（input.ts:162）"
+      },
+      "caller": {
+        "file": "packages/game/src/shell/input.ts",
+        "line": 157,
+        "expr": "this.recording.push(snap)"
+      },
+      "legalInput": "内层依次交出帧 1 的 Menu 和帧 2 的 Confirm。",
+      "oldTest": {
+        "sha": "c9063d1cda5c910972fc300ed1d25ce3e70cf65e",
+        "file": "packages/game/src/shell/input.test.ts",
+        "fullName": "RecordingInputSource 装饰任意 source,把每帧 snapshot 留档",
+        "assertionLine": 198,
+        "matcher": "toHaveLength",
+        "checked": "只断言录到长度为 1",
+        "distinct": "两次 getRecording 是同一数组，第二帧追加后等于 [first, second]"
+      },
+      "file": "packages/game/src/shell/input-replay.grok-r1.test.ts",
+      "fullName": "G09-A 输入回放与按键归属 G09-A10 getRecording 一直是同一个数组，第二次快照追加在后面",
+      "assertions": [
+        {
+          "line": 141,
+          "endLine": 141,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 142,
+          "endLine": 142,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 144,
+          "endLine": 144,
+          "matchers": ["toEqual"]
+        }
+      ],
+      "axis": "ownership",
+      "oracle": {
+        "operands": "数组引用、内容",
+        "matcher": "toBe / toEqual",
+        "exact": "同一数组，内容为 [first, second]"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/shell/input-replay.grok-r1.test.ts",
+        "fullName": "G09-A 输入回放与按键归属 G09-A10 getRecording 一直是同一个数组，第二次快照追加在后面",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G09-A11",
+      "batch": "G09",
+      "group": "G09-A",
+      "primarySource": {
+        "file": "packages/game/src/shell/input.ts",
+        "conditionLine": 100,
+        "condition": "键盘快照的 frameNum 使用调用方传入的帧号（input.ts:100）"
+      },
+      "caller": {
+        "file": "packages/game/src/shell/main-loop.ts",
+        "line": 102,
+        "expr": "ctx.input.nextSnapshot(ctx.gs.frameNum)"
+      },
+      "legalInput": "按下 Enter，nextSnapshot(6)。",
+      "oldTest": {
+        "sha": "c9063d1cda5c910972fc300ed1d25ce3e70cf65e",
+        "file": "packages/game/src/shell/input.test.ts",
+        "fullName": "KeyboardInputSource keydown/keyup 维护 held;snapshot 后 pressed 清空",
+        "assertionLine": 79,
+        "matcher": "toBe",
+        "checked": "首次按下后 pressed 含 Right",
+        "distinct": "快照帧号是传入的 6"
+      },
+      "file": "packages/game/src/shell/input-replay.grok-r1.test.ts",
+      "fullName": "G09-A 输入回放与按键归属 G09-A11 键盘快照的帧号原样使用主循环传入的帧号",
+      "assertions": [
+        {
+          "line": 151,
+          "endLine": 151,
+          "matchers": ["toBe"]
+        }
+      ],
+      "axis": "positive",
+      "oracle": {
+        "operands": "frameNum",
+        "matcher": "toBe",
+        "exact": "6"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/shell/input-replay.grok-r1.test.ts",
+        "fullName": "G09-A 输入回放与按键归属 G09-A11 键盘快照的帧号原样使用主循环传入的帧号",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G09-B01",
+      "batch": "G09",
+      "group": "G09-B",
+      "primarySource": {
+        "file": "packages/game/src/shell/main-loop.ts",
+        "conditionLine": 124,
+        "condition": "fadeState 在未到逻辑间隔时也 present（main-loop.ts:124）"
+      },
+      "caller": {
+        "file": "packages/game/src/shell/main-loop.ts",
+        "line": 174,
+        "expr": "advanceRafFrame(state, now, ctx, dump, isSpeedrunPaused())"
+      },
+      "legalInput": "fadeState 速度 2、总长 2160、已走 0 步。dt 为 10。探索间隔 100。",
+      "oldTest": {
+        "sha": "3251cc550716288976e772afbf9f80d18ff1ed1c",
+        "file": "packages/game/src/shell/main-loop.test.ts",
+        "fullName": "advanceRafFrame / logicIntervalMs(M1 三不变量) ③ present 门控:无 tick + 无 fade → 不 present;有 paletteFade → present",
+        "assertionLine": 129,
+        "matcher": "toHaveBeenCalled",
+        "checked": "paletteFade 时 present 被调用",
+        "distinct": "ticked 为 false，presented 为 true，回调收到的 ticked 为 false"
+      },
+      "file": "packages/game/src/shell/main-loop-gates.grok-r1.test.ts",
+      "fullName": "G09-B 主循环门控 G09-B01 dither fadeState 在未到逻辑间隔时仍 present，且 ticked 为 false",
+      "assertions": [
+        {
+          "line": 101,
+          "endLine": 101,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 102,
+          "endLine": 102,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 103,
+          "endLine": 103,
+          "matchers": ["toBe"]
+        }
+      ],
+      "axis": "positive",
+      "oracle": {
+        "operands": "ticked、presented、回调旗标",
+        "matcher": "toBe",
+        "exact": "false、true、false"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/shell/main-loop-gates.grok-r1.test.ts",
+        "fullName": "G09-B 主循环门控 G09-B01 dither fadeState 在未到逻辑间隔时仍 present，且 ticked 为 false",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G09-B02",
+      "batch": "G09",
+      "group": "G09-B",
+      "primarySource": {
+        "file": "packages/game/src/shell/main-loop.ts",
+        "conditionLine": 131,
+        "condition": "battleAnim 在未到逻辑间隔时也 present（main-loop.ts:131）"
+      },
+      "caller": {
+        "file": "packages/game/src/shell/main-loop.ts",
+        "line": 174,
+        "expr": "advanceRafFrame(state, now, ctx, dump, isSpeedrunPaused())"
+      },
+      "legalInput": "战斗阶段 selectAction，battleAnim 一帧时长 40。dt 为 10。",
+      "oldTest": {
+        "sha": "3251cc550716288976e772afbf9f80d18ff1ed1c",
+        "file": "packages/game/src/shell/main-loop.test.ts",
+        "fullName": "advanceRafFrame / logicIntervalMs(M1 三不变量) ⑤ battleFade(D17 死亡淡出)门控:无 tick 也每 rAF present(wall-clock 细分平滑)",
+        "assertionLine": 140,
+        "matcher": "toHaveBeenCalled",
+        "checked": "battleFade 时 present 被调用",
+        "distinct": "ticked 为 false，presented 为 true"
+      },
+      "file": "packages/game/src/shell/main-loop-gates.grok-r1.test.ts",
+      "fullName": "G09-B 主循环门控 G09-B02 battleAnim 在未到逻辑间隔时仍 present",
+      "assertions": [
+        {
+          "line": 110,
+          "endLine": 110,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 111,
+          "endLine": 111,
+          "matchers": ["toBe"]
+        }
+      ],
+      "axis": "positive",
+      "oracle": {
+        "operands": "ticked、presented",
+        "matcher": "toBe",
+        "exact": "false、true"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/shell/main-loop-gates.grok-r1.test.ts",
+        "fullName": "G09-B 主循环门控 G09-B02 battleAnim 在未到逻辑间隔时仍 present",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G09-B03",
+      "batch": "G09",
+      "group": "G09-B",
+      "primarySource": {
+        "file": "packages/game/src/shell/main-loop.ts",
+        "conditionLine": 114,
+        "condition": "tick 后只减去一个间隔，余量留下（main-loop.ts:114）"
+      },
+      "caller": {
+        "file": "packages/game/src/shell/main-loop.ts",
+        "line": 174,
+        "expr": "advanceRafFrame(state, now, ctx, dump, isSpeedrunPaused())"
+      },
+      "legalInput": "探索态，dt 150，间隔 100。",
+      "oldTest": {
+        "sha": "3251cc550716288976e772afbf9f80d18ff1ed1c",
+        "file": "packages/game/src/shell/main-loop.test.ts",
+        "fullName": "advanceRafFrame / logicIntervalMs(M1 三不变量) ② accumulator clamp:dt 巨大(>3×interval)→ 单 tick(非 catch-up 多 tick)+ 修 while-后死代码",
+        "assertionLine": 95,
+        "matcher": "toBe",
+        "checked": "巨大 dt 只 tick 一次且累加器为 0",
+        "distinct": "tick 一次后累加器留下 50"
+      },
+      "file": "packages/game/src/shell/main-loop-gates.grok-r1.test.ts",
+      "fullName": "G09-B 主循环门控 G09-B03 dt 150 只 tick 一次，并把 50ms 余量留在累加器",
+      "assertions": [
+        {
+          "line": 117,
+          "endLine": 117,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 118,
+          "endLine": 118,
+          "matchers": ["toBe"]
+        }
+      ],
+      "axis": "positive",
+      "oracle": {
+        "operands": "ticked、累加器",
+        "matcher": "toBe",
+        "exact": "true、50"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/shell/main-loop-gates.grok-r1.test.ts",
+        "fullName": "G09-B 主循环门控 G09-B03 dt 150 只 tick 一次，并把 50ms 余量留在累加器",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G09-B04",
+      "batch": "G09",
+      "group": "G09-B",
+      "primarySource": {
+        "file": "packages/game/src/shell/main-loop.ts",
+        "conditionLine": 115,
+        "condition": "余量正好等于间隔时不丢弃（main-loop.ts:115）"
+      },
+      "caller": {
+        "file": "packages/game/src/shell/main-loop.ts",
+        "line": 174,
+        "expr": "advanceRafFrame(state, now, ctx, dump, isSpeedrunPaused())"
+      },
+      "legalInput": "探索态，dt 200，间隔 100。结转后余量是 100。",
+      "oldTest": {
+        "sha": "3251cc550716288976e772afbf9f80d18ff1ed1c",
+        "file": "packages/game/src/shell/main-loop.test.ts",
+        "fullName": "advanceRafFrame / logicIntervalMs(M1 三不变量) ② accumulator clamp:dt 巨大(>3×interval)→ 单 tick(非 catch-up 多 tick)+ 修 while-后死代码",
+        "assertionLine": 95,
+        "matcher": "toBe",
+        "checked": "超过三倍间隔时累加器被清成 0",
+        "distinct": "余量正好等于间隔时累加器保持 100"
+      },
+      "file": "packages/game/src/shell/main-loop-gates.grok-r1.test.ts",
+      "fullName": "G09-B 主循环门控 G09-B04 dt 200 结转后余量正好等于间隔，不丢弃",
+      "assertions": [
+        {
+          "line": 124,
+          "endLine": 124,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 125,
+          "endLine": 125,
+          "matchers": ["toBe"]
+        }
+      ],
+      "axis": "boundary",
+      "oracle": {
+        "operands": "ticked、累加器",
+        "matcher": "toBe",
+        "exact": "true、100"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/shell/main-loop-gates.grok-r1.test.ts",
+        "fullName": "G09-B 主循环门控 G09-B04 dt 200 结转后余量正好等于间隔，不丢弃",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G09-B05",
+      "batch": "G09",
+      "group": "G09-B",
+      "primarySource": {
+        "file": "packages/game/src/shell/main-loop.ts",
+        "conditionLine": 95,
+        "condition": "冻结且余量不足一个间隔时不 tick、也不清累加器（main-loop.ts:95）"
+      },
+      "caller": {
+        "file": "packages/game/src/shell/main-loop.ts",
+        "line": 174,
+        "expr": "advanceRafFrame(state, now, ctx, dump, isSpeedrunPaused())"
+      },
+      "legalInput": "探索态，dt 40，frozen 为 true。",
+      "oldTest": {
+        "sha": "3251cc550716288976e772afbf9f80d18ff1ed1c",
+        "file": "packages/game/src/shell/main-loop.test.ts",
+        "fullName": "advanceRafFrame / logicIntervalMs(M1 三不变量) ⑥ frozen=true:累积达 interval 也不 tick(速通手动暂停冻结世界)",
+        "assertionLine": 156,
+        "matcher": "toBe",
+        "checked": "冻结且已达间隔时累加器被清成 0",
+        "distinct": "不足间隔时 ticked 与 presented 都是 false，累加器留下 40"
+      },
+      "file": "packages/game/src/shell/main-loop-gates.grok-r1.test.ts",
+      "fullName": "G09-B 主循环门控 G09-B05 冻结时不足一个间隔的余量保留，且不 present",
+      "assertions": [
+        {
+          "line": 131,
+          "endLine": 131,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 132,
+          "endLine": 132,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 133,
+          "endLine": 133,
+          "matchers": ["toBe"]
+        }
+      ],
+      "axis": "boundary",
+      "oracle": {
+        "operands": "ticked、presented、累加器",
+        "matcher": "toBe",
+        "exact": "false、false、40"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/shell/main-loop-gates.grok-r1.test.ts",
+        "fullName": "G09-B 主循环门控 G09-B05 冻结时不足一个间隔的余量保留，且不 present",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G09-B06",
+      "batch": "G09",
+      "group": "G09-B",
+      "primarySource": {
+        "file": "packages/game/src/shell/main-loop.ts",
+        "conditionLine": 104,
+        "condition": "逻辑 tick 把 drain 的命令交给 onPresent（main-loop.ts:104）"
+      },
+      "caller": {
+        "file": "packages/game/src/shell/main-loop.ts",
+        "line": 174,
+        "expr": "advanceRafFrame(state, now, ctx, dump, isSpeedrunPaused())"
+      },
+      "legalInput": "dt 100。drain 返回一条 cmdId 7 的 clearDialogBox。",
+      "oldTest": {
+        "sha": "3251cc550716288976e772afbf9f80d18ff1ed1c",
+        "file": "packages/game/src/shell/main-loop.test.ts",
+        "fullName": "tickN 跑 N tick,每 tick 调 onPresent",
+        "assertionLine": 35,
+        "matcher": "toHaveBeenCalledTimes",
+        "checked": "tickN(3) 调用 onPresent 三次",
+        "distinct": "这一帧 ticked 为 true，回调收到的就是那一条命令"
+      },
+      "file": "packages/game/src/shell/main-loop-gates.grok-r1.test.ts",
+      "fullName": "G09-B 主循环门控 G09-B06 逻辑 tick 把 bus.drain 的那一条命令交给 onPresent",
+      "assertions": [
+        {
+          "line": 149,
+          "endLine": 149,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 150,
+          "endLine": 150,
+          "matchers": ["toEqual"]
+        }
+      ],
+      "axis": "positive",
+      "oracle": {
+        "operands": "ticked、命令列表",
+        "matcher": "toBe / toEqual",
+        "exact": "true，列表为 [entry]"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/shell/main-loop-gates.grok-r1.test.ts",
+        "fullName": "G09-B 主循环门控 G09-B06 逻辑 tick 把 bus.drain 的那一条命令交给 onPresent",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G09-B07",
+      "batch": "G09",
+      "group": "G09-B",
+      "primarySource": {
+        "file": "packages/game/src/shell/main-loop.ts",
+        "conditionLine": 101,
+        "condition": "发生逻辑 tick 时 nowMs 写成这一帧的时间戳（main-loop.ts:101）"
+      },
+      "caller": {
+        "file": "packages/game/src/shell/main-loop.ts",
+        "line": 174,
+        "expr": "advanceRafFrame(state, now, ctx, dump, isSpeedrunPaused())"
+      },
+      "legalInput": "探索态，dt 2500。",
+      "oldTest": {
+        "sha": "3251cc550716288976e772afbf9f80d18ff1ed1c",
+        "file": "packages/game/src/shell/main-loop.test.ts",
+        "fullName": "advanceRafFrame / logicIntervalMs(M1 三不变量) ① logicIntervalMs:battle 40 / 否则 100",
+        "assertionLine": 78,
+        "matcher": "toBe",
+        "checked": "探索间隔是 100",
+        "distinct": "tick 后 nowMs 为 2500"
+      },
+      "file": "packages/game/src/shell/main-loop-gates.grok-r1.test.ts",
+      "fullName": "G09-B 主循环门控 G09-B07 发生逻辑 tick 时 nowMs 写成这一帧的时间戳",
+      "assertions": [
+        {
+          "line": 156,
+          "endLine": 156,
+          "matchers": ["toBe"]
+        }
+      ],
+      "axis": "positive",
+      "oracle": {
+        "operands": "nowMs",
+        "matcher": "toBe",
+        "exact": "2500"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/shell/main-loop-gates.grok-r1.test.ts",
+        "fullName": "G09-B 主循环门控 G09-B07 发生逻辑 tick 时 nowMs 写成这一帧的时间戳",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G09-B08",
+      "batch": "G09",
+      "group": "G09-B",
+      "primarySource": {
+        "file": "packages/game/src/shell/main-loop.ts",
+        "conditionLine": 106,
+        "condition": "dump 使用调用方给出的 partyWalkFrames（main-loop.ts:106）"
+      },
+      "caller": {
+        "file": "packages/game/src/shell/main-loop.ts",
+        "line": 174,
+        "expr": "advanceRafFrame(state, now, ctx, dump, isSpeedrunPaused())"
+      },
+      "legalInput": "partyWalkFrames 为 4，dump.enabled 为 true，dt 100。",
+      "oldTest": {
+        "sha": "3251cc550716288976e772afbf9f80d18ff1ed1c",
+        "file": "packages/game/src/shell/main-loop.test.ts",
+        "fullName": "tickN Replay 向右走 3 步 → party.x + 3*16, party.y + 3*8 (East 右下)",
+        "assertionLine": 54,
+        "matcher": "toBe",
+        "checked": "向东三步后 party.x 为 19*16",
+        "distinct": "dump 收到的走格数是 4"
+      },
+      "file": "packages/game/src/shell/main-loop-gates.grok-r1.test.ts",
+      "fullName": "G09-B 主循环门控 G09-B08 dump 使用调用方给出的 partyWalkFrames 4",
+      "assertions": [
+        {
+          "line": 169,
+          "endLine": 169,
+          "matchers": ["toEqual"]
+        }
+      ],
+      "axis": "ownership",
+      "oracle": {
+        "operands": "走格数",
+        "matcher": "toEqual",
+        "exact": "[4]"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/shell/main-loop-gates.grok-r1.test.ts",
+        "fullName": "G09-B 主循环门控 G09-B08 dump 使用调用方给出的 partyWalkFrames 4",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G09-B09",
+      "batch": "G09",
+      "group": "G09-B",
+      "primarySource": {
+        "file": "packages/game/src/shell/main-loop.ts",
+        "conditionLine": 106,
+        "condition": "未给 partyWalkFrames 时 dump 使用 3（main-loop.ts:106）"
+      },
+      "caller": {
+        "file": "packages/game/src/shell/main-loop.ts",
+        "line": 174,
+        "expr": "advanceRafFrame(state, now, ctx, dump, isSpeedrunPaused())"
+      },
+      "legalInput": "不设置 partyWalkFrames。dump.enabled 为 true，dt 100。",
+      "oldTest": {
+        "sha": "3251cc550716288976e772afbf9f80d18ff1ed1c",
+        "file": "packages/game/src/shell/main-loop.test.ts",
+        "fullName": "tickN Replay 向右走 3 步 → party.x + 3*16, party.y + 3*8 (East 右下)",
+        "assertionLine": 55,
+        "matcher": "toBe",
+        "checked": "向东三步后 party.y 为 19*8",
+        "distinct": "dump 收到的走格数是 3"
+      },
+      "file": "packages/game/src/shell/main-loop-gates.grok-r1.test.ts",
+      "fullName": "G09-B 主循环门控 G09-B09 未给 partyWalkFrames 时 dump 使用 3",
+      "assertions": [
+        {
+          "line": 180,
+          "endLine": 180,
+          "matchers": ["toEqual"]
+        }
+      ],
+      "axis": "boundary",
+      "oracle": {
+        "operands": "走格数",
+        "matcher": "toEqual",
+        "exact": "[3]"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/shell/main-loop-gates.grok-r1.test.ts",
+        "fullName": "G09-B 主循环门控 G09-B09 未给 partyWalkFrames 时 dump 使用 3",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G09-B10",
+      "batch": "G09",
+      "group": "G09-B",
+      "primarySource": {
+        "file": "packages/game/src/shell/main-loop.ts",
+        "conditionLine": 87,
+        "condition": "scene-fade 只在输入源有 suppressHeldForFade 时调用（main-loop.ts:87）"
+      },
+      "caller": {
+        "file": "packages/game/src/shell/main-loop.ts",
+        "line": 174,
+        "expr": "advanceRafFrame(state, now, ctx, dump, isSpeedrunPaused())"
+      },
+      "legalInput": "waiting 为 scene-fade，同时有 fadeState。输入源没有 suppressHeldForFade。dt 为 10。",
+      "oldTest": {
+        "sha": "3251cc550716288976e772afbf9f80d18ff1ed1c",
+        "file": "packages/game/src/shell/main-loop.test.ts",
+        "fullName": "渐变吞键仅限 scene-fade(palette.c 真值边界) waiting='scene-fade'(0x93/0x80-update)→ 每 rAF 抑制按键(C 每步清键)",
+        "assertionLine": 196,
+        "matcher": "toHaveBeenCalled",
+        "checked": "有该方法时 scene-fade 会调用它",
+        "distinct": "缺少该方法时不抛错，dt 10 仍因 fadeState 而 presented 为 true、ticked 为 false"
+      },
+      "file": "packages/game/src/shell/main-loop-gates.grok-r1.test.ts",
+      "fullName": "G09-B 主循环门控 G09-B10 没有 suppressHeldForFade 的输入源在 scene-fade 里仍按 fadeState present",
+      "assertions": [
+        {
+          "line": 194,
+          "endLine": 194,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 195,
+          "endLine": 195,
+          "matchers": ["toBe"]
+        }
+      ],
+      "axis": "exception",
+      "oracle": {
+        "operands": "ticked、presented",
+        "matcher": "toBe",
+        "exact": "false、true"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/shell/main-loop-gates.grok-r1.test.ts",
+        "fullName": "G09-B 主循环门控 G09-B10 没有 suppressHeldForFade 的输入源在 scene-fade 里仍按 fadeState present",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G09-B11",
+      "batch": "G09",
+      "group": "G09-B",
+      "primarySource": {
+        "file": "packages/game/src/shell/main-loop.ts",
+        "conditionLine": 50,
+        "condition": "战斗间隔是 40，探索间隔是 100（main-loop.ts:50）"
+      },
+      "caller": {
+        "file": "packages/game/src/shell/main-loop.ts",
+        "line": 77,
+        "expr": "const interval = logicIntervalMs(ctx.gs)"
+      },
+      "legalInput": "先以探索态推进 dt 90，再把 mode 改成 battle，同一时间戳再推进一次。",
+      "oldTest": {
+        "sha": "3251cc550716288976e772afbf9f80d18ff1ed1c",
+        "file": "packages/game/src/shell/main-loop.test.ts",
+        "fullName": "advanceRafFrame / logicIntervalMs(M1 三不变量) ① logicIntervalMs:battle 40 / 否则 100",
+        "assertionLine": 80,
+        "matcher": "toBe",
+        "checked": "战斗模式的间隔函数返回 40",
+        "distinct": "探索 90 不 tick、累加器为 90；切战斗后 tick 一次，超额余量被清成 0"
+      },
+      "file": "packages/game/src/shell/main-loop-gates.grok-r1.test.ts",
+      "fullName": "G09-B 主循环门控 G09-B11 探索累到 90 后切战斗，同一时间戳用 40ms 间隔 tick 一次并清掉超额余量",
+      "assertions": [
+        {
+          "line": 203,
+          "endLine": 203,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 204,
+          "endLine": 204,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 207,
+          "endLine": 207,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 208,
+          "endLine": 208,
+          "matchers": ["toBe"]
+        }
+      ],
+      "axis": "boundary",
+      "oracle": {
+        "operands": "两次 ticked、两次累加器",
+        "matcher": "toBe",
+        "exact": "false 然后 true；90 然后 0"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/shell/main-loop-gates.grok-r1.test.ts",
+        "fullName": "G09-B 主循环门控 G09-B11 探索累到 90 后切战斗，同一时间戳用 40ms 间隔 tick 一次并清掉超额余量",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G09-B12",
+      "batch": "G09",
+      "group": "G09-B",
+      "primarySource": {
+        "file": "packages/game/src/shell/main-loop.ts",
+        "conditionLine": 159,
+        "condition": "tickN 的循环次数就是入参 n（main-loop.ts:159）"
+      },
+      "caller": {
+        "file": "packages/game/src/e2e.test.ts",
+        "line": 71,
+        "expr": "tickN(7, ctx)"
+      },
+      "legalInput": "tickN(0)。",
+      "oldTest": {
+        "sha": "3251cc550716288976e772afbf9f80d18ff1ed1c",
+        "file": "packages/game/src/shell/main-loop.test.ts",
+        "fullName": "tickN 跑 N tick,每 tick 调 onPresent",
+        "assertionLine": 36,
+        "matcher": "toBe",
+        "checked": "tickN(3) 后 frameNum 为 3",
+        "distinct": "tickN(0) 的 present 次数是 0，frameNum 保持 0"
+      },
+      "file": "packages/game/src/shell/main-loop-gates.grok-r1.test.ts",
+      "fullName": "G09-B 主循环门控 G09-B12 tickN(0) 不 present，帧号保持 0",
+      "assertions": [
+        {
+          "line": 220,
+          "endLine": 220,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 221,
+          "endLine": 221,
+          "matchers": ["toBe"]
+        }
+      ],
+      "axis": "boundary",
+      "oracle": {
+        "operands": "present 次数、frameNum",
+        "matcher": "toBe",
+        "exact": "0、0"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/shell/main-loop-gates.grok-r1.test.ts",
+        "fullName": "G09-B 主循环门控 G09-B12 tickN(0) 不 present，帧号保持 0",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G09-B13",
+      "batch": "G09",
+      "group": "G09-B",
+      "primarySource": {
+        "file": "packages/game/src/shell/main-loop.ts",
+        "conditionLine": 180,
+        "condition": "startRafLoop 返回的函数取消刚刚排上的那一帧（main-loop.ts:180）"
+      },
+      "caller": {
+        "file": "packages/game/src/shell/bootstrap.ts",
+        "line": 1916,
+        "expr": "startRafLoop(loopCtx)"
+      },
+      "legalInput": "requestAnimationFrame 返回 41。",
+      "oldTest": {
+        "sha": "3251cc550716288976e772afbf9f80d18ff1ed1c",
+        "file": "packages/game/src/shell/main-loop.test.ts",
+        "fullName": "advanceRafFrame / logicIntervalMs(M1 三不变量) ④ 稳态节奏:60Hz 显示器下 battle 应 25 tick/s(40ms/tick),不被累积器丢余量拖慢",
+        "assertionLine": 115,
+        "matcher": "toBeGreaterThanOrEqual",
+        "checked": "60Hz 下 battle 约 49 到 51 次 tick",
+        "distinct": "取消函数取消的 id 就是 41"
+      },
+      "file": "packages/game/src/shell/main-loop-gates.grok-r1.test.ts",
+      "fullName": "G09-B 主循环门控 G09-B13 startRafLoop 的取消函数取消的是刚刚排上的那一帧",
+      "assertions": [
+        {
+          "line": 239,
+          "endLine": 239,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 241,
+          "endLine": 241,
+          "matchers": ["toBe"]
+        }
+      ],
+      "axis": "ownership",
+      "oracle": {
+        "operands": "排上的 id、取消的 id",
+        "matcher": "toBe",
+        "exact": "41、41"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/shell/main-loop-gates.grok-r1.test.ts",
+        "fullName": "G09-B 主循环门控 G09-B13 startRafLoop 的取消函数取消的是刚刚排上的那一帧",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G09-C01",
+      "batch": "G09",
+      "group": "G09-C",
+      "primarySource": {
+        "file": "packages/game/src/shell/boot-loading.ts",
+        "conditionLine": 105,
+        "condition": "不传预估总量时默认值是 EXPECTED_BOOT_REQUESTS（boot-loading.ts:105）"
+      },
+      "caller": {
+        "file": "packages/game/src/main.ts",
+        "line": 73,
+        "expr": "initBootLoading()"
+      },
+      "legalInput": "挂上状态节点和进度条，initBootLoading() 不传总量。",
+      "oldTest": {
+        "sha": "d743490c533ec99c2ca80651109295d4919198d0",
+        "file": "packages/game/src/shell/boot-loading.test.ts",
+        "fullName": "boot-loading(启动加载覆盖层) init 后 fetch 计数驱动状态文本与进度条(分母 = max(已发起, 预估总量))",
+        "assertionLine": 49,
+        "matcher": "toBe",
+        "checked": "预估 4、完成 3 时条宽是 75%",
+        "distinct": "默认分母文本是正在加载资源 0 / 810，条宽是 0%"
+      },
+      "file": "packages/game/src/shell/boot-loading-host.grok-r1.test.ts",
+      "fullName": "G09-C 启动加载宿主 G09-C01 不传预估总量时，状态文本的分母是 810，进度条为 0%",
+      "assertions": [
+        {
+          "line": 45,
+          "endLine": 45,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 46,
+          "endLine": 46,
+          "matchers": ["toBe"]
+        }
+      ],
+      "axis": "positive",
+      "oracle": {
+        "operands": "状态文本、条宽",
+        "matcher": "toBe",
+        "exact": "正在加载资源 0 / 810；0%"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/shell/boot-loading-host.grok-r1.test.ts",
+        "fullName": "G09-C 启动加载宿主 G09-C01 不传预估总量时，状态文本的分母是 810，进度条为 0%",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G09-C02",
+      "batch": "G09",
+      "group": "G09-C",
+      "primarySource": {
+        "file": "packages/game/src/shell/boot-loading.ts",
+        "conditionLine": 124,
+        "condition": "fetch 拒绝时 finally 仍把完成数加一（boot-loading.ts:124）"
+      },
+      "caller": {
+        "file": "packages/game/src/main.ts",
+        "line": 73,
+        "expr": "initBootLoading()"
+      },
+      "legalInput": "预估 2。包装后的 fetch 抛出 Error('net')，调用方接住拒绝。",
+      "oldTest": {
+        "sha": "d743490c533ec99c2ca80651109295d4919198d0",
+        "file": "packages/game/src/shell/boot-loading.test.ts",
+        "fullName": "boot-loading(启动加载覆盖层) init 后 fetch 计数驱动状态文本与进度条(分母 = max(已发起, 预估总量))",
+        "assertionLine": 47,
+        "matcher": "toContain",
+        "checked": "完成 3 / 预估 4 的文本含 3 / 4",
+        "distinct": "拒绝后文本是正在加载资源 1 / 2，条宽是 50%"
+      },
+      "file": "packages/game/src/shell/boot-loading-host.grok-r1.test.ts",
+      "fullName": "G09-C 启动加载宿主 G09-C02 fetch 拒绝后完成数仍加一",
+      "assertions": [
+        {
+          "line": 60,
+          "endLine": 60,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 61,
+          "endLine": 61,
+          "matchers": ["toBe"]
+        }
+      ],
+      "axis": "exception",
+      "oracle": {
+        "operands": "状态文本、条宽",
+        "matcher": "toBe",
+        "exact": "正在加载资源 1 / 2；50%"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/shell/boot-loading-host.grok-r1.test.ts",
+        "fullName": "G09-C 启动加载宿主 G09-C02 fetch 拒绝后完成数仍加一",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G09-C03",
+      "batch": "G09",
+      "group": "G09-C",
+      "primarySource": {
+        "file": "packages/game/src/shell/boot-loading.ts",
+        "conditionLine": 68,
+        "condition": "只有状态节点时仍写完成数与分母（boot-loading.ts:68）"
+      },
+      "caller": {
+        "file": "packages/game/src/main.ts",
+        "line": 73,
+        "expr": "initBootLoading()"
+      },
+      "legalInput": "不挂进度条。预估 4，完成一次 fetch。",
+      "oldTest": {
+        "sha": "d743490c533ec99c2ca80651109295d4919198d0",
+        "file": "packages/game/src/shell/boot-loading.test.ts",
+        "fullName": "boot-loading(启动加载覆盖层) init 后 fetch 计数驱动状态文本与进度条(分母 = max(已发起, 预估总量))",
+        "assertionLine": 47,
+        "matcher": "toContain",
+        "checked": "有进度条时文本含 3 / 4",
+        "distinct": "进度条节点为 null，文本是正在加载资源 1 / 4"
+      },
+      "file": "packages/game/src/shell/boot-loading-host.grok-r1.test.ts",
+      "fullName": "G09-C 启动加载宿主 G09-C03 只有状态节点时写入 1 / 4",
+      "assertions": [
+        {
+          "line": 69,
+          "endLine": 69,
+          "matchers": ["toBeNull"]
+        },
+        {
+          "line": 70,
+          "endLine": 70,
+          "matchers": ["toBe"]
+        }
+      ],
+      "axis": "exception",
+      "oracle": {
+        "operands": "进度条节点、状态文本",
+        "matcher": "toBeNull / toBe",
+        "exact": "null；正在加载资源 1 / 4"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/shell/boot-loading-host.grok-r1.test.ts",
+        "fullName": "G09-C 启动加载宿主 G09-C03 只有状态节点时写入 1 / 4",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G09-C04",
+      "batch": "G09",
+      "group": "G09-C",
+      "primarySource": {
+        "file": "packages/game/src/shell/boot-loading.ts",
+        "conditionLine": 64,
+        "condition": "只有进度条时仍写宽度（boot-loading.ts:64）"
+      },
+      "caller": {
+        "file": "packages/game/src/main.ts",
+        "line": 73,
+        "expr": "initBootLoading()"
+      },
+      "legalInput": "不挂状态节点。预估 4，完成一次 fetch。",
+      "oldTest": {
+        "sha": "d743490c533ec99c2ca80651109295d4919198d0",
+        "file": "packages/game/src/shell/boot-loading.test.ts",
+        "fullName": "boot-loading(启动加载覆盖层) init 后 fetch 计数驱动状态文本与进度条(分母 = max(已发起, 预估总量))",
+        "assertionLine": 49,
+        "matcher": "toBe",
+        "checked": "有状态节点时 3/4 的条宽是 75%",
+        "distinct": "状态节点为 null，条宽是 25%"
+      },
+      "file": "packages/game/src/shell/boot-loading-host.grok-r1.test.ts",
+      "fullName": "G09-C 启动加载宿主 G09-C04 只有进度条时宽度写成 25%",
+      "assertions": [
+        {
+          "line": 78,
+          "endLine": 78,
+          "matchers": ["toBeNull"]
+        },
+        {
+          "line": 79,
+          "endLine": 79,
+          "matchers": ["toBe"]
+        }
+      ],
+      "axis": "exception",
+      "oracle": {
+        "operands": "状态节点、条宽",
+        "matcher": "toBeNull / toBe",
+        "exact": "null；25%"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/shell/boot-loading-host.grok-r1.test.ts",
+        "fullName": "G09-C 启动加载宿主 G09-C04 只有进度条时宽度写成 25%",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G09-C05",
+      "batch": "G09",
+      "group": "G09-C",
+      "primarySource": {
+        "file": "packages/game/src/shell/boot-loading.ts",
+        "conditionLine": 146,
+        "condition": "失败时给根节点加上错误类（boot-loading.ts:146）"
+      },
+      "caller": {
+        "file": "packages/game/src/main.ts",
+        "line": 78,
+        "expr": "failBootLoading(msg)"
+      },
+      "legalInput": "不挂状态节点。失败文案为无状态，随后把条宽改成 12% 再写说明。",
+      "oldTest": {
+        "sha": "d743490c533ec99c2ca80651109295d4919198d0",
+        "file": "packages/game/src/shell/boot-loading.test.ts",
+        "fullName": "boot-loading(启动加载覆盖层) fail 显示错误文本、还原 fetch、overlay 保留",
+        "assertionLine": 88,
+        "matcher": "toContain",
+        "checked": "有状态节点时文本含资源加载失败",
+        "distinct": "没有状态节点仍有错误类；失败后的说明不再改条宽，保持 12%"
+      },
+      "file": "packages/game/src/shell/boot-loading-host.grok-r1.test.ts",
+      "fullName": "G09-C 启动加载宿主 G09-C05 没有状态节点时失败仍加上错误类，之后的说明不再改条宽",
+      "assertions": [
+        {
+          "line": 88,
+          "endLine": 88,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 89,
+          "endLine": 89,
+          "matchers": ["toBeNull"]
+        },
+        {
+          "line": 93,
+          "endLine": 93,
+          "matchers": ["toBe"]
+        }
+      ],
+      "axis": "exception",
+      "oracle": {
+        "operands": "错误类、状态节点、条宽",
+        "matcher": "toBe / toBeNull",
+        "exact": "true、null、12%"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/shell/boot-loading-host.grok-r1.test.ts",
+        "fullName": "G09-C 启动加载宿主 G09-C05 没有状态节点时失败仍加上错误类，之后的说明不再改条宽",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G09-C06",
+      "batch": "G09",
+      "group": "G09-C",
+      "primarySource": {
+        "file": "packages/game/src/shell/boot-loading.ts",
+        "conditionLine": 139,
+        "condition": "完成时加上淡出类，600ms 后移除根节点（boot-loading.ts:139）"
+      },
+      "caller": {
+        "file": "packages/game/src/shell/bootstrap.ts",
+        "line": 1922,
+        "expr": "finishBootLoading()"
+      },
+      "legalInput": "不挂进度条。预估 4，然后 finishBootLoading。",
+      "oldTest": {
+        "sha": "d743490c533ec99c2ca80651109295d4919198d0",
+        "file": "packages/game/src/shell/boot-loading.test.ts",
+        "fullName": "boot-loading(启动加载覆盖层) finish 还原 fetch、补满格并移除 overlay(过渡后)",
+        "assertionLine": 80,
+        "matcher": "toBeNull",
+        "checked": "有进度条时 600ms 后根节点被移除",
+        "distinct": "没有进度条仍加上 boot-loading-done，600ms 后根节点为 null"
+      },
+      "file": "packages/game/src/shell/boot-loading-host.grok-r1.test.ts",
+      "fullName": "G09-C 启动加载宿主 G09-C06 没有进度条时完成仍淡出并在 600ms 后移除",
+      "assertions": [
+        {
+          "line": 102,
+          "endLine": 102,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 104,
+          "endLine": 104,
+          "matchers": ["toBeNull"]
+        }
+      ],
+      "axis": "positive",
+      "oracle": {
+        "operands": "完成类、根节点",
+        "matcher": "toBe / toBeNull",
+        "exact": "true；600ms 后 null"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/shell/boot-loading-host.grok-r1.test.ts",
+        "fullName": "G09-C 启动加载宿主 G09-C06 没有进度条时完成仍淡出并在 600ms 后移除",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G09-C07",
+      "batch": "G09",
+      "group": "G09-C",
+      "primarySource": {
+        "file": "packages/game/src/shell/boot-loading.ts",
+        "conditionLine": 101,
+        "condition": "restoreBootFetch 清掉进度回调（boot-loading.ts:101）"
+      },
+      "caller": {
+        "file": "packages/game/src/main.ts",
+        "line": 60,
+        "expr": "restoreBootFetch()"
+      },
+      "legalInput": "预估 4，带进度回调。先完成一次 fetch，再 restore，再 fetch 第二次。",
+      "oldTest": {
+        "sha": "d743490c533ec99c2ca80651109295d4919198d0",
+        "file": "packages/game/src/shell/boot-loading.test.ts",
+        "fullName": "boot-loading(启动加载覆盖层) PROD 模式(传 onProgress)→ render 回调 fraction、不写 #boot-loading DOM",
+        "assertionLine": 141,
+        "matcher": "toBeCloseTo",
+        "checked": "回调收到约 0.5",
+        "distinct": "回调只留下 [0.25]，状态文本保持正在加载…"
+      },
+      "file": "packages/game/src/shell/boot-loading-host.grok-r1.test.ts",
+      "fullName": "G09-C 启动加载宿主 G09-C07 restoreBootFetch 还原 fetch，之后的请求不再回调进度",
+      "assertions": [
+        {
+          "line": 118,
+          "endLine": 118,
+          "matchers": ["toEqual"]
+        },
+        {
+          "line": 119,
+          "endLine": 119,
+          "matchers": ["toBe"]
+        }
+      ],
+      "axis": "ownership",
+      "oracle": {
+        "operands": "回调分数、状态文本",
+        "matcher": "toEqual / toBe",
+        "exact": "[0.25]；正在加载…"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/shell/boot-loading-host.grok-r1.test.ts",
+        "fullName": "G09-C 启动加载宿主 G09-C07 restoreBootFetch 还原 fetch，之后的请求不再回调进度",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G09-C08",
+      "batch": "G09",
+      "group": "G09-C",
+      "primarySource": {
+        "file": "packages/game/src/shell/boot-loading.ts",
+        "conditionLine": 82,
+        "condition": "同一帧里的第二次说明看到 _rafPending 就不再排 rAF（boot-loading.ts:82）"
+      },
+      "caller": {
+        "file": "packages/game/src/shell/bootstrap.ts",
+        "line": 1861,
+        "expr": "setBootLoadingNote('音色库')"
+      },
+      "legalInput": "预估 4。连续 setBootLoadingNote('甲') 与 setBootLoadingNote('乙')。",
+      "oldTest": {
+        "sha": "d743490c533ec99c2ca80651109295d4919198d0",
+        "file": "packages/game/src/shell/boot-loading.test.ts",
+        "fullName": "boot-loading(启动加载覆盖层) setBootLoadingNote 追加说明到计数文本,清空恢复(soundfont 尾段等待文案)",
+        "assertionLine": 99,
+        "matcher": "toBe",
+        "checked": "说明写成正在加载资源 1 / 4 — 音色库 31MB",
+        "distinct": "rAF 只排一次，文本是正在加载资源 0 / 4 — 乙"
+      },
+      "file": "packages/game/src/shell/boot-loading-host.grok-r1.test.ts",
+      "fullName": "G09-C 启动加载宿主 G09-C08 同一帧里的两次说明只排一次 rAF，文本留下后一次",
+      "assertions": [
+        {
+          "line": 134,
+          "endLine": 134,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 136,
+          "endLine": 138,
+          "matchers": ["toBe"]
+        }
+      ],
+      "axis": "ownership",
+      "oracle": {
+        "operands": "rAF 次数、状态文本",
+        "matcher": "toBe",
+        "exact": "1；正在加载资源 0 / 4 — 乙"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/shell/boot-loading-host.grok-r1.test.ts",
+        "fullName": "G09-C 启动加载宿主 G09-C08 同一帧里的两次说明只排一次 rAF，文本留下后一次",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G09-C09",
+      "batch": "G09",
+      "group": "G09-C",
+      "primarySource": {
+        "file": "packages/game/src/shell/boot-loading.ts",
+        "conditionLine": 85,
+        "condition": "requestAnimationFrame 不是函数时改用 16ms 的 setTimeout（boot-loading.ts:85）"
+      },
+      "caller": {
+        "file": "packages/game/src/shell/bootstrap.ts",
+        "line": 1861,
+        "expr": "setBootLoadingNote('音色库')"
+      },
+      "legalInput": "预估 4。requestAnimationFrame 设为 undefined，记下 setTimeout 的延迟。",
+      "oldTest": {
+        "sha": "d743490c533ec99c2ca80651109295d4919198d0",
+        "file": "packages/game/src/shell/boot-loading.test.ts",
+        "fullName": "boot-loading(启动加载覆盖层) setBootLoadingNote 追加说明到计数文本,清空恢复(soundfont 尾段等待文案)",
+        "assertionLine": 102,
+        "matcher": "toBe",
+        "checked": "清空说明后文本回到正在加载资源 1 / 4",
+        "distinct": "排队 1 次，延迟 16，文本是正在加载资源 0 / 4 — 只等超时"
+      },
+      "file": "packages/game/src/shell/boot-loading-host.grok-r1.test.ts",
+      "fullName": "G09-C 启动加载宿主 G09-C09 requestAnimationFrame 不是函数时，改用 16ms 的 setTimeout 写出说明",
+      "assertions": [
+        {
+          "line": 161,
+          "endLine": 161,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 162,
+          "endLine": 162,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 164,
+          "endLine": 166,
+          "matchers": ["toBe"]
+        }
+      ],
+      "axis": "boundary",
+      "oracle": {
+        "operands": "排队次数、延迟、状态文本",
+        "matcher": "toBe",
+        "exact": "1、16、正在加载资源 0 / 4 — 只等超时"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/shell/boot-loading-host.grok-r1.test.ts",
+        "fullName": "G09-C 启动加载宿主 G09-C09 requestAnimationFrame 不是函数时，改用 16ms 的 setTimeout 写出说明",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G09-C10",
+      "batch": "G09",
+      "group": "G09-C",
+      "primarySource": {
+        "file": "packages/game/src/shell/boot-loading.ts",
+        "conditionLine": 56,
+        "condition": "分母为 0 时进度回调得到 0，并且不写 DOM（boot-loading.ts:56）"
+      },
+      "caller": {
+        "file": "packages/game/src/main.ts",
+        "line": 40,
+        "expr": "initBootLoading(undefined, (frac) => ui.setNecessaryProgress(frac))"
+      },
+      "legalInput": "预估 0，带进度回调，再 setBootLoadingNote('空分母')。",
+      "oldTest": {
+        "sha": "d743490c533ec99c2ca80651109295d4919198d0",
+        "file": "packages/game/src/shell/boot-loading.test.ts",
+        "fullName": "boot-loading(启动加载覆盖层) PROD 模式(传 onProgress)→ render 回调 fraction、不写 #boot-loading DOM",
+        "assertionLine": 143,
+        "matcher": "toBe",
+        "checked": "有进度时状态文本保持正在加载…",
+        "distinct": "回调是 [0]，状态文本保持正在加载…，条宽是空串"
+      },
+      "file": "packages/game/src/shell/boot-loading-host.grok-r1.test.ts",
+      "fullName": "G09-C 启动加载宿主 G09-C10 预估和已发起都是 0 时，进度回调得到 0 且不写 DOM",
+      "assertions": [
+        {
+          "line": 185,
+          "endLine": 185,
+          "matchers": ["toEqual"]
+        },
+        {
+          "line": 186,
+          "endLine": 186,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 187,
+          "endLine": 187,
+          "matchers": ["toBe"]
+        }
+      ],
+      "axis": "boundary",
+      "oracle": {
+        "operands": "回调、状态文本、条宽",
+        "matcher": "toEqual / toBe",
+        "exact": "[0]；正在加载…；空串"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/shell/boot-loading-host.grok-r1.test.ts",
+        "fullName": "G09-C 启动加载宿主 G09-C10 预估和已发起都是 0 时，进度回调得到 0 且不写 DOM",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G09-C11",
+      "batch": "G09",
+      "group": "G09-C",
+      "primarySource": {
+        "file": "packages/game/src/shell/boot-loading.ts",
+        "conditionLine": 148,
+        "condition": "失败文案是启动失败加原文（boot-loading.ts:148）"
+      },
+      "caller": {
+        "file": "packages/game/src/main.ts",
+        "line": 78,
+        "expr": "failBootLoading(msg)"
+      },
+      "legalInput": "预估 4。failBootLoading('磁盘满')。",
+      "oldTest": {
+        "sha": "d743490c533ec99c2ca80651109295d4919198d0",
+        "file": "packages/game/src/shell/boot-loading.test.ts",
+        "fullName": "boot-loading(启动加载覆盖层) fail 显示错误文本、还原 fetch、overlay 保留",
+        "assertionLine": 88,
+        "matcher": "toContain",
+        "checked": "文本包含资源加载失败，不断言整句",
+        "distinct": "文本是启动失败:磁盘满，根节点带 boot-loading-error"
+      },
+      "file": "packages/game/src/shell/boot-loading-host.grok-r1.test.ts",
+      "fullName": "G09-C 启动加载宿主 G09-C11 失败文案是启动失败加原文，并带上错误类",
+      "assertions": [
+        {
+          "line": 194,
+          "endLine": 194,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 195,
+          "endLine": 197,
+          "matchers": ["toBe"]
+        }
+      ],
+      "axis": "exception",
+      "oracle": {
+        "operands": "状态文本、错误类",
+        "matcher": "toBe",
+        "exact": "启动失败:磁盘满；true"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/shell/boot-loading-host.grok-r1.test.ts",
+        "fullName": "G09-C 启动加载宿主 G09-C11 失败文案是启动失败加原文，并带上错误类",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G09-D01",
+      "batch": "G09",
+      "group": "G09-D",
+      "primarySource": {
+        "file": "packages/game/src/shell/precache-ui.ts",
+        "conditionLine": 65,
+        "condition": "总字节为 0 时小组件百分比取 0（precache-ui.ts:65）"
+      },
+      "caller": {
+        "file": "packages/game/src/shell/precache-ui.ts",
+        "line": 145,
+        "expr": "widget = createPrecacheWidget()"
+      },
+      "legalInput": "update 的 bytes 与 totalBytes 都是 0。",
+      "oldTest": {
+        "sha": "44b9dc0a27e8136644c711f57690d8a6c89733f3",
+        "file": "packages/game/src/shell/precache-ui.test.ts",
+        "fullName": "createPrecacheWidget 挂到 document.body,update 写百分比与 MB,done 后淡出移除",
+        "assertionLine": 17,
+        "matcher": "toContain",
+        "checked": "5MB/10MB 的文本含 50% 与 5/10MB",
+        "distinct": "条宽是 0%，文本是后台缓存资源 0% (0/0MB)"
+      },
+      "file": "packages/game/src/shell/precache-ui-host.grok-r1.test.ts",
+      "fullName": "G09-D 预缓存宿主 G09-D01 总字节为 0 时小组件百分比和条宽都是 0",
+      "assertions": [
+        {
+          "line": 44,
+          "endLine": 44,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 45,
+          "endLine": 45,
+          "matchers": ["toBe"]
+        }
+      ],
+      "axis": "boundary",
+      "oracle": {
+        "operands": "条宽、文本",
+        "matcher": "toBe",
+        "exact": "0%；后台缓存资源 0% (0/0MB)"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/shell/precache-ui-host.grok-r1.test.ts",
+        "fullName": "G09-D 预缓存宿主 G09-D01 总字节为 0 时小组件百分比和条宽都是 0",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G09-D02",
+      "batch": "G09",
+      "group": "G09-D",
+      "primarySource": {
+        "file": "packages/game/src/shell/precache-ui.ts",
+        "conditionLine": 61,
+        "condition": "兆字节按 toFixed(0) 四舍五入（precache-ui.ts:61）"
+      },
+      "caller": {
+        "file": "packages/game/src/shell/precache-ui.ts",
+        "line": 145,
+        "expr": "widget = createPrecacheWidget()"
+      },
+      "legalInput": "bytes 为 524288，totalBytes 为 1048576。",
+      "oldTest": {
+        "sha": "44b9dc0a27e8136644c711f57690d8a6c89733f3",
+        "file": "packages/game/src/shell/precache-ui.test.ts",
+        "fullName": "createPrecacheWidget 挂到 document.body,update 写百分比与 MB,done 后淡出移除",
+        "assertionLine": 16,
+        "matcher": "toContain",
+        "checked": "整数 5/10 的文本含 50%",
+        "distinct": "文本是后台缓存资源 50% (1/1MB)"
+      },
+      "file": "packages/game/src/shell/precache-ui-host.grok-r1.test.ts",
+      "fullName": "G09-D 预缓存宿主 G09-D02 半兆字节按四舍五入写成 1MB，百分比取 floor",
+      "assertions": [
+        {
+          "line": 51,
+          "endLine": 51,
+          "matchers": ["toBe"]
+        }
+      ],
+      "axis": "boundary",
+      "oracle": {
+        "operands": "小组件文本",
+        "matcher": "toBe",
+        "exact": "后台缓存资源 50% (1/1MB)"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/shell/precache-ui-host.grok-r1.test.ts",
+        "fullName": "G09-D 预缓存宿主 G09-D02 半兆字节按四舍五入写成 1MB，百分比取 floor",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G09-D03",
+      "batch": "G09",
+      "group": "G09-D",
+      "primarySource": {
+        "file": "packages/game/src/shell/precache-ui.ts",
+        "conditionLine": 85,
+        "condition": "虚线比例用调用方传入的 playableFraction（precache-ui.ts:85）"
+      },
+      "caller": {
+        "file": "packages/game/src/main.ts",
+        "line": 38,
+        "expr": "const ui = createUnifiedProgressUi()"
+      },
+      "legalInput": "playableFraction 为 0.25，再 setNecessaryProgress(1)。",
+      "oldTest": {
+        "sha": "44b9dc0a27e8136644c711f57690d8a6c89733f3",
+        "file": "packages/game/src/shell/precache-ui.test.ts",
+        "fullName": "createUnifiedProgressUi 虚线前 setNecessaryProgress 映射到 0→虚线(12%),单调不回退",
+        "assertionLine": 44,
+        "matcher": "toBe",
+        "checked": "默认虚线下一半进度的条宽是 6%",
+        "distinct": "虚线 left 是 25%，满格必要进度的条宽也是 25%，文本是加载必要资源 100%"
+      },
+      "file": "packages/game/src/shell/precache-ui-host.grok-r1.test.ts",
+      "fullName": "G09-D 预缓存宿主 G09-D03 playableFraction 0.25 把虚线放在 25%，必要资源满格也停在 25%",
+      "assertions": [
+        {
+          "line": 57,
+          "endLine": 57,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 59,
+          "endLine": 59,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 60,
+          "endLine": 60,
+          "matchers": ["toBe"]
+        }
+      ],
+      "axis": "positive",
+      "oracle": {
+        "operands": "虚线、条宽、文本",
+        "matcher": "toBe",
+        "exact": "25%；25%；加载必要资源 100%"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/shell/precache-ui-host.grok-r1.test.ts",
+        "fullName": "G09-D 预缓存宿主 G09-D03 playableFraction 0.25 把虚线放在 25%，必要资源满格也停在 25%",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G09-D04",
+      "batch": "G09",
+      "group": "G09-D",
+      "primarySource": {
+        "file": "packages/game/src/shell/precache-ui.ts",
+        "conditionLine": 107,
+        "condition": "必要进度先钳到 0 与 1 之间（precache-ui.ts:107）"
+      },
+      "caller": {
+        "file": "packages/game/src/main.ts",
+        "line": 40,
+        "expr": "initBootLoading(undefined, (frac) => ui.setNecessaryProgress(frac))"
+      },
+      "legalInput": "setNecessaryProgress(-0.2)。",
+      "oldTest": {
+        "sha": "44b9dc0a27e8136644c711f57690d8a6c89733f3",
+        "file": "packages/game/src/shell/precache-ui.test.ts",
+        "fullName": "createUnifiedProgressUi 虚线前 setNecessaryProgress 映射到 0→虚线(12%),单调不回退",
+        "assertionLine": 44,
+        "matcher": "toBe",
+        "checked": "0.5 映射成 6%",
+        "distinct": "负数钳成 0%，文本是加载必要资源 0%"
+      },
+      "file": "packages/game/src/shell/precache-ui-host.grok-r1.test.ts",
+      "fullName": "G09-D 预缓存宿主 G09-D04 负数的必要进度钳到 0%",
+      "assertions": [
+        {
+          "line": 67,
+          "endLine": 67,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 68,
+          "endLine": 68,
+          "matchers": ["toBe"]
+        }
+      ],
+      "axis": "boundary",
+      "oracle": {
+        "operands": "条宽、文本",
+        "matcher": "toBe",
+        "exact": "0%；加载必要资源 0%"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/shell/precache-ui-host.grok-r1.test.ts",
+        "fullName": "G09-D 预缓存宿主 G09-D04 负数的必要进度钳到 0%",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G09-D05",
+      "batch": "G09",
+      "group": "G09-D",
+      "primarySource": {
+        "file": "packages/game/src/shell/precache-ui.ts",
+        "conditionLine": 107,
+        "condition": "大于 1 的必要进度钳到 1，再乘默认虚线 0.12（precache-ui.ts:107）"
+      },
+      "caller": {
+        "file": "packages/game/src/main.ts",
+        "line": 40,
+        "expr": "initBootLoading(undefined, (frac) => ui.setNecessaryProgress(frac))"
+      },
+      "legalInput": "setNecessaryProgress(1.5)。",
+      "oldTest": {
+        "sha": "44b9dc0a27e8136644c711f57690d8a6c89733f3",
+        "file": "packages/game/src/shell/precache-ui.test.ts",
+        "fullName": "createUnifiedProgressUi 虚线前 setNecessaryProgress 映射到 0→虚线(12%),单调不回退",
+        "assertionLine": 49,
+        "matcher": "toBe",
+        "checked": "进度回退时条宽保持 6%",
+        "distinct": "条宽是 12%，文本是加载必要资源 100%"
+      },
+      "file": "packages/game/src/shell/precache-ui-host.grok-r1.test.ts",
+      "fullName": "G09-D 预缓存宿主 G09-D05 大于 1 的必要进度钳到虚线 12%",
+      "assertions": [
+        {
+          "line": 75,
+          "endLine": 75,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 76,
+          "endLine": 76,
+          "matchers": ["toBe"]
+        }
+      ],
+      "axis": "boundary",
+      "oracle": {
+        "operands": "条宽、文本",
+        "matcher": "toBe",
+        "exact": "12%；加载必要资源 100%"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/shell/precache-ui-host.grok-r1.test.ts",
+        "fullName": "G09-D 预缓存宿主 G09-D05 大于 1 的必要进度钳到虚线 12%",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G09-D06",
+      "batch": "G09",
+      "group": "G09-D",
+      "primarySource": {
+        "file": "packages/game/src/shell/precache-ui.ts",
+        "conditionLine": 106,
+        "condition": "过了虚线之后 setNecessaryProgress 直接返回（precache-ui.ts:106）"
+      },
+      "caller": {
+        "file": "packages/game/src/main.ts",
+        "line": 40,
+        "expr": "initBootLoading(undefined, (frac) => ui.setNecessaryProgress(frac))"
+      },
+      "legalInput": "先 markPlayable，再 setNecessaryProgress(1)。",
+      "oldTest": {
+        "sha": "44b9dc0a27e8136644c711f57690d8a6c89733f3",
+        "file": "packages/game/src/shell/precache-ui.test.ts",
+        "fullName": "createUnifiedProgressUi 虚线后 setFullProgress = SW 真实进度 bytes/total,单调不回退;necessary 段不响应",
+        "assertionLine": 68,
+        "matcher": "toBe",
+        "checked": "必要阶段的 setFullProgress 不写条宽",
+        "distinct": "文案保持必要资源就绪 — 可进入，条宽保持 12%"
+      },
+      "file": "packages/game/src/shell/precache-ui-host.grok-r1.test.ts",
+      "fullName": "G09-D 预缓存宿主 G09-D06 过了虚线之后 setNecessaryProgress 不再改文案",
+      "assertions": [
+        {
+          "line": 84,
+          "endLine": 84,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 85,
+          "endLine": 85,
+          "matchers": ["toBe"]
+        }
+      ],
+      "axis": "ownership",
+      "oracle": {
+        "operands": "文本、条宽",
+        "matcher": "toBe",
+        "exact": "必要资源就绪 — 可进入；12%"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/shell/precache-ui-host.grok-r1.test.ts",
+        "fullName": "G09-D 预缓存宿主 G09-D06 过了虚线之后 setNecessaryProgress 不再改文案",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G09-D07",
+      "batch": "G09",
+      "group": "G09-D",
+      "primarySource": {
+        "file": "packages/game/src/shell/precache-ui.ts",
+        "conditionLine": 111,
+        "condition": "第二次 markPlayable 看到阶段已不是 necessary 就返回（precache-ui.ts:111）"
+      },
+      "caller": {
+        "file": "packages/game/src/main.ts",
+        "line": 61,
+        "expr": "ui.markPlayable(enter)"
+      },
+      "legalInput": "连续两次 markPlayable，然后点进入按钮。",
+      "oldTest": {
+        "sha": "44b9dc0a27e8136644c711f57690d8a6c89733f3",
+        "file": "packages/game/src/shell/precache-ui.test.ts",
+        "fullName": "createUnifiedProgressUi markPlayable:进度到虚线(12%)+ 显示按钮,click 同步触发 onEnter",
+        "assertionLine": 61,
+        "matcher": "toHaveBeenCalledOnce",
+        "checked": "第一次点击调用 onEnter 一次",
+        "distinct": "第二次 markPlayable 不调用 onEnter；点击后调用次数是 1"
+      },
+      "file": "packages/game/src/shell/precache-ui-host.grok-r1.test.ts",
+      "fullName": "G09-D 预缓存宿主 G09-D07 第二次 markPlayable 不调用 onEnter",
+      "assertions": [
+        {
+          "line": 97,
+          "endLine": 97,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 99,
+          "endLine": 99,
+          "matchers": ["toBe"]
+        }
+      ],
+      "axis": "ownership",
+      "oracle": {
+        "operands": "onEnter 次数",
+        "matcher": "toBe",
+        "exact": "标记时 0，点击后 1"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/shell/precache-ui-host.grok-r1.test.ts",
+        "fullName": "G09-D 预缓存宿主 G09-D07 第二次 markPlayable 不调用 onEnter",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G09-D08",
+      "batch": "G09",
+      "group": "G09-D",
+      "primarySource": {
+        "file": "packages/game/src/shell/precache-ui.ts",
+        "conditionLine": 117,
+        "condition": "没有按钮容器时 markPlayable 立刻调用 onEnter（precache-ui.ts:117）"
+      },
+      "caller": {
+        "file": "packages/game/src/main.ts",
+        "line": 61,
+        "expr": "ui.markPlayable(enter)"
+      },
+      "legalInput": "覆盖层有进度条和状态，没有进入按钮容器。",
+      "oldTest": {
+        "sha": "44b9dc0a27e8136644c711f57690d8a6c89733f3",
+        "file": "packages/game/src/shell/precache-ui.test.ts",
+        "fullName": "createUnifiedProgressUi markPlayable:进度到虚线(12%)+ 显示按钮,click 同步触发 onEnter",
+        "assertionLine": 57,
+        "matcher": "toBe",
+        "checked": "有按钮时条宽先到 12%，onEnter 等点击",
+        "distinct": "onEnter 立刻为 1，条宽 12%，文本是必要资源就绪 — 可进入"
+      },
+      "file": "packages/game/src/shell/precache-ui-host.grok-r1.test.ts",
+      "fullName": "G09-D 预缓存宿主 G09-D08 没有进入按钮容器时 markPlayable 立刻放行",
+      "assertions": [
+        {
+          "line": 113,
+          "endLine": 113,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 114,
+          "endLine": 114,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 115,
+          "endLine": 115,
+          "matchers": ["toBe"]
+        }
+      ],
+      "axis": "exception",
+      "oracle": {
+        "operands": "调用次数、条宽、文本",
+        "matcher": "toBe",
+        "exact": "1；12%；必要资源就绪 — 可进入"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/shell/precache-ui-host.grok-r1.test.ts",
+        "fullName": "G09-D 预缓存宿主 G09-D08 没有进入按钮容器时 markPlayable 立刻放行",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G09-D09",
+      "batch": "G09",
+      "group": "G09-D",
+      "primarySource": {
+        "file": "packages/game/src/shell/precache-ui.ts",
+        "conditionLine": 116,
+        "condition": "容器在但按钮不在时同样立刻放行（precache-ui.ts:116）"
+      },
+      "caller": {
+        "file": "packages/game/src/main.ts",
+        "line": 61,
+        "expr": "ui.markPlayable(enter)"
+      },
+      "legalInput": "有 hidden 的进入容器，里面没有按钮。",
+      "oldTest": {
+        "sha": "44b9dc0a27e8136644c711f57690d8a6c89733f3",
+        "file": "packages/game/src/shell/precache-ui.test.ts",
+        "fullName": "createUnifiedProgressUi markPlayable:进度到虚线(12%)+ 显示按钮,click 同步触发 onEnter",
+        "assertionLine": 59,
+        "matcher": "toBe",
+        "checked": "有按钮时容器去掉 hidden",
+        "distinct": "onEnter 立刻为 1，容器仍带 hidden"
+      },
+      "file": "packages/game/src/shell/precache-ui-host.grok-r1.test.ts",
+      "fullName": "G09-D 预缓存宿主 G09-D09 有容器但没有按钮时立刻放行，容器保持 hidden",
+      "assertions": [
+        {
+          "line": 130,
+          "endLine": 130,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 131,
+          "endLine": 131,
+          "matchers": ["toBe"]
+        }
+      ],
+      "axis": "exception",
+      "oracle": {
+        "operands": "调用次数、hidden",
+        "matcher": "toBe",
+        "exact": "1；true"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/shell/precache-ui-host.grok-r1.test.ts",
+        "fullName": "G09-D 预缓存宿主 G09-D09 有容器但没有按钮时立刻放行，容器保持 hidden",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G09-D10",
+      "batch": "G09",
+      "group": "G09-D",
+      "primarySource": {
+        "file": "packages/game/src/shell/precache-ui.ts",
+        "conditionLine": 130,
+        "condition": "全量阶段总字节为 0 时百分比取 0，单调条宽不退（precache-ui.ts:130）"
+      },
+      "caller": {
+        "file": "packages/game/src/main.ts",
+        "line": 44,
+        "expr": "onProgress: (p) => ui.setFullProgress(p.bytes, p.totalBytes),"
+      },
+      "legalInput": "先 markPlayable，再 setFullProgress(0, 0)。",
+      "oldTest": {
+        "sha": "44b9dc0a27e8136644c711f57690d8a6c89733f3",
+        "file": "packages/game/src/shell/precache-ui.test.ts",
+        "fullName": "createUnifiedProgressUi 虚线后 setFullProgress = SW 真实进度 bytes/total,单调不回退;necessary 段不响应",
+        "assertionLine": 72,
+        "matcher": "toBe",
+        "checked": "168/336 的条宽是 50%",
+        "distinct": "条宽停在虚线 12%，文本是已缓存 0/0MB"
+      },
+      "file": "packages/game/src/shell/precache-ui-host.grok-r1.test.ts",
+      "fullName": "G09-D 预缓存宿主 G09-D10 全量阶段总字节为 0 时条宽停在虚线，文案是 0/0MB",
+      "assertions": [
+        {
+          "line": 139,
+          "endLine": 139,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 140,
+          "endLine": 140,
+          "matchers": ["toBe"]
+        }
+      ],
+      "axis": "boundary",
+      "oracle": {
+        "operands": "条宽、文本",
+        "matcher": "toBe",
+        "exact": "12%；已缓存 0/0MB"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/shell/precache-ui-host.grok-r1.test.ts",
+        "fullName": "G09-D 预缓存宿主 G09-D10 全量阶段总字节为 0 时条宽停在虚线，文案是 0/0MB",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G09-D11",
+      "batch": "G09",
+      "group": "G09-D",
+      "primarySource": {
+        "file": "packages/game/src/shell/precache-ui.ts",
+        "conditionLine": 136,
+        "condition": "已经进入后再 enterGame 直接返回（precache-ui.ts:136）"
+      },
+      "caller": {
+        "file": "packages/game/src/main.ts",
+        "line": 53,
+        "expr": "ui.enterGame()"
+      },
+      "legalInput": "markPlayable 后连续两次 enterGame。",
+      "oldTest": {
+        "sha": "44b9dc0a27e8136644c711f57690d8a6c89733f3",
+        "file": "packages/game/src/shell/precache-ui.test.ts",
+        "fullName": "createUnifiedProgressUi enterGame 移除覆盖层并建右上角 widget,之后 setFullProgress 走 widget",
+        "assertionLine": 87,
+        "matcher": "not.toBeNull",
+        "checked": "第一次 enterGame 挂上小组件",
+        "distinct": "小组件数量是 1"
+      },
+      "file": "packages/game/src/shell/precache-ui-host.grok-r1.test.ts",
+      "fullName": "G09-D 预缓存宿主 G09-D11 第二次 enterGame 不再多挂一个小组件",
+      "assertions": [
+        {
+          "line": 149,
+          "endLine": 149,
+          "matchers": ["toBe"]
+        }
+      ],
+      "axis": "ownership",
+      "oracle": {
+        "operands": "小组件数量",
+        "matcher": "toBe",
+        "exact": "1"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/shell/precache-ui-host.grok-r1.test.ts",
+        "fullName": "G09-D 预缓存宿主 G09-D11 第二次 enterGame 不再多挂一个小组件",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G09-D12",
+      "batch": "G09",
+      "group": "G09-D",
+      "primarySource": {
+        "file": "packages/game/src/shell/precache-ui.ts",
+        "conditionLine": 147,
+        "condition": "没有记过总字节时不调用 widget.update，留下占位文案（precache-ui.ts:147）"
+      },
+      "caller": {
+        "file": "packages/game/src/main.ts",
+        "line": 53,
+        "expr": "ui.enterGame()"
+      },
+      "legalInput": "markPlayable 后直接 enterGame，中间没有 setFullProgress。",
+      "oldTest": {
+        "sha": "44b9dc0a27e8136644c711f57690d8a6c89733f3",
+        "file": "packages/game/src/shell/precache-ui.test.ts",
+        "fullName": "createUnifiedProgressUi enterGame 用最后进度初始化 widget,消除空白瞬间",
+        "assertionLine": 114,
+        "matcher": "toContain",
+        "checked": "记过 50% 时小组件文本含 50%",
+        "distinct": "小组件文本是后台缓存中…"
+      },
+      "file": "packages/game/src/shell/precache-ui-host.grok-r1.test.ts",
+      "fullName": "G09-D 预缓存宿主 G09-D12 没有记过总字节时，小组件保持占位文案",
+      "assertions": [
+        {
+          "line": 157,
+          "endLine": 157,
+          "matchers": ["toBe"]
+        }
+      ],
+      "axis": "boundary",
+      "oracle": {
+        "operands": "小组件文本",
+        "matcher": "toBe",
+        "exact": "后台缓存中…"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/shell/precache-ui-host.grok-r1.test.ts",
+        "fullName": "G09-D 预缓存宿主 G09-D12 没有记过总字节时，小组件保持占位文案",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G09-D13",
+      "batch": "G09",
+      "group": "G09-D",
+      "primarySource": {
+        "file": "packages/game/src/shell/precache-ui.ts",
+        "conditionLine": 155,
+        "condition": "进入之后 fail 直接返回（precache-ui.ts:155）"
+      },
+      "caller": {
+        "file": "packages/game/src/main.ts",
+        "line": 68,
+        "expr": "ui.fail(msg)"
+      },
+      "legalInput": "markPlayable、enterGame，再 fail('晚了')。",
+      "oldTest": {
+        "sha": "44b9dc0a27e8136644c711f57690d8a6c89733f3",
+        "file": "packages/game/src/shell/precache-ui.test.ts",
+        "fullName": "createUnifiedProgressUi enterGame 移除覆盖层并建右上角 widget,之后 setFullProgress 走 widget",
+        "assertionLine": 84,
+        "matcher": "toBe",
+        "checked": "enterGame 给覆盖层加上 boot-loading-done",
+        "distinct": "错误类为 false，完成类仍为 true"
+      },
+      "file": "packages/game/src/shell/precache-ui-host.grok-r1.test.ts",
+      "fullName": "G09-D 预缓存宿主 G09-D13 进入之后 fail 不再给覆盖层加错误类",
+      "assertions": [
+        {
+          "line": 167,
+          "endLine": 167,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 168,
+          "endLine": 168,
+          "matchers": ["toBe"]
+        }
+      ],
+      "axis": "ownership",
+      "oracle": {
+        "operands": "错误类、完成类",
+        "matcher": "toBe",
+        "exact": "false、true"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/shell/precache-ui-host.grok-r1.test.ts",
+        "fullName": "G09-D 预缓存宿主 G09-D13 进入之后 fail 不再给覆盖层加错误类",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G09-D14",
+      "batch": "G09",
+      "group": "G09-D",
+      "primarySource": {
+        "file": "packages/game/src/shell/precache-ui.ts",
+        "conditionLine": 158,
+        "condition": "未进入时 fail 给根节点加上错误类（precache-ui.ts:158）"
+      },
+      "caller": {
+        "file": "packages/game/src/main.ts",
+        "line": 68,
+        "expr": "ui.fail(msg)"
+      },
+      "legalInput": "只有进度条，没有状态节点。fail('无状态')。",
+      "oldTest": {
+        "sha": "44b9dc0a27e8136644c711f57690d8a6c89733f3",
+        "file": "packages/game/src/shell/precache-ui.test.ts",
+        "fullName": "createUnifiedProgressUi 进入前 SW 已 done(竞速等满 100%)→ enterGame 不建右上角 widget",
+        "assertionLine": 103,
+        "matcher": "toBeNull",
+        "checked": "进入前已经 done 时不建小组件",
+        "distinct": "根节点有错误类，状态节点为 null"
+      },
+      "file": "packages/game/src/shell/precache-ui-host.grok-r1.test.ts",
+      "fullName": "G09-D 预缓存宿主 G09-D14 没有状态节点时 fail 仍加上错误类",
+      "assertions": [
+        {
+          "line": 175,
+          "endLine": 177,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 178,
+          "endLine": 178,
+          "matchers": ["toBeNull"]
+        }
+      ],
+      "axis": "exception",
+      "oracle": {
+        "operands": "错误类、状态节点",
+        "matcher": "toBe / toBeNull",
+        "exact": "true；null"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/shell/precache-ui-host.grok-r1.test.ts",
+        "fullName": "G09-D 预缓存宿主 G09-D14 没有状态节点时 fail 仍加上错误类",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G09-D15",
+      "batch": "G09",
+      "group": "G09-D",
+      "primarySource": {
+        "file": "packages/game/src/shell/precache-ui.ts",
+        "conditionLine": 148,
+        "condition": "必要阶段记下的字节在 enterGame 时写进小组件（precache-ui.ts:148）"
+      },
+      "caller": {
+        "file": "packages/game/src/main.ts",
+        "line": 53,
+        "expr": "ui.enterGame()"
+      },
+      "legalInput": "必要阶段 setFullProgress(10MiB, 20MiB)，再 enterGame。",
+      "oldTest": {
+        "sha": "44b9dc0a27e8136644c711f57690d8a6c89733f3",
+        "file": "packages/game/src/shell/precache-ui.test.ts",
+        "fullName": "createUnifiedProgressUi enterGame 用最后进度初始化 widget,消除空白瞬间",
+        "assertionLine": 114,
+        "matcher": "toContain",
+        "checked": "168/336 初始化文本含 50%",
+        "distinct": "进入前条宽是空串；小组件文本是后台缓存资源 50% (10/20MB)"
+      },
+      "file": "packages/game/src/shell/precache-ui-host.grok-r1.test.ts",
+      "fullName": "G09-D 预缓存宿主 G09-D15 必要阶段收到的全量字节在 enterGame 时写进小组件",
+      "assertions": [
+        {
+          "line": 185,
+          "endLine": 185,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 187,
+          "endLine": 189,
+          "matchers": ["toBe"]
+        }
+      ],
+      "axis": "ownership",
+      "oracle": {
+        "operands": "进入前条宽、小组件文本",
+        "matcher": "toBe",
+        "exact": "空串；后台缓存资源 50% (10/20MB)"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/shell/precache-ui-host.grok-r1.test.ts",
+        "fullName": "G09-D 预缓存宿主 G09-D15 必要阶段收到的全量字节在 enterGame 时写进小组件",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G09-D16",
+      "batch": "G09",
+      "group": "G09-D",
+      "primarySource": {
+        "file": "packages/game/src/shell/precache-ui.ts",
+        "conditionLine": 101,
+        "condition": "没有进度条时必要进度仍写状态文案（precache-ui.ts:101）"
+      },
+      "caller": {
+        "file": "packages/game/src/main.ts",
+        "line": 40,
+        "expr": "initBootLoading(undefined, (frac) => ui.setNecessaryProgress(frac))"
+      },
+      "legalInput": "只有状态节点。setNecessaryProgress(0.5)。",
+      "oldTest": {
+        "sha": "44b9dc0a27e8136644c711f57690d8a6c89733f3",
+        "file": "packages/game/src/shell/precache-ui.test.ts",
+        "fullName": "createUnifiedProgressUi 虚线前 setNecessaryProgress 映射到 0→虚线(12%),单调不回退",
+        "assertionLine": 45,
+        "matcher": "toContain",
+        "checked": "有进度条时 0.5 的文本含百分比",
+        "distinct": "进度条为 null，文本是加载必要资源 50%"
+      },
+      "file": "packages/game/src/shell/precache-ui-host.grok-r1.test.ts",
+      "fullName": "G09-D 预缓存宿主 G09-D16 没有进度条时必要进度仍写状态文案",
+      "assertions": [
+        {
+          "line": 196,
+          "endLine": 196,
+          "matchers": ["toBeNull"]
+        },
+        {
+          "line": 197,
+          "endLine": 197,
+          "matchers": ["toBe"]
+        }
+      ],
+      "axis": "exception",
+      "oracle": {
+        "operands": "进度条、文本",
+        "matcher": "toBeNull / toBe",
+        "exact": "null；加载必要资源 50%"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/shell/precache-ui-host.grok-r1.test.ts",
+        "fullName": "G09-D 预缓存宿主 G09-D16 没有进度条时必要进度仍写状态文案",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G09-D17",
+      "batch": "G09",
+      "group": "G09-D",
+      "primarySource": {
+        "file": "packages/game/src/shell/precache-ui.ts",
+        "conditionLine": 99,
+        "condition": "没有状态节点时必要进度仍写条宽（precache-ui.ts:99）"
+      },
+      "caller": {
+        "file": "packages/game/src/main.ts",
+        "line": 40,
+        "expr": "initBootLoading(undefined, (frac) => ui.setNecessaryProgress(frac))"
+      },
+      "legalInput": "只有进度条。setNecessaryProgress(0.5)。默认虚线 0.12。",
+      "oldTest": {
+        "sha": "44b9dc0a27e8136644c711f57690d8a6c89733f3",
+        "file": "packages/game/src/shell/precache-ui.test.ts",
+        "fullName": "createUnifiedProgressUi 虚线前 setNecessaryProgress 映射到 0→虚线(12%),单调不回退",
+        "assertionLine": 44,
+        "matcher": "toBe",
+        "checked": "有状态节点时 0.5 的条宽是 6%",
+        "distinct": "条宽是 6%，状态节点为 null"
+      },
+      "file": "packages/game/src/shell/precache-ui-host.grok-r1.test.ts",
+      "fullName": "G09-D 预缓存宿主 G09-D17 没有状态节点时必要进度仍写 6% 条宽",
+      "assertions": [
+        {
+          "line": 204,
+          "endLine": 204,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 205,
+          "endLine": 205,
+          "matchers": ["toBeNull"]
+        }
+      ],
+      "axis": "exception",
+      "oracle": {
+        "operands": "条宽、状态节点",
+        "matcher": "toBe / toBeNull",
+        "exact": "6%；null"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/shell/precache-ui-host.grok-r1.test.ts",
+        "fullName": "G09-D 预缓存宿主 G09-D17 没有状态节点时必要进度仍写 6% 条宽",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G09-D18",
+      "batch": "G09",
+      "group": "G09-D",
+      "primarySource": {
+        "file": "packages/game/src/shell/precache-ui.ts",
+        "conditionLine": 121,
+        "condition": "进入按钮的 click 只监听一次（precache-ui.ts:121）"
+      },
+      "caller": {
+        "file": "packages/game/src/main.ts",
+        "line": 61,
+        "expr": "ui.markPlayable(enter)"
+      },
+      "legalInput": "markPlayable 后对同一按钮派发两次 click。",
+      "oldTest": {
+        "sha": "44b9dc0a27e8136644c711f57690d8a6c89733f3",
+        "file": "packages/game/src/shell/precache-ui.test.ts",
+        "fullName": "createUnifiedProgressUi markPlayable:进度到虚线(12%)+ 显示按钮,click 同步触发 onEnter",
+        "assertionLine": 61,
+        "matcher": "toHaveBeenCalledOnce",
+        "checked": "spy 看到一次点击",
+        "distinct": "两次 click 后 onEnter 次数是 1"
+      },
+      "file": "packages/game/src/shell/precache-ui-host.grok-r1.test.ts",
+      "fullName": "G09-D 预缓存宿主 G09-D18 进入按钮的 click 只触发一次 onEnter",
+      "assertions": [
+        {
+          "line": 218,
+          "endLine": 218,
+          "matchers": ["toBe"]
+        }
+      ],
+      "axis": "ownership",
+      "oracle": {
+        "operands": "onEnter 次数",
+        "matcher": "toBe",
+        "exact": "1"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/shell/precache-ui-host.grok-r1.test.ts",
+        "fullName": "G09-D 预缓存宿主 G09-D18 进入按钮的 click 只触发一次 onEnter",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G09-D19",
+      "batch": "G09",
+      "group": "G09-D",
+      "primarySource": {
+        "file": "packages/game/src/shell/precache-ui.ts",
+        "conditionLine": 139,
+        "condition": "没有覆盖层时 enterGame 仍继续建小组件（precache-ui.ts:139）"
+      },
+      "caller": {
+        "file": "packages/game/src/main.ts",
+        "line": 53,
+        "expr": "ui.enterGame()"
+      },
+      "legalInput": "document 里没有 boot-loading，直接 enterGame。",
+      "oldTest": {
+        "sha": "44b9dc0a27e8136644c711f57690d8a6c89733f3",
+        "file": "packages/game/src/shell/precache-ui.test.ts",
+        "fullName": "createUnifiedProgressUi enterGame 移除覆盖层并建右上角 widget,之后 setFullProgress 走 widget",
+        "assertionLine": 89,
+        "matcher": "toBeNull",
+        "checked": "有覆盖层时淡出后根节点为 null",
+        "distinct": "根节点保持 null，小组件文本是后台缓存中…"
+      },
+      "file": "packages/game/src/shell/precache-ui-host.grok-r1.test.ts",
+      "fullName": "G09-D 预缓存宿主 G09-D19 没有覆盖层时 enterGame 仍挂上占位小组件",
+      "assertions": [
+        {
+          "line": 224,
+          "endLine": 224,
+          "matchers": ["toBeNull"]
+        },
+        {
+          "line": 225,
+          "endLine": 225,
+          "matchers": ["toBe"]
+        }
+      ],
+      "axis": "exception",
+      "oracle": {
+        "operands": "根节点、小组件文本",
+        "matcher": "toBeNull / toBe",
+        "exact": "null；后台缓存中…"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/shell/precache-ui-host.grok-r1.test.ts",
+        "fullName": "G09-D 预缓存宿主 G09-D19 没有覆盖层时 enterGame 仍挂上占位小组件",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G09-D20",
+      "batch": "G09",
+      "group": "G09-D",
+      "primarySource": {
+        "file": "packages/game/src/shell/precache-ui.ts",
+        "conditionLine": 71,
+        "condition": "done 立刻把透明度设为 0，600ms 后移除（precache-ui.ts:71）"
+      },
+      "caller": {
+        "file": "packages/game/src/main.ts",
+        "line": 45,
+        "expr": "onDone: () => ui.done(),"
+      },
+      "legalInput": "createPrecacheWidget 后 done()。先走 599ms，再走 1ms。",
+      "oldTest": {
+        "sha": "44b9dc0a27e8136644c711f57690d8a6c89733f3",
+        "file": "packages/game/src/shell/precache-ui.test.ts",
+        "fullName": "createPrecacheWidget 挂到 document.body,update 写百分比与 MB,done 后淡出移除",
+        "assertionLine": 21,
+        "matcher": "toBeNull",
+        "checked": "默认测试在 600ms 时小组件已不在",
+        "distinct": "透明度立刻是 0，599ms 时节点还在，600ms 时为 null"
+      },
+      "file": "packages/game/src/shell/precache-ui-host.grok-r1.test.ts",
+      "fullName": "G09-D 预缓存宿主 G09-D20 done 立刻把透明度设为 0，599ms 仍在，600ms 移除",
+      "assertions": [
+        {
+          "line": 233,
+          "endLine": 233,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 235,
+          "endLine": 235,
+          "matchers": ["not.toBeNull"]
+        },
+        {
+          "line": 237,
+          "endLine": 237,
+          "matchers": ["toBeNull"]
+        }
+      ],
+      "axis": "boundary",
+      "oracle": {
+        "operands": "透明度、599ms 节点、600ms 节点",
+        "matcher": "toBe / not.toBeNull / toBeNull",
+        "exact": "0；非 null；null"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/shell/precache-ui-host.grok-r1.test.ts",
+        "fullName": "G09-D 预缓存宿主 G09-D20 done 立刻把透明度设为 0，599ms 仍在，600ms 移除",
+        "status": "passed"
+      }
     }
   ],
   "existingProof": [
@@ -20040,6 +22865,754 @@
         "checked": "升色输入前后相等",
         "fullName": "P09 背景索引链 P09 正负色阶在低半字节边界钳制并保留高半字节"
       }
+    },
+    {
+      "id": "G09-EP-up",
+      "classification": "existing-proof",
+      "reason": "方向键 ArrowUp 已映射为 Up",
+      "oldTest": {
+        "sha": "c9063d1cda5c910972fc300ed1d25ce3e70cf65e",
+        "file": "packages/game/src/shell/input.test.ts",
+        "assertionLine": 11,
+        "matcher": "toBe",
+        "checked": "ArrowUp 为 Up",
+        "fullName": "codeToAbstractKey 方向键映射"
+      }
+    },
+    {
+      "id": "G09-EP-wasd",
+      "classification": "existing-proof",
+      "reason": "KeyW 已映射为 ThrowItem",
+      "oldTest": {
+        "sha": "c9063d1cda5c910972fc300ed1d25ce3e70cf65e",
+        "file": "packages/game/src/shell/input.test.ts",
+        "assertionLine": 19,
+        "matcher": "toBe",
+        "checked": "KeyW 为 ThrowItem",
+        "fullName": "codeToAbstractKey WASD = sdlpal 原义(input.c:84-90),不是方向"
+      }
+    },
+    {
+      "id": "G09-EP-confirm",
+      "classification": "existing-proof",
+      "reason": "Space 已映射为 Confirm",
+      "oldTest": {
+        "sha": "c9063d1cda5c910972fc300ed1d25ce3e70cf65e",
+        "file": "packages/game/src/shell/input.test.ts",
+        "assertionLine": 26,
+        "matcher": "toBe",
+        "checked": "Space 为 Confirm",
+        "fullName": "codeToAbstractKey 确认 / 菜单(sdlpal input.c:66-74 真值)"
+      }
+    },
+    {
+      "id": "G09-EP-numpad",
+      "classification": "existing-proof",
+      "reason": "Numpad8 已映射为 Up",
+      "oldTest": {
+        "sha": "c9063d1cda5c910972fc300ed1d25ce3e70cf65e",
+        "file": "packages/game/src/shell/input.test.ts",
+        "assertionLine": 39,
+        "matcher": "toBe",
+        "checked": "Numpad8 为 Up",
+        "fullName": "codeToAbstractKey Numpad 方向键(sdlpal input.c:58-65)"
+      }
+    },
+    {
+      "id": "G09-EP-page",
+      "classification": "existing-proof",
+      "reason": "PageUp 已映射为 PgUp",
+      "oldTest": {
+        "sha": "c9063d1cda5c910972fc300ed1d25ce3e70cf65e",
+        "file": "packages/game/src/shell/input.test.ts",
+        "assertionLine": 46,
+        "matcher": "toBe",
+        "checked": "PageUp 为 PgUp",
+        "fullName": "codeToAbstractKey 翻页 / Home/End(sdlpal input.c:75-82)"
+      }
+    },
+    {
+      "id": "G09-EP-combat",
+      "classification": "existing-proof",
+      "reason": "KeyR 已映射为 Repeat",
+      "oldTest": {
+        "sha": "c9063d1cda5c910972fc300ed1d25ce3e70cf65e",
+        "file": "packages/game/src/shell/input.test.ts",
+        "assertionLine": 57,
+        "matcher": "toBe",
+        "checked": "KeyR 为 Repeat",
+        "fullName": "codeToAbstractKey 战斗 / 大世界专用键(sdlpal input.c:83-90)"
+      }
+    },
+    {
+      "id": "G09-EP-unknown",
+      "classification": "existing-proof",
+      "reason": "KeyZ 已映射为 null",
+      "oldTest": {
+        "sha": "c9063d1cda5c910972fc300ed1d25ce3e70cf65e",
+        "file": "packages/game/src/shell/input.test.ts",
+        "assertionLine": 68,
+        "matcher": "toBeNull",
+        "checked": "KeyZ 为 null",
+        "fullName": "codeToAbstractKey 未知键 → null"
+      }
+    },
+    {
+      "id": "G09-EP-pressed",
+      "classification": "existing-proof",
+      "reason": "快照之后 pressed 清空、held 仍在",
+      "oldTest": {
+        "sha": "c9063d1cda5c910972fc300ed1d25ce3e70cf65e",
+        "file": "packages/game/src/shell/input.test.ts",
+        "assertionLine": 83,
+        "matcher": "toBe",
+        "checked": "第二帧 pressed 不含 Right",
+        "fullName": "KeyboardInputSource keydown/keyup 维护 held;snapshot 后 pressed 清空"
+      }
+    },
+    {
+      "id": "G09-EP-clear",
+      "classification": "existing-proof",
+      "reason": "clearPressed 清 pressed 且保留 held",
+      "oldTest": {
+        "sha": "c9063d1cda5c910972fc300ed1d25ce3e70cf65e",
+        "file": "packages/game/src/shell/input.test.ts",
+        "assertionLine": 101,
+        "matcher": "toBe",
+        "checked": "pressed 不含 Confirm",
+        "fullName": "KeyboardInputSource clearPressed 清掉未消费的 pressed(等价 sdlpal PAL_ClearKeyState),held 保留"
+      }
+    },
+    {
+      "id": "G09-EP-order",
+      "classification": "existing-proof",
+      "reason": "Up 再 Down 时末位是 Down",
+      "oldTest": {
+        "sha": "c9063d1cda5c910972fc300ed1d25ce3e70cf65e",
+        "file": "packages/game/src/shell/input.test.ts",
+        "assertionLine": 118,
+        "matcher": "toBe",
+        "checked": "末位是 Down",
+        "fullName": "KeyboardInputSource last-press priority (sdlpal input.c:180-189) Up 然后 Down → held Set 末位 = Down"
+      }
+    },
+    {
+      "id": "G09-EP-repress",
+      "classification": "existing-proof",
+      "reason": "松开再按把 Up 放回末位",
+      "oldTest": {
+        "sha": "c9063d1cda5c910972fc300ed1d25ce3e70cf65e",
+        "file": "packages/game/src/shell/input.test.ts",
+        "assertionLine": 132,
+        "matcher": "toBe",
+        "checked": "末位是 Up",
+        "fullName": "KeyboardInputSource last-press priority (sdlpal input.c:180-189) Up,keyup Up,再按 Up → 末位还是 Up(delete-then-add 刷新顺序)"
+      }
+    },
+    {
+      "id": "G09-EP-repeat-order",
+      "classification": "existing-proof",
+      "reason": "repeat 不改 held 顺序",
+      "oldTest": {
+        "sha": "c9063d1cda5c910972fc300ed1d25ce3e70cf65e",
+        "file": "packages/game/src/shell/input.test.ts",
+        "assertionLine": 149,
+        "matcher": "toBe",
+        "checked": "末位仍是 Down",
+        "fullName": "KeyboardInputSource last-press priority (sdlpal input.c:180-189) e.repeat=true 不刷新 held order(sdlpal input.c:213)"
+      }
+    },
+    {
+      "id": "G09-EP-repeat-pressed",
+      "classification": "existing-proof",
+      "reason": "repeat 不写入 pressed",
+      "oldTest": {
+        "sha": "c9063d1cda5c910972fc300ed1d25ce3e70cf65e",
+        "file": "packages/game/src/shell/input.test.ts",
+        "assertionLine": 164,
+        "matcher": "toBe",
+        "checked": "第二帧 pressed 不含 Up",
+        "fullName": "KeyboardInputSource last-press priority (sdlpal input.c:180-189) repeat 也不污染 pressed(只在初次按下时 add pressed)"
+      }
+    },
+    {
+      "id": "G09-EP-replay",
+      "classification": "existing-proof",
+      "reason": "回放第二帧 held 含 Right",
+      "oldTest": {
+        "sha": "c9063d1cda5c910972fc300ed1d25ce3e70cf65e",
+        "file": "packages/game/src/shell/input.test.ts",
+        "assertionLine": 180,
+        "matcher": "toBe",
+        "checked": "第二帧 held 含 Right",
+        "fullName": "ReplayInputSource 按帧顺序回放"
+      }
+    },
+    {
+      "id": "G09-EP-replay-empty",
+      "classification": "existing-proof",
+      "reason": "越界回放的 held 大小为 0",
+      "oldTest": {
+        "sha": "c9063d1cda5c910972fc300ed1d25ce3e70cf65e",
+        "file": "packages/game/src/shell/input.test.ts",
+        "assertionLine": 186,
+        "matcher": "toBe",
+        "checked": "held 大小为 0",
+        "fullName": "ReplayInputSource 超出序列 → 空快照"
+      }
+    },
+    {
+      "id": "G09-EP-rec-len",
+      "classification": "existing-proof",
+      "reason": "录制一帧后长度为 1",
+      "oldTest": {
+        "sha": "c9063d1cda5c910972fc300ed1d25ce3e70cf65e",
+        "file": "packages/game/src/shell/input.test.ts",
+        "assertionLine": 198,
+        "matcher": "toHaveLength",
+        "checked": "长度为 1",
+        "fullName": "RecordingInputSource 装饰任意 source,把每帧 snapshot 留档"
+      }
+    },
+    {
+      "id": "G09-EP-suppress",
+      "classification": "existing-proof",
+      "reason": "fade 抑制中方向键不进 held",
+      "oldTest": {
+        "sha": "c9063d1cda5c910972fc300ed1d25ce3e70cf65e",
+        "file": "packages/game/src/shell/input.test.ts",
+        "assertionLine": 211,
+        "matcher": "toBe",
+        "checked": "held 不含 Up",
+        "fullName": "DM30:fade 抑制按住的方向键(palette.c:313-316) suppressHeldForFade 后按住的方向键不进 held,keyup 重按恢复;pressed 被清"
+      }
+    },
+    {
+      "id": "G09-EP-alias",
+      "classification": "existing-proof",
+      "reason": "返回的 Set 与内部状态不别名",
+      "oldTest": {
+        "sha": "ef39b7cf72ccfdecb5bf323f7844ed020c508062",
+        "file": "packages/game/src/shell/input.boundaries.test.ts",
+        "assertionLine": 28,
+        "matcher": "toEqual",
+        "checked": "held 为 Up、Confirm",
+        "fullName": "H02 KeyboardInputSource 宿主边界 真实 Window 事件驱动；两个 snapshot Set 防别名（改返回集合不动内部）"
+      }
+    },
+    {
+      "id": "G09-EP-keyup",
+      "classification": "existing-proof",
+      "reason": "未知 keyup 不清合法 held",
+      "oldTest": {
+        "sha": "ef39b7cf72ccfdecb5bf323f7844ed020c508062",
+        "file": "packages/game/src/shell/input.boundaries.test.ts",
+        "assertionLine": 47,
+        "matcher": "toBe",
+        "checked": "Left 仍在 held",
+        "fullName": "H02 KeyboardInputSource 宿主边界 未知 keyup 不清合法 held；fade 抑制只针对方向键且物理松开解除"
+      }
+    },
+    {
+      "id": "G09-EP-detach",
+      "classification": "existing-proof",
+      "reason": "单源 detach 后不再接收 Down",
+      "oldTest": {
+        "sha": "ef39b7cf72ccfdecb5bf323f7844ed020c508062",
+        "file": "packages/game/src/shell/input.boundaries.test.ts",
+        "assertionLine": 70,
+        "matcher": "toBe",
+        "checked": "held 不含 Down",
+        "fullName": "H02 KeyboardInputSource 宿主边界 detach 后真实事件不再进入"
+      }
+    },
+    {
+      "id": "G09-EP-tick3",
+      "classification": "existing-proof",
+      "reason": "tickN(3) 后 frameNum 为 3",
+      "oldTest": {
+        "sha": "3251cc550716288976e772afbf9f80d18ff1ed1c",
+        "file": "packages/game/src/shell/main-loop.test.ts",
+        "assertionLine": 36,
+        "matcher": "toBe",
+        "checked": "frameNum 为 3",
+        "fullName": "tickN 跑 N tick,每 tick 调 onPresent"
+      }
+    },
+    {
+      "id": "G09-EP-east",
+      "classification": "existing-proof",
+      "reason": "向东三步后横坐标增加 48",
+      "oldTest": {
+        "sha": "3251cc550716288976e772afbf9f80d18ff1ed1c",
+        "file": "packages/game/src/shell/main-loop.test.ts",
+        "assertionLine": 54,
+        "matcher": "toBe",
+        "checked": "party.x 为 19*16",
+        "fullName": "tickN Replay 向右走 3 步 → party.x + 3*16, party.y + 3*8 (East 右下)"
+      }
+    },
+    {
+      "id": "G09-EP-interval",
+      "classification": "existing-proof",
+      "reason": "战斗间隔为 40",
+      "oldTest": {
+        "sha": "3251cc550716288976e772afbf9f80d18ff1ed1c",
+        "file": "packages/game/src/shell/main-loop.test.ts",
+        "assertionLine": 80,
+        "matcher": "toBe",
+        "checked": "间隔为 FRAME_MS_BATTLE",
+        "fullName": "advanceRafFrame / logicIntervalMs(M1 三不变量) ① logicIntervalMs:battle 40 / 否则 100"
+      }
+    },
+    {
+      "id": "G09-EP-huge",
+      "classification": "existing-proof",
+      "reason": "巨大 dt 只 tick 一次且累加器为 0",
+      "oldTest": {
+        "sha": "3251cc550716288976e772afbf9f80d18ff1ed1c",
+        "file": "packages/game/src/shell/main-loop.test.ts",
+        "assertionLine": 95,
+        "matcher": "toBe",
+        "checked": "累加器为 0",
+        "fullName": "advanceRafFrame / logicIntervalMs(M1 三不变量) ② accumulator clamp:dt 巨大(>3×interval)→ 单 tick(非 catch-up 多 tick)+ 修 while-后死代码"
+      }
+    },
+    {
+      "id": "G09-EP-60",
+      "classification": "existing-proof",
+      "reason": "60Hz 下 tick 次数落在 49 到 51",
+      "oldTest": {
+        "sha": "3251cc550716288976e772afbf9f80d18ff1ed1c",
+        "file": "packages/game/src/shell/main-loop.test.ts",
+        "assertionLine": 115,
+        "matcher": "toBeGreaterThanOrEqual",
+        "checked": "tick 不少于 49",
+        "fullName": "advanceRafFrame / logicIntervalMs(M1 三不变量) ④ 稳态节奏:60Hz 显示器下 battle 应 25 tick/s(40ms/tick),不被累积器丢余量拖慢"
+      }
+    },
+    {
+      "id": "G09-EP-palette",
+      "classification": "existing-proof",
+      "reason": "paletteFade 时 present 被调用",
+      "oldTest": {
+        "sha": "3251cc550716288976e772afbf9f80d18ff1ed1c",
+        "file": "packages/game/src/shell/main-loop.test.ts",
+        "assertionLine": 129,
+        "matcher": "toHaveBeenCalled",
+        "checked": "present 被调用",
+        "fullName": "advanceRafFrame / logicIntervalMs(M1 三不变量) ③ present 门控:无 tick + 无 fade → 不 present;有 paletteFade → present"
+      }
+    },
+    {
+      "id": "G09-EP-bfade",
+      "classification": "existing-proof",
+      "reason": "battleFade 时 present 被调用",
+      "oldTest": {
+        "sha": "3251cc550716288976e772afbf9f80d18ff1ed1c",
+        "file": "packages/game/src/shell/main-loop.test.ts",
+        "assertionLine": 140,
+        "matcher": "toHaveBeenCalled",
+        "checked": "present 被调用",
+        "fullName": "advanceRafFrame / logicIntervalMs(M1 三不变量) ⑤ battleFade(D17 死亡淡出)门控:无 tick 也每 rAF present(wall-clock 细分平滑)"
+      }
+    },
+    {
+      "id": "G09-EP-frozen",
+      "classification": "existing-proof",
+      "reason": "冻结且已达间隔时累加器为 0",
+      "oldTest": {
+        "sha": "3251cc550716288976e772afbf9f80d18ff1ed1c",
+        "file": "packages/game/src/shell/main-loop.test.ts",
+        "assertionLine": 156,
+        "matcher": "toBe",
+        "checked": "累加器为 0",
+        "fullName": "advanceRafFrame / logicIntervalMs(M1 三不变量) ⑥ frozen=true:累积达 interval 也不 tick(速通手动暂停冻结世界)"
+      }
+    },
+    {
+      "id": "G09-EP-scenefade",
+      "classification": "existing-proof",
+      "reason": "scene-fade 会调用抑制",
+      "oldTest": {
+        "sha": "3251cc550716288976e772afbf9f80d18ff1ed1c",
+        "file": "packages/game/src/shell/main-loop.test.ts",
+        "assertionLine": 196,
+        "matcher": "toHaveBeenCalled",
+        "checked": "抑制被调用",
+        "fullName": "渐变吞键仅限 scene-fade(palette.c 真值边界) waiting='scene-fade'(0x93/0x80-update)→ 每 rAF 抑制按键(C 每步清键)"
+      }
+    },
+    {
+      "id": "G09-EP-palfade",
+      "classification": "existing-proof",
+      "reason": "palette-fade 不调用抑制",
+      "oldTest": {
+        "sha": "3251cc550716288976e772afbf9f80d18ff1ed1c",
+        "file": "packages/game/src/shell/main-loop.test.ts",
+        "assertionLine": 204,
+        "matcher": "not.toHaveBeenCalled",
+        "checked": "抑制未被调用",
+        "fullName": "渐变吞键仅限 scene-fade(palette.c 真值边界) waiting='palette-fade'(0x50/0x51/0x8C/0x4F)→ 不抑制(C 不清键,按键应累积)"
+      }
+    },
+    {
+      "id": "G09-EP-nocursor",
+      "classification": "existing-proof",
+      "reason": "没有游标的渐入不调用抑制",
+      "oldTest": {
+        "sha": "3251cc550716288976e772afbf9f80d18ff1ed1c",
+        "file": "packages/game/src/shell/main-loop.test.ts",
+        "assertionLine": 210,
+        "matcher": "not.toHaveBeenCalled",
+        "checked": "抑制未被调用",
+        "fullName": "渐变吞键仅限 scene-fade(palette.c 真值边界) 无游标的自动渐入(战后/进场 PAL_FadeIn)→ 不抑制(战后卡键根因)"
+      }
+    },
+    {
+      "id": "G09-EP-nofade",
+      "classification": "existing-proof",
+      "reason": "没有渐变时不调用抑制",
+      "oldTest": {
+        "sha": "3251cc550716288976e772afbf9f80d18ff1ed1c",
+        "file": "packages/game/src/shell/main-loop.test.ts",
+        "assertionLine": 215,
+        "matcher": "not.toHaveBeenCalled",
+        "checked": "抑制未被调用",
+        "fullName": "渐变吞键仅限 scene-fade(palette.c 真值边界) 无渐变 → 不抑制"
+      }
+    },
+    {
+      "id": "G09-EP-75",
+      "classification": "existing-proof",
+      "reason": "3/4 的条宽是 75%",
+      "oldTest": {
+        "sha": "d743490c533ec99c2ca80651109295d4919198d0",
+        "file": "packages/game/src/shell/boot-loading.test.ts",
+        "assertionLine": 49,
+        "matcher": "toBe",
+        "checked": "条宽 75%",
+        "fullName": "boot-loading(启动加载覆盖层) init 后 fetch 计数驱动状态文本与进度条(分母 = max(已发起, 预估总量))"
+      }
+    },
+    {
+      "id": "G09-EP-99",
+      "classification": "existing-proof",
+      "reason": "分母变大时显示停在 99%",
+      "oldTest": {
+        "sha": "d743490c533ec99c2ca80651109295d4919198d0",
+        "file": "packages/game/src/shell/boot-loading.test.ts",
+        "assertionLine": 60,
+        "matcher": "toBe",
+        "checked": "条宽 99%",
+        "fullName": "boot-loading(启动加载覆盖层) 进度单调不回退:新一波请求发起(分母涨)时显示值保持(2026-06-12 用户反馈条回退)"
+      }
+    },
+    {
+      "id": "G09-EP-finish100",
+      "classification": "existing-proof",
+      "reason": "finish 把条宽写成 100%",
+      "oldTest": {
+        "sha": "d743490c533ec99c2ca80651109295d4919198d0",
+        "file": "packages/game/src/shell/boot-loading.test.ts",
+        "assertionLine": 78,
+        "matcher": "toBe",
+        "checked": "条宽 100%",
+        "fullName": "boot-loading(启动加载覆盖层) finish 还原 fetch、补满格并移除 overlay(过渡后)"
+      }
+    },
+    {
+      "id": "G09-EP-failtext",
+      "classification": "existing-proof",
+      "reason": "失败文本包含资源加载失败",
+      "oldTest": {
+        "sha": "d743490c533ec99c2ca80651109295d4919198d0",
+        "file": "packages/game/src/shell/boot-loading.test.ts",
+        "assertionLine": 88,
+        "matcher": "toContain",
+        "checked": "文本含资源加载失败",
+        "fullName": "boot-loading(启动加载覆盖层) fail 显示错误文本、还原 fetch、overlay 保留"
+      }
+    },
+    {
+      "id": "G09-EP-note",
+      "classification": "existing-proof",
+      "reason": "说明接在计数文本后面",
+      "oldTest": {
+        "sha": "d743490c533ec99c2ca80651109295d4919198d0",
+        "file": "packages/game/src/shell/boot-loading.test.ts",
+        "assertionLine": 99,
+        "matcher": "toBe",
+        "checked": "正在加载资源 1 / 4 — 音色库 31MB",
+        "fullName": "boot-loading(启动加载覆盖层) setBootLoadingNote 追加说明到计数文本,清空恢复(soundfont 尾段等待文案)"
+      }
+    },
+    {
+      "id": "G09-EP-noop",
+      "classification": "existing-proof",
+      "reason": "没有覆盖层时 init 不抛",
+      "oldTest": {
+        "sha": "d743490c533ec99c2ca80651109295d4919198d0",
+        "file": "packages/game/src/shell/boot-loading.test.ts",
+        "assertionLine": 106,
+        "matcher": "not.toThrow",
+        "checked": "initBootLoading 不抛",
+        "fullName": "boot-loading(启动加载覆盖层) 无 overlay 节点(单测/SSR)时全部 no-op 不抛错"
+      }
+    },
+    {
+      "id": "G09-EP-idem",
+      "classification": "existing-proof",
+      "reason": "重复 init 不换掉已包的 fetch",
+      "oldTest": {
+        "sha": "d743490c533ec99c2ca80651109295d4919198d0",
+        "file": "packages/game/src/shell/boot-loading.test.ts",
+        "assertionLine": 118,
+        "matcher": "toBe",
+        "checked": "fetch 仍是第一次的包装",
+        "fullName": "boot-loading(启动加载覆盖层) 重复 init 幂等(不双层包 fetch)"
+      }
+    },
+    {
+      "id": "G09-EP-uninit",
+      "classification": "existing-proof",
+      "reason": "未 init 时说明不改统一进度文本",
+      "oldTest": {
+        "sha": "d743490c533ec99c2ca80651109295d4919198d0",
+        "file": "packages/game/src/shell/boot-loading.test.ts",
+        "assertionLine": 131,
+        "matcher": "toBe",
+        "checked": "文本保持已缓存 100/336MB (30%)",
+        "fullName": "boot-loading(启动加载覆盖层) 未 init(PROD 走 SW 统一进度)时 render 不抢写 #boot-loading-status/fill"
+      }
+    },
+    {
+      "id": "G09-EP-half",
+      "classification": "existing-proof",
+      "reason": "onProgress 收到约 0.5",
+      "oldTest": {
+        "sha": "d743490c533ec99c2ca80651109295d4919198d0",
+        "file": "packages/game/src/shell/boot-loading.test.ts",
+        "assertionLine": 141,
+        "matcher": "toBeCloseTo",
+        "checked": "分数约 0.5",
+        "fullName": "boot-loading(启动加载覆盖层) PROD 模式(传 onProgress)→ render 回调 fraction、不写 #boot-loading DOM"
+      }
+    },
+    {
+      "id": "G09-EP-widget",
+      "classification": "existing-proof",
+      "reason": "5/10MB 的小组件文本含 5/10MB",
+      "oldTest": {
+        "sha": "44b9dc0a27e8136644c711f57690d8a6c89733f3",
+        "file": "packages/game/src/shell/precache-ui.test.ts",
+        "assertionLine": 17,
+        "matcher": "toContain",
+        "checked": "文本含 5/10MB",
+        "fullName": "createPrecacheWidget 挂到 document.body,update 写百分比与 MB,done 后淡出移除"
+      }
+    },
+    {
+      "id": "G09-EP-six",
+      "classification": "existing-proof",
+      "reason": "必要进度 0.5 的条宽是 6%",
+      "oldTest": {
+        "sha": "44b9dc0a27e8136644c711f57690d8a6c89733f3",
+        "file": "packages/game/src/shell/precache-ui.test.ts",
+        "assertionLine": 44,
+        "matcher": "toBe",
+        "checked": "条宽 6%",
+        "fullName": "createUnifiedProgressUi 虚线前 setNecessaryProgress 映射到 0→虚线(12%),单调不回退"
+      }
+    },
+    {
+      "id": "G09-EP-click",
+      "classification": "existing-proof",
+      "reason": "按钮点击调用 onEnter 一次",
+      "oldTest": {
+        "sha": "44b9dc0a27e8136644c711f57690d8a6c89733f3",
+        "file": "packages/game/src/shell/precache-ui.test.ts",
+        "assertionLine": 61,
+        "matcher": "toHaveBeenCalledOnce",
+        "checked": "onEnter 一次",
+        "fullName": "createUnifiedProgressUi markPlayable:进度到虚线(12%)+ 显示按钮,click 同步触发 onEnter"
+      }
+    },
+    {
+      "id": "G09-EP-168",
+      "classification": "existing-proof",
+      "reason": "168/336MB 的文本含 168/336MB",
+      "oldTest": {
+        "sha": "44b9dc0a27e8136644c711f57690d8a6c89733f3",
+        "file": "packages/game/src/shell/precache-ui.test.ts",
+        "assertionLine": 73,
+        "matcher": "toContain",
+        "checked": "文本含 168/336MB",
+        "fullName": "createUnifiedProgressUi 虚线后 setFullProgress = SW 真实进度 bytes/total,单调不回退;necessary 段不响应"
+      }
+    },
+    {
+      "id": "G09-EP-enter100",
+      "classification": "existing-proof",
+      "reason": "进入后满进度文本含 100%",
+      "oldTest": {
+        "sha": "44b9dc0a27e8136644c711f57690d8a6c89733f3",
+        "file": "packages/game/src/shell/precache-ui.test.ts",
+        "assertionLine": 91,
+        "matcher": "toContain",
+        "checked": "文本含 100%",
+        "fullName": "createUnifiedProgressUi enterGame 移除覆盖层并建右上角 widget,之后 setFullProgress 走 widget"
+      }
+    },
+    {
+      "id": "G09-EP-done-first",
+      "classification": "existing-proof",
+      "reason": "进入前已经 done 则不建小组件",
+      "oldTest": {
+        "sha": "44b9dc0a27e8136644c711f57690d8a6c89733f3",
+        "file": "packages/game/src/shell/precache-ui.test.ts",
+        "assertionLine": 103,
+        "matcher": "toBeNull",
+        "checked": "小组件为 null",
+        "fullName": "createUnifiedProgressUi 进入前 SW 已 done(竞速等满 100%)→ enterGame 不建右上角 widget"
+      }
+    },
+    {
+      "id": "G09-EP-seed",
+      "classification": "existing-proof",
+      "reason": "enterGame 用最后进度初始化小组件",
+      "oldTest": {
+        "sha": "44b9dc0a27e8136644c711f57690d8a6c89733f3",
+        "file": "packages/game/src/shell/precache-ui.test.ts",
+        "assertionLine": 114,
+        "matcher": "toContain",
+        "checked": "文本含 50%",
+        "fullName": "createUnifiedProgressUi enterGame 用最后进度初始化 widget,消除空白瞬间"
+      }
+    },
+    {
+      "id": "G09-EP-prod-off",
+      "classification": "existing-proof",
+      "reason": "非生产环境不注册 service worker",
+      "oldTest": {
+        "sha": "fca62ac7c599b6903eb6794d5b31975f70634c1a",
+        "file": "packages/game/src/shell/precache-client.test.ts",
+        "assertionLine": 28,
+        "matcher": "not.toHaveBeenCalled",
+        "checked": "register 未被调用",
+        "fullName": "registerPrecache PROD=false(dev/e2e)→ 不注册"
+      }
+    },
+    {
+      "id": "G09-EP-cache",
+      "classification": "existing-proof",
+      "reason": "生产环境以 updateViaCache none 注册",
+      "oldTest": {
+        "sha": "fca62ac7c599b6903eb6794d5b31975f70634c1a",
+        "file": "packages/game/src/shell/precache-client.test.ts",
+        "assertionLine": 34,
+        "matcher": "toHaveBeenCalledWith",
+        "checked": "注册 /sw.js 且 updateViaCache 为 none",
+        "fullName": "registerPrecache PROD=true → 以 updateViaCache:none 注册 /sw.js"
+      }
+    },
+    {
+      "id": "G09-EP-nosw",
+      "classification": "existing-proof",
+      "reason": "没有 serviceWorker 时注册解析为 undefined",
+      "oldTest": {
+        "sha": "fca62ac7c599b6903eb6794d5b31975f70634c1a",
+        "file": "packages/game/src/shell/precache-client.test.ts",
+        "assertionLine": 39,
+        "matcher": "resolves.toBeUndefined",
+        "checked": "结果是 undefined",
+        "fullName": "registerPrecache 无 serviceWorker 能力 → 安全 no-op"
+      }
+    },
+    {
+      "id": "G09-EP-msg",
+      "classification": "existing-proof",
+      "reason": "start 发送 precache 消息",
+      "oldTest": {
+        "sha": "fca62ac7c599b6903eb6794d5b31975f70634c1a",
+        "file": "packages/game/src/shell/precache-client.test.ts",
+        "assertionLine": 55,
+        "matcher": "toHaveBeenCalledWith",
+        "checked": "消息类型为 precache",
+        "fullName": "registerPrecache PROD + SW → onReady 触发,但 registerPrecache 不自动触发预缓存;start/pause/resume 各发对应消息"
+      }
+    },
+    {
+      "id": "G09-EP-unavail",
+      "classification": "existing-proof",
+      "reason": "没有 SW 能力时走 onUnavailable",
+      "oldTest": {
+        "sha": "fca62ac7c599b6903eb6794d5b31975f70634c1a",
+        "file": "packages/game/src/shell/precache-client.test.ts",
+        "assertionLine": 66,
+        "matcher": "toHaveBeenCalledOnce",
+        "checked": "onUnavailable 一次",
+        "fullName": "registerPrecache 无 SW 能力 → onUnavailable 触发(调用方据此自动放行门)"
+      }
+    },
+    {
+      "id": "G09-EP-throw",
+      "classification": "existing-proof",
+      "reason": "register 抛错时走 onUnavailable",
+      "oldTest": {
+        "sha": "fca62ac7c599b6903eb6794d5b31975f70634c1a",
+        "file": "packages/game/src/shell/precache-client.test.ts",
+        "assertionLine": 76,
+        "matcher": "toHaveBeenCalledOnce",
+        "checked": "onUnavailable 一次",
+        "fullName": "registerPrecache register 抛错 → onUnavailable 触发,不向上抛"
+      }
+    },
+    {
+      "id": "G09-EP-buffer",
+      "classification": "existing-proof",
+      "reason": "ready 之后补发早到的 start",
+      "oldTest": {
+        "sha": "fca62ac7c599b6903eb6794d5b31975f70634c1a",
+        "file": "packages/game/src/shell/precache-client.test.ts",
+        "assertionLine": 97,
+        "matcher": "toHaveBeenCalledWith",
+        "checked": "补发 precache",
+        "fullName": "registerPrecache startPrecache 早于 SW ready → 缓冲,registerPrecache 就绪后补发 precache"
+      }
+    },
+    {
+      "id": "G09-EP-l22-drop",
+      "classification": "existing-proof",
+      "reason": "早到的 pause/resume 被丢弃",
+      "oldTest": {
+        "sha": "ea91075ac4788098d0469d79455fd088bc9b0eff",
+        "file": "packages/game/src/shell/precache-client.glm-phase1-leaves.test.ts",
+        "assertionLine": 57,
+        "matcher": "toEqual",
+        "checked": "只补发 precache",
+        "fullName": "L22 precache-client 早到指令 pause/resume 早于 ready：静默丢弃（不缓冲不补发）；start 早到才缓冲补发"
+      }
+    },
+    {
+      "id": "G09-EP-l22-order",
+      "classification": "existing-proof",
+      "reason": "ready 后三条消息按协议顺序送达",
+      "oldTest": {
+        "sha": "ea91075ac4788098d0469d79455fd088bc9b0eff",
+        "file": "packages/game/src/shell/precache-client.glm-phase1-leaves.test.ts",
+        "assertionLine": 66,
+        "matcher": "toEqual",
+        "checked": "precache、pause、resume",
+        "fullName": "L22 precache-client 早到指令 ready 后 start/pause/resume 依次按协议载荷直达 worker"
+      }
+    },
+    {
+      "id": "G09-UN-ssr",
+      "classification": "unreachable",
+      "reason": "precache-ui.ts:30 在 document 不存在时返回空 widget。本 jsdom 始终有 document，这条没有可观察宿主。",
+      "file": "packages/game/src/shell/precache-ui.ts",
+      "line": 30
     }
   ]
 }

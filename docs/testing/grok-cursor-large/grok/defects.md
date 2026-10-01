@@ -62,6 +62,14 @@
 
 本批新合同 44。目标 400/40/40 没有改小。
 
+## G09
+
+没有停组的产品缺陷。
+
+键位表、repeat、单源 detach、间隔 40/100、巨大 dt、paletteFade、battleFade、冻结达间隔、scene-fade 抑制、3/4、99 封顶、finish 100%、说明文案、onProgress 0.5、默认 12% 单调、按钮点击、168/336 和 precache-client 的注册与早到消息已经有旧断言，记在 existing-proof。`precache-ui.ts` 在 `document === undefined` 时返回空 widget，本 jsdom 到不了，记为 unreachable。
+
+本批新合同 55。目标 400/40/40 没有改小。
+
 ## 未跑
 
-G09–G10 尚未交付。coverage-delta、receipt 的完整候选 SHA、全包 test、根 lint、docs check、diff check、verifier 留在末批。
+G10 尚未交付。coverage-delta、receipt 的完整候选 SHA、全包 test、根 lint、docs check、diff check、verifier 留在末批。

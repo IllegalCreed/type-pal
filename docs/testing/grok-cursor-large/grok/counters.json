@@ -1,6 +1,6 @@
 {
-  "batch": "G08",
-  "acceptedCounters": 32,
+  "batch": "G09",
+  "acceptedCounters": 36,
   "probeRejected": true,
   "counters": [
     {
@@ -4153,6 +4153,485 @@
         "docs/testing/grok-cursor-large/grok/counters/G08-D/restored.json",
         "docs/testing/grok-cursor-large/grok/counters/G08-D/restored.stdout",
         "docs/testing/grok-cursor-large/grok/counters/G08-D/restored.stderr"
+      ]
+    },
+    {
+      "id": "G09-A",
+      "batch": "G09",
+      "accepted": true,
+      "reasons": [],
+      "axis": "回放游标停在第一帧，越过末帧后的追加快照仍会被读到",
+      "source": "packages/game/src/shell/input.ts",
+      "testFile": "src/shell/input-replay.grok-r1.test.ts",
+      "target": "G09-A08",
+      "targetFullName": "G09-A 输入回放与按键归属 G09-A08 回放游标越过末帧后，调用方再追加的快照不会被读到",
+      "assertionError": "AssertionError: expected +0 to be 1 // Object.is equality",
+      "sha256": {
+        "original": "a23434d0ec3a74d3174b90cc7c169bcc27026b94b5af2f9dc37fa239d76d90b6",
+        "mutant": "ae80d8fb08b2a49186d1b946e12443a703b9e7a83a52f493f4fd77846bd5c076",
+        "restored": "a23434d0ec3a74d3174b90cc7c169bcc27026b94b5af2f9dc37fa239d76d90b6"
+      },
+      "exitCode": {
+        "original": 0,
+        "mutant": 1,
+        "restored": 0
+      },
+      "signal": {
+        "original": null,
+        "mutant": null,
+        "restored": null
+      },
+      "counts": {
+        "original": 11,
+        "mutantFailed": 1,
+        "restored": 11
+      },
+      "executionCount": 11,
+      "executions": [
+        {
+          "file": "src/shell/input-replay.grok-r1.test.ts",
+          "fullName": "G09-A 输入回放与按键归属 G09-A01 未松开的 Up 再次 keydown 会把 Up 挪到 held 末位",
+          "status": "passed"
+        },
+        {
+          "file": "src/shell/input-replay.grok-r1.test.ts",
+          "fullName": "G09-A 输入回放与按键归属 G09-A02 已经按住的 Up 再次 keydown 不再写入 pressed",
+          "status": "passed"
+        },
+        {
+          "file": "src/shell/input-replay.grok-r1.test.ts",
+          "fullName": "G09-A 输入回放与按键归属 G09-A03 未知键的 keydown 不改已按住的 Right",
+          "status": "passed"
+        },
+        {
+          "file": "src/shell/input-replay.grok-r1.test.ts",
+          "fullName": "G09-A 输入回放与按键归属 G09-A04 ControlRight 不是确认键",
+          "status": "passed"
+        },
+        {
+          "file": "src/shell/input-replay.grok-r1.test.ts",
+          "fullName": "G09-A 输入回放与按键归属 G09-A05 拆掉一个键盘源后，另一个源仍接收后续按键",
+          "status": "passed"
+        },
+        {
+          "file": "src/shell/input-replay.grok-r1.test.ts",
+          "fullName": "G09-A 输入回放与按键归属 G09-A06 clearPressed 不解除方向键的 fade 抑制",
+          "status": "passed"
+        },
+        {
+          "file": "src/shell/input-replay.grok-r1.test.ts",
+          "fullName": "G09-A 输入回放与按键归属 G09-A07 回放耗尽时，空快照的帧号等于本次入参",
+          "status": "passed"
+        },
+        {
+          "file": "src/shell/input-replay.grok-r1.test.ts",
+          "fullName": "G09-A 输入回放与按键归属 G09-A08 回放游标越过末帧后，调用方再追加的快照不会被读到",
+          "status": "passed"
+        },
+        {
+          "file": "src/shell/input-replay.grok-r1.test.ts",
+          "fullName": "G09-A 输入回放与按键归属 G09-A09 录制源返回的就是内层那一个快照对象",
+          "status": "passed"
+        },
+        {
+          "file": "src/shell/input-replay.grok-r1.test.ts",
+          "fullName": "G09-A 输入回放与按键归属 G09-A10 getRecording 一直是同一个数组，第二次快照追加在后面",
+          "status": "passed"
+        },
+        {
+          "file": "src/shell/input-replay.grok-r1.test.ts",
+          "fullName": "G09-A 输入回放与按键归属 G09-A11 键盘快照的帧号原样使用主循环传入的帧号",
+          "status": "passed"
+        }
+      ],
+      "patch": {
+        "path": "docs/testing/grok-cursor-large/grok/counters/G09-A/patch.diff",
+        "sha256": "7294c70194f9882b1b4928e97137f292c4f617ac5b715b83fb4787cbd730d40f",
+        "bytes": 325
+      },
+      "logs": [
+        "docs/testing/grok-cursor-large/grok/counters/G09-A/original.json",
+        "docs/testing/grok-cursor-large/grok/counters/G09-A/original.stdout",
+        "docs/testing/grok-cursor-large/grok/counters/G09-A/original.stderr",
+        "docs/testing/grok-cursor-large/grok/counters/G09-A/mutant.json",
+        "docs/testing/grok-cursor-large/grok/counters/G09-A/mutant.stdout",
+        "docs/testing/grok-cursor-large/grok/counters/G09-A/mutant.stderr",
+        "docs/testing/grok-cursor-large/grok/counters/G09-A/restored.json",
+        "docs/testing/grok-cursor-large/grok/counters/G09-A/restored.stdout",
+        "docs/testing/grok-cursor-large/grok/counters/G09-A/restored.stderr"
+      ]
+    },
+    {
+      "id": "G09-B",
+      "batch": "G09",
+      "accepted": true,
+      "reasons": [],
+      "axis": "余量正好等于间隔时也被清掉",
+      "source": "packages/game/src/shell/main-loop.ts",
+      "testFile": "src/shell/main-loop-gates.grok-r1.test.ts",
+      "target": "G09-B04",
+      "targetFullName": "G09-B 主循环门控 G09-B04 dt 200 结转后余量正好等于间隔，不丢弃",
+      "assertionError": "AssertionError: expected +0 to be 100 // Object.is equality",
+      "sha256": {
+        "original": "0ebe896af21c903697f011cfebe65b7140daa547d84de2759c8726dd1a66c6a8",
+        "mutant": "207da471cdc847b3a7b35e6e999b5f7c20f0b498da8acf2cbe9717bd30b6a117",
+        "restored": "0ebe896af21c903697f011cfebe65b7140daa547d84de2759c8726dd1a66c6a8"
+      },
+      "exitCode": {
+        "original": 0,
+        "mutant": 1,
+        "restored": 0
+      },
+      "signal": {
+        "original": null,
+        "mutant": null,
+        "restored": null
+      },
+      "counts": {
+        "original": 13,
+        "mutantFailed": 1,
+        "restored": 13
+      },
+      "executionCount": 13,
+      "executions": [
+        {
+          "file": "src/shell/main-loop-gates.grok-r1.test.ts",
+          "fullName": "G09-B 主循环门控 G09-B01 dither fadeState 在未到逻辑间隔时仍 present，且 ticked 为 false",
+          "status": "passed"
+        },
+        {
+          "file": "src/shell/main-loop-gates.grok-r1.test.ts",
+          "fullName": "G09-B 主循环门控 G09-B02 battleAnim 在未到逻辑间隔时仍 present",
+          "status": "passed"
+        },
+        {
+          "file": "src/shell/main-loop-gates.grok-r1.test.ts",
+          "fullName": "G09-B 主循环门控 G09-B03 dt 150 只 tick 一次，并把 50ms 余量留在累加器",
+          "status": "passed"
+        },
+        {
+          "file": "src/shell/main-loop-gates.grok-r1.test.ts",
+          "fullName": "G09-B 主循环门控 G09-B04 dt 200 结转后余量正好等于间隔，不丢弃",
+          "status": "passed"
+        },
+        {
+          "file": "src/shell/main-loop-gates.grok-r1.test.ts",
+          "fullName": "G09-B 主循环门控 G09-B05 冻结时不足一个间隔的余量保留，且不 present",
+          "status": "passed"
+        },
+        {
+          "file": "src/shell/main-loop-gates.grok-r1.test.ts",
+          "fullName": "G09-B 主循环门控 G09-B06 逻辑 tick 把 bus.drain 的那一条命令交给 onPresent",
+          "status": "passed"
+        },
+        {
+          "file": "src/shell/main-loop-gates.grok-r1.test.ts",
+          "fullName": "G09-B 主循环门控 G09-B07 发生逻辑 tick 时 nowMs 写成这一帧的时间戳",
+          "status": "passed"
+        },
+        {
+          "file": "src/shell/main-loop-gates.grok-r1.test.ts",
+          "fullName": "G09-B 主循环门控 G09-B08 dump 使用调用方给出的 partyWalkFrames 4",
+          "status": "passed"
+        },
+        {
+          "file": "src/shell/main-loop-gates.grok-r1.test.ts",
+          "fullName": "G09-B 主循环门控 G09-B09 未给 partyWalkFrames 时 dump 使用 3",
+          "status": "passed"
+        },
+        {
+          "file": "src/shell/main-loop-gates.grok-r1.test.ts",
+          "fullName": "G09-B 主循环门控 G09-B10 没有 suppressHeldForFade 的输入源在 scene-fade 里仍按 fadeState present",
+          "status": "passed"
+        },
+        {
+          "file": "src/shell/main-loop-gates.grok-r1.test.ts",
+          "fullName": "G09-B 主循环门控 G09-B11 探索累到 90 后切战斗，同一时间戳用 40ms 间隔 tick 一次并清掉超额余量",
+          "status": "passed"
+        },
+        {
+          "file": "src/shell/main-loop-gates.grok-r1.test.ts",
+          "fullName": "G09-B 主循环门控 G09-B12 tickN(0) 不 present，帧号保持 0",
+          "status": "passed"
+        },
+        {
+          "file": "src/shell/main-loop-gates.grok-r1.test.ts",
+          "fullName": "G09-B 主循环门控 G09-B13 startRafLoop 的取消函数取消的是刚刚排上的那一帧",
+          "status": "passed"
+        }
+      ],
+      "patch": {
+        "path": "docs/testing/grok-cursor-large/grok/counters/G09-B/patch.diff",
+        "sha256": "cbc193ab3fc958e8315d8eb6e644a139a5bef7e0989c9611fb7386af37f0e2bc",
+        "bytes": 512
+      },
+      "logs": [
+        "docs/testing/grok-cursor-large/grok/counters/G09-B/original.json",
+        "docs/testing/grok-cursor-large/grok/counters/G09-B/original.stdout",
+        "docs/testing/grok-cursor-large/grok/counters/G09-B/original.stderr",
+        "docs/testing/grok-cursor-large/grok/counters/G09-B/mutant.json",
+        "docs/testing/grok-cursor-large/grok/counters/G09-B/mutant.stdout",
+        "docs/testing/grok-cursor-large/grok/counters/G09-B/mutant.stderr",
+        "docs/testing/grok-cursor-large/grok/counters/G09-B/restored.json",
+        "docs/testing/grok-cursor-large/grok/counters/G09-B/restored.stdout",
+        "docs/testing/grok-cursor-large/grok/counters/G09-B/restored.stderr"
+      ]
+    },
+    {
+      "id": "G09-C",
+      "batch": "G09",
+      "accepted": true,
+      "reasons": [],
+      "axis": "默认启动分母从 810 改成 811",
+      "source": "packages/game/src/shell/boot-loading.ts",
+      "testFile": "src/shell/boot-loading-host.grok-r1.test.ts",
+      "target": "G09-C01",
+      "targetFullName": "G09-C 启动加载宿主 G09-C01 不传预估总量时，状态文本的分母是 810，进度条为 0%",
+      "assertionError": "AssertionError: expected '正在加载资源 0 / 811' to be '正在加载资源 0 / 810' // Object.is equality",
+      "sha256": {
+        "original": "d3b407ee9e960f43c18577b7422be1aa8288cdd1905ffbd6c700aedd2977f845",
+        "mutant": "f9a58488511c969b0df0a1c37fbebfd3b596402336a49286eacb070339ce8696",
+        "restored": "d3b407ee9e960f43c18577b7422be1aa8288cdd1905ffbd6c700aedd2977f845"
+      },
+      "exitCode": {
+        "original": 0,
+        "mutant": 1,
+        "restored": 0
+      },
+      "signal": {
+        "original": null,
+        "mutant": null,
+        "restored": null
+      },
+      "counts": {
+        "original": 11,
+        "mutantFailed": 1,
+        "restored": 11
+      },
+      "executionCount": 11,
+      "executions": [
+        {
+          "file": "src/shell/boot-loading-host.grok-r1.test.ts",
+          "fullName": "G09-C 启动加载宿主 G09-C01 不传预估总量时，状态文本的分母是 810，进度条为 0%",
+          "status": "passed"
+        },
+        {
+          "file": "src/shell/boot-loading-host.grok-r1.test.ts",
+          "fullName": "G09-C 启动加载宿主 G09-C02 fetch 拒绝后完成数仍加一",
+          "status": "passed"
+        },
+        {
+          "file": "src/shell/boot-loading-host.grok-r1.test.ts",
+          "fullName": "G09-C 启动加载宿主 G09-C03 只有状态节点时写入 1 / 4",
+          "status": "passed"
+        },
+        {
+          "file": "src/shell/boot-loading-host.grok-r1.test.ts",
+          "fullName": "G09-C 启动加载宿主 G09-C04 只有进度条时宽度写成 25%",
+          "status": "passed"
+        },
+        {
+          "file": "src/shell/boot-loading-host.grok-r1.test.ts",
+          "fullName": "G09-C 启动加载宿主 G09-C05 没有状态节点时失败仍加上错误类，之后的说明不再改条宽",
+          "status": "passed"
+        },
+        {
+          "file": "src/shell/boot-loading-host.grok-r1.test.ts",
+          "fullName": "G09-C 启动加载宿主 G09-C06 没有进度条时完成仍淡出并在 600ms 后移除",
+          "status": "passed"
+        },
+        {
+          "file": "src/shell/boot-loading-host.grok-r1.test.ts",
+          "fullName": "G09-C 启动加载宿主 G09-C07 restoreBootFetch 还原 fetch，之后的请求不再回调进度",
+          "status": "passed"
+        },
+        {
+          "file": "src/shell/boot-loading-host.grok-r1.test.ts",
+          "fullName": "G09-C 启动加载宿主 G09-C08 同一帧里的两次说明只排一次 rAF，文本留下后一次",
+          "status": "passed"
+        },
+        {
+          "file": "src/shell/boot-loading-host.grok-r1.test.ts",
+          "fullName": "G09-C 启动加载宿主 G09-C09 requestAnimationFrame 不是函数时，改用 16ms 的 setTimeout 写出说明",
+          "status": "passed"
+        },
+        {
+          "file": "src/shell/boot-loading-host.grok-r1.test.ts",
+          "fullName": "G09-C 启动加载宿主 G09-C10 预估和已发起都是 0 时，进度回调得到 0 且不写 DOM",
+          "status": "passed"
+        },
+        {
+          "file": "src/shell/boot-loading-host.grok-r1.test.ts",
+          "fullName": "G09-C 启动加载宿主 G09-C11 失败文案是启动失败加原文，并带上错误类",
+          "status": "passed"
+        }
+      ],
+      "patch": {
+        "path": "docs/testing/grok-cursor-large/grok/counters/G09-C/patch.diff",
+        "sha256": "a8c594b40ce357e84eefc78b73b8466c7abccfcbb4daeebe9e03da3b1489c55f",
+        "bytes": 357
+      },
+      "logs": [
+        "docs/testing/grok-cursor-large/grok/counters/G09-C/original.json",
+        "docs/testing/grok-cursor-large/grok/counters/G09-C/original.stdout",
+        "docs/testing/grok-cursor-large/grok/counters/G09-C/original.stderr",
+        "docs/testing/grok-cursor-large/grok/counters/G09-C/mutant.json",
+        "docs/testing/grok-cursor-large/grok/counters/G09-C/mutant.stdout",
+        "docs/testing/grok-cursor-large/grok/counters/G09-C/mutant.stderr",
+        "docs/testing/grok-cursor-large/grok/counters/G09-C/restored.json",
+        "docs/testing/grok-cursor-large/grok/counters/G09-C/restored.stdout",
+        "docs/testing/grok-cursor-large/grok/counters/G09-C/restored.stderr"
+      ]
+    },
+    {
+      "id": "G09-D",
+      "batch": "G09",
+      "accepted": true,
+      "reasons": [],
+      "axis": "总字节为 0 时小组件百分比从 0 变成 1",
+      "source": "packages/game/src/shell/precache-ui.ts",
+      "testFile": "src/shell/precache-ui-host.grok-r1.test.ts",
+      "target": "G09-D01",
+      "targetFullName": "G09-D 预缓存宿主 G09-D01 总字节为 0 时小组件百分比和条宽都是 0",
+      "assertionError": "AssertionError: expected '1%' to be '0%' // Object.is equality",
+      "sha256": {
+        "original": "0c7d6a54a3018f0d5c134719430c66706cf651e738156ec37214845d77156a5d",
+        "mutant": "cb4dbd007204a498086971636fb132bdee8458adaad0f7ed8a632c6dbde4d594",
+        "restored": "0c7d6a54a3018f0d5c134719430c66706cf651e738156ec37214845d77156a5d"
+      },
+      "exitCode": {
+        "original": 0,
+        "mutant": 1,
+        "restored": 0
+      },
+      "signal": {
+        "original": null,
+        "mutant": null,
+        "restored": null
+      },
+      "counts": {
+        "original": 20,
+        "mutantFailed": 1,
+        "restored": 20
+      },
+      "executionCount": 20,
+      "executions": [
+        {
+          "file": "src/shell/precache-ui-host.grok-r1.test.ts",
+          "fullName": "G09-D 预缓存宿主 G09-D01 总字节为 0 时小组件百分比和条宽都是 0",
+          "status": "passed"
+        },
+        {
+          "file": "src/shell/precache-ui-host.grok-r1.test.ts",
+          "fullName": "G09-D 预缓存宿主 G09-D02 半兆字节按四舍五入写成 1MB，百分比取 floor",
+          "status": "passed"
+        },
+        {
+          "file": "src/shell/precache-ui-host.grok-r1.test.ts",
+          "fullName": "G09-D 预缓存宿主 G09-D03 playableFraction 0.25 把虚线放在 25%，必要资源满格也停在 25%",
+          "status": "passed"
+        },
+        {
+          "file": "src/shell/precache-ui-host.grok-r1.test.ts",
+          "fullName": "G09-D 预缓存宿主 G09-D04 负数的必要进度钳到 0%",
+          "status": "passed"
+        },
+        {
+          "file": "src/shell/precache-ui-host.grok-r1.test.ts",
+          "fullName": "G09-D 预缓存宿主 G09-D05 大于 1 的必要进度钳到虚线 12%",
+          "status": "passed"
+        },
+        {
+          "file": "src/shell/precache-ui-host.grok-r1.test.ts",
+          "fullName": "G09-D 预缓存宿主 G09-D06 过了虚线之后 setNecessaryProgress 不再改文案",
+          "status": "passed"
+        },
+        {
+          "file": "src/shell/precache-ui-host.grok-r1.test.ts",
+          "fullName": "G09-D 预缓存宿主 G09-D07 第二次 markPlayable 不调用 onEnter",
+          "status": "passed"
+        },
+        {
+          "file": "src/shell/precache-ui-host.grok-r1.test.ts",
+          "fullName": "G09-D 预缓存宿主 G09-D08 没有进入按钮容器时 markPlayable 立刻放行",
+          "status": "passed"
+        },
+        {
+          "file": "src/shell/precache-ui-host.grok-r1.test.ts",
+          "fullName": "G09-D 预缓存宿主 G09-D09 有容器但没有按钮时立刻放行，容器保持 hidden",
+          "status": "passed"
+        },
+        {
+          "file": "src/shell/precache-ui-host.grok-r1.test.ts",
+          "fullName": "G09-D 预缓存宿主 G09-D10 全量阶段总字节为 0 时条宽停在虚线，文案是 0/0MB",
+          "status": "passed"
+        },
+        {
+          "file": "src/shell/precache-ui-host.grok-r1.test.ts",
+          "fullName": "G09-D 预缓存宿主 G09-D11 第二次 enterGame 不再多挂一个小组件",
+          "status": "passed"
+        },
+        {
+          "file": "src/shell/precache-ui-host.grok-r1.test.ts",
+          "fullName": "G09-D 预缓存宿主 G09-D12 没有记过总字节时，小组件保持占位文案",
+          "status": "passed"
+        },
+        {
+          "file": "src/shell/precache-ui-host.grok-r1.test.ts",
+          "fullName": "G09-D 预缓存宿主 G09-D13 进入之后 fail 不再给覆盖层加错误类",
+          "status": "passed"
+        },
+        {
+          "file": "src/shell/precache-ui-host.grok-r1.test.ts",
+          "fullName": "G09-D 预缓存宿主 G09-D14 没有状态节点时 fail 仍加上错误类",
+          "status": "passed"
+        },
+        {
+          "file": "src/shell/precache-ui-host.grok-r1.test.ts",
+          "fullName": "G09-D 预缓存宿主 G09-D15 必要阶段收到的全量字节在 enterGame 时写进小组件",
+          "status": "passed"
+        },
+        {
+          "file": "src/shell/precache-ui-host.grok-r1.test.ts",
+          "fullName": "G09-D 预缓存宿主 G09-D16 没有进度条时必要进度仍写状态文案",
+          "status": "passed"
+        },
+        {
+          "file": "src/shell/precache-ui-host.grok-r1.test.ts",
+          "fullName": "G09-D 预缓存宿主 G09-D17 没有状态节点时必要进度仍写 6% 条宽",
+          "status": "passed"
+        },
+        {
+          "file": "src/shell/precache-ui-host.grok-r1.test.ts",
+          "fullName": "G09-D 预缓存宿主 G09-D18 进入按钮的 click 只触发一次 onEnter",
+          "status": "passed"
+        },
+        {
+          "file": "src/shell/precache-ui-host.grok-r1.test.ts",
+          "fullName": "G09-D 预缓存宿主 G09-D19 没有覆盖层时 enterGame 仍挂上占位小组件",
+          "status": "passed"
+        },
+        {
+          "file": "src/shell/precache-ui-host.grok-r1.test.ts",
+          "fullName": "G09-D 预缓存宿主 G09-D20 done 立刻把透明度设为 0，599ms 仍在，600ms 移除",
+          "status": "passed"
+        }
+      ],
+      "patch": {
+        "path": "docs/testing/grok-cursor-large/grok/counters/G09-D/patch.diff",
+        "sha256": "4c0e811a150141236d87471b66185df319a3b55f97b7e820d31a439aebc35acf",
+        "bytes": 563
+      },
+      "logs": [
+        "docs/testing/grok-cursor-large/grok/counters/G09-D/original.json",
+        "docs/testing/grok-cursor-large/grok/counters/G09-D/original.stdout",
+        "docs/testing/grok-cursor-large/grok/counters/G09-D/original.stderr",
+        "docs/testing/grok-cursor-large/grok/counters/G09-D/mutant.json",
+        "docs/testing/grok-cursor-large/grok/counters/G09-D/mutant.stdout",
+        "docs/testing/grok-cursor-large/grok/counters/G09-D/mutant.stderr",
+        "docs/testing/grok-cursor-large/grok/counters/G09-D/restored.json",
+        "docs/testing/grok-cursor-large/grok/counters/G09-D/restored.stdout",
+        "docs/testing/grok-cursor-large/grok/counters/G09-D/restored.stderr"
       ]
     }
   ]

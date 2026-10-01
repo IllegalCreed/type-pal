@@ -1,0 +1,9 @@
+--- a/packages/game/src/shell/boot-loading.ts
++++ b/packages/game/src/shell/boot-loading.ts
+@@ -104,5 +104,5 @@
+ export function initBootLoading(
+-  expectedTotal: number = EXPECTED_BOOT_REQUESTS,
++  expectedTotal: number = 811,
+   onProgress?: (fraction: number) => void,
+ ): void {
+   if (!byId('boot-loading')) return // 无 overlay(测试/SSR)→ no-op

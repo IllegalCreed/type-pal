@@ -1,0 +1,21 @@
+
+ RUN  v4.1.7 /private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/grok-r1-G09-C-MtAOjK/packages/game
+
+ ✓ src/shell/boot-loading-host.grok-r1.test.ts > G09-C 启动加载宿主 > G09-C01 不传预估总量时，状态文本的分母是 810，进度条为 0% 25ms
+ ✓ src/shell/boot-loading-host.grok-r1.test.ts > G09-C 启动加载宿主 > G09-C02 fetch 拒绝后完成数仍加一 19ms
+ ✓ src/shell/boot-loading-host.grok-r1.test.ts > G09-C 启动加载宿主 > G09-C03 只有状态节点时写入 1 / 4 19ms
+ ✓ src/shell/boot-loading-host.grok-r1.test.ts > G09-C 启动加载宿主 > G09-C04 只有进度条时宽度写成 25% 19ms
+ ✓ src/shell/boot-loading-host.grok-r1.test.ts > G09-C 启动加载宿主 > G09-C05 没有状态节点时失败仍加上错误类，之后的说明不再改条宽 20ms
+ ✓ src/shell/boot-loading-host.grok-r1.test.ts > G09-C 启动加载宿主 > G09-C06 没有进度条时完成仍淡出并在 600ms 后移除 1ms
+ ✓ src/shell/boot-loading-host.grok-r1.test.ts > G09-C 启动加载宿主 > G09-C07 restoreBootFetch 还原 fetch，之后的请求不再回调进度 33ms
+ ✓ src/shell/boot-loading-host.grok-r1.test.ts > G09-C 启动加载宿主 > G09-C08 同一帧里的两次说明只排一次 rAF，文本留下后一次 19ms
+ ✓ src/shell/boot-loading-host.grok-r1.test.ts > G09-C 启动加载宿主 > G09-C09 requestAnimationFrame 不是函数时，改用 16ms 的 setTimeout 写出说明 1ms
+ ✓ src/shell/boot-loading-host.grok-r1.test.ts > G09-C 启动加载宿主 > G09-C10 预估和已发起都是 0 时，进度回调得到 0 且不写 DOM 19ms
+ ✓ src/shell/boot-loading-host.grok-r1.test.ts > G09-C 启动加载宿主 > G09-C11 失败文案是启动失败加原文，并带上错误类 0ms
+
+ Test Files  1 passed (1)
+      Tests  11 passed (11)
+   Start at  03:58:22
+   Duration  718ms (transform 26ms, setup 16ms, import 20ms, tests 175ms, environment 438ms)
+
+JSON report written to /var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/grok-r1-G09-C-MtAOjK/original.json

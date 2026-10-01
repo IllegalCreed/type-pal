@@ -1,0 +1,11 @@
+--- a/packages/game/src/shell/precache-ui.ts
++++ b/packages/game/src/shell/precache-ui.ts
+@@ -62,7 +62,7 @@
+   return {
+     update(p) {
+       // 态3 只有字节进度(SW 统一数据源)→ 百分比按 bytes/totalBytes 算,与态1 大条同口径。
+-      const pct = p.totalBytes > 0 ? Math.floor((p.bytes / p.totalBytes) * 100) : 0
++      const pct = p.totalBytes > 0 ? Math.floor((p.bytes / p.totalBytes) * 100) : 1
+       text.textContent = `后台缓存资源 ${pct}% (${mb(p.bytes)}/${mb(p.totalBytes)}MB)`
+       fill.style.width = `${pct}%`
+     },

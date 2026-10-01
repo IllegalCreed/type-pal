@@ -318,5 +318,45 @@
     "testFile": "src/present/battle/battle-effect-num-pixels.grok-r1.test.ts",
     "target": "G08-D01",
     "axis": "奇数宽特效锚点改成右移两位"
+  },
+  {
+    "id": "G09-A",
+    "batch": "G09",
+    "source": "packages/game/src/shell/input.ts",
+    "from": "this.cursor++",
+    "to": "this.cursor += 0",
+    "testFile": "src/shell/input-replay.grok-r1.test.ts",
+    "target": "G09-A08",
+    "axis": "回放游标停在第一帧，越过末帧后的追加快照仍会被读到"
+  },
+  {
+    "id": "G09-B",
+    "batch": "G09",
+    "source": "packages/game/src/shell/main-loop.ts",
+    "from": "if (state.accumulator > interval) state.accumulator = 0",
+    "to": "if (state.accumulator >= interval) state.accumulator = 0",
+    "testFile": "src/shell/main-loop-gates.grok-r1.test.ts",
+    "target": "G09-B04",
+    "axis": "余量正好等于间隔时也被清掉"
+  },
+  {
+    "id": "G09-C",
+    "batch": "G09",
+    "source": "packages/game/src/shell/boot-loading.ts",
+    "from": "  expectedTotal: number = EXPECTED_BOOT_REQUESTS,",
+    "to": "  expectedTotal: number = 811,",
+    "testFile": "src/shell/boot-loading-host.grok-r1.test.ts",
+    "target": "G09-C01",
+    "axis": "默认启动分母从 810 改成 811"
+  },
+  {
+    "id": "G09-D",
+    "batch": "G09",
+    "source": "packages/game/src/shell/precache-ui.ts",
+    "from": "const pct = p.totalBytes > 0 ? Math.floor((p.bytes / p.totalBytes) * 100) : 0",
+    "to": "const pct = p.totalBytes > 0 ? Math.floor((p.bytes / p.totalBytes) * 100) : 1",
+    "testFile": "src/shell/precache-ui-host.grok-r1.test.ts",
+    "target": "G09-D01",
+    "axis": "总字节为 0 时小组件百分比从 0 变成 1"
   }
 ]

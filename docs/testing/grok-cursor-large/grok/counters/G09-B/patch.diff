@@ -1,0 +1,9 @@
+--- a/packages/game/src/shell/main-loop.ts
++++ b/packages/game/src/shell/main-loop.ts
+@@ -112,5 +112,5 @@
+     //   忠实 25fps(各刷新率均 ~40ms/tick avg)。DM31 的"永不补帧"由下一行 clamp 保留:残留 > 1 个
+     //   interval 的**真积压**(lag spike,如卡顿后 dt≫interval)才丢弃 → 仍至多 1 tick/rAF、不连追。
+     state.accumulator -= interval
+-    if (state.accumulator > interval) state.accumulator = 0
++    if (state.accumulator >= interval) state.accumulator = 0
+   }

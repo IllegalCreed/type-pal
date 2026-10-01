@@ -11,9 +11,9 @@ Coding Owner: Grok。作者交付进行中，**不是 review / accept / done**�
 
 | 项 | 已计入 | 目标 | 剩余 |
 |---|---:|---:|---:|
-| 合法新合同 | 320 | 400 | 80 |
-| 组 | 32 | 40 | 8 |
-| 有效反控 | 32 | 40 | 8 |
+| 合法新合同 | 375 | 400 | 25 |
+| 组 | 36 | 40 | 4 |
+| 有效反控 | 36 | 40 | 4 |
 
 G01 四组都是 `packages/game/src/assets/loader.ts`：G01-A 合法装配、G01-B 边界、G01-C 失败恢复、G01-D 缓存归属与迟到。G01 新合同 40。
 
@@ -31,11 +31,13 @@ G07 四组：G07-A `draw-magic.ts` 一人选人框、说明第二行和信息框
 
 G08 四组：G08-A `draw-battle-sprites.ts` 染色第二遍、隐身和空槽，G08-B `draw-battle-ui.ts` 合击门槛、确认绿和中毒头像，G08-C `draw-battle-settlement.ts` 缺帧与二字名框长，G08-D `draw-battle-effect.ts` 奇数宽锚点与 `draw-battle-num.ts` 五位右对齐。本批新合同 44。单次染色、Y 序、升级斜杠、偶数宽特效、飘字寿命和背景色阶另记 34 条 existing-proof，不计入 320。目标仍是 400/40/40。
 
+G09 四组：G09-A `input.ts` 键序、回放游标和录制数组，G09-B `main-loop.ts` 淡入门、余量等于间隔和 rAF 取消，G09-C `boot-loading.ts` 默认分母 810、缺节点和还原回调，G09-D `precache-ui.ts` 零字节、自定义虚线和进入后的错误门。本批新合同 55。键位表、repeat、单源 detach、间隔 40/100、巨大 dt、paletteFade、battleFade、3/4、99 封顶、默认 12% 单调和 precache-client 早到消息另记 57 条 existing-proof，`document === undefined` 的空 widget 另记 1 条 unreachable，不计入 375。目标仍是 400/40/40。
+
 ## 本批证据
 
-- [contracts.json](contracts.json)：累计 320 条新合同；G02 到 G08 的 existingProof 不计入
-- [directed-vitest.json](directed-vitest.json)：320 条 file × fullName × passed；相邻记在 `adjacent`（G01 的 `loader.test.ts` 7 条，G02 的 png/tileset/dialog/rle 26 条，G03 的 tilemap/sprite/follower 31 条，G04 的 wave/shake/dither/framebuffer/present/P12 85 条，G05 的 dialog/font/draw-number/opening/settlement/P16 108 条，G06 的 inventory/equip/status 23 条，G07 的 magic/shop/box/opening/confirm 39 条，G08 的 battle sprite/ui/settlement/effect/num/bg/present/P15/P08/P09 143 条）
-- [counters.json](counters.json) 与 [反控说明](counters/README.md)：拒收探针加 G01 到 G08 各四枚三态原日志
+- [contracts.json](contracts.json)：累计 375 条新合同；G02 到 G09 的 existingProof 不计入
+- [directed-vitest.json](directed-vitest.json)：375 条 file × fullName × passed；相邻记在 `adjacent`（G01 的 `loader.test.ts` 7 条，G02 的 png/tileset/dialog/rle 26 条，G03 的 tilemap/sprite/follower 31 条，G04 的 wave/shake/dither/framebuffer/present/P12 85 条，G05 的 dialog/font/draw-number/opening/settlement/P16 108 条，G06 的 inventory/equip/status 23 条，G07 的 magic/shop/box/opening/confirm 39 条，G08 的 battle sprite/ui/settlement/effect/num/bg/present/P15/P08/P09 143 条，G09 的 input/main-loop/boot/precache 57 条）
+- [counters.json](counters.json) 与 [反控说明](counters/README.md)：拒收探针加 G01 到 G09 各四枚三态原日志
 - [defects.md](defects.md)：没有停组的产品缺陷；G02 有一条宿主 blocked
 - 专属宿主 `packages/game/src/__tests__/grok-render-r1/legal-host.ts`
 
@@ -134,5 +136,26 @@ G08 四组：G08-A `draw-battle-sprites.ts` 染色第二遍、隐身和空槽，
 `pnpm --filter @type-pal/game run typecheck` 退出码 0。
 
 反控：`node docs/testing/grok-cursor-large/grok/run-counters.mjs --only=G08-A,G08-B,G08-C,G08-D --skip-probe`。四枚 mutant 退出码 1，各只有一条指定 AssertionError。历史 G01 到 G07 与探针日志未重写。
+
+## G09 已跑命令
+
+定向与相邻：
+
+`pnpm --filter @type-pal/game exec vitest run src/shell/input-replay.grok-r1.test.ts src/shell/main-loop-gates.grok-r1.test.ts src/shell/boot-loading-host.grok-r1.test.ts src/shell/precache-ui-host.grok-r1.test.ts src/shell/input.test.ts src/shell/input.boundaries.test.ts src/shell/main-loop.test.ts src/shell/boot-loading.test.ts src/shell/precache-ui.test.ts src/shell/precache-client.test.ts src/shell/precache-client.glm-phase1-leaves.test.ts --reporter=verbose --reporter=json --outputFile=/tmp/g09-directed.json`
+
+结果：新合同 55 passed，相邻 57 passed，pending 0。11 个文件合计 112 passed。
+
+六条功能宿主实操：
+
+- 不传预估总量时，状态文本是 `正在加载资源 0 / 810`，进度条宽度 `0%`。
+- 只有进度条、完成 1/4 时，宽度是 `25%`。
+- 失败文案是 `启动失败:磁盘满`，根节点带 `boot-loading-error`。
+- 总字节为 0 时，小组件文本是 `后台缓存资源 0% (0/0MB)`，条宽 `0%`。
+- 没有进入按钮时立刻调用 onEnter，条宽 `12%`，文本是 `必要资源就绪 — 可进入`。
+- done 后透明度立刻是 `0`，599ms 时小组件仍在，600ms 时移除。
+
+`pnpm --filter @type-pal/game run typecheck` 退出码 0。
+
+反控：`node docs/testing/grok-cursor-large/grok/run-counters.mjs --only=G09-A,G09-B,G09-C,G09-D --skip-probe`。G09-C 在默认参数针上重采了一次。四枚 mutant 退出码 1，各只有一条指定 AssertionError。历史 G01 到 G08 与探针日志未重写。
 
 私有 coverage、全包 test、根 lint、docs check、diff check、verifier 留到末批。不合 main，不跑正式 ratchet。
