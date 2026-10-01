@@ -3,8 +3,8 @@
   "numPassedTestSuites": 3,
   "numFailedTestSuites": 2,
   "numPendingTestSuites": 0,
-  "numTotalTests": 12,
-  "numPassedTests": 11,
+  "numTotalTests": 13,
+  "numPassedTests": 12,
   "numFailedTests": 1,
   "numPendingTests": 0,
   "numTodoTests": 0,
@@ -24,7 +24,7 @@
     "updated": 0,
     "didUpdate": false
   },
-  "startTime": 1790857430916,
+  "startTime": 1790860724813,
   "success": false,
   "testResults": [
     {
@@ -34,7 +34,7 @@
           "fullName": "Q08-8b performMagic caster 缺失臂 caster 索引越界：warn + 不扣 MP + 不 emit + 不跑脚本",
           "status": "failed",
           "title": "caster 索引越界：warn + 不扣 MP + 不 emit + 不跑脚本",
-          "duration": 4.042667000000051,
+          "duration": 4.612708999999995,
           "failureMessages": [
             "AssertionError: expected \"warn\" to be called with arguments: [ StringContaining{…} ]\n\nNumber of calls: 0\n\n    at Proxy.<anonymous> (file:///private/tmp/glmq/counter-copy/type-pal/node_modules/.pnpm/@vitest+expect@4.1.7/node_modules/@vitest/expect/dist/index.js:1487:10)\n    at Proxy.<anonymous> (file:///private/tmp/glmq/counter-copy/type-pal/node_modules/.pnpm/@vitest+expect@4.1.7/node_modules/@vitest/expect/dist/index.js:1156:15)\n    at Proxy.methodWrapper (file:///private/tmp/glmq/counter-copy/type-pal/node_modules/.pnpm/chai@6.2.2/node_modules/chai/index.js:1700:25)\n    at /private/tmp/glmq/counter-copy/type-pal/packages/game/src/battle-action-error-arms.glm-q.test.ts:241:18\n    at file:///private/tmp/glmq/counter-copy/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///private/tmp/glmq/counter-copy/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///private/tmp/glmq/counter-copy/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///private/tmp/glmq/counter-copy/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///private/tmp/glmq/counter-copy/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20"
           ],
@@ -46,7 +46,7 @@
           "fullName": "Q08-8b performMagic caster 缺失臂 caster role 不在 playerRoles：warn + 不扣 MP + 不 emit + 不跑脚本",
           "status": "passed",
           "title": "caster role 不在 playerRoles：warn + 不扣 MP + 不 emit + 不跑脚本",
-          "duration": 0.7509589999999662,
+          "duration": 1.2560420000000931,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -58,7 +58,7 @@
           "fullName": "Q08-8b 无 inventory 资源臂（throw-item；performItem 同族由 actions.test.ts:2317-2371 已证，Q-R5-02 删重） performThrowItem 队员无 inventory：warn + 不跑 scriptOnThrow + 不 emit",
           "status": "passed",
           "title": "performThrowItem 队员无 inventory：warn + 不跑 scriptOnThrow + 不 emit",
-          "duration": 0.5172079999999823,
+          "duration": 0.6822080000000597,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -68,7 +68,7 @@
           "fullName": "Q08-8b selectAutoTargetFrom 未覆盖条件臂 begin<0 规范化为从 0 起扫首个活敌",
           "status": "passed",
           "title": "begin<0 规范化为从 0 起扫首个活敌",
-          "duration": 0.3122089999999389,
+          "duration": 0.3494590000000244,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -78,7 +78,7 @@
           "fullName": "Q08-8b selectAutoTargetFrom 未覆盖条件臂 prevTarget 越界(≥n)时回 begin 起扫，不读越界槽",
           "status": "passed",
           "title": "prevTarget 越界(≥n)时回 begin 起扫，不读越界槽",
-          "duration": 0.14704199999994216,
+          "duration": 0.1641669999999067,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -90,7 +90,7 @@
           "fullName": "Q08-8b pickAutoMagic 展开批（typed rgwMagic 投影链；Q-R5-03 撤回 blocked-input） 公开投影链把 rgwMagic 槽位真实投影为 role.magic（caller 同路）",
           "status": "passed",
           "title": "公开投影链把 rgwMagic 槽位真实投影为 role.magic（caller 同路）",
-          "duration": 0.51075000000003,
+          "duration": 0.5571250000000418,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -102,7 +102,7 @@
           "fullName": "Q08-8b pickAutoMagic 展开批（typed rgwMagic 投影链；Q-R5-03 撤回 blocked-input） silence>0 → 直接返回 0（物理攻击），不查法术表",
           "status": "passed",
           "title": "silence>0 → 直接返回 0（物理攻击），不查法术表",
-          "duration": 0.2037920000000213,
+          "duration": 0.2194169999999076,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -114,7 +114,7 @@
           "fullName": "Q08-8b pickAutoMagic 展开批（typed rgwMagic 投影链；Q-R5-03 撤回 blocked-input） selectingPlayerIdx 缺席（undefined）→ 返回 0",
           "status": "passed",
           "title": "selectingPlayerIdx 缺席（undefined）→ 返回 0",
-          "duration": 0.11712499999998727,
+          "duration": 0.12345800000002782,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -126,7 +126,7 @@
           "fullName": "Q08-8b pickAutoMagic 展开批（typed rgwMagic 投影链；Q-R5-03 撤回 blocked-input） 已学槽法术 resolve 失败（spell 不在表）→ 该槽跳过，返回 0",
           "status": "passed",
           "title": "已学槽法术 resolve 失败（spell 不在表）→ 该槽跳过，返回 0",
-          "duration": 0.42404099999998834,
+          "duration": 0.4355000000000473,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -135,10 +135,10 @@
           "ancestorTitles": [
             "Q08-8b pickAutoMagic 展开批（typed rgwMagic 投影链；Q-R5-03 撤回 blocked-input）"
           ],
-          "fullName": "Q08-8b pickAutoMagic 展开批（typed rgwMagic 投影链；Q-R5-03 撤回 blocked-input） costMP=1 哨兵（sdlpal 特殊免耗位）→ 跳过不选；合法耗魔法术正常入选",
+          "fullName": "Q08-8b pickAutoMagic 展开批（typed rgwMagic 投影链；Q-R5-03 撤回 blocked-input） costMP=1 极限技门（sdlpal uibattle.c:763-766 筛除极限技）→ 跳过不选；合法耗魔法术正常入选",
           "status": "passed",
-          "title": "costMP=1 哨兵（sdlpal 特殊免耗位）→ 跳过不选；合法耗魔法术正常入选",
-          "duration": 0.1514590000000453,
+          "title": "costMP=1 极限技门（sdlpal uibattle.c:763-766 筛除极限技）→ 跳过不选；合法耗魔法术正常入选",
+          "duration": 0.16391599999997197,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -150,7 +150,7 @@
           "fullName": "Q08-8b pickAutoMagic 展开批（typed rgwMagic 投影链；Q-R5-03 撤回 blocked-input） 唯一已学法术 MP 不足（costMP>role.mp）→ 跳过返回 0",
           "status": "passed",
           "title": "唯一已学法术 MP 不足（costMP>role.mp）→ 跳过返回 0",
-          "duration": 0.15358299999991232,
+          "duration": 0.1624580000000151,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -159,17 +159,29 @@
           "ancestorTitles": [
             "Q08-8b pickAutoMagic 展开批（typed rgwMagic 投影链；Q-R5-03 撤回 blocked-input）"
           ],
-          "fullName": "Q08-8b pickAutoMagic 展开批（typed rgwMagic 投影链；Q-R5-03 撤回 blocked-input） 威力择优：同 rng 下 baseDamage 高者入选（range=0 消除随机项）",
+          "fullName": "Q08-8b pickAutoMagic 展开批（typed rgwMagic 投影链；Q-R5-03 撤回 blocked-input） 威力择优（range=0 消随机项）：更高 baseDamage 者替换先遇者",
           "status": "passed",
-          "title": "威力择优：同 rng 下 baseDamage 高者入选（range=0 消除随机项）",
-          "duration": 0.14162500000009004,
+          "title": "威力择优（range=0 消随机项）：更高 baseDamage 者替换先遇者",
+          "duration": 0.14750000000003638,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "Q08-8b pickAutoMagic 展开批（typed rgwMagic 投影链；Q-R5-03 撤回 blocked-input）"
+          ],
+          "fullName": "Q08-8b pickAutoMagic 展开批（typed rgwMagic 投影链；Q-R5-03 撤回 blocked-input） 同威力保留先遇（strict power>maxPower）：range=0 下两法术 baseDamage 相同 → 返回先遇到的 296",
+          "status": "passed",
+          "title": "同威力保留先遇（strict power>maxPower）：range=0 下两法术 baseDamage 相同 → 返回先遇到的 296",
+          "duration": 0.15866700000003675,
           "failureMessages": [],
           "meta": {},
           "tags": []
         }
       ],
-      "startTime": 1790857431586,
-      "endTime": 1790857431594.1416,
+      "startTime": 1790860725725,
+      "endTime": 1790860725734.1638,
       "status": "failed",
       "message": "",
       "name": "/private/tmp/glmq/counter-copy/type-pal/packages/game/src/battle-action-error-arms.glm-q.test.ts"

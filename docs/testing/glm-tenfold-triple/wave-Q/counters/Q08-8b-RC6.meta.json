@@ -5,9 +5,9 @@
   "targetNameSubstring": "silence>0 → 直接返回 0",
   "axis": "输入轴单轴变异：silence 用例 autoState(3)→autoState()（合法状态值 0，法术应可选入 297）；断言不动。",
   "sha256": {
-    "original": "33f8a61f64898de69ece86c3134e3eae97ca50ac6c2df41897f1a1412156b3a5",
-    "mutated": "f92f05c47dc3bc220377e9872a4eaef07c9f90829e06e8a60ef857c6d137ae3f",
-    "restored": "33f8a61f64898de69ece86c3134e3eae97ca50ac6c2df41897f1a1412156b3a5"
+    "original": "e213e6a4b8bd7f86b31ebe916c94fd2fcdf13f1723dfb8482c6f7644a6ccc965",
+    "mutated": "cdfbffbb089b3044a5af979680535c65f0d8bb946a72e651cafda0cd0e3bf667",
+    "restored": "e213e6a4b8bd7f86b31ebe916c94fd2fcdf13f1723dfb8482c6f7644a6ccc965"
   },
   "restoredHashUnchanged": true,
   "criteria": {
@@ -22,8 +22,8 @@
     "positive": {
       "exitCode": 0,
       "summary": {
-        "numTotalTests": 12,
-        "numPassedTests": 12,
+        "numTotalTests": 13,
+        "numPassedTests": 13,
         "numFailedTests": 0,
         "success": true
       },
@@ -33,8 +33,8 @@
     "mutant": {
       "exitCode": 1,
       "summary": {
-        "numTotalTests": 12,
-        "numPassedTests": 11,
+        "numTotalTests": 13,
+        "numPassedTests": 12,
         "numFailedTests": 1,
         "success": false
       },
@@ -44,8 +44,8 @@
     "restored": {
       "exitCode": 0,
       "summary": {
-        "numTotalTests": 12,
-        "numPassedTests": 12,
+        "numTotalTests": 13,
+        "numPassedTests": 13,
         "numFailedTests": 0,
         "success": true
       },

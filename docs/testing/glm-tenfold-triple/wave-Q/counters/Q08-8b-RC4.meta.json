@@ -5,9 +5,9 @@
   "targetNameSubstring": "队员无 inventory",
   "axis": "输入轴单轴变异：performThrowItem 用例补合法库存（count=2）；断言不动。",
   "sha256": {
-    "original": "33f8a61f64898de69ece86c3134e3eae97ca50ac6c2df41897f1a1412156b3a5",
-    "mutated": "9b3292a4b26d4719a5dbb941faf06d58e128d0511b4bf59ae6e7ddbf37fe9e50",
-    "restored": "33f8a61f64898de69ece86c3134e3eae97ca50ac6c2df41897f1a1412156b3a5"
+    "original": "e213e6a4b8bd7f86b31ebe916c94fd2fcdf13f1723dfb8482c6f7644a6ccc965",
+    "mutated": "0ae00c6091cd54a98f80c8019f10aef82468304f2158d86abc61d7556c16bfa1",
+    "restored": "e213e6a4b8bd7f86b31ebe916c94fd2fcdf13f1723dfb8482c6f7644a6ccc965"
   },
   "restoredHashUnchanged": true,
   "criteria": {
@@ -22,8 +22,8 @@
     "positive": {
       "exitCode": 0,
       "summary": {
-        "numTotalTests": 12,
-        "numPassedTests": 12,
+        "numTotalTests": 13,
+        "numPassedTests": 13,
         "numFailedTests": 0,
         "success": true
       },
@@ -33,8 +33,8 @@
     "mutant": {
       "exitCode": 1,
       "summary": {
-        "numTotalTests": 12,
-        "numPassedTests": 11,
+        "numTotalTests": 13,
+        "numPassedTests": 12,
         "numFailedTests": 1,
         "success": false
       },
@@ -44,8 +44,8 @@
     "restored": {
       "exitCode": 0,
       "summary": {
-        "numTotalTests": 12,
-        "numPassedTests": 12,
+        "numTotalTests": 13,
+        "numPassedTests": 13,
         "numFailedTests": 0,
         "success": true
       },

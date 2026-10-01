@@ -5,9 +5,9 @@
   "targetNameSubstring": "caster 索引越界",
   "axis": "输入轴单轴变异：performMagic caster 索引 9→0（合法界内 caster，MP 足额）；断言不动。",
   "sha256": {
-    "original": "33f8a61f64898de69ece86c3134e3eae97ca50ac6c2df41897f1a1412156b3a5",
-    "mutated": "43b80f9eda03dd1b5be5223bb269120e49b70f14a5396871577af43bf345e37c",
-    "restored": "33f8a61f64898de69ece86c3134e3eae97ca50ac6c2df41897f1a1412156b3a5"
+    "original": "e213e6a4b8bd7f86b31ebe916c94fd2fcdf13f1723dfb8482c6f7644a6ccc965",
+    "mutated": "59046d0e56d2b2c258f5f4d1a140362399ea62b1f7a68b8f8c680e0990ca52dd",
+    "restored": "e213e6a4b8bd7f86b31ebe916c94fd2fcdf13f1723dfb8482c6f7644a6ccc965"
   },
   "restoredHashUnchanged": true,
   "criteria": {
@@ -22,8 +22,8 @@
     "positive": {
       "exitCode": 0,
       "summary": {
-        "numTotalTests": 12,
-        "numPassedTests": 12,
+        "numTotalTests": 13,
+        "numPassedTests": 13,
         "numFailedTests": 0,
         "success": true
       },
@@ -33,8 +33,8 @@
     "mutant": {
       "exitCode": 1,
       "summary": {
-        "numTotalTests": 12,
-        "numPassedTests": 11,
+        "numTotalTests": 13,
+        "numPassedTests": 12,
         "numFailedTests": 1,
         "success": false
       },
@@ -44,8 +44,8 @@
     "restored": {
       "exitCode": 0,
       "summary": {
-        "numTotalTests": 12,
-        "numPassedTests": 12,
+        "numTotalTests": 13,
+        "numPassedTests": 13,
         "numFailedTests": 0,
         "success": true
       },

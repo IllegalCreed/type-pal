@@ -1,0 +1,57 @@
+{
+  "id": "Q08-S1-RC3",
+  "file": "packages/game/src/battle-summon-slot-reuse.glm-q.test.ts",
+  "targetFullName": "Q08 0x9E 正向死亡空槽复用（战中击败槽，非初始 0 占位） 同席两死亡槽只复用一间：另一间保持 defeated 与残留身份",
+  "targetNameSubstring": "同席两死亡槽只复用一间",
+  "axis": "输入轴单轴变异：count 1→2（两间死亡房都应复用，toHaveLength(1) 应红）；断言不动。",
+  "sha256": {
+    "original": "a28e4d2dba15330481aa83b7937a0b567a1610c535c32773e483d501d7e4ee5b",
+    "mutated": "5a417155638d8efe633b99bcd7de4f9ca7e4083ffe5ec2f4628651a3111aa1fd",
+    "restored": "a28e4d2dba15330481aa83b7937a0b567a1610c535c32773e483d501d7e4ee5b"
+  },
+  "restoredHashUnchanged": true,
+  "criteria": {
+    "positiveGreen": true,
+    "mutantExactlyOneTargetRed": true,
+    "targetAssertionError": "AssertionError: expected [ …(2) ] to have a length of 1 but got 2",
+    "restoredGreen": true,
+    "restoredSameExecutionCount": true,
+    "hashesMatchFinalCandidate": true
+  },
+  "runs": {
+    "positive": {
+      "exitCode": 0,
+      "summary": {
+        "numTotalTests": 4,
+        "numPassedTests": 4,
+        "numFailedTests": 0,
+        "success": true
+      },
+      "json": "Q08-S1-RC3.positive.json",
+      "raw": "Q08-S1-RC3.positive.txt"
+    },
+    "mutant": {
+      "exitCode": 1,
+      "summary": {
+        "numTotalTests": 4,
+        "numPassedTests": 3,
+        "numFailedTests": 1,
+        "success": false
+      },
+      "json": "Q08-S1-RC3.mutant.json",
+      "raw": "Q08-S1-RC3.mutant.txt"
+    },
+    "restored": {
+      "exitCode": 0,
+      "summary": {
+        "numTotalTests": 4,
+        "numPassedTests": 4,
+        "numFailedTests": 0,
+        "success": true
+      },
+      "json": "Q08-S1-RC3.restored.json",
+      "raw": "Q08-S1-RC3.restored.txt"
+    }
+  },
+  "verdict": "VALID"
+}

@@ -5,9 +5,9 @@
   "targetNameSubstring": "caster role 不在 playerRoles",
   "axis": "输入轴单轴变异：playerRoles 补入 caster role（合法表内容）；断言不动。",
   "sha256": {
-    "original": "33f8a61f64898de69ece86c3134e3eae97ca50ac6c2df41897f1a1412156b3a5",
-    "mutated": "ccca1fc758f771159ff84bc96c7f4cab7fba04f1f8d5c5a58e7ae3910c726f9c",
-    "restored": "33f8a61f64898de69ece86c3134e3eae97ca50ac6c2df41897f1a1412156b3a5"
+    "original": "e213e6a4b8bd7f86b31ebe916c94fd2fcdf13f1723dfb8482c6f7644a6ccc965",
+    "mutated": "6f36ca43831c0c8e5b210be67803f1d86b444f2f3c8c5e0b11a4cd9d780c535a",
+    "restored": "e213e6a4b8bd7f86b31ebe916c94fd2fcdf13f1723dfb8482c6f7644a6ccc965"
   },
   "restoredHashUnchanged": true,
   "criteria": {
@@ -22,8 +22,8 @@
     "positive": {
       "exitCode": 0,
       "summary": {
-        "numTotalTests": 12,
-        "numPassedTests": 12,
+        "numTotalTests": 13,
+        "numPassedTests": 13,
         "numFailedTests": 0,
         "success": true
       },
@@ -33,8 +33,8 @@
     "mutant": {
       "exitCode": 1,
       "summary": {
-        "numTotalTests": 12,
-        "numPassedTests": 11,
+        "numTotalTests": 13,
+        "numPassedTests": 12,
         "numFailedTests": 1,
         "success": false
       },
@@ -44,8 +44,8 @@
     "restored": {
       "exitCode": 0,
       "summary": {
-        "numTotalTests": 12,
-        "numPassedTests": 12,
+        "numTotalTests": 13,
+        "numPassedTests": 13,
         "numFailedTests": 0,
         "success": true
       },

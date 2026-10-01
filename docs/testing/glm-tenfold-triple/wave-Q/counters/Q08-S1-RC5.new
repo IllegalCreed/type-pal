@@ -1,0 +1,7 @@
+    const caster = slot({ id: 76, health: 200, objectId: 473 })
+    caster.e.yPosOffset = 4 // 变异轴：yPosOffset 0→4（合法偏移，该敌底锚应上移 4）
+    const state = battleState([dead, caster])
+    const ctx = summonCtx(state, 1, [baseEnemy({ id: 22, health: 80 })], [ENEMY_OBJ(419, 22)])
+    dispatchBattleOpcode(0x9e, [419, 1, 0], ctx)
+    const count = state.enemies.length
+    // 复用槽（id 22, yPosOffset=0）与施法者（id 76, yPosOffset=0）的底锚都来自

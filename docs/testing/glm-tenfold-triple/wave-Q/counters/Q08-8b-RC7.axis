@@ -1,1 +1,1 @@
-输入轴单轴变异：costMP=1 哨兵法术改 costMP=2（合法耗魔值，威力择优应改选 baseDamage 高的 297）；断言不动。
+输入轴单轴变异：costMP=1（极限技门，sdlpal uibattle.c:763-766）改 costMP=2（合法耗魔值）——两法术 baseDamage 同为 30、range=0，strict power>maxPower 使同威力保留先遇到的 296，断言 toBe(297) 应红；断言不动。

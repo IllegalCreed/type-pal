@@ -1,14 +1,35 @@
-# Wave Q：两阶段runtime与解码残余合同十倍包 — GLM Q 交付总账（r6 窄修 + 批准余族）
+# Wave Q：两阶段runtime与解码残余合同十倍包 — GLM Q 交付总账（r7 窄修续批）
 
 Coding Owner: GLM Q；[任务卡](../../../ops/tasks/TEST-GLM-WAVE-Q-1-runtime-residual-tenfold.md)、
 [共同协议](../README.md)、[冻结表](../targets.json)、Codex 2026-10-01 独立审查 `docs/testing/glm-tenfold-triple/codex-review-20261001.md`（落盘于审查树 codex/glm-lmn-acceptance-r1；按不 cherry-pick 纪律未拷入本分支，机器证据 codex-review-20261001.json 同）。
 分支 `codex/glm-wave-q-runtime-residual-r1`（独立 worktree），派发提交
 `8b3ca062953b17a12178f8d1a9e36657971234b1`，生产冻结 `3ac9a2e2f6aba8a5cc97640c18fef8549d199380`，
 起点候选 `626ddffe41cca4e3755dfafea1645c695c158b0f`（r1，被 counter → rework）。
-本文件描述 **r6 候选**（r5 预审 Q-R5-01～04 窄修 + 批准余族展开；既有闭合项不重开，
-r4 候选 9da8354d / r5 候选 63129473 与各自 pin 保留供独立复核）。不合 main、不标 done。
+本文件描述 **r7 候选**（r6 复核 Q-R6-01～03 窄修 + 续批；r5 的 Q-R5-01～04 与 r6 门禁
+复核已关闭不重开；r6 候选 c4e554361/pin 2ebf42b8 保留供独立复核）。不合 main、不标 done。
 
-## r6 相对 r5 的改动（Q-R5-01～04）
+## r6 复核后当前结论（Q-R6-02 分列；历史段仅记录，不再续派）
+
+- **当前规模：129 执行 / 45 针 / 17 文件 + 1 fixture / 10 流程**（r6 复核确认 128 执行
+  匹配后，r7 修正 RC7 因果并新增同威力保留先遇一例）。
+- 已删的 performItem 两例不再计入；capture 误设行（10b）已按 N/A 关闭、**不再续派**。
+- **剩余缺口：至少 571 例 / 5 针 / 完整 50 组账未闭合**；不整族缩围，逐项举证继续。
+
+## r7 相对 r6 的改动（Q-R6-01～03）
+
+1. **Q-R6-01 合同账**：contracts.json C104～C110 逐例改写为真实 source
+   （pickAutoMagic battle-system.ts:1048-1080 + hydrate :1394-1432 + project
+   :1577-1670）、生产 caller（bootstrap.ts:1197-1201）、旧断言锚
+   （battle-system.test.ts:1089-1119 仅两条 signed-negative）、逐例精确 oracle 与
+   输入轴；classification 不再沿用库存/扫描模板。
+2. **Q-R6-03 因果纠正**：costMP=1 臂标题改为「极限技门（sdlpal uibattle.c:763-766）」；
+   威力择优例补充明确「更高 baseDamage 替换」前提；**新增同威力保留先遇一例**
+   （两法术 baseDamage 同 30、range=0，strict `power>maxPower` 不替换 → 返回先遇 296），
+   该行为正是 RC7 变异的真实因果，现在有直接正向用例锚定。
+3. **Q-R6-04 针目**：RC7 axis/标题改为真实因果（同威力保留先遇，非「更高威力」）；
+   本文件六针随测试源变动全部真实重采；未变旧 39 枚保留。
+
+## r6 相对 r5 的改动（Q-R5-01～04，历史）
 
 1. **Q-R5-01**：selectAutoTargetFrom 两例 fixture 完整 typed 化——`slot()` 构造
    BattleEnemy 全必填字段（status 五项/prevHp/scripts/poisons），仅健康轴可变；
@@ -122,9 +143,9 @@ r4 候选 9da8354d / r5 候选 63129473 与各自 pin 保留供独立复核）�
      blocked-story / integration-heavy / stop-line 判定，申请 Codex 裁决缩围；
      700 总目标不自行缩减。
 
-## 交付规模（r6 候选；r5 的 123 例经 Q-R5-02 删重 2 例后净 121，加 pickAutoMagic 七例）
+## 交付规模（r7 候选）
 
-**128 例 / 17 新测试文件 + 1 fixture / 45 枚三态有效反控 / 10 条非剧情浏览器流程 /
+**129 例 / 17 新测试文件 + 1 fixture / 45 枚三态有效反控 / 10 条非剧情浏览器流程 /
 1 个缺陷红诊断（Codex 已独立确认，另列产品 draft）。**
 
 | 批 | 域 | 测试文件 | 用例 | 反控 |
@@ -136,10 +157,10 @@ r4 候选 9da8354d / r5 候选 63129473 与各自 pin 保留供独立复核）�
 | Q05 | battle 敌方可达闭包 | 1 | 6 | 5 |
 | Q06 | game status 毒槽/装备派生值 | 1 | 11 | 5 |
 | Q07 | game 事件/opcode | （见逐合同账） | 0 | — |
-| Q08 | game 战斗（8b/10b 展开 + pickAutoMagic 投影链） | 1 | 12 | 6 |
+| Q08 | game 战斗（8b/10b 展开 + pickAutoMagic 投影链） | 1 | 13 | 6 |
 | Q09 | game framebuffer 呈现端口 | 1 | 4 | 4 |
 | Q10 | pal-extract CLI 隔离实跑（事件段 + DATA 段） | 1 | 3 | 5 |
-| 合计 | | **17 + 1 fixture** | **128** | **45** |
+| 合计 | | **17 + 1 fixture** | **129** | **45** |
 
 ## 700/50 缺口申报（r4 续）
 
@@ -148,7 +169,7 @@ r4 候选 9da8354d / r5 候选 63129473 与各自 pin 保留供独立复核）�
 - Q07/Q08 逐条件展开继续：下一批首项为 8b（performAction/selectAction 逐条件锚）、
   10b（captureEnemy 全族）、11（game 战斗集成相位 typed driver 逐合同）及
   dialog/walkNPC 演出族；缺合法输入逐项举证，不整体缩围。
-- 反控 44/50：新增反控随新合同批次继续补足。
+- 反控 45/50（缺口 5 针）；用例缺口至少 571/700、50 组完整账未闭合——逐项举证继续。
 
 ## 排重与不可达登记
 

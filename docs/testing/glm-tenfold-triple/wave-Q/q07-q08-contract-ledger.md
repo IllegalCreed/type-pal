@@ -32,7 +32,7 @@
 | 6 | 召唤/变身（summon 槽位 / transform 属性转移） | `core/battle/__tests__/battle-opcodes.test.ts :: 0x9E enemy summon (script.c:009E) > w!=0 召唤指定敌人(obj→enemyId→enemies)+ 满血 + 脚本/抗性`；`> 有 bus 时召唤建敌施法/高亮动画`；`:: 0x9F enemy transform (script.c:009F) > 变身成 op0 对象(保留当前 health + 保留原形态脚本)+ M6 变身音 47`；`> 变身后按新 enemy.yPosOffset 刷新自身底锚`；`core/battle/__tests__/battle-system.test.ts :: throw-item action 派发(E2) > 0x9E summon:敌人 scriptOnReady 只复用 wMaxEnemyIndex 内死亡空槽,不扩容单敌队伍` | existing-proof（**范围注记（二审）：该末例构造单敌无空槽并断言不扩容，不扩为「正向死亡空槽复用」全轴证明**；正向复用轴列继续展开项） |
 | 7 | 开战重建装备效果（PAL_UpdateEquipments 等价） | `core/battle/__tests__/battle-system.test.ts :: 开战重建装备效果… > 复活的装双攻武器队员开战重获双攻状态`；`> 未装双攻武器的队员开战不会凭空获得双攻` | existing-proof |
 | 8 | 行动队列 buildActionQueue（performAction/selectAction 不在本行范围） | `core/battle/__tests__/turn-queue.test.ts :: buildActionQueue (PAL_CLASSIC) > 按 dexterity 降序`；`> dualMove enemy 进队列两次(第二次 fIsSecond=true)`；`> 同 dex 排序稳定(敌人先于队员,fight.c 先填敌人且只在严格小于时交换)`；`> 空队伍`；`> 空敌方` | existing-proof（**范围注记（二审）：仅证 buildActionQueue**；performAction/selectAction 两入口拆出为独立行，见第 8b 行） |
-| 8b | performAction / selectAction（行动执行与玩家指令选择） | selectAutoTargetFrom 六臂已证（`turn-queue.test.ts`/`battle-system.test.ts` 六例，r3 已核）；**r5 新证**：`battle-action-error-arms.glm-q.test.ts` 七例（performMagic caster 索引越界/role 缺失两臂、performItem+performThrowItem 无 inventory 三臂、selectAutoTargetFrom begin<0 与 prevTarget 越界两臂），39→44 反控含其中五轴。performMagic 主链（MP 扣减/起手音/脚本）与 pickAutoMagic 学习法术系仍见下「展开中」 | **部分已证 + 展开** |
+| 8b | performAction / selectAction（行动执行与玩家指令选择） | selectAutoTargetFrom 六臂已证（`turn-queue.test.ts`/`battle-system.test.ts` 六例，r3 已核）；**r5/r7 已证**：`battle-action-error-arms.glm-q.test.ts` 13 例 = performMagic caster 索引越界/role 缺失两臂 + performThrowItem 无 inventory 一臂（performItem 缺 entry/count0 两例经 Q-R5-02 删重，旧锚 actions.test.ts:2317-2371）+ selectAutoTargetFrom begin<0 与 prevTarget 越界两臂 + pickAutoMagic 公开投影链七例 + 同威力保留先遇一例（r7 新增） | **部分已证 + 展开（当前口径 13 例；performMagic 主链/行动相位/正向空槽复用余族见展开行）** |
 | 9 | 战后成长（CHECK_HIDDEN_EXP / battleWonLevelUp） | `core/battle/battle-progression.glm-next-wave.test.ts :: applyHiddenExpGrowth —— CHECK_HIDDEN_EXP 宏边角(battle.c:1238-1293) > wLevel=120 先钳 99` 等 6 例 | existing-proof |
 | 10 | 逃跑推进（enemyEscapeAnim 相位）/ 玩家逃跑判定（performFlee）/ 捕获（capture） | 逃跑推进：`core/battle/__tests__/battle-system.test.ts :: applyHiddenExpGrowth… > D13:enemyEscapeAnim → 全活敌往左挪到出屏 → phase=fleed;health 不变(fled 无 exp)`；`> L11:敌逃出屏后进入 ~13 帧停顿阶段再 fleed(battle.c:1433 UTIL_Delay(500))`；`:: tickBattle finalize > flee 成功 → fleed → finalize 切 explore(无 hp 改动)`。玩家逃跑判定：`core/battle/__tests__/actions.test.ts :: performFlee > fleeRate 远大于 rng 上限(roll 必小)→ 触发逃跑动画(fleeAnim)`；`> fleeRate=0 + 多个高吉运敌人(roll 必大)→ phase 不变`；`> 修复版:逃跑抵抗 def 用敌吉运 fleeRate,身法 dexterity 不参与`；`> isBoss=true → 无论 fleeRate 多高都不可逃`；`> 无 enemy 时 def=0 → roll∈[0,0]=0,fleeRate>=0 → 命中` | existing-proof（**范围注记（二审）：上锚证逃跑推进与玩家逃跑判定**；敌逃停顿终态/HP 不变由 battle-system 行覆盖；captureEnemy 全族 r2 未落锚 → 拆出第 10b 行） |
 | 10b | 捕获（captureEnemy 全族） | **r5 源条件核实（展开前置要求）**：`grep -ri capture packages/game/src`（排除测试）零公开符号命中——本引擎战斗公开面**不存在捕获机制入口**，r2 建行时未核源条件 | **N/A（误设行关闭）**——非停线轴；若 Codex 另有捕获机制出处（如 sdlpal reference 对应表），请给 primary 锚点再行开组 |
@@ -77,12 +77,22 @@ captureEnemy 全族列为「展开中（下一批首项）」；②第 4/11 行 
 game 不可达依据，改列「integration-heavy（待 typed session-driver 逐合同展开）」并
 在后续批次继续展开，不作为缩围依据。
 
-## 结论（r4 修订）
+## 结论（r7 当前口径）
+
+- 当前已证：第 1–10 行具体锚点轴 + 8b 的 13 例（含 pickAutoMagic 投影链与同威力保留先遇）；
+  已删 performItem 两例不计；capture（10b）误设行 N/A 关闭不再续派。
+- 当前规模 129 执行 / 45 针 / 17 文件 + 1 fixture；剩余至少 571 例 / 5 针 / 50 组完整账。
+- 停线不变：blocked-story（PAL001/002、E2E-002）与 stop-line（新机制真值）；
+  learnedSpells fallback 未授权不测。
+- 不整族缩围；后续批次逐条件展开 + 逐项举证。
+
+## 结论（r4 修订，历史）
 
 - 已证部分：第 1–10 行各**具体锚点**（二审/三审已抽验成立）作为对应具体轴的
   existing-proof，不重复制造同形用例；范围以各行「范围注记」为准，不扩族。
-- 展开中：8b（performAction/selectAction 逐条件）、10b（captureEnemy 全族）、
+- 展开中：8b 剩余（performMagic 主链逐条件/行动相位 typed driver/正向死亡空槽复用轴）、
   11（game 战斗集成相位，typed game driver）、以及 dialog/walkNPC 演出族——
+  （10b capture 误设行已 N/A 关闭，不再续派）——
   按逐未命中条件/caller/合法输入/完整 old fullName/断言行/精确 oracle 逐条补账。
 - 停线：剧情集成（禁启动 PAL001/002、E2E-002 占用）与未核机制真值（stop-line）。
 - 不再申请整体缩围；缺口由后续批次逐合同展开继续补足，700/50 目标保留。

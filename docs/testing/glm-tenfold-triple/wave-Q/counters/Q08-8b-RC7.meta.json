@@ -1,13 +1,13 @@
 {
   "id": "Q08-8b-RC7",
   "file": "packages/game/src/battle-action-error-arms.glm-q.test.ts",
-  "targetFullName": "Q08-8b pickAutoMagic 展开批（typed rgwMagic 投影链；Q-R5-03 撤回 blocked-input） costMP=1 哨兵（sdlpal 特殊免耗位）→ 跳过不选；合法耗魔法术正常入选",
-  "targetNameSubstring": "costMP=1 哨兵",
-  "axis": "输入轴单轴变异：costMP=1 哨兵法术改 costMP=2（合法耗魔值，威力择优应改选 baseDamage 高的 297）；断言不动。",
+  "targetFullName": "Q08-8b pickAutoMagic 展开批（typed rgwMagic 投影链；Q-R5-03 撤回 blocked-input） costMP=1 极限技门（sdlpal uibattle.c:763-766 筛除极限技）→ 跳过不选；合法耗魔法术正常入选",
+  "targetNameSubstring": "costMP=1 极限技门",
+  "axis": "输入轴单轴变异：costMP=1（极限技门，sdlpal uibattle.c:763-766）改 costMP=2（合法耗魔值）——两法术 baseDamage 同为 30、range=0，strict power>maxPower 使同威力保留先遇到的 296，断言 toBe(297) 应红；断言不动。",
   "sha256": {
-    "original": "33f8a61f64898de69ece86c3134e3eae97ca50ac6c2df41897f1a1412156b3a5",
-    "mutated": "64870171900181515f3e435ad1a5235ac5346261ddd049d87fbfaf794861d1bf",
-    "restored": "33f8a61f64898de69ece86c3134e3eae97ca50ac6c2df41897f1a1412156b3a5"
+    "original": "e213e6a4b8bd7f86b31ebe916c94fd2fcdf13f1723dfb8482c6f7644a6ccc965",
+    "mutated": "f30e46aea210ed238fcbdd2e5c929addbb35fa43fe7fc572ec48abf4728b529b",
+    "restored": "e213e6a4b8bd7f86b31ebe916c94fd2fcdf13f1723dfb8482c6f7644a6ccc965"
   },
   "restoredHashUnchanged": true,
   "criteria": {
@@ -22,8 +22,8 @@
     "positive": {
       "exitCode": 0,
       "summary": {
-        "numTotalTests": 12,
-        "numPassedTests": 12,
+        "numTotalTests": 13,
+        "numPassedTests": 13,
         "numFailedTests": 0,
         "success": true
       },
@@ -33,8 +33,8 @@
     "mutant": {
       "exitCode": 1,
       "summary": {
-        "numTotalTests": 12,
-        "numPassedTests": 11,
+        "numTotalTests": 13,
+        "numPassedTests": 12,
         "numFailedTests": 1,
         "success": false
       },
@@ -44,8 +44,8 @@
     "restored": {
       "exitCode": 0,
       "summary": {
-        "numTotalTests": 12,
-        "numPassedTests": 12,
+        "numTotalTests": 13,
+        "numPassedTests": 13,
         "numFailedTests": 0,
         "success": true
       },

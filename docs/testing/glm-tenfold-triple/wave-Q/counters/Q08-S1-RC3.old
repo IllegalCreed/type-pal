@@ -1,0 +1,4 @@
+    const r = dispatchBattleOpcode(0x9e, [419, 1, 0], ctx)
+    expect(r.consumed).toBe(true)
+    const revived = [deadA, deadB].filter((s) => !s.defeated)
+    expect(revived).toHaveLength(1) // count=1 只复用一间

@@ -1,0 +1,57 @@
+{
+  "id": "Q08-S1-RC2",
+  "file": "packages/game/src/battle-summon-slot-reuse.glm-q.test.ts",
+  "targetFullName": "Q08 0x9E 正向死亡空槽复用（战中击败槽，非初始 0 占位） 战中被击败槽被复用：满血重置、毒清零、对象身份与脚本替换",
+  "targetNameSubstring": "战中被击败槽被复用",
+  "axis": "输入轴单轴变异：召唤兽 base 满血 80→120（合法生命值；复用应重置为新 base 满血 120，toBe(80) 断言应红）；断言不动。",
+  "sha256": {
+    "original": "a28e4d2dba15330481aa83b7937a0b567a1610c535c32773e483d501d7e4ee5b",
+    "mutated": "c475e1ad6be9b99221e2ce46b9296c11380e1b9acc5e7c1460390e210e35d96f",
+    "restored": "a28e4d2dba15330481aa83b7937a0b567a1610c535c32773e483d501d7e4ee5b"
+  },
+  "restoredHashUnchanged": true,
+  "criteria": {
+    "positiveGreen": true,
+    "mutantExactlyOneTargetRed": true,
+    "targetAssertionError": "AssertionError: expected 120 to be 80 // Object.is equality",
+    "restoredGreen": true,
+    "restoredSameExecutionCount": true,
+    "hashesMatchFinalCandidate": true
+  },
+  "runs": {
+    "positive": {
+      "exitCode": 0,
+      "summary": {
+        "numTotalTests": 4,
+        "numPassedTests": 4,
+        "numFailedTests": 0,
+        "success": true
+      },
+      "json": "Q08-S1-RC2.positive.json",
+      "raw": "Q08-S1-RC2.positive.txt"
+    },
+    "mutant": {
+      "exitCode": 1,
+      "summary": {
+        "numTotalTests": 4,
+        "numPassedTests": 3,
+        "numFailedTests": 1,
+        "success": false
+      },
+      "json": "Q08-S1-RC2.mutant.json",
+      "raw": "Q08-S1-RC2.mutant.txt"
+    },
+    "restored": {
+      "exitCode": 0,
+      "summary": {
+        "numTotalTests": 4,
+        "numPassedTests": 4,
+        "numFailedTests": 0,
+        "success": true
+      },
+      "json": "Q08-S1-RC2.restored.json",
+      "raw": "Q08-S1-RC2.restored.txt"
+    }
+  },
+  "verdict": "VALID"
+}

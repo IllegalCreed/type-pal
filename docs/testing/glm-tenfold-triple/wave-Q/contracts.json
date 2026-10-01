@@ -1453,12 +1453,12 @@
       "file": "game/src/battle-action-error-arms.glm-q.test.ts",
       "fullName": "Q08-8b pickAutoMagic 展开批（typed rgwMagic 投影链；Q-R5-03 撤回 blocked-input） 公开投影链把 rgwMagic 槽位真实投影为 role.magic（caller 同路）",
       "status": "passed",
-      "source": "game src/core/battle/actions/magic.ts performMagic（caster 缺失臂）+ actions/item.ts performItem 与 actions/throw-item.ts performThrowItem（无 inventory 臂）+ battle-system.ts selectAutoTargetFrom（begin<0/prevTarget 越界臂）",
-      "caller": "typed BattleState/PlayerRoles/GameState 直构（镜像旧 makeState 形态，零强转）+ createCommandBus + runScript spy",
-      "oldAssertion": "actions.test.ts 已证「MP 不足不扣/spell id not found/magic id 不在表/item id not found」；本文件不重复，只打 caster/role 缺失与无 inventory 三族及 selectAutoTargetFrom 两条件臂",
-      "axis": "输入轴/公开入口直驱（逐用例轴见测试体；反控轴见 counters/<id>.axis）",
-      "oracle": "对真实公开入口最终结果断言（精确消息/状态字段/字节数/落盘产物），rejects 原文保留",
-      "classification": "error/resource-ownership arms（warn 原文+不扣 MP+不 emit+不跑脚本+inventory 原样；扫描规范化与越界回扫）"
+      "source": "game core/battle/battle-system.ts pickAutoMagic（battle-system.ts:1048-1080：silence 门/getLearnedSpells/resolveMagicObject/costMP/MP/baseDamage SHORT/power 择优）与 core/game-state.ts hydratePlayerRolesRuntime（:1394-1432 rgwMagic 32 槽）+ projectRuntimeToBattleRoles（:1577-1670 槽→role.magic）",
+      "caller": "生产 caller = shell/bootstrap.ts:1197-1201 startBattle 前的同一公开投影；测试经 createInitialGameState → hydratePlayerRolesRuntime → 手填公开 rgwMagic 槽 → projectRuntimeToBattleRoles 构造 battle 视角 role",
+      "oldAssertion": "battle-system.test.ts:1089-1119 仅两条 signed-negative（负 baseDamage SHORT 跳过选正常法术 / 全负返 0 物理攻击）；旧 fixture 用双强转注 role.magic（本卡禁用），无 silence/selectingPlayerIdx/resolve 失败/costMP=1/MP 门/威力择优/投影链直证",
+      "axis": "公开投影链直证：合法 typed 槽位输入 → 数组逐位相等",
+      "oracle": "projectRuntimeToBattleRoles 输出 role.magic 逐槽等于手填 rgwMagic（32 槽保序、零槽补 0）",
+      "classification": "new typed-projection contracts（Q-R5-03 撤回后按公开 hydrate/rgwMagic/project 链展开；signed-negative 两例未重复；learnedSpells fallback 未授权不测）"
     },
     {
       "id": "C105",
@@ -1467,12 +1467,12 @@
       "file": "game/src/battle-action-error-arms.glm-q.test.ts",
       "fullName": "Q08-8b pickAutoMagic 展开批（typed rgwMagic 投影链；Q-R5-03 撤回 blocked-input） silence>0 → 直接返回 0（物理攻击），不查法术表",
       "status": "passed",
-      "source": "game src/core/battle/actions/magic.ts performMagic（caster 缺失臂）+ actions/item.ts performItem 与 actions/throw-item.ts performThrowItem（无 inventory 臂）+ battle-system.ts selectAutoTargetFrom（begin<0/prevTarget 越界臂）",
-      "caller": "typed BattleState/PlayerRoles/GameState 直构（镜像旧 makeState 形态，零强转）+ createCommandBus + runScript spy",
-      "oldAssertion": "actions.test.ts 已证「MP 不足不扣/spell id not found/magic id 不在表/item id not found」；本文件不重复，只打 caster/role 缺失与无 inventory 三族及 selectAutoTargetFrom 两条件臂",
-      "axis": "输入轴/公开入口直驱（逐用例轴见测试体；反控轴见 counters/<id>.axis）",
-      "oracle": "对真实公开入口最终结果断言（精确消息/状态字段/字节数/落盘产物），rejects 原文保留",
-      "classification": "error/resource-ownership arms（warn 原文+不扣 MP+不 emit+不跑脚本+inventory 原样；扫描规范化与越界回扫）"
+      "source": "game core/battle/battle-system.ts pickAutoMagic（battle-system.ts:1048-1080：silence 门/getLearnedSpells/resolveMagicObject/costMP/MP/baseDamage SHORT/power 择优）与 core/game-state.ts hydratePlayerRolesRuntime（:1394-1432 rgwMagic 32 槽）+ projectRuntimeToBattleRoles（:1577-1670 槽→role.magic）",
+      "caller": "生产 caller = shell/bootstrap.ts:1197-1201 startBattle 前的同一公开投影；测试经 createInitialGameState → hydratePlayerRolesRuntime → 手填公开 rgwMagic 槽 → projectRuntimeToBattleRoles 构造 battle 视角 role",
+      "oldAssertion": "battle-system.test.ts:1089-1119 仅两条 signed-negative（负 baseDamage SHORT 跳过选正常法术 / 全负返 0 物理攻击）；旧 fixture 用双强转注 role.magic（本卡禁用），无 silence/selectingPlayerIdx/resolve 失败/costMP=1/MP 门/威力择优/投影链直证",
+      "axis": "status.silence 合法正数（3）",
+      "oracle": "silence>0 时 pickAutoMagic 恒返 0（物理攻击），不查法术表",
+      "classification": "new typed-projection contracts（Q-R5-03 撤回后按公开 hydrate/rgwMagic/project 链展开；signed-negative 两例未重复；learnedSpells fallback 未授权不测）"
     },
     {
       "id": "C106",
@@ -1481,12 +1481,12 @@
       "file": "game/src/battle-action-error-arms.glm-q.test.ts",
       "fullName": "Q08-8b pickAutoMagic 展开批（typed rgwMagic 投影链；Q-R5-03 撤回 blocked-input） selectingPlayerIdx 缺席（undefined）→ 返回 0",
       "status": "passed",
-      "source": "game src/core/battle/actions/magic.ts performMagic（caster 缺失臂）+ actions/item.ts performItem 与 actions/throw-item.ts performThrowItem（无 inventory 臂）+ battle-system.ts selectAutoTargetFrom（begin<0/prevTarget 越界臂）",
-      "caller": "typed BattleState/PlayerRoles/GameState 直构（镜像旧 makeState 形态，零强转）+ createCommandBus + runScript spy",
-      "oldAssertion": "actions.test.ts 已证「MP 不足不扣/spell id not found/magic id 不在表/item id not found」；本文件不重复，只打 caster/role 缺失与无 inventory 三族及 selectAutoTargetFrom 两条件臂",
-      "axis": "输入轴/公开入口直驱（逐用例轴见测试体；反控轴见 counters/<id>.axis）",
-      "oracle": "对真实公开入口最终结果断言（精确消息/状态字段/字节数/落盘产物），rejects 原文保留",
-      "classification": "error/resource-ownership arms（warn 原文+不扣 MP+不 emit+不跑脚本+inventory 原样；扫描规范化与越界回扫）"
+      "source": "game core/battle/battle-system.ts pickAutoMagic（battle-system.ts:1048-1080：silence 门/getLearnedSpells/resolveMagicObject/costMP/MP/baseDamage SHORT/power 择优）与 core/game-state.ts hydratePlayerRolesRuntime（:1394-1432 rgwMagic 32 槽）+ projectRuntimeToBattleRoles（:1577-1670 槽→role.magic）",
+      "caller": "生产 caller = shell/bootstrap.ts:1197-1201 startBattle 前的同一公开投影；测试经 createInitialGameState → hydratePlayerRolesRuntime → 手填公开 rgwMagic 槽 → projectRuntimeToBattleRoles 构造 battle 视角 role",
+      "oldAssertion": "battle-system.test.ts:1089-1119 仅两条 signed-negative（负 baseDamage SHORT 跳过选正常法术 / 全负返 0 物理攻击）；旧 fixture 用双强转注 role.magic（本卡禁用），无 silence/selectingPlayerIdx/resolve 失败/costMP=1/MP 门/威力择优/投影链直证",
+      "axis": "BattleState 不设 selectingPlayerIdx（合法缺省）",
+      "oracle": "selectingPlayerIdx===undefined 时返 0（无当前选择队员）",
+      "classification": "new typed-projection contracts（Q-R5-03 撤回后按公开 hydrate/rgwMagic/project 链展开；signed-negative 两例未重复；learnedSpells fallback 未授权不测）"
     },
     {
       "id": "C107",
@@ -1495,12 +1495,12 @@
       "file": "game/src/battle-action-error-arms.glm-q.test.ts",
       "fullName": "Q08-8b pickAutoMagic 展开批（typed rgwMagic 投影链；Q-R5-03 撤回 blocked-input） 已学槽法术 resolve 失败（spell 不在表）→ 该槽跳过，返回 0",
       "status": "passed",
-      "source": "game src/core/battle/actions/magic.ts performMagic（caster 缺失臂）+ actions/item.ts performItem 与 actions/throw-item.ts performThrowItem（无 inventory 臂）+ battle-system.ts selectAutoTargetFrom（begin<0/prevTarget 越界臂）",
-      "caller": "typed BattleState/PlayerRoles/GameState 直构（镜像旧 makeState 形态，零强转）+ createCommandBus + runScript spy",
-      "oldAssertion": "actions.test.ts 已证「MP 不足不扣/spell id not found/magic id 不在表/item id not found」；本文件不重复，只打 caster/role 缺失与无 inventory 三族及 selectAutoTargetFrom 两条件臂",
-      "axis": "输入轴/公开入口直驱（逐用例轴见测试体；反控轴见 counters/<id>.axis）",
-      "oracle": "对真实公开入口最终结果断言（精确消息/状态字段/字节数/落盘产物），rejects 原文保留",
-      "classification": "error/resource-ownership arms（warn 原文+不扣 MP+不 emit+不跑脚本+inventory 原样；扫描规范化与越界回扫）"
+      "source": "game core/battle/battle-system.ts pickAutoMagic（battle-system.ts:1048-1080：silence 门/getLearnedSpells/resolveMagicObject/costMP/MP/baseDamage SHORT/power 择优）与 core/game-state.ts hydratePlayerRolesRuntime（:1394-1432 rgwMagic 32 槽）+ projectRuntimeToBattleRoles（:1577-1670 槽→role.magic）",
+      "caller": "生产 caller = shell/bootstrap.ts:1197-1201 startBattle 前的同一公开投影；测试经 createInitialGameState → hydratePlayerRolesRuntime → 手填公开 rgwMagic 槽 → projectRuntimeToBattleRoles 构造 battle 视角 role",
+      "oldAssertion": "battle-system.test.ts:1089-1119 仅两条 signed-negative（负 baseDamage SHORT 跳过选正常法术 / 全负返 0 物理攻击）；旧 fixture 用双强转注 role.magic（本卡禁用），无 silence/selectingPlayerIdx/resolve 失败/costMP=1/MP 门/威力择优/投影链直证",
+      "axis": "学习槽 400 而 spells 表只含 297（合法 id 域）",
+      "oracle": "已学槽 spell 不在 spells 表 → resolve 失败跳过该槽，best 保持 0",
+      "classification": "new typed-projection contracts（Q-R5-03 撤回后按公开 hydrate/rgwMagic/project 链展开；signed-negative 两例未重复；learnedSpells fallback 未授权不测）"
     },
     {
       "id": "C108",
@@ -1509,12 +1509,12 @@
       "file": "game/src/battle-action-error-arms.glm-q.test.ts",
       "fullName": "Q08-8b pickAutoMagic 展开批（typed rgwMagic 投影链；Q-R5-03 撤回 blocked-input） costMP=1 哨兵（sdlpal 特殊免耗位）→ 跳过不选；合法耗魔法术正常入选",
       "status": "passed",
-      "source": "game src/core/battle/actions/magic.ts performMagic（caster 缺失臂）+ actions/item.ts performItem 与 actions/throw-item.ts performThrowItem（无 inventory 臂）+ battle-system.ts selectAutoTargetFrom（begin<0/prevTarget 越界臂）",
-      "caller": "typed BattleState/PlayerRoles/GameState 直构（镜像旧 makeState 形态，零强转）+ createCommandBus + runScript spy",
-      "oldAssertion": "actions.test.ts 已证「MP 不足不扣/spell id not found/magic id 不在表/item id not found」；本文件不重复，只打 caster/role 缺失与无 inventory 三族及 selectAutoTargetFrom 两条件臂",
-      "axis": "输入轴/公开入口直驱（逐用例轴见测试体；反控轴见 counters/<id>.axis）",
-      "oracle": "对真实公开入口最终结果断言（精确消息/状态字段/字节数/落盘产物），rejects 原文保留",
-      "classification": "error/resource-ownership arms（warn 原文+不扣 MP+不 emit+不跑脚本+inventory 原样；扫描规范化与越界回扫）"
+      "source": "game core/battle/battle-system.ts pickAutoMagic（battle-system.ts:1048-1080：silence 门/getLearnedSpells/resolveMagicObject/costMP/MP/baseDamage SHORT/power 择优）与 core/game-state.ts hydratePlayerRolesRuntime（:1394-1432 rgwMagic 32 槽）+ projectRuntimeToBattleRoles（:1577-1670 槽→role.magic）",
+      "caller": "生产 caller = shell/bootstrap.ts:1197-1201 startBattle 前的同一公开投影；测试经 createInitialGameState → hydratePlayerRolesRuntime → 手填公开 rgwMagic 槽 → projectRuntimeToBattleRoles 构造 battle 视角 role",
+      "oldAssertion": "battle-system.test.ts:1089-1119 仅两条 signed-negative（负 baseDamage SHORT 跳过选正常法术 / 全负返 0 物理攻击）；旧 fixture 用双强转注 role.magic（本卡禁用），无 silence/selectingPlayerIdx/resolve 失败/costMP=1/MP 门/威力择优/投影链直证",
+      "axis": "296 costMP=1 / 297 costMP=2（均合法耗魔值）",
+      "oracle": "costMP===1（sdlpal uibattle.c:763-766 极限技筛除门）跳过不选，costMP=2 正常法术入选",
+      "classification": "new typed-projection contracts（Q-R5-03 撤回后按公开 hydrate/rgwMagic/project 链展开；signed-negative 两例未重复；learnedSpells fallback 未授权不测）"
     },
     {
       "id": "C109",
@@ -1523,12 +1523,12 @@
       "file": "game/src/battle-action-error-arms.glm-q.test.ts",
       "fullName": "Q08-8b pickAutoMagic 展开批（typed rgwMagic 投影链；Q-R5-03 撤回 blocked-input） 唯一已学法术 MP 不足（costMP>role.mp）→ 跳过返回 0",
       "status": "passed",
-      "source": "game src/core/battle/actions/magic.ts performMagic（caster 缺失臂）+ actions/item.ts performItem 与 actions/throw-item.ts performThrowItem（无 inventory 臂）+ battle-system.ts selectAutoTargetFrom（begin<0/prevTarget 越界臂）",
-      "caller": "typed BattleState/PlayerRoles/GameState 直构（镜像旧 makeState 形态，零强转）+ createCommandBus + runScript spy",
-      "oldAssertion": "actions.test.ts 已证「MP 不足不扣/spell id not found/magic id 不在表/item id not found」；本文件不重复，只打 caster/role 缺失与无 inventory 三族及 selectAutoTargetFrom 两条件臂",
-      "axis": "输入轴/公开入口直驱（逐用例轴见测试体；反控轴见 counters/<id>.axis）",
-      "oracle": "对真实公开入口最终结果断言（精确消息/状态字段/字节数/落盘产物），rejects 原文保留",
-      "classification": "error/resource-ownership arms（warn 原文+不扣 MP+不 emit+不跑脚本+inventory 原样；扫描规范化与越界回扫）"
+      "source": "game core/battle/battle-system.ts pickAutoMagic（battle-system.ts:1048-1080：silence 门/getLearnedSpells/resolveMagicObject/costMP/MP/baseDamage SHORT/power 择优）与 core/game-state.ts hydratePlayerRolesRuntime（:1394-1432 rgwMagic 32 槽）+ projectRuntimeToBattleRoles（:1577-1670 槽→role.magic）",
+      "caller": "生产 caller = shell/bootstrap.ts:1197-1201 startBattle 前的同一公开投影；测试经 createInitialGameState → hydratePlayerRolesRuntime → 手填公开 rgwMagic 槽 → projectRuntimeToBattleRoles 构造 battle 视角 role",
+      "oldAssertion": "battle-system.test.ts:1089-1119 仅两条 signed-negative（负 baseDamage SHORT 跳过选正常法术 / 全负返 0 物理攻击）；旧 fixture 用双强转注 role.magic（本卡禁用），无 silence/selectingPlayerIdx/resolve 失败/costMP=1/MP 门/威力择优/投影链直证",
+      "axis": "costMP=31 vs 投影后 role.mp=30（合法边界）",
+      "oracle": "唯一已学法术 costMP>role.mp（31>30）→ 跳过返 0，不扣不选",
+      "classification": "new typed-projection contracts（Q-R5-03 撤回后按公开 hydrate/rgwMagic/project 链展开；signed-negative 两例未重复；learnedSpells fallback 未授权不测）"
     },
     {
       "id": "C110",
@@ -1537,12 +1537,12 @@
       "file": "game/src/battle-action-error-arms.glm-q.test.ts",
       "fullName": "Q08-8b pickAutoMagic 展开批（typed rgwMagic 投影链；Q-R5-03 撤回 blocked-input） 威力择优：同 rng 下 baseDamage 高者入选（range=0 消除随机项）",
       "status": "passed",
-      "source": "game src/core/battle/actions/magic.ts performMagic（caster 缺失臂）+ actions/item.ts performItem 与 actions/throw-item.ts performThrowItem（无 inventory 臂）+ battle-system.ts selectAutoTargetFrom（begin<0/prevTarget 越界臂）",
-      "caller": "typed BattleState/PlayerRoles/GameState 直构（镜像旧 makeState 形态，零强转）+ createCommandBus + runScript spy",
-      "oldAssertion": "actions.test.ts 已证「MP 不足不扣/spell id not found/magic id 不在表/item id not found」；本文件不重复，只打 caster/role 缺失与无 inventory 三族及 selectAutoTargetFrom 两条件臂",
-      "axis": "输入轴/公开入口直驱（逐用例轴见测试体；反控轴见 counters/<id>.axis）",
-      "oracle": "对真实公开入口最终结果断言（精确消息/状态字段/字节数/落盘产物），rejects 原文保留",
-      "classification": "error/resource-ownership arms（warn 原文+不扣 MP+不 emit+不跑脚本+inventory 原样；扫描规范化与越界回扫）"
+      "source": "game core/battle/battle-system.ts pickAutoMagic（battle-system.ts:1048-1080：silence 门/getLearnedSpells/resolveMagicObject/costMP/MP/baseDamage SHORT/power 择优）与 core/game-state.ts hydratePlayerRolesRuntime（:1394-1432 rgwMagic 32 槽）+ projectRuntimeToBattleRoles（:1577-1670 槽→role.magic）",
+      "caller": "生产 caller = shell/bootstrap.ts:1197-1201 startBattle 前的同一公开投影；测试经 createInitialGameState → hydratePlayerRolesRuntime → 手填公开 rgwMagic 槽 → projectRuntimeToBattleRoles 构造 battle 视角 role",
+      "oldAssertion": "battle-system.test.ts:1089-1119 仅两条 signed-negative（负 baseDamage SHORT 跳过选正常法术 / 全负返 0 物理攻击）；旧 fixture 用双强转注 role.magic（本卡禁用），无 silence/selectingPlayerIdx/resolve 失败/costMP=1/MP 门/威力择优/投影链直证",
+      "axis": "两法术 baseDamage 同为 30、costMP 同为 2（同威力保留首遇）",
+      "oracle": "range=0 消随机项后 strict power>maxPower：首法术(296)建立 max，同威力后来者(297)不替换 → 返回先遇到的 296",
+      "classification": "new typed-projection contracts（Q-R5-03 撤回后按公开 hydrate/rgwMagic/project 链展开；signed-negative 两例未重复；learnedSpells fallback 未授权不测）"
     },
     {
       "id": "C111",

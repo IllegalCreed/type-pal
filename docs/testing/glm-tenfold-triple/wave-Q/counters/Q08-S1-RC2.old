@@ -1,0 +1,4 @@
+    const ctx = summonCtx(state, 1, [baseEnemy({ id: 22, health: 80 })], [ENEMY_OBJ(419, 22)])
+    const r = dispatchBattleOpcode(0x9e, [419, 1, 300], ctx)
+    expect(r.consumed).toBe(true)
+    expect(r.newIp).toBeUndefined() // 有房间，不走 fail 跳转

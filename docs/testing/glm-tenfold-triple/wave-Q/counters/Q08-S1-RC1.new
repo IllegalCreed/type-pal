@@ -1,0 +1,3 @@
+    const r = dispatchBattleOpcode(0x9e, [419, 2, 300], ctx) // 变异轴：count 1→2（合法数量，但仅 1 间死亡房）
+    expect(r.consumed).toBe(true)
+    expect(r.newIp).toBeUndefined() // 有房间，不走 fail 跳转

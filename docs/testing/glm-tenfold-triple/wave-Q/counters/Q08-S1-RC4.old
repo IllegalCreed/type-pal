@@ -1,0 +1,1 @@
+    expect(r.newIp).toBe(300) // room(=0) < count(1) → fail jump

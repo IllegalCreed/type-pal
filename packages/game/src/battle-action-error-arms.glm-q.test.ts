@@ -381,7 +381,7 @@ describe('Q08-8b pickAutoMagic 展开批（typed rgwMagic 投影链；Q-R5-03 �
     expect(r).toBe(0)
   })
 
-  test('costMP=1 哨兵（sdlpal 特殊免耗位）→ 跳过不选；合法耗魔法术正常入选', () => {
+  test('costMP=1 极限技门（sdlpal uibattle.c:763-766 筛除极限技）→ 跳过不选；合法耗魔法术正常入选', () => {
     const r = pickAutoMagic(
       autoState(),
       projectedRoles([296, 297]),
@@ -399,7 +399,7 @@ describe('Q08-8b pickAutoMagic 展开批（typed rgwMagic 投影链；Q-R5-03 �
     expect(r).toBe(0)
   })
 
-  test('威力择优：同 rng 下 baseDamage 高者入选（range=0 消除随机项）', () => {
+  test('威力择优（range=0 消随机项）：更高 baseDamage 者替换先遇者', () => {
     const r = pickAutoMagic(
       autoState(),
       projectedRoles([296, 297]),
@@ -408,5 +408,16 @@ describe('Q08-8b pickAutoMagic 展开批（typed rgwMagic 投影链；Q-R5-03 �
       0,
     )
     expect(r).toBe(297)
+  })
+
+  test('同威力保留先遇（strict power>maxPower）：range=0 下两法术 baseDamage 相同 → 返回先遇到的 296', () => {
+    const r = pickAutoMagic(
+      autoState(),
+      projectedRoles([296, 297]),
+      [spell(296), spell(297)],
+      [magic(296, { baseDamage: 30 }), magic(297, { baseDamage: 30 })],
+      0,
+    )
+    expect(r).toBe(296)
   })
 })

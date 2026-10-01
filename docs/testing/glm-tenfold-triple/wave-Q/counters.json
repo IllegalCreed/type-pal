@@ -1,5 +1,5 @@
 {
-  "count": 45,
+  "count": 50,
   "allValid": true,
   "hashVerification": "index 条目由最终 per-counter meta 生成；original/restored 与候选树实际文件 SHA256 逐枚断言相等（构建时校验，mismatch 即失败）",
   "perCounter": [
@@ -2233,9 +2233,9 @@
       "targetNameSubstring": "caster 索引越界",
       "axis": "输入轴单轴变异：performMagic caster 索引 9→0（合法界内 caster，MP 足额）；断言不动。",
       "sha256": {
-        "original": "33f8a61f64898de69ece86c3134e3eae97ca50ac6c2df41897f1a1412156b3a5",
-        "mutated": "43b80f9eda03dd1b5be5223bb269120e49b70f14a5396871577af43bf345e37c",
-        "restored": "33f8a61f64898de69ece86c3134e3eae97ca50ac6c2df41897f1a1412156b3a5"
+        "original": "e213e6a4b8bd7f86b31ebe916c94fd2fcdf13f1723dfb8482c6f7644a6ccc965",
+        "mutated": "59046d0e56d2b2c258f5f4d1a140362399ea62b1f7a68b8f8c680e0990ca52dd",
+        "restored": "e213e6a4b8bd7f86b31ebe916c94fd2fcdf13f1723dfb8482c6f7644a6ccc965"
       },
       "restoredHashUnchanged": true,
       "criteria": {
@@ -2250,8 +2250,8 @@
         "positive": {
           "exitCode": 0,
           "summary": {
-            "numTotalTests": 12,
-            "numPassedTests": 12,
+            "numTotalTests": 13,
+            "numPassedTests": 13,
             "numFailedTests": 0,
             "success": true
           },
@@ -2261,8 +2261,8 @@
         "mutant": {
           "exitCode": 1,
           "summary": {
-            "numTotalTests": 12,
-            "numPassedTests": 11,
+            "numTotalTests": 13,
+            "numPassedTests": 12,
             "numFailedTests": 1,
             "success": false
           },
@@ -2272,8 +2272,8 @@
         "restored": {
           "exitCode": 0,
           "summary": {
-            "numTotalTests": 12,
-            "numPassedTests": 12,
+            "numTotalTests": 13,
+            "numPassedTests": 13,
             "numFailedTests": 0,
             "success": true
           },
@@ -2290,9 +2290,9 @@
       "targetNameSubstring": "caster role 不在 playerRoles",
       "axis": "输入轴单轴变异：playerRoles 补入 caster role（合法表内容）；断言不动。",
       "sha256": {
-        "original": "33f8a61f64898de69ece86c3134e3eae97ca50ac6c2df41897f1a1412156b3a5",
-        "mutated": "ccca1fc758f771159ff84bc96c7f4cab7fba04f1f8d5c5a58e7ae3910c726f9c",
-        "restored": "33f8a61f64898de69ece86c3134e3eae97ca50ac6c2df41897f1a1412156b3a5"
+        "original": "e213e6a4b8bd7f86b31ebe916c94fd2fcdf13f1723dfb8482c6f7644a6ccc965",
+        "mutated": "6f36ca43831c0c8e5b210be67803f1d86b444f2f3c8c5e0b11a4cd9d780c535a",
+        "restored": "e213e6a4b8bd7f86b31ebe916c94fd2fcdf13f1723dfb8482c6f7644a6ccc965"
       },
       "restoredHashUnchanged": true,
       "criteria": {
@@ -2307,8 +2307,8 @@
         "positive": {
           "exitCode": 0,
           "summary": {
-            "numTotalTests": 12,
-            "numPassedTests": 12,
+            "numTotalTests": 13,
+            "numPassedTests": 13,
             "numFailedTests": 0,
             "success": true
           },
@@ -2318,8 +2318,8 @@
         "mutant": {
           "exitCode": 1,
           "summary": {
-            "numTotalTests": 12,
-            "numPassedTests": 11,
+            "numTotalTests": 13,
+            "numPassedTests": 12,
             "numFailedTests": 1,
             "success": false
           },
@@ -2329,8 +2329,8 @@
         "restored": {
           "exitCode": 0,
           "summary": {
-            "numTotalTests": 12,
-            "numPassedTests": 12,
+            "numTotalTests": 13,
+            "numPassedTests": 13,
             "numFailedTests": 0,
             "success": true
           },
@@ -2347,9 +2347,9 @@
       "targetNameSubstring": "队员无 inventory",
       "axis": "输入轴单轴变异：performThrowItem 用例补合法库存（count=2）；断言不动。",
       "sha256": {
-        "original": "33f8a61f64898de69ece86c3134e3eae97ca50ac6c2df41897f1a1412156b3a5",
-        "mutated": "9b3292a4b26d4719a5dbb941faf06d58e128d0511b4bf59ae6e7ddbf37fe9e50",
-        "restored": "33f8a61f64898de69ece86c3134e3eae97ca50ac6c2df41897f1a1412156b3a5"
+        "original": "e213e6a4b8bd7f86b31ebe916c94fd2fcdf13f1723dfb8482c6f7644a6ccc965",
+        "mutated": "0ae00c6091cd54a98f80c8019f10aef82468304f2158d86abc61d7556c16bfa1",
+        "restored": "e213e6a4b8bd7f86b31ebe916c94fd2fcdf13f1723dfb8482c6f7644a6ccc965"
       },
       "restoredHashUnchanged": true,
       "criteria": {
@@ -2364,8 +2364,8 @@
         "positive": {
           "exitCode": 0,
           "summary": {
-            "numTotalTests": 12,
-            "numPassedTests": 12,
+            "numTotalTests": 13,
+            "numPassedTests": 13,
             "numFailedTests": 0,
             "success": true
           },
@@ -2375,8 +2375,8 @@
         "mutant": {
           "exitCode": 1,
           "summary": {
-            "numTotalTests": 12,
-            "numPassedTests": 11,
+            "numTotalTests": 13,
+            "numPassedTests": 12,
             "numFailedTests": 1,
             "success": false
           },
@@ -2386,8 +2386,8 @@
         "restored": {
           "exitCode": 0,
           "summary": {
-            "numTotalTests": 12,
-            "numPassedTests": 12,
+            "numTotalTests": 13,
+            "numPassedTests": 13,
             "numFailedTests": 0,
             "success": true
           },
@@ -2404,9 +2404,9 @@
       "targetNameSubstring": "begin<0 规范化为从 0 起扫首个活敌",
       "axis": "输入轴单轴变异：begin<0 用例首敌 slot(50)→slot(0)（合法生命值，全死扫描应返回 -1）；断言不动。",
       "sha256": {
-        "original": "33f8a61f64898de69ece86c3134e3eae97ca50ac6c2df41897f1a1412156b3a5",
-        "mutated": "741d6e26097db233fef0f1ee6ffe94ff254d952b17587f322ace59bac1a3bd41",
-        "restored": "33f8a61f64898de69ece86c3134e3eae97ca50ac6c2df41897f1a1412156b3a5"
+        "original": "e213e6a4b8bd7f86b31ebe916c94fd2fcdf13f1723dfb8482c6f7644a6ccc965",
+        "mutated": "32039edefb0c6d780577e1ce99c5e085d9862168817e76630ed6fad4edd52aad",
+        "restored": "e213e6a4b8bd7f86b31ebe916c94fd2fcdf13f1723dfb8482c6f7644a6ccc965"
       },
       "restoredHashUnchanged": true,
       "criteria": {
@@ -2421,8 +2421,8 @@
         "positive": {
           "exitCode": 0,
           "summary": {
-            "numTotalTests": 12,
-            "numPassedTests": 12,
+            "numTotalTests": 13,
+            "numPassedTests": 13,
             "numFailedTests": 0,
             "success": true
           },
@@ -2432,8 +2432,8 @@
         "mutant": {
           "exitCode": 1,
           "summary": {
-            "numTotalTests": 12,
-            "numPassedTests": 11,
+            "numTotalTests": 13,
+            "numPassedTests": 12,
             "numFailedTests": 1,
             "success": false
           },
@@ -2443,8 +2443,8 @@
         "restored": {
           "exitCode": 0,
           "summary": {
-            "numTotalTests": 12,
-            "numPassedTests": 12,
+            "numTotalTests": 13,
+            "numPassedTests": 13,
             "numFailedTests": 0,
             "success": true
           },
@@ -2461,9 +2461,9 @@
       "targetNameSubstring": "silence>0 → 直接返回 0",
       "axis": "输入轴单轴变异：silence 用例 autoState(3)→autoState()（合法状态值 0，法术应可选入 297）；断言不动。",
       "sha256": {
-        "original": "33f8a61f64898de69ece86c3134e3eae97ca50ac6c2df41897f1a1412156b3a5",
-        "mutated": "f92f05c47dc3bc220377e9872a4eaef07c9f90829e06e8a60ef857c6d137ae3f",
-        "restored": "33f8a61f64898de69ece86c3134e3eae97ca50ac6c2df41897f1a1412156b3a5"
+        "original": "e213e6a4b8bd7f86b31ebe916c94fd2fcdf13f1723dfb8482c6f7644a6ccc965",
+        "mutated": "cdfbffbb089b3044a5af979680535c65f0d8bb946a72e651cafda0cd0e3bf667",
+        "restored": "e213e6a4b8bd7f86b31ebe916c94fd2fcdf13f1723dfb8482c6f7644a6ccc965"
       },
       "restoredHashUnchanged": true,
       "criteria": {
@@ -2478,8 +2478,8 @@
         "positive": {
           "exitCode": 0,
           "summary": {
-            "numTotalTests": 12,
-            "numPassedTests": 12,
+            "numTotalTests": 13,
+            "numPassedTests": 13,
             "numFailedTests": 0,
             "success": true
           },
@@ -2489,8 +2489,8 @@
         "mutant": {
           "exitCode": 1,
           "summary": {
-            "numTotalTests": 12,
-            "numPassedTests": 11,
+            "numTotalTests": 13,
+            "numPassedTests": 12,
             "numFailedTests": 1,
             "success": false
           },
@@ -2500,8 +2500,8 @@
         "restored": {
           "exitCode": 0,
           "summary": {
-            "numTotalTests": 12,
-            "numPassedTests": 12,
+            "numTotalTests": 13,
+            "numPassedTests": 13,
             "numFailedTests": 0,
             "success": true
           },
@@ -2514,13 +2514,13 @@
     {
       "id": "Q08-8b-RC7",
       "file": "packages/game/src/battle-action-error-arms.glm-q.test.ts",
-      "targetFullName": "Q08-8b pickAutoMagic 展开批（typed rgwMagic 投影链；Q-R5-03 撤回 blocked-input） costMP=1 哨兵（sdlpal 特殊免耗位）→ 跳过不选；合法耗魔法术正常入选",
-      "targetNameSubstring": "costMP=1 哨兵",
-      "axis": "输入轴单轴变异：costMP=1 哨兵法术改 costMP=2（合法耗魔值，威力择优应改选 baseDamage 高的 297）；断言不动。",
+      "targetFullName": "Q08-8b pickAutoMagic 展开批（typed rgwMagic 投影链；Q-R5-03 撤回 blocked-input） costMP=1 极限技门（sdlpal uibattle.c:763-766 筛除极限技）→ 跳过不选；合法耗魔法术正常入选",
+      "targetNameSubstring": "costMP=1 极限技门",
+      "axis": "输入轴单轴变异：costMP=1（极限技门，sdlpal uibattle.c:763-766）改 costMP=2（合法耗魔值）——两法术 baseDamage 同为 30、range=0，strict power>maxPower 使同威力保留先遇到的 296，断言 toBe(297) 应红；断言不动。",
       "sha256": {
-        "original": "33f8a61f64898de69ece86c3134e3eae97ca50ac6c2df41897f1a1412156b3a5",
-        "mutated": "64870171900181515f3e435ad1a5235ac5346261ddd049d87fbfaf794861d1bf",
-        "restored": "33f8a61f64898de69ece86c3134e3eae97ca50ac6c2df41897f1a1412156b3a5"
+        "original": "e213e6a4b8bd7f86b31ebe916c94fd2fcdf13f1723dfb8482c6f7644a6ccc965",
+        "mutated": "f30e46aea210ed238fcbdd2e5c929addbb35fa43fe7fc572ec48abf4728b529b",
+        "restored": "e213e6a4b8bd7f86b31ebe916c94fd2fcdf13f1723dfb8482c6f7644a6ccc965"
       },
       "restoredHashUnchanged": true,
       "criteria": {
@@ -2535,8 +2535,8 @@
         "positive": {
           "exitCode": 0,
           "summary": {
-            "numTotalTests": 12,
-            "numPassedTests": 12,
+            "numTotalTests": 13,
+            "numPassedTests": 13,
             "numFailedTests": 0,
             "success": true
           },
@@ -2546,8 +2546,8 @@
         "mutant": {
           "exitCode": 1,
           "summary": {
-            "numTotalTests": 12,
-            "numPassedTests": 11,
+            "numTotalTests": 13,
+            "numPassedTests": 12,
             "numFailedTests": 1,
             "success": false
           },
@@ -2557,13 +2557,298 @@
         "restored": {
           "exitCode": 0,
           "summary": {
-            "numTotalTests": 12,
-            "numPassedTests": 12,
+            "numTotalTests": 13,
+            "numPassedTests": 13,
             "numFailedTests": 0,
             "success": true
           },
           "json": "Q08-8b-RC7.restored.json",
           "raw": "Q08-8b-RC7.restored.txt"
+        }
+      },
+      "verdict": "VALID"
+    },
+    {
+      "id": "Q08-S1-RC1",
+      "file": "packages/game/src/battle-summon-slot-reuse.glm-q.test.ts",
+      "targetFullName": "Q08 0x9E 正向死亡空槽复用（战中击败槽，非初始 0 占位） 战中被击败槽被复用：满血重置、毒清零、对象身份与脚本替换",
+      "targetNameSubstring": "战中被击败槽被复用",
+      "axis": "输入轴单轴变异：召唤数量 1→2（合法值，roster 仅 1 间死亡房 → room<count 应走 fail jump 300）；断言不动。",
+      "sha256": {
+        "original": "a28e4d2dba15330481aa83b7937a0b567a1610c535c32773e483d501d7e4ee5b",
+        "mutated": "a850ea59bfa0e515142bd7af2eaf39cdfe7574c3689d23a0221efe7d505e79c4",
+        "restored": "a28e4d2dba15330481aa83b7937a0b567a1610c535c32773e483d501d7e4ee5b"
+      },
+      "restoredHashUnchanged": true,
+      "criteria": {
+        "positiveGreen": true,
+        "mutantExactlyOneTargetRed": true,
+        "targetAssertionError": "AssertionError: expected 300 to be undefined",
+        "restoredGreen": true,
+        "restoredSameExecutionCount": true,
+        "hashesMatchFinalCandidate": true
+      },
+      "runs": {
+        "positive": {
+          "exitCode": 0,
+          "summary": {
+            "numTotalTests": 4,
+            "numPassedTests": 4,
+            "numFailedTests": 0,
+            "success": true
+          },
+          "json": "Q08-S1-RC1.positive.json",
+          "raw": "Q08-S1-RC1.positive.txt"
+        },
+        "mutant": {
+          "exitCode": 1,
+          "summary": {
+            "numTotalTests": 4,
+            "numPassedTests": 3,
+            "numFailedTests": 1,
+            "success": false
+          },
+          "json": "Q08-S1-RC1.mutant.json",
+          "raw": "Q08-S1-RC1.mutant.txt"
+        },
+        "restored": {
+          "exitCode": 0,
+          "summary": {
+            "numTotalTests": 4,
+            "numPassedTests": 4,
+            "numFailedTests": 0,
+            "success": true
+          },
+          "json": "Q08-S1-RC1.restored.json",
+          "raw": "Q08-S1-RC1.restored.txt"
+        }
+      },
+      "verdict": "VALID"
+    },
+    {
+      "id": "Q08-S1-RC2",
+      "file": "packages/game/src/battle-summon-slot-reuse.glm-q.test.ts",
+      "targetFullName": "Q08 0x9E 正向死亡空槽复用（战中击败槽，非初始 0 占位） 战中被击败槽被复用：满血重置、毒清零、对象身份与脚本替换",
+      "targetNameSubstring": "战中被击败槽被复用",
+      "axis": "输入轴单轴变异：召唤兽 base 满血 80→120（合法生命值；复用应重置为新 base 满血 120，toBe(80) 断言应红）；断言不动。",
+      "sha256": {
+        "original": "a28e4d2dba15330481aa83b7937a0b567a1610c535c32773e483d501d7e4ee5b",
+        "mutated": "c475e1ad6be9b99221e2ce46b9296c11380e1b9acc5e7c1460390e210e35d96f",
+        "restored": "a28e4d2dba15330481aa83b7937a0b567a1610c535c32773e483d501d7e4ee5b"
+      },
+      "restoredHashUnchanged": true,
+      "criteria": {
+        "positiveGreen": true,
+        "mutantExactlyOneTargetRed": true,
+        "targetAssertionError": "AssertionError: expected 120 to be 80 // Object.is equality",
+        "restoredGreen": true,
+        "restoredSameExecutionCount": true,
+        "hashesMatchFinalCandidate": true
+      },
+      "runs": {
+        "positive": {
+          "exitCode": 0,
+          "summary": {
+            "numTotalTests": 4,
+            "numPassedTests": 4,
+            "numFailedTests": 0,
+            "success": true
+          },
+          "json": "Q08-S1-RC2.positive.json",
+          "raw": "Q08-S1-RC2.positive.txt"
+        },
+        "mutant": {
+          "exitCode": 1,
+          "summary": {
+            "numTotalTests": 4,
+            "numPassedTests": 3,
+            "numFailedTests": 1,
+            "success": false
+          },
+          "json": "Q08-S1-RC2.mutant.json",
+          "raw": "Q08-S1-RC2.mutant.txt"
+        },
+        "restored": {
+          "exitCode": 0,
+          "summary": {
+            "numTotalTests": 4,
+            "numPassedTests": 4,
+            "numFailedTests": 0,
+            "success": true
+          },
+          "json": "Q08-S1-RC2.restored.json",
+          "raw": "Q08-S1-RC2.restored.txt"
+        }
+      },
+      "verdict": "VALID"
+    },
+    {
+      "id": "Q08-S1-RC3",
+      "file": "packages/game/src/battle-summon-slot-reuse.glm-q.test.ts",
+      "targetFullName": "Q08 0x9E 正向死亡空槽复用（战中击败槽，非初始 0 占位） 同席两死亡槽只复用一间：另一间保持 defeated 与残留身份",
+      "targetNameSubstring": "同席两死亡槽只复用一间",
+      "axis": "输入轴单轴变异：count 1→2（两间死亡房都应复用，toHaveLength(1) 应红）；断言不动。",
+      "sha256": {
+        "original": "a28e4d2dba15330481aa83b7937a0b567a1610c535c32773e483d501d7e4ee5b",
+        "mutated": "5a417155638d8efe633b99bcd7de4f9ca7e4083ffe5ec2f4628651a3111aa1fd",
+        "restored": "a28e4d2dba15330481aa83b7937a0b567a1610c535c32773e483d501d7e4ee5b"
+      },
+      "restoredHashUnchanged": true,
+      "criteria": {
+        "positiveGreen": true,
+        "mutantExactlyOneTargetRed": true,
+        "targetAssertionError": "AssertionError: expected [ …(2) ] to have a length of 1 but got 2",
+        "restoredGreen": true,
+        "restoredSameExecutionCount": true,
+        "hashesMatchFinalCandidate": true
+      },
+      "runs": {
+        "positive": {
+          "exitCode": 0,
+          "summary": {
+            "numTotalTests": 4,
+            "numPassedTests": 4,
+            "numFailedTests": 0,
+            "success": true
+          },
+          "json": "Q08-S1-RC3.positive.json",
+          "raw": "Q08-S1-RC3.positive.txt"
+        },
+        "mutant": {
+          "exitCode": 1,
+          "summary": {
+            "numTotalTests": 4,
+            "numPassedTests": 3,
+            "numFailedTests": 1,
+            "success": false
+          },
+          "json": "Q08-S1-RC3.mutant.json",
+          "raw": "Q08-S1-RC3.mutant.txt"
+        },
+        "restored": {
+          "exitCode": 0,
+          "summary": {
+            "numTotalTests": 4,
+            "numPassedTests": 4,
+            "numFailedTests": 0,
+            "success": true
+          },
+          "json": "Q08-S1-RC3.restored.json",
+          "raw": "Q08-S1-RC3.restored.txt"
+        }
+      },
+      "verdict": "VALID"
+    },
+    {
+      "id": "Q08-S1-RC4",
+      "file": "packages/game/src/battle-summon-slot-reuse.glm-q.test.ts",
+      "targetFullName": "Q08 0x9E 正向死亡空槽复用（战中击败槽，非初始 0 占位） 活敌槽绝不复用：满员 3 活 0 死 → room=0 走 fail 跳转",
+      "targetNameSubstring": "活敌槽绝不复用",
+      "axis": "输入轴不变（断言语义自检：满员 fail 应走 newIp=300；本枚改断言期望制造目标红验证该断言判别力——变异的是断言期望值而非输入，用于验证 newIp 合同的判别力；正控恢复后全绿。轴说明如实登记。注：此枚为断言判别力自检针，非输入轴。",
+      "sha256": {
+        "original": "a28e4d2dba15330481aa83b7937a0b567a1610c535c32773e483d501d7e4ee5b",
+        "mutated": "c7e4f177f2495cb10576a1a555eb70e6f141f5f2b62a2b2ad8b673a865285116",
+        "restored": "a28e4d2dba15330481aa83b7937a0b567a1610c535c32773e483d501d7e4ee5b"
+      },
+      "restoredHashUnchanged": true,
+      "criteria": {
+        "positiveGreen": true,
+        "mutantExactlyOneTargetRed": true,
+        "targetAssertionError": "AssertionError: expected 300 to be undefined",
+        "restoredGreen": true,
+        "restoredSameExecutionCount": true,
+        "hashesMatchFinalCandidate": true
+      },
+      "runs": {
+        "positive": {
+          "exitCode": 0,
+          "summary": {
+            "numTotalTests": 4,
+            "numPassedTests": 4,
+            "numFailedTests": 0,
+            "success": true
+          },
+          "json": "Q08-S1-RC4.positive.json",
+          "raw": "Q08-S1-RC4.positive.txt"
+        },
+        "mutant": {
+          "exitCode": 1,
+          "summary": {
+            "numTotalTests": 4,
+            "numPassedTests": 3,
+            "numFailedTests": 1,
+            "success": false
+          },
+          "json": "Q08-S1-RC4.mutant.json",
+          "raw": "Q08-S1-RC4.mutant.txt"
+        },
+        "restored": {
+          "exitCode": 0,
+          "summary": {
+            "numTotalTests": 4,
+            "numPassedTests": 4,
+            "numFailedTests": 0,
+            "success": true
+          },
+          "json": "Q08-S1-RC4.restored.json",
+          "raw": "Q08-S1-RC4.restored.txt"
+        }
+      },
+      "verdict": "VALID"
+    },
+    {
+      "id": "Q08-S1-RC5",
+      "file": "packages/game/src/battle-summon-slot-reuse.glm-q.test.ts",
+      "targetFullName": "Q08 0x9E 正向死亡空槽复用（战中击败槽，非初始 0 占位） 复用后全体敌人底锚按新阵容重算（PAL_BattleMakeScene 等价）",
+      "targetNameSubstring": "复用后全体敌人底锚按新阵容重算",
+      "axis": "输入轴单轴变异：caster yPosOffset 0→4（合法锚偏移；其 posOriginal/pos 应较固定基准 layoutBase(1) 上移 4 → toEqual 红）；断言不动。",
+      "sha256": {
+        "original": "a28e4d2dba15330481aa83b7937a0b567a1610c535c32773e483d501d7e4ee5b",
+        "mutated": "f9524e08fb2e1333aa07852de3998701987362242246205ea1d8f95eedbe0933",
+        "restored": "a28e4d2dba15330481aa83b7937a0b567a1610c535c32773e483d501d7e4ee5b"
+      },
+      "restoredHashUnchanged": true,
+      "criteria": {
+        "positiveGreen": true,
+        "mutantExactlyOneTargetRed": true,
+        "targetAssertionError": "AssertionError: expected { x: 100, y: 64 } to deeply equal { x: 100, y: 60 }",
+        "restoredGreen": true,
+        "restoredSameExecutionCount": true,
+        "hashesMatchFinalCandidate": true
+      },
+      "runs": {
+        "positive": {
+          "exitCode": 0,
+          "summary": {
+            "numTotalTests": 4,
+            "numPassedTests": 4,
+            "numFailedTests": 0,
+            "success": true
+          },
+          "json": "Q08-S1-RC5.positive.json",
+          "raw": "Q08-S1-RC5.positive.txt"
+        },
+        "mutant": {
+          "exitCode": 1,
+          "summary": {
+            "numTotalTests": 4,
+            "numPassedTests": 3,
+            "numFailedTests": 1,
+            "success": false
+          },
+          "json": "Q08-S1-RC5.mutant.json",
+          "raw": "Q08-S1-RC5.mutant.txt"
+        },
+        "restored": {
+          "exitCode": 0,
+          "summary": {
+            "numTotalTests": 4,
+            "numPassedTests": 4,
+            "numFailedTests": 0,
+            "success": true
+          },
+          "json": "Q08-S1-RC5.restored.json",
+          "raw": "Q08-S1-RC5.restored.txt"
         }
       },
       "verdict": "VALID"
