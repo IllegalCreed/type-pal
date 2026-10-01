@@ -1,0 +1,35 @@
+{
+  "id": "O10-CC6",
+  "contract": "MKF 首偏移 4 倍数对齐",
+  "target": {
+    "file": "src/mkf.glm-o.test.ts",
+    "title": "截断头拒绝 / 首偏移非 4 倍数拒绝"
+  },
+  "control": {
+    "exitCode": 0,
+    "executed": 3,
+    "passed": 3,
+    "failed": 0
+  },
+  "injected": {
+    "exitCode": 1,
+    "executed": 3,
+    "passed": 2,
+    "failed": 1,
+    "failedFullName": "O10 MKF：容器合同 截断头拒绝 / 首偏移非 4 倍数拒绝",
+    "failureMessageHead": "AssertionError: expected [Function] to throw an error"
+  },
+  "restored": {
+    "exitCode": 0,
+    "executed": 3,
+    "passed": 3,
+    "failed": 0
+  },
+  "hashes": {
+    "original": "2512407e97848c604458aeeac26d9299e9f639132abb656046c18d4fd9848f54",
+    "mutated": "7095ba6f1c43abdd153aa18fe4ed78afdfd7909e784fa682b8b71137d2c64327",
+    "restored": "2512407e97848c604458aeeac26d9299e9f639132abb656046c18d4fd9848f54",
+    "rebuilt": "7095ba6f1c43abdd153aa18fe4ed78afdfd7909e784fa682b8b71137d2c64327"
+  },
+  "patchRebuiltAndVerified": true
+}

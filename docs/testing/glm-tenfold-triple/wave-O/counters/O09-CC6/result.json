@@ -1,0 +1,35 @@
+{
+  "id": "O09-CC6",
+  "contract": "catalog origin 前缀域（legacy-migrated/generated/authored）",
+  "target": {
+    "file": "src/item-use.glm-o.test.ts",
+    "title": "origin legacy-migrated 前缀不符拒绝；authored 前缀合法"
+  },
+  "control": {
+    "exitCode": 0,
+    "executed": 8,
+    "passed": 8,
+    "failed": 0
+  },
+  "injected": {
+    "exitCode": 1,
+    "executed": 8,
+    "passed": 7,
+    "failed": 1,
+    "failedFullName": "O09 validateAssetCatalog：kind/origin/路径轴 origin legacy-migrated 前缀不符拒绝；authored 前缀合法",
+    "failureMessageHead": "AssertionError: expected [Function] to throw an error"
+  },
+  "restored": {
+    "exitCode": 0,
+    "executed": 8,
+    "passed": 8,
+    "failed": 0
+  },
+  "hashes": {
+    "original": "bf98283ea72801770b314c9f69c10c0593b268b09cc5fcfc91c03961507d391e",
+    "mutated": "27970e6a7025ef17c02bf12f74f40d21326868412fa5e7d0c2699ee2a1d175b2",
+    "restored": "bf98283ea72801770b314c9f69c10c0593b268b09cc5fcfc91c03961507d391e",
+    "rebuilt": "27970e6a7025ef17c02bf12f74f40d21326868412fa5e7d0c2699ee2a1d175b2"
+  },
+  "patchRebuiltAndVerified": true
+}

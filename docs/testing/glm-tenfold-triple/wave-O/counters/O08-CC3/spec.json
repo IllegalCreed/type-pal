@@ -1,0 +1,14 @@
+{
+  "id": "O08-CC3",
+  "contract": "applyPoisonSelf counters 以毒攻毒 cured",
+  "package": "content",
+  "test": {
+    "file": "src/poison.glm-o.test.ts",
+    "title": "身中 counters 毒 → 以毒攻毒解掉、不下本毒（cured）"
+  },
+  "mutation": {
+    "file": "src/poison.ts",
+    "find": "  if (def?.counters !== undefined && list.some((ap) => ap.poisonId === def.counters)) {",
+    "replace": "  if (false && def?.counters !== undefined && list.some((ap) => ap.poisonId === def.counters)) {"
+  }
+}

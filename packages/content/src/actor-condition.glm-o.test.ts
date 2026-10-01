@@ -80,10 +80,13 @@ describe('O08 applyActorConditionSeed：新建世界物化', () => {
     expect(c.extraPoisonRes).toBe(25)
   })
 
-  test('未知毒 id fail-loud（缺表/非法 id）', () => {
+  test('未知毒 id fail-loud（缺表）', () => {
     expect(() =>
       applyActorConditionSeed(carrier(), { poisonIds: [99] }, poisonDefs),
     ).toThrow('applyActorConditionSeed.poisonIds: 未知毒 99')
+  })
+
+  test('毒 id 非正整数 fail-loud（形状轴）', () => {
     expect(() =>
       applyActorConditionSeed(carrier(), { poisonIds: [0] }, poisonDefs),
     ).toThrow(/毒 id 必须是正安全整数/)

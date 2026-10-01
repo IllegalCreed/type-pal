@@ -1,0 +1,7 @@
+diff --git a/packages/content/src/poison.ts b/packages/content/src/poison.ts
+index 1307caab1..8995fcefc 100644
+--- a/packages/content/src/poison.ts
++++ b/packages/content/src/poison.ts
+@@ -133 +133 @@ export function applyPoisonSelf(
+-  if (def?.lethalWith !== undefined && list.some((ap) => ap.poisonId === def.lethalWith)) {
++  if (false && def?.lethalWith !== undefined && list.some((ap) => ap.poisonId === def.lethalWith)) {

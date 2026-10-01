@@ -1,0 +1,7 @@
+diff --git a/packages/content/src/asset.ts b/packages/content/src/asset.ts
+index e51815e10..aa68f7b7c 100644
+--- a/packages/content/src/asset.ts
++++ b/packages/content/src/asset.ts
+@@ -159 +159 @@ export function validateAssetCatalog(value: unknown, where = 'assets/index.json'
+-    if (expectedPrefix && !(record.path as string).startsWith(expectedPrefix))
++    if (false && expectedPrefix && !(record.path as string).startsWith(expectedPrefix))

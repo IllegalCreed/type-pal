@@ -1,0 +1,14 @@
+{
+  "id": "O09-CC6",
+  "contract": "catalog origin 前缀域（legacy-migrated/generated/authored）",
+  "package": "content",
+  "test": {
+    "file": "src/item-use.glm-o.test.ts",
+    "title": "origin legacy-migrated 前缀不符拒绝；authored 前缀合法"
+  },
+  "mutation": {
+    "file": "src/asset.ts",
+    "find": "    if (expectedPrefix && !(record.path as string).startsWith(expectedPrefix))",
+    "replace": "    if (false && expectedPrefix && !(record.path as string).startsWith(expectedPrefix))"
+  }
+}

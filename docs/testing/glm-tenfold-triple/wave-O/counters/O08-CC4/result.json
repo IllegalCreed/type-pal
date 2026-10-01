@@ -1,0 +1,35 @@
+{
+  "id": "O08-CC4",
+  "contract": "applyPoisonSelf lethalWith 致死配对",
+  "target": {
+    "file": "src/poison.glm-o.test.ts",
+    "title": "身中 lethalWith 毒 → hp 0 暴毙（lethal）"
+  },
+  "control": {
+    "exitCode": 0,
+    "executed": 12,
+    "passed": 12,
+    "failed": 0
+  },
+  "injected": {
+    "exitCode": 1,
+    "executed": 12,
+    "passed": 11,
+    "failed": 1,
+    "failedFullName": "O08 applyPoisonSelf：三段链 身中 lethalWith 毒 → hp 0 暴毙（lethal）",
+    "failureMessageHead": "AssertionError: expected 'applied' to be 'lethal' // Object.is equality"
+  },
+  "restored": {
+    "exitCode": 0,
+    "executed": 12,
+    "passed": 12,
+    "failed": 0
+  },
+  "hashes": {
+    "original": "c4da5d59295eae2b3da1ff5366e9c3e9ecd2782b28fcd712d8dfb83cc6b67fc0",
+    "mutated": "37b64c4c605a14a021f804f67ba06a54fd0d39affdc5843e4b98cdc3d6e5b6de",
+    "restored": "c4da5d59295eae2b3da1ff5366e9c3e9ecd2782b28fcd712d8dfb83cc6b67fc0",
+    "rebuilt": "37b64c4c605a14a021f804f67ba06a54fd0d39affdc5843e4b98cdc3d6e5b6de"
+  },
+  "patchRebuiltAndVerified": true
+}

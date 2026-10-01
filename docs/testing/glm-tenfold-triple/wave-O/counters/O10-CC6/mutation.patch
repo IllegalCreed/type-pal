@@ -1,0 +1,7 @@
+diff --git a/packages/shared/src/mkf.ts b/packages/shared/src/mkf.ts
+index fbbccb2b7..393d8b6ac 100644
+--- a/packages/shared/src/mkf.ts
++++ b/packages/shared/src/mkf.ts
+@@ -18 +18 @@ export function openMkf(buffer: Uint8Array): Mkf {
+-  if (firstOffset % 4 !== 0) {
++  if (false && firstOffset % 4 !== 0) {

@@ -1,0 +1,14 @@
+{
+  "id": "O08-CC4",
+  "contract": "applyPoisonSelf lethalWith 致死配对",
+  "package": "content",
+  "test": {
+    "file": "src/poison.glm-o.test.ts",
+    "title": "身中 lethalWith 毒 → hp 0 暴毙（lethal）"
+  },
+  "mutation": {
+    "file": "src/poison.ts",
+    "find": "  if (def?.lethalWith !== undefined && list.some((ap) => ap.poisonId === def.lethalWith)) {",
+    "replace": "  if (false && def?.lethalWith !== undefined && list.some((ap) => ap.poisonId === def.lethalWith)) {"
+  }
+}

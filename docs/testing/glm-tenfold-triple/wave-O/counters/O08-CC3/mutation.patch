@@ -1,0 +1,7 @@
+diff --git a/packages/content/src/poison.ts b/packages/content/src/poison.ts
+index 1307caab1..5e5b45280 100644
+--- a/packages/content/src/poison.ts
++++ b/packages/content/src/poison.ts
+@@ -129 +129 @@ export function applyPoisonSelf(
+-  if (def?.counters !== undefined && list.some((ap) => ap.poisonId === def.counters)) {
++  if (false && def?.counters !== undefined && list.some((ap) => ap.poisonId === def.counters)) {

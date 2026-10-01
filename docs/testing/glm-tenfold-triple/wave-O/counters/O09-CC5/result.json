@@ -1,0 +1,35 @@
+{
+  "id": "O09-CC5",
+  "contract": "parseRichText yellow 色识别",
+  "target": {
+    "file": "src/poison.glm-o.test.ts",
+    "title": "成对颜色标记切分 span 并带 color；前后纯文本保留"
+  },
+  "control": {
+    "exitCode": 0,
+    "executed": 12,
+    "passed": 12,
+    "failed": 0
+  },
+  "injected": {
+    "exitCode": 1,
+    "executed": 12,
+    "passed": 11,
+    "failed": 1,
+    "failedFullName": "O09 parseRichText：颜色标记解析 成对颜色标记切分 span 并带 color；前后纯文本保留",
+    "failureMessageHead": "AssertionError: expected [ { text: '<yellow>全黄</yellow>' } ] to deeply equal [ { text: '全黄', color: 'yellow' } ]"
+  },
+  "restored": {
+    "exitCode": 0,
+    "executed": 12,
+    "passed": 12,
+    "failed": 0
+  },
+  "hashes": {
+    "original": "1664f5b5ad63469c23f444c430d8ece1c7f0203dbd2fa330a01017658652146f",
+    "mutated": "dfdb0af7ce2325ac0b004bc8c261de56e323cca461708e717070183591cbf7e4",
+    "restored": "1664f5b5ad63469c23f444c430d8ece1c7f0203dbd2fa330a01017658652146f",
+    "rebuilt": "dfdb0af7ce2325ac0b004bc8c261de56e323cca461708e717070183591cbf7e4"
+  },
+  "patchRebuiltAndVerified": true
+}

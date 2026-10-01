@@ -1,0 +1,35 @@
+{
+  "id": "O08-CC3",
+  "contract": "applyPoisonSelf counters 以毒攻毒 cured",
+  "target": {
+    "file": "src/poison.glm-o.test.ts",
+    "title": "身中 counters 毒 → 以毒攻毒解掉、不下本毒（cured）"
+  },
+  "control": {
+    "exitCode": 0,
+    "executed": 12,
+    "passed": 12,
+    "failed": 0
+  },
+  "injected": {
+    "exitCode": 1,
+    "executed": 12,
+    "passed": 11,
+    "failed": 1,
+    "failedFullName": "O08 applyPoisonSelf：三段链 身中 counters 毒 → 以毒攻毒解掉、不下本毒（cured）",
+    "failureMessageHead": "AssertionError: expected 'applied' to be 'cured' // Object.is equality"
+  },
+  "restored": {
+    "exitCode": 0,
+    "executed": 12,
+    "passed": 12,
+    "failed": 0
+  },
+  "hashes": {
+    "original": "c4da5d59295eae2b3da1ff5366e9c3e9ecd2782b28fcd712d8dfb83cc6b67fc0",
+    "mutated": "509bc5d026001326e0790ebb6b166b25b0853d99920b1984ac7d6a257d69856b",
+    "restored": "c4da5d59295eae2b3da1ff5366e9c3e9ecd2782b28fcd712d8dfb83cc6b67fc0",
+    "rebuilt": "509bc5d026001326e0790ebb6b166b25b0853d99920b1984ac7d6a257d69856b"
+  },
+  "patchRebuiltAndVerified": true
+}

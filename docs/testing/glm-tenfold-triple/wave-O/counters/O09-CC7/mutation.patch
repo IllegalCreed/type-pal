@@ -1,0 +1,7 @@
+diff --git a/packages/content/src/item.ts b/packages/content/src/item.ts
+index 02b349aaa..e268b8ab9 100644
+--- a/packages/content/src/item.ts
++++ b/packages/content/src/item.ts
+@@ -665 +665 @@ export function preflightWorldItemUse(
+-  if (!itemUseSupportsContext(useSpec, 'world'))
++  if (false && !itemUseSupportsContext(useSpec, 'world'))

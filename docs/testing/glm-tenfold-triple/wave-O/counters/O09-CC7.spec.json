@@ -1,0 +1,14 @@
+{
+  "id": "O09-CC7",
+  "contract": "preflight wrong-context 轴",
+  "package": "content",
+  "test": {
+    "file": "src/item-use.glm-o.test.ts",
+    "title": "wrong-context：battleOnly 用途不进世界执行器"
+  },
+  "mutation": {
+    "file": "src/item.ts",
+    "find": "  if (!itemUseSupportsContext(useSpec, 'world'))",
+    "replace": "  if (false && !itemUseSupportsContext(useSpec, 'world'))"
+  }
+}

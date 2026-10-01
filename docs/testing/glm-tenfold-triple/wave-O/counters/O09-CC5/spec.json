@@ -1,0 +1,14 @@
+{
+  "id": "O09-CC5",
+  "contract": "parseRichText yellow 色识别",
+  "package": "content",
+  "test": {
+    "file": "src/poison.glm-o.test.ts",
+    "title": "成对颜色标记切分 span 并带 color；前后纯文本保留"
+  },
+  "mutation": {
+    "file": "src/rich-text.ts",
+    "find": "const COLOR_TAGS = ['cyan', 'red', 'redAlt', 'yellow'] as const",
+    "replace": "const COLOR_TAGS = ['cyan', 'red', 'redAlt'] as const"
+  }
+}

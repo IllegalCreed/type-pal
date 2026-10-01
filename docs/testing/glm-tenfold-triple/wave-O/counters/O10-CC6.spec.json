@@ -1,0 +1,14 @@
+{
+  "id": "O10-CC6",
+  "contract": "MKF 首偏移 4 倍数对齐",
+  "package": "shared",
+  "test": {
+    "file": "src/mkf.glm-o.test.ts",
+    "title": "截断头拒绝 / 首偏移非 4 倍数拒绝"
+  },
+  "mutation": {
+    "file": "src/mkf.ts",
+    "find": "  if (firstOffset % 4 !== 0) {",
+    "replace": "  if (false && firstOffset % 4 !== 0) {"
+  }
+}
