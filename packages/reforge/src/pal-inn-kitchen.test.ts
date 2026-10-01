@@ -103,6 +103,31 @@ test('first-day greeting dispatches independent kitchen movement and first begga
   ).toEqual(['dlg.59', 'dlg.60'])
 })
 
+test.each([
+  { id: 'e46', sign: -1, facing: 'left' },
+  { id: 'e47', sign: 1, facing: 'right' },
+])('inn stair $id preserves twelve fragments at the actual first-phase 100ms world cadence', async ({
+  id,
+  sign,
+  facing,
+}) => {
+  const result = await run(flow('s003', id, 'trigger', 'default'))
+  expect(result.commands.filter((c) => c.kind === 'nudgeParty')).toEqual(
+    Array.from({ length: 12 }, (_, i) => ({
+      kind: 'nudgeParty',
+      dx: sign * (i % 2 ? 6 : 10),
+      dy: sign * (i % 2 ? 6 : 10),
+    })),
+  )
+  expect(result.commands.filter((c) => c.kind === 'wait')).toEqual(
+    Array.from({ length: 12 }, () => ({ kind: 'wait', ms: 100 })),
+  )
+  expect(result.commands.filter((c) => c.kind === 'setPartyFacing')).toEqual([
+    { kind: 'setPartyFacing', facing },
+    { kind: 'setPartyFacing', facing },
+  ])
+})
+
 test('kitchen command sequence moves the hallway mother three times before showing its replacement and hiding the source', async () => {
   const result = await run(flow('s003', 'e56', 'auto', 'go-to-kitchen'))
   expect(result.commands).toEqual([
