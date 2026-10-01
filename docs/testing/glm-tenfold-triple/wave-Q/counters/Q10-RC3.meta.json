@@ -5,9 +5,9 @@
   "targetNameSubstring": "合成小输入走完事件管线",
   "axis": "输入轴单轴变异：bytecode giveItem 操作数 61→62（合法 wObjectID，词表 62 为空）；断言不动。",
   "sha256": {
-    "original": "9ac0d9a8325a480bbf033c1459056250cb20b11c4cdc990857c87392d0586bef",
-    "mutated": "20839693d73ca6c1854d96c823a7bbeea360cd284b8c859cf4d70b7d3d88efab",
-    "restored": "9ac0d9a8325a480bbf033c1459056250cb20b11c4cdc990857c87392d0586bef"
+    "original": "154ff597d08733ca14cce004bce07b7fbc311d338559e96cd68c321bea229546",
+    "mutated": "a3cac6ac945cf02e1c5320b5266071b11653df59ab3a46b020aa8757522fd07b",
+    "restored": "154ff597d08733ca14cce004bce07b7fbc311d338559e96cd68c321bea229546"
   },
   "restoredHashUnchanged": true,
   "criteria": {
@@ -22,8 +22,8 @@
     "positive": {
       "exitCode": 0,
       "summary": {
-        "numTotalTests": 5,
-        "numPassedTests": 5,
+        "numTotalTests": 6,
+        "numPassedTests": 6,
         "numFailedTests": 0,
         "success": true
       },
@@ -33,8 +33,8 @@
     "mutant": {
       "exitCode": 1,
       "summary": {
-        "numTotalTests": 5,
-        "numPassedTests": 4,
+        "numTotalTests": 6,
+        "numPassedTests": 5,
         "numFailedTests": 1,
         "success": false
       },
@@ -44,8 +44,8 @@
     "restored": {
       "exitCode": 0,
       "summary": {
-        "numTotalTests": 5,
-        "numPassedTests": 5,
+        "numTotalTests": 6,
+        "numPassedTests": 6,
         "numFailedTests": 0,
         "success": true
       },

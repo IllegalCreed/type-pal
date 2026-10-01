@@ -1,1 +1,1 @@
-输入轴单轴变异：GOP chunk0 合法 sprite→空 chunk（合法 MKF；mapNum0 被非空扫描略过 → tilesets written 2/2→1/1 → toContain('2 / 2') 恰一红；tileset/0.rle exists 断言同例同红）；断言不动。
+输入轴单轴变异：MAP chunk0 合法 YJ2 65536B→空 chunk（合法空档；该 chunk 未被 scene 引用、原本靠非空扫描入集 → tilesets written 2/2→1/1 → toContain('2 / 2') 恰一红；tileset/0.rle exists 断言同例同红）；断言不动。

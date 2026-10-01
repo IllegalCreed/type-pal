@@ -1,1 +1,21 @@
-    'FBP.MKF': mkf([new Uint8Array(0), yj2Zeros(0), new Uint8Array(0)]), // 变异轴：5→3 chunk（splash 读 chunk3 越界 → throw → exit 1）
+test('Q10 CLI 隔离实跑：FBP 截短越界边界拒绝（chunk3/4 缺失 → splash readChunk throw → exit 1）', async () => {
+  const tree = makeTree({
+    'SSS.MKF': buildSss(),
+    'M.MSG': new TextEncoder().encode(MSG_TEXT),
+    'WORD.DAT': buildWordDat(),
+    'DATA.MKF': buildDataMkf(),
+    ...buildFullPipelineInputs(),
+    'FBP.MKF': mkf([
+      new Uint8Array(0),
+      new Uint8Array(0),
+      new Uint8Array(0),
+      new Uint8Array(0), // 变异轴：3→5 chunk（合法 MKF；拒绝条件消失 → exit 0）
+      new Uint8Array(0),
+    ]),
+  })
+  mkdirSync(join(tree, 'data', 'raw', 'Musics'), { recursive: true }) // Musics 段在 FBP 之前
+  trees.push(tree)
+  const result = await runCli(tree)
+  expect(result.exitCode).toBe(1)
+  expect(result.stderr).toContain('MKF: chunk 3 out of range') // readChunk 精确拒绝
+})

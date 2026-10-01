@@ -1,1 +1,1 @@
-    'ABC.MKF': mkf([]),
+    'MGO.MKF': mkf([yj2Compress(encodeSpriteChunk([]))]), // 1 chunk 合法 YJ2 sprite（0 帧 group）

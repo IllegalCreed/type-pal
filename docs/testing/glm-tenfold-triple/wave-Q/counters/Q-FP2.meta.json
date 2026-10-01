@@ -3,17 +3,17 @@
   "file": "packages/pal-extract/src/cli-isolated.glm-q.test.ts",
   "targetFullName": "Q10 CLI 隔离实跑：全管线合成输入走到底（MAP/GOP tileset + PAT 调色板 + 空 MGO/F/ABC + asset-manifest + done）",
   "targetNameSubstring": "全管线合成输入走到底",
-  "axis": "输入轴单轴变异：GOP chunk0 合法 sprite→空 chunk（合法 MKF；mapNum0 被非空扫描略过 → tilesets written 2/2→1/1 → toContain('2 / 2') 恰一红；tileset/0.rle exists 断言同例同红）；断言不动。",
+  "axis": "输入轴单轴变异：MAP chunk0 合法 YJ2 65536B→空 chunk（合法空档；该 chunk 未被 scene 引用、原本靠非空扫描入集 → tilesets written 2/2→1/1 → toContain('2 / 2') 恰一红；tileset/0.rle exists 断言同例同红）；断言不动。",
   "sha256": {
-    "original": "9ac0d9a8325a480bbf033c1459056250cb20b11c4cdc990857c87392d0586bef",
-    "mutated": "d52bffe1a0c4f20c965cf3dde9f8c13c9e7b8516da294ace94bc3a0fc32ccc1e",
-    "restored": "9ac0d9a8325a480bbf033c1459056250cb20b11c4cdc990857c87392d0586bef"
+    "original": "154ff597d08733ca14cce004bce07b7fbc311d338559e96cd68c321bea229546",
+    "mutated": "9ad3e7dea1f33f6bea3aa9a368e98b55325048e84485e7792db41873b5b8f621",
+    "restored": "154ff597d08733ca14cce004bce07b7fbc311d338559e96cd68c321bea229546"
   },
   "restoredHashUnchanged": true,
   "criteria": {
     "positiveGreen": true,
     "mutantExactlyOneTargetRed": true,
-    "targetAssertionError": "AssertionError: expected 1 to be +0 // Object.is equality",
+    "targetAssertionError": "AssertionError: expected '[pal-extract] start\\n[pal-extract] sc…' to contain 'tilesets written: 2 / 2 unique mapNums'",
     "restoredGreen": true,
     "restoredSameExecutionCount": true,
     "hashesMatchFinalCandidate": true
@@ -22,8 +22,8 @@
     "positive": {
       "exitCode": 0,
       "summary": {
-        "numTotalTests": 5,
-        "numPassedTests": 5,
+        "numTotalTests": 6,
+        "numPassedTests": 6,
         "numFailedTests": 0,
         "success": true
       },
@@ -33,8 +33,8 @@
     "mutant": {
       "exitCode": 1,
       "summary": {
-        "numTotalTests": 5,
-        "numPassedTests": 4,
+        "numTotalTests": 6,
+        "numPassedTests": 5,
         "numFailedTests": 1,
         "success": false
       },
@@ -44,8 +44,8 @@
     "restored": {
       "exitCode": 0,
       "summary": {
-        "numTotalTests": 5,
-        "numPassedTests": 5,
+        "numTotalTests": 6,
+        "numPassedTests": 6,
         "numFailedTests": 0,
         "success": true
       },

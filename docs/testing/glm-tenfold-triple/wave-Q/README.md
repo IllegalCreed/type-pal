@@ -1,14 +1,43 @@
-# Wave Q：两阶段runtime与解码残余合同十倍包 — GLM Q 交付总账（r9 窄修 + 增量批）
+# Wave Q：两阶段runtime与解码残余合同十倍包 — GLM Q 交付总账（r10 合法化重写）
 
 Coding Owner: GLM Q；[任务卡](../../../ops/tasks/TEST-GLM-WAVE-Q-1-runtime-residual-tenfold.md)、
 [共同协议](../README.md)、[冻结表](../targets.json)、Codex 2026-10-01 独立审查 `docs/testing/glm-tenfold-triple/codex-review-20261001.md`（落盘于审查树 codex/glm-lmn-acceptance-r1；按不 cherry-pick 纪律未拷入本分支，机器证据 codex-review-20261001.json 同）。
 分支 `codex/glm-wave-q-runtime-residual-r1`（独立 worktree），派发提交
 `8b3ca062953b17a12178f8d1a9e36657971234b1`，生产冻结 `3ac9a2e2f6aba8a5cc97640c18fef8549d199380`，
 起点候选 `626ddffe41cca4e3755dfafea1645c695c158b0f`（r1，被 counter → rework）。
-本文件描述 **r9 候选**（O/P/Q r8 复核 Q-R8-01 窄修 + 增量批；已关闭项不重开；
-r8 候选 333332bd/pin 7e115b4d 保留供独立复核）。不合 main、不标 done。
+本文件描述 **r10 候选**（r9 复核 Q-R9-01～03 闭合 + 合法化重写；已关闭项不重开；
+r9 候选 f28bcf1d/pin 3593e8db 保留供独立复核）。不合 main、不标 done。
 
-## r9 当前结论（Q-R8-01 账务 + 增量批）
+## r10 当前结论
+
+- **136 执行 / 净新上限 134（C134/C135 合法化后均可计）/ 缺口至少 564**。
+- 反控：**62 存档满足业务单断言红 / 52 个不同执行目标 / 净新合同目标上限 50**
+  （C114 与 S1-RC4 为旧 room0 合同 cross-check 不计新；FP1/2/3/5 四轴共享同一
+  全管线目标、FP4 为独立边界拒绝新目标）。**50 净新合同目标已达成**。
+- 三态来源（r10 真实差分）：**51 组业务证据未变 + 5 Q10 重采 + 5 FP 重采/重定
+  （+1 FP4 新目标 = 62 存档）**；NT8 退役保留历史。
+
+## r10 相对 r9 的改动（Q-R9-01～03 闭合）
+
+1. **Q-R9-01 合法 YJ2**：新增专属 fixture `src/__tests__/glm-q/yj2-encoder.ts`——
+   按 primary `reference/sdlpal/yj1.c` 对偶实现的**自适应 Huffman + LZSS 编码器**
+   （同一初始树/adjustTree/0x8000 归约镜像，支持已产出数据回引与 0xFFF 终止符），
+   合法性由**产品 decoder 往返验证**（40/128/65536 字面量 + 回引 + 终止符全往返
+   逐字节相等，r9 的 68B 零流依赖 EOF 越界读/负回引归零的非法性被完全替代）。
+   MAP chunk 改用该编码器产出的合法 65536B 全零图（cell 全 {0,0}，不再固定
+   lower=130）；PAT 通道全部 0..63（色 1 = [1,2,63] → 8bit [4,8,255]）。
+   空资源（FBP 空档、MGO 空组、无 BDF）只作为如实登记的跳过路径，不泛称非空
+   图形合同已证明。
+2. **Q-R9-02 FP 真轴**：FP2 改为 MAP chunk0 非空→空（非空扫描跳过 → tilesets
+   2→1 真业务轴）；FP3 改为 MGO 1→2 个**合法 YJ2 sprite**（数量 1→2 真轴，
+   正控断言同步 1 sprite）；FP4 独立为**如实登记的边界拒绝合同**（FBP 3 chunk
+   → readChunk "MKF: chunk 3 out of range" 精确拒绝 + exit 1，变异轴验证判别力），
+   不冒称合法正向资源。
+3. **Q-R9-03 账目**：FP1/2/3/5 承认为同一 file×fullName 的多轴（不是五个目标）；
+   结构修正为 62 存档 / 52 执行目标 / 净新上限 50（含 FP4 新目标）——原 49→50
+   由这一个真新目标补足，未拆标题凑数。
+
+## r9 历史段（保留）
 
 - **135 执行 / 净新上限 134 / 缺口至少 566**（C114 旧 room0 cross-check 不计净新；
   r9 新增全管线 1 例为净新）。
@@ -193,9 +222,9 @@ exit 0 + tilesets 2/2 + palette 2 chunks + asset-manifest + done。
      blocked-story / integration-heavy / stop-line 判定，申请 Codex 裁决缩围；
      700 总目标不自行缩减。
 
-## 交付规模（r7 续批后）
+## 交付规模（r10）
 
-**134 例 / 18 新测试文件 + 1 fixture / 50 枚三态有效反控 / 10 条非剧情浏览器流程 /
+**136 例 / 18 新测试文件 + 2 fixture（shop-project + yj2-encoder）/ 62 枚三态有效反控 / 10 条非剧情浏览器流程 /
 1 个缺陷红诊断（Codex 已独立确认，另列产品 draft）。**
 
 ### 续批1（fa0eebb9）：0x9E 正向死亡空槽复用

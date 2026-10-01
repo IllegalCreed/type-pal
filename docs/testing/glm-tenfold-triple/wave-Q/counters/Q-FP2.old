@@ -1,18 +1,1 @@
-    'GOP.MKF': mkf([
-      encodeSpriteChunk([
-        {
-          width: 4,
-          height: 4,
-          pixels: new Uint8Array(16).fill(3),
-          opaque: new Uint8Array(16).fill(1),
-        },
-      ]),
-      encodeSpriteChunk([
-        {
-          width: 4,
-          height: 4,
-          pixels: new Uint8Array(16).fill(5),
-          opaque: new Uint8Array(16).fill(1),
-        },
-      ]),
-    ]),
+    'MAP.MKF': mkf([mapChunkYj2, mapChunkYj2]), // 两 chunk 均为合法自包含 YJ2 的 65536B 全零图

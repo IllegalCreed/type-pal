@@ -1,7 +1,7 @@
 {
   "source": "final-run directed-vitest.json 逐条展开；锚点为真实文件/断言族，非模板",
   "counts": {
-    "total": 135
+    "total": 136
   },
   "contracts": [
     {
@@ -1873,15 +1873,29 @@
       "file": "pal-extract/src/cli-isolated.glm-q.test.ts",
       "fullName": "Q10 CLI 隔离实跑：全管线合成输入走到底（MAP/GOP tileset + PAT 调色板 + 空 MGO/F/ABC + asset-manifest + done）",
       "status": "passed",
-      "source": "pal-extract src/cli.ts main() 全管线尾段：MAP/GOP tileset（YJ2 零流合成 65536B map + encodeSpriteChunk GOP）、PAT 调色板（768/1536B 6bit→8bit）、MGO/F/ABC dump-all 循环、FBP battle-bg+splash、lookup、asset-manifest（cli.ts:631-891）",
-      "caller": "mkdtemp 复制模块树 + tsx 子进程（同前批）；合成输入经 buildFullPipelineInputs（YJ2 零流 = header(uncompLen)+64B 零位流，实测解出任意长度全初始符号输出）",
-      "oldAssertion": "corpus 0 命中（CLI 尾段此前零直测；map.test/palette 旧测覆盖单元解析器不覆盖总装）",
-      "axis": "MAP chunk1 需与 scene mapNum=1 对齐（parseMap 在 YJ2 try 外，短 chunk 抛未捕获）；FBP 需 ≥5 chunk（splash 读 3/4）",
-      "oracle": "exit 0 + done 日志；tilemap 64×128 cell lower=130/upper=0（零流首符号）；palette[1]=[4,8,255]（6→8bit 扩展）；nightColors 1536B 独有；tileset/{0,1}.rle blob；manifest fileCount>10",
-      "classification": "new full-pipeline contracts（r9；Q-FP1~5 五针新合同目标）"
+      "source": "pal-extract src/cli.ts main() 全管线尾段：MAP/GOP tileset（合法自包含 YJ2 65536B MAP + encodeSpriteChunk GOP）、PAT 调色板（768/1536B 6bit 0..63 → 8bit 扩展）、MGO/F/ABC dump-all、FBP 全空 chunk skip、lookup、asset-manifest（cli.ts:631-891）",
+      "caller": "mkdtemp 复制模块树 + tsx 子进程；合成输入经 buildFullPipelineInputs + 专属 yj2-encoder fixture（自适应 Huffman/LZSS 编码器，产品 decoder 往返验证合法性——r10 替代 r9 非法零流）",
+      "oldAssertion": "corpus 0 命中（CLI 尾段此前零直测）",
+      "axis": "MAP chunk1 与 scene mapNum=1 对齐；FBP ≥5 chunk（splash 读 3/4）；PAT 通道全 0..63",
+      "oracle": "exit 0 + done；tilemap cell 全 {lower:0,upper:0}（合法字面量流）；palette[1]=[4,8,255]（6bit [1,2,63] → 8bit 扩展）；nightColors 1536B 独有；tileset/{0,1}.rle；MGO 1 sprite（合法 YJ2 0 帧组）；manifest fileCount>10",
+      "classification": "new full-pipeline contracts（r10 合法化重写；FP1/2/3/5 四轴 + FP4 边界合同为该目标的多轴证据）"
     },
     {
       "id": "C135",
+      "batch": "Q10",
+      "package": "pal-extract",
+      "file": "pal-extract/src/cli-isolated.glm-q.test.ts",
+      "fullName": "Q10 CLI 隔离实跑：FBP 截短越界边界拒绝（chunk3/4 缺失 → splash readChunk throw → exit 1）",
+      "status": "passed",
+      "source": "pal-extract src/cli.ts splash 段（cli.ts:596-620 readChunk(splashFbpMkf, 3/4)）+ shared/mkf.ts readChunk 越界守卫",
+      "caller": "mkdtemp 复制模块树 + tsx 子进程；FBP 3 chunk 时 splash 读 chunk3 越界",
+      "oldAssertion": "corpus 0 命中（该越界边界此前零直测）",
+      "axis": "FBP 5→3 chunk（合法 MKF；拒绝条件消失时变异轴 FP4 验证判别力）",
+      "oracle": "exit 1 + stderr 含 \"MKF: chunk 3 out of range\"（readChunk 精确拒绝）",
+      "classification": "boundary-rejection contract（r10 新目标；如实登记为边界拒绝，不冒称合法正向资源）"
+    },
+    {
+      "id": "C136",
       "batch": "Q10",
       "package": "pal-extract",
       "file": "pal-extract/src/cli-isolated.glm-q.test.ts",

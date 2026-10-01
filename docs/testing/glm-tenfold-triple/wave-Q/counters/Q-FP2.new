@@ -1,11 +1,1 @@
-    'GOP.MKF': mkf([
-      new Uint8Array(0), // 变异轴：chunk0 合法 sprite→空（mapNum0 非空扫描略过 → tilesets 2→1）
-      encodeSpriteChunk([
-        {
-          width: 4,
-          height: 4,
-          pixels: new Uint8Array(16).fill(5),
-          opaque: new Uint8Array(16).fill(1),
-        },
-      ]),
-    ]),
+    'MAP.MKF': mkf([new Uint8Array(0), mapChunkYj2]), // 变异轴：chunk0 非空→空（合法空档；非空扫描略过 → tilesets 2→1）

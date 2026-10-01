@@ -1,1 +1,1 @@
-输入轴单轴变异：ABC 空 MKF→1 个 YJ2 零流 chunk（合法；battle sprite blobs written 0→1 → 恰一红）；断言不动。
+输入轴单轴变异：MGO 1→2 个合法 YJ2 sprite chunk（合法；sprite blobs written 1→2 → toContain('0 sprites') 恰一红——注意正控现含 1 sprite 断言须同步）；断言不动。

@@ -3,17 +3,17 @@
   "file": "packages/pal-extract/src/cli-isolated.glm-q.test.ts",
   "targetFullName": "Q10 CLI 隔离实跑：全管线合成输入走到底（MAP/GOP tileset + PAT 调色板 + 空 MGO/F/ABC + asset-manifest + done）",
   "targetNameSubstring": "全管线合成输入走到底",
-  "axis": "输入轴单轴变异：ABC 空 MKF→1 个 YJ2 零流 chunk（合法；battle sprite blobs written 0→1 → 恰一红）；断言不动。",
+  "axis": "输入轴单轴变异：MGO 1→2 个合法 YJ2 sprite chunk（合法；sprite blobs written 1→2 → toContain('0 sprites') 恰一红——注意正控现含 1 sprite 断言须同步）；断言不动。",
   "sha256": {
-    "original": "9ac0d9a8325a480bbf033c1459056250cb20b11c4cdc990857c87392d0586bef",
-    "mutated": "658443ebbd5d936836121e1a115dff0868a283fddcc817d1da54bc7753531ed5",
-    "restored": "9ac0d9a8325a480bbf033c1459056250cb20b11c4cdc990857c87392d0586bef"
+    "original": "154ff597d08733ca14cce004bce07b7fbc311d338559e96cd68c321bea229546",
+    "mutated": "4e168f5c46140c89f7d04695fe48a1ebe8a8b31aa0142dffff058853b96fb386",
+    "restored": "154ff597d08733ca14cce004bce07b7fbc311d338559e96cd68c321bea229546"
   },
   "restoredHashUnchanged": true,
   "criteria": {
     "positiveGreen": true,
     "mutantExactlyOneTargetRed": true,
-    "targetAssertionError": "AssertionError: expected 1 to be +0 // Object.is equality",
+    "targetAssertionError": "AssertionError: expected '[pal-extract] start\\n[pal-extract] sc…' to contain 'sprite blobs written: 1 sprites, 0 fr…'",
     "restoredGreen": true,
     "restoredSameExecutionCount": true,
     "hashesMatchFinalCandidate": true
@@ -22,8 +22,8 @@
     "positive": {
       "exitCode": 0,
       "summary": {
-        "numTotalTests": 5,
-        "numPassedTests": 5,
+        "numTotalTests": 6,
+        "numPassedTests": 6,
         "numFailedTests": 0,
         "success": true
       },
@@ -33,8 +33,8 @@
     "mutant": {
       "exitCode": 1,
       "summary": {
-        "numTotalTests": 5,
-        "numPassedTests": 4,
+        "numTotalTests": 6,
+        "numPassedTests": 5,
         "numFailedTests": 1,
         "success": false
       },
@@ -44,8 +44,8 @@
     "restored": {
       "exitCode": 0,
       "summary": {
-        "numTotalTests": 5,
-        "numPassedTests": 5,
+        "numTotalTests": 6,
+        "numPassedTests": 6,
         "numFailedTests": 0,
         "success": true
       },
