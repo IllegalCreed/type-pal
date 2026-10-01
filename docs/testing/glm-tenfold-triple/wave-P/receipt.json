@@ -8,7 +8,7 @@
   "productionFreeze": "3ac9a2e2f6aba8a5cc97640c18fef8549d199380",
   "branch": "codex/glm-wave-p-editor-residual-r1",
   "head": "(见下方 headNote：回执不引用自身提交)",
-  "headNote": "测试/工具锚点提交为本次 rework 测试提交（见 git log）；其后到远端 tip 仅 wave-P 证据/README/回执 docs-only 提交；最终远端候选以推送 tip 为准",
+  "headNote": "测试/工具锚点提交为 e463ed0c（r3：judge/patch/排重/相位修复与其余证据同提交）；最终远端候选 = e463ed0cddd73e2c18df0df454341db4c2627756",
   "counts": {
     "contracts": 67,
     "workGroups": 14,
