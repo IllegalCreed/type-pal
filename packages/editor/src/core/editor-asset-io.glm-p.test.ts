@@ -4,7 +4,8 @@
  * 去重：file-system-access / editor-asset-reader / seed / open-actions 的既有测试已证
  * 指纹 JSON 行为、seed 主干与另存为整笔流。本文件只补暗区臂：
  * G08 editor-asset-reader（未知 id、kind 不符、pending blob 副本语义、角色缺失、pending URL）
- * G09 classifyDirectoryPicker（insecure 提示、localhostOrigin 回退、无 picker、可用）
+ * G09 classifyDirectoryPicker 仅保留 localhostOrigin 非法 URL 回退轴（r2 P-R2-02：
+ * insecure/unsupported/available 三条与既有 file-system-access.test 断言重复，已删）
  * G10 seed 克隆清单（scenesDir 归一化、palFingerprintPaths 缺省/归一、克隆输出路径重复）
  * G11 另存为带源目录但无基线证据 → 复制开始前拒绝
  */
@@ -142,17 +143,7 @@ describe('P01-G08 editor-asset-reader 契约', () => {
   })
 })
 
-describe('P01-G09 classifyDirectoryPicker 分类', () => {
-  test('非安全上下文 → insecure-context 并提示 dev:lan 自签 HTTPS', () => {
-    const result = classifyDirectoryPicker({
-      isSecureContext: false,
-      hasDirectoryPicker: true,
-      origin: 'http://192.168.1.5:6010',
-    })
-    expect(result).toMatchObject({ available: false, reason: 'insecure-context' })
-    expect(result.available === false && result.message).toContain('dev:lan')
-  })
-
+describe('P01-G09 classifyDirectoryPicker 非法 URL 回退轴（其余分类臂与旧测重复已删）', () => {
   test('localhostOrigin 解析失败 → 回退 http://localhost 提示', () => {
     const result = classifyDirectoryPicker({
       isSecureContext: false,
@@ -160,26 +151,6 @@ describe('P01-G09 classifyDirectoryPicker 分类', () => {
       origin: 'not-a-url',
     })
     expect(result.available === false && result.message).toContain('http://localhost')
-  })
-
-  test('安全上下文但无 picker API → unsupported-browser', () => {
-    expect(
-      classifyDirectoryPicker({
-        isSecureContext: true,
-        hasDirectoryPicker: false,
-        origin: 'http://localhost:6010',
-      }),
-    ).toMatchObject({ available: false, reason: 'unsupported-browser' })
-  })
-
-  test('安全上下文且有 picker → 可用', () => {
-    expect(
-      classifyDirectoryPicker({
-        isSecureContext: true,
-        hasDirectoryPicker: true,
-        origin: 'http://localhost:6010',
-      }),
-    ).toEqual({ available: true })
   })
 })
 
