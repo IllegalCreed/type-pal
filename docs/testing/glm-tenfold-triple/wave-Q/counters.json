@@ -1,6 +1,7 @@
 {
   "count": 39,
   "allValid": true,
+  "hashVerification": "index 条目由最终 per-counter meta 生成；original/restored 与候选树实际文件 SHA256 逐枚断言相等（构建时校验，mismatch 即失败）",
   "perCounter": [
     {
       "id": "Q01-RC1",
@@ -1947,9 +1948,9 @@
       "targetNameSubstring": "合成 DATA.MKF 走完数据表段",
       "axis": "输入轴单轴变异：合成 STORE 表首格物品 61→62（合法 wObjectID，词表 62 为空）；断言不动。",
       "sha256": {
-        "original": "30f0d88dc711f7054b9effaf8b4556a0e2d53fd793e50ad9838cadca99f8383f",
-        "mutated": "1e08279fde13f6b06081be3be805625e160181a16f2be4d3fbb02aecc9d8426f",
-        "restored": "30f0d88dc711f7054b9effaf8b4556a0e2d53fd793e50ad9838cadca99f8383f"
+        "original": "e46949e5fe6b9fbf92b46b2cc326aaf68fc9d159c6427580d867912baa3d03bd",
+        "mutated": "0c73fe3bc263d74d55789ea0842d71b71fdb5f04b37d7df0fb78cd6c0dc80a55",
+        "restored": "e46949e5fe6b9fbf92b46b2cc326aaf68fc9d159c6427580d867912baa3d03bd"
       },
       "restoredHashUnchanged": true,
       "criteria": {
@@ -2004,9 +2005,9 @@
       "targetNameSubstring": "合成 DATA.MKF 走完数据表段",
       "axis": "输入轴单轴变异：PLAYERROLES 合成表 spriteNum[0] 2→3（合法精灵号）；断言不动。",
       "sha256": {
-        "original": "30f0d88dc711f7054b9effaf8b4556a0e2d53fd793e50ad9838cadca99f8383f",
-        "mutated": "ae5d33ba46a47d840fb78c8d37869237ce7784563cb335b24cfd3ec566c134b6",
-        "restored": "30f0d88dc711f7054b9effaf8b4556a0e2d53fd793e50ad9838cadca99f8383f"
+        "original": "e46949e5fe6b9fbf92b46b2cc326aaf68fc9d159c6427580d867912baa3d03bd",
+        "mutated": "cf16bd37bd3a0b995e0a98071ed58c3a3695a9b05b8893b15fc1dd7729d207e8",
+        "restored": "e46949e5fe6b9fbf92b46b2cc326aaf68fc9d159c6427580d867912baa3d03bd"
       },
       "restoredHashUnchanged": true,
       "criteria": {
@@ -2061,9 +2062,9 @@
       "targetNameSubstring": "合成小输入走完事件管线",
       "axis": "输入轴单轴变异：bytecode giveItem 操作数 61→62（合法 wObjectID，词表 62 为空）；断言不动。",
       "sha256": {
-        "original": "30f0d88dc711f7054b9effaf8b4556a0e2d53fd793e50ad9838cadca99f8383f",
-        "mutated": "40716aeb167826b20afd3d1389389f73cc6cb634b9a02b839e4bf8f72a2dfa1a",
-        "restored": "30f0d88dc711f7054b9effaf8b4556a0e2d53fd793e50ad9838cadca99f8383f"
+        "original": "e46949e5fe6b9fbf92b46b2cc326aaf68fc9d159c6427580d867912baa3d03bd",
+        "mutated": "4fa5eaef309f391d9ee2d6643129cd9f0a19f74bbeca723fcde737b4050f6aff",
+        "restored": "e46949e5fe6b9fbf92b46b2cc326aaf68fc9d159c6427580d867912baa3d03bd"
       },
       "restoredHashUnchanged": true,
       "criteria": {
@@ -2118,9 +2119,9 @@
       "targetNameSubstring": "合成小输入走完事件管线",
       "axis": "输入轴单轴变异：M.MSG 被引用窗口内末字节换为另一合法 GBK 字符；断言不动（按常量精确比对）。",
       "sha256": {
-        "original": "30f0d88dc711f7054b9effaf8b4556a0e2d53fd793e50ad9838cadca99f8383f",
-        "mutated": "96253368f466e5c0ed0af3164135fc7c1a6e04f25f8f47481a4421aa1e75e7c5",
-        "restored": "30f0d88dc711f7054b9effaf8b4556a0e2d53fd793e50ad9838cadca99f8383f"
+        "original": "e46949e5fe6b9fbf92b46b2cc326aaf68fc9d159c6427580d867912baa3d03bd",
+        "mutated": "5793683e186fe51c898a2966a4802a453a670459331bf46bc1c213c5f019ca3c",
+        "restored": "e46949e5fe6b9fbf92b46b2cc326aaf68fc9d159c6427580d867912baa3d03bd"
       },
       "restoredHashUnchanged": true,
       "criteria": {
@@ -2175,9 +2176,9 @@
       "targetNameSubstring": "合成 DATA.MKF 走完数据表段",
       "axis": "输入轴单轴变异：LEVELEXP chunk 200→198 字节（合法 99 条截断，parseLevelUpExp min(100, 99)）；断言不动。",
       "sha256": {
-        "original": "30f0d88dc711f7054b9effaf8b4556a0e2d53fd793e50ad9838cadca99f8383f",
-        "mutated": "e370b82b035232432ada5d2e64e72637ff759df9fb8654af47de214173629426",
-        "restored": "30f0d88dc711f7054b9effaf8b4556a0e2d53fd793e50ad9838cadca99f8383f"
+        "original": "e46949e5fe6b9fbf92b46b2cc326aaf68fc9d159c6427580d867912baa3d03bd",
+        "mutated": "f68ea3a7d7f9b433ea670053fb59e8b38513b3262b0e0d9dc95aec0646ed39ed",
+        "restored": "e46949e5fe6b9fbf92b46b2cc326aaf68fc9d159c6427580d867912baa3d03bd"
       },
       "restoredHashUnchanged": true,
       "criteria": {

@@ -27,15 +27,27 @@
 | 1 | 0x2D/0x2E/0x2F 状态 opcode 全轴（命中/抵抗/首次持续） | `core/battle/__tests__/battle-opcodes.test.ts :: 0x2E set enemy status:RandomLong(0,9)>resist → 设状态`；`> 0x2E:抵抗(RandomLong<=resist)→ jump op2`；`> 0x2D set player status:坏状态 sleep 首次设 dur` | existing-proof |
 | 2 | 0x1B/0x1C/0x1D 治疗 HP/MP（clamp/死人/over-treatment） | `core/battle/__tests__/battle-opcodes.test.ts :: 0x1B 单体回血`；`> 0x1B clamp 到 maxHP`；`> 0x1B 仅活人:死人(hp=0)不被治疗+ g_fScriptSuccess=FALSE` | existing-proof |
 | 3 | performMagic 全轴（夺魂 0x2E 阈值 / 五灵 / 消耗） | `core/battle/__tests__/actions.test.ts :: performMagic > 夺魂成功:巫抗 0、掷 0 也命中(0x2E 用 >= 跟进原版后期修复)`；magic.ts 64 缺臂中公开入口群已有 actions 矩阵 | existing-proof |
-| 4 | 合击 coopMagic（双方出手 / 其余作废） | `core/battle/__tests__/actions.test.ts` coop 群 + `reforge battle/battle-anim.coop.residual.test.ts`（r1 已核） | existing-proof |
+| 4 | 合击 coopMagic（双方出手 / 其余作废） | `core/battle/__tests__/actions.test.ts` coop 群（game 域锚）。r2 误引的 reforge `battle-anim.coop.residual.test.ts` 属 reforge 域呈现层，不作为 game 证明 | existing-proof（范围限 game 结算层；reforge 呈现层归 reforge 域另行对待） |
 | 5 | dualAttack / attackAll 装备授予与结算 | `core/battle/battle-core.test.ts :: P2 连击双打(装备授 dualAttack;仙女剑170)` 三例；`:: P2 长鞭攻全体(attackAll;fight.c:3683-3730)` 两例 | existing-proof |
-| 6 | 召唤/变身（summon 槽位 / transform 属性转移） | `core/battle/__tests__/battle-opcodes.test.ts :: 0x9E enemy summon (script.c:009E) > w!=0 召唤指定敌人(obj→enemyId→enemies)+ 满血 + 脚本/抗性`；`> 有 bus 时召唤建敌施法/高亮动画`；`:: 0x9F enemy transform (script.c:009F) > 变身成 op0 对象(保留当前 health + 保留原形态脚本)+ M6 变身音 47`；`> 变身后按新 enemy.yPosOffset 刷新自身底锚`；`core/battle/__tests__/battle-system.test.ts :: throw-item action 派发(E2) > 0x9E summon:敌人 scriptOnReady 只复用 wMaxEnemyIndex 内死亡空槽,不扩容单敌队伍` | existing-proof（逐条件：召唤填充/空槽复用/变身保留语义/底锚刷新/动画分支） |
+| 6 | 召唤/变身（summon 槽位 / transform 属性转移） | `core/battle/__tests__/battle-opcodes.test.ts :: 0x9E enemy summon (script.c:009E) > w!=0 召唤指定敌人(obj→enemyId→enemies)+ 满血 + 脚本/抗性`；`> 有 bus 时召唤建敌施法/高亮动画`；`:: 0x9F enemy transform (script.c:009F) > 变身成 op0 对象(保留当前 health + 保留原形态脚本)+ M6 变身音 47`；`> 变身后按新 enemy.yPosOffset 刷新自身底锚`；`core/battle/__tests__/battle-system.test.ts :: throw-item action 派发(E2) > 0x9E summon:敌人 scriptOnReady 只复用 wMaxEnemyIndex 内死亡空槽,不扩容单敌队伍` | existing-proof（**范围注记（二审）：该末例构造单敌无空槽并断言不扩容，不扩为「正向死亡空槽复用」全轴证明**；正向复用轴列继续展开项） |
 | 7 | 开战重建装备效果（PAL_UpdateEquipments 等价） | `core/battle/__tests__/battle-system.test.ts :: 开战重建装备效果… > 复活的装双攻武器队员开战重获双攻状态`；`> 未装双攻武器的队员开战不会凭空获得双攻` | existing-proof |
-| 8 | 行动队列 / performAction / selectAction | `core/battle/__tests__/turn-queue.test.ts :: buildActionQueue (PAL_CLASSIC) > 按 dexterity 降序`；`> dualMove enemy 进队列两次(第二次 fIsSecond=true)`；`> 同 dex 排序稳定(敌人先于队员,fight.c 先填敌人且只在严格小于时交换)`；`> 空队伍`；`> 空敌方` | existing-proof（逐条件：排序键/双动/稳定性/空输入） |
+| 8 | 行动队列 buildActionQueue（performAction/selectAction 不在本行范围） | `core/battle/__tests__/turn-queue.test.ts :: buildActionQueue (PAL_CLASSIC) > 按 dexterity 降序`；`> dualMove enemy 进队列两次(第二次 fIsSecond=true)`；`> 同 dex 排序稳定(敌人先于队员,fight.c 先填敌人且只在严格小于时交换)`；`> 空队伍`；`> 空敌方` | existing-proof（**范围注记（二审）：仅证 buildActionQueue**；performAction/selectAction 两入口拆出为独立行，见第 8b 行） |
+| 8b | performAction / selectAction（行动执行与玩家指令选择） | r2 行仅以群名列出（performAction 11 例/selectAction 13 例），未落逐条件锚 → **不作为已证**，列继续展开项：逐条件补 `core/battle/__tests__/`（actions/battle-opcodes 群）完整 old fullName/断言行 | 展开中（下一批首项） |
 | 9 | 战后成长（CHECK_HIDDEN_EXP / battleWonLevelUp） | `core/battle/battle-progression.glm-next-wave.test.ts :: applyHiddenExpGrowth —— CHECK_HIDDEN_EXP 宏边角(battle.c:1238-1293) > wLevel=120 先钳 99` 等 6 例 | existing-proof |
-| 10 | 逃跑/捕获（flee 判定 / captureEnemy） | `core/battle/__tests__/battle-system.test.ts :: applyHiddenExpGrowth… > D13:enemyEscapeAnim → 全活敌往左挪到出屏 → phase=fleed;health 不变(fled 无 exp)`；`> L11:敌逃出屏后进入 ~13 帧停顿阶段再 fleed(battle.c:1433 UTIL_Delay(500))`；`:: tickBattle finalize > flee 成功 → fleed → finalize 切 explore(无 hp 改动)`；`:: B1 失能玩家行为(D8…) > 逃跑动画:flee 成功 → 播逃跑动画(队员右移)→ fleed → explore` | existing-proof（逐条件：出屏位移/停顿相位/finalize 切换/玩家逃跑动画） |
-| 11 | battle-session 集成相位（readiness/回合推进/结算呈现） | 集成相位链由 `battle-session.glm-next-wave.test.ts`/`round-flows.test.ts` 承接（session() 经 `__rfBattle` 真实 host）；残余臂需真实战斗长流程或整帧呈现 | integration-heavy（headless 无法合法构造的呈现/回调相位；r1 已登记） |
+| 10 | 逃跑推进（enemyEscapeAnim 相位）/ 玩家逃跑判定（performFlee）/ 捕获（capture） | 逃跑推进：`core/battle/__tests__/battle-system.test.ts :: applyHiddenExpGrowth… > D13:enemyEscapeAnim → 全活敌往左挪到出屏 → phase=fleed;health 不变(fled 无 exp)`；`> L11:敌逃出屏后进入 ~13 帧停顿阶段再 fleed(battle.c:1433 UTIL_Delay(500))`；`:: tickBattle finalize > flee 成功 → fleed → finalize 切 explore(无 hp 改动)`。玩家逃跑判定：`core/battle/__tests__/actions.test.ts :: performFlee > fleeRate 远大于 rng 上限(roll 必小)→ 触发逃跑动画(fleeAnim)`；`> fleeRate=0 + 多个高吉运敌人(roll 必大)→ phase 不变`；`> 修复版:逃跑抵抗 def 用敌吉运 fleeRate,身法 dexterity 不参与`；`> isBoss=true → 无论 fleeRate 多高都不可逃`；`> 无 enemy 时 def=0 → roll∈[0,0]=0,fleeRate>=0 → 命中` | existing-proof（**范围注记（二审）：上锚证逃跑推进与玩家逃跑判定**；敌逃停顿终态/HP 不变由 battle-system 行覆盖；captureEnemy 全族 r2 未落锚 → 拆出第 10b 行） |
+| 10b | 捕获（captureEnemy 全族） | r2 行仅名「captureEnemy 锚 1+」未落锚 → **不作为已证**，列继续展开项：逐条件补 game 捕获入口旧锚（actions/battle-system 群）或以合法 typed 输入新建合同 | 展开中（下一批首项） |
+| 11 | reforge battle-session 集成相位（**reforge 域**，非 game 证明） | `reforge src/battle/battle-session.glm-next-wave.test.ts` / `round-flows.test.ts` 使用 typed session-driver + 公开按键/tick（三审确认并非必须 `__rfBattle`/剧情长路线） | reforge 域既有锚；game 域无此文件。后续按 typed session-driver 同思路对 game 战斗集成相位逐合同展开（不作为不可达依据） |
 | 12 | 新原版数值/公式轴（伤害/五灵/身法未核分支） | — | stop-line（新机制真值先交 primary 证据，不冻疑似 bug） |
+
+## r4 补充（2026-10-01 三审后）
+
+按三审裁决同步：①第 6/8/10 行的 existing-proof 范围逐条收窄并加范围注记（单例空槽/
+仅 buildActionQueue/仅逃跑推进），被拆出的正向空槽复用、performAction/selectAction、
+captureEnemy 全族列为「展开中（下一批首项）」；②第 4/11 行 reforge 证据不再作为 game
+证明；③删除「headless 无法合法构造/集成成本高＝不可达」的泛化结论——game battle
+集成相位改列「待 typed game driver 逐合同展开」，与 r3 展开方向一致；④整体缩围申请
+撤回，仅保留 blocked-story（禁启动 PAL001/002、E2E-002 占用）与 stop-line（新机制
+真值待 primary 证据）两类停线，及逐项举证的局部展开申请。
 
 ## r3 补充（2026-10-01 二审后）
 
@@ -48,12 +60,12 @@
 game 不可达依据，改列「integration-heavy（待 typed session-driver 逐合同展开）」并
 在后续批次继续展开，不作为缩围依据。
 
-## 结论
+## 结论（r4 修订）
 
-- Q07/Q08 的**公开入口合同**在上述锚点下已由既有测试逐条覆盖（existing-proof），
-  本轮不重复制造同形用例。
-- 剩余未命中臂归属三类：剧情集成（blocked-story / E2E-002 占用）、战斗长流程与整帧呈现
-  （headless 合法输入不可达）、未核机制真值（stop-line 待 Codex 补四向真值矩阵）。
-- 据此申请 Codex 对 Q07/Q08 按「existing-proof + blocked/integration-heavy + stop-line」
-  缩围裁决；不自行缩减 700 总目标——其缺口由 Q10 CLI 后续分段（DATA 表/图像管线）
-  与其它组残余继续补足或另行裁决。
+- 已证部分：第 1–10 行各**具体锚点**（二审/三审已抽验成立）作为对应具体轴的
+  existing-proof，不重复制造同形用例；范围以各行「范围注记」为准，不扩族。
+- 展开中：8b（performAction/selectAction 逐条件）、10b（captureEnemy 全族）、
+  11（game 战斗集成相位，typed game driver）、以及 dialog/walkNPC 演出族——
+  按逐未命中条件/caller/合法输入/完整 old fullName/断言行/精确 oracle 逐条补账。
+- 停线：剧情集成（禁启动 PAL001/002、E2E-002 占用）与未核机制真值（stop-line）。
+- 不再申请整体缩围；缺口由后续批次逐合同展开继续补足，700/50 目标保留。

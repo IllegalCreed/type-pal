@@ -1,12 +1,32 @@
-# Wave Q：两阶段runtime与解码残余合同十倍包 — GLM Q 交付总账（r3 返工）
+# Wave Q：两阶段runtime与解码残余合同十倍包 — GLM Q 交付总账（r4 返工）
 
 Coding Owner: GLM Q；[任务卡](../../../ops/tasks/TEST-GLM-WAVE-Q-1-runtime-residual-tenfold.md)、
 [共同协议](../README.md)、[冻结表](../targets.json)、Codex 2026-10-01 独立审查 `docs/testing/glm-tenfold-triple/codex-review-20261001.md`（落盘于审查树 codex/glm-lmn-acceptance-r1；按不 cherry-pick 纪律未拷入本分支，机器证据 codex-review-20261001.json 同）。
 分支 `codex/glm-wave-q-runtime-residual-r1`（独立 worktree），派发提交
 `8b3ca062953b17a12178f8d1a9e36657971234b1`，生产冻结 `3ac9a2e2f6aba8a5cc97640c18fef8549d199380`，
 起点候选 `626ddffe41cca4e3755dfafea1645c695c158b0f`（r1，被 counter → rework）。
-本文件描述 **r3 返工候选**（r2 二审 counter，Q-01/Q-02/F1 撤回三项已关闭不重开）。
-不合 main、不标 done。
+本文件描述 **r4 返工候选**（r2 二审 Q-R2-01~04 与 r3 三审 Q-R3-01~03 已闭合项不重开；
+Q-R2-03 缩围未获批，按逐条件展开继续）。不合 main、不标 done。
+
+## r4 相对 r3 的改动（对应三审 Q-R3-01～04）
+
+1. **Q-R3-01 总索引同步**：`counters.json` 由最终 per-counter meta 重建——五枚 Q10
+   条目 original/restored 现为 `e46949e5…`（与候选树实际文件一致），构建脚本内建
+   「index==meta==实际三态 SHA256 逐枚断言」校验（mismatch 即失败）。
+2. **Q-R3-02 格式诊断**：Q10 五枚×三态 JSON（15 诊断）正常格式化；最终 lint 数值
+   按当前树重跑回填（不以历史 2925 报告冒称）。
+3. **Q-R3-03 元数据与合同账**：receipt `candidateHead` 只放完整 40 位测试提交 SHA，
+   docs-only 说明独立 `candidateHeadNote` 字段（r3/r4 口径）；`contracts.json` 重建为
+   **116 条**（补 3 条 Q10 CLI 合同；修正 C099～C113 的 package=game/仓库路径归属；
+   file/fullName 与最终实跑逐条对应），每条落真实 source/caller/oldAssertion/axis/
+   oracle/classification 锚点（非模板）。
+4. **Q-R3-04/COMMON-01 账目同步**：`q07-q08-contract-ledger.md` 按三审裁决——第 6/8/10
+   行 existing-proof 范围逐条收窄加范围注记，拆出 8b（performAction/selectAction）与
+   10b（captureEnemy）「展开中」行；第 4/11 行不再以 reforge 文件作 game 证明；删除
+   「headless 不可达」泛化与整体缩围申请，改逐项举证 + typed game driver 展开计划；
+   capture 家族旧锚（actions.test.ts performFlee 五例）已补入第 10 行。
+
+## r3 相对 r2 的改动（对应二审 Q-R2-01～04，历史）
 
 ## r3 相对 r2 的改动（对应二审 Q-R2-01～04）
 
@@ -69,10 +89,10 @@ Coding Owner: GLM Q；[任务卡](../../../ops/tasks/TEST-GLM-WAVE-Q-1-runtime-r
      blocked-story / integration-heavy / stop-line 判定，申请 Codex 裁决缩围；
      700 总目标不自行缩减。
 
-## 交付规模（r3 候选）
+## 交付规模（r4 候选；测试源与 r3 相同，本轮为证据/元数据/账目修正）
 
-**116 例 / 16 新测试文件 + 1 fixture / 39 枚三态有效反控 / 10 条非剧情浏览器流程 /
-1 个缺陷红诊断（已由 Codex 独立确认并另列产品 draft）。**
+**116 例 / 16 新测试文件 + 1 fixture / 39 枚三态有效反控（索引已同步最终哈希）/
+10 条非剧情浏览器流程 / 1 个缺陷红诊断（Codex 已独立确认，另列产品 draft）。**
 
 | 批 | 域 | 测试文件 | 用例 | 反控 |
 |---|---|---|---:|---:|
@@ -88,13 +108,13 @@ Coding Owner: GLM Q；[任务卡](../../../ops/tasks/TEST-GLM-WAVE-Q-1-runtime-r
 | Q10 | pal-extract CLI 隔离实跑（事件段 + DATA 段） | 1 | 3 | 5 |
 | 合计 | | **16 + 1 fixture** | **116** | **39** |
 
-## 700/50 缺口申报（r3 续）
+## 700/50 缺口申报（r4 续）
 
 - Q10 已解锁事件段 + DATA 表段；图像段（RNG/RGM/BALL/FIRE/MAP/MGO/ABC/FBP 的图形
   格式合成）为后续分段。
-- Q07/Q08 逐合同账已按二审口径收敛（第 6/8/10 行逐条件锚），余族（dialog/walkNPC 演出、
-  battle-session 集成相位等）后续批次按同口径逐条展开；缩围不作整体申请，仅对
-  blocked-story（禁启动 PAL001/002、E2E-002 占用）与 stop-line（新机制真值）维持停线。
+- Q07/Q08 逐条件展开继续：下一批首项为 8b（performAction/selectAction 逐条件锚）、
+  10b（captureEnemy 全族）、11（game 战斗集成相位 typed driver 逐合同）及
+  dialog/walkNPC 演出族；缺合法输入逐项举证，不整体缩围。
 - 反控 39/50：新增反控随新合同批次继续补足。
 
 ## 排重与不可达登记
@@ -134,10 +154,12 @@ F9 开店退出资源、F10 resize 重钳制——判据与截图 SHA256 见
 
 ## 门禁结果（r2）
 
-- 三包串行全测：reforge **2150**、game **2788**、pal-extract **359**（基线 357 + 2 CLI）全绿。
+- 三包串行全测：reforge **2150**、game **2788**、pal-extract **360**（基线 357 + 3 CLI）全绿
+  （数值以 r4 最终门禁复跑回填为准）。
 - 三包 typecheck 0 error；根 `pnpm lint` 完整 **0/0/0**；`scripts/docs/check.mjs` PASS；
   `git diff --check <派发基点>...HEAD` 干净；`verify-targets.mjs --wave Q` frozenValid /
   Owner 交集 0（`receipt/verifier-final.txt`）。
 - 覆盖对照（隔离 v8，同分母）：见 `coverage-delta.json`（pal-extract 为 glm-q 定向
   覆盖口径，已在文件内注明与全测口径差异）。
-- 34 枚反控三态实跑全 VALID（见 `counters.json`）。
+- **39 枚**反控三态实跑全 VALID（`counters.json` 总索引由最终 meta 重建并逐枚断言
+  index==meta==实际三态哈希；15 个 Q10 三态 JSON 已正常格式化）。
