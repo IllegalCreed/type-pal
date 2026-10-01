@@ -1,7 +1,7 @@
 {
-  "total": 56,
-  "uniqueIds": 56,
-  "rule": "三态：control 全绿 → injected 恰一目标 fullName 业务 AssertionError 红 → restored 恢复后重跑全绿；patch --unidiff-zero 重建校验 = mutatedSha；候选树零改动。O-R4-02：O08-CC1/CC2、O10-CC2/3/4/5 已按最终测试源重采（其余 50 枚控制证据保留）",
+  "total": 62,
+  "uniqueIds": 62,
+  "rule": "三态：control 全绿 → injected 恰一目标 fullName 业务 AssertionError 红 → restored 恢复后重跑全绿；patch --unidiff-zero 重建校验 = mutatedSha；候选树零改动。r5-r6：6 枚漂移重采 + 6 枚新批次（O08-CC6/7、O09-CC11/12、O10-CC7/10）全部三态",
   "counters": [
     {
       "id": "O01-CC1",
@@ -1096,6 +1096,62 @@
       "patchRebuiltAndVerified": true
     },
     {
+      "id": "O08-CC6",
+      "control": {
+        "exitCode": 0,
+        "executed": 10,
+        "passed": 10,
+        "failed": 0
+      },
+      "injected": {
+        "exitCode": 1,
+        "failedFullName": "O08 scaleCurrentHp：分数缩放 分子/分母截断（trunc）与 0/上限钳位",
+        "failureMessageHead": "AssertionError: expected 50 to be 49 // Object.is equality",
+        "executed": 10
+      },
+      "restored": {
+        "exitCode": 0,
+        "executed": 10,
+        "passed": 10,
+        "failed": 0
+      },
+      "hashes": {
+        "original": "1a2ff2c2ef96070cf1609bd26c1f2756e851c9aec525749131582f6fd696963b",
+        "mutated": "3bb3e655f4eafbb5644a30754a07b4a4ce20a67e63067f6effff42952e0d7145",
+        "restored": "1a2ff2c2ef96070cf1609bd26c1f2756e851c9aec525749131582f6fd696963b",
+        "rebuilt": "3bb3e655f4eafbb5644a30754a07b4a4ce20a67e63067f6effff42952e0d7145"
+      },
+      "patchRebuiltAndVerified": true
+    },
+    {
+      "id": "O08-CC7",
+      "control": {
+        "exitCode": 0,
+        "executed": 10,
+        "passed": 10,
+        "failed": 0
+      },
+      "injected": {
+        "exitCode": 1,
+        "failedFullName": "O08 复合链顺序与 gate 显式阈值 gate 显式 chance=50：rng 命中（roll<50）放行后续 healHp",
+        "failureMessageHead": "AssertionError: expected 'failure' to be 'success' // Object.is equality",
+        "executed": 10
+      },
+      "restored": {
+        "exitCode": 0,
+        "executed": 10,
+        "passed": 10,
+        "failed": 0
+      },
+      "hashes": {
+        "original": "1a2ff2c2ef96070cf1609bd26c1f2756e851c9aec525749131582f6fd696963b",
+        "mutated": "86cdf71540dc21c3aace7f0ad04738ee8b523731f99587044a1d7be45dbeafa2",
+        "restored": "1a2ff2c2ef96070cf1609bd26c1f2756e851c9aec525749131582f6fd696963b",
+        "rebuilt": "86cdf71540dc21c3aace7f0ad04738ee8b523731f99587044a1d7be45dbeafa2"
+      },
+      "patchRebuiltAndVerified": true
+    },
+    {
       "id": "O09-CC1",
       "control": {
         "exitCode": 0,
@@ -1148,6 +1204,62 @@
         "mutated": "9272cddc2341d741f3aa172e37cccf4e2e537f526be0556abc84208e9479d894",
         "restored": "ff1c655944da906e1eda84346bda1fde59cafa64af56683fbc09971f234fc198",
         "rebuilt": "9272cddc2341d741f3aa172e37cccf4e2e537f526be0556abc84208e9479d894"
+      },
+      "patchRebuiltAndVerified": true
+    },
+    {
+      "id": "O09-CC11",
+      "control": {
+        "exitCode": 0,
+        "executed": 10,
+        "passed": 10,
+        "failed": 0
+      },
+      "injected": {
+        "exitCode": 1,
+        "failedFullName": "O08 checkEnemyFallback：兜底行动域 合法 cast/pass 通过；chancePercent 越界拒绝",
+        "failureMessageHead": "AssertionError: expected [Function] to throw an error",
+        "executed": 10
+      },
+      "restored": {
+        "exitCode": 0,
+        "executed": 10,
+        "passed": 10,
+        "failed": 0
+      },
+      "hashes": {
+        "original": "e91054b2990839983a27fe0fd1a93bc514c0aca026773ed961438bd6087cdba4",
+        "mutated": "bc53fea2c6f05b801c3ccb80b1877aabf2e1cbf14736589c0d6d7de0e13ec621",
+        "restored": "e91054b2990839983a27fe0fd1a93bc514c0aca026773ed961438bd6087cdba4",
+        "rebuilt": "bc53fea2c6f05b801c3ccb80b1877aabf2e1cbf14736589c0d6d7de0e13ec621"
+      },
+      "patchRebuiltAndVerified": true
+    },
+    {
+      "id": "O09-CC12",
+      "control": {
+        "exitCode": 0,
+        "executed": 10,
+        "passed": 10,
+        "failed": 0
+      },
+      "injected": {
+        "exitCode": 1,
+        "failedFullName": "O08 healHp/healMp：钳位与死亡跳过 healMp：加 MP 钳 maxMP（30+40 → maxMP 50）",
+        "failureMessageHead": "AssertionError: expected 30 to be 50 // Object.is equality",
+        "executed": 10
+      },
+      "restored": {
+        "exitCode": 0,
+        "executed": 10,
+        "passed": 10,
+        "failed": 0
+      },
+      "hashes": {
+        "original": "1a2ff2c2ef96070cf1609bd26c1f2756e851c9aec525749131582f6fd696963b",
+        "mutated": "da07d486de243d2202e88c11c3aee514c07bc11cc4babb87e544cc59f76c06d9",
+        "restored": "1a2ff2c2ef96070cf1609bd26c1f2756e851c9aec525749131582f6fd696963b",
+        "rebuilt": "da07d486de243d2202e88c11c3aee514c07bc11cc4babb87e544cc59f76c06d9"
       },
       "patchRebuiltAndVerified": true
     },
@@ -1376,6 +1488,34 @@
       "patchRebuiltAndVerified": true
     },
     {
+      "id": "O10-CC10",
+      "control": {
+        "exitCode": 0,
+        "executed": 3,
+        "passed": 3,
+        "failed": 0
+      },
+      "injected": {
+        "exitCode": 1,
+        "failedFullName": "O10 MKF：容器合同 chunk 越界读 fail-loud（负数）",
+        "failureMessageHead": "AssertionError: expected [Function] to throw an error",
+        "executed": 3
+      },
+      "restored": {
+        "exitCode": 0,
+        "executed": 3,
+        "passed": 3,
+        "failed": 0
+      },
+      "hashes": {
+        "original": "2512407e97848c604458aeeac26d9299e9f639132abb656046c18d4fd9848f54",
+        "mutated": "807697cebabfbe7f09f3bd101e9ab88faef38da603213879d81e0075b02c151c",
+        "restored": "2512407e97848c604458aeeac26d9299e9f639132abb656046c18d4fd9848f54",
+        "rebuilt": "807697cebabfbe7f09f3bd101e9ab88faef38da603213879d81e0075b02c151c"
+      },
+      "patchRebuiltAndVerified": true
+    },
+    {
       "id": "O10-CC2",
       "control": {
         "exitCode": 0,
@@ -1512,6 +1652,34 @@
         "mutated": "7095ba6f1c43abdd153aa18fe4ed78afdfd7909e784fa682b8b71137d2c64327",
         "restored": "2512407e97848c604458aeeac26d9299e9f639132abb656046c18d4fd9848f54",
         "rebuilt": "7095ba6f1c43abdd153aa18fe4ed78afdfd7909e784fa682b8b71137d2c64327"
+      },
+      "patchRebuiltAndVerified": true
+    },
+    {
+      "id": "O10-CC7",
+      "control": {
+        "exitCode": 0,
+        "executed": 6,
+        "passed": 6,
+        "failed": 0
+      },
+      "injected": {
+        "exitCode": 1,
+        "failedFullName": "O10 encodeRleFrame：游程分段与尾透明 0x7F 上限分段：129 连续 opaque → 两段（127+2）指令",
+        "failureMessageHead": "AssertionError: expected 198 to be 135 // Object.is equality",
+        "executed": 6
+      },
+      "restored": {
+        "exitCode": 0,
+        "executed": 6,
+        "passed": 6,
+        "failed": 0
+      },
+      "hashes": {
+        "original": "047b96879d4889a99f745525f894c6ebcc3714a65bca73c2e609912e0162ba36",
+        "mutated": "61a1b46fa2308e33d3a9d6bafad5296b2b62ba12799237c547ac9dd1e9029ce0",
+        "restored": "047b96879d4889a99f745525f894c6ebcc3714a65bca73c2e609912e0162ba36",
+        "rebuilt": "61a1b46fa2308e33d3a9d6bafad5296b2b62ba12799237c547ac9dd1e9029ce0"
       },
       "patchRebuiltAndVerified": true
     },

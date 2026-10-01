@@ -1,0 +1,14 @@
+{
+  "id": "O10-CC10",
+  "contract": "MKF chunk 越界读 fail-loud",
+  "package": "shared",
+  "test": {
+    "file": "src/mkf.glm-o.test.ts",
+    "title": "chunk 越界读 fail-loud（负数）"
+  },
+  "mutation": {
+    "file": "src/mkf.ts",
+    "find": "  if (index < 0 || index >= chunkCount(mkf)) {",
+    "replace": "  if (index >= chunkCount(mkf)) {"
+  }
+}

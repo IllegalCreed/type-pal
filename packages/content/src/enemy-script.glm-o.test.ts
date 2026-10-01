@@ -4,11 +4,7 @@
  *  initialWorldVariablesV1 fresh-record 语义与 sys: 命名空间保留轴。
  */
 import { describe, expect, test } from 'vitest'
-import {
-  checkEnemyAi,
-  checkEnemyFallback,
-  checkEnemyHookFlow,
-} from './enemy-script.js'
+import { checkEnemyAi, checkEnemyFallback, checkEnemyHookFlow } from './enemy-script.js'
 import {
   initialWorldVariablesV1,
   validateWorldVariableRegistryV1,
@@ -32,9 +28,9 @@ describe('O08 checkEnemyFallback：兜底行动域', () => {
   })
 
   test('action 非法 kind（attack 不属 fallback 域）拒绝', () => {
-    expect(() =>
-      checkEnemyFallback(fallback({ action: { kind: 'attack' } }), 'p'),
-    ).toThrow(/action/)
+    expect(() => checkEnemyFallback(fallback({ action: { kind: 'attack' } }), 'p')).toThrow(
+      /action/,
+    )
   })
 })
 
@@ -56,9 +52,7 @@ describe('O08 checkEnemyHookFlow：游标程序状态结构', () => {
 
   test('空 states / 状态缺 body 拒绝', () => {
     expect(() => checkEnemyHookFlow(flow({}), 'p')).toThrow()
-    expect(() =>
-      checkEnemyHookFlow(flow({ ready: { next: { kind: 'stay' } } }), 'p'),
-    ).toThrow()
+    expect(() => checkEnemyHookFlow(flow({ ready: { next: { kind: 'stay' } } }), 'p')).toThrow()
   })
 
   test('transition 分支递归（branch 深层 transition 校验）', () => {
@@ -89,18 +83,16 @@ describe('O08 checkEnemyAi：顶层聚合', () => {
 
   test('resistanceToSorcery 越界（>10）拒绝；合法通过', () => {
     expect(() => checkEnemyAi(ai(), 'p')).not.toThrow()
-    expect(() => checkEnemyAi(ai({ resistanceToSorcery: 11 }), 'p')).toThrow(
-      /resistanceToSorcery/,
-    )
+    expect(() => checkEnemyAi(ai({ resistanceToSorcery: 11 }), 'p')).toThrow(/resistanceToSorcery/)
   })
 
   test('rules 元素 at 域拒绝（合法 turnStart/act）', () => {
     expect(() =>
       checkEnemyAi(ai({ rules: [{ at: 'turnStart', do: { kind: 'attack' } }] }), 'p'),
     ).not.toThrow()
-    expect(() =>
-      checkEnemyAi(ai({ rules: [{ at: 'wat', do: { kind: 'attack' } }] }), 'p'),
-    ).toThrow(/at/)
+    expect(() => checkEnemyAi(ai({ rules: [{ at: 'wat', do: { kind: 'attack' } }] }), 'p')).toThrow(
+      /at/,
+    )
   })
 })
 

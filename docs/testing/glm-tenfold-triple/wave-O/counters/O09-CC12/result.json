@@ -1,0 +1,35 @@
+{
+  "id": "O09-CC12",
+  "contract": "healMp 钳 maxMP",
+  "target": {
+    "file": "src/item-effects.glm-o.test.ts",
+    "title": "healMp：加 MP 钳 maxMP（30+40 → maxMP 50）"
+  },
+  "control": {
+    "exitCode": 0,
+    "executed": 10,
+    "passed": 10,
+    "failed": 0
+  },
+  "injected": {
+    "exitCode": 1,
+    "executed": 10,
+    "passed": 9,
+    "failed": 1,
+    "failedFullName": "O08 healHp/healMp：钳位与死亡跳过 healMp：加 MP 钳 maxMP（30+40 → maxMP 50）",
+    "failureMessageHead": "AssertionError: expected 30 to be 50 // Object.is equality"
+  },
+  "restored": {
+    "exitCode": 0,
+    "executed": 10,
+    "passed": 10,
+    "failed": 0
+  },
+  "hashes": {
+    "original": "1a2ff2c2ef96070cf1609bd26c1f2756e851c9aec525749131582f6fd696963b",
+    "mutated": "da07d486de243d2202e88c11c3aee514c07bc11cc4babb87e544cc59f76c06d9",
+    "restored": "1a2ff2c2ef96070cf1609bd26c1f2756e851c9aec525749131582f6fd696963b",
+    "rebuilt": "da07d486de243d2202e88c11c3aee514c07bc11cc4babb87e544cc59f76c06d9"
+  },
+  "patchRebuiltAndVerified": true
+}

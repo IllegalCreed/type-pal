@@ -1,0 +1,35 @@
+{
+  "id": "O10-CC7",
+  "contract": "RLE 0x7F 分段",
+  "target": {
+    "file": "src/yj2-encode.glm-o.test.ts",
+    "title": "0x7F 上限分段：129 连续 opaque → 两段（127+2）指令"
+  },
+  "control": {
+    "exitCode": 0,
+    "executed": 6,
+    "passed": 6,
+    "failed": 0
+  },
+  "injected": {
+    "exitCode": 1,
+    "executed": 6,
+    "passed": 5,
+    "failed": 1,
+    "failedFullName": "O10 encodeRleFrame：游程分段与尾透明 0x7F 上限分段：129 连续 opaque → 两段（127+2）指令",
+    "failureMessageHead": "AssertionError: expected 198 to be 135 // Object.is equality"
+  },
+  "restored": {
+    "exitCode": 0,
+    "executed": 6,
+    "passed": 6,
+    "failed": 0
+  },
+  "hashes": {
+    "original": "047b96879d4889a99f745525f894c6ebcc3714a65bca73c2e609912e0162ba36",
+    "mutated": "61a1b46fa2308e33d3a9d6bafad5296b2b62ba12799237c547ac9dd1e9029ce0",
+    "restored": "047b96879d4889a99f745525f894c6ebcc3714a65bca73c2e609912e0162ba36",
+    "rebuilt": "61a1b46fa2308e33d3a9d6bafad5296b2b62ba12799237c547ac9dd1e9029ce0"
+  },
+  "patchRebuiltAndVerified": true
+}

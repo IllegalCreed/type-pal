@@ -1,0 +1,35 @@
+{
+  "id": "O09-CC11",
+  "contract": "敌 fallback chance 域",
+  "target": {
+    "file": "src/enemy-script.glm-o.test.ts",
+    "title": "合法 cast/pass 通过；chancePercent 越界拒绝"
+  },
+  "control": {
+    "exitCode": 0,
+    "executed": 10,
+    "passed": 10,
+    "failed": 0
+  },
+  "injected": {
+    "exitCode": 1,
+    "executed": 10,
+    "passed": 9,
+    "failed": 1,
+    "failedFullName": "O08 checkEnemyFallback：兜底行动域 合法 cast/pass 通过；chancePercent 越界拒绝",
+    "failureMessageHead": "AssertionError: expected [Function] to throw an error"
+  },
+  "restored": {
+    "exitCode": 0,
+    "executed": 10,
+    "passed": 10,
+    "failed": 0
+  },
+  "hashes": {
+    "original": "e91054b2990839983a27fe0fd1a93bc514c0aca026773ed961438bd6087cdba4",
+    "mutated": "bc53fea2c6f05b801c3ccb80b1877aabf2e1cbf14736589c0d6d7de0e13ec621",
+    "restored": "e91054b2990839983a27fe0fd1a93bc514c0aca026773ed961438bd6087cdba4",
+    "rebuilt": "bc53fea2c6f05b801c3ccb80b1877aabf2e1cbf14736589c0d6d7de0e13ec621"
+  },
+  "patchRebuiltAndVerified": true
+}

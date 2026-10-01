@@ -1,0 +1,14 @@
+{
+  "id": "O09-CC12",
+  "contract": "healMp 钳 maxMP",
+  "package": "content",
+  "test": {
+    "file": "src/item-effects.glm-o.test.ts",
+    "title": "healMp：加 MP 钳 maxMP（30+40 → maxMP 50）"
+  },
+  "mutation": {
+    "file": "src/item.ts",
+    "find": "        case 'healMp':\n          {\n            if (next.hp <= 0) break",
+    "replace": "        case 'healMp':\n          {\n            if (true) break"
+  }
+}

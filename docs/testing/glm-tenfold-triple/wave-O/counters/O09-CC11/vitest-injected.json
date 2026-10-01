@@ -1,0 +1,142 @@
+{
+  "numTotalTestSuites": 5,
+  "numPassedTestSuites": 3,
+  "numFailedTestSuites": 2,
+  "numPendingTestSuites": 0,
+  "numTotalTests": 10,
+  "numPassedTests": 9,
+  "numFailedTests": 1,
+  "numPendingTests": 0,
+  "numTodoTests": 0,
+  "snapshot": {
+    "added": 0,
+    "failure": false,
+    "filesAdded": 0,
+    "filesRemoved": 0,
+    "filesRemovedList": [],
+    "filesUnmatched": 0,
+    "filesUpdated": 0,
+    "matched": 0,
+    "total": 0,
+    "unchecked": 0,
+    "uncheckedKeysByFile": [],
+    "unmatched": 0,
+    "updated": 0,
+    "didUpdate": false
+  },
+  "startTime": 1790858420731,
+  "success": false,
+  "testResults": [
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["O08 checkEnemyFallback：兜底行动域"],
+          "fullName": "O08 checkEnemyFallback：兜底行动域 合法 cast/pass 通过；chancePercent 越界拒绝",
+          "status": "failed",
+          "title": "合法 cast/pass 通过；chancePercent 越界拒绝",
+          "duration": 7.6827500000000555,
+          "failureMessages": [
+            "AssertionError: expected [Function] to throw an error\n    at Proxy.<anonymous> (file:///private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-o-cc-injected-enAwnN/node_modules/.pnpm/@vitest+expect@4.1.7/node_modules/@vitest/expect/dist/index.js:1552:16)\n    at Proxy.<anonymous> (file:///private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-o-cc-injected-enAwnN/node_modules/.pnpm/@vitest+expect@4.1.7/node_modules/@vitest/expect/dist/index.js:1156:15)\n    at Proxy.methodWrapper (file:///private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-o-cc-injected-enAwnN/node_modules/.pnpm/chai@6.2.2/node_modules/chai/index.js:1700:25)\n    at /private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-o-cc-injected-enAwnN/packages/content/src/enemy-script.glm-o.test.ts:30:76\n    at file:///private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-o-cc-injected-enAwnN/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-o-cc-injected-enAwnN/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-o-cc-injected-enAwnN/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-o-cc-injected-enAwnN/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-o-cc-injected-enAwnN/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20"
+          ],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O08 checkEnemyFallback：兜底行动域"],
+          "fullName": "O08 checkEnemyFallback：兜底行动域 action 非法 kind（attack 不属 fallback 域）拒绝",
+          "status": "passed",
+          "title": "action 非法 kind（attack 不属 fallback 域）拒绝",
+          "duration": 0.3756660000000238,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O08 checkEnemyHookFlow：游标程序状态结构"],
+          "fullName": "O08 checkEnemyHookFlow：游标程序状态结构 合法状态机通过；initial 未命中状态拒绝",
+          "status": "passed",
+          "title": "合法状态机通过；initial 未命中状态拒绝",
+          "duration": 1.0509170000000267,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O08 checkEnemyHookFlow：游标程序状态结构"],
+          "fullName": "O08 checkEnemyHookFlow：游标程序状态结构 空 states / 状态缺 body 拒绝",
+          "status": "passed",
+          "title": "空 states / 状态缺 body 拒绝",
+          "duration": 0.5158329999999296,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O08 checkEnemyHookFlow：游标程序状态结构"],
+          "fullName": "O08 checkEnemyHookFlow：游标程序状态结构 transition 分支递归（branch 深层 transition 校验）",
+          "status": "passed",
+          "title": "transition 分支递归（branch 深层 transition 校验）",
+          "duration": 0.49416599999995015,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O08 checkEnemyAi：顶层聚合"],
+          "fullName": "O08 checkEnemyAi：顶层聚合 resistanceToSorcery 越界（>10）拒绝；合法通过",
+          "status": "passed",
+          "title": "resistanceToSorcery 越界（>10）拒绝；合法通过",
+          "duration": 0.6230830000000651,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O08 checkEnemyAi：顶层聚合"],
+          "fullName": "O08 checkEnemyAi：顶层聚合 rules 元素 at 域拒绝（合法 turnStart/act）",
+          "status": "passed",
+          "title": "rules 元素 at 域拒绝（合法 turnStart/act）",
+          "duration": 0.4289999999999736,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O09 initialWorldVariablesV1：fresh-record 初始化"],
+          "fullName": "O09 initialWorldVariablesV1：fresh-record 初始化 flag/number 分桶到 flags/vars 且值来自 initial",
+          "status": "passed",
+          "title": "flag/number 分桶到 flags/vars 且值来自 initial",
+          "duration": 1.1504160000000638,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O09 initialWorldVariablesV1：fresh-record 初始化"],
+          "fullName": "O09 initialWorldVariablesV1：fresh-record 初始化 空 registry → 双空桶；输入 registry 不被引用泄漏（fresh records）",
+          "status": "passed",
+          "title": "空 registry → 双空桶；输入 registry 不被引用泄漏（fresh records）",
+          "duration": 0.9157079999999951,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O09 initialWorldVariablesV1：fresh-record 初始化"],
+          "fullName": "O09 initialWorldVariablesV1：fresh-record 初始化 sys: 命名空间保留给引擎（registry 校验拒绝）",
+          "status": "passed",
+          "title": "sys: 命名空间保留给引擎（registry 校验拒绝）",
+          "duration": 0.17308300000001964,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790858421392,
+      "endTime": 1790858421406.173,
+      "status": "failed",
+      "message": "",
+      "name": "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-o-cc-injected-enAwnN/packages/content/src/enemy-script.glm-o.test.ts"
+    }
+  ]
+}

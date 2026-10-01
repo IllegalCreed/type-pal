@@ -1,0 +1,14 @@
+{
+  "id": "O08-CC7",
+  "contract": "gate 显式阈值放行",
+  "package": "content",
+  "test": {
+    "file": "src/item-effects.glm-o.test.ts",
+    "title": "gate 显式 chance=50：rng 命中（roll<50）放行后续 healHp"
+  },
+  "mutation": {
+    "file": "src/item.ts",
+    "find": "      const passed = roll < chance",
+    "replace": "      const passed = false"
+  }
+}

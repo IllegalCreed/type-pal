@@ -7,14 +7,11 @@
  *  hideParty/runScript/runSceneHook/placeEntityInFront 属 battle/world 外部域，
  *  世界分支到达即产品内部错误（防御 throw）。
  */
-import { describe, expect, test } from 'vitest'
+
 import type { ItemData, ItemDataMap, ItemUseEffect } from '@type-pal/content'
+import { describe, expect, test } from 'vitest'
+import { item as makeItem, poisonDefs, world } from './__tests__/glm-item-logic-fixtures.js'
 import { resolveWorldItemUse } from './item.js'
-import {
-  item as makeItem,
-  poisonDefs,
-  world,
-} from './__tests__/glm-item-logic-fixtures.js'
 
 const useItem = (effects: ItemUseEffect[], over: Record<string, unknown> = {}): ItemData =>
   makeItem({
@@ -54,9 +51,19 @@ describe('O08 healHp/healMp：钳位与死亡跳过', () => {
       'use-item': useItem([{ kind: 'healHp', amount: 5 }], { target: 'allAllies' }),
       keep: useItem([{ kind: 'healHp', amount: 5 }], { target: 'allAllies', consuming: false }),
     }
-    const consuming = resolveWorldItemUse(world([{ itemId: 'use-item', count: 2 }]), 'hero', 'use-item', items)
+    const consuming = resolveWorldItemUse(
+      world([{ itemId: 'use-item', count: 2 }]),
+      'hero',
+      'use-item',
+      items,
+    )
     expect(consuming.world.inventory).toEqual([{ itemId: 'use-item', count: 1 }])
-    const keeping = resolveWorldItemUse(world([{ itemId: 'keep', count: 2 }]), 'hero', 'keep', items)
+    const keeping = resolveWorldItemUse(
+      world([{ itemId: 'keep', count: 2 }]),
+      'hero',
+      'keep',
+      items,
+    )
     expect(keeping.world.inventory).toEqual([{ itemId: 'keep', count: 2 }])
   })
 })
@@ -81,7 +88,12 @@ describe('O08 scaleCurrentHp：分数缩放', () => {
     const items: ItemDataMap = {
       'use-item': useItem([{ kind: 'scaleCurrentHp', numerator: 2, denominator: 1 }]),
     }
-    const outcome = resolveWorldItemUse(world([{ itemId: 'use-item', count: 1 }], 100), 'hero', 'use-item', items)
+    const outcome = resolveWorldItemUse(
+      world([{ itemId: 'use-item', count: 1 }], 100),
+      'hero',
+      'use-item',
+      items,
+    )
     expect(outcome.world.party[0]!.hp).toBe(100)
   })
 })
@@ -91,7 +103,12 @@ describe('O08 menu 透传与 applyStatus 防御轴', () => {
     const items: ItemDataMap = {
       'use-item': useItem([{ kind: 'healHp', amount: 5 }], { menuAfterUse: 'close' }),
     }
-    const outcome = resolveWorldItemUse(world([{ itemId: 'use-item', count: 1 }], 50), 'hero', 'use-item', items)
+    const outcome = resolveWorldItemUse(
+      world([{ itemId: 'use-item', count: 1 }], 50),
+      'hero',
+      'use-item',
+      items,
+    )
     expect(outcome.menu).toBe('close')
   })
 
@@ -99,7 +116,12 @@ describe('O08 menu 透传与 applyStatus 防御轴', () => {
     const items: ItemDataMap = {
       'use-item': useItem([{ kind: 'applyStatus', status: 'sleep', turns: 2 }]),
     }
-    const outcome = resolveWorldItemUse(world([{ itemId: 'use-item', count: 1 }]), 'hero', 'use-item', items)
+    const outcome = resolveWorldItemUse(
+      world([{ itemId: 'use-item', count: 1 }]),
+      'hero',
+      'use-item',
+      items,
+    )
     expect(outcome.world.party[0]!.extraStatuses).toEqual([{ status: 'sleep', turns: 2 }])
     // 注：puppet 不属 CarryableStatusId，对 typed 作者物品不可构造——
     // 世界分支的 fail-loud 守卫登记为 unreachable-via-legal-input。
@@ -109,17 +131,30 @@ describe('O08 menu 透传与 applyStatus 防御轴', () => {
 describe('O08 复合链顺序与 gate 显式阈值', () => {
   test('gate 显式 chance=50：rng 命中（roll<50）放行后续 healHp', () => {
     const items: ItemDataMap = {
-      'use-item': useItem([{ kind: 'gate', chance: 50 }, { kind: 'healHp', amount: 10 }]),
+      'use-item': useItem([
+        { kind: 'gate', chance: 50 },
+        { kind: 'healHp', amount: 10 },
+      ]),
     }
     // rng=0.25 → roll=26 < 50 → 放行。
-    const outcome = resolveWorldItemUse(world([{ itemId: 'use-item', count: 1 }], 60), 'hero', 'use-item', items, undefined, () => 0.25)
+    const outcome = resolveWorldItemUse(
+      world([{ itemId: 'use-item', count: 1 }], 60),
+      'hero',
+      'use-item',
+      items,
+      undefined,
+      () => 0.25,
+    )
     expect(outcome.status).toBe('success')
     expect(outcome.world.party[0]!.hp).toBe(70)
   })
 
   test('gate 失败后同链 healHp 不执行且不消耗', () => {
     const items: ItemDataMap = {
-      'use-item': useItem([{ kind: 'gate', chance: 50 }, { kind: 'healHp', amount: 10 }]),
+      'use-item': useItem([
+        { kind: 'gate', chance: 50 },
+        { kind: 'healHp', amount: 10 },
+      ]),
     }
     const base = world([{ itemId: 'use-item', count: 3 }], 60)
     const outcome = resolveWorldItemUse(base, 'hero', 'use-item', items, undefined, () => 0.9)
@@ -133,7 +168,13 @@ describe('O08 复合链顺序与 gate 显式阈值', () => {
     const items: ItemDataMap = {
       'use-item': useItem([{ kind: 'applyPoison', poisonId: '551' }]),
     }
-    const outcome = resolveWorldItemUse(world([{ itemId: 'use-item', count: 1 }]), 'hero', 'use-item', items, poisonDefs())
+    const outcome = resolveWorldItemUse(
+      world([{ itemId: 'use-item', count: 1 }]),
+      'hero',
+      'use-item',
+      items,
+      poisonDefs(),
+    )
     expect(outcome.world.party[0]!.poisons).toEqual([{ poisonId: 551, tickIndex: 0 }])
   })
 })

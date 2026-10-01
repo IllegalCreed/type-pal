@@ -1,0 +1,35 @@
+{
+  "id": "O08-CC6",
+  "contract": "scaleCurrentHp trunc 截断",
+  "target": {
+    "file": "src/item-effects.glm-o.test.ts",
+    "title": "分子/分母截断（trunc）与 0/上限钳位"
+  },
+  "control": {
+    "exitCode": 0,
+    "executed": 10,
+    "passed": 10,
+    "failed": 0
+  },
+  "injected": {
+    "exitCode": 1,
+    "executed": 10,
+    "passed": 9,
+    "failed": 1,
+    "failedFullName": "O08 scaleCurrentHp：分数缩放 分子/分母截断（trunc）与 0/上限钳位",
+    "failureMessageHead": "AssertionError: expected 50 to be 49 // Object.is equality"
+  },
+  "restored": {
+    "exitCode": 0,
+    "executed": 10,
+    "passed": 10,
+    "failed": 0
+  },
+  "hashes": {
+    "original": "1a2ff2c2ef96070cf1609bd26c1f2756e851c9aec525749131582f6fd696963b",
+    "mutated": "3bb3e655f4eafbb5644a30754a07b4a4ce20a67e63067f6effff42952e0d7145",
+    "restored": "1a2ff2c2ef96070cf1609bd26c1f2756e851c9aec525749131582f6fd696963b",
+    "rebuilt": "3bb3e655f4eafbb5644a30754a07b4a4ce20a67e63067f6effff42952e0d7145"
+  },
+  "patchRebuiltAndVerified": true
+}

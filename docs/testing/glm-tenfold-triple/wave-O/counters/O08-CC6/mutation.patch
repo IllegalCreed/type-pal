@@ -1,0 +1,7 @@
+diff --git a/packages/content/src/item.ts b/packages/content/src/item.ts
+index 02b349aaa..7121cde78 100644
+--- a/packages/content/src/item.ts
++++ b/packages/content/src/item.ts
+@@ -1103 +1103 @@ export function resolveWorldItemUse(
+-            Math.min(next.maxHP, Math.trunc((next.hp * eff.numerator) / eff.denominator)),
++            Math.min(next.maxHP, Math.round((next.hp * eff.numerator) / eff.denominator)),

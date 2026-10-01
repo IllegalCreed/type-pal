@@ -1,0 +1,14 @@
+{
+  "id": "O08-CC6",
+  "contract": "scaleCurrentHp trunc 截断",
+  "package": "content",
+  "test": {
+    "file": "src/item-effects.glm-o.test.ts",
+    "title": "分子/分母截断（trunc）与 0/上限钳位"
+  },
+  "mutation": {
+    "file": "src/item.ts",
+    "find": "          next.hp = Math.max(\n            0,\n            Math.min(next.maxHP, Math.trunc((next.hp * eff.numerator) / eff.denominator)),\n          )",
+    "replace": "          next.hp = Math.max(\n            0,\n            Math.min(next.maxHP, Math.round((next.hp * eff.numerator) / eff.denominator)),\n          )"
+  }
+}

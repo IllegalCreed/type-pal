@@ -1,0 +1,35 @@
+{
+  "id": "O10-CC10",
+  "contract": "MKF chunk 越界读 fail-loud",
+  "target": {
+    "file": "src/mkf.glm-o.test.ts",
+    "title": "chunk 越界读 fail-loud（负数）"
+  },
+  "control": {
+    "exitCode": 0,
+    "executed": 3,
+    "passed": 3,
+    "failed": 0
+  },
+  "injected": {
+    "exitCode": 1,
+    "executed": 3,
+    "passed": 2,
+    "failed": 1,
+    "failedFullName": "O10 MKF：容器合同 chunk 越界读 fail-loud（负数）",
+    "failureMessageHead": "AssertionError: expected [Function] to throw an error"
+  },
+  "restored": {
+    "exitCode": 0,
+    "executed": 3,
+    "passed": 3,
+    "failed": 0
+  },
+  "hashes": {
+    "original": "2512407e97848c604458aeeac26d9299e9f639132abb656046c18d4fd9848f54",
+    "mutated": "807697cebabfbe7f09f3bd101e9ab88faef38da603213879d81e0075b02c151c",
+    "restored": "2512407e97848c604458aeeac26d9299e9f639132abb656046c18d4fd9848f54",
+    "rebuilt": "807697cebabfbe7f09f3bd101e9ab88faef38da603213879d81e0075b02c151c"
+  },
+  "patchRebuiltAndVerified": true
+}

@@ -1,0 +1,7 @@
+diff --git a/packages/shared/src/rle-encode.ts b/packages/shared/src/rle-encode.ts
+index 46e9a32c3..843b32cce 100644
+--- a/packages/shared/src/rle-encode.ts
++++ b/packages/shared/src/rle-encode.ts
+@@ -34 +34 @@ export function encodeRleFrame(frame: RleFrame): Uint8Array {
+-      while (i < total && opaque[i] === 1 && run < 0x7f) {
++      while (i < total && opaque[i] === 1 && run < 0x2) {

@@ -1,0 +1,7 @@
+diff --git a/packages/content/src/enemy-script.ts b/packages/content/src/enemy-script.ts
+index c434266e5..1c257db22 100644
+--- a/packages/content/src/enemy-script.ts
++++ b/packages/content/src/enemy-script.ts
+@@ -165 +165 @@ export function checkEnemyFallback(value: unknown, path: string): asserts value
+-  percent(fallback.chancePercent, `${path}.chancePercent`)
++  void fallback.chancePercent

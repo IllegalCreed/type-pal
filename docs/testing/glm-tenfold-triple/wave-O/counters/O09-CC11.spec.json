@@ -1,0 +1,14 @@
+{
+  "id": "O09-CC11",
+  "contract": "敌 fallback chance 域",
+  "package": "content",
+  "test": {
+    "file": "src/enemy-script.glm-o.test.ts",
+    "title": "合法 cast/pass 通过；chancePercent 越界拒绝"
+  },
+  "mutation": {
+    "file": "src/enemy-script.ts",
+    "find": "  percent(fallback.chancePercent, `${path}.chancePercent`)",
+    "replace": "  void fallback.chancePercent"
+  }
+}

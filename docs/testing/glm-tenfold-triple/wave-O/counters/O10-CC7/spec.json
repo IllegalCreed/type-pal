@@ -1,0 +1,14 @@
+{
+  "id": "O10-CC7",
+  "contract": "RLE 0x7F 分段",
+  "package": "shared",
+  "test": {
+    "file": "src/yj2-encode.glm-o.test.ts",
+    "title": "0x7F 上限分段：129 连续 opaque → 两段（127+2）指令"
+  },
+  "mutation": {
+    "file": "src/rle-encode.ts",
+    "find": "      while (i < total && opaque[i] === 1 && run < 0x7f) {",
+    "replace": "      while (i < total && opaque[i] === 1 && run < 0x2) {"
+  }
+}

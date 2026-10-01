@@ -4,9 +4,9 @@
  *  提升）、encodeRleFrame 0x7F 分段上限、encodeSpriteChunk 偶对齐 pad。
  */
 import { describe, expect, test } from 'vitest'
-import { decompressYj2 } from './yj2.js'
-import { encodeRleFrame, encodeSpriteChunk } from './rle-encode.js'
 import { parseSpriteChunkStrict, type RleFrame } from './rle.js'
+import { encodeRleFrame, encodeSpriteChunk } from './rle-encode.js'
+import { decompressYj2 } from './yj2.js'
 
 describe('O10 YJ2 长流自适应树：权重互换与归约', () => {
   test('重复字面长流（树满前）确定性解压：N 字节恒等往返', () => {

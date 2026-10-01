@@ -1,0 +1,7 @@
+diff --git a/packages/shared/src/mkf.ts b/packages/shared/src/mkf.ts
+index fbbccb2b7..1bb4d2c29 100644
+--- a/packages/shared/src/mkf.ts
++++ b/packages/shared/src/mkf.ts
+@@ -37 +37 @@ export function readChunk(mkf: Mkf, index: number): Uint8Array {
+-  if (index < 0 || index >= chunkCount(mkf)) {
++  if (index >= chunkCount(mkf)) {

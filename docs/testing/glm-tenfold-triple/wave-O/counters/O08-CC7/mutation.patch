@@ -1,0 +1,7 @@
+diff --git a/packages/content/src/item.ts b/packages/content/src/item.ts
+index 02b349aaa..5b6b520cd 100644
+--- a/packages/content/src/item.ts
++++ b/packages/content/src/item.ts
+@@ -892 +892 @@ export function resolveWorldItemUse(
+-      const passed = roll < chance
++      const passed = false

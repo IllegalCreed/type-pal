@@ -1,0 +1,7 @@
+diff --git a/packages/content/src/item.ts b/packages/content/src/item.ts
+index 02b349aaa..9d3c9db68 100644
+--- a/packages/content/src/item.ts
++++ b/packages/content/src/item.ts
+@@ -1038 +1038 @@ export function resolveWorldItemUse(
+-            if (next.hp <= 0) break
++            if (true) break
