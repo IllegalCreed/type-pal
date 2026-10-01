@@ -65,11 +65,11 @@
   "anchors": {
     "dispatchBase": "8b3ca062953b17a12178f8d1a9e36657971234b1",
     "productionFreeze": "3ac9a2e2f6aba8a5cc97640c18fef8549d199380",
-    "testCodeAnchor": "e515d353d（G03 标题撤回——5899dae6 之后唯一测试改动）",
-    "toolEvidenceAnchor": "dc8fd75ce13c4134f4795066a67ceb0d79b6f54e（r3.6 工具/证据提交；测试改动锚 e515d353d 仅 G03 标题撤回）",
-    "finalRemoteCandidate": "推送 tip（receipt 不自引用，见分支远端 HEAD）"
+    "testCodeAnchor": "r10b 提交（P03 合法 entry fixture+完整 cursor 核验+Toolbar 收敛重写；见 git log packages/editor/src）",
+    "toolEvidenceAnchor": "dc8fd75ce13c4134f4795066a67ceb0d79b6f54e（r3.6 工具；本轮未改工具，22/22 自测沿用）",
+    "finalRemoteCandidate": "a3a7c390643ef38bbab3f73974c8f51be2d0d43c"
   },
   "threeStateProvenance": "r3.6 判据收紧后 10 针重采；相对 bb2ffcb6：9 针在 r3.5-review 更新、P02-C08 因 G03 标题撤回（执行集 fullName 变化）于 r3.6 重采",
-  "finalRemoteCandidate": "cd68684257296ef98ddf9dba020eaee0eea5548d（P03 批次 + 证据 + 回执同步同提交；测试锚 ca1848ea9→decouple 提交）",
+  "finalRemoteCandidate": "a3a7c390643ef38bbab3f73974c8f51be2d0d43c（r10 闭合并证据同提交；测试锚 9af140d83→r10b 光标核验提交）",
   "sourceSha256Note": "r8 复核指出三个旧摘要（editor-asset-io/Toolbar/counter.mjs）未同步；本轮自最终字节重算全部八个"
 }
