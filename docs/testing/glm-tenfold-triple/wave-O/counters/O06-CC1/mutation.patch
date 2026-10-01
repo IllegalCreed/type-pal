@@ -1,5 +1,5 @@
 diff --git a/packages/content/src/validate.ts b/packages/content/src/validate.ts
-index 2ee7d4c6..bc75706c 100644
+index 2ee7d4c64..bc75706ca 100644
 --- a/packages/content/src/validate.ts
 +++ b/packages/content/src/validate.ts
 @@ -87 +87 @@ export function validateStartWorldResources(startWorld: unknown, ctx = 'startWor

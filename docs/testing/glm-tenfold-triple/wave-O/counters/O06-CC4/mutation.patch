@@ -1,5 +1,5 @@
 diff --git a/packages/content/src/validate.ts b/packages/content/src/validate.ts
-index 2ee7d4c6..eab70bbc 100644
+index 2ee7d4c64..eab70bbc5 100644
 --- a/packages/content/src/validate.ts
 +++ b/packages/content/src/validate.ts
 @@ -1509 +1509 @@ export function validateSprites(json: unknown, catalog?: AssetCatalogV1): Sprite

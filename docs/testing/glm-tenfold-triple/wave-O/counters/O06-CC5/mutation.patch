@@ -1,5 +1,5 @@
 diff --git a/packages/content/src/validate.ts b/packages/content/src/validate.ts
-index 2ee7d4c6..70995a2d 100644
+index 2ee7d4c64..70995a2dd 100644
 --- a/packages/content/src/validate.ts
 +++ b/packages/content/src/validate.ts
 @@ -324 +324 @@ function validateSceneArray(json: unknown): SceneDef[] {

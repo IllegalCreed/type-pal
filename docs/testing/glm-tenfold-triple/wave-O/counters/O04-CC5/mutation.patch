@@ -1,5 +1,5 @@
 diff --git a/packages/migrate/src/pal-assets.ts b/packages/migrate/src/pal-assets.ts
-index ef913497..10ae8387 100644
+index ef9134975..10ae8387f 100644
 --- a/packages/migrate/src/pal-assets.ts
 +++ b/packages/migrate/src/pal-assets.ts
 @@ -625 +625 @@ export function loadPalSoundAssets(repo: string): {

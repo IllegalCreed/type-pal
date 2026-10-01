@@ -1,5 +1,5 @@
 diff --git a/packages/content/src/validate.ts b/packages/content/src/validate.ts
-index 2ee7d4c6..37c3d712 100644
+index 2ee7d4c64..37c3d712d 100644
 --- a/packages/content/src/validate.ts
 +++ b/packages/content/src/validate.ts
 @@ -220 +220 @@ export function validateCurrentManifestStartup(

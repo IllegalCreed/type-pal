@@ -1,5 +1,5 @@
 diff --git a/packages/migrate/src/pal-assets.ts b/packages/migrate/src/pal-assets.ts
-index ef913497..991ef998 100644
+index ef9134975..991ef998b 100644
 --- a/packages/migrate/src/pal-assets.ts
 +++ b/packages/migrate/src/pal-assets.ts
 @@ -596 +596 @@ function assertWave(bytes: Uint8Array, label: string): void {

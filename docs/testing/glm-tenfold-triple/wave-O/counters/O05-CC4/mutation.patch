@@ -1,5 +1,5 @@
 diff --git a/packages/migrate/src/pal-world-sprite-registry.ts b/packages/migrate/src/pal-world-sprite-registry.ts
-index 6774e884..f9174c7a 100644
+index 6774e8848..f9174c7ac 100644
 --- a/packages/migrate/src/pal-world-sprite-registry.ts
 +++ b/packages/migrate/src/pal-world-sprite-registry.ts
 @@ -147 +147 @@ export function createPalWorldSpriteRegistry(

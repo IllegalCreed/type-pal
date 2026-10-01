@@ -1,5 +1,5 @@
 diff --git a/packages/migrate/src/pal-assets.ts b/packages/migrate/src/pal-assets.ts
-index ef913497..c116b8fc 100644
+index ef9134975..c116b8fce 100644
 --- a/packages/migrate/src/pal-assets.ts
 +++ b/packages/migrate/src/pal-assets.ts
 @@ -1263 +1263 @@ export function materializePalAssets(args: {

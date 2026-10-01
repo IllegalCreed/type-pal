@@ -1,5 +1,5 @@
 diff --git a/packages/migrate/src/pal-assets.ts b/packages/migrate/src/pal-assets.ts
-index ef913497..8ae5c135 100644
+index ef9134975..8ae5c135e 100644
 --- a/packages/migrate/src/pal-assets.ts
 +++ b/packages/migrate/src/pal-assets.ts
 @@ -353 +353 @@ function assertIndexedBattleBackground(bytes: Uint8Array, label: string): void {
