@@ -130,6 +130,18 @@ Reforge2078/editor3696/migrate450；工具docs37/coverage30/quality27/E2E92全�
 Root技术accept，独立专项review accept；本卡转review等待用户实际编辑体验验收。
 6012已获无草稿更新授权，更新与现场确认由Root完成后另记，不关闭服务或演示页。
 
+## 主工作树与6012现场交付（2026-10-01）
+
+用户无草稿授权后，Root再次实读6012保存/撤销/重做均disabled，main clean；
+候选4c476f2f以ff-only接入main，不推送远端、不清理待用户体验的工作树。
+保持原6012 PID88523，仅授权重载既有页面。现场确认s003/e56/触发行为1：
+步骤1为24指令、下次步骤2，步骤2为3指令并复读；新greet-after-guests方案可见。
+另实际打开auto/legacy-006/outro-05的切换表单，场景s003/实体e56/交互脚本/
+greet-after-guests均正确；未修改值或提交，保存仍disabled。
+截图 `build/e2e/steps-main-6012.jpg`、`steps-main-switch-6012.jpg`；6012与旧6051页保持打开。
+最后文档状态接收后strict lint2721文件0/0/0、docs809 Markdown/4265链接/249任务0问题。
+当前剩余166复杂流程仍存在，实际auto/legacy-006的46状态未伪装为步骤，后续编排重写另排。
+
 ## 下一位 Agent 提示词
 
 无用户转交提示词；Root实现与整体验收，内部专项只读审查；完成后等待用户体验验收。
