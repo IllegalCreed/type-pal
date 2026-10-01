@@ -7,22 +7,22 @@
   },
   "control": {
     "exitCode": 0,
-    "executed": 16,
-    "passed": 16,
+    "executed": 15,
+    "passed": 15,
     "failed": 0
   },
   "injected": {
     "exitCode": 1,
-    "executed": 16,
-    "passed": 15,
+    "executed": 15,
+    "passed": 14,
     "failed": 1,
     "failedFullName": "O08 decideByRules：act 首命中与跳过序 once 已触发规则被跳过，后续首条命中",
     "failureMessageHead": "AssertionError: expected { action: { kind: 'attack' }, …(1) } to deeply equal { Object (action, ruleIdx) }"
   },
   "restored": {
     "exitCode": 0,
-    "executed": 16,
-    "passed": 16,
+    "executed": 15,
+    "passed": 15,
     "failed": 0
   },
   "hashes": {

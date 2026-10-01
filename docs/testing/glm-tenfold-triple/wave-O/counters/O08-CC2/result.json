@@ -7,22 +7,22 @@
   },
   "control": {
     "exitCode": 0,
-    "executed": 16,
-    "passed": 16,
+    "executed": 15,
+    "passed": 15,
     "failed": 0
   },
   "injected": {
     "exitCode": 1,
-    "executed": 16,
-    "passed": 15,
+    "executed": 15,
+    "passed": 14,
     "failed": 1,
     "failedFullName": "O08 战斗状态：tick/apply/canAct/canCastMagic applyPlayerStatus：坏状态已有不刷新；好状态仅活人取较长；傀儡仅死者",
     "failureMessageHead": "AssertionError: expected true to be false // Object.is equality"
   },
   "restored": {
     "exitCode": 0,
-    "executed": 16,
-    "passed": 16,
+    "executed": 15,
+    "passed": 15,
     "failed": 0
   },
   "hashes": {

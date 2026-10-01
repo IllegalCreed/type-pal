@@ -1,7 +1,7 @@
 {
   "total": 56,
   "uniqueIds": 56,
-  "rule": "三态：control 全绿 → injected 恰一目标 fullName 业务 AssertionError 红 → restored 恢复后重跑全绿；patch --unidiff-zero 重建校验 = mutatedSha；候选树零改动；本轮新增 O07–O10 批次反控全部三态重跑",
+  "rule": "三态：control 全绿 → injected 恰一目标 fullName 业务 AssertionError 红 → restored 恢复后重跑全绿；patch --unidiff-zero 重建校验 = mutatedSha；候选树零改动。O-R4-02：O08-CC1/CC2、O10-CC2/3/4/5 已按最终测试源重采（其余 50 枚控制证据保留）",
   "counters": [
     {
       "id": "O01-CC1",
@@ -959,20 +959,20 @@
       "id": "O08-CC1",
       "control": {
         "exitCode": 0,
-        "executed": 16,
-        "passed": 16,
+        "executed": 15,
+        "passed": 15,
         "failed": 0
       },
       "injected": {
         "exitCode": 1,
         "failedFullName": "O08 decideByRules：act 首命中与跳过序 once 已触发规则被跳过，后续首条命中",
         "failureMessageHead": "AssertionError: expected { action: { kind: 'attack' }, …(1) } to deeply equal { Object (action, ruleIdx) }",
-        "executed": 16
+        "executed": 15
       },
       "restored": {
         "exitCode": 0,
-        "executed": 16,
-        "passed": 16,
+        "executed": 15,
+        "passed": 15,
         "failed": 0
       },
       "hashes": {
@@ -987,20 +987,20 @@
       "id": "O08-CC2",
       "control": {
         "exitCode": 0,
-        "executed": 16,
-        "passed": 16,
+        "executed": 15,
+        "passed": 15,
         "failed": 0
       },
       "injected": {
         "exitCode": 1,
         "failedFullName": "O08 战斗状态：tick/apply/canAct/canCastMagic applyPlayerStatus：坏状态已有不刷新；好状态仅活人取较长；傀儡仅死者",
         "failureMessageHead": "AssertionError: expected true to be false // Object.is equality",
-        "executed": 16
+        "executed": 15
       },
       "restored": {
         "exitCode": 0,
-        "executed": 16,
-        "passed": 16,
+        "executed": 15,
+        "passed": 15,
         "failed": 0
       },
       "hashes": {
