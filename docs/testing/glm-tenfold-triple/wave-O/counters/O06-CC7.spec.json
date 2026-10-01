@@ -1,0 +1,14 @@
+{
+  "id": "O06-CC7",
+  "contract": "seedStats 未知角色拒绝",
+  "package": "content",
+  "test": {
+    "file": "src/validate.glm-o.test.ts",
+    "title": "seedStats：空角色 id/未知字段/hp/mp 非负整数 逐轴拒绝"
+  },
+  "mutation": {
+    "file": "src/validate.ts",
+    "find": "      if (actorId.trim().length === 0) throw new Error(`${ctx}.seedStats: 角色 id 不能为空`)",
+    "replace": "      if (false && actorId.trim().length === 0) throw new Error(`${ctx}.seedStats: 角色 id 不能为空`)"
+  }
+}

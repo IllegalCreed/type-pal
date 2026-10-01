@@ -1,0 +1,14 @@
+{
+  "id": "O07-CC3",
+  "contract": "openShop prepare 阻断",
+  "package": "content",
+  "test": {
+    "file": "src/script.glm-o.test.ts",
+    "title": "loadScene / fade / startBattle / openShop 等阻断（blocked）"
+  },
+  "mutation": {
+    "file": "src/script.ts",
+    "find": "  openShop: 'blocked',",
+    "replace": "  openShop: 'safe',"
+  }
+}

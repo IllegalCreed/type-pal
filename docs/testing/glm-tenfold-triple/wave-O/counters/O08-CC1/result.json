@@ -1,0 +1,35 @@
+{
+  "id": "O08-CC1",
+  "contract": "once 规则跳过",
+  "target": {
+    "file": "src/enemy-ai.glm-o.test.ts",
+    "title": "once 已触发规则被跳过，后续首条命中"
+  },
+  "control": {
+    "exitCode": 0,
+    "executed": 16,
+    "passed": 16,
+    "failed": 0
+  },
+  "injected": {
+    "exitCode": 1,
+    "executed": 16,
+    "passed": 15,
+    "failed": 1,
+    "failedFullName": "O08 decideByRules：act 首命中与跳过序 once 已触发规则被跳过，后续首条命中",
+    "failureMessageHead": "AssertionError: expected { action: { kind: 'attack' }, …(1) } to deeply equal { Object (action, ruleIdx) }"
+  },
+  "restored": {
+    "exitCode": 0,
+    "executed": 16,
+    "passed": 16,
+    "failed": 0
+  },
+  "hashes": {
+    "original": "59c82a506da391d956b985df6fcbaf3498303d0ef7236bec650b53d93ef7d963",
+    "mutated": "d220a2b03bfc577e39f65071bf8c3fc95a7e7afd5ea8b124fe2922e62edb26e6",
+    "restored": "59c82a506da391d956b985df6fcbaf3498303d0ef7236bec650b53d93ef7d963",
+    "rebuilt": "d220a2b03bfc577e39f65071bf8c3fc95a7e7afd5ea8b124fe2922e62edb26e6"
+  },
+  "patchRebuiltAndVerified": true
+}

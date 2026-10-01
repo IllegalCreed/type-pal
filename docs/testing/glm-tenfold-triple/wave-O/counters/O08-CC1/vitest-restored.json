@@ -1,0 +1,200 @@
+{
+  "numTotalTestSuites": 6,
+  "numPassedTestSuites": 6,
+  "numFailedTestSuites": 0,
+  "numPendingTestSuites": 0,
+  "numTotalTests": 16,
+  "numPassedTests": 16,
+  "numFailedTests": 0,
+  "numPendingTests": 0,
+  "numTodoTests": 0,
+  "snapshot": {
+    "added": 0,
+    "failure": false,
+    "filesAdded": 0,
+    "filesRemoved": 0,
+    "filesRemovedList": [],
+    "filesUnmatched": 0,
+    "filesUpdated": 0,
+    "matched": 0,
+    "total": 0,
+    "unchecked": 0,
+    "uncheckedKeysByFile": [],
+    "unmatched": 0,
+    "updated": 0,
+    "didUpdate": false
+  },
+  "startTime": 1790832926180,
+  "success": true,
+  "testResults": [
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["O08 decideByRules：act 首命中与跳过序"],
+          "fullName": "O08 decideByRules：act 首命中与跳过序 once 已触发规则被跳过，后续首条命中",
+          "status": "passed",
+          "title": "once 已触发规则被跳过，后续首条命中",
+          "duration": 0.9838339999999874,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O08 decideByRules：act 首命中与跳过序"],
+          "fullName": "O08 decideByRules：act 首命中与跳过序 沉默时 cast 规则跳过继续匹配（普攻兜底）",
+          "status": "passed",
+          "title": "沉默时 cast 规则跳过继续匹配（普攻兜底）",
+          "duration": 0.20900000000000318,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O08 decideByRules：act 首命中与跳过序"],
+          "fullName": "O08 decideByRules：act 首命中与跳过序 when 不命中继续下一条；全部不命中 → null",
+          "status": "passed",
+          "title": "when 不命中继续下一条；全部不命中 → null",
+          "duration": 0.13324999999997544,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O08 decideByRules：act 首命中与跳过序"],
+          "fullName": "O08 decideByRules：act 首命中与跳过序 非 act 通道规则不参与 act 决策",
+          "status": "passed",
+          "title": "非 act 通道规则不参与 act 决策",
+          "duration": 0.1214170000000081,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O08 evalAiCond：all/any/not 与数值条件"],
+          "fullName": "O08 evalAiCond：all/any/not 与数值条件 嵌套 all/any/not 组合求值",
+          "status": "passed",
+          "title": "嵌套 all/any/not 组合求值",
+          "duration": 0.11187499999999773,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O08 evalAiCond：all/any/not 与数值条件"],
+          "fullName": "O08 evalAiCond：all/any/not 与数值条件 allyCount 比较符 <=/>= 与 playerInParty",
+          "status": "passed",
+          "title": "allyCount 比较符 <=/>= 与 playerInParty",
+          "duration": 0.1831250000000182,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O08 pickAiTarget：策略与稳定并列序"],
+          "fullName": "O08 pickAiTarget：策略与稳定并列序 lowestHp/highestHp/lowestMp/strongest 各自取极值",
+          "status": "passed",
+          "title": "lowestHp/highestHp/lowestMp/strongest 各自取极值",
+          "duration": 0.17483399999997573,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O08 pickAiTarget：策略与稳定并列序"],
+          "fullName": "O08 pickAiTarget：策略与稳定并列序 strongest 全并列时取槽序靠前（稳定，key 严格小于才换 best）",
+          "status": "passed",
+          "title": "strongest 全并列时取槽序靠前（稳定，key 严格小于才换 best）",
+          "duration": 0.057999999999992724,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O08 pickAiTarget：策略与稳定并列序"],
+          "fullName": "O08 pickAiTarget：策略与稳定并列序 空 players → fail-loud",
+          "status": "passed",
+          "title": "空 players → fail-loud",
+          "duration": 0.6066659999999899,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O08 buildActionQueue：dualMove 相对位与稳定排序"],
+          "fullName": "O08 buildActionQueue：dualMove 相对位与稳定排序 无 dualMove：dex 降序、同 dex 敌人先于队员",
+          "status": "passed",
+          "title": "无 dualMove：dex 降序、同 dex 敌人先于队员",
+          "duration": 0.22220799999999485,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O08 buildActionQueue：dualMove 相对位与稳定排序"],
+          "fullName": "O08 buildActionQueue：dualMove 相对位与稳定排序 dualMove 有 dex2：dex2<=dex 时第二次在后（fIsSecond 次序标记）",
+          "status": "passed",
+          "title": "dualMove 有 dex2：dex2<=dex 时第二次在后（fIsSecond 次序标记）",
+          "duration": 0.16012499999999363,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O08 buildActionQueue：dualMove 相对位与稳定排序"],
+          "fullName": "O08 buildActionQueue：dualMove 相对位与稳定排序 dualMove 有 dex2 且 dex2>dex：第一次标记 fIsSecond（先动高 dex）",
+          "status": "passed",
+          "title": "dualMove 有 dex2 且 dex2>dex：第一次标记 fIsSecond（先动高 dex）",
+          "duration": 0.0625829999999894,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O08 buildActionQueue：dualMove 相对位与稳定排序"],
+          "fullName": "O08 buildActionQueue：dualMove 相对位与稳定排序 dualMove 无 dex2：补 dex-1 的第二次动作",
+          "status": "passed",
+          "title": "dualMove 无 dex2：补 dex-1 的第二次动作",
+          "duration": 0.05145900000002257,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O08 战斗状态：tick/apply/canAct/canCastMagic"],
+          "fullName": "O08 战斗状态：tick/apply/canAct/canCastMagic tickBattleStatus：正计数递减、原地修改（>999 视为永久同样递减）",
+          "status": "passed",
+          "title": "tickBattleStatus：正计数递减、原地修改（>999 视为永久同样递减）",
+          "duration": 0.07299999999997908,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O08 战斗状态：tick/apply/canAct/canCastMagic"],
+          "fullName": "O08 战斗状态：tick/apply/canAct/canCastMagic canAct 拦截 sleep/paralyzed；canCastMagic 拦截 silence",
+          "status": "passed",
+          "title": "canAct 拦截 sleep/paralyzed；canCastMagic 拦截 silence",
+          "duration": 0.08816699999999855,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O08 战斗状态：tick/apply/canAct/canCastMagic"],
+          "fullName": "O08 战斗状态：tick/apply/canAct/canCastMagic applyPlayerStatus：坏状态已有不刷新；好状态仅活人取较长；傀儡仅死者",
+          "status": "passed",
+          "title": "applyPlayerStatus：坏状态已有不刷新；好状态仅活人取较长；傀儡仅死者",
+          "duration": 0.17079099999997993,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790832926325,
+      "endTime": 1790832926329.171,
+      "status": "passed",
+      "message": "",
+      "name": "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-o-cc-injected-Nykp7L/packages/content/src/enemy-ai.glm-o.test.ts"
+    }
+  ]
+}

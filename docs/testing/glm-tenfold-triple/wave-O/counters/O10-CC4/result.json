@@ -1,0 +1,35 @@
+{
+  "id": "O10-CC4",
+  "contract": "chunk 超 u16 上限拒绝",
+  "target": {
+    "file": "src/rle.glm-o.test.ts",
+    "title": "超 u16 word 偏移上限 → 拆分图集错误"
+  },
+  "control": {
+    "exitCode": 0,
+    "executed": 17,
+    "passed": 17,
+    "failed": 0
+  },
+  "injected": {
+    "exitCode": 1,
+    "executed": 17,
+    "passed": 16,
+    "failed": 1,
+    "failedFullName": "O10 encodeSpriteChunk：上限与空容器 超 u16 word 偏移上限 → 拆分图集错误",
+    "failureMessageHead": "AssertionError: expected [Function] to throw an error"
+  },
+  "restored": {
+    "exitCode": 0,
+    "executed": 17,
+    "passed": 17,
+    "failed": 0
+  },
+  "hashes": {
+    "original": "047b96879d4889a99f745525f894c6ebcc3714a65bca73c2e609912e0162ba36",
+    "mutated": "85473d508bc8bdad0f9b34ffdbce839086f98c2fec15c855ddfbe2f2d29f8367",
+    "restored": "047b96879d4889a99f745525f894c6ebcc3714a65bca73c2e609912e0162ba36",
+    "rebuilt": "85473d508bc8bdad0f9b34ffdbce839086f98c2fec15c855ddfbe2f2d29f8367"
+  },
+  "patchRebuiltAndVerified": true
+}

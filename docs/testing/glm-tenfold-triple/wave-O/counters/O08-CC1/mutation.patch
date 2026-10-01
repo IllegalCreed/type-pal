@@ -1,0 +1,7 @@
+diff --git a/packages/content/src/enemy-ai.ts b/packages/content/src/enemy-ai.ts
+index 4daa737af..8665419de 100644
+--- a/packages/content/src/enemy-ai.ts
++++ b/packages/content/src/enemy-ai.ts
+@@ -132 +132 @@ export function decideByRules(
+-    if (r.once && fired.has(i)) continue
++    if (false && r.once && fired.has(i)) continue

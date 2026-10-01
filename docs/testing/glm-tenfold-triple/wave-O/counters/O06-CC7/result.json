@@ -1,0 +1,35 @@
+{
+  "id": "O06-CC7",
+  "contract": "seedStats 未知角色拒绝",
+  "target": {
+    "file": "src/validate.glm-o.test.ts",
+    "title": "seedStats：空角色 id/未知字段/hp/mp 非负整数 逐轴拒绝"
+  },
+  "control": {
+    "exitCode": 0,
+    "executed": 19,
+    "passed": 19,
+    "failed": 0
+  },
+  "injected": {
+    "exitCode": 1,
+    "executed": 19,
+    "passed": 18,
+    "failed": 1,
+    "failedFullName": "O06 validateStartWorld：当前入口世界形状 seedStats：空角色 id/未知字段/hp/mp 非负整数 逐轴拒绝",
+    "failureMessageHead": "AssertionError: expected [Function] to throw an error"
+  },
+  "restored": {
+    "exitCode": 0,
+    "executed": 19,
+    "passed": 19,
+    "failed": 0
+  },
+  "hashes": {
+    "original": "b71778d0ed1fc2f8195cb653f34b6d51a4c37fad9c63c496baa5fcf7d83c30fa",
+    "mutated": "509417e97eadc0611dfe9de323b2b2fa0b3177c9ad3a84a5ddd54bd02dac25dd",
+    "restored": "b71778d0ed1fc2f8195cb653f34b6d51a4c37fad9c63c496baa5fcf7d83c30fa",
+    "rebuilt": "509417e97eadc0611dfe9de323b2b2fa0b3177c9ad3a84a5ddd54bd02dac25dd"
+  },
+  "patchRebuiltAndVerified": true
+}

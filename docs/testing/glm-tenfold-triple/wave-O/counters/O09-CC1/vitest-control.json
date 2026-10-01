@@ -1,0 +1,150 @@
+{
+  "numTotalTestSuites": 5,
+  "numPassedTestSuites": 5,
+  "numFailedTestSuites": 0,
+  "numPendingTestSuites": 0,
+  "numTotalTests": 11,
+  "numPassedTests": 11,
+  "numFailedTests": 0,
+  "numPendingTests": 0,
+  "numTodoTests": 0,
+  "snapshot": {
+    "added": 0,
+    "failure": false,
+    "filesAdded": 0,
+    "filesRemoved": 0,
+    "filesRemovedList": [],
+    "filesUnmatched": 0,
+    "filesUpdated": 0,
+    "matched": 0,
+    "total": 0,
+    "unchecked": 0,
+    "uncheckedKeysByFile": [],
+    "unmatched": 0,
+    "updated": 0,
+    "didUpdate": false
+  },
+  "startTime": 1790832942313,
+  "success": true,
+  "testResults": [
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["O09 parseFrameSequence：头部轴"],
+          "fullName": "O09 parseFrameSequence：头部轴 截断（<12B）/ 魔数错 / 版本错 / 保留位非零 逐轴拒绝",
+          "status": "passed",
+          "title": "截断（<12B）/ 魔数错 / 版本错 / 保留位非零 逐轴拒绝",
+          "duration": 1.276332999999994,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O09 parseFrameSequence：头部轴"],
+          "fullName": "O09 parseFrameSequence：头部轴 索引越界 / 非法 JSON 逐轴拒绝；合法最小文件解析",
+          "status": "passed",
+          "title": "索引越界 / 非法 JSON 逐轴拒绝；合法最小文件解析",
+          "duration": 1.0599169999999987,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O09 parseFrameSequence：头部轴"],
+          "fullName": "O09 parseFrameSequence：头部轴 colorTreatment 进索引并经 JSON（含 UTF-8 解码域）往返",
+          "status": "passed",
+          "title": "colorTreatment 进索引并经 JSON（含 UTF-8 解码域）往返",
+          "duration": 0.15491700000001174,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O09 validateFrameSequenceIndex：字段轴"],
+          "fullName": "O09 validateFrameSequenceIndex：字段轴 非对象/codec 非法/宽度非法/空帧表 逐轴拒绝",
+          "status": "passed",
+          "title": "非对象/codec 非法/宽度非法/空帧表 逐轴拒绝",
+          "duration": 0.33254200000000367,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O09 validateFrameSequenceIndex：字段轴"],
+          "fullName": "O09 validateFrameSequenceIndex：字段轴 block bytes 越界 payload / 覆盖不连续 / 尾随数据 逐轴拒绝",
+          "status": "passed",
+          "title": "block bytes 越界 payload / 覆盖不连续 / 尾随数据 逐轴拒绝",
+          "duration": 0.1699159999999864,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O09 encodeFrameSequenceSync：输入轴"],
+          "fullName": "O09 encodeFrameSequenceSync：输入轴 尺寸非法 / defaultFrameMs 非法 / colorTreatment 非法 / 空 frames 逐轴拒绝",
+          "status": "passed",
+          "title": "尺寸非法 / defaultFrameMs 非法 / colorTreatment 非法 / 空 frames 逐轴拒绝",
+          "duration": 0.17862500000001091,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O09 encodeFrameSequenceSync：输入轴"],
+          "fullName": "O09 encodeFrameSequenceSync：输入轴 rgba 字节长不符 / durationMs 非法 逐轴拒绝",
+          "status": "passed",
+          "title": "rgba 字节长不符 / durationMs 非法 逐轴拒绝",
+          "duration": 0.1622909999999962,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O09 encodeFrameSequenceSync：输入轴"],
+          "fullName": "O09 encodeFrameSequenceSync：输入轴 多帧每帧 durationMs 进索引；往返后帧序稳定",
+          "status": "passed",
+          "title": "多帧每帧 durationMs 进索引；往返后帧序稳定",
+          "duration": 0.4222919999999988,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O09 encodeFrameSequenceSync：输入轴"],
+          "fullName": "O09 encodeFrameSequenceSync：输入轴 provider 字节变换被调用且其输出登记进 block bytes",
+          "status": "passed",
+          "title": "provider 字节变换被调用且其输出登记进 block bytes",
+          "duration": 0.5349580000000032,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O09 resolveFrameSequencePlayback：回放解析"],
+          "fullName": "O09 resolveFrameSequencePlayback：回放解析 全序列回放与显式 range 回放的帧数/duration",
+          "status": "passed",
+          "title": "全序列回放与显式 range 回放的帧数/duration",
+          "duration": 0.5528750000000002,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O09 resolveFrameSequencePlayback：回放解析"],
+          "fullName": "O09 resolveFrameSequencePlayback：回放解析 越界 startFrame/endFrame → 拒绝（无 range 形参，直接 options）",
+          "status": "passed",
+          "title": "越界 startFrame/endFrame → 拒绝（无 range 形参，直接 options）",
+          "duration": 0.23887500000000728,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790832942447,
+      "endTime": 1790832942452.2388,
+      "status": "passed",
+      "message": "",
+      "name": "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-o-cc-control-D0pb29/packages/content/src/frame-sequence.glm-o.test.ts"
+    }
+  ]
+}

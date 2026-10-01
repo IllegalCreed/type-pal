@@ -1,0 +1,35 @@
+{
+  "id": "O10-CC2",
+  "contract": "strict 容器过短拒绝",
+  "target": {
+    "file": "src/rle.glm-o.test.ts",
+    "title": "过短容器 / 零帧表 / offset table 越界 逐轴拒绝"
+  },
+  "control": {
+    "exitCode": 0,
+    "executed": 17,
+    "passed": 17,
+    "failed": 0
+  },
+  "injected": {
+    "exitCode": 1,
+    "executed": 17,
+    "passed": 16,
+    "failed": 1,
+    "failedFullName": "O10 parseSpriteChunkStrict：容器结构轴 过短容器 / 零帧表 / offset table 越界 逐轴拒绝",
+    "failureMessageHead": "AssertionError: expected [Function] to throw error including 'sprite chunk 过短' but got 'Offset is outside the bounds of the D…'"
+  },
+  "restored": {
+    "exitCode": 0,
+    "executed": 17,
+    "passed": 17,
+    "failed": 0
+  },
+  "hashes": {
+    "original": "ae864fabcec47b4972299d37142e6340e02ed32bbd06b2118a155301539d0463",
+    "mutated": "0c306a6430f2eb70e24f8510bf63f8af10c2fe750e86d5913e22238aeae798b1",
+    "restored": "ae864fabcec47b4972299d37142e6340e02ed32bbd06b2118a155301539d0463",
+    "rebuilt": "0c306a6430f2eb70e24f8510bf63f8af10c2fe750e86d5913e22238aeae798b1"
+  },
+  "patchRebuiltAndVerified": true
+}

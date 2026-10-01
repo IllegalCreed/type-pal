@@ -1,0 +1,7 @@
+diff --git a/packages/content/src/script-library.ts b/packages/content/src/script-library.ts
+index 10c8d2eae..214dab2b1 100644
+--- a/packages/content/src/script-library.ts
++++ b/packages/content/src/script-library.ts
+@@ -348 +348 @@ export function removeAuthoredScript(
+-  if (!index.library?.[id]) throw new Error(`作者脚本不存在 ${id}`)
++  if (false && !index.library?.[id]) throw new Error(`作者脚本不存在 ${id}`)

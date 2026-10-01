@@ -1,0 +1,35 @@
+{
+  "id": "O09-CC3",
+  "contract": "tileset 退役 path 轴",
+  "target": {
+    "file": "src/data-guards.glm-o.test.ts",
+    "title": "id 含 '/' / 重复 id / 退役 path / 退役 tiles 逐轴拒绝"
+  },
+  "control": {
+    "exitCode": 0,
+    "executed": 12,
+    "passed": 12,
+    "failed": 0
+  },
+  "injected": {
+    "exitCode": 1,
+    "executed": 12,
+    "passed": 11,
+    "failed": 1,
+    "failedFullName": "O09 validateTilesets：退役字段与唯一 id id 含 '/' / 重复 id / 退役 path / 退役 tiles 逐轴拒绝",
+    "failureMessageHead": "AssertionError: expected [Function] to throw an error"
+  },
+  "restored": {
+    "exitCode": 0,
+    "executed": 12,
+    "passed": 12,
+    "failed": 0
+  },
+  "hashes": {
+    "original": "45d411546e1d5378ed64cd1d1bd65bf0b52842e6329a93cf9d7944330f027ed2",
+    "mutated": "99db3558ef724c3797c2f0efe179c52abc28a1c4438f10626dfcbcdf8513295c",
+    "restored": "45d411546e1d5378ed64cd1d1bd65bf0b52842e6329a93cf9d7944330f027ed2",
+    "rebuilt": "99db3558ef724c3797c2f0efe179c52abc28a1c4438f10626dfcbcdf8513295c"
+  },
+  "patchRebuiltAndVerified": true
+}

@@ -5,11 +5,11 @@
  */
 import { describe, expect, test } from 'vitest'
 import type { AssetCatalogV1 } from './asset.js'
+import { mapAssetById, validateMapIndex } from './map-index.js'
+import { validateMigrationDiagnostics } from './migration-diagnostic.js'
 import { validateStampTemplates } from './stamp.js'
 import { resolveTilesetAsset, validateTilesets } from './tileset.js'
 import { validateWorldVariableRegistryV1 } from './world-variable.js'
-import { mapAssetById, validateMapIndex } from './map-index.js'
-import { validateMigrationDiagnostics } from './migration-diagnostic.js'
 
 describe('O09 validateStampTemplates：id/origin/anchor 残臂', () => {
   const base = {
@@ -45,9 +45,12 @@ describe('O09 validateStampTemplates：id/origin/anchor 残臂', () => {
   })
 
   test('id 重复 / origin 非法 / anchor 非负整数 逐轴拒绝', () => {
-    expect(() => validateStampTemplates([{ ...base, id: 'a' }, { ...base, id: 'a' }])).toThrow(
-      /重复 id "a"/,
-    )
+    expect(() =>
+      validateStampTemplates([
+        { ...base, id: 'a' },
+        { ...base, id: 'a' },
+      ]),
+    ).toThrow(/重复 id "a"/)
     expect(() => validateStampTemplates([{ ...base, id: 'a', origin: 'x' }])).toThrow(
       /origin: 期望 authored 或 migrated/,
     )
@@ -57,12 +60,12 @@ describe('O09 validateStampTemplates：id/origin/anchor 残臂', () => {
   })
 
   test('anchor 超出局部 surface（row ≥ height*2 / col ≥ width）拒绝', () => {
-    expect(() => validateStampTemplates([{ ...base, id: 'a', anchor: { row: 2, col: 0 } }])).toThrow(
-      /锚点超出局部 surface/,
-    )
-    expect(() => validateStampTemplates([{ ...base, id: 'a', anchor: { row: 0, col: 2 } }])).toThrow(
-      /锚点超出局部 surface/,
-    )
+    expect(() =>
+      validateStampTemplates([{ ...base, id: 'a', anchor: { row: 2, col: 0 } }]),
+    ).toThrow(/锚点超出局部 surface/)
+    expect(() =>
+      validateStampTemplates([{ ...base, id: 'a', anchor: { row: 0, col: 2 } }]),
+    ).toThrow(/锚点超出局部 surface/)
   })
 
   test('migrated origin 合法', () => {
@@ -104,19 +107,23 @@ describe('O09 validateTilesets：退役字段与唯一 id', () => {
       },
     } satisfies AssetCatalogV1
     expect(() => validateTilesets([tileset], catalog)).not.toThrow()
-    expect(() =>
-      validateTilesets([{ ...tileset, asset: 'tileset.ghost' }], catalog),
-    ).toThrow(/不在 catalog/)
+    expect(() => validateTilesets([{ ...tileset, asset: 'tileset.ghost' }], catalog)).toThrow(
+      /不在 catalog/,
+    )
   })
 })
 
 describe('O09 validateWorldVariableRegistryV1：id/name 边界', () => {
   test('空键 / 非法 id 字符 / 超长 name 逐轴拒绝', () => {
     expect(() =>
-      validateWorldVariableRegistryV1({ '': { kind: 'flag', name: 'n', description: '', initial: true } }),
+      validateWorldVariableRegistryV1({
+        '': { kind: 'flag', name: 'n', description: '', initial: true },
+      }),
     ).toThrow('worldVariables.<empty>: 不能为空')
     expect(() =>
-      validateWorldVariableRegistryV1({ 'a b': { kind: 'flag', name: 'n', description: '', initial: true } }),
+      validateWorldVariableRegistryV1({
+        'a b': { kind: 'flag', name: 'n', description: '', initial: true },
+      }),
     ).toThrow(/worldVariables\.a b/)
     expect(() =>
       validateWorldVariableRegistryV1({
@@ -127,10 +134,14 @@ describe('O09 validateWorldVariableRegistryV1：id/name 边界', () => {
 
   test('首尾空格 name / 非字符串 description 拒绝', () => {
     expect(() =>
-      validateWorldVariableRegistryV1({ v: { kind: 'flag', name: ' x', description: '', initial: true } }),
+      validateWorldVariableRegistryV1({
+        v: { kind: 'flag', name: ' x', description: '', initial: true },
+      }),
     ).toThrow(/不得包含首尾空格/)
     expect(() =>
-      validateWorldVariableRegistryV1({ v: { kind: 'flag', name: 'x', description: 3, initial: true } }),
+      validateWorldVariableRegistryV1({
+        v: { kind: 'flag', name: 'x', description: 3, initial: true },
+      }),
     ).toThrow(/description.*期望字符串/)
   })
 })
@@ -157,9 +168,7 @@ describe('O09 validateMapIndex / mapAssetById', () => {
   })
 
   test('非法 map 条目（缺 id）拒绝', () => {
-    expect(() =>
-      validateMapIndex({ version: 1, maps: [{ name: 'x', path: 'p' }] }),
-    ).toThrow(/id/)
+    expect(() => validateMapIndex({ version: 1, maps: [{ name: 'x', path: 'p' }] })).toThrow(/id/)
   })
 })
 

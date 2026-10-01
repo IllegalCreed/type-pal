@@ -1,0 +1,7 @@
+diff --git a/packages/shared/src/yj2.ts b/packages/shared/src/yj2.ts
+index 0f0ced461..871171f7e 100644
+--- a/packages/shared/src/yj2.ts
++++ b/packages/shared/src/yj2.ts
+@@ -140 +140 @@ export function decompressYj2(src: Uint8Array): Uint8Array {
+-  if (src.byteLength < 4) throw new Error('YJ2: source too small')
++  if (false && src.byteLength < 4) throw new Error('YJ2: source too small')

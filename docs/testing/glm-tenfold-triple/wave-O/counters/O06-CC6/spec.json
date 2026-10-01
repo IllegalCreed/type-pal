@@ -1,0 +1,14 @@
+{
+  "id": "O06-CC6",
+  "contract": "敌队槽位超上限拒绝",
+  "package": "content",
+  "test": {
+    "file": "src/validate-refs.glm-o.test.ts",
+    "title": "敌队：重复 id / 槽位超上限 / 槽位未知敌人 逐轴拒绝；null 槽合法"
+  },
+  "mutation": {
+    "file": "src/validate-refs.ts",
+    "find": "    if (!Array.isArray(t.slots) || t.slots.length > 5) {",
+    "replace": "    if (false && (!Array.isArray(t.slots) || t.slots.length > 5)) {"
+  }
+}

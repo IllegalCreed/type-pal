@@ -1,0 +1,14 @@
+{
+  "id": "O09-CC1",
+  "contract": "TPFS 版本轴",
+  "package": "content",
+  "test": {
+    "file": "src/frame-sequence.glm-o.test.ts",
+    "title": "截断（<12B）/ 魔数错 / 版本错 / 保留位非零 逐轴拒绝"
+  },
+  "mutation": {
+    "file": "src/frame-sequence.ts",
+    "find": "  if (bytes[4] !== FRAME_SEQUENCE_VERSION)",
+    "replace": "  if (false && bytes[4] !== FRAME_SEQUENCE_VERSION)"
+  }
+}

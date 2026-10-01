@@ -1,0 +1,152 @@
+{
+  "numTotalTestSuites": 5,
+  "numPassedTestSuites": 3,
+  "numFailedTestSuites": 2,
+  "numPendingTestSuites": 0,
+  "numTotalTests": 11,
+  "numPassedTests": 10,
+  "numFailedTests": 1,
+  "numPendingTests": 0,
+  "numTodoTests": 0,
+  "snapshot": {
+    "added": 0,
+    "failure": false,
+    "filesAdded": 0,
+    "filesRemoved": 0,
+    "filesRemovedList": [],
+    "filesUnmatched": 0,
+    "filesUpdated": 0,
+    "matched": 0,
+    "total": 0,
+    "unchecked": 0,
+    "uncheckedKeysByFile": [],
+    "unmatched": 0,
+    "updated": 0,
+    "didUpdate": false
+  },
+  "startTime": 1790832944103,
+  "success": false,
+  "testResults": [
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["O09 parseFrameSequence：头部轴"],
+          "fullName": "O09 parseFrameSequence：头部轴 截断（<12B）/ 魔数错 / 版本错 / 保留位非零 逐轴拒绝",
+          "status": "failed",
+          "title": "截断（<12B）/ 魔数错 / 版本错 / 保留位非零 逐轴拒绝",
+          "duration": 4.832416999999992,
+          "failureMessages": [
+            "AssertionError: expected [Function] to throw error including 'TPFS.version: 期望 1' but got 'TPFS.index: 非法 JSON: Unexpected end o…'\n    at Proxy.<anonymous> (file:///private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-o-cc-injected-TEczmv/node_modules/.pnpm/@vitest+expect@4.1.7/node_modules/@vitest/expect/dist/index.js:1552:16)\n    at Proxy.<anonymous> (file:///private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-o-cc-injected-TEczmv/node_modules/.pnpm/@vitest+expect@4.1.7/node_modules/@vitest/expect/dist/index.js:1156:15)\n    at Proxy.methodWrapper (file:///private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-o-cc-injected-TEczmv/node_modules/.pnpm/chai@6.2.2/node_modules/chai/index.js:1700:25)\n    at /private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-o-cc-injected-TEczmv/packages/content/src/frame-sequence.glm-o.test.ts:73:50\n    at file:///private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-o-cc-injected-TEczmv/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-o-cc-injected-TEczmv/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-o-cc-injected-TEczmv/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-o-cc-injected-TEczmv/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-o-cc-injected-TEczmv/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20"
+          ],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O09 parseFrameSequence：头部轴"],
+          "fullName": "O09 parseFrameSequence：头部轴 索引越界 / 非法 JSON 逐轴拒绝；合法最小文件解析",
+          "status": "passed",
+          "title": "索引越界 / 非法 JSON 逐轴拒绝；合法最小文件解析",
+          "duration": 0.9648750000000064,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O09 parseFrameSequence：头部轴"],
+          "fullName": "O09 parseFrameSequence：头部轴 colorTreatment 进索引并经 JSON（含 UTF-8 解码域）往返",
+          "status": "passed",
+          "title": "colorTreatment 进索引并经 JSON（含 UTF-8 解码域）往返",
+          "duration": 0.17029199999998923,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O09 validateFrameSequenceIndex：字段轴"],
+          "fullName": "O09 validateFrameSequenceIndex：字段轴 非对象/codec 非法/宽度非法/空帧表 逐轴拒绝",
+          "status": "passed",
+          "title": "非对象/codec 非法/宽度非法/空帧表 逐轴拒绝",
+          "duration": 0.3515000000000015,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O09 validateFrameSequenceIndex：字段轴"],
+          "fullName": "O09 validateFrameSequenceIndex：字段轴 block bytes 越界 payload / 覆盖不连续 / 尾随数据 逐轴拒绝",
+          "status": "passed",
+          "title": "block bytes 越界 payload / 覆盖不连续 / 尾随数据 逐轴拒绝",
+          "duration": 0.24570799999999338,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O09 encodeFrameSequenceSync：输入轴"],
+          "fullName": "O09 encodeFrameSequenceSync：输入轴 尺寸非法 / defaultFrameMs 非法 / colorTreatment 非法 / 空 frames 逐轴拒绝",
+          "status": "passed",
+          "title": "尺寸非法 / defaultFrameMs 非法 / colorTreatment 非法 / 空 frames 逐轴拒绝",
+          "duration": 0.1801669999999973,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O09 encodeFrameSequenceSync：输入轴"],
+          "fullName": "O09 encodeFrameSequenceSync：输入轴 rgba 字节长不符 / durationMs 非法 逐轴拒绝",
+          "status": "passed",
+          "title": "rgba 字节长不符 / durationMs 非法 逐轴拒绝",
+          "duration": 0.16066599999999198,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O09 encodeFrameSequenceSync：输入轴"],
+          "fullName": "O09 encodeFrameSequenceSync：输入轴 多帧每帧 durationMs 进索引；往返后帧序稳定",
+          "status": "passed",
+          "title": "多帧每帧 durationMs 进索引；往返后帧序稳定",
+          "duration": 0.37129199999999685,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O09 encodeFrameSequenceSync：输入轴"],
+          "fullName": "O09 encodeFrameSequenceSync：输入轴 provider 字节变换被调用且其输出登记进 block bytes",
+          "status": "passed",
+          "title": "provider 字节变换被调用且其输出登记进 block bytes",
+          "duration": 0.48612500000000125,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O09 resolveFrameSequencePlayback：回放解析"],
+          "fullName": "O09 resolveFrameSequencePlayback：回放解析 全序列回放与显式 range 回放的帧数/duration",
+          "status": "passed",
+          "title": "全序列回放与显式 range 回放的帧数/duration",
+          "duration": 0.6508340000000032,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O09 resolveFrameSequencePlayback：回放解析"],
+          "fullName": "O09 resolveFrameSequencePlayback：回放解析 越界 startFrame/endFrame → 拒绝（无 range 形参，直接 options）",
+          "status": "passed",
+          "title": "越界 startFrame/endFrame → 拒绝（无 range 形参，直接 options）",
+          "duration": 0.21916699999999878,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790832944242,
+      "endTime": 1790832944251.2192,
+      "status": "failed",
+      "message": "",
+      "name": "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-o-cc-injected-TEczmv/packages/content/src/frame-sequence.glm-o.test.ts"
+    }
+  ]
+}

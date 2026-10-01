@@ -1,0 +1,14 @@
+{
+  "id": "O08-CC2",
+  "contract": "坏状态已有不刷新",
+  "package": "content",
+  "test": {
+    "file": "src/enemy-ai.glm-o.test.ts",
+    "title": "applyPlayerStatus：坏状态已有不刷新；好状态仅活人取较长；傀儡仅死者"
+  },
+  "mutation": {
+    "file": "src/battle-formulas.ts",
+    "find": "    if (st[key] > 0) return false // 坏状态已有不刷新(global.c:2234)",
+    "replace": "    if (false && st[key] > 0) return false"
+  }
+}

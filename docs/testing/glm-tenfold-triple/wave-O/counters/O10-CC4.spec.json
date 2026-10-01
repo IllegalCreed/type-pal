@@ -1,0 +1,14 @@
+{
+  "id": "O10-CC4",
+  "contract": "chunk 超 u16 上限拒绝",
+  "package": "shared",
+  "test": {
+    "file": "src/rle.glm-o.test.ts",
+    "title": "超 u16 word 偏移上限 → 拆分图集错误"
+  },
+  "mutation": {
+    "file": "src/rle-encode.ts",
+    "find": "  if (at > MAX_CHUNK_BYTES)",
+    "replace": "  if (false && at > MAX_CHUNK_BYTES)"
+  }
+}

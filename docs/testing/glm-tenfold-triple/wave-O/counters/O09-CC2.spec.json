@@ -1,0 +1,14 @@
+{
+  "id": "O09-CC2",
+  "contract": "stamp origin 域",
+  "package": "content",
+  "test": {
+    "file": "src/data-guards.glm-o.test.ts",
+    "title": "id 重复 / origin 非法 / anchor 非负整数 逐轴拒绝"
+  },
+  "mutation": {
+    "file": "src/stamp.ts",
+    "find": "    if (raw.origin !== 'authored' && raw.origin !== 'migrated')",
+    "replace": "    if (false && raw.origin !== 'authored' && raw.origin !== 'migrated')"
+  }
+}

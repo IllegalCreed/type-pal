@@ -5,9 +5,9 @@
  */
 
 import type { AuthorItemData, AuthorSceneDef, SpriteDef } from '@type-pal/content'
+import { validateAuthorItems, validateAuthorScenes } from '@type-pal/content'
 import { describe, expect, test } from 'vitest'
 import { assertPalItemSchemeLabelInvariant } from './pal-item-scheme-labels.js'
-import { validateAuthorItems, validateAuthorScenes } from '@type-pal/content'
 import type { SourceScene } from './pal-source-types.js'
 import { createPalWorldSpriteRegistry, migratedSpriteId } from './pal-world-sprite-registry.js'
 import { applyPalWorldSpriteSemanticAliases } from './pal-world-sprite-semantic-alias.js'

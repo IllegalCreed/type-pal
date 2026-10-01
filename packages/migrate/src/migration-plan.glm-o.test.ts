@@ -4,12 +4,8 @@
  *  hash-only 正文回填与“只有 hash 缺正文”fail-loud。
  */
 import { describe, expect, test } from 'vitest'
+import { type MigrationSnapshot, serializeMigrationJson, sha256 } from './migration-baseline.js'
 import type { MigrationJson } from './migration-files.js'
-import {
-  type MigrationSnapshot,
-  serializeMigrationJson,
-  sha256,
-} from './migration-baseline.js'
 import { createMigrationPlan, snapshotOf } from './migration-plan.js'
 import { convertSourceTilemap } from './project-map-converter.js'
 

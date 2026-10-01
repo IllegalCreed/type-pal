@@ -1,0 +1,35 @@
+{
+  "id": "O08-CC2",
+  "contract": "坏状态已有不刷新",
+  "target": {
+    "file": "src/enemy-ai.glm-o.test.ts",
+    "title": "applyPlayerStatus：坏状态已有不刷新；好状态仅活人取较长；傀儡仅死者"
+  },
+  "control": {
+    "exitCode": 0,
+    "executed": 16,
+    "passed": 16,
+    "failed": 0
+  },
+  "injected": {
+    "exitCode": 1,
+    "executed": 16,
+    "passed": 15,
+    "failed": 1,
+    "failedFullName": "O08 战斗状态：tick/apply/canAct/canCastMagic applyPlayerStatus：坏状态已有不刷新；好状态仅活人取较长；傀儡仅死者",
+    "failureMessageHead": "AssertionError: expected true to be false // Object.is equality"
+  },
+  "restored": {
+    "exitCode": 0,
+    "executed": 16,
+    "passed": 16,
+    "failed": 0
+  },
+  "hashes": {
+    "original": "a3ac48ea2ecd6ae664a63c2fed8ef81b7139217cdfa1d8c2392e6b543a17ec61",
+    "mutated": "e0f64a7c0ce93fa7055b638a7461220cdc47d7b5bf4b99550179f0a0bd608b80",
+    "restored": "a3ac48ea2ecd6ae664a63c2fed8ef81b7139217cdfa1d8c2392e6b543a17ec61",
+    "rebuilt": "e0f64a7c0ce93fa7055b638a7461220cdc47d7b5bf4b99550179f0a0bd608b80"
+  },
+  "patchRebuiltAndVerified": true
+}

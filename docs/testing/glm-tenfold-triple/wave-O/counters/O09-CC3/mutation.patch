@@ -1,0 +1,7 @@
+diff --git a/packages/content/src/tileset.ts b/packages/content/src/tileset.ts
+index cf9cbac17..ba6c6b4f3 100644
+--- a/packages/content/src/tileset.ts
++++ b/packages/content/src/tileset.ts
+@@ -37 +37 @@ export function validateTilesets(value: unknown, catalog?: AssetCatalogV1): Tile
+-    if ('path' in r) fail(`${p}.path`, '已退役；物理路径只能来自 assets/index.json')
++    if (false && 'path' in r) fail(`${p}.path`, '已退役；物理路径只能来自 assets/index.json')

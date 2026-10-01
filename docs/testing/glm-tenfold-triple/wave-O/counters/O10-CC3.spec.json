@@ -1,0 +1,14 @@
+{
+  "id": "O10-CC3",
+  "contract": "YJ2 过短源拒绝",
+  "package": "shared",
+  "test": {
+    "file": "src/rle.glm-o.test.ts",
+    "title": "过短源 → 拒绝"
+  },
+  "mutation": {
+    "file": "src/yj2.ts",
+    "find": "  if (src.byteLength < 4) throw new Error('YJ2: source too small')",
+    "replace": "  if (false && src.byteLength < 4) throw new Error('YJ2: source too small')"
+  }
+}

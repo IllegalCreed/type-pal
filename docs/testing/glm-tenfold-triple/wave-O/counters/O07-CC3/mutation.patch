@@ -1,0 +1,7 @@
+diff --git a/packages/content/src/script.ts b/packages/content/src/script.ts
+index 50ab66f5d..81478f827 100644
+--- a/packages/content/src/script.ts
++++ b/packages/content/src/script.ts
+@@ -301 +301 @@ export const SCENE_ENTRY_PREPARE_SAFETY = {
+-  openShop: 'blocked',
++  openShop: 'safe',

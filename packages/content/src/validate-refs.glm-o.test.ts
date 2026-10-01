@@ -3,19 +3,19 @@
  *  startWorld 四轴、敌 AI 条件/action 走访、敌队槽位、hook 迁移走访、精灵动作与
  *  页动画收集、初始仙术去重、issue 去重。bundle 全部 typed 合法（禁桥）。
  */
-import { describe, expect, test } from 'vitest'
+
 import type {
   ActorDef,
   BattleSpriteDef,
   EnemyDef,
-  EnemyTeamDef,
   PoisonDef,
+  SceneDef,
   SkillData,
   SpriteDef,
 } from '@type-pal/content'
-import type { SceneDef } from '@type-pal/content'
+import { describe, expect, test } from 'vitest'
 import { validateAuthorScenes } from './validate-author.js'
-import { validateReferences, type ContentBundle } from './validate-refs.js'
+import { type ContentBundle, validateReferences } from './validate-refs.js'
 
 const battleSprite = (id: string, kind: 'player-fighter' | 'enemy'): BattleSpriteDef =>
   kind === 'player-fighter'
@@ -193,7 +193,9 @@ describe('O06 validateEntryPointStartWorldReferences：startWorld 引用四轴',
     b.entryPoints = [
       { ...b.entryPoints[0]!, startWorld: { party: ['ghost'], money: 0, inventory: [] } },
     ]
-    expect(hasIssue(b, 'entryPoints[new-game].startWorld.party[0]', '队员 "ghost" 不在 actors 表')).toBe(true)
+    expect(
+      hasIssue(b, 'entryPoints[new-game].startWorld.party[0]', '队员 "ghost" 不在 actors 表'),
+    ).toBe(true)
   })
 
   test('party 引用无 battler 角色 → 不可入队拒绝', () => {
@@ -201,7 +203,13 @@ describe('O06 validateEntryPointStartWorldReferences：startWorld 引用四轴',
     b.entryPoints = [
       { ...b.entryPoints[0]!, startWorld: { party: ['villager'], money: 0, inventory: [] } },
     ]
-    expect(hasIssue(b, 'entryPoints[new-game].startWorld.party[0]', '队员 "villager" 无 battler(不可入队)')).toBe(true)
+    expect(
+      hasIssue(
+        b,
+        'entryPoints[new-game].startWorld.party[0]',
+        '队员 "villager" 无 battler(不可入队)',
+      ),
+    ).toBe(true)
   })
 
   test('inventory 引用不存在物品 → 拒绝', () => {
@@ -213,7 +221,11 @@ describe('O06 validateEntryPointStartWorldReferences：startWorld 引用四轴',
       },
     ]
     expect(
-      hasIssue(b, 'entryPoints[new-game].startWorld.inventory[0].itemId', '物品 "ghost-item" 不在 items'),
+      hasIssue(
+        b,
+        'entryPoints[new-game].startWorld.inventory[0].itemId',
+        '物品 "ghost-item" 不在 items',
+      ),
     ).toBe(true)
   })
 
@@ -222,11 +234,20 @@ describe('O06 validateEntryPointStartWorldReferences：startWorld 引用四轴',
     b.entryPoints = [
       {
         ...b.entryPoints[0]!,
-        startWorld: { party: ['hero'], money: 0, inventory: [], seedStats: { ghost: { hp: 1, mp: 1 } } },
+        startWorld: {
+          party: ['hero'],
+          money: 0,
+          inventory: [],
+          seedStats: { ghost: { hp: 1, mp: 1 } },
+        },
       },
     ]
     expect(
-      hasIssue(b, 'entryPoints[new-game].startWorld.seedStats[ghost]', '属性播种角色 "ghost" 不在 actors'),
+      hasIssue(
+        b,
+        'entryPoints[new-game].startWorld.seedStats[ghost]',
+        '属性播种角色 "ghost" 不在 actors',
+      ),
     ).toBe(true)
   })
 
@@ -240,7 +261,11 @@ describe('O06 validateEntryPointStartWorldReferences：startWorld 引用四轴',
     }
     b.entryPoints = [{ ...b.entryPoints[0]!, startWorld: start }]
     expect(
-      hasIssue(b, 'entryPoints[new-game].startWorld.seedConditions[ghost]', '状态播种角色 "ghost" 不在 actors'),
+      hasIssue(
+        b,
+        'entryPoints[new-game].startWorld.seedConditions[ghost]',
+        '状态播种角色 "ghost" 不在 actors',
+      ),
     ).toBe(true)
 
     const b2 = bundle()
@@ -251,7 +276,11 @@ describe('O06 validateEntryPointStartWorldReferences：startWorld 引用四轴',
       },
     ]
     expect(
-      hasIssue(b2, 'entryPoints[new-game].startWorld.seedConditions[villager]', '状态播种角色 "villager" 无 battler(不可入队)'),
+      hasIssue(
+        b2,
+        'entryPoints[new-game].startWorld.seedConditions[villager]',
+        '状态播种角色 "villager" 无 battler(不可入队)',
+      ),
     ).toBe(true)
 
     const b3 = bundle()
@@ -263,7 +292,11 @@ describe('O06 validateEntryPointStartWorldReferences：startWorld 引用四轴',
     ]
     b3.actors = [actor('hero', true), actor('villager', true)]
     expect(
-      hasIssue(b3, 'entryPoints[new-game].startWorld.seedConditions[villager]', '状态播种角色 "villager" 不在该入口 party'),
+      hasIssue(
+        b3,
+        'entryPoints[new-game].startWorld.seedConditions[villager]',
+        '状态播种角色 "villager" 不在该入口 party',
+      ),
     ).toBe(true)
 
     const b4 = bundle()
@@ -271,11 +304,20 @@ describe('O06 validateEntryPointStartWorldReferences：startWorld 引用四轴',
     b4.entryPoints = [
       {
         ...b4.entryPoints[0]!,
-        startWorld: { party: ['hero'], money: 0, inventory: [], seedConditions: { hero: { poisonIds: [9] } } },
+        startWorld: {
+          party: ['hero'],
+          money: 0,
+          inventory: [],
+          seedConditions: { hero: { poisonIds: [9] } },
+        },
       },
     ]
     expect(
-      hasIssue(b4, 'entryPoints[new-game].startWorld.seedConditions[hero].poisonIds[0]', '毒 9 不在 poisons'),
+      hasIssue(
+        b4,
+        'entryPoints[new-game].startWorld.seedConditions[hero].poisonIds[0]',
+        '毒 9 不在 poisons',
+      ),
     ).toBe(true)
   })
 
@@ -285,7 +327,12 @@ describe('O06 validateEntryPointStartWorldReferences：startWorld 引用四轴',
     b.entryPoints = [
       {
         ...b.entryPoints[0]!,
-        startWorld: { party: ['hero'], money: 0, inventory: [], seedConditions: { hero: { poisonIds: [1] } } },
+        startWorld: {
+          party: ['hero'],
+          money: 0,
+          inventory: [],
+          seedConditions: { hero: { poisonIds: [1] } },
+        },
       },
     ]
     expect(issuesFor(b)).toEqual([])
@@ -306,7 +353,10 @@ describe('O06 敌 AI 与敌队：走访与引用闭包', () => {
               when: {
                 kind: 'all',
                 of: [
-                  { kind: 'any', of: [{ kind: 'not', cond: { kind: 'playerInParty', role: 'ghost' } }] },
+                  {
+                    kind: 'any',
+                    of: [{ kind: 'not', cond: { kind: 'playerInParty', role: 'ghost' } }],
+                  },
                 ],
               },
               do: { kind: 'attack' },
@@ -315,7 +365,13 @@ describe('O06 敌 AI 与敌队：走访与引用闭包', () => {
         },
       }),
     ]
-    expect(hasIssue(b, 'enemies[0](a).ai.rules[0].when.of[0].of[0].cond.role', '战斗角色 "ghost" 不在 actors')).toBe(true)
+    expect(
+      hasIssue(
+        b,
+        'enemies[0](a).ai.rules[0].when.of[0].of[0].cond.role',
+        '战斗角色 "ghost" 不在 actors',
+      ),
+    ).toBe(true)
   })
 
   test('敌 cast 未知技能 / 带 prepare / 效果不受 runtime 支持 三轴', () => {
@@ -323,21 +379,33 @@ describe('O06 敌 AI 与敌队：走访与引用闭包', () => {
     b.enemies = [
       enemy('a', {
         battleSprite: 'enemy-a-battle',
-        ai: { resistanceToSorcery: 0, fallback: { action: { kind: 'cast', skillId: 'ghost-skill' }, chancePercent: 10 } },
+        ai: {
+          resistanceToSorcery: 0,
+          fallback: { action: { kind: 'cast', skillId: 'ghost-skill' }, chancePercent: 10 },
+        },
       }),
     ]
-    expect(hasIssue(b, 'enemies[0](a).ai.fallback.action.skillId', '施法技能 "ghost-skill" 不在 skills')).toBe(true)
+    expect(
+      hasIssue(b, 'enemies[0](a).ai.fallback.action.skillId', '施法技能 "ghost-skill" 不在 skills'),
+    ).toBe(true)
 
     // 注：敌方 cast 的 prepare 轴（validate-refs.ts 敌方施法 prepare 拒绝）经合法技能面
     // 不可构造——validateSkills 已禁止 execution.enemy.prepare，敌侧 resolve 恒为空；
     // 登记为 unreachable-via-legal-input，不造假技能。
 
     const b3 = bundle()
-    b3.skills = [skill('1', { execution: { enemy: { effects: [{ kind: 'damage', power: 1, elemental: 0 }] } } })]
+    b3.skills = [
+      skill('1', {
+        execution: { enemy: { effects: [{ kind: 'damage', power: 1, elemental: 0 }] } },
+      }),
+    ]
     b3.enemies = [
       enemy('a', {
         battleSprite: 'enemy-a-battle',
-        ai: { resistanceToSorcery: 0, fallback: { action: { kind: 'cast', skillId: '1' }, chancePercent: 10 } },
+        ai: {
+          resistanceToSorcery: 0,
+          fallback: { action: { kind: 'cast', skillId: '1' }, chancePercent: 10 },
+        },
       }),
     ]
     expect(issuesFor(b3).filter((issue) => issue.message.includes('不受 runtime 支持'))).toEqual([])
@@ -389,7 +457,13 @@ describe('O06 敌 AI 与敌队：走访与引用闭包', () => {
               initial: 'ready',
               states: {
                 ready: {
-                  body: [{ kind: 'effect', id: 'summon', effect: { kind: 'summon', enemyId: 'ghost', count: 1 } }],
+                  body: [
+                    {
+                      kind: 'effect',
+                      id: 'summon',
+                      effect: { kind: 'summon', enemyId: 'ghost', count: 1 },
+                    },
+                  ],
                   next: { kind: 'stay' },
                 },
               },
@@ -440,7 +514,9 @@ describe('O06 敌 AI 与敌队：走访与引用闭包', () => {
         steal: { itemId: 'ghost-item', count: 1 },
       }),
     ]
-    const stealIssue = issuesFor(b).find((issue) => issue.message === '可偷物品 "ghost-item" 不在 items')
+    const stealIssue = issuesFor(b).find(
+      (issue) => issue.message === '可偷物品 "ghost-item" 不在 items',
+    )
     expect(stealIssue).toMatchObject({ severity: 'warn', where: 'enemies[0](a).steal' })
 
     const b2 = bundle()
@@ -450,7 +526,9 @@ describe('O06 敌 AI 与敌队：走访与引用闭包', () => {
         attackEquivItem: { itemId: 'ghost-item', rate: 30 },
       }),
     ]
-    expect(hasIssue(b2, 'enemies[0](a).attackEquivItem.itemId', '普攻附带物品 "ghost-item" 不在 items')).toBe(true)
+    expect(
+      hasIssue(b2, 'enemies[0](a).attackEquivItem.itemId', '普攻附带物品 "ghost-item" 不在 items'),
+    ).toBe(true)
   })
 })
 
@@ -463,16 +541,12 @@ describe('O06 场景命令与页动画：精灵动作/实体地址/收集轴', (
         entities: [
           {
             ...b.scenes[0]!.entities[0]!,
-            pages: [
-              { animation: { sprite: 'ghost', action: 'dance', loop: false } },
-            ],
+            pages: [{ animation: { sprite: 'ghost', action: 'dance', loop: false } }],
           },
         ],
       },
     ]
-    expect(
-      issuesFor(b).some((issue) => issue.message.includes('不存在动作 "dance"')),
-    ).toBe(true)
+    expect(issuesFor(b).some((issue) => issue.message.includes('不存在动作 "dance"'))).toBe(true)
 
     const b2 = bundle()
     b2.scenes = [
@@ -481,9 +555,7 @@ describe('O06 场景命令与页动画：精灵动作/实体地址/收集轴', (
         entities: [
           {
             ...b2.scenes[0]!.entities[0]!,
-            pages: [
-              { animation: { sprite: 'ghost-x', action: 'idle', loop: false } },
-            ],
+            pages: [{ animation: { sprite: 'ghost-x', action: 'idle', loop: false } }],
           },
         ],
       },
@@ -542,9 +614,7 @@ describe('O06 场景命令与页动画：精灵动作/实体地址/收集轴', (
     ])[0]!
     // 作者场景经磁盘 JSON 边界进入 bundle（ContentBundle.scenes 声明域）。
     b.scenes = [JSON.parse(JSON.stringify(scene)) as SceneDef]
-    expect(
-      issuesFor(b).some((issue) => issue.message.includes('不存在动作 "dance"')),
-    ).toBe(true)
+    expect(issuesFor(b).some((issue) => issue.message.includes('不存在动作 "dance"'))).toBe(true)
   })
 
   test('setEntityTriggerActivation/selectEntityBehavior 指向未知场景与实体 → 实体地址轴', () => {
@@ -640,9 +710,9 @@ describe('O06 场景命令与页动画：精灵动作/实体地址/收集轴', (
       },
     ])[0]!
     b.scenes = [JSON.parse(JSON.stringify(scene)) as SceneDef]
-    expect(
-      issuesFor(b).some((issue) => issue.message === '实体 "s/ghost-e" 不在 scenes'),
-    ).toBe(true)
+    expect(issuesFor(b).some((issue) => issue.message === '实体 "s/ghost-e" 不在 scenes')).toBe(
+      true,
+    )
   })
 
   test('hostile 敌队未知 → 场景实体轴拒绝；敌队存在则无 issue', () => {
@@ -661,9 +731,7 @@ describe('O06 场景命令与页动画：精灵动作/实体地址/收集轴', (
         ],
       },
     ]
-    expect(
-      issuesFor(b).some((issue) => issue.message === '敌队 "t9" 不在 enemyTeams'),
-    ).toBe(true)
+    expect(issuesFor(b).some((issue) => issue.message === '敌队 "t9" 不在 enemyTeams')).toBe(true)
 
     const b2 = bundle()
     b2.enemies = [enemy('a', { battleSprite: 'enemy-a-battle' })]
@@ -703,9 +771,15 @@ describe('O06 初始仙术与 issue 去重', () => {
     const b = bundle()
     b.entryPoints = [
       { ...b.entryPoints[0]!, startWorld: { party: ['ghost'], money: 0, inventory: [] } },
-      { ...b.entryPoints[0]!, id: 'second', startWorld: { party: ['ghost'], money: 0, inventory: [] } },
+      {
+        ...b.entryPoints[0]!,
+        id: 'second',
+        startWorld: { party: ['ghost'], money: 0, inventory: [] },
+      },
     ]
-    const partyIssues = issuesFor(b).filter((issue) => issue.message === '队员 "ghost" 不在 actors 表')
+    const partyIssues = issuesFor(b).filter(
+      (issue) => issue.message === '队员 "ghost" 不在 actors 表',
+    )
     expect(partyIssues).toHaveLength(2)
     expect(new Set(partyIssues.map((issue) => issue.where))).toEqual(
       new Set([
@@ -723,9 +797,7 @@ describe('O06 初始仙术与 issue 去重', () => {
         battler: { ...actor('hero', true).battler!, coveredBy: 'hero' },
       },
     ]
-    expect(
-      issuesFor(b).some((issue) => issue.message.includes('coveredBy 指向自己')),
-    ).toBe(true)
+    expect(issuesFor(b).some((issue) => issue.message.includes('coveredBy 指向自己'))).toBe(true)
   })
 
   test('合体技未知技能 → 拒绝', () => {
@@ -736,9 +808,9 @@ describe('O06 初始仙术与 issue 去重', () => {
         battler: { ...actor('hero', true).battler!, cooperativeMagicSkillId: 'ghost-skill' },
       },
     ]
-    expect(
-      issuesFor(b).some((issue) => issue.message === '合体技 "ghost-skill" 不在 skills'),
-    ).toBe(true)
+    expect(issuesFor(b).some((issue) => issue.message === '合体技 "ghost-skill" 不在 skills')).toBe(
+      true,
+    )
   })
 })
 
@@ -753,7 +825,12 @@ describe('O06 毒/对话台词/商店/诊断闭包', () => {
           ...actor('hero', true).battler!,
           casualty: {
             dying: {
-              gates: [{ chance: 50, branch: { lines: [{ text: 'dlg.missing', style: 'bottom' }], effects: [] } }],
+              gates: [
+                {
+                  chance: 50,
+                  branch: { lines: [{ text: 'dlg.missing', style: 'bottom' }], effects: [] },
+                },
+              ],
               fallback: { lines: [], effects: [] },
             },
           },
@@ -768,9 +845,9 @@ describe('O06 毒/对话台词/商店/诊断闭包', () => {
   test('商店未知物品 → 拒绝；runScript 未知共享脚本 → 拒绝', () => {
     const b = bundle()
     b.shops = [{ id: 1, items: ['ghost-item'] }]
-    expect(
-      issuesFor(b).some((issue) => issue.message === '商店物品 "ghost-item" 不在 items'),
-    ).toBe(true)
+    expect(issuesFor(b).some((issue) => issue.message === '商店物品 "ghost-item" 不在 items')).toBe(
+      true,
+    )
   })
 
   test('敌队空缺省与空 bundle 组合不产敌簇 issue', () => {

@@ -1,1 +1,140 @@
-{"numTotalTestSuites":4,"numPassedTestSuites":4,"numFailedTestSuites":0,"numPendingTestSuites":0,"numTotalTests":10,"numPassedTests":10,"numFailedTests":0,"numPendingTests":0,"numTodoTests":0,"snapshot":{"added":0,"failure":false,"filesAdded":0,"filesRemoved":0,"filesRemovedList":[],"filesUnmatched":0,"filesUpdated":0,"matched":0,"total":0,"unchecked":0,"uncheckedKeysByFile":[],"unmatched":0,"updated":0,"didUpdate":false},"startTime":1790829068920,"success":true,"testResults":[{"assertionResults":[{"ancestorTitles":["O03 buildPalContentSupply：供应输入守卫残余"],"fullName":"O03 buildPalContentSupply：供应输入守卫残余 同一 EventObject 出现在多个场景时 fail-loud（全局实体唯一）","status":"passed","title":"同一 EventObject 出现在多个场景时 fail-loud（全局实体唯一）","duration":12.056709000000069,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["O03 buildPalContentSupply：供应输入守卫残余"],"fullName":"O03 buildPalContentSupply：供应输入守卫残余 源地图 tileset 路径漂移时 fail-loud（期望 tileset/<mapNum>.rle）","status":"passed","title":"源地图 tileset 路径漂移时 fail-loud（期望 tileset/<mapNum>.rle）","duration":1.103166999999985,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["O03 buildPalContentSupply：供应输入守卫残余"],"fullName":"O03 buildPalContentSupply：供应输入守卫残余 生成精灵分区只保留角色资产定义（overlay/场景变体不入分区）","status":"passed","title":"生成精灵分区只保留角色资产定义（overlay/场景变体不入分区）","duration":1.8600000000000136,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["O03 buildPalContentSupply：供应输入守卫残余"],"fullName":"O03 buildPalContentSupply：供应输入守卫残余 scenes 按 sceneId 升序进入生成侧（与源数组顺序无关）","status":"passed","title":"scenes 按 sceneId 升序进入生成侧（与源数组顺序无关）","duration":2.853749999999991,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["O03 buildPalContentSupply：供应输入守卫残余"],"fullName":"O03 buildPalContentSupply：供应输入守卫残余 实体 spriteNum<=0 不产生场景实体","status":"passed","title":"实体 spriteNum<=0 不产生场景实体","duration":1.6033749999999145,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["O03 validatePalCurrentPublication：装备战斗精灵引用门"],"fullName":"O03 validatePalCurrentPublication：装备战斗精灵引用门 合法战斗形象覆写（现存可战斗角色且在 equipableBy）通过发布门","status":"passed","title":"合法战斗形象覆写（现存可战斗角色且在 equipableBy）通过发布门","duration":38.510208000000034,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["O03 validatePalCurrentPublication：装备战斗精灵引用门"],"fullName":"O03 validatePalCurrentPublication：装备战斗精灵引用门 覆写引用未知角色 → 发布门以 where: message 拒绝","status":"passed","title":"覆写引用未知角色 → 发布门以 where: message 拒绝","duration":8.910916000000043,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["O03 validatePalCurrentPublication：装备战斗精灵引用门"],"fullName":"O03 validatePalCurrentPublication：装备战斗精灵引用门 覆写角色不在 equipableBy → 发布门拒绝","status":"passed","title":"覆写角色不在 equipableBy → 发布门拒绝","duration":11.726167000000032,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["O03 validatePalCurrentPublication：装备战斗精灵引用门"],"fullName":"O03 validatePalCurrentPublication：装备战斗精灵引用门 覆写引用未注册战斗精灵 → 发布门拒绝","status":"passed","title":"覆写引用未注册战斗精灵 → 发布门拒绝","duration":9.793374999999969,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["O03 合成 catalog 自检补充"],"fullName":"O03 合成 catalog 自检补充 sprite 资源 kind 全部为 sprite（validateSprites catalog 前提）","status":"passed","title":"sprite 资源 kind 全部为 sprite（validateSprites catalog 前提）","duration":0.7500420000000076,"failureMessages":[],"meta":{},"tags":[]}],"startTime":1790829069681,"endTime":1790829069770.7935,"status":"passed","message":"","name":"/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-o-cc-control-2iEn0B/packages/migrate/src/pal-content-supply.glm-o.test.ts"}]}
+{
+  "numTotalTestSuites": 4,
+  "numPassedTestSuites": 4,
+  "numFailedTestSuites": 0,
+  "numPendingTestSuites": 0,
+  "numTotalTests": 10,
+  "numPassedTests": 10,
+  "numFailedTests": 0,
+  "numPendingTests": 0,
+  "numTodoTests": 0,
+  "snapshot": {
+    "added": 0,
+    "failure": false,
+    "filesAdded": 0,
+    "filesRemoved": 0,
+    "filesRemovedList": [],
+    "filesUnmatched": 0,
+    "filesUpdated": 0,
+    "matched": 0,
+    "total": 0,
+    "unchecked": 0,
+    "uncheckedKeysByFile": [],
+    "unmatched": 0,
+    "updated": 0,
+    "didUpdate": false
+  },
+  "startTime": 1790829068920,
+  "success": true,
+  "testResults": [
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["O03 buildPalContentSupply：供应输入守卫残余"],
+          "fullName": "O03 buildPalContentSupply：供应输入守卫残余 同一 EventObject 出现在多个场景时 fail-loud（全局实体唯一）",
+          "status": "passed",
+          "title": "同一 EventObject 出现在多个场景时 fail-loud（全局实体唯一）",
+          "duration": 12.056709000000069,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O03 buildPalContentSupply：供应输入守卫残余"],
+          "fullName": "O03 buildPalContentSupply：供应输入守卫残余 源地图 tileset 路径漂移时 fail-loud（期望 tileset/<mapNum>.rle）",
+          "status": "passed",
+          "title": "源地图 tileset 路径漂移时 fail-loud（期望 tileset/<mapNum>.rle）",
+          "duration": 1.103166999999985,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O03 buildPalContentSupply：供应输入守卫残余"],
+          "fullName": "O03 buildPalContentSupply：供应输入守卫残余 生成精灵分区只保留角色资产定义（overlay/场景变体不入分区）",
+          "status": "passed",
+          "title": "生成精灵分区只保留角色资产定义（overlay/场景变体不入分区）",
+          "duration": 1.8600000000000136,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O03 buildPalContentSupply：供应输入守卫残余"],
+          "fullName": "O03 buildPalContentSupply：供应输入守卫残余 scenes 按 sceneId 升序进入生成侧（与源数组顺序无关）",
+          "status": "passed",
+          "title": "scenes 按 sceneId 升序进入生成侧（与源数组顺序无关）",
+          "duration": 2.853749999999991,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O03 buildPalContentSupply：供应输入守卫残余"],
+          "fullName": "O03 buildPalContentSupply：供应输入守卫残余 实体 spriteNum<=0 不产生场景实体",
+          "status": "passed",
+          "title": "实体 spriteNum<=0 不产生场景实体",
+          "duration": 1.6033749999999145,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O03 validatePalCurrentPublication：装备战斗精灵引用门"],
+          "fullName": "O03 validatePalCurrentPublication：装备战斗精灵引用门 合法战斗形象覆写（现存可战斗角色且在 equipableBy）通过发布门",
+          "status": "passed",
+          "title": "合法战斗形象覆写（现存可战斗角色且在 equipableBy）通过发布门",
+          "duration": 38.510208000000034,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O03 validatePalCurrentPublication：装备战斗精灵引用门"],
+          "fullName": "O03 validatePalCurrentPublication：装备战斗精灵引用门 覆写引用未知角色 → 发布门以 where: message 拒绝",
+          "status": "passed",
+          "title": "覆写引用未知角色 → 发布门以 where: message 拒绝",
+          "duration": 8.910916000000043,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O03 validatePalCurrentPublication：装备战斗精灵引用门"],
+          "fullName": "O03 validatePalCurrentPublication：装备战斗精灵引用门 覆写角色不在 equipableBy → 发布门拒绝",
+          "status": "passed",
+          "title": "覆写角色不在 equipableBy → 发布门拒绝",
+          "duration": 11.726167000000032,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O03 validatePalCurrentPublication：装备战斗精灵引用门"],
+          "fullName": "O03 validatePalCurrentPublication：装备战斗精灵引用门 覆写引用未注册战斗精灵 → 发布门拒绝",
+          "status": "passed",
+          "title": "覆写引用未注册战斗精灵 → 发布门拒绝",
+          "duration": 9.793374999999969,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O03 合成 catalog 自检补充"],
+          "fullName": "O03 合成 catalog 自检补充 sprite 资源 kind 全部为 sprite（validateSprites catalog 前提）",
+          "status": "passed",
+          "title": "sprite 资源 kind 全部为 sprite（validateSprites catalog 前提）",
+          "duration": 0.7500420000000076,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790829069681,
+      "endTime": 1790829069770.7935,
+      "status": "passed",
+      "message": "",
+      "name": "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-o-cc-control-2iEn0B/packages/migrate/src/pal-content-supply.glm-o.test.ts"
+    }
+  ]
+}

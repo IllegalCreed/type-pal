@@ -1,0 +1,35 @@
+{
+  "id": "O07-CC3",
+  "contract": "openShop prepare 阻断",
+  "target": {
+    "file": "src/script.glm-o.test.ts",
+    "title": "loadScene / fade / startBattle / openShop 等阻断（blocked）"
+  },
+  "control": {
+    "exitCode": 0,
+    "executed": 7,
+    "passed": 7,
+    "failed": 0
+  },
+  "injected": {
+    "exitCode": 1,
+    "executed": 7,
+    "passed": 6,
+    "failed": 1,
+    "failedFullName": "O07 sceneEntryPrepareSafety：进场 prepare 命令域 loadScene / fade / startBattle / openShop 等阻断（blocked）",
+    "failureMessageHead": "AssertionError: expected 'safe' to be 'blocked' // Object.is equality"
+  },
+  "restored": {
+    "exitCode": 0,
+    "executed": 7,
+    "passed": 7,
+    "failed": 0
+  },
+  "hashes": {
+    "original": "9b6d1085ac535ec92e8ce5497a8b0c92b5ef6bc3ad80bbbe09fa7f7f2548ab6b",
+    "mutated": "5449ab21b785cc4a04d79e149ab8af7b15a5efba9cf84c86368568d94f1a4a6b",
+    "restored": "9b6d1085ac535ec92e8ce5497a8b0c92b5ef6bc3ad80bbbe09fa7f7f2548ab6b",
+    "rebuilt": "5449ab21b785cc4a04d79e149ab8af7b15a5efba9cf84c86368568d94f1a4a6b"
+  },
+  "patchRebuiltAndVerified": true
+}

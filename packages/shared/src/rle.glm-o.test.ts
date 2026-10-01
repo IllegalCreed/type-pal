@@ -4,13 +4,13 @@
  *  sentinel 拒绝、坏尾后仍可解拒绝）、encode 上限、YJ2 位流轴。全部合成字节。
  */
 import { describe, expect, test } from 'vitest'
-import { parseIndexedRleChunk, parseSpriteChunkStrict, type RleFrame } from './rle.js'
-import { encodeRleFrame, encodeSpriteChunk } from './rle-encode.js'
-import { decompressYj2 } from './yj2.js'
 import {
   YJ2_BACKREF_OVERLAP as YJ2_BACKREF_OVERLAP_VECTOR,
   YJ2_THREE_LITERALS as YJ2_THREE_LITERALS_VECTOR,
 } from './__tests__/glm-foundation-fixtures.js'
+import { parseIndexedRleChunk, parseSpriteChunkStrict, type RleFrame } from './rle.js'
+import { encodeRleFrame, encodeSpriteChunk } from './rle-encode.js'
+import { decompressYj2 } from './yj2.js'
 
 /** 手工组装 strict 容器：offsetTable + 偶对齐帧数据；sentinel 追加可选。 */
 function chunkOf(frames: readonly RleFrame[], options: { sentinel?: boolean } = {}): Uint8Array {
@@ -70,22 +70,16 @@ describe('O10 parseSpriteChunkStrict：容器结构轴', () => {
       return copy
     }
     // 声明数加大使表变长 → 原 slot0(=count) 不再等于新表长 → frame0 offset 不一致。
-    expect(() =>
-      parseSpriteChunkStrict(
-        tamper((view) => view.setUint16(0, 40, true)),
-      ),
-    ).toThrow('sprite chunk offset table 越界')
+    expect(() => parseSpriteChunkStrict(tamper((view) => view.setUint16(0, 40, true)))).toThrow(
+      'sprite chunk offset table 越界',
+    )
     // frame1 offset 改为 ≤ frame0（非递增）。
     expect(() =>
-      parseSpriteChunkStrict(
-        tamper((view) => view.setUint16(2, view.getUint16(0, true), true)),
-      ),
+      parseSpriteChunkStrict(tamper((view) => view.setUint16(2, view.getUint16(0, true), true))),
     ).toThrow('sprite chunk frame 1 offset 非递增')
     // frame1 offset 指向容器外。
     expect(() =>
-      parseSpriteChunkStrict(
-        tamper((view) => view.setUint16(2, 0xfff0 >> 1, true)),
-      ),
+      parseSpriteChunkStrict(tamper((view) => view.setUint16(2, 0xfff0 >> 1, true))),
     ).toThrow('sprite chunk frame 1 offset 越界')
   })
 

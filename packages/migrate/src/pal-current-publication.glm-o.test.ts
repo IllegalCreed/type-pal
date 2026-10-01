@@ -544,9 +544,9 @@ describe('O01 validatePalCurrentPublication：发布门与 census 拒绝合同�
       use?: { effects: Array<Record<string, unknown>> }
     }>
     const gourd = items.find((item) => item.id === '270')!
-    const pool = gourd.use!.effects.find(
-      (effect) => effect.kind === 'drawFromResourcePool',
-    ) as { rewards: Array<{ count: number }> }
+    const pool = gourd.use!.effects.find((effect) => effect.kind === 'drawFromResourcePool') as {
+      rewards: Array<{ count: number }>
+    }
     pool.rewards[0]!.count = 2
     files.set('content/items.json', JSON.parse(JSON.stringify(items)))
     expect(() =>

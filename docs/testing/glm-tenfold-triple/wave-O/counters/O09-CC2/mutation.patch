@@ -1,0 +1,7 @@
+diff --git a/packages/content/src/stamp.ts b/packages/content/src/stamp.ts
+index eb563329..4b69aef2 100644
+--- a/packages/content/src/stamp.ts
++++ b/packages/content/src/stamp.ts
+@@ -44 +44 @@ export function validateStampTemplates(value: unknown): StampTemplate[] {
+-    if (raw.origin !== 'authored' && raw.origin !== 'migrated')
++    if (false && raw.origin !== 'authored' && raw.origin !== 'migrated')

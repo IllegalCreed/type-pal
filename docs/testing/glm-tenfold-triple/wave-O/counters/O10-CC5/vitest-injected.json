@@ -1,0 +1,212 @@
+{
+  "numTotalTestSuites": 5,
+  "numPassedTestSuites": 3,
+  "numFailedTestSuites": 2,
+  "numPendingTestSuites": 0,
+  "numTotalTests": 17,
+  "numPassedTests": 16,
+  "numFailedTests": 1,
+  "numPendingTests": 0,
+  "numTodoTests": 0,
+  "snapshot": {
+    "added": 0,
+    "failure": false,
+    "filesAdded": 0,
+    "filesRemoved": 0,
+    "filesRemovedList": [],
+    "filesUnmatched": 0,
+    "filesUpdated": 0,
+    "matched": 0,
+    "total": 0,
+    "unchecked": 0,
+    "uncheckedKeysByFile": [],
+    "unmatched": 0,
+    "updated": 0,
+    "didUpdate": false
+  },
+  "startTime": 1790833124863,
+  "success": false,
+  "testResults": [
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["O10 parseSpriteChunkStrict：容器结构轴"],
+          "fullName": "O10 parseSpriteChunkStrict：容器结构轴 过短容器 / 零帧表 / offset table 越界 逐轴拒绝",
+          "status": "passed",
+          "title": "过短容器 / 零帧表 / offset table 越界 逐轴拒绝",
+          "duration": 1.1467910000000074,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O10 parseSpriteChunkStrict：容器结构轴"],
+          "fullName": "O10 parseSpriteChunkStrict：容器结构轴 sentinel 槽与计数同域（slot0=count）：纯 sentinel 空容器按计数=1 走帧0 越界",
+          "status": "passed",
+          "title": "sentinel 槽与计数同域（slot0=count）：纯 sentinel 空容器按计数=1 走帧0 越界",
+          "duration": 0.19912500000000932,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O10 parseSpriteChunkStrict：容器结构轴"],
+          "fullName": "O10 parseSpriteChunkStrict：容器结构轴 frame0 offset 与表长不一致 / offset 非递增 / offset 越界 逐轴拒绝",
+          "status": "passed",
+          "title": "frame0 offset 与表长不一致 / offset 非递增 / offset 越界 逐轴拒绝",
+          "duration": 0.24658399999998437,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O10 parseSpriteChunkStrict：容器结构轴"],
+          "fullName": "O10 parseSpriteChunkStrict：容器结构轴 帧尺寸非法（宽 0 / 高超上限）逐轴拒绝；合法双帧严格通过",
+          "status": "passed",
+          "title": "帧尺寸非法（宽 0 / 高超上限）逐轴拒绝；合法双帧严格通过",
+          "duration": 0.7414170000000126,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O10 parseSpriteChunkStrict：容器结构轴"],
+          "fullName": "O10 parseSpriteChunkStrict：容器结构轴 sentinel 容器：声明数含尾 0 时按 frameCount-1 解析",
+          "status": "passed",
+          "title": "sentinel 容器：声明数含尾 0 时按 frameCount-1 解析",
+          "duration": 0.11916700000000446,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O10 parseSpriteChunkStrict：容器结构轴"],
+          "fullName": "O10 parseSpriteChunkStrict：容器结构轴 严格解析往返：encode → parse 逐帧像素一致（供应容器同构）",
+          "status": "passed",
+          "title": "严格解析往返：encode → parse 逐帧像素一致（供应容器同构）",
+          "duration": 0.17833300000000918,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O10 parseIndexedRleChunk：legacy 坏尾三轴"],
+          "fullName": "O10 parseIndexedRleChunk：legacy 坏尾三轴 legacy：尾槽坏 offset 被跳过并计入 skippedLegacyTailSlots",
+          "status": "passed",
+          "title": "legacy：尾槽坏 offset 被跳过并计入 skippedLegacyTailSlots",
+          "duration": 0.3292500000000018,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O10 parseIndexedRleChunk：legacy 坏尾三轴"],
+          "fullName": "O10 parseIndexedRleChunk：legacy 坏尾三轴 坏尾之后仍可独立解出的帧 → 中间空洞拒绝（非坏尾）",
+          "status": "passed",
+          "title": "坏尾之后仍可独立解出的帧 → 中间空洞拒绝（非坏尾）",
+          "duration": 0.17099999999999227,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O10 parseIndexedRleChunk：legacy 坏尾三轴"],
+          "fullName": "O10 parseIndexedRleChunk：legacy 坏尾三轴 纯 sentinel 后缀（无坏槽）不应进入 legacy 兼容",
+          "status": "failed",
+          "title": "纯 sentinel 后缀（无坏槽）不应进入 legacy 兼容",
+          "duration": 3.1414159999999924,
+          "failureMessages": [
+            "AssertionError: expected [Function] to throw an error\n    at Proxy.<anonymous> (file:///private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-o-cc-injected-eEo8QC/node_modules/.pnpm/@vitest+expect@4.1.7/node_modules/@vitest/expect/dist/index.js:1552:16)\n    at Proxy.<anonymous> (file:///private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-o-cc-injected-eEo8QC/node_modules/.pnpm/@vitest+expect@4.1.7/node_modules/@vitest/expect/dist/index.js:1156:15)\n    at Proxy.methodWrapper (file:///private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-o-cc-injected-eEo8QC/node_modules/.pnpm/chai@6.2.2/node_modules/chai/index.js:1700:25)\n    at /private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-o-cc-injected-eEo8QC/packages/shared/src/rle.glm-o.test.ts:196:64\n    at file:///private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-o-cc-injected-eEo8QC/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-o-cc-injected-eEo8QC/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-o-cc-injected-eEo8QC/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-o-cc-injected-eEo8QC/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-o-cc-injected-eEo8QC/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20"
+          ],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O10 parseIndexedRleChunk：legacy 坏尾三轴"],
+          "fullName": "O10 parseIndexedRleChunk：legacy 坏尾三轴 legacy 前缀全无效 → 坏尾前不含有效帧拒绝；未知 profile 拒绝",
+          "status": "passed",
+          "title": "legacy 前缀全无效 → 坏尾前不含有效帧拒绝；未知 profile 拒绝",
+          "duration": 0.27087499999998954,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O10 encodeSpriteChunk：上限与空容器"],
+          "fullName": "O10 encodeSpriteChunk：上限与空容器 空 frames → 2 字节空容器（strict/索引入口一致拒绝“不含帧”）",
+          "status": "passed",
+          "title": "空 frames → 2 字节空容器（strict/索引入口一致拒绝“不含帧”）",
+          "duration": 0.5374999999999943,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O10 encodeSpriteChunk：上限与空容器"],
+          "fullName": "O10 encodeSpriteChunk：上限与空容器 超 u16 word 偏移上限 → 拆分图集错误",
+          "status": "passed",
+          "title": "超 u16 word 偏移上限 → 拆分图集错误",
+          "duration": 5.847750000000019,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O10 encodeSpriteChunk：上限与空容器"],
+          "fullName": "O10 encodeSpriteChunk：上限与空容器 encodeRleFrame：透明段写满 width*height（尾透明补跳段）",
+          "status": "passed",
+          "title": "encodeRleFrame：透明段写满 width*height（尾透明补跳段）",
+          "duration": 0.2696249999999907,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O10 decompressYj2：头部与位流轴（真实解码入口）"],
+          "fullName": "O10 decompressYj2：头部与位流轴（真实解码入口） 过短源 → 拒绝",
+          "status": "passed",
+          "title": "过短源 → 拒绝",
+          "duration": 0.20324999999999704,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O10 decompressYj2：头部与位流轴（真实解码入口）"],
+          "fullName": "O10 decompressYj2：头部与位流轴（真实解码入口） uncompLen=0 → 空输出（不读位流）",
+          "status": "passed",
+          "title": "uncompLen=0 → 空输出（不读位流）",
+          "duration": 0.20241599999999949,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O10 decompressYj2：头部与位流轴（真实解码入口）"],
+          "fullName": "O10 decompressYj2：头部与位流轴（真实解码入口） 非空字面向量：三字面位流按序输出（复用冻结判定向量，不复述旧断言）",
+          "status": "passed",
+          "title": "非空字面向量：三字面位流按序输出（复用冻结判定向量，不复述旧断言）",
+          "duration": 0.5051249999999925,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O10 decompressYj2：头部与位流轴（真实解码入口）"],
+          "fullName": "O10 decompressYj2：头部与位流轴（真实解码入口） 回引向量：重叠回引复制不越界且长度由头部封顶（冻结判定向量）",
+          "status": "passed",
+          "title": "回引向量：重叠回引复制不越界且长度由头部封顶（冻结判定向量）",
+          "duration": 0.3219580000000235,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790833125018,
+      "endTime": 1790833125032.5051,
+      "status": "failed",
+      "message": "",
+      "name": "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-o-cc-injected-eEo8QC/packages/shared/src/rle.glm-o.test.ts"
+    }
+  ]
+}

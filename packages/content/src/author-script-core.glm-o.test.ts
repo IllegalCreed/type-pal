@@ -36,7 +36,11 @@ describe('O07 checkBaseAuthorCommands：kind 域与结构轴', () => {
   test('分支：缺 cond / then 非数组 / else 非数组 逐轴拒绝', () => {
     fails(() => checkBaseAuthorCommands([{ kind: 'branch', then: [] }], 'p'), 'p[0].cond: 期望对象')
     fails(
-      () => checkBaseAuthorCommands([{ kind: 'branch', cond: { kind: 'flag', flag: 'f', is: true }, then: 'x' }], 'p'),
+      () =>
+        checkBaseAuthorCommands(
+          [{ kind: 'branch', cond: { kind: 'flag', flag: 'f', is: true }, then: 'x' }],
+          'p',
+        ),
       /p\[0\]\.then/,
     )
     ok(() =>
@@ -122,7 +126,12 @@ describe('O07 checkBaseAuthorCommands：kind 域与结构轴', () => {
 
   test('selectEntityBehavior：channel/selection 三态与未知 kind', () => {
     const cmd = (selection: unknown): unknown[] => [
-      { kind: 'selectEntityBehavior', target: { scene: 's', entity: 'e' }, channel: 'trigger', selection },
+      {
+        kind: 'selectEntityBehavior',
+        target: { scene: 's', entity: 'e' },
+        channel: 'trigger',
+        selection,
+      },
     ]
     ok(() => checkBaseAuthorCommands(cmd({ kind: 'use', value: 'b1' }), 'p'))
     ok(() => checkBaseAuthorCommands(cmd({ kind: 'inherit' }), 'p'))
@@ -131,7 +140,14 @@ describe('O07 checkBaseAuthorCommands：kind 域与结构轴', () => {
     fails(
       () =>
         checkBaseAuthorCommands(
-          [{ kind: 'selectEntityBehavior', target: { scene: 's', entity: 'e' }, channel: 'talk', selection: { kind: 'inherit' } }],
+          [
+            {
+              kind: 'selectEntityBehavior',
+              target: { scene: 's', entity: 'e' },
+              channel: 'talk',
+              selection: { kind: 'inherit' },
+            },
+          ],
           'p',
         ),
       /channel/,
@@ -141,7 +157,13 @@ describe('O07 checkBaseAuthorCommands：kind 域与结构轴', () => {
   test('selectSceneHooks：onEnter/onTeleport 选择值逐轴校验', () => {
     ok(() =>
       checkBaseAuthorCommands(
-        [{ kind: 'selectSceneHooks', scene: 's', selection: { onEnter: { kind: 'use', value: 'h1' } } }],
+        [
+          {
+            kind: 'selectSceneHooks',
+            scene: 's',
+            selection: { onEnter: { kind: 'use', value: 'h1' } },
+          },
+        ],
         'p',
       ),
     )
@@ -156,7 +178,10 @@ describe('O07 checkBaseAuthorCommands：kind 域与结构轴', () => {
   })
 
   test('openShop：shop 非整数与 mode 非法 逐轴拒绝', () => {
-    fails(() => checkBaseAuthorCommands([{ kind: 'openShop', shop: 1.5, mode: 'buy' }], 'p'), /openShop\.shop|shop/)
+    fails(
+      () => checkBaseAuthorCommands([{ kind: 'openShop', shop: 1.5, mode: 'buy' }], 'p'),
+      /openShop\.shop|shop/,
+    )
     fails(() => checkBaseAuthorCommands([{ kind: 'openShop', shop: 1, mode: 'rob' }], 'p'), /mode/)
     ok(() => checkBaseAuthorCommands([{ kind: 'openShop', shop: 1, mode: 'sell' }], 'p'))
   })
@@ -191,9 +216,7 @@ describe('O07 checkBaseScriptFlow：stages 与 stateMachine', () => {
           {
             kind: 'stages',
             initial: 'main',
-            stages: [
-              { id: 'main', body: [], next: 'nowhere' },
-            ],
+            stages: [{ id: 'main', body: [], next: 'nowhere' }],
           },
           'p',
         ),
@@ -315,7 +338,10 @@ describe('O07 checkBaseScriptLibrary：self 域与 body', () => {
   test('self 三态合法 / 非法值拒绝', () => {
     for (const self of ['none', 'optional', 'required'] as const)
       ok(() => checkBaseScriptLibrary({ s: script({ self }) }))
-    fails(() => checkBaseScriptLibrary({ s: script({ self: 'maybe' }) }), /self: 期望 none\|optional\|required/)
+    fails(
+      () => checkBaseScriptLibrary({ s: script({ self: 'maybe' }) }),
+      /self: 期望 none\|optional\|required/,
+    )
   })
 
   test('坏 body / description 非字符串 / 未知字段 逐轴拒绝', () => {

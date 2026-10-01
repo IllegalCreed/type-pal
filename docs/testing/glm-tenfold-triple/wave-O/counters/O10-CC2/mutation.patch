@@ -1,0 +1,7 @@
+diff --git a/packages/shared/src/rle.ts b/packages/shared/src/rle.ts
+index e2f21254c..a626242cd 100644
+--- a/packages/shared/src/rle.ts
++++ b/packages/shared/src/rle.ts
+@@ -190 +190 @@ export function parseSpriteChunkStrict(buf: Uint8Array): RleFrame[] {
+-  if (buf.byteLength < 2) throw new Error('sprite chunk 过短')
++  if (false && buf.byteLength < 2) throw new Error('sprite chunk 过短')

@@ -1,0 +1,7 @@
+diff --git a/packages/content/src/validate-refs.ts b/packages/content/src/validate-refs.ts
+index 81a07273..b0493833 100644
+--- a/packages/content/src/validate-refs.ts
++++ b/packages/content/src/validate-refs.ts
+@@ -1370 +1370 @@ export function validateReferences(b: ContentBundle): Issue[] {
+-    if (!Array.isArray(t.slots) || t.slots.length > 5) {
++    if (false && (!Array.isArray(t.slots) || t.slots.length > 5)) {

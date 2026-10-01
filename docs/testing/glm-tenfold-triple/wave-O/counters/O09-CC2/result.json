@@ -1,0 +1,35 @@
+{
+  "id": "O09-CC2",
+  "contract": "stamp origin 域",
+  "target": {
+    "file": "src/data-guards.glm-o.test.ts",
+    "title": "id 重复 / origin 非法 / anchor 非负整数 逐轴拒绝"
+  },
+  "control": {
+    "exitCode": 0,
+    "executed": 12,
+    "passed": 12,
+    "failed": 0
+  },
+  "injected": {
+    "exitCode": 1,
+    "executed": 12,
+    "passed": 11,
+    "failed": 1,
+    "failedFullName": "O09 validateStampTemplates：id/origin/anchor 残臂 id 重复 / origin 非法 / anchor 非负整数 逐轴拒绝",
+    "failureMessageHead": "AssertionError: expected [Function] to throw an error"
+  },
+  "restored": {
+    "exitCode": 0,
+    "executed": 12,
+    "passed": 12,
+    "failed": 0
+  },
+  "hashes": {
+    "original": "272fb28dcde6a8ce99dcb7a7adb24951afd11c7b3e25bcb9b1880ffbe48ce42a",
+    "mutated": "4474609bc68a5ca60f7d465f8b5083c54695acf2f9fb72b942919e406a2f7de4",
+    "restored": "272fb28dcde6a8ce99dcb7a7adb24951afd11c7b3e25bcb9b1880ffbe48ce42a",
+    "rebuilt": "4474609bc68a5ca60f7d465f8b5083c54695acf2f9fb72b942919e406a2f7de4"
+  },
+  "patchRebuiltAndVerified": true
+}

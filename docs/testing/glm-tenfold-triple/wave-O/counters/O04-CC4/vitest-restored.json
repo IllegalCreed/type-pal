@@ -1,1 +1,410 @@
-{"numTotalTestSuites":9,"numPassedTestSuites":9,"numFailedTestSuites":0,"numPendingTestSuites":0,"numTotalTests":37,"numPassedTests":37,"numFailedTests":0,"numPendingTests":0,"numTodoTests":0,"snapshot":{"added":0,"failure":false,"filesAdded":0,"filesRemoved":0,"filesRemovedList":[],"filesUnmatched":0,"filesUpdated":0,"matched":0,"total":0,"unchecked":0,"uncheckedKeysByFile":[],"unmatched":0,"updated":0,"didUpdate":false},"startTime":1790829135316,"success":true,"testResults":[{"assertionResults":[{"ancestorTitles":["O04 materializePalAssets：合成 catalog 的确定性物化"],"fullName":"O04 materializePalAssets：合成 catalog 的确定性物化 全量写入报告 written/files/bytes 并落盘到 projects/pal","status":"passed","title":"全量写入报告 written/files/bytes 并落盘到 projects/pal","duration":31.085249999999974,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["O04 materializePalAssets：合成 catalog 的确定性物化"],"fullName":"O04 materializePalAssets：合成 catalog 的确定性物化 重复物化：内容一致 → unchanged，不重写","status":"passed","title":"重复物化：内容一致 → unchanged，不重写","duration":11.469542000000047,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["O04 materializePalAssets：合成 catalog 的确定性物化"],"fullName":"O04 materializePalAssets：合成 catalog 的确定性物化 内容漂移的目标被重写（written=1）","status":"passed","title":"内容漂移的目标被重写（written=1）","duration":19.61508299999997,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["O04 materializePalAssets：合成 catalog 的确定性物化"],"fullName":"O04 materializePalAssets：合成 catalog 的确定性物化 authored 记录只校验磁盘字节，绝不复制来源（authored 计数来自 binaries）","status":"passed","title":"authored 记录只校验磁盘字节，绝不复制来源（authored 计数来自 binaries）","duration":1.3771249999999782,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["O04 materializePalAssets：合成 catalog 的确定性物化"],"fullName":"O04 materializePalAssets：合成 catalog 的确定性物化 catalog 缺迁移资源条目 → fail-loud","status":"passed","title":"catalog 缺迁移资源条目 → fail-loud","duration":0.6820000000000164,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["O04 materializePalAssets：合成 catalog 的确定性物化"],"fullName":"O04 materializePalAssets：合成 catalog 的确定性物化 binaries 重复 AssetId → fail-loud","status":"passed","title":"binaries 重复 AssetId → fail-loud","duration":0.3095829999999751,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["O04 materializePalAssets：合成 catalog 的确定性物化"],"fullName":"O04 materializePalAssets：合成 catalog 的确定性物化 catalog 两条记录同 path → 路径冲突 fail-loud","status":"passed","title":"catalog 两条记录同 path → 路径冲突 fail-loud","duration":0.3539169999999672,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["O04 materializePalAssets：合成 catalog 的确定性物化"],"fullName":"O04 materializePalAssets：合成 catalog 的确定性物化 非 authored 记录被改写（bytes 漂移）→ fail-loud","status":"passed","title":"非 authored 记录被改写（bytes 漂移）→ fail-loud","duration":0.27737500000000637,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["O04 materializePalAssets：合成 catalog 的确定性物化"],"fullName":"O04 materializePalAssets：合成 catalog 的确定性物化 非 authored 记录 mediaType 被改写 → fail-loud（origin 轴被所有权前缀守卫前置拦截）","status":"passed","title":"非 authored 记录 mediaType 被改写 → fail-loud（origin 轴被所有权前缀守卫前置拦截）","duration":0.6010829999999601,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["O04 materializePalAssets：合成 catalog 的确定性物化"],"fullName":"O04 materializePalAssets：合成 catalog 的确定性物化 迁移源 bytes/hash 与自身 catalog 记录不符 → fail-loud","status":"passed","title":"迁移源 bytes/hash 与自身 catalog 记录不符 → fail-loud","duration":0.3055840000000103,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["O04 materializePalAssets：合成 catalog 的确定性物化"],"fullName":"O04 materializePalAssets：合成 catalog 的确定性物化 非 sourced 的未知所有权记录（legacy-migrated 无来源）→ fail-loud","status":"passed","title":"非 sourced 的未知所有权记录（legacy-migrated 无来源）→ fail-loud","duration":0.3374170000000163,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["O04 materializePalAssets：合成 catalog 的确定性物化"],"fullName":"O04 materializePalAssets：合成 catalog 的确定性物化 authored 记录磁盘字节漂移 → assertBytes fail-loud（缺失/bytes/sha 三轴）","status":"passed","title":"authored 记录磁盘字节漂移 → assertBytes fail-loud（缺失/bytes/sha 三轴）","duration":1.6396669999999745,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["O04 materializePalAssets：合成 catalog 的确定性物化"],"fullName":"O04 materializePalAssets：合成 catalog 的确定性物化 目标为目录时 rename 失败 → 临时文件清理且错误传播","status":"passed","title":"目标为目录时 rename 失败 → 临时文件清理且错误传播","duration":1.069249999999954,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["O04 materializePalAssets：合成 catalog 的确定性物化"],"fullName":"O04 materializePalAssets：合成 catalog 的确定性物化 资源路径越界（catalog path 含 ..）被路径门拒绝","status":"passed","title":"资源路径越界（catalog path 含 ..）被路径门拒绝","duration":0.23683299999999008,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["O04 planPalAssetRetirements：退役推导合同"],"fullName":"O04 planPalAssetRetirements：退役推导合同 legacy-migrated 且目标缺失且磁盘一致 → 入退役清单并排序","status":"passed","title":"legacy-migrated 且目标缺失且磁盘一致 → 入退役清单并排序","duration":7.61404200000004,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["O04 planPalAssetRetirements：退役推导合同"],"fullName":"O04 planPalAssetRetirements：退役推导合同 磁盘文件缺失 → 跳过；authored 与仍在 target 的记录不退役","status":"passed","title":"磁盘文件缺失 → 跳过；authored 与仍在 target 的记录不退役","duration":0.29745900000000347,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["O04 planPalAssetRetirements：退役推导合同"],"fullName":"O04 planPalAssetRetirements：退役推导合同 磁盘字节漂移 → fail-loud（不退役被改文件）","status":"passed","title":"磁盘字节漂移 → fail-loud（不退役被改文件）","duration":1.2274999999999636,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["O04 bakeIndexedRgba：indexed RGBA → 真彩合同"],"fullName":"O04 bakeIndexedRgba：indexed RGBA → 真彩合同 不透明像素按 R 查表填充且 alpha=255","status":"passed","title":"不透明像素按 R 查表填充且 alpha=255","duration":0.11224999999996044,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["O04 bakeIndexedRgba：indexed RGBA → 真彩合同"],"fullName":"O04 bakeIndexedRgba：indexed RGBA → 真彩合同 A=0 保持全透明（不查表）","status":"passed","title":"A=0 保持全透明（不查表）","duration":0.049875000000042746,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["O04 bakeIndexedRgba：indexed RGBA → 真彩合同"],"fullName":"O04 bakeIndexedRgba：indexed RGBA → 真彩合同 palette 越界下标落到黑色不透明；缺失 alpha 通道按透明处理","status":"passed","title":"palette 越界下标落到黑色不透明；缺失 alpha 通道按透明处理","duration":0.060124999999970896,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["O04 loadPalSoundAssets：合成 505 段三向闭包"],"fullName":"O04 loadPalSoundAssets：合成 505 段三向闭包 合法语料：3 个非空段 + 502 空段全部通过并登记 RIFF 证据","status":"passed","title":"合法语料：3 个非空段 + 502 空段全部通过并登记 RIFF 证据","duration":3.249708000000055,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["O04 loadPalSoundAssets：合成 505 段三向闭包"],"fullName":"O04 loadPalSoundAssets：合成 505 段三向闭包 chunkCount 非 505 → 精确诊断","status":"passed","title":"chunkCount 非 505 → 精确诊断","duration":2.2560829999999896,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["O04 loadPalSoundAssets：合成 505 段三向闭包"],"fullName":"O04 loadPalSoundAssets：合成 505 段三向闭包 chunkCount 与 chunks 长度不一致 → 精确诊断","status":"passed","title":"chunkCount 与 chunks 长度不一致 → 精确诊断","duration":2.669458000000077,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["O04 loadPalSoundAssets：合成 505 段三向闭包"],"fullName":"O04 loadPalSoundAssets：合成 505 段三向闭包 段号不连续 / size 非法 / isEmpty 不一致逐轴拒绝","status":"passed","title":"段号不连续 / size 非法 / isEmpty 不一致逐轴拒绝","duration":5.369041000000038,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["O04 loadPalSoundAssets：合成 505 段三向闭包"],"fullName":"O04 loadPalSoundAssets：合成 505 段三向闭包 asset-manifest 重复 sound / 目录非规范文件 / 集合不闭包 逐轴拒绝","status":"passed","title":"asset-manifest 重复 sound / 目录非规范文件 / 集合不闭包 逐轴拒绝","duration":5.695542000000046,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["O04 loadPalSoundAssets：合成 505 段三向闭包"],"fullName":"O04 loadPalSoundAssets：合成 505 段三向闭包 metadata/manifest/磁盘 size 三向不一致 → 拒绝；非 RIFF 字节 → 拒绝","status":"passed","title":"metadata/manifest/磁盘 size 三向不一致 → 拒绝；非 RIFF 字节 → 拒绝","duration":3.743000000000052,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["O04 loadPalStaticImages：合成 88 立绘/5 头像/233 图标/52 背景"],"fullName":"O04 loadPalStaticImages：合成 88 立绘/5 头像/233 图标/52 背景 合法合成语料通过全部 census 并产出 378 个登记项","status":"passed","title":"合法合成语料通过全部 census 并产出 378 个登记项","duration":449.9865,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["O04 loadPalStaticImages：合成 88 立绘/5 头像/233 图标/52 背景"],"fullName":"O04 loadPalStaticImages：合成 88 立绘/5 头像/233 图标/52 背景 调色板非 256 色 / 立绘数量漂移 / 图标缺失逐轴拒绝","status":"passed","title":"调色板非 256 色 / 立绘数量漂移 / 图标缺失逐轴拒绝","duration":894.3899999999999,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["O04 loadPalStaticImages：合成 88 立绘/5 头像/233 图标/52 背景"],"fullName":"O04 loadPalStaticImages：合成 88 立绘/5 头像/233 图标/52 背景 战场背景尺寸漂移与 R=G=B 违约逐轴拒绝","status":"passed","title":"战场背景尺寸漂移与 R=G=B 违约逐轴拒绝","duration":657.64425,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["O04 loadPalSoundAssets：metadata/manifest 形状边界"],"fullName":"O04 loadPalSoundAssets：metadata/manifest 形状边界 metadata 非对象与 chunkCount 非整数 → 精确诊断","status":"passed","title":"metadata 非对象与 chunkCount 非整数 → 精确诊断","duration":2.739042000000154,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["O04 loadPalSoundAssets：metadata/manifest 形状边界"],"fullName":"O04 loadPalSoundAssets：metadata/manifest 形状边界 asset-manifest.files 非数组 → 精确诊断","status":"passed","title":"asset-manifest.files 非数组 → 精确诊断","duration":2.7385830000002898,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["O04 loadPalSoundAssets：metadata/manifest 形状边界"],"fullName":"O04 loadPalSoundAssets：metadata/manifest 形状边界 目录多余非空 wav → 目录轴不闭包报 extra","status":"passed","title":"目录多余非空 wav → 目录轴不闭包报 extra","duration":4.7394170000002305,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["O04 loadPalSoundAssets：metadata/manifest 形状边界"],"fullName":"O04 loadPalSoundAssets：metadata/manifest 形状边界 全部 505 段为空 → 零非空音效仍通过（空目录闭包）","status":"passed","title":"全部 505 段为空 → 零非空音效仍通过（空目录闭包）","duration":2.036250000000109,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["O04 loadPalStaticImages：物品哨兵与立绘 manifest 边界"],"fullName":"O04 loadPalStaticImages：物品哨兵与立绘 manifest 边界 portraits manifest count 非正整数 → 精确诊断","status":"passed","title":"portraits manifest count 非正整数 → 精确诊断","duration":312.72450000000026,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["O04 loadPalStaticImages：物品哨兵与立绘 manifest 边界"],"fullName":"O04 loadPalStaticImages：物品哨兵与立绘 manifest 边界 items 数量/零哨兵漂移 → 物品图标哨兵诊断","status":"passed","title":"items 数量/零哨兵漂移 → 物品图标哨兵诊断","duration":929.7174169999998,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["O04 loadPalStaticImages：物品哨兵与立绘 manifest 边界"],"fullName":"O04 loadPalStaticImages：物品哨兵与立绘 manifest 边界 零哨兵 id 恰为 277 的正控在语料中成立（防回归锚）","status":"passed","title":"零哨兵 id 恰为 277 的正控在语料中成立（防回归锚）","duration":297.6686249999998,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["O04 materializePalAssets：混合所有权与嵌套目录"],"fullName":"O04 materializePalAssets：混合所有权与嵌套目录 authored + 双 generated 混合计数与嵌套目录创建","status":"passed","title":"authored + 双 generated 混合计数与嵌套目录创建","duration":23.780792000000474,"failureMessages":[],"meta":{},"tags":[]}],"startTime":1790829135764,"endTime":1790829139444.7808,"status":"passed","message":"","name":"/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-o-cc-injected-2bsN02/packages/migrate/src/pal-assets.glm-o.test.ts"}]}
+{
+  "numTotalTestSuites": 9,
+  "numPassedTestSuites": 9,
+  "numFailedTestSuites": 0,
+  "numPendingTestSuites": 0,
+  "numTotalTests": 37,
+  "numPassedTests": 37,
+  "numFailedTests": 0,
+  "numPendingTests": 0,
+  "numTodoTests": 0,
+  "snapshot": {
+    "added": 0,
+    "failure": false,
+    "filesAdded": 0,
+    "filesRemoved": 0,
+    "filesRemovedList": [],
+    "filesUnmatched": 0,
+    "filesUpdated": 0,
+    "matched": 0,
+    "total": 0,
+    "unchecked": 0,
+    "uncheckedKeysByFile": [],
+    "unmatched": 0,
+    "updated": 0,
+    "didUpdate": false
+  },
+  "startTime": 1790829135316,
+  "success": true,
+  "testResults": [
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["O04 materializePalAssets：合成 catalog 的确定性物化"],
+          "fullName": "O04 materializePalAssets：合成 catalog 的确定性物化 全量写入报告 written/files/bytes 并落盘到 projects/pal",
+          "status": "passed",
+          "title": "全量写入报告 written/files/bytes 并落盘到 projects/pal",
+          "duration": 31.085249999999974,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O04 materializePalAssets：合成 catalog 的确定性物化"],
+          "fullName": "O04 materializePalAssets：合成 catalog 的确定性物化 重复物化：内容一致 → unchanged，不重写",
+          "status": "passed",
+          "title": "重复物化：内容一致 → unchanged，不重写",
+          "duration": 11.469542000000047,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O04 materializePalAssets：合成 catalog 的确定性物化"],
+          "fullName": "O04 materializePalAssets：合成 catalog 的确定性物化 内容漂移的目标被重写（written=1）",
+          "status": "passed",
+          "title": "内容漂移的目标被重写（written=1）",
+          "duration": 19.61508299999997,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O04 materializePalAssets：合成 catalog 的确定性物化"],
+          "fullName": "O04 materializePalAssets：合成 catalog 的确定性物化 authored 记录只校验磁盘字节，绝不复制来源（authored 计数来自 binaries）",
+          "status": "passed",
+          "title": "authored 记录只校验磁盘字节，绝不复制来源（authored 计数来自 binaries）",
+          "duration": 1.3771249999999782,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O04 materializePalAssets：合成 catalog 的确定性物化"],
+          "fullName": "O04 materializePalAssets：合成 catalog 的确定性物化 catalog 缺迁移资源条目 → fail-loud",
+          "status": "passed",
+          "title": "catalog 缺迁移资源条目 → fail-loud",
+          "duration": 0.6820000000000164,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O04 materializePalAssets：合成 catalog 的确定性物化"],
+          "fullName": "O04 materializePalAssets：合成 catalog 的确定性物化 binaries 重复 AssetId → fail-loud",
+          "status": "passed",
+          "title": "binaries 重复 AssetId → fail-loud",
+          "duration": 0.3095829999999751,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O04 materializePalAssets：合成 catalog 的确定性物化"],
+          "fullName": "O04 materializePalAssets：合成 catalog 的确定性物化 catalog 两条记录同 path → 路径冲突 fail-loud",
+          "status": "passed",
+          "title": "catalog 两条记录同 path → 路径冲突 fail-loud",
+          "duration": 0.3539169999999672,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O04 materializePalAssets：合成 catalog 的确定性物化"],
+          "fullName": "O04 materializePalAssets：合成 catalog 的确定性物化 非 authored 记录被改写（bytes 漂移）→ fail-loud",
+          "status": "passed",
+          "title": "非 authored 记录被改写（bytes 漂移）→ fail-loud",
+          "duration": 0.27737500000000637,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O04 materializePalAssets：合成 catalog 的确定性物化"],
+          "fullName": "O04 materializePalAssets：合成 catalog 的确定性物化 非 authored 记录 mediaType 被改写 → fail-loud（origin 轴被所有权前缀守卫前置拦截）",
+          "status": "passed",
+          "title": "非 authored 记录 mediaType 被改写 → fail-loud（origin 轴被所有权前缀守卫前置拦截）",
+          "duration": 0.6010829999999601,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O04 materializePalAssets：合成 catalog 的确定性物化"],
+          "fullName": "O04 materializePalAssets：合成 catalog 的确定性物化 迁移源 bytes/hash 与自身 catalog 记录不符 → fail-loud",
+          "status": "passed",
+          "title": "迁移源 bytes/hash 与自身 catalog 记录不符 → fail-loud",
+          "duration": 0.3055840000000103,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O04 materializePalAssets：合成 catalog 的确定性物化"],
+          "fullName": "O04 materializePalAssets：合成 catalog 的确定性物化 非 sourced 的未知所有权记录（legacy-migrated 无来源）→ fail-loud",
+          "status": "passed",
+          "title": "非 sourced 的未知所有权记录（legacy-migrated 无来源）→ fail-loud",
+          "duration": 0.3374170000000163,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O04 materializePalAssets：合成 catalog 的确定性物化"],
+          "fullName": "O04 materializePalAssets：合成 catalog 的确定性物化 authored 记录磁盘字节漂移 → assertBytes fail-loud（缺失/bytes/sha 三轴）",
+          "status": "passed",
+          "title": "authored 记录磁盘字节漂移 → assertBytes fail-loud（缺失/bytes/sha 三轴）",
+          "duration": 1.6396669999999745,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O04 materializePalAssets：合成 catalog 的确定性物化"],
+          "fullName": "O04 materializePalAssets：合成 catalog 的确定性物化 目标为目录时 rename 失败 → 临时文件清理且错误传播",
+          "status": "passed",
+          "title": "目标为目录时 rename 失败 → 临时文件清理且错误传播",
+          "duration": 1.069249999999954,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O04 materializePalAssets：合成 catalog 的确定性物化"],
+          "fullName": "O04 materializePalAssets：合成 catalog 的确定性物化 资源路径越界（catalog path 含 ..）被路径门拒绝",
+          "status": "passed",
+          "title": "资源路径越界（catalog path 含 ..）被路径门拒绝",
+          "duration": 0.23683299999999008,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O04 planPalAssetRetirements：退役推导合同"],
+          "fullName": "O04 planPalAssetRetirements：退役推导合同 legacy-migrated 且目标缺失且磁盘一致 → 入退役清单并排序",
+          "status": "passed",
+          "title": "legacy-migrated 且目标缺失且磁盘一致 → 入退役清单并排序",
+          "duration": 7.61404200000004,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O04 planPalAssetRetirements：退役推导合同"],
+          "fullName": "O04 planPalAssetRetirements：退役推导合同 磁盘文件缺失 → 跳过；authored 与仍在 target 的记录不退役",
+          "status": "passed",
+          "title": "磁盘文件缺失 → 跳过；authored 与仍在 target 的记录不退役",
+          "duration": 0.29745900000000347,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O04 planPalAssetRetirements：退役推导合同"],
+          "fullName": "O04 planPalAssetRetirements：退役推导合同 磁盘字节漂移 → fail-loud（不退役被改文件）",
+          "status": "passed",
+          "title": "磁盘字节漂移 → fail-loud（不退役被改文件）",
+          "duration": 1.2274999999999636,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O04 bakeIndexedRgba：indexed RGBA → 真彩合同"],
+          "fullName": "O04 bakeIndexedRgba：indexed RGBA → 真彩合同 不透明像素按 R 查表填充且 alpha=255",
+          "status": "passed",
+          "title": "不透明像素按 R 查表填充且 alpha=255",
+          "duration": 0.11224999999996044,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O04 bakeIndexedRgba：indexed RGBA → 真彩合同"],
+          "fullName": "O04 bakeIndexedRgba：indexed RGBA → 真彩合同 A=0 保持全透明（不查表）",
+          "status": "passed",
+          "title": "A=0 保持全透明（不查表）",
+          "duration": 0.049875000000042746,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O04 bakeIndexedRgba：indexed RGBA → 真彩合同"],
+          "fullName": "O04 bakeIndexedRgba：indexed RGBA → 真彩合同 palette 越界下标落到黑色不透明；缺失 alpha 通道按透明处理",
+          "status": "passed",
+          "title": "palette 越界下标落到黑色不透明；缺失 alpha 通道按透明处理",
+          "duration": 0.060124999999970896,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O04 loadPalSoundAssets：合成 505 段三向闭包"],
+          "fullName": "O04 loadPalSoundAssets：合成 505 段三向闭包 合法语料：3 个非空段 + 502 空段全部通过并登记 RIFF 证据",
+          "status": "passed",
+          "title": "合法语料：3 个非空段 + 502 空段全部通过并登记 RIFF 证据",
+          "duration": 3.249708000000055,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O04 loadPalSoundAssets：合成 505 段三向闭包"],
+          "fullName": "O04 loadPalSoundAssets：合成 505 段三向闭包 chunkCount 非 505 → 精确诊断",
+          "status": "passed",
+          "title": "chunkCount 非 505 → 精确诊断",
+          "duration": 2.2560829999999896,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O04 loadPalSoundAssets：合成 505 段三向闭包"],
+          "fullName": "O04 loadPalSoundAssets：合成 505 段三向闭包 chunkCount 与 chunks 长度不一致 → 精确诊断",
+          "status": "passed",
+          "title": "chunkCount 与 chunks 长度不一致 → 精确诊断",
+          "duration": 2.669458000000077,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O04 loadPalSoundAssets：合成 505 段三向闭包"],
+          "fullName": "O04 loadPalSoundAssets：合成 505 段三向闭包 段号不连续 / size 非法 / isEmpty 不一致逐轴拒绝",
+          "status": "passed",
+          "title": "段号不连续 / size 非法 / isEmpty 不一致逐轴拒绝",
+          "duration": 5.369041000000038,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O04 loadPalSoundAssets：合成 505 段三向闭包"],
+          "fullName": "O04 loadPalSoundAssets：合成 505 段三向闭包 asset-manifest 重复 sound / 目录非规范文件 / 集合不闭包 逐轴拒绝",
+          "status": "passed",
+          "title": "asset-manifest 重复 sound / 目录非规范文件 / 集合不闭包 逐轴拒绝",
+          "duration": 5.695542000000046,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O04 loadPalSoundAssets：合成 505 段三向闭包"],
+          "fullName": "O04 loadPalSoundAssets：合成 505 段三向闭包 metadata/manifest/磁盘 size 三向不一致 → 拒绝；非 RIFF 字节 → 拒绝",
+          "status": "passed",
+          "title": "metadata/manifest/磁盘 size 三向不一致 → 拒绝；非 RIFF 字节 → 拒绝",
+          "duration": 3.743000000000052,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O04 loadPalStaticImages：合成 88 立绘/5 头像/233 图标/52 背景"],
+          "fullName": "O04 loadPalStaticImages：合成 88 立绘/5 头像/233 图标/52 背景 合法合成语料通过全部 census 并产出 378 个登记项",
+          "status": "passed",
+          "title": "合法合成语料通过全部 census 并产出 378 个登记项",
+          "duration": 449.9865,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O04 loadPalStaticImages：合成 88 立绘/5 头像/233 图标/52 背景"],
+          "fullName": "O04 loadPalStaticImages：合成 88 立绘/5 头像/233 图标/52 背景 调色板非 256 色 / 立绘数量漂移 / 图标缺失逐轴拒绝",
+          "status": "passed",
+          "title": "调色板非 256 色 / 立绘数量漂移 / 图标缺失逐轴拒绝",
+          "duration": 894.3899999999999,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O04 loadPalStaticImages：合成 88 立绘/5 头像/233 图标/52 背景"],
+          "fullName": "O04 loadPalStaticImages：合成 88 立绘/5 头像/233 图标/52 背景 战场背景尺寸漂移与 R=G=B 违约逐轴拒绝",
+          "status": "passed",
+          "title": "战场背景尺寸漂移与 R=G=B 违约逐轴拒绝",
+          "duration": 657.64425,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O04 loadPalSoundAssets：metadata/manifest 形状边界"],
+          "fullName": "O04 loadPalSoundAssets：metadata/manifest 形状边界 metadata 非对象与 chunkCount 非整数 → 精确诊断",
+          "status": "passed",
+          "title": "metadata 非对象与 chunkCount 非整数 → 精确诊断",
+          "duration": 2.739042000000154,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O04 loadPalSoundAssets：metadata/manifest 形状边界"],
+          "fullName": "O04 loadPalSoundAssets：metadata/manifest 形状边界 asset-manifest.files 非数组 → 精确诊断",
+          "status": "passed",
+          "title": "asset-manifest.files 非数组 → 精确诊断",
+          "duration": 2.7385830000002898,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O04 loadPalSoundAssets：metadata/manifest 形状边界"],
+          "fullName": "O04 loadPalSoundAssets：metadata/manifest 形状边界 目录多余非空 wav → 目录轴不闭包报 extra",
+          "status": "passed",
+          "title": "目录多余非空 wav → 目录轴不闭包报 extra",
+          "duration": 4.7394170000002305,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O04 loadPalSoundAssets：metadata/manifest 形状边界"],
+          "fullName": "O04 loadPalSoundAssets：metadata/manifest 形状边界 全部 505 段为空 → 零非空音效仍通过（空目录闭包）",
+          "status": "passed",
+          "title": "全部 505 段为空 → 零非空音效仍通过（空目录闭包）",
+          "duration": 2.036250000000109,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O04 loadPalStaticImages：物品哨兵与立绘 manifest 边界"],
+          "fullName": "O04 loadPalStaticImages：物品哨兵与立绘 manifest 边界 portraits manifest count 非正整数 → 精确诊断",
+          "status": "passed",
+          "title": "portraits manifest count 非正整数 → 精确诊断",
+          "duration": 312.72450000000026,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O04 loadPalStaticImages：物品哨兵与立绘 manifest 边界"],
+          "fullName": "O04 loadPalStaticImages：物品哨兵与立绘 manifest 边界 items 数量/零哨兵漂移 → 物品图标哨兵诊断",
+          "status": "passed",
+          "title": "items 数量/零哨兵漂移 → 物品图标哨兵诊断",
+          "duration": 929.7174169999998,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O04 loadPalStaticImages：物品哨兵与立绘 manifest 边界"],
+          "fullName": "O04 loadPalStaticImages：物品哨兵与立绘 manifest 边界 零哨兵 id 恰为 277 的正控在语料中成立（防回归锚）",
+          "status": "passed",
+          "title": "零哨兵 id 恰为 277 的正控在语料中成立（防回归锚）",
+          "duration": 297.6686249999998,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O04 materializePalAssets：混合所有权与嵌套目录"],
+          "fullName": "O04 materializePalAssets：混合所有权与嵌套目录 authored + 双 generated 混合计数与嵌套目录创建",
+          "status": "passed",
+          "title": "authored + 双 generated 混合计数与嵌套目录创建",
+          "duration": 23.780792000000474,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790829135764,
+      "endTime": 1790829139444.7808,
+      "status": "passed",
+      "message": "",
+      "name": "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-o-cc-injected-2bsN02/packages/migrate/src/pal-assets.glm-o.test.ts"
+    }
+  ]
+}

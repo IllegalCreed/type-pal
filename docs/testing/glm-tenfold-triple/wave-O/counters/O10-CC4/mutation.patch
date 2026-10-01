@@ -1,0 +1,7 @@
+diff --git a/packages/shared/src/rle-encode.ts b/packages/shared/src/rle-encode.ts
+index 46e9a32c3..49a0fa44a 100644
+--- a/packages/shared/src/rle-encode.ts
++++ b/packages/shared/src/rle-encode.ts
+@@ -60 +60 @@ export function encodeSpriteChunk(frames: readonly RleFrame[]): Uint8Array {
+-  if (at > MAX_CHUNK_BYTES)
++  if (false && at > MAX_CHUNK_BYTES)

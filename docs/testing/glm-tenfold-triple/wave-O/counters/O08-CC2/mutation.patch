@@ -1,0 +1,7 @@
+diff --git a/packages/content/src/battle-formulas.ts b/packages/content/src/battle-formulas.ts
+index d1b02a916..5fac1dd71 100644
+--- a/packages/content/src/battle-formulas.ts
++++ b/packages/content/src/battle-formulas.ts
+@@ -310 +310 @@ export function applyPlayerStatus(
+-    if (st[key] > 0) return false // 坏状态已有不刷新(global.c:2234)
++    if (false && st[key] > 0) return false

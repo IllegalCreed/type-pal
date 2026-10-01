@@ -1,0 +1,35 @@
+{
+  "id": "O10-CC3",
+  "contract": "YJ2 过短源拒绝",
+  "target": {
+    "file": "src/rle.glm-o.test.ts",
+    "title": "过短源 → 拒绝"
+  },
+  "control": {
+    "exitCode": 0,
+    "executed": 17,
+    "passed": 17,
+    "failed": 0
+  },
+  "injected": {
+    "exitCode": 1,
+    "executed": 17,
+    "passed": 16,
+    "failed": 1,
+    "failedFullName": "O10 decompressYj2：头部与位流轴（真实解码入口） 过短源 → 拒绝",
+    "failureMessageHead": "AssertionError: expected [Function] to throw error including 'YJ2: source too small' but got 'Offset is outside the bounds of the D…'"
+  },
+  "restored": {
+    "exitCode": 0,
+    "executed": 17,
+    "passed": 17,
+    "failed": 0
+  },
+  "hashes": {
+    "original": "eb9abdd5f86fda427b9ac0e9b3cbaacad1912004e1b416ee77d687564b0b3cdd",
+    "mutated": "bb35cb9a56aab6773a244523fe53de9a34beeb91dbab898e70a59293ee287571",
+    "restored": "eb9abdd5f86fda427b9ac0e9b3cbaacad1912004e1b416ee77d687564b0b3cdd",
+    "rebuilt": "bb35cb9a56aab6773a244523fe53de9a34beeb91dbab898e70a59293ee287571"
+  },
+  "patchRebuiltAndVerified": true
+}

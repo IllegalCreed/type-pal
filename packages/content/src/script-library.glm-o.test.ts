@@ -12,9 +12,9 @@ import {
   getScriptBody,
   normalizeScriptLibrary,
   removeAuthoredScript,
+  type ScriptChunkV1,
   stableScriptHash,
   upsertAuthoredScript,
-  type ScriptChunkV1,
 } from './script-library.js'
 
 const index = () => createScriptIndex()
@@ -26,7 +26,9 @@ describe('O07 deriveScriptChunk / stableScriptHash：分桶与哈希', () => {
   test('同 id 稳定、不同 id 可落不同分片；shared 桶数边界', () => {
     const shards = { shared: 4, global: {} }
     expect(deriveScriptChunk('s1', shards)).toBe(deriveScriptChunk('s1', shards))
-    const seen = new Set(['s1', 's2', 's3', 's4', 's5', 's6'].map((id) => deriveScriptChunk(id, shards)))
+    const seen = new Set(
+      ['s1', 's2', 's3', 's4', 's5', 's6'].map((id) => deriveScriptChunk(id, shards)),
+    )
     expect(seen.size).toBeLessThanOrEqual(4)
   })
 
@@ -83,9 +85,9 @@ describe('O07 normalizeScriptLibrary / upsert / remove：幂等与索引同步',
 
   test('upsert：shared/user/ 命名空间强制；登记元数据 + 落派生分片；重复幂等', () => {
     const idx = index()
-    expect(() => upsertAuthoredScript(idx, {}, 'my-script', meta('我的脚本'), [{ kind: 'gameOver' }])).toThrow(
-      '作者脚本 id 必须位于 shared/user/ 命名空间',
-    )
+    expect(() =>
+      upsertAuthoredScript(idx, {}, 'my-script', meta('我的脚本'), [{ kind: 'gameOver' }]),
+    ).toThrow('作者脚本 id 必须位于 shared/user/ 命名空间')
     const first = upsertAuthoredScript(idx, {}, 'shared/user/my-script', meta('我的脚本'), [
       { kind: 'gameOver' },
     ])

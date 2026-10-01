@@ -1,0 +1,14 @@
+{
+  "id": "O10-CC2",
+  "contract": "strict 容器过短拒绝",
+  "package": "shared",
+  "test": {
+    "file": "src/rle.glm-o.test.ts",
+    "title": "过短容器 / 零帧表 / offset table 越界 逐轴拒绝"
+  },
+  "mutation": {
+    "file": "src/rle.ts",
+    "find": "export function parseSpriteChunkStrict(buf: Uint8Array): RleFrame[] {\n  if (buf.byteLength < 2) throw new Error('sprite chunk 过短')",
+    "replace": "export function parseSpriteChunkStrict(buf: Uint8Array): RleFrame[] {\n  if (false && buf.byteLength < 2) throw new Error('sprite chunk 过短')"
+  }
+}

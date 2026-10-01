@@ -1,0 +1,14 @@
+{
+  "id": "O10-CC5",
+  "contract": "纯 sentinel 不进 legacy 兼容",
+  "package": "shared",
+  "test": {
+    "file": "src/rle.glm-o.test.ts",
+    "title": "纯 sentinel 后缀（无坏槽）不应进入 legacy 兼容"
+  },
+  "mutation": {
+    "file": "src/rle.ts",
+    "find": "  if (skippedLegacyTailSlots <= 0)",
+    "replace": "  if (false && skippedLegacyTailSlots <= 0)"
+  }
+}

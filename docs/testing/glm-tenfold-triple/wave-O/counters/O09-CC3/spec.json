@@ -1,0 +1,14 @@
+{
+  "id": "O09-CC3",
+  "contract": "tileset 退役 path 轴",
+  "package": "content",
+  "test": {
+    "file": "src/data-guards.glm-o.test.ts",
+    "title": "id 含 '/' / 重复 id / 退役 path / 退役 tiles 逐轴拒绝"
+  },
+  "mutation": {
+    "file": "src/tileset.ts",
+    "find": "    if ('path' in r) fail(`${p}.path`, '已退役；物理路径只能来自 assets/index.json')",
+    "replace": "    if (false && 'path' in r) fail(`${p}.path`, '已退役；物理路径只能来自 assets/index.json')"
+  }
+}

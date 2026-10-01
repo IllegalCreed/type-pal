@@ -3,8 +3,7 @@
  *  顺序与中断；本卡补齐规划快照 hash 门、退役资源校验、baseline 差异化写、
  *  manifest 最后提交条件、symlink/绝对路径拒绝与多操作恢复次序。全部 mkdtemp 隔离。
  */
-import { buildPalCurrentManifest } from './pal-manifest.js'
-import { syntheticCatalog } from './__tests__/glm-o/supply-fixture.js'
+
 import {
   existsSync,
   mkdirSync,
@@ -18,6 +17,7 @@ import {
 import { tmpdir } from 'node:os'
 import { resolve } from 'node:path'
 import { afterEach, describe, expect, test } from 'vitest'
+import { syntheticCatalog } from './__tests__/glm-o/supply-fixture.js'
 import { type MigrationSnapshot, serializeMigrationJson, sha256 } from './migration-baseline.js'
 import type { MigrationJson } from './migration-files.js'
 import {
@@ -26,6 +26,7 @@ import {
   type TransactionChange,
 } from './migration-transaction.js'
 import { buildMigrationTransactionChanges } from './migration-write-plan.js'
+import { buildPalCurrentManifest } from './pal-manifest.js'
 import { convertSourceTilemap } from './project-map-converter.js'
 
 const roots: string[] = []

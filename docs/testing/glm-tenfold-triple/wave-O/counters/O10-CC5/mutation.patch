@@ -1,0 +1,7 @@
+diff --git a/packages/shared/src/rle.ts b/packages/shared/src/rle.ts
+index e2f21254c..02655596c 100644
+--- a/packages/shared/src/rle.ts
++++ b/packages/shared/src/rle.ts
+@@ -293 +293 @@ export function parseIndexedRleChunk(
+-  if (skippedLegacyTailSlots <= 0)
++  if (false && skippedLegacyTailSlots <= 0)

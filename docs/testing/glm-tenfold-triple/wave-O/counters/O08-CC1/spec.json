@@ -1,0 +1,14 @@
+{
+  "id": "O08-CC1",
+  "contract": "once 规则跳过",
+  "package": "content",
+  "test": {
+    "file": "src/enemy-ai.glm-o.test.ts",
+    "title": "once 已触发规则被跳过，后续首条命中"
+  },
+  "mutation": {
+    "file": "src/enemy-ai.ts",
+    "find": "    if (r.once && fired.has(i)) continue",
+    "replace": "    if (false && r.once && fired.has(i)) continue"
+  }
+}

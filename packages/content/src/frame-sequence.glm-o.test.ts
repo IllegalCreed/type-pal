@@ -24,16 +24,17 @@ const utf8Encode = (text: string): Uint8Array => {
   }
   return Uint8Array.from(out)
 }
+
 import {
   encodeFrameSequenceSync,
-  frameSequenceFrameDurationMs,
-  parseFrameSequence,
-  resolveFrameSequencePlayback,
-  validateFrameSequenceIndex,
   FRAME_SEQUENCE_BLOCK_FRAMES,
   FRAME_SEQUENCE_CODEC,
   FRAME_SEQUENCE_MAGIC,
   FRAME_SEQUENCE_VERSION,
+  frameSequenceFrameDurationMs,
+  parseFrameSequence,
+  resolveFrameSequencePlayback,
+  validateFrameSequenceIndex,
 } from './frame-sequence.js'
 
 /** deflate 占位变换：压缩率无关的恒等即可驱动同一编码路径（产品侧传 deflateSync）。 */
@@ -93,9 +94,7 @@ describe('O09 parseFrameSequence：头部轴', () => {
     }
     const full = encodeOne()
     const truncatedIndex = full.subarray(0, 14) // 声明的索引长度被截断
-    expect(() => parseFrameSequence(truncatedIndex)).toThrow(
-      'TPFS.indexLength: 索引越界或端序错误',
-    )
+    expect(() => parseFrameSequence(truncatedIndex)).toThrow('TPFS.indexLength: 索引越界或端序错误')
     const badJson = build('{oops')
     expect(() => parseFrameSequence(badJson)).toThrow(/TPFS\.index: 非法 JSON/)
 
@@ -179,13 +178,22 @@ describe('O09 validateFrameSequenceIndex：字段轴', () => {
       blocks,
     })
     expect(() =>
-      validateFrameSequenceIndex(index([{ firstFrame: 0, frameCount: 1, offset: 0, bytes: 32, rawBytes: 16 }]), 16),
+      validateFrameSequenceIndex(
+        index([{ firstFrame: 0, frameCount: 1, offset: 0, bytes: 32, rawBytes: 16 }]),
+        16,
+      ),
     ).toThrow('TPFS.index.blocks[0]: payload 越界')
     expect(() =>
-      validateFrameSequenceIndex(index([{ firstFrame: 1, frameCount: 1, offset: 0, bytes: 16, rawBytes: 16 }]), 16),
+      validateFrameSequenceIndex(
+        index([{ firstFrame: 1, frameCount: 1, offset: 0, bytes: 16, rawBytes: 16 }]),
+        16,
+      ),
     ).toThrow('TPFS.index.blocks[0].firstFrame: 帧覆盖不连续，期望 0')
     expect(() =>
-      validateFrameSequenceIndex(index([{ firstFrame: 0, frameCount: 1, offset: 0, bytes: 8, rawBytes: 16 }]), 16),
+      validateFrameSequenceIndex(
+        index([{ firstFrame: 0, frameCount: 1, offset: 0, bytes: 8, rawBytes: 16 }]),
+        16,
+      ),
     ).toThrow('TPFS.index.blocks: payload 存在尾随数据或未登记字节')
   })
 })
@@ -201,9 +209,7 @@ describe('O09 encodeFrameSequenceSync：输入轴', () => {
   })
 
   test('rgba 字节长不符 / durationMs 非法 逐轴拒绝', () => {
-    expect(() => encodeOne({ frames: [{ rgba: new Uint8Array(4) }] })).toThrow(
-      /rgba: 期望 16 字节/,
-    )
+    expect(() => encodeOne({ frames: [{ rgba: new Uint8Array(4) }] })).toThrow(/rgba: 期望 16 字节/)
     expect(() => encodeOne({ frames: [{ rgba: rgba(2, 2, 1), durationMs: -1 }] })).toThrow(
       /durationMs/,
     )
@@ -215,10 +221,7 @@ describe('O09 encodeFrameSequenceSync：输入轴', () => {
         width: 2,
         height: 2,
         defaultFrameMs: 40,
-        frames: [
-          { rgba: rgba(2, 2, 1) },
-          { rgba: rgba(2, 2, 2), durationMs: 120 },
-        ],
+        frames: [{ rgba: rgba(2, 2, 1) }, { rgba: rgba(2, 2, 2), durationMs: 120 }],
       },
       identity,
     )

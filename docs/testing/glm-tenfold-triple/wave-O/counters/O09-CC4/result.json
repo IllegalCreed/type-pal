@@ -1,0 +1,35 @@
+{
+  "id": "O09-CC4",
+  "contract": "诊断 id 重复轴",
+  "target": {
+    "file": "src/data-guards.glm-o.test.ts",
+    "title": "诊断项缺 id / 重复 id 逐轴拒绝；合法空表通过"
+  },
+  "control": {
+    "exitCode": 0,
+    "executed": 12,
+    "passed": 12,
+    "failed": 0
+  },
+  "injected": {
+    "exitCode": 1,
+    "executed": 12,
+    "passed": 11,
+    "failed": 1,
+    "failedFullName": "O09 validateMigrationDiagnostics：诊断表结构 诊断项缺 id / 重复 id 逐轴拒绝；合法空表通过",
+    "failureMessageHead": "AssertionError: expected [Function] to throw an error"
+  },
+  "restored": {
+    "exitCode": 0,
+    "executed": 12,
+    "passed": 12,
+    "failed": 0
+  },
+  "hashes": {
+    "original": "c99ae1305ab1a75a81c6beab814db69380a9b1a3d6bc7cbd04218c11bfe2e4d1",
+    "mutated": "cbfe095bd8cbd49eefa235c63b99f70748c1f7d1a2263edfd71b2bd8174685d4",
+    "restored": "c99ae1305ab1a75a81c6beab814db69380a9b1a3d6bc7cbd04218c11bfe2e4d1",
+    "rebuilt": "cbfe095bd8cbd49eefa235c63b99f70748c1f7d1a2263edfd71b2bd8174685d4"
+  },
+  "patchRebuiltAndVerified": true
+}

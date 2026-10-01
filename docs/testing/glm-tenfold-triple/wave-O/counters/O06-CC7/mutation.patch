@@ -1,0 +1,7 @@
+diff --git a/packages/content/src/validate.ts b/packages/content/src/validate.ts
+index 2ee7d4c6..291e16e5 100644
+--- a/packages/content/src/validate.ts
++++ b/packages/content/src/validate.ts
+@@ -127 +127 @@ export function validateStartWorld(startWorld: unknown, ctx = 'startWorld'): Sta
+-      if (actorId.trim().length === 0) throw new Error(`${ctx}.seedStats: 角色 id 不能为空`)
++      if (false && actorId.trim().length === 0) throw new Error(`${ctx}.seedStats: 角色 id 不能为空`)

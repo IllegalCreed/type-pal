@@ -4,17 +4,17 @@
  *  dualMove 队列 dex2 上下相对位、tick/apply 状态语义、canAct/canCastMagic。
  */
 import { describe, expect, test } from 'vitest'
-import type { AiBattleView, AiRule } from './enemy-ai.js'
-import { decideByRules, evalAiCond, pickAiTarget } from './enemy-ai.js'
 import {
   applyPlayerStatus,
+  type BattleStatus,
   buildActionQueue,
   canAct,
   canCastMagic,
   emptyBattleStatus,
   tickBattleStatus,
-  type BattleStatus,
 } from './battle-formulas.js'
+import type { AiBattleView, AiRule } from './enemy-ai.js'
+import { decideByRules, evalAiCond, pickAiTarget } from './enemy-ai.js'
 
 const view = (over: Partial<AiBattleView> = {}): AiBattleView =>
   ({
@@ -47,7 +47,12 @@ describe('O08 decideByRules：act 首命中与跳过序', () => {
       { at: 'act', do: { kind: 'attack' } },
     ]
     expect(
-      decideByRules(rules, view({ self: { hpPercent: 1, firstOfKind: true, silenced: true } }), () => 0.5, new Set()),
+      decideByRules(
+        rules,
+        view({ self: { hpPercent: 1, firstOfKind: true, silenced: true } }),
+        () => 0.5,
+        new Set(),
+      ),
     ).toEqual({
       action: { kind: 'attack' },
       ruleIdx: 1,
@@ -63,9 +68,7 @@ describe('O08 decideByRules：act 首命中与跳过序', () => {
   })
 
   test('非 act 通道规则不参与 act 决策', () => {
-    const rules: AiRule[] = [
-      { at: 'friendDead', do: { kind: 'attack' } },
-    ] as unknown as AiRule[]
+    const rules: AiRule[] = [{ at: 'friendDead', do: { kind: 'attack' } }] as unknown as AiRule[]
     expect(decideByRules(rules, view(), () => 0.5, new Set())).toBeNull()
   })
 })
@@ -77,7 +80,13 @@ describe('O08 evalAiCond：all/any/not 与数值条件', () => {
       evalAiCond(
         {
           kind: 'not',
-          cond: { kind: 'all', of: [{ kind: 'hpAbove', percent: 99 }, { kind: 'difficulty', in: ['hard'] }] },
+          cond: {
+            kind: 'all',
+            of: [
+              { kind: 'hpAbove', percent: 99 },
+              { kind: 'difficulty', in: ['hard'] },
+            ],
+          },
         },
         v,
         () => 0.5,
@@ -117,15 +126,15 @@ describe('O08 pickAiTarget：策略与稳定并列序', () => {
   })
 
   test('空 players → fail-loud', () => {
-    expect(() => pickAiTarget('random', [], () => 0)).toThrow('pickAiTarget: players must not be empty')
+    expect(() => pickAiTarget('random', [], () => 0)).toThrow(
+      'pickAiTarget: players must not be empty',
+    )
   })
 })
 
 describe('O08 buildActionQueue：dualMove 相对位与稳定排序', () => {
   test('无 dualMove：dex 降序、同 dex 敌人先于队员', () => {
-    const queue = buildActionQueue([{ idx: 0, dex: 50 }], [
-      { idx: 1, dex: 50, dualMove: false },
-    ])
+    const queue = buildActionQueue([{ idx: 0, dex: 50 }], [{ idx: 1, dex: 50, dualMove: false }])
     expect(queue.map(({ isEnemy, idx }) => ({ isEnemy, idx }))).toEqual([
       { isEnemy: true, idx: 1 },
       { isEnemy: false, idx: 0 },

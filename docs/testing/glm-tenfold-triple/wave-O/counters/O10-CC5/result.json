@@ -1,0 +1,35 @@
+{
+  "id": "O10-CC5",
+  "contract": "纯 sentinel 不进 legacy 兼容",
+  "target": {
+    "file": "src/rle.glm-o.test.ts",
+    "title": "纯 sentinel 后缀（无坏槽）不应进入 legacy 兼容"
+  },
+  "control": {
+    "exitCode": 0,
+    "executed": 17,
+    "passed": 17,
+    "failed": 0
+  },
+  "injected": {
+    "exitCode": 1,
+    "executed": 17,
+    "passed": 16,
+    "failed": 1,
+    "failedFullName": "O10 parseIndexedRleChunk：legacy 坏尾三轴 纯 sentinel 后缀（无坏槽）不应进入 legacy 兼容",
+    "failureMessageHead": "AssertionError: expected [Function] to throw an error"
+  },
+  "restored": {
+    "exitCode": 0,
+    "executed": 17,
+    "passed": 17,
+    "failed": 0
+  },
+  "hashes": {
+    "original": "ae864fabcec47b4972299d37142e6340e02ed32bbd06b2118a155301539d0463",
+    "mutated": "0cfaab03a92fc4df56c9fc0d61eb809c8c791d416b8e60b989c815e9410d04b0",
+    "restored": "ae864fabcec47b4972299d37142e6340e02ed32bbd06b2118a155301539d0463",
+    "rebuilt": "0cfaab03a92fc4df56c9fc0d61eb809c8c791d416b8e60b989c815e9410d04b0"
+  },
+  "patchRebuiltAndVerified": true
+}

@@ -1,0 +1,14 @@
+{
+  "id": "O07-CC1",
+  "contract": "分桶派生稳定",
+  "package": "content",
+  "test": {
+    "file": "src/script-library.glm-o.test.ts",
+    "title": "同 id 稳定、不同 id 可落不同分片；shared 桶数边界"
+  },
+  "mutation": {
+    "file": "src/script-library.ts",
+    "find": "  if (parts[0] === 'shared' && parts.length >= 2)",
+    "replace": "  if (parts[0] === 'shared' && false && parts.length >= 2)"
+  }
+}

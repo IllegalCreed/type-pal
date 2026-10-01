@@ -1,6 +1,6 @@
 {
- "numTotalTests": 274,
- "passed": 274,
+ "numTotalTests": 401,
+ "passed": 401,
  "failed": 0,
  "tests": [
   {
@@ -351,11 +351,6 @@
   {
    "file": "packages/migrate/src/migration-transaction.glm-o.test.ts",
    "fullName": "O01 commitMigrationTransaction：提交侧单轴拒绝合同 重复目标在提交侧被拒绝",
-   "status": "passed"
-  },
-  {
-   "file": "packages/migrate/src/migration-transaction.glm-o.test.ts",
-   "fullName": "O01 commitMigrationTransaction：提交侧单轴拒绝合同 project 操作缺 expectedPreviousHash 被拒绝",
    "status": "passed"
   },
   {
@@ -1279,6 +1274,561 @@
    "status": "passed"
   },
   {
+   "file": "packages/content/src/author-script-core.glm-o.test.ts",
+   "fullName": "O07 checkBaseAuthorCommands：kind 域与结构轴 非数组 / 元素非对象 / kind 非字符串 逐轴拒绝",
+   "status": "passed"
+  },
+  {
+   "file": "packages/content/src/author-script-core.glm-o.test.ts",
+   "fullName": "O07 checkBaseAuthorCommands：kind 域与结构轴 退役 kind（jumpScript/setEntityAuto/clearSceneScripts）被拒且报退役",
+   "status": "passed"
+  },
+  {
+   "file": "packages/content/src/author-script-core.glm-o.test.ts",
+   "fullName": "O07 checkBaseAuthorCommands：kind 域与结构轴 分支：缺 cond / then 非数组 / else 非数组 逐轴拒绝",
+   "status": "passed"
+  },
+  {
+   "file": "packages/content/src/author-script-core.glm-o.test.ts",
+   "fullName": "O07 checkBaseAuthorCommands：kind 域与结构轴 loop：mode/cond/body/yield/maxIterations 全键与越界值",
+   "status": "passed"
+  },
+  {
+   "file": "packages/content/src/author-script-core.glm-o.test.ts",
+   "fullName": "O07 checkBaseAuthorCommands：kind 域与结构轴 startBattle：onLose/onFlee 子树递归校验（未知 kind 在子树内报错）",
+   "status": "passed"
+  },
+  {
+   "file": "packages/content/src/author-script-core.glm-o.test.ts",
+   "fullName": "O07 checkBaseAuthorCommands：kind 域与结构轴 confirm：onNo 必填且递归；teleportOut onFail 递归",
+   "status": "passed"
+  },
+  {
+   "file": "packages/content/src/author-script-core.glm-o.test.ts",
+   "fullName": "O07 checkBaseAuthorCommands：kind 域与结构轴 selectEntityBehavior：channel/selection 三态与未知 kind",
+   "status": "passed"
+  },
+  {
+   "file": "packages/content/src/author-script-core.glm-o.test.ts",
+   "fullName": "O07 checkBaseAuthorCommands：kind 域与结构轴 selectSceneHooks：onEnter/onTeleport 选择值逐轴校验",
+   "status": "passed"
+  },
+  {
+   "file": "packages/content/src/author-script-core.glm-o.test.ts",
+   "fullName": "O07 checkBaseAuthorCommands：kind 域与结构轴 openShop：shop 非整数与 mode 非法 逐轴拒绝",
+   "status": "passed"
+  },
+  {
+   "file": "packages/content/src/author-script-core.glm-o.test.ts",
+   "fullName": "O07 checkBaseAuthorCommands：kind 域与结构轴 setMultiEntityState / setEntityPosRelParty 形状轴",
+   "status": "passed"
+  },
+  {
+   "file": "packages/content/src/author-script-core.glm-o.test.ts",
+   "fullName": "O07 checkBaseScriptFlow：stages 与 stateMachine stages：空 stages / 重复 stage id / 未知 next 逐轴拒绝",
+   "status": "passed"
+  },
+  {
+   "file": "packages/content/src/author-script-core.glm-o.test.ts",
+   "fullName": "O07 checkBaseScriptFlow：stages 与 stateMachine stateMachine：initial/states/next 结构与 branch transition 递归",
+   "status": "passed"
+  },
+  {
+   "file": "packages/content/src/author-script-core.glm-o.test.ts",
+   "fullName": "O07 checkBaseSceneHooks：channel/initial/variants 合法单钩子通过；未知 initial 拒绝",
+   "status": "passed"
+  },
+  {
+   "file": "packages/content/src/author-script-core.glm-o.test.ts",
+   "fullName": "O07 checkBaseSceneHooks：channel/initial/variants 空 variants / 非法 order / 未知字段 逐轴拒绝",
+   "status": "passed"
+  },
+  {
+   "file": "packages/content/src/author-script-core.glm-o.test.ts",
+   "fullName": "O07 checkBaseSceneHooks：channel/initial/variants onTeleport 钩子走同域校验且禁 scene-entry 命令",
+   "status": "passed"
+  },
+  {
+   "file": "packages/content/src/author-script-core.glm-o.test.ts",
+   "fullName": "O07 checkBaseScriptLibrary：self 域与 body self 三态合法 / 非法值拒绝",
+   "status": "passed"
+  },
+  {
+   "file": "packages/content/src/author-script-core.glm-o.test.ts",
+   "fullName": "O07 checkBaseScriptLibrary：self 域与 body 坏 body / description 非字符串 / 未知字段 逐轴拒绝",
+   "status": "passed"
+  },
+  {
+   "file": "packages/content/src/author-script-core.glm-o.test.ts",
+   "fullName": "O07 checkBaseScriptLibrary：self 域与 body callScript 引用形状（script 稳定 id 字符串）",
+   "status": "passed"
+  },
+  {
+   "file": "packages/content/src/data-guards.glm-o.test.ts",
+   "fullName": "O09 validateStampTemplates：id/origin/anchor 残臂 合法模板通过并产出锚点",
+   "status": "passed"
+  },
+  {
+   "file": "packages/content/src/data-guards.glm-o.test.ts",
+   "fullName": "O09 validateStampTemplates：id/origin/anchor 残臂 id 重复 / origin 非法 / anchor 非负整数 逐轴拒绝",
+   "status": "passed"
+  },
+  {
+   "file": "packages/content/src/data-guards.glm-o.test.ts",
+   "fullName": "O09 validateStampTemplates：id/origin/anchor 残臂 anchor 超出局部 surface（row ≥ height*2 / col ≥ width）拒绝",
+   "status": "passed"
+  },
+  {
+   "file": "packages/content/src/data-guards.glm-o.test.ts",
+   "fullName": "O09 validateStampTemplates：id/origin/anchor 残臂 migrated origin 合法",
+   "status": "passed"
+  },
+  {
+   "file": "packages/content/src/data-guards.glm-o.test.ts",
+   "fullName": "O09 validateTilesets：退役字段与唯一 id 合法通过；resolveTilesetAsset 命中与未知拒绝",
+   "status": "passed"
+  },
+  {
+   "file": "packages/content/src/data-guards.glm-o.test.ts",
+   "fullName": "O09 validateTilesets：退役字段与唯一 id id 含 '/' / 重复 id / 退役 path / 退役 tiles 逐轴拒绝",
+   "status": "passed"
+  },
+  {
+   "file": "packages/content/src/data-guards.glm-o.test.ts",
+   "fullName": "O09 validateTilesets：退役字段与唯一 id catalog 注入时 asset 必须存在",
+   "status": "passed"
+  },
+  {
+   "file": "packages/content/src/data-guards.glm-o.test.ts",
+   "fullName": "O09 validateWorldVariableRegistryV1：id/name 边界 空键 / 非法 id 字符 / 超长 name 逐轴拒绝",
+   "status": "passed"
+  },
+  {
+   "file": "packages/content/src/data-guards.glm-o.test.ts",
+   "fullName": "O09 validateWorldVariableRegistryV1：id/name 边界 首尾空格 name / 非字符串 description 拒绝",
+   "status": "passed"
+  },
+  {
+   "file": "packages/content/src/data-guards.glm-o.test.ts",
+   "fullName": "O09 validateMapIndex / mapAssetById path 重复拒绝；mapAssetById 命中与未命中",
+   "status": "passed"
+  },
+  {
+   "file": "packages/content/src/data-guards.glm-o.test.ts",
+   "fullName": "O09 validateMapIndex / mapAssetById 非法 map 条目（缺 id）拒绝",
+   "status": "passed"
+  },
+  {
+   "file": "packages/content/src/data-guards.glm-o.test.ts",
+   "fullName": "O09 validateMigrationDiagnostics：诊断表结构 诊断项缺 id / 重复 id 逐轴拒绝；合法空表通过",
+   "status": "passed"
+  },
+  {
+   "file": "packages/content/src/enemy-ai.glm-o.test.ts",
+   "fullName": "O08 decideByRules：act 首命中与跳过序 once 已触发规则被跳过，后续首条命中",
+   "status": "passed"
+  },
+  {
+   "file": "packages/content/src/enemy-ai.glm-o.test.ts",
+   "fullName": "O08 decideByRules：act 首命中与跳过序 沉默时 cast 规则跳过继续匹配（普攻兜底）",
+   "status": "passed"
+  },
+  {
+   "file": "packages/content/src/enemy-ai.glm-o.test.ts",
+   "fullName": "O08 decideByRules：act 首命中与跳过序 when 不命中继续下一条；全部不命中 → null",
+   "status": "passed"
+  },
+  {
+   "file": "packages/content/src/enemy-ai.glm-o.test.ts",
+   "fullName": "O08 decideByRules：act 首命中与跳过序 非 act 通道规则不参与 act 决策",
+   "status": "passed"
+  },
+  {
+   "file": "packages/content/src/enemy-ai.glm-o.test.ts",
+   "fullName": "O08 evalAiCond：all/any/not 与数值条件 嵌套 all/any/not 组合求值",
+   "status": "passed"
+  },
+  {
+   "file": "packages/content/src/enemy-ai.glm-o.test.ts",
+   "fullName": "O08 evalAiCond：all/any/not 与数值条件 allyCount 比较符 <=/>= 与 playerInParty",
+   "status": "passed"
+  },
+  {
+   "file": "packages/content/src/enemy-ai.glm-o.test.ts",
+   "fullName": "O08 pickAiTarget：策略与稳定并列序 lowestHp/highestHp/lowestMp/strongest 各自取极值",
+   "status": "passed"
+  },
+  {
+   "file": "packages/content/src/enemy-ai.glm-o.test.ts",
+   "fullName": "O08 pickAiTarget：策略与稳定并列序 strongest 全并列时取槽序靠前（稳定，key 严格小于才换 best）",
+   "status": "passed"
+  },
+  {
+   "file": "packages/content/src/enemy-ai.glm-o.test.ts",
+   "fullName": "O08 pickAiTarget：策略与稳定并列序 空 players → fail-loud",
+   "status": "passed"
+  },
+  {
+   "file": "packages/content/src/enemy-ai.glm-o.test.ts",
+   "fullName": "O08 buildActionQueue：dualMove 相对位与稳定排序 无 dualMove：dex 降序、同 dex 敌人先于队员",
+   "status": "passed"
+  },
+  {
+   "file": "packages/content/src/enemy-ai.glm-o.test.ts",
+   "fullName": "O08 buildActionQueue：dualMove 相对位与稳定排序 dualMove 有 dex2：dex2<=dex 时第二次在后（fIsSecond 次序标记）",
+   "status": "passed"
+  },
+  {
+   "file": "packages/content/src/enemy-ai.glm-o.test.ts",
+   "fullName": "O08 buildActionQueue：dualMove 相对位与稳定排序 dualMove 有 dex2 且 dex2>dex：第一次标记 fIsSecond（先动高 dex）",
+   "status": "passed"
+  },
+  {
+   "file": "packages/content/src/enemy-ai.glm-o.test.ts",
+   "fullName": "O08 buildActionQueue：dualMove 相对位与稳定排序 dualMove 无 dex2：补 dex-1 的第二次动作",
+   "status": "passed"
+  },
+  {
+   "file": "packages/content/src/enemy-ai.glm-o.test.ts",
+   "fullName": "O08 战斗状态：tick/apply/canAct/canCastMagic tickBattleStatus：正计数递减、原地修改（>999 视为永久同样递减）",
+   "status": "passed"
+  },
+  {
+   "file": "packages/content/src/enemy-ai.glm-o.test.ts",
+   "fullName": "O08 战斗状态：tick/apply/canAct/canCastMagic canAct 拦截 sleep/paralyzed；canCastMagic 拦截 silence",
+   "status": "passed"
+  },
+  {
+   "file": "packages/content/src/enemy-ai.glm-o.test.ts",
+   "fullName": "O08 战斗状态：tick/apply/canAct/canCastMagic applyPlayerStatus：坏状态已有不刷新；好状态仅活人取较长；傀儡仅死者",
+   "status": "passed"
+  },
+  {
+   "file": "packages/content/src/frame-sequence.glm-o.test.ts",
+   "fullName": "O09 parseFrameSequence：头部轴 截断（<12B）/ 魔数错 / 版本错 / 保留位非零 逐轴拒绝",
+   "status": "passed"
+  },
+  {
+   "file": "packages/content/src/frame-sequence.glm-o.test.ts",
+   "fullName": "O09 parseFrameSequence：头部轴 索引越界 / 非法 JSON 逐轴拒绝；合法最小文件解析",
+   "status": "passed"
+  },
+  {
+   "file": "packages/content/src/frame-sequence.glm-o.test.ts",
+   "fullName": "O09 parseFrameSequence：头部轴 colorTreatment 进索引并经 JSON（含 UTF-8 解码域）往返",
+   "status": "passed"
+  },
+  {
+   "file": "packages/content/src/frame-sequence.glm-o.test.ts",
+   "fullName": "O09 validateFrameSequenceIndex：字段轴 非对象/codec 非法/宽度非法/空帧表 逐轴拒绝",
+   "status": "passed"
+  },
+  {
+   "file": "packages/content/src/frame-sequence.glm-o.test.ts",
+   "fullName": "O09 validateFrameSequenceIndex：字段轴 block bytes 越界 payload / 覆盖不连续 / 尾随数据 逐轴拒绝",
+   "status": "passed"
+  },
+  {
+   "file": "packages/content/src/frame-sequence.glm-o.test.ts",
+   "fullName": "O09 encodeFrameSequenceSync：输入轴 尺寸非法 / defaultFrameMs 非法 / colorTreatment 非法 / 空 frames 逐轴拒绝",
+   "status": "passed"
+  },
+  {
+   "file": "packages/content/src/frame-sequence.glm-o.test.ts",
+   "fullName": "O09 encodeFrameSequenceSync：输入轴 rgba 字节长不符 / durationMs 非法 逐轴拒绝",
+   "status": "passed"
+  },
+  {
+   "file": "packages/content/src/frame-sequence.glm-o.test.ts",
+   "fullName": "O09 encodeFrameSequenceSync：输入轴 多帧每帧 durationMs 进索引；往返后帧序稳定",
+   "status": "passed"
+  },
+  {
+   "file": "packages/content/src/frame-sequence.glm-o.test.ts",
+   "fullName": "O09 encodeFrameSequenceSync：输入轴 provider 字节变换被调用且其输出登记进 block bytes",
+   "status": "passed"
+  },
+  {
+   "file": "packages/content/src/frame-sequence.glm-o.test.ts",
+   "fullName": "O09 resolveFrameSequencePlayback：回放解析 全序列回放与显式 range 回放的帧数/duration",
+   "status": "passed"
+  },
+  {
+   "file": "packages/content/src/frame-sequence.glm-o.test.ts",
+   "fullName": "O09 resolveFrameSequencePlayback：回放解析 越界 startFrame/endFrame → 拒绝（无 range 形参，直接 options）",
+   "status": "passed"
+  },
+  {
+   "file": "packages/content/src/script-library.glm-o.test.ts",
+   "fullName": "O07 deriveScriptChunk / stableScriptHash：分桶与哈希 同 id 稳定、不同 id 可落不同分片；shared 桶数边界",
+   "status": "passed"
+  },
+  {
+   "file": "packages/content/src/script-library.glm-o.test.ts",
+   "fullName": "O07 deriveScriptChunk / stableScriptHash：分桶与哈希 global 域脚本按 global/<domain> 分片；未登记 domain → undefined",
+   "status": "passed"
+  },
+  {
+   "file": "packages/content/src/script-library.glm-o.test.ts",
+   "fullName": "O07 deriveScriptChunk / stableScriptHash：分桶与哈希 scene 前缀 → scene/<id> 分片",
+   "status": "passed"
+  },
+  {
+   "file": "packages/content/src/script-library.glm-o.test.ts",
+   "fullName": "O07 deriveScriptChunk / stableScriptHash：分桶与哈希 stableScriptHash 稳定且区分输入",
+   "status": "passed"
+  },
+  {
+   "file": "packages/content/src/script-library.glm-o.test.ts",
+   "fullName": "O07 findScriptOwnerChunk / getScriptBody：归属与读取 单 owner 命中；跨 chunk 重复 id fail-loud；未登记 undefined",
+   "status": "passed"
+  },
+  {
+   "file": "packages/content/src/script-library.glm-o.test.ts",
+   "fullName": "O07 findScriptOwnerChunk / getScriptBody：归属与读取 getScriptBody：先按派生分片直取，未命中再全局寻 owner",
+   "status": "passed"
+  },
+  {
+   "file": "packages/content/src/script-library.glm-o.test.ts",
+   "fullName": "O07 normalizeScriptLibrary / upsert / remove：幂等与索引同步 normalize 按 id 排序合并 chunks 并保留合法体",
+   "status": "passed"
+  },
+  {
+   "file": "packages/content/src/script-library.glm-o.test.ts",
+   "fullName": "O07 normalizeScriptLibrary / upsert / remove：幂等与索引同步 upsert：shared/user/ 命名空间强制；登记元数据 + 落派生分片；重复幂等",
+   "status": "passed"
+  },
+  {
+   "file": "packages/content/src/script-library.glm-o.test.ts",
+   "fullName": "O07 normalizeScriptLibrary / upsert / remove：幂等与索引同步 remove：未登记 id fail-loud；已登记移除元数据与脚本体",
+   "status": "passed"
+  },
+  {
+   "file": "packages/content/src/script-library.glm-o.test.ts",
+   "fullName": "O07 checkScriptIndex：结构轴 version 漂移 / shards 缺失 逐轴拒绝；合法索引通过",
+   "status": "passed"
+  },
+  {
+   "file": "packages/content/src/script.glm-o.test.ts",
+   "fullName": "O07 sceneEntryPrepareSafety：进场 prepare 命令域 纯摆位/外观类命令安全（safe）",
+   "status": "passed"
+  },
+  {
+   "file": "packages/content/src/script.glm-o.test.ts",
+   "fullName": "O07 sceneEntryPrepareSafety：进场 prepare 命令域 loadScene / fade / startBattle / openShop 等阻断（blocked）",
+   "status": "passed"
+  },
+  {
+   "file": "packages/content/src/script.glm-o.test.ts",
+   "fullName": "O07 sceneEntryPrepareSafety：进场 prepare 命令域 wait 因不读取目标世界而安全（PAL 入场等待数帧合同）",
+   "status": "passed"
+  },
+  {
+   "file": "packages/content/src/script.glm-o.test.ts",
+   "fullName": "O07 sceneEntryPrepareSafety：进场 prepare 命令域 giveItem/mountParty/teleportParty/setFlag 资源与摆位类 safe",
+   "status": "passed"
+  },
+  {
+   "file": "packages/content/src/script.glm-o.test.ts",
+   "fullName": "O07 stage 游标：stageIndexFor / applyStageNext stageIndexFor：默认 0、钳制到 stages 上限",
+   "status": "passed"
+  },
+  {
+   "file": "packages/content/src/script.glm-o.test.ts",
+   "fullName": "O07 stage 游标：stageIndexFor / applyStageNext applyStageNext：advance 递增 / 数字重置 / undefined 不变",
+   "status": "passed"
+  },
+  {
+   "file": "packages/content/src/script.glm-o.test.ts",
+   "fullName": "O07 emptyProjectedWorldScriptState：初始形状 flags/vars/entityState/stages 初始为空域",
+   "status": "passed"
+  },
+  {
+   "file": "packages/content/src/small-guards.glm-o.test.ts",
+   "fullName": "O09 validateShops / shopBuy / shopSell / sellableItems 非数组 / 非对象条目 / 负 id / 重复 id / 非法 items 逐轴拒绝",
+   "status": "passed"
+  },
+  {
+   "file": "packages/content/src/small-guards.glm-o.test.ts",
+   "fullName": "O09 validateShops / shopBuy / shopSell / sellableItems shopBuy：钱不够 null；成功扣钱入包",
+   "status": "passed"
+  },
+  {
+   "file": "packages/content/src/small-guards.glm-o.test.ts",
+   "fullName": "O09 validateShops / shopBuy / shopSell / sellableItems shopSell：不可卖 / 背包没有 → null；成功出包得款并清零条目",
+   "status": "passed"
+  },
+  {
+   "file": "packages/content/src/small-guards.glm-o.test.ts",
+   "fullName": "O09 validateShops / shopBuy / shopSell / sellableItems sellableItems 过滤 count=0 与不可卖",
+   "status": "passed"
+  },
+  {
+   "file": "packages/content/src/small-guards.glm-o.test.ts",
+   "fullName": "O09 spriteDefinitionFrameDemand / FrameIndices directional 帧需求 = framesPerDir*4 + poses 绝对帧",
+   "status": "passed"
+  },
+  {
+   "file": "packages/content/src/small-guards.glm-o.test.ts",
+   "fullName": "O09 spriteDefinitionFrameDemand / FrameIndices static 帧需求 = 1",
+   "status": "passed"
+  },
+  {
+   "file": "packages/content/src/small-guards.glm-o.test.ts",
+   "fullName": "O09 validateEnemyTeamStructure：槽位形状 非数组 / 槽位非数组 / 非字符串槽 / 非法 id 逐轴拒绝；null 槽合法",
+   "status": "passed"
+  },
+  {
+   "file": "packages/content/src/small-guards.glm-o.test.ts",
+   "fullName": "O09 checkRuntimeScenes：运行态场景入口 非法场景（entry 缺 facing）拒绝；合法最小场景通过",
+   "status": "passed"
+  },
+  {
+   "file": "packages/content/src/small-guards.glm-o.test.ts",
+   "fullName": "O09 checkThrowSpec：投掷规格边界 effects 空 / target 非法 逐轴拒绝",
+   "status": "passed"
+  },
+  {
+   "file": "packages/content/src/small-guards.glm-o.test.ts",
+   "fullName": "O09 checkThrowSpec：投掷规格边界 presentation 非 magic 拒绝",
+   "status": "passed"
+  },
+  {
+   "file": "packages/content/src/small-guards.glm-o.test.ts",
+   "fullName": "O09 resolveDialogueIdentity / collectCommandTargetReferences 身份：actor 绑定命中 actor 得头像；未知 actor 拒绝；narration 空",
+   "status": "passed"
+  },
+  {
+   "file": "packages/content/src/small-guards.glm-o.test.ts",
+   "fullName": "O09 resolveDialogueIdentity / collectCommandTargetReferences loadScene 命令收集目标场景引用",
+   "status": "passed"
+  },
+  {
+   "file": "packages/content/src/small-guards.glm-o.test.ts",
+   "fullName": "O09 buildWorld / instantiate：实例域边界 instantiate：无 battler fail-loud；battler 角色取 baseStats",
+   "status": "passed"
+  },
+  {
+   "file": "packages/content/src/small-guards.glm-o.test.ts",
+   "fullName": "O09 buildWorld / instantiate：实例域边界 buildWorld：入口 party 引用未知 actor → 拒绝",
+   "status": "passed"
+  },
+  {
+   "file": "packages/content/src/validate-refs.glm-o.test.ts",
+   "fullName": "O06 validateEntryPointStartWorldReferences：startWorld 引用四轴 party 引用不存在角色 → 精确 where+message",
+   "status": "passed"
+  },
+  {
+   "file": "packages/content/src/validate-refs.glm-o.test.ts",
+   "fullName": "O06 validateEntryPointStartWorldReferences：startWorld 引用四轴 party 引用无 battler 角色 → 不可入队拒绝",
+   "status": "passed"
+  },
+  {
+   "file": "packages/content/src/validate-refs.glm-o.test.ts",
+   "fullName": "O06 validateEntryPointStartWorldReferences：startWorld 引用四轴 inventory 引用不存在物品 → 拒绝",
+   "status": "passed"
+  },
+  {
+   "file": "packages/content/src/validate-refs.glm-o.test.ts",
+   "fullName": "O06 validateEntryPointStartWorldReferences：startWorld 引用四轴 seedStats 未知角色 → 拒绝",
+   "status": "passed"
+  },
+  {
+   "file": "packages/content/src/validate-refs.glm-o.test.ts",
+   "fullName": "O06 validateEntryPointStartWorldReferences：startWorld 引用四轴 seedConditions 四轴：未知角色/无 battler/不在 party/未知毒",
+   "status": "passed"
+  },
+  {
+   "file": "packages/content/src/validate-refs.glm-o.test.ts",
+   "fullName": "O06 validateEntryPointStartWorldReferences：startWorld 引用四轴 合法 seedConditions（在 party + 已注册毒）无 issue",
+   "status": "passed"
+  },
+  {
+   "file": "packages/content/src/validate-refs.glm-o.test.ts",
+   "fullName": "O06 敌 AI 与敌队：走访与引用闭包 AI 条件 all/any/not 递归走访命中未知角色",
+   "status": "passed"
+  },
+  {
+   "file": "packages/content/src/validate-refs.glm-o.test.ts",
+   "fullName": "O06 敌 AI 与敌队：走访与引用闭包 敌 cast 未知技能 / 带 prepare / 效果不受 runtime 支持 三轴",
+   "status": "passed"
+  },
+  {
+   "file": "packages/content/src/validate-refs.glm-o.test.ts",
+   "fullName": "O06 敌 AI 与敌队：走访与引用闭包 transform/summon 未知目标经敌 hook effect 通道 → 拒绝",
+   "status": "passed"
+  },
+  {
+   "file": "packages/content/src/validate-refs.glm-o.test.ts",
+   "fullName": "O06 敌 AI 与敌队：走访与引用闭包 敌队：重复 id / 槽位超上限 / 槽位未知敌人 逐轴拒绝；null 槽合法",
+   "status": "passed"
+  },
+  {
+   "file": "packages/content/src/validate-refs.glm-o.test.ts",
+   "fullName": "O06 敌 AI 与敌队：走访与引用闭包 敌 steal（warn）/attackEquivItem（error）物品引用逐轴",
+   "status": "passed"
+  },
+  {
+   "file": "packages/content/src/validate-refs.glm-o.test.ts",
+   "fullName": "O06 场景命令与页动画：精灵动作/实体地址/收集轴 页 animation 绑定未知精灵/未知动作 逐轴拒绝（poses 收集）",
+   "status": "passed"
+  },
+  {
+   "file": "packages/content/src/validate-refs.glm-o.test.ts",
+   "fullName": "O06 场景命令与页动画：精灵动作/实体地址/收集轴 teleportOut.onFail 内 giveItem 未知物品 → onFail 子树被收集并拒绝",
+   "status": "passed"
+  },
+  {
+   "file": "packages/content/src/validate-refs.glm-o.test.ts",
+   "fullName": "O06 场景命令与页动画：精灵动作/实体地址/收集轴 setEntityTriggerActivation/selectEntityBehavior 指向未知场景与实体 → 实体地址轴",
+   "status": "passed"
+  },
+  {
+   "file": "packages/content/src/validate-refs.glm-o.test.ts",
+   "fullName": "O06 场景命令与页动画：精灵动作/实体地址/收集轴 selectEntityBehavior 指向存在场景的未知实体 → 实体轴拒绝",
+   "status": "passed"
+  },
+  {
+   "file": "packages/content/src/validate-refs.glm-o.test.ts",
+   "fullName": "O06 场景命令与页动画：精灵动作/实体地址/收集轴 hostile 敌队未知 → 场景实体轴拒绝；敌队存在则无 issue",
+   "status": "passed"
+  },
+  {
+   "file": "packages/content/src/validate-refs.glm-o.test.ts",
+   "fullName": "O06 初始仙术与 issue 去重 initialMagic 未知技能 → 拒绝；同技能重复引用只产一条 issue（去重）",
+   "status": "passed"
+  },
+  {
+   "file": "packages/content/src/validate-refs.glm-o.test.ts",
+   "fullName": "O06 初始仙术与 issue 去重 每个入口独立完整校验（同一引用坏例逐入口报告，不跨入口合并）",
+   "status": "passed"
+  },
+  {
+   "file": "packages/content/src/validate-refs.glm-o.test.ts",
+   "fullName": "O06 初始仙术与 issue 去重 coveredBy 自援护拒绝（运行时天然不触发）",
+   "status": "passed"
+  },
+  {
+   "file": "packages/content/src/validate-refs.glm-o.test.ts",
+   "fullName": "O06 初始仙术与 issue 去重 合体技未知技能 → 拒绝",
+   "status": "passed"
+  },
+  {
+   "file": "packages/content/src/validate-refs.glm-o.test.ts",
+   "fullName": "O06 毒/对话台词/商店/诊断闭包 castable 死亡台词文本 id 缺 locale → 拒绝",
+   "status": "passed"
+  },
+  {
+   "file": "packages/content/src/validate-refs.glm-o.test.ts",
+   "fullName": "O06 毒/对话台词/商店/诊断闭包 商店未知物品 → 拒绝；runScript 未知共享脚本 → 拒绝",
+   "status": "passed"
+  },
+  {
+   "file": "packages/content/src/validate-refs.glm-o.test.ts",
+   "fullName": "O06 毒/对话台词/商店/诊断闭包 敌队空缺省与空 bundle 组合不产敌簇 issue",
+   "status": "passed"
+  },
+  {
    "file": "packages/content/src/validate.glm-o.test.ts",
    "fullName": "O06 validateStartWorldResources：资源池边界 resources 缺席直接通过（不做键检查）",
    "status": "passed"
@@ -1371,6 +1921,91 @@
   {
    "file": "packages/content/src/validate.glm-o.test.ts",
    "fullName": "O06 validateLocale / stamp / mapIndex / diagnostics / worldVariables 残臂 worldVariables：flag/number 初始值类型与 kind 白名单 逐轴校验",
+   "status": "passed"
+  },
+  {
+   "file": "packages/shared/src/rle.glm-o.test.ts",
+   "fullName": "O10 parseSpriteChunkStrict：容器结构轴 过短容器 / 零帧表 / offset table 越界 逐轴拒绝",
+   "status": "passed"
+  },
+  {
+   "file": "packages/shared/src/rle.glm-o.test.ts",
+   "fullName": "O10 parseSpriteChunkStrict：容器结构轴 sentinel 槽与计数同域（slot0=count）：纯 sentinel 空容器按计数=1 走帧0 越界",
+   "status": "passed"
+  },
+  {
+   "file": "packages/shared/src/rle.glm-o.test.ts",
+   "fullName": "O10 parseSpriteChunkStrict：容器结构轴 frame0 offset 与表长不一致 / offset 非递增 / offset 越界 逐轴拒绝",
+   "status": "passed"
+  },
+  {
+   "file": "packages/shared/src/rle.glm-o.test.ts",
+   "fullName": "O10 parseSpriteChunkStrict：容器结构轴 帧尺寸非法（宽 0 / 高超上限）逐轴拒绝；合法双帧严格通过",
+   "status": "passed"
+  },
+  {
+   "file": "packages/shared/src/rle.glm-o.test.ts",
+   "fullName": "O10 parseSpriteChunkStrict：容器结构轴 sentinel 容器：声明数含尾 0 时按 frameCount-1 解析",
+   "status": "passed"
+  },
+  {
+   "file": "packages/shared/src/rle.glm-o.test.ts",
+   "fullName": "O10 parseSpriteChunkStrict：容器结构轴 严格解析往返：encode → parse 逐帧像素一致（供应容器同构）",
+   "status": "passed"
+  },
+  {
+   "file": "packages/shared/src/rle.glm-o.test.ts",
+   "fullName": "O10 parseIndexedRleChunk：legacy 坏尾三轴 legacy：尾槽坏 offset 被跳过并计入 skippedLegacyTailSlots",
+   "status": "passed"
+  },
+  {
+   "file": "packages/shared/src/rle.glm-o.test.ts",
+   "fullName": "O10 parseIndexedRleChunk：legacy 坏尾三轴 坏尾之后仍可独立解出的帧 → 中间空洞拒绝（非坏尾）",
+   "status": "passed"
+  },
+  {
+   "file": "packages/shared/src/rle.glm-o.test.ts",
+   "fullName": "O10 parseIndexedRleChunk：legacy 坏尾三轴 纯 sentinel 后缀（无坏槽）不应进入 legacy 兼容",
+   "status": "passed"
+  },
+  {
+   "file": "packages/shared/src/rle.glm-o.test.ts",
+   "fullName": "O10 parseIndexedRleChunk：legacy 坏尾三轴 legacy 前缀全无效 → 坏尾前不含有效帧拒绝；未知 profile 拒绝",
+   "status": "passed"
+  },
+  {
+   "file": "packages/shared/src/rle.glm-o.test.ts",
+   "fullName": "O10 encodeSpriteChunk：上限与空容器 空 frames → 2 字节空容器（strict/索引入口一致拒绝“不含帧”）",
+   "status": "passed"
+  },
+  {
+   "file": "packages/shared/src/rle.glm-o.test.ts",
+   "fullName": "O10 encodeSpriteChunk：上限与空容器 超 u16 word 偏移上限 → 拆分图集错误",
+   "status": "passed"
+  },
+  {
+   "file": "packages/shared/src/rle.glm-o.test.ts",
+   "fullName": "O10 encodeSpriteChunk：上限与空容器 encodeRleFrame：透明段写满 width*height（尾透明补跳段）",
+   "status": "passed"
+  },
+  {
+   "file": "packages/shared/src/rle.glm-o.test.ts",
+   "fullName": "O10 decompressYj2：头部与位流轴（真实解码入口） 过短源 → 拒绝",
+   "status": "passed"
+  },
+  {
+   "file": "packages/shared/src/rle.glm-o.test.ts",
+   "fullName": "O10 decompressYj2：头部与位流轴（真实解码入口） uncompLen=0 → 空输出（不读位流）",
+   "status": "passed"
+  },
+  {
+   "file": "packages/shared/src/rle.glm-o.test.ts",
+   "fullName": "O10 decompressYj2：头部与位流轴（真实解码入口） 非空字面向量：三字面位流按序输出（复用冻结判定向量，不复述旧断言）",
+   "status": "passed"
+  },
+  {
+   "file": "packages/shared/src/rle.glm-o.test.ts",
+   "fullName": "O10 decompressYj2：头部与位流轴（真实解码入口） 回引向量：重叠回引复制不越界且长度由头部封顶（冻结判定向量）",
    "status": "passed"
   }
  ]

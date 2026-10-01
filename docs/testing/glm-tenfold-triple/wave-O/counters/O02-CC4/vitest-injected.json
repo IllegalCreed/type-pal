@@ -1,1 +1,222 @@
-{"numTotalTestSuites":4,"numPassedTestSuites":2,"numFailedTestSuites":2,"numPendingTestSuites":0,"numTotalTests":18,"numPassedTests":17,"numFailedTests":1,"numPendingTests":0,"numTodoTests":0,"snapshot":{"added":0,"failure":false,"filesAdded":0,"filesRemoved":0,"filesRemovedList":[],"filesUnmatched":0,"filesUpdated":0,"matched":0,"total":0,"unchecked":0,"uncheckedKeysByFile":[],"unmatched":0,"updated":0,"didUpdate":false},"startTime":1790829037957,"success":false,"testResults":[{"assertionResults":[{"ancestorTitles":["O02 createMigrationPlan：原子地图 hash-only 与冲突分类"],"fullName":"O02 createMigrationPlan：原子地图 hash-only 与冲突分类 base/theirs 均以 hash-only 存图、ours 有同 hash 正文 → 选中版本从 ours 回填正文","status":"passed","title":"base/theirs 均以 hash-only 存图、ours 有同 hash 正文 → 选中版本从 ours 回填正文","duration":2.496749999999963,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["O02 createMigrationPlan：原子地图 hash-only 与冲突分类"],"fullName":"O02 createMigrationPlan：原子地图 hash-only 与冲突分类 base hash-only、ours 同 hash 正文、theirs 更新 → 采纳 theirs 更新","status":"passed","title":"base hash-only、ours 同 hash 正文、theirs 更新 → 采纳 theirs 更新","duration":0.5793749999999704,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["O02 createMigrationPlan：原子地图 hash-only 与冲突分类"],"fullName":"O02 createMigrationPlan：原子地图 hash-only 与冲突分类 base hash-only 且选中版本缺正文、无同 hash 正文可回填 → fail-loud","status":"passed","title":"base hash-only 且选中版本缺正文、无同 hash 正文可回填 → fail-loud","duration":0.5111249999999927,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["O02 createMigrationPlan：原子地图 hash-only 与冲突分类"],"fullName":"O02 createMigrationPlan：原子地图 hash-only 与冲突分类 原子地图三方各改各的 → value 冲突，冲突快照带 hash 版本","status":"passed","title":"原子地图三方各改各的 → value 冲突，冲突快照带 hash 版本","duration":1.132915999999966,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["O02 createMigrationPlan：原子地图 hash-only 与冲突分类"],"fullName":"O02 createMigrationPlan：原子地图 hash-only 与冲突分类 原子地图一方删除、一方修改 → delete-modify 冲突","status":"passed","title":"原子地图一方删除、一方修改 → delete-modify 冲突","duration":0.4536669999999958,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["O02 createMigrationPlan：原子地图 hash-only 与冲突分类"],"fullName":"O02 createMigrationPlan：原子地图 hash-only 与冲突分类 原子地图双方各自新增不同版本 → add-add 冲突","status":"passed","title":"原子地图双方各自新增不同版本 → add-add 冲突","duration":0.14749999999997954,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["O02 createMigrationPlan：普通文件、写入/删除与输入不可变"],"fullName":"O02 createMigrationPlan：普通文件、写入/删除与输入不可变 普通文件经三方合并进入 target；summary 计数一致","status":"passed","title":"普通文件经三方合并进入 target；summary 计数一致","duration":1.2996669999999995,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["O02 createMigrationPlan：普通文件、写入/删除与输入不可变"],"fullName":"O02 createMigrationPlan：普通文件、写入/删除与输入不可变 theirs 新增文件进入 writes；theirs 删除的托管文件进入 deletes","status":"failed","title":"theirs 新增文件进入 writes；theirs 删除的托管文件进入 deletes","duration":3.795500000000004,"failureMessages":["AssertionError: expected [] to deeply equal [ 'content/extra.json' ]\n    at /private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-o-cc-injected-gH6vqG/packages/migrate/src/migration-plan.glm-o.test.ts:152:26\n    at file:///private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-o-cc-injected-gH6vqG/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-o-cc-injected-gH6vqG/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-o-cc-injected-gH6vqG/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-o-cc-injected-gH6vqG/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-o-cc-injected-gH6vqG/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-o-cc-injected-gH6vqG/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-o-cc-injected-gH6vqG/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64"],"meta":{},"tags":[]},{"ancestorTitles":["O02 createMigrationPlan：普通文件、写入/删除与输入不可变"],"fullName":"O02 createMigrationPlan：普通文件、写入/删除与输入不可变 ours 独有的新增文件（base/theirs 均无）保留在 target 且不进 deletes","status":"passed","title":"ours 独有的新增文件（base/theirs 均无）保留在 target 且不进 deletes","duration":0.6102920000000154,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["O02 createMigrationPlan：普通文件、写入/删除与输入不可变"],"fullName":"O02 createMigrationPlan：普通文件、写入/删除与输入不可变 重放同一 publication：writes/deletes/conflicts 全零","status":"passed","title":"重放同一 publication：writes/deletes/conflicts 全零","duration":0.3206250000000068,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["O02 createMigrationPlan：普通文件、写入/删除与输入不可变"],"fullName":"O02 createMigrationPlan：普通文件、写入/删除与输入不可变 snapshotOf 为每个文件产出序列化 hash 且原子地图走专用格式化","status":"passed","title":"snapshotOf 为每个文件产出序列化 hash 且原子地图走专用格式化","duration":0.22704200000003993,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["O02 createMigrationPlan：普通文件、写入/删除与输入不可变"],"fullName":"O02 createMigrationPlan：普通文件、写入/删除与输入不可变 createMigrationPlan 不修改三个输入快照（输入不可变）","status":"passed","title":"createMigrationPlan 不修改三个输入快照（输入不可变）","duration":0.0811249999999859,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["O02 createMigrationPlan：普通文件、写入/删除与输入不可变"],"fullName":"O02 createMigrationPlan：普通文件、写入/删除与输入不可变 计划 target 与输入文件 Map 无别名（改 target 不影响 theirs）","status":"passed","title":"计划 target 与输入文件 Map 无别名（改 target 不影响 theirs）","duration":0.06266700000003311,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["O02 createMigrationPlan：summary 计数与冲突停线"],"fullName":"O02 createMigrationPlan：summary 计数与冲突停线 只有 theirs（生成侧）改动 → generated；只有 ours（作者侧）改动 → kept","status":"passed","title":"只有 theirs（生成侧）改动 → generated；只有 ours（作者侧）改动 → kept","duration":0.24091699999996763,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["O02 createMigrationPlan：summary 计数与冲突停线"],"fullName":"O02 createMigrationPlan：summary 计数与冲突停线 双方各自改动同一普通文件的不同字段 → merged 计数","status":"passed","title":"双方各自改动同一普通文件的不同字段 → merged 计数","duration":0.09616600000003928,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["O02 createMigrationPlan：summary 计数与冲突停线"],"fullName":"O02 createMigrationPlan：summary 计数与冲突停线 原子地图 ours 改、theirs 同 base → theirs 更新进入 writes","status":"passed","title":"原子地图 ours 改、theirs 同 base → theirs 更新进入 writes","duration":0.2050830000000019,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["O02 createMigrationPlan：summary 计数与冲突停线"],"fullName":"O02 createMigrationPlan：summary 计数与冲突停线 存在冲突时 writes/deletes 全空（停线）","status":"passed","title":"存在冲突时 writes/deletes 全空（停线）","duration":0.3484589999999912,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["O02 createMigrationPlan：summary 计数与冲突停线"],"fullName":"O02 createMigrationPlan：summary 计数与冲突停线 summary.managed = 三方托管并集（含仅存在于单方的文件）","status":"passed","title":"summary.managed = 三方托管并集（含仅存在于单方的文件）","duration":0.1156249999999659,"failureMessages":[],"meta":{},"tags":[]}],"startTime":1790829038429,"endTime":1790829038442.1157,"status":"failed","message":"","name":"/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-o-cc-injected-gH6vqG/packages/migrate/src/migration-plan.glm-o.test.ts"}]}
+{
+  "numTotalTestSuites": 4,
+  "numPassedTestSuites": 2,
+  "numFailedTestSuites": 2,
+  "numPendingTestSuites": 0,
+  "numTotalTests": 18,
+  "numPassedTests": 17,
+  "numFailedTests": 1,
+  "numPendingTests": 0,
+  "numTodoTests": 0,
+  "snapshot": {
+    "added": 0,
+    "failure": false,
+    "filesAdded": 0,
+    "filesRemoved": 0,
+    "filesRemovedList": [],
+    "filesUnmatched": 0,
+    "filesUpdated": 0,
+    "matched": 0,
+    "total": 0,
+    "unchecked": 0,
+    "uncheckedKeysByFile": [],
+    "unmatched": 0,
+    "updated": 0,
+    "didUpdate": false
+  },
+  "startTime": 1790829037957,
+  "success": false,
+  "testResults": [
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["O02 createMigrationPlan：原子地图 hash-only 与冲突分类"],
+          "fullName": "O02 createMigrationPlan：原子地图 hash-only 与冲突分类 base/theirs 均以 hash-only 存图、ours 有同 hash 正文 → 选中版本从 ours 回填正文",
+          "status": "passed",
+          "title": "base/theirs 均以 hash-only 存图、ours 有同 hash 正文 → 选中版本从 ours 回填正文",
+          "duration": 2.496749999999963,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O02 createMigrationPlan：原子地图 hash-only 与冲突分类"],
+          "fullName": "O02 createMigrationPlan：原子地图 hash-only 与冲突分类 base hash-only、ours 同 hash 正文、theirs 更新 → 采纳 theirs 更新",
+          "status": "passed",
+          "title": "base hash-only、ours 同 hash 正文、theirs 更新 → 采纳 theirs 更新",
+          "duration": 0.5793749999999704,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O02 createMigrationPlan：原子地图 hash-only 与冲突分类"],
+          "fullName": "O02 createMigrationPlan：原子地图 hash-only 与冲突分类 base hash-only 且选中版本缺正文、无同 hash 正文可回填 → fail-loud",
+          "status": "passed",
+          "title": "base hash-only 且选中版本缺正文、无同 hash 正文可回填 → fail-loud",
+          "duration": 0.5111249999999927,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O02 createMigrationPlan：原子地图 hash-only 与冲突分类"],
+          "fullName": "O02 createMigrationPlan：原子地图 hash-only 与冲突分类 原子地图三方各改各的 → value 冲突，冲突快照带 hash 版本",
+          "status": "passed",
+          "title": "原子地图三方各改各的 → value 冲突，冲突快照带 hash 版本",
+          "duration": 1.132915999999966,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O02 createMigrationPlan：原子地图 hash-only 与冲突分类"],
+          "fullName": "O02 createMigrationPlan：原子地图 hash-only 与冲突分类 原子地图一方删除、一方修改 → delete-modify 冲突",
+          "status": "passed",
+          "title": "原子地图一方删除、一方修改 → delete-modify 冲突",
+          "duration": 0.4536669999999958,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O02 createMigrationPlan：原子地图 hash-only 与冲突分类"],
+          "fullName": "O02 createMigrationPlan：原子地图 hash-only 与冲突分类 原子地图双方各自新增不同版本 → add-add 冲突",
+          "status": "passed",
+          "title": "原子地图双方各自新增不同版本 → add-add 冲突",
+          "duration": 0.14749999999997954,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O02 createMigrationPlan：普通文件、写入/删除与输入不可变"],
+          "fullName": "O02 createMigrationPlan：普通文件、写入/删除与输入不可变 普通文件经三方合并进入 target；summary 计数一致",
+          "status": "passed",
+          "title": "普通文件经三方合并进入 target；summary 计数一致",
+          "duration": 1.2996669999999995,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O02 createMigrationPlan：普通文件、写入/删除与输入不可变"],
+          "fullName": "O02 createMigrationPlan：普通文件、写入/删除与输入不可变 theirs 新增文件进入 writes；theirs 删除的托管文件进入 deletes",
+          "status": "failed",
+          "title": "theirs 新增文件进入 writes；theirs 删除的托管文件进入 deletes",
+          "duration": 3.795500000000004,
+          "failureMessages": [
+            "AssertionError: expected [] to deeply equal [ 'content/extra.json' ]\n    at /private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-o-cc-injected-gH6vqG/packages/migrate/src/migration-plan.glm-o.test.ts:152:26\n    at file:///private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-o-cc-injected-gH6vqG/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-o-cc-injected-gH6vqG/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-o-cc-injected-gH6vqG/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-o-cc-injected-gH6vqG/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-o-cc-injected-gH6vqG/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-o-cc-injected-gH6vqG/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-o-cc-injected-gH6vqG/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64"
+          ],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O02 createMigrationPlan：普通文件、写入/删除与输入不可变"],
+          "fullName": "O02 createMigrationPlan：普通文件、写入/删除与输入不可变 ours 独有的新增文件（base/theirs 均无）保留在 target 且不进 deletes",
+          "status": "passed",
+          "title": "ours 独有的新增文件（base/theirs 均无）保留在 target 且不进 deletes",
+          "duration": 0.6102920000000154,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O02 createMigrationPlan：普通文件、写入/删除与输入不可变"],
+          "fullName": "O02 createMigrationPlan：普通文件、写入/删除与输入不可变 重放同一 publication：writes/deletes/conflicts 全零",
+          "status": "passed",
+          "title": "重放同一 publication：writes/deletes/conflicts 全零",
+          "duration": 0.3206250000000068,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O02 createMigrationPlan：普通文件、写入/删除与输入不可变"],
+          "fullName": "O02 createMigrationPlan：普通文件、写入/删除与输入不可变 snapshotOf 为每个文件产出序列化 hash 且原子地图走专用格式化",
+          "status": "passed",
+          "title": "snapshotOf 为每个文件产出序列化 hash 且原子地图走专用格式化",
+          "duration": 0.22704200000003993,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O02 createMigrationPlan：普通文件、写入/删除与输入不可变"],
+          "fullName": "O02 createMigrationPlan：普通文件、写入/删除与输入不可变 createMigrationPlan 不修改三个输入快照（输入不可变）",
+          "status": "passed",
+          "title": "createMigrationPlan 不修改三个输入快照（输入不可变）",
+          "duration": 0.0811249999999859,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O02 createMigrationPlan：普通文件、写入/删除与输入不可变"],
+          "fullName": "O02 createMigrationPlan：普通文件、写入/删除与输入不可变 计划 target 与输入文件 Map 无别名（改 target 不影响 theirs）",
+          "status": "passed",
+          "title": "计划 target 与输入文件 Map 无别名（改 target 不影响 theirs）",
+          "duration": 0.06266700000003311,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O02 createMigrationPlan：summary 计数与冲突停线"],
+          "fullName": "O02 createMigrationPlan：summary 计数与冲突停线 只有 theirs（生成侧）改动 → generated；只有 ours（作者侧）改动 → kept",
+          "status": "passed",
+          "title": "只有 theirs（生成侧）改动 → generated；只有 ours（作者侧）改动 → kept",
+          "duration": 0.24091699999996763,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O02 createMigrationPlan：summary 计数与冲突停线"],
+          "fullName": "O02 createMigrationPlan：summary 计数与冲突停线 双方各自改动同一普通文件的不同字段 → merged 计数",
+          "status": "passed",
+          "title": "双方各自改动同一普通文件的不同字段 → merged 计数",
+          "duration": 0.09616600000003928,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O02 createMigrationPlan：summary 计数与冲突停线"],
+          "fullName": "O02 createMigrationPlan：summary 计数与冲突停线 原子地图 ours 改、theirs 同 base → theirs 更新进入 writes",
+          "status": "passed",
+          "title": "原子地图 ours 改、theirs 同 base → theirs 更新进入 writes",
+          "duration": 0.2050830000000019,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O02 createMigrationPlan：summary 计数与冲突停线"],
+          "fullName": "O02 createMigrationPlan：summary 计数与冲突停线 存在冲突时 writes/deletes 全空（停线）",
+          "status": "passed",
+          "title": "存在冲突时 writes/deletes 全空（停线）",
+          "duration": 0.3484589999999912,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O02 createMigrationPlan：summary 计数与冲突停线"],
+          "fullName": "O02 createMigrationPlan：summary 计数与冲突停线 summary.managed = 三方托管并集（含仅存在于单方的文件）",
+          "status": "passed",
+          "title": "summary.managed = 三方托管并集（含仅存在于单方的文件）",
+          "duration": 0.1156249999999659,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790829038429,
+      "endTime": 1790829038442.1157,
+      "status": "failed",
+      "message": "",
+      "name": "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-o-cc-injected-gH6vqG/packages/migrate/src/migration-plan.glm-o.test.ts"
+    }
+  ]
+}

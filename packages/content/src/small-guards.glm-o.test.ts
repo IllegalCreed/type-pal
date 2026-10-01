@@ -2,16 +2,17 @@
  *  旧证：shop.test.ts / rewards.test.ts / sprite / enemy-team / author-dialogue /
  *  validate-runtime 各自覆盖主干；本卡按 gap-map 直击未覆盖臂。
  */
+
+import type { ActorDef, ItemData, ShopDef, WorldState } from '@type-pal/content'
 import { describe, expect, test } from 'vitest'
-import type { ActorDef, EnemyDef, ItemData, ShopDef, WorldState } from '@type-pal/content'
-import { shopBuy, sellableItems, shopSell, validateShops } from './shop.js'
-import { spriteDefinitionFrameDemand, spriteDefinitionFrameIndices } from './sprite.js'
-import { validateEnemyTeamStructure } from './enemy-team.js'
-import { validateRuntimeScenes } from './validate-runtime.js'
 import { resolveDialogueIdentity } from './author-dialogue.js'
-import { collectCommandTargetReferences } from './command-target-reference.js'
-import { checkThrowSpec } from './validate.js'
 import { buildWorld, instantiate } from './character.js'
+import { collectCommandTargetReferences } from './command-target-reference.js'
+import { validateEnemyTeamStructure } from './enemy-team.js'
+import { sellableItems, shopBuy, shopSell, validateShops } from './shop.js'
+import { spriteDefinitionFrameDemand, spriteDefinitionFrameIndices } from './sprite.js'
+import { checkThrowSpec } from './validate.js'
+import { validateRuntimeScenes } from './validate-runtime.js'
 
 const world = (over: Partial<WorldState> = {}): WorldState =>
   ({
@@ -40,9 +41,7 @@ describe('O09 validateShops / shopBuy / shopSell / sellableItems', () => {
     expect(() => validateShops([null])).toThrow('shops[0] 期望商店对象')
     expect(() => validateShops([{ id: -1, items: [] }])).toThrow('shops[0].id 必须为非负安全整数')
     expect(() => validateShops([shop, { ...shop, id: 1 }])).toThrow('shops 重复 id 1')
-    expect(() => validateShops([{ id: 1, items: [''] }])).toThrow(
-      /items 必须为物品 id 数组/,
-    )
+    expect(() => validateShops([{ id: 1, items: [''] }])).toThrow(/items 必须为物品 id 数组/)
   })
 
   test('shopBuy：钱不够 null；成功扣钱入包', () => {
@@ -66,7 +65,12 @@ describe('O09 validateShops / shopBuy / shopSell / sellableItems', () => {
 
   test('sellableItems 过滤 count=0 与不可卖', () => {
     const items = { i1: item('i1'), i2: item('i2', { sellable: false }) }
-    const w = world({ inventory: [{ itemId: 'i1', count: 1 }, { itemId: 'i2', count: 3 }] })
+    const w = world({
+      inventory: [
+        { itemId: 'i1', count: 1 },
+        { itemId: 'i2', count: 3 },
+      ],
+    })
     expect(sellableItems(w, items)).toEqual(['i1'])
   })
 })
@@ -214,11 +218,14 @@ describe('O09 buildWorld / instantiate：实例域边界', () => {
 
   test('buildWorld：入口 party 引用未知 actor → 拒绝', () => {
     expect(() =>
-      buildWorld({
-        party: ['ghost'],
-        money: 0,
-        inventory: [],
-      } as never, { ghost: { id: 'x', name: 'x', spriteId: 's' } } as never),
+      buildWorld(
+        {
+          party: ['ghost'],
+          money: 0,
+          inventory: [],
+        } as never,
+        { ghost: { id: 'x', name: 'x', spriteId: 's' } } as never,
+      ),
     ).toThrow()
   })
 })

@@ -1,756 +1,1238 @@
 {
- "total": 30,
- "rule": "恰一个目标 fullName 业务 AssertionError 红；三态 SHA256 相等校验；一次性 detached worktree 注入，候选树不改",
- "counters": [
-  {
-   "id": "O01-CC1",
-   "control": {
-    "exitCode": 0,
-    "tests": 43
-   },
-   "injected": {
-    "exitCode": 1,
-    "failedFullName": "O01 validatePalCurrentPublication：发布门与 census 拒绝合同（合成工程） 方案 label 漂移被永久门禁拒绝（名称漂移）",
-    "failureMessageHead": "AssertionError: expected [Function] to throw an error",
-    "executed": 43
-   },
-   "hashes": {
-    "original": "2ed904b1e73e8fabc10d20ff3b7846615324af6ea5be2b7d28f6629d8fc0dda9",
-    "mutated": "88b11bf640c70fcca322265258d077d8cb3544a6de86c095643f10d5254a0501",
-    "restored": "2ed904b1e73e8fabc10d20ff3b7846615324af6ea5be2b7d28f6629d8fc0dda9"
-   },
-   "evidence": [
-    "counters/O01-CC1/spec.json",
-    "counters/O01-CC1/vitest-control.json",
-    "counters/O01-CC1/vitest-injected.json",
-    "counters/O01-CC1/mutation.patch",
-    "counters/O01-CC1/result.json"
-   ]
-  },
-  {
-   "id": "O01-CC2",
-   "control": {
-    "exitCode": 0,
-    "tests": 43
-   },
-   "injected": {
-    "exitCode": 1,
-    "failedFullName": "O01 validatePalCurrentPublication：发布门与 census 拒绝合同（合成工程） 作者改动 buy openShop 至 28 时生成侧 census 拒绝发布",
-    "failureMessageHead": "AssertionError: expected [Function] to throw an error",
-    "executed": 43
-   },
-   "hashes": {
-    "original": "ed7a219b1504e67adde82793e892d45946a87d83f5c103e15b0c74be9ebdf2b3",
-    "mutated": "a4b169d33a6d579ede077123db69aa1bdd8ee363251706e259eca056cadfc770",
-    "restored": "ed7a219b1504e67adde82793e892d45946a87d83f5c103e15b0c74be9ebdf2b3"
-   },
-   "evidence": [
-    "counters/O01-CC2/spec.json",
-    "counters/O01-CC2/vitest-control.json",
-    "counters/O01-CC2/vitest-injected.json",
-    "counters/O01-CC2/mutation.patch",
-    "counters/O01-CC2/result.json"
-   ]
-  },
-  {
-   "id": "O01-CC3",
-   "control": {
-    "exitCode": 0,
-    "tests": 43
-   },
-   "injected": {
-    "exitCode": 1,
-    "failedFullName": "O01 buildPalCurrentPublication：分区替换与作者保留（合成工程） current baseline 含历史发布路径（_transitions/content/migrations/scripts）时 fail-loud",
-    "failureMessageHead": "AssertionError: expected [Function] to throw an error",
-    "executed": 43
-   },
-   "hashes": {
-    "original": "58c53e17e8d37030d323584e37f412d195410a05aebd22d06e54e2001ac91c16",
-    "mutated": "266dbb02bd807e63d257073892b5e22ac507fd2efd8999b22837e068e6cc055a",
-    "restored": "58c53e17e8d37030d323584e37f412d195410a05aebd22d06e54e2001ac91c16"
-   },
-   "evidence": [
-    "counters/O01-CC3/spec.json",
-    "counters/O01-CC3/vitest-control.json",
-    "counters/O01-CC3/vitest-injected.json",
-    "counters/O01-CC3/mutation.patch",
-    "counters/O01-CC3/result.json"
-   ]
-  },
-  {
-   "id": "O01-CC4",
-   "control": {
-    "exitCode": 0,
-    "tests": 31
-   },
-   "injected": {
-    "exitCode": 1,
-    "failedFullName": "O01 commitMigrationTransaction：提交侧单轴拒绝合同 重复目标在提交侧被拒绝",
-    "failureMessageHead": "AssertionError: expected [Function] to throw error including '迁移事务包含重复目标' but got '迁移事务 journal 包含重复目标: projects/pal/con…'",
-    "executed": 31
-   },
-   "hashes": {
-    "original": "f22787611d1e0ae9b2b0ee8f03cf863a6ef48dafe4abed8ec8a841fd1561b78f",
-    "mutated": "cf574a456f97c0faeccf0804563dbcc9adf64428651298365f47de0395b1d939",
-    "restored": "f22787611d1e0ae9b2b0ee8f03cf863a6ef48dafe4abed8ec8a841fd1561b78f"
-   },
-   "evidence": [
-    "counters/O01-CC4/spec.json",
-    "counters/O01-CC4/vitest-control.json",
-    "counters/O01-CC4/vitest-injected.json",
-    "counters/O01-CC4/mutation.patch",
-    "counters/O01-CC4/result.json"
-   ]
-  },
-  {
-   "id": "O01-CC5",
-   "control": {
-    "exitCode": 0,
-    "tests": 43
-   },
-   "injected": {
-    "exitCode": 1,
-    "failedFullName": "O01 buildPalCurrentPublication：分区替换与作者保留（合成工程） 别名闭包：legacy 定义布局漂移（variant）时拒绝发布",
-    "failureMessageHead": "AssertionError: expected [Function] to throw an error",
-    "executed": 43
-   },
-   "hashes": {
-    "original": "f26f0f6bf3df74a327fcb9d1b002c7f788aa985f1fac53c59f8ff9ded472d3f6",
-    "mutated": "e46d69fb7db245505790a89afd889973f51c65709a17dd38f1e0a812675728e6",
-    "restored": "f26f0f6bf3df74a327fcb9d1b002c7f788aa985f1fac53c59f8ff9ded472d3f6"
-   },
-   "evidence": [
-    "counters/O01-CC5/spec.json",
-    "counters/O01-CC5/vitest-control.json",
-    "counters/O01-CC5/vitest-injected.json",
-    "counters/O01-CC5/mutation.patch",
-    "counters/O01-CC5/result.json"
-   ]
-  },
-  {
-   "id": "O02-CC1",
-   "control": {
-    "exitCode": 0,
-    "tests": 30
-   },
-   "injected": {
-    "exitCode": 1,
-    "failedFullName": "O02 mergeManagedFile：身份数组与失效身份（合成文件） 场景 entities：非对象条目（无身份）→ invalid-identity 冲突",
-    "failureMessageHead": "AssertionError: expected [] to deeply equal [ 'invalid-identity' ]",
-    "executed": 30
-   },
-   "hashes": {
-    "original": "e1d3a877f72e876fd64191555aadbd61bbc11fde1db3f9e7cf9fe71c494b777e",
-    "mutated": "653cd4226fbe8a947f36331ca189336d223202da46f247d666204eb1a4ea33e8",
-    "restored": "e1d3a877f72e876fd64191555aadbd61bbc11fde1db3f9e7cf9fe71c494b777e"
-   },
-   "evidence": [
-    "counters/O02-CC1/spec.json",
-    "counters/O02-CC1/vitest-control.json",
-    "counters/O02-CC1/vitest-injected.json",
-    "counters/O02-CC1/mutation.patch",
-    "counters/O02-CC1/result.json"
-   ]
-  },
-  {
-   "id": "O02-CC2",
-   "control": {
-    "exitCode": 0,
-    "tests": 30
-   },
-   "injected": {
-    "exitCode": 1,
-    "failedFullName": "O02 mergeManagedFile：身份数组与失效身份（合成文件） scenes/index.json 严格顺序：双方不同重排 → array-order 冲突",
-    "failureMessageHead": "AssertionError: expected [] to deeply equal [ 'array-order' ]",
-    "executed": 30
-   },
-   "hashes": {
-    "original": "e1d3a877f72e876fd64191555aadbd61bbc11fde1db3f9e7cf9fe71c494b777e",
-    "mutated": "4a8bc2be3ca3bc83b85a4517184580a2380b67c4eb7f5ba285aa8eb5e544998e",
-    "restored": "e1d3a877f72e876fd64191555aadbd61bbc11fde1db3f9e7cf9fe71c494b777e"
-   },
-   "evidence": [
-    "counters/O02-CC2/spec.json",
-    "counters/O02-CC2/vitest-control.json",
-    "counters/O02-CC2/vitest-injected.json",
-    "counters/O02-CC2/mutation.patch",
-    "counters/O02-CC2/result.json"
-   ]
-  },
-  {
-   "id": "O02-CC3",
-   "control": {
-    "exitCode": 0,
-    "tests": 30
-   },
-   "injected": {
-    "exitCode": 1,
-    "failedFullName": "O02 mergeManagedFile：authored 接管与 catalog 目标校验 assets/index.json：ours authored 接管后迁移字段不再拼入",
-    "failureMessageHead": "AssertionError: expected [ { file: 'assets/index.json', …(5) } ] to deeply equal []",
-    "executed": 30
-   },
-   "hashes": {
-    "original": "e1d3a877f72e876fd64191555aadbd61bbc11fde1db3f9e7cf9fe71c494b777e",
-    "mutated": "27a127626cc19d2167388d1d06f873d617c8420a85b33d64b2de509a9fd54d6f",
-    "restored": "e1d3a877f72e876fd64191555aadbd61bbc11fde1db3f9e7cf9fe71c494b777e"
-   },
-   "evidence": [
-    "counters/O02-CC3/spec.json",
-    "counters/O02-CC3/vitest-control.json",
-    "counters/O02-CC3/vitest-injected.json",
-    "counters/O02-CC3/mutation.patch",
-    "counters/O02-CC3/result.json"
-   ]
-  },
-  {
-   "id": "O02-CC4",
-   "control": {
-    "exitCode": 0,
-    "tests": 18
-   },
-   "injected": {
-    "exitCode": 1,
-    "failedFullName": "O02 createMigrationPlan：普通文件、写入/删除与输入不可变 theirs 新增文件进入 writes；theirs 删除的托管文件进入 deletes",
-    "failureMessageHead": "AssertionError: expected [] to deeply equal [ 'content/extra.json' ]",
-    "executed": 18
-   },
-   "hashes": {
-    "original": "642960ee8944b69eb8b9f40e785d3dc218826d69ad6bdc8b3b686abaa6b90750",
-    "mutated": "1da947e4c16f33e7e74ab8d008f5bc86bf7a931bcef1dc358dcee280f7a55309",
-    "restored": "642960ee8944b69eb8b9f40e785d3dc218826d69ad6bdc8b3b686abaa6b90750"
-   },
-   "evidence": [
-    "counters/O02-CC4/spec.json",
-    "counters/O02-CC4/vitest-control.json",
-    "counters/O02-CC4/vitest-injected.json",
-    "counters/O02-CC4/mutation.patch",
-    "counters/O02-CC4/result.json"
-   ]
-  },
-  {
-   "id": "O02-CC5",
-   "control": {
-    "exitCode": 0,
-    "tests": 18
-   },
-   "injected": {
-    "exitCode": 1,
-    "failedFullName": "O02 discoverProjectManagedFiles：索引发现与坏索引拒绝 maps index path 非字符串 / maps 非数组分别 fail-loud",
-    "failureMessageHead": "AssertionError: expected [Function] to throw an error",
-    "executed": 18
-   },
-   "hashes": {
-    "original": "13e4fffa9b47beb089eff15733574cccd8aa5ff21fd9f26294bf0cbdb9d83b0c",
-    "mutated": "1bf3c8dc1559fa56ffe9fcfb0e6ebf4926a6ee25fa8c4b3d8ce33a6c2955322a",
-    "restored": "13e4fffa9b47beb089eff15733574cccd8aa5ff21fd9f26294bf0cbdb9d83b0c"
-   },
-   "evidence": [
-    "counters/O02-CC5/spec.json",
-    "counters/O02-CC5/vitest-control.json",
-    "counters/O02-CC5/vitest-injected.json",
-    "counters/O02-CC5/mutation.patch",
-    "counters/O02-CC5/result.json"
-   ]
-  },
-  {
-   "id": "O03-CC1",
-   "control": {
-    "exitCode": 0,
-    "tests": 21
-   },
-   "injected": {
-    "exitCode": 1,
-    "failedFullName": "O03 buildMigrationTransactionChanges：工程写入与规划快照门 工程写按 scenes/index 最后排序；map 内容走专用序列化",
-    "failureMessageHead": "AssertionError: expected 'projects/pal/content/zz-sidecar.json' to be 'projects/pal/content/scenes/index.json' // Object.is equality",
-    "executed": 21
-   },
-   "hashes": {
-    "original": "4fd28ecd4c767cc0eeb9cf897f15bc731e0b31e8826c2515cc7772e58d2c09b3",
-    "mutated": "7a59f62f3675344d7c4f191e52bace90e1270e3c71d39887f76f1329ab6aba0d",
-    "restored": "4fd28ecd4c767cc0eeb9cf897f15bc731e0b31e8826c2515cc7772e58d2c09b3"
-   },
-   "evidence": [
-    "counters/O03-CC1/spec.json",
-    "counters/O03-CC1/vitest-control.json",
-    "counters/O03-CC1/vitest-injected.json",
-    "counters/O03-CC1/mutation.patch",
-    "counters/O03-CC1/result.json"
-   ]
-  },
-  {
-   "id": "O03-CC2",
-   "control": {
-    "exitCode": 0,
-    "tests": 21
-   },
-   "injected": {
-    "exitCode": 1,
-    "failedFullName": "O03 buildMigrationTransactionChanges：退役资源与重复目标 退役资源路径越界或 sha 非法 → fail-loud",
-    "failureMessageHead": "AssertionError: expected [Function] to throw an error",
-    "executed": 21
-   },
-   "hashes": {
-    "original": "4fd28ecd4c767cc0eeb9cf897f15bc731e0b31e8826c2515cc7772e58d2c09b3",
-    "mutated": "2d08cfb576b3f1b9d6b9e098b064aad562a3120489f6e724dab61f97e56fb8d3",
-    "restored": "4fd28ecd4c767cc0eeb9cf897f15bc731e0b31e8826c2515cc7772e58d2c09b3"
-   },
-   "evidence": [
-    "counters/O03-CC2/spec.json",
-    "counters/O03-CC2/vitest-control.json",
-    "counters/O03-CC2/vitest-injected.json",
-    "counters/O03-CC2/mutation.patch",
-    "counters/O03-CC2/result.json"
-   ]
-  },
-  {
-   "id": "O03-CC3",
-   "control": {
-    "exitCode": 0,
-    "tests": 21
-   },
-   "injected": {
-    "exitCode": 1,
-    "failedFullName": "O03 事务与 journal：symlink/绝对路径/恢复次序（mkdtemp） 目标为 symlink 时提交被拒绝（assertMigrationFilePath）",
-    "failureMessageHead": "AssertionError: expected [Function] to throw error including '不得经过符号链接: projects/pal/content/link.j…' but got '迁移事务 journal target 路径类型无效: projects/…'",
-    "executed": 21
-   },
-   "hashes": {
-    "original": "eb5a5e6193b79314c0c6ae7289582c7bcdc496d079f7ebd9a0e34dc5817e7310",
-    "mutated": "0f260aa7d7233956f67fc6cff47a8f39fceba58a11fbae9b65b0defa7069105a",
-    "restored": "eb5a5e6193b79314c0c6ae7289582c7bcdc496d079f7ebd9a0e34dc5817e7310"
-   },
-   "evidence": [
-    "counters/O03-CC3/spec.json",
-    "counters/O03-CC3/vitest-control.json",
-    "counters/O03-CC3/vitest-injected.json",
-    "counters/O03-CC3/mutation.patch",
-    "counters/O03-CC3/result.json"
-   ]
-  },
-  {
-   "id": "O03-CC4",
-   "control": {
-    "exitCode": 0,
-    "tests": 10
-   },
-   "injected": {
-    "exitCode": 1,
-    "failedFullName": "O03 buildPalContentSupply：供应输入守卫残余 同一 EventObject 出现在多个场景时 fail-loud（全局实体唯一）",
-    "failureMessageHead": "AssertionError: expected [Function] to throw an error",
-    "executed": 10
-   },
-   "hashes": {
-    "original": "0a0f7bc729c75ae496d55b86283f670e1b4b745c4383f9d02f2b0c16a7dfff6b",
-    "mutated": "7e78a4d10cf49826c45b616c9f462f802c140d6466954186f6b6353cd934fe5f",
-    "restored": "0a0f7bc729c75ae496d55b86283f670e1b4b745c4383f9d02f2b0c16a7dfff6b"
-   },
-   "evidence": [
-    "counters/O03-CC4/spec.json",
-    "counters/O03-CC4/vitest-control.json",
-    "counters/O03-CC4/vitest-injected.json",
-    "counters/O03-CC4/mutation.patch",
-    "counters/O03-CC4/result.json"
-   ]
-  },
-  {
-   "id": "O03-CC5",
-   "control": {
-    "exitCode": 0,
-    "tests": 10
-   },
-   "injected": {
-    "exitCode": 1,
-    "failedFullName": "O03 validatePalCurrentPublication：装备战斗精灵引用门 覆写引用未知角色 → 发布门以 where: message 拒绝",
-    "failureMessageHead": "AssertionError: expected [Function] to throw error matching /items\\[\\d+\\]\\(166\\)\\.equip\\.effects\\[…/ but got 'Cannot read properties of undefined (…'",
-    "executed": 10
-   },
-   "hashes": {
-    "original": "56e68d78a1fbb643053321877af41a7721775ca5fdd5a7ac62b4fa5d2d4dfa0a",
-    "mutated": "b2173c0dead85006c7d744b618454207f0af1ec7546895506b9cad3bdb0b1683",
-    "restored": "56e68d78a1fbb643053321877af41a7721775ca5fdd5a7ac62b4fa5d2d4dfa0a"
-   },
-   "evidence": [
-    "counters/O03-CC5/spec.json",
-    "counters/O03-CC5/vitest-control.json",
-    "counters/O03-CC5/vitest-injected.json",
-    "counters/O03-CC5/mutation.patch",
-    "counters/O03-CC5/result.json"
-   ]
-  },
-  {
-   "id": "O04-CC1",
-   "control": {
-    "exitCode": 0,
-    "tests": 37
-   },
-   "injected": {
-    "exitCode": 1,
-    "failedFullName": "O04 materializePalAssets：合成 catalog 的确定性物化 重复物化：内容一致 → unchanged，不重写",
-    "failureMessageHead": "AssertionError: expected { written: 1, unchanged: +0, …(3) } to match object { written: +0, unchanged: 1 }",
-    "executed": 37
-   },
-   "hashes": {
-    "original": "131b101ef065d32bd6b0c76a04ac082eb6b9e56965de211541a198eb7219d5b8",
-    "mutated": "6496be4ed2383e2dba92f840443205a78fab414eaa45cb3f3379f7dc7edb37f0",
-    "restored": "131b101ef065d32bd6b0c76a04ac082eb6b9e56965de211541a198eb7219d5b8"
-   },
-   "evidence": [
-    "counters/O04-CC1/spec.json",
-    "counters/O04-CC1/vitest-control.json",
-    "counters/O04-CC1/vitest-injected.json",
-    "counters/O04-CC1/mutation.patch",
-    "counters/O04-CC1/result.json"
-   ]
-  },
-  {
-   "id": "O04-CC2",
-   "control": {
-    "exitCode": 0,
-    "tests": 37
-   },
-   "injected": {
-    "exitCode": 1,
-    "failedFullName": "O04 planPalAssetRetirements：退役推导合同 legacy-migrated 且目标缺失且磁盘一致 → 入退役清单并排序",
-    "failureMessageHead": "AssertionError: expected [ Array(3) ] to deeply equal [ Array(2) ]",
-    "executed": 37
-   },
-   "hashes": {
-    "original": "131b101ef065d32bd6b0c76a04ac082eb6b9e56965de211541a198eb7219d5b8",
-    "mutated": "73e5df9cfb6479e9c81b67d19df340a5164a4c07921d8654a7ccd9c409e31cf5",
-    "restored": "131b101ef065d32bd6b0c76a04ac082eb6b9e56965de211541a198eb7219d5b8"
-   },
-   "evidence": [
-    "counters/O04-CC2/spec.json",
-    "counters/O04-CC2/vitest-control.json",
-    "counters/O04-CC2/vitest-injected.json",
-    "counters/O04-CC2/mutation.patch",
-    "counters/O04-CC2/result.json"
-   ]
-  },
-  {
-   "id": "O04-CC3",
-   "control": {
-    "exitCode": 0,
-    "tests": 37
-   },
-   "injected": {
-    "exitCode": 1,
-    "failedFullName": "O04 loadPalSoundAssets：合成 505 段三向闭包 metadata/manifest/磁盘 size 三向不一致 → 拒绝；非 RIFF 字节 → 拒绝",
-    "failureMessageHead": "AssertionError: expected [Function] to throw an error",
-    "executed": 37
-   },
-   "hashes": {
-    "original": "131b101ef065d32bd6b0c76a04ac082eb6b9e56965de211541a198eb7219d5b8",
-    "mutated": "bff721dff44e09c5fe6352262c83d07e1746c7151e53b1258012460f5fedc3f3",
-    "restored": "131b101ef065d32bd6b0c76a04ac082eb6b9e56965de211541a198eb7219d5b8"
-   },
-   "evidence": [
-    "counters/O04-CC3/spec.json",
-    "counters/O04-CC3/vitest-control.json",
-    "counters/O04-CC3/vitest-injected.json",
-    "counters/O04-CC3/mutation.patch",
-    "counters/O04-CC3/result.json"
-   ]
-  },
-  {
-   "id": "O04-CC4",
-   "control": {
-    "exitCode": 0,
-    "tests": 37
-   },
-   "injected": {
-    "exitCode": 1,
-    "failedFullName": "O04 loadPalStaticImages：合成 88 立绘/5 头像/233 图标/52 背景 战场背景尺寸漂移与 R=G=B 违约逐轴拒绝",
-    "failureMessageHead": "AssertionError: expected [Function] to throw an error",
-    "executed": 37
-   },
-   "hashes": {
-    "original": "131b101ef065d32bd6b0c76a04ac082eb6b9e56965de211541a198eb7219d5b8",
-    "mutated": "7c93beb40bb414707b57fcadefdf6840bea3fd815a7d011e4f9e8f5c6a5ad6df",
-    "restored": "131b101ef065d32bd6b0c76a04ac082eb6b9e56965de211541a198eb7219d5b8"
-   },
-   "evidence": [
-    "counters/O04-CC4/spec.json",
-    "counters/O04-CC4/vitest-control.json",
-    "counters/O04-CC4/vitest-injected.json",
-    "counters/O04-CC4/mutation.patch",
-    "counters/O04-CC4/result.json"
-   ]
-  },
-  {
-   "id": "O04-CC5",
-   "control": {
-    "exitCode": 0,
-    "tests": 37
-   },
-   "injected": {
-    "exitCode": 1,
-    "failedFullName": "O04 loadPalSoundAssets：合成 505 段三向闭包 段号不连续 / size 非法 / isEmpty 不一致逐轴拒绝",
-    "failureMessageHead": "AssertionError: expected [Function] to throw an error",
-    "executed": 37
-   },
-   "hashes": {
-    "original": "131b101ef065d32bd6b0c76a04ac082eb6b9e56965de211541a198eb7219d5b8",
-    "mutated": "62ca89f5f11e9edb01462a28a9474a8516d102b617d72c0b6c7b8adb075e1924",
-    "restored": "131b101ef065d32bd6b0c76a04ac082eb6b9e56965de211541a198eb7219d5b8"
-   },
-   "evidence": [
-    "counters/O04-CC5/spec.json",
-    "counters/O04-CC5/vitest-control.json",
-    "counters/O04-CC5/vitest-injected.json",
-    "counters/O04-CC5/mutation.patch",
-    "counters/O04-CC5/result.json"
-   ]
-  },
-  {
-   "id": "O05-CC1",
-   "control": {
-    "exitCode": 0,
-    "tests": 27
-   },
-   "injected": {
-    "exitCode": 1,
-    "failedFullName": "O05 applyPalItemOverlays：隐蛊与 puppet 轴 puppet 状态效果被强制 battleOnly（无论原值）",
-    "failureMessageHead": "AssertionError: expected false to be true // Object.is equality",
-    "executed": 27
-   },
-   "hashes": {
-    "original": "93bfb3a4ff7bb89112578ba9044e62e357f654b9a1836056dda370b243145d8a",
-    "mutated": "4477174f504131f7cc4ab70acf4c6729cab587747f9efec0312ee97e2e665d80",
-    "restored": "93bfb3a4ff7bb89112578ba9044e62e357f654b9a1836056dda370b243145d8a"
-   },
-   "evidence": [
-    "counters/O05-CC1/spec.json",
-    "counters/O05-CC1/vitest-control.json",
-    "counters/O05-CC1/vitest-injected.json",
-    "counters/O05-CC1/mutation.patch",
-    "counters/O05-CC1/result.json"
-   ]
-  },
-  {
-   "id": "O05-CC2",
-   "control": {
-    "exitCode": 0,
-    "tests": 27
-   },
-   "injected": {
-    "exitCode": 1,
-    "failedFullName": "O05 translateCasualtyScript / applyPalCasualtyOverlays：opcode 轴 0x30 参数非法 / 0x05 非零参数 / 未知 opcode 逐轴拒绝",
-    "failureMessageHead": "AssertionError: expected [Function] to throw an error",
-    "executed": 27
-   },
-   "hashes": {
-    "original": "92a83f96eeae92dcd2f4f645ffb96c75b9add59edd3a1aeb6aff14343327d005",
-    "mutated": "1891025af616d0427ed9036391ca1f780d8369cdf38250ed7e9124c96e8e8716",
-    "restored": "92a83f96eeae92dcd2f4f645ffb96c75b9add59edd3a1aeb6aff14343327d005"
-   },
-   "evidence": [
-    "counters/O05-CC2/spec.json",
-    "counters/O05-CC2/vitest-control.json",
-    "counters/O05-CC2/vitest-injected.json",
-    "counters/O05-CC2/mutation.patch",
-    "counters/O05-CC2/result.json"
-   ]
-  },
-  {
-   "id": "O05-CC3",
-   "control": {
-    "exitCode": 0,
-    "tests": 27
-   },
-   "injected": {
-    "exitCode": 1,
-    "failedFullName": "O05 assertPalStoreBoundaryInvariant / Alchemy：边界轴 alchemy 正控通过并校验 112/72 buyPrice=0 合同",
-    "failureMessageHead": "AssertionError: expected [Function] to throw an error",
-    "executed": 27
-   },
-   "hashes": {
-    "original": "ed7a219b1504e67adde82793e892d45946a87d83f5c103e15b0c74be9ebdf2b3",
-    "mutated": "1ca8d8e2b42acba9449aa4dafb4aaf9d2cf5588041a0eed0db954c883d602be0",
-    "restored": "ed7a219b1504e67adde82793e892d45946a87d83f5c103e15b0c74be9ebdf2b3"
-   },
-   "evidence": [
-    "counters/O05-CC3/spec.json",
-    "counters/O05-CC3/vitest-control.json",
-    "counters/O05-CC3/vitest-injected.json",
-    "counters/O05-CC3/mutation.patch",
-    "counters/O05-CC3/result.json"
-   ]
-  },
-  {
-   "id": "O05-CC4",
-   "control": {
-    "exitCode": 0,
-    "tests": 21
-   },
-   "injected": {
-    "exitCode": 1,
-    "failedFullName": "O05 createPalWorldSpriteRegistry：布局证据与变体 同一精灵两种 nSpriteFrames → stable base + -f<frames> 变体并报 layoutConflicts",
-    "failureMessageHead": "AssertionError: expected 'sprite-9' to be 'sprite-9-f3' // Object.is equality",
-    "executed": 21
-   },
-   "hashes": {
-    "original": "06acc8fb9520778b17082669d3ce26a0af662a4dd404c73b9338db2baeac8361",
-    "mutated": "093f590e29d9412f8c76dd02e31fc422b8f651b1b9854aa14d68322cb70b0462",
-    "restored": "06acc8fb9520778b17082669d3ce26a0af662a4dd404c73b9338db2baeac8361"
-   },
-   "evidence": [
-    "counters/O05-CC4/spec.json",
-    "counters/O05-CC4/vitest-control.json",
-    "counters/O05-CC4/vitest-injected.json",
-    "counters/O05-CC4/mutation.patch",
-    "counters/O05-CC4/result.json"
-   ]
-  },
-  {
-   "id": "O05-CC5",
-   "control": {
-    "exitCode": 0,
-    "tests": 21
-   },
-   "injected": {
-    "exitCode": 1,
-    "failedFullName": "O05 assertPalItemSchemeLabelInvariant：canonical label 与选择边 选择图成环 → fail-loud",
-    "failureMessageHead": "AssertionError: expected [Function] to throw error matching /PAL 物品剧情方案选择图成环/ but got 'Maximum call stack size exceeded'",
-    "executed": 21
-   },
-   "hashes": {
-    "original": "2ed904b1e73e8fabc10d20ff3b7846615324af6ea5be2b7d28f6629d8fc0dda9",
-    "mutated": "60b20360b897a59e8ec593005e959fb6e4e043e00af924ed73eb6827b58f0ede",
-    "restored": "2ed904b1e73e8fabc10d20ff3b7846615324af6ea5be2b7d28f6629d8fc0dda9"
-   },
-   "evidence": [
-    "counters/O05-CC5/spec.json",
-    "counters/O05-CC5/vitest-control.json",
-    "counters/O05-CC5/vitest-injected.json",
-    "counters/O05-CC5/mutation.patch",
-    "counters/O05-CC5/result.json"
-   ]
-  },
-  {
-   "id": "O06-CC1",
-   "control": {
-    "exitCode": 0,
-    "tests": 19
-   },
-   "injected": {
-    "exitCode": 1,
-    "failedFullName": "O06 validateStartWorldResources：资源池边界 空键/首尾空格键/collectValue 保留键/负值或非整数 逐轴拒绝",
-    "failureMessageHead": "AssertionError: expected [Function] to throw an error",
-    "executed": 19
-   },
-   "hashes": {
-    "original": "b71778d0ed1fc2f8195cb653f34b6d51a4c37fad9c63c496baa5fcf7d83c30fa",
-    "mutated": "eaa3adb85204bdd67e1daedef996bd23a0a467977f7d79e4ba0199044e4eea48",
-    "restored": "b71778d0ed1fc2f8195cb653f34b6d51a4c37fad9c63c496baa5fcf7d83c30fa"
-   },
-   "evidence": [
-    "counters/O06-CC1/spec.json",
-    "counters/O06-CC1/vitest-control.json",
-    "counters/O06-CC1/vitest-injected.json",
-    "counters/O06-CC1/mutation.patch",
-    "counters/O06-CC1/result.json"
-   ]
-  },
-  {
-   "id": "O06-CC2",
-   "control": {
-    "exitCode": 0,
-    "tests": 19
-   },
-   "injected": {
-    "exitCode": 1,
-    "failedFullName": "O06 validateCurrentManifestStartup：manifest 字段轴 入口 id 重复 / 首尾空格 / scene 不在场景索引 逐轴拒绝",
-    "failureMessageHead": "AssertionError: expected [Function] to throw an error",
-    "executed": 19
-   },
-   "hashes": {
-    "original": "b71778d0ed1fc2f8195cb653f34b6d51a4c37fad9c63c496baa5fcf7d83c30fa",
-    "mutated": "d41c001c0eaeafc2e7b3e59813744a6c60a9b7629269d5de7bf927fde523d97c",
-    "restored": "b71778d0ed1fc2f8195cb653f34b6d51a4c37fad9c63c496baa5fcf7d83c30fa"
-   },
-   "evidence": [
-    "counters/O06-CC2/spec.json",
-    "counters/O06-CC2/vitest-control.json",
-    "counters/O06-CC2/vitest-injected.json",
-    "counters/O06-CC2/mutation.patch",
-    "counters/O06-CC2/result.json"
-   ]
-  },
-  {
-   "id": "O06-CC3",
-   "control": {
-    "exitCode": 0,
-    "tests": 19
-   },
-   "injected": {
-    "exitCode": 1,
-    "failedFullName": "O06 validateScenes：运行态场景形状残臂 实体引用恰一（0 或 2 个）与 zone 无朝向 逐轴拒绝",
-    "failureMessageHead": "AssertionError: expected [Function] to throw an error",
-    "executed": 19
-   },
-   "hashes": {
-    "original": "b71778d0ed1fc2f8195cb653f34b6d51a4c37fad9c63c496baa5fcf7d83c30fa",
-    "mutated": "6efd22c8ecd35363ab7ae63ad0081a0f0b9d7618162d6fd74eafa09af22b8dcc",
-    "restored": "b71778d0ed1fc2f8195cb653f34b6d51a4c37fad9c63c496baa5fcf7d83c30fa"
-   },
-   "evidence": [
-    "counters/O06-CC3/spec.json",
-    "counters/O06-CC3/vitest-control.json",
-    "counters/O06-CC3/vitest-injected.json",
-    "counters/O06-CC3/mutation.patch",
-    "counters/O06-CC3/result.json"
-   ]
-  },
-  {
-   "id": "O06-CC4",
-   "control": {
-    "exitCode": 0,
-    "tests": 19
-   },
-   "injected": {
-    "exitCode": 1,
-    "failedFullName": "O06 validateSprites：layout/poses 残臂 directional 缺 framesPerDir / 非正整数 拒绝；static 通过",
-    "failureMessageHead": "AssertionError: expected [Function] to throw error matching /directional 缺 framesPerDir/ but got 'sprites[0].layout: directional frames…'",
-    "executed": 19
-   },
-   "hashes": {
-    "original": "b71778d0ed1fc2f8195cb653f34b6d51a4c37fad9c63c496baa5fcf7d83c30fa",
-    "mutated": "33ec52b4759d0289e0c8af10b0d714f039101247e84e2c31566bc794a91b1fc3",
-    "restored": "b71778d0ed1fc2f8195cb653f34b6d51a4c37fad9c63c496baa5fcf7d83c30fa"
-   },
-   "evidence": [
-    "counters/O06-CC4/spec.json",
-    "counters/O06-CC4/vitest-control.json",
-    "counters/O06-CC4/vitest-injected.json",
-    "counters/O06-CC4/mutation.patch",
-    "counters/O06-CC4/result.json"
-   ]
-  },
-  {
-   "id": "O06-CC5",
-   "control": {
-    "exitCode": 0,
-    "tests": 19
-   },
-   "injected": {
-    "exitCode": 1,
-    "failedFullName": "O06 validateScenes：运行态场景形状残臂 实体引用恰一（0 或 2 个）与 zone 无朝向 逐轴拒绝",
-    "failureMessageHead": "AssertionError: expected [Function] to throw an error",
-    "executed": 19
-   },
-   "hashes": {
-    "original": "b71778d0ed1fc2f8195cb653f34b6d51a4c37fad9c63c496baa5fcf7d83c30fa",
-    "mutated": "eed84efe573c267240a98c131c2d544639b7cb46d9837938c941d8ad73630515",
-    "restored": "b71778d0ed1fc2f8195cb653f34b6d51a4c37fad9c63c496baa5fcf7d83c30fa"
-   },
-   "evidence": [
-    "counters/O06-CC5/spec.json",
-    "counters/O06-CC5/vitest-control.json",
-    "counters/O06-CC5/vitest-injected.json",
-    "counters/O06-CC5/mutation.patch",
-    "counters/O06-CC5/result.json"
-   ]
-  }
- ]
+  "total": 44,
+  "rule": "三态：control 全绿 → injected 恰一目标 fullName 业务 AssertionError 红 → restored 恢复后重跑全绿；patch 以 --unidiff-zero 重建并校验字节等于 mutatedSha；候选树零改动",
+  "counters": [
+    {
+      "id": "O01-CC1",
+      "control": {
+        "exitCode": 0,
+        "executed": 43,
+        "passed": 43,
+        "failed": 0
+      },
+      "injected": {
+        "exitCode": 1,
+        "failedFullName": "O01 validatePalCurrentPublication：发布门与 census 拒绝合同（合成工程） 方案 label 漂移被永久门禁拒绝（名称漂移）",
+        "failureMessageHead": "AssertionError: expected [Function] to throw an error",
+        "executed": 43
+      },
+      "restored": {
+        "exitCode": 0,
+        "executed": 43,
+        "passed": 43,
+        "failed": 0
+      },
+      "hashes": {
+        "original": "2ed904b1e73e8fabc10d20ff3b7846615324af6ea5be2b7d28f6629d8fc0dda9",
+        "mutated": "88b11bf640c70fcca322265258d077d8cb3544a6de86c095643f10d5254a0501",
+        "restored": "2ed904b1e73e8fabc10d20ff3b7846615324af6ea5be2b7d28f6629d8fc0dda9",
+        "rebuilt": "88b11bf640c70fcca322265258d077d8cb3544a6de86c095643f10d5254a0501"
+      },
+      "patchRebuiltAndVerified": true
+    },
+    {
+      "id": "O01-CC2",
+      "control": {
+        "exitCode": 0,
+        "executed": 43,
+        "passed": 43,
+        "failed": 0
+      },
+      "injected": {
+        "exitCode": 1,
+        "failedFullName": "O01 validatePalCurrentPublication：发布门与 census 拒绝合同（合成工程） 作者改动 buy openShop 至 28 时生成侧 census 拒绝发布",
+        "failureMessageHead": "AssertionError: expected [Function] to throw an error",
+        "executed": 43
+      },
+      "restored": {
+        "exitCode": 0,
+        "executed": 43,
+        "passed": 43,
+        "failed": 0
+      },
+      "hashes": {
+        "original": "ed7a219b1504e67adde82793e892d45946a87d83f5c103e15b0c74be9ebdf2b3",
+        "mutated": "a4b169d33a6d579ede077123db69aa1bdd8ee363251706e259eca056cadfc770",
+        "restored": "ed7a219b1504e67adde82793e892d45946a87d83f5c103e15b0c74be9ebdf2b3",
+        "rebuilt": "a4b169d33a6d579ede077123db69aa1bdd8ee363251706e259eca056cadfc770"
+      },
+      "patchRebuiltAndVerified": true
+    },
+    {
+      "id": "O01-CC3",
+      "control": {
+        "exitCode": 0,
+        "executed": 43,
+        "passed": 43,
+        "failed": 0
+      },
+      "injected": {
+        "exitCode": 1,
+        "failedFullName": "O01 buildPalCurrentPublication：分区替换与作者保留（合成工程） current baseline 含历史发布路径（_transitions/content/migrations/scripts）时 fail-loud",
+        "failureMessageHead": "AssertionError: expected [Function] to throw an error",
+        "executed": 43
+      },
+      "restored": {
+        "exitCode": 0,
+        "executed": 43,
+        "passed": 43,
+        "failed": 0
+      },
+      "hashes": {
+        "original": "58c53e17e8d37030d323584e37f412d195410a05aebd22d06e54e2001ac91c16",
+        "mutated": "266dbb02bd807e63d257073892b5e22ac507fd2efd8999b22837e068e6cc055a",
+        "restored": "58c53e17e8d37030d323584e37f412d195410a05aebd22d06e54e2001ac91c16",
+        "rebuilt": "266dbb02bd807e63d257073892b5e22ac507fd2efd8999b22837e068e6cc055a"
+      },
+      "patchRebuiltAndVerified": true
+    },
+    {
+      "id": "O01-CC4",
+      "control": {
+        "exitCode": 0,
+        "executed": 29,
+        "passed": 29,
+        "failed": 0
+      },
+      "injected": {
+        "exitCode": 1,
+        "failedFullName": "O01 commitMigrationTransaction：提交侧单轴拒绝合同 重复目标在提交侧被拒绝",
+        "failureMessageHead": "AssertionError: expected [Function] to throw error including '迁移事务包含重复目标' but got '迁移事务 journal 包含重复目标: projects/pal/con…'",
+        "executed": 29
+      },
+      "restored": {
+        "exitCode": 0,
+        "executed": 29,
+        "passed": 29,
+        "failed": 0
+      },
+      "hashes": {
+        "original": "f22787611d1e0ae9b2b0ee8f03cf863a6ef48dafe4abed8ec8a841fd1561b78f",
+        "mutated": "cf574a456f97c0faeccf0804563dbcc9adf64428651298365f47de0395b1d939",
+        "restored": "f22787611d1e0ae9b2b0ee8f03cf863a6ef48dafe4abed8ec8a841fd1561b78f",
+        "rebuilt": "cf574a456f97c0faeccf0804563dbcc9adf64428651298365f47de0395b1d939"
+      },
+      "patchRebuiltAndVerified": true
+    },
+    {
+      "id": "O01-CC5",
+      "control": {
+        "exitCode": 0,
+        "executed": 43,
+        "passed": 43,
+        "failed": 0
+      },
+      "injected": {
+        "exitCode": 1,
+        "failedFullName": "O01 buildPalCurrentPublication：分区替换与作者保留（合成工程） 别名闭包：legacy 定义布局漂移（variant）时拒绝发布",
+        "failureMessageHead": "AssertionError: expected [Function] to throw an error",
+        "executed": 43
+      },
+      "restored": {
+        "exitCode": 0,
+        "executed": 43,
+        "passed": 43,
+        "failed": 0
+      },
+      "hashes": {
+        "original": "f26f0f6bf3df74a327fcb9d1b002c7f788aa985f1fac53c59f8ff9ded472d3f6",
+        "mutated": "e46d69fb7db245505790a89afd889973f51c65709a17dd38f1e0a812675728e6",
+        "restored": "f26f0f6bf3df74a327fcb9d1b002c7f788aa985f1fac53c59f8ff9ded472d3f6",
+        "rebuilt": "e46d69fb7db245505790a89afd889973f51c65709a17dd38f1e0a812675728e6"
+      },
+      "patchRebuiltAndVerified": true
+    },
+    {
+      "id": "O02-CC1",
+      "control": {
+        "exitCode": 0,
+        "executed": 30,
+        "passed": 30,
+        "failed": 0
+      },
+      "injected": {
+        "exitCode": 1,
+        "failedFullName": "O02 mergeManagedFile：身份数组与失效身份（合成文件） 场景 entities：非对象条目（无身份）→ invalid-identity 冲突",
+        "failureMessageHead": "AssertionError: expected [] to deeply equal [ 'invalid-identity' ]",
+        "executed": 30
+      },
+      "restored": {
+        "exitCode": 0,
+        "executed": 30,
+        "passed": 30,
+        "failed": 0
+      },
+      "hashes": {
+        "original": "e1d3a877f72e876fd64191555aadbd61bbc11fde1db3f9e7cf9fe71c494b777e",
+        "mutated": "653cd4226fbe8a947f36331ca189336d223202da46f247d666204eb1a4ea33e8",
+        "restored": "e1d3a877f72e876fd64191555aadbd61bbc11fde1db3f9e7cf9fe71c494b777e",
+        "rebuilt": "653cd4226fbe8a947f36331ca189336d223202da46f247d666204eb1a4ea33e8"
+      },
+      "patchRebuiltAndVerified": true
+    },
+    {
+      "id": "O02-CC2",
+      "control": {
+        "exitCode": 0,
+        "executed": 30,
+        "passed": 30,
+        "failed": 0
+      },
+      "injected": {
+        "exitCode": 1,
+        "failedFullName": "O02 mergeManagedFile：身份数组与失效身份（合成文件） scenes/index.json 严格顺序：双方不同重排 → array-order 冲突",
+        "failureMessageHead": "AssertionError: expected [] to deeply equal [ 'array-order' ]",
+        "executed": 30
+      },
+      "restored": {
+        "exitCode": 0,
+        "executed": 30,
+        "passed": 30,
+        "failed": 0
+      },
+      "hashes": {
+        "original": "e1d3a877f72e876fd64191555aadbd61bbc11fde1db3f9e7cf9fe71c494b777e",
+        "mutated": "4a8bc2be3ca3bc83b85a4517184580a2380b67c4eb7f5ba285aa8eb5e544998e",
+        "restored": "e1d3a877f72e876fd64191555aadbd61bbc11fde1db3f9e7cf9fe71c494b777e",
+        "rebuilt": "4a8bc2be3ca3bc83b85a4517184580a2380b67c4eb7f5ba285aa8eb5e544998e"
+      },
+      "patchRebuiltAndVerified": true
+    },
+    {
+      "id": "O02-CC3",
+      "control": {
+        "exitCode": 0,
+        "executed": 30,
+        "passed": 30,
+        "failed": 0
+      },
+      "injected": {
+        "exitCode": 1,
+        "failedFullName": "O02 mergeManagedFile：authored 接管与 catalog 目标校验 assets/index.json：ours authored 接管后迁移字段不再拼入",
+        "failureMessageHead": "AssertionError: expected [ { file: 'assets/index.json', …(5) } ] to deeply equal []",
+        "executed": 30
+      },
+      "restored": {
+        "exitCode": 0,
+        "executed": 30,
+        "passed": 30,
+        "failed": 0
+      },
+      "hashes": {
+        "original": "e1d3a877f72e876fd64191555aadbd61bbc11fde1db3f9e7cf9fe71c494b777e",
+        "mutated": "27a127626cc19d2167388d1d06f873d617c8420a85b33d64b2de509a9fd54d6f",
+        "restored": "e1d3a877f72e876fd64191555aadbd61bbc11fde1db3f9e7cf9fe71c494b777e",
+        "rebuilt": "27a127626cc19d2167388d1d06f873d617c8420a85b33d64b2de509a9fd54d6f"
+      },
+      "patchRebuiltAndVerified": true
+    },
+    {
+      "id": "O02-CC4",
+      "control": {
+        "exitCode": 0,
+        "executed": 18,
+        "passed": 18,
+        "failed": 0
+      },
+      "injected": {
+        "exitCode": 1,
+        "failedFullName": "O02 createMigrationPlan：普通文件、写入/删除与输入不可变 theirs 新增文件进入 writes；theirs 删除的托管文件进入 deletes",
+        "failureMessageHead": "AssertionError: expected [] to deeply equal [ 'content/extra.json' ]",
+        "executed": 18
+      },
+      "restored": {
+        "exitCode": 0,
+        "executed": 18,
+        "passed": 18,
+        "failed": 0
+      },
+      "hashes": {
+        "original": "642960ee8944b69eb8b9f40e785d3dc218826d69ad6bdc8b3b686abaa6b90750",
+        "mutated": "1da947e4c16f33e7e74ab8d008f5bc86bf7a931bcef1dc358dcee280f7a55309",
+        "restored": "642960ee8944b69eb8b9f40e785d3dc218826d69ad6bdc8b3b686abaa6b90750",
+        "rebuilt": "1da947e4c16f33e7e74ab8d008f5bc86bf7a931bcef1dc358dcee280f7a55309"
+      },
+      "patchRebuiltAndVerified": true
+    },
+    {
+      "id": "O02-CC5",
+      "control": {
+        "exitCode": 0,
+        "executed": 18,
+        "passed": 18,
+        "failed": 0
+      },
+      "injected": {
+        "exitCode": 1,
+        "failedFullName": "O02 discoverProjectManagedFiles：索引发现与坏索引拒绝 maps index path 非字符串 / maps 非数组分别 fail-loud",
+        "failureMessageHead": "AssertionError: expected [Function] to throw an error",
+        "executed": 18
+      },
+      "restored": {
+        "exitCode": 0,
+        "executed": 18,
+        "passed": 18,
+        "failed": 0
+      },
+      "hashes": {
+        "original": "13e4fffa9b47beb089eff15733574cccd8aa5ff21fd9f26294bf0cbdb9d83b0c",
+        "mutated": "1bf3c8dc1559fa56ffe9fcfb0e6ebf4926a6ee25fa8c4b3d8ce33a6c2955322a",
+        "restored": "13e4fffa9b47beb089eff15733574cccd8aa5ff21fd9f26294bf0cbdb9d83b0c",
+        "rebuilt": "1bf3c8dc1559fa56ffe9fcfb0e6ebf4926a6ee25fa8c4b3d8ce33a6c2955322a"
+      },
+      "patchRebuiltAndVerified": true
+    },
+    {
+      "id": "O03-CC1",
+      "control": {
+        "exitCode": 0,
+        "executed": 21,
+        "passed": 21,
+        "failed": 0
+      },
+      "injected": {
+        "exitCode": 1,
+        "failedFullName": "O03 buildMigrationTransactionChanges：工程写入与规划快照门 工程写按 scenes/index 最后排序；map 内容走专用序列化",
+        "failureMessageHead": "AssertionError: expected 'projects/pal/content/zz-sidecar.json' to be 'projects/pal/content/scenes/index.json' // Object.is equality",
+        "executed": 21
+      },
+      "restored": {
+        "exitCode": 0,
+        "executed": 21,
+        "passed": 21,
+        "failed": 0
+      },
+      "hashes": {
+        "original": "4fd28ecd4c767cc0eeb9cf897f15bc731e0b31e8826c2515cc7772e58d2c09b3",
+        "mutated": "7a59f62f3675344d7c4f191e52bace90e1270e3c71d39887f76f1329ab6aba0d",
+        "restored": "4fd28ecd4c767cc0eeb9cf897f15bc731e0b31e8826c2515cc7772e58d2c09b3",
+        "rebuilt": "7a59f62f3675344d7c4f191e52bace90e1270e3c71d39887f76f1329ab6aba0d"
+      },
+      "patchRebuiltAndVerified": true
+    },
+    {
+      "id": "O03-CC2",
+      "control": {
+        "exitCode": 0,
+        "executed": 21,
+        "passed": 21,
+        "failed": 0
+      },
+      "injected": {
+        "exitCode": 1,
+        "failedFullName": "O03 buildMigrationTransactionChanges：退役资源与重复目标 退役资源路径越界或 sha 非法 → fail-loud",
+        "failureMessageHead": "AssertionError: expected [Function] to throw an error",
+        "executed": 21
+      },
+      "restored": {
+        "exitCode": 0,
+        "executed": 21,
+        "passed": 21,
+        "failed": 0
+      },
+      "hashes": {
+        "original": "4fd28ecd4c767cc0eeb9cf897f15bc731e0b31e8826c2515cc7772e58d2c09b3",
+        "mutated": "2d08cfb576b3f1b9d6b9e098b064aad562a3120489f6e724dab61f97e56fb8d3",
+        "restored": "4fd28ecd4c767cc0eeb9cf897f15bc731e0b31e8826c2515cc7772e58d2c09b3",
+        "rebuilt": "2d08cfb576b3f1b9d6b9e098b064aad562a3120489f6e724dab61f97e56fb8d3"
+      },
+      "patchRebuiltAndVerified": true
+    },
+    {
+      "id": "O03-CC3",
+      "control": {
+        "exitCode": 0,
+        "executed": 21,
+        "passed": 21,
+        "failed": 0
+      },
+      "injected": {
+        "exitCode": 1,
+        "failedFullName": "O03 事务与 journal：symlink/绝对路径/恢复次序（mkdtemp） 目标为 symlink 时提交被拒绝（assertMigrationFilePath）",
+        "failureMessageHead": "AssertionError: expected [Function] to throw error including '不得经过符号链接: projects/pal/content/link.j…' but got '迁移事务 journal target 路径类型无效: projects/…'",
+        "executed": 21
+      },
+      "restored": {
+        "exitCode": 0,
+        "executed": 21,
+        "passed": 21,
+        "failed": 0
+      },
+      "hashes": {
+        "original": "eb5a5e6193b79314c0c6ae7289582c7bcdc496d079f7ebd9a0e34dc5817e7310",
+        "mutated": "0f260aa7d7233956f67fc6cff47a8f39fceba58a11fbae9b65b0defa7069105a",
+        "restored": "eb5a5e6193b79314c0c6ae7289582c7bcdc496d079f7ebd9a0e34dc5817e7310",
+        "rebuilt": "0f260aa7d7233956f67fc6cff47a8f39fceba58a11fbae9b65b0defa7069105a"
+      },
+      "patchRebuiltAndVerified": true
+    },
+    {
+      "id": "O03-CC4",
+      "control": {
+        "exitCode": 0,
+        "executed": 10,
+        "passed": 10,
+        "failed": 0
+      },
+      "injected": {
+        "exitCode": 1,
+        "failedFullName": "O03 buildPalContentSupply：供应输入守卫残余 同一 EventObject 出现在多个场景时 fail-loud（全局实体唯一）",
+        "failureMessageHead": "AssertionError: expected [Function] to throw an error",
+        "executed": 10
+      },
+      "restored": {
+        "exitCode": 0,
+        "executed": 10,
+        "passed": 10,
+        "failed": 0
+      },
+      "hashes": {
+        "original": "0a0f7bc729c75ae496d55b86283f670e1b4b745c4383f9d02f2b0c16a7dfff6b",
+        "mutated": "7e78a4d10cf49826c45b616c9f462f802c140d6466954186f6b6353cd934fe5f",
+        "restored": "0a0f7bc729c75ae496d55b86283f670e1b4b745c4383f9d02f2b0c16a7dfff6b",
+        "rebuilt": "7e78a4d10cf49826c45b616c9f462f802c140d6466954186f6b6353cd934fe5f"
+      },
+      "patchRebuiltAndVerified": true
+    },
+    {
+      "id": "O03-CC5",
+      "control": {
+        "exitCode": 0,
+        "executed": 10,
+        "passed": 10,
+        "failed": 0
+      },
+      "injected": {
+        "exitCode": 1,
+        "failedFullName": "O03 validatePalCurrentPublication：装备战斗精灵引用门 覆写引用未知角色 → 发布门以 where: message 拒绝",
+        "failureMessageHead": "AssertionError: expected [Function] to throw error matching /items\\[\\d+\\]\\(166\\)\\.equip\\.effects\\[…/ but got 'Cannot read properties of undefined (…'",
+        "executed": 10
+      },
+      "restored": {
+        "exitCode": 0,
+        "executed": 10,
+        "passed": 10,
+        "failed": 0
+      },
+      "hashes": {
+        "original": "56e68d78a1fbb643053321877af41a7721775ca5fdd5a7ac62b4fa5d2d4dfa0a",
+        "mutated": "b2173c0dead85006c7d744b618454207f0af1ec7546895506b9cad3bdb0b1683",
+        "restored": "56e68d78a1fbb643053321877af41a7721775ca5fdd5a7ac62b4fa5d2d4dfa0a",
+        "rebuilt": "b2173c0dead85006c7d744b618454207f0af1ec7546895506b9cad3bdb0b1683"
+      },
+      "patchRebuiltAndVerified": true
+    },
+    {
+      "id": "O04-CC1",
+      "control": {
+        "exitCode": 0,
+        "executed": 37,
+        "passed": 37,
+        "failed": 0
+      },
+      "injected": {
+        "exitCode": 1,
+        "failedFullName": "O04 materializePalAssets：合成 catalog 的确定性物化 重复物化：内容一致 → unchanged，不重写",
+        "failureMessageHead": "AssertionError: expected { written: 1, unchanged: +0, …(3) } to match object { written: +0, unchanged: 1 }",
+        "executed": 37
+      },
+      "restored": {
+        "exitCode": 0,
+        "executed": 37,
+        "passed": 37,
+        "failed": 0
+      },
+      "hashes": {
+        "original": "131b101ef065d32bd6b0c76a04ac082eb6b9e56965de211541a198eb7219d5b8",
+        "mutated": "6496be4ed2383e2dba92f840443205a78fab414eaa45cb3f3379f7dc7edb37f0",
+        "restored": "131b101ef065d32bd6b0c76a04ac082eb6b9e56965de211541a198eb7219d5b8",
+        "rebuilt": "6496be4ed2383e2dba92f840443205a78fab414eaa45cb3f3379f7dc7edb37f0"
+      },
+      "patchRebuiltAndVerified": true
+    },
+    {
+      "id": "O04-CC2",
+      "control": {
+        "exitCode": 0,
+        "executed": 37,
+        "passed": 37,
+        "failed": 0
+      },
+      "injected": {
+        "exitCode": 1,
+        "failedFullName": "O04 planPalAssetRetirements：退役推导合同 legacy-migrated 且目标缺失且磁盘一致 → 入退役清单并排序",
+        "failureMessageHead": "AssertionError: expected [ Array(3) ] to deeply equal [ Array(2) ]",
+        "executed": 37
+      },
+      "restored": {
+        "exitCode": 0,
+        "executed": 37,
+        "passed": 37,
+        "failed": 0
+      },
+      "hashes": {
+        "original": "131b101ef065d32bd6b0c76a04ac082eb6b9e56965de211541a198eb7219d5b8",
+        "mutated": "73e5df9cfb6479e9c81b67d19df340a5164a4c07921d8654a7ccd9c409e31cf5",
+        "restored": "131b101ef065d32bd6b0c76a04ac082eb6b9e56965de211541a198eb7219d5b8",
+        "rebuilt": "73e5df9cfb6479e9c81b67d19df340a5164a4c07921d8654a7ccd9c409e31cf5"
+      },
+      "patchRebuiltAndVerified": true
+    },
+    {
+      "id": "O04-CC3",
+      "control": {
+        "exitCode": 0,
+        "executed": 37,
+        "passed": 37,
+        "failed": 0
+      },
+      "injected": {
+        "exitCode": 1,
+        "failedFullName": "O04 loadPalSoundAssets：合成 505 段三向闭包 metadata/manifest/磁盘 size 三向不一致 → 拒绝；非 RIFF 字节 → 拒绝",
+        "failureMessageHead": "AssertionError: expected [Function] to throw an error",
+        "executed": 37
+      },
+      "restored": {
+        "exitCode": 0,
+        "executed": 37,
+        "passed": 37,
+        "failed": 0
+      },
+      "hashes": {
+        "original": "131b101ef065d32bd6b0c76a04ac082eb6b9e56965de211541a198eb7219d5b8",
+        "mutated": "bff721dff44e09c5fe6352262c83d07e1746c7151e53b1258012460f5fedc3f3",
+        "restored": "131b101ef065d32bd6b0c76a04ac082eb6b9e56965de211541a198eb7219d5b8",
+        "rebuilt": "bff721dff44e09c5fe6352262c83d07e1746c7151e53b1258012460f5fedc3f3"
+      },
+      "patchRebuiltAndVerified": true
+    },
+    {
+      "id": "O04-CC4",
+      "control": {
+        "exitCode": 0,
+        "executed": 37,
+        "passed": 37,
+        "failed": 0
+      },
+      "injected": {
+        "exitCode": 1,
+        "failedFullName": "O04 loadPalStaticImages：合成 88 立绘/5 头像/233 图标/52 背景 战场背景尺寸漂移与 R=G=B 违约逐轴拒绝",
+        "failureMessageHead": "AssertionError: expected [Function] to throw an error",
+        "executed": 37
+      },
+      "restored": {
+        "exitCode": 0,
+        "executed": 37,
+        "passed": 37,
+        "failed": 0
+      },
+      "hashes": {
+        "original": "131b101ef065d32bd6b0c76a04ac082eb6b9e56965de211541a198eb7219d5b8",
+        "mutated": "7c93beb40bb414707b57fcadefdf6840bea3fd815a7d011e4f9e8f5c6a5ad6df",
+        "restored": "131b101ef065d32bd6b0c76a04ac082eb6b9e56965de211541a198eb7219d5b8",
+        "rebuilt": "7c93beb40bb414707b57fcadefdf6840bea3fd815a7d011e4f9e8f5c6a5ad6df"
+      },
+      "patchRebuiltAndVerified": true
+    },
+    {
+      "id": "O04-CC5",
+      "control": {
+        "exitCode": 0,
+        "executed": 37,
+        "passed": 37,
+        "failed": 0
+      },
+      "injected": {
+        "exitCode": 1,
+        "failedFullName": "O04 loadPalSoundAssets：合成 505 段三向闭包 段号不连续 / size 非法 / isEmpty 不一致逐轴拒绝",
+        "failureMessageHead": "AssertionError: expected [Function] to throw an error",
+        "executed": 37
+      },
+      "restored": {
+        "exitCode": 0,
+        "executed": 37,
+        "passed": 37,
+        "failed": 0
+      },
+      "hashes": {
+        "original": "131b101ef065d32bd6b0c76a04ac082eb6b9e56965de211541a198eb7219d5b8",
+        "mutated": "62ca89f5f11e9edb01462a28a9474a8516d102b617d72c0b6c7b8adb075e1924",
+        "restored": "131b101ef065d32bd6b0c76a04ac082eb6b9e56965de211541a198eb7219d5b8",
+        "rebuilt": "62ca89f5f11e9edb01462a28a9474a8516d102b617d72c0b6c7b8adb075e1924"
+      },
+      "patchRebuiltAndVerified": true
+    },
+    {
+      "id": "O05-CC1",
+      "control": {
+        "exitCode": 0,
+        "executed": 27,
+        "passed": 27,
+        "failed": 0
+      },
+      "injected": {
+        "exitCode": 1,
+        "failedFullName": "O05 applyPalItemOverlays：隐蛊与 puppet 轴 puppet 状态效果被强制 battleOnly（无论原值）",
+        "failureMessageHead": "AssertionError: expected false to be true // Object.is equality",
+        "executed": 27
+      },
+      "restored": {
+        "exitCode": 0,
+        "executed": 27,
+        "passed": 27,
+        "failed": 0
+      },
+      "hashes": {
+        "original": "93bfb3a4ff7bb89112578ba9044e62e357f654b9a1836056dda370b243145d8a",
+        "mutated": "4477174f504131f7cc4ab70acf4c6729cab587747f9efec0312ee97e2e665d80",
+        "restored": "93bfb3a4ff7bb89112578ba9044e62e357f654b9a1836056dda370b243145d8a",
+        "rebuilt": "4477174f504131f7cc4ab70acf4c6729cab587747f9efec0312ee97e2e665d80"
+      },
+      "patchRebuiltAndVerified": true
+    },
+    {
+      "id": "O05-CC2",
+      "control": {
+        "exitCode": 0,
+        "executed": 27,
+        "passed": 27,
+        "failed": 0
+      },
+      "injected": {
+        "exitCode": 1,
+        "failedFullName": "O05 translateCasualtyScript / applyPalCasualtyOverlays：opcode 轴 0x30 参数非法 / 0x05 非零参数 / 未知 opcode 逐轴拒绝",
+        "failureMessageHead": "AssertionError: expected [Function] to throw an error",
+        "executed": 27
+      },
+      "restored": {
+        "exitCode": 0,
+        "executed": 27,
+        "passed": 27,
+        "failed": 0
+      },
+      "hashes": {
+        "original": "92a83f96eeae92dcd2f4f645ffb96c75b9add59edd3a1aeb6aff14343327d005",
+        "mutated": "1891025af616d0427ed9036391ca1f780d8369cdf38250ed7e9124c96e8e8716",
+        "restored": "92a83f96eeae92dcd2f4f645ffb96c75b9add59edd3a1aeb6aff14343327d005",
+        "rebuilt": "1891025af616d0427ed9036391ca1f780d8369cdf38250ed7e9124c96e8e8716"
+      },
+      "patchRebuiltAndVerified": true
+    },
+    {
+      "id": "O05-CC3",
+      "control": {
+        "exitCode": 0,
+        "executed": 27,
+        "passed": 27,
+        "failed": 0
+      },
+      "injected": {
+        "exitCode": 1,
+        "failedFullName": "O05 assertPalStoreBoundaryInvariant / Alchemy：边界轴 alchemy 正控通过并校验 112/72 buyPrice=0 合同",
+        "failureMessageHead": "AssertionError: expected [Function] to throw an error",
+        "executed": 27
+      },
+      "restored": {
+        "exitCode": 0,
+        "executed": 27,
+        "passed": 27,
+        "failed": 0
+      },
+      "hashes": {
+        "original": "ed7a219b1504e67adde82793e892d45946a87d83f5c103e15b0c74be9ebdf2b3",
+        "mutated": "1ca8d8e2b42acba9449aa4dafb4aaf9d2cf5588041a0eed0db954c883d602be0",
+        "restored": "ed7a219b1504e67adde82793e892d45946a87d83f5c103e15b0c74be9ebdf2b3",
+        "rebuilt": "1ca8d8e2b42acba9449aa4dafb4aaf9d2cf5588041a0eed0db954c883d602be0"
+      },
+      "patchRebuiltAndVerified": true
+    },
+    {
+      "id": "O05-CC4",
+      "control": {
+        "exitCode": 0,
+        "executed": 21,
+        "passed": 21,
+        "failed": 0
+      },
+      "injected": {
+        "exitCode": 1,
+        "failedFullName": "O05 createPalWorldSpriteRegistry：布局证据与变体 同一精灵两种 nSpriteFrames → stable base + -f<frames> 变体并报 layoutConflicts",
+        "failureMessageHead": "AssertionError: expected 'sprite-9' to be 'sprite-9-f3' // Object.is equality",
+        "executed": 21
+      },
+      "restored": {
+        "exitCode": 0,
+        "executed": 21,
+        "passed": 21,
+        "failed": 0
+      },
+      "hashes": {
+        "original": "06acc8fb9520778b17082669d3ce26a0af662a4dd404c73b9338db2baeac8361",
+        "mutated": "093f590e29d9412f8c76dd02e31fc422b8f651b1b9854aa14d68322cb70b0462",
+        "restored": "06acc8fb9520778b17082669d3ce26a0af662a4dd404c73b9338db2baeac8361",
+        "rebuilt": "093f590e29d9412f8c76dd02e31fc422b8f651b1b9854aa14d68322cb70b0462"
+      },
+      "patchRebuiltAndVerified": true
+    },
+    {
+      "id": "O05-CC5",
+      "control": {
+        "exitCode": 0,
+        "executed": 21,
+        "passed": 21,
+        "failed": 0
+      },
+      "injected": {
+        "exitCode": 1,
+        "failedFullName": "O05 assertPalItemSchemeLabelInvariant：canonical label 与选择边 选择图成环 → fail-loud",
+        "failureMessageHead": "AssertionError: expected [Function] to throw error matching /PAL 物品剧情方案选择图成环/ but got 'Maximum call stack size exceeded'",
+        "executed": 21
+      },
+      "restored": {
+        "exitCode": 0,
+        "executed": 21,
+        "passed": 21,
+        "failed": 0
+      },
+      "hashes": {
+        "original": "2ed904b1e73e8fabc10d20ff3b7846615324af6ea5be2b7d28f6629d8fc0dda9",
+        "mutated": "60b20360b897a59e8ec593005e959fb6e4e043e00af924ed73eb6827b58f0ede",
+        "restored": "2ed904b1e73e8fabc10d20ff3b7846615324af6ea5be2b7d28f6629d8fc0dda9",
+        "rebuilt": "60b20360b897a59e8ec593005e959fb6e4e043e00af924ed73eb6827b58f0ede"
+      },
+      "patchRebuiltAndVerified": true
+    },
+    {
+      "id": "O06-CC1",
+      "control": {
+        "exitCode": 0,
+        "executed": 19,
+        "passed": 19,
+        "failed": 0
+      },
+      "injected": {
+        "exitCode": 1,
+        "failedFullName": "O06 validateStartWorldResources：资源池边界 空键/首尾空格键/collectValue 保留键/负值或非整数 逐轴拒绝",
+        "failureMessageHead": "AssertionError: expected [Function] to throw an error",
+        "executed": 19
+      },
+      "restored": {
+        "exitCode": 0,
+        "executed": 19,
+        "passed": 19,
+        "failed": 0
+      },
+      "hashes": {
+        "original": "b71778d0ed1fc2f8195cb653f34b6d51a4c37fad9c63c496baa5fcf7d83c30fa",
+        "mutated": "eaa3adb85204bdd67e1daedef996bd23a0a467977f7d79e4ba0199044e4eea48",
+        "restored": "b71778d0ed1fc2f8195cb653f34b6d51a4c37fad9c63c496baa5fcf7d83c30fa",
+        "rebuilt": "eaa3adb85204bdd67e1daedef996bd23a0a467977f7d79e4ba0199044e4eea48"
+      },
+      "patchRebuiltAndVerified": true
+    },
+    {
+      "id": "O06-CC2",
+      "control": {
+        "exitCode": 0,
+        "executed": 19,
+        "passed": 19,
+        "failed": 0
+      },
+      "injected": {
+        "exitCode": 1,
+        "failedFullName": "O06 validateCurrentManifestStartup：manifest 字段轴 入口 id 重复 / 首尾空格 / scene 不在场景索引 逐轴拒绝",
+        "failureMessageHead": "AssertionError: expected [Function] to throw an error",
+        "executed": 19
+      },
+      "restored": {
+        "exitCode": 0,
+        "executed": 19,
+        "passed": 19,
+        "failed": 0
+      },
+      "hashes": {
+        "original": "b71778d0ed1fc2f8195cb653f34b6d51a4c37fad9c63c496baa5fcf7d83c30fa",
+        "mutated": "d41c001c0eaeafc2e7b3e59813744a6c60a9b7629269d5de7bf927fde523d97c",
+        "restored": "b71778d0ed1fc2f8195cb653f34b6d51a4c37fad9c63c496baa5fcf7d83c30fa",
+        "rebuilt": "d41c001c0eaeafc2e7b3e59813744a6c60a9b7629269d5de7bf927fde523d97c"
+      },
+      "patchRebuiltAndVerified": true
+    },
+    {
+      "id": "O06-CC3",
+      "control": {
+        "exitCode": 0,
+        "executed": 19,
+        "passed": 19,
+        "failed": 0
+      },
+      "injected": {
+        "exitCode": 1,
+        "failedFullName": "O06 validateScenes：运行态场景形状残臂 实体引用恰一（0 或 2 个）与 zone 无朝向 逐轴拒绝",
+        "failureMessageHead": "AssertionError: expected [Function] to throw an error",
+        "executed": 19
+      },
+      "restored": {
+        "exitCode": 0,
+        "executed": 19,
+        "passed": 19,
+        "failed": 0
+      },
+      "hashes": {
+        "original": "b71778d0ed1fc2f8195cb653f34b6d51a4c37fad9c63c496baa5fcf7d83c30fa",
+        "mutated": "6efd22c8ecd35363ab7ae63ad0081a0f0b9d7618162d6fd74eafa09af22b8dcc",
+        "restored": "b71778d0ed1fc2f8195cb653f34b6d51a4c37fad9c63c496baa5fcf7d83c30fa",
+        "rebuilt": "6efd22c8ecd35363ab7ae63ad0081a0f0b9d7618162d6fd74eafa09af22b8dcc"
+      },
+      "patchRebuiltAndVerified": true
+    },
+    {
+      "id": "O06-CC4",
+      "control": {
+        "exitCode": 0,
+        "executed": 19,
+        "passed": 19,
+        "failed": 0
+      },
+      "injected": {
+        "exitCode": 1,
+        "failedFullName": "O06 validateSprites：layout/poses 残臂 directional 缺 framesPerDir / 非正整数 拒绝；static 通过",
+        "failureMessageHead": "AssertionError: expected [Function] to throw error matching /directional 缺 framesPerDir/ but got 'sprites[0].layout: directional frames…'",
+        "executed": 19
+      },
+      "restored": {
+        "exitCode": 0,
+        "executed": 19,
+        "passed": 19,
+        "failed": 0
+      },
+      "hashes": {
+        "original": "b71778d0ed1fc2f8195cb653f34b6d51a4c37fad9c63c496baa5fcf7d83c30fa",
+        "mutated": "33ec52b4759d0289e0c8af10b0d714f039101247e84e2c31566bc794a91b1fc3",
+        "restored": "b71778d0ed1fc2f8195cb653f34b6d51a4c37fad9c63c496baa5fcf7d83c30fa",
+        "rebuilt": "33ec52b4759d0289e0c8af10b0d714f039101247e84e2c31566bc794a91b1fc3"
+      },
+      "patchRebuiltAndVerified": true
+    },
+    {
+      "id": "O06-CC5",
+      "control": {
+        "exitCode": 0,
+        "executed": 19,
+        "passed": 19,
+        "failed": 0
+      },
+      "injected": {
+        "exitCode": 1,
+        "failedFullName": "O06 validateScenes：运行态场景形状残臂 实体引用恰一（0 或 2 个）与 zone 无朝向 逐轴拒绝",
+        "failureMessageHead": "AssertionError: expected [Function] to throw an error",
+        "executed": 19
+      },
+      "restored": {
+        "exitCode": 0,
+        "executed": 19,
+        "passed": 19,
+        "failed": 0
+      },
+      "hashes": {
+        "original": "b71778d0ed1fc2f8195cb653f34b6d51a4c37fad9c63c496baa5fcf7d83c30fa",
+        "mutated": "eed84efe573c267240a98c131c2d544639b7cb46d9837938c941d8ad73630515",
+        "restored": "b71778d0ed1fc2f8195cb653f34b6d51a4c37fad9c63c496baa5fcf7d83c30fa",
+        "rebuilt": "eed84efe573c267240a98c131c2d544639b7cb46d9837938c941d8ad73630515"
+      },
+      "patchRebuiltAndVerified": true
+    },
+    {
+      "id": "O06-CC6",
+      "control": {
+        "exitCode": 0,
+        "executed": 23,
+        "passed": 23,
+        "failed": 0
+      },
+      "injected": {
+        "exitCode": 1,
+        "failedFullName": "O06 敌 AI 与敌队：走访与引用闭包 敌队：重复 id / 槽位超上限 / 槽位未知敌人 逐轴拒绝；null 槽合法",
+        "failureMessageHead": "AssertionError: expected false to be true // Object.is equality",
+        "executed": 23
+      },
+      "restored": {
+        "exitCode": 0,
+        "executed": 23,
+        "passed": 23,
+        "failed": 0
+      },
+      "hashes": {
+        "original": "56e68d78a1fbb643053321877af41a7721775ca5fdd5a7ac62b4fa5d2d4dfa0a",
+        "mutated": "d86d4e8d4102294e02c85562a8093e4aa9ab0bf71c34213c11e9ee45d5a02fbd",
+        "restored": "56e68d78a1fbb643053321877af41a7721775ca5fdd5a7ac62b4fa5d2d4dfa0a",
+        "rebuilt": "d86d4e8d4102294e02c85562a8093e4aa9ab0bf71c34213c11e9ee45d5a02fbd"
+      },
+      "patchRebuiltAndVerified": true
+    },
+    {
+      "id": "O06-CC7",
+      "control": {
+        "exitCode": 0,
+        "executed": 19,
+        "passed": 19,
+        "failed": 0
+      },
+      "injected": {
+        "exitCode": 1,
+        "failedFullName": "O06 validateStartWorld：当前入口世界形状 seedStats：空角色 id/未知字段/hp/mp 非负整数 逐轴拒绝",
+        "failureMessageHead": "AssertionError: expected [Function] to throw an error",
+        "executed": 19
+      },
+      "restored": {
+        "exitCode": 0,
+        "executed": 19,
+        "passed": 19,
+        "failed": 0
+      },
+      "hashes": {
+        "original": "b71778d0ed1fc2f8195cb653f34b6d51a4c37fad9c63c496baa5fcf7d83c30fa",
+        "mutated": "509417e97eadc0611dfe9de323b2b2fa0b3177c9ad3a84a5ddd54bd02dac25dd",
+        "restored": "b71778d0ed1fc2f8195cb653f34b6d51a4c37fad9c63c496baa5fcf7d83c30fa",
+        "rebuilt": "509417e97eadc0611dfe9de323b2b2fa0b3177c9ad3a84a5ddd54bd02dac25dd"
+      },
+      "patchRebuiltAndVerified": true
+    },
+    {
+      "id": "O07-CC2",
+      "control": {
+        "exitCode": 0,
+        "executed": 10,
+        "passed": 10,
+        "failed": 0
+      },
+      "injected": {
+        "exitCode": 1,
+        "failedFullName": "O07 normalizeScriptLibrary / upsert / remove：幂等与索引同步 remove：未登记 id fail-loud；已登记移除元数据与脚本体",
+        "failureMessageHead": "AssertionError: expected [Function] to throw error including '作者脚本不存在 shared/user/ghost' but got '作者脚本 shared/user/ghost 没有脚本体'",
+        "executed": 10
+      },
+      "restored": {
+        "exitCode": 0,
+        "executed": 10,
+        "passed": 10,
+        "failed": 0
+      },
+      "hashes": {
+        "original": "aa7ba01496e0dc41bc222a5863fdf6cd558499b741c6326ab9cb1b994f47da95",
+        "mutated": "0b8e6f1119fca547384ebe203dbcc7e54c750d988b6a22bc2a93cf2dea0a70ef",
+        "restored": "aa7ba01496e0dc41bc222a5863fdf6cd558499b741c6326ab9cb1b994f47da95",
+        "rebuilt": "0b8e6f1119fca547384ebe203dbcc7e54c750d988b6a22bc2a93cf2dea0a70ef"
+      },
+      "patchRebuiltAndVerified": true
+    },
+    {
+      "id": "O07-CC3",
+      "control": {
+        "exitCode": 0,
+        "executed": 7,
+        "passed": 7,
+        "failed": 0
+      },
+      "injected": {
+        "exitCode": 1,
+        "failedFullName": "O07 sceneEntryPrepareSafety：进场 prepare 命令域 loadScene / fade / startBattle / openShop 等阻断（blocked）",
+        "failureMessageHead": "AssertionError: expected 'safe' to be 'blocked' // Object.is equality",
+        "executed": 7
+      },
+      "restored": {
+        "exitCode": 0,
+        "executed": 7,
+        "passed": 7,
+        "failed": 0
+      },
+      "hashes": {
+        "original": "9b6d1085ac535ec92e8ce5497a8b0c92b5ef6bc3ad80bbbe09fa7f7f2548ab6b",
+        "mutated": "5449ab21b785cc4a04d79e149ab8af7b15a5efba9cf84c86368568d94f1a4a6b",
+        "restored": "9b6d1085ac535ec92e8ce5497a8b0c92b5ef6bc3ad80bbbe09fa7f7f2548ab6b",
+        "rebuilt": "5449ab21b785cc4a04d79e149ab8af7b15a5efba9cf84c86368568d94f1a4a6b"
+      },
+      "patchRebuiltAndVerified": true
+    },
+    {
+      "id": "O08-CC1",
+      "control": {
+        "exitCode": 0,
+        "executed": 16,
+        "passed": 16,
+        "failed": 0
+      },
+      "injected": {
+        "exitCode": 1,
+        "failedFullName": "O08 decideByRules：act 首命中与跳过序 once 已触发规则被跳过，后续首条命中",
+        "failureMessageHead": "AssertionError: expected { action: { kind: 'attack' }, …(1) } to deeply equal { Object (action, ruleIdx) }",
+        "executed": 16
+      },
+      "restored": {
+        "exitCode": 0,
+        "executed": 16,
+        "passed": 16,
+        "failed": 0
+      },
+      "hashes": {
+        "original": "59c82a506da391d956b985df6fcbaf3498303d0ef7236bec650b53d93ef7d963",
+        "mutated": "d220a2b03bfc577e39f65071bf8c3fc95a7e7afd5ea8b124fe2922e62edb26e6",
+        "restored": "59c82a506da391d956b985df6fcbaf3498303d0ef7236bec650b53d93ef7d963",
+        "rebuilt": "d220a2b03bfc577e39f65071bf8c3fc95a7e7afd5ea8b124fe2922e62edb26e6"
+      },
+      "patchRebuiltAndVerified": true
+    },
+    {
+      "id": "O08-CC2",
+      "control": {
+        "exitCode": 0,
+        "executed": 16,
+        "passed": 16,
+        "failed": 0
+      },
+      "injected": {
+        "exitCode": 1,
+        "failedFullName": "O08 战斗状态：tick/apply/canAct/canCastMagic applyPlayerStatus：坏状态已有不刷新；好状态仅活人取较长；傀儡仅死者",
+        "failureMessageHead": "AssertionError: expected true to be false // Object.is equality",
+        "executed": 16
+      },
+      "restored": {
+        "exitCode": 0,
+        "executed": 16,
+        "passed": 16,
+        "failed": 0
+      },
+      "hashes": {
+        "original": "a3ac48ea2ecd6ae664a63c2fed8ef81b7139217cdfa1d8c2392e6b543a17ec61",
+        "mutated": "e0f64a7c0ce93fa7055b638a7461220cdc47d7b5bf4b99550179f0a0bd608b80",
+        "restored": "a3ac48ea2ecd6ae664a63c2fed8ef81b7139217cdfa1d8c2392e6b543a17ec61",
+        "rebuilt": "e0f64a7c0ce93fa7055b638a7461220cdc47d7b5bf4b99550179f0a0bd608b80"
+      },
+      "patchRebuiltAndVerified": true
+    },
+    {
+      "id": "O09-CC1",
+      "control": {
+        "exitCode": 0,
+        "executed": 11,
+        "passed": 11,
+        "failed": 0
+      },
+      "injected": {
+        "exitCode": 1,
+        "failedFullName": "O09 parseFrameSequence：头部轴 截断（<12B）/ 魔数错 / 版本错 / 保留位非零 逐轴拒绝",
+        "failureMessageHead": "AssertionError: expected [Function] to throw error including 'TPFS.version: 期望 1' but got 'TPFS.index: 非法 JSON: Unexpected end o…'",
+        "executed": 11
+      },
+      "restored": {
+        "exitCode": 0,
+        "executed": 11,
+        "passed": 11,
+        "failed": 0
+      },
+      "hashes": {
+        "original": "c4d91861ebbb6f5f8590a98e5dc64c723c3cb0f76b474d5d91e9b82cf7994842",
+        "mutated": "5b8e84527f04266611f73898c61af81423c3945c4f14b54ba34ba1c0c118093d",
+        "restored": "c4d91861ebbb6f5f8590a98e5dc64c723c3cb0f76b474d5d91e9b82cf7994842",
+        "rebuilt": "5b8e84527f04266611f73898c61af81423c3945c4f14b54ba34ba1c0c118093d"
+      },
+      "patchRebuiltAndVerified": true
+    },
+    {
+      "id": "O09-CC2",
+      "control": {
+        "exitCode": 0,
+        "executed": 12,
+        "passed": 12,
+        "failed": 0
+      },
+      "injected": {
+        "exitCode": 1,
+        "failedFullName": "O09 validateStampTemplates：id/origin/anchor 残臂 id 重复 / origin 非法 / anchor 非负整数 逐轴拒绝",
+        "failureMessageHead": "AssertionError: expected [Function] to throw an error",
+        "executed": 12
+      },
+      "restored": {
+        "exitCode": 0,
+        "executed": 12,
+        "passed": 12,
+        "failed": 0
+      },
+      "hashes": {
+        "original": "272fb28dcde6a8ce99dcb7a7adb24951afd11c7b3e25bcb9b1880ffbe48ce42a",
+        "mutated": "4474609bc68a5ca60f7d465f8b5083c54695acf2f9fb72b942919e406a2f7de4",
+        "restored": "272fb28dcde6a8ce99dcb7a7adb24951afd11c7b3e25bcb9b1880ffbe48ce42a",
+        "rebuilt": "4474609bc68a5ca60f7d465f8b5083c54695acf2f9fb72b942919e406a2f7de4"
+      },
+      "patchRebuiltAndVerified": true
+    },
+    {
+      "id": "O09-CC3",
+      "control": {
+        "exitCode": 0,
+        "executed": 12,
+        "passed": 12,
+        "failed": 0
+      },
+      "injected": {
+        "exitCode": 1,
+        "failedFullName": "O09 validateTilesets：退役字段与唯一 id id 含 '/' / 重复 id / 退役 path / 退役 tiles 逐轴拒绝",
+        "failureMessageHead": "AssertionError: expected [Function] to throw an error",
+        "executed": 12
+      },
+      "restored": {
+        "exitCode": 0,
+        "executed": 12,
+        "passed": 12,
+        "failed": 0
+      },
+      "hashes": {
+        "original": "45d411546e1d5378ed64cd1d1bd65bf0b52842e6329a93cf9d7944330f027ed2",
+        "mutated": "99db3558ef724c3797c2f0efe179c52abc28a1c4438f10626dfcbcdf8513295c",
+        "restored": "45d411546e1d5378ed64cd1d1bd65bf0b52842e6329a93cf9d7944330f027ed2",
+        "rebuilt": "99db3558ef724c3797c2f0efe179c52abc28a1c4438f10626dfcbcdf8513295c"
+      },
+      "patchRebuiltAndVerified": true
+    },
+    {
+      "id": "O09-CC4",
+      "control": {
+        "exitCode": 0,
+        "executed": 12,
+        "passed": 12,
+        "failed": 0
+      },
+      "injected": {
+        "exitCode": 1,
+        "failedFullName": "O09 validateMigrationDiagnostics：诊断表结构 诊断项缺 id / 重复 id 逐轴拒绝；合法空表通过",
+        "failureMessageHead": "AssertionError: expected [Function] to throw an error",
+        "executed": 12
+      },
+      "restored": {
+        "exitCode": 0,
+        "executed": 12,
+        "passed": 12,
+        "failed": 0
+      },
+      "hashes": {
+        "original": "c99ae1305ab1a75a81c6beab814db69380a9b1a3d6bc7cbd04218c11bfe2e4d1",
+        "mutated": "cbfe095bd8cbd49eefa235c63b99f70748c1f7d1a2263edfd71b2bd8174685d4",
+        "restored": "c99ae1305ab1a75a81c6beab814db69380a9b1a3d6bc7cbd04218c11bfe2e4d1",
+        "rebuilt": "cbfe095bd8cbd49eefa235c63b99f70748c1f7d1a2263edfd71b2bd8174685d4"
+      },
+      "patchRebuiltAndVerified": true
+    },
+    {
+      "id": "O10-CC2",
+      "control": {
+        "exitCode": 0,
+        "executed": 17,
+        "passed": 17,
+        "failed": 0
+      },
+      "injected": {
+        "exitCode": 1,
+        "failedFullName": "O10 parseSpriteChunkStrict：容器结构轴 过短容器 / 零帧表 / offset table 越界 逐轴拒绝",
+        "failureMessageHead": "AssertionError: expected [Function] to throw error including 'sprite chunk 过短' but got 'Offset is outside the bounds of the D…'",
+        "executed": 17
+      },
+      "restored": {
+        "exitCode": 0,
+        "executed": 17,
+        "passed": 17,
+        "failed": 0
+      },
+      "hashes": {
+        "original": "ae864fabcec47b4972299d37142e6340e02ed32bbd06b2118a155301539d0463",
+        "mutated": "0c306a6430f2eb70e24f8510bf63f8af10c2fe750e86d5913e22238aeae798b1",
+        "restored": "ae864fabcec47b4972299d37142e6340e02ed32bbd06b2118a155301539d0463",
+        "rebuilt": "0c306a6430f2eb70e24f8510bf63f8af10c2fe750e86d5913e22238aeae798b1"
+      },
+      "patchRebuiltAndVerified": true
+    },
+    {
+      "id": "O10-CC3",
+      "control": {
+        "exitCode": 0,
+        "executed": 17,
+        "passed": 17,
+        "failed": 0
+      },
+      "injected": {
+        "exitCode": 1,
+        "failedFullName": "O10 decompressYj2：头部与位流轴（真实解码入口） 过短源 → 拒绝",
+        "failureMessageHead": "AssertionError: expected [Function] to throw error including 'YJ2: source too small' but got 'Offset is outside the bounds of the D…'",
+        "executed": 17
+      },
+      "restored": {
+        "exitCode": 0,
+        "executed": 17,
+        "passed": 17,
+        "failed": 0
+      },
+      "hashes": {
+        "original": "eb9abdd5f86fda427b9ac0e9b3cbaacad1912004e1b416ee77d687564b0b3cdd",
+        "mutated": "bb35cb9a56aab6773a244523fe53de9a34beeb91dbab898e70a59293ee287571",
+        "restored": "eb9abdd5f86fda427b9ac0e9b3cbaacad1912004e1b416ee77d687564b0b3cdd",
+        "rebuilt": "bb35cb9a56aab6773a244523fe53de9a34beeb91dbab898e70a59293ee287571"
+      },
+      "patchRebuiltAndVerified": true
+    },
+    {
+      "id": "O10-CC4",
+      "control": {
+        "exitCode": 0,
+        "executed": 17,
+        "passed": 17,
+        "failed": 0
+      },
+      "injected": {
+        "exitCode": 1,
+        "failedFullName": "O10 encodeSpriteChunk：上限与空容器 超 u16 word 偏移上限 → 拆分图集错误",
+        "failureMessageHead": "AssertionError: expected [Function] to throw an error",
+        "executed": 17
+      },
+      "restored": {
+        "exitCode": 0,
+        "executed": 17,
+        "passed": 17,
+        "failed": 0
+      },
+      "hashes": {
+        "original": "047b96879d4889a99f745525f894c6ebcc3714a65bca73c2e609912e0162ba36",
+        "mutated": "85473d508bc8bdad0f9b34ffdbce839086f98c2fec15c855ddfbe2f2d29f8367",
+        "restored": "047b96879d4889a99f745525f894c6ebcc3714a65bca73c2e609912e0162ba36",
+        "rebuilt": "85473d508bc8bdad0f9b34ffdbce839086f98c2fec15c855ddfbe2f2d29f8367"
+      },
+      "patchRebuiltAndVerified": true
+    },
+    {
+      "id": "O10-CC5",
+      "control": {
+        "exitCode": 0,
+        "executed": 17,
+        "passed": 17,
+        "failed": 0
+      },
+      "injected": {
+        "exitCode": 1,
+        "failedFullName": "O10 parseIndexedRleChunk：legacy 坏尾三轴 纯 sentinel 后缀（无坏槽）不应进入 legacy 兼容",
+        "failureMessageHead": "AssertionError: expected [Function] to throw an error",
+        "executed": 17
+      },
+      "restored": {
+        "exitCode": 0,
+        "executed": 17,
+        "passed": 17,
+        "failed": 0
+      },
+      "hashes": {
+        "original": "ae864fabcec47b4972299d37142e6340e02ed32bbd06b2118a155301539d0463",
+        "mutated": "0cfaab03a92fc4df56c9fc0d61eb809c8c791d416b8e60b989c815e9410d04b0",
+        "restored": "ae864fabcec47b4972299d37142e6340e02ed32bbd06b2118a155301539d0463",
+        "rebuilt": "0cfaab03a92fc4df56c9fc0d61eb809c8c791d416b8e60b989c815e9410d04b0"
+      },
+      "patchRebuiltAndVerified": true
+    }
+  ]
 }

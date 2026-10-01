@@ -157,8 +157,7 @@ function main() {
 
     if (controlShaBefore !== sha256(readFileSync(candidateFile)))
       throw new Error('候选树测试文件被意外修改')
-    if (originalSha !== sha256(readFileSync(productPath)))
-      throw new Error('候选树产品源被意外修改')
+    if (originalSha !== sha256(readFileSync(productPath))) throw new Error('候选树产品源被意外修改')
 
     const result = {
       id: spec.id,
@@ -171,7 +170,12 @@ function main() {
         failureMessageHead: (target.failureMessages[0] ?? '').split('\n')[0],
       },
       restored: phaseSummary(restored),
-      hashes: { original: originalSha, mutated: mutatedSha, restored: restoredSha, rebuilt: rebuiltSha },
+      hashes: {
+        original: originalSha,
+        mutated: mutatedSha,
+        restored: restoredSha,
+        rebuilt: rebuiltSha,
+      },
       patchRebuiltAndVerified: true,
     }
     if (evidenceDir) {

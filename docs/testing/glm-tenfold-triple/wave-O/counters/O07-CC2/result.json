@@ -1,0 +1,35 @@
+{
+  "id": "O07-CC2",
+  "contract": "作者脚本命名空间强制",
+  "target": {
+    "file": "src/script-library.glm-o.test.ts",
+    "title": "remove：未登记 id fail-loud；已登记移除元数据与脚本体"
+  },
+  "control": {
+    "exitCode": 0,
+    "executed": 10,
+    "passed": 10,
+    "failed": 0
+  },
+  "injected": {
+    "exitCode": 1,
+    "executed": 10,
+    "passed": 9,
+    "failed": 1,
+    "failedFullName": "O07 normalizeScriptLibrary / upsert / remove：幂等与索引同步 remove：未登记 id fail-loud；已登记移除元数据与脚本体",
+    "failureMessageHead": "AssertionError: expected [Function] to throw error including '作者脚本不存在 shared/user/ghost' but got '作者脚本 shared/user/ghost 没有脚本体'"
+  },
+  "restored": {
+    "exitCode": 0,
+    "executed": 10,
+    "passed": 10,
+    "failed": 0
+  },
+  "hashes": {
+    "original": "aa7ba01496e0dc41bc222a5863fdf6cd558499b741c6326ab9cb1b994f47da95",
+    "mutated": "0b8e6f1119fca547384ebe203dbcc7e54c750d988b6a22bc2a93cf2dea0a70ef",
+    "restored": "aa7ba01496e0dc41bc222a5863fdf6cd558499b741c6326ab9cb1b994f47da95",
+    "rebuilt": "0b8e6f1119fca547384ebe203dbcc7e54c750d988b6a22bc2a93cf2dea0a70ef"
+  },
+  "patchRebuiltAndVerified": true
+}

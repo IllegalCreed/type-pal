@@ -6,12 +6,12 @@
 import { describe, expect, test } from 'vitest'
 import {
   applyStageNext,
-  emptyProjectedWorldScriptState,
-  sceneEntryPrepareSafety,
-  stageIndexFor,
   type Command,
+  emptyProjectedWorldScriptState,
   type ProjectedWorldScriptState,
   type ScriptStage,
+  sceneEntryPrepareSafety,
+  stageIndexFor,
 } from './script.js'
 
 describe('O07 sceneEntryPrepareSafety：进场 prepare 命令域', () => {
@@ -29,8 +29,12 @@ describe('O07 sceneEntryPrepareSafety：进场 prepare 命令域', () => {
       sceneEntryPrepareSafety({ kind: 'loadScene', scene: 's', entryId: 'default' } as Command),
     ).toBe('blocked')
     expect(sceneEntryPrepareSafety({ kind: 'fade', dir: 'out' } as Command)).toBe('blocked')
-    expect(sceneEntryPrepareSafety({ kind: 'startBattle', enemyTeamId: 't1' } as Command)).toBe('blocked')
-    expect(sceneEntryPrepareSafety({ kind: 'openShop', shop: 1, mode: 'buy' } as Command)).toBe('blocked')
+    expect(sceneEntryPrepareSafety({ kind: 'startBattle', enemyTeamId: 't1' } as Command)).toBe(
+      'blocked',
+    )
+    expect(sceneEntryPrepareSafety({ kind: 'openShop', shop: 1, mode: 'buy' } as Command)).toBe(
+      'blocked',
+    )
   })
 
   test('wait 因不读取目标世界而安全（PAL 入场等待数帧合同）', () => {
@@ -38,9 +42,18 @@ describe('O07 sceneEntryPrepareSafety：进场 prepare 命令域', () => {
   })
 
   test('giveItem/mountParty/teleportParty/setFlag 资源与摆位类 safe', () => {
-    expect(sceneEntryPrepareSafety({ kind: 'giveItem', itemId: '1', count: 1 } as Command)).toBe('safe')
-    expect(sceneEntryPrepareSafety({ kind: 'setFlag', flag: 'f', value: true } as Command)).toBe('safe')
-    expect(sceneEntryPrepareSafety({ kind: 'teleportParty', pos: { col: 0, row: 0, height: 0 } } as Command)).toBe('safe')
+    expect(sceneEntryPrepareSafety({ kind: 'giveItem', itemId: '1', count: 1 } as Command)).toBe(
+      'safe',
+    )
+    expect(sceneEntryPrepareSafety({ kind: 'setFlag', flag: 'f', value: true } as Command)).toBe(
+      'safe',
+    )
+    expect(
+      sceneEntryPrepareSafety({
+        kind: 'teleportParty',
+        pos: { col: 0, row: 0, height: 0 },
+      } as Command),
+    ).toBe('safe')
   })
 })
 

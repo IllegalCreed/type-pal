@@ -1,0 +1,14 @@
+{
+  "id": "O07-CC2",
+  "contract": "作者脚本命名空间强制",
+  "package": "content",
+  "test": {
+    "file": "src/script-library.glm-o.test.ts",
+    "title": "remove：未登记 id fail-loud；已登记移除元数据与脚本体"
+  },
+  "mutation": {
+    "file": "src/script-library.ts",
+    "find": "  if (!index.library?.[id]) throw new Error(`作者脚本不存在 ${id}`)",
+    "replace": "  if (false && !index.library?.[id]) throw new Error(`作者脚本不存在 ${id}`)"
+  }
+}

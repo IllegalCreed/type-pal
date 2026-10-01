@@ -1,0 +1,35 @@
+{
+  "id": "O09-CC1",
+  "contract": "TPFS 版本轴",
+  "target": {
+    "file": "src/frame-sequence.glm-o.test.ts",
+    "title": "截断（<12B）/ 魔数错 / 版本错 / 保留位非零 逐轴拒绝"
+  },
+  "control": {
+    "exitCode": 0,
+    "executed": 11,
+    "passed": 11,
+    "failed": 0
+  },
+  "injected": {
+    "exitCode": 1,
+    "executed": 11,
+    "passed": 10,
+    "failed": 1,
+    "failedFullName": "O09 parseFrameSequence：头部轴 截断（<12B）/ 魔数错 / 版本错 / 保留位非零 逐轴拒绝",
+    "failureMessageHead": "AssertionError: expected [Function] to throw error including 'TPFS.version: 期望 1' but got 'TPFS.index: 非法 JSON: Unexpected end o…'"
+  },
+  "restored": {
+    "exitCode": 0,
+    "executed": 11,
+    "passed": 11,
+    "failed": 0
+  },
+  "hashes": {
+    "original": "c4d91861ebbb6f5f8590a98e5dc64c723c3cb0f76b474d5d91e9b82cf7994842",
+    "mutated": "5b8e84527f04266611f73898c61af81423c3945c4f14b54ba34ba1c0c118093d",
+    "restored": "c4d91861ebbb6f5f8590a98e5dc64c723c3cb0f76b474d5d91e9b82cf7994842",
+    "rebuilt": "5b8e84527f04266611f73898c61af81423c3945c4f14b54ba34ba1c0c118093d"
+  },
+  "patchRebuiltAndVerified": true
+}

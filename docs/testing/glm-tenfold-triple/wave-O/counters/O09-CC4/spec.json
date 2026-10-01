@@ -1,0 +1,14 @@
+{
+  "id": "O09-CC4",
+  "contract": "诊断 id 重复轴",
+  "package": "content",
+  "test": {
+    "file": "src/data-guards.glm-o.test.ts",
+    "title": "诊断项缺 id / 重复 id 逐轴拒绝；合法空表通过"
+  },
+  "mutation": {
+    "file": "src/migration-diagnostic.ts",
+    "find": "    if (ids.has(diagnostic.id)) throw new Error(`${at}.id: 重复 ${diagnostic.id}`)",
+    "replace": "    if (false && ids.has(diagnostic.id)) throw new Error(`${at}.id: 重复 ${diagnostic.id}`)"
+  }
+}

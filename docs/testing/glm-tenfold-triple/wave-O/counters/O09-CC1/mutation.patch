@@ -1,0 +1,7 @@
+diff --git a/packages/content/src/frame-sequence.ts b/packages/content/src/frame-sequence.ts
+index f88ced8f2..d2254f9f5 100644
+--- a/packages/content/src/frame-sequence.ts
++++ b/packages/content/src/frame-sequence.ts
+@@ -261 +261 @@ export function parseFrameSequence(bytes: Uint8Array): ParsedFrameSequenceV1 {
+-  if (bytes[4] !== FRAME_SEQUENCE_VERSION)
++  if (false && bytes[4] !== FRAME_SEQUENCE_VERSION)
