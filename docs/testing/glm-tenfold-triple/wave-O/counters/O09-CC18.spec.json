@@ -4,7 +4,8 @@
   "package": "content",
   "test": {
     "file": "src/hidden-exp-grid.glm-o.test.ts",
-    "title": "pixelToGrid 是 gridToPixel 的唯一反解（站位像素）"
+    "title": "pixelToGrid 是 gridToPixel 的唯一反解（站位像素）",
+    "target": "O09 菱形格几何：唯一反解与 height 语义 pixelToGrid 是 gridToPixel 的唯一反解（站位像素）"
   },
   "mutation": {
     "file": "src/grid.ts",

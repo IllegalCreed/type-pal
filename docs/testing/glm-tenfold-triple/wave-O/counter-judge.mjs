@@ -21,9 +21,28 @@ const hasUnhandledMarker = (raw) =>
 
 const VALID_EXITS = { control: new Set([0]), restored: new Set([0]), injected: new Set([1]) }
 
-const suffix2 = (p) => p.split('/').slice(-2).join('/')
+/**
+ * r9 修正：只剥离临时 checkout 前缀（/var/folders/.../glm-o-cc-*-XXXX 或
+ * /Users/.../.codex/worktrees/<name>/type-pal），保留完整 packages/包/子路径。
+ * 不再用末两段 suffix2（丢失包与上游目录，异包误收）。
+ */
+const CHECKOUT_MARKERS = ['/glm-o-cc-control-', '/glm-o-cc-injected-']
+const WORKTREE_MARKER = '/type-pal/'
+export function normalizeTestPath(p) {
+  const asIs = String(p).split('\\').join('/')
+  for (const marker of CHECKOUT_MARKERS) {
+    const at = asIs.indexOf(marker)
+    // 临时 checkout：marker 之后是自建仓库根（= checkout 目录本身），紧接 packages/...
+    if (at >= 0) return asIs.slice(asIs.indexOf('/packages/', at) + 1)
+  }
+  const at = asIs.indexOf(WORKTREE_MARKER)
+  if (at >= 0) return asIs.slice(at + WORKTREE_MARKER.length)
+  // 自测/其它无 marker 路径：取 'packages/...' 尾段
+  const pk = asIs.indexOf('packages/')
+  if (pk >= 0) return asIs.slice(pk)
+  return asIs
+}
 
-/** 从 vitest JSON reporter 输出展平 {file, fullName, status, failureMessages}。 */
 export function flattenTests(json) {
   return (json.testResults ?? []).flatMap((file) =>
     (file.assertionResults ?? []).map((entry) => ({
@@ -37,7 +56,7 @@ export function flattenTests(json) {
 
 /** 三相多重执行身份：file×fullName 多重集合必须逐位一致（状态按各相政策另行判）。 */
 export function sameExecutionIdentity(a, b, label) {
-  const key = (t) => `${suffix2(t.file)} :: ${t.fullName}`
+  const key = (t) => `${normalizeTestPath(t.file)} :: ${t.fullName}`
   const ms = (tests) => {
     const m = new Map()
     for (const t of tests) m.set(key(t), (m.get(key(t)) ?? 0) + 1)
@@ -52,6 +71,15 @@ export function sameExecutionIdentity(a, b, label) {
 
 /** collection/runtime 总门：JSON 顶层计数与 suite 级异常/空断言形态全部拒收。 */
 export function assertNoCollectionErrors(json, phase) {
+  // r9 修正：顶层执行数必须与实际叶集合闭合（numTotalTests 增1而叶不变 → 拒收）
+  const leafCount = (json.testResults ?? []).reduce(
+    (sum, suite) => sum + (suite.assertionResults?.length ?? 0),
+    0,
+  )
+  if (Number.isInteger(json.numTotalTests) && json.numTotalTests !== leafCount)
+    throw new Error(
+      `${phase} 顶层执行数 ${json.numTotalTests} ≠ 叶集合 ${leafCount}（虚假执行数）拒收`,
+    )
   if (json.numRuntimeErrorTestSuites > 0)
     throw new Error(`${phase} numRuntimeErrorTestSuites=${json.numRuntimeErrorTestSuites} 拒收`)
   if (json.numPendingTestSuites > 0)
@@ -114,7 +142,7 @@ export function judgePhase(run, spec, phase, ownerPackage) {
   for (const raw of [run.stdout, run.stderr]) {
     if (hasUnhandledMarker(raw)) throw new Error(`${phase} raw 含未处理异常公告（Unhandled*）拒收`)
   }
-  const files = new Set(tests.map((t) => suffix2(t.file)))
+  const files = new Set(tests.map((t) => normalizeTestPath(t.file)))
   if (files.size !== 1)
     throw new Error(`${phase} 期望单文件执行，实际 ${files.size} 个文件：${[...files].join(', ')}`)
 
@@ -126,9 +154,10 @@ export function judgePhase(run, spec, phase, ownerPackage) {
   }
   if (failed.length !== 1) throw new Error(`injected 须恰一红：failed=${failed.length}`)
   const target = failed[0]
-  const wantedSuffix = suffix2(`packages/${ownerPackage}/${spec.test.file}`)
-  if (suffix2(target.file) !== wantedSuffix)
-    throw new Error(`红例文件不符: ${suffix2(target.file)} 期望 ${wantedSuffix}`)
+  const wantedPath = normalizeTestPath(`packages/${ownerPackage}/${spec.test.file}`)
+  const targetPath = normalizeTestPath(target.file)
+  if (targetPath !== wantedPath)
+    throw new Error(`红例文件不符: ${targetPath} 期望 ${wantedPath}`)
   if (!isExactTarget(target.fullName, spec.test))
     throw new Error(
       `红例 fullName 不符（精确完整目标匹配，spec.test.target=${JSON.stringify(spec.test.target ?? spec.test.title)}）: ${target.fullName}`,

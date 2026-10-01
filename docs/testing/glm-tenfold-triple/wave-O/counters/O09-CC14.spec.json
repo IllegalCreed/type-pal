@@ -4,7 +4,8 @@
   "package": "content",
   "test": {
     "file": "src/ambience-skill.glm-o.test.ts",
-    "title": "缺 id / day 无自定义 / 未知 id → 恒等乘色"
+    "title": "缺 id / day 无自定义 / 未知 id → 恒等乘色",
+    "target": "O09 resolveAmbienceTint：day/缺表/自定义白天 缺 id / day 无自定义 / 未知 id → 恒等乘色"
   },
   "mutation": {
     "file": "src/ambience.ts",

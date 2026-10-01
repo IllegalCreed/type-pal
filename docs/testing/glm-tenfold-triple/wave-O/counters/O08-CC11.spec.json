@@ -4,7 +4,8 @@
   "package": "content",
   "test": {
     "file": "src/hidden-exp-grid.glm-o.test.ts",
-    "title": "全零计数 → 空报告且不动角色"
+    "title": "全零计数 → 空报告且不动角色",
+    "target": "O08 applyHiddenExp：隐藏经验池 全零计数 → 空报告且不动角色"
   },
   "mutation": {
     "file": "src/rewards.ts",

@@ -4,7 +4,8 @@
   "package": "content",
   "test": {
     "file": "src/rewards-lifecycle.glm-o.test.ts",
-    "title": "未知 scene id / 未知 entity id → 精确诊断"
+    "title": "未知 scene id / 未知 entity id → 精确诊断",
+    "target": "O09 normalizeEntityLifecycleTable：引用闭包与不可变 未知 scene id / 未知 entity id → 精确诊断"
   },
   "mutation": {
     "file": "src/entity-lifecycle.ts",
