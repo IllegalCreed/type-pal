@@ -36,10 +36,12 @@ function runVitest(worktree, testFile, outputFile, rawFile) {
   )
   if (rawFile) {
     const stdoutText = (result.stdout ?? '').replace(/\n$/, '')
+    const stderrText = (result.stderr ?? '').replace(/\n$/, '')
     writeFileSync(
       rawFile,
       `# exit=${result.status} signal=${result.signal ?? 'null'} errored=${result.error ? String(result.error) : 'null'}\n` +
-        `# === stdout ===\n${stdoutText}\n# === stderr ===\n${result.stderr ?? ''}\n`,
+        `# === stdout ===\n${stdoutText}\n` +
+        (stderrText ? `# === stderr ===\n${stderrText}\n` : ''),
     )
   }
   let json
