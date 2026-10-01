@@ -437,11 +437,19 @@ describe('P03-G14 中文标签合同（describeScriptCommandOwner / describeCano
 
   test('describeCanonicalScriptReference：合法 onEnter entry.prepare 命令引用整串标签（新轴）', () => {
     const state = editorState()
-    const handoff = behaviorReferences(state, target, 'trigger', 'talk').find(
-      (r): r is Extract<typeof r, { kind: 'command' }> =>
-        r.kind === 'command' && r.path.endsWith('.cursorHandoff.fromBehavior'),
-    )!
-    expect(describeCanonicalScriptReference(state, handoff)).toBe(
+    // locator 内联构造（与 G12-03 实测引用同形）；describe 是纯标签函数，不依赖收集器。
+    expect(
+      describeCanonicalScriptReference(state, {
+        kind: 'command',
+        path: 'scenes.s001.hooks.onEnter.variants.enter-a.flow.machine.states.idle.entry.prepare[0].cursorHandoff.fromBehavior',
+        locator: {
+          kind: 'command',
+          owner: { kind: 'scene-hook', sceneId: 's001', slot: 'onEnter', hookId: 'enter-a' },
+          container: { kind: 'state', machineId: 'machine-1', stateId: 'idle', section: 'prepare' },
+          commandPath: '0',
+        },
+      }),
+    ).toBe(
       '场景 s001 / 进场脚本“进场A” / 连续流程“巡逻机” / 状态“待机” / 画面出现前 / 第 1 条指令「切换实体脚本方案」',
     )
   })
