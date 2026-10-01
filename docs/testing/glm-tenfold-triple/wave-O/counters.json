@@ -1,10 +1,16 @@
 {
-  "total": 69,
-  "uniqueIds": 69,
-  "distinctTargets": 67,
+  "total": 67,
+  "uniqueIds": 67,
+  "distinctTargets": 65,
   "rule": "三态（counter-judge.mjs 唯一判据）；62 枚重采 + 7 枚新批次（O09-CC14~18、O08-CC10/11）",
-  "retired": ["O08-CC8", "O08-CC9", "O09-CC13"],
-  "retiredNote": "目标测试已删，三枚退役仅保留历史证据目录",
+  "retired": [
+    "O08-CC8",
+    "O08-CC9",
+    "O09-CC13",
+    "O09-CC14",
+    "O09-CC15"
+  ],
+  "retiredNote": "目标测试已删（O-R9-03 去重删除 ambience 四轴中两枚被反控覆盖的），五枚退役仅保留历史证据目录；其余按 re-adjudication.json 以当前 judge 再判定保留",
   "counters": [
     {
       "id": "O01-CC1",
@@ -1323,62 +1329,6 @@
       "patchRebuiltAndVerified": true
     },
     {
-      "id": "O09-CC14",
-      "control": {
-        "exitCode": 0,
-        "executed": 12,
-        "passed": 12,
-        "failed": 0
-      },
-      "injected": {
-        "exitCode": 1,
-        "failedFullName": "O09 resolveAmbienceTint：day/缺表/自定义白天 缺 id / day 无自定义 / 未知 id → 恒等乘色",
-        "failureMessageHead": "AssertionError: expected [ +0, +0, +0 ] to deeply equal [ 255, 255, 255 ]",
-        "executed": 12
-      },
-      "restored": {
-        "exitCode": 0,
-        "executed": 12,
-        "passed": 12,
-        "failed": 0
-      },
-      "hashes": {
-        "original": "34d1a90e519059b03bb82cfa46437d04e42642755a8f1242db72bd18cbd6eee6",
-        "mutated": "74c4dacac09b786db98eaffe34abc00e0c3f479b1086552902159a35317c0c6c",
-        "restored": "34d1a90e519059b03bb82cfa46437d04e42642755a8f1242db72bd18cbd6eee6",
-        "rebuilt": "74c4dacac09b786db98eaffe34abc00e0c3f479b1086552902159a35317c0c6c"
-      },
-      "patchRebuiltAndVerified": true
-    },
-    {
-      "id": "O09-CC15",
-      "control": {
-        "exitCode": 0,
-        "executed": 12,
-        "passed": 12,
-        "failed": 0
-      },
-      "injected": {
-        "exitCode": 1,
-        "failedFullName": "O09 lerpTint：t 夹取与分量四舍五入 t<0 取 from、t>1 取 to、t∈[0,1] 线性",
-        "failureMessageHead": "AssertionError: expected [ -100, -200, -50 ] to deeply equal [ +0, +0, +0 ]",
-        "executed": 12
-      },
-      "restored": {
-        "exitCode": 0,
-        "executed": 12,
-        "passed": 12,
-        "failed": 0
-      },
-      "hashes": {
-        "original": "34d1a90e519059b03bb82cfa46437d04e42642755a8f1242db72bd18cbd6eee6",
-        "mutated": "297b831d6b226f7a8e95144afd092fd80e12901598a9542fcba0b8f99c39b1e1",
-        "restored": "34d1a90e519059b03bb82cfa46437d04e42642755a8f1242db72bd18cbd6eee6",
-        "rebuilt": "297b831d6b226f7a8e95144afd092fd80e12901598a9542fcba0b8f99c39b1e1"
-      },
-      "patchRebuiltAndVerified": true
-    },
-    {
       "id": "O09-CC16",
       "control": {
         "exitCode": 0,
@@ -1938,5 +1888,10 @@
       },
       "patchRebuiltAndVerified": true
     }
-  ]
+  ],
+  "reAdjudication": {
+    "judge": "counter-judge.mjs@729d554d0",
+    "result": "67/67 live pass（2 flagged 退役：O09-CC14/CC15 目标被 O-R9-03 去重删除）",
+    "evidence": "re-adjudication.json"
+  }
 }

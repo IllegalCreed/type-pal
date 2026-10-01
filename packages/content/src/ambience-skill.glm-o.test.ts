@@ -1,29 +1,20 @@
 /** TEST-GLM-WAVE-O-1 O09：氛围乘色/技能执行层/对话身份残余合同。
  *  旧证：ambience.test / skill 邻域 / author-dialogue.contracts 覆盖主干；
- *  本卡按 gap-map 直击未覆盖臂：resolveAmbienceTint day/缺表兜底与自定义白天、
- *  lerpTint t 夹取与四舍五入、resolveSkillExecution 三层回退、
- *  authoredSkillExecutionLayers 公共+双 override、resolveDialogueIdentity
+ *  本卡按 gap-map 直击未覆盖臂：lerpTint 分量四舍五入、resolveSkillExecution
+ *  三层回退、authoredSkillExecutionLayers 公共+双 override、resolveDialogueIdentity
  *  unbound 透传/default 缺表/未知表情/speakerOverride。
+ *
+ *  existing-proof 扣除（O-R9-03，不计净新）：ambience.test.ts:16-45 已同条件同答案覆盖
+ *  「缺 id/未知 id/空表恒等兜底、day 自定义覆写、非 day 命中表乘色、isIdentityTint
+ *  恒等判定」与 lerpTint「t 夹取与整数中点」四轴；此处不再重复构造（原空 describe
+ *  组随之移除，避免 vitest 空套件导致整文件失败）。
  */
 
-import type { ActorDef, AmbienceDef, SkillAnimation, SkillData, SkillEffect } from '@type-pal/content'
+import type { ActorDef, SkillAnimation, SkillData, SkillEffect } from '@type-pal/content'
 import { describe, expect, test } from 'vitest'
-import { AMBIENCE_IDENTITY, isIdentityTint, lerpTint, resolveAmbienceTint } from './ambience.js'
+import { lerpTint } from './ambience.js'
 import { resolveDialogueIdentity } from './author-dialogue.js'
 import { authoredSkillExecutionLayers, resolveSkillExecution } from './skill.js'
-
-describe('O09 resolveAmbienceTint：day/缺表/自定义白天', () => {
-  const ambiences: AmbienceDef[] = [
-    { id: 'night', name: '夜', tint: [120, 130, 200] },
-    { id: 'day', name: '昼', tint: [250, 244, 210] },
-  ]
-
-  // 以下四轴已由旧 ambience.test.ts:16-45 同条件同答案直接覆盖，按 O-R9-03 审核
-  // 登记 existing-proof 扣除（不计净新）：缺 id/未知 id/空表恒等兜底、day 自定义覆写、
-  // 非 day 命中表乘色、isIdentityTint 恒等判定。仅保留“非整数四舍五入”真实新轴（旧中点全整数）。
-
-
-})
 
 describe('O09 lerpTint：t 夹取与分量四舍五入', () => {
   // 上下界夹取与整数中点已由旧 ambience.test.ts:38-45 覆盖（existing-proof 扣除）。
