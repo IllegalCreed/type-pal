@@ -1,56 +1,38 @@
 
  RUN  v4.1.7 /private/tmp/glm-p-counter-P02-C10/packages/editor
 
- ❯ src/ui/LayerStackControls.glm-p.test.tsx (5 tests | 2 failed) 56ms
+ ❯ src/ui/LayerStackControls.glm-p.test.tsx (5 tests | 1 failed) 52ms
      ✓ 默认「聚焦当前」；点击后 aria-pressed 翻转并显示「只看当前」 22ms
      ✓ 显示高度滑杆按整数步进回调，output 实时显示当前值 4ms
-     × addDisabledReason：新增按钮禁用并渲染原因段 11ms
-     ✓ 最小层规则：删除按钮禁用并出现规则 HelpTip，但不渲染删除原因段 8ms
-     × add/delete 同因 → 只渲染一段共享原因 10ms
-{"numTotalTestSuites":3,"numPassedTestSuites":1,"numFailedTestSuites":2,"numPendingTestSuites":0,"numTotalTests":5,"numPassedTests":3,"numFailedTests":2,"numPendingTests":0,"numTodoTests":0,"snapshot":{"added":0,"failure":false,"filesAdded":0,"filesRemoved":0,"filesRemovedList":[],"filesUnmatched":0,"filesUpdated":0,"matched":0,"total":0,"unchecked":0,"uncheckedKeysByFile":[],"unmatched":0,"updated":0,"didUpdate":false},"startTime":1790786960827,"success":false,"testResults":[{"assertionResults":[{"ancestorTitles":["P02-G02 LayerPaintContext 聚焦与显示高度"],"fullName":"P02-G02 LayerPaintContext 聚焦与显示高度 默认「聚焦当前」；点击后 aria-pressed 翻转并显示「只看当前」","status":"passed","title":"默认「聚焦当前」；点击后 aria-pressed 翻转并显示「只看当前」","duration":22.329417000000035,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["P02-G02 LayerPaintContext 聚焦与显示高度"],"fullName":"P02-G02 LayerPaintContext 聚焦与显示高度 显示高度滑杆按整数步进回调，output 实时显示当前值","status":"passed","title":"显示高度滑杆按整数步进回调，output 实时显示当前值","duration":4.316624999999931,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["P02-G02 LayerStackControls 禁用原因残余"],"fullName":"P02-G02 LayerStackControls 禁用原因残余 addDisabledReason：新增按钮禁用并渲染原因段","status":"failed","title":"addDisabledReason：新增按钮禁用并渲染原因段","duration":10.70333299999993,"failureMessages":["AssertionError: expected false to be true // Object.is equality\n    at /private/tmp/glm-p-counter-P02-C10/packages/editor/src/ui/LayerStackControls.glm-p.test.tsx:107:38\n    at file:///Users/zhangxu/.codex/worktrees/glm-wave-p-editor-residual/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/.codex/worktrees/glm-wave-p-editor-residual/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/.codex/worktrees/glm-wave-p-editor-residual/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/.codex/worktrees/glm-wave-p-editor-residual/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/.codex/worktrees/glm-wave-p-editor-residual/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///Users/zhangxu/.codex/worktrees/glm-wave-p-editor-residual/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///Users/zhangxu/.codex/worktrees/glm-wave-p-editor-residual/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64"],"meta":{},"tags":[]},{"ancestorTitles":["P02-G02 LayerStackControls 禁用原因残余"],"fullName":"P02-G02 LayerStackControls 禁用原因残余 最小层规则：删除按钮禁用并出现规则 HelpTip，但不渲染删除原因段","status":"passed","title":"最小层规则：删除按钮禁用并出现规则 HelpTip，但不渲染删除原因段","duration":7.825083000000063,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["P02-G02 LayerStackControls 禁用原因残余"],"fullName":"P02-G02 LayerStackControls 禁用原因残余 add/delete 同因 → 只渲染一段共享原因","status":"failed","title":"add/delete 同因 → 只渲染一段共享原因","duration":10.226292000000058,"failureMessages":["AssertionError: expected false to be true // Object.is equality\n    at /private/tmp/glm-p-counter-P02-C10/packages/editor/src/ui/LayerStackControls.glm-p.test.tsx:127:38\n    at file:///Users/zhangxu/.codex/worktrees/glm-wave-p-editor-residual/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/.codex/worktrees/glm-wave-p-editor-residual/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/.codex/worktrees/glm-wave-p-editor-residual/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/.codex/worktrees/glm-wave-p-editor-residual/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/.codex/worktrees/glm-wave-p-editor-residual/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///Users/zhangxu/.codex/worktrees/glm-wave-p-editor-residual/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///Users/zhangxu/.codex/worktrees/glm-wave-p-editor-residual/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64"],"meta":{},"tags":[]}],"startTime":1790786961444,"endTime":1790786961499.2263,"status":"failed","message":"","name":"/private/tmp/glm-p-counter-P02-C10/packages/editor/src/ui/LayerStackControls.glm-p.test.tsx"}]}
+     ✓ addDisabledReason：新增按钮禁用并渲染原因段 9ms
+     ✓ 最小层规则：删除按钮禁用并出现规则 HelpTip，但不渲染删除原因段 6ms
+     × add/delete 同因 → 只渲染一段共享原因 11ms
+{"numTotalTestSuites":3,"numPassedTestSuites":1,"numFailedTestSuites":2,"numPendingTestSuites":0,"numTotalTests":5,"numPassedTests":4,"numFailedTests":1,"numPendingTests":0,"numTodoTests":0,"snapshot":{"added":0,"failure":false,"filesAdded":0,"filesRemoved":0,"filesRemovedList":[],"filesUnmatched":0,"filesUpdated":0,"matched":0,"total":0,"unchecked":0,"uncheckedKeysByFile":[],"unmatched":0,"updated":0,"didUpdate":false},"startTime":1790829248683,"success":false,"testResults":[{"assertionResults":[{"ancestorTitles":["P02-G02 LayerPaintContext 聚焦与显示高度"],"fullName":"P02-G02 LayerPaintContext 聚焦与显示高度 默认「聚焦当前」；点击后 aria-pressed 翻转并显示「只看当前」","status":"passed","title":"默认「聚焦当前」；点击后 aria-pressed 翻转并显示「只看当前」","duration":21.77816699999994,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["P02-G02 LayerPaintContext 聚焦与显示高度"],"fullName":"P02-G02 LayerPaintContext 聚焦与显示高度 显示高度滑杆按整数步进回调，output 实时显示当前值","status":"passed","title":"显示高度滑杆按整数步进回调，output 实时显示当前值","duration":3.9198330000000396,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["P02-G02 LayerStackControls 禁用原因残余"],"fullName":"P02-G02 LayerStackControls 禁用原因残余 addDisabledReason：新增按钮禁用并渲染原因段","status":"passed","title":"addDisabledReason：新增按钮禁用并渲染原因段","duration":8.835334000000103,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["P02-G02 LayerStackControls 禁用原因残余"],"fullName":"P02-G02 LayerStackControls 禁用原因残余 最小层规则：删除按钮禁用并出现规则 HelpTip，但不渲染删除原因段","status":"passed","title":"最小层规则：删除按钮禁用并出现规则 HelpTip，但不渲染删除原因段","duration":5.917666999999938,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":["P02-G02 LayerStackControls 禁用原因残余"],"fullName":"P02-G02 LayerStackControls 禁用原因残余 add/delete 同因 → 只渲染一段共享原因","status":"failed","title":"add/delete 同因 → 只渲染一段共享原因","duration":11.068750000000023,"failureMessages":["AssertionError: expected <p …(2)></p>\n<p …(2)></p> to have a length of 1 but got 2\n    at Proxy.<anonymous> (file:///Users/zhangxu/.codex/worktrees/glm-wave-p-editor-residual/type-pal/node_modules/.pnpm/@vitest+expect@4.1.7/node_modules/@vitest/expect/dist/index.js:1389:20)\n    at Proxy.<anonymous> (file:///Users/zhangxu/.codex/worktrees/glm-wave-p-editor-residual/type-pal/node_modules/.pnpm/@vitest+expect@4.1.7/node_modules/@vitest/expect/dist/index.js:1156:15)\n    at Proxy.methodWrapper (file:///Users/zhangxu/.codex/worktrees/glm-wave-p-editor-residual/type-pal/node_modules/.pnpm/chai@6.2.2/node_modules/chai/index.js:1700:25)\n    at /private/tmp/glm-p-counter-P02-C10/packages/editor/src/ui/LayerStackControls.glm-p.test.tsx:126:67\n    at file:///Users/zhangxu/.codex/worktrees/glm-wave-p-editor-residual/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/.codex/worktrees/glm-wave-p-editor-residual/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/.codex/worktrees/glm-wave-p-editor-residual/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/.codex/worktrees/glm-wave-p-editor-residual/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/.codex/worktrees/glm-wave-p-editor-residual/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20"],"meta":{},"tags":[]}],"startTime":1790829249305,"endTime":1790829249356.0688,"status":"failed","message":"","name":"/private/tmp/glm-p-counter-P02-C10/packages/editor/src/ui/LayerStackControls.glm-p.test.tsx"}]}
 
  Test Files  1 failed (1)
-      Tests  2 failed | 3 passed (5)
-   Start at  01:49:20
-   Duration  668ms (transform 153ms, setup 0ms, import 224ms, tests 56ms, environment 313ms)
+      Tests  1 failed | 4 passed (5)
+   Start at  13:34:08
+   Duration  667ms (transform 160ms, setup 0ms, import 230ms, tests 52ms, environment 307ms)
 
 
-⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
-
- FAIL  src/ui/LayerStackControls.glm-p.test.tsx > P02-G02 LayerStackControls 禁用原因残余 > addDisabledReason：新增按钮禁用并渲染原因段
-AssertionError: expected false to be true // Object.is equality
-
-- Expected
-+ Received
-
-- true
-+ false
-
- ❯ src/ui/LayerStackControls.glm-p.test.tsx:107:38
-    105|   test('addDisabledReason：新增按钮禁用并渲染原因段', () => {
-    106|     renderStack({ addDisabledReason: '组合放置期间不能增层。' })
-    107|     expect(byLabel('新增图层').disabled).toBe(true)
-       |                                      ^
-    108|     expect(host.querySelector('.layer-stack-disabled-reason')?.textCon…
-    109|       '组合放置期间不能增层。',
-
-⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
 
  FAIL  src/ui/LayerStackControls.glm-p.test.tsx > P02-G02 LayerStackControls 禁用原因残余 > add/delete 同因 → 只渲染一段共享原因
-AssertionError: expected false to be true // Object.is equality
+AssertionError: expected <p …(2)></p>
+<p …(2)></p> to have a length of 1 but got 2
 
 - Expected
 + Received
 
-- true
-+ false
+- 1
++ 2
 
- ❯ src/ui/LayerStackControls.glm-p.test.tsx:127:38
+ ❯ src/ui/LayerStackControls.glm-p.test.tsx:126:67
+    124|       deleteDisabledReason: '只读工程不能改图层结构。',
     125|     })
     126|     expect(host.querySelectorAll('.layer-stack-disabled-reason')).toHa…
+       |                                                                   ^
     127|     expect(byLabel('新增图层').disabled).toBe(true)
-       |                                      ^
     128|     expect(byLabel('删除选中图层：物件').disabled).toBe(true)
-    129|   })
 
-⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯

@@ -4,14 +4,14 @@
  * 去重：project-diagnostics.test X7 已证 物品投掷/战场/开局 seedStats 与重复/资源引用闭包/
  * 资源角色/内容引用 missing-sprite/脚本引用 shared-missing/世界变量未登记与 flag-number
  * 门口径，以及入口点 issue 级 codes、损坏恢复 id 集。本文件只补：
- * G06 尚未断言过的保存门分段前缀（世界变量注册表路径缺失/场景/敌人/共享脚本/对话身份/
- *     实体引用/开局资源键/资源注册表/内容引用 mapId 臂）
+ * G06 尚未断言过的保存门分段前缀（世界变量注册表路径缺失/场景 pages 页记录缺 id/
+ *     敌人空 battleSprite 引用/共享脚本空 id/对话身份/实体引用/开局资源键/资源注册表/
+ *     内容引用 mapId 臂）——全部 typed-legal fixture 触发值级守卫，无 as never/双桥
  * G07 聚合诊断残余（missing-scene target.objectId 与 #index 消息、startWorld.resources
  *     issue 形状、catalog 非法时资产闭包诊断被整体跳过、manifest-assets-invalid 形状、
  *     战场 #24 在场无缺省警告、状态诊断收集器同对象身份快路径）
- * 非法域输入（共享脚本 self 错字）以单次 as never 表达拒绝合同，不当合法正控。
  */
-import type { CurrentManifest } from '@type-pal/content'
+import type { CurrentManifest, EnemyDef } from '@type-pal/content'
 import { describe, expect, test } from 'vitest'
 import { loadLegalProject } from '../__tests__/glm-p/kit.js'
 import type { EditorState } from './edit-session.js'
@@ -36,9 +36,10 @@ describe('P01-G06 保存门分段拒绝残余', () => {
     ).toThrow('保存前世界变量校验失败：manifest 缺 worldVariables 注册表路径')
   })
 
-  test('实体声明 initialPage 却无 pages → 场景数据分段拒绝', async () => {
+  test('带 pages 的实体页记录缺 id → 场景数据分段拒绝（typed-legal 值级守卫）', async () => {
     const state = await legalState()
     const start = state.scenes[0]!
+    // EntityDef.pages 类型允许空页记录；保存门要求作者页必须携带非空 id。
     const broken: EditorState = {
       ...state,
       scenes: [
@@ -47,46 +48,60 @@ describe('P01-G06 保存门分段拒绝残余', () => {
           ...start,
           id: 'scene-broken',
           mapId: start.mapId,
-          // 非法域：EntityDef 类型上不存在的 initialPage 声明（无 pages），验证场景分段拒绝。
           entities: [
             {
-              id: 'npc-p',
+              id: 'npc-pages',
               sprite: 'hero',
               pos: { col: 0, row: 0, height: 0 },
-              initialPage: 'p0',
-            } as never,
+              pages: [{}],
+            },
           ],
         },
       ],
     }
-    expect(() => assertProjectSaveValid(broken)).toThrow(/保存前场景数据校验失败.*initialPage/)
+    expect(() => assertProjectSaveValid(broken)).toThrow(/保存前场景数据校验失败.*pages\[0\]\.id/)
   })
 
-  test('敌人正文重复 id → 敌人数据分段拒绝', async () => {
+  test('敌人 battleSprite 空引用 → 敌人数据分段拒绝（typed-legal 值级守卫）', async () => {
     const state = await legalState()
-    // 非法域：手拼缺字段敌人并复制 id，验证敌人分段拒绝（不做合法正控使用）。
+    // 完整 typed EnemyDef，唯一违规是 battleSprite 空串（值级），无缺字段强转。
     const enemy = {
-      id: 'ghost-enemy',
-      name: '幽灵敌人',
-      spriteId: 'hero',
-      battler: state.actors[0]!.battler,
-    } as never
-    const second = { ...(enemy as Record<string, unknown>), name: '二号' }
-    expect(() =>
-      assertProjectSaveValid({
-        ...state,
-        enemies: [enemy, second] as EditorState['enemies'],
-      }),
-    ).toThrow(/保存前敌人数据校验失败/)
+      id: 'enemy-p-blank',
+      name: 'name.hero',
+      battleSprite: '',
+      yPosOffset: 0,
+      stats: {
+        health: 10,
+        level: 1,
+        exp: 0,
+        cash: 0,
+        attackStrength: 5,
+        magicStrength: 0,
+        defense: 2,
+        dexterity: 5,
+        fleeRate: 0,
+        physicalResistance: 0,
+        poisonResistance: 0,
+        elemResistance: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 },
+        dualMove: false,
+        collectValue: 0,
+      },
+      ai: { resistanceToSorcery: 0 },
+      sounds: {},
+    } satisfies EnemyDef
+    expect(() => assertProjectSaveValid({ ...state, enemies: [enemy] })).toThrow(
+      /保存前敌人数据校验失败.*battleSprite/,
+    )
   })
 
-  test('共享脚本 self 槽非法 → 共享脚本分段拒绝（非法域拒绝合同，非合法正控）', async () => {
+  test('共享脚本空 id → 共享脚本分段拒绝（typed-legal 值级守卫）', async () => {
     const state = await legalState()
-    const illegal = {
-      'script-bad': { name: '坏脚本', description: '', self: 'wrong', body: [] },
-    } as never as EditorState['sharedScripts']
+    // Record 的空字符串键 typed-legal；保存门要求脚本 id 非空。
+    const illegal: NonNullable<EditorState['sharedScripts']> = {
+      '': { name: '坏脚本', description: '', self: 'none', body: [] },
+    }
     expect(() => assertProjectSaveValid({ ...state, sharedScripts: illegal })).toThrow(
-      /保存前共享脚本校验失败.*self/,
+      /保存前共享脚本校验失败.*script id/,
     )
   })
 
