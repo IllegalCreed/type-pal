@@ -32,9 +32,25 @@ export async function validateScriptContinuation<T>(
     if (!state) throw new Error('auto resume: state不存在')
     commands = state.body
   }
+  const rootFrame = resume.frames[0]
+  if (!rootFrame) throw new Error('auto resume: 缺少根执行帧')
+  const expectedOutcomes = new Map<string, boolean | undefined>()
+  if (executable.flow.kind === 'stateMachine') {
+    for (const [index, command] of commands.entries()) {
+      if (command.kind !== 'confirm' || !command.id) continue
+      if (index < rootFrame.index) expectedOutcomes.set(command.id, undefined)
+      else if (index === rootFrame.index && rootFrame.control?.kind === 'confirm')
+        expectedOutcomes.set(command.id, rootFrame.control.no)
+    }
+  }
   for (const id of Object.keys(resume.outcomes))
-    if (!commands.some((command) => command.kind === 'confirm' && command.id === id))
-      throw new Error(`auto resume: confirm结果不存在 ${id}`)
+    if (!expectedOutcomes.has(id)) throw new Error(`auto resume: confirm结果尚未执行或不存在 ${id}`)
+  for (const [id, selected] of expectedOutcomes) {
+    const outcome = Object.hasOwn(resume.outcomes, id) ? resume.outcomes[id] : undefined
+    if (!outcome) throw new Error(`auto resume: 缺少已执行confirm结果 ${id}`)
+    if (selected !== undefined && outcome.no !== selected)
+      throw new Error(`auto resume: confirm结果与控制帧不一致 ${id}`)
+  }
   let callDepth = 0
   for (const [depth, frame] of resume.frames.entries()) {
     signal.throwIfAborted()

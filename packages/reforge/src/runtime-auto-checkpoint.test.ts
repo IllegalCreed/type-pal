@@ -179,7 +179,9 @@ test.each([
   await running
 })
 
-test('nested chance branch, loop and shared call retain decisions and iteration without money/item replay', async () => {
+test.each([
+  2, 3, 4,
+])('nested branch/loop/shared resume can be saved again at restore gate %i without losing child frames or replaying rewards', async (pauseAt) => {
   const parked = deferred(),
     release = deferred()
   let waits = 0
@@ -263,17 +265,117 @@ test('nested chance branch, loop and shared call retain decisions and iteration 
   const dormant = structuredClone(saved)
   dormant.script!.behaviors.entities!.s!.e!.auto!.selection = { kind: 'disabled' }
   await runtime.validateAutomaticContinuations(dormant, new AbortController().signal)
+  const restoring = deferred(),
+    continueRestore = deferred()
+  let gates = 0
   const restored = new ScriptProjectRuntime({ sharedScripts: library }, saved, 'c'.repeat(64), {
     ...f.options,
+    gate: async () => {
+      if (++gates === pauseAt) {
+        restoring.resolve()
+        await continueRestore.promise
+      }
+    },
     random: () => 0.99,
     executeEffect: (command) => applyRewards(saved, command),
   })
   await restored.validateAutomaticContinuations(saved, new AbortController().signal)
-  await restored.runEntityBehavior(f.scene, 'e', 'auto', { signal: new AbortController().signal })
+  const resuming = restored.runEntityBehavior(f.scene, 'e', 'auto', {
+    signal: new AbortController().signal,
+  })
+  await restoring.promise
+  const resaved = await restored.withSaveBarrier(() => structuredClone(saved))
+  expect(resaved.script?.behaviors.entities?.s?.e?.auto?.cursor?.resume?.frames).toEqual(
+    resume?.frames,
+  )
+  const reread = new ScriptProjectRuntime({ sharedScripts: library }, resaved, 'c'.repeat(64), {
+    ...f.options,
+    random: () => 0.99,
+    executeEffect: (command) => applyRewards(resaved, command),
+  })
+  await reread.validateAutomaticContinuations(resaved, new AbortController().signal)
+  await reread.runEntityBehavior(f.scene, 'e', 'auto', {
+    signal: new AbortController().signal,
+  })
+  expect(resaved.money).toBe(109)
+  expect(resaved.inventory).toEqual([{ itemId: 'gift', count: 3 }])
+  expect(resaved.script?.vars.iterations).toBe(3)
+  continueRestore.resolve()
+  await resuming
   expect(saved.money).toBe(109)
   expect(saved.inventory).toEqual([{ itemId: 'gift', count: 3 }])
   expect(saved.script?.vars.iterations).toBe(3)
   expect(saved.script?.behaviors.entities?.s?.e?.auto?.cursor?.resume).toBeUndefined()
+  release.resolve()
+  await running
+})
+
+test.each([
+  'missing-completed',
+  'missing-selected',
+  'mismatched-selected',
+  'future-result',
+] as const)('restore preflight refuses a %s confirm result before effects', async (kind) => {
+  const entered = deferred(),
+    release = deferred()
+  const effect = vi.fn(async (command: RuntimeCommand) => {
+    if (command.kind === 'wait') {
+      entered.resolve()
+      await release.promise
+    }
+  })
+  const f = fixture({
+    confirm: async () => kind === 'missing-completed' || kind === 'future-result',
+    executeEffect: effect,
+  })
+  const e = f.scene.entities[0]!
+  e.pages![0]!.auto = 'answer'
+  e.behaviors!.auto = {
+    answer: {
+      label: 'Answer',
+      order: 0,
+      flow: {
+        kind: 'stateMachine',
+        machine: {
+          id: 'answer',
+          label: 'Answer',
+          initial: 'first',
+          states: {
+            first: {
+              label: 'First',
+              body: [
+                { kind: 'confirm', id: 'answer', onNo: [{ kind: 'wait', ms: 500_000 }] },
+                { kind: 'wait', ms: 500_000 },
+                { kind: 'confirm', id: 'later', onNo: [] },
+              ],
+              next: {
+                kind: 'commandOutcome',
+                commandId: 'answer',
+                command: 'confirm',
+                outcome: 'no',
+                then: { kind: 'complete' },
+                else: { kind: 'stay' },
+              },
+            },
+          },
+        },
+      },
+    },
+  }
+  const running = f.runtime.runEntityBehavior(f.scene, 'e', 'auto', { signal: f.signal })
+  await entered.promise
+  const saved = await f.runtime.withSaveBarrier(() => structuredClone(f.world))
+  await f.runtime.validateAutomaticContinuations(saved, new AbortController().signal)
+  const resume = saved.script!.behaviors.entities!.s!.e!.auto!.cursor!.resume!
+  if (kind === 'missing-completed' || kind === 'missing-selected') delete resume.outcomes.answer
+  if (kind === 'mismatched-selected') resume.outcomes.answer!.no = false
+  if (kind === 'future-result') resume.outcomes.later = { command: 'confirm', no: false }
+  const before = structuredClone(f.world)
+  await expect(
+    f.runtime.validateAutomaticContinuations(saved, new AbortController().signal),
+  ).rejects.toThrow(/auto resume/)
+  expect(f.world).toEqual(before)
+  expect(effect).toHaveBeenCalledTimes(1)
   release.resolve()
   await running
 })

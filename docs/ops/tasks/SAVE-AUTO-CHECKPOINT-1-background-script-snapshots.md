@@ -5,7 +5,7 @@ Phase: phase2
 Capability: X1 / W7
 Coding Owner: Codex Root
 Generation Owner: N/A
-Reviewer: Codex（自验后独立第二遍复核；不冒充第三方审查）
+Reviewer: Codex Root（集成验收） / auto_snapshot_review（独立只读复核）
 Visual Verification Owner: Codex / User
 Visual Verification Timing: mixed
 Contributor: Codex
@@ -104,6 +104,19 @@ Branch: codex/e2e-003
   `auto-checkpoint-loop-both-green.log`为4 files / 79 pass，until和while退出都不重抽随机条件、不重放7钱。
 - 第9轮全仓（已跑过reforge但未包含这项补审）停止，不冒充最终门；重新冻结后再跑完整全仓和RF001→002→003。
   上述eea814da3旅程只保留为补审前证据，不用于验收最终运行时。
+
+### 独立恢复反控返工（尚未发布）
+
+- `auto_snapshot_review`直接读取主壳、runner、guard及一阶段存档证据，独立指出恢复中的嵌套帧截断：
+  root frame已入栈但child仍在resumeFrames时，host gate暂停后再存会丢掉child地址并重放已完成奖励。
+- 同席指出confirm恢复预检只查已有结果的ID、不查已跨过确认命令的结果完整性，坏档可能换现场后才报错。
+- Root新增3个不同恢复gate位置和4种confirm破坏反控；`auto-checkpoint-nested-resave-red.log`为7 fail / 16 pass。
+  checkpoint合并已恢复帧和尚未消费的子帧；预检按root index/control要求已完成/已选择的顶层confirm结果完整且一致，拒绝未来结果。
+- `auto-checkpoint-nested-resave-shell-green.log`为4 files / 85 pass，含23个自动续跑反控、真实主壳11例及core/lineage；
+  `auto-checkpoint-nested-lint.log`为2725 files / 0error / 0warning / 0info。
+- 第10轮全仓的所有包测试已通过，但末尾lint读到返工中的2个诊断而失败；原日志保留，已修，不能作为最终全仓通过。
+  正式冻结0b49ea4d4的第二套RF001→002→003都passed；因本次实现返工，仍只作为历史旅程证据。
+- 独立席正在定向复核两个counter闭合及相对走位的暂停边界；未收到accept，不宣布独立验收或main发布完成。
 
 ## 下一位 Agent 提示词
 

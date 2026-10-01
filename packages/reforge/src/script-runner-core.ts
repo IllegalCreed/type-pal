@@ -215,7 +215,9 @@ export class ScriptRunnerCore<RuntimeLeafCommand = BaseRuntimeLeafCommand> {
       this.checkpointCursor,
       {
         digest: this.runningDigest,
-        frames: structuredClone(this.frames),
+        // During restore the child address stack is consumed one frame at a time. A host
+        // gate may pause before the next child is entered; snapshots must keep that tail.
+        frames: structuredClone([...this.frames, ...this.resumeFrames]),
         outcomes: Object.fromEntries(this.checkpointOutcomes),
       },
       ready,
