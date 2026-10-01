@@ -54,8 +54,22 @@ Visual Verification Timing: mixed
 - RF001 新增只读 DOM 撤层 observer：在 native 入口视频 removal 的 MutationObserver 回调读真实 RGBA，
   同时要求自然结束、runtime 尚未 ready、标题非黑、撤层全黑且不透明，保存 title/handoff PNG；
   继续原有 s000→s001 演出、菜单控制、SAVE10 跨页读档与最终真实首帧检查，不能靠永远黑屏过门。
-- 自验当前绿：相邻4文件16 tests；全仓 lint 2727 files、0 errors / 0 warnings / 0 infos。
-  冻结版本 RF001、完整 reforge check、工具回归与候选收据待补。
+- 自验候选冻结：`b7784da3aa0c23885440ba087644ab5d65f21a13`，实现/测试6文件194行插入。
+  其中实际产品实现仅标题 cleanup 的9行，没有其它API、配置、版本或内容修改。
+- 红绿日志保留于 `build/e2e/opening-handoff-{red,unit-red,unit-green,green}.log`；
+  相邻4文件16 tests 全绿；完整 reforge check 257 files / 2178 tests全绿、tsc零诊断。
+- 硬性静态：全仓 lint 2727 files、0 errors / 0 warnings / 0 infos；全仓7包typecheck全部Done且无诊断。
+  日志 `build/e2e/opening-handoff-{reforge-check,lint,typecheck,all-typecheck}.log`。
+- E2E工具94 tests全绿；冻结RF001
+  `build/e2e/reforge-001-2026-10-01T14-45-18-085Z/report.json` status passed，revision准确指向上述SHA。
+  native video ended 撤层时1280×800、nonBlack=0、opaque=1024000、runtimeReady=false；
+  `001-video-handoff.png` 为实际黑过渡，之后s000→s001矩阵/时序、菜单控制、跨页SAVE10读档与最终房间像素全部通过。
+  Owner实际查看红控菜单PNG、绿控黑过渡PNG和绿控`001-end.png`，不是只凭状态判定。
+  浏览器收据保留原有404无基线档与Canvas readback性能提示，不把它们伪报为零warning。
+- `pnpm check:docs` 的37工具tests全绿，但正文门保留2个真实诊断：新开本卡尚未登记board/index。
+  它们在此隔离分支base已有；Owner白名单不包括共享board/index，因此交Root集成时登记、复跑，
+  不宣布统一质量门已全过。日志 `build/e2e/opening-handoff-docs.log`。
+- 6012与用户浏览器完全未操作；实际验证只用runner自持服务/干净Chrome上下文，正常finally清理。
 
 ## 下一位 Agent 提示词
 
