@@ -1,4 +1,8 @@
-JSON report written to /var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-o-cc-injected-PidAJv/vitest-injected.json
+# exit=1 signal=null errored=null
+# === stdout ===
+JSON report written to /var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-o-cc-injected-TbE68E/vitest-injected.json
 undefined
-/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-o-cc-injected-PidAJv/packages/content:
- ERR_PNPM_RECURSIVE_EXEC_FIRST_FAIL  Command failed with exit code 1: vitest run src/script-library.glm-o.test.ts --reporter=json --outputFile=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-o-cc-injected-PidAJv/vitest-injected.json
+/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-o-cc-injected-TbE68E/packages/content:
+ ERR_PNPM_RECURSIVE_EXEC_FIRST_FAIL  Command failed with exit code 1: vitest run src/script-library.glm-o.test.ts --reporter=json --outputFile=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-o-cc-injected-TbE68E/vitest-injected.json
+# === stderr ===
+
