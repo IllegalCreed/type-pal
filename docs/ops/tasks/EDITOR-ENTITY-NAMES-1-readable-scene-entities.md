@@ -1,6 +1,6 @@
 # EDITOR-ENTITY-NAMES-1 - 实体名称与稳定身份分离
 
-Status: build
+Status: rework
 Phase: phase2
 Capability: W7 / P3
 Coding Owner: entity_names 贡献者
@@ -81,6 +81,28 @@ Branch: codex/editor-entity-names
 
 共12个实例字段。Root从Git读取冻结f5726a504的两场景，当前树仅删除entities[].label后deepStrictEqual，
 所有ID、坐标、精灵/actor、页、对白、指令、路径、去向均零差异。其余实体不猜名，随后续E2E继续。
+
+## 独立复核与counter（Root，2026-10-02）
+
+- 贡献者RC1：22d006b63，25实现/测试文件；自验editor14文件99项、content4文件157项及局部静态门绿。
+  已真实authorizeFirstSaveTarget→writeProject→committed receipt→current loader重开，不降低guard或writer。
+- Root直接复核类型/空间guard、属性patch、两会话显示解析、实际目标提交、正式保存重开、App/地图/图例及表单差异。
+- C1 counter：新canonical branch从旧`ScriptTree.describeCondition`改走`ScriptEditor.conditionLabel`。
+  后者hasItem/ownsItem/itemEquipped显示英文kind+ID且丢atLeast，inParty丢人物中文名，facingEntity丢range；
+  `ScriptEditor.tsx:640–675/841–845`与`ScriptTree.tsx:49–89`是直接对照证据。
+  这是本批branch显示回退，不是用户允许的实体改名，也不是执行语义差异。须保留既有重点条件信息、复合地址和新名称。
+- Root完整回归先冻结RC1执行；贡献者暂只读反证，Root明确释放后再修改最小条件展示/test文件。
+  RC1质量结果不自动给修改后的候选准入；C1闭合后重跑受影响全套与静态门。
+- 用户6012仍为原main，未更新、未关闭。固定签字不适用；C1未闭合前不集成。
+- RC1独立已完成：content124文件1253项、reforge258文件2183项，七包typecheck、lint2738文件
+  0error/0warning/0info与PAL294场景/223地图/1934资源校验通过。editor全套发现门禁失败后由Root
+  结束本任务专属PID64634（cwd/父PID/命令核实，SIGINT exit130），保留未完成日志，不冒充全套通过。
+- C2：新EntityNameField尚未在field-commit-adoption登记；直接gate实测101文件仍2证据例外，
+  adoption.test旧库存期望100需同步101。独立定向3失败/1通过/86未选；早期App connector超5秒是
+  并行资源争抢，定向已通过，不更改超时门。正常字段归属/库存更新不能变成豁免或放宽规则。
+- 独立发现此前步骤名称新增raw label导致33>32。Root从Git计数确认f5726a504与RC1均33，
+  是前批存量，不是本贡献者新增；保持32门不变。贡献者交付C1/C2并停写后，Root独占ScriptEditor
+  将该字段用现行设计label原语表达，单独提交验证；不把全仓存量治理外推给贡献者。
 
 ## 下一位 Agent 提示词
 

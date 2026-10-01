@@ -13,7 +13,7 @@
 | [E2E-003-1 - 下楼、道士交谈与厨房交代](E2E-003-1-inn-stairs-and-kitchen.md) | review | 以任务卡当前准入与看板分工为准。 |
 | [E2E-R4-1 — 路线驱动与合法检查点薄基线](E2E-R4-1-route-and-checkpoint-foundation.md) | build | 以任务卡当前准入与看板分工为准。 |
 | [E2E-SCRIPT-NAMES-1 - 随剧情核验命名方案与步骤](E2E-SCRIPT-NAMES-1-plot-scheme-and-step-labels.md) | review | 以任务卡当前准入与看板分工为准。 |
-| [EDITOR-ENTITY-NAMES-1 - 实体名称与稳定身份分离](EDITOR-ENTITY-NAMES-1-readable-scene-entities.md) | build | 以任务卡当前准入与看板分工为准。 |
+| [EDITOR-ENTITY-NAMES-1 - 实体名称与稳定身份分离](EDITOR-ENTITY-NAMES-1-readable-scene-entities.md) | rework | 以任务卡当前准入与看板分工为准。 |
 | [EDITOR-MAP-SELECTION-NOTICE-1 — Esc 清选后的状态通知语义](EDITOR-MAP-SELECTION-NOTICE-1.md) | draft | 以任务卡当前准入与看板分工为准。 |
 | [EDITOR-SCENE-FACING-1 — 切场景指令无法清除显式朝向](EDITOR-SCENE-FACING-1-clear-override.md) | draft | 以任务卡当前准入与看板分工为准。 |
 | [EDITOR-SCRIPT-PREVIEW-1 — 指令重点摘要、选中步骤播放与地图轨迹](EDITOR-SCRIPT-PREVIEW-1-readable-commands-and-routes.md) | review | 以任务卡当前准入与看板分工为准。 |
