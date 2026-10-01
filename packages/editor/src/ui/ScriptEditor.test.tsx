@@ -1495,8 +1495,15 @@ describe('CanonicalScriptEditor author presentation', () => {
 
     await act(async () => root.render(<Harness />))
     expect(host.querySelector('.canonical-flow-explanation')?.textContent).toContain(
-      '分次执行1 个步骤',
+      '步骤列表1 个步骤',
     )
+    const heading = host.querySelector('.canonical-flow-explanation > .script-section-heading')!
+    expect(heading.querySelector('.script-section-title')?.textContent).toBe('步骤列表')
+    expect(heading.querySelector('.script-section-count')?.textContent).toBe('1 个步骤')
+    expect(heading.querySelector('button[aria-label="步骤列表说明"]')).not.toBeNull()
+    expect(heading.querySelector('button[aria-label="分次执行说明"]')).toBeNull()
+    expect(heading.querySelector('.canonical-flow-actions')).toBeNull()
+    expect(host.querySelector('.canonical-flow-actions')?.textContent).toContain('新建步骤')
     expect(host.querySelector('.canonical-flow-explanation')?.textContent).not.toContain('当前方案')
     expect(host.querySelector('.canonical-flow-explanation')?.textContent).not.toContain('默认进场')
     expect(host.querySelector('[aria-label="脚本正文"]')).not.toBeNull()
@@ -1538,6 +1545,7 @@ describe('CanonicalScriptEditor author presentation', () => {
         .click(),
     )
     expect(host.textContent).toContain('2 个步骤')
+    expect(heading.querySelector('.script-section-count')?.textContent).toBe('2 个步骤')
     expect(host.textContent).toContain('步骤 2 · 脚本正文')
     expect(host.textContent).toContain('下次进入步骤 2')
     expect(host.querySelectorAll('.canonical-stage-card-details')).toHaveLength(2)

@@ -154,7 +154,7 @@ describe('ScriptBehaviorInspector', () => {
     expect(html).toContain('方案详情')
     expect(html).toContain('脚本方案')
     expect(html).toContain('初次交谈')
-    expect(html).toContain('分次执行')
+    expect(html).toContain('步骤列表')
     expect(html).toContain('新建步骤')
     expect(html).not.toContain('当前方案')
     expect(html).not.toContain('触发阶段')
@@ -373,7 +373,7 @@ describe('ScriptBehaviorInspector', () => {
     await act(async () => root.render(<Harness />))
     expect(
       host.querySelector('.canonical-flow-explanation .script-section-title')?.textContent,
-    ).toBe('分次执行')
+    ).toBe('步骤列表')
     expect(host.querySelector('.canonical-flow-count')?.textContent).toBe('2 个步骤')
     expect(host.querySelector('.canonical-flow-explanation')?.textContent).not.toContain('当前方案')
     expect(host.querySelector('.canonical-flow-explanation')?.textContent).not.toContain('初次交谈')

@@ -114,7 +114,7 @@ describe('ScriptSceneHookInspector', () => {
     expect(html).toContain('脚本方案')
     expect(html).toMatch(/class="[^"]*ds-pressable[^"]*script-scheme-card-select/)
     expect(html).not.toMatch(/class="[^"]*ds-button[^"]*script-scheme-card-select/)
-    expect(html).toContain('分次执行')
+    expect(html).toContain('步骤列表')
     expect(html).not.toContain('进场脚本 · 脚本方案')
     expect(html).not.toContain('当前方案')
     expect(html).not.toContain('触发阶段')

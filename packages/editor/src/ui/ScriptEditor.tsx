@@ -3797,7 +3797,7 @@ export function removeTriggerStage(
   stageId: string,
   replacementId: string,
 ): TriggerStageFlow {
-  if (flow.stages.length <= 1) throw new Error('分次执行至少需要保留一个步骤')
+  if (flow.stages.length <= 1) throw new Error('每套方案至少需要保留一个步骤')
   if (stageId === replacementId) throw new Error('接替步骤不能是待删除步骤')
   if (!flow.stages.some((stage) => stage.id === stageId))
     throw new Error(`待删除步骤不存在：${stageId}`)
@@ -3902,12 +3902,12 @@ export function CanonicalScriptFlowEditor(props: {
       <section className="canonical-flow-editor">
         <header className="canonical-flow-explanation">
           <div className="script-section-heading">
-            <strong className="script-section-title">分次执行</strong>
+            <strong className="script-section-title">步骤列表</strong>
             <span className="script-section-count canonical-flow-count">
               {flow.stages.length} 个步骤
             </span>
-            <DsHelpTip label="分次执行">
-              适用于对话、宝箱等每次运行内容会变化的脚本。每次运行只执行当前步骤；完成后可指定下次从哪一步开始。
+            <DsHelpTip label="步骤列表">
+              每套方案由步骤和指令组成。每次运行只执行当前步骤；步骤详情可指定下次重复、进入另一步骤，或完成本方案。
             </DsHelpTip>
           </div>
           <div className="canonical-flow-actions">
@@ -4020,7 +4020,7 @@ export function CanonicalScriptFlowEditor(props: {
                   size="compact"
                   variant="danger"
                   disabled={!hasMultipleStages}
-                  title={hasMultipleStages ? undefined : '分次执行至少需要保留一个步骤。'}
+                  title={hasMultipleStages ? undefined : '每套方案至少需要保留一个步骤。'}
                   onClick={() => {
                     setDetailsOpen(false)
                     setDeleteOpen(true)
@@ -4030,7 +4030,7 @@ export function CanonicalScriptFlowEditor(props: {
                 </DsButton>
                 {!hasMultipleStages ? (
                   <span className="canonical-stage-delete-note">
-                    分次执行至少需要保留一个步骤。
+                    每套方案至少需要保留一个步骤。
                   </span>
                 ) : null}
                 <span className="spacer" />

@@ -13378,13 +13378,17 @@ button.sprite-frame-cell[draggable="true"]:active {
   padding: 2px 0;
 }
 .canonical-flow-explanation > .script-section-heading {
-  flex: 1 1 480px;
+  flex: 0 1 auto;
   flex-wrap: wrap;
+  justify-content: flex-start;
 }
 .canonical-flow-actions {
   display: flex;
   flex: none;
   gap: 5px;
+}
+.canonical-flow-explanation > .canonical-flow-actions {
+  margin-left: auto;
 }
 .canonical-flow-explanation > .mini-txt,
 .canonical-flow-actions > .mini-txt {
