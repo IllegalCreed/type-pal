@@ -1,6 +1,6 @@
 # E2E-SCRIPT-NAMES-1 - 随剧情核验命名方案与步骤
 
-Status: build
+Status: review
 Phase: phase2
 Capability: W7 / P3
 Coding Owner: Codex Root
@@ -74,8 +74,7 @@ e61随行进房换身（`s003.json:7136/8638`）。既有RF002正式终点三人
 
 ## 下一位 Agent 提示词
 
-独立只读审查者读取本卡、READ-FIRST与上述一手代码，核实可选stage.label确为元数据、版本/存档及编译
-身份不漂移的前提；直接给证据与可证伪反例，不改实现、不标done、不操作6012。Root接收后统一推进。
+无下一位Agent提示词：独立复核已完成，等待用户体验验收。后续E2E命名沿用本卡与E2E合同，不重复接收本批实现。
 
 ## 实施范围与命名收据（2026-10-02）
 
@@ -100,3 +99,26 @@ e61随行进房换身（`s003.json:7136/8638`）。既有RF002正式终点三人
 | s001/e19/auto/default/initial | 备菜时保持向上姿势 | RF003厨房可见；正文只有向上/第0帧。 |
 
 未核后期方案、e59自动行为1/2及全PAL剩余模板名称仍由后续实际E2E逐包核读，不归此批完成。
+
+## 技术验收收据与最小复验
+
+- 冻结实现`19b68078b`（基线739a02982）；`editor_preview_audit`独立读取24文件diff与一手消费者后accept，
+  独立从Git读取三场景JSON去除label后deepStrictEqual，无非label差异；没有新counter，不代替用户体验验收。
+- schema原红1失败/31未选，明确拒绝合法step.label；实施后content全124文件1246项、reforge全258文件2183项绿。
+  editor最终11文件113项绿，覆盖真实loader重开、history、UI草稿提交/取消、同名ID、当前步预览及带名图例。
+  不宣称本批重跑editor全套或新RF001→003故事E2E。
+- 早期两轮typecheck因新增测试夹具的作者/投影类型边界失败，原日志保留；修正为真实AuthorScene→toEditorState
+  入口后，七包typecheck（editor两配置）全部完成零诊断，没有加强转或削弱规则。
+  最终lint2733文件0error/0warning/0info，docs814 Markdown/4283链接/254卡0issue；
+  PAL作者检查294场景/223地图/1934资源通过，设计控件gate100文件/2个既有证据绑定例外通过。
+- 证据：`build/e2e/script-names-schema-red.log`、`script-names-types.log`、`script-names-types-final.log`
+  保留原失败；最终`script-names-content-full.log`、`script-names-reforge-full.log`、
+  `script-names-editor-final-candidate.log`、`script-names-types-zero.log`、`script-names-lint-zero.log`、
+  `script-names-docs-final.log`、`script-names-pal-check.log`、`script-names-controls.log`及`script-names-metadata-proof.log`。
+- 6012更新前保存/撤销/重做均disabled、状态已保存，预览就绪；接收后原PID88523继续监听，未停止服务、
+  未关闭或手动刷新页面。HMR自动重载后恢复s003/e59自动行为与新进房方案选择。
+  实际DOM、截图及详情确认方案新名、带用途步骤卡、同名图例、可编辑名称值；只查看，未写浏览器草稿。
+- 用户最小复验：6012→s003→e59→自动行为→“接待结束：苗人头领进房”，应看到步骤1用途
+  “走到房门，切换房内头领”；打开步骤详情可见同名字段和原complete去向。可在自己的工程改名并撤销，
+  名字/编号/去向应各自正确；无需再走001～003剧情。当前页面已停在此方案，等待用户判断名称与展示是否清楚。
+- 本卡技术实现与独立复核完成，Status review仅待本轮作者界面体验；母卡全PAL治理仍build。
