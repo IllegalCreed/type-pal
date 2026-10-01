@@ -60,5 +60,6 @@
     "toolEvidenceAnchor": "5e492fbeaacd2717ad70681f67d1cd150668d479（r3.5 首轮工具收紧）",
     "finalRemoteCandidate": "推送 tip（receipt 不自引用，见分支远端 HEAD）"
   },
-  "threeStateProvenance": "r3.5 判据收紧后 10 针全部重采（30 份三态 JSON 的字节与 startTime 相对 48ade 已变；身份/状态/单红口径保持）；属工具判据变更触发的重采，非业务针位变化"
+  "threeStateProvenance": "r3.5 判据收紧后 10 针全部重采（30 份三态 JSON 的字节与 startTime 相对 48ade 已变；身份/状态/单红口径保持）；属工具判据变更触发的重采，非业务针位变化",
+  "finalRemoteCandidate": "85f7d16f94135f4fe81df3e1e89b24f7aff2485c（含 receipt pin docs-only 提交；功能性/证据提交为 52dd21198）"
 }
