@@ -1,4 +1,4 @@
-import type { GridPos } from '@type-pal/content'
+import { type GridPos, gridToPixel, type WalkSpeed } from '@type-pal/content'
 import { describe, expect, test } from 'vitest'
 import {
   consumeScheduledMoveRest,
@@ -12,6 +12,74 @@ import {
 const pos = (col: number, row: number): GridPos => ({ col, row, height: 0 })
 
 describe('production entity walk tick', () => {
+  test.each([
+    'slow',
+    'normal',
+    'fast',
+    'run',
+  ] as const)('walks the authored stair line continuously at %s speed without an endpoint jump', (speed) => {
+    const start = pos(122, 49)
+    const target = pos(131, 52)
+    const distancePerTick = Math.hypot(16, 8) * SPEED_GRID[speed]
+    let current = start
+    let done = false
+    let ticks = 0
+    while (!done && ticks++ < 100) {
+      const before = gridToPixel(current)
+      const next = walkTick(current, target, speed)
+      const after = gridToPixel(next.pos)
+      expect(Math.hypot(after.x - before.x, after.y - before.y)).toBeLessThanOrEqual(
+        distancePerTick + 1e-9,
+      )
+      expect(after.x - before.x).toBeCloseTo(after.y - before.y, 8)
+      expect(next.facing).toBe('right')
+      current = next.pos
+      done = next.done
+    }
+    expect(done).toBe(true)
+    expect(current).toEqual(target)
+  })
+
+  test.each([
+    [pos(10, -10), 'right'],
+    [pos(10, 10), 'right'],
+    [pos(-10, 10), 'down'],
+    [pos(-10, -10), 'up'],
+    [pos(-10, 0), 'left'],
+    [pos(0, -10), 'up'],
+  ] as const)('does not teleport when a projected axis is already aligned', (target, facing) => {
+    const first = walkTick(pos(0, 0), target, 'normal')
+    expect(first.done).toBe(false)
+    expect(first.facing).toBe(facing)
+    const point = gridToPixel(first.pos)
+    expect(Math.hypot(point.x, point.y)).toBeCloseTo(Math.hypot(16, 8) * SPEED_GRID.normal)
+  })
+
+  test('commits height only at the endpoint, including zero ground-plane distance', () => {
+    const target = { ...pos(4, 0), height: 2 }
+    expect(walkTick(pos(0, 0), target, 'normal').pos.height).toBe(0)
+    expect(walkTick(pos(4, 0), target, 'normal')).toEqual({
+      pos: target,
+      facing: 'right',
+      done: true,
+    })
+  })
+
+  test.each([
+    'slow',
+    'normal',
+    'fast',
+    'run',
+  ] satisfies WalkSpeed[])('clamps the last %s step exactly to the target, without overshooting', (speed) => {
+    const target = pos(0.01, 0.02)
+    expect(walkTick(pos(0, 0), target, speed)).toEqual({
+      pos: target,
+      facing: 'down',
+      done: true,
+    })
+    expect(walkTick(target, target, speed).done).toBe(true)
+  })
+
   test('keeps the four authored speed quanta', () => {
     expect(SPEED_GRID).toEqual({ slow: 0.25, normal: 0.375, fast: 0.5, run: 1 })
   })

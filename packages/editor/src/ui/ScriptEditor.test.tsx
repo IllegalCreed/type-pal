@@ -127,6 +127,95 @@ describe('CanonicalScriptEditor author presentation', () => {
     expect(host.textContent).not.toContain('新建状态')
   })
 
+  test('explains advanced transitions in author language and shows target labels without changing IDs', async () => {
+    const changes = vi.fn()
+    const original: AuthorScriptFlow = {
+      kind: 'stateMachine',
+      machine: {
+        id: 'route',
+        label: '路线',
+        cadence: 'transition',
+        initial: 'technical-first',
+        states: {
+          'technical-first': {
+            label: '走到楼梯口',
+            body: [],
+            next: { kind: 'to', state: 'technical-last', yield: 'worldTick' },
+          },
+          'technical-last': { label: '到大厅等逍遥', body: [], next: { kind: 'complete' } },
+        },
+      },
+    }
+    await act(async () =>
+      root.render(<CanonicalScriptFlowEditor flow={original} onChange={changes} />),
+    )
+    expect(host.textContent).toContain('本次运行稍后继续执行指定段落')
+    expect(host.textContent).toContain('当前执行先结束')
+    expect(host.textContent).not.toContain('让步')
+    const transitions = await openCombobox('后续执行')
+    expect(
+      [...transitions.querySelectorAll('[role="option"]')].map((option) => option.textContent),
+    ).toEqual([
+      '本方案结束，不再运行',
+      '下次运行，重复这一段',
+      '下次运行，从起始段落重新开始',
+      '本次运行，立即执行指定段落',
+      '下次运行，执行指定段落',
+      '本次运行，稍后执行指定段落',
+      '按条件选择后续',
+      '按操作结果选择后续',
+    ])
+    await act(async () => combobox('后续执行').click())
+    expect(combobox('目标段落').textContent).toContain('到大厅等逍遥')
+    const timing = await openCombobox('继续时机')
+    expect(timing.textContent).not.toMatch(/worldTick|macroTask/)
+    expect(timing.textContent).toContain('下一次世界更新')
+    const option = [...timing.querySelectorAll<HTMLElement>('[role="option"]')].find(
+      (candidate) => candidate.textContent === '稍后继续（不等世界更新）',
+    )!
+    expect(changes).not.toHaveBeenCalled()
+    await act(async () => option.click())
+    const saved = changes.mock.calls[0]![0] as AuthorScriptFlow
+    if (saved.kind !== 'stateMachine') throw new Error('expected original flow kind')
+    expect(saved.machine.states['technical-first']!.next).toEqual({
+      kind: 'to',
+      state: 'technical-last',
+      yield: 'macroTask',
+    })
+    expect(saved.machine.states['technical-first']!.body).toEqual([])
+    expect(original.machine.states['technical-first']!.next).toEqual({
+      kind: 'to',
+      state: 'technical-last',
+      yield: 'worldTick',
+    })
+  })
+
+  test('restart describes the configured initial paragraph even when it is not first in the list', async () => {
+    const original: AuthorScriptFlow = {
+      kind: 'stateMachine',
+      machine: {
+        id: 'route',
+        label: '路线',
+        cadence: 'transition',
+        initial: 'second',
+        states: {
+          first: { label: '前一段', body: [], next: { kind: 'complete' } },
+          second: { label: '实际起始段', body: [], next: { kind: 'restart' } },
+        },
+      },
+    }
+    const changes = vi.fn()
+    await act(async () =>
+      root.render(<CanonicalScriptFlowEditor flow={original} onChange={changes} />),
+    )
+    expect(host.textContent).toContain('下一次运行从上方设定的起始段落重新开始')
+    expect(host.textContent).toContain('不一定是列表第一项')
+    expect(host.textContent).not.toContain('从第一段')
+    expect(host.textContent).not.toContain('属于待整理的旧编排')
+    expect(changes).not.toHaveBeenCalled()
+    expect(original.machine.initial).toBe('second')
+  })
+
   test('failed author-step organization keeps the old flow visible and does not invent a success', async () => {
     const onChange = vi.fn(() => false)
     await act(async () =>

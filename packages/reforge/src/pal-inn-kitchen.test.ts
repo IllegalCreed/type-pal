@@ -65,17 +65,16 @@ async function run(source: RuntimeScriptFlow, stage?: string) {
   }
 }
 
-test('kitchen arrival selects first-day greeting, without overwriting the later sword lesson', () => {
+test('hall arrival selects first-day greeting, without overwriting the later sword lesson', () => {
   const arrival = flow('s003', 'e56', 'auto', 'legacy-006')
-  if (arrival.kind !== 'stateMachine') throw new Error('arrival machine missing')
-  expect(arrival.machine.states['outro-05']?.body).toEqual([
-    {
-      kind: 'selectEntityBehavior',
-      target: { scene: 's003', entity: 'e56' },
-      channel: 'trigger',
-      selection: { kind: 'use', value: 'greet-after-guests' },
-    },
-  ])
+  if (arrival.kind !== 'stages') throw new Error('arrival route missing')
+  expect(arrival.stages.at(-1)?.body.at(-1)).toEqual({
+    kind: 'selectEntityBehavior',
+    target: { scene: 's003', entity: 'e56' },
+    channel: 'trigger',
+    selection: { kind: 'use', value: 'greet-after-guests' },
+  })
+  expect(arrival.stages.at(-1)?.next).toEqual({ kind: 'complete' })
   expect(JSON.stringify(flow('s003', 'e56', 'trigger', 'legacy-001'))).toContain('dlg.824')
 })
 

@@ -93,8 +93,18 @@ describe('ED-3 PAL project reference index', () => {
     const index = createProjectReferenceIndex(diagnostics.projectReferences)
     const edges = index.allReferences()
 
-    // E2E-003 adds the verified first-talk/kitchen handoff; retain exact census and collector parity.
-    expect(diagnostics.entityAddressReferences).toHaveLength(38_158)
+    // SCRIPT-AUTHOR-2 replaces 24 nudges + 24 animation targets with one stair target move:
+    // e56's route addresses fall from 57 to 10 (-47), without changing external blockers.
+    expect(diagnostics.entityAddressReferences).toHaveLength(38_111)
+    expect(
+      diagnostics.entityAddressReferences.filter(
+        (reference) =>
+          reference.locator.kind === 'scene-entity' &&
+          reference.locator.sceneId === 's003' &&
+          reference.locator.entityId === 'e56' &&
+          reference.path.includes('.behaviors.auto.legacy-006.flow.'),
+      ),
+    ).toHaveLength(10)
     const expectedEntityBlockers = diagnostics.entityAddressReferences
       .filter((reference) =>
         entityAddressReferenceBlocksDeletion(reference, {

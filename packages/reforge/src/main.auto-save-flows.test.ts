@@ -1,5 +1,5 @@
 // @vitest-environment jsdom
-import type { AuthorCommand, AuthorScriptFlow } from '@type-pal/content'
+import { type AuthorCommand, type AuthorScriptFlow, gridToPixel } from '@type-pal/content'
 import { afterEach, expect, test } from 'vitest'
 import type { ShellHost } from './__tests__/runtime-shell/dom-host.js'
 import { drain, key } from './__tests__/runtime-shell/driver.js'
@@ -142,6 +142,234 @@ test.each([
 
 const target = { scene: 'a', entity: 'npc' }
 const endpoint = { col: 5, row: 4, height: 0 }
+
+test('a real diagonal target leg saves at its endpoint, resumes the next leg and remains completed after F9', async () => {
+  host = await installShellHost()
+  const first = shellScene('a')
+  const firstEndpoint = { col: 7, row: 5, height: 0 }
+  const lastEndpoint = { col: 7, row: 6, height: 0 }
+  first.entities = [
+    {
+      id: 'npc',
+      sprite: 'walker',
+      pos: { col: 4, row: 4, height: 0 },
+      pages: [{ id: 'normal', label: 'Normal', auto: 'route' }],
+      initialPage: 'normal',
+      behaviors: {
+        auto: {
+          route: {
+            label: 'Two target legs',
+            order: 0,
+            flow: {
+              kind: 'stages',
+              initial: 'first',
+              stages: [
+                {
+                  id: 'first',
+                  body: [{ kind: 'moveEntity', target, to: firstEndpoint, speed: 'normal' }],
+                  next: 'last',
+                },
+                {
+                  id: 'last',
+                  body: [
+                    { kind: 'moveEntity', target, to: lastEndpoint, speed: 'normal' },
+                    { kind: 'giveMoney', delta: 7 },
+                  ],
+                  next: { kind: 'complete' },
+                },
+              ],
+            },
+          },
+        },
+      },
+    },
+  ]
+  const booted = await bootScenario(host, { first })
+  await advance(host, () => {
+    const current = state().entities[0]!.pos
+    return current.col > 4 && current.col < 7
+  })
+  const current = gridToPixel(state().entities[0]!.pos)
+  expect(current.x - gridToPixel({ col: 4, row: 4, height: 0 }).x).toBeCloseTo(
+    current.y - gridToPixel({ col: 4, row: 4, height: 0 }).y,
+  )
+  const store = new IndexedDbSaveStore({ kind: 'project', projectId: 'shell-project' })
+  await key(host, 'F5')
+  for (let frame = 0; frame < 40 && !(await store.getPayload('quick')); frame++) {
+    host.frame(100)
+    await drain()
+    await host.settleIO()
+  }
+  const saved = await store.getPayload('quick')
+  expect(saved?.world.script?.entityPos?.a?.npc).toEqual(firstEndpoint)
+  expect(saved?.world.script?.behaviors.entities?.a?.npc?.auto?.cursor?.at).toEqual({
+    kind: 'stage',
+    stage: 'last',
+  })
+  expect(saved?.world.money).toBe(50)
+  await advance(host, () => state().world.money === 57)
+  await key(host, 'F9')
+  for (let frame = 0; frame < 20; frame++) {
+    host.frame(100)
+    await drain()
+    await host.settleIO()
+  }
+  await advance(
+    host,
+    () => state().world.script?.behaviors.entities?.a?.npc?.auto?.cursor?.at.kind === 'completed',
+  )
+  expect(state().entities[0]!.pos).toEqual(lastEndpoint)
+  expect(state().world.money).toBe(57)
+  await key(host, 'F5')
+  for (let frame = 0; frame < 20; frame++) {
+    host.frame(100)
+    await drain()
+    await host.settleIO()
+  }
+  expect(
+    (await store.getPayload('quick'))?.world.script?.behaviors.entities?.a?.npc?.auto?.cursor?.at,
+  ).toEqual({ kind: 'completed' })
+  await key(host, 'F9')
+  for (let frame = 0; frame < 20; frame++) {
+    host.frame(100)
+    await drain()
+    await host.settleIO()
+  }
+  expect(state().entities[0]!.pos).toEqual(lastEndpoint)
+  expect(state().world.money).toBe(57)
+  expect(state().world.script?.behaviors.entities?.a?.npc?.auto?.cursor?.at).toEqual({
+    kind: 'completed',
+  })
+  booted.assertInputUnchanged()
+})
+
+test('F9 cancels a real in-flight diagonal move without late position, reward or behavior selection', async () => {
+  host = await installShellHost()
+  const first = shellScene('a')
+  const initialPos = { col: 4, row: 4, height: 0 }
+  first.entities = [
+    {
+      id: 'npc',
+      sprite: 'walker',
+      pos: initialPos,
+      pages: [{ id: 'normal', label: 'Normal', auto: 'idle' }],
+      initialPage: 'normal',
+      behaviors: {
+        auto: {
+          idle: {
+            label: 'Idle',
+            order: 0,
+            flow: {
+              kind: 'stages',
+              initial: 'idle',
+              stages: [{ id: 'idle', body: [], next: { kind: 'complete' } }],
+            },
+          },
+          route: {
+            label: 'Diagonal route',
+            order: 1,
+            flow: {
+              kind: 'stages',
+              initial: 'move',
+              stages: [
+                {
+                  id: 'move',
+                  body: [
+                    {
+                      kind: 'moveEntity',
+                      target,
+                      to: { col: 12, row: 6, height: 0 },
+                      speed: 'normal',
+                    },
+                    { kind: 'giveMoney', delta: 7 },
+                    {
+                      kind: 'selectEntityBehavior',
+                      target,
+                      channel: 'auto',
+                      selection: { kind: 'use', value: 'idle' },
+                    },
+                  ],
+                  next: { kind: 'complete' },
+                },
+              ],
+            },
+          },
+        },
+      },
+    },
+    {
+      id: 'switch',
+      sprite: 'walker',
+      pos: { col: 2, row: 3, height: 0 },
+      pages: [
+        {
+          id: 'normal',
+          label: 'Normal',
+          trigger: 'start',
+          triggerActivation: { on: 'interact', range: 2 },
+        },
+      ],
+      initialPage: 'normal',
+      behaviors: {
+        trigger: {
+          start: {
+            label: 'Start route',
+            order: 0,
+            flow: {
+              kind: 'stages',
+              initial: 'start',
+              stages: [
+                {
+                  id: 'start',
+                  body: [
+                    {
+                      kind: 'selectEntityBehavior',
+                      target,
+                      channel: 'auto',
+                      selection: { kind: 'use', value: 'route' },
+                    },
+                  ],
+                  next: { kind: 'complete' },
+                },
+              ],
+            },
+          },
+        },
+      },
+    },
+  ]
+  const booted = await bootScenario(host, { first })
+  await advance(
+    host,
+    () => state().world.script?.behaviors.entities?.a?.npc?.auto?.cursor?.at.kind === 'completed',
+  )
+  const store = new IndexedDbSaveStore({ kind: 'project', projectId: 'shell-project' })
+  await key(host, 'F5')
+  for (let frame = 0; frame < 20 && !(await store.getPayload('quick')); frame++) {
+    host.frame(100)
+    await drain()
+    await host.settleIO()
+  }
+  const saved = await store.getPayload('quick')
+  expect(saved?.world.money).toBe(50)
+  await key(host, 'Enter')
+  await advance(host, () => state().entities[0]!.pos.col > 4)
+  expect(state().entities[0]!.pos.col).toBeLessThan(12)
+  expect(state().world.money).toBe(50)
+  await key(host, 'F9')
+  for (let frame = 0; frame < 80; frame++) {
+    host.frame(100)
+    await drain()
+    await host.settleIO()
+  }
+  expect(state().entities[0]!.pos).toEqual(initialPos)
+  expect(state().world.money).toBe(50)
+  expect(state().world.script?.behaviors.entities?.a?.npc?.auto).toEqual(
+    saved?.world.script?.behaviors.entities?.a?.npc?.auto,
+  )
+  expect(await store.getPayload('quick')).toEqual(saved)
+  booted.assertInputUnchanged()
+})
 
 function departure(kind: 'stages' | 'stateMachine', explicitCompletion = false): AuthorScriptFlow {
   const body: AuthorCommand[] = [

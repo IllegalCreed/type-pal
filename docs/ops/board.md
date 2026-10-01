@@ -107,6 +107,7 @@ G/I 的功能视觉与 console 后续补验也已闭合，不把这些卡的完�
 | E2E-003-1 | [下楼、道士交谈与厨房交代](tasks/E2E-003-1-inn-stairs-and-kitchen.md) | review | User / 003体验验收 | 真实双引擎003及静态零诊断已核；止于交代不取菜，004 counter另留 |
 | SCRIPT-COMPLETE-1 | [完成语义与空结束步骤](tasks/SCRIPT-COMPLETE-1-explicit-flow-completion.md) | review | 用户检视 / Codex收口 | 443纯结束fold已集成；完整10648项与静态零诊断，6012更新且保持运行 |
 | SCRIPT-STEPS-1 | [首次对话与复读回归步骤](tasks/SCRIPT-STEPS-1-redundant-machine-cleanup.md) | review | User / 步骤列表体验验收 | 单卡与标题组已修、6012实检；e56后台剧情切换债已审计，正文未改 |
+| SCRIPT-AUTHOR-2 | [客栈语义命名与坐标走位](tasks/SCRIPT-AUTHOR-2-readable-inn-choreography.md) | build | Codex / 根因回归与作者整理 | 全PAL命名4664套已盘点；先修坐标移动48px跳落，再退役e56的46状态 |
 | EDITOR-SCENE-FACING-1 | [切场景朝向清除](tasks/EDITOR-SCENE-FACING-1-clear-override.md) | draft | Codex / 后续窄修 | 保持选项仍提交旧方向；真实红诊断+单点oracle已证 |
 | ARCH-SUPPORT-GLM-1 | [八组并行架构/视觉准备](tasks/ARCH-SUPPORT-GLM-1-eight-audit-packages.md) | draft | Codex / 后续归属与收口 | 58cdf938材料accept，counter清零；文档已合入，按用户要求未标done/未开产品门 |
 

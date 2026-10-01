@@ -3087,7 +3087,7 @@
       "behaviors": {
         "trigger": {
           "default": {
-            "label": "默认触发行为",
+            "label": "赶道士期间：追问是否打发走",
             "order": 0,
             "flow": {
               "kind": "stages",
@@ -3194,7 +3194,7 @@
             }
           },
           "c8-74bc98f07f8e": {
-            "label": "桂花酒剧情方案",
+            "label": "赠酒后：给钱托逍遥买鲜虾",
             "order": 1006,
             "flow": {
               "kind": "stages",
@@ -3354,7 +3354,7 @@
         },
         "auto": {
           "default": {
-            "label": "默认自动行为",
+            "label": "厨房待机：保持向上姿势",
             "order": 0,
             "flow": {
               "kind": "stages",

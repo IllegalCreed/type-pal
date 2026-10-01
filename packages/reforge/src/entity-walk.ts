@@ -16,14 +16,6 @@ export const SPEED_GRID: Readonly<Record<WalkSpeed, number>> = {
   run: 1,
 }
 
-/** PAL_NPCWalkTo snap threshold in projected pixels. */
-const SPEED_SNAP_PX: Readonly<Record<WalkSpeed, number>> = {
-  slow: 4,
-  normal: 6,
-  fast: 8,
-  run: 16,
-}
-
 /**
  * Per-command cadence for the original slow NPC speed.
  *
@@ -62,7 +54,12 @@ export function facingToward(from: GridPos, to: GridPos): Facing {
   return dy < 0 ? (dx < 0 ? 'left' : 'up') : dx < 0 ? 'down' : 'right'
 }
 
-/** One production NPCWalkTo tick, including the original either-axis snap rule. */
+/**
+ * One authored target-movement tick, along the projected ground-plane line.
+ * Keep the speed of a diamond-axis step, but never snap an unrelated, distant axis:
+ * an endpoint is reached only when its full remaining distance fits in this tick.
+ * Height remains a display-only endpoint property, not part of ground-plane speed.
+ */
 export function walkTick(
   pos: GridPos,
   to: GridPos,
@@ -73,12 +70,16 @@ export function walkTick(
   const dx = tgt.x - cur.x
   const dy = tgt.y - cur.y
   const facing = facingToward(pos, to)
-  const snap = SPEED_SNAP_PX[speed]
-  if (Math.abs(dx) < snap || Math.abs(dy) < snap) return { pos: { ...to }, facing, done: true }
-  const d = WALK_STEP[facing]
-  const g = SPEED_GRID[speed]
+  const distance = Math.hypot(dx, dy)
+  const distancePerTick = Math.hypot(16, 8) * SPEED_GRID[speed]
+  if (distance <= distancePerTick) return { pos: { ...to }, facing, done: true }
+  const fraction = distancePerTick / distance
   return {
-    pos: { ...pos, col: pos.col + d.dcol * g, row: pos.row + d.drow * g },
+    pos: {
+      ...pos,
+      col: pos.col + (to.col - pos.col) * fraction,
+      row: pos.row + (to.row - pos.row) * fraction,
+    },
     facing,
     done: false,
   }

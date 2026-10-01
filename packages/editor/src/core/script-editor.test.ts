@@ -1188,15 +1188,19 @@ describe('canonical script editor presentation', () => {
       tone: 'use',
       label: '使用：talk',
     })
-    expect(stateTransitionExecutionLabel({ kind: 'continue', state: 'next' })).toBe('同步继续')
-    expect(stateTransitionExecutionLabel({ kind: 'advance', state: 'next' })).toBe('下次激活')
+    expect(stateTransitionExecutionLabel({ kind: 'stay' })).toBe('下次重复本段')
+    expect(stateTransitionExecutionLabel({ kind: 'restart' })).toBe('下次从起始段开始')
+    expect(stateTransitionExecutionLabel({ kind: 'continue', state: 'next' })).toBe('本次立即继续')
+    expect(stateTransitionExecutionLabel({ kind: 'advance', state: 'next' })).toBe(
+      '下次执行指定段落',
+    )
     expect(
       stateTransitionExecutionLabel({
         kind: 'to',
         state: 'next',
         yield: 'worldTick',
       }),
-    ).toBe('让步后同次继续')
+    ).toBe('本次稍后继续')
     expect(
       stateTransitionExecutionLabel({
         kind: 'branch',
@@ -1204,6 +1208,16 @@ describe('canonical script editor presentation', () => {
         then: { kind: 'stay' },
         else: { kind: 'restart' },
       }),
-    ).toBe('条件分派')
+    ).toBe('按条件选择后续')
+    expect(
+      stateTransitionExecutionLabel({
+        kind: 'commandOutcome',
+        commandId: 'confirm',
+        command: 'confirm',
+        outcome: 'no',
+        then: { kind: 'stay' },
+        else: { kind: 'complete' },
+      }),
+    ).toBe('按操作结果选择后续')
   })
 })

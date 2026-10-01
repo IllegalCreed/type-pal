@@ -3524,27 +3524,39 @@ function defaultTransition(
 function TransitionEditor(props: {
   value: AuthorStateTransition
   states: readonly string[]
+  stateLabels: Readonly<Record<string, string>>
   commandIds: readonly string[]
   context?: CanonicalScriptEditorContext
   label?: string
   onChange: (transition: AuthorStateTransition) => void
 }) {
   const transition = props.value
+  const explanations: Record<AuthorStateTransition['kind'], string> = {
+    complete: '这套方案执行完毕；再次触发也不会重放。切换到另一套方案后，按新方案运行。',
+    stay: '当前执行先结束；下一次运行再次执行这一段。',
+    restart: '当前执行先结束；下一次运行从上方设定的起始段落重新开始，不一定是列表第一项。',
+    continue: '本次运行立即继续执行指定段落，不等待再次触发。',
+    advance: '当前执行先结束；下一次运行才执行指定段落。',
+    to: '本次运行稍后继续执行指定段落，不等待再次触发；下方选择继续时机。',
+    branch: '检查所选条件，再按成立或不成立的去向执行。',
+    commandOutcome: '检查本段确认操作的结果，再按对应去向执行。',
+  }
   return (
     <div className="canonical-transition-editor">
-      <CanonicalField label={props.label ?? '跑完后'}>
+      <CanonicalField label={props.label ?? '后续执行'}>
         <DsSelect
+          aria-label={props.label ?? '后续执行'}
           size="compact"
           value={transition.kind}
           options={[
-            { value: 'complete', label: '本方案完成，不再执行' },
-            { value: 'stay', label: '下次激活保持当前状态' },
-            { value: 'restart', label: '下次激活回初始状态' },
-            { value: 'continue', label: '同步继续到状态' },
-            { value: 'advance', label: '下次激活进入状态' },
-            { value: 'to', label: '让步后同次继续' },
-            { value: 'branch', label: '按条件分派' },
-            { value: 'commandOutcome', label: '按命令结果分派' },
+            { value: 'complete', label: '本方案结束，不再运行' },
+            { value: 'stay', label: '下次运行，重复这一段' },
+            { value: 'restart', label: '下次运行，从起始段落重新开始' },
+            { value: 'continue', label: '本次运行，立即执行指定段落' },
+            { value: 'advance', label: '下次运行，执行指定段落' },
+            { value: 'to', label: '本次运行，稍后执行指定段落' },
+            { value: 'branch', label: '按条件选择后续' },
+            { value: 'commandOutcome', label: '按操作结果选择后续' },
           ]}
           onValueChange={(kind) =>
             props.onChange(
@@ -3560,31 +3572,40 @@ function TransitionEditor(props: {
       <strong className="canonical-transition-execution">
         {stateTransitionExecutionLabel(transition)}
       </strong>
+      <p className="canonical-field-hint">{explanations[transition.kind]}</p>
+      <p className="canonical-field-hint">
+        下次运行：当前执行先结束；交互脚本要再次触发，自动行为则进入下一轮。
+      </p>
       {transition.kind === 'continue' ||
       transition.kind === 'advance' ||
       transition.kind === 'to' ? (
-        <CanonicalField label="目标状态">
+        <CanonicalField label="目标段落">
           <DsSelect
+            aria-label="目标段落"
             size="compact"
             value={transition.state}
             options={[
               ...(!props.states.includes(transition.state)
                 ? [{ value: transition.state, label: `${transition.state}（引用失效）` }]
                 : []),
-              ...props.states.map((state) => ({ value: state, label: state })),
+              ...props.states.map((state) => ({
+                value: state,
+                label: props.stateLabels[state] ?? state,
+              })),
             ]}
             onValueChange={(state) => props.onChange({ ...transition, state })}
           />
         </CanonicalField>
       ) : null}
       {transition.kind === 'to' ? (
-        <CanonicalField label="让步边界">
+        <CanonicalField label="继续时机">
           <DsSelect
+            aria-label="继续时机"
             size="compact"
             value={transition.yield}
             options={[
-              { value: 'worldTick', label: 'worldTick' },
-              { value: 'macroTask', label: 'macroTask' },
+              { value: 'worldTick', label: '下一次世界更新' },
+              { value: 'macroTask', label: '稍后继续（不等世界更新）' },
             ]}
             onValueChange={(value) =>
               props.onChange({
@@ -3594,6 +3615,12 @@ function TransitionEditor(props: {
             }
           />
         </CanonicalField>
+      ) : null}
+      {transition.kind === 'to' ? (
+        <p className="canonical-field-hint">
+          世界更新是场景推进一个逻辑拍，不是画面刷新。稍后继续会先让其他任务处理，不等待世界推进。
+          走位和停顿请在正文使用移动、等待指令，不靠这个选项控制时长。
+        </p>
       ) : null}
       {transition.kind === 'branch' ? (
         <>
@@ -4192,7 +4219,7 @@ export function CanonicalScriptFlowEditor(props: {
           <span className="script-section-count canonical-flow-count">{ids.length} 个状态</span>
           <DsHelpTip label="连续流程">
             {flow.machine.cadence === 'transition'
-              ? '这是按源指令逐拍迁移的流程：一个状态正文表示一条源指令的完整展开，正文内的多条指令会在同一帧执行；只有状态去向负责进入下一拍。'
+              ? '执行时机由段落去向明确控制。普通目标走位不需要拆成逐拍状态。'
               : '用于同一次运行内按条件或选择连续切换多个状态。普通脚本和“下次运行换内容”不需要使用。'}
           </DsHelpTip>
         </div>
@@ -4350,6 +4377,9 @@ export function CanonicalScriptFlowEditor(props: {
           <TransitionEditor
             value={state.next}
             states={ids}
+            stateLabels={Object.fromEntries(
+              Object.entries(flow.machine.states).map(([id, value]) => [id, value.label]),
+            )}
             commandIds={confirmIds(state.body)}
             context={props.context}
             onChange={(next) =>

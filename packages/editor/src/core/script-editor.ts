@@ -2340,12 +2340,16 @@ export function presentSelection<T>(
   return { tone: 'use', label: `使用：${valueLabel(selection.value)}` }
 }
 
-export function stateTransitionExecutionLabel(
-  transition: AuthorStateTransition,
-): '同步继续' | '下次激活' | '让步后同次继续' | '条件分派' | '本方案完成' {
-  if (transition.kind === 'complete') return '本方案完成'
-  if (transition.kind === 'branch' || transition.kind === 'commandOutcome') return '条件分派'
-  if (transition.kind === 'continue') return '同步继续'
-  if (transition.kind === 'to') return '让步后同次继续'
-  return '下次激活'
+export function stateTransitionExecutionLabel(transition: AuthorStateTransition): string {
+  const labels: Record<AuthorStateTransition['kind'], string> = {
+    complete: '本方案完成',
+    stay: '下次重复本段',
+    restart: '下次从起始段开始',
+    continue: '本次立即继续',
+    advance: '下次执行指定段落',
+    to: '本次稍后继续',
+    branch: '按条件选择后续',
+    commandOutcome: '按操作结果选择后续',
+  }
+  return labels[transition.kind]
 }
