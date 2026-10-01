@@ -1,0 +1,2501 @@
+{
+  "date": "2026-10-01",
+  "reviewer": "Codex",
+  "decision": {
+    "status": "counter / rework",
+    "mergedToMain": false,
+    "officialRatchetRun": false,
+    "protectedFastRun": false,
+    "officialCoverageSettled": false,
+    "targetsReduced": false
+  },
+  "candidates": {
+    "branch": "codex/glm-wave-q-runtime-residual-r1",
+    "testCandidate": "ada23d3e659f3239d6ac7e65d467711c19d061a9",
+    "remoteAndLocalHead": "efff13afeb0b22f44e45860dfbe38fb39bd59864",
+    "afterCandidatePaths": ["docs/testing/glm-tenfold-triple/wave-Q/receipt.json"],
+    "dispatchBase": "8b3ca062953b17a12178f8d1a9e36657971234b1",
+    "productionFreeze": "3ac9a2e2f6aba8a5cc97640c18fef8549d199380"
+  },
+  "closed": {
+    "Q_R2_01": "Q03-RC1..4 original/restored and reconstructed mutant SHA256 match final 5f1f78ff... audio source; three-state stored JSONs have 12 executed / one expected business red / restored green. Recomputed, not independently executed all 34 mutants.",
+    "Q_R2_02": "No custom test timeout remains in cli-isolated; independent 3/3 default-timeout run and full pal-extract 360 green.",
+    "Q_R2_04_part": "README Q01 count 6(+fixture), deliveredCases/newCases116 and 16 test files+1 fixture correct; receipt candidateHead still not SHA40.",
+    "COMMON_01_part": "DATA.MKF 15-chunk synthetic local input + source-relative CLI isolated in mkdtemp; independent five Q10 single-axis business mutants reproduced, no real raw/extracted writes."
+  },
+  "fullSuiteResults": [
+    {
+      "pkg": "reforge",
+      "path": "/tmp/codex-q-r3-review.EyEHQD/reforge-full.json",
+      "sha256": "26175bd407ba2a52e742f305e53f9f09baba6c9e08afba4d11acdf725f243206",
+      "total": 2150,
+      "passed": 2150,
+      "failed": 0,
+      "files": 272,
+      "newCases": 98,
+      "newFiles": 13
+    },
+    {
+      "pkg": "game",
+      "path": "/tmp/codex-q-r3-review.EyEHQD/game-full.json",
+      "sha256": "ac49da897eb773aa453ea76b1158bd2041a3fa86dbe62771f87a00c24be213ab",
+      "total": 2788,
+      "passed": 2788,
+      "failed": 0,
+      "files": 245,
+      "newCases": 15,
+      "newFiles": 2
+    },
+    {
+      "pkg": "pal-extract",
+      "path": "/tmp/codex-q-r3-review.EyEHQD/pal-extract-full.json",
+      "sha256": "13bfecd745ae28701f11dbd45b7a3fb458030dad466daa4901b497796e33cd26",
+      "total": 360,
+      "passed": 360,
+      "failed": 0,
+      "files": 60,
+      "newCases": 3,
+      "newFiles": 1
+    }
+  ],
+  "totalFullSuiteTests": 5298,
+  "newCaseResults": [
+    {
+      "file": "reforge/src/assets-decode-gates.glm-q.test.ts",
+      "fullName": "Q02 battle-sprite 解码核：kind / mediaType / bytes / sha256 逐门精确拒绝",
+      "status": "passed"
+    },
+    {
+      "file": "reforge/src/assets-decode-gates.glm-q.test.ts",
+      "fullName": "Q02 battle-sprite 解码核：非 gzip 字节拒收；合法字节解出锚点与 canonical profile",
+      "status": "passed"
+    },
+    {
+      "file": "reforge/src/assets-decode-gates.glm-q.test.ts",
+      "fullName": "Q02 battle-sprite 解码核：legacy-migrated origin 选择 legacy profile",
+      "status": "passed"
+    },
+    {
+      "file": "reforge/src/assets-decode-gates.glm-q.test.ts",
+      "fullName": "Q02 battle 缓存以完整 record（含 label/origin.ref）为失效签名",
+      "status": "passed"
+    },
+    {
+      "file": "reforge/src/assets-decode-gates.glm-q.test.ts",
+      "fullName": "Q02 battle 缓存保护裁剪：受保护项存活、非保护项逐出后重读",
+      "status": "passed"
+    },
+    {
+      "file": "reforge/src/assets-decode-gates.glm-q.test.ts",
+      "fullName": "Q02 effect-sprite record 门：mediaType / bytes 登记 / sha256 逐臂拒绝 + 合法对照",
+      "status": "passed"
+    },
+    {
+      "file": "reforge/src/assets-decode-gates.glm-q.test.ts",
+      "fullName": "Q02 loadFireSprite 按 chunk 派生 catalog 身份读取法术特效",
+      "status": "passed"
+    },
+    {
+      "file": "reforge/src/assets-decode-gates.glm-q.test.ts",
+      "fullName": "Q02 tilesFromChunkBytes：非 gzip 拒收带默认与显式标签；合法字节解出帧表",
+      "status": "passed"
+    },
+    {
+      "file": "reforge/src/assets-decode-gates.glm-q.test.ts",
+      "fullName": "Q02 decompressGzip 对无 gzip 魔数的字节原样透传",
+      "status": "passed"
+    },
+    {
+      "file": "reforge/src/assets-decode-gates.glm-q.test.ts",
+      "fullName": "Q02 compressGzip 接受带偏移的字节视图并只压缩可见区间",
+      "status": "passed"
+    },
+    {
+      "file": "reforge/src/assets-decode-gates.glm-q.test.ts",
+      "fullName": "Q02 compressGzip 缺 CompressionStream 端口时 fail-loud",
+      "status": "passed"
+    },
+    {
+      "file": "reforge/src/audio-spessa-runtime.glm-q.test.ts",
+      "fullName": "Q03 spessa 初始化：无 audioWorklet 按 secure context 指路拒绝",
+      "status": "passed"
+    },
+    {
+      "file": "reforge/src/audio-spessa-runtime.glm-q.test.ts",
+      "fullName": "Q03 spessa 初始化成功链：模块 URL、RIFF 音色库、16 通道混响 91 锁定",
+      "status": "passed"
+    },
+    {
+      "file": "reforge/src/audio-spessa-runtime.glm-q.test.ts",
+      "fullName": "Q03 spessa 初始化：非 RIFF 音色库拒绝并销毁合成器，可重试",
+      "status": "passed"
+    },
+    {
+      "file": "reforge/src/audio-spessa-runtime.glm-q.test.ts",
+      "fullName": "Q03 spessa 初始化：音色库读取失败销毁合成器并原样抛出",
+      "status": "passed"
+    },
+    {
+      "file": "reforge/src/audio-spessa-runtime.glm-q.test.ts",
+      "fullName": "Q03 spessa 初始化：isReady 拒绝销毁合成器并原样抛出",
+      "status": "passed"
+    },
+    {
+      "file": "reforge/src/audio-spessa-runtime.glm-q.test.ts",
+      "fullName": "Q03 试听 runtime：无任何 AudioContext 构造器返回 undefined",
+      "status": "passed"
+    },
+    {
+      "file": "reforge/src/audio-spessa-runtime.glm-q.test.ts",
+      "fullName": "Q03 试听 runtime：webkitAudioContext 回退可用",
+      "status": "passed"
+    },
+    {
+      "file": "reforge/src/audio-spessa-runtime.glm-q.test.ts",
+      "fullName": "Q03 试听 runtime：适配器透传 sequencer 传输操作与快照字段，二次 initialize 复用",
+      "status": "passed"
+    },
+    {
+      "file": "reforge/src/audio-spessa-runtime.glm-q.test.ts",
+      "fullName": "Q03 试听 runtime：dispose 暂停并销毁合成器、关闭 context；之后 initialize AbortError",
+      "status": "passed"
+    },
+    {
+      "file": "reforge/src/audio-spessa-runtime.glm-q.test.ts",
+      "fullName": "Q03 试听 runtime：初始化中途 dispose 销毁迟到合成器并以 AbortError 收尾",
+      "status": "passed"
+    },
+    {
+      "file": "reforge/src/audio-spessa-runtime.glm-q.test.ts",
+      "fullName": "Q03 analyzeMidiBytes 解析真实 MIDI 字节并产出 note-activity",
+      "status": "passed"
+    },
+    {
+      "file": "reforge/src/audio-spessa-runtime.glm-q.test.ts",
+      "fullName": "Q03 analyzeMidiBytes 对非 MIDI 字节 fail-loud",
+      "status": "passed"
+    },
+    {
+      "file": "reforge/src/boot-page-shell.glm-q.test.ts",
+      "fullName": "Q01 页壳默认加载 demo 工程：真实 bootGame 进入主循环并设置标题",
+      "status": "passed"
+    },
+    {
+      "file": "reforge/src/boot-page-shell.glm-q.test.ts",
+      "fullName": "Q01 VITE_PROJECT_ID 覆写工程 id 并透传给加载器",
+      "status": "passed"
+    },
+    {
+      "file": "reforge/src/boot-page-shell.glm-q.test.ts",
+      "fullName": "Q01 加载失败：错误画屏绘制 reforge ERR 文本并 console.error，模块导入不 reject",
+      "status": "passed"
+    },
+    {
+      "file": "reforge/src/boot-page-shell.glm-q.test.ts",
+      "fullName": "Q01 加载失败且页面无画布：不绘制任何内容，仅 console.error",
+      "status": "passed"
+    },
+    {
+      "file": "reforge/src/boot-page-shell.glm-q.test.ts",
+      "fullName": "Q01 加载失败且画布无 2d 上下文：跳过画屏，仅 console.error",
+      "status": "passed"
+    },
+    {
+      "file": "reforge/src/boot-page-shell.glm-q.test.ts",
+      "fullName": "Q01 非 Error 拒绝值按 String 序列化进错误画屏",
+      "status": "passed"
+    },
+    {
+      "file": "reforge/src/enemy-closure.glm-q.test.ts",
+      "fullName": "Q05 collectReachableEnemyDefs 无 transform/summon 时闭包只含初始敌人且按序去重",
+      "status": "passed"
+    },
+    {
+      "file": "reforge/src/enemy-closure.glm-q.test.ts",
+      "fullName": "Q05 collectReachableEnemyDefs transform 与 summon 都把目标敌入队；未知目标精确报错",
+      "status": "passed"
+    },
+    {
+      "file": "reforge/src/enemy-closure.glm-q.test.ts",
+      "fullName": "Q05 collectReachableEnemyDefs enemyId 缺省的 summon 不入队；hooks 内 effect summon 参与闭包",
+      "status": "passed"
+    },
+    {
+      "file": "reforge/src/enemy-closure.glm-q.test.ts",
+      "fullName": "Q05 collectReachableEnemyDefs 循环 transform 引用不发散（seen 去重终止）",
+      "status": "passed"
+    },
+    {
+      "file": "reforge/src/enemy-closure.glm-q.test.ts",
+      "fullName": "Q05 collectReachableEnemySkillIds 仅收集 cast 技能、跨敌人去重且顺序稳定",
+      "status": "passed"
+    },
+    {
+      "file": "reforge/src/enemy-closure.glm-q.test.ts",
+      "fullName": "Q05 collectReachableEnemySkillIds fallback cast 计入技能闭包；hook effect summon/divide 不产生技能",
+      "status": "passed"
+    },
+    {
+      "file": "reforge/src/main.battle-preview.glm-q.test.ts",
+      "fullName": "Q01 非正/非数 field ?battle-preview=0&enemies=foe 回退默认战场 24",
+      "status": "passed"
+    },
+    {
+      "file": "reforge/src/main.battle-preview.glm-q.test.ts",
+      "fullName": "Q01 非正/非数 field ?battle-preview=abc&enemies=foe 回退默认战场 24",
+      "status": "passed"
+    },
+    {
+      "file": "reforge/src/main.battle-preview.glm-q.test.ts",
+      "fullName": "Q01 非正/非数 field ?battle-preview=-5&enemies=foe 回退默认战场 24",
+      "status": "passed"
+    },
+    {
+      "file": "reforge/src/main.battle-preview.glm-q.test.ts",
+      "fullName": "Q01 缺 enemies 参数：默认取工程敌表前 3 项",
+      "status": "passed"
+    },
+    {
+      "file": "reforge/src/main.battle-preview.glm-q.test.ts",
+      "fullName": "Q01 空 enemies 参数：零敌人仍渲染摆位一帧即返回",
+      "status": "passed"
+    },
+    {
+      "file": "reforge/src/main.boot-shell.glm-q.test.ts",
+      "fullName": "Q01 旧试放/独立试打参数在 bootGame 入口精确拒绝 ?battle-trial=0&money=0",
+      "status": "passed"
+    },
+    {
+      "file": "reforge/src/main.boot-shell.glm-q.test.ts",
+      "fullName": "Q01 旧试放/独立试打参数在 bootGame 入口精确拒绝 ?skill=heal",
+      "status": "passed"
+    },
+    {
+      "file": "reforge/src/main.boot-shell.glm-q.test.ts",
+      "fullName": "Q01 无偏好存储：音乐/音效默认全开，标题带工程名",
+      "status": "passed"
+    },
+    {
+      "file": "reforge/src/main.boot-shell.glm-q.test.ts",
+      "fullName": "Q01 显式双关偏好落盘：setEnabled(false) 各一次",
+      "status": "passed"
+    },
+    {
+      "file": "reforge/src/main.boot-shell.glm-q.test.ts",
+      "fullName": "Q01 半开关偏好只关音乐：缺省 sound 键按开启解析",
+      "status": "passed"
+    },
+    {
+      "file": "reforge/src/main.boot-shell.glm-q.test.ts",
+      "fullName": "Q01 坏偏好 JSON 静默回退全开，不抛出",
+      "status": "passed"
+    },
+    {
+      "file": "reforge/src/main.boot-shell.glm-q.test.ts",
+      "fullName": "Q01 手势解锁接线：pointerdown/keydown 捕获相各自触发 bgm.resume",
+      "status": "passed"
+    },
+    {
+      "file": "reforge/src/main.boot-shell.glm-q.test.ts",
+      "fullName": "Q01 gallery 精灵解码失败静默占位并照常收尾；零 sprite 资产照常返回",
+      "status": "passed"
+    },
+    {
+      "file": "reforge/src/opening-menu.glm-q.test.ts",
+      "fullName": "Q01 菜单相位未处理键不拦截：不 preventDefault、光标不动、不选定",
+      "status": "passed"
+    },
+    {
+      "file": "reforge/src/opening-menu.glm-q.test.ts",
+      "fullName": "Q01 末项 ArrowDown 环绕回首项并选定第一入口",
+      "status": "passed"
+    },
+    {
+      "file": "reforge/src/opening-menu.glm-q.test.ts",
+      "fullName": "Q01 菜单相位 Enter/Space 之外的中排键不触发选定；Escape 不拦截",
+      "status": "passed"
+    },
+    {
+      "file": "reforge/src/opening-menu.glm-q.test.ts",
+      "fullName": "Q01 读档相位未处理键早退且不 preventDefault；← 在首页钳制不 wrap",
+      "status": "passed"
+    },
+    {
+      "file": "reforge/src/opening-menu.glm-q.test.ts",
+      "fullName": "Q01 读档相位缩略图逐槽恰读一次：多帧渲染不重读 store",
+      "status": "passed"
+    },
+    {
+      "file": "reforge/src/project-map-stamp-resize.glm-q.test.ts",
+      "fullName": "Q02 空 placements 不物化 authoring；非空 placements 过守卫后可读回",
+      "status": "passed"
+    },
+    {
+      "file": "reforge/src/project-map-stamp-resize.glm-q.test.ts",
+      "fullName": "Q02 placements 非法轴被地图守卫拒绝：负 row anchor / 空 visualSlots",
+      "status": "passed"
+    },
+    {
+      "file": "reforge/src/project-map-stamp-resize.glm-q.test.ts",
+      "fullName": "Q02 resize 放大：内容保留、新区为空且 heights 存在时重建",
+      "status": "passed"
+    },
+    {
+      "file": "reforge/src/project-map-stamp-resize.glm-q.test.ts",
+      "fullName": "Q02 resize 缩小：行列截断且 collision 一并重建",
+      "status": "passed"
+    },
+    {
+      "file": "reforge/src/project-map-stamp-resize.glm-q.test.ts",
+      "fullName": "Q02 resize 会破坏组合时精确拒绝并点名组合 id",
+      "status": "passed"
+    },
+    {
+      "file": "reforge/src/project-map-stamp-resize.glm-q.test.ts",
+      "fullName": "Q02 removeProjectMapLayer 会破坏组合时精确拒绝；无关图层可删",
+      "status": "passed"
+    },
+    {
+      "file": "reforge/src/project-map-stamp-resize.glm-q.test.ts",
+      "fullName": "Q02 insertProjectMapLayer 重复 id 原引用返回；越界 index 钳制",
+      "status": "passed"
+    },
+    {
+      "file": "reforge/src/project-map-stamp-resize.glm-q.test.ts",
+      "fullName": "Q02 moveProjectMapLayer 未知 id 与同位不动；越界钳制后落位",
+      "status": "passed"
+    },
+    {
+      "file": "reforge/src/project-map-stamp-resize.glm-q.test.ts",
+      "fullName": "Q02 updateProjectMapLayer 未知 id 原引用返回；命名 patch 生效且不改图层序",
+      "status": "passed"
+    },
+    {
+      "file": "reforge/src/runnable-project-loader.glm-q.test.ts",
+      "fullName": "Q02 版本门：过期 contentVersion 带工程名精确拒绝",
+      "status": "passed"
+    },
+    {
+      "file": "reforge/src/runnable-project-loader.glm-q.test.ts",
+      "fullName": "Q02 版本门：manifest.id 非字符串时回退匿名校验消息",
+      "status": "passed"
+    },
+    {
+      "file": "reforge/src/runnable-project-loader.glm-q.test.ts",
+      "fullName": "Q02 版本匹配：透传正式 loader 装出完整当前工程",
+      "status": "passed"
+    },
+    {
+      "file": "reforge/src/runnable-project-loader.glm-q.test.ts",
+      "fullName": "Q02 loadRunnableProject 经 httpSource 请求 projects/<id>/manifest.json",
+      "status": "passed"
+    },
+    {
+      "file": "reforge/src/script-confirm-modal.glm-q.test.ts",
+      "fullName": "Q01 token 在多次请求间严格单调递增，激活顺序为 FIFO",
+      "status": "passed"
+    },
+    {
+      "file": "reforge/src/script-confirm-modal.glm-q.test.ts",
+      "fullName": "Q01 空闲视图为 undefined；激活后视图逐字段反映 prompt 状态",
+      "status": "passed"
+    },
+    {
+      "file": "reforge/src/script-confirm-modal.glm-q.test.ts",
+      "fullName": "Q01 预取消信号入队同步拒绝：不入队、不占 pending、无请求可激活",
+      "status": "passed"
+    },
+    {
+      "file": "reforge/src/script-confirm-modal.glm-q.test.ts",
+      "fullName": "Q01 无活动请求时 toggle/submit/submitNo/presented 全部 no-op",
+      "status": "passed"
+    },
+    {
+      "file": "reforge/src/script-confirm-modal.glm-q.test.ts",
+      "fullName": "Q01 canActivate=false 或已有活动请求时 activate 不动队列",
+      "status": "passed"
+    },
+    {
+      "file": "reforge/src/script-confirm-modal.glm-q.test.ts",
+      "fullName": "Q01 队头取消即离队：pendingCount 同步收缩，激活命中下一个；captureFrame 只替换被激活项",
+      "status": "passed"
+    },
+    {
+      "file": "reforge/src/script-confirm-modal.glm-q.test.ts",
+      "fullName": "Q01 captureFrame 缺席时保留入队时的原始 frame",
+      "status": "passed"
+    },
+    {
+      "file": "reforge/src/script-confirm-modal.glm-q.test.ts",
+      "fullName": "Q01 会话替换拒绝排队未激活请求，默认与自定义文案都可观测",
+      "status": "passed"
+    },
+    {
+      "file": "reforge/src/script-confirm-modal.glm-q.test.ts",
+      "fullName": "Q01 结算后移除 abort 监听：迟到的信号取消不再改变已 resolve 的结果",
+      "status": "passed"
+    },
+    {
+      "file": "reforge/src/script-confirm-modal.glm-q.test.ts",
+      "fullName": "Q01 提交后、两帧门满足前 toggle/再次提交/提交否不得改写答案",
+      "status": "passed"
+    },
+    {
+      "file": "reforge/src/script-confirm-modal.glm-q.test.ts",
+      "fullName": "Q01 中止活动请求后宿主须显式再激活；队列其余项不受牵连",
+      "status": "passed"
+    },
+    {
+      "file": "reforge/src/script-confirm-modal.glm-q.test.ts",
+      "fullName": "Q01 已提交答案但帧门未满足时被取消：拒绝而非兑现，且无视图残留",
+      "status": "passed"
+    },
+    {
+      "file": "reforge/src/script-runner-core.gates.glm-q.test.ts",
+      "fullName": "Q04 非法光标组合 machine id 不匹配的 state cursor 精确拒绝",
+      "status": "passed"
+    },
+    {
+      "file": "reforge/src/script-runner-core.gates.glm-q.test.ts",
+      "fullName": "Q04 非法光标组合 stage cursor 不能运行 stateMachine flow；state cursor 不能运行 stages flow",
+      "status": "passed"
+    },
+    {
+      "file": "reforge/src/script-runner-core.gates.glm-q.test.ts",
+      "fullName": "Q04 非法光标组合 stage cursor 指向不存在 stage 时精确报错",
+      "status": "passed"
+    },
+    {
+      "file": "reforge/src/script-runner-core.gates.glm-q.test.ts",
+      "fullName": "Q04 非法光标组合 state cursor 指向不存在 state 时按 machine.path 精确报错",
+      "status": "passed"
+    },
+    {
+      "file": "reforge/src/script-runner-core.gates.glm-q.test.ts",
+      "fullName": "Q04 commandOutcome 与 callScript 门 无 resolver 时 callScript 前置拒绝",
+      "status": "passed"
+    },
+    {
+      "file": "reforge/src/script-runner-core.gates.glm-q.test.ts",
+      "fullName": "Q04 commandOutcome 与 callScript 门 callScript 自递归在深度 128 处精确熔断",
+      "status": "passed"
+    },
+    {
+      "file": "reforge/src/script-runner-core.gates.glm-q.test.ts",
+      "fullName": "Q04 commandOutcome 与 callScript 门 resolver 返回错误 script id 时拒绝",
+      "status": "passed"
+    },
+    {
+      "file": "reforge/src/script-runner-core.gates.glm-q.test.ts",
+      "fullName": "Q04 commandOutcome 与 callScript 门 shared executable digest/timing/boundary 任一过期都拒绝",
+      "status": "passed"
+    },
+    {
+      "file": "reforge/src/script-runner-core.gates.glm-q.test.ts",
+      "fullName": "Q04 commandOutcome 与 callScript 门 self=none 禁显式 self；self=required 缺 self 拒绝",
+      "status": "passed"
+    },
+    {
+      "file": "reforge/src/script-runner-core.gates.glm-q.test.ts",
+      "fullName": "Q04 其它公开守卫 host 未实现 revealSceneEntry 时 scene entry fail-loud",
+      "status": "passed"
+    },
+    {
+      "file": "reforge/src/script-runner-core.gates.glm-q.test.ts",
+      "fullName": "Q04 其它公开守卫 while 循环先判条件再执行体：条件即假时体零执行",
+      "status": "passed"
+    },
+    {
+      "file": "reforge/src/script-runner-core.gates.glm-q.test.ts",
+      "fullName": "Q04 其它公开守卫 合法 shared 调用在同 digest/timing 下放行并执行体",
+      "status": "passed"
+    },
+    {
+      "file": "reforge/src/script-runner-core.gates.glm-q.test.ts",
+      "fullName": "Q04 其它公开守卫 当前编译器版本标识为常量且被 executable 记录",
+      "status": "passed"
+    },
+    {
+      "file": "reforge/src/shop-trial.glm-q.test.ts",
+      "fullName": "Q01 白名单伴随参数（project/workspace/save-workspace）接受并精确解析",
+      "status": "passed"
+    },
+    {
+      "file": "reforge/src/shop-trial.glm-q.test.ts",
+      "fullName": "Q01 初始 fit 按 320×200 逻辑分辨率取 1..4 整数倍；resize 后重新钳制",
+      "status": "passed"
+    },
+    {
+      "file": "reforge/src/shop-trial.glm-q.test.ts",
+      "fullName": "Q01 blur 清空未释放按键：blur 后同帧不产生二次输入",
+      "status": "passed"
+    },
+    {
+      "file": "reforge/src/shop-trial.glm-q.test.ts",
+      "fullName": "Q01 Escape 结束试买：终态 role=status 文本、画布隐藏、帧循环与键盘监听全部移除",
+      "status": "passed"
+    },
+    {
+      "file": "reforge/src/video-sfx-ports.glm-q.test.ts",
+      "fullName": "Q03 视频静音播放：video.muted 置真、ended 后清理兑现",
+      "status": "passed"
+    },
+    {
+      "file": "reforge/src/video-sfx-ports.glm-q.test.ts",
+      "fullName": "Q03 cleanup 中 video.pause 抛错被容忍：层移除且 Promise 照常兑现",
+      "status": "passed"
+    },
+    {
+      "file": "reforge/src/video-sfx-ports.glm-q.test.ts",
+      "fullName": "Q03 SfxPlayer maxDecoded 非正整数逐臂精确拒绝；无适配器给出降级告警",
+      "status": "passed"
+    },
+    {
+      "file": "game/src/framebuffer-ports.glm-q.test.ts",
+      "fullName": "Q09 createFramebuffer 默认 320×200；自定义尺寸按参数建",
+      "status": "passed"
+    },
+    {
+      "file": "game/src/framebuffer-ports.glm-q.test.ts",
+      "fullName": "Q09 createFramebuffer writePixel 四边界外全部忽略；界内按 y*width+x 落位",
+      "status": "passed"
+    },
+    {
+      "file": "game/src/framebuffer-ports.glm-q.test.ts",
+      "fullName": "Q09 createFramebuffer clear 归零全部索引",
+      "status": "passed"
+    },
+    {
+      "file": "game/src/framebuffer-ports.glm-q.test.ts",
+      "fullName": "Q09 createFramebuffer toImageData 按 palette 展开 RGBA、alpha 恒 255、缺色回退黑",
+      "status": "passed"
+    },
+    {
+      "file": "game/src/status-poison-equip.glm-q.test.ts",
+      "fullName": "Q06 isPlayerPoisoned ByKind 只查指定毒 id，不看等级与其它毒",
+      "status": "passed"
+    },
+    {
+      "file": "game/src/status-poison-equip.glm-q.test.ts",
+      "fullName": "Q06 isPlayerPoisoned ByLevel(role,0)：level>=99 装备伪毒不算中毒",
+      "status": "passed"
+    },
+    {
+      "file": "game/src/status-poison-equip.glm-q.test.ts",
+      "fullName": "Q06 isPlayerPoisoned 毒表未注入时伪毒按 level 0 退化处理（旧 caller 兼容臂）",
+      "status": "passed"
+    },
+    {
+      "file": "game/src/status-poison-equip.glm-q.test.ts",
+      "fullName": "Q06 cure / remove curePlayerPoisonByKind 只清该毒全部槽位",
+      "status": "passed"
+    },
+    {
+      "file": "game/src/status-poison-equip.glm-q.test.ts",
+      "fullName": "Q06 cure / remove removePoisonLevel99 清 level>=99、留 level<99",
+      "status": "passed"
+    },
+    {
+      "file": "game/src/status-poison-equip.glm-q.test.ts",
+      "fullName": "Q06 cure / remove curePlayerPoisonByLevel 无 99 例外：maxLevel 内连装备毒一并清",
+      "status": "passed"
+    },
+    {
+      "file": "game/src/status-poison-equip.glm-q.test.ts",
+      "fullName": "Q06 addPoisonForPlayer 去重：已有同毒不落第二槽",
+      "status": "passed"
+    },
+    {
+      "file": "game/src/status-poison-equip.glm-q.test.ts",
+      "fullName": "Q06 addPoisonForPlayer runner 注入：施毒当下跑入口脚本并存返回的 next entry；无 runner 存原始 ip",
+      "status": "passed"
+    },
+    {
+      "file": "game/src/status-poison-equip.glm-q.test.ts",
+      "fullName": "Q06 addPoisonForPlayer playerScript=0 时不调 runner；16 槽全满时静默丢弃",
+      "status": "passed"
+    },
+    {
+      "file": "game/src/status-poison-equip.glm-q.test.ts",
+      "fullName": "Q06 装备派生值读取器 fleeRate = runtime base + 各装备槽之和",
+      "status": "passed"
+    },
+    {
+      "file": "game/src/status-poison-equip.glm-q.test.ts",
+      "fullName": "Q06 装备派生值读取器 poisonResistance 钳制 [0,100]：负值归零、超百封顶",
+      "status": "passed"
+    },
+    {
+      "file": "pal-extract/src/cli-isolated.glm-q.test.ts",
+      "fullName": "Q10 CLI 隔离实跑：合成小输入走完事件管线（round-trip 门 + 切片落盘 + 词表注记）",
+      "status": "passed"
+    },
+    {
+      "file": "pal-extract/src/cli-isolated.glm-q.test.ts",
+      "fullName": "Q10 CLI 隔离实跑：合成 DATA.MKF 走完数据表段（逐表落盘 + SPRITEUI/effect blob）",
+      "status": "passed"
+    },
+    {
+      "file": "pal-extract/src/cli-isolated.glm-q.test.ts",
+      "fullName": "Q10 CLI 隔离实跑：截断 SSS chunk0 在解析边界精确拒绝且不产出事件文件",
+      "status": "passed"
+    }
+  ],
+  "directedMatches": {
+    "counts": {
+      "files": 16,
+      "total": 116,
+      "passed": 116,
+      "failed": 0
+    },
+    "missingFresh": [],
+    "missingSaved": []
+  },
+  "gates": [
+    {
+      "id": "reforge-test",
+      "exitCode": 0,
+      "signal": null,
+      "command": [
+        "env",
+        "-u",
+        "NODE_COMPILE_CACHE",
+        "pnpm",
+        "--filter",
+        "@type-pal/reforge",
+        "test",
+        "--reporter=json",
+        "--outputFile=/tmp/codex-q-r3-review.EyEHQD/reforge-full.json"
+      ]
+    },
+    {
+      "id": "reforge-typecheck",
+      "exitCode": 0,
+      "signal": null,
+      "command": ["pnpm", "--filter", "@type-pal/reforge", "typecheck"]
+    },
+    {
+      "id": "game-test",
+      "exitCode": 0,
+      "signal": null,
+      "command": [
+        "env",
+        "-u",
+        "NODE_COMPILE_CACHE",
+        "pnpm",
+        "--filter",
+        "@type-pal/game",
+        "test",
+        "--reporter=json",
+        "--outputFile=/tmp/codex-q-r3-review.EyEHQD/game-full.json"
+      ]
+    },
+    {
+      "id": "game-typecheck",
+      "exitCode": 0,
+      "signal": null,
+      "command": ["pnpm", "--filter", "@type-pal/game", "typecheck"]
+    },
+    {
+      "id": "pal-extract-test",
+      "exitCode": 0,
+      "signal": null,
+      "command": [
+        "env",
+        "-u",
+        "NODE_COMPILE_CACHE",
+        "pnpm",
+        "--filter",
+        "@type-pal/pal-extract",
+        "test",
+        "--reporter=json",
+        "--outputFile=/tmp/codex-q-r3-review.EyEHQD/pal-extract-full.json"
+      ]
+    },
+    {
+      "id": "pal-extract-typecheck",
+      "exitCode": 0,
+      "signal": null,
+      "command": ["pnpm", "--filter", "@type-pal/pal-extract", "typecheck"]
+    },
+    {
+      "id": "lint",
+      "exitCode": 1,
+      "signal": null,
+      "command": ["pnpm", "lint"]
+    },
+    {
+      "id": "docs",
+      "exitCode": 0,
+      "signal": null,
+      "command": ["node", "scripts/docs/check.mjs"]
+    },
+    {
+      "id": "diff",
+      "exitCode": 0,
+      "signal": null,
+      "command": ["git", "diff", "--check", "8b3ca062953b17a12178f8d1a9e36657971234b1...HEAD"]
+    },
+    {
+      "id": "verifier",
+      "exitCode": 0,
+      "signal": null,
+      "command": [
+        "node",
+        "docs/testing/glm-tenfold-triple/verify-targets.mjs",
+        "--wave",
+        "Q",
+        "--base",
+        "8b3ca062953b17a12178f8d1a9e36657971234b1"
+      ]
+    }
+  ],
+  "gateCommand": "node -e \"const {spawnSync}=require('node:child_process');const fs=require('node:fs');const path=require('node:path');const root=\\\"/Users/zhangxu/.codex/worktrees/glm-wave-q/type-pal\\\", out=\\\"/tmp/codex-q-r3-review.EyEHQD\\\";let bad=false;const jobs=[];for(const pkg of ['reforge','game','pal-extract']) {jobs.push({id:pkg+'-test',cmd:'env',args:['-u','NODE_COMPILE_CACHE','pnpm','--filter','@type-pal/'+pkg,'test','--reporter=json','--outputFile='+path.join(out,pkg+'-full.json')]});jobs.push({id:pkg+'-typecheck',cmd:'pnpm',args:['--filter','@type-pal/'+pkg,'typecheck']});}jobs.push({id:'lint',cmd:'pnpm',args:['lint']},{id:'docs',cmd:'node',args:['scripts/docs/check.mjs']},{id:'diff',cmd:'git',args:['diff','--check','8b3ca062953b17a12178f8d1a9e36657971234b1...HEAD']},{id:'verifier',cmd:'node',args:['docs/testing/glm-tenfold-triple/verify-targets.mjs','--wave','Q','--base','8b3ca062953b17a12178f8d1a9e36657971234b1']});const results=[];for(const job of jobs){process.stdout.write('START '+job.id+'\\\\n');const r=spawnSync(job.cmd,job.args,{cwd:root,encoding:'utf8',maxBuffer:40*1024*1024});fs.writeFileSync(path.join(out,job.id+'.txt'),(r.stdout||'')+(r.stderr||''));results.push({id:job.id,exitCode:r.status,signal:r.signal,error:r.error?.message,command:[job.cmd,...job.args]});process.stdout.write('END '+job.id+' exit='+r.status+'\\\\n'+(r.stdout||'')+(r.stderr||''));if(r.status!==0)bad=true;}fs.writeFileSync(path.join(out,'gates.json'),JSON.stringify(results,null,2));process.exitCode=bad?1:0;\"",
+  "gateRaw": [
+    {
+      "id": "lint",
+      "output": "\n> type-pal@ lint /Users/zhangxu/.codex/worktrees/glm-wave-q/type-pal\n> node scripts/quality/lint-zero.mjs\n\n ELIFECYCLE  Command failed with exit code 1.\nlint: FAIL — Biome exit 1; errors: 15; diagnostics: 15\ndocs/testing/glm-tenfold-triple/wave-Q/counters/Q10-RC1.mutant.json:0 error format: Formatter would have printed the following content:\ndocs/testing/glm-tenfold-triple/wave-Q/counters/Q10-RC1.positive.json:0 error format: Formatter would have printed the following content:\ndocs/testing/glm-tenfold-triple/wave-Q/counters/Q10-RC1.restored.json:0 error format: Formatter would have printed the following content:\ndocs/testing/glm-tenfold-triple/wave-Q/counters/Q10-RC2.mutant.json:0 error format: Formatter would have printed the following content:\ndocs/testing/glm-tenfold-triple/wave-Q/counters/Q10-RC2.positive.json:0 error format: Formatter would have printed the following content:\ndocs/testing/glm-tenfold-triple/wave-Q/counters/Q10-RC2.restored.json:0 error format: Formatter would have printed the following content:\ndocs/testing/glm-tenfold-triple/wave-Q/counters/Q10-RC3.mutant.json:0 error format: Formatter would have printed the following content:\ndocs/testing/glm-tenfold-triple/wave-Q/counters/Q10-RC3.positive.json:0 error format: Formatter would have printed the following content:\ndocs/testing/glm-tenfold-triple/wave-Q/counters/Q10-RC3.restored.json:0 error format: Formatter would have printed the following content:\ndocs/testing/glm-tenfold-triple/wave-Q/counters/Q10-RC4.mutant.json:0 error format: Formatter would have printed the following content:\ndocs/testing/glm-tenfold-triple/wave-Q/counters/Q10-RC4.positive.json:0 error format: Formatter would have printed the following content:\ndocs/testing/glm-tenfold-triple/wave-Q/counters/Q10-RC4.restored.json:0 error format: Formatter would have printed the following content:\ndocs/testing/glm-tenfold-triple/wave-Q/counters/Q10-RC5.mutant.json:0 error format: Formatter would have printed the following content:\ndocs/testing/glm-tenfold-triple/wave-Q/counters/Q10-RC5.positive.json:0 error format: Formatter would have printed the following content:\ndocs/testing/glm-tenfold-triple/wave-Q/counters/Q10-RC5.restored.json:0 error format: Formatter would have printed the following content:\n"
+    },
+    {
+      "id": "docs",
+      "output": "docs: 815 Markdown / 4277 local links / 245 tasks / content20 SAVE8\ndocs: PASS (0 issues)\n"
+    },
+    {
+      "id": "diff",
+      "output": ""
+    },
+    {
+      "id": "verifier",
+      "output": "{\n  \"productionFreeze\": \"3ac9a2e2f6aba8a5cc97640c18fef8549d199380\",\n  \"waves\": [\n    {\n      \"id\": \"O\",\n      \"sources\": 105,\n      \"missingBranches\": 825\n    },\n    {\n      \"id\": \"P\",\n      \"sources\": 288,\n      \"missingBranches\": 5426\n    },\n    {\n      \"id\": \"Q\",\n      \"sources\": 323,\n      \"missingBranches\": 6136\n    }\n  ],\n  \"totalSources\": 716,\n  \"scope\": {\n    \"owner\": \"Q\",\n    \"dispatchBase\": \"8b3ca062953b17a12178f8d1a9e36657971234b1\",\n    \"changedPaths\": 429\n  },\n  \"frozenHashesValid\": true,\n  \"ownerOverlap\": 0\n}\n"
+    }
+  ],
+  "lintCounter": {
+    "exitCode": 1,
+    "error": 15,
+    "warning": 0,
+    "info": 0,
+    "files": [
+      "docs/testing/glm-tenfold-triple/wave-Q/counters/Q10-RC1.mutant.json",
+      "docs/testing/glm-tenfold-triple/wave-Q/counters/Q10-RC1.positive.json",
+      "docs/testing/glm-tenfold-triple/wave-Q/counters/Q10-RC1.restored.json",
+      "docs/testing/glm-tenfold-triple/wave-Q/counters/Q10-RC2.mutant.json",
+      "docs/testing/glm-tenfold-triple/wave-Q/counters/Q10-RC2.positive.json",
+      "docs/testing/glm-tenfold-triple/wave-Q/counters/Q10-RC2.restored.json",
+      "docs/testing/glm-tenfold-triple/wave-Q/counters/Q10-RC3.mutant.json",
+      "docs/testing/glm-tenfold-triple/wave-Q/counters/Q10-RC3.positive.json",
+      "docs/testing/glm-tenfold-triple/wave-Q/counters/Q10-RC3.restored.json",
+      "docs/testing/glm-tenfold-triple/wave-Q/counters/Q10-RC4.mutant.json",
+      "docs/testing/glm-tenfold-triple/wave-Q/counters/Q10-RC4.positive.json",
+      "docs/testing/glm-tenfold-triple/wave-Q/counters/Q10-RC4.restored.json",
+      "docs/testing/glm-tenfold-triple/wave-Q/counters/Q10-RC5.mutant.json",
+      "docs/testing/glm-tenfold-triple/wave-Q/counters/Q10-RC5.positive.json",
+      "docs/testing/glm-tenfold-triple/wave-Q/counters/Q10-RC5.restored.json"
+    ],
+    "receiptClaim": "2925 files; 0 errors / 0 warnings / 0 infos",
+    "claimNotFinalTree": true
+  },
+  "docs": {
+    "markdown": 815,
+    "links": 4277,
+    "tasks": 245,
+    "issues": 0
+  },
+  "scope": {
+    "frozenSources": 716,
+    "ownerOverlap": 0,
+    "changedPaths": 429,
+    "allValid": true
+  },
+  "counterAudit": {
+    "method": "Read all 39 stored original/mutant/restored JSON/raw/counts/exit criteria; reconstruct final-source .old/.new replacements; compare index, per-counter meta and actual file SHA256. Stored raw is the JSON reporter notice only (39x62B mutant,78x64B positive/restored); target assertion text is in complete JSON, not console notice. No requirement invented to put AssertionError text into stdout.",
+    "indexMatchingFinalSource": 34,
+    "metaMatchingFinalSource": 39,
+    "indexMetaMismatchIds": ["Q10-RC1", "Q10-RC2", "Q10-RC3", "Q10-RC4", "Q10-RC5"],
+    "rows": [
+      {
+        "id": "Q01-RC1",
+        "actualOriginal": "06784dcb2ab7acdee02a59fbeaa2b1f76ee3939bf58589c063714a490e329d9a",
+        "actualMutated": "e4246a04e6835ab2ccfd9c5038ab0c96773bc0a3557c82021db6554c2e878d07",
+        "phases": [
+          {
+            "name": "positive",
+            "executed": 12,
+            "passed": 12,
+            "failed": 0,
+            "exitCode": 0
+          },
+          {
+            "name": "mutant",
+            "executed": 12,
+            "passed": 11,
+            "failed": 1,
+            "exitCode": 1
+          },
+          {
+            "name": "restored",
+            "executed": 12,
+            "passed": 12,
+            "failed": 0,
+            "exitCode": 0
+          }
+        ],
+        "issues": []
+      },
+      {
+        "id": "Q01-RC2",
+        "actualOriginal": "07d51438de42336661ba88be9f4360c92a8e27f0d3612661c34ad8cee295a47a",
+        "actualMutated": "ebbd41d2e0d415bdaed5eb1b4780089095a6d3dd6051aea65491840078f732d4",
+        "phases": [
+          {
+            "name": "positive",
+            "executed": 5,
+            "passed": 5,
+            "failed": 0,
+            "exitCode": 0
+          },
+          {
+            "name": "mutant",
+            "executed": 5,
+            "passed": 4,
+            "failed": 1,
+            "exitCode": 1
+          },
+          {
+            "name": "restored",
+            "executed": 5,
+            "passed": 5,
+            "failed": 0,
+            "exitCode": 0
+          }
+        ],
+        "issues": []
+      },
+      {
+        "id": "Q01-RC3",
+        "actualOriginal": "96b30fa1b9e9c9b5c77f8e07fad39bae331bedabce556a5f2c5f9dcc9bd248ce",
+        "actualMutated": "540b13f27cfdc9e68214d28c3fb24171d0347bd401327eee04b1e3346092f335",
+        "phases": [
+          {
+            "name": "positive",
+            "executed": 6,
+            "passed": 6,
+            "failed": 0,
+            "exitCode": 0
+          },
+          {
+            "name": "mutant",
+            "executed": 6,
+            "passed": 5,
+            "failed": 1,
+            "exitCode": 1
+          },
+          {
+            "name": "restored",
+            "executed": 6,
+            "passed": 6,
+            "failed": 0,
+            "exitCode": 0
+          }
+        ],
+        "issues": []
+      },
+      {
+        "id": "Q01-RC4",
+        "actualOriginal": "5f2fa0e7a3e39b5f846076b3d37073e6fac6cb87d7cde8a1a92e40de1f55297b",
+        "actualMutated": "9aff9841afd6ef14da0fff08bd1e55145491aed755f2fd1d97a137b3ab549210",
+        "phases": [
+          {
+            "name": "positive",
+            "executed": 4,
+            "passed": 4,
+            "failed": 0,
+            "exitCode": 0
+          },
+          {
+            "name": "mutant",
+            "executed": 4,
+            "passed": 3,
+            "failed": 1,
+            "exitCode": 1
+          },
+          {
+            "name": "restored",
+            "executed": 4,
+            "passed": 4,
+            "failed": 0,
+            "exitCode": 0
+          }
+        ],
+        "issues": []
+      },
+      {
+        "id": "Q01-RC5",
+        "actualOriginal": "e5a1ed00e72b3f0ac35b8baa92461a56a69089a6e9fce48f762c2924f437bbe4",
+        "actualMutated": "a5208fbf738c3bb61f57376850f6b212962ac4e458a4386a41c54d59ceb338b1",
+        "phases": [
+          {
+            "name": "positive",
+            "executed": 8,
+            "passed": 8,
+            "failed": 0,
+            "exitCode": 0
+          },
+          {
+            "name": "mutant",
+            "executed": 8,
+            "passed": 7,
+            "failed": 1,
+            "exitCode": 1
+          },
+          {
+            "name": "restored",
+            "executed": 8,
+            "passed": 8,
+            "failed": 0,
+            "exitCode": 0
+          }
+        ],
+        "issues": []
+      },
+      {
+        "id": "Q02-RC1",
+        "actualOriginal": "52c84b6e5b5d6d497f4aeed4e62e689505dc598e24227702176f3c0290c9a70e",
+        "actualMutated": "ea40c663b0e1282a79d7bbef6462aa9c68d2685fdb9bdca006eebc1df42e5597",
+        "phases": [
+          {
+            "name": "positive",
+            "executed": 11,
+            "passed": 11,
+            "failed": 0,
+            "exitCode": 0
+          },
+          {
+            "name": "mutant",
+            "executed": 11,
+            "passed": 10,
+            "failed": 1,
+            "exitCode": 1
+          },
+          {
+            "name": "restored",
+            "executed": 11,
+            "passed": 11,
+            "failed": 0,
+            "exitCode": 0
+          }
+        ],
+        "issues": []
+      },
+      {
+        "id": "Q02-RC2",
+        "actualOriginal": "52c84b6e5b5d6d497f4aeed4e62e689505dc598e24227702176f3c0290c9a70e",
+        "actualMutated": "604297e5723f5e20040ed8ae3eb8334296afdf0e1758ed18b4e893a1e2183c28",
+        "phases": [
+          {
+            "name": "positive",
+            "executed": 11,
+            "passed": 11,
+            "failed": 0,
+            "exitCode": 0
+          },
+          {
+            "name": "mutant",
+            "executed": 11,
+            "passed": 10,
+            "failed": 1,
+            "exitCode": 1
+          },
+          {
+            "name": "restored",
+            "executed": 11,
+            "passed": 11,
+            "failed": 0,
+            "exitCode": 0
+          }
+        ],
+        "issues": []
+      },
+      {
+        "id": "Q02-RC3",
+        "actualOriginal": "5ed29b0ebaa48e453f563d26766cef86b6dee4e3c47bc2899faf447df24b4689",
+        "actualMutated": "0086a0d968b2250f324b7eb5bfa807da43c525b25c21b6931a458a071670db4b",
+        "phases": [
+          {
+            "name": "positive",
+            "executed": 4,
+            "passed": 4,
+            "failed": 0,
+            "exitCode": 0
+          },
+          {
+            "name": "mutant",
+            "executed": 4,
+            "passed": 3,
+            "failed": 1,
+            "exitCode": 1
+          },
+          {
+            "name": "restored",
+            "executed": 4,
+            "passed": 4,
+            "failed": 0,
+            "exitCode": 0
+          }
+        ],
+        "issues": []
+      },
+      {
+        "id": "Q02-RC4",
+        "actualOriginal": "52c84b6e5b5d6d497f4aeed4e62e689505dc598e24227702176f3c0290c9a70e",
+        "actualMutated": "b652bb1deaaca1cdb5430bbbbb4f7fcfec4bdcf840b7c9e39c1fd69ef50c179b",
+        "phases": [
+          {
+            "name": "positive",
+            "executed": 11,
+            "passed": 11,
+            "failed": 0,
+            "exitCode": 0
+          },
+          {
+            "name": "mutant",
+            "executed": 11,
+            "passed": 10,
+            "failed": 1,
+            "exitCode": 1
+          },
+          {
+            "name": "restored",
+            "executed": 11,
+            "passed": 11,
+            "failed": 0,
+            "exitCode": 0
+          }
+        ],
+        "issues": []
+      },
+      {
+        "id": "Q02-RC5",
+        "actualOriginal": "1eee8760939b10b1b5728748356ca8ed50727c81eb566485b4ae77afc4a84e99",
+        "actualMutated": "f89ba33d69f3ecf197b0be89b1037c66fcd50ac7d15030887737c5c8a9afa78a",
+        "phases": [
+          {
+            "name": "positive",
+            "executed": 9,
+            "passed": 9,
+            "failed": 0,
+            "exitCode": 0
+          },
+          {
+            "name": "mutant",
+            "executed": 9,
+            "passed": 8,
+            "failed": 1,
+            "exitCode": 1
+          },
+          {
+            "name": "restored",
+            "executed": 9,
+            "passed": 9,
+            "failed": 0,
+            "exitCode": 0
+          }
+        ],
+        "issues": []
+      },
+      {
+        "id": "Q03-RC1",
+        "actualOriginal": "5f1f78ff0eda105bb476df7d812dc943f639c2b009c1edef6148286a1f7feb5b",
+        "actualMutated": "2e659bb6a4fe06880a63204ebc58fca7ee907cb9a0e0c2fe67f778498f943d43",
+        "phases": [
+          {
+            "name": "positive",
+            "executed": 12,
+            "passed": 12,
+            "failed": 0,
+            "exitCode": 0
+          },
+          {
+            "name": "mutant",
+            "executed": 12,
+            "passed": 11,
+            "failed": 1,
+            "exitCode": 1
+          },
+          {
+            "name": "restored",
+            "executed": 12,
+            "passed": 12,
+            "failed": 0,
+            "exitCode": 0
+          }
+        ],
+        "issues": []
+      },
+      {
+        "id": "Q03-RC2",
+        "actualOriginal": "5f1f78ff0eda105bb476df7d812dc943f639c2b009c1edef6148286a1f7feb5b",
+        "actualMutated": "d406aca5a56eeaa532ccc5f2c02312ff51c8da351da2c98d5d56d7a9d9530561",
+        "phases": [
+          {
+            "name": "positive",
+            "executed": 12,
+            "passed": 12,
+            "failed": 0,
+            "exitCode": 0
+          },
+          {
+            "name": "mutant",
+            "executed": 12,
+            "passed": 11,
+            "failed": 1,
+            "exitCode": 1
+          },
+          {
+            "name": "restored",
+            "executed": 12,
+            "passed": 12,
+            "failed": 0,
+            "exitCode": 0
+          }
+        ],
+        "issues": []
+      },
+      {
+        "id": "Q03-RC3",
+        "actualOriginal": "5f1f78ff0eda105bb476df7d812dc943f639c2b009c1edef6148286a1f7feb5b",
+        "actualMutated": "81983a7471cd37ee3b3d94aea0fb63fbca17fc8d1c5d108d634029f4be90ade2",
+        "phases": [
+          {
+            "name": "positive",
+            "executed": 12,
+            "passed": 12,
+            "failed": 0,
+            "exitCode": 0
+          },
+          {
+            "name": "mutant",
+            "executed": 12,
+            "passed": 11,
+            "failed": 1,
+            "exitCode": 1
+          },
+          {
+            "name": "restored",
+            "executed": 12,
+            "passed": 12,
+            "failed": 0,
+            "exitCode": 0
+          }
+        ],
+        "issues": []
+      },
+      {
+        "id": "Q03-RC4",
+        "actualOriginal": "5f1f78ff0eda105bb476df7d812dc943f639c2b009c1edef6148286a1f7feb5b",
+        "actualMutated": "14751940d42e4bf36e54cc05f9558f26999572bba45fc435157a7199b974d4fc",
+        "phases": [
+          {
+            "name": "positive",
+            "executed": 12,
+            "passed": 12,
+            "failed": 0,
+            "exitCode": 0
+          },
+          {
+            "name": "mutant",
+            "executed": 12,
+            "passed": 11,
+            "failed": 1,
+            "exitCode": 1
+          },
+          {
+            "name": "restored",
+            "executed": 12,
+            "passed": 12,
+            "failed": 0,
+            "exitCode": 0
+          }
+        ],
+        "issues": []
+      },
+      {
+        "id": "Q03-RC5",
+        "actualOriginal": "41cf8a421af480c30a4d5c4904031258282245f77af580f212843c23198fef46",
+        "actualMutated": "38094604b3bcab11b8b412d58b6a3d1b1743686b81608a34266159d65fec0ad2",
+        "phases": [
+          {
+            "name": "positive",
+            "executed": 3,
+            "passed": 3,
+            "failed": 0,
+            "exitCode": 0
+          },
+          {
+            "name": "mutant",
+            "executed": 3,
+            "passed": 2,
+            "failed": 1,
+            "exitCode": 1
+          },
+          {
+            "name": "restored",
+            "executed": 3,
+            "passed": 3,
+            "failed": 0,
+            "exitCode": 0
+          }
+        ],
+        "issues": []
+      },
+      {
+        "id": "Q04-RC1",
+        "actualOriginal": "896fab49346937562f8aa66e780b9fdf24c85e73a1a8f4d1833e8387a20208a7",
+        "actualMutated": "ff721f63a10e271aa203bece96843caf14d69ff4b1d435435712d5b1f8f750d8",
+        "phases": [
+          {
+            "name": "positive",
+            "executed": 13,
+            "passed": 13,
+            "failed": 0,
+            "exitCode": 0
+          },
+          {
+            "name": "mutant",
+            "executed": 13,
+            "passed": 12,
+            "failed": 1,
+            "exitCode": 1
+          },
+          {
+            "name": "restored",
+            "executed": 13,
+            "passed": 13,
+            "failed": 0,
+            "exitCode": 0
+          }
+        ],
+        "issues": []
+      },
+      {
+        "id": "Q04-RC2",
+        "actualOriginal": "896fab49346937562f8aa66e780b9fdf24c85e73a1a8f4d1833e8387a20208a7",
+        "actualMutated": "2d5f3effb43e6101fe7ac435ed39f02178c289cacf48db55a6f0e4d9773b56dd",
+        "phases": [
+          {
+            "name": "positive",
+            "executed": 13,
+            "passed": 13,
+            "failed": 0,
+            "exitCode": 0
+          },
+          {
+            "name": "mutant",
+            "executed": 13,
+            "passed": 12,
+            "failed": 1,
+            "exitCode": 1
+          },
+          {
+            "name": "restored",
+            "executed": 13,
+            "passed": 13,
+            "failed": 0,
+            "exitCode": 0
+          }
+        ],
+        "issues": []
+      },
+      {
+        "id": "Q04-RC3",
+        "actualOriginal": "896fab49346937562f8aa66e780b9fdf24c85e73a1a8f4d1833e8387a20208a7",
+        "actualMutated": "fa0052a9a05f4f37d8a423aa911f9506c9ee18fc643183ee1874b2cfd5cae410",
+        "phases": [
+          {
+            "name": "positive",
+            "executed": 13,
+            "passed": 13,
+            "failed": 0,
+            "exitCode": 0
+          },
+          {
+            "name": "mutant",
+            "executed": 13,
+            "passed": 12,
+            "failed": 1,
+            "exitCode": 1
+          },
+          {
+            "name": "restored",
+            "executed": 13,
+            "passed": 13,
+            "failed": 0,
+            "exitCode": 0
+          }
+        ],
+        "issues": []
+      },
+      {
+        "id": "Q04-RC4",
+        "actualOriginal": "896fab49346937562f8aa66e780b9fdf24c85e73a1a8f4d1833e8387a20208a7",
+        "actualMutated": "6141b9f8c16f7e88b45994c688d2d9e656c4bb579c82afec612a3c130f2a16eb",
+        "phases": [
+          {
+            "name": "positive",
+            "executed": 13,
+            "passed": 13,
+            "failed": 0,
+            "exitCode": 0
+          },
+          {
+            "name": "mutant",
+            "executed": 13,
+            "passed": 12,
+            "failed": 1,
+            "exitCode": 1
+          },
+          {
+            "name": "restored",
+            "executed": 13,
+            "passed": 13,
+            "failed": 0,
+            "exitCode": 0
+          }
+        ],
+        "issues": []
+      },
+      {
+        "id": "Q04-RC5",
+        "actualOriginal": "896fab49346937562f8aa66e780b9fdf24c85e73a1a8f4d1833e8387a20208a7",
+        "actualMutated": "799bbc323fef41b26cf44fbfa536f76c0e602ff5070b0022c913aa6cea178658",
+        "phases": [
+          {
+            "name": "positive",
+            "executed": 13,
+            "passed": 13,
+            "failed": 0,
+            "exitCode": 0
+          },
+          {
+            "name": "mutant",
+            "executed": 13,
+            "passed": 12,
+            "failed": 1,
+            "exitCode": 1
+          },
+          {
+            "name": "restored",
+            "executed": 13,
+            "passed": 13,
+            "failed": 0,
+            "exitCode": 0
+          }
+        ],
+        "issues": []
+      },
+      {
+        "id": "Q05-RC1",
+        "actualOriginal": "4c9d2efa7df5b13d3296b4b09c3134f23167880c0ccea1cabb2e36fc28606323",
+        "actualMutated": "6cfc55fc9730a7b72fabfadeb40457d8df5baa83f28f94ea249edec070311965",
+        "phases": [
+          {
+            "name": "positive",
+            "executed": 6,
+            "passed": 6,
+            "failed": 0,
+            "exitCode": 0
+          },
+          {
+            "name": "mutant",
+            "executed": 6,
+            "passed": 5,
+            "failed": 1,
+            "exitCode": 1
+          },
+          {
+            "name": "restored",
+            "executed": 6,
+            "passed": 6,
+            "failed": 0,
+            "exitCode": 0
+          }
+        ],
+        "issues": []
+      },
+      {
+        "id": "Q05-RC2",
+        "actualOriginal": "4c9d2efa7df5b13d3296b4b09c3134f23167880c0ccea1cabb2e36fc28606323",
+        "actualMutated": "206d2ccf9a70ad3b3e4125aa63c672024573a8bf31bcb5e8ea87623e72317b15",
+        "phases": [
+          {
+            "name": "positive",
+            "executed": 6,
+            "passed": 6,
+            "failed": 0,
+            "exitCode": 0
+          },
+          {
+            "name": "mutant",
+            "executed": 6,
+            "passed": 5,
+            "failed": 1,
+            "exitCode": 1
+          },
+          {
+            "name": "restored",
+            "executed": 6,
+            "passed": 6,
+            "failed": 0,
+            "exitCode": 0
+          }
+        ],
+        "issues": []
+      },
+      {
+        "id": "Q05-RC3",
+        "actualOriginal": "4c9d2efa7df5b13d3296b4b09c3134f23167880c0ccea1cabb2e36fc28606323",
+        "actualMutated": "4d3ed70714700121b00c3f20e0c99728a82b35efb87cebe11fc2897a2758030e",
+        "phases": [
+          {
+            "name": "positive",
+            "executed": 6,
+            "passed": 6,
+            "failed": 0,
+            "exitCode": 0
+          },
+          {
+            "name": "mutant",
+            "executed": 6,
+            "passed": 5,
+            "failed": 1,
+            "exitCode": 1
+          },
+          {
+            "name": "restored",
+            "executed": 6,
+            "passed": 6,
+            "failed": 0,
+            "exitCode": 0
+          }
+        ],
+        "issues": []
+      },
+      {
+        "id": "Q05-RC4",
+        "actualOriginal": "4c9d2efa7df5b13d3296b4b09c3134f23167880c0ccea1cabb2e36fc28606323",
+        "actualMutated": "503d83e090c558a0e79e79ebc2be99492395787a6d71e80c4ef03c5cf82ff2da",
+        "phases": [
+          {
+            "name": "positive",
+            "executed": 6,
+            "passed": 6,
+            "failed": 0,
+            "exitCode": 0
+          },
+          {
+            "name": "mutant",
+            "executed": 6,
+            "passed": 5,
+            "failed": 1,
+            "exitCode": 1
+          },
+          {
+            "name": "restored",
+            "executed": 6,
+            "passed": 6,
+            "failed": 0,
+            "exitCode": 0
+          }
+        ],
+        "issues": []
+      },
+      {
+        "id": "Q05-RC5",
+        "actualOriginal": "4c9d2efa7df5b13d3296b4b09c3134f23167880c0ccea1cabb2e36fc28606323",
+        "actualMutated": "07cdd3219603549436cd32de669e959bc531e74497b21ecab70774299e3c0e1b",
+        "phases": [
+          {
+            "name": "positive",
+            "executed": 6,
+            "passed": 6,
+            "failed": 0,
+            "exitCode": 0
+          },
+          {
+            "name": "mutant",
+            "executed": 6,
+            "passed": 5,
+            "failed": 1,
+            "exitCode": 1
+          },
+          {
+            "name": "restored",
+            "executed": 6,
+            "passed": 6,
+            "failed": 0,
+            "exitCode": 0
+          }
+        ],
+        "issues": []
+      },
+      {
+        "id": "Q06-RC1",
+        "actualOriginal": "f19d45cd5f90cc728a6d9118f5c80ad1595ca425e47ba9161e01484d33f21e4e",
+        "actualMutated": "b8a4b83c875021741b4a14b65f64b2ccf79dd28ec076190cc15ff98c3f3ac4ad",
+        "phases": [
+          {
+            "name": "positive",
+            "executed": 11,
+            "passed": 11,
+            "failed": 0,
+            "exitCode": 0
+          },
+          {
+            "name": "mutant",
+            "executed": 11,
+            "passed": 10,
+            "failed": 1,
+            "exitCode": 1
+          },
+          {
+            "name": "restored",
+            "executed": 11,
+            "passed": 11,
+            "failed": 0,
+            "exitCode": 0
+          }
+        ],
+        "issues": []
+      },
+      {
+        "id": "Q06-RC2",
+        "actualOriginal": "f19d45cd5f90cc728a6d9118f5c80ad1595ca425e47ba9161e01484d33f21e4e",
+        "actualMutated": "37a3c148ad8f45abc1a07a1e71d453c6a2b245aef77416b58468646f95787a30",
+        "phases": [
+          {
+            "name": "positive",
+            "executed": 11,
+            "passed": 11,
+            "failed": 0,
+            "exitCode": 0
+          },
+          {
+            "name": "mutant",
+            "executed": 11,
+            "passed": 10,
+            "failed": 1,
+            "exitCode": 1
+          },
+          {
+            "name": "restored",
+            "executed": 11,
+            "passed": 11,
+            "failed": 0,
+            "exitCode": 0
+          }
+        ],
+        "issues": []
+      },
+      {
+        "id": "Q06-RC3",
+        "actualOriginal": "f19d45cd5f90cc728a6d9118f5c80ad1595ca425e47ba9161e01484d33f21e4e",
+        "actualMutated": "48c2e9299fd04d131b247be4eec130b061dcd04b034deef70fb7143df99e73e1",
+        "phases": [
+          {
+            "name": "positive",
+            "executed": 11,
+            "passed": 11,
+            "failed": 0,
+            "exitCode": 0
+          },
+          {
+            "name": "mutant",
+            "executed": 11,
+            "passed": 10,
+            "failed": 1,
+            "exitCode": 1
+          },
+          {
+            "name": "restored",
+            "executed": 11,
+            "passed": 11,
+            "failed": 0,
+            "exitCode": 0
+          }
+        ],
+        "issues": []
+      },
+      {
+        "id": "Q06-RC4",
+        "actualOriginal": "f19d45cd5f90cc728a6d9118f5c80ad1595ca425e47ba9161e01484d33f21e4e",
+        "actualMutated": "f47e94d1fafa09cbe57a3ccc7138b981e05f27e8bc2ac9f810676474e373444d",
+        "phases": [
+          {
+            "name": "positive",
+            "executed": 11,
+            "passed": 11,
+            "failed": 0,
+            "exitCode": 0
+          },
+          {
+            "name": "mutant",
+            "executed": 11,
+            "passed": 10,
+            "failed": 1,
+            "exitCode": 1
+          },
+          {
+            "name": "restored",
+            "executed": 11,
+            "passed": 11,
+            "failed": 0,
+            "exitCode": 0
+          }
+        ],
+        "issues": []
+      },
+      {
+        "id": "Q06-RC5",
+        "actualOriginal": "f19d45cd5f90cc728a6d9118f5c80ad1595ca425e47ba9161e01484d33f21e4e",
+        "actualMutated": "715b8f32d630b3a80d1899f93de04a21d99191411440bff7a9d45851a0ef2f5f",
+        "phases": [
+          {
+            "name": "positive",
+            "executed": 11,
+            "passed": 11,
+            "failed": 0,
+            "exitCode": 0
+          },
+          {
+            "name": "mutant",
+            "executed": 11,
+            "passed": 10,
+            "failed": 1,
+            "exitCode": 1
+          },
+          {
+            "name": "restored",
+            "executed": 11,
+            "passed": 11,
+            "failed": 0,
+            "exitCode": 0
+          }
+        ],
+        "issues": []
+      },
+      {
+        "id": "Q09-RC1",
+        "actualOriginal": "259c5dd0ee0ece5efc2f97edb35fe4f723d7d2b841b94ea2b379c43629b4dce1",
+        "actualMutated": "eb167b0d6f4fda423f6c1f3618a2413a61a1674ed7026c545d56c84e294229ac",
+        "phases": [
+          {
+            "name": "positive",
+            "executed": 4,
+            "passed": 4,
+            "failed": 0,
+            "exitCode": 0
+          },
+          {
+            "name": "mutant",
+            "executed": 4,
+            "passed": 3,
+            "failed": 1,
+            "exitCode": 1
+          },
+          {
+            "name": "restored",
+            "executed": 4,
+            "passed": 4,
+            "failed": 0,
+            "exitCode": 0
+          }
+        ],
+        "issues": []
+      },
+      {
+        "id": "Q09-RC2",
+        "actualOriginal": "259c5dd0ee0ece5efc2f97edb35fe4f723d7d2b841b94ea2b379c43629b4dce1",
+        "actualMutated": "7fc5d5157a642719f681ad5ca20f0dfb22961fc19f5012dee65622aa396a7ece",
+        "phases": [
+          {
+            "name": "positive",
+            "executed": 4,
+            "passed": 4,
+            "failed": 0,
+            "exitCode": 0
+          },
+          {
+            "name": "mutant",
+            "executed": 4,
+            "passed": 3,
+            "failed": 1,
+            "exitCode": 1
+          },
+          {
+            "name": "restored",
+            "executed": 4,
+            "passed": 4,
+            "failed": 0,
+            "exitCode": 0
+          }
+        ],
+        "issues": []
+      },
+      {
+        "id": "Q09-RC3",
+        "actualOriginal": "259c5dd0ee0ece5efc2f97edb35fe4f723d7d2b841b94ea2b379c43629b4dce1",
+        "actualMutated": "4deb2f89d34b6d15ef3046d01fde008e2030484ccab41c26753491f09fe586ea",
+        "phases": [
+          {
+            "name": "positive",
+            "executed": 4,
+            "passed": 4,
+            "failed": 0,
+            "exitCode": 0
+          },
+          {
+            "name": "mutant",
+            "executed": 4,
+            "passed": 3,
+            "failed": 1,
+            "exitCode": 1
+          },
+          {
+            "name": "restored",
+            "executed": 4,
+            "passed": 4,
+            "failed": 0,
+            "exitCode": 0
+          }
+        ],
+        "issues": []
+      },
+      {
+        "id": "Q09-RC4",
+        "actualOriginal": "259c5dd0ee0ece5efc2f97edb35fe4f723d7d2b841b94ea2b379c43629b4dce1",
+        "actualMutated": "621ea1b66da74e6cef18d3456c73e5b34195f80a07c39089edfc500fa28873a5",
+        "phases": [
+          {
+            "name": "positive",
+            "executed": 4,
+            "passed": 4,
+            "failed": 0,
+            "exitCode": 0
+          },
+          {
+            "name": "mutant",
+            "executed": 4,
+            "passed": 3,
+            "failed": 1,
+            "exitCode": 1
+          },
+          {
+            "name": "restored",
+            "executed": 4,
+            "passed": 4,
+            "failed": 0,
+            "exitCode": 0
+          }
+        ],
+        "issues": []
+      },
+      {
+        "id": "Q10-RC1",
+        "file": "packages/pal-extract/src/cli-isolated.glm-q.test.ts",
+        "targetFullName": "Q10 CLI 隔离实跑：合成 DATA.MKF 走完数据表段（逐表落盘 + SPRITEUI/effect blob）",
+        "axis": "输入轴单轴变异：合成 STORE 表首格物品 61→62（合法 wObjectID，词表 62 为空）；断言不动。",
+        "hashes": {
+          "index": {
+            "original": "30f0d88dc711f7054b9effaf8b4556a0e2d53fd793e50ad9838cadca99f8383f",
+            "mutated": "1e08279fde13f6b06081be3be805625e160181a16f2be4d3fbb02aecc9d8426f",
+            "restored": "30f0d88dc711f7054b9effaf8b4556a0e2d53fd793e50ad9838cadca99f8383f"
+          },
+          "meta": {
+            "original": "e46949e5fe6b9fbf92b46b2cc326aaf68fc9d159c6427580d867912baa3d03bd",
+            "mutated": "0c73fe3bc263d74d55789ea0842d71b71fdb5f04b37d7df0fb78cd6c0dc80a55",
+            "restored": "e46949e5fe6b9fbf92b46b2cc326aaf68fc9d159c6427580d867912baa3d03bd"
+          },
+          "actualOriginal": "e46949e5fe6b9fbf92b46b2cc326aaf68fc9d159c6427580d867912baa3d03bd",
+          "actualMutated": "0c73fe3bc263d74d55789ea0842d71b71fdb5f04b37d7df0fb78cd6c0dc80a55"
+        },
+        "occurrences": 1,
+        "phases": [
+          {
+            "name": "positive",
+            "executed": 3,
+            "passed": 3,
+            "failed": 0,
+            "exitCode": 0,
+            "jsonSHA256": "95ddd753c9bf4f0137cbce42ca484237d1e98c26ccb1a971b367f59586b11bb2",
+            "rawSHA256": "fbc2812d52adb50cc2fc8626aa5f61b3775a0a4ee5ccf0026b8d8b331a659404",
+            "rawBytes": 64,
+            "failures": []
+          },
+          {
+            "name": "mutant",
+            "executed": 3,
+            "passed": 2,
+            "failed": 1,
+            "exitCode": 1,
+            "jsonSHA256": "a14257f22a94a840f360a3e540b504de91ede8cf5d98d0759512b8d653c9263c",
+            "rawSHA256": "cb94fc6f639e0845ab6338684a3e0906dc77b5bed5b355ab9dad98caf73bdb29",
+            "rawBytes": 62,
+            "failures": [
+              {
+                "file": "packages/pal-extract/src/cli-isolated.glm-q.test.ts",
+                "fullName": "Q10 CLI 隔离实跑：合成 DATA.MKF 走完数据表段（逐表落盘 + SPRITEUI/effect blob）",
+                "firstLine": "AssertionError: expected [ { id: +0, items: [ 62 ] } ] to deeply equal [ { id: +0, items: [ 61 ] } ]"
+              }
+            ]
+          },
+          {
+            "name": "restored",
+            "executed": 3,
+            "passed": 3,
+            "failed": 0,
+            "exitCode": 0,
+            "jsonSHA256": "f9937fed0996f7ad68f5a5cda467d16989f7ee4a25540b817516f26379b6dca5",
+            "rawSHA256": "00581e4ebf35683eeb69fcfcbb5beacfeadf415916be214b4d88a21b98af21ec",
+            "rawBytes": 64,
+            "failures": []
+          }
+        ],
+        "verdict": "VALID",
+        "issues": ["index source hash", "index mutant hash", "meta/index mismatch"]
+      },
+      {
+        "id": "Q10-RC2",
+        "file": "packages/pal-extract/src/cli-isolated.glm-q.test.ts",
+        "targetFullName": "Q10 CLI 隔离实跑：合成 DATA.MKF 走完数据表段（逐表落盘 + SPRITEUI/effect blob）",
+        "axis": "输入轴单轴变异：PLAYERROLES 合成表 spriteNum[0] 2→3（合法精灵号）；断言不动。",
+        "hashes": {
+          "index": {
+            "original": "30f0d88dc711f7054b9effaf8b4556a0e2d53fd793e50ad9838cadca99f8383f",
+            "mutated": "ae5d33ba46a47d840fb78c8d37869237ce7784563cb335b24cfd3ec566c134b6",
+            "restored": "30f0d88dc711f7054b9effaf8b4556a0e2d53fd793e50ad9838cadca99f8383f"
+          },
+          "meta": {
+            "original": "e46949e5fe6b9fbf92b46b2cc326aaf68fc9d159c6427580d867912baa3d03bd",
+            "mutated": "cf16bd37bd3a0b995e0a98071ed58c3a3695a9b05b8893b15fc1dd7729d207e8",
+            "restored": "e46949e5fe6b9fbf92b46b2cc326aaf68fc9d159c6427580d867912baa3d03bd"
+          },
+          "actualOriginal": "e46949e5fe6b9fbf92b46b2cc326aaf68fc9d159c6427580d867912baa3d03bd",
+          "actualMutated": "cf16bd37bd3a0b995e0a98071ed58c3a3695a9b05b8893b15fc1dd7729d207e8"
+        },
+        "occurrences": 1,
+        "phases": [
+          {
+            "name": "positive",
+            "executed": 3,
+            "passed": 3,
+            "failed": 0,
+            "exitCode": 0,
+            "jsonSHA256": "a9fc2383c71e56f40fcf21e2a61ec107facca00ff8c73a874a743f7217a9a4d8",
+            "rawSHA256": "1a6e0774ad376b969127eac8f39bf44822c575b6a981d1cf73cede35856f889a",
+            "rawBytes": 64,
+            "failures": []
+          },
+          {
+            "name": "mutant",
+            "executed": 3,
+            "passed": 2,
+            "failed": 1,
+            "exitCode": 1,
+            "jsonSHA256": "71afcd21b5375ef68f5617f2a2cdf0bec082164abaee4c1529e03bdd62971656",
+            "rawSHA256": "e2049561574f6044ccfa81a95a3c1e7dea792917e7ca12a01b1a54862d65d47f",
+            "rawBytes": 62,
+            "failures": [
+              {
+                "file": "packages/pal-extract/src/cli-isolated.glm-q.test.ts",
+                "fullName": "Q10 CLI 隔离实跑：合成 DATA.MKF 走完数据表段（逐表落盘 + SPRITEUI/effect blob）",
+                "firstLine": "AssertionError: expected 3 to be 2 // Object.is equality"
+              }
+            ]
+          },
+          {
+            "name": "restored",
+            "executed": 3,
+            "passed": 3,
+            "failed": 0,
+            "exitCode": 0,
+            "jsonSHA256": "3c114ba6bd1a95fe3c349964d013912eeacc10a6273fdfa51b4bf43b25f6733c",
+            "rawSHA256": "f6a14eff870fc39f55c85b6be418eabe12cdc93372cc6523a9f66d7d7dfc1cdb",
+            "rawBytes": 64,
+            "failures": []
+          }
+        ],
+        "verdict": "VALID",
+        "issues": ["index source hash", "index mutant hash", "meta/index mismatch"]
+      },
+      {
+        "id": "Q10-RC3",
+        "file": "packages/pal-extract/src/cli-isolated.glm-q.test.ts",
+        "targetFullName": "Q10 CLI 隔离实跑：合成小输入走完事件管线（round-trip 门 + 切片落盘 + 词表注记）",
+        "axis": "输入轴单轴变异：bytecode giveItem 操作数 61→62（合法 wObjectID，词表 62 为空）；断言不动。",
+        "hashes": {
+          "index": {
+            "original": "30f0d88dc711f7054b9effaf8b4556a0e2d53fd793e50ad9838cadca99f8383f",
+            "mutated": "40716aeb167826b20afd3d1389389f73cc6cb634b9a02b839e4bf8f72a2dfa1a",
+            "restored": "30f0d88dc711f7054b9effaf8b4556a0e2d53fd793e50ad9838cadca99f8383f"
+          },
+          "meta": {
+            "original": "e46949e5fe6b9fbf92b46b2cc326aaf68fc9d159c6427580d867912baa3d03bd",
+            "mutated": "4fa5eaef309f391d9ee2d6643129cd9f0a19f74bbeca723fcde737b4050f6aff",
+            "restored": "e46949e5fe6b9fbf92b46b2cc326aaf68fc9d159c6427580d867912baa3d03bd"
+          },
+          "actualOriginal": "e46949e5fe6b9fbf92b46b2cc326aaf68fc9d159c6427580d867912baa3d03bd",
+          "actualMutated": "4fa5eaef309f391d9ee2d6643129cd9f0a19f74bbeca723fcde737b4050f6aff"
+        },
+        "occurrences": 1,
+        "phases": [
+          {
+            "name": "positive",
+            "executed": 3,
+            "passed": 3,
+            "failed": 0,
+            "exitCode": 0,
+            "jsonSHA256": "5e52dbe3974b7b222ec6d589de614b6676982137caa233efe1da9e095ef5f84c",
+            "rawSHA256": "4884303c30aa806e021f9dac7f02d01a494b91a2143400d3971364c989c045ca",
+            "rawBytes": 64,
+            "failures": []
+          },
+          {
+            "name": "mutant",
+            "executed": 3,
+            "passed": 2,
+            "failed": 1,
+            "exitCode": 1,
+            "jsonSHA256": "80a6bbe3dd965bf043ce9cbf4a918624ccef162173617bb741c917105e8f9c57",
+            "rawSHA256": "8a7b2bd03fb4bfabe7944375a38bb2ded8508a01e347f71e0154e4d8d3c832f7",
+            "rawBytes": 62,
+            "failures": [
+              {
+                "file": "packages/pal-extract/src/cli-isolated.glm-q.test.ts",
+                "fullName": "Q10 CLI 隔离实跑：合成小输入走完事件管线（round-trip 门 + 切片落盘 + 词表注记）",
+                "firstLine": "AssertionError: expected 62 to be 61 // Object.is equality"
+              }
+            ]
+          },
+          {
+            "name": "restored",
+            "executed": 3,
+            "passed": 3,
+            "failed": 0,
+            "exitCode": 0,
+            "jsonSHA256": "14027967fa3afaf95983b99bd069e3d3d15e86da7f4d6e192d1775c3ae4c02f7",
+            "rawSHA256": "f77350ec372c55d9c030c17110f1aff2a87c75cb08890d577b72cdeb61bbeef1",
+            "rawBytes": 64,
+            "failures": []
+          }
+        ],
+        "verdict": "VALID",
+        "issues": ["index source hash", "index mutant hash", "meta/index mismatch"]
+      },
+      {
+        "id": "Q10-RC4",
+        "file": "packages/pal-extract/src/cli-isolated.glm-q.test.ts",
+        "targetFullName": "Q10 CLI 隔离实跑：合成小输入走完事件管线（round-trip 门 + 切片落盘 + 词表注记）",
+        "axis": "输入轴单轴变异：M.MSG 被引用窗口内末字节换为另一合法 GBK 字符；断言不动（按常量精确比对）。",
+        "hashes": {
+          "index": {
+            "original": "30f0d88dc711f7054b9effaf8b4556a0e2d53fd793e50ad9838cadca99f8383f",
+            "mutated": "96253368f466e5c0ed0af3164135fc7c1a6e04f25f8f47481a4421aa1e75e7c5",
+            "restored": "30f0d88dc711f7054b9effaf8b4556a0e2d53fd793e50ad9838cadca99f8383f"
+          },
+          "meta": {
+            "original": "e46949e5fe6b9fbf92b46b2cc326aaf68fc9d159c6427580d867912baa3d03bd",
+            "mutated": "5793683e186fe51c898a2966a4802a453a670459331bf46bc1c213c5f019ca3c",
+            "restored": "e46949e5fe6b9fbf92b46b2cc326aaf68fc9d159c6427580d867912baa3d03bd"
+          },
+          "actualOriginal": "e46949e5fe6b9fbf92b46b2cc326aaf68fc9d159c6427580d867912baa3d03bd",
+          "actualMutated": "5793683e186fe51c898a2966a4802a453a670459331bf46bc1c213c5f019ca3c"
+        },
+        "occurrences": 1,
+        "phases": [
+          {
+            "name": "positive",
+            "executed": 3,
+            "passed": 3,
+            "failed": 0,
+            "exitCode": 0,
+            "jsonSHA256": "868651e35db4132cb9422d7f9885a1b27b00137f79a8609c4348721c8ec9820e",
+            "rawSHA256": "d4dbf7e86d81ab0187cd9730982410058d91490d00fdf5aec67796cd6987fb62",
+            "rawBytes": 64,
+            "failures": []
+          },
+          {
+            "name": "mutant",
+            "executed": 3,
+            "passed": 2,
+            "failed": 1,
+            "exitCode": 1,
+            "jsonSHA256": "ef9ae1c168129a12b5afb02764bcaaa4b08eea67ce8cdd03cea3a0de93e79fd7",
+            "rawSHA256": "a0961e6060513ae38c1d8470168cae690fcbf893e7e001080e067373c071046d",
+            "rawBytes": 62,
+            "failures": [
+              {
+                "file": "packages/pal-extract/src/cli-isolated.glm-q.test.ts",
+                "fullName": "Q10 CLI 隔离实跑：合成小输入走完事件管线（round-trip 门 + 切片落盘 + 词表注记）",
+                "firstLine": "AssertionError: expected 'HELLO MSg' to be 'HELLO MSG' // Object.is equality"
+              }
+            ]
+          },
+          {
+            "name": "restored",
+            "executed": 3,
+            "passed": 3,
+            "failed": 0,
+            "exitCode": 0,
+            "jsonSHA256": "2d2f1f1325f78acaf60afca79fd82eb0041199a51080d8a172f7d4db7a007140",
+            "rawSHA256": "ea791396707a55e29b6722f08b9026ed4b9cd89583dc5d2702e8e0945231e99c",
+            "rawBytes": 64,
+            "failures": []
+          }
+        ],
+        "verdict": "VALID",
+        "issues": ["index source hash", "index mutant hash", "meta/index mismatch"]
+      },
+      {
+        "id": "Q10-RC5",
+        "file": "packages/pal-extract/src/cli-isolated.glm-q.test.ts",
+        "targetFullName": "Q10 CLI 隔离实跑：合成 DATA.MKF 走完数据表段（逐表落盘 + SPRITEUI/effect blob）",
+        "axis": "输入轴单轴变异：LEVELEXP chunk 200→198 字节（合法 99 条截断，parseLevelUpExp min(100, 99)）；断言不动。",
+        "hashes": {
+          "index": {
+            "original": "30f0d88dc711f7054b9effaf8b4556a0e2d53fd793e50ad9838cadca99f8383f",
+            "mutated": "e370b82b035232432ada5d2e64e72637ff759df9fb8654af47de214173629426",
+            "restored": "30f0d88dc711f7054b9effaf8b4556a0e2d53fd793e50ad9838cadca99f8383f"
+          },
+          "meta": {
+            "original": "e46949e5fe6b9fbf92b46b2cc326aaf68fc9d159c6427580d867912baa3d03bd",
+            "mutated": "f68ea3a7d7f9b433ea670053fb59e8b38513b3262b0e0d9dc95aec0646ed39ed",
+            "restored": "e46949e5fe6b9fbf92b46b2cc326aaf68fc9d159c6427580d867912baa3d03bd"
+          },
+          "actualOriginal": "e46949e5fe6b9fbf92b46b2cc326aaf68fc9d159c6427580d867912baa3d03bd",
+          "actualMutated": "f68ea3a7d7f9b433ea670053fb59e8b38513b3262b0e0d9dc95aec0646ed39ed"
+        },
+        "occurrences": 1,
+        "phases": [
+          {
+            "name": "positive",
+            "executed": 3,
+            "passed": 3,
+            "failed": 0,
+            "exitCode": 0,
+            "jsonSHA256": "995b062a12d13c04373b0aafa07455da6c1434444d1371a4b3cb9bf5b3b64f8c",
+            "rawSHA256": "e72299a3db64c56bb6becae086bc0723ab7f2706c5be65e3e56b42bb3c4e120e",
+            "rawBytes": 64,
+            "failures": []
+          },
+          {
+            "name": "mutant",
+            "executed": 3,
+            "passed": 2,
+            "failed": 1,
+            "exitCode": 1,
+            "jsonSHA256": "5980c55ad205e2cfaa617289bf686194c03201d822e9c192fa49ad2f6958b691",
+            "rawSHA256": "41c58ce0b1b15f6a99bfed67a1d865f881beffa353a6c83708097705ea173f9c",
+            "rawBytes": 62,
+            "failures": [
+              {
+                "file": "packages/pal-extract/src/cli-isolated.glm-q.test.ts",
+                "fullName": "Q10 CLI 隔离实跑：合成 DATA.MKF 走完数据表段（逐表落盘 + SPRITEUI/effect blob）",
+                "firstLine": "AssertionError: expected [ +0, +0, +0, +0, +0, +0, +0, …(92) ] to have a length of 100 but got 99"
+              }
+            ]
+          },
+          {
+            "name": "restored",
+            "executed": 3,
+            "passed": 3,
+            "failed": 0,
+            "exitCode": 0,
+            "jsonSHA256": "ac78c93145afa40cfd69d2192a39e33000110b1006199ab535f6de2362699a48",
+            "rawSHA256": "a10e3f5487214eae7c51c4df296d7f6c48c9ac808ce929dd635306d7087a0828",
+            "rawBytes": 64,
+            "failures": []
+          }
+        ],
+        "verdict": "VALID",
+        "issues": ["index source hash", "index mutant hash", "meta/index mismatch"]
+      }
+    ],
+    "recomputeCommand": "node -e \"const fs=require('node:fs'), crypto=require('node:crypto');const d='docs/testing/glm-tenfold-triple/wave-Q',cs=JSON.parse(fs.readFileSync(d+'/counters.json','utf8'));const sha=s=>crypto.createHash('sha256').update(s).digest('hex');const normalize=p=>p.includes('/packages/')?'packages/'+p.split('/packages/').pop():p;const rows=[];for(const c of cs.perCounter){const m=JSON.parse(fs.readFileSync(d+'/counters/'+c.id+'.meta.json','utf8')),source=fs.readFileSync(c.file,'utf8'),old=fs.readFileSync(d+'/counters/'+c.id+'.old','utf8'),fresh=fs.readFileSync(d+'/counters/'+c.id+'.new','utf8');const occurrences=source.split(old).length-1,mutated=source.replace(old,fresh),issues=[];if(occurrences!==1)issues.push('old occurrence '+occurrences);const actualOriginal=sha(source),actualMutated=sha(mutated);if(actualOriginal!==c.sha256.original||actualOriginal!==c.sha256.restored)issues.push('index source hash');if(actualMutated!==c.sha256.mutated)issues.push('index mutant hash');if(actualOriginal!==m.sha256.original||actualOriginal!==m.sha256.restored)issues.push('meta source hash');if(actualMutated!==m.sha256.mutated)issues.push('meta mutant hash');if(JSON.stringify(c)!==JSON.stringify(m))issues.push('meta/index mismatch');const phases=[];let identity=null;for(const name of ['positive','mutant','restored']){const run=c.runs[name],buf=fs.readFileSync(d+'/counters/'+run.json),j=JSON.parse(buf),raw=fs.readFileSync(d+'/counters/'+run.raw,'utf8');const tests=j.testResults.flatMap(f=>f.assertionResults.map(a=>({file:normalize(f.name),fullName:a.fullName,status:a.status,failureMessages:a.failureMessages})));const failures=tests.filter(t=>t.status==='failed'),key=tests.map(t=>t.file+'::'+t.fullName).sort().join('\\\\n');if(identity===null)identity=key;else if(identity!==key)issues.push(name+' execution set mismatch');if(tests.some(t=>!['passed','failed'].includes(t.status)))issues.push(name+' skips');if(j.numTotalTests!==tests.length||run.summary.numTotalTests!==tests.length||j.numFailedTests!==failures.length)issues.push(name+' counts');if(name!=='mutant'&&(run.exitCode!==0||failures.length||j.success!==true))issues.push(name+' not green');if(name==='mutant'){if(run.exitCode!==1||failures.length!==1||failures[0]?.fullName!==c.targetFullName||failures[0]?.file!==c.file)issues.push('not one target red');const msg=failures[0]?.failureMessages?.[0]||'';if(!msg.includes(c.criteria.targetAssertionError))issues.push('failure criterion not in JSON');}if(j.numRuntimeErrorTestSuites||j.unhandledErrors?.length)issues.push(name+' runtime errors');phases.push({name,executed:tests.length,passed:tests.filter(t=>t.status==='passed').length,failed:failures.length,exitCode:run.exitCode,jsonSHA256:sha(buf),rawSHA256:sha(raw),rawBytes:Buffer.byteLength(raw),failures:failures.map(f=>({file:f.file,fullName:f.fullName,firstLine:f.failureMessages[0]?.split('\\\\n')[0]}))});}rows.push({id:c.id,file:c.file,targetFullName:c.targetFullName,axis:c.axis,hashes:{index:c.sha256,meta:m.sha256,actualOriginal,actualMutated},occurrences,phases,verdict:c.verdict,issues});}const compact=rows.map(r=>r.issues.length?r:{id:r.id,actualOriginal:r.hashes.actualOriginal,actualMutated:r.hashes.actualMutated,phases:r.phases.map(p=>({name:p.name,executed:p.executed,passed:p.passed,failed:p.failed,exitCode:p.exitCode})),issues:[]});process.stdout.write(JSON.stringify({count:cs.count,allValidClaim:cs.allValid,rows:compact}));\""
+  },
+  "independentQ10Replay": {
+    "method": "Copied pal-extract/shared src/package/config into a fresh diagnostic directory; dependency symlinks read-only. apply_patch altered only copied tests, never candidate/main product. No testName filter; all 3 neighbor tests executed for each mutant; each expected business failure count1, no unhandled errors. Copied source restored before next mutant and final 3/3 run. Five mutants are distinct observed assertions (STORE value, role spriteNum, giveItem, text, LEVELEXP length), not duplicates solely by shared fullName.",
+    "runs": [
+      {
+        "id": "Q10-RC1",
+        "expectedFullName": "Q10 CLI 隔离实跑：合成 DATA.MKF 走完数据表段（逐表落盘 + SPRITEUI/effect blob）",
+        "exitCode": 1,
+        "report": "/tmp/codex-q-r3-review.EyEHQD/Q10-RC1-independent-mutant.json",
+        "output": "JSON report written to /tmp/codex-q-r3-review.EyEHQD/Q10-RC1-independent-mutant.json\n/private/tmp/codex-q-r3-review.EyEHQD/counter-probe/packages/pal-extract:\n ERR_PNPM_RECURSIVE_RUN_FIRST_FAIL  @type-pal/pal-extract@0.0.0 test: `vitest run --passWithNoTests src/cli-isolated.glm-q.test.ts --reporter=json --outputFile=/tmp/codex-q-r3-review.EyEHQD/Q10-RC1-independent-mutant.json`\nExit status 1\n"
+      },
+      {
+        "id": "Q10-RC2",
+        "expectedFullName": "Q10 CLI 隔离实跑：合成 DATA.MKF 走完数据表段（逐表落盘 + SPRITEUI/effect blob）",
+        "exitCode": 1,
+        "report": "/tmp/codex-q-r3-review.EyEHQD/Q10-RC2-independent-mutant.json",
+        "output": "JSON report written to /tmp/codex-q-r3-review.EyEHQD/Q10-RC2-independent-mutant.json\n/private/tmp/codex-q-r3-review.EyEHQD/counter-probe/packages/pal-extract:\n ERR_PNPM_RECURSIVE_RUN_FIRST_FAIL  @type-pal/pal-extract@0.0.0 test: `vitest run --passWithNoTests src/cli-isolated.glm-q.test.ts --reporter=json --outputFile=/tmp/codex-q-r3-review.EyEHQD/Q10-RC2-independent-mutant.json`\nExit status 1\n"
+      },
+      {
+        "id": "Q10-RC3",
+        "expectedFullName": "Q10 CLI 隔离实跑：合成小输入走完事件管线（round-trip 门 + 切片落盘 + 词表注记）",
+        "exitCode": 1,
+        "report": "/tmp/codex-q-r3-review.EyEHQD/Q10-RC3-independent-mutant.json",
+        "output": "JSON report written to /tmp/codex-q-r3-review.EyEHQD/Q10-RC3-independent-mutant.json\n/private/tmp/codex-q-r3-review.EyEHQD/counter-probe/packages/pal-extract:\n ERR_PNPM_RECURSIVE_RUN_FIRST_FAIL  @type-pal/pal-extract@0.0.0 test: `vitest run --passWithNoTests src/cli-isolated.glm-q.test.ts --reporter=json --outputFile=/tmp/codex-q-r3-review.EyEHQD/Q10-RC3-independent-mutant.json`\nExit status 1\n"
+      },
+      {
+        "id": "Q10-RC4",
+        "expectedFullName": "Q10 CLI 隔离实跑：合成小输入走完事件管线（round-trip 门 + 切片落盘 + 词表注记）",
+        "exitCode": 1,
+        "report": "/tmp/codex-q-r3-review.EyEHQD/Q10-RC4-independent-mutant.json",
+        "output": "JSON report written to /tmp/codex-q-r3-review.EyEHQD/Q10-RC4-independent-mutant.json\n/private/tmp/codex-q-r3-review.EyEHQD/counter-probe/packages/pal-extract:\n ERR_PNPM_RECURSIVE_RUN_FIRST_FAIL  @type-pal/pal-extract@0.0.0 test: `vitest run --passWithNoTests src/cli-isolated.glm-q.test.ts --reporter=json --outputFile=/tmp/codex-q-r3-review.EyEHQD/Q10-RC4-independent-mutant.json`\nExit status 1\n"
+      },
+      {
+        "id": "Q10-RC5",
+        "expectedFullName": "Q10 CLI 隔离实跑：合成 DATA.MKF 走完数据表段（逐表落盘 + SPRITEUI/effect blob）",
+        "exitCode": 1,
+        "report": "/tmp/codex-q-r3-review.EyEHQD/Q10-RC5-independent-mutant.json",
+        "output": "JSON report written to /tmp/codex-q-r3-review.EyEHQD/Q10-RC5-independent-mutant.json\n/private/tmp/codex-q-r3-review.EyEHQD/counter-probe/packages/pal-extract:\n ERR_PNPM_RECURSIVE_RUN_FIRST_FAIL  @type-pal/pal-extract@0.0.0 test: `vitest run --passWithNoTests src/cli-isolated.glm-q.test.ts --reporter=json --outputFile=/tmp/codex-q-r3-review.EyEHQD/Q10-RC5-independent-mutant.json`\nExit status 1\n"
+      }
+    ],
+    "reports": [
+      {
+        "id": "Q10-positive",
+        "report": "/tmp/codex-q-r3-review.EyEHQD/Q10-positive.json",
+        "sha256": "753cd52c4788ef531f13a971adf6f0922352438485051dc63942f8eefb7e1990",
+        "total": 3,
+        "passed": 3,
+        "failed": 0,
+        "success": true,
+        "unhandledErrors": [],
+        "tests": [
+          {
+            "file": "packages/pal-extract/src/cli-isolated.glm-q.test.ts",
+            "fullName": "Q10 CLI 隔离实跑：合成小输入走完事件管线（round-trip 门 + 切片落盘 + 词表注记）",
+            "status": "passed",
+            "duration": 292.75020900000004,
+            "failureMessages": []
+          },
+          {
+            "file": "packages/pal-extract/src/cli-isolated.glm-q.test.ts",
+            "fullName": "Q10 CLI 隔离实跑：合成 DATA.MKF 走完数据表段（逐表落盘 + SPRITEUI/effect blob）",
+            "status": "passed",
+            "duration": 241.580625,
+            "failureMessages": []
+          },
+          {
+            "file": "packages/pal-extract/src/cli-isolated.glm-q.test.ts",
+            "fullName": "Q10 CLI 隔离实跑：截断 SSS chunk0 在解析边界精确拒绝且不产出事件文件",
+            "status": "passed",
+            "duration": 228.2750000000001,
+            "failureMessages": []
+          }
+        ]
+      },
+      {
+        "id": "Q10-RC1-independent-mutant",
+        "report": "/tmp/codex-q-r3-review.EyEHQD/Q10-RC1-independent-mutant.json",
+        "sha256": "13bd2f09b929095e95709735647e65571e9bd57b6be47369f1d6839cc2a1ee55",
+        "total": 3,
+        "passed": 2,
+        "failed": 1,
+        "success": false,
+        "unhandledErrors": [],
+        "tests": [
+          {
+            "file": "packages/pal-extract/src/cli-isolated.glm-q.test.ts",
+            "fullName": "Q10 CLI 隔离实跑：合成小输入走完事件管线（round-trip 门 + 切片落盘 + 词表注记）",
+            "status": "passed",
+            "duration": 319.83287500000006,
+            "failureMessages": []
+          },
+          {
+            "file": "packages/pal-extract/src/cli-isolated.glm-q.test.ts",
+            "fullName": "Q10 CLI 隔离实跑：合成 DATA.MKF 走完数据表段（逐表落盘 + SPRITEUI/effect blob）",
+            "status": "failed",
+            "duration": 280.983167,
+            "failureMessages": [
+              "AssertionError: expected [ { id: +0, items: [ 62 ] } ] to deeply equal [ { id: +0, items: [ 61 ] } ]\n    at /private/tmp/codex-q-r3-review.EyEHQD/counter-probe/packages/pal-extract/src/cli-isolated.glm-q.test.ts:250:18\n    at file:///Users/zhangxu/.codex/worktrees/glm-wave-q/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:20"
+            ]
+          },
+          {
+            "file": "packages/pal-extract/src/cli-isolated.glm-q.test.ts",
+            "fullName": "Q10 CLI 隔离实跑：截断 SSS chunk0 在解析边界精确拒绝且不产出事件文件",
+            "status": "passed",
+            "duration": 266.37412499999994,
+            "failureMessages": []
+          }
+        ]
+      },
+      {
+        "id": "Q10-RC2-independent-mutant",
+        "report": "/tmp/codex-q-r3-review.EyEHQD/Q10-RC2-independent-mutant.json",
+        "sha256": "30b9a90d6c0ecef40bc44dcc9c45425b0060ce202736483d9bfd73f1f370b3e0",
+        "total": 3,
+        "passed": 2,
+        "failed": 1,
+        "success": false,
+        "unhandledErrors": [],
+        "tests": [
+          {
+            "file": "packages/pal-extract/src/cli-isolated.glm-q.test.ts",
+            "fullName": "Q10 CLI 隔离实跑：合成小输入走完事件管线（round-trip 门 + 切片落盘 + 词表注记）",
+            "status": "passed",
+            "duration": 264.527667,
+            "failureMessages": []
+          },
+          {
+            "file": "packages/pal-extract/src/cli-isolated.glm-q.test.ts",
+            "fullName": "Q10 CLI 隔离实跑：合成 DATA.MKF 走完数据表段（逐表落盘 + SPRITEUI/effect blob）",
+            "status": "failed",
+            "duration": 272.988875,
+            "failureMessages": [
+              "AssertionError: expected 3 to be 2 // Object.is equality\n    at /private/tmp/codex-q-r3-review.EyEHQD/counter-probe/packages/pal-extract/src/cli-isolated.glm-q.test.ts:257:36\n    at file:///Users/zhangxu/.codex/worktrees/glm-wave-q/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:20"
+            ]
+          },
+          {
+            "file": "packages/pal-extract/src/cli-isolated.glm-q.test.ts",
+            "fullName": "Q10 CLI 隔离实跑：截断 SSS chunk0 在解析边界精确拒绝且不产出事件文件",
+            "status": "passed",
+            "duration": 240.320334,
+            "failureMessages": []
+          }
+        ]
+      },
+      {
+        "id": "Q10-RC3-independent-mutant",
+        "report": "/tmp/codex-q-r3-review.EyEHQD/Q10-RC3-independent-mutant.json",
+        "sha256": "875ded80e5b47ac252dda18f49b3327a4526993a16ce1281db7f2f96c32ac657",
+        "total": 3,
+        "passed": 2,
+        "failed": 1,
+        "success": false,
+        "unhandledErrors": [],
+        "tests": [
+          {
+            "file": "packages/pal-extract/src/cli-isolated.glm-q.test.ts",
+            "fullName": "Q10 CLI 隔离实跑：合成小输入走完事件管线（round-trip 门 + 切片落盘 + 词表注记）",
+            "status": "failed",
+            "duration": 278.61787499999997,
+            "failureMessages": [
+              "AssertionError: expected 62 to be 61 // Object.is equality\n    at /private/tmp/codex-q-r3-review.EyEHQD/counter-probe/packages/pal-extract/src/cli-isolated.glm-q.test.ts:230:23\n    at processTicksAndRejections (node:internal/process/task_queues:103:5)\n    at file:///Users/zhangxu/.codex/worktrees/glm-wave-q/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:20"
+            ]
+          },
+          {
+            "file": "packages/pal-extract/src/cli-isolated.glm-q.test.ts",
+            "fullName": "Q10 CLI 隔离实跑：合成 DATA.MKF 走完数据表段（逐表落盘 + SPRITEUI/effect blob）",
+            "status": "passed",
+            "duration": 291.5305,
+            "failureMessages": []
+          },
+          {
+            "file": "packages/pal-extract/src/cli-isolated.glm-q.test.ts",
+            "fullName": "Q10 CLI 隔离实跑：截断 SSS chunk0 在解析边界精确拒绝且不产出事件文件",
+            "status": "passed",
+            "duration": 272.625541,
+            "failureMessages": []
+          }
+        ]
+      },
+      {
+        "id": "Q10-RC4-independent-mutant",
+        "report": "/tmp/codex-q-r3-review.EyEHQD/Q10-RC4-independent-mutant.json",
+        "sha256": "98af93758ddbefe6e9ae9cb7ff612cfa3d2790dd76c2c6365fcf7b61ed632997",
+        "total": 3,
+        "passed": 2,
+        "failed": 1,
+        "success": false,
+        "unhandledErrors": [],
+        "tests": [
+          {
+            "file": "packages/pal-extract/src/cli-isolated.glm-q.test.ts",
+            "fullName": "Q10 CLI 隔离实跑：合成小输入走完事件管线（round-trip 门 + 切片落盘 + 词表注记）",
+            "status": "failed",
+            "duration": 295.246792,
+            "failureMessages": [
+              "AssertionError: expected 'HELLO MSg' to be 'HELLO MSG' // Object.is equality\n    at /private/tmp/codex-q-r3-review.EyEHQD/counter-probe/packages/pal-extract/src/cli-isolated.glm-q.test.ts:216:33\n    at processTicksAndRejections (node:internal/process/task_queues:103:5)\n    at file:///Users/zhangxu/.codex/worktrees/glm-wave-q/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:20"
+            ]
+          },
+          {
+            "file": "packages/pal-extract/src/cli-isolated.glm-q.test.ts",
+            "fullName": "Q10 CLI 隔离实跑：合成 DATA.MKF 走完数据表段（逐表落盘 + SPRITEUI/effect blob）",
+            "status": "passed",
+            "duration": 281.160958,
+            "failureMessages": []
+          },
+          {
+            "file": "packages/pal-extract/src/cli-isolated.glm-q.test.ts",
+            "fullName": "Q10 CLI 隔离实跑：截断 SSS chunk0 在解析边界精确拒绝且不产出事件文件",
+            "status": "passed",
+            "duration": 268.5782919999999,
+            "failureMessages": []
+          }
+        ]
+      },
+      {
+        "id": "Q10-RC5-independent-mutant",
+        "report": "/tmp/codex-q-r3-review.EyEHQD/Q10-RC5-independent-mutant.json",
+        "sha256": "fa91c0acf7647adde9b18621a83b67ca3573342243a19e990e55c3a1450b829a",
+        "total": 3,
+        "passed": 2,
+        "failed": 1,
+        "success": false,
+        "unhandledErrors": [],
+        "tests": [
+          {
+            "file": "packages/pal-extract/src/cli-isolated.glm-q.test.ts",
+            "fullName": "Q10 CLI 隔离实跑：合成小输入走完事件管线（round-trip 门 + 切片落盘 + 词表注记）",
+            "status": "passed",
+            "duration": 286.047208,
+            "failureMessages": []
+          },
+          {
+            "file": "packages/pal-extract/src/cli-isolated.glm-q.test.ts",
+            "fullName": "Q10 CLI 隔离实跑：合成 DATA.MKF 走完数据表段（逐表落盘 + SPRITEUI/effect blob）",
+            "status": "failed",
+            "duration": 278.44287499999996,
+            "failureMessages": [
+              "AssertionError: expected [ +0, +0, +0, +0, +0, +0, +0, …(92) ] to have a length of 100 but got 99\n    at Proxy.<anonymous> (file:///Users/zhangxu/.codex/worktrees/glm-wave-q/type-pal/node_modules/.pnpm/@vitest+expect@4.1.7/node_modules/@vitest/expect/dist/index.js:1389:20)\n    at Proxy.<anonymous> (file:///Users/zhangxu/.codex/worktrees/glm-wave-q/type-pal/node_modules/.pnpm/@vitest+expect@4.1.7/node_modules/@vitest/expect/dist/index.js:1156:15)\n    at Proxy.methodWrapper (file:///Users/zhangxu/.codex/worktrees/glm-wave-q/type-pal/node_modules/.pnpm/chai@6.2.2/node_modules/chai/index.js:1700:25)\n    at /private/tmp/codex-q-r3-review.EyEHQD/counter-probe/packages/pal-extract/src/cli-isolated.glm-q.test.ts:259:15\n    at processTicksAndRejections (node:internal/process/task_queues:103:5)\n    at file:///Users/zhangxu/.codex/worktrees/glm-wave-q/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:20"
+            ]
+          },
+          {
+            "file": "packages/pal-extract/src/cli-isolated.glm-q.test.ts",
+            "fullName": "Q10 CLI 隔离实跑：截断 SSS chunk0 在解析边界精确拒绝且不产出事件文件",
+            "status": "passed",
+            "duration": 253.1205,
+            "failureMessages": []
+          }
+        ]
+      },
+      {
+        "id": "Q10-independent-restored",
+        "report": "/tmp/codex-q-r3-review.EyEHQD/Q10-independent-restored.json",
+        "sha256": "dbbee4464d92d33ef4ea106927b3179769cb1d369fab6ef150aa279766626d30",
+        "total": 3,
+        "passed": 3,
+        "failed": 0,
+        "success": true,
+        "unhandledErrors": [],
+        "tests": [
+          {
+            "file": "packages/pal-extract/src/cli-isolated.glm-q.test.ts",
+            "fullName": "Q10 CLI 隔离实跑：合成小输入走完事件管线（round-trip 门 + 切片落盘 + 词表注记）",
+            "status": "passed",
+            "duration": 303.131708,
+            "failureMessages": []
+          },
+          {
+            "file": "packages/pal-extract/src/cli-isolated.glm-q.test.ts",
+            "fullName": "Q10 CLI 隔离实跑：合成 DATA.MKF 走完数据表段（逐表落盘 + SPRITEUI/effect blob）",
+            "status": "passed",
+            "duration": 302.727708,
+            "failureMessages": []
+          },
+          {
+            "file": "packages/pal-extract/src/cli-isolated.glm-q.test.ts",
+            "fullName": "Q10 CLI 隔离实跑：截断 SSS chunk0 在解析边界精确拒绝且不产出事件文件",
+            "status": "passed",
+            "duration": 273.69283299999995,
+            "failureMessages": []
+          }
+        ]
+      }
+    ],
+    "restoredCopySHA256": "e46949e5fe6b9fbf92b46b2cc326aaf68fc9d159c6427580d867912baa3d03bd",
+    "candidateSHA256": "e46949e5fe6b9fbf92b46b2cc326aaf68fc9d159c6427580d867912baa3d03bd"
+  },
+  "metadataCounter": {
+    "receiptCandidateHead": "ada23d3e (r3 测试候选树完整 SHA；其后仅 docs-only pin 提交回填本字段)",
+    "isSHA40": false,
+    "expectedTestCandidate": "ada23d3e659f3239d6ac7e65d467711c19d061a9",
+    "note": "r2 测试候选树完整 SHA；其后的 docs-only pin 提交仅回填本字段，不改测试/产品文件（r3 同口径）。",
+    "noteStaleR2": true,
+    "contractsCount": 113,
+    "finalNewCases": 116,
+    "missingContractsBatch": "Q10 (all 3 CLI cases)",
+    "wrongPackageIds": [
+      "C099",
+      "C100",
+      "C101",
+      "C102",
+      "C103",
+      "C104",
+      "C105",
+      "C106",
+      "C107",
+      "C108",
+      "C109",
+      "C110",
+      "C111",
+      "C112",
+      "C113"
+    ],
+    "wrongPackageValue": "reforge",
+    "actualPackage": "game",
+    "requiredLedgerFields": "source/caller/oldAssertion/axis/oracle/classification must be real per-contract anchors, not generic see test source"
+  },
+  "q07Q08Ruling": {
+    "acceptedSpecificProofs": [
+      {
+        "row": "Q08-6",
+        "source": "packages/game/src/core/battle/__tests__/battle-opcodes.test.ts",
+        "lines": [1386, 1436, 1460, 1482],
+        "scope": "summon fill health/scripts/resistance, animation/fallback; transform health/scripts/sound/bottom anchor"
+      },
+      {
+        "row": "Q08-6",
+        "source": "packages/game/src/core/battle/__tests__/battle-system.test.ts",
+        "lines": [3513, 3543],
+        "scope": "single-enemy roster has no free slot; no expansion. Does not prove positive empty-slot reuse merely from name."
+      },
+      {
+        "row": "Q08-8",
+        "source": "packages/game/src/core/battle/__tests__/turn-queue.test.ts",
+        "lines": [9, 23, 35, 63, 69],
+        "scope": "dex sort, dual-move queue, stable tie, empty players/enemies; not whole performAction/selectAction family"
+      },
+      {
+        "row": "Q08-10",
+        "source": "packages/game/src/core/battle/__tests__/battle-system.test.ts",
+        "lines": [145, 160, 1495, 1549],
+        "scope": "enemy/player escape animation/hold/finalize/HP. Not captureEnemy proof."
+      }
+    ],
+    "unresolved": [
+      "ledger lines30/37 still refer to Reforge files under game Q08; these files exist only in packages/reforge/src/battle",
+      "ledger lines53..58 still say all public contracts covered and remaining headless unreachable / whole shrink request, contrary to r3 supplement lines45..49 and README continuation plan",
+      "row8 label includes performAction/selectAction but anchors only buildActionQueue",
+      "row10 label includes flee decision/capture but anchors only escape transitions; add exact existing assertions or classify residuals, do not invent nonexistent API"
+    ],
+    "planAccepted": "Continue typed game driver residual classification and Q10 image pipeline under original scope; only already-proven specific axes may be skipped.",
+    "wholeShrinkAccepted": false,
+    "remainingTargets": {
+      "cases": 700,
+      "groups": 50,
+      "counters": 50,
+      "browserFlows": 10
+    },
+    "actualCases": 116,
+    "submittedCounters": 39,
+    "remainingCaseRunCountBeforeDedup": 584,
+    "remainingCountersBeforeFinalEvidenceAcceptance": 11
+  },
+  "cliPrimaryAnchors": [
+    "packages/pal-extract/src/cli.ts:74-77 source-relative ROOT/RAW/OUT",
+    "packages/pal-extract/src/cli.ts:296-407 DATA tables/spriteUI/blob/dialog output, before RNG image load",
+    "packages/pal-extract/src/resources/parsers/stores.ts:35-53 18-byte records / first-zero truncation",
+    "packages/pal-extract/src/resources/parsers/player-roles.ts:90-112 exact900 / SoA6xWORD",
+    "packages/pal-extract/src/resources/parsers/data-misc.ts:29-35 min100/floorBytes2",
+    "reference/sdlpal/global.h:252,299-303 STORE/PLAYERROLES fields; global.c:292 LOAD_DATA STORE"
+  ],
+  "browserBoundary": "r3 did not change browser evidence relative to b20c8067; old F1 recovery withdrawal remains closed, no repeat visual flow. Do not declare 10 full flows accepted from this r3 code/gate audit.",
+  "productDefect": "D-Q01-1 remains separate REFORGE-OPENING-LOAD-ERROR-1 draft; no product fix permission from test review.",
+  "coverageBoundary": "No new private coverage measurement in this review; child CLI not automatically included in parent V8 coverage; no sum of private percentages, official ratchet or 85% claim.",
+  "skillsUsed": [
+    "vitest (real reporters, typed IO fixtures and single-target business failures)",
+    "pnpm (serialized workspace package gates)"
+  ],
+  "nextOwner": "GLM Q, original wave-Q whitelist; no product/old-test/config/baseline/shared-doc edits, no main/done/active-tree cleanup"
+}

@@ -115,6 +115,8 @@ GLM开工/交付均须再次运行冻结与白名单复核，派发后生产漂�
 
 ## 三个会话
 
+- [Codex Q r3三审](codex-q-r3-review-20261001.md)与[机器证据](codex-q-r3-review-20261001.json)：
+  三包5298绿，旧四针/超时闭合；新五针业务成立但总索引/15格式/回执合同账仍counter，整族缩围未准。
 - [Codex O/P r2二审](codex-op-r2-review-20261001.md)与[机器证据](codex-op-r2-review-20261001.json)：
   全包6057绿；旧P类型桥/双红/区间及O恢复记录已闭合，剩余counter与规模分开登记，两卡仍rework。
 

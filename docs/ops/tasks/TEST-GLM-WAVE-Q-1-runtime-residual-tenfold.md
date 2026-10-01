@@ -147,3 +147,39 @@ Q-R2-03缩围未获准：700合法未重复例/50有效反控保留，连续做�
 只写原Q新测/专属fixture/wave-Q证据；D-Q01-1是独立产品draft，不夹修，不改产品/旧测/配置/官方baseline/O/P/真实数据/E2E/共享文档，也不cherry-pick Codex共享审查提交。
 派发8b3ca062953b17a12178f8d1a9e36657971234b1、冻结3ac9a2e2f6aba8a5cc97640c18fef8549d199380不变；最终实跑JSON与证据一致，串行三个Owner包test/typecheck、根lint完整0/0/0、docs/diff/verifier后推送完整候选SHA与诚实未完账。official ratchet/protected fast/并集结算/合main/done仅Codex。
 ```
+
+## Codex 三审（2026-10-01，r3）
+
+测试候选 `ada23d3e659f3239d6ac7e65d467711c19d061a9`，本地/远端tip
+`efff13afeb0b22f44e45860dfbe38fb39bd59864`；其后确仅receipt pin。
+[r3独立复核](../../testing/glm-tenfold-triple/codex-q-r3-review-20261001.md)、
+[机器证据](../../testing/glm-tenfold-triple/codex-q-r3-review-20261001.json)为最新交接。
+**counter，保持rework**；原700/50不缩，未合main/未done/未正式结算。
+
+- 关闭Q-R2-01旧四针：Q03-RC1～4三态hash/12例报告与最终5f1f78ff audio匹配；
+  全39枚证据复算，未冒称独立执行全部39变异。
+- 关闭Q-R2-02默认超时：CLI无自定义超时，3/3绿；DATA15chunk及mkdtemp隔离公开CLI合同成立。
+- 独立全包5298（2150/2788/360）全绿，16文件116条与directed逐条一致；
+  typecheck×3、docs/diff、716源/429白名单路径零问题。
+- Q-R3-01：Q10五枚meta均匹配最终e46949e5…，总索引却仍30f0d88d…且五个mutantHash也错。
+  独立临时副本五枚均3执行/恰一目标业务红、恢复3/3；只须同步最终索引，业务旧成果保留。
+- Q-R3-02：最终lint15格式error（Q10五枚×三态JSON），不是receipt所称0/0/0；正常格式化后完整重跑。
+- Q-R3-03：receipt candidateHead仍短SHA+说明，Note仍r2；contracts仍113，缺Q10三条，
+  C099～C113 game误记reforge，模板字段须落逐合同锚点。116数量/6+fixture子项已闭合，不重开。
+- Q-R3-04/COMMON-01：Q08第6/8/10行具体旧断言成立，不覆盖整族；
+  第8未给perform/select、第10未给capture，表/结论仍引Reforge及宣称headless不可达，
+  与r3展开计划矛盾。接受继续逐合同展开方向，不批准整体缩围。
+- 浏览器证据r3未改，不重复既有流程；F1撤回仍闭合，D-Q01-1产品draft独立，GLM不得夹修。
+
+### 下一位 GLM Q 提示词（r4，取代上方r3提示词）
+
+```text
+继续 TEST-GLM-WAVE-Q-1，原分支 codex/glm-wave-q-runtime-residual-r1；测试起点ada23d3e659f3239d6ac7e65d467711c19d061a9，docs-only tip efff13afeb0b22f44e45860dfbe38fb39bd59864。当前rework，700/50不缩，不合main、不标done。
+先读 /Users/zhangxu/.codex/worktrees/glm-lmn-acceptance/type-pal/docs/ops/tasks/TEST-GLM-WAVE-Q-1-runtime-residual-tenfold.md 的r3三审段及所链codex-q-r3-review-20261001.md/json，再读共同协议与GLM自检。
+Q03四针hash、CLI默认超时与DATA隔离合同已关闭，不重复返工。Q10五枚Codex临时副本均已真实复现单目标业务红；保留meta/JSON成果，以最终meta重建counters.json并断言全部39枚index/meta/实际original-mutant-restored SHA256对应。测试源不变则只修索引，不重造业务；源再变才按最终文件真实重采。
+正常格式化Q10五枚三态JSON（15诊断），重核登记证据hash，根lint必须完整0/0/0。receipt candidateHead只能完整40位测试提交SHA，docs-only说明仅在独立Note并改r3/r4正确口径；最后结果按最终树更新，不能拿2925零诊断旧报告冒称当前通过。
+contracts补三条Q10事件/截断/DATA合同并将C099～C113的package修game；每条 source/caller/oldAssertion/axis/精确oracle/classification落真实锚点，file/fullName对齐最终实跑，不用模板替代逐合同排重。
+Q08第6/8/10的具体旧证据认可，不重造；第6无空槽测试不能扩成全部正向槽复用，第8sorting不能代perform/select，第10escape动画不能代capture/flee全族。同步ledger表/结论，撤掉game行Reforge证明与未证headless不可达泛化，执行typed game driver/其它余族逐条件展开计划；缺合法输入逐项举证申请，700合法未重复例/50组/50有效反控/10真实非剧情流程仍保留，不灌水、不扩原版真值。
+只写原Q新测/专属fixture/wave-Q证据；D-Q01-1另卡draft不夹修。派发8b3ca062953b17a12178f8d1a9e36657971234b1、冻结3ac9a2e2f6aba8a5cc97640c18fef8549d199380不变，不cherry-pick共享Codex审查提交，不改基点绕白名单。
+最后串行reforge/game/pal-extract全包test/typecheck、根lint完整0/0/0、docs/区间diff/verifier；最终directed file×fullName×status与实跑对应，推送完整40位新候选及诚实未完账。产品/旧測/配置/baseline/O/P/共享文档/真实数据/E2E只读；official ratchet/protected fast/并集结算/合main/done及清树仅Codex，不自行操作。
+```

@@ -11,6 +11,7 @@
 - [GLM 十倍三条独立大包 O–Q](glm-tenfold-triple/README.md)（2026-09-30；每卡700合法新例/50反控，716源按包独占；O优先补migrate门，正式收益待并集实测）。
 - [O/P/Q 独立复核与返工](glm-tenfold-triple/codex-review-20261001.md)（2026-10-01；457新例实跑绿，三卡部分交付及硬性counter，均rework，未合main/未结算）。
 - [Q r2独立复核](glm-tenfold-triple/codex-q-r2-review-20261001.md)（2026-10-01；三包5297绿、115逐例一致，四针hash/CLI超时/缩围仍counter；读档IO缺陷另列draft）。
+- [Q r3独立复核](glm-tenfold-triple/codex-q-r3-review-20261001.md)（2026-10-01；5298全绿、116逐例一致；旧四针/默认超时/DATA合同关闭，五针索引/15格式/回执合同账仍counter）。
 - [O/P r2独立复核](glm-tenfold-triple/codex-op-r2-review-20261001.md)（2026-10-01；四包6057绿、401/70逐例对应；O类型/格式/合同与P判据/patch/视觉仍counter，旧P双红已关闭）。
 - [GLM 三条独立大包 L–N](glm-next-triple/README.md)（2026-09-30 代码accept；18组/62源与A–K零交集；全仓ratchet阻塞，尚未done/正式结算）。
 - [GLM Wave K 一阶段事件系统六组当前脚本合同](glm-event-wave-k/README.md)（Codex 独立接收并 done；正式基线净增 55 分支，全仓 78.21%，85% 未达）。
