@@ -1,6 +1,6 @@
 {
-  "numTotalTests": 493,
-  "passed": 493,
+  "numTotalTests": 478,
+  "passed": 478,
   "failed": 0,
   "tests": [
     {
@@ -1355,22 +1355,7 @@
     },
     {
       "file": "packages/content/src/ambience-skill.glm-o.test.ts",
-      "fullName": "O09 resolveDialogueIdentity：身份残余轴 unbound：speaker/portrait 声明性透传（浅拷贝 portrait）",
-      "status": "passed"
-    },
-    {
-      "file": "packages/content/src/ambience-skill.glm-o.test.ts",
-      "fullName": "O09 resolveDialogueIdentity：身份残余轴 actor 绑定 default 缺 portraits.default → 精确诊断",
-      "status": "passed"
-    },
-    {
-      "file": "packages/content/src/ambience-skill.glm-o.test.ts",
-      "fullName": "O09 resolveDialogueIdentity：身份残余轴 actor 绑定未知表情 → 精确表情诊断；命中表情 → 资源+side",
-      "status": "passed"
-    },
-    {
-      "file": "packages/content/src/ambience-skill.glm-o.test.ts",
-      "fullName": "O09 resolveDialogueIdentity：身份残余轴 speakerOverride 覆盖 actor.name；无声明时 speaker=actor.name",
+      "fullName": "O09 resolveDialogueIdentity：合法 unbound 透传 unbound：speaker/portrait 声明性透传（浅拷贝 portrait）",
       "status": "passed"
     },
     {
@@ -1705,47 +1690,7 @@
     },
     {
       "file": "packages/content/src/hidden-exp-grid.glm-o.test.ts",
-      "fullName": "O08 applyHiddenExp：隐藏经验池 全零计数 → 空报告且不动角色",
-      "status": "passed"
-    },
-    {
-      "file": "packages/content/src/hidden-exp-grid.glm-o.test.ts",
-      "fullName": "O08 applyHiddenExp：隐藏经验池 单属性全量入池：比例分配 = 100%、×2 加成、阈值升级循环",
-      "status": "passed"
-    },
-    {
-      "file": "packages/content/src/hidden-exp-grid.glm-o.test.ts",
-      "fullName": "O08 applyHiddenExp：隐藏经验池 多属性按计数比例分配；未计数属性池初始化但零经验",
-      "status": "passed"
-    },
-    {
-      "file": "packages/content/src/hidden-exp-grid.glm-o.test.ts",
-      "fullName": "O08 applyHiddenExp：隐藏经验池 池经验 WORD 截断（exp & 0xffff）",
-      "status": "passed"
-    },
-    {
-      "file": "packages/content/src/hidden-exp-grid.glm-o.test.ts",
-      "fullName": "O08 applyHiddenExp：隐藏经验池 rng=1 上界：每级 inc=2",
-      "status": "passed"
-    },
-    {
-      "file": "packages/content/src/hidden-exp-grid.glm-o.test.ts",
-      "fullName": "O09 菱形格几何：唯一反解与 height 语义 gridToPixel 公式 x=16(col−row), y=8(col+row)",
-      "status": "passed"
-    },
-    {
-      "file": "packages/content/src/hidden-exp-grid.glm-o.test.ts",
-      "fullName": "O09 菱形格几何：唯一反解与 height 语义 pixelToGrid 是 gridToPixel 的唯一反解（站位像素）",
-      "status": "passed"
-    },
-    {
-      "file": "packages/content/src/hidden-exp-grid.glm-o.test.ts",
-      "fullName": "O09 菱形格几何：唯一反解与 height 语义 height 不投影进格坐标；spriteScreenY 每级 -16px",
-      "status": "passed"
-    },
-    {
-      "file": "packages/content/src/hidden-exp-grid.glm-o.test.ts",
-      "fullName": "O09 菱形格几何：唯一反解与 height 语义 pixelDeltaToGridDelta 保留小数（碎步位移不取整）",
+      "fullName": "O08 applyHiddenExp：池经验 WORD 截断 池 exp 超 0xffff 时按位与截断（100000 → 34464），未截断值不可能出现",
       "status": "passed"
     },
     {
@@ -1910,32 +1855,12 @@
     },
     {
       "file": "packages/content/src/rewards-lifecycle.glm-o.test.ts",
-      "fullName": "O08 applyLevelGrowth：钳位与确定性区间 每级固定+2 luck（无随机）；rng=0/1 区间上下界",
-      "status": "passed"
-    },
-    {
-      "file": "packages/content/src/rewards-lifecycle.glm-o.test.ts",
-      "fullName": "O08 applyLevelGrowth：钳位与确定性区间 等级钳 MAX_LEVEL=99；属性钳 STAT_CAP=999",
+      "fullName": "O08 applyLevelGrowth：钳位与确定性区间 每级固定+2 luck（无随机）；rng=0/1 区间上下界（未钳位精确值）",
       "status": "passed"
     },
     {
       "file": "packages/content/src/rewards-lifecycle.glm-o.test.ts",
       "fullName": "O08 applyLevelGrowth：钳位与确定性区间 多级累积：每级独立掷随机",
-      "status": "passed"
-    },
-    {
-      "file": "packages/content/src/rewards-lifecycle.glm-o.test.ts",
-      "fullName": "O09 normalizeEntityLifecycleTable：引用闭包与不可变 合法表深拷贝返回（输入 entry 不被别名共享）",
-      "status": "passed"
-    },
-    {
-      "file": "packages/content/src/rewards-lifecycle.glm-o.test.ts",
-      "fullName": "O09 normalizeEntityLifecycleTable：引用闭包与不可变 undefined 表 → 空表（缺表即正常）",
-      "status": "passed"
-    },
-    {
-      "file": "packages/content/src/rewards-lifecycle.glm-o.test.ts",
-      "fullName": "O09 normalizeEntityLifecycleTable：引用闭包与不可变 未知 scene id / 未知 entity id → 精确诊断",
       "status": "passed"
     },
     {

@@ -1,7 +1,7 @@
 {
   "judgeSource": "counter-judge.mjs@729d554d0（O-R9-01 判据：路径归一化保留完整 packages/包/子路径 + 顶层执行数闭合 + 逐相状态政策）",
-  "total": 67,
-  "pass": 67,
+  "total": 64,
+  "pass": 64,
   "flagged": [],
   "verdicts": [
     {
@@ -185,11 +185,6 @@
       "reasons": []
     },
     {
-      "id": "O08-CC11",
-      "verdict": "pass",
-      "reasons": []
-    },
-    {
       "id": "O08-CC2",
       "verdict": "pass",
       "reasons": []
@@ -241,16 +236,6 @@
     },
     {
       "id": "O09-CC16",
-      "verdict": "pass",
-      "reasons": []
-    },
-    {
-      "id": "O09-CC17",
-      "verdict": "pass",
-      "reasons": []
-    },
-    {
-      "id": "O09-CC18",
       "verdict": "pass",
       "reasons": []
     },

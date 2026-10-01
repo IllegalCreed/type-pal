@@ -1,16 +1,19 @@
 {
-  "total": 67,
-  "uniqueIds": 67,
-  "distinctTargets": 65,
+  "total": 64,
+  "uniqueIds": 64,
+  "distinctTargets": 62,
   "rule": "三态（counter-judge.mjs 唯一判据）；62 枚重采 + 7 枚新批次（O09-CC14~18、O08-CC10/11）",
   "retired": [
     "O08-CC8",
     "O08-CC9",
     "O09-CC13",
     "O09-CC14",
-    "O09-CC15"
+    "O09-CC15",
+    "O09-CC17",
+    "O09-CC18",
+    "O08-CC11"
   ],
-  "retiredNote": "目标测试已删（O-R9-03 去重删除 ambience 四轴中两枚被反控覆盖的），五枚退役仅保留历史证据目录；其余按 re-adjudication.json 以当前 judge 再判定保留",
+  "retiredNote": "目标测试被去重删除（O-R9 续审：8 枚退役仅保留历史证据目录；O09-CC17/CC18、O08-CC11 于 a89e49d73 删除重复目标）",
   "counters": [
     {
       "id": "O01-CC1",
@@ -1246,22 +1249,22 @@
       },
       "control": {
         "exitCode": 0,
-        "executed": 7,
-        "passed": 7,
+        "executed": 3,
+        "passed": 3,
         "failed": 0
       },
       "injected": {
         "exitCode": 1,
-        "executed": 7,
-        "passed": 6,
+        "executed": 3,
+        "passed": 2,
         "failed": 1,
         "failedFullName": "O08 applyLevelGrowth：钳位与确定性区间 负级/零级 → 不改任何属性，delta 全 0",
         "failureMessageHead": "AssertionError: expected { level: 1, maxHP: 10, maxMP: 8, …(5) } to deeply equal { level: +0, maxHP: +0, …(6) }"
       },
       "restored": {
         "exitCode": 0,
-        "executed": 7,
-        "passed": 7,
+        "executed": 3,
+        "passed": 3,
         "failed": 0
       },
       "hashes": {
@@ -1269,41 +1272,6 @@
         "mutated": "52facc55032c55c95bb5b2eb9adfae143952ecc368cd0ef95258de580f26a873",
         "restored": "91285c8478a3426b645fbb795459f1daac88e1b2c55d807cfcf2b1ed8e5b2496",
         "rebuilt": "52facc55032c55c95bb5b2eb9adfae143952ecc368cd0ef95258de580f26a873"
-      },
-      "patchRebuiltAndVerified": true
-    },
-    {
-      "id": "O08-CC11",
-      "contract": "applyHiddenExp 零计数短路",
-      "target": {
-        "file": "src/hidden-exp-grid.glm-o.test.ts",
-        "title": "全零计数 → 空报告且不动角色"
-      },
-      "control": {
-        "exitCode": 0,
-        "executed": 9,
-        "passed": 9,
-        "failed": 0
-      },
-      "injected": {
-        "exitCode": 1,
-        "executed": 9,
-        "passed": 8,
-        "failed": 1,
-        "failedFullName": "O08 applyHiddenExp：隐藏经验池 全零计数 → 空报告且不动角色",
-        "failureMessageHead": "AssertionError: expected [ { characterId: 'hero', …(2) }, …(6) ] to deeply equal []"
-      },
-      "restored": {
-        "exitCode": 0,
-        "executed": 9,
-        "passed": 9,
-        "failed": 0
-      },
-      "hashes": {
-        "original": "91285c8478a3426b645fbb795459f1daac88e1b2c55d807cfcf2b1ed8e5b2496",
-        "mutated": "90249b487bf40c5cbaf7295db2e9676795168b5215733219ce371c965d5260f3",
-        "restored": "91285c8478a3426b645fbb795459f1daac88e1b2c55d807cfcf2b1ed8e5b2496",
-        "rebuilt": "90249b487bf40c5cbaf7295db2e9676795168b5215733219ce371c965d5260f3"
       },
       "patchRebuiltAndVerified": true
     },
@@ -1666,22 +1634,22 @@
       },
       "control": {
         "exitCode": 0,
-        "executed": 8,
-        "passed": 8,
+        "executed": 5,
+        "passed": 5,
         "failed": 0
       },
       "injected": {
         "exitCode": 1,
-        "executed": 8,
-        "passed": 7,
+        "executed": 5,
+        "passed": 4,
         "failed": 1,
         "failedFullName": "O09 resolveSkillExecution / authoredSkillExecutionLayers authoredSkillExecutionLayers：base 恒在 + 两个显式 override 按序追加",
         "failureMessageHead": "AssertionError: expected [ 'base', 'enemy', 'player' ] to deeply equal [ 'base', 'player', 'enemy' ]"
       },
       "restored": {
         "exitCode": 0,
-        "executed": 8,
-        "passed": 8,
+        "executed": 5,
+        "passed": 5,
         "failed": 0
       },
       "hashes": {
@@ -1689,76 +1657,6 @@
         "mutated": "311fd72f36aac12771d7d8f6a164fe57db558ea92d4dbbc9c2a77e28c38fab58",
         "restored": "1d5a0e3ee89618713fa4b7a50f0fe8df7f89d339377dbc44326c4208ab7d003c",
         "rebuilt": "311fd72f36aac12771d7d8f6a164fe57db558ea92d4dbbc9c2a77e28c38fab58"
-      },
-      "patchRebuiltAndVerified": true
-    },
-    {
-      "id": "O09-CC17",
-      "contract": "normalizeEntityLifecycleTable 未知 entity",
-      "target": {
-        "file": "src/rewards-lifecycle.glm-o.test.ts",
-        "title": "未知 scene id / 未知 entity id → 精确诊断"
-      },
-      "control": {
-        "exitCode": 0,
-        "executed": 7,
-        "passed": 7,
-        "failed": 0
-      },
-      "injected": {
-        "exitCode": 1,
-        "executed": 7,
-        "passed": 6,
-        "failed": 1,
-        "failedFullName": "O09 normalizeEntityLifecycleTable：引用闭包与不可变 未知 scene id / 未知 entity id → 精确诊断",
-        "failureMessageHead": "AssertionError: expected [Function] to throw an error"
-      },
-      "restored": {
-        "exitCode": 0,
-        "executed": 7,
-        "passed": 7,
-        "failed": 0
-      },
-      "hashes": {
-        "original": "eba9caaf60260067ddae40b769dbec9f1afe631a18f7e7ff2e81b718ad86054e",
-        "mutated": "26d17f38190332f6762a8496da4b6ed4c2da155c38136f9db149510976c6922a",
-        "restored": "eba9caaf60260067ddae40b769dbec9f1afe631a18f7e7ff2e81b718ad86054e",
-        "rebuilt": "26d17f38190332f6762a8496da4b6ed4c2da155c38136f9db149510976c6922a"
-      },
-      "patchRebuiltAndVerified": true
-    },
-    {
-      "id": "O09-CC18",
-      "contract": "pixelToGrid 唯一反解",
-      "target": {
-        "file": "src/hidden-exp-grid.glm-o.test.ts",
-        "title": "pixelToGrid 是 gridToPixel 的唯一反解（站位像素）"
-      },
-      "control": {
-        "exitCode": 0,
-        "executed": 9,
-        "passed": 9,
-        "failed": 0
-      },
-      "injected": {
-        "exitCode": 1,
-        "executed": 9,
-        "passed": 8,
-        "failed": 1,
-        "failedFullName": "O09 菱形格几何：唯一反解与 height 语义 pixelToGrid 是 gridToPixel 的唯一反解（站位像素）",
-        "failureMessageHead": "AssertionError: expected { col: 1, row: 3 } to deeply equal { col: 3, row: 1 }"
-      },
-      "restored": {
-        "exitCode": 0,
-        "executed": 9,
-        "passed": 9,
-        "failed": 0
-      },
-      "hashes": {
-        "original": "3cb90d5b58af9c824f7d772cdc79753b962627f2fb8c02b59284f98158f766e6",
-        "mutated": "693ed867851aa96fa3d2a3258631db8cf1062b81f95c037fc69b070d3f1d5737",
-        "restored": "3cb90d5b58af9c824f7d772cdc79753b962627f2fb8c02b59284f98158f766e6",
-        "rebuilt": "693ed867851aa96fa3d2a3258631db8cf1062b81f95c037fc69b070d3f1d5737"
       },
       "patchRebuiltAndVerified": true
     },
@@ -2360,7 +2258,7 @@
   ],
   "reAdjudication": {
     "judge": "counter-judge.mjs@729d554d0（O-R9-01 判据）",
-    "result": "67/67 live pass（re-adjudication.json；O09-CC16 因 ambience 文件执行集变化已按规则重采）",
+    "result": "64/64 live pass（re-adjudication.json；CC10/CC16 于 a89e49d73 去重后重采；8 枚退役）",
     "evidence": "re-adjudication.json"
   }
 }
