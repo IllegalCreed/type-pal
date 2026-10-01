@@ -1,19 +1,19 @@
 {
-  "id": "Q08-8b-RC2",
+  "id": "Q08-8b-RC7",
   "file": "packages/game/src/battle-action-error-arms.glm-q.test.ts",
-  "targetFullName": "Q08-8b performMagic caster 缺失臂 caster role 不在 playerRoles：warn + 不扣 MP + 不 emit + 不跑脚本",
-  "targetNameSubstring": "caster role 不在 playerRoles",
-  "axis": "输入轴单轴变异：playerRoles 补入 caster role（合法表内容）；断言不动。",
+  "targetFullName": "Q08-8b pickAutoMagic 展开批（typed rgwMagic 投影链；Q-R5-03 撤回 blocked-input） costMP=1 哨兵（sdlpal 特殊免耗位）→ 跳过不选；合法耗魔法术正常入选",
+  "targetNameSubstring": "costMP=1 哨兵",
+  "axis": "输入轴单轴变异：costMP=1 哨兵法术改 costMP=2（合法耗魔值，威力择优应改选 baseDamage 高的 297）；断言不动。",
   "sha256": {
     "original": "33f8a61f64898de69ece86c3134e3eae97ca50ac6c2df41897f1a1412156b3a5",
-    "mutated": "ccca1fc758f771159ff84bc96c7f4cab7fba04f1f8d5c5a58e7ae3910c726f9c",
+    "mutated": "64870171900181515f3e435ad1a5235ac5346261ddd049d87fbfaf794861d1bf",
     "restored": "33f8a61f64898de69ece86c3134e3eae97ca50ac6c2df41897f1a1412156b3a5"
   },
   "restoredHashUnchanged": true,
   "criteria": {
     "positiveGreen": true,
     "mutantExactlyOneTargetRed": true,
-    "targetAssertionError": "AssertionError: expected \"warn\" to be called with arguments: [ StringContaining{…} ]",
+    "targetAssertionError": "AssertionError: expected 296 to be 297 // Object.is equality",
     "restoredGreen": true,
     "restoredSameExecutionCount": true,
     "hashesMatchFinalCandidate": true
@@ -27,8 +27,8 @@
         "numFailedTests": 0,
         "success": true
       },
-      "json": "Q08-8b-RC2.positive.json",
-      "raw": "Q08-8b-RC2.positive.txt"
+      "json": "Q08-8b-RC7.positive.json",
+      "raw": "Q08-8b-RC7.positive.txt"
     },
     "mutant": {
       "exitCode": 1,
@@ -38,8 +38,8 @@
         "numFailedTests": 1,
         "success": false
       },
-      "json": "Q08-8b-RC2.mutant.json",
-      "raw": "Q08-8b-RC2.mutant.txt"
+      "json": "Q08-8b-RC7.mutant.json",
+      "raw": "Q08-8b-RC7.mutant.txt"
     },
     "restored": {
       "exitCode": 0,
@@ -49,8 +49,8 @@
         "numFailedTests": 0,
         "success": true
       },
-      "json": "Q08-8b-RC2.restored.json",
-      "raw": "Q08-8b-RC2.restored.txt"
+      "json": "Q08-8b-RC7.restored.json",
+      "raw": "Q08-8b-RC7.restored.txt"
     }
   },
   "verdict": "VALID"

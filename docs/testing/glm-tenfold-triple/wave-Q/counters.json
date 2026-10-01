@@ -1,5 +1,5 @@
 {
-  "count": 44,
+  "count": 45,
   "allValid": true,
   "hashVerification": "index 条目由最终 per-counter meta 生成；original/restored 与候选树实际文件 SHA256 逐枚断言相等（构建时校验，mismatch 即失败）",
   "perCounter": [
@@ -2233,9 +2233,9 @@
       "targetNameSubstring": "caster 索引越界",
       "axis": "输入轴单轴变异：performMagic caster 索引 9→0（合法界内 caster，MP 足额）；断言不动。",
       "sha256": {
-        "original": "7e48e9e4332d99c35882b049528e92f6b02e653d2b7ad90dca1e934a74ab77af",
-        "mutated": "511b8110bab981fa66a73d481c88df87559c9f36488b13b803d69684b7dfe6e5",
-        "restored": "7e48e9e4332d99c35882b049528e92f6b02e653d2b7ad90dca1e934a74ab77af"
+        "original": "33f8a61f64898de69ece86c3134e3eae97ca50ac6c2df41897f1a1412156b3a5",
+        "mutated": "43b80f9eda03dd1b5be5223bb269120e49b70f14a5396871577af43bf345e37c",
+        "restored": "33f8a61f64898de69ece86c3134e3eae97ca50ac6c2df41897f1a1412156b3a5"
       },
       "restoredHashUnchanged": true,
       "criteria": {
@@ -2250,8 +2250,8 @@
         "positive": {
           "exitCode": 0,
           "summary": {
-            "numTotalTests": 7,
-            "numPassedTests": 7,
+            "numTotalTests": 12,
+            "numPassedTests": 12,
             "numFailedTests": 0,
             "success": true
           },
@@ -2261,8 +2261,8 @@
         "mutant": {
           "exitCode": 1,
           "summary": {
-            "numTotalTests": 7,
-            "numPassedTests": 6,
+            "numTotalTests": 12,
+            "numPassedTests": 11,
             "numFailedTests": 1,
             "success": false
           },
@@ -2272,8 +2272,8 @@
         "restored": {
           "exitCode": 0,
           "summary": {
-            "numTotalTests": 7,
-            "numPassedTests": 7,
+            "numTotalTests": 12,
+            "numPassedTests": 12,
             "numFailedTests": 0,
             "success": true
           },
@@ -2290,9 +2290,9 @@
       "targetNameSubstring": "caster role 不在 playerRoles",
       "axis": "输入轴单轴变异：playerRoles 补入 caster role（合法表内容）；断言不动。",
       "sha256": {
-        "original": "7e48e9e4332d99c35882b049528e92f6b02e653d2b7ad90dca1e934a74ab77af",
-        "mutated": "82fdd8229093c00f21abc12275b5eefa5ffb810ada6d14899dbc053abc824c0e",
-        "restored": "7e48e9e4332d99c35882b049528e92f6b02e653d2b7ad90dca1e934a74ab77af"
+        "original": "33f8a61f64898de69ece86c3134e3eae97ca50ac6c2df41897f1a1412156b3a5",
+        "mutated": "ccca1fc758f771159ff84bc96c7f4cab7fba04f1f8d5c5a58e7ae3910c726f9c",
+        "restored": "33f8a61f64898de69ece86c3134e3eae97ca50ac6c2df41897f1a1412156b3a5"
       },
       "restoredHashUnchanged": true,
       "criteria": {
@@ -2307,8 +2307,8 @@
         "positive": {
           "exitCode": 0,
           "summary": {
-            "numTotalTests": 7,
-            "numPassedTests": 7,
+            "numTotalTests": 12,
+            "numPassedTests": 12,
             "numFailedTests": 0,
             "success": true
           },
@@ -2318,8 +2318,8 @@
         "mutant": {
           "exitCode": 1,
           "summary": {
-            "numTotalTests": 7,
-            "numPassedTests": 6,
+            "numTotalTests": 12,
+            "numPassedTests": 11,
             "numFailedTests": 1,
             "success": false
           },
@@ -2329,8 +2329,8 @@
         "restored": {
           "exitCode": 0,
           "summary": {
-            "numTotalTests": 7,
-            "numPassedTests": 7,
+            "numTotalTests": 12,
+            "numPassedTests": 12,
             "numFailedTests": 0,
             "success": true
           },
@@ -2341,72 +2341,15 @@
       "verdict": "VALID"
     },
     {
-      "id": "Q08-8b-RC3",
-      "file": "packages/game/src/battle-action-error-arms.glm-q.test.ts",
-      "targetFullName": "Q08-8b 无 inventory 资源臂（item / throw-item） performItem 队员库存缺 entry：warn + 不跑 scriptOnUse",
-      "targetNameSubstring": "队员库存缺 entry",
-      "axis": "输入轴单轴变异：performItem 用例在断言前补合法库存（count=1）；断言不动。",
-      "sha256": {
-        "original": "7e48e9e4332d99c35882b049528e92f6b02e653d2b7ad90dca1e934a74ab77af",
-        "mutated": "b4e05f229fcb6b51c88ee8b7bb81b3f4844cf3f9666dd65b99bbd65ffa1cc7a3",
-        "restored": "7e48e9e4332d99c35882b049528e92f6b02e653d2b7ad90dca1e934a74ab77af"
-      },
-      "restoredHashUnchanged": true,
-      "criteria": {
-        "positiveGreen": true,
-        "mutantExactlyOneTargetRed": true,
-        "targetAssertionError": "AssertionError: expected [ { itemId: 117, count: 1 } ] to deeply equal []",
-        "restoredGreen": true,
-        "restoredSameExecutionCount": true,
-        "hashesMatchFinalCandidate": true
-      },
-      "runs": {
-        "positive": {
-          "exitCode": 0,
-          "summary": {
-            "numTotalTests": 7,
-            "numPassedTests": 7,
-            "numFailedTests": 0,
-            "success": true
-          },
-          "json": "Q08-8b-RC3.positive.json",
-          "raw": "Q08-8b-RC3.positive.txt"
-        },
-        "mutant": {
-          "exitCode": 1,
-          "summary": {
-            "numTotalTests": 7,
-            "numPassedTests": 6,
-            "numFailedTests": 1,
-            "success": false
-          },
-          "json": "Q08-8b-RC3.mutant.json",
-          "raw": "Q08-8b-RC3.mutant.txt"
-        },
-        "restored": {
-          "exitCode": 0,
-          "summary": {
-            "numTotalTests": 7,
-            "numPassedTests": 7,
-            "numFailedTests": 0,
-            "success": true
-          },
-          "json": "Q08-8b-RC3.restored.json",
-          "raw": "Q08-8b-RC3.restored.txt"
-        }
-      },
-      "verdict": "VALID"
-    },
-    {
       "id": "Q08-8b-RC4",
       "file": "packages/game/src/battle-action-error-arms.glm-q.test.ts",
-      "targetFullName": "Q08-8b 无 inventory 资源臂（item / throw-item） performThrowItem 队员无 inventory：warn + 不跑 scriptOnThrow + 不 emit",
+      "targetFullName": "Q08-8b 无 inventory 资源臂（throw-item；performItem 同族由 actions.test.ts:2317-2371 已证，Q-R5-02 删重） performThrowItem 队员无 inventory：warn + 不跑 scriptOnThrow + 不 emit",
       "targetNameSubstring": "队员无 inventory",
       "axis": "输入轴单轴变异：performThrowItem 用例补合法库存（count=2）；断言不动。",
       "sha256": {
-        "original": "7e48e9e4332d99c35882b049528e92f6b02e653d2b7ad90dca1e934a74ab77af",
-        "mutated": "e081510d87c2d3c4eb91795988f3de9b20e7dca4ad67e42c37c3819cce78543d",
-        "restored": "7e48e9e4332d99c35882b049528e92f6b02e653d2b7ad90dca1e934a74ab77af"
+        "original": "33f8a61f64898de69ece86c3134e3eae97ca50ac6c2df41897f1a1412156b3a5",
+        "mutated": "9b3292a4b26d4719a5dbb941faf06d58e128d0511b4bf59ae6e7ddbf37fe9e50",
+        "restored": "33f8a61f64898de69ece86c3134e3eae97ca50ac6c2df41897f1a1412156b3a5"
       },
       "restoredHashUnchanged": true,
       "criteria": {
@@ -2421,8 +2364,8 @@
         "positive": {
           "exitCode": 0,
           "summary": {
-            "numTotalTests": 7,
-            "numPassedTests": 7,
+            "numTotalTests": 12,
+            "numPassedTests": 12,
             "numFailedTests": 0,
             "success": true
           },
@@ -2432,8 +2375,8 @@
         "mutant": {
           "exitCode": 1,
           "summary": {
-            "numTotalTests": 7,
-            "numPassedTests": 6,
+            "numTotalTests": 12,
+            "numPassedTests": 11,
             "numFailedTests": 1,
             "success": false
           },
@@ -2443,8 +2386,8 @@
         "restored": {
           "exitCode": 0,
           "summary": {
-            "numTotalTests": 7,
-            "numPassedTests": 7,
+            "numTotalTests": 12,
+            "numPassedTests": 12,
             "numFailedTests": 0,
             "success": true
           },
@@ -2459,11 +2402,11 @@
       "file": "packages/game/src/battle-action-error-arms.glm-q.test.ts",
       "targetFullName": "Q08-8b selectAutoTargetFrom 未覆盖条件臂 begin<0 规范化为从 0 起扫首个活敌",
       "targetNameSubstring": "begin<0 规范化为从 0 起扫首个活敌",
-      "axis": "输入轴单轴变异：begin<0 用例首敌改存活（合法生命值，扫描应命中 0 而非 1）；断言不动。",
+      "axis": "输入轴单轴变异：begin<0 用例首敌 slot(50)→slot(0)（合法生命值，全死扫描应返回 -1）；断言不动。",
       "sha256": {
-        "original": "7e48e9e4332d99c35882b049528e92f6b02e653d2b7ad90dca1e934a74ab77af",
-        "mutated": "7027674111b14818c9642f6cfef06c0c0e0b84130292817496b32d4cac4cf9f8",
-        "restored": "7e48e9e4332d99c35882b049528e92f6b02e653d2b7ad90dca1e934a74ab77af"
+        "original": "33f8a61f64898de69ece86c3134e3eae97ca50ac6c2df41897f1a1412156b3a5",
+        "mutated": "741d6e26097db233fef0f1ee6ffe94ff254d952b17587f322ace59bac1a3bd41",
+        "restored": "33f8a61f64898de69ece86c3134e3eae97ca50ac6c2df41897f1a1412156b3a5"
       },
       "restoredHashUnchanged": true,
       "criteria": {
@@ -2478,8 +2421,8 @@
         "positive": {
           "exitCode": 0,
           "summary": {
-            "numTotalTests": 7,
-            "numPassedTests": 7,
+            "numTotalTests": 12,
+            "numPassedTests": 12,
             "numFailedTests": 0,
             "success": true
           },
@@ -2489,8 +2432,8 @@
         "mutant": {
           "exitCode": 1,
           "summary": {
-            "numTotalTests": 7,
-            "numPassedTests": 6,
+            "numTotalTests": 12,
+            "numPassedTests": 11,
             "numFailedTests": 1,
             "success": false
           },
@@ -2500,13 +2443,127 @@
         "restored": {
           "exitCode": 0,
           "summary": {
-            "numTotalTests": 7,
-            "numPassedTests": 7,
+            "numTotalTests": 12,
+            "numPassedTests": 12,
             "numFailedTests": 0,
             "success": true
           },
           "json": "Q08-8b-RC5.restored.json",
           "raw": "Q08-8b-RC5.restored.txt"
+        }
+      },
+      "verdict": "VALID"
+    },
+    {
+      "id": "Q08-8b-RC6",
+      "file": "packages/game/src/battle-action-error-arms.glm-q.test.ts",
+      "targetFullName": "Q08-8b pickAutoMagic 展开批（typed rgwMagic 投影链；Q-R5-03 撤回 blocked-input） silence>0 → 直接返回 0（物理攻击），不查法术表",
+      "targetNameSubstring": "silence>0 → 直接返回 0",
+      "axis": "输入轴单轴变异：silence 用例 autoState(3)→autoState()（合法状态值 0，法术应可选入 297）；断言不动。",
+      "sha256": {
+        "original": "33f8a61f64898de69ece86c3134e3eae97ca50ac6c2df41897f1a1412156b3a5",
+        "mutated": "f92f05c47dc3bc220377e9872a4eaef07c9f90829e06e8a60ef857c6d137ae3f",
+        "restored": "33f8a61f64898de69ece86c3134e3eae97ca50ac6c2df41897f1a1412156b3a5"
+      },
+      "restoredHashUnchanged": true,
+      "criteria": {
+        "positiveGreen": true,
+        "mutantExactlyOneTargetRed": true,
+        "targetAssertionError": "AssertionError: expected 297 to be +0 // Object.is equality",
+        "restoredGreen": true,
+        "restoredSameExecutionCount": true,
+        "hashesMatchFinalCandidate": true
+      },
+      "runs": {
+        "positive": {
+          "exitCode": 0,
+          "summary": {
+            "numTotalTests": 12,
+            "numPassedTests": 12,
+            "numFailedTests": 0,
+            "success": true
+          },
+          "json": "Q08-8b-RC6.positive.json",
+          "raw": "Q08-8b-RC6.positive.txt"
+        },
+        "mutant": {
+          "exitCode": 1,
+          "summary": {
+            "numTotalTests": 12,
+            "numPassedTests": 11,
+            "numFailedTests": 1,
+            "success": false
+          },
+          "json": "Q08-8b-RC6.mutant.json",
+          "raw": "Q08-8b-RC6.mutant.txt"
+        },
+        "restored": {
+          "exitCode": 0,
+          "summary": {
+            "numTotalTests": 12,
+            "numPassedTests": 12,
+            "numFailedTests": 0,
+            "success": true
+          },
+          "json": "Q08-8b-RC6.restored.json",
+          "raw": "Q08-8b-RC6.restored.txt"
+        }
+      },
+      "verdict": "VALID"
+    },
+    {
+      "id": "Q08-8b-RC7",
+      "file": "packages/game/src/battle-action-error-arms.glm-q.test.ts",
+      "targetFullName": "Q08-8b pickAutoMagic 展开批（typed rgwMagic 投影链；Q-R5-03 撤回 blocked-input） costMP=1 哨兵（sdlpal 特殊免耗位）→ 跳过不选；合法耗魔法术正常入选",
+      "targetNameSubstring": "costMP=1 哨兵",
+      "axis": "输入轴单轴变异：costMP=1 哨兵法术改 costMP=2（合法耗魔值，威力择优应改选 baseDamage 高的 297）；断言不动。",
+      "sha256": {
+        "original": "33f8a61f64898de69ece86c3134e3eae97ca50ac6c2df41897f1a1412156b3a5",
+        "mutated": "64870171900181515f3e435ad1a5235ac5346261ddd049d87fbfaf794861d1bf",
+        "restored": "33f8a61f64898de69ece86c3134e3eae97ca50ac6c2df41897f1a1412156b3a5"
+      },
+      "restoredHashUnchanged": true,
+      "criteria": {
+        "positiveGreen": true,
+        "mutantExactlyOneTargetRed": true,
+        "targetAssertionError": "AssertionError: expected 296 to be 297 // Object.is equality",
+        "restoredGreen": true,
+        "restoredSameExecutionCount": true,
+        "hashesMatchFinalCandidate": true
+      },
+      "runs": {
+        "positive": {
+          "exitCode": 0,
+          "summary": {
+            "numTotalTests": 12,
+            "numPassedTests": 12,
+            "numFailedTests": 0,
+            "success": true
+          },
+          "json": "Q08-8b-RC7.positive.json",
+          "raw": "Q08-8b-RC7.positive.txt"
+        },
+        "mutant": {
+          "exitCode": 1,
+          "summary": {
+            "numTotalTests": 12,
+            "numPassedTests": 11,
+            "numFailedTests": 1,
+            "success": false
+          },
+          "json": "Q08-8b-RC7.mutant.json",
+          "raw": "Q08-8b-RC7.mutant.txt"
+        },
+        "restored": {
+          "exitCode": 0,
+          "summary": {
+            "numTotalTests": 12,
+            "numPassedTests": 12,
+            "numFailedTests": 0,
+            "success": true
+          },
+          "json": "Q08-8b-RC7.restored.json",
+          "raw": "Q08-8b-RC7.restored.txt"
         }
       },
       "verdict": "VALID"

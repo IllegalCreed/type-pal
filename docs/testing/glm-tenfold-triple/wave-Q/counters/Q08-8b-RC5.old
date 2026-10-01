@@ -1,5 +1,4 @@
-    const enemies = [
-      { e: enemy({ health: 50 }), status: {} as BattleState['enemies'][0]['status'] },
-      { e: enemy({ health: 0 }), status: {} as BattleState['enemies'][0]['status'] },
-    ] as BattleState['enemies']
+  test('begin<0 规范化为从 0 起扫首个活敌', () => {
+    const enemies: BattleState['enemies'] = [slot(50), slot(0)]
     expect(selectAutoTargetFrom(enemies, -1, -1)).toBe(0)
+  })

@@ -1,21 +1,28 @@
 // Q08 · 8b/10b 展开批 —— 战斗动作公开入口的**错误/资源所有权臂**（typed driver，零强转）。
 //
-// 对应 r4 ledger 拆行：
-//   8b  performMagic caster 缺失两臂 + selectAutoTargetFrom 两臂（旧六例之外的未覆盖条件）；
-//   10b capture：game 全源无 capture 公开符号（grep packages/game/src 零命中，r5 已核），
-//       该行由「展开中」改记 N/A —— 误设行，非停线轴。
-// 排重 basis：actions.test.ts 已证「MP 不足不扣/spell id not found/magic id 不在表」；
-//   本文件只打 caster/role 缺失、无 inventory 三臂与 selectAutoTargetFrom 两臂。
+// r6 修订（Q-R5-01/02/03）：
+//   - selectAutoTargetFrom fixture 完整 typed 化（slot() 全必填字段，仅健康轴可变）；
+//   - performItem 缺 entry/count0 两合同与 actions.test.ts:2317-2371 同源同断言，删重不计新；
+//   - pickAutoMagic 学习法术输入撤回 blocked-input：PlayerRole.magic 已声明
+//     （tables.ts:562），经 createInitialGameState→hydratePlayerRolesRuntime(rgwMagic)
+//     →projectRuntimeToBattleRoles 公开投影链构造（bootstrap.ts:1197 真实 caller 同路）。
+// 排重 basis：battle-system.test.ts:1089-1119 两条 signed-negative（负 baseDamage 跳过/
+//   全负返 0）不重复；本批只打 silence 门/selectingPlayerIdx 缺席/resolve 失败/
+//   costMP=1 哨兵/MP 不足门/威力择优 六个未覆盖条件。
 
 import type { Enemy, Item, Magic, PlayerRole, PlayerRoles, Spell } from '@type-pal/shared'
 import { afterEach, describe, expect, test, vi } from 'vitest'
-import { performItem } from './core/battle/actions/item.js'
 import { performMagic } from './core/battle/actions/magic.js'
 import { performThrowItem } from './core/battle/actions/throw-item.js'
 import type { BattleState } from './core/battle/battle-state.js'
-import { selectAutoTargetFrom } from './core/battle/battle-system.js'
+import { pickAutoMagic, selectAutoTargetFrom } from './core/battle/battle-system.js'
 import { type CommandBus, createCommandBus } from './core/command-bus.js'
-import { createInitialGameState, type GameState } from './core/game-state.js'
+import {
+  createInitialGameState,
+  type GameState,
+  hydratePlayerRolesRuntime,
+  projectRuntimeToBattleRoles,
+} from './core/game-state.js'
 
 function role(opts: Partial<PlayerRole> = {}): PlayerRole {
   return {
@@ -126,7 +133,7 @@ function spell(id: number): Spell {
   }
 }
 
-function magic(id: number): Magic {
+function magic(id: number, opts: Partial<Magic> = {}): Magic {
   return {
     id,
     effect: 0,
@@ -145,6 +152,7 @@ function magic(id: number): Magic {
     baseDamage: 30,
     elemental: 0,
     sound: 0,
+    ...opts,
   }
 }
 
@@ -264,58 +272,7 @@ describe('Q08-8b performMagic caster 缺失臂', () => {
   })
 })
 
-describe('Q08-8b 无 inventory 资源臂（item / throw-item）', () => {
-  test('performItem 队员库存缺 entry：warn + 不跑 scriptOnUse', () => {
-    const warn = vi.spyOn(console, 'warn').mockImplementation(() => {})
-    const game = gs() // inventory 空 → 无 entry
-    const bus: CommandBus = createCommandBus()
-    const runScript = vi.fn()
-    performItem({
-      state: state(),
-      gs: game,
-      casterIsEnemy: false,
-      casterIdx: 0,
-      itemId: 117,
-      targetIsEnemy: true,
-      targetIdx: 0,
-      items: [item({ id: 117, scriptOnUse: 1 })],
-      playerRoles: roles(),
-      bus,
-      commands: [{ op: 'end' }],
-      runScript,
-    })
-    expect(warn).toHaveBeenCalledWith(expect.stringContaining('[item] no inventory for item 117'))
-    expect(runScript).not.toHaveBeenCalled()
-    expect(game.inventory).toEqual([])
-    warn.mockRestore()
-  })
-
-  test('performItem count=0 保留 entry：同 warn 早退（不剔除、不跑脚本）', () => {
-    const warn = vi.spyOn(console, 'warn').mockImplementation(() => {})
-    const game = gs()
-    game.inventory = [{ itemId: 117, count: 0 }]
-    const bus: CommandBus = createCommandBus()
-    const runScript = vi.fn()
-    performItem({
-      state: state(),
-      gs: game,
-      casterIsEnemy: false,
-      casterIdx: 0,
-      itemId: 117,
-      targetIsEnemy: true,
-      targetIdx: 0,
-      items: [item({ id: 117, scriptOnUse: 1 })],
-      playerRoles: roles(),
-      bus,
-      commands: [{ op: 'end' }],
-      runScript,
-    })
-    expect(warn).toHaveBeenCalledWith(expect.stringContaining('no inventory for item 117'))
-    expect(runScript).not.toHaveBeenCalled()
-    expect(game.inventory).toEqual([{ itemId: 117, count: 0 }]) // count=0 entry 保留
-    warn.mockRestore()
-  })
-
+describe('Q08-8b 无 inventory 资源臂（throw-item；performItem 同族由 actions.test.ts:2317-2371 已证，Q-R5-02 删重）', () => {
   test('performThrowItem 队员无 inventory：warn + 不跑 scriptOnThrow + 不 emit', () => {
     const warn = vi.spyOn(console, 'warn').mockImplementation(() => {})
     const game = gs()
@@ -346,20 +303,28 @@ describe('Q08-8b 无 inventory 资源臂（item / throw-item）', () => {
   })
 })
 
+/** 完整 typed BattleEnemy 槽（全必填字段，仅健康轴可变；零强转）。 */
+function slot(health: number): BattleState['enemies'][number] {
+  return {
+    e: enemy({ health }),
+    status: { sleep: 0, paralyzed: 0, confused: 0, haste: 0, slow: 0 },
+    prevHp: health,
+    scriptOnTurnStart: 0,
+    scriptOnBattleEnd: 0,
+    scriptOnReady: 0,
+    resistanceToSorcery: 0,
+    poisons: [],
+  }
+}
+
 describe('Q08-8b selectAutoTargetFrom 未覆盖条件臂', () => {
   test('begin<0 规范化为从 0 起扫首个活敌', () => {
-    const enemies = [
-      { e: enemy({ health: 50 }), status: {} as BattleState['enemies'][0]['status'] },
-      { e: enemy({ health: 0 }), status: {} as BattleState['enemies'][0]['status'] },
-    ] as BattleState['enemies']
+    const enemies: BattleState['enemies'] = [slot(50), slot(0)]
     expect(selectAutoTargetFrom(enemies, -1, -1)).toBe(0)
   })
 
   test('prevTarget 越界(≥n)时回 begin 起扫，不读越界槽', () => {
-    const enemies = [
-      { e: enemy({ health: 0 }), status: {} as BattleState['enemies'][0]['status'] },
-      { e: enemy({ health: 50 }), status: {} as BattleState['enemies'][0]['status'] },
-    ] as BattleState['enemies']
+    const enemies: BattleState['enemies'] = [slot(0), slot(50)]
     expect(selectAutoTargetFrom(enemies, 1, 9)).toBe(1) // prev 9 越界 → begin=1 活敌命中
     expect(selectAutoTargetFrom(enemies, 0, 9)).toBe(1) // begin=0 死敌 → 环绕到 1
   })
@@ -367,4 +332,81 @@ describe('Q08-8b selectAutoTargetFrom 未覆盖条件臂', () => {
 
 afterEach(() => {
   vi.restoreAllMocks()
+})
+
+describe('Q08-8b pickAutoMagic 展开批（typed rgwMagic 投影链；Q-R5-03 撤回 blocked-input）', () => {
+  /** 真实公开链：createInitialGameState → hydratePlayerRolesRuntime(rgwMagic) → projectRuntimeToBattleRoles。 */
+  function projectedRoles(learned: number[]): PlayerRoles {
+    const game = gs()
+    const staticRoles: PlayerRoles = { roles: [role()] }
+    hydratePlayerRolesRuntime(game.PlayerRolesRuntime, staticRoles)
+    for (const [slot, magicId] of learned.entries())
+      game.PlayerRolesRuntime.rgwMagic[slot]![0] = magicId
+    return projectRuntimeToBattleRoles(game.PlayerRolesRuntime, staticRoles)
+  }
+
+  function autoState(statusSilence = 0): BattleState {
+    const st = state()
+    st.selectingPlayerIdx = 0
+    if (statusSilence) st.players[0]!.status.silence = statusSilence
+    return st
+  }
+
+  test('公开投影链把 rgwMagic 槽位真实投影为 role.magic（caller 同路）', () => {
+    const projected = projectedRoles([0, 297, 0, 296])
+    expect(projected.roles[0]!.magic).toEqual([
+      0, 297, 0, 296, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+      0, 0,
+    ])
+  })
+
+  test('silence>0 → 直接返回 0（物理攻击），不查法术表', () => {
+    const r = pickAutoMagic(autoState(3), projectedRoles([297]), [spell(297)], [magic(297)], 9999)
+    expect(r).toBe(0)
+  })
+
+  test('selectingPlayerIdx 缺席（undefined）→ 返回 0', () => {
+    const st = state() // 不设 selectingPlayerIdx
+    expect(pickAutoMagic(st, projectedRoles([297]), [spell(297)], [magic(297)], 9999)).toBe(0)
+  })
+
+  test('已学槽法术 resolve 失败（spell 不在表）→ 该槽跳过，返回 0', () => {
+    const r = pickAutoMagic(
+      autoState(),
+      projectedRoles([400]),
+      [spell(297)], // 表里没有 400
+      [magic(297)],
+      0,
+    )
+    expect(r).toBe(0)
+  })
+
+  test('costMP=1 哨兵（sdlpal 特殊免耗位）→ 跳过不选；合法耗魔法术正常入选', () => {
+    const r = pickAutoMagic(
+      autoState(),
+      projectedRoles([296, 297]),
+      [spell(296), spell(297)],
+      [magic(296, { costMP: 1 }), magic(297, { costMP: 2 })],
+      0,
+    )
+    expect(r).toBe(297)
+  })
+
+  test('唯一已学法术 MP 不足（costMP>role.mp）→ 跳过返回 0', () => {
+    const projected = projectedRoles([297])
+    expect(projected.roles[0]!.mp).toBe(30)
+    const r = pickAutoMagic(autoState(), projected, [spell(297)], [magic(297, { costMP: 31 })], 0)
+    expect(r).toBe(0)
+  })
+
+  test('威力择优：同 rng 下 baseDamage 高者入选（range=0 消除随机项）', () => {
+    const r = pickAutoMagic(
+      autoState(),
+      projectedRoles([296, 297]),
+      [spell(296), spell(297)],
+      [magic(296, { baseDamage: 10 }), magic(297, { baseDamage: 30 })],
+      0,
+    )
+    expect(r).toBe(297)
+  })
 })

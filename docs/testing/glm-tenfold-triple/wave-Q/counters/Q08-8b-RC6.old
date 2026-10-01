@@ -1,0 +1,2 @@
+  test('silence>0 → 直接返回 0（物理攻击），不查法术表', () => {
+    const r = pickAutoMagic(autoState(3), projectedRoles([297]), [spell(297)], [magic(297)], 9999)

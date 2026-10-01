@@ -47,12 +47,14 @@ performMagic caster 索引越界与 role 缺失两臂（warn+不扣 MP+不 emit+
 entry 两形态——不跑脚本、inventory 原样）、selectAutoTargetFrom begin<0 规范化与
 prevTarget 越界回扫两臂。反控五轴（Q08-8b-RC1～RC5）三态全 VALID。
 
-**blocked-input 登记（逐项举证）**：`pickAutoMagic` 的学习法术系臂（MP 不足门/costMP=1
-哨兵/resolve 失败跳过/ rng 选择）——`getLearnedSpells`（battle-system.ts:1033-1037）经
-内部 unknown 反射读 `role.magic`/`role.learnedSpells`，而共享 `PlayerRole` 接口
-（shared/src/tables.ts:482）未声明该字段：typed 公开输入无法合法设置学习法术表
-（旧测同位置用了双强转，本卡禁用）。需产品侧补 typed 字段或公开 seed 路径后方可开测，
-不夹产品修改。
+**r6 修订（Q-R5-03 撤回）**：pickAutoMagic 学习法术系 blocked-input 表述**撤回**——
+Codex 一手补核（任务卡 r5 段）证实 `PlayerRole.magic?: number[]` 已声明
+（tables.ts:560-562），公开链 `createInitialGameState → hydratePlayerRolesRuntime`
+（game-state.ts:1425-1432 写 rgwMagic 32 槽）`→ projectRuntimeToBattleRoles`
+（:1670 投影回 role.magic；真实 caller shell/bootstrap.ts:1197）全部 typed 可达。
+r6 已按此链展开 pickAutoMagic 七例（投影链/silence 门/selectingPlayerIdx 缺席/
+resolve 失败/costMP=1 哨兵/MP 不足门/威力择优；signed-negative 两例不重复）。
+`learnedSpells` fallback 是另一臂，本次未获自动授权，仍不测。
 
 ## r4 补充（2026-10-01 三审后）
 

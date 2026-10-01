@@ -1,14 +1,32 @@
-# Wave Q：两阶段runtime与解码残余合同十倍包 — GLM Q 交付总账（r5 追加批）
+# Wave Q：两阶段runtime与解码残余合同十倍包 — GLM Q 交付总账（r6 窄修 + 批准余族）
 
 Coding Owner: GLM Q；[任务卡](../../../ops/tasks/TEST-GLM-WAVE-Q-1-runtime-residual-tenfold.md)、
 [共同协议](../README.md)、[冻结表](../targets.json)、Codex 2026-10-01 独立审查 `docs/testing/glm-tenfold-triple/codex-review-20261001.md`（落盘于审查树 codex/glm-lmn-acceptance-r1；按不 cherry-pick 纪律未拷入本分支，机器证据 codex-review-20261001.json 同）。
 分支 `codex/glm-wave-q-runtime-residual-r1`（独立 worktree），派发提交
 `8b3ca062953b17a12178f8d1a9e36657971234b1`，生产冻结 `3ac9a2e2f6aba8a5cc97640c18fef8549d199380`，
 起点候选 `626ddffe41cca4e3755dfafea1645c695c158b0f`（r1，被 counter → rework）。
-本文件描述 **r5 追加批候选**（r2 二审 Q-R2-01~04、r3 三审 Q-R3-01~03、r4 Q-R3 追认均
-闭合项不重开；Q-R2-03/R2-03 缩围未获批，按逐条件展开继续）。不合 main、不标 done。
+本文件描述 **r6 候选**（r5 预审 Q-R5-01～04 窄修 + 批准余族展开；既有闭合项不重开，
+r4 候选 9da8354d / r5 候选 63129473 与各自 pin 保留供独立复核）。不合 main、不标 done。
 
-## r5 追加批（Codex 直接派发：typed driver 展开 8b/10b + Q10 评估）
+## r6 相对 r5 的改动（Q-R5-01～04）
+
+1. **Q-R5-01**：selectAutoTargetFrom 两例 fixture 完整 typed 化——`slot()` 构造
+   BattleEnemy 全必填字段（status 五项/prevHp/scripts/poisons），仅健康轴可变；
+   四处空 status 强转与两处缺字段数组强转删除。
+2. **Q-R5-02**：performItem 缺 entry / count=0 两合同与 `actions.test.ts:2317-2371`
+   同源同断言（warn/库存不变/脚本不执行），删重不计新；同 describe 保留 throw-item
+   无 inventory 合同（旧测未覆盖）。
+3. **Q-R5-03 撤回并展开**：pickAutoMagic blocked-input 表述撤回（ledger r6 修订段）；
+   按一手链 `createInitialGameState → hydratePlayerRolesRuntime(rgwMagic 32 槽)
+   → projectRuntimeToBattleRoles`（tables.ts:560-562 / game-state.ts:1425-1432/:1670 /
+   bootstrap.ts:1197）展开七例：投影链真值/silence 门/selectingPlayerIdx 缺席/
+   resolve 失败/costMP=1 哨兵/MP 不足门/威力择优；signed-negative 两例不重复；
+   `learnedSpells` fallback 未获授权不测。
+4. **Q-R5-04**：受影响针处理——Q08-8b-RC3（已删合同）退役除名、RC5 随新 fixture
+   重定重采、RC6/RC7（silence/costMP 轴）新增；本文件六针三态全 VALID；
+   **45 枚**索引全 VALID 且逐枚哈希对齐最终树；未变 39 枚原证据保留。
+
+## r5 追加批（历史）
 
 - **8b 展开**：`packages/game/src/battle-action-error-arms.glm-q.test.ts`（typed driver
   零强转，7 例）——performMagic caster 索引越界/role 缺失两臂（warn 原文+不扣 MP+不
@@ -104,9 +122,9 @@ Coding Owner: GLM Q；[任务卡](../../../ops/tasks/TEST-GLM-WAVE-Q-1-runtime-r
      blocked-story / integration-heavy / stop-line 判定，申请 Codex 裁决缩围；
      700 总目标不自行缩减。
 
-## 交付规模（r5 候选）
+## 交付规模（r6 候选；r5 的 123 例经 Q-R5-02 删重 2 例后净 121，加 pickAutoMagic 七例）
 
-**123 例 / 17 新测试文件 + 1 fixture / 44 枚三态有效反控 / 10 条非剧情浏览器流程 /
+**128 例 / 17 新测试文件 + 1 fixture / 45 枚三态有效反控 / 10 条非剧情浏览器流程 /
 1 个缺陷红诊断（Codex 已独立确认，另列产品 draft）。**
 
 | 批 | 域 | 测试文件 | 用例 | 反控 |
@@ -118,10 +136,10 @@ Coding Owner: GLM Q；[任务卡](../../../ops/tasks/TEST-GLM-WAVE-Q-1-runtime-r
 | Q05 | battle 敌方可达闭包 | 1 | 6 | 5 |
 | Q06 | game status 毒槽/装备派生值 | 1 | 11 | 5 |
 | Q07 | game 事件/opcode | （见逐合同账） | 0 | — |
-| Q08 | game 战斗（8b/10b 展开） | 1 | 7 | 5 |
+| Q08 | game 战斗（8b/10b 展开 + pickAutoMagic 投影链） | 1 | 12 | 6 |
 | Q09 | game framebuffer 呈现端口 | 1 | 4 | 4 |
 | Q10 | pal-extract CLI 隔离实跑（事件段 + DATA 段） | 1 | 3 | 5 |
-| 合计 | | **17 + 1 fixture** | **123** | **44** |
+| 合计 | | **17 + 1 fixture** | **128** | **45** |
 
 ## 700/50 缺口申报（r4 续）
 
@@ -176,5 +194,8 @@ F9 开店退出资源、F10 resize 重钳制——判据与截图 SHA256 见
   Owner 交集 0（`receipt/verifier-final.txt`）。
 - 覆盖对照（隔离 v8，同分母）：见 `coverage-delta.json`（pal-extract 为 glm-q 定向
   覆盖口径，已在文件内注明与全测口径差异）。
-- **44 枚**反控三态实跑全 VALID（`counters.json` 总索引由最终 meta 重建并逐枚断言
-  index==meta==实际三态哈希；Q10 三态 JSON 已正常格式化）。
+- **45 枚**反控三态实跑全 VALID（`counters.json` 总索引由最终 meta 重建并逐枚断言
+  index==meta==实际三态哈希；Q-R5-04：RC3 退役、RC5 重定、RC6/RC7 新增）。
+- r5 报 123 例含两条与 actions.test.ts 重复的 performItem 合同，r6 删重后以
+  **directed 实跑 128 例**（17 文件 / 128 passed）为准；game 全包真实数 **2800/2800**
+  （基线 2773 + glm-q 27）。
