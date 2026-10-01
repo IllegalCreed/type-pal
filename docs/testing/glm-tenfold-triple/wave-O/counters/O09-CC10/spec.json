@@ -1,0 +1,14 @@
+{
+  "id": "O09-CC10",
+  "contract": "world-variable 首尾空格 name",
+  "package": "content",
+  "test": {
+    "file": "src/data-guards.glm-o.test.ts",
+    "title": "首尾空格 name / 非字符串 description 拒绝"
+  },
+  "mutation": {
+    "file": "src/world-variable.ts",
+    "find": "  if (value !== value.trim()) throw new Error(`${path}: 不得包含首尾空格`)\n  if (!options.allowEmpty && !value) throw new Error(`${path}: 不能为空`)",
+    "replace": "  if (false && value !== value.trim()) throw new Error(`${path}: 不得包含首尾空格`)\n  if (!options.allowEmpty && !value) throw new Error(`${path}: 不能为空`)"
+  }
+}

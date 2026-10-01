@@ -26,12 +26,12 @@ describe('O09 checkRuntimeHostileBehavior：策略域', () => {
     const missingVictory = hostile()
     delete (missingVictory as Record<string, unknown>).onVictory
     expect(() => checkRuntimeHostileBehavior(missingVictory)).toThrow(/缺键 "onVictory"/)
-    expect(() =>
-      checkRuntimeHostileBehavior(hostile({ onPlayerFlee: undefined })),
-    ).toThrow(/onPlayerFlee/)
-    expect(() =>
-      checkRuntimeHostileBehavior(hostile({ onVictory: { kind: 'explode' } })),
-    ).toThrow(/期望 hide\|remove\|remain/)
+    expect(() => checkRuntimeHostileBehavior(hostile({ onPlayerFlee: undefined }))).toThrow(
+      /onPlayerFlee/,
+    )
+    expect(() => checkRuntimeHostileBehavior(hostile({ onVictory: { kind: 'explode' } }))).toThrow(
+      /期望 hide\|remove\|remain/,
+    )
   })
 
   test('onLose 自定义命令递归校验（未知 kind 在子树报错）', () => {
@@ -40,18 +40,16 @@ describe('O09 checkRuntimeHostileBehavior：策略域', () => {
         hostile({ onLose: [{ kind: 'nope' }] }) as Record<string, unknown>,
       ),
     ).toThrow()
-    expect(() =>
-      checkRuntimeHostileBehavior(hostile({ onLose: 'gameOver' })),
-    ).not.toThrow()
+    expect(() => checkRuntimeHostileBehavior(hostile({ onLose: 'gameOver' }))).not.toThrow()
   })
 
   test('chase：非正 speed 拒绝；负 range 拒绝', () => {
-    expect(() =>
-      checkRuntimeHostileBehavior(hostile({ chase: { range: 3, speed: 0 } })),
-    ).toThrow(/speed/)
-    expect(() =>
-      checkRuntimeHostileBehavior(hostile({ chase: { range: -1, speed: 2 } })),
-    ).toThrow(/range/)
+    expect(() => checkRuntimeHostileBehavior(hostile({ chase: { range: 3, speed: 0 } }))).toThrow(
+      /speed/,
+    )
+    expect(() => checkRuntimeHostileBehavior(hostile({ chase: { range: -1, speed: 2 } }))).toThrow(
+      /range/,
+    )
   })
 })
 

@@ -1,0 +1,35 @@
+{
+  "id": "O09-CC9",
+  "contract": "validateShops 非数组拒绝",
+  "target": {
+    "file": "src/small-guards.glm-o.test.ts",
+    "title": "非数组 / 非对象条目 / 负 id / 重复 id / 非法 items 逐轴拒绝"
+  },
+  "control": {
+    "exitCode": 0,
+    "executed": 14,
+    "passed": 14,
+    "failed": 0
+  },
+  "injected": {
+    "exitCode": 1,
+    "executed": 14,
+    "passed": 13,
+    "failed": 1,
+    "failedFullName": "O09 validateShops / shopBuy / shopSell / sellableItems 非数组 / 非对象条目 / 负 id / 重复 id / 非法 items 逐轴拒绝",
+    "failureMessageHead": "AssertionError: expected [Function] to throw error including 'shops 期望数组' but got 'value.forEach is not a function'"
+  },
+  "restored": {
+    "exitCode": 0,
+    "executed": 14,
+    "passed": 14,
+    "failed": 0
+  },
+  "hashes": {
+    "original": "feb60e8a23a569b7a7448e7998d584839037c28cb104f489ec1e568a6c927920",
+    "mutated": "b6cbe0355bffc43a44a5e832cc9250be7e5621ca5cb8a203ebc4ca0003c9c0a4",
+    "restored": "feb60e8a23a569b7a7448e7998d584839037c28cb104f489ec1e568a6c927920",
+    "rebuilt": "b6cbe0355bffc43a44a5e832cc9250be7e5621ca5cb8a203ebc4ca0003c9c0a4"
+  },
+  "patchRebuiltAndVerified": true
+}

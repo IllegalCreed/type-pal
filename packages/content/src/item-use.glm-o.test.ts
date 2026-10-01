@@ -3,10 +3,11 @@
  *  直击未覆盖臂：preflight unknown-item/wrong-context/not-owned/missing-target 精确 reason、
  *  validateAssetCatalog kind 域与 origin 前缀轴、resolveWorldItemUse 透传 preflight。
  */
-import { describe, expect, test } from 'vitest'
+
 import type { ItemData, ItemDataMap } from '@type-pal/content'
-import { resolveWorldItemUse } from './item.js'
+import { describe, expect, test } from 'vitest'
 import { validateAssetCatalog } from './asset.js'
+import { resolveWorldItemUse } from './item.js'
 
 const world = () =>
   ({
@@ -108,18 +109,21 @@ describe('O09 validateAssetCatalog：kind/origin/路径轴', () => {
   const catalog = (assets: Record<string, unknown>) => ({ version: 1, assets })
 
   test('非法 kind / 非法 sha 逐轴拒绝', () => {
-    expect(() =>
-      validateAssetCatalog(catalog({ a: record({ kind: 'not-a-kind' }) })),
-    ).toThrow('assets/index.json.assets["a"].kind: 非法 AssetKind')
-    expect(() => validateAssetCatalog(catalog({ a: record({ sha256: 'xyz' }) }))).toThrow(
-      /sha256/,
+    expect(() => validateAssetCatalog(catalog({ a: record({ kind: 'not-a-kind' }) }))).toThrow(
+      'assets/index.json.assets["a"].kind: 非法 AssetKind',
     )
+    expect(() => validateAssetCatalog(catalog({ a: record({ sha256: 'xyz' }) }))).toThrow(/sha256/)
   })
 
   test('origin legacy-migrated 前缀不符拒绝；authored 前缀合法', () => {
     expect(() =>
       validateAssetCatalog(
-        catalog({ a: record({ path: 'assets/generated/x.png', origin: { kind: 'legacy-migrated', ref: 'x' } }) }),
+        catalog({
+          a: record({
+            path: 'assets/generated/x.png',
+            origin: { kind: 'legacy-migrated', ref: 'x' },
+          }),
+        }),
       ),
     ).toThrow(/legacy-migrated 资源必须位于 assets\/migrated\//)
     expect(() =>

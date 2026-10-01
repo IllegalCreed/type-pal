@@ -1,0 +1,35 @@
+{
+  "id": "O10-CC9",
+  "contract": "stableScriptHash 区分输入",
+  "target": {
+    "file": "src/script-library.glm-o.test.ts",
+    "title": "stableScriptHash 稳定且区分输入"
+  },
+  "control": {
+    "exitCode": 0,
+    "executed": 10,
+    "passed": 10,
+    "failed": 0
+  },
+  "injected": {
+    "exitCode": 1,
+    "executed": 10,
+    "passed": 9,
+    "failed": 1,
+    "failedFullName": "O07 deriveScriptChunk / stableScriptHash：分桶与哈希 stableScriptHash 稳定且区分输入",
+    "failureMessageHead": "AssertionError: expected +0 not to be +0 // Object.is equality"
+  },
+  "restored": {
+    "exitCode": 0,
+    "executed": 10,
+    "passed": 10,
+    "failed": 0
+  },
+  "hashes": {
+    "original": "aa7ba01496e0dc41bc222a5863fdf6cd558499b741c6326ab9cb1b994f47da95",
+    "mutated": "60c5b8d0dcaf79c8dfc9e70e11a327657f9725172ce389f0116e5fd02cf9c9f2",
+    "restored": "aa7ba01496e0dc41bc222a5863fdf6cd558499b741c6326ab9cb1b994f47da95",
+    "rebuilt": "60c5b8d0dcaf79c8dfc9e70e11a327657f9725172ce389f0116e5fd02cf9c9f2"
+  },
+  "patchRebuiltAndVerified": true
+}

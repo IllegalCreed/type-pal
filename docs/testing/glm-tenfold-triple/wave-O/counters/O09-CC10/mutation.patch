@@ -1,0 +1,7 @@
+diff --git a/packages/content/src/world-variable.ts b/packages/content/src/world-variable.ts
+index a52a1432..a1ff31d1 100644
+--- a/packages/content/src/world-variable.ts
++++ b/packages/content/src/world-variable.ts
+@@ -61 +61 @@ function text(
+-  if (value !== value.trim()) throw new Error(`${path}: 不得包含首尾空格`)
++  if (false && value !== value.trim()) throw new Error(`${path}: 不得包含首尾空格`)

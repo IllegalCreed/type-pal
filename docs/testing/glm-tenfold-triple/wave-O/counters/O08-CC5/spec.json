@@ -1,0 +1,14 @@
+{
+  "id": "O08-CC5",
+  "contract": "毒 id 非正整数形状轴",
+  "package": "content",
+  "test": {
+    "file": "src/actor-condition.glm-o.test.ts",
+    "title": "毒 id 非正整数 fail-loud（形状轴）"
+  },
+  "mutation": {
+    "file": "src/actor-condition.ts",
+    "find": "    throw new Error(`${where}: 毒 id 必须是正安全整数`)",
+    "replace": "    throw new Error(`${where}: 毒 id 形状轴关闭`)"
+  }
+}

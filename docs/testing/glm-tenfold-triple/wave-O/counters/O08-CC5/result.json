@@ -1,0 +1,35 @@
+{
+  "id": "O08-CC5",
+  "contract": "毒 id 非正整数形状轴",
+  "target": {
+    "file": "src/actor-condition.glm-o.test.ts",
+    "title": "毒 id 非正整数 fail-loud（形状轴）"
+  },
+  "control": {
+    "exitCode": 0,
+    "executed": 12,
+    "passed": 12,
+    "failed": 0
+  },
+  "injected": {
+    "exitCode": 1,
+    "executed": 12,
+    "passed": 11,
+    "failed": 1,
+    "failedFullName": "O08 applyActorConditionSeed：新建世界物化 毒 id 非正整数 fail-loud（形状轴）",
+    "failureMessageHead": "AssertionError: expected [Function] to throw error matching /毒 id 必须是正安全整数/ but got 'applyActorConditionSeed.poisonIds: 毒 …'"
+  },
+  "restored": {
+    "exitCode": 0,
+    "executed": 12,
+    "passed": 12,
+    "failed": 0
+  },
+  "hashes": {
+    "original": "b83df31b904e5ba73d9ea14e40f9b58c8f6ccce798fb80fa736d1a206494dfcf",
+    "mutated": "d44f2db9ff569b8e667c42b320c59ba56d5c939c007abec79476e46bd5420751",
+    "restored": "b83df31b904e5ba73d9ea14e40f9b58c8f6ccce798fb80fa736d1a206494dfcf",
+    "rebuilt": "d44f2db9ff569b8e667c42b320c59ba56d5c939c007abec79476e46bd5420751"
+  },
+  "patchRebuiltAndVerified": true
+}

@@ -1,0 +1,14 @@
+{
+  "id": "O09-CC8",
+  "contract": "runtime hostile 缺 onVictory 轴",
+  "package": "content",
+  "test": {
+    "file": "src/runtime-hostile.glm-o.test.ts",
+    "title": "缺 onVictory / 缺 onPlayerFlee / victory 未知 kind 逐轴拒绝"
+  },
+  "mutation": {
+    "file": "src/runtime-scene.ts",
+    "find": "  if (hostile.onVictory === undefined) throw new Error(`${path}: 缺键 \"onVictory\"`)",
+    "replace": "  if (false && hostile.onVictory === undefined) throw new Error(`${path}: 缺键 \"onVictory\"`)"
+  }
+}

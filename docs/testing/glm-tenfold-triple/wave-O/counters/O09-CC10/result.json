@@ -1,0 +1,35 @@
+{
+  "id": "O09-CC10",
+  "contract": "world-variable 首尾空格 name",
+  "target": {
+    "file": "src/data-guards.glm-o.test.ts",
+    "title": "首尾空格 name / 非字符串 description 拒绝"
+  },
+  "control": {
+    "exitCode": 0,
+    "executed": 12,
+    "passed": 12,
+    "failed": 0
+  },
+  "injected": {
+    "exitCode": 1,
+    "executed": 12,
+    "passed": 11,
+    "failed": 1,
+    "failedFullName": "O09 validateWorldVariableRegistryV1：id/name 边界 首尾空格 name / 非字符串 description 拒绝",
+    "failureMessageHead": "AssertionError: expected [Function] to throw an error"
+  },
+  "restored": {
+    "exitCode": 0,
+    "executed": 12,
+    "passed": 12,
+    "failed": 0
+  },
+  "hashes": {
+    "original": "ff1c655944da906e1eda84346bda1fde59cafa64af56683fbc09971f234fc198",
+    "mutated": "9272cddc2341d741f3aa172e37cccf4e2e537f526be0556abc84208e9479d894",
+    "restored": "ff1c655944da906e1eda84346bda1fde59cafa64af56683fbc09971f234fc198",
+    "rebuilt": "9272cddc2341d741f3aa172e37cccf4e2e537f526be0556abc84208e9479d894"
+  },
+  "patchRebuiltAndVerified": true
+}

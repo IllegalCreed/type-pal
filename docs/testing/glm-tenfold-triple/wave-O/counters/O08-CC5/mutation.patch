@@ -1,0 +1,7 @@
+diff --git a/packages/content/src/actor-condition.ts b/packages/content/src/actor-condition.ts
+index bdfe25a18..d72fe51a2 100644
+--- a/packages/content/src/actor-condition.ts
++++ b/packages/content/src/actor-condition.ts
+@@ -245 +245 @@ function assertKnownPoison(
+-    throw new Error(`${where}: 毒 id 必须是正安全整数`)
++    throw new Error(`${where}: 毒 id 形状轴关闭`)

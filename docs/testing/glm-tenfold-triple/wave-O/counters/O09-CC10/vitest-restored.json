@@ -1,0 +1,160 @@
+{
+  "numTotalTestSuites": 6,
+  "numPassedTestSuites": 6,
+  "numFailedTestSuites": 0,
+  "numPendingTestSuites": 0,
+  "numTotalTests": 12,
+  "numPassedTests": 12,
+  "numFailedTests": 0,
+  "numPendingTests": 0,
+  "numTodoTests": 0,
+  "snapshot": {
+    "added": 0,
+    "failure": false,
+    "filesAdded": 0,
+    "filesRemoved": 0,
+    "filesRemovedList": [],
+    "filesUnmatched": 0,
+    "filesUpdated": 0,
+    "matched": 0,
+    "total": 0,
+    "unchecked": 0,
+    "uncheckedKeysByFile": [],
+    "unmatched": 0,
+    "updated": 0,
+    "didUpdate": false
+  },
+  "startTime": 1790849588730,
+  "success": true,
+  "testResults": [
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["O09 validateStampTemplates：id/origin/anchor 残臂"],
+          "fullName": "O09 validateStampTemplates：id/origin/anchor 残臂 合法模板通过并产出锚点",
+          "status": "passed",
+          "title": "合法模板通过并产出锚点",
+          "duration": 1.3235409999999916,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O09 validateStampTemplates：id/origin/anchor 残臂"],
+          "fullName": "O09 validateStampTemplates：id/origin/anchor 残臂 id 重复 / origin 非法 / anchor 非负整数 逐轴拒绝",
+          "status": "passed",
+          "title": "id 重复 / origin 非法 / anchor 非负整数 逐轴拒绝",
+          "duration": 0.6741669999999971,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O09 validateStampTemplates：id/origin/anchor 残臂"],
+          "fullName": "O09 validateStampTemplates：id/origin/anchor 残臂 anchor 超出局部 surface（row ≥ height*2 / col ≥ width）拒绝",
+          "status": "passed",
+          "title": "anchor 超出局部 surface（row ≥ height*2 / col ≥ width）拒绝",
+          "duration": 0.17495800000000372,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O09 validateStampTemplates：id/origin/anchor 残臂"],
+          "fullName": "O09 validateStampTemplates：id/origin/anchor 残臂 migrated origin 合法",
+          "status": "passed",
+          "title": "migrated origin 合法",
+          "duration": 0.1509579999999886,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O09 validateTilesets：退役字段与唯一 id"],
+          "fullName": "O09 validateTilesets：退役字段与唯一 id 合法通过；resolveTilesetAsset 命中与未知拒绝",
+          "status": "passed",
+          "title": "合法通过；resolveTilesetAsset 命中与未知拒绝",
+          "duration": 0.2843340000000012,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O09 validateTilesets：退役字段与唯一 id"],
+          "fullName": "O09 validateTilesets：退役字段与唯一 id id 含 '/' / 重复 id / 退役 path / 退役 tiles 逐轴拒绝",
+          "status": "passed",
+          "title": "id 含 '/' / 重复 id / 退役 path / 退役 tiles 逐轴拒绝",
+          "duration": 0.4799589999999938,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O09 validateTilesets：退役字段与唯一 id"],
+          "fullName": "O09 validateTilesets：退役字段与唯一 id catalog 注入时 asset 必须存在",
+          "status": "passed",
+          "title": "catalog 注入时 asset 必须存在",
+          "duration": 0.32629199999999514,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O09 validateWorldVariableRegistryV1：id/name 边界"],
+          "fullName": "O09 validateWorldVariableRegistryV1：id/name 边界 空键 / 非法 id 字符 / 超长 name 逐轴拒绝",
+          "status": "passed",
+          "title": "空键 / 非法 id 字符 / 超长 name 逐轴拒绝",
+          "duration": 0.5034579999999949,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O09 validateWorldVariableRegistryV1：id/name 边界"],
+          "fullName": "O09 validateWorldVariableRegistryV1：id/name 边界 首尾空格 name / 非字符串 description 拒绝",
+          "status": "passed",
+          "title": "首尾空格 name / 非字符串 description 拒绝",
+          "duration": 0.4872090000000071,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O09 validateMapIndex / mapAssetById"],
+          "fullName": "O09 validateMapIndex / mapAssetById path 重复拒绝；mapAssetById 命中与未命中",
+          "status": "passed",
+          "title": "path 重复拒绝；mapAssetById 命中与未命中",
+          "duration": 0.33645900000000495,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O09 validateMapIndex / mapAssetById"],
+          "fullName": "O09 validateMapIndex / mapAssetById 非法 map 条目（缺 id）拒绝",
+          "status": "passed",
+          "title": "非法 map 条目（缺 id）拒绝",
+          "duration": 0.1252499999999941,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O09 validateMigrationDiagnostics：诊断表结构"],
+          "fullName": "O09 validateMigrationDiagnostics：诊断表结构 诊断项缺 id / 重复 id 逐轴拒绝；合法空表通过",
+          "status": "passed",
+          "title": "诊断项缺 id / 重复 id 逐轴拒绝；合法空表通过",
+          "duration": 0.2743329999999844,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790849588872,
+      "endTime": 1790849588877.2744,
+      "status": "passed",
+      "message": "",
+      "name": "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-o-cc-injected-GdRDBr/packages/content/src/data-guards.glm-o.test.ts"
+    }
+  ]
+}

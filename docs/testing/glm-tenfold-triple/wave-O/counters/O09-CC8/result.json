@@ -1,0 +1,35 @@
+{
+  "id": "O09-CC8",
+  "contract": "runtime hostile 缺 onVictory 轴",
+  "target": {
+    "file": "src/runtime-hostile.glm-o.test.ts",
+    "title": "缺 onVictory / 缺 onPlayerFlee / victory 未知 kind 逐轴拒绝"
+  },
+  "control": {
+    "exitCode": 0,
+    "executed": 7,
+    "passed": 7,
+    "failed": 0
+  },
+  "injected": {
+    "exitCode": 1,
+    "executed": 7,
+    "passed": 6,
+    "failed": 1,
+    "failedFullName": "O09 checkRuntimeHostileBehavior：策略域 缺 onVictory / 缺 onPlayerFlee / victory 未知 kind 逐轴拒绝",
+    "failureMessageHead": "AssertionError: expected [Function] to throw error matching /缺键 \"onVictory\"/ but got 'hostile.onVictory: 期望对象'"
+  },
+  "restored": {
+    "exitCode": 0,
+    "executed": 7,
+    "passed": 7,
+    "failed": 0
+  },
+  "hashes": {
+    "original": "8f2e7d41b581b8f61a69bb7899472da3103fdc8322240092412d7dc150b8a618",
+    "mutated": "e7bd5c1e068928aa5a06e6f5c1763196422c1b9192b74f5304eb90c3e41778ba",
+    "restored": "8f2e7d41b581b8f61a69bb7899472da3103fdc8322240092412d7dc150b8a618",
+    "rebuilt": "e7bd5c1e068928aa5a06e6f5c1763196422c1b9192b74f5304eb90c3e41778ba"
+  },
+  "patchRebuiltAndVerified": true
+}

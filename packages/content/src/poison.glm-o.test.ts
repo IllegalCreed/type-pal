@@ -4,24 +4,20 @@
  *  applyPoisonSelf 三段链（以毒攻毒/致死配对/纯加毒/缺表）、parseRichText 颜色标记、
  *  lookupText 缺键。
  */
-import { describe, expect, test } from 'vitest'
-import type { PoisonDef } from '@type-pal/content'
-import {
-  applyPoisonSelf,
-  collectPoisonDefinitionReferences,
-  poisonCurableBy,
-} from './poison.js'
-import { parseRichText } from './rich-text.js'
-import { lookupText } from './locale.js'
 
-const poison = (id: number, over: Partial<PoisonDef> = {}): PoisonDef =>
-  ({
-    id,
-    name: `poison.${id}`,
-    curability: 'common',
-    color: 0,
-    ...over,
-  })
+import type { PoisonDef } from '@type-pal/content'
+import { describe, expect, test } from 'vitest'
+import { lookupText } from './locale.js'
+import { applyPoisonSelf, collectPoisonDefinitionReferences, poisonCurableBy } from './poison.js'
+import { parseRichText } from './rich-text.js'
+
+const poison = (id: number, over: Partial<PoisonDef> = {}): PoisonDef => ({
+  id,
+  name: `poison.${id}`,
+  curability: 'common',
+  color: 0,
+  ...over,
+})
 
 describe('O08 collectPoisonDefinitionReferences：关系边收集', () => {
   test('lethalWith 与 counters 各产一条带精确 where 的引用', () => {
@@ -29,7 +25,12 @@ describe('O08 collectPoisonDefinitionReferences：关系边收集', () => {
       poison(551, { lethalWith: 552, counters: 553 }),
     ])
     expect(refs).toEqual([
-      { ownerId: 551, poisonId: 552, kind: 'poison-lethal-pair', where: 'poisons[0](551).lethalWith' },
+      {
+        ownerId: 551,
+        poisonId: 552,
+        kind: 'poison-lethal-pair',
+        where: 'poisons[0](551).lethalWith',
+      },
       { ownerId: 551, poisonId: 553, kind: 'poison-counter', where: 'poisons[0](551).counters' },
     ])
   })
@@ -97,16 +98,12 @@ describe('O09 parseRichText：颜色标记解析', () => {
       { text: '中', color: 'red' },
       { text: '后' },
     ])
-    expect(parseRichText('<yellow>全黄</yellow>')).toEqual([
-      { text: '全黄', color: 'yellow' },
-    ])
+    expect(parseRichText('<yellow>全黄</yellow>')).toEqual([{ text: '全黄', color: 'yellow' }])
   })
 
   test('未闭合标记按纯文本；未知颜色不识别', () => {
     expect(parseRichText('<cyan>未闭合')).toEqual([{ text: '<cyan>未闭合' }])
-    expect(parseRichText('<green>未知色</green>')).toEqual([
-      { text: '<green>未知色</green>' },
-    ])
+    expect(parseRichText('<green>未知色</green>')).toEqual([{ text: '<green>未知色</green>' }])
   })
 
   test('多段颜色标记顺序解析', () => {

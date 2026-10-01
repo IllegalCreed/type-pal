@@ -45,6 +45,7 @@ describe('O07 deriveScriptChunk / stableScriptHash：分桶与哈希', () => {
   test('stableScriptHash 稳定且区分输入', () => {
     expect(stableScriptHash('abc')).toBe(stableScriptHash('abc'))
     expect(stableScriptHash('abc')).not.toBe(stableScriptHash('abd'))
+    expect(stableScriptHash('abc')).not.toBe(0)
   })
 })
 

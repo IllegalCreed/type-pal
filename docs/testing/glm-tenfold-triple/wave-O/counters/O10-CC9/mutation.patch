@@ -1,0 +1,7 @@
+diff --git a/packages/content/src/script-library.ts b/packages/content/src/script-library.ts
+index 10c8d2eae..5999e652c 100644
+--- a/packages/content/src/script-library.ts
++++ b/packages/content/src/script-library.ts
+@@ -104 +104 @@ export function stableScriptHash(value: string): number {
+-  let hash = 0x811c9dc5
++  return 0; let hash = 0x811c9dc5

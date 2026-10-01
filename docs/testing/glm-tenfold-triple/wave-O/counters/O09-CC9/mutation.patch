@@ -1,0 +1,7 @@
+diff --git a/packages/content/src/shop.ts b/packages/content/src/shop.ts
+index e44976d42..08674a29e 100644
+--- a/packages/content/src/shop.ts
++++ b/packages/content/src/shop.ts
+@@ -18 +18 @@ export function validateShops(value: unknown): ShopDef[] {
+-  if (!Array.isArray(value)) throw new Error('shops 期望数组')
++  if (false && !Array.isArray(value)) throw new Error('shops 期望数组')

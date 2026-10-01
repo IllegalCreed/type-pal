@@ -1,0 +1,7 @@
+diff --git a/packages/content/src/runtime-scene.ts b/packages/content/src/runtime-scene.ts
+index 047939832..57eaad542 100644
+--- a/packages/content/src/runtime-scene.ts
++++ b/packages/content/src/runtime-scene.ts
+@@ -130 +130 @@ export function checkRuntimeHostileBehavior(
+-  if (hostile.onVictory === undefined) throw new Error(`${path}: 缺键 "onVictory"`)
++  if (false && hostile.onVictory === undefined) throw new Error(`${path}: 缺键 "onVictory"`)

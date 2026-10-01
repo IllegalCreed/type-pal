@@ -1,6 +1,7 @@
 {
-  "total": 44,
-  "rule": "三态：control 全绿 → injected 恰一目标 fullName 业务 AssertionError 红 → restored 恢复后重跑全绿；patch 以 --unidiff-zero 重建并校验字节等于 mutatedSha；候选树零改动",
+  "total": 56,
+  "uniqueIds": 56,
+  "rule": "三态：control 全绿 → injected 恰一目标 fullName 业务 AssertionError 红 → restored 恢复后重跑全绿；patch --unidiff-zero 重建校验 = mutatedSha；候选树零改动；本轮新增 O07–O10 批次反控全部三态重跑",
   "counters": [
     {
       "id": "O01-CC1",
@@ -1011,6 +1012,90 @@
       "patchRebuiltAndVerified": true
     },
     {
+      "id": "O08-CC3",
+      "control": {
+        "exitCode": 0,
+        "executed": 12,
+        "passed": 12,
+        "failed": 0
+      },
+      "injected": {
+        "exitCode": 1,
+        "failedFullName": "O08 applyPoisonSelf：三段链 身中 counters 毒 → 以毒攻毒解掉、不下本毒（cured）",
+        "failureMessageHead": "AssertionError: expected 'applied' to be 'cured' // Object.is equality",
+        "executed": 12
+      },
+      "restored": {
+        "exitCode": 0,
+        "executed": 12,
+        "passed": 12,
+        "failed": 0
+      },
+      "hashes": {
+        "original": "c4da5d59295eae2b3da1ff5366e9c3e9ecd2782b28fcd712d8dfb83cc6b67fc0",
+        "mutated": "509bc5d026001326e0790ebb6b166b25b0853d99920b1984ac7d6a257d69856b",
+        "restored": "c4da5d59295eae2b3da1ff5366e9c3e9ecd2782b28fcd712d8dfb83cc6b67fc0",
+        "rebuilt": "509bc5d026001326e0790ebb6b166b25b0853d99920b1984ac7d6a257d69856b"
+      },
+      "patchRebuiltAndVerified": true
+    },
+    {
+      "id": "O08-CC4",
+      "control": {
+        "exitCode": 0,
+        "executed": 12,
+        "passed": 12,
+        "failed": 0
+      },
+      "injected": {
+        "exitCode": 1,
+        "failedFullName": "O08 applyPoisonSelf：三段链 身中 lethalWith 毒 → hp 0 暴毙（lethal）",
+        "failureMessageHead": "AssertionError: expected 'applied' to be 'lethal' // Object.is equality",
+        "executed": 12
+      },
+      "restored": {
+        "exitCode": 0,
+        "executed": 12,
+        "passed": 12,
+        "failed": 0
+      },
+      "hashes": {
+        "original": "c4da5d59295eae2b3da1ff5366e9c3e9ecd2782b28fcd712d8dfb83cc6b67fc0",
+        "mutated": "37b64c4c605a14a021f804f67ba06a54fd0d39affdc5843e4b98cdc3d6e5b6de",
+        "restored": "c4da5d59295eae2b3da1ff5366e9c3e9ecd2782b28fcd712d8dfb83cc6b67fc0",
+        "rebuilt": "37b64c4c605a14a021f804f67ba06a54fd0d39affdc5843e4b98cdc3d6e5b6de"
+      },
+      "patchRebuiltAndVerified": true
+    },
+    {
+      "id": "O08-CC5",
+      "control": {
+        "exitCode": 0,
+        "executed": 12,
+        "passed": 12,
+        "failed": 0
+      },
+      "injected": {
+        "exitCode": 1,
+        "failedFullName": "O08 applyActorConditionSeed：新建世界物化 毒 id 非正整数 fail-loud（形状轴）",
+        "failureMessageHead": "AssertionError: expected [Function] to throw error matching /毒 id 必须是正安全整数/ but got 'applyActorConditionSeed.poisonIds: 毒 …'",
+        "executed": 12
+      },
+      "restored": {
+        "exitCode": 0,
+        "executed": 12,
+        "passed": 12,
+        "failed": 0
+      },
+      "hashes": {
+        "original": "b83df31b904e5ba73d9ea14e40f9b58c8f6ccce798fb80fa736d1a206494dfcf",
+        "mutated": "d44f2db9ff569b8e667c42b320c59ba56d5c939c007abec79476e46bd5420751",
+        "restored": "b83df31b904e5ba73d9ea14e40f9b58c8f6ccce798fb80fa736d1a206494dfcf",
+        "rebuilt": "d44f2db9ff569b8e667c42b320c59ba56d5c939c007abec79476e46bd5420751"
+      },
+      "patchRebuiltAndVerified": true
+    },
+    {
       "id": "O09-CC1",
       "control": {
         "exitCode": 0,
@@ -1035,6 +1120,34 @@
         "mutated": "5b8e84527f04266611f73898c61af81423c3945c4f14b54ba34ba1c0c118093d",
         "restored": "c4d91861ebbb6f5f8590a98e5dc64c723c3cb0f76b474d5d91e9b82cf7994842",
         "rebuilt": "5b8e84527f04266611f73898c61af81423c3945c4f14b54ba34ba1c0c118093d"
+      },
+      "patchRebuiltAndVerified": true
+    },
+    {
+      "id": "O09-CC10",
+      "control": {
+        "exitCode": 0,
+        "executed": 12,
+        "passed": 12,
+        "failed": 0
+      },
+      "injected": {
+        "exitCode": 1,
+        "failedFullName": "O09 validateWorldVariableRegistryV1：id/name 边界 首尾空格 name / 非字符串 description 拒绝",
+        "failureMessageHead": "AssertionError: expected [Function] to throw an error",
+        "executed": 12
+      },
+      "restored": {
+        "exitCode": 0,
+        "executed": 12,
+        "passed": 12,
+        "failed": 0
+      },
+      "hashes": {
+        "original": "ff1c655944da906e1eda84346bda1fde59cafa64af56683fbc09971f234fc198",
+        "mutated": "9272cddc2341d741f3aa172e37cccf4e2e537f526be0556abc84208e9479d894",
+        "restored": "ff1c655944da906e1eda84346bda1fde59cafa64af56683fbc09971f234fc198",
+        "rebuilt": "9272cddc2341d741f3aa172e37cccf4e2e537f526be0556abc84208e9479d894"
       },
       "patchRebuiltAndVerified": true
     },
@@ -1119,6 +1232,146 @@
         "mutated": "cbfe095bd8cbd49eefa235c63b99f70748c1f7d1a2263edfd71b2bd8174685d4",
         "restored": "c99ae1305ab1a75a81c6beab814db69380a9b1a3d6bc7cbd04218c11bfe2e4d1",
         "rebuilt": "cbfe095bd8cbd49eefa235c63b99f70748c1f7d1a2263edfd71b2bd8174685d4"
+      },
+      "patchRebuiltAndVerified": true
+    },
+    {
+      "id": "O09-CC5",
+      "control": {
+        "exitCode": 0,
+        "executed": 12,
+        "passed": 12,
+        "failed": 0
+      },
+      "injected": {
+        "exitCode": 1,
+        "failedFullName": "O09 parseRichText：颜色标记解析 成对颜色标记切分 span 并带 color；前后纯文本保留",
+        "failureMessageHead": "AssertionError: expected [ { text: '<yellow>全黄</yellow>' } ] to deeply equal [ { text: '全黄', color: 'yellow' } ]",
+        "executed": 12
+      },
+      "restored": {
+        "exitCode": 0,
+        "executed": 12,
+        "passed": 12,
+        "failed": 0
+      },
+      "hashes": {
+        "original": "1664f5b5ad63469c23f444c430d8ece1c7f0203dbd2fa330a01017658652146f",
+        "mutated": "dfdb0af7ce2325ac0b004bc8c261de56e323cca461708e717070183591cbf7e4",
+        "restored": "1664f5b5ad63469c23f444c430d8ece1c7f0203dbd2fa330a01017658652146f",
+        "rebuilt": "dfdb0af7ce2325ac0b004bc8c261de56e323cca461708e717070183591cbf7e4"
+      },
+      "patchRebuiltAndVerified": true
+    },
+    {
+      "id": "O09-CC6",
+      "control": {
+        "exitCode": 0,
+        "executed": 8,
+        "passed": 8,
+        "failed": 0
+      },
+      "injected": {
+        "exitCode": 1,
+        "failedFullName": "O09 validateAssetCatalog：kind/origin/路径轴 origin legacy-migrated 前缀不符拒绝；authored 前缀合法",
+        "failureMessageHead": "AssertionError: expected [Function] to throw an error",
+        "executed": 8
+      },
+      "restored": {
+        "exitCode": 0,
+        "executed": 8,
+        "passed": 8,
+        "failed": 0
+      },
+      "hashes": {
+        "original": "bf98283ea72801770b314c9f69c10c0593b268b09cc5fcfc91c03961507d391e",
+        "mutated": "27970e6a7025ef17c02bf12f74f40d21326868412fa5e7d0c2699ee2a1d175b2",
+        "restored": "bf98283ea72801770b314c9f69c10c0593b268b09cc5fcfc91c03961507d391e",
+        "rebuilt": "27970e6a7025ef17c02bf12f74f40d21326868412fa5e7d0c2699ee2a1d175b2"
+      },
+      "patchRebuiltAndVerified": true
+    },
+    {
+      "id": "O09-CC7",
+      "control": {
+        "exitCode": 0,
+        "executed": 8,
+        "passed": 8,
+        "failed": 0
+      },
+      "injected": {
+        "exitCode": 1,
+        "failedFullName": "O08 preflightWorldItemUse（经 resolveWorldItemUse 透传）：reason 轴 wrong-context：battleOnly 用途不进世界执行器",
+        "failureMessageHead": "AssertionError: expected { status: 'success', …(6) } to match object { status: 'failure', …(1) }",
+        "executed": 8
+      },
+      "restored": {
+        "exitCode": 0,
+        "executed": 8,
+        "passed": 8,
+        "failed": 0
+      },
+      "hashes": {
+        "original": "1a2ff2c2ef96070cf1609bd26c1f2756e851c9aec525749131582f6fd696963b",
+        "mutated": "005c877d73628a0c2ec2ac0b97c0e509d1b898295ba9cf6a42286725545460bc",
+        "restored": "1a2ff2c2ef96070cf1609bd26c1f2756e851c9aec525749131582f6fd696963b",
+        "rebuilt": "005c877d73628a0c2ec2ac0b97c0e509d1b898295ba9cf6a42286725545460bc"
+      },
+      "patchRebuiltAndVerified": true
+    },
+    {
+      "id": "O09-CC8",
+      "control": {
+        "exitCode": 0,
+        "executed": 7,
+        "passed": 7,
+        "failed": 0
+      },
+      "injected": {
+        "exitCode": 1,
+        "failedFullName": "O09 checkRuntimeHostileBehavior：策略域 缺 onVictory / 缺 onPlayerFlee / victory 未知 kind 逐轴拒绝",
+        "failureMessageHead": "AssertionError: expected [Function] to throw error matching /缺键 \"onVictory\"/ but got 'hostile.onVictory: 期望对象'",
+        "executed": 7
+      },
+      "restored": {
+        "exitCode": 0,
+        "executed": 7,
+        "passed": 7,
+        "failed": 0
+      },
+      "hashes": {
+        "original": "8f2e7d41b581b8f61a69bb7899472da3103fdc8322240092412d7dc150b8a618",
+        "mutated": "e7bd5c1e068928aa5a06e6f5c1763196422c1b9192b74f5304eb90c3e41778ba",
+        "restored": "8f2e7d41b581b8f61a69bb7899472da3103fdc8322240092412d7dc150b8a618",
+        "rebuilt": "e7bd5c1e068928aa5a06e6f5c1763196422c1b9192b74f5304eb90c3e41778ba"
+      },
+      "patchRebuiltAndVerified": true
+    },
+    {
+      "id": "O09-CC9",
+      "control": {
+        "exitCode": 0,
+        "executed": 14,
+        "passed": 14,
+        "failed": 0
+      },
+      "injected": {
+        "exitCode": 1,
+        "failedFullName": "O09 validateShops / shopBuy / shopSell / sellableItems 非数组 / 非对象条目 / 负 id / 重复 id / 非法 items 逐轴拒绝",
+        "failureMessageHead": "AssertionError: expected [Function] to throw error including 'shops 期望数组' but got 'value.forEach is not a function'",
+        "executed": 14
+      },
+      "restored": {
+        "exitCode": 0,
+        "executed": 14,
+        "passed": 14,
+        "failed": 0
+      },
+      "hashes": {
+        "original": "feb60e8a23a569b7a7448e7998d584839037c28cb104f489ec1e568a6c927920",
+        "mutated": "b6cbe0355bffc43a44a5e832cc9250be7e5621ca5cb8a203ebc4ca0003c9c0a4",
+        "restored": "feb60e8a23a569b7a7448e7998d584839037c28cb104f489ec1e568a6c927920",
+        "rebuilt": "b6cbe0355bffc43a44a5e832cc9250be7e5621ca5cb8a203ebc4ca0003c9c0a4"
       },
       "patchRebuiltAndVerified": true
     },
@@ -1231,6 +1484,90 @@
         "mutated": "0cfaab03a92fc4df56c9fc0d61eb809c8c791d416b8e60b989c815e9410d04b0",
         "restored": "ae864fabcec47b4972299d37142e6340e02ed32bbd06b2118a155301539d0463",
         "rebuilt": "0cfaab03a92fc4df56c9fc0d61eb809c8c791d416b8e60b989c815e9410d04b0"
+      },
+      "patchRebuiltAndVerified": true
+    },
+    {
+      "id": "O10-CC6",
+      "control": {
+        "exitCode": 0,
+        "executed": 3,
+        "passed": 3,
+        "failed": 0
+      },
+      "injected": {
+        "exitCode": 1,
+        "failedFullName": "O10 MKF：容器合同 截断头拒绝 / 首偏移非 4 倍数拒绝",
+        "failureMessageHead": "AssertionError: expected [Function] to throw an error",
+        "executed": 3
+      },
+      "restored": {
+        "exitCode": 0,
+        "executed": 3,
+        "passed": 3,
+        "failed": 0
+      },
+      "hashes": {
+        "original": "2512407e97848c604458aeeac26d9299e9f639132abb656046c18d4fd9848f54",
+        "mutated": "7095ba6f1c43abdd153aa18fe4ed78afdfd7909e784fa682b8b71137d2c64327",
+        "restored": "2512407e97848c604458aeeac26d9299e9f639132abb656046c18d4fd9848f54",
+        "rebuilt": "7095ba6f1c43abdd153aa18fe4ed78afdfd7909e784fa682b8b71137d2c64327"
+      },
+      "patchRebuiltAndVerified": true
+    },
+    {
+      "id": "O10-CC8",
+      "control": {
+        "exitCode": 0,
+        "executed": 3,
+        "passed": 3,
+        "failed": 0
+      },
+      "injected": {
+        "exitCode": 1,
+        "failedFullName": "O10 MKF：容器合同 截断头拒绝 / 首偏移非 4 倍数拒绝",
+        "failureMessageHead": "AssertionError: expected [Function] to throw error including 'MKF: buffer too small for header' but got 'Offset is outside the bounds of the D…'",
+        "executed": 3
+      },
+      "restored": {
+        "exitCode": 0,
+        "executed": 3,
+        "passed": 3,
+        "failed": 0
+      },
+      "hashes": {
+        "original": "2512407e97848c604458aeeac26d9299e9f639132abb656046c18d4fd9848f54",
+        "mutated": "329054842a50bd1cae8eb09ea9bd725d708de491209f728971b27764b93636c0",
+        "restored": "2512407e97848c604458aeeac26d9299e9f639132abb656046c18d4fd9848f54",
+        "rebuilt": "329054842a50bd1cae8eb09ea9bd725d708de491209f728971b27764b93636c0"
+      },
+      "patchRebuiltAndVerified": true
+    },
+    {
+      "id": "O10-CC9",
+      "control": {
+        "exitCode": 0,
+        "executed": 10,
+        "passed": 10,
+        "failed": 0
+      },
+      "injected": {
+        "exitCode": 1,
+        "failedFullName": "O07 deriveScriptChunk / stableScriptHash：分桶与哈希 stableScriptHash 稳定且区分输入",
+        "failureMessageHead": "AssertionError: expected +0 not to be +0 // Object.is equality",
+        "executed": 10
+      },
+      "restored": {
+        "exitCode": 0,
+        "executed": 10,
+        "passed": 10,
+        "failed": 0
+      },
+      "hashes": {
+        "original": "aa7ba01496e0dc41bc222a5863fdf6cd558499b741c6326ab9cb1b994f47da95",
+        "mutated": "60c5b8d0dcaf79c8dfc9e70e11a327657f9725172ce389f0116e5fd02cf9c9f2",
+        "restored": "aa7ba01496e0dc41bc222a5863fdf6cd558499b741c6326ab9cb1b994f47da95",
+        "rebuilt": "60c5b8d0dcaf79c8dfc9e70e11a327657f9725172ce389f0116e5fd02cf9c9f2"
       },
       "patchRebuiltAndVerified": true
     }

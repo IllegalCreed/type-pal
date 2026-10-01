@@ -1,0 +1,160 @@
+{
+  "numTotalTestSuites": 5,
+  "numPassedTestSuites": 5,
+  "numFailedTestSuites": 0,
+  "numPendingTestSuites": 0,
+  "numTotalTests": 12,
+  "numPassedTests": 12,
+  "numFailedTests": 0,
+  "numPendingTests": 0,
+  "numTodoTests": 0,
+  "snapshot": {
+    "added": 0,
+    "failure": false,
+    "filesAdded": 0,
+    "filesRemoved": 0,
+    "filesRemovedList": [],
+    "filesUnmatched": 0,
+    "filesUpdated": 0,
+    "matched": 0,
+    "total": 0,
+    "unchecked": 0,
+    "uncheckedKeysByFile": [],
+    "unmatched": 0,
+    "updated": 0,
+    "didUpdate": false
+  },
+  "startTime": 1790849553917,
+  "success": true,
+  "testResults": [
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["O08 applyCarriedStatus：叠加规则"],
+          "fullName": "O08 applyCarriedStatus：叠加规则 坏状态（confused）已有不刷新；为 0 时可设",
+          "status": "passed",
+          "title": "坏状态（confused）已有不刷新；为 0 时可设",
+          "duration": 1.0930000000000035,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O08 applyCarriedStatus：叠加规则"],
+          "fullName": "O08 applyCarriedStatus：叠加规则 好状态（bravery）仅活人：hp 0 拒绝；活人取更长回合",
+          "status": "passed",
+          "title": "好状态（bravery）仅活人：hp 0 拒绝；活人取更长回合",
+          "duration": 0.2793750000000017,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O08 applyCarriedStatus：叠加规则"],
+          "fullName": "O08 applyCarriedStatus：叠加规则 非法回合 fail-loud（不可携带 puppet 轴对 typed 调用方不可构造，登记 unreachable）",
+          "status": "passed",
+          "title": "非法回合 fail-loud（不可携带 puppet 轴对 typed 调用方不可构造，登记 unreachable）",
+          "duration": 0.34250000000000114,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O08 applyTemporaryPoisonResistance：取大语义"],
+          "fullName": "O08 applyTemporaryPoisonResistance：取大语义 首次设置返回 true；更小值不覆盖返回 false；更大值覆盖",
+          "status": "passed",
+          "title": "首次设置返回 true；更小值不覆盖返回 false；更大值覆盖",
+          "duration": 0.15566700000000822,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O08 applyTemporaryPoisonResistance：取大语义"],
+          "fullName": "O08 applyTemporaryPoisonResistance：取大语义 非正整数 fail-loud",
+          "status": "passed",
+          "title": "非正整数 fail-loud",
+          "duration": 0.12416599999998823,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O08 applyActorConditionSeed：新建世界物化"],
+          "fullName": "O08 applyActorConditionSeed：新建世界物化 毒从 tickIndex=0 物化 + 状态 + 毒抗全落地",
+          "status": "passed",
+          "title": "毒从 tickIndex=0 物化 + 状态 + 毒抗全落地",
+          "duration": 0.2750419999999991,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O08 applyActorConditionSeed：新建世界物化"],
+          "fullName": "O08 applyActorConditionSeed：新建世界物化 未知毒 id fail-loud（缺表）",
+          "status": "passed",
+          "title": "未知毒 id fail-loud（缺表）",
+          "duration": 0.13016700000000014,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O08 applyActorConditionSeed：新建世界物化"],
+          "fullName": "O08 applyActorConditionSeed：新建世界物化 毒 id 非正整数 fail-loud（形状轴）",
+          "status": "passed",
+          "title": "毒 id 非正整数 fail-loud（形状轴）",
+          "duration": 0.09304199999999696,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O08 applyActorCondition / clearActorCondition：宿主命令轴"],
+          "fullName": "O08 applyActorCondition / clearActorCondition：宿主命令轴 apply poison：未知毒 → 精确 applyActorCondition.poisonId 诊断",
+          "status": "passed",
+          "title": "apply poison：未知毒 → 精确 applyActorCondition.poisonId 诊断",
+          "duration": 0.36958400000000324,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O08 applyActorCondition / clearActorCondition：宿主命令轴"],
+          "fullName": "O08 applyActorCondition / clearActorCondition：宿主命令轴 apply poison 三段链经统一入口（cured 路径）",
+          "status": "passed",
+          "title": "apply poison 三段链经统一入口（cured 路径）",
+          "duration": 0.26337499999999636,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O08 applyActorCondition / clearActorCondition：宿主命令轴"],
+          "fullName": "O08 applyActorCondition / clearActorCondition：宿主命令轴 apply status：好状态仅活人；坏状态直接生效",
+          "status": "passed",
+          "title": "apply status：好状态仅活人；坏状态直接生效",
+          "duration": 0.36254100000000733,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O08 applyActorCondition / clearActorCondition：宿主命令轴"],
+          "fullName": "O08 applyActorCondition / clearActorCondition：宿主命令轴 clear poison：移除匹配毒；clear status：移除匹配状态；未命中 false",
+          "status": "passed",
+          "title": "clear poison：移除匹配毒；clear status：移除匹配状态；未命中 false",
+          "duration": 0.2275419999999997,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790849554057,
+      "endTime": 1790849554061.2275,
+      "status": "passed",
+      "message": "",
+      "name": "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-o-cc-control-CuLANC/packages/content/src/actor-condition.glm-o.test.ts"
+    }
+  ]
+}

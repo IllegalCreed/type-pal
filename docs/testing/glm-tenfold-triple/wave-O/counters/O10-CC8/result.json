@@ -1,0 +1,35 @@
+{
+  "id": "O10-CC8",
+  "contract": "MKF 截断头拒绝",
+  "target": {
+    "file": "src/mkf.glm-o.test.ts",
+    "title": "截断头拒绝 / 首偏移非 4 倍数拒绝"
+  },
+  "control": {
+    "exitCode": 0,
+    "executed": 3,
+    "passed": 3,
+    "failed": 0
+  },
+  "injected": {
+    "exitCode": 1,
+    "executed": 3,
+    "passed": 2,
+    "failed": 1,
+    "failedFullName": "O10 MKF：容器合同 截断头拒绝 / 首偏移非 4 倍数拒绝",
+    "failureMessageHead": "AssertionError: expected [Function] to throw error including 'MKF: buffer too small for header' but got 'Offset is outside the bounds of the D…'"
+  },
+  "restored": {
+    "exitCode": 0,
+    "executed": 3,
+    "passed": 3,
+    "failed": 0
+  },
+  "hashes": {
+    "original": "2512407e97848c604458aeeac26d9299e9f639132abb656046c18d4fd9848f54",
+    "mutated": "329054842a50bd1cae8eb09ea9bd725d708de491209f728971b27764b93636c0",
+    "restored": "2512407e97848c604458aeeac26d9299e9f639132abb656046c18d4fd9848f54",
+    "rebuilt": "329054842a50bd1cae8eb09ea9bd725d708de491209f728971b27764b93636c0"
+  },
+  "patchRebuiltAndVerified": true
+}

@@ -1,0 +1,182 @@
+{
+  "numTotalTestSuites": 8,
+  "numPassedTestSuites": 6,
+  "numFailedTestSuites": 2,
+  "numPendingTestSuites": 0,
+  "numTotalTests": 14,
+  "numPassedTests": 13,
+  "numFailedTests": 1,
+  "numPendingTests": 0,
+  "numTodoTests": 0,
+  "snapshot": {
+    "added": 0,
+    "failure": false,
+    "filesAdded": 0,
+    "filesRemoved": 0,
+    "filesRemovedList": [],
+    "filesUnmatched": 0,
+    "filesUpdated": 0,
+    "matched": 0,
+    "total": 0,
+    "unchecked": 0,
+    "uncheckedKeysByFile": [],
+    "unmatched": 0,
+    "updated": 0,
+    "didUpdate": false
+  },
+  "startTime": 1790849731977,
+  "success": false,
+  "testResults": [
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["O09 validateShops / shopBuy / shopSell / sellableItems"],
+          "fullName": "O09 validateShops / shopBuy / shopSell / sellableItems 非数组 / 非对象条目 / 负 id / 重复 id / 非法 items 逐轴拒绝",
+          "status": "failed",
+          "title": "非数组 / 非对象条目 / 负 id / 重复 id / 非法 items 逐轴拒绝",
+          "duration": 5.547958999999992,
+          "failureMessages": [
+            "AssertionError: expected [Function] to throw error including 'shops 期望数组' but got 'value.forEach is not a function'\n    at Proxy.<anonymous> (file:///private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-o-cc-injected-GC8SUl/node_modules/.pnpm/@vitest+expect@4.1.7/node_modules/@vitest/expect/dist/index.js:1552:16)\n    at Proxy.<anonymous> (file:///private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-o-cc-injected-GC8SUl/node_modules/.pnpm/@vitest+expect@4.1.7/node_modules/@vitest/expect/dist/index.js:1156:15)\n    at Proxy.methodWrapper (file:///private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-o-cc-injected-GC8SUl/node_modules/.pnpm/chai@6.2.2/node_modules/chai/index.js:1700:25)\n    at /private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-o-cc-injected-GC8SUl/packages/content/src/small-guards.glm-o.test.ts:41:38\n    at file:///private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-o-cc-injected-GC8SUl/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-o-cc-injected-GC8SUl/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-o-cc-injected-GC8SUl/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-o-cc-injected-GC8SUl/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-o-cc-injected-GC8SUl/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20"
+          ],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O09 validateShops / shopBuy / shopSell / sellableItems"],
+          "fullName": "O09 validateShops / shopBuy / shopSell / sellableItems shopBuy：钱不够 null；成功扣钱入包",
+          "status": "passed",
+          "title": "shopBuy：钱不够 null；成功扣钱入包",
+          "duration": 0.6415000000000077,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O09 validateShops / shopBuy / shopSell / sellableItems"],
+          "fullName": "O09 validateShops / shopBuy / shopSell / sellableItems shopSell：不可卖 / 背包没有 → null；成功出包得款并清零条目",
+          "status": "passed",
+          "title": "shopSell：不可卖 / 背包没有 → null；成功出包得款并清零条目",
+          "duration": 0.23741699999999355,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O09 validateShops / shopBuy / shopSell / sellableItems"],
+          "fullName": "O09 validateShops / shopBuy / shopSell / sellableItems sellableItems 过滤 count=0 与不可卖",
+          "status": "passed",
+          "title": "sellableItems 过滤 count=0 与不可卖",
+          "duration": 0.20195799999999053,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O09 spriteDefinitionFrameDemand / FrameIndices"],
+          "fullName": "O09 spriteDefinitionFrameDemand / FrameIndices directional 帧需求 = framesPerDir*4 + poses 绝对帧",
+          "status": "passed",
+          "title": "directional 帧需求 = framesPerDir*4 + poses 绝对帧",
+          "duration": 0.18241599999998925,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O09 spriteDefinitionFrameDemand / FrameIndices"],
+          "fullName": "O09 spriteDefinitionFrameDemand / FrameIndices static 帧需求 = 1",
+          "status": "passed",
+          "title": "static 帧需求 = 1",
+          "duration": 0.05195900000001075,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O09 validateEnemyTeamStructure：槽位形状"],
+          "fullName": "O09 validateEnemyTeamStructure：槽位形状 非数组 / 槽位非数组 / 非字符串槽 / 非法 id 逐轴拒绝；null 槽合法",
+          "status": "passed",
+          "title": "非数组 / 槽位非数组 / 非字符串槽 / 非法 id 逐轴拒绝；null 槽合法",
+          "duration": 0.44029199999999946,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O09 checkRuntimeScenes：运行态场景入口"],
+          "fullName": "O09 checkRuntimeScenes：运行态场景入口 非法场景（entry 缺 facing）拒绝；合法最小场景通过",
+          "status": "passed",
+          "title": "非法场景（entry 缺 facing）拒绝；合法最小场景通过",
+          "duration": 0.5489579999999705,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O09 checkThrowSpec：投掷规格边界"],
+          "fullName": "O09 checkThrowSpec：投掷规格边界 effects 空 / target 非法 逐轴拒绝",
+          "status": "passed",
+          "title": "effects 空 / target 非法 逐轴拒绝",
+          "duration": 0.5143749999999727,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O09 checkThrowSpec：投掷规格边界"],
+          "fullName": "O09 checkThrowSpec：投掷规格边界 presentation 非 magic 拒绝",
+          "status": "passed",
+          "title": "presentation 非 magic 拒绝",
+          "duration": 0.1932080000000269,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O09 resolveDialogueIdentity / collectCommandTargetReferences"],
+          "fullName": "O09 resolveDialogueIdentity / collectCommandTargetReferences 身份：actor 绑定命中 actor 得头像；未知 actor 拒绝；narration 空",
+          "status": "passed",
+          "title": "身份：actor 绑定命中 actor 得头像；未知 actor 拒绝；narration 空",
+          "duration": 0.26937499999996817,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O09 resolveDialogueIdentity / collectCommandTargetReferences"],
+          "fullName": "O09 resolveDialogueIdentity / collectCommandTargetReferences loadScene 命令收集目标场景引用",
+          "status": "passed",
+          "title": "loadScene 命令收集目标场景引用",
+          "duration": 0.2719170000000304,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O09 buildWorld / instantiate：实例域边界"],
+          "fullName": "O09 buildWorld / instantiate：实例域边界 instantiate：无 battler fail-loud；battler 角色取 baseStats",
+          "status": "passed",
+          "title": "instantiate：无 battler fail-loud；battler 角色取 baseStats",
+          "duration": 0.10649999999998272,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O09 buildWorld / instantiate：实例域边界"],
+          "fullName": "O09 buildWorld / instantiate：实例域边界 buildWorld：入口 party 引用缺失 actor → 精确 missing-actor 诊断",
+          "status": "passed",
+          "title": "buildWorld：入口 party 引用缺失 actor → 精确 missing-actor 诊断",
+          "duration": 0.11195800000001555,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790849732318,
+      "endTime": 1790849732328.112,
+      "status": "failed",
+      "message": "",
+      "name": "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-o-cc-injected-GC8SUl/packages/content/src/small-guards.glm-o.test.ts"
+    }
+  ]
+}

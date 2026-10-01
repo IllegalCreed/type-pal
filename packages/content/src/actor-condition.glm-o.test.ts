@@ -4,8 +4,9 @@
  *  取大、applyActorConditionSeed 毒+状态+毒抗物化、apply/clearActorCondition 命令形状、
  *  毒 id 正整数轴。
  */
-import { describe, expect, test } from 'vitest'
+
 import type { PoisonDef } from '@type-pal/content'
+import { describe, expect, test } from 'vitest'
 import type { CarryableStatusId } from './actor-condition.js'
 import {
   applyActorCondition,
@@ -81,30 +82,34 @@ describe('O08 applyActorConditionSeed：新建世界物化', () => {
   })
 
   test('未知毒 id fail-loud（缺表）', () => {
-    expect(() =>
-      applyActorConditionSeed(carrier(), { poisonIds: [99] }, poisonDefs),
-    ).toThrow('applyActorConditionSeed.poisonIds: 未知毒 99')
+    expect(() => applyActorConditionSeed(carrier(), { poisonIds: [99] }, poisonDefs)).toThrow(
+      'applyActorConditionSeed.poisonIds: 未知毒 99',
+    )
   })
 
   test('毒 id 非正整数 fail-loud（形状轴）', () => {
-    expect(() =>
-      applyActorConditionSeed(carrier(), { poisonIds: [0] }, poisonDefs),
-    ).toThrow(/毒 id 必须是正安全整数/)
+    expect(() => applyActorConditionSeed(carrier(), { poisonIds: [0] }, poisonDefs)).toThrow(
+      /毒 id 必须是正安全整数/,
+    )
   })
 })
 
 describe('O08 applyActorCondition / clearActorCondition：宿主命令轴', () => {
   test('apply poison：未知毒 → 精确 applyActorCondition.poisonId 诊断', () => {
     const c = carrier()
-    expect(() =>
-      applyActorCondition(c, { kind: 'poison', poisonId: 99 }, poisonDefs),
-    ).toThrow('applyActorCondition.poisonId: 未知毒 99')
+    expect(() => applyActorCondition(c, { kind: 'poison', poisonId: 99 }, poisonDefs)).toThrow(
+      'applyActorCondition.poisonId: 未知毒 99',
+    )
   })
 
   test('apply poison 三段链经统一入口（cured 路径）', () => {
     const c: Carrier = { hp: 100, poisons: [{ poisonId: 9, tickIndex: 0 }] }
     expect(
-      applyActorCondition(c, { kind: 'poison', poisonId: 1 }, { ...poisonDefs, 9: { id: 9, name: 'p9', curability: 'common', color: 0, counters: 1 } }),
+      applyActorCondition(
+        c,
+        { kind: 'poison', poisonId: 1 },
+        { ...poisonDefs, 9: { id: 9, name: 'p9', curability: 'common', color: 0, counters: 1 } },
+      ),
     ).toBe(true)
     expect(c.poisons).toEqual([])
   })
@@ -123,7 +128,11 @@ describe('O08 applyActorCondition / clearActorCondition：宿主命令轴', () =
 
   test('clear poison：移除匹配毒；clear status：移除匹配状态；未命中 false', () => {
     const c: Carrier = { hp: 100 }
-    applyActorConditionSeed(c, { poisonIds: [1], statuses: [{ status: 'sleep', turns: 3 }] }, poisonDefs)
+    applyActorConditionSeed(
+      c,
+      { poisonIds: [1], statuses: [{ status: 'sleep', turns: 3 }] },
+      poisonDefs,
+    )
     expect(clearActorCondition(c, { kind: 'poison', poisonId: 1 }, poisonDefs)).toBe(true)
     expect(c.poisons).toEqual([])
     expect(clearActorCondition(c, { kind: 'status', status: 'sleep' }, poisonDefs)).toBe(true)
