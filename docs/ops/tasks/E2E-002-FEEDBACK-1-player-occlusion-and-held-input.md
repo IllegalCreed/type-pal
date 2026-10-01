@@ -1,6 +1,6 @@
 # E2E-002-FEEDBACK-1 - 主角遮挡反馈与连续方向输入
 
-Status: review
+Status: rework
 Phase: phase2
 Capability: W1 / E2E-R4-1
 Coding Owner: Codex
@@ -12,6 +12,10 @@ Contributor: Codex
 Branch: codex/002-feedback
 
 ## 目标与范围
+
+2026-10-01 用户实际检视指出苗族头领仍透出，旧“只收窄主动触发者”方案不满足产品目标。
+用户明确要求改造：只主角队伍可见透视，NPC保持正常不透明遮挡。以下旧实现与accept仅作历史，
+不授权本轮build；须重新核局部合成、像素反控与独立验收。
 
 002 演示后用户指出 NPC 也透墙以及行走逐格停顿，2026-10-01 明确「推进」。
 只当前受控队长主动触发 D27 前景透明；NPC、队友、编外跟随者不触发。
@@ -102,3 +106,17 @@ Branch: codex/002-feedback
 ## 下一位 Agent 提示词
 
 无下一位 Agent 提示词，等待用户体验验收；本卡保持review，不借代码通过标done或清理正在供试玩的工作树。
+
+## 返工分派（2026-10-01）
+
+- 用户新裁决：共享整瓦片透明 -> 队伍局部透视、NPC正常遮挡；不做剪影，不改深度/碰撞/资产。
+- 一手根因：`render.ts:170-206`跨sprite按瓦片合并alpha，false标记NPC仍穿过被队长透明化的同一墙。
+  `world-scene-presentation.ts:168,202,227,256`只决定触发资格，不能隔离最终像素。
+- 第一阶段无透视反馈（N/A作为新效果标准），但原本正常不透明遮挡须保持；用户新要求为primary。
+- 最强替代解释：旧6030实例或NPC本体alpha；已只读核6051绑定隔离修正版，NPC本体未设alpha。
+- 反证：真实Canvas像素中任何NPC-only/共享墙/墙前NPC因队伍透视而显露或错误被覆盖；原地留鬼影，
+  队伍空或换人后旧区域残留；调试/编辑器showAll行为漂移，均counter。
+- 先由渲染贡献者在独立树读证据并给方案；Root核定build allowed后才改实现。白名单render模块及邻接
+  新私有模块、render/party呈现测试、world-scene-presentation；不得改脚本/main壳/schema/编辑器/旧compat。
+- 验收必须含真实Canvas像素反控，不仅flags；须覆盖主角与NPC共享前景、相互重叠、前后深度、透明像素、
+  队友、多墙、迟滞及退出反馈；Root独立复核并做最小PAL002画面检查。6012不关闭/刷新。
