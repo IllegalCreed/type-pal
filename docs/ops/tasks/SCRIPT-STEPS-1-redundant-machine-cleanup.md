@@ -1,6 +1,6 @@
 # SCRIPT-STEPS-1 — 首次对话与复读回归普通步骤
 
-Status: build
+Status: review
 Phase: phase2
 Capability: W7 / P3
 Coding Owner: Codex Root
@@ -154,6 +154,75 @@ Root连续Owner、原隔离tree；build allowed只改此显示分支、删除不
 
 用户另问e56自动行为用途：仅只读审计7套实际方案与调用域，独立贡献者并行核事实；
 不因数量多推断错误，不在本次UI修复中重写剧情/自动调度。
+
+续修验证：原实现3项红/25绿（单步骤、空正文单步骤、多步骤删除回单步骤）；
+卡片分支统一后初绿有1项新断言误把已有删除引用重定向产生的显式self next视为省略next，
+确认产品删除规则未改，严格改为既有自指标签；原失败日志保留。最终UI28+session30共58项绿。
+全7包typecheck、strict lint2721文件0error/0warning/0info、docs809/4265链接/249任务0问题通过。
+只读独立review accept：卡片与详情点击不写onChange、最后步骤三层删除保护未变、
+无schema/正文/调度变化。此次未重复此前10,706项全量测试，不将专项写成全量。
+
+63b2a951已ff-only更新main，6012原PID88523持续运行；没有手动重载，Vite更新后重新选择e56。
+Root实际打开交互“触发行为2”：一张步骤1卡、18指令、首次/下次复读/详情均可见；
+实际详情最后删除disabled，关闭后保存仍disabled，未改作者数据。
+截图 `build/e2e/single-step-card-6012.jpg`。本续修技术accept，仍review等待用户形态体验。
+最小用户复验：6012→s003→e56→交互脚本→触发行为2，看单张完整卡；点步骤详情应可打开且
+删除步骤禁用，关闭后仍一张卡。无需重复002/003剧情，也无需用户替Agent跑技术测试。
+
+## e56自动行为只读结论（2026-10-01）
+
+当前s003/e56有7套auto定义，但默认Page并不选择auto（`s003.json:835–855`实体定义），
+剧情正文显式select后才启用。同实体当前只选择一套auto，`main.ts:3807–3849`单activation运行；
+auto在运行时是独立后台通道，不是只允许巡逻的类型约束。7套数量不证明7条并行巡逻或即时剧情错误。
+6套stages都是moveEntity有限路线并显式complete（legacy-004另隐藏），另一套legacy-006是
+一次性剧情走位的逐拍状态机；不存在应让作者维护的7套日常巡逻。
+
+可直接证实的内容债：legacy-006共46状态，其中24 nudge/24 anim、12空衔接节点；
+末尾名为completed，但body=[]、next stay（`s003.json:2592–2598`）。
+`script-runner-core.ts:256–290`因此提交普通state游标，`script-project-core.ts:401`的正式完成门不命中，
+`main.ts:3841–3849`仍空轮询，不重放整段走位。Root及独立审查者均直接核此调用域。
+这不是本轮UI修复已解决的内容问题；不借正常002/003passed宣称作者编排合理化完成。
+
+用户希望自动行为承担巡逻等日常行为。后续作者重写应把一次性走位归入可读剧情编排，
+明确与对白同时进行的后台启动、等待及接管/归还，保留真实演出与跨场景取消边界；
+不能仅把状态改名步骤、直接删除仍有入点的方案，或机械塞入前台导致对白等待NPC走完。
+本轮只修单步骤显示、诊断e56，不新增parallel/join、第三套作者状态模型或恢复迁移核。
+
+独立全调用域审计与Root复核：auto6负责002下楼；go-to-kitchen负责003进厨房/换s001/e19；
+legacy-005/001由苗人后期战斗交互启动，分别赶来/走近倒下苗人；legacy-002/003/004由e68夜间
+灵儿剧情启动，分别进房/靠近/退场。当前不是7套巡逻，没有无引用就可随手删除的方案。
+18处cursorHandoff均不涉及e56；e56无take/release/暂停/页切换引用。后期路线未新跑视觉，
+不凭静态路线直接宣称画面错误；004厨房e19持续朝向counter也不是这7套并发导致。
+
+用户追问初次方案到门口道士的可读性：实际链为
+default接客正文第21条（s003:1032）选auto/legacy-006，前台继续苗人对白；
+auto6的outro-05（:3505）才选e56/trigger/greet-after-guests；
+greet正文第4条（:1448）起后台去厨房、第5条（:1460）才选e62/trigger/beggar-first-talk。
+default的next只是本方案复读，不负责上述跨方案切换；auto6也不直接选择道士本人。
+关键故事选择混入NPC后台走位确实使作者无法只看交互正文追踪故事，不是作者没找到步骤设置。
+
+原因与边界：当前moveEntity会等待目标到点，auto独立运行允许对白/玩家行动时NPC继续走位。
+后台动作需求存在，但不证明7套无语义命名的auto容器或46状态形态必须保留。
+建议交互正文明确承担故事推进及下一方案选择，背景动作承担受控走位并显式说明启动/等待/取消与
+实体接管；日常auto用于巡逻/待机。改动须核真实完成时点、前台控制恢复、save/cancel，
+不能仅机械搬到阻塞前台或新增全局NPC冻结；本轮只分析，不已实现该作者编排改造。
+
+## 步骤列表标题续修（2026-10-01）
+
+用户追加同一续修：标题应为“步骤列表”，数量和问号按现有“脚本方案”紧随左侧标题，
+新建按钮独立在右。Root核到全局`.script-section-heading`后置space-between，加上本flow的
+`flex:1 1 480px`使3个子项均匀拉开；方案标题因本组未伸长未暴露问题。
+build allowed最小局部修flow标题组不伸长/左对齐、用既有gap，改标题/帮助/保留一步提示中文。
+不改全局reference标题布局、不增加新控件、作者数据/调度不变；入口含实体及scene-hook一并回归。
+
+标题入口4项真红/36绿，最终UI/实体/scene-hook/session四文件70项绿；全7包typecheck及
+strict lint2721文件0/0/0、docs0问题通过。独立review发现共享actions的margin会影响非header整理提示，
+收窄到`.canonical-flow-explanation > .canonical-flow-actions`后accept，原counter闭合。
+d01d60d4已ff-only到main，原6012 PID未停；Root实际选择单步骤方案，标题“步骤列表”、数量与问号
+均靠左，新建右侧。真实DOM矩形测量：方案标题与步骤标题的title→count、count→help均8px，
+并目视 `build/e2e/step-list-heading-6012.jpg`；窄屏仅核源码wrap条件，未冒充窄屏实测。
+本轮没有新增资源/schema/调度/作者JSON修改；单卡和标题技术accept，review等待用户体验。
+最小复验仍沿s003/e56交互/触发行为2，只需看单卡及“步骤列表”标题组是否与上方方案标题一致。
 
 ## 下一位 Agent 提示词
 
