@@ -378,22 +378,10 @@ function derivePalItemSchemeLabelPlan(args: PalItemSchemeLabelArgs): {
   return { entries, opaqueLabels }
 }
 
-/** PAL current publication 永久门禁：唯一 root、确定性作者名、machine-inner 同步且无摘要名。 */
-export function assertPalItemSchemeLabelInvariant(
-  args: PalItemSchemeLabelArgs,
+function labelReport(
+  entries: readonly PalItemSchemeLabelPlanEntry[],
+  opaqueLabels: number,
 ): PalItemSchemeLabelReport {
-  const { entries, opaqueLabels } = derivePalItemSchemeLabelPlan(args)
-  if (opaqueLabels) throw new Error(`PAL 物品剧情方案仍含 ${opaqueLabels} 个 opaque label`)
-  for (const entry of entries) {
-    if (entry.currentLabel !== entry.expectedLabel)
-      throw new Error(
-        `PAL 物品剧情方案名称漂移: ${entry.path}.label = ${JSON.stringify(entry.currentLabel)}，期望 ${JSON.stringify(entry.expectedLabel)}`,
-      )
-    if (entry.currentMachineLabel !== entry.expectedMachineLabel)
-      throw new Error(
-        `PAL 物品剧情方案 machine-inner 未与父名同步: ${entry.path}.flow.machine.label = ${JSON.stringify(entry.currentMachineLabel)}，期望 ${JSON.stringify(entry.expectedMachineLabel)}`,
-      )
-  }
   return {
     schemes: entries.length,
     machineInners: entries.filter((entry) => entry.currentMachineLabel !== undefined).length,
@@ -409,4 +397,30 @@ export function assertPalItemSchemeLabelInvariant(
         : { machineLabel: entry.currentMachineLabel }),
     })),
   }
+}
+
+/** Read-only author graph audit; names are author-owned, not regenerated from item ordinals. */
+export function inspectPalItemSchemeRoots(args: PalItemSchemeLabelArgs): PalItemSchemeLabelReport {
+  const { entries, opaqueLabels } = derivePalItemSchemeLabelPlan(args)
+  if (opaqueLabels) throw new Error(`PAL 物品剧情方案仍含 ${opaqueLabels} 个 opaque label`)
+  return labelReport(entries, opaqueLabels)
+}
+
+/** PAL supply seed gate: unique roots, deterministic generated names and synchronized inners. */
+export function assertPalItemSchemeLabelInvariant(
+  args: PalItemSchemeLabelArgs,
+): PalItemSchemeLabelReport {
+  const { entries, opaqueLabels } = derivePalItemSchemeLabelPlan(args)
+  if (opaqueLabels) throw new Error(`PAL 物品剧情方案仍含 ${opaqueLabels} 个 opaque label`)
+  for (const entry of entries) {
+    if (entry.currentLabel !== entry.expectedLabel)
+      throw new Error(
+        `PAL 物品剧情方案名称漂移: ${entry.path}.label = ${JSON.stringify(entry.currentLabel)}，期望 ${JSON.stringify(entry.expectedLabel)}`,
+      )
+    if (entry.currentMachineLabel !== entry.expectedMachineLabel)
+      throw new Error(
+        `PAL 物品剧情方案 machine-inner 未与父名同步: ${entry.path}.flow.machine.label = ${JSON.stringify(entry.currentMachineLabel)}，期望 ${JSON.stringify(entry.expectedMachineLabel)}`,
+      )
+  }
+  return labelReport(entries, opaqueLabels)
 }

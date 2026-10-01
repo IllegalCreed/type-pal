@@ -49,7 +49,7 @@ import { applyPalItemOverlays } from './pal-authored-overlays.js'
 import { buildPalContentSupply, type PalContentSupplySources } from './pal-content-supply.js'
 import { assertPalInPartyActorIdInvariant } from './pal-inparty-actor-id-invariant.js'
 import { applyPalItemMessageSources } from './pal-item-message-source.js'
-import { assertPalItemSchemeLabelInvariant } from './pal-item-scheme-labels.js'
+import { inspectPalItemSchemeRoots } from './pal-item-scheme-labels.js'
 import { assertPalSceneIndexOwnership } from './pal-scene-index.js'
 import {
   assertPalAlchemyBoundaryInvariant,
@@ -295,7 +295,7 @@ export function validatePalCurrentPublication(args: {
     if (!mapAssetById(mapIndex, scene.mapId))
       throw new Error(`场景 ${scene.id} 引用未知地图 ${scene.mapId}`)
   })
-  assertPalItemSchemeLabelInvariant({
+  inspectPalItemSchemeRoots({
     items: authorItems,
     scenes: authorScenes,
     expectedSchemes: 49,

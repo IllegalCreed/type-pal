@@ -11,6 +11,7 @@ import {
 } from '@type-pal/content'
 import { describe, expect, it } from 'vitest'
 import { loadPalBaseline } from './migration-baseline.js'
+import type { MigrationJson } from './migration-files.js'
 import { createMigrationPlan, snapshotOf } from './migration-plan.js'
 import { loadPalContentSupplySources } from './pal-content-supply-io.js'
 import {
@@ -21,7 +22,55 @@ import { buildPalCurrentManifest } from './pal-manifest.js'
 
 const repo = resolve(dirname(fileURLToPath(import.meta.url)), '../../..')
 
+function jsonRecord(value: MigrationJson | undefined): Record<string, MigrationJson> {
+  if (!value || typeof value !== 'object' || Array.isArray(value))
+    throw new Error('expected publication JSON object')
+  return value
+}
+
+function triggerSchemes(files: Map<string, MigrationJson>, path: string, entityId: string) {
+  const entities = jsonRecord(files.get(path)).entities
+  if (!Array.isArray(entities)) throw new Error('expected publication entity list')
+  const entity = entities.find(
+    (value) => value && typeof value === 'object' && !Array.isArray(value) && value.id === entityId,
+  )
+  return jsonRecord(jsonRecord(jsonRecord(entity).behaviors).trigger)
+}
+
 describe('PAL current-only publication', () => {
+  it('publishes merged author scheme names without regenerating them, while rejecting broken item roots', () => {
+    const baseline = loadPalBaseline(repo)!
+    const baselineBefore = structuredClone(baseline)
+    const sources = loadPalContentSupplySources(repo)
+    const publication = buildPalCurrentPublication(baseline, sources)
+    const publicationBefore = structuredClone(publication)
+    const manifest = buildPalCurrentManifest(sources.assetCatalog)
+    const authored = structuredClone(baseline)
+    const names = [
+      ['content/scenes/s001.json', 'e19', 'c8-74bc98f07f8e', '赠酒后：给钱托逍遥买鲜虾'],
+      ['content/scenes/s003.json', 'e62', 'c8-321c0a7d7de1', '赠桂花酒：约定山神庙学剑'],
+    ] as const
+    for (const [path, entityId, id, label] of names)
+      jsonRecord(triggerSchemes(authored.files, path, entityId)[id]).label = label
+    const plan = createMigrationPlan(baseline, authored, publication)
+    expect(plan.conflicts).toEqual([])
+    const target = { ...publication, files: plan.target, managedFiles: new Set(plan.target.keys()) }
+    for (const [path, entityId, id, label] of names)
+      expect(jsonRecord(triggerSchemes(target.files, path, entityId)[id]).label).toBe(label)
+    expect(() =>
+      validatePalCurrentPublication({ publication: target, manifest, sources }),
+    ).not.toThrow()
+    const replay = createMigrationPlan(snapshotOf(publication), snapshotOf(target), publication)
+    expect(replay.summary).toMatchObject({ writes: 0, deletes: 0, conflicts: 0 })
+    expect(baseline).toEqual(baselineBefore)
+    expect(publication).toEqual(publicationBefore)
+    const invalid = structuredClone(target)
+    delete triggerSchemes(invalid.files, names[0][0], names[0][1])[names[0][2]]
+    expect(() =>
+      validatePalCurrentPublication({ publication: invalid, manifest, sources }),
+    ).toThrow('PAL 物品剧情方案悬空引用')
+  })
+
   it('accepts merged author shop lifecycle and command changes, retaining the pure generated baseline', () => {
     const baseline = loadPalBaseline(repo)!
     const sources = loadPalContentSupplySources(repo)

@@ -23,6 +23,11 @@ Branch: codex/e2e-003
 - 范围外：新schema/save版本、parallel/join、原版转换核、供应源、全局NPC冻结、004取菜演出。
 - 独占白名单：s001/s003作者内容，entity-walk及相邻回归，ScriptEditor/core呈现与回归、相关任务文档。
   PAL引用索引基准仅更新已核机械指令减少的精确数量并新增局部路线断言，不改collector/删除保护。
+  后续准入补充：pal-item-scheme-labels只读根图审计与PAL测试。历史供应种子确定性名字门保持；
+  当前作者工程独立核49方案/11唯一root/4machine/无摘要名与精确语义名，只允许本批两项已核名字差异。
+  不改原版转换、供应生成、baseline或canonical正文；不新增兼容模式。
+  独立counter后补核：migrate-content.mts:81–94将合并后的plan.target交给发布校验，
+  pal-current-publication.ts:298同样错误强制生成名。原“发布调用方不改”准入失效，补充该校验及集成反控白名单。
 - 验证证据白名单补充：inn-contract只增加entity-walk源码hash，003继承同一hash，不改门槛/collector。
 - 原6012服务保持运行；同步主树前核没有未保存草稿，不主动刷新/关闭页面。
 
@@ -105,6 +110,46 @@ Branch: codex/e2e-003
 - 6012只读核保存/撤销/重做disabled，原PID88523仍运行；候选未验证前不更新用户工程。
 - 此批不搬跨方案选择到前台，不声称后台剧情职责债已闭合；保留既有开放边界，
   全程禁用直到大厅的产品变更尚未批准，不能借现代化默默删除中途交谈窗口。
+
+### 作者命名与资源发布门补充
+
+- 真实migrate全包450项初轮1红：current被强制与baseline物品派生名字一致，拒绝两项合法作者改名。
+- Root最初只拆current测试/种子名字审计，独立review counter准确指出生产发布同样消费merged target；
+  该候选未提交，任务补充阶段rework，停止“只修测试”方向并直接读取migrate-content.mts及发布实现。
+- 修正前提：作者名可更改，但item-root选择图必须不变；资源重导不得因合法语义名阻断。
+  baseline严格生成名断言保留，当前发布改复用同一derive的只读root审计，49/11/4/opaque/环/悬空/多root门不减。
+- Codex补充build allowed：仅发布校验的名称归属与实际三方merge合法改名/断链反控；
+  不执行可恢复事务的CLI、不写baseline、不降低schema/资源闭包或硬性静态规则。
+- 实际发布反控先1红/3绿（合法作者名被生产名称漂移门拒绝），改生产consumer后migrate完整77文件/452项绿，
+  typecheck无诊断。只读独立review accept：节点收集/根图推导字节不变，schema/对白/资源闭包校验不减，
+  baseline严格生成名门保留；真实merge保名、重放零写删、删除实际item-root目标仍拒绝，counter已闭合。
+
+## 本批交付收据（2026-10-01）
+
+- 正式旅程冻结内容/运行时revision：`422bb561ad1e9e10dabec9721723956919933d0b`。
+  RF002使用既有RF001正式报告入口，随后RF003消费本轮RF002端档；两轮status passed、errors为空。
+  报告：`build/e2e/reforge-002-2026-10-01T10-18-27-042Z/report.json`、
+  `build/e2e/reforge-003-2026-10-01T10-19-38-660Z/report.json`。
+  后续补充仅作者名称发布审计/测试/文档，不改这两轮冻结的内容/运行时源码hash。
+- RF002楼梯段实际21次位置commit，沿屏幕直线，最大单次距离6.7082039325px，
+  不再出现旧末拍48px跳落；e56终点(137,66)，auto6正式completed、trigger切到greet-after-guests。
+  RF003正常走楼梯/李大娘/道士/呼喊/厨房交代，终点s001(89,46)，inventory为空，未进入004取菜。
+  两轮均只有runner识别的缺省save-state.json 404记录，不是资产缺失；不宣称浏览器零warning。
+- 全包检查分别通过：content1224、shared128、game2773、pal-extract357、reforge2113、editor3699、
+  migrate452，共10746项；所有包typecheck通过，editor两个tsconfig均通过。
+  首轮全仓check曾因引用census中断，完整原失败保留；以上为之后全包复跑的组合收据，
+  不把首轮退出码改写为0，也不声称最终重新执行过一次完整`pnpm check`。
+  工具门docs37/coverage30/quality27/E2E工具92绿；当前作者工程294场景/223地图/1934资源校验通过。
+- 最终发布补充后的严格lint：2722文件，0error/0warning/0info；docs 810 Markdown/4267链接/250卡，0issue。
+  日志：`build/e2e/readable-author-publication-full.log`、`readable-inn-editor-check.log`、
+  `readable-inn-reforge-check.log`、`readable-inn-content-verified.log`、
+  `readable-inn-lint-published.log`、`readable-inn-docs-published.log`。
+- 6012同步前后均核保存/撤销/重做disabled，主树已接收本批，原服务PID88523未停止/重启，页面未手动刷新/关闭。
+  功能实看六个非空步骤、下楼段单move、八项中文菜单；读取菜单未写作者数据。
+  当前页面保留s003/e56自动方案“接客后：下楼到大厅”的步骤4，临时放大抽屉已恢复原420高度。
+  证据：`build/e2e/readable-aunt-route-6012.png`、`build/e2e/readable-transitions-6012.png`。
+- 本批技术交付完成但总卡保持build：全PAL仍有4587模板方案名、165复杂machine待逐包核正文/调用方；
+  跨方案选择仍在到达大厅的最终自动路段，未声称“全部改名/全部后台职责治理”完成。
 
 ## 下一位 Agent 提示词
 
