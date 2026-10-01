@@ -11176,14 +11176,6 @@ button.sprite-frame-cell[draggable="true"]:active {
   }
 }
 
-/* 预览回正(拖/缩后浮现,右上角) */
-.preview-recenter {
-  position: absolute;
-  top: 34px;
-  right: 8px;
-  z-index: 3;
-}
-
 /* 段头控件(段管理:next 下拉 / ＋段 / 🗑段)。响应式三件套(见 .toolbar 注):
    窄树栏整项换行;短标签(第 N 段/→ 跑完)禁项内竖排 */
 .stage-head {
@@ -12898,18 +12890,17 @@ button.sprite-frame-cell[draggable="true"]:active {
   position: absolute;
   top: 8px;
   left: 8px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 2px 12px;
   max-width: calc(100% - 16px);
-  padding: 5px 8px;
+  padding: 4px 8px;
   border-radius: 5px;
-  background: #10151ce6;
+  background: #10151c80;
   color: #e8edf4;
   font-size: 11px;
   line-height: 1.5;
-}
-.preview-route-heading {
-  display: flex;
-  align-items: center;
-  gap: 12px;
 }
 .preview-route-targets {
   display: flex;

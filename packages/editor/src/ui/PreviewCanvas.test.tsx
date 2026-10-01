@@ -152,15 +152,25 @@ describe('PreviewCanvas confirm controls', () => {
     expect(toolbar?.querySelectorAll('.ds-toolbar__group')).toHaveLength(1)
     expect(toolbar?.querySelector('.preview-toolbar__trailing')).not.toBeNull()
     const legend = host.querySelector('[role="note"][aria-label="移动轨迹"]')
-    expect(legend?.textContent).toContain('移动轨迹 · 步骤 2 · 编排参考，非避障路径')
+    expect(legend?.textContent).toContain('轨迹 · 步骤 2')
+    expect(legend?.textContent).not.toContain('编排参考')
+    expect(legend?.textContent).not.toContain('菱形节点')
     expect(legend?.textContent).toContain('主角队伍')
-    expect(legend?.textContent).toContain('虚线：条件 / 循环 / 动态')
-    expect(legend?.textContent).toContain('◇ 瞬移 / 摆位')
-    const fitButton = [...host.querySelectorAll<HTMLButtonElement>('button')].find(
+    expect(legend?.textContent).toContain('┄ 条件/动态')
+    expect(legend?.textContent).toContain('◇ 瞬移')
+    expect(legend?.getAttribute('title')).toContain('非避障路径')
+    expect(legend?.getAttribute('title')).toContain('菱形节点')
+    expect(legend?.querySelector('button')).toBeNull()
+    const fitButton = [...toolbar!.querySelectorAll<HTMLButtonElement>('button')].find(
       (button) => button.textContent === '显示完整轨迹',
     )!
+    expect(fitButton).toBeDefined()
     await act(async () => fitButton.click())
-    expect(host.querySelector('.preview-recenter')).not.toBeNull()
+    const recenter = toolbar?.querySelector<HTMLButtonElement>('[aria-label="回正视图"]')
+    expect(recenter).not.toBeNull()
+    expect(host.querySelector('.preview-stage button')).toBeNull()
+    await act(async () => recenter?.click())
+    expect(toolbar?.querySelector('[aria-label="回正视图"]')).toBeNull()
 
     await act(async () => {
       toolbar?.querySelector<HTMLButtonElement>('button[aria-label="播放"]')?.click()

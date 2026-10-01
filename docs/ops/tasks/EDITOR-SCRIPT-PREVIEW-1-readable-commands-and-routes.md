@@ -82,3 +82,17 @@ editor_preview_audit只读独立复核。贡献者不改共享卡/6012，不合m
 ## 下一位 Agent 提示词
 
 无下一位 Agent 提示词，等待用户验收/收口。
+
+## 用户体验反馈窄迭代（2026-10-02）
+
+- 用户明确要求按钮移入上方工具栏，图例简洁、半透明；Root在本会话继续负责3个原Owner文件，
+  只调整PreviewCanvas展示/相邻回归/CSS，不改轨迹推导、移动、正文、save/schema或公共接口。
+- “显示完整轨迹”和“回正视图”进入共享预览工具栏；地图图例仅保留当前步骤、角色颜色与简短符号。
+  长说明进入title提示，背景改为50%透明，文字本身保持不透明。删除废弃的浮动按钮CSS。
+- 新回归先红1 failed / 3 passed，修后功能包3 files / 22 tests绿；同一工具栏按钮定位、图例无按钮、
+  短标签/完整悬停说明、完整轨迹和回正行为均验证。editor typecheck零诊断、全仓lint2732 files零error/warning/info。
+- 组合检查原收据1 failed / 44 passed：共享控件审计包装测试超过15000ms；单项复跑同样超时。
+  未调整阈值/忽略/规则；直接执行同一个audit-legacy-controls --gate通过（100 files、2条既有证据绑定例外），
+  不宣称本轮完整editor套件全绿。日志保留为`build/e2e/editor-route-toolbar-{green,adoption-retry,adoption-cli,functional,types,lint}.log`。
+- 6012真实浏览器确认：按钮均在工具栏、图例无按钮；computed background为rgba(16,21,28,0.5)、文字opacity=1。
+  完整轨迹实点后节点线仍显示，服务与用户页面保持打开；仅改变预览视图，不写作者工程。

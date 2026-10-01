@@ -329,6 +329,17 @@ export function PreviewCanvas(props: {
   const movementStepLabel = canonicalFlow
     ? previewStepLabel(canonicalFlow, previewFlowCursor(canonicalFlow, canonicalCursor))
     : '当前步骤'
+  const hasConditionalRoute = movementPreview.tracks.some((track) =>
+    track.nodes.some((node) => node.conditional),
+  )
+  const hasTeleportRoute = movementPreview.tracks.some((track) =>
+    track.nodes.some((node) => node.kind === 'teleport'),
+  )
+  const movementDescription = [
+    '编排参考，非避障路径。节点编号为编排顺序，起点取作者场景位置。',
+    ...(hasConditionalRoute ? ['虚线表示条件、循环或动态路径。'] : []),
+    ...movementPreview.notes,
+  ].join('\n')
 
   const spriteById = useMemo(() => new Map(sprites.map((s) => [s.id, s])), [sprites])
   const entityDef = (e: SceneDef['entities'][number]): SpriteDef | undefined => {
@@ -641,6 +652,32 @@ export function PreviewCanvas(props: {
         ]}
         trailing={
           <div className="preview-toolbar__trailing">
+            {routeFrame ? (
+              <DsButton
+                size="compact"
+                variant="secondary"
+                onClick={() => {
+                  setFramedMovement(movementPreview)
+                  setView({ zoom: routeFrame.zoom, panX: 0, panY: 0 })
+                }}
+              >
+                显示完整轨迹
+              </DsButton>
+            ) : null}
+            {routeFramed || view.zoom !== DEFAULT_ZOOM || view.panX !== 0 || view.panY !== 0 ? (
+              <DsButton
+                size="compact"
+                variant="secondary"
+                aria-label="回正视图"
+                title="恢复跟随镜头与默认缩放"
+                onClick={() => {
+                  setFramedMovement(undefined)
+                  setView({ zoom: DEFAULT_ZOOM, panX: 0, panY: 0 })
+                }}
+              >
+                回正 {Math.round((view.zoom / DEFAULT_ZOOM) * 100)}%
+              </DsButton>
+            ) : null}
             <div className="preview-toolbar__speed">
               <DsSelect
                 aria-label="预览速度"
@@ -718,23 +755,9 @@ export function PreviewCanvas(props: {
             className="preview-route-legend"
             role="note"
             aria-label="移动轨迹"
-            title={movementPreview.notes.join('\n') || '节点编号为编排顺序，起点取作者场景位置。'}
+            title={movementDescription}
           >
-            <div className="preview-route-heading">
-              <span>移动轨迹 · {movementStepLabel} · 编排参考，非避障路径</span>
-              {routeFrame ? (
-                <DsButton
-                  size="compact"
-                  variant="secondary"
-                  onClick={() => {
-                    setFramedMovement(movementPreview)
-                    setView({ zoom: routeFrame.zoom, panX: 0, panY: 0 })
-                  }}
-                >
-                  显示完整轨迹
-                </DsButton>
-              ) : null}
-            </div>
+            <span>轨迹 · {movementStepLabel}</span>
             <div className="preview-route-targets">
               {movementPreview.tracks.map((track, index) => {
                 const target = track.target
@@ -755,33 +778,10 @@ export function PreviewCanvas(props: {
                   </span>
                 )
               })}
-              {movementPreview.tracks.some((track) =>
-                track.nodes.some((node) => node.conditional),
-              ) ? (
-                <span>虚线：条件 / 循环 / 动态</span>
-              ) : null}
-              {movementPreview.tracks.some((track) =>
-                track.nodes.some((node) => node.kind === 'teleport'),
-              ) ? (
-                <span>◇ 瞬移 / 摆位</span>
-              ) : null}
+              {hasConditionalRoute ? <span>┄ 条件/动态</span> : null}
+              {hasTeleportRoute ? <span>◇ 瞬移</span> : null}
             </div>
-            {movementPreview.notes[0] ? <div>{movementPreview.notes[0]}</div> : null}
           </div>
-        ) : null}
-        {routeFramed || view.zoom !== DEFAULT_ZOOM || view.panX !== 0 || view.panY !== 0 ? (
-          <DsButton
-            size="compact"
-            variant="secondary"
-            className="preview-recenter"
-            title="回正:恢复跟随镜头与默认缩放"
-            onClick={() => {
-              setFramedMovement(undefined)
-              setView({ zoom: DEFAULT_ZOOM, panX: 0, panY: 0 })
-            }}
-          >
-            ⌖ 回正 {Math.round((view.zoom / DEFAULT_ZOOM) * 100)}%
-          </DsButton>
         ) : null}
         {status === 'loading' ? <div className="preview-tip">加载资产…</div> : null}
         {status === 'error' ? <div className="preview-tip err">{err}</div> : null}
