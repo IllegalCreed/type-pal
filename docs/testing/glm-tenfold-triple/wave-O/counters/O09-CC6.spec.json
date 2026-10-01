@@ -4,7 +4,8 @@
   "package": "content",
   "test": {
     "file": "src/item-use.glm-o.test.ts",
-    "title": "origin legacy-migrated 前缀不符拒绝；authored 前缀合法"
+    "title": "origin legacy-migrated 前缀不符拒绝；authored 前缀合法",
+    "target": "O09 validateAssetCatalog：kind/origin/路径轴 origin legacy-migrated 前缀不符拒绝；authored 前缀合法"
   },
   "mutation": {
     "file": "src/asset.ts",

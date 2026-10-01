@@ -4,7 +4,8 @@
   "package": "content",
   "test": {
     "file": "src/data-guards.glm-o.test.ts",
-    "title": "id 重复 / origin 非法 / anchor 非负整数 逐轴拒绝"
+    "title": "id 重复 / origin 非法 / anchor 非负整数 逐轴拒绝",
+    "target": "O09 validateStampTemplates：id/origin/anchor 残臂 id 重复 / origin 非法 / anchor 非负整数 逐轴拒绝"
   },
   "mutation": {
     "file": "src/stamp.ts",

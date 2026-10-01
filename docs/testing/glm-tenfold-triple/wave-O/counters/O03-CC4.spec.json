@@ -3,7 +3,8 @@
   "contract": "EventObject 跨场景重复 fail-loud",
   "test": {
     "file": "src/pal-content-supply.glm-o.test.ts",
-    "title": "同一 EventObject 出现在多个场景时 fail-loud（全局实体唯一）"
+    "title": "同一 EventObject 出现在多个场景时 fail-loud（全局实体唯一）",
+    "target": "O03 buildPalContentSupply：供应输入守卫残余 同一 EventObject 出现在多个场景时 fail-loud（全局实体唯一）"
   },
   "mutation": {
     "file": "src/pal-content-supply.ts",

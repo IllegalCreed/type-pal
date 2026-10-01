@@ -3,7 +3,8 @@
   "contract": "场景布局变体生成 -f<frames> 稳定 id",
   "test": {
     "file": "src/pal-world-sprites.glm-o.test.ts",
-    "title": "同一精灵两种 nSpriteFrames → stable base + -f<frames> 变体并报 layoutConflicts"
+    "title": "同一精灵两种 nSpriteFrames → stable base + -f<frames> 变体并报 layoutConflicts",
+    "target": "O05 createPalWorldSpriteRegistry：布局证据与变体 同一精灵两种 nSpriteFrames → stable base + -f<frames> 变体并报 layoutConflicts"
   },
   "mutation": {
     "file": "src/pal-world-sprite-registry.ts",

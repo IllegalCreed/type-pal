@@ -3,7 +3,8 @@
   "contract": "scenes/index 严格顺序：双方不同重排 → array-order 冲突",
   "test": {
     "file": "src/migration-merge.glm-o.test.ts",
-    "title": "scenes/index.json 严格顺序：双方不同重排 → array-order 冲突"
+    "title": "scenes/index.json 严格顺序：双方不同重排 → array-order 冲突",
+    "target": "O02 mergeManagedFile：身份数组与失效身份（合成文件） scenes/index.json 严格顺序：双方不同重排 → array-order 冲突"
   },
   "mutation": {
     "file": "src/migration-merge.ts",

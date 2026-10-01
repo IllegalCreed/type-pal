@@ -4,7 +4,8 @@
   "package": "content",
   "test": {
     "file": "src/enemy-script.glm-o.test.ts",
-    "title": "合法 cast/pass 通过；chancePercent 越界拒绝"
+    "title": "合法 cast/pass 通过；chancePercent 越界拒绝",
+    "target": "O08 checkEnemyFallback：兜底行动域 合法 cast/pass 通过；chancePercent 越界拒绝"
   },
   "mutation": {
     "file": "src/enemy-script.ts",

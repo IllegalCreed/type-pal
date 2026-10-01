@@ -3,7 +3,8 @@
   "contract": "退役清单只含 target 缺失的 legacy-migrated",
   "test": {
     "file": "src/pal-assets.glm-o.test.ts",
-    "title": "legacy-migrated 且目标缺失且磁盘一致 → 入退役清单并排序"
+    "title": "legacy-migrated 且目标缺失且磁盘一致 → 入退役清单并排序",
+    "target": "O04 planPalAssetRetirements：退役推导合同 legacy-migrated 且目标缺失且磁盘一致 → 入退役清单并排序"
   },
   "mutation": {
     "file": "src/pal-assets.ts",

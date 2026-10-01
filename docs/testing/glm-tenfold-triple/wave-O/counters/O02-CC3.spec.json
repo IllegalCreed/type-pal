@@ -3,7 +3,8 @@
   "contract": "assets/index authored 接管后迁移字段不再拼入",
   "test": {
     "file": "src/migration-merge.glm-o.test.ts",
-    "title": "assets/index.json：ours authored 接管后迁移字段不再拼入"
+    "title": "assets/index.json：ours authored 接管后迁移字段不再拼入",
+    "target": "O02 mergeManagedFile：authored 接管与 catalog 目标校验 assets/index.json：ours authored 接管后迁移字段不再拼入"
   },
   "mutation": {
     "file": "src/migration-merge.ts",

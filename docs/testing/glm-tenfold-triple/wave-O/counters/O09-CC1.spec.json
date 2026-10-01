@@ -4,7 +4,8 @@
   "package": "content",
   "test": {
     "file": "src/frame-sequence.glm-o.test.ts",
-    "title": "截断（<12B）/ 魔数错 / 版本错 / 保留位非零 逐轴拒绝"
+    "title": "截断（<12B）/ 魔数错 / 版本错 / 保留位非零 逐轴拒绝",
+    "target": "O09 parseFrameSequence：头部轴 截断（<12B）/ 魔数错 / 版本错 / 保留位非零 逐轴拒绝"
   },
   "mutation": {
     "file": "src/frame-sequence.ts",

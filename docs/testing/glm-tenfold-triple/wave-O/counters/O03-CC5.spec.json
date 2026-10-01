@@ -3,7 +3,8 @@
   "contract": "战斗形象覆写未知角色 → 发布门拒绝",
   "test": {
     "file": "src/pal-content-supply.glm-o.test.ts",
-    "title": "覆写引用未知角色 → 发布门以 where: message 拒绝"
+    "title": "覆写引用未知角色 → 发布门以 where: message 拒绝",
+    "target": "O03 validatePalCurrentPublication：装备战斗精灵引用门 覆写引用未知角色 → 发布门以 where: message 拒绝"
   },
   "mutation": {
     "file": "../../packages/content/src/validate-refs.ts",

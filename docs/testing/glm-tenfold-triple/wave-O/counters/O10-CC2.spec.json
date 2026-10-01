@@ -4,7 +4,8 @@
   "package": "shared",
   "test": {
     "file": "src/rle.glm-o.test.ts",
-    "title": "过短容器 / 零帧表 / offset table 越界 逐轴拒绝"
+    "title": "过短容器 / 零帧表 / offset table 越界 逐轴拒绝",
+    "target": "O10 parseSpriteChunkStrict：容器结构轴 过短容器 / 零帧表 / offset table 越界 逐轴拒绝"
   },
   "mutation": {
     "file": "src/rle.ts",

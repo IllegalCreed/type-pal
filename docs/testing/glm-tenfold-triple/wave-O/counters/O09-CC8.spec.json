@@ -4,7 +4,8 @@
   "package": "content",
   "test": {
     "file": "src/runtime-hostile.glm-o.test.ts",
-    "title": "缺 onVictory / 缺 onPlayerFlee / victory 未知 kind 逐轴拒绝"
+    "title": "缺 onVictory / 缺 onPlayerFlee / victory 未知 kind 逐轴拒绝",
+    "target": "O09 checkRuntimeHostileBehavior：策略域 缺 onVictory / 缺 onPlayerFlee / victory 未知 kind 逐轴拒绝"
   },
   "mutation": {
     "file": "src/runtime-scene.ts",

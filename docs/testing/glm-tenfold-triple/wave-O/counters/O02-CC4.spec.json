@@ -3,7 +3,8 @@
   "contract": "theirs 删除的托管文件进入 deletes",
   "test": {
     "file": "src/migration-plan.glm-o.test.ts",
-    "title": "theirs 新增文件进入 writes；theirs 删除的托管文件进入 deletes"
+    "title": "theirs 新增文件进入 writes；theirs 删除的托管文件进入 deletes",
+    "target": "O02 createMigrationPlan：普通文件、写入/删除与输入不可变 theirs 新增文件进入 writes；theirs 删除的托管文件进入 deletes"
   },
   "mutation": {
     "file": "src/migration-plan.ts",

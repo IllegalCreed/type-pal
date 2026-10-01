@@ -3,7 +3,8 @@
   "contract": "事务目标经过符号链接时拒绝",
   "test": {
     "file": "src/migration-write-plan.glm-o.test.ts",
-    "title": "目标为 symlink 时提交被拒绝（assertMigrationFilePath）"
+    "title": "目标为 symlink 时提交被拒绝（assertMigrationFilePath）",
+    "target": "O03 事务与 journal：symlink/绝对路径/恢复次序（mkdtemp） 目标为 symlink 时提交被拒绝（assertMigrationFilePath）"
   },
   "mutation": {
     "file": "src/migration-path.ts",

@@ -3,7 +3,8 @@
   "contract": "puppet 状态效果强制 battleOnly",
   "test": {
     "file": "src/pal-supply-guards.glm-o.test.ts",
-    "title": "puppet 状态效果被强制 battleOnly（无论原值）"
+    "title": "puppet 状态效果被强制 battleOnly（无论原值）",
+    "target": "O05 applyPalItemOverlays：隐蛊与 puppet 轴 puppet 状态效果被强制 battleOnly（无论原值）"
   },
   "mutation": {
     "file": "src/pal-authored-overlays.ts",

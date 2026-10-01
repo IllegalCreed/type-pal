@@ -4,7 +4,8 @@
   "package": "content",
   "test": {
     "file": "src/script.glm-o.test.ts",
-    "title": "loadScene / fade / startBattle / openShop 等阻断（blocked）"
+    "title": "loadScene / fade / startBattle / openShop 等阻断（blocked）",
+    "target": "O07 sceneEntryPrepareSafety：进场 prepare 命令域 loadScene / fade / startBattle / openShop 等阻断（blocked）"
   },
   "mutation": {
     "file": "src/script.ts",

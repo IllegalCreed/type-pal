@@ -3,7 +3,8 @@
   "contract": "0x05 非零参数拒绝",
   "test": {
     "file": "src/pal-supply-guards.glm-o.test.ts",
-    "title": "0x30 参数非法 / 0x05 非零参数 / 未知 opcode 逐轴拒绝"
+    "title": "0x30 参数非法 / 0x05 非零参数 / 未知 opcode 逐轴拒绝",
+    "target": "O05 translateCasualtyScript / applyPalCasualtyOverlays：opcode 轴 0x30 参数非法 / 0x05 非零参数 / 未知 opcode 逐轴拒绝"
   },
   "mutation": {
     "file": "src/pal-casualty-scripts.ts",

@@ -58,10 +58,21 @@ export function assertNoCollectionErrors(json, phase) {
     throw new Error(`${phase} numPendingTestSuites=${json.numPendingTestSuites}（pending/todo suite）拒收`)
   if (json.numTODOTests > 0) throw new Error(`${phase} numTODOTests=${json.numTODOTests} 拒收`)
   const suites = json.testResults ?? []
+  // Vitest 的 numPassed/numFailedTestSuites 是全 workspace 计数（可 > 单文件 testResults 长度，
+  // 因 --filter 传入包内其它 suite）；只要求结论数 ≥ 报告 suite 数，不要求相等。
   const concluded = json.numPassedTestSuites + json.numFailedTestSuites
-  if (suites.length > 0 && concluded !== suites.length)
+  if (suites.length > 0 && concluded < suites.length)
     throw new Error(
-      `${phase} suite 结论数 ${concluded} ≠ 报告 suite 数 ${suites.length}（collection 失败）拒收`,
+      `${phase} suite 结论数 ${concluded} < 报告 suite 数 ${suites.length}（collection 失败）拒收`,
+    )
+  if (
+    Number.isInteger(json.numTotalTestSuites) &&
+    json.numTotalTestSuites > 0 &&
+    json.numPassedTestSuites + json.numFailedTestSuites + (json.numPendingTestSuites ?? 0) <
+      json.numTotalTestSuites
+  )
+    throw new Error(
+      `${phase} 全 workspace ${json.numTotalTestSuites} suite 中 ${json.numTotalTestSuites - json.numPassedTestSuites - json.numFailedTestSuites - (json.numPendingTestSuites ?? 0)} 个未结（collection/过滤失败）拒收`,
     )
   for (const suite of suites) {
     if (suite.status === 'failed' && (suite.assertionResults ?? []).length === 0)

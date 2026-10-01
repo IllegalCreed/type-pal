@@ -3,7 +3,8 @@
   "contract": "重复物化：内容一致 → unchanged，不重写",
   "test": {
     "file": "src/pal-assets.glm-o.test.ts",
-    "title": "重复物化：内容一致 → unchanged，不重写"
+    "title": "重复物化：内容一致 → unchanged，不重写",
+    "target": "O04 materializePalAssets：合成 catalog 的确定性物化 重复物化：内容一致 → unchanged，不重写"
   },
   "mutation": {
     "file": "src/pal-assets.ts",

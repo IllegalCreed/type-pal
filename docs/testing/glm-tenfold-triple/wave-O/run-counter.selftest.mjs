@@ -159,7 +159,7 @@ rejects(
     ]
     return assertNoCollectionErrors(r.json, 'injected')
   },
-  /suite 结论数 1 ≠ 报告 suite 数 2/,
+  /suite 结论数 1 < 报告 suite 数 2/,
 )
 
 // ═══ 拒收：执行集与状态 ═══

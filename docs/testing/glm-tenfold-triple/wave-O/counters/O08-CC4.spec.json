@@ -4,7 +4,8 @@
   "package": "content",
   "test": {
     "file": "src/poison.glm-o.test.ts",
-    "title": "身中 lethalWith 毒 → hp 0 暴毙（lethal）"
+    "title": "身中 lethalWith 毒 → hp 0 暴毙（lethal）",
+    "target": "O08 applyPoisonSelf：三段链 身中 lethalWith 毒 → hp 0 暴毙（lethal）"
   },
   "mutation": {
     "file": "src/poison.ts",

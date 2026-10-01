@@ -4,7 +4,8 @@
   "package": "content",
   "test": {
     "file": "src/poison.glm-o.test.ts",
-    "title": "成对颜色标记切分 span 并带 color；前后纯文本保留"
+    "title": "成对颜色标记切分 span 并带 color；前后纯文本保留",
+    "target": "O09 parseRichText：颜色标记解析 成对颜色标记切分 span 并带 color；前后纯文本保留"
   },
   "mutation": {
     "file": "src/rich-text.ts",

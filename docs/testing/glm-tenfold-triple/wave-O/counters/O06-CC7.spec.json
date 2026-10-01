@@ -4,7 +4,8 @@
   "package": "content",
   "test": {
     "file": "src/validate.glm-o.test.ts",
-    "title": "seedStats：空角色 id/未知字段/hp/mp 非负整数 逐轴拒绝"
+    "title": "seedStats：空角色 id/未知字段/hp/mp 非负整数 逐轴拒绝",
+    "target": "O06 validateStartWorld：当前入口世界形状 seedStats：空角色 id/未知字段/hp/mp 非负整数 逐轴拒绝"
   },
   "mutation": {
     "file": "src/validate.ts",

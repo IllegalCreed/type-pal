@@ -4,7 +4,8 @@
   "package": "content",
   "test": {
     "file": "src/script-library.glm-o.test.ts",
-    "title": "remove：未登记 id fail-loud；已登记移除元数据与脚本体"
+    "title": "remove：未登记 id fail-loud；已登记移除元数据与脚本体",
+    "target": "O07 normalizeScriptLibrary / upsert / remove：幂等与索引同步 remove：未登记 id fail-loud；已登记移除元数据与脚本体"
   },
   "mutation": {
     "file": "src/script-library.ts",
