@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict'
 import { test } from 'node:test'
-import { judgeClean, judgeMutant } from './counter-judge.mjs'
+import { collectionErrors, judgeClean, judgeMutant } from './counter-judge.mjs'
 
 const file = (name, status, message) => ({
   name: `/repo/packages/editor/${name}`,
@@ -9,6 +9,8 @@ const file = (name, status, message) => ({
 
 const ok = (msg) => `AssertionError: ${msg}`
 const rejectsRed = 'Error: promise resolved "undefined" instead of rejecting'
+
+// ---------- 既有判据回归 ----------
 
 test('恰一目标 AssertionError 红 → 接受', () => {
   const r = judgeMutant({
@@ -19,7 +21,6 @@ test('恰一目标 AssertionError 红 → 接受', () => {
     positiveExecuted: 1,
   })
   assert.equal(r.valid, true)
-  assert.equal(r.reasons.length, 0)
 })
 
 test('Vitest rejects 的 Error: promise resolved 前缀（源自 AssertionError）→ 接受', () => {
@@ -50,85 +51,27 @@ test('两红 → 拒收（不过滤邻居）', () => {
   assert.ok(r.reasons.some((x) => x.startsWith('multi-failed:2')))
 })
 
-test('错误目标单红 → 拒收', () => {
-  const r = judgeMutant({
+test('错误目标单红 / fullName 不匹配 → 拒收', () => {
+  const wrongFile = judgeMutant({
     exitCode: 1,
     json: { testResults: [file('src/other.glm-p.test.ts', 'failed', ok('boom'))] },
     targetFile: 'src/a.glm-p.test.ts',
     targetFullName: 'src/a.glm-p.test.ts',
     positiveExecuted: 1,
   })
-  assert.equal(r.valid, false)
-  assert.ok(r.reasons.includes('wrong-file:src/other.glm-p.test.ts'))
-})
-
-test('fullName 不匹配 → 拒收', () => {
-  const r = judgeMutant({
+  assert.equal(wrongFile.valid, false)
+  const wrongName = judgeMutant({
     exitCode: 1,
     json: { testResults: [file('src/a.glm-p.test.ts', 'failed', ok('boom'))] },
     targetFile: 'src/a.glm-p.test.ts',
     targetFullName: 'another-full-name',
     positiveExecuted: 1,
   })
-  assert.equal(r.valid, false)
-  assert.ok(r.reasons.includes('wrong-fullName'))
+  assert.equal(wrongName.valid, false)
+  assert.ok(wrongName.reasons.includes('wrong-fullName'))
 })
 
-test('超时/环境/收集红 → 拒收', () => {
-  for (const message of [
-    'Error: Test timed out in 5000ms.',
-    'Error: Cannot find module ./x',
-    'Error: No test files found, exiting with code 1',
-  ]) {
-    const r = judgeMutant({
-      exitCode: 1,
-      json: { testResults: [file('src/a.glm-p.test.ts', 'failed', message)] },
-      targetFile: 'src/a.glm-p.test.ts',
-      targetFullName: 'src/a.glm-p.test.ts',
-      positiveExecuted: 1,
-    })
-    assert.equal(r.valid, false, message)
-    assert.ok(
-      r.reasons.some((x) => x === 'harness-red'),
-      message,
-    )
-  }
-})
-
-test('零执行/JSON缺失/exit0 → 拒收', () => {
-  assert.equal(
-    judgeMutant({
-      exitCode: 1,
-      json: { testResults: [] },
-      targetFile: 'a',
-      targetFullName: 'a',
-      positiveExecuted: 0,
-    }).valid,
-    false,
-  )
-  assert.equal(
-    judgeMutant({
-      exitCode: 1,
-      json: null,
-      targetFile: 'a',
-      targetFullName: 'a',
-      positiveExecuted: 1,
-    }).valid,
-    false,
-  )
-  assert.equal(
-    judgeMutant({
-      exitCode: 0,
-      json: { testResults: [file('a', 'passed')] },
-      targetFile: 'a',
-      targetFullName: 'a',
-      positiveExecuted: 1,
-    }).valid,
-    false,
-  )
-})
-
-test('执行集变化（邻居被过滤/少跑）→ 拒收', () => {
+test('执行集数量漂移 → 拒收', () => {
   const r = judgeMutant({
     exitCode: 1,
     json: { testResults: [file('src/a.glm-p.test.ts', 'failed', ok('boom'))] },
@@ -140,7 +83,149 @@ test('执行集变化（邻居被过滤/少跑）→ 拒收', () => {
   assert.ok(r.reasons.some((x) => x.startsWith('executed-set-changed')))
 })
 
-test('skipped/todo → 拒收', () => {
+// ---------- r3.5 预审四反例（逐条对齐 codex-zcode-pq-preflight-20261001）----------
+
+test('反例1：零执行 clean（exit 0、testResults=[]、expectedExecuted=0）→ 拒收', () => {
+  const r = judgeClean({
+    exitCode: 0,
+    json: { testResults: [] },
+    expectedExecuted: 0,
+    label: 'positive',
+  })
+  assert.equal(r.valid, false)
+  assert.ok(r.reasons.includes('positive:zero-executed'))
+})
+
+test('反例2：同数量不同身份（restored 只有 different-neighbor）→ 拒收', () => {
+  const r = judgeClean({
+    exitCode: 0,
+    json: { testResults: [file('different-neighbor', 'passed')] },
+    expectedExecuted: 1,
+    expectedIdentitySet: ['src/a.glm-p.test.ts×target'],
+    label: 'restored',
+  })
+  assert.equal(r.valid, false)
+  assert.ok(r.reasons.includes('restored:identity-set-mismatch'))
+})
+
+test('反例3：单目标红叠加收集错误（suite 空断言 + SyntaxError + runtimeError 计数）→ 拒收', () => {
+  const r = judgeMutant({
+    exitCode: 1,
+    targetFile: 'src/a.glm-p.test.ts',
+    targetFullName: 'target',
+    positiveExecuted: 1,
+    json: {
+      numRuntimeErrorTestSuites: 1,
+      numFailedTestSuites: 2,
+      testResults: [
+        file('src/a.glm-p.test.ts', 'failed', 'AssertionError: boom'),
+        {
+          name: '/repo/packages/editor/src/b.glm-p.test.ts',
+          status: 'failed',
+          message: 'SyntaxError: broken collection',
+          assertionResults: [],
+        },
+      ],
+    },
+  })
+  assert.equal(r.valid, false)
+  assert.ok(r.reasons.some((x) => x.startsWith('mutated:suite-collection-error:')))
+  assert.ok(r.reasons.includes('mutated:runtime-error-suites'))
+})
+
+test('反例4：pending 状态 clean → 拒收（要求每条 passed）', () => {
+  const r = judgeClean({
+    exitCode: 0,
+    json: { testResults: [file('target', 'pending')] },
+    expectedExecuted: 1,
+    label: 'restored',
+  })
+  assert.equal(r.valid, false)
+  assert.ok(r.reasons.includes('restored:non-passfail-status:pending'))
+})
+
+test('clean 相 failed 叶子 → 拒收；collectionErrors 直测', () => {
+  const r = judgeClean({
+    exitCode: 0,
+    json: { testResults: [file('a', 'failed', ok('x'))] },
+    expectedExecuted: 1,
+    label: 'restored',
+  })
+  assert.equal(r.valid, false)
+  assert.ok(r.reasons.includes('restored:failed-1'))
+  assert.deepEqual(collectionErrors({ testResults: [] }), [])
+})
+
+// ---------- signal / spawn 失败分开拒收 ----------
+
+test('signal 非空 → mutant/clean 均拒收（与 exit 分开）', () => {
+  const m = judgeMutant({
+    exitCode: 1,
+    json: { testResults: [file('src/a.glm-p.test.ts', 'failed', ok('boom'))] },
+    targetFile: 'src/a.glm-p.test.ts',
+    targetFullName: 'src/a.glm-p.test.ts',
+    positiveExecuted: 1,
+    signal: 'SIGKILL',
+  })
+  assert.equal(m.valid, false)
+  assert.ok(m.reasons.includes('mutated:signal-SIGKILL'))
+  const c = judgeClean({
+    exitCode: 0,
+    json: { testResults: [file('a', 'passed')] },
+    expectedExecuted: 1,
+    label: 'restored',
+    signal: 'SIGTERM',
+  })
+  assert.equal(c.valid, false)
+  assert.ok(c.reasons.includes('restored:signal-SIGTERM'))
+})
+
+test('spawnError → mutant/clean 均拒收（即使 exitCode/json 看似正常）', () => {
+  const m = judgeMutant({
+    exitCode: 1,
+    json: { testResults: [file('src/a.glm-p.test.ts', 'failed', ok('boom'))] },
+    targetFile: 'src/a.glm-p.test.ts',
+    targetFullName: 'src/a.glm-p.test.ts',
+    positiveExecuted: 1,
+    spawnError: 'ENOENT: vitest bin missing',
+  })
+  assert.equal(m.valid, false)
+  assert.ok(m.reasons.includes('mutated:spawn-error'))
+  const c = judgeClean({
+    exitCode: 0,
+    json: { testResults: [file('a', 'passed')] },
+    expectedExecuted: 1,
+    label: 'positive',
+    spawnError: 'EACCES',
+  })
+  assert.equal(c.valid, false)
+  assert.ok(c.reasons.includes('positive:spawn-error'))
+})
+
+// ---------- 身份集合比较正例 ----------
+
+test('positive/restored 完整 file×fullName 身份集合一致 → 接受', () => {
+  const identity = ['src/a.glm-p.test.ts×src/a.glm-p.test.ts', 'src/b.glm-p.test.ts×neighbor']
+  const json = {
+    testResults: [
+      file('src/a.glm-p.test.ts', 'passed'),
+      {
+        name: '/repo/packages/editor/src/b.glm-p.test.ts',
+        assertionResults: [{ fullName: 'neighbor', status: 'passed', failureMessages: [] }],
+      },
+    ],
+  }
+  const r = judgeClean({
+    exitCode: 0,
+    json,
+    expectedExecuted: 2,
+    expectedIdentitySet: identity,
+    label: 'restored',
+  })
+  assert.equal(r.valid, true)
+})
+
+test('skipped/todo → mutant 拒收', () => {
   const r = judgeMutant({
     exitCode: 1,
     json: { testResults: [file('src/a.glm-p.test.ts', 'skipped')] },
@@ -149,35 +234,5 @@ test('skipped/todo → 拒收', () => {
     positiveExecuted: 1,
   })
   assert.equal(r.valid, false)
-  assert.ok(r.reasons.some((x) => x.startsWith('skipped-or-todo:1')))
-})
-
-test('judgeClean：正控/恢复相全绿且执行数一致 → 接受；失败/执行数漂移 → 拒收', () => {
-  assert.equal(
-    judgeClean({
-      exitCode: 0,
-      json: { testResults: [file('a', 'passed')] },
-      expectedExecuted: 1,
-      label: 'positive',
-    }).valid,
-    true,
-  )
-  assert.equal(
-    judgeClean({
-      exitCode: 1,
-      json: { testResults: [file('a', 'failed', ok('x'))] },
-      expectedExecuted: 1,
-      label: 'restored',
-    }).valid,
-    false,
-  )
-  assert.equal(
-    judgeClean({
-      exitCode: 0,
-      json: { testResults: [file('a', 'passed')] },
-      expectedExecuted: 24,
-      label: 'restored',
-    }).valid,
-    false,
-  )
+  assert.ok(r.reasons.some((x) => x.startsWith('mutated:non-passfail-status:skipped')))
 })

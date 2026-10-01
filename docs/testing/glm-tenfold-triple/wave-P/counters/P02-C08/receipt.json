@@ -4,7 +4,8 @@
   "findText": "            } else if (event.key === 'Escape') {\n              setOpen(false)\n              triggerRef.current?.focus()",
   "replaceText": "            } else if (event.key === 'Escape') {\n              setOpen(false)",
   "testSpec": "src/ui/IsometricEditorToolbar.glm-p.test.tsx",
-  "candidateHead": "2547d8ade1ba94f124acdbef17d495672c581828",
+  "expectFullname": "P02-G03 工具选项托盘键盘合同 托盘内 Escape 关盘并把焦点还给触发器",
+  "candidateHead": "48ade197eb508273168f62384141f8d1dde854ec",
   "productSha256Candidate": "a5b3420868078a885fd107bbea2425b69a52599fe8b3ecdd852cff15aa005a4a",
   "patch": "--- a/packages/editor/src/ui/IsometricEditorToolbar.tsx\n+++ b/packages/editor/src/ui/IsometricEditorToolbar.tsx\n@@ -160,7 +160,6 @@\n               event.preventDefault()\n             } else if (event.key === 'Escape') {\n               setOpen(false)\n-              triggerRef.current?.focus()\n               event.preventDefault()\n             }\n           }}\n",
   "positive": {
@@ -20,7 +21,14 @@
     "judge": {
       "valid": true,
       "reasons": [],
-      "executed": 5
+      "executed": 5,
+      "identitySet": [
+        "src/ui/IsometricEditorToolbar.glm-p.test.tsx×P02-G03 工具选项托盘键盘合同 托盘内 Escape 关盘并把焦点还给触发器",
+        "src/ui/IsometricEditorToolbar.glm-p.test.tsx×P02-G03 工具选项托盘键盘合同 托盘内 Home/End 分别聚焦首/尾选项；ArrowRight/Left 在选项间移动",
+        "src/ui/IsometricEditorToolbar.glm-p.test.tsx×P02-G03 工具选项托盘键盘合同 绘制高度托盘 disabled 时按键不开盘",
+        "src/ui/IsometricEditorToolbar.glm-p.test.tsx×P02-G03 工具选项托盘键盘合同 绘制高度托盘选项按 maxPaintHeight 枚举并提交所选高度",
+        "src/ui/IsometricEditorToolbar.glm-p.test.tsx×P02-G03 工具选项托盘键盘合同 触发器 ArrowDown/Enter/空格 开盘；点击选项提交 brush 尺寸"
+      ]
     }
   },
   "productSha256MutatedTree": "f30aa68f7f334f83d79a65512d208e98050f60103a352775ee695566973d7130",
@@ -53,6 +61,25 @@
   },
   "restored": {
     "exitCode": 0,
-    "executed": 5
+    "executed": 5,
+    "executedFullNames": [
+      "P02-G03 工具选项托盘键盘合同 触发器 ArrowDown/Enter/空格 开盘；点击选项提交 brush 尺寸",
+      "P02-G03 工具选项托盘键盘合同 托盘内 Escape 关盘并把焦点还给触发器",
+      "P02-G03 工具选项托盘键盘合同 托盘内 Home/End 分别聚焦首/尾选项；ArrowRight/Left 在选项间移动",
+      "P02-G03 工具选项托盘键盘合同 绘制高度托盘 disabled 时按键不开盘",
+      "P02-G03 工具选项托盘键盘合同 绘制高度托盘选项按 maxPaintHeight 枚举并提交所选高度"
+    ],
+    "judge": {
+      "valid": true,
+      "reasons": [],
+      "executed": 5,
+      "identitySet": [
+        "src/ui/IsometricEditorToolbar.glm-p.test.tsx×P02-G03 工具选项托盘键盘合同 托盘内 Escape 关盘并把焦点还给触发器",
+        "src/ui/IsometricEditorToolbar.glm-p.test.tsx×P02-G03 工具选项托盘键盘合同 托盘内 Home/End 分别聚焦首/尾选项；ArrowRight/Left 在选项间移动",
+        "src/ui/IsometricEditorToolbar.glm-p.test.tsx×P02-G03 工具选项托盘键盘合同 绘制高度托盘 disabled 时按键不开盘",
+        "src/ui/IsometricEditorToolbar.glm-p.test.tsx×P02-G03 工具选项托盘键盘合同 绘制高度托盘选项按 maxPaintHeight 枚举并提交所选高度",
+        "src/ui/IsometricEditorToolbar.glm-p.test.tsx×P02-G03 工具选项托盘键盘合同 触发器 ArrowDown/Enter/空格 开盘；点击选项提交 brush 尺寸"
+      ]
+    }
   }
 }

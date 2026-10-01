@@ -1,8 +1,8 @@
 {
   "campaign": "TEST-GLM-OPQ-20260930",
   "wave": "P",
-  "rework": "r3 (2026-10-01 r2 二审后)",
-  "review": "docs/testing/glm-tenfold-triple/codex-op-r2-review-20261001.md (P-R2-01..03)",
+  "rework": "r3.5（2026-10-01 r3 预审后）",
+  "review": "docs/testing/glm-tenfold-triple/codex-zcode-pq-preflight-20261001.md（P-R2-01 未完项闭合）",
   "dispatchBase": "8b3ca062953b17a12178f8d1a9e36657971234b1",
   "previousCandidate": "8fb38fcc3b3f4f2d277260148c66488c979caa49",
   "productionFreeze": "3ac9a2e2f6aba8a5cc97640c18fef8549d199380",
@@ -23,7 +23,8 @@
     "P-R2-01": "counter.mjs 重写：diff -u 真实 patch + git apply 实测（应用后逐字节等于变异内容）；judge 抽出 counter-judge.mjs（恰一红+file/fullName 逐字匹配+拒收多红/错目标/skipped/超时/环境红/执行集漂移），自测 10/10；10 枚反控全部重跑，mutated.json 直读全部 numFailedTests=1",
     "P-R2-02": "G09 三条重复分类断言删除（70→67）；contracts.json 逐合同真实旧断言锚点（contracts-anchors.mjs，67 条）",
     "P-R2-03": "F02/F06/F09/F13/F15 相位实动补齐（含像素校验和、截图字节差分、tileId 真实失败恢复、撤销命令名标签）；F14 创建战场无撤销条目、F18 375px 导航下拉未展开——两条如实登记未证，18/20 完整证明",
-    "verifier": "lab 运行工程迁出 /tmp/glm-p-lab-isolated（配方 browser/lab-project.md），完整 verifier exit 0"
+    "verifier": "lab 运行工程迁出 /tmp/glm-p-lab-isolated（配方 browser/lab-project.md），完整 verifier exit 0",
+    "P-R2-01-r3.5": "judge 收紧（完整 file×fullName 身份集合/逐条 passed/收集与运行错误/signal-spawn 分开；恢复相同一 judge）；自测 14/14 含预审四反例+signal/spawn；runner mkdtemp+finally 局部回收无全局 prune；counters.json 索引自最终 receipt 重建并逐项验证 apply+hash；十针业务证据未变未重采"
   },
   "commands": {
     "directedVitest": "67/67 passed（directed-vitest.json 树内实跑）",

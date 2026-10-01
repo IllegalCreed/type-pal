@@ -4,7 +4,8 @@
   "findText": "      {sharedDisabledReason ? (",
   "replaceText": "      {false && sharedDisabledReason ? (",
   "testSpec": "src/ui/LayerStackControls.glm-p.test.tsx",
-  "candidateHead": "2547d8ade1ba94f124acdbef17d495672c581828",
+  "expectFullname": "P02-G02 LayerStackControls 禁用原因残余 add/delete 同因 → 只渲染一段共享原因",
+  "candidateHead": "48ade197eb508273168f62384141f8d1dde854ec",
   "productSha256Candidate": "222f49b4543e57fc7a2e5ac90ecf4958df7bd8cbcedbe2d6bf5b5d489539c65e",
   "patch": "--- a/packages/editor/src/ui/LayerStackControls.tsx\n+++ b/packages/editor/src/ui/LayerStackControls.tsx\n@@ -145,7 +145,7 @@\n           />\n         </DsActionGroup>\n       </div>\n-      {sharedDisabledReason ? (\n+      {false && sharedDisabledReason ? (\n         <p className=\"layer-stack-disabled-reason\" id={addReasonId}>\n           {sharedDisabledReason}\n         </p>\n",
   "positive": {
@@ -20,7 +21,14 @@
     "judge": {
       "valid": true,
       "reasons": [],
-      "executed": 5
+      "executed": 5,
+      "identitySet": [
+        "src/ui/LayerStackControls.glm-p.test.tsx×P02-G02 LayerPaintContext 聚焦与显示高度 显示高度滑杆按整数步进回调，output 实时显示当前值",
+        "src/ui/LayerStackControls.glm-p.test.tsx×P02-G02 LayerPaintContext 聚焦与显示高度 默认「聚焦当前」；点击后 aria-pressed 翻转并显示「只看当前」",
+        "src/ui/LayerStackControls.glm-p.test.tsx×P02-G02 LayerStackControls 禁用原因残余 add/delete 同因 → 只渲染一段共享原因",
+        "src/ui/LayerStackControls.glm-p.test.tsx×P02-G02 LayerStackControls 禁用原因残余 addDisabledReason：新增按钮禁用并渲染原因段",
+        "src/ui/LayerStackControls.glm-p.test.tsx×P02-G02 LayerStackControls 禁用原因残余 最小层规则：删除按钮禁用并出现规则 HelpTip，但不渲染删除原因段"
+      ]
     }
   },
   "productSha256MutatedTree": "954cd40ae46ff67e61aa7c5efb66e2f96d23523d20c0626def71d2dc204a4478",
@@ -53,6 +61,25 @@
   },
   "restored": {
     "exitCode": 0,
-    "executed": 5
+    "executed": 5,
+    "executedFullNames": [
+      "P02-G02 LayerPaintContext 聚焦与显示高度 默认「聚焦当前」；点击后 aria-pressed 翻转并显示「只看当前」",
+      "P02-G02 LayerPaintContext 聚焦与显示高度 显示高度滑杆按整数步进回调，output 实时显示当前值",
+      "P02-G02 LayerStackControls 禁用原因残余 addDisabledReason：新增按钮禁用并渲染原因段",
+      "P02-G02 LayerStackControls 禁用原因残余 最小层规则：删除按钮禁用并出现规则 HelpTip，但不渲染删除原因段",
+      "P02-G02 LayerStackControls 禁用原因残余 add/delete 同因 → 只渲染一段共享原因"
+    ],
+    "judge": {
+      "valid": true,
+      "reasons": [],
+      "executed": 5,
+      "identitySet": [
+        "src/ui/LayerStackControls.glm-p.test.tsx×P02-G02 LayerPaintContext 聚焦与显示高度 显示高度滑杆按整数步进回调，output 实时显示当前值",
+        "src/ui/LayerStackControls.glm-p.test.tsx×P02-G02 LayerPaintContext 聚焦与显示高度 默认「聚焦当前」；点击后 aria-pressed 翻转并显示「只看当前」",
+        "src/ui/LayerStackControls.glm-p.test.tsx×P02-G02 LayerStackControls 禁用原因残余 add/delete 同因 → 只渲染一段共享原因",
+        "src/ui/LayerStackControls.glm-p.test.tsx×P02-G02 LayerStackControls 禁用原因残余 addDisabledReason：新增按钮禁用并渲染原因段",
+        "src/ui/LayerStackControls.glm-p.test.tsx×P02-G02 LayerStackControls 禁用原因残余 最小层规则：删除按钮禁用并出现规则 HelpTip，但不渲染删除原因段"
+      ]
+    }
   }
 }

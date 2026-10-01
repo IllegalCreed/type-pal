@@ -15,6 +15,23 @@ Owner GLM P；[任务卡](../../../ops/tasks/TEST-GLM-WAVE-P-1-editor-residual-t
 | P-R2-03 相位 | F02（created/undo 相位轮询稳定+新地图消失）、F06（像素校验和 9110598→9584477→9110598 + 截图字节差分）、F09（搜索字节差分 + tileId=-3→alert→合法值恢复的真实失败恢复）、F13（物品 0项→1项→0项）、F15（撤销标签 撤销→撤销：编辑战斗模拟器配置→撤销）已补实；**F14（创建战场无撤销条目）与 F18（375px 导航下拉未展开）如实登记未证**——20 条中 18 条完整证明 |
 | verifier | lab 运行工程迁出至 /tmp/glm-p-lab-isolated（配方见 browser/lab-project.md），完整 verifier exit 0 |
 
+## r3.5 预审闭合（对 codex-zcode-pq-preflight-20261001 P-R2-01 未完项）
+
+- **judge 收紧**（counter-judge.mjs）：clean 相逐条 passed（pending/todo/skipped 拒收）、
+  完整 file×fullName 身份集合比较（同数量不同身份拒收）、suite 级收集错误
+  （failed 且空断言）与 numRuntimeErrorTestSuites 计数拒收、signal/spawn 失败与
+  正常退出分开；恢复相调用同一 judgeClean（执行数对齐 mutated、身份集合对齐
+  positive），不再只查 exit。Vitest rejects 的 AssertionError 序列化原文保留。
+- **自测**：counter-judge.test.mjs 14/14，含预审四个误收反例（零执行 clean、
+  同数换身份、单目标红叠加收集错误、pending）与 signal/spawn 拒收；Codex 探针
+  原样重放四例全部转为拒收。
+- **runner**：隔离树 mkdtemp 独占路径；finally 只回收本次树，删除全局 prune。
+- **索引重建**：counters.json 的 patch/三态记录逐条取自最终 per-counter receipt
+  （旧索引残留腐坏 patch 已清除），重建时逐项独立验证 git apply + mutant hash。
+  十针业务三态证据与针位未变，未重采。
+- 门禁：Editor 全包 516 文件 3853 绿、typecheck 0、根 lint 0/0/0、diff-check 净、
+  完整 verifier exit 0（lab 在 /tmp/glm-p-lab-isolated，配方 browser/lab-project.md）。
+
 ## r2 已闭合项（保留记录）
 
 | 项 | 处置 |

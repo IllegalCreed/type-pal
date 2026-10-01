@@ -4,7 +4,8 @@
   "findText": "? '当前活动层已隐藏；请显式显示或切换图层后再修改。'",
   "replaceText": "? '当前活动层已隐藏。'",
   "testSpec": "src/ui/MapSelectionInspector.glm-p.test.tsx",
-  "candidateHead": "2547d8ade1ba94f124acdbef17d495672c581828",
+  "expectFullname": "P02-G01 选区检查器警告与摘要残余 活动层隐藏 → 整笔修改禁用警告指向显式显示",
+  "candidateHead": "48ade197eb508273168f62384141f8d1dde854ec",
   "productSha256Candidate": "12c018e7eda0aed1fa91ee8989e4e56b71818b8851aedf2b0a22a195e8076463",
   "patch": "--- a/packages/editor/src/ui/MapSelectionInspector.tsx\n+++ b/packages/editor/src/ui/MapSelectionInspector.tsx\n@@ -115,7 +115,7 @@\n   const warning = editingBlockedReason\n     ? editingBlockedReason\n     : activeHidden\n-      ? '当前活动层已隐藏；请显式显示或切换图层后再修改。'\n+      ? '当前活动层已隐藏。'\n       : activeLocked\n         ? '当前活动层已锁定；请显式解锁或切换图层后再修改。'\n         : selectedHidden.length\n",
   "positive": {
@@ -23,7 +24,17 @@
     "judge": {
       "valid": true,
       "reasons": [],
-      "executed": 8
+      "executed": 8,
+      "identitySet": [
+        "src/ui/MapSelectionInspector.glm-p.test.tsx×P02-G01 选区检查器警告与摘要残余 tileId 负数 → 校验错误「必须是非负整数」且零 patch",
+        "src/ui/MapSelectionInspector.glm-p.test.tsx×P02-G01 选区检查器警告与摘要残余 活动层锁定 → 整笔修改禁用警告指向显式解锁",
+        "src/ui/MapSelectionInspector.glm-p.test.tsx×P02-G01 选区检查器警告与摘要残余 活动层隐藏 → 整笔修改禁用警告指向显式显示",
+        "src/ui/MapSelectionInspector.glm-p.test.tsx×P02-G01 选区检查器警告与摘要残余 纯格点选区无视觉实例 → 图层行显示「无视觉层」",
+        "src/ui/MapSelectionInspector.glm-p.test.tsx×P02-G01 选区检查器警告与摘要残余 跨层选区摘要：图层名以「、」连接，范围行给出 min→max",
+        "src/ui/MapSelectionInspector.glm-p.test.tsx×P02-G01 选区检查器警告与摘要残余 选区命中锁定层成员按层计（同层两槽仍报 1）→ 按成员层警告",
+        "src/ui/MapSelectionInspector.glm-p.test.tsx×P02-G01 选区检查器警告与摘要残余 选区命中隐藏层成员（活动层可见）→ 按成员数警告",
+        "src/ui/MapSelectionInspector.glm-p.test.tsx×P02-G01 选区检查器警告与摘要残余 高度输入框内按 Enter 直接触发 blur 提交，无需手动焦点移出"
+      ]
     }
   },
   "productSha256MutatedTree": "62c8b97007666b4d399c9989568f4ad445e07520a5a4df93081bec6760b91aad",
@@ -59,6 +70,31 @@
   },
   "restored": {
     "exitCode": 0,
-    "executed": 8
+    "executed": 8,
+    "executedFullNames": [
+      "P02-G01 选区检查器警告与摘要残余 活动层隐藏 → 整笔修改禁用警告指向显式显示",
+      "P02-G01 选区检查器警告与摘要残余 活动层锁定 → 整笔修改禁用警告指向显式解锁",
+      "P02-G01 选区检查器警告与摘要残余 选区命中隐藏层成员（活动层可见）→ 按成员数警告",
+      "P02-G01 选区检查器警告与摘要残余 选区命中锁定层成员按层计（同层两槽仍报 1）→ 按成员层警告",
+      "P02-G01 选区检查器警告与摘要残余 跨层选区摘要：图层名以「、」连接，范围行给出 min→max",
+      "P02-G01 选区检查器警告与摘要残余 纯格点选区无视觉实例 → 图层行显示「无视觉层」",
+      "P02-G01 选区检查器警告与摘要残余 高度输入框内按 Enter 直接触发 blur 提交，无需手动焦点移出",
+      "P02-G01 选区检查器警告与摘要残余 tileId 负数 → 校验错误「必须是非负整数」且零 patch"
+    ],
+    "judge": {
+      "valid": true,
+      "reasons": [],
+      "executed": 8,
+      "identitySet": [
+        "src/ui/MapSelectionInspector.glm-p.test.tsx×P02-G01 选区检查器警告与摘要残余 tileId 负数 → 校验错误「必须是非负整数」且零 patch",
+        "src/ui/MapSelectionInspector.glm-p.test.tsx×P02-G01 选区检查器警告与摘要残余 活动层锁定 → 整笔修改禁用警告指向显式解锁",
+        "src/ui/MapSelectionInspector.glm-p.test.tsx×P02-G01 选区检查器警告与摘要残余 活动层隐藏 → 整笔修改禁用警告指向显式显示",
+        "src/ui/MapSelectionInspector.glm-p.test.tsx×P02-G01 选区检查器警告与摘要残余 纯格点选区无视觉实例 → 图层行显示「无视觉层」",
+        "src/ui/MapSelectionInspector.glm-p.test.tsx×P02-G01 选区检查器警告与摘要残余 跨层选区摘要：图层名以「、」连接，范围行给出 min→max",
+        "src/ui/MapSelectionInspector.glm-p.test.tsx×P02-G01 选区检查器警告与摘要残余 选区命中锁定层成员按层计（同层两槽仍报 1）→ 按成员层警告",
+        "src/ui/MapSelectionInspector.glm-p.test.tsx×P02-G01 选区检查器警告与摘要残余 选区命中隐藏层成员（活动层可见）→ 按成员数警告",
+        "src/ui/MapSelectionInspector.glm-p.test.tsx×P02-G01 选区检查器警告与摘要残余 高度输入框内按 Enter 直接触发 blur 提交，无需手动焦点移出"
+      ]
+    }
   }
 }

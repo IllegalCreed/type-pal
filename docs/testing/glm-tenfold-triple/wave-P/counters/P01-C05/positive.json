@@ -24,7 +24,7 @@
     "updated": 0,
     "didUpdate": false
   },
-  "startTime": 1790845641434,
+  "startTime": 1790858288560,
   "success": true,
   "testResults": [
     {
@@ -34,7 +34,7 @@
           "fullName": "P01-G01 serializeProject 守卫残余 有图章模板但 manifest.content.stamps 未登记 → 序列化层 fail-loud，不产出任何文件",
           "status": "passed",
           "title": "有图章模板但 manifest.content.stamps 未登记 → 序列化层 fail-loud，不产出任何文件",
-          "duration": 42.092083,
+          "duration": 25.331957999999986,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -44,7 +44,7 @@
           "fullName": "P01-G01 serializeProject 守卫残余 登记图章表后序列化在登记路径产出规范化模板文本，经正式 parser round-trip 等值",
           "status": "passed",
           "title": "登记图章表后序列化在登记路径产出规范化模板文本，经正式 parser round-trip 等值",
-          "duration": 10.5625,
+          "duration": 4.99370799999997,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -54,7 +54,7 @@
           "fullName": "P01-G01 serializeProject 守卫残余 非空战斗模拟器库序列化产出保留路径文件；空库不产出该文件",
           "status": "passed",
           "title": "非空战斗模拟器库序列化产出保留路径文件；空库不产出该文件",
-          "duration": 10.928957999999966,
+          "duration": 5.021457999999939,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -64,7 +64,7 @@
           "fullName": "P01-G01 serializeProject 守卫残余 pending 资源未登记 catalog → 序列化层拒绝并指名路径",
           "status": "passed",
           "title": "pending 资源未登记 catalog → 序列化层拒绝并指名路径",
-          "duration": 7.139999999999873,
+          "duration": 3.4366660000000593,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -74,7 +74,7 @@
           "fullName": "P01-G01 serializeProject 守卫残余 两个内容表声明同一路径 → 输出路径冲突 fail-loud 并报出双方 owner",
           "status": "passed",
           "title": "两个内容表声明同一路径 → 输出路径冲突 fail-loud 并报出双方 owner",
-          "duration": 3.4593750000001364,
+          "duration": 2.0468329999998787,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -84,7 +84,7 @@
           "fullName": "P01-G01 serializeProject 守卫残余 manifest 缺 content.maps 声明 → 序列化层拒绝，不产出无索引工程",
           "status": "passed",
           "title": "manifest 缺 content.maps 声明 → 序列化层拒绝，不产出无索引工程",
-          "duration": 4.384832999999844,
+          "duration": 1.681833000000097,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -94,7 +94,7 @@
           "fullName": "P01-G01 serializeProject 守卫残余 声明的内容表在 state 缺数组时按空表序列化（enemies 缺省臂）",
           "status": "passed",
           "title": "声明的内容表在 state 缺数组时按空表序列化（enemies 缺省臂）",
-          "duration": 3.8621669999999995,
+          "duration": 1.6087079999999787,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -104,7 +104,7 @@
           "fullName": "P01-G02 toEditorState 投影契约 battleSimulator 参数经正式 parser 解析并隔离：改 state 库不动输入对象",
           "status": "passed",
           "title": "battleSimulator 参数经正式 parser 解析并隔离：改 state 库不动输入对象",
-          "duration": 2.8090830000001006,
+          "duration": 1.5021670000000995,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -114,7 +114,7 @@
           "fullName": "P01-G02 toEditorState 投影契约 poisons 数组与 loader 源共享引用（直传），sceneIndex 则是 clone 隔离",
           "status": "passed",
           "title": "poisons 数组与 loader 源共享引用（直传），sceneIndex 则是 clone 隔离",
-          "duration": 3.1622080000001915,
+          "duration": 1.977624999999989,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -124,7 +124,7 @@
           "fullName": "P01-G03 diffFiles 纯核 computedSignatures 记录每个 next 条目（字符串+二进制），write 只列实际变化",
           "status": "passed",
           "title": "computedSignatures 记录每个 next 条目（字符串+二进制），write 只列实际变化",
-          "duration": 0.5244169999998576,
+          "duration": 0.37025000000016917,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -134,7 +134,7 @@
           "fullName": "P01-G03 diffFiles 纯核 字符串值按原文比较（copy-through 文本不被 JSON 重序列化）；prev 独有键进 remove",
           "status": "passed",
           "title": "字符串值按原文比较（copy-through 文本不被 JSON 重序列化）；prev 独有键进 remove",
-          "duration": 0.16354099999989558,
+          "duration": 0.14816700000005767,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -144,7 +144,7 @@
           "fullName": "P01-G03 diffFiles 纯核 同长度异字节二进制判变写盘；computedSignatures 缺省时正常返回",
           "status": "passed",
           "title": "同长度异字节二进制判变写盘；computedSignatures 缺省时正常返回",
-          "duration": 0.16716700000006313,
+          "duration": 0.16229199999997945,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -154,7 +154,7 @@
           "fullName": "P01-G04 preflightProjectWriteSet 残余臂 battle-simulator 文件为合法 JSON 字符串 → 预检解析通过；坏 kind 文档拒绝",
           "status": "passed",
           "title": "battle-simulator 文件为合法 JSON 字符串 → 预检解析通过；坏 kind 文档拒绝",
-          "duration": 0.646750000000111,
+          "duration": 0.624958000000106,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -164,7 +164,7 @@
           "fullName": "P01-G04 preflightProjectWriteSet 残余臂 battle-simulator 文件非 JSON 文本 → 语法错误如实传播，不吞成预检通过",
           "status": "passed",
           "title": "battle-simulator 文件非 JSON 文本 → 语法错误如实传播，不吞成预检通过",
-          "duration": 0.10704099999998107,
+          "duration": 0.09587499999997817,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -174,7 +174,7 @@
           "fullName": "P01-G04 preflightProjectWriteSet 残余臂 workspace identity 旁车路径出现在 files 或 removePaths → 预检拒绝",
           "status": "passed",
           "title": "workspace identity 旁车路径出现在 files 或 removePaths → 预检拒绝",
-          "duration": 0.17437500000005457,
+          "duration": 0.16370800000004238,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -184,7 +184,7 @@
           "fullName": "P01-G05 writeProject 受控真实 IO copy 与编辑产物同路径让位：落盘字节为编辑值，copy 不重复写",
           "status": "passed",
           "title": "copy 与编辑产物同路径让位：落盘字节为编辑值，copy 不重复写",
-          "duration": 38.49216700000011,
+          "duration": 29.811916999999994,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -194,7 +194,7 @@
           "fullName": "P01-G05 writeProject 受控真实 IO copy 撞 removePaths 让位：既不复制也不删除，路径不进快照",
           "status": "passed",
           "title": "copy 撞 removePaths 让位：既不复制也不删除，路径不进快照",
-          "duration": 30.94616700000006,
+          "duration": 21.46308299999987,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -204,7 +204,7 @@
           "fullName": "P01-G05 writeProject 受控真实 IO 非 firstSave 授权目标携带 copies → 拒绝且零写",
           "status": "passed",
           "title": "非 firstSave 授权目标携带 copies → 拒绝且零写",
-          "duration": 5.850540999999794,
+          "duration": 4.2065000000000055,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -214,7 +214,7 @@
           "fullName": "P01-G05 writeProject 受控真实 IO firstSave 目标 copies 缺来源复验 → 拒绝准备保存且目标零写",
           "status": "passed",
           "title": "firstSave 目标 copies 缺来源复验 → 拒绝准备保存且目标零写",
-          "duration": 0.62887499999988,
+          "duration": 0.501207999999906,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -224,7 +224,7 @@
           "fullName": "P01-G05 writeProject 受控真实 IO 增量保存：prevSnapshot 下只写变化文件，返回快照含全部文件新签名",
           "status": "passed",
           "title": "增量保存：prevSnapshot 下只写变化文件，返回快照含全部文件新签名",
-          "duration": 27.095833000000084,
+          "duration": 20.79704199999992,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -234,7 +234,7 @@
           "fullName": "P01-G05 writeProject 受控真实 IO 进度不提早 100%：commit 前每帧 completed<total，最终恰一帧 completed=total",
           "status": "passed",
           "title": "进度不提早 100%：commit 前每帧 completed<total，最终恰一帧 completed=total",
-          "duration": 21.82208300000002,
+          "duration": 15.752124999999978,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -244,7 +244,7 @@
           "fullName": "P01-G05 writeProject 受控真实 IO directories 声明在首存目标创建真实目录；写后快照不含目录项",
           "status": "passed",
           "title": "directories 声明在首存目标创建真实目录；写后快照不含目录项",
-          "duration": 35.082374999999956,
+          "duration": 19.874874999999975,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -254,7 +254,7 @@
           "fullName": "P01-G05 writeProject 受控真实 IO 成功提交后本页无恢复意图：resumeOwnProjectSave 返回 null 且不触发 onRecovering",
           "status": "passed",
           "title": "成功提交后本页无恢复意图：resumeOwnProjectSave 返回 null 且不触发 onRecovering",
-          "duration": 34.01129199999991,
+          "duration": 15.00387499999988,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -264,14 +264,14 @@
           "fullName": "P01-G05 writeProject 受控真实 IO manifest 引用表最后 close：项目文件先落盘，manifest 收尾（sidecar 除外）",
           "status": "passed",
           "title": "manifest 引用表最后 close：项目文件先落盘，manifest 收尾（sidecar 除外）",
-          "duration": 23.532874999999876,
+          "duration": 15.500666000000138,
           "failureMessages": [],
           "meta": {},
           "tags": []
         }
       ],
-      "startTime": 1790845643212,
-      "endTime": 1790845643519.533,
+      "startTime": 1790858289631,
+      "endTime": 1790858289823.5007,
       "status": "passed",
       "message": "",
       "name": "/Users/zhangxu/.codex/worktrees/glm-wave-p-editor-residual/type-pal/packages/editor/src/core/project-io.glm-p.test.ts"

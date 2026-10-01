@@ -4,7 +4,8 @@
   "findText": "    if (!state.manifest.content.worldVariables)",
   "replaceText": "    if (false && !state.manifest.content.worldVariables)",
   "testSpec": "src/core/project-diagnostics.glm-p.test.ts",
-  "candidateHead": "2547d8ade1ba94f124acdbef17d495672c581828",
+  "expectFullname": "P01-G06 保存门分段拒绝残余 manifest 缺 worldVariables 注册表路径 → 世界变量分段拒绝并指名缺路径",
+  "candidateHead": "48ade197eb508273168f62384141f8d1dde854ec",
   "productSha256Candidate": "5f86d1a71726a109ea8024aa17f41c5e85ccc150cfa751847374e5375bf55e82",
   "patch": "--- a/packages/editor/src/core/project-diagnostics.ts\n+++ b/packages/editor/src/core/project-diagnostics.ts\n@@ -844,7 +844,7 @@\n     }\n   }\n   validateSection('世界变量', () => {\n-    if (!state.manifest.content.worldVariables)\n+    if (false && !state.manifest.content.worldVariables)\n       throw new Error('manifest 缺 worldVariables 注册表路径')\n     validateWorldVariableRegistryV1(state.worldVariables ?? {})\n   })\n",
   "positive": {
@@ -30,7 +31,24 @@
     "judge": {
       "valid": true,
       "reasons": [],
-      "executed": 15
+      "executed": 15,
+      "identitySet": [
+        "src/core/project-diagnostics.glm-p.test.ts×P01-G06 保存门分段拒绝残余 catalog 记录字节数非法 → 资源注册表分段拒绝",
+        "src/core/project-diagnostics.glm-p.test.ts×P01-G06 保存门分段拒绝残余 manifest 缺 worldVariables 注册表路径 → 世界变量分段拒绝并指名缺路径",
+        "src/core/project-diagnostics.glm-p.test.ts×P01-G06 保存门分段拒绝残余 共享脚本空 id → 共享脚本分段拒绝（typed-legal 值级守卫）",
+        "src/core/project-diagnostics.glm-p.test.ts×P01-G06 保存门分段拒绝残余 场景 mapId 指向未登记地图 → 内容引用分段拒绝（mapId 臂，区别于旧 missing-sprite）",
+        "src/core/project-diagnostics.glm-p.test.ts×P01-G06 保存门分段拒绝残余 实体地址指向不存在的实体 → 实体引用分段拒绝并给出 scene/entity",
+        "src/core/project-diagnostics.glm-p.test.ts×P01-G06 保存门分段拒绝残余 对话身份引用未知 Actor → 对话身份分段拒绝并指名",
+        "src/core/project-diagnostics.glm-p.test.ts×P01-G06 保存门分段拒绝残余 带 pages 的实体页记录缺 id → 场景数据分段拒绝（typed-legal 值级守卫）",
+        "src/core/project-diagnostics.glm-p.test.ts×P01-G06 保存门分段拒绝残余 开局资源保留键 collectValue → 开局数据分段拒绝",
+        "src/core/project-diagnostics.glm-p.test.ts×P01-G06 保存门分段拒绝残余 敌人 battleSprite 空引用 → 敌人数据分段拒绝（typed-legal 值级守卫）",
+        "src/core/project-diagnostics.glm-p.test.ts×P01-G07 聚合诊断残余 catalog 非法时资产闭包诊断整体跳过：只剩注册表问题，无 sprite 缺失噪声",
+        "src/core/project-diagnostics.glm-p.test.ts×P01-G07 聚合诊断残余 manifest.assets.roles 引用不存在资产 → manifest-assets-invalid issue 指向 assets/startup",
+        "src/core/project-diagnostics.glm-p.test.ts×P01-G07 聚合诊断残余 missing-entry-point-scene：唯一合法 id 携带 objectId，空白 id 消息退回 #序号",
+        "src/core/project-diagnostics.glm-p.test.ts×P01-G07 聚合诊断残余 startWorld.resources 非法键 → invalid-start-world issue 指向 resources 路径与入口",
+        "src/core/project-diagnostics.glm-p.test.ts×P01-G07 聚合诊断残余 战场表含系统默认 #24 → 状态诊断不再出现缺省战场警告",
+        "src/core/project-diagnostics.glm-p.test.ts×P01-G07 聚合诊断残余 状态诊断收集器对同一 state 对象命中身份快路径：复用同一数组引用"
+      ]
     }
   },
   "productSha256MutatedTree": "274d8a175c83de32e042cf886c1324b936f896c10d17fd65dfabcbd40328c7ae",
@@ -73,6 +91,45 @@
   },
   "restored": {
     "exitCode": 0,
-    "executed": 15
+    "executed": 15,
+    "executedFullNames": [
+      "P01-G06 保存门分段拒绝残余 manifest 缺 worldVariables 注册表路径 → 世界变量分段拒绝并指名缺路径",
+      "P01-G06 保存门分段拒绝残余 带 pages 的实体页记录缺 id → 场景数据分段拒绝（typed-legal 值级守卫）",
+      "P01-G06 保存门分段拒绝残余 敌人 battleSprite 空引用 → 敌人数据分段拒绝（typed-legal 值级守卫）",
+      "P01-G06 保存门分段拒绝残余 共享脚本空 id → 共享脚本分段拒绝（typed-legal 值级守卫）",
+      "P01-G06 保存门分段拒绝残余 对话身份引用未知 Actor → 对话身份分段拒绝并指名",
+      "P01-G06 保存门分段拒绝残余 实体地址指向不存在的实体 → 实体引用分段拒绝并给出 scene/entity",
+      "P01-G06 保存门分段拒绝残余 开局资源保留键 collectValue → 开局数据分段拒绝",
+      "P01-G06 保存门分段拒绝残余 catalog 记录字节数非法 → 资源注册表分段拒绝",
+      "P01-G06 保存门分段拒绝残余 场景 mapId 指向未登记地图 → 内容引用分段拒绝（mapId 臂，区别于旧 missing-sprite）",
+      "P01-G07 聚合诊断残余 missing-entry-point-scene：唯一合法 id 携带 objectId，空白 id 消息退回 #序号",
+      "P01-G07 聚合诊断残余 startWorld.resources 非法键 → invalid-start-world issue 指向 resources 路径与入口",
+      "P01-G07 聚合诊断残余 catalog 非法时资产闭包诊断整体跳过：只剩注册表问题，无 sprite 缺失噪声",
+      "P01-G07 聚合诊断残余 manifest.assets.roles 引用不存在资产 → manifest-assets-invalid issue 指向 assets/startup",
+      "P01-G07 聚合诊断残余 战场表含系统默认 #24 → 状态诊断不再出现缺省战场警告",
+      "P01-G07 聚合诊断残余 状态诊断收集器对同一 state 对象命中身份快路径：复用同一数组引用"
+    ],
+    "judge": {
+      "valid": true,
+      "reasons": [],
+      "executed": 15,
+      "identitySet": [
+        "src/core/project-diagnostics.glm-p.test.ts×P01-G06 保存门分段拒绝残余 catalog 记录字节数非法 → 资源注册表分段拒绝",
+        "src/core/project-diagnostics.glm-p.test.ts×P01-G06 保存门分段拒绝残余 manifest 缺 worldVariables 注册表路径 → 世界变量分段拒绝并指名缺路径",
+        "src/core/project-diagnostics.glm-p.test.ts×P01-G06 保存门分段拒绝残余 共享脚本空 id → 共享脚本分段拒绝（typed-legal 值级守卫）",
+        "src/core/project-diagnostics.glm-p.test.ts×P01-G06 保存门分段拒绝残余 场景 mapId 指向未登记地图 → 内容引用分段拒绝（mapId 臂，区别于旧 missing-sprite）",
+        "src/core/project-diagnostics.glm-p.test.ts×P01-G06 保存门分段拒绝残余 实体地址指向不存在的实体 → 实体引用分段拒绝并给出 scene/entity",
+        "src/core/project-diagnostics.glm-p.test.ts×P01-G06 保存门分段拒绝残余 对话身份引用未知 Actor → 对话身份分段拒绝并指名",
+        "src/core/project-diagnostics.glm-p.test.ts×P01-G06 保存门分段拒绝残余 带 pages 的实体页记录缺 id → 场景数据分段拒绝（typed-legal 值级守卫）",
+        "src/core/project-diagnostics.glm-p.test.ts×P01-G06 保存门分段拒绝残余 开局资源保留键 collectValue → 开局数据分段拒绝",
+        "src/core/project-diagnostics.glm-p.test.ts×P01-G06 保存门分段拒绝残余 敌人 battleSprite 空引用 → 敌人数据分段拒绝（typed-legal 值级守卫）",
+        "src/core/project-diagnostics.glm-p.test.ts×P01-G07 聚合诊断残余 catalog 非法时资产闭包诊断整体跳过：只剩注册表问题，无 sprite 缺失噪声",
+        "src/core/project-diagnostics.glm-p.test.ts×P01-G07 聚合诊断残余 manifest.assets.roles 引用不存在资产 → manifest-assets-invalid issue 指向 assets/startup",
+        "src/core/project-diagnostics.glm-p.test.ts×P01-G07 聚合诊断残余 missing-entry-point-scene：唯一合法 id 携带 objectId，空白 id 消息退回 #序号",
+        "src/core/project-diagnostics.glm-p.test.ts×P01-G07 聚合诊断残余 startWorld.resources 非法键 → invalid-start-world issue 指向 resources 路径与入口",
+        "src/core/project-diagnostics.glm-p.test.ts×P01-G07 聚合诊断残余 战场表含系统默认 #24 → 状态诊断不再出现缺省战场警告",
+        "src/core/project-diagnostics.glm-p.test.ts×P01-G07 聚合诊断残余 状态诊断收集器对同一 state 对象命中身份快路径：复用同一数组引用"
+      ]
+    }
   }
 }

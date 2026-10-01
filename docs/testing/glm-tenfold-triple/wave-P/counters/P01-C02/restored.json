@@ -24,7 +24,7 @@
     "updated": 0,
     "didUpdate": false
   },
-  "startTime": 1790845613257,
+  "startTime": 1790858260212,
   "success": true,
   "testResults": [
     {
@@ -34,7 +34,7 @@
           "fullName": "P01-G06 保存门分段拒绝残余 manifest 缺 worldVariables 注册表路径 → 世界变量分段拒绝并指名缺路径",
           "status": "passed",
           "title": "manifest 缺 worldVariables 注册表路径 → 世界变量分段拒绝并指名缺路径",
-          "duration": 26.538249999999834,
+          "duration": 27.479291000000103,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -44,7 +44,7 @@
           "fullName": "P01-G06 保存门分段拒绝残余 带 pages 的实体页记录缺 id → 场景数据分段拒绝（typed-legal 值级守卫）",
           "status": "passed",
           "title": "带 pages 的实体页记录缺 id → 场景数据分段拒绝（typed-legal 值级守卫）",
-          "duration": 9.610791999999947,
+          "duration": 6.779833000000053,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -54,7 +54,7 @@
           "fullName": "P01-G06 保存门分段拒绝残余 敌人 battleSprite 空引用 → 敌人数据分段拒绝（typed-legal 值级守卫）",
           "status": "passed",
           "title": "敌人 battleSprite 空引用 → 敌人数据分段拒绝（typed-legal 值级守卫）",
-          "duration": 4.675625000000082,
+          "duration": 4.350332999999864,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -64,7 +64,7 @@
           "fullName": "P01-G06 保存门分段拒绝残余 共享脚本空 id → 共享脚本分段拒绝（typed-legal 值级守卫）",
           "status": "passed",
           "title": "共享脚本空 id → 共享脚本分段拒绝（typed-legal 值级守卫）",
-          "duration": 2.431374999999889,
+          "duration": 2.453666999999996,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -74,7 +74,7 @@
           "fullName": "P01-G06 保存门分段拒绝残余 对话身份引用未知 Actor → 对话身份分段拒绝并指名",
           "status": "passed",
           "title": "对话身份引用未知 Actor → 对话身份分段拒绝并指名",
-          "duration": 2.816957999999886,
+          "duration": 2.7097499999999854,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -84,7 +84,7 @@
           "fullName": "P01-G06 保存门分段拒绝残余 实体地址指向不存在的实体 → 实体引用分段拒绝并给出 scene/entity",
           "status": "passed",
           "title": "实体地址指向不存在的实体 → 实体引用分段拒绝并给出 scene/entity",
-          "duration": 2.6108330000001843,
+          "duration": 3.0330830000000333,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -94,7 +94,7 @@
           "fullName": "P01-G06 保存门分段拒绝残余 开局资源保留键 collectValue → 开局数据分段拒绝",
           "status": "passed",
           "title": "开局资源保留键 collectValue → 开局数据分段拒绝",
-          "duration": 2.200166999999965,
+          "duration": 2.3907910000000356,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -104,7 +104,7 @@
           "fullName": "P01-G06 保存门分段拒绝残余 catalog 记录字节数非法 → 资源注册表分段拒绝",
           "status": "passed",
           "title": "catalog 记录字节数非法 → 资源注册表分段拒绝",
-          "duration": 2.7527910000001157,
+          "duration": 2.7583750000001146,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -114,7 +114,7 @@
           "fullName": "P01-G06 保存门分段拒绝残余 场景 mapId 指向未登记地图 → 内容引用分段拒绝（mapId 臂，区别于旧 missing-sprite）",
           "status": "passed",
           "title": "场景 mapId 指向未登记地图 → 内容引用分段拒绝（mapId 臂，区别于旧 missing-sprite）",
-          "duration": 2.844500000000153,
+          "duration": 2.848500000000058,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -124,7 +124,7 @@
           "fullName": "P01-G07 聚合诊断残余 missing-entry-point-scene：唯一合法 id 携带 objectId，空白 id 消息退回 #序号",
           "status": "passed",
           "title": "missing-entry-point-scene：唯一合法 id 携带 objectId，空白 id 消息退回 #序号",
-          "duration": 4.561708999999837,
+          "duration": 4.557499999999891,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -134,7 +134,7 @@
           "fullName": "P01-G07 聚合诊断残余 startWorld.resources 非法键 → invalid-start-world issue 指向 resources 路径与入口",
           "status": "passed",
           "title": "startWorld.resources 非法键 → invalid-start-world issue 指向 resources 路径与入口",
-          "duration": 2.215750000000071,
+          "duration": 2.648832999999968,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -144,7 +144,7 @@
           "fullName": "P01-G07 聚合诊断残余 catalog 非法时资产闭包诊断整体跳过：只剩注册表问题，无 sprite 缺失噪声",
           "status": "passed",
           "title": "catalog 非法时资产闭包诊断整体跳过：只剩注册表问题，无 sprite 缺失噪声",
-          "duration": 1.772375000000011,
+          "duration": 2.209583000000066,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -154,7 +154,7 @@
           "fullName": "P01-G07 聚合诊断残余 manifest.assets.roles 引用不存在资产 → manifest-assets-invalid issue 指向 assets/startup",
           "status": "passed",
           "title": "manifest.assets.roles 引用不存在资产 → manifest-assets-invalid issue 指向 assets/startup",
-          "duration": 1.7951250000000982,
+          "duration": 1.988207999999986,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -164,7 +164,7 @@
           "fullName": "P01-G07 聚合诊断残余 战场表含系统默认 #24 → 状态诊断不再出现缺省战场警告",
           "status": "passed",
           "title": "战场表含系统默认 #24 → 状态诊断不再出现缺省战场警告",
-          "duration": 3.757082999999966,
+          "duration": 3.1639169999998558,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -174,17 +174,17 @@
           "fullName": "P01-G07 聚合诊断残余 状态诊断收集器对同一 state 对象命中身份快路径：复用同一数组引用",
           "status": "passed",
           "title": "状态诊断收集器对同一 state 对象命中身份快路径：复用同一数组引用",
-          "duration": 2.2303340000000844,
+          "duration": 2.0417079999999714,
           "failureMessages": [],
           "meta": {},
           "tags": []
         }
       ],
-      "startTime": 1790845614554,
-      "endTime": 1790845614627.2302,
+      "startTime": 1790858261808,
+      "endTime": 1790858261880.0417,
       "status": "passed",
       "message": "",
-      "name": "/private/tmp/glm-p-counter-P01-C02/packages/editor/src/core/project-diagnostics.glm-p.test.ts"
+      "name": "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-p-counter-P01-C02-lZjLl7/packages/editor/src/core/project-diagnostics.glm-p.test.ts"
     }
   ]
 }
