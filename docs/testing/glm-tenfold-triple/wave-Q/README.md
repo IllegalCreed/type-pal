@@ -1,4 +1,4 @@
-# Wave Q：两阶段runtime与解码残余合同十倍包 — GLM Q 交付总账（r7 窄修续批）
+# Wave Q：两阶段runtime与解码残余合同十倍包 — GLM Q 交付总账（r7 窄修 + 续批1/2）
 
 Coding Owner: GLM Q；[任务卡](../../../ops/tasks/TEST-GLM-WAVE-Q-1-runtime-residual-tenfold.md)、
 [共同协议](../README.md)、[冻结表](../targets.json)、Codex 2026-10-01 独立审查 `docs/testing/glm-tenfold-triple/codex-review-20261001.md`（落盘于审查树 codex/glm-lmn-acceptance-r1；按不 cherry-pick 纪律未拷入本分支，机器证据 codex-review-20261001.json 同）。
@@ -8,12 +8,13 @@ Coding Owner: GLM Q；[任务卡](../../../ops/tasks/TEST-GLM-WAVE-Q-1-runtime-r
 本文件描述 **r7 候选**（r6 复核 Q-R6-01～03 窄修 + 续批；r5 的 Q-R5-01～04 与 r6 门禁
 复核已关闭不重开；r6 候选 c4e554361/pin 2ebf42b8 保留供独立复核）。不合 main、不标 done。
 
-## r6 复核后当前结论（Q-R6-02 分列；历史段仅记录，不再续派）
+## r6 复核后当前结论（Q-R6-02 分列；r7 续批后更新）
 
-- **当前规模：129 执行 / 45 针 / 17 文件 + 1 fixture / 10 流程**（r6 复核确认 128 执行
-  匹配后，r7 修正 RC7 因果并新增同威力保留先遇一例）。
+- **当前规模：134 执行 / 50 针 / 18 文件 + 1 fixture / 10 流程**（r7 窄修 129 例 +
+  0x9E 死亡槽复用 4 例 + Q10 图像/音频段 1 例；50 针含 Q08-S1-RC1～5）。
 - 已删的 performItem 两例不再计入；capture 误设行（10b）已按 N/A 关闭、**不再续派**。
-- **剩余缺口：至少 571 例 / 5 针 / 完整 50 组账未闭合**；不整族缩围，逐项举证继续。
+- **剩余缺口：至少 566 例 / 0 针 / 完整 50 组账未闭合**（50 有效反控目标已达成数量，
+  组账与用例缺口继续逐项举证）；不整族缩围。
 
 ## r7 相对 r6 的改动（Q-R6-01～03）
 
@@ -143,10 +144,23 @@ Coding Owner: GLM Q；[任务卡](../../../ops/tasks/TEST-GLM-WAVE-Q-1-runtime-r
      blocked-story / integration-heavy / stop-line 判定，申请 Codex 裁决缩围；
      700 总目标不自行缩减。
 
-## 交付规模（r7 候选）
+## 交付规模（r7 续批后）
 
-**129 例 / 17 新测试文件 + 1 fixture / 45 枚三态有效反控 / 10 条非剧情浏览器流程 /
+**134 例 / 18 新测试文件 + 1 fixture / 50 枚三态有效反控 / 10 条非剧情浏览器流程 /
 1 个缺陷红诊断（Codex 已独立确认，另列产品 draft）。**
+
+### 续批1（fa0eebb9）：0x9E 正向死亡空槽复用
+
+`battle-summon-slot-reuse.glm-q.test.ts` 4 例（typed 零强转）：战中击败槽复用
+（满血重置/毒清零/对象身份与脚本替换）、同席两死亡槽 count=1 只复用一间、满员
+room=0 fail jump 300、复用后底锚重算（固定基准断言）；Q08-S1-RC1～5 三态全 VALID。
+
+### 续批2（a9b262370）：Q10 图像/音频段
+
+`cli-isolated` 增 `buildImageStageInputs`：RNG 空 sub-chunk（blob 仍写、manifest
+frameCount=0）、RGM/BALL 合法 2×2 RLE（file header 0x02000000）、FIRE 空 MKF、
+SOUNDS 空 chunk skip + 数据 chunk 原样、Musics/（7.MID→007.mid、TRACK02.ogg 原名）；
+缺 FBP.MKF 在 splash 段边界 exit 1 ENOENT。Q10-RC1～5 在变更源上重采全 VALID。
 
 | 批 | 域 | 测试文件 | 用例 | 反控 |
 |---|---|---|---:|---:|
@@ -157,10 +171,10 @@ Coding Owner: GLM Q；[任务卡](../../../ops/tasks/TEST-GLM-WAVE-Q-1-runtime-r
 | Q05 | battle 敌方可达闭包 | 1 | 6 | 5 |
 | Q06 | game status 毒槽/装备派生值 | 1 | 11 | 5 |
 | Q07 | game 事件/opcode | （见逐合同账） | 0 | — |
-| Q08 | game 战斗（8b/10b 展开 + pickAutoMagic 投影链） | 1 | 13 | 6 |
+| Q08 | game 战斗（8b/10b/pickAutoMagic/0x9E 死亡槽复用） | 2 | 17 | 11 |
 | Q09 | game framebuffer 呈现端口 | 1 | 4 | 4 |
-| Q10 | pal-extract CLI 隔离实跑（事件段 + DATA 段） | 1 | 3 | 5 |
-| 合计 | | **17 + 1 fixture** | **129** | **45** |
+| Q10 | pal-extract CLI 隔离实跑（事件/DATA/图像音频段） | 1 | 4 | 5 |
+| 合计 | | **18 + 1 fixture** | **134** | **50** |
 
 ## 700/50 缺口申报（r4 续）
 
@@ -169,7 +183,7 @@ Coding Owner: GLM Q；[任务卡](../../../ops/tasks/TEST-GLM-WAVE-Q-1-runtime-r
 - Q07/Q08 逐条件展开继续：下一批首项为 8b（performAction/selectAction 逐条件锚）、
   10b（captureEnemy 全族）、11（game 战斗集成相位 typed driver 逐合同）及
   dialog/walkNPC 演出族；缺合法输入逐项举证，不整体缩围。
-- 反控 45/50（缺口 5 针）；用例缺口至少 571/700、50 组完整账未闭合——逐项举证继续。
+- 反控 50/50（数量达标）；用例缺口至少 566/700、50 组完整账未闭合——逐项举证继续。
 
 ## 排重与不可达登记
 

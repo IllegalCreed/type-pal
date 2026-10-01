@@ -1,7 +1,7 @@
 {
   "source": "final-run directed-vitest.json 逐条展开；锚点为真实文件/断言族，非模板",
   "counts": {
-    "total": 128
+    "total": 134
   },
   "contracts": [
     {
@@ -1453,12 +1453,12 @@
       "file": "game/src/battle-action-error-arms.glm-q.test.ts",
       "fullName": "Q08-8b pickAutoMagic 展开批（typed rgwMagic 投影链；Q-R5-03 撤回 blocked-input） 公开投影链把 rgwMagic 槽位真实投影为 role.magic（caller 同路）",
       "status": "passed",
-      "source": "game core/battle/battle-system.ts pickAutoMagic（battle-system.ts:1048-1080：silence 门/getLearnedSpells/resolveMagicObject/costMP/MP/baseDamage SHORT/power 择优）与 core/game-state.ts hydratePlayerRolesRuntime（:1394-1432 rgwMagic 32 槽）+ projectRuntimeToBattleRoles（:1577-1670 槽→role.magic）",
-      "caller": "生产 caller = shell/bootstrap.ts:1197-1201 startBattle 前的同一公开投影；测试经 createInitialGameState → hydratePlayerRolesRuntime → 手填公开 rgwMagic 槽 → projectRuntimeToBattleRoles 构造 battle 视角 role",
-      "oldAssertion": "battle-system.test.ts:1089-1119 仅两条 signed-negative（负 baseDamage SHORT 跳过选正常法术 / 全负返 0 物理攻击）；旧 fixture 用双强转注 role.magic（本卡禁用），无 silence/selectingPlayerIdx/resolve 失败/costMP=1/MP 门/威力择优/投影链直证",
-      "axis": "公开投影链直证：合法 typed 槽位输入 → 数组逐位相等",
-      "oracle": "projectRuntimeToBattleRoles 输出 role.magic 逐槽等于手填 rgwMagic（32 槽保序、零槽补 0）",
-      "classification": "new typed-projection contracts（Q-R5-03 撤回后按公开 hydrate/rgwMagic/project 链展开；signed-negative 两例未重复；learnedSpells fallback 未授权不测）"
+      "source": "game src/core/battle/actions/magic.ts performMagic（caster 缺失臂）+ actions/item.ts performItem 与 actions/throw-item.ts performThrowItem（无 inventory 臂）+ battle-system.ts selectAutoTargetFrom（begin<0/prevTarget 越界臂）",
+      "caller": "typed BattleState/PlayerRoles/GameState 直构（镜像旧 makeState 形态，零强转）+ createCommandBus + runScript spy",
+      "oldAssertion": "actions.test.ts 已证「MP 不足不扣/spell id not found/magic id 不在表/item id not found」；本文件不重复，只打 caster/role 缺失与无 inventory 三族及 selectAutoTargetFrom 两条件臂",
+      "axis": "输入轴/公开入口直驱（逐用例轴见测试体；反控轴见 counters/<id>.axis）",
+      "oracle": "对真实公开入口最终结果断言（精确消息/状态字段/字节数/落盘产物），rejects 原文保留",
+      "classification": "error/resource-ownership arms（warn 原文+不扣 MP+不 emit+不跑脚本+inventory 原样；扫描规范化与越界回扫）"
     },
     {
       "id": "C105",
@@ -1467,12 +1467,12 @@
       "file": "game/src/battle-action-error-arms.glm-q.test.ts",
       "fullName": "Q08-8b pickAutoMagic 展开批（typed rgwMagic 投影链；Q-R5-03 撤回 blocked-input） silence>0 → 直接返回 0（物理攻击），不查法术表",
       "status": "passed",
-      "source": "game core/battle/battle-system.ts pickAutoMagic（battle-system.ts:1048-1080：silence 门/getLearnedSpells/resolveMagicObject/costMP/MP/baseDamage SHORT/power 择优）与 core/game-state.ts hydratePlayerRolesRuntime（:1394-1432 rgwMagic 32 槽）+ projectRuntimeToBattleRoles（:1577-1670 槽→role.magic）",
-      "caller": "生产 caller = shell/bootstrap.ts:1197-1201 startBattle 前的同一公开投影；测试经 createInitialGameState → hydratePlayerRolesRuntime → 手填公开 rgwMagic 槽 → projectRuntimeToBattleRoles 构造 battle 视角 role",
-      "oldAssertion": "battle-system.test.ts:1089-1119 仅两条 signed-negative（负 baseDamage SHORT 跳过选正常法术 / 全负返 0 物理攻击）；旧 fixture 用双强转注 role.magic（本卡禁用），无 silence/selectingPlayerIdx/resolve 失败/costMP=1/MP 门/威力择优/投影链直证",
-      "axis": "status.silence 合法正数（3）",
-      "oracle": "silence>0 时 pickAutoMagic 恒返 0（物理攻击），不查法术表",
-      "classification": "new typed-projection contracts（Q-R5-03 撤回后按公开 hydrate/rgwMagic/project 链展开；signed-negative 两例未重复；learnedSpells fallback 未授权不测）"
+      "source": "game src/core/battle/actions/magic.ts performMagic（caster 缺失臂）+ actions/item.ts performItem 与 actions/throw-item.ts performThrowItem（无 inventory 臂）+ battle-system.ts selectAutoTargetFrom（begin<0/prevTarget 越界臂）",
+      "caller": "typed BattleState/PlayerRoles/GameState 直构（镜像旧 makeState 形态，零强转）+ createCommandBus + runScript spy",
+      "oldAssertion": "actions.test.ts 已证「MP 不足不扣/spell id not found/magic id 不在表/item id not found」；本文件不重复，只打 caster/role 缺失与无 inventory 三族及 selectAutoTargetFrom 两条件臂",
+      "axis": "输入轴/公开入口直驱（逐用例轴见测试体；反控轴见 counters/<id>.axis）",
+      "oracle": "对真实公开入口最终结果断言（精确消息/状态字段/字节数/落盘产物），rejects 原文保留",
+      "classification": "error/resource-ownership arms（warn 原文+不扣 MP+不 emit+不跑脚本+inventory 原样；扫描规范化与越界回扫）"
     },
     {
       "id": "C106",
@@ -1481,12 +1481,12 @@
       "file": "game/src/battle-action-error-arms.glm-q.test.ts",
       "fullName": "Q08-8b pickAutoMagic 展开批（typed rgwMagic 投影链；Q-R5-03 撤回 blocked-input） selectingPlayerIdx 缺席（undefined）→ 返回 0",
       "status": "passed",
-      "source": "game core/battle/battle-system.ts pickAutoMagic（battle-system.ts:1048-1080：silence 门/getLearnedSpells/resolveMagicObject/costMP/MP/baseDamage SHORT/power 择优）与 core/game-state.ts hydratePlayerRolesRuntime（:1394-1432 rgwMagic 32 槽）+ projectRuntimeToBattleRoles（:1577-1670 槽→role.magic）",
-      "caller": "生产 caller = shell/bootstrap.ts:1197-1201 startBattle 前的同一公开投影；测试经 createInitialGameState → hydratePlayerRolesRuntime → 手填公开 rgwMagic 槽 → projectRuntimeToBattleRoles 构造 battle 视角 role",
-      "oldAssertion": "battle-system.test.ts:1089-1119 仅两条 signed-negative（负 baseDamage SHORT 跳过选正常法术 / 全负返 0 物理攻击）；旧 fixture 用双强转注 role.magic（本卡禁用），无 silence/selectingPlayerIdx/resolve 失败/costMP=1/MP 门/威力择优/投影链直证",
-      "axis": "BattleState 不设 selectingPlayerIdx（合法缺省）",
-      "oracle": "selectingPlayerIdx===undefined 时返 0（无当前选择队员）",
-      "classification": "new typed-projection contracts（Q-R5-03 撤回后按公开 hydrate/rgwMagic/project 链展开；signed-negative 两例未重复；learnedSpells fallback 未授权不测）"
+      "source": "game src/core/battle/actions/magic.ts performMagic（caster 缺失臂）+ actions/item.ts performItem 与 actions/throw-item.ts performThrowItem（无 inventory 臂）+ battle-system.ts selectAutoTargetFrom（begin<0/prevTarget 越界臂）",
+      "caller": "typed BattleState/PlayerRoles/GameState 直构（镜像旧 makeState 形态，零强转）+ createCommandBus + runScript spy",
+      "oldAssertion": "actions.test.ts 已证「MP 不足不扣/spell id not found/magic id 不在表/item id not found」；本文件不重复，只打 caster/role 缺失与无 inventory 三族及 selectAutoTargetFrom 两条件臂",
+      "axis": "输入轴/公开入口直驱（逐用例轴见测试体；反控轴见 counters/<id>.axis）",
+      "oracle": "对真实公开入口最终结果断言（精确消息/状态字段/字节数/落盘产物），rejects 原文保留",
+      "classification": "error/resource-ownership arms（warn 原文+不扣 MP+不 emit+不跑脚本+inventory 原样；扫描规范化与越界回扫）"
     },
     {
       "id": "C107",
@@ -1495,26 +1495,26 @@
       "file": "game/src/battle-action-error-arms.glm-q.test.ts",
       "fullName": "Q08-8b pickAutoMagic 展开批（typed rgwMagic 投影链；Q-R5-03 撤回 blocked-input） 已学槽法术 resolve 失败（spell 不在表）→ 该槽跳过，返回 0",
       "status": "passed",
-      "source": "game core/battle/battle-system.ts pickAutoMagic（battle-system.ts:1048-1080：silence 门/getLearnedSpells/resolveMagicObject/costMP/MP/baseDamage SHORT/power 择优）与 core/game-state.ts hydratePlayerRolesRuntime（:1394-1432 rgwMagic 32 槽）+ projectRuntimeToBattleRoles（:1577-1670 槽→role.magic）",
-      "caller": "生产 caller = shell/bootstrap.ts:1197-1201 startBattle 前的同一公开投影；测试经 createInitialGameState → hydratePlayerRolesRuntime → 手填公开 rgwMagic 槽 → projectRuntimeToBattleRoles 构造 battle 视角 role",
-      "oldAssertion": "battle-system.test.ts:1089-1119 仅两条 signed-negative（负 baseDamage SHORT 跳过选正常法术 / 全负返 0 物理攻击）；旧 fixture 用双强转注 role.magic（本卡禁用），无 silence/selectingPlayerIdx/resolve 失败/costMP=1/MP 门/威力择优/投影链直证",
-      "axis": "学习槽 400 而 spells 表只含 297（合法 id 域）",
-      "oracle": "已学槽 spell 不在 spells 表 → resolve 失败跳过该槽，best 保持 0",
-      "classification": "new typed-projection contracts（Q-R5-03 撤回后按公开 hydrate/rgwMagic/project 链展开；signed-negative 两例未重复；learnedSpells fallback 未授权不测）"
+      "source": "game src/core/battle/actions/magic.ts performMagic（caster 缺失臂）+ actions/item.ts performItem 与 actions/throw-item.ts performThrowItem（无 inventory 臂）+ battle-system.ts selectAutoTargetFrom（begin<0/prevTarget 越界臂）",
+      "caller": "typed BattleState/PlayerRoles/GameState 直构（镜像旧 makeState 形态，零强转）+ createCommandBus + runScript spy",
+      "oldAssertion": "actions.test.ts 已证「MP 不足不扣/spell id not found/magic id 不在表/item id not found」；本文件不重复，只打 caster/role 缺失与无 inventory 三族及 selectAutoTargetFrom 两条件臂",
+      "axis": "输入轴/公开入口直驱（逐用例轴见测试体；反控轴见 counters/<id>.axis）",
+      "oracle": "对真实公开入口最终结果断言（精确消息/状态字段/字节数/落盘产物），rejects 原文保留",
+      "classification": "error/resource-ownership arms（warn 原文+不扣 MP+不 emit+不跑脚本+inventory 原样；扫描规范化与越界回扫）"
     },
     {
       "id": "C108",
       "batch": "Q08",
       "package": "game",
       "file": "game/src/battle-action-error-arms.glm-q.test.ts",
-      "fullName": "Q08-8b pickAutoMagic 展开批（typed rgwMagic 投影链；Q-R5-03 撤回 blocked-input） costMP=1 哨兵（sdlpal 特殊免耗位）→ 跳过不选；合法耗魔法术正常入选",
+      "fullName": "Q08-8b pickAutoMagic 展开批（typed rgwMagic 投影链；Q-R5-03 撤回 blocked-input） costMP=1 极限技门（sdlpal uibattle.c:763-766 筛除极限技）→ 跳过不选；合法耗魔法术正常入选",
       "status": "passed",
-      "source": "game core/battle/battle-system.ts pickAutoMagic（battle-system.ts:1048-1080：silence 门/getLearnedSpells/resolveMagicObject/costMP/MP/baseDamage SHORT/power 择优）与 core/game-state.ts hydratePlayerRolesRuntime（:1394-1432 rgwMagic 32 槽）+ projectRuntimeToBattleRoles（:1577-1670 槽→role.magic）",
-      "caller": "生产 caller = shell/bootstrap.ts:1197-1201 startBattle 前的同一公开投影；测试经 createInitialGameState → hydratePlayerRolesRuntime → 手填公开 rgwMagic 槽 → projectRuntimeToBattleRoles 构造 battle 视角 role",
-      "oldAssertion": "battle-system.test.ts:1089-1119 仅两条 signed-negative（负 baseDamage SHORT 跳过选正常法术 / 全负返 0 物理攻击）；旧 fixture 用双强转注 role.magic（本卡禁用），无 silence/selectingPlayerIdx/resolve 失败/costMP=1/MP 门/威力择优/投影链直证",
-      "axis": "296 costMP=1 / 297 costMP=2（均合法耗魔值）",
-      "oracle": "costMP===1（sdlpal uibattle.c:763-766 极限技筛除门）跳过不选，costMP=2 正常法术入选",
-      "classification": "new typed-projection contracts（Q-R5-03 撤回后按公开 hydrate/rgwMagic/project 链展开；signed-negative 两例未重复；learnedSpells fallback 未授权不测）"
+      "source": "game src/core/battle/actions/magic.ts performMagic（caster 缺失臂）+ actions/item.ts performItem 与 actions/throw-item.ts performThrowItem（无 inventory 臂）+ battle-system.ts selectAutoTargetFrom（begin<0/prevTarget 越界臂）",
+      "caller": "typed BattleState/PlayerRoles/GameState 直构（镜像旧 makeState 形态，零强转）+ createCommandBus + runScript spy",
+      "oldAssertion": "actions.test.ts 已证「MP 不足不扣/spell id not found/magic id 不在表/item id not found」；本文件不重复，只打 caster/role 缺失与无 inventory 三族及 selectAutoTargetFrom 两条件臂",
+      "axis": "输入轴/公开入口直驱（逐用例轴见测试体；反控轴见 counters/<id>.axis）",
+      "oracle": "对真实公开入口最终结果断言（精确消息/状态字段/字节数/落盘产物），rejects 原文保留",
+      "classification": "error/resource-ownership arms（warn 原文+不扣 MP+不 emit+不跑脚本+inventory 原样；扫描规范化与越界回扫）"
     },
     {
       "id": "C109",
@@ -1523,29 +1523,99 @@
       "file": "game/src/battle-action-error-arms.glm-q.test.ts",
       "fullName": "Q08-8b pickAutoMagic 展开批（typed rgwMagic 投影链；Q-R5-03 撤回 blocked-input） 唯一已学法术 MP 不足（costMP>role.mp）→ 跳过返回 0",
       "status": "passed",
-      "source": "game core/battle/battle-system.ts pickAutoMagic（battle-system.ts:1048-1080：silence 门/getLearnedSpells/resolveMagicObject/costMP/MP/baseDamage SHORT/power 择优）与 core/game-state.ts hydratePlayerRolesRuntime（:1394-1432 rgwMagic 32 槽）+ projectRuntimeToBattleRoles（:1577-1670 槽→role.magic）",
-      "caller": "生产 caller = shell/bootstrap.ts:1197-1201 startBattle 前的同一公开投影；测试经 createInitialGameState → hydratePlayerRolesRuntime → 手填公开 rgwMagic 槽 → projectRuntimeToBattleRoles 构造 battle 视角 role",
-      "oldAssertion": "battle-system.test.ts:1089-1119 仅两条 signed-negative（负 baseDamage SHORT 跳过选正常法术 / 全负返 0 物理攻击）；旧 fixture 用双强转注 role.magic（本卡禁用），无 silence/selectingPlayerIdx/resolve 失败/costMP=1/MP 门/威力择优/投影链直证",
-      "axis": "costMP=31 vs 投影后 role.mp=30（合法边界）",
-      "oracle": "唯一已学法术 costMP>role.mp（31>30）→ 跳过返 0，不扣不选",
-      "classification": "new typed-projection contracts（Q-R5-03 撤回后按公开 hydrate/rgwMagic/project 链展开；signed-negative 两例未重复；learnedSpells fallback 未授权不测）"
+      "source": "game src/core/battle/actions/magic.ts performMagic（caster 缺失臂）+ actions/item.ts performItem 与 actions/throw-item.ts performThrowItem（无 inventory 臂）+ battle-system.ts selectAutoTargetFrom（begin<0/prevTarget 越界臂）",
+      "caller": "typed BattleState/PlayerRoles/GameState 直构（镜像旧 makeState 形态，零强转）+ createCommandBus + runScript spy",
+      "oldAssertion": "actions.test.ts 已证「MP 不足不扣/spell id not found/magic id 不在表/item id not found」；本文件不重复，只打 caster/role 缺失与无 inventory 三族及 selectAutoTargetFrom 两条件臂",
+      "axis": "输入轴/公开入口直驱（逐用例轴见测试体；反控轴见 counters/<id>.axis）",
+      "oracle": "对真实公开入口最终结果断言（精确消息/状态字段/字节数/落盘产物），rejects 原文保留",
+      "classification": "error/resource-ownership arms（warn 原文+不扣 MP+不 emit+不跑脚本+inventory 原样；扫描规范化与越界回扫）"
     },
     {
       "id": "C110",
       "batch": "Q08",
       "package": "game",
       "file": "game/src/battle-action-error-arms.glm-q.test.ts",
-      "fullName": "Q08-8b pickAutoMagic 展开批（typed rgwMagic 投影链；Q-R5-03 撤回 blocked-input） 威力择优：同 rng 下 baseDamage 高者入选（range=0 消除随机项）",
+      "fullName": "Q08-8b pickAutoMagic 展开批（typed rgwMagic 投影链；Q-R5-03 撤回 blocked-input） 威力择优（range=0 消随机项）：更高 baseDamage 者替换先遇者",
       "status": "passed",
-      "source": "game core/battle/battle-system.ts pickAutoMagic（battle-system.ts:1048-1080：silence 门/getLearnedSpells/resolveMagicObject/costMP/MP/baseDamage SHORT/power 择优）与 core/game-state.ts hydratePlayerRolesRuntime（:1394-1432 rgwMagic 32 槽）+ projectRuntimeToBattleRoles（:1577-1670 槽→role.magic）",
-      "caller": "生产 caller = shell/bootstrap.ts:1197-1201 startBattle 前的同一公开投影；测试经 createInitialGameState → hydratePlayerRolesRuntime → 手填公开 rgwMagic 槽 → projectRuntimeToBattleRoles 构造 battle 视角 role",
-      "oldAssertion": "battle-system.test.ts:1089-1119 仅两条 signed-negative（负 baseDamage SHORT 跳过选正常法术 / 全负返 0 物理攻击）；旧 fixture 用双强转注 role.magic（本卡禁用），无 silence/selectingPlayerIdx/resolve 失败/costMP=1/MP 门/威力择优/投影链直证",
-      "axis": "两法术 baseDamage 同为 30、costMP 同为 2（同威力保留首遇）",
-      "oracle": "range=0 消随机项后 strict power>maxPower：首法术(296)建立 max，同威力后来者(297)不替换 → 返回先遇到的 296",
-      "classification": "new typed-projection contracts（Q-R5-03 撤回后按公开 hydrate/rgwMagic/project 链展开；signed-negative 两例未重复；learnedSpells fallback 未授权不测）"
+      "source": "game src/core/battle/actions/magic.ts performMagic（caster 缺失臂）+ actions/item.ts performItem 与 actions/throw-item.ts performThrowItem（无 inventory 臂）+ battle-system.ts selectAutoTargetFrom（begin<0/prevTarget 越界臂）",
+      "caller": "typed BattleState/PlayerRoles/GameState 直构（镜像旧 makeState 形态，零强转）+ createCommandBus + runScript spy",
+      "oldAssertion": "actions.test.ts 已证「MP 不足不扣/spell id not found/magic id 不在表/item id not found」；本文件不重复，只打 caster/role 缺失与无 inventory 三族及 selectAutoTargetFrom 两条件臂",
+      "axis": "输入轴/公开入口直驱（逐用例轴见测试体；反控轴见 counters/<id>.axis）",
+      "oracle": "对真实公开入口最终结果断言（精确消息/状态字段/字节数/落盘产物），rejects 原文保留",
+      "classification": "error/resource-ownership arms（warn 原文+不扣 MP+不 emit+不跑脚本+inventory 原样；扫描规范化与越界回扫）"
     },
     {
       "id": "C111",
+      "batch": "Q08",
+      "package": "game",
+      "file": "game/src/battle-action-error-arms.glm-q.test.ts",
+      "fullName": "Q08-8b pickAutoMagic 展开批（typed rgwMagic 投影链；Q-R5-03 撤回 blocked-input） 同威力保留先遇（strict power>maxPower）：range=0 下两法术 baseDamage 相同 → 返回先遇到的 296",
+      "status": "passed",
+      "source": "game src/core/battle/actions/magic.ts performMagic（caster 缺失臂）+ actions/item.ts performItem 与 actions/throw-item.ts performThrowItem（无 inventory 臂）+ battle-system.ts selectAutoTargetFrom（begin<0/prevTarget 越界臂）",
+      "caller": "typed BattleState/PlayerRoles/GameState 直构（镜像旧 makeState 形态，零强转）+ createCommandBus + runScript spy",
+      "oldAssertion": "actions.test.ts 已证「MP 不足不扣/spell id not found/magic id 不在表/item id not found」；本文件不重复，只打 caster/role 缺失与无 inventory 三族及 selectAutoTargetFrom 两条件臂",
+      "axis": "输入轴/公开入口直驱（逐用例轴见测试体；反控轴见 counters/<id>.axis）",
+      "oracle": "对真实公开入口最终结果断言（精确消息/状态字段/字节数/落盘产物），rejects 原文保留",
+      "classification": "error/resource-ownership arms（warn 原文+不扣 MP+不 emit+不跑脚本+inventory 原样；扫描规范化与越界回扫）"
+    },
+    {
+      "id": "C112",
+      "batch": "Q08",
+      "package": "game",
+      "file": "game/src/battle-summon-slot-reuse.glm-q.test.ts",
+      "fullName": "Q08 0x9E 正向死亡空槽复用（战中击败槽，非初始 0 占位） 战中被击败槽被复用：满血重置、毒清零、对象身份与脚本替换",
+      "status": "passed",
+      "source": "game core/battle/battle-opcodes.ts OP_ENEMY_SUMMON(0x9E) 死亡空槽复用分支（battle-opcodes.ts:1311-1400：room 统计/resetEnemySlot 满血重置/毒清零/对象身份与脚本替换/refreshEnemyBattlePositions）",
+      "caller": "dispatchBattleOpcode 直驱 + typed BattleCtx（summonTables/enemyPos 注入，镜像生产 runScript 注入形态）",
+      "oldAssertion": "battle-opcodes.test.ts 已证「没有空槽→失败不扩容」「赤鬼王[0,76,0] 初始 0 占位槽 2 间召唤 2 只」「w!=0 指定召唤满血+脚本/抗性」「count=2」「w=0 自身同种」等主臂；本文件只打战中死亡槽正向复用族",
+      "axis": "输入轴/公开入口直驱（逐用例轴见测试体；反控轴见 counters/<id>.axis）",
+      "oracle": "对真实公开入口最终结果断言（精确消息/状态字段/字节数/落盘产物），rejects 原文保留",
+      "classification": "death-slot reuse arms（满血重置/毒清零/身份脚本替换/部分复用保序/满员 fail jump/复用后底锚重算）"
+    },
+    {
+      "id": "C113",
+      "batch": "Q08",
+      "package": "game",
+      "file": "game/src/battle-summon-slot-reuse.glm-q.test.ts",
+      "fullName": "Q08 0x9E 正向死亡空槽复用（战中击败槽，非初始 0 占位） 同席两死亡槽只复用一间：另一间保持 defeated 与残留身份",
+      "status": "passed",
+      "source": "game core/battle/battle-opcodes.ts OP_ENEMY_SUMMON(0x9E) 死亡空槽复用分支（battle-opcodes.ts:1311-1400：room 统计/resetEnemySlot 满血重置/毒清零/对象身份与脚本替换/refreshEnemyBattlePositions）",
+      "caller": "dispatchBattleOpcode 直驱 + typed BattleCtx（summonTables/enemyPos 注入，镜像生产 runScript 注入形态）",
+      "oldAssertion": "battle-opcodes.test.ts 已证「没有空槽→失败不扩容」「赤鬼王[0,76,0] 初始 0 占位槽 2 间召唤 2 只」「w!=0 指定召唤满血+脚本/抗性」「count=2」「w=0 自身同种」等主臂；本文件只打战中死亡槽正向复用族",
+      "axis": "输入轴/公开入口直驱（逐用例轴见测试体；反控轴见 counters/<id>.axis）",
+      "oracle": "对真实公开入口最终结果断言（精确消息/状态字段/字节数/落盘产物），rejects 原文保留",
+      "classification": "death-slot reuse arms（满血重置/毒清零/身份脚本替换/部分复用保序/满员 fail jump/复用后底锚重算）"
+    },
+    {
+      "id": "C114",
+      "batch": "Q08",
+      "package": "game",
+      "file": "game/src/battle-summon-slot-reuse.glm-q.test.ts",
+      "fullName": "Q08 0x9E 正向死亡空槽复用（战中击败槽，非初始 0 占位） 活敌槽绝不复用：满员 3 活 0 死 → room=0 走 fail 跳转",
+      "status": "passed",
+      "source": "game core/battle/battle-opcodes.ts OP_ENEMY_SUMMON(0x9E) 死亡空槽复用分支（battle-opcodes.ts:1311-1400：room 统计/resetEnemySlot 满血重置/毒清零/对象身份与脚本替换/refreshEnemyBattlePositions）",
+      "caller": "dispatchBattleOpcode 直驱 + typed BattleCtx（summonTables/enemyPos 注入，镜像生产 runScript 注入形态）",
+      "oldAssertion": "battle-opcodes.test.ts 已证「没有空槽→失败不扩容」「赤鬼王[0,76,0] 初始 0 占位槽 2 间召唤 2 只」「w!=0 指定召唤满血+脚本/抗性」「count=2」「w=0 自身同种」等主臂；本文件只打战中死亡槽正向复用族",
+      "axis": "输入轴/公开入口直驱（逐用例轴见测试体；反控轴见 counters/<id>.axis）",
+      "oracle": "对真实公开入口最终结果断言（精确消息/状态字段/字节数/落盘产物），rejects 原文保留",
+      "classification": "death-slot reuse arms（满血重置/毒清零/身份脚本替换/部分复用保序/满员 fail jump/复用后底锚重算）"
+    },
+    {
+      "id": "C115",
+      "batch": "Q08",
+      "package": "game",
+      "file": "game/src/battle-summon-slot-reuse.glm-q.test.ts",
+      "fullName": "Q08 0x9E 正向死亡空槽复用（战中击败槽，非初始 0 占位） 复用后全体敌人底锚按新阵容重算（PAL_BattleMakeScene 等价）",
+      "status": "passed",
+      "source": "game core/battle/battle-opcodes.ts OP_ENEMY_SUMMON(0x9E) 死亡空槽复用分支（battle-opcodes.ts:1311-1400：room 统计/resetEnemySlot 满血重置/毒清零/对象身份与脚本替换/refreshEnemyBattlePositions）",
+      "caller": "dispatchBattleOpcode 直驱 + typed BattleCtx（summonTables/enemyPos 注入，镜像生产 runScript 注入形态）",
+      "oldAssertion": "battle-opcodes.test.ts 已证「没有空槽→失败不扩容」「赤鬼王[0,76,0] 初始 0 占位槽 2 间召唤 2 只」「w!=0 指定召唤满血+脚本/抗性」「count=2」「w=0 自身同种」等主臂；本文件只打战中死亡槽正向复用族",
+      "axis": "输入轴/公开入口直驱（逐用例轴见测试体；反控轴见 counters/<id>.axis）",
+      "oracle": "对真实公开入口最终结果断言（精确消息/状态字段/字节数/落盘产物），rejects 原文保留",
+      "classification": "death-slot reuse arms（满血重置/毒清零/身份脚本替换/部分复用保序/满员 fail jump/复用后底锚重算）"
+    },
+    {
+      "id": "C116",
       "batch": "Q09",
       "package": "game",
       "file": "game/src/framebuffer-ports.glm-q.test.ts",
@@ -1559,7 +1629,7 @@
       "classification": "new contracts（默认/自定义尺寸/四边界外忽略/界内落位/clear/调色板成像+alpha 恒 255/缺色回退黑）"
     },
     {
-      "id": "C112",
+      "id": "C117",
       "batch": "Q09",
       "package": "game",
       "file": "game/src/framebuffer-ports.glm-q.test.ts",
@@ -1573,7 +1643,7 @@
       "classification": "new contracts（默认/自定义尺寸/四边界外忽略/界内落位/clear/调色板成像+alpha 恒 255/缺色回退黑）"
     },
     {
-      "id": "C113",
+      "id": "C118",
       "batch": "Q09",
       "package": "game",
       "file": "game/src/framebuffer-ports.glm-q.test.ts",
@@ -1587,7 +1657,7 @@
       "classification": "new contracts（默认/自定义尺寸/四边界外忽略/界内落位/clear/调色板成像+alpha 恒 255/缺色回退黑）"
     },
     {
-      "id": "C114",
+      "id": "C119",
       "batch": "Q09",
       "package": "game",
       "file": "game/src/framebuffer-ports.glm-q.test.ts",
@@ -1601,7 +1671,7 @@
       "classification": "new contracts（默认/自定义尺寸/四边界外忽略/界内落位/clear/调色板成像+alpha 恒 255/缺色回退黑）"
     },
     {
-      "id": "C115",
+      "id": "C120",
       "batch": "Q06",
       "package": "game",
       "file": "game/src/status-poison-equip.glm-q.test.ts",
@@ -1615,7 +1685,7 @@
       "classification": "residual direct-function arms（ByKind/伪毒/表未注入退化/逐槽 cure/99 清除/runner 契约/满表丢弃/flee 求和/抗性钳制）"
     },
     {
-      "id": "C116",
+      "id": "C121",
       "batch": "Q06",
       "package": "game",
       "file": "game/src/status-poison-equip.glm-q.test.ts",
@@ -1629,7 +1699,7 @@
       "classification": "residual direct-function arms（ByKind/伪毒/表未注入退化/逐槽 cure/99 清除/runner 契约/满表丢弃/flee 求和/抗性钳制）"
     },
     {
-      "id": "C117",
+      "id": "C122",
       "batch": "Q06",
       "package": "game",
       "file": "game/src/status-poison-equip.glm-q.test.ts",
@@ -1643,7 +1713,7 @@
       "classification": "residual direct-function arms（ByKind/伪毒/表未注入退化/逐槽 cure/99 清除/runner 契约/满表丢弃/flee 求和/抗性钳制）"
     },
     {
-      "id": "C118",
+      "id": "C123",
       "batch": "Q06",
       "package": "game",
       "file": "game/src/status-poison-equip.glm-q.test.ts",
@@ -1657,7 +1727,7 @@
       "classification": "residual direct-function arms（ByKind/伪毒/表未注入退化/逐槽 cure/99 清除/runner 契约/满表丢弃/flee 求和/抗性钳制）"
     },
     {
-      "id": "C119",
+      "id": "C124",
       "batch": "Q06",
       "package": "game",
       "file": "game/src/status-poison-equip.glm-q.test.ts",
@@ -1671,7 +1741,7 @@
       "classification": "residual direct-function arms（ByKind/伪毒/表未注入退化/逐槽 cure/99 清除/runner 契约/满表丢弃/flee 求和/抗性钳制）"
     },
     {
-      "id": "C120",
+      "id": "C125",
       "batch": "Q06",
       "package": "game",
       "file": "game/src/status-poison-equip.glm-q.test.ts",
@@ -1685,7 +1755,7 @@
       "classification": "residual direct-function arms（ByKind/伪毒/表未注入退化/逐槽 cure/99 清除/runner 契约/满表丢弃/flee 求和/抗性钳制）"
     },
     {
-      "id": "C121",
+      "id": "C126",
       "batch": "Q06",
       "package": "game",
       "file": "game/src/status-poison-equip.glm-q.test.ts",
@@ -1699,7 +1769,7 @@
       "classification": "residual direct-function arms（ByKind/伪毒/表未注入退化/逐槽 cure/99 清除/runner 契约/满表丢弃/flee 求和/抗性钳制）"
     },
     {
-      "id": "C122",
+      "id": "C127",
       "batch": "Q06",
       "package": "game",
       "file": "game/src/status-poison-equip.glm-q.test.ts",
@@ -1713,7 +1783,7 @@
       "classification": "residual direct-function arms（ByKind/伪毒/表未注入退化/逐槽 cure/99 清除/runner 契约/满表丢弃/flee 求和/抗性钳制）"
     },
     {
-      "id": "C123",
+      "id": "C128",
       "batch": "Q06",
       "package": "game",
       "file": "game/src/status-poison-equip.glm-q.test.ts",
@@ -1727,7 +1797,7 @@
       "classification": "residual direct-function arms（ByKind/伪毒/表未注入退化/逐槽 cure/99 清除/runner 契约/满表丢弃/flee 求和/抗性钳制）"
     },
     {
-      "id": "C124",
+      "id": "C129",
       "batch": "Q06",
       "package": "game",
       "file": "game/src/status-poison-equip.glm-q.test.ts",
@@ -1741,7 +1811,7 @@
       "classification": "residual direct-function arms（ByKind/伪毒/表未注入退化/逐槽 cure/99 清除/runner 契约/满表丢弃/flee 求和/抗性钳制）"
     },
     {
-      "id": "C125",
+      "id": "C130",
       "batch": "Q06",
       "package": "game",
       "file": "game/src/status-poison-equip.glm-q.test.ts",
@@ -1755,7 +1825,7 @@
       "classification": "residual direct-function arms（ByKind/伪毒/表未注入退化/逐槽 cure/99 清除/runner 契约/满表丢弃/flee 求和/抗性钳制）"
     },
     {
-      "id": "C126",
+      "id": "C131",
       "batch": "Q10",
       "package": "pal-extract",
       "file": "pal-extract/src/cli-isolated.glm-q.test.ts",
@@ -1769,7 +1839,7 @@
       "classification": "new contracts（事件管线成功含 round-trip 门+切片+词表注记/截断 SSS 解析边界拒绝/DATA 段逐表落盘+图像段 RNG.MKF 边界拒绝）"
     },
     {
-      "id": "C127",
+      "id": "C132",
       "batch": "Q10",
       "package": "pal-extract",
       "file": "pal-extract/src/cli-isolated.glm-q.test.ts",
@@ -1783,7 +1853,21 @@
       "classification": "new contracts（事件管线成功含 round-trip 门+切片+词表注记/截断 SSS 解析边界拒绝/DATA 段逐表落盘+图像段 RNG.MKF 边界拒绝）"
     },
     {
-      "id": "C128",
+      "id": "C133",
+      "batch": "Q10",
+      "package": "pal-extract",
+      "file": "pal-extract/src/cli-isolated.glm-q.test.ts",
+      "fullName": "Q10 CLI 隔离实跑：合成图像/音频段（RNG 空 chunk/RGM/BALL 合成 RLE/FIRE 空/SOUNDS/Musics），缺 FBP 边界拒绝",
+      "status": "passed",
+      "source": "pal-extract src/cli.ts main()（REPO_ROOT/RAW/OUT 派生 → 事件管线 → 数据表段 → 图像段边界）",
+      "caller": "mkdtemp 复制模块树（src/package.json 拷贝 + node_modules symlink）+ 合成最小合法输入（SSS 5 chunk/WORD.DAT 565×10B/M.MSG/DATA.MKF 15 chunk）+ tsx 子进程实跑",
+      "oldAssertion": "corpus 0 命中（cli.ts 此前零直测；io/×、events/×、resources/× 旧测覆盖各解析器单元，不覆盖 CLI 总装与落盘）",
+      "axis": "输入轴/公开入口直驱（逐用例轴见测试体；反控轴见 counters/<id>.axis）",
+      "oracle": "对真实公开入口最终结果断言（精确消息/状态字段/字节数/落盘产物），rejects 原文保留",
+      "classification": "new contracts（事件管线成功含 round-trip 门+切片+词表注记/截断 SSS 解析边界拒绝/DATA 段逐表落盘+图像段 RNG.MKF 边界拒绝）"
+    },
+    {
+      "id": "C134",
       "batch": "Q10",
       "package": "pal-extract",
       "file": "pal-extract/src/cli-isolated.glm-q.test.ts",
