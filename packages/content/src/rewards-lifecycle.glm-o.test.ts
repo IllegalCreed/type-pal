@@ -80,14 +80,9 @@ describe('O09 normalizeEntityLifecycleTable：引用闭包与不可变', () => {
   const index = buildEntityLifecycleReferenceIndex([
     {
       id: 's001',
-      mapId: 'map-001',
-      entry: { pos: { col: 0, row: 0, height: 0 }, facing: 'down' },
-      entities: [
-        { id: 'e1', pos: { col: 0, row: 0, height: 0 }, sprite: 'ghost' },
-        { id: 'e2', pos: { col: 1, row: 0, height: 0 }, sprite: 'ghost' },
-      ],
+      entities: [{ id: 'e1' }, { id: 'e2' }],
     },
-  ] as never)
+  ])
 
   test('合法表深拷贝返回（输入 entry 不被别名共享）', () => {
     const input = {

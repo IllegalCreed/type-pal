@@ -6,7 +6,7 @@
  *  unbound 透传/default 缺表/未知表情/speakerOverride。
  */
 
-import type { ActorDef, AmbienceDef, SkillData } from '@type-pal/content'
+import type { ActorDef, AmbienceDef, SkillAnimation, SkillData, SkillEffect } from '@type-pal/content'
 import { describe, expect, test } from 'vitest'
 import { AMBIENCE_IDENTITY, isIdentityTint, lerpTint, resolveAmbienceTint } from './ambience.js'
 import { resolveDialogueIdentity } from './author-dialogue.js'
@@ -51,7 +51,7 @@ describe('O09 lerpTint：t 夹取与分量四舍五入', () => {
 })
 
 describe('O09 resolveSkillExecution / authoredSkillExecutionLayers', () => {
-  const animation = { effectSprite: 1 } as SkillData['animation']
+  const animation: SkillAnimation = { effectSprite: 1 }
   const skill = (execution?: SkillData['execution']): SkillData =>
     ({
       id: 's1',
@@ -63,7 +63,7 @@ describe('O09 resolveSkillExecution / authoredSkillExecutionLayers', () => {
       effects: [{ kind: 'damage', power: 1, elemental: 0 }],
       animation,
       ...(execution ? { execution } : {}),
-    }) as SkillData
+    })
 
   test('无 override：两侧都回退公共 effects/animation，prepare 为空', () => {
     const base = skill()
@@ -76,7 +76,7 @@ describe('O09 resolveSkillExecution / authoredSkillExecutionLayers', () => {
   })
 
   test('单侧 override：覆盖侧用 override，另一侧回退公共', () => {
-    const enemyEffects = [{ kind: 'damage', power: 9, elemental: 0 }] as never
+    const enemyEffects: SkillEffect[] = [{ kind: 'damage', power: 9, elemental: 0 }]
     const withEnemy = skill({ enemy: { effects: enemyEffects } })
     const enemySide = resolveSkillExecution(withEnemy, 'enemy')
     expect(enemySide.effects).toBe(enemyEffects)
@@ -90,8 +90,8 @@ describe('O09 resolveSkillExecution / authoredSkillExecutionLayers', () => {
       { side: 'base', effects: skill().effects, animation },
     ])
     const both = skill({
-      player: { effects: [{ kind: 'damage', power: 2, elemental: 0 }] as never },
-      enemy: { animation: { effectSprite: 7 } as never },
+      player: { effects: [{ kind: 'damage', power: 2, elemental: 0 }] },
+      enemy: { animation: { effectSprite: 7 } },
     })
     const layers = authoredSkillExecutionLayers(both)
     expect(layers.map(({ side }) => side)).toEqual(['base', 'player', 'enemy'])
