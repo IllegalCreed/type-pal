@@ -11,6 +11,7 @@ import type {
   Command,
   EnemyTeamDef,
   EntityAddress,
+  FlowCursor,
   Locale,
   SceneDef,
   SceneIndexV1,
@@ -19,10 +20,10 @@ import type {
   SpriteDef,
   WorldVariableRegistryV1,
 } from '@type-pal/content'
-import { organizeFlowAsStages } from '@type-pal/content'
+import { lookupText, organizeFlowAsStages } from '@type-pal/content'
 import type { AssetBase, AudioAssetReader } from '@type-pal/reforge'
 import type { ReactElement, ReactNode } from 'react'
-import { cloneElement, useEffect, useId, useMemo, useRef, useState } from 'react'
+import { cloneElement, useCallback, useEffect, useId, useMemo, useRef, useState } from 'react'
 import {
   type AuthorCommandChildKey,
   type AuthorCommandPath,
@@ -36,9 +37,11 @@ import {
   updateAuthorCommandAt,
 } from '../core/author-command-edit.js'
 import type { EditorAssetReader } from '../core/editor-asset-reader.js'
+import { effectiveTriggerRange } from '../core/entity-placement.js'
 import type { ProjectReferenceEdge } from '../core/project-reference.js'
 import type { ScriptCommandLocator, ScriptEditorState } from '../core/script-editor.js'
 import { stateTransitionExecutionLabel } from '../core/script-editor.js'
+import { previewFlowCursor } from '../core/script-flow-preview.js'
 import type { ScriptReferenceCatalog } from '../core/script-reference-catalog.js'
 import { BattleFieldPicker } from './BattleFieldPicker.js'
 import { CommandForm, WorldVariablePicker } from './CommandForm.js'
@@ -63,6 +66,7 @@ import {
   DsWorkbenchSection,
   useDsReorderKeys,
 } from './design-system/index.js'
+import { ENTITY_FACING_OPTIONS } from './EntityFacingHelp.js'
 import { EntityStateSelect } from './EntityStateSelect.js'
 import { musicAssets } from './MusicPicker.js'
 import { describeScriptCommand } from './ScriptTree.js'
@@ -619,8 +623,14 @@ export const AUTHOR_COMMAND_PRESENTATION_ = {
   wait: ['⏱', '等待'],
 } as const satisfies Record<AuthorCommand['kind'], readonly [icon: string, label: string]>
 
-function addressLabel(address: EntityAddress): string {
-  return `${address.scene}/${address.entity}`
+function addressLabel(address: EntityAddress, context?: CanonicalScriptEditorContext): string {
+  if (!context) return `${address.scene}/${address.entity}`
+  const entity = context?.state.scenes
+    .find((scene) => scene.id === address.scene)
+    ?.entities.find((candidate) => candidate.id === address.entity)
+  const actor = entity && 'actor' in entity ? context?.actors?.[entity.actor] : undefined
+  const name = actor ? lookupText(actor.name, context?.locale ?? {}) : `实体 ${address.entity}`
+  return address.scene === context?.currentSceneId ? name : `${address.scene} / ${name}`
 }
 
 function conditionLabel(condition: AuthorCondition): string {
@@ -818,7 +828,7 @@ function presentationCommand(command: AuthorCommand): Command | undefined {
   }
 }
 
-function describeCommand(
+export function describeCanonicalCommand(
   command: AuthorCommand,
   context?: CanonicalScriptEditorContext,
 ): DescribedCommand {
@@ -834,41 +844,102 @@ function describeCommand(
     case 'selectEntityBehavior':
       return {
         icon: '🔗',
-        label: `${addressLabel(command.target)} 切换${command.channel === 'trigger' ? '交互脚本' : '自动行为'}`,
+        label: `${addressLabel(command.target, context)} 切换${command.channel === 'trigger' ? '交互脚本' : '自动行为'}`,
         detail: `${
           command.selection.kind === 'use'
-            ? command.selection.value
+            ? (context?.state.scenes
+                .find((scene) => scene.id === command.target.scene)
+                ?.entities.find((entity) => entity.id === command.target.entity)?.behaviors?.[
+                command.channel
+              ]?.[command.selection.value]?.label ?? `方案 ${command.selection.value}（未解析）`)
             : command.selection.kind === 'disabled'
-              ? '显式禁用'
-              : '继承'
-        }${
-          command.cursorHandoff
-            ? ` · 接续 ${command.cursorHandoff.fromBehavior} 的运行进度（${command.cursorHandoff.cases.length} 项）`
-            : ''
-        }`,
+              ? '关闭'
+              : '恢复页面默认方案'
+        }${command.cursorHandoff ? ' · 接续已有执行进度' : ''}`,
         children,
       }
     case 'selectEntityPage':
       return {
         icon: '📄',
-        label: `${addressLabel(command.target)} 切换实体页面`,
-        detail: command.selection.kind === 'use' ? command.selection.value : '继承',
+        label: `${addressLabel(command.target, context)} 切换实体页面`,
+        detail:
+          command.selection.kind === 'use'
+            ? (context?.state.scenes
+                .find((scene) => scene.id === command.target.scene)
+                ?.entities.find((entity) => entity.id === command.target.entity)
+                ?.pages?.find(
+                  (page) => command.selection.kind === 'use' && page.id === command.selection.value,
+                )?.label ?? `页面 ${command.selection.value}（未解析）`)
+            : '恢复默认页面',
         children,
       }
     case 'setEntityTriggerActivation':
       return {
         icon: '🖱',
-        label: `${addressLabel(command.target)} 设置触发方式`,
+        label: `${addressLabel(command.target, context)} 设置触发方式`,
         detail:
           command.selection.kind === 'use'
-            ? `${command.selection.value.on}${command.selection.value.range ?? ''}`
+            ? `${command.selection.value.on === 'interact' ? '主动交互' : '靠近触发'} · ${effectiveTriggerRange(command.selection.value)} 格内`
             : command.selection.kind === 'disabled'
               ? '禁用'
-              : '继承',
+              : '恢复页面默认触发',
         children,
       }
+    case 'callScript':
+      return {
+        icon: '↪',
+        label: '调用共享脚本',
+        detail:
+          context?.state.sharedScripts[command.script]?.name ?? `脚本 ${command.script}（未解析）`,
+        children,
+      }
+    case 'moveEntity':
+    case 'ride':
+    case 'moveParty':
+      return {
+        icon: command.kind === 'ride' ? '🛶' : '🚶',
+        label:
+          command.kind === 'moveParty'
+            ? '队伍走到'
+            : `${addressLabel(command.target, context)} ${command.kind === 'ride' ? '载队伍到' : '走到'}`,
+        detail: `(${command.to.col}, ${command.to.row}) · ${{ slow: '慢走', normal: '正常', fast: '快走', run: '跑步' }[command.speed]}${command.to.height ? ` · 高度 ${command.to.height}` : ''}`,
+        children,
+      }
+    case 'setEntityFacing':
+    case 'setPartyFacing':
+    case 'stepEntity': {
+      const dir = command.kind === 'stepEntity' ? command.dir : command.facing
+      const facing = ENTITY_FACING_OPTIONS.find((option) => option.value === dir)
+      return {
+        icon: command.kind === 'stepEntity' ? '👣' : '🧭',
+        label:
+          command.kind === 'setPartyFacing'
+            ? '队伍转向'
+            : `${addressLabel(command.target, context)} ${command.kind === 'stepEntity' ? '走一步' : '转向'}`,
+        detail: facing ? `${facing.label} · ${facing.description}` : dir,
+        children,
+      }
+    }
     case 'selectSceneHooks':
-      return { icon: '📜', label: `${command.scene} 切换场景脚本`, children }
+      return {
+        icon: '📜',
+        label: `${command.scene} 切换场景脚本`,
+        detail: (['onEnter', 'onTeleport'] as const)
+          .flatMap((slot) => {
+            const selection = command.selection[slot]
+            if (!selection) return []
+            const label =
+              selection.kind === 'use'
+                ? (context?.state.scenes.find((scene) => scene.id === command.scene)?.hooks?.[slot]
+                    ?.variants[selection.value]?.label ?? `方案 ${selection.value}（未解析）`)
+                : selection.kind === 'disabled'
+                  ? '关闭'
+                  : '恢复默认方案'
+            return `${slot === 'onEnter' ? '进场' : '传送出口'}：${label}`
+          })
+          .join(' · '),
+        children,
+      }
     case 'suspendEntity':
       return {
         icon: '⏸',
@@ -904,7 +975,10 @@ function describeCommand(
     return {
       icon: description.icon,
       label: description.label,
-      detail: description.detail,
+      detail:
+        command.kind === 'dialog'
+          ? `${{ top: '顶部', bottom: '底部', narration: '旁白', center: '居中' }[command.cue.slot ?? 'bottom']}${command.cue.identity.kind !== 'narration' && command.cue.identity.portrait ? ' · 显示立绘' : ''}${command.cue.autoAdvance ? ' · 自动继续' : ''}`
+          : description.detail,
       children,
     }
   }
@@ -970,7 +1044,7 @@ function CommandRows(props: {
       scopeKey={`${props.reorderScopeKey}:${formatAuthorCommandPath(props.parentPath) || 'root'}`}
       entries={props.body.map((command, index) => ({
         key: reorderKeys.keys[index]!,
-        label: describeCommand(command, props.context).label,
+        label: describeCanonicalCommand(command, props.context).label,
       }))}
       revision={props.body}
       disabled={props.reorderDisabled}
@@ -984,7 +1058,7 @@ function CommandRows(props: {
         {props.body.map((command, index) => {
           const path = formatAuthorCommandPath([...props.parentPath, index])
           const reorderKey = reorderKeys.keys[index]!
-          const description = describeCommand(command, props.context)
+          const description = describeCanonicalCommand(command, props.context)
           const referenceFocusClass =
             props.referenceFocusPath === path && props.referenceFocusRevision !== undefined
               ? ` reference-focus-${Math.abs(props.referenceFocusRevision) % 2 === 0 ? 'even' : 'odd'}`
@@ -3362,7 +3436,7 @@ export function CanonicalScriptBodyEditor(props: {
 
       {editing && editingPath ? (
         <CanonicalScriptDialog
-          title={`编辑：${describeCommand(editing, props.context).label}`}
+          title={`编辑：${describeCanonicalCommand(editing, props.context).label}`}
           onClose={() => setEditingDraft(undefined)}
           footer={
             <DsButton
@@ -3841,6 +3915,8 @@ export function removeTriggerStage(
 
 export function CanonicalScriptFlowEditor(props: {
   flow: AuthorScriptFlow
+  previewCursor?: FlowCursor
+  onSelectPreviewCursor?: (cursor: FlowCursor) => void
   onChange: (flow: AuthorScriptFlow) => boolean
   ownerLabel?: string
   context?: CanonicalScriptEditorContext
@@ -3853,7 +3929,30 @@ export function CanonicalScriptFlowEditor(props: {
       ? props.flow.stages.map((stage) => stage.id)
       : Object.keys(props.flow.machine.states)
   const initialId = props.flow.kind === 'stages' ? props.flow.initial : props.flow.machine.initial
-  const [selectedId, setSelectedId] = useState(initialId)
+  const [localSelectedId, setLocalSelectedId] = useState(initialId)
+  const cursor = previewFlowCursor(props.flow, props.previewCursor)
+  const selectedId = props.previewCursor
+    ? cursor.kind === 'stage'
+      ? cursor.stage
+      : cursor.kind === 'state'
+        ? cursor.state
+        : initialId
+    : ids.includes(localSelectedId)
+      ? localSelectedId
+      : initialId
+  const machineId = props.flow.kind === 'stateMachine' ? props.flow.machine.id : undefined
+  const onSelectPreviewCursor = props.onSelectPreviewCursor
+  const setSelectedId = useCallback(
+    (id: string) => {
+      setLocalSelectedId(id)
+      onSelectPreviewCursor?.(
+        machineId === undefined
+          ? { kind: 'stage', stage: id }
+          : { kind: 'state', machine: machineId, state: id },
+      )
+    },
+    [machineId, onSelectPreviewCursor],
+  )
   const [detailsOpen, setDetailsOpen] = useState(false)
   const [createOpen, setCreateOpen] = useState(false)
   const [deleteOpen, setDeleteOpen] = useState(false)
@@ -3863,7 +3962,7 @@ export function CanonicalScriptFlowEditor(props: {
   useEffect(() => {
     if (ids.includes(selectedId)) return
     setSelectedId(initialId)
-  }, [ids, initialId, selectedId])
+  }, [ids, initialId, selectedId, setSelectedId])
   useEffect(() => {
     const container = props.focusLocator?.container
     if (props.focusRevision === undefined || !container) return
@@ -3881,7 +3980,7 @@ export function CanonicalScriptFlowEditor(props: {
       props.flow.machine.states[container.stateId]
     )
       setSelectedId(container.stateId)
-  }, [props.flow, props.focusLocator, props.focusRevision])
+  }, [props.flow, props.focusLocator, props.focusRevision, setSelectedId])
 
   if (props.flow.kind === 'stages') {
     const flow = props.flow

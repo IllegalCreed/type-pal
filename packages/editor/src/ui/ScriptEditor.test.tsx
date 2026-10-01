@@ -1551,7 +1551,8 @@ describe('CanonicalScriptEditor author presentation', () => {
     )
 
     expect(host.textContent).toContain('李逍遥: 出发吧！')
-    expect(host.textContent).toContain('立绘 portrait.hero')
+    expect(host.textContent).toContain('底部 · 显示立绘')
+    expect(host.textContent).not.toContain('portrait.hero')
   })
 
   test('separates trigger-stage creation, details, and deletion while preserving body tabs', async () => {

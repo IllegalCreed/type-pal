@@ -8,6 +8,10 @@ Capability: P3 / W7
 Visual Verification Timing: dev-functional
 Branch: codex/editor-script-preview
 
+单文件Owner分派：Root负责选中cursor链与指令摘要；movement_preview在codex/editor-movement隔离树独占
+`core/script-movement-preview.ts`及相邻测试、`ui/PreviewCanvas.tsx`及相邻测试，Root独立接收；
+editor_preview_audit只读独立复核。贡献者不改共享卡/6012，不合main。
+
 ## 目标与范围
 
 用户2026-10-01要求三项：右侧参数突出可理解的信息、播放从当前选中步骤开始、地图用节点及线标识移动。

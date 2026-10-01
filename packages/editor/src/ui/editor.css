@@ -12892,7 +12892,7 @@ button.sprite-frame-cell[draggable="true"]:active {
 .canonical-script-tree .cmd-detail {
   max-width: min(44%, 32rem);
   flex: 0 1 auto;
-  font: var(--ds-font-code);
+  font: inherit;
 }
 .canonical-script-row-actions {
   position: absolute;

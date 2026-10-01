@@ -1,6 +1,7 @@
 import type {
   ActorDef,
   AssetCatalogV1,
+  FlowCursor,
   Locale,
   MapIndexV1,
   SceneDef,
@@ -8,7 +9,7 @@ import type {
   SpriteDef,
 } from '@type-pal/content'
 import type { AssetBase, ProjectMap } from '@type-pal/reforge'
-import { type CSSProperties, useEffect, useMemo, useRef, useState } from 'react'
+import { type CSSProperties, useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import type { EditorAssetReader } from '../core/editor-asset-reader.js'
 import type { EditorDerivedStatus } from '../core/editor-derived-contract.js'
 import { activePageTriggerActivation } from '../core/entity-placement.js'
@@ -22,6 +23,7 @@ import type {
   ScriptEditorCommand,
   ScriptEditorState,
 } from '../core/script-editor.js'
+import { previewCursorKey, previewFlowCursor } from '../core/script-flow-preview.js'
 import { DsTabs } from './design-system/index.js'
 import { PanelResizeHandle, useStoredPanelNumber } from './PanelResizeHandle.js'
 import { PreviewCanvas } from './PreviewCanvas.js'
@@ -182,6 +184,25 @@ export function CanonicalSceneScriptWorkspace(props: {
       props.locale,
     )
   }, [props.scene, props.state.items, props.locale])
+  const [selectedPreview, setSelectedPreview] = useState<{ source: string; cursor: FlowCursor }>()
+  const previewCursor = useMemo(
+    () =>
+      activeFlow
+        ? previewFlowCursor(
+            activeFlow,
+            selectedPreview?.source === previewSourceKey ? selectedPreview.cursor : undefined,
+          )
+        : undefined,
+    [activeFlow, selectedPreview, previewSourceKey],
+  )
+  const previewSelectionKey = `${previewSourceKey}:${previewCursorKey(previewCursor)}`
+  const selectPreviewCursor = useCallback(
+    (cursor: FlowCursor) => {
+      playback.stop()
+      setSelectedPreview({ source: previewSourceKey, cursor })
+    },
+    [playback, previewSourceKey],
+  )
   const [, setUiTick] = useState(0)
 
   useEffect(() => {
@@ -190,9 +211,9 @@ export function CanonicalSceneScriptWorkspace(props: {
   }, [playback])
 
   useEffect(() => {
-    void previewSourceKey
+    void previewSelectionKey
     playback.stop()
-  }, [playback, previewSourceKey])
+  }, [playback, previewSelectionKey])
 
   const measuredWorkHeight = scriptWorkHeight || 720
   const drawerMaxHeight = Math.max(
@@ -221,7 +242,7 @@ export function CanonicalSceneScriptWorkspace(props: {
         <PreviewCanvas
           scene={props.scene}
           stages={EMPTY_STAGES}
-          sourceKey={previewSourceKey}
+          sourceKey={previewSelectionKey}
           playIdentity={props.playIdentity}
           focusEntityId={owner === 'entity' ? (props.selectedEntityId ?? undefined) : undefined}
           focusTriggerActivation={
@@ -239,11 +260,14 @@ export function CanonicalSceneScriptWorkspace(props: {
           locale={props.locale}
           playback={playback}
           canonicalFlow={activeFlow}
+          canonicalCursor={previewCursor}
+          canonicalSceneEntry={owner === 'scene' && hookSlot === 'onEnter'}
           canonicalSharedScripts={props.state.sharedScripts}
           startPlayback={
             activeFlow && canonicalScene
               ? (paused) =>
-                  playback.playCanonical(previewSourceKey, activeFlow, {
+                  playback.playCanonical(previewSelectionKey, activeFlow, {
+                    cursor: previewCursor,
                     scene: canonicalScene,
                     sharedScripts: props.state.sharedScripts,
                     actorsById: props.actorsById,
@@ -316,6 +340,8 @@ export function CanonicalSceneScriptWorkspace(props: {
         <div className="canonical-script-drawer-body">
           {owner === 'scene' ? (
             <ScriptSceneHookInspector
+              previewCursor={previewCursor}
+              onSelectPreviewCursor={selectPreviewCursor}
               state={props.state}
               sceneId={props.scene.id}
               slot={hookSlot}
@@ -356,6 +382,8 @@ export function CanonicalSceneScriptWorkspace(props: {
             />
           ) : props.selectedEntityId ? (
             <ScriptBehaviorInspector
+              previewCursor={previewCursor}
+              onSelectPreviewCursor={selectPreviewCursor}
               state={props.state}
               target={{ scene: props.scene.id, entity: props.selectedEntityId }}
               channel={behaviorChannel}

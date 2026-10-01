@@ -1,9 +1,16 @@
 // @vitest-environment jsdom
 
-import type { AuthorSceneDef, AuthorScriptFlow, SceneDef, ScriptStage } from '@type-pal/content'
+import type {
+  AuthorSceneDef,
+  AuthorScriptFlow,
+  FlowCursor,
+  SceneDef,
+  ScriptStage,
+} from '@type-pal/content'
 import { act } from 'react'
 import { createRoot, type Root } from 'react-dom/client'
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
+import type { Playback } from '../core/playback.js'
 import type {
   CanonicalScriptReference,
   ScriptCommandOwner,
@@ -15,6 +22,9 @@ type PreviewProbeProps = {
   scene: SceneDef
   stages: readonly ScriptStage[]
   canonicalFlow?: AuthorScriptFlow
+  canonicalCursor?: FlowCursor
+  startPlayback?: (paused: boolean) => void
+  playback: Playback
   sourceKey: string
   focusEntityId?: string
   focusTriggerActivation?: { on: 'interact' | 'touch'; range?: number }
@@ -216,6 +226,89 @@ describe('CanonicalSceneScriptWorkspace', () => {
     )
   }
 
+  test('selected step drives body, playback and map cursor without changing initial', async () => {
+    const author = canonicalScene('sA', 'A 进场', 'A 交互', 'A')
+    const flow: AuthorScriptFlow = {
+      kind: 'stages',
+      initial: 'first',
+      stages: [
+        { id: 'first', body: [{ kind: 'giveMoney', delta: 101 }], next: 'second' },
+        { id: 'second', body: [{ kind: 'giveMoney', delta: 7 }] },
+      ],
+    }
+    const behavior = author.entities[0]!.behaviors!.trigger!['legacy-001']!
+    behavior.flow = flow
+    const selectedState = { ...state, scenes: [author] }
+    await renderWorkspace(sceneA, 'e1', { state: selectedState })
+    const button = host.querySelector<HTMLButtonElement>('[aria-label^="步骤 2，"]')!
+    await act(async () => button.click())
+    const preview = previewRender.mock.calls.at(-1)![0] as PreviewProbeProps
+    expect(preview.canonicalCursor).toEqual({ kind: 'stage', stage: 'second' })
+    expect(host.querySelector('.canonical-script-tree')?.textContent).toContain('7')
+    await act(async () => {
+      preview.startPlayback?.(false)
+      await new Promise((resolve) => setTimeout(resolve, 0))
+    })
+    expect(preview.playback.view.logs).toContain('💰 +7 钱')
+    expect(preview.playback.view.logs).not.toContain('💰 +101 钱')
+    expect(flow.initial).toBe('first')
+
+    await act(async () => {
+      preview.startPlayback?.(true)
+      await new Promise((resolve) => setTimeout(resolve, 0))
+    })
+    expect(preview.playback.stepNumber).toBe(0)
+    await act(async () => {
+      preview.playback.step()
+      await new Promise((resolve) => setTimeout(resolve, 0))
+    })
+    expect(preview.playback.view.logs).toContain('💰 +7 钱')
+
+    behavior.flow = { ...flow, stages: [{ id: 'first', body: flow.stages[0]!.body }] }
+    await renderWorkspace(sceneA, 'e1', { state: selectedState })
+    const afterDelete = previewRender.mock.calls.at(-1)![0] as PreviewProbeProps
+    expect(afterDelete.canonicalCursor).toEqual({ kind: 'stage', stage: 'first' })
+    expect(host.querySelector('.canonical-stage-card.active')?.textContent).toContain('步骤 1')
+    await act(async () => {
+      afterDelete.startPlayback?.(false)
+      await new Promise((resolve) => setTimeout(resolve, 0))
+    })
+    expect(afterDelete.playback.view.logs).toContain('💰 +101 钱')
+  })
+
+  test('same scheme ID across entities and scenes never leaks selected steps', async () => {
+    const author = canonicalScene('sA', 'A', 'A', 'A')
+    author.entities[0]!.behaviors!.trigger!['legacy-001']!.flow = {
+      kind: 'stages',
+      initial: 'start',
+      stages: [
+        { id: 'start', body: [] },
+        { id: 'second', body: [] },
+      ],
+    }
+    author.entities.push({ ...structuredClone(author.entities[0]!), id: 'e2' })
+    const ownState = { ...state, scenes: [author, canonicalScene('sB', 'B', 'B', 'B')] }
+    await renderWorkspace(sceneA, 'e1', { state: ownState })
+    await act(async () =>
+      host.querySelector<HTMLButtonElement>('[aria-label^="步骤 2，"]')!.click(),
+    )
+    expect((previewRender.mock.calls.at(-1)![0] as PreviewProbeProps).canonicalCursor).toEqual({
+      kind: 'stage',
+      stage: 'second',
+    })
+    await renderWorkspace(sceneA, 'e2', { state: ownState })
+    expect((previewRender.mock.calls.at(-1)![0] as PreviewProbeProps).canonicalCursor).toEqual({
+      kind: 'stage',
+      stage: 'start',
+    })
+    expect(host.querySelector('.canonical-stage-card.active')?.textContent).toContain('步骤 1')
+    await renderWorkspace(sceneB, 'e1', { state: ownState })
+    expect((previewRender.mock.calls.at(-1)![0] as PreviewProbeProps).canonicalCursor).toEqual({
+      kind: 'stage',
+      stage: 'start',
+    })
+  })
+
   test('follows scene and entity selection without overriding an explicit script tab choice', async () => {
     await renderWorkspace(sceneA, 'e1')
     expect(scriptTab('交互脚本').getAttribute('aria-selected')).toBe('true')
@@ -240,7 +333,7 @@ describe('CanonicalSceneScriptWorkspace', () => {
     expect(preview).toMatchObject({
       focusEntityId: 'e1',
       sceneFraming: false,
-      sourceKey: 'canonical:entity:sB:e1:trigger:legacy-001',
+      sourceKey: 'canonical:entity:sB:e1:trigger:legacy-001:{"kind":"stage","stage":"start"}',
     })
     expect(preview.stages).toEqual([])
     expect(preview.canonicalFlow).toMatchObject({
@@ -428,7 +521,7 @@ describe('CanonicalSceneScriptWorkspace', () => {
       '目标交互方案',
     )
     expect((previewRender.mock.calls.at(-1)?.[0] as PreviewProbeProps).sourceKey).toBe(
-      'canonical:entity:sB:e1:trigger:target',
+      'canonical:entity:sB:e1:trigger:target:{"kind":"stage","stage":"start"}',
     )
 
     await renderWorkspace(sceneB, null, {
@@ -447,7 +540,7 @@ describe('CanonicalSceneScriptWorkspace', () => {
       '目标进场方案',
     )
     expect((previewRender.mock.calls.at(-1)?.[0] as PreviewProbeProps).sourceKey).toBe(
-      's:sB:canonical:target',
+      's:sB:canonical:target:{"kind":"stage","stage":"start"}',
     )
   })
 })

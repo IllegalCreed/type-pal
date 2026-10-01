@@ -2,6 +2,57 @@ import { describe, expect, test, vi } from 'vitest'
 import { dialogue, flowOf, preview, settle } from './__tests__/playback-canonical-fixtures.js'
 
 describe('Canonical preview controls', () => {
+  test('starts at the selected stage without executing the configured initial stage', async () => {
+    const r = preview()
+    await r.start(
+      {
+        kind: 'stages',
+        initial: 'first',
+        stages: [
+          { id: 'first', body: [{ kind: 'giveMoney', delta: 101 }], next: 'second' },
+          { id: 'second', body: [{ kind: 'giveMoney', delta: 7 }] },
+        ],
+      },
+      { cursor: { kind: 'stage', stage: 'second' } },
+    )
+    expect(r.p.view.logs).toContain('💰 +7 钱')
+    expect(r.p.view.logs.join('\n')).not.toContain('101')
+    r.unchanged()
+  })
+
+  test('starts at a selected machine state and preserves the ordinary one-command gate', async () => {
+    const r = preview()
+    await r.start(
+      {
+        kind: 'stateMachine',
+        machine: {
+          id: 'talk',
+          label: '交谈',
+          initial: 'first',
+          states: {
+            first: {
+              label: '首次',
+              body: [{ kind: 'giveMoney', delta: 101 }],
+              next: { kind: 'stay' },
+            },
+            repeat: {
+              label: '复读',
+              body: [{ kind: 'giveMoney', delta: 7 }],
+              next: { kind: 'stay' },
+            },
+          },
+        },
+      },
+      { cursor: { kind: 'state', machine: 'talk', state: 'repeat' }, paused: true },
+    )
+    expect(r.p.stepNumber).toBe(0)
+    r.p.step()
+    await settle()
+    expect(r.p.view.logs).toContain('💰 +7 钱')
+    expect(r.p.view.logs.join('\n')).not.toContain('101')
+    r.unchanged()
+  })
+
   test('idle controls are harmless; a paused command gate releases exactly one command per step', async () => {
     const r = preview(),
       p = r.p

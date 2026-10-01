@@ -14,6 +14,7 @@ import type {
   DialogueCue,
   EntityAddress,
   Facing,
+  FlowCursor,
   GridPos,
   Locale,
   RuntimeSceneDef,
@@ -312,6 +313,7 @@ export class Playback {
       runSceneEntry?: boolean
       paused?: boolean
       ownerId?: string
+      cursor?: FlowCursor
     },
   ): void {
     this.stop()
@@ -460,6 +462,7 @@ export class Playback {
         }),
         {
           cursorController: { reachSafePoint: () => 'continue' },
+          ...(options.cursor ? { cursor: structuredClone(options.cursor) } : {}),
           ...(options.self ? { self: structuredClone(options.self) } : {}),
           allowSceneEntry: options.allowSceneEntry,
           runSceneEntry: options.runSceneEntry,

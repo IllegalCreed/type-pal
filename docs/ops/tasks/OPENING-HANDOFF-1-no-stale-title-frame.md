@@ -1,6 +1,6 @@
 # OPENING-HANDOFF-1 — 开场视频结束不露出旧标题菜单
 
-Status: build
+Status: review
 Owner: opening_handoff（受委派贡献者）
 Reviewer: Codex Root（独立验收）
 Phase: phase2
@@ -73,4 +73,12 @@ Visual Verification Timing: mixed
 
 ## 下一位 Agent 提示词
 
-opening_handoff在隔离工作树实现及自验，提交候选SHA、红绿日志与实际画面交接证据；Root独立验收，不得自行合main。
+无下一位 Agent 提示词，等待用户验收/收口。
+
+## Codex Root 独立验收
+
+- 直接读取冻结实现diff：只在标题cleanup停rAF/键owner后同步不透明清黑，resetTransform/save/restore不污染新owner。
+- 直接读取DOM removal observer与断言：自然ended、撤层时runtime尚未ready、先有真实菜单再全黑；完整旅程继续到房间首帧，排除永黑过门。
+- 实际查看冻结绿控交接PNG，不存在旧菜单；第一阶段bootstrap已有同类清屏，与本次窄修一致。
+- 接收实现b7784da3a及卡面收据88decb71b，集成于编辑器候选；共享board/index登记由Root补齐，最终统一静态门待集成候选复跑。
+- 用户体验待确认，Status保留review；6012不关闭、不重启。
