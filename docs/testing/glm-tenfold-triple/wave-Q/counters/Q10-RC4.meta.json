@@ -5,9 +5,9 @@
   "targetNameSubstring": "合成小输入走完事件管线",
   "axis": "输入轴单轴变异：M.MSG 被引用窗口内末字节换为另一合法 GBK 字符；断言不动（按常量精确比对）。",
   "sha256": {
-    "original": "e46949e5fe6b9fbf92b46b2cc326aaf68fc9d159c6427580d867912baa3d03bd",
-    "mutated": "5793683e186fe51c898a2966a4802a453a670459331bf46bc1c213c5f019ca3c",
-    "restored": "e46949e5fe6b9fbf92b46b2cc326aaf68fc9d159c6427580d867912baa3d03bd"
+    "original": "429cfe36fbc3d93dadad32fdfd451354cda169f3343e1f3d55974d5358338e9c",
+    "mutated": "eab7f05805cf85699140a14c6d4b655289f69529d56b06a1b9ce425cae002f31",
+    "restored": "429cfe36fbc3d93dadad32fdfd451354cda169f3343e1f3d55974d5358338e9c"
   },
   "restoredHashUnchanged": true,
   "criteria": {
@@ -22,8 +22,8 @@
     "positive": {
       "exitCode": 0,
       "summary": {
-        "numTotalTests": 3,
-        "numPassedTests": 3,
+        "numTotalTests": 4,
+        "numPassedTests": 4,
         "numFailedTests": 0,
         "success": true
       },
@@ -33,8 +33,8 @@
     "mutant": {
       "exitCode": 1,
       "summary": {
-        "numTotalTests": 3,
-        "numPassedTests": 2,
+        "numTotalTests": 4,
+        "numPassedTests": 3,
         "numFailedTests": 1,
         "success": false
       },
@@ -44,8 +44,8 @@
     "restored": {
       "exitCode": 0,
       "summary": {
-        "numTotalTests": 3,
-        "numPassedTests": 3,
+        "numTotalTests": 4,
+        "numPassedTests": 4,
         "numFailedTests": 0,
         "success": true
       },

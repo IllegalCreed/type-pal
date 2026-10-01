@@ -5,9 +5,9 @@
   "targetNameSubstring": "合成 DATA.MKF 走完数据表段",
   "axis": "输入轴单轴变异：LEVELEXP chunk 200→198 字节（合法 99 条截断，parseLevelUpExp min(100, 99)）；断言不动。",
   "sha256": {
-    "original": "e46949e5fe6b9fbf92b46b2cc326aaf68fc9d159c6427580d867912baa3d03bd",
-    "mutated": "f68ea3a7d7f9b433ea670053fb59e8b38513b3262b0e0d9dc95aec0646ed39ed",
-    "restored": "e46949e5fe6b9fbf92b46b2cc326aaf68fc9d159c6427580d867912baa3d03bd"
+    "original": "429cfe36fbc3d93dadad32fdfd451354cda169f3343e1f3d55974d5358338e9c",
+    "mutated": "62be75869adc94e8c54f9aa4e78803e12169f4bad75cbd2175a6be3eebc8d19a",
+    "restored": "429cfe36fbc3d93dadad32fdfd451354cda169f3343e1f3d55974d5358338e9c"
   },
   "restoredHashUnchanged": true,
   "criteria": {
@@ -22,8 +22,8 @@
     "positive": {
       "exitCode": 0,
       "summary": {
-        "numTotalTests": 3,
-        "numPassedTests": 3,
+        "numTotalTests": 4,
+        "numPassedTests": 4,
         "numFailedTests": 0,
         "success": true
       },
@@ -33,8 +33,8 @@
     "mutant": {
       "exitCode": 1,
       "summary": {
-        "numTotalTests": 3,
-        "numPassedTests": 2,
+        "numTotalTests": 4,
+        "numPassedTests": 3,
         "numFailedTests": 1,
         "success": false
       },
@@ -44,8 +44,8 @@
     "restored": {
       "exitCode": 0,
       "summary": {
-        "numTotalTests": 3,
-        "numPassedTests": 3,
+        "numTotalTests": 4,
+        "numPassedTests": 4,
         "numFailedTests": 0,
         "success": true
       },

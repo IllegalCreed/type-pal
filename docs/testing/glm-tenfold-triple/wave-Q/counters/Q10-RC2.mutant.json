@@ -3,8 +3,8 @@
   "numPassedTestSuites": 0,
   "numFailedTestSuites": 1,
   "numPendingTestSuites": 0,
-  "numTotalTests": 3,
-  "numPassedTests": 2,
+  "numTotalTests": 4,
+  "numPassedTests": 3,
   "numFailedTests": 1,
   "numPendingTests": 0,
   "numTodoTests": 0,
@@ -24,7 +24,7 @@
     "updated": 0,
     "didUpdate": false
   },
-  "startTime": 1790838285761,
+  "startTime": 1790861585075,
   "success": false,
   "testResults": [
     {
@@ -34,7 +34,7 @@
           "fullName": "Q10 CLI 隔离实跑：合成小输入走完事件管线（round-trip 门 + 切片落盘 + 词表注记）",
           "status": "passed",
           "title": "Q10 CLI 隔离实跑：合成小输入走完事件管线（round-trip 门 + 切片落盘 + 词表注记）",
-          "duration": 232.49854100000002,
+          "duration": 352.577625,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -44,10 +44,20 @@
           "fullName": "Q10 CLI 隔离实跑：合成 DATA.MKF 走完数据表段（逐表落盘 + SPRITEUI/effect blob）",
           "status": "failed",
           "title": "Q10 CLI 隔离实跑：合成 DATA.MKF 走完数据表段（逐表落盘 + SPRITEUI/effect blob）",
-          "duration": 252.30062499999997,
+          "duration": 330.194833,
           "failureMessages": [
-            "AssertionError: expected 3 to be 2 // Object.is equality\n    at /private/tmp/glmq/counter-copy/type-pal/packages/pal-extract/src/cli-isolated.glm-q.test.ts:257:36\n    at processTicksAndRejections (node:internal/process/task_queues:103:5)\n    at file:///private/tmp/glmq/counter-copy/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:20"
+            "AssertionError: expected 3 to be 2 // Object.is equality\n    at /private/tmp/glmq/counter-copy/type-pal/packages/pal-extract/src/cli-isolated.glm-q.test.ts:285:36\n    at file:///private/tmp/glmq/counter-copy/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:20"
           ],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "Q10 CLI 隔离实跑：合成图像/音频段（RNG 空 chunk/RGM/BALL 合成 RLE/FIRE 空/SOUNDS/Musics），缺 FBP 边界拒绝",
+          "status": "passed",
+          "title": "Q10 CLI 隔离实跑：合成图像/音频段（RNG 空 chunk/RGM/BALL 合成 RLE/FIRE 空/SOUNDS/Musics），缺 FBP 边界拒绝",
+          "duration": 376.38870899999995,
+          "failureMessages": [],
           "meta": {},
           "tags": []
         },
@@ -56,14 +66,14 @@
           "fullName": "Q10 CLI 隔离实跑：截断 SSS chunk0 在解析边界精确拒绝且不产出事件文件",
           "status": "passed",
           "title": "Q10 CLI 隔离实跑：截断 SSS chunk0 在解析边界精确拒绝且不产出事件文件",
-          "duration": 236.468709,
+          "duration": 327.90075,
           "failureMessages": [],
           "meta": {},
           "tags": []
         }
       ],
-      "startTime": 1790838285888,
-      "endTime": 1790838286609.4688,
+      "startTime": 1790861585282,
+      "endTime": 1790861586669.9006,
       "status": "failed",
       "message": "",
       "name": "/private/tmp/glmq/counter-copy/type-pal/packages/pal-extract/src/cli-isolated.glm-q.test.ts"

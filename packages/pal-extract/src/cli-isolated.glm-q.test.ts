@@ -187,6 +187,34 @@ function buildDataMkf(): Uint8Array {
   return mkf(chunks)
 }
 
+/**
+ * 图像/音频段合成输入（续批2）：
+ *   RNG.MKF = 1 chunk 的 sub-MKF，其唯一 sub-chunk 为空（decodeRngFrames: byteLength 0 → []，
+ *   chunk 仍落 .rle blob 且 manifest frameCount=0）；
+ *   RGM.MKF / BALL.MKF = 各 1 chunk 合成 RLE 头像/图标（0x02 00 00 00 file header + 2×2 全不透明）；
+ *   FIRE.MKF = 0 chunk 空 MKF（manifest chunkCount=0）；
+ *   SOUNDS.MKF = 1 空 chunk + 1 带数据 chunk（空 skip 不写 wav，带数据者原样写 .wav）；
+ *   Musics/ = 1 个 {NNN}.MID（归一化 .mid）+ 1 个 TRACKxx.ogg（原名）。
+ * FBP.MKF 不提供 → splash 段 ENOENT 边界拒绝（exit 1）。
+ */
+function rleBitmap2x2(): Uint8Array {
+  // decodeRle: width(2) height(2) + 4 个直接像素（opaque=1）
+  return new Uint8Array([0x02, 0x00, 0x02, 0x00, 0x04, 9, 8, 7, 6])
+}
+
+function buildImageStageInputs(): Record<string, Uint8Array> {
+  const rngChunk = mkf([new Uint8Array(0)]) // 空 sub-chunk → frames=[]
+  const withHeader = (rle: Uint8Array): Uint8Array =>
+    new Uint8Array([...new Uint8Array([0x02, 0x00, 0x00, 0x00]), ...rle])
+  return {
+    'RNG.MKF': mkf([rngChunk]),
+    'RGM.MKF': mkf([withHeader(rleBitmap2x2())]),
+    'BALL.MKF': mkf([withHeader(rleBitmap2x2())]),
+    'FIRE.MKF': mkf([]),
+    'SOUNDS.MKF': mkf([new Uint8Array(0), new TextEncoder().encode('WAVDATA-1')]),
+  }
+}
+
 const trees: string[] = []
 afterAll(() => {
   for (const tree of trees) rmSync(tree, { recursive: true, force: true })
@@ -265,6 +293,67 @@ test('Q10 CLI 隔离实跑：合成 DATA.MKF 走完数据表段（逐表落盘 +
   expect(existsSync(join(tree, 'data', 'extracted', 'data', 'magic', 'effect.rle'))).toBe(true)
   // 图像段边界：缺 RNG.MKF 在数据表全部落盘后拒绝。
   expect(result.stderr).toContain('RNG.MKF')
+})
+
+test('Q10 CLI 隔离实跑：合成图像/音频段（RNG 空 chunk/RGM/BALL 合成 RLE/FIRE 空/SOUNDS/Musics），缺 FBP 边界拒绝', async () => {
+  const inputs = {
+    'SSS.MKF': buildSss(),
+    'M.MSG': new TextEncoder().encode(MSG_TEXT),
+    'WORD.DAT': buildWordDat(),
+    'DATA.MKF': buildDataMkf(),
+    ...buildImageStageInputs(),
+  }
+  const tree = makeTree(inputs)
+  // Musics/ 独立目录（非 MKF）
+  const musics = join(tree, 'data', 'raw', 'Musics')
+  mkdirSync(musics, { recursive: true })
+  writeFileSync(join(musics, '7.MID'), new TextEncoder().encode('MIDI7'))
+  writeFileSync(join(musics, 'TRACK02.ogg'), new TextEncoder().encode('OGG2'))
+  trees.push(tree)
+  const result = await runCli(tree)
+  // 图像/音频段全部完成后，splash 段缺 FBP.MKF → exit 1 ENOENT。
+  expect(result.exitCode).toBe(1)
+  expect(result.stdout).toContain('RNG.MKF blobs written (1 chunks, 0 frames total)')
+  expect(result.stdout).toContain('RGM.MKF written: 1 / 1 portraits')
+  expect(result.stdout).toContain('BALL.MKF written: 1 / 1 icons')
+  expect(result.stdout).toContain('FIRE.MKF blobs written (0 chunks, 0 frames total)')
+  expect(result.stdout).toContain('SOUNDS.MKF: 1 WAV written + metadata (2 chunks)')
+  expect(result.stdout).toContain('Musics: 1 MIDI + 1 CD ogg')
+  expect(result.stderr).toContain('FBP.MKF')
+
+  const out = (rel: string) => join(tree, 'data', 'extracted', rel)
+  // RNG：空 sub-chunk 仍写 blob + manifest frameCount=0
+  expect(existsSync(out('data/animation/rng-00.rle'))).toBe(true)
+  const rngManifest = JSON.parse(readFileSync(out('data/rng-frames.json'), 'utf8'))
+  expect(rngManifest.chunks).toEqual([{ chunkIndex: 0, frameCount: 0, frames: [] }])
+  // RGM/BALL：2×2 合成 RLE → PNG + manifest 尺寸
+  expect(existsSync(out('images/portraits/00.png'))).toBe(true)
+  const portraits = JSON.parse(readFileSync(out('data/portraits.json'), 'utf8'))
+  expect(portraits.portraits).toEqual([{ chunkIndex: 0, width: 2, height: 2 }])
+  expect(existsSync(out('images/items/000.png'))).toBe(true)
+  const icons = JSON.parse(readFileSync(out('data/items-icons.json'), 'utf8'))
+  expect(icons.icons).toEqual([{ chunkIndex: 0, width: 2, height: 2 }])
+  // FIRE 空 MKF：manifest chunkCount=0、无 blob
+  const fire = JSON.parse(readFileSync(out('data/fire-sprites.json'), 'utf8'))
+  expect(fire).toEqual({ chunkCount: 0, chunks: [] })
+  // SOUNDS：空 chunk skip、带数据原样
+  expect(existsSync(out('sounds/1.wav'))).toBe(true)
+  expect(existsSync(out('sounds/0.wav'))).toBe(false)
+  const sounds = JSON.parse(readFileSync(out('data/sounds-metadata.json'), 'utf8'))
+  expect(
+    sounds.chunks.map((c: { index: number; size: number; isEmpty: boolean }) => [
+      c.size,
+      c.isEmpty,
+    ]),
+  ).toEqual([
+    [0, true],
+    [9, false],
+  ])
+  // Musics：{NNN}.MID → 归一化 007.mid；ogg 原名
+  expect(existsSync(out('music/007.mid'))).toBe(true)
+  expect(existsSync(out('music/TRACK02.ogg'))).toBe(true)
+  const music = JSON.parse(readFileSync(out('data/music-manifest.json'), 'utf8'))
+  expect(music).toEqual({ midi: [7], cdTracks: ['TRACK02.ogg'] })
 })
 
 test('Q10 CLI 隔离实跑：截断 SSS chunk0 在解析边界精确拒绝且不产出事件文件', async () => {

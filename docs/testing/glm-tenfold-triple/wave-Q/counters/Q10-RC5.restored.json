@@ -3,8 +3,8 @@
   "numPassedTestSuites": 1,
   "numFailedTestSuites": 0,
   "numPendingTestSuites": 0,
-  "numTotalTests": 3,
-  "numPassedTests": 3,
+  "numTotalTests": 4,
+  "numPassedTests": 4,
   "numFailedTests": 0,
   "numPendingTests": 0,
   "numTodoTests": 0,
@@ -24,7 +24,7 @@
     "updated": 0,
     "didUpdate": false
   },
-  "startTime": 1790838296981,
+  "startTime": 1790861608460,
   "success": true,
   "testResults": [
     {
@@ -34,7 +34,7 @@
           "fullName": "Q10 CLI 隔离实跑：合成小输入走完事件管线（round-trip 门 + 切片落盘 + 词表注记）",
           "status": "passed",
           "title": "Q10 CLI 隔离实跑：合成小输入走完事件管线（round-trip 门 + 切片落盘 + 词表注记）",
-          "duration": 217.92495899999997,
+          "duration": 384.264416,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -44,7 +44,17 @@
           "fullName": "Q10 CLI 隔离实跑：合成 DATA.MKF 走完数据表段（逐表落盘 + SPRITEUI/effect blob）",
           "status": "passed",
           "title": "Q10 CLI 隔离实跑：合成 DATA.MKF 走完数据表段（逐表落盘 + SPRITEUI/effect blob）",
-          "duration": 217.23879099999994,
+          "duration": 378.707083,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "Q10 CLI 隔离实跑：合成图像/音频段（RNG 空 chunk/RGM/BALL 合成 RLE/FIRE 空/SOUNDS/Musics），缺 FBP 边界拒绝",
+          "status": "passed",
+          "title": "Q10 CLI 隔离实跑：合成图像/音频段（RNG 空 chunk/RGM/BALL 合成 RLE/FIRE 空/SOUNDS/Musics），缺 FBP 边界拒绝",
+          "duration": 429.9781670000001,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -54,14 +64,14 @@
           "fullName": "Q10 CLI 隔离实跑：截断 SSS chunk0 在解析边界精确拒绝且不产出事件文件",
           "status": "passed",
           "title": "Q10 CLI 隔离实跑：截断 SSS chunk0 在解析边界精确拒绝且不产出事件文件",
-          "duration": 205.48808299999996,
+          "duration": 388.364417,
           "failureMessages": [],
           "meta": {},
           "tags": []
         }
       ],
-      "startTime": 1790838297098,
-      "endTime": 1790838297738.488,
+      "startTime": 1790861608666,
+      "endTime": 1790861610247.3645,
       "status": "passed",
       "message": "",
       "name": "/private/tmp/glmq/counter-copy/type-pal/packages/pal-extract/src/cli-isolated.glm-q.test.ts"
