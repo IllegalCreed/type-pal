@@ -1,6 +1,6 @@
 {
-  "numTotalTests": 401,
-  "passed": 401,
+  "numTotalTests": 400,
+  "passed": 400,
   "failed": 0,
   "tests": [
     {
@@ -1440,7 +1440,7 @@
     },
     {
       "file": "packages/content/src/enemy-ai.glm-o.test.ts",
-      "fullName": "O08 decideByRules：act 首命中与跳过序 非 act 通道规则不参与 act 决策",
+      "fullName": "O08 decideByRules：act 首命中与跳过序 turnStart 通道规则不参与 act 决策（act 只取 at=act 首命中）",
       "status": "passed"
     },
     {
@@ -1491,11 +1491,6 @@
     {
       "file": "packages/content/src/enemy-ai.glm-o.test.ts",
       "fullName": "O08 战斗状态：tick/apply/canAct/canCastMagic tickBattleStatus：正计数递减、原地修改（>999 视为永久同样递减）",
-      "status": "passed"
-    },
-    {
-      "file": "packages/content/src/enemy-ai.glm-o.test.ts",
-      "fullName": "O08 战斗状态：tick/apply/canAct/canCastMagic canAct 拦截 sleep/paralyzed；canCastMagic 拦截 silence",
       "status": "passed"
     },
     {
@@ -1710,7 +1705,7 @@
     },
     {
       "file": "packages/content/src/small-guards.glm-o.test.ts",
-      "fullName": "O09 buildWorld / instantiate：实例域边界 buildWorld：入口 party 引用未知 actor → 拒绝",
+      "fullName": "O09 buildWorld / instantiate：实例域边界 buildWorld：入口 party 引用缺失 actor → 精确 missing-actor 诊断",
       "status": "passed"
     },
     {
@@ -1970,7 +1965,7 @@
     },
     {
       "file": "packages/shared/src/rle.glm-o.test.ts",
-      "fullName": "O10 parseIndexedRleChunk：legacy 坏尾三轴 legacy 前缀全无效 → 坏尾前不含有效帧拒绝；未知 profile 拒绝",
+      "fullName": "O10 parseIndexedRleChunk：legacy 坏尾三轴 legacy 前缀全无效 → 坏尾前不含有效帧拒绝",
       "status": "passed"
     },
     {
