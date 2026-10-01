@@ -719,20 +719,8 @@ export function PreviewCanvas(props: {
             role="note"
             aria-label="移动轨迹"
             title={movementPreview.notes.join('\n') || '节点编号为编排顺序，起点取作者场景位置。'}
-            style={{
-              position: 'absolute',
-              top: 8,
-              left: 8,
-              maxWidth: 'calc(100% - 16px)',
-              padding: '5px 8px',
-              borderRadius: 5,
-              background: '#10151ce6',
-              color: '#e8edf4',
-              fontSize: 11,
-              lineHeight: 1.5,
-            }}
           >
-            <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+            <div className="preview-route-heading">
               <span>移动轨迹 · {movementStepLabel} · 编排参考，非避障路径</span>
               {routeFrame ? (
                 <DsButton
@@ -747,7 +735,7 @@ export function PreviewCanvas(props: {
                 </DsButton>
               ) : null}
             </div>
-            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '2px 12px' }}>
+            <div className="preview-route-targets">
               {movementPreview.tracks.map((track, index) => {
                 const target = track.target
                 const entity =

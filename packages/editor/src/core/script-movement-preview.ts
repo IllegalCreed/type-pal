@@ -44,7 +44,7 @@ interface Position {
 
 interface RouteState {
   positions: Map<string, Position>
-  stopped: boolean
+  stop?: 'script' | 'boundary'
 }
 
 const PARTY_KEY = 'party'
@@ -74,13 +74,17 @@ function selectedBody(flow: AuthorScriptFlow, cursor?: FlowCursor) {
 function cloneState(state: RouteState): RouteState {
   return {
     positions: new Map([...state.positions].map(([key, position]) => [key, { ...position }])),
-    stopped: state.stopped,
+    stop: state.stop,
   }
 }
 
 /** Merge knowledge, not execution: divergent arms must not supply a fictitious next start point. */
 function mergeStates(state: RouteState, arms: readonly RouteState[]): void {
-  state.stopped = arms.some((arm) => arm.stopped)
+  state.stop = arms.some((arm) => arm.stop === 'boundary')
+    ? 'boundary'
+    : arms.some((arm) => arm.stop === 'script')
+      ? 'script'
+      : undefined
   for (const key of state.positions.keys()) {
     const first = arms[0]?.positions.get(key)
     if (!first?.pos || arms.some((arm) => !samePos(first.pos, arm.positions.get(key)?.pos))) {
@@ -121,7 +125,6 @@ export function collectScriptMovementPreview(options: {
         { pos: { ...entity.pos } },
       ]),
     ]),
-    stopped: false,
   }
   let visitedCommands = 0
 
@@ -217,15 +220,19 @@ export function collectScriptMovementPreview(options: {
       })
       mergeStates(route, outcomes)
       notes.add('虚线表示条件或循环路线；分支后的未知位置不会强行连线。')
+      if (route.stop) notes.add('部分分支会提前结束，后续路线不作确定预测。')
     }
     for (const command of commands) {
-      if (route.stopped) break
+      if (route.stop) break
       if (++visitedCommands > 10000) {
         notes.add('脚本过长，轨迹仅显示前面的编排。')
-        route.stopped = true
+        route.stop = 'boundary'
         break
       }
       switch (command.kind) {
+        case 'stopScript':
+          route.stop = 'script'
+          break
         case 'moveEntity':
           addPoint(
             route,
@@ -290,7 +297,9 @@ export function collectScriptMovementPreview(options: {
               {
                 col: party.col + command.dcol,
                 row: party.row + command.drow,
-                height: party.height,
+                height:
+                  scene.entities.find((entity) => entity.id === command.target.entity)?.pos
+                    .height ?? 0,
               },
               'teleport',
               conditional,
@@ -353,7 +362,7 @@ export function collectScriptMovementPreview(options: {
           break
         case 'teleportOut':
           alternatives([command.onFail ?? []])
-          route.stopped = true
+          route.stop = 'boundary'
           notes.add('传送结果不确定，后续轨迹不在当前地图继续绘制。')
           break
         case 'callScript': {
@@ -373,7 +382,7 @@ export function collectScriptMovementPreview(options: {
             (shared.self === 'none' && command.self)
           ) {
             notes.add(`共享脚本 ${shared.name} 的触发实体参数不合法，未继续绘制。`)
-            route.stopped = true
+            route.stop = 'boundary'
             break
           }
           walk(
@@ -383,17 +392,19 @@ export function collectScriptMovementPreview(options: {
             conditional,
             new Set([...calls, command.script]),
           )
+          // Runtime catches ScriptStopped at a shared-call boundary; its caller keeps running.
+          if (route.stop === 'script') route.stop = undefined
           break
         }
         case 'loadScene':
         case 'loadLastSave':
         case 'gameOver':
-          route.stopped = true
+          route.stop = 'boundary'
           notes.add('场景或存档切换之后的轨迹不在当前地图显示。')
           break
         case 'setSceneMapOverride':
           if (!command.scene || command.scene === scene.id) {
-            route.stopped = true
+            route.stop = 'boundary'
             notes.add('地图更换之后的轨迹不在当前底图显示。')
           }
           break

@@ -12894,6 +12894,28 @@ button.sprite-frame-cell[draggable="true"]:active {
   flex: 0 1 auto;
   font: inherit;
 }
+.preview-route-legend {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  max-width: calc(100% - 16px);
+  padding: 5px 8px;
+  border-radius: 5px;
+  background: #10151ce6;
+  color: #e8edf4;
+  font-size: 11px;
+  line-height: 1.5;
+}
+.preview-route-heading {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.preview-route-targets {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2px 12px;
+}
 .canonical-script-row-actions {
   position: absolute;
   top: 50%;

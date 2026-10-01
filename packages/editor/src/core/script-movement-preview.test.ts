@@ -34,6 +34,82 @@ const preview = (body: AuthorCommand[], sharedScripts?: AuthorScriptLibrary) =>
   collectScriptMovementPreview({ scene, flow: flowOf(body), self: target, sharedScripts })
 
 describe('selected author movement preview', () => {
+  test('stopScript ends the current flow, including a branch or loop arm', () => {
+    const stop: AuthorCommand = { kind: 'stopScript' }
+    expect(
+      preview([move(2), stop, move(5)]).tracks[0]?.segments.map((segment) => [
+        segment.from.pos.col,
+        segment.to.pos.col,
+      ]),
+    ).toEqual([[1, 2]])
+    const branch = preview([
+      {
+        kind: 'branch',
+        cond: { kind: 'flag', flag: 'choice', is: true },
+        then: [move(2), stop, move(5)],
+        else: [move(7)],
+      },
+      move(10),
+    ])
+    expect(
+      branch.tracks[0]?.segments.map((segment) => [segment.from.pos.col, segment.to.pos.col]),
+    ).toEqual([
+      [1, 2],
+      [1, 7],
+    ])
+    expect(branch.notes.join(' ')).toContain('提前结束')
+    expect(
+      preview([
+        {
+          kind: 'loop',
+          mode: 'while',
+          cond: { kind: 'flag', flag: 'choice', is: true },
+          body: [move(2), stop, move(5)],
+          yield: 'worldTick',
+          maxIterations: 3,
+        },
+        move(10),
+      ]).tracks[0]?.nodes.at(-1)?.pos.col,
+    ).toBe(2)
+  })
+
+  test('shared stop is local, but a shared scene change still ends current-map preview', () => {
+    const shared: AuthorScriptLibrary = {
+      local: { name: '局部结束', self: 'none', body: [move(2), { kind: 'stopScript' }, move(5)] },
+      boundary: {
+        name: '切场景',
+        self: 'none',
+        body: [move(3), { kind: 'loadScene', scene: 'next' }],
+      },
+    }
+    expect(
+      preview([{ kind: 'callScript', script: 'local' }, move(8)], shared).tracks[0]?.segments.map(
+        (segment) => [segment.from.pos.col, segment.to.pos.col],
+      ),
+    ).toEqual([
+      [1, 2],
+      [2, 8],
+    ])
+    expect(
+      preview(
+        [{ kind: 'callScript', script: 'boundary' }, move(8)],
+        shared,
+      ).tracks[0]?.segments.map((segment) => [segment.from.pos.col, segment.to.pos.col]),
+    ).toEqual([[1, 3]])
+  })
+
+  test('relative party placement uses the target entity height, not party height', () => {
+    const elevated: SceneDef = {
+      ...scene,
+      entry: { ...scene.entry, pos: { ...scene.entry.pos, height: 9 } },
+      entities: scene.entities.map((entity) => ({ ...entity, pos: { ...entity.pos, height: 4 } })),
+    }
+    const result = collectScriptMovementPreview({
+      scene: elevated,
+      flow: flowOf([{ kind: 'setEntityPosRelParty', target, dcol: 2, drow: 3 }]),
+    })
+    expect(result.tracks[0]?.nodes.at(-1)?.pos).toEqual({ col: 2, row: 3, height: 4 })
+  })
   test('six authored waypoints are independent from other NPC/player routes and do not mutate input', () => {
     const body = [
       move(2),
