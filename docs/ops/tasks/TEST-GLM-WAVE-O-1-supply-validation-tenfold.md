@@ -196,3 +196,19 @@ Codex **counter → rework**；这是274/700例、30/50枚反控的部分交付�
 ```text
 继续TEST-GLM-WAVE-O-1，唯一O Owner，原树/Users/zhangxu/.codex/worktrees/glm-wave-o/type-pal、分支codex/glm-wave-o-supply-validation-r1，固定a708ac4fbb5c7a25549b03805880779048e647c5。先读审核树/Users/zhangxu/.codex/worktrees/glm-lmn-acceptance/type-pal/docs/ops/tasks/TEST-GLM-WAVE-O-1-supply-validation-tenfold.md最新段和同树docs/testing/glm-tenfold-triple/codex-opq-latest-review-20261001.md/json。仅执行O-R7-01～03：逐条件真账/真实旧fullName与断言行/完整业务oracle，不再token匹配或首expect；item-equip六明确旧合同扣除，其它加强轴举证保留。实际runner和自测共用唯一judge，完整三态多重身份/精确目标/状态/JSON和raw错误/正常退出/signal/spawn拒收，补已给4误收反例，不复制另一判据。按最终blob同步225/234、690路径、65存档63目标、工具/证据锚41ce5430与报告锚及docs-only区间。保留已关闭旧桥、gate/allAllies删重、五受影响针更新和未变57针，不重采未变业务。然后连续原合法余族，700合法未重复例/60组/50不同目标不缩、不凑数；缺合法轴逐项existing-proof/unreachable/blocked申请。仅原O白名单新测/fixture/wave-O证据可写，派发8b3ca062953b17a12178f8d1a9e36657971234b1、冻结3ac9a2e2f6aba8a5cc97640c18fef8549d199380不变，真实工程与产品/旧测/配置/baseline/P/Q/共享文档只读，CLI仅mkdtemp合成。每批定向相邻/typecheck并阶段推送，最终全包/静态零/docs/diff/verifier及完整真实SHA；不合main、不done、不跑官方门、不清贡献者树。
 ```
+
+
+## Codex r8 独立复核（2026-10-02）
+
+固定本地/远端 `5cf74bdd1ae3dd47d953b504362c83697cb5fbb0`，**counter / rework**。469最终执行身份匹配；新content1411绿/typecheck零，完整包/配置锁相同的migrate704/shared154及typecheck复用，合计2269。lint3174文件完整0/0/0、docs/diff/716冻结/691白名单通过。唯一judge22自测绿但实际跨相强求状态相同误拒正常0→1→0；O01-CC1实际runner又因短title误拒；collection/runtime反例漏收。唯一导入/raw真实异常/exit及清理子项关闭，不重做。已删目标O08-CC8/9、O09-CC13退役，当前62存档60目标成立，不重采不存在合同。真账仍239 token推新/首断言及残缺oracle；资源7→0同已证条件不计新，最多468净新候选，缺口至少232。700/60组/50不同合同目标保留。
+
+[详细判定与下一步](../../testing/glm-tenfold-triple/codex-opq-r8-review-20261002.md)、
+[实跑与逐针机器证据](../../testing/glm-tenfold-triple/codex-opq-r8-review-20261002.json)。
+本轮无新视觉、未合main、未done、未正式覆盖结算；不写贡献者树、不自动投递。
+以下代码阶段请用户发送前手动选 **GLM-5.3**；P视觉另阶段手动选Flash，不混派。
+
+### 下一位GLM O代码提示词（覆盖旧交接；用户手动转发）
+
+```text
+继续TEST-GLM-WAVE-O-1，唯一O Owner，原树/Users/zhangxu/.codex/worktrees/glm-wave-o/type-pal、分支codex/glm-wave-o-supply-validation-r1，固定5cf74bdd1ae3dd47d953b504362c83697cb5fbb0。先读审核树/Users/zhangxu/.codex/worktrees/glm-lmn-acceptance/type-pal/docs/testing/glm-tenfold-triple/codex-opq-r8-review-20261002.md/json及原卡最新段。只补O-R8-01～03：正常0→1→0身份相同但目标状态应变化，修唯一judge的跨相状态误拒、spec短title误拒，完整目标/完整包路径与collection/runtime拒收；用真实存档及整段合法生命周期正控自测。O08-CC8/9、O09-CC13目标已删，保留历史并退役，不重采或重造；剩余62存档60目标不变保留。旧删重/typed/raw未处理异常/exit拒收与清理已闭合不重做。分域人工真账替代token最近标题与首断言生成器；明确matcher和值、源条件/caller、旧fullName断言锚。资源7→0同条件cross-check不计新，同步净新上限468/缺口至少232、691路径和历史数。然后持续原合法余族，700/60组/50不同合同目标不缩，CLI仅mkdtemp。派发8b3ca062953b17a12178f8d1a9e36657971234b1、冻结3ac9a2e2f6aba8a5cc97640c18fef8549d199380不变，仅原O新测/fixture/wave-O白名单；产品/旧测/配置/baseline/真实数据/P/Q/共享文档只读。每批定向相邻/typecheck，最终静态0/0/0、全包/docs/diff/verifier后阶段推送完整SHA；不合main、不done、不官方门、不清树。
+```

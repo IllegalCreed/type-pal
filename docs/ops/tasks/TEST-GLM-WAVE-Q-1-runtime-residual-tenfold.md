@@ -318,3 +318,19 @@ Resume the interrupted seventh user instruction for TEST-GLM-WAVE-Q-1. Continue 
 ```text
 继续TEST-GLM-WAVE-Q-1，唯一Q Owner，原树/Users/zhangxu/.codex/worktrees/glm-wave-q/type-pal、分支codex/glm-wave-q-runtime-residual-r1，固定fddc88a6060d644fd1b4fcf9e27dbff457a293b5。先读审核树/Users/zhangxu/.codex/worktrees/glm-lmn-acceptance/type-pal/docs/ops/tasks/TEST-GLM-WAVE-Q-1-runtime-residual-tenfold.md最新段和同树docs/testing/glm-tenfold-triple/codex-opq-latest-review-20261001.md/json。旧typed slot/两performItem删重/七例公开投影/默认timeout以及极限技、同威力先遇296与RC7因果已关闭，不重做。按Q-R7-01～04补最终contracts C104～110等真账，查实际blob避免生成器覆盖为库存模板；0x9E room0新增例已有旧证不计新，旧1459-1479 reset/清毒/脚本/位置不可重算，独立更强轴逐条件举证，fallback位置用一手独立oracle。数量同步game2805、134/50/18，三态来源34旧不动+6Q08和5Q10更新+5新S1；50存档只有44不同目标，至少补6个真正新合同目标，不拆标题/换数字凑数，保留历史有效针，源/执行集改变仅重采受影响。连续原Q07/Q08合法typed余族与Q10 mkdtemp合成公共CLI，700例/50组/50不同目标/10流程不缩；避让grok-cursor-large/targets.json中Grok46保留源的新主合同，既有测试与原窄返工保留。game/pal-extract与Reforge阶段分开，派发8b3ca062953b17a12178f8d1a9e36657971234b1、冻结3ac9a2e2f6aba8a5cc97640c18fef8549d199380不变；只原Q白名单新测/fixture/wave-Q可写，产品/旧测/配置/baseline/O/P/真实数据/共享文档只读，D-Q01-1产品draft不夹修，不走PAL剧情/E2E002/世界后门，不测未授权learnedSpells/capture误设行。每批定向相邻/typecheck阶段推送，最后全包/静态零/docs/diff/verifier和完整真实SHA；不合main、不done、不跑官方门、不清树。
 ```
+
+
+## Codex r8 独立复核（2026-10-02）
+
+固定本地/远端 `7e115b4dd2e59f78a2fbbb4beb535c9085ffeab2`，**counter / rework**。新game2805绿/typecheck零，完整包与配置锁相同Reforge2150/extract361及typecheck复用，合计5316；134最终执行身份匹配。lint2999文件完整0/0/0、docs/diff/716冻结/611白名单通过。投影真账/S1非空毒与身份/独立固定fallback oracle关闭，NT1～6六新目标独立重放通过，连S1及NT8共10针30相新跑。57存档中56满足单业务断言红，50执行目标；45旧组未变/5S1更新/7新增。NT8为expect前普通产品Error，非AssertionError且同旧目标，退役不换针；C114room0及S1-RC4旧合同/反控不计新配额，净新上限133、缺口至少567、新合同目标上限49，合法余族至少补一目标。ledger当前129/45/17、C115待改分类与receipt同步；保留旧闭合项，700/50组不縮。
+
+[详细判定与下一步](../../testing/glm-tenfold-triple/codex-opq-r8-review-20261002.md)、
+[实跑与逐针机器证据](../../testing/glm-tenfold-triple/codex-opq-r8-review-20261002.json)。
+本轮无新视觉、未合main、未done、未正式覆盖结算；不写贡献者树、不自动投递。
+以下代码阶段请用户发送前手动选 **GLM-5.3**；P视觉另阶段手动选Flash，不混派。
+
+### 下一位GLM Q代码提示词（覆盖旧交接；用户手动转发）
+
+```text
+继续TEST-GLM-WAVE-Q-1，唯一Q Owner，原树/Users/zhangxu/.codex/worktrees/glm-wave-q/type-pal、分支codex/glm-wave-q-runtime-residual-r1，固定7e115b4dd2e59f78a2fbbb4beb535c9085ffeab2。先读审核树/Users/zhangxu/.codex/worktrees/glm-lmn-acceptance/type-pal/docs/testing/glm-tenfold-triple/codex-opq-r8-review-20261002.md/json及原卡最新段。投影真账、S1非空毒/对象身份、固定fallback oracle、NT1～6六新目标已关闭，不重做；56存档满足业务单断言红，50执行目标不等于50净新合同目标。NT8普通产品Error非AssertionError，退役保留历史，无需换针；C114room0已证旧合同不计新，S1-RC4历史针不计新配额。同步134执行/净新上限133/缺口至少567、ledger当前口径、C115已修分类/game2805/lint2999与三态来源45旧未变+5S1更新+7新增；后续合法余族至少补一真正新合同目标，不拆标题凑数。继续Q07/Q08 typed已核生命周期与Q10 mkdtemp合成CLI，700/50组不缩；避让Grok46保留源新增主合同。game/pal-extract与Reforge阶段分开，派发8b3ca062953b17a12178f8d1a9e36657971234b1、冻结3ac9a2e2f6aba8a5cc97640c18fef8549d199380不变，仅原Q新测/fixture/wave-Q；产品/旧测/配置/baseline/真实数据/O/P/共享文档只读，D-Q01-1 draft不夹修，不测learnedSpells/capture误设行、不走PAL剧情/E2E002/世界后门。每批定向相邻/typecheck阶段推送，末批全包/静态0/0/0/docs/diff/verifier和完整SHA；不合main、不done、不官方门、不清树。
+```

@@ -215,3 +215,19 @@ collection/runtime/未处理异常，完整 file×fullName 多重集合比较；
 ```text
 继续TEST-GLM-WAVE-P-1，唯一P Owner，原树/Users/zhangxu/.codex/worktrees/glm-wave-p-editor-residual/type-pal、分支codex/glm-wave-p-editor-residual-r1，固定c30d53441df71c62b4029e79e7faae6bb3bc03b9。先读审核树/Users/zhangxu/.codex/worktrees/glm-lmn-acceptance/type-pal/docs/ops/tasks/TEST-GLM-WAVE-P-1-editor-residual-tenfold.md最新段和同树docs/testing/glm-tenfold-triple/codex-opq-latest-review-20261001.md/json。P-R35-01 mutant身份/真实异常、P-R35-02 finally清理和docs两问题已关闭，不重复窄修。补P-R36-01真实逐条件合同账，G03 oracle指实际开盘/提交/关闭回焦/键盘移焦结果，不再第一断言；旧完整fullName和行锚齐，标题未测空格撤回或合法排重补证。P-R36-02所有三相接入共同raw/harness判据，业务exit1与无效退出分开，补政策拒收自测；同步19自测、52dd21198工具证据锚、9针更新+1针未变。源/执行集不变不要求全10重采。连续原P02残余/P03～P10的合法代码合同，700例/70组/50不同目标不缩；必须避让共同grok-cursor-large/targets.json给Cursor的74保留源，新主合同不越界，既有历史/窄返工保留。只写原P白名单新测/fixture/wave-P，派发8b3ca062953b17a12178f8d1a9e36657971234b1、冻结3ac9a2e2f6aba8a5cc97640c18fef8549d199380不变；产品/旧测/配置/baseline/真实数据/O/Q/共享文档只读，每批定向相邻/typecheck并阶段推送。此提示仅代码阶段，不启动浏览器或用源码代替F14/F18视觉；20流程目标保留，视觉另交接。最后全包/静态零/docs/diff/verifier和完整真实SHA；不合main、不done、不跑官方门、不清树。
 ```
+
+
+## Codex r3.6 独立复核（2026-10-02）
+
+固定本地/远端 `2ba6c02303d44f136762b81d1255683893e6c5d9`。**本轮窄项 accept，整卡仍 rework/PARTIAL**：新Editor3853/3853、516文件/typecheck零，67最终身份匹配；lint2804文件完整0/0/0、docs/diff/716冻结/158白名单通过。G03业务结果/诚实标题、三相共同raw/exit1政策、22自测关闭；10存档10目标/index/patch/三态最终hash及执行身份对应，不重复工具窄修。逐条件旧锚纳入后续真账；receipt三个静态sourceSha摘要从最终树更新，不误判10业务针hash不符。继续P02合法残余/P03–P10，当前67/700、14/70组、10/50目标；F14/F18仍未证，不把窄返工当整卡done。
+
+[详细判定与下一步](../../testing/glm-tenfold-triple/codex-opq-r8-review-20261002.md)、
+[实跑与逐针机器证据](../../testing/glm-tenfold-triple/codex-opq-r8-review-20261002.json)。
+本轮无新视觉、未合main、未done、未正式覆盖结算；不写贡献者树、不自动投递。
+以下代码阶段请用户发送前手动选 **GLM-5.3**；P视觉另阶段手动选Flash，不混派。
+
+### 下一位GLM P代码提示词（覆盖旧交接；用户手动转发）
+
+```text
+继续TEST-GLM-WAVE-P-1，唯一P Owner，原树/Users/zhangxu/.codex/worktrees/glm-wave-p-editor-residual/type-pal、分支codex/glm-wave-p-editor-residual-r1，固定2ba6c02303d44f136762b81d1255683893e6c5d9。先读审核树/Users/zhangxu/.codex/worktrees/glm-lmn-acceptance/type-pal/docs/testing/glm-tenfold-triple/codex-opq-r8-review-20261002.md/json及原卡最新段。G03结果/诚实标题、三相共同raw/exit1政策窄项关闭，10业务针/索引/最终执行集对应；不重做这些工具或未变针。继续原P02合法残余与P03～P10，不再仅交窄返工回执；每域先逐条件核旧fullName和断言行，业务oracle完整matcher和值，补真账而非首初态断言。700例/70组/50不同合同目标不缩，当前67/14组/10针仍部分；避让grok-cursor-large/targets.json中Cursor74保留源的新增主合同。派发8b3ca062953b17a12178f8d1a9e36657971234b1、冻结3ac9a2e2f6aba8a5cc97640c18fef8549d199380不变，仅原P新测/fixture/wave-P；产品/旧测/配置/baseline/真实数据/O/Q/共享文档只读。此为代码阶段，不启动浏览器或代读F14/F18；20流程目标保留另交视觉。每批定向相邻/typecheck，阶段提交推送，末批Editor全包/静态0/0/0/docs/diff/verifier与完整SHA；不合main、不done、不官方门、不清树。
+```
