@@ -8,8 +8,8 @@
   "dispatchBase": "0704d3de6d3d2a2099475a42f601b654bba08579",
   "productionFreeze": "3ac9a2e2f6aba8a5cc97640c18fef8549d199380",
   "sourceBase": "5cbe5c08b43a3e53b9b7109bc26ab2f913df969e",
-  "headAtReceiptDraft": "0704d3de6d3d2a2099475a42f601b654bba08579",
-  "headNote": "final candidate SHA filled after commit/push; do not self-pin HEAD churn",
+  "headAtReceiptDraft": "6a16751e7a12e1e1a3734fb749dcfe7547226dfd",
+  "headNote": "final evidence commit before docs pin; push follows",
   "counts": {
     "directedTotal": 707,
     "directedPassed": 707,
@@ -34,5 +34,6 @@
     "coverageDelta": "docs/testing/grok-cursor-large/cursor/coverage-delta.json",
     "defects": "docs/testing/grok-cursor-large/cursor/defects.md",
     "flows": "docs/testing/grok-cursor-large/cursor/flows/"
-  }
+  },
+  "candidateSha": "6a16751e7a12e1e1a3734fb749dcfe7547226dfd"
 }
