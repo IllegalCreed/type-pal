@@ -1,6 +1,6 @@
 {
-  "batch": "G04",
-  "acceptedCounters": 16,
+  "batch": "G05",
+  "acceptedCounters": 20,
   "probeRejected": true,
   "counters": [
     {
@@ -2427,6 +2427,425 @@
         "docs/testing/grok-cursor-large/grok/counters/G04-D/restored.json",
         "docs/testing/grok-cursor-large/grok/counters/G04-D/restored.stdout",
         "docs/testing/grok-cursor-large/grok/counters/G04-D/restored.stderr"
+      ]
+    },
+    {
+      "id": "G05-A",
+      "batch": "G05",
+      "accepted": true,
+      "reasons": [],
+      "axis": "已显示行的行距从 18 像素改成 19 像素",
+      "source": "packages/game/src/present/dialog-box.ts",
+      "testFile": "src/present/dialog-box-pixels.grok-r1.test.ts",
+      "target": "G05-A05",
+      "targetFullName": "G05-A dialog 可见文字 G05-A05 已沉入的第二行在首行之下 18 像素，黄字与红字分行",
+      "assertionError": "AssertionError: expected +0 to be 26 // Object.is equality",
+      "sha256": {
+        "original": "36edf232f7587a414fb5a3e85b864fbcdd8c396ddc21dbdf335d890e070a6b85",
+        "mutant": "db0fae78f3f3d1e24ff145d06953a87ef6b54a96898de1ed8a6afb7979fcac18",
+        "restored": "36edf232f7587a414fb5a3e85b864fbcdd8c396ddc21dbdf335d890e070a6b85"
+      },
+      "exitCode": {
+        "original": 0,
+        "mutant": 1,
+        "restored": 0
+      },
+      "signal": {
+        "original": null,
+        "mutant": null,
+        "restored": null
+      },
+      "counts": {
+        "original": 11,
+        "mutantFailed": 1,
+        "restored": 11
+      },
+      "executionCount": 11,
+      "executions": [
+        {
+          "file": "src/present/dialog-box-pixels.grok-r1.test.ts",
+          "fullName": "G05-A dialog 可见文字 G05-A01 上框无头像时姓名在 (12,8) 为 0x8C，正文在 (44,26)",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/dialog-box-pixels.grok-r1.test.ts",
+          "fullName": "G05-A dialog 可见文字 G05-A02 上框有头像时姓名改到 (80,8)，正文改到 (96,26)",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/dialog-box-pixels.grok-r1.test.ts",
+          "fullName": "G05-A dialog 可见文字 G05-A03 居中框的冒号句画在 (80,40)，不画到姓名位 (12,8)",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/dialog-box-pixels.grok-r1.test.ts",
+          "fullName": "G05-A dialog 可见文字 G05-A04 charsRevealed 为 1 时只画第一个字，第二个字的位置保持 0",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/dialog-box-pixels.grok-r1.test.ts",
+          "fullName": "G05-A dialog 可见文字 G05-A05 已沉入的第二行在首行之下 18 像素，黄字与红字分行",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/dialog-box-pixels.grok-r1.test.ts",
+          "fullName": "G05-A dialog 可见文字 G05-A06 普通对话引号里的字画成黄色 0x2D，不是默认 0x4F",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/dialog-box-pixels.grok-r1.test.ts",
+          "fullName": "G05-A dialog 可见文字 G05-A07 清正文后姓名像素还在 (12,8)，正文位回到 0",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/dialog-box-pixels.grok-r1.test.ts",
+          "fullName": "G05-A dialog 可见文字 G05-A08 带引号的姓名仍画成 0x8C，不使用引号切出的黄色",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/dialog-box-pixels.grok-r1.test.ts",
+          "fullName": "G05-A dialog 可见文字 G05-A09 当前行没有逐字色时，像素用 state.fontColor 而不是 0x4F",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/dialog-box-pixels.grok-r1.test.ts",
+          "fullName": "G05-A dialog 可见文字 G05-A10 半角字形宽 8 时，第二个字从 x+8 起画，不落到 x+16",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/dialog-box-pixels.grok-r1.test.ts",
+          "fullName": "G05-A dialog 可见文字 G05-A11 姓名索引 0x8C 经 flushToCanvas 写成调色板 RGB，缓冲仍是 0x8C",
+          "status": "passed"
+        }
+      ],
+      "patch": {
+        "path": "docs/testing/grok-cursor-large/grok/counters/G05-A/patch.diff",
+        "sha256": "732fd6c60cc701debfeb5ff318216d30fb27a9956c4481cb739418aacdc1902d",
+        "bytes": 285
+      },
+      "logs": [
+        "docs/testing/grok-cursor-large/grok/counters/G05-A/original.json",
+        "docs/testing/grok-cursor-large/grok/counters/G05-A/original.stdout",
+        "docs/testing/grok-cursor-large/grok/counters/G05-A/original.stderr",
+        "docs/testing/grok-cursor-large/grok/counters/G05-A/mutant.json",
+        "docs/testing/grok-cursor-large/grok/counters/G05-A/mutant.stdout",
+        "docs/testing/grok-cursor-large/grok/counters/G05-A/mutant.stderr",
+        "docs/testing/grok-cursor-large/grok/counters/G05-A/restored.json",
+        "docs/testing/grok-cursor-large/grok/counters/G05-A/restored.stdout",
+        "docs/testing/grok-cursor-large/grok/counters/G05-A/restored.stderr"
+      ]
+    },
+    {
+      "id": "G05-B",
+      "batch": "G05",
+      "accepted": true,
+      "reasons": [],
+      "axis": "字形清单失败的错误文本不再带 HTTP 状态码",
+      "source": "packages/game/src/present/font.ts",
+      "testFile": "src/present/font-width.grok-r1.test.ts",
+      "target": "G05-B08",
+      "targetFullName": "G05-B font 宽度与字形装载 G05-B08 字形清单 HTTP 失败时，错误文本带上状态码",
+      "assertionError": "AssertionError: expected 'font: fetch glyphs.json failed' to be 'font: fetch glyphs.json failed (404)' // Object.is equality",
+      "sha256": {
+        "original": "3df0f1a1b23d221f55050f1a172725f32f5019016b99da1e3f98d68fab46b539",
+        "mutant": "c69e7928d8c5a8a1be1626b71883da73548ba42539d302321e5c1e7129ee94f1",
+        "restored": "3df0f1a1b23d221f55050f1a172725f32f5019016b99da1e3f98d68fab46b539"
+      },
+      "exitCode": {
+        "original": 0,
+        "mutant": 1,
+        "restored": 0
+      },
+      "signal": {
+        "original": null,
+        "mutant": null,
+        "restored": null
+      },
+      "counts": {
+        "original": 14,
+        "mutantFailed": 1,
+        "restored": 14
+      },
+      "executionCount": 14,
+      "executions": [
+        {
+          "file": "src/present/font-width.grok-r1.test.ts",
+          "fullName": "G05-B font 宽度与字形装载 G05-B01 palCharWidth 在 0x7F 仍是 8，0x80 起是 16",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/font-width.grok-r1.test.ts",
+          "fullName": "G05-B font 宽度与字形装载 G05-B02 空串的 palWordWidth 是 0",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/font-width.grok-r1.test.ts",
+          "fullName": "G05-B font 宽度与字形装载 G05-B03 四个 ASCII 的 palWordWidth 是 2，不是字符串长度 4",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/font-width.grok-r1.test.ts",
+          "fullName": "G05-B font 宽度与字形装载 G05-B04 两个全角字的 palWordWidth 等于 2",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/font-width.grok-r1.test.ts",
+          "fullName": "G05-B font 宽度与字形装载 G05-B05 两个 ASCII 加一个全角的 palWordWidth 是 2，不是 3",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/font-width.grok-r1.test.ts",
+          "fullName": "G05-B font 宽度与字形装载 G05-B06 loadGlyphs 把 bitmapBase64 解成字节，并能按码位取回",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/font-width.grok-r1.test.ts",
+          "fullName": "G05-B font 宽度与字形装载 G05-B07 loadGlyphs 把调用方给的 baseUrl 接到 /data/font/glyphs.json",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/font-width.grok-r1.test.ts",
+          "fullName": "G05-B font 宽度与字形装载 G05-B08 字形清单 HTTP 失败时，错误文本带上状态码",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/font-width.grok-r1.test.ts",
+          "fullName": "G05-B font 宽度与字形装载 G05-B09 字形清单为空时，has 为假且 get 为 undefined",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/font-width.grok-r1.test.ts",
+          "fullName": "G05-B font 宽度与字形装载 G05-B10 表里有宽 8 的字形时，measureText 返回 8",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/font-width.grok-r1.test.ts",
+          "fullName": "G05-B font 宽度与字形装载 G05-B11 renderText 半角加全角返回 24，第二字落在 x+8",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/font-width.grok-r1.test.ts",
+          "fullName": "G05-B font 宽度与字形装载 G05-B12 renderText 打开阴影时，右、下、右下三点是 0，原点仍是前景",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/font-width.grok-r1.test.ts",
+          "fullName": "G05-B font 宽度与字形装载 G05-B13 renderText 关闭阴影时，右、下、右下保持底色",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/font-width.grok-r1.test.ts",
+          "fullName": "G05-B font 宽度与字形装载 G05-B14 空字符串 renderText 返回 0，并且不改像素",
+          "status": "passed"
+        }
+      ],
+      "patch": {
+        "path": "docs/testing/grok-cursor-large/grok/counters/G05-B/patch.diff",
+        "sha256": "ece01b533e54b111d2205c9730fee23cde865b62d055d9aed918cc5b83a69a84",
+        "bytes": 525
+      },
+      "logs": [
+        "docs/testing/grok-cursor-large/grok/counters/G05-B/original.json",
+        "docs/testing/grok-cursor-large/grok/counters/G05-B/original.stdout",
+        "docs/testing/grok-cursor-large/grok/counters/G05-B/original.stderr",
+        "docs/testing/grok-cursor-large/grok/counters/G05-B/mutant.json",
+        "docs/testing/grok-cursor-large/grok/counters/G05-B/mutant.stdout",
+        "docs/testing/grok-cursor-large/grok/counters/G05-B/mutant.stderr",
+        "docs/testing/grok-cursor-large/grok/counters/G05-B/restored.json",
+        "docs/testing/grok-cursor-large/grok/counters/G05-B/restored.stdout",
+        "docs/testing/grok-cursor-large/grok/counters/G05-B/restored.stderr"
+      ]
+    },
+    {
+      "id": "G05-C",
+      "batch": "G05",
+      "accepted": true,
+      "reasons": [],
+      "axis": "缺帧时不再为这一位留出 6 像素",
+      "source": "packages/game/src/present/draw-number.ts",
+      "testFile": "src/present/draw-number-slots.grok-r1.test.ts",
+      "target": "G05-C03",
+      "targetFullName": "G05-C draw-number 空位与掩码 G05-C03 个位帧缺失时仍把十位画到左移 6 像素的位置",
+      "assertionError": "AssertionError: expected +0 to be 20 // Object.is equality",
+      "sha256": {
+        "original": "29b6f5dbc54d3ec0587de2380cf48e97c1744d3e503e0ec56587ae229a73aebd",
+        "mutant": "6733d3a1f73f660d43526e08a9198d5e3df9555e2a368ccad3ed6168cb9fd963",
+        "restored": "29b6f5dbc54d3ec0587de2380cf48e97c1744d3e503e0ec56587ae229a73aebd"
+      },
+      "exitCode": {
+        "original": 0,
+        "mutant": 1,
+        "restored": 0
+      },
+      "signal": {
+        "original": null,
+        "mutant": null,
+        "restored": null
+      },
+      "counts": {
+        "original": 5,
+        "mutantFailed": 1,
+        "restored": 5
+      },
+      "executionCount": 5,
+      "executions": [
+        {
+          "file": "src/present/draw-number-slots.grok-r1.test.ts",
+          "fullName": "G05-C draw-number 空位与掩码 G05-C01 透明孔保留底色，旁边的不透明点写入精灵索引 44",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/draw-number-slots.grok-r1.test.ts",
+          "fullName": "G05-C draw-number 空位与掩码 G05-C02 只点亮最后一行时，像素写在 y+7，首行保持底色",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/draw-number-slots.grok-r1.test.ts",
+          "fullName": "G05-C draw-number 空位与掩码 G05-C03 个位帧缺失时仍把十位画到左移 6 像素的位置",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/draw-number-slots.grok-r1.test.ts",
+          "fullName": "G05-C draw-number 空位与掩码 G05-C04 nLength 为 0 且数字大于 0 时，一个数字像素都不写",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/draw-number-slots.grok-r1.test.ts",
+          "fullName": "G05-C draw-number 空位与掩码 G05-C05 数字 0 且 nLength 为 0 时，右对齐把这一位画在 pos.x-6",
+          "status": "passed"
+        }
+      ],
+      "patch": {
+        "path": "docs/testing/grok-cursor-large/grok/counters/G05-C/patch.diff",
+        "sha256": "48cd3fbd3f56acc9849ebba9d66a2cd4e57ceced40e4a9714fbb5ff444ca735c",
+        "bytes": 325
+      },
+      "logs": [
+        "docs/testing/grok-cursor-large/grok/counters/G05-C/original.json",
+        "docs/testing/grok-cursor-large/grok/counters/G05-C/original.stdout",
+        "docs/testing/grok-cursor-large/grok/counters/G05-C/original.stderr",
+        "docs/testing/grok-cursor-large/grok/counters/G05-C/mutant.json",
+        "docs/testing/grok-cursor-large/grok/counters/G05-C/mutant.stdout",
+        "docs/testing/grok-cursor-large/grok/counters/G05-C/mutant.stderr",
+        "docs/testing/grok-cursor-large/grok/counters/G05-C/restored.json",
+        "docs/testing/grok-cursor-large/grok/counters/G05-C/restored.stdout",
+        "docs/testing/grok-cursor-large/grok/counters/G05-C/restored.stderr"
+      ]
+    },
+    {
+      "id": "G05-D",
+      "batch": "G05",
+      "accepted": true,
+      "reasons": [],
+      "axis": "等键图标忽略右括号和左括号选出的帧号",
+      "source": "packages/game/src/present/dialog-box.ts",
+      "testFile": "src/present/dialog-box-chrome.grok-r1.test.ts",
+      "target": "G05-D01",
+      "targetFullName": "G05-D dialog 图标物品框与旁白 G05-D01 右括号把等键图标切到第 1 帧，而不是默认第 0 帧",
+      "assertionError": "AssertionError: expected 11 to be 22 // Object.is equality",
+      "sha256": {
+        "original": "36edf232f7587a414fb5a3e85b864fbcdd8c396ddc21dbdf335d890e070a6b85",
+        "mutant": "63c31ac38925d839d708395961e0d20a89b94e8b0bd014375c1273044f964b02",
+        "restored": "36edf232f7587a414fb5a3e85b864fbcdd8c396ddc21dbdf335d890e070a6b85"
+      },
+      "exitCode": {
+        "original": 0,
+        "mutant": 1,
+        "restored": 0
+      },
+      "signal": {
+        "original": null,
+        "mutant": null,
+        "restored": null
+      },
+      "counts": {
+        "original": 13,
+        "mutantFailed": 1,
+        "restored": 13
+      },
+      "executionCount": 13,
+      "executions": [
+        {
+          "file": "src/present/dialog-box-chrome.grok-r1.test.ts",
+          "fullName": "G05-D dialog 图标物品框与旁白 G05-D01 右括号把等键图标切到第 1 帧，而不是默认第 0 帧",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/dialog-box-chrome.grok-r1.test.ts",
+          "fullName": "G05-D dialog 图标物品框与旁白 G05-D02 半角字宽 8 时，箭头落在文字末尾 x=52",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/dialog-box-chrome.grok-r1.test.ts",
+          "fullName": "G05-D dialog 图标物品框与旁白 G05-D03 当前行为空时，箭头画在最后一条已显示行上",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/dialog-box-chrome.grok-r1.test.ts",
+          "fullName": "G05-D dialog 图标物品框与旁白 G05-D04 两个半角单位的旁白框从 (152,40) 起，文字在 (160,50)",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/dialog-box-chrome.grok-r1.test.ts",
+          "fullName": "G05-D dialog 图标物品框与旁白 G05-D05 旁白连续数字按 8 像素步进，第二位不落在 +6",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/dialog-box-chrome.grok-r1.test.ts",
+          "fullName": "G05-D dialog 图标物品框与旁白 G05-D06 旁白样式不画头像，正文仍写在 (160,50)",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/dialog-box-chrome.grok-r1.test.ts",
+          "fullName": "G05-D dialog 图标物品框与旁白 G05-D07 物品框没有 itemBox 时，画面保持调用前的底色",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/dialog-box-chrome.grok-r1.test.ts",
+          "fullName": "G05-D dialog 图标物品框与旁白 G05-D08 物品框两行文字分别落在 y=40 和 y=58，右侧一点不是阴影",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/dialog-box-chrome.grok-r1.test.ts",
+          "fullName": "G05-D dialog 图标物品框与旁白 G05-D09 物品目录里没有该 id 时，框仍居中，图标像素不出现",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/dialog-box-chrome.grok-r1.test.ts",
+          "fullName": "G05-D dialog 图标物品框与旁白 G05-D10 头像 opaque 必须等于 1 才写入，2 的孔保留底色",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/dialog-box-chrome.grok-r1.test.ts",
+          "fullName": "G05-D dialog 图标物品框与旁白 G05-D11 物品框正文坐标是 (160,30)，有无头像都一样",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/dialog-box-chrome.grok-r1.test.ts",
+          "fullName": "G05-D dialog 图标物品框与旁白 G05-D12 物品框姓名坐标也是占位 (160,30)",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/dialog-box-chrome.grok-r1.test.ts",
+          "fullName": "G05-D dialog 图标物品框与旁白 G05-D13 物品框占位矩形是 (8,80,304,48)",
+          "status": "passed"
+        }
+      ],
+      "patch": {
+        "path": "docs/testing/grok-cursor-large/grok/counters/G05-D/patch.diff",
+        "sha256": "a18067cd4685803334fdd5dfc64cfe2aab011edc3ebafef7086bd181411aba26",
+        "bytes": 591
+      },
+      "logs": [
+        "docs/testing/grok-cursor-large/grok/counters/G05-D/original.json",
+        "docs/testing/grok-cursor-large/grok/counters/G05-D/original.stdout",
+        "docs/testing/grok-cursor-large/grok/counters/G05-D/original.stderr",
+        "docs/testing/grok-cursor-large/grok/counters/G05-D/mutant.json",
+        "docs/testing/grok-cursor-large/grok/counters/G05-D/mutant.stdout",
+        "docs/testing/grok-cursor-large/grok/counters/G05-D/mutant.stderr",
+        "docs/testing/grok-cursor-large/grok/counters/G05-D/restored.json",
+        "docs/testing/grok-cursor-large/grok/counters/G05-D/restored.stdout",
+        "docs/testing/grok-cursor-large/grok/counters/G05-D/restored.stderr"
       ]
     }
   ]

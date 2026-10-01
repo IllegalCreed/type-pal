@@ -1,8 +1,8 @@
 {
-  "batch": "G04",
-  "count": 138,
-  "batchCount": 29,
-  "cumulativeNewContracts": 138,
+  "batch": "G05",
+  "count": 181,
+  "batchCount": 43,
+  "cumulativeNewContracts": 181,
   "target": 400,
   "contracts": [
     {
@@ -7677,6 +7677,2204 @@
         "fullName": "G04-D present 冻屏归属与调色板 G04-D09 writePixel(300) 截成 44，toImageData 读的是 44 号色",
         "status": "passed"
       }
+    },
+    {
+      "id": "G05-A01",
+      "batch": "G05",
+      "group": "G05-A",
+      "primarySource": {
+        "file": "packages/game/src/present/dialog-box.ts",
+        "conditionLine": 689,
+        "condition": "无头像上框的姓名用 FONT_COLOR_CYAN_ALT 画在 (12,8)，正文走 (44,26)（dialog-box.ts:195,215,689）"
+      },
+      "caller": {
+        "file": "packages/game/src/present/present.ts",
+        "line": 149,
+        "expr": "drawDialogBox(fb, gs.dialogBox, ctx.glyphs, dialogCtx)"
+      },
+      "legalInput": "startDialogLine('李:', {style:'top', fontColor:200})，append '甲' 并揭完，宽 16 单点字形。",
+      "oldTest": {
+        "sha": "7d4e2a59ef03319f1fa29127e5d67bd90b68b9e4",
+        "file": "packages/game/src/present/dialog-box.test.ts",
+        "fullName": "Sync.2 DialogBox · getDialogTextPos(sdlpal text.c:1313-1346 真值) top 无 portrait → (44, 26)",
+        "assertionLine": 515,
+        "matcher": "toEqual",
+        "checked": "getDialogTextPos('top', false) 等于 {44,26}",
+        "distinct": "旧断言只比坐标对象，不读姓名色 0x8C 和正文像素"
+      },
+      "file": "packages/game/src/present/dialog-box-pixels.grok-r1.test.ts",
+      "fullName": "G05-A dialog 可见文字 G05-A01 上框无头像时姓名在 (12,8) 为 0x8C，正文在 (44,26)",
+      "assertions": [
+        {
+          "line": 60,
+          "endLine": 60,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 61,
+          "endLine": 61,
+          "matchers": ["toBe"]
+        }
+      ],
+      "axis": "positive",
+      "oracle": {
+        "operands": "(12,8) 与 (44,26) 的索引",
+        "matcher": "toBe",
+        "exact": "0x8C、200"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/present/dialog-box-pixels.grok-r1.test.ts",
+        "fullName": "G05-A dialog 可见文字 G05-A01 上框无头像时姓名在 (12,8) 为 0x8C，正文在 (44,26)",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G05-A02",
+      "batch": "G05",
+      "group": "G05-A",
+      "primarySource": {
+        "file": "packages/game/src/present/dialog-box.ts",
+        "conditionLine": 215,
+        "condition": "有头像时姓名 x 改为 80，正文 x 改为 96，无头像的 (12,8) 保持空（dialog-box.ts:195,215）"
+      },
+      "caller": {
+        "file": "packages/game/src/present/present.ts",
+        "line": 149,
+        "expr": "drawDialogBox(fb, gs.dialogBox, ctx.glyphs, dialogCtx)"
+      },
+      "legalInput": "startDialogLine('李:', {style:'top', portraitIcon:3, fontColor:200})，append '甲' 并揭完。",
+      "oldTest": {
+        "sha": "7d4e2a59ef03319f1fa29127e5d67bd90b68b9e4",
+        "file": "packages/game/src/present/dialog-box.test.ts",
+        "fullName": "Sync.2 DialogBox · getDialogTextPos(sdlpal text.c:1313-1346 真值) top 有 portrait → (96, 26)",
+        "assertionLine": 518,
+        "matcher": "toEqual",
+        "checked": "getDialogTextPos('top', true) 等于 {96,26}",
+        "distinct": "旧断言不读 (80,8) 的姓名色，也不证明 (12,8) 没有被写成姓名"
+      },
+      "file": "packages/game/src/present/dialog-box-pixels.grok-r1.test.ts",
+      "fullName": "G05-A dialog 可见文字 G05-A02 上框有头像时姓名改到 (80,8)，正文改到 (96,26)",
+      "assertions": [
+        {
+          "line": 70,
+          "endLine": 70,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 71,
+          "endLine": 71,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 72,
+          "endLine": 72,
+          "matchers": ["toBe"]
+        }
+      ],
+      "axis": "positive",
+      "oracle": {
+        "operands": "(80,8)、(96,26)、(12,8)",
+        "matcher": "toBe",
+        "exact": "0x8C、200、0"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/present/dialog-box-pixels.grok-r1.test.ts",
+        "fullName": "G05-A dialog 可见文字 G05-A02 上框有头像时姓名改到 (80,8)，正文改到 (96,26)",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G05-A03",
+      "batch": "G05",
+      "group": "G05-A",
+      "primarySource": {
+        "file": "packages/game/src/present/dialog-box.ts",
+        "conditionLine": 245,
+        "condition": "居中框首行即使以冒号结尾也不当姓名，正文画在 (80,40)（dialog-box.ts:197,245）"
+      },
+      "caller": {
+        "file": "packages/game/src/present/present.ts",
+        "line": 149,
+        "expr": "drawDialogBox(fb, gs.dialogBox, ctx.glyphs, dialogCtx)"
+      },
+      "legalInput": "startDialogLine('李:', {style:'center', fontColor:200})，揭完后绘制。",
+      "oldTest": {
+        "sha": "7d4e2a59ef03319f1fa29127e5d67bd90b68b9e4",
+        "file": "packages/game/src/present/dialog-box.test.ts",
+        "fullName": "Sync.2 DialogBox · getDialogTextPos(sdlpal text.c:1313-1346 真值) center → (80, 40),不论 portrait",
+        "assertionLine": 521,
+        "matcher": "toEqual",
+        "checked": "center 坐标是 {80,40}",
+        "distinct": "旧断言不证明姓名位 (12,8) 保持 0，也不读正文字色"
+      },
+      "file": "packages/game/src/present/dialog-box-pixels.grok-r1.test.ts",
+      "fullName": "G05-A dialog 可见文字 G05-A03 居中框的冒号句画在 (80,40)，不画到姓名位 (12,8)",
+      "assertions": [
+        {
+          "line": 80,
+          "endLine": 80,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 81,
+          "endLine": 81,
+          "matchers": ["toBe"]
+        }
+      ],
+      "axis": "exception",
+      "oracle": {
+        "operands": "(80,40) 与 (12,8)",
+        "matcher": "toBe",
+        "exact": "200、0"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/present/dialog-box-pixels.grok-r1.test.ts",
+        "fullName": "G05-A dialog 可见文字 G05-A03 居中框的冒号句画在 (80,40)，不画到姓名位 (12,8)",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G05-A04",
+      "batch": "G05",
+      "group": "G05-A",
+      "primarySource": {
+        "file": "packages/game/src/present/dialog-box.ts",
+        "conditionLine": 712,
+        "condition": "当前行只画 slice(0, charsRevealed)，第二个字的位置不写（dialog-box.ts:710-712）"
+      },
+      "caller": {
+        "file": "packages/game/src/present/present.ts",
+        "line": 149,
+        "expr": "drawDialogBox(fb, gs.dialogBox, ctx.glyphs, dialogCtx)"
+      },
+      "legalInput": "startDialogLine('甲乙', {style:'bottom', fontColor:200})，charsRevealed 固定为 1。",
+      "oldTest": {
+        "sha": "7d4e2a59ef03319f1fa29127e5d67bd90b68b9e4",
+        "file": "packages/game/src/present/dialog-box.test.ts",
+        "fullName": "Sync.2 DialogBox · drawDialogBox 不画 box bg charsRevealed=0 且无 portrait → fb 完全空",
+        "assertionLine": 542,
+        "matcher": "toBe",
+        "checked": "charsRevealed 为 0 时整屏没有非零像素",
+        "distinct": "旧断言是零揭露的全屏空，不区分第一个字和第二个字"
+      },
+      "file": "packages/game/src/present/dialog-box-pixels.grok-r1.test.ts",
+      "fullName": "G05-A dialog 可见文字 G05-A04 charsRevealed 为 1 时只画第一个字，第二个字的位置保持 0",
+      "assertions": [
+        {
+          "line": 89,
+          "endLine": 89,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 90,
+          "endLine": 90,
+          "matchers": ["toBe"]
+        }
+      ],
+      "axis": "boundary",
+      "oracle": {
+        "operands": "(44,126) 与 (60,126)",
+        "matcher": "toBe",
+        "exact": "200、0"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/present/dialog-box-pixels.grok-r1.test.ts",
+        "fullName": "G05-A dialog 可见文字 G05-A04 charsRevealed 为 1 时只画第一个字，第二个字的位置保持 0",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G05-A05",
+      "batch": "G05",
+      "group": "G05-A",
+      "primarySource": {
+        "file": "packages/game/src/present/dialog-box.ts",
+        "conditionLine": 701,
+        "condition": "已沉入行的 y 是 basePos.y + i * 18（dialog-box.ts:701）"
+      },
+      "caller": {
+        "file": "packages/game/src/present/present.ts",
+        "line": 149,
+        "expr": "drawDialogBox(fb, gs.dialogBox, ctx.glyphs, dialogCtx)"
+      },
+      "legalInput": "底框依次揭完 '\"甲\"' 与 \"'乙'\"，再 append '丙' 但不揭露。",
+      "oldTest": {
+        "sha": "7d4e2a59ef03319f1fa29127e5d67bd90b68b9e4",
+        "file": "packages/game/src/present/dialog-box.test.ts",
+        "fullName": "Sync.2 DialogBox · drawDialogBox 不画 box bg 对话文字 → 主色 200 + 三层阴影 color 0(取代旧单层 color 50)",
+        "assertionLine": 573,
+        "matcher": "toBe",
+        "checked": "画面里存在主色 200 和阴影 0",
+        "distinct": "旧断言不区分黄字行和红字行，也不锁 18 像素行距"
+      },
+      "file": "packages/game/src/present/dialog-box-pixels.grok-r1.test.ts",
+      "fullName": "G05-A dialog 可见文字 G05-A05 已沉入的第二行在首行之下 18 像素，黄字与红字分行",
+      "assertions": [
+        {
+          "line": 101,
+          "endLine": 101,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 102,
+          "endLine": 102,
+          "matchers": ["toBe"]
+        }
+      ],
+      "axis": "positive",
+      "oracle": {
+        "operands": "(44,144) 与 (44,126)",
+        "matcher": "toBe",
+        "exact": "0x1A、0x2D"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/present/dialog-box-pixels.grok-r1.test.ts",
+        "fullName": "G05-A dialog 可见文字 G05-A05 已沉入的第二行在首行之下 18 像素，黄字与红字分行",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G05-A06",
+      "batch": "G05",
+      "group": "G05-A",
+      "primarySource": {
+        "file": "packages/game/src/present/dialog-box.ts",
+        "conditionLine": 783,
+        "condition": "普通对话的引号逐字色交给 renderColoredText，黄字是 0x2D（dialog-box.ts:782-783）"
+      },
+      "caller": {
+        "file": "packages/game/src/present/present.ts",
+        "line": 149,
+        "expr": "drawDialogBox(fb, gs.dialogBox, ctx.glyphs, dialogCtx)"
+      },
+      "legalInput": "startDialogLine('\"甲\"', {style:'bottom'})，揭完后绘制。",
+      "oldTest": {
+        "sha": "c1203fca4895dfb527659246e094dfdf7797e45d",
+        "file": "packages/game/src/present/font.glm-phase1-leaves.test.ts",
+        "fullName": "L16 renderColoredText（逐字符色） 逐字符颜色数组按 code point 对位上色",
+        "assertionLine": 28,
+        "matcher": "toBe",
+        "checked": "renderColoredText 按颜色数组写 0x11",
+        "distinct": "旧断言不经过对话引号，也不要求像素是 0x2D 而不是 0x4F"
+      },
+      "file": "packages/game/src/present/dialog-box-pixels.grok-r1.test.ts",
+      "fullName": "G05-A dialog 可见文字 G05-A06 普通对话引号里的字画成黄色 0x2D，不是默认 0x4F",
+      "assertions": [
+        {
+          "line": 110,
+          "endLine": 110,
+          "matchers": ["toBe"]
+        }
+      ],
+      "axis": "positive",
+      "oracle": {
+        "operands": "(44,126)",
+        "matcher": "toBe",
+        "exact": "0x2D"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/present/dialog-box-pixels.grok-r1.test.ts",
+        "fullName": "G05-A dialog 可见文字 G05-A06 普通对话引号里的字画成黄色 0x2D，不是默认 0x4F",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G05-A07",
+      "batch": "G05",
+      "group": "G05-A",
+      "primarySource": {
+        "file": "packages/game/src/present/dialog-box.ts",
+        "conditionLine": 479,
+        "condition": "resetDialogBody 清空 shownLines 与 currentLine，保留 titleText（dialog-box.ts:479-481）"
+      },
+      "caller": {
+        "file": "packages/game/src/core/event-system.ts",
+        "line": 1872,
+        "expr": "resetDialogBody(gs.dialogBox)"
+      },
+      "legalInput": "上框 '李:' 后 append '甲' 并揭完，再 resetDialogBody，然后绘制。",
+      "oldTest": {
+        "sha": "b794a019cc99e90578fc0c6ba819cdc42ebea658",
+        "file": "packages/game/src/present/dialog-box.glm-next-wave.test.ts",
+        "fullName": "resetDialogBody(sdlpal PAL_ClearDialog 等价:清正文不擦 title/portrait) 清 shownLines/current/计数/typing 态 → line-done;保留 titleText/portraitIcon/style/fontColor",
+        "assertionLine": 79,
+        "matcher": "toBe",
+        "checked": "reset 后 titleText 仍是 '李逍遥:'",
+        "distinct": "旧断言只看状态字段，不读姓名像素是否还在、正文位是否回到 0"
+      },
+      "file": "packages/game/src/present/dialog-box-pixels.grok-r1.test.ts",
+      "fullName": "G05-A dialog 可见文字 G05-A07 清正文后姓名像素还在 (12,8)，正文位回到 0",
+      "assertions": [
+        {
+          "line": 120,
+          "endLine": 120,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 121,
+          "endLine": 121,
+          "matchers": ["toBe"]
+        }
+      ],
+      "axis": "ownership",
+      "oracle": {
+        "operands": "(12,8) 与 (44,26)",
+        "matcher": "toBe",
+        "exact": "0x8C、0"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/present/dialog-box-pixels.grok-r1.test.ts",
+        "fullName": "G05-A dialog 可见文字 G05-A07 清正文后姓名像素还在 (12,8)，正文位回到 0",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G05-A08",
+      "batch": "G05",
+      "group": "G05-A",
+      "primarySource": {
+        "file": "packages/game/src/present/dialog-box.ts",
+        "conditionLine": 780,
+        "condition": "姓名的 colorOverride 优先于引号切出的逐字色（dialog-box.ts:780-781）"
+      },
+      "caller": {
+        "file": "packages/game/src/present/present.ts",
+        "line": 149,
+        "expr": "drawDialogBox(fb, gs.dialogBox, ctx.glyphs, dialogCtx)"
+      },
+      "legalInput": "startDialogLine('\"李\":', {style:'top', fontColor:200})，不 append 正文。",
+      "oldTest": {
+        "sha": "b794a019cc99e90578fc0c6ba819cdc42ebea658",
+        "file": "packages/game/src/present/dialog-box.glm-next-wave.test.ts",
+        "fullName": "isCharacterNameLine(sdlpal text.c:1717-1719 三种冒号结尾判姓名) 半角冒号(U+003A) → 李逍遥:",
+        "assertionLine": 51,
+        "matcher": "toBe",
+        "checked": "以半角冒号结尾则 isCharacterNameLine 为真",
+        "distinct": "旧断言不画像素，看不出引号没有把姓名改成黄色"
+      },
+      "file": "packages/game/src/present/dialog-box-pixels.grok-r1.test.ts",
+      "fullName": "G05-A dialog 可见文字 G05-A08 带引号的姓名仍画成 0x8C，不使用引号切出的黄色",
+      "assertions": [
+        {
+          "line": 128,
+          "endLine": 128,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 129,
+          "endLine": 129,
+          "matchers": ["toBe"]
+        }
+      ],
+      "axis": "exception",
+      "oracle": {
+        "operands": "(12,8) 与 (44,26)",
+        "matcher": "toBe",
+        "exact": "0x8C、0"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/present/dialog-box-pixels.grok-r1.test.ts",
+        "fullName": "G05-A dialog 可见文字 G05-A08 带引号的姓名仍画成 0x8C，不使用引号切出的黄色",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G05-A09",
+      "batch": "G05",
+      "group": "G05-A",
+      "primarySource": {
+        "file": "packages/game/src/present/dialog-box.ts",
+        "conditionLine": 785,
+        "condition": "当前行没有逐字色时，像素用 state.fontColor，不回退 0x4F（dialog-box.ts:785）"
+      },
+      "caller": {
+        "file": "packages/game/src/present/present.ts",
+        "line": 149,
+        "expr": "drawDialogBox(fb, gs.dialogBox, ctx.glyphs, dialogCtx)"
+      },
+      "legalInput": "startDialogLine('甲', {style:'bottom', fontColor:200})，currentLineColors 置 undefined，charsRevealed 为 1。",
+      "oldTest": {
+        "sha": "c1203fca4895dfb527659246e094dfdf7797e45d",
+        "file": "packages/game/src/present/font.glm-phase1-leaves.test.ts",
+        "fullName": "L16 renderColoredText（逐字符色） colors 缺项回退 0x4F；fShadow 三影写黑 0",
+        "assertionLine": 36,
+        "matcher": "toBe",
+        "checked": "renderColoredText 缺色时写 0x4F",
+        "distinct": "那条回退属于逐字色数组缺项；本行没有 colors，走的是 fontColor"
+      },
+      "file": "packages/game/src/present/dialog-box-pixels.grok-r1.test.ts",
+      "fullName": "G05-A dialog 可见文字 G05-A09 当前行没有逐字色时，像素用 state.fontColor 而不是 0x4F",
+      "assertions": [
+        {
+          "line": 138,
+          "endLine": 138,
+          "matchers": ["toBe"]
+        }
+      ],
+      "axis": "boundary",
+      "oracle": {
+        "operands": "(44,126)",
+        "matcher": "toBe",
+        "exact": "200"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/present/dialog-box-pixels.grok-r1.test.ts",
+        "fullName": "G05-A dialog 可见文字 G05-A09 当前行没有逐字色时，像素用 state.fontColor 而不是 0x4F",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G05-A10",
+      "batch": "G05",
+      "group": "G05-A",
+      "primarySource": {
+        "file": "packages/game/src/present/font.ts",
+        "conditionLine": 124,
+        "condition": "renderText 按字形 width 推进，宽 8 的第二字从 x+8 起画（font.ts:124）"
+      },
+      "caller": {
+        "file": "packages/game/src/present/dialog-box.ts",
+        "line": 785,
+        "expr": "renderText(fb, text, x, y, state.fontColor, glyphs, true)"
+      },
+      "legalInput": "底框 'AB'，字形 A/B 宽 8，揭完，fontColor 200。",
+      "oldTest": {
+        "sha": "c1203fca4895dfb527659246e094dfdf7797e45d",
+        "file": "packages/game/src/present/font.glm-phase1-leaves.test.ts",
+        "fullName": "L16 tofu 缺字形回退 measureText 空表 ASCII fallback 16px/字（布局入口禁止用它，doc 锚）",
+        "assertionLine": 64,
+        "matcher": "toBe",
+        "checked": "空表 measureText('abc') 为 48",
+        "distinct": "旧测量在缺字形时按 16；本断言用表内宽 8，并读第二个字的像素"
+      },
+      "file": "packages/game/src/present/dialog-box-pixels.grok-r1.test.ts",
+      "fullName": "G05-A dialog 可见文字 G05-A10 半角字形宽 8 时，第二个字从 x+8 起画，不落到 x+16",
+      "assertions": [
+        {
+          "line": 146,
+          "endLine": 146,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 147,
+          "endLine": 147,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 148,
+          "endLine": 148,
+          "matchers": ["toBe"]
+        }
+      ],
+      "axis": "boundary",
+      "oracle": {
+        "operands": "(44,126)、(52,126)、(60,126)",
+        "matcher": "toBe",
+        "exact": "200、200、0"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/present/dialog-box-pixels.grok-r1.test.ts",
+        "fullName": "G05-A dialog 可见文字 G05-A10 半角字形宽 8 时，第二个字从 x+8 起画，不落到 x+16",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G05-A11",
+      "batch": "G05",
+      "group": "G05-A",
+      "primarySource": {
+        "file": "packages/game/src/present/present.ts",
+        "conditionLine": 723,
+        "condition": "flushToCanvas 把 toImageData 的结果 putImageData 到 (0,0)（present.ts:723-724）"
+      },
+      "caller": {
+        "file": "packages/game/src/shell/bootstrap.ts",
+        "line": 514,
+        "expr": "flushToCanvas(fb, canvasCtx, applyDialogIconPaletteShift(gs, gs.palette ?? palette))"
+      },
+      "legalInput": "上框姓名索引 0x8C，legalPalette 把该色涂成 [1,2,140]，320×200 真实 2D canvas。",
+      "oldTest": {
+        "sha": "7d4e2a59ef03319f1fa29127e5d67bd90b68b9e4",
+        "file": "packages/game/src/present/dialog-box.test.ts",
+        "fullName": "Sync.2 DialogBox · getDialogTextPos(sdlpal text.c:1313-1346 真值) top 无 portrait → (44, 26)",
+        "assertionLine": 515,
+        "matcher": "toEqual",
+        "checked": "上框无头像的正文坐标是 {44,26}",
+        "distinct": "旧断言不经过 putImageData，也不从画布 getImageData 读回 0x8C 的 RGB"
+      },
+      "file": "packages/game/src/present/dialog-box-pixels.grok-r1.test.ts",
+      "fullName": "G05-A dialog 可见文字 G05-A11 姓名索引 0x8C 经 flushToCanvas 写成调色板 RGB，缓冲仍是 0x8C",
+      "assertions": [
+        {
+          "line": 164,
+          "endLine": 164,
+          "matchers": ["toEqual"]
+        },
+        {
+          "line": 165,
+          "endLine": 165,
+          "matchers": ["toBe"]
+        }
+      ],
+      "axis": "positive",
+      "oracle": {
+        "operands": "画布 (12,8) 的 RGBA、indices[8*320+12]",
+        "matcher": "toEqual / toBe",
+        "exact": "[1,2,140,255]、0x8C"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/present/dialog-box-pixels.grok-r1.test.ts",
+        "fullName": "G05-A dialog 可见文字 G05-A11 姓名索引 0x8C 经 flushToCanvas 写成调色板 RGB，缓冲仍是 0x8C",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G05-B01",
+      "batch": "G05",
+      "group": "G05-B",
+      "primarySource": {
+        "file": "packages/game/src/present/font.ts",
+        "conditionLine": 190,
+        "condition": "码位小于 0x80 时 palCharWidth 返回 8，否则 16（font.ts:190）"
+      },
+      "caller": {
+        "file": "packages/game/src/present/menu/draw-opening-menu.ts",
+        "line": 37,
+        "expr": "const w = palWordWidth(label)"
+      },
+      "legalInput": "直接调用 palCharWidth(0x7F) 与 palCharWidth(0x80)。",
+      "oldTest": {
+        "sha": "2e07b15f81a44f26cb1e7a066627c0075aa7d4d7",
+        "file": "packages/game/src/present/menu/draw-opening-menu.test.ts",
+        "fullName": "openingItemX — 选项 x 公式(uigame.c:107-108) w<=4 不左移(8 ASCII → w=4 → x=125,非 length 8)",
+        "assertionLine": 22,
+        "matcher": "toBe",
+        "checked": "openingItemX('NEWGAME!') 为 125，只要求 w<=4",
+        "distinct": "旧菜单 x 对一切 w<=4 都是 125，锁不住 0x7F 仍是 8、0x80 起是 16"
+      },
+      "file": "packages/game/src/present/font-width.grok-r1.test.ts",
+      "fullName": "G05-B font 宽度与字形装载 G05-B01 palCharWidth 在 0x7F 仍是 8，0x80 起是 16",
+      "assertions": [
+        {
+          "line": 47,
+          "endLine": 47,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 48,
+          "endLine": 48,
+          "matchers": ["toBe"]
+        }
+      ],
+      "axis": "boundary",
+      "oracle": {
+        "operands": "palCharWidth(0x7F)、palCharWidth(0x80)",
+        "matcher": "toBe",
+        "exact": "8、16"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/present/font-width.grok-r1.test.ts",
+        "fullName": "G05-B font 宽度与字形装载 G05-B01 palCharWidth 在 0x7F 仍是 8，0x80 起是 16",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G05-B02",
+      "batch": "G05",
+      "group": "G05-B",
+      "primarySource": {
+        "file": "packages/game/src/present/font.ts",
+        "conditionLine": 201,
+        "condition": "空串的量化宽度 (0+8)>>4 为 0（font.ts:201）"
+      },
+      "caller": {
+        "file": "packages/game/src/present/menu/draw-opening-menu.ts",
+        "line": 37,
+        "expr": "const w = palWordWidth(label)"
+      },
+      "legalInput": "palWordWidth('')。",
+      "oldTest": {
+        "sha": "2e07b15f81a44f26cb1e7a066627c0075aa7d4d7",
+        "file": "packages/game/src/present/menu/draw-opening-menu.test.ts",
+        "fullName": "openingItemX — 选项 x 公式(uigame.c:107-108) 真 label('新的故事'/'旧的回忆',各 4 字)→ w=4 → x=125(回归钉死:对 shipped 数据零变化)",
+        "assertionLine": 12,
+        "matcher": "toBe",
+        "checked": "四个全角的 openingItemX 为 125",
+        "distinct": "旧断言不测空串"
+      },
+      "file": "packages/game/src/present/font-width.grok-r1.test.ts",
+      "fullName": "G05-B font 宽度与字形装载 G05-B02 空串的 palWordWidth 是 0",
+      "assertions": [
+        {
+          "line": 52,
+          "endLine": 52,
+          "matchers": ["toBe"]
+        }
+      ],
+      "axis": "boundary",
+      "oracle": {
+        "operands": "palWordWidth('')",
+        "matcher": "toBe",
+        "exact": "0"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/present/font-width.grok-r1.test.ts",
+        "fullName": "G05-B font 宽度与字形装载 G05-B02 空串的 palWordWidth 是 0",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G05-B03",
+      "batch": "G05",
+      "group": "G05-B",
+      "primarySource": {
+        "file": "packages/game/src/present/font.ts",
+        "conditionLine": 201,
+        "condition": "四个 ASCII 的 (32+8)>>4 是 2，不是字符串长度 4（font.ts:200-201）"
+      },
+      "caller": {
+        "file": "packages/game/src/present/menu/draw-opening-menu.ts",
+        "line": 37,
+        "expr": "const w = palWordWidth(label)"
+      },
+      "legalInput": "palWordWidth('ABCD')。",
+      "oldTest": {
+        "sha": "2e07b15f81a44f26cb1e7a066627c0075aa7d4d7",
+        "file": "packages/game/src/present/menu/draw-opening-menu.test.ts",
+        "fullName": "openingItemX — 选项 x 公式(uigame.c:107-108) w<=4 不左移(8 ASCII → w=4 → x=125,非 length 8)",
+        "assertionLine": 22,
+        "matcher": "toBe",
+        "checked": "八个 ASCII 的菜单 x 仍是 125",
+        "distinct": "旧菜单公式把 w=2 和 w=4 都留在 x=125，看不出四个 ASCII 量化成 2"
+      },
+      "file": "packages/game/src/present/font-width.grok-r1.test.ts",
+      "fullName": "G05-B font 宽度与字形装载 G05-B03 四个 ASCII 的 palWordWidth 是 2，不是字符串长度 4",
+      "assertions": [
+        {
+          "line": 56,
+          "endLine": 56,
+          "matchers": ["toBe"]
+        }
+      ],
+      "axis": "positive",
+      "oracle": {
+        "operands": "palWordWidth('ABCD')",
+        "matcher": "toBe",
+        "exact": "2"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/present/font-width.grok-r1.test.ts",
+        "fullName": "G05-B font 宽度与字形装载 G05-B03 四个 ASCII 的 palWordWidth 是 2，不是字符串长度 4",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G05-B04",
+      "batch": "G05",
+      "group": "G05-B",
+      "primarySource": {
+        "file": "packages/game/src/present/font.ts",
+        "conditionLine": 201,
+        "condition": "两个全角字的 (32+8)>>4 等于 2（font.ts:200-201）"
+      },
+      "caller": {
+        "file": "packages/game/src/present/menu/draw-opening-menu.ts",
+        "line": 37,
+        "expr": "const w = palWordWidth(label)"
+      },
+      "legalInput": "palWordWidth('金钱')。",
+      "oldTest": {
+        "sha": "2e07b15f81a44f26cb1e7a066627c0075aa7d4d7",
+        "file": "packages/game/src/present/menu/draw-opening-menu.test.ts",
+        "fullName": "openingItemX — 选项 x 公式(uigame.c:107-108) 真 label('新的故事'/'旧的回忆',各 4 字)→ w=4 → x=125(回归钉死:对 shipped 数据零变化)",
+        "assertionLine": 12,
+        "matcher": "toBe",
+        "checked": "四个全角时菜单 x 为 125",
+        "distinct": "旧断言不读两个全角的量化值"
+      },
+      "file": "packages/game/src/present/font-width.grok-r1.test.ts",
+      "fullName": "G05-B font 宽度与字形装载 G05-B04 两个全角字的 palWordWidth 等于 2",
+      "assertions": [
+        {
+          "line": 60,
+          "endLine": 60,
+          "matchers": ["toBe"]
+        }
+      ],
+      "axis": "positive",
+      "oracle": {
+        "operands": "palWordWidth('金钱')",
+        "matcher": "toBe",
+        "exact": "2"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/present/font-width.grok-r1.test.ts",
+        "fullName": "G05-B font 宽度与字形装载 G05-B04 两个全角字的 palWordWidth 等于 2",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G05-B05",
+      "batch": "G05",
+      "group": "G05-B",
+      "primarySource": {
+        "file": "packages/game/src/present/font.ts",
+        "conditionLine": 201,
+        "condition": "两个 ASCII 加一个全角是 (8+8+16+8)>>4 = 2，不是字数 3（font.ts:200-201）"
+      },
+      "caller": {
+        "file": "packages/game/src/present/menu/draw-opening-menu.ts",
+        "line": 37,
+        "expr": "const w = palWordWidth(label)"
+      },
+      "legalInput": "palWordWidth('AA金')。",
+      "oldTest": {
+        "sha": "2e07b15f81a44f26cb1e7a066627c0075aa7d4d7",
+        "file": "packages/game/src/present/menu/draw-opening-menu.test.ts",
+        "fullName": "openingItemX — 选项 x 公式(uigame.c:107-108) 5 字 → w=5 → x=117;6 字 → w=6 → x=109(公式对长文案左移)",
+        "assertionLine": 17,
+        "matcher": "toBe",
+        "checked": "五个全角的菜单 x 为 117",
+        "distinct": "旧长文案全是全角，混排的量化落在另一个桶"
+      },
+      "file": "packages/game/src/present/font-width.grok-r1.test.ts",
+      "fullName": "G05-B font 宽度与字形装载 G05-B05 两个 ASCII 加一个全角的 palWordWidth 是 2，不是 3",
+      "assertions": [
+        {
+          "line": 64,
+          "endLine": 64,
+          "matchers": ["toBe"]
+        }
+      ],
+      "axis": "positive",
+      "oracle": {
+        "operands": "palWordWidth('AA金')",
+        "matcher": "toBe",
+        "exact": "2"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/present/font-width.grok-r1.test.ts",
+        "fullName": "G05-B font 宽度与字形装载 G05-B05 两个 ASCII 加一个全角的 palWordWidth 是 2，不是 3",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G05-B06",
+      "batch": "G05",
+      "group": "G05-B",
+      "primarySource": {
+        "file": "packages/game/src/present/font.ts",
+        "conditionLine": 57,
+        "condition": "bitmapBase64 经 atob 与 charCodeAt 写入字形字节（font.ts:57）"
+      },
+      "caller": {
+        "file": "packages/game/src/shell/bootstrap-resources.ts",
+        "line": 56,
+        "expr": "ports.loadGlyphs()"
+      },
+      "legalInput": "fetch 返回 200，glyphs 一条 codepoint 0x41、宽 8，bitmapBase64 是 btoa(0x80,0x3c)。",
+      "oldTest": {
+        "sha": "c1203fca4895dfb527659246e094dfdf7797e45d",
+        "file": "packages/game/src/present/font.glm-phase1-leaves.test.ts",
+        "fullName": "L16 tofu 缺字形回退 缺字形 → 16×16 空心框：顶/底行 cols0-14 亮 col15 暗，中间行只有 col0/col9",
+        "assertionLine": 50,
+        "matcher": "toBe",
+        "checked": "表中没有的字画成豆腐框",
+        "distinct": "旧断言不解码 bitmapBase64，也不要求 has(0x41) 且没有 0x42"
+      },
+      "file": "packages/game/src/present/font-width.grok-r1.test.ts",
+      "fullName": "G05-B font 宽度与字形装载 G05-B06 loadGlyphs 把 bitmapBase64 解成字节，并能按码位取回",
+      "assertions": [
+        {
+          "line": 80,
+          "endLine": 80,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 81,
+          "endLine": 81,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 82,
+          "endLine": 82,
+          "matchers": ["toEqual"]
+        },
+        {
+          "line": 83,
+          "endLine": 83,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 84,
+          "endLine": 84,
+          "matchers": ["toBeUndefined"]
+        }
+      ],
+      "axis": "positive",
+      "oracle": {
+        "operands": "bitmap、width、has(0x41)、has(0x42)、get(0x42)",
+        "matcher": "toEqual / toBe / toBeUndefined",
+        "exact": "[0x80,0x3c]、8、true、false、undefined"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/present/font-width.grok-r1.test.ts",
+        "fullName": "G05-B font 宽度与字形装载 G05-B06 loadGlyphs 把 bitmapBase64 解成字节，并能按码位取回",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G05-B07",
+      "batch": "G05",
+      "group": "G05-B",
+      "primarySource": {
+        "file": "packages/game/src/present/font.ts",
+        "conditionLine": 47,
+        "condition": "请求 URL 是调用方 baseUrl 接上 /data/font/glyphs.json（font.ts:47）"
+      },
+      "caller": {
+        "file": "packages/game/src/shell/bootstrap-resources.ts",
+        "line": 56,
+        "expr": "ports.loadGlyphs()"
+      },
+      "legalInput": "loadGlyphs('https://cdn.example/pack')，fetch 桩记录 URL。",
+      "oldTest": {
+        "sha": "c1203fca4895dfb527659246e094dfdf7797e45d",
+        "file": "packages/game/src/present/font.glm-phase1-leaves.test.ts",
+        "fullName": "L16 tofu 缺字形回退 缺字形 → 16×16 空心框：顶/底行 cols0-14 亮 col15 暗，中间行只有 col0/col9",
+        "assertionLine": 50,
+        "matcher": "toBe",
+        "checked": "豆腐框不发网络请求",
+        "distinct": "旧断言不检查字形清单的 URL"
+      },
+      "file": "packages/game/src/present/font-width.grok-r1.test.ts",
+      "fullName": "G05-B font 宽度与字形装载 G05-B07 loadGlyphs 把调用方给的 baseUrl 接到 /data/font/glyphs.json",
+      "assertions": [
+        {
+          "line": 94,
+          "endLine": 94,
+          "matchers": ["toEqual"]
+        }
+      ],
+      "axis": "ownership",
+      "oracle": {
+        "operands": "fetch 收到的 URL 列表",
+        "matcher": "toEqual",
+        "exact": "['https://cdn.example/pack/data/font/glyphs.json']"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/present/font-width.grok-r1.test.ts",
+        "fullName": "G05-B font 宽度与字形装载 G05-B07 loadGlyphs 把调用方给的 baseUrl 接到 /data/font/glyphs.json",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G05-B08",
+      "batch": "G05",
+      "group": "G05-B",
+      "primarySource": {
+        "file": "packages/game/src/present/font.ts",
+        "conditionLine": 48,
+        "condition": "清单 HTTP 失败时错误文本带上 res.status（font.ts:48）"
+      },
+      "caller": {
+        "file": "packages/game/src/shell/bootstrap-resources.ts",
+        "line": 56,
+        "expr": "ports.loadGlyphs()"
+      },
+      "legalInput": "fetch 返回 status 404、ok 为假。测试用 try/catch 比较 message。",
+      "oldTest": {
+        "sha": "c1203fca4895dfb527659246e094dfdf7797e45d",
+        "file": "packages/game/src/present/font.glm-phase1-leaves.test.ts",
+        "fullName": "L16 tofu 缺字形回退 缺字形 → 16×16 空心框：顶/底行 cols0-14 亮 col15 暗，中间行只有 col0/col9",
+        "assertionLine": 50,
+        "matcher": "toBe",
+        "checked": "缺字形画豆腐，不抛装载错误",
+        "distinct": "旧断言不读 'font: fetch glyphs.json failed (404)'"
+      },
+      "file": "packages/game/src/present/font-width.grok-r1.test.ts",
+      "fullName": "G05-B font 宽度与字形装载 G05-B08 字形清单 HTTP 失败时，错误文本带上状态码",
+      "assertions": [
+        {
+          "line": 105,
+          "endLine": 105,
+          "matchers": ["toBe"]
+        }
+      ],
+      "axis": "exception",
+      "oracle": {
+        "operands": "捕获到的 message",
+        "matcher": "toBe",
+        "exact": "font: fetch glyphs.json failed (404)"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/present/font-width.grok-r1.test.ts",
+        "fullName": "G05-B font 宽度与字形装载 G05-B08 字形清单 HTTP 失败时，错误文本带上状态码",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G05-B09",
+      "batch": "G05",
+      "group": "G05-B",
+      "primarySource": {
+        "file": "packages/game/src/present/font.ts",
+        "conditionLine": 62,
+        "condition": "glyphs 数组为空时返回的表 has 为假、get 为 undefined（font.ts:60-62）"
+      },
+      "caller": {
+        "file": "packages/game/src/shell/bootstrap-resources.ts",
+        "line": 56,
+        "expr": "ports.loadGlyphs()"
+      },
+      "legalInput": "fetch 返回 200，JSON 的 glyphs 是空数组。",
+      "oldTest": {
+        "sha": "c1203fca4895dfb527659246e094dfdf7797e45d",
+        "file": "packages/game/src/present/font.glm-phase1-leaves.test.ts",
+        "fullName": "L16 tofu 缺字形回退 measureText 空表 ASCII fallback 16px/字（布局入口禁止用它，doc 锚）",
+        "assertionLine": 64,
+        "matcher": "toBe",
+        "checked": "空表测量按 16，不调用 loadGlyphs",
+        "distinct": "旧测量不证明装载结果的 has/get"
+      },
+      "file": "packages/game/src/present/font-width.grok-r1.test.ts",
+      "fullName": "G05-B font 宽度与字形装载 G05-B09 字形清单为空时，has 为假且 get 为 undefined",
+      "assertions": [
+        {
+          "line": 113,
+          "endLine": 113,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 114,
+          "endLine": 114,
+          "matchers": ["toBeUndefined"]
+        }
+      ],
+      "axis": "boundary",
+      "oracle": {
+        "operands": "has(0x41)、get(0x41)",
+        "matcher": "toBe / toBeUndefined",
+        "exact": "false、undefined"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/present/font-width.grok-r1.test.ts",
+        "fullName": "G05-B font 宽度与字形装载 G05-B09 字形清单为空时，has 为假且 get 为 undefined",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G05-B10",
+      "batch": "G05",
+      "group": "G05-B",
+      "primarySource": {
+        "file": "packages/game/src/present/font.ts",
+        "conditionLine": 175,
+        "condition": "表内字形用它自己的 width，不落到缺字形的 16（font.ts:175）"
+      },
+      "caller": {
+        "file": "packages/game/src/present/dialog-box.ts",
+        "line": 744,
+        "expr": "const iconX = basePos.x + measureText(lastLineText, glyphs)"
+      },
+      "legalInput": "measureText('A', 宽 8 的字形表)。",
+      "oldTest": {
+        "sha": "c1203fca4895dfb527659246e094dfdf7797e45d",
+        "file": "packages/game/src/present/font.glm-phase1-leaves.test.ts",
+        "fullName": "L16 tofu 缺字形回退 measureText 空表 ASCII fallback 16px/字（布局入口禁止用它，doc 锚）",
+        "assertionLine": 64,
+        "matcher": "toBe",
+        "checked": "空表 'abc' 为 48",
+        "distinct": "旧断言是缺字形；本条表里有宽 8 的 A"
+      },
+      "file": "packages/game/src/present/font-width.grok-r1.test.ts",
+      "fullName": "G05-B font 宽度与字形装载 G05-B10 表里有宽 8 的字形时，measureText 返回 8",
+      "assertions": [
+        {
+          "line": 118,
+          "endLine": 118,
+          "matchers": ["toBe"]
+        }
+      ],
+      "axis": "positive",
+      "oracle": {
+        "operands": "measureText('A', glyphs)",
+        "matcher": "toBe",
+        "exact": "8"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/present/font-width.grok-r1.test.ts",
+        "fullName": "G05-B font 宽度与字形装载 G05-B10 表里有宽 8 的字形时，measureText 返回 8",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G05-B11",
+      "batch": "G05",
+      "group": "G05-B",
+      "primarySource": {
+        "file": "packages/game/src/present/font.ts",
+        "conditionLine": 126,
+        "condition": "renderText 返回累计宽度，半角 8 加全角 16 是 24，第二字落在 x+8（font.ts:124-126）"
+      },
+      "caller": {
+        "file": "packages/game/src/present/dialog-box.ts",
+        "line": 785,
+        "expr": "renderText(fb, text, x, y, state.fontColor, glyphs, true)"
+      },
+      "legalInput": "底色 77，renderText('A乙', 4, 8, 0x22, {A:8, 乙:16}, false)。",
+      "oldTest": {
+        "sha": "c1203fca4895dfb527659246e094dfdf7797e45d",
+        "file": "packages/game/src/present/font.glm-phase1-leaves.test.ts",
+        "fullName": "L16 renderColoredText（逐字符色） 逐字符颜色数组按 code point 对位上色",
+        "assertionLine": 28,
+        "matcher": "toBe",
+        "checked": "逐字色写在给定坐标，不返回混排宽度",
+        "distinct": "旧断言不读返回值 24，也不证明第二字从 x+8 起"
+      },
+      "file": "packages/game/src/present/font-width.grok-r1.test.ts",
+      "fullName": "G05-B font 宽度与字形装载 G05-B11 renderText 半角加全角返回 24，第二字落在 x+8",
+      "assertions": [
+        {
+          "line": 124,
+          "endLine": 124,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 125,
+          "endLine": 125,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 126,
+          "endLine": 126,
+          "matchers": ["toBe"]
+        }
+      ],
+      "axis": "positive",
+      "oracle": {
+        "operands": "返回值、(4,8)、(12,8)",
+        "matcher": "toBe",
+        "exact": "24、0x22、0x22"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/present/font-width.grok-r1.test.ts",
+        "fullName": "G05-B font 宽度与字形装载 G05-B11 renderText 半角加全角返回 24，第二字落在 x+8",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G05-B12",
+      "batch": "G05",
+      "group": "G05-B",
+      "primarySource": {
+        "file": "packages/game/src/present/font.ts",
+        "conditionLine": 118,
+        "condition": "fShadow 为真时在 (+1,0)、(0,+1)、(+1,+1) 写颜色 0，原点仍是前景（font.ts:118-123）"
+      },
+      "caller": {
+        "file": "packages/game/src/present/dialog-box.ts",
+        "line": 781,
+        "expr": "renderText(fb, text, x, y, colorOverride, glyphs, true)"
+      },
+      "legalInput": "底色 77，renderText('甲', 10, 20, 0x11, 宽 16, true)。字形只有左上一点。",
+      "oldTest": {
+        "sha": "c1203fca4895dfb527659246e094dfdf7797e45d",
+        "file": "packages/game/src/present/font.glm-phase1-leaves.test.ts",
+        "fullName": "L16 renderColoredText（逐字符色） colors 缺项回退 0x4F；fShadow 三影写黑 0",
+        "assertionLine": 36,
+        "matcher": "toBe",
+        "checked": "逐字色阴影把三个偏移写成 0",
+        "distinct": "旧断言走 renderColoredText 且缺色回退 0x4F；本条是单色 renderText，原点保持 0x11"
+      },
+      "file": "packages/game/src/present/font-width.grok-r1.test.ts",
+      "fullName": "G05-B font 宽度与字形装载 G05-B12 renderText 打开阴影时，右、下、右下三点是 0，原点仍是前景",
+      "assertions": [
+        {
+          "line": 133,
+          "endLine": 133,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 134,
+          "endLine": 134,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 135,
+          "endLine": 135,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 136,
+          "endLine": 136,
+          "matchers": ["toBe"]
+        }
+      ],
+      "axis": "positive",
+      "oracle": {
+        "operands": "(10,20)、(11,20)、(10,21)、(11,21)",
+        "matcher": "toBe",
+        "exact": "0x11、0、0、0"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/present/font-width.grok-r1.test.ts",
+        "fullName": "G05-B font 宽度与字形装载 G05-B12 renderText 打开阴影时，右、下、右下三点是 0，原点仍是前景",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G05-B13",
+      "batch": "G05",
+      "group": "G05-B",
+      "primarySource": {
+        "file": "packages/game/src/present/font.ts",
+        "conditionLine": 118,
+        "condition": "fShadow 为假时三个偏移不写，底色保持（font.ts:118）"
+      },
+      "caller": {
+        "file": "packages/game/src/present/dialog-box.ts",
+        "line": 883,
+        "expr": "const advance = renderText(fb, ch, cursorX, textY, color, glyphs, false)"
+      },
+      "legalInput": "底色 77，renderText('甲', 10, 20, 0x11, 宽 16, false)。",
+      "oldTest": {
+        "sha": "c1203fca4895dfb527659246e094dfdf7797e45d",
+        "file": "packages/game/src/present/font.glm-phase1-leaves.test.ts",
+        "fullName": "L16 renderColoredText（逐字符色） colors 缺项回退 0x4F；fShadow 三影写黑 0",
+        "assertionLine": 36,
+        "matcher": "toBe",
+        "checked": "fShadow 为真时偏移是 0",
+        "distinct": "旧断言没有 fShadow 为假的对照"
+      },
+      "file": "packages/game/src/present/font-width.grok-r1.test.ts",
+      "fullName": "G05-B font 宽度与字形装载 G05-B13 renderText 关闭阴影时，右、下、右下保持底色",
+      "assertions": [
+        {
+          "line": 143,
+          "endLine": 143,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 144,
+          "endLine": 144,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 145,
+          "endLine": 145,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 146,
+          "endLine": 146,
+          "matchers": ["toBe"]
+        }
+      ],
+      "axis": "boundary",
+      "oracle": {
+        "operands": "(10,20)、(11,20)、(10,21)、(11,21)",
+        "matcher": "toBe",
+        "exact": "0x11、77、77、77"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/present/font-width.grok-r1.test.ts",
+        "fullName": "G05-B font 宽度与字形装载 G05-B13 renderText 关闭阴影时，右、下、右下保持底色",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G05-B14",
+      "batch": "G05",
+      "group": "G05-B",
+      "primarySource": {
+        "file": "packages/game/src/present/font.ts",
+        "conditionLine": 111,
+        "condition": "空字符串不进入字形循环，返回 0，像素保持底色（font.ts:111-126）"
+      },
+      "caller": {
+        "file": "packages/game/src/present/dialog-box.ts",
+        "line": 785,
+        "expr": "renderText(fb, text, x, y, state.fontColor, glyphs, true)"
+      },
+      "legalInput": "底色 77，renderText('', 4, 8, 0x22, 空表, false)。",
+      "oldTest": {
+        "sha": "c1203fca4895dfb527659246e094dfdf7797e45d",
+        "file": "packages/game/src/present/font.glm-phase1-leaves.test.ts",
+        "fullName": "L16 tofu 缺字形回退 measureText 空表 ASCII fallback 16px/字（布局入口禁止用它，doc 锚）",
+        "assertionLine": 64,
+        "matcher": "toBe",
+        "checked": "空表测量的是非空 'abc'",
+        "distinct": "旧断言不测 renderText 的空串返回值"
+      },
+      "file": "packages/game/src/present/font-width.grok-r1.test.ts",
+      "fullName": "G05-B font 宽度与字形装载 G05-B14 空字符串 renderText 返回 0，并且不改像素",
+      "assertions": [
+        {
+          "line": 152,
+          "endLine": 152,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 153,
+          "endLine": 153,
+          "matchers": ["toBe"]
+        }
+      ],
+      "axis": "boundary",
+      "oracle": {
+        "operands": "返回值、(4,8)",
+        "matcher": "toBe",
+        "exact": "0、77"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/present/font-width.grok-r1.test.ts",
+        "fullName": "G05-B font 宽度与字形装载 G05-B14 空字符串 renderText 返回 0，并且不改像素",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G05-C01",
+      "batch": "G05",
+      "group": "G05-C",
+      "primarySource": {
+        "file": "packages/game/src/present/draw-number.ts",
+        "conditionLine": 43,
+        "condition": "opaque 大于 0 才写像素，0 的孔保留底色（draw-number.ts:43-44）"
+      },
+      "caller": {
+        "file": "packages/game/src/present/dialog-box.ts",
+        "line": 877,
+        "expr": "drawNumber(fb, digit, 1, { x: cursorX, y: textY + 4 }, 'yellow', 'left', ctx.uiSpriteFrames)"
+      },
+      "legalInput": "黄 0 在槽 19。该帧 (0,0) 索引 99 且 opaque 0，(1,0) 索引 44 且 opaque 1。左对齐 num=0、nLength=1、pos (20,10)，底色 7。",
+      "oldTest": {
+        "sha": "4a62a6005d3c909bab4cfe0aff18949396077664",
+        "file": "packages/game/src/present/draw-number.test.ts",
+        "fullName": "drawNumber — sdlpal ui.c:640-732 PAL_DrawNumber port uiSpriteFrames 缺失对应 base+digit 时跳过 blit 不抛",
+        "assertionLine": 83,
+        "matcher": "not.toThrow",
+        "checked": "整帧缺失时不抛",
+        "distinct": "旧断言不读透明孔和相邻不透明点"
+      },
+      "file": "packages/game/src/present/draw-number-slots.grok-r1.test.ts",
+      "fullName": "G05-C draw-number 空位与掩码 G05-C01 透明孔保留底色，旁边的不透明点写入精灵索引 44",
+      "assertions": [
+        {
+          "line": 43,
+          "endLine": 43,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 44,
+          "endLine": 44,
+          "matchers": ["toBe"]
+        }
+      ],
+      "axis": "boundary",
+      "oracle": {
+        "operands": "indices[10*320+20]、indices[10*320+21]",
+        "matcher": "toBe",
+        "exact": "7、44"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/present/draw-number-slots.grok-r1.test.ts",
+        "fullName": "G05-C draw-number 空位与掩码 G05-C01 透明孔保留底色，旁边的不透明点写入精灵索引 44",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G05-C02",
+      "batch": "G05",
+      "group": "G05-C",
+      "primarySource": {
+        "file": "packages/game/src/present/draw-number.ts",
+        "conditionLine": 40,
+        "condition": "精灵行循环写到 y+height-1，只点亮最后一行时像素在 y+7（draw-number.ts:40-44）"
+      },
+      "caller": {
+        "file": "packages/game/src/present/dialog-box.ts",
+        "line": 877,
+        "expr": "drawNumber(fb, digit, 1, { x: cursorX, y: textY + 4 }, 'yellow', 'left', ctx.uiSpriteFrames)"
+      },
+      "legalInput": "黄 0 只有 (0,7) opaque 且索引 44。左对齐 pos (30,12)，底色 7。",
+      "oldTest": {
+        "sha": "4a62a6005d3c909bab4cfe0aff18949396077664",
+        "file": "packages/game/src/present/draw-number.test.ts",
+        "fullName": "drawNumber — sdlpal ui.c:640-732 PAL_DrawNumber port num=0,nLength=6,right-align 到 (49, 14) — 1 个 0 digit 在 (79, 14)",
+        "assertionLine": 25,
+        "matcher": "toBe",
+        "checked": "整帧不透明的 0 写在 (79,14)",
+        "distinct": "旧断言不区分首行和末行"
+      },
+      "file": "packages/game/src/present/draw-number-slots.grok-r1.test.ts",
+      "fullName": "G05-C draw-number 空位与掩码 G05-C02 只点亮最后一行时，像素写在 y+7，首行保持底色",
+      "assertions": [
+        {
+          "line": 55,
+          "endLine": 55,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 56,
+          "endLine": 56,
+          "matchers": ["toBe"]
+        }
+      ],
+      "axis": "boundary",
+      "oracle": {
+        "operands": "indices[12*320+30]、indices[19*320+30]",
+        "matcher": "toBe",
+        "exact": "7、44"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/present/draw-number-slots.grok-r1.test.ts",
+        "fullName": "G05-C draw-number 空位与掩码 G05-C02 只点亮最后一行时，像素写在 y+7，首行保持底色",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G05-C03",
+      "batch": "G05",
+      "group": "G05-C",
+      "primarySource": {
+        "file": "packages/game/src/present/draw-number.ts",
+        "conditionLine": 106,
+        "condition": "缺帧时仍执行 x -= 6，十位因此落在个位左边 6 像素（draw-number.ts:103-106）"
+      },
+      "caller": {
+        "file": "packages/game/src/present/dialog-box.ts",
+        "line": 877,
+        "expr": "drawNumber(fb, digit, 1, { x: cursorX, y: textY + 4 }, 'yellow', 'left', ctx.uiSpriteFrames)"
+      },
+      "legalInput": "删除槽 19。左对齐 num=10、nLength=2、pos (49,14)。十位槽 20 的像素值是 20。",
+      "oldTest": {
+        "sha": "4a62a6005d3c909bab4cfe0aff18949396077664",
+        "file": "packages/game/src/present/draw-number.test.ts",
+        "fullName": "drawNumber — sdlpal ui.c:640-732 PAL_DrawNumber port uiSpriteFrames 缺失对应 base+digit 时跳过 blit 不抛",
+        "assertionLine": 83,
+        "matcher": "not.toThrow",
+        "checked": "缺帧不抛，不检查后续位的 x",
+        "distinct": "旧断言不读十位是否停在 49 而不是 55"
+      },
+      "file": "packages/game/src/present/draw-number-slots.grok-r1.test.ts",
+      "fullName": "G05-C draw-number 空位与掩码 G05-C03 个位帧缺失时仍把十位画到左移 6 像素的位置",
+      "assertions": [
+        {
+          "line": 64,
+          "endLine": 64,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 65,
+          "endLine": 65,
+          "matchers": ["toBe"]
+        }
+      ],
+      "axis": "exception",
+      "oracle": {
+        "operands": "indices[14*320+49]、indices[14*320+55]",
+        "matcher": "toBe",
+        "exact": "20、0"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/present/draw-number-slots.grok-r1.test.ts",
+        "fullName": "G05-C draw-number 空位与掩码 G05-C03 个位帧缺失时仍把十位画到左移 6 像素的位置",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G05-C04",
+      "batch": "G05",
+      "group": "G05-C",
+      "primarySource": {
+        "file": "packages/game/src/present/draw-number.ts",
+        "conditionLine": 79,
+        "condition": "nActualLength 先被 nLength 截成 0，大于 0 的数字因此一笔都不画（draw-number.ts:79-80）"
+      },
+      "caller": {
+        "file": "packages/game/src/present/battle/draw-battle-settlement.ts",
+        "line": 165,
+        "expr": "drawNumber(fb, expGained, 5, { x: 182, y: 74 }, 'yellow', 'right', ui)"
+      },
+      "legalInput": "左对齐 num=5、nLength=0、pos (49,14)，底色 7，80 个槽都在。",
+      "oldTest": {
+        "sha": "4a62a6005d3c909bab4cfe0aff18949396077664",
+        "file": "packages/game/src/present/draw-number.test.ts",
+        "fullName": "drawNumber — sdlpal ui.c:640-732 PAL_DrawNumber port num 超过 nLength → truncate(actualLength = nLength)",
+        "assertionLine": 73,
+        "matcher": "toBe",
+        "checked": "12345 截成 3 位后仍画出个位",
+        "distinct": "旧截断的 nLength 是 3，仍然有像素；nLength 0 会把实际位数截没"
+      },
+      "file": "packages/game/src/present/draw-number-slots.grok-r1.test.ts",
+      "fullName": "G05-C draw-number 空位与掩码 G05-C04 nLength 为 0 且数字大于 0 时，一个数字像素都不写",
+      "assertions": [
+        {
+          "line": 74,
+          "endLine": 74,
+          "matchers": ["toBe"]
+        }
+      ],
+      "axis": "boundary",
+      "oracle": {
+        "operands": "非底色像素个数",
+        "matcher": "toBe",
+        "exact": "0"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/present/draw-number-slots.grok-r1.test.ts",
+        "fullName": "G05-C draw-number 空位与掩码 G05-C04 nLength 为 0 且数字大于 0 时，一个数字像素都不写",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G05-C05",
+      "batch": "G05",
+      "group": "G05-C",
+      "primarySource": {
+        "file": "packages/game/src/present/draw-number.ts",
+        "conditionLine": 93,
+        "condition": "num 为 0 时实际位数先变成 1；右对齐 x = pos.x - 6 + 6 * nLength（draw-number.ts:80,93）"
+      },
+      "caller": {
+        "file": "packages/game/src/present/battle/draw-battle-settlement.ts",
+        "line": 165,
+        "expr": "drawNumber(fb, expGained, 5, { x: 182, y: 74 }, 'yellow', 'right', ui)"
+      },
+      "legalInput": "右对齐 num=0、nLength=0、pos (49,14)，黄 0 在槽 19，像素值 19。",
+      "oldTest": {
+        "sha": "4a62a6005d3c909bab4cfe0aff18949396077664",
+        "file": "packages/game/src/present/draw-number.test.ts",
+        "fullName": "drawNumber — sdlpal ui.c:640-732 PAL_DrawNumber port num=0,nLength=6,right-align 到 (49, 14) — 1 个 0 digit 在 (79, 14)",
+        "assertionLine": 25,
+        "matcher": "toBe",
+        "checked": "nLength 6 时这个 0 在 x=79",
+        "distinct": "旧断言的 nLength 不是 0，起点不是 pos.x-6"
+      },
+      "file": "packages/game/src/present/draw-number-slots.grok-r1.test.ts",
+      "fullName": "G05-C draw-number 空位与掩码 G05-C05 数字 0 且 nLength 为 0 时，右对齐把这一位画在 pos.x-6",
+      "assertions": [
+        {
+          "line": 80,
+          "endLine": 80,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 81,
+          "endLine": 81,
+          "matchers": ["toBe"]
+        }
+      ],
+      "axis": "boundary",
+      "oracle": {
+        "operands": "indices[14*320+43]、indices[14*320+49]",
+        "matcher": "toBe",
+        "exact": "19、0"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/present/draw-number-slots.grok-r1.test.ts",
+        "fullName": "G05-C draw-number 空位与掩码 G05-C05 数字 0 且 nLength 为 0 时，右对齐把这一位画在 pos.x-6",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G05-D01",
+      "batch": "G05",
+      "group": "G05-D",
+      "primarySource": {
+        "file": "packages/game/src/present/dialog-box.ts",
+        "conditionLine": 733,
+        "condition": "等键图标取 state.iconKind，右括号是第 1 帧（dialog-box.ts:733）"
+      },
+      "caller": {
+        "file": "packages/game/src/present/present.ts",
+        "line": 149,
+        "expr": "drawDialogBox(fb, gs.dialogBox, ctx.glyphs, dialogCtx)"
+      },
+      "legalInput": "底框 'A)'，揭完并 waiting-end-key。帧 0 全色 11，帧 1 全色 22。",
+      "oldTest": {
+        "sha": "7d4e2a59ef03319f1fa29127e5d67bd90b68b9e4",
+        "file": "packages/game/src/present/dialog-box.test.ts",
+        "fullName": "Sync.2 DialogBox · key icon(sdlpal text.c:1391) icon 位置 = 本行文字末尾 x + 本行 y(sdlpal posIcon 真值)",
+        "assertionLine": 730,
+        "matcher": "toBe",
+        "checked": "默认帧的图标 minX 是 76",
+        "distinct": "旧断言只用帧 0，不区分右括号选出的帧号"
+      },
+      "file": "packages/game/src/present/dialog-box-chrome.grok-r1.test.ts",
+      "fullName": "G05-D dialog 图标物品框与旁白 G05-D01 右括号把等键图标切到第 1 帧，而不是默认第 0 帧",
+      "assertions": [
+        {
+          "line": 110,
+          "endLine": 110,
+          "matchers": ["toBe"]
+        }
+      ],
+      "axis": "positive",
+      "oracle": {
+        "operands": "(60,126)",
+        "matcher": "toBe",
+        "exact": "22"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/present/dialog-box-chrome.grok-r1.test.ts",
+        "fullName": "G05-D dialog 图标物品框与旁白 G05-D01 右括号把等键图标切到第 1 帧，而不是默认第 0 帧",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G05-D02",
+      "batch": "G05",
+      "group": "G05-D",
+      "primarySource": {
+        "file": "packages/game/src/present/dialog-box.ts",
+        "conditionLine": 744,
+        "condition": "箭头 x 等于正文起点加上 measureText，半角宽 8 时落在 52（dialog-box.ts:744）"
+      },
+      "caller": {
+        "file": "packages/game/src/present/present.ts",
+        "line": 149,
+        "expr": "drawDialogBox(fb, gs.dialogBox, ctx.glyphs, dialogCtx)"
+      },
+      "legalInput": "底框 'A'，字形宽 8，揭完并 waiting-end-key，帧 0 色 11。",
+      "oldTest": {
+        "sha": "7d4e2a59ef03319f1fa29127e5d67bd90b68b9e4",
+        "file": "packages/game/src/present/dialog-box.test.ts",
+        "fullName": "Sync.2 DialogBox · key icon(sdlpal text.c:1391) icon 位置 = 本行文字末尾 x + 本行 y(sdlpal posIcon 真值)",
+        "assertionLine": 730,
+        "matcher": "toBe",
+        "checked": "'AB' 按 16 像素宽得到 minX 76",
+        "distinct": "旧断言的字形是空表 16 像素，不是宽 8"
+      },
+      "file": "packages/game/src/present/dialog-box-chrome.grok-r1.test.ts",
+      "fullName": "G05-D dialog 图标物品框与旁白 G05-D02 半角字宽 8 时，箭头落在文字末尾 x=52",
+      "assertions": [
+        {
+          "line": 121,
+          "endLine": 121,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 122,
+          "endLine": 122,
+          "matchers": ["toBe"]
+        }
+      ],
+      "axis": "boundary",
+      "oracle": {
+        "operands": "(52,126)、(60,126)",
+        "matcher": "toBe",
+        "exact": "11、0"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/present/dialog-box-chrome.grok-r1.test.ts",
+        "fullName": "G05-D dialog 图标物品框与旁白 G05-D02 半角字宽 8 时，箭头落在文字末尾 x=52",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G05-D03",
+      "batch": "G05",
+      "group": "G05-D",
+      "primarySource": {
+        "file": "packages/game/src/present/dialog-box.ts",
+        "conditionLine": 739,
+        "condition": "currentLineText 为 null 时箭头用最后一条 shownLine 的行号（dialog-box.ts:736-739）"
+      },
+      "caller": {
+        "file": "packages/game/src/present/present.ts",
+        "line": 149,
+        "expr": "drawDialogBox(fb, gs.dialogBox, ctx.glyphs, dialogCtx)"
+      },
+      "legalInput": "底框先 '甲' 再 append '乙' 与 '丙'，然后 currentLineText 置 null、phase 为 waiting-end-key。",
+      "oldTest": {
+        "sha": "7d4e2a59ef03319f1fa29127e5d67bd90b68b9e4",
+        "file": "packages/game/src/present/dialog-box.test.ts",
+        "fullName": "Sync.2 DialogBox · key icon(sdlpal text.c:1391) icon 位置 = 本行文字末尾 x + 本行 y(sdlpal posIcon 真值)",
+        "assertionLine": 730,
+        "matcher": "toBe",
+        "checked": "图标跟在当前行，y 是 126",
+        "distinct": "旧断言的当前行还在，不证明箭头停在已沉入的第二行"
+      },
+      "file": "packages/game/src/present/dialog-box-chrome.grok-r1.test.ts",
+      "fullName": "G05-D dialog 图标物品框与旁白 G05-D03 当前行为空时，箭头画在最后一条已显示行上",
+      "assertions": [
+        {
+          "line": 135,
+          "endLine": 135,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 136,
+          "endLine": 136,
+          "matchers": ["toBe"]
+        }
+      ],
+      "axis": "ownership",
+      "oracle": {
+        "operands": "(60,144)、(60,162)",
+        "matcher": "toBe",
+        "exact": "11、0"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/present/dialog-box-chrome.grok-r1.test.ts",
+        "fullName": "G05-D dialog 图标物品框与旁白 G05-D03 当前行为空时，箭头画在最后一条已显示行上",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G05-D04",
+      "batch": "G05",
+      "group": "G05-D",
+      "primarySource": {
+        "file": "packages/game/src/present/dialog-box.ts",
+        "conditionLine": 840,
+        "condition": "旁白 len 为 2 时框从 160-8=152 起，文字在框 x+8（dialog-box.ts:840,860）"
+      },
+      "caller": {
+        "file": "packages/game/src/present/present.ts",
+        "line": 149,
+        "expr": "drawDialogBox(fb, gs.dialogBox, ctx.glyphs, dialogCtx)"
+      },
+      "legalInput": "旁白 '甲'，底色 0x5A，UI 帧 44 是单点不透明 0x44。",
+      "oldTest": {
+        "sha": "c160f73b796005d43596dc7014b013d0797a3c2c",
+        "file": "packages/game/src/present/__tests__/grok-composition/p16-dialog.test.ts",
+        "fullName": "P16 对话框绘制 P16 旁白数字走黄色精灵，缺UI帧时不画框并把数字当字形",
+        "assertionLine": 54,
+        "matcher": "toBe",
+        "checked": "奇数 len=3 的框在 (148,40)，文字在 (160,50)",
+        "distinct": "旧断言是奇数长度；偶数长度的框原点不同"
+      },
+      "file": "packages/game/src/present/dialog-box-chrome.grok-r1.test.ts",
+      "fullName": "G05-D dialog 图标物品框与旁白 G05-D04 两个半角单位的旁白框从 (152,40) 起，文字在 (160,50)",
+      "assertions": [
+        {
+          "line": 144,
+          "endLine": 144,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 145,
+          "endLine": 145,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 146,
+          "endLine": 146,
+          "matchers": ["toBe"]
+        }
+      ],
+      "axis": "positive",
+      "oracle": {
+        "operands": "(152,40)、(160,50)、(148,40)",
+        "matcher": "toBe",
+        "exact": "0x44、0、0x5A"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/present/dialog-box-chrome.grok-r1.test.ts",
+        "fullName": "G05-D dialog 图标物品框与旁白 G05-D04 两个半角单位的旁白框从 (152,40) 起，文字在 (160,50)",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G05-D05",
+      "batch": "G05",
+      "group": "G05-D",
+      "primarySource": {
+        "file": "packages/game/src/present/dialog-box.ts",
+        "conditionLine": 878,
+        "condition": "旁白数字画完后游标加 8，不是数字精灵的 6（dialog-box.ts:877-878）"
+      },
+      "caller": {
+        "file": "packages/game/src/present/present.ts",
+        "line": 149,
+        "expr": "drawDialogBox(fb, gs.dialogBox, ctx.glyphs, dialogCtx)"
+      },
+      "legalInput": "旁白 '12'，底色 0x5A。槽 20/21 的左上点是 0xB1/0xB2。",
+      "oldTest": {
+        "sha": "c160f73b796005d43596dc7014b013d0797a3c2c",
+        "file": "packages/game/src/present/__tests__/grok-composition/p16-dialog.test.ts",
+        "fullName": "P16 对话框绘制 P16 旁白数字走黄色精灵，缺UI帧时不画框并把数字当字形",
+        "assertionLine": 56,
+        "matcher": "toBe",
+        "checked": "一个数字落在全角之后的 (176,54)",
+        "distinct": "旧断言只有一位数字，看不出连续数字的步进"
+      },
+      "file": "packages/game/src/present/dialog-box-chrome.grok-r1.test.ts",
+      "fullName": "G05-D dialog 图标物品框与旁白 G05-D05 旁白连续数字按 8 像素步进，第二位不落在 +6",
+      "assertions": [
+        {
+          "line": 154,
+          "endLine": 154,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 155,
+          "endLine": 155,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 156,
+          "endLine": 156,
+          "matchers": ["toBe"]
+        }
+      ],
+      "axis": "positive",
+      "oracle": {
+        "operands": "(160,54)、(168,54)、(166,54)",
+        "matcher": "toBe",
+        "exact": "0xB1、0xB2、0x5A"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/present/dialog-box-chrome.grok-r1.test.ts",
+        "fullName": "G05-D dialog 图标物品框与旁白 G05-D05 旁白连续数字按 8 像素步进，第二位不落在 +6",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G05-D06",
+      "batch": "G05",
+      "group": "G05-D",
+      "primarySource": {
+        "file": "packages/game/src/present/dialog-box.ts",
+        "conditionLine": 664,
+        "condition": "旁白在画头像之前返回（dialog-box.ts:664-666）"
+      },
+      "caller": {
+        "file": "packages/game/src/present/present.ts",
+        "line": 149,
+        "expr": "drawDialogBox(fb, gs.dialogBox, ctx.glyphs, dialogCtx)"
+      },
+      "legalInput": "旁白 '甲' 且 portraitIcon 5，头像是 8×8 色 77。底色 0x5A。",
+      "oldTest": {
+        "sha": "c160f73b796005d43596dc7014b013d0797a3c2c",
+        "file": "packages/game/src/present/__tests__/grok-composition/p16-dialog.test.ts",
+        "fullName": "P16 对话框绘制 P16 立绘不透明0盖住底色，透明孔保留底色，缺立绘资源仍画正文",
+        "assertionLine": 90,
+        "matcher": "toBe",
+        "checked": "底框立绘把 opaque 0 写成索引 0",
+        "distinct": "旧断言是 bottom，不是旁白；旁白根本不画头像"
+      },
+      "file": "packages/game/src/present/dialog-box-chrome.grok-r1.test.ts",
+      "fullName": "G05-D dialog 图标物品框与旁白 G05-D06 旁白样式不画头像，正文仍写在 (160,50)",
+      "assertions": [
+        {
+          "line": 166,
+          "endLine": 166,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 167,
+          "endLine": 167,
+          "matchers": ["toBe"]
+        }
+      ],
+      "axis": "exception",
+      "oracle": {
+        "operands": "(160,50)、索引里是否出现 77",
+        "matcher": "toBe",
+        "exact": "0、false"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/present/dialog-box-chrome.grok-r1.test.ts",
+        "fullName": "G05-D dialog 图标物品框与旁白 G05-D06 旁白样式不画头像，正文仍写在 (160,50)",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G05-D07",
+      "batch": "G05",
+      "group": "G05-D",
+      "primarySource": {
+        "file": "packages/game/src/present/dialog-box.ts",
+        "conditionLine": 913,
+        "condition": "物品框没有 itemBox 时直接返回，不画文字（dialog-box.ts:912-913）"
+      },
+      "caller": {
+        "file": "packages/game/src/present/present.ts",
+        "line": 149,
+        "expr": "drawDialogBox(fb, gs.dialogBox, ctx.glyphs, dialogCtx)"
+      },
+      "legalInput": "style 为 item-box 的 '甲'，没有 itemBox，UI 帧存在，底色 0x5A。",
+      "oldTest": {
+        "sha": "7d4e2a59ef03319f1fa29127e5d67bd90b68b9e4",
+        "file": "packages/game/src/present/dialog-box.test.ts",
+        "fullName": "Sync.2 DialogBox · drawDialogBox 不画 box bg item-box 物品框:居中 ITEMBOX 精灵 + 物品 BALL 图标@box+(8,7)(script.c:1483-1508)",
+        "assertionLine": 614,
+        "matcher": "toBe",
+        "checked": "有 itemBox 时居中精灵像素是 22",
+        "distinct": "旧断言是正例；缺 itemBox 时应整屏保持底色"
+      },
+      "file": "packages/game/src/present/dialog-box-chrome.grok-r1.test.ts",
+      "fullName": "G05-D dialog 图标物品框与旁白 G05-D07 物品框没有 itemBox 时，画面保持调用前的底色",
+      "assertions": [
+        {
+          "line": 175,
+          "endLine": 175,
+          "matchers": ["toBe"]
+        }
+      ],
+      "axis": "exception",
+      "oracle": {
+        "operands": "每个索引是否仍为 0x5A",
+        "matcher": "toBe",
+        "exact": "true"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/present/dialog-box-chrome.grok-r1.test.ts",
+        "fullName": "G05-D dialog 图标物品框与旁白 G05-D07 物品框没有 itemBox 时，画面保持调用前的底色",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G05-D08",
+      "batch": "G05",
+      "group": "G05-D",
+      "primarySource": {
+        "file": "packages/game/src/present/dialog-box.ts",
+        "conditionLine": 927,
+        "condition": "两行物品文字落在 y=30+10 与 y=48+10，且 fShadow 为假（dialog-box.ts:927-928,957）"
+      },
+      "caller": {
+        "file": "packages/game/src/present/present.ts",
+        "line": 149,
+        "expr": "drawDialogBox(fb, gs.dialogBox, ctx.glyphs, dialogCtx)"
+      },
+      "legalInput": "itemBox 的 line1 是 '甲'、line2 是 '乙'，没有 UI 帧，底色 0x5A。",
+      "oldTest": {
+        "sha": "7d4e2a59ef03319f1fa29127e5d67bd90b68b9e4",
+        "file": "packages/game/src/present/dialog-box.test.ts",
+        "fullName": "Sync.2 DialogBox · drawDialogBox 不画 box bg item-box 物品框:居中 ITEMBOX 精灵 + 物品 BALL 图标@box+(8,7)(script.c:1483-1508)",
+        "assertionLine": 614,
+        "matcher": "toBe",
+        "checked": "旧物品框断言读的是精灵，不是两行文字",
+        "distinct": "旧断言不锁 y=40 与 y=58，也不证明右侧一点不是阴影"
+      },
+      "file": "packages/game/src/present/dialog-box-chrome.grok-r1.test.ts",
+      "fullName": "G05-D dialog 图标物品框与旁白 G05-D08 物品框两行文字分别落在 y=40 和 y=58，右侧一点不是阴影",
+      "assertions": [
+        {
+          "line": 185,
+          "endLine": 185,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 186,
+          "endLine": 186,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 187,
+          "endLine": 187,
+          "matchers": ["toBe"]
+        }
+      ],
+      "axis": "positive",
+      "oracle": {
+        "operands": "(160,40)、(160,58)、(161,40)",
+        "matcher": "toBe",
+        "exact": "0、0、0x5A"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/present/dialog-box-chrome.grok-r1.test.ts",
+        "fullName": "G05-D dialog 图标物品框与旁白 G05-D08 物品框两行文字分别落在 y=40 和 y=58，右侧一点不是阴影",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G05-D09",
+      "batch": "G05",
+      "group": "G05-D",
+      "primarySource": {
+        "file": "packages/game/src/present/dialog-box.ts",
+        "conditionLine": 921,
+        "condition": "目录里没有该 itemId 时不取图标（dialog-box.ts:921-923）"
+      },
+      "caller": {
+        "file": "packages/game/src/present/present.ts",
+        "line": 149,
+        "expr": "drawDialogBox(fb, gs.dialogBox, ctx.glyphs, dialogCtx)"
+      },
+      "legalInput": "itemId 100，目录只有 id 7、bitmap 5。框是 64×64 色 22，图标色 33。",
+      "oldTest": {
+        "sha": "7d4e2a59ef03319f1fa29127e5d67bd90b68b9e4",
+        "file": "packages/game/src/present/dialog-box.test.ts",
+        "fullName": "Sync.2 DialogBox · drawDialogBox 不画 box bg item-box 物品框:居中 ITEMBOX 精灵 + 物品 BALL 图标@box+(8,7)(script.c:1483-1508)",
+        "assertionLine": 614,
+        "matcher": "toBe",
+        "checked": "目录命中时图标像素出现",
+        "distinct": "旧断言是命中的正例；本条 id 不在目录里"
+      },
+      "file": "packages/game/src/present/dialog-box-chrome.grok-r1.test.ts",
+      "fullName": "G05-D dialog 图标物品框与旁白 G05-D09 物品目录里没有该 id 时，框仍居中，图标像素不出现",
+      "assertions": [
+        {
+          "line": 202,
+          "endLine": 202,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 203,
+          "endLine": 203,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 204,
+          "endLine": 204,
+          "matchers": ["toBe"]
+        }
+      ],
+      "axis": "exception",
+      "oracle": {
+        "operands": "(128,68)、(136,75)、是否出现 33",
+        "matcher": "toBe",
+        "exact": "22、22、false"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/present/dialog-box-chrome.grok-r1.test.ts",
+        "fullName": "G05-D dialog 图标物品框与旁白 G05-D09 物品目录里没有该 id 时，框仍居中，图标像素不出现",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G05-D10",
+      "batch": "G05",
+      "group": "G05-D",
+      "primarySource": {
+        "file": "packages/game/src/present/dialog-box.ts",
+        "conditionLine": 796,
+        "condition": "头像只有 opaque 恰好为 1 才写入（dialog-box.ts:796）"
+      },
+      "caller": {
+        "file": "packages/game/src/present/present.ts",
+        "line": 149,
+        "expr": "drawDialogBox(fb, gs.dialogBox, ctx.glyphs, dialogCtx)"
+      },
+      "legalInput": "底框头像 2×2： (0,0) opaque 2 索引 77，(1,0) opaque 1 索引 66。底色 0x5A。锚点 (269,143)。",
+      "oldTest": {
+        "sha": "c160f73b796005d43596dc7014b013d0797a3c2c",
+        "file": "packages/game/src/present/__tests__/grok-composition/p16-dialog.test.ts",
+        "fullName": "P16 对话框绘制 P16 立绘不透明0盖住底色，透明孔保留底色，缺立绘资源仍画正文",
+        "assertionLine": 90,
+        "matcher": "toBe",
+        "checked": "opaque 0 写成索引 0，孔保留哨兵",
+        "distinct": "旧断言没有 opaque 为 2 的孔"
+      },
+      "file": "packages/game/src/present/dialog-box-chrome.grok-r1.test.ts",
+      "fullName": "G05-D dialog 图标物品框与旁白 G05-D10 头像 opaque 必须等于 1 才写入，2 的孔保留底色",
+      "assertions": [
+        {
+          "line": 220,
+          "endLine": 220,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 221,
+          "endLine": 221,
+          "matchers": ["toBe"]
+        }
+      ],
+      "axis": "boundary",
+      "oracle": {
+        "operands": "(269,143)、(270,143)",
+        "matcher": "toBe",
+        "exact": "0x5A、66"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/present/dialog-box-chrome.grok-r1.test.ts",
+        "fullName": "G05-D dialog 图标物品框与旁白 G05-D10 头像 opaque 必须等于 1 才写入，2 的孔保留底色",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G05-D11",
+      "batch": "G05",
+      "group": "G05-D",
+      "primarySource": {
+        "file": "packages/game/src/present/dialog-box.ts",
+        "conditionLine": 201,
+        "condition": "item-box 的正文坐标固定 (160,30)，有无头像相同（dialog-box.ts:201-202）"
+      },
+      "caller": {
+        "file": "packages/game/src/present/dialog-box.ts",
+        "line": 693,
+        "expr": "const basePos = getDialogTextPos(state.style, hasPortrait)"
+      },
+      "legalInput": "getDialogTextPos('item-box', false) 与 getDialogTextPos('item-box', true)。物品框绘制在此函数之前返回。",
+      "oldTest": {
+        "sha": "7d4e2a59ef03319f1fa29127e5d67bd90b68b9e4",
+        "file": "packages/game/src/present/dialog-box.test.ts",
+        "fullName": "Sync.2 DialogBox · getDialogTextPos(sdlpal text.c:1313-1346 真值) narration 同 bottom",
+        "assertionLine": 531,
+        "matcher": "toEqual",
+        "checked": "旁白正文坐标等于底框",
+        "distinct": "旧断言没有 item-box 这一支"
+      },
+      "file": "packages/game/src/present/dialog-box-chrome.grok-r1.test.ts",
+      "fullName": "G05-D dialog 图标物品框与旁白 G05-D11 物品框正文坐标是 (160,30)，有无头像都一样",
+      "assertions": [
+        {
+          "line": 225,
+          "endLine": 225,
+          "matchers": ["toEqual"]
+        },
+        {
+          "line": 226,
+          "endLine": 226,
+          "matchers": ["toEqual"]
+        }
+      ],
+      "axis": "positive",
+      "oracle": {
+        "operands": "两次返回值",
+        "matcher": "toEqual",
+        "exact": "{x:160,y:30}、{x:160,y:30}"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/present/dialog-box-chrome.grok-r1.test.ts",
+        "fullName": "G05-D dialog 图标物品框与旁白 G05-D11 物品框正文坐标是 (160,30)，有无头像都一样",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G05-D12",
+      "batch": "G05",
+      "group": "G05-D",
+      "primarySource": {
+        "file": "packages/game/src/present/dialog-box.ts",
+        "conditionLine": 221,
+        "condition": "item-box 的姓名坐标也是占位 (160,30)（dialog-box.ts:221-222）"
+      },
+      "caller": {
+        "file": "packages/game/src/present/dialog-box.ts",
+        "line": 688,
+        "expr": "const titlePos = getDialogTitlePos(state.style, hasPortrait)"
+      },
+      "legalInput": "getDialogTitlePos('item-box', false) 与 true。",
+      "oldTest": {
+        "sha": "b794a019cc99e90578fc0c6ba819cdc42ebea658",
+        "file": "packages/game/src/present/dialog-box.glm-next-wave.test.ts",
+        "fullName": "getDialogTitlePos(sdlpal text.c:1316/1340 title 独立于正文位置) top 无头像 → \"top\"",
+        "assertionLine": 38,
+        "matcher": "toEqual",
+        "checked": "it.each 覆盖 top/center/bottom/narration，没有 item-box",
+        "distinct": "旧表没有物品框姓名坐标"
+      },
+      "file": "packages/game/src/present/dialog-box-chrome.grok-r1.test.ts",
+      "fullName": "G05-D dialog 图标物品框与旁白 G05-D12 物品框姓名坐标也是占位 (160,30)",
+      "assertions": [
+        {
+          "line": 230,
+          "endLine": 230,
+          "matchers": ["toEqual"]
+        },
+        {
+          "line": 231,
+          "endLine": 231,
+          "matchers": ["toEqual"]
+        }
+      ],
+      "axis": "positive",
+      "oracle": {
+        "operands": "两次返回值",
+        "matcher": "toEqual",
+        "exact": "{x:160,y:30}、{x:160,y:30}"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/present/dialog-box-chrome.grok-r1.test.ts",
+        "fullName": "G05-D dialog 图标物品框与旁白 G05-D12 物品框姓名坐标也是占位 (160,30)",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G05-D13",
+      "batch": "G05",
+      "group": "G05-D",
+      "primarySource": {
+        "file": "packages/game/src/present/dialog-box.ts",
+        "conditionLine": 285,
+        "condition": "item-box 占位矩形是 {8,80,304,48}（dialog-box.ts:285,289）"
+      },
+      "caller": {
+        "file": "packages/game/src/present/dialog-box.ts",
+        "line": 289,
+        "expr": "return STYLE_RECTS[style]"
+      },
+      "legalInput": "getDialogBoxRect('item-box')。产品绘制不调用这个函数，记录的是导出占位。",
+      "oldTest": {
+        "sha": "7d4e2a59ef03319f1fa29127e5d67bd90b68b9e4",
+        "file": "packages/game/src/present/dialog-box.test.ts",
+        "fullName": "Sync.2 DialogBox · getDialogBoxRect 4 styles 返回不同 y 坐标",
+        "assertionLine": 507,
+        "matcher": "toBeLessThan",
+        "checked": "只比较 top、center、bottom 的 y 顺序",
+        "distinct": "旧断言没有读取 item-box 矩形"
+      },
+      "file": "packages/game/src/present/dialog-box-chrome.grok-r1.test.ts",
+      "fullName": "G05-D dialog 图标物品框与旁白 G05-D13 物品框占位矩形是 (8,80,304,48)",
+      "assertions": [
+        {
+          "line": 235,
+          "endLine": 235,
+          "matchers": ["toEqual"]
+        }
+      ],
+      "axis": "positive",
+      "oracle": {
+        "operands": "getDialogBoxRect('item-box')",
+        "matcher": "toEqual",
+        "exact": "{x:8,y:80,w:304,h:48}"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/present/dialog-box-chrome.grok-r1.test.ts",
+        "fullName": "G05-D dialog 图标物品框与旁白 G05-D13 物品框占位矩形是 (8,80,304,48)",
+        "status": "passed"
+      }
     }
   ],
   "existingProof": [
@@ -8639,6 +10837,422 @@
         "assertionLine": 40,
         "matcher": "toEqual",
         "checked": "缺色得到 [0,0,0,255]，下标 1 得到 [40,50,60,255]"
+      }
+    },
+    {
+      "id": "G05-EP-text-top",
+      "classification": "existing-proof",
+      "reason": "上框无头像的正文坐标已证明，本组改读像素",
+      "oldTest": {
+        "sha": "7d4e2a59ef03319f1fa29127e5d67bd90b68b9e4",
+        "file": "packages/game/src/present/dialog-box.test.ts",
+        "fullName": "Sync.2 DialogBox · getDialogTextPos(sdlpal text.c:1313-1346 真值) top 无 portrait → (44, 26)",
+        "assertionLine": 515,
+        "matcher": "toEqual",
+        "checked": "{x:44,y:26}"
+      }
+    },
+    {
+      "id": "G05-EP-text-face",
+      "classification": "existing-proof",
+      "reason": "上框有头像的正文坐标已证明",
+      "oldTest": {
+        "sha": "7d4e2a59ef03319f1fa29127e5d67bd90b68b9e4",
+        "file": "packages/game/src/present/dialog-box.test.ts",
+        "fullName": "Sync.2 DialogBox · getDialogTextPos(sdlpal text.c:1313-1346 真值) top 有 portrait → (96, 26)",
+        "assertionLine": 518,
+        "matcher": "toEqual",
+        "checked": "{x:96,y:26}"
+      }
+    },
+    {
+      "id": "G05-EP-text-center",
+      "classification": "existing-proof",
+      "reason": "居中正文坐标已证明",
+      "oldTest": {
+        "sha": "7d4e2a59ef03319f1fa29127e5d67bd90b68b9e4",
+        "file": "packages/game/src/present/dialog-box.test.ts",
+        "fullName": "Sync.2 DialogBox · getDialogTextPos(sdlpal text.c:1313-1346 真值) center → (80, 40),不论 portrait",
+        "assertionLine": 521,
+        "matcher": "toEqual",
+        "checked": "{x:80,y:40}"
+      }
+    },
+    {
+      "id": "G05-EP-text-bottom",
+      "classification": "existing-proof",
+      "reason": "底框无头像的正文坐标已证明",
+      "oldTest": {
+        "sha": "7d4e2a59ef03319f1fa29127e5d67bd90b68b9e4",
+        "file": "packages/game/src/present/dialog-box.test.ts",
+        "fullName": "Sync.2 DialogBox · getDialogTextPos(sdlpal text.c:1313-1346 真值) bottom 无 portrait → (44, 126)",
+        "assertionLine": 525,
+        "matcher": "toEqual",
+        "checked": "{x:44,y:126}"
+      }
+    },
+    {
+      "id": "G05-EP-text-bottom-face",
+      "classification": "existing-proof",
+      "reason": "底框有头像的正文坐标已证明",
+      "oldTest": {
+        "sha": "7d4e2a59ef03319f1fa29127e5d67bd90b68b9e4",
+        "file": "packages/game/src/present/dialog-box.test.ts",
+        "fullName": "Sync.2 DialogBox · getDialogTextPos(sdlpal text.c:1313-1346 真值) bottom 有 portrait → (20, 126)",
+        "assertionLine": 528,
+        "matcher": "toEqual",
+        "checked": "{x:20,y:126}"
+      }
+    },
+    {
+      "id": "G05-EP-text-narr",
+      "classification": "existing-proof",
+      "reason": "旁白正文坐标等于底框已证明",
+      "oldTest": {
+        "sha": "7d4e2a59ef03319f1fa29127e5d67bd90b68b9e4",
+        "file": "packages/game/src/present/dialog-box.test.ts",
+        "fullName": "Sync.2 DialogBox · getDialogTextPos(sdlpal text.c:1313-1346 真值) narration 同 bottom",
+        "assertionLine": 531,
+        "matcher": "toEqual",
+        "checked": "与 bottom 无头像相同"
+      }
+    },
+    {
+      "id": "G05-EP-title",
+      "classification": "existing-proof",
+      "reason": "top/center/bottom/narration 的姓名坐标已由 it.each 证明",
+      "oldTest": {
+        "sha": "b794a019cc99e90578fc0c6ba819cdc42ebea658",
+        "file": "packages/game/src/present/dialog-box.glm-next-wave.test.ts",
+        "fullName": "getDialogTitlePos(sdlpal text.c:1316/1340 title 独立于正文位置) top 无头像 → \"top\"",
+        "assertionLine": 38,
+        "matcher": "toEqual",
+        "checked": "无头像上框姓名 {12,8}，表内其余样式一并比较"
+      }
+    },
+    {
+      "id": "G05-EP-name",
+      "classification": "existing-proof",
+      "reason": "半角冒号结尾判定姓名已证明",
+      "oldTest": {
+        "sha": "b794a019cc99e90578fc0c6ba819cdc42ebea658",
+        "file": "packages/game/src/present/dialog-box.glm-next-wave.test.ts",
+        "fullName": "isCharacterNameLine(sdlpal text.c:1717-1719 三种冒号结尾判姓名) 半角冒号(U+003A) → 李逍遥:",
+        "assertionLine": 51,
+        "matcher": "toBe",
+        "checked": "true"
+      }
+    },
+    {
+      "id": "G05-EP-reset",
+      "classification": "existing-proof",
+      "reason": "清正文后 titleText 仍在已证明",
+      "oldTest": {
+        "sha": "b794a019cc99e90578fc0c6ba819cdc42ebea658",
+        "file": "packages/game/src/present/dialog-box.glm-next-wave.test.ts",
+        "fullName": "resetDialogBody(sdlpal PAL_ClearDialog 等价:清正文不擦 title/portrait) 清 shownLines/current/计数/typing 态 → line-done;保留 titleText/portraitIcon/style/fontColor",
+        "assertionLine": 79,
+        "matcher": "toBe",
+        "checked": "titleText 仍是 '李逍遥:'"
+      }
+    },
+    {
+      "id": "G05-EP-empty",
+      "classification": "existing-proof",
+      "reason": "charsRevealed 为 0 时不画正文已证明",
+      "oldTest": {
+        "sha": "7d4e2a59ef03319f1fa29127e5d67bd90b68b9e4",
+        "file": "packages/game/src/present/dialog-box.test.ts",
+        "fullName": "Sync.2 DialogBox · drawDialogBox 不画 box bg charsRevealed=0 且无 portrait → fb 完全空",
+        "assertionLine": 542,
+        "matcher": "toBe",
+        "checked": "没有非零像素"
+      }
+    },
+    {
+      "id": "G05-EP-shadow",
+      "classification": "existing-proof",
+      "reason": "对话三层阴影色 0 已证明",
+      "oldTest": {
+        "sha": "7d4e2a59ef03319f1fa29127e5d67bd90b68b9e4",
+        "file": "packages/game/src/present/dialog-box.test.ts",
+        "fullName": "Sync.2 DialogBox · drawDialogBox 不画 box bg 对话文字 → 主色 200 + 三层阴影 color 0(取代旧单层 color 50)",
+        "assertionLine": 573,
+        "matcher": "toBe",
+        "checked": "存在索引 200，也存在索引 0"
+      }
+    },
+    {
+      "id": "G05-EP-item",
+      "classification": "existing-proof",
+      "reason": "物品框命中目录时的居中精灵与图标已证明",
+      "oldTest": {
+        "sha": "7d4e2a59ef03319f1fa29127e5d67bd90b68b9e4",
+        "file": "packages/game/src/present/dialog-box.test.ts",
+        "fullName": "Sync.2 DialogBox · drawDialogBox 不画 box bg item-box 物品框:居中 ITEMBOX 精灵 + 物品 BALL 图标@box+(8,7)(script.c:1483-1508)",
+        "assertionLine": 614,
+        "matcher": "toBe",
+        "checked": "(128,68) 为 22"
+      }
+    },
+    {
+      "id": "G05-EP-icon-xy",
+      "classification": "existing-proof",
+      "reason": "默认等键图标在文字末尾 (76,126) 已证明",
+      "oldTest": {
+        "sha": "7d4e2a59ef03319f1fa29127e5d67bd90b68b9e4",
+        "file": "packages/game/src/present/dialog-box.test.ts",
+        "fullName": "Sync.2 DialogBox · key icon(sdlpal text.c:1391) icon 位置 = 本行文字末尾 x + 本行 y(sdlpal posIcon 真值)",
+        "assertionLine": 730,
+        "matcher": "toBe",
+        "checked": "minX 为 76"
+      }
+    },
+    {
+      "id": "G05-EP-center-icon",
+      "classification": "existing-proof",
+      "reason": "居中框等键也不画图标已证明",
+      "oldTest": {
+        "sha": "7d4e2a59ef03319f1fa29127e5d67bd90b68b9e4",
+        "file": "packages/game/src/present/dialog-box.test.ts",
+        "fullName": "Sync.2 DialogBox · key icon(sdlpal text.c:1391) center style 即使 waiting → 不画 icon(sdlpal kDialogCenter 守卫)",
+        "assertionLine": 753,
+        "matcher": "toBe",
+        "checked": "没有索引 99"
+      }
+    },
+    {
+      "id": "G05-EP-max-lines",
+      "classification": "existing-proof",
+      "reason": "每页 4 行已证明",
+      "oldTest": {
+        "sha": "7d4e2a59ef03319f1fa29127e5d67bd90b68b9e4",
+        "file": "packages/game/src/present/dialog-box.test.ts",
+        "fullName": "Sync.2 DialogBox · MAX_LINES_PER_PAGE 真值 MAX_LINES_PER_PAGE = 4(sdlpal text.c:1649 nCurrentDialogLine > 3)",
+        "assertionLine": 759,
+        "matcher": "toBe",
+        "checked": "4"
+      }
+    },
+    {
+      "id": "G05-EP-p16-odd",
+      "classification": "existing-proof",
+      "reason": "奇数长度旁白框 (148,40) 与文字 (160,50) 已证明",
+      "oldTest": {
+        "sha": "c160f73b796005d43596dc7014b013d0797a3c2c",
+        "file": "packages/game/src/present/__tests__/grok-composition/p16-dialog.test.ts",
+        "fullName": "P16 对话框绘制 P16 旁白数字走黄色精灵，缺UI帧时不画框并把数字当字形",
+        "assertionLine": 54,
+        "matcher": "toBe",
+        "checked": "(148,40) 为 0x44"
+      }
+    },
+    {
+      "id": "G05-EP-p16-face",
+      "classification": "existing-proof",
+      "reason": "底框立绘 opaque 0 写成 0、孔保留哨兵已证明",
+      "oldTest": {
+        "sha": "c160f73b796005d43596dc7014b013d0797a3c2c",
+        "file": "packages/game/src/present/__tests__/grok-composition/p16-dialog.test.ts",
+        "fullName": "P16 对话框绘制 P16 立绘不透明0盖住底色，透明孔保留底色，缺立绘资源仍画正文",
+        "assertionLine": 90,
+        "matcher": "toBe",
+        "checked": "(269,143) 为 0"
+      }
+    },
+    {
+      "id": "G05-EP-colored",
+      "classification": "existing-proof",
+      "reason": "逐字色按 code point 上色已证明",
+      "oldTest": {
+        "sha": "c1203fca4895dfb527659246e094dfdf7797e45d",
+        "file": "packages/game/src/present/font.glm-phase1-leaves.test.ts",
+        "fullName": "L16 renderColoredText（逐字符色） 逐字符颜色数组按 code point 对位上色",
+        "assertionLine": 28,
+        "matcher": "toBe",
+        "checked": "(14,24) 为 0x11"
+      }
+    },
+    {
+      "id": "G05-EP-fallback",
+      "classification": "existing-proof",
+      "reason": "逐字色缺项回退 0x4F 且阴影为 0 已证明",
+      "oldTest": {
+        "sha": "c1203fca4895dfb527659246e094dfdf7797e45d",
+        "file": "packages/game/src/present/font.glm-phase1-leaves.test.ts",
+        "fullName": "L16 renderColoredText（逐字符色） colors 缺项回退 0x4F；fShadow 三影写黑 0",
+        "assertionLine": 36,
+        "matcher": "toBe",
+        "checked": "(30,24) 为 0x4F"
+      }
+    },
+    {
+      "id": "G05-EP-tofu",
+      "classification": "existing-proof",
+      "reason": "缺字形画 16×16 豆腐框已证明",
+      "oldTest": {
+        "sha": "c1203fca4895dfb527659246e094dfdf7797e45d",
+        "file": "packages/game/src/present/font.glm-phase1-leaves.test.ts",
+        "fullName": "L16 tofu 缺字形回退 缺字形 → 16×16 空心框：顶/底行 cols0-14 亮 col15 暗，中间行只有 col0/col9",
+        "assertionLine": 50,
+        "matcher": "toBe",
+        "checked": "原点为 0x44"
+      }
+    },
+    {
+      "id": "G05-EP-measure16",
+      "classification": "existing-proof",
+      "reason": "空表 measureText 的 ASCII 按 16 已证明",
+      "oldTest": {
+        "sha": "c1203fca4895dfb527659246e094dfdf7797e45d",
+        "file": "packages/game/src/present/font.glm-phase1-leaves.test.ts",
+        "fullName": "L16 tofu 缺字形回退 measureText 空表 ASCII fallback 16px/字（布局入口禁止用它，doc 锚）",
+        "assertionLine": 64,
+        "matcher": "toBe",
+        "checked": "48"
+      }
+    },
+    {
+      "id": "G05-EP-num0",
+      "classification": "existing-proof",
+      "reason": "num 0、nLength 6 右对齐的 0 在 (79,14) 已证明",
+      "oldTest": {
+        "sha": "4a62a6005d3c909bab4cfe0aff18949396077664",
+        "file": "packages/game/src/present/draw-number.test.ts",
+        "fullName": "drawNumber — sdlpal ui.c:640-732 PAL_DrawNumber port num=0,nLength=6,right-align 到 (49, 14) — 1 个 0 digit 在 (79, 14)",
+        "assertionLine": 25,
+        "matcher": "toBe",
+        "checked": "19"
+      }
+    },
+    {
+      "id": "G05-EP-num123",
+      "classification": "existing-proof",
+      "reason": "123 的三位右对齐位置已证明",
+      "oldTest": {
+        "sha": "4a62a6005d3c909bab4cfe0aff18949396077664",
+        "file": "packages/game/src/present/draw-number.test.ts",
+        "fullName": "drawNumber — sdlpal ui.c:640-732 PAL_DrawNumber port num=123,nLength=6,right-align — 3 digits 末位 3 在 (79, 14),2 在 (73, 14),1 在 (67, 14)",
+        "assertionLine": 34,
+        "matcher": "toBe",
+        "checked": "(79,14) 为 22"
+      }
+    },
+    {
+      "id": "G05-EP-num4",
+      "classification": "existing-proof",
+      "reason": "nLength 4 的 0 在 (288,21) 已证明",
+      "oldTest": {
+        "sha": "4a62a6005d3c909bab4cfe0aff18949396077664",
+        "file": "packages/game/src/present/draw-number.test.ts",
+        "fullName": "drawNumber — sdlpal ui.c:640-732 PAL_DrawNumber port num=0,nLength=4,right-align 到 (270, 21) — saved times slot 真值",
+        "assertionLine": 45,
+        "matcher": "toBe",
+        "checked": "19"
+      }
+    },
+    {
+      "id": "G05-EP-blue",
+      "classification": "existing-proof",
+      "reason": "蓝色数字基帧 29 已证明",
+      "oldTest": {
+        "sha": "4a62a6005d3c909bab4cfe0aff18949396077664",
+        "file": "packages/game/src/present/draw-number.test.ts",
+        "fullName": "drawNumber — sdlpal ui.c:640-732 PAL_DrawNumber port blue color → base frame 29",
+        "assertionLine": 52,
+        "matcher": "toBe",
+        "checked": "34"
+      }
+    },
+    {
+      "id": "G05-EP-cyan",
+      "classification": "existing-proof",
+      "reason": "青色数字基帧 56 已证明",
+      "oldTest": {
+        "sha": "4a62a6005d3c909bab4cfe0aff18949396077664",
+        "file": "packages/game/src/present/draw-number.test.ts",
+        "fullName": "drawNumber — sdlpal ui.c:640-732 PAL_DrawNumber port cyan color → base frame 56",
+        "assertionLine": 58,
+        "matcher": "toBe",
+        "checked": "63"
+      }
+    },
+    {
+      "id": "G05-EP-left",
+      "classification": "existing-proof",
+      "reason": "左对齐 42 的个位在 x=55 已证明",
+      "oldTest": {
+        "sha": "4a62a6005d3c909bab4cfe0aff18949396077664",
+        "file": "packages/game/src/present/draw-number.test.ts",
+        "fullName": "drawNumber — sdlpal ui.c:640-732 PAL_DrawNumber port left-align num=42,nLength=6 — digit 起 (49 - 6 + 6*2 = 55) — 2 在 55,4 在 49",
+        "assertionLine": 64,
+        "matcher": "toBe",
+        "checked": "21"
+      }
+    },
+    {
+      "id": "G05-EP-trunc",
+      "classification": "existing-proof",
+      "reason": "超过 nLength 的高位截断已证明",
+      "oldTest": {
+        "sha": "4a62a6005d3c909bab4cfe0aff18949396077664",
+        "file": "packages/game/src/present/draw-number.test.ts",
+        "fullName": "drawNumber — sdlpal ui.c:640-732 PAL_DrawNumber port num 超过 nLength → truncate(actualLength = nLength)",
+        "assertionLine": 73,
+        "matcher": "toBe",
+        "checked": "(61,14) 为 24"
+      }
+    },
+    {
+      "id": "G05-EP-miss",
+      "classification": "existing-proof",
+      "reason": "整帧缺失时不抛已证明",
+      "oldTest": {
+        "sha": "4a62a6005d3c909bab4cfe0aff18949396077664",
+        "file": "packages/game/src/present/draw-number.test.ts",
+        "fullName": "drawNumber — sdlpal ui.c:640-732 PAL_DrawNumber port uiSpriteFrames 缺失对应 base+digit 时跳过 blit 不抛",
+        "assertionLine": 83,
+        "matcher": "not.toThrow",
+        "checked": "调用不抛"
+      }
+    },
+    {
+      "id": "G05-EP-mid",
+      "classification": "existing-proof",
+      "reason": "结算现金中对齐个位在 (174,119) 已证明",
+      "oldTest": {
+        "sha": "c18468591636358ccf8936210082ab426549e777",
+        "file": "packages/game/src/present/battle/draw-battle-settlement.glm-phase1-leaves.test.ts",
+        "fullName": "L15 drawBattleSettlement 精确像素 exp-cash：exp 右对齐 5 位 at (182,74)、cash 中对齐 at y=119、两单行框",
+        "assertionLine": 61,
+        "matcher": "toBe",
+        "checked": "yellowDigit(7)"
+      }
+    },
+    {
+      "id": "G05-EP-open-cjk",
+      "classification": "existing-proof",
+      "reason": "四个全角的开场项 x=125 已证明",
+      "oldTest": {
+        "sha": "2e07b15f81a44f26cb1e7a066627c0075aa7d4d7",
+        "file": "packages/game/src/present/menu/draw-opening-menu.test.ts",
+        "fullName": "openingItemX — 选项 x 公式(uigame.c:107-108) 真 label('新的故事'/'旧的回忆',各 4 字)→ w=4 → x=125(回归钉死:对 shipped 数据零变化)",
+        "assertionLine": 12,
+        "matcher": "toBe",
+        "checked": "125"
+      }
+    },
+    {
+      "id": "G05-EP-open-ascii",
+      "classification": "existing-proof",
+      "reason": "八个 ASCII 的开场项 x=125 已证明，不锁精确字宽",
+      "oldTest": {
+        "sha": "2e07b15f81a44f26cb1e7a066627c0075aa7d4d7",
+        "file": "packages/game/src/present/menu/draw-opening-menu.test.ts",
+        "fullName": "openingItemX — 选项 x 公式(uigame.c:107-108) w<=4 不左移(8 ASCII → w=4 → x=125,非 length 8)",
+        "assertionLine": 22,
+        "matcher": "toBe",
+        "checked": "125"
       }
     }
   ]

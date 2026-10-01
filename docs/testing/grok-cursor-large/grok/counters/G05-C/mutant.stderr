@@ -1,0 +1,21 @@
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/present/draw-number-slots.grok-r1.test.ts > G05-C draw-number 空位与掩码 > G05-C03 个位帧缺失时仍把十位画到左移 6 像素的位置
+AssertionError: expected +0 to be 20 // Object.is equality
+
+- Expected
++ Received
+
+- 20
++ 0
+
+ ❯ src/present/draw-number-slots.grok-r1.test.ts:64:39
+     62|     delete frames[19]
+     63|     drawNumber(fb, 10, 2, { x: 49, y: 14 }, 'yellow', 'left', frames)
+     64|     expect(fb.indices[14 * 320 + 49]).toBe(20)
+       |                                       ^
+     65|     expect(fb.indices[14 * 320 + 55]).toBe(0)
+     66|   })
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯

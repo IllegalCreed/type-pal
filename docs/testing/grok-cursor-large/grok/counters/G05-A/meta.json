@@ -1,0 +1,33 @@
+{
+  "id": "G05-A",
+  "batch": "G05",
+  "axis": "已显示行的行距从 18 像素改成 19 像素",
+  "source": "packages/game/src/present/dialog-box.ts",
+  "testFile": "src/present/dialog-box-pixels.grok-r1.test.ts",
+  "target": "G05-A05",
+  "accepted": true,
+  "reasons": [],
+  "sha256": {
+    "original": "36edf232f7587a414fb5a3e85b864fbcdd8c396ddc21dbdf335d890e070a6b85",
+    "mutant": "db0fae78f3f3d1e24ff145d06953a87ef6b54a96898de1ed8a6afb7979fcac18",
+    "restored": "36edf232f7587a414fb5a3e85b864fbcdd8c396ddc21dbdf335d890e070a6b85"
+  },
+  "exitCode": {
+    "original": 0,
+    "mutant": 1,
+    "restored": 0
+  },
+  "signal": {
+    "original": null,
+    "mutant": null,
+    "restored": null
+  },
+  "counts": {
+    "original": 11,
+    "mutantFailed": 1,
+    "restored": 11
+  },
+  "assertionError": "AssertionError: expected +0 to be 26 // Object.is equality\n    at /private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/grok-r1-G05-A-E9fPVb/packages/game/src/present/dialog-box-pixels.grok-r1.test.ts:101:29\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64",
+  "fullName": "G05-A dialog 可见文字 G05-A05 已沉入的第二行在首行之下 18 像素，黄字与红字分行",
+  "names": 11
+}

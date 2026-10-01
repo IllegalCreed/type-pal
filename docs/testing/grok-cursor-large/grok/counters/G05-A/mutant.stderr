@@ -1,0 +1,21 @@
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/present/dialog-box-pixels.grok-r1.test.ts > G05-A dialog 可见文字 > G05-A05 已沉入的第二行在首行之下 18 像素，黄字与红字分行
+AssertionError: expected +0 to be 26 // Object.is equality
+
+- Expected
++ Received
+
+- 26
++ 0
+
+ ❯ src/present/dialog-box-pixels.grok-r1.test.ts:101:29
+     99|     appendDialogLine(state, '丙')
+    100|     drawDialogBox(fb, state, wide)
+    101|     expect(at(fb, 44, 144)).toBe(FONT_COLOR_RED)
+       |                             ^
+    102|     expect(at(fb, 44, 126)).toBe(FONT_COLOR_YELLOW)
+    103|   })
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯

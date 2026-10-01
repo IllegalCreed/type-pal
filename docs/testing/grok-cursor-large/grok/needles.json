@@ -158,5 +158,45 @@
     "testFile": "src/present/present-hold.grok-r1.test.ts",
     "target": "G04-D01",
     "axis": "suspendRaf 不再压过 blackScreenHold 的清屏"
+  },
+  {
+    "id": "G05-A",
+    "batch": "G05",
+    "source": "packages/game/src/present/dialog-box.ts",
+    "from": "      basePos.y + i * LINE_HEIGHT_PX,",
+    "to": "      basePos.y + i * (LINE_HEIGHT_PX + 1),",
+    "testFile": "src/present/dialog-box-pixels.grok-r1.test.ts",
+    "target": "G05-A05",
+    "axis": "已显示行的行距从 18 像素改成 19 像素"
+  },
+  {
+    "id": "G05-B",
+    "batch": "G05",
+    "source": "packages/game/src/present/font.ts",
+    "from": "throw new Error(`font: fetch glyphs.json failed (${res.status})`)",
+    "to": "throw new Error('font: fetch glyphs.json failed')",
+    "testFile": "src/present/font-width.grok-r1.test.ts",
+    "target": "G05-B08",
+    "axis": "字形清单失败的错误文本不再带 HTTP 状态码"
+  },
+  {
+    "id": "G05-C",
+    "batch": "G05",
+    "source": "packages/game/src/present/draw-number.ts",
+    "from": "    if (frame) {\n      blitDigitSprite(fb, frame, x, y)\n    }\n    x -= DIGIT_WIDTH",
+    "to": "    if (frame) {\n      blitDigitSprite(fb, frame, x, y)\n      x -= DIGIT_WIDTH\n    }",
+    "testFile": "src/present/draw-number-slots.grok-r1.test.ts",
+    "target": "G05-C03",
+    "axis": "缺帧时不再为这一位留出 6 像素"
+  },
+  {
+    "id": "G05-D",
+    "batch": "G05",
+    "source": "packages/game/src/present/dialog-box.ts",
+    "from": "ctx?.iconFrames?.get(state.iconKind ?? KEY_ICON_FRAME)",
+    "to": "ctx?.iconFrames?.get(KEY_ICON_FRAME)",
+    "testFile": "src/present/dialog-box-chrome.grok-r1.test.ts",
+    "target": "G05-D01",
+    "axis": "等键图标忽略右括号和左括号选出的帧号"
   }
 ]
