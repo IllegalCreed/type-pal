@@ -5,7 +5,7 @@
   "branch": "codex/glm-wave-q-runtime-residual-r1",
   "dispatchBase": "8b3ca062953b17a12178f8d1a9e36657971234b1",
   "productionFreeze": "3ac9a2e2f6aba8a5cc97640c18fef8549d199380",
-  "candidateHead": "ada23d3e (r3 测试候选树完整 SHA；其后仅 docs-only pin 提交回填本字段)",
+  "candidateHead": "9da8354dc6b1c68ee8aee42c66f577c93d38c2a6",
   "verifier": {
     "command": "node docs/testing/glm-tenfold-triple/verify-targets.mjs --wave Q --base 8b3ca062953b17a12178f8d1a9e36657971234b1",
     "frozenHashesValid": true,
@@ -35,13 +35,13 @@
     "diffCheck": "git diff --check 8b3ca062953b17a12178f8d1a9e36657971234b1...HEAD"
   },
   "results": {
-    "reforgeTest": "2150 passed（r3 最终串行复跑）",
-    "gameTest": "2788 passed（r3 最终串行复跑）",
-    "palExtractTest": "360 passed（基线 357 + 3 CLI 隔离实跑，默认超时门）",
-    "typechecks": "reforge/game/pal-extract 均 0 error（r3 复跑）",
-    "rootLint": "pnpm lint PASS — 2925 files; 0 errors / 0 warnings / 0 infos",
-    "docsCheck": "node scripts/docs/check.mjs PASS (815 Markdown / 4277 local links / 245 tasks, 0 issues)",
-    "diffCheck": "git diff --check <dispatch>...HEAD 干净（提交后复核）"
+    "reforgeTest": "2150 passed（r4 最终串行复跑）",
+    "gameTest": "2788 passed（r4 最终串行复跑）",
+    "palExtractTest": "360 passed（r4 最终串行复跑，默认超时门）",
+    "typechecks": "reforge/game/pal-extract 均 0 error（r4 复跑）",
+    "rootLint": "pnpm lint PASS — 2925 files; 0 errors / 0 warnings / 0 infos（r4 最终树复跑）",
+    "docsCheck": "PASS (815 Markdown / 4277 local links / 245 tasks, 0 issues；r4 复跑)",
+    "diffCheck": "git diff --check 8b3ca062...HEAD 干净（r4 提交后复核）"
   },
   "counterEvidence": "counters.json（39 全 VALID）+ counters/（每枚 meta/axis/patch/三态 json+txt）",
   "browserEvidence": "docs/testing/glm-tenfold-triple/wave-Q/browser-evidence/browser-evidence.json",
@@ -53,5 +53,5 @@
     "candidateHead 指向测试候选树 tip；其后的 docs-only pin 提交仅回填本字段，不改任何测试/产品文件。"
   ],
   "reworkRound": 3,
-  "candidateHeadNote": "r2 测试候选树完整 SHA；其后的 docs-only pin 提交仅回填本字段，不改测试/产品文件（r3 同口径）。"
+  "candidateHeadNote": "r4 口径：本字段为 r4 测试候选树的完整 40 位 SHA（9da8354dc6b1c68ee8aee42c66f577c93d38c2a6）；其后仅本 docs-only pin 提交回填本字段与 Note，不改任何测试/产品文件（r2/r3 同口径）。"
 }
