@@ -21,6 +21,7 @@
 | [TEST-GLM-WAVE-O-1 — 当前供应链、内容守卫与migrate门十倍测试包](TEST-GLM-WAVE-O-1-supply-validation-tenfold.md) | rework | 以任务卡当前准入与看板分工为准。 |
 | [TEST-GLM-WAVE-P-1 — Editor全域残余工作流十倍测试包](TEST-GLM-WAVE-P-1-editor-residual-tenfold.md) | rework | 以任务卡当前准入与看板分工为准。 |
 | [TEST-GLM-WAVE-Q-1 — 两阶段runtime与解码残余合同十倍测试包](TEST-GLM-WAVE-Q-1-runtime-residual-tenfold.md) | rework | 以任务卡当前准入与看板分工为准。 |
+| [TEST-GLM-ZCODE-DISPATCH-1 — ZCode 三路覆盖率补测持续调度](TEST-GLM-ZCODE-DISPATCH-1.md) | build | 以任务卡当前准入与看板分工为准。 |
 
 ## 已完成（historical）
 
