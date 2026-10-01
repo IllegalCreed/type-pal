@@ -1,142 +1,130 @@
 {
- "wave": "O",
- "card": "TEST-GLM-WAVE-O-1",
- "dispatchBase": "8b3ca062953b17a12178f8d1a9e36657971234b1",
- "productionFreeze": "3ac9a2e2f6aba8a5cc97640c18fef8549d199380",
- "deliveryStatus": "PARTIAL — 401/700 cases, 44/50 counters (rework round 2); O-01/02/03 closed; COMMON-01 continuing",
- "batches": {
-  "O01": {
-   "tests": 74,
-   "counters": 5,
-   "status": "done",
-   "files": [
-    "src/pal-current-publication.glm-o.test.ts",
-    "src/migration-transaction.glm-o.test.ts",
-    "src/__tests__/glm-o/supply-fixture.ts"
-   ]
+  "wave": "O",
+  "card": "TEST-GLM-WAVE-O-1",
+  "dispatchBase": "8b3ca062953b17a12178f8d1a9e36657971234b1",
+  "productionFreeze": "3ac9a2e2f6aba8a5cc97640c18fef8549d199380",
+  "deliveryStatus": "PARTIAL — 401/700 cases, 44/50 counters (rework round 2); O-01/02/03 closed; COMMON-01 continuing",
+  "batches": {
+    "O01": {
+      "tests": 74,
+      "counters": 5,
+      "status": "done",
+      "files": [
+        "src/pal-current-publication.glm-o.test.ts",
+        "src/migration-transaction.glm-o.test.ts",
+        "src/__tests__/glm-o/supply-fixture.ts"
+      ]
+    },
+    "O02": {
+      "tests": 65,
+      "counters": 5,
+      "status": "done",
+      "files": [
+        "src/migration-merge.glm-o.test.ts",
+        "src/migration-plan.glm-o.test.ts",
+        "src/migration-project-io.glm-o.test.ts"
+      ],
+      "defect": "DEFECT-O-1 mergePages sparse-hole guard (docs/.../defect-report.md)"
+    },
+    "O03": {
+      "tests": 31,
+      "counters": 5,
+      "status": "done",
+      "files": ["src/migration-write-plan.glm-o.test.ts", "src/pal-content-supply.glm-o.test.ts"]
+    },
+    "O04": {
+      "tests": 37,
+      "counters": 5,
+      "status": "done",
+      "files": ["src/pal-assets.glm-o.test.ts"]
+    },
+    "O05": {
+      "tests": 48,
+      "counters": 5,
+      "status": "done",
+      "files": ["src/pal-supply-guards.glm-o.test.ts", "src/pal-world-sprites.glm-o.test.ts"]
+    },
+    "O06": {
+      "tests": 56,
+      "counters": 7,
+      "status": "补齐（validate/refs/manifest/startWorld/sprites/locale + refs closure + 数据 guard 部分）",
+      "files": [
+        "../content/src/validate.glm-o.test.ts",
+        "../content/src/validate-refs.glm-o.test.ts",
+        "../content/src/data-guards.glm-o.test.ts"
+      ]
+    },
+    "O07": {
+      "tests": 35,
+      "counters": 3,
+      "status": "author-script-core 方言 + script 运行态安全/游标 + script-library 分片/命名空间",
+      "files": [
+        "../content/src/author-script-core.glm-o.test.ts",
+        "../content/src/script.glm-o.test.ts",
+        "../content/src/script-library.glm-o.test.ts"
+      ]
+    },
+    "O08": {
+      "tests": 16,
+      "counters": 2,
+      "status": "敌 AI 决策/公式状态（actor/item/poison 深域未完）",
+      "files": ["../content/src/enemy-ai.glm-o.test.ts"]
+    },
+    "O09": {
+      "tests": 58,
+      "counters": 4,
+      "status": "frame-sequence 编解码 + 数据 guard + small-guards（rich-text/locale 深域未完）",
+      "files": [
+        "../content/src/frame-sequence.glm-o.test.ts",
+        "../content/src/data-guards.glm-o.test.ts",
+        "../content/src/small-guards.glm-o.test.ts"
+      ]
+    },
+    "O10": {
+      "tests": 17,
+      "counters": 5,
+      "status": "shared RLE/YJ2（CLI 临时工程入口未完）",
+      "files": ["../shared/src/rle.glm-o.test.ts"]
+    }
   },
-  "O02": {
-   "tests": 65,
-   "counters": 5,
-   "status": "done",
-   "files": [
-    "src/migration-merge.glm-o.test.ts",
-    "src/migration-plan.glm-o.test.ts",
-    "src/migration-project-io.glm-o.test.ts"
-   ],
-   "defect": "DEFECT-O-1 mergePages sparse-hole guard (docs/.../defect-report.md)"
+  "totals": {
+    "newCases": 401,
+    "workGroups": "O01-O10（O06 补齐、O07/O08/O09/O10 部分）",
+    "validCounters": 44
   },
-  "O03": {
-   "tests": 31,
-   "counters": 5,
-   "status": "done",
-   "files": [
-    "src/migration-write-plan.glm-o.test.ts",
-    "src/pal-content-supply.glm-o.test.ts"
-   ]
+  "gates": {
+    "migrateFullTest": "pnpm --filter @type-pal/migrate test → exit 0，87 files / 706 tests（含既有 pal 项目真实语料）",
+    "contentFullTest": "pnpm --filter @type-pal/content test → exit 0，124 files / 1241 tests",
+    "migrateTypecheck": "exit 0（0 诊断）",
+    "contentTypecheck": "exit 0（0 诊断）",
+    "rootLint": "pnpm lint → PASS 2908 files; 0 errors / 0 warnings / 0 infos",
+    "docsCheck": "pnpm check:docs → 见 README 修复后复验",
+    "gitDiffCheck": "git diff --check 8b3ca062...HEAD → exit 0",
+    "verifier": "node verify-targets.mjs --wave O --base 8b3ca062… → exit 0（frozenHashesValid, ownerOverlap 0, 194 changed paths）",
+    "migrateCoverageGate": {
+      "statements": "1879→2164/2615（71.855%→82.753%，旧比率 77.246% 已反超）",
+      "branches": "1368→1530/1814（75.413%→84.344%，旧 75.667% 已反超）",
+      "lines": "1643→1885/2286（71.872%→82.458%，旧 78.663% 已反超）",
+      "note": "同分母（fast 口径），delta 见 coverage-delta.json；官方 baseline 未触碰"
+    }
   },
-  "O04": {
-   "tests": 37,
-   "counters": 5,
-   "status": "done",
-   "files": [
-    "src/pal-assets.glm-o.test.ts"
-   ]
+  "environmentNotes": [
+    "worktree 通过 symlink 引入主仓 gitignored data/extracted 真实语料（只读）；projects/pal/assets 未改动"
+  ],
+  "evidence": [
+    "directed-vitest.json",
+    "coverage-delta.json",
+    "counters.json",
+    "counters/（30 组 spec/正控/注入 JSON+patch+三态 hash）",
+    "defect-report.md"
+  ],
+  "candidateHead": "21cc359e4c6dede69c19f4fa8ecf7e3fdb46b7ea",
+  "reworkFixes": {
+    "O-01": "lint 四 JSON 与六 mutation.patch 已清零：JSON 全部过 Biome；patch 重生为 --unidiff-zero 零上下文并做 apply 重建自校验；git diff --check 0",
+    "O-02": "17 处 as never/as unknown as 桥清零：plan/write-plan/transaction/publication/sprites/guards 全部改 typed 合法 fixture（validateAuthorItems/validateAuthorScenes 守卫返回、convertSourceTilemap 真形、legalManifest、PoisonDef/EnemyStats 全字段）；不可构造轴（缺 expectedPreviousHash、journal preconditions 非数组等）改经真实 unknown/JSON 域或登记 unreachable",
+    "O-03": "contracts 账以 counters.json+directed-vitest.json+每 counter 三态 JSON/raw 落盘；run-counter.mjs 增加 restored 阶段真实恢复执行 + --unidiff-zero patch 重建自校验；44 枚全部 control 全绿/injected 恰一业务红/restored 全绿",
+    "DEFECT-O-1": "降级为疑似 generic-JSON 问题（缺 canonical caller 证据），不修产品；停测轴保留"
   },
-  "O05": {
-   "tests": 48,
-   "counters": 5,
-   "status": "done",
-   "files": [
-    "src/pal-supply-guards.glm-o.test.ts",
-    "src/pal-world-sprites.glm-o.test.ts"
-   ]
-  },
-  "O06": {
-   "tests": 56,
-   "counters": 7,
-   "status": "补齐（validate/refs/manifest/startWorld/sprites/locale + refs closure + 数据 guard 部分）",
-   "files": [
-    "../content/src/validate.glm-o.test.ts",
-    "../content/src/validate-refs.glm-o.test.ts",
-    "../content/src/data-guards.glm-o.test.ts"
-   ]
-  },
-  "O07": {
-   "tests": 35,
-   "counters": 3,
-   "status": "author-script-core 方言 + script 运行态安全/游标 + script-library 分片/命名空间",
-   "files": [
-    "../content/src/author-script-core.glm-o.test.ts",
-    "../content/src/script.glm-o.test.ts",
-    "../content/src/script-library.glm-o.test.ts"
-   ]
-  },
-  "O08": {
-   "tests": 16,
-   "counters": 2,
-   "status": "敌 AI 决策/公式状态（actor/item/poison 深域未完）",
-   "files": [
-    "../content/src/enemy-ai.glm-o.test.ts"
-   ]
-  },
-  "O09": {
-   "tests": 58,
-   "counters": 4,
-   "status": "frame-sequence 编解码 + 数据 guard + small-guards（rich-text/locale 深域未完）",
-   "files": [
-    "../content/src/frame-sequence.glm-o.test.ts",
-    "../content/src/data-guards.glm-o.test.ts",
-    "../content/src/small-guards.glm-o.test.ts"
-   ]
-  },
-  "O10": {
-   "tests": 17,
-   "counters": 5,
-   "status": "shared RLE/YJ2（CLI 临时工程入口未完）",
-   "files": [
-    "../shared/src/rle.glm-o.test.ts"
-   ]
-  }
- },
- "totals": {
-  "newCases": 401,
-  "workGroups": "O01-O10（O06 补齐、O07/O08/O09/O10 部分）",
-  "validCounters": 44
- },
- "gates": {
-  "migrateFullTest": "pnpm --filter @type-pal/migrate test → exit 0，87 files / 706 tests（含既有 pal 项目真实语料）",
-  "contentFullTest": "pnpm --filter @type-pal/content test → exit 0，124 files / 1241 tests",
-  "migrateTypecheck": "exit 0（0 诊断）",
-  "contentTypecheck": "exit 0（0 诊断）",
-  "rootLint": "pnpm lint → PASS 2908 files; 0 errors / 0 warnings / 0 infos",
-  "docsCheck": "pnpm check:docs → 见 README 修复后复验",
-  "gitDiffCheck": "git diff --check 8b3ca062...HEAD → exit 0",
-  "verifier": "node verify-targets.mjs --wave O --base 8b3ca062… → exit 0（frozenHashesValid, ownerOverlap 0, 194 changed paths）",
-  "migrateCoverageGate": {
-   "statements": "1879→2164/2615（71.855%→82.753%，旧比率 77.246% 已反超）",
-   "branches": "1368→1530/1814（75.413%→84.344%，旧 75.667% 已反超）",
-   "lines": "1643→1885/2286（71.872%→82.458%，旧 78.663% 已反超）",
-   "note": "同分母（fast 口径），delta 见 coverage-delta.json；官方 baseline 未触碰"
-  }
- },
- "environmentNotes": [
-  "worktree 通过 symlink 引入主仓 gitignored data/extracted 真实语料（只读）；projects/pal/assets 未改动"
- ],
- "evidence": [
-  "directed-vitest.json",
-  "coverage-delta.json",
-  "counters.json",
-  "counters/（30 组 spec/正控/注入 JSON+patch+三态 hash）",
-  "defect-report.md"
- ],
- "candidateHead": "21cc359e4c6dede69c19f4fa8ecf7e3fdb46b7ea",
- "reworkFixes": {
-  "O-01": "lint 四 JSON 与六 mutation.patch 已清零：JSON 全部过 Biome；patch 重生为 --unidiff-zero 零上下文并做 apply 重建自校验；git diff --check 0",
-  "O-02": "17 处 as never/as unknown as 桥清零：plan/write-plan/transaction/publication/sprites/guards 全部改 typed 合法 fixture（validateAuthorItems/validateAuthorScenes 守卫返回、convertSourceTilemap 真形、legalManifest、PoisonDef/EnemyStats 全字段）；不可构造轴（缺 expectedPreviousHash、journal preconditions 非数组等）改经真实 unknown/JSON 域或登记 unreachable",
-  "O-03": "contracts 账以 counters.json+directed-vitest.json+每 counter 三态 JSON/raw 落盘；run-counter.mjs 增加 restored 阶段真实恢复执行 + --unidiff-zero patch 重建自校验；44 枚全部 control 全绿/injected 恰一业务红/restored 全绿",
-  "DEFECT-O-1": "降级为疑似 generic-JSON 问题（缺 canonical caller 证据），不修产品；停测轴保留"
- },
- "headNote": "21cc359e 为最终测试/证据锚点；其后至远端候选 057b39b6 仅 receipt/README 文档维护（无测试或产品改动）",
- "remoteFinalCandidate": "057b39b6d3c973a94f3172e1a9dd3957fd8f3767"
+  "headNote": "21cc359e 为最终测试/证据锚点；其后至远端候选 057b39b6 仅 receipt/README 文档维护（无测试或产品改动）",
+  "remoteFinalCandidate": "057b39b6d3c973a94f3172e1a9dd3957fd8f3767"
 }

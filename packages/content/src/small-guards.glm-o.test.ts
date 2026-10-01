@@ -3,7 +3,7 @@
  *  validate-runtime 各自覆盖主干；本卡按 gap-map 直击未覆盖臂。
  */
 
-import type { ActorDef, ItemData, ShopDef, WorldState } from '@type-pal/content'
+import type { ActorDef, Command, ItemData, ShopDef, WorldState } from '@type-pal/content'
 import { describe, expect, test } from 'vitest'
 import { resolveDialogueIdentity } from './author-dialogue.js'
 import { buildWorld, instantiate } from './character.js'
@@ -17,6 +17,7 @@ import { validateRuntimeScenes } from './validate-runtime.js'
 const world = (over: Partial<WorldState> = {}): WorldState =>
   ({
     party: [],
+    learnedSkills: {},
     inventory: [{ itemId: 'i1', count: 2 }],
     money: 100,
     ...over,
@@ -179,7 +180,7 @@ describe('O09 resolveDialogueIdentity / collectCommandTargetReferences', () => {
   })
 
   test('loadScene 命令收集目标场景引用', () => {
-    const command = { kind: 'loadScene', scene: 's-target', entryId: 'default' } as never
+    const command: Command = { kind: 'loadScene', scene: 's-target', entryId: 'default' }
     const refs = collectCommandTargetReferences(command, 'p')
     expect(refs.length).toBeGreaterThan(0)
     expect(JSON.stringify(refs)).toContain('s-target')
@@ -216,16 +217,36 @@ describe('O09 buildWorld / instantiate：实例域边界', () => {
     expect(hero.hp).toBe(150)
   })
 
-  test('buildWorld：入口 party 引用未知 actor → 拒绝', () => {
+  test('buildWorld：入口 party 引用缺失 actor → 精确 missing-actor 诊断', () => {
+    // actorsById 只含 hero（真实合法表）；ghost 是真正缺键。
     expect(() =>
       buildWorld(
+        { party: ['ghost'], money: 0, inventory: [] },
         {
-          party: ['ghost'],
-          money: 0,
-          inventory: [],
-        } as never,
-        { ghost: { id: 'x', name: 'x', spriteId: 's' } } as never,
+          hero: {
+            id: 'hero',
+            name: 'name.hero',
+            spriteId: 'hero-sprite',
+            battler: {
+              baseStats: {
+                level: 1,
+                hp: 100,
+                maxHP: 100,
+                mp: 30,
+                maxMP: 30,
+                attack: 10,
+                defense: 10,
+                magicAttack: 10,
+                speed: 10,
+                luck: 10,
+              },
+              initialEquipment: {},
+              initialMagic: [],
+              battleSprite: 'hero-battle',
+            },
+          },
+        },
       ),
-    ).toThrow()
+    ).toThrow('buildWorld: 角色 "ghost" 不在 actors 表')
   })
 })

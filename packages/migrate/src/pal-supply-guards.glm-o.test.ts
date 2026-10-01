@@ -86,7 +86,7 @@ describe('O05 applyPalItemOverlays：隐蛊与 puppet 轴', () => {
       use: {
         target: 'oneAlly',
         consuming: true,
-        effects: [{ kind: 'increaseHpMp', delta: 50 } as never],
+        effects: [{ kind: 'healHp', amount: 50 }],
       },
     })
     const [out] = applyPalItemOverlays([plain])

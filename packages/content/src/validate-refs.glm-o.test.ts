@@ -95,13 +95,12 @@ const skill = (id: string, over: Partial<SkillData> = {}): SkillData =>
     ...over,
   }) as SkillData
 
-const poison = (id: number): PoisonDef =>
-  ({
-    id,
-    name: `poison.${id}`,
-    curability: 'normal',
-    color: 0,
-  }) as unknown as PoisonDef
+const poison = (id: number): PoisonDef => ({
+  id,
+  name: `poison.${id}`,
+  curability: 'common',
+  color: 0,
+})
 
 const enemy = (id: string, over: Partial<EnemyDef> = {}): EnemyDef => ({
   id,

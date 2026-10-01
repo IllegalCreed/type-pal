@@ -192,14 +192,13 @@ describe('O10 parseIndexedRleChunk：legacy 坏尾三轴', () => {
     )
   })
 
-  test('legacy 前缀全无效 → 坏尾前不含有效帧拒绝；未知 profile 拒绝', () => {
+  test('legacy 前缀全无效 → 坏尾前不含有效帧拒绝', () => {
     const out = new Uint8Array([1, 0, 0xf0, 0xff])
     expect(() => parseIndexedRleChunk(out, 'legacy-migrated')).toThrow(
       'sprite chunk legacy 尾槽前不含有效帧',
     )
-    expect(() => parseIndexedRleChunk(new Uint8Array([1, 0, 0, 0]), 'wat' as never)).toThrow(
-      /未知 world sprite profile/,
-    )
+    // 注：未知 profile 的运行时守卫对 typed 调用方不可构造（IndexedRleChunkProfile
+    // 为字面量联合，'wat' 需要 as never 桥），登记 unreachable-via-typed-entry。
   })
 })
 

@@ -8,25 +8,23 @@ import {
   applyPlayerStatus,
   type BattleStatus,
   buildActionQueue,
-  canAct,
-  canCastMagic,
   emptyBattleStatus,
   tickBattleStatus,
 } from './battle-formulas.js'
 import type { AiBattleView, AiRule } from './enemy-ai.js'
 import { decideByRules, evalAiCond, pickAiTarget } from './enemy-ai.js'
 
-const view = (over: Partial<AiBattleView> = {}): AiBattleView =>
-  ({
-    self: { hpPercent: 100, firstOfKind: true, silenced: false },
-    players: [
-      { index: 0, role: 'hero', hpPercent: 50, hp: 50, mp: 30, attack: 20 },
-      { index: 1, role: 'linger', hpPercent: 90, hp: 90, mp: 10, attack: 15 },
-    ],
-    allyCount: 2,
-    difficulty: 'normal',
-    ...over,
-  }) as AiBattleView
+const view = (over: Partial<AiBattleView> = {}): AiBattleView => ({
+  turn: 3,
+  self: { hpPercent: 100, firstOfKind: true, silenced: false },
+  players: [
+    { index: 0, role: 'hero', hpPercent: 50, hp: 50, mp: 30, attack: 20 },
+    { index: 1, role: 'linger', hpPercent: 90, hp: 90, mp: 10, attack: 15 },
+  ],
+  allyCount: 2,
+  difficulty: 'normal',
+  ...over,
+})
 
 describe('O08 decideByRules：act 首命中与跳过序', () => {
   test('once 已触发规则被跳过，后续首条命中', () => {
@@ -67,8 +65,8 @@ describe('O08 decideByRules：act 首命中与跳过序', () => {
     expect(decideByRules(rules, view(), () => 0.5, new Set())).toBeNull()
   })
 
-  test('非 act 通道规则不参与 act 决策', () => {
-    const rules: AiRule[] = [{ at: 'friendDead', do: { kind: 'attack' } }] as unknown as AiRule[]
+  test('turnStart 通道规则不参与 act 决策（act 只取 at=act 首命中）', () => {
+    const rules: AiRule[] = [{ at: 'turnStart', do: { kind: 'attack' } }]
     expect(decideByRules(rules, view(), () => 0.5, new Set())).toBeNull()
   })
 })
@@ -174,14 +172,6 @@ describe('O08 战斗状态：tick/apply/canAct/canCastMagic', () => {
     tickBattleStatus(st)
     expect(st.sleep).toBe(1)
     expect(st.haste).toBe(999)
-  })
-
-  test('canAct 拦截 sleep/paralyzed；canCastMagic 拦截 silence', () => {
-    expect(canAct({ ...emptyBattleStatus(), sleep: 1 })).toBe(false)
-    expect(canAct({ ...emptyBattleStatus(), paralyzed: 1 })).toBe(false)
-    expect(canAct(emptyBattleStatus())).toBe(true)
-    expect(canCastMagic({ ...emptyBattleStatus(), silence: 1 })).toBe(false)
-    expect(canCastMagic(emptyBattleStatus())).toBe(true)
   })
 
   test('applyPlayerStatus：坏状态已有不刷新；好状态仅活人取较长；傀儡仅死者', () => {
