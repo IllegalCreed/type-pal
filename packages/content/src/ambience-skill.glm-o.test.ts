@@ -18,33 +18,17 @@ describe('O09 resolveAmbienceTint：day/缺表/自定义白天', () => {
     { id: 'day', name: '昼', tint: [250, 244, 210] },
   ]
 
-  test('缺 id / day 无自定义 / 未知 id → 恒等乘色', () => {
-    expect(resolveAmbienceTint(undefined, ambiences)).toEqual(AMBIENCE_IDENTITY)
-    // day 存在自定义定义 → 用它；day 不在表 → 恒等。
-    expect(resolveAmbienceTint('day', ambiences)).toEqual([250, 244, 210])
-    expect(resolveAmbienceTint('day', [])).toEqual(AMBIENCE_IDENTITY)
-    expect(resolveAmbienceTint('ghost', ambiences)).toEqual(AMBIENCE_IDENTITY)
-  })
+  // 以下四轴已由旧 ambience.test.ts:16-45 同条件同答案直接覆盖，按 O-R9-03 审核
+  // 登记 existing-proof 扣除（不计净新）：缺 id/未知 id/空表恒等兜底、day 自定义覆写、
+  // 非 day 命中表乘色、isIdentityTint 恒等判定。仅保留“非整数四舍五入”真实新轴（旧中点全整数）。
 
-  test('非 day id 命中表 → 表乘色', () => {
-    expect(resolveAmbienceTint('night', ambiences)).toEqual([120, 130, 200])
-  })
 
-  test('isIdentityTint：≥254 三分量判恒等（含 255 恒等常量）', () => {
-    expect(isIdentityTint([255, 255, 255])).toBe(true)
-    expect(isIdentityTint([254, 255, 254])).toBe(true)
-    expect(isIdentityTint([253, 255, 255])).toBe(false)
-  })
 })
 
 describe('O09 lerpTint：t 夹取与分量四舍五入', () => {
-  test('t<0 取 from、t>1 取 to、t∈[0,1] 线性', () => {
-    expect(lerpTint([0, 0, 0], [100, 200, 50], -1)).toEqual([0, 0, 0])
-    expect(lerpTint([0, 0, 0], [100, 200, 50], 2)).toEqual([100, 200, 50])
-    expect(lerpTint([0, 0, 0], [100, 200, 50], 0.5)).toEqual([50, 100, 25])
-  })
+  // 上下界夹取与整数中点已由旧 ambience.test.ts:38-45 覆盖（existing-proof 扣除）。
 
-  test('非整数结果按分量四舍五入', () => {
+  test('非整数结果按分量四舍五入（旧中点全整数的真实新轴）', () => {
     expect(lerpTint([0, 0, 0], [101, 103, 105], 0.5)).toEqual([51, 52, 53])
     expect(lerpTint([10, 10, 10], [15, 15, 15], 0.5)).toEqual([13, 13, 13])
   })
