@@ -1,8 +1,8 @@
 {
-  "batch": "G06",
-  "count": 229,
-  "batchCount": 48,
-  "cumulativeNewContracts": 229,
+  "batch": "G07",
+  "count": 276,
+  "batchCount": 47,
+  "cumulativeNewContracts": 276,
   "target": 400,
   "contracts": [
     {
@@ -12493,6 +12493,2593 @@
         "fullName": "G06-D 状态数值与毒 G06-D15 没有立绘表时头像位保持底色，角色名仍是确认色",
         "status": "passed"
       }
+    },
+    {
+      "id": "G07-A01",
+      "batch": "G07",
+      "group": "G07-A",
+      "primarySource": {
+        "file": "packages/game/src/present/menu/draw-magic.ts",
+        "conditionLine": 176,
+        "condition": "选人框行数取 Math.max(1, partyMembers.length - 1)，一人时仍是 1 行，底边落在 y=78（draw-magic.ts:176）"
+      },
+      "caller": {
+        "file": "packages/game/src/present/menu/draw-menu.ts",
+        "line": 200,
+        "expr": "drawInGameMagicMenu({ fb, state: entry.state as InGameMagicMenuState, gs, playerRoles: extra.playerRoles, spells: extra.spells, magics: extra.magics, uiSpriteFrames, glyphs })"
+      },
+      "legalInput": "手写 phase 为 pick-caster、partyMembers 为 [4]。createInGameMagicMenu 在人数为 1 时会跳过选人阶段，这里直接给合法的 InGameMagicMenuState。底色 90，freezeNow(0)。",
+      "oldTest": {
+        "sha": "51fdff9b96a176b6eaa90179f93670060ae83710",
+        "file": "packages/game/src/present/__tests__/grok-present/p06-magic.test.ts",
+        "fullName": "P06 仙术页 P06 施法者阶段按队伍顺序画两人不同HP",
+        "assertionLine": 134,
+        "matcher": "toBe",
+        "checked": "两人时戊的体力个位是黄 2",
+        "distinct": "旧断言是两人不同体力；一人时选人框底边 (35,78) 仍是 17，(35,86) 保持 90"
+      },
+      "file": "packages/game/src/present/menu/magic-menu-pixels.grok-r1.test.ts",
+      "fullName": "G07-A 仙术菜单像素 G07-A01 选人阶段只有一人时仍画出一行内容框，底边在 y=78",
+      "assertions": [
+        {
+          "line": 162,
+          "endLine": 162,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 163,
+          "endLine": 163,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 164,
+          "endLine": 164,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 165,
+          "endLine": 165,
+          "matchers": ["toEqual"]
+        }
+      ],
+      "axis": "boundary",
+      "oracle": {
+        "operands": "(35,78)、(35,86)、戊的亮点，以及绘制前后的输入",
+        "matcher": "toBe / toEqual",
+        "exact": "(35,78) 为 17；(35,86) 为 90；戊为 249；cloneInputs 前后相等"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/present/menu/magic-menu-pixels.grok-r1.test.ts",
+        "fullName": "G07-A 仙术菜单像素 G07-A01 选人阶段只有一人时仍画出一行内容框，底边在 y=78",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G07-A02",
+      "batch": "G07",
+      "group": "G07-A",
+      "primarySource": {
+        "file": "packages/game/src/present/menu/draw-magic.ts",
+        "conditionLine": 253,
+        "condition": "说明第 i 行画在 y=3+i*16，第二条因此在 y=19（draw-magic.ts:253）"
+      },
+      "caller": {
+        "file": "packages/game/src/present/menu/draw-menu.ts",
+        "line": 200,
+        "expr": "drawInGameMagicMenu({ fb, state: entry.state as InGameMagicMenuState, gs, playerRoles: extra.playerRoles, spells: extra.spells, magics: extra.magics, uiSpriteFrames, glyphs })"
+      },
+      "legalInput": "两人、pick-spell。全局脚本先 showDialog 诀，再 showDialog 雷。选中仙术的 scriptDesc 指向该脚本。",
+      "oldTest": {
+        "sha": "51fdff9b96a176b6eaa90179f93670060ae83710",
+        "file": "packages/game/src/present/__tests__/grok-present/p06-magic.test.ts",
+        "fullName": "P06 仙术页 P06 仙术页区分MP够与不够，并画出说明和现行MP",
+        "assertionLine": 199,
+        "matcher": "toBe",
+        "checked": "第一条说明诀在 (102,3) 是 60",
+        "distinct": "旧断言只锁第一条；第二条雷在 (102,19) 也是 60，(102,3) 的第二字横坐标保持 90"
+      },
+      "file": "packages/game/src/present/menu/magic-menu-pixels.grok-r1.test.ts",
+      "fullName": "G07-A 仙术菜单像素 G07-A02 第二条仙术说明在 y=19，第一条仍在 y=3",
+      "assertions": [
+        {
+          "line": 199,
+          "endLine": 199,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 200,
+          "endLine": 200,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 201,
+          "endLine": 201,
+          "matchers": ["toBe"]
+        }
+      ],
+      "axis": "positive",
+      "oracle": {
+        "operands": "第二条雷、第一条诀，以及第二条横坐标落在 y=3 的点",
+        "matcher": "toBe",
+        "exact": "(102,19) 与 (102,3) 为 60；第二条横坐标在 y=3 为 90"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/present/menu/magic-menu-pixels.grok-r1.test.ts",
+        "fullName": "G07-A 仙术菜单像素 G07-A02 第二条仙术说明在 y=19，第一条仍在 y=3",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G07-A03",
+      "batch": "G07",
+      "group": "G07-A",
+      "primarySource": {
+        "file": "packages/game/src/present/menu/draw-magic.ts",
+        "conditionLine": 132,
+        "condition": "头像帧存在才 blit 到 (x-2,y-4)；缺帧则头像位不动（draw-magic.ts:132）"
+      },
+      "caller": {
+        "file": "packages/game/src/present/menu/draw-menu.ts",
+        "line": 200,
+        "expr": "drawInGameMagicMenu({ fb, state: entry.state as InGameMagicMenuState, gs, playerRoles: extra.playerRoles, spells: extra.spells, magics: extra.magics, uiSpriteFrames, glyphs })"
+      },
+      "legalInput": "pick-spell，队伍 [4,5]。uiSpriteFrames 去掉下标 52。体力运行时为 12。",
+      "oldTest": {
+        "sha": "51fdff9b96a176b6eaa90179f93670060ae83710",
+        "file": "packages/game/src/present/__tests__/grok-present/p06-magic.test.ts",
+        "fullName": "P06 仙术页 P06 施法者阶段按队伍顺序画两人不同HP",
+        "assertionLine": 134,
+        "matcher": "toBe",
+        "checked": "有头像帧时体力个位是黄 2",
+        "distinct": "旧断言不取下头像帧；(43,161) 保持 90，体力个位仍是 178"
+      },
+      "file": "packages/game/src/present/menu/magic-menu-pixels.grok-r1.test.ts",
+      "fullName": "G07-A 仙术菜单像素 G07-A03 缺少头像帧时头像位保持底色，体力个位仍画出",
+      "assertions": [
+        {
+          "line": 228,
+          "endLine": 228,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 229,
+          "endLine": 229,
+          "matchers": ["toBe"]
+        }
+      ],
+      "axis": "exception",
+      "oracle": {
+        "operands": "(43,161) 与体力个位 (89,170)",
+        "matcher": "toBe",
+        "exact": "(43,161) 为 90；体力个位为 178"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/present/menu/magic-menu-pixels.grok-r1.test.ts",
+        "fullName": "G07-A 仙术菜单像素 G07-A03 缺少头像帧时头像位保持底色，体力个位仍画出",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G07-A04",
+      "batch": "G07",
+      "group": "G07-A",
+      "primarySource": {
+        "file": "packages/game/src/present/menu/draw-magic.ts",
+        "conditionLine": 141,
+        "condition": "斜杠帧存在才画在体力旁 (x+49,y+6)；缺帧则该位不动（draw-magic.ts:141）"
+      },
+      "caller": {
+        "file": "packages/game/src/present/menu/draw-menu.ts",
+        "line": 200,
+        "expr": "drawInGameMagicMenu({ fb, state: entry.state as InGameMagicMenuState, gs, playerRoles: extra.playerRoles, spells: extra.spells, magics: extra.magics, uiSpriteFrames, glyphs })"
+      },
+      "legalInput": "pick-spell，队伍 [4,5]。去掉下标 39。体力 12。",
+      "oldTest": {
+        "sha": "51fdff9b96a176b6eaa90179f93670060ae83710",
+        "file": "packages/game/src/present/__tests__/grok-present/p06-magic.test.ts",
+        "fullName": "P06 仙术页 P06 施法者阶段按队伍顺序画两人不同HP",
+        "assertionLine": 134,
+        "matcher": "toBe",
+        "checked": "斜杠帧在时体力个位是黄 2",
+        "distinct": "旧断言不取下斜杠帧；(94,171) 为 90 且不是 57，体力个位仍是 178"
+      },
+      "file": "packages/game/src/present/menu/magic-menu-pixels.grok-r1.test.ts",
+      "fullName": "G07-A 仙术菜单像素 G07-A04 缺少斜杠帧时斜杠位保持底色，体力个位仍画出",
+      "assertions": [
+        {
+          "line": 255,
+          "endLine": 255,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 256,
+          "endLine": 256,
+          "matchers": ["not.toBe"]
+        },
+        {
+          "line": 257,
+          "endLine": 257,
+          "matchers": ["toBe"]
+        }
+      ],
+      "axis": "exception",
+      "oracle": {
+        "operands": "(94,171) 与体力个位",
+        "matcher": "toBe / not.toBe",
+        "exact": "(94,171) 为 90，不是 57；体力个位为 178"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/present/menu/magic-menu-pixels.grok-r1.test.ts",
+        "fullName": "G07-A 仙术菜单像素 G07-A04 缺少斜杠帧时斜杠位保持底色，体力个位仍画出",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G07-A05",
+      "batch": "G07",
+      "group": "G07-A",
+      "primarySource": {
+        "file": "packages/game/src/present/menu/draw-magic.ts",
+        "conditionLine": 317,
+        "condition": "上箭头帧缺失时目标光标函数直接返回，不写 (75,158)（draw-magic.ts:317）"
+      },
+      "caller": {
+        "file": "packages/game/src/present/menu/draw-menu.ts",
+        "line": 200,
+        "expr": "drawInGameMagicMenu({ fb, state: entry.state as InGameMagicMenuState, gs, playerRoles: extra.playerRoles, spells: extra.spells, magics: extra.magics, uiSpriteFrames, glyphs })"
+      },
+      "legalInput": "phase 为 pick-target，去掉下标 67。仙术名甲仍在格子上。",
+      "oldTest": {
+        "sha": "51fdff9b96a176b6eaa90179f93670060ae83710",
+        "file": "packages/game/src/present/__tests__/grok-present/p06-magic.test.ts",
+        "fullName": "P06 仙术页 P06 翻页后左上格换成后页仙术，目标阶段光标按队员移动",
+        "assertionLine": 279,
+        "matcher": "toBe",
+        "checked": "有帧时 (75,158) 是上箭头 103",
+        "distinct": "旧断言帧在场；(75,158) 保持 90，仙术名仍是 249"
+      },
+      "file": "packages/game/src/present/menu/magic-menu-pixels.grok-r1.test.ts",
+      "fullName": "G07-A 仙术菜单像素 G07-A05 缺少上箭头帧时目标光标位保持底色，仙术名仍画出",
+      "assertions": [
+        {
+          "line": 285,
+          "endLine": 285,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 286,
+          "endLine": 286,
+          "matchers": ["toBe"]
+        }
+      ],
+      "axis": "exception",
+      "oracle": {
+        "operands": "(75,158) 与仙术名亮点",
+        "matcher": "toBe",
+        "exact": "(75,158) 为 90；仙术名为 249"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/present/menu/magic-menu-pixels.grok-r1.test.ts",
+        "fullName": "G07-A 仙术菜单像素 G07-A05 缺少上箭头帧时目标光标位保持底色，仙术名仍画出",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G07-A06",
+      "batch": "G07",
+      "group": "G07-A",
+      "primarySource": {
+        "file": "packages/game/src/present/menu/draw-magic.ts",
+        "conditionLine": 226,
+        "condition": "未选定施法人时不进入顶部真气框（draw-magic.ts:226）"
+      },
+      "caller": {
+        "file": "packages/game/src/present/menu/draw-menu.ts",
+        "line": 200,
+        "expr": "drawInGameMagicMenu({ fb, state: entry.state as InGameMagicMenuState, gs, playerRoles: extra.playerRoles, spells: extra.spells, magics: extra.magics, uiSpriteFrames, glyphs })"
+      },
+      "legalInput": "pick-spell，selectedCasterId 为 undefined，spellMenu 仍有甲。",
+      "oldTest": {
+        "sha": "51fdff9b96a176b6eaa90179f93670060ae83710",
+        "file": "packages/game/src/present/__tests__/grok-present/p06-magic.test.ts",
+        "fullName": "P06 仙术页 P06 仙术页区分MP够与不够，并画出说明和现行MP",
+        "assertionLine": 200,
+        "matcher": "toBe",
+        "checked": "已选定施法人时需要真气个位是黄 8",
+        "distinct": "旧断言画了需要真气；(33,14) 保持 90，不是黄 0，仙术名仍是 249"
+      },
+      "file": "packages/game/src/present/menu/magic-menu-pixels.grok-r1.test.ts",
+      "fullName": "G07-A 仙术菜单像素 G07-A06 未选定施法人时不画顶部真气，仙术名仍画出",
+      "assertions": [
+        {
+          "line": 314,
+          "endLine": 314,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 315,
+          "endLine": 315,
+          "matchers": ["not.toBe"]
+        },
+        {
+          "line": 316,
+          "endLine": 316,
+          "matchers": ["toBe"]
+        }
+      ],
+      "axis": "boundary",
+      "oracle": {
+        "operands": "(33,14) 与仙术名",
+        "matcher": "toBe / not.toBe",
+        "exact": "(33,14) 为 90，不是 176；仙术名为 249"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/present/menu/magic-menu-pixels.grok-r1.test.ts",
+        "fullName": "G07-A 仙术菜单像素 G07-A06 未选定施法人时不画顶部真气，仙术名仍画出",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G07-A07",
+      "batch": "G07",
+      "group": "G07-A",
+      "primarySource": {
+        "file": "packages/game/src/present/menu/draw-magic.ts",
+        "conditionLine": 231,
+        "condition": "法术目录没有对应 magic 时需要真气按 0 画，现行真气仍读运行时（draw-magic.ts:231）"
+      },
+      "caller": {
+        "file": "packages/game/src/present/menu/draw-menu.ts",
+        "line": 200,
+        "expr": "drawInGameMagicMenu({ fb, state: entry.state as InGameMagicMenuState, gs, playerRoles: extra.playerRoles, spells: extra.spells, magics: extra.magics, uiSpriteFrames, glyphs })"
+      },
+      "legalInput": "仙术 magicNumber 为 9，magics 里没有 id 9。施法人运行时真气为 6。",
+      "oldTest": {
+        "sha": "6ada0032e51b7286636202c07b9e0dfab744e414",
+        "file": "packages/game/src/present/menu/draw-magic.glm-phase1-leaves.test.ts",
+        "fullName": "L10 drawInGameMagicMenu 剩余分支 空法术表：只画 grid 框，不画条目不抛错；MP 框 needed 0",
+        "assertionLine": 228,
+        "matcher": "toBe",
+        "checked": "空表时 (33,14) 是黄 0",
+        "distinct": "旧断言没有仙术条目；这里名字仍是 249，需要真气为 176，现行真气为 118"
+      },
+      "file": "packages/game/src/present/menu/magic-menu-pixels.grok-r1.test.ts",
+      "fullName": "G07-A 仙术菜单像素 G07-A07 法术目录没有对应 magic 时需要真气画成黄 0，现行真气仍是青 6",
+      "assertions": [
+        {
+          "line": 344,
+          "endLine": 344,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 345,
+          "endLine": 345,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 346,
+          "endLine": 346,
+          "matchers": ["toBe"]
+        }
+      ],
+      "axis": "boundary",
+      "oracle": {
+        "operands": "需要真气个位、现行真气个位、仙术名",
+        "matcher": "toBe",
+        "exact": "(33,14) 为 176；(68,14) 为 118；仙术名为 249"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/present/menu/magic-menu-pixels.grok-r1.test.ts",
+        "fullName": "G07-A 仙术菜单像素 G07-A07 法术目录没有对应 magic 时需要真气画成黄 0，现行真气仍是青 6",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G07-A08",
+      "batch": "G07",
+      "group": "G07-A",
+      "primarySource": {
+        "file": "packages/game/src/present/menu/draw-magic.ts",
+        "conditionLine": 297,
+        "condition": "格子第 k 列的 x 是 35+k*87，第三列因此在 x=209（draw-magic.ts:297）"
+      },
+      "caller": {
+        "file": "packages/game/src/present/menu/draw-menu.ts",
+        "line": 200,
+        "expr": "drawInGameMagicMenu({ fb, state: entry.state as InGameMagicMenuState, gs, playerRoles: extra.playerRoles, spells: extra.spells, magics: extra.magics, uiSpriteFrames, glyphs })"
+      },
+      "legalInput": "三道仙术甲乙丙，光标在第一道。未选中色画丙。",
+      "oldTest": {
+        "sha": "51fdff9b96a176b6eaa90179f93670060ae83710",
+        "file": "packages/game/src/present/__tests__/grok-present/p06-magic.test.ts",
+        "fullName": "P06 仙术页 P06 仙术页区分MP够与不够，并画出说明和现行MP",
+        "assertionLine": 196,
+        "matcher": "toBe",
+        "checked": "第二列风在 x=122",
+        "distinct": "旧断言停在第二列；丙在 (209,54) 为 79，甲仍是 249"
+      },
+      "file": "packages/game/src/present/menu/magic-menu-pixels.grok-r1.test.ts",
+      "fullName": "G07-A 仙术菜单像素 G07-A08 第三列仙术在 x=209，颜色是未选中色",
+      "assertions": [
+        {
+          "line": 374,
+          "endLine": 374,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 375,
+          "endLine": 375,
+          "matchers": ["toBe"]
+        }
+      ],
+      "axis": "positive",
+      "oracle": {
+        "operands": "丙在 (209,54)，甲在第一列",
+        "matcher": "toBe",
+        "exact": "丙为 79；甲为 249"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/present/menu/magic-menu-pixels.grok-r1.test.ts",
+        "fullName": "G07-A 仙术菜单像素 G07-A08 第三列仙术在 x=209，颜色是未选中色",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G07-A09",
+      "batch": "G07",
+      "group": "G07-A",
+      "primarySource": {
+        "file": "packages/game/src/present/menu/draw-magic.ts",
+        "conditionLine": 298,
+        "condition": "格子第 j 行的 y 是 54+j*18，第二行因此在 y=72（draw-magic.ts:298）"
+      },
+      "caller": {
+        "file": "packages/game/src/present/menu/draw-menu.ts",
+        "line": 200,
+        "expr": "drawInGameMagicMenu({ fb, state: entry.state as InGameMagicMenuState, gs, playerRoles: extra.playerRoles, spells: extra.spells, magics: extra.magics, uiSpriteFrames, glyphs })"
+      },
+      "legalInput": "四道仙术，每行 3 个，丁在第二行第一列。光标在甲。",
+      "oldTest": {
+        "sha": "51fdff9b96a176b6eaa90179f93670060ae83710",
+        "file": "packages/game/src/present/__tests__/grok-present/p06-magic.test.ts",
+        "fullName": "P06 仙术页 P06 仙术页区分MP够与不够，并画出说明和现行MP",
+        "assertionLine": 193,
+        "matcher": "toBe",
+        "checked": "第一行雷在 y=54",
+        "distinct": "旧断言只锁第一行；丁在 (35,72) 为 79，甲在 (35,54) 为 249"
+      },
+      "file": "packages/game/src/present/menu/magic-menu-pixels.grok-r1.test.ts",
+      "fullName": "G07-A 仙术菜单像素 G07-A09 第二行仙术在 y=72，颜色是未选中色",
+      "assertions": [
+        {
+          "line": 407,
+          "endLine": 407,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 408,
+          "endLine": 410,
+          "matchers": ["toBe"]
+        }
+      ],
+      "axis": "positive",
+      "oracle": {
+        "operands": "丁在 (35,72)，甲在 (35,54)",
+        "matcher": "toBe",
+        "exact": "丁为 79；甲为 249"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/present/menu/magic-menu-pixels.grok-r1.test.ts",
+        "fullName": "G07-A 仙术菜单像素 G07-A09 第二行仙术在 y=72，颜色是未选中色",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G07-A10",
+      "batch": "G07",
+      "group": "G07-A",
+      "primarySource": {
+        "file": "packages/game/src/present/menu/draw-magic.ts",
+        "conditionLine": 147,
+        "condition": "信息框现行真气读 rgwMP[roleId]，不读角色静态 mp（draw-magic.ts:147）"
+      },
+      "caller": {
+        "file": "packages/game/src/present/menu/draw-menu.ts",
+        "line": 200,
+        "expr": "drawInGameMagicMenu({ fb, state: entry.state as InGameMagicMenuState, gs, playerRoles: extra.playerRoles, spells: extra.spells, magics: extra.magics, uiSpriteFrames, glyphs })"
+      },
+      "legalInput": "pick-caster，角色 4 的静态 mp 为 99，运行时 rgwMP[4] 为 12。队伍两人，避免行数针打到本例。",
+      "oldTest": {
+        "sha": "51fdff9b96a176b6eaa90179f93670060ae83710",
+        "file": "packages/game/src/present/__tests__/grok-present/p06-magic.test.ts",
+        "fullName": "P06 仙术页 P06 仙术页区分MP够与不够，并画出说明和现行MP",
+        "assertionLine": 183,
+        "matcher": "toBe",
+        "checked": "顶部框读到运行时真气 8",
+        "distinct": "旧断言是顶部框的 8；信息框个位是青 2、十位是青 1，不是静态 99 的个位青 9"
+      },
+      "file": "packages/game/src/present/menu/magic-menu-pixels.grok-r1.test.ts",
+      "fullName": "G07-A 仙术菜单像素 G07-A10 信息框真气读运行时 12，不读角色静态真气 99",
+      "assertions": [
+        {
+          "line": 440,
+          "endLine": 440,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 441,
+          "endLine": 441,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 442,
+          "endLine": 442,
+          "matchers": ["not.toBe"]
+        },
+        {
+          "line": 443,
+          "endLine": 443,
+          "matchers": ["toEqual"]
+        }
+      ],
+      "axis": "ownership",
+      "oracle": {
+        "operands": "信息框真气个位与十位，以及绘制前后的 gs 和菜单",
+        "matcher": "toBe / not.toBe / toEqual",
+        "exact": "个位 (89,186) 为 114，十位为 113，个位不是 121；输入前后相等"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/present/menu/magic-menu-pixels.grok-r1.test.ts",
+        "fullName": "G07-A 仙术菜单像素 G07-A10 信息框真气读运行时 12，不读角色静态真气 99",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G07-A11",
+      "batch": "G07",
+      "group": "G07-A",
+      "primarySource": {
+        "file": "packages/game/src/present/menu/draw-magic.ts",
+        "conditionLine": 142,
+        "condition": "体力上限画在信息框 (x+47,y+8)，盒原点 y=165 时即 y=173（draw-magic.ts:142）"
+      },
+      "caller": {
+        "file": "packages/game/src/present/menu/draw-menu.ts",
+        "line": 200,
+        "expr": "drawInGameMagicMenu({ fb, state: entry.state as InGameMagicMenuState, gs, playerRoles: extra.playerRoles, spells: extra.spells, magics: extra.magics, uiSpriteFrames, glyphs })"
+      },
+      "legalInput": "pick-spell。当前体力 12，上限 80。",
+      "oldTest": {
+        "sha": "51fdff9b96a176b6eaa90179f93670060ae83710",
+        "file": "packages/game/src/present/__tests__/grok-present/p06-magic.test.ts",
+        "fullName": "P06 仙术页 P06 施法者阶段按队伍顺序画两人不同HP",
+        "assertionLine": 134,
+        "matcher": "toBe",
+        "checked": "当前体力个位在 y=170",
+        "distinct": "旧断言不锁上限；(104,173) 为黄 8，(110,173) 为黄 0，当前个位仍是 178"
+      },
+      "file": "packages/game/src/present/menu/magic-menu-pixels.grok-r1.test.ts",
+      "fullName": "G07-A 仙术菜单像素 G07-A11 体力上限 80 画在 y=173，当前体力 12 仍在 y=170",
+      "assertions": [
+        {
+          "line": 470,
+          "endLine": 470,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 471,
+          "endLine": 471,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 472,
+          "endLine": 472,
+          "matchers": ["toBe"]
+        }
+      ],
+      "axis": "positive",
+      "oracle": {
+        "operands": "上限十位、上限个位、当前个位",
+        "matcher": "toBe",
+        "exact": "(104,173) 为 184；(110,173) 为 176；(89,170) 为 178"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/present/menu/magic-menu-pixels.grok-r1.test.ts",
+        "fullName": "G07-A 仙术菜单像素 G07-A11 体力上限 80 画在 y=173，当前体力 12 仍在 y=170",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G07-A12",
+      "batch": "G07",
+      "group": "G07-A",
+      "primarySource": {
+        "file": "packages/game/src/present/menu/draw-magic.ts",
+        "conditionLine": 304,
+        "condition": "格子光标帧 69 缺失时不 blit，光标位留着格子框色（draw-magic.ts:304）"
+      },
+      "caller": {
+        "file": "packages/game/src/present/menu/draw-menu.ts",
+        "line": 200,
+        "expr": "drawInGameMagicMenu({ fb, state: entry.state as InGameMagicMenuState, gs, playerRoles: extra.playerRoles, spells: extra.spells, magics: extra.magics, uiSpriteFrames, glyphs })"
+      },
+      "legalInput": "pick-spell，去掉下标 69。仙术名甲仍画。",
+      "oldTest": {
+        "sha": "6ada0032e51b7286636202c07b9e0dfab744e414",
+        "file": "packages/game/src/present/menu/draw-magic.glm-phase1-leaves.test.ts",
+        "fullName": "L10 drawInGameMagicMenu 剩余分支 空法术表：只画 grid 框，不画条目不抛错；MP 框 needed 0",
+        "assertionLine": 226,
+        "matcher": "toBe",
+        "checked": "空表时 (20,50) 是格子框色 34",
+        "distinct": "旧断言没有光标；(62,64) 为 34，不是 105，名字仍是 249"
+      },
+      "file": "packages/game/src/present/menu/magic-menu-pixels.grok-r1.test.ts",
+      "fullName": "G07-A 仙术菜单像素 G07-A12 缺少光标帧 69 时名字照画，光标位留着格子框色",
+      "assertions": [
+        {
+          "line": 499,
+          "endLine": 499,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 500,
+          "endLine": 500,
+          "matchers": ["not.toBe"]
+        },
+        {
+          "line": 501,
+          "endLine": 501,
+          "matchers": ["toBe"]
+        }
+      ],
+      "axis": "exception",
+      "oracle": {
+        "operands": "(62,64) 与仙术名",
+        "matcher": "toBe / not.toBe",
+        "exact": "(62,64) 为 34，不是 105；名字为 249"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/present/menu/magic-menu-pixels.grok-r1.test.ts",
+        "fullName": "G07-A 仙术菜单像素 G07-A12 缺少光标帧 69 时名字照画，光标位留着格子框色",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G07-A13",
+      "batch": "G07",
+      "group": "G07-A",
+      "primarySource": {
+        "file": "packages/game/src/present/menu/draw-magic.ts",
+        "conditionLine": 132,
+        "condition": "头像画在信息框左上外侧 (x-2,y-4)，框本体仍在 (x,y)（draw-magic.ts:132）"
+      },
+      "caller": {
+        "file": "packages/game/src/present/menu/draw-menu.ts",
+        "line": 200,
+        "expr": "drawInGameMagicMenu({ fb, state: entry.state as InGameMagicMenuState, gs, playerRoles: extra.playerRoles, spells: extra.spells, magics: extra.magics, uiSpriteFrames, glyphs })"
+      },
+      "legalInput": "pick-spell，角色 4，帧 52 在场。盒原点 (45,165)。",
+      "oldTest": {
+        "sha": "51fdff9b96a176b6eaa90179f93670060ae83710",
+        "file": "packages/game/src/present/__tests__/grok-present/p06-magic.test.ts",
+        "fullName": "P06 仙术页 P06 施法者阶段按队伍顺序画两人不同HP",
+        "assertionLine": 127,
+        "matcher": "toBe",
+        "checked": "戊的名字点是闪烁色",
+        "distinct": "旧断言不锁头像；(43,161) 为 164，右侧一格保持 90，(45,165) 为 23"
+      },
+      "file": "packages/game/src/present/menu/magic-menu-pixels.grok-r1.test.ts",
+      "fullName": "G07-A 仙术菜单像素 G07-A13 头像落在信息框左上外侧，信息框本体仍在 (45,165)",
+      "assertions": [
+        {
+          "line": 526,
+          "endLine": 526,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 527,
+          "endLine": 527,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 528,
+          "endLine": 528,
+          "matchers": ["toBe"]
+        }
+      ],
+      "axis": "positive",
+      "oracle": {
+        "operands": "(43,161)、(44,161)、(45,165)",
+        "matcher": "toBe",
+        "exact": "(43,161) 为 164；(44,161) 为 90；(45,165) 为 23"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/present/menu/magic-menu-pixels.grok-r1.test.ts",
+        "fullName": "G07-A 仙术菜单像素 G07-A13 头像落在信息框左上外侧，信息框本体仍在 (45,165)",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G07-A14",
+      "batch": "G07",
+      "group": "G07-A",
+      "primarySource": {
+        "file": "packages/game/src/present/menu/draw-magic.ts",
+        "conditionLine": 342,
+        "condition": "选人阶段画完选人框就返回，不画仙术格子（draw-magic.ts:342）"
+      },
+      "caller": {
+        "file": "packages/game/src/present/menu/draw-menu.ts",
+        "line": 200,
+        "expr": "drawInGameMagicMenu({ fb, state: entry.state as InGameMagicMenuState, gs, playerRoles: extra.playerRoles, spells: extra.spells, magics: extra.magics, uiSpriteFrames, glyphs })"
+      },
+      "legalInput": "phase 为 pick-caster，队伍 [4,5]。体力 12。",
+      "oldTest": {
+        "sha": "6ada0032e51b7286636202c07b9e0dfab744e414",
+        "file": "packages/game/src/present/menu/draw-magic.glm-phase1-leaves.test.ts",
+        "fullName": "L10 drawInGameMagicMenu 剩余分支 空法术表：只画 grid 框，不画条目不抛错；MP 框 needed 0",
+        "assertionLine": 226,
+        "matcher": "toBe",
+        "checked": "选术阶段 (20,50) 已是格子框",
+        "distinct": "选人阶段 (10,42) 保持 90，体力个位仍是 178"
+      },
+      "file": "packages/game/src/present/menu/magic-menu-pixels.grok-r1.test.ts",
+      "fullName": "G07-A 仙术菜单像素 G07-A14 选人阶段不画仙术格子，体力个位仍画出",
+      "assertions": [
+        {
+          "line": 554,
+          "endLine": 554,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 555,
+          "endLine": 555,
+          "matchers": ["toBe"]
+        }
+      ],
+      "axis": "exception",
+      "oracle": {
+        "operands": "(10,42) 与体力个位",
+        "matcher": "toBe",
+        "exact": "(10,42) 为 90；体力个位为 178"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/present/menu/magic-menu-pixels.grok-r1.test.ts",
+        "fullName": "G07-A 仙术菜单像素 G07-A14 选人阶段不画仙术格子，体力个位仍画出",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G07-A15",
+      "batch": "G07",
+      "group": "G07-A",
+      "primarySource": {
+        "file": "packages/game/src/present/menu/draw-magic.ts",
+        "conditionLine": 101,
+        "condition": "格子光标 blit 时跳过 opaque 为 0 的孔，实点才写成 105（draw-magic.ts:101）"
+      },
+      "caller": {
+        "file": "packages/game/src/present/menu/draw-menu.ts",
+        "line": 200,
+        "expr": "drawInGameMagicMenu({ fb, state: entry.state as InGameMagicMenuState, gs, playerRoles: extra.playerRoles, spells: extra.spells, magics: extra.magics, uiSpriteFrames, glyphs })"
+      },
+      "legalInput": "pick-spell，帧 69 是中间有透明孔的光标。格子本身是 style 1。",
+      "oldTest": {
+        "sha": "6ada0032e51b7286636202c07b9e0dfab744e414",
+        "file": "packages/game/src/present/menu/draw-magic.glm-phase1-leaves.test.ts",
+        "fullName": "L10 drawInGameMagicMenu 剩余分支 空法术表：只画 grid 框，不画条目不抛错；MP 框 needed 0",
+        "assertionLine": 226,
+        "matcher": "toBe",
+        "checked": "没有光标时内部是 34",
+        "distinct": "(62,64) 为 105，孔 (61,64) 仍是 34"
+      },
+      "file": "packages/game/src/present/menu/magic-menu-pixels.grok-r1.test.ts",
+      "fullName": "G07-A 仙术菜单像素 G07-A15 格子光标的实点是 0x69，中间透明孔留着格子框色",
+      "assertions": [
+        {
+          "line": 581,
+          "endLine": 581,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 582,
+          "endLine": 582,
+          "matchers": ["toBe"]
+        }
+      ],
+      "axis": "positive",
+      "oracle": {
+        "operands": "(62,64) 与 (61,64)",
+        "matcher": "toBe",
+        "exact": "(62,64) 为 105；(61,64) 为 34"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/present/menu/magic-menu-pixels.grok-r1.test.ts",
+        "fullName": "G07-A 仙术菜单像素 G07-A15 格子光标的实点是 0x69，中间透明孔留着格子框色",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G07-B01",
+      "batch": "G07",
+      "group": "G07-B",
+      "primarySource": {
+        "file": "packages/game/src/present/menu/draw-shop.ts",
+        "conditionLine": 119,
+        "condition": "列表价读菜单项 rightText，不读目录 price（draw-shop.ts:119）"
+      },
+      "caller": {
+        "file": "packages/game/src/present/menu/draw-menu.ts",
+        "line": 216,
+        "expr": "drawShopMenu({ fb, state: entry.state as ShopMenuState, gs, items: extra?.items ?? [], uiSpriteFrames, itemIcons: extra?.itemIcons, glyphs })"
+      },
+      "legalInput": "createBuyMenu 后把 rightText 改成 15，目录 price 仍是 99。底色 90，freezeNow(0)。",
+      "oldTest": {
+        "sha": "41d0c204f2f6dc09e1e0f5d7321e5b758b748b8e",
+        "file": "packages/game/src/present/__tests__/grok-present/p04-shop.test.ts",
+        "fullName": "P04 商店 P04 买列表、确认层、现有量和金钱用不同哨兵",
+        "assertionLine": 58,
+        "matcher": "toBe",
+        "checked": "价 123 的个位是黄 3，与目录一致",
+        "distinct": "目录价 99 的个位会是 185；这里个位是 181、十位是 177，名字仍是 249"
+      },
+      "file": "packages/game/src/present/menu/shop-preview-pixels.grok-r1.test.ts",
+      "fullName": "G07-B 商店预览像素 G07-B01 列表价读 rightText 15，不读目录价 99",
+      "assertions": [
+        {
+          "line": 68,
+          "endLine": 68,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 69,
+          "endLine": 69,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 70,
+          "endLine": 70,
+          "matchers": ["not.toBe"]
+        },
+        {
+          "line": 71,
+          "endLine": 71,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 72,
+          "endLine": 72,
+          "matchers": ["toEqual"]
+        }
+      ],
+      "axis": "ownership",
+      "oracle": {
+        "operands": "价的个位与十位、名字，以及绘制前后的输入",
+        "matcher": "toBe / not.toBe / toEqual",
+        "exact": "(268,26) 为 181，(262,26) 为 177，个位不是 185；名字为 249；输入前后相等"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/present/menu/shop-preview-pixels.grok-r1.test.ts",
+        "fullName": "G07-B 商店预览像素 G07-B01 列表价读 rightText 15，不读目录价 99",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G07-B02",
+      "batch": "G07",
+      "group": "G07-B",
+      "primarySource": {
+        "file": "packages/game/src/present/menu/draw-shop.ts",
+        "conditionLine": 138,
+        "condition": "预览物品框先在 (46,14) 用阴影压底色，再在 (40,8) 写正色（draw-shop.ts:138）"
+      },
+      "caller": {
+        "file": "packages/game/src/present/menu/draw-menu.ts",
+        "line": 216,
+        "expr": "drawShopMenu({ fb, state: entry.state as ShopMenuState, gs, items: extra?.items ?? [], uiSpriteFrames, itemIcons: extra?.itemIcons, glyphs })"
+      },
+      "legalInput": "购买列表有选中项，物品框帧在场。底色 90。",
+      "oldTest": {
+        "sha": "41d0c204f2f6dc09e1e0f5d7321e5b758b748b8e",
+        "file": "packages/game/src/present/__tests__/grok-present/p04-shop.test.ts",
+        "fullName": "P04 商店 P04 买列表、确认层、现有量和金钱用不同哨兵",
+        "assertionLine": 62,
+        "matcher": "toBe",
+        "checked": "图标 (48,15) 是 130",
+        "distinct": "旧断言不锁阴影；(46,14) 为 85，(47,14) 保持 90，(40,8) 为 110"
+      },
+      "file": "packages/game/src/present/menu/shop-preview-pixels.grok-r1.test.ts",
+      "fullName": "G07-B 商店预览像素 G07-B02 预览物品框阴影把底色 0x5A 的低四位右移一位，正色在 (40,8)",
+      "assertions": [
+        {
+          "line": 89,
+          "endLine": 89,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 90,
+          "endLine": 90,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 91,
+          "endLine": 91,
+          "matchers": ["toBe"]
+        }
+      ],
+      "axis": "positive",
+      "oracle": {
+        "operands": "(46,14)、(47,14)、(40,8)",
+        "matcher": "toBe",
+        "exact": "(46,14) 为 85；(47,14) 为 90；(40,8) 为 110"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/present/menu/shop-preview-pixels.grok-r1.test.ts",
+        "fullName": "G07-B 商店预览像素 G07-B02 预览物品框阴影把底色 0x5A 的低四位右移一位，正色在 (40,8)",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G07-B03",
+      "batch": "G07",
+      "group": "G07-B",
+      "primarySource": {
+        "file": "packages/game/src/present/menu/draw-shop.ts",
+        "conditionLine": 137,
+        "condition": "物品框帧缺失时不画预览，列表名照画（draw-shop.ts:137）"
+      },
+      "caller": {
+        "file": "packages/game/src/present/menu/draw-menu.ts",
+        "line": 216,
+        "expr": "drawShopMenu({ fb, state: entry.state as ShopMenuState, gs, items: extra?.items ?? [], uiSpriteFrames, itemIcons: extra?.itemIcons, glyphs })"
+      },
+      "legalInput": "去掉下标 70。列表名甲仍选中。",
+      "oldTest": {
+        "sha": "41d0c204f2f6dc09e1e0f5d7321e5b758b748b8e",
+        "file": "packages/game/src/present/__tests__/grok-present/p04-shop.test.ts",
+        "fullName": "P04 商店 P04 买列表、确认层、现有量和金钱用不同哨兵",
+        "assertionLine": 62,
+        "matcher": "toBe",
+        "checked": "帧在场时图标位有像素",
+        "distinct": "(40,8) 保持 90，名字仍是 249"
+      },
+      "file": "packages/game/src/present/menu/shop-preview-pixels.grok-r1.test.ts",
+      "fullName": "G07-B 商店预览像素 G07-B03 缺少物品框帧时预览位保持底色，列表名仍画出",
+      "assertions": [
+        {
+          "line": 109,
+          "endLine": 109,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 110,
+          "endLine": 110,
+          "matchers": ["toBe"]
+        }
+      ],
+      "axis": "exception",
+      "oracle": {
+        "operands": "(40,8) 与名字",
+        "matcher": "toBe",
+        "exact": "(40,8) 为 90；名字为 249"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/present/menu/shop-preview-pixels.grok-r1.test.ts",
+        "fullName": "G07-B 商店预览像素 G07-B03 缺少物品框帧时预览位保持底色，列表名仍画出",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G07-B04",
+      "batch": "G07",
+      "group": "G07-B",
+      "primarySource": {
+        "file": "packages/game/src/present/menu/draw-shop.ts",
+        "conditionLine": 143,
+        "condition": "图标表没有该 bitmap 时不画图标，物品框照画（draw-shop.ts:143）"
+      },
+      "caller": {
+        "file": "packages/game/src/present/menu/draw-menu.ts",
+        "line": 216,
+        "expr": "drawShopMenu({ fb, state: entry.state as ShopMenuState, gs, items: extra?.items ?? [], uiSpriteFrames, itemIcons: extra?.itemIcons, glyphs })"
+      },
+      "legalInput": "物品 bitmap 为 4，图标表只有 bitmap 2。",
+      "oldTest": {
+        "sha": "41d0c204f2f6dc09e1e0f5d7321e5b758b748b8e",
+        "file": "packages/game/src/present/__tests__/grok-present/p04-shop.test.ts",
+        "fullName": "P04 商店 P04 买列表、确认层、现有量和金钱用不同哨兵",
+        "assertionLine": 62,
+        "matcher": "toBe",
+        "checked": "bitmap 命中时 (48,15) 是 130",
+        "distinct": "(48,15) 保持 90，(40,8) 仍是 110"
+      },
+      "file": "packages/game/src/present/menu/shop-preview-pixels.grok-r1.test.ts",
+      "fullName": "G07-B 商店预览像素 G07-B04 图标表没有该 bitmap 时图标位保持底色，物品框照画",
+      "assertions": [
+        {
+          "line": 136,
+          "endLine": 136,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 137,
+          "endLine": 137,
+          "matchers": ["toBe"]
+        }
+      ],
+      "axis": "exception",
+      "oracle": {
+        "operands": "(48,15) 与 (40,8)",
+        "matcher": "toBe",
+        "exact": "(48,15) 为 90；(40,8) 为 110"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/present/menu/shop-preview-pixels.grok-r1.test.ts",
+        "fullName": "G07-B 商店预览像素 G07-B04 图标表没有该 bitmap 时图标位保持底色，物品框照画",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G07-B05",
+      "batch": "G07",
+      "group": "G07-B",
+      "primarySource": {
+        "file": "packages/game/src/present/menu/draw-shop.ts",
+        "conditionLine": 176,
+        "condition": "phase 不是 confirm 时不画确认框（draw-shop.ts:176）"
+      },
+      "caller": {
+        "file": "packages/game/src/present/menu/draw-menu.ts",
+        "line": 216,
+        "expr": "drawShopMenu({ fb, state: entry.state as ShopMenuState, gs, items: extra?.items ?? [], uiSpriteFrames, itemIcons: extra?.itemIcons, glyphs })"
+      },
+      "legalInput": "createBuyMenu 的 phase 为 list。",
+      "oldTest": {
+        "sha": "41d0c204f2f6dc09e1e0f5d7321e5b758b748b8e",
+        "file": "packages/game/src/present/__tests__/grok-present/p04-shop.test.ts",
+        "fullName": "P04 商店 P04 买列表、确认层、现有量和金钱用不同哨兵",
+        "assertionLine": 67,
+        "matcher": "toBe",
+        "checked": "confirm 阶段否是闪烁色",
+        "distinct": "列表阶段 (140,104) 保持 90，选中名仍是 249"
+      },
+      "file": "packages/game/src/present/menu/shop-preview-pixels.grok-r1.test.ts",
+      "fullName": "G07-B 商店预览像素 G07-B05 列表阶段不画确认框，选中名仍在",
+      "assertions": [
+        {
+          "line": 145,
+          "endLine": 145,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 156,
+          "endLine": 156,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 157,
+          "endLine": 157,
+          "matchers": ["toBe"]
+        }
+      ],
+      "axis": "boundary",
+      "oracle": {
+        "operands": "phase、 (140,104)、名字",
+        "matcher": "toBe",
+        "exact": "phase 为 list；(140,104) 为 90；名字为 249"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/present/menu/shop-preview-pixels.grok-r1.test.ts",
+        "fullName": "G07-B 商店预览像素 G07-B05 列表阶段不画确认框，选中名仍在",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G07-B06",
+      "batch": "G07",
+      "group": "G07-B",
+      "primarySource": {
+        "file": "packages/game/src/present/menu/draw-shop.ts",
+        "conditionLine": 177,
+        "condition": "confirm 阶段把 confirmYes 交给确认框（draw-shop.ts:177）"
+      },
+      "caller": {
+        "file": "packages/game/src/present/menu/draw-shop.ts",
+        "line": 177,
+        "expr": "drawConfirmBox(fb, state.confirmYes, uiSpriteFrames, glyphs)"
+      },
+      "legalInput": "购买菜单 phase 为 confirm，confirmYes 为 true。",
+      "oldTest": {
+        "sha": "41d0c204f2f6dc09e1e0f5d7321e5b758b748b8e",
+        "file": "packages/game/src/present/__tests__/grok-present/p04-shop.test.ts",
+        "fullName": "P04 商店 P04 买列表、确认层、现有量和金钱用不同哨兵",
+        "assertionLine": 70,
+        "matcher": "toBe",
+        "checked": "confirmYes 为 false 时是是常态色",
+        "distinct": "confirmYes 为 true 时是为 249，否为 79"
+      },
+      "file": "packages/game/src/present/menu/shop-preview-pixels.grok-r1.test.ts",
+      "fullName": "G07-B 商店预览像素 G07-B06 确认阶段 confirmYes 为真时闪烁色在「是」，「否」是未选中色",
+      "assertions": [
+        {
+          "line": 178,
+          "endLine": 178,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 179,
+          "endLine": 179,
+          "matchers": ["toBe"]
+        }
+      ],
+      "axis": "positive",
+      "oracle": {
+        "operands": "是与否的亮点",
+        "matcher": "toBe",
+        "exact": "是为 249；否为 79"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/present/menu/shop-preview-pixels.grok-r1.test.ts",
+        "fullName": "G07-B 商店预览像素 G07-B06 确认阶段 confirmYes 为真时闪烁色在「是」，「否」是未选中色",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G07-B07",
+      "batch": "G07",
+      "group": "G07-B",
+      "primarySource": {
+        "file": "packages/game/src/present/menu/draw-shop.ts",
+        "conditionLine": 142,
+        "condition": "不传 itemIcons 时不画图标，物品框照画（draw-shop.ts:142）"
+      },
+      "caller": {
+        "file": "packages/game/src/present/menu/draw-menu.ts",
+        "line": 216,
+        "expr": "drawShopMenu({ fb, state: entry.state as ShopMenuState, gs, items: extra?.items ?? [], uiSpriteFrames, itemIcons: extra?.itemIcons, glyphs })"
+      },
+      "legalInput": "选中物品在目录里，调用时省略 itemIcons。",
+      "oldTest": {
+        "sha": "57298da986e92ec3bf92a88addf918a9485e5b57",
+        "file": "packages/game/src/present/menu/draw-shop.glm-phase1-leaves.test.ts",
+        "fullName": "L12 drawShopMenu 剩余分支 空店铺列表：框与两单行框照画，owned 0、无图标、不崩",
+        "assertionLine": 56,
+        "matcher": "toBe",
+        "checked": "没有选中项时图标位是 90",
+        "distinct": "这里有选中项但没传表；(48,15) 为 90，(40,8) 仍是 110"
+      },
+      "file": "packages/game/src/present/menu/shop-preview-pixels.grok-r1.test.ts",
+      "fullName": "G07-B 商店预览像素 G07-B07 不传图标表时图标位保持底色，物品框照画",
+      "assertions": [
+        {
+          "line": 196,
+          "endLine": 196,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 197,
+          "endLine": 197,
+          "matchers": ["toBe"]
+        }
+      ],
+      "axis": "exception",
+      "oracle": {
+        "operands": "(48,15) 与 (40,8)",
+        "matcher": "toBe",
+        "exact": "(48,15) 为 90；(40,8) 为 110"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/present/menu/shop-preview-pixels.grok-r1.test.ts",
+        "fullName": "G07-B 商店预览像素 G07-B07 不传图标表时图标位保持底色，物品框照画",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G07-B08",
+      "batch": "G07",
+      "group": "G07-B",
+      "primarySource": {
+        "file": "packages/game/src/present/menu/draw-shop.ts",
+        "conditionLine": 78,
+        "condition": "现有数只加选中物品的库存，另一件的库存不加（draw-shop.ts:78）"
+      },
+      "caller": {
+        "file": "packages/game/src/present/menu/draw-menu.ts",
+        "line": 216,
+        "expr": "drawShopMenu({ fb, state: entry.state as ShopMenuState, gs, items: extra?.items ?? [], uiSpriteFrames, itemIcons: extra?.itemIcons, glyphs })"
+      },
+      "legalInput": "选中物品库存 5，另一件库存 9。队伍 [4]，该物品没有装备。",
+      "oldTest": {
+        "sha": "57298da986e92ec3bf92a88addf918a9485e5b57",
+        "file": "packages/game/src/present/menu/draw-shop.glm-phase1-leaves.test.ts",
+        "fullName": "L12 drawShopMenu 剩余分支 ownedCount = 库存 2 + 跨队已装备 1 = 3（uigame.c:1554-1577）",
+        "assertionLine": 44,
+        "matcher": "toBe",
+        "checked": "库存加装备得到黄 3",
+        "distinct": "另一件的 9 不加进去；个位是 181，不是 180，另一件 count 仍是 9"
+      },
+      "file": "packages/game/src/present/menu/shop-preview-pixels.grok-r1.test.ts",
+      "fullName": "G07-B 商店预览像素 G07-B08 现有数只加选中物品，另一件的库存 9 不加进去",
+      "assertions": [
+        {
+          "line": 221,
+          "endLine": 221,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 222,
+          "endLine": 222,
+          "matchers": ["not.toBe"]
+        },
+        {
+          "line": 223,
+          "endLine": 223,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 224,
+          "endLine": 224,
+          "matchers": ["toEqual"]
+        }
+      ],
+      "axis": "ownership",
+      "oracle": {
+        "operands": "现有个位、另一件 count、绘制前后的输入",
+        "matcher": "toBe / not.toBe / toEqual",
+        "exact": "(99,115) 为 181，不是 180；另一件库存仍是 9；输入前后相等"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/present/menu/shop-preview-pixels.grok-r1.test.ts",
+        "fullName": "G07-B 商店预览像素 G07-B08 现有数只加选中物品，另一件的库存 9 不加进去",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G07-B09",
+      "batch": "G07",
+      "group": "G07-B",
+      "primarySource": {
+        "file": "packages/game/src/present/menu/draw-shop.ts",
+        "conditionLine": 166,
+        "condition": "金钱为 0 时仍画出一位数字，高位不画（draw-shop.ts:166）"
+      },
+      "caller": {
+        "file": "packages/game/src/present/menu/draw-menu.ts",
+        "line": 216,
+        "expr": "drawShopMenu({ fb, state: entry.state as ShopMenuState, gs, items: extra?.items ?? [], uiSpriteFrames, itemIcons: extra?.itemIcons, glyphs })"
+      },
+      "legalInput": "dwCash 为 0。",
+      "oldTest": {
+        "sha": "41d0c204f2f6dc09e1e0f5d7321e5b758b748b8e",
+        "file": "packages/game/src/present/__tests__/grok-present/p04-shop.test.ts",
+        "fullName": "P04 商店 P04 买列表、确认层、现有量和金钱用不同哨兵",
+        "assertionLine": 66,
+        "matcher": "toBe",
+        "checked": "金钱 500 的百位是黄 5",
+        "distinct": "个位 (99,156) 为 176，十位 (93,156) 保持 90"
+      },
+      "file": "packages/game/src/present/menu/shop-preview-pixels.grok-r1.test.ts",
+      "fullName": "G07-B 商店预览像素 G07-B09 金钱为 0 时仍画出一位黄 0，十位保持底色",
+      "assertions": [
+        {
+          "line": 242,
+          "endLine": 242,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 243,
+          "endLine": 243,
+          "matchers": ["toBe"]
+        }
+      ],
+      "axis": "boundary",
+      "oracle": {
+        "operands": "金钱个位与十位",
+        "matcher": "toBe",
+        "exact": "(99,156) 为 176；(93,156) 为 90"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/present/menu/shop-preview-pixels.grok-r1.test.ts",
+        "fullName": "G07-B 商店预览像素 G07-B09 金钱为 0 时仍画出一位黄 0，十位保持底色",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G07-B10",
+      "batch": "G07",
+      "group": "G07-B",
+      "primarySource": {
+        "file": "packages/game/src/present/menu/draw-shop.ts",
+        "conditionLine": 150,
+        "condition": "列表项不在目录时现有数按 0，名字仍用菜单 label（draw-shop.ts:150）"
+      },
+      "caller": {
+        "file": "packages/game/src/present/menu/draw-menu.ts",
+        "line": 216,
+        "expr": "drawShopMenu({ fb, state: entry.state as ShopMenuState, gs, items: extra?.items ?? [], uiSpriteFrames, itemIcons: extra?.itemIcons, glyphs })"
+      },
+      "legalInput": "菜单由珠子建好后，draw 时 items 改成空数组。",
+      "oldTest": {
+        "sha": "57298da986e92ec3bf92a88addf918a9485e5b57",
+        "file": "packages/game/src/present/menu/draw-shop.glm-phase1-leaves.test.ts",
+        "fullName": "L12 drawShopMenu 剩余分支 空店铺列表：框与两单行框照画，owned 0、无图标、不崩",
+        "assertionLine": 55,
+        "matcher": "toBe",
+        "checked": "空列表时现有数是黄 0",
+        "distinct": "列表名仍是 249，现有个位为 176，图标位保持 90"
+      },
+      "file": "packages/game/src/present/menu/shop-preview-pixels.grok-r1.test.ts",
+      "fullName": "G07-B 商店预览像素 G07-B10 列表项不在目录时名字照画，现有数是黄 0，图标不画",
+      "assertions": [
+        {
+          "line": 269,
+          "endLine": 269,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 270,
+          "endLine": 270,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 271,
+          "endLine": 271,
+          "matchers": ["toBe"]
+        }
+      ],
+      "axis": "exception",
+      "oracle": {
+        "operands": "名字、现有个位、图标位",
+        "matcher": "toBe",
+        "exact": "名字为 249；现有个位为 176；(48,15) 为 90"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/present/menu/shop-preview-pixels.grok-r1.test.ts",
+        "fullName": "G07-B 商店预览像素 G07-B10 列表项不在目录时名字照画，现有数是黄 0，图标不画",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G07-B11",
+      "batch": "G07",
+      "group": "G07-B",
+      "primarySource": {
+        "file": "packages/game/src/present/menu/draw-shop.ts",
+        "conditionLine": 232,
+        "condition": "可卖物品的售价是 price 向下取整除以 2（draw-shop.ts:232）"
+      },
+      "caller": {
+        "file": "packages/game/src/present/menu/draw-menu.ts",
+        "line": 239,
+        "expr": "drawSellOverlay({ fb, gs, items: extra?.items ?? [], cursorItemId: sell.grid.inventory[sell.grid.cursor]?.itemId, uiSpriteFrames, glyphs })"
+      },
+      "legalInput": "售价 1，flags.sellable 为 true。",
+      "oldTest": {
+        "sha": "41d0c204f2f6dc09e1e0f5d7321e5b758b748b8e",
+        "file": "packages/game/src/present/__tests__/grok-present/p04-shop.test.ts",
+        "fullName": "P04 商店 P04 卖overlay画售价的一半，不执行买卖",
+        "assertionLine": 99,
+        "matcher": "toBe",
+        "checked": "81 的一半十位是黄 4，不是黄 8",
+        "distinct": "售价 1 的一半是 0；个位为 176，十位保持 90，个位不是 177"
+      },
+      "file": "packages/game/src/present/menu/shop-preview-pixels.grok-r1.test.ts",
+      "fullName": "G07-B 商店预览像素 G07-B11 售价 1 向下取整成黄 0，十位保持底色",
+      "assertions": [
+        {
+          "line": 289,
+          "endLine": 289,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 290,
+          "endLine": 290,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 291,
+          "endLine": 291,
+          "matchers": ["not.toBe"]
+        }
+      ],
+      "axis": "boundary",
+      "oracle": {
+        "operands": "售价个位与十位",
+        "matcher": "toBe / not.toBe",
+        "exact": "(302,165) 为 176，(296,165) 为 90，个位不是 177"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/present/menu/shop-preview-pixels.grok-r1.test.ts",
+        "fullName": "G07-B 商店预览像素 G07-B11 售价 1 向下取整成黄 0，十位保持底色",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G07-B12",
+      "batch": "G07",
+      "group": "G07-B",
+      "primarySource": {
+        "file": "packages/game/src/present/menu/draw-shop.ts",
+        "conditionLine": 82,
+        "condition": "库存为 0 时两个装备槽仍各加 1（draw-shop.ts:82）"
+      },
+      "caller": {
+        "file": "packages/game/src/present/menu/draw-menu.ts",
+        "line": 216,
+        "expr": "drawShopMenu({ fb, state: entry.state as ShopMenuState, gs, items: extra?.items ?? [], uiSpriteFrames, itemIcons: extra?.itemIcons, glyphs })"
+      },
+      "legalInput": "inventory 为空，角色 4 的装备槽 0 和 2 都是该物品。",
+      "oldTest": {
+        "sha": "57298da986e92ec3bf92a88addf918a9485e5b57",
+        "file": "packages/game/src/present/menu/draw-shop.glm-phase1-leaves.test.ts",
+        "fullName": "L12 drawShopMenu 剩余分支 ownedCount = 库存 2 + 跨队已装备 1 = 3（uigame.c:1554-1577）",
+        "assertionLine": 44,
+        "matcher": "toBe",
+        "checked": "库存 2 加一个装备槽得到黄 3",
+        "distinct": "库存为 0、两个槽得到黄 2；十位保持 90"
+      },
+      "file": "packages/game/src/present/menu/shop-preview-pixels.grok-r1.test.ts",
+      "fullName": "G07-B 商店预览像素 G07-B12 库存为 0 时两个装备槽仍把现有数画成黄 2",
+      "assertions": [
+        {
+          "line": 312,
+          "endLine": 312,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 313,
+          "endLine": 313,
+          "matchers": ["toBe"]
+        }
+      ],
+      "axis": "positive",
+      "oracle": {
+        "operands": "现有个位与十位",
+        "matcher": "toBe",
+        "exact": "个位为 178；十位为 90"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/present/menu/shop-preview-pixels.grok-r1.test.ts",
+        "fullName": "G07-B 商店预览像素 G07-B12 库存为 0 时两个装备槽仍把现有数画成黄 2",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G07-B13",
+      "batch": "G07",
+      "group": "G07-B",
+      "primarySource": {
+        "file": "packages/game/src/present/menu/draw-shop.ts",
+        "conditionLine": 139,
+        "condition": "预览物品框把索引 110 写在 (40,8)，flushToCanvas 再按调色板读回（draw-shop.ts:139）"
+      },
+      "caller": {
+        "file": "packages/game/src/present/menu/draw-menu.ts",
+        "line": 216,
+        "expr": "drawShopMenu({ fb, state: entry.state as ShopMenuState, gs, items: extra?.items ?? [], uiSpriteFrames, itemIcons: extra?.itemIcons, glyphs })"
+      },
+      "legalInput": "购买列表画出物品框后，legalPalette 把 110 涂成 [40,18,70]，flushToCanvas 进真实 2D canvas。生产调用在 bootstrap.ts:514，toImageData 在 present.ts:723。",
+      "oldTest": {
+        "sha": "41d0c204f2f6dc09e1e0f5d7321e5b758b748b8e",
+        "file": "packages/game/src/present/__tests__/grok-present/p04-shop.test.ts",
+        "fullName": "P04 商店 P04 买列表、确认层、现有量和金钱用不同哨兵",
+        "assertionLine": 62,
+        "matcher": "toBe",
+        "checked": "缓冲里的图标索引，不是调色板 RGB",
+        "distinct": "getImageData(40,8) 为 [40,18,70,255]，缓冲 (40,8) 仍是 110"
+      },
+      "file": "packages/game/src/present/menu/shop-preview-pixels.grok-r1.test.ts",
+      "fullName": "G07-B 商店预览像素 G07-B13 预览物品框索引 0x6E 经 flushToCanvas 写成调色板 RGB，缓冲仍是 0x6E",
+      "assertions": [
+        {
+          "line": 339,
+          "endLine": 339,
+          "matchers": ["toEqual"]
+        },
+        {
+          "line": 340,
+          "endLine": 340,
+          "matchers": ["toBe"]
+        }
+      ],
+      "axis": "positive",
+      "oracle": {
+        "operands": "画布 (40,8) 的 RGBA 与缓冲索引",
+        "matcher": "toEqual / toBe",
+        "exact": "RGBA 为 [40,18,70,255]；缓冲仍为 110"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/present/menu/shop-preview-pixels.grok-r1.test.ts",
+        "fullName": "G07-B 商店预览像素 G07-B13 预览物品框索引 0x6E 经 flushToCanvas 写成调色板 RGB，缓冲仍是 0x6E",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G07-C01",
+      "batch": "G07",
+      "group": "G07-C",
+      "primarySource": {
+        "file": "packages/game/src/present/menu/draw-box.ts",
+        "conditionLine": 114,
+        "condition": "不透明掩码为 0 的点不写进缓冲（draw-box.ts:114）"
+      },
+      "caller": {
+        "file": "packages/game/src/present/menu/draw-magic.ts",
+        "line": 180,
+        "expr": "drawBox({ fb, x: CASTER_PICKER_BOX.x, y: CASTER_PICKER_BOX.y, rows, cols: menuTextMaxCols(casterNames, glyphs), style: 0, uiSpriteFrames })"
+      },
+      "legalInput": "style 0，1×1，shadowOffset 0。左上角帧下标 1 的 opaque 为 0、索引为 0，其余是 17。",
+      "oldTest": {
+        "sha": "5c0619192e3927f90c70e05d397d741e88d00ed2",
+        "file": "packages/game/src/present/menu/draw-box.test.ts",
+        "fullName": "M5.6 W0.c drawBox 画 1×1 内部 box(实际 3×3 tile)— 9 frame 全部 blit",
+        "assertionLine": 30,
+        "matcher": "toBe",
+        "checked": "九个实心帧把 (0,0) 写成 1",
+        "distinct": "孔 (1,0) 保持 90，左右 (0,0) 与 (2,0) 为 17"
+      },
+      "file": "packages/game/src/present/menu/box-shadow-pixels.grok-r1.test.ts",
+      "fullName": "G07-C 菜单框像素 G07-C01 角块透明孔不写像素，旁边的不透明点仍是框色",
+      "assertions": [
+        {
+          "line": 65,
+          "endLine": 65,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 66,
+          "endLine": 66,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 67,
+          "endLine": 67,
+          "matchers": ["toBe"]
+        }
+      ],
+      "axis": "exception",
+      "oracle": {
+        "operands": "(1,0)、(0,0)、(2,0)",
+        "matcher": "toBe",
+        "exact": "(1,0) 为 90；(0,0) 与 (2,0) 为 17"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/present/menu/box-shadow-pixels.grok-r1.test.ts",
+        "fullName": "G07-C 菜单框像素 G07-C01 角块透明孔不写像素，旁边的不透明点仍是框色",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G07-C02",
+      "batch": "G07",
+      "group": "G07-C",
+      "primarySource": {
+        "file": "packages/game/src/present/menu/draw-box.ts",
+        "conditionLine": 186,
+        "condition": "单行框中段按 len 重复，len 为 2 时右帽在 x=24（draw-box.ts:186）"
+      },
+      "caller": {
+        "file": "packages/game/src/present/menu/draw-confirm.ts",
+        "line": 41,
+        "expr": "drawSingleLineBox({ fb, x: 130, y: 100, len: 2, uiSpriteFrames })"
+      },
+      "legalInput": "帧 44/45/46 分别是索引 1/2/3 的 8×8 实心图，len 为 2，shadowOffset 0。",
+      "oldTest": {
+        "sha": "5c0619192e3927f90c70e05d397d741e88d00ed2",
+        "file": "packages/game/src/present/menu/draw-box.test.ts",
+        "fullName": "M5.6 W0.c drawBox 画 1×1 内部 box(实际 3×3 tile)— 9 frame 全部 blit",
+        "assertionLine": 32,
+        "matcher": "toBe",
+        "checked": "九宫格第二块在 x=8 的索引是 2",
+        "distinct": "中段 (8,0) 与 (16,0) 为 2，右帽 (24,0) 为 3，(32,0) 保持 90"
+      },
+      "file": "packages/game/src/present/menu/box-shadow-pixels.grok-r1.test.ts",
+      "fullName": "G07-C 菜单框像素 G07-C02 单行框 len 为 2 时中段重复两次，右帽在 x=24",
+      "assertions": [
+        {
+          "line": 81,
+          "endLine": 81,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 82,
+          "endLine": 82,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 83,
+          "endLine": 83,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 84,
+          "endLine": 84,
+          "matchers": ["toBe"]
+        }
+      ],
+      "axis": "positive",
+      "oracle": {
+        "operands": "(8,0)、(16,0)、(24,0)、(32,0)",
+        "matcher": "toBe",
+        "exact": "(8,0) 与 (16,0) 为 2；(24,0) 为 3；(32,0) 为 90"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/present/menu/box-shadow-pixels.grok-r1.test.ts",
+        "fullName": "G07-C 菜单框像素 G07-C02 单行框 len 为 2 时中段重复两次，右帽在 x=24",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G07-C03",
+      "batch": "G07",
+      "group": "G07-C",
+      "primarySource": {
+        "file": "packages/game/src/present/menu/draw-box.ts",
+        "conditionLine": 173,
+        "condition": "shadowOffset 为 0 时单行框不画阴影（draw-box.ts:173）"
+      },
+      "caller": {
+        "file": "packages/game/src/present/menu/draw-confirm.ts",
+        "line": 41,
+        "expr": "drawSingleLineBox({ fb, x: 130, y: 100, len: 2, uiSpriteFrames })"
+      },
+      "legalInput": "默认单行帧，len 为 1，shadowOffset 显式为 0。",
+      "oldTest": {
+        "sha": "334689a0920835e38fc4bf6082b250a3dbb720ed",
+        "file": "packages/game/src/present/menu/draw-box.glm-phase1-leaves.test.ts",
+        "fullName": "L12 drawBox / drawSingleLineBox 剩余合同 shadowOffset 0：无阴影，(x+6,y+6) 保持底色",
+        "assertionLine": 43,
+        "matcher": "toBe",
+        "checked": "九宫格外侧一点保持 90",
+        "distinct": "单行框的 (6,8) 保持 90，(0,0) 为 17"
+      },
+      "file": "packages/game/src/present/menu/box-shadow-pixels.grok-r1.test.ts",
+      "fullName": "G07-C 菜单框像素 G07-C03 单行框 shadowOffset 为 0 时 (6,8) 保持底色",
+      "assertions": [
+        {
+          "line": 98,
+          "endLine": 98,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 99,
+          "endLine": 99,
+          "matchers": ["toBe"]
+        }
+      ],
+      "axis": "boundary",
+      "oracle": {
+        "operands": "(6,8) 与 (0,0)",
+        "matcher": "toBe",
+        "exact": "(6,8) 为 90；(0,0) 为 17"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/present/menu/box-shadow-pixels.grok-r1.test.ts",
+        "fullName": "G07-C 菜单框像素 G07-C03 单行框 shadowOffset 为 0 时 (6,8) 保持底色",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G07-C04",
+      "batch": "G07",
+      "group": "G07-C",
+      "primarySource": {
+        "file": "packages/game/src/present/menu/draw-box.ts",
+        "conditionLine": 42,
+        "condition": "默认阴影把底色低四位右移一位（draw-box.ts:42）"
+      },
+      "caller": {
+        "file": "packages/game/src/present/menu/draw-confirm.ts",
+        "line": 41,
+        "expr": "drawSingleLineBox({ fb, x: 130, y: 100, len: 2, uiSpriteFrames })"
+      },
+      "legalInput": "单行框不传 shadowOffset，底色 90。",
+      "oldTest": {
+        "sha": "5c0619192e3927f90c70e05d397d741e88d00ed2",
+        "file": "packages/game/src/present/menu/draw-box.test.ts",
+        "fullName": "M5.6 W0.c drawBox shadowOffset 6 → 阴影在 (6,6) 偏移位置应用 PAL_CalcShadowColor 到当前 fb pixel",
+        "assertionLine": 73,
+        "matcher": "toBe",
+        "checked": "九宫格把 171 变成 165",
+        "distinct": "单行框 (6,8) 为 85，(6,14) 保持 90，(0,0) 为 17"
+      },
+      "file": "packages/game/src/present/menu/box-shadow-pixels.grok-r1.test.ts",
+      "fullName": "G07-C 菜单框像素 G07-C04 单行框默认阴影落在框身下方，低四位右移一位",
+      "assertions": [
+        {
+          "line": 112,
+          "endLine": 112,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 113,
+          "endLine": 113,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 114,
+          "endLine": 114,
+          "matchers": ["toBe"]
+        }
+      ],
+      "axis": "positive",
+      "oracle": {
+        "operands": "(6,8)、(6,14)、(0,0)",
+        "matcher": "toBe",
+        "exact": "(6,8) 为 85；(6,14) 为 90；(0,0) 为 17"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/present/menu/box-shadow-pixels.grok-r1.test.ts",
+        "fullName": "G07-C 菜单框像素 G07-C04 单行框默认阴影落在框身下方，低四位右移一位",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G07-C05",
+      "batch": "G07",
+      "group": "G07-C",
+      "primarySource": {
+        "file": "packages/game/src/present/menu/draw-box.ts",
+        "conditionLine": 133,
+        "condition": "阴影掩码同样跳过透明孔，孔不投下阴影（draw-box.ts:133）"
+      },
+      "caller": {
+        "file": "packages/game/src/present/menu/draw-magic.ts",
+        "line": 180,
+        "expr": "drawBox({ fb, x: CASTER_PICKER_BOX.x, y: CASTER_PICKER_BOX.y, rows, cols: menuTextMaxCols(casterNames, glyphs), style: 0, uiSpriteFrames })"
+      },
+      "legalInput": "style 0，1×1，shadowOffset 6。右下角帧局部 (7,7) 透明，旁边 (6,7) 不透明。",
+      "oldTest": {
+        "sha": "5c0619192e3927f90c70e05d397d741e88d00ed2",
+        "file": "packages/game/src/present/menu/draw-box.test.ts",
+        "fullName": "M5.6 W0.c drawBox shadowOffset 6 → 阴影在 (6,6) 偏移位置应用 PAL_CalcShadowColor 到当前 fb pixel",
+        "assertionLine": 73,
+        "matcher": "toBe",
+        "checked": "实心帧的阴影把 171 变成 165",
+        "distinct": "孔的阴影位 (29,29) 保持 90，旁边 (28,29) 为 85"
+      },
+      "file": "packages/game/src/present/menu/box-shadow-pixels.grok-r1.test.ts",
+      "fullName": "G07-C 菜单框像素 G07-C05 右下角透明孔不投下阴影，旁边实点的阴影仍把底色变暗",
+      "assertions": [
+        {
+          "line": 130,
+          "endLine": 130,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 131,
+          "endLine": 131,
+          "matchers": ["toBe"]
+        }
+      ],
+      "axis": "exception",
+      "oracle": {
+        "operands": "(29,29) 与 (28,29)",
+        "matcher": "toBe",
+        "exact": "(29,29) 为 90；(28,29) 为 85"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/present/menu/box-shadow-pixels.grok-r1.test.ts",
+        "fullName": "G07-C 菜单框像素 G07-C05 右下角透明孔不投下阴影，旁边实点的阴影仍把底色变暗",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G07-C06",
+      "batch": "G07",
+      "group": "G07-C",
+      "primarySource": {
+        "file": "packages/game/src/present/menu/draw-box.ts",
+        "conditionLine": 75,
+        "condition": "style 1 缺少 frame 9 时抛错并写出该下标（draw-box.ts:75）"
+      },
+      "caller": {
+        "file": "packages/game/src/present/menu/draw-magic.ts",
+        "line": 263,
+        "expr": "drawBox({ fb, x: MAGIC_GRID_BOX.x, y: MAGIC_GRID_BOX.y, rows: MAGIC_LINES_PER_PAGE - 1, cols: 16, style: 1, shadowOffset: 0, uiSpriteFrames })"
+      },
+      "legalInput": "style 1，但帧表只有 0 到 8。",
+      "oldTest": {
+        "sha": "5c0619192e3927f90c70e05d397d741e88d00ed2",
+        "file": "packages/game/src/present/menu/draw-box.test.ts",
+        "fullName": "M5.6 W0.c drawBox uiSpriteFrames 不足 9 个 → 抛错",
+        "assertionLine": 97,
+        "matcher": "toThrow",
+        "checked": "style 0 缺帧时报 uiSpriteFrames[0] missing",
+        "distinct": "这里指名 uiSpriteFrames[9] missing"
+      },
+      "file": "packages/game/src/present/menu/box-shadow-pixels.grok-r1.test.ts",
+      "fullName": "G07-C 菜单框像素 G07-C06 style 1 缺少 frame 9 时抛错并指名该帧",
+      "assertions": [
+        {
+          "line": 137,
+          "endLine": 148,
+          "matchers": ["toThrow"]
+        }
+      ],
+      "axis": "exception",
+      "oracle": {
+        "operands": "drawBox 抛出的消息",
+        "matcher": "toThrow",
+        "exact": "消息匹配 /uiSpriteFrames\\[9\\] missing/"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/present/menu/box-shadow-pixels.grok-r1.test.ts",
+        "fullName": "G07-C 菜单框像素 G07-C06 style 1 缺少 frame 9 时抛错并指名该帧",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G07-C07",
+      "batch": "G07",
+      "group": "G07-C",
+      "primarySource": {
+        "file": "packages/game/src/present/menu/draw-box.ts",
+        "conditionLine": 28,
+        "condition": "列数按字形宽度加 8 再右移 4，然后减 1，下限 1（draw-box.ts:28）"
+      },
+      "caller": {
+        "file": "packages/game/src/present/menu/draw-magic.ts",
+        "line": 185,
+        "expr": "cols: menuTextMaxCols(casterNames, glyphs)"
+      },
+      "legalInput": "八个夹具半角 E，每个宽 8。",
+      "oldTest": {
+        "sha": "334689a0920835e38fc4bf6082b250a3dbb720ed",
+        "file": "packages/game/src/present/menu/draw-box.glm-phase1-leaves.test.ts",
+        "fullName": "L12 drawBox / drawSingleLineBox 剩余合同 menuTextMaxCols：空表 → 1（下限）；全角 4 字 → 3；缺字形 ASCII 按 16px 计",
+        "assertionLine": 69,
+        "matcher": "toBe",
+        "checked": "缺字形的 8 个 ASCII 按 16 像素计成 7",
+        "distinct": "八个 E 是 3，不是 7"
+      },
+      "file": "packages/game/src/present/menu/box-shadow-pixels.grok-r1.test.ts",
+      "fullName": "G07-C 菜单框像素 G07-C07 八个半角 E 的列数是 3，不按缺字 16 像素计成 7",
+      "assertions": [
+        {
+          "line": 152,
+          "endLine": 152,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 153,
+          "endLine": 153,
+          "matchers": ["not.toBe"]
+        }
+      ],
+      "axis": "positive",
+      "oracle": {
+        "operands": "menuTextMaxCols(['EEEEEEEE'])",
+        "matcher": "toBe / not.toBe",
+        "exact": "结果为 3，不是 7"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/present/menu/box-shadow-pixels.grok-r1.test.ts",
+        "fullName": "G07-C 菜单框像素 G07-C07 八个半角 E 的列数是 3，不按缺字 16 像素计成 7",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G07-C08",
+      "batch": "G07",
+      "group": "G07-C",
+      "primarySource": {
+        "file": "packages/game/src/present/menu/draw-box.ts",
+        "conditionLine": 83,
+        "condition": "内容行数为 0 时总行数是 2，只留上下边（draw-box.ts:83）"
+      },
+      "caller": {
+        "file": "packages/game/src/present/menu/draw-magic.ts",
+        "line": 180,
+        "expr": "drawBox({ fb, x: CASTER_PICKER_BOX.x, y: CASTER_PICKER_BOX.y, rows, cols: menuTextMaxCols(casterNames, glyphs), style: 0, uiSpriteFrames })"
+      },
+      "legalInput": "rows 为 0，cols 为 1，style 0，shadowOffset 0。",
+      "oldTest": {
+        "sha": "5c0619192e3927f90c70e05d397d741e88d00ed2",
+        "file": "packages/game/src/present/menu/draw-box.test.ts",
+        "fullName": "M5.6 W0.c drawBox rows=2 cols=4 → 4×6 tile 网格",
+        "assertionLine": 90,
+        "matcher": "toBe",
+        "checked": "两行内容时第二列顶是帧 1",
+        "distinct": "(0,16) 保持 90，(0,0) 与 (0,8) 为 17"
+      },
+      "file": "packages/game/src/present/menu/box-shadow-pixels.grok-r1.test.ts",
+      "fullName": "G07-C 菜单框像素 G07-C08 内容行数为 0 时只留上下两边，y=16 保持底色",
+      "assertions": [
+        {
+          "line": 169,
+          "endLine": 169,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 170,
+          "endLine": 170,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 171,
+          "endLine": 171,
+          "matchers": ["toBe"]
+        }
+      ],
+      "axis": "boundary",
+      "oracle": {
+        "operands": "(0,16)、(0,0)、(0,8)",
+        "matcher": "toBe",
+        "exact": "(0,16) 为 90；(0,0) 与 (0,8) 为 17"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/present/menu/box-shadow-pixels.grok-r1.test.ts",
+        "fullName": "G07-C 菜单框像素 G07-C08 内容行数为 0 时只留上下两边，y=16 保持底色",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G07-C09",
+      "batch": "G07",
+      "group": "G07-C",
+      "primarySource": {
+        "file": "packages/game/src/present/menu/draw-box.ts",
+        "conditionLine": 84,
+        "condition": "内容列数为 0 时总列数是 2，只留左右边（draw-box.ts:84）"
+      },
+      "caller": {
+        "file": "packages/game/src/present/menu/draw-magic.ts",
+        "line": 180,
+        "expr": "drawBox({ fb, x: CASTER_PICKER_BOX.x, y: CASTER_PICKER_BOX.y, rows, cols: menuTextMaxCols(casterNames, glyphs), style: 0, uiSpriteFrames })"
+      },
+      "legalInput": "cols 为 0，rows 为 1，style 0，shadowOffset 0。",
+      "oldTest": {
+        "sha": "5c0619192e3927f90c70e05d397d741e88d00ed2",
+        "file": "packages/game/src/present/menu/draw-box.test.ts",
+        "fullName": "M5.6 W0.c drawBox rows=2 cols=4 → 4×6 tile 网格",
+        "assertionLine": 91,
+        "matcher": "toBe",
+        "checked": "四列内容时第三列顶有像素",
+        "distinct": "(16,0) 保持 90，(0,0) 与 (8,0) 为 17"
+      },
+      "file": "packages/game/src/present/menu/box-shadow-pixels.grok-r1.test.ts",
+      "fullName": "G07-C 菜单框像素 G07-C09 内容列数为 0 时只留左右两边，x=16 保持底色",
+      "assertions": [
+        {
+          "line": 187,
+          "endLine": 187,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 188,
+          "endLine": 188,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 189,
+          "endLine": 189,
+          "matchers": ["toBe"]
+        }
+      ],
+      "axis": "boundary",
+      "oracle": {
+        "operands": "(16,0)、(0,0)、(8,0)",
+        "matcher": "toBe",
+        "exact": "(16,0) 为 90；(0,0) 与 (8,0) 为 17"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/present/menu/box-shadow-pixels.grok-r1.test.ts",
+        "fullName": "G07-C 菜单框像素 G07-C09 内容列数为 0 时只留左右两边，x=16 保持底色",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G07-C10",
+      "batch": "G07",
+      "group": "G07-C",
+      "primarySource": {
+        "file": "packages/game/src/present/menu/draw-box.ts",
+        "conditionLine": 115,
+        "condition": "opaque 为 1 且索引为 0 的块仍覆盖底色（draw-box.ts:115）"
+      },
+      "caller": {
+        "file": "packages/game/src/present/menu/draw-magic.ts",
+        "line": 180,
+        "expr": "drawBox({ fb, x: CASTER_PICKER_BOX.x, y: CASTER_PICKER_BOX.y, rows, cols: menuTextMaxCols(casterNames, glyphs), style: 0, uiSpriteFrames })"
+      },
+      "legalInput": "九帧都是索引 0、opaque 全 1，shadowOffset 0。",
+      "oldTest": {
+        "sha": "5c0619192e3927f90c70e05d397d741e88d00ed2",
+        "file": "packages/game/src/present/menu/draw-box.test.ts",
+        "fullName": "M5.6 W0.c drawBox 画 1×1 内部 box(实际 3×3 tile)— 9 frame 全部 blit",
+        "assertionLine": 30,
+        "matcher": "toBe",
+        "checked": "实心帧索引 1 写进 (0,0)",
+        "distinct": "(0,0) 为 0，(24,0) 保持 90"
+      },
+      "file": "packages/game/src/present/menu/box-shadow-pixels.grok-r1.test.ts",
+      "fullName": "G07-C 菜单框像素 G07-C10 不透明且索引为 0 的块仍覆盖底色",
+      "assertions": [
+        {
+          "line": 207,
+          "endLine": 207,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 208,
+          "endLine": 208,
+          "matchers": ["toBe"]
+        }
+      ],
+      "axis": "positive",
+      "oracle": {
+        "operands": "(0,0) 与 (24,0)",
+        "matcher": "toBe",
+        "exact": "(0,0) 为 0；(24,0) 为 90"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/present/menu/box-shadow-pixels.grok-r1.test.ts",
+        "fullName": "G07-C 菜单框像素 G07-C10 不透明且索引为 0 的块仍覆盖底色",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G07-C11",
+      "batch": "G07",
+      "group": "G07-C",
+      "primarySource": {
+        "file": "packages/game/src/present/menu/draw-box.ts",
+        "conditionLine": 29,
+        "condition": "列数取列表里最长的一项，短项不抬高列数（draw-box.ts:29）"
+      },
+      "caller": {
+        "file": "packages/game/src/present/menu/draw-magic.ts",
+        "line": 185,
+        "expr": "cols: menuTextMaxCols(casterNames, glyphs)"
+      },
+      "legalInput": "夹具全角甲宽 16。比较单项、先短后长、先长后短。",
+      "oldTest": {
+        "sha": "334689a0920835e38fc4bf6082b250a3dbb720ed",
+        "file": "packages/game/src/present/menu/draw-box.glm-phase1-leaves.test.ts",
+        "fullName": "L12 drawBox / drawSingleLineBox 剩余合同 menuTextMaxCols：空表 → 1（下限）；全角 4 字 → 3；缺字形 ASCII 按 16px 计",
+        "assertionLine": 66,
+        "matcher": "toBe",
+        "checked": "单独四个全角字是 3",
+        "distinct": "['甲','甲甲甲甲'] 与相反顺序都是 3，单独甲是 1"
+      },
+      "file": "packages/game/src/present/menu/box-shadow-pixels.grok-r1.test.ts",
+      "fullName": "G07-C 菜单框像素 G07-C11 列数取最长的一项，短项不把列数抬高",
+      "assertions": [
+        {
+          "line": 212,
+          "endLine": 212,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 213,
+          "endLine": 213,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 214,
+          "endLine": 214,
+          "matchers": ["toBe"]
+        }
+      ],
+      "axis": "ownership",
+      "oracle": {
+        "operands": "三种列表的列数",
+        "matcher": "toBe",
+        "exact": "两种顺序都是 3；['甲'] 是 1"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/present/menu/box-shadow-pixels.grok-r1.test.ts",
+        "fullName": "G07-C 菜单框像素 G07-C11 列数取最长的一项，短项不把列数抬高",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G07-C12",
+      "batch": "G07",
+      "group": "G07-C",
+      "primarySource": {
+        "file": "packages/game/src/present/menu/draw-box.ts",
+        "conditionLine": 186,
+        "condition": "len 为 0 时中段循环不跑，右帽紧跟左帽（draw-box.ts:186）"
+      },
+      "caller": {
+        "file": "packages/game/src/present/menu/draw-confirm.ts",
+        "line": 41,
+        "expr": "drawSingleLineBox({ fb, x: 130, y: 100, len: 2, uiSpriteFrames })"
+      },
+      "legalInput": "帧 44/45/46 为索引 1/2/3，len 为 0，shadowOffset 0。",
+      "oldTest": {
+        "sha": "334689a0920835e38fc4bf6082b250a3dbb720ed",
+        "file": "packages/game/src/present/menu/draw-box.glm-phase1-leaves.test.ts",
+        "fullName": "L12 drawBox / drawSingleLineBox 剩余合同 drawSingleLineBox 缺 44-46 帧 → fail-loud 抛错（指名帧区间）",
+        "assertionLine": 24,
+        "matcher": "toThrow",
+        "checked": "缺帧时抛错，不看 len 0 的几何",
+        "distinct": "(0,0) 为 1，(8,0) 为 3，(16,0) 保持 90"
+      },
+      "file": "packages/game/src/present/menu/box-shadow-pixels.grok-r1.test.ts",
+      "fullName": "G07-C 菜单框像素 G07-C12 单行框 len 为 0 时没有中段，右帽紧跟左帽",
+      "assertions": [
+        {
+          "line": 228,
+          "endLine": 228,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 229,
+          "endLine": 229,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 230,
+          "endLine": 230,
+          "matchers": ["toBe"]
+        }
+      ],
+      "axis": "boundary",
+      "oracle": {
+        "operands": "(0,0)、(8,0)、(16,0)",
+        "matcher": "toBe",
+        "exact": "(0,0) 为 1；(8,0) 为 3；(16,0) 为 90"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/present/menu/box-shadow-pixels.grok-r1.test.ts",
+        "fullName": "G07-C 菜单框像素 G07-C12 单行框 len 为 0 时没有中段，右帽紧跟左帽",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G07-D01",
+      "batch": "G07",
+      "group": "G07-D",
+      "primarySource": {
+        "file": "packages/game/src/present/menu/draw-opening-menu.ts",
+        "conditionLine": 56,
+        "condition": "只要传入背景就整图铺上，索引 0 也覆盖底色（draw-opening-menu.ts:56）"
+      },
+      "caller": {
+        "file": "packages/game/src/present/menu/draw-menu.ts",
+        "line": 121,
+        "expr": "drawOpeningMenu({ fb, state: entry.state as OpeningMenuState, bg: extra?.openingMenuBg, glyphs })"
+      },
+      "legalInput": "词表 7/8 为甲甲甲甲与乙乙乙乙。背景 320×200 全 0。光标 0，freezeNow(0)。",
+      "oldTest": {
+        "sha": "2e07b15f81a44f26cb1e7a066627c0075aa7d4d7",
+        "file": "packages/game/src/present/menu/draw-opening-menu.test.ts",
+        "fullName": "drawOpeningMenu — sdlpal uigame.c:42-167 PAL_OpeningMenu 渲染 320×200 全屏背景 blit — center pixel = bg.indices[center]",
+        "assertionLine": 40,
+        "matcher": "toBe",
+        "checked": "中心像素等于非零背景索引 171",
+        "distinct": "(1,1) 为 0，选中字为 249，背景对象前后相等"
+      },
+      "file": "packages/game/src/present/menu/opening-confirm-pixels.grok-r1.test.ts",
+      "fullName": "G07-D 开场与确认像素 G07-D01 背景索引 0 覆盖底色，选中字仍是闪烁色",
+      "assertions": [
+        {
+          "line": 57,
+          "endLine": 57,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 58,
+          "endLine": 58,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 59,
+          "endLine": 59,
+          "matchers": ["toEqual"]
+        }
+      ],
+      "axis": "positive",
+      "oracle": {
+        "operands": "(1,1)、选中字、绘制前后的菜单和背景",
+        "matcher": "toBe / toEqual",
+        "exact": "(1,1) 为 0；甲为 249；输入前后相等"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/present/menu/opening-confirm-pixels.grok-r1.test.ts",
+        "fullName": "G07-D 开场与确认像素 G07-D01 背景索引 0 覆盖底色，选中字仍是闪烁色",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G07-D02",
+      "batch": "G07",
+      "group": "G07-D",
+      "primarySource": {
+        "file": "packages/game/src/present/menu/draw-opening-menu.ts",
+        "conditionLine": 57,
+        "condition": "背景只按自己的宽高铺，不拉到全屏（draw-opening-menu.ts:57）"
+      },
+      "caller": {
+        "file": "packages/game/src/present/menu/draw-menu.ts",
+        "line": 121,
+        "expr": "drawOpeningMenu({ fb, state: entry.state as OpeningMenuState, bg: extra?.openingMenuBg, glyphs })"
+      },
+      "legalInput": "4×4 背景填 85。词表同上，光标 0。",
+      "oldTest": {
+        "sha": "2e07b15f81a44f26cb1e7a066627c0075aa7d4d7",
+        "file": "packages/game/src/present/menu/draw-opening-menu.test.ts",
+        "fullName": "drawOpeningMenu — sdlpal uigame.c:42-167 PAL_OpeningMenu 渲染 320×200 全屏背景 blit — center pixel = bg.indices[center]",
+        "assertionLine": 40,
+        "matcher": "toBe",
+        "checked": "320×200 背景盖住中心",
+        "distinct": "(1,1) 为 85，(4,1) 保持 90，选中字为 249"
+      },
+      "file": "packages/game/src/present/menu/opening-confirm-pixels.grok-r1.test.ts",
+      "fullName": "G07-D 开场与确认像素 G07-D02 4×4 背景只铺到自己的矩形，外侧保持底色",
+      "assertions": [
+        {
+          "line": 75,
+          "endLine": 75,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 76,
+          "endLine": 76,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 77,
+          "endLine": 77,
+          "matchers": ["toBe"]
+        }
+      ],
+      "axis": "boundary",
+      "oracle": {
+        "operands": "(1,1)、(4,1)、选中字",
+        "matcher": "toBe",
+        "exact": "(1,1) 为 85；(4,1) 为 90；甲为 249"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/present/menu/opening-confirm-pixels.grok-r1.test.ts",
+        "fullName": "G07-D 开场与确认像素 G07-D02 4×4 背景只铺到自己的矩形，外侧保持底色",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G07-D03",
+      "batch": "G07",
+      "group": "G07-D",
+      "primarySource": {
+        "file": "packages/game/src/present/menu/draw-opening-menu.ts",
+        "conditionLine": 67,
+        "condition": "只有光标下标等于行号才用闪烁色，越出两项时两行都是常态色（draw-opening-menu.ts:67）"
+      },
+      "caller": {
+        "file": "packages/game/src/present/menu/draw-menu.ts",
+        "line": 121,
+        "expr": "drawOpeningMenu({ fb, state: entry.state as OpeningMenuState, bg: extra?.openingMenuBg, glyphs })"
+      },
+      "legalInput": "光标设为 5。背景全 0，保证字画在索引 0 上。",
+      "oldTest": {
+        "sha": "1be38a58427065e84534580398b15089c1c42c0d",
+        "file": "packages/game/src/present/menu/draw-opening-menu.glm-phase1-leaves.test.ts",
+        "fullName": "L12 drawOpeningMenu 剩余合同 cursor 0：第 1 行 0xF9、第 2 行 0x4F（词表 4 字 label → x=125）",
+        "assertionLine": 39,
+        "matcher": "toBe",
+        "checked": "光标 0 时第一行是 249、第二行是 79",
+        "distinct": "两行都是 79，第一行不是 249"
+      },
+      "file": "packages/game/src/present/menu/opening-confirm-pixels.grok-r1.test.ts",
+      "fullName": "G07-D 开场与确认像素 G07-D03 光标越过两项时两行都是未选中色",
+      "assertions": [
+        {
+          "line": 94,
+          "endLine": 94,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 95,
+          "endLine": 95,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 96,
+          "endLine": 96,
+          "matchers": ["not.toBe"]
+        }
+      ],
+      "axis": "boundary",
+      "oracle": {
+        "operands": "两行字色",
+        "matcher": "toBe / not.toBe",
+        "exact": "两行都是 79；第 0 行不是 249"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/present/menu/opening-confirm-pixels.grok-r1.test.ts",
+        "fullName": "G07-D 开场与确认像素 G07-D03 光标越过两项时两行都是未选中色",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G07-D04",
+      "batch": "G07",
+      "group": "G07-D",
+      "primarySource": {
+        "file": "packages/game/src/present/menu/draw-opening-menu.ts",
+        "conditionLine": 67,
+        "condition": "绘制只读光标和词表标签，不写回（draw-opening-menu.ts:67）"
+      },
+      "caller": {
+        "file": "packages/game/src/present/menu/draw-menu.ts",
+        "line": 121,
+        "expr": "drawOpeningMenu({ fb, state: entry.state as OpeningMenuState, bg: extra?.openingMenuBg, glyphs })"
+      },
+      "legalInput": "createOpeningMenu 后光标为 0。词表 7/8 为甲甲甲甲与乙乙乙乙。背景全 0。",
+      "oldTest": {
+        "sha": "1be38a58427065e84534580398b15089c1c42c0d",
+        "file": "packages/game/src/present/menu/draw-opening-menu.glm-phase1-leaves.test.ts",
+        "fullName": "L12 drawOpeningMenu 剩余合同 cursor 0：第 1 行 0xF9、第 2 行 0x4F（词表 4 字 label → x=125）",
+        "assertionLine": 39,
+        "matcher": "toBe",
+        "checked": "光标 0 的颜色，不核对绘制后状态",
+        "distinct": "光标仍是 0，两条标签不变，输入前后相等"
+      },
+      "file": "packages/game/src/present/menu/opening-confirm-pixels.grok-r1.test.ts",
+      "fullName": "G07-D 开场与确认像素 G07-D04 绘制不改光标，也不改词表给出的标签",
+      "assertions": [
+        {
+          "line": 112,
+          "endLine": 112,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 113,
+          "endLine": 113,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 114,
+          "endLine": 114,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 115,
+          "endLine": 115,
+          "matchers": ["toEqual"]
+        }
+      ],
+      "axis": "ownership",
+      "oracle": {
+        "operands": "光标、两条标签、绘制前后的输入",
+        "matcher": "toBe / toEqual",
+        "exact": "光标为 0；标签仍是甲甲甲甲与乙乙乙乙；输入前后相等"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/present/menu/opening-confirm-pixels.grok-r1.test.ts",
+        "fullName": "G07-D 开场与确认像素 G07-D04 绘制不改光标，也不改词表给出的标签",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G07-D05",
+      "batch": "G07",
+      "group": "G07-D",
+      "primarySource": {
+        "file": "packages/game/src/present/menu/draw-confirm.ts",
+        "conditionLine": 46,
+        "condition": "左标签从 (145,110) 起笔，两个字都沿这个原点排（draw-confirm.ts:46）"
+      },
+      "caller": {
+        "file": "packages/game/src/present/menu/draw-menu.ts",
+        "line": 313,
+        "expr": "drawConfirmBox(fb, state.confirmYes, uiSpriteFrames, glyphs)"
+      },
+      "legalInput": "labels 为左甲乙、右是。rightSelected 为 false。两框 len 为 2。",
+      "oldTest": {
+        "sha": "5a15c612bbb3868afc53f49cec70d4b8d67c9fe8",
+        "file": "packages/game/src/present/menu/draw-confirm.glm-phase1-leaves.test.ts",
+        "fullName": "L09 drawConfirmBox 默认 否/是：rightSelected=false → 左「否」0xF9、右「是」0x4F；两框体已画",
+        "assertionLine": 31,
+        "matcher": "toBe",
+        "checked": "默认左标签否的第一点是 249",
+        "distinct": "甲和乙都是 249，是为 79，(140,104) 与 (215,104) 为 17"
+      },
+      "file": "packages/game/src/present/menu/opening-confirm-pixels.grok-r1.test.ts",
+      "fullName": "G07-D 开场与确认像素 G07-D05 左标签两个字仍从 (145,110) 起笔，左右框原点不动",
+      "assertions": [
+        {
+          "line": 131,
+          "endLine": 131,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 132,
+          "endLine": 132,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 133,
+          "endLine": 133,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 134,
+          "endLine": 134,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 135,
+          "endLine": 135,
+          "matchers": ["toBe"]
+        }
+      ],
+      "axis": "positive",
+      "oracle": {
+        "operands": "左标签两个字、右标签、两框内部",
+        "matcher": "toBe",
+        "exact": "第二字与第一字为 249；是为 79；两框内部为 17"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/present/menu/opening-confirm-pixels.grok-r1.test.ts",
+        "fullName": "G07-D 开场与确认像素 G07-D05 左标签两个字仍从 (145,110) 起笔，左右框原点不动",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G07-D06",
+      "batch": "G07",
+      "group": "G07-D",
+      "primarySource": {
+        "file": "packages/game/src/present/menu/draw-confirm.ts",
+        "conditionLine": 46,
+        "condition": "左右标签都是空串时不写出默认的否/是（draw-confirm.ts:46）"
+      },
+      "caller": {
+        "file": "packages/game/src/present/menu/draw-menu.ts",
+        "line": 313,
+        "expr": "drawConfirmBox(fb, state.confirmYes, uiSpriteFrames, glyphs)"
+      },
+      "legalInput": "labels 左右都是空串。rightSelected 为 false。",
+      "oldTest": {
+        "sha": "5a15c612bbb3868afc53f49cec70d4b8d67c9fe8",
+        "file": "packages/game/src/present/menu/draw-confirm.glm-phase1-leaves.test.ts",
+        "fullName": "L09 drawConfirmBox 默认 否/是：rightSelected=false → 左「否」0xF9、右「是」0x4F；两框体已画",
+        "assertionLine": 31,
+        "matcher": "toBe",
+        "checked": "默认字否是 249",
+        "distinct": "否的默认点不是 249，是的默认点不是 79，两框内部仍是 17"
+      },
+      "file": "packages/game/src/present/menu/opening-confirm-pixels.grok-r1.test.ts",
+      "fullName": "G07-D 开场与确认像素 G07-D06 左右标签都是空串时不写字，两框照画",
+      "assertions": [
+        {
+          "line": 150,
+          "endLine": 150,
+          "matchers": ["not.toBe"]
+        },
+        {
+          "line": 151,
+          "endLine": 151,
+          "matchers": ["not.toBe"]
+        },
+        {
+          "line": 152,
+          "endLine": 152,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 153,
+          "endLine": 153,
+          "matchers": ["toBe"]
+        }
+      ],
+      "axis": "exception",
+      "oracle": {
+        "operands": "默认否/是落点与两框内部",
+        "matcher": "not.toBe / toBe",
+        "exact": "否的落点不是 249；是的落点不是 79；两框内部为 17"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/present/menu/opening-confirm-pixels.grok-r1.test.ts",
+        "fullName": "G07-D 开场与确认像素 G07-D06 左右标签都是空串时不写字，两框照画",
+        "status": "passed"
+      }
+    },
+    {
+      "id": "G07-D07",
+      "batch": "G07",
+      "group": "G07-D",
+      "primarySource": {
+        "file": "packages/game/src/present/menu/draw-opening-menu.ts",
+        "conditionLine": 68,
+        "condition": "开场字带阴影，右下偏移一格写成 0（draw-opening-menu.ts:68）"
+      },
+      "caller": {
+        "file": "packages/game/src/present/menu/draw-menu.ts",
+        "line": 121,
+        "expr": "drawOpeningMenu({ fb, state: entry.state as OpeningMenuState, bg: extra?.openingMenuBg, glyphs })"
+      },
+      "legalInput": "背景填 85。词表四字甲。光标 0，freezeNow(0)。",
+      "oldTest": {
+        "sha": "1be38a58427065e84534580398b15089c1c42c0d",
+        "file": "packages/game/src/present/menu/draw-opening-menu.glm-phase1-leaves.test.ts",
+        "fullName": "L12 drawOpeningMenu 剩余合同 cursor 0：第 1 行 0xF9、第 2 行 0x4F（词表 4 字 label → x=125）",
+        "assertionLine": 42,
+        "matcher": "toBe",
+        "checked": "底色上的右影是 0",
+        "distinct": "右下影为 0，字本体为 249，(1,1) 仍是 85"
+      },
+      "file": "packages/game/src/present/menu/opening-confirm-pixels.grok-r1.test.ts",
+      "fullName": "G07-D 开场与确认像素 G07-D07 背景索引 0x55 上的字影是 0，字本体仍是闪烁色",
+      "assertions": [
+        {
+          "line": 173,
+          "endLine": 173,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 174,
+          "endLine": 174,
+          "matchers": ["toBe"]
+        },
+        {
+          "line": 175,
+          "endLine": 175,
+          "matchers": ["toBe"]
+        }
+      ],
+      "axis": "positive",
+      "oracle": {
+        "operands": "字的右下、字本体、(1,1)",
+        "matcher": "toBe",
+        "exact": "右下为 0；字为 249；(1,1) 为 85"
+      },
+      "classification": "new-contract",
+      "execution": {
+        "file": "src/present/menu/opening-confirm-pixels.grok-r1.test.ts",
+        "fullName": "G07-D 开场与确认像素 G07-D07 背景索引 0x55 上的字影是 0，字本体仍是闪烁色",
+        "status": "passed"
+      }
     }
   ],
   "existingProof": [
@@ -14262,6 +16849,481 @@
         "checked": "(185,58) 没有 renderText 调用",
         "fullName": "drawPlayerStatus 毒 row(uigame.c:1245-1253) wPoisonID=0(无毒槽)→ 不画"
       }
+    },
+    {
+      "id": "G07-EP-p06-hp",
+      "classification": "existing-proof",
+      "reason": "两人不同体力已由 P06 证明。",
+      "oldTest": {
+        "sha": "51fdff9b96a176b6eaa90179f93670060ae83710",
+        "file": "packages/game/src/present/__tests__/grok-present/p06-magic.test.ts",
+        "assertionLine": 134,
+        "matcher": "toBe",
+        "checked": "戊的体力个位是黄 2，乙的个位是黄 4",
+        "fullName": "P06 仙术页 P06 施法者阶段按队伍顺序画两人不同HP"
+      }
+    },
+    {
+      "id": "G07-EP-p06-mp",
+      "classification": "existing-proof",
+      "reason": "需要真气 8 与现行真气 8 已由 P06 证明。",
+      "oldTest": {
+        "sha": "51fdff9b96a176b6eaa90179f93670060ae83710",
+        "file": "packages/game/src/present/__tests__/grok-present/p06-magic.test.ts",
+        "assertionLine": 200,
+        "matcher": "toBe",
+        "checked": "(15,14) 的个位是黄 8，(50,14) 的个位是青 8",
+        "fullName": "P06 仙术页 P06 仙术页区分MP够与不够，并画出说明和现行MP"
+      }
+    },
+    {
+      "id": "G07-EP-p06-page",
+      "classification": "existing-proof",
+      "reason": "翻页后左上格换成后页仙术已由 P06 证明。",
+      "oldTest": {
+        "sha": "51fdff9b96a176b6eaa90179f93670060ae83710",
+        "file": "packages/game/src/present/__tests__/grok-present/p06-magic.test.ts",
+        "assertionLine": 257,
+        "matcher": "toBe",
+        "checked": "癸在左上，甲不再是选中色",
+        "fullName": "P06 仙术页 P06 翻页后左上格换成后页仙术，目标阶段光标按队员移动"
+      }
+    },
+    {
+      "id": "G07-EP-p06-cursor",
+      "classification": "existing-proof",
+      "reason": "目标光标从 (75,158) 移到 (153,158) 已由 P06 证明。",
+      "oldTest": {
+        "sha": "51fdff9b96a176b6eaa90179f93670060ae83710",
+        "file": "packages/game/src/present/__tests__/grok-present/p06-magic.test.ts",
+        "assertionLine": 295,
+        "matcher": "toBe",
+        "checked": "(153,158) 是上箭头",
+        "fullName": "P06 仙术页 P06 翻页后左上格换成后页仙术，目标阶段光标按队员移动"
+      }
+    },
+    {
+      "id": "G07-EP-glm-dead",
+      "classification": "existing-proof",
+      "reason": "死亡施法人未选中是暗色已由 glm 证明。",
+      "oldTest": {
+        "sha": "6ada0032e51b7286636202c07b9e0dfab744e414",
+        "file": "packages/game/src/present/menu/draw-magic.glm-phase1-leaves.test.ts",
+        "assertionLine": 119,
+        "matcher": "toBe",
+        "checked": "乙的名字点是未选中暗色",
+        "fullName": "L10 drawInGameMagicMenu 剩余分支 pick-caster：死亡施法人未选中 0x18、被选中 0x1C；活人选中 0xF9"
+      }
+    },
+    {
+      "id": "G07-EP-glm-short",
+      "classification": "existing-proof",
+      "reason": "选中且真气不足是 28 已由 glm 证明。",
+      "oldTest": {
+        "sha": "6ada0032e51b7286636202c07b9e0dfab744e414",
+        "file": "packages/game/src/present/menu/draw-magic.glm-phase1-leaves.test.ts",
+        "assertionLine": 199,
+        "matcher": "toBe",
+        "checked": "不足项是选中暗色",
+        "fullName": "L10 drawInGameMagicMenu 剩余分支 pick-spell：选中+MP不足 0x1C（预置 disabled 着色，不证明判定已执行）"
+      }
+    },
+    {
+      "id": "G07-EP-glm-empty",
+      "classification": "existing-proof",
+      "reason": "空法术表的需要真气 0 已由 glm 证明。",
+      "oldTest": {
+        "sha": "6ada0032e51b7286636202c07b9e0dfab744e414",
+        "file": "packages/game/src/present/menu/draw-magic.glm-phase1-leaves.test.ts",
+        "assertionLine": 228,
+        "matcher": "toBe",
+        "checked": "(33,14) 是黄 0",
+        "fullName": "L10 drawInGameMagicMenu 剩余分支 空法术表：只画 grid 框，不画条目不抛错；MP 框 needed 0"
+      }
+    },
+    {
+      "id": "G07-EP-glm-fallback",
+      "classification": "existing-proof",
+      "reason": "缺名回退 role#id 已由 glm 证明。",
+      "oldTest": {
+        "sha": "6ada0032e51b7286636202c07b9e0dfab744e414",
+        "file": "packages/game/src/present/menu/draw-magic.glm-phase1-leaves.test.ts",
+        "assertionLine": 265,
+        "matcher": "toBe",
+        "checked": "回退标签的亮点是 249",
+        "fullName": "L10 drawInGameMagicMenu 剩余分支 spell 不在 catalog：grid label 回退 menu item label；施法人缺 _name 回退 role#id"
+      }
+    },
+    {
+      "id": "G07-EP-dmagic-desc",
+      "classification": "existing-proof",
+      "reason": "选中仙术说明会写出像素已由 draw-magic 证明。",
+      "oldTest": {
+        "sha": "5411b147446c7aedcb2a09651ee30c069c5b012d",
+        "file": "packages/game/src/present/menu/draw-magic.test.ts",
+        "assertionLine": 147,
+        "matcher": "toBeGreaterThan",
+        "checked": "说明像素数大于 0",
+        "fullName": "drawInGameMagicMenu pick-spell 画选中仙术 scriptDesc 说明(magicmenu.c:191)"
+      }
+    },
+    {
+      "id": "G07-EP-dmagic-win95",
+      "classification": "existing-proof",
+      "reason": "右侧真气区不画斜杠已由 draw-magic 证明。",
+      "oldTest": {
+        "sha": "5411b147446c7aedcb2a09651ee30c069c5b012d",
+        "file": "packages/game/src/present/menu/draw-magic.test.ts",
+        "assertionLine": 231,
+        "matcher": "toBe",
+        "checked": "x 216 到 272 没有斜杠色",
+        "fullName": "drawInGameMagicMenu L8:pick-spell 用 WIN95 布局 —— MP 在左侧,右侧 MP 区(215~265)无 slash/MP sprite"
+      }
+    },
+    {
+      "id": "G07-EP-p04-price",
+      "classification": "existing-proof",
+      "reason": "买价 123 与 45 已由 P04 证明。",
+      "oldTest": {
+        "sha": "41d0c204f2f6dc09e1e0f5d7321e5b758b748b8e",
+        "file": "packages/game/src/present/__tests__/grok-present/p04-shop.test.ts",
+        "assertionLine": 58,
+        "matcher": "toBe",
+        "checked": "123 的个位是黄 3",
+        "fullName": "P04 商店 P04 买列表、确认层、现有量和金钱用不同哨兵"
+      }
+    },
+    {
+      "id": "G07-EP-p04-owned",
+      "classification": "existing-proof",
+      "reason": "现有数 3 已由 P04 证明。",
+      "oldTest": {
+        "sha": "41d0c204f2f6dc09e1e0f5d7321e5b758b748b8e",
+        "file": "packages/game/src/present/__tests__/grok-present/p04-shop.test.ts",
+        "assertionLine": 64,
+        "matcher": "toBe",
+        "checked": "现有个位是黄 3",
+        "fullName": "P04 商店 P04 买列表、确认层、现有量和金钱用不同哨兵"
+      }
+    },
+    {
+      "id": "G07-EP-p04-confirm",
+      "classification": "existing-proof",
+      "reason": "confirmYes 为 false 时否闪、是常态已由 P04 证明。",
+      "oldTest": {
+        "sha": "41d0c204f2f6dc09e1e0f5d7321e5b758b748b8e",
+        "file": "packages/game/src/present/__tests__/grok-present/p04-shop.test.ts",
+        "assertionLine": 67,
+        "matcher": "toBe",
+        "checked": "否是闪烁色",
+        "fullName": "P04 商店 P04 买列表、确认层、现有量和金钱用不同哨兵"
+      }
+    },
+    {
+      "id": "G07-EP-p04-sell",
+      "classification": "existing-proof",
+      "reason": "81 的一半十位是 4 已由 P04 证明。",
+      "oldTest": {
+        "sha": "41d0c204f2f6dc09e1e0f5d7321e5b758b748b8e",
+        "file": "packages/game/src/present/__tests__/grok-present/p04-shop.test.ts",
+        "assertionLine": 99,
+        "matcher": "toBe",
+        "checked": "十位是黄 4，不是黄 8",
+        "fullName": "P04 商店 P04 卖overlay画售价的一半，不执行买卖"
+      }
+    },
+    {
+      "id": "G07-EP-gshop-owned",
+      "classification": "existing-proof",
+      "reason": "库存 2 加装备 1 得 3 已由 glm 证明。",
+      "oldTest": {
+        "sha": "57298da986e92ec3bf92a88addf918a9485e5b57",
+        "file": "packages/game/src/present/menu/draw-shop.glm-phase1-leaves.test.ts",
+        "assertionLine": 44,
+        "matcher": "toBe",
+        "checked": "现有个位是黄 3",
+        "fullName": "L12 drawShopMenu 剩余分支 ownedCount = 库存 2 + 跨队已装备 1 = 3（uigame.c:1554-1577）"
+      }
+    },
+    {
+      "id": "G07-EP-gshop-empty",
+      "classification": "existing-proof",
+      "reason": "空店现有数 0 已由 glm 证明。",
+      "oldTest": {
+        "sha": "57298da986e92ec3bf92a88addf918a9485e5b57",
+        "file": "packages/game/src/present/menu/draw-shop.glm-phase1-leaves.test.ts",
+        "assertionLine": 55,
+        "matcher": "toBe",
+        "checked": "现有个位是黄 0",
+        "fullName": "L12 drawShopMenu 剩余分支 空店铺列表：框与两单行框照画，owned 0、无图标、不崩"
+      }
+    },
+    {
+      "id": "G07-EP-gshop-nosell",
+      "classification": "existing-proof",
+      "reason": "不可卖时不画售价数字已由 glm 证明。",
+      "oldTest": {
+        "sha": "57298da986e92ec3bf92a88addf918a9485e5b57",
+        "file": "packages/game/src/present/menu/draw-shop.glm-phase1-leaves.test.ts",
+        "assertionLine": 77,
+        "matcher": "toBe",
+        "checked": "售价数字位保持 90",
+        "fullName": "L12 drawSellOverlay 剩余分支 光标项非 sellable：两框照画，售价 label 与数字不画"
+      }
+    },
+    {
+      "id": "G07-EP-gshop-half",
+      "classification": "existing-proof",
+      "reason": "可卖项半价 25 已由 glm 证明。",
+      "oldTest": {
+        "sha": "57298da986e92ec3bf92a88addf918a9485e5b57",
+        "file": "packages/game/src/present/menu/draw-shop.glm-phase1-leaves.test.ts",
+        "assertionLine": 97,
+        "matcher": "toBe",
+        "checked": "个位是黄 5",
+        "fullName": "L12 drawSellOverlay 剩余分支 cursorItemId 缺省（空 grid）：售价框照画、无 label；sellable 项画半价"
+      }
+    },
+    {
+      "id": "G07-EP-box-1x1",
+      "classification": "existing-proof",
+      "reason": "1×1 九帧都 blit 已由 draw-box 证明。",
+      "oldTest": {
+        "sha": "5c0619192e3927f90c70e05d397d741e88d00ed2",
+        "file": "packages/game/src/present/menu/draw-box.test.ts",
+        "assertionLine": 30,
+        "matcher": "toBe",
+        "checked": "(0,0) 是第一帧索引",
+        "fullName": "M5.6 W0.c drawBox 画 1×1 内部 box(实际 3×3 tile)— 9 frame 全部 blit"
+      }
+    },
+    {
+      "id": "G07-EP-box-shadow",
+      "classification": "existing-proof",
+      "reason": "阴影把 171 变成 165 已由 draw-box 证明。",
+      "oldTest": {
+        "sha": "5c0619192e3927f90c70e05d397d741e88d00ed2",
+        "file": "packages/game/src/present/menu/draw-box.test.ts",
+        "assertionLine": 73,
+        "matcher": "toBe",
+        "checked": "偏移点是 165",
+        "fullName": "M5.6 W0.c drawBox shadowOffset 6 → 阴影在 (6,6) 偏移位置应用 PAL_CalcShadowColor 到当前 fb pixel"
+      }
+    },
+    {
+      "id": "G07-EP-box-style1",
+      "classification": "existing-proof",
+      "reason": "style 1 使用 frame 9 起已由 draw-box 证明。",
+      "oldTest": {
+        "sha": "5c0619192e3927f90c70e05d397d741e88d00ed2",
+        "file": "packages/game/src/present/menu/draw-box.test.ts",
+        "assertionLine": 81,
+        "matcher": "toBe",
+        "checked": "(0,0) 是 10",
+        "fullName": "M5.6 W0.c drawBox style 1 → 用 frame 9-17"
+      }
+    },
+    {
+      "id": "G07-EP-box-throw",
+      "classification": "existing-proof",
+      "reason": "不足 9 帧抛出 frame 0 已由 draw-box 证明。",
+      "oldTest": {
+        "sha": "5c0619192e3927f90c70e05d397d741e88d00ed2",
+        "file": "packages/game/src/present/menu/draw-box.test.ts",
+        "assertionLine": 97,
+        "matcher": "toThrow",
+        "checked": "消息匹配 uiSpriteFrames[0] missing",
+        "fullName": "M5.6 W0.c drawBox uiSpriteFrames 不足 9 个 → 抛错"
+      }
+    },
+    {
+      "id": "G07-EP-gbox-frames",
+      "classification": "existing-proof",
+      "reason": "单行框缺 44 到 46 会抛错已由 glm 证明。",
+      "oldTest": {
+        "sha": "334689a0920835e38fc4bf6082b250a3dbb720ed",
+        "file": "packages/game/src/present/menu/draw-box.glm-phase1-leaves.test.ts",
+        "assertionLine": 24,
+        "matcher": "toThrow",
+        "checked": "抛错指名帧区间",
+        "fullName": "L12 drawBox / drawSingleLineBox 剩余合同 drawSingleLineBox 缺 44-46 帧 → fail-loud 抛错（指名帧区间）"
+      }
+    },
+    {
+      "id": "G07-EP-gbox-shadow0",
+      "classification": "existing-proof",
+      "reason": "shadowOffset 0 不改框外点已由 glm 证明。",
+      "oldTest": {
+        "sha": "334689a0920835e38fc4bf6082b250a3dbb720ed",
+        "file": "packages/game/src/present/menu/draw-box.glm-phase1-leaves.test.ts",
+        "assertionLine": 43,
+        "matcher": "toBe",
+        "checked": "框外点保持 90",
+        "fullName": "L12 drawBox / drawSingleLineBox 剩余合同 shadowOffset 0：无阴影，(x+6,y+6) 保持底色"
+      }
+    },
+    {
+      "id": "G07-EP-gbox-cols",
+      "classification": "existing-proof",
+      "reason": "空表列数 1、四个全角字列数 3 已由 glm 证明。",
+      "oldTest": {
+        "sha": "334689a0920835e38fc4bf6082b250a3dbb720ed",
+        "file": "packages/game/src/present/menu/draw-box.glm-phase1-leaves.test.ts",
+        "assertionLine": 65,
+        "matcher": "toBe",
+        "checked": "空表是 1",
+        "fullName": "L12 drawBox / drawSingleLineBox 剩余合同 menuTextMaxCols：空表 → 1（下限）；全角 4 字 → 3；缺字形 ASCII 按 16px 计"
+      }
+    },
+    {
+      "id": "G07-EP-gbox-ascii",
+      "classification": "existing-proof",
+      "reason": "缺字形的 8 个 ASCII 列数 7 已由 glm 证明。",
+      "oldTest": {
+        "sha": "334689a0920835e38fc4bf6082b250a3dbb720ed",
+        "file": "packages/game/src/present/menu/draw-box.glm-phase1-leaves.test.ts",
+        "assertionLine": 69,
+        "matcher": "toBe",
+        "checked": "结果是 7",
+        "fullName": "L12 drawBox / drawSingleLineBox 剩余合同 menuTextMaxCols：空表 → 1（下限）；全角 4 字 → 3；缺字形 ASCII 按 16px 计"
+      }
+    },
+    {
+      "id": "G07-EP-open-x4",
+      "classification": "existing-proof",
+      "reason": "四字标签的 x 是 125 已由 opening 证明。",
+      "oldTest": {
+        "sha": "2e07b15f81a44f26cb1e7a066627c0075aa7d4d7",
+        "file": "packages/game/src/present/menu/draw-opening-menu.test.ts",
+        "assertionLine": 12,
+        "matcher": "toBe",
+        "checked": "新的故事的 x 是 125",
+        "fullName": "openingItemX — 选项 x 公式(uigame.c:107-108) 真 label('新的故事'/'旧的回忆',各 4 字)→ w=4 → x=125(回归钉死:对 shipped 数据零变化)"
+      }
+    },
+    {
+      "id": "G07-EP-open-x5",
+      "classification": "existing-proof",
+      "reason": "五字 x=117、六字 x=109 已由 opening 证明。",
+      "oldTest": {
+        "sha": "2e07b15f81a44f26cb1e7a066627c0075aa7d4d7",
+        "file": "packages/game/src/present/menu/draw-opening-menu.test.ts",
+        "assertionLine": 17,
+        "matcher": "toBe",
+        "checked": "五字 x 是 117",
+        "fullName": "openingItemX — 选项 x 公式(uigame.c:107-108) 5 字 → w=5 → x=117;6 字 → w=6 → x=109(公式对长文案左移)"
+      }
+    },
+    {
+      "id": "G07-EP-open-bg",
+      "classification": "existing-proof",
+      "reason": "全屏背景中心像素已由 opening 证明。",
+      "oldTest": {
+        "sha": "2e07b15f81a44f26cb1e7a066627c0075aa7d4d7",
+        "file": "packages/game/src/present/menu/draw-opening-menu.test.ts",
+        "assertionLine": 40,
+        "matcher": "toBe",
+        "checked": "中心像素是背景索引",
+        "fullName": "drawOpeningMenu — sdlpal uigame.c:42-167 PAL_OpeningMenu 渲染 320×200 全屏背景 blit — center pixel = bg.indices[center]"
+      }
+    },
+    {
+      "id": "G07-EP-open-nobg",
+      "classification": "existing-proof",
+      "reason": "缺背景时中心保持 0 已由 opening 证明。",
+      "oldTest": {
+        "sha": "2e07b15f81a44f26cb1e7a066627c0075aa7d4d7",
+        "file": "packages/game/src/present/menu/draw-opening-menu.test.ts",
+        "assertionLine": 59,
+        "matcher": "toBe",
+        "checked": "中心像素是 0",
+        "fullName": "drawOpeningMenu — sdlpal uigame.c:42-167 PAL_OpeningMenu 渲染 bg 缺失 → 不画背景(fb 保留初始 0)+ 仍画字"
+      }
+    },
+    {
+      "id": "G07-EP-gopen-color",
+      "classification": "existing-proof",
+      "reason": "光标 0 与光标 1 的两行颜色已由 glm 证明。",
+      "oldTest": {
+        "sha": "1be38a58427065e84534580398b15089c1c42c0d",
+        "file": "packages/game/src/present/menu/draw-opening-menu.glm-phase1-leaves.test.ts",
+        "assertionLine": 39,
+        "matcher": "toBe",
+        "checked": "第一行 249，第二行 79",
+        "fullName": "L12 drawOpeningMenu 剩余合同 cursor 0：第 1 行 0xF9、第 2 行 0x4F（词表 4 字 label → x=125）"
+      }
+    },
+    {
+      "id": "G07-EP-gopen-tofu",
+      "classification": "existing-proof",
+      "reason": "词表未载时的豆腐色已由 glm 证明。",
+      "oldTest": {
+        "sha": "1be38a58427065e84534580398b15089c1c42c0d",
+        "file": "packages/game/src/present/menu/draw-opening-menu.glm-phase1-leaves.test.ts",
+        "assertionLine": 57,
+        "matcher": "toBe",
+        "checked": "回退文案点是 79",
+        "fullName": "L12 drawOpeningMenu 剩余合同 cursor 1：高亮换读档行；fallback 词表未载 → fallback 文案（tofu 像素仍可断言色）"
+      }
+    },
+    {
+      "id": "G07-EP-gopen-shadow",
+      "classification": "existing-proof",
+      "reason": "字的右影和下影是 0 已由 glm 证明。",
+      "oldTest": {
+        "sha": "1be38a58427065e84534580398b15089c1c42c0d",
+        "file": "packages/game/src/present/menu/draw-opening-menu.glm-phase1-leaves.test.ts",
+        "assertionLine": 42,
+        "matcher": "toBe",
+        "checked": "右邻是 0",
+        "fullName": "L12 drawOpeningMenu 剩余合同 cursor 0：第 1 行 0xF9、第 2 行 0x4F（词表 4 字 label → x=125）"
+      }
+    },
+    {
+      "id": "G07-EP-gconf-default",
+      "classification": "existing-proof",
+      "reason": "默认否闪、是常态、两框已画已由 glm 证明。",
+      "oldTest": {
+        "sha": "5a15c612bbb3868afc53f49cec70d4b8d67c9fe8",
+        "file": "packages/game/src/present/menu/draw-confirm.glm-phase1-leaves.test.ts",
+        "assertionLine": 31,
+        "matcher": "toBe",
+        "checked": "否是 249",
+        "fullName": "L09 drawConfirmBox 默认 否/是：rightSelected=false → 左「否」0xF9、右「是」0x4F；两框体已画"
+      }
+    },
+    {
+      "id": "G07-EP-gconf-diag",
+      "classification": "existing-proof",
+      "reason": "确认字的右下影是 0 已由 glm 证明。",
+      "oldTest": {
+        "sha": "5a15c612bbb3868afc53f49cec70d4b8d67c9fe8",
+        "file": "packages/game/src/present/menu/draw-confirm.glm-phase1-leaves.test.ts",
+        "assertionLine": 51,
+        "matcher": "toBe",
+        "checked": "右下是 0",
+        "fullName": "L09 drawConfirmBox rightSelected=true 高亮换右；fShadow 三影：字亮点右/下/右下为黑 0"
+      }
+    },
+    {
+      "id": "G07-EP-gconf-switch",
+      "classification": "existing-proof",
+      "reason": "关/开标签换字不换布局已由 glm 证明。",
+      "oldTest": {
+        "sha": "5a15c612bbb3868afc53f49cec70d4b8d67c9fe8",
+        "file": "packages/game/src/present/menu/draw-confirm.glm-phase1-leaves.test.ts",
+        "assertionLine": 64,
+        "matcher": "toBe",
+        "checked": "关是 79，开是 249",
+        "fullName": "L09 drawConfirmBox 自定义 关/开 标签（PAL_SwitchMenu 复用）：同布局不同字"
+      }
+    },
+    {
+      "id": "G07-UNREACH-opening-y",
+      "classification": "unreachable",
+      "reason": "draw-opening-menu.ts:65 的 y === undefined 到不了：ITEM_Y 只有 95 与 112，openingMenuLabels 固定返回两项",
+      "file": "packages/game/src/present/menu/draw-opening-menu.ts",
+      "line": 65
     }
   ]
 }

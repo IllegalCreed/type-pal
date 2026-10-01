@@ -1,0 +1,126 @@
+{
+  "numTotalTestSuites": 2,
+  "numPassedTestSuites": 0,
+  "numFailedTestSuites": 2,
+  "numPendingTestSuites": 0,
+  "numTotalTests": 7,
+  "numPassedTests": 6,
+  "numFailedTests": 1,
+  "numPendingTests": 0,
+  "numTodoTests": 0,
+  "snapshot": {
+    "added": 0,
+    "failure": false,
+    "filesAdded": 0,
+    "filesRemoved": 0,
+    "filesRemovedList": [],
+    "filesUnmatched": 0,
+    "filesUpdated": 0,
+    "matched": 0,
+    "total": 0,
+    "unchecked": 0,
+    "uncheckedKeysByFile": [],
+    "unmatched": 0,
+    "updated": 0,
+    "didUpdate": false
+  },
+  "startTime": 1790875144608,
+  "success": false,
+  "testResults": [
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": [
+            "G07-D 开场与确认像素"
+          ],
+          "fullName": "G07-D 开场与确认像素 G07-D01 背景索引 0 覆盖底色，选中字仍是闪烁色",
+          "status": "failed",
+          "title": "G07-D01 背景索引 0 覆盖底色，选中字仍是闪烁色",
+          "duration": 6.578875000000039,
+          "failureMessages": [
+            "AssertionError: expected 90 to be +0 // Object.is equality\n    at /private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/grok-r1-G07-D-GXwlN7/packages/game/src/present/menu/opening-confirm-pixels.grok-r1.test.ts:57:29\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64"
+          ],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "G07-D 开场与确认像素"
+          ],
+          "fullName": "G07-D 开场与确认像素 G07-D02 4×4 背景只铺到自己的矩形，外侧保持底色",
+          "status": "passed",
+          "title": "G07-D02 4×4 背景只铺到自己的矩形，外侧保持底色",
+          "duration": 0.8354170000000067,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "G07-D 开场与确认像素"
+          ],
+          "fullName": "G07-D 开场与确认像素 G07-D03 光标越过两项时两行都是未选中色",
+          "status": "passed",
+          "title": "G07-D03 光标越过两项时两行都是未选中色",
+          "duration": 0.3852079999999205,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "G07-D 开场与确认像素"
+          ],
+          "fullName": "G07-D 开场与确认像素 G07-D04 绘制不改光标，也不改词表给出的标签",
+          "status": "passed",
+          "title": "G07-D04 绘制不改光标，也不改词表给出的标签",
+          "duration": 17.48320799999999,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "G07-D 开场与确认像素"
+          ],
+          "fullName": "G07-D 开场与确认像素 G07-D05 左标签两个字仍从 (145,110) 起笔，左右框原点不动",
+          "status": "passed",
+          "title": "G07-D05 左标签两个字仍从 (145,110) 起笔，左右框原点不动",
+          "duration": 0.6603339999999207,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "G07-D 开场与确认像素"
+          ],
+          "fullName": "G07-D 开场与确认像素 G07-D06 左右标签都是空串时不写字，两框照画",
+          "status": "passed",
+          "title": "G07-D06 左右标签都是空串时不写字，两框照画",
+          "duration": 0.3322090000000344,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "G07-D 开场与确认像素"
+          ],
+          "fullName": "G07-D 开场与确认像素 G07-D07 背景索引 0x55 上的字影是 0，字本体仍是闪烁色",
+          "status": "passed",
+          "title": "G07-D07 背景索引 0x55 上的字影是 0，字本体仍是闪烁色",
+          "duration": 1.1679589999999962,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790875145150,
+      "endTime": 1790875145177.168,
+      "status": "failed",
+      "message": "",
+      "name": "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/grok-r1-G07-D-GXwlN7/packages/game/src/present/menu/opening-confirm-pixels.grok-r1.test.ts"
+    }
+  ]
+}

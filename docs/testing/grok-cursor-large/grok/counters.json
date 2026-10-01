@@ -1,6 +1,6 @@
 {
-  "batch": "G06",
-  "acceptedCounters": 24,
+  "batch": "G07",
+  "acceptedCounters": 28,
   "probeRejected": true,
   "counters": [
     {
@@ -3290,6 +3290,445 @@
         "docs/testing/grok-cursor-large/grok/counters/G06-D/restored.json",
         "docs/testing/grok-cursor-large/grok/counters/G06-D/restored.stdout",
         "docs/testing/grok-cursor-large/grok/counters/G06-D/restored.stderr"
+      ]
+    },
+    {
+      "id": "G07-A",
+      "batch": "G07",
+      "accepted": true,
+      "reasons": [],
+      "axis": "一人选人阶段不再保底画出一行选人框",
+      "source": "packages/game/src/present/menu/draw-magic.ts",
+      "testFile": "src/present/menu/magic-menu-pixels.grok-r1.test.ts",
+      "target": "G07-A01",
+      "targetFullName": "G07-A 仙术菜单像素 G07-A01 选人阶段只有一人时仍画出一行内容框，底边在 y=78",
+      "assertionError": "AssertionError: expected 90 to be 17 // Object.is equality",
+      "sha256": {
+        "original": "76059179edbbfceaa0e66401f311b334834724ae9c6f7622b7219035ea1ab49c",
+        "mutant": "2f83cf7d74bd07704327c575f76b33504876894f57a22d6a071b34a207283d3f",
+        "restored": "76059179edbbfceaa0e66401f311b334834724ae9c6f7622b7219035ea1ab49c"
+      },
+      "exitCode": {
+        "original": 0,
+        "mutant": 1,
+        "restored": 0
+      },
+      "signal": {
+        "original": null,
+        "mutant": null,
+        "restored": null
+      },
+      "counts": {
+        "original": 15,
+        "mutantFailed": 1,
+        "restored": 15
+      },
+      "executionCount": 15,
+      "executions": [
+        {
+          "file": "src/present/menu/magic-menu-pixels.grok-r1.test.ts",
+          "fullName": "G07-A 仙术菜单像素 G07-A01 选人阶段只有一人时仍画出一行内容框，底边在 y=78",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/menu/magic-menu-pixels.grok-r1.test.ts",
+          "fullName": "G07-A 仙术菜单像素 G07-A02 第二条仙术说明在 y=19，第一条仍在 y=3",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/menu/magic-menu-pixels.grok-r1.test.ts",
+          "fullName": "G07-A 仙术菜单像素 G07-A03 缺少头像帧时头像位保持底色，体力个位仍画出",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/menu/magic-menu-pixels.grok-r1.test.ts",
+          "fullName": "G07-A 仙术菜单像素 G07-A04 缺少斜杠帧时斜杠位保持底色，体力个位仍画出",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/menu/magic-menu-pixels.grok-r1.test.ts",
+          "fullName": "G07-A 仙术菜单像素 G07-A05 缺少上箭头帧时目标光标位保持底色，仙术名仍画出",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/menu/magic-menu-pixels.grok-r1.test.ts",
+          "fullName": "G07-A 仙术菜单像素 G07-A06 未选定施法人时不画顶部真气，仙术名仍画出",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/menu/magic-menu-pixels.grok-r1.test.ts",
+          "fullName": "G07-A 仙术菜单像素 G07-A07 法术目录没有对应 magic 时需要真气画成黄 0，现行真气仍是青 6",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/menu/magic-menu-pixels.grok-r1.test.ts",
+          "fullName": "G07-A 仙术菜单像素 G07-A08 第三列仙术在 x=209，颜色是未选中色",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/menu/magic-menu-pixels.grok-r1.test.ts",
+          "fullName": "G07-A 仙术菜单像素 G07-A09 第二行仙术在 y=72，颜色是未选中色",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/menu/magic-menu-pixels.grok-r1.test.ts",
+          "fullName": "G07-A 仙术菜单像素 G07-A10 信息框真气读运行时 12，不读角色静态真气 99",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/menu/magic-menu-pixels.grok-r1.test.ts",
+          "fullName": "G07-A 仙术菜单像素 G07-A11 体力上限 80 画在 y=173，当前体力 12 仍在 y=170",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/menu/magic-menu-pixels.grok-r1.test.ts",
+          "fullName": "G07-A 仙术菜单像素 G07-A12 缺少光标帧 69 时名字照画，光标位留着格子框色",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/menu/magic-menu-pixels.grok-r1.test.ts",
+          "fullName": "G07-A 仙术菜单像素 G07-A13 头像落在信息框左上外侧，信息框本体仍在 (45,165)",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/menu/magic-menu-pixels.grok-r1.test.ts",
+          "fullName": "G07-A 仙术菜单像素 G07-A14 选人阶段不画仙术格子，体力个位仍画出",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/menu/magic-menu-pixels.grok-r1.test.ts",
+          "fullName": "G07-A 仙术菜单像素 G07-A15 格子光标的实点是 0x69，中间透明孔留着格子框色",
+          "status": "passed"
+        }
+      ],
+      "patch": {
+        "path": "docs/testing/grok-cursor-large/grok/counters/G07-A/patch.diff",
+        "sha256": "ece5b7e312b2020aab49effeed1c48ff2af2427feb7b2cd0e1c30d0bfcd86ce8",
+        "bytes": 492
+      },
+      "logs": [
+        "docs/testing/grok-cursor-large/grok/counters/G07-A/original.json",
+        "docs/testing/grok-cursor-large/grok/counters/G07-A/original.stdout",
+        "docs/testing/grok-cursor-large/grok/counters/G07-A/original.stderr",
+        "docs/testing/grok-cursor-large/grok/counters/G07-A/mutant.json",
+        "docs/testing/grok-cursor-large/grok/counters/G07-A/mutant.stdout",
+        "docs/testing/grok-cursor-large/grok/counters/G07-A/mutant.stderr",
+        "docs/testing/grok-cursor-large/grok/counters/G07-A/restored.json",
+        "docs/testing/grok-cursor-large/grok/counters/G07-A/restored.stdout",
+        "docs/testing/grok-cursor-large/grok/counters/G07-A/restored.stderr"
+      ]
+    },
+    {
+      "id": "G07-B",
+      "batch": "G07",
+      "accepted": true,
+      "reasons": [],
+      "axis": "列表价改读目录 price，不再读菜单快照 rightText",
+      "source": "packages/game/src/present/menu/draw-shop.ts",
+      "testFile": "src/present/menu/shop-preview-pixels.grok-r1.test.ts",
+      "target": "G07-B01",
+      "targetFullName": "G07-B 商店预览像素 G07-B01 列表价读 rightText 15，不读目录价 99",
+      "assertionError": "AssertionError: expected 185 to be 181 // Object.is equality",
+      "sha256": {
+        "original": "4cd77e0892a460ba387eeeaff6d0ad94a7f2be3f40a17376df1361e84b14da19",
+        "mutant": "63c57169e8766f4eadbeeb8a03bd51db551446acdd936a75515f86d2f74abe55",
+        "restored": "4cd77e0892a460ba387eeeaff6d0ad94a7f2be3f40a17376df1361e84b14da19"
+      },
+      "exitCode": {
+        "original": 0,
+        "mutant": 1,
+        "restored": 0
+      },
+      "signal": {
+        "original": null,
+        "mutant": null,
+        "restored": null
+      },
+      "counts": {
+        "original": 13,
+        "mutantFailed": 1,
+        "restored": 13
+      },
+      "executionCount": 13,
+      "executions": [
+        {
+          "file": "src/present/menu/shop-preview-pixels.grok-r1.test.ts",
+          "fullName": "G07-B 商店预览像素 G07-B01 列表价读 rightText 15，不读目录价 99",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/menu/shop-preview-pixels.grok-r1.test.ts",
+          "fullName": "G07-B 商店预览像素 G07-B02 预览物品框阴影把底色 0x5A 的低四位右移一位，正色在 (40,8)",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/menu/shop-preview-pixels.grok-r1.test.ts",
+          "fullName": "G07-B 商店预览像素 G07-B03 缺少物品框帧时预览位保持底色，列表名仍画出",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/menu/shop-preview-pixels.grok-r1.test.ts",
+          "fullName": "G07-B 商店预览像素 G07-B04 图标表没有该 bitmap 时图标位保持底色，物品框照画",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/menu/shop-preview-pixels.grok-r1.test.ts",
+          "fullName": "G07-B 商店预览像素 G07-B05 列表阶段不画确认框，选中名仍在",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/menu/shop-preview-pixels.grok-r1.test.ts",
+          "fullName": "G07-B 商店预览像素 G07-B06 确认阶段 confirmYes 为真时闪烁色在「是」，「否」是未选中色",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/menu/shop-preview-pixels.grok-r1.test.ts",
+          "fullName": "G07-B 商店预览像素 G07-B07 不传图标表时图标位保持底色，物品框照画",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/menu/shop-preview-pixels.grok-r1.test.ts",
+          "fullName": "G07-B 商店预览像素 G07-B08 现有数只加选中物品，另一件的库存 9 不加进去",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/menu/shop-preview-pixels.grok-r1.test.ts",
+          "fullName": "G07-B 商店预览像素 G07-B09 金钱为 0 时仍画出一位黄 0，十位保持底色",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/menu/shop-preview-pixels.grok-r1.test.ts",
+          "fullName": "G07-B 商店预览像素 G07-B10 列表项不在目录时名字照画，现有数是黄 0，图标不画",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/menu/shop-preview-pixels.grok-r1.test.ts",
+          "fullName": "G07-B 商店预览像素 G07-B11 售价 1 向下取整成黄 0，十位保持底色",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/menu/shop-preview-pixels.grok-r1.test.ts",
+          "fullName": "G07-B 商店预览像素 G07-B12 库存为 0 时两个装备槽仍把现有数画成黄 2",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/menu/shop-preview-pixels.grok-r1.test.ts",
+          "fullName": "G07-B 商店预览像素 G07-B13 预览物品框索引 0x6E 经 flushToCanvas 写成调色板 RGB，缓冲仍是 0x6E",
+          "status": "passed"
+        }
+      ],
+      "patch": {
+        "path": "docs/testing/grok-cursor-large/grok/counters/G07-B/patch.diff",
+        "sha256": "794cae2128baaf3cd5d0ee18fd954a4f9dae57d5ac6ef272924c4fdd23d3d9e0",
+        "bytes": 506
+      },
+      "logs": [
+        "docs/testing/grok-cursor-large/grok/counters/G07-B/original.json",
+        "docs/testing/grok-cursor-large/grok/counters/G07-B/original.stdout",
+        "docs/testing/grok-cursor-large/grok/counters/G07-B/original.stderr",
+        "docs/testing/grok-cursor-large/grok/counters/G07-B/mutant.json",
+        "docs/testing/grok-cursor-large/grok/counters/G07-B/mutant.stdout",
+        "docs/testing/grok-cursor-large/grok/counters/G07-B/mutant.stderr",
+        "docs/testing/grok-cursor-large/grok/counters/G07-B/restored.json",
+        "docs/testing/grok-cursor-large/grok/counters/G07-B/restored.stdout",
+        "docs/testing/grok-cursor-large/grok/counters/G07-B/restored.stderr"
+      ]
+    },
+    {
+      "id": "G07-C",
+      "batch": "G07",
+      "accepted": true,
+      "reasons": [],
+      "axis": "透明孔被当成不透明点写进缓冲",
+      "source": "packages/game/src/present/menu/draw-box.ts",
+      "testFile": "src/present/menu/box-shadow-pixels.grok-r1.test.ts",
+      "target": "G07-C01",
+      "targetFullName": "G07-C 菜单框像素 G07-C01 角块透明孔不写像素，旁边的不透明点仍是框色",
+      "assertionError": "AssertionError: expected +0 to be 90 // Object.is equality",
+      "sha256": {
+        "original": "7f0509e12428217023464c69a20abdb7aca49569cb504b0e4a3ea917c6ce715e",
+        "mutant": "416ca8a12b7ad677fc9f73431209ac34dfe0867de1c8e6aef12d165d409795d5",
+        "restored": "7f0509e12428217023464c69a20abdb7aca49569cb504b0e4a3ea917c6ce715e"
+      },
+      "exitCode": {
+        "original": 0,
+        "mutant": 1,
+        "restored": 0
+      },
+      "signal": {
+        "original": null,
+        "mutant": null,
+        "restored": null
+      },
+      "counts": {
+        "original": 12,
+        "mutantFailed": 1,
+        "restored": 12
+      },
+      "executionCount": 12,
+      "executions": [
+        {
+          "file": "src/present/menu/box-shadow-pixels.grok-r1.test.ts",
+          "fullName": "G07-C 菜单框像素 G07-C01 角块透明孔不写像素，旁边的不透明点仍是框色",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/menu/box-shadow-pixels.grok-r1.test.ts",
+          "fullName": "G07-C 菜单框像素 G07-C02 单行框 len 为 2 时中段重复两次，右帽在 x=24",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/menu/box-shadow-pixels.grok-r1.test.ts",
+          "fullName": "G07-C 菜单框像素 G07-C03 单行框 shadowOffset 为 0 时 (6,8) 保持底色",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/menu/box-shadow-pixels.grok-r1.test.ts",
+          "fullName": "G07-C 菜单框像素 G07-C04 单行框默认阴影落在框身下方，低四位右移一位",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/menu/box-shadow-pixels.grok-r1.test.ts",
+          "fullName": "G07-C 菜单框像素 G07-C05 右下角透明孔不投下阴影，旁边实点的阴影仍把底色变暗",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/menu/box-shadow-pixels.grok-r1.test.ts",
+          "fullName": "G07-C 菜单框像素 G07-C06 style 1 缺少 frame 9 时抛错并指名该帧",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/menu/box-shadow-pixels.grok-r1.test.ts",
+          "fullName": "G07-C 菜单框像素 G07-C07 八个半角 E 的列数是 3，不按缺字 16 像素计成 7",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/menu/box-shadow-pixels.grok-r1.test.ts",
+          "fullName": "G07-C 菜单框像素 G07-C08 内容行数为 0 时只留上下两边，y=16 保持底色",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/menu/box-shadow-pixels.grok-r1.test.ts",
+          "fullName": "G07-C 菜单框像素 G07-C09 内容列数为 0 时只留左右两边，x=16 保持底色",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/menu/box-shadow-pixels.grok-r1.test.ts",
+          "fullName": "G07-C 菜单框像素 G07-C10 不透明且索引为 0 的块仍覆盖底色",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/menu/box-shadow-pixels.grok-r1.test.ts",
+          "fullName": "G07-C 菜单框像素 G07-C11 列数取最长的一项，短项不把列数抬高",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/menu/box-shadow-pixels.grok-r1.test.ts",
+          "fullName": "G07-C 菜单框像素 G07-C12 单行框 len 为 0 时没有中段，右帽紧跟左帽",
+          "status": "passed"
+        }
+      ],
+      "patch": {
+        "path": "docs/testing/grok-cursor-large/grok/counters/G07-C/patch.diff",
+        "sha256": "0389c62bba447cf7a83aa303be5e14e11a62809388e9fa8c2a43d189fb763816",
+        "bytes": 398
+      },
+      "logs": [
+        "docs/testing/grok-cursor-large/grok/counters/G07-C/original.json",
+        "docs/testing/grok-cursor-large/grok/counters/G07-C/original.stdout",
+        "docs/testing/grok-cursor-large/grok/counters/G07-C/original.stderr",
+        "docs/testing/grok-cursor-large/grok/counters/G07-C/mutant.json",
+        "docs/testing/grok-cursor-large/grok/counters/G07-C/mutant.stdout",
+        "docs/testing/grok-cursor-large/grok/counters/G07-C/mutant.stderr",
+        "docs/testing/grok-cursor-large/grok/counters/G07-C/restored.json",
+        "docs/testing/grok-cursor-large/grok/counters/G07-C/restored.stdout",
+        "docs/testing/grok-cursor-large/grok/counters/G07-C/restored.stderr"
+      ]
+    },
+    {
+      "id": "G07-D",
+      "batch": "G07",
+      "accepted": true,
+      "reasons": [],
+      "axis": "背景索引 0 被跳过，不再覆盖底色",
+      "source": "packages/game/src/present/menu/draw-opening-menu.ts",
+      "testFile": "src/present/menu/opening-confirm-pixels.grok-r1.test.ts",
+      "target": "G07-D01",
+      "targetFullName": "G07-D 开场与确认像素 G07-D01 背景索引 0 覆盖底色，选中字仍是闪烁色",
+      "assertionError": "AssertionError: expected 90 to be +0 // Object.is equality",
+      "sha256": {
+        "original": "1e44195ef42a04fc0c2864b5868a25cd3ec23824d4520d372f25ce4a7e97835a",
+        "mutant": "fade9673b069f9e9c240640ca1a55d24f16780f8e75ffb1eff550a6b22815999",
+        "restored": "1e44195ef42a04fc0c2864b5868a25cd3ec23824d4520d372f25ce4a7e97835a"
+      },
+      "exitCode": {
+        "original": 0,
+        "mutant": 1,
+        "restored": 0
+      },
+      "signal": {
+        "original": null,
+        "mutant": null,
+        "restored": null
+      },
+      "counts": {
+        "original": 7,
+        "mutantFailed": 1,
+        "restored": 7
+      },
+      "executionCount": 7,
+      "executions": [
+        {
+          "file": "src/present/menu/opening-confirm-pixels.grok-r1.test.ts",
+          "fullName": "G07-D 开场与确认像素 G07-D01 背景索引 0 覆盖底色，选中字仍是闪烁色",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/menu/opening-confirm-pixels.grok-r1.test.ts",
+          "fullName": "G07-D 开场与确认像素 G07-D02 4×4 背景只铺到自己的矩形，外侧保持底色",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/menu/opening-confirm-pixels.grok-r1.test.ts",
+          "fullName": "G07-D 开场与确认像素 G07-D03 光标越过两项时两行都是未选中色",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/menu/opening-confirm-pixels.grok-r1.test.ts",
+          "fullName": "G07-D 开场与确认像素 G07-D04 绘制不改光标，也不改词表给出的标签",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/menu/opening-confirm-pixels.grok-r1.test.ts",
+          "fullName": "G07-D 开场与确认像素 G07-D05 左标签两个字仍从 (145,110) 起笔，左右框原点不动",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/menu/opening-confirm-pixels.grok-r1.test.ts",
+          "fullName": "G07-D 开场与确认像素 G07-D06 左右标签都是空串时不写字，两框照画",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/menu/opening-confirm-pixels.grok-r1.test.ts",
+          "fullName": "G07-D 开场与确认像素 G07-D07 背景索引 0x55 上的字影是 0，字本体仍是闪烁色",
+          "status": "passed"
+        }
+      ],
+      "patch": {
+        "path": "docs/testing/grok-cursor-large/grok/counters/G07-D/patch.diff",
+        "sha256": "5c5c732ffee5bcba5639e560d05b68df6e737b927d8f04b862c6f28ed06bdf21",
+        "bytes": 307
+      },
+      "logs": [
+        "docs/testing/grok-cursor-large/grok/counters/G07-D/original.json",
+        "docs/testing/grok-cursor-large/grok/counters/G07-D/original.stdout",
+        "docs/testing/grok-cursor-large/grok/counters/G07-D/original.stderr",
+        "docs/testing/grok-cursor-large/grok/counters/G07-D/mutant.json",
+        "docs/testing/grok-cursor-large/grok/counters/G07-D/mutant.stdout",
+        "docs/testing/grok-cursor-large/grok/counters/G07-D/mutant.stderr",
+        "docs/testing/grok-cursor-large/grok/counters/G07-D/restored.json",
+        "docs/testing/grok-cursor-large/grok/counters/G07-D/restored.stdout",
+        "docs/testing/grok-cursor-large/grok/counters/G07-D/restored.stderr"
       ]
     }
   ]

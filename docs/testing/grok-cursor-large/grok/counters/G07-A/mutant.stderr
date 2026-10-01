@@ -1,0 +1,21 @@
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/present/menu/magic-menu-pixels.grok-r1.test.ts > G07-A 仙术菜单像素 > G07-A01 选人阶段只有一人时仍画出一行内容框，底边在 y=78
+AssertionError: expected 90 to be 17 // Object.is equality
+
+- Expected
++ Received
+
+- 17
++ 90
+
+ ❯ src/present/menu/magic-menu-pixels.grok-r1.test.ts:162:31
+    160|     }
+    161|     const name = textDot('戊', 0, 48, 75)
+    162|     expect(pixel(fb, 35, 78)).toBe(BOX_STYLE0)
+       |                               ^
+    163|     expect(pixel(fb, 35, 86)).toBe(SENTINEL)
+    164|     expect(pixel(fb, name.x, name.y)).toBe(MENUITEM_COLOR_SELECTED_FIR…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯

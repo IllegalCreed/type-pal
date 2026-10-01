@@ -238,5 +238,45 @@
     "testFile": "src/present/menu/status-vitals-pixels.grok-r1.test.ts",
     "target": "G06-D10",
     "axis": "毒等级等于 3 时不再显示"
+  },
+  {
+    "id": "G07-A",
+    "batch": "G07",
+    "source": "packages/game/src/present/menu/draw-magic.ts",
+    "from": "const rows = Math.max(1, state.partyMembers.length - 1)",
+    "to": "const rows = state.partyMembers.length - 1",
+    "testFile": "src/present/menu/magic-menu-pixels.grok-r1.test.ts",
+    "target": "G07-A01",
+    "axis": "一人选人阶段不再保底画出一行选人框"
+  },
+  {
+    "id": "G07-B",
+    "batch": "G07",
+    "source": "packages/game/src/present/menu/draw-shop.ts",
+    "from": "const price = Number(it.rightText ?? '0')",
+    "to": "const price = Number(String(items.find((item) => item.id === it.id)?.price ?? it.rightText ?? '0'))",
+    "testFile": "src/present/menu/shop-preview-pixels.grok-r1.test.ts",
+    "target": "G07-B01",
+    "axis": "列表价改读目录 price，不再读菜单快照 rightText"
+  },
+  {
+    "id": "G07-C",
+    "batch": "G07",
+    "source": "packages/game/src/present/menu/draw-box.ts",
+    "from": "if (img.opaque[off] === 0) continue\n      fb.writePixel(dstX + x, dstY + y, img.indices[off]!)",
+    "to": "if (img.opaque[off] === 2) continue\n      fb.writePixel(dstX + x, dstY + y, img.indices[off]!)",
+    "testFile": "src/present/menu/box-shadow-pixels.grok-r1.test.ts",
+    "target": "G07-C01",
+    "axis": "透明孔被当成不透明点写进缓冲"
+  },
+  {
+    "id": "G07-D",
+    "batch": "G07",
+    "source": "packages/game/src/present/menu/draw-opening-menu.ts",
+    "from": "if (bg) {",
+    "to": "if (bg && bg.indices[0] !== 0) {",
+    "testFile": "src/present/menu/opening-confirm-pixels.grok-r1.test.ts",
+    "target": "G07-D01",
+    "axis": "背景索引 0 被跳过，不再覆盖底色"
   }
 ]

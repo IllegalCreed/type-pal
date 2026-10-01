@@ -1,0 +1,21 @@
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/present/menu/box-shadow-pixels.grok-r1.test.ts > G07-C 菜单框像素 > G07-C01 角块透明孔不写像素，旁边的不透明点仍是框色
+AssertionError: expected +0 to be 90 // Object.is equality
+
+- Expected
++ Received
+
+- 90
++ 0
+
+ ❯ src/present/menu/box-shadow-pixels.grok-r1.test.ts:65:29
+     63|       uiSpriteFrames: holeFrames(),
+     64|     })
+     65|     expect(pixel(fb, 1, 0)).toBe(SENTINEL)
+       |                             ^
+     66|     expect(pixel(fb, 0, 0)).toBe(BOX_STYLE0)
+     67|     expect(pixel(fb, 2, 0)).toBe(BOX_STYLE0)
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯

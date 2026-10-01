@@ -11,9 +11,9 @@ Coding Owner: Grok。作者交付进行中，**不是 review / accept / done**�
 
 | 项 | 已计入 | 目标 | 剩余 |
 |---|---:|---:|---:|
-| 合法新合同 | 229 | 400 | 171 |
-| 组 | 24 | 40 | 16 |
-| 有效反控 | 24 | 40 | 16 |
+| 合法新合同 | 276 | 400 | 124 |
+| 组 | 28 | 40 | 12 |
+| 有效反控 | 28 | 40 | 12 |
 
 G01 四组都是 `packages/game/src/assets/loader.ts`：G01-A 合法装配、G01-B 边界、G01-C 失败恢复、G01-D 缓存归属与迟到。G01 新合同 40。
 
@@ -27,11 +27,13 @@ G05 四组：G05-A `dialog-box.ts` 姓名色、行距与揭露像素，G05-B `fo
 
 G06 四组：G06-A `draw-inventory.ts` 物品框阴影、差额与用物层早退，G06-B 描述行距和 sellable / potion / important 过滤色，G06-C `draw-equip.ts` 一人选人框、灵力预览与现行数量，G06-D `draw-player-status.ts` 真气、五项数值和毒等级 3。本批新合同 48。翻页、已装备色、现行数量 7、攻击预览 23、立绘和 runtime 0 另记 30 条 existing-proof，不计入 229。目标仍是 400/40/40。
 
+G07 四组：G07-A `draw-magic.ts` 一人选人框、说明第二行和信息框真气，G07-B `draw-shop.ts` 列表价读 rightText、预览阴影和售价取整到 0，G07-C `draw-box.ts` 透明孔、单行框节数和列数取最长项，G07-D 开场背景索引 0 与确认框两字标签。本批新合同 47。两人体力、价 123、现有 3、半价 40、九宫格和四字横坐标另记 36 条 existing-proof，开场 `y === undefined` 另记 1 条 unreachable，不计入 276。目标仍是 400/40/40。
+
 ## 本批证据
 
-- [contracts.json](contracts.json)：累计 229 条新合同；G02 到 G06 的 existingProof 不计入
-- [directed-vitest.json](directed-vitest.json)：229 条 file × fullName × passed；相邻记在 `adjacent`（G01 的 `loader.test.ts` 7 条，G02 的 png/tileset/dialog/rle 26 条，G03 的 tilemap/sprite/follower 31 条，G04 的 wave/shake/dither/framebuffer/present/P12 85 条，G05 的 dialog/font/draw-number/opening/settlement/P16 108 条，G06 的 inventory/equip/status 23 条）
-- [counters.json](counters.json) 与 [反控说明](counters/README.md)：拒收探针加 G01 到 G06 各四枚三态原日志
+- [contracts.json](contracts.json)：累计 276 条新合同；G02 到 G07 的 existingProof 不计入
+- [directed-vitest.json](directed-vitest.json)：276 条 file × fullName × passed；相邻记在 `adjacent`（G01 的 `loader.test.ts` 7 条，G02 的 png/tileset/dialog/rle 26 条，G03 的 tilemap/sprite/follower 31 条，G04 的 wave/shake/dither/framebuffer/present/P12 85 条，G05 的 dialog/font/draw-number/opening/settlement/P16 108 条，G06 的 inventory/equip/status 23 条，G07 的 magic/shop/box/opening/confirm 39 条）
+- [counters.json](counters.json) 与 [反控说明](counters/README.md)：拒收探针加 G01 到 G07 各四枚三态原日志
 - [defects.md](defects.md)：没有停组的产品缺陷；G02 有一条宿主 blocked
 - 专属宿主 `packages/game/src/__tests__/grok-render-r1/legal-host.ts`
 
@@ -106,5 +108,17 @@ G06 四组：G06-A `draw-inventory.ts` 物品框阴影、差额与用物层早�
 `pnpm --filter @type-pal/game run typecheck` 退出码 0。
 
 反控：`node docs/testing/grok-cursor-large/grok/run-counters.mjs --only=G06-A,G06-B,G06-C,G06-D --skip-probe`。四枚 mutant 退出码 1，各只有一条指定 AssertionError。历史 G01 到 G05 与探针日志未重写。
+
+## G07 已跑命令
+
+定向与相邻：
+
+`pnpm --filter @type-pal/game exec vitest run src/present/menu/magic-menu-pixels.grok-r1.test.ts src/present/menu/shop-preview-pixels.grok-r1.test.ts src/present/menu/box-shadow-pixels.grok-r1.test.ts src/present/menu/opening-confirm-pixels.grok-r1.test.ts src/present/menu/draw-magic.test.ts src/present/menu/draw-magic.glm-phase1-leaves.test.ts src/present/__tests__/grok-present/p06-magic.test.ts src/present/menu/draw-shop.glm-phase1-leaves.test.ts src/present/__tests__/grok-present/p04-shop.test.ts src/present/menu/draw-box.test.ts src/present/menu/draw-box.glm-phase1-leaves.test.ts src/present/menu/draw-opening-menu.test.ts src/present/menu/draw-opening-menu.glm-phase1-leaves.test.ts src/present/menu/draw-confirm.glm-phase1-leaves.test.ts --reporter=verbose --reporter=json --outputFile=/tmp/g07-directed.json`
+
+结果：新合同 47 passed，相邻 39 passed，pending 0。14 个文件合计 86 passed。G07-B13 从真实 2D canvas 读回 (40,8) 的 RGBA `[40,18,70,255]`。
+
+`pnpm --filter @type-pal/game run typecheck` 退出码 0。
+
+反控：`node docs/testing/grok-cursor-large/grok/run-counters.mjs --only=G07-A,G07-B,G07-C,G07-D --skip-probe`。四枚 mutant 退出码 1，各只有一条指定 AssertionError。历史 G01 到 G06 与探针日志未重写。
 
 私有 coverage、全包 test、根 lint、docs check、diff check、verifier 留到末批。不合 main，不跑正式 ratchet。

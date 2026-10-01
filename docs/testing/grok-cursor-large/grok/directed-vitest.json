@@ -1,6 +1,6 @@
 {
-  "batch": "G06",
-  "cumulativeNewContracts": 229,
+  "batch": "G07",
+  "cumulativeNewContracts": 276,
   "target": 400,
   "success": true,
   "numFailedTests": 0,
@@ -11,7 +11,8 @@
     "pnpm --filter @type-pal/game exec vitest run src/present/draw-tilemap-pixels.grok-r1.test.ts src/present/draw-sprite-clip.grok-r1.test.ts src/present/follower-pos-axis.grok-r1.test.ts src/present/follower-render-gap.grok-r1.test.ts src/present/draw-tilemap.test.ts src/present/draw-sprite.test.ts src/present/follower-pos.test.ts src/present/follower-render.test.ts --reporter=verbose --reporter=json --outputFile=/tmp/g03-directed.json",
     "pnpm --filter @type-pal/game exec vitest run src/present/screen-wave-mirror.grok-r1.test.ts src/present/screen-shake-bounds.grok-r1.test.ts src/present/dither-fade-nibble.grok-r1.test.ts src/present/present-hold.grok-r1.test.ts src/present/screen-wave.test.ts src/present/screen-wave.glm-phase1-leaves.test.ts src/present/screen-shake.test.ts src/present/dither-fade.test.ts src/present/framebuffer.test.ts src/present/framebuffer.glm-phase1-leaves.test.ts src/present/present.test.ts src/present/__tests__/grok-composition/p12-overlays.test.ts --reporter=verbose --reporter=json --outputFile=/tmp/g04-directed.json",
     "pnpm --filter @type-pal/game exec vitest run src/present/dialog-box-pixels.grok-r1.test.ts src/present/font-width.grok-r1.test.ts src/present/draw-number-slots.grok-r1.test.ts src/present/dialog-box-chrome.grok-r1.test.ts src/present/dialog-box.test.ts src/present/dialog-box.glm-next-wave.test.ts src/present/font.glm-phase1-leaves.test.ts src/present/draw-number.test.ts src/present/__tests__/grok-composition/p16-dialog.test.ts src/present/menu/draw-opening-menu.test.ts src/present/battle/draw-battle-settlement.glm-phase1-leaves.test.ts --reporter=verbose --reporter=json --outputFile=/tmp/g05-directed.json",
-    "pnpm --filter @type-pal/game exec vitest run src/present/menu/inventory-list-pixels.grok-r1.test.ts src/present/menu/inventory-desc-filter.grok-r1.test.ts src/present/menu/equip-role-pixels.grok-r1.test.ts src/present/menu/status-vitals-pixels.grok-r1.test.ts src/present/__tests__/grok-present/p01-inventory-list.test.ts src/present/__tests__/grok-present/p02-inventory-target.test.ts src/present/__tests__/grok-present/p03-equip.test.ts src/present/__tests__/grok-present/p07-status.test.ts src/present/menu/draw-inventory.glm-phase1-leaves.test.ts src/present/menu/draw-equip.glm-phase1-leaves.test.ts src/present/menu/draw-player-status.test.ts src/present/menu/draw-player-status.glm-phase1-leaves.test.ts --reporter=verbose --reporter=json --outputFile=/tmp/g06-directed.json"
+    "pnpm --filter @type-pal/game exec vitest run src/present/menu/inventory-list-pixels.grok-r1.test.ts src/present/menu/inventory-desc-filter.grok-r1.test.ts src/present/menu/equip-role-pixels.grok-r1.test.ts src/present/menu/status-vitals-pixels.grok-r1.test.ts src/present/__tests__/grok-present/p01-inventory-list.test.ts src/present/__tests__/grok-present/p02-inventory-target.test.ts src/present/__tests__/grok-present/p03-equip.test.ts src/present/__tests__/grok-present/p07-status.test.ts src/present/menu/draw-inventory.glm-phase1-leaves.test.ts src/present/menu/draw-equip.glm-phase1-leaves.test.ts src/present/menu/draw-player-status.test.ts src/present/menu/draw-player-status.glm-phase1-leaves.test.ts --reporter=verbose --reporter=json --outputFile=/tmp/g06-directed.json",
+    "pnpm --filter @type-pal/game exec vitest run src/present/menu/magic-menu-pixels.grok-r1.test.ts src/present/menu/shop-preview-pixels.grok-r1.test.ts src/present/menu/box-shadow-pixels.grok-r1.test.ts src/present/menu/opening-confirm-pixels.grok-r1.test.ts src/present/menu/draw-magic.test.ts src/present/menu/draw-magic.glm-phase1-leaves.test.ts src/present/__tests__/grok-present/p06-magic.test.ts src/present/menu/draw-shop.glm-phase1-leaves.test.ts src/present/__tests__/grok-present/p04-shop.test.ts src/present/menu/draw-box.test.ts src/present/menu/draw-box.glm-phase1-leaves.test.ts src/present/menu/draw-opening-menu.test.ts src/present/menu/draw-opening-menu.glm-phase1-leaves.test.ts src/present/menu/draw-confirm.glm-phase1-leaves.test.ts --reporter=verbose --reporter=json --outputFile=/tmp/g07-directed.json"
   ],
   "tests": [
     {
@@ -1157,6 +1158,241 @@
     {
       "file": "src/present/menu/status-vitals-pixels.grok-r1.test.ts",
       "fullName": "G06-D 状态数值与毒 G06-D15 没有立绘表时头像位保持底色，角色名仍是确认色",
+      "status": "passed"
+    },
+    {
+      "file": "src/present/menu/magic-menu-pixels.grok-r1.test.ts",
+      "fullName": "G07-A 仙术菜单像素 G07-A01 选人阶段只有一人时仍画出一行内容框，底边在 y=78",
+      "status": "passed"
+    },
+    {
+      "file": "src/present/menu/magic-menu-pixels.grok-r1.test.ts",
+      "fullName": "G07-A 仙术菜单像素 G07-A02 第二条仙术说明在 y=19，第一条仍在 y=3",
+      "status": "passed"
+    },
+    {
+      "file": "src/present/menu/magic-menu-pixels.grok-r1.test.ts",
+      "fullName": "G07-A 仙术菜单像素 G07-A03 缺少头像帧时头像位保持底色，体力个位仍画出",
+      "status": "passed"
+    },
+    {
+      "file": "src/present/menu/magic-menu-pixels.grok-r1.test.ts",
+      "fullName": "G07-A 仙术菜单像素 G07-A04 缺少斜杠帧时斜杠位保持底色，体力个位仍画出",
+      "status": "passed"
+    },
+    {
+      "file": "src/present/menu/magic-menu-pixels.grok-r1.test.ts",
+      "fullName": "G07-A 仙术菜单像素 G07-A05 缺少上箭头帧时目标光标位保持底色，仙术名仍画出",
+      "status": "passed"
+    },
+    {
+      "file": "src/present/menu/magic-menu-pixels.grok-r1.test.ts",
+      "fullName": "G07-A 仙术菜单像素 G07-A06 未选定施法人时不画顶部真气，仙术名仍画出",
+      "status": "passed"
+    },
+    {
+      "file": "src/present/menu/magic-menu-pixels.grok-r1.test.ts",
+      "fullName": "G07-A 仙术菜单像素 G07-A07 法术目录没有对应 magic 时需要真气画成黄 0，现行真气仍是青 6",
+      "status": "passed"
+    },
+    {
+      "file": "src/present/menu/magic-menu-pixels.grok-r1.test.ts",
+      "fullName": "G07-A 仙术菜单像素 G07-A08 第三列仙术在 x=209，颜色是未选中色",
+      "status": "passed"
+    },
+    {
+      "file": "src/present/menu/magic-menu-pixels.grok-r1.test.ts",
+      "fullName": "G07-A 仙术菜单像素 G07-A09 第二行仙术在 y=72，颜色是未选中色",
+      "status": "passed"
+    },
+    {
+      "file": "src/present/menu/magic-menu-pixels.grok-r1.test.ts",
+      "fullName": "G07-A 仙术菜单像素 G07-A10 信息框真气读运行时 12，不读角色静态真气 99",
+      "status": "passed"
+    },
+    {
+      "file": "src/present/menu/magic-menu-pixels.grok-r1.test.ts",
+      "fullName": "G07-A 仙术菜单像素 G07-A11 体力上限 80 画在 y=173，当前体力 12 仍在 y=170",
+      "status": "passed"
+    },
+    {
+      "file": "src/present/menu/magic-menu-pixels.grok-r1.test.ts",
+      "fullName": "G07-A 仙术菜单像素 G07-A12 缺少光标帧 69 时名字照画，光标位留着格子框色",
+      "status": "passed"
+    },
+    {
+      "file": "src/present/menu/magic-menu-pixels.grok-r1.test.ts",
+      "fullName": "G07-A 仙术菜单像素 G07-A13 头像落在信息框左上外侧，信息框本体仍在 (45,165)",
+      "status": "passed"
+    },
+    {
+      "file": "src/present/menu/magic-menu-pixels.grok-r1.test.ts",
+      "fullName": "G07-A 仙术菜单像素 G07-A14 选人阶段不画仙术格子，体力个位仍画出",
+      "status": "passed"
+    },
+    {
+      "file": "src/present/menu/magic-menu-pixels.grok-r1.test.ts",
+      "fullName": "G07-A 仙术菜单像素 G07-A15 格子光标的实点是 0x69，中间透明孔留着格子框色",
+      "status": "passed"
+    },
+    {
+      "file": "src/present/menu/shop-preview-pixels.grok-r1.test.ts",
+      "fullName": "G07-B 商店预览像素 G07-B01 列表价读 rightText 15，不读目录价 99",
+      "status": "passed"
+    },
+    {
+      "file": "src/present/menu/shop-preview-pixels.grok-r1.test.ts",
+      "fullName": "G07-B 商店预览像素 G07-B02 预览物品框阴影把底色 0x5A 的低四位右移一位，正色在 (40,8)",
+      "status": "passed"
+    },
+    {
+      "file": "src/present/menu/shop-preview-pixels.grok-r1.test.ts",
+      "fullName": "G07-B 商店预览像素 G07-B03 缺少物品框帧时预览位保持底色，列表名仍画出",
+      "status": "passed"
+    },
+    {
+      "file": "src/present/menu/shop-preview-pixels.grok-r1.test.ts",
+      "fullName": "G07-B 商店预览像素 G07-B04 图标表没有该 bitmap 时图标位保持底色，物品框照画",
+      "status": "passed"
+    },
+    {
+      "file": "src/present/menu/shop-preview-pixels.grok-r1.test.ts",
+      "fullName": "G07-B 商店预览像素 G07-B05 列表阶段不画确认框，选中名仍在",
+      "status": "passed"
+    },
+    {
+      "file": "src/present/menu/shop-preview-pixels.grok-r1.test.ts",
+      "fullName": "G07-B 商店预览像素 G07-B06 确认阶段 confirmYes 为真时闪烁色在「是」，「否」是未选中色",
+      "status": "passed"
+    },
+    {
+      "file": "src/present/menu/shop-preview-pixels.grok-r1.test.ts",
+      "fullName": "G07-B 商店预览像素 G07-B07 不传图标表时图标位保持底色，物品框照画",
+      "status": "passed"
+    },
+    {
+      "file": "src/present/menu/shop-preview-pixels.grok-r1.test.ts",
+      "fullName": "G07-B 商店预览像素 G07-B08 现有数只加选中物品，另一件的库存 9 不加进去",
+      "status": "passed"
+    },
+    {
+      "file": "src/present/menu/shop-preview-pixels.grok-r1.test.ts",
+      "fullName": "G07-B 商店预览像素 G07-B09 金钱为 0 时仍画出一位黄 0，十位保持底色",
+      "status": "passed"
+    },
+    {
+      "file": "src/present/menu/shop-preview-pixels.grok-r1.test.ts",
+      "fullName": "G07-B 商店预览像素 G07-B10 列表项不在目录时名字照画，现有数是黄 0，图标不画",
+      "status": "passed"
+    },
+    {
+      "file": "src/present/menu/shop-preview-pixels.grok-r1.test.ts",
+      "fullName": "G07-B 商店预览像素 G07-B11 售价 1 向下取整成黄 0，十位保持底色",
+      "status": "passed"
+    },
+    {
+      "file": "src/present/menu/shop-preview-pixels.grok-r1.test.ts",
+      "fullName": "G07-B 商店预览像素 G07-B12 库存为 0 时两个装备槽仍把现有数画成黄 2",
+      "status": "passed"
+    },
+    {
+      "file": "src/present/menu/shop-preview-pixels.grok-r1.test.ts",
+      "fullName": "G07-B 商店预览像素 G07-B13 预览物品框索引 0x6E 经 flushToCanvas 写成调色板 RGB，缓冲仍是 0x6E",
+      "status": "passed"
+    },
+    {
+      "file": "src/present/menu/box-shadow-pixels.grok-r1.test.ts",
+      "fullName": "G07-C 菜单框像素 G07-C01 角块透明孔不写像素，旁边的不透明点仍是框色",
+      "status": "passed"
+    },
+    {
+      "file": "src/present/menu/box-shadow-pixels.grok-r1.test.ts",
+      "fullName": "G07-C 菜单框像素 G07-C02 单行框 len 为 2 时中段重复两次，右帽在 x=24",
+      "status": "passed"
+    },
+    {
+      "file": "src/present/menu/box-shadow-pixels.grok-r1.test.ts",
+      "fullName": "G07-C 菜单框像素 G07-C03 单行框 shadowOffset 为 0 时 (6,8) 保持底色",
+      "status": "passed"
+    },
+    {
+      "file": "src/present/menu/box-shadow-pixels.grok-r1.test.ts",
+      "fullName": "G07-C 菜单框像素 G07-C04 单行框默认阴影落在框身下方，低四位右移一位",
+      "status": "passed"
+    },
+    {
+      "file": "src/present/menu/box-shadow-pixels.grok-r1.test.ts",
+      "fullName": "G07-C 菜单框像素 G07-C05 右下角透明孔不投下阴影，旁边实点的阴影仍把底色变暗",
+      "status": "passed"
+    },
+    {
+      "file": "src/present/menu/box-shadow-pixels.grok-r1.test.ts",
+      "fullName": "G07-C 菜单框像素 G07-C06 style 1 缺少 frame 9 时抛错并指名该帧",
+      "status": "passed"
+    },
+    {
+      "file": "src/present/menu/box-shadow-pixels.grok-r1.test.ts",
+      "fullName": "G07-C 菜单框像素 G07-C07 八个半角 E 的列数是 3，不按缺字 16 像素计成 7",
+      "status": "passed"
+    },
+    {
+      "file": "src/present/menu/box-shadow-pixels.grok-r1.test.ts",
+      "fullName": "G07-C 菜单框像素 G07-C08 内容行数为 0 时只留上下两边，y=16 保持底色",
+      "status": "passed"
+    },
+    {
+      "file": "src/present/menu/box-shadow-pixels.grok-r1.test.ts",
+      "fullName": "G07-C 菜单框像素 G07-C09 内容列数为 0 时只留左右两边，x=16 保持底色",
+      "status": "passed"
+    },
+    {
+      "file": "src/present/menu/box-shadow-pixels.grok-r1.test.ts",
+      "fullName": "G07-C 菜单框像素 G07-C10 不透明且索引为 0 的块仍覆盖底色",
+      "status": "passed"
+    },
+    {
+      "file": "src/present/menu/box-shadow-pixels.grok-r1.test.ts",
+      "fullName": "G07-C 菜单框像素 G07-C11 列数取最长的一项，短项不把列数抬高",
+      "status": "passed"
+    },
+    {
+      "file": "src/present/menu/box-shadow-pixels.grok-r1.test.ts",
+      "fullName": "G07-C 菜单框像素 G07-C12 单行框 len 为 0 时没有中段，右帽紧跟左帽",
+      "status": "passed"
+    },
+    {
+      "file": "src/present/menu/opening-confirm-pixels.grok-r1.test.ts",
+      "fullName": "G07-D 开场与确认像素 G07-D01 背景索引 0 覆盖底色，选中字仍是闪烁色",
+      "status": "passed"
+    },
+    {
+      "file": "src/present/menu/opening-confirm-pixels.grok-r1.test.ts",
+      "fullName": "G07-D 开场与确认像素 G07-D02 4×4 背景只铺到自己的矩形，外侧保持底色",
+      "status": "passed"
+    },
+    {
+      "file": "src/present/menu/opening-confirm-pixels.grok-r1.test.ts",
+      "fullName": "G07-D 开场与确认像素 G07-D03 光标越过两项时两行都是未选中色",
+      "status": "passed"
+    },
+    {
+      "file": "src/present/menu/opening-confirm-pixels.grok-r1.test.ts",
+      "fullName": "G07-D 开场与确认像素 G07-D04 绘制不改光标，也不改词表给出的标签",
+      "status": "passed"
+    },
+    {
+      "file": "src/present/menu/opening-confirm-pixels.grok-r1.test.ts",
+      "fullName": "G07-D 开场与确认像素 G07-D05 左标签两个字仍从 (145,110) 起笔，左右框原点不动",
+      "status": "passed"
+    },
+    {
+      "file": "src/present/menu/opening-confirm-pixels.grok-r1.test.ts",
+      "fullName": "G07-D 开场与确认像素 G07-D06 左右标签都是空串时不写字，两框照画",
+      "status": "passed"
+    },
+    {
+      "file": "src/present/menu/opening-confirm-pixels.grok-r1.test.ts",
+      "fullName": "G07-D 开场与确认像素 G07-D07 背景索引 0x55 上的字影是 0，字本体仍是闪烁色",
       "status": "passed"
     }
   ],
@@ -2578,6 +2814,209 @@
         {
           "file": "src/present/__tests__/grok-present/p07-status.test.ts",
           "fullName": "P07 角色状态 P07 非空装备、立绘、经验和HP按当前角色画出，绘制不改状态",
+          "status": "passed"
+        }
+      ]
+    },
+    {
+      "batch": "G07",
+      "status": "passed",
+      "numPassedTests": 39,
+      "numFailedTests": 0,
+      "tests": [
+        {
+          "file": "src/present/menu/draw-box.glm-phase1-leaves.test.ts",
+          "fullName": "L12 drawBox / drawSingleLineBox 剩余合同 drawSingleLineBox 缺 44-46 帧 → fail-loud 抛错（指名帧区间）",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/menu/draw-box.glm-phase1-leaves.test.ts",
+          "fullName": "L12 drawBox / drawSingleLineBox 剩余合同 shadowOffset 0：无阴影，(x+6,y+6) 保持底色",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/menu/draw-box.glm-phase1-leaves.test.ts",
+          "fullName": "L12 drawBox / drawSingleLineBox 剩余合同 box 越出 fb 右/下边界：裁剪不抛错，界内像素照画",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/menu/draw-box.glm-phase1-leaves.test.ts",
+          "fullName": "L12 drawBox / drawSingleLineBox 剩余合同 menuTextMaxCols：空表 → 1（下限）；全角 4 字 → 3；缺字形 ASCII 按 16px 计",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/menu/draw-box.glm-phase1-leaves.test.ts",
+          "fullName": "L12 solidImage 语义（本队列 fixture 自检） 素色图 opaque 全 1，blit 后整片覆盖",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/menu/draw-box.test.ts",
+          "fullName": "M5.6 W0.c drawBox 画 1×1 内部 box(实际 3×3 tile)— 9 frame 全部 blit",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/menu/draw-box.test.ts",
+          "fullName": "M5.6 W0.c drawBox shadowOffset 6 → 阴影在 (6,6) 偏移位置应用 PAL_CalcShadowColor 到当前 fb pixel",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/menu/draw-box.test.ts",
+          "fullName": "M5.6 W0.c drawBox style 1 → 用 frame 9-17",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/menu/draw-box.test.ts",
+          "fullName": "M5.6 W0.c drawBox rows=2 cols=4 → 4×6 tile 网格",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/menu/draw-box.test.ts",
+          "fullName": "M5.6 W0.c drawBox uiSpriteFrames 不足 9 个 → 抛错",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/menu/draw-confirm.glm-phase1-leaves.test.ts",
+          "fullName": "L09 drawConfirmBox 默认 否/是：rightSelected=false → 左「否」0xF9、右「是」0x4F；两框体已画",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/menu/draw-confirm.glm-phase1-leaves.test.ts",
+          "fullName": "L09 drawConfirmBox rightSelected=true 高亮换右；fShadow 三影：字亮点右/下/右下为黑 0",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/menu/draw-confirm.glm-phase1-leaves.test.ts",
+          "fullName": "L09 drawConfirmBox 自定义 关/开 标签（PAL_SwitchMenu 复用）：同布局不同字",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/menu/draw-magic.glm-phase1-leaves.test.ts",
+          "fullName": "L10 drawInGameMagicMenu 剩余分支 pick-caster：死亡施法人未选中 0x18、被选中 0x1C；活人选中 0xF9",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/menu/draw-magic.glm-phase1-leaves.test.ts",
+          "fullName": "L10 drawInGameMagicMenu 剩余分支 pick-spell：选中+MP不足 0x1C（预置 disabled 着色，不证明判定已执行）",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/menu/draw-magic.glm-phase1-leaves.test.ts",
+          "fullName": "L10 drawInGameMagicMenu 剩余分支 空法术表：只画 grid 框，不画条目不抛错；MP 框 needed 0",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/menu/draw-magic.glm-phase1-leaves.test.ts",
+          "fullName": "L10 drawInGameMagicMenu 剩余分支 spell 不在 catalog：grid label 回退 menu item label；施法人缺 _name 回退 role#id",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/menu/draw-magic.test.ts",
+          "fullName": "drawInGameMagicMenu pick-spell 画选中仙术 scriptDesc 说明(magicmenu.c:191)",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/menu/draw-magic.test.ts",
+          "fullName": "drawInGameMagicMenu L8:pick-spell 用 WIN95 布局 —— MP 在左侧,右侧 MP 区(215~265)无 slash/MP sprite",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/menu/draw-opening-menu.glm-phase1-leaves.test.ts",
+          "fullName": "L12 drawOpeningMenu 剩余合同 cursor 0：第 1 行 0xF9、第 2 行 0x4F（词表 4 字 label → x=125）",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/menu/draw-opening-menu.glm-phase1-leaves.test.ts",
+          "fullName": "L12 drawOpeningMenu 剩余合同 cursor 1：高亮换读档行；fallback 词表未载 → fallback 文案（tofu 像素仍可断言色）",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/menu/draw-opening-menu.glm-phase1-leaves.test.ts",
+          "fullName": "L12 drawOpeningMenu 剩余合同 makeUiFrames 与本渲染无耦合：不传 frames 也能画（无 box 菜单）",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/menu/draw-opening-menu.test.ts",
+          "fullName": "openingItemX — 选项 x 公式(uigame.c:107-108) 真 label('新的故事'/'旧的回忆',各 4 字)→ w=4 → x=125(回归钉死:对 shipped 数据零变化)",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/menu/draw-opening-menu.test.ts",
+          "fullName": "openingItemX — 选项 x 公式(uigame.c:107-108) 5 字 → w=5 → x=117;6 字 → w=6 → x=109(公式对长文案左移)",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/menu/draw-opening-menu.test.ts",
+          "fullName": "openingItemX — 选项 x 公式(uigame.c:107-108) w<=4 不左移(8 ASCII → w=4 → x=125,非 length 8)",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/menu/draw-opening-menu.test.ts",
+          "fullName": "drawOpeningMenu — sdlpal uigame.c:42-167 PAL_OpeningMenu 渲染 320×200 全屏背景 blit — center pixel = bg.indices[center]",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/menu/draw-opening-menu.test.ts",
+          "fullName": "drawOpeningMenu — sdlpal uigame.c:42-167 PAL_OpeningMenu 渲染 2 个 menu item 坐标 (125,95) (125,112) 字像素被写 — 覆盖 bg",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/menu/draw-opening-menu.test.ts",
+          "fullName": "drawOpeningMenu — sdlpal uigame.c:42-167 PAL_OpeningMenu 渲染 bg 缺失 → 不画背景(fb 保留初始 0)+ 仍画字",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/menu/draw-opening-menu.test.ts",
+          "fullName": "drawOpeningMenu — sdlpal uigame.c:42-167 PAL_OpeningMenu 渲染 cursor=0 vs cursor=1 — 渲染不抛错且 fb 内容有差异(高亮位置不同)",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/menu/draw-shop.glm-phase1-leaves.test.ts",
+          "fullName": "L12 drawShopMenu 剩余分支 ownedCount = 库存 2 + 跨队已装备 1 = 3（uigame.c:1554-1577）",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/menu/draw-shop.glm-phase1-leaves.test.ts",
+          "fullName": "L12 drawShopMenu 剩余分支 空店铺列表：框与两单行框照画，owned 0、无图标、不崩",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/menu/draw-shop.glm-phase1-leaves.test.ts",
+          "fullName": "L12 drawSellOverlay 剩余分支 光标项非 sellable：两框照画，售价 label 与数字不画",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/menu/draw-shop.glm-phase1-leaves.test.ts",
+          "fullName": "L12 drawSellOverlay 剩余分支 cursorItemId 缺省（空 grid）：售价框照画、无 label；sellable 项画半价",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/__tests__/grok-present/p04-shop.test.ts",
+          "fullName": "P04 商店 P04 买列表、确认层、现有量和金钱用不同哨兵",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/__tests__/grok-present/p04-shop.test.ts",
+          "fullName": "P04 商店 P04 卖overlay画售价的一半，不执行买卖",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/__tests__/grok-present/p06-magic.test.ts",
+          "fullName": "P06 仙术页 P06 施法者阶段按队伍顺序画两人不同HP",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/__tests__/grok-present/p06-magic.test.ts",
+          "fullName": "P06 仙术页 P06 仙术页区分MP够与不够，并画出说明和现行MP",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/__tests__/grok-present/p06-magic.test.ts",
+          "fullName": "P06 仙术页 P06 翻页后左上格换成后页仙术，目标阶段光标按队员移动",
+          "status": "passed"
+        },
+        {
+          "file": "src/present/__tests__/grok-present/p06-magic.test.ts",
+          "fullName": "P06 仙术页 P06 输入快照能发现位图宽度、法术名、背景、毒和升级表变化",
           "status": "passed"
         }
       ]

@@ -46,6 +46,14 @@
 
 本批新合同 48。翻页、已装备色、用物层现行数量 7、攻击预览 23、立绘、runtime 0 和 level 2 的毒间谍已经有旧断言，记在 existing-proof。目标 400/40/40 没有改小。
 
+## G07
+
+没有停组的产品缺陷。
+
+确认框的默认色、右项高亮、关/开和三向阴影已经由 glm 盖满。开场菜单的 `y === undefined` 到不了：`ITEM_Y` 只有 95 和 112，`openingMenuLabels` 固定返回两项。记为 unreachable，不计入新合同。
+
+本批新合同 47。两人体力、需要真气 8、价 123、现有 3、半价 40、九宫格和四字横坐标已经有旧断言，记在 existing-proof。目标 400/40/40 没有改小。
+
 ## 未跑
 
-G07–G10 尚未交付。coverage-delta、receipt 的完整候选 SHA、全包 test、根 lint、docs check、diff check、verifier 留在末批。
+G08–G10 尚未交付。coverage-delta、receipt 的完整候选 SHA、全包 test、根 lint、docs check、diff check、verifier 留在末批。
