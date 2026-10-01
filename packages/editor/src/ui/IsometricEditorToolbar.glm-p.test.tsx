@@ -8,6 +8,7 @@
 import { act } from 'react'
 import { createRoot, type Root } from 'react-dom/client'
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
+import { ISOMETRIC_BRUSH_SIZES } from '../core/isometric-brush.js'
 import { type IsometricEditorTool, IsometricEditorToolbar } from './IsometricEditorToolbar.js'
 
 let host: HTMLDivElement
@@ -101,18 +102,20 @@ describe('P02-G03 工具选项托盘键盘合同', () => {
     renderToolbar()
     const trigger = brushTrigger()
     await act(async () => trigger.click())
+    // 产品 focusOption 经 requestAnimationFrame 落焦；portal 选项按钮分批挂载。
+    // 等待可观察收敛：焦点落进托盘且全部选项挂载完成，不手工抢焦、不用空 act 代替帧。
+    await vi.waitFor(
+      () => {
+        expect(tray().contains(document.activeElement)).toBe(true)
+        expect(tray().querySelectorAll<HTMLButtonElement>('button')).toHaveLength(
+          ISOMETRIC_BRUSH_SIZES.length,
+        )
+      },
+      { interval: 16, timeout: 2000 },
+    )
     const options = [...tray().querySelectorAll<HTMLButtonElement>('button')]
-    expect(options.length).toBeGreaterThanOrEqual(3)
-    // 开盘聚焦 effect 与 portal 二次挂载会抢焦点：自设后补帧再重设一次，
-    // 保证按键派发时焦点稳定在托盘内（不依赖时序）。
-    await act(async () => {
-      options[1]!.focus()
-    })
-    await act(async () => {})
-    await act(async () => {
-      if (!tray().contains(document.activeElement)) options[1]!.focus()
-    })
-    if (!tray().contains(document.activeElement)) options[1]!.focus()
+    // 收敛后焦点停在当前值(1)选项=首项；后续移动全部由产品键盘处理器驱动。
+    expect(document.activeElement).toBe(options[0])
     await key(tray(), 'End')
     expect(document.activeElement).toBe(options.at(-1))
     await key(tray(), 'ArrowLeft')

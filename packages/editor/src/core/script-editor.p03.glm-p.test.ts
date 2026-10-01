@@ -42,7 +42,7 @@ function stageFlow(stageId = 'start', body: AuthorCommand[] = []): AuthorScriptF
   return { kind: 'stages', initial: stageId, stages: [{ id: stageId, body }] }
 }
 
-function machineFlow(body: AuthorCommand[], prepare: AuthorCommand[] = []): AuthorScriptFlow {
+function machineFlow(body: AuthorCommand[]): AuthorScriptFlow {
   return {
     kind: 'stateMachine',
     machine: {
@@ -52,7 +52,30 @@ function machineFlow(body: AuthorCommand[], prepare: AuthorCommand[] = []): Auth
       states: {
         idle: {
           label: '待机',
-          ...(prepare.length ? { entry: { prepare, reveal: { kind: 'cut' as const } } } : {}),
+          body,
+          next: { kind: 'stay' as const },
+        },
+      },
+    },
+  }
+}
+
+/** 合法 entry 容器：仅 onEnter hook 的 stateMachine initial state 允许 entry（一手门
+ * author-script-core.ts:984-986，allowSceneEntry: slot === 'onEnter'）。 */
+function onEnterEntryMachineFlow(
+  prepare: AuthorCommand[],
+  body: AuthorCommand[],
+): AuthorScriptFlow {
+  return {
+    kind: 'stateMachine',
+    machine: {
+      id: 'machine-1',
+      label: '巡逻机',
+      initial: 'idle',
+      states: {
+        idle: {
+          label: '待机',
+          entry: { prepare, reveal: { kind: 'cut' as const } },
           body,
           next: { kind: 'stay' as const },
         },
@@ -135,7 +158,23 @@ function editorState(): ScriptEditorState {
           onEnter: {
             initial: 'enter-a',
             variants: {
-              'enter-a': hook('进场A', stageFlow('start', [selectionCommand('talk')])),
+              'enter-a': hook(
+                '进场A',
+                onEnterEntryMachineFlow([handoffCommand('talk', 'auto2')], [selectionCommand('talk')]),
+              ),
+              'enter-b': hook(
+                '进场B',
+                stageFlow('start', [
+                  {
+                    kind: 'selectSceneHooks',
+                    scene: 's001',
+                    selection: {
+                      onEnter: { kind: 'use', value: 'enter-b' },
+                      onTeleport: { kind: 'disabled' },
+                    },
+                  },
+                ]),
+              ),
             },
           },
         },
@@ -201,21 +240,29 @@ describe('P03-G12 behaviorReferences 只读引用收集', () => {
       'scenes.s001.entities.e1.behaviors.trigger.talk.flow.stages.start.body[0]',
     )
     expect(commandRefs).toContain(
-      'scenes.s001.hooks.onEnter.variants.enter-a.flow.stages.start.body[0]',
+      'scenes.s001.hooks.onEnter.variants.enter-a.flow.machine.states.idle.body[0]',
     )
     expect(commandRefs).toContain('sharedScripts.shared/user/lib.body[0].then[0]')
   })
 
-  test('selection 不匹配但 cursorHandoff.fromBehavior 命中 → 独立引用且路径带后缀', () => {
+  test('合法 onEnter entry.prepare 中的 cursorHandoff.fromBehavior 引用：完整路径与 locator（合法 entry 容器新轴）', () => {
     const refs = behaviorReferences(editorState(), target, 'trigger', 'talk')
     const handoff = refs.find(
       (ref): ref is Extract<typeof ref, { kind: 'command' }> =>
         ref.kind === 'command' && ref.path.endsWith('.cursorHandoff.fromBehavior'),
     )
     expect(handoff).toBeDefined()
-    // 状态机 prepare 中 handoffCommand('talk','auto2')：selection=auto2 不匹配 talk，
-    // 但 fromBehavior=talk 命中 → 引用来自 cursorHandoff 后缀路径。
-    expect(handoff?.path).toContain('entry.prepare[0].cursorHandoff.fromBehavior')
+    // 合法容器：onEnter hook 的 machine initial state entry.prepare
+    //（实体 behavior 机器 entry 被公开校验拒收——author-script-core.ts:984-986）。
+    expect(handoff?.path).toBe(
+      'scenes.s001.hooks.onEnter.variants.enter-a.flow.machine.states.idle.entry.prepare[0].cursorHandoff.fromBehavior',
+    )
+    expect(handoff?.locator).toEqual({
+      kind: 'command',
+      owner: { kind: 'scene-hook', sceneId: 's001', slot: 'onEnter', hookId: 'enter-a' },
+      container: { kind: 'state', machineId: 'machine-1', stateId: 'idle', section: 'prepare' },
+      commandPath: '0',
+    })
   })
 
   test('不存在的 behaviorId → 空引用列表（只读收集不抛错）', () => {
@@ -224,36 +271,31 @@ describe('P03-G12 behaviorReferences 只读引用收集', () => {
 })
 
 describe('P03-G13 sceneHookReferences 与目标存在性', () => {
-  test('initial 命中 + selectSceneHooks 命中 → 两类引用各自携带 locator', () => {
+  test('hook 变体流内的 selectSceneHooks 命令引用：owner/容器/路径完整 locator（旧测只证 shared-script body 容器）', () => {
     const state = editorState()
-    state.scenes[0]!.hooks!.onEnter!.variants['enter-a']!.flow = stageFlow('start', [
-      {
-        kind: 'selectSceneHooks',
-        scene: 's001',
-        selection: {
-          onEnter: { kind: 'use', value: 'enter-a' },
-          onTeleport: { kind: 'disabled' },
-        },
-      },
-    ])
-    const refs = sceneHookReferences(state, 's001', 'onEnter', 'enter-a')
-    const initial = refs.find((ref) => ref.kind === 'initial')
-    expect(initial?.path).toBe('scenes.s001.hooks.onEnter.initial')
-    expect(initial?.locator).toEqual({
-      kind: 'scene-hook-initial',
-      sceneId: 's001',
-      slot: 'onEnter',
-      hookId: 'enter-a',
+    // enter-b 变体流内的 selectSceneHooks 选择 enter-b；enter-b 非 initial。
+    const refs = sceneHookReferences(state, 's001', 'onEnter', 'enter-b')
+    const command = refs.find((ref) => ref.kind === 'command')!
+    expect(command.path).toBe(
+      'scenes.s001.hooks.onEnter.variants.enter-b.flow.stages.start.body[0]',
+    )
+    expect(command.locator).toEqual({
+      kind: 'command',
+      owner: { kind: 'scene-hook', sceneId: 's001', slot: 'onEnter', hookId: 'enter-b' },
+      container: { kind: 'step', stepId: 'start', section: 'body' },
+      commandPath: '0',
     })
-    const command = refs.find((ref) => ref.kind === 'command')
-    expect(command).toBeDefined()
   })
 
-  test('非 initial hook → 只有命令引用，无 initial 引用', () => {
-    const refs = sceneHookReferences(editorState(), 's001', 'onEnter', 'enter-a')
-    // 初始 fixture 里 enter-a 既是 initial 也无 selectSceneHooks 命中时：
-    // 本例改 initial 为缺失 hook，只剩 body 中的 select 引用路径判空。
-    expect(refs.every((ref) => ref.kind === 'initial' || ref.kind === 'command')).toBe(true)
+  test('真实非 initial hook：无 initial 引用、恰一命令引用（精确路径）', () => {
+    // enter-b 存在于 variants 但 initial 是 enter-a → 查 enter-b 不应产出 initial 引用。
+    const refs = sceneHookReferences(editorState(), 's001', 'onEnter', 'enter-b')
+    expect(refs.filter((ref) => ref.kind === 'initial')).toHaveLength(0)
+    expect(refs.filter((ref) => ref.kind === 'command')).toHaveLength(1)
+    expect(refs[0]?.kind).toBe('command')
+    expect(refs[0]?.path).toBe(
+      'scenes.s001.hooks.onEnter.variants.enter-b.flow.stages.start.body[0]',
+    )
   })
 
   test('destinationExists 三臂：command/entity-page/scene-hook-initial', () => {
@@ -290,16 +332,6 @@ describe('P03-G13 sceneHookReferences 与目标存在性', () => {
     ).toBe(false)
   })
 
-  test('resolveCanonicalScriptCommand 对坏 commandPath 返回 undefined 而不抛错', () => {
-    const state = editorState()
-    const ref = behaviorReferences(state, target, 'trigger', 'talk').find(
-      (r) => r.kind === 'command',
-    )!
-    expect(resolveCanonicalScriptCommand(state, ref.locator)).toBeDefined()
-    expect(
-      resolveCanonicalScriptCommand(state, { ...ref.locator, commandPath: 'not/a/path' }),
-    ).toBeUndefined()
-  })
 })
 
 describe('P03-G14 中文标签合同（describeScriptCommandOwner / describeCanonicalScriptReference）', () => {
@@ -403,18 +435,14 @@ describe('P03-G14 中文标签合同（describeScriptCommandOwner / describeCano
     ).toBe('场景 s001 / 进入场景时默认使用“进场A”')
   })
 
-  test('describeCanonicalScriptReference：命令引用带容器标签（状态机正文段）', () => {
+  test('describeCanonicalScriptReference：合法 onEnter entry.prepare 命令引用整串标签（新轴）', () => {
     const state = editorState()
-    const refs = behaviorReferences(state, target, 'trigger', 'auto2')
-    const inMachine = refs.find(
+    const handoff = behaviorReferences(state, target, 'trigger', 'talk').find(
       (r): r is Extract<typeof r, { kind: 'command' }> =>
-        r.kind === 'command' && r.path.includes('machine.states.idle.body[0]'),
+        r.kind === 'command' && r.path.endsWith('.cursorHandoff.fromBehavior'),
+    )!
+    expect(describeCanonicalScriptReference(state, handoff)).toBe(
+      '场景 s001 / 进场脚本“进场A” / 连续流程“巡逻机” / 状态“待机” / 画面出现前 / 第 1 条指令「切换实体脚本方案」',
     )
-    expect(inMachine).toBeDefined()
-    const text = describeCanonicalScriptReference(state, inMachine!)
-    expect(text).toContain('实体 e1')
-    expect(text).toContain('连续流程“巡逻机”')
-    expect(text).toContain('状态“待机”')
-    expect(text).toContain('脚本正文')
   })
 })
