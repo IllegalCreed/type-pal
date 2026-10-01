@@ -5,7 +5,7 @@
   "branch": "codex/glm-wave-q-runtime-residual-r1",
   "dispatchBase": "8b3ca062953b17a12178f8d1a9e36657971234b1",
   "productionFreeze": "3ac9a2e2f6aba8a5cc97640c18fef8549d199380",
-  "candidateHead": "9cabf9445fcd28a33d0e40c0f9897be0a370ffab",
+  "candidateHead": "pin-on-push (docs-only follow-up per r1 pattern; test tree = previous commit)",
   "verifier": {
     "command": "node docs/testing/glm-tenfold-triple/verify-targets.mjs --wave Q --base 8b3ca062953b17a12178f8d1a9e36657971234b1",
     "frozenHashesValid": true,
@@ -13,9 +13,9 @@
     "runAt": "开工与收口各一次，输出存 receipt/verifier-final.txt"
   },
   "deliverables": {
-    "newTestFiles": 8,
+    "newTestFiles": 16,
     "newFixtureDirs": 1,
-    "newCases": 113,
+    "newCases": 115,
     "counterControls": 34,
     "browserFlows": 10,
     "defectReports": 1
@@ -35,22 +35,22 @@
     "diffCheck": "git diff --check 8b3ca062953b17a12178f8d1a9e36657971234b1...HEAD"
   },
   "results": {
-    "reforgeTest": "2150 passed (基线2052 + 98 glm-q；串行 env -u NODE_COMPILE_CACHE)",
-    "gameTest": "2788 passed (基线2773 + 15 glm-q)",
-    "palExtractTest": "357 passed (基线357，本包零新增)",
-    "typechecks": "reforge/game/pal-extract 均 0 error",
-    "rootLint": "pnpm lint PASS — 2802 files; 0 errors / 0 warnings / 0 infos",
-    "docsCheck": "node scripts/docs/check.mjs PASS (814 Markdown / 4276 local links / 245 tasks, 0 issues)",
-    "diffCheck": "git diff --check <dispatch>...HEAD 干净（提交后复核）",
-    "coverage": "reforge 池 branches 8510/11460 → 8592/11460 (+82, 14 源)；game 8260/11260 → 8264/11260 (+4, 1 源)；pal-extract 插桩超时未测（Q10 零新测，delta 恒 0）"
+    "reforgeTest": "2150 passed（最终格式化文件复跑）",
+    "gameTest": "2788 passed（最终格式化文件复跑）",
+    "palExtractTest": "359 passed（最终格式化文件复跑）",
+    "typechecks": "reforge/game/pal-extract 均 0 error（最终复跑）",
+    "rootLint": "pnpm lint PASS — 2905 files; 0 errors / 0 warnings / 0 infos",
+    "docsCheck": "node scripts/docs/check.mjs PASS (815 Markdown / 4278 local links / 245 tasks, 0 issues)",
+    "diffCheck": "git diff --check <dispatch>...HEAD 干净（最终提交后复核）"
   },
-  "counterEvidence": "docs/testing/glm-tenfold-triple/wave-Q/counters.json + counters/",
+  "counterEvidence": "counters.json（perCounter 34 全 VALID）+ counters/（每枚 meta/axis/patch/三态 json+txt）",
   "browserEvidence": "docs/testing/glm-tenfold-triple/wave-Q/browser-evidence/browser-evidence.json",
-  "coverageDelta": "docs/testing/glm-tenfold-triple/wave-Q/coverage-delta.json （隔离 v8 after vs targets.json 冻结 before；pal-extract 未测：插桩超时且 Q10 零新测）",
+  "coverageDelta": "coverage-delta.json（reforge/game 全测口径 +82/+5 臂；pal-extract 为 glm-q 定向口径且 CLI 子进程不在插桩范围，收益主张合同级）",
   "notes": [
     "反控在 mkdtemp 隔离副本树上执行，候选树产品源零改动。",
     "官方 ratchet / protected fast / main 集成仅 Codex；本包不宣称合并后净增。",
     "工作树取证所需的 gitignored 资产（data/raw、data/extracted、projects/pal/assets/{migrated,runtime}）从主仓拷贝，不进提交。",
     "candidateHead 指向测试候选树 tip；其后的 docs-only pin 提交仅回填本字段，不改任何测试/产品文件。"
-  ]
+  ],
+  "reworkRound": 2
 }

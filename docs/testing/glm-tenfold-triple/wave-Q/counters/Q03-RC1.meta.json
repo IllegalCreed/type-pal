@@ -1,16 +1,57 @@
 {
   "id": "Q03-RC1",
   "file": "packages/reforge/src/audio-spessa-runtime.glm-q.test.ts",
-  "targetSubstring": "无任何 AudioContext 构造器返回 undefined",
+  "targetFullName": "Q03 试听 runtime：无任何 AudioContext 构造器返回 undefined",
+  "targetNameSubstring": "无任何 AudioContext 构造器返回 undefined",
+  "axis": "输入轴单轴变异：无 AudioContext 用例补上 webkitAudioContext=undefined → 改为宿主存在 webkit 构造器（合法宿主形态）；断言不动。",
   "sha256": {
-    "original": "9a3b9b7b541d4488a394eb8383091ea3e16135665075834e638189cbfa35b521",
-    "mutated": "26fab2083311585440ac704c7e6cf36d4b84f44324f8d5148bf6e8fa6cbd75b3",
-    "restored": "9a3b9b7b541d4488a394eb8383091ea3e16135665075834e638189cbfa35b521"
+    "original": "fcd5410400adf30adf0820fb58d9f7855a571f107550905ce9c1acb7d0c909ca",
+    "mutated": "38b89bfb86ffe93ed6440f1da9dd7a905cefbff27bf9ffc443ddc974fbc9279a",
+    "restored": "fcd5410400adf30adf0820fb58d9f7855a571f107550905ce9c1acb7d0c909ca"
   },
   "restoredHashUnchanged": true,
-  "positiveExit": 0,
-  "mutantExit": 1,
-  "package": "reforge",
-  "targetFailureBlock": " FAIL  src/audio-spessa-runtime.glm-q.test.ts > Q03 试听 runtime：无任何 AudioContext 构造器返回 undefined\nAssertionError: expected undefined to be defined\n ❯ src/audio-spessa-runtime.glm-q.test.ts:219:68\n    217|   vi.stubGlobal('AudioContext', undefined)\n    218|   vi.stubGlobal('webkitAudioContext', undefined)\n    219|   expect(createBrowserMidiPreviewRuntime(roleReader(riffBytes()))).toB…\n       |                                                                    ^\n    220| })\n    221|\n\n⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯\n\n",
-  "summaryLines": []
+  "criteria": {
+    "positiveGreen": true,
+    "mutantExactlyOneTargetRed": true,
+    "targetAssertionError": "AssertionError: expected undefined to be defined",
+    "restoredGreen": true,
+    "restoredSameExecutionCount": true,
+    "hashesMatchFinalCandidate": true
+  },
+  "runs": {
+    "positive": {
+      "exitCode": 0,
+      "summary": {
+        "numTotalTests": 12,
+        "numPassedTests": 12,
+        "numFailedTests": 0,
+        "success": true
+      },
+      "json": "Q03-RC1.positive.json",
+      "raw": "Q03-RC1.positive.txt"
+    },
+    "mutant": {
+      "exitCode": 1,
+      "summary": {
+        "numTotalTests": 12,
+        "numPassedTests": 11,
+        "numFailedTests": 1,
+        "success": false
+      },
+      "json": "Q03-RC1.mutant.json",
+      "raw": "Q03-RC1.mutant.txt"
+    },
+    "restored": {
+      "exitCode": 0,
+      "summary": {
+        "numTotalTests": 12,
+        "numPassedTests": 12,
+        "numFailedTests": 0,
+        "success": true
+      },
+      "json": "Q03-RC1.restored.json",
+      "raw": "Q03-RC1.restored.txt"
+    }
+  },
+  "verdict": "VALID"
 }

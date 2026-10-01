@@ -1,0 +1,170 @@
+{
+  "numTotalTestSuites": 4,
+  "numPassedTestSuites": 4,
+  "numFailedTestSuites": 0,
+  "numPendingTestSuites": 0,
+  "numTotalTests": 13,
+  "numPassedTests": 13,
+  "numFailedTests": 0,
+  "numPendingTests": 0,
+  "numTodoTests": 0,
+  "snapshot": {
+    "added": 0,
+    "failure": false,
+    "filesAdded": 0,
+    "filesRemoved": 0,
+    "filesRemovedList": [],
+    "filesUnmatched": 0,
+    "filesUpdated": 0,
+    "matched": 0,
+    "total": 0,
+    "unchecked": 0,
+    "uncheckedKeysByFile": [],
+    "unmatched": 0,
+    "updated": 0,
+    "didUpdate": false
+  },
+  "startTime": 1790828806919,
+  "success": true,
+  "testResults": [
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["Q04 非法光标组合"],
+          "fullName": "Q04 非法光标组合 machine id 不匹配的 state cursor 精确拒绝",
+          "status": "passed",
+          "title": "machine id 不匹配的 state cursor 精确拒绝",
+          "duration": 2.4441249999999854,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Q04 非法光标组合"],
+          "fullName": "Q04 非法光标组合 stage cursor 不能运行 stateMachine flow；state cursor 不能运行 stages flow",
+          "status": "passed",
+          "title": "stage cursor 不能运行 stateMachine flow；state cursor 不能运行 stages flow",
+          "duration": 0.5889999999999986,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Q04 非法光标组合"],
+          "fullName": "Q04 非法光标组合 stage cursor 指向不存在 stage 时精确报错",
+          "status": "passed",
+          "title": "stage cursor 指向不存在 stage 时精确报错",
+          "duration": 0.18241599999998925,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Q04 非法光标组合"],
+          "fullName": "Q04 非法光标组合 state cursor 指向不存在 state 时按 machine.path 精确报错",
+          "status": "passed",
+          "title": "state cursor 指向不存在 state 时按 machine.path 精确报错",
+          "duration": 0.23154199999999037,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Q04 commandOutcome 与 callScript 门"],
+          "fullName": "Q04 commandOutcome 与 callScript 门 无 resolver 时 callScript 前置拒绝",
+          "status": "passed",
+          "title": "无 resolver 时 callScript 前置拒绝",
+          "duration": 0.28112499999997453,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Q04 commandOutcome 与 callScript 门"],
+          "fullName": "Q04 commandOutcome 与 callScript 门 callScript 自递归在深度 128 处精确熔断",
+          "status": "passed",
+          "title": "callScript 自递归在深度 128 处精确熔断",
+          "duration": 1.848875000000021,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Q04 commandOutcome 与 callScript 门"],
+          "fullName": "Q04 commandOutcome 与 callScript 门 resolver 返回错误 script id 时拒绝",
+          "status": "passed",
+          "title": "resolver 返回错误 script id 时拒绝",
+          "duration": 0.5031249999999545,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Q04 commandOutcome 与 callScript 门"],
+          "fullName": "Q04 commandOutcome 与 callScript 门 shared executable digest/timing/boundary 任一过期都拒绝",
+          "status": "passed",
+          "title": "shared executable digest/timing/boundary 任一过期都拒绝",
+          "duration": 0.45608299999997826,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Q04 commandOutcome 与 callScript 门"],
+          "fullName": "Q04 commandOutcome 与 callScript 门 self=none 禁显式 self；self=required 缺 self 拒绝",
+          "status": "passed",
+          "title": "self=none 禁显式 self；self=required 缺 self 拒绝",
+          "duration": 0.6920420000000149,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Q04 其它公开守卫"],
+          "fullName": "Q04 其它公开守卫 host 未实现 revealSceneEntry 时 scene entry fail-loud",
+          "status": "passed",
+          "title": "host 未实现 revealSceneEntry 时 scene entry fail-loud",
+          "duration": 0.286707999999976,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Q04 其它公开守卫"],
+          "fullName": "Q04 其它公开守卫 while 循环先判条件再执行体：条件即假时体零执行",
+          "status": "passed",
+          "title": "while 循环先判条件再执行体：条件即假时体零执行",
+          "duration": 0.6601249999999936,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Q04 其它公开守卫"],
+          "fullName": "Q04 其它公开守卫 合法 shared 调用在同 digest/timing 下放行并执行体",
+          "status": "passed",
+          "title": "合法 shared 调用在同 digest/timing 下放行并执行体",
+          "duration": 0.16912499999995134,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Q04 其它公开守卫"],
+          "fullName": "Q04 其它公开守卫 当前编译器版本标识为常量且被 executable 记录",
+          "status": "passed",
+          "title": "当前编译器版本标识为常量且被 executable 记录",
+          "duration": 0.07466699999997672,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790828807244,
+      "endTime": 1790828807252.6602,
+      "status": "passed",
+      "message": "",
+      "name": "/private/tmp/glmq/counter-copy/type-pal/packages/reforge/src/script-runner-core.gates.glm-q.test.ts"
+    }
+  ]
+}

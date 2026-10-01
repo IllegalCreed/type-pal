@@ -1,0 +1,90 @@
+{
+  "numTotalTestSuites": 1,
+  "numPassedTestSuites": 1,
+  "numFailedTestSuites": 0,
+  "numPendingTestSuites": 0,
+  "numTotalTests": 5,
+  "numPassedTests": 5,
+  "numFailedTests": 0,
+  "numPendingTests": 0,
+  "numTodoTests": 0,
+  "snapshot": {
+    "added": 0,
+    "failure": false,
+    "filesAdded": 0,
+    "filesRemoved": 0,
+    "filesRemovedList": [],
+    "filesUnmatched": 0,
+    "filesUpdated": 0,
+    "matched": 0,
+    "total": 0,
+    "unchecked": 0,
+    "uncheckedKeysByFile": [],
+    "unmatched": 0,
+    "updated": 0,
+    "didUpdate": false
+  },
+  "startTime": 1790828706764,
+  "success": true,
+  "testResults": [
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": [],
+          "fullName": "Q01 菜单相位未处理键不拦截：不 preventDefault、光标不动、不选定",
+          "status": "passed",
+          "title": "Q01 菜单相位未处理键不拦截：不 preventDefault、光标不动、不选定",
+          "duration": 137.83229099999994,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "Q01 末项 ArrowDown 环绕回首项并选定第一入口",
+          "status": "passed",
+          "title": "Q01 末项 ArrowDown 环绕回首项并选定第一入口",
+          "duration": 24.821249999999964,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "Q01 菜单相位 Enter/Space 之外的中排键不触发选定；Escape 不拦截",
+          "status": "passed",
+          "title": "Q01 菜单相位 Enter/Space 之外的中排键不触发选定；Escape 不拦截",
+          "duration": 22.615625000000023,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "Q01 读档相位未处理键早退且不 preventDefault；← 在首页钳制不 wrap",
+          "status": "passed",
+          "title": "Q01 读档相位未处理键早退且不 preventDefault；← 在首页钳制不 wrap",
+          "duration": 22.073625000000106,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "Q01 读档相位缩略图逐槽恰读一次：多帧渲染不重读 store",
+          "status": "passed",
+          "title": "Q01 读档相位缩略图逐槽恰读一次：多帧渲染不重读 store",
+          "duration": 24.40504199999998,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790828707421,
+      "endTime": 1790828707652.405,
+      "status": "passed",
+      "message": "",
+      "name": "/private/tmp/glmq/counter-copy/type-pal/packages/reforge/src/opening-menu.glm-q.test.ts"
+    }
+  ]
+}

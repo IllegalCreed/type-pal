@@ -1,16 +1,57 @@
 {
   "id": "Q01-RC4",
   "file": "packages/reforge/src/shop-trial.glm-q.test.ts",
-  "targetSubstring": "白名单伴随参数",
+  "targetFullName": "Q01 白名单伴随参数（project/workspace/save-workspace）接受并精确解析",
+  "targetNameSubstring": "白名单伴随参数",
+  "axis": "输入轴单轴变异：shop-trial 参数串 shopId 3→4（合法非负整数）；断言不动。",
   "sha256": {
     "original": "5f2fa0e7a3e39b5f846076b3d37073e6fac6cb87d7cde8a1a92e40de1f55297b",
     "mutated": "9aff9841afd6ef14da0fff08bd1e55145491aed755f2fd1d97a137b3ab549210",
     "restored": "5f2fa0e7a3e39b5f846076b3d37073e6fac6cb87d7cde8a1a92e40de1f55297b"
   },
   "restoredHashUnchanged": true,
-  "positiveExit": 0,
-  "mutantExit": 1,
-  "package": "reforge",
-  "targetFailureBlock": " FAIL  src/shop-trial.glm-q.test.ts > Q01 白名单伴随参数（project/workspace/save-workspace）接受并精确解析\nAssertionError: expected { shopId: 4, money: 12 } to deeply equal { shopId: 3, money: 12 }\n\n- Expected\n+ Received\n\n  {\n    \"money\": 12,\n-   \"shopId\": 3,\n+   \"shopId\": 4,\n  }\n\n ❯ src/shop-trial.glm-q.test.ts:31:18\n     29|     new URLSearchParams('shop-trial=4&money=12&project=demo&workspace=…\n     30|   )\n     31|   expect(parsed).toEqual({ shopId: 3, money: 12 })\n       |                  ^\n     32| })\n     33|\n\n⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯\n\n",
-  "summaryLines": []
+  "criteria": {
+    "positiveGreen": true,
+    "mutantExactlyOneTargetRed": true,
+    "targetAssertionError": "AssertionError: expected { shopId: 4, money: 12 } to deeply equal { shopId: 3, money: 12 }",
+    "restoredGreen": true,
+    "restoredSameExecutionCount": true,
+    "hashesMatchFinalCandidate": true
+  },
+  "runs": {
+    "positive": {
+      "exitCode": 0,
+      "summary": {
+        "numTotalTests": 4,
+        "numPassedTests": 4,
+        "numFailedTests": 0,
+        "success": true
+      },
+      "json": "Q01-RC4.positive.json",
+      "raw": "Q01-RC4.positive.txt"
+    },
+    "mutant": {
+      "exitCode": 1,
+      "summary": {
+        "numTotalTests": 4,
+        "numPassedTests": 3,
+        "numFailedTests": 1,
+        "success": false
+      },
+      "json": "Q01-RC4.mutant.json",
+      "raw": "Q01-RC4.mutant.txt"
+    },
+    "restored": {
+      "exitCode": 0,
+      "summary": {
+        "numTotalTests": 4,
+        "numPassedTests": 4,
+        "numFailedTests": 0,
+        "success": true
+      },
+      "json": "Q01-RC4.restored.json",
+      "raw": "Q01-RC4.restored.txt"
+    }
+  },
+  "verdict": "VALID"
 }

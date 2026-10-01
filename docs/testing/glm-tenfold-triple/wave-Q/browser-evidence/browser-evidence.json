@@ -1,14 +1,17 @@
 {
-  "capturedAt": "2026-09-30T16:24:45.345Z",
+  "capturedAt": "2026-10-01T04:42:55.813Z",
   "server": "pnpm --filter @type-pal/reforge dev:pal (http://localhost:6051, real pal project)",
   "browser": "chrome headless 1440×900 (playwright channel:chrome)",
   "scope": "严格非剧情：标题菜单/gallery/battle-preview/shop-trial 公开功能面；全程未选择开局项、无 __rfWorld；未进入 PAL 001/002 叙事路线",
   "flows": [
     {
       "id": "F1",
-      "name": "媒体 autoplay 恢复与跳过取消链（trademark/splash 视频 → 标题菜单）",
+      "name": "媒体播放与跳过取消链（trademark/splash 视频 → 标题菜单）",
       "url": "http://localhost:6051/?menu",
+      "autoplayBehavior": "host allowed autoplay; no overlay",
+      "overlayRecoveryClaim": "withdrawn — covered at jsdom level by N03",
       "autoplayOverlayClicked": false,
+      "videoPlaying": true,
       "videoElementsSeen": 1,
       "videoVisible": true,
       "menuReached": true,
@@ -111,7 +114,7 @@
     {
       "id": "F4",
       "name": "空档浏览 ArrowLeft 原地钳制 → Escape 退回菜单 → ArrowDown 环绕",
-      "clampMaxDiff": 0.008875,
+      "clampMaxDiff": 0.007,
       "clampHeld": true,
       "backDiff": 0.7303125,
       "backVisible": true,
@@ -353,11 +356,11 @@
     }
   ],
   "screenshots": {
-    "/Users/zhangxu/.codex/worktrees/glm-wave-q/type-pal/docs/testing/glm-tenfold-triple/wave-Q/browser-evidence/f1-trademark-video.png": "8815edf2226740daf4d99f7a9d4cd4834e808e5cca3a298eeb0d21843f9baf24",
-    "/Users/zhangxu/.codex/worktrees/glm-wave-q/type-pal/docs/testing/glm-tenfold-triple/wave-Q/browser-evidence/f1-menu-after-videos.png": "20ff1c937c444510769cabfe75cc705774e8edc0976d17895c465750f918db98",
-    "/Users/zhangxu/.codex/worktrees/glm-wave-q/type-pal/docs/testing/glm-tenfold-triple/wave-Q/browser-evidence/f2-menu-move.png": "900cf214a845559f82470312686689e6ee5dcb6465f33f3db3f92199daf2489e",
+    "/Users/zhangxu/.codex/worktrees/glm-wave-q/type-pal/docs/testing/glm-tenfold-triple/wave-Q/browser-evidence/f1-trademark-video.png": "2902628684c85211945cb6d9106ec4bf76b426603435cf16027f8c08d05991e0",
+    "/Users/zhangxu/.codex/worktrees/glm-wave-q/type-pal/docs/testing/glm-tenfold-triple/wave-Q/browser-evidence/f1-menu-after-videos.png": "6b5d63fa0b577041f1e79dd846db360e173c4cd71f06184bbacf2eed3633f130",
+    "/Users/zhangxu/.codex/worktrees/glm-wave-q/type-pal/docs/testing/glm-tenfold-triple/wave-Q/browser-evidence/f2-menu-move.png": "eccdf15448b9f5ac2f8fcd275c91d4a6cebade84af4b0bf2655fd9403d02592c",
     "/Users/zhangxu/.codex/worktrees/glm-wave-q/type-pal/docs/testing/glm-tenfold-triple/wave-Q/browser-evidence/f3-load-browser.png": "1e46029fa4bc9df168eed8f9eb267f51a5621982bd3e63f3401904ea2f693fec",
-    "/Users/zhangxu/.codex/worktrees/glm-wave-q/type-pal/docs/testing/glm-tenfold-triple/wave-Q/browser-evidence/f4-back-to-menu.png": "20ff1c937c444510769cabfe75cc705774e8edc0976d17895c465750f918db98",
+    "/Users/zhangxu/.codex/worktrees/glm-wave-q/type-pal/docs/testing/glm-tenfold-triple/wave-Q/browser-evidence/f4-back-to-menu.png": "19bf6a70992ee37392616f580c589ff22c419392583b05d80598cb1510a38059",
     "f6-gallery.png": "8b01cb6b21e1ce53d7cb849a95ffbcdb26b5811c4de2494aef0c42e08f62f557",
     "f7-battle-preview.png": "0f1a6d3842bad1c037274d06e1a0bfedb5b0e923af930aca7322a62c62c7e31a",
     "/Users/zhangxu/.codex/worktrees/glm-wave-q/type-pal/docs/testing/glm-tenfold-triple/wave-Q/browser-evidence/f8-shop-trial-error.png": "6d992e5689fac62c37e1fcbad5b0428cbd7db22f07a5aeb0827d6c453b5b404f",

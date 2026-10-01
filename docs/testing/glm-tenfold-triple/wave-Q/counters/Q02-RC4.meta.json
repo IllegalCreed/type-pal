@@ -1,16 +1,57 @@
 {
   "id": "Q02-RC4",
   "file": "packages/reforge/src/assets-decode-gates.glm-q.test.ts",
-  "targetSubstring": "无 gzip 魔数的字节原样透传",
+  "targetFullName": "Q02 decompressGzip 对无 gzip 魔数的字节原样透传",
+  "targetNameSubstring": "无 gzip 魔数的字节原样透传",
+  "axis": "输入轴单轴变异：decompressGzip 透传用例输入字节末位换值（合法无魔数字节）；断言不动。",
   "sha256": {
     "original": "52c84b6e5b5d6d497f4aeed4e62e689505dc598e24227702176f3c0290c9a70e",
     "mutated": "b652bb1deaaca1cdb5430bbbbb4f7fcfec4bdcf840b7c9e39c1fd69ef50c179b",
     "restored": "52c84b6e5b5d6d497f4aeed4e62e689505dc598e24227702176f3c0290c9a70e"
   },
   "restoredHashUnchanged": true,
-  "positiveExit": 0,
-  "mutantExit": 1,
-  "package": "reforge",
-  "targetFailureBlock": " FAIL  src/assets-decode-gates.glm-q.test.ts > Q02 decompressGzip 对无 gzip 魔数的字节原样透传\nAssertionError: expected [ 1, 2, 3, 4, 6 ] to deeply equal [ 1, 2, 3, 4, 5 ]\n\n- Expected\n+ Received\n\n  [\n    1,\n    2,\n    3,\n    4,\n-   5,\n+   6,\n  ]\n\n ❯ src/assets-decode-gates.glm-q.test.ts:265:20\n    263|   const plain = new Uint8Array([1, 2, 3, 4, 6]) // 变异轴：透传内容换值\n    264|   const out = await decompressGzip(new Blob([plain]))\n    265|   expect([...out]).toEqual([1, 2, 3, 4, 5])\n       |                    ^\n    266| })\n    267|\n\n⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯\n\n",
-  "summaryLines": []
+  "criteria": {
+    "positiveGreen": true,
+    "mutantExactlyOneTargetRed": true,
+    "targetAssertionError": "AssertionError: expected [ 1, 2, 3, 4, 6 ] to deeply equal [ 1, 2, 3, 4, 5 ]",
+    "restoredGreen": true,
+    "restoredSameExecutionCount": true,
+    "hashesMatchFinalCandidate": true
+  },
+  "runs": {
+    "positive": {
+      "exitCode": 0,
+      "summary": {
+        "numTotalTests": 11,
+        "numPassedTests": 11,
+        "numFailedTests": 0,
+        "success": true
+      },
+      "json": "Q02-RC4.positive.json",
+      "raw": "Q02-RC4.positive.txt"
+    },
+    "mutant": {
+      "exitCode": 1,
+      "summary": {
+        "numTotalTests": 11,
+        "numPassedTests": 10,
+        "numFailedTests": 1,
+        "success": false
+      },
+      "json": "Q02-RC4.mutant.json",
+      "raw": "Q02-RC4.mutant.txt"
+    },
+    "restored": {
+      "exitCode": 0,
+      "summary": {
+        "numTotalTests": 11,
+        "numPassedTests": 11,
+        "numFailedTests": 0,
+        "success": true
+      },
+      "json": "Q02-RC4.restored.json",
+      "raw": "Q02-RC4.restored.txt"
+    }
+  },
+  "verdict": "VALID"
 }

@@ -1,0 +1,100 @@
+{
+  "numTotalTestSuites": 3,
+  "numPassedTestSuites": 3,
+  "numFailedTestSuites": 0,
+  "numPendingTestSuites": 0,
+  "numTotalTests": 6,
+  "numPassedTests": 6,
+  "numFailedTests": 0,
+  "numPendingTests": 0,
+  "numTodoTests": 0,
+  "snapshot": {
+    "added": 0,
+    "failure": false,
+    "filesAdded": 0,
+    "filesRemoved": 0,
+    "filesRemovedList": [],
+    "filesUnmatched": 0,
+    "filesUpdated": 0,
+    "matched": 0,
+    "total": 0,
+    "unchecked": 0,
+    "uncheckedKeysByFile": [],
+    "unmatched": 0,
+    "updated": 0,
+    "didUpdate": false
+  },
+  "startTime": 1790828829032,
+  "success": true,
+  "testResults": [
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["Q05 collectReachableEnemyDefs"],
+          "fullName": "Q05 collectReachableEnemyDefs 无 transform/summon 时闭包只含初始敌人且按序去重",
+          "status": "passed",
+          "title": "无 transform/summon 时闭包只含初始敌人且按序去重",
+          "duration": 1.040625000000034,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Q05 collectReachableEnemyDefs"],
+          "fullName": "Q05 collectReachableEnemyDefs transform 与 summon 都把目标敌入队；未知目标精确报错",
+          "status": "passed",
+          "title": "transform 与 summon 都把目标敌入队；未知目标精确报错",
+          "duration": 0.5669169999999895,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Q05 collectReachableEnemyDefs"],
+          "fullName": "Q05 collectReachableEnemyDefs enemyId 缺省的 summon 不入队；hooks 内 effect summon 参与闭包",
+          "status": "passed",
+          "title": "enemyId 缺省的 summon 不入队；hooks 内 effect summon 参与闭包",
+          "duration": 0.15154099999995196,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Q05 collectReachableEnemyDefs"],
+          "fullName": "Q05 collectReachableEnemyDefs 循环 transform 引用不发散（seen 去重终止）",
+          "status": "passed",
+          "title": "循环 transform 引用不发散（seen 去重终止）",
+          "duration": 0.12612500000000182,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Q05 collectReachableEnemySkillIds"],
+          "fullName": "Q05 collectReachableEnemySkillIds 仅收集 cast 技能、跨敌人去重且顺序稳定",
+          "status": "passed",
+          "title": "仅收集 cast 技能、跨敌人去重且顺序稳定",
+          "duration": 0.17533300000002328,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Q05 collectReachableEnemySkillIds"],
+          "fullName": "Q05 collectReachableEnemySkillIds fallback cast 计入技能闭包；hook effect summon/divide 不产生技能",
+          "status": "passed",
+          "title": "fallback cast 计入技能闭包；hook effect summon/divide 不产生技能",
+          "duration": 0.13654199999996308,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790828829405,
+      "endTime": 1790828829407.1753,
+      "status": "passed",
+      "message": "",
+      "name": "/private/tmp/glmq/counter-copy/type-pal/packages/reforge/src/enemy-closure.glm-q.test.ts"
+    }
+  ]
+}

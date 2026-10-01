@@ -1,16 +1,57 @@
 {
   "id": "Q09-RC1",
   "file": "packages/game/src/framebuffer-ports.glm-q.test.ts",
-  "targetSubstring": "默认 320×200；自定义尺寸按参数建",
+  "targetFullName": "Q09 createFramebuffer 默认 320×200；自定义尺寸按参数建",
+  "targetNameSubstring": "默认 320×200；自定义尺寸按参数建",
+  "axis": "输入轴单轴变异：framebuffer 默认构造改为显式 8×6（合法离屏尺寸）；断言不动。",
   "sha256": {
     "original": "259c5dd0ee0ece5efc2f97edb35fe4f723d7d2b841b94ea2b379c43629b4dce1",
     "mutated": "eb167b0d6f4fda423f6c1f3618a2413a61a1674ed7026c545d56c84e294229ac",
     "restored": "259c5dd0ee0ece5efc2f97edb35fe4f723d7d2b841b94ea2b379c43629b4dce1"
   },
   "restoredHashUnchanged": true,
-  "positiveExit": 0,
-  "mutantExit": 1,
-  "package": "game",
-  "targetFailureBlock": " FAIL  src/framebuffer-ports.glm-q.test.ts > Q09 createFramebuffer > 默认 320×200；自定义尺寸按参数建\nAssertionError: expected 8 to be 320 // Object.is equality\n\n- Expected\n+ Received\n\n- 320\n+ 8\n\n ❯ src/framebuffer-ports.glm-q.test.ts:15:22\n     13|   test('默认 320×200；自定义尺寸按参数建', () => {\n     14|     const fb = createFramebuffer(8, 6) // 变异轴：显式传参（合法离屏尺寸）\n     15|     expect(fb.width).toBe(SCREEN_W)\n       |                      ^\n     16|     expect(fb.height).toBe(SCREEN_H)\n     17|     expect(fb.indices).toHaveLength(SCREEN_W * SCREEN_H)\n\n⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯\n\n",
-  "summaryLines": []
+  "criteria": {
+    "positiveGreen": true,
+    "mutantExactlyOneTargetRed": true,
+    "targetAssertionError": "AssertionError: expected 8 to be 320 // Object.is equality",
+    "restoredGreen": true,
+    "restoredSameExecutionCount": true,
+    "hashesMatchFinalCandidate": true
+  },
+  "runs": {
+    "positive": {
+      "exitCode": 0,
+      "summary": {
+        "numTotalTests": 4,
+        "numPassedTests": 4,
+        "numFailedTests": 0,
+        "success": true
+      },
+      "json": "Q09-RC1.positive.json",
+      "raw": "Q09-RC1.positive.txt"
+    },
+    "mutant": {
+      "exitCode": 1,
+      "summary": {
+        "numTotalTests": 4,
+        "numPassedTests": 3,
+        "numFailedTests": 1,
+        "success": false
+      },
+      "json": "Q09-RC1.mutant.json",
+      "raw": "Q09-RC1.mutant.txt"
+    },
+    "restored": {
+      "exitCode": 0,
+      "summary": {
+        "numTotalTests": 4,
+        "numPassedTests": 4,
+        "numFailedTests": 0,
+        "success": true
+      },
+      "json": "Q09-RC1.restored.json",
+      "raw": "Q09-RC1.restored.txt"
+    }
+  },
+  "verdict": "VALID"
 }

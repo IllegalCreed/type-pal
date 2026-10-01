@@ -1,16 +1,57 @@
 {
   "id": "Q05-RC3",
   "file": "packages/reforge/src/enemy-closure.glm-q.test.ts",
-  "targetSubstring": "循环 transform 引用不发散",
+  "targetFullName": "Q05 collectReachableEnemyDefs 循环 transform 引用不发散（seen 去重终止）",
+  "targetNameSubstring": "循环 transform 引用不发散",
+  "axis": "输入轴单轴变异：x 的 transform('y') 改为 cast('s0')（合法非 transform 动作）；断言不动。",
   "sha256": {
     "original": "4c9d2efa7df5b13d3296b4b09c3134f23167880c0ccea1cabb2e36fc28606323",
     "mutated": "4d3ed70714700121b00c3f20e0c99728a82b35efb87cebe11fc2897a2758030e",
     "restored": "4c9d2efa7df5b13d3296b4b09c3134f23167880c0ccea1cabb2e36fc28606323"
   },
   "restoredHashUnchanged": true,
-  "positiveExit": 0,
-  "mutantExit": 1,
-  "package": "reforge",
-  "targetFailureBlock": " FAIL  src/enemy-closure.glm-q.test.ts > Q05 collectReachableEnemyDefs > 循环 transform 引用不发散（seen 去重终止）\nAssertionError: expected [ 'x' ] to deeply equal [ 'x', 'y' ]\n\n- Expected\n+ Received\n\n  [\n    \"x\",\n-   \"y\",\n  ]\n\n ❯ src/enemy-closure.glm-q.test.ts:86:45\n     84|     }\n     85|     const result = collectReachableEnemyDefs([table.x!], table)\n     86|     expect(result.map((enemy) => enemy.id)).toEqual(['x', 'y'])\n       |                                             ^\n     87|   })\n     88| })\n\n⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯\n\n",
-  "summaryLines": []
+  "criteria": {
+    "positiveGreen": true,
+    "mutantExactlyOneTargetRed": true,
+    "targetAssertionError": "AssertionError: expected [ 'x' ] to deeply equal [ 'x', 'y' ]",
+    "restoredGreen": true,
+    "restoredSameExecutionCount": true,
+    "hashesMatchFinalCandidate": true
+  },
+  "runs": {
+    "positive": {
+      "exitCode": 0,
+      "summary": {
+        "numTotalTests": 6,
+        "numPassedTests": 6,
+        "numFailedTests": 0,
+        "success": true
+      },
+      "json": "Q05-RC3.positive.json",
+      "raw": "Q05-RC3.positive.txt"
+    },
+    "mutant": {
+      "exitCode": 1,
+      "summary": {
+        "numTotalTests": 6,
+        "numPassedTests": 5,
+        "numFailedTests": 1,
+        "success": false
+      },
+      "json": "Q05-RC3.mutant.json",
+      "raw": "Q05-RC3.mutant.txt"
+    },
+    "restored": {
+      "exitCode": 0,
+      "summary": {
+        "numTotalTests": 6,
+        "numPassedTests": 6,
+        "numFailedTests": 0,
+        "success": true
+      },
+      "json": "Q05-RC3.restored.json",
+      "raw": "Q05-RC3.restored.txt"
+    }
+  },
+  "verdict": "VALID"
 }

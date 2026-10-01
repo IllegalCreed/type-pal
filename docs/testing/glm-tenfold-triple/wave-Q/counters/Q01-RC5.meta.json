@@ -1,16 +1,57 @@
 {
   "id": "Q01-RC5",
   "file": "packages/reforge/src/main.boot-shell.glm-q.test.ts",
-  "targetSubstring": "半开关偏好只关音乐",
+  "targetFullName": "Q01 半开关偏好只关音乐：缺省 sound 键按开启解析",
+  "targetNameSubstring": "半开关偏好只关音乐",
+  "axis": "输入轴单轴变异：boot 音频偏好 JSON 从 {\"music\":false} 换为 {\"sound\":false}（合法存储值）；断言不动。",
   "sha256": {
     "original": "e5a1ed00e72b3f0ac35b8baa92461a56a69089a6e9fce48f762c2924f437bbe4",
     "mutated": "a5208fbf738c3bb61f57376850f6b212962ac4e458a4386a41c54d59ceb338b1",
     "restored": "e5a1ed00e72b3f0ac35b8baa92461a56a69089a6e9fce48f762c2924f437bbe4"
   },
   "restoredHashUnchanged": true,
-  "positiveExit": 0,
-  "mutantExit": 1,
-  "package": "reforge",
-  "targetFailureBlock": " FAIL  src/main.boot-shell.glm-q.test.ts > Q01 半开关偏好只关音乐：缺省 sound 键按开启解析\nAssertionError: expected [ { player: 'bgm', on: true }, …(1) ] to deeply equal [ { player: 'bgm', on: false }, …(1) ]\n\n- Expected\n+ Received\n\n  [\n    {\n-     \"on\": false,\n+     \"on\": true,\n      \"player\": \"bgm\",\n    },\n    {\n-     \"on\": true,\n+     \"on\": false,\n      \"player\": \"sfx\",\n    },\n  ]\n\n ❯ src/main.boot-shell.glm-q.test.ts:80:27\n     78| test('Q01 半开关偏好只关音乐：缺省 sound 键按开启解析', async () => {\n     79|   const { setEnabledCalls } = await bootWithAudioPrefs('{\"sound\":false…\n     80|   expect(setEnabledCalls).toEqual([\n       |                           ^\n     81|     { player: 'bgm', on: false },\n     82|     { player: 'sfx', on: true },\n\n⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯\n\n",
-  "summaryLines": []
+  "criteria": {
+    "positiveGreen": true,
+    "mutantExactlyOneTargetRed": true,
+    "targetAssertionError": "AssertionError: expected [ { player: 'bgm', on: true }, …(1) ] to deeply equal [ { player: 'bgm', on: false }, …(1) ]",
+    "restoredGreen": true,
+    "restoredSameExecutionCount": true,
+    "hashesMatchFinalCandidate": true
+  },
+  "runs": {
+    "positive": {
+      "exitCode": 0,
+      "summary": {
+        "numTotalTests": 8,
+        "numPassedTests": 8,
+        "numFailedTests": 0,
+        "success": true
+      },
+      "json": "Q01-RC5.positive.json",
+      "raw": "Q01-RC5.positive.txt"
+    },
+    "mutant": {
+      "exitCode": 1,
+      "summary": {
+        "numTotalTests": 8,
+        "numPassedTests": 7,
+        "numFailedTests": 1,
+        "success": false
+      },
+      "json": "Q01-RC5.mutant.json",
+      "raw": "Q01-RC5.mutant.txt"
+    },
+    "restored": {
+      "exitCode": 0,
+      "summary": {
+        "numTotalTests": 8,
+        "numPassedTests": 8,
+        "numFailedTests": 0,
+        "success": true
+      },
+      "json": "Q01-RC5.restored.json",
+      "raw": "Q01-RC5.restored.txt"
+    }
+  },
+  "verdict": "VALID"
 }

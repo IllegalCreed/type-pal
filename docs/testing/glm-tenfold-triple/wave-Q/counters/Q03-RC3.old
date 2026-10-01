@@ -1,4 +1,1 @@
-  await expect(runtime.initialize()).resolves.toBe(adapter)
-})
-
-test('Q03 试听 runtime：dispose 暂停并销毁合成器、关闭 context；之后 initialize AbortError'
+  spessa.ready.fail = true // getter 求值时生效，初始化链内 isReady 拒绝

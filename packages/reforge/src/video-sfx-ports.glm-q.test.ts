@@ -23,6 +23,8 @@ beforeEach(() => {
 })
 
 afterEach(() => {
+  // 变异/失败路径可能遗留未清理的 video 层：防跨用例 DOM 泄漏。
+  document.querySelectorAll('video').forEach((video) => video.remove())
   vi.restoreAllMocks()
 })
 

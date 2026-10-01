@@ -1,16 +1,57 @@
 {
   "id": "Q01-RC2",
   "file": "packages/reforge/src/opening-menu.glm-q.test.ts",
-  "targetSubstring": "末项 ArrowDown 环绕回首项",
+  "targetFullName": "Q01 末项 ArrowDown 环绕回首项并选定第一入口",
+  "targetNameSubstring": "末项 ArrowDown 环绕回首项",
+  "axis": "输入轴单轴变异：opening-menu 环绕用例减少一次合法 ArrowDown 按键（键序输入轴）；断言不动。",
   "sha256": {
     "original": "07d51438de42336661ba88be9f4360c92a8e27f0d3612661c34ad8cee295a47a",
     "mutated": "ebbd41d2e0d415bdaed5eb1b4780089095a6d3dd6051aea65491840078f732d4",
     "restored": "07d51438de42336661ba88be9f4360c92a8e27f0d3612661c34ad8cee295a47a"
   },
   "restoredHashUnchanged": true,
-  "positiveExit": 0,
-  "mutantExit": 1,
-  "package": "reforge",
-  "targetFailureBlock": " FAIL  src/opening-menu.glm-q.test.ts > Q01 末项 ArrowDown 环绕回首项并选定第一入口\nAssertionError: expected 1 to be +0 // Object.is equality\n\n- Expected\n+ Received\n\n- 0\n+ 1\n\n ❯ src/opening-menu.glm-q.test.ts:104:38\n    102|   await key(o.h, 'ArrowDown') // 环绕 → 0\n    103|   await key(o.h, 'ArrowDown') // 变异轴：再按一次\n    104|   expect(o.snapshots.at(-1)?.cursor).toBe(0)\n       |                                      ^\n    105|   await key(o.h, 'Enter')\n    106|   expect(await o.done).toEqual({ kind: 'new', entryId: 'first' })\n\n⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯\n\n",
-  "summaryLines": []
+  "criteria": {
+    "positiveGreen": true,
+    "mutantExactlyOneTargetRed": true,
+    "targetAssertionError": "AssertionError: expected 1 to be +0 // Object.is equality",
+    "restoredGreen": true,
+    "restoredSameExecutionCount": true,
+    "hashesMatchFinalCandidate": true
+  },
+  "runs": {
+    "positive": {
+      "exitCode": 0,
+      "summary": {
+        "numTotalTests": 5,
+        "numPassedTests": 5,
+        "numFailedTests": 0,
+        "success": true
+      },
+      "json": "Q01-RC2.positive.json",
+      "raw": "Q01-RC2.positive.txt"
+    },
+    "mutant": {
+      "exitCode": 1,
+      "summary": {
+        "numTotalTests": 5,
+        "numPassedTests": 4,
+        "numFailedTests": 1,
+        "success": false
+      },
+      "json": "Q01-RC2.mutant.json",
+      "raw": "Q01-RC2.mutant.txt"
+    },
+    "restored": {
+      "exitCode": 0,
+      "summary": {
+        "numTotalTests": 5,
+        "numPassedTests": 5,
+        "numFailedTests": 0,
+        "success": true
+      },
+      "json": "Q01-RC2.restored.json",
+      "raw": "Q01-RC2.restored.txt"
+    }
+  },
+  "verdict": "VALID"
 }

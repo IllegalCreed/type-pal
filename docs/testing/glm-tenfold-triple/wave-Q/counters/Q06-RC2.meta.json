@@ -1,16 +1,57 @@
 {
   "id": "Q06-RC2",
   "file": "packages/game/src/status-poison-equip.glm-q.test.ts",
-  "targetSubstring": "level>=99 装备伪毒不算中毒",
+  "targetFullName": "Q06 isPlayerPoisoned ByLevel(role,0)：level>=99 装备伪毒不算中毒",
+  "targetNameSubstring": "level>=99 装备伪毒不算中毒",
+  "axis": "输入轴单轴变异：伪毒用例落槽毒 90→5（合法真毒 id）；断言不动。",
   "sha256": {
     "original": "f19d45cd5f90cc728a6d9118f5c80ad1595ca425e47ba9161e01484d33f21e4e",
     "mutated": "37a3c148ad8f45abc1a07a1e71d453c6a2b245aef77416b58468646f95787a30",
     "restored": "f19d45cd5f90cc728a6d9118f5c80ad1595ca425e47ba9161e01484d33f21e4e"
   },
   "restoredHashUnchanged": true,
-  "positiveExit": 0,
-  "mutantExit": 1,
-  "package": "game",
-  "targetFailureBlock": " FAIL  src/status-poison-equip.glm-q.test.ts > Q06 isPlayerPoisoned > ByLevel(role,0)：level>=99 装备伪毒不算中毒\nAssertionError: expected true to be false // Object.is equality\n\n- Expected\n+ Received\n\n- false\n+ true\n\n ❯ src/status-poison-equip.glm-q.test.ts:64:36\n     62|     const g = gs()\n     63|     seed(g, 0, 0, 5) // 变异轴：同槽换真毒\n     64|     expect(isPlayerPoisoned(g, 0)).toBe(false)\n       |                                    ^\n     65|     seed(g, 0, 1, 5) // 真毒\n     66|     expect(isPlayerPoisoned(g, 0)).toBe(true)\n\n⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯\n\n",
-  "summaryLines": []
+  "criteria": {
+    "positiveGreen": true,
+    "mutantExactlyOneTargetRed": true,
+    "targetAssertionError": "AssertionError: expected true to be false // Object.is equality",
+    "restoredGreen": true,
+    "restoredSameExecutionCount": true,
+    "hashesMatchFinalCandidate": true
+  },
+  "runs": {
+    "positive": {
+      "exitCode": 0,
+      "summary": {
+        "numTotalTests": 11,
+        "numPassedTests": 11,
+        "numFailedTests": 0,
+        "success": true
+      },
+      "json": "Q06-RC2.positive.json",
+      "raw": "Q06-RC2.positive.txt"
+    },
+    "mutant": {
+      "exitCode": 1,
+      "summary": {
+        "numTotalTests": 11,
+        "numPassedTests": 10,
+        "numFailedTests": 1,
+        "success": false
+      },
+      "json": "Q06-RC2.mutant.json",
+      "raw": "Q06-RC2.mutant.txt"
+    },
+    "restored": {
+      "exitCode": 0,
+      "summary": {
+        "numTotalTests": 11,
+        "numPassedTests": 11,
+        "numFailedTests": 0,
+        "success": true
+      },
+      "json": "Q06-RC2.restored.json",
+      "raw": "Q06-RC2.restored.txt"
+    }
+  },
+  "verdict": "VALID"
 }

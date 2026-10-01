@@ -1,16 +1,57 @@
 {
   "id": "Q09-RC3",
   "file": "packages/game/src/framebuffer-ports.glm-q.test.ts",
-  "targetSubstring": "toImageData 按 palette 展开",
+  "targetFullName": "Q09 createFramebuffer toImageData 按 palette 展开 RGBA、alpha 恒 255、缺色回退黑",
+  "targetNameSubstring": "toImageData 按 palette 展开",
+  "axis": "输入轴单轴变异：toImageData 用例索引 3→4（合法调色板索引）；断言不动。",
   "sha256": {
     "original": "259c5dd0ee0ece5efc2f97edb35fe4f723d7d2b841b94ea2b379c43629b4dce1",
     "mutated": "4deb2f89d34b6d15ef3046d01fde008e2030484ccab41c26753491f09fe586ea",
     "restored": "259c5dd0ee0ece5efc2f97edb35fe4f723d7d2b841b94ea2b379c43629b4dce1"
   },
   "restoredHashUnchanged": true,
-  "positiveExit": 0,
-  "mutantExit": 1,
-  "package": "game",
-  "targetFailureBlock": " FAIL  src/framebuffer-ports.glm-q.test.ts > Q09 createFramebuffer > toImageData 按 palette 展开 RGBA、alpha 恒 255、缺色回退黑\nAssertionError: expected [ 4, 8, 251, 255 ] to deeply equal [ 3, 6, 252, 255 ]\n\n- Expected\n+ Received\n\n  [\n-   3,\n-   6,\n-   252,\n+   4,\n+   8,\n+   251,\n    255,\n  ]\n\n ❯ src/framebuffer-ports.glm-q.test.ts:54:41\n     52|     expect(image.width).toBe(2)\n     53|     expect(image.height).toBe(1)\n     54|     expect([...image.data.slice(0, 4)]).toEqual([3, 6, 252, 255])\n       |                                         ^\n     55|     expect([...image.data.slice(4, 8)]).toEqual([200, 144, 55, 255])\n     56|     const hole = createFramebuffer(1, 1)\n\n⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯\n\n",
-  "summaryLines": []
+  "criteria": {
+    "positiveGreen": true,
+    "mutantExactlyOneTargetRed": true,
+    "targetAssertionError": "AssertionError: expected [ 4, 8, 251, 255 ] to deeply equal [ 3, 6, 252, 255 ]",
+    "restoredGreen": true,
+    "restoredSameExecutionCount": true,
+    "hashesMatchFinalCandidate": true
+  },
+  "runs": {
+    "positive": {
+      "exitCode": 0,
+      "summary": {
+        "numTotalTests": 4,
+        "numPassedTests": 4,
+        "numFailedTests": 0,
+        "success": true
+      },
+      "json": "Q09-RC3.positive.json",
+      "raw": "Q09-RC3.positive.txt"
+    },
+    "mutant": {
+      "exitCode": 1,
+      "summary": {
+        "numTotalTests": 4,
+        "numPassedTests": 3,
+        "numFailedTests": 1,
+        "success": false
+      },
+      "json": "Q09-RC3.mutant.json",
+      "raw": "Q09-RC3.mutant.txt"
+    },
+    "restored": {
+      "exitCode": 0,
+      "summary": {
+        "numTotalTests": 4,
+        "numPassedTests": 4,
+        "numFailedTests": 0,
+        "success": true
+      },
+      "json": "Q09-RC3.restored.json",
+      "raw": "Q09-RC3.restored.txt"
+    }
+  },
+  "verdict": "VALID"
 }

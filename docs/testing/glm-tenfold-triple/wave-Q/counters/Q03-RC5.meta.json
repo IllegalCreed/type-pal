@@ -1,16 +1,57 @@
 {
   "id": "Q03-RC5",
   "file": "packages/reforge/src/video-sfx-ports.glm-q.test.ts",
-  "targetSubstring": "视频静音播放",
+  "targetFullName": "Q03 视频静音播放：video.muted 置真、ended 后清理兑现",
+  "targetNameSubstring": "视频静音播放",
+  "axis": "输入轴单轴变异：视频用例 muted true→false（合法播放参数）；断言不动。",
   "sha256": {
-    "original": "77ba5223a1402b958f54e8fcf1d85fc9df3dc4875c9cea3187850ed44f17127e",
-    "mutated": "d28234e5added93fdc561827de515fd75b134b4f384535f4d0c302c14691ce09",
-    "restored": "77ba5223a1402b958f54e8fcf1d85fc9df3dc4875c9cea3187850ed44f17127e"
+    "original": "41cf8a421af480c30a4d5c4904031258282245f77af580f212843c23198fef46",
+    "mutated": "38094604b3bcab11b8b412d58b6a3d1b1743686b81608a34266159d65fec0ad2",
+    "restored": "41cf8a421af480c30a4d5c4904031258282245f77af580f212843c23198fef46"
   },
   "restoredHashUnchanged": true,
-  "positiveExit": 0,
-  "mutantExit": 1,
-  "package": "reforge",
-  "targetFailureBlock": " FAIL  src/video-sfx-ports.glm-q.test.ts > Q03 视频静音播放：video.muted 置真、ended 后清理兑现\nAssertionError: expected false to be true // Object.is equality\n\n- Expected\n+ Received\n\n- true\n+ false\n\n ❯ src/video-sfx-ports.glm-q.test.ts:38:23\n     36|   const done = playVideo({ src: 'videos/q3.mp4', muted: false }) // 变异…\n     37|   const video = liveVideo()\n     38|   expect(video.muted).toBe(true)\n       |                       ^\n     39|   video.dispatchEvent(new Event('ended'))\n     40|   await done\n\n⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯\n",
-  "summaryLines": []
+  "criteria": {
+    "positiveGreen": true,
+    "mutantExactlyOneTargetRed": true,
+    "targetAssertionError": "AssertionError: expected false to be true // Object.is equality",
+    "restoredGreen": true,
+    "restoredSameExecutionCount": true,
+    "hashesMatchFinalCandidate": true
+  },
+  "runs": {
+    "positive": {
+      "exitCode": 0,
+      "summary": {
+        "numTotalTests": 3,
+        "numPassedTests": 3,
+        "numFailedTests": 0,
+        "success": true
+      },
+      "json": "Q03-RC5.positive.json",
+      "raw": "Q03-RC5.positive.txt"
+    },
+    "mutant": {
+      "exitCode": 1,
+      "summary": {
+        "numTotalTests": 3,
+        "numPassedTests": 2,
+        "numFailedTests": 1,
+        "success": false
+      },
+      "json": "Q03-RC5.mutant.json",
+      "raw": "Q03-RC5.mutant.txt"
+    },
+    "restored": {
+      "exitCode": 0,
+      "summary": {
+        "numTotalTests": 3,
+        "numPassedTests": 3,
+        "numFailedTests": 0,
+        "success": true
+      },
+      "json": "Q03-RC5.restored.json",
+      "raw": "Q03-RC5.restored.txt"
+    }
+  },
+  "verdict": "VALID"
 }

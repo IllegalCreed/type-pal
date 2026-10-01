@@ -1,16 +1,57 @@
 {
   "id": "Q06-RC5",
   "file": "packages/game/src/status-poison-equip.glm-q.test.ts",
-  "targetSubstring": "poisonResistance 钳制",
+  "targetFullName": "Q06 装备派生值读取器 poisonResistance 钳制 [0,100]：负值归零、超百封顶",
+  "targetNameSubstring": "poisonResistance 钳制",
+  "axis": "输入轴单轴变异：poisonResistance base 90→69（合法 base，和落在钳制带内）；断言不动。",
   "sha256": {
     "original": "f19d45cd5f90cc728a6d9118f5c80ad1595ca425e47ba9161e01484d33f21e4e",
     "mutated": "715b8f32d630b3a80d1899f93de04a21d99191411440bff7a9d45851a0ef2f5f",
     "restored": "f19d45cd5f90cc728a6d9118f5c80ad1595ca425e47ba9161e01484d33f21e4e"
   },
   "restoredHashUnchanged": true,
-  "positiveExit": 0,
-  "mutantExit": 1,
-  "package": "game",
-  "targetFailureBlock": " FAIL  src/status-poison-equip.glm-q.test.ts > Q06 装备派生值读取器 > poisonResistance 钳制 [0,100]：负值归零、超百封顶\nAssertionError: expected 99 to be 100 // Object.is equality\n\n- Expected\n+ Received\n\n- 100\n+ 99\n\n ❯ src/status-poison-equip.glm-q.test.ts:160:45\n    158|     g.PlayerRolesRuntime.rgwPoisonResistance[0] = 69 // 变异轴：合法 base 使和…\n    159|     g.rgEquipmentEffect[0] = effectRoles({ rgwPoisonResistance: [30] })\n    160|     expect(getPlayerPoisonResistance(g, 0)).toBe(100)\n       |                                             ^\n    161|     g.PlayerRolesRuntime.rgwPoisonResistance[0] = 10\n    162|     g.rgEquipmentEffect[0] = effectRoles({ rgwPoisonResistance: [-40] …\n\n⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯\n\n",
-  "summaryLines": []
+  "criteria": {
+    "positiveGreen": true,
+    "mutantExactlyOneTargetRed": true,
+    "targetAssertionError": "AssertionError: expected 99 to be 100 // Object.is equality",
+    "restoredGreen": true,
+    "restoredSameExecutionCount": true,
+    "hashesMatchFinalCandidate": true
+  },
+  "runs": {
+    "positive": {
+      "exitCode": 0,
+      "summary": {
+        "numTotalTests": 11,
+        "numPassedTests": 11,
+        "numFailedTests": 0,
+        "success": true
+      },
+      "json": "Q06-RC5.positive.json",
+      "raw": "Q06-RC5.positive.txt"
+    },
+    "mutant": {
+      "exitCode": 1,
+      "summary": {
+        "numTotalTests": 11,
+        "numPassedTests": 10,
+        "numFailedTests": 1,
+        "success": false
+      },
+      "json": "Q06-RC5.mutant.json",
+      "raw": "Q06-RC5.mutant.txt"
+    },
+    "restored": {
+      "exitCode": 0,
+      "summary": {
+        "numTotalTests": 11,
+        "numPassedTests": 11,
+        "numFailedTests": 0,
+        "success": true
+      },
+      "json": "Q06-RC5.restored.json",
+      "raw": "Q06-RC5.restored.txt"
+    }
+  },
+  "verdict": "VALID"
 }

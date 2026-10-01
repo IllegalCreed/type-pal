@@ -1,16 +1,57 @@
 {
   "id": "Q06-RC4",
   "file": "packages/game/src/status-poison-equip.glm-q.test.ts",
-  "targetSubstring": "fleeRate = runtime base + 各装备槽之和",
+  "targetFullName": "Q06 装备派生值读取器 fleeRate = runtime base + 各装备槽之和",
+  "targetNameSubstring": "fleeRate = runtime base + 各装备槽之和",
+  "axis": "输入轴单轴变异：fleeRate base 10→11（合法基础值）；断言不动。",
   "sha256": {
     "original": "f19d45cd5f90cc728a6d9118f5c80ad1595ca425e47ba9161e01484d33f21e4e",
     "mutated": "f47e94d1fafa09cbe57a3ccc7138b981e05f27e8bc2ac9f810676474e373444d",
     "restored": "f19d45cd5f90cc728a6d9118f5c80ad1595ca425e47ba9161e01484d33f21e4e"
   },
   "restoredHashUnchanged": true,
-  "positiveExit": 0,
-  "mutantExit": 1,
-  "package": "game",
-  "targetFailureBlock": " FAIL  src/status-poison-equip.glm-q.test.ts > Q06 装备派生值读取器 > fleeRate = runtime base + 各装备槽之和\nAssertionError: expected 18 to be 17 // Object.is equality\n\n- Expected\n+ Received\n\n- 17\n+ 18\n\n ❯ src/status-poison-equip.glm-q.test.ts:153:37\n    151|     g.rgEquipmentEffect[1] = effectRoles({ rgwFleeRate: [5] })\n    152|     g.rgEquipmentEffect[6] = effectRoles({ rgwFleeRate: [2] })\n    153|     expect(getPlayerFleeRate(g, 0)).toBe(17)\n       |                                     ^\n    154|   })\n    155|\n\n⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯\n\n",
-  "summaryLines": []
+  "criteria": {
+    "positiveGreen": true,
+    "mutantExactlyOneTargetRed": true,
+    "targetAssertionError": "AssertionError: expected 18 to be 17 // Object.is equality",
+    "restoredGreen": true,
+    "restoredSameExecutionCount": true,
+    "hashesMatchFinalCandidate": true
+  },
+  "runs": {
+    "positive": {
+      "exitCode": 0,
+      "summary": {
+        "numTotalTests": 11,
+        "numPassedTests": 11,
+        "numFailedTests": 0,
+        "success": true
+      },
+      "json": "Q06-RC4.positive.json",
+      "raw": "Q06-RC4.positive.txt"
+    },
+    "mutant": {
+      "exitCode": 1,
+      "summary": {
+        "numTotalTests": 11,
+        "numPassedTests": 10,
+        "numFailedTests": 1,
+        "success": false
+      },
+      "json": "Q06-RC4.mutant.json",
+      "raw": "Q06-RC4.mutant.txt"
+    },
+    "restored": {
+      "exitCode": 0,
+      "summary": {
+        "numTotalTests": 11,
+        "numPassedTests": 11,
+        "numFailedTests": 0,
+        "success": true
+      },
+      "json": "Q06-RC4.restored.json",
+      "raw": "Q06-RC4.restored.txt"
+    }
+  },
+  "verdict": "VALID"
 }

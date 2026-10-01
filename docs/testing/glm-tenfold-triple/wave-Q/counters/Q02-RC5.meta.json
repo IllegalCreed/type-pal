@@ -1,16 +1,57 @@
 {
   "id": "Q02-RC5",
   "file": "packages/reforge/src/project-map-stamp-resize.glm-q.test.ts",
-  "targetSubstring": "会破坏组合时精确拒绝并点名组合 id",
+  "targetFullName": "Q02 resize 会破坏组合时精确拒绝并点名组合 id",
+  "targetNameSubstring": "会破坏组合时精确拒绝并点名组合 id",
+  "axis": "输入轴单轴变异：resize 守卫用例目标尺寸改回安全尺寸 4×4（合法缩放参数）；断言不动。",
   "sha256": {
     "original": "1eee8760939b10b1b5728748356ca8ed50727c81eb566485b4ae77afc4a84e99",
     "mutated": "f89ba33d69f3ecf197b0be89b1037c66fcd50ac7d15030887737c5c8a9afa78a",
     "restored": "1eee8760939b10b1b5728748356ca8ed50727c81eb566485b4ae77afc4a84e99"
   },
   "restoredHashUnchanged": true,
-  "positiveExit": 0,
-  "mutantExit": 1,
-  "package": "reforge",
-  "targetFailureBlock": " FAIL  src/project-map-stamp-resize.glm-q.test.ts > Q02 resize 会破坏组合时精确拒绝并点名组合 id\nAssertionError: expected [Function] to throw an error\n\n- Expected:\nnull\n\n+ Received:\nundefined\n\n ❯ src/project-map-stamp-resize.glm-q.test.ts:101:64\n     99| test('Q02 resize 会破坏组合时精确拒绝并点名组合 id', () => {\n    100|   const stamped = withProjectMapStampPlacements(paintedBase(), [placem…\n    101|   expect(() => resizeProjectMap(stamped, 4, 4) /* 变异轴：安全尺寸 */).toThrow(\n       |                                                                ^\n    102|     '缩小地图会破坏 1 个组合（grp1）；请先解组或删除整组。',\n    103|   )\n\n⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯\n\n",
-  "summaryLines": []
+  "criteria": {
+    "positiveGreen": true,
+    "mutantExactlyOneTargetRed": true,
+    "targetAssertionError": "AssertionError: expected [Function] to throw an error",
+    "restoredGreen": true,
+    "restoredSameExecutionCount": true,
+    "hashesMatchFinalCandidate": true
+  },
+  "runs": {
+    "positive": {
+      "exitCode": 0,
+      "summary": {
+        "numTotalTests": 9,
+        "numPassedTests": 9,
+        "numFailedTests": 0,
+        "success": true
+      },
+      "json": "Q02-RC5.positive.json",
+      "raw": "Q02-RC5.positive.txt"
+    },
+    "mutant": {
+      "exitCode": 1,
+      "summary": {
+        "numTotalTests": 9,
+        "numPassedTests": 8,
+        "numFailedTests": 1,
+        "success": false
+      },
+      "json": "Q02-RC5.mutant.json",
+      "raw": "Q02-RC5.mutant.txt"
+    },
+    "restored": {
+      "exitCode": 0,
+      "summary": {
+        "numTotalTests": 9,
+        "numPassedTests": 9,
+        "numFailedTests": 0,
+        "success": true
+      },
+      "json": "Q02-RC5.restored.json",
+      "raw": "Q02-RC5.restored.txt"
+    }
+  },
+  "verdict": "VALID"
 }

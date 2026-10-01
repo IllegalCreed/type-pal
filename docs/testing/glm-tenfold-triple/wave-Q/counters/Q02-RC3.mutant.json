@@ -1,0 +1,82 @@
+{
+  "numTotalTestSuites": 1,
+  "numPassedTestSuites": 0,
+  "numFailedTestSuites": 1,
+  "numPendingTestSuites": 0,
+  "numTotalTests": 4,
+  "numPassedTests": 3,
+  "numFailedTests": 1,
+  "numPendingTests": 0,
+  "numTodoTests": 0,
+  "snapshot": {
+    "added": 0,
+    "failure": false,
+    "filesAdded": 0,
+    "filesRemoved": 0,
+    "filesRemovedList": [],
+    "filesUnmatched": 0,
+    "filesUpdated": 0,
+    "matched": 0,
+    "total": 0,
+    "unchecked": 0,
+    "uncheckedKeysByFile": [],
+    "unmatched": 0,
+    "updated": 0,
+    "didUpdate": false
+  },
+  "startTime": 1790828773190,
+  "success": false,
+  "testResults": [
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": [],
+          "fullName": "Q02 版本门：过期 contentVersion 带工程名精确拒绝",
+          "status": "failed",
+          "title": "Q02 版本门：过期 contentVersion 带工程名精确拒绝",
+          "duration": 96.28708300000005,
+          "failureMessages": [
+            "Error: expected [Function] to throw error including '工程 \"shell-project\": runtime 只接受当前 con…' but got '项目保存状态无法读取，请保留目录并回到编辑器处理'\n    at _Assertion.__VITEST_REJECTS__ (file:///private/tmp/glmq/counter-copy/type-pal/node_modules/.pnpm/@vitest+expect@4.1.7/node_modules/@vitest/expect/dist/index.js:1747:17)\n    at _Assertion.propertyGetter (file:///private/tmp/glmq/counter-copy/type-pal/node_modules/.pnpm/chai@6.2.2/node_modules/chai/index.js:1570:27)\n    at Reflect.get (<anonymous>)\n    at Object.proxyGetter [as get] (file:///private/tmp/glmq/counter-copy/type-pal/node_modules/.pnpm/chai@6.2.2/node_modules/chai/index.js:1659:22)\n    at /private/tmp/glmq/counter-copy/type-pal/packages/reforge/src/runnable-project-loader.glm-q.test.ts:40:47\n    at file:///private/tmp/glmq/counter-copy/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:20"
+          ],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "Q02 版本门：manifest.id 非字符串时回退匿名校验消息",
+          "status": "passed",
+          "title": "Q02 版本门：manifest.id 非字符串时回退匿名校验消息",
+          "duration": 13.112582999999972,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "Q02 版本匹配：透传正式 loader 装出完整当前工程",
+          "status": "passed",
+          "title": "Q02 版本匹配：透传正式 loader 装出完整当前工程",
+          "duration": 18.285750000000007,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "Q02 loadRunnableProject 经 httpSource 请求 projects/<id>/manifest.json",
+          "status": "passed",
+          "title": "Q02 loadRunnableProject 经 httpSource 请求 projects/<id>/manifest.json",
+          "duration": 16.443250000000035,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790828773840,
+      "endTime": 1790828773984.4434,
+      "status": "failed",
+      "message": "",
+      "name": "/private/tmp/glmq/counter-copy/type-pal/packages/reforge/src/runnable-project-loader.glm-q.test.ts"
+    }
+  ]
+}

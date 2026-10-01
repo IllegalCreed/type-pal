@@ -1,0 +1,150 @@
+{
+  "numTotalTestSuites": 1,
+  "numPassedTestSuites": 1,
+  "numFailedTestSuites": 0,
+  "numPendingTestSuites": 0,
+  "numTotalTests": 11,
+  "numPassedTests": 11,
+  "numFailedTests": 0,
+  "numPendingTests": 0,
+  "numTodoTests": 0,
+  "snapshot": {
+    "added": 0,
+    "failure": false,
+    "filesAdded": 0,
+    "filesRemoved": 0,
+    "filesRemovedList": [],
+    "filesUnmatched": 0,
+    "filesUpdated": 0,
+    "matched": 0,
+    "total": 0,
+    "unchecked": 0,
+    "uncheckedKeysByFile": [],
+    "unmatched": 0,
+    "updated": 0,
+    "didUpdate": false
+  },
+  "startTime": 1790828775468,
+  "success": true,
+  "testResults": [
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": [],
+          "fullName": "Q02 battle-sprite 解码核：kind / mediaType / bytes / sha256 逐门精确拒绝",
+          "status": "passed",
+          "title": "Q02 battle-sprite 解码核：kind / mediaType / bytes / sha256 逐门精确拒绝",
+          "duration": 19.007749999999987,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "Q02 battle-sprite 解码核：非 gzip 字节拒收；合法字节解出锚点与 canonical profile",
+          "status": "passed",
+          "title": "Q02 battle-sprite 解码核：非 gzip 字节拒收；合法字节解出锚点与 canonical profile",
+          "duration": 5.1764160000000174,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "Q02 battle-sprite 解码核：legacy-migrated origin 选择 legacy profile",
+          "status": "passed",
+          "title": "Q02 battle-sprite 解码核：legacy-migrated origin 选择 legacy profile",
+          "duration": 0.9097919999999817,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "Q02 battle 缓存以完整 record（含 label/origin.ref）为失效签名",
+          "status": "passed",
+          "title": "Q02 battle 缓存以完整 record（含 label/origin.ref）为失效签名",
+          "duration": 1.53045800000001,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "Q02 battle 缓存保护裁剪：受保护项存活、非保护项逐出后重读",
+          "status": "passed",
+          "title": "Q02 battle 缓存保护裁剪：受保护项存活、非保护项逐出后重读",
+          "duration": 1.4925830000000246,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "Q02 effect-sprite record 门：mediaType / bytes 登记 / sha256 逐臂拒绝 + 合法对照",
+          "status": "passed",
+          "title": "Q02 effect-sprite record 门：mediaType / bytes 登记 / sha256 逐臂拒绝 + 合法对照",
+          "duration": 1.129415999999992,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "Q02 loadFireSprite 按 chunk 派生 catalog 身份读取法术特效",
+          "status": "passed",
+          "title": "Q02 loadFireSprite 按 chunk 派生 catalog 身份读取法术特效",
+          "duration": 0.5822919999999954,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "Q02 tilesFromChunkBytes：非 gzip 拒收带默认与显式标签；合法字节解出帧表",
+          "status": "passed",
+          "title": "Q02 tilesFromChunkBytes：非 gzip 拒收带默认与显式标签；合法字节解出帧表",
+          "duration": 0.9101249999999936,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "Q02 decompressGzip 对无 gzip 魔数的字节原样透传",
+          "status": "passed",
+          "title": "Q02 decompressGzip 对无 gzip 魔数的字节原样透传",
+          "duration": 0.46887500000002547,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "Q02 compressGzip 接受带偏移的字节视图并只压缩可见区间",
+          "status": "passed",
+          "title": "Q02 compressGzip 接受带偏移的字节视图并只压缩可见区间",
+          "duration": 0.4640839999999571,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "Q02 compressGzip 缺 CompressionStream 端口时 fail-loud",
+          "status": "passed",
+          "title": "Q02 compressGzip 缺 CompressionStream 端口时 fail-loud",
+          "duration": 0.20266700000001947,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790828775806,
+      "endTime": 1790828775838.464,
+      "status": "passed",
+      "message": "",
+      "name": "/private/tmp/glmq/counter-copy/type-pal/packages/reforge/src/assets-decode-gates.glm-q.test.ts"
+    }
+  ]
+}

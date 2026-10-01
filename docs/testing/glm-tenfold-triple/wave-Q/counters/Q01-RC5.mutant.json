@@ -1,0 +1,122 @@
+{
+  "numTotalTestSuites": 1,
+  "numPassedTestSuites": 0,
+  "numFailedTestSuites": 1,
+  "numPendingTestSuites": 0,
+  "numTotalTests": 8,
+  "numPassedTests": 7,
+  "numFailedTests": 1,
+  "numPendingTests": 0,
+  "numTodoTests": 0,
+  "snapshot": {
+    "added": 0,
+    "failure": false,
+    "filesAdded": 0,
+    "filesRemoved": 0,
+    "filesRemovedList": [],
+    "filesUnmatched": 0,
+    "filesUpdated": 0,
+    "matched": 0,
+    "total": 0,
+    "unchecked": 0,
+    "uncheckedKeysByFile": [],
+    "unmatched": 0,
+    "updated": 0,
+    "didUpdate": false
+  },
+  "startTime": 1790828719081,
+  "success": false,
+  "testResults": [
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": [],
+          "fullName": "Q01 旧试放/独立试打参数在 bootGame 入口精确拒绝 ?battle-trial=0&money=0",
+          "status": "passed",
+          "title": "Q01 旧试放/独立试打参数在 bootGame 入口精确拒绝 ?battle-trial=0&money=0",
+          "duration": 595.8304170000001,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "Q01 旧试放/独立试打参数在 bootGame 入口精确拒绝 ?skill=heal",
+          "status": "passed",
+          "title": "Q01 旧试放/独立试打参数在 bootGame 入口精确拒绝 ?skill=heal",
+          "duration": 25.41212500000006,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "Q01 无偏好存储：音乐/音效默认全开，标题带工程名",
+          "status": "passed",
+          "title": "Q01 无偏好存储：音乐/音效默认全开，标题带工程名",
+          "duration": 34.605833000000075,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "Q01 显式双关偏好落盘：setEnabled(false) 各一次",
+          "status": "passed",
+          "title": "Q01 显式双关偏好落盘：setEnabled(false) 各一次",
+          "duration": 32.12629200000015,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "Q01 半开关偏好只关音乐：缺省 sound 键按开启解析",
+          "status": "failed",
+          "title": "Q01 半开关偏好只关音乐：缺省 sound 键按开启解析",
+          "duration": 31.26262500000007,
+          "failureMessages": [
+            "AssertionError: expected [ { player: 'bgm', on: true }, …(1) ] to deeply equal [ { player: 'bgm', on: false }, …(1) ]\n    at /private/tmp/glmq/counter-copy/type-pal/packages/reforge/src/main.boot-shell.glm-q.test.ts:80:27\n    at file:///private/tmp/glmq/counter-copy/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:20"
+          ],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "Q01 坏偏好 JSON 静默回退全开，不抛出",
+          "status": "passed",
+          "title": "Q01 坏偏好 JSON 静默回退全开，不抛出",
+          "duration": 29.777209000000084,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "Q01 手势解锁接线：pointerdown/keydown 捕获相各自触发 bgm.resume",
+          "status": "passed",
+          "title": "Q01 手势解锁接线：pointerdown/keydown 捕获相各自触发 bgm.resume",
+          "duration": 28.182207999999946,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "Q01 gallery 精灵解码失败静默占位并照常收尾；零 sprite 资产照常返回",
+          "status": "passed",
+          "title": "Q01 gallery 精灵解码失败静默占位并照常收尾；零 sprite 资产照常返回",
+          "duration": 25.19158399999992,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790828719770,
+      "endTime": 1790828720573.1917,
+      "status": "failed",
+      "message": "",
+      "name": "/private/tmp/glmq/counter-copy/type-pal/packages/reforge/src/main.boot-shell.glm-q.test.ts"
+    }
+  ]
+}

@@ -85,6 +85,8 @@ function attachPage(page, bucket) {
   })
 }
 
+// 宿主 autoplay 行为在无头 Chrome 下不确定（同参数多次启动拒绝/放行不一致）：
+// F1 如实记录实际播放行为；overlay 恢复臂不在浏览器层宣称（N03 jsdom 已覆盖该合同）。
 const browser = await chromium.launch({ channel: 'chrome', headless: true })
 const flows = []
 const shotPaths = []
@@ -97,18 +99,20 @@ const shotPaths = []
   const sample = makeSampler(page)
   const url = 'http://localhost:6051/?menu'
   await page.goto(url, { waitUntil: 'domcontentloaded' })
-  // 等视频层出现（autoplay 可能被拒 → 先出点击 overlay）。
-  let overlayClicked = false
-  try {
-    await page.waitForSelector('video', { timeout: 20000 })
-  } catch {
-    const overlay = await page.$('div[style*="z-index: 10002"]')
-    if (overlay) {
-      await overlay.click()
-      overlayClicked = true
-      await page.waitForSelector('video', { timeout: 20000 })
-    } else throw new Error('neither video nor click overlay appeared')
-  }
+  // 记录真实行为：video 挂载后 play() 是否被宿主拒绝（overlay 出现=拒绝；否则放行播放）。
+  await page.waitForSelector('video', { timeout: 20000 })
+  await page.waitForTimeout(1500)
+  const videoState = await page.evaluate(() => {
+    const v = document.querySelector('video')
+    return {
+      playing: !!v && !v.paused,
+      overlayShown: [...document.querySelectorAll('div')].some((d) =>
+        d.textContent?.includes('点击屏幕开始'),
+      ),
+    }
+  })
+  const videoPlaying = videoState.playing
+  const overlayClicked = false
   const videoCount = await page.evaluate(() => document.querySelectorAll('video').length)
   const videoVisible = await page.evaluate(() => {
     const v = document.querySelector('video')
@@ -152,9 +156,17 @@ const shotPaths = []
   if (worldMounted) throw new Error('F1 entered story route')
   flows.push({
     id: 'F1',
-    name: '媒体 autoplay 恢复与跳过取消链（trademark/splash 视频 → 标题菜单）',
+    name: '媒体播放与跳过取消链（trademark/splash 视频 → 标题菜单）',
     url,
+    autoplayBehavior: videoState.overlayShown
+      ? 'host rejected autoplay (overlay shown); recovery not clicked'
+      : 'host allowed autoplay; no overlay',
+    // 如实撤回 r1 的「autoplay 被拒→点 overlay 恢复」表述：本环境宿主行为不确定，
+    // 浏览器层不做恢复臂宣称；该合同由 N03 jsdom 用例「autoplay 被拒：点击 overlay 后重试
+    // 成功并移除 overlay」覆盖。
+    overlayRecoveryClaim: 'withdrawn — covered at jsdom level by N03',
     autoplayOverlayClicked: overlayClicked,
+    videoPlaying,
     videoElementsSeen: videoCount,
     videoVisible,
     menuReached: menuSeen,
@@ -426,7 +438,10 @@ await browser.close()
 // 汇总判据检查。
 const failures = []
 for (const f of flows) {
-  if (f.id === 'F1' && !(f.videoElementsSeen >= 1 && f.menuReached && !f.worldMounted))
+  if (
+    f.id === 'F1' &&
+    !(f.videoElementsSeen >= 1 && f.menuReached && !f.worldMounted && f.videoPlaying)
+  )
     failures.push('F1')
   if (f.id === 'F2' && !(f.visibleChange && f.cursorMoved)) failures.push('F2')
   if (f.id === 'F3' && !(f.loadBrowserVisible && f.loadDiff > 0.03)) failures.push('F3')

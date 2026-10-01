@@ -1,16 +1,57 @@
 {
   "id": "Q04-RC5",
   "file": "packages/reforge/src/script-runner-core.gates.glm-q.test.ts",
-  "targetSubstring": "host 未实现 revealSceneEntry 时 scene entry fail-loud",
+  "targetFullName": "Q04 其它公开守卫 host 未实现 revealSceneEntry 时 scene entry fail-loud",
+  "targetNameSubstring": "host 未实现 revealSceneEntry 时 scene entry fail-loud",
+  "axis": "输入轴单轴变异：宿主 revealSceneEntry 从 undefined 改为已实现（合法宿主能力）；断言不动。",
   "sha256": {
     "original": "896fab49346937562f8aa66e780b9fdf24c85e73a1a8f4d1833e8387a20208a7",
     "mutated": "799bbc323fef41b26cf44fbfa536f76c0e602ff5070b0022c913aa6cea178658",
     "restored": "896fab49346937562f8aa66e780b9fdf24c85e73a1a8f4d1833e8387a20208a7"
   },
   "restoredHashUnchanged": true,
-  "positiveExit": 0,
-  "mutantExit": 1,
-  "package": "reforge",
-  "targetFailureBlock": " FAIL  src/script-runner-core.gates.glm-q.test.ts > Q04 其它公开守卫 > host 未实现 revealSceneEntry 时 scene entry fail-loud\nAssertionError: promise resolved \"undefined\" instead of rejecting\n\n- Expected:\nError {\n  \"message\": \"rejected promise\",\n}\n\n+ Received:\nundefined\n\n ❯ src/script-runner-core.gates.glm-q.test.ts:294:5\n    292|         allowSceneEntry: true,\n    293|       }),\n    294|     ).rejects.toThrow('ScriptRunnerCore: host 未实现 revealSceneEntry')\n       |     ^\n    295|   })\n    296|\n\n⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯\n\n",
-  "summaryLines": []
+  "criteria": {
+    "positiveGreen": true,
+    "mutantExactlyOneTargetRed": true,
+    "targetAssertionError": "Error: promise resolved \"undefined\" instead of rejecting",
+    "restoredGreen": true,
+    "restoredSameExecutionCount": true,
+    "hashesMatchFinalCandidate": true
+  },
+  "runs": {
+    "positive": {
+      "exitCode": 0,
+      "summary": {
+        "numTotalTests": 13,
+        "numPassedTests": 13,
+        "numFailedTests": 0,
+        "success": true
+      },
+      "json": "Q04-RC5.positive.json",
+      "raw": "Q04-RC5.positive.txt"
+    },
+    "mutant": {
+      "exitCode": 1,
+      "summary": {
+        "numTotalTests": 13,
+        "numPassedTests": 12,
+        "numFailedTests": 1,
+        "success": false
+      },
+      "json": "Q04-RC5.mutant.json",
+      "raw": "Q04-RC5.mutant.txt"
+    },
+    "restored": {
+      "exitCode": 0,
+      "summary": {
+        "numTotalTests": 13,
+        "numPassedTests": 13,
+        "numFailedTests": 0,
+        "success": true
+      },
+      "json": "Q04-RC5.restored.json",
+      "raw": "Q04-RC5.restored.txt"
+    }
+  },
+  "verdict": "VALID"
 }

@@ -1,0 +1,1 @@
+输入轴单轴变异：无 AudioContext 用例补上 webkitAudioContext=undefined → 改为宿主存在 webkit 构造器（合法宿主形态）；断言不动。

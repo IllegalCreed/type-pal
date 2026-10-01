@@ -1,7 +1,8 @@
 {
-  "note": "after = 本候选三包全测 v8 覆盖(隔离, 不更新官方 ratchet); before = targets.json 派发基点逐源冻结值; 同源同分母对照。pal-extract 未测: 覆盖插桩使 rng-frames 真实数据用例超时, 且本包 Q10 零新测, delta 恒 0。",
+  "note": "after = r2 候选隔离 v8 覆盖(不更新官方 ratchet); before = targets.json 派发基点逐源冻结值; 同源同分母对照。pal-extract 为 glm-q 定向覆盖口径(全测插桩使 rng-frames 真实数据用例超时, 见 r1 登记), 与 reforge/game 全测口径不同分母文件集, 不相加。",
   "packages": {
     "reforge": {
+      "scope": "full-test-suite",
       "poolTotals": {
         "before": {
           "branches": "8510/11460",
@@ -15,7 +16,7 @@
         },
         "branchDelta": 82
       },
-      "touchedSourcesWithGains": [
+      "sourcesWithGains": [
         {
           "path": "assets.ts",
           "branchBefore": 134,
@@ -117,6 +118,7 @@
       ]
     },
     "game": {
+      "scope": "full-test-suite",
       "poolTotals": {
         "before": {
           "branches": "8260/11260",
@@ -124,21 +126,46 @@
           "lines": "11627/13578"
         },
         "after": {
-          "branches": "8264/11260",
+          "branches": "8265/11260",
           "statements": "12933/15472",
           "lines": "11633/13582"
         },
-        "branchDelta": 4
+        "branchDelta": 5
       },
-      "touchedSourcesWithGains": [
+      "sourcesWithGains": [
         {
           "path": "core/player-poison-state.ts",
           "branchBefore": 39,
           "branchAfter": 43,
           "branchTotal": 44,
           "gain": 4
+        },
+        {
+          "path": "shell/splash-fallback.ts",
+          "branchBefore": 25,
+          "branchAfter": 26,
+          "branchTotal": 35,
+          "gain": 1
         }
       ]
+    },
+    "pal-extract": {
+      "scope": "glm-q-directed",
+      "poolTotals": {
+        "before": {
+          "branches": "0/0",
+          "statements": "0/0",
+          "lines": "0/0"
+        },
+        "after": {
+          "branches": "0/0",
+          "statements": "0/0",
+          "lines": "0/0"
+        },
+        "branchDelta": 0
+      },
+      "sourcesWithGains": [],
+      "note": "CLI 在 mkdtemp 子进程实跑（合同级：exit code/事件产物/console 断言）；子进程不在 v8 插桩范围，cli.ts 覆盖收益为 0，不主张臂级收益。"
     }
   }
 }

@@ -1,16 +1,57 @@
 {
   "id": "Q05-RC1",
   "file": "packages/reforge/src/enemy-closure.glm-q.test.ts",
-  "targetSubstring": "transform 与 summon 都把目标敌入队",
+  "targetFullName": "Q05 collectReachableEnemyDefs transform 与 summon 都把目标敌入队；未知目标精确报错",
+  "targetNameSubstring": "transform 与 summon 都把目标敌入队",
+  "axis": "输入轴单轴变异：boss 的 transform 目标从 wing 改为 minion（同表另一合法目标）；断言不动。",
   "sha256": {
     "original": "4c9d2efa7df5b13d3296b4b09c3134f23167880c0ccea1cabb2e36fc28606323",
     "mutated": "6cfc55fc9730a7b72fabfadeb40457d8df5baa83f28f94ea249edec070311965",
     "restored": "4c9d2efa7df5b13d3296b4b09c3134f23167880c0ccea1cabb2e36fc28606323"
   },
   "restoredHashUnchanged": true,
-  "positiveExit": 0,
-  "mutantExit": 1,
-  "package": "reforge",
-  "targetFailureBlock": " FAIL  src/enemy-closure.glm-q.test.ts > Q05 collectReachableEnemyDefs > transform 与 summon 都把目标敌入队；未知目标精确报错\nAssertionError: expected [ 'boss', 'minion' ] to deeply equal [ 'boss', 'wing', 'minion' ]\n\n- Expected\n+ Received\n\n  [\n    \"boss\",\n-   \"wing\",\n    \"minion\",\n  ]\n\n ❯ src/enemy-closure.glm-q.test.ts:43:45\n     41|     }\n     42|     const result = collectReachableEnemyDefs([table.boss!], table)\n     43|     expect(result.map((enemy) => enemy.id)).toEqual(['boss', 'wing', '…\n       |                                             ^\n     44|     const broken = { boss: withRules('boss', [transform('ghost')]) }\n     45|     expect(() => collectReachableEnemyDefs([broken.boss!], broken)).to…\n\n⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯\n\n",
-  "summaryLines": []
+  "criteria": {
+    "positiveGreen": true,
+    "mutantExactlyOneTargetRed": true,
+    "targetAssertionError": "AssertionError: expected [ 'boss', 'minion' ] to deeply equal [ 'boss', 'wing', 'minion' ]",
+    "restoredGreen": true,
+    "restoredSameExecutionCount": true,
+    "hashesMatchFinalCandidate": true
+  },
+  "runs": {
+    "positive": {
+      "exitCode": 0,
+      "summary": {
+        "numTotalTests": 6,
+        "numPassedTests": 6,
+        "numFailedTests": 0,
+        "success": true
+      },
+      "json": "Q05-RC1.positive.json",
+      "raw": "Q05-RC1.positive.txt"
+    },
+    "mutant": {
+      "exitCode": 1,
+      "summary": {
+        "numTotalTests": 6,
+        "numPassedTests": 5,
+        "numFailedTests": 1,
+        "success": false
+      },
+      "json": "Q05-RC1.mutant.json",
+      "raw": "Q05-RC1.mutant.txt"
+    },
+    "restored": {
+      "exitCode": 0,
+      "summary": {
+        "numTotalTests": 6,
+        "numPassedTests": 6,
+        "numFailedTests": 0,
+        "success": true
+      },
+      "json": "Q05-RC1.restored.json",
+      "raw": "Q05-RC1.restored.txt"
+    }
+  },
+  "verdict": "VALID"
 }

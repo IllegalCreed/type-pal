@@ -1,16 +1,57 @@
 {
   "id": "Q03-RC4",
   "file": "packages/reforge/src/audio-spessa-runtime.glm-q.test.ts",
-  "targetSubstring": "解析真实 MIDI 字节并产出 note-activity",
+  "targetFullName": "Q03 analyzeMidiBytes 解析真实 MIDI 字节并产出 note-activity",
+  "targetNameSubstring": "解析真实 MIDI 字节并产出 note-activity",
+  "axis": "输入轴单轴变异：analyzeMidiBytes 桶数 32→16（合法分桶参数）；断言不动。",
   "sha256": {
-    "original": "9a3b9b7b541d4488a394eb8383091ea3e16135665075834e638189cbfa35b521",
-    "mutated": "fc0ddfbdd11bce53b21baeb57ba7d4fdff7bc64b36fefaca129f697e03737105",
-    "restored": "9a3b9b7b541d4488a394eb8383091ea3e16135665075834e638189cbfa35b521"
+    "original": "fcd5410400adf30adf0820fb58d9f7855a571f107550905ce9c1acb7d0c909ca",
+    "mutated": "23fe9cd340ea7d110cb193afc1179511c3ebb7ac139d71873be48f1e063fac9b",
+    "restored": "fcd5410400adf30adf0820fb58d9f7855a571f107550905ce9c1acb7d0c909ca"
   },
   "restoredHashUnchanged": true,
-  "positiveExit": 0,
-  "mutantExit": 1,
-  "package": "reforge",
-  "targetFailureBlock": " FAIL  src/audio-spessa-runtime.glm-q.test.ts > Q03 analyzeMidiBytes 解析真实 MIDI 字节并产出 note-activity\nAssertionError: expected [ 0.7874015748031497, …(15) ] to have a length of 32 but got 16\n\n- Expected\n+ Received\n\n- 32\n+ 16\n\n ❯ src/audio-spessa-runtime.glm-q.test.ts:290:28\n    288|   expect(activity.kind).toBe('note-activity')\n    289|   expect(activity.noteCount).toBeGreaterThan(0)\n    290|   expect(activity.buckets).toHaveLength(32)\n       |                            ^\n    291|   expect(Math.max(...activity.buckets)).toBeLessThanOrEqual(1)\n    292|   expect(Math.max(...activity.buckets)).toBeGreaterThan(0)\n\n⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯\n\n",
-  "summaryLines": []
+  "criteria": {
+    "positiveGreen": true,
+    "mutantExactlyOneTargetRed": true,
+    "targetAssertionError": "AssertionError: expected [ 0.7874015748031497, …(15) ] to have a length of 32 but got 16",
+    "restoredGreen": true,
+    "restoredSameExecutionCount": true,
+    "hashesMatchFinalCandidate": true
+  },
+  "runs": {
+    "positive": {
+      "exitCode": 0,
+      "summary": {
+        "numTotalTests": 12,
+        "numPassedTests": 12,
+        "numFailedTests": 0,
+        "success": true
+      },
+      "json": "Q03-RC4.positive.json",
+      "raw": "Q03-RC4.positive.txt"
+    },
+    "mutant": {
+      "exitCode": 1,
+      "summary": {
+        "numTotalTests": 12,
+        "numPassedTests": 11,
+        "numFailedTests": 1,
+        "success": false
+      },
+      "json": "Q03-RC4.mutant.json",
+      "raw": "Q03-RC4.mutant.txt"
+    },
+    "restored": {
+      "exitCode": 0,
+      "summary": {
+        "numTotalTests": 12,
+        "numPassedTests": 12,
+        "numFailedTests": 0,
+        "success": true
+      },
+      "json": "Q03-RC4.restored.json",
+      "raw": "Q03-RC4.restored.txt"
+    }
+  },
+  "verdict": "VALID"
 }

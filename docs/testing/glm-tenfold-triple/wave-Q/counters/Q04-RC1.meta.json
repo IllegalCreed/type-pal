@@ -1,16 +1,57 @@
 {
   "id": "Q04-RC1",
   "file": "packages/reforge/src/script-runner-core.gates.glm-q.test.ts",
-  "targetSubstring": "machine id 不匹配的 state cursor 精确拒绝",
+  "targetFullName": "Q04 非法光标组合 machine id 不匹配的 state cursor 精确拒绝",
+  "targetNameSubstring": "machine id 不匹配的 state cursor 精确拒绝",
+  "axis": "输入轴单轴变异：state cursor 用例 machine id 从不匹配的 other 改回匹配 machine（合法光标）；断言不动。",
   "sha256": {
     "original": "896fab49346937562f8aa66e780b9fdf24c85e73a1a8f4d1833e8387a20208a7",
     "mutated": "ff721f63a10e271aa203bece96843caf14d69ff4b1d435435712d5b1f8f750d8",
     "restored": "896fab49346937562f8aa66e780b9fdf24c85e73a1a8f4d1833e8387a20208a7"
   },
   "restoredHashUnchanged": true,
-  "positiveExit": 0,
-  "mutantExit": 1,
-  "package": "reforge",
-  "targetFailureBlock": " FAIL  src/script-runner-core.gates.glm-q.test.ts > Q04 非法光标组合 > machine id 不匹配的 state cursor 精确拒绝\nAssertionError: promise resolved \"undefined\" instead of rejecting\n\n- Expected:\nError {\n  \"message\": \"rejected promise\",\n}\n\n+ Received:\nundefined\n\n ❯ src/script-runner-core.gates.glm-q.test.ts:90:5\n     88|     await expect(\n     89|       runner.runFlow(compile(machineFlow()), { cursor, cursorControlle…\n     90|     ).rejects.toThrow('ScriptRunnerCore: machine cursor other 不匹配 mach…\n       |     ^\n     91|   })\n     92|\n\n⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯\n\n",
-  "summaryLines": []
+  "criteria": {
+    "positiveGreen": true,
+    "mutantExactlyOneTargetRed": true,
+    "targetAssertionError": "Error: promise resolved \"undefined\" instead of rejecting",
+    "restoredGreen": true,
+    "restoredSameExecutionCount": true,
+    "hashesMatchFinalCandidate": true
+  },
+  "runs": {
+    "positive": {
+      "exitCode": 0,
+      "summary": {
+        "numTotalTests": 13,
+        "numPassedTests": 13,
+        "numFailedTests": 0,
+        "success": true
+      },
+      "json": "Q04-RC1.positive.json",
+      "raw": "Q04-RC1.positive.txt"
+    },
+    "mutant": {
+      "exitCode": 1,
+      "summary": {
+        "numTotalTests": 13,
+        "numPassedTests": 12,
+        "numFailedTests": 1,
+        "success": false
+      },
+      "json": "Q04-RC1.mutant.json",
+      "raw": "Q04-RC1.mutant.txt"
+    },
+    "restored": {
+      "exitCode": 0,
+      "summary": {
+        "numTotalTests": 13,
+        "numPassedTests": 13,
+        "numFailedTests": 0,
+        "success": true
+      },
+      "json": "Q04-RC1.restored.json",
+      "raw": "Q04-RC1.restored.txt"
+    }
+  },
+  "verdict": "VALID"
 }

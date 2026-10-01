@@ -1,0 +1,80 @@
+{
+  "numTotalTestSuites": 2,
+  "numPassedTestSuites": 2,
+  "numFailedTestSuites": 0,
+  "numPendingTestSuites": 0,
+  "numTotalTests": 4,
+  "numPassedTests": 4,
+  "numFailedTests": 0,
+  "numPendingTests": 0,
+  "numTodoTests": 0,
+  "snapshot": {
+    "added": 0,
+    "failure": false,
+    "filesAdded": 0,
+    "filesRemoved": 0,
+    "filesRemovedList": [],
+    "filesUnmatched": 0,
+    "filesUpdated": 0,
+    "matched": 0,
+    "total": 0,
+    "unchecked": 0,
+    "uncheckedKeysByFile": [],
+    "unmatched": 0,
+    "updated": 0,
+    "didUpdate": false
+  },
+  "startTime": 1790828859046,
+  "success": true,
+  "testResults": [
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["Q09 createFramebuffer"],
+          "fullName": "Q09 createFramebuffer 默认 320×200；自定义尺寸按参数建",
+          "status": "passed",
+          "title": "默认 320×200；自定义尺寸按参数建",
+          "duration": 1.14629199999996,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Q09 createFramebuffer"],
+          "fullName": "Q09 createFramebuffer writePixel 四边界外全部忽略；界内按 y*width+x 落位",
+          "status": "passed",
+          "title": "writePixel 四边界外全部忽略；界内按 y*width+x 落位",
+          "duration": 0.195083000000011,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Q09 createFramebuffer"],
+          "fullName": "Q09 createFramebuffer clear 归零全部索引",
+          "status": "passed",
+          "title": "clear 归零全部索引",
+          "duration": 0.07441599999998516,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Q09 createFramebuffer"],
+          "fullName": "Q09 createFramebuffer toImageData 按 palette 展开 RGBA、alpha 恒 255、缺色回退黑",
+          "status": "passed",
+          "title": "toImageData 按 palette 展开 RGBA、alpha 恒 255、缺色回退黑",
+          "duration": 0.47937500000000455,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790828859446,
+      "endTime": 1790828859448.4795,
+      "status": "passed",
+      "message": "",
+      "name": "/private/tmp/glmq/counter-copy/type-pal/packages/game/src/framebuffer-ports.glm-q.test.ts"
+    }
+  ]
+}

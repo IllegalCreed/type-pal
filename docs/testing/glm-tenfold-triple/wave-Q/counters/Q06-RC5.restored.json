@@ -1,0 +1,150 @@
+{
+  "numTotalTestSuites": 5,
+  "numPassedTestSuites": 5,
+  "numFailedTestSuites": 0,
+  "numPendingTestSuites": 0,
+  "numTotalTests": 11,
+  "numPassedTests": 11,
+  "numFailedTests": 0,
+  "numPendingTests": 0,
+  "numTodoTests": 0,
+  "snapshot": {
+    "added": 0,
+    "failure": false,
+    "filesAdded": 0,
+    "filesRemoved": 0,
+    "filesRemovedList": [],
+    "filesUnmatched": 0,
+    "filesUpdated": 0,
+    "matched": 0,
+    "total": 0,
+    "unchecked": 0,
+    "uncheckedKeysByFile": [],
+    "unmatched": 0,
+    "updated": 0,
+    "didUpdate": false
+  },
+  "startTime": 1790828854157,
+  "success": true,
+  "testResults": [
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["Q06 isPlayerPoisoned"],
+          "fullName": "Q06 isPlayerPoisoned ByKind 只查指定毒 id，不看等级与其它毒",
+          "status": "passed",
+          "title": "ByKind 只查指定毒 id，不看等级与其它毒",
+          "duration": 1.0720000000000027,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Q06 isPlayerPoisoned"],
+          "fullName": "Q06 isPlayerPoisoned ByLevel(role,0)：level>=99 装备伪毒不算中毒",
+          "status": "passed",
+          "title": "ByLevel(role,0)：level>=99 装备伪毒不算中毒",
+          "duration": 0.2927500000000123,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Q06 isPlayerPoisoned"],
+          "fullName": "Q06 isPlayerPoisoned 毒表未注入时伪毒按 level 0 退化处理（旧 caller 兼容臂）",
+          "status": "passed",
+          "title": "毒表未注入时伪毒按 level 0 退化处理（旧 caller 兼容臂）",
+          "duration": 0.09741700000000719,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Q06 cure / remove"],
+          "fullName": "Q06 cure / remove curePlayerPoisonByKind 只清该毒全部槽位",
+          "status": "passed",
+          "title": "curePlayerPoisonByKind 只清该毒全部槽位",
+          "duration": 0.4502079999999751,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Q06 cure / remove"],
+          "fullName": "Q06 cure / remove removePoisonLevel99 清 level>=99、留 level<99",
+          "status": "passed",
+          "title": "removePoisonLevel99 清 level>=99、留 level<99",
+          "duration": 0.2148339999999962,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Q06 cure / remove"],
+          "fullName": "Q06 cure / remove curePlayerPoisonByLevel 无 99 例外：maxLevel 内连装备毒一并清",
+          "status": "passed",
+          "title": "curePlayerPoisonByLevel 无 99 例外：maxLevel 内连装备毒一并清",
+          "duration": 0.12120800000002419,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Q06 addPoisonForPlayer"],
+          "fullName": "Q06 addPoisonForPlayer 去重：已有同毒不落第二槽",
+          "status": "passed",
+          "title": "去重：已有同毒不落第二槽",
+          "duration": 0.45129200000002356,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Q06 addPoisonForPlayer"],
+          "fullName": "Q06 addPoisonForPlayer runner 注入：施毒当下跑入口脚本并存返回的 next entry；无 runner 存原始 ip",
+          "status": "passed",
+          "title": "runner 注入：施毒当下跑入口脚本并存返回的 next entry；无 runner 存原始 ip",
+          "duration": 0.6719169999999508,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Q06 addPoisonForPlayer"],
+          "fullName": "Q06 addPoisonForPlayer playerScript=0 时不调 runner；16 槽全满时静默丢弃",
+          "status": "passed",
+          "title": "playerScript=0 时不调 runner；16 槽全满时静默丢弃",
+          "duration": 0.49799999999999045,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Q06 装备派生值读取器"],
+          "fullName": "Q06 装备派生值读取器 fleeRate = runtime base + 各装备槽之和",
+          "status": "passed",
+          "title": "fleeRate = runtime base + 各装备槽之和",
+          "duration": 0.12391700000000583,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Q06 装备派生值读取器"],
+          "fullName": "Q06 装备派生值读取器 poisonResistance 钳制 [0,100]：负值归零、超百封顶",
+          "status": "passed",
+          "title": "poisonResistance 钳制 [0,100]：负值归零、超百封顶",
+          "duration": 0.13516600000002654,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790828854586,
+      "endTime": 1790828854591.1353,
+      "status": "passed",
+      "message": "",
+      "name": "/private/tmp/glmq/counter-copy/type-pal/packages/game/src/status-poison-equip.glm-q.test.ts"
+    }
+  ]
+}

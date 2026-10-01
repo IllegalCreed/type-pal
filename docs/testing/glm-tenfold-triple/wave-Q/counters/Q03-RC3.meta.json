@@ -1,16 +1,57 @@
 {
   "id": "Q03-RC3",
   "file": "packages/reforge/src/audio-spessa-runtime.glm-q.test.ts",
-  "targetSubstring": "适配器透传 sequencer 传输操作与快照字段",
+  "targetFullName": "Q03 spessa 初始化：isReady 拒绝销毁合成器并原样抛出",
+  "targetNameSubstring": "isReady 拒绝销毁合成器并原样抛出",
+  "axis": "输入轴单轴变异：isReady 拒绝用例的 ready.fail 旗标保持 false（合法旗标值，合成器正常就绪）；断言不动。",
   "sha256": {
-    "original": "9a3b9b7b541d4488a394eb8383091ea3e16135665075834e638189cbfa35b521",
-    "mutated": "985429d5f5442109658b6770c45e050970326292483d36dfc603f75992a0ef46",
-    "restored": "9a3b9b7b541d4488a394eb8383091ea3e16135665075834e638189cbfa35b521"
+    "original": "fcd5410400adf30adf0820fb58d9f7855a571f107550905ce9c1acb7d0c909ca",
+    "mutated": "ea1795608c304152886fa2ef94794e81a4ddc832ffc317a8ed5949b9fef10212",
+    "restored": "fcd5410400adf30adf0820fb58d9f7855a571f107550905ce9c1acb7d0c909ca"
   },
   "restoredHashUnchanged": true,
-  "positiveExit": 0,
-  "mutantExit": 1,
-  "package": "reforge",
-  "targetFailureBlock": " FAIL  src/audio-spessa-runtime.glm-q.test.ts > Q03 试听 runtime：适配器透传 sequencer 传输操作与快照字段，二次 initialize 复用\nAssertionError: promise rejected \"DOMException{ stack: 'AbortError: MI…', …(1) }\" instead of resolving\n ❯ src/audio-spessa-runtime.glm-q.test.ts:258:36\n    256|   expect(adapter.finished).toBe(false)\n    257|   runtime.dispose() // 变异轴：复用断言前先关闭（合法宿主时序）\n    258|   await expect(runtime.initialize()).resolves.toBe(adapter)\n       |                                    ^\n    259| })\n    260|\n\nCaused by: AbortError: MIDI 试听已关闭\n ❯ Object.initialize src/audio/midi-preview.ts:123:27\n ❯ src/audio-spessa-runtime.glm-q.test.ts:258:24\n\n⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯\nSerialized Error: { code: 20, INDEX_SIZE_ERR: 1, DOMSTRING_SIZE_ERR: 2, HIERARCHY_REQUEST_ERR: 3, WRONG_DOCUMENT_ERR: 4, INVALID_CHARACTER_ERR: 5, NO_DATA_ALLOWED_ERR: 6, NO_MODIFICATION_ALLOWED_ERR: 7, NOT_FOUND_ERR: 8, NOT_SUPPORTED_ERR: 9, INUSE_ATTRIBUTE_ERR: 10, INVALID_STATE_ERR: 11, SYNTAX_ERR: 12, INVALID_MODIFICATION_ERR: 13, NAMESPACE_ERR: 14, INVALID_ACCESS_ERR: 15, VALIDATION_ERR: 16, TYPE_MISMATCH_ERR: 17, SECURITY_ERR: 18, NETWORK_ERR: 19, ABORT_ERR: 20, URL_MISMATCH_ERR: 21, QUOTA_EXCEEDED_ERR: 22, TIMEOUT_ERR: 23, INVALID_NODE_TYPE_ERR: 24, DATA_CLONE_ERR: 25 }\n⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯\n\n",
-  "summaryLines": []
+  "criteria": {
+    "positiveGreen": true,
+    "mutantExactlyOneTargetRed": true,
+    "targetAssertionError": "Error: promise resolved \"{ load: [Function load], …(6) }\" instead of rejecting",
+    "restoredGreen": true,
+    "restoredSameExecutionCount": true,
+    "hashesMatchFinalCandidate": true
+  },
+  "runs": {
+    "positive": {
+      "exitCode": 0,
+      "summary": {
+        "numTotalTests": 12,
+        "numPassedTests": 12,
+        "numFailedTests": 0,
+        "success": true
+      },
+      "json": "Q03-RC3.positive.json",
+      "raw": "Q03-RC3.positive.txt"
+    },
+    "mutant": {
+      "exitCode": 1,
+      "summary": {
+        "numTotalTests": 12,
+        "numPassedTests": 11,
+        "numFailedTests": 1,
+        "success": false
+      },
+      "json": "Q03-RC3.mutant.json",
+      "raw": "Q03-RC3.mutant.txt"
+    },
+    "restored": {
+      "exitCode": 0,
+      "summary": {
+        "numTotalTests": 12,
+        "numPassedTests": 12,
+        "numFailedTests": 0,
+        "success": true
+      },
+      "json": "Q03-RC3.restored.json",
+      "raw": "Q03-RC3.restored.txt"
+    }
+  },
+  "verdict": "VALID"
 }

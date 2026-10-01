@@ -1,16 +1,57 @@
 {
   "id": "Q04-RC3",
   "file": "packages/reforge/src/script-runner-core.gates.glm-q.test.ts",
-  "targetSubstring": "resolver 返回错误 script id 时拒绝",
+  "targetFullName": "Q04 commandOutcome 与 callScript 门 resolver 返回错误 script id 时拒绝",
+  "targetNameSubstring": "resolver 返回错误 script id 时拒绝",
+  "axis": "输入轴单轴变异：crooked resolver 改回解析请求的原 id（合法 resolver 行为）；断言不动。",
   "sha256": {
     "original": "896fab49346937562f8aa66e780b9fdf24c85e73a1a8f4d1833e8387a20208a7",
     "mutated": "fa0052a9a05f4f37d8a423aa911f9506c9ee18fc643183ee1874b2cfd5cae410",
     "restored": "896fab49346937562f8aa66e780b9fdf24c85e73a1a8f4d1833e8387a20208a7"
   },
   "restoredHashUnchanged": true,
-  "positiveExit": 0,
-  "mutantExit": 1,
-  "package": "reforge",
-  "targetFailureBlock": " FAIL  src/script-runner-core.gates.glm-q.test.ts > Q04 commandOutcome 与 callScript 门 > resolver 返回错误 script id 时拒绝\nAssertionError: promise resolved \"undefined\" instead of rejecting\n\n- Expected:\nError {\n  \"message\": \"rejected promise\",\n}\n\n+ Received:\nundefined\n\n ❯ src/script-runner-core.gates.glm-q.test.ts:199:5\n    197|         { cursorController: controller() },\n    198|       ),\n    199|     ).rejects.toThrow('ScriptRunnerCore: resolver 返回错误 script id other…\n       |     ^\n    200|   })\n    201|\n\n⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯\n\n",
-  "summaryLines": []
+  "criteria": {
+    "positiveGreen": true,
+    "mutantExactlyOneTargetRed": true,
+    "targetAssertionError": "Error: promise resolved \"undefined\" instead of rejecting",
+    "restoredGreen": true,
+    "restoredSameExecutionCount": true,
+    "hashesMatchFinalCandidate": true
+  },
+  "runs": {
+    "positive": {
+      "exitCode": 0,
+      "summary": {
+        "numTotalTests": 13,
+        "numPassedTests": 13,
+        "numFailedTests": 0,
+        "success": true
+      },
+      "json": "Q04-RC3.positive.json",
+      "raw": "Q04-RC3.positive.txt"
+    },
+    "mutant": {
+      "exitCode": 1,
+      "summary": {
+        "numTotalTests": 13,
+        "numPassedTests": 12,
+        "numFailedTests": 1,
+        "success": false
+      },
+      "json": "Q04-RC3.mutant.json",
+      "raw": "Q04-RC3.mutant.txt"
+    },
+    "restored": {
+      "exitCode": 0,
+      "summary": {
+        "numTotalTests": 13,
+        "numPassedTests": 13,
+        "numFailedTests": 0,
+        "success": true
+      },
+      "json": "Q04-RC3.restored.json",
+      "raw": "Q04-RC3.restored.txt"
+    }
+  },
+  "verdict": "VALID"
 }
