@@ -160,3 +160,21 @@ Codex **counter → rework**；这是274/700例、30/50枚反控的部分交付�
 - 本轮716源/595白名单路径/diff复核通过；未新全包/官方门，442不当accept净增。
 - 再续原合法残余，700/60组/50不缩；只有原白名单可写，不合main/不done。
   提示由Codex直接发，用户无需转交；发送成功前不得称新返工已执行。
+
+
+## Codex r6 独立审核（2026-10-01）
+
+固定本地/远端候选 `1d805509af6ecd94a95c0965d373bf98ccde123c`，**counter，保持rework**。
+[O本轮独立复核](../../testing/glm-tenfold-triple/codex-o-r6-review-20261001.md)、
+[机器证据](../../testing/glm-tenfold-triple/codex-o-r6-review-20261001.json)。
+
+三包704/1410/154合计2268绿，新468身份逐条一致；typecheck×3零、lint3153文件完整0/0/0、docs/diff/verifier通过。旧六针漂移关闭，62份存档三态hash/执行集全对齐，旧50未动；不是62枚独立业务重跑。O-R6-01真账/重复gate失败/未证allAllies与死亡轴，O-R6-02 item-use as never缺exp及Record桥，O-R6-03判据零执行/真实未处理异常漏收/不保stderr及全局prune，O-R6-04最终254/188/26、658路径和历史/未完账需修。原700/60组/50不缩，468非已accept净增，私有migrate比率不是正式门。
+
+不合main、不标done、不清贡献者树、不正式覆盖结算。用户已撤销直接ZCode操作授权；
+上方历史自动续派说明不再执行，以下由用户手动转发。
+
+### 下一位GLM O提示词（本轮最新）
+
+```text
+继续 TEST-GLM-WAVE-O-1，原树 /Users/zhangxu/.codex/worktrees/glm-wave-o/type-pal，原分支 codex/glm-wave-o-supply-validation-r1，固定审核候选 1d805509af6ecd94a95c0965d373bf98ccde123c。先读 /Users/zhangxu/.codex/worktrees/glm-lmn-acceptance/type-pal/docs/ops/tasks/TEST-GLM-WAVE-O-1-supply-validation-tenfold.md 最新 r6 独立审核段及所链 codex-o-r6-review-20261001.md/json，按 O-R6-01～04 窄返工：合同账不能用token最近标题/首条expect代替逐条件排重与完整oracle；删 item-effects gate失败重复，不计 item-use 用存在hero伪证缺目标轴，死亡跳过未测须更名或先排重再补合法轴；item-use world/useItem 改完整 typed WorldState/CharacterInstance/ItemData，补exp、去as never及Record扩展强转；runner零执行/pending/todo/skip/异身份/错file或fullName/未处理异常/raw harness/signal/spawn拒收，保留stdout+stderr，不全局prune；最终包分布254/188/26及658路径从树生成，历史数字标历史，锚点与docs-only区间明确，勿循环自pin。旧七桥/两oracle/canAct删重、六针漂移及62枚hash对应项已关闭；不重跑未变业务，仅重采改动文件受影响针（item-effects目前O08-CC6/7、O09-CC12；item-use目前O09-CC6/7），其他保留。继续原合法余族，700例/60组/50有效反控不缩，468仍部分，缺合法轴逐项existing-proof/unreachable/blocked申请。只写原O白名单新测/专属fixture/wave-O证据，CLI mkdtemp合成工程，真实工程migrate含dry-run禁止；派发8b3ca062953b17a12178f8d1a9e36657971234b1、冻结3ac9a2e2f6aba8a5cc97640c18fef8549d199380不变。最终串行migrate/content/shared全包test/typecheck、lint完整0/0/0、docs/diff/verifier后推送40位候选；产品/旧测/配置/官方baseline/真实数据/P/Q/共享文档只读，不合main、不标done。
+```

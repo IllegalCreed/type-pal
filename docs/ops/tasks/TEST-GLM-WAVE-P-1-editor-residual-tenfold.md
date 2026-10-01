@@ -172,3 +172,21 @@ collection/runtime/未处理异常，完整 file×fullName 多重集合比较；
 再持续 P02残余/P03–P10及F14/F18，原700/70组/50/20不缩。候选仍固定上方SHA待审；
 不写产品/旧测/共享文档、不中断O/Q、不合main、不done、不清活动树。
 本轮 UI 第三槽仍待确认框恢复；用户无需搬运此提示，由Codex直接发送。
+
+
+## Codex r3.5 独立审核（2026-10-01）
+
+固定本地/远端候选 `bb2ffcb6614a5f48eb5bb0bab671941242f2a00b`，**counter，保持rework**。
+[P本轮独立复核](../../testing/glm-tenfold-triple/codex-p-r35-review-20261001.md)、
+[机器证据](../../testing/glm-tenfold-triple/codex-p-r35-review-20261001.json)。
+
+全包516文件3853绿，新67身份逐条一致；typecheck零、lint2804文件完整0/0/0、diff/verifier通过，但docs两项失败。旧四拒收/恢复判据/10索引patch关闭；P-R35-01变异身份与真实未处理异常仍误收，P-R35-02失败process.exit跳过finally实证泄漏，P-R35-03 docs/633缺口/14自测/66截图与证据来源需同步，P-R35-04真合同账与P02–P10/F14/F18仍未完成。原700/70组/50/20不缩，已有业务证据保留，源/执行集改变只重采受影响针。
+
+不合main、不标done、不清贡献者树、不正式覆盖结算。用户已撤销直接ZCode操作授权；
+上方历史自动续派说明不再执行，以下由用户手动转发。
+
+### 下一位GLM P提示词（本轮最新）
+
+```text
+继续 TEST-GLM-WAVE-P-1，原树 /Users/zhangxu/.codex/worktrees/glm-wave-p-editor-residual/type-pal，原分支 codex/glm-wave-p-editor-residual-r1，固定审核候选 bb2ffcb6614a5f48eb5bb0bab671941242f2a00b。先读 /Users/zhangxu/.codex/worktrees/glm-lmn-acceptance/type-pal/docs/ops/tasks/TEST-GLM-WAVE-P-1-editor-residual-tenfold.md 最新 r3.5 独立审核段及所链 codex-p-r35-review-20261001.md/json，按 P-R35-01～04 窄返工：mutant 对齐完整多重身份；真实未处理异常/raw harness/signal/spawn/无效退出拒收；throw+finally 覆盖建树/复制/各拒收分支并仅回收本次树；补 browser 目录索引导航，修633缺口/14自测/66截图与三态证据重采来源；逐合同补真实条件/caller/旧fullName断言行/完整matcher和值。旧四拒收、恢复判据、10索引patch、G09删除与既有业务证据保留，源或执行集改变才重采受影响针。再连续原P02残余/P03～P10与F14/F18，700合法未重复例/70组/50有效反控/20流程不缩，不凑数，缺合法轴逐项举证申请。只写原P新测试/专属fixture/wave-P白名单；派发8b3ca062953b17a12178f8d1a9e36657971234b1、冻结3ac9a2e2f6aba8a5cc97640c18fef8549d199380不变。最终定向JSON与源hash一致，串行Editor全包test/typecheck、lint完整0/0/0、docs/diff/verifier后推送40位候选；产品/旧测/配置/官方baseline/真实数据/O/Q/共享文档只读，不合main、不标done，不操作其它会话。
+```

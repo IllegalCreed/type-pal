@@ -1,0 +1,589 @@
+{
+  "task": "TEST-GLM-WAVE-P-1",
+  "date": "2026-10-01",
+  "verdict": "counter/rework",
+  "candidateHead": "bb2ffcb6614a5f48eb5bb0bab671941242f2a00b",
+  "toolingEvidenceHead": "5e492fbeaacd2717ad70681f67d1cd150668d479",
+  "testAnchor": "5899dae6057d73a852b37617635e823d2e388c58",
+  "dispatchBase": "8b3ca062953b17a12178f8d1a9e36657971234b1",
+  "productionFreeze": "3ac9a2e2f6aba8a5cc97640c18fef8549d199380",
+  "gates": {
+    "editorFull": {
+      "total": 3853,
+      "passed": 3853,
+      "failed": 0,
+      "pending": 0,
+      "files": 516,
+      "directed": 67,
+      "directedMatches": true
+    },
+    "typecheck": {
+      "exitCode": 0,
+      "diagnostics": 0
+    },
+    "lint": {
+      "exitCode": 0,
+      "files": 2804,
+      "error": 0,
+      "warning": 0,
+      "info": 0,
+      "complete": true
+    },
+    "docs": {
+      "exitCode": 1,
+      "markdown": 815,
+      "links": 4281,
+      "tasks": 245,
+      "issues": [
+        "wave-P/browser/README.md missing directory index",
+        "wave-P/README.md missing browser directory navigation"
+      ]
+    },
+    "diff": {
+      "exitCode": 0
+    },
+    "verifier": {
+      "exitCode": 0,
+      "sources": 716,
+      "editorSources": 288,
+      "changedPaths": 157,
+      "hashesValid": true,
+      "ownerOverlap": 0
+    },
+    "judgeSelfTest": {
+      "exitCode": 0,
+      "passed": 14,
+      "failed": 0
+    }
+  },
+  "counterAudit": {
+    "mode": "saved evidence + independent patch apply/hash reconstruction; not all ten business mutants reexecuted",
+    "results": [
+      {
+        "id": "P01-C01",
+        "phaseExecuted": [24, 24, 24],
+        "exitCodes": [0, 1, 0],
+        "validJudges": [true, true, true],
+        "failed": [
+          {
+            "file": "src/core/project-io.glm-p.test.ts",
+            "fullName": "P01-G01 serializeProject 守卫残余 有图章模板但 manifest.content.stamps 未登记 → 序列化层 fail-loud，不产出任何文件",
+            "firstLine": "AssertionError: expected [Function] to throw an error"
+          }
+        ],
+        "allIdentitiesEqual": true,
+        "originalHash": "4c174323077084265b0dbfcf1338787bf55d7bc45f2a41b3ab64ce3dbcf7b87e",
+        "productHashMatches": true,
+        "rebuiltMutantHash": "2a4aa189dc01f1f0658348573e506f2b577848c748812ccab6c9703842daedaf",
+        "mutantHashMatches": true,
+        "indexPatchMatchesReceipt": true,
+        "rawPresent": true,
+        "originalReceiptHead": "48ade197eb508273168f62384141f8d1dde854ec",
+        "reportStarts": [1790858243808, 1790858246844, 1790858248576]
+      },
+      {
+        "id": "P01-C02",
+        "phaseExecuted": [15, 15, 15],
+        "exitCodes": [0, 1, 0],
+        "validJudges": [true, true, true],
+        "failed": [
+          {
+            "file": "src/core/project-diagnostics.glm-p.test.ts",
+            "fullName": "P01-G06 保存门分段拒绝残余 manifest 缺 worldVariables 注册表路径 → 世界变量分段拒绝并指名缺路径",
+            "firstLine": "AssertionError: expected [Function] to throw an error"
+          }
+        ],
+        "allIdentitiesEqual": true,
+        "originalHash": "5f86d1a71726a109ea8024aa17f41c5e85ccc150cfa751847374e5375bf55e82",
+        "productHashMatches": true,
+        "rebuiltMutantHash": "274d8a175c83de32e042cf886c1324b936f896c10d17fd65dfabcbd40328c7ae",
+        "mutantHashMatches": true,
+        "indexPatchMatchesReceipt": true,
+        "rawPresent": true,
+        "originalReceiptHead": "48ade197eb508273168f62384141f8d1dde854ec",
+        "reportStarts": [1790858254940, 1790858258005, 1790858260212]
+      },
+      {
+        "id": "P01-C03",
+        "phaseExecuted": [24, 24, 24],
+        "exitCodes": [0, 1, 0],
+        "validJudges": [true, true, true],
+        "failed": [
+          {
+            "file": "src/core/project-io.glm-p.test.ts",
+            "fullName": "P01-G04 preflightProjectWriteSet 残余臂 battle-simulator 文件为合法 JSON 字符串 → 预检解析通过；坏 kind 文档拒绝",
+            "firstLine": "Error: promise resolved \"undefined\" instead of rejecting"
+          }
+        ],
+        "allIdentitiesEqual": true,
+        "originalHash": "4c174323077084265b0dbfcf1338787bf55d7bc45f2a41b3ab64ce3dbcf7b87e",
+        "productHashMatches": true,
+        "rebuiltMutantHash": "9349e8b09d1309d9aee7823c2a016912c9e8a54c43006d03774acc2db6a8acc0",
+        "mutantHashMatches": true,
+        "indexPatchMatchesReceipt": true,
+        "rawPresent": true,
+        "originalReceiptHead": "48ade197eb508273168f62384141f8d1dde854ec",
+        "reportStarts": [1790858266217, 1790858269350, 1790858271797]
+      },
+      {
+        "id": "P01-C04",
+        "phaseExecuted": [24, 24, 24],
+        "exitCodes": [0, 1, 0],
+        "validJudges": [true, true, true],
+        "failed": [
+          {
+            "file": "src/core/project-io.glm-p.test.ts",
+            "fullName": "P01-G02 toEditorState 投影契约 poisons 数组与 loader 源共享引用（直传），sceneIndex 则是 clone 隔离",
+            "firstLine": "AssertionError: expected [] to be [] // Object.is equality"
+          }
+        ],
+        "allIdentitiesEqual": true,
+        "originalHash": "4c174323077084265b0dbfcf1338787bf55d7bc45f2a41b3ab64ce3dbcf7b87e",
+        "productHashMatches": true,
+        "rebuiltMutantHash": "3439c8d40a8d60dd7d02903650c5b57737fa858e913beed6739710bb59a707b2",
+        "mutantHashMatches": true,
+        "indexPatchMatchesReceipt": true,
+        "rawPresent": true,
+        "originalReceiptHead": "48ade197eb508273168f62384141f8d1dde854ec",
+        "reportStarts": [1790858278084, 1790858281050, 1790858283566]
+      },
+      {
+        "id": "P01-C05",
+        "phaseExecuted": [24, 24, 24],
+        "exitCodes": [0, 1, 0],
+        "validJudges": [true, true, true],
+        "failed": [
+          {
+            "file": "src/core/project-io.glm-p.test.ts",
+            "fullName": "P01-G05 writeProject 受控真实 IO copy 与编辑产物同路径让位：落盘字节为编辑值，copy 不重复写",
+            "firstLine": "AssertionError: expected [ 'notes/same.txt', 'notes/same.txt' ] to have a length of 1 but got 2"
+          }
+        ],
+        "allIdentitiesEqual": true,
+        "originalHash": "4c174323077084265b0dbfcf1338787bf55d7bc45f2a41b3ab64ce3dbcf7b87e",
+        "productHashMatches": true,
+        "rebuiltMutantHash": "022509b4e52f2aca1913a7a20112ffc6b350418f42d1746f1ee59260ed1c930e",
+        "mutantHashMatches": true,
+        "indexPatchMatchesReceipt": true,
+        "rawPresent": true,
+        "originalReceiptHead": "48ade197eb508273168f62384141f8d1dde854ec",
+        "reportStarts": [1790858288560, 1790858291011, 1790858292480]
+      },
+      {
+        "id": "P02-C06",
+        "phaseExecuted": [8, 8, 8],
+        "exitCodes": [0, 1, 0],
+        "validJudges": [true, true, true],
+        "failed": [
+          {
+            "file": "src/ui/MapSelectionInspector.glm-p.test.tsx",
+            "fullName": "P02-G01 选区检查器警告与摘要残余 活动层隐藏 → 整笔修改禁用警告指向显式显示",
+            "firstLine": "AssertionError: expected '⚠ 当前活动层已隐藏。' to be '⚠ 当前活动层已隐藏；请显式显示或切换图层后再修改。' // Object.is equality"
+          }
+        ],
+        "allIdentitiesEqual": true,
+        "originalHash": "12c018e7eda0aed1fa91ee8989e4e56b71818b8851aedf2b0a22a195e8076463",
+        "productHashMatches": true,
+        "rebuiltMutantHash": "62c8b97007666b4d399c9989568f4ad445e07520a5a4df93081bec6760b91aad",
+        "mutantHashMatches": true,
+        "indexPatchMatchesReceipt": true,
+        "rawPresent": true,
+        "originalReceiptHead": "48ade197eb508273168f62384141f8d1dde854ec",
+        "reportStarts": [1790858297141, 1790858299941, 1790858301703]
+      },
+      {
+        "id": "P02-C07",
+        "phaseExecuted": [5, 5, 5],
+        "exitCodes": [0, 1, 0],
+        "validJudges": [true, true, true],
+        "failed": [
+          {
+            "file": "src/ui/LayerStackControls.glm-p.test.tsx",
+            "fullName": "P02-G02 LayerPaintContext 聚焦与显示高度 默认「聚焦当前」；点击后 aria-pressed 翻转并显示「只看当前」",
+            "firstLine": "AssertionError: expected '只看当前X' to be '只看当前' // Object.is equality"
+          }
+        ],
+        "allIdentitiesEqual": true,
+        "originalHash": "222f49b4543e57fc7a2e5ac90ecf4958df7bd8cbcedbe2d6bf5b5d489539c65e",
+        "productHashMatches": true,
+        "rebuiltMutantHash": "193bae786deb9917c32603209b1711412a2b73a32e85211ce4968fd3a2ca05a2",
+        "mutantHashMatches": true,
+        "indexPatchMatchesReceipt": true,
+        "rawPresent": true,
+        "originalReceiptHead": "48ade197eb508273168f62384141f8d1dde854ec",
+        "reportStarts": [1790858306298, 1790858309171, 1790858310152]
+      },
+      {
+        "id": "P02-C08",
+        "phaseExecuted": [5, 5, 5],
+        "exitCodes": [0, 1, 0],
+        "validJudges": [true, true, true],
+        "failed": [
+          {
+            "file": "src/ui/IsometricEditorToolbar.glm-p.test.tsx",
+            "fullName": "P02-G03 工具选项托盘键盘合同 托盘内 Escape 关盘并把焦点还给触发器",
+            "firstLine": "AssertionError: expected <body><div>…(5)</div></body> to be <button type=\"button\" …(6)>…(1)</button> // Object.is equality"
+          }
+        ],
+        "allIdentitiesEqual": true,
+        "originalHash": "a5b3420868078a885fd107bbea2425b69a52599fe8b3ecdd852cff15aa005a4a",
+        "productHashMatches": true,
+        "rebuiltMutantHash": "f30aa68f7f334f83d79a65512d208e98050f60103a352775ee695566973d7130",
+        "mutantHashMatches": true,
+        "indexPatchMatchesReceipt": true,
+        "rawPresent": true,
+        "originalReceiptHead": "48ade197eb508273168f62384141f8d1dde854ec",
+        "reportStarts": [1790858314310, 1790858319874, 1790858324478]
+      },
+      {
+        "id": "P02-C09",
+        "phaseExecuted": [8, 8, 8],
+        "exitCodes": [0, 1, 0],
+        "validJudges": [true, true, true],
+        "failed": [
+          {
+            "file": "src/ui/MapSelectionInspector.glm-p.test.tsx",
+            "fullName": "P02-G01 选区检查器警告与摘要残余 选区命中隐藏层成员（活动层可见）→ 按成员数警告",
+            "firstLine": "AssertionError: expected '⚠ 选区含隐藏层成员，整笔修改已禁用。' to be '⚠ 选区含 1 个隐藏层成员，整笔修改已禁用。' // Object.is equality"
+          }
+        ],
+        "allIdentitiesEqual": true,
+        "originalHash": "12c018e7eda0aed1fa91ee8989e4e56b71818b8851aedf2b0a22a195e8076463",
+        "productHashMatches": true,
+        "rebuiltMutantHash": "8e899421c72d785c6b0fe35d204edcf9a975f7656960412374c50b1f3b5a6c67",
+        "mutantHashMatches": true,
+        "indexPatchMatchesReceipt": true,
+        "rawPresent": true,
+        "originalReceiptHead": "48ade197eb508273168f62384141f8d1dde854ec",
+        "reportStarts": [1790858333807, 1790858339825, 1790858344642]
+      },
+      {
+        "id": "P02-C10",
+        "phaseExecuted": [5, 5, 5],
+        "exitCodes": [0, 1, 0],
+        "validJudges": [true, true, true],
+        "failed": [
+          {
+            "file": "src/ui/LayerStackControls.glm-p.test.tsx",
+            "fullName": "P02-G02 LayerStackControls 禁用原因残余 add/delete 同因 → 只渲染一段共享原因",
+            "firstLine": "AssertionError: expected <p …(2)></p>"
+          }
+        ],
+        "allIdentitiesEqual": true,
+        "originalHash": "222f49b4543e57fc7a2e5ac90ecf4958df7bd8cbcedbe2d6bf5b5d489539c65e",
+        "productHashMatches": true,
+        "rebuiltMutantHash": "954cd40ae46ff67e61aa7c5efb66e2f96d23523d20c0626def71d2dc204a4478",
+        "mutantHashMatches": true,
+        "indexPatchMatchesReceipt": true,
+        "rawPresent": true,
+        "originalReceiptHead": "48ade197eb508273168f62384141f8d1dde854ec",
+        "reportStarts": [1790858351817, 1790858353537, 1790858354349]
+      }
+    ],
+    "probes": {
+      "mutatedIdentityReplacement": {
+        "changedFrom": "P01-G01 serializeProject 守卫残余 登记图章表后序列化在登记路径产出规范化模板文本，经正式 parser round-trip 等值",
+        "changedTo": "CODEX DIFFERENT NEIGHBOR",
+        "counts": [24, 24],
+        "equalIdentity": false,
+        "actual": {
+          "valid": true,
+          "reasons": [],
+          "target": {
+            "fullName": "P01-G01 serializeProject 守卫残余 有图章模板但 manifest.content.stamps 未登记 → 序列化层 fail-loud，不产出任何文件",
+            "message": "AssertionError: expected [Function] to throw an error",
+            "file": "src/core/project-io.glm-p.test.ts"
+          },
+          "failed": [
+            {
+              "fullName": "P01-G01 serializeProject 守卫残余 有图章模板但 manifest.content.stamps 未登记 → 序列化层 fail-loud，不产出任何文件",
+              "status": "failed",
+              "message": "AssertionError: expected [Function] to throw an error",
+              "file": "src/core/project-io.glm-p.test.ts"
+            }
+          ],
+          "executed": 24
+        }
+      },
+      "mutatedInvalidExit": {
+        "actual": {
+          "valid": true,
+          "reasons": [],
+          "target": {
+            "fullName": "P01-G01 serializeProject 守卫残余 有图章模板但 manifest.content.stamps 未登记 → 序列化层 fail-loud，不产出任何文件",
+            "message": "AssertionError: expected [Function] to throw an error",
+            "file": "src/core/project-io.glm-p.test.ts"
+          },
+          "failed": [
+            {
+              "fullName": "P01-G01 serializeProject 守卫残余 有图章模板但 manifest.content.stamps 未登记 → 序列化层 fail-loud，不产出任何文件",
+              "status": "failed",
+              "message": "AssertionError: expected [Function] to throw an error",
+              "file": "src/core/project-io.glm-p.test.ts"
+            }
+          ],
+          "executed": 24
+        }
+      },
+      "rawHarnessIgnored": {
+        "raw": "Vitest caught 1 unhandled error during the test run",
+        "actual": {
+          "valid": true,
+          "reasons": [],
+          "target": {
+            "fullName": "P01-G01 serializeProject 守卫残余 有图章模板但 manifest.content.stamps 未登记 → 序列化层 fail-loud，不产出任何文件",
+            "message": "AssertionError: expected [Function] to throw an error",
+            "file": "src/core/project-io.glm-p.test.ts"
+          },
+          "failed": [
+            {
+              "fullName": "P01-G01 serializeProject 守卫残余 有图章模板但 manifest.content.stamps 未登记 → 序列化层 fail-loud，不产出任何文件",
+              "status": "failed",
+              "message": "AssertionError: expected [Function] to throw an error",
+              "file": "src/core/project-io.glm-p.test.ts"
+            }
+          ],
+          "executed": 24
+        }
+      },
+      "zeroClean": {
+        "valid": false,
+        "reasons": ["clean:zero-executed"],
+        "executed": 0,
+        "identitySet": []
+      },
+      "restoredDifferentIdentity": {
+        "valid": false,
+        "reasons": ["clean:identity-set-mismatch"],
+        "executed": 24,
+        "identitySet": [
+          "src/core/project-io.glm-p.test.ts×P01-G01 serializeProject 守卫残余 manifest 缺 content.maps 声明 → 序列化层拒绝，不产出无索引工程",
+          "src/core/project-io.glm-p.test.ts×P01-G01 serializeProject 守卫残余 pending 资源未登记 catalog → 序列化层拒绝并指名路径",
+          "src/core/project-io.glm-p.test.ts×P01-G01 serializeProject 守卫残余 两个内容表声明同一路径 → 输出路径冲突 fail-loud 并报出双方 owner",
+          "src/core/project-io.glm-p.test.ts×P01-G01 serializeProject 守卫残余 声明的内容表在 state 缺数组时按空表序列化（enemies 缺省臂）",
+          "src/core/project-io.glm-p.test.ts×P01-G01 serializeProject 守卫残余 有图章模板但 manifest.content.stamps 未登记 → 序列化层 fail-loud，不产出任何文件",
+          "src/core/project-io.glm-p.test.ts×P01-G01 serializeProject 守卫残余 登记图章表后序列化在登记路径产出规范化模板文本，经正式 parser round-trip 等值",
+          "src/core/project-io.glm-p.test.ts×P01-G01 serializeProject 守卫残余 非空战斗模拟器库序列化产出保留路径文件；空库不产出该文件",
+          "src/core/project-io.glm-p.test.ts×P01-G02 toEditorState 投影契约 battleSimulator 参数经正式 parser 解析并隔离：改 state 库不动输入对象",
+          "src/core/project-io.glm-p.test.ts×P01-G02 toEditorState 投影契约 poisons 数组与 loader 源共享引用（直传），sceneIndex 则是 clone 隔离",
+          "src/core/project-io.glm-p.test.ts×P01-G03 diffFiles 纯核 computedSignatures 记录每个 next 条目（字符串+二进制），write 只列实际变化",
+          "src/core/project-io.glm-p.test.ts×P01-G03 diffFiles 纯核 同长度异字节二进制判变写盘；computedSignatures 缺省时正常返回",
+          "src/core/project-io.glm-p.test.ts×P01-G03 diffFiles 纯核 字符串值按原文比较（copy-through 文本不被 JSON 重序列化）；prev 独有键进 remove",
+          "src/core/project-io.glm-p.test.ts×P01-G04 preflightProjectWriteSet 残余臂 battle-simulator 文件为合法 JSON 字符串 → 预检解析通过；坏 kind 文档拒绝",
+          "src/core/project-io.glm-p.test.ts×P01-G04 preflightProjectWriteSet 残余臂 battle-simulator 文件非 JSON 文本 → 语法错误如实传播，不吞成预检通过",
+          "src/core/project-io.glm-p.test.ts×P01-G04 preflightProjectWriteSet 残余臂 workspace identity 旁车路径出现在 files 或 removePaths → 预检拒绝",
+          "src/core/project-io.glm-p.test.ts×P01-G05 writeProject 受控真实 IO copy 与编辑产物同路径让位：落盘字节为编辑值，copy 不重复写",
+          "src/core/project-io.glm-p.test.ts×P01-G05 writeProject 受控真实 IO copy 撞 removePaths 让位：既不复制也不删除，路径不进快照",
+          "src/core/project-io.glm-p.test.ts×P01-G05 writeProject 受控真实 IO directories 声明在首存目标创建真实目录；写后快照不含目录项",
+          "src/core/project-io.glm-p.test.ts×P01-G05 writeProject 受控真实 IO firstSave 目标 copies 缺来源复验 → 拒绝准备保存且目标零写",
+          "src/core/project-io.glm-p.test.ts×P01-G05 writeProject 受控真实 IO manifest 引用表最后 close：项目文件先落盘，manifest 收尾（sidecar 除外）",
+          "src/core/project-io.glm-p.test.ts×P01-G05 writeProject 受控真实 IO 增量保存：prevSnapshot 下只写变化文件，返回快照含全部文件新签名",
+          "src/core/project-io.glm-p.test.ts×P01-G05 writeProject 受控真实 IO 成功提交后本页无恢复意图：resumeOwnProjectSave 返回 null 且不触发 onRecovering",
+          "src/core/project-io.glm-p.test.ts×P01-G05 writeProject 受控真实 IO 进度不提早 100%：commit 前每帧 completed<total，最终恰一帧 completed=total",
+          "src/core/project-io.glm-p.test.ts×P01-G05 writeProject 受控真实 IO 非 firstSave 授权目标携带 copies → 拒绝且零写"
+        ]
+      }
+    }
+  },
+  "oldProbes": {
+    "pendingClean": {
+      "valid": false,
+      "reasons": ["clean:non-passfail-status:pending"],
+      "executed": 24,
+      "identitySet": [
+        "src/core/project-io.glm-p.test.ts×P01-G01 serializeProject 守卫残余 manifest 缺 content.maps 声明 → 序列化层拒绝，不产出无索引工程",
+        "src/core/project-io.glm-p.test.ts×P01-G01 serializeProject 守卫残余 pending 资源未登记 catalog → 序列化层拒绝并指名路径",
+        "src/core/project-io.glm-p.test.ts×P01-G01 serializeProject 守卫残余 两个内容表声明同一路径 → 输出路径冲突 fail-loud 并报出双方 owner",
+        "src/core/project-io.glm-p.test.ts×P01-G01 serializeProject 守卫残余 声明的内容表在 state 缺数组时按空表序列化（enemies 缺省臂）",
+        "src/core/project-io.glm-p.test.ts×P01-G01 serializeProject 守卫残余 有图章模板但 manifest.content.stamps 未登记 → 序列化层 fail-loud，不产出任何文件",
+        "src/core/project-io.glm-p.test.ts×P01-G01 serializeProject 守卫残余 登记图章表后序列化在登记路径产出规范化模板文本，经正式 parser round-trip 等值",
+        "src/core/project-io.glm-p.test.ts×P01-G01 serializeProject 守卫残余 非空战斗模拟器库序列化产出保留路径文件；空库不产出该文件",
+        "src/core/project-io.glm-p.test.ts×P01-G02 toEditorState 投影契约 battleSimulator 参数经正式 parser 解析并隔离：改 state 库不动输入对象",
+        "src/core/project-io.glm-p.test.ts×P01-G02 toEditorState 投影契约 poisons 数组与 loader 源共享引用（直传），sceneIndex 则是 clone 隔离",
+        "src/core/project-io.glm-p.test.ts×P01-G03 diffFiles 纯核 computedSignatures 记录每个 next 条目（字符串+二进制），write 只列实际变化",
+        "src/core/project-io.glm-p.test.ts×P01-G03 diffFiles 纯核 同长度异字节二进制判变写盘；computedSignatures 缺省时正常返回",
+        "src/core/project-io.glm-p.test.ts×P01-G03 diffFiles 纯核 字符串值按原文比较（copy-through 文本不被 JSON 重序列化）；prev 独有键进 remove",
+        "src/core/project-io.glm-p.test.ts×P01-G04 preflightProjectWriteSet 残余臂 battle-simulator 文件为合法 JSON 字符串 → 预检解析通过；坏 kind 文档拒绝",
+        "src/core/project-io.glm-p.test.ts×P01-G04 preflightProjectWriteSet 残余臂 battle-simulator 文件非 JSON 文本 → 语法错误如实传播，不吞成预检通过",
+        "src/core/project-io.glm-p.test.ts×P01-G04 preflightProjectWriteSet 残余臂 workspace identity 旁车路径出现在 files 或 removePaths → 预检拒绝",
+        "src/core/project-io.glm-p.test.ts×P01-G05 writeProject 受控真实 IO copy 与编辑产物同路径让位：落盘字节为编辑值，copy 不重复写",
+        "src/core/project-io.glm-p.test.ts×P01-G05 writeProject 受控真实 IO copy 撞 removePaths 让位：既不复制也不删除，路径不进快照",
+        "src/core/project-io.glm-p.test.ts×P01-G05 writeProject 受控真实 IO directories 声明在首存目标创建真实目录；写后快照不含目录项",
+        "src/core/project-io.glm-p.test.ts×P01-G05 writeProject 受控真实 IO firstSave 目标 copies 缺来源复验 → 拒绝准备保存且目标零写",
+        "src/core/project-io.glm-p.test.ts×P01-G05 writeProject 受控真实 IO manifest 引用表最后 close：项目文件先落盘，manifest 收尾（sidecar 除外）",
+        "src/core/project-io.glm-p.test.ts×P01-G05 writeProject 受控真实 IO 增量保存：prevSnapshot 下只写变化文件，返回快照含全部文件新签名",
+        "src/core/project-io.glm-p.test.ts×P01-G05 writeProject 受控真实 IO 成功提交后本页无恢复意图：resumeOwnProjectSave 返回 null 且不触发 onRecovering",
+        "src/core/project-io.glm-p.test.ts×P01-G05 writeProject 受控真实 IO 进度不提早 100%：commit 前每帧 completed<total，最终恰一帧 completed=total",
+        "src/core/project-io.glm-p.test.ts×P01-G05 writeProject 受控真实 IO 非 firstSave 授权目标携带 copies → 拒绝且零写"
+      ]
+    },
+    "extraCollection": {
+      "valid": false,
+      "reasons": [
+        "mutated:suite-collection-error:src/b.glm-p.test.ts:SyntaxError: broken collection"
+      ],
+      "target": {
+        "fullName": "P01-G01 serializeProject 守卫残余 有图章模板但 manifest.content.stamps 未登记 → 序列化层 fail-loud，不产出任何文件",
+        "message": "AssertionError: expected [Function] to throw an error",
+        "file": "src/core/project-io.glm-p.test.ts"
+      },
+      "failed": [
+        {
+          "fullName": "P01-G01 serializeProject 守卫残余 有图章模板但 manifest.content.stamps 未登记 → 序列化层 fail-loud，不产出任何文件",
+          "status": "failed",
+          "message": "AssertionError: expected [Function] to throw an error",
+          "file": "src/core/project-io.glm-p.test.ts"
+        }
+      ],
+      "executed": 24
+    }
+  },
+  "realHarnessProbe": {
+    "rawFile": "/private/tmp/codex-p-r35-review.Y0SKGH/harness-probe.raw.txt",
+    "jsonFile": "/private/tmp/codex-p-r35-review.Y0SKGH/harness-probe.json",
+    "exitCode": 1,
+    "executed": 1,
+    "failed": 1,
+    "firstLine": "AssertionError: expected 1 to be 2 // Object.is equality",
+    "rawUnhandled": "Vitest caught 1 unhandled error during the test run.",
+    "runtimeErrorCounterPresent": false,
+    "actualReport": {
+      "numTotalTestSuites": 1,
+      "numPassedTestSuites": 0,
+      "numFailedTestSuites": 1,
+      "numPendingTestSuites": 0,
+      "numTotalTests": 1,
+      "numPassedTests": 0,
+      "numFailedTests": 1,
+      "numPendingTests": 0,
+      "numTodoTests": 0,
+      "snapshot": {
+        "added": 0,
+        "failure": false,
+        "filesAdded": 0,
+        "filesRemoved": 0,
+        "filesRemovedList": [],
+        "filesUnmatched": 0,
+        "filesUpdated": 0,
+        "matched": 0,
+        "total": 0,
+        "unchecked": 0,
+        "uncheckedKeysByFile": [],
+        "unmatched": 0,
+        "updated": 0,
+        "didUpdate": false
+      },
+      "startTime": 1790859275451,
+      "success": false,
+      "testResults": [
+        {
+          "assertionResults": [
+            {
+              "ancestorTitles": [],
+              "fullName": "codex target",
+              "status": "failed",
+              "title": "codex target",
+              "duration": 33.679582999999994,
+              "failureMessages": [
+                "AssertionError: expected 1 to be 2 // Object.is equality\n    at /private/tmp/codex-p-r35-review.Y0SKGH/tree/packages/editor/src/__tests__/codex-p-harness-probe.test.ts:6:13\n    at file:///private/tmp/codex-p-r35-review.Y0SKGH/tree/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:20"
+              ],
+              "meta": {},
+              "tags": []
+            }
+          ],
+          "startTime": 1790859275547,
+          "endTime": 1790859275580.6797,
+          "status": "failed",
+          "message": "",
+          "name": "/private/tmp/codex-p-r35-review.Y0SKGH/tree/packages/editor/src/__tests__/codex-p-harness-probe.test.ts"
+        }
+      ]
+    },
+    "rawOutput": "\n RUN  v4.1.7 /private/tmp/codex-p-r35-review.Y0SKGH/tree/packages/editor\n\n ❯ src/__tests__/codex-p-harness-probe.test.ts (1 test | 1 failed) 34ms\n   × codex target 34ms\n\n⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯\n\n FAIL  src/__tests__/codex-p-harness-probe.test.ts > codex target\nAssertionError: expected 1 to be 2 // Object.is equality\n\n- Expected\n+ Received\n\n- 2\n+ 1\n\n ❯ src/__tests__/codex-p-harness-probe.test.ts:6:13\n      4|   Promise.reject(new Error('CODEX_UNHANDLED_REJECTION'))\n      5|   await new Promise((resolve) => setTimeout(resolve, 30))\n      6|   expect(1).toBe(2)\n       |             ^\n      7| })\n      8|\n\n⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯\n\n⎯⎯⎯⎯⎯⎯ Unhandled Errors ⎯⎯⎯⎯⎯⎯\n\nVitest caught 1 unhandled error during the test run.\nThis might cause false positive tests. Resolve unhandled errors to make sure your tests are not affected.\n\n⎯⎯⎯⎯ Unhandled Rejection ⎯⎯⎯⎯⎯\nError: CODEX_UNHANDLED_REJECTION\n ❯ src/__tests__/codex-p-harness-probe.test.ts:4:18\n      2|\n      3| it('codex target', async () => {\n      4|   Promise.reject(new Error('CODEX_UNHANDLED_REJECTION'))\n       |                  ^\n      5|   await new Promise((resolve) => setTimeout(resolve, 30))\n      6|   expect(1).toBe(2)\n ❯ ../../node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n ❯ ../../node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n ❯ ../../node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n ❯ runWithCancel ../../node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10\n ❯ ../../node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n ❯ runWithTimeout ../../node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10\n ❯ ../../node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64\n\nThis error originated in \"src/__tests__/codex-p-harness-probe.test.ts\" test file. It doesn't mean the error was thrown inside the file itself, but while it was running.\nThe latest test that might've caused the error is \"codex target\". It might mean one of the following:\n- The error was thrown, while Vitest was running this test.\n- If the error occurred after the test had been completed, this was the last documented test before it was thrown.\n⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯\n\n\n Test Files  1 failed (1)\n      Tests  1 failed (1)\n     Errors  1 error\n   Start at  21:54:35\n   Duration  124ms (transform 9ms, setup 0ms, import 14ms, tests 34ms, environment 0ms)\n\nJSON report written to /private/tmp/codex-p-r35-review.Y0SKGH/harness-probe.json\nundefined\n/private/tmp/codex-p-r35-review.Y0SKGH/tree/packages/editor:\n ERR_PNPM_RECURSIVE_EXEC_FIRST_FAIL  Command failed with exit code 1: vitest run src/__tests__/codex-p-harness-probe.test.ts --maxWorkers=1 --reporter=default --reporter=json --outputFile=/private/tmp/codex-p-r35-review.Y0SKGH/harness-probe.json\n",
+    "judgeMutant": {
+      "valid": true,
+      "reasons": []
+    },
+    "source": "it('codex target', async () => { Promise.reject(new Error('CODEX_UNHANDLED_REJECTION')); await new Promise(resolve => setTimeout(resolve, 30)); expect(1).toBe(2) })"
+  },
+  "cleanupProbe": {
+    "runner": "unmodified candidate counter.mjs",
+    "id": "CODEX-R35-CLEANUP-PROBE",
+    "expectFullName": "CODEX-WRONG-TARGET",
+    "exitCode": 2,
+    "message": "mutated invalid: wrong-fullName",
+    "leftRegisteredTree": "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-p-counter-CODEX-R35-CLEANUP-PROBE-B8ginS",
+    "observedHead": "bb2ffcb6614a5f48eb5bb0bab671941242f2a00b",
+    "cleanedOnlyOwnProbeTree": true
+  },
+  "provenance": {
+    "r3ToR35Reports": 30,
+    "reportBytesChanged": 30,
+    "startTimesChanged": 30,
+    "identitiesAndStatusesUnchanged": 30,
+    "claimUnresampledNeedsCorrection": true
+  },
+  "browser": {
+    "recordedFlows": 20,
+    "authorProvenFlows": 18,
+    "unproven": ["F14", "F18"],
+    "screenshotHashes": 66,
+    "allMatched": true,
+    "newBrowserOperation": false
+  },
+  "contracts": {
+    "rows": 67,
+    "distinctOracleStrings": 1,
+    "indirectOldAssertionRows": ["P02-G03-02", "P02-G02-05", "P02-G01-02", "P01-G08-02"],
+    "newNovelContractsAccepted": 0,
+    "meaning": "No blanket novelty acceptance; existing G09 deletion retained"
+  },
+  "remaining": {
+    "rawCases": 633,
+    "groups": 56,
+    "counters": 40,
+    "flows": 2,
+    "scopeReductionApproved": false
+  },
+  "artifacts": [
+    {
+      "path": "/private/tmp/codex-p-r35-review.Y0SKGH/editor-full.json",
+      "sha256": "2f43d7dd014736e69f1f2f52507fbbab9083b9a64f8bb11356bf3af65485dad3"
+    },
+    {
+      "path": "/private/tmp/codex-p-r35-review.Y0SKGH/editor-full.log",
+      "sha256": "8774115b6170d2ebe0c08f231bc4d126bb1aace43cd6ef7dfe88b6f501a8cf16"
+    },
+    {
+      "path": "/private/tmp/codex-p-r35-review.Y0SKGH/harness-probe.json",
+      "sha256": "629ad43fc3eefc5d66bb415e9daaa440532bc625b6eaa3f0be29f7f108cd2545"
+    },
+    {
+      "path": "/private/tmp/codex-p-r35-review.Y0SKGH/harness-probe.raw.txt",
+      "sha256": "bc5f6a9cff14490884f9e3f6760bc2133bdb4c449133f4183e5268caf7fb7002"
+    },
+    {
+      "path": "/private/tmp/codex-p-r35-review.Y0SKGH/cleanup-probe.log",
+      "sha256": "b6022f6dff0fbc7000ece519a074b1c9c5abadcc8b3cd8ce2162b26300e87ef6"
+    },
+    {
+      "path": "/private/tmp/codex-p-r35-review.Y0SKGH/typecheck-serial.log",
+      "sha256": "8c09cd435fd8656687639a4b94a0f9c1614626a41c7740872de52445e44c3942"
+    },
+    {
+      "path": "/private/tmp/codex-p-r35-review.Y0SKGH/lint-serial.log",
+      "sha256": "de21eb2cfc127e1ec061a2182e1701cb5af8589a3e1b202c075fdc60a80b2971"
+    },
+    {
+      "path": "/private/tmp/codex-p-r35-review.Y0SKGH/docs-serial.log",
+      "sha256": "aa6465d435ef0a06de49388967afeb9a4a85092ff489a01b13e2aefc26f2ef9d"
+    },
+    {
+      "path": "/private/tmp/codex-p-r35-review.Y0SKGH/verifier-serial.log",
+      "sha256": "20dd5a1cb979e97b4d169d378f0766bc963009731eb6fbe1de4723a946ce7c84"
+    }
+  ],
+  "mainMerged": false,
+  "officialCoverageMeasured": false,
+  "directZcodeOperation": false
+}
