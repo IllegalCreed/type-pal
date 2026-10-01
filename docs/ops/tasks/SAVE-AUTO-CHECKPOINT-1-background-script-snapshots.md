@@ -80,6 +80,31 @@ Branch: codex/e2e-003
 - 历次全仓失败收据保留：缺夹具字段、旧断言、content测试库不含structuredClone已修；第7次并行旧批次编辑器性能例超时后停止该旧批次，不改15秒规则或测试阈值。
   第8次全仓门正在跑；静态/格式/类型门和正式RF001→002→003完成后再记accept，不以这些局部绿例宣布收口。
 
+### 冻结旅程收据（2026-10-01）
+
+- 运行时/作者内容冻结revision：`eea814da3a4547eecf18b15b788fd4ae60ac6919`。
+  随后的`60e18a54d`只补编辑器测试的当前SAVE10文案，未改这些旅程的源码hash。
+- 当前RF001由正常新故事入口重跑：`build/e2e/reforge-001-2026-10-01T13-07-42-593Z/report.json`，passed。
+  当前RF002消费该001真实端档：`build/e2e/reforge-002-2026-10-01T13-09-24-214Z/report.json`，passed；
+  当前RF003消费该002真实端档：`build/e2e/reforge-003-2026-10-01T13-10-13-192Z/report.json`，passed。
+  三份报告errors为空；003前驱source differences为空、source hashes stable为true；原始浏览器warning保留，未声称浏览器零warning。
+- 002实际端档：SAVE10，e56 auto legacy-006 completed/no resume，trigger greet-after-guests，厨房未激活、道士初始观察未执行。
+- 003实际端档：s001(89,46)，money500、inventory空；厨房e19仍有auto default内部resume frame index1，
+  正式跨页面恢复预检/提交/自动续跑均通过，证明真实PAL存在后台续跑快照，不只fixture。
+  两次DEV导出实际耗时5ms/16ms；这是该两次边界观测，不外推为所有自动移动的时延保证。
+- Root直接实看002-end.png和003-end.png：前者三苗人离场，后者厨房李逍遥/李大娘、菜仍在桌上；没有重走流程取重复证据。
+- 第8次全仓门抓出漏改的编辑器“最低存档版本9”期望，修为10后单文件46例全绿；停止已知失败的旧批次，
+  完整第9次`auto-checkpoint-full-check-final.log`正在跑，不降低规则/超时/断言。独立严格lint：2725 files，0error/0warning/0info。
+
+### 循环退出补审（尚未发布）
+
+- 第二遍复核发现until/while的退出选择与父指令推进之间也存在微任务窗口；
+  真实反控`auto-checkpoint-loop-exit-red.log`为1 fail / 15 pass，抓出已经选定退出却仍保存循环body帧。
+- condition选择和下一迭代进入使用同一原子发指令门，退出后才开放快照；
+  `auto-checkpoint-loop-both-green.log`为4 files / 79 pass，until和while退出都不重抽随机条件、不重放7钱。
+- 第9轮全仓（已跑过reforge但未包含这项补审）停止，不冒充最终门；重新冻结后再跑完整全仓和RF001→002→003。
+  上述eea814da3旅程只保留为补审前证据，不用于验收最终运行时。
+
 ## 下一位 Agent 提示词
 
 无下一位 Agent 提示词，Root继续实现与验证，完成后等待用户体验验收。

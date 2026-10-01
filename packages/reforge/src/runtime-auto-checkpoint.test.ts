@@ -118,6 +118,67 @@ test('a save requested between an async gate check and command dispatch cannot b
   expect(f.world.money).toBe(7)
 })
 
+test.each([
+  'until',
+  'while',
+] as const)('a random %s-loop exit is settled before snapshot rather than redrawn on restore', async (mode) => {
+  const chosen = deferred(),
+    release = deferred()
+  let saving: Promise<WorldState> | undefined
+  let choices = 0
+  const f = fixture({
+    random: () => {
+      if (mode === 'while' && ++choices === 1) return 0
+      saving = f.runtime.withSaveBarrier(() => structuredClone(f.world))
+      chosen.resolve()
+      return mode === 'until' ? 0 : 0.99
+    },
+    executeEffect: async (command) => {
+      if (command.kind === 'giveMoney') f.world.money += command.delta
+      if (command.kind === 'wait') await release.promise
+    },
+  })
+  const e = f.scene.entities[0]!
+  e.pages![0]!.auto = 'choose'
+  e.behaviors!.auto = {
+    choose: {
+      label: 'Choose',
+      order: 0,
+      flow: stage([
+        {
+          kind: 'loop',
+          mode,
+          cond: { kind: 'chance', percent: 50 },
+          yield: 'worldTick',
+          maxIterations: 5,
+          body: [{ kind: 'giveMoney', delta: 7 }],
+        },
+        { kind: 'wait', ms: 500_000 },
+      ]),
+    },
+  }
+  const running = f.runtime.runEntityBehavior(f.scene, 'e', 'auto', { signal: f.signal })
+  await chosen.promise
+  const saved = await saving!
+  expect(saved.money).toBe(7)
+  expect(saved.script?.behaviors.entities?.s?.e?.auto?.cursor?.resume?.frames).toEqual([
+    { index: 1 },
+  ])
+  const random = vi.fn(() => 0.99)
+  const restored = new ScriptProjectRuntime({ sharedScripts: {} }, saved, 'c'.repeat(64), {
+    ...f.options,
+    random,
+    executeEffect: (command) => {
+      if (command.kind === 'giveMoney') saved.money += command.delta
+    },
+  })
+  await restored.runEntityBehavior(f.scene, 'e', 'auto', { signal: new AbortController().signal })
+  expect(saved.money).toBe(7)
+  expect(random).not.toHaveBeenCalled()
+  release.resolve()
+  await running
+})
+
 test('nested chance branch, loop and shared call retain decisions and iteration without money/item replay', async () => {
   const parked = deferred(),
     release = deferred()

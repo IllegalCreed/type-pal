@@ -546,13 +546,14 @@ export class ScriptRunnerCore<RuntimeLeafCommand = BaseRuntimeLeafCommand> {
         control.phase = 'test'
       }
       if (control.phase === 'test') {
+        await this.beginCheckpointMutation()
         if (command.mode === 'until' && condition()) return
         control.phase = 'next'
       }
       this.checkpoint(true)
       await this.host.waitWorldTick(this.signal)
       throwIfAborted(this.signal)
-      await this.checkpointGate()
+      await this.beginCheckpointMutation()
       if (command.mode === 'while' && !condition()) return
       if (control.iteration >= command.maxIterations)
         throw new Error(`ScriptRunnerCore: loop 超过 maxIterations=${command.maxIterations}`)
