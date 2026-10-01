@@ -7,22 +7,22 @@
   },
   "control": {
     "exitCode": 0,
-    "executed": 10,
-    "passed": 10,
+    "executed": 9,
+    "passed": 9,
     "failed": 0
   },
   "injected": {
     "exitCode": 1,
-    "executed": 10,
-    "passed": 9,
+    "executed": 9,
+    "passed": 8,
     "failed": 1,
     "failedFullName": "O08 复合链顺序与 gate 显式阈值 gate 显式 chance=50：rng 命中（roll<50）放行后续 healHp",
     "failureMessageHead": "AssertionError: expected 'failure' to be 'success' // Object.is equality"
   },
   "restored": {
     "exitCode": 0,
-    "executed": 10,
-    "passed": 10,
+    "executed": 9,
+    "passed": 9,
     "failed": 0
   },
   "hashes": {

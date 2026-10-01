@@ -7,22 +7,22 @@
   },
   "control": {
     "exitCode": 0,
-    "executed": 8,
-    "passed": 8,
+    "executed": 7,
+    "passed": 7,
     "failed": 0
   },
   "injected": {
     "exitCode": 1,
-    "executed": 8,
-    "passed": 7,
+    "executed": 7,
+    "passed": 6,
     "failed": 1,
     "failedFullName": "O09 validateAssetCatalog：kind/origin/路径轴 origin legacy-migrated 前缀不符拒绝；authored 前缀合法",
     "failureMessageHead": "AssertionError: expected [Function] to throw an error"
   },
   "restored": {
     "exitCode": 0,
-    "executed": 8,
-    "passed": 8,
+    "executed": 7,
+    "passed": 7,
     "failed": 0
   },
   "hashes": {

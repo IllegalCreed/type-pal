@@ -7,22 +7,22 @@
   },
   "control": {
     "exitCode": 0,
-    "executed": 10,
-    "passed": 10,
+    "executed": 9,
+    "passed": 9,
     "failed": 0
   },
   "injected": {
     "exitCode": 1,
-    "executed": 10,
-    "passed": 9,
+    "executed": 9,
+    "passed": 8,
     "failed": 1,
     "failedFullName": "O08 healHp/healMp：钳位与死亡跳过 healMp：加 MP 钳 maxMP（30+40 → maxMP 50）",
     "failureMessageHead": "AssertionError: expected 30 to be 50 // Object.is equality"
   },
   "restored": {
     "exitCode": 0,
-    "executed": 10,
-    "passed": 10,
+    "executed": 9,
+    "passed": 9,
     "failed": 0
   },
   "hashes": {

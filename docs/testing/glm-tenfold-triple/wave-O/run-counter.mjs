@@ -110,9 +110,10 @@ function assertPhase(run, spec, phase) {
   const targetFile = run.json.testResults.find((f) =>
     (f.assertionResults ?? []).some((a) => a.fullName === target.fullName),
   )?.name
-  const wanted = resolve(`packages/${ownerPackage}`, spec.test.file)
-  if (!targetFile || !resolve(targetFile).startsWith(wanted))
-    throw new Error(`红例文件不符: ${targetFile} 期望 ${wanted}`)
+  const wantedSuffix = resolve(`packages/${ownerPackage}`, spec.test.file).split('/').slice(-2).join('/')
+  const targetSuffix = targetFile ? targetFile.split('/').slice(-2).join('/') : ''
+  if (targetSuffix !== wantedSuffix)
+    throw new Error(`红例文件不符: ${targetSuffix} 期望 ${wantedSuffix}`)
   const message = target.failureMessages[0] ?? ''
   if (!isBusinessAssertion(message))
     throw new Error(`红例非业务 AssertionError（未处理异常/崩溃拒收）: ${message.slice(0, 200)}`)

@@ -7,22 +7,22 @@
   },
   "control": {
     "exitCode": 0,
-    "executed": 8,
-    "passed": 8,
+    "executed": 7,
+    "passed": 7,
     "failed": 0
   },
   "injected": {
     "exitCode": 1,
-    "executed": 8,
-    "passed": 7,
+    "executed": 7,
+    "passed": 6,
     "failed": 1,
     "failedFullName": "O08 preflightWorldItemUse（经 resolveWorldItemUse 透传）：reason 轴 wrong-context：battleOnly 用途不进世界执行器",
     "failureMessageHead": "AssertionError: expected { status: 'success', …(6) } to match object { status: 'failure', …(1) }"
   },
   "restored": {
     "exitCode": 0,
-    "executed": 8,
-    "passed": 8,
+    "executed": 7,
+    "passed": 7,
     "failed": 0
   },
   "hashes": {

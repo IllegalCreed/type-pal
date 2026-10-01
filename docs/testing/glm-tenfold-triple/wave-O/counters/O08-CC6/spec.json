@@ -4,7 +4,7 @@
   "package": "content",
   "test": {
     "file": "src/item-effects.glm-o.test.ts",
-    "title": "分子/分母截断（trunc）与 0/上限钳位"
+    "title": "scaleCurrentHp trunc 截断（99→49）与满血减半（100→50）"
   },
   "mutation": {
     "file": "src/item.ts",

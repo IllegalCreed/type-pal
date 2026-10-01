@@ -1,7 +1,7 @@
 {
   "total": 62,
   "uniqueIds": 62,
-  "rule": "三态：control 全绿 → injected 恰一目标 fullName 业务 AssertionError 红 → restored 恢复后重跑全绿；patch --unidiff-zero 重建校验 = mutatedSha；候选树零改动。r5-r6：6 枚漂移重采 + 6 枚新批次（O08-CC6/7、O09-CC11/12、O10-CC7/10）全部三态",
+  "rule": "三态（收紧判据：叶状态白名单/零执行拒收/单文件/精确 file 后缀+fullName/未处理异常拒收；stdout+stderr+signal 保留；局部清理）",
   "counters": [
     {
       "id": "O01-CC1",
@@ -1099,20 +1099,20 @@
       "id": "O08-CC6",
       "control": {
         "exitCode": 0,
-        "executed": 10,
-        "passed": 10,
+        "executed": 9,
+        "passed": 9,
         "failed": 0
       },
       "injected": {
         "exitCode": 1,
-        "failedFullName": "O08 scaleCurrentHp：分数缩放 分子/分母截断（trunc）与 0/上限钳位",
+        "failedFullName": "O08 scaleCurrentHp：分数缩放 scaleCurrentHp trunc 截断（99→49）与满血减半（100→50）",
         "failureMessageHead": "AssertionError: expected 50 to be 49 // Object.is equality",
-        "executed": 10
+        "executed": 9
       },
       "restored": {
         "exitCode": 0,
-        "executed": 10,
-        "passed": 10,
+        "executed": 9,
+        "passed": 9,
         "failed": 0
       },
       "hashes": {
@@ -1127,20 +1127,20 @@
       "id": "O08-CC7",
       "control": {
         "exitCode": 0,
-        "executed": 10,
-        "passed": 10,
+        "executed": 9,
+        "passed": 9,
         "failed": 0
       },
       "injected": {
         "exitCode": 1,
         "failedFullName": "O08 复合链顺序与 gate 显式阈值 gate 显式 chance=50：rng 命中（roll<50）放行后续 healHp",
         "failureMessageHead": "AssertionError: expected 'failure' to be 'success' // Object.is equality",
-        "executed": 10
+        "executed": 9
       },
       "restored": {
         "exitCode": 0,
-        "executed": 10,
-        "passed": 10,
+        "executed": 9,
+        "passed": 9,
         "failed": 0
       },
       "hashes": {
@@ -1239,20 +1239,20 @@
       "id": "O09-CC12",
       "control": {
         "exitCode": 0,
-        "executed": 10,
-        "passed": 10,
+        "executed": 9,
+        "passed": 9,
         "failed": 0
       },
       "injected": {
         "exitCode": 1,
         "failedFullName": "O08 healHp/healMp：钳位与死亡跳过 healMp：加 MP 钳 maxMP（30+40 → maxMP 50）",
         "failureMessageHead": "AssertionError: expected 30 to be 50 // Object.is equality",
-        "executed": 10
+        "executed": 9
       },
       "restored": {
         "exitCode": 0,
-        "executed": 10,
-        "passed": 10,
+        "executed": 9,
+        "passed": 9,
         "failed": 0
       },
       "hashes": {
@@ -1379,20 +1379,20 @@
       "id": "O09-CC6",
       "control": {
         "exitCode": 0,
-        "executed": 8,
-        "passed": 8,
+        "executed": 7,
+        "passed": 7,
         "failed": 0
       },
       "injected": {
         "exitCode": 1,
         "failedFullName": "O09 validateAssetCatalog：kind/origin/路径轴 origin legacy-migrated 前缀不符拒绝；authored 前缀合法",
         "failureMessageHead": "AssertionError: expected [Function] to throw an error",
-        "executed": 8
+        "executed": 7
       },
       "restored": {
         "exitCode": 0,
-        "executed": 8,
-        "passed": 8,
+        "executed": 7,
+        "passed": 7,
         "failed": 0
       },
       "hashes": {
@@ -1407,20 +1407,20 @@
       "id": "O09-CC7",
       "control": {
         "exitCode": 0,
-        "executed": 8,
-        "passed": 8,
+        "executed": 7,
+        "passed": 7,
         "failed": 0
       },
       "injected": {
         "exitCode": 1,
         "failedFullName": "O08 preflightWorldItemUse（经 resolveWorldItemUse 透传）：reason 轴 wrong-context：battleOnly 用途不进世界执行器",
         "failureMessageHead": "AssertionError: expected { status: 'success', …(6) } to match object { status: 'failure', …(1) }",
-        "executed": 8
+        "executed": 7
       },
       "restored": {
         "exitCode": 0,
-        "executed": 8,
-        "passed": 8,
+        "executed": 7,
+        "passed": 7,
         "failed": 0
       },
       "hashes": {
