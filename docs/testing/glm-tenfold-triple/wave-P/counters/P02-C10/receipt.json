@@ -5,7 +5,7 @@
   "replaceText": "      {false && sharedDisabledReason ? (",
   "testSpec": "src/ui/LayerStackControls.glm-p.test.tsx",
   "expectFullname": "P02-G02 LayerStackControls 禁用原因残余 add/delete 同因 → 只渲染一段共享原因",
-  "candidateHead": "48ade197eb508273168f62384141f8d1dde854ec",
+  "candidateHead": "bb2ffcb6614a5f48eb5bb0bab671941242f2a00b",
   "productSha256Candidate": "222f49b4543e57fc7a2e5ac90ecf4958df7bd8cbcedbe2d6bf5b5d489539c65e",
   "patch": "--- a/packages/editor/src/ui/LayerStackControls.tsx\n+++ b/packages/editor/src/ui/LayerStackControls.tsx\n@@ -145,7 +145,7 @@\n           />\n         </DsActionGroup>\n       </div>\n-      {sharedDisabledReason ? (\n+      {false && sharedDisabledReason ? (\n         <p className=\"layer-stack-disabled-reason\" id={addReasonId}>\n           {sharedDisabledReason}\n         </p>\n",
   "positive": {

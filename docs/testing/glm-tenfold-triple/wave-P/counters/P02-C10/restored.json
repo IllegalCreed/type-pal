@@ -24,7 +24,7 @@
     "updated": 0,
     "didUpdate": false
   },
-  "startTime": 1790858354349,
+  "startTime": 1790860950170,
   "success": true,
   "testResults": [
     {
@@ -34,7 +34,7 @@
           "fullName": "P02-G02 LayerPaintContext 聚焦与显示高度 默认「聚焦当前」；点击后 aria-pressed 翻转并显示「只看当前」",
           "status": "passed",
           "title": "默认「聚焦当前」；点击后 aria-pressed 翻转并显示「只看当前」",
-          "duration": 19.90691700000002,
+          "duration": 29.696249999999964,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -44,7 +44,7 @@
           "fullName": "P02-G02 LayerPaintContext 聚焦与显示高度 显示高度滑杆按整数步进回调，output 实时显示当前值",
           "status": "passed",
           "title": "显示高度滑杆按整数步进回调，output 实时显示当前值",
-          "duration": 3.670833000000016,
+          "duration": 5.517832999999996,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -54,7 +54,7 @@
           "fullName": "P02-G02 LayerStackControls 禁用原因残余 addDisabledReason：新增按钮禁用并渲染原因段",
           "status": "passed",
           "title": "addDisabledReason：新增按钮禁用并渲染原因段",
-          "duration": 8.326167000000055,
+          "duration": 10.800459000000046,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -64,7 +64,7 @@
           "fullName": "P02-G02 LayerStackControls 禁用原因残余 最小层规则：删除按钮禁用并出现规则 HelpTip，但不渲染删除原因段",
           "status": "passed",
           "title": "最小层规则：删除按钮禁用并出现规则 HelpTip，但不渲染删除原因段",
-          "duration": 5.685041999999953,
+          "duration": 9.936249999999973,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -74,17 +74,17 @@
           "fullName": "P02-G02 LayerStackControls 禁用原因残余 add/delete 同因 → 只渲染一段共享原因",
           "status": "passed",
           "title": "add/delete 同因 → 只渲染一段共享原因",
-          "duration": 7.885459000000083,
+          "duration": 13.649249999999938,
           "failureMessages": [],
           "meta": {},
           "tags": []
         }
       ],
-      "startTime": 1790858354911,
-      "endTime": 1790858354956.8855,
+      "startTime": 1790860951183,
+      "endTime": 1790860951252.6492,
       "status": "passed",
       "message": "",
-      "name": "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-p-counter-P02-C10-x1I1Q2/packages/editor/src/ui/LayerStackControls.glm-p.test.tsx"
+      "name": "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-p-counter-P02-C10-XBHgyt/packages/editor/src/ui/LayerStackControls.glm-p.test.tsx"
     }
   ]
 }

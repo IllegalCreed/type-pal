@@ -160,7 +160,10 @@ export const anchors = {
     old: 'editor-asset-reader 由 UI 测试经 assetBase 间接消费',
     axis: '未知 AssetId 拒绝指名为直读新轴',
   },
-  'P01-G08-02': { old: '同上', axis: '期望 kind 与实际不符报双 kind 为新轴' },
+  'P01-G08-02': {
+    old: 'editor-asset-reader 由 UI 测试经 assetBase 间接消费（PreviewCanvas.glm-ui-wave.test.tsx 的 record/kind 路径）；无旧直读 fullName',
+    axis: '期望 kind 与实际不符报双 kind 为新轴',
+  },
   'P01-G08-03': {
     old: 'save-preflight-boundaries P05 已证 pending blob 落盘',
     axis: 'readBytes 的 pending 覆盖与副本语义为新轴',
@@ -194,7 +197,10 @@ export const anchors = {
     old: 'MapSelectionInspector.glm-l.test.tsx 135 已证高度 alert 与空输入清错',
     axis: '活动层隐藏警告文案为新轴',
   },
-  'P02-G01-02': { old: '同上 glm-l 已证高度校验', axis: '活动层锁定警告文案为新轴' },
+  'P02-G01-02': {
+    old: 'MapSelectionInspector.glm-l.test.tsx › L01 selection inspector gaps › 高度字段的非整数输入走 alert 校验，空输入只清错误不提交（已证高度校验）',
+    axis: '活动层锁定警告文案为新轴',
+  },
   'P02-G01-03': {
     old: 'glm-l 已证三通道清空 patch',
     axis: '选区命中隐藏层成员警告（按层计数）为新轴',
@@ -232,12 +238,18 @@ export const anchors = {
     old: 'MapMode.test.tsx 已证最小层删除规则',
     axis: '最小层规则 HelpTip 与原因段抑制关系为新轴',
   },
-  'P02-G02-05': { old: '同上', axis: 'add/delete 同因共享单段（false 条件 r3 反控针）为新轴' },
+  'P02-G02-05': {
+    old: 'MapMode.test.tsx › [reorder-family:layer-stack] 反向图层栈经 handle 单命令排序并可 undo/redo 与 图层动作组上移按稳定 ID 只派发一条 MoveProjectMapLayerCommand（已证图层管理主链）；原因段渲染无旧 fullName',
+    axis: 'add/delete 同因共享单段（false 条件 r3 反控针）为新轴',
+  },
   'P02-G03-01': {
     old: 'MapMode.test.tsx 700 已证笔刷面积托盘点选',
     axis: '触发器 ArrowDown/Enter 开盘+aria-expanded 相位为新轴',
   },
-  'P02-G03-02': { old: '同上', axis: '托盘 Escape 关盘回焦触发器为新轴' },
+  'P02-G03-02': {
+    old: 'MapMode.test.tsx › 笔刷面积用横向图标托盘选择并按 2 × 2 一笔写入（已证托盘点选主链）；Escape 臂无旧 fullName',
+    axis: '托盘 Escape 关盘回焦触发器为新轴',
+  },
   'P02-G03-03': {
     old: 'glm-leaf-wave select.test 已证通用 select 键盘',
     axis: '托盘 Home/End/ArrowLeft/Right 相对移焦为新轴',

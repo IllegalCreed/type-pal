@@ -16,15 +16,17 @@
     "countersExactlyOneRed": 10,
     "browserFlowsRecorded": 20,
     "browserFlowsFullyProven": 18,
-    "browserScreenshots": 55,
+    "browserScreenshots": 66,
     "target": "700/70组/50反控/20流程（不缩）"
   },
   "reworkClosures": {
-    "P-R2-01": "counter.mjs 重写：diff -u 真实 patch + git apply 实测（应用后逐字节等于变异内容）；judge 抽出 counter-judge.mjs（恰一红+file/fullName 逐字匹配+拒收多红/错目标/skipped/超时/环境红/执行集漂移），自测 10/10；10 枚反控全部重跑，mutated.json 直读全部 numFailedTests=1",
-    "P-R2-02": "G09 三条重复分类断言删除（70→67）；contracts.json 逐合同真实旧断言锚点（contracts-anchors.mjs，67 条）",
-    "P-R2-03": "F02/F06/F09/F13/F15 相位实动补齐（含像素校验和、截图字节差分、tileId 真实失败恢复、撤销命令名标签）；F14 创建战场无撤销条目、F18 375px 导航下拉未展开——两条如实登记未证，18/20 完整证明",
-    "verifier": "lab 运行工程迁出 /tmp/glm-p-lab-isolated（配方 browser/lab-project.md），完整 verifier exit 0",
-    "P-R2-01-r3.5": "judge 收紧（完整 file×fullName 身份集合/逐条 passed/收集与运行错误/signal-spawn 分开；恢复相同一 judge）；自测 14/14 含预审四反例+signal/spawn；runner mkdtemp+finally 局部回收无全局 prune；counters.json 索引自最终 receipt 重建并逐项验证 apply+hash；十针业务证据未变未重采"
+    "P-R2-01": "counter.mjs diff -u patch + git apply 实测；judge 恰一红+目标逐字匹配；10 枚重跑 numFailedTests=1",
+    "P-R2-02": "G09 三条重复分类断言删除；contracts 真锚点",
+    "P-R2-01-r3.5": "judge 收紧（完整 file×fullName 身份集合/逐条 passed/收集与运行错误/signal-spawn 分开）；恢复相同一 judge；runner mkdtemp+finally 局部回收无全局 prune",
+    "P-R35-01": "judgeMutant 增 expectedIdentitySet（完整多重身份比对）与 rawOutput 扫描（Vitest caught unhandled/CODEX_UNHANDLED_REJECTION——该版本 JSON 无 runtime 计数字段）；无效退出（负值/未知）拒收；runner 传 positive 身份集与 raw。自测 19/19 含身份一致正例",
+    "P-R35-02": "die(process.exit) 改 throw+外层 catch 设 exitCode；建树/依赖复制移入 try；finally 只回收本次 mkdtemp 树（CLEANUP-PROBE 实测 wrong-fullName 拒收后零泄漏、processExitCode=2）",
+    "P-R35-03": "新增 browser/README.md 目录索引与父 README 导航；630→633；自测 10→14→19；截图 55→66；三态重采来源登记 receipt.threeStateProvenance；测试/工具/docs-only 锚独立登记 anchors 字段",
+    "P-R35-04": "contracts.json oracle=每合同测试源第一条真实断言行（含 file:line，fallback 0 条）；同上锚全部替换为真实旧文件+fullName/断言描述；condition 字段补合法 typed 输入来源"
   },
   "commands": {
     "directedVitest": "67/67 passed（directed-vitest.json 树内实跑）",
@@ -35,7 +37,12 @@
     "verifyTargets": "exit 0（完整含活动树检查，lab 迁出后）",
     "judgeSelfTest": "node --test counter-judge.test.mjs → 10 pass / 0 fail"
   },
-  "notDone": ["P02 剩余暗区", "P03–P10 八批（630 例缺口）", "40 枚反控缺口"],
+  "notDone": [
+    "P02 剩余暗区",
+    "P03–P10 八批（633 例缺口）",
+    "40 枚反控缺口",
+    "F14/F18 完整流程证明"
+  ],
   "sourceSha256": {
     "packages/editor/src/core/project-io.glm-p.test.ts": "28267c1938f90e7241534ef6c6a5a2e6d5c224d3b169f60993e8ffc332dcfd04",
     "packages/editor/src/core/project-diagnostics.glm-p.test.ts": "eb3f2d04455093d906e0a13ad33a4e424ff7acb949d001c558955cd703cd20e6",
@@ -45,5 +52,13 @@
     "packages/editor/src/ui/IsometricEditorToolbar.glm-p.test.tsx": "06be4437064add541fed08b62250ccf7c771dc8a925e4e13378fb09c9fdc6d18",
     "packages/editor/src/__tests__/glm-p/kit.ts": "2d6a0ecffd02d95bde4daad7a1a3c6c90a01236ebdf36402ff10d72fa437dca7",
     "docs/testing/glm-tenfold-triple/wave-P/tools/counter.mjs": "c4a16c06f857eeef6573f6681ab544aa2bdb62bb3461922df87ebc83730a6478"
-  }
+  },
+  "anchors": {
+    "dispatchBase": "8b3ca062953b17a12178f8d1a9e36657971234b1",
+    "productionFreeze": "3ac9a2e2f6aba8a5cc97640c18fef8549d199380",
+    "testCodeAnchor": "5899dae6057d73a852b37617635e823d2e388c58（glm-p 测试代码最后一次改动；其后至 tip 仅 wave-P 证据/工具/文档）",
+    "toolEvidenceAnchor": "5e492fbeaacd2717ad70681f67d1cd150668d479（r3.5 首轮工具收紧）",
+    "finalRemoteCandidate": "推送 tip（receipt 不自引用，见分支远端 HEAD）"
+  },
+  "threeStateProvenance": "r3.5 判据收紧后 10 针全部重采（30 份三态 JSON 的字节与 startTime 相对 48ade 已变；身份/状态/单红口径保持）；属工具判据变更触发的重采，非业务针位变化"
 }

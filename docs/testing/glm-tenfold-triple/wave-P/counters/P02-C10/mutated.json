@@ -24,7 +24,7 @@
     "updated": 0,
     "didUpdate": false
   },
-  "startTime": 1790858353537,
+  "startTime": 1790860948785,
   "success": false,
   "testResults": [
     {
@@ -34,7 +34,7 @@
           "fullName": "P02-G02 LayerPaintContext 聚焦与显示高度 默认「聚焦当前」；点击后 aria-pressed 翻转并显示「只看当前」",
           "status": "passed",
           "title": "默认「聚焦当前」；点击后 aria-pressed 翻转并显示「只看当前」",
-          "duration": 19.84116599999993,
+          "duration": 23.050666000000092,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -44,7 +44,7 @@
           "fullName": "P02-G02 LayerPaintContext 聚焦与显示高度 显示高度滑杆按整数步进回调，output 实时显示当前值",
           "status": "passed",
           "title": "显示高度滑杆按整数步进回调，output 实时显示当前值",
-          "duration": 3.649208000000044,
+          "duration": 4.883167000000071,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -54,7 +54,7 @@
           "fullName": "P02-G02 LayerStackControls 禁用原因残余 addDisabledReason：新增按钮禁用并渲染原因段",
           "status": "passed",
           "title": "addDisabledReason：新增按钮禁用并渲染原因段",
-          "duration": 8.289916000000062,
+          "duration": 10.669125000000008,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -64,7 +64,7 @@
           "fullName": "P02-G02 LayerStackControls 禁用原因残余 最小层规则：删除按钮禁用并出现规则 HelpTip，但不渲染删除原因段",
           "status": "passed",
           "title": "最小层规则：删除按钮禁用并出现规则 HelpTip，但不渲染删除原因段",
-          "duration": 5.619708999999943,
+          "duration": 6.939833999999905,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -74,19 +74,19 @@
           "fullName": "P02-G02 LayerStackControls 禁用原因残余 add/delete 同因 → 只渲染一段共享原因",
           "status": "failed",
           "title": "add/delete 同因 → 只渲染一段共享原因",
-          "duration": 10.290708999999993,
+          "duration": 14.272166999999968,
           "failureMessages": [
-            "AssertionError: expected <p …(2)></p>\n<p …(2)></p> to have a length of 1 but got 2\n    at Proxy.<anonymous> (file:///Users/zhangxu/.codex/worktrees/glm-wave-p-editor-residual/type-pal/node_modules/.pnpm/@vitest+expect@4.1.7/node_modules/@vitest/expect/dist/index.js:1389:20)\n    at Proxy.<anonymous> (file:///Users/zhangxu/.codex/worktrees/glm-wave-p-editor-residual/type-pal/node_modules/.pnpm/@vitest+expect@4.1.7/node_modules/@vitest/expect/dist/index.js:1156:15)\n    at Proxy.methodWrapper (file:///Users/zhangxu/.codex/worktrees/glm-wave-p-editor-residual/type-pal/node_modules/.pnpm/chai@6.2.2/node_modules/chai/index.js:1700:25)\n    at /private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-p-counter-P02-C10-x1I1Q2/packages/editor/src/ui/LayerStackControls.glm-p.test.tsx:126:67\n    at file:///Users/zhangxu/.codex/worktrees/glm-wave-p-editor-residual/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/.codex/worktrees/glm-wave-p-editor-residual/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/.codex/worktrees/glm-wave-p-editor-residual/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/.codex/worktrees/glm-wave-p-editor-residual/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/.codex/worktrees/glm-wave-p-editor-residual/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20"
+            "AssertionError: expected <p …(2)></p>\n<p …(2)></p> to have a length of 1 but got 2\n    at Proxy.<anonymous> (file:///Users/zhangxu/.codex/worktrees/glm-wave-p-editor-residual/type-pal/node_modules/.pnpm/@vitest+expect@4.1.7/node_modules/@vitest/expect/dist/index.js:1389:20)\n    at Proxy.<anonymous> (file:///Users/zhangxu/.codex/worktrees/glm-wave-p-editor-residual/type-pal/node_modules/.pnpm/@vitest+expect@4.1.7/node_modules/@vitest/expect/dist/index.js:1156:15)\n    at Proxy.methodWrapper (file:///Users/zhangxu/.codex/worktrees/glm-wave-p-editor-residual/type-pal/node_modules/.pnpm/chai@6.2.2/node_modules/chai/index.js:1700:25)\n    at /private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-p-counter-P02-C10-XBHgyt/packages/editor/src/ui/LayerStackControls.glm-p.test.tsx:126:67\n    at file:///Users/zhangxu/.codex/worktrees/glm-wave-p-editor-residual/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/.codex/worktrees/glm-wave-p-editor-residual/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/.codex/worktrees/glm-wave-p-editor-residual/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/.codex/worktrees/glm-wave-p-editor-residual/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/.codex/worktrees/glm-wave-p-editor-residual/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20"
           ],
           "meta": {},
           "tags": []
         }
       ],
-      "startTime": 1790858354098,
-      "endTime": 1790858354145.2908,
+      "startTime": 1790860949783,
+      "endTime": 1790860949843.2722,
       "status": "failed",
       "message": "",
-      "name": "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-p-counter-P02-C10-x1I1Q2/packages/editor/src/ui/LayerStackControls.glm-p.test.tsx"
+      "name": "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-p-counter-P02-C10-XBHgyt/packages/editor/src/ui/LayerStackControls.glm-p.test.tsx"
     }
   ]
 }

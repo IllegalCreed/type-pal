@@ -97,9 +97,13 @@ export function judgeClean({
 }
 
 /**
- * 变异相：exit≠0、无 signal/spawn、只允许 passed/failed（无 pending/todo/skipped）、
- * 无收集/运行错误、恰一红、红所在 file×fullName 逐字等于登记目标、断言原文
- * （AssertionError 或其 rejects 序列化形态）、执行数与 positive 一致。
+ * 变异相：有效正常退出（exit>0 才可能是真业务红；负值/未知为无效退出）、
+ * 无 signal/spawn、只允许 passed/failed（无 pending/todo/skipped）、
+ * 无收集/运行错误（含真实未处理异常：runner 传入的 raw 中 Vitest caught
+ * unhandled error 区段——该版本 JSON 不一定有计数字段）、恰一红、
+ * 完整 file×fullName 多重身份集合与 positive 一致（同数量换身份也拒）、
+ * 红所在 file×fullName 逐字等于登记目标、断言原文（AssertionError 或其
+ * rejects 序列化形态）。
  */
 export function judgeMutant({
   exitCode,
@@ -107,19 +111,40 @@ export function judgeMutant({
   targetFile,
   targetFullName,
   positiveExecuted,
+  expectedIdentitySet,
+  rawOutput,
   spawnError,
   signal,
 }) {
-  const { reasons, tests } = commonChecks({ exitCode, json, spawnError, signal, label: 'mutated' })
+  const { reasons, tests } = commonChecks({ json, spawnError, signal, label: 'mutated' })
   const failed = tests.filter((t) => t.status === 'failed')
   const first = failed[0] ?? null
   const target =
     first === null ? null : { fullName: first.fullName, message: first.message, file: first.file }
-  if (exitCode === 0) reasons.push('mutated-exit-0')
+  // 有效正常退出：spawn 成功时 exit 必须为正数业务红；0/负值/未知都非有效退出。
+  if (!spawnError && !signal && !(Number.isInteger(exitCode) && exitCode > 0))
+    reasons.push(`mutated-invalid-exit:${exitCode}`)
   if (failed.length === 0) reasons.push('no-failed')
   if (failed.length > 1) reasons.push(`multi-failed:${failed.length}`)
   if (typeof positiveExecuted === 'number' && tests.length !== positiveExecuted)
     reasons.push(`executed-set-changed:${tests.length}!==${positiveExecuted}`)
+  // 完整多重身份集合：与 positive 逐项比对（同数量换身份即拒）。
+  if (Array.isArray(expectedIdentitySet)) {
+    const actual = identitySetOf(tests)
+    const expected = [...expectedIdentitySet].sort()
+    if (actual.join('\u0000') !== expected.join('\u0000'))
+      reasons.push('mutated:identity-set-mismatch')
+  }
+  // 真实未处理异常/raw harness 区段：该版本 JSON 缺 numRuntimeErrorTestSuites 字段，
+  // 必须扫 runner 实捕获的 raw 输出（不扫业务标题里的 pending/todo 词）。
+  if (typeof rawOutput === 'string') {
+    if (/Vitest caught \d+ unhandled error/i.test(rawOutput))
+      reasons.push('mutated:unhandled-error')
+    if (/CODEX_UNHANDLED_REJECTION|Unhandled Rejection/i.test(rawOutput))
+      reasons.push('mutated:unhandled-rejection')
+    for (const m of rawOutput.matchAll(/Unhandled Error[^\n]*/gi))
+      reasons.push(`mutated:unhandled-error:${m[0].slice(0, 80)}`)
+  }
   if (first !== null) {
     if (target.file !== targetFile) reasons.push(`wrong-file:${target.file}`)
     if (target.fullName !== targetFullName) reasons.push('wrong-fullName')

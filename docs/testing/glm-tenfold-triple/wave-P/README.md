@@ -15,6 +15,8 @@ Owner GLM P；[任务卡](../../../ops/tasks/TEST-GLM-WAVE-P-1-editor-residual-t
 | P-R2-03 相位 | F02（created/undo 相位轮询稳定+新地图消失）、F06（像素校验和 9110598→9584477→9110598 + 截图字节差分）、F09（搜索字节差分 + tileId=-3→alert→合法值恢复的真实失败恢复）、F13（物品 0项→1项→0项）、F15（撤销标签 撤销→撤销：编辑战斗模拟器配置→撤销）已补实；**F14（创建战场无撤销条目）与 F18（375px 导航下拉未展开）如实登记未证**——20 条中 18 条完整证明 |
 | verifier | lab 运行工程迁出至 /tmp/glm-p-lab-isolated（配方见 browser/lab-project.md），完整 verifier exit 0 |
 
+浏览器流程证据目录：[browser/](browser/README.md)（F01–F20 索引与截图对照）。
+
 ## r3.5 预审闭合（对 codex-zcode-pq-preflight-20261001 P-R2-01 未完项）
 
 - **judge 收紧**（counter-judge.mjs）：clean 相逐条 passed（pending/todo/skipped 拒收）、
@@ -28,7 +30,7 @@ Owner GLM P；[任务卡](../../../ops/tasks/TEST-GLM-WAVE-P-1-editor-residual-t
 - **runner**：隔离树 mkdtemp 独占路径；finally 只回收本次树，删除全局 prune。
 - **索引重建**：counters.json 的 patch/三态记录逐条取自最终 per-counter receipt
   （旧索引残留腐坏 patch 已清除），重建时逐项独立验证 git apply + mutant hash。
-  十针业务三态证据与针位未变，未重采。
+  业务针位与单红口径未变；判据收紧后 10 针全部重采（30 份三态 JSON 字节/startTime 相对 48ade 已变，身份与状态保持——来源区分见 receipt.threeStateProvenance）。
 - 门禁：Editor 全包 516 文件 3853 绿、typecheck 0、根 lint 0/0/0、diff-check 净、
   完整 verifier exit 0（lab 在 /tmp/glm-p-lab-isolated，配方 browser/lab-project.md）。
 
@@ -61,7 +63,7 @@ Owner GLM P；[任务卡](../../../ops/tasks/TEST-GLM-WAVE-P-1-editor-residual-t
   维持「已提交」口径）。
 - 证据：browser/**（20 流程 + 55 截图哈希）、directed/contracts/counters 重生成、
   README/receipt 重写。
-- 未完成（如实登记，不缩围）：**P02 剩余与 P03–P10 未开工（630 例缺口）**、
+- 未完成（如实登记，不缩围）：**P02 剩余与 P03–P10 未开工（633 例缺口）**、
   反控 40 枚缺口。单会话上下文不足以完成十倍量级；按卡「缺合法缺口举证申请调整，
   不自行缩围凑数」，请 Codex 据排重账决定续派方式。
 

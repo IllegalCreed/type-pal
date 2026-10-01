@@ -24,7 +24,7 @@
     "updated": 0,
     "didUpdate": false
   },
-  "startTime": 1790858306298,
+  "startTime": 1790860911160,
   "success": true,
   "testResults": [
     {
@@ -34,7 +34,7 @@
           "fullName": "P02-G02 LayerPaintContext 聚焦与显示高度 默认「聚焦当前」；点击后 aria-pressed 翻转并显示「只看当前」",
           "status": "passed",
           "title": "默认「聚焦当前」；点击后 aria-pressed 翻转并显示「只看当前」",
-          "duration": 20.313958999999954,
+          "duration": 27.527417000000014,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -44,7 +44,7 @@
           "fullName": "P02-G02 LayerPaintContext 聚焦与显示高度 显示高度滑杆按整数步进回调，output 实时显示当前值",
           "status": "passed",
           "title": "显示高度滑杆按整数步进回调，output 实时显示当前值",
-          "duration": 3.723875000000021,
+          "duration": 6.213792000000012,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -54,7 +54,7 @@
           "fullName": "P02-G02 LayerStackControls 禁用原因残余 addDisabledReason：新增按钮禁用并渲染原因段",
           "status": "passed",
           "title": "addDisabledReason：新增按钮禁用并渲染原因段",
-          "duration": 8.42720799999995,
+          "duration": 13.530457999999953,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -64,7 +64,7 @@
           "fullName": "P02-G02 LayerStackControls 禁用原因残余 最小层规则：删除按钮禁用并出现规则 HelpTip，但不渲染删除原因段",
           "status": "passed",
           "title": "最小层规则：删除按钮禁用并出现规则 HelpTip，但不渲染删除原因段",
-          "duration": 5.7476669999999785,
+          "duration": 8.986458999999968,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -74,14 +74,14 @@
           "fullName": "P02-G02 LayerStackControls 禁用原因残余 add/delete 同因 → 只渲染一段共享原因",
           "status": "passed",
           "title": "add/delete 同因 → 只渲染一段共享原因",
-          "duration": 8.131291999999917,
+          "duration": 11.07858299999998,
           "failureMessages": [],
           "meta": {},
           "tags": []
         }
       ],
-      "startTime": 1790858306899,
-      "endTime": 1790858306945.1313,
+      "startTime": 1790860912084,
+      "endTime": 1790860912152.0786,
       "status": "passed",
       "message": "",
       "name": "/Users/zhangxu/.codex/worktrees/glm-wave-p-editor-residual/type-pal/packages/editor/src/ui/LayerStackControls.glm-p.test.tsx"

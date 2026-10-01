@@ -5,7 +5,7 @@
   "replaceText": "  if (false && !content.stamps && state.stamps.length > 0)",
   "testSpec": "src/core/project-io.glm-p.test.ts",
   "expectFullname": "P01-G01 serializeProject 守卫残余 有图章模板但 manifest.content.stamps 未登记 → 序列化层 fail-loud，不产出任何文件",
-  "candidateHead": "48ade197eb508273168f62384141f8d1dde854ec",
+  "candidateHead": "bb2ffcb6614a5f48eb5bb0bab671941242f2a00b",
   "productSha256Candidate": "4c174323077084265b0dbfcf1338787bf55d7bc45f2a41b3ab64ce3dbcf7b87e",
   "patch": "--- a/packages/editor/src/core/project-io.ts\n+++ b/packages/editor/src/core/project-io.ts\n@@ -283,7 +283,7 @@\n   const content = state.manifest.content\n   if (!content.worldVariables)\n     throw new Error('serializeProject: 当前项目缺 manifest.content.worldVariables')\n-  if (!content.stamps && state.stamps.length > 0)\n+  if (false && !content.stamps && state.stamps.length > 0)\n     throw new Error('serializeProject: 项目有图章模板但 manifest.content.stamps 未登记')\n \n   // content20:SceneIndex 是唯一发现/名称/路径真值；正文必须先于 index 写出。\n",
   "positive": {

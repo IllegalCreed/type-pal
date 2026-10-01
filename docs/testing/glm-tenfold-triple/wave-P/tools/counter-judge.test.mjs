@@ -236,3 +236,97 @@ test('skipped/todo → mutant 拒收', () => {
   assert.equal(r.valid, false)
   assert.ok(r.reasons.some((x) => x.startsWith('mutated:non-passfail-status:skipped')))
 })
+
+// ---------- r3.5 复核补充：mutant 身份集、真实未处理异常、无效退出 ----------
+
+test('复核R35-01：mutant 同数量换身份（passed 邻居换 fullName）→ 拒收', () => {
+  const r = judgeMutant({
+    exitCode: 1,
+    targetFile: 'src/a.glm-p.test.ts',
+    targetFullName: 'target',
+    positiveExecuted: 2,
+    expectedIdentitySet: ['src/a.glm-p.test.ts×target', 'src/a.glm-p.test.ts×neighbor-orig'],
+    json: {
+      testResults: [
+        file('src/a.glm-p.test.ts', 'failed', 'AssertionError: boom'),
+        file('src/a.glm-p.test.ts', 'passed'), // fullName 仍是文件名 → 身份不同
+      ],
+    },
+  })
+  assert.equal(r.valid, false)
+  assert.ok(r.reasons.includes('mutated:identity-set-mismatch'))
+})
+
+test('复核R35-01：mutant 完整身份一致 → 通过身份轴', () => {
+  const r = judgeMutant({
+    exitCode: 1,
+    targetFile: 'src/a.glm-p.test.ts',
+    targetFullName: 'target',
+    positiveExecuted: 2,
+    expectedIdentitySet: ['src/a.glm-p.test.ts×target', 'src/a.glm-p.test.ts×neighbor'],
+    json: {
+      testResults: [
+        {
+          name: '/repo/packages/editor/src/a.glm-p.test.ts',
+          assertionResults: [
+            { fullName: 'target', status: 'failed', failureMessages: ['AssertionError: boom'] },
+          ],
+        },
+        {
+          name: '/repo/packages/editor/src/a.glm-p.test.ts',
+          assertionResults: [{ fullName: 'neighbor', status: 'passed', failureMessages: [] }],
+        },
+      ],
+    },
+  })
+  assert.equal(r.valid, true)
+})
+
+test('复核R35-01：真实未处理异常（raw Vitest caught + 无 runtime 计数字段）→ 拒收', () => {
+  const raw = 'Vitest caught 1 unhandled error during the test run.\nCODEX_UNHANDLED_REJECTION'
+  const r = judgeMutant({
+    exitCode: 1,
+    targetFile: 'src/a.glm-p.test.ts',
+    targetFullName: 'target',
+    positiveExecuted: 1,
+    expectedIdentitySet: ['src/a.glm-p.test.ts×target'],
+    rawOutput: raw,
+    json: { testResults: [file('src/a.glm-p.test.ts', 'failed', 'AssertionError: boom')] },
+  })
+  assert.equal(r.valid, false)
+  assert.ok(r.reasons.includes('mutated:unhandled-error'))
+  assert.ok(r.reasons.includes('mutated:unhandled-rejection'))
+})
+
+test('复核R35-01：无效退出（exit=-1 spawn 失败形态）→ 拒收', () => {
+  const r = judgeMutant({
+    exitCode: -1,
+    targetFile: 'src/a.glm-p.test.ts',
+    targetFullName: 'target',
+    positiveExecuted: 1,
+    json: { testResults: [file('src/a.glm-p.test.ts', 'failed', 'AssertionError: boom')] },
+  })
+  assert.equal(r.valid, false)
+  assert.ok(r.reasons.includes('mutated-invalid-exit:-1'))
+})
+
+test('复核：业务红 message 里的 rejects 前缀不因 raw harness 扫描误杀', () => {
+  const r = judgeMutant({
+    exitCode: 1,
+    targetFile: 'src/a.glm-p.test.ts',
+    targetFullName: 'target',
+    positiveExecuted: 1,
+    rawOutput: 'clean stdout',
+    json: {
+      testResults: [
+        {
+          name: '/repo/packages/editor/src/a.glm-p.test.ts',
+          assertionResults: [
+            { fullName: 'target', status: 'failed', failureMessages: [rejectsRed] },
+          ],
+        },
+      ],
+    },
+  })
+  assert.equal(r.valid, true)
+})
