@@ -1744,10 +1744,16 @@ describe('CanonicalScriptEditor author presentation', () => {
     expect(detailsBody.querySelector('.canonical-modal-context')).toBeNull()
     expect(detailsBody.querySelector('.canonical-stage-delete-area')).toBeNull()
     expect(
-      [...detailsBody.querySelectorAll('.canonical-dialog-field-heading')].map(
-        (heading) => heading.querySelector(':scope > strong, :scope > label')?.textContent,
+      [...detailsBody.querySelectorAll('.canonical-flow-setting')].map(
+        (setting) =>
+          setting.querySelector(
+            ':scope > .canonical-dialog-field-heading > strong, :scope > .canonical-dialog-field-heading > label, :scope > .ds-field .ds-field__label',
+          )?.textContent,
       ),
     ).toEqual(['步骤名称', '起始步骤', '下次运行'])
+    expect(detailsBody.querySelector('.ds-field__label')?.getAttribute('for')).toBe(
+      detailsBody.querySelector('input[aria-label="步骤名称"]')?.id,
+    )
     expect(detailsFooter.firstElementChild?.textContent).toContain('删除步骤')
     expect(detailsFooter.querySelector('.spacer')).not.toBeNull()
     expect(detailsFooter.textContent).toContain('关闭')
