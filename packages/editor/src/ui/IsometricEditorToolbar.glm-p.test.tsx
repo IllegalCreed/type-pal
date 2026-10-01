@@ -67,7 +67,7 @@ const key = (element: Element, key: string): Promise<void> =>
   })
 
 describe('P02-G03 工具选项托盘键盘合同', () => {
-  test('触发器 ArrowDown/Enter/空格 开盘；点击选项提交 brush 尺寸', async () => {
+  test('触发器 ArrowDown/Enter 开盘；点击选项提交 brush 尺寸（空格键未在本例断言，不主张）', async () => {
     const onBrushSizeChange = vi.fn()
     renderToolbar({ onBrushSizeChange })
     const trigger = brushTrigger()
