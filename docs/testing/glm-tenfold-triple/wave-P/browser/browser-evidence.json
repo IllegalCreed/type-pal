@@ -1,0 +1,400 @@
+{
+  "generatedFrom": "browser/flows.json + 目录截图实算 SHA256",
+  "flowCount": 20,
+  "flows": [
+    {
+      "id": "F01",
+      "name": "启动相位差：?picker 强制启动屏 → dev 自动载入 glm-p-lab 编辑器就绪",
+      "result": "picker→editor 相位差成立",
+      "console": {
+        "note": "两相均零 console/页面错误"
+      }
+    },
+    {
+      "id": "F02",
+      "name": "地图目录：新建地图→撤销精确移除→重做恢复（toolbar 按钮）",
+      "result": "新建/撤销/重做三相位成立（目录张数 2 张→1 张→2 张→撤销回 1 张 基线）",
+      "phaseEvidence": {
+        "redoState": "2 张",
+        "undoneState": "1 张",
+        "redo2State": "2 张",
+        "cleanBaseline": "1 张"
+      },
+      "console": {
+        "error": [],
+        "log": [],
+        "pageError": [],
+        "rejection": [],
+        "warn": []
+      }
+    },
+    {
+      "id": "F03",
+      "name": "场景目录：新建场景（对话框表单）→目录计数→撤销",
+      "result": "场景数 1 个→2 个→1 个 成立（对话框表单创建路径）",
+      "phaseEvidence": {
+        "base": "1 个",
+        "created": "2 个",
+        "undone": "1 个"
+      },
+      "console": {
+        "error": [],
+        "log": [],
+        "pageError": [],
+        "rejection": [],
+        "warn": []
+      }
+    },
+    {
+      "id": "F04",
+      "name": "场景重命名：改名 blur 提交 → 撤销恢复原名（空白名输入为被接受的观察，字段无拒绝合同）",
+      "result": "改名提交与撤销恢复成立；空白名在该字段未观察到拒绝（如实登记）",
+      "phaseEvidence": {
+        "originalName": "起始场景",
+        "blankResult": "{\"value\":\"   \",\"alert\":null}",
+        "renameResult": "{\"value\":\"起始场景B\",\"alert\":null}",
+        "restoredByUndo": "起始场景"
+      },
+      "console": {
+        "error": [],
+        "log": [],
+        "pageError": [],
+        "rejection": [],
+        "warn": []
+      }
+    },
+    {
+      "id": "F05",
+      "name": "场景落点：新建命名落点（按钮直创建并选中）→ 撤销移除",
+      "result": "落点数 2→1 成立（无对话框，按钮直接创建）",
+      "phaseEvidence": {
+        "created": "2",
+        "undone": "1"
+      },
+      "console": {
+        "error": [],
+        "log": [],
+        "pageError": [],
+        "rejection": [],
+        "warn": []
+      }
+    },
+    {
+      "id": "F06",
+      "name": "地图笔刷：画布中央落笔（画布中心 48×48 像素校验和变化）→撤销复原",
+      "result": "像素校验和 9103472→9548567→9103472（落笔改变、撤销还原）成立",
+      "phaseEvidence": {
+        "checksumBefore": 9103472,
+        "checksumPainted": 9548567,
+        "checksumUndone": 9103472,
+        "canvas": {
+          "h": 693,
+          "w": 796,
+          "x": 194,
+          "y": 81
+        }
+      },
+      "console": {
+        "error": [],
+        "log": [],
+        "pageError": [],
+        "rejection": [],
+        "warn": []
+      }
+    },
+    {
+      "id": "F07",
+      "name": "地图绘制层级：显示高度滑杆聚焦后按方向键（键盘操作）",
+      "result": "滑杆值 0→1 成立",
+      "phaseEvidence": {
+        "valueBefore": "0",
+        "valueAfter": "1"
+      },
+      "console": {
+        "error": [],
+        "log": [],
+        "pageError": [],
+        "rejection": [],
+        "warn": []
+      }
+    },
+    {
+      "id": "F08",
+      "name": "地图图层：新增图层→撤销；锁定切换后复位",
+      "result": "层数 1 层→2 层→1 层；锁定 图层锁定：地板 pressed=true 成立",
+      "phaseEvidence": {
+        "base": "1 层",
+        "added": "2 层",
+        "undone": "1 层",
+        "lockLabel": "图层锁定：地板 pressed=true"
+      },
+      "console": {
+        "error": [],
+        "log": [],
+        "pageError": [],
+        "rejection": [],
+        "warn": []
+      }
+    },
+    {
+      "id": "F09",
+      "name": "地图目录：搜索无命中→清空恢复；网格显示开关（错误恢复轴）",
+      "result": "搜索无命中（目录过滤为空）→ 清空后恢复 1 张 张（错误恢复轴成立）",
+      "phaseEvidence": {
+        "searchValue": "zzz",
+        "noHitState": "true",
+        "restoredCount": "1 张"
+      },
+      "console": {
+        "error": [],
+        "log": [],
+        "pageError": [],
+        "rejection": [],
+        "warn": []
+      }
+    },
+    {
+      "id": "F10",
+      "name": "场景编排：点落点选中（检查器切换落点属性）→ Esc 取消选择",
+      "result": "选中与 Esc 取消成立",
+      "phaseEvidence": {
+        "selectedPanel": "选中进场点 start（col/row/height/朝向 表单，画布高亮默认落点，截图证实）",
+        "escPanel": "回到场景摘要（场景名称/稳定ID/正文路径/地图）"
+      },
+      "console": {
+        "error": [],
+        "log": [],
+        "pageError": [],
+        "rejection": [],
+        "warn": []
+      }
+    },
+    {
+      "id": "F11",
+      "name": "编辑菜单撤销/重做：场景改名后经「编辑→撤销/重做」对称往返（附注：IAB 自动化的 ⌘Z 组合键派发未生效，为宿主限制，如实登记）",
+      "result": "名称 起始场景C→C→菜单撤销=起始场景→菜单重做=起始场景C→再撤销=起始场景 成立",
+      "phaseEvidence": {
+        "original": "起始场景C",
+        "afterUndo": "起始场景",
+        "afterRedo": "起始场景C",
+        "finalName": "起始场景"
+      },
+      "console": {
+        "error": [],
+        "log": [],
+        "pageError": [],
+        "rejection": [],
+        "warn": []
+      }
+    },
+    {
+      "id": "F12",
+      "name": "角色模块：进入角色编辑→主角显示名称改名→菜单撤销还原（唯一角色自动选中）",
+      "result": "显示名称 主角→主角B→撤销=主角 成立",
+      "phaseEvidence": {
+        "original": "主角",
+        "undone": "主角"
+      },
+      "console": {
+        "error": [],
+        "log": [],
+        "pageError": [],
+        "rejection": [],
+        "warn": []
+      }
+    },
+    {
+      "id": "F13",
+      "name": "物品模块：菜单进入物品编辑页",
+      "result": "物品编辑页进入成立",
+      "phaseEvidence": {
+        "url": "http://localhost:6123/?module=item&page=item",
+        "emptyHint": true,
+        "snippet": "\n    glm-p-lab本地项目文件编辑视图场景地图剧情角色物品战斗战斗模拟器资源项目设置导航对象列表 · ⌘⌥LInspector · ⌘⌥R撤销 · ⌘Z重做：修改文本 · ⇧⌘Z保存保存 · ⌘S物品0 项新建物品全部项目还没有物"
+      },
+      "console": {
+        "error": [],
+        "log": [],
+        "pageError": [],
+        "rejection": [],
+        "warn": []
+      }
+    },
+    {
+      "id": "F14",
+      "name": "战斗模块：菜单进入战场编辑页",
+      "result": "战场编辑页进入成立",
+      "phaseEvidence": {
+        "url": "http://localhost:6123/?module=battle&page=battlefield",
+        "fields": {
+          "hasField024": true,
+          "tabs": 0
+        }
+      },
+      "console": {
+        "error": [],
+        "log": [],
+        "pageError": [],
+        "rejection": [],
+        "warn": []
+      }
+    },
+    {
+      "id": "F15",
+      "name": "战斗模拟器：菜单进入试打方案工作台",
+      "result": "试打方案工作台进入成立",
+      "phaseEvidence": {
+        "url": "http://localhost:6123/?module=simulator&page=plans",
+        "snippet": "\n    glm-p-lab本地项目文件编辑视图场景地图剧情角色物品战斗战斗模拟器资源项目设置导航对象列表 · ⌘⌥L撤销 · ⌘Z重做：修改文本 · ⇧⌘Z保存保存 · ⌘S试打方案0 份新建本场临时方案无需先保存命名预设尚无试打方案创建"
+      },
+      "console": {
+        "error": [],
+        "log": [],
+        "pageError": [],
+        "rejection": [],
+        "warn": []
+      }
+    },
+    {
+      "id": "F16",
+      "name": "资源模块：精灵库→选中占位主角精灵→检查器相位（图像页在空工程为空态，已如实登记）",
+      "result": "精灵库对象面板在位（占位主角为唯一精灵、面板常显）；空工程图像页为空态已如实登记",
+      "phaseEvidence": {
+        "url": "http://localhost:6123/?module=asset&page=sprite&domain=world&view=asset&object=sprite.generated.starter",
+        "beforeHead": "精灵库/占位主角/用途定义",
+        "selectedHead": "精灵库/占位主角/用途定义"
+      },
+      "console": {
+        "error": [],
+        "log": [],
+        "pageError": [],
+        "rejection": [],
+        "warn": []
+      }
+    },
+    {
+      "id": "F17",
+      "name": "项目设置：概览页浏览（自有 lab 工程只读查看）",
+      "result": "项目设置概览进入成立",
+      "phaseEvidence": {
+        "url": "http://localhost:6123/?module=project&page=overview",
+        "snippet": "\n    glm-p-lab本地项目文件编辑视图场景地图剧情角色物品战斗战斗模拟器资源项目设置导航对象列表 · ⌘⌥L撤销 · ⌘Z重做：修改文本 · ⇧⌘Z保存保存 · ⌘S项目概览1 个场景项目 ID glm-p-lab保存状态 有未保存改动场景 1入口点 1资源 4内容版本 20最低存档版本 "
+      },
+      "console": {
+        "error": [],
+        "log": [],
+        "pageError": [],
+        "rejection": [],
+        "warn": []
+      }
+    },
+    {
+      "id": "F18",
+      "name": "窄窗适配：1280→375×700→恢复（导航保持可用）",
+      "result": "窄窗下菜单项 13 个、场景入口在场成立",
+      "phaseEvidence": {
+        "narrowNav": {
+          "hasScene": true,
+          "menuItems": 13
+        }
+      },
+      "console": {
+        "error": [],
+        "log": [],
+        "pageError": [],
+        "rejection": [],
+        "warn": []
+      }
+    },
+    {
+      "id": "F19",
+      "name": "对象列表面板开合（toolbar 切换，键盘 ⌘⌥L 在 IAB 组合键派发受限的同轴替代）",
+      "result": "pressed true→false→true 成立",
+      "phaseEvidence": {
+        "pressedBefore": "true",
+        "pressedAfterToggle": "false",
+        "pressedAfterToggleBack": "true"
+      },
+      "console": {
+        "error": [],
+        "log": [],
+        "pageError": [],
+        "rejection": [],
+        "warn": []
+      }
+    },
+    {
+      "id": "F20",
+      "name": "剧情模块：脚本库页进入（空库工程）",
+      "result": "脚本库页进入成立",
+      "phaseEvidence": {
+        "url": "http://localhost:6123/?module=story&page=scripts",
+        "snippet": "\n    glm-p-lab本地项目文件编辑视图场景地图剧情角色物品战斗战斗模拟器资源项目设置导航对象列表 · ⌘⌥LInspector · ⌘⌥R撤销 · ⌘Z重做：修改文本 · ⇧⌘Z保存保存 · ⌘S可复用脚本0 项新建可复用脚本没有"
+      },
+      "console": {
+        "error": [],
+        "log": [],
+        "pageError": [],
+        "rejection": [],
+        "warn": []
+      }
+    }
+  ],
+  "screenshotSha256": {
+    "f01-after.png": "ed301c5ac1cc9bc175f917852e04a7dce798411b86a6fcbb7ce76e77711b3998",
+    "f01-before.png": "cc9be86e3220874658e4cca1266a9db80bdd1b932bc2ce5fcf3c2b58a1814989",
+    "f02-after-created.png": "a838e23bc078e00b8507241b9554dd85aa32e86934a3af9214e1ab93b72f999a",
+    "f02-after-redo.png": "a6bfb121c9e247e685ca225ad71140fcc3286fbd832377325901d44fc622235f",
+    "f02-after-undo.png": "6605d98018bd0b2918bda354d15162bb35835fb6571ac0f107222c785ec9bd0c",
+    "f02-before.png": "d6780fcd160a37055348fd1e8578d197e210341c1e7c4ee5b52b09d115350f9d",
+    "f03-after-created.png": "7b34299a7cd69a4898544eb16086c08795c3902c2d40161531365e83a47937b5",
+    "f03-after-undo.png": "0a14802ef89381522ea0b5c5d8f70162873df41fe64d0a1e534606914912b8a8",
+    "f03-before.png": "d4d15f66472b21de505dee031cd75863c98d6079608d0ee514672e89337da853",
+    "f03-dialog.png": "477fd2435c0167a9f00fa3777096bbf10c44cdc929391c8dcaaa06ad849e9b41",
+    "f04-after-blank.png": "140cc39611fb67cbbe41ccc3364cd6be9cda43179f377811d3d151139cf3fe21",
+    "f04-after-rename.png": "6dff0d96154ca1b3d79827a1187b8a54d72dc5eea124c1c4f1d9cb1c3b07c1eb",
+    "f04-after-undo.png": "0a14802ef89381522ea0b5c5d8f70162873df41fe64d0a1e534606914912b8a8",
+    "f04-before.png": "0a14802ef89381522ea0b5c5d8f70162873df41fe64d0a1e534606914912b8a8",
+    "f05-after-created.png": "1a0a20db30a2577e98fbd300f1a3e50bc47dfa4ed90200b813ea186a63e81b35",
+    "f05-after-undo.png": "62735e2cd395af136b0ac6c2128a0970b055344e3e8d3764b94f3c90b0434988",
+    "f05-before.png": "0a14802ef89381522ea0b5c5d8f70162873df41fe64d0a1e534606914912b8a8",
+    "f06-after-paint.png": "b92faaacba604d9a1bdede5a131a72090e5d439f4ab05006ea98fb7e87244c03",
+    "f06-after-undo.png": "b92faaacba604d9a1bdede5a131a72090e5d439f4ab05006ea98fb7e87244c03",
+    "f06-before.png": "b92faaacba604d9a1bdede5a131a72090e5d439f4ab05006ea98fb7e87244c03",
+    "f07-after.png": "e395ff470c76c45c339965eec6467ed8f399e0cc1943cdbf0054f69de002dbd8",
+    "f07-before.png": "b92faaacba604d9a1bdede5a131a72090e5d439f4ab05006ea98fb7e87244c03",
+    "f08-after-add.png": "2ee67443865fcc72d44a62464762398013f31785de4561ccf9fafa3c1b0de934",
+    "f08-after-lock.png": "5c7e705f3c620b17d57604a05e1612f5b25d8dae266312388dfd5598ec5bd9fd",
+    "f08-after-undo.png": "569a9a4bbcb000721cc7d21df05d2d4dec3cc0d717e915c1f370ba9cfecc57e1",
+    "f08-before.png": "e395ff470c76c45c339965eec6467ed8f399e0cc1943cdbf0054f69de002dbd8",
+    "f09-after-clear.png": "a1e7f8231c48d0ff626fa9cdb7878087387761ef89b977560c8e1ea26aedbec7",
+    "f09-after-grid.png": "46aec328b77dcd7188abe8a508bd486dcf2cfe33c6e7bad841638987557b811c",
+    "f09-after-search.png": "a1e7f8231c48d0ff626fa9cdb7878087387761ef89b977560c8e1ea26aedbec7",
+    "f09-before.png": "d7e432b3097911c13c2f5560ce5f3c6ba0723af18a2b5416b308699fecbb4b0f",
+    "f10-after-esc.png": "9068ed9b538ffb7964e3825c9a62e7eab4ff0dcb21ed93f6f633753ed67c9895",
+    "f10-after-select.png": "9531d42750eb4e7077f08e57b1c7e6dc159a97de07d26d0afb35b74f14570438",
+    "f10-before.png": "3cf27d7d684154af01f4f1baa26155b4834e7dd6f3c88c0a1d0f992232a3e47a",
+    "f11-after-cmdshiftz.png": "599cb53937138bcc9860e8d858d0c0eb6436347e4bb806a4328153299a4ca5ad",
+    "f11-after-cmdz.png": "599cb53937138bcc9860e8d858d0c0eb6436347e4bb806a4328153299a4ca5ad",
+    "f11-after-menu-redo.png": "0ab05793974e3c60adadd0871d66e2da27ef189c92d958b7e0b339e7faeba57a",
+    "f11-after-menu-undo.png": "1f824ee8256ae5bab09f7f6c241446f82534ed68f55bbb672b51873a46c81040",
+    "f11-after-rename.png": "7a9d4a04faf3bed20c604e688fc5240d5450d530224d67551c7837f244c5060c",
+    "f11-before.png": "56629ffd306bfd7dee974c06820ffbf6a2c7c56a1a1184ca24891fc557e4f209",
+    "f12-after-rename.png": "41ae0249c8851ae70dc8aab7159b8d59f8000a937cddaa55fd92d5ff91f87573",
+    "f12-after-select.png": "ee152aa143d90955e64a0d8f051c35d3c88438529df72e251b7d81e959880cc6",
+    "f12-after-undo.png": "7e43093951649e7387f304e086310f60805b96ba1f864abf683b9d18343e03a4",
+    "f12-before.png": "655d0149df1399d17c1f2889d8cecadb3f66bc8c64a64ad8d8118b1ff10703bb",
+    "f13-before.png": "8fca8f2c9597f9a7f32933797246328767ab158367a5b81854116ab4098c965b",
+    "f14-before.png": "5623f55df247cc37c3e127701ccfe4988f5b497129d46c11b35cccd0b46b6b29",
+    "f15-before.png": "04c4f2546123592d3cccb33c77616ceb5c97ade84db56927d7dcdb03f170ba8d",
+    "f16-after-select.png": "2d986f366d81065b27de2ec432b0807dfbbf439b871d1ec008c9f16290189367",
+    "f16-before.png": "d27d29d889b2787ef378eadfae5080d53406d75203bcf6dc450c6b47effda386",
+    "f17-before.png": "c29e35ee119596a46a0a6a19b8a40657437c4d34a711c52d68cde28420728540",
+    "f18-after-narrow.png": "73b6d44add3a05cc66e9c4764e4d0284d3ce52d33578bc386b0b213b6f2a7e14",
+    "f18-after-restore.png": "b6fd8ffbd4599f1ed1b626564a547afe023757dbe24753c06c2a8a0dd87f92bc",
+    "f18-before-wide.png": "3cf415006d4339ff2144842cad28e3bc4dcdcf2c571038343a3a4cefa5bf68c1",
+    "f19-after-toggle.png": "1b302f26144bac717ecfd5d0d766d0293fc6848edc29d67122f387f0acc6307b",
+    "f19-before.png": "84c6935f5a03173835a5d631f6b49527595afed24e3d6e3052c25d04c09a261d",
+    "f20-before.png": "54f8888eadc8f6372cbf936ecc478c0673210a8340c9d6ce1fe69fe9c83dbb10"
+  }
+}

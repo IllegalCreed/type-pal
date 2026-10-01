@@ -30,9 +30,7 @@
     {
       "assertionResults": [
         {
-          "ancestorTitles": [
-            "P02-G02 LayerPaintContext 聚焦与显示高度"
-          ],
+          "ancestorTitles": ["P02-G02 LayerPaintContext 聚焦与显示高度"],
           "fullName": "P02-G02 LayerPaintContext 聚焦与显示高度 默认「聚焦当前」；点击后 aria-pressed 翻转并显示「只看当前」",
           "status": "passed",
           "title": "默认「聚焦当前」；点击后 aria-pressed 翻转并显示「只看当前」",
@@ -42,9 +40,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "P02-G02 LayerPaintContext 聚焦与显示高度"
-          ],
+          "ancestorTitles": ["P02-G02 LayerPaintContext 聚焦与显示高度"],
           "fullName": "P02-G02 LayerPaintContext 聚焦与显示高度 显示高度滑杆按整数步进回调，output 实时显示当前值",
           "status": "passed",
           "title": "显示高度滑杆按整数步进回调，output 实时显示当前值",
@@ -54,9 +50,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "P02-G02 LayerStackControls 禁用原因残余"
-          ],
+          "ancestorTitles": ["P02-G02 LayerStackControls 禁用原因残余"],
           "fullName": "P02-G02 LayerStackControls 禁用原因残余 addDisabledReason：新增按钮禁用并渲染原因段",
           "status": "passed",
           "title": "addDisabledReason：新增按钮禁用并渲染原因段",
@@ -66,9 +60,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "P02-G02 LayerStackControls 禁用原因残余"
-          ],
+          "ancestorTitles": ["P02-G02 LayerStackControls 禁用原因残余"],
           "fullName": "P02-G02 LayerStackControls 禁用原因残余 最小层规则：删除按钮禁用并出现规则 HelpTip，但不渲染删除原因段",
           "status": "passed",
           "title": "最小层规则：删除按钮禁用并出现规则 HelpTip，但不渲染删除原因段",
@@ -78,9 +70,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "P02-G02 LayerStackControls 禁用原因残余"
-          ],
+          "ancestorTitles": ["P02-G02 LayerStackControls 禁用原因残余"],
           "fullName": "P02-G02 LayerStackControls 禁用原因残余 add/delete 同因 → 只渲染一段共享原因",
           "status": "failed",
           "title": "add/delete 同因 → 只渲染一段共享原因",

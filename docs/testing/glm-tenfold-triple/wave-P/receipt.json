@@ -1,56 +1,47 @@
 {
   "campaign": "TEST-GLM-OPQ-20260930",
   "wave": "P",
+  "rework": true,
+  "review": "docs/testing/glm-tenfold-triple/codex-review-20261001.md (P-01..P-04)",
   "dispatchBase": "8b3ca062953b17a12178f8d1a9e36657971234b1",
-  "head": "0c1a1b8ce4ac9aced5bfdcdb78d385f8b1cd6a44",
+  "previousCandidate": "8fb38fcc3b3f4f2d277260148c66488c979caa49",
   "productionFreeze": "3ac9a2e2f6aba8a5cc97640c18fef8549d199380",
   "branch": "codex/glm-wave-p-editor-residual-r1",
+  "head": "(见下方 headNote：回执不引用自身提交)",
+  "headNote": "测试/证据锚点提交为 47a3e49a（P-01/P-02 重建）；其后到远端 tip 仅含 wave-P 证据 JSON/README/回执与 browser/ 证据目录的 docs-only 提交；最终远端候选以推送 tip 为准",
   "counts": {
     "contracts": 70,
-    "workGroups": [
-      "P01-G01",
-      "P01-G02",
-      "P01-G03",
-      "P01-G04",
-      "P01-G05",
-      "P01-G06",
-      "P01-G07",
-      "P01-G08",
-      "P01-G09",
-      "P01-G10",
-      "P01-G11",
-      "P02-G01",
-      "P02-G02",
-      "P02-G03"
-    ],
-    "counters": 10,
-    "browserFlows": 0,
+    "workGroups": 14,
+    "countersValidSubmitted": 10,
+    "countersExactlyOneRed": 10,
+    "browserFlows": 20,
+    "browserScreenshots": 55,
     "target": 700
   },
-  "commands": {
-    "directedVitest": "70/70 passed (directed-vitest.json 从该实跑生成)",
-    "fullEditorSuite": "pnpm --filter @type-pal/editor test → 516 files / 3856 tests 全绿, exit 0",
-    "typecheck": "pnpm --filter @type-pal/editor typecheck → exit 0",
-    "rootLint": "pnpm lint → PASS 2798 files; 0 errors / 0 warnings / 0 infos",
-    "diffCheck": "git diff --check 8b3ca062...HEAD → clean（反控 raw 尾空行已修剪）",
-    "verifyTargets": "node docs/testing/glm-tenfold-triple/verify-targets.mjs → exit 0, frozenHashesValid=true, ownerOverlap=0",
-    "coverage": "私有同分母 before/after（coverage-delta.json）：branches +32, statements +16, functions +2，分母 28489 branches 不变"
+  "reworkClosures": {
+    "P-01": "project-diagnostics.glm-p.test.ts 三处 as never/双桥重建为 typed-legal 值级守卫（G06-01/02/04）",
+    "P-02": "P01-C03 与 P02-C10 重打为单合同变异；counters.json 直读原始 mutated.json：10/10 numFailedTests=1",
+    "P-03": "本回执以 47a3e49a 为测试/证据锚点，headNote 声明其后为 docs-only 区间",
+    "P-04": "20 条浏览器流程完成（browser/browser-evidence.json：55 截图 SHA256+相位+console）"
   },
+  "commands": {
+    "directedVitest": "70/70 passed（directed-vitest.json 树内实跑）",
+    "fullEditorSuite": "516 files / 3856 tests 全绿, exit 0",
+    "typecheck": "exit 0",
+    "rootLint": "本轮重跑于最终树（见 headNote 提交信息）",
+    "diffCheck": "git diff --check 8b3ca062...HEAD = clean",
+    "verifyTargets": "exit 0, frozenHashesValid=true",
+    "coverage": "上轮 +32/+16/+2（分母 28489 不变）；本轮合同数未变未重跑"
+  },
+  "notDone": ["P02 剩余暗区", "P03–P10 八批（630 例缺口）", "40 枚反控缺口"],
   "sourceSha256": {
-    "packages/editor/src/__tests__/glm-p/kit.ts": "2d6a0ecffd02d95bde4daad7a1a3c6c90a01236ebdf36402ff10d72fa437dca7",
     "packages/editor/src/core/project-io.glm-p.test.ts": "28267c1938f90e7241534ef6c6a5a2e6d5c224d3b169f60993e8ffc332dcfd04",
-    "packages/editor/src/core/project-diagnostics.glm-p.test.ts": "ea8ebb0f3f0f0603d92632efd1e40231757bcfbd6f62da543dba03a30c32eb5b",
+    "packages/editor/src/core/project-diagnostics.glm-p.test.ts": "eb3f2d04455093d906e0a13ad33a4e424ff7acb949d001c558955cd703cd20e6",
     "packages/editor/src/core/editor-asset-io.glm-p.test.ts": "acd6853fba279975d231404984fe3fa46363f9ed026e0e37c5143be7f7373acd",
     "packages/editor/src/ui/MapSelectionInspector.glm-p.test.tsx": "a456ac671a8a8ed82a1f6c7b9a63aab926c997c1a6ed5cbe0d4d3d2661c8b849",
     "packages/editor/src/ui/LayerStackControls.glm-p.test.tsx": "792d930e33718e3b964142566dcf8f53524fdba756b5fae45c2eadde200f6bcf",
     "packages/editor/src/ui/IsometricEditorToolbar.glm-p.test.tsx": "06be4437064add541fed08b62250ccf7c771dc8a925e4e13378fb09c9fdc6d18",
+    "packages/editor/src/__tests__/glm-p/kit.ts": "2d6a0ecffd02d95bde4daad7a1a3c6c90a01236ebdf36402ff10d72fa437dca7",
     "docs/testing/glm-tenfold-triple/wave-P/tools/counter.mjs": "c4a16c06f857eeef6573f6681ab544aa2bdb62bb3461922df87ebc83730a6478"
-  },
-  "notDone": [
-    "P02 MapMode/SceneCanvas/PreviewCanvas 主体暗区",
-    "P03–P10 八个批次",
-    "50-10=40 枚反控",
-    "20 条浏览器流程"
-  ],
-  "headNote": "receipt 在 0c1a1b8ce4ac9aced5bfdcdb78d385f8b1cd6a44 生成；最终候选以推送 tip 为准（此后仅本 receipt 的 head 注记提交）"
+  }
 }
